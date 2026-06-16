@@ -25,9 +25,9 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// Bin.
 ///
 /// Recycle Bin is a resource recovery feature that enables you to restore
-/// accidentally deleted snapshots and EBS-backed AMIs. When using Recycle Bin,
-/// if your resources are deleted, they are retained in the Recycle Bin for a
-/// time period that you specify.
+/// accidentally deleted EBS volumes, EBS snapshots, and EBS-backed AMIs. When
+/// using Recycle Bin, if your resources are deleted, they are retained in the
+/// Recycle Bin for a time period that you specify.
 ///
 /// You can restore a resource from the Recycle Bin at any time before its
 /// retention period expires. After you restore a resource from the Recycle Bin,
@@ -38,9 +38,9 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// recovery. For more information about Recycle Bin, see <a
 /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recycle-bin.html">
 /// Recycle Bin</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
-class RecycleBin {
+class Rbin {
   final _s.RestJsonProtocol _protocol;
-  RecycleBin({
+  Rbin({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
@@ -50,7 +50,6 @@ class RecycleBin {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'rbin',
-            signingName: 'rbin',
           ),
           region: region,
           credentials: credentials,
@@ -67,20 +66,50 @@ class RecycleBin {
     _protocol.close();
   }
 
-  /// Creates a Recycle Bin retention rule. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recycle-bin-working-with-rules.html#recycle-bin-create-rule">
-  /// Create Recycle Bin retention rules</a> in the <i>Amazon Elastic Compute
-  /// Cloud User Guide</i>.
+  /// Creates a Recycle Bin retention rule. You can create two types of
+  /// retention rules:
   ///
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
+  /// <ul>
+  /// <li>
+  /// <b>Tag-level retention rules</b> - These retention rules use resource tags
+  /// to identify the resources to protect. For each retention rule, you specify
+  /// one or more tag key and value pairs. Resources (of the specified type)
+  /// that have at least one of these tag key and value pairs are automatically
+  /// retained in the Recycle Bin upon deletion. Use this type of retention rule
+  /// to protect specific resources in your account based on their tags.
+  /// </li>
+  /// <li>
+  /// <b>Region-level retention rules</b> - These retention rules, by default,
+  /// apply to all of the resources (of the specified type) in the Region, even
+  /// if the resources are not tagged. However, you can specify exclusion tags
+  /// to exclude resources that have specific tags. Use this type of retention
+  /// rule to protect all resources of a specific type in a Region.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/ebs/latest/userguide/recycle-bin.html">
+  /// Create Recycle Bin retention rules</a> in the <i>Amazon EBS User
+  /// Guide</i>.
+  ///
   /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceType] :
   /// The resource type to be retained by the retention rule. Currently, only
-  /// Amazon EBS snapshots and EBS-backed AMIs are supported. To retain
-  /// snapshots, specify <code>EBS_SNAPSHOT</code>. To retain EBS-backed AMIs,
-  /// specify <code>EC2_IMAGE</code>.
+  /// EBS volumes, EBS snapshots, and EBS-backed AMIs are supported.
+  ///
+  /// <ul>
+  /// <li>
+  /// To retain EBS volumes, specify <code>EBS_VOLUME</code>.
+  /// </li>
+  /// <li>
+  /// To retain EBS snapshots, specify <code>EBS_SNAPSHOT</code>
+  /// </li>
+  /// <li>
+  /// To retain EBS-backed AMIs, specify <code>EC2_IMAGE</code>.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [retentionPeriod] :
   /// Information about the retention period for which the retention rule is to
@@ -89,17 +118,25 @@ class RecycleBin {
   /// Parameter [description] :
   /// The retention rule description.
   ///
+  /// Parameter [excludeResourceTags] :
+  /// [Region-level retention rules only] Specifies the exclusion tags to use to
+  /// identify resources that are to be excluded, or ignored, by a Region-level
+  /// retention rule. Resources that have any of these tags are not retained by
+  /// the retention rule upon deletion.
+  ///
+  /// You can't specify exclusion tags for tag-level retention rules.
+  ///
   /// Parameter [lockConfiguration] :
   /// Information about the retention rule lock configuration.
   ///
   /// Parameter [resourceTags] :
-  /// Specifies the resource tags to use to identify resources that are to be
-  /// retained by a tag-level retention rule. For tag-level retention rules,
-  /// only deleted resources, of the specified resource type, that have one or
-  /// more of the specified tag key and value pairs are retained. If a resource
-  /// is deleted, but it does not have any of the specified tag key and value
-  /// pairs, it is immediately deleted without being retained by the retention
-  /// rule.
+  /// [Tag-level retention rules only] Specifies the resource tags to use to
+  /// identify resources that are to be retained by a tag-level retention rule.
+  /// For tag-level retention rules, only deleted resources, of the specified
+  /// resource type, that have one or more of the specified tag key and value
+  /// pairs are retained. If a resource is deleted, but it does not have any of
+  /// the specified tag key and value pairs, it is immediately deleted without
+  /// being retained by the retention rule.
   ///
   /// You can add the same tag key and value pair to a maximum or five retention
   /// rules.
@@ -115,6 +152,7 @@ class RecycleBin {
     required ResourceType resourceType,
     required RetentionPeriod retentionPeriod,
     String? description,
+    List<ResourceTag>? excludeResourceTags,
     LockConfiguration? lockConfiguration,
     List<ResourceTag>? resourceTags,
     List<Tag>? tags,
@@ -123,6 +161,8 @@ class RecycleBin {
       'ResourceType': resourceType.value,
       'RetentionPeriod': retentionPeriod,
       if (description != null) 'Description': description,
+      if (excludeResourceTags != null)
+        'ExcludeResourceTags': excludeResourceTags,
       if (lockConfiguration != null) 'LockConfiguration': lockConfiguration,
       if (resourceTags != null) 'ResourceTags': resourceTags,
       if (tags != null) 'Tags': tags,
@@ -141,10 +181,10 @@ class RecycleBin {
   /// Delete Recycle Bin retention rules</a> in the <i>Amazon Elastic Compute
   /// Cloud User Guide</i>.
   ///
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [identifier] :
   /// The unique ID of the retention rule.
@@ -161,9 +201,9 @@ class RecycleBin {
 
   /// Gets information about a Recycle Bin retention rule.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [identifier] :
   /// The unique ID of the retention rule.
@@ -181,16 +221,33 @@ class RecycleBin {
 
   /// Lists the Recycle Bin retention rules in the Region.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceType] :
   /// The resource type retained by the retention rule. Only retention rules
-  /// that retain the specified resource type are listed. Currently, only Amazon
-  /// EBS snapshots and EBS-backed AMIs are supported. To list retention rules
-  /// that retain snapshots, specify <code>EBS_SNAPSHOT</code>. To list
-  /// retention rules that retain EBS-backed AMIs, specify
+  /// that retain the specified resource type are listed. Currently, only EBS
+  /// volumes, EBS snapshots, and EBS-backed AMIs are supported.
+  ///
+  /// <ul>
+  /// <li>
+  /// To list retention rules that retain EBS volumes, specify
+  /// <code>EBS_VOLUME</code>.
+  /// </li>
+  /// <li>
+  /// To list retention rules that retain EBS snapshots, specify
+  /// <code>EBS_SNAPSHOT</code>.
+  /// </li>
+  /// <li>
+  /// To list retention rules that retain EBS-backed AMIs, specify
   /// <code>EC2_IMAGE</code>.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [excludeResourceTags] :
+  /// [Region-level retention rules only] Information about the exclusion tags
+  /// used to identify resources that are to be excluded, or ignored, by the
+  /// retention rule.
   ///
   /// Parameter [lockState] :
   /// The lock state of the retention rules to list. Only retention rules with
@@ -205,10 +262,11 @@ class RecycleBin {
   /// The token for the next page of results.
   ///
   /// Parameter [resourceTags] :
-  /// Information about the resource tags used to identify resources that are
-  /// retained by the retention rule.
+  /// [Tag-level retention rules only] Information about the resource tags used
+  /// to identify resources that are retained by the retention rule.
   Future<ListRulesResponse> listRules({
     required ResourceType resourceType,
+    List<ResourceTag>? excludeResourceTags,
     LockState? lockState,
     int? maxResults,
     String? nextToken,
@@ -222,6 +280,8 @@ class RecycleBin {
     );
     final $payload = <String, dynamic>{
       'ResourceType': resourceType.value,
+      if (excludeResourceTags != null)
+        'ExcludeResourceTags': excludeResourceTags,
       if (lockState != null) 'LockState': lockState.value,
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
@@ -238,9 +298,9 @@ class RecycleBin {
 
   /// Lists the tags assigned to a retention rule.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the retention rule.
@@ -256,13 +316,17 @@ class RecycleBin {
     return ListTagsForResourceResponse.fromJson(response);
   }
 
-  /// Locks a retention rule. A locked retention rule can't be modified or
-  /// deleted.
+  /// Locks a Region-level retention rule. A locked retention rule can't be
+  /// modified or deleted.
+  /// <note>
+  /// You can't lock tag-level retention rules, or Region-level retention rules
+  /// that have exclusion tags.
+  /// </note>
   ///
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [identifier] :
   /// The unique ID of the retention rule.
@@ -287,10 +351,10 @@ class RecycleBin {
 
   /// Assigns tags to the specified retention rule.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the retention rule.
@@ -315,10 +379,10 @@ class RecycleBin {
   /// Unlocks a retention rule. After a retention rule is unlocked, it can be
   /// modified or deleted only after the unlock delay period expires.
   ///
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [identifier] :
   /// The unique ID of the retention rule.
@@ -336,9 +400,9 @@ class RecycleBin {
 
   /// Unassigns a tag from a retention rule.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the retention rule.
@@ -370,11 +434,11 @@ class RecycleBin {
   /// Update Recycle Bin retention rules</a> in the <i>Amazon Elastic Compute
   /// Cloud User Guide</i>.
   ///
-  /// May throw [ValidationException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [identifier] :
   /// The unique ID of the retention rule.
@@ -382,14 +446,22 @@ class RecycleBin {
   /// Parameter [description] :
   /// The retention rule description.
   ///
+  /// Parameter [excludeResourceTags] :
+  /// [Region-level retention rules only] Specifies the exclusion tags to use to
+  /// identify resources that are to be excluded, or ignored, by a Region-level
+  /// retention rule. Resources that have any of these tags are not retained by
+  /// the retention rule upon deletion.
+  ///
+  /// You can't specify exclusion tags for tag-level retention rules.
+  ///
   /// Parameter [resourceTags] :
-  /// Specifies the resource tags to use to identify resources that are to be
-  /// retained by a tag-level retention rule. For tag-level retention rules,
-  /// only deleted resources, of the specified resource type, that have one or
-  /// more of the specified tag key and value pairs are retained. If a resource
-  /// is deleted, but it does not have any of the specified tag key and value
-  /// pairs, it is immediately deleted without being retained by the retention
-  /// rule.
+  /// [Tag-level retention rules only] Specifies the resource tags to use to
+  /// identify resources that are to be retained by a tag-level retention rule.
+  /// For tag-level retention rules, only deleted resources, of the specified
+  /// resource type, that have one or more of the specified tag key and value
+  /// pairs are retained. If a resource is deleted, but it does not have any of
+  /// the specified tag key and value pairs, it is immediately deleted without
+  /// being retained by the retention rule.
   ///
   /// You can add the same tag key and value pair to a maximum or five retention
   /// rules.
@@ -411,12 +483,15 @@ class RecycleBin {
   Future<UpdateRuleResponse> updateRule({
     required String identifier,
     String? description,
+    List<ResourceTag>? excludeResourceTags,
     List<ResourceTag>? resourceTags,
     ResourceType? resourceType,
     RetentionPeriod? retentionPeriod,
   }) async {
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
+      if (excludeResourceTags != null)
+        'ExcludeResourceTags': excludeResourceTags,
       if (resourceTags != null) 'ResourceTags': resourceTags,
       if (resourceType != null) 'ResourceType': resourceType.value,
       if (retentionPeriod != null) 'RetentionPeriod': retentionPeriod,
@@ -435,13 +510,18 @@ class CreateRuleResponse {
   /// The retention rule description.
   final String? description;
 
+  /// [Region-level retention rules only] Information about the exclusion tags
+  /// used to identify resources that are to be excluded, or ignored, by the
+  /// retention rule.
+  final List<ResourceTag>? excludeResourceTags;
+
   /// The unique ID of the retention rule.
   final String? identifier;
 
   /// Information about the retention rule lock configuration.
   final LockConfiguration? lockConfiguration;
 
-  /// The lock state for the retention rule.
+  /// [Region-level retention rules only] The lock state for the retention rule.
   ///
   /// <ul>
   /// <li>
@@ -466,8 +546,8 @@ class CreateRuleResponse {
   /// </ul>
   final LockState? lockState;
 
-  /// Information about the resource tags used to identify resources that are
-  /// retained by the retention rule.
+  /// [Tag-level retention rules only] Information about the resource tags used to
+  /// identify resources that are retained by the retention rule.
   final List<ResourceTag>? resourceTags;
 
   /// The resource type retained by the retention rule.
@@ -486,6 +566,7 @@ class CreateRuleResponse {
 
   CreateRuleResponse({
     this.description,
+    this.excludeResourceTags,
     this.identifier,
     this.lockConfiguration,
     this.lockState,
@@ -500,6 +581,10 @@ class CreateRuleResponse {
   factory CreateRuleResponse.fromJson(Map<String, dynamic> json) {
     return CreateRuleResponse(
       description: json['Description'] as String?,
+      excludeResourceTags: (json['ExcludeResourceTags'] as List?)
+          ?.nonNulls
+          .map((e) => ResourceTag.fromJson(e as Map<String, dynamic>))
+          .toList(),
       identifier: json['Identifier'] as String?,
       lockConfiguration: json['LockConfiguration'] != null
           ? LockConfiguration.fromJson(
@@ -527,6 +612,7 @@ class CreateRuleResponse {
 
   Map<String, dynamic> toJson() {
     final description = this.description;
+    final excludeResourceTags = this.excludeResourceTags;
     final identifier = this.identifier;
     final lockConfiguration = this.lockConfiguration;
     final lockState = this.lockState;
@@ -538,6 +624,8 @@ class CreateRuleResponse {
     final tags = this.tags;
     return {
       if (description != null) 'Description': description,
+      if (excludeResourceTags != null)
+        'ExcludeResourceTags': excludeResourceTags,
       if (identifier != null) 'Identifier': identifier,
       if (lockConfiguration != null) 'LockConfiguration': lockConfiguration,
       if (lockState != null) 'LockState': lockState.value,
@@ -567,6 +655,11 @@ class GetRuleResponse {
   /// The retention rule description.
   final String? description;
 
+  /// [Region-level retention rules only] Information about the exclusion tags
+  /// used to identify resources that are to be excluded, or ignored, by the
+  /// retention rule.
+  final List<ResourceTag>? excludeResourceTags;
+
   /// The unique ID of the retention rule.
   final String? identifier;
 
@@ -578,7 +671,7 @@ class GetRuleResponse {
   /// unlock delay period.
   final DateTime? lockEndTime;
 
-  /// The lock state for the retention rule.
+  /// [Region-level retention rules only] The lock state for the retention rule.
   ///
   /// <ul>
   /// <li>
@@ -603,8 +696,8 @@ class GetRuleResponse {
   /// </ul>
   final LockState? lockState;
 
-  /// Information about the resource tags used to identify resources that are
-  /// retained by the retention rule.
+  /// [Tag-level retention rules only] Information about the resource tags used to
+  /// identify resources that are retained by the retention rule.
   final List<ResourceTag>? resourceTags;
 
   /// The resource type retained by the retention rule.
@@ -623,6 +716,7 @@ class GetRuleResponse {
 
   GetRuleResponse({
     this.description,
+    this.excludeResourceTags,
     this.identifier,
     this.lockConfiguration,
     this.lockEndTime,
@@ -637,6 +731,10 @@ class GetRuleResponse {
   factory GetRuleResponse.fromJson(Map<String, dynamic> json) {
     return GetRuleResponse(
       description: json['Description'] as String?,
+      excludeResourceTags: (json['ExcludeResourceTags'] as List?)
+          ?.nonNulls
+          .map((e) => ResourceTag.fromJson(e as Map<String, dynamic>))
+          .toList(),
       identifier: json['Identifier'] as String?,
       lockConfiguration: json['LockConfiguration'] != null
           ? LockConfiguration.fromJson(
@@ -661,6 +759,7 @@ class GetRuleResponse {
 
   Map<String, dynamic> toJson() {
     final description = this.description;
+    final excludeResourceTags = this.excludeResourceTags;
     final identifier = this.identifier;
     final lockConfiguration = this.lockConfiguration;
     final lockEndTime = this.lockEndTime;
@@ -672,6 +771,8 @@ class GetRuleResponse {
     final status = this.status;
     return {
       if (description != null) 'Description': description,
+      if (excludeResourceTags != null)
+        'ExcludeResourceTags': excludeResourceTags,
       if (identifier != null) 'Identifier': identifier,
       if (lockConfiguration != null) 'LockConfiguration': lockConfiguration,
       if (lockEndTime != null) 'LockEndTime': unixTimestampToJson(lockEndTime),
@@ -743,34 +844,14 @@ class ListTagsForResourceResponse {
   }
 }
 
-/// Information about a retention rule lock configuration.
-class LockConfiguration {
-  /// Information about the retention rule unlock delay.
-  final UnlockDelay unlockDelay;
-
-  LockConfiguration({
-    required this.unlockDelay,
-  });
-
-  factory LockConfiguration.fromJson(Map<String, dynamic> json) {
-    return LockConfiguration(
-      unlockDelay: UnlockDelay.fromJson(
-          (json['UnlockDelay'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final unlockDelay = this.unlockDelay;
-    return {
-      'UnlockDelay': unlockDelay,
-    };
-  }
-}
-
 class LockRuleResponse {
   /// The retention rule description.
   final String? description;
+
+  /// [Region-level retention rules only] Information about the exclusion tags
+  /// used to identify resources that are to be excluded, or ignored, by the
+  /// retention rule.
+  final List<ResourceTag>? excludeResourceTags;
 
   /// The unique ID of the retention rule.
   final String? identifier;
@@ -778,7 +859,7 @@ class LockRuleResponse {
   /// Information about the retention rule lock configuration.
   final LockConfiguration? lockConfiguration;
 
-  /// The lock state for the retention rule.
+  /// [Region-level retention rules only] The lock state for the retention rule.
   ///
   /// <ul>
   /// <li>
@@ -803,8 +884,8 @@ class LockRuleResponse {
   /// </ul>
   final LockState? lockState;
 
-  /// Information about the resource tags used to identify resources that are
-  /// retained by the retention rule.
+  /// [Tag-level retention rules only] Information about the resource tags used to
+  /// identify resources that are retained by the retention rule.
   final List<ResourceTag>? resourceTags;
 
   /// The resource type retained by the retention rule.
@@ -820,6 +901,7 @@ class LockRuleResponse {
 
   LockRuleResponse({
     this.description,
+    this.excludeResourceTags,
     this.identifier,
     this.lockConfiguration,
     this.lockState,
@@ -833,6 +915,10 @@ class LockRuleResponse {
   factory LockRuleResponse.fromJson(Map<String, dynamic> json) {
     return LockRuleResponse(
       description: json['Description'] as String?,
+      excludeResourceTags: (json['ExcludeResourceTags'] as List?)
+          ?.nonNulls
+          .map((e) => ResourceTag.fromJson(e as Map<String, dynamic>))
+          .toList(),
       identifier: json['Identifier'] as String?,
       lockConfiguration: json['LockConfiguration'] != null
           ? LockConfiguration.fromJson(
@@ -856,6 +942,7 @@ class LockRuleResponse {
 
   Map<String, dynamic> toJson() {
     final description = this.description;
+    final excludeResourceTags = this.excludeResourceTags;
     final identifier = this.identifier;
     final lockConfiguration = this.lockConfiguration;
     final lockState = this.lockState;
@@ -866,6 +953,8 @@ class LockRuleResponse {
     final status = this.status;
     return {
       if (description != null) 'Description': description,
+      if (excludeResourceTags != null)
+        'ExcludeResourceTags': excludeResourceTags,
       if (identifier != null) 'Identifier': identifier,
       if (lockConfiguration != null) 'LockConfiguration': lockConfiguration,
       if (lockState != null) 'LockState': lockState.value,
@@ -878,82 +967,282 @@ class LockRuleResponse {
   }
 }
 
-class LockState {
-  static const locked = LockState._('locked');
-  static const pendingUnlock = LockState._('pending_unlock');
-  static const unlocked = LockState._('unlocked');
+class TagResourceResponse {
+  TagResourceResponse();
 
-  final String value;
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
 
-  const LockState._(this.value);
-
-  static const values = [locked, pendingUnlock, unlocked];
-
-  static LockState fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => LockState._(value));
-
-  @override
-  bool operator ==(other) => other is LockState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-/// Information about the resource tags used to identify resources that are
-/// retained by the retention rule.
-class ResourceTag {
-  /// The tag key.
-  final String resourceTagKey;
+class UnlockRuleResponse {
+  /// The retention rule description.
+  final String? description;
 
-  /// The tag value.
-  final String? resourceTagValue;
+  /// [Region-level retention rules only] Information about the exclusion tags
+  /// used to identify resources that are to be excluded, or ignored, by the
+  /// retention rule.
+  final List<ResourceTag>? excludeResourceTags;
 
-  ResourceTag({
-    required this.resourceTagKey,
-    this.resourceTagValue,
+  /// The unique ID of the retention rule.
+  final String? identifier;
+
+  /// Information about the retention rule lock configuration.
+  final LockConfiguration? lockConfiguration;
+
+  /// The date and time at which the unlock delay is set to expire. Only returned
+  /// for retention rules that have been unlocked and that are still within the
+  /// unlock delay period.
+  final DateTime? lockEndTime;
+
+  /// [Region-level retention rules only] The lock state for the retention rule.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>locked</code> - The retention rule is locked and can't be modified or
+  /// deleted.
+  /// </li>
+  /// <li>
+  /// <code>pending_unlock</code> - The retention rule has been unlocked but it is
+  /// still within the unlock delay period. The retention rule can be modified or
+  /// deleted only after the unlock delay period has expired.
+  /// </li>
+  /// <li>
+  /// <code>unlocked</code> - The retention rule is unlocked and it can be
+  /// modified or deleted by any user with the required permissions.
+  /// </li>
+  /// <li>
+  /// <code>null</code> - The retention rule has never been locked. Once a
+  /// retention rule has been locked, it can transition between the
+  /// <code>locked</code> and <code>unlocked</code> states only; it can never
+  /// transition back to <code>null</code>.
+  /// </li>
+  /// </ul>
+  final LockState? lockState;
+
+  /// [Tag-level retention rules only] Information about the resource tags used to
+  /// identify resources that are retained by the retention rule.
+  final List<ResourceTag>? resourceTags;
+
+  /// The resource type retained by the retention rule.
+  final ResourceType? resourceType;
+  final RetentionPeriod? retentionPeriod;
+
+  /// The Amazon Resource Name (ARN) of the retention rule.
+  final String? ruleArn;
+
+  /// The state of the retention rule. Only retention rules that are in the
+  /// <code>available</code> state retain resources.
+  final RuleStatus? status;
+
+  UnlockRuleResponse({
+    this.description,
+    this.excludeResourceTags,
+    this.identifier,
+    this.lockConfiguration,
+    this.lockEndTime,
+    this.lockState,
+    this.resourceTags,
+    this.resourceType,
+    this.retentionPeriod,
+    this.ruleArn,
+    this.status,
   });
 
-  factory ResourceTag.fromJson(Map<String, dynamic> json) {
-    return ResourceTag(
-      resourceTagKey: (json['ResourceTagKey'] as String?) ?? '',
-      resourceTagValue: json['ResourceTagValue'] as String?,
+  factory UnlockRuleResponse.fromJson(Map<String, dynamic> json) {
+    return UnlockRuleResponse(
+      description: json['Description'] as String?,
+      excludeResourceTags: (json['ExcludeResourceTags'] as List?)
+          ?.nonNulls
+          .map((e) => ResourceTag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      identifier: json['Identifier'] as String?,
+      lockConfiguration: json['LockConfiguration'] != null
+          ? LockConfiguration.fromJson(
+              json['LockConfiguration'] as Map<String, dynamic>)
+          : null,
+      lockEndTime: timeStampFromJson(json['LockEndTime']),
+      lockState: (json['LockState'] as String?)?.let(LockState.fromString),
+      resourceTags: (json['ResourceTags'] as List?)
+          ?.nonNulls
+          .map((e) => ResourceTag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      resourceType:
+          (json['ResourceType'] as String?)?.let(ResourceType.fromString),
+      retentionPeriod: json['RetentionPeriod'] != null
+          ? RetentionPeriod.fromJson(
+              json['RetentionPeriod'] as Map<String, dynamic>)
+          : null,
+      ruleArn: json['RuleArn'] as String?,
+      status: (json['Status'] as String?)?.let(RuleStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final resourceTagKey = this.resourceTagKey;
-    final resourceTagValue = this.resourceTagValue;
+    final description = this.description;
+    final excludeResourceTags = this.excludeResourceTags;
+    final identifier = this.identifier;
+    final lockConfiguration = this.lockConfiguration;
+    final lockEndTime = this.lockEndTime;
+    final lockState = this.lockState;
+    final resourceTags = this.resourceTags;
+    final resourceType = this.resourceType;
+    final retentionPeriod = this.retentionPeriod;
+    final ruleArn = this.ruleArn;
+    final status = this.status;
     return {
-      'ResourceTagKey': resourceTagKey,
-      if (resourceTagValue != null) 'ResourceTagValue': resourceTagValue,
+      if (description != null) 'Description': description,
+      if (excludeResourceTags != null)
+        'ExcludeResourceTags': excludeResourceTags,
+      if (identifier != null) 'Identifier': identifier,
+      if (lockConfiguration != null) 'LockConfiguration': lockConfiguration,
+      if (lockEndTime != null) 'LockEndTime': unixTimestampToJson(lockEndTime),
+      if (lockState != null) 'LockState': lockState.value,
+      if (resourceTags != null) 'ResourceTags': resourceTags,
+      if (resourceType != null) 'ResourceType': resourceType.value,
+      if (retentionPeriod != null) 'RetentionPeriod': retentionPeriod,
+      if (ruleArn != null) 'RuleArn': ruleArn,
+      if (status != null) 'Status': status.value,
     };
   }
 }
 
-class ResourceType {
-  static const ebsSnapshot = ResourceType._('EBS_SNAPSHOT');
-  static const ec2Image = ResourceType._('EC2_IMAGE');
+class UntagResourceResponse {
+  UntagResourceResponse();
 
-  final String value;
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
 
-  const ResourceType._(this.value);
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
 
-  static const values = [ebsSnapshot, ec2Image];
+class UpdateRuleResponse {
+  /// The retention rule description.
+  final String? description;
 
-  static ResourceType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ResourceType._(value));
+  /// [Region-level retention rules only] Information about the exclusion tags
+  /// used to identify resources that are to be excluded, or ignored, by the
+  /// retention rule.
+  final List<ResourceTag>? excludeResourceTags;
 
-  @override
-  bool operator ==(other) => other is ResourceType && other.value == value;
+  /// The unique ID of the retention rule.
+  final String? identifier;
 
-  @override
-  int get hashCode => value.hashCode;
+  /// The date and time at which the unlock delay is set to expire. Only returned
+  /// for retention rules that have been unlocked and that are still within the
+  /// unlock delay period.
+  final DateTime? lockEndTime;
 
-  @override
-  String toString() => value;
+  /// [Region-level retention rules only] The lock state for the retention rule.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>locked</code> - The retention rule is locked and can't be modified or
+  /// deleted.
+  /// </li>
+  /// <li>
+  /// <code>pending_unlock</code> - The retention rule has been unlocked but it is
+  /// still within the unlock delay period. The retention rule can be modified or
+  /// deleted only after the unlock delay period has expired.
+  /// </li>
+  /// <li>
+  /// <code>unlocked</code> - The retention rule is unlocked and it can be
+  /// modified or deleted by any user with the required permissions.
+  /// </li>
+  /// <li>
+  /// <code>null</code> - The retention rule has never been locked. Once a
+  /// retention rule has been locked, it can transition between the
+  /// <code>locked</code> and <code>unlocked</code> states only; it can never
+  /// transition back to <code>null</code>.
+  /// </li>
+  /// </ul>
+  final LockState? lockState;
+
+  /// [Tag-level retention rules only] Information about the resource tags used to
+  /// identify resources that are retained by the retention rule.
+  final List<ResourceTag>? resourceTags;
+
+  /// The resource type retained by the retention rule.
+  final ResourceType? resourceType;
+  final RetentionPeriod? retentionPeriod;
+
+  /// The Amazon Resource Name (ARN) of the retention rule.
+  final String? ruleArn;
+
+  /// The state of the retention rule. Only retention rules that are in the
+  /// <code>available</code> state retain resources.
+  final RuleStatus? status;
+
+  UpdateRuleResponse({
+    this.description,
+    this.excludeResourceTags,
+    this.identifier,
+    this.lockEndTime,
+    this.lockState,
+    this.resourceTags,
+    this.resourceType,
+    this.retentionPeriod,
+    this.ruleArn,
+    this.status,
+  });
+
+  factory UpdateRuleResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateRuleResponse(
+      description: json['Description'] as String?,
+      excludeResourceTags: (json['ExcludeResourceTags'] as List?)
+          ?.nonNulls
+          .map((e) => ResourceTag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      identifier: json['Identifier'] as String?,
+      lockEndTime: timeStampFromJson(json['LockEndTime']),
+      lockState: (json['LockState'] as String?)?.let(LockState.fromString),
+      resourceTags: (json['ResourceTags'] as List?)
+          ?.nonNulls
+          .map((e) => ResourceTag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      resourceType:
+          (json['ResourceType'] as String?)?.let(ResourceType.fromString),
+      retentionPeriod: json['RetentionPeriod'] != null
+          ? RetentionPeriod.fromJson(
+              json['RetentionPeriod'] as Map<String, dynamic>)
+          : null,
+      ruleArn: json['RuleArn'] as String?,
+      status: (json['Status'] as String?)?.let(RuleStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final excludeResourceTags = this.excludeResourceTags;
+    final identifier = this.identifier;
+    final lockEndTime = this.lockEndTime;
+    final lockState = this.lockState;
+    final resourceTags = this.resourceTags;
+    final resourceType = this.resourceType;
+    final retentionPeriod = this.retentionPeriod;
+    final ruleArn = this.ruleArn;
+    final status = this.status;
+    return {
+      if (description != null) 'Description': description,
+      if (excludeResourceTags != null)
+        'ExcludeResourceTags': excludeResourceTags,
+      if (identifier != null) 'Identifier': identifier,
+      if (lockEndTime != null) 'LockEndTime': unixTimestampToJson(lockEndTime),
+      if (lockState != null) 'LockState': lockState.value,
+      if (resourceTags != null) 'ResourceTags': resourceTags,
+      if (resourceType != null) 'ResourceType': resourceType.value,
+      if (retentionPeriod != null) 'RetentionPeriod': retentionPeriod,
+      if (ruleArn != null) 'RuleArn': ruleArn,
+      if (status != null) 'Status': status.value,
+    };
+  }
 }
 
 /// Information about the retention period for which the retention rule is to
@@ -963,8 +1252,17 @@ class RetentionPeriod {
   /// <code>DAYS</code> is supported.
   final RetentionPeriodUnit retentionPeriodUnit;
 
-  /// The period value for which the retention rule is to retain resources. The
-  /// period is measured using the unit specified for <b>RetentionPeriodUnit</b>.
+  /// The period value for which the retention rule is to retain resources,
+  /// measured in days. The supported retention periods are:
+  ///
+  /// <ul>
+  /// <li>
+  /// EBS volumes: 1 - 7 days
+  /// </li>
+  /// <li>
+  /// EBS snapshots and EBS-backed AMIs: 1 - 365 days
+  /// </li>
+  /// </ul>
   final int retentionPeriodValue;
 
   RetentionPeriod({
@@ -990,22 +1288,22 @@ class RetentionPeriod {
   }
 }
 
-class RetentionPeriodUnit {
-  static const days = RetentionPeriodUnit._('DAYS');
+class ResourceType {
+  static const ebsSnapshot = ResourceType._('EBS_SNAPSHOT');
+  static const ec2Image = ResourceType._('EC2_IMAGE');
+  static const ebsVolume = ResourceType._('EBS_VOLUME');
 
   final String value;
 
-  const RetentionPeriodUnit._(this.value);
+  const ResourceType._(this.value);
 
-  static const values = [days];
+  static const values = [ebsSnapshot, ec2Image, ebsVolume];
 
-  static RetentionPeriodUnit fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RetentionPeriodUnit._(value));
+  static ResourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ResourceType._(value));
 
   @override
-  bool operator ==(other) =>
-      other is RetentionPeriodUnit && other.value == value;
+  bool operator ==(other) => other is ResourceType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -1037,6 +1335,199 @@ class RuleStatus {
   String toString() => value;
 }
 
+class LockState {
+  static const locked = LockState._('locked');
+  static const pendingUnlock = LockState._('pending_unlock');
+  static const unlocked = LockState._('unlocked');
+
+  final String value;
+
+  const LockState._(this.value);
+
+  static const values = [locked, pendingUnlock, unlocked];
+
+  static LockState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LockState._(value));
+
+  @override
+  bool operator ==(other) => other is LockState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// [Tag-level retention rules only] Information about the resource tags used to
+/// identify resources that are retained by the retention rule.
+class ResourceTag {
+  /// The tag key.
+  final String resourceTagKey;
+
+  /// The tag value.
+  final String? resourceTagValue;
+
+  ResourceTag({
+    required this.resourceTagKey,
+    this.resourceTagValue,
+  });
+
+  factory ResourceTag.fromJson(Map<String, dynamic> json) {
+    return ResourceTag(
+      resourceTagKey: (json['ResourceTagKey'] as String?) ?? '',
+      resourceTagValue: json['ResourceTagValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceTagKey = this.resourceTagKey;
+    final resourceTagValue = this.resourceTagValue;
+    return {
+      'ResourceTagKey': resourceTagKey,
+      if (resourceTagValue != null) 'ResourceTagValue': resourceTagValue,
+    };
+  }
+}
+
+class RetentionPeriodUnit {
+  static const days = RetentionPeriodUnit._('DAYS');
+
+  final String value;
+
+  const RetentionPeriodUnit._(this.value);
+
+  static const values = [days];
+
+  static RetentionPeriodUnit fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RetentionPeriodUnit._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RetentionPeriodUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a retention rule lock configuration.
+class LockConfiguration {
+  /// Information about the retention rule unlock delay.
+  final UnlockDelay unlockDelay;
+
+  LockConfiguration({
+    required this.unlockDelay,
+  });
+
+  factory LockConfiguration.fromJson(Map<String, dynamic> json) {
+    return LockConfiguration(
+      unlockDelay: UnlockDelay.fromJson(
+          (json['UnlockDelay'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final unlockDelay = this.unlockDelay;
+    return {
+      'UnlockDelay': unlockDelay,
+    };
+  }
+}
+
+/// Information about the retention rule unlock delay. The unlock delay is the
+/// period after which a retention rule can be modified or edited after it has
+/// been unlocked by a user with the required permissions. The retention rule
+/// can't be modified or deleted during the unlock delay.
+class UnlockDelay {
+  /// The unit of time in which to measure the unlock delay. Currently, the unlock
+  /// delay can be measured only in days.
+  final UnlockDelayUnit unlockDelayUnit;
+
+  /// The unlock delay period, measured in the unit specified for <b>
+  /// UnlockDelayUnit</b>.
+  final int unlockDelayValue;
+
+  UnlockDelay({
+    required this.unlockDelayUnit,
+    required this.unlockDelayValue,
+  });
+
+  factory UnlockDelay.fromJson(Map<String, dynamic> json) {
+    return UnlockDelay(
+      unlockDelayUnit: UnlockDelayUnit.fromString(
+          (json['UnlockDelayUnit'] as String?) ?? ''),
+      unlockDelayValue: (json['UnlockDelayValue'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final unlockDelayUnit = this.unlockDelayUnit;
+    final unlockDelayValue = this.unlockDelayValue;
+    return {
+      'UnlockDelayUnit': unlockDelayUnit.value,
+      'UnlockDelayValue': unlockDelayValue,
+    };
+  }
+}
+
+class UnlockDelayUnit {
+  static const days = UnlockDelayUnit._('DAYS');
+
+  final String value;
+
+  const UnlockDelayUnit._(this.value);
+
+  static const values = [days];
+
+  static UnlockDelayUnit fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UnlockDelayUnit._(value));
+
+  @override
+  bool operator ==(other) => other is UnlockDelayUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about the tags to assign to the retention rule.
+class Tag {
+  /// The tag key.
+  final String key;
+
+  /// The tag value.
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
 /// Information about a Recycle Bin retention rule.
 class RuleSummary {
   /// The retention rule description.
@@ -1045,7 +1536,7 @@ class RuleSummary {
   /// The unique ID of the retention rule.
   final String? identifier;
 
-  /// The lock state for the retention rule.
+  /// [Region-level retention rules only] The lock state for the retention rule.
   ///
   /// <ul>
   /// <li>
@@ -1110,347 +1601,6 @@ class RuleSummary {
       if (lockState != null) 'LockState': lockState.value,
       if (retentionPeriod != null) 'RetentionPeriod': retentionPeriod,
       if (ruleArn != null) 'RuleArn': ruleArn,
-    };
-  }
-}
-
-/// Information about the tags to assign to the retention rule.
-class Tag {
-  /// The tag key.
-  final String key;
-
-  /// The tag value.
-  final String value;
-
-  Tag({
-    required this.key,
-    required this.value,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['Key'] as String?) ?? '',
-      value: (json['Value'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'Key': key,
-      'Value': value,
-    };
-  }
-}
-
-class TagResourceResponse {
-  TagResourceResponse();
-
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Information about the retention rule unlock delay. The unlock delay is the
-/// period after which a retention rule can be modified or edited after it has
-/// been unlocked by a user with the required permissions. The retention rule
-/// can't be modified or deleted during the unlock delay.
-class UnlockDelay {
-  /// The unit of time in which to measure the unlock delay. Currently, the unlock
-  /// delay can be measure only in days.
-  final UnlockDelayUnit unlockDelayUnit;
-
-  /// The unlock delay period, measured in the unit specified for <b>
-  /// UnlockDelayUnit</b>.
-  final int unlockDelayValue;
-
-  UnlockDelay({
-    required this.unlockDelayUnit,
-    required this.unlockDelayValue,
-  });
-
-  factory UnlockDelay.fromJson(Map<String, dynamic> json) {
-    return UnlockDelay(
-      unlockDelayUnit: UnlockDelayUnit.fromString(
-          (json['UnlockDelayUnit'] as String?) ?? ''),
-      unlockDelayValue: (json['UnlockDelayValue'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final unlockDelayUnit = this.unlockDelayUnit;
-    final unlockDelayValue = this.unlockDelayValue;
-    return {
-      'UnlockDelayUnit': unlockDelayUnit.value,
-      'UnlockDelayValue': unlockDelayValue,
-    };
-  }
-}
-
-class UnlockDelayUnit {
-  static const days = UnlockDelayUnit._('DAYS');
-
-  final String value;
-
-  const UnlockDelayUnit._(this.value);
-
-  static const values = [days];
-
-  static UnlockDelayUnit fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => UnlockDelayUnit._(value));
-
-  @override
-  bool operator ==(other) => other is UnlockDelayUnit && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class UnlockRuleResponse {
-  /// The retention rule description.
-  final String? description;
-
-  /// The unique ID of the retention rule.
-  final String? identifier;
-
-  /// Information about the retention rule lock configuration.
-  final LockConfiguration? lockConfiguration;
-
-  /// The date and time at which the unlock delay is set to expire. Only returned
-  /// for retention rules that have been unlocked and that are still within the
-  /// unlock delay period.
-  final DateTime? lockEndTime;
-
-  /// The lock state for the retention rule.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>locked</code> - The retention rule is locked and can't be modified or
-  /// deleted.
-  /// </li>
-  /// <li>
-  /// <code>pending_unlock</code> - The retention rule has been unlocked but it is
-  /// still within the unlock delay period. The retention rule can be modified or
-  /// deleted only after the unlock delay period has expired.
-  /// </li>
-  /// <li>
-  /// <code>unlocked</code> - The retention rule is unlocked and it can be
-  /// modified or deleted by any user with the required permissions.
-  /// </li>
-  /// <li>
-  /// <code>null</code> - The retention rule has never been locked. Once a
-  /// retention rule has been locked, it can transition between the
-  /// <code>locked</code> and <code>unlocked</code> states only; it can never
-  /// transition back to <code>null</code>.
-  /// </li>
-  /// </ul>
-  final LockState? lockState;
-
-  /// Information about the resource tags used to identify resources that are
-  /// retained by the retention rule.
-  final List<ResourceTag>? resourceTags;
-
-  /// The resource type retained by the retention rule.
-  final ResourceType? resourceType;
-  final RetentionPeriod? retentionPeriod;
-
-  /// The Amazon Resource Name (ARN) of the retention rule.
-  final String? ruleArn;
-
-  /// The state of the retention rule. Only retention rules that are in the
-  /// <code>available</code> state retain resources.
-  final RuleStatus? status;
-
-  UnlockRuleResponse({
-    this.description,
-    this.identifier,
-    this.lockConfiguration,
-    this.lockEndTime,
-    this.lockState,
-    this.resourceTags,
-    this.resourceType,
-    this.retentionPeriod,
-    this.ruleArn,
-    this.status,
-  });
-
-  factory UnlockRuleResponse.fromJson(Map<String, dynamic> json) {
-    return UnlockRuleResponse(
-      description: json['Description'] as String?,
-      identifier: json['Identifier'] as String?,
-      lockConfiguration: json['LockConfiguration'] != null
-          ? LockConfiguration.fromJson(
-              json['LockConfiguration'] as Map<String, dynamic>)
-          : null,
-      lockEndTime: timeStampFromJson(json['LockEndTime']),
-      lockState: (json['LockState'] as String?)?.let(LockState.fromString),
-      resourceTags: (json['ResourceTags'] as List?)
-          ?.nonNulls
-          .map((e) => ResourceTag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      resourceType:
-          (json['ResourceType'] as String?)?.let(ResourceType.fromString),
-      retentionPeriod: json['RetentionPeriod'] != null
-          ? RetentionPeriod.fromJson(
-              json['RetentionPeriod'] as Map<String, dynamic>)
-          : null,
-      ruleArn: json['RuleArn'] as String?,
-      status: (json['Status'] as String?)?.let(RuleStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final identifier = this.identifier;
-    final lockConfiguration = this.lockConfiguration;
-    final lockEndTime = this.lockEndTime;
-    final lockState = this.lockState;
-    final resourceTags = this.resourceTags;
-    final resourceType = this.resourceType;
-    final retentionPeriod = this.retentionPeriod;
-    final ruleArn = this.ruleArn;
-    final status = this.status;
-    return {
-      if (description != null) 'Description': description,
-      if (identifier != null) 'Identifier': identifier,
-      if (lockConfiguration != null) 'LockConfiguration': lockConfiguration,
-      if (lockEndTime != null) 'LockEndTime': unixTimestampToJson(lockEndTime),
-      if (lockState != null) 'LockState': lockState.value,
-      if (resourceTags != null) 'ResourceTags': resourceTags,
-      if (resourceType != null) 'ResourceType': resourceType.value,
-      if (retentionPeriod != null) 'RetentionPeriod': retentionPeriod,
-      if (ruleArn != null) 'RuleArn': ruleArn,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-class UntagResourceResponse {
-  UntagResourceResponse();
-
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateRuleResponse {
-  /// The retention rule description.
-  final String? description;
-
-  /// The unique ID of the retention rule.
-  final String? identifier;
-
-  /// The date and time at which the unlock delay is set to expire. Only returned
-  /// for retention rules that have been unlocked and that are still within the
-  /// unlock delay period.
-  final DateTime? lockEndTime;
-
-  /// The lock state for the retention rule.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>locked</code> - The retention rule is locked and can't be modified or
-  /// deleted.
-  /// </li>
-  /// <li>
-  /// <code>pending_unlock</code> - The retention rule has been unlocked but it is
-  /// still within the unlock delay period. The retention rule can be modified or
-  /// deleted only after the unlock delay period has expired.
-  /// </li>
-  /// <li>
-  /// <code>unlocked</code> - The retention rule is unlocked and it can be
-  /// modified or deleted by any user with the required permissions.
-  /// </li>
-  /// <li>
-  /// <code>null</code> - The retention rule has never been locked. Once a
-  /// retention rule has been locked, it can transition between the
-  /// <code>locked</code> and <code>unlocked</code> states only; it can never
-  /// transition back to <code>null</code>.
-  /// </li>
-  /// </ul>
-  final LockState? lockState;
-
-  /// Information about the resource tags used to identify resources that are
-  /// retained by the retention rule.
-  final List<ResourceTag>? resourceTags;
-
-  /// The resource type retained by the retention rule.
-  final ResourceType? resourceType;
-  final RetentionPeriod? retentionPeriod;
-
-  /// The Amazon Resource Name (ARN) of the retention rule.
-  final String? ruleArn;
-
-  /// The state of the retention rule. Only retention rules that are in the
-  /// <code>available</code> state retain resources.
-  final RuleStatus? status;
-
-  UpdateRuleResponse({
-    this.description,
-    this.identifier,
-    this.lockEndTime,
-    this.lockState,
-    this.resourceTags,
-    this.resourceType,
-    this.retentionPeriod,
-    this.ruleArn,
-    this.status,
-  });
-
-  factory UpdateRuleResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateRuleResponse(
-      description: json['Description'] as String?,
-      identifier: json['Identifier'] as String?,
-      lockEndTime: timeStampFromJson(json['LockEndTime']),
-      lockState: (json['LockState'] as String?)?.let(LockState.fromString),
-      resourceTags: (json['ResourceTags'] as List?)
-          ?.nonNulls
-          .map((e) => ResourceTag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      resourceType:
-          (json['ResourceType'] as String?)?.let(ResourceType.fromString),
-      retentionPeriod: json['RetentionPeriod'] != null
-          ? RetentionPeriod.fromJson(
-              json['RetentionPeriod'] as Map<String, dynamic>)
-          : null,
-      ruleArn: json['RuleArn'] as String?,
-      status: (json['Status'] as String?)?.let(RuleStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final identifier = this.identifier;
-    final lockEndTime = this.lockEndTime;
-    final lockState = this.lockState;
-    final resourceTags = this.resourceTags;
-    final resourceType = this.resourceType;
-    final retentionPeriod = this.retentionPeriod;
-    final ruleArn = this.ruleArn;
-    final status = this.status;
-    return {
-      if (description != null) 'Description': description,
-      if (identifier != null) 'Identifier': identifier,
-      if (lockEndTime != null) 'LockEndTime': unixTimestampToJson(lockEndTime),
-      if (lockState != null) 'LockState': lockState.value,
-      if (resourceTags != null) 'ResourceTags': resourceTags,
-      if (resourceType != null) 'ResourceType': resourceType.value,
-      if (retentionPeriod != null) 'RetentionPeriod': retentionPeriod,
-      if (ruleArn != null) 'RuleArn': ruleArn,
-      if (status != null) 'Status': status.value,
     };
   }
 }

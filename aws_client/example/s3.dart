@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:aws_client/s3_2006_03_01.dart';
+import 'package:aws_client/s3.dart';
 
 void main() async {
   final api = S3(region: 'us-east-2');

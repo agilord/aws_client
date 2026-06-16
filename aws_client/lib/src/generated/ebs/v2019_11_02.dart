@@ -91,11 +91,11 @@ class Ebs {
   /// </note>
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [RequestThrottledException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [InternalServerException].
+  /// May throw [RequestThrottledException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [changedBlocksCount] :
   /// The number of blocks that were written to the snapshot.
@@ -162,11 +162,11 @@ class Ebs {
   /// </note>
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [RequestThrottledException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [InternalServerException].
+  /// May throw [RequestThrottledException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [blockIndex] :
   /// The block index of the block in which to read the data. A block index is a
@@ -237,11 +237,11 @@ class Ebs {
   /// </note>
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [RequestThrottledException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [InternalServerException].
+  /// May throw [RequestThrottledException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [secondSnapshotId] :
   /// The ID of the second snapshot to use for the comparison.
@@ -330,11 +330,11 @@ class Ebs {
   /// </note>
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [RequestThrottledException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [InternalServerException].
+  /// May throw [RequestThrottledException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [snapshotId] :
   /// The ID of the snapshot from which to get block indexes and block tokens.
@@ -411,11 +411,11 @@ class Ebs {
   /// </note>
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [RequestThrottledException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [InternalServerException].
+  /// May throw [RequestThrottledException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [blockData] :
   /// The data to write to the block.
@@ -529,13 +529,13 @@ class Ebs {
   /// </note>
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
+  /// May throw [ConcurrentLimitExceededException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [RequestThrottledException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
-  /// May throw [InternalServerException].
-  /// May throw [ConcurrentLimitExceededException].
-  /// May throw [ConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [volumeSize] :
   /// The size of the volume, in GiB. The maximum size is <code>65536</code> GiB
@@ -689,125 +689,6 @@ class Ebs {
     );
     return StartSnapshotResponse.fromJson(response);
   }
-}
-
-/// A block of data in an Amazon Elastic Block Store snapshot.
-class Block {
-  /// The block index.
-  final int? blockIndex;
-
-  /// The block token for the block index.
-  final String? blockToken;
-
-  Block({
-    this.blockIndex,
-    this.blockToken,
-  });
-
-  factory Block.fromJson(Map<String, dynamic> json) {
-    return Block(
-      blockIndex: json['BlockIndex'] as int?,
-      blockToken: json['BlockToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final blockIndex = this.blockIndex;
-    final blockToken = this.blockToken;
-    return {
-      if (blockIndex != null) 'BlockIndex': blockIndex,
-      if (blockToken != null) 'BlockToken': blockToken,
-    };
-  }
-}
-
-/// A block of data in an Amazon Elastic Block Store snapshot that is different
-/// from another snapshot of the same volume/snapshot lineage.
-class ChangedBlock {
-  /// The block index.
-  final int? blockIndex;
-
-  /// The block token for the block index of the <code>FirstSnapshotId</code>
-  /// specified in the <code>ListChangedBlocks</code> operation. This value is
-  /// absent if the first snapshot does not have the changed block that is on the
-  /// second snapshot.
-  final String? firstBlockToken;
-
-  /// The block token for the block index of the <code>SecondSnapshotId</code>
-  /// specified in the <code>ListChangedBlocks</code> operation.
-  final String? secondBlockToken;
-
-  ChangedBlock({
-    this.blockIndex,
-    this.firstBlockToken,
-    this.secondBlockToken,
-  });
-
-  factory ChangedBlock.fromJson(Map<String, dynamic> json) {
-    return ChangedBlock(
-      blockIndex: json['BlockIndex'] as int?,
-      firstBlockToken: json['FirstBlockToken'] as String?,
-      secondBlockToken: json['SecondBlockToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final blockIndex = this.blockIndex;
-    final firstBlockToken = this.firstBlockToken;
-    final secondBlockToken = this.secondBlockToken;
-    return {
-      if (blockIndex != null) 'BlockIndex': blockIndex,
-      if (firstBlockToken != null) 'FirstBlockToken': firstBlockToken,
-      if (secondBlockToken != null) 'SecondBlockToken': secondBlockToken,
-    };
-  }
-}
-
-class ChecksumAggregationMethod {
-  static const linear = ChecksumAggregationMethod._('LINEAR');
-
-  final String value;
-
-  const ChecksumAggregationMethod._(this.value);
-
-  static const values = [linear];
-
-  static ChecksumAggregationMethod fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ChecksumAggregationMethod._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ChecksumAggregationMethod && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ChecksumAlgorithm {
-  static const sha256 = ChecksumAlgorithm._('SHA256');
-
-  final String value;
-
-  const ChecksumAlgorithm._(this.value);
-
-  static const values = [sha256];
-
-  static ChecksumAlgorithm fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ChecksumAlgorithm._(value));
-
-  @override
-  bool operator ==(other) => other is ChecksumAlgorithm && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class CompleteSnapshotResponse {
@@ -990,30 +871,6 @@ class PutSnapshotBlockResponse {
   }
 }
 
-class SSEType {
-  static const sseEbs = SSEType._('sse-ebs');
-  static const sseKms = SSEType._('sse-kms');
-  static const none = SSEType._('none');
-
-  final String value;
-
-  const SSEType._(this.value);
-
-  static const values = [sseEbs, sseKms, none];
-
-  static SSEType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SSEType._(value));
-
-  @override
-  bool operator ==(other) => other is SSEType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class StartSnapshotResponse {
   /// The size of the blocks in the snapshot, in bytes.
   final int? blockSize;
@@ -1138,6 +995,30 @@ class Status {
   String toString() => value;
 }
 
+class SSEType {
+  static const sseEbs = SSEType._('sse-ebs');
+  static const sseKms = SSEType._('sse-kms');
+  static const none = SSEType._('none');
+
+  final String value;
+
+  const SSEType._(this.value);
+
+  static const values = [sseEbs, sseKms, none];
+
+  static SSEType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SSEType._(value));
+
+  @override
+  bool operator ==(other) => other is SSEType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Describes a tag.
 class Tag {
   /// The key of the tag.
@@ -1166,6 +1047,125 @@ class Tag {
       if (value != null) 'Value': value,
     };
   }
+}
+
+class ChecksumAlgorithm {
+  static const sha256 = ChecksumAlgorithm._('SHA256');
+
+  final String value;
+
+  const ChecksumAlgorithm._(this.value);
+
+  static const values = [sha256];
+
+  static ChecksumAlgorithm fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ChecksumAlgorithm._(value));
+
+  @override
+  bool operator ==(other) => other is ChecksumAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A block of data in an Amazon Elastic Block Store snapshot.
+class Block {
+  /// The block index.
+  final int? blockIndex;
+
+  /// The block token for the block index.
+  final String? blockToken;
+
+  Block({
+    this.blockIndex,
+    this.blockToken,
+  });
+
+  factory Block.fromJson(Map<String, dynamic> json) {
+    return Block(
+      blockIndex: json['BlockIndex'] as int?,
+      blockToken: json['BlockToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blockIndex = this.blockIndex;
+    final blockToken = this.blockToken;
+    return {
+      if (blockIndex != null) 'BlockIndex': blockIndex,
+      if (blockToken != null) 'BlockToken': blockToken,
+    };
+  }
+}
+
+/// A block of data in an Amazon Elastic Block Store snapshot that is different
+/// from another snapshot of the same volume/snapshot lineage.
+class ChangedBlock {
+  /// The block index.
+  final int? blockIndex;
+
+  /// The block token for the block index of the <code>FirstSnapshotId</code>
+  /// specified in the <code>ListChangedBlocks</code> operation. This value is
+  /// absent if the first snapshot does not have the changed block that is on the
+  /// second snapshot.
+  final String? firstBlockToken;
+
+  /// The block token for the block index of the <code>SecondSnapshotId</code>
+  /// specified in the <code>ListChangedBlocks</code> operation.
+  final String? secondBlockToken;
+
+  ChangedBlock({
+    this.blockIndex,
+    this.firstBlockToken,
+    this.secondBlockToken,
+  });
+
+  factory ChangedBlock.fromJson(Map<String, dynamic> json) {
+    return ChangedBlock(
+      blockIndex: json['BlockIndex'] as int?,
+      firstBlockToken: json['FirstBlockToken'] as String?,
+      secondBlockToken: json['SecondBlockToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blockIndex = this.blockIndex;
+    final firstBlockToken = this.firstBlockToken;
+    final secondBlockToken = this.secondBlockToken;
+    return {
+      if (blockIndex != null) 'BlockIndex': blockIndex,
+      if (firstBlockToken != null) 'FirstBlockToken': firstBlockToken,
+      if (secondBlockToken != null) 'SecondBlockToken': secondBlockToken,
+    };
+  }
+}
+
+class ChecksumAggregationMethod {
+  static const linear = ChecksumAggregationMethod._('LINEAR');
+
+  final String value;
+
+  const ChecksumAggregationMethod._(this.value);
+
+  static const values = [linear];
+
+  static ChecksumAggregationMethod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ChecksumAggregationMethod._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ChecksumAggregationMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

@@ -1,4 +1,4 @@
-import 'package:aws_client/iot_data_plane_2015_05_28.dart';
+import 'package:aws_client/iot_data_plane.dart';
 
 void main() async {
   final api = IoTDataPlane(region: 'us-east-2');

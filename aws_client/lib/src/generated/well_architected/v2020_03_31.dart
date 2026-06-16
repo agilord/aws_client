@@ -40,7 +40,6 @@ class WellArchitected {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'wellarchitected',
-            signingName: 'wellarchitected',
           ),
           region: region,
           credentials: credentials,
@@ -70,12 +69,12 @@ class WellArchitected {
   /// Amazon Web Services Customer Agreement.
   /// </note>
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<void> associateLenses({
     required List<String> lensAliases,
     required String workloadId,
@@ -94,12 +93,12 @@ class WellArchitected {
 
   /// Associate a profile with a workload.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [profileArns] :
   /// The list of profile ARNs to associate with the workload.
@@ -146,13 +145,13 @@ class WellArchitected {
   /// Web Services account.
   /// </note>
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
-  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<CreateLensShareOutput> createLensShare({
     required String lensAlias,
     required String sharedWith,
@@ -181,13 +180,13 @@ class WellArchitected {
   /// Services accounts and users in the same Amazon Web Services Region. Only
   /// the owner of a lens can delete it.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ServiceQuotaExceededException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [lensVersion] :
   /// The version of the lens being created.
@@ -216,13 +215,13 @@ class WellArchitected {
 
   /// Create a milestone for an existing workload.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
-  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<CreateMilestoneOutput> createMilestone({
     required String milestoneName,
     required String workloadId,
@@ -243,12 +242,12 @@ class WellArchitected {
 
   /// Create a profile.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [profileDescription] :
   /// The profile description.
@@ -286,13 +285,13 @@ class WellArchitected {
 
   /// Create a profile share.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
-  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [profileArn] :
   /// The profile ARN.
@@ -327,13 +326,13 @@ class WellArchitected {
   /// such data.
   /// </note>
   ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [description] :
   /// The review template description.
@@ -390,13 +389,13 @@ class WellArchitected {
   /// available to those other accounts.
   /// </note>
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
-  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [templateArn] :
   /// The review template ARN.
@@ -453,13 +452,13 @@ class WellArchitected {
   /// </li>
   /// </ul>
   ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [applications] :
   /// List of AppRegistry application ARNs associated to the workload.
@@ -546,13 +545,13 @@ class WellArchitected {
   /// href="https://docs.aws.amazon.com/wellarchitected/latest/userguide/workloads-sharing.html">Sharing
   /// a workload</a> in the <i>Well-Architected Tool User Guide</i>.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
-  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<CreateWorkloadShareOutput> createWorkloadShare({
     required PermissionType permissionType,
     required String sharedWith,
@@ -589,12 +588,12 @@ class WellArchitected {
   /// Web Services account.
   /// </note>
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [lensStatus] :
   /// The status of the lens to be deleted.
@@ -634,12 +633,12 @@ class WellArchitected {
   /// Web Services account.
   /// </note>
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
-  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<void> deleteLensShare({
     required String lensAlias,
     required String shareId,
@@ -670,12 +669,12 @@ class WellArchitected {
   /// Web Services account or terminate your Amazon Web Services account.
   /// </note>
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [profileArn] :
   /// The profile ARN.
@@ -698,12 +697,12 @@ class WellArchitected {
 
   /// Delete a profile share.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
-  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [profileArn] :
   /// The profile ARN.
@@ -734,12 +733,12 @@ class WellArchitected {
   /// organizations, and organizational units (OUs) that you shared the review
   /// template with will no longer be able to apply it to new workloads.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [templateArn] :
   /// The review template ARN.
@@ -766,12 +765,12 @@ class WellArchitected {
   /// users, organizations, and organizational units (OUs) that you shared the
   /// review template with will no longer be able to apply it to new workloads.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
-  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [templateArn] :
   /// The review template ARN.
@@ -796,12 +795,12 @@ class WellArchitected {
 
   /// Delete an existing workload.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<void> deleteWorkload({
     required String workloadId,
     String? clientRequestToken,
@@ -821,12 +820,12 @@ class WellArchitected {
 
   /// Delete a workload share.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
-  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<void> deleteWorkloadShare({
     required String shareId,
     required String workloadId,
@@ -855,12 +854,12 @@ class WellArchitected {
   /// (<code>wellarchitected</code>) cannot be removed from a workload.
   /// </note>
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<void> disassociateLenses({
     required List<String> lensAliases,
     required String workloadId,
@@ -879,12 +878,12 @@ class WellArchitected {
 
   /// Disassociate a profile from a workload.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [profileArns] :
   /// The list of profile ARNs to disassociate from the workload.
@@ -924,11 +923,11 @@ class WellArchitected {
   /// data.
   /// </note>
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [lensVersion] :
   /// The lens version to be exported.
@@ -951,11 +950,11 @@ class WellArchitected {
 
   /// Get the answer to a specific question in a workload review.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<GetAnswerOutput> getAnswer({
     required String lensAlias,
     required String questionId,
@@ -988,11 +987,11 @@ class WellArchitected {
   /// You can optionally choose to include workloads that have been shared with
   /// you.
   ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [format] :
   /// The format of the consolidated report.
@@ -1036,10 +1035,10 @@ class WellArchitected {
 
   /// Global settings for all workloads.
   ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<GetGlobalSettingsOutput> getGlobalSettings() async {
     final response = await _protocol.send(
       payload: null,
@@ -1052,11 +1051,11 @@ class WellArchitected {
 
   /// Get an existing lens.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [lensVersion] :
   /// The lens version to be retrieved.
@@ -1079,11 +1078,11 @@ class WellArchitected {
 
   /// Get lens review.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<GetLensReviewOutput> getLensReview({
     required String lensAlias,
     required String workloadId,
@@ -1112,11 +1111,11 @@ class WellArchitected {
 
   /// Get lens review report.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<GetLensReviewReportOutput> getLensReviewReport({
     required String lensAlias,
     required String workloadId,
@@ -1145,11 +1144,11 @@ class WellArchitected {
 
   /// Get lens version differences.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [baseLensVersion] :
   /// The base version of the lens.
@@ -1177,11 +1176,11 @@ class WellArchitected {
 
   /// Get a milestone for an existing workload.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<GetMilestoneOutput> getMilestone({
     required int milestoneNumber,
     required String workloadId,
@@ -1205,11 +1204,11 @@ class WellArchitected {
 
   /// Get profile information.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [profileArn] :
   /// The profile ARN.
@@ -1235,11 +1234,11 @@ class WellArchitected {
 
   /// Get profile template.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<GetProfileTemplateOutput> getProfileTemplate() async {
     final response = await _protocol.send(
       payload: null,
@@ -1252,11 +1251,11 @@ class WellArchitected {
 
   /// Get review template.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [templateArn] :
   /// The review template ARN.
@@ -1274,11 +1273,11 @@ class WellArchitected {
 
   /// Get review template answer.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [templateArn] :
   /// The review template ARN.
@@ -1299,11 +1298,11 @@ class WellArchitected {
 
   /// Get a lens review associated with a review template.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [templateArn] :
   /// The review template ARN.
@@ -1323,11 +1322,11 @@ class WellArchitected {
 
   /// Get an existing workload.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<GetWorkloadOutput> getWorkload({
     required String workloadId,
   }) async {
@@ -1367,13 +1366,13 @@ class WellArchitected {
   /// data.
   /// </note>
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [jSONString] :
   /// The JSON representation of a lens.
@@ -1403,11 +1402,11 @@ class WellArchitected {
 
   /// List of answers for a particular workload and lens.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return for this request.
@@ -1457,11 +1456,11 @@ class WellArchitected {
 
   /// List of Trusted Advisor check details by account related to the workload.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [lensArn] :
   /// Well-Architected Lens ARN.
@@ -1500,11 +1499,11 @@ class WellArchitected {
   /// List of Trusted Advisor checks summarized for all accounts related to the
   /// workload.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [lensArn] :
   /// Well-Architected Lens ARN.
@@ -1541,13 +1540,55 @@ class WellArchitected {
     return ListCheckSummariesOutput.fromJson(response);
   }
 
+  /// List the available lenses.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [lensStatus] :
+  /// The status of lenses to be returned.
+  ///
+  /// Parameter [lensType] :
+  /// The type of lenses to be returned.
+  Future<ListLensesOutput> listLenses({
+    String? lensName,
+    LensStatusType? lensStatus,
+    LensType? lensType,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final $query = <String, List<String>>{
+      if (lensName != null) 'LensName': [lensName],
+      if (lensStatus != null) 'LensStatus': [lensStatus.value],
+      if (lensType != null) 'LensType': [lensType.value],
+      if (maxResults != null) 'MaxResults': [maxResults.toString()],
+      if (nextToken != null) 'NextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/lenses',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListLensesOutput.fromJson(response);
+  }
+
   /// List the improvements of a particular lens review.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return for this request.
@@ -1597,11 +1638,11 @@ class WellArchitected {
 
   /// List lens reviews for a particular workload.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<ListLensReviewsOutput> listLensReviews({
     required String workloadId,
     int? maxResults,
@@ -1638,11 +1679,11 @@ class WellArchitected {
 
   /// List the lens shares associated with the lens.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return for this request.
@@ -1679,55 +1720,13 @@ class WellArchitected {
     return ListLensSharesOutput.fromJson(response);
   }
 
-  /// List the available lenses.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  ///
-  /// Parameter [lensStatus] :
-  /// The status of lenses to be returned.
-  ///
-  /// Parameter [lensType] :
-  /// The type of lenses to be returned.
-  Future<ListLensesOutput> listLenses({
-    String? lensName,
-    LensStatusType? lensStatus,
-    LensType? lensType,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
-    final $query = <String, List<String>>{
-      if (lensName != null) 'LensName': [lensName],
-      if (lensStatus != null) 'LensStatus': [lensStatus.value],
-      if (lensType != null) 'LensType': [lensType.value],
-      if (maxResults != null) 'MaxResults': [maxResults.toString()],
-      if (nextToken != null) 'NextToken': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/lenses',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListLensesOutput.fromJson(response);
-  }
-
   /// List all milestones for an existing workload.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<ListMilestonesOutput> listMilestones({
     required String workloadId,
     int? maxResults,
@@ -1755,10 +1754,10 @@ class WellArchitected {
 
   /// List lens notifications.
   ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return for this request.
@@ -1798,10 +1797,10 @@ class WellArchitected {
 
   /// List profile notifications.
   ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<ListProfileNotificationsOutput> listProfileNotifications({
     int? maxResults,
     String? nextToken,
@@ -1821,20 +1820,62 @@ class WellArchitected {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/profileNotifications/',
+      requestUri: '/profileNotifications',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListProfileNotificationsOutput.fromJson(response);
   }
 
+  /// List profiles.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [profileNamePrefix] :
+  /// An optional string added to the beginning of each profile name returned in
+  /// the results.
+  ///
+  /// Parameter [profileOwnerType] :
+  /// Profile owner type.
+  Future<ListProfilesOutput> listProfiles({
+    int? maxResults,
+    String? nextToken,
+    String? profileNamePrefix,
+    ProfileOwnerType? profileOwnerType,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'MaxResults': [maxResults.toString()],
+      if (nextToken != null) 'NextToken': [nextToken],
+      if (profileNamePrefix != null) 'ProfileNamePrefix': [profileNamePrefix],
+      if (profileOwnerType != null)
+        'ProfileOwnerType': [profileOwnerType.value],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/profileSummaries',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListProfilesOutput.fromJson(response);
+  }
+
   /// List profile shares.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [profileArn] :
   /// The profile ARN.
@@ -1874,55 +1915,13 @@ class WellArchitected {
     return ListProfileSharesOutput.fromJson(response);
   }
 
-  /// List profiles.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  ///
-  /// Parameter [profileNamePrefix] :
-  /// An optional string added to the beginning of each profile name returned in
-  /// the results.
-  ///
-  /// Parameter [profileOwnerType] :
-  /// Profile owner type.
-  Future<ListProfilesOutput> listProfiles({
-    int? maxResults,
-    String? nextToken,
-    String? profileNamePrefix,
-    ProfileOwnerType? profileOwnerType,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
-    final $query = <String, List<String>>{
-      if (maxResults != null) 'MaxResults': [maxResults.toString()],
-      if (nextToken != null) 'NextToken': [nextToken],
-      if (profileNamePrefix != null) 'ProfileNamePrefix': [profileNamePrefix],
-      if (profileOwnerType != null)
-        'ProfileOwnerType': [profileOwnerType.value],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/profileSummaries',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListProfilesOutput.fromJson(response);
-  }
-
   /// List the answers of a review template.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [templateArn] :
   /// The ARN of the review template.
@@ -1960,10 +1959,10 @@ class WellArchitected {
 
   /// List review templates.
   ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<ListReviewTemplatesOutput> listReviewTemplates({
     int? maxResults,
     String? nextToken,
@@ -1995,10 +1994,10 @@ class WellArchitected {
   /// mutually exclusive. Use the parameter that matches your
   /// <code>ShareResourceType</code>.
   ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [lensNamePrefix] :
   /// An optional string added to the beginning of each lens name returned in
@@ -2076,11 +2075,11 @@ class WellArchitected {
 
   /// List review template shares.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [templateArn] :
   /// The review template ARN.
@@ -2120,13 +2119,47 @@ class WellArchitected {
     return ListTemplateSharesOutput.fromJson(response);
   }
 
+  /// Paginated list of workloads.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return for this request.
+  Future<ListWorkloadsOutput> listWorkloads({
+    int? maxResults,
+    String? nextToken,
+    String? workloadNamePrefix,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final $payload = <String, dynamic>{
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (workloadNamePrefix != null) 'WorkloadNamePrefix': workloadNamePrefix,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/workloadsSummaries',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListWorkloadsOutput.fromJson(response);
+  }
+
   /// List the workload shares associated with the workload.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return for this request.
@@ -2163,40 +2196,6 @@ class WellArchitected {
     return ListWorkloadSharesOutput.fromJson(response);
   }
 
-  /// Paginated list of workloads.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of results to return for this request.
-  Future<ListWorkloadsOutput> listWorkloads({
-    int? maxResults,
-    String? nextToken,
-    String? workloadNamePrefix,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
-    final $payload = <String, dynamic>{
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-      if (workloadNamePrefix != null) 'WorkloadNamePrefix': workloadNamePrefix,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/workloadsSummaries',
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListWorkloadsOutput.fromJson(response);
-  }
-
   /// Adds one or more tags to the specified resource.
   /// <note>
   /// The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a
@@ -2231,7 +2230,7 @@ class WellArchitected {
   /// To specify multiple tags, use separate <b>tagKeys</b> parameters, for
   /// example:
   ///
-  /// <code>DELETE /tags/WorkloadArn?tagKeys=key1&amp;tagKeys=key2</code>
+  /// <code>DELETE /tags/WorkloadArn?tagKeys=key1&tagKeys=key2</code>
   ///
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
@@ -2257,12 +2256,12 @@ class WellArchitected {
 
   /// Update the answer to a specific question in a workload review.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [choiceUpdates] :
   /// A list of choices to update on a question in your workload. The String key
@@ -2300,11 +2299,11 @@ class WellArchitected {
   /// Update whether the Amazon Web Services account is opted into organization
   /// sharing and discovery integration features.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [discoveryIntegrationStatus] :
   /// The status of discovery support settings.
@@ -2336,12 +2335,12 @@ class WellArchitected {
 
   /// Update integration features.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [integratingService] :
   /// Which integrated service to update.
@@ -2365,12 +2364,12 @@ class WellArchitected {
 
   /// Update lens review for a particular workload.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [jiraConfiguration] :
   /// Configuration of the Jira integration.
@@ -2398,12 +2397,12 @@ class WellArchitected {
 
   /// Update a profile.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [profileArn] :
   /// The profile ARN.
@@ -2433,12 +2432,12 @@ class WellArchitected {
 
   /// Update a review template.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [templateArn] :
   /// The review template ARN.
@@ -2482,12 +2481,12 @@ class WellArchitected {
 
   /// Update a review template answer.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [templateArn] :
   /// The review template ARN.
@@ -2526,12 +2525,12 @@ class WellArchitected {
 
   /// Update a lens review associated with a review template.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [templateArn] :
   /// The review template ARN.
@@ -2561,12 +2560,12 @@ class WellArchitected {
   /// documentation implied that a workload ARN must be specified.
   /// </note>
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
-  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [shareInvitationId] :
   /// The ID assigned to the share invitation.
@@ -2588,12 +2587,12 @@ class WellArchitected {
 
   /// Update an existing workload.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [applications] :
   /// List of AppRegistry application ARNs to associate to the workload.
@@ -2665,12 +2664,12 @@ class WellArchitected {
 
   /// Update a workload share.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
-  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<UpdateWorkloadShareOutput> updateWorkloadShare({
     required PermissionType permissionType,
     required String shareId,
@@ -2691,13 +2690,13 @@ class WellArchitected {
 
   /// Upgrade lens review for a particular workload.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<void> upgradeLensReview({
     required String lensAlias,
     required String milestoneName,
@@ -2719,13 +2718,13 @@ class WellArchitected {
 
   /// Upgrade a profile.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [profileArn] :
   /// The profile ARN.
@@ -2750,12 +2749,12 @@ class WellArchitected {
 
   /// Upgrade the lens review of a review template.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [templateArn] :
   /// The ARN of the review template.
@@ -2774,1100 +2773,6 @@ class WellArchitected {
           '/reviewTemplates/${Uri.encodeComponent(templateArn)}/lensReviews/${Uri.encodeComponent(lensAlias)}/upgrade',
       exceptionFnMap: _exceptionFns,
     );
-  }
-}
-
-/// Account-level: Input for the Jira configuration.
-class AccountJiraConfigurationInput {
-  /// Account-level: Configuration status of the Jira integration.
-  final IntegrationStatusInput? integrationStatus;
-
-  /// Account-level: Jira issue management status.
-  final AccountJiraIssueManagementStatus? issueManagementStatus;
-
-  /// Account-level: Jira issue management type.
-  final IssueManagementType? issueManagementType;
-
-  /// Account-level: Jira project key to sync workloads to.
-  final String? jiraProjectKey;
-
-  AccountJiraConfigurationInput({
-    this.integrationStatus,
-    this.issueManagementStatus,
-    this.issueManagementType,
-    this.jiraProjectKey,
-  });
-
-  Map<String, dynamic> toJson() {
-    final integrationStatus = this.integrationStatus;
-    final issueManagementStatus = this.issueManagementStatus;
-    final issueManagementType = this.issueManagementType;
-    final jiraProjectKey = this.jiraProjectKey;
-    return {
-      if (integrationStatus != null)
-        'IntegrationStatus': integrationStatus.value,
-      if (issueManagementStatus != null)
-        'IssueManagementStatus': issueManagementStatus.value,
-      if (issueManagementType != null)
-        'IssueManagementType': issueManagementType.value,
-      if (jiraProjectKey != null) 'JiraProjectKey': jiraProjectKey,
-    };
-  }
-}
-
-/// Account-level: Output configuration of the Jira integration.
-class AccountJiraConfigurationOutput {
-  /// Account-level: Configuration status of the Jira integration.
-  final IntegrationStatus? integrationStatus;
-
-  /// Account-level: Jira issue management status.
-  final AccountJiraIssueManagementStatus? issueManagementStatus;
-
-  /// Account-level: Jira issue management type.
-  final IssueManagementType? issueManagementType;
-
-  /// Account-level: Jira project key to sync workloads to.
-  final String? jiraProjectKey;
-
-  /// Account-level: Status message on configuration of the Jira integration.
-  final String? statusMessage;
-
-  /// Account-level: Jira subdomain URL.
-  final String? subdomain;
-
-  AccountJiraConfigurationOutput({
-    this.integrationStatus,
-    this.issueManagementStatus,
-    this.issueManagementType,
-    this.jiraProjectKey,
-    this.statusMessage,
-    this.subdomain,
-  });
-
-  factory AccountJiraConfigurationOutput.fromJson(Map<String, dynamic> json) {
-    return AccountJiraConfigurationOutput(
-      integrationStatus: (json['IntegrationStatus'] as String?)
-          ?.let(IntegrationStatus.fromString),
-      issueManagementStatus: (json['IssueManagementStatus'] as String?)
-          ?.let(AccountJiraIssueManagementStatus.fromString),
-      issueManagementType: (json['IssueManagementType'] as String?)
-          ?.let(IssueManagementType.fromString),
-      jiraProjectKey: json['JiraProjectKey'] as String?,
-      statusMessage: json['StatusMessage'] as String?,
-      subdomain: json['Subdomain'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final integrationStatus = this.integrationStatus;
-    final issueManagementStatus = this.issueManagementStatus;
-    final issueManagementType = this.issueManagementType;
-    final jiraProjectKey = this.jiraProjectKey;
-    final statusMessage = this.statusMessage;
-    final subdomain = this.subdomain;
-    return {
-      if (integrationStatus != null)
-        'IntegrationStatus': integrationStatus.value,
-      if (issueManagementStatus != null)
-        'IssueManagementStatus': issueManagementStatus.value,
-      if (issueManagementType != null)
-        'IssueManagementType': issueManagementType.value,
-      if (jiraProjectKey != null) 'JiraProjectKey': jiraProjectKey,
-      if (statusMessage != null) 'StatusMessage': statusMessage,
-      if (subdomain != null) 'Subdomain': subdomain,
-    };
-  }
-}
-
-class AccountJiraIssueManagementStatus {
-  static const enabled = AccountJiraIssueManagementStatus._('ENABLED');
-  static const disabled = AccountJiraIssueManagementStatus._('DISABLED');
-
-  final String value;
-
-  const AccountJiraIssueManagementStatus._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static AccountJiraIssueManagementStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AccountJiraIssueManagementStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AccountJiraIssueManagementStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class AdditionalResourceType {
-  static const helpfulResource = AdditionalResourceType._('HELPFUL_RESOURCE');
-  static const improvementPlan = AdditionalResourceType._('IMPROVEMENT_PLAN');
-
-  final String value;
-
-  const AdditionalResourceType._(this.value);
-
-  static const values = [helpfulResource, improvementPlan];
-
-  static AdditionalResourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AdditionalResourceType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AdditionalResourceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The choice level additional resources for a custom lens.
-///
-/// This field does not apply to Amazon Web Services official lenses.
-class AdditionalResources {
-  /// The URLs for additional resources, either helpful resources or improvement
-  /// plans, for a custom lens. Up to five additional URLs can be specified.
-  final List<ChoiceContent>? content;
-
-  /// Type of additional resource for a custom lens.
-  final AdditionalResourceType? type;
-
-  AdditionalResources({
-    this.content,
-    this.type,
-  });
-
-  factory AdditionalResources.fromJson(Map<String, dynamic> json) {
-    return AdditionalResources(
-      content: (json['Content'] as List?)
-          ?.nonNulls
-          .map((e) => ChoiceContent.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      type: (json['Type'] as String?)?.let(AdditionalResourceType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final content = this.content;
-    final type = this.type;
-    return {
-      if (content != null) 'Content': content,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-/// An answer of the question.
-class Answer {
-  /// A list of selected choices to a question in your workload.
-  final List<ChoiceAnswer>? choiceAnswers;
-  final List<Choice>? choices;
-
-  /// The helpful resource text to be displayed for a custom lens.
-  ///
-  /// This field does not apply to Amazon Web Services official lenses.
-  final String? helpfulResourceDisplayText;
-  final String? helpfulResourceUrl;
-  final String? improvementPlanUrl;
-  final bool? isApplicable;
-
-  /// Configuration of the Jira integration.
-  final JiraConfiguration? jiraConfiguration;
-  final String? notes;
-  final String? pillarId;
-  final String? questionDescription;
-  final String? questionId;
-  final String? questionTitle;
-
-  /// The reason why the question is not applicable to your workload.
-  final AnswerReason? reason;
-  final Risk? risk;
-  final List<String>? selectedChoices;
-
-  Answer({
-    this.choiceAnswers,
-    this.choices,
-    this.helpfulResourceDisplayText,
-    this.helpfulResourceUrl,
-    this.improvementPlanUrl,
-    this.isApplicable,
-    this.jiraConfiguration,
-    this.notes,
-    this.pillarId,
-    this.questionDescription,
-    this.questionId,
-    this.questionTitle,
-    this.reason,
-    this.risk,
-    this.selectedChoices,
-  });
-
-  factory Answer.fromJson(Map<String, dynamic> json) {
-    return Answer(
-      choiceAnswers: (json['ChoiceAnswers'] as List?)
-          ?.nonNulls
-          .map((e) => ChoiceAnswer.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      choices: (json['Choices'] as List?)
-          ?.nonNulls
-          .map((e) => Choice.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      helpfulResourceDisplayText: json['HelpfulResourceDisplayText'] as String?,
-      helpfulResourceUrl: json['HelpfulResourceUrl'] as String?,
-      improvementPlanUrl: json['ImprovementPlanUrl'] as String?,
-      isApplicable: json['IsApplicable'] as bool?,
-      jiraConfiguration: json['JiraConfiguration'] != null
-          ? JiraConfiguration.fromJson(
-              json['JiraConfiguration'] as Map<String, dynamic>)
-          : null,
-      notes: json['Notes'] as String?,
-      pillarId: json['PillarId'] as String?,
-      questionDescription: json['QuestionDescription'] as String?,
-      questionId: json['QuestionId'] as String?,
-      questionTitle: json['QuestionTitle'] as String?,
-      reason: (json['Reason'] as String?)?.let(AnswerReason.fromString),
-      risk: (json['Risk'] as String?)?.let(Risk.fromString),
-      selectedChoices: (json['SelectedChoices'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final choiceAnswers = this.choiceAnswers;
-    final choices = this.choices;
-    final helpfulResourceDisplayText = this.helpfulResourceDisplayText;
-    final helpfulResourceUrl = this.helpfulResourceUrl;
-    final improvementPlanUrl = this.improvementPlanUrl;
-    final isApplicable = this.isApplicable;
-    final jiraConfiguration = this.jiraConfiguration;
-    final notes = this.notes;
-    final pillarId = this.pillarId;
-    final questionDescription = this.questionDescription;
-    final questionId = this.questionId;
-    final questionTitle = this.questionTitle;
-    final reason = this.reason;
-    final risk = this.risk;
-    final selectedChoices = this.selectedChoices;
-    return {
-      if (choiceAnswers != null) 'ChoiceAnswers': choiceAnswers,
-      if (choices != null) 'Choices': choices,
-      if (helpfulResourceDisplayText != null)
-        'HelpfulResourceDisplayText': helpfulResourceDisplayText,
-      if (helpfulResourceUrl != null) 'HelpfulResourceUrl': helpfulResourceUrl,
-      if (improvementPlanUrl != null) 'ImprovementPlanUrl': improvementPlanUrl,
-      if (isApplicable != null) 'IsApplicable': isApplicable,
-      if (jiraConfiguration != null) 'JiraConfiguration': jiraConfiguration,
-      if (notes != null) 'Notes': notes,
-      if (pillarId != null) 'PillarId': pillarId,
-      if (questionDescription != null)
-        'QuestionDescription': questionDescription,
-      if (questionId != null) 'QuestionId': questionId,
-      if (questionTitle != null) 'QuestionTitle': questionTitle,
-      if (reason != null) 'Reason': reason.value,
-      if (risk != null) 'Risk': risk.value,
-      if (selectedChoices != null) 'SelectedChoices': selectedChoices,
-    };
-  }
-}
-
-class AnswerReason {
-  static const outOfScope = AnswerReason._('OUT_OF_SCOPE');
-  static const businessPriorities = AnswerReason._('BUSINESS_PRIORITIES');
-  static const architectureConstraints =
-      AnswerReason._('ARCHITECTURE_CONSTRAINTS');
-  static const other = AnswerReason._('OTHER');
-  static const none = AnswerReason._('NONE');
-
-  final String value;
-
-  const AnswerReason._(this.value);
-
-  static const values = [
-    outOfScope,
-    businessPriorities,
-    architectureConstraints,
-    other,
-    none
-  ];
-
-  static AnswerReason fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => AnswerReason._(value));
-
-  @override
-  bool operator ==(other) => other is AnswerReason && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An answer summary of a lens review in a workload.
-class AnswerSummary {
-  /// A list of selected choices to a question in your workload.
-  final List<ChoiceAnswerSummary>? choiceAnswerSummaries;
-  final List<Choice>? choices;
-  final bool? isApplicable;
-
-  /// Configuration of the Jira integration.
-  final JiraConfiguration? jiraConfiguration;
-  final String? pillarId;
-  final String? questionId;
-  final String? questionTitle;
-
-  /// The type of the question.
-  final QuestionType? questionType;
-
-  /// The reason why a choice is non-applicable to a question in your workload.
-  final AnswerReason? reason;
-  final Risk? risk;
-  final List<String>? selectedChoices;
-
-  AnswerSummary({
-    this.choiceAnswerSummaries,
-    this.choices,
-    this.isApplicable,
-    this.jiraConfiguration,
-    this.pillarId,
-    this.questionId,
-    this.questionTitle,
-    this.questionType,
-    this.reason,
-    this.risk,
-    this.selectedChoices,
-  });
-
-  factory AnswerSummary.fromJson(Map<String, dynamic> json) {
-    return AnswerSummary(
-      choiceAnswerSummaries: (json['ChoiceAnswerSummaries'] as List?)
-          ?.nonNulls
-          .map((e) => ChoiceAnswerSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      choices: (json['Choices'] as List?)
-          ?.nonNulls
-          .map((e) => Choice.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      isApplicable: json['IsApplicable'] as bool?,
-      jiraConfiguration: json['JiraConfiguration'] != null
-          ? JiraConfiguration.fromJson(
-              json['JiraConfiguration'] as Map<String, dynamic>)
-          : null,
-      pillarId: json['PillarId'] as String?,
-      questionId: json['QuestionId'] as String?,
-      questionTitle: json['QuestionTitle'] as String?,
-      questionType:
-          (json['QuestionType'] as String?)?.let(QuestionType.fromString),
-      reason: (json['Reason'] as String?)?.let(AnswerReason.fromString),
-      risk: (json['Risk'] as String?)?.let(Risk.fromString),
-      selectedChoices: (json['SelectedChoices'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final choiceAnswerSummaries = this.choiceAnswerSummaries;
-    final choices = this.choices;
-    final isApplicable = this.isApplicable;
-    final jiraConfiguration = this.jiraConfiguration;
-    final pillarId = this.pillarId;
-    final questionId = this.questionId;
-    final questionTitle = this.questionTitle;
-    final questionType = this.questionType;
-    final reason = this.reason;
-    final risk = this.risk;
-    final selectedChoices = this.selectedChoices;
-    return {
-      if (choiceAnswerSummaries != null)
-        'ChoiceAnswerSummaries': choiceAnswerSummaries,
-      if (choices != null) 'Choices': choices,
-      if (isApplicable != null) 'IsApplicable': isApplicable,
-      if (jiraConfiguration != null) 'JiraConfiguration': jiraConfiguration,
-      if (pillarId != null) 'PillarId': pillarId,
-      if (questionId != null) 'QuestionId': questionId,
-      if (questionTitle != null) 'QuestionTitle': questionTitle,
-      if (questionType != null) 'QuestionType': questionType.value,
-      if (reason != null) 'Reason': reason.value,
-      if (risk != null) 'Risk': risk.value,
-      if (selectedChoices != null) 'SelectedChoices': selectedChoices,
-    };
-  }
-}
-
-/// A best practice, or question choice, that has been identified as a risk in
-/// this question.
-class BestPractice {
-  final String? choiceId;
-  final String? choiceTitle;
-
-  BestPractice({
-    this.choiceId,
-    this.choiceTitle,
-  });
-
-  factory BestPractice.fromJson(Map<String, dynamic> json) {
-    return BestPractice(
-      choiceId: json['ChoiceId'] as String?,
-      choiceTitle: json['ChoiceTitle'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final choiceId = this.choiceId;
-    final choiceTitle = this.choiceTitle;
-    return {
-      if (choiceId != null) 'ChoiceId': choiceId,
-      if (choiceTitle != null) 'ChoiceTitle': choiceTitle,
-    };
-  }
-}
-
-/// Account details for a Well-Architected best practice in relation to Trusted
-/// Advisor checks.
-class CheckDetail {
-  final String? accountId;
-  final String? choiceId;
-
-  /// Trusted Advisor check description.
-  final String? description;
-
-  /// Count of flagged resources associated to the check.
-  final int? flaggedResources;
-
-  /// Trusted Advisor check ID.
-  final String? id;
-
-  /// Well-Architected Lens ARN associated to the check.
-  final String? lensArn;
-
-  /// Trusted Advisor check name.
-  final String? name;
-  final String? pillarId;
-
-  /// Provider of the check related to the best practice.
-  final CheckProvider? provider;
-  final String? questionId;
-
-  /// Reason associated to the check.
-  final CheckFailureReason? reason;
-
-  /// Status associated to the check.
-  final CheckStatus? status;
-  final DateTime? updatedAt;
-
-  CheckDetail({
-    this.accountId,
-    this.choiceId,
-    this.description,
-    this.flaggedResources,
-    this.id,
-    this.lensArn,
-    this.name,
-    this.pillarId,
-    this.provider,
-    this.questionId,
-    this.reason,
-    this.status,
-    this.updatedAt,
-  });
-
-  factory CheckDetail.fromJson(Map<String, dynamic> json) {
-    return CheckDetail(
-      accountId: json['AccountId'] as String?,
-      choiceId: json['ChoiceId'] as String?,
-      description: json['Description'] as String?,
-      flaggedResources: json['FlaggedResources'] as int?,
-      id: json['Id'] as String?,
-      lensArn: json['LensArn'] as String?,
-      name: json['Name'] as String?,
-      pillarId: json['PillarId'] as String?,
-      provider: (json['Provider'] as String?)?.let(CheckProvider.fromString),
-      questionId: json['QuestionId'] as String?,
-      reason: (json['Reason'] as String?)?.let(CheckFailureReason.fromString),
-      status: (json['Status'] as String?)?.let(CheckStatus.fromString),
-      updatedAt: timeStampFromJson(json['UpdatedAt']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final choiceId = this.choiceId;
-    final description = this.description;
-    final flaggedResources = this.flaggedResources;
-    final id = this.id;
-    final lensArn = this.lensArn;
-    final name = this.name;
-    final pillarId = this.pillarId;
-    final provider = this.provider;
-    final questionId = this.questionId;
-    final reason = this.reason;
-    final status = this.status;
-    final updatedAt = this.updatedAt;
-    return {
-      if (accountId != null) 'AccountId': accountId,
-      if (choiceId != null) 'ChoiceId': choiceId,
-      if (description != null) 'Description': description,
-      if (flaggedResources != null) 'FlaggedResources': flaggedResources,
-      if (id != null) 'Id': id,
-      if (lensArn != null) 'LensArn': lensArn,
-      if (name != null) 'Name': name,
-      if (pillarId != null) 'PillarId': pillarId,
-      if (provider != null) 'Provider': provider.value,
-      if (questionId != null) 'QuestionId': questionId,
-      if (reason != null) 'Reason': reason.value,
-      if (status != null) 'Status': status.value,
-      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
-    };
-  }
-}
-
-class CheckFailureReason {
-  static const assumeRoleError = CheckFailureReason._('ASSUME_ROLE_ERROR');
-  static const accessDenied = CheckFailureReason._('ACCESS_DENIED');
-  static const unknownError = CheckFailureReason._('UNKNOWN_ERROR');
-  static const premiumSupportRequired =
-      CheckFailureReason._('PREMIUM_SUPPORT_REQUIRED');
-
-  final String value;
-
-  const CheckFailureReason._(this.value);
-
-  static const values = [
-    assumeRoleError,
-    accessDenied,
-    unknownError,
-    premiumSupportRequired
-  ];
-
-  static CheckFailureReason fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CheckFailureReason._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CheckFailureReason && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class CheckProvider {
-  static const trustedAdvisor = CheckProvider._('TRUSTED_ADVISOR');
-
-  final String value;
-
-  const CheckProvider._(this.value);
-
-  static const values = [trustedAdvisor];
-
-  static CheckProvider fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CheckProvider._(value));
-
-  @override
-  bool operator ==(other) => other is CheckProvider && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class CheckStatus {
-  static const okay = CheckStatus._('OKAY');
-  static const warning = CheckStatus._('WARNING');
-  static const error = CheckStatus._('ERROR');
-  static const notAvailable = CheckStatus._('NOT_AVAILABLE');
-  static const fetchFailed = CheckStatus._('FETCH_FAILED');
-
-  final String value;
-
-  const CheckStatus._(this.value);
-
-  static const values = [okay, warning, error, notAvailable, fetchFailed];
-
-  static CheckStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => CheckStatus._(value));
-
-  @override
-  bool operator ==(other) => other is CheckStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Trusted Advisor check summary.
-class CheckSummary {
-  /// Account summary associated to the check.
-  final Map<CheckStatus, int>? accountSummary;
-  final String? choiceId;
-
-  /// Trusted Advisor check description.
-  final String? description;
-
-  /// Trusted Advisor check ID.
-  final String? id;
-
-  /// Well-Architected Lens ARN associated to the check.
-  final String? lensArn;
-
-  /// Trusted Advisor check name.
-  final String? name;
-  final String? pillarId;
-
-  /// Provider of the check related to the best practice.
-  final CheckProvider? provider;
-  final String? questionId;
-
-  /// Status associated to the check.
-  final CheckStatus? status;
-  final DateTime? updatedAt;
-
-  CheckSummary({
-    this.accountSummary,
-    this.choiceId,
-    this.description,
-    this.id,
-    this.lensArn,
-    this.name,
-    this.pillarId,
-    this.provider,
-    this.questionId,
-    this.status,
-    this.updatedAt,
-  });
-
-  factory CheckSummary.fromJson(Map<String, dynamic> json) {
-    return CheckSummary(
-      accountSummary: (json['AccountSummary'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(CheckStatus.fromString(k), e as int)),
-      choiceId: json['ChoiceId'] as String?,
-      description: json['Description'] as String?,
-      id: json['Id'] as String?,
-      lensArn: json['LensArn'] as String?,
-      name: json['Name'] as String?,
-      pillarId: json['PillarId'] as String?,
-      provider: (json['Provider'] as String?)?.let(CheckProvider.fromString),
-      questionId: json['QuestionId'] as String?,
-      status: (json['Status'] as String?)?.let(CheckStatus.fromString),
-      updatedAt: timeStampFromJson(json['UpdatedAt']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountSummary = this.accountSummary;
-    final choiceId = this.choiceId;
-    final description = this.description;
-    final id = this.id;
-    final lensArn = this.lensArn;
-    final name = this.name;
-    final pillarId = this.pillarId;
-    final provider = this.provider;
-    final questionId = this.questionId;
-    final status = this.status;
-    final updatedAt = this.updatedAt;
-    return {
-      if (accountSummary != null)
-        'AccountSummary': accountSummary.map((k, e) => MapEntry(k.value, e)),
-      if (choiceId != null) 'ChoiceId': choiceId,
-      if (description != null) 'Description': description,
-      if (id != null) 'Id': id,
-      if (lensArn != null) 'LensArn': lensArn,
-      if (name != null) 'Name': name,
-      if (pillarId != null) 'PillarId': pillarId,
-      if (provider != null) 'Provider': provider.value,
-      if (questionId != null) 'QuestionId': questionId,
-      if (status != null) 'Status': status.value,
-      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
-    };
-  }
-}
-
-/// A choice available to answer question.
-class Choice {
-  /// The additional resources for a choice in a custom lens.
-  ///
-  /// A choice can have up to two additional resources: one of type
-  /// <code>HELPFUL_RESOURCE</code>, one of type <code>IMPROVEMENT_PLAN</code>, or
-  /// both.
-  final List<AdditionalResources>? additionalResources;
-  final String? choiceId;
-  final String? description;
-
-  /// The helpful resource (both text and URL) for a particular choice.
-  ///
-  /// This field only applies to custom lenses. Each choice can have only one
-  /// helpful resource.
-  final ChoiceContent? helpfulResource;
-
-  /// The improvement plan (both text and URL) for a particular choice.
-  ///
-  /// This field only applies to custom lenses. Each choice can have only one
-  /// improvement plan.
-  final ChoiceContent? improvementPlan;
-  final String? title;
-
-  Choice({
-    this.additionalResources,
-    this.choiceId,
-    this.description,
-    this.helpfulResource,
-    this.improvementPlan,
-    this.title,
-  });
-
-  factory Choice.fromJson(Map<String, dynamic> json) {
-    return Choice(
-      additionalResources: (json['AdditionalResources'] as List?)
-          ?.nonNulls
-          .map((e) => AdditionalResources.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      choiceId: json['ChoiceId'] as String?,
-      description: json['Description'] as String?,
-      helpfulResource: json['HelpfulResource'] != null
-          ? ChoiceContent.fromJson(
-              json['HelpfulResource'] as Map<String, dynamic>)
-          : null,
-      improvementPlan: json['ImprovementPlan'] != null
-          ? ChoiceContent.fromJson(
-              json['ImprovementPlan'] as Map<String, dynamic>)
-          : null,
-      title: json['Title'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final additionalResources = this.additionalResources;
-    final choiceId = this.choiceId;
-    final description = this.description;
-    final helpfulResource = this.helpfulResource;
-    final improvementPlan = this.improvementPlan;
-    final title = this.title;
-    return {
-      if (additionalResources != null)
-        'AdditionalResources': additionalResources,
-      if (choiceId != null) 'ChoiceId': choiceId,
-      if (description != null) 'Description': description,
-      if (helpfulResource != null) 'HelpfulResource': helpfulResource,
-      if (improvementPlan != null) 'ImprovementPlan': improvementPlan,
-      if (title != null) 'Title': title,
-    };
-  }
-}
-
-/// A choice that has been answered on a question in your workload.
-class ChoiceAnswer {
-  final String? choiceId;
-
-  /// The notes associated with a choice.
-  final String? notes;
-
-  /// The reason why a choice is non-applicable to a question in your workload.
-  final ChoiceReason? reason;
-
-  /// The status of a choice.
-  final ChoiceStatus? status;
-
-  ChoiceAnswer({
-    this.choiceId,
-    this.notes,
-    this.reason,
-    this.status,
-  });
-
-  factory ChoiceAnswer.fromJson(Map<String, dynamic> json) {
-    return ChoiceAnswer(
-      choiceId: json['ChoiceId'] as String?,
-      notes: json['Notes'] as String?,
-      reason: (json['Reason'] as String?)?.let(ChoiceReason.fromString),
-      status: (json['Status'] as String?)?.let(ChoiceStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final choiceId = this.choiceId;
-    final notes = this.notes;
-    final reason = this.reason;
-    final status = this.status;
-    return {
-      if (choiceId != null) 'ChoiceId': choiceId,
-      if (notes != null) 'Notes': notes,
-      if (reason != null) 'Reason': reason.value,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-/// A choice summary that has been answered on a question in your workload.
-class ChoiceAnswerSummary {
-  final String? choiceId;
-
-  /// The reason why a choice is non-applicable to a question in your workload.
-  final ChoiceReason? reason;
-
-  /// The status of a choice.
-  final ChoiceStatus? status;
-
-  ChoiceAnswerSummary({
-    this.choiceId,
-    this.reason,
-    this.status,
-  });
-
-  factory ChoiceAnswerSummary.fromJson(Map<String, dynamic> json) {
-    return ChoiceAnswerSummary(
-      choiceId: json['ChoiceId'] as String?,
-      reason: (json['Reason'] as String?)?.let(ChoiceReason.fromString),
-      status: (json['Status'] as String?)?.let(ChoiceStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final choiceId = this.choiceId;
-    final reason = this.reason;
-    final status = this.status;
-    return {
-      if (choiceId != null) 'ChoiceId': choiceId,
-      if (reason != null) 'Reason': reason.value,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-/// The choice content.
-class ChoiceContent {
-  /// The display text for the choice content.
-  final String? displayText;
-
-  /// The URL for the choice content.
-  final String? url;
-
-  ChoiceContent({
-    this.displayText,
-    this.url,
-  });
-
-  factory ChoiceContent.fromJson(Map<String, dynamic> json) {
-    return ChoiceContent(
-      displayText: json['DisplayText'] as String?,
-      url: json['Url'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final displayText = this.displayText;
-    final url = this.url;
-    return {
-      if (displayText != null) 'DisplayText': displayText,
-      if (url != null) 'Url': url,
-    };
-  }
-}
-
-/// The choice level improvement plan.
-class ChoiceImprovementPlan {
-  final String? choiceId;
-
-  /// The display text for the improvement plan.
-  final String? displayText;
-  final String? improvementPlanUrl;
-
-  ChoiceImprovementPlan({
-    this.choiceId,
-    this.displayText,
-    this.improvementPlanUrl,
-  });
-
-  factory ChoiceImprovementPlan.fromJson(Map<String, dynamic> json) {
-    return ChoiceImprovementPlan(
-      choiceId: json['ChoiceId'] as String?,
-      displayText: json['DisplayText'] as String?,
-      improvementPlanUrl: json['ImprovementPlanUrl'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final choiceId = this.choiceId;
-    final displayText = this.displayText;
-    final improvementPlanUrl = this.improvementPlanUrl;
-    return {
-      if (choiceId != null) 'ChoiceId': choiceId,
-      if (displayText != null) 'DisplayText': displayText,
-      if (improvementPlanUrl != null) 'ImprovementPlanUrl': improvementPlanUrl,
-    };
-  }
-}
-
-class ChoiceReason {
-  static const outOfScope = ChoiceReason._('OUT_OF_SCOPE');
-  static const businessPriorities = ChoiceReason._('BUSINESS_PRIORITIES');
-  static const architectureConstraints =
-      ChoiceReason._('ARCHITECTURE_CONSTRAINTS');
-  static const other = ChoiceReason._('OTHER');
-  static const none = ChoiceReason._('NONE');
-
-  final String value;
-
-  const ChoiceReason._(this.value);
-
-  static const values = [
-    outOfScope,
-    businessPriorities,
-    architectureConstraints,
-    other,
-    none
-  ];
-
-  static ChoiceReason fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ChoiceReason._(value));
-
-  @override
-  bool operator ==(other) => other is ChoiceReason && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ChoiceStatus {
-  static const selected = ChoiceStatus._('SELECTED');
-  static const notApplicable = ChoiceStatus._('NOT_APPLICABLE');
-  static const unselected = ChoiceStatus._('UNSELECTED');
-
-  final String value;
-
-  const ChoiceStatus._(this.value);
-
-  static const values = [selected, notApplicable, unselected];
-
-  static ChoiceStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ChoiceStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ChoiceStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A list of choices to be updated.
-class ChoiceUpdate {
-  /// The status of a choice.
-  final ChoiceStatus status;
-
-  /// The notes associated with a choice.
-  final String? notes;
-
-  /// The reason why a choice is non-applicable to a question in your workload.
-  final ChoiceReason? reason;
-
-  ChoiceUpdate({
-    required this.status,
-    this.notes,
-    this.reason,
-  });
-
-  Map<String, dynamic> toJson() {
-    final status = this.status;
-    final notes = this.notes;
-    final reason = this.reason;
-    return {
-      'Status': status.value,
-      if (notes != null) 'Notes': notes,
-      if (reason != null) 'Reason': reason.value,
-    };
-  }
-}
-
-/// A metric that contributes to the consolidated report.
-class ConsolidatedReportMetric {
-  /// The metrics for the lenses in the workload.
-  final List<LensMetric>? lenses;
-
-  /// The total number of lenses applied to the workload.
-  final int? lensesAppliedCount;
-
-  /// The metric type of a metric in the consolidated report. Currently only
-  /// WORKLOAD metric types are supported.
-  final MetricType? metricType;
-  final Map<Risk, int>? riskCounts;
-  final DateTime? updatedAt;
-  final String? workloadArn;
-  final String? workloadId;
-  final String? workloadName;
-
-  ConsolidatedReportMetric({
-    this.lenses,
-    this.lensesAppliedCount,
-    this.metricType,
-    this.riskCounts,
-    this.updatedAt,
-    this.workloadArn,
-    this.workloadId,
-    this.workloadName,
-  });
-
-  factory ConsolidatedReportMetric.fromJson(Map<String, dynamic> json) {
-    return ConsolidatedReportMetric(
-      lenses: (json['Lenses'] as List?)
-          ?.nonNulls
-          .map((e) => LensMetric.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      lensesAppliedCount: json['LensesAppliedCount'] as int?,
-      metricType: (json['MetricType'] as String?)?.let(MetricType.fromString),
-      riskCounts: (json['RiskCounts'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(Risk.fromString(k), e as int)),
-      updatedAt: timeStampFromJson(json['UpdatedAt']),
-      workloadArn: json['WorkloadArn'] as String?,
-      workloadId: json['WorkloadId'] as String?,
-      workloadName: json['WorkloadName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lenses = this.lenses;
-    final lensesAppliedCount = this.lensesAppliedCount;
-    final metricType = this.metricType;
-    final riskCounts = this.riskCounts;
-    final updatedAt = this.updatedAt;
-    final workloadArn = this.workloadArn;
-    final workloadId = this.workloadId;
-    final workloadName = this.workloadName;
-    return {
-      if (lenses != null) 'Lenses': lenses,
-      if (lensesAppliedCount != null) 'LensesAppliedCount': lensesAppliedCount,
-      if (metricType != null) 'MetricType': metricType.value,
-      if (riskCounts != null)
-        'RiskCounts': riskCounts.map((k, e) => MapEntry(k.value, e)),
-      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
-      if (workloadArn != null) 'WorkloadArn': workloadArn,
-      if (workloadId != null) 'WorkloadId': workloadId,
-      if (workloadName != null) 'WorkloadName': workloadName,
-    };
   }
 }
 
@@ -4106,80 +3011,6 @@ class CreateWorkloadShareOutput {
       if (workloadId != null) 'WorkloadId': workloadId,
     };
   }
-}
-
-class DefinitionType {
-  static const workloadMetadata = DefinitionType._('WORKLOAD_METADATA');
-  static const appRegistry = DefinitionType._('APP_REGISTRY');
-
-  final String value;
-
-  const DefinitionType._(this.value);
-
-  static const values = [workloadMetadata, appRegistry];
-
-  static DefinitionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DefinitionType._(value));
-
-  @override
-  bool operator ==(other) => other is DefinitionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DifferenceStatus {
-  static const updated = DifferenceStatus._('UPDATED');
-  static const $new = DifferenceStatus._('NEW');
-  static const deleted = DifferenceStatus._('DELETED');
-
-  final String value;
-
-  const DifferenceStatus._(this.value);
-
-  static const values = [updated, $new, deleted];
-
-  static DifferenceStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DifferenceStatus._(value));
-
-  @override
-  bool operator ==(other) => other is DifferenceStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DiscoveryIntegrationStatus {
-  static const enabled = DiscoveryIntegrationStatus._('ENABLED');
-  static const disabled = DiscoveryIntegrationStatus._('DISABLED');
-
-  final String value;
-
-  const DiscoveryIntegrationStatus._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static DiscoveryIntegrationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DiscoveryIntegrationStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DiscoveryIntegrationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class ExportLensOutput {
@@ -4560,6 +3391,31 @@ class GetProfileTemplateOutput {
   }
 }
 
+class GetReviewTemplateOutput {
+  /// The review template.
+  final ReviewTemplate? reviewTemplate;
+
+  GetReviewTemplateOutput({
+    this.reviewTemplate,
+  });
+
+  factory GetReviewTemplateOutput.fromJson(Map<String, dynamic> json) {
+    return GetReviewTemplateOutput(
+      reviewTemplate: json['ReviewTemplate'] != null
+          ? ReviewTemplate.fromJson(
+              json['ReviewTemplate'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reviewTemplate = this.reviewTemplate;
+    return {
+      if (reviewTemplate != null) 'ReviewTemplate': reviewTemplate,
+    };
+  }
+}
+
 class GetReviewTemplateAnswerOutput {
   /// An answer of the question.
   final ReviewTemplateAnswer? answer;
@@ -4630,31 +3486,6 @@ class GetReviewTemplateLensReviewOutput {
   }
 }
 
-class GetReviewTemplateOutput {
-  /// The review template.
-  final ReviewTemplate? reviewTemplate;
-
-  GetReviewTemplateOutput({
-    this.reviewTemplate,
-  });
-
-  factory GetReviewTemplateOutput.fromJson(Map<String, dynamic> json) {
-    return GetReviewTemplateOutput(
-      reviewTemplate: json['ReviewTemplate'] != null
-          ? ReviewTemplate.fromJson(
-              json['ReviewTemplate'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final reviewTemplate = this.reviewTemplate;
-    return {
-      if (reviewTemplate != null) 'ReviewTemplate': reviewTemplate,
-    };
-  }
-}
-
 /// Output of a get workload call.
 class GetWorkloadOutput {
   final Workload? workload;
@@ -4704,822 +3535,6 @@ class ImportLensOutput {
     return {
       if (lensArn != null) 'LensArn': lensArn,
       if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-class ImportLensStatus {
-  static const inProgress = ImportLensStatus._('IN_PROGRESS');
-  static const complete = ImportLensStatus._('COMPLETE');
-  static const error = ImportLensStatus._('ERROR');
-
-  final String value;
-
-  const ImportLensStatus._(this.value);
-
-  static const values = [inProgress, complete, error];
-
-  static ImportLensStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ImportLensStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ImportLensStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An improvement summary of a lens review in a workload.
-class ImprovementSummary {
-  final String? improvementPlanUrl;
-
-  /// The improvement plan details.
-  final List<ChoiceImprovementPlan>? improvementPlans;
-
-  /// Configuration of the Jira integration.
-  final JiraConfiguration? jiraConfiguration;
-  final String? pillarId;
-  final String? questionId;
-  final String? questionTitle;
-  final Risk? risk;
-
-  ImprovementSummary({
-    this.improvementPlanUrl,
-    this.improvementPlans,
-    this.jiraConfiguration,
-    this.pillarId,
-    this.questionId,
-    this.questionTitle,
-    this.risk,
-  });
-
-  factory ImprovementSummary.fromJson(Map<String, dynamic> json) {
-    return ImprovementSummary(
-      improvementPlanUrl: json['ImprovementPlanUrl'] as String?,
-      improvementPlans: (json['ImprovementPlans'] as List?)
-          ?.nonNulls
-          .map((e) => ChoiceImprovementPlan.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      jiraConfiguration: json['JiraConfiguration'] != null
-          ? JiraConfiguration.fromJson(
-              json['JiraConfiguration'] as Map<String, dynamic>)
-          : null,
-      pillarId: json['PillarId'] as String?,
-      questionId: json['QuestionId'] as String?,
-      questionTitle: json['QuestionTitle'] as String?,
-      risk: (json['Risk'] as String?)?.let(Risk.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final improvementPlanUrl = this.improvementPlanUrl;
-    final improvementPlans = this.improvementPlans;
-    final jiraConfiguration = this.jiraConfiguration;
-    final pillarId = this.pillarId;
-    final questionId = this.questionId;
-    final questionTitle = this.questionTitle;
-    final risk = this.risk;
-    return {
-      if (improvementPlanUrl != null) 'ImprovementPlanUrl': improvementPlanUrl,
-      if (improvementPlans != null) 'ImprovementPlans': improvementPlans,
-      if (jiraConfiguration != null) 'JiraConfiguration': jiraConfiguration,
-      if (pillarId != null) 'PillarId': pillarId,
-      if (questionId != null) 'QuestionId': questionId,
-      if (questionTitle != null) 'QuestionTitle': questionTitle,
-      if (risk != null) 'Risk': risk.value,
-    };
-  }
-}
-
-class IntegratingService {
-  static const jira = IntegratingService._('JIRA');
-
-  final String value;
-
-  const IntegratingService._(this.value);
-
-  static const values = [jira];
-
-  static IntegratingService fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => IntegratingService._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is IntegratingService && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class IntegrationStatus {
-  static const configured = IntegrationStatus._('CONFIGURED');
-  static const notConfigured = IntegrationStatus._('NOT_CONFIGURED');
-
-  final String value;
-
-  const IntegrationStatus._(this.value);
-
-  static const values = [configured, notConfigured];
-
-  static IntegrationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => IntegrationStatus._(value));
-
-  @override
-  bool operator ==(other) => other is IntegrationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class IntegrationStatusInput {
-  static const notConfigured = IntegrationStatusInput._('NOT_CONFIGURED');
-
-  final String value;
-
-  const IntegrationStatusInput._(this.value);
-
-  static const values = [notConfigured];
-
-  static IntegrationStatusInput fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => IntegrationStatusInput._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is IntegrationStatusInput && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class IssueManagementType {
-  static const auto = IssueManagementType._('AUTO');
-  static const manual = IssueManagementType._('MANUAL');
-
-  final String value;
-
-  const IssueManagementType._(this.value);
-
-  static const values = [auto, manual];
-
-  static IssueManagementType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => IssueManagementType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is IssueManagementType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Configuration of the Jira integration.
-class JiraConfiguration {
-  /// The URL of the associated Jira issue.
-  final String? jiraIssueUrl;
-  final DateTime? lastSyncedTime;
-
-  JiraConfiguration({
-    this.jiraIssueUrl,
-    this.lastSyncedTime,
-  });
-
-  factory JiraConfiguration.fromJson(Map<String, dynamic> json) {
-    return JiraConfiguration(
-      jiraIssueUrl: json['JiraIssueUrl'] as String?,
-      lastSyncedTime: timeStampFromJson(json['LastSyncedTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final jiraIssueUrl = this.jiraIssueUrl;
-    final lastSyncedTime = this.lastSyncedTime;
-    return {
-      if (jiraIssueUrl != null) 'JiraIssueUrl': jiraIssueUrl,
-      if (lastSyncedTime != null)
-        'LastSyncedTime': unixTimestampToJson(lastSyncedTime),
-    };
-  }
-}
-
-/// Selected questions in the workload.
-class JiraSelectedQuestionConfiguration {
-  /// Selected pillars in the workload.
-  final List<SelectedPillar>? selectedPillars;
-
-  JiraSelectedQuestionConfiguration({
-    this.selectedPillars,
-  });
-
-  factory JiraSelectedQuestionConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return JiraSelectedQuestionConfiguration(
-      selectedPillars: (json['SelectedPillars'] as List?)
-          ?.nonNulls
-          .map((e) => SelectedPillar.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final selectedPillars = this.selectedPillars;
-    return {
-      if (selectedPillars != null) 'SelectedPillars': selectedPillars,
-    };
-  }
-}
-
-/// A lens return object.
-class Lens {
-  final String? description;
-
-  /// The ARN of a lens.
-  final String? lensArn;
-
-  /// The version of a lens.
-  final String? lensVersion;
-  final String? name;
-
-  /// The Amazon Web Services account ID that owns the lens.
-  final String? owner;
-
-  /// The ID assigned to the share invitation.
-  final String? shareInvitationId;
-
-  /// The tags assigned to the lens.
-  final Map<String, String>? tags;
-
-  Lens({
-    this.description,
-    this.lensArn,
-    this.lensVersion,
-    this.name,
-    this.owner,
-    this.shareInvitationId,
-    this.tags,
-  });
-
-  factory Lens.fromJson(Map<String, dynamic> json) {
-    return Lens(
-      description: json['Description'] as String?,
-      lensArn: json['LensArn'] as String?,
-      lensVersion: json['LensVersion'] as String?,
-      name: json['Name'] as String?,
-      owner: json['Owner'] as String?,
-      shareInvitationId: json['ShareInvitationId'] as String?,
-      tags: (json['Tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final lensArn = this.lensArn;
-    final lensVersion = this.lensVersion;
-    final name = this.name;
-    final owner = this.owner;
-    final shareInvitationId = this.shareInvitationId;
-    final tags = this.tags;
-    return {
-      if (description != null) 'Description': description,
-      if (lensArn != null) 'LensArn': lensArn,
-      if (lensVersion != null) 'LensVersion': lensVersion,
-      if (name != null) 'Name': name,
-      if (owner != null) 'Owner': owner,
-      if (shareInvitationId != null) 'ShareInvitationId': shareInvitationId,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-/// A metric for a particular lens in a workload.
-class LensMetric {
-  /// The lens ARN.
-  final String? lensArn;
-
-  /// The metrics for the pillars in a lens.
-  final List<PillarMetric>? pillars;
-  final Map<Risk, int>? riskCounts;
-
-  LensMetric({
-    this.lensArn,
-    this.pillars,
-    this.riskCounts,
-  });
-
-  factory LensMetric.fromJson(Map<String, dynamic> json) {
-    return LensMetric(
-      lensArn: json['LensArn'] as String?,
-      pillars: (json['Pillars'] as List?)
-          ?.nonNulls
-          .map((e) => PillarMetric.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      riskCounts: (json['RiskCounts'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(Risk.fromString(k), e as int)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lensArn = this.lensArn;
-    final pillars = this.pillars;
-    final riskCounts = this.riskCounts;
-    return {
-      if (lensArn != null) 'LensArn': lensArn,
-      if (pillars != null) 'Pillars': pillars,
-      if (riskCounts != null)
-        'RiskCounts': riskCounts.map((k, e) => MapEntry(k.value, e)),
-    };
-  }
-}
-
-/// A lens review of a question.
-class LensReview {
-  /// Jira configuration status of the Lens review.
-  final JiraSelectedQuestionConfiguration? jiraConfiguration;
-  final String? lensAlias;
-
-  /// The ARN for the lens.
-  final String? lensArn;
-  final String? lensName;
-
-  /// The status of the lens.
-  final LensStatus? lensStatus;
-
-  /// The version of the lens.
-  final String? lensVersion;
-  final String? nextToken;
-  final String? notes;
-  final List<PillarReviewSummary>? pillarReviewSummaries;
-  final Map<Risk, int>? prioritizedRiskCounts;
-
-  /// The profiles associated with the workload.
-  final List<WorkloadProfile>? profiles;
-  final Map<Risk, int>? riskCounts;
-  final DateTime? updatedAt;
-
-  LensReview({
-    this.jiraConfiguration,
-    this.lensAlias,
-    this.lensArn,
-    this.lensName,
-    this.lensStatus,
-    this.lensVersion,
-    this.nextToken,
-    this.notes,
-    this.pillarReviewSummaries,
-    this.prioritizedRiskCounts,
-    this.profiles,
-    this.riskCounts,
-    this.updatedAt,
-  });
-
-  factory LensReview.fromJson(Map<String, dynamic> json) {
-    return LensReview(
-      jiraConfiguration: json['JiraConfiguration'] != null
-          ? JiraSelectedQuestionConfiguration.fromJson(
-              json['JiraConfiguration'] as Map<String, dynamic>)
-          : null,
-      lensAlias: json['LensAlias'] as String?,
-      lensArn: json['LensArn'] as String?,
-      lensName: json['LensName'] as String?,
-      lensStatus: (json['LensStatus'] as String?)?.let(LensStatus.fromString),
-      lensVersion: json['LensVersion'] as String?,
-      nextToken: json['NextToken'] as String?,
-      notes: json['Notes'] as String?,
-      pillarReviewSummaries: (json['PillarReviewSummaries'] as List?)
-          ?.nonNulls
-          .map((e) => PillarReviewSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      prioritizedRiskCounts:
-          (json['PrioritizedRiskCounts'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(Risk.fromString(k), e as int)),
-      profiles: (json['Profiles'] as List?)
-          ?.nonNulls
-          .map((e) => WorkloadProfile.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      riskCounts: (json['RiskCounts'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(Risk.fromString(k), e as int)),
-      updatedAt: timeStampFromJson(json['UpdatedAt']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final jiraConfiguration = this.jiraConfiguration;
-    final lensAlias = this.lensAlias;
-    final lensArn = this.lensArn;
-    final lensName = this.lensName;
-    final lensStatus = this.lensStatus;
-    final lensVersion = this.lensVersion;
-    final nextToken = this.nextToken;
-    final notes = this.notes;
-    final pillarReviewSummaries = this.pillarReviewSummaries;
-    final prioritizedRiskCounts = this.prioritizedRiskCounts;
-    final profiles = this.profiles;
-    final riskCounts = this.riskCounts;
-    final updatedAt = this.updatedAt;
-    return {
-      if (jiraConfiguration != null) 'JiraConfiguration': jiraConfiguration,
-      if (lensAlias != null) 'LensAlias': lensAlias,
-      if (lensArn != null) 'LensArn': lensArn,
-      if (lensName != null) 'LensName': lensName,
-      if (lensStatus != null) 'LensStatus': lensStatus.value,
-      if (lensVersion != null) 'LensVersion': lensVersion,
-      if (nextToken != null) 'NextToken': nextToken,
-      if (notes != null) 'Notes': notes,
-      if (pillarReviewSummaries != null)
-        'PillarReviewSummaries': pillarReviewSummaries,
-      if (prioritizedRiskCounts != null)
-        'PrioritizedRiskCounts':
-            prioritizedRiskCounts.map((k, e) => MapEntry(k.value, e)),
-      if (profiles != null) 'Profiles': profiles,
-      if (riskCounts != null)
-        'RiskCounts': riskCounts.map((k, e) => MapEntry(k.value, e)),
-      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
-    };
-  }
-}
-
-/// A report of a lens review.
-class LensReviewReport {
-  final String? base64String;
-  final String? lensAlias;
-
-  /// The ARN for the lens.
-  final String? lensArn;
-
-  LensReviewReport({
-    this.base64String,
-    this.lensAlias,
-    this.lensArn,
-  });
-
-  factory LensReviewReport.fromJson(Map<String, dynamic> json) {
-    return LensReviewReport(
-      base64String: json['Base64String'] as String?,
-      lensAlias: json['LensAlias'] as String?,
-      lensArn: json['LensArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final base64String = this.base64String;
-    final lensAlias = this.lensAlias;
-    final lensArn = this.lensArn;
-    return {
-      if (base64String != null) 'Base64String': base64String,
-      if (lensAlias != null) 'LensAlias': lensAlias,
-      if (lensArn != null) 'LensArn': lensArn,
-    };
-  }
-}
-
-/// A lens review summary of a workload.
-class LensReviewSummary {
-  final String? lensAlias;
-
-  /// The ARN for the lens.
-  final String? lensArn;
-  final String? lensName;
-
-  /// The status of the lens.
-  final LensStatus? lensStatus;
-
-  /// The version of the lens.
-  final String? lensVersion;
-  final Map<Risk, int>? prioritizedRiskCounts;
-
-  /// The profiles associated with the workload.
-  final List<WorkloadProfile>? profiles;
-  final Map<Risk, int>? riskCounts;
-  final DateTime? updatedAt;
-
-  LensReviewSummary({
-    this.lensAlias,
-    this.lensArn,
-    this.lensName,
-    this.lensStatus,
-    this.lensVersion,
-    this.prioritizedRiskCounts,
-    this.profiles,
-    this.riskCounts,
-    this.updatedAt,
-  });
-
-  factory LensReviewSummary.fromJson(Map<String, dynamic> json) {
-    return LensReviewSummary(
-      lensAlias: json['LensAlias'] as String?,
-      lensArn: json['LensArn'] as String?,
-      lensName: json['LensName'] as String?,
-      lensStatus: (json['LensStatus'] as String?)?.let(LensStatus.fromString),
-      lensVersion: json['LensVersion'] as String?,
-      prioritizedRiskCounts:
-          (json['PrioritizedRiskCounts'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(Risk.fromString(k), e as int)),
-      profiles: (json['Profiles'] as List?)
-          ?.nonNulls
-          .map((e) => WorkloadProfile.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      riskCounts: (json['RiskCounts'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(Risk.fromString(k), e as int)),
-      updatedAt: timeStampFromJson(json['UpdatedAt']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lensAlias = this.lensAlias;
-    final lensArn = this.lensArn;
-    final lensName = this.lensName;
-    final lensStatus = this.lensStatus;
-    final lensVersion = this.lensVersion;
-    final prioritizedRiskCounts = this.prioritizedRiskCounts;
-    final profiles = this.profiles;
-    final riskCounts = this.riskCounts;
-    final updatedAt = this.updatedAt;
-    return {
-      if (lensAlias != null) 'LensAlias': lensAlias,
-      if (lensArn != null) 'LensArn': lensArn,
-      if (lensName != null) 'LensName': lensName,
-      if (lensStatus != null) 'LensStatus': lensStatus.value,
-      if (lensVersion != null) 'LensVersion': lensVersion,
-      if (prioritizedRiskCounts != null)
-        'PrioritizedRiskCounts':
-            prioritizedRiskCounts.map((k, e) => MapEntry(k.value, e)),
-      if (profiles != null) 'Profiles': profiles,
-      if (riskCounts != null)
-        'RiskCounts': riskCounts.map((k, e) => MapEntry(k.value, e)),
-      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
-    };
-  }
-}
-
-/// A lens share summary return object.
-class LensShareSummary {
-  final String? shareId;
-  final String? sharedWith;
-  final ShareStatus? status;
-
-  /// Optional message to compliment the Status field.
-  final String? statusMessage;
-
-  LensShareSummary({
-    this.shareId,
-    this.sharedWith,
-    this.status,
-    this.statusMessage,
-  });
-
-  factory LensShareSummary.fromJson(Map<String, dynamic> json) {
-    return LensShareSummary(
-      shareId: json['ShareId'] as String?,
-      sharedWith: json['SharedWith'] as String?,
-      status: (json['Status'] as String?)?.let(ShareStatus.fromString),
-      statusMessage: json['StatusMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final shareId = this.shareId;
-    final sharedWith = this.sharedWith;
-    final status = this.status;
-    final statusMessage = this.statusMessage;
-    return {
-      if (shareId != null) 'ShareId': shareId,
-      if (sharedWith != null) 'SharedWith': sharedWith,
-      if (status != null) 'Status': status.value,
-      if (statusMessage != null) 'StatusMessage': statusMessage,
-    };
-  }
-}
-
-class LensStatus {
-  static const current = LensStatus._('CURRENT');
-  static const notCurrent = LensStatus._('NOT_CURRENT');
-  static const deprecated = LensStatus._('DEPRECATED');
-  static const deleted = LensStatus._('DELETED');
-  static const unshared = LensStatus._('UNSHARED');
-
-  final String value;
-
-  const LensStatus._(this.value);
-
-  static const values = [current, notCurrent, deprecated, deleted, unshared];
-
-  static LensStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => LensStatus._(value));
-
-  @override
-  bool operator ==(other) => other is LensStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class LensStatusType {
-  static const all = LensStatusType._('ALL');
-  static const draft = LensStatusType._('DRAFT');
-  static const published = LensStatusType._('PUBLISHED');
-
-  final String value;
-
-  const LensStatusType._(this.value);
-
-  static const values = [all, draft, published];
-
-  static LensStatusType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LensStatusType._(value));
-
-  @override
-  bool operator ==(other) => other is LensStatusType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A lens summary of a lens.
-class LensSummary {
-  final DateTime? createdAt;
-  final String? description;
-  final String? lensAlias;
-
-  /// The ARN of the lens.
-  final String? lensArn;
-  final String? lensName;
-
-  /// The status of the lens.
-  final LensStatus? lensStatus;
-
-  /// The type of the lens.
-  final LensType? lensType;
-
-  /// The version of the lens.
-  final String? lensVersion;
-  final String? owner;
-  final DateTime? updatedAt;
-
-  LensSummary({
-    this.createdAt,
-    this.description,
-    this.lensAlias,
-    this.lensArn,
-    this.lensName,
-    this.lensStatus,
-    this.lensType,
-    this.lensVersion,
-    this.owner,
-    this.updatedAt,
-  });
-
-  factory LensSummary.fromJson(Map<String, dynamic> json) {
-    return LensSummary(
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      description: json['Description'] as String?,
-      lensAlias: json['LensAlias'] as String?,
-      lensArn: json['LensArn'] as String?,
-      lensName: json['LensName'] as String?,
-      lensStatus: (json['LensStatus'] as String?)?.let(LensStatus.fromString),
-      lensType: (json['LensType'] as String?)?.let(LensType.fromString),
-      lensVersion: json['LensVersion'] as String?,
-      owner: json['Owner'] as String?,
-      updatedAt: timeStampFromJson(json['UpdatedAt']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final description = this.description;
-    final lensAlias = this.lensAlias;
-    final lensArn = this.lensArn;
-    final lensName = this.lensName;
-    final lensStatus = this.lensStatus;
-    final lensType = this.lensType;
-    final lensVersion = this.lensVersion;
-    final owner = this.owner;
-    final updatedAt = this.updatedAt;
-    return {
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (description != null) 'Description': description,
-      if (lensAlias != null) 'LensAlias': lensAlias,
-      if (lensArn != null) 'LensArn': lensArn,
-      if (lensName != null) 'LensName': lensName,
-      if (lensStatus != null) 'LensStatus': lensStatus.value,
-      if (lensType != null) 'LensType': lensType.value,
-      if (lensVersion != null) 'LensVersion': lensVersion,
-      if (owner != null) 'Owner': owner,
-      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
-    };
-  }
-}
-
-class LensType {
-  static const awsOfficial = LensType._('AWS_OFFICIAL');
-  static const customShared = LensType._('CUSTOM_SHARED');
-  static const customSelf = LensType._('CUSTOM_SELF');
-
-  final String value;
-
-  const LensType._(this.value);
-
-  static const values = [awsOfficial, customShared, customSelf];
-
-  static LensType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => LensType._(value));
-
-  @override
-  bool operator ==(other) => other is LensType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Lens upgrade summary return object.
-class LensUpgradeSummary {
-  /// The current version of the lens.
-  final String? currentLensVersion;
-
-  /// The latest version of the lens.
-  final String? latestLensVersion;
-  final String? lensAlias;
-
-  /// The ARN for the lens.
-  final String? lensArn;
-
-  /// <code>ResourceArn</code> of the lens being upgraded
-  final String? resourceArn;
-  final String? resourceName;
-  final String? workloadId;
-  final String? workloadName;
-
-  LensUpgradeSummary({
-    this.currentLensVersion,
-    this.latestLensVersion,
-    this.lensAlias,
-    this.lensArn,
-    this.resourceArn,
-    this.resourceName,
-    this.workloadId,
-    this.workloadName,
-  });
-
-  factory LensUpgradeSummary.fromJson(Map<String, dynamic> json) {
-    return LensUpgradeSummary(
-      currentLensVersion: json['CurrentLensVersion'] as String?,
-      latestLensVersion: json['LatestLensVersion'] as String?,
-      lensAlias: json['LensAlias'] as String?,
-      lensArn: json['LensArn'] as String?,
-      resourceArn: json['ResourceArn'] as String?,
-      resourceName: json['ResourceName'] as String?,
-      workloadId: json['WorkloadId'] as String?,
-      workloadName: json['WorkloadName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final currentLensVersion = this.currentLensVersion;
-    final latestLensVersion = this.latestLensVersion;
-    final lensAlias = this.lensAlias;
-    final lensArn = this.lensArn;
-    final resourceArn = this.resourceArn;
-    final resourceName = this.resourceName;
-    final workloadId = this.workloadId;
-    final workloadName = this.workloadName;
-    return {
-      if (currentLensVersion != null) 'CurrentLensVersion': currentLensVersion,
-      if (latestLensVersion != null) 'LatestLensVersion': latestLensVersion,
-      if (lensAlias != null) 'LensAlias': lensAlias,
-      if (lensArn != null) 'LensArn': lensArn,
-      if (resourceArn != null) 'ResourceArn': resourceArn,
-      if (resourceName != null) 'ResourceName': resourceName,
-      if (workloadId != null) 'WorkloadId': workloadId,
-      if (workloadName != null) 'WorkloadName': workloadName,
     };
   }
 }
@@ -5633,6 +3648,36 @@ class ListCheckSummariesOutput {
     final nextToken = this.nextToken;
     return {
       if (checkSummaries != null) 'CheckSummaries': checkSummaries,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// Output of a list lenses call.
+class ListLensesOutput {
+  final List<LensSummary>? lensSummaries;
+  final String? nextToken;
+
+  ListLensesOutput({
+    this.lensSummaries,
+    this.nextToken,
+  });
+
+  factory ListLensesOutput.fromJson(Map<String, dynamic> json) {
+    return ListLensesOutput(
+      lensSummaries: (json['LensSummaries'] as List?)
+          ?.nonNulls
+          .map((e) => LensSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lensSummaries = this.lensSummaries;
+    final nextToken = this.nextToken;
+    return {
+      if (lensSummaries != null) 'LensSummaries': lensSummaries,
       if (nextToken != null) 'NextToken': nextToken,
     };
   }
@@ -5762,36 +3807,6 @@ class ListLensSharesOutput {
   }
 }
 
-/// Output of a list lenses call.
-class ListLensesOutput {
-  final List<LensSummary>? lensSummaries;
-  final String? nextToken;
-
-  ListLensesOutput({
-    this.lensSummaries,
-    this.nextToken,
-  });
-
-  factory ListLensesOutput.fromJson(Map<String, dynamic> json) {
-    return ListLensesOutput(
-      lensSummaries: (json['LensSummaries'] as List?)
-          ?.nonNulls
-          .map((e) => LensSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lensSummaries = this.lensSummaries;
-    final nextToken = this.nextToken;
-    return {
-      if (lensSummaries != null) 'LensSummaries': lensSummaries,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
 /// Output of a list milestones call.
 class ListMilestonesOutput {
   final List<MilestoneSummary>? milestoneSummaries;
@@ -5892,6 +3907,37 @@ class ListProfileNotificationsOutput {
   }
 }
 
+class ListProfilesOutput {
+  final String? nextToken;
+
+  /// Profile summaries.
+  final List<ProfileSummary>? profileSummaries;
+
+  ListProfilesOutput({
+    this.nextToken,
+    this.profileSummaries,
+  });
+
+  factory ListProfilesOutput.fromJson(Map<String, dynamic> json) {
+    return ListProfilesOutput(
+      nextToken: json['NextToken'] as String?,
+      profileSummaries: (json['ProfileSummaries'] as List?)
+          ?.nonNulls
+          .map((e) => ProfileSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final profileSummaries = this.profileSummaries;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (profileSummaries != null) 'ProfileSummaries': profileSummaries,
+    };
+  }
+}
+
 class ListProfileSharesOutput {
   final String? nextToken;
 
@@ -5920,37 +3966,6 @@ class ListProfileSharesOutput {
       if (nextToken != null) 'NextToken': nextToken,
       if (profileShareSummaries != null)
         'ProfileShareSummaries': profileShareSummaries,
-    };
-  }
-}
-
-class ListProfilesOutput {
-  final String? nextToken;
-
-  /// Profile summaries.
-  final List<ProfileSummary>? profileSummaries;
-
-  ListProfilesOutput({
-    this.nextToken,
-    this.profileSummaries,
-  });
-
-  factory ListProfilesOutput.fromJson(Map<String, dynamic> json) {
-    return ListProfilesOutput(
-      nextToken: json['NextToken'] as String?,
-      profileSummaries: (json['ProfileSummaries'] as List?)
-          ?.nonNulls
-          .map((e) => ProfileSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final profileSummaries = this.profileSummaries;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (profileSummaries != null) 'ProfileSummaries': profileSummaries,
     };
   }
 }
@@ -6125,6 +4140,36 @@ class ListTemplateSharesOutput {
   }
 }
 
+/// Output of a list workloads call.
+class ListWorkloadsOutput {
+  final String? nextToken;
+  final List<WorkloadSummary>? workloadSummaries;
+
+  ListWorkloadsOutput({
+    this.nextToken,
+    this.workloadSummaries,
+  });
+
+  factory ListWorkloadsOutput.fromJson(Map<String, dynamic> json) {
+    return ListWorkloadsOutput(
+      nextToken: json['NextToken'] as String?,
+      workloadSummaries: (json['WorkloadSummaries'] as List?)
+          ?.nonNulls
+          .map((e) => WorkloadSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final workloadSummaries = this.workloadSummaries;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (workloadSummaries != null) 'WorkloadSummaries': workloadSummaries,
+    };
+  }
+}
+
 /// Input for List Workload Share
 class ListWorkloadSharesOutput {
   final String? nextToken;
@@ -6161,1936 +4206,6 @@ class ListWorkloadSharesOutput {
   }
 }
 
-/// Output of a list workloads call.
-class ListWorkloadsOutput {
-  final String? nextToken;
-  final List<WorkloadSummary>? workloadSummaries;
-
-  ListWorkloadsOutput({
-    this.nextToken,
-    this.workloadSummaries,
-  });
-
-  factory ListWorkloadsOutput.fromJson(Map<String, dynamic> json) {
-    return ListWorkloadsOutput(
-      nextToken: json['NextToken'] as String?,
-      workloadSummaries: (json['WorkloadSummaries'] as List?)
-          ?.nonNulls
-          .map((e) => WorkloadSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final workloadSummaries = this.workloadSummaries;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (workloadSummaries != null) 'WorkloadSummaries': workloadSummaries,
-    };
-  }
-}
-
-class MetricType {
-  static const workload = MetricType._('WORKLOAD');
-
-  final String value;
-
-  const MetricType._(this.value);
-
-  static const values = [workload];
-
-  static MetricType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => MetricType._(value));
-
-  @override
-  bool operator ==(other) => other is MetricType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A milestone return object.
-class Milestone {
-  final String? milestoneName;
-  final int? milestoneNumber;
-  final DateTime? recordedAt;
-  final Workload? workload;
-
-  Milestone({
-    this.milestoneName,
-    this.milestoneNumber,
-    this.recordedAt,
-    this.workload,
-  });
-
-  factory Milestone.fromJson(Map<String, dynamic> json) {
-    return Milestone(
-      milestoneName: json['MilestoneName'] as String?,
-      milestoneNumber: json['MilestoneNumber'] as int?,
-      recordedAt: timeStampFromJson(json['RecordedAt']),
-      workload: json['Workload'] != null
-          ? Workload.fromJson(json['Workload'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final milestoneName = this.milestoneName;
-    final milestoneNumber = this.milestoneNumber;
-    final recordedAt = this.recordedAt;
-    final workload = this.workload;
-    return {
-      if (milestoneName != null) 'MilestoneName': milestoneName,
-      if (milestoneNumber != null) 'MilestoneNumber': milestoneNumber,
-      if (recordedAt != null) 'RecordedAt': unixTimestampToJson(recordedAt),
-      if (workload != null) 'Workload': workload,
-    };
-  }
-}
-
-/// A milestone summary return object.
-class MilestoneSummary {
-  final String? milestoneName;
-  final int? milestoneNumber;
-  final DateTime? recordedAt;
-  final WorkloadSummary? workloadSummary;
-
-  MilestoneSummary({
-    this.milestoneName,
-    this.milestoneNumber,
-    this.recordedAt,
-    this.workloadSummary,
-  });
-
-  factory MilestoneSummary.fromJson(Map<String, dynamic> json) {
-    return MilestoneSummary(
-      milestoneName: json['MilestoneName'] as String?,
-      milestoneNumber: json['MilestoneNumber'] as int?,
-      recordedAt: timeStampFromJson(json['RecordedAt']),
-      workloadSummary: json['WorkloadSummary'] != null
-          ? WorkloadSummary.fromJson(
-              json['WorkloadSummary'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final milestoneName = this.milestoneName;
-    final milestoneNumber = this.milestoneNumber;
-    final recordedAt = this.recordedAt;
-    final workloadSummary = this.workloadSummary;
-    return {
-      if (milestoneName != null) 'MilestoneName': milestoneName,
-      if (milestoneNumber != null) 'MilestoneNumber': milestoneNumber,
-      if (recordedAt != null) 'RecordedAt': unixTimestampToJson(recordedAt),
-      if (workloadSummary != null) 'WorkloadSummary': workloadSummary,
-    };
-  }
-}
-
-/// A notification summary return object.
-class NotificationSummary {
-  /// Summary of lens upgrade.
-  final LensUpgradeSummary? lensUpgradeSummary;
-
-  /// The type of notification.
-  final NotificationType? type;
-
-  NotificationSummary({
-    this.lensUpgradeSummary,
-    this.type,
-  });
-
-  factory NotificationSummary.fromJson(Map<String, dynamic> json) {
-    return NotificationSummary(
-      lensUpgradeSummary: json['LensUpgradeSummary'] != null
-          ? LensUpgradeSummary.fromJson(
-              json['LensUpgradeSummary'] as Map<String, dynamic>)
-          : null,
-      type: (json['Type'] as String?)?.let(NotificationType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lensUpgradeSummary = this.lensUpgradeSummary;
-    final type = this.type;
-    return {
-      if (lensUpgradeSummary != null) 'LensUpgradeSummary': lensUpgradeSummary,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class NotificationType {
-  static const lensVersionUpgraded =
-      NotificationType._('LENS_VERSION_UPGRADED');
-  static const lensVersionDeprecated =
-      NotificationType._('LENS_VERSION_DEPRECATED');
-
-  final String value;
-
-  const NotificationType._(this.value);
-
-  static const values = [lensVersionUpgraded, lensVersionDeprecated];
-
-  static NotificationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => NotificationType._(value));
-
-  @override
-  bool operator ==(other) => other is NotificationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class OrganizationSharingStatus {
-  static const enabled = OrganizationSharingStatus._('ENABLED');
-  static const disabled = OrganizationSharingStatus._('DISABLED');
-
-  final String value;
-
-  const OrganizationSharingStatus._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static OrganizationSharingStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => OrganizationSharingStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is OrganizationSharingStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Permission granted on a share request.
-class PermissionType {
-  static const readonly = PermissionType._('READONLY');
-  static const contributor = PermissionType._('CONTRIBUTOR');
-
-  final String value;
-
-  const PermissionType._(this.value);
-
-  static const values = [readonly, contributor];
-
-  static PermissionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PermissionType._(value));
-
-  @override
-  bool operator ==(other) => other is PermissionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A pillar difference return object.
-class PillarDifference {
-  /// Indicates the type of change to the pillar.
-  final DifferenceStatus? differenceStatus;
-  final String? pillarId;
-  final String? pillarName;
-
-  /// List of question differences.
-  final List<QuestionDifference>? questionDifferences;
-
-  PillarDifference({
-    this.differenceStatus,
-    this.pillarId,
-    this.pillarName,
-    this.questionDifferences,
-  });
-
-  factory PillarDifference.fromJson(Map<String, dynamic> json) {
-    return PillarDifference(
-      differenceStatus: (json['DifferenceStatus'] as String?)
-          ?.let(DifferenceStatus.fromString),
-      pillarId: json['PillarId'] as String?,
-      pillarName: json['PillarName'] as String?,
-      questionDifferences: (json['QuestionDifferences'] as List?)
-          ?.nonNulls
-          .map((e) => QuestionDifference.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final differenceStatus = this.differenceStatus;
-    final pillarId = this.pillarId;
-    final pillarName = this.pillarName;
-    final questionDifferences = this.questionDifferences;
-    return {
-      if (differenceStatus != null) 'DifferenceStatus': differenceStatus.value,
-      if (pillarId != null) 'PillarId': pillarId,
-      if (pillarName != null) 'PillarName': pillarName,
-      if (questionDifferences != null)
-        'QuestionDifferences': questionDifferences,
-    };
-  }
-}
-
-/// A metric for a particular pillar in a lens.
-class PillarMetric {
-  final String? pillarId;
-
-  /// The questions that have been identified as risks in the pillar.
-  final List<QuestionMetric>? questions;
-  final Map<Risk, int>? riskCounts;
-
-  PillarMetric({
-    this.pillarId,
-    this.questions,
-    this.riskCounts,
-  });
-
-  factory PillarMetric.fromJson(Map<String, dynamic> json) {
-    return PillarMetric(
-      pillarId: json['PillarId'] as String?,
-      questions: (json['Questions'] as List?)
-          ?.nonNulls
-          .map((e) => QuestionMetric.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      riskCounts: (json['RiskCounts'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(Risk.fromString(k), e as int)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final pillarId = this.pillarId;
-    final questions = this.questions;
-    final riskCounts = this.riskCounts;
-    return {
-      if (pillarId != null) 'PillarId': pillarId,
-      if (questions != null) 'Questions': questions,
-      if (riskCounts != null)
-        'RiskCounts': riskCounts.map((k, e) => MapEntry(k.value, e)),
-    };
-  }
-}
-
-/// A pillar review summary of a lens review.
-class PillarReviewSummary {
-  final String? notes;
-  final String? pillarId;
-  final String? pillarName;
-  final Map<Risk, int>? prioritizedRiskCounts;
-  final Map<Risk, int>? riskCounts;
-
-  PillarReviewSummary({
-    this.notes,
-    this.pillarId,
-    this.pillarName,
-    this.prioritizedRiskCounts,
-    this.riskCounts,
-  });
-
-  factory PillarReviewSummary.fromJson(Map<String, dynamic> json) {
-    return PillarReviewSummary(
-      notes: json['Notes'] as String?,
-      pillarId: json['PillarId'] as String?,
-      pillarName: json['PillarName'] as String?,
-      prioritizedRiskCounts:
-          (json['PrioritizedRiskCounts'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(Risk.fromString(k), e as int)),
-      riskCounts: (json['RiskCounts'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(Risk.fromString(k), e as int)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final notes = this.notes;
-    final pillarId = this.pillarId;
-    final pillarName = this.pillarName;
-    final prioritizedRiskCounts = this.prioritizedRiskCounts;
-    final riskCounts = this.riskCounts;
-    return {
-      if (notes != null) 'Notes': notes,
-      if (pillarId != null) 'PillarId': pillarId,
-      if (pillarName != null) 'PillarName': pillarName,
-      if (prioritizedRiskCounts != null)
-        'PrioritizedRiskCounts':
-            prioritizedRiskCounts.map((k, e) => MapEntry(k.value, e)),
-      if (riskCounts != null)
-        'RiskCounts': riskCounts.map((k, e) => MapEntry(k.value, e)),
-    };
-  }
-}
-
-/// A profile.
-class Profile {
-  final DateTime? createdAt;
-  final String? owner;
-
-  /// The profile ARN.
-  final String? profileArn;
-
-  /// The profile description.
-  final String? profileDescription;
-
-  /// The profile name.
-  final String? profileName;
-
-  /// Profile questions.
-  final List<ProfileQuestion>? profileQuestions;
-
-  /// The profile version.
-  final String? profileVersion;
-
-  /// The ID assigned to the share invitation.
-  final String? shareInvitationId;
-
-  /// The tags assigned to the profile.
-  final Map<String, String>? tags;
-  final DateTime? updatedAt;
-
-  Profile({
-    this.createdAt,
-    this.owner,
-    this.profileArn,
-    this.profileDescription,
-    this.profileName,
-    this.profileQuestions,
-    this.profileVersion,
-    this.shareInvitationId,
-    this.tags,
-    this.updatedAt,
-  });
-
-  factory Profile.fromJson(Map<String, dynamic> json) {
-    return Profile(
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      owner: json['Owner'] as String?,
-      profileArn: json['ProfileArn'] as String?,
-      profileDescription: json['ProfileDescription'] as String?,
-      profileName: json['ProfileName'] as String?,
-      profileQuestions: (json['ProfileQuestions'] as List?)
-          ?.nonNulls
-          .map((e) => ProfileQuestion.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      profileVersion: json['ProfileVersion'] as String?,
-      shareInvitationId: json['ShareInvitationId'] as String?,
-      tags: (json['Tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      updatedAt: timeStampFromJson(json['UpdatedAt']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final owner = this.owner;
-    final profileArn = this.profileArn;
-    final profileDescription = this.profileDescription;
-    final profileName = this.profileName;
-    final profileQuestions = this.profileQuestions;
-    final profileVersion = this.profileVersion;
-    final shareInvitationId = this.shareInvitationId;
-    final tags = this.tags;
-    final updatedAt = this.updatedAt;
-    return {
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (owner != null) 'Owner': owner,
-      if (profileArn != null) 'ProfileArn': profileArn,
-      if (profileDescription != null) 'ProfileDescription': profileDescription,
-      if (profileName != null) 'ProfileName': profileName,
-      if (profileQuestions != null) 'ProfileQuestions': profileQuestions,
-      if (profileVersion != null) 'ProfileVersion': profileVersion,
-      if (shareInvitationId != null) 'ShareInvitationId': shareInvitationId,
-      if (tags != null) 'Tags': tags,
-      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
-    };
-  }
-}
-
-/// The profile choice.
-class ProfileChoice {
-  final String? choiceDescription;
-  final String? choiceId;
-  final String? choiceTitle;
-
-  ProfileChoice({
-    this.choiceDescription,
-    this.choiceId,
-    this.choiceTitle,
-  });
-
-  factory ProfileChoice.fromJson(Map<String, dynamic> json) {
-    return ProfileChoice(
-      choiceDescription: json['ChoiceDescription'] as String?,
-      choiceId: json['ChoiceId'] as String?,
-      choiceTitle: json['ChoiceTitle'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final choiceDescription = this.choiceDescription;
-    final choiceId = this.choiceId;
-    final choiceTitle = this.choiceTitle;
-    return {
-      if (choiceDescription != null) 'ChoiceDescription': choiceDescription,
-      if (choiceId != null) 'ChoiceId': choiceId,
-      if (choiceTitle != null) 'ChoiceTitle': choiceTitle,
-    };
-  }
-}
-
-/// The profile notification summary.
-class ProfileNotificationSummary {
-  /// The current profile version.
-  final String? currentProfileVersion;
-
-  /// The latest profile version.
-  final String? latestProfileVersion;
-
-  /// The profile ARN.
-  final String? profileArn;
-
-  /// The profile name.
-  final String? profileName;
-
-  /// Type of notification.
-  final ProfileNotificationType? type;
-  final String? workloadId;
-  final String? workloadName;
-
-  ProfileNotificationSummary({
-    this.currentProfileVersion,
-    this.latestProfileVersion,
-    this.profileArn,
-    this.profileName,
-    this.type,
-    this.workloadId,
-    this.workloadName,
-  });
-
-  factory ProfileNotificationSummary.fromJson(Map<String, dynamic> json) {
-    return ProfileNotificationSummary(
-      currentProfileVersion: json['CurrentProfileVersion'] as String?,
-      latestProfileVersion: json['LatestProfileVersion'] as String?,
-      profileArn: json['ProfileArn'] as String?,
-      profileName: json['ProfileName'] as String?,
-      type: (json['Type'] as String?)?.let(ProfileNotificationType.fromString),
-      workloadId: json['WorkloadId'] as String?,
-      workloadName: json['WorkloadName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final currentProfileVersion = this.currentProfileVersion;
-    final latestProfileVersion = this.latestProfileVersion;
-    final profileArn = this.profileArn;
-    final profileName = this.profileName;
-    final type = this.type;
-    final workloadId = this.workloadId;
-    final workloadName = this.workloadName;
-    return {
-      if (currentProfileVersion != null)
-        'CurrentProfileVersion': currentProfileVersion,
-      if (latestProfileVersion != null)
-        'LatestProfileVersion': latestProfileVersion,
-      if (profileArn != null) 'ProfileArn': profileArn,
-      if (profileName != null) 'ProfileName': profileName,
-      if (type != null) 'Type': type.value,
-      if (workloadId != null) 'WorkloadId': workloadId,
-      if (workloadName != null) 'WorkloadName': workloadName,
-    };
-  }
-}
-
-class ProfileNotificationType {
-  static const profileAnswersUpdated =
-      ProfileNotificationType._('PROFILE_ANSWERS_UPDATED');
-  static const profileDeleted = ProfileNotificationType._('PROFILE_DELETED');
-
-  final String value;
-
-  const ProfileNotificationType._(this.value);
-
-  static const values = [profileAnswersUpdated, profileDeleted];
-
-  static ProfileNotificationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ProfileNotificationType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ProfileNotificationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ProfileOwnerType {
-  static const self = ProfileOwnerType._('SELF');
-  static const shared = ProfileOwnerType._('SHARED');
-
-  final String value;
-
-  const ProfileOwnerType._(this.value);
-
-  static const values = [self, shared];
-
-  static ProfileOwnerType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ProfileOwnerType._(value));
-
-  @override
-  bool operator ==(other) => other is ProfileOwnerType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A profile question.
-class ProfileQuestion {
-  /// The maximum number of selected choices.
-  final int? maxSelectedChoices;
-
-  /// The minimum number of selected choices.
-  final int? minSelectedChoices;
-
-  /// The question choices.
-  final List<ProfileChoice>? questionChoices;
-  final String? questionDescription;
-  final String? questionId;
-  final String? questionTitle;
-
-  /// The selected choices.
-  final List<String>? selectedChoiceIds;
-
-  ProfileQuestion({
-    this.maxSelectedChoices,
-    this.minSelectedChoices,
-    this.questionChoices,
-    this.questionDescription,
-    this.questionId,
-    this.questionTitle,
-    this.selectedChoiceIds,
-  });
-
-  factory ProfileQuestion.fromJson(Map<String, dynamic> json) {
-    return ProfileQuestion(
-      maxSelectedChoices: json['MaxSelectedChoices'] as int?,
-      minSelectedChoices: json['MinSelectedChoices'] as int?,
-      questionChoices: (json['QuestionChoices'] as List?)
-          ?.nonNulls
-          .map((e) => ProfileChoice.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      questionDescription: json['QuestionDescription'] as String?,
-      questionId: json['QuestionId'] as String?,
-      questionTitle: json['QuestionTitle'] as String?,
-      selectedChoiceIds: (json['SelectedChoiceIds'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final maxSelectedChoices = this.maxSelectedChoices;
-    final minSelectedChoices = this.minSelectedChoices;
-    final questionChoices = this.questionChoices;
-    final questionDescription = this.questionDescription;
-    final questionId = this.questionId;
-    final questionTitle = this.questionTitle;
-    final selectedChoiceIds = this.selectedChoiceIds;
-    return {
-      if (maxSelectedChoices != null) 'MaxSelectedChoices': maxSelectedChoices,
-      if (minSelectedChoices != null) 'MinSelectedChoices': minSelectedChoices,
-      if (questionChoices != null) 'QuestionChoices': questionChoices,
-      if (questionDescription != null)
-        'QuestionDescription': questionDescription,
-      if (questionId != null) 'QuestionId': questionId,
-      if (questionTitle != null) 'QuestionTitle': questionTitle,
-      if (selectedChoiceIds != null) 'SelectedChoiceIds': selectedChoiceIds,
-    };
-  }
-}
-
-/// An update to a profile question.
-class ProfileQuestionUpdate {
-  final String? questionId;
-
-  /// The selected choices.
-  final List<String>? selectedChoiceIds;
-
-  ProfileQuestionUpdate({
-    this.questionId,
-    this.selectedChoiceIds,
-  });
-
-  Map<String, dynamic> toJson() {
-    final questionId = this.questionId;
-    final selectedChoiceIds = this.selectedChoiceIds;
-    return {
-      if (questionId != null) 'QuestionId': questionId,
-      if (selectedChoiceIds != null) 'SelectedChoiceIds': selectedChoiceIds,
-    };
-  }
-}
-
-/// Summary of a profile share.
-class ProfileShareSummary {
-  final String? shareId;
-  final String? sharedWith;
-  final ShareStatus? status;
-
-  /// Profile share invitation status message.
-  final String? statusMessage;
-
-  ProfileShareSummary({
-    this.shareId,
-    this.sharedWith,
-    this.status,
-    this.statusMessage,
-  });
-
-  factory ProfileShareSummary.fromJson(Map<String, dynamic> json) {
-    return ProfileShareSummary(
-      shareId: json['ShareId'] as String?,
-      sharedWith: json['SharedWith'] as String?,
-      status: (json['Status'] as String?)?.let(ShareStatus.fromString),
-      statusMessage: json['StatusMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final shareId = this.shareId;
-    final sharedWith = this.sharedWith;
-    final status = this.status;
-    final statusMessage = this.statusMessage;
-    return {
-      if (shareId != null) 'ShareId': shareId,
-      if (sharedWith != null) 'SharedWith': sharedWith,
-      if (status != null) 'Status': status.value,
-      if (statusMessage != null) 'StatusMessage': statusMessage,
-    };
-  }
-}
-
-/// Summary of a profile.
-class ProfileSummary {
-  final DateTime? createdAt;
-  final String? owner;
-
-  /// The profile ARN.
-  final String? profileArn;
-
-  /// The profile description.
-  final String? profileDescription;
-
-  /// The profile name.
-  final String? profileName;
-
-  /// The profile version.
-  final String? profileVersion;
-  final DateTime? updatedAt;
-
-  ProfileSummary({
-    this.createdAt,
-    this.owner,
-    this.profileArn,
-    this.profileDescription,
-    this.profileName,
-    this.profileVersion,
-    this.updatedAt,
-  });
-
-  factory ProfileSummary.fromJson(Map<String, dynamic> json) {
-    return ProfileSummary(
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      owner: json['Owner'] as String?,
-      profileArn: json['ProfileArn'] as String?,
-      profileDescription: json['ProfileDescription'] as String?,
-      profileName: json['ProfileName'] as String?,
-      profileVersion: json['ProfileVersion'] as String?,
-      updatedAt: timeStampFromJson(json['UpdatedAt']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final owner = this.owner;
-    final profileArn = this.profileArn;
-    final profileDescription = this.profileDescription;
-    final profileName = this.profileName;
-    final profileVersion = this.profileVersion;
-    final updatedAt = this.updatedAt;
-    return {
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (owner != null) 'Owner': owner,
-      if (profileArn != null) 'ProfileArn': profileArn,
-      if (profileDescription != null) 'ProfileDescription': profileDescription,
-      if (profileName != null) 'ProfileName': profileName,
-      if (profileVersion != null) 'ProfileVersion': profileVersion,
-      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
-    };
-  }
-}
-
-/// The profile template.
-class ProfileTemplate {
-  final DateTime? createdAt;
-
-  /// The name of the profile template.
-  final String? templateName;
-
-  /// Profile template questions.
-  final List<ProfileTemplateQuestion>? templateQuestions;
-  final DateTime? updatedAt;
-
-  ProfileTemplate({
-    this.createdAt,
-    this.templateName,
-    this.templateQuestions,
-    this.updatedAt,
-  });
-
-  factory ProfileTemplate.fromJson(Map<String, dynamic> json) {
-    return ProfileTemplate(
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      templateName: json['TemplateName'] as String?,
-      templateQuestions: (json['TemplateQuestions'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              ProfileTemplateQuestion.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      updatedAt: timeStampFromJson(json['UpdatedAt']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final templateName = this.templateName;
-    final templateQuestions = this.templateQuestions;
-    final updatedAt = this.updatedAt;
-    return {
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (templateName != null) 'TemplateName': templateName,
-      if (templateQuestions != null) 'TemplateQuestions': templateQuestions,
-      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
-    };
-  }
-}
-
-/// A profile template choice.
-class ProfileTemplateChoice {
-  final String? choiceDescription;
-  final String? choiceId;
-  final String? choiceTitle;
-
-  ProfileTemplateChoice({
-    this.choiceDescription,
-    this.choiceId,
-    this.choiceTitle,
-  });
-
-  factory ProfileTemplateChoice.fromJson(Map<String, dynamic> json) {
-    return ProfileTemplateChoice(
-      choiceDescription: json['ChoiceDescription'] as String?,
-      choiceId: json['ChoiceId'] as String?,
-      choiceTitle: json['ChoiceTitle'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final choiceDescription = this.choiceDescription;
-    final choiceId = this.choiceId;
-    final choiceTitle = this.choiceTitle;
-    return {
-      if (choiceDescription != null) 'ChoiceDescription': choiceDescription,
-      if (choiceId != null) 'ChoiceId': choiceId,
-      if (choiceTitle != null) 'ChoiceTitle': choiceTitle,
-    };
-  }
-}
-
-/// A profile template question.
-class ProfileTemplateQuestion {
-  /// The maximum number of choices selected.
-  final int? maxSelectedChoices;
-
-  /// The minimum number of choices selected.
-  final int? minSelectedChoices;
-
-  /// The question choices.
-  final List<ProfileTemplateChoice>? questionChoices;
-  final String? questionDescription;
-  final String? questionId;
-  final String? questionTitle;
-
-  ProfileTemplateQuestion({
-    this.maxSelectedChoices,
-    this.minSelectedChoices,
-    this.questionChoices,
-    this.questionDescription,
-    this.questionId,
-    this.questionTitle,
-  });
-
-  factory ProfileTemplateQuestion.fromJson(Map<String, dynamic> json) {
-    return ProfileTemplateQuestion(
-      maxSelectedChoices: json['MaxSelectedChoices'] as int?,
-      minSelectedChoices: json['MinSelectedChoices'] as int?,
-      questionChoices: (json['QuestionChoices'] as List?)
-          ?.nonNulls
-          .map((e) => ProfileTemplateChoice.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      questionDescription: json['QuestionDescription'] as String?,
-      questionId: json['QuestionId'] as String?,
-      questionTitle: json['QuestionTitle'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final maxSelectedChoices = this.maxSelectedChoices;
-    final minSelectedChoices = this.minSelectedChoices;
-    final questionChoices = this.questionChoices;
-    final questionDescription = this.questionDescription;
-    final questionId = this.questionId;
-    final questionTitle = this.questionTitle;
-    return {
-      if (maxSelectedChoices != null) 'MaxSelectedChoices': maxSelectedChoices,
-      if (minSelectedChoices != null) 'MinSelectedChoices': minSelectedChoices,
-      if (questionChoices != null) 'QuestionChoices': questionChoices,
-      if (questionDescription != null)
-        'QuestionDescription': questionDescription,
-      if (questionId != null) 'QuestionId': questionId,
-      if (questionTitle != null) 'QuestionTitle': questionTitle,
-    };
-  }
-}
-
-class Question {
-  static const unanswered = Question._('UNANSWERED');
-  static const answered = Question._('ANSWERED');
-
-  final String value;
-
-  const Question._(this.value);
-
-  static const values = [unanswered, answered];
-
-  static Question fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Question._(value));
-
-  @override
-  bool operator ==(other) => other is Question && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A question difference return object.
-class QuestionDifference {
-  /// Indicates the type of change to the question.
-  final DifferenceStatus? differenceStatus;
-  final String? questionId;
-  final String? questionTitle;
-
-  QuestionDifference({
-    this.differenceStatus,
-    this.questionId,
-    this.questionTitle,
-  });
-
-  factory QuestionDifference.fromJson(Map<String, dynamic> json) {
-    return QuestionDifference(
-      differenceStatus: (json['DifferenceStatus'] as String?)
-          ?.let(DifferenceStatus.fromString),
-      questionId: json['QuestionId'] as String?,
-      questionTitle: json['QuestionTitle'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final differenceStatus = this.differenceStatus;
-    final questionId = this.questionId;
-    final questionTitle = this.questionTitle;
-    return {
-      if (differenceStatus != null) 'DifferenceStatus': differenceStatus.value,
-      if (questionId != null) 'QuestionId': questionId,
-      if (questionTitle != null) 'QuestionTitle': questionTitle,
-    };
-  }
-}
-
-/// A metric for a particular question in the pillar.
-class QuestionMetric {
-  /// The best practices, or choices, that have been identified as contributing to
-  /// risk in a question.
-  final List<BestPractice>? bestPractices;
-  final String? questionId;
-  final Risk? risk;
-
-  QuestionMetric({
-    this.bestPractices,
-    this.questionId,
-    this.risk,
-  });
-
-  factory QuestionMetric.fromJson(Map<String, dynamic> json) {
-    return QuestionMetric(
-      bestPractices: (json['BestPractices'] as List?)
-          ?.nonNulls
-          .map((e) => BestPractice.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      questionId: json['QuestionId'] as String?,
-      risk: (json['Risk'] as String?)?.let(Risk.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bestPractices = this.bestPractices;
-    final questionId = this.questionId;
-    final risk = this.risk;
-    return {
-      if (bestPractices != null) 'BestPractices': bestPractices,
-      if (questionId != null) 'QuestionId': questionId,
-      if (risk != null) 'Risk': risk.value,
-    };
-  }
-}
-
-class QuestionPriority {
-  static const prioritized = QuestionPriority._('PRIORITIZED');
-  static const none = QuestionPriority._('NONE');
-
-  final String value;
-
-  const QuestionPriority._(this.value);
-
-  static const values = [prioritized, none];
-
-  static QuestionPriority fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => QuestionPriority._(value));
-
-  @override
-  bool operator ==(other) => other is QuestionPriority && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class QuestionType {
-  static const prioritized = QuestionType._('PRIORITIZED');
-  static const nonPrioritized = QuestionType._('NON_PRIORITIZED');
-
-  final String value;
-
-  const QuestionType._(this.value);
-
-  static const values = [prioritized, nonPrioritized];
-
-  static QuestionType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => QuestionType._(value));
-
-  @override
-  bool operator ==(other) => other is QuestionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ReportFormat {
-  static const pdf = ReportFormat._('PDF');
-  static const json = ReportFormat._('JSON');
-
-  final String value;
-
-  const ReportFormat._(this.value);
-
-  static const values = [pdf, json];
-
-  static ReportFormat fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ReportFormat._(value));
-
-  @override
-  bool operator ==(other) => other is ReportFormat && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A review template.
-class ReviewTemplate {
-  /// The review template description.
-  final String? description;
-
-  /// The lenses applied to the review template.
-  final List<String>? lenses;
-  final String? notes;
-  final String? owner;
-
-  /// A count of how many total questions are answered and unanswered in the
-  /// review template.
-  final Map<Question, int>? questionCounts;
-
-  /// The ID assigned to the template share invitation.
-  final String? shareInvitationId;
-
-  /// The tags assigned to the review template.
-  final Map<String, String>? tags;
-
-  /// The review template ARN.
-  final String? templateArn;
-
-  /// The name of the review template.
-  final String? templateName;
-
-  /// The latest status of a review template.
-  final ReviewTemplateUpdateStatus? updateStatus;
-  final DateTime? updatedAt;
-
-  ReviewTemplate({
-    this.description,
-    this.lenses,
-    this.notes,
-    this.owner,
-    this.questionCounts,
-    this.shareInvitationId,
-    this.tags,
-    this.templateArn,
-    this.templateName,
-    this.updateStatus,
-    this.updatedAt,
-  });
-
-  factory ReviewTemplate.fromJson(Map<String, dynamic> json) {
-    return ReviewTemplate(
-      description: json['Description'] as String?,
-      lenses:
-          (json['Lenses'] as List?)?.nonNulls.map((e) => e as String).toList(),
-      notes: json['Notes'] as String?,
-      owner: json['Owner'] as String?,
-      questionCounts: (json['QuestionCounts'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(Question.fromString(k), e as int)),
-      shareInvitationId: json['ShareInvitationId'] as String?,
-      tags: (json['Tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      templateArn: json['TemplateArn'] as String?,
-      templateName: json['TemplateName'] as String?,
-      updateStatus: (json['UpdateStatus'] as String?)
-          ?.let(ReviewTemplateUpdateStatus.fromString),
-      updatedAt: timeStampFromJson(json['UpdatedAt']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final lenses = this.lenses;
-    final notes = this.notes;
-    final owner = this.owner;
-    final questionCounts = this.questionCounts;
-    final shareInvitationId = this.shareInvitationId;
-    final tags = this.tags;
-    final templateArn = this.templateArn;
-    final templateName = this.templateName;
-    final updateStatus = this.updateStatus;
-    final updatedAt = this.updatedAt;
-    return {
-      if (description != null) 'Description': description,
-      if (lenses != null) 'Lenses': lenses,
-      if (notes != null) 'Notes': notes,
-      if (owner != null) 'Owner': owner,
-      if (questionCounts != null)
-        'QuestionCounts': questionCounts.map((k, e) => MapEntry(k.value, e)),
-      if (shareInvitationId != null) 'ShareInvitationId': shareInvitationId,
-      if (tags != null) 'Tags': tags,
-      if (templateArn != null) 'TemplateArn': templateArn,
-      if (templateName != null) 'TemplateName': templateName,
-      if (updateStatus != null) 'UpdateStatus': updateStatus.value,
-      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
-    };
-  }
-}
-
-/// An answer of the question.
-class ReviewTemplateAnswer {
-  /// The status of whether or not this question has been answered.
-  final ReviewTemplateAnswerStatus? answerStatus;
-
-  /// A list of selected choices to a question in your review template.
-  final List<ChoiceAnswer>? choiceAnswers;
-  final List<Choice>? choices;
-
-  /// The helpful resource text to be displayed for a custom lens.
-  /// <note>
-  /// This field does not apply to Amazon Web Services official lenses.
-  /// </note>
-  final String? helpfulResourceDisplayText;
-  final String? helpfulResourceUrl;
-  final String? improvementPlanUrl;
-  final bool? isApplicable;
-  final String? notes;
-  final String? pillarId;
-  final String? questionDescription;
-  final String? questionId;
-  final String? questionTitle;
-
-  /// The reason why the question is not applicable to your review template.
-  final AnswerReason? reason;
-  final List<String>? selectedChoices;
-
-  ReviewTemplateAnswer({
-    this.answerStatus,
-    this.choiceAnswers,
-    this.choices,
-    this.helpfulResourceDisplayText,
-    this.helpfulResourceUrl,
-    this.improvementPlanUrl,
-    this.isApplicable,
-    this.notes,
-    this.pillarId,
-    this.questionDescription,
-    this.questionId,
-    this.questionTitle,
-    this.reason,
-    this.selectedChoices,
-  });
-
-  factory ReviewTemplateAnswer.fromJson(Map<String, dynamic> json) {
-    return ReviewTemplateAnswer(
-      answerStatus: (json['AnswerStatus'] as String?)
-          ?.let(ReviewTemplateAnswerStatus.fromString),
-      choiceAnswers: (json['ChoiceAnswers'] as List?)
-          ?.nonNulls
-          .map((e) => ChoiceAnswer.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      choices: (json['Choices'] as List?)
-          ?.nonNulls
-          .map((e) => Choice.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      helpfulResourceDisplayText: json['HelpfulResourceDisplayText'] as String?,
-      helpfulResourceUrl: json['HelpfulResourceUrl'] as String?,
-      improvementPlanUrl: json['ImprovementPlanUrl'] as String?,
-      isApplicable: json['IsApplicable'] as bool?,
-      notes: json['Notes'] as String?,
-      pillarId: json['PillarId'] as String?,
-      questionDescription: json['QuestionDescription'] as String?,
-      questionId: json['QuestionId'] as String?,
-      questionTitle: json['QuestionTitle'] as String?,
-      reason: (json['Reason'] as String?)?.let(AnswerReason.fromString),
-      selectedChoices: (json['SelectedChoices'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final answerStatus = this.answerStatus;
-    final choiceAnswers = this.choiceAnswers;
-    final choices = this.choices;
-    final helpfulResourceDisplayText = this.helpfulResourceDisplayText;
-    final helpfulResourceUrl = this.helpfulResourceUrl;
-    final improvementPlanUrl = this.improvementPlanUrl;
-    final isApplicable = this.isApplicable;
-    final notes = this.notes;
-    final pillarId = this.pillarId;
-    final questionDescription = this.questionDescription;
-    final questionId = this.questionId;
-    final questionTitle = this.questionTitle;
-    final reason = this.reason;
-    final selectedChoices = this.selectedChoices;
-    return {
-      if (answerStatus != null) 'AnswerStatus': answerStatus.value,
-      if (choiceAnswers != null) 'ChoiceAnswers': choiceAnswers,
-      if (choices != null) 'Choices': choices,
-      if (helpfulResourceDisplayText != null)
-        'HelpfulResourceDisplayText': helpfulResourceDisplayText,
-      if (helpfulResourceUrl != null) 'HelpfulResourceUrl': helpfulResourceUrl,
-      if (improvementPlanUrl != null) 'ImprovementPlanUrl': improvementPlanUrl,
-      if (isApplicable != null) 'IsApplicable': isApplicable,
-      if (notes != null) 'Notes': notes,
-      if (pillarId != null) 'PillarId': pillarId,
-      if (questionDescription != null)
-        'QuestionDescription': questionDescription,
-      if (questionId != null) 'QuestionId': questionId,
-      if (questionTitle != null) 'QuestionTitle': questionTitle,
-      if (reason != null) 'Reason': reason.value,
-      if (selectedChoices != null) 'SelectedChoices': selectedChoices,
-    };
-  }
-}
-
-class ReviewTemplateAnswerStatus {
-  static const unanswered = ReviewTemplateAnswerStatus._('UNANSWERED');
-  static const answered = ReviewTemplateAnswerStatus._('ANSWERED');
-
-  final String value;
-
-  const ReviewTemplateAnswerStatus._(this.value);
-
-  static const values = [unanswered, answered];
-
-  static ReviewTemplateAnswerStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ReviewTemplateAnswerStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ReviewTemplateAnswerStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The summary of review template answers.
-class ReviewTemplateAnswerSummary {
-  /// The status of whether or not this question has been answered.
-  final ReviewTemplateAnswerStatus? answerStatus;
-
-  /// A list of selected choices to a question in the review template.
-  final List<ChoiceAnswerSummary>? choiceAnswerSummaries;
-  final List<Choice>? choices;
-  final bool? isApplicable;
-  final String? pillarId;
-  final String? questionId;
-  final String? questionTitle;
-
-  /// The type of question.
-  final QuestionType? questionType;
-
-  /// The reason why a choice is not-applicable to a question in the review
-  /// template.
-  final AnswerReason? reason;
-  final List<String>? selectedChoices;
-
-  ReviewTemplateAnswerSummary({
-    this.answerStatus,
-    this.choiceAnswerSummaries,
-    this.choices,
-    this.isApplicable,
-    this.pillarId,
-    this.questionId,
-    this.questionTitle,
-    this.questionType,
-    this.reason,
-    this.selectedChoices,
-  });
-
-  factory ReviewTemplateAnswerSummary.fromJson(Map<String, dynamic> json) {
-    return ReviewTemplateAnswerSummary(
-      answerStatus: (json['AnswerStatus'] as String?)
-          ?.let(ReviewTemplateAnswerStatus.fromString),
-      choiceAnswerSummaries: (json['ChoiceAnswerSummaries'] as List?)
-          ?.nonNulls
-          .map((e) => ChoiceAnswerSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      choices: (json['Choices'] as List?)
-          ?.nonNulls
-          .map((e) => Choice.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      isApplicable: json['IsApplicable'] as bool?,
-      pillarId: json['PillarId'] as String?,
-      questionId: json['QuestionId'] as String?,
-      questionTitle: json['QuestionTitle'] as String?,
-      questionType:
-          (json['QuestionType'] as String?)?.let(QuestionType.fromString),
-      reason: (json['Reason'] as String?)?.let(AnswerReason.fromString),
-      selectedChoices: (json['SelectedChoices'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final answerStatus = this.answerStatus;
-    final choiceAnswerSummaries = this.choiceAnswerSummaries;
-    final choices = this.choices;
-    final isApplicable = this.isApplicable;
-    final pillarId = this.pillarId;
-    final questionId = this.questionId;
-    final questionTitle = this.questionTitle;
-    final questionType = this.questionType;
-    final reason = this.reason;
-    final selectedChoices = this.selectedChoices;
-    return {
-      if (answerStatus != null) 'AnswerStatus': answerStatus.value,
-      if (choiceAnswerSummaries != null)
-        'ChoiceAnswerSummaries': choiceAnswerSummaries,
-      if (choices != null) 'Choices': choices,
-      if (isApplicable != null) 'IsApplicable': isApplicable,
-      if (pillarId != null) 'PillarId': pillarId,
-      if (questionId != null) 'QuestionId': questionId,
-      if (questionTitle != null) 'QuestionTitle': questionTitle,
-      if (questionType != null) 'QuestionType': questionType.value,
-      if (reason != null) 'Reason': reason.value,
-      if (selectedChoices != null) 'SelectedChoices': selectedChoices,
-    };
-  }
-}
-
-/// The lens review of a review template.
-class ReviewTemplateLensReview {
-  final String? lensAlias;
-
-  /// The lens ARN.
-  final String? lensArn;
-  final String? lensName;
-
-  /// The status of the lens.
-  final LensStatus? lensStatus;
-
-  /// The version of the lens.
-  final String? lensVersion;
-  final String? nextToken;
-  final String? notes;
-
-  /// Pillar review summaries of a lens review.
-  final List<ReviewTemplatePillarReviewSummary>? pillarReviewSummaries;
-
-  /// A count of how many questions are answered and unanswered in the lens
-  /// review.
-  final Map<Question, int>? questionCounts;
-  final DateTime? updatedAt;
-
-  ReviewTemplateLensReview({
-    this.lensAlias,
-    this.lensArn,
-    this.lensName,
-    this.lensStatus,
-    this.lensVersion,
-    this.nextToken,
-    this.notes,
-    this.pillarReviewSummaries,
-    this.questionCounts,
-    this.updatedAt,
-  });
-
-  factory ReviewTemplateLensReview.fromJson(Map<String, dynamic> json) {
-    return ReviewTemplateLensReview(
-      lensAlias: json['LensAlias'] as String?,
-      lensArn: json['LensArn'] as String?,
-      lensName: json['LensName'] as String?,
-      lensStatus: (json['LensStatus'] as String?)?.let(LensStatus.fromString),
-      lensVersion: json['LensVersion'] as String?,
-      nextToken: json['NextToken'] as String?,
-      notes: json['Notes'] as String?,
-      pillarReviewSummaries: (json['PillarReviewSummaries'] as List?)
-          ?.nonNulls
-          .map((e) => ReviewTemplatePillarReviewSummary.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-      questionCounts: (json['QuestionCounts'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(Question.fromString(k), e as int)),
-      updatedAt: timeStampFromJson(json['UpdatedAt']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lensAlias = this.lensAlias;
-    final lensArn = this.lensArn;
-    final lensName = this.lensName;
-    final lensStatus = this.lensStatus;
-    final lensVersion = this.lensVersion;
-    final nextToken = this.nextToken;
-    final notes = this.notes;
-    final pillarReviewSummaries = this.pillarReviewSummaries;
-    final questionCounts = this.questionCounts;
-    final updatedAt = this.updatedAt;
-    return {
-      if (lensAlias != null) 'LensAlias': lensAlias,
-      if (lensArn != null) 'LensArn': lensArn,
-      if (lensName != null) 'LensName': lensName,
-      if (lensStatus != null) 'LensStatus': lensStatus.value,
-      if (lensVersion != null) 'LensVersion': lensVersion,
-      if (nextToken != null) 'NextToken': nextToken,
-      if (notes != null) 'Notes': notes,
-      if (pillarReviewSummaries != null)
-        'PillarReviewSummaries': pillarReviewSummaries,
-      if (questionCounts != null)
-        'QuestionCounts': questionCounts.map((k, e) => MapEntry(k.value, e)),
-      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
-    };
-  }
-}
-
-/// Summary of a review template.
-class ReviewTemplatePillarReviewSummary {
-  final String? notes;
-  final String? pillarId;
-  final String? pillarName;
-
-  /// A count of how many questions are answered and unanswered in the requested
-  /// pillar of the lens review.
-  final Map<Question, int>? questionCounts;
-
-  ReviewTemplatePillarReviewSummary({
-    this.notes,
-    this.pillarId,
-    this.pillarName,
-    this.questionCounts,
-  });
-
-  factory ReviewTemplatePillarReviewSummary.fromJson(
-      Map<String, dynamic> json) {
-    return ReviewTemplatePillarReviewSummary(
-      notes: json['Notes'] as String?,
-      pillarId: json['PillarId'] as String?,
-      pillarName: json['PillarName'] as String?,
-      questionCounts: (json['QuestionCounts'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(Question.fromString(k), e as int)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final notes = this.notes;
-    final pillarId = this.pillarId;
-    final pillarName = this.pillarName;
-    final questionCounts = this.questionCounts;
-    return {
-      if (notes != null) 'Notes': notes,
-      if (pillarId != null) 'PillarId': pillarId,
-      if (pillarName != null) 'PillarName': pillarName,
-      if (questionCounts != null)
-        'QuestionCounts': questionCounts.map((k, e) => MapEntry(k.value, e)),
-    };
-  }
-}
-
-/// Summary of a review template.
-class ReviewTemplateSummary {
-  /// Description of the review template.
-  final String? description;
-
-  /// Lenses associated with the review template.
-  final List<String>? lenses;
-  final String? owner;
-
-  /// The review template ARN.
-  final String? templateArn;
-
-  /// The name of the review template.
-  final String? templateName;
-
-  /// The latest status of a review template.
-  final ReviewTemplateUpdateStatus? updateStatus;
-  final DateTime? updatedAt;
-
-  ReviewTemplateSummary({
-    this.description,
-    this.lenses,
-    this.owner,
-    this.templateArn,
-    this.templateName,
-    this.updateStatus,
-    this.updatedAt,
-  });
-
-  factory ReviewTemplateSummary.fromJson(Map<String, dynamic> json) {
-    return ReviewTemplateSummary(
-      description: json['Description'] as String?,
-      lenses:
-          (json['Lenses'] as List?)?.nonNulls.map((e) => e as String).toList(),
-      owner: json['Owner'] as String?,
-      templateArn: json['TemplateArn'] as String?,
-      templateName: json['TemplateName'] as String?,
-      updateStatus: (json['UpdateStatus'] as String?)
-          ?.let(ReviewTemplateUpdateStatus.fromString),
-      updatedAt: timeStampFromJson(json['UpdatedAt']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final lenses = this.lenses;
-    final owner = this.owner;
-    final templateArn = this.templateArn;
-    final templateName = this.templateName;
-    final updateStatus = this.updateStatus;
-    final updatedAt = this.updatedAt;
-    return {
-      if (description != null) 'Description': description,
-      if (lenses != null) 'Lenses': lenses,
-      if (owner != null) 'Owner': owner,
-      if (templateArn != null) 'TemplateArn': templateArn,
-      if (templateName != null) 'TemplateName': templateName,
-      if (updateStatus != null) 'UpdateStatus': updateStatus.value,
-      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
-    };
-  }
-}
-
-class ReviewTemplateUpdateStatus {
-  static const current = ReviewTemplateUpdateStatus._('CURRENT');
-  static const lensNotCurrent =
-      ReviewTemplateUpdateStatus._('LENS_NOT_CURRENT');
-
-  final String value;
-
-  const ReviewTemplateUpdateStatus._(this.value);
-
-  static const values = [current, lensNotCurrent];
-
-  static ReviewTemplateUpdateStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ReviewTemplateUpdateStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ReviewTemplateUpdateStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The risk for a given workload, lens review, pillar, or question.
-class Risk {
-  static const unanswered = Risk._('UNANSWERED');
-  static const high = Risk._('HIGH');
-  static const medium = Risk._('MEDIUM');
-  static const none = Risk._('NONE');
-  static const notApplicable = Risk._('NOT_APPLICABLE');
-
-  final String value;
-
-  const Risk._(this.value);
-
-  static const values = [unanswered, high, medium, none, notApplicable];
-
-  static Risk fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Risk._(value));
-
-  @override
-  bool operator ==(other) => other is Risk && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The selected pillar.
-class SelectedPillar {
-  final String? pillarId;
-
-  /// Selected question IDs in the selected pillar.
-  final List<String>? selectedQuestionIds;
-
-  SelectedPillar({
-    this.pillarId,
-    this.selectedQuestionIds,
-  });
-
-  factory SelectedPillar.fromJson(Map<String, dynamic> json) {
-    return SelectedPillar(
-      pillarId: json['PillarId'] as String?,
-      selectedQuestionIds: (json['SelectedQuestionIds'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final pillarId = this.pillarId;
-    final selectedQuestionIds = this.selectedQuestionIds;
-    return {
-      if (pillarId != null) 'PillarId': pillarId,
-      if (selectedQuestionIds != null)
-        'SelectedQuestionIds': selectedQuestionIds,
-    };
-  }
-}
-
-/// The share invitation.
-class ShareInvitation {
-  final String? lensAlias;
-
-  /// The ARN for the lens.
-  final String? lensArn;
-
-  /// The profile ARN.
-  final String? profileArn;
-
-  /// The ID assigned to the share invitation.
-  final String? shareInvitationId;
-
-  /// The resource type of the share invitation.
-  final ShareResourceType? shareResourceType;
-
-  /// The review template ARN.
-  final String? templateArn;
-  final String? workloadId;
-
-  ShareInvitation({
-    this.lensAlias,
-    this.lensArn,
-    this.profileArn,
-    this.shareInvitationId,
-    this.shareResourceType,
-    this.templateArn,
-    this.workloadId,
-  });
-
-  factory ShareInvitation.fromJson(Map<String, dynamic> json) {
-    return ShareInvitation(
-      lensAlias: json['LensAlias'] as String?,
-      lensArn: json['LensArn'] as String?,
-      profileArn: json['ProfileArn'] as String?,
-      shareInvitationId: json['ShareInvitationId'] as String?,
-      shareResourceType: (json['ShareResourceType'] as String?)
-          ?.let(ShareResourceType.fromString),
-      templateArn: json['TemplateArn'] as String?,
-      workloadId: json['WorkloadId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lensAlias = this.lensAlias;
-    final lensArn = this.lensArn;
-    final profileArn = this.profileArn;
-    final shareInvitationId = this.shareInvitationId;
-    final shareResourceType = this.shareResourceType;
-    final templateArn = this.templateArn;
-    final workloadId = this.workloadId;
-    return {
-      if (lensAlias != null) 'LensAlias': lensAlias,
-      if (lensArn != null) 'LensArn': lensArn,
-      if (profileArn != null) 'ProfileArn': profileArn,
-      if (shareInvitationId != null) 'ShareInvitationId': shareInvitationId,
-      if (shareResourceType != null)
-        'ShareResourceType': shareResourceType.value,
-      if (templateArn != null) 'TemplateArn': templateArn,
-      if (workloadId != null) 'WorkloadId': workloadId,
-    };
-  }
-}
-
-/// Share invitation action taken by contributor.
-class ShareInvitationAction {
-  static const accept = ShareInvitationAction._('ACCEPT');
-  static const reject = ShareInvitationAction._('REJECT');
-
-  final String value;
-
-  const ShareInvitationAction._(this.value);
-
-  static const values = [accept, reject];
-
-  static ShareInvitationAction fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ShareInvitationAction._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ShareInvitationAction && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A share invitation summary return object.
-class ShareInvitationSummary {
-  /// The ARN for the lens.
-  final String? lensArn;
-  final String? lensName;
-  final PermissionType? permissionType;
-
-  /// The profile ARN.
-  final String? profileArn;
-
-  /// The profile name.
-  final String? profileName;
-
-  /// The ID assigned to the share invitation.
-  final String? shareInvitationId;
-
-  /// The resource type of the share invitation.
-  final ShareResourceType? shareResourceType;
-  final String? sharedBy;
-  final String? sharedWith;
-
-  /// The review template ARN.
-  final String? templateArn;
-
-  /// The name of the review template.
-  final String? templateName;
-  final String? workloadId;
-  final String? workloadName;
-
-  ShareInvitationSummary({
-    this.lensArn,
-    this.lensName,
-    this.permissionType,
-    this.profileArn,
-    this.profileName,
-    this.shareInvitationId,
-    this.shareResourceType,
-    this.sharedBy,
-    this.sharedWith,
-    this.templateArn,
-    this.templateName,
-    this.workloadId,
-    this.workloadName,
-  });
-
-  factory ShareInvitationSummary.fromJson(Map<String, dynamic> json) {
-    return ShareInvitationSummary(
-      lensArn: json['LensArn'] as String?,
-      lensName: json['LensName'] as String?,
-      permissionType:
-          (json['PermissionType'] as String?)?.let(PermissionType.fromString),
-      profileArn: json['ProfileArn'] as String?,
-      profileName: json['ProfileName'] as String?,
-      shareInvitationId: json['ShareInvitationId'] as String?,
-      shareResourceType: (json['ShareResourceType'] as String?)
-          ?.let(ShareResourceType.fromString),
-      sharedBy: json['SharedBy'] as String?,
-      sharedWith: json['SharedWith'] as String?,
-      templateArn: json['TemplateArn'] as String?,
-      templateName: json['TemplateName'] as String?,
-      workloadId: json['WorkloadId'] as String?,
-      workloadName: json['WorkloadName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lensArn = this.lensArn;
-    final lensName = this.lensName;
-    final permissionType = this.permissionType;
-    final profileArn = this.profileArn;
-    final profileName = this.profileName;
-    final shareInvitationId = this.shareInvitationId;
-    final shareResourceType = this.shareResourceType;
-    final sharedBy = this.sharedBy;
-    final sharedWith = this.sharedWith;
-    final templateArn = this.templateArn;
-    final templateName = this.templateName;
-    final workloadId = this.workloadId;
-    final workloadName = this.workloadName;
-    return {
-      if (lensArn != null) 'LensArn': lensArn,
-      if (lensName != null) 'LensName': lensName,
-      if (permissionType != null) 'PermissionType': permissionType.value,
-      if (profileArn != null) 'ProfileArn': profileArn,
-      if (profileName != null) 'ProfileName': profileName,
-      if (shareInvitationId != null) 'ShareInvitationId': shareInvitationId,
-      if (shareResourceType != null)
-        'ShareResourceType': shareResourceType.value,
-      if (sharedBy != null) 'SharedBy': sharedBy,
-      if (sharedWith != null) 'SharedWith': sharedWith,
-      if (templateArn != null) 'TemplateArn': templateArn,
-      if (templateName != null) 'TemplateName': templateName,
-      if (workloadId != null) 'WorkloadId': workloadId,
-      if (workloadName != null) 'WorkloadName': workloadName,
-    };
-  }
-}
-
-class ShareResourceType {
-  static const workload = ShareResourceType._('WORKLOAD');
-  static const lens = ShareResourceType._('LENS');
-  static const profile = ShareResourceType._('PROFILE');
-  static const template = ShareResourceType._('TEMPLATE');
-
-  final String value;
-
-  const ShareResourceType._(this.value);
-
-  static const values = [workload, lens, profile, template];
-
-  static ShareResourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ShareResourceType._(value));
-
-  @override
-  bool operator ==(other) => other is ShareResourceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The status of the share request.
-class ShareStatus {
-  static const accepted = ShareStatus._('ACCEPTED');
-  static const rejected = ShareStatus._('REJECTED');
-  static const pending = ShareStatus._('PENDING');
-  static const revoked = ShareStatus._('REVOKED');
-  static const expired = ShareStatus._('EXPIRED');
-  static const associating = ShareStatus._('ASSOCIATING');
-  static const associated = ShareStatus._('ASSOCIATED');
-  static const failed = ShareStatus._('FAILED');
-
-  final String value;
-
-  const ShareStatus._(this.value);
-
-  static const values = [
-    accepted,
-    rejected,
-    pending,
-    revoked,
-    expired,
-    associating,
-    associated,
-    failed
-  ];
-
-  static ShareStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ShareStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ShareStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class TagResourceOutput {
   TagResourceOutput();
 
@@ -8101,70 +4216,6 @@ class TagResourceOutput {
   Map<String, dynamic> toJson() {
     return {};
   }
-}
-
-/// Summary of a review template share.
-class TemplateShareSummary {
-  final String? shareId;
-  final String? sharedWith;
-  final ShareStatus? status;
-
-  /// Review template share invitation status message.
-  final String? statusMessage;
-
-  TemplateShareSummary({
-    this.shareId,
-    this.sharedWith,
-    this.status,
-    this.statusMessage,
-  });
-
-  factory TemplateShareSummary.fromJson(Map<String, dynamic> json) {
-    return TemplateShareSummary(
-      shareId: json['ShareId'] as String?,
-      sharedWith: json['SharedWith'] as String?,
-      status: (json['Status'] as String?)?.let(ShareStatus.fromString),
-      statusMessage: json['StatusMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final shareId = this.shareId;
-    final sharedWith = this.sharedWith;
-    final status = this.status;
-    final statusMessage = this.statusMessage;
-    return {
-      if (shareId != null) 'ShareId': shareId,
-      if (sharedWith != null) 'SharedWith': sharedWith,
-      if (status != null) 'Status': status.value,
-      if (statusMessage != null) 'StatusMessage': statusMessage,
-    };
-  }
-}
-
-class TrustedAdvisorIntegrationStatus {
-  static const enabled = TrustedAdvisorIntegrationStatus._('ENABLED');
-  static const disabled = TrustedAdvisorIntegrationStatus._('DISABLED');
-
-  final String value;
-
-  const TrustedAdvisorIntegrationStatus._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static TrustedAdvisorIntegrationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TrustedAdvisorIntegrationStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is TrustedAdvisorIntegrationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class UntagResourceOutput {
@@ -8273,6 +4324,31 @@ class UpdateProfileOutput {
   }
 }
 
+class UpdateReviewTemplateOutput {
+  /// A review template.
+  final ReviewTemplate? reviewTemplate;
+
+  UpdateReviewTemplateOutput({
+    this.reviewTemplate,
+  });
+
+  factory UpdateReviewTemplateOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateReviewTemplateOutput(
+      reviewTemplate: json['ReviewTemplate'] != null
+          ? ReviewTemplate.fromJson(
+              json['ReviewTemplate'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reviewTemplate = this.reviewTemplate;
+    return {
+      if (reviewTemplate != null) 'ReviewTemplate': reviewTemplate,
+    };
+  }
+}
+
 class UpdateReviewTemplateAnswerOutput {
   /// An answer of the question.
   final ReviewTemplateAnswer? answer;
@@ -8339,31 +4415,6 @@ class UpdateReviewTemplateLensReviewOutput {
     return {
       if (lensReview != null) 'LensReview': lensReview,
       if (templateArn != null) 'TemplateArn': templateArn,
-    };
-  }
-}
-
-class UpdateReviewTemplateOutput {
-  /// A review template.
-  final ReviewTemplate? reviewTemplate;
-
-  UpdateReviewTemplateOutput({
-    this.reviewTemplate,
-  });
-
-  factory UpdateReviewTemplateOutput.fromJson(Map<String, dynamic> json) {
-    return UpdateReviewTemplateOutput(
-      reviewTemplate: json['ReviewTemplate'] != null
-          ? ReviewTemplate.fromJson(
-              json['ReviewTemplate'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final reviewTemplate = this.reviewTemplate;
-    return {
-      if (reviewTemplate != null) 'ReviewTemplate': reviewTemplate,
     };
   }
 }
@@ -8447,30 +4498,121 @@ class UpdateWorkloadShareOutput {
   }
 }
 
-/// The differences between the base and latest versions of the lens.
-class VersionDifferences {
-  /// The differences between the base and latest versions of the lens.
-  final List<PillarDifference>? pillarDifferences;
+/// A workload share return object.
+class WorkloadShare {
+  final PermissionType? permissionType;
+  final String? shareId;
+  final String? sharedBy;
+  final String? sharedWith;
+  final ShareStatus? status;
+  final String? workloadId;
+  final String? workloadName;
 
-  VersionDifferences({
-    this.pillarDifferences,
+  WorkloadShare({
+    this.permissionType,
+    this.shareId,
+    this.sharedBy,
+    this.sharedWith,
+    this.status,
+    this.workloadId,
+    this.workloadName,
   });
 
-  factory VersionDifferences.fromJson(Map<String, dynamic> json) {
-    return VersionDifferences(
-      pillarDifferences: (json['PillarDifferences'] as List?)
-          ?.nonNulls
-          .map((e) => PillarDifference.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  factory WorkloadShare.fromJson(Map<String, dynamic> json) {
+    return WorkloadShare(
+      permissionType:
+          (json['PermissionType'] as String?)?.let(PermissionType.fromString),
+      shareId: json['ShareId'] as String?,
+      sharedBy: json['SharedBy'] as String?,
+      sharedWith: json['SharedWith'] as String?,
+      status: (json['Status'] as String?)?.let(ShareStatus.fromString),
+      workloadId: json['WorkloadId'] as String?,
+      workloadName: json['WorkloadName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final pillarDifferences = this.pillarDifferences;
+    final permissionType = this.permissionType;
+    final shareId = this.shareId;
+    final sharedBy = this.sharedBy;
+    final sharedWith = this.sharedWith;
+    final status = this.status;
+    final workloadId = this.workloadId;
+    final workloadName = this.workloadName;
     return {
-      if (pillarDifferences != null) 'PillarDifferences': pillarDifferences,
+      if (permissionType != null) 'PermissionType': permissionType.value,
+      if (shareId != null) 'ShareId': shareId,
+      if (sharedBy != null) 'SharedBy': sharedBy,
+      if (sharedWith != null) 'SharedWith': sharedWith,
+      if (status != null) 'Status': status.value,
+      if (workloadId != null) 'WorkloadId': workloadId,
+      if (workloadName != null) 'WorkloadName': workloadName,
     };
   }
+}
+
+/// Permission granted on a share request.
+class PermissionType {
+  static const readonly = PermissionType._('READONLY');
+  static const contributor = PermissionType._('CONTRIBUTOR');
+
+  final String value;
+
+  const PermissionType._(this.value);
+
+  static const values = [readonly, contributor];
+
+  static PermissionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PermissionType._(value));
+
+  @override
+  bool operator ==(other) => other is PermissionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The status of the share request.
+class ShareStatus {
+  static const accepted = ShareStatus._('ACCEPTED');
+  static const rejected = ShareStatus._('REJECTED');
+  static const pending = ShareStatus._('PENDING');
+  static const revoked = ShareStatus._('REVOKED');
+  static const expired = ShareStatus._('EXPIRED');
+  static const associating = ShareStatus._('ASSOCIATING');
+  static const associated = ShareStatus._('ASSOCIATED');
+  static const failed = ShareStatus._('FAILED');
+
+  final String value;
+
+  const ShareStatus._(this.value);
+
+  static const values = [
+    accepted,
+    rejected,
+    pending,
+    revoked,
+    expired,
+    associating,
+    associated,
+    failed
+  ];
+
+  static ShareStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ShareStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ShareStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A workload return object.
@@ -8689,49 +4831,6 @@ class Workload {
   }
 }
 
-/// Discovery configuration associated to the workload.
-class WorkloadDiscoveryConfig {
-  /// Discovery integration status in respect to Trusted Advisor for the workload.
-  final TrustedAdvisorIntegrationStatus? trustedAdvisorIntegrationStatus;
-
-  /// The mode to use for identifying resources associated with the workload.
-  ///
-  /// You can specify <code>WORKLOAD_METADATA</code>, <code>APP_REGISTRY</code>,
-  /// or both.
-  final List<DefinitionType>? workloadResourceDefinition;
-
-  WorkloadDiscoveryConfig({
-    this.trustedAdvisorIntegrationStatus,
-    this.workloadResourceDefinition,
-  });
-
-  factory WorkloadDiscoveryConfig.fromJson(Map<String, dynamic> json) {
-    return WorkloadDiscoveryConfig(
-      trustedAdvisorIntegrationStatus:
-          (json['TrustedAdvisorIntegrationStatus'] as String?)
-              ?.let(TrustedAdvisorIntegrationStatus.fromString),
-      workloadResourceDefinition: (json['WorkloadResourceDefinition'] as List?)
-          ?.nonNulls
-          .map((e) => DefinitionType.fromString((e as String)))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final trustedAdvisorIntegrationStatus =
-        this.trustedAdvisorIntegrationStatus;
-    final workloadResourceDefinition = this.workloadResourceDefinition;
-    return {
-      if (trustedAdvisorIntegrationStatus != null)
-        'TrustedAdvisorIntegrationStatus':
-            trustedAdvisorIntegrationStatus.value,
-      if (workloadResourceDefinition != null)
-        'WorkloadResourceDefinition':
-            workloadResourceDefinition.map((e) => e.value).toList(),
-    };
-  }
-}
-
 /// The environment for the workload.
 class WorkloadEnvironment {
   static const production = WorkloadEnvironment._('PRODUCTION');
@@ -8794,59 +4893,45 @@ class WorkloadImprovementStatus {
   String toString() => value;
 }
 
-class WorkloadIssueManagementStatus {
-  static const enabled = WorkloadIssueManagementStatus._('ENABLED');
-  static const disabled = WorkloadIssueManagementStatus._('DISABLED');
-  static const inherit = WorkloadIssueManagementStatus._('INHERIT');
+/// Discovery configuration associated to the workload.
+class WorkloadDiscoveryConfig {
+  /// Discovery integration status in respect to Trusted Advisor for the workload.
+  final TrustedAdvisorIntegrationStatus? trustedAdvisorIntegrationStatus;
 
-  final String value;
+  /// The mode to use for identifying resources associated with the workload.
+  ///
+  /// You can specify <code>WORKLOAD_METADATA</code>, <code>APP_REGISTRY</code>,
+  /// or both.
+  final List<DefinitionType>? workloadResourceDefinition;
 
-  const WorkloadIssueManagementStatus._(this.value);
-
-  static const values = [enabled, disabled, inherit];
-
-  static WorkloadIssueManagementStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => WorkloadIssueManagementStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is WorkloadIssueManagementStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Workload-level: Input for the Jira configuration.
-class WorkloadJiraConfigurationInput {
-  /// Workload-level: Jira issue management status.
-  final WorkloadIssueManagementStatus? issueManagementStatus;
-
-  /// Workload-level: Jira issue management type.
-  final IssueManagementType? issueManagementType;
-
-  /// Workload-level: Jira project key to sync workloads to.
-  final String? jiraProjectKey;
-
-  WorkloadJiraConfigurationInput({
-    this.issueManagementStatus,
-    this.issueManagementType,
-    this.jiraProjectKey,
+  WorkloadDiscoveryConfig({
+    this.trustedAdvisorIntegrationStatus,
+    this.workloadResourceDefinition,
   });
 
+  factory WorkloadDiscoveryConfig.fromJson(Map<String, dynamic> json) {
+    return WorkloadDiscoveryConfig(
+      trustedAdvisorIntegrationStatus:
+          (json['TrustedAdvisorIntegrationStatus'] as String?)
+              ?.let(TrustedAdvisorIntegrationStatus.fromString),
+      workloadResourceDefinition: (json['WorkloadResourceDefinition'] as List?)
+          ?.nonNulls
+          .map((e) => DefinitionType.fromString((e as String)))
+          .toList(),
+    );
+  }
+
   Map<String, dynamic> toJson() {
-    final issueManagementStatus = this.issueManagementStatus;
-    final issueManagementType = this.issueManagementType;
-    final jiraProjectKey = this.jiraProjectKey;
+    final trustedAdvisorIntegrationStatus =
+        this.trustedAdvisorIntegrationStatus;
+    final workloadResourceDefinition = this.workloadResourceDefinition;
     return {
-      if (issueManagementStatus != null)
-        'IssueManagementStatus': issueManagementStatus.value,
-      if (issueManagementType != null)
-        'IssueManagementType': issueManagementType.value,
-      if (jiraProjectKey != null) 'JiraProjectKey': jiraProjectKey,
+      if (trustedAdvisorIntegrationStatus != null)
+        'TrustedAdvisorIntegrationStatus':
+            trustedAdvisorIntegrationStatus.value,
+      if (workloadResourceDefinition != null)
+        'WorkloadResourceDefinition':
+            workloadResourceDefinition.map((e) => e.value).toList(),
     };
   }
 }
@@ -8899,6 +4984,57 @@ class WorkloadJiraConfigurationOutput {
   }
 }
 
+class WorkloadIssueManagementStatus {
+  static const enabled = WorkloadIssueManagementStatus._('ENABLED');
+  static const disabled = WorkloadIssueManagementStatus._('DISABLED');
+  static const inherit = WorkloadIssueManagementStatus._('INHERIT');
+
+  final String value;
+
+  const WorkloadIssueManagementStatus._(this.value);
+
+  static const values = [enabled, disabled, inherit];
+
+  static WorkloadIssueManagementStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WorkloadIssueManagementStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WorkloadIssueManagementStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class IssueManagementType {
+  static const auto = IssueManagementType._('AUTO');
+  static const manual = IssueManagementType._('MANUAL');
+
+  final String value;
+
+  const IssueManagementType._(this.value);
+
+  static const values = [auto, manual];
+
+  static IssueManagementType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IssueManagementType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IssueManagementType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// The profile associated with a workload.
 class WorkloadProfile {
   /// The profile ARN.
@@ -8929,55 +5065,1705 @@ class WorkloadProfile {
   }
 }
 
-/// A workload share return object.
-class WorkloadShare {
-  final PermissionType? permissionType;
-  final String? shareId;
-  final String? sharedBy;
-  final String? sharedWith;
-  final ShareStatus? status;
-  final String? workloadId;
-  final String? workloadName;
+class TrustedAdvisorIntegrationStatus {
+  static const enabled = TrustedAdvisorIntegrationStatus._('ENABLED');
+  static const disabled = TrustedAdvisorIntegrationStatus._('DISABLED');
 
-  WorkloadShare({
-    this.permissionType,
-    this.shareId,
-    this.sharedBy,
-    this.sharedWith,
-    this.status,
-    this.workloadId,
-    this.workloadName,
+  final String value;
+
+  const TrustedAdvisorIntegrationStatus._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static TrustedAdvisorIntegrationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TrustedAdvisorIntegrationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TrustedAdvisorIntegrationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DefinitionType {
+  static const workloadMetadata = DefinitionType._('WORKLOAD_METADATA');
+  static const appRegistry = DefinitionType._('APP_REGISTRY');
+
+  final String value;
+
+  const DefinitionType._(this.value);
+
+  static const values = [workloadMetadata, appRegistry];
+
+  static DefinitionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DefinitionType._(value));
+
+  @override
+  bool operator ==(other) => other is DefinitionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The risk for a given workload, lens review, pillar, or question.
+class Risk {
+  static const unanswered = Risk._('UNANSWERED');
+  static const high = Risk._('HIGH');
+  static const medium = Risk._('MEDIUM');
+  static const none = Risk._('NONE');
+  static const notApplicable = Risk._('NOT_APPLICABLE');
+
+  final String value;
+
+  const Risk._(this.value);
+
+  static const values = [unanswered, high, medium, none, notApplicable];
+
+  static Risk fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Risk._(value));
+
+  @override
+  bool operator ==(other) => other is Risk && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Workload-level: Input for the Jira configuration.
+class WorkloadJiraConfigurationInput {
+  /// Workload-level: Jira issue management status.
+  final WorkloadIssueManagementStatus? issueManagementStatus;
+
+  /// Workload-level: Jira issue management type.
+  final IssueManagementType? issueManagementType;
+
+  /// Workload-level: Jira project key to sync workloads to.
+  final String? jiraProjectKey;
+
+  WorkloadJiraConfigurationInput({
+    this.issueManagementStatus,
+    this.issueManagementType,
+    this.jiraProjectKey,
   });
 
-  factory WorkloadShare.fromJson(Map<String, dynamic> json) {
-    return WorkloadShare(
-      permissionType:
-          (json['PermissionType'] as String?)?.let(PermissionType.fromString),
-      shareId: json['ShareId'] as String?,
-      sharedBy: json['SharedBy'] as String?,
-      sharedWith: json['SharedWith'] as String?,
-      status: (json['Status'] as String?)?.let(ShareStatus.fromString),
+  Map<String, dynamic> toJson() {
+    final issueManagementStatus = this.issueManagementStatus;
+    final issueManagementType = this.issueManagementType;
+    final jiraProjectKey = this.jiraProjectKey;
+    return {
+      if (issueManagementStatus != null)
+        'IssueManagementStatus': issueManagementStatus.value,
+      if (issueManagementType != null)
+        'IssueManagementType': issueManagementType.value,
+      if (jiraProjectKey != null) 'JiraProjectKey': jiraProjectKey,
+    };
+  }
+}
+
+/// The share invitation.
+class ShareInvitation {
+  final String? lensAlias;
+
+  /// The ARN for the lens.
+  final String? lensArn;
+
+  /// The profile ARN.
+  final String? profileArn;
+
+  /// The ID assigned to the share invitation.
+  final String? shareInvitationId;
+
+  /// The resource type of the share invitation.
+  final ShareResourceType? shareResourceType;
+
+  /// The review template ARN.
+  final String? templateArn;
+  final String? workloadId;
+
+  ShareInvitation({
+    this.lensAlias,
+    this.lensArn,
+    this.profileArn,
+    this.shareInvitationId,
+    this.shareResourceType,
+    this.templateArn,
+    this.workloadId,
+  });
+
+  factory ShareInvitation.fromJson(Map<String, dynamic> json) {
+    return ShareInvitation(
+      lensAlias: json['LensAlias'] as String?,
+      lensArn: json['LensArn'] as String?,
+      profileArn: json['ProfileArn'] as String?,
+      shareInvitationId: json['ShareInvitationId'] as String?,
+      shareResourceType: (json['ShareResourceType'] as String?)
+          ?.let(ShareResourceType.fromString),
+      templateArn: json['TemplateArn'] as String?,
       workloadId: json['WorkloadId'] as String?,
-      workloadName: json['WorkloadName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final permissionType = this.permissionType;
-    final shareId = this.shareId;
-    final sharedBy = this.sharedBy;
-    final sharedWith = this.sharedWith;
-    final status = this.status;
+    final lensAlias = this.lensAlias;
+    final lensArn = this.lensArn;
+    final profileArn = this.profileArn;
+    final shareInvitationId = this.shareInvitationId;
+    final shareResourceType = this.shareResourceType;
+    final templateArn = this.templateArn;
     final workloadId = this.workloadId;
-    final workloadName = this.workloadName;
     return {
-      if (permissionType != null) 'PermissionType': permissionType.value,
-      if (shareId != null) 'ShareId': shareId,
-      if (sharedBy != null) 'SharedBy': sharedBy,
-      if (sharedWith != null) 'SharedWith': sharedWith,
-      if (status != null) 'Status': status.value,
+      if (lensAlias != null) 'LensAlias': lensAlias,
+      if (lensArn != null) 'LensArn': lensArn,
+      if (profileArn != null) 'ProfileArn': profileArn,
+      if (shareInvitationId != null) 'ShareInvitationId': shareInvitationId,
+      if (shareResourceType != null)
+        'ShareResourceType': shareResourceType.value,
+      if (templateArn != null) 'TemplateArn': templateArn,
       if (workloadId != null) 'WorkloadId': workloadId,
-      if (workloadName != null) 'WorkloadName': workloadName,
+    };
+  }
+}
+
+class ShareResourceType {
+  static const workload = ShareResourceType._('WORKLOAD');
+  static const lens = ShareResourceType._('LENS');
+  static const profile = ShareResourceType._('PROFILE');
+  static const template = ShareResourceType._('TEMPLATE');
+
+  final String value;
+
+  const ShareResourceType._(this.value);
+
+  static const values = [workload, lens, profile, template];
+
+  static ShareResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ShareResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is ShareResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Share invitation action taken by contributor.
+class ShareInvitationAction {
+  static const accept = ShareInvitationAction._('ACCEPT');
+  static const reject = ShareInvitationAction._('REJECT');
+
+  final String value;
+
+  const ShareInvitationAction._(this.value);
+
+  static const values = [accept, reject];
+
+  static ShareInvitationAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ShareInvitationAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ShareInvitationAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The lens review of a review template.
+class ReviewTemplateLensReview {
+  final String? lensAlias;
+
+  /// The lens ARN.
+  final String? lensArn;
+  final String? lensName;
+
+  /// The status of the lens.
+  final LensStatus? lensStatus;
+
+  /// The version of the lens.
+  final String? lensVersion;
+  final String? nextToken;
+  final String? notes;
+
+  /// Pillar review summaries of a lens review.
+  final List<ReviewTemplatePillarReviewSummary>? pillarReviewSummaries;
+
+  /// A count of how many questions are answered and unanswered in the lens
+  /// review.
+  final Map<Question, int>? questionCounts;
+  final DateTime? updatedAt;
+
+  ReviewTemplateLensReview({
+    this.lensAlias,
+    this.lensArn,
+    this.lensName,
+    this.lensStatus,
+    this.lensVersion,
+    this.nextToken,
+    this.notes,
+    this.pillarReviewSummaries,
+    this.questionCounts,
+    this.updatedAt,
+  });
+
+  factory ReviewTemplateLensReview.fromJson(Map<String, dynamic> json) {
+    return ReviewTemplateLensReview(
+      lensAlias: json['LensAlias'] as String?,
+      lensArn: json['LensArn'] as String?,
+      lensName: json['LensName'] as String?,
+      lensStatus: (json['LensStatus'] as String?)?.let(LensStatus.fromString),
+      lensVersion: json['LensVersion'] as String?,
+      nextToken: json['NextToken'] as String?,
+      notes: json['Notes'] as String?,
+      pillarReviewSummaries: (json['PillarReviewSummaries'] as List?)
+          ?.nonNulls
+          .map((e) => ReviewTemplatePillarReviewSummary.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      questionCounts: (json['QuestionCounts'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(Question.fromString(k), e as int)),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lensAlias = this.lensAlias;
+    final lensArn = this.lensArn;
+    final lensName = this.lensName;
+    final lensStatus = this.lensStatus;
+    final lensVersion = this.lensVersion;
+    final nextToken = this.nextToken;
+    final notes = this.notes;
+    final pillarReviewSummaries = this.pillarReviewSummaries;
+    final questionCounts = this.questionCounts;
+    final updatedAt = this.updatedAt;
+    return {
+      if (lensAlias != null) 'LensAlias': lensAlias,
+      if (lensArn != null) 'LensArn': lensArn,
+      if (lensName != null) 'LensName': lensName,
+      if (lensStatus != null) 'LensStatus': lensStatus.value,
+      if (lensVersion != null) 'LensVersion': lensVersion,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (notes != null) 'Notes': notes,
+      if (pillarReviewSummaries != null)
+        'PillarReviewSummaries': pillarReviewSummaries,
+      if (questionCounts != null)
+        'QuestionCounts': questionCounts.map((k, e) => MapEntry(k.value, e)),
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+class LensStatus {
+  static const current = LensStatus._('CURRENT');
+  static const notCurrent = LensStatus._('NOT_CURRENT');
+  static const deprecated = LensStatus._('DEPRECATED');
+  static const deleted = LensStatus._('DELETED');
+  static const unshared = LensStatus._('UNSHARED');
+
+  final String value;
+
+  const LensStatus._(this.value);
+
+  static const values = [current, notCurrent, deprecated, deleted, unshared];
+
+  static LensStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LensStatus._(value));
+
+  @override
+  bool operator ==(other) => other is LensStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class Question {
+  static const unanswered = Question._('UNANSWERED');
+  static const answered = Question._('ANSWERED');
+
+  final String value;
+
+  const Question._(this.value);
+
+  static const values = [unanswered, answered];
+
+  static Question fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Question._(value));
+
+  @override
+  bool operator ==(other) => other is Question && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Summary of a review template.
+class ReviewTemplatePillarReviewSummary {
+  final String? notes;
+  final String? pillarId;
+  final String? pillarName;
+
+  /// A count of how many questions are answered and unanswered in the requested
+  /// pillar of the lens review.
+  final Map<Question, int>? questionCounts;
+
+  ReviewTemplatePillarReviewSummary({
+    this.notes,
+    this.pillarId,
+    this.pillarName,
+    this.questionCounts,
+  });
+
+  factory ReviewTemplatePillarReviewSummary.fromJson(
+      Map<String, dynamic> json) {
+    return ReviewTemplatePillarReviewSummary(
+      notes: json['Notes'] as String?,
+      pillarId: json['PillarId'] as String?,
+      pillarName: json['PillarName'] as String?,
+      questionCounts: (json['QuestionCounts'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(Question.fromString(k), e as int)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final notes = this.notes;
+    final pillarId = this.pillarId;
+    final pillarName = this.pillarName;
+    final questionCounts = this.questionCounts;
+    return {
+      if (notes != null) 'Notes': notes,
+      if (pillarId != null) 'PillarId': pillarId,
+      if (pillarName != null) 'PillarName': pillarName,
+      if (questionCounts != null)
+        'QuestionCounts': questionCounts.map((k, e) => MapEntry(k.value, e)),
+    };
+  }
+}
+
+/// An answer of the question.
+class ReviewTemplateAnswer {
+  /// The status of whether or not this question has been answered.
+  final ReviewTemplateAnswerStatus? answerStatus;
+
+  /// A list of selected choices to a question in your review template.
+  final List<ChoiceAnswer>? choiceAnswers;
+  final List<Choice>? choices;
+
+  /// The helpful resource text to be displayed for a custom lens.
+  /// <note>
+  /// This field does not apply to Amazon Web Services official lenses.
+  /// </note>
+  final String? helpfulResourceDisplayText;
+  final String? helpfulResourceUrl;
+  final String? improvementPlanUrl;
+  final bool? isApplicable;
+  final String? notes;
+  final String? pillarId;
+  final String? questionDescription;
+  final String? questionId;
+  final String? questionTitle;
+
+  /// The reason why the question is not applicable to your review template.
+  final AnswerReason? reason;
+  final List<String>? selectedChoices;
+
+  ReviewTemplateAnswer({
+    this.answerStatus,
+    this.choiceAnswers,
+    this.choices,
+    this.helpfulResourceDisplayText,
+    this.helpfulResourceUrl,
+    this.improvementPlanUrl,
+    this.isApplicable,
+    this.notes,
+    this.pillarId,
+    this.questionDescription,
+    this.questionId,
+    this.questionTitle,
+    this.reason,
+    this.selectedChoices,
+  });
+
+  factory ReviewTemplateAnswer.fromJson(Map<String, dynamic> json) {
+    return ReviewTemplateAnswer(
+      answerStatus: (json['AnswerStatus'] as String?)
+          ?.let(ReviewTemplateAnswerStatus.fromString),
+      choiceAnswers: (json['ChoiceAnswers'] as List?)
+          ?.nonNulls
+          .map((e) => ChoiceAnswer.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      choices: (json['Choices'] as List?)
+          ?.nonNulls
+          .map((e) => Choice.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      helpfulResourceDisplayText: json['HelpfulResourceDisplayText'] as String?,
+      helpfulResourceUrl: json['HelpfulResourceUrl'] as String?,
+      improvementPlanUrl: json['ImprovementPlanUrl'] as String?,
+      isApplicable: json['IsApplicable'] as bool?,
+      notes: json['Notes'] as String?,
+      pillarId: json['PillarId'] as String?,
+      questionDescription: json['QuestionDescription'] as String?,
+      questionId: json['QuestionId'] as String?,
+      questionTitle: json['QuestionTitle'] as String?,
+      reason: (json['Reason'] as String?)?.let(AnswerReason.fromString),
+      selectedChoices: (json['SelectedChoices'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final answerStatus = this.answerStatus;
+    final choiceAnswers = this.choiceAnswers;
+    final choices = this.choices;
+    final helpfulResourceDisplayText = this.helpfulResourceDisplayText;
+    final helpfulResourceUrl = this.helpfulResourceUrl;
+    final improvementPlanUrl = this.improvementPlanUrl;
+    final isApplicable = this.isApplicable;
+    final notes = this.notes;
+    final pillarId = this.pillarId;
+    final questionDescription = this.questionDescription;
+    final questionId = this.questionId;
+    final questionTitle = this.questionTitle;
+    final reason = this.reason;
+    final selectedChoices = this.selectedChoices;
+    return {
+      if (answerStatus != null) 'AnswerStatus': answerStatus.value,
+      if (choiceAnswers != null) 'ChoiceAnswers': choiceAnswers,
+      if (choices != null) 'Choices': choices,
+      if (helpfulResourceDisplayText != null)
+        'HelpfulResourceDisplayText': helpfulResourceDisplayText,
+      if (helpfulResourceUrl != null) 'HelpfulResourceUrl': helpfulResourceUrl,
+      if (improvementPlanUrl != null) 'ImprovementPlanUrl': improvementPlanUrl,
+      if (isApplicable != null) 'IsApplicable': isApplicable,
+      if (notes != null) 'Notes': notes,
+      if (pillarId != null) 'PillarId': pillarId,
+      if (questionDescription != null)
+        'QuestionDescription': questionDescription,
+      if (questionId != null) 'QuestionId': questionId,
+      if (questionTitle != null) 'QuestionTitle': questionTitle,
+      if (reason != null) 'Reason': reason.value,
+      if (selectedChoices != null) 'SelectedChoices': selectedChoices,
+    };
+  }
+}
+
+class ReviewTemplateAnswerStatus {
+  static const unanswered = ReviewTemplateAnswerStatus._('UNANSWERED');
+  static const answered = ReviewTemplateAnswerStatus._('ANSWERED');
+
+  final String value;
+
+  const ReviewTemplateAnswerStatus._(this.value);
+
+  static const values = [unanswered, answered];
+
+  static ReviewTemplateAnswerStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReviewTemplateAnswerStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReviewTemplateAnswerStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AnswerReason {
+  static const outOfScope = AnswerReason._('OUT_OF_SCOPE');
+  static const businessPriorities = AnswerReason._('BUSINESS_PRIORITIES');
+  static const architectureConstraints =
+      AnswerReason._('ARCHITECTURE_CONSTRAINTS');
+  static const other = AnswerReason._('OTHER');
+  static const none = AnswerReason._('NONE');
+
+  final String value;
+
+  const AnswerReason._(this.value);
+
+  static const values = [
+    outOfScope,
+    businessPriorities,
+    architectureConstraints,
+    other,
+    none
+  ];
+
+  static AnswerReason fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AnswerReason._(value));
+
+  @override
+  bool operator ==(other) => other is AnswerReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A choice that has been answered on a question in your workload.
+class ChoiceAnswer {
+  final String? choiceId;
+
+  /// The notes associated with a choice.
+  final String? notes;
+
+  /// The reason why a choice is non-applicable to a question in your workload.
+  final ChoiceReason? reason;
+
+  /// The status of a choice.
+  final ChoiceStatus? status;
+
+  ChoiceAnswer({
+    this.choiceId,
+    this.notes,
+    this.reason,
+    this.status,
+  });
+
+  factory ChoiceAnswer.fromJson(Map<String, dynamic> json) {
+    return ChoiceAnswer(
+      choiceId: json['ChoiceId'] as String?,
+      notes: json['Notes'] as String?,
+      reason: (json['Reason'] as String?)?.let(ChoiceReason.fromString),
+      status: (json['Status'] as String?)?.let(ChoiceStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final choiceId = this.choiceId;
+    final notes = this.notes;
+    final reason = this.reason;
+    final status = this.status;
+    return {
+      if (choiceId != null) 'ChoiceId': choiceId,
+      if (notes != null) 'Notes': notes,
+      if (reason != null) 'Reason': reason.value,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class ChoiceStatus {
+  static const selected = ChoiceStatus._('SELECTED');
+  static const notApplicable = ChoiceStatus._('NOT_APPLICABLE');
+  static const unselected = ChoiceStatus._('UNSELECTED');
+
+  final String value;
+
+  const ChoiceStatus._(this.value);
+
+  static const values = [selected, notApplicable, unselected];
+
+  static ChoiceStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChoiceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ChoiceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ChoiceReason {
+  static const outOfScope = ChoiceReason._('OUT_OF_SCOPE');
+  static const businessPriorities = ChoiceReason._('BUSINESS_PRIORITIES');
+  static const architectureConstraints =
+      ChoiceReason._('ARCHITECTURE_CONSTRAINTS');
+  static const other = ChoiceReason._('OTHER');
+  static const none = ChoiceReason._('NONE');
+
+  final String value;
+
+  const ChoiceReason._(this.value);
+
+  static const values = [
+    outOfScope,
+    businessPriorities,
+    architectureConstraints,
+    other,
+    none
+  ];
+
+  static ChoiceReason fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChoiceReason._(value));
+
+  @override
+  bool operator ==(other) => other is ChoiceReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A choice available to answer question.
+class Choice {
+  /// The additional resources for a choice in a custom lens.
+  ///
+  /// A choice can have up to two additional resources: one of type
+  /// <code>HELPFUL_RESOURCE</code>, one of type <code>IMPROVEMENT_PLAN</code>, or
+  /// both.
+  final List<AdditionalResources>? additionalResources;
+  final String? choiceId;
+  final String? description;
+
+  /// The helpful resource (both text and URL) for a particular choice.
+  ///
+  /// This field only applies to custom lenses. Each choice can have only one
+  /// helpful resource.
+  final ChoiceContent? helpfulResource;
+
+  /// The improvement plan (both text and URL) for a particular choice.
+  ///
+  /// This field only applies to custom lenses. Each choice can have only one
+  /// improvement plan.
+  final ChoiceContent? improvementPlan;
+  final String? title;
+
+  Choice({
+    this.additionalResources,
+    this.choiceId,
+    this.description,
+    this.helpfulResource,
+    this.improvementPlan,
+    this.title,
+  });
+
+  factory Choice.fromJson(Map<String, dynamic> json) {
+    return Choice(
+      additionalResources: (json['AdditionalResources'] as List?)
+          ?.nonNulls
+          .map((e) => AdditionalResources.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      choiceId: json['ChoiceId'] as String?,
+      description: json['Description'] as String?,
+      helpfulResource: json['HelpfulResource'] != null
+          ? ChoiceContent.fromJson(
+              json['HelpfulResource'] as Map<String, dynamic>)
+          : null,
+      improvementPlan: json['ImprovementPlan'] != null
+          ? ChoiceContent.fromJson(
+              json['ImprovementPlan'] as Map<String, dynamic>)
+          : null,
+      title: json['Title'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalResources = this.additionalResources;
+    final choiceId = this.choiceId;
+    final description = this.description;
+    final helpfulResource = this.helpfulResource;
+    final improvementPlan = this.improvementPlan;
+    final title = this.title;
+    return {
+      if (additionalResources != null)
+        'AdditionalResources': additionalResources,
+      if (choiceId != null) 'ChoiceId': choiceId,
+      if (description != null) 'Description': description,
+      if (helpfulResource != null) 'HelpfulResource': helpfulResource,
+      if (improvementPlan != null) 'ImprovementPlan': improvementPlan,
+      if (title != null) 'Title': title,
+    };
+  }
+}
+
+/// The choice content.
+class ChoiceContent {
+  /// The display text for the choice content.
+  final String? displayText;
+
+  /// The URL for the choice content.
+  final String? url;
+
+  ChoiceContent({
+    this.displayText,
+    this.url,
+  });
+
+  factory ChoiceContent.fromJson(Map<String, dynamic> json) {
+    return ChoiceContent(
+      displayText: json['DisplayText'] as String?,
+      url: json['Url'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final displayText = this.displayText;
+    final url = this.url;
+    return {
+      if (displayText != null) 'DisplayText': displayText,
+      if (url != null) 'Url': url,
+    };
+  }
+}
+
+/// The choice level additional resources for a custom lens.
+///
+/// This field does not apply to Amazon Web Services official lenses.
+class AdditionalResources {
+  /// The URLs for additional resources, either helpful resources or improvement
+  /// plans, for a custom lens. Up to five additional URLs can be specified.
+  final List<ChoiceContent>? content;
+
+  /// Type of additional resource for a custom lens.
+  final AdditionalResourceType? type;
+
+  AdditionalResources({
+    this.content,
+    this.type,
+  });
+
+  factory AdditionalResources.fromJson(Map<String, dynamic> json) {
+    return AdditionalResources(
+      content: (json['Content'] as List?)
+          ?.nonNulls
+          .map((e) => ChoiceContent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['Type'] as String?)?.let(AdditionalResourceType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final type = this.type;
+    return {
+      if (content != null) 'Content': content,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class AdditionalResourceType {
+  static const helpfulResource = AdditionalResourceType._('HELPFUL_RESOURCE');
+  static const improvementPlan = AdditionalResourceType._('IMPROVEMENT_PLAN');
+
+  final String value;
+
+  const AdditionalResourceType._(this.value);
+
+  static const values = [helpfulResource, improvementPlan];
+
+  static AdditionalResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AdditionalResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AdditionalResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A list of choices to be updated.
+class ChoiceUpdate {
+  /// The status of a choice.
+  final ChoiceStatus status;
+
+  /// The notes associated with a choice.
+  final String? notes;
+
+  /// The reason why a choice is non-applicable to a question in your workload.
+  final ChoiceReason? reason;
+
+  ChoiceUpdate({
+    required this.status,
+    this.notes,
+    this.reason,
+  });
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final notes = this.notes;
+    final reason = this.reason;
+    return {
+      'Status': status.value,
+      if (notes != null) 'Notes': notes,
+      if (reason != null) 'Reason': reason.value,
+    };
+  }
+}
+
+/// A review template.
+class ReviewTemplate {
+  /// The review template description.
+  final String? description;
+
+  /// The lenses applied to the review template.
+  final List<String>? lenses;
+  final String? notes;
+  final String? owner;
+
+  /// A count of how many total questions are answered and unanswered in the
+  /// review template.
+  final Map<Question, int>? questionCounts;
+
+  /// The ID assigned to the template share invitation.
+  final String? shareInvitationId;
+
+  /// The tags assigned to the review template.
+  final Map<String, String>? tags;
+
+  /// The review template ARN.
+  final String? templateArn;
+
+  /// The name of the review template.
+  final String? templateName;
+
+  /// The latest status of a review template.
+  final ReviewTemplateUpdateStatus? updateStatus;
+  final DateTime? updatedAt;
+
+  ReviewTemplate({
+    this.description,
+    this.lenses,
+    this.notes,
+    this.owner,
+    this.questionCounts,
+    this.shareInvitationId,
+    this.tags,
+    this.templateArn,
+    this.templateName,
+    this.updateStatus,
+    this.updatedAt,
+  });
+
+  factory ReviewTemplate.fromJson(Map<String, dynamic> json) {
+    return ReviewTemplate(
+      description: json['Description'] as String?,
+      lenses:
+          (json['Lenses'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      notes: json['Notes'] as String?,
+      owner: json['Owner'] as String?,
+      questionCounts: (json['QuestionCounts'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(Question.fromString(k), e as int)),
+      shareInvitationId: json['ShareInvitationId'] as String?,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      templateArn: json['TemplateArn'] as String?,
+      templateName: json['TemplateName'] as String?,
+      updateStatus: (json['UpdateStatus'] as String?)
+          ?.let(ReviewTemplateUpdateStatus.fromString),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final lenses = this.lenses;
+    final notes = this.notes;
+    final owner = this.owner;
+    final questionCounts = this.questionCounts;
+    final shareInvitationId = this.shareInvitationId;
+    final tags = this.tags;
+    final templateArn = this.templateArn;
+    final templateName = this.templateName;
+    final updateStatus = this.updateStatus;
+    final updatedAt = this.updatedAt;
+    return {
+      if (description != null) 'Description': description,
+      if (lenses != null) 'Lenses': lenses,
+      if (notes != null) 'Notes': notes,
+      if (owner != null) 'Owner': owner,
+      if (questionCounts != null)
+        'QuestionCounts': questionCounts.map((k, e) => MapEntry(k.value, e)),
+      if (shareInvitationId != null) 'ShareInvitationId': shareInvitationId,
+      if (tags != null) 'Tags': tags,
+      if (templateArn != null) 'TemplateArn': templateArn,
+      if (templateName != null) 'TemplateName': templateName,
+      if (updateStatus != null) 'UpdateStatus': updateStatus.value,
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+class ReviewTemplateUpdateStatus {
+  static const current = ReviewTemplateUpdateStatus._('CURRENT');
+  static const lensNotCurrent =
+      ReviewTemplateUpdateStatus._('LENS_NOT_CURRENT');
+
+  final String value;
+
+  const ReviewTemplateUpdateStatus._(this.value);
+
+  static const values = [current, lensNotCurrent];
+
+  static ReviewTemplateUpdateStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReviewTemplateUpdateStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReviewTemplateUpdateStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A profile.
+class Profile {
+  final DateTime? createdAt;
+  final String? owner;
+
+  /// The profile ARN.
+  final String? profileArn;
+
+  /// The profile description.
+  final String? profileDescription;
+
+  /// The profile name.
+  final String? profileName;
+
+  /// Profile questions.
+  final List<ProfileQuestion>? profileQuestions;
+
+  /// The profile version.
+  final String? profileVersion;
+
+  /// The ID assigned to the share invitation.
+  final String? shareInvitationId;
+
+  /// The tags assigned to the profile.
+  final Map<String, String>? tags;
+  final DateTime? updatedAt;
+
+  Profile({
+    this.createdAt,
+    this.owner,
+    this.profileArn,
+    this.profileDescription,
+    this.profileName,
+    this.profileQuestions,
+    this.profileVersion,
+    this.shareInvitationId,
+    this.tags,
+    this.updatedAt,
+  });
+
+  factory Profile.fromJson(Map<String, dynamic> json) {
+    return Profile(
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      owner: json['Owner'] as String?,
+      profileArn: json['ProfileArn'] as String?,
+      profileDescription: json['ProfileDescription'] as String?,
+      profileName: json['ProfileName'] as String?,
+      profileQuestions: (json['ProfileQuestions'] as List?)
+          ?.nonNulls
+          .map((e) => ProfileQuestion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      profileVersion: json['ProfileVersion'] as String?,
+      shareInvitationId: json['ShareInvitationId'] as String?,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final owner = this.owner;
+    final profileArn = this.profileArn;
+    final profileDescription = this.profileDescription;
+    final profileName = this.profileName;
+    final profileQuestions = this.profileQuestions;
+    final profileVersion = this.profileVersion;
+    final shareInvitationId = this.shareInvitationId;
+    final tags = this.tags;
+    final updatedAt = this.updatedAt;
+    return {
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (owner != null) 'Owner': owner,
+      if (profileArn != null) 'ProfileArn': profileArn,
+      if (profileDescription != null) 'ProfileDescription': profileDescription,
+      if (profileName != null) 'ProfileName': profileName,
+      if (profileQuestions != null) 'ProfileQuestions': profileQuestions,
+      if (profileVersion != null) 'ProfileVersion': profileVersion,
+      if (shareInvitationId != null) 'ShareInvitationId': shareInvitationId,
+      if (tags != null) 'Tags': tags,
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+/// A profile question.
+class ProfileQuestion {
+  /// The maximum number of selected choices.
+  final int? maxSelectedChoices;
+
+  /// The minimum number of selected choices.
+  final int? minSelectedChoices;
+
+  /// The question choices.
+  final List<ProfileChoice>? questionChoices;
+  final String? questionDescription;
+  final String? questionId;
+  final String? questionTitle;
+
+  /// The selected choices.
+  final List<String>? selectedChoiceIds;
+
+  ProfileQuestion({
+    this.maxSelectedChoices,
+    this.minSelectedChoices,
+    this.questionChoices,
+    this.questionDescription,
+    this.questionId,
+    this.questionTitle,
+    this.selectedChoiceIds,
+  });
+
+  factory ProfileQuestion.fromJson(Map<String, dynamic> json) {
+    return ProfileQuestion(
+      maxSelectedChoices: json['MaxSelectedChoices'] as int?,
+      minSelectedChoices: json['MinSelectedChoices'] as int?,
+      questionChoices: (json['QuestionChoices'] as List?)
+          ?.nonNulls
+          .map((e) => ProfileChoice.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      questionDescription: json['QuestionDescription'] as String?,
+      questionId: json['QuestionId'] as String?,
+      questionTitle: json['QuestionTitle'] as String?,
+      selectedChoiceIds: (json['SelectedChoiceIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxSelectedChoices = this.maxSelectedChoices;
+    final minSelectedChoices = this.minSelectedChoices;
+    final questionChoices = this.questionChoices;
+    final questionDescription = this.questionDescription;
+    final questionId = this.questionId;
+    final questionTitle = this.questionTitle;
+    final selectedChoiceIds = this.selectedChoiceIds;
+    return {
+      if (maxSelectedChoices != null) 'MaxSelectedChoices': maxSelectedChoices,
+      if (minSelectedChoices != null) 'MinSelectedChoices': minSelectedChoices,
+      if (questionChoices != null) 'QuestionChoices': questionChoices,
+      if (questionDescription != null)
+        'QuestionDescription': questionDescription,
+      if (questionId != null) 'QuestionId': questionId,
+      if (questionTitle != null) 'QuestionTitle': questionTitle,
+      if (selectedChoiceIds != null) 'SelectedChoiceIds': selectedChoiceIds,
+    };
+  }
+}
+
+/// The profile choice.
+class ProfileChoice {
+  final String? choiceDescription;
+  final String? choiceId;
+  final String? choiceTitle;
+
+  ProfileChoice({
+    this.choiceDescription,
+    this.choiceId,
+    this.choiceTitle,
+  });
+
+  factory ProfileChoice.fromJson(Map<String, dynamic> json) {
+    return ProfileChoice(
+      choiceDescription: json['ChoiceDescription'] as String?,
+      choiceId: json['ChoiceId'] as String?,
+      choiceTitle: json['ChoiceTitle'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final choiceDescription = this.choiceDescription;
+    final choiceId = this.choiceId;
+    final choiceTitle = this.choiceTitle;
+    return {
+      if (choiceDescription != null) 'ChoiceDescription': choiceDescription,
+      if (choiceId != null) 'ChoiceId': choiceId,
+      if (choiceTitle != null) 'ChoiceTitle': choiceTitle,
+    };
+  }
+}
+
+/// An update to a profile question.
+class ProfileQuestionUpdate {
+  final String? questionId;
+
+  /// The selected choices.
+  final List<String>? selectedChoiceIds;
+
+  ProfileQuestionUpdate({
+    this.questionId,
+    this.selectedChoiceIds,
+  });
+
+  Map<String, dynamic> toJson() {
+    final questionId = this.questionId;
+    final selectedChoiceIds = this.selectedChoiceIds;
+    return {
+      if (questionId != null) 'QuestionId': questionId,
+      if (selectedChoiceIds != null) 'SelectedChoiceIds': selectedChoiceIds,
+    };
+  }
+}
+
+/// A lens review of a question.
+class LensReview {
+  /// Jira configuration status of the Lens review.
+  final JiraSelectedQuestionConfiguration? jiraConfiguration;
+  final String? lensAlias;
+
+  /// The ARN for the lens.
+  final String? lensArn;
+  final String? lensName;
+
+  /// The status of the lens.
+  final LensStatus? lensStatus;
+
+  /// The version of the lens.
+  final String? lensVersion;
+  final String? nextToken;
+  final String? notes;
+  final List<PillarReviewSummary>? pillarReviewSummaries;
+  final Map<Risk, int>? prioritizedRiskCounts;
+
+  /// The profiles associated with the workload.
+  final List<WorkloadProfile>? profiles;
+  final Map<Risk, int>? riskCounts;
+  final DateTime? updatedAt;
+
+  LensReview({
+    this.jiraConfiguration,
+    this.lensAlias,
+    this.lensArn,
+    this.lensName,
+    this.lensStatus,
+    this.lensVersion,
+    this.nextToken,
+    this.notes,
+    this.pillarReviewSummaries,
+    this.prioritizedRiskCounts,
+    this.profiles,
+    this.riskCounts,
+    this.updatedAt,
+  });
+
+  factory LensReview.fromJson(Map<String, dynamic> json) {
+    return LensReview(
+      jiraConfiguration: json['JiraConfiguration'] != null
+          ? JiraSelectedQuestionConfiguration.fromJson(
+              json['JiraConfiguration'] as Map<String, dynamic>)
+          : null,
+      lensAlias: json['LensAlias'] as String?,
+      lensArn: json['LensArn'] as String?,
+      lensName: json['LensName'] as String?,
+      lensStatus: (json['LensStatus'] as String?)?.let(LensStatus.fromString),
+      lensVersion: json['LensVersion'] as String?,
+      nextToken: json['NextToken'] as String?,
+      notes: json['Notes'] as String?,
+      pillarReviewSummaries: (json['PillarReviewSummaries'] as List?)
+          ?.nonNulls
+          .map((e) => PillarReviewSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      prioritizedRiskCounts:
+          (json['PrioritizedRiskCounts'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(Risk.fromString(k), e as int)),
+      profiles: (json['Profiles'] as List?)
+          ?.nonNulls
+          .map((e) => WorkloadProfile.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      riskCounts: (json['RiskCounts'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(Risk.fromString(k), e as int)),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jiraConfiguration = this.jiraConfiguration;
+    final lensAlias = this.lensAlias;
+    final lensArn = this.lensArn;
+    final lensName = this.lensName;
+    final lensStatus = this.lensStatus;
+    final lensVersion = this.lensVersion;
+    final nextToken = this.nextToken;
+    final notes = this.notes;
+    final pillarReviewSummaries = this.pillarReviewSummaries;
+    final prioritizedRiskCounts = this.prioritizedRiskCounts;
+    final profiles = this.profiles;
+    final riskCounts = this.riskCounts;
+    final updatedAt = this.updatedAt;
+    return {
+      if (jiraConfiguration != null) 'JiraConfiguration': jiraConfiguration,
+      if (lensAlias != null) 'LensAlias': lensAlias,
+      if (lensArn != null) 'LensArn': lensArn,
+      if (lensName != null) 'LensName': lensName,
+      if (lensStatus != null) 'LensStatus': lensStatus.value,
+      if (lensVersion != null) 'LensVersion': lensVersion,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (notes != null) 'Notes': notes,
+      if (pillarReviewSummaries != null)
+        'PillarReviewSummaries': pillarReviewSummaries,
+      if (prioritizedRiskCounts != null)
+        'PrioritizedRiskCounts':
+            prioritizedRiskCounts.map((k, e) => MapEntry(k.value, e)),
+      if (profiles != null) 'Profiles': profiles,
+      if (riskCounts != null)
+        'RiskCounts': riskCounts.map((k, e) => MapEntry(k.value, e)),
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+/// Selected questions in the workload.
+class JiraSelectedQuestionConfiguration {
+  /// Selected pillars in the workload.
+  final List<SelectedPillar>? selectedPillars;
+
+  JiraSelectedQuestionConfiguration({
+    this.selectedPillars,
+  });
+
+  factory JiraSelectedQuestionConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return JiraSelectedQuestionConfiguration(
+      selectedPillars: (json['SelectedPillars'] as List?)
+          ?.nonNulls
+          .map((e) => SelectedPillar.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final selectedPillars = this.selectedPillars;
+    return {
+      if (selectedPillars != null) 'SelectedPillars': selectedPillars,
+    };
+  }
+}
+
+/// The selected pillar.
+class SelectedPillar {
+  final String? pillarId;
+
+  /// Selected question IDs in the selected pillar.
+  final List<String>? selectedQuestionIds;
+
+  SelectedPillar({
+    this.pillarId,
+    this.selectedQuestionIds,
+  });
+
+  factory SelectedPillar.fromJson(Map<String, dynamic> json) {
+    return SelectedPillar(
+      pillarId: json['PillarId'] as String?,
+      selectedQuestionIds: (json['SelectedQuestionIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pillarId = this.pillarId;
+    final selectedQuestionIds = this.selectedQuestionIds;
+    return {
+      if (pillarId != null) 'PillarId': pillarId,
+      if (selectedQuestionIds != null)
+        'SelectedQuestionIds': selectedQuestionIds,
+    };
+  }
+}
+
+/// A pillar review summary of a lens review.
+class PillarReviewSummary {
+  final String? notes;
+  final String? pillarId;
+  final String? pillarName;
+  final Map<Risk, int>? prioritizedRiskCounts;
+  final Map<Risk, int>? riskCounts;
+
+  PillarReviewSummary({
+    this.notes,
+    this.pillarId,
+    this.pillarName,
+    this.prioritizedRiskCounts,
+    this.riskCounts,
+  });
+
+  factory PillarReviewSummary.fromJson(Map<String, dynamic> json) {
+    return PillarReviewSummary(
+      notes: json['Notes'] as String?,
+      pillarId: json['PillarId'] as String?,
+      pillarName: json['PillarName'] as String?,
+      prioritizedRiskCounts:
+          (json['PrioritizedRiskCounts'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(Risk.fromString(k), e as int)),
+      riskCounts: (json['RiskCounts'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(Risk.fromString(k), e as int)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final notes = this.notes;
+    final pillarId = this.pillarId;
+    final pillarName = this.pillarName;
+    final prioritizedRiskCounts = this.prioritizedRiskCounts;
+    final riskCounts = this.riskCounts;
+    return {
+      if (notes != null) 'Notes': notes,
+      if (pillarId != null) 'PillarId': pillarId,
+      if (pillarName != null) 'PillarName': pillarName,
+      if (prioritizedRiskCounts != null)
+        'PrioritizedRiskCounts':
+            prioritizedRiskCounts.map((k, e) => MapEntry(k.value, e)),
+      if (riskCounts != null)
+        'RiskCounts': riskCounts.map((k, e) => MapEntry(k.value, e)),
+    };
+  }
+}
+
+class IntegratingService {
+  static const jira = IntegratingService._('JIRA');
+
+  final String value;
+
+  const IntegratingService._(this.value);
+
+  static const values = [jira];
+
+  static IntegratingService fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IntegratingService._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IntegratingService && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class OrganizationSharingStatus {
+  static const enabled = OrganizationSharingStatus._('ENABLED');
+  static const disabled = OrganizationSharingStatus._('DISABLED');
+
+  final String value;
+
+  const OrganizationSharingStatus._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static OrganizationSharingStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OrganizationSharingStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OrganizationSharingStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DiscoveryIntegrationStatus {
+  static const enabled = DiscoveryIntegrationStatus._('ENABLED');
+  static const disabled = DiscoveryIntegrationStatus._('DISABLED');
+
+  final String value;
+
+  const DiscoveryIntegrationStatus._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static DiscoveryIntegrationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DiscoveryIntegrationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DiscoveryIntegrationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Account-level: Input for the Jira configuration.
+class AccountJiraConfigurationInput {
+  /// Account-level: Configuration status of the Jira integration.
+  final IntegrationStatusInput? integrationStatus;
+
+  /// Account-level: Jira issue management status.
+  final AccountJiraIssueManagementStatus? issueManagementStatus;
+
+  /// Account-level: Jira issue management type.
+  final IssueManagementType? issueManagementType;
+
+  /// Account-level: Jira project key to sync workloads to.
+  final String? jiraProjectKey;
+
+  AccountJiraConfigurationInput({
+    this.integrationStatus,
+    this.issueManagementStatus,
+    this.issueManagementType,
+    this.jiraProjectKey,
+  });
+
+  Map<String, dynamic> toJson() {
+    final integrationStatus = this.integrationStatus;
+    final issueManagementStatus = this.issueManagementStatus;
+    final issueManagementType = this.issueManagementType;
+    final jiraProjectKey = this.jiraProjectKey;
+    return {
+      if (integrationStatus != null)
+        'IntegrationStatus': integrationStatus.value,
+      if (issueManagementStatus != null)
+        'IssueManagementStatus': issueManagementStatus.value,
+      if (issueManagementType != null)
+        'IssueManagementType': issueManagementType.value,
+      if (jiraProjectKey != null) 'JiraProjectKey': jiraProjectKey,
+    };
+  }
+}
+
+class AccountJiraIssueManagementStatus {
+  static const enabled = AccountJiraIssueManagementStatus._('ENABLED');
+  static const disabled = AccountJiraIssueManagementStatus._('DISABLED');
+
+  final String value;
+
+  const AccountJiraIssueManagementStatus._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static AccountJiraIssueManagementStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AccountJiraIssueManagementStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AccountJiraIssueManagementStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class IntegrationStatusInput {
+  static const notConfigured = IntegrationStatusInput._('NOT_CONFIGURED');
+
+  final String value;
+
+  const IntegrationStatusInput._(this.value);
+
+  static const values = [notConfigured];
+
+  static IntegrationStatusInput fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IntegrationStatusInput._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IntegrationStatusInput && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An answer of the question.
+class Answer {
+  /// A list of selected choices to a question in your workload.
+  final List<ChoiceAnswer>? choiceAnswers;
+  final List<Choice>? choices;
+
+  /// The helpful resource text to be displayed for a custom lens.
+  ///
+  /// This field does not apply to Amazon Web Services official lenses.
+  final String? helpfulResourceDisplayText;
+  final String? helpfulResourceUrl;
+  final String? improvementPlanUrl;
+  final bool? isApplicable;
+
+  /// Configuration of the Jira integration.
+  final JiraConfiguration? jiraConfiguration;
+  final String? notes;
+  final String? pillarId;
+  final String? questionDescription;
+  final String? questionId;
+  final String? questionTitle;
+
+  /// The reason why the question is not applicable to your workload.
+  final AnswerReason? reason;
+  final Risk? risk;
+  final List<String>? selectedChoices;
+
+  Answer({
+    this.choiceAnswers,
+    this.choices,
+    this.helpfulResourceDisplayText,
+    this.helpfulResourceUrl,
+    this.improvementPlanUrl,
+    this.isApplicable,
+    this.jiraConfiguration,
+    this.notes,
+    this.pillarId,
+    this.questionDescription,
+    this.questionId,
+    this.questionTitle,
+    this.reason,
+    this.risk,
+    this.selectedChoices,
+  });
+
+  factory Answer.fromJson(Map<String, dynamic> json) {
+    return Answer(
+      choiceAnswers: (json['ChoiceAnswers'] as List?)
+          ?.nonNulls
+          .map((e) => ChoiceAnswer.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      choices: (json['Choices'] as List?)
+          ?.nonNulls
+          .map((e) => Choice.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      helpfulResourceDisplayText: json['HelpfulResourceDisplayText'] as String?,
+      helpfulResourceUrl: json['HelpfulResourceUrl'] as String?,
+      improvementPlanUrl: json['ImprovementPlanUrl'] as String?,
+      isApplicable: json['IsApplicable'] as bool?,
+      jiraConfiguration: json['JiraConfiguration'] != null
+          ? JiraConfiguration.fromJson(
+              json['JiraConfiguration'] as Map<String, dynamic>)
+          : null,
+      notes: json['Notes'] as String?,
+      pillarId: json['PillarId'] as String?,
+      questionDescription: json['QuestionDescription'] as String?,
+      questionId: json['QuestionId'] as String?,
+      questionTitle: json['QuestionTitle'] as String?,
+      reason: (json['Reason'] as String?)?.let(AnswerReason.fromString),
+      risk: (json['Risk'] as String?)?.let(Risk.fromString),
+      selectedChoices: (json['SelectedChoices'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final choiceAnswers = this.choiceAnswers;
+    final choices = this.choices;
+    final helpfulResourceDisplayText = this.helpfulResourceDisplayText;
+    final helpfulResourceUrl = this.helpfulResourceUrl;
+    final improvementPlanUrl = this.improvementPlanUrl;
+    final isApplicable = this.isApplicable;
+    final jiraConfiguration = this.jiraConfiguration;
+    final notes = this.notes;
+    final pillarId = this.pillarId;
+    final questionDescription = this.questionDescription;
+    final questionId = this.questionId;
+    final questionTitle = this.questionTitle;
+    final reason = this.reason;
+    final risk = this.risk;
+    final selectedChoices = this.selectedChoices;
+    return {
+      if (choiceAnswers != null) 'ChoiceAnswers': choiceAnswers,
+      if (choices != null) 'Choices': choices,
+      if (helpfulResourceDisplayText != null)
+        'HelpfulResourceDisplayText': helpfulResourceDisplayText,
+      if (helpfulResourceUrl != null) 'HelpfulResourceUrl': helpfulResourceUrl,
+      if (improvementPlanUrl != null) 'ImprovementPlanUrl': improvementPlanUrl,
+      if (isApplicable != null) 'IsApplicable': isApplicable,
+      if (jiraConfiguration != null) 'JiraConfiguration': jiraConfiguration,
+      if (notes != null) 'Notes': notes,
+      if (pillarId != null) 'PillarId': pillarId,
+      if (questionDescription != null)
+        'QuestionDescription': questionDescription,
+      if (questionId != null) 'QuestionId': questionId,
+      if (questionTitle != null) 'QuestionTitle': questionTitle,
+      if (reason != null) 'Reason': reason.value,
+      if (risk != null) 'Risk': risk.value,
+      if (selectedChoices != null) 'SelectedChoices': selectedChoices,
+    };
+  }
+}
+
+/// Configuration of the Jira integration.
+class JiraConfiguration {
+  /// The URL of the associated Jira issue.
+  final String? jiraIssueUrl;
+  final DateTime? lastSyncedTime;
+
+  JiraConfiguration({
+    this.jiraIssueUrl,
+    this.lastSyncedTime,
+  });
+
+  factory JiraConfiguration.fromJson(Map<String, dynamic> json) {
+    return JiraConfiguration(
+      jiraIssueUrl: json['JiraIssueUrl'] as String?,
+      lastSyncedTime: timeStampFromJson(json['LastSyncedTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jiraIssueUrl = this.jiraIssueUrl;
+    final lastSyncedTime = this.lastSyncedTime;
+    return {
+      if (jiraIssueUrl != null) 'JiraIssueUrl': jiraIssueUrl,
+      if (lastSyncedTime != null)
+        'LastSyncedTime': unixTimestampToJson(lastSyncedTime),
     };
   }
 }
@@ -9106,6 +6892,2219 @@ class WorkloadSummary {
       if (workloadName != null) 'WorkloadName': workloadName,
     };
   }
+}
+
+/// Summary of a review template share.
+class TemplateShareSummary {
+  final String? shareId;
+  final String? sharedWith;
+  final ShareStatus? status;
+
+  /// Review template share invitation status message.
+  final String? statusMessage;
+
+  TemplateShareSummary({
+    this.shareId,
+    this.sharedWith,
+    this.status,
+    this.statusMessage,
+  });
+
+  factory TemplateShareSummary.fromJson(Map<String, dynamic> json) {
+    return TemplateShareSummary(
+      shareId: json['ShareId'] as String?,
+      sharedWith: json['SharedWith'] as String?,
+      status: (json['Status'] as String?)?.let(ShareStatus.fromString),
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final shareId = this.shareId;
+    final sharedWith = this.sharedWith;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    return {
+      if (shareId != null) 'ShareId': shareId,
+      if (sharedWith != null) 'SharedWith': sharedWith,
+      if (status != null) 'Status': status.value,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+    };
+  }
+}
+
+/// A share invitation summary return object.
+class ShareInvitationSummary {
+  /// The ARN for the lens.
+  final String? lensArn;
+  final String? lensName;
+  final PermissionType? permissionType;
+
+  /// The profile ARN.
+  final String? profileArn;
+
+  /// The profile name.
+  final String? profileName;
+
+  /// The ID assigned to the share invitation.
+  final String? shareInvitationId;
+
+  /// The resource type of the share invitation.
+  final ShareResourceType? shareResourceType;
+  final String? sharedBy;
+  final String? sharedWith;
+
+  /// The review template ARN.
+  final String? templateArn;
+
+  /// The name of the review template.
+  final String? templateName;
+  final String? workloadId;
+  final String? workloadName;
+
+  ShareInvitationSummary({
+    this.lensArn,
+    this.lensName,
+    this.permissionType,
+    this.profileArn,
+    this.profileName,
+    this.shareInvitationId,
+    this.shareResourceType,
+    this.sharedBy,
+    this.sharedWith,
+    this.templateArn,
+    this.templateName,
+    this.workloadId,
+    this.workloadName,
+  });
+
+  factory ShareInvitationSummary.fromJson(Map<String, dynamic> json) {
+    return ShareInvitationSummary(
+      lensArn: json['LensArn'] as String?,
+      lensName: json['LensName'] as String?,
+      permissionType:
+          (json['PermissionType'] as String?)?.let(PermissionType.fromString),
+      profileArn: json['ProfileArn'] as String?,
+      profileName: json['ProfileName'] as String?,
+      shareInvitationId: json['ShareInvitationId'] as String?,
+      shareResourceType: (json['ShareResourceType'] as String?)
+          ?.let(ShareResourceType.fromString),
+      sharedBy: json['SharedBy'] as String?,
+      sharedWith: json['SharedWith'] as String?,
+      templateArn: json['TemplateArn'] as String?,
+      templateName: json['TemplateName'] as String?,
+      workloadId: json['WorkloadId'] as String?,
+      workloadName: json['WorkloadName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lensArn = this.lensArn;
+    final lensName = this.lensName;
+    final permissionType = this.permissionType;
+    final profileArn = this.profileArn;
+    final profileName = this.profileName;
+    final shareInvitationId = this.shareInvitationId;
+    final shareResourceType = this.shareResourceType;
+    final sharedBy = this.sharedBy;
+    final sharedWith = this.sharedWith;
+    final templateArn = this.templateArn;
+    final templateName = this.templateName;
+    final workloadId = this.workloadId;
+    final workloadName = this.workloadName;
+    return {
+      if (lensArn != null) 'LensArn': lensArn,
+      if (lensName != null) 'LensName': lensName,
+      if (permissionType != null) 'PermissionType': permissionType.value,
+      if (profileArn != null) 'ProfileArn': profileArn,
+      if (profileName != null) 'ProfileName': profileName,
+      if (shareInvitationId != null) 'ShareInvitationId': shareInvitationId,
+      if (shareResourceType != null)
+        'ShareResourceType': shareResourceType.value,
+      if (sharedBy != null) 'SharedBy': sharedBy,
+      if (sharedWith != null) 'SharedWith': sharedWith,
+      if (templateArn != null) 'TemplateArn': templateArn,
+      if (templateName != null) 'TemplateName': templateName,
+      if (workloadId != null) 'WorkloadId': workloadId,
+      if (workloadName != null) 'WorkloadName': workloadName,
+    };
+  }
+}
+
+/// Summary of a review template.
+class ReviewTemplateSummary {
+  /// Description of the review template.
+  final String? description;
+
+  /// Lenses associated with the review template.
+  final List<String>? lenses;
+  final String? owner;
+
+  /// The review template ARN.
+  final String? templateArn;
+
+  /// The name of the review template.
+  final String? templateName;
+
+  /// The latest status of a review template.
+  final ReviewTemplateUpdateStatus? updateStatus;
+  final DateTime? updatedAt;
+
+  ReviewTemplateSummary({
+    this.description,
+    this.lenses,
+    this.owner,
+    this.templateArn,
+    this.templateName,
+    this.updateStatus,
+    this.updatedAt,
+  });
+
+  factory ReviewTemplateSummary.fromJson(Map<String, dynamic> json) {
+    return ReviewTemplateSummary(
+      description: json['Description'] as String?,
+      lenses:
+          (json['Lenses'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      owner: json['Owner'] as String?,
+      templateArn: json['TemplateArn'] as String?,
+      templateName: json['TemplateName'] as String?,
+      updateStatus: (json['UpdateStatus'] as String?)
+          ?.let(ReviewTemplateUpdateStatus.fromString),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final lenses = this.lenses;
+    final owner = this.owner;
+    final templateArn = this.templateArn;
+    final templateName = this.templateName;
+    final updateStatus = this.updateStatus;
+    final updatedAt = this.updatedAt;
+    return {
+      if (description != null) 'Description': description,
+      if (lenses != null) 'Lenses': lenses,
+      if (owner != null) 'Owner': owner,
+      if (templateArn != null) 'TemplateArn': templateArn,
+      if (templateName != null) 'TemplateName': templateName,
+      if (updateStatus != null) 'UpdateStatus': updateStatus.value,
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+/// The summary of review template answers.
+class ReviewTemplateAnswerSummary {
+  /// The status of whether or not this question has been answered.
+  final ReviewTemplateAnswerStatus? answerStatus;
+
+  /// A list of selected choices to a question in the review template.
+  final List<ChoiceAnswerSummary>? choiceAnswerSummaries;
+  final List<Choice>? choices;
+  final bool? isApplicable;
+  final String? pillarId;
+  final String? questionId;
+  final String? questionTitle;
+
+  /// The type of question.
+  final QuestionType? questionType;
+
+  /// The reason why a choice is not-applicable to a question in the review
+  /// template.
+  final AnswerReason? reason;
+  final List<String>? selectedChoices;
+
+  ReviewTemplateAnswerSummary({
+    this.answerStatus,
+    this.choiceAnswerSummaries,
+    this.choices,
+    this.isApplicable,
+    this.pillarId,
+    this.questionId,
+    this.questionTitle,
+    this.questionType,
+    this.reason,
+    this.selectedChoices,
+  });
+
+  factory ReviewTemplateAnswerSummary.fromJson(Map<String, dynamic> json) {
+    return ReviewTemplateAnswerSummary(
+      answerStatus: (json['AnswerStatus'] as String?)
+          ?.let(ReviewTemplateAnswerStatus.fromString),
+      choiceAnswerSummaries: (json['ChoiceAnswerSummaries'] as List?)
+          ?.nonNulls
+          .map((e) => ChoiceAnswerSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      choices: (json['Choices'] as List?)
+          ?.nonNulls
+          .map((e) => Choice.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isApplicable: json['IsApplicable'] as bool?,
+      pillarId: json['PillarId'] as String?,
+      questionId: json['QuestionId'] as String?,
+      questionTitle: json['QuestionTitle'] as String?,
+      questionType:
+          (json['QuestionType'] as String?)?.let(QuestionType.fromString),
+      reason: (json['Reason'] as String?)?.let(AnswerReason.fromString),
+      selectedChoices: (json['SelectedChoices'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final answerStatus = this.answerStatus;
+    final choiceAnswerSummaries = this.choiceAnswerSummaries;
+    final choices = this.choices;
+    final isApplicable = this.isApplicable;
+    final pillarId = this.pillarId;
+    final questionId = this.questionId;
+    final questionTitle = this.questionTitle;
+    final questionType = this.questionType;
+    final reason = this.reason;
+    final selectedChoices = this.selectedChoices;
+    return {
+      if (answerStatus != null) 'AnswerStatus': answerStatus.value,
+      if (choiceAnswerSummaries != null)
+        'ChoiceAnswerSummaries': choiceAnswerSummaries,
+      if (choices != null) 'Choices': choices,
+      if (isApplicable != null) 'IsApplicable': isApplicable,
+      if (pillarId != null) 'PillarId': pillarId,
+      if (questionId != null) 'QuestionId': questionId,
+      if (questionTitle != null) 'QuestionTitle': questionTitle,
+      if (questionType != null) 'QuestionType': questionType.value,
+      if (reason != null) 'Reason': reason.value,
+      if (selectedChoices != null) 'SelectedChoices': selectedChoices,
+    };
+  }
+}
+
+class QuestionType {
+  static const prioritized = QuestionType._('PRIORITIZED');
+  static const nonPrioritized = QuestionType._('NON_PRIORITIZED');
+
+  final String value;
+
+  const QuestionType._(this.value);
+
+  static const values = [prioritized, nonPrioritized];
+
+  static QuestionType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => QuestionType._(value));
+
+  @override
+  bool operator ==(other) => other is QuestionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A choice summary that has been answered on a question in your workload.
+class ChoiceAnswerSummary {
+  final String? choiceId;
+
+  /// The reason why a choice is non-applicable to a question in your workload.
+  final ChoiceReason? reason;
+
+  /// The status of a choice.
+  final ChoiceStatus? status;
+
+  ChoiceAnswerSummary({
+    this.choiceId,
+    this.reason,
+    this.status,
+  });
+
+  factory ChoiceAnswerSummary.fromJson(Map<String, dynamic> json) {
+    return ChoiceAnswerSummary(
+      choiceId: json['ChoiceId'] as String?,
+      reason: (json['Reason'] as String?)?.let(ChoiceReason.fromString),
+      status: (json['Status'] as String?)?.let(ChoiceStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final choiceId = this.choiceId;
+    final reason = this.reason;
+    final status = this.status;
+    return {
+      if (choiceId != null) 'ChoiceId': choiceId,
+      if (reason != null) 'Reason': reason.value,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+/// Summary of a profile share.
+class ProfileShareSummary {
+  final String? shareId;
+  final String? sharedWith;
+  final ShareStatus? status;
+
+  /// Profile share invitation status message.
+  final String? statusMessage;
+
+  ProfileShareSummary({
+    this.shareId,
+    this.sharedWith,
+    this.status,
+    this.statusMessage,
+  });
+
+  factory ProfileShareSummary.fromJson(Map<String, dynamic> json) {
+    return ProfileShareSummary(
+      shareId: json['ShareId'] as String?,
+      sharedWith: json['SharedWith'] as String?,
+      status: (json['Status'] as String?)?.let(ShareStatus.fromString),
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final shareId = this.shareId;
+    final sharedWith = this.sharedWith;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    return {
+      if (shareId != null) 'ShareId': shareId,
+      if (sharedWith != null) 'SharedWith': sharedWith,
+      if (status != null) 'Status': status.value,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+    };
+  }
+}
+
+/// Summary of a profile.
+class ProfileSummary {
+  final DateTime? createdAt;
+  final String? owner;
+
+  /// The profile ARN.
+  final String? profileArn;
+
+  /// The profile description.
+  final String? profileDescription;
+
+  /// The profile name.
+  final String? profileName;
+
+  /// The profile version.
+  final String? profileVersion;
+  final DateTime? updatedAt;
+
+  ProfileSummary({
+    this.createdAt,
+    this.owner,
+    this.profileArn,
+    this.profileDescription,
+    this.profileName,
+    this.profileVersion,
+    this.updatedAt,
+  });
+
+  factory ProfileSummary.fromJson(Map<String, dynamic> json) {
+    return ProfileSummary(
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      owner: json['Owner'] as String?,
+      profileArn: json['ProfileArn'] as String?,
+      profileDescription: json['ProfileDescription'] as String?,
+      profileName: json['ProfileName'] as String?,
+      profileVersion: json['ProfileVersion'] as String?,
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final owner = this.owner;
+    final profileArn = this.profileArn;
+    final profileDescription = this.profileDescription;
+    final profileName = this.profileName;
+    final profileVersion = this.profileVersion;
+    final updatedAt = this.updatedAt;
+    return {
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (owner != null) 'Owner': owner,
+      if (profileArn != null) 'ProfileArn': profileArn,
+      if (profileDescription != null) 'ProfileDescription': profileDescription,
+      if (profileName != null) 'ProfileName': profileName,
+      if (profileVersion != null) 'ProfileVersion': profileVersion,
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+class ProfileOwnerType {
+  static const self = ProfileOwnerType._('SELF');
+  static const shared = ProfileOwnerType._('SHARED');
+
+  final String value;
+
+  const ProfileOwnerType._(this.value);
+
+  static const values = [self, shared];
+
+  static ProfileOwnerType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProfileOwnerType._(value));
+
+  @override
+  bool operator ==(other) => other is ProfileOwnerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The profile notification summary.
+class ProfileNotificationSummary {
+  /// The current profile version.
+  final String? currentProfileVersion;
+
+  /// The latest profile version.
+  final String? latestProfileVersion;
+
+  /// The profile ARN.
+  final String? profileArn;
+
+  /// The profile name.
+  final String? profileName;
+
+  /// Type of notification.
+  final ProfileNotificationType? type;
+  final String? workloadId;
+  final String? workloadName;
+
+  ProfileNotificationSummary({
+    this.currentProfileVersion,
+    this.latestProfileVersion,
+    this.profileArn,
+    this.profileName,
+    this.type,
+    this.workloadId,
+    this.workloadName,
+  });
+
+  factory ProfileNotificationSummary.fromJson(Map<String, dynamic> json) {
+    return ProfileNotificationSummary(
+      currentProfileVersion: json['CurrentProfileVersion'] as String?,
+      latestProfileVersion: json['LatestProfileVersion'] as String?,
+      profileArn: json['ProfileArn'] as String?,
+      profileName: json['ProfileName'] as String?,
+      type: (json['Type'] as String?)?.let(ProfileNotificationType.fromString),
+      workloadId: json['WorkloadId'] as String?,
+      workloadName: json['WorkloadName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currentProfileVersion = this.currentProfileVersion;
+    final latestProfileVersion = this.latestProfileVersion;
+    final profileArn = this.profileArn;
+    final profileName = this.profileName;
+    final type = this.type;
+    final workloadId = this.workloadId;
+    final workloadName = this.workloadName;
+    return {
+      if (currentProfileVersion != null)
+        'CurrentProfileVersion': currentProfileVersion,
+      if (latestProfileVersion != null)
+        'LatestProfileVersion': latestProfileVersion,
+      if (profileArn != null) 'ProfileArn': profileArn,
+      if (profileName != null) 'ProfileName': profileName,
+      if (type != null) 'Type': type.value,
+      if (workloadId != null) 'WorkloadId': workloadId,
+      if (workloadName != null) 'WorkloadName': workloadName,
+    };
+  }
+}
+
+class ProfileNotificationType {
+  static const profileAnswersUpdated =
+      ProfileNotificationType._('PROFILE_ANSWERS_UPDATED');
+  static const profileDeleted = ProfileNotificationType._('PROFILE_DELETED');
+
+  final String value;
+
+  const ProfileNotificationType._(this.value);
+
+  static const values = [profileAnswersUpdated, profileDeleted];
+
+  static ProfileNotificationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProfileNotificationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProfileNotificationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A notification summary return object.
+class NotificationSummary {
+  /// Summary of lens upgrade.
+  final LensUpgradeSummary? lensUpgradeSummary;
+
+  /// The type of notification.
+  final NotificationType? type;
+
+  NotificationSummary({
+    this.lensUpgradeSummary,
+    this.type,
+  });
+
+  factory NotificationSummary.fromJson(Map<String, dynamic> json) {
+    return NotificationSummary(
+      lensUpgradeSummary: json['LensUpgradeSummary'] != null
+          ? LensUpgradeSummary.fromJson(
+              json['LensUpgradeSummary'] as Map<String, dynamic>)
+          : null,
+      type: (json['Type'] as String?)?.let(NotificationType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lensUpgradeSummary = this.lensUpgradeSummary;
+    final type = this.type;
+    return {
+      if (lensUpgradeSummary != null) 'LensUpgradeSummary': lensUpgradeSummary,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class NotificationType {
+  static const lensVersionUpgraded =
+      NotificationType._('LENS_VERSION_UPGRADED');
+  static const lensVersionDeprecated =
+      NotificationType._('LENS_VERSION_DEPRECATED');
+
+  final String value;
+
+  const NotificationType._(this.value);
+
+  static const values = [lensVersionUpgraded, lensVersionDeprecated];
+
+  static NotificationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NotificationType._(value));
+
+  @override
+  bool operator ==(other) => other is NotificationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Lens upgrade summary return object.
+class LensUpgradeSummary {
+  /// The current version of the lens.
+  final String? currentLensVersion;
+
+  /// The latest version of the lens.
+  final String? latestLensVersion;
+  final String? lensAlias;
+
+  /// The ARN for the lens.
+  final String? lensArn;
+
+  /// <code>ResourceArn</code> of the lens being upgraded
+  final String? resourceArn;
+  final String? resourceName;
+  final String? workloadId;
+  final String? workloadName;
+
+  LensUpgradeSummary({
+    this.currentLensVersion,
+    this.latestLensVersion,
+    this.lensAlias,
+    this.lensArn,
+    this.resourceArn,
+    this.resourceName,
+    this.workloadId,
+    this.workloadName,
+  });
+
+  factory LensUpgradeSummary.fromJson(Map<String, dynamic> json) {
+    return LensUpgradeSummary(
+      currentLensVersion: json['CurrentLensVersion'] as String?,
+      latestLensVersion: json['LatestLensVersion'] as String?,
+      lensAlias: json['LensAlias'] as String?,
+      lensArn: json['LensArn'] as String?,
+      resourceArn: json['ResourceArn'] as String?,
+      resourceName: json['ResourceName'] as String?,
+      workloadId: json['WorkloadId'] as String?,
+      workloadName: json['WorkloadName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currentLensVersion = this.currentLensVersion;
+    final latestLensVersion = this.latestLensVersion;
+    final lensAlias = this.lensAlias;
+    final lensArn = this.lensArn;
+    final resourceArn = this.resourceArn;
+    final resourceName = this.resourceName;
+    final workloadId = this.workloadId;
+    final workloadName = this.workloadName;
+    return {
+      if (currentLensVersion != null) 'CurrentLensVersion': currentLensVersion,
+      if (latestLensVersion != null) 'LatestLensVersion': latestLensVersion,
+      if (lensAlias != null) 'LensAlias': lensAlias,
+      if (lensArn != null) 'LensArn': lensArn,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+      if (resourceName != null) 'ResourceName': resourceName,
+      if (workloadId != null) 'WorkloadId': workloadId,
+      if (workloadName != null) 'WorkloadName': workloadName,
+    };
+  }
+}
+
+/// A milestone summary return object.
+class MilestoneSummary {
+  final String? milestoneName;
+  final int? milestoneNumber;
+  final DateTime? recordedAt;
+  final WorkloadSummary? workloadSummary;
+
+  MilestoneSummary({
+    this.milestoneName,
+    this.milestoneNumber,
+    this.recordedAt,
+    this.workloadSummary,
+  });
+
+  factory MilestoneSummary.fromJson(Map<String, dynamic> json) {
+    return MilestoneSummary(
+      milestoneName: json['MilestoneName'] as String?,
+      milestoneNumber: json['MilestoneNumber'] as int?,
+      recordedAt: timeStampFromJson(json['RecordedAt']),
+      workloadSummary: json['WorkloadSummary'] != null
+          ? WorkloadSummary.fromJson(
+              json['WorkloadSummary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final milestoneName = this.milestoneName;
+    final milestoneNumber = this.milestoneNumber;
+    final recordedAt = this.recordedAt;
+    final workloadSummary = this.workloadSummary;
+    return {
+      if (milestoneName != null) 'MilestoneName': milestoneName,
+      if (milestoneNumber != null) 'MilestoneNumber': milestoneNumber,
+      if (recordedAt != null) 'RecordedAt': unixTimestampToJson(recordedAt),
+      if (workloadSummary != null) 'WorkloadSummary': workloadSummary,
+    };
+  }
+}
+
+/// A lens share summary return object.
+class LensShareSummary {
+  final String? shareId;
+  final String? sharedWith;
+  final ShareStatus? status;
+
+  /// Optional message to compliment the Status field.
+  final String? statusMessage;
+
+  LensShareSummary({
+    this.shareId,
+    this.sharedWith,
+    this.status,
+    this.statusMessage,
+  });
+
+  factory LensShareSummary.fromJson(Map<String, dynamic> json) {
+    return LensShareSummary(
+      shareId: json['ShareId'] as String?,
+      sharedWith: json['SharedWith'] as String?,
+      status: (json['Status'] as String?)?.let(ShareStatus.fromString),
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final shareId = this.shareId;
+    final sharedWith = this.sharedWith;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    return {
+      if (shareId != null) 'ShareId': shareId,
+      if (sharedWith != null) 'SharedWith': sharedWith,
+      if (status != null) 'Status': status.value,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+    };
+  }
+}
+
+/// A lens review summary of a workload.
+class LensReviewSummary {
+  final String? lensAlias;
+
+  /// The ARN for the lens.
+  final String? lensArn;
+  final String? lensName;
+
+  /// The status of the lens.
+  final LensStatus? lensStatus;
+
+  /// The version of the lens.
+  final String? lensVersion;
+  final Map<Risk, int>? prioritizedRiskCounts;
+
+  /// The profiles associated with the workload.
+  final List<WorkloadProfile>? profiles;
+  final Map<Risk, int>? riskCounts;
+  final DateTime? updatedAt;
+
+  LensReviewSummary({
+    this.lensAlias,
+    this.lensArn,
+    this.lensName,
+    this.lensStatus,
+    this.lensVersion,
+    this.prioritizedRiskCounts,
+    this.profiles,
+    this.riskCounts,
+    this.updatedAt,
+  });
+
+  factory LensReviewSummary.fromJson(Map<String, dynamic> json) {
+    return LensReviewSummary(
+      lensAlias: json['LensAlias'] as String?,
+      lensArn: json['LensArn'] as String?,
+      lensName: json['LensName'] as String?,
+      lensStatus: (json['LensStatus'] as String?)?.let(LensStatus.fromString),
+      lensVersion: json['LensVersion'] as String?,
+      prioritizedRiskCounts:
+          (json['PrioritizedRiskCounts'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(Risk.fromString(k), e as int)),
+      profiles: (json['Profiles'] as List?)
+          ?.nonNulls
+          .map((e) => WorkloadProfile.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      riskCounts: (json['RiskCounts'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(Risk.fromString(k), e as int)),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lensAlias = this.lensAlias;
+    final lensArn = this.lensArn;
+    final lensName = this.lensName;
+    final lensStatus = this.lensStatus;
+    final lensVersion = this.lensVersion;
+    final prioritizedRiskCounts = this.prioritizedRiskCounts;
+    final profiles = this.profiles;
+    final riskCounts = this.riskCounts;
+    final updatedAt = this.updatedAt;
+    return {
+      if (lensAlias != null) 'LensAlias': lensAlias,
+      if (lensArn != null) 'LensArn': lensArn,
+      if (lensName != null) 'LensName': lensName,
+      if (lensStatus != null) 'LensStatus': lensStatus.value,
+      if (lensVersion != null) 'LensVersion': lensVersion,
+      if (prioritizedRiskCounts != null)
+        'PrioritizedRiskCounts':
+            prioritizedRiskCounts.map((k, e) => MapEntry(k.value, e)),
+      if (profiles != null) 'Profiles': profiles,
+      if (riskCounts != null)
+        'RiskCounts': riskCounts.map((k, e) => MapEntry(k.value, e)),
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+/// An improvement summary of a lens review in a workload.
+class ImprovementSummary {
+  final String? improvementPlanUrl;
+
+  /// The improvement plan details.
+  final List<ChoiceImprovementPlan>? improvementPlans;
+
+  /// Configuration of the Jira integration.
+  final JiraConfiguration? jiraConfiguration;
+  final String? pillarId;
+  final String? questionId;
+  final String? questionTitle;
+  final Risk? risk;
+
+  ImprovementSummary({
+    this.improvementPlanUrl,
+    this.improvementPlans,
+    this.jiraConfiguration,
+    this.pillarId,
+    this.questionId,
+    this.questionTitle,
+    this.risk,
+  });
+
+  factory ImprovementSummary.fromJson(Map<String, dynamic> json) {
+    return ImprovementSummary(
+      improvementPlanUrl: json['ImprovementPlanUrl'] as String?,
+      improvementPlans: (json['ImprovementPlans'] as List?)
+          ?.nonNulls
+          .map((e) => ChoiceImprovementPlan.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      jiraConfiguration: json['JiraConfiguration'] != null
+          ? JiraConfiguration.fromJson(
+              json['JiraConfiguration'] as Map<String, dynamic>)
+          : null,
+      pillarId: json['PillarId'] as String?,
+      questionId: json['QuestionId'] as String?,
+      questionTitle: json['QuestionTitle'] as String?,
+      risk: (json['Risk'] as String?)?.let(Risk.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final improvementPlanUrl = this.improvementPlanUrl;
+    final improvementPlans = this.improvementPlans;
+    final jiraConfiguration = this.jiraConfiguration;
+    final pillarId = this.pillarId;
+    final questionId = this.questionId;
+    final questionTitle = this.questionTitle;
+    final risk = this.risk;
+    return {
+      if (improvementPlanUrl != null) 'ImprovementPlanUrl': improvementPlanUrl,
+      if (improvementPlans != null) 'ImprovementPlans': improvementPlans,
+      if (jiraConfiguration != null) 'JiraConfiguration': jiraConfiguration,
+      if (pillarId != null) 'PillarId': pillarId,
+      if (questionId != null) 'QuestionId': questionId,
+      if (questionTitle != null) 'QuestionTitle': questionTitle,
+      if (risk != null) 'Risk': risk.value,
+    };
+  }
+}
+
+/// The choice level improvement plan.
+class ChoiceImprovementPlan {
+  final String? choiceId;
+
+  /// The display text for the improvement plan.
+  final String? displayText;
+  final String? improvementPlanUrl;
+
+  ChoiceImprovementPlan({
+    this.choiceId,
+    this.displayText,
+    this.improvementPlanUrl,
+  });
+
+  factory ChoiceImprovementPlan.fromJson(Map<String, dynamic> json) {
+    return ChoiceImprovementPlan(
+      choiceId: json['ChoiceId'] as String?,
+      displayText: json['DisplayText'] as String?,
+      improvementPlanUrl: json['ImprovementPlanUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final choiceId = this.choiceId;
+    final displayText = this.displayText;
+    final improvementPlanUrl = this.improvementPlanUrl;
+    return {
+      if (choiceId != null) 'ChoiceId': choiceId,
+      if (displayText != null) 'DisplayText': displayText,
+      if (improvementPlanUrl != null) 'ImprovementPlanUrl': improvementPlanUrl,
+    };
+  }
+}
+
+class QuestionPriority {
+  static const prioritized = QuestionPriority._('PRIORITIZED');
+  static const none = QuestionPriority._('NONE');
+
+  final String value;
+
+  const QuestionPriority._(this.value);
+
+  static const values = [prioritized, none];
+
+  static QuestionPriority fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => QuestionPriority._(value));
+
+  @override
+  bool operator ==(other) => other is QuestionPriority && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A lens summary of a lens.
+class LensSummary {
+  final DateTime? createdAt;
+  final String? description;
+  final String? lensAlias;
+
+  /// The ARN of the lens.
+  final String? lensArn;
+  final String? lensName;
+
+  /// The status of the lens.
+  final LensStatus? lensStatus;
+
+  /// The type of the lens.
+  final LensType? lensType;
+
+  /// The version of the lens.
+  final String? lensVersion;
+  final String? owner;
+  final DateTime? updatedAt;
+
+  LensSummary({
+    this.createdAt,
+    this.description,
+    this.lensAlias,
+    this.lensArn,
+    this.lensName,
+    this.lensStatus,
+    this.lensType,
+    this.lensVersion,
+    this.owner,
+    this.updatedAt,
+  });
+
+  factory LensSummary.fromJson(Map<String, dynamic> json) {
+    return LensSummary(
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      lensAlias: json['LensAlias'] as String?,
+      lensArn: json['LensArn'] as String?,
+      lensName: json['LensName'] as String?,
+      lensStatus: (json['LensStatus'] as String?)?.let(LensStatus.fromString),
+      lensType: (json['LensType'] as String?)?.let(LensType.fromString),
+      lensVersion: json['LensVersion'] as String?,
+      owner: json['Owner'] as String?,
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final lensAlias = this.lensAlias;
+    final lensArn = this.lensArn;
+    final lensName = this.lensName;
+    final lensStatus = this.lensStatus;
+    final lensType = this.lensType;
+    final lensVersion = this.lensVersion;
+    final owner = this.owner;
+    final updatedAt = this.updatedAt;
+    return {
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (description != null) 'Description': description,
+      if (lensAlias != null) 'LensAlias': lensAlias,
+      if (lensArn != null) 'LensArn': lensArn,
+      if (lensName != null) 'LensName': lensName,
+      if (lensStatus != null) 'LensStatus': lensStatus.value,
+      if (lensType != null) 'LensType': lensType.value,
+      if (lensVersion != null) 'LensVersion': lensVersion,
+      if (owner != null) 'Owner': owner,
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+class LensType {
+  static const awsOfficial = LensType._('AWS_OFFICIAL');
+  static const customShared = LensType._('CUSTOM_SHARED');
+  static const customSelf = LensType._('CUSTOM_SELF');
+
+  final String value;
+
+  const LensType._(this.value);
+
+  static const values = [awsOfficial, customShared, customSelf];
+
+  static LensType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LensType._(value));
+
+  @override
+  bool operator ==(other) => other is LensType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class LensStatusType {
+  static const all = LensStatusType._('ALL');
+  static const draft = LensStatusType._('DRAFT');
+  static const published = LensStatusType._('PUBLISHED');
+
+  final String value;
+
+  const LensStatusType._(this.value);
+
+  static const values = [all, draft, published];
+
+  static LensStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LensStatusType._(value));
+
+  @override
+  bool operator ==(other) => other is LensStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Trusted Advisor check summary.
+class CheckSummary {
+  /// Account summary associated to the check.
+  final Map<CheckStatus, int>? accountSummary;
+  final String? choiceId;
+
+  /// Trusted Advisor check description.
+  final String? description;
+
+  /// Trusted Advisor check ID.
+  final String? id;
+
+  /// Well-Architected Lens ARN associated to the check.
+  final String? lensArn;
+
+  /// Trusted Advisor check name.
+  final String? name;
+  final String? pillarId;
+
+  /// Provider of the check related to the best practice.
+  final CheckProvider? provider;
+  final String? questionId;
+
+  /// Status associated to the check.
+  final CheckStatus? status;
+  final DateTime? updatedAt;
+
+  CheckSummary({
+    this.accountSummary,
+    this.choiceId,
+    this.description,
+    this.id,
+    this.lensArn,
+    this.name,
+    this.pillarId,
+    this.provider,
+    this.questionId,
+    this.status,
+    this.updatedAt,
+  });
+
+  factory CheckSummary.fromJson(Map<String, dynamic> json) {
+    return CheckSummary(
+      accountSummary: (json['AccountSummary'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(CheckStatus.fromString(k), e as int)),
+      choiceId: json['ChoiceId'] as String?,
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      lensArn: json['LensArn'] as String?,
+      name: json['Name'] as String?,
+      pillarId: json['PillarId'] as String?,
+      provider: (json['Provider'] as String?)?.let(CheckProvider.fromString),
+      questionId: json['QuestionId'] as String?,
+      status: (json['Status'] as String?)?.let(CheckStatus.fromString),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountSummary = this.accountSummary;
+    final choiceId = this.choiceId;
+    final description = this.description;
+    final id = this.id;
+    final lensArn = this.lensArn;
+    final name = this.name;
+    final pillarId = this.pillarId;
+    final provider = this.provider;
+    final questionId = this.questionId;
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    return {
+      if (accountSummary != null)
+        'AccountSummary': accountSummary.map((k, e) => MapEntry(k.value, e)),
+      if (choiceId != null) 'ChoiceId': choiceId,
+      if (description != null) 'Description': description,
+      if (id != null) 'Id': id,
+      if (lensArn != null) 'LensArn': lensArn,
+      if (name != null) 'Name': name,
+      if (pillarId != null) 'PillarId': pillarId,
+      if (provider != null) 'Provider': provider.value,
+      if (questionId != null) 'QuestionId': questionId,
+      if (status != null) 'Status': status.value,
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+class CheckProvider {
+  static const trustedAdvisor = CheckProvider._('TRUSTED_ADVISOR');
+
+  final String value;
+
+  const CheckProvider._(this.value);
+
+  static const values = [trustedAdvisor];
+
+  static CheckProvider fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CheckProvider._(value));
+
+  @override
+  bool operator ==(other) => other is CheckProvider && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class CheckStatus {
+  static const okay = CheckStatus._('OKAY');
+  static const warning = CheckStatus._('WARNING');
+  static const error = CheckStatus._('ERROR');
+  static const notAvailable = CheckStatus._('NOT_AVAILABLE');
+  static const fetchFailed = CheckStatus._('FETCH_FAILED');
+
+  final String value;
+
+  const CheckStatus._(this.value);
+
+  static const values = [okay, warning, error, notAvailable, fetchFailed];
+
+  static CheckStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CheckStatus._(value));
+
+  @override
+  bool operator ==(other) => other is CheckStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Account details for a Well-Architected best practice in relation to Trusted
+/// Advisor checks.
+class CheckDetail {
+  final String? accountId;
+  final String? choiceId;
+
+  /// Trusted Advisor check description.
+  final String? description;
+
+  /// Count of flagged resources associated to the check.
+  final int? flaggedResources;
+
+  /// Trusted Advisor check ID.
+  final String? id;
+
+  /// Well-Architected Lens ARN associated to the check.
+  final String? lensArn;
+
+  /// Trusted Advisor check name.
+  final String? name;
+  final String? pillarId;
+
+  /// Provider of the check related to the best practice.
+  final CheckProvider? provider;
+  final String? questionId;
+
+  /// Reason associated to the check.
+  final CheckFailureReason? reason;
+
+  /// Status associated to the check.
+  final CheckStatus? status;
+  final DateTime? updatedAt;
+
+  CheckDetail({
+    this.accountId,
+    this.choiceId,
+    this.description,
+    this.flaggedResources,
+    this.id,
+    this.lensArn,
+    this.name,
+    this.pillarId,
+    this.provider,
+    this.questionId,
+    this.reason,
+    this.status,
+    this.updatedAt,
+  });
+
+  factory CheckDetail.fromJson(Map<String, dynamic> json) {
+    return CheckDetail(
+      accountId: json['AccountId'] as String?,
+      choiceId: json['ChoiceId'] as String?,
+      description: json['Description'] as String?,
+      flaggedResources: json['FlaggedResources'] as int?,
+      id: json['Id'] as String?,
+      lensArn: json['LensArn'] as String?,
+      name: json['Name'] as String?,
+      pillarId: json['PillarId'] as String?,
+      provider: (json['Provider'] as String?)?.let(CheckProvider.fromString),
+      questionId: json['QuestionId'] as String?,
+      reason: (json['Reason'] as String?)?.let(CheckFailureReason.fromString),
+      status: (json['Status'] as String?)?.let(CheckStatus.fromString),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final choiceId = this.choiceId;
+    final description = this.description;
+    final flaggedResources = this.flaggedResources;
+    final id = this.id;
+    final lensArn = this.lensArn;
+    final name = this.name;
+    final pillarId = this.pillarId;
+    final provider = this.provider;
+    final questionId = this.questionId;
+    final reason = this.reason;
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (choiceId != null) 'ChoiceId': choiceId,
+      if (description != null) 'Description': description,
+      if (flaggedResources != null) 'FlaggedResources': flaggedResources,
+      if (id != null) 'Id': id,
+      if (lensArn != null) 'LensArn': lensArn,
+      if (name != null) 'Name': name,
+      if (pillarId != null) 'PillarId': pillarId,
+      if (provider != null) 'Provider': provider.value,
+      if (questionId != null) 'QuestionId': questionId,
+      if (reason != null) 'Reason': reason.value,
+      if (status != null) 'Status': status.value,
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+class CheckFailureReason {
+  static const assumeRoleError = CheckFailureReason._('ASSUME_ROLE_ERROR');
+  static const accessDenied = CheckFailureReason._('ACCESS_DENIED');
+  static const unknownError = CheckFailureReason._('UNKNOWN_ERROR');
+  static const premiumSupportRequired =
+      CheckFailureReason._('PREMIUM_SUPPORT_REQUIRED');
+
+  final String value;
+
+  const CheckFailureReason._(this.value);
+
+  static const values = [
+    assumeRoleError,
+    accessDenied,
+    unknownError,
+    premiumSupportRequired
+  ];
+
+  static CheckFailureReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CheckFailureReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CheckFailureReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An answer summary of a lens review in a workload.
+class AnswerSummary {
+  /// A list of selected choices to a question in your workload.
+  final List<ChoiceAnswerSummary>? choiceAnswerSummaries;
+  final List<Choice>? choices;
+  final bool? isApplicable;
+
+  /// Configuration of the Jira integration.
+  final JiraConfiguration? jiraConfiguration;
+  final String? pillarId;
+  final String? questionId;
+  final String? questionTitle;
+
+  /// The type of the question.
+  final QuestionType? questionType;
+
+  /// The reason why a choice is non-applicable to a question in your workload.
+  final AnswerReason? reason;
+  final Risk? risk;
+  final List<String>? selectedChoices;
+
+  AnswerSummary({
+    this.choiceAnswerSummaries,
+    this.choices,
+    this.isApplicable,
+    this.jiraConfiguration,
+    this.pillarId,
+    this.questionId,
+    this.questionTitle,
+    this.questionType,
+    this.reason,
+    this.risk,
+    this.selectedChoices,
+  });
+
+  factory AnswerSummary.fromJson(Map<String, dynamic> json) {
+    return AnswerSummary(
+      choiceAnswerSummaries: (json['ChoiceAnswerSummaries'] as List?)
+          ?.nonNulls
+          .map((e) => ChoiceAnswerSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      choices: (json['Choices'] as List?)
+          ?.nonNulls
+          .map((e) => Choice.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isApplicable: json['IsApplicable'] as bool?,
+      jiraConfiguration: json['JiraConfiguration'] != null
+          ? JiraConfiguration.fromJson(
+              json['JiraConfiguration'] as Map<String, dynamic>)
+          : null,
+      pillarId: json['PillarId'] as String?,
+      questionId: json['QuestionId'] as String?,
+      questionTitle: json['QuestionTitle'] as String?,
+      questionType:
+          (json['QuestionType'] as String?)?.let(QuestionType.fromString),
+      reason: (json['Reason'] as String?)?.let(AnswerReason.fromString),
+      risk: (json['Risk'] as String?)?.let(Risk.fromString),
+      selectedChoices: (json['SelectedChoices'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final choiceAnswerSummaries = this.choiceAnswerSummaries;
+    final choices = this.choices;
+    final isApplicable = this.isApplicable;
+    final jiraConfiguration = this.jiraConfiguration;
+    final pillarId = this.pillarId;
+    final questionId = this.questionId;
+    final questionTitle = this.questionTitle;
+    final questionType = this.questionType;
+    final reason = this.reason;
+    final risk = this.risk;
+    final selectedChoices = this.selectedChoices;
+    return {
+      if (choiceAnswerSummaries != null)
+        'ChoiceAnswerSummaries': choiceAnswerSummaries,
+      if (choices != null) 'Choices': choices,
+      if (isApplicable != null) 'IsApplicable': isApplicable,
+      if (jiraConfiguration != null) 'JiraConfiguration': jiraConfiguration,
+      if (pillarId != null) 'PillarId': pillarId,
+      if (questionId != null) 'QuestionId': questionId,
+      if (questionTitle != null) 'QuestionTitle': questionTitle,
+      if (questionType != null) 'QuestionType': questionType.value,
+      if (reason != null) 'Reason': reason.value,
+      if (risk != null) 'Risk': risk.value,
+      if (selectedChoices != null) 'SelectedChoices': selectedChoices,
+    };
+  }
+}
+
+class ImportLensStatus {
+  static const inProgress = ImportLensStatus._('IN_PROGRESS');
+  static const complete = ImportLensStatus._('COMPLETE');
+  static const error = ImportLensStatus._('ERROR');
+
+  final String value;
+
+  const ImportLensStatus._(this.value);
+
+  static const values = [inProgress, complete, error];
+
+  static ImportLensStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ImportLensStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ImportLensStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The profile template.
+class ProfileTemplate {
+  final DateTime? createdAt;
+
+  /// The name of the profile template.
+  final String? templateName;
+
+  /// Profile template questions.
+  final List<ProfileTemplateQuestion>? templateQuestions;
+  final DateTime? updatedAt;
+
+  ProfileTemplate({
+    this.createdAt,
+    this.templateName,
+    this.templateQuestions,
+    this.updatedAt,
+  });
+
+  factory ProfileTemplate.fromJson(Map<String, dynamic> json) {
+    return ProfileTemplate(
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      templateName: json['TemplateName'] as String?,
+      templateQuestions: (json['TemplateQuestions'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ProfileTemplateQuestion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final templateName = this.templateName;
+    final templateQuestions = this.templateQuestions;
+    final updatedAt = this.updatedAt;
+    return {
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (templateName != null) 'TemplateName': templateName,
+      if (templateQuestions != null) 'TemplateQuestions': templateQuestions,
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+/// A profile template question.
+class ProfileTemplateQuestion {
+  /// The maximum number of choices selected.
+  final int? maxSelectedChoices;
+
+  /// The minimum number of choices selected.
+  final int? minSelectedChoices;
+
+  /// The question choices.
+  final List<ProfileTemplateChoice>? questionChoices;
+  final String? questionDescription;
+  final String? questionId;
+  final String? questionTitle;
+
+  ProfileTemplateQuestion({
+    this.maxSelectedChoices,
+    this.minSelectedChoices,
+    this.questionChoices,
+    this.questionDescription,
+    this.questionId,
+    this.questionTitle,
+  });
+
+  factory ProfileTemplateQuestion.fromJson(Map<String, dynamic> json) {
+    return ProfileTemplateQuestion(
+      maxSelectedChoices: json['MaxSelectedChoices'] as int?,
+      minSelectedChoices: json['MinSelectedChoices'] as int?,
+      questionChoices: (json['QuestionChoices'] as List?)
+          ?.nonNulls
+          .map((e) => ProfileTemplateChoice.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      questionDescription: json['QuestionDescription'] as String?,
+      questionId: json['QuestionId'] as String?,
+      questionTitle: json['QuestionTitle'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxSelectedChoices = this.maxSelectedChoices;
+    final minSelectedChoices = this.minSelectedChoices;
+    final questionChoices = this.questionChoices;
+    final questionDescription = this.questionDescription;
+    final questionId = this.questionId;
+    final questionTitle = this.questionTitle;
+    return {
+      if (maxSelectedChoices != null) 'MaxSelectedChoices': maxSelectedChoices,
+      if (minSelectedChoices != null) 'MinSelectedChoices': minSelectedChoices,
+      if (questionChoices != null) 'QuestionChoices': questionChoices,
+      if (questionDescription != null)
+        'QuestionDescription': questionDescription,
+      if (questionId != null) 'QuestionId': questionId,
+      if (questionTitle != null) 'QuestionTitle': questionTitle,
+    };
+  }
+}
+
+/// A profile template choice.
+class ProfileTemplateChoice {
+  final String? choiceDescription;
+  final String? choiceId;
+  final String? choiceTitle;
+
+  ProfileTemplateChoice({
+    this.choiceDescription,
+    this.choiceId,
+    this.choiceTitle,
+  });
+
+  factory ProfileTemplateChoice.fromJson(Map<String, dynamic> json) {
+    return ProfileTemplateChoice(
+      choiceDescription: json['ChoiceDescription'] as String?,
+      choiceId: json['ChoiceId'] as String?,
+      choiceTitle: json['ChoiceTitle'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final choiceDescription = this.choiceDescription;
+    final choiceId = this.choiceId;
+    final choiceTitle = this.choiceTitle;
+    return {
+      if (choiceDescription != null) 'ChoiceDescription': choiceDescription,
+      if (choiceId != null) 'ChoiceId': choiceId,
+      if (choiceTitle != null) 'ChoiceTitle': choiceTitle,
+    };
+  }
+}
+
+/// A milestone return object.
+class Milestone {
+  final String? milestoneName;
+  final int? milestoneNumber;
+  final DateTime? recordedAt;
+  final Workload? workload;
+
+  Milestone({
+    this.milestoneName,
+    this.milestoneNumber,
+    this.recordedAt,
+    this.workload,
+  });
+
+  factory Milestone.fromJson(Map<String, dynamic> json) {
+    return Milestone(
+      milestoneName: json['MilestoneName'] as String?,
+      milestoneNumber: json['MilestoneNumber'] as int?,
+      recordedAt: timeStampFromJson(json['RecordedAt']),
+      workload: json['Workload'] != null
+          ? Workload.fromJson(json['Workload'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final milestoneName = this.milestoneName;
+    final milestoneNumber = this.milestoneNumber;
+    final recordedAt = this.recordedAt;
+    final workload = this.workload;
+    return {
+      if (milestoneName != null) 'MilestoneName': milestoneName,
+      if (milestoneNumber != null) 'MilestoneNumber': milestoneNumber,
+      if (recordedAt != null) 'RecordedAt': unixTimestampToJson(recordedAt),
+      if (workload != null) 'Workload': workload,
+    };
+  }
+}
+
+/// The differences between the base and latest versions of the lens.
+class VersionDifferences {
+  /// The differences between the base and latest versions of the lens.
+  final List<PillarDifference>? pillarDifferences;
+
+  VersionDifferences({
+    this.pillarDifferences,
+  });
+
+  factory VersionDifferences.fromJson(Map<String, dynamic> json) {
+    return VersionDifferences(
+      pillarDifferences: (json['PillarDifferences'] as List?)
+          ?.nonNulls
+          .map((e) => PillarDifference.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pillarDifferences = this.pillarDifferences;
+    return {
+      if (pillarDifferences != null) 'PillarDifferences': pillarDifferences,
+    };
+  }
+}
+
+/// A pillar difference return object.
+class PillarDifference {
+  /// Indicates the type of change to the pillar.
+  final DifferenceStatus? differenceStatus;
+  final String? pillarId;
+  final String? pillarName;
+
+  /// List of question differences.
+  final List<QuestionDifference>? questionDifferences;
+
+  PillarDifference({
+    this.differenceStatus,
+    this.pillarId,
+    this.pillarName,
+    this.questionDifferences,
+  });
+
+  factory PillarDifference.fromJson(Map<String, dynamic> json) {
+    return PillarDifference(
+      differenceStatus: (json['DifferenceStatus'] as String?)
+          ?.let(DifferenceStatus.fromString),
+      pillarId: json['PillarId'] as String?,
+      pillarName: json['PillarName'] as String?,
+      questionDifferences: (json['QuestionDifferences'] as List?)
+          ?.nonNulls
+          .map((e) => QuestionDifference.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final differenceStatus = this.differenceStatus;
+    final pillarId = this.pillarId;
+    final pillarName = this.pillarName;
+    final questionDifferences = this.questionDifferences;
+    return {
+      if (differenceStatus != null) 'DifferenceStatus': differenceStatus.value,
+      if (pillarId != null) 'PillarId': pillarId,
+      if (pillarName != null) 'PillarName': pillarName,
+      if (questionDifferences != null)
+        'QuestionDifferences': questionDifferences,
+    };
+  }
+}
+
+class DifferenceStatus {
+  static const updated = DifferenceStatus._('UPDATED');
+  static const $new = DifferenceStatus._('NEW');
+  static const deleted = DifferenceStatus._('DELETED');
+
+  final String value;
+
+  const DifferenceStatus._(this.value);
+
+  static const values = [updated, $new, deleted];
+
+  static DifferenceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DifferenceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DifferenceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A question difference return object.
+class QuestionDifference {
+  /// Indicates the type of change to the question.
+  final DifferenceStatus? differenceStatus;
+  final String? questionId;
+  final String? questionTitle;
+
+  QuestionDifference({
+    this.differenceStatus,
+    this.questionId,
+    this.questionTitle,
+  });
+
+  factory QuestionDifference.fromJson(Map<String, dynamic> json) {
+    return QuestionDifference(
+      differenceStatus: (json['DifferenceStatus'] as String?)
+          ?.let(DifferenceStatus.fromString),
+      questionId: json['QuestionId'] as String?,
+      questionTitle: json['QuestionTitle'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final differenceStatus = this.differenceStatus;
+    final questionId = this.questionId;
+    final questionTitle = this.questionTitle;
+    return {
+      if (differenceStatus != null) 'DifferenceStatus': differenceStatus.value,
+      if (questionId != null) 'QuestionId': questionId,
+      if (questionTitle != null) 'QuestionTitle': questionTitle,
+    };
+  }
+}
+
+/// A report of a lens review.
+class LensReviewReport {
+  final String? base64String;
+  final String? lensAlias;
+
+  /// The ARN for the lens.
+  final String? lensArn;
+
+  LensReviewReport({
+    this.base64String,
+    this.lensAlias,
+    this.lensArn,
+  });
+
+  factory LensReviewReport.fromJson(Map<String, dynamic> json) {
+    return LensReviewReport(
+      base64String: json['Base64String'] as String?,
+      lensAlias: json['LensAlias'] as String?,
+      lensArn: json['LensArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final base64String = this.base64String;
+    final lensAlias = this.lensAlias;
+    final lensArn = this.lensArn;
+    return {
+      if (base64String != null) 'Base64String': base64String,
+      if (lensAlias != null) 'LensAlias': lensAlias,
+      if (lensArn != null) 'LensArn': lensArn,
+    };
+  }
+}
+
+/// A lens return object.
+class Lens {
+  final String? description;
+
+  /// The ARN of a lens.
+  final String? lensArn;
+
+  /// The version of a lens.
+  final String? lensVersion;
+  final String? name;
+
+  /// The Amazon Web Services account ID that owns the lens.
+  final String? owner;
+
+  /// The ID assigned to the share invitation.
+  final String? shareInvitationId;
+
+  /// The tags assigned to the lens.
+  final Map<String, String>? tags;
+
+  Lens({
+    this.description,
+    this.lensArn,
+    this.lensVersion,
+    this.name,
+    this.owner,
+    this.shareInvitationId,
+    this.tags,
+  });
+
+  factory Lens.fromJson(Map<String, dynamic> json) {
+    return Lens(
+      description: json['Description'] as String?,
+      lensArn: json['LensArn'] as String?,
+      lensVersion: json['LensVersion'] as String?,
+      name: json['Name'] as String?,
+      owner: json['Owner'] as String?,
+      shareInvitationId: json['ShareInvitationId'] as String?,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final lensArn = this.lensArn;
+    final lensVersion = this.lensVersion;
+    final name = this.name;
+    final owner = this.owner;
+    final shareInvitationId = this.shareInvitationId;
+    final tags = this.tags;
+    return {
+      if (description != null) 'Description': description,
+      if (lensArn != null) 'LensArn': lensArn,
+      if (lensVersion != null) 'LensVersion': lensVersion,
+      if (name != null) 'Name': name,
+      if (owner != null) 'Owner': owner,
+      if (shareInvitationId != null) 'ShareInvitationId': shareInvitationId,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// Account-level: Output configuration of the Jira integration.
+class AccountJiraConfigurationOutput {
+  /// Account-level: Configuration status of the Jira integration.
+  final IntegrationStatus? integrationStatus;
+
+  /// Account-level: Jira issue management status.
+  final AccountJiraIssueManagementStatus? issueManagementStatus;
+
+  /// Account-level: Jira issue management type.
+  final IssueManagementType? issueManagementType;
+
+  /// Account-level: Jira project key to sync workloads to.
+  final String? jiraProjectKey;
+
+  /// Account-level: Status message on configuration of the Jira integration.
+  final String? statusMessage;
+
+  /// Account-level: Jira subdomain URL.
+  final String? subdomain;
+
+  AccountJiraConfigurationOutput({
+    this.integrationStatus,
+    this.issueManagementStatus,
+    this.issueManagementType,
+    this.jiraProjectKey,
+    this.statusMessage,
+    this.subdomain,
+  });
+
+  factory AccountJiraConfigurationOutput.fromJson(Map<String, dynamic> json) {
+    return AccountJiraConfigurationOutput(
+      integrationStatus: (json['IntegrationStatus'] as String?)
+          ?.let(IntegrationStatus.fromString),
+      issueManagementStatus: (json['IssueManagementStatus'] as String?)
+          ?.let(AccountJiraIssueManagementStatus.fromString),
+      issueManagementType: (json['IssueManagementType'] as String?)
+          ?.let(IssueManagementType.fromString),
+      jiraProjectKey: json['JiraProjectKey'] as String?,
+      statusMessage: json['StatusMessage'] as String?,
+      subdomain: json['Subdomain'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final integrationStatus = this.integrationStatus;
+    final issueManagementStatus = this.issueManagementStatus;
+    final issueManagementType = this.issueManagementType;
+    final jiraProjectKey = this.jiraProjectKey;
+    final statusMessage = this.statusMessage;
+    final subdomain = this.subdomain;
+    return {
+      if (integrationStatus != null)
+        'IntegrationStatus': integrationStatus.value,
+      if (issueManagementStatus != null)
+        'IssueManagementStatus': issueManagementStatus.value,
+      if (issueManagementType != null)
+        'IssueManagementType': issueManagementType.value,
+      if (jiraProjectKey != null) 'JiraProjectKey': jiraProjectKey,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+      if (subdomain != null) 'Subdomain': subdomain,
+    };
+  }
+}
+
+class IntegrationStatus {
+  static const configured = IntegrationStatus._('CONFIGURED');
+  static const notConfigured = IntegrationStatus._('NOT_CONFIGURED');
+
+  final String value;
+
+  const IntegrationStatus._(this.value);
+
+  static const values = [configured, notConfigured];
+
+  static IntegrationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IntegrationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is IntegrationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A metric that contributes to the consolidated report.
+class ConsolidatedReportMetric {
+  /// The metrics for the lenses in the workload.
+  final List<LensMetric>? lenses;
+
+  /// The total number of lenses applied to the workload.
+  final int? lensesAppliedCount;
+
+  /// The metric type of a metric in the consolidated report. Currently only
+  /// WORKLOAD metric types are supported.
+  final MetricType? metricType;
+  final Map<Risk, int>? riskCounts;
+  final DateTime? updatedAt;
+  final String? workloadArn;
+  final String? workloadId;
+  final String? workloadName;
+
+  ConsolidatedReportMetric({
+    this.lenses,
+    this.lensesAppliedCount,
+    this.metricType,
+    this.riskCounts,
+    this.updatedAt,
+    this.workloadArn,
+    this.workloadId,
+    this.workloadName,
+  });
+
+  factory ConsolidatedReportMetric.fromJson(Map<String, dynamic> json) {
+    return ConsolidatedReportMetric(
+      lenses: (json['Lenses'] as List?)
+          ?.nonNulls
+          .map((e) => LensMetric.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      lensesAppliedCount: json['LensesAppliedCount'] as int?,
+      metricType: (json['MetricType'] as String?)?.let(MetricType.fromString),
+      riskCounts: (json['RiskCounts'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(Risk.fromString(k), e as int)),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+      workloadArn: json['WorkloadArn'] as String?,
+      workloadId: json['WorkloadId'] as String?,
+      workloadName: json['WorkloadName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lenses = this.lenses;
+    final lensesAppliedCount = this.lensesAppliedCount;
+    final metricType = this.metricType;
+    final riskCounts = this.riskCounts;
+    final updatedAt = this.updatedAt;
+    final workloadArn = this.workloadArn;
+    final workloadId = this.workloadId;
+    final workloadName = this.workloadName;
+    return {
+      if (lenses != null) 'Lenses': lenses,
+      if (lensesAppliedCount != null) 'LensesAppliedCount': lensesAppliedCount,
+      if (metricType != null) 'MetricType': metricType.value,
+      if (riskCounts != null)
+        'RiskCounts': riskCounts.map((k, e) => MapEntry(k.value, e)),
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+      if (workloadArn != null) 'WorkloadArn': workloadArn,
+      if (workloadId != null) 'WorkloadId': workloadId,
+      if (workloadName != null) 'WorkloadName': workloadName,
+    };
+  }
+}
+
+class MetricType {
+  static const workload = MetricType._('WORKLOAD');
+
+  final String value;
+
+  const MetricType._(this.value);
+
+  static const values = [workload];
+
+  static MetricType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MetricType._(value));
+
+  @override
+  bool operator ==(other) => other is MetricType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A metric for a particular lens in a workload.
+class LensMetric {
+  /// The lens ARN.
+  final String? lensArn;
+
+  /// The metrics for the pillars in a lens.
+  final List<PillarMetric>? pillars;
+  final Map<Risk, int>? riskCounts;
+
+  LensMetric({
+    this.lensArn,
+    this.pillars,
+    this.riskCounts,
+  });
+
+  factory LensMetric.fromJson(Map<String, dynamic> json) {
+    return LensMetric(
+      lensArn: json['LensArn'] as String?,
+      pillars: (json['Pillars'] as List?)
+          ?.nonNulls
+          .map((e) => PillarMetric.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      riskCounts: (json['RiskCounts'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(Risk.fromString(k), e as int)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lensArn = this.lensArn;
+    final pillars = this.pillars;
+    final riskCounts = this.riskCounts;
+    return {
+      if (lensArn != null) 'LensArn': lensArn,
+      if (pillars != null) 'Pillars': pillars,
+      if (riskCounts != null)
+        'RiskCounts': riskCounts.map((k, e) => MapEntry(k.value, e)),
+    };
+  }
+}
+
+/// A metric for a particular pillar in a lens.
+class PillarMetric {
+  final String? pillarId;
+
+  /// The questions that have been identified as risks in the pillar.
+  final List<QuestionMetric>? questions;
+  final Map<Risk, int>? riskCounts;
+
+  PillarMetric({
+    this.pillarId,
+    this.questions,
+    this.riskCounts,
+  });
+
+  factory PillarMetric.fromJson(Map<String, dynamic> json) {
+    return PillarMetric(
+      pillarId: json['PillarId'] as String?,
+      questions: (json['Questions'] as List?)
+          ?.nonNulls
+          .map((e) => QuestionMetric.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      riskCounts: (json['RiskCounts'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(Risk.fromString(k), e as int)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pillarId = this.pillarId;
+    final questions = this.questions;
+    final riskCounts = this.riskCounts;
+    return {
+      if (pillarId != null) 'PillarId': pillarId,
+      if (questions != null) 'Questions': questions,
+      if (riskCounts != null)
+        'RiskCounts': riskCounts.map((k, e) => MapEntry(k.value, e)),
+    };
+  }
+}
+
+/// A metric for a particular question in the pillar.
+class QuestionMetric {
+  /// The best practices, or choices, that have been identified as contributing to
+  /// risk in a question.
+  final List<BestPractice>? bestPractices;
+  final String? questionId;
+  final Risk? risk;
+
+  QuestionMetric({
+    this.bestPractices,
+    this.questionId,
+    this.risk,
+  });
+
+  factory QuestionMetric.fromJson(Map<String, dynamic> json) {
+    return QuestionMetric(
+      bestPractices: (json['BestPractices'] as List?)
+          ?.nonNulls
+          .map((e) => BestPractice.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      questionId: json['QuestionId'] as String?,
+      risk: (json['Risk'] as String?)?.let(Risk.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bestPractices = this.bestPractices;
+    final questionId = this.questionId;
+    final risk = this.risk;
+    return {
+      if (bestPractices != null) 'BestPractices': bestPractices,
+      if (questionId != null) 'QuestionId': questionId,
+      if (risk != null) 'Risk': risk.value,
+    };
+  }
+}
+
+/// A best practice, or question choice, that has been identified as a risk in
+/// this question.
+class BestPractice {
+  final String? choiceId;
+  final String? choiceTitle;
+
+  BestPractice({
+    this.choiceId,
+    this.choiceTitle,
+  });
+
+  factory BestPractice.fromJson(Map<String, dynamic> json) {
+    return BestPractice(
+      choiceId: json['ChoiceId'] as String?,
+      choiceTitle: json['ChoiceTitle'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final choiceId = this.choiceId;
+    final choiceTitle = this.choiceTitle;
+    return {
+      if (choiceId != null) 'ChoiceId': choiceId,
+      if (choiceTitle != null) 'ChoiceTitle': choiceTitle,
+    };
+  }
+}
+
+class ReportFormat {
+  static const pdf = ReportFormat._('PDF');
+  static const json = ReportFormat._('JSON');
+
+  final String value;
+
+  const ReportFormat._(this.value);
+
+  static const values = [pdf, json];
+
+  static ReportFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ReportFormat._(value));
+
+  @override
+  bool operator ==(other) => other is ReportFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

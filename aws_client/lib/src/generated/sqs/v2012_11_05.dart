@@ -74,8 +74,8 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// </ul> </li>
 /// <li>
 /// <a
-/// href="http://docs.aws.amazon.com/cli/latest/reference/sqs/index.html">Amazon
-/// SQS in the <i>Command Line Interface</i> </a>
+/// href="https://awscli.amazonaws.com/v2/documentation/api/latest/reference/sqs/index.html">Amazon
+/// SQS in the Command Line Interface</a>
 /// </li>
 /// <li>
 /// <i>Amazon Web Services General Reference</i>
@@ -157,11 +157,11 @@ class Sqs {
   /// SQS Developer Guide</i>.
   /// </note>
   ///
-  /// May throw [OverLimit].
-  /// May throw [RequestThrottled].
-  /// May throw [QueueDoesNotExist].
   /// May throw [InvalidAddress].
   /// May throw [InvalidSecurity].
+  /// May throw [OverLimit].
+  /// May throw [QueueDoesNotExist].
+  /// May throw [RequestThrottled].
   /// May throw [UnsupportedOperation].
   ///
   /// Parameter [awsAccountIds] :
@@ -243,10 +243,10 @@ class Sqs {
   /// </li>
   /// </ul> </note>
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [RequestThrottled].
   /// May throw [InvalidAddress].
   /// May throw [InvalidSecurity].
+  /// May throw [RequestThrottled].
+  /// May throw [ResourceNotFoundException].
   /// May throw [UnsupportedOperation].
   ///
   /// Parameter [taskHandle] :
@@ -318,10 +318,10 @@ class Sqs {
   /// from the queue after they're processed. You can also increase the number
   /// of queues you use to process your messages. To request a limit increase,
   /// <a
-  /// href="https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&amp;limitType=service-code-sqs">file
+  /// href="https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&limitType=service-code-sqs">file
   /// a support request</a>.
   ///
-  /// For FIFO queues, there can be a maximum of 20,000 in flight messages
+  /// For FIFO queues, there can be a maximum of 120,000 in flight messages
   /// (received from a queue by a consumer, but not yet deleted from the queue).
   /// If you reach this limit, Amazon SQS returns no error messages.
   /// <important>
@@ -338,13 +338,13 @@ class Sqs {
   /// action) the next time the message is received.
   /// </important>
   ///
-  /// May throw [MessageNotInflight].
-  /// May throw [ReceiptHandleIsInvalid].
-  /// May throw [RequestThrottled].
-  /// May throw [QueueDoesNotExist].
-  /// May throw [UnsupportedOperation].
   /// May throw [InvalidAddress].
   /// May throw [InvalidSecurity].
+  /// May throw [MessageNotInflight].
+  /// May throw [QueueDoesNotExist].
+  /// May throw [ReceiptHandleIsInvalid].
+  /// May throw [RequestThrottled].
+  /// May throw [UnsupportedOperation].
   ///
   /// Parameter [queueUrl] :
   /// The URL of the Amazon SQS queue whose message's visibility is changed.
@@ -393,15 +393,15 @@ class Sqs {
   /// returns an HTTP status code of <code>200</code>.
   /// </important>
   ///
-  /// May throw [TooManyEntriesInBatchRequest].
-  /// May throw [EmptyBatchRequest].
   /// May throw [BatchEntryIdsNotDistinct].
-  /// May throw [InvalidBatchEntryId].
-  /// May throw [RequestThrottled].
-  /// May throw [QueueDoesNotExist].
-  /// May throw [UnsupportedOperation].
+  /// May throw [EmptyBatchRequest].
   /// May throw [InvalidAddress].
+  /// May throw [InvalidBatchEntryId].
   /// May throw [InvalidSecurity].
+  /// May throw [QueueDoesNotExist].
+  /// May throw [RequestThrottled].
+  /// May throw [TooManyEntriesInBatchRequest].
+  /// May throw [UnsupportedOperation].
   ///
   /// Parameter [entries] :
   /// Lists the receipt handles of the messages for which the visibility timeout
@@ -447,7 +447,7 @@ class Sqs {
   /// FIFO queue for your application or delete your existing standard queue and
   /// recreate it as a FIFO queue. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues.html#FIFO-queues-moving">Moving
-  /// From a Standard Queue to a FIFO Queue</a> in the <i>Amazon SQS Developer
+  /// From a standard queue to a FIFO queue</a> in the <i>Amazon SQS Developer
   /// Guide</i>.
   /// </note> </li>
   /// <li>
@@ -467,19 +467,27 @@ class Sqs {
   /// After you create a queue, you must wait at least one second after the
   /// queue is created to be able to use the queue.
   /// </note>
-  /// To get the queue URL, use the <code> <a>GetQueueUrl</a> </code> action.
-  /// <code> <a>GetQueueUrl</a> </code> requires only the <code>QueueName</code>
-  /// parameter. be aware of existing queue names:
+  /// To retrieve the URL of a queue, use the <a
+  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_GetQueueUrl.html">
+  /// <code>GetQueueUrl</code> </a> action. This action only requires the <a
+  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_CreateQueue.html#API_CreateQueue_RequestSyntax">
+  /// <code>QueueName</code> </a> parameter.
+  ///
+  /// When creating queues, keep the following points in mind:
   ///
   /// <ul>
   /// <li>
-  /// If you provide the name of an existing queue along with the exact names
-  /// and values of all the queue's attributes, <code>CreateQueue</code> returns
-  /// the queue URL for the existing queue.
+  /// If you specify the name of an existing queue and provide the exact same
+  /// names and values for all its attributes, the <a
+  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_CreateQueue.html">
+  /// <code>CreateQueue</code> </a> action will return the URL of the existing
+  /// queue instead of creating a new one.
   /// </li>
   /// <li>
-  /// If the queue name, attribute names, or attribute values don't match an
-  /// existing queue, <code>CreateQueue</code> returns an error.
+  /// If you attempt to create a queue with a name that already exists but with
+  /// different attribute names or values, the <code>CreateQueue</code> action
+  /// will return an error. This ensures that existing queues are not
+  /// inadvertently altered.
   /// </li>
   /// </ul> <note>
   /// Cross-account permissions don't apply to this action. For more
@@ -489,14 +497,14 @@ class Sqs {
   /// SQS Developer Guide</i>.
   /// </note>
   ///
-  /// May throw [QueueDeletedRecently].
-  /// May throw [QueueNameExists].
-  /// May throw [RequestThrottled].
   /// May throw [InvalidAddress].
   /// May throw [InvalidAttributeName].
   /// May throw [InvalidAttributeValue].
-  /// May throw [UnsupportedOperation].
   /// May throw [InvalidSecurity].
+  /// May throw [QueueDeletedRecently].
+  /// May throw [QueueNameExists].
+  /// May throw [RequestThrottled].
+  /// May throw [UnsupportedOperation].
   ///
   /// Parameter [queueName] :
   /// The name of the new queue. The following limits apply to this name:
@@ -530,8 +538,8 @@ class Sqs {
   /// <li>
   /// <code>MaximumMessageSize</code> – The limit of how many bytes a message
   /// can contain before Amazon SQS rejects it. Valid values: An integer from
-  /// 1,024 bytes (1 KiB) to 262,144 bytes (256 KiB). Default: 262,144 (256
-  /// KiB).
+  /// 1,024 bytes (1 KiB) to 1,048,576 bytes (1 MiB). Default: 1,048,576 bytes
+  /// (1 MiB).
   /// </li>
   /// <li>
   /// <code>MessageRetentionPeriod</code> – The length of time, in seconds, for
@@ -840,13 +848,14 @@ class Sqs {
   /// consumer. Amazon SQS automatically deletes messages left in a queue longer
   /// than the retention period configured for the queue.
   /// <note>
-  /// The <code>ReceiptHandle</code> is associated with a <i>specific
-  /// instance</i> of receiving a message. If you receive a message more than
-  /// once, the <code>ReceiptHandle</code> is different each time you receive a
-  /// message. When you use the <code>DeleteMessage</code> action, you must
-  /// provide the most recently received <code>ReceiptHandle</code> for the
-  /// message (otherwise, the request succeeds, but the message will not be
-  /// deleted).
+  /// Each time you receive a message, meaning when a consumer retrieves a
+  /// message from the queue, it comes with a unique <code>ReceiptHandle</code>.
+  /// If you receive the same message more than once, you will get a different
+  /// <code>ReceiptHandle</code> each time. When you want to delete a message
+  /// using the <code>DeleteMessage</code> action, you must use the
+  /// <code>ReceiptHandle</code> from the most recent time you received the
+  /// message. If you use an old <code>ReceiptHandle</code>, the request will
+  /// succeed, but the message might not be deleted.
   ///
   /// For standard queues, it is possible to receive a message even after you
   /// delete it. This might happen on rare occasions if one of the servers which
@@ -857,13 +866,13 @@ class Sqs {
   /// not cause issues.
   /// </note>
   ///
+  /// May throw [InvalidAddress].
   /// May throw [InvalidIdFormat].
+  /// May throw [InvalidSecurity].
+  /// May throw [QueueDoesNotExist].
   /// May throw [ReceiptHandleIsInvalid].
   /// May throw [RequestThrottled].
-  /// May throw [QueueDoesNotExist].
   /// May throw [UnsupportedOperation].
-  /// May throw [InvalidSecurity].
-  /// May throw [InvalidAddress].
   ///
   /// Parameter [queueUrl] :
   /// The URL of the Amazon SQS queue from which messages are deleted.
@@ -902,15 +911,15 @@ class Sqs {
   /// returns an HTTP status code of <code>200</code>.
   /// </important>
   ///
-  /// May throw [TooManyEntriesInBatchRequest].
-  /// May throw [EmptyBatchRequest].
   /// May throw [BatchEntryIdsNotDistinct].
-  /// May throw [InvalidBatchEntryId].
-  /// May throw [RequestThrottled].
-  /// May throw [QueueDoesNotExist].
-  /// May throw [UnsupportedOperation].
+  /// May throw [EmptyBatchRequest].
   /// May throw [InvalidAddress].
+  /// May throw [InvalidBatchEntryId].
   /// May throw [InvalidSecurity].
+  /// May throw [QueueDoesNotExist].
+  /// May throw [RequestThrottled].
+  /// May throw [TooManyEntriesInBatchRequest].
+  /// May throw [UnsupportedOperation].
   ///
   /// Parameter [entries] :
   /// Lists the receipt handles for the messages to be deleted.
@@ -966,11 +975,11 @@ class Sqs {
   /// The delete operation uses the HTTP <code>GET</code> verb.
   /// </note>
   ///
-  /// May throw [RequestThrottled].
-  /// May throw [QueueDoesNotExist].
   /// May throw [InvalidAddress].
-  /// May throw [UnsupportedOperation].
   /// May throw [InvalidSecurity].
+  /// May throw [QueueDoesNotExist].
+  /// May throw [RequestThrottled].
+  /// May throw [UnsupportedOperation].
   ///
   /// Parameter [queueUrl] :
   /// The URL of the Amazon SQS queue to delete.
@@ -1003,12 +1012,12 @@ class Sqs {
   /// <code>.fifo</code> suffix.
   /// </note>
   ///
-  /// May throw [InvalidAttributeName].
-  /// May throw [RequestThrottled].
-  /// May throw [QueueDoesNotExist].
-  /// May throw [UnsupportedOperation].
-  /// May throw [InvalidSecurity].
   /// May throw [InvalidAddress].
+  /// May throw [InvalidAttributeName].
+  /// May throw [InvalidSecurity].
+  /// May throw [QueueDoesNotExist].
+  /// May throw [RequestThrottled].
+  /// May throw [UnsupportedOperation].
   ///
   /// Parameter [queueUrl] :
   /// The URL of the Amazon SQS queue whose attribute information is retrieved.
@@ -1277,32 +1286,35 @@ class Sqs {
     return GetQueueAttributesResult.fromJson(jsonResponse.body);
   }
 
-  /// Returns the URL of an existing Amazon SQS queue.
+  /// The <code>GetQueueUrl</code> API returns the URL of an existing Amazon SQS
+  /// queue. This is useful when you know the queue's name but need to retrieve
+  /// its URL for further operations.
   ///
-  /// To access a queue that belongs to another AWS account, use the
+  /// To access a queue owned by another Amazon Web Services account, use the
   /// <code>QueueOwnerAWSAccountId</code> parameter to specify the account ID of
-  /// the queue's owner. The queue's owner must grant you permission to access
-  /// the queue. For more information about shared queue access, see <code>
-  /// <a>AddPermission</a> </code> or see <a
+  /// the queue's owner. Note that the queue owner must grant you the necessary
+  /// permissions to access the queue. For more information about accessing
+  /// shared queues, see the <code> <a>AddPermission</a> </code> API or <a
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-writing-an-sqs-policy.html#write-messages-to-shared-queue">Allow
-  /// Developers to Write Messages to a Shared Queue</a> in the <i>Amazon SQS
+  /// developers to write messages to a shared queue</a> in the <i>Amazon SQS
   /// Developer Guide</i>.
   ///
-  /// May throw [RequestThrottled].
-  /// May throw [QueueDoesNotExist].
   /// May throw [InvalidAddress].
   /// May throw [InvalidSecurity].
+  /// May throw [QueueDoesNotExist].
+  /// May throw [RequestThrottled].
   /// May throw [UnsupportedOperation].
   ///
   /// Parameter [queueName] :
-  /// The name of the queue whose URL must be fetched. Maximum 80 characters.
-  /// Valid values: alphanumeric characters, hyphens (<code>-</code>), and
-  /// underscores (<code>_</code>).
-  ///
-  /// Queue URLs and names are case-sensitive.
+  /// (Required) The name of the queue for which you want to fetch the URL. The
+  /// name can be up to 80 characters long and can include alphanumeric
+  /// characters, hyphens (-), and underscores (_). Queue URLs and names are
+  /// case-sensitive.
   ///
   /// Parameter [queueOwnerAWSAccountId] :
-  /// The Amazon Web Services account ID of the account that created the queue.
+  /// (Optional) The Amazon Web Services account ID of the account that created
+  /// the queue. This is only required when you are attempting to access a queue
+  /// owned by another Amazon Web Services account.
   Future<GetQueueUrlResult> getQueueUrl({
     required String queueName,
     String? queueOwnerAWSAccountId,
@@ -1345,10 +1357,10 @@ class Sqs {
   /// Amazon SQS Dead-Letter Queues</a> in the <i>Amazon SQS Developer
   /// Guide</i>.
   ///
+  /// May throw [InvalidAddress].
+  /// May throw [InvalidSecurity].
   /// May throw [QueueDoesNotExist].
   /// May throw [RequestThrottled].
-  /// May throw [InvalidSecurity].
-  /// May throw [InvalidAddress].
   /// May throw [UnsupportedOperation].
   ///
   /// Parameter [queueUrl] :
@@ -1406,10 +1418,10 @@ class Sqs {
   /// </li>
   /// </ul> </note>
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [RequestThrottled].
   /// May throw [InvalidAddress].
   /// May throw [InvalidSecurity].
+  /// May throw [RequestThrottled].
+  /// May throw [ResourceNotFoundException].
   /// May throw [UnsupportedOperation].
   ///
   /// Parameter [sourceArn] :
@@ -1442,47 +1454,6 @@ class Sqs {
     return ListMessageMoveTasksResult.fromJson(jsonResponse.body);
   }
 
-  /// List all cost allocation tags added to the specified Amazon SQS queue. For
-  /// an overview, see <a
-  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-queue-tags.html">Tagging
-  /// Your Amazon SQS Queues</a> in the <i>Amazon SQS Developer Guide</i>.
-  /// <note>
-  /// Cross-account permissions don't apply to this action. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name">Grant
-  /// cross-account permissions to a role and a username</a> in the <i>Amazon
-  /// SQS Developer Guide</i>.
-  /// </note>
-  ///
-  /// May throw [RequestThrottled].
-  /// May throw [QueueDoesNotExist].
-  /// May throw [UnsupportedOperation].
-  /// May throw [InvalidAddress].
-  /// May throw [InvalidSecurity].
-  ///
-  /// Parameter [queueUrl] :
-  /// The URL of the queue.
-  Future<ListQueueTagsResult> listQueueTags({
-    required String queueUrl,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'AmazonSQS.ListQueueTags'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'QueueUrl': queueUrl,
-      },
-    );
-
-    return ListQueueTagsResult.fromJson(jsonResponse.body);
-  }
-
   /// Returns a list of your queues in the current region. The response includes
   /// a maximum of 1,000 results. If you specify a value for the optional
   /// <code>QueueNamePrefix</code> parameter, only queues with a name that
@@ -1504,9 +1475,9 @@ class Sqs {
   /// SQS Developer Guide</i>.
   /// </note>
   ///
-  /// May throw [RequestThrottled].
-  /// May throw [InvalidSecurity].
   /// May throw [InvalidAddress].
+  /// May throw [InvalidSecurity].
+  /// May throw [RequestThrottled].
   /// May throw [UnsupportedOperation].
   ///
   /// Parameter [maxResults] :
@@ -1547,6 +1518,47 @@ class Sqs {
     return ListQueuesResult.fromJson(jsonResponse.body);
   }
 
+  /// List all cost allocation tags added to the specified Amazon SQS queue. For
+  /// an overview, see <a
+  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-queue-tags.html">Tagging
+  /// Your Amazon SQS Queues</a> in the <i>Amazon SQS Developer Guide</i>.
+  /// <note>
+  /// Cross-account permissions don't apply to this action. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name">Grant
+  /// cross-account permissions to a role and a username</a> in the <i>Amazon
+  /// SQS Developer Guide</i>.
+  /// </note>
+  ///
+  /// May throw [InvalidAddress].
+  /// May throw [InvalidSecurity].
+  /// May throw [QueueDoesNotExist].
+  /// May throw [RequestThrottled].
+  /// May throw [UnsupportedOperation].
+  ///
+  /// Parameter [queueUrl] :
+  /// The URL of the queue.
+  Future<ListQueueTagsResult> listQueueTags({
+    required String queueUrl,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AmazonSQS.ListQueueTags'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'QueueUrl': queueUrl,
+      },
+    );
+
+    return ListQueueTagsResult.fromJson(jsonResponse.body);
+  }
+
   /// Deletes available messages in a queue (including in-flight messages)
   /// specified by the <code>QueueURL</code> parameter.
   /// <important>
@@ -1562,11 +1574,11 @@ class Sqs {
   /// Messages sent to the queue <i>after</i> you call <code>PurgeQueue</code>
   /// might be deleted while the queue is being purged.
   ///
-  /// May throw [QueueDoesNotExist].
-  /// May throw [PurgeQueueInProgress].
-  /// May throw [RequestThrottled].
   /// May throw [InvalidAddress].
   /// May throw [InvalidSecurity].
+  /// May throw [PurgeQueueInProgress].
+  /// May throw [QueueDoesNotExist].
+  /// May throw [RequestThrottled].
   /// May throw [UnsupportedOperation].
   ///
   /// Parameter [queueUrl] :
@@ -1600,12 +1612,12 @@ class Sqs {
   /// SQS Long Polling</a> in the <i>Amazon SQS Developer Guide</i>.
   ///
   /// Short poll is the default behavior where a weighted random set of machines
-  /// is sampled on a <code>ReceiveMessage</code> call. Thus, only the messages
-  /// on the sampled machines are returned. If the number of messages in the
-  /// queue is small (fewer than 1,000), you most likely get fewer messages than
-  /// you requested per <code>ReceiveMessage</code> call. If the number of
-  /// messages in the queue is extremely small, you might not receive any
-  /// messages in a particular <code>ReceiveMessage</code> response. If this
+  /// is sampled on a <code>ReceiveMessage</code> call. Therefore, only the
+  /// messages on the sampled machines are returned. If the number of messages
+  /// in the queue is small (fewer than 1,000), you most likely get fewer
+  /// messages than you requested per <code>ReceiveMessage</code> call. If the
+  /// number of messages in the queue is extremely small, you might not receive
+  /// any messages in a particular <code>ReceiveMessage</code> response. If this
   /// happens, repeat the request.
   ///
   /// For each message returned, the response includes the following:
@@ -1640,34 +1652,27 @@ class Sqs {
   /// You can provide the <code>VisibilityTimeout</code> parameter in your
   /// request. The parameter is applied to the messages that Amazon SQS returns
   /// in the response. If you don't include the parameter, the overall
-  /// visibility timeout for the queue is used for the returned messages. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html">Visibility
-  /// Timeout</a> in the <i>Amazon SQS Developer Guide</i>.
-  ///
-  /// A message that isn't deleted or a message whose visibility isn't extended
-  /// before the visibility timeout expires counts as a failed receive.
-  /// Depending on the configuration of the queue, the message might be sent to
-  /// the dead-letter queue.
+  /// visibility timeout for the queue is used for the returned messages. The
+  /// default visibility timeout for a queue is 30 seconds.
   /// <note>
   /// In the future, new attributes might be added. If you write code that calls
   /// this action, we recommend that you structure your code so that it can
   /// handle new attributes gracefully.
   /// </note>
   ///
-  /// May throw [UnsupportedOperation].
-  /// May throw [OverLimit].
-  /// May throw [RequestThrottled].
-  /// May throw [QueueDoesNotExist].
+  /// May throw [InvalidAddress].
   /// May throw [InvalidSecurity].
+  /// May throw [KmsAccessDenied].
   /// May throw [KmsDisabled].
+  /// May throw [KmsInvalidKeyUsage].
   /// May throw [KmsInvalidState].
   /// May throw [KmsNotFound].
   /// May throw [KmsOptInRequired].
   /// May throw [KmsThrottled].
-  /// May throw [KmsAccessDenied].
-  /// May throw [KmsInvalidKeyUsage].
-  /// May throw [InvalidAddress].
+  /// May throw [OverLimit].
+  /// May throw [QueueDoesNotExist].
+  /// May throw [RequestThrottled].
+  /// May throw [UnsupportedOperation].
   ///
   /// Parameter [queueUrl] :
   /// The URL of the Amazon SQS queue from which messages are received.
@@ -1676,7 +1681,7 @@ class Sqs {
   ///
   /// Parameter [attributeNames] :
   /// <important>
-  /// This parameter has been deprecated but will be supported for backward
+  /// This parameter has been discontinued but will be supported for backward
   /// compatibility. To provide attribute names, you are encouraged to use
   /// <code>MessageSystemAttributeNames</code>.
   /// </important>
@@ -1732,8 +1737,7 @@ class Sqs {
   /// </li>
   /// <li>
   /// <code>MessageGroupId</code> – Returns the value provided by the producer
-  /// that calls the <code> <a>SendMessage</a> </code> action. Messages with the
-  /// same <code>MessageGroupId</code> are returned in sequence.
+  /// that calls the <code> <a>SendMessage</a> </code> action.
   /// </li>
   /// <li>
   /// <code>SequenceNumber</code> – Returns the value provided by Amazon SQS.
@@ -1827,8 +1831,7 @@ class Sqs {
   /// </li>
   /// <li>
   /// <code>MessageGroupId</code> – Returns the value provided by the producer
-  /// that calls the <code> <a>SendMessage</a> </code> action. Messages with the
-  /// same <code>MessageGroupId</code> are returned in sequence.
+  /// that calls the <code> <a>SendMessage</a> </code> action.
   /// </li>
   /// <li>
   /// <code>SequenceNumber</code> – Returns the value provided by Amazon SQS.
@@ -1884,7 +1887,8 @@ class Sqs {
   /// invisible, no more messages belonging to the same
   /// <code>MessageGroupId</code> are returned until the visibility timeout
   /// expires. You can still receive messages with another
-  /// <code>MessageGroupId</code> as long as it is also visible.
+  /// <code>MessageGroupId</code> from your FIFO queue as long as they are
+  /// visible.
   /// </li>
   /// <li>
   /// If a caller of <code>ReceiveMessage</code> can't track the
@@ -1896,7 +1900,7 @@ class Sqs {
   /// The maximum length of <code>ReceiveRequestAttemptId</code> is 128
   /// characters. <code>ReceiveRequestAttemptId</code> can contain alphanumeric
   /// characters (<code>a-z</code>, <code>A-Z</code>, <code>0-9</code>) and
-  /// punctuation (<code>!"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~</code>).
+  /// punctuation (<code>!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~</code>).
   ///
   /// For best practices of using <code>ReceiveRequestAttemptId</code>, see <a
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-receiverequestattemptid-request-parameter.html">Using
@@ -1906,13 +1910,50 @@ class Sqs {
   /// Parameter [visibilityTimeout] :
   /// The duration (in seconds) that the received messages are hidden from
   /// subsequent retrieve requests after being retrieved by a
-  /// <code>ReceiveMessage</code> request.
+  /// <code>ReceiveMessage</code> request. If not specified, the default
+  /// visibility timeout for the queue is used, which is 30 seconds.
+  ///
+  /// Understanding <code>VisibilityTimeout</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// When a message is received from a queue, it becomes temporarily invisible
+  /// to other consumers for the duration of the visibility timeout. This
+  /// prevents multiple consumers from processing the same message
+  /// simultaneously. If the message is not deleted or its visibility timeout is
+  /// not extended before the timeout expires, it becomes visible again and can
+  /// be retrieved by other consumers.
+  /// </li>
+  /// <li>
+  /// Setting an appropriate visibility timeout is crucial. If it's too short,
+  /// the message might become visible again before processing is complete,
+  /// leading to duplicate processing. If it's too long, it delays the
+  /// reprocessing of messages if the initial processing fails.
+  /// </li>
+  /// <li>
+  /// You can adjust the visibility timeout using the
+  /// <code>--visibility-timeout</code> parameter in the
+  /// <code>receive-message</code> command to match the processing time required
+  /// by your application.
+  /// </li>
+  /// <li>
+  /// A message that isn't deleted or a message whose visibility isn't extended
+  /// before the visibility timeout expires counts as a failed receive.
+  /// Depending on the configuration of the queue, the message might be sent to
+  /// the dead-letter queue.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html">Visibility
+  /// Timeout</a> in the <i>Amazon SQS Developer Guide</i>.
   ///
   /// Parameter [waitTimeSeconds] :
   /// The duration (in seconds) for which the call waits for a message to arrive
   /// in the queue before returning. If a message is available, the call returns
   /// sooner than <code>WaitTimeSeconds</code>. If no messages are available and
-  /// the wait time expires, the call does not return a message list.
+  /// the wait time expires, the call does not return a message list. If you are
+  /// using the Java SDK, it returns a <code>ReceiveMessageResponse</code>
+  /// object, which has a empty list instead of a Null object.
   /// <important>
   /// To avoid HTTP errors, ensure that the HTTP response timeout for
   /// <code>ReceiveMessage</code> requests is longer than the
@@ -1987,9 +2028,9 @@ class Sqs {
   /// </ul> </note>
   ///
   /// May throw [InvalidAddress].
-  /// May throw [RequestThrottled].
-  /// May throw [QueueDoesNotExist].
   /// May throw [InvalidSecurity].
+  /// May throw [QueueDoesNotExist].
+  /// May throw [RequestThrottled].
   /// May throw [UnsupportedOperation].
   ///
   /// Parameter [label] :
@@ -2032,29 +2073,29 @@ class Sqs {
   /// to <code>#xD7FF</code> | <code>#xE000</code> to <code>#xFFFD</code> |
   /// <code>#x10000</code> to <code>#x10FFFF</code>
   ///
-  /// Amazon SQS does not throw an exception or completely reject the message if
-  /// it contains invalid characters. Instead, it replaces those invalid
-  /// characters with <code>U+FFFD</code> before storing the message in the
-  /// queue, as long as the message body contains at least one valid character.
+  /// If a message contains characters outside the allowed set, Amazon SQS
+  /// rejects the message and returns an InvalidMessageContents error. Ensure
+  /// that your message body includes only valid characters to avoid this
+  /// exception.
   /// </important>
   ///
+  /// May throw [InvalidAddress].
   /// May throw [InvalidMessageContents].
-  /// May throw [UnsupportedOperation].
-  /// May throw [RequestThrottled].
-  /// May throw [QueueDoesNotExist].
   /// May throw [InvalidSecurity].
+  /// May throw [KmsAccessDenied].
   /// May throw [KmsDisabled].
+  /// May throw [KmsInvalidKeyUsage].
   /// May throw [KmsInvalidState].
   /// May throw [KmsNotFound].
   /// May throw [KmsOptInRequired].
   /// May throw [KmsThrottled].
-  /// May throw [KmsAccessDenied].
-  /// May throw [KmsInvalidKeyUsage].
-  /// May throw [InvalidAddress].
+  /// May throw [QueueDoesNotExist].
+  /// May throw [RequestThrottled].
+  /// May throw [UnsupportedOperation].
   ///
   /// Parameter [messageBody] :
   /// The message to send. The minimum size is one character. The maximum size
-  /// is 256 KiB.
+  /// is 1 MiB or 1,048,576 bytes
   /// <important>
   /// A message can include only XML, JSON, and unformatted text. The following
   /// Unicode characters are allowed. For more information, see the <a
@@ -2065,10 +2106,10 @@ class Sqs {
   /// to <code>#xD7FF</code> | <code>#xE000</code> to <code>#xFFFD</code> |
   /// <code>#x10000</code> to <code>#x10FFFF</code>
   ///
-  /// Amazon SQS does not throw an exception or completely reject the message if
-  /// it contains invalid characters. Instead, it replaces those invalid
-  /// characters with <code>U+FFFD</code> before storing the message in the
-  /// queue, as long as the message body contains at least one valid character.
+  /// If a message contains characters outside the allowed set, Amazon SQS
+  /// rejects the message and returns an InvalidMessageContents error. Ensure
+  /// that your message body includes only valid characters to avoid this
+  /// exception.
   /// </important>
   ///
   /// Parameter [queueUrl] :
@@ -2156,7 +2197,7 @@ class Sqs {
   /// The maximum length of <code>MessageDeduplicationId</code> is 128
   /// characters. <code>MessageDeduplicationId</code> can contain alphanumeric
   /// characters (<code>a-z</code>, <code>A-Z</code>, <code>0-9</code>) and
-  /// punctuation (<code>!"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~</code>).
+  /// punctuation (<code>!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~</code>).
   ///
   /// For best practices of using <code>MessageDeduplicationId</code>, see <a
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagededuplicationid-property.html">Using
@@ -2164,39 +2205,56 @@ class Sqs {
   /// Guide</i>.
   ///
   /// Parameter [messageGroupId] :
-  /// This parameter applies only to FIFO (first-in-first-out) queues.
-  ///
-  /// The tag that specifies that a message belongs to a specific message group.
-  /// Messages that belong to the same message group are processed in a FIFO
-  /// manner (however, messages in different message groups might be processed
-  /// out of order). To interleave multiple ordered streams within a single
-  /// queue, use <code>MessageGroupId</code> values (for example, session data
-  /// for multiple users). In this scenario, multiple consumers can process the
-  /// queue, but the session data of each user is processed in a FIFO fashion.
+  /// <code>MessageGroupId</code> is an attribute used in Amazon SQS FIFO
+  /// (First-In-First-Out) and standard queues. In FIFO queues,
+  /// <code>MessageGroupId</code> organizes messages into distinct groups.
+  /// Messages within the same message group are always processed one at a time,
+  /// in strict order, ensuring that no two messages from the same group are
+  /// processed simultaneously. In standard queues, using
+  /// <code>MessageGroupId</code> enables fair queues. It is used to identify
+  /// the tenant a message belongs to, helping maintain consistent message dwell
+  /// time across all tenants during noisy neighbor events. Unlike FIFO queues,
+  /// messages with the same <code>MessageGroupId</code> can be processed in
+  /// parallel, maintaining the high throughput of standard queues.
   ///
   /// <ul>
   /// <li>
-  /// You must associate a non-empty <code>MessageGroupId</code> with a message.
-  /// If you don't provide a <code>MessageGroupId</code>, the action fails.
-  /// </li>
-  /// <li>
+  /// <b>FIFO queues:</b> <code>MessageGroupId</code> acts as the tag that
+  /// specifies that a message belongs to a specific message group. Messages
+  /// that belong to the same message group are processed in a FIFO manner
+  /// (however, messages in different message groups might be processed out of
+  /// order). To interleave multiple ordered streams within a single queue, use
+  /// <code>MessageGroupId</code> values (for example, session data for multiple
+  /// users). In this scenario, multiple consumers can process the queue, but
+  /// the session data of each user is processed in a FIFO fashion.
+  ///
+  /// If you do not provide a <code>MessageGroupId</code> when sending a message
+  /// to a FIFO queue, the action fails.
+  ///
   /// <code>ReceiveMessage</code> might return messages with multiple
   /// <code>MessageGroupId</code> values. For each <code>MessageGroupId</code>,
-  /// the messages are sorted by time sent. The caller can't specify a
-  /// <code>MessageGroupId</code>.
+  /// the messages are sorted by time sent.
+  /// </li>
+  /// <li>
+  /// <b>Standard queues:</b>Use <code>MessageGroupId</code> in standard queues
+  /// to enable fair queues. The <code>MessageGroupId</code> identifies the
+  /// tenant a message belongs to. A tenant can be any entity that shares a
+  /// queue with others, such as your customer, a client application, or a
+  /// request type. When one tenant sends a disproportionately large volume of
+  /// messages or has messages that require longer processing time, fair queues
+  /// ensure other tenants' messages maintain low dwell time. This preserves
+  /// quality of service for all tenants while maintaining the scalability and
+  /// throughput of standard queues. We recommend that you include a
+  /// <code>MessageGroupId</code> in all messages when using fair queues.
   /// </li>
   /// </ul>
-  /// The maximum length of <code>MessageGroupId</code> is 128 characters. Valid
-  /// values: alphanumeric characters and punctuation
-  /// <code>(!"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~)</code>.
+  /// The length of <code>MessageGroupId</code> is 128 characters. Valid values:
+  /// alphanumeric characters and punctuation
+  /// <code>(!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~)</code>.
   ///
   /// For best practices of using <code>MessageGroupId</code>, see <a
   /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagegroupid-property.html">Using
   /// the MessageGroupId Property</a> in the <i>Amazon SQS Developer Guide</i>.
-  /// <important>
-  /// <code>MessageGroupId</code> is required for FIFO queues. You can't use it
-  /// for Standard queues.
-  /// </important>
   ///
   /// Parameter [messageSystemAttributes] :
   /// The message system attribute to send. Each message system attribute
@@ -2264,7 +2322,7 @@ class Sqs {
   ///
   /// The maximum allowed individual message size and the maximum total payload
   /// size (the sum of the individual lengths of all of the batched messages)
-  /// are both 256 KiB (262,144 bytes).
+  /// are both 1 MiB 1,048,576 bytes.
   /// <important>
   /// A message can include only XML, JSON, and unformatted text. The following
   /// Unicode characters are allowed. For more information, see the <a
@@ -2275,31 +2333,31 @@ class Sqs {
   /// to <code>#xD7FF</code> | <code>#xE000</code> to <code>#xFFFD</code> |
   /// <code>#x10000</code> to <code>#x10FFFF</code>
   ///
-  /// Amazon SQS does not throw an exception or completely reject the message if
-  /// it contains invalid characters. Instead, it replaces those invalid
-  /// characters with <code>U+FFFD</code> before storing the message in the
-  /// queue, as long as the message body contains at least one valid character.
+  /// If a message contains characters outside the allowed set, Amazon SQS
+  /// rejects the message and returns an InvalidMessageContents error. Ensure
+  /// that your message body includes only valid characters to avoid this
+  /// exception.
   /// </important>
   /// If you don't specify the <code>DelaySeconds</code> parameter for an entry,
   /// Amazon SQS uses the default value for the queue.
   ///
-  /// May throw [TooManyEntriesInBatchRequest].
-  /// May throw [EmptyBatchRequest].
   /// May throw [BatchEntryIdsNotDistinct].
   /// May throw [BatchRequestTooLong].
+  /// May throw [EmptyBatchRequest].
+  /// May throw [InvalidAddress].
   /// May throw [InvalidBatchEntryId].
-  /// May throw [UnsupportedOperation].
-  /// May throw [RequestThrottled].
-  /// May throw [QueueDoesNotExist].
   /// May throw [InvalidSecurity].
+  /// May throw [KmsAccessDenied].
   /// May throw [KmsDisabled].
+  /// May throw [KmsInvalidKeyUsage].
   /// May throw [KmsInvalidState].
   /// May throw [KmsNotFound].
   /// May throw [KmsOptInRequired].
   /// May throw [KmsThrottled].
-  /// May throw [KmsAccessDenied].
-  /// May throw [KmsInvalidKeyUsage].
-  /// May throw [InvalidAddress].
+  /// May throw [QueueDoesNotExist].
+  /// May throw [RequestThrottled].
+  /// May throw [TooManyEntriesInBatchRequest].
+  /// May throw [UnsupportedOperation].
   ///
   /// Parameter [entries] :
   /// A list of <code> <a>SendMessageBatchRequestEntry</a> </code> items.
@@ -2361,14 +2419,14 @@ class Sqs {
   /// </li>
   /// </ul> </note>
   ///
+  /// May throw [InvalidAddress].
   /// May throw [InvalidAttributeName].
   /// May throw [InvalidAttributeValue].
-  /// May throw [RequestThrottled].
-  /// May throw [QueueDoesNotExist].
-  /// May throw [UnsupportedOperation].
-  /// May throw [OverLimit].
-  /// May throw [InvalidAddress].
   /// May throw [InvalidSecurity].
+  /// May throw [OverLimit].
+  /// May throw [QueueDoesNotExist].
+  /// May throw [RequestThrottled].
+  /// May throw [UnsupportedOperation].
   ///
   /// Parameter [attributes] :
   /// A map of attributes to set.
@@ -2385,8 +2443,8 @@ class Sqs {
   /// <li>
   /// <code>MaximumMessageSize</code> – The limit of how many bytes a message
   /// can contain before Amazon SQS rejects it. Valid values: An integer from
-  /// 1,024 bytes (1 KiB) up to 262,144 bytes (256 KiB). Default: 262,144 (256
-  /// KiB).
+  /// 1,024 bytes (1 KiB) up to 1,048,576 bytes (1 MiB). Default: 1,048,576
+  /// bytes (1 MiB).
   /// </li>
   /// <li>
   /// <code>MessageRetentionPeriod</code> – The length of time, in seconds, for
@@ -2661,10 +2719,10 @@ class Sqs {
   /// </li>
   /// </ul> </note>
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [RequestThrottled].
   /// May throw [InvalidAddress].
   /// May throw [InvalidSecurity].
+  /// May throw [RequestThrottled].
+  /// May throw [ResourceNotFoundException].
   /// May throw [UnsupportedOperation].
   ///
   /// Parameter [sourceArn] :
@@ -2746,9 +2804,9 @@ class Sqs {
   /// </note>
   ///
   /// May throw [InvalidAddress].
-  /// May throw [RequestThrottled].
-  /// May throw [QueueDoesNotExist].
   /// May throw [InvalidSecurity].
+  /// May throw [QueueDoesNotExist].
+  /// May throw [RequestThrottled].
   /// May throw [UnsupportedOperation].
   ///
   /// Parameter [queueUrl] :
@@ -2790,9 +2848,9 @@ class Sqs {
   /// </note>
   ///
   /// May throw [InvalidAddress].
-  /// May throw [RequestThrottled].
-  /// May throw [QueueDoesNotExist].
   /// May throw [InvalidSecurity].
+  /// May throw [QueueDoesNotExist].
+  /// May throw [RequestThrottled].
   /// May throw [UnsupportedOperation].
   ///
   /// Parameter [queueUrl] :
@@ -2822,52 +2880,6 @@ class Sqs {
   }
 }
 
-/// Gives a detailed description of the result of an action on each entry in the
-/// request.
-class BatchResultErrorEntry {
-  /// An error code representing why the action failed on this entry.
-  final String code;
-
-  /// The <code>Id</code> of an entry in a batch request.
-  final String id;
-
-  /// Specifies whether the error happened due to the caller of the batch API
-  /// action.
-  final bool senderFault;
-
-  /// A message explaining why the action failed on this entry.
-  final String? message;
-
-  BatchResultErrorEntry({
-    required this.code,
-    required this.id,
-    required this.senderFault,
-    this.message,
-  });
-
-  factory BatchResultErrorEntry.fromJson(Map<String, dynamic> json) {
-    return BatchResultErrorEntry(
-      code: (json['Code'] as String?) ?? '',
-      id: (json['Id'] as String?) ?? '',
-      senderFault: (json['SenderFault'] as bool?) ?? false,
-      message: json['Message'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final id = this.id;
-    final senderFault = this.senderFault;
-    final message = this.message;
-    return {
-      'Code': code,
-      'Id': id,
-      'SenderFault': senderFault,
-      if (message != null) 'Message': message,
-    };
-  }
-}
-
 class CancelMessageMoveTaskResult {
   /// The approximate number of messages already moved to the destination queue.
   final int? approximateNumberOfMessagesMoved;
@@ -2889,43 +2901,6 @@ class CancelMessageMoveTaskResult {
     return {
       if (approximateNumberOfMessagesMoved != null)
         'ApproximateNumberOfMessagesMoved': approximateNumberOfMessagesMoved,
-    };
-  }
-}
-
-/// Encloses a receipt handle and an entry ID for each message in <code>
-/// <a>ChangeMessageVisibilityBatch</a>.</code>
-class ChangeMessageVisibilityBatchRequestEntry {
-  /// An identifier for this particular receipt handle used to communicate the
-  /// result.
-  /// <note>
-  /// The <code>Id</code>s of a batch request need to be unique within a request.
-  ///
-  /// This identifier can have up to 80 characters. The following characters are
-  /// accepted: alphanumeric characters, hyphens(-), and underscores (_).
-  /// </note>
-  final String id;
-
-  /// A receipt handle.
-  final String receiptHandle;
-
-  /// The new value (in seconds) for the message's visibility timeout.
-  final int? visibilityTimeout;
-
-  ChangeMessageVisibilityBatchRequestEntry({
-    required this.id,
-    required this.receiptHandle,
-    this.visibilityTimeout,
-  });
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final receiptHandle = this.receiptHandle;
-    final visibilityTimeout = this.visibilityTimeout;
-    return {
-      'Id': id,
-      'ReceiptHandle': receiptHandle,
-      if (visibilityTimeout != null) 'VisibilityTimeout': visibilityTimeout,
     };
   }
 }
@@ -2972,31 +2947,6 @@ class ChangeMessageVisibilityBatchResult {
   }
 }
 
-/// Encloses the <code>Id</code> of an entry in <code>
-/// <a>ChangeMessageVisibilityBatch</a>.</code>
-class ChangeMessageVisibilityBatchResultEntry {
-  /// Represents a message whose visibility timeout has been changed successfully.
-  final String id;
-
-  ChangeMessageVisibilityBatchResultEntry({
-    required this.id,
-  });
-
-  factory ChangeMessageVisibilityBatchResultEntry.fromJson(
-      Map<String, dynamic> json) {
-    return ChangeMessageVisibilityBatchResultEntry(
-      id: (json['Id'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    return {
-      'Id': id,
-    };
-  }
-}
-
 /// Returns the <code>QueueUrl</code> attribute of the created queue.
 class CreateQueueResult {
   /// The URL of the created Amazon SQS queue.
@@ -3016,36 +2966,6 @@ class CreateQueueResult {
     final queueUrl = this.queueUrl;
     return {
       if (queueUrl != null) 'QueueUrl': queueUrl,
-    };
-  }
-}
-
-/// Encloses a receipt handle and an identifier for it.
-class DeleteMessageBatchRequestEntry {
-  /// The identifier for this particular receipt handle. This is used to
-  /// communicate the result.
-  /// <note>
-  /// The <code>Id</code>s of a batch request need to be unique within a request.
-  ///
-  /// This identifier can have up to 80 characters. The following characters are
-  /// accepted: alphanumeric characters, hyphens(-), and underscores (_).
-  /// </note>
-  final String id;
-
-  /// A receipt handle.
-  final String receiptHandle;
-
-  DeleteMessageBatchRequestEntry({
-    required this.id,
-    required this.receiptHandle,
-  });
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final receiptHandle = this.receiptHandle;
-    return {
-      'Id': id,
-      'ReceiptHandle': receiptHandle,
     };
   }
 }
@@ -3086,30 +3006,6 @@ class DeleteMessageBatchResult {
     return {
       'Failed': failed,
       'Successful': successful,
-    };
-  }
-}
-
-/// Encloses the <code>Id</code> of an entry in <code>
-/// <a>DeleteMessageBatch</a>.</code>
-class DeleteMessageBatchResultEntry {
-  /// Represents a successfully deleted message.
-  final String id;
-
-  DeleteMessageBatchResultEntry({
-    required this.id,
-  });
-
-  factory DeleteMessageBatchResultEntry.fromJson(Map<String, dynamic> json) {
-    return DeleteMessageBatchResultEntry(
-      id: (json['Id'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    return {
-      'Id': id,
     };
   }
 }
@@ -3226,128 +3122,6 @@ class ListMessageMoveTasksResult {
   }
 }
 
-/// Contains the details of a message movement task.
-class ListMessageMoveTasksResultEntry {
-  /// The approximate number of messages already moved to the destination queue.
-  final int? approximateNumberOfMessagesMoved;
-
-  /// The number of messages to be moved from the source queue. This number is
-  /// obtained at the time of starting the message movement task and is only
-  /// included after the message movement task is selected to start.
-  final int? approximateNumberOfMessagesToMove;
-
-  /// The ARN of the destination queue if it has been specified in the
-  /// <code>StartMessageMoveTask</code> request. If a <code>DestinationArn</code>
-  /// has not been specified in the <code>StartMessageMoveTask</code> request,
-  /// this field value will be NULL.
-  final String? destinationArn;
-
-  /// The task failure reason (only included if the task status is FAILED).
-  final String? failureReason;
-
-  /// The number of messages to be moved per second (the message movement rate),
-  /// if it has been specified in the <code>StartMessageMoveTask</code> request.
-  /// If a <code>MaxNumberOfMessagesPerSecond</code> has not been specified in the
-  /// <code>StartMessageMoveTask</code> request, this field value will be NULL.
-  final int? maxNumberOfMessagesPerSecond;
-
-  /// The ARN of the queue that contains the messages to be moved to another
-  /// queue.
-  final String? sourceArn;
-
-  /// The timestamp of starting the message movement task.
-  final int? startedTimestamp;
-
-  /// The status of the message movement task. Possible values are: RUNNING,
-  /// COMPLETED, CANCELLING, CANCELLED, and FAILED.
-  final String? status;
-
-  /// An identifier associated with a message movement task. When this field is
-  /// returned in the response of the <code>ListMessageMoveTasks</code> action, it
-  /// is only populated for tasks that are in RUNNING status.
-  final String? taskHandle;
-
-  ListMessageMoveTasksResultEntry({
-    this.approximateNumberOfMessagesMoved,
-    this.approximateNumberOfMessagesToMove,
-    this.destinationArn,
-    this.failureReason,
-    this.maxNumberOfMessagesPerSecond,
-    this.sourceArn,
-    this.startedTimestamp,
-    this.status,
-    this.taskHandle,
-  });
-
-  factory ListMessageMoveTasksResultEntry.fromJson(Map<String, dynamic> json) {
-    return ListMessageMoveTasksResultEntry(
-      approximateNumberOfMessagesMoved:
-          json['ApproximateNumberOfMessagesMoved'] as int?,
-      approximateNumberOfMessagesToMove:
-          json['ApproximateNumberOfMessagesToMove'] as int?,
-      destinationArn: json['DestinationArn'] as String?,
-      failureReason: json['FailureReason'] as String?,
-      maxNumberOfMessagesPerSecond:
-          json['MaxNumberOfMessagesPerSecond'] as int?,
-      sourceArn: json['SourceArn'] as String?,
-      startedTimestamp: json['StartedTimestamp'] as int?,
-      status: json['Status'] as String?,
-      taskHandle: json['TaskHandle'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final approximateNumberOfMessagesMoved =
-        this.approximateNumberOfMessagesMoved;
-    final approximateNumberOfMessagesToMove =
-        this.approximateNumberOfMessagesToMove;
-    final destinationArn = this.destinationArn;
-    final failureReason = this.failureReason;
-    final maxNumberOfMessagesPerSecond = this.maxNumberOfMessagesPerSecond;
-    final sourceArn = this.sourceArn;
-    final startedTimestamp = this.startedTimestamp;
-    final status = this.status;
-    final taskHandle = this.taskHandle;
-    return {
-      if (approximateNumberOfMessagesMoved != null)
-        'ApproximateNumberOfMessagesMoved': approximateNumberOfMessagesMoved,
-      if (approximateNumberOfMessagesToMove != null)
-        'ApproximateNumberOfMessagesToMove': approximateNumberOfMessagesToMove,
-      if (destinationArn != null) 'DestinationArn': destinationArn,
-      if (failureReason != null) 'FailureReason': failureReason,
-      if (maxNumberOfMessagesPerSecond != null)
-        'MaxNumberOfMessagesPerSecond': maxNumberOfMessagesPerSecond,
-      if (sourceArn != null) 'SourceArn': sourceArn,
-      if (startedTimestamp != null) 'StartedTimestamp': startedTimestamp,
-      if (status != null) 'Status': status,
-      if (taskHandle != null) 'TaskHandle': taskHandle,
-    };
-  }
-}
-
-class ListQueueTagsResult {
-  /// The list of all tags added to the specified queue.
-  final Map<String, String>? tags;
-
-  ListQueueTagsResult({
-    this.tags,
-  });
-
-  factory ListQueueTagsResult.fromJson(Map<String, dynamic> json) {
-    return ListQueueTagsResult(
-      tags: (json['Tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tags = this.tags;
-    return {
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
 /// A list of your queues.
 class ListQueuesResult {
   /// Pagination token to include in the next request. Token value is
@@ -3380,6 +3154,755 @@ class ListQueuesResult {
     return {
       if (nextToken != null) 'NextToken': nextToken,
       if (queueUrls != null) 'QueueUrls': queueUrls,
+    };
+  }
+}
+
+class ListQueueTagsResult {
+  /// The list of all tags added to the specified queue.
+  final Map<String, String>? tags;
+
+  ListQueueTagsResult({
+    this.tags,
+  });
+
+  factory ListQueueTagsResult.fromJson(Map<String, dynamic> json) {
+    return ListQueueTagsResult(
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// A list of received messages.
+class ReceiveMessageResult {
+  /// A list of messages.
+  final List<Message>? messages;
+
+  ReceiveMessageResult({
+    this.messages,
+  });
+
+  factory ReceiveMessageResult.fromJson(Map<String, dynamic> json) {
+    return ReceiveMessageResult(
+      messages: (json['Messages'] as List?)
+          ?.nonNulls
+          .map((e) => Message.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final messages = this.messages;
+    return {
+      if (messages != null) 'Messages': messages,
+    };
+  }
+}
+
+/// The <code>MD5OfMessageBody</code> and <code>MessageId</code> elements.
+class SendMessageResult {
+  /// An MD5 digest of the non-URL-encoded message attribute string. You can use
+  /// this attribute to verify that Amazon SQS received the message correctly.
+  /// Amazon SQS URL-decodes the message before creating the MD5 digest. For
+  /// information about MD5, see <a
+  /// href="https://www.ietf.org/rfc/rfc1321.txt">RFC1321</a>.
+  final String? mD5OfMessageAttributes;
+
+  /// An MD5 digest of the non-URL-encoded message body string. You can use this
+  /// attribute to verify that Amazon SQS received the message correctly. Amazon
+  /// SQS URL-decodes the message before creating the MD5 digest. For information
+  /// about MD5, see <a href="https://www.ietf.org/rfc/rfc1321.txt">RFC1321</a>.
+  final String? mD5OfMessageBody;
+
+  /// An MD5 digest of the non-URL-encoded message system attribute string. You
+  /// can use this attribute to verify that Amazon SQS received the message
+  /// correctly. Amazon SQS URL-decodes the message before creating the MD5
+  /// digest.
+  final String? mD5OfMessageSystemAttributes;
+
+  /// An attribute containing the <code>MessageId</code> of the message sent to
+  /// the queue. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-queue-message-identifiers.html">Queue
+  /// and Message Identifiers</a> in the <i>Amazon SQS Developer Guide</i>.
+  final String? messageId;
+
+  /// This parameter applies only to FIFO (first-in-first-out) queues.
+  ///
+  /// The large, non-consecutive number that Amazon SQS assigns to each message.
+  ///
+  /// The length of <code>SequenceNumber</code> is 128 bits.
+  /// <code>SequenceNumber</code> continues to increase for a particular
+  /// <code>MessageGroupId</code>.
+  final String? sequenceNumber;
+
+  SendMessageResult({
+    this.mD5OfMessageAttributes,
+    this.mD5OfMessageBody,
+    this.mD5OfMessageSystemAttributes,
+    this.messageId,
+    this.sequenceNumber,
+  });
+
+  factory SendMessageResult.fromJson(Map<String, dynamic> json) {
+    return SendMessageResult(
+      mD5OfMessageAttributes: json['MD5OfMessageAttributes'] as String?,
+      mD5OfMessageBody: json['MD5OfMessageBody'] as String?,
+      mD5OfMessageSystemAttributes:
+          json['MD5OfMessageSystemAttributes'] as String?,
+      messageId: json['MessageId'] as String?,
+      sequenceNumber: json['SequenceNumber'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mD5OfMessageAttributes = this.mD5OfMessageAttributes;
+    final mD5OfMessageBody = this.mD5OfMessageBody;
+    final mD5OfMessageSystemAttributes = this.mD5OfMessageSystemAttributes;
+    final messageId = this.messageId;
+    final sequenceNumber = this.sequenceNumber;
+    return {
+      if (mD5OfMessageAttributes != null)
+        'MD5OfMessageAttributes': mD5OfMessageAttributes,
+      if (mD5OfMessageBody != null) 'MD5OfMessageBody': mD5OfMessageBody,
+      if (mD5OfMessageSystemAttributes != null)
+        'MD5OfMessageSystemAttributes': mD5OfMessageSystemAttributes,
+      if (messageId != null) 'MessageId': messageId,
+      if (sequenceNumber != null) 'SequenceNumber': sequenceNumber,
+    };
+  }
+}
+
+/// For each message in the batch, the response contains a <code>
+/// <a>SendMessageBatchResultEntry</a> </code> tag if the message succeeds or a
+/// <code> <a>BatchResultErrorEntry</a> </code> tag if the message fails.
+class SendMessageBatchResult {
+  /// A list of <code> <a>BatchResultErrorEntry</a> </code> items with error
+  /// details about each message that can't be enqueued.
+  final List<BatchResultErrorEntry> failed;
+
+  /// A list of <code> <a>SendMessageBatchResultEntry</a> </code> items.
+  final List<SendMessageBatchResultEntry> successful;
+
+  SendMessageBatchResult({
+    required this.failed,
+    required this.successful,
+  });
+
+  factory SendMessageBatchResult.fromJson(Map<String, dynamic> json) {
+    return SendMessageBatchResult(
+      failed: ((json['Failed'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => BatchResultErrorEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      successful: ((json['Successful'] as List?) ?? const [])
+          .nonNulls
+          .map((e) =>
+              SendMessageBatchResultEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failed = this.failed;
+    final successful = this.successful;
+    return {
+      'Failed': failed,
+      'Successful': successful,
+    };
+  }
+}
+
+class StartMessageMoveTaskResult {
+  /// An identifier associated with a message movement task. You can use this
+  /// identifier to cancel a specified message movement task using the
+  /// <code>CancelMessageMoveTask</code> action.
+  final String? taskHandle;
+
+  StartMessageMoveTaskResult({
+    this.taskHandle,
+  });
+
+  factory StartMessageMoveTaskResult.fromJson(Map<String, dynamic> json) {
+    return StartMessageMoveTaskResult(
+      taskHandle: json['TaskHandle'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final taskHandle = this.taskHandle;
+    return {
+      if (taskHandle != null) 'TaskHandle': taskHandle,
+    };
+  }
+}
+
+class QueueAttributeName {
+  static const all = QueueAttributeName._('All');
+  static const policy = QueueAttributeName._('Policy');
+  static const visibilityTimeout = QueueAttributeName._('VisibilityTimeout');
+  static const maximumMessageSize = QueueAttributeName._('MaximumMessageSize');
+  static const messageRetentionPeriod =
+      QueueAttributeName._('MessageRetentionPeriod');
+  static const approximateNumberOfMessages =
+      QueueAttributeName._('ApproximateNumberOfMessages');
+  static const approximateNumberOfMessagesNotVisible =
+      QueueAttributeName._('ApproximateNumberOfMessagesNotVisible');
+  static const createdTimestamp = QueueAttributeName._('CreatedTimestamp');
+  static const lastModifiedTimestamp =
+      QueueAttributeName._('LastModifiedTimestamp');
+  static const queueArn = QueueAttributeName._('QueueArn');
+  static const approximateNumberOfMessagesDelayed =
+      QueueAttributeName._('ApproximateNumberOfMessagesDelayed');
+  static const delaySeconds = QueueAttributeName._('DelaySeconds');
+  static const receiveMessageWaitTimeSeconds =
+      QueueAttributeName._('ReceiveMessageWaitTimeSeconds');
+  static const redrivePolicy = QueueAttributeName._('RedrivePolicy');
+  static const fifoQueue = QueueAttributeName._('FifoQueue');
+  static const contentBasedDeduplication =
+      QueueAttributeName._('ContentBasedDeduplication');
+  static const kmsMasterKeyId = QueueAttributeName._('KmsMasterKeyId');
+  static const kmsDataKeyReusePeriodSeconds =
+      QueueAttributeName._('KmsDataKeyReusePeriodSeconds');
+  static const deduplicationScope = QueueAttributeName._('DeduplicationScope');
+  static const fifoThroughputLimit =
+      QueueAttributeName._('FifoThroughputLimit');
+  static const redriveAllowPolicy = QueueAttributeName._('RedriveAllowPolicy');
+  static const sqsManagedSseEnabled =
+      QueueAttributeName._('SqsManagedSseEnabled');
+
+  final String value;
+
+  const QueueAttributeName._(this.value);
+
+  static const values = [
+    all,
+    policy,
+    visibilityTimeout,
+    maximumMessageSize,
+    messageRetentionPeriod,
+    approximateNumberOfMessages,
+    approximateNumberOfMessagesNotVisible,
+    createdTimestamp,
+    lastModifiedTimestamp,
+    queueArn,
+    approximateNumberOfMessagesDelayed,
+    delaySeconds,
+    receiveMessageWaitTimeSeconds,
+    redrivePolicy,
+    fifoQueue,
+    contentBasedDeduplication,
+    kmsMasterKeyId,
+    kmsDataKeyReusePeriodSeconds,
+    deduplicationScope,
+    fifoThroughputLimit,
+    redriveAllowPolicy,
+    sqsManagedSseEnabled
+  ];
+
+  static QueueAttributeName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => QueueAttributeName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is QueueAttributeName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Gives a detailed description of the result of an action on each entry in the
+/// request.
+class BatchResultErrorEntry {
+  /// An error code representing why the action failed on this entry.
+  final String code;
+
+  /// The <code>Id</code> of an entry in a batch request.
+  final String id;
+
+  /// Specifies whether the error happened due to the caller of the batch API
+  /// action.
+  final bool senderFault;
+
+  /// A message explaining why the action failed on this entry.
+  final String? message;
+
+  BatchResultErrorEntry({
+    required this.code,
+    required this.id,
+    required this.senderFault,
+    this.message,
+  });
+
+  factory BatchResultErrorEntry.fromJson(Map<String, dynamic> json) {
+    return BatchResultErrorEntry(
+      code: (json['Code'] as String?) ?? '',
+      id: (json['Id'] as String?) ?? '',
+      senderFault: (json['SenderFault'] as bool?) ?? false,
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final id = this.id;
+    final senderFault = this.senderFault;
+    final message = this.message;
+    return {
+      'Code': code,
+      'Id': id,
+      'SenderFault': senderFault,
+      if (message != null) 'Message': message,
+    };
+  }
+}
+
+/// Encloses a <code>MessageId</code> for a successfully-enqueued message in a
+/// <code> <a>SendMessageBatch</a>.</code>
+class SendMessageBatchResultEntry {
+  /// An identifier for the message in this batch.
+  final String id;
+
+  /// An MD5 digest of the non-URL-encoded message body string. You can use this
+  /// attribute to verify that Amazon SQS received the message correctly. Amazon
+  /// SQS URL-decodes the message before creating the MD5 digest. For information
+  /// about MD5, see <a href="https://www.ietf.org/rfc/rfc1321.txt">RFC1321</a>.
+  final String mD5OfMessageBody;
+
+  /// An identifier for the message.
+  final String messageId;
+
+  /// An MD5 digest of the non-URL-encoded message attribute string. You can use
+  /// this attribute to verify that Amazon SQS received the message correctly.
+  /// Amazon SQS URL-decodes the message before creating the MD5 digest. For
+  /// information about MD5, see <a
+  /// href="https://www.ietf.org/rfc/rfc1321.txt">RFC1321</a>.
+  final String? mD5OfMessageAttributes;
+
+  /// An MD5 digest of the non-URL-encoded message system attribute string. You
+  /// can use this attribute to verify that Amazon SQS received the message
+  /// correctly. Amazon SQS URL-decodes the message before creating the MD5
+  /// digest. For information about MD5, see <a
+  /// href="https://www.ietf.org/rfc/rfc1321.txt">RFC1321</a>.
+  final String? mD5OfMessageSystemAttributes;
+
+  /// This parameter applies only to FIFO (first-in-first-out) queues.
+  ///
+  /// The large, non-consecutive number that Amazon SQS assigns to each message.
+  ///
+  /// The length of <code>SequenceNumber</code> is 128 bits. As
+  /// <code>SequenceNumber</code> continues to increase for a particular
+  /// <code>MessageGroupId</code>.
+  final String? sequenceNumber;
+
+  SendMessageBatchResultEntry({
+    required this.id,
+    required this.mD5OfMessageBody,
+    required this.messageId,
+    this.mD5OfMessageAttributes,
+    this.mD5OfMessageSystemAttributes,
+    this.sequenceNumber,
+  });
+
+  factory SendMessageBatchResultEntry.fromJson(Map<String, dynamic> json) {
+    return SendMessageBatchResultEntry(
+      id: (json['Id'] as String?) ?? '',
+      mD5OfMessageBody: (json['MD5OfMessageBody'] as String?) ?? '',
+      messageId: (json['MessageId'] as String?) ?? '',
+      mD5OfMessageAttributes: json['MD5OfMessageAttributes'] as String?,
+      mD5OfMessageSystemAttributes:
+          json['MD5OfMessageSystemAttributes'] as String?,
+      sequenceNumber: json['SequenceNumber'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final mD5OfMessageBody = this.mD5OfMessageBody;
+    final messageId = this.messageId;
+    final mD5OfMessageAttributes = this.mD5OfMessageAttributes;
+    final mD5OfMessageSystemAttributes = this.mD5OfMessageSystemAttributes;
+    final sequenceNumber = this.sequenceNumber;
+    return {
+      'Id': id,
+      'MD5OfMessageBody': mD5OfMessageBody,
+      'MessageId': messageId,
+      if (mD5OfMessageAttributes != null)
+        'MD5OfMessageAttributes': mD5OfMessageAttributes,
+      if (mD5OfMessageSystemAttributes != null)
+        'MD5OfMessageSystemAttributes': mD5OfMessageSystemAttributes,
+      if (sequenceNumber != null) 'SequenceNumber': sequenceNumber,
+    };
+  }
+}
+
+/// Contains the details of a single Amazon SQS message along with an
+/// <code>Id</code>.
+class SendMessageBatchRequestEntry {
+  /// An identifier for a message in this batch used to communicate the result.
+  /// <note>
+  /// The <code>Id</code>s of a batch request need to be unique within a request.
+  ///
+  /// This identifier can have up to 80 characters. The following characters are
+  /// accepted: alphanumeric characters, hyphens(-), and underscores (_).
+  /// </note>
+  final String id;
+
+  /// The body of the message.
+  final String messageBody;
+
+  /// The length of time, in seconds, for which a specific message is delayed.
+  /// Valid values: 0 to 900. Maximum: 15 minutes. Messages with a positive
+  /// <code>DelaySeconds</code> value become available for processing after the
+  /// delay period is finished. If you don't specify a value, the default value
+  /// for the queue is applied.
+  /// <note>
+  /// When you set <code>FifoQueue</code>, you can't set <code>DelaySeconds</code>
+  /// per message. You can set this parameter only on a queue level.
+  /// </note>
+  final int? delaySeconds;
+
+  /// Each message attribute consists of a <code>Name</code>, <code>Type</code>,
+  /// and <code>Value</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-message-metadata.html#sqs-message-attributes">Amazon
+  /// SQS message attributes</a> in the <i>Amazon SQS Developer Guide</i>.
+  final Map<String, MessageAttributeValue>? messageAttributes;
+
+  /// This parameter applies only to FIFO (first-in-first-out) queues.
+  ///
+  /// The token used for deduplication of messages within a 5-minute minimum
+  /// deduplication interval. If a message with a particular
+  /// <code>MessageDeduplicationId</code> is sent successfully, subsequent
+  /// messages with the same <code>MessageDeduplicationId</code> are accepted
+  /// successfully but aren't delivered. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues-exactly-once-processing.html">
+  /// Exactly-once processing</a> in the <i>Amazon SQS Developer Guide</i>.
+  ///
+  /// <ul>
+  /// <li>
+  /// Every message must have a unique <code>MessageDeduplicationId</code>,
+  ///
+  /// <ul>
+  /// <li>
+  /// You may provide a <code>MessageDeduplicationId</code> explicitly.
+  /// </li>
+  /// <li>
+  /// If you aren't able to provide a <code>MessageDeduplicationId</code> and you
+  /// enable <code>ContentBasedDeduplication</code> for your queue, Amazon SQS
+  /// uses a SHA-256 hash to generate the <code>MessageDeduplicationId</code>
+  /// using the body of the message (but not the attributes of the message).
+  /// </li>
+  /// <li>
+  /// If you don't provide a <code>MessageDeduplicationId</code> and the queue
+  /// doesn't have <code>ContentBasedDeduplication</code> set, the action fails
+  /// with an error.
+  /// </li>
+  /// <li>
+  /// If the queue has <code>ContentBasedDeduplication</code> set, your
+  /// <code>MessageDeduplicationId</code> overrides the generated one.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// When <code>ContentBasedDeduplication</code> is in effect, messages with
+  /// identical content sent within the deduplication interval are treated as
+  /// duplicates and only one copy of the message is delivered.
+  /// </li>
+  /// <li>
+  /// If you send one message with <code>ContentBasedDeduplication</code> enabled
+  /// and then another message with a <code>MessageDeduplicationId</code> that is
+  /// the same as the one generated for the first
+  /// <code>MessageDeduplicationId</code>, the two messages are treated as
+  /// duplicates and only one copy of the message is delivered.
+  /// </li>
+  /// </ul> <note>
+  /// The <code>MessageDeduplicationId</code> is available to the consumer of the
+  /// message (this can be useful for troubleshooting delivery issues).
+  ///
+  /// If a message is sent successfully but the acknowledgement is lost and the
+  /// message is resent with the same <code>MessageDeduplicationId</code> after
+  /// the deduplication interval, Amazon SQS can't detect duplicate messages.
+  ///
+  /// Amazon SQS continues to keep track of the message deduplication ID even
+  /// after the message is received and deleted.
+  /// </note>
+  /// The length of <code>MessageDeduplicationId</code> is 128 characters.
+  /// <code>MessageDeduplicationId</code> can contain alphanumeric characters
+  /// (<code>a-z</code>, <code>A-Z</code>, <code>0-9</code>) and punctuation
+  /// (<code>!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~</code>).
+  ///
+  /// For best practices of using <code>MessageDeduplicationId</code>, see <a
+  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagededuplicationid-property.html">Using
+  /// the MessageDeduplicationId Property</a> in the <i>Amazon SQS Developer
+  /// Guide</i>.
+  final String? messageDeduplicationId;
+
+  /// <code>MessageGroupId</code> is an attribute used in Amazon SQS FIFO
+  /// (First-In-First-Out) and standard queues. In FIFO queues,
+  /// <code>MessageGroupId</code> organizes messages into distinct groups.
+  /// Messages within the same message group are always processed one at a time,
+  /// in strict order, ensuring that no two messages from the same group are
+  /// processed simultaneously. In standard queues, using
+  /// <code>MessageGroupId</code> enables fair queues. It is used to identify the
+  /// tenant a message belongs to, helping maintain consistent message dwell time
+  /// across all tenants during noisy neighbor events. Unlike FIFO queues,
+  /// messages with the same <code>MessageGroupId</code> can be processed in
+  /// parallel, maintaining the high throughput of standard queues.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>FIFO queues:</b> <code>MessageGroupId</code> acts as the tag that
+  /// specifies that a message belongs to a specific message group. Messages that
+  /// belong to the same message group are processed in a FIFO manner (however,
+  /// messages in different message groups might be processed out of order). To
+  /// interleave multiple ordered streams within a single queue, use
+  /// <code>MessageGroupId</code> values (for example, session data for multiple
+  /// users). In this scenario, multiple consumers can process the queue, but the
+  /// session data of each user is processed in a FIFO fashion.
+  ///
+  /// If you do not provide a <code>MessageGroupId</code> when sending a message
+  /// to a FIFO queue, the action fails.
+  ///
+  /// <code>ReceiveMessage</code> might return messages with multiple
+  /// <code>MessageGroupId</code> values. For each <code>MessageGroupId</code>,
+  /// the messages are sorted by time sent.
+  /// </li>
+  /// <li>
+  /// <b>Standard queues:</b>Use <code>MessageGroupId</code> in standard queues to
+  /// enable fair queues. The <code>MessageGroupId</code> identifies the tenant a
+  /// message belongs to. A tenant can be any entity that shares a queue with
+  /// others, such as your customer, a client application, or a request type. When
+  /// one tenant sends a disproportionately large volume of messages or has
+  /// messages that require longer processing time, fair queues ensure other
+  /// tenants' messages maintain low dwell time. This preserves quality of service
+  /// for all tenants while maintaining the scalability and throughput of standard
+  /// queues. We recommend that you include a <code>MessageGroupId</code> in all
+  /// messages when using fair queues.
+  /// </li>
+  /// </ul>
+  /// The length of <code>MessageGroupId</code> is 128 characters. Valid values:
+  /// alphanumeric characters and punctuation
+  /// <code>(!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~)</code>.
+  ///
+  /// For best practices of using <code>MessageGroupId</code>, see <a
+  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagegroupid-property.html">Using
+  /// the MessageGroupId Property</a> in the <i>Amazon SQS Developer Guide</i>.
+  final String? messageGroupId;
+
+  /// The message system attribute to send Each message system attribute consists
+  /// of a <code>Name</code>, <code>Type</code>, and <code>Value</code>.
+  /// <important>
+  /// <ul>
+  /// <li>
+  /// Currently, the only supported message system attribute is
+  /// <code>AWSTraceHeader</code>. Its type must be <code>String</code> and its
+  /// value must be a correctly formatted X-Ray trace header string.
+  /// </li>
+  /// <li>
+  /// The size of a message system attribute doesn't count towards the total size
+  /// of a message.
+  /// </li>
+  /// </ul> </important>
+  final Map<MessageSystemAttributeNameForSends, MessageSystemAttributeValue>?
+      messageSystemAttributes;
+
+  SendMessageBatchRequestEntry({
+    required this.id,
+    required this.messageBody,
+    this.delaySeconds,
+    this.messageAttributes,
+    this.messageDeduplicationId,
+    this.messageGroupId,
+    this.messageSystemAttributes,
+  });
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final messageBody = this.messageBody;
+    final delaySeconds = this.delaySeconds;
+    final messageAttributes = this.messageAttributes;
+    final messageDeduplicationId = this.messageDeduplicationId;
+    final messageGroupId = this.messageGroupId;
+    final messageSystemAttributes = this.messageSystemAttributes;
+    return {
+      'Id': id,
+      'MessageBody': messageBody,
+      if (delaySeconds != null) 'DelaySeconds': delaySeconds,
+      if (messageAttributes != null) 'MessageAttributes': messageAttributes,
+      if (messageDeduplicationId != null)
+        'MessageDeduplicationId': messageDeduplicationId,
+      if (messageGroupId != null) 'MessageGroupId': messageGroupId,
+      if (messageSystemAttributes != null)
+        'MessageSystemAttributes':
+            messageSystemAttributes.map((k, e) => MapEntry(k.value, e)),
+    };
+  }
+}
+
+class MessageSystemAttributeNameForSends {
+  static const awsTraceHeader =
+      MessageSystemAttributeNameForSends._('AWSTraceHeader');
+
+  final String value;
+
+  const MessageSystemAttributeNameForSends._(this.value);
+
+  static const values = [awsTraceHeader];
+
+  static MessageSystemAttributeNameForSends fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MessageSystemAttributeNameForSends._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MessageSystemAttributeNameForSends && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The user-specified message system attribute value. For string data types,
+/// the <code>Value</code> attribute has the same restrictions on the content as
+/// the message body. For more information, see <code>
+/// <a>SendMessage</a>.</code>
+///
+/// <code>Name</code>, <code>type</code>, <code>value</code> and the message
+/// body must not be empty or null.
+class MessageSystemAttributeValue {
+  /// Amazon SQS supports the following logical data types: <code>String</code>,
+  /// <code>Number</code>, and <code>Binary</code>. For the <code>Number</code>
+  /// data type, you must use <code>StringValue</code>.
+  ///
+  /// You can also append custom labels. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-message-metadata.html#sqs-message-attributes">Amazon
+  /// SQS Message Attributes</a> in the <i>Amazon SQS Developer Guide</i>.
+  final String dataType;
+
+  /// Not implemented. Reserved for future use.
+  final List<Uint8List>? binaryListValues;
+
+  /// Binary type attributes can store any binary data, such as compressed data,
+  /// encrypted data, or images.
+  final Uint8List? binaryValue;
+
+  /// Not implemented. Reserved for future use.
+  final List<String>? stringListValues;
+
+  /// Strings are Unicode with UTF-8 binary encoding. For a list of code values,
+  /// see <a
+  /// href="http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters">ASCII
+  /// Printable Characters</a>.
+  final String? stringValue;
+
+  MessageSystemAttributeValue({
+    required this.dataType,
+    this.binaryListValues,
+    this.binaryValue,
+    this.stringListValues,
+    this.stringValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dataType = this.dataType;
+    final binaryListValues = this.binaryListValues;
+    final binaryValue = this.binaryValue;
+    final stringListValues = this.stringListValues;
+    final stringValue = this.stringValue;
+    return {
+      'DataType': dataType,
+      if (binaryListValues != null)
+        'BinaryListValues': binaryListValues.map(base64Encode).toList(),
+      if (binaryValue != null) 'BinaryValue': base64Encode(binaryValue),
+      if (stringListValues != null) 'StringListValues': stringListValues,
+      if (stringValue != null) 'StringValue': stringValue,
+    };
+  }
+}
+
+/// The user-specified message attribute value. For string data types, the
+/// <code>Value</code> attribute has the same restrictions on the content as the
+/// message body. For more information, see <code> <a>SendMessage</a>.</code>
+///
+/// <code>Name</code>, <code>type</code>, <code>value</code> and the message
+/// body must not be empty or null. All parts of the message attribute,
+/// including <code>Name</code>, <code>Type</code>, and <code>Value</code>, are
+/// part of the message size restriction (1 MiB or 1,048,576 bytes).
+class MessageAttributeValue {
+  /// Amazon SQS supports the following logical data types: <code>String</code>,
+  /// <code>Number</code>, and <code>Binary</code>. For the <code>Number</code>
+  /// data type, you must use <code>StringValue</code>.
+  ///
+  /// You can also append custom labels. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-message-metadata.html#sqs-message-attributes">Amazon
+  /// SQS Message Attributes</a> in the <i>Amazon SQS Developer Guide</i>.
+  final String dataType;
+
+  /// Not implemented. Reserved for future use.
+  final List<Uint8List>? binaryListValues;
+
+  /// Binary type attributes can store any binary data, such as compressed data,
+  /// encrypted data, or images.
+  final Uint8List? binaryValue;
+
+  /// Not implemented. Reserved for future use.
+  final List<String>? stringListValues;
+
+  /// Strings are Unicode with UTF-8 binary encoding. For a list of code values,
+  /// see <a
+  /// href="http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters">ASCII
+  /// Printable Characters</a>.
+  final String? stringValue;
+
+  MessageAttributeValue({
+    required this.dataType,
+    this.binaryListValues,
+    this.binaryValue,
+    this.stringListValues,
+    this.stringValue,
+  });
+
+  factory MessageAttributeValue.fromJson(Map<String, dynamic> json) {
+    return MessageAttributeValue(
+      dataType: (json['DataType'] as String?) ?? '',
+      binaryListValues: (json['BinaryListValues'] as List?)
+          ?.nonNulls
+          .map((e) => _s.decodeUint8List(e as String))
+          .toList(),
+      binaryValue: _s.decodeNullableUint8List(json['BinaryValue'] as String?),
+      stringListValues: (json['StringListValues'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      stringValue: json['StringValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataType = this.dataType;
+    final binaryListValues = this.binaryListValues;
+    final binaryValue = this.binaryValue;
+    final stringListValues = this.stringListValues;
+    final stringValue = this.stringValue;
+    return {
+      'DataType': dataType,
+      if (binaryListValues != null)
+        'BinaryListValues': binaryListValues.map(base64Encode).toList(),
+      if (binaryValue != null) 'BinaryValue': base64Encode(binaryValue),
+      if (stringListValues != null) 'StringListValues': stringListValues,
+      if (stringValue != null) 'StringValue': stringValue,
     };
   }
 }
@@ -3494,81 +4017,6 @@ class Message {
   }
 }
 
-/// The user-specified message attribute value. For string data types, the
-/// <code>Value</code> attribute has the same restrictions on the content as the
-/// message body. For more information, see <code> <a>SendMessage</a>.</code>
-///
-/// <code>Name</code>, <code>type</code>, <code>value</code> and the message
-/// body must not be empty or null. All parts of the message attribute,
-/// including <code>Name</code>, <code>Type</code>, and <code>Value</code>, are
-/// part of the message size restriction (256 KiB or 262,144 bytes).
-class MessageAttributeValue {
-  /// Amazon SQS supports the following logical data types: <code>String</code>,
-  /// <code>Number</code>, and <code>Binary</code>. For the <code>Number</code>
-  /// data type, you must use <code>StringValue</code>.
-  ///
-  /// You can also append custom labels. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-message-metadata.html#sqs-message-attributes">Amazon
-  /// SQS Message Attributes</a> in the <i>Amazon SQS Developer Guide</i>.
-  final String dataType;
-
-  /// Not implemented. Reserved for future use.
-  final List<Uint8List>? binaryListValues;
-
-  /// Binary type attributes can store any binary data, such as compressed data,
-  /// encrypted data, or images.
-  final Uint8List? binaryValue;
-
-  /// Not implemented. Reserved for future use.
-  final List<String>? stringListValues;
-
-  /// Strings are Unicode with UTF-8 binary encoding. For a list of code values,
-  /// see <a
-  /// href="http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters">ASCII
-  /// Printable Characters</a>.
-  final String? stringValue;
-
-  MessageAttributeValue({
-    required this.dataType,
-    this.binaryListValues,
-    this.binaryValue,
-    this.stringListValues,
-    this.stringValue,
-  });
-
-  factory MessageAttributeValue.fromJson(Map<String, dynamic> json) {
-    return MessageAttributeValue(
-      dataType: (json['DataType'] as String?) ?? '',
-      binaryListValues: (json['BinaryListValues'] as List?)
-          ?.nonNulls
-          .map((e) => _s.decodeUint8List(e as String))
-          .toList(),
-      binaryValue: _s.decodeNullableUint8List(json['BinaryValue'] as String?),
-      stringListValues: (json['StringListValues'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      stringValue: json['StringValue'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataType = this.dataType;
-    final binaryListValues = this.binaryListValues;
-    final binaryValue = this.binaryValue;
-    final stringListValues = this.stringListValues;
-    final stringValue = this.stringValue;
-    return {
-      'DataType': dataType,
-      if (binaryListValues != null)
-        'BinaryListValues': binaryListValues.map(base64Encode).toList(),
-      if (binaryValue != null) 'BinaryValue': base64Encode(binaryValue),
-      if (stringListValues != null) 'StringListValues': stringListValues,
-      if (stringValue != null) 'StringValue': stringValue,
-    };
-  }
-}
-
 class MessageSystemAttributeName {
   static const all = MessageSystemAttributeName._('All');
   static const senderId = MessageSystemAttributeName._('SenderId');
@@ -3617,197 +4065,133 @@ class MessageSystemAttributeName {
   String toString() => value;
 }
 
-class MessageSystemAttributeNameForSends {
-  static const awsTraceHeader =
-      MessageSystemAttributeNameForSends._('AWSTraceHeader');
+/// Contains the details of a message movement task.
+class ListMessageMoveTasksResultEntry {
+  /// The approximate number of messages already moved to the destination queue.
+  final int? approximateNumberOfMessagesMoved;
 
-  final String value;
+  /// The number of messages to be moved from the source queue. This number is
+  /// obtained at the time of starting the message movement task and is only
+  /// included after the message movement task is selected to start.
+  final int? approximateNumberOfMessagesToMove;
 
-  const MessageSystemAttributeNameForSends._(this.value);
+  /// The ARN of the destination queue if it has been specified in the
+  /// <code>StartMessageMoveTask</code> request. If a <code>DestinationArn</code>
+  /// has not been specified in the <code>StartMessageMoveTask</code> request,
+  /// this field value will be NULL.
+  final String? destinationArn;
 
-  static const values = [awsTraceHeader];
+  /// The task failure reason (only included if the task status is FAILED).
+  final String? failureReason;
 
-  static MessageSystemAttributeNameForSends fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MessageSystemAttributeNameForSends._(value));
+  /// The number of messages to be moved per second (the message movement rate),
+  /// if it has been specified in the <code>StartMessageMoveTask</code> request.
+  /// If a <code>MaxNumberOfMessagesPerSecond</code> has not been specified in the
+  /// <code>StartMessageMoveTask</code> request, this field value will be NULL.
+  final int? maxNumberOfMessagesPerSecond;
 
-  @override
-  bool operator ==(other) =>
-      other is MessageSystemAttributeNameForSends && other.value == value;
+  /// The ARN of the queue that contains the messages to be moved to another
+  /// queue.
+  final String? sourceArn;
 
-  @override
-  int get hashCode => value.hashCode;
+  /// The timestamp of starting the message movement task.
+  final int? startedTimestamp;
 
-  @override
-  String toString() => value;
-}
+  /// The status of the message movement task. Possible values are: RUNNING,
+  /// COMPLETED, CANCELLING, CANCELLED, and FAILED.
+  final String? status;
 
-/// The user-specified message system attribute value. For string data types,
-/// the <code>Value</code> attribute has the same restrictions on the content as
-/// the message body. For more information, see <code>
-/// <a>SendMessage</a>.</code>
-///
-/// <code>Name</code>, <code>type</code>, <code>value</code> and the message
-/// body must not be empty or null.
-class MessageSystemAttributeValue {
-  /// Amazon SQS supports the following logical data types: <code>String</code>,
-  /// <code>Number</code>, and <code>Binary</code>. For the <code>Number</code>
-  /// data type, you must use <code>StringValue</code>.
-  ///
-  /// You can also append custom labels. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-message-metadata.html#sqs-message-attributes">Amazon
-  /// SQS Message Attributes</a> in the <i>Amazon SQS Developer Guide</i>.
-  final String dataType;
+  /// An identifier associated with a message movement task. When this field is
+  /// returned in the response of the <code>ListMessageMoveTasks</code> action, it
+  /// is only populated for tasks that are in RUNNING status.
+  final String? taskHandle;
 
-  /// Not implemented. Reserved for future use.
-  final List<Uint8List>? binaryListValues;
-
-  /// Binary type attributes can store any binary data, such as compressed data,
-  /// encrypted data, or images.
-  final Uint8List? binaryValue;
-
-  /// Not implemented. Reserved for future use.
-  final List<String>? stringListValues;
-
-  /// Strings are Unicode with UTF-8 binary encoding. For a list of code values,
-  /// see <a
-  /// href="http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters">ASCII
-  /// Printable Characters</a>.
-  final String? stringValue;
-
-  MessageSystemAttributeValue({
-    required this.dataType,
-    this.binaryListValues,
-    this.binaryValue,
-    this.stringListValues,
-    this.stringValue,
+  ListMessageMoveTasksResultEntry({
+    this.approximateNumberOfMessagesMoved,
+    this.approximateNumberOfMessagesToMove,
+    this.destinationArn,
+    this.failureReason,
+    this.maxNumberOfMessagesPerSecond,
+    this.sourceArn,
+    this.startedTimestamp,
+    this.status,
+    this.taskHandle,
   });
 
-  Map<String, dynamic> toJson() {
-    final dataType = this.dataType;
-    final binaryListValues = this.binaryListValues;
-    final binaryValue = this.binaryValue;
-    final stringListValues = this.stringListValues;
-    final stringValue = this.stringValue;
-    return {
-      'DataType': dataType,
-      if (binaryListValues != null)
-        'BinaryListValues': binaryListValues.map(base64Encode).toList(),
-      if (binaryValue != null) 'BinaryValue': base64Encode(binaryValue),
-      if (stringListValues != null) 'StringListValues': stringListValues,
-      if (stringValue != null) 'StringValue': stringValue,
-    };
-  }
-}
-
-class QueueAttributeName {
-  static const all = QueueAttributeName._('All');
-  static const policy = QueueAttributeName._('Policy');
-  static const visibilityTimeout = QueueAttributeName._('VisibilityTimeout');
-  static const maximumMessageSize = QueueAttributeName._('MaximumMessageSize');
-  static const messageRetentionPeriod =
-      QueueAttributeName._('MessageRetentionPeriod');
-  static const approximateNumberOfMessages =
-      QueueAttributeName._('ApproximateNumberOfMessages');
-  static const approximateNumberOfMessagesNotVisible =
-      QueueAttributeName._('ApproximateNumberOfMessagesNotVisible');
-  static const createdTimestamp = QueueAttributeName._('CreatedTimestamp');
-  static const lastModifiedTimestamp =
-      QueueAttributeName._('LastModifiedTimestamp');
-  static const queueArn = QueueAttributeName._('QueueArn');
-  static const approximateNumberOfMessagesDelayed =
-      QueueAttributeName._('ApproximateNumberOfMessagesDelayed');
-  static const delaySeconds = QueueAttributeName._('DelaySeconds');
-  static const receiveMessageWaitTimeSeconds =
-      QueueAttributeName._('ReceiveMessageWaitTimeSeconds');
-  static const redrivePolicy = QueueAttributeName._('RedrivePolicy');
-  static const fifoQueue = QueueAttributeName._('FifoQueue');
-  static const contentBasedDeduplication =
-      QueueAttributeName._('ContentBasedDeduplication');
-  static const kmsMasterKeyId = QueueAttributeName._('KmsMasterKeyId');
-  static const kmsDataKeyReusePeriodSeconds =
-      QueueAttributeName._('KmsDataKeyReusePeriodSeconds');
-  static const deduplicationScope = QueueAttributeName._('DeduplicationScope');
-  static const fifoThroughputLimit =
-      QueueAttributeName._('FifoThroughputLimit');
-  static const redriveAllowPolicy = QueueAttributeName._('RedriveAllowPolicy');
-  static const sqsManagedSseEnabled =
-      QueueAttributeName._('SqsManagedSseEnabled');
-
-  final String value;
-
-  const QueueAttributeName._(this.value);
-
-  static const values = [
-    all,
-    policy,
-    visibilityTimeout,
-    maximumMessageSize,
-    messageRetentionPeriod,
-    approximateNumberOfMessages,
-    approximateNumberOfMessagesNotVisible,
-    createdTimestamp,
-    lastModifiedTimestamp,
-    queueArn,
-    approximateNumberOfMessagesDelayed,
-    delaySeconds,
-    receiveMessageWaitTimeSeconds,
-    redrivePolicy,
-    fifoQueue,
-    contentBasedDeduplication,
-    kmsMasterKeyId,
-    kmsDataKeyReusePeriodSeconds,
-    deduplicationScope,
-    fifoThroughputLimit,
-    redriveAllowPolicy,
-    sqsManagedSseEnabled
-  ];
-
-  static QueueAttributeName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => QueueAttributeName._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is QueueAttributeName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A list of received messages.
-class ReceiveMessageResult {
-  /// A list of messages.
-  final List<Message>? messages;
-
-  ReceiveMessageResult({
-    this.messages,
-  });
-
-  factory ReceiveMessageResult.fromJson(Map<String, dynamic> json) {
-    return ReceiveMessageResult(
-      messages: (json['Messages'] as List?)
-          ?.nonNulls
-          .map((e) => Message.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  factory ListMessageMoveTasksResultEntry.fromJson(Map<String, dynamic> json) {
+    return ListMessageMoveTasksResultEntry(
+      approximateNumberOfMessagesMoved:
+          json['ApproximateNumberOfMessagesMoved'] as int?,
+      approximateNumberOfMessagesToMove:
+          json['ApproximateNumberOfMessagesToMove'] as int?,
+      destinationArn: json['DestinationArn'] as String?,
+      failureReason: json['FailureReason'] as String?,
+      maxNumberOfMessagesPerSecond:
+          json['MaxNumberOfMessagesPerSecond'] as int?,
+      sourceArn: json['SourceArn'] as String?,
+      startedTimestamp: json['StartedTimestamp'] as int?,
+      status: json['Status'] as String?,
+      taskHandle: json['TaskHandle'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final messages = this.messages;
+    final approximateNumberOfMessagesMoved =
+        this.approximateNumberOfMessagesMoved;
+    final approximateNumberOfMessagesToMove =
+        this.approximateNumberOfMessagesToMove;
+    final destinationArn = this.destinationArn;
+    final failureReason = this.failureReason;
+    final maxNumberOfMessagesPerSecond = this.maxNumberOfMessagesPerSecond;
+    final sourceArn = this.sourceArn;
+    final startedTimestamp = this.startedTimestamp;
+    final status = this.status;
+    final taskHandle = this.taskHandle;
     return {
-      if (messages != null) 'Messages': messages,
+      if (approximateNumberOfMessagesMoved != null)
+        'ApproximateNumberOfMessagesMoved': approximateNumberOfMessagesMoved,
+      if (approximateNumberOfMessagesToMove != null)
+        'ApproximateNumberOfMessagesToMove': approximateNumberOfMessagesToMove,
+      if (destinationArn != null) 'DestinationArn': destinationArn,
+      if (failureReason != null) 'FailureReason': failureReason,
+      if (maxNumberOfMessagesPerSecond != null)
+        'MaxNumberOfMessagesPerSecond': maxNumberOfMessagesPerSecond,
+      if (sourceArn != null) 'SourceArn': sourceArn,
+      if (startedTimestamp != null) 'StartedTimestamp': startedTimestamp,
+      if (status != null) 'Status': status,
+      if (taskHandle != null) 'TaskHandle': taskHandle,
     };
   }
 }
 
-/// Contains the details of a single Amazon SQS message along with an
-/// <code>Id</code>.
-class SendMessageBatchRequestEntry {
-  /// An identifier for a message in this batch used to communicate the result.
+/// Encloses the <code>Id</code> of an entry in <code>
+/// <a>DeleteMessageBatch</a>.</code>
+class DeleteMessageBatchResultEntry {
+  /// Represents a successfully deleted message.
+  final String id;
+
+  DeleteMessageBatchResultEntry({
+    required this.id,
+  });
+
+  factory DeleteMessageBatchResultEntry.fromJson(Map<String, dynamic> json) {
+    return DeleteMessageBatchResultEntry(
+      id: (json['Id'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    return {
+      'Id': id,
+    };
+  }
+}
+
+/// Encloses a receipt handle and an identifier for it.
+class DeleteMessageBatchRequestEntry {
+  /// The identifier for this particular receipt handle. This is used to
+  /// communicate the result.
   /// <note>
   /// The <code>Id</code>s of a batch request need to be unique within a request.
   ///
@@ -3816,391 +4200,82 @@ class SendMessageBatchRequestEntry {
   /// </note>
   final String id;
 
-  /// The body of the message.
-  final String messageBody;
+  /// A receipt handle.
+  final String receiptHandle;
 
-  /// The length of time, in seconds, for which a specific message is delayed.
-  /// Valid values: 0 to 900. Maximum: 15 minutes. Messages with a positive
-  /// <code>DelaySeconds</code> value become available for processing after the
-  /// delay period is finished. If you don't specify a value, the default value
-  /// for the queue is applied.
-  /// <note>
-  /// When you set <code>FifoQueue</code>, you can't set <code>DelaySeconds</code>
-  /// per message. You can set this parameter only on a queue level.
-  /// </note>
-  final int? delaySeconds;
-
-  /// Each message attribute consists of a <code>Name</code>, <code>Type</code>,
-  /// and <code>Value</code>. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-message-metadata.html#sqs-message-attributes">Amazon
-  /// SQS message attributes</a> in the <i>Amazon SQS Developer Guide</i>.
-  final Map<String, MessageAttributeValue>? messageAttributes;
-
-  /// This parameter applies only to FIFO (first-in-first-out) queues.
-  ///
-  /// The token used for deduplication of messages within a 5-minute minimum
-  /// deduplication interval. If a message with a particular
-  /// <code>MessageDeduplicationId</code> is sent successfully, subsequent
-  /// messages with the same <code>MessageDeduplicationId</code> are accepted
-  /// successfully but aren't delivered. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues-exactly-once-processing.html">
-  /// Exactly-once processing</a> in the <i>Amazon SQS Developer Guide</i>.
-  ///
-  /// <ul>
-  /// <li>
-  /// Every message must have a unique <code>MessageDeduplicationId</code>,
-  ///
-  /// <ul>
-  /// <li>
-  /// You may provide a <code>MessageDeduplicationId</code> explicitly.
-  /// </li>
-  /// <li>
-  /// If you aren't able to provide a <code>MessageDeduplicationId</code> and you
-  /// enable <code>ContentBasedDeduplication</code> for your queue, Amazon SQS
-  /// uses a SHA-256 hash to generate the <code>MessageDeduplicationId</code>
-  /// using the body of the message (but not the attributes of the message).
-  /// </li>
-  /// <li>
-  /// If you don't provide a <code>MessageDeduplicationId</code> and the queue
-  /// doesn't have <code>ContentBasedDeduplication</code> set, the action fails
-  /// with an error.
-  /// </li>
-  /// <li>
-  /// If the queue has <code>ContentBasedDeduplication</code> set, your
-  /// <code>MessageDeduplicationId</code> overrides the generated one.
-  /// </li>
-  /// </ul> </li>
-  /// <li>
-  /// When <code>ContentBasedDeduplication</code> is in effect, messages with
-  /// identical content sent within the deduplication interval are treated as
-  /// duplicates and only one copy of the message is delivered.
-  /// </li>
-  /// <li>
-  /// If you send one message with <code>ContentBasedDeduplication</code> enabled
-  /// and then another message with a <code>MessageDeduplicationId</code> that is
-  /// the same as the one generated for the first
-  /// <code>MessageDeduplicationId</code>, the two messages are treated as
-  /// duplicates and only one copy of the message is delivered.
-  /// </li>
-  /// </ul> <note>
-  /// The <code>MessageDeduplicationId</code> is available to the consumer of the
-  /// message (this can be useful for troubleshooting delivery issues).
-  ///
-  /// If a message is sent successfully but the acknowledgement is lost and the
-  /// message is resent with the same <code>MessageDeduplicationId</code> after
-  /// the deduplication interval, Amazon SQS can't detect duplicate messages.
-  ///
-  /// Amazon SQS continues to keep track of the message deduplication ID even
-  /// after the message is received and deleted.
-  /// </note>
-  /// The length of <code>MessageDeduplicationId</code> is 128 characters.
-  /// <code>MessageDeduplicationId</code> can contain alphanumeric characters
-  /// (<code>a-z</code>, <code>A-Z</code>, <code>0-9</code>) and punctuation
-  /// (<code>!"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~</code>).
-  ///
-  /// For best practices of using <code>MessageDeduplicationId</code>, see <a
-  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagededuplicationid-property.html">Using
-  /// the MessageDeduplicationId Property</a> in the <i>Amazon SQS Developer
-  /// Guide</i>.
-  final String? messageDeduplicationId;
-
-  /// This parameter applies only to FIFO (first-in-first-out) queues.
-  ///
-  /// The tag that specifies that a message belongs to a specific message group.
-  /// Messages that belong to the same message group are processed in a FIFO
-  /// manner (however, messages in different message groups might be processed out
-  /// of order). To interleave multiple ordered streams within a single queue, use
-  /// <code>MessageGroupId</code> values (for example, session data for multiple
-  /// users). In this scenario, multiple consumers can process the queue, but the
-  /// session data of each user is processed in a FIFO fashion.
-  ///
-  /// <ul>
-  /// <li>
-  /// You must associate a non-empty <code>MessageGroupId</code> with a message.
-  /// If you don't provide a <code>MessageGroupId</code>, the action fails.
-  /// </li>
-  /// <li>
-  /// <code>ReceiveMessage</code> might return messages with multiple
-  /// <code>MessageGroupId</code> values. For each <code>MessageGroupId</code>,
-  /// the messages are sorted by time sent. The caller can't specify a
-  /// <code>MessageGroupId</code>.
-  /// </li>
-  /// </ul>
-  /// The length of <code>MessageGroupId</code> is 128 characters. Valid values:
-  /// alphanumeric characters and punctuation
-  /// <code>(!"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~)</code>.
-  ///
-  /// For best practices of using <code>MessageGroupId</code>, see <a
-  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagegroupid-property.html">Using
-  /// the MessageGroupId Property</a> in the <i>Amazon SQS Developer Guide</i>.
-  /// <important>
-  /// <code>MessageGroupId</code> is required for FIFO queues. You can't use it
-  /// for Standard queues.
-  /// </important>
-  final String? messageGroupId;
-
-  /// The message system attribute to send Each message system attribute consists
-  /// of a <code>Name</code>, <code>Type</code>, and <code>Value</code>.
-  /// <important>
-  /// <ul>
-  /// <li>
-  /// Currently, the only supported message system attribute is
-  /// <code>AWSTraceHeader</code>. Its type must be <code>String</code> and its
-  /// value must be a correctly formatted X-Ray trace header string.
-  /// </li>
-  /// <li>
-  /// The size of a message system attribute doesn't count towards the total size
-  /// of a message.
-  /// </li>
-  /// </ul> </important>
-  final Map<MessageSystemAttributeNameForSends, MessageSystemAttributeValue>?
-      messageSystemAttributes;
-
-  SendMessageBatchRequestEntry({
+  DeleteMessageBatchRequestEntry({
     required this.id,
-    required this.messageBody,
-    this.delaySeconds,
-    this.messageAttributes,
-    this.messageDeduplicationId,
-    this.messageGroupId,
-    this.messageSystemAttributes,
+    required this.receiptHandle,
   });
 
   Map<String, dynamic> toJson() {
     final id = this.id;
-    final messageBody = this.messageBody;
-    final delaySeconds = this.delaySeconds;
-    final messageAttributes = this.messageAttributes;
-    final messageDeduplicationId = this.messageDeduplicationId;
-    final messageGroupId = this.messageGroupId;
-    final messageSystemAttributes = this.messageSystemAttributes;
+    final receiptHandle = this.receiptHandle;
     return {
       'Id': id,
-      'MessageBody': messageBody,
-      if (delaySeconds != null) 'DelaySeconds': delaySeconds,
-      if (messageAttributes != null) 'MessageAttributes': messageAttributes,
-      if (messageDeduplicationId != null)
-        'MessageDeduplicationId': messageDeduplicationId,
-      if (messageGroupId != null) 'MessageGroupId': messageGroupId,
-      if (messageSystemAttributes != null)
-        'MessageSystemAttributes':
-            messageSystemAttributes.map((k, e) => MapEntry(k.value, e)),
+      'ReceiptHandle': receiptHandle,
     };
   }
 }
 
-/// For each message in the batch, the response contains a <code>
-/// <a>SendMessageBatchResultEntry</a> </code> tag if the message succeeds or a
-/// <code> <a>BatchResultErrorEntry</a> </code> tag if the message fails.
-class SendMessageBatchResult {
-  /// A list of <code> <a>BatchResultErrorEntry</a> </code> items with error
-  /// details about each message that can't be enqueued.
-  final List<BatchResultErrorEntry> failed;
-
-  /// A list of <code> <a>SendMessageBatchResultEntry</a> </code> items.
-  final List<SendMessageBatchResultEntry> successful;
-
-  SendMessageBatchResult({
-    required this.failed,
-    required this.successful,
-  });
-
-  factory SendMessageBatchResult.fromJson(Map<String, dynamic> json) {
-    return SendMessageBatchResult(
-      failed: ((json['Failed'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => BatchResultErrorEntry.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      successful: ((json['Successful'] as List?) ?? const [])
-          .nonNulls
-          .map((e) =>
-              SendMessageBatchResultEntry.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final failed = this.failed;
-    final successful = this.successful;
-    return {
-      'Failed': failed,
-      'Successful': successful,
-    };
-  }
-}
-
-/// Encloses a <code>MessageId</code> for a successfully-enqueued message in a
-/// <code> <a>SendMessageBatch</a>.</code>
-class SendMessageBatchResultEntry {
-  /// An identifier for the message in this batch.
+/// Encloses the <code>Id</code> of an entry in <code>
+/// <a>ChangeMessageVisibilityBatch</a>.</code>
+class ChangeMessageVisibilityBatchResultEntry {
+  /// Represents a message whose visibility timeout has been changed successfully.
   final String id;
 
-  /// An MD5 digest of the non-URL-encoded message body string. You can use this
-  /// attribute to verify that Amazon SQS received the message correctly. Amazon
-  /// SQS URL-decodes the message before creating the MD5 digest. For information
-  /// about MD5, see <a href="https://www.ietf.org/rfc/rfc1321.txt">RFC1321</a>.
-  final String mD5OfMessageBody;
-
-  /// An identifier for the message.
-  final String messageId;
-
-  /// An MD5 digest of the non-URL-encoded message attribute string. You can use
-  /// this attribute to verify that Amazon SQS received the message correctly.
-  /// Amazon SQS URL-decodes the message before creating the MD5 digest. For
-  /// information about MD5, see <a
-  /// href="https://www.ietf.org/rfc/rfc1321.txt">RFC1321</a>.
-  final String? mD5OfMessageAttributes;
-
-  /// An MD5 digest of the non-URL-encoded message system attribute string. You
-  /// can use this attribute to verify that Amazon SQS received the message
-  /// correctly. Amazon SQS URL-decodes the message before creating the MD5
-  /// digest. For information about MD5, see <a
-  /// href="https://www.ietf.org/rfc/rfc1321.txt">RFC1321</a>.
-  final String? mD5OfMessageSystemAttributes;
-
-  /// This parameter applies only to FIFO (first-in-first-out) queues.
-  ///
-  /// The large, non-consecutive number that Amazon SQS assigns to each message.
-  ///
-  /// The length of <code>SequenceNumber</code> is 128 bits. As
-  /// <code>SequenceNumber</code> continues to increase for a particular
-  /// <code>MessageGroupId</code>.
-  final String? sequenceNumber;
-
-  SendMessageBatchResultEntry({
+  ChangeMessageVisibilityBatchResultEntry({
     required this.id,
-    required this.mD5OfMessageBody,
-    required this.messageId,
-    this.mD5OfMessageAttributes,
-    this.mD5OfMessageSystemAttributes,
-    this.sequenceNumber,
   });
 
-  factory SendMessageBatchResultEntry.fromJson(Map<String, dynamic> json) {
-    return SendMessageBatchResultEntry(
+  factory ChangeMessageVisibilityBatchResultEntry.fromJson(
+      Map<String, dynamic> json) {
+    return ChangeMessageVisibilityBatchResultEntry(
       id: (json['Id'] as String?) ?? '',
-      mD5OfMessageBody: (json['MD5OfMessageBody'] as String?) ?? '',
-      messageId: (json['MessageId'] as String?) ?? '',
-      mD5OfMessageAttributes: json['MD5OfMessageAttributes'] as String?,
-      mD5OfMessageSystemAttributes:
-          json['MD5OfMessageSystemAttributes'] as String?,
-      sequenceNumber: json['SequenceNumber'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final id = this.id;
-    final mD5OfMessageBody = this.mD5OfMessageBody;
-    final messageId = this.messageId;
-    final mD5OfMessageAttributes = this.mD5OfMessageAttributes;
-    final mD5OfMessageSystemAttributes = this.mD5OfMessageSystemAttributes;
-    final sequenceNumber = this.sequenceNumber;
     return {
       'Id': id,
-      'MD5OfMessageBody': mD5OfMessageBody,
-      'MessageId': messageId,
-      if (mD5OfMessageAttributes != null)
-        'MD5OfMessageAttributes': mD5OfMessageAttributes,
-      if (mD5OfMessageSystemAttributes != null)
-        'MD5OfMessageSystemAttributes': mD5OfMessageSystemAttributes,
-      if (sequenceNumber != null) 'SequenceNumber': sequenceNumber,
     };
   }
 }
 
-/// The <code>MD5OfMessageBody</code> and <code>MessageId</code> elements.
-class SendMessageResult {
-  /// An MD5 digest of the non-URL-encoded message attribute string. You can use
-  /// this attribute to verify that Amazon SQS received the message correctly.
-  /// Amazon SQS URL-decodes the message before creating the MD5 digest. For
-  /// information about MD5, see <a
-  /// href="https://www.ietf.org/rfc/rfc1321.txt">RFC1321</a>.
-  final String? mD5OfMessageAttributes;
-
-  /// An MD5 digest of the non-URL-encoded message body string. You can use this
-  /// attribute to verify that Amazon SQS received the message correctly. Amazon
-  /// SQS URL-decodes the message before creating the MD5 digest. For information
-  /// about MD5, see <a href="https://www.ietf.org/rfc/rfc1321.txt">RFC1321</a>.
-  final String? mD5OfMessageBody;
-
-  /// An MD5 digest of the non-URL-encoded message system attribute string. You
-  /// can use this attribute to verify that Amazon SQS received the message
-  /// correctly. Amazon SQS URL-decodes the message before creating the MD5
-  /// digest.
-  final String? mD5OfMessageSystemAttributes;
-
-  /// An attribute containing the <code>MessageId</code> of the message sent to
-  /// the queue. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-queue-message-identifiers.html">Queue
-  /// and Message Identifiers</a> in the <i>Amazon SQS Developer Guide</i>.
-  final String? messageId;
-
-  /// This parameter applies only to FIFO (first-in-first-out) queues.
+/// Encloses a receipt handle and an entry ID for each message in <code>
+/// <a>ChangeMessageVisibilityBatch</a>.</code>
+class ChangeMessageVisibilityBatchRequestEntry {
+  /// An identifier for this particular receipt handle used to communicate the
+  /// result.
+  /// <note>
+  /// The <code>Id</code>s of a batch request need to be unique within a request.
   ///
-  /// The large, non-consecutive number that Amazon SQS assigns to each message.
-  ///
-  /// The length of <code>SequenceNumber</code> is 128 bits.
-  /// <code>SequenceNumber</code> continues to increase for a particular
-  /// <code>MessageGroupId</code>.
-  final String? sequenceNumber;
+  /// This identifier can have up to 80 characters. The following characters are
+  /// accepted: alphanumeric characters, hyphens(-), and underscores (_).
+  /// </note>
+  final String id;
 
-  SendMessageResult({
-    this.mD5OfMessageAttributes,
-    this.mD5OfMessageBody,
-    this.mD5OfMessageSystemAttributes,
-    this.messageId,
-    this.sequenceNumber,
+  /// A receipt handle.
+  final String receiptHandle;
+
+  /// The new value (in seconds) for the message's visibility timeout.
+  final int? visibilityTimeout;
+
+  ChangeMessageVisibilityBatchRequestEntry({
+    required this.id,
+    required this.receiptHandle,
+    this.visibilityTimeout,
   });
 
-  factory SendMessageResult.fromJson(Map<String, dynamic> json) {
-    return SendMessageResult(
-      mD5OfMessageAttributes: json['MD5OfMessageAttributes'] as String?,
-      mD5OfMessageBody: json['MD5OfMessageBody'] as String?,
-      mD5OfMessageSystemAttributes:
-          json['MD5OfMessageSystemAttributes'] as String?,
-      messageId: json['MessageId'] as String?,
-      sequenceNumber: json['SequenceNumber'] as String?,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final mD5OfMessageAttributes = this.mD5OfMessageAttributes;
-    final mD5OfMessageBody = this.mD5OfMessageBody;
-    final mD5OfMessageSystemAttributes = this.mD5OfMessageSystemAttributes;
-    final messageId = this.messageId;
-    final sequenceNumber = this.sequenceNumber;
+    final id = this.id;
+    final receiptHandle = this.receiptHandle;
+    final visibilityTimeout = this.visibilityTimeout;
     return {
-      if (mD5OfMessageAttributes != null)
-        'MD5OfMessageAttributes': mD5OfMessageAttributes,
-      if (mD5OfMessageBody != null) 'MD5OfMessageBody': mD5OfMessageBody,
-      if (mD5OfMessageSystemAttributes != null)
-        'MD5OfMessageSystemAttributes': mD5OfMessageSystemAttributes,
-      if (messageId != null) 'MessageId': messageId,
-      if (sequenceNumber != null) 'SequenceNumber': sequenceNumber,
-    };
-  }
-}
-
-class StartMessageMoveTaskResult {
-  /// An identifier associated with a message movement task. You can use this
-  /// identifier to cancel a specified message movement task using the
-  /// <code>CancelMessageMoveTask</code> action.
-  final String? taskHandle;
-
-  StartMessageMoveTaskResult({
-    this.taskHandle,
-  });
-
-  factory StartMessageMoveTaskResult.fromJson(Map<String, dynamic> json) {
-    return StartMessageMoveTaskResult(
-      taskHandle: json['TaskHandle'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final taskHandle = this.taskHandle;
-    return {
-      if (taskHandle != null) 'TaskHandle': taskHandle,
+      'Id': id,
+      'ReceiptHandle': receiptHandle,
+      if (visibilityTimeout != null) 'VisibilityTimeout': visibilityTimeout,
     };
   }
 }

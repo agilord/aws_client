@@ -37,7 +37,6 @@ class GroundStation {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'groundstation',
-            signingName: 'groundstation',
           ),
           region: region,
           credentials: credentials,
@@ -54,503 +53,38 @@ class GroundStation {
     _protocol.close();
   }
 
-  /// Cancels a contact with a specified contact ID.
-  ///
-  /// May throw [InvalidParameterException].
-  /// May throw [DependencyException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [contactId] :
-  /// UUID of a contact.
-  Future<ContactIdResponse> cancelContact({
-    required String contactId,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'DELETE',
-      requestUri: '/contact/${Uri.encodeComponent(contactId)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return ContactIdResponse.fromJson(response);
-  }
-
-  /// Creates a <code>Config</code> with the specified <code>configData</code>
-  /// parameters.
-  ///
-  /// Only one type of <code>configData</code> can be specified.
-  ///
-  /// May throw [InvalidParameterException].
-  /// May throw [DependencyException].
-  /// May throw [ResourceLimitExceededException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [configData] :
-  /// Parameters of a <code>Config</code>.
-  ///
-  /// Parameter [name] :
-  /// Name of a <code>Config</code>.
-  ///
-  /// Parameter [tags] :
-  /// Tags assigned to a <code>Config</code>.
-  Future<ConfigIdResponse> createConfig({
-    required ConfigTypeData configData,
-    required String name,
-    Map<String, String>? tags,
-  }) async {
-    final $payload = <String, dynamic>{
-      'configData': configData,
-      'name': name,
-      if (tags != null) 'tags': tags,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/config',
-      exceptionFnMap: _exceptionFns,
-    );
-    return ConfigIdResponse.fromJson(response);
-  }
-
-  /// Creates a <code>DataflowEndpoint</code> group containing the specified
-  /// list of <code>DataflowEndpoint</code> objects.
-  ///
-  /// The <code>name</code> field in each endpoint is used in your mission
-  /// profile <code>DataflowEndpointConfig</code> to specify which endpoints to
-  /// use during a contact.
-  ///
-  /// When a contact uses multiple <code>DataflowEndpointConfig</code> objects,
-  /// each <code>Config</code> must match a <code>DataflowEndpoint</code> in the
-  /// same group.
-  ///
-  /// May throw [InvalidParameterException].
-  /// May throw [DependencyException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [endpointDetails] :
-  /// Endpoint details of each endpoint in the dataflow endpoint group.
-  ///
-  /// Parameter [contactPostPassDurationSeconds] :
-  /// Amount of time, in seconds, after a contact ends that the Ground Station
-  /// Dataflow Endpoint Group will be in a <code>POSTPASS</code> state. A Ground
-  /// Station Dataflow Endpoint Group State Change event will be emitted when
-  /// the Dataflow Endpoint Group enters and exits the <code>POSTPASS</code>
-  /// state.
-  ///
-  /// Parameter [contactPrePassDurationSeconds] :
-  /// Amount of time, in seconds, before a contact starts that the Ground
-  /// Station Dataflow Endpoint Group will be in a <code>PREPASS</code> state. A
-  /// Ground Station Dataflow Endpoint Group State Change event will be emitted
-  /// when the Dataflow Endpoint Group enters and exits the <code>PREPASS</code>
-  /// state.
-  ///
-  /// Parameter [tags] :
-  /// Tags of a dataflow endpoint group.
-  Future<DataflowEndpointGroupIdResponse> createDataflowEndpointGroup({
-    required List<EndpointDetails> endpointDetails,
-    int? contactPostPassDurationSeconds,
-    int? contactPrePassDurationSeconds,
-    Map<String, String>? tags,
-  }) async {
-    _s.validateNumRange(
-      'contactPostPassDurationSeconds',
-      contactPostPassDurationSeconds,
-      120,
-      480,
-    );
-    _s.validateNumRange(
-      'contactPrePassDurationSeconds',
-      contactPrePassDurationSeconds,
-      120,
-      480,
-    );
-    final $payload = <String, dynamic>{
-      'endpointDetails': endpointDetails,
-      if (contactPostPassDurationSeconds != null)
-        'contactPostPassDurationSeconds': contactPostPassDurationSeconds,
-      if (contactPrePassDurationSeconds != null)
-        'contactPrePassDurationSeconds': contactPrePassDurationSeconds,
-      if (tags != null) 'tags': tags,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/dataflowEndpointGroup',
-      exceptionFnMap: _exceptionFns,
-    );
-    return DataflowEndpointGroupIdResponse.fromJson(response);
-  }
-
-  /// Creates an Ephemeris with the specified <code>EphemerisData</code>.
-  ///
-  /// May throw [InvalidParameterException].
-  /// May throw [DependencyException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [name] :
-  /// A name string associated with the ephemeris. Used as a human-readable
-  /// identifier for the ephemeris.
-  ///
-  /// Parameter [satelliteId] :
-  /// AWS Ground Station satellite ID for this ephemeris.
-  ///
-  /// Parameter [enabled] :
-  /// Whether to set the ephemeris status to <code>ENABLED</code> after
-  /// validation.
-  ///
-  /// Setting this to false will set the ephemeris status to
-  /// <code>DISABLED</code> after validation.
-  ///
-  /// Parameter [ephemeris] :
-  /// Ephemeris data.
-  ///
-  /// Parameter [expirationTime] :
-  /// An overall expiration time for the ephemeris in UTC, after which it will
-  /// become <code>EXPIRED</code>.
-  ///
-  /// Parameter [kmsKeyArn] :
-  /// The ARN of a KMS key used to encrypt the ephemeris in Ground Station.
-  ///
-  /// Parameter [priority] :
-  /// Customer-provided priority score to establish the order in which
-  /// overlapping ephemerides should be used.
-  ///
-  /// The default for customer-provided ephemeris priority is 1, and higher
-  /// numbers take precedence.
-  ///
-  /// Priority must be 1 or greater
-  ///
-  /// Parameter [tags] :
-  /// Tags assigned to an ephemeris.
-  Future<EphemerisIdResponse> createEphemeris({
-    required String name,
-    required String satelliteId,
-    bool? enabled,
-    EphemerisData? ephemeris,
-    DateTime? expirationTime,
-    String? kmsKeyArn,
-    int? priority,
-    Map<String, String>? tags,
-  }) async {
-    _s.validateNumRange(
-      'priority',
-      priority,
-      1,
-      99999,
-    );
-    final $payload = <String, dynamic>{
-      'name': name,
-      'satelliteId': satelliteId,
-      if (enabled != null) 'enabled': enabled,
-      if (ephemeris != null) 'ephemeris': ephemeris,
-      if (expirationTime != null)
-        'expirationTime': unixTimestampToJson(expirationTime),
-      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
-      if (priority != null) 'priority': priority,
-      if (tags != null) 'tags': tags,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/ephemeris',
-      exceptionFnMap: _exceptionFns,
-    );
-    return EphemerisIdResponse.fromJson(response);
-  }
-
-  /// Creates a mission profile.
-  ///
-  /// <code>dataflowEdges</code> is a list of lists of strings. Each lower level
-  /// list of strings has two elements: a <i>from</i> ARN and a <i>to</i> ARN.
-  ///
-  /// May throw [InvalidParameterException].
-  /// May throw [DependencyException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [dataflowEdges] :
-  /// A list of lists of ARNs. Each list of ARNs is an edge, with a <i>from</i>
-  /// <code>Config</code> and a <i>to</i> <code>Config</code>.
-  ///
-  /// Parameter [minimumViableContactDurationSeconds] :
-  /// Smallest amount of time in seconds that you’d like to see for an available
-  /// contact. AWS Ground Station will not present you with contacts shorter
-  /// than this duration.
-  ///
-  /// Parameter [name] :
-  /// Name of a mission profile.
-  ///
-  /// Parameter [trackingConfigArn] :
-  /// ARN of a tracking <code>Config</code>.
-  ///
-  /// Parameter [contactPostPassDurationSeconds] :
-  /// Amount of time after a contact ends that you’d like to receive a Ground
-  /// Station Contact State Change event indicating the pass has finished.
-  ///
-  /// Parameter [contactPrePassDurationSeconds] :
-  /// Amount of time prior to contact start you’d like to receive a Ground
-  /// Station Contact State Change event indicating an upcoming pass.
-  ///
-  /// Parameter [streamsKmsKey] :
-  /// KMS key to use for encrypting streams.
-  ///
-  /// Parameter [streamsKmsRole] :
-  /// Role to use for encrypting streams with KMS key.
-  ///
-  /// Parameter [tags] :
-  /// Tags assigned to a mission profile.
-  Future<MissionProfileIdResponse> createMissionProfile({
-    required List<List<String>> dataflowEdges,
-    required int minimumViableContactDurationSeconds,
-    required String name,
-    required String trackingConfigArn,
-    int? contactPostPassDurationSeconds,
-    int? contactPrePassDurationSeconds,
-    KmsKey? streamsKmsKey,
-    String? streamsKmsRole,
-    Map<String, String>? tags,
-  }) async {
-    _s.validateNumRange(
-      'minimumViableContactDurationSeconds',
-      minimumViableContactDurationSeconds,
-      1,
-      21600,
-      isRequired: true,
-    );
-    _s.validateNumRange(
-      'contactPostPassDurationSeconds',
-      contactPostPassDurationSeconds,
-      0,
-      21600,
-    );
-    _s.validateNumRange(
-      'contactPrePassDurationSeconds',
-      contactPrePassDurationSeconds,
-      0,
-      21600,
-    );
-    final $payload = <String, dynamic>{
-      'dataflowEdges': dataflowEdges,
-      'minimumViableContactDurationSeconds':
-          minimumViableContactDurationSeconds,
-      'name': name,
-      'trackingConfigArn': trackingConfigArn,
-      if (contactPostPassDurationSeconds != null)
-        'contactPostPassDurationSeconds': contactPostPassDurationSeconds,
-      if (contactPrePassDurationSeconds != null)
-        'contactPrePassDurationSeconds': contactPrePassDurationSeconds,
-      if (streamsKmsKey != null) 'streamsKmsKey': streamsKmsKey,
-      if (streamsKmsRole != null) 'streamsKmsRole': streamsKmsRole,
-      if (tags != null) 'tags': tags,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/missionprofile',
-      exceptionFnMap: _exceptionFns,
-    );
-    return MissionProfileIdResponse.fromJson(response);
-  }
-
-  /// Deletes a <code>Config</code>.
-  ///
-  /// May throw [InvalidParameterException].
-  /// May throw [DependencyException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [configId] :
-  /// UUID of a <code>Config</code>.
-  ///
-  /// Parameter [configType] :
-  /// Type of a <code>Config</code>.
-  Future<ConfigIdResponse> deleteConfig({
-    required String configId,
-    required ConfigCapabilityType configType,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'DELETE',
-      requestUri:
-          '/config/${Uri.encodeComponent(configType.value)}/${Uri.encodeComponent(configId)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return ConfigIdResponse.fromJson(response);
-  }
-
-  /// Deletes a dataflow endpoint group.
-  ///
-  /// May throw [InvalidParameterException].
-  /// May throw [DependencyException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [dataflowEndpointGroupId] :
-  /// UUID of a dataflow endpoint group.
-  Future<DataflowEndpointGroupIdResponse> deleteDataflowEndpointGroup({
-    required String dataflowEndpointGroupId,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'DELETE',
-      requestUri:
-          '/dataflowEndpointGroup/${Uri.encodeComponent(dataflowEndpointGroupId)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return DataflowEndpointGroupIdResponse.fromJson(response);
-  }
-
-  /// Deletes an ephemeris
-  ///
-  /// May throw [InvalidParameterException].
-  /// May throw [DependencyException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [ephemerisId] :
-  /// The AWS Ground Station ephemeris ID.
-  Future<EphemerisIdResponse> deleteEphemeris({
-    required String ephemerisId,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'DELETE',
-      requestUri: '/ephemeris/${Uri.encodeComponent(ephemerisId)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return EphemerisIdResponse.fromJson(response);
-  }
-
-  /// Deletes a mission profile.
-  ///
-  /// May throw [InvalidParameterException].
-  /// May throw [DependencyException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [missionProfileId] :
-  /// UUID of a mission profile.
-  Future<MissionProfileIdResponse> deleteMissionProfile({
-    required String missionProfileId,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'DELETE',
-      requestUri: '/missionprofile/${Uri.encodeComponent(missionProfileId)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return MissionProfileIdResponse.fromJson(response);
-  }
-
-  /// Describes an existing contact.
-  ///
-  /// May throw [InvalidParameterException].
-  /// May throw [DependencyException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [contactId] :
-  /// UUID of a contact.
-  Future<DescribeContactResponse> describeContact({
-    required String contactId,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/contact/${Uri.encodeComponent(contactId)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return DescribeContactResponse.fromJson(response);
-  }
-
-  /// Describes an existing ephemeris.
-  ///
-  /// May throw [InvalidParameterException].
-  /// May throw [DependencyException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [ephemerisId] :
-  /// The AWS Ground Station ephemeris ID.
-  Future<DescribeEphemerisResponse> describeEphemeris({
-    required String ephemerisId,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/ephemeris/${Uri.encodeComponent(ephemerisId)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return DescribeEphemerisResponse.fromJson(response);
-  }
-
   /// <note>
   /// For use by AWS Ground Station Agent and shouldn't be called directly.
   /// </note>
-  /// Gets the latest configuration information for a registered agent.
+  /// Gets a presigned URL for uploading agent task response logs.
   ///
-  /// May throw [InvalidParameterException].
   /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [agentId] :
-  /// UUID of agent to get configuration information for.
-  Future<GetAgentConfigurationResponse> getAgentConfiguration({
+  /// UUID of agent requesting the response URL.
+  ///
+  /// Parameter [taskId] :
+  /// GUID of the agent task for which the response URL is being requested.
+  Future<GetAgentTaskResponseUrlResponse> getAgentTaskResponseUrl({
     required String agentId,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/agent/${Uri.encodeComponent(agentId)}/configuration',
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetAgentConfigurationResponse.fromJson(response);
-  }
-
-  /// Returns <code>Config</code> information.
-  ///
-  /// Only one <code>Config</code> response can be returned.
-  ///
-  /// May throw [InvalidParameterException].
-  /// May throw [DependencyException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [configId] :
-  /// UUID of a <code>Config</code>.
-  ///
-  /// Parameter [configType] :
-  /// Type of a <code>Config</code>.
-  Future<GetConfigResponse> getConfig({
-    required String configId,
-    required ConfigCapabilityType configType,
+    required String taskId,
   }) async {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/config/${Uri.encodeComponent(configType.value)}/${Uri.encodeComponent(configId)}',
+          '/agentResponseUrl/${Uri.encodeComponent(agentId)}/${Uri.encodeComponent(taskId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return GetConfigResponse.fromJson(response);
-  }
-
-  /// Returns the dataflow endpoint group.
-  ///
-  /// May throw [InvalidParameterException].
-  /// May throw [DependencyException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [dataflowEndpointGroupId] :
-  /// UUID of a dataflow endpoint group.
-  Future<GetDataflowEndpointGroupResponse> getDataflowEndpointGroup({
-    required String dataflowEndpointGroupId,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri:
-          '/dataflowEndpointGroup/${Uri.encodeComponent(dataflowEndpointGroupId)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetDataflowEndpointGroupResponse.fromJson(response);
+    return GetAgentTaskResponseUrlResponse.fromJson(response);
   }
 
   /// Returns the number of reserved minutes used by account.
   ///
-  /// May throw [InvalidParameterException].
   /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [month] :
@@ -589,368 +123,10 @@ class GroundStation {
     return GetMinuteUsageResponse.fromJson(response);
   }
 
-  /// Returns a mission profile.
-  ///
-  /// May throw [InvalidParameterException].
-  /// May throw [DependencyException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [missionProfileId] :
-  /// UUID of a mission profile.
-  Future<GetMissionProfileResponse> getMissionProfile({
-    required String missionProfileId,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/missionprofile/${Uri.encodeComponent(missionProfileId)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetMissionProfileResponse.fromJson(response);
-  }
-
-  /// Returns a satellite.
-  ///
-  /// May throw [InvalidParameterException].
-  /// May throw [DependencyException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [satelliteId] :
-  /// UUID of a satellite.
-  Future<GetSatelliteResponse> getSatellite({
-    required String satelliteId,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/satellite/${Uri.encodeComponent(satelliteId)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetSatelliteResponse.fromJson(response);
-  }
-
-  /// Returns a list of <code>Config</code> objects.
-  ///
-  /// May throw [InvalidParameterException].
-  /// May throw [DependencyException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [maxResults] :
-  /// Maximum number of <code>Configs</code> returned.
-  ///
-  /// Parameter [nextToken] :
-  /// Next token returned in the request of a previous <code>ListConfigs</code>
-  /// call. Used to get the next page of results.
-  Future<ListConfigsResponse> listConfigs({
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      0,
-      100,
-    );
-    final $query = <String, List<String>>{
-      if (maxResults != null) 'maxResults': [maxResults.toString()],
-      if (nextToken != null) 'nextToken': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/config',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListConfigsResponse.fromJson(response);
-  }
-
-  /// Returns a list of contacts.
-  ///
-  /// If <code>statusList</code> contains AVAILABLE, the request must include
-  /// <code>groundStation</code>, <code>missionprofileArn</code>, and
-  /// <code>satelliteArn</code>.
-  ///
-  /// May throw [InvalidParameterException].
-  /// May throw [DependencyException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [endTime] :
-  /// End time of a contact in UTC.
-  ///
-  /// Parameter [startTime] :
-  /// Start time of a contact in UTC.
-  ///
-  /// Parameter [statusList] :
-  /// Status of a contact reservation.
-  ///
-  /// Parameter [groundStation] :
-  /// Name of a ground station.
-  ///
-  /// Parameter [maxResults] :
-  /// Maximum number of contacts returned.
-  ///
-  /// Parameter [missionProfileArn] :
-  /// ARN of a mission profile.
-  ///
-  /// Parameter [nextToken] :
-  /// Next token returned in the request of a previous <code>ListContacts</code>
-  /// call. Used to get the next page of results.
-  ///
-  /// Parameter [satelliteArn] :
-  /// ARN of a satellite.
-  Future<ListContactsResponse> listContacts({
-    required DateTime endTime,
-    required DateTime startTime,
-    required List<ContactStatus> statusList,
-    String? groundStation,
-    int? maxResults,
-    String? missionProfileArn,
-    String? nextToken,
-    String? satelliteArn,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      0,
-      100,
-    );
-    final $payload = <String, dynamic>{
-      'endTime': unixTimestampToJson(endTime),
-      'startTime': unixTimestampToJson(startTime),
-      'statusList': statusList.map((e) => e.value).toList(),
-      if (groundStation != null) 'groundStation': groundStation,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (missionProfileArn != null) 'missionProfileArn': missionProfileArn,
-      if (nextToken != null) 'nextToken': nextToken,
-      if (satelliteArn != null) 'satelliteArn': satelliteArn,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/contacts',
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListContactsResponse.fromJson(response);
-  }
-
-  /// Returns a list of <code>DataflowEndpoint</code> groups.
-  ///
-  /// May throw [InvalidParameterException].
-  /// May throw [DependencyException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [maxResults] :
-  /// Maximum number of dataflow endpoint groups returned.
-  ///
-  /// Parameter [nextToken] :
-  /// Next token returned in the request of a previous
-  /// <code>ListDataflowEndpointGroups</code> call. Used to get the next page of
-  /// results.
-  Future<ListDataflowEndpointGroupsResponse> listDataflowEndpointGroups({
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      0,
-      100,
-    );
-    final $query = <String, List<String>>{
-      if (maxResults != null) 'maxResults': [maxResults.toString()],
-      if (nextToken != null) 'nextToken': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/dataflowEndpointGroup',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListDataflowEndpointGroupsResponse.fromJson(response);
-  }
-
-  /// List existing ephemerides.
-  ///
-  /// May throw [InvalidParameterException].
-  /// May throw [DependencyException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [endTime] :
-  /// The end time to list in UTC. The operation will return an ephemeris if its
-  /// expiration time is within the time range defined by the
-  /// <code>startTime</code> and <code>endTime</code>.
-  ///
-  /// Parameter [satelliteId] :
-  /// The AWS Ground Station satellite ID to list ephemeris for.
-  ///
-  /// Parameter [startTime] :
-  /// The start time to list in UTC. The operation will return an ephemeris if
-  /// its expiration time is within the time range defined by the
-  /// <code>startTime</code> and <code>endTime</code>.
-  ///
-  /// Parameter [maxResults] :
-  /// Maximum number of ephemerides to return.
-  ///
-  /// Parameter [nextToken] :
-  /// Pagination token.
-  ///
-  /// Parameter [statusList] :
-  /// The list of ephemeris status to return.
-  Future<ListEphemeridesResponse> listEphemerides({
-    required DateTime endTime,
-    required String satelliteId,
-    required DateTime startTime,
-    int? maxResults,
-    String? nextToken,
-    List<EphemerisStatus>? statusList,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      0,
-      100,
-    );
-    final $query = <String, List<String>>{
-      if (maxResults != null) 'maxResults': [maxResults.toString()],
-      if (nextToken != null) 'nextToken': [nextToken],
-    };
-    final $payload = <String, dynamic>{
-      'endTime': unixTimestampToJson(endTime),
-      'satelliteId': satelliteId,
-      'startTime': unixTimestampToJson(startTime),
-      if (statusList != null)
-        'statusList': statusList.map((e) => e.value).toList(),
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/ephemerides',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListEphemeridesResponse.fromJson(response);
-  }
-
-  /// Returns a list of ground stations.
-  ///
-  /// May throw [InvalidParameterException].
-  /// May throw [DependencyException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [maxResults] :
-  /// Maximum number of ground stations returned.
-  ///
-  /// Parameter [nextToken] :
-  /// Next token that can be supplied in the next call to get the next page of
-  /// ground stations.
-  ///
-  /// Parameter [satelliteId] :
-  /// Satellite ID to retrieve on-boarded ground stations.
-  Future<ListGroundStationsResponse> listGroundStations({
-    int? maxResults,
-    String? nextToken,
-    String? satelliteId,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      0,
-      100,
-    );
-    final $query = <String, List<String>>{
-      if (maxResults != null) 'maxResults': [maxResults.toString()],
-      if (nextToken != null) 'nextToken': [nextToken],
-      if (satelliteId != null) 'satelliteId': [satelliteId],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/groundstation',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListGroundStationsResponse.fromJson(response);
-  }
-
-  /// Returns a list of mission profiles.
-  ///
-  /// May throw [InvalidParameterException].
-  /// May throw [DependencyException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [maxResults] :
-  /// Maximum number of mission profiles returned.
-  ///
-  /// Parameter [nextToken] :
-  /// Next token returned in the request of a previous
-  /// <code>ListMissionProfiles</code> call. Used to get the next page of
-  /// results.
-  Future<ListMissionProfilesResponse> listMissionProfiles({
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      0,
-      100,
-    );
-    final $query = <String, List<String>>{
-      if (maxResults != null) 'maxResults': [maxResults.toString()],
-      if (nextToken != null) 'nextToken': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/missionprofile',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListMissionProfilesResponse.fromJson(response);
-  }
-
-  /// Returns a list of satellites.
-  ///
-  /// May throw [InvalidParameterException].
-  /// May throw [DependencyException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [maxResults] :
-  /// Maximum number of satellites returned.
-  ///
-  /// Parameter [nextToken] :
-  /// Next token that can be supplied in the next call to get the next page of
-  /// satellites.
-  Future<ListSatellitesResponse> listSatellites({
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      0,
-      100,
-    );
-    final $query = <String, List<String>>{
-      if (maxResults != null) 'maxResults': [maxResults.toString()],
-      if (nextToken != null) 'nextToken': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/satellite',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListSatellitesResponse.fromJson(response);
-  }
-
   /// Returns a list of tags for a specified resource.
   ///
-  /// May throw [InvalidParameterException].
   /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceArn] :
@@ -967,89 +143,10 @@ class GroundStation {
     return ListTagsForResourceResponse.fromJson(response);
   }
 
-  /// <note>
-  /// For use by AWS Ground Station Agent and shouldn't be called directly.
-  /// </note>
-  /// Registers a new agent with AWS Ground Station.
-  ///
-  /// May throw [InvalidParameterException].
-  /// May throw [DependencyException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [agentDetails] :
-  /// Detailed information about the agent being registered.
-  ///
-  /// Parameter [discoveryData] :
-  /// Data for associating an agent with the capabilities it is managing.
-  Future<RegisterAgentResponse> registerAgent({
-    required AgentDetails agentDetails,
-    required DiscoveryData discoveryData,
-  }) async {
-    final $payload = <String, dynamic>{
-      'agentDetails': agentDetails,
-      'discoveryData': discoveryData,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/agent',
-      exceptionFnMap: _exceptionFns,
-    );
-    return RegisterAgentResponse.fromJson(response);
-  }
-
-  /// Reserves a contact using specified parameters.
-  ///
-  /// May throw [InvalidParameterException].
-  /// May throw [DependencyException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [endTime] :
-  /// End time of a contact in UTC.
-  ///
-  /// Parameter [groundStation] :
-  /// Name of a ground station.
-  ///
-  /// Parameter [missionProfileArn] :
-  /// ARN of a mission profile.
-  ///
-  /// Parameter [satelliteArn] :
-  /// ARN of a satellite
-  ///
-  /// Parameter [startTime] :
-  /// Start time of a contact in UTC.
-  ///
-  /// Parameter [tags] :
-  /// Tags assigned to a contact.
-  Future<ContactIdResponse> reserveContact({
-    required DateTime endTime,
-    required String groundStation,
-    required String missionProfileArn,
-    required String satelliteArn,
-    required DateTime startTime,
-    Map<String, String>? tags,
-  }) async {
-    final $payload = <String, dynamic>{
-      'endTime': unixTimestampToJson(endTime),
-      'groundStation': groundStation,
-      'missionProfileArn': missionProfileArn,
-      'satelliteArn': satelliteArn,
-      'startTime': unixTimestampToJson(startTime),
-      if (tags != null) 'tags': tags,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/contact',
-      exceptionFnMap: _exceptionFns,
-    );
-    return ContactIdResponse.fromJson(response);
-  }
-
   /// Assigns a tag to a resource.
   ///
-  /// May throw [InvalidParameterException].
   /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceArn] :
@@ -1074,8 +171,8 @@ class GroundStation {
 
   /// Deassigns a resource tag.
   ///
-  /// May throw [InvalidParameterException].
   /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceArn] :
@@ -1102,10 +199,69 @@ class GroundStation {
   /// <note>
   /// For use by AWS Ground Station Agent and shouldn't be called directly.
   /// </note>
+  /// Registers a new agent with AWS Ground Station.
+  ///
+  /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [agentDetails] :
+  /// Detailed information about the agent being registered.
+  ///
+  /// Parameter [discoveryData] :
+  /// Data for associating an agent with the capabilities it is managing.
+  ///
+  /// Parameter [tags] :
+  /// Tags assigned to an <code>Agent</code>.
+  Future<RegisterAgentResponse> registerAgent({
+    required AgentDetails agentDetails,
+    required DiscoveryData discoveryData,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'agentDetails': agentDetails,
+      'discoveryData': discoveryData,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/agent',
+      exceptionFnMap: _exceptionFns,
+    );
+    return RegisterAgentResponse.fromJson(response);
+  }
+
+  /// <note>
+  /// For use by AWS Ground Station Agent and shouldn't be called directly.
+  /// </note>
+  /// Gets the latest configuration information for a registered agent.
+  ///
+  /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [agentId] :
+  /// UUID of agent to get configuration information for.
+  Future<GetAgentConfigurationResponse> getAgentConfiguration({
+    required String agentId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/agent/${Uri.encodeComponent(agentId)}/configuration',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetAgentConfigurationResponse.fromJson(response);
+  }
+
+  /// <note>
+  /// For use by AWS Ground Station Agent and shouldn't be called directly.
+  /// </note>
   /// Update the status of the agent.
   ///
-  /// May throw [InvalidParameterException].
   /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [agentId] :
@@ -1139,13 +295,77 @@ class GroundStation {
     return UpdateAgentStatusResponse.fromJson(response);
   }
 
+  /// Creates a <code>Config</code> with the specified <code>configData</code>
+  /// parameters.
+  ///
+  /// Only one type of <code>configData</code> can be specified.
+  ///
+  /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceLimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [configData] :
+  /// Parameters of a <code>Config</code>.
+  ///
+  /// Parameter [name] :
+  /// Name of a <code>Config</code>.
+  ///
+  /// Parameter [tags] :
+  /// Tags assigned to a <code>Config</code>.
+  Future<ConfigIdResponse> createConfig({
+    required ConfigTypeData configData,
+    required String name,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'configData': configData,
+      'name': name,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/config',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ConfigIdResponse.fromJson(response);
+  }
+
+  /// Returns <code>Config</code> information.
+  ///
+  /// Only one <code>Config</code> response can be returned.
+  ///
+  /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [configId] :
+  /// UUID of a <code>Config</code>.
+  ///
+  /// Parameter [configType] :
+  /// Type of a <code>Config</code>.
+  Future<GetConfigResponse> getConfig({
+    required String configId,
+    required ConfigCapabilityType configType,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/config/${Uri.encodeComponent(configType.value)}/${Uri.encodeComponent(configId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetConfigResponse.fromJson(response);
+  }
+
   /// Updates the <code>Config</code> used when scheduling contacts.
   ///
   /// Updating a <code>Config</code> will not update the execution parameters
   /// for existing future contacts scheduled with this <code>Config</code>.
   ///
-  /// May throw [InvalidParameterException].
   /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [configData] :
@@ -1179,31 +399,703 @@ class GroundStation {
     return ConfigIdResponse.fromJson(response);
   }
 
-  /// Updates an existing ephemeris
+  /// Deletes a <code>Config</code>.
   ///
-  /// May throw [InvalidParameterException].
   /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [configId] :
+  /// UUID of a <code>Config</code>.
+  ///
+  /// Parameter [configType] :
+  /// Type of a <code>Config</code>.
+  Future<ConfigIdResponse> deleteConfig({
+    required String configId,
+    required ConfigCapabilityType configType,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/config/${Uri.encodeComponent(configType.value)}/${Uri.encodeComponent(configId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ConfigIdResponse.fromJson(response);
+  }
+
+  /// Returns a list of <code>Config</code> objects.
+  ///
+  /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [maxResults] :
+  /// Maximum number of <code>Configs</code> returned.
+  ///
+  /// Parameter [nextToken] :
+  /// Next token returned in the request of a previous <code>ListConfigs</code>
+  /// call. Used to get the next page of results.
+  Future<ListConfigsResponse> listConfigs({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/config',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListConfigsResponse.fromJson(response);
+  }
+
+  /// Reserves a contact using specified parameters.
+  ///
+  /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceLimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [endTime] :
+  /// End time of a contact in UTC.
+  ///
+  /// Parameter [groundStation] :
+  /// Name of a ground station.
+  ///
+  /// Parameter [missionProfileArn] :
+  /// ARN of a mission profile.
+  ///
+  /// Parameter [startTime] :
+  /// Start time of a contact in UTC.
+  ///
+  /// Parameter [satelliteArn] :
+  /// ARN of a satellite
+  ///
+  /// Parameter [tags] :
+  /// Tags assigned to a contact.
+  ///
+  /// Parameter [trackingOverrides] :
+  /// Tracking configuration overrides for the contact.
+  Future<ContactIdResponse> reserveContact({
+    required DateTime endTime,
+    required String groundStation,
+    required String missionProfileArn,
+    required DateTime startTime,
+    String? satelliteArn,
+    Map<String, String>? tags,
+    TrackingOverrides? trackingOverrides,
+  }) async {
+    final $payload = <String, dynamic>{
+      'endTime': unixTimestampToJson(endTime),
+      'groundStation': groundStation,
+      'missionProfileArn': missionProfileArn,
+      'startTime': unixTimestampToJson(startTime),
+      if (satelliteArn != null) 'satelliteArn': satelliteArn,
+      if (tags != null) 'tags': tags,
+      if (trackingOverrides != null) 'trackingOverrides': trackingOverrides,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/contact',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ContactIdResponse.fromJson(response);
+  }
+
+  /// Describes an existing contact.
+  ///
+  /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [contactId] :
+  /// UUID of a contact.
+  Future<DescribeContactResponse> describeContact({
+    required String contactId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/contact/${Uri.encodeComponent(contactId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeContactResponse.fromJson(response);
+  }
+
+  /// Updates a specific contact.
+  ///
+  /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceLimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [contactId] :
+  /// UUID of a contact.
+  ///
+  /// Parameter [clientToken] :
+  /// A client token is a unique, case-sensitive string of up to 64 ASCII
+  /// characters. It is generated by the client to ensure idempotent operations,
+  /// allowing safe retries without unintended side effects.
+  ///
+  /// Parameter [satelliteArn] :
+  /// ARN of a satellite.
+  Future<UpdateContactResponse> updateContact({
+    required String contactId,
+    String? clientToken,
+    String? satelliteArn,
+    TrackingOverrides? trackingOverrides,
+  }) async {
+    final $payload = <String, dynamic>{
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (satelliteArn != null) 'satelliteArn': satelliteArn,
+      if (trackingOverrides != null) 'trackingOverrides': trackingOverrides,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/contact/${Uri.encodeComponent(contactId)}/versions',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateContactResponse.fromJson(response);
+  }
+
+  /// Cancels or stops a contact with a specified contact ID based on its
+  /// position in the <a
+  /// href="https://docs.aws.amazon.com/ground-station/latest/ug/contacts.lifecycle.html">contact
+  /// lifecycle</a>.
+  ///
+  /// For contacts that:
+  ///
+  /// <ul>
+  /// <li>
+  /// Have yet to start, the contact will be cancelled.
+  /// </li>
+  /// <li>
+  /// Have started but have yet to finish, the contact will be stopped.
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [contactId] :
+  /// UUID of a contact.
+  Future<ContactIdResponse> cancelContact({
+    required String contactId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/contact/${Uri.encodeComponent(contactId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ContactIdResponse.fromJson(response);
+  }
+
+  /// Returns a list of contacts.
+  ///
+  /// If <code>statusList</code> contains AVAILABLE, the request must include
+  /// <code> groundStation</code>, <code>missionprofileArn</code>, and
+  /// <code>satelliteArn</code>.
+  ///
+  /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [endTime] :
+  /// End time of a contact in UTC.
+  ///
+  /// Parameter [startTime] :
+  /// Start time of a contact in UTC.
+  ///
+  /// Parameter [statusList] :
+  /// Status of a contact reservation.
+  ///
+  /// Parameter [ephemeris] :
+  /// Filter for selecting contacts that use a specific ephemeris".
+  ///
+  /// Parameter [groundStation] :
+  /// Name of a ground station.
+  ///
+  /// Parameter [maxResults] :
+  /// Maximum number of contacts returned.
+  ///
+  /// Parameter [missionProfileArn] :
+  /// ARN of a mission profile.
+  ///
+  /// Parameter [nextToken] :
+  /// Next token returned in the request of a previous <code>ListContacts</code>
+  /// call. Used to get the next page of results.
+  ///
+  /// Parameter [satelliteArn] :
+  /// ARN of a satellite.
+  Future<ListContactsResponse> listContacts({
+    required DateTime endTime,
+    required DateTime startTime,
+    required List<ContactStatus> statusList,
+    EphemerisFilter? ephemeris,
+    String? groundStation,
+    int? maxResults,
+    String? missionProfileArn,
+    String? nextToken,
+    String? satelliteArn,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $payload = <String, dynamic>{
+      'endTime': unixTimestampToJson(endTime),
+      'startTime': unixTimestampToJson(startTime),
+      'statusList': statusList.map((e) => e.value).toList(),
+      if (ephemeris != null) 'ephemeris': ephemeris,
+      if (groundStation != null) 'groundStation': groundStation,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (missionProfileArn != null) 'missionProfileArn': missionProfileArn,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (satelliteArn != null) 'satelliteArn': satelliteArn,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/contacts',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListContactsResponse.fromJson(response);
+  }
+
+  /// Describes a specific version of a contact.
+  ///
+  /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [contactId] :
+  /// UUID of a contact.
+  ///
+  /// Parameter [versionId] :
+  /// Version ID of a contact.
+  Future<DescribeContactVersionResponse> describeContactVersion({
+    required String contactId,
+    required int versionId,
+  }) async {
+    _s.validateNumRange(
+      'versionId',
+      versionId,
+      1,
+      128,
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/contact/${Uri.encodeComponent(contactId)}/versions/${Uri.encodeComponent(versionId.toString())}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeContactVersionResponse.fromJson(response);
+  }
+
+  /// Returns a list of versions for a specified contact.
+  ///
+  /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [contactId] :
+  /// UUID of a contact.
+  ///
+  /// Parameter [maxResults] :
+  /// Maximum number of contact versions returned.
+  ///
+  /// Parameter [nextToken] :
+  /// Next token returned in the request of a previous
+  /// <code>ListContactVersions</code> call. Used to get the next page of
+  /// results.
+  Future<ListContactVersionsResponse> listContactVersions({
+    required String contactId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/contact/${Uri.encodeComponent(contactId)}/versions',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListContactVersionsResponse.fromJson(response);
+  }
+
+  /// Creates a <code>DataflowEndpoint</code> group containing the specified
+  /// list of <code> DataflowEndpoint</code> objects.
+  ///
+  /// The <code>name</code> field in each endpoint is used in your mission
+  /// profile <code> DataflowEndpointConfig</code> to specify which endpoints to
+  /// use during a contact.
+  ///
+  /// When a contact uses multiple <code>DataflowEndpointConfig</code> objects,
+  /// each <code> Config</code> must match a <code>DataflowEndpoint</code> in
+  /// the same group.
+  ///
+  /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [endpointDetails] :
+  /// Endpoint details of each endpoint in the dataflow endpoint group. All
+  /// dataflow endpoints within a single dataflow endpoint group must be of the
+  /// same type. You cannot mix <a
+  /// href="https://docs.aws.amazon.com/ground-station/latest/APIReference/API_AwsGroundStationAgentEndpoint.html">
+  /// AWS Ground Station Agent endpoints</a> with <a
+  /// href="https://docs.aws.amazon.com/ground-station/latest/APIReference/API_DataflowEndpoint.html">Dataflow
+  /// endpoints</a> in the same group. If your use case requires both types of
+  /// endpoints, you must create separate dataflow endpoint groups for each
+  /// type.
+  ///
+  /// Parameter [contactPostPassDurationSeconds] :
+  /// Amount of time, in seconds, after a contact ends that the Ground Station
+  /// Dataflow Endpoint Group will be in a <code>POSTPASS</code> state. A <a
+  /// href="https://docs.aws.amazon.com/ground-station/latest/ug/monitoring.automating-events.html">Ground
+  /// Station Dataflow Endpoint Group State Change event</a> will be emitted
+  /// when the Dataflow Endpoint Group enters and exits the
+  /// <code>POSTPASS</code> state.
+  ///
+  /// Parameter [contactPrePassDurationSeconds] :
+  /// Amount of time, in seconds, before a contact starts that the Ground
+  /// Station Dataflow Endpoint Group will be in a <code>PREPASS</code> state. A
+  /// <a
+  /// href="https://docs.aws.amazon.com/ground-station/latest/ug/monitoring.automating-events.html">Ground
+  /// Station Dataflow Endpoint Group State Change event</a> will be emitted
+  /// when the Dataflow Endpoint Group enters and exits the <code>PREPASS</code>
+  /// state.
+  ///
+  /// Parameter [tags] :
+  /// Tags of a dataflow endpoint group.
+  Future<DataflowEndpointGroupIdResponse> createDataflowEndpointGroup({
+    required List<EndpointDetails> endpointDetails,
+    int? contactPostPassDurationSeconds,
+    int? contactPrePassDurationSeconds,
+    Map<String, String>? tags,
+  }) async {
+    _s.validateNumRange(
+      'contactPostPassDurationSeconds',
+      contactPostPassDurationSeconds,
+      30,
+      480,
+    );
+    _s.validateNumRange(
+      'contactPrePassDurationSeconds',
+      contactPrePassDurationSeconds,
+      30,
+      480,
+    );
+    final $payload = <String, dynamic>{
+      'endpointDetails': endpointDetails,
+      if (contactPostPassDurationSeconds != null)
+        'contactPostPassDurationSeconds': contactPostPassDurationSeconds,
+      if (contactPrePassDurationSeconds != null)
+        'contactPrePassDurationSeconds': contactPrePassDurationSeconds,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/dataflowEndpointGroup',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DataflowEndpointGroupIdResponse.fromJson(response);
+  }
+
+  /// Returns the dataflow endpoint group.
+  ///
+  /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [dataflowEndpointGroupId] :
+  /// UUID of a dataflow endpoint group.
+  Future<GetDataflowEndpointGroupResponse> getDataflowEndpointGroup({
+    required String dataflowEndpointGroupId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/dataflowEndpointGroup/${Uri.encodeComponent(dataflowEndpointGroupId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetDataflowEndpointGroupResponse.fromJson(response);
+  }
+
+  /// Deletes a dataflow endpoint group.
+  ///
+  /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [dataflowEndpointGroupId] :
+  /// UUID of a dataflow endpoint group.
+  Future<DataflowEndpointGroupIdResponse> deleteDataflowEndpointGroup({
+    required String dataflowEndpointGroupId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/dataflowEndpointGroup/${Uri.encodeComponent(dataflowEndpointGroupId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DataflowEndpointGroupIdResponse.fromJson(response);
+  }
+
+  /// Returns a list of <code>DataflowEndpoint</code> groups.
+  ///
+  /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [maxResults] :
+  /// Maximum number of dataflow endpoint groups returned.
+  ///
+  /// Parameter [nextToken] :
+  /// Next token returned in the request of a previous
+  /// <code>ListDataflowEndpointGroups</code> call. Used to get the next page of
+  /// results.
+  Future<ListDataflowEndpointGroupsResponse> listDataflowEndpointGroups({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/dataflowEndpointGroup',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListDataflowEndpointGroupsResponse.fromJson(response);
+  }
+
+  /// Creates a <code>DataflowEndpoint</code> group containing the specified
+  /// list of Ground Station Agent based endpoints.
+  ///
+  /// The <code>name</code> field in each endpoint is used in your mission
+  /// profile <code> DataflowEndpointConfig</code> to specify which endpoints to
+  /// use during a contact.
+  ///
+  /// When a contact uses multiple <code>DataflowEndpointConfig</code> objects,
+  /// each <code> Config</code> must match a <code>DataflowEndpoint</code> in
+  /// the same group.
+  ///
+  /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [endpoints] :
+  /// Dataflow endpoint group's endpoint definitions
+  ///
+  /// Parameter [contactPostPassDurationSeconds] :
+  /// Amount of time, in seconds, after a contact ends that the Ground Station
+  /// Dataflow Endpoint Group will be in a <code>POSTPASS</code> state. A <a
+  /// href="https://docs.aws.amazon.com/ground-station/latest/ug/monitoring.automating-events.html">Ground
+  /// Station Dataflow Endpoint Group State Change event</a> will be emitted
+  /// when the Dataflow Endpoint Group enters and exits the
+  /// <code>POSTPASS</code> state.
+  ///
+  /// Parameter [contactPrePassDurationSeconds] :
+  /// Amount of time, in seconds, before a contact starts that the Ground
+  /// Station Dataflow Endpoint Group will be in a <code>PREPASS</code> state. A
+  /// <a
+  /// href="https://docs.aws.amazon.com/ground-station/latest/ug/monitoring.automating-events.html">Ground
+  /// Station Dataflow Endpoint Group State Change event</a> will be emitted
+  /// when the Dataflow Endpoint Group enters and exits the <code>PREPASS</code>
+  /// state.
+  ///
+  /// Parameter [tags] :
+  /// Tags of a V2 dataflow endpoint group.
+  Future<CreateDataflowEndpointGroupV2Response> createDataflowEndpointGroupV2({
+    required List<CreateEndpointDetails> endpoints,
+    int? contactPostPassDurationSeconds,
+    int? contactPrePassDurationSeconds,
+    Map<String, String>? tags,
+  }) async {
+    _s.validateNumRange(
+      'contactPostPassDurationSeconds',
+      contactPostPassDurationSeconds,
+      30,
+      480,
+    );
+    _s.validateNumRange(
+      'contactPrePassDurationSeconds',
+      contactPrePassDurationSeconds,
+      30,
+      480,
+    );
+    final $payload = <String, dynamic>{
+      'endpoints': endpoints,
+      if (contactPostPassDurationSeconds != null)
+        'contactPostPassDurationSeconds': contactPostPassDurationSeconds,
+      if (contactPrePassDurationSeconds != null)
+        'contactPrePassDurationSeconds': contactPrePassDurationSeconds,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/dataflowEndpointGroupV2',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateDataflowEndpointGroupV2Response.fromJson(response);
+  }
+
+  /// Create an ephemeris with your specified <a>EphemerisData</a>.
+  ///
+  /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [name] :
+  /// A name that you can use to identify the ephemeris.
+  ///
+  /// Parameter [enabled] :
+  /// Set to <code>true</code> to enable the ephemeris after validation. Set to
+  /// <code>false</code> to keep it disabled.
+  ///
+  /// Parameter [ephemeris] :
+  /// Ephemeris data.
+  ///
+  /// Parameter [expirationTime] :
+  /// An overall expiration time for the ephemeris in UTC, after which it will
+  /// become <code>EXPIRED</code>.
+  ///
+  /// Parameter [kmsKeyArn] :
+  /// The ARN of the KMS key to use for encrypting the ephemeris.
+  ///
+  /// Parameter [priority] :
+  /// A priority score that determines which ephemeris to use when multiple
+  /// ephemerides overlap.
+  ///
+  /// Higher numbers take precedence. The default is 1. Must be 1 or greater.
+  ///
+  /// Parameter [satelliteId] :
+  /// The satellite ID that associates this ephemeris with a satellite in AWS
+  /// Ground Station.
+  ///
+  /// Parameter [tags] :
+  /// Tags assigned to an ephemeris.
+  Future<EphemerisIdResponse> createEphemeris({
+    required String name,
+    bool? enabled,
+    EphemerisData? ephemeris,
+    DateTime? expirationTime,
+    String? kmsKeyArn,
+    int? priority,
+    String? satelliteId,
+    Map<String, String>? tags,
+  }) async {
+    _s.validateNumRange(
+      'priority',
+      priority,
+      1,
+      99999,
+    );
+    final $payload = <String, dynamic>{
+      'name': name,
+      if (enabled != null) 'enabled': enabled,
+      if (ephemeris != null) 'ephemeris': ephemeris,
+      if (expirationTime != null)
+        'expirationTime': unixTimestampToJson(expirationTime),
+      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
+      if (priority != null) 'priority': priority,
+      if (satelliteId != null) 'satelliteId': satelliteId,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/ephemeris',
+      exceptionFnMap: _exceptionFns,
+    );
+    return EphemerisIdResponse.fromJson(response);
+  }
+
+  /// Retrieve information about an existing ephemeris.
+  ///
+  /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [ephemerisId] :
+  /// The AWS Ground Station ephemeris ID.
+  Future<DescribeEphemerisResponse> describeEphemeris({
+    required String ephemerisId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/ephemeris/${Uri.encodeComponent(ephemerisId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeEphemerisResponse.fromJson(response);
+  }
+
+  /// Update an existing ephemeris.
+  ///
+  /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [enabled] :
-  /// Whether the ephemeris is enabled or not. Changing this value will not
-  /// require the ephemeris to be re-validated.
+  /// Enable or disable the ephemeris. Changing this value doesn't require
+  /// re-validation.
   ///
   /// Parameter [ephemerisId] :
   /// The AWS Ground Station ephemeris ID.
   ///
   /// Parameter [name] :
-  /// A name string associated with the ephemeris. Used as a human-readable
-  /// identifier for the ephemeris.
+  /// A name that you can use to identify the ephemeris.
   ///
   /// Parameter [priority] :
-  /// Customer-provided priority score to establish the order in which
-  /// overlapping ephemerides should be used.
+  /// A priority score that determines which ephemeris to use when multiple
+  /// ephemerides overlap.
   ///
-  /// The default for customer-provided ephemeris priority is 1, and higher
-  /// numbers take precedence.
-  ///
-  /// Priority must be 1 or greater
+  /// Higher numbers take precedence. The default is 1. Must be 1 or greater.
   Future<EphemerisIdResponse> updateEphemeris({
     required bool enabled,
     required String ephemerisId,
@@ -1230,32 +1122,376 @@ class GroundStation {
     return EphemerisIdResponse.fromJson(response);
   }
 
+  /// Delete an ephemeris.
+  ///
+  /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [ephemerisId] :
+  /// The AWS Ground Station ephemeris ID.
+  Future<EphemerisIdResponse> deleteEphemeris({
+    required String ephemerisId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/ephemeris/${Uri.encodeComponent(ephemerisId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return EphemerisIdResponse.fromJson(response);
+  }
+
+  /// List your existing ephemerides.
+  ///
+  /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [endTime] :
+  /// The end time for the list operation in UTC. Returns ephemerides with
+  /// expiration times within your specified time range.
+  ///
+  /// Parameter [startTime] :
+  /// The start time for the list operation in UTC. Returns ephemerides with
+  /// expiration times within your specified time range.
+  ///
+  /// Parameter [ephemerisType] :
+  /// Filter ephemerides by type. If not specified, all ephemeris types will be
+  /// returned.
+  ///
+  /// Parameter [maxResults] :
+  /// Maximum number of ephemerides to return.
+  ///
+  /// Parameter [nextToken] :
+  /// Pagination token.
+  ///
+  /// Parameter [satelliteId] :
+  /// The AWS Ground Station satellite ID to list ephemeris for.
+  ///
+  /// Parameter [statusList] :
+  /// The list of ephemeris status to return.
+  Future<ListEphemeridesResponse> listEphemerides({
+    required DateTime endTime,
+    required DateTime startTime,
+    EphemerisType? ephemerisType,
+    int? maxResults,
+    String? nextToken,
+    String? satelliteId,
+    List<EphemerisStatus>? statusList,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final $payload = <String, dynamic>{
+      'endTime': unixTimestampToJson(endTime),
+      'startTime': unixTimestampToJson(startTime),
+      if (ephemerisType != null) 'ephemerisType': ephemerisType.value,
+      if (satelliteId != null) 'satelliteId': satelliteId,
+      if (statusList != null)
+        'statusList': statusList.map((e) => e.value).toList(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/ephemerides',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListEphemeridesResponse.fromJson(response);
+  }
+
+  /// Returns a list of ground stations.
+  ///
+  /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [maxResults] :
+  /// Maximum number of ground stations returned.
+  ///
+  /// Parameter [nextToken] :
+  /// Next token that can be supplied in the next call to get the next page of
+  /// ground stations.
+  ///
+  /// Parameter [satelliteId] :
+  /// Satellite ID to retrieve on-boarded ground stations.
+  Future<ListGroundStationsResponse> listGroundStations({
+    int? maxResults,
+    String? nextToken,
+    String? satelliteId,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (satelliteId != null) 'satelliteId': [satelliteId],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/groundstation',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListGroundStationsResponse.fromJson(response);
+  }
+
+  /// Returns a list of antennas at a specified ground station.
+  ///
+  /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
+  ///
+  /// Parameter [groundStationId] :
+  /// ID of a ground station.
+  ///
+  /// Parameter [maxResults] :
+  /// Maximum number of antennas returned.
+  ///
+  /// Parameter [nextToken] :
+  /// Next token returned in the request of a previous <code>ListAntennas</code>
+  /// call. Used to get the next page of results.
+  Future<ListAntennasResponse> listAntennas({
+    required String groundStationId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/groundstation/${Uri.encodeComponent(groundStationId)}/antenna',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListAntennasResponse.fromJson(response);
+  }
+
+  /// Returns a list of reservations for a specified ground station.
+  ///
+  /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
+  ///
+  /// Parameter [endTime] :
+  /// End time of the reservation window in UTC.
+  ///
+  /// Parameter [groundStationId] :
+  /// ID of a ground station.
+  ///
+  /// Parameter [startTime] :
+  /// Start time of the reservation window in UTC.
+  ///
+  /// Parameter [maxResults] :
+  /// Maximum number of ground station reservations returned.
+  ///
+  /// Parameter [nextToken] :
+  /// Next token returned in the request of a previous
+  /// <code>ListGroundStationReservations</code> call. Used to get the next page
+  /// of results.
+  ///
+  /// Parameter [reservationTypes] :
+  /// Types of reservations to filter by.
+  Future<ListGroundStationReservationsResponse> listGroundStationReservations({
+    required DateTime endTime,
+    required String groundStationId,
+    required DateTime startTime,
+    int? maxResults,
+    String? nextToken,
+    List<ReservationType>? reservationTypes,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      'endTime': [_s.unixTimestampToJson(endTime).toString().toString()],
+      'startTime': [_s.unixTimestampToJson(startTime).toString().toString()],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (reservationTypes != null)
+        'reservationTypes': reservationTypes.map((e) => e.value).toList(),
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/groundstation/${Uri.encodeComponent(groundStationId)}/reservation',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListGroundStationReservationsResponse.fromJson(response);
+  }
+
+  /// Creates a mission profile.
+  ///
+  /// <code>dataflowEdges</code> is a list of lists of strings. Each lower level
+  /// list of strings has two elements: a <i>from</i> ARN and a <i>to</i> ARN.
+  ///
+  /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [dataflowEdges] :
+  /// A list of lists of ARNs. Each list of ARNs is an edge, with a <i>from</i>
+  /// <code> Config</code> and a <i>to</i> <code>Config</code>.
+  ///
+  /// Parameter [minimumViableContactDurationSeconds] :
+  /// Smallest amount of time in seconds that you'd like to see for an available
+  /// contact. AWS Ground Station will not present you with contacts shorter
+  /// than this duration.
+  ///
+  /// Parameter [name] :
+  /// Name of a mission profile.
+  ///
+  /// Parameter [trackingConfigArn] :
+  /// ARN of a tracking <code>Config</code>.
+  ///
+  /// Parameter [contactPostPassDurationSeconds] :
+  /// Amount of time after a contact ends that you'd like to receive a Ground
+  /// Station Contact State Change event indicating the pass has finished.
+  ///
+  /// Parameter [contactPrePassDurationSeconds] :
+  /// Amount of time prior to contact start you'd like to receive a Ground
+  /// Station Contact State Change event indicating an upcoming pass.
+  ///
+  /// Parameter [streamsKmsKey] :
+  /// KMS key to use for encrypting streams.
+  ///
+  /// Parameter [streamsKmsRole] :
+  /// Role to use for encrypting streams with KMS key.
+  ///
+  /// Parameter [tags] :
+  /// Tags assigned to a mission profile.
+  ///
+  /// Parameter [telemetrySinkConfigArn] :
+  /// ARN of a telemetry sink <code>Config</code>.
+  Future<MissionProfileIdResponse> createMissionProfile({
+    required List<List<String>> dataflowEdges,
+    required int minimumViableContactDurationSeconds,
+    required String name,
+    required String trackingConfigArn,
+    int? contactPostPassDurationSeconds,
+    int? contactPrePassDurationSeconds,
+    KmsKey? streamsKmsKey,
+    String? streamsKmsRole,
+    Map<String, String>? tags,
+    String? telemetrySinkConfigArn,
+  }) async {
+    _s.validateNumRange(
+      'minimumViableContactDurationSeconds',
+      minimumViableContactDurationSeconds,
+      1,
+      21600,
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'contactPostPassDurationSeconds',
+      contactPostPassDurationSeconds,
+      0,
+      21600,
+    );
+    _s.validateNumRange(
+      'contactPrePassDurationSeconds',
+      contactPrePassDurationSeconds,
+      0,
+      21600,
+    );
+    final $payload = <String, dynamic>{
+      'dataflowEdges': dataflowEdges,
+      'minimumViableContactDurationSeconds':
+          minimumViableContactDurationSeconds,
+      'name': name,
+      'trackingConfigArn': trackingConfigArn,
+      if (contactPostPassDurationSeconds != null)
+        'contactPostPassDurationSeconds': contactPostPassDurationSeconds,
+      if (contactPrePassDurationSeconds != null)
+        'contactPrePassDurationSeconds': contactPrePassDurationSeconds,
+      if (streamsKmsKey != null) 'streamsKmsKey': streamsKmsKey,
+      if (streamsKmsRole != null) 'streamsKmsRole': streamsKmsRole,
+      if (tags != null) 'tags': tags,
+      if (telemetrySinkConfigArn != null)
+        'telemetrySinkConfigArn': telemetrySinkConfigArn,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/missionprofile',
+      exceptionFnMap: _exceptionFns,
+    );
+    return MissionProfileIdResponse.fromJson(response);
+  }
+
+  /// Returns a mission profile.
+  ///
+  /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [missionProfileId] :
+  /// UUID of a mission profile.
+  Future<GetMissionProfileResponse> getMissionProfile({
+    required String missionProfileId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/missionprofile/${Uri.encodeComponent(missionProfileId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetMissionProfileResponse.fromJson(response);
+  }
+
   /// Updates a mission profile.
   ///
   /// Updating a mission profile will not update the execution parameters for
   /// existing future contacts.
   ///
-  /// May throw [InvalidParameterException].
   /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [missionProfileId] :
   /// UUID of a mission profile.
   ///
   /// Parameter [contactPostPassDurationSeconds] :
-  /// Amount of time after a contact ends that you’d like to receive a Ground
+  /// Amount of time after a contact ends that you'd like to receive a Ground
   /// Station Contact State Change event indicating the pass has finished.
   ///
   /// Parameter [contactPrePassDurationSeconds] :
-  /// Amount of time after a contact ends that you’d like to receive a Ground
+  /// Amount of time after a contact ends that you'd like to receive a Ground
   /// Station Contact State Change event indicating the pass has finished.
   ///
   /// Parameter [dataflowEdges] :
   /// A list of lists of ARNs. Each list of ARNs is an edge, with a <i>from</i>
-  /// <code>Config</code> and a <i>to</i> <code>Config</code>.
+  /// <code> Config</code> and a <i>to</i> <code>Config</code>.
   ///
   /// Parameter [minimumViableContactDurationSeconds] :
-  /// Smallest amount of time in seconds that you’d like to see for an available
+  /// Smallest amount of time in seconds that you'd like to see for an available
   /// contact. AWS Ground Station will not present you with contacts shorter
   /// than this duration.
   ///
@@ -1268,6 +1504,9 @@ class GroundStation {
   /// Parameter [streamsKmsRole] :
   /// Role to use for encrypting streams with KMS key.
   ///
+  /// Parameter [telemetrySinkConfigArn] :
+  /// ARN of a telemetry sink <code>Config</code>.
+  ///
   /// Parameter [trackingConfigArn] :
   /// ARN of a tracking <code>Config</code>.
   Future<MissionProfileIdResponse> updateMissionProfile({
@@ -1279,6 +1518,7 @@ class GroundStation {
     String? name,
     KmsKey? streamsKmsKey,
     String? streamsKmsRole,
+    String? telemetrySinkConfigArn,
     String? trackingConfigArn,
   }) async {
     _s.validateNumRange(
@@ -1311,6 +1551,8 @@ class GroundStation {
       if (name != null) 'name': name,
       if (streamsKmsKey != null) 'streamsKmsKey': streamsKmsKey,
       if (streamsKmsRole != null) 'streamsKmsRole': streamsKmsRole,
+      if (telemetrySinkConfigArn != null)
+        'telemetrySinkConfigArn': telemetrySinkConfigArn,
       if (trackingConfigArn != null) 'trackingConfigArn': trackingConfigArn,
     };
     final response = await _protocol.send(
@@ -1321,76 +1563,1789 @@ class GroundStation {
     );
     return MissionProfileIdResponse.fromJson(response);
   }
+
+  /// Deletes a mission profile.
+  ///
+  /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [missionProfileId] :
+  /// UUID of a mission profile.
+  Future<MissionProfileIdResponse> deleteMissionProfile({
+    required String missionProfileId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/missionprofile/${Uri.encodeComponent(missionProfileId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return MissionProfileIdResponse.fromJson(response);
+  }
+
+  /// Returns a list of mission profiles.
+  ///
+  /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [maxResults] :
+  /// Maximum number of mission profiles returned.
+  ///
+  /// Parameter [nextToken] :
+  /// Next token returned in the request of a previous
+  /// <code>ListMissionProfiles</code> call. Used to get the next page of
+  /// results.
+  Future<ListMissionProfilesResponse> listMissionProfiles({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/missionprofile',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListMissionProfilesResponse.fromJson(response);
+  }
+
+  /// Returns a satellite.
+  ///
+  /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [satelliteId] :
+  /// UUID of a satellite.
+  Future<GetSatelliteResponse> getSatellite({
+    required String satelliteId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/satellite/${Uri.encodeComponent(satelliteId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetSatelliteResponse.fromJson(response);
+  }
+
+  /// Returns a list of satellites.
+  ///
+  /// May throw [DependencyException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [maxResults] :
+  /// Maximum number of satellites returned.
+  ///
+  /// Parameter [nextToken] :
+  /// Next token that can be supplied in the next call to get the next page of
+  /// satellites.
+  Future<ListSatellitesResponse> listSatellites({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/satellite',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListSatellitesResponse.fromJson(response);
+  }
 }
 
-/// Detailed information about the agent.
-class AgentDetails {
-  /// Current agent version.
-  final String agentVersion;
+class GetAgentTaskResponseUrlResponse {
+  /// UUID of the agent.
+  final String agentId;
 
-  /// List of versions being used by agent components.
-  final List<ComponentVersion> componentVersions;
+  /// Presigned URL for uploading agent task response logs.
+  final String presignedLogUrl;
 
-  /// ID of EC2 instance agent is running on.
-  final String instanceId;
+  /// GUID of the agent task.
+  final String taskId;
 
-  /// Type of EC2 instance agent is running on.
-  final String instanceType;
-
-  /// List of CPU cores reserved for the agent.
-  final List<int>? agentCpuCores;
-
-  /// <note>
-  /// This field should not be used. Use agentCpuCores instead.
-  /// </note>
-  /// List of CPU cores reserved for processes other than the agent running on the
-  /// EC2 instance.
-  final List<int>? reservedCpuCores;
-
-  AgentDetails({
-    required this.agentVersion,
-    required this.componentVersions,
-    required this.instanceId,
-    required this.instanceType,
-    this.agentCpuCores,
-    this.reservedCpuCores,
+  GetAgentTaskResponseUrlResponse({
+    required this.agentId,
+    required this.presignedLogUrl,
+    required this.taskId,
   });
 
+  factory GetAgentTaskResponseUrlResponse.fromJson(Map<String, dynamic> json) {
+    return GetAgentTaskResponseUrlResponse(
+      agentId: (json['agentId'] as String?) ?? '',
+      presignedLogUrl: (json['presignedLogUrl'] as String?) ?? '',
+      taskId: (json['taskId'] as String?) ?? '',
+    );
+  }
+
   Map<String, dynamic> toJson() {
-    final agentVersion = this.agentVersion;
-    final componentVersions = this.componentVersions;
-    final instanceId = this.instanceId;
-    final instanceType = this.instanceType;
-    final agentCpuCores = this.agentCpuCores;
-    final reservedCpuCores = this.reservedCpuCores;
+    final agentId = this.agentId;
+    final presignedLogUrl = this.presignedLogUrl;
+    final taskId = this.taskId;
     return {
-      'agentVersion': agentVersion,
-      'componentVersions': componentVersions,
-      'instanceId': instanceId,
-      'instanceType': instanceType,
-      if (agentCpuCores != null) 'agentCpuCores': agentCpuCores,
-      if (reservedCpuCores != null) 'reservedCpuCores': reservedCpuCores,
+      'agentId': agentId,
+      'presignedLogUrl': presignedLogUrl,
+      'taskId': taskId,
     };
   }
 }
 
-class AgentStatus {
-  static const success = AgentStatus._('SUCCESS');
-  static const failed = AgentStatus._('FAILED');
-  static const active = AgentStatus._('ACTIVE');
-  static const inactive = AgentStatus._('INACTIVE');
+/// Output for the <code>GetMinuteUsage</code> operation.
+class GetMinuteUsageResponse {
+  /// Estimated number of minutes remaining for an account, specific to the month
+  /// being requested.
+  final int? estimatedMinutesRemaining;
+
+  /// Returns whether or not an account has signed up for the reserved minutes
+  /// pricing plan, specific to the month being requested.
+  final bool? isReservedMinutesCustomer;
+
+  /// Total number of reserved minutes allocated, specific to the month being
+  /// requested.
+  final int? totalReservedMinuteAllocation;
+
+  /// Total scheduled minutes for an account, specific to the month being
+  /// requested.
+  final int? totalScheduledMinutes;
+
+  /// Upcoming minutes scheduled for an account, specific to the month being
+  /// requested.
+  final int? upcomingMinutesScheduled;
+
+  GetMinuteUsageResponse({
+    this.estimatedMinutesRemaining,
+    this.isReservedMinutesCustomer,
+    this.totalReservedMinuteAllocation,
+    this.totalScheduledMinutes,
+    this.upcomingMinutesScheduled,
+  });
+
+  factory GetMinuteUsageResponse.fromJson(Map<String, dynamic> json) {
+    return GetMinuteUsageResponse(
+      estimatedMinutesRemaining: json['estimatedMinutesRemaining'] as int?,
+      isReservedMinutesCustomer: json['isReservedMinutesCustomer'] as bool?,
+      totalReservedMinuteAllocation:
+          json['totalReservedMinuteAllocation'] as int?,
+      totalScheduledMinutes: json['totalScheduledMinutes'] as int?,
+      upcomingMinutesScheduled: json['upcomingMinutesScheduled'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final estimatedMinutesRemaining = this.estimatedMinutesRemaining;
+    final isReservedMinutesCustomer = this.isReservedMinutesCustomer;
+    final totalReservedMinuteAllocation = this.totalReservedMinuteAllocation;
+    final totalScheduledMinutes = this.totalScheduledMinutes;
+    final upcomingMinutesScheduled = this.upcomingMinutesScheduled;
+    return {
+      if (estimatedMinutesRemaining != null)
+        'estimatedMinutesRemaining': estimatedMinutesRemaining,
+      if (isReservedMinutesCustomer != null)
+        'isReservedMinutesCustomer': isReservedMinutesCustomer,
+      if (totalReservedMinuteAllocation != null)
+        'totalReservedMinuteAllocation': totalReservedMinuteAllocation,
+      if (totalScheduledMinutes != null)
+        'totalScheduledMinutes': totalScheduledMinutes,
+      if (upcomingMinutesScheduled != null)
+        'upcomingMinutesScheduled': upcomingMinutesScheduled,
+    };
+  }
+}
+
+/// Output for the <code>ListTagsForResource</code> operation.
+class ListTagsForResourceResponse {
+  /// Tags assigned to a resource.
+  final Map<String, String>? tags;
+
+  ListTagsForResourceResponse({
+    this.tags,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Output for the <code>TagResource</code> operation.
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Output for the <code>UntagResource</code> operation.
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class RegisterAgentResponse {
+  /// UUID of registered agent.
+  final String? agentId;
+
+  RegisterAgentResponse({
+    this.agentId,
+  });
+
+  factory RegisterAgentResponse.fromJson(Map<String, dynamic> json) {
+    return RegisterAgentResponse(
+      agentId: json['agentId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agentId = this.agentId;
+    return {
+      if (agentId != null) 'agentId': agentId,
+    };
+  }
+}
+
+class GetAgentConfigurationResponse {
+  /// UUID of agent.
+  final String? agentId;
+
+  /// Tasking document for agent.
+  final String? taskingDocument;
+
+  GetAgentConfigurationResponse({
+    this.agentId,
+    this.taskingDocument,
+  });
+
+  factory GetAgentConfigurationResponse.fromJson(Map<String, dynamic> json) {
+    return GetAgentConfigurationResponse(
+      agentId: json['agentId'] as String?,
+      taskingDocument: json['taskingDocument'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agentId = this.agentId;
+    final taskingDocument = this.taskingDocument;
+    return {
+      if (agentId != null) 'agentId': agentId,
+      if (taskingDocument != null) 'taskingDocument': taskingDocument,
+    };
+  }
+}
+
+class UpdateAgentStatusResponse {
+  /// UUID of updated agent.
+  final String agentId;
+
+  UpdateAgentStatusResponse({
+    required this.agentId,
+  });
+
+  factory UpdateAgentStatusResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateAgentStatusResponse(
+      agentId: (json['agentId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agentId = this.agentId;
+    return {
+      'agentId': agentId,
+    };
+  }
+}
+
+/// Response containing the ARN, ID, and type of a <code>Config</code>.
+class ConfigIdResponse {
+  /// ARN of a <code>Config</code>.
+  final String? configArn;
+
+  /// UUID of a <code>Config</code>.
+  final String? configId;
+
+  /// Type of a <code>Config</code>.
+  final ConfigCapabilityType? configType;
+
+  ConfigIdResponse({
+    this.configArn,
+    this.configId,
+    this.configType,
+  });
+
+  factory ConfigIdResponse.fromJson(Map<String, dynamic> json) {
+    return ConfigIdResponse(
+      configArn: json['configArn'] as String?,
+      configId: json['configId'] as String?,
+      configType:
+          (json['configType'] as String?)?.let(ConfigCapabilityType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configArn = this.configArn;
+    final configId = this.configId;
+    final configType = this.configType;
+    return {
+      if (configArn != null) 'configArn': configArn,
+      if (configId != null) 'configId': configId,
+      if (configType != null) 'configType': configType.value,
+    };
+  }
+}
+
+/// Output for the <code>GetConfig</code> operation.
+class GetConfigResponse {
+  /// ARN of a <code>Config</code>
+  final String configArn;
+
+  /// Data elements in a <code>Config</code>.
+  final ConfigTypeData configData;
+
+  /// UUID of a <code>Config</code>.
+  final String configId;
+
+  /// Name of a <code>Config</code>.
+  final String name;
+
+  /// Type of a <code>Config</code>.
+  final ConfigCapabilityType? configType;
+
+  /// Tags assigned to a <code>Config</code>.
+  final Map<String, String>? tags;
+
+  GetConfigResponse({
+    required this.configArn,
+    required this.configData,
+    required this.configId,
+    required this.name,
+    this.configType,
+    this.tags,
+  });
+
+  factory GetConfigResponse.fromJson(Map<String, dynamic> json) {
+    return GetConfigResponse(
+      configArn: (json['configArn'] as String?) ?? '',
+      configData: ConfigTypeData.fromJson(
+          (json['configData'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      configId: (json['configId'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      configType:
+          (json['configType'] as String?)?.let(ConfigCapabilityType.fromString),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configArn = this.configArn;
+    final configData = this.configData;
+    final configId = this.configId;
+    final name = this.name;
+    final configType = this.configType;
+    final tags = this.tags;
+    return {
+      'configArn': configArn,
+      'configData': configData,
+      'configId': configId,
+      'name': name,
+      if (configType != null) 'configType': configType.value,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Output for the <code>ListConfigs</code> operation.
+class ListConfigsResponse {
+  /// List of <code>Config</code> items.
+  final List<ConfigListItem>? configList;
+
+  /// Next token returned in the response of a previous <code>ListConfigs</code>
+  /// call. Used to get the next page of results.
+  final String? nextToken;
+
+  ListConfigsResponse({
+    this.configList,
+    this.nextToken,
+  });
+
+  factory ListConfigsResponse.fromJson(Map<String, dynamic> json) {
+    return ListConfigsResponse(
+      configList: (json['configList'] as List?)
+          ?.nonNulls
+          .map((e) => ConfigListItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configList = this.configList;
+    final nextToken = this.nextToken;
+    return {
+      if (configList != null) 'configList': configList,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// Response containing the ID of a contact.
+class ContactIdResponse {
+  /// UUID of a contact.
+  final String? contactId;
+
+  /// Version ID of a contact.
+  final int? versionId;
+
+  ContactIdResponse({
+    this.contactId,
+    this.versionId,
+  });
+
+  factory ContactIdResponse.fromJson(Map<String, dynamic> json) {
+    return ContactIdResponse(
+      contactId: json['contactId'] as String?,
+      versionId: json['versionId'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contactId = this.contactId;
+    final versionId = this.versionId;
+    return {
+      if (contactId != null) 'contactId': contactId,
+      if (versionId != null) 'versionId': versionId,
+    };
+  }
+}
+
+/// Output for the <code>DescribeContact</code> operation.
+class DescribeContactResponse {
+  /// UUID of a contact.
+  final String? contactId;
+
+  /// Status of a contact.
+  final ContactStatus? contactStatus;
+
+  /// List describing source and destination details for each dataflow edge.
+  final List<DataflowDetail>? dataflowList;
+
+  /// End time of a contact in UTC.
+  final DateTime? endTime;
+
+  /// The ephemeris that determines antenna pointing directions for the contact.
+  final EphemerisResponseData? ephemeris;
+
+  /// Error message for a contact.
+  final String? errorMessage;
+
+  /// Ground station for a contact.
+  final String? groundStation;
+
+  /// Maximum elevation angle of a contact.
+  final Elevation? maximumElevation;
+
+  /// ARN of a mission profile.
+  final String? missionProfileArn;
+
+  /// End time in UTC of the post-pass period, at which you receive a CloudWatch
+  /// event indicating the pass has finished.
+  final DateTime? postPassEndTime;
+
+  /// Start time in UTC of the pre-pass period, at which you receive a CloudWatch
+  /// event indicating an upcoming pass.
+  final DateTime? prePassStartTime;
+
+  /// Region where the <code>ReserveContact</code> API was called to schedule this
+  /// contact.
+  final String? region;
+
+  /// ARN of a satellite.
+  final String? satelliteArn;
+
+  /// Start time of a contact in UTC.
+  final DateTime? startTime;
+
+  /// Tags assigned to a contact.
+  final Map<String, String>? tags;
+
+  /// Tracking configuration overrides specified when the contact was reserved.
+  final TrackingOverrides? trackingOverrides;
+
+  /// Version information for a contact.
+  final ContactVersion? version;
+
+  /// Projected time in UTC your satellite will set below the <a
+  /// href="https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html">receive
+  /// mask</a>. This time is based on the satellite's current active ephemeris for
+  /// future contacts and the ephemeris that was active during contact execution
+  /// for completed contacts.
+  final DateTime? visibilityEndTime;
+
+  /// Projected time in UTC your satellite will rise above the <a
+  /// href="https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html">receive
+  /// mask</a>. This time is based on the satellite's current active ephemeris for
+  /// future contacts and the ephemeris that was active during contact execution
+  /// for completed contacts.
+  final DateTime? visibilityStartTime;
+
+  DescribeContactResponse({
+    this.contactId,
+    this.contactStatus,
+    this.dataflowList,
+    this.endTime,
+    this.ephemeris,
+    this.errorMessage,
+    this.groundStation,
+    this.maximumElevation,
+    this.missionProfileArn,
+    this.postPassEndTime,
+    this.prePassStartTime,
+    this.region,
+    this.satelliteArn,
+    this.startTime,
+    this.tags,
+    this.trackingOverrides,
+    this.version,
+    this.visibilityEndTime,
+    this.visibilityStartTime,
+  });
+
+  factory DescribeContactResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeContactResponse(
+      contactId: json['contactId'] as String?,
+      contactStatus:
+          (json['contactStatus'] as String?)?.let(ContactStatus.fromString),
+      dataflowList: (json['dataflowList'] as List?)
+          ?.nonNulls
+          .map((e) => DataflowDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      endTime: timeStampFromJson(json['endTime']),
+      ephemeris: json['ephemeris'] != null
+          ? EphemerisResponseData.fromJson(
+              json['ephemeris'] as Map<String, dynamic>)
+          : null,
+      errorMessage: json['errorMessage'] as String?,
+      groundStation: json['groundStation'] as String?,
+      maximumElevation: json['maximumElevation'] != null
+          ? Elevation.fromJson(json['maximumElevation'] as Map<String, dynamic>)
+          : null,
+      missionProfileArn: json['missionProfileArn'] as String?,
+      postPassEndTime: timeStampFromJson(json['postPassEndTime']),
+      prePassStartTime: timeStampFromJson(json['prePassStartTime']),
+      region: json['region'] as String?,
+      satelliteArn: json['satelliteArn'] as String?,
+      startTime: timeStampFromJson(json['startTime']),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      trackingOverrides: json['trackingOverrides'] != null
+          ? TrackingOverrides.fromJson(
+              json['trackingOverrides'] as Map<String, dynamic>)
+          : null,
+      version: json['version'] != null
+          ? ContactVersion.fromJson(json['version'] as Map<String, dynamic>)
+          : null,
+      visibilityEndTime: timeStampFromJson(json['visibilityEndTime']),
+      visibilityStartTime: timeStampFromJson(json['visibilityStartTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contactId = this.contactId;
+    final contactStatus = this.contactStatus;
+    final dataflowList = this.dataflowList;
+    final endTime = this.endTime;
+    final ephemeris = this.ephemeris;
+    final errorMessage = this.errorMessage;
+    final groundStation = this.groundStation;
+    final maximumElevation = this.maximumElevation;
+    final missionProfileArn = this.missionProfileArn;
+    final postPassEndTime = this.postPassEndTime;
+    final prePassStartTime = this.prePassStartTime;
+    final region = this.region;
+    final satelliteArn = this.satelliteArn;
+    final startTime = this.startTime;
+    final tags = this.tags;
+    final trackingOverrides = this.trackingOverrides;
+    final version = this.version;
+    final visibilityEndTime = this.visibilityEndTime;
+    final visibilityStartTime = this.visibilityStartTime;
+    return {
+      if (contactId != null) 'contactId': contactId,
+      if (contactStatus != null) 'contactStatus': contactStatus.value,
+      if (dataflowList != null) 'dataflowList': dataflowList,
+      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
+      if (ephemeris != null) 'ephemeris': ephemeris,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (groundStation != null) 'groundStation': groundStation,
+      if (maximumElevation != null) 'maximumElevation': maximumElevation,
+      if (missionProfileArn != null) 'missionProfileArn': missionProfileArn,
+      if (postPassEndTime != null)
+        'postPassEndTime': unixTimestampToJson(postPassEndTime),
+      if (prePassStartTime != null)
+        'prePassStartTime': unixTimestampToJson(prePassStartTime),
+      if (region != null) 'region': region,
+      if (satelliteArn != null) 'satelliteArn': satelliteArn,
+      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
+      if (tags != null) 'tags': tags,
+      if (trackingOverrides != null) 'trackingOverrides': trackingOverrides,
+      if (version != null) 'version': version,
+      if (visibilityEndTime != null)
+        'visibilityEndTime': unixTimestampToJson(visibilityEndTime),
+      if (visibilityStartTime != null)
+        'visibilityStartTime': unixTimestampToJson(visibilityStartTime),
+    };
+  }
+}
+
+class UpdateContactResponse {
+  /// UUID of a contact.
+  final String? contactId;
+
+  /// Version ID of a contact.
+  final int? versionId;
+
+  UpdateContactResponse({
+    this.contactId,
+    this.versionId,
+  });
+
+  factory UpdateContactResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateContactResponse(
+      contactId: json['contactId'] as String?,
+      versionId: json['versionId'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contactId = this.contactId;
+    final versionId = this.versionId;
+    return {
+      if (contactId != null) 'contactId': contactId,
+      if (versionId != null) 'versionId': versionId,
+    };
+  }
+}
+
+/// Output for the <code>ListContacts</code> operation.
+class ListContactsResponse {
+  /// List of contacts.
+  final List<ContactData>? contactList;
+
+  /// Next token returned in the response of a previous <code>ListContacts</code>
+  /// call. Used to get the next page of results.
+  final String? nextToken;
+
+  ListContactsResponse({
+    this.contactList,
+    this.nextToken,
+  });
+
+  factory ListContactsResponse.fromJson(Map<String, dynamic> json) {
+    return ListContactsResponse(
+      contactList: (json['contactList'] as List?)
+          ?.nonNulls
+          .map((e) => ContactData.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contactList = this.contactList;
+    final nextToken = this.nextToken;
+    return {
+      if (contactList != null) 'contactList': contactList,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class DescribeContactVersionResponse {
+  /// UUID of a contact.
+  final String? contactId;
+
+  /// Status of a contact.
+  final ContactStatus? contactStatus;
+
+  /// List describing source and destination details for each dataflow edge.
+  final List<DataflowDetail>? dataflowList;
+
+  /// End time of a contact in UTC.
+  final DateTime? endTime;
+
+  /// The ephemeris that determines antenna pointing directions for the contact.
+  final EphemerisResponseData? ephemeris;
+
+  /// Error message for a contact.
+  final String? errorMessage;
+
+  /// Ground station for a contact.
+  final String? groundStation;
+
+  /// Maximum elevation angle of a contact.
+  final Elevation? maximumElevation;
+
+  /// ARN of the contact's mission profile.
+  final String? missionProfileArn;
+
+  /// End time in UTC of the post-pass period, at which you receive a CloudWatch
+  /// event indicating the pass has finished.
+  final DateTime? postPassEndTime;
+
+  /// Start time in UTC of the pre-pass period, at which you receive a CloudWatch
+  /// event indicating an upcoming pass.
+  final DateTime? prePassStartTime;
+
+  /// Region where the <code>ReserveContact</code> API was called to schedule this
+  /// contact.
+  final String? region;
+
+  /// ARN of a satellite.
+  final String? satelliteArn;
+
+  /// Start time of a contact in UTC.
+  final DateTime? startTime;
+
+  /// Tags assigned to a contact.
+  final Map<String, String>? tags;
+
+  /// Tracking configuration overrides applied to this contact version. For the
+  /// initial version, these are the overrides specified when the contact was
+  /// reserved. For subsequent versions, these are the overrides associated with
+  /// that specific version update.
+  final TrackingOverrides? trackingOverrides;
+
+  /// Version information for a contact.
+  final ContactVersion? version;
+
+  /// Projected time in UTC your satellite will set below the <a
+  /// href="https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html">receive
+  /// mask</a>. This time is based on the satellite's current active ephemeris for
+  /// future contacts and the ephemeris that was active during contact execution
+  /// for completed contacts.
+  final DateTime? visibilityEndTime;
+
+  /// Projected time in UTC your satellite will rise above the <a
+  /// href="https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html">receive
+  /// mask</a>. This time is based on the satellite's current active ephemeris for
+  /// future contacts and the ephemeris that was active during contact execution
+  /// for completed contacts.
+  final DateTime? visibilityStartTime;
+
+  DescribeContactVersionResponse({
+    this.contactId,
+    this.contactStatus,
+    this.dataflowList,
+    this.endTime,
+    this.ephemeris,
+    this.errorMessage,
+    this.groundStation,
+    this.maximumElevation,
+    this.missionProfileArn,
+    this.postPassEndTime,
+    this.prePassStartTime,
+    this.region,
+    this.satelliteArn,
+    this.startTime,
+    this.tags,
+    this.trackingOverrides,
+    this.version,
+    this.visibilityEndTime,
+    this.visibilityStartTime,
+  });
+
+  factory DescribeContactVersionResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeContactVersionResponse(
+      contactId: json['contactId'] as String?,
+      contactStatus:
+          (json['contactStatus'] as String?)?.let(ContactStatus.fromString),
+      dataflowList: (json['dataflowList'] as List?)
+          ?.nonNulls
+          .map((e) => DataflowDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      endTime: timeStampFromJson(json['endTime']),
+      ephemeris: json['ephemeris'] != null
+          ? EphemerisResponseData.fromJson(
+              json['ephemeris'] as Map<String, dynamic>)
+          : null,
+      errorMessage: json['errorMessage'] as String?,
+      groundStation: json['groundStation'] as String?,
+      maximumElevation: json['maximumElevation'] != null
+          ? Elevation.fromJson(json['maximumElevation'] as Map<String, dynamic>)
+          : null,
+      missionProfileArn: json['missionProfileArn'] as String?,
+      postPassEndTime: timeStampFromJson(json['postPassEndTime']),
+      prePassStartTime: timeStampFromJson(json['prePassStartTime']),
+      region: json['region'] as String?,
+      satelliteArn: json['satelliteArn'] as String?,
+      startTime: timeStampFromJson(json['startTime']),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      trackingOverrides: json['trackingOverrides'] != null
+          ? TrackingOverrides.fromJson(
+              json['trackingOverrides'] as Map<String, dynamic>)
+          : null,
+      version: json['version'] != null
+          ? ContactVersion.fromJson(json['version'] as Map<String, dynamic>)
+          : null,
+      visibilityEndTime: timeStampFromJson(json['visibilityEndTime']),
+      visibilityStartTime: timeStampFromJson(json['visibilityStartTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contactId = this.contactId;
+    final contactStatus = this.contactStatus;
+    final dataflowList = this.dataflowList;
+    final endTime = this.endTime;
+    final ephemeris = this.ephemeris;
+    final errorMessage = this.errorMessage;
+    final groundStation = this.groundStation;
+    final maximumElevation = this.maximumElevation;
+    final missionProfileArn = this.missionProfileArn;
+    final postPassEndTime = this.postPassEndTime;
+    final prePassStartTime = this.prePassStartTime;
+    final region = this.region;
+    final satelliteArn = this.satelliteArn;
+    final startTime = this.startTime;
+    final tags = this.tags;
+    final trackingOverrides = this.trackingOverrides;
+    final version = this.version;
+    final visibilityEndTime = this.visibilityEndTime;
+    final visibilityStartTime = this.visibilityStartTime;
+    return {
+      if (contactId != null) 'contactId': contactId,
+      if (contactStatus != null) 'contactStatus': contactStatus.value,
+      if (dataflowList != null) 'dataflowList': dataflowList,
+      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
+      if (ephemeris != null) 'ephemeris': ephemeris,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (groundStation != null) 'groundStation': groundStation,
+      if (maximumElevation != null) 'maximumElevation': maximumElevation,
+      if (missionProfileArn != null) 'missionProfileArn': missionProfileArn,
+      if (postPassEndTime != null)
+        'postPassEndTime': unixTimestampToJson(postPassEndTime),
+      if (prePassStartTime != null)
+        'prePassStartTime': unixTimestampToJson(prePassStartTime),
+      if (region != null) 'region': region,
+      if (satelliteArn != null) 'satelliteArn': satelliteArn,
+      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
+      if (tags != null) 'tags': tags,
+      if (trackingOverrides != null) 'trackingOverrides': trackingOverrides,
+      if (version != null) 'version': version,
+      if (visibilityEndTime != null)
+        'visibilityEndTime': unixTimestampToJson(visibilityEndTime),
+      if (visibilityStartTime != null)
+        'visibilityStartTime': unixTimestampToJson(visibilityStartTime),
+    };
+  }
+}
+
+class ListContactVersionsResponse {
+  /// List of contact versions.
+  final List<ContactVersion>? contactVersionsList;
+
+  /// Next token to be used in a subsequent <code>ListContactVersions</code> call
+  /// to retrieve the next page of results.
+  final String? nextToken;
+
+  ListContactVersionsResponse({
+    this.contactVersionsList,
+    this.nextToken,
+  });
+
+  factory ListContactVersionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListContactVersionsResponse(
+      contactVersionsList: (json['contactVersionsList'] as List?)
+          ?.nonNulls
+          .map((e) => ContactVersion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contactVersionsList = this.contactVersionsList;
+    final nextToken = this.nextToken;
+    return {
+      if (contactVersionsList != null)
+        'contactVersionsList': contactVersionsList,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// Response containing the ID of a dataflow endpoint group.
+class DataflowEndpointGroupIdResponse {
+  /// UUID of a dataflow endpoint group.
+  final String? dataflowEndpointGroupId;
+
+  DataflowEndpointGroupIdResponse({
+    this.dataflowEndpointGroupId,
+  });
+
+  factory DataflowEndpointGroupIdResponse.fromJson(Map<String, dynamic> json) {
+    return DataflowEndpointGroupIdResponse(
+      dataflowEndpointGroupId: json['dataflowEndpointGroupId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataflowEndpointGroupId = this.dataflowEndpointGroupId;
+    return {
+      if (dataflowEndpointGroupId != null)
+        'dataflowEndpointGroupId': dataflowEndpointGroupId,
+    };
+  }
+}
+
+/// Output for the <code>GetDataflowEndpointGroup</code> operation.
+class GetDataflowEndpointGroupResponse {
+  /// Amount of time, in seconds, after a contact ends that the Ground Station
+  /// Dataflow Endpoint Group will be in a <code>POSTPASS</code> state. A Ground
+  /// Station Dataflow Endpoint Group State Change event will be emitted when the
+  /// Dataflow Endpoint Group enters and exits the <code>POSTPASS</code> state.
+  final int? contactPostPassDurationSeconds;
+
+  /// Amount of time, in seconds, before a contact starts that the Ground Station
+  /// Dataflow Endpoint Group will be in a <code>PREPASS</code> state. A Ground
+  /// Station Dataflow Endpoint Group State Change event will be emitted when the
+  /// Dataflow Endpoint Group enters and exits the <code>PREPASS</code> state.
+  final int? contactPrePassDurationSeconds;
+
+  /// ARN of a dataflow endpoint group.
+  final String? dataflowEndpointGroupArn;
+
+  /// UUID of a dataflow endpoint group.
+  final String? dataflowEndpointGroupId;
+
+  /// Details of a dataflow endpoint.
+  final List<EndpointDetails>? endpointsDetails;
+
+  /// Tags assigned to a dataflow endpoint group.
+  final Map<String, String>? tags;
+
+  GetDataflowEndpointGroupResponse({
+    this.contactPostPassDurationSeconds,
+    this.contactPrePassDurationSeconds,
+    this.dataflowEndpointGroupArn,
+    this.dataflowEndpointGroupId,
+    this.endpointsDetails,
+    this.tags,
+  });
+
+  factory GetDataflowEndpointGroupResponse.fromJson(Map<String, dynamic> json) {
+    return GetDataflowEndpointGroupResponse(
+      contactPostPassDurationSeconds:
+          json['contactPostPassDurationSeconds'] as int?,
+      contactPrePassDurationSeconds:
+          json['contactPrePassDurationSeconds'] as int?,
+      dataflowEndpointGroupArn: json['dataflowEndpointGroupArn'] as String?,
+      dataflowEndpointGroupId: json['dataflowEndpointGroupId'] as String?,
+      endpointsDetails: (json['endpointsDetails'] as List?)
+          ?.nonNulls
+          .map((e) => EndpointDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contactPostPassDurationSeconds = this.contactPostPassDurationSeconds;
+    final contactPrePassDurationSeconds = this.contactPrePassDurationSeconds;
+    final dataflowEndpointGroupArn = this.dataflowEndpointGroupArn;
+    final dataflowEndpointGroupId = this.dataflowEndpointGroupId;
+    final endpointsDetails = this.endpointsDetails;
+    final tags = this.tags;
+    return {
+      if (contactPostPassDurationSeconds != null)
+        'contactPostPassDurationSeconds': contactPostPassDurationSeconds,
+      if (contactPrePassDurationSeconds != null)
+        'contactPrePassDurationSeconds': contactPrePassDurationSeconds,
+      if (dataflowEndpointGroupArn != null)
+        'dataflowEndpointGroupArn': dataflowEndpointGroupArn,
+      if (dataflowEndpointGroupId != null)
+        'dataflowEndpointGroupId': dataflowEndpointGroupId,
+      if (endpointsDetails != null) 'endpointsDetails': endpointsDetails,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Output for the <code>ListDataflowEndpointGroups</code> operation.
+class ListDataflowEndpointGroupsResponse {
+  /// A list of dataflow endpoint groups.
+  final List<DataflowEndpointListItem>? dataflowEndpointGroupList;
+
+  /// Next token returned in the response of a previous
+  /// <code>ListDataflowEndpointGroups</code> call. Used to get the next page of
+  /// results.
+  final String? nextToken;
+
+  ListDataflowEndpointGroupsResponse({
+    this.dataflowEndpointGroupList,
+    this.nextToken,
+  });
+
+  factory ListDataflowEndpointGroupsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListDataflowEndpointGroupsResponse(
+      dataflowEndpointGroupList: (json['dataflowEndpointGroupList'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              DataflowEndpointListItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataflowEndpointGroupList = this.dataflowEndpointGroupList;
+    final nextToken = this.nextToken;
+    return {
+      if (dataflowEndpointGroupList != null)
+        'dataflowEndpointGroupList': dataflowEndpointGroupList,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class CreateDataflowEndpointGroupV2Response {
+  /// Dataflow endpoint group ID
+  final String? dataflowEndpointGroupId;
+
+  CreateDataflowEndpointGroupV2Response({
+    this.dataflowEndpointGroupId,
+  });
+
+  factory CreateDataflowEndpointGroupV2Response.fromJson(
+      Map<String, dynamic> json) {
+    return CreateDataflowEndpointGroupV2Response(
+      dataflowEndpointGroupId: json['dataflowEndpointGroupId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataflowEndpointGroupId = this.dataflowEndpointGroupId;
+    return {
+      if (dataflowEndpointGroupId != null)
+        'dataflowEndpointGroupId': dataflowEndpointGroupId,
+    };
+  }
+}
+
+class EphemerisIdResponse {
+  /// The AWS Ground Station ephemeris ID.
+  final String? ephemerisId;
+
+  EphemerisIdResponse({
+    this.ephemerisId,
+  });
+
+  factory EphemerisIdResponse.fromJson(Map<String, dynamic> json) {
+    return EphemerisIdResponse(
+      ephemerisId: json['ephemerisId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ephemerisId = this.ephemerisId;
+    return {
+      if (ephemerisId != null) 'ephemerisId': ephemerisId,
+    };
+  }
+}
+
+class DescribeEphemerisResponse {
+  /// The time the ephemeris was uploaded in UTC.
+  final DateTime? creationTime;
+
+  /// Whether or not the ephemeris is enabled.
+  final bool? enabled;
+
+  /// The AWS Ground Station ephemeris ID.
+  final String? ephemerisId;
+
+  /// Detailed error information for ephemerides with <code>INVALID</code> status.
+  ///
+  /// Provides specific error codes and messages to help diagnose validation
+  /// failures.
+  final List<EphemerisErrorReason>? errorReasons;
+
+  /// Reason that an ephemeris failed validation. Appears only when the status is
+  /// <code>INVALID</code>.
+  final EphemerisInvalidReason? invalidReason;
+
+  /// A name that you can use to identify the ephemeris.
+  final String? name;
+
+  /// A priority score that determines which ephemeris to use when multiple
+  /// ephemerides overlap.
+  ///
+  /// Higher numbers take precedence. The default is 1. Must be 1 or greater.
+  final int? priority;
+
+  /// The AWS Ground Station satellite ID associated with ephemeris.
+  final String? satelliteId;
+
+  /// The status of the ephemeris.
+  final EphemerisStatus? status;
+
+  /// Supplied ephemeris data.
+  final EphemerisTypeDescription? suppliedData;
+
+  /// Tags assigned to an ephemeris.
+  final Map<String, String>? tags;
+
+  DescribeEphemerisResponse({
+    this.creationTime,
+    this.enabled,
+    this.ephemerisId,
+    this.errorReasons,
+    this.invalidReason,
+    this.name,
+    this.priority,
+    this.satelliteId,
+    this.status,
+    this.suppliedData,
+    this.tags,
+  });
+
+  factory DescribeEphemerisResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeEphemerisResponse(
+      creationTime: timeStampFromJson(json['creationTime']),
+      enabled: json['enabled'] as bool?,
+      ephemerisId: json['ephemerisId'] as String?,
+      errorReasons: (json['errorReasons'] as List?)
+          ?.nonNulls
+          .map((e) => EphemerisErrorReason.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      invalidReason: (json['invalidReason'] as String?)
+          ?.let(EphemerisInvalidReason.fromString),
+      name: json['name'] as String?,
+      priority: json['priority'] as int?,
+      satelliteId: json['satelliteId'] as String?,
+      status: (json['status'] as String?)?.let(EphemerisStatus.fromString),
+      suppliedData: json['suppliedData'] != null
+          ? EphemerisTypeDescription.fromJson(
+              json['suppliedData'] as Map<String, dynamic>)
+          : null,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final enabled = this.enabled;
+    final ephemerisId = this.ephemerisId;
+    final errorReasons = this.errorReasons;
+    final invalidReason = this.invalidReason;
+    final name = this.name;
+    final priority = this.priority;
+    final satelliteId = this.satelliteId;
+    final status = this.status;
+    final suppliedData = this.suppliedData;
+    final tags = this.tags;
+    return {
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (enabled != null) 'enabled': enabled,
+      if (ephemerisId != null) 'ephemerisId': ephemerisId,
+      if (errorReasons != null) 'errorReasons': errorReasons,
+      if (invalidReason != null) 'invalidReason': invalidReason.value,
+      if (name != null) 'name': name,
+      if (priority != null) 'priority': priority,
+      if (satelliteId != null) 'satelliteId': satelliteId,
+      if (status != null) 'status': status.value,
+      if (suppliedData != null) 'suppliedData': suppliedData,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+class ListEphemeridesResponse {
+  /// List of ephemerides.
+  final List<EphemerisItem>? ephemerides;
+
+  /// Pagination token.
+  final String? nextToken;
+
+  ListEphemeridesResponse({
+    this.ephemerides,
+    this.nextToken,
+  });
+
+  factory ListEphemeridesResponse.fromJson(Map<String, dynamic> json) {
+    return ListEphemeridesResponse(
+      ephemerides: (json['ephemerides'] as List?)
+          ?.nonNulls
+          .map((e) => EphemerisItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ephemerides = this.ephemerides;
+    final nextToken = this.nextToken;
+    return {
+      if (ephemerides != null) 'ephemerides': ephemerides,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// Output for the <code>ListGroundStations</code> operation.
+class ListGroundStationsResponse {
+  /// List of ground stations.
+  final List<GroundStationData>? groundStationList;
+
+  /// Next token that can be supplied in the next call to get the next page of
+  /// ground stations.
+  final String? nextToken;
+
+  ListGroundStationsResponse({
+    this.groundStationList,
+    this.nextToken,
+  });
+
+  factory ListGroundStationsResponse.fromJson(Map<String, dynamic> json) {
+    return ListGroundStationsResponse(
+      groundStationList: (json['groundStationList'] as List?)
+          ?.nonNulls
+          .map((e) => GroundStationData.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groundStationList = this.groundStationList;
+    final nextToken = this.nextToken;
+    return {
+      if (groundStationList != null) 'groundStationList': groundStationList,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListAntennasResponse {
+  /// List of antennas.
+  final List<AntennaListItem> antennaList;
+
+  /// Next token to be used in a subsequent <code>ListAntennas</code> call to
+  /// retrieve the next page of results.
+  final String? nextToken;
+
+  ListAntennasResponse({
+    required this.antennaList,
+    this.nextToken,
+  });
+
+  factory ListAntennasResponse.fromJson(Map<String, dynamic> json) {
+    return ListAntennasResponse(
+      antennaList: ((json['antennaList'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => AntennaListItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final antennaList = this.antennaList;
+    final nextToken = this.nextToken;
+    return {
+      'antennaList': antennaList,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListGroundStationReservationsResponse {
+  /// List of ground station reservations.
+  final List<GroundStationReservationListItem> reservationList;
+
+  /// Next token to be used in a subsequent
+  /// <code>ListGroundStationReservations</code> call to retrieve the next page of
+  /// results.
+  final String? nextToken;
+
+  ListGroundStationReservationsResponse({
+    required this.reservationList,
+    this.nextToken,
+  });
+
+  factory ListGroundStationReservationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListGroundStationReservationsResponse(
+      reservationList: ((json['reservationList'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => GroundStationReservationListItem.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reservationList = this.reservationList;
+    final nextToken = this.nextToken;
+    return {
+      'reservationList': reservationList,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// Response containing the ID of a mission profile.
+class MissionProfileIdResponse {
+  /// UUID of a mission profile.
+  final String? missionProfileId;
+
+  MissionProfileIdResponse({
+    this.missionProfileId,
+  });
+
+  factory MissionProfileIdResponse.fromJson(Map<String, dynamic> json) {
+    return MissionProfileIdResponse(
+      missionProfileId: json['missionProfileId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final missionProfileId = this.missionProfileId;
+    return {
+      if (missionProfileId != null) 'missionProfileId': missionProfileId,
+    };
+  }
+}
+
+/// Output for the <code>GetMissionProfile</code> operation.
+class GetMissionProfileResponse {
+  /// Amount of time after a contact ends that you'd like to receive a CloudWatch
+  /// event indicating the pass has finished.
+  final int? contactPostPassDurationSeconds;
+
+  /// Amount of time prior to contact start you'd like to receive a CloudWatch
+  /// event indicating an upcoming pass.
+  final int? contactPrePassDurationSeconds;
+
+  /// A list of lists of ARNs. Each list of ARNs is an edge, with a <i>from</i>
+  /// <code> Config</code> and a <i>to</i> <code>Config</code>.
+  final List<List<String>>? dataflowEdges;
+
+  /// Smallest amount of time in seconds that you'd like to see for an available
+  /// contact. AWS Ground Station will not present you with contacts shorter than
+  /// this duration.
+  final int? minimumViableContactDurationSeconds;
+
+  /// ARN of a mission profile.
+  final String? missionProfileArn;
+
+  /// UUID of a mission profile.
+  final String? missionProfileId;
+
+  /// Name of a mission profile.
+  final String? name;
+
+  /// Region of a mission profile.
+  final String? region;
+
+  /// KMS key to use for encrypting streams.
+  final KmsKey? streamsKmsKey;
+
+  /// Role to use for encrypting streams with KMS key.
+  final String? streamsKmsRole;
+
+  /// Tags assigned to a mission profile.
+  final Map<String, String>? tags;
+
+  /// ARN of a telemetry sink <code>Config</code>.
+  final String? telemetrySinkConfigArn;
+
+  /// ARN of a tracking <code>Config</code>.
+  final String? trackingConfigArn;
+
+  GetMissionProfileResponse({
+    this.contactPostPassDurationSeconds,
+    this.contactPrePassDurationSeconds,
+    this.dataflowEdges,
+    this.minimumViableContactDurationSeconds,
+    this.missionProfileArn,
+    this.missionProfileId,
+    this.name,
+    this.region,
+    this.streamsKmsKey,
+    this.streamsKmsRole,
+    this.tags,
+    this.telemetrySinkConfigArn,
+    this.trackingConfigArn,
+  });
+
+  factory GetMissionProfileResponse.fromJson(Map<String, dynamic> json) {
+    return GetMissionProfileResponse(
+      contactPostPassDurationSeconds:
+          json['contactPostPassDurationSeconds'] as int?,
+      contactPrePassDurationSeconds:
+          json['contactPrePassDurationSeconds'] as int?,
+      dataflowEdges: (json['dataflowEdges'] as List?)
+          ?.nonNulls
+          .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
+          .toList(),
+      minimumViableContactDurationSeconds:
+          json['minimumViableContactDurationSeconds'] as int?,
+      missionProfileArn: json['missionProfileArn'] as String?,
+      missionProfileId: json['missionProfileId'] as String?,
+      name: json['name'] as String?,
+      region: json['region'] as String?,
+      streamsKmsKey: json['streamsKmsKey'] != null
+          ? KmsKey.fromJson(json['streamsKmsKey'] as Map<String, dynamic>)
+          : null,
+      streamsKmsRole: json['streamsKmsRole'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      telemetrySinkConfigArn: json['telemetrySinkConfigArn'] as String?,
+      trackingConfigArn: json['trackingConfigArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contactPostPassDurationSeconds = this.contactPostPassDurationSeconds;
+    final contactPrePassDurationSeconds = this.contactPrePassDurationSeconds;
+    final dataflowEdges = this.dataflowEdges;
+    final minimumViableContactDurationSeconds =
+        this.minimumViableContactDurationSeconds;
+    final missionProfileArn = this.missionProfileArn;
+    final missionProfileId = this.missionProfileId;
+    final name = this.name;
+    final region = this.region;
+    final streamsKmsKey = this.streamsKmsKey;
+    final streamsKmsRole = this.streamsKmsRole;
+    final tags = this.tags;
+    final telemetrySinkConfigArn = this.telemetrySinkConfigArn;
+    final trackingConfigArn = this.trackingConfigArn;
+    return {
+      if (contactPostPassDurationSeconds != null)
+        'contactPostPassDurationSeconds': contactPostPassDurationSeconds,
+      if (contactPrePassDurationSeconds != null)
+        'contactPrePassDurationSeconds': contactPrePassDurationSeconds,
+      if (dataflowEdges != null) 'dataflowEdges': dataflowEdges,
+      if (minimumViableContactDurationSeconds != null)
+        'minimumViableContactDurationSeconds':
+            minimumViableContactDurationSeconds,
+      if (missionProfileArn != null) 'missionProfileArn': missionProfileArn,
+      if (missionProfileId != null) 'missionProfileId': missionProfileId,
+      if (name != null) 'name': name,
+      if (region != null) 'region': region,
+      if (streamsKmsKey != null) 'streamsKmsKey': streamsKmsKey,
+      if (streamsKmsRole != null) 'streamsKmsRole': streamsKmsRole,
+      if (tags != null) 'tags': tags,
+      if (telemetrySinkConfigArn != null)
+        'telemetrySinkConfigArn': telemetrySinkConfigArn,
+      if (trackingConfigArn != null) 'trackingConfigArn': trackingConfigArn,
+    };
+  }
+}
+
+/// Output for the <code>ListMissionProfiles</code> operation.
+class ListMissionProfilesResponse {
+  /// List of mission profiles.
+  final List<MissionProfileListItem>? missionProfileList;
+
+  /// Next token returned in the response of a previous
+  /// <code>ListMissionProfiles</code> call. Used to get the next page of results.
+  final String? nextToken;
+
+  ListMissionProfilesResponse({
+    this.missionProfileList,
+    this.nextToken,
+  });
+
+  factory ListMissionProfilesResponse.fromJson(Map<String, dynamic> json) {
+    return ListMissionProfilesResponse(
+      missionProfileList: (json['missionProfileList'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => MissionProfileListItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final missionProfileList = this.missionProfileList;
+    final nextToken = this.nextToken;
+    return {
+      if (missionProfileList != null) 'missionProfileList': missionProfileList,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// Output for the <code>GetSatellite</code> operation.
+class GetSatelliteResponse {
+  /// The current ephemeris being used to compute the trajectory of the satellite.
+  final EphemerisMetaData? currentEphemeris;
+
+  /// A list of ground stations to which the satellite is on-boarded.
+  final List<String>? groundStations;
+
+  /// NORAD satellite ID number.
+  final int? noradSatelliteID;
+
+  /// ARN of a satellite.
+  final String? satelliteArn;
+
+  /// UUID of a satellite.
+  final String? satelliteId;
+
+  GetSatelliteResponse({
+    this.currentEphemeris,
+    this.groundStations,
+    this.noradSatelliteID,
+    this.satelliteArn,
+    this.satelliteId,
+  });
+
+  factory GetSatelliteResponse.fromJson(Map<String, dynamic> json) {
+    return GetSatelliteResponse(
+      currentEphemeris: json['currentEphemeris'] != null
+          ? EphemerisMetaData.fromJson(
+              json['currentEphemeris'] as Map<String, dynamic>)
+          : null,
+      groundStations: (json['groundStations'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      noradSatelliteID: json['noradSatelliteID'] as int?,
+      satelliteArn: json['satelliteArn'] as String?,
+      satelliteId: json['satelliteId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currentEphemeris = this.currentEphemeris;
+    final groundStations = this.groundStations;
+    final noradSatelliteID = this.noradSatelliteID;
+    final satelliteArn = this.satelliteArn;
+    final satelliteId = this.satelliteId;
+    return {
+      if (currentEphemeris != null) 'currentEphemeris': currentEphemeris,
+      if (groundStations != null) 'groundStations': groundStations,
+      if (noradSatelliteID != null) 'noradSatelliteID': noradSatelliteID,
+      if (satelliteArn != null) 'satelliteArn': satelliteArn,
+      if (satelliteId != null) 'satelliteId': satelliteId,
+    };
+  }
+}
+
+/// Output for the <code>ListSatellites</code> operation.
+class ListSatellitesResponse {
+  /// Next token that can be supplied in the next call to get the next page of
+  /// satellites.
+  final String? nextToken;
+
+  /// List of satellites.
+  final List<SatelliteListItem>? satellites;
+
+  ListSatellitesResponse({
+    this.nextToken,
+    this.satellites,
+  });
+
+  factory ListSatellitesResponse.fromJson(Map<String, dynamic> json) {
+    return ListSatellitesResponse(
+      nextToken: json['nextToken'] as String?,
+      satellites: (json['satellites'] as List?)
+          ?.nonNulls
+          .map((e) => SatelliteListItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final satellites = this.satellites;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (satellites != null) 'satellites': satellites,
+    };
+  }
+}
+
+/// Item in a list of satellites.
+class SatelliteListItem {
+  /// The current ephemeris being used to compute the trajectory of the satellite.
+  final EphemerisMetaData? currentEphemeris;
+
+  /// A list of ground stations to which the satellite is on-boarded.
+  final List<String>? groundStations;
+
+  /// NORAD satellite ID number.
+  final int? noradSatelliteID;
+
+  /// ARN of a satellite.
+  final String? satelliteArn;
+
+  /// UUID of a satellite.
+  final String? satelliteId;
+
+  SatelliteListItem({
+    this.currentEphemeris,
+    this.groundStations,
+    this.noradSatelliteID,
+    this.satelliteArn,
+    this.satelliteId,
+  });
+
+  factory SatelliteListItem.fromJson(Map<String, dynamic> json) {
+    return SatelliteListItem(
+      currentEphemeris: json['currentEphemeris'] != null
+          ? EphemerisMetaData.fromJson(
+              json['currentEphemeris'] as Map<String, dynamic>)
+          : null,
+      groundStations: (json['groundStations'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      noradSatelliteID: json['noradSatelliteID'] as int?,
+      satelliteArn: json['satelliteArn'] as String?,
+      satelliteId: json['satelliteId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currentEphemeris = this.currentEphemeris;
+    final groundStations = this.groundStations;
+    final noradSatelliteID = this.noradSatelliteID;
+    final satelliteArn = this.satelliteArn;
+    final satelliteId = this.satelliteId;
+    return {
+      if (currentEphemeris != null) 'currentEphemeris': currentEphemeris,
+      if (groundStations != null) 'groundStations': groundStations,
+      if (noradSatelliteID != null) 'noradSatelliteID': noradSatelliteID,
+      if (satelliteArn != null) 'satelliteArn': satelliteArn,
+      if (satelliteId != null) 'satelliteId': satelliteId,
+    };
+  }
+}
+
+/// Metadata describing a particular ephemeris.
+class EphemerisMetaData {
+  /// The <code>EphemerisSource</code> that generated a given ephemeris.
+  final EphemerisSource source;
+
+  /// UUID of a customer-provided ephemeris.
+  ///
+  /// This field is not populated for default ephemerides from Space Track.
+  final String? ephemerisId;
+
+  /// The epoch of a default, ephemeris from Space Track in UTC.
+  ///
+  /// This field is not populated for customer-provided ephemerides.
+  final DateTime? epoch;
+
+  /// A name string associated with the ephemeris. Used as a human-readable
+  /// identifier for the ephemeris.
+  ///
+  /// A name is only returned for customer-provider ephemerides that have a name
+  /// associated.
+  final String? name;
+
+  EphemerisMetaData({
+    required this.source,
+    this.ephemerisId,
+    this.epoch,
+    this.name,
+  });
+
+  factory EphemerisMetaData.fromJson(Map<String, dynamic> json) {
+    return EphemerisMetaData(
+      source: EphemerisSource.fromString((json['source'] as String?) ?? ''),
+      ephemerisId: json['ephemerisId'] as String?,
+      epoch: timeStampFromJson(json['epoch']),
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final source = this.source;
+    final ephemerisId = this.ephemerisId;
+    final epoch = this.epoch;
+    final name = this.name;
+    return {
+      'source': source.value,
+      if (ephemerisId != null) 'ephemerisId': ephemerisId,
+      if (epoch != null) 'epoch': unixTimestampToJson(epoch),
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+class EphemerisSource {
+  static const customerProvided = EphemerisSource._('CUSTOMER_PROVIDED');
+  static const spaceTrack = EphemerisSource._('SPACE_TRACK');
 
   final String value;
 
-  const AgentStatus._(this.value);
+  const EphemerisSource._(this.value);
 
-  static const values = [success, failed, active, inactive];
+  static const values = [customerProvided, spaceTrack];
 
-  static AgentStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => AgentStatus._(value));
+  static EphemerisSource fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EphemerisSource._(value));
 
   @override
-  bool operator ==(other) => other is AgentStatus && other.value == value;
+  bool operator ==(other) => other is EphemerisSource && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -1399,25 +3354,994 @@ class AgentStatus {
   String toString() => value;
 }
 
-/// Aggregate status of Agent components.
-class AggregateStatus {
-  /// Aggregate status.
-  final AgentStatus status;
+/// Item in a list of mission profiles.
+class MissionProfileListItem {
+  /// ARN of a mission profile.
+  final String? missionProfileArn;
 
-  /// Sparse map of failure signatures.
-  final Map<String, bool>? signatureMap;
+  /// UUID of a mission profile.
+  final String? missionProfileId;
 
-  AggregateStatus({
-    required this.status,
-    this.signatureMap,
+  /// Name of a mission profile.
+  final String? name;
+
+  /// Region of a mission profile.
+  final String? region;
+
+  MissionProfileListItem({
+    this.missionProfileArn,
+    this.missionProfileId,
+    this.name,
+    this.region,
+  });
+
+  factory MissionProfileListItem.fromJson(Map<String, dynamic> json) {
+    return MissionProfileListItem(
+      missionProfileArn: json['missionProfileArn'] as String?,
+      missionProfileId: json['missionProfileId'] as String?,
+      name: json['name'] as String?,
+      region: json['region'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final missionProfileArn = this.missionProfileArn;
+    final missionProfileId = this.missionProfileId;
+    final name = this.name;
+    final region = this.region;
+    return {
+      if (missionProfileArn != null) 'missionProfileArn': missionProfileArn,
+      if (missionProfileId != null) 'missionProfileId': missionProfileId,
+      if (name != null) 'name': name,
+      if (region != null) 'region': region,
+    };
+  }
+}
+
+/// KMS key info.
+class KmsKey {
+  /// KMS Alias Arn.
+  final String? kmsAliasArn;
+
+  /// KMS Alias Name.
+  final String? kmsAliasName;
+
+  /// KMS Key Arn.
+  final String? kmsKeyArn;
+
+  KmsKey({
+    this.kmsAliasArn,
+    this.kmsAliasName,
+    this.kmsKeyArn,
+  });
+
+  factory KmsKey.fromJson(Map<String, dynamic> json) {
+    return KmsKey(
+      kmsAliasArn: json['kmsAliasArn'] as String?,
+      kmsAliasName: json['kmsAliasName'] as String?,
+      kmsKeyArn: json['kmsKeyArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kmsAliasArn = this.kmsAliasArn;
+    final kmsAliasName = this.kmsAliasName;
+    final kmsKeyArn = this.kmsKeyArn;
+    return {
+      if (kmsAliasArn != null) 'kmsAliasArn': kmsAliasArn,
+      if (kmsAliasName != null) 'kmsAliasName': kmsAliasName,
+      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
+    };
+  }
+}
+
+/// Item in a list of ground station reservations.
+class GroundStationReservationListItem {
+  /// Name of an antenna.
+  final String antennaName;
+
+  /// End time of a ground station reservation in UTC.
+  final DateTime endTime;
+
+  /// ID of a ground station.
+  final String groundStationId;
+
+  /// Details of a ground station reservation.
+  final ReservationDetails reservationDetails;
+
+  /// Type of a ground station reservation.
+  final ReservationType reservationType;
+
+  /// Start time of a ground station reservation in UTC.
+  final DateTime startTime;
+
+  GroundStationReservationListItem({
+    required this.antennaName,
+    required this.endTime,
+    required this.groundStationId,
+    required this.reservationDetails,
+    required this.reservationType,
+    required this.startTime,
+  });
+
+  factory GroundStationReservationListItem.fromJson(Map<String, dynamic> json) {
+    return GroundStationReservationListItem(
+      antennaName: (json['antennaName'] as String?) ?? '',
+      endTime: nonNullableTimeStampFromJson(json['endTime'] ?? 0),
+      groundStationId: (json['groundStationId'] as String?) ?? '',
+      reservationDetails: ReservationDetails.fromJson(
+          (json['reservationDetails'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      reservationType: ReservationType.fromString(
+          (json['reservationType'] as String?) ?? ''),
+      startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final antennaName = this.antennaName;
+    final endTime = this.endTime;
+    final groundStationId = this.groundStationId;
+    final reservationDetails = this.reservationDetails;
+    final reservationType = this.reservationType;
+    final startTime = this.startTime;
+    return {
+      'antennaName': antennaName,
+      'endTime': unixTimestampToJson(endTime),
+      'groundStationId': groundStationId,
+      'reservationDetails': reservationDetails,
+      'reservationType': reservationType.value,
+      'startTime': unixTimestampToJson(startTime),
+    };
+  }
+}
+
+class ReservationType {
+  static const maintenance = ReservationType._('MAINTENANCE');
+  static const contact = ReservationType._('CONTACT');
+
+  final String value;
+
+  const ReservationType._(this.value);
+
+  static const values = [maintenance, contact];
+
+  static ReservationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReservationType._(value));
+
+  @override
+  bool operator ==(other) => other is ReservationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Details of a ground station reservation.
+class ReservationDetails {
+  /// Details of a contact reservation.
+  final ContactReservationDetails? contact;
+
+  /// Details of a maintenance reservation.
+  final MaintenanceReservationDetails? maintenance;
+
+  ReservationDetails({
+    this.contact,
+    this.maintenance,
+  });
+
+  factory ReservationDetails.fromJson(Map<String, dynamic> json) {
+    return ReservationDetails(
+      contact: json['contact'] != null
+          ? ContactReservationDetails.fromJson(
+              json['contact'] as Map<String, dynamic>)
+          : null,
+      maintenance: json['maintenance'] != null
+          ? MaintenanceReservationDetails.fromJson(
+              json['maintenance'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contact = this.contact;
+    final maintenance = this.maintenance;
+    return {
+      if (contact != null) 'contact': contact,
+      if (maintenance != null) 'maintenance': maintenance,
+    };
+  }
+}
+
+/// Details of a maintenance reservation.
+class MaintenanceReservationDetails {
+  /// Type of maintenance.
+  final MaintenanceType maintenanceType;
+
+  MaintenanceReservationDetails({
+    required this.maintenanceType,
+  });
+
+  factory MaintenanceReservationDetails.fromJson(Map<String, dynamic> json) {
+    return MaintenanceReservationDetails(
+      maintenanceType: MaintenanceType.fromString(
+          (json['maintenanceType'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maintenanceType = this.maintenanceType;
+    return {
+      'maintenanceType': maintenanceType.value,
+    };
+  }
+}
+
+/// Details of a contact reservation.
+class ContactReservationDetails {
+  /// UUID of a contact.
+  final String? contactId;
+
+  ContactReservationDetails({
+    this.contactId,
+  });
+
+  factory ContactReservationDetails.fromJson(Map<String, dynamic> json) {
+    return ContactReservationDetails(
+      contactId: json['contactId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contactId = this.contactId;
+    return {
+      if (contactId != null) 'contactId': contactId,
+    };
+  }
+}
+
+class MaintenanceType {
+  static const planned = MaintenanceType._('PLANNED');
+  static const unplanned = MaintenanceType._('UNPLANNED');
+
+  final String value;
+
+  const MaintenanceType._(this.value);
+
+  static const values = [planned, unplanned];
+
+  static MaintenanceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MaintenanceType._(value));
+
+  @override
+  bool operator ==(other) => other is MaintenanceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An antenna at a ground station.
+class AntennaListItem {
+  /// Name of the antenna.
+  final String antennaName;
+
+  /// Name of the ground station the antenna is associated with.
+  final String groundStationName;
+
+  /// Region of the antenna.
+  final String region;
+
+  AntennaListItem({
+    required this.antennaName,
+    required this.groundStationName,
+    required this.region,
+  });
+
+  factory AntennaListItem.fromJson(Map<String, dynamic> json) {
+    return AntennaListItem(
+      antennaName: (json['antennaName'] as String?) ?? '',
+      groundStationName: (json['groundStationName'] as String?) ?? '',
+      region: (json['region'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final antennaName = this.antennaName;
+    final groundStationName = this.groundStationName;
+    final region = this.region;
+    return {
+      'antennaName': antennaName,
+      'groundStationName': groundStationName,
+      'region': region,
+    };
+  }
+}
+
+/// Information about the ground station data.
+class GroundStationData {
+  /// ID of a ground station.
+  final String? groundStationId;
+
+  /// Name of a ground station.
+  final String? groundStationName;
+
+  /// Ground station Region.
+  final String? region;
+
+  GroundStationData({
+    this.groundStationId,
+    this.groundStationName,
+    this.region,
+  });
+
+  factory GroundStationData.fromJson(Map<String, dynamic> json) {
+    return GroundStationData(
+      groundStationId: json['groundStationId'] as String?,
+      groundStationName: json['groundStationName'] as String?,
+      region: json['region'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groundStationId = this.groundStationId;
+    final groundStationName = this.groundStationName;
+    final region = this.region;
+    return {
+      if (groundStationId != null) 'groundStationId': groundStationId,
+      if (groundStationName != null) 'groundStationName': groundStationName,
+      if (region != null) 'region': region,
+    };
+  }
+}
+
+/// Ephemeris item.
+class EphemerisItem {
+  /// The time the ephemeris was uploaded in UTC.
+  final DateTime? creationTime;
+
+  /// Whether or not the ephemeris is enabled.
+  final bool? enabled;
+
+  /// The AWS Ground Station ephemeris ID.
+  final String? ephemerisId;
+
+  /// The type of ephemeris.
+  final EphemerisType? ephemerisType;
+
+  /// A name that you can use to identify the ephemeris.
+  final String? name;
+
+  /// A priority score that determines which ephemeris to use when multiple
+  /// ephemerides overlap.
+  ///
+  /// Higher numbers take precedence. The default is 1. Must be 1 or greater.
+  final int? priority;
+
+  /// Source Amazon S3 object used for the ephemeris.
+  final S3Object? sourceS3Object;
+
+  /// The status of the ephemeris.
+  final EphemerisStatus? status;
+
+  EphemerisItem({
+    this.creationTime,
+    this.enabled,
+    this.ephemerisId,
+    this.ephemerisType,
+    this.name,
+    this.priority,
+    this.sourceS3Object,
+    this.status,
+  });
+
+  factory EphemerisItem.fromJson(Map<String, dynamic> json) {
+    return EphemerisItem(
+      creationTime: timeStampFromJson(json['creationTime']),
+      enabled: json['enabled'] as bool?,
+      ephemerisId: json['ephemerisId'] as String?,
+      ephemerisType:
+          (json['ephemerisType'] as String?)?.let(EphemerisType.fromString),
+      name: json['name'] as String?,
+      priority: json['priority'] as int?,
+      sourceS3Object: json['sourceS3Object'] != null
+          ? S3Object.fromJson(json['sourceS3Object'] as Map<String, dynamic>)
+          : null,
+      status: (json['status'] as String?)?.let(EphemerisStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final enabled = this.enabled;
+    final ephemerisId = this.ephemerisId;
+    final ephemerisType = this.ephemerisType;
+    final name = this.name;
+    final priority = this.priority;
+    final sourceS3Object = this.sourceS3Object;
+    final status = this.status;
+    return {
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (enabled != null) 'enabled': enabled,
+      if (ephemerisId != null) 'ephemerisId': ephemerisId,
+      if (ephemerisType != null) 'ephemerisType': ephemerisType.value,
+      if (name != null) 'name': name,
+      if (priority != null) 'priority': priority,
+      if (sourceS3Object != null) 'sourceS3Object': sourceS3Object,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+class EphemerisType {
+  static const tle = EphemerisType._('TLE');
+  static const oem = EphemerisType._('OEM');
+  static const azEl = EphemerisType._('AZ_EL');
+  static const serviceManaged = EphemerisType._('SERVICE_MANAGED');
+
+  final String value;
+
+  const EphemerisType._(this.value);
+
+  static const values = [tle, oem, azEl, serviceManaged];
+
+  static EphemerisType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EphemerisType._(value));
+
+  @override
+  bool operator ==(other) => other is EphemerisType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class EphemerisStatus {
+  static const validating = EphemerisStatus._('VALIDATING');
+  static const invalid = EphemerisStatus._('INVALID');
+  static const error = EphemerisStatus._('ERROR');
+  static const enabled = EphemerisStatus._('ENABLED');
+  static const disabled = EphemerisStatus._('DISABLED');
+  static const expired = EphemerisStatus._('EXPIRED');
+
+  final String value;
+
+  const EphemerisStatus._(this.value);
+
+  static const values = [
+    validating,
+    invalid,
+    error,
+    enabled,
+    disabled,
+    expired
+  ];
+
+  static EphemerisStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EphemerisStatus._(value));
+
+  @override
+  bool operator ==(other) => other is EphemerisStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Object stored in Amazon S3 containing ephemeris data.
+class S3Object {
+  /// An Amazon S3 Bucket name.
+  final String? bucket;
+
+  /// An Amazon S3 key for the ephemeris.
+  final String? key;
+
+  /// For versioned Amazon S3 objects, the version to use for the ephemeris.
+  final String? version;
+
+  S3Object({
+    this.bucket,
+    this.key,
+    this.version,
+  });
+
+  factory S3Object.fromJson(Map<String, dynamic> json) {
+    return S3Object(
+      bucket: json['bucket'] as String?,
+      key: json['key'] as String?,
+      version: json['version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final key = this.key;
+    final version = this.version;
+    return {
+      if (bucket != null) 'bucket': bucket,
+      if (key != null) 'key': key,
+      if (version != null) 'version': version,
+    };
+  }
+}
+
+/// <p/>
+class EphemerisTypeDescription {
+  final EphemerisDescription? azEl;
+  final EphemerisDescription? oem;
+  final EphemerisDescription? tle;
+
+  EphemerisTypeDescription({
+    this.azEl,
+    this.oem,
+    this.tle,
+  });
+
+  factory EphemerisTypeDescription.fromJson(Map<String, dynamic> json) {
+    return EphemerisTypeDescription(
+      azEl: json['azEl'] != null
+          ? EphemerisDescription.fromJson(json['azEl'] as Map<String, dynamic>)
+          : null,
+      oem: json['oem'] != null
+          ? EphemerisDescription.fromJson(json['oem'] as Map<String, dynamic>)
+          : null,
+      tle: json['tle'] != null
+          ? EphemerisDescription.fromJson(json['tle'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final azEl = this.azEl;
+    final oem = this.oem;
+    final tle = this.tle;
+    return {
+      if (azEl != null) 'azEl': azEl,
+      if (oem != null) 'oem': oem,
+      if (tle != null) 'tle': tle,
+    };
+  }
+}
+
+class EphemerisInvalidReason {
+  static const metadataInvalid = EphemerisInvalidReason._('METADATA_INVALID');
+  static const timeRangeInvalid =
+      EphemerisInvalidReason._('TIME_RANGE_INVALID');
+  static const trajectoryInvalid =
+      EphemerisInvalidReason._('TRAJECTORY_INVALID');
+  static const kmsKeyInvalid = EphemerisInvalidReason._('KMS_KEY_INVALID');
+  static const validationError = EphemerisInvalidReason._('VALIDATION_ERROR');
+
+  final String value;
+
+  const EphemerisInvalidReason._(this.value);
+
+  static const values = [
+    metadataInvalid,
+    timeRangeInvalid,
+    trajectoryInvalid,
+    kmsKeyInvalid,
+    validationError
+  ];
+
+  static EphemerisInvalidReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EphemerisInvalidReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EphemerisInvalidReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Detailed error information for ephemeris validation failures.
+///
+/// Provides an error code and descriptive message to help diagnose and resolve
+/// validation issues.
+class EphemerisErrorReason {
+  /// The error code identifying the type of validation failure.
+  ///
+  /// See the <a
+  /// href="https://docs.aws.amazon.com/ground-station/latest/ug/troubleshooting-invalid-ephemerides.html">Troubleshooting
+  /// Invalid Ephemerides guide</a> for error code details.
+  final EphemerisErrorCode errorCode;
+
+  /// A human-readable message describing the validation failure.
+  ///
+  /// Provides specific details about what failed and may include suggestions for
+  /// remediation.
+  final String errorMessage;
+
+  EphemerisErrorReason({
+    required this.errorCode,
+    required this.errorMessage,
+  });
+
+  factory EphemerisErrorReason.fromJson(Map<String, dynamic> json) {
+    return EphemerisErrorReason(
+      errorCode:
+          EphemerisErrorCode.fromString((json['errorCode'] as String?) ?? ''),
+      errorMessage: (json['errorMessage'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    return {
+      'errorCode': errorCode.value,
+      'errorMessage': errorMessage,
+    };
+  }
+}
+
+class EphemerisErrorCode {
+  static const internalError = EphemerisErrorCode._('INTERNAL_ERROR');
+  static const mismatchedSatcatId =
+      EphemerisErrorCode._('MISMATCHED_SATCAT_ID');
+  static const oemVersionUnsupported =
+      EphemerisErrorCode._('OEM_VERSION_UNSUPPORTED');
+  static const originatorMissing = EphemerisErrorCode._('ORIGINATOR_MISSING');
+  static const creationDateMissing =
+      EphemerisErrorCode._('CREATION_DATE_MISSING');
+  static const objectNameMissing = EphemerisErrorCode._('OBJECT_NAME_MISSING');
+  static const objectIdMissing = EphemerisErrorCode._('OBJECT_ID_MISSING');
+  static const refFrameUnsupported =
+      EphemerisErrorCode._('REF_FRAME_UNSUPPORTED');
+  static const refFrameEpochUnsupported =
+      EphemerisErrorCode._('REF_FRAME_EPOCH_UNSUPPORTED');
+  static const timeSystemUnsupported =
+      EphemerisErrorCode._('TIME_SYSTEM_UNSUPPORTED');
+  static const centerBodyUnsupported =
+      EphemerisErrorCode._('CENTER_BODY_UNSUPPORTED');
+  static const interpolationMissing =
+      EphemerisErrorCode._('INTERPOLATION_MISSING');
+  static const interpolationDegreeInvalid =
+      EphemerisErrorCode._('INTERPOLATION_DEGREE_INVALID');
+  static const azElSegmentListMissing =
+      EphemerisErrorCode._('AZ_EL_SEGMENT_LIST_MISSING');
+  static const insufficientTimeAzEl =
+      EphemerisErrorCode._('INSUFFICIENT_TIME_AZ_EL');
+  static const startTimeInFuture = EphemerisErrorCode._('START_TIME_IN_FUTURE');
+  static const endTimeInPast = EphemerisErrorCode._('END_TIME_IN_PAST');
+  static const expirationTimeTooEarly =
+      EphemerisErrorCode._('EXPIRATION_TIME_TOO_EARLY');
+  static const startTimeMetadataTooEarly =
+      EphemerisErrorCode._('START_TIME_METADATA_TOO_EARLY');
+  static const stopTimeMetadataTooLate =
+      EphemerisErrorCode._('STOP_TIME_METADATA_TOO_LATE');
+  static const azElSegmentEndTimeBeforeStartTime =
+      EphemerisErrorCode._('AZ_EL_SEGMENT_END_TIME_BEFORE_START_TIME');
+  static const azElSegmentTimesOverlap =
+      EphemerisErrorCode._('AZ_EL_SEGMENT_TIMES_OVERLAP');
+  static const azElSegmentsOutOfOrder =
+      EphemerisErrorCode._('AZ_EL_SEGMENTS_OUT_OF_ORDER');
+  static const timeAzElItemsOutOfOrder =
+      EphemerisErrorCode._('TIME_AZ_EL_ITEMS_OUT_OF_ORDER');
+  static const meanMotionInvalid = EphemerisErrorCode._('MEAN_MOTION_INVALID');
+  static const timeAzElAzRadianRangeInvalid =
+      EphemerisErrorCode._('TIME_AZ_EL_AZ_RADIAN_RANGE_INVALID');
+  static const timeAzElElRadianRangeInvalid =
+      EphemerisErrorCode._('TIME_AZ_EL_EL_RADIAN_RANGE_INVALID');
+  static const timeAzElAzDegreeRangeInvalid =
+      EphemerisErrorCode._('TIME_AZ_EL_AZ_DEGREE_RANGE_INVALID');
+  static const timeAzElElDegreeRangeInvalid =
+      EphemerisErrorCode._('TIME_AZ_EL_EL_DEGREE_RANGE_INVALID');
+  static const timeAzElAngleUnitsInvalid =
+      EphemerisErrorCode._('TIME_AZ_EL_ANGLE_UNITS_INVALID');
+  static const insufficientKmsPermissions =
+      EphemerisErrorCode._('INSUFFICIENT_KMS_PERMISSIONS');
+  static const fileFormatInvalid = EphemerisErrorCode._('FILE_FORMAT_INVALID');
+  static const azElSegmentReferenceEpochInvalid =
+      EphemerisErrorCode._('AZ_EL_SEGMENT_REFERENCE_EPOCH_INVALID');
+  static const azElSegmentStartTimeInvalid =
+      EphemerisErrorCode._('AZ_EL_SEGMENT_START_TIME_INVALID');
+  static const azElSegmentEndTimeInvalid =
+      EphemerisErrorCode._('AZ_EL_SEGMENT_END_TIME_INVALID');
+  static const azElSegmentValidTimeRangeInvalid =
+      EphemerisErrorCode._('AZ_EL_SEGMENT_VALID_TIME_RANGE_INVALID');
+  static const azElSegmentEndTimeTooLate =
+      EphemerisErrorCode._('AZ_EL_SEGMENT_END_TIME_TOO_LATE');
+  static const azElTotalDurationExceeded =
+      EphemerisErrorCode._('AZ_EL_TOTAL_DURATION_EXCEEDED');
+
+  final String value;
+
+  const EphemerisErrorCode._(this.value);
+
+  static const values = [
+    internalError,
+    mismatchedSatcatId,
+    oemVersionUnsupported,
+    originatorMissing,
+    creationDateMissing,
+    objectNameMissing,
+    objectIdMissing,
+    refFrameUnsupported,
+    refFrameEpochUnsupported,
+    timeSystemUnsupported,
+    centerBodyUnsupported,
+    interpolationMissing,
+    interpolationDegreeInvalid,
+    azElSegmentListMissing,
+    insufficientTimeAzEl,
+    startTimeInFuture,
+    endTimeInPast,
+    expirationTimeTooEarly,
+    startTimeMetadataTooEarly,
+    stopTimeMetadataTooLate,
+    azElSegmentEndTimeBeforeStartTime,
+    azElSegmentTimesOverlap,
+    azElSegmentsOutOfOrder,
+    timeAzElItemsOutOfOrder,
+    meanMotionInvalid,
+    timeAzElAzRadianRangeInvalid,
+    timeAzElElRadianRangeInvalid,
+    timeAzElAzDegreeRangeInvalid,
+    timeAzElElDegreeRangeInvalid,
+    timeAzElAngleUnitsInvalid,
+    insufficientKmsPermissions,
+    fileFormatInvalid,
+    azElSegmentReferenceEpochInvalid,
+    azElSegmentStartTimeInvalid,
+    azElSegmentEndTimeInvalid,
+    azElSegmentValidTimeRangeInvalid,
+    azElSegmentEndTimeTooLate,
+    azElTotalDurationExceeded
+  ];
+
+  static EphemerisErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EphemerisErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EphemerisErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Description of ephemeris.
+class EphemerisDescription {
+  /// Supplied ephemeris data.
+  final String? ephemerisData;
+
+  /// Source Amazon S3 object used for the ephemeris.
+  final S3Object? sourceS3Object;
+
+  EphemerisDescription({
+    this.ephemerisData,
+    this.sourceS3Object,
+  });
+
+  factory EphemerisDescription.fromJson(Map<String, dynamic> json) {
+    return EphemerisDescription(
+      ephemerisData: json['ephemerisData'] as String?,
+      sourceS3Object: json['sourceS3Object'] != null
+          ? S3Object.fromJson(json['sourceS3Object'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ephemerisData = this.ephemerisData;
+    final sourceS3Object = this.sourceS3Object;
+    return {
+      if (ephemerisData != null) 'ephemerisData': ephemerisData,
+      if (sourceS3Object != null) 'sourceS3Object': sourceS3Object,
+    };
+  }
+}
+
+/// Ephemeris data.
+class EphemerisData {
+  final AzElEphemeris? azEl;
+  final OEMEphemeris? oem;
+  final TLEEphemeris? tle;
+
+  EphemerisData({
+    this.azEl,
+    this.oem,
+    this.tle,
   });
 
   Map<String, dynamic> toJson() {
-    final status = this.status;
-    final signatureMap = this.signatureMap;
+    final azEl = this.azEl;
+    final oem = this.oem;
+    final tle = this.tle;
     return {
-      'status': status.value,
-      if (signatureMap != null) 'signatureMap': signatureMap,
+      if (azEl != null) 'azEl': azEl,
+      if (oem != null) 'oem': oem,
+      if (tle != null) 'tle': tle,
+    };
+  }
+}
+
+/// Two-line element set (TLE) ephemeris.
+///
+/// For more detail about providing Two-line element sets to AWS Ground Station,
+/// see the <a
+/// href="https://docs.aws.amazon.com/ground-station/latest/ug/providing-tle-ephemeris-data.html">TLE
+/// section</a> of the AWS Ground Station user guide.
+class TLEEphemeris {
+  /// The Amazon S3 object that contains the ephemeris data.
+  final S3Object? s3Object;
+
+  /// TLE data that you provide directly instead of using an Amazon S3 object.
+  final List<TLEData>? tleData;
+
+  TLEEphemeris({
+    this.s3Object,
+    this.tleData,
+  });
+
+  Map<String, dynamic> toJson() {
+    final s3Object = this.s3Object;
+    final tleData = this.tleData;
+    return {
+      if (s3Object != null) 's3Object': s3Object,
+      if (tleData != null) 'tleData': tleData,
+    };
+  }
+}
+
+/// Ephemeris data in Orbit Ephemeris Message (OEM) format.
+///
+/// AWS Ground Station processes OEM ephemerides according to the <a
+/// href="https://ccsds.org/Pubs/502x0b3e1.pdf">CCSDS standard</a> with some
+/// extra restrictions. OEM files should be in KVN format. For more detail about
+/// the OEM format that AWS Ground Station supports, see <a
+/// href="https://docs.aws.amazon.com/ground-station/latest/ug/providing-oem-ephemeris-data.html#oem-ephemeris-format">OEM
+/// ephemeris format</a> in the AWS Ground Station user guide.
+class OEMEphemeris {
+  /// OEM data that you provide directly instead of using an Amazon S3 object.
+  final String? oemData;
+
+  /// The Amazon S3 object that contains the ephemeris data.
+  final S3Object? s3Object;
+
+  OEMEphemeris({
+    this.oemData,
+    this.s3Object,
+  });
+
+  Map<String, dynamic> toJson() {
+    final oemData = this.oemData;
+    final s3Object = this.s3Object;
+    return {
+      if (oemData != null) 'oemData': oemData,
+      if (s3Object != null) 's3Object': s3Object,
+    };
+  }
+}
+
+/// Azimuth elevation ephemeris data.
+///
+/// Use this ephemeris type to provide pointing angles directly, rather than
+/// satellite orbital elements. Use this when you need precise antenna pointing
+/// but have imprecise or unknown satellite trajectory information.
+///
+/// The azimuth elevation data specifies the antenna pointing direction at
+/// specific times relative to a ground station location. AWS Ground Station
+/// uses 4th order Lagrange interpolation to compute pointing angles between the
+/// provided data points.
+///
+/// AWS Ground Station automatically filters interpolated pointing angles,
+/// including only those that are above the site mask elevation of the specified
+/// ground station.
+///
+/// For more detail about providing azimuth elevation ephemerides to AWS Ground
+/// Station, see the <a
+/// href="https://docs.aws.amazon.com/ground-station/latest/ug/providing-azimuth-elevation-ephemeris-data.html">azimuth
+/// elevation ephemeris section</a> of the AWS Ground Station User Guide.
+class AzElEphemeris {
+  /// Azimuth elevation segment data.
+  ///
+  /// You can provide data inline in the request or through an Amazon S3 object
+  /// reference.
+  final AzElSegmentsData data;
+
+  /// The ground station name for which you're providing azimuth elevation data.
+  ///
+  /// This ephemeris is specific to this ground station and can't be used at other
+  /// locations.
+  final String groundStation;
+
+  AzElEphemeris({
+    required this.data,
+    required this.groundStation,
+  });
+
+  Map<String, dynamic> toJson() {
+    final data = this.data;
+    final groundStation = this.groundStation;
+    return {
+      'data': data,
+      'groundStation': groundStation,
+    };
+  }
+}
+
+/// Container for azimuth elevation segment data.
+///
+/// Specify either <a>AzElSegmentsData$s3Object</a> to reference data in Amazon
+/// S3, or <a>AzElSegmentsData$azElData</a> to provide data inline.
+class AzElSegmentsData {
+  /// Azimuth elevation segment data provided directly in the request.
+  ///
+  /// Use this option for smaller datasets or when Amazon S3 access is not
+  /// available.
+  final AzElSegments? azElData;
+
+  /// The Amazon S3 object containing azimuth elevation segment data.
+  ///
+  /// The Amazon S3 object must contain JSON-formatted azimuth elevation data
+  /// matching the <a>AzElSegments</a> structure.
+  final S3Object? s3Object;
+
+  AzElSegmentsData({
+    this.azElData,
+    this.s3Object,
+  });
+
+  Map<String, dynamic> toJson() {
+    final azElData = this.azElData;
+    final s3Object = this.s3Object;
+    return {
+      if (azElData != null) 'azElData': azElData,
+      if (s3Object != null) 's3Object': s3Object,
+    };
+  }
+}
+
+/// Azimuth elevation segment collection.
+///
+/// Contains five or more time-ordered segments that define antenna pointing
+/// angles over the ephemeris validity period.
+class AzElSegments {
+  /// The unit of measure for azimuth and elevation angles. All angles in all
+  /// segments must use the same unit.
+  final AngleUnits angleUnit;
+
+  /// List of azimuth elevation segments.
+  ///
+  /// Must contain between 1 and 100 segments. Segments must be in chronological
+  /// order with no overlaps.
+  final List<AzElSegment> azElSegmentList;
+
+  AzElSegments({
+    required this.angleUnit,
+    required this.azElSegmentList,
+  });
+
+  Map<String, dynamic> toJson() {
+    final angleUnit = this.angleUnit;
+    final azElSegmentList = this.azElSegmentList;
+    return {
+      'angleUnit': angleUnit.value,
+      'azElSegmentList': azElSegmentList,
     };
   }
 }
@@ -1445,6 +4369,1716 @@ class AngleUnits {
   String toString() => value;
 }
 
+/// A time segment containing azimuth elevation pointing data.
+///
+/// Each segment defines a continuous time period with pointing angle data
+/// points. AWS Ground Station uses 4th order Lagrange interpolation between the
+/// provided points, so each segment must contain at least five data points.
+class AzElSegment {
+  /// List of time-tagged azimuth elevation data points.
+  ///
+  /// Must contain at least five points to support 4th order Lagrange
+  /// interpolation. Points must be in chronological order with no duplicates.
+  final List<TimeAzEl> azElList;
+
+  /// The reference time for this segment in ISO 8601 format in Coordinated
+  /// Universal Time (UTC).
+  ///
+  /// All time values within the segment's <a>AzElSegment$azElList</a> are
+  /// specified as offsets in atomic seconds from this reference epoch.
+  ///
+  /// Example: <code>2024-01-15T12:00:00.000Z</code>
+  final DateTime referenceEpoch;
+
+  /// The valid time range for this segment.
+  ///
+  /// Specifies the start and end timestamps in ISO 8601 format in Coordinated
+  /// Universal Time (UTC). The segment's pointing data must cover this entire
+  /// time range.
+  final ISO8601TimeRange validTimeRange;
+
+  AzElSegment({
+    required this.azElList,
+    required this.referenceEpoch,
+    required this.validTimeRange,
+  });
+
+  Map<String, dynamic> toJson() {
+    final azElList = this.azElList;
+    final referenceEpoch = this.referenceEpoch;
+    final validTimeRange = this.validTimeRange;
+    return {
+      'azElList': azElList,
+      'referenceEpoch': iso8601ToJson(referenceEpoch),
+      'validTimeRange': validTimeRange,
+    };
+  }
+}
+
+/// Time range specified using ISO 8601 format timestamps.
+class ISO8601TimeRange {
+  /// End time in ISO 8601 format in Coordinated Universal Time (UTC).
+  ///
+  /// Example: <code>2024-01-15T12:00:00.000Z</code>
+  final DateTime endTime;
+
+  /// Start time in ISO 8601 format in Coordinated Universal Time (UTC).
+  ///
+  /// Example: <code>2026-11-15T10:28:48.000Z</code>
+  final DateTime startTime;
+
+  ISO8601TimeRange({
+    required this.endTime,
+    required this.startTime,
+  });
+
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final startTime = this.startTime;
+    return {
+      'endTime': iso8601ToJson(endTime),
+      'startTime': iso8601ToJson(startTime),
+    };
+  }
+}
+
+/// Time-tagged azimuth elevation pointing data.
+///
+/// Specifies the antenna pointing direction at a specific time offset from the
+/// segment's reference epoch.
+class TimeAzEl {
+  /// Azimuth angle at the specified time.
+  ///
+  /// Valid ranges by unit:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>DEGREE_ANGLE</code>: -180 to 360 degrees, measured clockwise from true
+  /// north
+  /// </li>
+  /// <li>
+  /// <code>RADIAN</code>: -π to 2π radians, measured clockwise from true north
+  /// </li>
+  /// </ul>
+  final double az;
+
+  /// Time offset in atomic seconds from the segment's reference epoch.
+  ///
+  /// All <code>dt</code> values within a segment must be in ascending order with
+  /// no duplicates.
+  ///
+  /// <code>dt</code> values may be:
+  ///
+  /// <ul>
+  /// <li>
+  /// negative
+  /// </li>
+  /// <li>
+  /// expressed as fractions of a second
+  /// </li>
+  /// <li>
+  /// expressed in scientific notation
+  /// </li>
+  /// </ul>
+  final double dt;
+
+  /// Elevation angle at the specified time.
+  ///
+  /// Valid ranges by unit:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>DEGREE_ANGLE</code>: -90 to 90 degrees, where 0 is the horizon, 90 is
+  /// zenith, and negative values are below the horizon
+  /// </li>
+  /// <li>
+  /// <code>RADIAN</code>: -π/2 to π/2 radians, where 0 is the horizon, π/2 is
+  /// zenith, and negative values are below the horizon
+  /// </li>
+  /// </ul>
+  final double el;
+
+  TimeAzEl({
+    required this.az,
+    required this.dt,
+    required this.el,
+  });
+
+  Map<String, dynamic> toJson() {
+    final az = this.az;
+    final dt = this.dt;
+    final el = this.el;
+    return {
+      'az': az,
+      'dt': dt,
+      'el': el,
+    };
+  }
+}
+
+/// Two-line element set (TLE) data.
+class TLEData {
+  /// First line of two-line element set (TLE) data.
+  final String tleLine1;
+
+  /// Second line of two-line element set (TLE) data.
+  final String tleLine2;
+
+  /// The valid time range for the TLE. Time ranges must be continuous without
+  /// gaps or overlaps.
+  final TimeRange validTimeRange;
+
+  TLEData({
+    required this.tleLine1,
+    required this.tleLine2,
+    required this.validTimeRange,
+  });
+
+  Map<String, dynamic> toJson() {
+    final tleLine1 = this.tleLine1;
+    final tleLine2 = this.tleLine2;
+    final validTimeRange = this.validTimeRange;
+    return {
+      'tleLine1': tleLine1,
+      'tleLine2': tleLine2,
+      'validTimeRange': validTimeRange,
+    };
+  }
+}
+
+/// A time range with a start and end time.
+class TimeRange {
+  /// Unix epoch timestamp in UTC at which the time range ends.
+  final DateTime endTime;
+
+  /// Unix epoch timestamp in UTC at which the time range starts.
+  final DateTime startTime;
+
+  TimeRange({
+    required this.endTime,
+    required this.startTime,
+  });
+
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final startTime = this.startTime;
+    return {
+      'endTime': unixTimestampToJson(endTime),
+      'startTime': unixTimestampToJson(startTime),
+    };
+  }
+}
+
+/// Endpoint definition used for creating a dataflow endpoint
+class CreateEndpointDetails {
+  /// Definition for a downlink agent endpoint
+  final DownlinkAwsGroundStationAgentEndpoint?
+      downlinkAwsGroundStationAgentEndpoint;
+
+  /// Definition for an uplink agent endpoint
+  final UplinkAwsGroundStationAgentEndpoint?
+      uplinkAwsGroundStationAgentEndpoint;
+
+  CreateEndpointDetails({
+    this.downlinkAwsGroundStationAgentEndpoint,
+    this.uplinkAwsGroundStationAgentEndpoint,
+  });
+
+  Map<String, dynamic> toJson() {
+    final downlinkAwsGroundStationAgentEndpoint =
+        this.downlinkAwsGroundStationAgentEndpoint;
+    final uplinkAwsGroundStationAgentEndpoint =
+        this.uplinkAwsGroundStationAgentEndpoint;
+    return {
+      if (downlinkAwsGroundStationAgentEndpoint != null)
+        'downlinkAwsGroundStationAgentEndpoint':
+            downlinkAwsGroundStationAgentEndpoint,
+      if (uplinkAwsGroundStationAgentEndpoint != null)
+        'uplinkAwsGroundStationAgentEndpoint':
+            uplinkAwsGroundStationAgentEndpoint,
+    };
+  }
+}
+
+/// Definition for an uplink agent endpoint
+class UplinkAwsGroundStationAgentEndpoint {
+  /// Dataflow details for the uplink endpoint
+  final UplinkDataflowDetails dataflowDetails;
+
+  /// Uplink dataflow endpoint name
+  final String name;
+
+  UplinkAwsGroundStationAgentEndpoint({
+    required this.dataflowDetails,
+    required this.name,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dataflowDetails = this.dataflowDetails;
+    final name = this.name;
+    return {
+      'dataflowDetails': dataflowDetails,
+      'name': name,
+    };
+  }
+}
+
+/// Definition for a downlink agent endpoint
+class DownlinkAwsGroundStationAgentEndpoint {
+  /// Dataflow details for the downlink endpoint
+  final DownlinkDataflowDetails dataflowDetails;
+
+  /// Downlink dataflow endpoint name
+  final String name;
+
+  DownlinkAwsGroundStationAgentEndpoint({
+    required this.dataflowDetails,
+    required this.name,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dataflowDetails = this.dataflowDetails;
+    final name = this.name;
+    return {
+      'dataflowDetails': dataflowDetails,
+      'name': name,
+    };
+  }
+}
+
+/// Dataflow details for a downlink endpoint
+class DownlinkDataflowDetails {
+  /// Downlink connection details for customer to Agent and Agent to Ground
+  /// Station
+  final DownlinkConnectionDetails? agentConnectionDetails;
+
+  DownlinkDataflowDetails({
+    this.agentConnectionDetails,
+  });
+
+  factory DownlinkDataflowDetails.fromJson(Map<String, dynamic> json) {
+    return DownlinkDataflowDetails(
+      agentConnectionDetails: json['agentConnectionDetails'] != null
+          ? DownlinkConnectionDetails.fromJson(
+              json['agentConnectionDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agentConnectionDetails = this.agentConnectionDetails;
+    return {
+      if (agentConnectionDetails != null)
+        'agentConnectionDetails': agentConnectionDetails,
+    };
+  }
+}
+
+/// Connection details for Ground Station to Agent and Agent to customer
+class DownlinkConnectionDetails {
+  final RangedConnectionDetails agentIpAndPortAddress;
+  final ConnectionDetails egressAddressAndPort;
+
+  DownlinkConnectionDetails({
+    required this.agentIpAndPortAddress,
+    required this.egressAddressAndPort,
+  });
+
+  factory DownlinkConnectionDetails.fromJson(Map<String, dynamic> json) {
+    return DownlinkConnectionDetails(
+      agentIpAndPortAddress: RangedConnectionDetails.fromJson(
+          (json['agentIpAndPortAddress'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      egressAddressAndPort: ConnectionDetails.fromJson(
+          (json['egressAddressAndPort'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agentIpAndPortAddress = this.agentIpAndPortAddress;
+    final egressAddressAndPort = this.egressAddressAndPort;
+    return {
+      'agentIpAndPortAddress': agentIpAndPortAddress,
+      'egressAddressAndPort': egressAddressAndPort,
+    };
+  }
+}
+
+/// Ingress address of AgentEndpoint with a port range and an optional mtu.
+class RangedConnectionDetails {
+  /// A ranged socket address.
+  final RangedSocketAddress socketAddress;
+
+  /// Maximum transmission unit (MTU) size in bytes of a dataflow endpoint.
+  final int? mtu;
+
+  RangedConnectionDetails({
+    required this.socketAddress,
+    this.mtu,
+  });
+
+  factory RangedConnectionDetails.fromJson(Map<String, dynamic> json) {
+    return RangedConnectionDetails(
+      socketAddress: RangedSocketAddress.fromJson(
+          (json['socketAddress'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      mtu: json['mtu'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final socketAddress = this.socketAddress;
+    final mtu = this.mtu;
+    return {
+      'socketAddress': socketAddress,
+      if (mtu != null) 'mtu': mtu,
+    };
+  }
+}
+
+/// Egress address of AgentEndpoint with an optional mtu.
+class ConnectionDetails {
+  /// A socket address.
+  final SocketAddress socketAddress;
+
+  /// Maximum transmission unit (MTU) size in bytes of a dataflow endpoint.
+  final int? mtu;
+
+  ConnectionDetails({
+    required this.socketAddress,
+    this.mtu,
+  });
+
+  factory ConnectionDetails.fromJson(Map<String, dynamic> json) {
+    return ConnectionDetails(
+      socketAddress: SocketAddress.fromJson(
+          (json['socketAddress'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      mtu: json['mtu'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final socketAddress = this.socketAddress;
+    final mtu = this.mtu;
+    return {
+      'socketAddress': socketAddress,
+      if (mtu != null) 'mtu': mtu,
+    };
+  }
+}
+
+/// Information about the socket address.
+class SocketAddress {
+  /// Name of a socket address.
+  final String name;
+
+  /// Port of a socket address.
+  final int port;
+
+  SocketAddress({
+    required this.name,
+    required this.port,
+  });
+
+  factory SocketAddress.fromJson(Map<String, dynamic> json) {
+    return SocketAddress(
+      name: (json['name'] as String?) ?? '',
+      port: (json['port'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final port = this.port;
+    return {
+      'name': name,
+      'port': port,
+    };
+  }
+}
+
+/// A socket address with a port range.
+class RangedSocketAddress {
+  /// IPv4 socket address.
+  final String name;
+
+  /// Port range of a socket address.
+  final IntegerRange portRange;
+
+  RangedSocketAddress({
+    required this.name,
+    required this.portRange,
+  });
+
+  factory RangedSocketAddress.fromJson(Map<String, dynamic> json) {
+    return RangedSocketAddress(
+      name: (json['name'] as String?) ?? '',
+      portRange: IntegerRange.fromJson(
+          (json['portRange'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final portRange = this.portRange;
+    return {
+      'name': name,
+      'portRange': portRange,
+    };
+  }
+}
+
+/// An integer range that has a minimum and maximum value.
+class IntegerRange {
+  /// A maximum value.
+  final int maximum;
+
+  /// A minimum value.
+  final int minimum;
+
+  IntegerRange({
+    required this.maximum,
+    required this.minimum,
+  });
+
+  factory IntegerRange.fromJson(Map<String, dynamic> json) {
+    return IntegerRange(
+      maximum: (json['maximum'] as int?) ?? 0,
+      minimum: (json['minimum'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maximum = this.maximum;
+    final minimum = this.minimum;
+    return {
+      'maximum': maximum,
+      'minimum': minimum,
+    };
+  }
+}
+
+/// Dataflow details for an uplink endpoint
+class UplinkDataflowDetails {
+  /// Uplink connection details for customer to Agent and Agent to Ground Station
+  final UplinkConnectionDetails? agentConnectionDetails;
+
+  UplinkDataflowDetails({
+    this.agentConnectionDetails,
+  });
+
+  factory UplinkDataflowDetails.fromJson(Map<String, dynamic> json) {
+    return UplinkDataflowDetails(
+      agentConnectionDetails: json['agentConnectionDetails'] != null
+          ? UplinkConnectionDetails.fromJson(
+              json['agentConnectionDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agentConnectionDetails = this.agentConnectionDetails;
+    return {
+      if (agentConnectionDetails != null)
+        'agentConnectionDetails': agentConnectionDetails,
+    };
+  }
+}
+
+/// Connection details for customer to Agent and Agent to Ground Station
+class UplinkConnectionDetails {
+  final RangedConnectionDetails agentIpAndPortAddress;
+  final ConnectionDetails ingressAddressAndPort;
+
+  UplinkConnectionDetails({
+    required this.agentIpAndPortAddress,
+    required this.ingressAddressAndPort,
+  });
+
+  factory UplinkConnectionDetails.fromJson(Map<String, dynamic> json) {
+    return UplinkConnectionDetails(
+      agentIpAndPortAddress: RangedConnectionDetails.fromJson(
+          (json['agentIpAndPortAddress'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      ingressAddressAndPort: ConnectionDetails.fromJson(
+          (json['ingressAddressAndPort'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agentIpAndPortAddress = this.agentIpAndPortAddress;
+    final ingressAddressAndPort = this.ingressAddressAndPort;
+    return {
+      'agentIpAndPortAddress': agentIpAndPortAddress,
+      'ingressAddressAndPort': ingressAddressAndPort,
+    };
+  }
+}
+
+/// Item in a list of <code>DataflowEndpoint</code> groups.
+class DataflowEndpointListItem {
+  /// ARN of a dataflow endpoint group.
+  final String? dataflowEndpointGroupArn;
+
+  /// UUID of a dataflow endpoint group.
+  final String? dataflowEndpointGroupId;
+
+  DataflowEndpointListItem({
+    this.dataflowEndpointGroupArn,
+    this.dataflowEndpointGroupId,
+  });
+
+  factory DataflowEndpointListItem.fromJson(Map<String, dynamic> json) {
+    return DataflowEndpointListItem(
+      dataflowEndpointGroupArn: json['dataflowEndpointGroupArn'] as String?,
+      dataflowEndpointGroupId: json['dataflowEndpointGroupId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataflowEndpointGroupArn = this.dataflowEndpointGroupArn;
+    final dataflowEndpointGroupId = this.dataflowEndpointGroupId;
+    return {
+      if (dataflowEndpointGroupArn != null)
+        'dataflowEndpointGroupArn': dataflowEndpointGroupArn,
+      if (dataflowEndpointGroupId != null)
+        'dataflowEndpointGroupId': dataflowEndpointGroupId,
+    };
+  }
+}
+
+/// Information about the endpoint details.
+class EndpointDetails {
+  /// An agent endpoint.
+  final AwsGroundStationAgentEndpoint? awsGroundStationAgentEndpoint;
+
+  /// Definition for a downlink agent endpoint
+  final DownlinkAwsGroundStationAgentEndpointDetails?
+      downlinkAwsGroundStationAgentEndpoint;
+
+  /// A dataflow endpoint.
+  final DataflowEndpoint? endpoint;
+
+  /// Health reasons for a dataflow endpoint. This field is ignored when calling
+  /// <code>CreateDataflowEndpointGroup</code>.
+  final List<CapabilityHealthReason>? healthReasons;
+
+  /// A dataflow endpoint health status. This field is ignored when calling
+  /// <code>CreateDataflowEndpointGroup</code>.
+  final CapabilityHealth? healthStatus;
+
+  /// Endpoint security details including a list of subnets, a list of security
+  /// groups and a role to connect streams to instances.
+  final SecurityDetails? securityDetails;
+
+  /// Definition for an uplink agent endpoint
+  final UplinkAwsGroundStationAgentEndpointDetails?
+      uplinkAwsGroundStationAgentEndpoint;
+
+  EndpointDetails({
+    this.awsGroundStationAgentEndpoint,
+    this.downlinkAwsGroundStationAgentEndpoint,
+    this.endpoint,
+    this.healthReasons,
+    this.healthStatus,
+    this.securityDetails,
+    this.uplinkAwsGroundStationAgentEndpoint,
+  });
+
+  factory EndpointDetails.fromJson(Map<String, dynamic> json) {
+    return EndpointDetails(
+      awsGroundStationAgentEndpoint:
+          json['awsGroundStationAgentEndpoint'] != null
+              ? AwsGroundStationAgentEndpoint.fromJson(
+                  json['awsGroundStationAgentEndpoint'] as Map<String, dynamic>)
+              : null,
+      downlinkAwsGroundStationAgentEndpoint:
+          json['downlinkAwsGroundStationAgentEndpoint'] != null
+              ? DownlinkAwsGroundStationAgentEndpointDetails.fromJson(
+                  json['downlinkAwsGroundStationAgentEndpoint']
+                      as Map<String, dynamic>)
+              : null,
+      endpoint: json['endpoint'] != null
+          ? DataflowEndpoint.fromJson(json['endpoint'] as Map<String, dynamic>)
+          : null,
+      healthReasons: (json['healthReasons'] as List?)
+          ?.nonNulls
+          .map((e) => CapabilityHealthReason.fromString((e as String)))
+          .toList(),
+      healthStatus:
+          (json['healthStatus'] as String?)?.let(CapabilityHealth.fromString),
+      securityDetails: json['securityDetails'] != null
+          ? SecurityDetails.fromJson(
+              json['securityDetails'] as Map<String, dynamic>)
+          : null,
+      uplinkAwsGroundStationAgentEndpoint:
+          json['uplinkAwsGroundStationAgentEndpoint'] != null
+              ? UplinkAwsGroundStationAgentEndpointDetails.fromJson(
+                  json['uplinkAwsGroundStationAgentEndpoint']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsGroundStationAgentEndpoint = this.awsGroundStationAgentEndpoint;
+    final downlinkAwsGroundStationAgentEndpoint =
+        this.downlinkAwsGroundStationAgentEndpoint;
+    final endpoint = this.endpoint;
+    final healthReasons = this.healthReasons;
+    final healthStatus = this.healthStatus;
+    final securityDetails = this.securityDetails;
+    final uplinkAwsGroundStationAgentEndpoint =
+        this.uplinkAwsGroundStationAgentEndpoint;
+    return {
+      if (awsGroundStationAgentEndpoint != null)
+        'awsGroundStationAgentEndpoint': awsGroundStationAgentEndpoint,
+      if (downlinkAwsGroundStationAgentEndpoint != null)
+        'downlinkAwsGroundStationAgentEndpoint':
+            downlinkAwsGroundStationAgentEndpoint,
+      if (endpoint != null) 'endpoint': endpoint,
+      if (healthReasons != null)
+        'healthReasons': healthReasons.map((e) => e.value).toList(),
+      if (healthStatus != null) 'healthStatus': healthStatus.value,
+      if (securityDetails != null) 'securityDetails': securityDetails,
+      if (uplinkAwsGroundStationAgentEndpoint != null)
+        'uplinkAwsGroundStationAgentEndpoint':
+            uplinkAwsGroundStationAgentEndpoint,
+    };
+  }
+}
+
+/// Information about endpoints.
+class SecurityDetails {
+  /// ARN to a role needed for connecting streams to your instances.
+  final String roleArn;
+
+  /// The security groups to attach to the elastic network interfaces.
+  final List<String> securityGroupIds;
+
+  /// A list of subnets where AWS Ground Station places elastic network interfaces
+  /// to send streams to your instances.
+  final List<String> subnetIds;
+
+  SecurityDetails({
+    required this.roleArn,
+    required this.securityGroupIds,
+    required this.subnetIds,
+  });
+
+  factory SecurityDetails.fromJson(Map<String, dynamic> json) {
+    return SecurityDetails(
+      roleArn: (json['roleArn'] as String?) ?? '',
+      securityGroupIds: ((json['securityGroupIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      subnetIds: ((json['subnetIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roleArn = this.roleArn;
+    final securityGroupIds = this.securityGroupIds;
+    final subnetIds = this.subnetIds;
+    return {
+      'roleArn': roleArn,
+      'securityGroupIds': securityGroupIds,
+      'subnetIds': subnetIds,
+    };
+  }
+}
+
+/// Information about a dataflow endpoint.
+class DataflowEndpoint {
+  /// Socket address of a dataflow endpoint.
+  final SocketAddress? address;
+
+  /// Maximum transmission unit (MTU) size in bytes of a dataflow endpoint.
+  final int? mtu;
+
+  /// Name of a dataflow endpoint.
+  final String? name;
+
+  /// Status of a dataflow endpoint.
+  final EndpointStatus? status;
+
+  DataflowEndpoint({
+    this.address,
+    this.mtu,
+    this.name,
+    this.status,
+  });
+
+  factory DataflowEndpoint.fromJson(Map<String, dynamic> json) {
+    return DataflowEndpoint(
+      address: json['address'] != null
+          ? SocketAddress.fromJson(json['address'] as Map<String, dynamic>)
+          : null,
+      mtu: json['mtu'] as int?,
+      name: json['name'] as String?,
+      status: (json['status'] as String?)?.let(EndpointStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final address = this.address;
+    final mtu = this.mtu;
+    final name = this.name;
+    final status = this.status;
+    return {
+      if (address != null) 'address': address,
+      if (mtu != null) 'mtu': mtu,
+      if (name != null) 'name': name,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+/// Information about AwsGroundStationAgentEndpoint.
+class AwsGroundStationAgentEndpoint {
+  /// The egress address of AgentEndpoint.
+  final ConnectionDetails egressAddress;
+
+  /// The ingress address of AgentEndpoint.
+  final RangedConnectionDetails ingressAddress;
+
+  /// Name string associated with AgentEndpoint. Used as a human-readable
+  /// identifier for AgentEndpoint.
+  final String name;
+
+  /// The status of AgentEndpoint.
+  final AgentStatus? agentStatus;
+
+  /// The results of the audit.
+  final AuditResults? auditResults;
+
+  AwsGroundStationAgentEndpoint({
+    required this.egressAddress,
+    required this.ingressAddress,
+    required this.name,
+    this.agentStatus,
+    this.auditResults,
+  });
+
+  factory AwsGroundStationAgentEndpoint.fromJson(Map<String, dynamic> json) {
+    return AwsGroundStationAgentEndpoint(
+      egressAddress: ConnectionDetails.fromJson(
+          (json['egressAddress'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      ingressAddress: RangedConnectionDetails.fromJson(
+          (json['ingressAddress'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      name: (json['name'] as String?) ?? '',
+      agentStatus:
+          (json['agentStatus'] as String?)?.let(AgentStatus.fromString),
+      auditResults:
+          (json['auditResults'] as String?)?.let(AuditResults.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final egressAddress = this.egressAddress;
+    final ingressAddress = this.ingressAddress;
+    final name = this.name;
+    final agentStatus = this.agentStatus;
+    final auditResults = this.auditResults;
+    return {
+      'egressAddress': egressAddress,
+      'ingressAddress': ingressAddress,
+      'name': name,
+      if (agentStatus != null) 'agentStatus': agentStatus.value,
+      if (auditResults != null) 'auditResults': auditResults.value,
+    };
+  }
+}
+
+/// Details for an uplink agent endpoint
+class UplinkAwsGroundStationAgentEndpointDetails {
+  /// Dataflow details for the uplink endpoint
+  final UplinkDataflowDetails dataflowDetails;
+
+  /// Uplink dataflow endpoint name
+  final String name;
+
+  /// Status of the agent associated with the uplink dataflow endpoint
+  final AgentStatus? agentStatus;
+
+  /// Health audit results for the uplink dataflow endpoint
+  final AuditResults? auditResults;
+
+  UplinkAwsGroundStationAgentEndpointDetails({
+    required this.dataflowDetails,
+    required this.name,
+    this.agentStatus,
+    this.auditResults,
+  });
+
+  factory UplinkAwsGroundStationAgentEndpointDetails.fromJson(
+      Map<String, dynamic> json) {
+    return UplinkAwsGroundStationAgentEndpointDetails(
+      dataflowDetails: UplinkDataflowDetails.fromJson(
+          (json['dataflowDetails'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      name: (json['name'] as String?) ?? '',
+      agentStatus:
+          (json['agentStatus'] as String?)?.let(AgentStatus.fromString),
+      auditResults:
+          (json['auditResults'] as String?)?.let(AuditResults.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataflowDetails = this.dataflowDetails;
+    final name = this.name;
+    final agentStatus = this.agentStatus;
+    final auditResults = this.auditResults;
+    return {
+      'dataflowDetails': dataflowDetails,
+      'name': name,
+      if (agentStatus != null) 'agentStatus': agentStatus.value,
+      if (auditResults != null) 'auditResults': auditResults.value,
+    };
+  }
+}
+
+/// Details for a downlink agent endpoint
+class DownlinkAwsGroundStationAgentEndpointDetails {
+  /// Dataflow details for the downlink endpoint
+  final DownlinkDataflowDetails dataflowDetails;
+
+  /// Downlink dataflow endpoint name
+  final String name;
+
+  /// Status of the agent associated with the downlink dataflow endpoint
+  final AgentStatus? agentStatus;
+
+  /// Health audit results for the downlink dataflow endpoint
+  final AuditResults? auditResults;
+
+  DownlinkAwsGroundStationAgentEndpointDetails({
+    required this.dataflowDetails,
+    required this.name,
+    this.agentStatus,
+    this.auditResults,
+  });
+
+  factory DownlinkAwsGroundStationAgentEndpointDetails.fromJson(
+      Map<String, dynamic> json) {
+    return DownlinkAwsGroundStationAgentEndpointDetails(
+      dataflowDetails: DownlinkDataflowDetails.fromJson(
+          (json['dataflowDetails'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      name: (json['name'] as String?) ?? '',
+      agentStatus:
+          (json['agentStatus'] as String?)?.let(AgentStatus.fromString),
+      auditResults:
+          (json['auditResults'] as String?)?.let(AuditResults.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataflowDetails = this.dataflowDetails;
+    final name = this.name;
+    final agentStatus = this.agentStatus;
+    final auditResults = this.auditResults;
+    return {
+      'dataflowDetails': dataflowDetails,
+      'name': name,
+      if (agentStatus != null) 'agentStatus': agentStatus.value,
+      if (auditResults != null) 'auditResults': auditResults.value,
+    };
+  }
+}
+
+class CapabilityHealth {
+  static const healthy = CapabilityHealth._('HEALTHY');
+  static const unhealthy = CapabilityHealth._('UNHEALTHY');
+
+  final String value;
+
+  const CapabilityHealth._(this.value);
+
+  static const values = [healthy, unhealthy];
+
+  static CapabilityHealth fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CapabilityHealth._(value));
+
+  @override
+  bool operator ==(other) => other is CapabilityHealth && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class CapabilityHealthReason {
+  static const noRegisteredAgent =
+      CapabilityHealthReason._('NO_REGISTERED_AGENT');
+  static const invalidIpOwnership =
+      CapabilityHealthReason._('INVALID_IP_OWNERSHIP');
+  static const notAuthorizedToCreateSlr =
+      CapabilityHealthReason._('NOT_AUTHORIZED_TO_CREATE_SLR');
+  static const unverifiedIpOwnership =
+      CapabilityHealthReason._('UNVERIFIED_IP_OWNERSHIP');
+  static const initializingDataplane =
+      CapabilityHealthReason._('INITIALIZING_DATAPLANE');
+  static const dataplaneFailure = CapabilityHealthReason._('DATAPLANE_FAILURE');
+  static const healthy = CapabilityHealthReason._('HEALTHY');
+
+  final String value;
+
+  const CapabilityHealthReason._(this.value);
+
+  static const values = [
+    noRegisteredAgent,
+    invalidIpOwnership,
+    notAuthorizedToCreateSlr,
+    unverifiedIpOwnership,
+    initializingDataplane,
+    dataplaneFailure,
+    healthy
+  ];
+
+  static CapabilityHealthReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CapabilityHealthReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CapabilityHealthReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AgentStatus {
+  static const success = AgentStatus._('SUCCESS');
+  static const failed = AgentStatus._('FAILED');
+  static const active = AgentStatus._('ACTIVE');
+  static const inactive = AgentStatus._('INACTIVE');
+
+  final String value;
+
+  const AgentStatus._(this.value);
+
+  static const values = [success, failed, active, inactive];
+
+  static AgentStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AgentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AgentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AuditResults {
+  static const healthy = AuditResults._('HEALTHY');
+  static const unhealthy = AuditResults._('UNHEALTHY');
+
+  final String value;
+
+  const AuditResults._(this.value);
+
+  static const values = [healthy, unhealthy];
+
+  static AuditResults fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AuditResults._(value));
+
+  @override
+  bool operator ==(other) => other is AuditResults && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class EndpointStatus {
+  static const created = EndpointStatus._('created');
+  static const creating = EndpointStatus._('creating');
+  static const deleted = EndpointStatus._('deleted');
+  static const deleting = EndpointStatus._('deleting');
+  static const failed = EndpointStatus._('failed');
+
+  final String value;
+
+  const EndpointStatus._(this.value);
+
+  static const values = [created, creating, deleted, deleting, failed];
+
+  static EndpointStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EndpointStatus._(value));
+
+  @override
+  bool operator ==(other) => other is EndpointStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Version information for a contact.
+class ContactVersion {
+  /// Time the contact version was activated in UTC. A version is activated when
+  /// it becomes the current active version of the contact.
+  final DateTime? activated;
+
+  /// Time the contact version was created in UTC.
+  final DateTime? created;
+
+  /// List of failure codes for the contact version.
+  final List<VersionFailureReasonCode>? failureCodes;
+
+  /// Failure message for the contact version.
+  final String? failureMessage;
+
+  /// Time the contact version was last updated in UTC.
+  final DateTime? lastUpdated;
+
+  /// Status of the contact version.
+  final VersionStatus? status;
+
+  /// Time the contact version was superseded in UTC. A version is superseded when
+  /// a newer version becomes active.
+  final DateTime? superseded;
+
+  /// Version ID of a contact.
+  final int? versionId;
+
+  ContactVersion({
+    this.activated,
+    this.created,
+    this.failureCodes,
+    this.failureMessage,
+    this.lastUpdated,
+    this.status,
+    this.superseded,
+    this.versionId,
+  });
+
+  factory ContactVersion.fromJson(Map<String, dynamic> json) {
+    return ContactVersion(
+      activated: timeStampFromJson(json['activated']),
+      created: timeStampFromJson(json['created']),
+      failureCodes: (json['failureCodes'] as List?)
+          ?.nonNulls
+          .map((e) => VersionFailureReasonCode.fromString((e as String)))
+          .toList(),
+      failureMessage: json['failureMessage'] as String?,
+      lastUpdated: timeStampFromJson(json['lastUpdated']),
+      status: (json['status'] as String?)?.let(VersionStatus.fromString),
+      superseded: timeStampFromJson(json['superseded']),
+      versionId: json['versionId'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activated = this.activated;
+    final created = this.created;
+    final failureCodes = this.failureCodes;
+    final failureMessage = this.failureMessage;
+    final lastUpdated = this.lastUpdated;
+    final status = this.status;
+    final superseded = this.superseded;
+    final versionId = this.versionId;
+    return {
+      if (activated != null) 'activated': unixTimestampToJson(activated),
+      if (created != null) 'created': unixTimestampToJson(created),
+      if (failureCodes != null)
+        'failureCodes': failureCodes.map((e) => e.value).toList(),
+      if (failureMessage != null) 'failureMessage': failureMessage,
+      if (lastUpdated != null) 'lastUpdated': unixTimestampToJson(lastUpdated),
+      if (status != null) 'status': status.value,
+      if (superseded != null) 'superseded': unixTimestampToJson(superseded),
+      if (versionId != null) 'versionId': versionId,
+    };
+  }
+}
+
+class VersionStatus {
+  static const updating = VersionStatus._('UPDATING');
+  static const active = VersionStatus._('ACTIVE');
+  static const superseded = VersionStatus._('SUPERSEDED');
+  static const failedToUpdate = VersionStatus._('FAILED_TO_UPDATE');
+
+  final String value;
+
+  const VersionStatus._(this.value);
+
+  static const values = [updating, active, superseded, failedToUpdate];
+
+  static VersionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VersionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is VersionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class VersionFailureReasonCode {
+  static const internalError = VersionFailureReasonCode._('INTERNAL_ERROR');
+  static const invalidSatelliteArn =
+      VersionFailureReasonCode._('INVALID_SATELLITE_ARN');
+  static const invalidUpdateContactRequest =
+      VersionFailureReasonCode._('INVALID_UPDATE_CONTACT_REQUEST');
+  static const ephemerisNotFound =
+      VersionFailureReasonCode._('EPHEMERIS_NOT_FOUND');
+  static const ephemerisTimeRangeInvalid =
+      VersionFailureReasonCode._('EPHEMERIS_TIME_RANGE_INVALID');
+  static const ephemerisNotEnabled =
+      VersionFailureReasonCode._('EPHEMERIS_NOT_ENABLED');
+  static const satelliteDoesNotMatchEphemeris =
+      VersionFailureReasonCode._('SATELLITE_DOES_NOT_MATCH_EPHEMERIS');
+  static const notOnboardedToAzelEphemeris =
+      VersionFailureReasonCode._('NOT_ONBOARDED_TO_AZEL_EPHEMERIS');
+  static const azelEphemerisNotFound =
+      VersionFailureReasonCode._('AZEL_EPHEMERIS_NOT_FOUND');
+  static const azelEphemerisWrongGroundStation =
+      VersionFailureReasonCode._('AZEL_EPHEMERIS_WRONG_GROUND_STATION');
+  static const azelEphemerisInvalidStatus =
+      VersionFailureReasonCode._('AZEL_EPHEMERIS_INVALID_STATUS');
+  static const azelEphemerisTimeRangeInvalid =
+      VersionFailureReasonCode._('AZEL_EPHEMERIS_TIME_RANGE_INVALID');
+
+  final String value;
+
+  const VersionFailureReasonCode._(this.value);
+
+  static const values = [
+    internalError,
+    invalidSatelliteArn,
+    invalidUpdateContactRequest,
+    ephemerisNotFound,
+    ephemerisTimeRangeInvalid,
+    ephemerisNotEnabled,
+    satelliteDoesNotMatchEphemeris,
+    notOnboardedToAzelEphemeris,
+    azelEphemerisNotFound,
+    azelEphemerisWrongGroundStation,
+    azelEphemerisInvalidStatus,
+    azelEphemerisTimeRangeInvalid
+  ];
+
+  static VersionFailureReasonCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VersionFailureReasonCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VersionFailureReasonCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ContactStatus {
+  static const scheduling = ContactStatus._('SCHEDULING');
+  static const failedToSchedule = ContactStatus._('FAILED_TO_SCHEDULE');
+  static const scheduled = ContactStatus._('SCHEDULED');
+  static const cancelled = ContactStatus._('CANCELLED');
+  static const awsCancelled = ContactStatus._('AWS_CANCELLED');
+  static const prepass = ContactStatus._('PREPASS');
+  static const pass = ContactStatus._('PASS');
+  static const postpass = ContactStatus._('POSTPASS');
+  static const completed = ContactStatus._('COMPLETED');
+  static const failed = ContactStatus._('FAILED');
+  static const available = ContactStatus._('AVAILABLE');
+  static const cancelling = ContactStatus._('CANCELLING');
+  static const awsFailed = ContactStatus._('AWS_FAILED');
+
+  final String value;
+
+  const ContactStatus._(this.value);
+
+  static const values = [
+    scheduling,
+    failedToSchedule,
+    scheduled,
+    cancelled,
+    awsCancelled,
+    prepass,
+    pass,
+    postpass,
+    completed,
+    failed,
+    available,
+    cancelling,
+    awsFailed
+  ];
+
+  static ContactStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContactStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ContactStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Elevation angle of the satellite in the sky during a contact.
+class Elevation {
+  /// Elevation angle units.
+  final AngleUnits unit;
+
+  /// Elevation angle value.
+  final double value;
+
+  Elevation({
+    required this.unit,
+    required this.value,
+  });
+
+  factory Elevation.fromJson(Map<String, dynamic> json) {
+    return Elevation(
+      unit: AngleUnits.fromString((json['unit'] as String?) ?? ''),
+      value: (json['value'] as double?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final unit = this.unit;
+    final value = this.value;
+    return {
+      'unit': unit.value,
+      'value': value,
+    };
+  }
+}
+
+/// Overrides the default tracking configuration on an antenna during a contact.
+class TrackingOverrides {
+  /// Program track settings to override for antenna tracking during the contact.
+  final ProgramTrackSettings? programTrackSettings;
+
+  TrackingOverrides({
+    this.programTrackSettings,
+  });
+
+  factory TrackingOverrides.fromJson(Map<String, dynamic> json) {
+    return TrackingOverrides(
+      programTrackSettings: json['programTrackSettings'] != null
+          ? ProgramTrackSettings.fromJson(
+              json['programTrackSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final programTrackSettings = this.programTrackSettings;
+    return {
+      if (programTrackSettings != null)
+        'programTrackSettings': programTrackSettings,
+    };
+  }
+}
+
+/// Ephemeris data for a contact.
+class EphemerisResponseData {
+  /// Type of ephemeris.
+  final EphemerisType ephemerisType;
+
+  /// Unique identifier of the ephemeris. Appears only for custom ephemerides.
+  final String? ephemerisId;
+
+  EphemerisResponseData({
+    required this.ephemerisType,
+    this.ephemerisId,
+  });
+
+  factory EphemerisResponseData.fromJson(Map<String, dynamic> json) {
+    return EphemerisResponseData(
+      ephemerisType:
+          EphemerisType.fromString((json['ephemerisType'] as String?) ?? ''),
+      ephemerisId: json['ephemerisId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ephemerisType = this.ephemerisType;
+    final ephemerisId = this.ephemerisId;
+    return {
+      'ephemerisType': ephemerisType.value,
+      if (ephemerisId != null) 'ephemerisId': ephemerisId,
+    };
+  }
+}
+
+/// Program track settings for an antenna during a contact.
+class ProgramTrackSettings {
+  /// Program track settings for <a>AzElEphemeris</a>.
+  final AzElProgramTrackSettings? azEl;
+
+  /// Program track settings for <a>OEMEphemeris</a>.
+  final OemProgramTrackSettings? oem;
+
+  /// Program track settings for <a>TLEEphemeris</a>.
+  final TleProgramTrackSettings? tle;
+
+  ProgramTrackSettings({
+    this.azEl,
+    this.oem,
+    this.tle,
+  });
+
+  factory ProgramTrackSettings.fromJson(Map<String, dynamic> json) {
+    return ProgramTrackSettings(
+      azEl: json['azEl'] != null
+          ? AzElProgramTrackSettings.fromJson(
+              json['azEl'] as Map<String, dynamic>)
+          : null,
+      oem: json['oem'] != null
+          ? OemProgramTrackSettings.fromJson(
+              json['oem'] as Map<String, dynamic>)
+          : null,
+      tle: json['tle'] != null
+          ? TleProgramTrackSettings.fromJson(
+              json['tle'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final azEl = this.azEl;
+    final oem = this.oem;
+    final tle = this.tle;
+    return {
+      if (azEl != null) 'azEl': azEl,
+      if (oem != null) 'oem': oem,
+      if (tle != null) 'tle': tle,
+    };
+  }
+}
+
+/// Program track settings for <a>AzElEphemeris</a>.
+class AzElProgramTrackSettings {
+  /// Unique identifier of the azimuth elevation ephemeris.
+  final String ephemerisId;
+
+  AzElProgramTrackSettings({
+    required this.ephemerisId,
+  });
+
+  factory AzElProgramTrackSettings.fromJson(Map<String, dynamic> json) {
+    return AzElProgramTrackSettings(
+      ephemerisId: (json['ephemerisId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ephemerisId = this.ephemerisId;
+    return {
+      'ephemerisId': ephemerisId,
+    };
+  }
+}
+
+/// Program track settings for <a>OEMEphemeris</a>.
+class OemProgramTrackSettings {
+  /// Unique identifier of the OEM ephemeris.
+  final String ephemerisId;
+
+  OemProgramTrackSettings({
+    required this.ephemerisId,
+  });
+
+  factory OemProgramTrackSettings.fromJson(Map<String, dynamic> json) {
+    return OemProgramTrackSettings(
+      ephemerisId: (json['ephemerisId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ephemerisId = this.ephemerisId;
+    return {
+      'ephemerisId': ephemerisId,
+    };
+  }
+}
+
+/// Program track settings for <a>TLEEphemeris</a>.
+class TleProgramTrackSettings {
+  /// Unique identifier of the TLE ephemeris.
+  final String ephemerisId;
+
+  TleProgramTrackSettings({
+    required this.ephemerisId,
+  });
+
+  factory TleProgramTrackSettings.fromJson(Map<String, dynamic> json) {
+    return TleProgramTrackSettings(
+      ephemerisId: (json['ephemerisId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ephemerisId = this.ephemerisId;
+    return {
+      'ephemerisId': ephemerisId,
+    };
+  }
+}
+
+/// Information about a dataflow edge used in a contact.
+class DataflowDetail {
+  final Destination? destination;
+
+  /// Error message for a dataflow.
+  final String? errorMessage;
+  final Source? source;
+
+  DataflowDetail({
+    this.destination,
+    this.errorMessage,
+    this.source,
+  });
+
+  factory DataflowDetail.fromJson(Map<String, dynamic> json) {
+    return DataflowDetail(
+      destination: json['destination'] != null
+          ? Destination.fromJson(json['destination'] as Map<String, dynamic>)
+          : null,
+      errorMessage: json['errorMessage'] as String?,
+      source: json['source'] != null
+          ? Source.fromJson(json['source'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destination = this.destination;
+    final errorMessage = this.errorMessage;
+    final source = this.source;
+    return {
+      if (destination != null) 'destination': destination,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (source != null) 'source': source,
+    };
+  }
+}
+
+/// Dataflow details for the source side.
+class Source {
+  /// Additional details for a <code>Config</code>, if type is
+  /// <code>dataflow-endpoint</code> or <code>antenna-downlink-demod-decode</code>
+  final ConfigDetails? configDetails;
+
+  /// UUID of a <code>Config</code>.
+  final String? configId;
+
+  /// Type of a <code>Config</code>.
+  final ConfigCapabilityType? configType;
+
+  /// Region of a dataflow source.
+  final String? dataflowSourceRegion;
+
+  Source({
+    this.configDetails,
+    this.configId,
+    this.configType,
+    this.dataflowSourceRegion,
+  });
+
+  factory Source.fromJson(Map<String, dynamic> json) {
+    return Source(
+      configDetails: json['configDetails'] != null
+          ? ConfigDetails.fromJson(
+              json['configDetails'] as Map<String, dynamic>)
+          : null,
+      configId: json['configId'] as String?,
+      configType:
+          (json['configType'] as String?)?.let(ConfigCapabilityType.fromString),
+      dataflowSourceRegion: json['dataflowSourceRegion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configDetails = this.configDetails;
+    final configId = this.configId;
+    final configType = this.configType;
+    final dataflowSourceRegion = this.dataflowSourceRegion;
+    return {
+      if (configDetails != null) 'configDetails': configDetails,
+      if (configId != null) 'configId': configId,
+      if (configType != null) 'configType': configType.value,
+      if (dataflowSourceRegion != null)
+        'dataflowSourceRegion': dataflowSourceRegion,
+    };
+  }
+}
+
+/// Dataflow details for the destination side.
+class Destination {
+  /// Additional details for a <code>Config</code>, if type is dataflow endpoint
+  /// or antenna demod decode.
+  final ConfigDetails? configDetails;
+
+  /// UUID of a <code>Config</code>.
+  final String? configId;
+
+  /// Type of a <code>Config</code>.
+  final ConfigCapabilityType? configType;
+
+  /// Region of a dataflow destination.
+  final String? dataflowDestinationRegion;
+
+  Destination({
+    this.configDetails,
+    this.configId,
+    this.configType,
+    this.dataflowDestinationRegion,
+  });
+
+  factory Destination.fromJson(Map<String, dynamic> json) {
+    return Destination(
+      configDetails: json['configDetails'] != null
+          ? ConfigDetails.fromJson(
+              json['configDetails'] as Map<String, dynamic>)
+          : null,
+      configId: json['configId'] as String?,
+      configType:
+          (json['configType'] as String?)?.let(ConfigCapabilityType.fromString),
+      dataflowDestinationRegion: json['dataflowDestinationRegion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configDetails = this.configDetails;
+    final configId = this.configId;
+    final configType = this.configType;
+    final dataflowDestinationRegion = this.dataflowDestinationRegion;
+    return {
+      if (configDetails != null) 'configDetails': configDetails,
+      if (configId != null) 'configId': configId,
+      if (configType != null) 'configType': configType.value,
+      if (dataflowDestinationRegion != null)
+        'dataflowDestinationRegion': dataflowDestinationRegion,
+    };
+  }
+}
+
+class ConfigCapabilityType {
+  static const antennaDownlink = ConfigCapabilityType._('antenna-downlink');
+  static const antennaDownlinkDemodDecode =
+      ConfigCapabilityType._('antenna-downlink-demod-decode');
+  static const tracking = ConfigCapabilityType._('tracking');
+  static const dataflowEndpoint = ConfigCapabilityType._('dataflow-endpoint');
+  static const antennaUplink = ConfigCapabilityType._('antenna-uplink');
+  static const uplinkEcho = ConfigCapabilityType._('uplink-echo');
+  static const s3Recording = ConfigCapabilityType._('s3-recording');
+  static const telemetrySink = ConfigCapabilityType._('telemetry-sink');
+
+  final String value;
+
+  const ConfigCapabilityType._(this.value);
+
+  static const values = [
+    antennaDownlink,
+    antennaDownlinkDemodDecode,
+    tracking,
+    dataflowEndpoint,
+    antennaUplink,
+    uplinkEcho,
+    s3Recording,
+    telemetrySink
+  ];
+
+  static ConfigCapabilityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConfigCapabilityType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConfigCapabilityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Details for certain <code>Config</code> object types in a contact.
+class ConfigDetails {
+  /// Details for antenna demod decode <code>Config</code> in a contact.
+  final AntennaDemodDecodeDetails? antennaDemodDecodeDetails;
+  final EndpointDetails? endpointDetails;
+
+  /// Details for an S3 recording <code>Config</code> in a contact.
+  final S3RecordingDetails? s3RecordingDetails;
+
+  ConfigDetails({
+    this.antennaDemodDecodeDetails,
+    this.endpointDetails,
+    this.s3RecordingDetails,
+  });
+
+  factory ConfigDetails.fromJson(Map<String, dynamic> json) {
+    return ConfigDetails(
+      antennaDemodDecodeDetails: json['antennaDemodDecodeDetails'] != null
+          ? AntennaDemodDecodeDetails.fromJson(
+              json['antennaDemodDecodeDetails'] as Map<String, dynamic>)
+          : null,
+      endpointDetails: json['endpointDetails'] != null
+          ? EndpointDetails.fromJson(
+              json['endpointDetails'] as Map<String, dynamic>)
+          : null,
+      s3RecordingDetails: json['s3RecordingDetails'] != null
+          ? S3RecordingDetails.fromJson(
+              json['s3RecordingDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final antennaDemodDecodeDetails = this.antennaDemodDecodeDetails;
+    final endpointDetails = this.endpointDetails;
+    final s3RecordingDetails = this.s3RecordingDetails;
+    return {
+      if (antennaDemodDecodeDetails != null)
+        'antennaDemodDecodeDetails': antennaDemodDecodeDetails,
+      if (endpointDetails != null) 'endpointDetails': endpointDetails,
+      if (s3RecordingDetails != null) 's3RecordingDetails': s3RecordingDetails,
+    };
+  }
+}
+
 /// Details about an antenna demod decode <code>Config</code> used in a contact.
 class AntennaDemodDecodeDetails {
   /// Name of an antenna demod decode output node used in a contact.
@@ -1464,6 +6098,390 @@ class AntennaDemodDecodeDetails {
     final outputNode = this.outputNode;
     return {
       if (outputNode != null) 'outputNode': outputNode,
+    };
+  }
+}
+
+/// Details about an S3 recording <code>Config</code> used in a contact.
+class S3RecordingDetails {
+  /// ARN of the bucket used.
+  final String? bucketArn;
+
+  /// Key template used for the S3 Recording Configuration
+  final String? keyTemplate;
+
+  S3RecordingDetails({
+    this.bucketArn,
+    this.keyTemplate,
+  });
+
+  factory S3RecordingDetails.fromJson(Map<String, dynamic> json) {
+    return S3RecordingDetails(
+      bucketArn: json['bucketArn'] as String?,
+      keyTemplate: json['keyTemplate'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketArn = this.bucketArn;
+    final keyTemplate = this.keyTemplate;
+    return {
+      if (bucketArn != null) 'bucketArn': bucketArn,
+      if (keyTemplate != null) 'keyTemplate': keyTemplate,
+    };
+  }
+}
+
+/// Data describing a contact.
+class ContactData {
+  /// UUID of a contact.
+  final String? contactId;
+
+  /// Status of a contact.
+  final ContactStatus? contactStatus;
+
+  /// End time of a contact in UTC.
+  final DateTime? endTime;
+
+  /// The ephemeris that determines antenna pointing for the contact.
+  final EphemerisResponseData? ephemeris;
+
+  /// Error message of a contact.
+  final String? errorMessage;
+
+  /// Name of a ground station.
+  final String? groundStation;
+
+  /// Maximum elevation angle of a contact.
+  final Elevation? maximumElevation;
+
+  /// ARN of a mission profile.
+  final String? missionProfileArn;
+
+  /// End time in UTC of the post-pass period, at which you receive a CloudWatch
+  /// event indicating the pass has finished.
+  final DateTime? postPassEndTime;
+
+  /// Start time in UTC of the pre-pass period, at which you receive a CloudWatch
+  /// event indicating an upcoming pass.
+  final DateTime? prePassStartTime;
+
+  /// Region of a contact.
+  final String? region;
+
+  /// ARN of a satellite.
+  final String? satelliteArn;
+
+  /// Start time of a contact in UTC.
+  final DateTime? startTime;
+
+  /// Tags assigned to a contact.
+  final Map<String, String>? tags;
+
+  /// Version information for a contact.
+  final ContactVersion? version;
+
+  /// Projected time in UTC your satellite will set below the <a
+  /// href="https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html">receive
+  /// mask</a>. This time is based on the satellite's current active ephemeris for
+  /// future contacts and the ephemeris that was active during contact execution
+  /// for completed contacts. <i>This field is not present for contacts with a
+  /// <code>SCHEDULING</code> or <code>SCHEDULED</code> status.</i>
+  final DateTime? visibilityEndTime;
+
+  /// Projected time in UTC your satellite will rise above the <a
+  /// href="https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html">receive
+  /// mask</a>. This time is based on the satellite's current active ephemeris for
+  /// future contacts and the ephemeris that was active during contact execution
+  /// for completed contacts. <i>This field is not present for contacts with a
+  /// <code>SCHEDULING</code> or <code>SCHEDULED</code> status.</i>
+  final DateTime? visibilityStartTime;
+
+  ContactData({
+    this.contactId,
+    this.contactStatus,
+    this.endTime,
+    this.ephemeris,
+    this.errorMessage,
+    this.groundStation,
+    this.maximumElevation,
+    this.missionProfileArn,
+    this.postPassEndTime,
+    this.prePassStartTime,
+    this.region,
+    this.satelliteArn,
+    this.startTime,
+    this.tags,
+    this.version,
+    this.visibilityEndTime,
+    this.visibilityStartTime,
+  });
+
+  factory ContactData.fromJson(Map<String, dynamic> json) {
+    return ContactData(
+      contactId: json['contactId'] as String?,
+      contactStatus:
+          (json['contactStatus'] as String?)?.let(ContactStatus.fromString),
+      endTime: timeStampFromJson(json['endTime']),
+      ephemeris: json['ephemeris'] != null
+          ? EphemerisResponseData.fromJson(
+              json['ephemeris'] as Map<String, dynamic>)
+          : null,
+      errorMessage: json['errorMessage'] as String?,
+      groundStation: json['groundStation'] as String?,
+      maximumElevation: json['maximumElevation'] != null
+          ? Elevation.fromJson(json['maximumElevation'] as Map<String, dynamic>)
+          : null,
+      missionProfileArn: json['missionProfileArn'] as String?,
+      postPassEndTime: timeStampFromJson(json['postPassEndTime']),
+      prePassStartTime: timeStampFromJson(json['prePassStartTime']),
+      region: json['region'] as String?,
+      satelliteArn: json['satelliteArn'] as String?,
+      startTime: timeStampFromJson(json['startTime']),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      version: json['version'] != null
+          ? ContactVersion.fromJson(json['version'] as Map<String, dynamic>)
+          : null,
+      visibilityEndTime: timeStampFromJson(json['visibilityEndTime']),
+      visibilityStartTime: timeStampFromJson(json['visibilityStartTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contactId = this.contactId;
+    final contactStatus = this.contactStatus;
+    final endTime = this.endTime;
+    final ephemeris = this.ephemeris;
+    final errorMessage = this.errorMessage;
+    final groundStation = this.groundStation;
+    final maximumElevation = this.maximumElevation;
+    final missionProfileArn = this.missionProfileArn;
+    final postPassEndTime = this.postPassEndTime;
+    final prePassStartTime = this.prePassStartTime;
+    final region = this.region;
+    final satelliteArn = this.satelliteArn;
+    final startTime = this.startTime;
+    final tags = this.tags;
+    final version = this.version;
+    final visibilityEndTime = this.visibilityEndTime;
+    final visibilityStartTime = this.visibilityStartTime;
+    return {
+      if (contactId != null) 'contactId': contactId,
+      if (contactStatus != null) 'contactStatus': contactStatus.value,
+      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
+      if (ephemeris != null) 'ephemeris': ephemeris,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (groundStation != null) 'groundStation': groundStation,
+      if (maximumElevation != null) 'maximumElevation': maximumElevation,
+      if (missionProfileArn != null) 'missionProfileArn': missionProfileArn,
+      if (postPassEndTime != null)
+        'postPassEndTime': unixTimestampToJson(postPassEndTime),
+      if (prePassStartTime != null)
+        'prePassStartTime': unixTimestampToJson(prePassStartTime),
+      if (region != null) 'region': region,
+      if (satelliteArn != null) 'satelliteArn': satelliteArn,
+      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
+      if (tags != null) 'tags': tags,
+      if (version != null) 'version': version,
+      if (visibilityEndTime != null)
+        'visibilityEndTime': unixTimestampToJson(visibilityEndTime),
+      if (visibilityStartTime != null)
+        'visibilityStartTime': unixTimestampToJson(visibilityStartTime),
+    };
+  }
+}
+
+/// Filter for selecting contacts that use a specific ephemeris".
+class EphemerisFilter {
+  /// Filter for <a>AzElEphemeris</a>.
+  final AzElEphemerisFilter? azEl;
+
+  EphemerisFilter({
+    this.azEl,
+  });
+
+  Map<String, dynamic> toJson() {
+    final azEl = this.azEl;
+    return {
+      if (azEl != null) 'azEl': azEl,
+    };
+  }
+}
+
+/// Filter for selecting contacts that use a specific <a>AzElEphemeris</a>.
+class AzElEphemerisFilter {
+  /// Unique identifier of the azimuth elevation ephemeris.
+  final String id;
+
+  AzElEphemerisFilter({
+    required this.id,
+  });
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    return {
+      'id': id,
+    };
+  }
+}
+
+/// An item in a list of <code>Config</code> objects.
+class ConfigListItem {
+  /// ARN of a <code>Config</code>.
+  final String? configArn;
+
+  /// UUID of a <code>Config</code>.
+  final String? configId;
+
+  /// Type of a <code>Config</code>.
+  final ConfigCapabilityType? configType;
+
+  /// Name of a <code>Config</code>.
+  final String? name;
+
+  ConfigListItem({
+    this.configArn,
+    this.configId,
+    this.configType,
+    this.name,
+  });
+
+  factory ConfigListItem.fromJson(Map<String, dynamic> json) {
+    return ConfigListItem(
+      configArn: json['configArn'] as String?,
+      configId: json['configId'] as String?,
+      configType:
+          (json['configType'] as String?)?.let(ConfigCapabilityType.fromString),
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configArn = this.configArn;
+    final configId = this.configId;
+    final configType = this.configType;
+    final name = this.name;
+    return {
+      if (configArn != null) 'configArn': configArn,
+      if (configId != null) 'configId': configId,
+      if (configType != null) 'configType': configType.value,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// Object containing the parameters of a <code>Config</code>.
+///
+/// See the subtype definitions for what each type of <code>Config</code>
+/// contains.
+class ConfigTypeData {
+  /// Information about how AWS Ground Station should configure an antenna for
+  /// downlink during a contact.
+  final AntennaDownlinkConfig? antennaDownlinkConfig;
+
+  /// Information about how AWS Ground Station should conﬁgure an antenna for
+  /// downlink demod decode during a contact.
+  final AntennaDownlinkDemodDecodeConfig? antennaDownlinkDemodDecodeConfig;
+
+  /// Information about how AWS Ground Station should conﬁgure an antenna for
+  /// uplink during a contact.
+  final AntennaUplinkConfig? antennaUplinkConfig;
+
+  /// Information about the dataflow endpoint <code>Config</code>.
+  final DataflowEndpointConfig? dataflowEndpointConfig;
+
+  /// Information about an S3 recording <code>Config</code>.
+  final S3RecordingConfig? s3RecordingConfig;
+
+  /// Information about a telemetry sink <code>Config</code>.
+  final TelemetrySinkConfig? telemetrySinkConfig;
+
+  /// Object that determines whether tracking should be used during a contact
+  /// executed with this <code>Config</code> in the mission profile.
+  final TrackingConfig? trackingConfig;
+
+  /// Information about an uplink echo <code>Config</code>.
+  ///
+  /// Parameters from the <code>AntennaUplinkConfig</code>, corresponding to the
+  /// specified <code> AntennaUplinkConfigArn</code>, are used when this
+  /// <code>UplinkEchoConfig</code> is used in a contact.
+  final UplinkEchoConfig? uplinkEchoConfig;
+
+  ConfigTypeData({
+    this.antennaDownlinkConfig,
+    this.antennaDownlinkDemodDecodeConfig,
+    this.antennaUplinkConfig,
+    this.dataflowEndpointConfig,
+    this.s3RecordingConfig,
+    this.telemetrySinkConfig,
+    this.trackingConfig,
+    this.uplinkEchoConfig,
+  });
+
+  factory ConfigTypeData.fromJson(Map<String, dynamic> json) {
+    return ConfigTypeData(
+      antennaDownlinkConfig: json['antennaDownlinkConfig'] != null
+          ? AntennaDownlinkConfig.fromJson(
+              json['antennaDownlinkConfig'] as Map<String, dynamic>)
+          : null,
+      antennaDownlinkDemodDecodeConfig:
+          json['antennaDownlinkDemodDecodeConfig'] != null
+              ? AntennaDownlinkDemodDecodeConfig.fromJson(
+                  json['antennaDownlinkDemodDecodeConfig']
+                      as Map<String, dynamic>)
+              : null,
+      antennaUplinkConfig: json['antennaUplinkConfig'] != null
+          ? AntennaUplinkConfig.fromJson(
+              json['antennaUplinkConfig'] as Map<String, dynamic>)
+          : null,
+      dataflowEndpointConfig: json['dataflowEndpointConfig'] != null
+          ? DataflowEndpointConfig.fromJson(
+              json['dataflowEndpointConfig'] as Map<String, dynamic>)
+          : null,
+      s3RecordingConfig: json['s3RecordingConfig'] != null
+          ? S3RecordingConfig.fromJson(
+              json['s3RecordingConfig'] as Map<String, dynamic>)
+          : null,
+      telemetrySinkConfig: json['telemetrySinkConfig'] != null
+          ? TelemetrySinkConfig.fromJson(
+              json['telemetrySinkConfig'] as Map<String, dynamic>)
+          : null,
+      trackingConfig: json['trackingConfig'] != null
+          ? TrackingConfig.fromJson(
+              json['trackingConfig'] as Map<String, dynamic>)
+          : null,
+      uplinkEchoConfig: json['uplinkEchoConfig'] != null
+          ? UplinkEchoConfig.fromJson(
+              json['uplinkEchoConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final antennaDownlinkConfig = this.antennaDownlinkConfig;
+    final antennaDownlinkDemodDecodeConfig =
+        this.antennaDownlinkDemodDecodeConfig;
+    final antennaUplinkConfig = this.antennaUplinkConfig;
+    final dataflowEndpointConfig = this.dataflowEndpointConfig;
+    final s3RecordingConfig = this.s3RecordingConfig;
+    final telemetrySinkConfig = this.telemetrySinkConfig;
+    final trackingConfig = this.trackingConfig;
+    final uplinkEchoConfig = this.uplinkEchoConfig;
+    return {
+      if (antennaDownlinkConfig != null)
+        'antennaDownlinkConfig': antennaDownlinkConfig,
+      if (antennaDownlinkDemodDecodeConfig != null)
+        'antennaDownlinkDemodDecodeConfig': antennaDownlinkDemodDecodeConfig,
+      if (antennaUplinkConfig != null)
+        'antennaUplinkConfig': antennaUplinkConfig,
+      if (dataflowEndpointConfig != null)
+        'dataflowEndpointConfig': dataflowEndpointConfig,
+      if (s3RecordingConfig != null) 's3RecordingConfig': s3RecordingConfig,
+      if (telemetrySinkConfig != null)
+        'telemetrySinkConfig': telemetrySinkConfig,
+      if (trackingConfig != null) 'trackingConfig': trackingConfig,
+      if (uplinkEchoConfig != null) 'uplinkEchoConfig': uplinkEchoConfig,
     };
   }
 }
@@ -1490,6 +6508,61 @@ class AntennaDownlinkConfig {
     final spectrumConfig = this.spectrumConfig;
     return {
       'spectrumConfig': spectrumConfig,
+    };
+  }
+}
+
+/// Object that determines whether tracking should be used during a contact
+/// executed with this <code>Config</code> in the mission profile.
+class TrackingConfig {
+  /// Current setting for autotrack.
+  final Criticality autotrack;
+
+  TrackingConfig({
+    required this.autotrack,
+  });
+
+  factory TrackingConfig.fromJson(Map<String, dynamic> json) {
+    return TrackingConfig(
+      autotrack: Criticality.fromString((json['autotrack'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autotrack = this.autotrack;
+    return {
+      'autotrack': autotrack.value,
+    };
+  }
+}
+
+/// Information about the dataflow endpoint <code>Config</code>.
+class DataflowEndpointConfig {
+  /// Name of a dataflow endpoint.
+  final String dataflowEndpointName;
+
+  /// Region of a dataflow endpoint.
+  final String? dataflowEndpointRegion;
+
+  DataflowEndpointConfig({
+    required this.dataflowEndpointName,
+    this.dataflowEndpointRegion,
+  });
+
+  factory DataflowEndpointConfig.fromJson(Map<String, dynamic> json) {
+    return DataflowEndpointConfig(
+      dataflowEndpointName: (json['dataflowEndpointName'] as String?) ?? '',
+      dataflowEndpointRegion: json['dataflowEndpointRegion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataflowEndpointName = this.dataflowEndpointName;
+    final dataflowEndpointRegion = this.dataflowEndpointRegion;
+    return {
+      'dataflowEndpointName': dataflowEndpointName,
+      if (dataflowEndpointRegion != null)
+        'dataflowEndpointRegion': dataflowEndpointRegion,
     };
   }
 }
@@ -1578,1335 +6651,223 @@ class AntennaUplinkConfig {
   }
 }
 
-class AuditResults {
-  static const healthy = AuditResults._('HEALTHY');
-  static const unhealthy = AuditResults._('UNHEALTHY');
-
-  final String value;
-
-  const AuditResults._(this.value);
-
-  static const values = [healthy, unhealthy];
-
-  static AuditResults fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => AuditResults._(value));
-
-  @override
-  bool operator ==(other) => other is AuditResults && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about AwsGroundStationAgentEndpoint.
-class AwsGroundStationAgentEndpoint {
-  /// The egress address of AgentEndpoint.
-  final ConnectionDetails egressAddress;
-
-  /// The ingress address of AgentEndpoint.
-  final RangedConnectionDetails ingressAddress;
-
-  /// Name string associated with AgentEndpoint. Used as a human-readable
-  /// identifier for AgentEndpoint.
-  final String name;
-
-  /// The status of AgentEndpoint.
-  final AgentStatus? agentStatus;
-
-  /// The results of the audit.
-  final AuditResults? auditResults;
-
-  AwsGroundStationAgentEndpoint({
-    required this.egressAddress,
-    required this.ingressAddress,
-    required this.name,
-    this.agentStatus,
-    this.auditResults,
-  });
-
-  factory AwsGroundStationAgentEndpoint.fromJson(Map<String, dynamic> json) {
-    return AwsGroundStationAgentEndpoint(
-      egressAddress: ConnectionDetails.fromJson(
-          (json['egressAddress'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      ingressAddress: RangedConnectionDetails.fromJson(
-          (json['ingressAddress'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      name: (json['name'] as String?) ?? '',
-      agentStatus:
-          (json['agentStatus'] as String?)?.let(AgentStatus.fromString),
-      auditResults:
-          (json['auditResults'] as String?)?.let(AuditResults.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final egressAddress = this.egressAddress;
-    final ingressAddress = this.ingressAddress;
-    final name = this.name;
-    final agentStatus = this.agentStatus;
-    final auditResults = this.auditResults;
-    return {
-      'egressAddress': egressAddress,
-      'ingressAddress': ingressAddress,
-      'name': name,
-      if (agentStatus != null) 'agentStatus': agentStatus.value,
-      if (auditResults != null) 'auditResults': auditResults.value,
-    };
-  }
-}
-
-class BandwidthUnits {
-  static const gHz = BandwidthUnits._('GHz');
-  static const mHz = BandwidthUnits._('MHz');
-  static const kHz = BandwidthUnits._('kHz');
-
-  final String value;
-
-  const BandwidthUnits._(this.value);
-
-  static const values = [gHz, mHz, kHz];
-
-  static BandwidthUnits fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => BandwidthUnits._(value));
-
-  @override
-  bool operator ==(other) => other is BandwidthUnits && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class CapabilityHealth {
-  static const unhealthy = CapabilityHealth._('UNHEALTHY');
-  static const healthy = CapabilityHealth._('HEALTHY');
-
-  final String value;
-
-  const CapabilityHealth._(this.value);
-
-  static const values = [unhealthy, healthy];
-
-  static CapabilityHealth fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CapabilityHealth._(value));
-
-  @override
-  bool operator ==(other) => other is CapabilityHealth && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class CapabilityHealthReason {
-  static const noRegisteredAgent =
-      CapabilityHealthReason._('NO_REGISTERED_AGENT');
-  static const invalidIpOwnership =
-      CapabilityHealthReason._('INVALID_IP_OWNERSHIP');
-  static const notAuthorizedToCreateSlr =
-      CapabilityHealthReason._('NOT_AUTHORIZED_TO_CREATE_SLR');
-  static const unverifiedIpOwnership =
-      CapabilityHealthReason._('UNVERIFIED_IP_OWNERSHIP');
-  static const initializingDataplane =
-      CapabilityHealthReason._('INITIALIZING_DATAPLANE');
-  static const dataplaneFailure = CapabilityHealthReason._('DATAPLANE_FAILURE');
-  static const healthy = CapabilityHealthReason._('HEALTHY');
-
-  final String value;
-
-  const CapabilityHealthReason._(this.value);
-
-  static const values = [
-    noRegisteredAgent,
-    invalidIpOwnership,
-    notAuthorizedToCreateSlr,
-    unverifiedIpOwnership,
-    initializingDataplane,
-    dataplaneFailure,
-    healthy
-  ];
-
-  static CapabilityHealthReason fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CapabilityHealthReason._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CapabilityHealthReason && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Data on the status of agent components.
-class ComponentStatusData {
-  /// Capability ARN of the component.
-  final String capabilityArn;
-
-  /// The Component type.
-  final String componentType;
-
-  /// Dataflow UUID associated with the component.
-  final String dataflowId;
-
-  /// Component status.
-  final AgentStatus status;
-
-  /// Bytes received by the component.
-  final int? bytesReceived;
-
-  /// Bytes sent by the component.
-  final int? bytesSent;
-
-  /// Packets dropped by component.
-  final int? packetsDropped;
-
-  ComponentStatusData({
-    required this.capabilityArn,
-    required this.componentType,
-    required this.dataflowId,
-    required this.status,
-    this.bytesReceived,
-    this.bytesSent,
-    this.packetsDropped,
-  });
-
-  Map<String, dynamic> toJson() {
-    final capabilityArn = this.capabilityArn;
-    final componentType = this.componentType;
-    final dataflowId = this.dataflowId;
-    final status = this.status;
-    final bytesReceived = this.bytesReceived;
-    final bytesSent = this.bytesSent;
-    final packetsDropped = this.packetsDropped;
-    return {
-      'capabilityArn': capabilityArn,
-      'componentType': componentType,
-      'dataflowId': dataflowId,
-      'status': status.value,
-      if (bytesReceived != null) 'bytesReceived': bytesReceived,
-      if (bytesSent != null) 'bytesSent': bytesSent,
-      if (packetsDropped != null) 'packetsDropped': packetsDropped,
-    };
-  }
-}
-
-/// Version information for agent components.
-class ComponentVersion {
-  /// Component type.
-  final String componentType;
-
-  /// List of versions.
-  final List<String> versions;
-
-  ComponentVersion({
-    required this.componentType,
-    required this.versions,
-  });
-
-  Map<String, dynamic> toJson() {
-    final componentType = this.componentType;
-    final versions = this.versions;
-    return {
-      'componentType': componentType,
-      'versions': versions,
-    };
-  }
-}
-
-class ConfigCapabilityType {
-  static const antennaDownlink = ConfigCapabilityType._('antenna-downlink');
-  static const antennaDownlinkDemodDecode =
-      ConfigCapabilityType._('antenna-downlink-demod-decode');
-  static const antennaUplink = ConfigCapabilityType._('antenna-uplink');
-  static const dataflowEndpoint = ConfigCapabilityType._('dataflow-endpoint');
-  static const tracking = ConfigCapabilityType._('tracking');
-  static const uplinkEcho = ConfigCapabilityType._('uplink-echo');
-  static const s3Recording = ConfigCapabilityType._('s3-recording');
-
-  final String value;
-
-  const ConfigCapabilityType._(this.value);
-
-  static const values = [
-    antennaDownlink,
-    antennaDownlinkDemodDecode,
-    antennaUplink,
-    dataflowEndpoint,
-    tracking,
-    uplinkEcho,
-    s3Recording
-  ];
-
-  static ConfigCapabilityType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConfigCapabilityType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ConfigCapabilityType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Details for certain <code>Config</code> object types in a contact.
-class ConfigDetails {
-  /// Details for antenna demod decode <code>Config</code> in a contact.
-  final AntennaDemodDecodeDetails? antennaDemodDecodeDetails;
-  final EndpointDetails? endpointDetails;
-
-  /// Details for an S3 recording <code>Config</code> in a contact.
-  final S3RecordingDetails? s3RecordingDetails;
-
-  ConfigDetails({
-    this.antennaDemodDecodeDetails,
-    this.endpointDetails,
-    this.s3RecordingDetails,
-  });
-
-  factory ConfigDetails.fromJson(Map<String, dynamic> json) {
-    return ConfigDetails(
-      antennaDemodDecodeDetails: json['antennaDemodDecodeDetails'] != null
-          ? AntennaDemodDecodeDetails.fromJson(
-              json['antennaDemodDecodeDetails'] as Map<String, dynamic>)
-          : null,
-      endpointDetails: json['endpointDetails'] != null
-          ? EndpointDetails.fromJson(
-              json['endpointDetails'] as Map<String, dynamic>)
-          : null,
-      s3RecordingDetails: json['s3RecordingDetails'] != null
-          ? S3RecordingDetails.fromJson(
-              json['s3RecordingDetails'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final antennaDemodDecodeDetails = this.antennaDemodDecodeDetails;
-    final endpointDetails = this.endpointDetails;
-    final s3RecordingDetails = this.s3RecordingDetails;
-    return {
-      if (antennaDemodDecodeDetails != null)
-        'antennaDemodDecodeDetails': antennaDemodDecodeDetails,
-      if (endpointDetails != null) 'endpointDetails': endpointDetails,
-      if (s3RecordingDetails != null) 's3RecordingDetails': s3RecordingDetails,
-    };
-  }
-}
-
-/// <p/>
-class ConfigIdResponse {
-  /// ARN of a <code>Config</code>.
-  final String? configArn;
-
-  /// UUID of a <code>Config</code>.
-  final String? configId;
-
-  /// Type of a <code>Config</code>.
-  final ConfigCapabilityType? configType;
-
-  ConfigIdResponse({
-    this.configArn,
-    this.configId,
-    this.configType,
-  });
-
-  factory ConfigIdResponse.fromJson(Map<String, dynamic> json) {
-    return ConfigIdResponse(
-      configArn: json['configArn'] as String?,
-      configId: json['configId'] as String?,
-      configType:
-          (json['configType'] as String?)?.let(ConfigCapabilityType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final configArn = this.configArn;
-    final configId = this.configId;
-    final configType = this.configType;
-    return {
-      if (configArn != null) 'configArn': configArn,
-      if (configId != null) 'configId': configId,
-      if (configType != null) 'configType': configType.value,
-    };
-  }
-}
-
-/// An item in a list of <code>Config</code> objects.
-class ConfigListItem {
-  /// ARN of a <code>Config</code>.
-  final String? configArn;
-
-  /// UUID of a <code>Config</code>.
-  final String? configId;
-
-  /// Type of a <code>Config</code>.
-  final ConfigCapabilityType? configType;
-
-  /// Name of a <code>Config</code>.
-  final String? name;
-
-  ConfigListItem({
-    this.configArn,
-    this.configId,
-    this.configType,
-    this.name,
-  });
-
-  factory ConfigListItem.fromJson(Map<String, dynamic> json) {
-    return ConfigListItem(
-      configArn: json['configArn'] as String?,
-      configId: json['configId'] as String?,
-      configType:
-          (json['configType'] as String?)?.let(ConfigCapabilityType.fromString),
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final configArn = this.configArn;
-    final configId = this.configId;
-    final configType = this.configType;
-    final name = this.name;
-    return {
-      if (configArn != null) 'configArn': configArn,
-      if (configId != null) 'configId': configId,
-      if (configType != null) 'configType': configType.value,
-      if (name != null) 'name': name,
-    };
-  }
-}
-
-/// Object containing the parameters of a <code>Config</code>.
+/// Information about an uplink echo <code>Config</code>.
 ///
-/// See the subtype definitions for what each type of <code>Config</code>
-/// contains.
-class ConfigTypeData {
-  /// Information about how AWS Ground Station should configure an antenna for
-  /// downlink during a contact.
-  final AntennaDownlinkConfig? antennaDownlinkConfig;
+/// Parameters from the <code>AntennaUplinkConfig</code>, corresponding to the
+/// specified <code> AntennaUplinkConfigArn</code>, are used when this
+/// <code>UplinkEchoConfig</code> is used in a contact.
+class UplinkEchoConfig {
+  /// ARN of an uplink <code>Config</code>.
+  final String antennaUplinkConfigArn;
 
-  /// Information about how AWS Ground Station should conﬁgure an antenna for
-  /// downlink demod decode during a contact.
-  final AntennaDownlinkDemodDecodeConfig? antennaDownlinkDemodDecodeConfig;
+  /// Whether or not an uplink <code>Config</code> is enabled.
+  final bool enabled;
 
-  /// Information about how AWS Ground Station should conﬁgure an antenna for
-  /// uplink during a contact.
-  final AntennaUplinkConfig? antennaUplinkConfig;
-
-  /// Information about the dataflow endpoint <code>Config</code>.
-  final DataflowEndpointConfig? dataflowEndpointConfig;
-
-  /// Information about an S3 recording <code>Config</code>.
-  final S3RecordingConfig? s3RecordingConfig;
-
-  /// Object that determines whether tracking should be used during a contact
-  /// executed with this <code>Config</code> in the mission profile.
-  final TrackingConfig? trackingConfig;
-
-  /// Information about an uplink echo <code>Config</code>.
-  ///
-  /// Parameters from the <code>AntennaUplinkConfig</code>, corresponding to the
-  /// specified <code>AntennaUplinkConfigArn</code>, are used when this
-  /// <code>UplinkEchoConfig</code> is used in a contact.
-  final UplinkEchoConfig? uplinkEchoConfig;
-
-  ConfigTypeData({
-    this.antennaDownlinkConfig,
-    this.antennaDownlinkDemodDecodeConfig,
-    this.antennaUplinkConfig,
-    this.dataflowEndpointConfig,
-    this.s3RecordingConfig,
-    this.trackingConfig,
-    this.uplinkEchoConfig,
+  UplinkEchoConfig({
+    required this.antennaUplinkConfigArn,
+    required this.enabled,
   });
 
-  factory ConfigTypeData.fromJson(Map<String, dynamic> json) {
-    return ConfigTypeData(
-      antennaDownlinkConfig: json['antennaDownlinkConfig'] != null
-          ? AntennaDownlinkConfig.fromJson(
-              json['antennaDownlinkConfig'] as Map<String, dynamic>)
-          : null,
-      antennaDownlinkDemodDecodeConfig:
-          json['antennaDownlinkDemodDecodeConfig'] != null
-              ? AntennaDownlinkDemodDecodeConfig.fromJson(
-                  json['antennaDownlinkDemodDecodeConfig']
-                      as Map<String, dynamic>)
-              : null,
-      antennaUplinkConfig: json['antennaUplinkConfig'] != null
-          ? AntennaUplinkConfig.fromJson(
-              json['antennaUplinkConfig'] as Map<String, dynamic>)
-          : null,
-      dataflowEndpointConfig: json['dataflowEndpointConfig'] != null
-          ? DataflowEndpointConfig.fromJson(
-              json['dataflowEndpointConfig'] as Map<String, dynamic>)
-          : null,
-      s3RecordingConfig: json['s3RecordingConfig'] != null
-          ? S3RecordingConfig.fromJson(
-              json['s3RecordingConfig'] as Map<String, dynamic>)
-          : null,
-      trackingConfig: json['trackingConfig'] != null
-          ? TrackingConfig.fromJson(
-              json['trackingConfig'] as Map<String, dynamic>)
-          : null,
-      uplinkEchoConfig: json['uplinkEchoConfig'] != null
-          ? UplinkEchoConfig.fromJson(
-              json['uplinkEchoConfig'] as Map<String, dynamic>)
-          : null,
+  factory UplinkEchoConfig.fromJson(Map<String, dynamic> json) {
+    return UplinkEchoConfig(
+      antennaUplinkConfigArn: (json['antennaUplinkConfigArn'] as String?) ?? '',
+      enabled: (json['enabled'] as bool?) ?? false,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final antennaDownlinkConfig = this.antennaDownlinkConfig;
-    final antennaDownlinkDemodDecodeConfig =
-        this.antennaDownlinkDemodDecodeConfig;
-    final antennaUplinkConfig = this.antennaUplinkConfig;
-    final dataflowEndpointConfig = this.dataflowEndpointConfig;
-    final s3RecordingConfig = this.s3RecordingConfig;
-    final trackingConfig = this.trackingConfig;
-    final uplinkEchoConfig = this.uplinkEchoConfig;
-    return {
-      if (antennaDownlinkConfig != null)
-        'antennaDownlinkConfig': antennaDownlinkConfig,
-      if (antennaDownlinkDemodDecodeConfig != null)
-        'antennaDownlinkDemodDecodeConfig': antennaDownlinkDemodDecodeConfig,
-      if (antennaUplinkConfig != null)
-        'antennaUplinkConfig': antennaUplinkConfig,
-      if (dataflowEndpointConfig != null)
-        'dataflowEndpointConfig': dataflowEndpointConfig,
-      if (s3RecordingConfig != null) 's3RecordingConfig': s3RecordingConfig,
-      if (trackingConfig != null) 'trackingConfig': trackingConfig,
-      if (uplinkEchoConfig != null) 'uplinkEchoConfig': uplinkEchoConfig,
-    };
-  }
-}
-
-/// Egress address of AgentEndpoint with an optional mtu.
-class ConnectionDetails {
-  /// A socket address.
-  final SocketAddress socketAddress;
-
-  /// Maximum transmission unit (MTU) size in bytes of a dataflow endpoint.
-  final int? mtu;
-
-  ConnectionDetails({
-    required this.socketAddress,
-    this.mtu,
-  });
-
-  factory ConnectionDetails.fromJson(Map<String, dynamic> json) {
-    return ConnectionDetails(
-      socketAddress: SocketAddress.fromJson(
-          (json['socketAddress'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      mtu: json['mtu'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final socketAddress = this.socketAddress;
-    final mtu = this.mtu;
-    return {
-      'socketAddress': socketAddress,
-      if (mtu != null) 'mtu': mtu,
-    };
-  }
-}
-
-/// Data describing a contact.
-class ContactData {
-  /// UUID of a contact.
-  final String? contactId;
-
-  /// Status of a contact.
-  final ContactStatus? contactStatus;
-
-  /// End time of a contact in UTC.
-  final DateTime? endTime;
-
-  /// Error message of a contact.
-  final String? errorMessage;
-
-  /// Name of a ground station.
-  final String? groundStation;
-
-  /// Maximum elevation angle of a contact.
-  final Elevation? maximumElevation;
-
-  /// ARN of a mission profile.
-  final String? missionProfileArn;
-
-  /// Amount of time after a contact ends that you’d like to receive a CloudWatch
-  /// event indicating the pass has finished.
-  final DateTime? postPassEndTime;
-
-  /// Amount of time prior to contact start you’d like to receive a CloudWatch
-  /// event indicating an upcoming pass.
-  final DateTime? prePassStartTime;
-
-  /// Region of a contact.
-  final String? region;
-
-  /// ARN of a satellite.
-  final String? satelliteArn;
-
-  /// Start time of a contact in UTC.
-  final DateTime? startTime;
-
-  /// Tags assigned to a contact.
-  final Map<String, String>? tags;
-
-  /// Projected time in UTC your satellite will set below the <a
-  /// href="https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html">receive
-  /// mask</a>. This time is based on the satellite's current active ephemeris for
-  /// future contacts and the ephemeris that was active during contact execution
-  /// for completed contacts. <i>This field is not present for contacts with a
-  /// <code>SCHEDULING</code> or <code>SCHEDULED</code> status.</i>
-  final DateTime? visibilityEndTime;
-
-  /// Projected time in UTC your satellite will rise above the <a
-  /// href="https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html">receive
-  /// mask</a>. This time is based on the satellite's current active ephemeris for
-  /// future contacts and the ephemeris that was active during contact execution
-  /// for completed contacts. <i>This field is not present for contacts with a
-  /// <code>SCHEDULING</code> or <code>SCHEDULED</code> status.</i>
-  final DateTime? visibilityStartTime;
-
-  ContactData({
-    this.contactId,
-    this.contactStatus,
-    this.endTime,
-    this.errorMessage,
-    this.groundStation,
-    this.maximumElevation,
-    this.missionProfileArn,
-    this.postPassEndTime,
-    this.prePassStartTime,
-    this.region,
-    this.satelliteArn,
-    this.startTime,
-    this.tags,
-    this.visibilityEndTime,
-    this.visibilityStartTime,
-  });
-
-  factory ContactData.fromJson(Map<String, dynamic> json) {
-    return ContactData(
-      contactId: json['contactId'] as String?,
-      contactStatus:
-          (json['contactStatus'] as String?)?.let(ContactStatus.fromString),
-      endTime: timeStampFromJson(json['endTime']),
-      errorMessage: json['errorMessage'] as String?,
-      groundStation: json['groundStation'] as String?,
-      maximumElevation: json['maximumElevation'] != null
-          ? Elevation.fromJson(json['maximumElevation'] as Map<String, dynamic>)
-          : null,
-      missionProfileArn: json['missionProfileArn'] as String?,
-      postPassEndTime: timeStampFromJson(json['postPassEndTime']),
-      prePassStartTime: timeStampFromJson(json['prePassStartTime']),
-      region: json['region'] as String?,
-      satelliteArn: json['satelliteArn'] as String?,
-      startTime: timeStampFromJson(json['startTime']),
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      visibilityEndTime: timeStampFromJson(json['visibilityEndTime']),
-      visibilityStartTime: timeStampFromJson(json['visibilityStartTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final contactId = this.contactId;
-    final contactStatus = this.contactStatus;
-    final endTime = this.endTime;
-    final errorMessage = this.errorMessage;
-    final groundStation = this.groundStation;
-    final maximumElevation = this.maximumElevation;
-    final missionProfileArn = this.missionProfileArn;
-    final postPassEndTime = this.postPassEndTime;
-    final prePassStartTime = this.prePassStartTime;
-    final region = this.region;
-    final satelliteArn = this.satelliteArn;
-    final startTime = this.startTime;
-    final tags = this.tags;
-    final visibilityEndTime = this.visibilityEndTime;
-    final visibilityStartTime = this.visibilityStartTime;
-    return {
-      if (contactId != null) 'contactId': contactId,
-      if (contactStatus != null) 'contactStatus': contactStatus.value,
-      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
-      if (errorMessage != null) 'errorMessage': errorMessage,
-      if (groundStation != null) 'groundStation': groundStation,
-      if (maximumElevation != null) 'maximumElevation': maximumElevation,
-      if (missionProfileArn != null) 'missionProfileArn': missionProfileArn,
-      if (postPassEndTime != null)
-        'postPassEndTime': unixTimestampToJson(postPassEndTime),
-      if (prePassStartTime != null)
-        'prePassStartTime': unixTimestampToJson(prePassStartTime),
-      if (region != null) 'region': region,
-      if (satelliteArn != null) 'satelliteArn': satelliteArn,
-      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
-      if (tags != null) 'tags': tags,
-      if (visibilityEndTime != null)
-        'visibilityEndTime': unixTimestampToJson(visibilityEndTime),
-      if (visibilityStartTime != null)
-        'visibilityStartTime': unixTimestampToJson(visibilityStartTime),
-    };
-  }
-}
-
-/// <p/>
-class ContactIdResponse {
-  /// UUID of a contact.
-  final String? contactId;
-
-  ContactIdResponse({
-    this.contactId,
-  });
-
-  factory ContactIdResponse.fromJson(Map<String, dynamic> json) {
-    return ContactIdResponse(
-      contactId: json['contactId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final contactId = this.contactId;
-    return {
-      if (contactId != null) 'contactId': contactId,
-    };
-  }
-}
-
-class ContactStatus {
-  static const available = ContactStatus._('AVAILABLE');
-  static const awsCancelled = ContactStatus._('AWS_CANCELLED');
-  static const awsFailed = ContactStatus._('AWS_FAILED');
-  static const cancelled = ContactStatus._('CANCELLED');
-  static const cancelling = ContactStatus._('CANCELLING');
-  static const completed = ContactStatus._('COMPLETED');
-  static const failed = ContactStatus._('FAILED');
-  static const failedToSchedule = ContactStatus._('FAILED_TO_SCHEDULE');
-  static const pass = ContactStatus._('PASS');
-  static const postpass = ContactStatus._('POSTPASS');
-  static const prepass = ContactStatus._('PREPASS');
-  static const scheduled = ContactStatus._('SCHEDULED');
-  static const scheduling = ContactStatus._('SCHEDULING');
-
-  final String value;
-
-  const ContactStatus._(this.value);
-
-  static const values = [
-    available,
-    awsCancelled,
-    awsFailed,
-    cancelled,
-    cancelling,
-    completed,
-    failed,
-    failedToSchedule,
-    pass,
-    postpass,
-    prepass,
-    scheduled,
-    scheduling
-  ];
-
-  static ContactStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ContactStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ContactStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class Criticality {
-  static const preferred = Criticality._('PREFERRED');
-  static const removed = Criticality._('REMOVED');
-  static const required = Criticality._('REQUIRED');
-
-  final String value;
-
-  const Criticality._(this.value);
-
-  static const values = [preferred, removed, required];
-
-  static Criticality fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Criticality._(value));
-
-  @override
-  bool operator ==(other) => other is Criticality && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about a dataflow edge used in a contact.
-class DataflowDetail {
-  final Destination? destination;
-
-  /// Error message for a dataflow.
-  final String? errorMessage;
-  final Source? source;
-
-  DataflowDetail({
-    this.destination,
-    this.errorMessage,
-    this.source,
-  });
-
-  factory DataflowDetail.fromJson(Map<String, dynamic> json) {
-    return DataflowDetail(
-      destination: json['destination'] != null
-          ? Destination.fromJson(json['destination'] as Map<String, dynamic>)
-          : null,
-      errorMessage: json['errorMessage'] as String?,
-      source: json['source'] != null
-          ? Source.fromJson(json['source'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final destination = this.destination;
-    final errorMessage = this.errorMessage;
-    final source = this.source;
-    return {
-      if (destination != null) 'destination': destination,
-      if (errorMessage != null) 'errorMessage': errorMessage,
-      if (source != null) 'source': source,
-    };
-  }
-}
-
-/// Information about a dataflow endpoint.
-class DataflowEndpoint {
-  /// Socket address of a dataflow endpoint.
-  final SocketAddress? address;
-
-  /// Maximum transmission unit (MTU) size in bytes of a dataflow endpoint.
-  final int? mtu;
-
-  /// Name of a dataflow endpoint.
-  final String? name;
-
-  /// Status of a dataflow endpoint.
-  final EndpointStatus? status;
-
-  DataflowEndpoint({
-    this.address,
-    this.mtu,
-    this.name,
-    this.status,
-  });
-
-  factory DataflowEndpoint.fromJson(Map<String, dynamic> json) {
-    return DataflowEndpoint(
-      address: json['address'] != null
-          ? SocketAddress.fromJson(json['address'] as Map<String, dynamic>)
-          : null,
-      mtu: json['mtu'] as int?,
-      name: json['name'] as String?,
-      status: (json['status'] as String?)?.let(EndpointStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final address = this.address;
-    final mtu = this.mtu;
-    final name = this.name;
-    final status = this.status;
-    return {
-      if (address != null) 'address': address,
-      if (mtu != null) 'mtu': mtu,
-      if (name != null) 'name': name,
-      if (status != null) 'status': status.value,
-    };
-  }
-}
-
-/// Information about the dataflow endpoint <code>Config</code>.
-class DataflowEndpointConfig {
-  /// Name of a dataflow endpoint.
-  final String dataflowEndpointName;
-
-  /// Region of a dataflow endpoint.
-  final String? dataflowEndpointRegion;
-
-  DataflowEndpointConfig({
-    required this.dataflowEndpointName,
-    this.dataflowEndpointRegion,
-  });
-
-  factory DataflowEndpointConfig.fromJson(Map<String, dynamic> json) {
-    return DataflowEndpointConfig(
-      dataflowEndpointName: (json['dataflowEndpointName'] as String?) ?? '',
-      dataflowEndpointRegion: json['dataflowEndpointRegion'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataflowEndpointName = this.dataflowEndpointName;
-    final dataflowEndpointRegion = this.dataflowEndpointRegion;
-    return {
-      'dataflowEndpointName': dataflowEndpointName,
-      if (dataflowEndpointRegion != null)
-        'dataflowEndpointRegion': dataflowEndpointRegion,
-    };
-  }
-}
-
-/// <p/>
-class DataflowEndpointGroupIdResponse {
-  /// UUID of a dataflow endpoint group.
-  final String? dataflowEndpointGroupId;
-
-  DataflowEndpointGroupIdResponse({
-    this.dataflowEndpointGroupId,
-  });
-
-  factory DataflowEndpointGroupIdResponse.fromJson(Map<String, dynamic> json) {
-    return DataflowEndpointGroupIdResponse(
-      dataflowEndpointGroupId: json['dataflowEndpointGroupId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataflowEndpointGroupId = this.dataflowEndpointGroupId;
-    return {
-      if (dataflowEndpointGroupId != null)
-        'dataflowEndpointGroupId': dataflowEndpointGroupId,
-    };
-  }
-}
-
-/// Item in a list of <code>DataflowEndpoint</code> groups.
-class DataflowEndpointListItem {
-  /// ARN of a dataflow endpoint group.
-  final String? dataflowEndpointGroupArn;
-
-  /// UUID of a dataflow endpoint group.
-  final String? dataflowEndpointGroupId;
-
-  DataflowEndpointListItem({
-    this.dataflowEndpointGroupArn,
-    this.dataflowEndpointGroupId,
-  });
-
-  factory DataflowEndpointListItem.fromJson(Map<String, dynamic> json) {
-    return DataflowEndpointListItem(
-      dataflowEndpointGroupArn: json['dataflowEndpointGroupArn'] as String?,
-      dataflowEndpointGroupId: json['dataflowEndpointGroupId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataflowEndpointGroupArn = this.dataflowEndpointGroupArn;
-    final dataflowEndpointGroupId = this.dataflowEndpointGroupId;
-    return {
-      if (dataflowEndpointGroupArn != null)
-        'dataflowEndpointGroupArn': dataflowEndpointGroupArn,
-      if (dataflowEndpointGroupId != null)
-        'dataflowEndpointGroupId': dataflowEndpointGroupId,
-    };
-  }
-}
-
-/// Information about the decode <code>Config</code>.
-class DecodeConfig {
-  /// Unvalidated JSON of a decode <code>Config</code>.
-  final String unvalidatedJSON;
-
-  DecodeConfig({
-    required this.unvalidatedJSON,
-  });
-
-  factory DecodeConfig.fromJson(Map<String, dynamic> json) {
-    return DecodeConfig(
-      unvalidatedJSON: (json['unvalidatedJSON'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final unvalidatedJSON = this.unvalidatedJSON;
-    return {
-      'unvalidatedJSON': unvalidatedJSON,
-    };
-  }
-}
-
-/// Information about the demodulation <code>Config</code>.
-class DemodulationConfig {
-  /// Unvalidated JSON of a demodulation <code>Config</code>.
-  final String unvalidatedJSON;
-
-  DemodulationConfig({
-    required this.unvalidatedJSON,
-  });
-
-  factory DemodulationConfig.fromJson(Map<String, dynamic> json) {
-    return DemodulationConfig(
-      unvalidatedJSON: (json['unvalidatedJSON'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final unvalidatedJSON = this.unvalidatedJSON;
-    return {
-      'unvalidatedJSON': unvalidatedJSON,
-    };
-  }
-}
-
-/// <p/>
-class DescribeContactResponse {
-  /// UUID of a contact.
-  final String? contactId;
-
-  /// Status of a contact.
-  final ContactStatus? contactStatus;
-
-  /// List describing source and destination details for each dataflow edge.
-  final List<DataflowDetail>? dataflowList;
-
-  /// End time of a contact in UTC.
-  final DateTime? endTime;
-
-  /// Error message for a contact.
-  final String? errorMessage;
-
-  /// Ground station for a contact.
-  final String? groundStation;
-
-  /// Maximum elevation angle of a contact.
-  final Elevation? maximumElevation;
-
-  /// ARN of a mission profile.
-  final String? missionProfileArn;
-
-  /// Amount of time after a contact ends that you’d like to receive a CloudWatch
-  /// event indicating the pass has finished.
-  final DateTime? postPassEndTime;
-
-  /// Amount of time prior to contact start you’d like to receive a CloudWatch
-  /// event indicating an upcoming pass.
-  final DateTime? prePassStartTime;
-
-  /// Region of a contact.
-  final String? region;
-
-  /// ARN of a satellite.
-  final String? satelliteArn;
-
-  /// Start time of a contact in UTC.
-  final DateTime? startTime;
-
-  /// Tags assigned to a contact.
-  final Map<String, String>? tags;
-
-  /// Projected time in UTC your satellite will set below the <a
-  /// href="https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html">receive
-  /// mask</a>. This time is based on the satellite's current active ephemeris for
-  /// future contacts and the ephemeris that was active during contact execution
-  /// for completed contacts.
-  final DateTime? visibilityEndTime;
-
-  /// Projected time in UTC your satellite will rise above the <a
-  /// href="https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html">receive
-  /// mask</a>. This time is based on the satellite's current active ephemeris for
-  /// future contacts and the ephemeris that was active during contact execution
-  /// for completed contacts.
-  final DateTime? visibilityStartTime;
-
-  DescribeContactResponse({
-    this.contactId,
-    this.contactStatus,
-    this.dataflowList,
-    this.endTime,
-    this.errorMessage,
-    this.groundStation,
-    this.maximumElevation,
-    this.missionProfileArn,
-    this.postPassEndTime,
-    this.prePassStartTime,
-    this.region,
-    this.satelliteArn,
-    this.startTime,
-    this.tags,
-    this.visibilityEndTime,
-    this.visibilityStartTime,
-  });
-
-  factory DescribeContactResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeContactResponse(
-      contactId: json['contactId'] as String?,
-      contactStatus:
-          (json['contactStatus'] as String?)?.let(ContactStatus.fromString),
-      dataflowList: (json['dataflowList'] as List?)
-          ?.nonNulls
-          .map((e) => DataflowDetail.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      endTime: timeStampFromJson(json['endTime']),
-      errorMessage: json['errorMessage'] as String?,
-      groundStation: json['groundStation'] as String?,
-      maximumElevation: json['maximumElevation'] != null
-          ? Elevation.fromJson(json['maximumElevation'] as Map<String, dynamic>)
-          : null,
-      missionProfileArn: json['missionProfileArn'] as String?,
-      postPassEndTime: timeStampFromJson(json['postPassEndTime']),
-      prePassStartTime: timeStampFromJson(json['prePassStartTime']),
-      region: json['region'] as String?,
-      satelliteArn: json['satelliteArn'] as String?,
-      startTime: timeStampFromJson(json['startTime']),
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      visibilityEndTime: timeStampFromJson(json['visibilityEndTime']),
-      visibilityStartTime: timeStampFromJson(json['visibilityStartTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final contactId = this.contactId;
-    final contactStatus = this.contactStatus;
-    final dataflowList = this.dataflowList;
-    final endTime = this.endTime;
-    final errorMessage = this.errorMessage;
-    final groundStation = this.groundStation;
-    final maximumElevation = this.maximumElevation;
-    final missionProfileArn = this.missionProfileArn;
-    final postPassEndTime = this.postPassEndTime;
-    final prePassStartTime = this.prePassStartTime;
-    final region = this.region;
-    final satelliteArn = this.satelliteArn;
-    final startTime = this.startTime;
-    final tags = this.tags;
-    final visibilityEndTime = this.visibilityEndTime;
-    final visibilityStartTime = this.visibilityStartTime;
-    return {
-      if (contactId != null) 'contactId': contactId,
-      if (contactStatus != null) 'contactStatus': contactStatus.value,
-      if (dataflowList != null) 'dataflowList': dataflowList,
-      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
-      if (errorMessage != null) 'errorMessage': errorMessage,
-      if (groundStation != null) 'groundStation': groundStation,
-      if (maximumElevation != null) 'maximumElevation': maximumElevation,
-      if (missionProfileArn != null) 'missionProfileArn': missionProfileArn,
-      if (postPassEndTime != null)
-        'postPassEndTime': unixTimestampToJson(postPassEndTime),
-      if (prePassStartTime != null)
-        'prePassStartTime': unixTimestampToJson(prePassStartTime),
-      if (region != null) 'region': region,
-      if (satelliteArn != null) 'satelliteArn': satelliteArn,
-      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
-      if (tags != null) 'tags': tags,
-      if (visibilityEndTime != null)
-        'visibilityEndTime': unixTimestampToJson(visibilityEndTime),
-      if (visibilityStartTime != null)
-        'visibilityStartTime': unixTimestampToJson(visibilityStartTime),
-    };
-  }
-}
-
-class DescribeEphemerisResponse {
-  /// The time the ephemeris was uploaded in UTC.
-  final DateTime? creationTime;
-
-  /// Whether or not the ephemeris is enabled.
-  final bool? enabled;
-
-  /// The AWS Ground Station ephemeris ID.
-  final String? ephemerisId;
-
-  /// Reason that an ephemeris failed validation. Only provided for ephemerides
-  /// with <code>INVALID</code> status.
-  final EphemerisInvalidReason? invalidReason;
-
-  /// A name string associated with the ephemeris. Used as a human-readable
-  /// identifier for the ephemeris.
-  final String? name;
-
-  /// Customer-provided priority score to establish the order in which overlapping
-  /// ephemerides should be used.
-  ///
-  /// The default for customer-provided ephemeris priority is 1, and higher
-  /// numbers take precedence.
-  ///
-  /// Priority must be 1 or greater
-  final int? priority;
-
-  /// The AWS Ground Station satellite ID associated with ephemeris.
-  final String? satelliteId;
-
-  /// The status of the ephemeris.
-  final EphemerisStatus? status;
-
-  /// Supplied ephemeris data.
-  final EphemerisTypeDescription? suppliedData;
-
-  /// Tags assigned to an ephemeris.
-  final Map<String, String>? tags;
-
-  DescribeEphemerisResponse({
-    this.creationTime,
-    this.enabled,
-    this.ephemerisId,
-    this.invalidReason,
-    this.name,
-    this.priority,
-    this.satelliteId,
-    this.status,
-    this.suppliedData,
-    this.tags,
-  });
-
-  factory DescribeEphemerisResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeEphemerisResponse(
-      creationTime: timeStampFromJson(json['creationTime']),
-      enabled: json['enabled'] as bool?,
-      ephemerisId: json['ephemerisId'] as String?,
-      invalidReason: (json['invalidReason'] as String?)
-          ?.let(EphemerisInvalidReason.fromString),
-      name: json['name'] as String?,
-      priority: json['priority'] as int?,
-      satelliteId: json['satelliteId'] as String?,
-      status: (json['status'] as String?)?.let(EphemerisStatus.fromString),
-      suppliedData: json['suppliedData'] != null
-          ? EphemerisTypeDescription.fromJson(
-              json['suppliedData'] as Map<String, dynamic>)
-          : null,
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationTime = this.creationTime;
+    final antennaUplinkConfigArn = this.antennaUplinkConfigArn;
     final enabled = this.enabled;
-    final ephemerisId = this.ephemerisId;
-    final invalidReason = this.invalidReason;
-    final name = this.name;
-    final priority = this.priority;
-    final satelliteId = this.satelliteId;
-    final status = this.status;
-    final suppliedData = this.suppliedData;
-    final tags = this.tags;
     return {
-      if (creationTime != null)
-        'creationTime': unixTimestampToJson(creationTime),
-      if (enabled != null) 'enabled': enabled,
-      if (ephemerisId != null) 'ephemerisId': ephemerisId,
-      if (invalidReason != null) 'invalidReason': invalidReason.value,
-      if (name != null) 'name': name,
-      if (priority != null) 'priority': priority,
-      if (satelliteId != null) 'satelliteId': satelliteId,
-      if (status != null) 'status': status.value,
-      if (suppliedData != null) 'suppliedData': suppliedData,
-      if (tags != null) 'tags': tags,
+      'antennaUplinkConfigArn': antennaUplinkConfigArn,
+      'enabled': enabled,
     };
   }
 }
 
-/// Dataflow details for the destination side.
-class Destination {
-  /// Additional details for a <code>Config</code>, if type is dataflow endpoint
-  /// or antenna demod decode.
-  final ConfigDetails? configDetails;
+/// Information about an S3 recording <code>Config</code>.
+class S3RecordingConfig {
+  /// ARN of the bucket to record to.
+  final String bucketArn;
 
-  /// UUID of a <code>Config</code>.
-  final String? configId;
+  /// ARN of the role Ground Station assumes to write data to the bucket.
+  final String roleArn;
 
-  /// Type of a <code>Config</code>.
-  final ConfigCapabilityType? configType;
+  /// S3 Key prefix to prefice data files.
+  final String? prefix;
 
-  /// Region of a dataflow destination.
-  final String? dataflowDestinationRegion;
-
-  Destination({
-    this.configDetails,
-    this.configId,
-    this.configType,
-    this.dataflowDestinationRegion,
+  S3RecordingConfig({
+    required this.bucketArn,
+    required this.roleArn,
+    this.prefix,
   });
 
-  factory Destination.fromJson(Map<String, dynamic> json) {
-    return Destination(
-      configDetails: json['configDetails'] != null
-          ? ConfigDetails.fromJson(
-              json['configDetails'] as Map<String, dynamic>)
-          : null,
-      configId: json['configId'] as String?,
-      configType:
-          (json['configType'] as String?)?.let(ConfigCapabilityType.fromString),
-      dataflowDestinationRegion: json['dataflowDestinationRegion'] as String?,
+  factory S3RecordingConfig.fromJson(Map<String, dynamic> json) {
+    return S3RecordingConfig(
+      bucketArn: (json['bucketArn'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
+      prefix: json['prefix'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final configDetails = this.configDetails;
-    final configId = this.configId;
-    final configType = this.configType;
-    final dataflowDestinationRegion = this.dataflowDestinationRegion;
+    final bucketArn = this.bucketArn;
+    final roleArn = this.roleArn;
+    final prefix = this.prefix;
     return {
-      if (configDetails != null) 'configDetails': configDetails,
-      if (configId != null) 'configId': configId,
-      if (configType != null) 'configType': configType.value,
-      if (dataflowDestinationRegion != null)
-        'dataflowDestinationRegion': dataflowDestinationRegion,
+      'bucketArn': bucketArn,
+      'roleArn': roleArn,
+      if (prefix != null) 'prefix': prefix,
     };
   }
 }
 
-/// Data for agent discovery.
-class DiscoveryData {
-  /// List of capabilities to associate with agent.
-  final List<String> capabilityArns;
+/// Information about a telemetry sink <code>Config</code>.
+class TelemetrySinkConfig {
+  /// Information about the telemetry sink specified by the
+  /// <code>telemetrySinkType</code>.
+  final TelemetrySinkData telemetrySinkData;
 
-  /// List of private IP addresses to associate with agent.
-  final List<String> privateIpAddresses;
+  /// The type of telemetry sink.
+  final TelemetrySinkType telemetrySinkType;
 
-  /// List of public IP addresses to associate with agent.
-  final List<String> publicIpAddresses;
-
-  DiscoveryData({
-    required this.capabilityArns,
-    required this.privateIpAddresses,
-    required this.publicIpAddresses,
+  TelemetrySinkConfig({
+    required this.telemetrySinkData,
+    required this.telemetrySinkType,
   });
 
+  factory TelemetrySinkConfig.fromJson(Map<String, dynamic> json) {
+    return TelemetrySinkConfig(
+      telemetrySinkData: TelemetrySinkData.fromJson(
+          (json['telemetrySinkData'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      telemetrySinkType: TelemetrySinkType.fromString(
+          (json['telemetrySinkType'] as String?) ?? ''),
+    );
+  }
+
   Map<String, dynamic> toJson() {
-    final capabilityArns = this.capabilityArns;
-    final privateIpAddresses = this.privateIpAddresses;
-    final publicIpAddresses = this.publicIpAddresses;
+    final telemetrySinkData = this.telemetrySinkData;
+    final telemetrySinkType = this.telemetrySinkType;
     return {
-      'capabilityArns': capabilityArns,
-      'privateIpAddresses': privateIpAddresses,
-      'publicIpAddresses': publicIpAddresses,
+      'telemetrySinkData': telemetrySinkData,
+      'telemetrySinkType': telemetrySinkType.value,
+    };
+  }
+}
+
+class TelemetrySinkType {
+  static const kinesisDataStream = TelemetrySinkType._('KINESIS_DATA_STREAM');
+
+  final String value;
+
+  const TelemetrySinkType._(this.value);
+
+  static const values = [kinesisDataStream];
+
+  static TelemetrySinkType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TelemetrySinkType._(value));
+
+  @override
+  bool operator ==(other) => other is TelemetrySinkType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a telemetry sink.
+class TelemetrySinkData {
+  /// Information about a telemetry sink of type <code>KINESIS_DATA_STREAM</code>.
+  final KinesisDataStreamData? kinesisDataStreamData;
+
+  TelemetrySinkData({
+    this.kinesisDataStreamData,
+  });
+
+  factory TelemetrySinkData.fromJson(Map<String, dynamic> json) {
+    return TelemetrySinkData(
+      kinesisDataStreamData: json['kinesisDataStreamData'] != null
+          ? KinesisDataStreamData.fromJson(
+              json['kinesisDataStreamData'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kinesisDataStreamData = this.kinesisDataStreamData;
+    return {
+      if (kinesisDataStreamData != null)
+        'kinesisDataStreamData': kinesisDataStreamData,
+    };
+  }
+}
+
+/// Information for telemetry delivery to Kinesis Data Streams.
+class KinesisDataStreamData {
+  /// ARN of the Kinesis Data Stream to deliver telemetry to.
+  final String kinesisDataStreamArn;
+
+  /// ARN of the IAM Role used by AWS Ground Station to deliver telemetry.
+  final String kinesisRoleArn;
+
+  KinesisDataStreamData({
+    required this.kinesisDataStreamArn,
+    required this.kinesisRoleArn,
+  });
+
+  factory KinesisDataStreamData.fromJson(Map<String, dynamic> json) {
+    return KinesisDataStreamData(
+      kinesisDataStreamArn: (json['kinesisDataStreamArn'] as String?) ?? '',
+      kinesisRoleArn: (json['kinesisRoleArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kinesisDataStreamArn = this.kinesisDataStreamArn;
+    final kinesisRoleArn = this.kinesisRoleArn;
+    return {
+      'kinesisDataStreamArn': kinesisDataStreamArn,
+      'kinesisRoleArn': kinesisRoleArn,
+    };
+  }
+}
+
+/// Information about the uplink spectral <code>Config</code>.
+class UplinkSpectrumConfig {
+  /// Center frequency of an uplink spectral <code>Config</code>. Valid values are
+  /// between 2025 to 2120 MHz.
+  final Frequency centerFrequency;
+
+  /// Polarization of an uplink spectral <code>Config</code>. Capturing both
+  /// <code>"RIGHT_HAND"</code> and <code>"LEFT_HAND"</code> polarization requires
+  /// two separate configs.
+  final Polarization? polarization;
+
+  UplinkSpectrumConfig({
+    required this.centerFrequency,
+    this.polarization,
+  });
+
+  factory UplinkSpectrumConfig.fromJson(Map<String, dynamic> json) {
+    return UplinkSpectrumConfig(
+      centerFrequency: Frequency.fromJson(
+          (json['centerFrequency'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      polarization:
+          (json['polarization'] as String?)?.let(Polarization.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final centerFrequency = this.centerFrequency;
+    final polarization = this.polarization;
+    return {
+      'centerFrequency': centerFrequency,
+      if (polarization != null) 'polarization': polarization.value,
     };
   }
 }
@@ -2963,459 +6924,6 @@ class EirpUnits {
   String toString() => value;
 }
 
-/// Elevation angle of the satellite in the sky during a contact.
-class Elevation {
-  /// Elevation angle units.
-  final AngleUnits unit;
-
-  /// Elevation angle value.
-  final double value;
-
-  Elevation({
-    required this.unit,
-    required this.value,
-  });
-
-  factory Elevation.fromJson(Map<String, dynamic> json) {
-    return Elevation(
-      unit: AngleUnits.fromString((json['unit'] as String?) ?? ''),
-      value: (json['value'] as double?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final unit = this.unit;
-    final value = this.value;
-    return {
-      'unit': unit.value,
-      'value': value,
-    };
-  }
-}
-
-/// Information about the endpoint details.
-class EndpointDetails {
-  /// An agent endpoint.
-  final AwsGroundStationAgentEndpoint? awsGroundStationAgentEndpoint;
-
-  /// A dataflow endpoint.
-  final DataflowEndpoint? endpoint;
-
-  /// Health reasons for a dataflow endpoint. This field is ignored when calling
-  /// <code>CreateDataflowEndpointGroup</code>.
-  final List<CapabilityHealthReason>? healthReasons;
-
-  /// A dataflow endpoint health status. This field is ignored when calling
-  /// <code>CreateDataflowEndpointGroup</code>.
-  final CapabilityHealth? healthStatus;
-
-  /// Endpoint security details including a list of subnets, a list of security
-  /// groups and a role to connect streams to instances.
-  final SecurityDetails? securityDetails;
-
-  EndpointDetails({
-    this.awsGroundStationAgentEndpoint,
-    this.endpoint,
-    this.healthReasons,
-    this.healthStatus,
-    this.securityDetails,
-  });
-
-  factory EndpointDetails.fromJson(Map<String, dynamic> json) {
-    return EndpointDetails(
-      awsGroundStationAgentEndpoint:
-          json['awsGroundStationAgentEndpoint'] != null
-              ? AwsGroundStationAgentEndpoint.fromJson(
-                  json['awsGroundStationAgentEndpoint'] as Map<String, dynamic>)
-              : null,
-      endpoint: json['endpoint'] != null
-          ? DataflowEndpoint.fromJson(json['endpoint'] as Map<String, dynamic>)
-          : null,
-      healthReasons: (json['healthReasons'] as List?)
-          ?.nonNulls
-          .map((e) => CapabilityHealthReason.fromString((e as String)))
-          .toList(),
-      healthStatus:
-          (json['healthStatus'] as String?)?.let(CapabilityHealth.fromString),
-      securityDetails: json['securityDetails'] != null
-          ? SecurityDetails.fromJson(
-              json['securityDetails'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final awsGroundStationAgentEndpoint = this.awsGroundStationAgentEndpoint;
-    final endpoint = this.endpoint;
-    final healthReasons = this.healthReasons;
-    final healthStatus = this.healthStatus;
-    final securityDetails = this.securityDetails;
-    return {
-      if (awsGroundStationAgentEndpoint != null)
-        'awsGroundStationAgentEndpoint': awsGroundStationAgentEndpoint,
-      if (endpoint != null) 'endpoint': endpoint,
-      if (healthReasons != null)
-        'healthReasons': healthReasons.map((e) => e.value).toList(),
-      if (healthStatus != null) 'healthStatus': healthStatus.value,
-      if (securityDetails != null) 'securityDetails': securityDetails,
-    };
-  }
-}
-
-class EndpointStatus {
-  static const created = EndpointStatus._('created');
-  static const creating = EndpointStatus._('creating');
-  static const deleted = EndpointStatus._('deleted');
-  static const deleting = EndpointStatus._('deleting');
-  static const failed = EndpointStatus._('failed');
-
-  final String value;
-
-  const EndpointStatus._(this.value);
-
-  static const values = [created, creating, deleted, deleting, failed];
-
-  static EndpointStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EndpointStatus._(value));
-
-  @override
-  bool operator ==(other) => other is EndpointStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Ephemeris data.
-class EphemerisData {
-  final OEMEphemeris? oem;
-  final TLEEphemeris? tle;
-
-  EphemerisData({
-    this.oem,
-    this.tle,
-  });
-
-  Map<String, dynamic> toJson() {
-    final oem = this.oem;
-    final tle = this.tle;
-    return {
-      if (oem != null) 'oem': oem,
-      if (tle != null) 'tle': tle,
-    };
-  }
-}
-
-/// Description of ephemeris.
-class EphemerisDescription {
-  /// Supplied ephemeris data.
-  final String? ephemerisData;
-
-  /// Source S3 object used for the ephemeris.
-  final S3Object? sourceS3Object;
-
-  EphemerisDescription({
-    this.ephemerisData,
-    this.sourceS3Object,
-  });
-
-  factory EphemerisDescription.fromJson(Map<String, dynamic> json) {
-    return EphemerisDescription(
-      ephemerisData: json['ephemerisData'] as String?,
-      sourceS3Object: json['sourceS3Object'] != null
-          ? S3Object.fromJson(json['sourceS3Object'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final ephemerisData = this.ephemerisData;
-    final sourceS3Object = this.sourceS3Object;
-    return {
-      if (ephemerisData != null) 'ephemerisData': ephemerisData,
-      if (sourceS3Object != null) 'sourceS3Object': sourceS3Object,
-    };
-  }
-}
-
-class EphemerisIdResponse {
-  /// The AWS Ground Station ephemeris ID.
-  final String? ephemerisId;
-
-  EphemerisIdResponse({
-    this.ephemerisId,
-  });
-
-  factory EphemerisIdResponse.fromJson(Map<String, dynamic> json) {
-    return EphemerisIdResponse(
-      ephemerisId: json['ephemerisId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final ephemerisId = this.ephemerisId;
-    return {
-      if (ephemerisId != null) 'ephemerisId': ephemerisId,
-    };
-  }
-}
-
-class EphemerisInvalidReason {
-  static const metadataInvalid = EphemerisInvalidReason._('METADATA_INVALID');
-  static const timeRangeInvalid =
-      EphemerisInvalidReason._('TIME_RANGE_INVALID');
-  static const trajectoryInvalid =
-      EphemerisInvalidReason._('TRAJECTORY_INVALID');
-  static const kmsKeyInvalid = EphemerisInvalidReason._('KMS_KEY_INVALID');
-  static const validationError = EphemerisInvalidReason._('VALIDATION_ERROR');
-
-  final String value;
-
-  const EphemerisInvalidReason._(this.value);
-
-  static const values = [
-    metadataInvalid,
-    timeRangeInvalid,
-    trajectoryInvalid,
-    kmsKeyInvalid,
-    validationError
-  ];
-
-  static EphemerisInvalidReason fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EphemerisInvalidReason._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is EphemerisInvalidReason && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Ephemeris item.
-class EphemerisItem {
-  /// The time the ephemeris was uploaded in UTC.
-  final DateTime? creationTime;
-
-  /// Whether or not the ephemeris is enabled.
-  final bool? enabled;
-
-  /// The AWS Ground Station ephemeris ID.
-  final String? ephemerisId;
-
-  /// A name string associated with the ephemeris. Used as a human-readable
-  /// identifier for the ephemeris.
-  final String? name;
-
-  /// Customer-provided priority score to establish the order in which overlapping
-  /// ephemerides should be used.
-  ///
-  /// The default for customer-provided ephemeris priority is 1, and higher
-  /// numbers take precedence.
-  ///
-  /// Priority must be 1 or greater
-  final int? priority;
-
-  /// Source S3 object used for the ephemeris.
-  final S3Object? sourceS3Object;
-
-  /// The status of the ephemeris.
-  final EphemerisStatus? status;
-
-  EphemerisItem({
-    this.creationTime,
-    this.enabled,
-    this.ephemerisId,
-    this.name,
-    this.priority,
-    this.sourceS3Object,
-    this.status,
-  });
-
-  factory EphemerisItem.fromJson(Map<String, dynamic> json) {
-    return EphemerisItem(
-      creationTime: timeStampFromJson(json['creationTime']),
-      enabled: json['enabled'] as bool?,
-      ephemerisId: json['ephemerisId'] as String?,
-      name: json['name'] as String?,
-      priority: json['priority'] as int?,
-      sourceS3Object: json['sourceS3Object'] != null
-          ? S3Object.fromJson(json['sourceS3Object'] as Map<String, dynamic>)
-          : null,
-      status: (json['status'] as String?)?.let(EphemerisStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationTime = this.creationTime;
-    final enabled = this.enabled;
-    final ephemerisId = this.ephemerisId;
-    final name = this.name;
-    final priority = this.priority;
-    final sourceS3Object = this.sourceS3Object;
-    final status = this.status;
-    return {
-      if (creationTime != null)
-        'creationTime': unixTimestampToJson(creationTime),
-      if (enabled != null) 'enabled': enabled,
-      if (ephemerisId != null) 'ephemerisId': ephemerisId,
-      if (name != null) 'name': name,
-      if (priority != null) 'priority': priority,
-      if (sourceS3Object != null) 'sourceS3Object': sourceS3Object,
-      if (status != null) 'status': status.value,
-    };
-  }
-}
-
-/// Metadata describing a particular ephemeris.
-class EphemerisMetaData {
-  /// The <code>EphemerisSource</code> that generated a given ephemeris.
-  final EphemerisSource source;
-
-  /// UUID of a customer-provided ephemeris.
-  ///
-  /// This field is not populated for default ephemerides from Space Track.
-  final String? ephemerisId;
-
-  /// The epoch of a default, ephemeris from Space Track in UTC.
-  ///
-  /// This field is not populated for customer-provided ephemerides.
-  final DateTime? epoch;
-
-  /// A name string associated with the ephemeris. Used as a human-readable
-  /// identifier for the ephemeris.
-  ///
-  /// A name is only returned for customer-provider ephemerides that have a name
-  /// associated.
-  final String? name;
-
-  EphemerisMetaData({
-    required this.source,
-    this.ephemerisId,
-    this.epoch,
-    this.name,
-  });
-
-  factory EphemerisMetaData.fromJson(Map<String, dynamic> json) {
-    return EphemerisMetaData(
-      source: EphemerisSource.fromString((json['source'] as String?) ?? ''),
-      ephemerisId: json['ephemerisId'] as String?,
-      epoch: timeStampFromJson(json['epoch']),
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final source = this.source;
-    final ephemerisId = this.ephemerisId;
-    final epoch = this.epoch;
-    final name = this.name;
-    return {
-      'source': source.value,
-      if (ephemerisId != null) 'ephemerisId': ephemerisId,
-      if (epoch != null) 'epoch': unixTimestampToJson(epoch),
-      if (name != null) 'name': name,
-    };
-  }
-}
-
-class EphemerisSource {
-  static const customerProvided = EphemerisSource._('CUSTOMER_PROVIDED');
-  static const spaceTrack = EphemerisSource._('SPACE_TRACK');
-
-  final String value;
-
-  const EphemerisSource._(this.value);
-
-  static const values = [customerProvided, spaceTrack];
-
-  static EphemerisSource fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EphemerisSource._(value));
-
-  @override
-  bool operator ==(other) => other is EphemerisSource && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class EphemerisStatus {
-  static const validating = EphemerisStatus._('VALIDATING');
-  static const invalid = EphemerisStatus._('INVALID');
-  static const error = EphemerisStatus._('ERROR');
-  static const enabled = EphemerisStatus._('ENABLED');
-  static const disabled = EphemerisStatus._('DISABLED');
-  static const expired = EphemerisStatus._('EXPIRED');
-
-  final String value;
-
-  const EphemerisStatus._(this.value);
-
-  static const values = [
-    validating,
-    invalid,
-    error,
-    enabled,
-    disabled,
-    expired
-  ];
-
-  static EphemerisStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EphemerisStatus._(value));
-
-  @override
-  bool operator ==(other) => other is EphemerisStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// <p/>
-class EphemerisTypeDescription {
-  final EphemerisDescription? oem;
-  final EphemerisDescription? tle;
-
-  EphemerisTypeDescription({
-    this.oem,
-    this.tle,
-  });
-
-  factory EphemerisTypeDescription.fromJson(Map<String, dynamic> json) {
-    return EphemerisTypeDescription(
-      oem: json['oem'] != null
-          ? EphemerisDescription.fromJson(json['oem'] as Map<String, dynamic>)
-          : null,
-      tle: json['tle'] != null
-          ? EphemerisDescription.fromJson(json['tle'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final oem = this.oem;
-    final tle = this.tle;
-    return {
-      if (oem != null) 'oem': oem,
-      if (tle != null) 'tle': tle,
-    };
-  }
-}
-
 /// Object that describes the frequency.
 class Frequency {
   /// Frequency units.
@@ -3447,50 +6955,28 @@ class Frequency {
   }
 }
 
-/// Object that describes the frequency bandwidth.
-class FrequencyBandwidth {
-  /// Frequency bandwidth units.
-  final BandwidthUnits units;
+class Polarization {
+  static const rightHand = Polarization._('RIGHT_HAND');
+  static const leftHand = Polarization._('LEFT_HAND');
+  static const none = Polarization._('NONE');
 
-  /// Frequency bandwidth value. AWS Ground Station currently has the following
-  /// bandwidth limitations:
-  ///
-  /// <ul>
-  /// <li>
-  /// For <code>AntennaDownlinkDemodDecodeconfig</code>, valid values are between
-  /// 125 kHz to 650 MHz.
-  /// </li>
-  /// <li>
-  /// For <code>AntennaDownlinkconfig</code>, valid values are between 10 kHz to
-  /// 54 MHz.
-  /// </li>
-  /// <li>
-  /// For <code>AntennaUplinkConfig</code>, valid values are between 10 kHz to 54
-  /// MHz.
-  /// </li>
-  /// </ul>
-  final double value;
+  final String value;
 
-  FrequencyBandwidth({
-    required this.units,
-    required this.value,
-  });
+  const Polarization._(this.value);
 
-  factory FrequencyBandwidth.fromJson(Map<String, dynamic> json) {
-    return FrequencyBandwidth(
-      units: BandwidthUnits.fromString((json['units'] as String?) ?? ''),
-      value: (json['value'] as double?) ?? 0,
-    );
-  }
+  static const values = [rightHand, leftHand, none];
 
-  Map<String, dynamic> toJson() {
-    final units = this.units;
-    final value = this.value;
-    return {
-      'units': units.value,
-      'value': value,
-    };
-  }
+  static Polarization fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Polarization._(value));
+
+  @override
+  bool operator ==(other) => other is Polarization && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class FrequencyUnits {
@@ -3516,1271 +7002,6 @@ class FrequencyUnits {
 
   @override
   String toString() => value;
-}
-
-class GetAgentConfigurationResponse {
-  /// UUID of agent.
-  final String? agentId;
-
-  /// Tasking document for agent.
-  final String? taskingDocument;
-
-  GetAgentConfigurationResponse({
-    this.agentId,
-    this.taskingDocument,
-  });
-
-  factory GetAgentConfigurationResponse.fromJson(Map<String, dynamic> json) {
-    return GetAgentConfigurationResponse(
-      agentId: json['agentId'] as String?,
-      taskingDocument: json['taskingDocument'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final agentId = this.agentId;
-    final taskingDocument = this.taskingDocument;
-    return {
-      if (agentId != null) 'agentId': agentId,
-      if (taskingDocument != null) 'taskingDocument': taskingDocument,
-    };
-  }
-}
-
-/// <p/>
-class GetConfigResponse {
-  /// ARN of a <code>Config</code>
-  final String configArn;
-
-  /// Data elements in a <code>Config</code>.
-  final ConfigTypeData configData;
-
-  /// UUID of a <code>Config</code>.
-  final String configId;
-
-  /// Name of a <code>Config</code>.
-  final String name;
-
-  /// Type of a <code>Config</code>.
-  final ConfigCapabilityType? configType;
-
-  /// Tags assigned to a <code>Config</code>.
-  final Map<String, String>? tags;
-
-  GetConfigResponse({
-    required this.configArn,
-    required this.configData,
-    required this.configId,
-    required this.name,
-    this.configType,
-    this.tags,
-  });
-
-  factory GetConfigResponse.fromJson(Map<String, dynamic> json) {
-    return GetConfigResponse(
-      configArn: (json['configArn'] as String?) ?? '',
-      configData: ConfigTypeData.fromJson(
-          (json['configData'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      configId: (json['configId'] as String?) ?? '',
-      name: (json['name'] as String?) ?? '',
-      configType:
-          (json['configType'] as String?)?.let(ConfigCapabilityType.fromString),
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final configArn = this.configArn;
-    final configData = this.configData;
-    final configId = this.configId;
-    final name = this.name;
-    final configType = this.configType;
-    final tags = this.tags;
-    return {
-      'configArn': configArn,
-      'configData': configData,
-      'configId': configId,
-      'name': name,
-      if (configType != null) 'configType': configType.value,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-/// <p/>
-class GetDataflowEndpointGroupResponse {
-  /// Amount of time, in seconds, after a contact ends that the Ground Station
-  /// Dataflow Endpoint Group will be in a <code>POSTPASS</code> state. A Ground
-  /// Station Dataflow Endpoint Group State Change event will be emitted when the
-  /// Dataflow Endpoint Group enters and exits the <code>POSTPASS</code> state.
-  final int? contactPostPassDurationSeconds;
-
-  /// Amount of time, in seconds, before a contact starts that the Ground Station
-  /// Dataflow Endpoint Group will be in a <code>PREPASS</code> state. A Ground
-  /// Station Dataflow Endpoint Group State Change event will be emitted when the
-  /// Dataflow Endpoint Group enters and exits the <code>PREPASS</code> state.
-  final int? contactPrePassDurationSeconds;
-
-  /// ARN of a dataflow endpoint group.
-  final String? dataflowEndpointGroupArn;
-
-  /// UUID of a dataflow endpoint group.
-  final String? dataflowEndpointGroupId;
-
-  /// Details of a dataflow endpoint.
-  final List<EndpointDetails>? endpointsDetails;
-
-  /// Tags assigned to a dataflow endpoint group.
-  final Map<String, String>? tags;
-
-  GetDataflowEndpointGroupResponse({
-    this.contactPostPassDurationSeconds,
-    this.contactPrePassDurationSeconds,
-    this.dataflowEndpointGroupArn,
-    this.dataflowEndpointGroupId,
-    this.endpointsDetails,
-    this.tags,
-  });
-
-  factory GetDataflowEndpointGroupResponse.fromJson(Map<String, dynamic> json) {
-    return GetDataflowEndpointGroupResponse(
-      contactPostPassDurationSeconds:
-          json['contactPostPassDurationSeconds'] as int?,
-      contactPrePassDurationSeconds:
-          json['contactPrePassDurationSeconds'] as int?,
-      dataflowEndpointGroupArn: json['dataflowEndpointGroupArn'] as String?,
-      dataflowEndpointGroupId: json['dataflowEndpointGroupId'] as String?,
-      endpointsDetails: (json['endpointsDetails'] as List?)
-          ?.nonNulls
-          .map((e) => EndpointDetails.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final contactPostPassDurationSeconds = this.contactPostPassDurationSeconds;
-    final contactPrePassDurationSeconds = this.contactPrePassDurationSeconds;
-    final dataflowEndpointGroupArn = this.dataflowEndpointGroupArn;
-    final dataflowEndpointGroupId = this.dataflowEndpointGroupId;
-    final endpointsDetails = this.endpointsDetails;
-    final tags = this.tags;
-    return {
-      if (contactPostPassDurationSeconds != null)
-        'contactPostPassDurationSeconds': contactPostPassDurationSeconds,
-      if (contactPrePassDurationSeconds != null)
-        'contactPrePassDurationSeconds': contactPrePassDurationSeconds,
-      if (dataflowEndpointGroupArn != null)
-        'dataflowEndpointGroupArn': dataflowEndpointGroupArn,
-      if (dataflowEndpointGroupId != null)
-        'dataflowEndpointGroupId': dataflowEndpointGroupId,
-      if (endpointsDetails != null) 'endpointsDetails': endpointsDetails,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-/// <p/>
-class GetMinuteUsageResponse {
-  /// Estimated number of minutes remaining for an account, specific to the month
-  /// being requested.
-  final int? estimatedMinutesRemaining;
-
-  /// Returns whether or not an account has signed up for the reserved minutes
-  /// pricing plan, specific to the month being requested.
-  final bool? isReservedMinutesCustomer;
-
-  /// Total number of reserved minutes allocated, specific to the month being
-  /// requested.
-  final int? totalReservedMinuteAllocation;
-
-  /// Total scheduled minutes for an account, specific to the month being
-  /// requested.
-  final int? totalScheduledMinutes;
-
-  /// Upcoming minutes scheduled for an account, specific to the month being
-  /// requested.
-  final int? upcomingMinutesScheduled;
-
-  GetMinuteUsageResponse({
-    this.estimatedMinutesRemaining,
-    this.isReservedMinutesCustomer,
-    this.totalReservedMinuteAllocation,
-    this.totalScheduledMinutes,
-    this.upcomingMinutesScheduled,
-  });
-
-  factory GetMinuteUsageResponse.fromJson(Map<String, dynamic> json) {
-    return GetMinuteUsageResponse(
-      estimatedMinutesRemaining: json['estimatedMinutesRemaining'] as int?,
-      isReservedMinutesCustomer: json['isReservedMinutesCustomer'] as bool?,
-      totalReservedMinuteAllocation:
-          json['totalReservedMinuteAllocation'] as int?,
-      totalScheduledMinutes: json['totalScheduledMinutes'] as int?,
-      upcomingMinutesScheduled: json['upcomingMinutesScheduled'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final estimatedMinutesRemaining = this.estimatedMinutesRemaining;
-    final isReservedMinutesCustomer = this.isReservedMinutesCustomer;
-    final totalReservedMinuteAllocation = this.totalReservedMinuteAllocation;
-    final totalScheduledMinutes = this.totalScheduledMinutes;
-    final upcomingMinutesScheduled = this.upcomingMinutesScheduled;
-    return {
-      if (estimatedMinutesRemaining != null)
-        'estimatedMinutesRemaining': estimatedMinutesRemaining,
-      if (isReservedMinutesCustomer != null)
-        'isReservedMinutesCustomer': isReservedMinutesCustomer,
-      if (totalReservedMinuteAllocation != null)
-        'totalReservedMinuteAllocation': totalReservedMinuteAllocation,
-      if (totalScheduledMinutes != null)
-        'totalScheduledMinutes': totalScheduledMinutes,
-      if (upcomingMinutesScheduled != null)
-        'upcomingMinutesScheduled': upcomingMinutesScheduled,
-    };
-  }
-}
-
-/// <p/>
-class GetMissionProfileResponse {
-  /// Amount of time after a contact ends that you’d like to receive a CloudWatch
-  /// event indicating the pass has finished.
-  final int? contactPostPassDurationSeconds;
-
-  /// Amount of time prior to contact start you’d like to receive a CloudWatch
-  /// event indicating an upcoming pass.
-  final int? contactPrePassDurationSeconds;
-
-  /// A list of lists of ARNs. Each list of ARNs is an edge, with a <i>from</i>
-  /// <code>Config</code> and a <i>to</i> <code>Config</code>.
-  final List<List<String>>? dataflowEdges;
-
-  /// Smallest amount of time in seconds that you’d like to see for an available
-  /// contact. AWS Ground Station will not present you with contacts shorter than
-  /// this duration.
-  final int? minimumViableContactDurationSeconds;
-
-  /// ARN of a mission profile.
-  final String? missionProfileArn;
-
-  /// UUID of a mission profile.
-  final String? missionProfileId;
-
-  /// Name of a mission profile.
-  final String? name;
-
-  /// Region of a mission profile.
-  final String? region;
-
-  /// KMS key to use for encrypting streams.
-  final KmsKey? streamsKmsKey;
-
-  /// Role to use for encrypting streams with KMS key.
-  final String? streamsKmsRole;
-
-  /// Tags assigned to a mission profile.
-  final Map<String, String>? tags;
-
-  /// ARN of a tracking <code>Config</code>.
-  final String? trackingConfigArn;
-
-  GetMissionProfileResponse({
-    this.contactPostPassDurationSeconds,
-    this.contactPrePassDurationSeconds,
-    this.dataflowEdges,
-    this.minimumViableContactDurationSeconds,
-    this.missionProfileArn,
-    this.missionProfileId,
-    this.name,
-    this.region,
-    this.streamsKmsKey,
-    this.streamsKmsRole,
-    this.tags,
-    this.trackingConfigArn,
-  });
-
-  factory GetMissionProfileResponse.fromJson(Map<String, dynamic> json) {
-    return GetMissionProfileResponse(
-      contactPostPassDurationSeconds:
-          json['contactPostPassDurationSeconds'] as int?,
-      contactPrePassDurationSeconds:
-          json['contactPrePassDurationSeconds'] as int?,
-      dataflowEdges: (json['dataflowEdges'] as List?)
-          ?.nonNulls
-          .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
-          .toList(),
-      minimumViableContactDurationSeconds:
-          json['minimumViableContactDurationSeconds'] as int?,
-      missionProfileArn: json['missionProfileArn'] as String?,
-      missionProfileId: json['missionProfileId'] as String?,
-      name: json['name'] as String?,
-      region: json['region'] as String?,
-      streamsKmsKey: json['streamsKmsKey'] != null
-          ? KmsKey.fromJson(json['streamsKmsKey'] as Map<String, dynamic>)
-          : null,
-      streamsKmsRole: json['streamsKmsRole'] as String?,
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      trackingConfigArn: json['trackingConfigArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final contactPostPassDurationSeconds = this.contactPostPassDurationSeconds;
-    final contactPrePassDurationSeconds = this.contactPrePassDurationSeconds;
-    final dataflowEdges = this.dataflowEdges;
-    final minimumViableContactDurationSeconds =
-        this.minimumViableContactDurationSeconds;
-    final missionProfileArn = this.missionProfileArn;
-    final missionProfileId = this.missionProfileId;
-    final name = this.name;
-    final region = this.region;
-    final streamsKmsKey = this.streamsKmsKey;
-    final streamsKmsRole = this.streamsKmsRole;
-    final tags = this.tags;
-    final trackingConfigArn = this.trackingConfigArn;
-    return {
-      if (contactPostPassDurationSeconds != null)
-        'contactPostPassDurationSeconds': contactPostPassDurationSeconds,
-      if (contactPrePassDurationSeconds != null)
-        'contactPrePassDurationSeconds': contactPrePassDurationSeconds,
-      if (dataflowEdges != null) 'dataflowEdges': dataflowEdges,
-      if (minimumViableContactDurationSeconds != null)
-        'minimumViableContactDurationSeconds':
-            minimumViableContactDurationSeconds,
-      if (missionProfileArn != null) 'missionProfileArn': missionProfileArn,
-      if (missionProfileId != null) 'missionProfileId': missionProfileId,
-      if (name != null) 'name': name,
-      if (region != null) 'region': region,
-      if (streamsKmsKey != null) 'streamsKmsKey': streamsKmsKey,
-      if (streamsKmsRole != null) 'streamsKmsRole': streamsKmsRole,
-      if (tags != null) 'tags': tags,
-      if (trackingConfigArn != null) 'trackingConfigArn': trackingConfigArn,
-    };
-  }
-}
-
-/// <p/>
-class GetSatelliteResponse {
-  /// The current ephemeris being used to compute the trajectory of the satellite.
-  final EphemerisMetaData? currentEphemeris;
-
-  /// A list of ground stations to which the satellite is on-boarded.
-  final List<String>? groundStations;
-
-  /// NORAD satellite ID number.
-  final int? noradSatelliteID;
-
-  /// ARN of a satellite.
-  final String? satelliteArn;
-
-  /// UUID of a satellite.
-  final String? satelliteId;
-
-  GetSatelliteResponse({
-    this.currentEphemeris,
-    this.groundStations,
-    this.noradSatelliteID,
-    this.satelliteArn,
-    this.satelliteId,
-  });
-
-  factory GetSatelliteResponse.fromJson(Map<String, dynamic> json) {
-    return GetSatelliteResponse(
-      currentEphemeris: json['currentEphemeris'] != null
-          ? EphemerisMetaData.fromJson(
-              json['currentEphemeris'] as Map<String, dynamic>)
-          : null,
-      groundStations: (json['groundStations'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      noradSatelliteID: json['noradSatelliteID'] as int?,
-      satelliteArn: json['satelliteArn'] as String?,
-      satelliteId: json['satelliteId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final currentEphemeris = this.currentEphemeris;
-    final groundStations = this.groundStations;
-    final noradSatelliteID = this.noradSatelliteID;
-    final satelliteArn = this.satelliteArn;
-    final satelliteId = this.satelliteId;
-    return {
-      if (currentEphemeris != null) 'currentEphemeris': currentEphemeris,
-      if (groundStations != null) 'groundStations': groundStations,
-      if (noradSatelliteID != null) 'noradSatelliteID': noradSatelliteID,
-      if (satelliteArn != null) 'satelliteArn': satelliteArn,
-      if (satelliteId != null) 'satelliteId': satelliteId,
-    };
-  }
-}
-
-/// Information about the ground station data.
-class GroundStationData {
-  /// UUID of a ground station.
-  final String? groundStationId;
-
-  /// Name of a ground station.
-  final String? groundStationName;
-
-  /// Ground station Region.
-  final String? region;
-
-  GroundStationData({
-    this.groundStationId,
-    this.groundStationName,
-    this.region,
-  });
-
-  factory GroundStationData.fromJson(Map<String, dynamic> json) {
-    return GroundStationData(
-      groundStationId: json['groundStationId'] as String?,
-      groundStationName: json['groundStationName'] as String?,
-      region: json['region'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final groundStationId = this.groundStationId;
-    final groundStationName = this.groundStationName;
-    final region = this.region;
-    return {
-      if (groundStationId != null) 'groundStationId': groundStationId,
-      if (groundStationName != null) 'groundStationName': groundStationName,
-      if (region != null) 'region': region,
-    };
-  }
-}
-
-/// An integer range that has a minimum and maximum value.
-class IntegerRange {
-  /// A maximum value.
-  final int maximum;
-
-  /// A minimum value.
-  final int minimum;
-
-  IntegerRange({
-    required this.maximum,
-    required this.minimum,
-  });
-
-  factory IntegerRange.fromJson(Map<String, dynamic> json) {
-    return IntegerRange(
-      maximum: (json['maximum'] as int?) ?? 0,
-      minimum: (json['minimum'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final maximum = this.maximum;
-    final minimum = this.minimum;
-    return {
-      'maximum': maximum,
-      'minimum': minimum,
-    };
-  }
-}
-
-/// AWS Key Management Service (KMS) Key.
-class KmsKey {
-  /// KMS Alias Arn.
-  final String? kmsAliasArn;
-
-  /// KMS Alias Name.
-  final String? kmsAliasName;
-
-  /// KMS Key Arn.
-  final String? kmsKeyArn;
-
-  KmsKey({
-    this.kmsAliasArn,
-    this.kmsAliasName,
-    this.kmsKeyArn,
-  });
-
-  factory KmsKey.fromJson(Map<String, dynamic> json) {
-    return KmsKey(
-      kmsAliasArn: json['kmsAliasArn'] as String?,
-      kmsAliasName: json['kmsAliasName'] as String?,
-      kmsKeyArn: json['kmsKeyArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final kmsAliasArn = this.kmsAliasArn;
-    final kmsAliasName = this.kmsAliasName;
-    final kmsKeyArn = this.kmsKeyArn;
-    return {
-      if (kmsAliasArn != null) 'kmsAliasArn': kmsAliasArn,
-      if (kmsAliasName != null) 'kmsAliasName': kmsAliasName,
-      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
-    };
-  }
-}
-
-/// <p/>
-class ListConfigsResponse {
-  /// List of <code>Config</code> items.
-  final List<ConfigListItem>? configList;
-
-  /// Next token returned in the response of a previous <code>ListConfigs</code>
-  /// call. Used to get the next page of results.
-  final String? nextToken;
-
-  ListConfigsResponse({
-    this.configList,
-    this.nextToken,
-  });
-
-  factory ListConfigsResponse.fromJson(Map<String, dynamic> json) {
-    return ListConfigsResponse(
-      configList: (json['configList'] as List?)
-          ?.nonNulls
-          .map((e) => ConfigListItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final configList = this.configList;
-    final nextToken = this.nextToken;
-    return {
-      if (configList != null) 'configList': configList,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-/// <p/>
-class ListContactsResponse {
-  /// List of contacts.
-  final List<ContactData>? contactList;
-
-  /// Next token returned in the response of a previous <code>ListContacts</code>
-  /// call. Used to get the next page of results.
-  final String? nextToken;
-
-  ListContactsResponse({
-    this.contactList,
-    this.nextToken,
-  });
-
-  factory ListContactsResponse.fromJson(Map<String, dynamic> json) {
-    return ListContactsResponse(
-      contactList: (json['contactList'] as List?)
-          ?.nonNulls
-          .map((e) => ContactData.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final contactList = this.contactList;
-    final nextToken = this.nextToken;
-    return {
-      if (contactList != null) 'contactList': contactList,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-/// <p/>
-class ListDataflowEndpointGroupsResponse {
-  /// A list of dataflow endpoint groups.
-  final List<DataflowEndpointListItem>? dataflowEndpointGroupList;
-
-  /// Next token returned in the response of a previous
-  /// <code>ListDataflowEndpointGroups</code> call. Used to get the next page of
-  /// results.
-  final String? nextToken;
-
-  ListDataflowEndpointGroupsResponse({
-    this.dataflowEndpointGroupList,
-    this.nextToken,
-  });
-
-  factory ListDataflowEndpointGroupsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListDataflowEndpointGroupsResponse(
-      dataflowEndpointGroupList: (json['dataflowEndpointGroupList'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              DataflowEndpointListItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataflowEndpointGroupList = this.dataflowEndpointGroupList;
-    final nextToken = this.nextToken;
-    return {
-      if (dataflowEndpointGroupList != null)
-        'dataflowEndpointGroupList': dataflowEndpointGroupList,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListEphemeridesResponse {
-  /// List of ephemerides.
-  final List<EphemerisItem>? ephemerides;
-
-  /// Pagination token.
-  final String? nextToken;
-
-  ListEphemeridesResponse({
-    this.ephemerides,
-    this.nextToken,
-  });
-
-  factory ListEphemeridesResponse.fromJson(Map<String, dynamic> json) {
-    return ListEphemeridesResponse(
-      ephemerides: (json['ephemerides'] as List?)
-          ?.nonNulls
-          .map((e) => EphemerisItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final ephemerides = this.ephemerides;
-    final nextToken = this.nextToken;
-    return {
-      if (ephemerides != null) 'ephemerides': ephemerides,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-/// <p/>
-class ListGroundStationsResponse {
-  /// List of ground stations.
-  final List<GroundStationData>? groundStationList;
-
-  /// Next token that can be supplied in the next call to get the next page of
-  /// ground stations.
-  final String? nextToken;
-
-  ListGroundStationsResponse({
-    this.groundStationList,
-    this.nextToken,
-  });
-
-  factory ListGroundStationsResponse.fromJson(Map<String, dynamic> json) {
-    return ListGroundStationsResponse(
-      groundStationList: (json['groundStationList'] as List?)
-          ?.nonNulls
-          .map((e) => GroundStationData.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final groundStationList = this.groundStationList;
-    final nextToken = this.nextToken;
-    return {
-      if (groundStationList != null) 'groundStationList': groundStationList,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-/// <p/>
-class ListMissionProfilesResponse {
-  /// List of mission profiles.
-  final List<MissionProfileListItem>? missionProfileList;
-
-  /// Next token returned in the response of a previous
-  /// <code>ListMissionProfiles</code> call. Used to get the next page of results.
-  final String? nextToken;
-
-  ListMissionProfilesResponse({
-    this.missionProfileList,
-    this.nextToken,
-  });
-
-  factory ListMissionProfilesResponse.fromJson(Map<String, dynamic> json) {
-    return ListMissionProfilesResponse(
-      missionProfileList: (json['missionProfileList'] as List?)
-          ?.nonNulls
-          .map(
-              (e) => MissionProfileListItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final missionProfileList = this.missionProfileList;
-    final nextToken = this.nextToken;
-    return {
-      if (missionProfileList != null) 'missionProfileList': missionProfileList,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-/// <p/>
-class ListSatellitesResponse {
-  /// Next token that can be supplied in the next call to get the next page of
-  /// satellites.
-  final String? nextToken;
-
-  /// List of satellites.
-  final List<SatelliteListItem>? satellites;
-
-  ListSatellitesResponse({
-    this.nextToken,
-    this.satellites,
-  });
-
-  factory ListSatellitesResponse.fromJson(Map<String, dynamic> json) {
-    return ListSatellitesResponse(
-      nextToken: json['nextToken'] as String?,
-      satellites: (json['satellites'] as List?)
-          ?.nonNulls
-          .map((e) => SatelliteListItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final satellites = this.satellites;
-    return {
-      if (nextToken != null) 'nextToken': nextToken,
-      if (satellites != null) 'satellites': satellites,
-    };
-  }
-}
-
-/// <p/>
-class ListTagsForResourceResponse {
-  /// Tags assigned to a resource.
-  final Map<String, String>? tags;
-
-  ListTagsForResourceResponse({
-    this.tags,
-  });
-
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
-    return ListTagsForResourceResponse(
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tags = this.tags;
-    return {
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-/// <p/>
-class MissionProfileIdResponse {
-  /// UUID of a mission profile.
-  final String? missionProfileId;
-
-  MissionProfileIdResponse({
-    this.missionProfileId,
-  });
-
-  factory MissionProfileIdResponse.fromJson(Map<String, dynamic> json) {
-    return MissionProfileIdResponse(
-      missionProfileId: json['missionProfileId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final missionProfileId = this.missionProfileId;
-    return {
-      if (missionProfileId != null) 'missionProfileId': missionProfileId,
-    };
-  }
-}
-
-/// Item in a list of mission profiles.
-class MissionProfileListItem {
-  /// ARN of a mission profile.
-  final String? missionProfileArn;
-
-  /// UUID of a mission profile.
-  final String? missionProfileId;
-
-  /// Name of a mission profile.
-  final String? name;
-
-  /// Region of a mission profile.
-  final String? region;
-
-  MissionProfileListItem({
-    this.missionProfileArn,
-    this.missionProfileId,
-    this.name,
-    this.region,
-  });
-
-  factory MissionProfileListItem.fromJson(Map<String, dynamic> json) {
-    return MissionProfileListItem(
-      missionProfileArn: json['missionProfileArn'] as String?,
-      missionProfileId: json['missionProfileId'] as String?,
-      name: json['name'] as String?,
-      region: json['region'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final missionProfileArn = this.missionProfileArn;
-    final missionProfileId = this.missionProfileId;
-    final name = this.name;
-    final region = this.region;
-    return {
-      if (missionProfileArn != null) 'missionProfileArn': missionProfileArn,
-      if (missionProfileId != null) 'missionProfileId': missionProfileId,
-      if (name != null) 'name': name,
-      if (region != null) 'region': region,
-    };
-  }
-}
-
-/// Ephemeris data in Orbit Ephemeris Message (OEM) format.
-///
-/// AWS Ground Station processes OEM Customer Provided Ephemerides according to
-/// the <a href="https://public.ccsds.org/Pubs/502x0b3e1.pdf">CCSDS standard</a>
-/// with some extra restrictions. OEM files should be in KVN format. For more
-/// detail about the OEM format that AWS Ground Station supports, see <a
-/// href="https://docs.aws.amazon.com/ground-station/latest/ug/providing-custom-ephemeris-data.html#oem-ephemeris-format">OEM
-/// ephemeris format</a> in the AWS Ground Station user guide.
-class OEMEphemeris {
-  /// The data for an OEM ephemeris, supplied directly in the request rather than
-  /// through an S3 object.
-  final String? oemData;
-
-  /// Identifies the S3 object to be used as the ephemeris.
-  final S3Object? s3Object;
-
-  OEMEphemeris({
-    this.oemData,
-    this.s3Object,
-  });
-
-  Map<String, dynamic> toJson() {
-    final oemData = this.oemData;
-    final s3Object = this.s3Object;
-    return {
-      if (oemData != null) 'oemData': oemData,
-      if (s3Object != null) 's3Object': s3Object,
-    };
-  }
-}
-
-class Polarization {
-  static const leftHand = Polarization._('LEFT_HAND');
-  static const none = Polarization._('NONE');
-  static const rightHand = Polarization._('RIGHT_HAND');
-
-  final String value;
-
-  const Polarization._(this.value);
-
-  static const values = [leftHand, none, rightHand];
-
-  static Polarization fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Polarization._(value));
-
-  @override
-  bool operator ==(other) => other is Polarization && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Ingress address of AgentEndpoint with a port range and an optional mtu.
-class RangedConnectionDetails {
-  /// A ranged socket address.
-  final RangedSocketAddress socketAddress;
-
-  /// Maximum transmission unit (MTU) size in bytes of a dataflow endpoint.
-  final int? mtu;
-
-  RangedConnectionDetails({
-    required this.socketAddress,
-    this.mtu,
-  });
-
-  factory RangedConnectionDetails.fromJson(Map<String, dynamic> json) {
-    return RangedConnectionDetails(
-      socketAddress: RangedSocketAddress.fromJson(
-          (json['socketAddress'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      mtu: json['mtu'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final socketAddress = this.socketAddress;
-    final mtu = this.mtu;
-    return {
-      'socketAddress': socketAddress,
-      if (mtu != null) 'mtu': mtu,
-    };
-  }
-}
-
-/// A socket address with a port range.
-class RangedSocketAddress {
-  /// IPv4 socket address.
-  final String name;
-
-  /// Port range of a socket address.
-  final IntegerRange portRange;
-
-  RangedSocketAddress({
-    required this.name,
-    required this.portRange,
-  });
-
-  factory RangedSocketAddress.fromJson(Map<String, dynamic> json) {
-    return RangedSocketAddress(
-      name: (json['name'] as String?) ?? '',
-      portRange: IntegerRange.fromJson(
-          (json['portRange'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final portRange = this.portRange;
-    return {
-      'name': name,
-      'portRange': portRange,
-    };
-  }
-}
-
-class RegisterAgentResponse {
-  /// UUID of registered agent.
-  final String? agentId;
-
-  RegisterAgentResponse({
-    this.agentId,
-  });
-
-  factory RegisterAgentResponse.fromJson(Map<String, dynamic> json) {
-    return RegisterAgentResponse(
-      agentId: json['agentId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final agentId = this.agentId;
-    return {
-      if (agentId != null) 'agentId': agentId,
-    };
-  }
-}
-
-/// Object stored in S3 containing ephemeris data.
-class S3Object {
-  /// An Amazon S3 Bucket name.
-  final String? bucket;
-
-  /// An Amazon S3 key for the ephemeris.
-  final String? key;
-
-  /// For versioned S3 objects, the version to use for the ephemeris.
-  final String? version;
-
-  S3Object({
-    this.bucket,
-    this.key,
-    this.version,
-  });
-
-  factory S3Object.fromJson(Map<String, dynamic> json) {
-    return S3Object(
-      bucket: json['bucket'] as String?,
-      key: json['key'] as String?,
-      version: json['version'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucket = this.bucket;
-    final key = this.key;
-    final version = this.version;
-    return {
-      if (bucket != null) 'bucket': bucket,
-      if (key != null) 'key': key,
-      if (version != null) 'version': version,
-    };
-  }
-}
-
-/// Information about an S3 recording <code>Config</code>.
-class S3RecordingConfig {
-  /// ARN of the bucket to record to.
-  final String bucketArn;
-
-  /// ARN of the role Ground Station assumes to write data to the bucket.
-  final String roleArn;
-
-  /// S3 Key prefix to prefice data files.
-  final String? prefix;
-
-  S3RecordingConfig({
-    required this.bucketArn,
-    required this.roleArn,
-    this.prefix,
-  });
-
-  factory S3RecordingConfig.fromJson(Map<String, dynamic> json) {
-    return S3RecordingConfig(
-      bucketArn: (json['bucketArn'] as String?) ?? '',
-      roleArn: (json['roleArn'] as String?) ?? '',
-      prefix: json['prefix'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucketArn = this.bucketArn;
-    final roleArn = this.roleArn;
-    final prefix = this.prefix;
-    return {
-      'bucketArn': bucketArn,
-      'roleArn': roleArn,
-      if (prefix != null) 'prefix': prefix,
-    };
-  }
-}
-
-/// Details about an S3 recording <code>Config</code> used in a contact.
-class S3RecordingDetails {
-  /// ARN of the bucket used.
-  final String? bucketArn;
-
-  /// Key template used for the S3 Recording Configuration
-  final String? keyTemplate;
-
-  S3RecordingDetails({
-    this.bucketArn,
-    this.keyTemplate,
-  });
-
-  factory S3RecordingDetails.fromJson(Map<String, dynamic> json) {
-    return S3RecordingDetails(
-      bucketArn: json['bucketArn'] as String?,
-      keyTemplate: json['keyTemplate'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucketArn = this.bucketArn;
-    final keyTemplate = this.keyTemplate;
-    return {
-      if (bucketArn != null) 'bucketArn': bucketArn,
-      if (keyTemplate != null) 'keyTemplate': keyTemplate,
-    };
-  }
-}
-
-/// Item in a list of satellites.
-class SatelliteListItem {
-  /// The current ephemeris being used to compute the trajectory of the satellite.
-  final EphemerisMetaData? currentEphemeris;
-
-  /// A list of ground stations to which the satellite is on-boarded.
-  final List<String>? groundStations;
-
-  /// NORAD satellite ID number.
-  final int? noradSatelliteID;
-
-  /// ARN of a satellite.
-  final String? satelliteArn;
-
-  /// UUID of a satellite.
-  final String? satelliteId;
-
-  SatelliteListItem({
-    this.currentEphemeris,
-    this.groundStations,
-    this.noradSatelliteID,
-    this.satelliteArn,
-    this.satelliteId,
-  });
-
-  factory SatelliteListItem.fromJson(Map<String, dynamic> json) {
-    return SatelliteListItem(
-      currentEphemeris: json['currentEphemeris'] != null
-          ? EphemerisMetaData.fromJson(
-              json['currentEphemeris'] as Map<String, dynamic>)
-          : null,
-      groundStations: (json['groundStations'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      noradSatelliteID: json['noradSatelliteID'] as int?,
-      satelliteArn: json['satelliteArn'] as String?,
-      satelliteId: json['satelliteId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final currentEphemeris = this.currentEphemeris;
-    final groundStations = this.groundStations;
-    final noradSatelliteID = this.noradSatelliteID;
-    final satelliteArn = this.satelliteArn;
-    final satelliteId = this.satelliteId;
-    return {
-      if (currentEphemeris != null) 'currentEphemeris': currentEphemeris,
-      if (groundStations != null) 'groundStations': groundStations,
-      if (noradSatelliteID != null) 'noradSatelliteID': noradSatelliteID,
-      if (satelliteArn != null) 'satelliteArn': satelliteArn,
-      if (satelliteId != null) 'satelliteId': satelliteId,
-    };
-  }
-}
-
-/// Information about endpoints.
-class SecurityDetails {
-  /// ARN to a role needed for connecting streams to your instances.
-  final String roleArn;
-
-  /// The security groups to attach to the elastic network interfaces.
-  final List<String> securityGroupIds;
-
-  /// A list of subnets where AWS Ground Station places elastic network interfaces
-  /// to send streams to your instances.
-  final List<String> subnetIds;
-
-  SecurityDetails({
-    required this.roleArn,
-    required this.securityGroupIds,
-    required this.subnetIds,
-  });
-
-  factory SecurityDetails.fromJson(Map<String, dynamic> json) {
-    return SecurityDetails(
-      roleArn: (json['roleArn'] as String?) ?? '',
-      securityGroupIds: ((json['securityGroupIds'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      subnetIds: ((json['subnetIds'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final roleArn = this.roleArn;
-    final securityGroupIds = this.securityGroupIds;
-    final subnetIds = this.subnetIds;
-    return {
-      'roleArn': roleArn,
-      'securityGroupIds': securityGroupIds,
-      'subnetIds': subnetIds,
-    };
-  }
-}
-
-/// Information about the socket address.
-class SocketAddress {
-  /// Name of a socket address.
-  final String name;
-
-  /// Port of a socket address.
-  final int port;
-
-  SocketAddress({
-    required this.name,
-    required this.port,
-  });
-
-  factory SocketAddress.fromJson(Map<String, dynamic> json) {
-    return SocketAddress(
-      name: (json['name'] as String?) ?? '',
-      port: (json['port'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final port = this.port;
-    return {
-      'name': name,
-      'port': port,
-    };
-  }
-}
-
-/// Dataflow details for the source side.
-class Source {
-  /// Additional details for a <code>Config</code>, if type is
-  /// <code>dataflow-endpoint</code> or <code>antenna-downlink-demod-decode</code>
-  final ConfigDetails? configDetails;
-
-  /// UUID of a <code>Config</code>.
-  final String? configId;
-
-  /// Type of a <code>Config</code>.
-  final ConfigCapabilityType? configType;
-
-  /// Region of a dataflow source.
-  final String? dataflowSourceRegion;
-
-  Source({
-    this.configDetails,
-    this.configId,
-    this.configType,
-    this.dataflowSourceRegion,
-  });
-
-  factory Source.fromJson(Map<String, dynamic> json) {
-    return Source(
-      configDetails: json['configDetails'] != null
-          ? ConfigDetails.fromJson(
-              json['configDetails'] as Map<String, dynamic>)
-          : null,
-      configId: json['configId'] as String?,
-      configType:
-          (json['configType'] as String?)?.let(ConfigCapabilityType.fromString),
-      dataflowSourceRegion: json['dataflowSourceRegion'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final configDetails = this.configDetails;
-    final configId = this.configId;
-    final configType = this.configType;
-    final dataflowSourceRegion = this.dataflowSourceRegion;
-    return {
-      if (configDetails != null) 'configDetails': configDetails,
-      if (configId != null) 'configId': configId,
-      if (configType != null) 'configType': configType.value,
-      if (dataflowSourceRegion != null)
-        'dataflowSourceRegion': dataflowSourceRegion,
-    };
-  }
 }
 
 /// Object that describes a spectral <code>Config</code>.
@@ -4845,220 +7066,322 @@ class SpectrumConfig {
   }
 }
 
-/// Two-line element set (TLE) data.
-class TLEData {
-  /// First line of two-line element set (TLE) data.
-  final String tleLine1;
+/// Information about the demodulation <code>Config</code>.
+class DemodulationConfig {
+  /// Unvalidated JSON of a demodulation <code>Config</code>.
+  final String unvalidatedJSON;
 
-  /// Second line of two-line element set (TLE) data.
-  final String tleLine2;
-
-  /// The valid time range for the TLE. Gaps or overlap are not permitted.
-  final TimeRange validTimeRange;
-
-  TLEData({
-    required this.tleLine1,
-    required this.tleLine2,
-    required this.validTimeRange,
+  DemodulationConfig({
+    required this.unvalidatedJSON,
   });
 
-  Map<String, dynamic> toJson() {
-    final tleLine1 = this.tleLine1;
-    final tleLine2 = this.tleLine2;
-    final validTimeRange = this.validTimeRange;
-    return {
-      'tleLine1': tleLine1,
-      'tleLine2': tleLine2,
-      'validTimeRange': validTimeRange,
-    };
-  }
-}
-
-/// Two-line element set (TLE) ephemeris.
-class TLEEphemeris {
-  /// Identifies the S3 object to be used as the ephemeris.
-  final S3Object? s3Object;
-
-  /// The data for a TLE ephemeris, supplied directly in the request rather than
-  /// through an S3 object.
-  final List<TLEData>? tleData;
-
-  TLEEphemeris({
-    this.s3Object,
-    this.tleData,
-  });
-
-  Map<String, dynamic> toJson() {
-    final s3Object = this.s3Object;
-    final tleData = this.tleData;
-    return {
-      if (s3Object != null) 's3Object': s3Object,
-      if (tleData != null) 'tleData': tleData,
-    };
-  }
-}
-
-/// <p/>
-class TagResourceResponse {
-  TagResourceResponse();
-
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// A time range with a start and end time.
-class TimeRange {
-  /// Time in UTC at which the time range ends.
-  final DateTime endTime;
-
-  /// Time in UTC at which the time range starts.
-  final DateTime startTime;
-
-  TimeRange({
-    required this.endTime,
-    required this.startTime,
-  });
-
-  Map<String, dynamic> toJson() {
-    final endTime = this.endTime;
-    final startTime = this.startTime;
-    return {
-      'endTime': unixTimestampToJson(endTime),
-      'startTime': unixTimestampToJson(startTime),
-    };
-  }
-}
-
-/// Object that determines whether tracking should be used during a contact
-/// executed with this <code>Config</code> in the mission profile.
-class TrackingConfig {
-  /// Current setting for autotrack.
-  final Criticality autotrack;
-
-  TrackingConfig({
-    required this.autotrack,
-  });
-
-  factory TrackingConfig.fromJson(Map<String, dynamic> json) {
-    return TrackingConfig(
-      autotrack: Criticality.fromString((json['autotrack'] as String?) ?? ''),
+  factory DemodulationConfig.fromJson(Map<String, dynamic> json) {
+    return DemodulationConfig(
+      unvalidatedJSON: (json['unvalidatedJSON'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    final autotrack = this.autotrack;
+    final unvalidatedJSON = this.unvalidatedJSON;
     return {
-      'autotrack': autotrack.value,
+      'unvalidatedJSON': unvalidatedJSON,
     };
   }
 }
 
-/// <p/>
-class UntagResourceResponse {
-  UntagResourceResponse();
+/// Information about the decode <code>Config</code>.
+class DecodeConfig {
+  /// Unvalidated JSON of a decode <code>Config</code>.
+  final String unvalidatedJSON;
 
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateAgentStatusResponse {
-  /// UUID of updated agent.
-  final String agentId;
-
-  UpdateAgentStatusResponse({
-    required this.agentId,
+  DecodeConfig({
+    required this.unvalidatedJSON,
   });
 
-  factory UpdateAgentStatusResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateAgentStatusResponse(
-      agentId: (json['agentId'] as String?) ?? '',
+  factory DecodeConfig.fromJson(Map<String, dynamic> json) {
+    return DecodeConfig(
+      unvalidatedJSON: (json['unvalidatedJSON'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    final agentId = this.agentId;
+    final unvalidatedJSON = this.unvalidatedJSON;
     return {
-      'agentId': agentId,
+      'unvalidatedJSON': unvalidatedJSON,
     };
   }
 }
 
-/// Information about an uplink echo <code>Config</code>.
-///
-/// Parameters from the <code>AntennaUplinkConfig</code>, corresponding to the
-/// specified <code>AntennaUplinkConfigArn</code>, are used when this
-/// <code>UplinkEchoConfig</code> is used in a contact.
-class UplinkEchoConfig {
-  /// ARN of an uplink <code>Config</code>.
-  final String antennaUplinkConfigArn;
+/// Object that describes the frequency bandwidth.
+class FrequencyBandwidth {
+  /// Frequency bandwidth units.
+  final BandwidthUnits units;
 
-  /// Whether or not an uplink <code>Config</code> is enabled.
-  final bool enabled;
+  /// Frequency bandwidth value. AWS Ground Station currently has the following
+  /// bandwidth limitations:
+  ///
+  /// <ul>
+  /// <li>
+  /// For <code>AntennaDownlinkDemodDecodeconfig</code>, valid values are between
+  /// 125 kHz to 650 MHz.
+  /// </li>
+  /// <li>
+  /// For <code>AntennaDownlinkconfig</code>, valid values are between 10 kHz to
+  /// 54 MHz.
+  /// </li>
+  /// <li>
+  /// For <code>AntennaUplinkConfig</code>, valid values are between 10 kHz to 54
+  /// MHz.
+  /// </li>
+  /// </ul>
+  final double value;
 
-  UplinkEchoConfig({
-    required this.antennaUplinkConfigArn,
-    required this.enabled,
+  FrequencyBandwidth({
+    required this.units,
+    required this.value,
   });
 
-  factory UplinkEchoConfig.fromJson(Map<String, dynamic> json) {
-    return UplinkEchoConfig(
-      antennaUplinkConfigArn: (json['antennaUplinkConfigArn'] as String?) ?? '',
-      enabled: (json['enabled'] as bool?) ?? false,
+  factory FrequencyBandwidth.fromJson(Map<String, dynamic> json) {
+    return FrequencyBandwidth(
+      units: BandwidthUnits.fromString((json['units'] as String?) ?? ''),
+      value: (json['value'] as double?) ?? 0,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final antennaUplinkConfigArn = this.antennaUplinkConfigArn;
-    final enabled = this.enabled;
+    final units = this.units;
+    final value = this.value;
     return {
-      'antennaUplinkConfigArn': antennaUplinkConfigArn,
-      'enabled': enabled,
+      'units': units.value,
+      'value': value,
     };
   }
 }
 
-/// Information about the uplink spectral <code>Config</code>.
-class UplinkSpectrumConfig {
-  /// Center frequency of an uplink spectral <code>Config</code>. Valid values are
-  /// between 2025 to 2120 MHz.
-  final Frequency centerFrequency;
+class BandwidthUnits {
+  static const gHz = BandwidthUnits._('GHz');
+  static const mHz = BandwidthUnits._('MHz');
+  static const kHz = BandwidthUnits._('kHz');
 
-  /// Polarization of an uplink spectral <code>Config</code>. Capturing both
-  /// <code>"RIGHT_HAND"</code> and <code>"LEFT_HAND"</code> polarization requires
-  /// two separate configs.
-  final Polarization? polarization;
+  final String value;
 
-  UplinkSpectrumConfig({
-    required this.centerFrequency,
-    this.polarization,
+  const BandwidthUnits._(this.value);
+
+  static const values = [gHz, mHz, kHz];
+
+  static BandwidthUnits fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BandwidthUnits._(value));
+
+  @override
+  bool operator ==(other) => other is BandwidthUnits && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class Criticality {
+  static const required = Criticality._('REQUIRED');
+  static const preferred = Criticality._('PREFERRED');
+  static const removed = Criticality._('REMOVED');
+
+  final String value;
+
+  const Criticality._(this.value);
+
+  static const values = [required, preferred, removed];
+
+  static Criticality fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Criticality._(value));
+
+  @override
+  bool operator ==(other) => other is Criticality && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Aggregate status of Agent components.
+class AggregateStatus {
+  /// Aggregate status.
+  final AgentStatus status;
+
+  /// Sparse map of failure signatures.
+  final Map<String, bool>? signatureMap;
+
+  AggregateStatus({
+    required this.status,
+    this.signatureMap,
   });
 
-  factory UplinkSpectrumConfig.fromJson(Map<String, dynamic> json) {
-    return UplinkSpectrumConfig(
-      centerFrequency: Frequency.fromJson(
-          (json['centerFrequency'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      polarization:
-          (json['polarization'] as String?)?.let(Polarization.fromString),
-    );
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final signatureMap = this.signatureMap;
+    return {
+      'status': status.value,
+      if (signatureMap != null) 'signatureMap': signatureMap,
+    };
   }
+}
+
+/// Data on the status of agent components.
+class ComponentStatusData {
+  /// Capability ARN of the component.
+  final String capabilityArn;
+
+  /// The Component type.
+  final String componentType;
+
+  /// Dataflow UUID associated with the component.
+  final String dataflowId;
+
+  /// Component status.
+  final AgentStatus status;
+
+  /// Bytes received by the component.
+  final int? bytesReceived;
+
+  /// Bytes sent by the component.
+  final int? bytesSent;
+
+  /// Packets dropped by component.
+  final int? packetsDropped;
+
+  ComponentStatusData({
+    required this.capabilityArn,
+    required this.componentType,
+    required this.dataflowId,
+    required this.status,
+    this.bytesReceived,
+    this.bytesSent,
+    this.packetsDropped,
+  });
 
   Map<String, dynamic> toJson() {
-    final centerFrequency = this.centerFrequency;
-    final polarization = this.polarization;
+    final capabilityArn = this.capabilityArn;
+    final componentType = this.componentType;
+    final dataflowId = this.dataflowId;
+    final status = this.status;
+    final bytesReceived = this.bytesReceived;
+    final bytesSent = this.bytesSent;
+    final packetsDropped = this.packetsDropped;
     return {
-      'centerFrequency': centerFrequency,
-      if (polarization != null) 'polarization': polarization.value,
+      'capabilityArn': capabilityArn,
+      'componentType': componentType,
+      'dataflowId': dataflowId,
+      'status': status.value,
+      if (bytesReceived != null) 'bytesReceived': bytesReceived,
+      if (bytesSent != null) 'bytesSent': bytesSent,
+      if (packetsDropped != null) 'packetsDropped': packetsDropped,
+    };
+  }
+}
+
+/// Data for agent discovery.
+class DiscoveryData {
+  /// List of capabilities to associate with agent.
+  final List<String> capabilityArns;
+
+  /// List of private IP addresses to associate with agent.
+  final List<String> privateIpAddresses;
+
+  /// List of public IP addresses to associate with agent.
+  final List<String> publicIpAddresses;
+
+  DiscoveryData({
+    required this.capabilityArns,
+    required this.privateIpAddresses,
+    required this.publicIpAddresses,
+  });
+
+  Map<String, dynamic> toJson() {
+    final capabilityArns = this.capabilityArns;
+    final privateIpAddresses = this.privateIpAddresses;
+    final publicIpAddresses = this.publicIpAddresses;
+    return {
+      'capabilityArns': capabilityArns,
+      'privateIpAddresses': privateIpAddresses,
+      'publicIpAddresses': publicIpAddresses,
+    };
+  }
+}
+
+/// Detailed information about the agent.
+class AgentDetails {
+  /// Current agent version.
+  final String agentVersion;
+
+  /// List of versions being used by agent components.
+  final List<ComponentVersion> componentVersions;
+
+  /// ID of EC2 instance agent is running on.
+  final String instanceId;
+
+  /// Type of EC2 instance agent is running on.
+  final String instanceType;
+
+  /// List of CPU cores reserved for the agent.
+  final List<int>? agentCpuCores;
+
+  /// <note>
+  /// This field should not be used. Use agentCpuCores instead.
+  /// </note>
+  /// List of CPU cores reserved for processes other than the agent running on the
+  /// EC2 instance.
+  final List<int>? reservedCpuCores;
+
+  AgentDetails({
+    required this.agentVersion,
+    required this.componentVersions,
+    required this.instanceId,
+    required this.instanceType,
+    this.agentCpuCores,
+    this.reservedCpuCores,
+  });
+
+  Map<String, dynamic> toJson() {
+    final agentVersion = this.agentVersion;
+    final componentVersions = this.componentVersions;
+    final instanceId = this.instanceId;
+    final instanceType = this.instanceType;
+    final agentCpuCores = this.agentCpuCores;
+    final reservedCpuCores = this.reservedCpuCores;
+    return {
+      'agentVersion': agentVersion,
+      'componentVersions': componentVersions,
+      'instanceId': instanceId,
+      'instanceType': instanceType,
+      if (agentCpuCores != null) 'agentCpuCores': agentCpuCores,
+      if (reservedCpuCores != null) 'reservedCpuCores': reservedCpuCores,
+    };
+  }
+}
+
+/// Version information for agent components.
+class ComponentVersion {
+  /// Component type.
+  final String componentType;
+
+  /// List of versions.
+  final List<String> versions;
+
+  ComponentVersion({
+    required this.componentType,
+    required this.versions,
+  });
+
+  Map<String, dynamic> toJson() {
+    final componentType = this.componentType;
+    final versions = this.versions;
+    return {
+      'componentType': componentType,
+      'versions': versions,
     };
   }
 }
@@ -5071,6 +7394,11 @@ class DependencyException extends _s.GenericAwsException {
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
+}
+
+class ResourceInUseException extends _s.GenericAwsException {
+  ResourceInUseException({String? type, String? message})
+      : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
 class ResourceLimitExceededException extends _s.GenericAwsException {
@@ -5086,13 +7414,25 @@ class ResourceNotFoundException extends _s.GenericAwsException {
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+class ServiceQuotaExceededException extends _s.GenericAwsException {
+  ServiceQuotaExceededException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ServiceQuotaExceededException',
+            message: message);
+}
+
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'DependencyException': (type, message) =>
       DependencyException(type: type, message: message),
   'InvalidParameterException': (type, message) =>
       InvalidParameterException(type: type, message: message),
+  'ResourceInUseException': (type, message) =>
+      ResourceInUseException(type: type, message: message),
   'ResourceLimitExceededException': (type, message) =>
       ResourceLimitExceededException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
       ResourceNotFoundException(type: type, message: message),
+  'ServiceQuotaExceededException': (type, message) =>
+      ServiceQuotaExceededException(type: type, message: message),
 };

@@ -62,9 +62,8 @@ class Sts {
   /// operations that produce temporary credentials, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html">Requesting
   /// Temporary Security Credentials</a> and <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html#stsapi_comparison">Comparing
-  /// the Amazon Web Services STS API operations</a> in the <i>IAM User
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_sts-comparison.html">Compare
+  /// STS credentials</a> in the <i>IAM User Guide</i>.
   ///
   /// <b>Permissions</b>
   ///
@@ -74,20 +73,19 @@ class Sts {
   /// <code>GetFederationToken</code> or <code>GetSessionToken</code> API
   /// operations.
   ///
-  /// (Optional) You can pass inline or managed <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session">session
-  /// policies</a> to this operation. You can pass a single JSON policy document
-  /// to use as an inline session policy. You can also specify up to 10 managed
-  /// policy Amazon Resource Names (ARNs) to use as managed session policies.
-  /// The plaintext that you use for both inline and managed session policies
-  /// can't exceed 2,048 characters. Passing policies to this operation returns
-  /// new temporary credentials. The resulting session's permissions are the
-  /// intersection of the role's identity-based policy and the session policies.
-  /// You can use the role's temporary credentials in subsequent Amazon Web
-  /// Services API calls to access resources in the account that owns the role.
-  /// You cannot use session policies to grant more permissions than those
-  /// allowed by the identity-based policy of the role that is being assumed.
-  /// For more information, see <a
+  /// (Optional) You can pass inline or managed session policies to this
+  /// operation. You can pass a single JSON policy document to use as an inline
+  /// session policy. You can also specify up to 10 managed policy Amazon
+  /// Resource Names (ARNs) to use as managed session policies. The plaintext
+  /// that you use for both inline and managed session policies can't exceed
+  /// 2,048 characters. Passing policies to this operation returns new temporary
+  /// credentials. The resulting session's permissions are the intersection of
+  /// the role's identity-based policy and the session policies. You can use the
+  /// role's temporary credentials in subsequent Amazon Web Services API calls
+  /// to access resources in the account that owns the role. You cannot use
+  /// session policies to grant more permissions than those allowed by the
+  /// identity-based policy of the role that is being assumed. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session">Session
   /// Policies</a> in the <i>IAM User Guide</i>.
   ///
@@ -171,10 +169,10 @@ class Sts {
   /// MFA device. The <code>TokenCode</code> is the time-based one-time password
   /// (TOTP) that the MFA device produces.
   ///
+  /// May throw [ExpiredTokenException].
   /// May throw [MalformedPolicyDocumentException].
   /// May throw [PackedPolicyTooLargeException].
   /// May throw [RegionDisabledException].
-  /// May throw [ExpiredTokenException].
   ///
   /// Parameter [roleArn] :
   /// The Amazon Resource Name (ARN) of the role to assume.
@@ -191,10 +189,18 @@ class Sts {
   /// will expose the role session name to the external account in their
   /// CloudTrail logs.
   ///
+  /// For security purposes, administrators can view this field in <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html#cloudtrail-integration_signin-tempcreds">CloudTrail
+  /// logs</a> to help identify who performed an action in Amazon Web Services.
+  /// Your administrator might require that you specify your user name as the
+  /// session name when you assume the role. For more information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_rolesessionname">
+  /// <code>sts:RoleSessionName</code> </a>.
+  ///
   /// The regex used to validate this parameter is a string of characters
   /// consisting of upper- and lower-case alphanumeric characters with no
   /// spaces. You can also include underscores or any of the following
-  /// characters: =,.@-
+  /// characters: +=,.@-
   ///
   /// Parameter [durationSeconds] :
   /// The duration, in seconds, of the role session. The value specified can
@@ -216,9 +222,8 @@ class Sts {
   /// <code>DurationSeconds</code> parameter value greater than one hour, the
   /// operation fails. To learn how to view the maximum value for your role, see
   /// <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html#id_roles_use_view-role-max-session">View
-  /// the Maximum Session Duration Setting for a Role</a> in the <i>IAM User
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_update-role-settings.html#id_roles_update-session-duration">Update
+  /// the maximum session duration for a role</a>.
   ///
   /// By default, the value is set to <code>3600</code> seconds.
   /// <note>
@@ -250,7 +255,7 @@ class Sts {
   /// The regex used to validate this parameter is a string of characters
   /// consisting of upper- and lower-case alphanumeric characters with no
   /// spaces. You can also include underscores or any of the following
-  /// characters: =,.@:/-
+  /// characters: +=,.@:\/-
   ///
   /// Parameter [policy] :
   /// An IAM policy in JSON format that you want to use as an inline session
@@ -280,6 +285,9 @@ class Sts {
   /// <code>PackedPolicySize</code> response element indicates by percentage how
   /// close the policies and tags for your request are to the upper size limit.
   /// </note>
+  /// For more information about role session permissions, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session">Session
+  /// policies</a>.
   ///
   /// Parameter [policyArns] :
   /// The Amazon Resource Names (ARNs) of the IAM managed policies that you want
@@ -335,16 +343,21 @@ class Sts {
   /// The regex used to validate this parameter is a string of characters
   /// consisting of upper- and lower-case alphanumeric characters with no
   /// spaces. You can also include underscores or any of the following
-  /// characters: =,.@-
+  /// characters: +=/:,.@-
   ///
   /// Parameter [sourceIdentity] :
   /// The source identity specified by the principal that is calling the
-  /// <code>AssumeRole</code> operation.
+  /// <code>AssumeRole</code> operation. The source identity value persists
+  /// across <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#iam-term-role-chaining">chained
+  /// role</a> sessions.
   ///
   /// You can require users to specify a source identity when they assume a
-  /// role. You do this by using the <code>sts:SourceIdentity</code> condition
-  /// key in a role trust policy. You can use source identity information in
-  /// CloudTrail logs to determine who took actions with a role. You can use the
+  /// role. You do this by using the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-sourceidentity">
+  /// <code>sts:SourceIdentity</code> </a> condition key in a role trust policy.
+  /// You can use source identity information in CloudTrail logs to determine
+  /// who took actions with a role. You can use the
   /// <code>aws:SourceIdentity</code> condition key to further control access to
   /// Amazon Web Services resources based on the value of source identity. For
   /// more information about using source identity, see <a
@@ -355,7 +368,7 @@ class Sts {
   /// The regex used to validate this parameter is a string of characters
   /// consisting of upper- and lower-case alphanumeric characters with no
   /// spaces. You can also include underscores or any of the following
-  /// characters: =,.@-. You cannot use a value that begins with the text
+  /// characters: +=,.@-. You cannot use a value that begins with the text
   /// <code>aws:</code>. This prefix is reserved for Amazon Web Services
   /// internal use.
   ///
@@ -417,8 +430,8 @@ class Sts {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html#id_session-tags_role-chaining">Chaining
   /// Roles with Session Tags</a> in the <i>IAM User Guide</i>.
   ///
-  /// This parameter is optional. When you set session tags as transitive, the
-  /// session policy and session tags packed binary limit is not affected.
+  /// This parameter is optional. The transitive status of a session tag does
+  /// not impact its packed binary size.
   ///
   /// If you choose not to specify a transitive tag key, then no tags are passed
   /// from this session to any subsequent sessions.
@@ -500,15 +513,17 @@ class Sts {
   /// the other API operations that produce temporary credentials, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html">Requesting
   /// Temporary Security Credentials</a> and <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html#stsapi_comparison">Comparing
-  /// the Amazon Web Services STS API operations</a> in the <i>IAM User
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_sts-comparison.html">Compare
+  /// STS credentials</a> in the <i>IAM User Guide</i>.
   ///
   /// The temporary security credentials returned by this operation consist of
   /// an access key ID, a secret access key, and a security token. Applications
   /// can use these temporary security credentials to sign calls to Amazon Web
   /// Services services.
-  ///
+  /// <note>
+  /// AssumeRoleWithSAML will not work on IAM Identity Center managed roles.
+  /// These roles' names start with <code>AWSReservedSSO_</code>.
+  /// </note>
   /// <b>Session Duration</b>
   ///
   /// By default, the temporary security credentials created by
@@ -650,11 +665,11 @@ class Sts {
   /// </li>
   /// </ul>
   ///
-  /// May throw [MalformedPolicyDocumentException].
-  /// May throw [PackedPolicyTooLargeException].
+  /// May throw [ExpiredTokenException].
   /// May throw [IDPRejectedClaimException].
   /// May throw [InvalidIdentityTokenException].
-  /// May throw [ExpiredTokenException].
+  /// May throw [MalformedPolicyDocumentException].
+  /// May throw [PackedPolicyTooLargeException].
   /// May throw [RegionDisabledException].
   ///
   /// Parameter [principalArn] :
@@ -719,6 +734,10 @@ class Sts {
   /// character from the space character to the end of the valid character list
   /// (\u0020 through \u00FF). It can also include the tab (\u0009), linefeed
   /// (\u000A), and carriage return (\u000D) characters.
+  ///
+  /// For more information about role session permissions, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session">Session
+  /// policies</a>.
   /// <note>
   /// An Amazon Web Services conversion compresses the passed inline session
   /// policy, managed policy ARNs, and session tags into a packed binary format
@@ -794,6 +813,7 @@ class Sts {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      signed: false,
       resultWrapper: 'AssumeRoleWithSAMLResult',
     );
     return AssumeRoleWithSAMLResponse.fromXml($result);
@@ -832,9 +852,8 @@ class Sts {
   /// produce temporary credentials, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html">Requesting
   /// Temporary Security Credentials</a> and <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html#stsapi_comparison">Comparing
-  /// the Amazon Web Services STS API operations</a> in the <i>IAM User
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_sts-comparison.html">Compare
+  /// STS credentials</a> in the <i>IAM User Guide</i>.
   ///
   /// The temporary security credentials returned by this API consist of an
   /// access key ID, a secret access key, and a security token. Applications can
@@ -850,9 +869,9 @@ class Sts {
   /// minutes) up to the maximum session duration setting for the role. This
   /// setting can have a value from 1 hour to 12 hours. To learn how to view the
   /// maximum value for your role, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html#id_roles_use_view-role-max-session">View
-  /// the Maximum Session Duration Setting for a Role</a> in the <i>IAM User
-  /// Guide</i>. The maximum session duration limit applies when you use the
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_update-role-settings.html#id_roles_update-session-duration">Update
+  /// the maximum session duration for a role </a> in the <i>IAM User Guide</i>.
+  /// The maximum session duration limit applies when you use the
   /// <code>AssumeRole*</code> API operations or the <code>assume-role*</code>
   /// CLI commands. However the limit does not apply when you use those
   /// operations to create a console URL. For more information, see <a
@@ -889,8 +908,9 @@ class Sts {
   /// (Optional) You can configure your IdP to pass attributes into your web
   /// identity token as session tags. Each session tag consists of a key name
   /// and an associated value. For more information about session tags, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html">Passing
-  /// Session Tags in STS</a> in the <i>IAM User Guide</i>.
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html#id_session-tags_adding-assume-role-idp">Passing
+  /// session tags using AssumeRoleWithWebIdentity</a> in the <i>IAM User
+  /// Guide</i>.
   ///
   /// You can pass up to 50 session tags. The plaintext session tag keys can’t
   /// exceed 128 characters and the values can’t exceed 256 characters. For
@@ -939,7 +959,7 @@ class Sts {
   /// href="http://openid.net/specs/openid-connect-core-1_0.html#SubjectIDTypes">suggested
   /// in the OIDC specification</a>.
   /// </important>
-  /// For more information about how to use web identity federation and the
+  /// For more information about how to use OIDC federation and the
   /// <code>AssumeRoleWithWebIdentity</code> API, see the following resources:
   ///
   /// <ul>
@@ -951,14 +971,6 @@ class Sts {
   /// Through a Web-based Identity Provider</a>.
   /// </li>
   /// <li>
-  /// <a
-  /// href="https://aws.amazon.com/blogs/aws/the-aws-web-identity-federation-playground/">
-  /// Web Identity Federation Playground</a>. Walk through the process of
-  /// authenticating through Login with Amazon, Facebook, or Google, getting
-  /// temporary security credentials, and then using those credentials to make a
-  /// request to Amazon Web Services.
-  /// </li>
-  /// <li>
   /// <a href="http://aws.amazon.com/sdkforios/">Amazon Web Services SDK for iOS
   /// Developer Guide</a> and <a
   /// href="http://aws.amazon.com/sdkforandroid/">Amazon Web Services SDK for
@@ -967,25 +979,33 @@ class Sts {
   /// the information from these providers to get and use temporary security
   /// credentials.
   /// </li>
-  /// <li>
-  /// <a
-  /// href="http://aws.amazon.com/articles/web-identity-federation-with-mobile-applications">Web
-  /// Identity Federation with Mobile Applications</a>. This article discusses
-  /// web identity federation and shows an example of how to use web identity
-  /// federation to get access to content in Amazon S3.
-  /// </li>
   /// </ul>
   ///
+  /// May throw [ExpiredTokenException].
+  /// May throw [IDPCommunicationErrorException].
+  /// May throw [IDPRejectedClaimException].
+  /// May throw [InvalidIdentityTokenException].
   /// May throw [MalformedPolicyDocumentException].
   /// May throw [PackedPolicyTooLargeException].
-  /// May throw [IDPRejectedClaimException].
-  /// May throw [IDPCommunicationErrorException].
-  /// May throw [InvalidIdentityTokenException].
-  /// May throw [ExpiredTokenException].
   /// May throw [RegionDisabledException].
   ///
   /// Parameter [roleArn] :
   /// The Amazon Resource Name (ARN) of the role that the caller is assuming.
+  /// <note>
+  /// Additional considerations apply to Amazon Cognito identity pools that
+  /// assume <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html">cross-account
+  /// IAM roles</a>. The trust policies of these roles must accept the
+  /// <code>cognito-identity.amazonaws.com</code> service principal and must
+  /// contain the <code>cognito-identity.amazonaws.com:aud</code> condition key
+  /// to restrict role assumption to users from your intended identity pools. A
+  /// policy that trusts Amazon Cognito identity pools without this condition
+  /// creates a risk that a user from an unintended identity pool can assume the
+  /// role. For more information, see <a
+  /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html#trust-policies">
+  /// Trust policies for IAM roles in Basic (Classic) authentication </a> in the
+  /// <i>Amazon Cognito Developer Guide</i>.
+  /// </note>
   ///
   /// Parameter [roleSessionName] :
   /// An identifier for the assumed role session. Typically, you pass the name
@@ -994,6 +1014,14 @@ class Sts {
   /// application will use are associated with that user. This session name is
   /// included as part of the ARN and assumed role ID in the
   /// <code>AssumedRoleUser</code> response element.
+  ///
+  /// For security purposes, administrators can view this field in <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html#cloudtrail-integration_signin-tempcreds">CloudTrail
+  /// logs</a> to help identify who performed an action in Amazon Web Services.
+  /// Your administrator might require that you specify your user name as the
+  /// session name when you assume the role. For more information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_rolesessionname">
+  /// <code>sts:RoleSessionName</code> </a>.
   ///
   /// The regex used to validate this parameter is a string of characters
   /// consisting of upper- and lower-case alphanumeric characters with no
@@ -1005,8 +1033,10 @@ class Sts {
   /// the identity provider. Your application must get this token by
   /// authenticating the user who is using your application with a web identity
   /// provider before the application makes an
-  /// <code>AssumeRoleWithWebIdentity</code> call. Only tokens with RSA
-  /// algorithms (RS256) are supported.
+  /// <code>AssumeRoleWithWebIdentity</code> call. Timestamps in the token must
+  /// be formatted as either an integer or a long integer. Tokens must be signed
+  /// using either RSA keys (RS256, RS384, or RS512) or ECDSA keys (ES256,
+  /// ES384, or ES512).
   ///
   /// Parameter [durationSeconds] :
   /// The duration, in seconds, of the role session. The value can range from
@@ -1052,6 +1082,10 @@ class Sts {
   /// character from the space character to the end of the valid character list
   /// (\u0020 through \u00FF). It can also include the tab (\u0009), linefeed
   /// (\u000A), and carriage return (\u000D) characters.
+  ///
+  /// For more information about role session permissions, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session">Session
+  /// policies</a>.
   /// <note>
   /// An Amazon Web Services conversion compresses the passed inline session
   /// policy, managed policy ARNs, and session tags into a packed binary format
@@ -1140,9 +1174,113 @@ class Sts {
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      signed: false,
       resultWrapper: 'AssumeRoleWithWebIdentityResult',
     );
     return AssumeRoleWithWebIdentityResponse.fromXml($result);
+  }
+
+  /// Returns a set of short term credentials you can use to perform privileged
+  /// tasks on a member account in your organization. You must use credentials
+  /// from an Organizations management account or a delegated administrator
+  /// account for IAM to call <code>AssumeRoot</code>. You cannot use root user
+  /// credentials to make this call.
+  ///
+  /// Before you can launch a privileged session, you must have centralized root
+  /// access in your organization. For steps to enable this feature, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-enable-root-access.html">Centralize
+  /// root access for member accounts</a> in the <i>IAM User Guide</i>.
+  /// <note>
+  /// The STS global endpoint is not supported for AssumeRoot. You must send
+  /// this request to a Regional STS endpoint. For more information, see <a
+  /// href="https://docs.aws.amazon.com/STS/latest/APIReference/welcome.html#sts-endpoints">Endpoints</a>.
+  /// </note>
+  /// You can track AssumeRoot in CloudTrail logs to determine what actions were
+  /// performed in a session. For more information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-track-privileged-tasks.html">Track
+  /// privileged tasks in CloudTrail</a> in the <i>IAM User Guide</i>.
+  ///
+  /// When granting access to privileged tasks you should only grant the
+  /// necessary permissions required to perform that task. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html">Security
+  /// best practices in IAM</a>. In addition, you can use <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps.html">service
+  /// control policies</a> (SCPs) to manage and limit permissions in your
+  /// organization. See <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_examples_general.html">General
+  /// examples</a> in the <i>Organizations User Guide</i> for more information
+  /// on SCPs.
+  ///
+  /// May throw [ExpiredTokenException].
+  /// May throw [RegionDisabledException].
+  ///
+  /// Parameter [targetPrincipal] :
+  /// The member account principal ARN or account ID.
+  ///
+  /// Parameter [taskPolicyArn] :
+  /// The identity based policy that scopes the session to the privileged tasks
+  /// that can be performed. You must use one of following Amazon Web Services
+  /// managed policies to scope root session actions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/security-iam-awsmanpol.html#security-iam-awsmanpol-IAMAuditRootUserCredentials">IAMAuditRootUserCredentials</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/security-iam-awsmanpol.html#security-iam-awsmanpol-IAMCreateRootUserPassword">IAMCreateRootUserPassword</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/security-iam-awsmanpol.html#security-iam-awsmanpol-IAMDeleteRootUserCredentials">IAMDeleteRootUserCredentials</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/security-iam-awsmanpol.html#security-iam-awsmanpol-S3UnlockBucketPolicy">S3UnlockBucketPolicy</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/security-iam-awsmanpol.html#security-iam-awsmanpol-SQSUnlockQueuePolicy">SQSUnlockQueuePolicy</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [durationSeconds] :
+  /// The duration, in seconds, of the privileged session. The value can range
+  /// from 0 seconds up to the maximum session duration of 900 seconds (15
+  /// minutes). If you specify a value higher than this setting, the operation
+  /// fails.
+  ///
+  /// By default, the value is set to <code>900</code> seconds.
+  Future<AssumeRootResponse> assumeRoot({
+    required String targetPrincipal,
+    required PolicyDescriptorType taskPolicyArn,
+    int? durationSeconds,
+  }) async {
+    _s.validateNumRange(
+      'durationSeconds',
+      durationSeconds,
+      0,
+      900,
+    );
+    final $request = <String, String>{
+      'TargetPrincipal': targetPrincipal,
+      for (var e1 in taskPolicyArn.toQueryMap().entries)
+        'TaskPolicyArn.${e1.key}': e1.value,
+      if (durationSeconds != null)
+        'DurationSeconds': durationSeconds.toString(),
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'AssumeRoot',
+      version: '2011-06-15',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'AssumeRootResult',
+    );
+    return AssumeRootResponse.fromXml($result);
   }
 
   /// Decodes additional information about the authorization status of a request
@@ -1291,6 +1429,37 @@ class Sts {
     return GetCallerIdentityResponse.fromXml($result);
   }
 
+  /// Exchanges a trade-in token for temporary Amazon Web Services credentials
+  /// with the permissions associated with the assumed principal. This operation
+  /// allows you to obtain credentials for a specific principal based on a
+  /// trade-in token, enabling delegation of access to Amazon Web Services
+  /// resources.
+  ///
+  /// May throw [ExpiredTradeInTokenException].
+  /// May throw [PackedPolicyTooLargeException].
+  /// May throw [RegionDisabledException].
+  ///
+  /// Parameter [tradeInToken] :
+  /// The token to exchange for temporary Amazon Web Services credentials. This
+  /// token must be valid and unexpired at the time of the request.
+  Future<GetDelegatedAccessTokenResponse> getDelegatedAccessToken({
+    required String tradeInToken,
+  }) async {
+    final $request = <String, String>{
+      'TradeInToken': tradeInToken,
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'GetDelegatedAccessToken',
+      version: '2011-06-15',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'GetDelegatedAccessTokenResult',
+    );
+    return GetDelegatedAccessTokenResponse.fromXml($result);
+  }
+
   /// Returns a set of temporary security credentials (consisting of an access
   /// key ID, a secret access key, and a security token) for a user. A typical
   /// use is in a proxy application that gets temporary security credentials on
@@ -1304,9 +1473,8 @@ class Sts {
   /// temporary credentials, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html">Requesting
   /// Temporary Security Credentials</a> and <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html#stsapi_comparison">Comparing
-  /// the Amazon Web Services STS API operations</a> in the <i>IAM User
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_sts-comparison.html">Compare
+  /// STS credentials</a> in the <i>IAM User Guide</i>.
   ///
   /// Although it is possible to call <code>GetFederationToken</code> using the
   /// security credentials of an Amazon Web Services account root user rather
@@ -1613,9 +1781,8 @@ class Sts {
   /// that produce temporary credentials, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html">Requesting
   /// Temporary Security Credentials</a> and <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html#stsapi_comparison">Comparing
-  /// the Amazon Web Services STS API operations</a> in the <i>IAM User
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_sts-comparison.html">Compare
+  /// STS credentials</a> in the <i>IAM User Guide</i>.
   /// <note>
   /// No permissions are required for users to perform this operation. The
   /// purpose of the <code>sts:GetSessionToken</code> operation is to
@@ -1734,6 +1901,80 @@ class Sts {
       resultWrapper: 'GetSessionTokenResult',
     );
     return GetSessionTokenResponse.fromXml($result);
+  }
+
+  /// Returns a signed JSON Web Token (JWT) that represents the calling Amazon
+  /// Web Services identity. The returned JWT can be used to authenticate with
+  /// external services that support OIDC discovery. The token is signed by
+  /// Amazon Web Services STS and can be publicly verified using the
+  /// verification keys published at the issuer's JWKS endpoint.
+  ///
+  /// May throw [JWTPayloadSizeExceededException].
+  /// May throw [OutboundWebIdentityFederationDisabledException].
+  /// May throw [SessionDurationEscalationException].
+  ///
+  /// Parameter [audience] :
+  /// The intended recipient of the web identity token. This value populates the
+  /// <code>aud</code> claim in the JWT and should identify the service or
+  /// application that will validate and use the token. The external service
+  /// should verify this claim to ensure the token was intended for their use.
+  ///
+  /// Parameter [signingAlgorithm] :
+  /// The cryptographic algorithm to use for signing the JSON Web Token (JWT).
+  /// Valid values are RS256 (RSA with SHA-256) and ES384 (ECDSA using P-384
+  /// curve with SHA-384).
+  ///
+  /// Parameter [durationSeconds] :
+  /// The duration, in seconds, for which the JSON Web Token (JWT) will remain
+  /// valid. The value can range from 60 seconds (1 minute) to 3600 seconds (1
+  /// hour). If not specified, the default duration is 300 seconds (5 minutes).
+  /// The token is designed to be short-lived and should be used for proof of
+  /// identity, then exchanged for credentials or short-lived tokens in the
+  /// external service.
+  ///
+  /// Parameter [tags] :
+  /// An optional list of tags to include in the JSON Web Token (JWT). These
+  /// tags are added as custom claims to the JWT and can be used by the
+  /// downstream service for authorization decisions.
+  Future<GetWebIdentityTokenResponse> getWebIdentityToken({
+    required List<String> audience,
+    required String signingAlgorithm,
+    int? durationSeconds,
+    List<Tag>? tags,
+  }) async {
+    _s.validateNumRange(
+      'durationSeconds',
+      durationSeconds,
+      60,
+      3600,
+    );
+    final $request = <String, String>{
+      if (audience.isEmpty)
+        'Audience': ''
+      else
+        for (var i1 = 0; i1 < audience.length; i1++)
+          'Audience.member.${i1 + 1}': audience[i1],
+      'SigningAlgorithm': signingAlgorithm,
+      if (durationSeconds != null)
+        'DurationSeconds': durationSeconds.toString(),
+      if (tags != null)
+        if (tags.isEmpty)
+          'Tags': ''
+        else
+          for (var i1 = 0; i1 < tags.length; i1++)
+            for (var e3 in tags[i1].toQueryMap().entries)
+              'Tags.member.${i1 + 1}.${e3.key}': e3.value,
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'GetWebIdentityToken',
+      version: '2011-06-15',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'GetWebIdentityTokenResult',
+    );
+    return GetWebIdentityTokenResponse.fromXml($result);
   }
 }
 
@@ -1866,7 +2107,9 @@ class AssumeRoleWithSAMLResponse {
   final int? packedPolicySize;
 
   /// The value in the <code>SourceIdentity</code> attribute in the SAML
-  /// assertion.
+  /// assertion. The source identity value persists across <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#iam-term-role-chaining">chained
+  /// role</a> sessions.
   ///
   /// You can require users to set a source identity value when they assume a
   /// role. You do this by using the <code>sts:SourceIdentity</code> condition key
@@ -1874,7 +2117,7 @@ class AssumeRoleWithSAMLResponse {
   /// associated with that user. After the source identity is set, the value
   /// cannot be changed. It is present in the request for all actions that are
   /// taken by the role and persists across <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts#iam-term-role-chaining">chained
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#id_roles_terms-and-concepts">chained
   /// role</a> sessions. You can configure your SAML identity provider to use an
   /// attribute associated with your users, like user name or email, as the source
   /// identity when calling <code>AssumeRoleWithSAML</code>. You do this by adding
@@ -2004,7 +2247,7 @@ class AssumeRoleWithWebIdentityResponse {
   /// associated with that user. After the source identity is set, the value
   /// cannot be changed. It is present in the request for all actions that are
   /// taken by the role and persists across <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts#iam-term-role-chaining">chained
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#id_roles_terms-and-concepts">chained
   /// role</a> sessions. You can configure your identity provider to use an
   /// attribute associated with your users, like user name or email, as the source
   /// identity when calling <code>AssumeRoleWithWebIdentity</code>. You do this by
@@ -2077,82 +2320,48 @@ class AssumeRoleWithWebIdentityResponse {
   }
 }
 
-/// The identifiers for the temporary security credentials that the operation
-/// returns.
-class AssumedRoleUser {
-  /// The ARN of the temporary security credentials that are returned from the
-  /// <a>AssumeRole</a> action. For more information about ARNs and how to use
-  /// them in policies, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html">IAM
-  /// Identifiers</a> in the <i>IAM User Guide</i>.
-  final String arn;
+class AssumeRootResponse {
+  /// The temporary security credentials, which include an access key ID, a secret
+  /// access key, and a security token.
+  /// <note>
+  /// The size of the security token that STS API operations return is not fixed.
+  /// We strongly recommend that you make no assumptions about the maximum size.
+  /// </note>
+  final Credentials? credentials;
 
-  /// A unique identifier that contains the role ID and the role session name of
-  /// the role that is being assumed. The role ID is generated by Amazon Web
-  /// Services when the role is created.
-  final String assumedRoleId;
+  /// The source identity specified by the principal that is calling the
+  /// <code>AssumeRoot</code> operation.
+  ///
+  /// You can use the <code>aws:SourceIdentity</code> condition key to control
+  /// access based on the value of source identity. For more information about
+  /// using source identity, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html">Monitor
+  /// and control actions taken with assumed roles</a> in the <i>IAM User
+  /// Guide</i>.
+  ///
+  /// The regex used to validate this parameter is a string of characters
+  /// consisting of upper- and lower-case alphanumeric characters with no spaces.
+  /// You can also include underscores or any of the following characters: =,.@-
+  final String? sourceIdentity;
 
-  AssumedRoleUser({
-    required this.arn,
-    required this.assumedRoleId,
+  AssumeRootResponse({
+    this.credentials,
+    this.sourceIdentity,
   });
-  factory AssumedRoleUser.fromXml(_s.XmlElement elem) {
-    return AssumedRoleUser(
-      arn: _s.extractXmlStringValue(elem, 'Arn')!,
-      assumedRoleId: _s.extractXmlStringValue(elem, 'AssumedRoleId')!,
+  factory AssumeRootResponse.fromXml(_s.XmlElement elem) {
+    return AssumeRootResponse(
+      credentials:
+          _s.extractXmlChild(elem, 'Credentials')?.let(Credentials.fromXml),
+      sourceIdentity: _s.extractXmlStringValue(elem, 'SourceIdentity'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final assumedRoleId = this.assumedRoleId;
+    final credentials = this.credentials;
+    final sourceIdentity = this.sourceIdentity;
     return {
-      'Arn': arn,
-      'AssumedRoleId': assumedRoleId,
-    };
-  }
-}
-
-/// Amazon Web Services credentials for API authentication.
-class Credentials {
-  /// The access key ID that identifies the temporary security credentials.
-  final String accessKeyId;
-
-  /// The date on which the current credentials expire.
-  final DateTime expiration;
-
-  /// The secret access key that can be used to sign requests.
-  final String secretAccessKey;
-
-  /// The token that users must pass to the service API to use the temporary
-  /// credentials.
-  final String sessionToken;
-
-  Credentials({
-    required this.accessKeyId,
-    required this.expiration,
-    required this.secretAccessKey,
-    required this.sessionToken,
-  });
-  factory Credentials.fromXml(_s.XmlElement elem) {
-    return Credentials(
-      accessKeyId: _s.extractXmlStringValue(elem, 'AccessKeyId')!,
-      expiration: _s.extractXmlDateTimeValue(elem, 'Expiration')!,
-      secretAccessKey: _s.extractXmlStringValue(elem, 'SecretAccessKey')!,
-      sessionToken: _s.extractXmlStringValue(elem, 'SessionToken')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accessKeyId = this.accessKeyId;
-    final expiration = this.expiration;
-    final secretAccessKey = this.secretAccessKey;
-    final sessionToken = this.sessionToken;
-    return {
-      'AccessKeyId': accessKeyId,
-      'Expiration': iso8601ToJson(expiration),
-      'SecretAccessKey': secretAccessKey,
-      'SessionToken': sessionToken,
+      if (credentials != null) 'Credentials': credentials,
+      if (sourceIdentity != null) 'SourceIdentity': sourceIdentity,
     };
   }
 }
@@ -2177,40 +2386,6 @@ class DecodeAuthorizationMessageResponse {
     final decodedMessage = this.decodedMessage;
     return {
       if (decodedMessage != null) 'DecodedMessage': decodedMessage,
-    };
-  }
-}
-
-/// Identifiers for the federated user that is associated with the credentials.
-class FederatedUser {
-  /// The ARN that specifies the federated user that is associated with the
-  /// credentials. For more information about ARNs and how to use them in
-  /// policies, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html">IAM
-  /// Identifiers</a> in the <i>IAM User Guide</i>.
-  final String arn;
-
-  /// The string that identifies the federated user associated with the
-  /// credentials, similar to the unique ID of an IAM user.
-  final String federatedUserId;
-
-  FederatedUser({
-    required this.arn,
-    required this.federatedUserId,
-  });
-  factory FederatedUser.fromXml(_s.XmlElement elem) {
-    return FederatedUser(
-      arn: _s.extractXmlStringValue(elem, 'Arn')!,
-      federatedUserId: _s.extractXmlStringValue(elem, 'FederatedUserId')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final federatedUserId = this.federatedUserId;
-    return {
-      'Arn': arn,
-      'FederatedUserId': federatedUserId,
     };
   }
 }
@@ -2275,6 +2450,45 @@ class GetCallerIdentityResponse {
       if (account != null) 'Account': account,
       if (arn != null) 'Arn': arn,
       if (userId != null) 'UserId': userId,
+    };
+  }
+}
+
+class GetDelegatedAccessTokenResponse {
+  /// The Amazon Resource Name (ARN) of the principal that was assumed when
+  /// obtaining the delegated access token. This ARN identifies the IAM entity
+  /// whose permissions are granted by the temporary credentials.
+  final String? assumedPrincipal;
+  final Credentials? credentials;
+
+  /// The percentage of the maximum policy size that is used by the session
+  /// policy. The policy size is calculated as the sum of all the session policies
+  /// and permission boundaries attached to the session. If the packed size
+  /// exceeds 100%, the request fails.
+  final int? packedPolicySize;
+
+  GetDelegatedAccessTokenResponse({
+    this.assumedPrincipal,
+    this.credentials,
+    this.packedPolicySize,
+  });
+  factory GetDelegatedAccessTokenResponse.fromXml(_s.XmlElement elem) {
+    return GetDelegatedAccessTokenResponse(
+      assumedPrincipal: _s.extractXmlStringValue(elem, 'AssumedPrincipal'),
+      credentials:
+          _s.extractXmlChild(elem, 'Credentials')?.let(Credentials.fromXml),
+      packedPolicySize: _s.extractXmlIntValue(elem, 'PackedPolicySize'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assumedPrincipal = this.assumedPrincipal;
+    final credentials = this.credentials;
+    final packedPolicySize = this.packedPolicySize;
+    return {
+      if (assumedPrincipal != null) 'AssumedPrincipal': assumedPrincipal,
+      if (credentials != null) 'Credentials': credentials,
+      if (packedPolicySize != null) 'PackedPolicySize': packedPolicySize,
     };
   }
 }
@@ -2360,68 +2574,40 @@ class GetSessionTokenResponse {
   }
 }
 
-/// A reference to the IAM managed policy that is passed as a session policy for
-/// a role session or a federated user session.
-class PolicyDescriptorType {
-  /// The Amazon Resource Name (ARN) of the IAM managed policy to use as a session
-  /// policy for the role. For more information about ARNs, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a> in the
-  /// <i>Amazon Web Services General Reference</i>.
-  final String? arn;
+class GetWebIdentityTokenResponse {
+  /// The date and time when the web identity token expires, in UTC. The
+  /// expiration is determined by adding the <code>DurationSeconds</code> value to
+  /// the time the token was issued. After this time, the token should no longer
+  /// be considered valid.
+  final DateTime? expiration;
 
-  PolicyDescriptorType({
-    this.arn,
+  /// A signed JSON Web Token (JWT) that represents the caller's Amazon Web
+  /// Services identity. The token contains standard JWT claims such as subject,
+  /// audience, expiration time, and additional identity attributes added by STS
+  /// as custom claims. You can also add your own custom claims to the token by
+  /// passing tags as request parameters to the <code>GetWebIdentityToken</code>
+  /// API. The token is signed using the specified signing algorithm and can be
+  /// verified using the verification keys available at the issuer's JWKS
+  /// endpoint.
+  final String? webIdentityToken;
+
+  GetWebIdentityTokenResponse({
+    this.expiration,
+    this.webIdentityToken,
   });
+  factory GetWebIdentityTokenResponse.fromXml(_s.XmlElement elem) {
+    return GetWebIdentityTokenResponse(
+      expiration: _s.extractXmlDateTimeValue(elem, 'Expiration'),
+      webIdentityToken: _s.extractXmlStringValue(elem, 'WebIdentityToken'),
+    );
+  }
 
   Map<String, dynamic> toJson() {
-    final arn = this.arn;
+    final expiration = this.expiration;
+    final webIdentityToken = this.webIdentityToken;
     return {
-      if (arn != null) 'arn': arn,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final arn = this.arn;
-    return {
-      if (arn != null) 'arn': arn,
-    };
-  }
-}
-
-/// Contains information about the provided context. This includes the signed
-/// and encrypted trusted context assertion and the context provider ARN from
-/// which the trusted context assertion was generated.
-class ProvidedContext {
-  /// The signed and encrypted trusted context assertion generated by the context
-  /// provider. The trusted context assertion is signed and encrypted by Amazon
-  /// Web Services STS.
-  final String? contextAssertion;
-
-  /// The context provider ARN from which the trusted context assertion was
-  /// generated.
-  final String? providerArn;
-
-  ProvidedContext({
-    this.contextAssertion,
-    this.providerArn,
-  });
-
-  Map<String, dynamic> toJson() {
-    final contextAssertion = this.contextAssertion;
-    final providerArn = this.providerArn;
-    return {
-      if (contextAssertion != null) 'ContextAssertion': contextAssertion,
-      if (providerArn != null) 'ProviderArn': providerArn,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final contextAssertion = this.contextAssertion;
-    final providerArn = this.providerArn;
-    return {
-      if (contextAssertion != null) 'ContextAssertion': contextAssertion,
-      if (providerArn != null) 'ProviderArn': providerArn,
+      if (expiration != null) 'Expiration': iso8601ToJson(expiration),
+      if (webIdentityToken != null) 'WebIdentityToken': webIdentityToken,
     };
   }
 }
@@ -2472,9 +2658,195 @@ class Tag {
   }
 }
 
+/// Amazon Web Services credentials for API authentication.
+class Credentials {
+  /// The access key ID that identifies the temporary security credentials.
+  final String accessKeyId;
+
+  /// The date on which the current credentials expire.
+  final DateTime expiration;
+
+  /// The secret access key that can be used to sign requests.
+  final String secretAccessKey;
+
+  /// The token that users must pass to the service API to use the temporary
+  /// credentials.
+  final String sessionToken;
+
+  Credentials({
+    required this.accessKeyId,
+    required this.expiration,
+    required this.secretAccessKey,
+    required this.sessionToken,
+  });
+  factory Credentials.fromXml(_s.XmlElement elem) {
+    return Credentials(
+      accessKeyId: _s.extractXmlStringValue(elem, 'AccessKeyId')!,
+      expiration: _s.extractXmlDateTimeValue(elem, 'Expiration')!,
+      secretAccessKey: _s.extractXmlStringValue(elem, 'SecretAccessKey')!,
+      sessionToken: _s.extractXmlStringValue(elem, 'SessionToken')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessKeyId = this.accessKeyId;
+    final expiration = this.expiration;
+    final secretAccessKey = this.secretAccessKey;
+    final sessionToken = this.sessionToken;
+    return {
+      'AccessKeyId': accessKeyId,
+      'Expiration': iso8601ToJson(expiration),
+      'SecretAccessKey': secretAccessKey,
+      'SessionToken': sessionToken,
+    };
+  }
+}
+
+/// Identifiers for the federated user that is associated with the credentials.
+class FederatedUser {
+  /// The ARN that specifies the federated user that is associated with the
+  /// credentials. For more information about ARNs and how to use them in
+  /// policies, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html">IAM
+  /// Identifiers</a> in the <i>IAM User Guide</i>.
+  final String arn;
+
+  /// The string that identifies the federated user associated with the
+  /// credentials, similar to the unique ID of an IAM user.
+  final String federatedUserId;
+
+  FederatedUser({
+    required this.arn,
+    required this.federatedUserId,
+  });
+  factory FederatedUser.fromXml(_s.XmlElement elem) {
+    return FederatedUser(
+      arn: _s.extractXmlStringValue(elem, 'Arn')!,
+      federatedUserId: _s.extractXmlStringValue(elem, 'FederatedUserId')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final federatedUserId = this.federatedUserId;
+    return {
+      'Arn': arn,
+      'FederatedUserId': federatedUserId,
+    };
+  }
+}
+
+/// A reference to the IAM managed policy that is passed as a session policy for
+/// a role session or a federated user session.
+class PolicyDescriptorType {
+  /// The Amazon Resource Name (ARN) of the IAM managed policy to use as a session
+  /// policy for the role. For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a> in the
+  /// <i>Amazon Web Services General Reference</i>.
+  final String? arn;
+
+  PolicyDescriptorType({
+    this.arn,
+  });
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
+      if (arn != null) 'arn': arn,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final arn = this.arn;
+    return {
+      if (arn != null) 'arn': arn,
+    };
+  }
+}
+
+/// The identifiers for the temporary security credentials that the operation
+/// returns.
+class AssumedRoleUser {
+  /// The ARN of the temporary security credentials that are returned from the
+  /// <a>AssumeRole</a> action. For more information about ARNs and how to use
+  /// them in policies, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html">IAM
+  /// Identifiers</a> in the <i>IAM User Guide</i>.
+  final String arn;
+
+  /// A unique identifier that contains the role ID and the role session name of
+  /// the role that is being assumed. The role ID is generated by Amazon Web
+  /// Services when the role is created.
+  final String assumedRoleId;
+
+  AssumedRoleUser({
+    required this.arn,
+    required this.assumedRoleId,
+  });
+  factory AssumedRoleUser.fromXml(_s.XmlElement elem) {
+    return AssumedRoleUser(
+      arn: _s.extractXmlStringValue(elem, 'Arn')!,
+      assumedRoleId: _s.extractXmlStringValue(elem, 'AssumedRoleId')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final assumedRoleId = this.assumedRoleId;
+    return {
+      'Arn': arn,
+      'AssumedRoleId': assumedRoleId,
+    };
+  }
+}
+
+/// Contains information about the provided context. This includes the signed
+/// and encrypted trusted context assertion and the context provider ARN from
+/// which the trusted context assertion was generated.
+class ProvidedContext {
+  /// The signed and encrypted trusted context assertion generated by the context
+  /// provider. The trusted context assertion is signed and encrypted by Amazon
+  /// Web Services STS.
+  final String? contextAssertion;
+
+  /// The context provider ARN from which the trusted context assertion was
+  /// generated.
+  final String? providerArn;
+
+  ProvidedContext({
+    this.contextAssertion,
+    this.providerArn,
+  });
+
+  Map<String, dynamic> toJson() {
+    final contextAssertion = this.contextAssertion;
+    final providerArn = this.providerArn;
+    return {
+      if (contextAssertion != null) 'ContextAssertion': contextAssertion,
+      if (providerArn != null) 'ProviderArn': providerArn,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final contextAssertion = this.contextAssertion;
+    final providerArn = this.providerArn;
+    return {
+      if (contextAssertion != null) 'ContextAssertion': contextAssertion,
+      if (providerArn != null) 'ProviderArn': providerArn,
+    };
+  }
+}
+
 class ExpiredTokenException extends _s.GenericAwsException {
   ExpiredTokenException({String? type, String? message})
       : super(type: type, code: 'ExpiredTokenException', message: message);
+}
+
+class ExpiredTradeInTokenException extends _s.GenericAwsException {
+  ExpiredTradeInTokenException({String? type, String? message})
+      : super(
+            type: type, code: 'ExpiredTradeInTokenException', message: message);
 }
 
 class IDPCommunicationErrorException extends _s.GenericAwsException {
@@ -2506,11 +2878,29 @@ class InvalidIdentityTokenException extends _s.GenericAwsException {
             message: message);
 }
 
+class JWTPayloadSizeExceededException extends _s.GenericAwsException {
+  JWTPayloadSizeExceededException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'JWTPayloadSizeExceededException',
+            message: message);
+}
+
 class MalformedPolicyDocumentException extends _s.GenericAwsException {
   MalformedPolicyDocumentException({String? type, String? message})
       : super(
             type: type,
             code: 'MalformedPolicyDocumentException',
+            message: message);
+}
+
+class OutboundWebIdentityFederationDisabledException
+    extends _s.GenericAwsException {
+  OutboundWebIdentityFederationDisabledException(
+      {String? type, String? message})
+      : super(
+            type: type,
+            code: 'OutboundWebIdentityFederationDisabledException',
             message: message);
 }
 
@@ -2527,9 +2917,19 @@ class RegionDisabledException extends _s.GenericAwsException {
       : super(type: type, code: 'RegionDisabledException', message: message);
 }
 
+class SessionDurationEscalationException extends _s.GenericAwsException {
+  SessionDurationEscalationException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'SessionDurationEscalationException',
+            message: message);
+}
+
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'ExpiredTokenException': (type, message) =>
       ExpiredTokenException(type: type, message: message),
+  'ExpiredTradeInTokenException': (type, message) =>
+      ExpiredTradeInTokenException(type: type, message: message),
   'IDPCommunicationErrorException': (type, message) =>
       IDPCommunicationErrorException(type: type, message: message),
   'IDPRejectedClaimException': (type, message) =>
@@ -2538,10 +2938,17 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InvalidAuthorizationMessageException(type: type, message: message),
   'InvalidIdentityTokenException': (type, message) =>
       InvalidIdentityTokenException(type: type, message: message),
+  'JWTPayloadSizeExceededException': (type, message) =>
+      JWTPayloadSizeExceededException(type: type, message: message),
   'MalformedPolicyDocumentException': (type, message) =>
       MalformedPolicyDocumentException(type: type, message: message),
+  'OutboundWebIdentityFederationDisabledException': (type, message) =>
+      OutboundWebIdentityFederationDisabledException(
+          type: type, message: message),
   'PackedPolicyTooLargeException': (type, message) =>
       PackedPolicyTooLargeException(type: type, message: message),
   'RegionDisabledException': (type, message) =>
       RegionDisabledException(type: type, message: message),
+  'SessionDurationEscalationException': (type, message) =>
+      SessionDurationEscalationException(type: type, message: message),
 };

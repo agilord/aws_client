@@ -24,9 +24,9 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// understand the application context of their Amazon Web Services resources.
 /// AppRegistry provides a repository of your applications, their resources, and
 /// the application metadata that you use within your enterprise.
-class AppRegistry {
+class ServiceCatalogAppRegistry {
   final _s.RestJsonProtocol _protocol;
-  AppRegistry({
+  ServiceCatalogAppRegistry({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
@@ -58,11 +58,11 @@ class AppRegistry {
   /// applications to be described with user-defined details that are
   /// machine-readable, such as third-party integrations.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [application] :
   /// The name, ID, or ARN of the application.
@@ -124,12 +124,12 @@ class AppRegistry {
   /// in the <i>Resource Groups Tagging API Reference</i>.
   /// </note>
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [ConflictException].
-  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [application] :
   /// The name, ID, or ARN of the application.
@@ -165,11 +165,11 @@ class AppRegistry {
   /// Creates a new application that is the top-level node in a hierarchy of
   /// related cloud resource abstractions.
   ///
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [name] :
   /// The name of the application. The name must be unique in the region in
@@ -213,10 +213,10 @@ class AppRegistry {
   /// application's metadata in a rich machine-readable format to facilitate
   /// integration with automated workflows and third-party tools.
   ///
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [ConflictException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [attributes] :
   /// A JSON string in the form of nested key-value pairs that represent the
@@ -264,9 +264,9 @@ class AppRegistry {
   /// name, or ARN. All associated attribute groups and resources must be
   /// disassociated from it before deleting an application.
   ///
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [application] :
   /// The name, ID, or ARN of the application.
@@ -285,9 +285,9 @@ class AppRegistry {
   /// Deletes an attribute group, specified either by its attribute group ID,
   /// name, or ARN.
   ///
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [attributeGroup] :
   /// The name, ID, or ARN of the attribute group that holds the attributes to
@@ -308,9 +308,9 @@ class AppRegistry {
   /// attributes contained in the attribute group from the application's
   /// metadata. This operation reverts <code>AssociateAttributeGroup</code>.
   ///
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [application] :
   /// The name, ID, or ARN of the application.
@@ -374,10 +374,10 @@ class AppRegistry {
   /// in the <i>Resource Groups Tagging API Reference</i>.
   /// </note>
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [application] :
   /// The name or ID of the application.
@@ -409,10 +409,10 @@ class AppRegistry {
   /// application is returned or a <code>ResourceNotFoundException</code> is
   /// thrown, avoiding the ABA addressing problem.
   ///
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [application] :
   /// The name, ID, or ARN of the application.
@@ -430,9 +430,9 @@ class AppRegistry {
 
   /// Gets the resource associated with the application.
   ///
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [application] :
   /// The name, ID, or ARN of the application.
@@ -488,10 +488,10 @@ class AppRegistry {
   /// Retrieves an attribute group by its ARN, ID, or name. The attribute group
   /// can be specified by its ARN, ID, or name.
   ///
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [attributeGroup] :
   /// The name, ID, or ARN of the attribute group that holds the attributes to
@@ -523,8 +523,8 @@ class AppRegistry {
 
   /// Retrieves a list of all of your applications. Results are paginated.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// The upper bound of the number of results to return (cannot exceed 25). If
@@ -560,9 +560,9 @@ class AppRegistry {
   /// Lists all attribute groups that are associated with specified application.
   /// Results are paginated.
   ///
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [application] :
   /// The name or ID of the application.
@@ -609,9 +609,9 @@ class AppRegistry {
   /// this API.
   /// </note>
   ///
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [application] :
   /// The name, ID, or ARN of the application.
@@ -651,8 +651,8 @@ class AppRegistry {
   /// Lists all attribute groups which you have access to. Results are
   /// paginated.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// The upper bound of the number of results to return (cannot exceed 25). If
@@ -688,9 +688,9 @@ class AppRegistry {
   /// Lists the details of all attribute groups associated with a specific
   /// application. The results display in pages.
   ///
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [application] :
   /// The name or ID of the application.
@@ -731,9 +731,9 @@ class AppRegistry {
 
   /// Lists all of the tags on the resource.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon resource name (ARN) that specifies the resource.
@@ -778,9 +778,9 @@ class AppRegistry {
   /// if it does not associate with the application. The caller must have
   /// permissions to read and update the resource.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
@@ -813,9 +813,9 @@ class AppRegistry {
   ///
   /// This operation returns an empty response if the call was successful.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon resource name (ARN) that specifies the resource.
@@ -841,9 +841,9 @@ class AppRegistry {
   ///
   /// This operation returns an empty response if the call was successful.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon resource name (ARN) that specifies the resource.
@@ -868,11 +868,11 @@ class AppRegistry {
 
   /// Updates an existing application with new attributes.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [application] :
   /// The name, ID, or ARN of the application that will be updated.
@@ -904,10 +904,10 @@ class AppRegistry {
 
   /// Updates an existing attribute group with new details.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [attributeGroup] :
   /// The name, ID, or ARN of the attribute group that holds the attributes to
@@ -943,254 +943,6 @@ class AppRegistry {
     );
     return UpdateAttributeGroupResponse.fromJson(response);
   }
-}
-
-/// Includes all of the AppRegistry settings.
-class AppRegistryConfiguration {
-  /// Includes the definition of a <code>tagQuery</code>.
-  final TagQueryConfiguration? tagQueryConfiguration;
-
-  AppRegistryConfiguration({
-    this.tagQueryConfiguration,
-  });
-
-  factory AppRegistryConfiguration.fromJson(Map<String, dynamic> json) {
-    return AppRegistryConfiguration(
-      tagQueryConfiguration: json['tagQueryConfiguration'] != null
-          ? TagQueryConfiguration.fromJson(
-              json['tagQueryConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tagQueryConfiguration = this.tagQueryConfiguration;
-    return {
-      if (tagQueryConfiguration != null)
-        'tagQueryConfiguration': tagQueryConfiguration,
-    };
-  }
-}
-
-/// Represents a Amazon Web Services Service Catalog AppRegistry application
-/// that is the top-level node in a hierarchy of related cloud resource
-/// abstractions.
-class Application {
-  /// A key-value pair that identifies an associated resource.
-  final Map<String, String>? applicationTag;
-
-  /// The Amazon resource name (ARN) that specifies the application across
-  /// services.
-  final String? arn;
-
-  /// The ISO-8601 formatted timestamp of the moment when the application was
-  /// created.
-  final DateTime? creationTime;
-
-  /// The description of the application.
-  final String? description;
-
-  /// The identifier of the application.
-  final String? id;
-
-  /// The ISO-8601 formatted timestamp of the moment when the application was last
-  /// updated.
-  final DateTime? lastUpdateTime;
-
-  /// The name of the application. The name must be unique in the region in which
-  /// you are creating the application.
-  final String? name;
-
-  /// Key-value pairs you can use to associate with the application.
-  final Map<String, String>? tags;
-
-  Application({
-    this.applicationTag,
-    this.arn,
-    this.creationTime,
-    this.description,
-    this.id,
-    this.lastUpdateTime,
-    this.name,
-    this.tags,
-  });
-
-  factory Application.fromJson(Map<String, dynamic> json) {
-    return Application(
-      applicationTag: (json['applicationTag'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      arn: json['arn'] as String?,
-      creationTime: timeStampFromJson(json['creationTime']),
-      description: json['description'] as String?,
-      id: json['id'] as String?,
-      lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
-      name: json['name'] as String?,
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final applicationTag = this.applicationTag;
-    final arn = this.arn;
-    final creationTime = this.creationTime;
-    final description = this.description;
-    final id = this.id;
-    final lastUpdateTime = this.lastUpdateTime;
-    final name = this.name;
-    final tags = this.tags;
-    return {
-      if (applicationTag != null) 'applicationTag': applicationTag,
-      if (arn != null) 'arn': arn,
-      if (creationTime != null) 'creationTime': iso8601ToJson(creationTime),
-      if (description != null) 'description': description,
-      if (id != null) 'id': id,
-      if (lastUpdateTime != null)
-        'lastUpdateTime': iso8601ToJson(lastUpdateTime),
-      if (name != null) 'name': name,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-/// Summary of a Amazon Web Services Service Catalog AppRegistry application.
-class ApplicationSummary {
-  /// The Amazon resource name (ARN) that specifies the application across
-  /// services.
-  final String? arn;
-
-  /// The ISO-8601 formatted timestamp of the moment when the application was
-  /// created.
-  final DateTime? creationTime;
-
-  /// The description of the application.
-  final String? description;
-
-  /// The identifier of the application.
-  final String? id;
-
-  /// The ISO-8601 formatted timestamp of the moment when the application was last
-  /// updated.
-  final DateTime? lastUpdateTime;
-
-  /// The name of the application. The name must be unique in the region in which
-  /// you are creating the application.
-  final String? name;
-
-  ApplicationSummary({
-    this.arn,
-    this.creationTime,
-    this.description,
-    this.id,
-    this.lastUpdateTime,
-    this.name,
-  });
-
-  factory ApplicationSummary.fromJson(Map<String, dynamic> json) {
-    return ApplicationSummary(
-      arn: json['arn'] as String?,
-      creationTime: timeStampFromJson(json['creationTime']),
-      description: json['description'] as String?,
-      id: json['id'] as String?,
-      lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final creationTime = this.creationTime;
-    final description = this.description;
-    final id = this.id;
-    final lastUpdateTime = this.lastUpdateTime;
-    final name = this.name;
-    return {
-      if (arn != null) 'arn': arn,
-      if (creationTime != null) 'creationTime': iso8601ToJson(creationTime),
-      if (description != null) 'description': description,
-      if (id != null) 'id': id,
-      if (lastUpdateTime != null)
-        'lastUpdateTime': iso8601ToJson(lastUpdateTime),
-      if (name != null) 'name': name,
-    };
-  }
-}
-
-/// The result of the application tag that's applied to a resource.
-class ApplicationTagResult {
-  /// The application tag is in the process of being applied to a resource, was
-  /// successfully applied to a resource, or failed to apply to a resource.
-  final ApplicationTagStatus? applicationTagStatus;
-
-  /// The message returned if the call fails.
-  final String? errorMessage;
-
-  /// A unique pagination token for each page of results. Make the call again with
-  /// the returned token to retrieve the next page of results.
-  final String? nextToken;
-
-  /// The resources associated with an application
-  final List<ResourcesListItem>? resources;
-
-  ApplicationTagResult({
-    this.applicationTagStatus,
-    this.errorMessage,
-    this.nextToken,
-    this.resources,
-  });
-
-  factory ApplicationTagResult.fromJson(Map<String, dynamic> json) {
-    return ApplicationTagResult(
-      applicationTagStatus: (json['applicationTagStatus'] as String?)
-          ?.let(ApplicationTagStatus.fromString),
-      errorMessage: json['errorMessage'] as String?,
-      nextToken: json['nextToken'] as String?,
-      resources: (json['resources'] as List?)
-          ?.nonNulls
-          .map((e) => ResourcesListItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final applicationTagStatus = this.applicationTagStatus;
-    final errorMessage = this.errorMessage;
-    final nextToken = this.nextToken;
-    final resources = this.resources;
-    return {
-      if (applicationTagStatus != null)
-        'applicationTagStatus': applicationTagStatus.value,
-      if (errorMessage != null) 'errorMessage': errorMessage,
-      if (nextToken != null) 'nextToken': nextToken,
-      if (resources != null) 'resources': resources,
-    };
-  }
-}
-
-class ApplicationTagStatus {
-  static const inProgress = ApplicationTagStatus._('IN_PROGRESS');
-  static const success = ApplicationTagStatus._('SUCCESS');
-  static const failure = ApplicationTagStatus._('FAILURE');
-
-  final String value;
-
-  const ApplicationTagStatus._(this.value);
-
-  static const values = [inProgress, success, failure];
-
-  static ApplicationTagStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ApplicationTagStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ApplicationTagStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class AssociateAttributeGroupResponse {
@@ -1260,222 +1012,6 @@ class AssociateResourceResponse {
       if (applicationArn != null) 'applicationArn': applicationArn,
       if (options != null) 'options': options.map((e) => e.value).toList(),
       if (resourceArn != null) 'resourceArn': resourceArn,
-    };
-  }
-}
-
-class AssociationOption {
-  static const applyApplicationTag =
-      AssociationOption._('APPLY_APPLICATION_TAG');
-  static const skipApplicationTag = AssociationOption._('SKIP_APPLICATION_TAG');
-
-  final String value;
-
-  const AssociationOption._(this.value);
-
-  static const values = [applyApplicationTag, skipApplicationTag];
-
-  static AssociationOption fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AssociationOption._(value));
-
-  @override
-  bool operator ==(other) => other is AssociationOption && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents a Amazon Web Services Service Catalog AppRegistry attribute group
-/// that is rich metadata which describes an application and its components.
-class AttributeGroup {
-  /// The Amazon resource name (ARN) that specifies the attribute group across
-  /// services.
-  final String? arn;
-
-  /// The ISO-8601 formatted timestamp of the moment the attribute group was
-  /// created.
-  final DateTime? creationTime;
-
-  /// The description of the attribute group that the user provides.
-  final String? description;
-
-  /// The globally unique attribute group identifier of the attribute group.
-  final String? id;
-
-  /// The ISO-8601 formatted timestamp of the moment the attribute group was last
-  /// updated. This time is the same as the creationTime for a newly created
-  /// attribute group.
-  final DateTime? lastUpdateTime;
-
-  /// The name of the attribute group.
-  final String? name;
-
-  /// Key-value pairs you can use to associate with the attribute group.
-  final Map<String, String>? tags;
-
-  AttributeGroup({
-    this.arn,
-    this.creationTime,
-    this.description,
-    this.id,
-    this.lastUpdateTime,
-    this.name,
-    this.tags,
-  });
-
-  factory AttributeGroup.fromJson(Map<String, dynamic> json) {
-    return AttributeGroup(
-      arn: json['arn'] as String?,
-      creationTime: timeStampFromJson(json['creationTime']),
-      description: json['description'] as String?,
-      id: json['id'] as String?,
-      lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
-      name: json['name'] as String?,
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final creationTime = this.creationTime;
-    final description = this.description;
-    final id = this.id;
-    final lastUpdateTime = this.lastUpdateTime;
-    final name = this.name;
-    final tags = this.tags;
-    return {
-      if (arn != null) 'arn': arn,
-      if (creationTime != null) 'creationTime': iso8601ToJson(creationTime),
-      if (description != null) 'description': description,
-      if (id != null) 'id': id,
-      if (lastUpdateTime != null)
-        'lastUpdateTime': iso8601ToJson(lastUpdateTime),
-      if (name != null) 'name': name,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-/// The details related to a specific AttributeGroup.
-class AttributeGroupDetails {
-  /// The Amazon resource name (ARN) that specifies the attribute group.
-  final String? arn;
-
-  /// The service principal that created the attribute group.
-  final String? createdBy;
-
-  /// The unique identifier of the attribute group.
-  final String? id;
-
-  /// <important>
-  /// This field is no longer supported. We recommend you don't use the field when
-  /// using <code>ListAttributeGroupsForApplication</code>.
-  /// </important>
-  /// The name of the attribute group.
-  final String? name;
-
-  AttributeGroupDetails({
-    this.arn,
-    this.createdBy,
-    this.id,
-    this.name,
-  });
-
-  factory AttributeGroupDetails.fromJson(Map<String, dynamic> json) {
-    return AttributeGroupDetails(
-      arn: json['arn'] as String?,
-      createdBy: json['createdBy'] as String?,
-      id: json['id'] as String?,
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final createdBy = this.createdBy;
-    final id = this.id;
-    final name = this.name;
-    return {
-      if (arn != null) 'arn': arn,
-      if (createdBy != null) 'createdBy': createdBy,
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-    };
-  }
-}
-
-/// Summary of a Amazon Web Services Service Catalog AppRegistry attribute
-/// group.
-class AttributeGroupSummary {
-  /// The Amazon resource name (ARN) that specifies the attribute group across
-  /// services.
-  final String? arn;
-
-  /// The service principal that created the attribute group.
-  final String? createdBy;
-
-  /// The ISO-8601 formatted timestamp of the moment the attribute group was
-  /// created.
-  final DateTime? creationTime;
-
-  /// The description of the attribute group that the user provides.
-  final String? description;
-
-  /// The globally unique attribute group identifier of the attribute group.
-  final String? id;
-
-  /// The ISO-8601 formatted timestamp of the moment the attribute group was last
-  /// updated. This time is the same as the creationTime for a newly created
-  /// attribute group.
-  final DateTime? lastUpdateTime;
-
-  /// The name of the attribute group.
-  final String? name;
-
-  AttributeGroupSummary({
-    this.arn,
-    this.createdBy,
-    this.creationTime,
-    this.description,
-    this.id,
-    this.lastUpdateTime,
-    this.name,
-  });
-
-  factory AttributeGroupSummary.fromJson(Map<String, dynamic> json) {
-    return AttributeGroupSummary(
-      arn: json['arn'] as String?,
-      createdBy: json['createdBy'] as String?,
-      creationTime: timeStampFromJson(json['creationTime']),
-      description: json['description'] as String?,
-      id: json['id'] as String?,
-      lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final createdBy = this.createdBy;
-    final creationTime = this.creationTime;
-    final description = this.description;
-    final id = this.id;
-    final lastUpdateTime = this.lastUpdateTime;
-    final name = this.name;
-    return {
-      if (arn != null) 'arn': arn,
-      if (createdBy != null) 'createdBy': createdBy,
-      if (creationTime != null) 'creationTime': iso8601ToJson(creationTime),
-      if (description != null) 'description': description,
-      if (id != null) 'id': id,
-      if (lastUpdateTime != null)
-        'lastUpdateTime': iso8601ToJson(lastUpdateTime),
-      if (name != null) 'name': name,
     };
   }
 }
@@ -1890,42 +1426,6 @@ class GetConfigurationResponse {
   }
 }
 
-/// The information about the service integration.
-class Integrations {
-  final ResourceGroup? applicationTagResourceGroup;
-
-  /// The information about the resource group integration.
-  final ResourceGroup? resourceGroup;
-
-  Integrations({
-    this.applicationTagResourceGroup,
-    this.resourceGroup,
-  });
-
-  factory Integrations.fromJson(Map<String, dynamic> json) {
-    return Integrations(
-      applicationTagResourceGroup: json['applicationTagResourceGroup'] != null
-          ? ResourceGroup.fromJson(
-              json['applicationTagResourceGroup'] as Map<String, dynamic>)
-          : null,
-      resourceGroup: json['resourceGroup'] != null
-          ? ResourceGroup.fromJson(
-              json['resourceGroup'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final applicationTagResourceGroup = this.applicationTagResourceGroup;
-    final resourceGroup = this.resourceGroup;
-    return {
-      if (applicationTagResourceGroup != null)
-        'applicationTagResourceGroup': applicationTagResourceGroup,
-      if (resourceGroup != null) 'resourceGroup': resourceGroup,
-    };
-  }
-}
-
 class ListApplicationsResponse {
   /// This list of applications.
   final List<ApplicationSummary>? applications;
@@ -2023,6 +1523,38 @@ class ListAssociatedResourcesResponse {
   }
 }
 
+class ListAttributeGroupsResponse {
+  /// This list of attribute groups.
+  final List<AttributeGroupSummary>? attributeGroups;
+
+  /// The token to use to get the next page of results after a previous API call.
+  final String? nextToken;
+
+  ListAttributeGroupsResponse({
+    this.attributeGroups,
+    this.nextToken,
+  });
+
+  factory ListAttributeGroupsResponse.fromJson(Map<String, dynamic> json) {
+    return ListAttributeGroupsResponse(
+      attributeGroups: (json['attributeGroups'] as List?)
+          ?.nonNulls
+          .map((e) => AttributeGroupSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeGroups = this.attributeGroups;
+    final nextToken = this.nextToken;
+    return {
+      if (attributeGroups != null) 'attributeGroups': attributeGroups,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 class ListAttributeGroupsForApplicationResponse {
   /// The details related to a specific attribute group.
   final List<AttributeGroupDetails>? attributeGroupsDetails;
@@ -2057,38 +1589,6 @@ class ListAttributeGroupsForApplicationResponse {
   }
 }
 
-class ListAttributeGroupsResponse {
-  /// This list of attribute groups.
-  final List<AttributeGroupSummary>? attributeGroups;
-
-  /// The token to use to get the next page of results after a previous API call.
-  final String? nextToken;
-
-  ListAttributeGroupsResponse({
-    this.attributeGroups,
-    this.nextToken,
-  });
-
-  factory ListAttributeGroupsResponse.fromJson(Map<String, dynamic> json) {
-    return ListAttributeGroupsResponse(
-      attributeGroups: (json['attributeGroups'] as List?)
-          ?.nonNulls
-          .map((e) => AttributeGroupSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attributeGroups = this.attributeGroups;
-    final nextToken = this.nextToken;
-    return {
-      if (attributeGroups != null) 'attributeGroups': attributeGroups,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
 class ListTagsForResourceResponse {
   /// The tags on the resource.
   final Map<String, String>? tags;
@@ -2108,6 +1608,654 @@ class ListTagsForResourceResponse {
     final tags = this.tags;
     return {
       if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+class SyncResourceResponse {
+  /// The results of the output if an application is associated with an ARN value,
+  /// which could be <code>syncStarted</code> or None.
+  final SyncAction? actionTaken;
+
+  /// The Amazon resource name (ARN) that specifies the application.
+  final String? applicationArn;
+
+  /// The Amazon resource name (ARN) that specifies the resource.
+  final String? resourceArn;
+
+  SyncResourceResponse({
+    this.actionTaken,
+    this.applicationArn,
+    this.resourceArn,
+  });
+
+  factory SyncResourceResponse.fromJson(Map<String, dynamic> json) {
+    return SyncResourceResponse(
+      actionTaken: (json['actionTaken'] as String?)?.let(SyncAction.fromString),
+      applicationArn: json['applicationArn'] as String?,
+      resourceArn: json['resourceArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionTaken = this.actionTaken;
+    final applicationArn = this.applicationArn;
+    final resourceArn = this.resourceArn;
+    return {
+      if (actionTaken != null) 'actionTaken': actionTaken.value,
+      if (applicationArn != null) 'applicationArn': applicationArn,
+      if (resourceArn != null) 'resourceArn': resourceArn,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateApplicationResponse {
+  /// The updated information of the application.
+  final Application? application;
+
+  UpdateApplicationResponse({
+    this.application,
+  });
+
+  factory UpdateApplicationResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateApplicationResponse(
+      application: json['application'] != null
+          ? Application.fromJson(json['application'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final application = this.application;
+    return {
+      if (application != null) 'application': application,
+    };
+  }
+}
+
+class UpdateAttributeGroupResponse {
+  /// The updated information of the attribute group.
+  final AttributeGroup? attributeGroup;
+
+  UpdateAttributeGroupResponse({
+    this.attributeGroup,
+  });
+
+  factory UpdateAttributeGroupResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateAttributeGroupResponse(
+      attributeGroup: json['attributeGroup'] != null
+          ? AttributeGroup.fromJson(
+              json['attributeGroup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeGroup = this.attributeGroup;
+    return {
+      if (attributeGroup != null) 'attributeGroup': attributeGroup,
+    };
+  }
+}
+
+/// Represents a Amazon Web Services Service Catalog AppRegistry attribute group
+/// that is rich metadata which describes an application and its components.
+class AttributeGroup {
+  /// The Amazon resource name (ARN) that specifies the attribute group across
+  /// services.
+  final String? arn;
+
+  /// The ISO-8601 formatted timestamp of the moment the attribute group was
+  /// created.
+  final DateTime? creationTime;
+
+  /// The description of the attribute group that the user provides.
+  final String? description;
+
+  /// The globally unique attribute group identifier of the attribute group.
+  final String? id;
+
+  /// The ISO-8601 formatted timestamp of the moment the attribute group was last
+  /// updated. This time is the same as the creationTime for a newly created
+  /// attribute group.
+  final DateTime? lastUpdateTime;
+
+  /// The name of the attribute group.
+  final String? name;
+
+  /// Key-value pairs you can use to associate with the attribute group.
+  final Map<String, String>? tags;
+
+  AttributeGroup({
+    this.arn,
+    this.creationTime,
+    this.description,
+    this.id,
+    this.lastUpdateTime,
+    this.name,
+    this.tags,
+  });
+
+  factory AttributeGroup.fromJson(Map<String, dynamic> json) {
+    return AttributeGroup(
+      arn: json['arn'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      description: json['description'] as String?,
+      id: json['id'] as String?,
+      lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
+      name: json['name'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTime = this.creationTime;
+    final description = this.description;
+    final id = this.id;
+    final lastUpdateTime = this.lastUpdateTime;
+    final name = this.name;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'arn': arn,
+      if (creationTime != null) 'creationTime': iso8601ToJson(creationTime),
+      if (description != null) 'description': description,
+      if (id != null) 'id': id,
+      if (lastUpdateTime != null)
+        'lastUpdateTime': iso8601ToJson(lastUpdateTime),
+      if (name != null) 'name': name,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Represents a Amazon Web Services Service Catalog AppRegistry application
+/// that is the top-level node in a hierarchy of related cloud resource
+/// abstractions.
+class Application {
+  /// A key-value pair that identifies an associated resource.
+  final Map<String, String>? applicationTag;
+
+  /// The Amazon resource name (ARN) that specifies the application across
+  /// services.
+  final String? arn;
+
+  /// The ISO-8601 formatted timestamp of the moment when the application was
+  /// created.
+  final DateTime? creationTime;
+
+  /// The description of the application.
+  final String? description;
+
+  /// The identifier of the application.
+  final String? id;
+
+  /// The ISO-8601 formatted timestamp of the moment when the application was last
+  /// updated.
+  final DateTime? lastUpdateTime;
+
+  /// The name of the application. The name must be unique in the region in which
+  /// you are creating the application.
+  final String? name;
+
+  /// Key-value pairs you can use to associate with the application.
+  final Map<String, String>? tags;
+
+  Application({
+    this.applicationTag,
+    this.arn,
+    this.creationTime,
+    this.description,
+    this.id,
+    this.lastUpdateTime,
+    this.name,
+    this.tags,
+  });
+
+  factory Application.fromJson(Map<String, dynamic> json) {
+    return Application(
+      applicationTag: (json['applicationTag'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      arn: json['arn'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      description: json['description'] as String?,
+      id: json['id'] as String?,
+      lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
+      name: json['name'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationTag = this.applicationTag;
+    final arn = this.arn;
+    final creationTime = this.creationTime;
+    final description = this.description;
+    final id = this.id;
+    final lastUpdateTime = this.lastUpdateTime;
+    final name = this.name;
+    final tags = this.tags;
+    return {
+      if (applicationTag != null) 'applicationTag': applicationTag,
+      if (arn != null) 'arn': arn,
+      if (creationTime != null) 'creationTime': iso8601ToJson(creationTime),
+      if (description != null) 'description': description,
+      if (id != null) 'id': id,
+      if (lastUpdateTime != null)
+        'lastUpdateTime': iso8601ToJson(lastUpdateTime),
+      if (name != null) 'name': name,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+class SyncAction {
+  static const startSync = SyncAction._('START_SYNC');
+  static const noAction = SyncAction._('NO_ACTION');
+
+  final String value;
+
+  const SyncAction._(this.value);
+
+  static const values = [startSync, noAction];
+
+  static SyncAction fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SyncAction._(value));
+
+  @override
+  bool operator ==(other) => other is SyncAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ResourceType {
+  static const cfnStack = ResourceType._('CFN_STACK');
+  static const resourceTagValue = ResourceType._('RESOURCE_TAG_VALUE');
+
+  final String value;
+
+  const ResourceType._(this.value);
+
+  static const values = [cfnStack, resourceTagValue];
+
+  static ResourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Includes all of the AppRegistry settings.
+class AppRegistryConfiguration {
+  /// Includes the definition of a <code>tagQuery</code>.
+  final TagQueryConfiguration? tagQueryConfiguration;
+
+  AppRegistryConfiguration({
+    this.tagQueryConfiguration,
+  });
+
+  factory AppRegistryConfiguration.fromJson(Map<String, dynamic> json) {
+    return AppRegistryConfiguration(
+      tagQueryConfiguration: json['tagQueryConfiguration'] != null
+          ? TagQueryConfiguration.fromJson(
+              json['tagQueryConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tagQueryConfiguration = this.tagQueryConfiguration;
+    return {
+      if (tagQueryConfiguration != null)
+        'tagQueryConfiguration': tagQueryConfiguration,
+    };
+  }
+}
+
+/// The definition of <code>tagQuery</code>. Specifies which resources are
+/// associated with an application.
+class TagQueryConfiguration {
+  /// Condition in the IAM policy that associates resources to an application.
+  final String? tagKey;
+
+  TagQueryConfiguration({
+    this.tagKey,
+  });
+
+  factory TagQueryConfiguration.fromJson(Map<String, dynamic> json) {
+    return TagQueryConfiguration(
+      tagKey: json['tagKey'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tagKey = this.tagKey;
+    return {
+      if (tagKey != null) 'tagKey': tagKey,
+    };
+  }
+}
+
+/// The details related to a specific AttributeGroup.
+class AttributeGroupDetails {
+  /// The Amazon resource name (ARN) that specifies the attribute group.
+  final String? arn;
+
+  /// The service principal that created the attribute group.
+  final String? createdBy;
+
+  /// The unique identifier of the attribute group.
+  final String? id;
+
+  /// <important>
+  /// This field is no longer supported. We recommend you don't use the field when
+  /// using <code>ListAttributeGroupsForApplication</code>.
+  /// </important>
+  /// The name of the attribute group.
+  final String? name;
+
+  AttributeGroupDetails({
+    this.arn,
+    this.createdBy,
+    this.id,
+    this.name,
+  });
+
+  factory AttributeGroupDetails.fromJson(Map<String, dynamic> json) {
+    return AttributeGroupDetails(
+      arn: json['arn'] as String?,
+      createdBy: json['createdBy'] as String?,
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdBy = this.createdBy;
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdBy != null) 'createdBy': createdBy,
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// Summary of a Amazon Web Services Service Catalog AppRegistry attribute
+/// group.
+class AttributeGroupSummary {
+  /// The Amazon resource name (ARN) that specifies the attribute group across
+  /// services.
+  final String? arn;
+
+  /// The service principal that created the attribute group.
+  final String? createdBy;
+
+  /// The ISO-8601 formatted timestamp of the moment the attribute group was
+  /// created.
+  final DateTime? creationTime;
+
+  /// The description of the attribute group that the user provides.
+  final String? description;
+
+  /// The globally unique attribute group identifier of the attribute group.
+  final String? id;
+
+  /// The ISO-8601 formatted timestamp of the moment the attribute group was last
+  /// updated. This time is the same as the creationTime for a newly created
+  /// attribute group.
+  final DateTime? lastUpdateTime;
+
+  /// The name of the attribute group.
+  final String? name;
+
+  AttributeGroupSummary({
+    this.arn,
+    this.createdBy,
+    this.creationTime,
+    this.description,
+    this.id,
+    this.lastUpdateTime,
+    this.name,
+  });
+
+  factory AttributeGroupSummary.fromJson(Map<String, dynamic> json) {
+    return AttributeGroupSummary(
+      arn: json['arn'] as String?,
+      createdBy: json['createdBy'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      description: json['description'] as String?,
+      id: json['id'] as String?,
+      lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdBy = this.createdBy;
+    final creationTime = this.creationTime;
+    final description = this.description;
+    final id = this.id;
+    final lastUpdateTime = this.lastUpdateTime;
+    final name = this.name;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdBy != null) 'createdBy': createdBy,
+      if (creationTime != null) 'creationTime': iso8601ToJson(creationTime),
+      if (description != null) 'description': description,
+      if (id != null) 'id': id,
+      if (lastUpdateTime != null)
+        'lastUpdateTime': iso8601ToJson(lastUpdateTime),
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// The information about the resource.
+class ResourceInfo {
+  /// The Amazon resource name (ARN) that specifies the resource across services.
+  final String? arn;
+
+  /// The name of the resource.
+  final String? name;
+
+  /// Determines whether an application tag is applied or skipped.
+  final List<AssociationOption>? options;
+
+  /// The details related to the resource.
+  final ResourceDetails? resourceDetails;
+
+  /// Provides information about the Service Catalog App Registry resource type.
+  final ResourceType? resourceType;
+
+  ResourceInfo({
+    this.arn,
+    this.name,
+    this.options,
+    this.resourceDetails,
+    this.resourceType,
+  });
+
+  factory ResourceInfo.fromJson(Map<String, dynamic> json) {
+    return ResourceInfo(
+      arn: json['arn'] as String?,
+      name: json['name'] as String?,
+      options: (json['options'] as List?)
+          ?.nonNulls
+          .map((e) => AssociationOption.fromString((e as String)))
+          .toList(),
+      resourceDetails: json['resourceDetails'] != null
+          ? ResourceDetails.fromJson(
+              json['resourceDetails'] as Map<String, dynamic>)
+          : null,
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    final options = this.options;
+    final resourceDetails = this.resourceDetails;
+    final resourceType = this.resourceType;
+    return {
+      if (arn != null) 'arn': arn,
+      if (name != null) 'name': name,
+      if (options != null) 'options': options.map((e) => e.value).toList(),
+      if (resourceDetails != null) 'resourceDetails': resourceDetails,
+      if (resourceType != null) 'resourceType': resourceType.value,
+    };
+  }
+}
+
+/// The details related to the resource.
+class ResourceDetails {
+  /// The value of the tag.
+  final String? tagValue;
+
+  ResourceDetails({
+    this.tagValue,
+  });
+
+  factory ResourceDetails.fromJson(Map<String, dynamic> json) {
+    return ResourceDetails(
+      tagValue: json['tagValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tagValue = this.tagValue;
+    return {
+      if (tagValue != null) 'tagValue': tagValue,
+    };
+  }
+}
+
+class AssociationOption {
+  static const applyApplicationTag =
+      AssociationOption._('APPLY_APPLICATION_TAG');
+  static const skipApplicationTag = AssociationOption._('SKIP_APPLICATION_TAG');
+
+  final String value;
+
+  const AssociationOption._(this.value);
+
+  static const values = [applyApplicationTag, skipApplicationTag];
+
+  static AssociationOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AssociationOption._(value));
+
+  @override
+  bool operator ==(other) => other is AssociationOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Summary of a Amazon Web Services Service Catalog AppRegistry application.
+class ApplicationSummary {
+  /// The Amazon resource name (ARN) that specifies the application across
+  /// services.
+  final String? arn;
+
+  /// The ISO-8601 formatted timestamp of the moment when the application was
+  /// created.
+  final DateTime? creationTime;
+
+  /// The description of the application.
+  final String? description;
+
+  /// The identifier of the application.
+  final String? id;
+
+  /// The ISO-8601 formatted timestamp of the moment when the application was last
+  /// updated.
+  final DateTime? lastUpdateTime;
+
+  /// The name of the application. The name must be unique in the region in which
+  /// you are creating the application.
+  final String? name;
+
+  ApplicationSummary({
+    this.arn,
+    this.creationTime,
+    this.description,
+    this.id,
+    this.lastUpdateTime,
+    this.name,
+  });
+
+  factory ApplicationSummary.fromJson(Map<String, dynamic> json) {
+    return ApplicationSummary(
+      arn: json['arn'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      description: json['description'] as String?,
+      id: json['id'] as String?,
+      lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTime = this.creationTime;
+    final description = this.description;
+    final id = this.id;
+    final lastUpdateTime = this.lastUpdateTime;
+    final name = this.name;
+    return {
+      if (arn != null) 'arn': arn,
+      if (creationTime != null) 'creationTime': iso8601ToJson(creationTime),
+      if (description != null) 'description': description,
+      if (id != null) 'id': id,
+      if (lastUpdateTime != null)
+        'lastUpdateTime': iso8601ToJson(lastUpdateTime),
+      if (name != null) 'name': name,
     };
   }
 }
@@ -2160,25 +2308,149 @@ class Resource {
   }
 }
 
-/// The details related to the resource.
-class ResourceDetails {
-  /// The value of the tag.
-  final String? tagValue;
+/// The result of the application tag that's applied to a resource.
+class ApplicationTagResult {
+  /// The application tag is in the process of being applied to a resource, was
+  /// successfully applied to a resource, or failed to apply to a resource.
+  final ApplicationTagStatus? applicationTagStatus;
 
-  ResourceDetails({
-    this.tagValue,
+  /// The message returned if the call fails.
+  final String? errorMessage;
+
+  /// A unique pagination token for each page of results. Make the call again with
+  /// the returned token to retrieve the next page of results.
+  final String? nextToken;
+
+  /// The resources associated with an application
+  final List<ResourcesListItem>? resources;
+
+  ApplicationTagResult({
+    this.applicationTagStatus,
+    this.errorMessage,
+    this.nextToken,
+    this.resources,
   });
 
-  factory ResourceDetails.fromJson(Map<String, dynamic> json) {
-    return ResourceDetails(
-      tagValue: json['tagValue'] as String?,
+  factory ApplicationTagResult.fromJson(Map<String, dynamic> json) {
+    return ApplicationTagResult(
+      applicationTagStatus: (json['applicationTagStatus'] as String?)
+          ?.let(ApplicationTagStatus.fromString),
+      errorMessage: json['errorMessage'] as String?,
+      nextToken: json['nextToken'] as String?,
+      resources: (json['resources'] as List?)
+          ?.nonNulls
+          .map((e) => ResourcesListItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final tagValue = this.tagValue;
+    final applicationTagStatus = this.applicationTagStatus;
+    final errorMessage = this.errorMessage;
+    final nextToken = this.nextToken;
+    final resources = this.resources;
     return {
-      if (tagValue != null) 'tagValue': tagValue,
+      if (applicationTagStatus != null)
+        'applicationTagStatus': applicationTagStatus.value,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (resources != null) 'resources': resources,
+    };
+  }
+}
+
+class ApplicationTagStatus {
+  static const inProgress = ApplicationTagStatus._('IN_PROGRESS');
+  static const success = ApplicationTagStatus._('SUCCESS');
+  static const failure = ApplicationTagStatus._('FAILURE');
+
+  final String value;
+
+  const ApplicationTagStatus._(this.value);
+
+  static const values = [inProgress, success, failure];
+
+  static ApplicationTagStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ApplicationTagStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ApplicationTagStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The resource in a list of resources.
+class ResourcesListItem {
+  /// The message returned if the call fails.
+  final String? errorMessage;
+
+  /// The Amazon resource name (ARN) of the resource.
+  final String? resourceArn;
+
+  /// Provides information about the AppRegistry resource type.
+  final String? resourceType;
+
+  /// The status of the list item.
+  final String? status;
+
+  ResourcesListItem({
+    this.errorMessage,
+    this.resourceArn,
+    this.resourceType,
+    this.status,
+  });
+
+  factory ResourcesListItem.fromJson(Map<String, dynamic> json) {
+    return ResourcesListItem(
+      errorMessage: json['errorMessage'] as String?,
+      resourceArn: json['resourceArn'] as String?,
+      resourceType: json['resourceType'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorMessage = this.errorMessage;
+    final resourceArn = this.resourceArn;
+    final resourceType = this.resourceType;
+    final status = this.status;
+    return {
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (resourceArn != null) 'resourceArn': resourceArn,
+      if (resourceType != null) 'resourceType': resourceType,
+      if (status != null) 'status': status,
+    };
+  }
+}
+
+/// The service integration information about the resource.
+class ResourceIntegrations {
+  /// The information about the integration of Resource Groups.
+  final ResourceGroup? resourceGroup;
+
+  ResourceIntegrations({
+    this.resourceGroup,
+  });
+
+  factory ResourceIntegrations.fromJson(Map<String, dynamic> json) {
+    return ResourceIntegrations(
+      resourceGroup: json['resourceGroup'] != null
+          ? ResourceGroup.fromJson(
+              json['resourceGroup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceGroup = this.resourceGroup;
+    return {
+      if (resourceGroup != null) 'resourceGroup': resourceGroup,
     };
   }
 }
@@ -2273,90 +2545,6 @@ class ResourceGroupState {
   String toString() => value;
 }
 
-/// The information about the resource.
-class ResourceInfo {
-  /// The Amazon resource name (ARN) that specifies the resource across services.
-  final String? arn;
-
-  /// The name of the resource.
-  final String? name;
-
-  /// Determines whether an application tag is applied or skipped.
-  final List<AssociationOption>? options;
-
-  /// The details related to the resource.
-  final ResourceDetails? resourceDetails;
-
-  /// Provides information about the Service Catalog App Registry resource type.
-  final ResourceType? resourceType;
-
-  ResourceInfo({
-    this.arn,
-    this.name,
-    this.options,
-    this.resourceDetails,
-    this.resourceType,
-  });
-
-  factory ResourceInfo.fromJson(Map<String, dynamic> json) {
-    return ResourceInfo(
-      arn: json['arn'] as String?,
-      name: json['name'] as String?,
-      options: (json['options'] as List?)
-          ?.nonNulls
-          .map((e) => AssociationOption.fromString((e as String)))
-          .toList(),
-      resourceDetails: json['resourceDetails'] != null
-          ? ResourceDetails.fromJson(
-              json['resourceDetails'] as Map<String, dynamic>)
-          : null,
-      resourceType:
-          (json['resourceType'] as String?)?.let(ResourceType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final name = this.name;
-    final options = this.options;
-    final resourceDetails = this.resourceDetails;
-    final resourceType = this.resourceType;
-    return {
-      if (arn != null) 'arn': arn,
-      if (name != null) 'name': name,
-      if (options != null) 'options': options.map((e) => e.value).toList(),
-      if (resourceDetails != null) 'resourceDetails': resourceDetails,
-      if (resourceType != null) 'resourceType': resourceType.value,
-    };
-  }
-}
-
-/// The service integration information about the resource.
-class ResourceIntegrations {
-  /// The information about the integration of Resource Groups.
-  final ResourceGroup? resourceGroup;
-
-  ResourceIntegrations({
-    this.resourceGroup,
-  });
-
-  factory ResourceIntegrations.fromJson(Map<String, dynamic> json) {
-    return ResourceIntegrations(
-      resourceGroup: json['resourceGroup'] != null
-          ? ResourceGroup.fromJson(
-              json['resourceGroup'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resourceGroup = this.resourceGroup;
-    return {
-      if (resourceGroup != null) 'resourceGroup': resourceGroup,
-    };
-  }
-}
-
 class ResourceItemStatus {
   static const success = ResourceItemStatus._('SUCCESS');
   static const failed = ResourceItemStatus._('FAILED');
@@ -2384,226 +2572,38 @@ class ResourceItemStatus {
   String toString() => value;
 }
 
-class ResourceType {
-  static const cfnStack = ResourceType._('CFN_STACK');
-  static const resourceTagValue = ResourceType._('RESOURCE_TAG_VALUE');
+/// The information about the service integration.
+class Integrations {
+  final ResourceGroup? applicationTagResourceGroup;
 
-  final String value;
+  /// The information about the resource group integration.
+  final ResourceGroup? resourceGroup;
 
-  const ResourceType._(this.value);
-
-  static const values = [cfnStack, resourceTagValue];
-
-  static ResourceType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ResourceType._(value));
-
-  @override
-  bool operator ==(other) => other is ResourceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The resource in a list of resources.
-class ResourcesListItem {
-  /// The message returned if the call fails.
-  final String? errorMessage;
-
-  /// The Amazon resource name (ARN) of the resource.
-  final String? resourceArn;
-
-  /// Provides information about the AppRegistry resource type.
-  final String? resourceType;
-
-  /// The status of the list item.
-  final String? status;
-
-  ResourcesListItem({
-    this.errorMessage,
-    this.resourceArn,
-    this.resourceType,
-    this.status,
+  Integrations({
+    this.applicationTagResourceGroup,
+    this.resourceGroup,
   });
 
-  factory ResourcesListItem.fromJson(Map<String, dynamic> json) {
-    return ResourcesListItem(
-      errorMessage: json['errorMessage'] as String?,
-      resourceArn: json['resourceArn'] as String?,
-      resourceType: json['resourceType'] as String?,
-      status: json['status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorMessage = this.errorMessage;
-    final resourceArn = this.resourceArn;
-    final resourceType = this.resourceType;
-    final status = this.status;
-    return {
-      if (errorMessage != null) 'errorMessage': errorMessage,
-      if (resourceArn != null) 'resourceArn': resourceArn,
-      if (resourceType != null) 'resourceType': resourceType,
-      if (status != null) 'status': status,
-    };
-  }
-}
-
-class SyncAction {
-  static const startSync = SyncAction._('START_SYNC');
-  static const noAction = SyncAction._('NO_ACTION');
-
-  final String value;
-
-  const SyncAction._(this.value);
-
-  static const values = [startSync, noAction];
-
-  static SyncAction fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SyncAction._(value));
-
-  @override
-  bool operator ==(other) => other is SyncAction && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class SyncResourceResponse {
-  /// The results of the output if an application is associated with an ARN value,
-  /// which could be <code>syncStarted</code> or None.
-  final SyncAction? actionTaken;
-
-  /// The Amazon resource name (ARN) that specifies the application.
-  final String? applicationArn;
-
-  /// The Amazon resource name (ARN) that specifies the resource.
-  final String? resourceArn;
-
-  SyncResourceResponse({
-    this.actionTaken,
-    this.applicationArn,
-    this.resourceArn,
-  });
-
-  factory SyncResourceResponse.fromJson(Map<String, dynamic> json) {
-    return SyncResourceResponse(
-      actionTaken: (json['actionTaken'] as String?)?.let(SyncAction.fromString),
-      applicationArn: json['applicationArn'] as String?,
-      resourceArn: json['resourceArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final actionTaken = this.actionTaken;
-    final applicationArn = this.applicationArn;
-    final resourceArn = this.resourceArn;
-    return {
-      if (actionTaken != null) 'actionTaken': actionTaken.value,
-      if (applicationArn != null) 'applicationArn': applicationArn,
-      if (resourceArn != null) 'resourceArn': resourceArn,
-    };
-  }
-}
-
-/// The definition of <code>tagQuery</code>. Specifies which resources are
-/// associated with an application.
-class TagQueryConfiguration {
-  /// Condition in the IAM policy that associates resources to an application.
-  final String? tagKey;
-
-  TagQueryConfiguration({
-    this.tagKey,
-  });
-
-  factory TagQueryConfiguration.fromJson(Map<String, dynamic> json) {
-    return TagQueryConfiguration(
-      tagKey: json['tagKey'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tagKey = this.tagKey;
-    return {
-      if (tagKey != null) 'tagKey': tagKey,
-    };
-  }
-}
-
-class TagResourceResponse {
-  TagResourceResponse();
-
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UntagResourceResponse {
-  UntagResourceResponse();
-
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateApplicationResponse {
-  /// The updated information of the application.
-  final Application? application;
-
-  UpdateApplicationResponse({
-    this.application,
-  });
-
-  factory UpdateApplicationResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateApplicationResponse(
-      application: json['application'] != null
-          ? Application.fromJson(json['application'] as Map<String, dynamic>)
+  factory Integrations.fromJson(Map<String, dynamic> json) {
+    return Integrations(
+      applicationTagResourceGroup: json['applicationTagResourceGroup'] != null
+          ? ResourceGroup.fromJson(
+              json['applicationTagResourceGroup'] as Map<String, dynamic>)
+          : null,
+      resourceGroup: json['resourceGroup'] != null
+          ? ResourceGroup.fromJson(
+              json['resourceGroup'] as Map<String, dynamic>)
           : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final application = this.application;
+    final applicationTagResourceGroup = this.applicationTagResourceGroup;
+    final resourceGroup = this.resourceGroup;
     return {
-      if (application != null) 'application': application,
-    };
-  }
-}
-
-class UpdateAttributeGroupResponse {
-  /// The updated information of the attribute group.
-  final AttributeGroup? attributeGroup;
-
-  UpdateAttributeGroupResponse({
-    this.attributeGroup,
-  });
-
-  factory UpdateAttributeGroupResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateAttributeGroupResponse(
-      attributeGroup: json['attributeGroup'] != null
-          ? AttributeGroup.fromJson(
-              json['attributeGroup'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attributeGroup = this.attributeGroup;
-    return {
-      if (attributeGroup != null) 'attributeGroup': attributeGroup,
+      if (applicationTagResourceGroup != null)
+        'applicationTagResourceGroup': applicationTagResourceGroup,
+      if (resourceGroup != null) 'resourceGroup': resourceGroup,
     };
   }
 }

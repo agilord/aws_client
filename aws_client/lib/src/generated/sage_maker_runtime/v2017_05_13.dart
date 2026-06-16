@@ -20,7 +20,7 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// The Amazon SageMaker runtime API.
+/// The Amazon SageMaker AI runtime API.
 class SageMakerRuntime {
   final _s.RestJsonProtocol _protocol;
   SageMakerRuntime({
@@ -50,17 +50,17 @@ class SageMakerRuntime {
     _protocol.close();
   }
 
-  /// After you deploy a model into production using Amazon SageMaker hosting
+  /// After you deploy a model into production using Amazon SageMaker AI hosting
   /// services, your client applications use this API to get inferences from the
   /// model hosted at the specified endpoint.
   ///
-  /// For an overview of Amazon SageMaker, see <a
+  /// For an overview of Amazon SageMaker AI, see <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/how-it-works.html">How
   /// It Works</a>.
   ///
-  /// Amazon SageMaker strips all POST headers except those supported by the
-  /// API. Amazon SageMaker might add additional headers. You should not rely on
-  /// the behavior of headers outside those enumerated in the request syntax.
+  /// Amazon SageMaker AI strips all POST headers except those supported by the
+  /// API. Amazon SageMaker AI might add additional headers. You should not rely
+  /// on the behavior of headers outside those enumerated in the request syntax.
   ///
   /// Calls to <code>InvokeEndpoint</code> are authenticated by using Amazon Web
   /// Services Signature Version 4. For information, see <a
@@ -74,20 +74,20 @@ class SageMakerRuntime {
   /// processing time, the SDK socket timeout should be set to be 70 seconds.
   /// <note>
   /// Endpoints are scoped to an individual account, and are not public. The URL
-  /// does not contain the account ID, but Amazon SageMaker determines the
+  /// does not contain the account ID, but Amazon SageMaker AI determines the
   /// account ID from the authentication token that is supplied by the caller.
   /// </note>
   ///
+  /// May throw [InternalDependencyException].
   /// May throw [InternalFailure].
+  /// May throw [ModelError].
+  /// May throw [ModelNotReadyException].
   /// May throw [ServiceUnavailable].
   /// May throw [ValidationError].
-  /// May throw [ModelError].
-  /// May throw [InternalDependencyException].
-  /// May throw [ModelNotReadyException].
   ///
   /// Parameter [body] :
   /// Provides input data, in the format specified in the
-  /// <code>ContentType</code> request header. Amazon SageMaker passes all of
+  /// <code>ContentType</code> request header. Amazon SageMaker AI passes all of
   /// the data in the body to the model.
   ///
   /// For information about the format of the request body, see <a
@@ -108,8 +108,8 @@ class SageMakerRuntime {
   ///
   /// Parameter [customAttributes] :
   /// Provides additional information about a request for an inference submitted
-  /// to a model hosted at an Amazon SageMaker endpoint. The information is an
-  /// opaque value that is forwarded verbatim. You could use this value, for
+  /// to a model hosted at an Amazon SageMaker AI endpoint. The information is
+  /// an opaque value that is forwarded verbatim. You could use this value, for
   /// example, to provide an ID that you can use to track a request or to
   /// provide other metadata that a service endpoint was programmed to process.
   /// The value must consist of no more than 1024 visible US-ASCII characters as
@@ -125,7 +125,7 @@ class SageMakerRuntime {
   /// <code>Trace ID:</code> in your post-processing function.
   ///
   /// This feature is currently supported in the Amazon Web Services SDKs but
-  /// not in the Amazon SageMaker Python SDK.
+  /// not in the Amazon SageMaker AI Python SDK.
   ///
   /// Parameter [enableExplanations] :
   /// An optional JMESPath expression used to override the
@@ -143,6 +143,28 @@ class SageMakerRuntime {
   /// data capture on the endpoint. For information about data capture, see <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/model-monitor-data-capture.html">Capture
   /// Data</a>.
+  ///
+  /// Parameter [sessionId] :
+  /// Creates a stateful session or identifies an existing one. You can do one
+  /// of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// Create a stateful session by specifying the value
+  /// <code>NEW_SESSION</code>.
+  /// </li>
+  /// <li>
+  /// Send your request to an existing stateful session by specifying the ID of
+  /// that session.
+  /// </li>
+  /// </ul>
+  /// With a stateful session, you can send multiple requests to a stateful
+  /// model. When you create a session with a stateful model, the model must
+  /// create the session ID and set the expiration time. The model must also
+  /// provide that information in the response to your request. You can get the
+  /// ID and timestamp from the <code>NewSessionId</code> response parameter.
+  /// For any subsequent request where you specify that session ID, SageMaker AI
+  /// routes the request to the same instance that supports the session.
   ///
   /// Parameter [targetContainerHostname] :
   /// If the endpoint hosts multiple containers and is configured to use direct
@@ -171,6 +193,7 @@ class SageMakerRuntime {
     String? enableExplanations,
     String? inferenceComponentName,
     String? inferenceId,
+    String? sessionId,
     String? targetContainerHostname,
     String? targetModel,
     String? targetVariant,
@@ -187,6 +210,8 @@ class SageMakerRuntime {
             inferenceComponentName.toString(),
       if (inferenceId != null)
         'X-Amzn-SageMaker-Inference-Id': inferenceId.toString(),
+      if (sessionId != null)
+        'X-Amzn-SageMaker-Session-Id': sessionId.toString(),
       if (targetContainerHostname != null)
         'X-Amzn-SageMaker-Target-Container-Hostname':
             targetContainerHostname.toString(),
@@ -204,16 +229,20 @@ class SageMakerRuntime {
     );
     return InvokeEndpointOutput(
       body: await response.stream.toBytes(),
+      closedSessionId: _s.extractHeaderStringValue(
+          response.headers, 'X-Amzn-SageMaker-Closed-Session-Id'),
       contentType:
           _s.extractHeaderStringValue(response.headers, 'Content-Type'),
       customAttributes: _s.extractHeaderStringValue(
           response.headers, 'X-Amzn-SageMaker-Custom-Attributes'),
       invokedProductionVariant: _s.extractHeaderStringValue(
           response.headers, 'x-Amzn-Invoked-Production-Variant'),
+      newSessionId: _s.extractHeaderStringValue(
+          response.headers, 'X-Amzn-SageMaker-New-Session-Id'),
     );
   }
 
-  /// After you deploy a model into production using Amazon SageMaker hosting
+  /// After you deploy a model into production using Amazon SageMaker AI hosting
   /// services, your client applications use this API to get inferences from the
   /// model hosted at the specified endpoint in an asynchronous manner.
   ///
@@ -223,9 +252,9 @@ class SageMakerRuntime {
   /// this API will not contain the result of the inference request but contain
   /// information about where you can locate it.
   ///
-  /// Amazon SageMaker strips all POST headers except those supported by the
-  /// API. Amazon SageMaker might add additional headers. You should not rely on
-  /// the behavior of headers outside those enumerated in the request syntax.
+  /// Amazon SageMaker AI strips all POST headers except those supported by the
+  /// API. Amazon SageMaker AI might add additional headers. You should not rely
+  /// on the behavior of headers outside those enumerated in the request syntax.
   ///
   /// Calls to <code>InvokeEndpointAsync</code> are authenticated by using
   /// Amazon Web Services Signature Version 4. For information, see <a
@@ -254,8 +283,8 @@ class SageMakerRuntime {
   ///
   /// Parameter [customAttributes] :
   /// Provides additional information about a request for an inference submitted
-  /// to a model hosted at an Amazon SageMaker endpoint. The information is an
-  /// opaque value that is forwarded verbatim. You could use this value, for
+  /// to a model hosted at an Amazon SageMaker AI endpoint. The information is
+  /// an opaque value that is forwarded verbatim. You could use this value, for
   /// example, to provide an ID that you can use to track a request or to
   /// provide other metadata that a service endpoint was programmed to process.
   /// The value must consist of no more than 1024 visible US-ASCII characters as
@@ -271,11 +300,16 @@ class SageMakerRuntime {
   /// <code>Trace ID:</code> in your post-processing function.
   ///
   /// This feature is currently supported in the Amazon Web Services SDKs but
-  /// not in the Amazon SageMaker Python SDK.
+  /// not in the Amazon SageMaker AI Python SDK.
+  ///
+  /// Parameter [filename] :
+  /// The filename for the inference response payload stored in Amazon S3. If
+  /// not specified, Amazon SageMaker AI generates a filename based on the
+  /// inference ID.
   ///
   /// Parameter [inferenceId] :
-  /// The identifier for the inference request. Amazon SageMaker will generate
-  /// an identifier for you if none is specified.
+  /// The identifier for the inference request. Amazon SageMaker AI will
+  /// generate an identifier for you if none is specified.
   ///
   /// Parameter [invocationTimeoutSeconds] :
   /// Maximum amount of time in seconds a request can be processed before it is
@@ -284,15 +318,21 @@ class SageMakerRuntime {
   /// Parameter [requestTTLSeconds] :
   /// Maximum age in seconds a request can be in the queue before it is marked
   /// as expired. The default is 6 hours, or 21,600 seconds.
+  ///
+  /// Parameter [s3OutputPathExtension] :
+  /// The path extension that is appended to the Amazon S3 output path where the
+  /// inference response payload is stored.
   Future<InvokeEndpointAsyncOutput> invokeEndpointAsync({
     required String endpointName,
     required String inputLocation,
     String? accept,
     String? contentType,
     String? customAttributes,
+    String? filename,
     String? inferenceId,
     int? invocationTimeoutSeconds,
     int? requestTTLSeconds,
+    String? s3OutputPathExtension,
   }) async {
     _s.validateNumRange(
       'invocationTimeoutSeconds',
@@ -313,6 +353,7 @@ class SageMakerRuntime {
         'X-Amzn-SageMaker-Content-Type': contentType.toString(),
       if (customAttributes != null)
         'X-Amzn-SageMaker-Custom-Attributes': customAttributes.toString(),
+      if (filename != null) 'X-Amzn-SageMaker-Filename': filename.toString(),
       if (inferenceId != null)
         'X-Amzn-SageMaker-Inference-Id': inferenceId.toString(),
       if (invocationTimeoutSeconds != null)
@@ -320,6 +361,9 @@ class SageMakerRuntime {
             invocationTimeoutSeconds.toString(),
       if (requestTTLSeconds != null)
         'X-Amzn-SageMaker-RequestTTLSeconds': requestTTLSeconds.toString(),
+      if (s3OutputPathExtension != null)
+        'X-Amzn-SageMaker-S3OutputPathExtension':
+            s3OutputPathExtension.toString(),
     };
     final response = await _protocol.sendRaw(
       payload: null,
@@ -343,11 +387,11 @@ class SageMakerRuntime {
   /// as a stream. The inference stream provides the response payload
   /// incrementally as a series of parts. Before you can get an inference
   /// stream, you must have access to a model that's deployed using Amazon
-  /// SageMaker hosting services, and the container for that model must support
-  /// inference streaming.
+  /// SageMaker AI hosting services, and the container for that model must
+  /// support inference streaming.
   ///
   /// For more information that can help you use this API, see the following
-  /// sections in the <i>Amazon SageMaker Developer Guide</i>:
+  /// sections in the <i>Amazon SageMaker AI Developer Guide</i>:
   ///
   /// <ul>
   /// <li>
@@ -363,14 +407,14 @@ class SageMakerRuntime {
   /// </ul>
   /// Before you can use this operation, your IAM permissions must allow the
   /// <code>sagemaker:InvokeEndpoint</code> action. For more information about
-  /// Amazon SageMaker actions for IAM policies, see <a
+  /// Amazon SageMaker AI actions for IAM policies, see <a
   /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonsagemaker.html">Actions,
-  /// resources, and condition keys for Amazon SageMaker</a> in the <i>IAM
+  /// resources, and condition keys for Amazon SageMaker AI</a> in the <i>IAM
   /// Service Authorization Reference</i>.
   ///
-  /// Amazon SageMaker strips all POST headers except those supported by the
-  /// API. Amazon SageMaker might add additional headers. You should not rely on
-  /// the behavior of headers outside those enumerated in the request syntax.
+  /// Amazon SageMaker AI strips all POST headers except those supported by the
+  /// API. Amazon SageMaker AI might add additional headers. You should not rely
+  /// on the behavior of headers outside those enumerated in the request syntax.
   ///
   /// Calls to <code>InvokeEndpointWithResponseStream</code> are authenticated
   /// by using Amazon Web Services Signature Version 4. For information, see <a
@@ -379,15 +423,15 @@ class SageMakerRuntime {
   /// API Reference</i>.
   ///
   /// May throw [InternalFailure].
-  /// May throw [ServiceUnavailable].
-  /// May throw [ValidationError].
+  /// May throw [InternalStreamFailure].
   /// May throw [ModelError].
   /// May throw [ModelStreamError].
-  /// May throw [InternalStreamFailure].
+  /// May throw [ServiceUnavailable].
+  /// May throw [ValidationError].
   ///
   /// Parameter [body] :
   /// Provides input data, in the format specified in the
-  /// <code>ContentType</code> request header. Amazon SageMaker passes all of
+  /// <code>ContentType</code> request header. Amazon SageMaker AI passes all of
   /// the data in the body to the model.
   ///
   /// For information about the format of the request body, see <a
@@ -408,8 +452,8 @@ class SageMakerRuntime {
   ///
   /// Parameter [customAttributes] :
   /// Provides additional information about a request for an inference submitted
-  /// to a model hosted at an Amazon SageMaker endpoint. The information is an
-  /// opaque value that is forwarded verbatim. You could use this value, for
+  /// to a model hosted at an Amazon SageMaker AI endpoint. The information is
+  /// an opaque value that is forwarded verbatim. You could use this value, for
   /// example, to provide an ID that you can use to track a request or to
   /// provide other metadata that a service endpoint was programmed to process.
   /// The value must consist of no more than 1024 visible US-ASCII characters as
@@ -425,7 +469,7 @@ class SageMakerRuntime {
   /// <code>Trace ID:</code> in your post-processing function.
   ///
   /// This feature is currently supported in the Amazon Web Services SDKs but
-  /// not in the Amazon SageMaker Python SDK.
+  /// not in the Amazon SageMaker AI Python SDK.
   ///
   /// Parameter [inferenceComponentName] :
   /// If the endpoint hosts one or more inference components, this parameter
@@ -434,6 +478,17 @@ class SageMakerRuntime {
   ///
   /// Parameter [inferenceId] :
   /// An identifier that you assign to your request.
+  ///
+  /// Parameter [sessionId] :
+  /// The ID of a stateful session to handle your request.
+  ///
+  /// You can't create a stateful session by using the
+  /// <code>InvokeEndpointWithResponseStream</code> action. Instead, you can
+  /// create one by using the <code> <a>InvokeEndpoint</a> </code> action. In
+  /// your request, you specify <code>NEW_SESSION</code> for the
+  /// <code>SessionId</code> request parameter. The response to that request
+  /// provides the session ID for the <code>NewSessionId</code> response
+  /// parameter.
   ///
   /// Parameter [targetContainerHostname] :
   /// If the endpoint hosts multiple containers and is configured to use direct
@@ -459,6 +514,7 @@ class SageMakerRuntime {
     String? customAttributes,
     String? inferenceComponentName,
     String? inferenceId,
+    String? sessionId,
     String? targetContainerHostname,
     String? targetVariant,
   }) async {
@@ -472,6 +528,8 @@ class SageMakerRuntime {
             inferenceComponentName.toString(),
       if (inferenceId != null)
         'X-Amzn-SageMaker-Inference-Id': inferenceId.toString(),
+      if (sessionId != null)
+        'X-Amzn-SageMaker-Session-Id': sessionId.toString(),
       if (targetContainerHostname != null)
         'X-Amzn-SageMaker-Target-Container-Hostname':
             targetContainerHostname.toString(),
@@ -499,25 +557,72 @@ class SageMakerRuntime {
   }
 }
 
-/// The stream processing failed because of an unknown error, exception or
-/// failure. Try your request again.
-class InternalStreamFailure implements _s.AwsException {
-  final String? message;
+class InvokeEndpointOutput {
+  /// Includes the inference provided by the model.
+  ///
+  /// For information about the format of the response body, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/cdf-inference.html">Common
+  /// Data Formats-Inference</a>.
+  ///
+  /// If the explainer is activated, the body includes the explanations provided
+  /// by the model. For more information, see the <b>Response section</b> under <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/clarify-online-explainability-invoke-endpoint.html#clarify-online-explainability-response">Invoke
+  /// the Endpoint</a> in the Developer Guide.
+  final Uint8List body;
 
-  InternalStreamFailure({
-    this.message,
+  /// If you closed a stateful session with your request, the ID of that session.
+  final String? closedSessionId;
+
+  /// The MIME type of the inference returned from the model container.
+  final String? contentType;
+
+  /// Provides additional information in the response about the inference returned
+  /// by a model hosted at an Amazon SageMaker AI endpoint. The information is an
+  /// opaque value that is forwarded verbatim. You could use this value, for
+  /// example, to return an ID received in the <code>CustomAttributes</code>
+  /// header of a request or other metadata that a service endpoint was programmed
+  /// to produce. The value must consist of no more than 1024 visible US-ASCII
+  /// characters as specified in <a
+  /// href="https://tools.ietf.org/html/rfc7230#section-3.2.6">Section 3.3.6.
+  /// Field Value Components</a> of the Hypertext Transfer Protocol (HTTP/1.1). If
+  /// the customer wants the custom attribute returned, the model must set the
+  /// custom attribute to be included on the way back.
+  ///
+  /// The code in your model is responsible for setting or updating any custom
+  /// attributes in the response. If your code does not set this value in the
+  /// response, an empty value is returned. For example, if a custom attribute
+  /// represents the trace ID, your model can prepend the custom attribute with
+  /// <code>Trace ID:</code> in your post-processing function.
+  ///
+  /// This feature is currently supported in the Amazon Web Services SDKs but not
+  /// in the Amazon SageMaker AI Python SDK.
+  final String? customAttributes;
+
+  /// Identifies the production variant that was invoked.
+  final String? invokedProductionVariant;
+
+  /// If you created a stateful session with your request, the ID and expiration
+  /// time that the model assigns to that session.
+  final String? newSessionId;
+
+  InvokeEndpointOutput({
+    required this.body,
+    this.closedSessionId,
+    this.contentType,
+    this.customAttributes,
+    this.invokedProductionVariant,
+    this.newSessionId,
   });
 
-  factory InternalStreamFailure.fromJson(Map<String, dynamic> json) {
-    return InternalStreamFailure(
-      message: json['Message'] as String?,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final message = this.message;
+    final body = this.body;
+    final closedSessionId = this.closedSessionId;
+    final contentType = this.contentType;
+    final customAttributes = this.customAttributes;
+    final invokedProductionVariant = this.invokedProductionVariant;
+    final newSessionId = this.newSessionId;
     return {
-      if (message != null) 'Message': message,
+      'Body': base64Encode(body),
     };
   }
 }
@@ -527,7 +632,7 @@ class InvokeEndpointAsyncOutput {
   final String? failureLocation;
 
   /// Identifier for an inference request. This will be the same as the
-  /// <code>InferenceId</code> specified in the input. Amazon SageMaker will
+  /// <code>InferenceId</code> specified in the input. Amazon SageMaker AI will
   /// generate an identifier for you if you do not specify one.
   final String? inferenceId;
 
@@ -550,65 +655,6 @@ class InvokeEndpointAsyncOutput {
   }
 }
 
-class InvokeEndpointOutput {
-  /// Includes the inference provided by the model.
-  ///
-  /// For information about the format of the response body, see <a
-  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/cdf-inference.html">Common
-  /// Data Formats-Inference</a>.
-  ///
-  /// If the explainer is activated, the body includes the explanations provided
-  /// by the model. For more information, see the <b>Response section</b> under <a
-  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/clarify-online-explainability-invoke-endpoint.html#clarify-online-explainability-response">Invoke
-  /// the Endpoint</a> in the Developer Guide.
-  final Uint8List body;
-
-  /// The MIME type of the inference returned from the model container.
-  final String? contentType;
-
-  /// Provides additional information in the response about the inference returned
-  /// by a model hosted at an Amazon SageMaker endpoint. The information is an
-  /// opaque value that is forwarded verbatim. You could use this value, for
-  /// example, to return an ID received in the <code>CustomAttributes</code>
-  /// header of a request or other metadata that a service endpoint was programmed
-  /// to produce. The value must consist of no more than 1024 visible US-ASCII
-  /// characters as specified in <a
-  /// href="https://tools.ietf.org/html/rfc7230#section-3.2.6">Section 3.3.6.
-  /// Field Value Components</a> of the Hypertext Transfer Protocol (HTTP/1.1). If
-  /// the customer wants the custom attribute returned, the model must set the
-  /// custom attribute to be included on the way back.
-  ///
-  /// The code in your model is responsible for setting or updating any custom
-  /// attributes in the response. If your code does not set this value in the
-  /// response, an empty value is returned. For example, if a custom attribute
-  /// represents the trace ID, your model can prepend the custom attribute with
-  /// <code>Trace ID:</code> in your post-processing function.
-  ///
-  /// This feature is currently supported in the Amazon Web Services SDKs but not
-  /// in the Amazon SageMaker Python SDK.
-  final String? customAttributes;
-
-  /// Identifies the production variant that was invoked.
-  final String? invokedProductionVariant;
-
-  InvokeEndpointOutput({
-    required this.body,
-    this.contentType,
-    this.customAttributes,
-    this.invokedProductionVariant,
-  });
-
-  Map<String, dynamic> toJson() {
-    final body = this.body;
-    final contentType = this.contentType;
-    final customAttributes = this.customAttributes;
-    final invokedProductionVariant = this.invokedProductionVariant;
-    return {
-      'Body': base64Encode(body),
-    };
-  }
-}
-
 class InvokeEndpointWithResponseStreamOutput {
   final ResponseStream body;
 
@@ -616,7 +662,7 @@ class InvokeEndpointWithResponseStreamOutput {
   final String? contentType;
 
   /// Provides additional information in the response about the inference returned
-  /// by a model hosted at an Amazon SageMaker endpoint. The information is an
+  /// by a model hosted at an Amazon SageMaker AI endpoint. The information is an
   /// opaque value that is forwarded verbatim. You could use this value, for
   /// example, to return an ID received in the <code>CustomAttributes</code>
   /// header of a request or other metadata that a service endpoint was programmed
@@ -634,7 +680,7 @@ class InvokeEndpointWithResponseStreamOutput {
   /// <code>Trace ID:</code> in your post-processing function.
   ///
   /// This feature is currently supported in the Amazon Web Services SDKs but not
-  /// in the Amazon SageMaker Python SDK.
+  /// in the Amazon SageMaker AI Python SDK.
   final String? customAttributes;
 
   /// Identifies the production variant that was invoked.
@@ -658,11 +704,34 @@ class InvokeEndpointWithResponseStreamOutput {
   }
 }
 
+/// The stream processing failed because of an unknown error, exception or
+/// failure. Try your request again.
+class InternalStreamFailure implements _s.AwsException {
+  final String? message;
+
+  InternalStreamFailure({
+    this.message,
+  });
+
+  factory InternalStreamFailure.fromJson(Map<String, dynamic> json) {
+    return InternalStreamFailure(
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    return {
+      if (message != null) 'Message': message,
+    };
+  }
+}
+
 /// An error occurred while streaming the response body. This error can have the
 /// following error codes:
 /// <dl> <dt>ModelInvocationTimeExceeded</dt> <dd>
 /// The model failed to finish sending the response within the timeout period
-/// allowed by Amazon SageMaker.
+/// allowed by Amazon SageMaker AI.
 /// </dd> <dt>StreamBroken</dt> <dd>
 /// The Transmission Control Protocol (TCP) connection between the client and
 /// the model was reset or closed.
@@ -671,7 +740,7 @@ class ModelStreamError implements _s.AwsException {
   /// This error can have the following error codes:
   /// <dl> <dt>ModelInvocationTimeExceeded</dt> <dd>
   /// The model failed to finish sending the response within the timeout period
-  /// allowed by Amazon SageMaker.
+  /// allowed by Amazon SageMaker AI.
   /// </dd> <dt>StreamBroken</dt> <dd>
   /// The Transmission Control Protocol (TCP) connection between the client and
   /// the model was reset or closed.
@@ -701,32 +770,6 @@ class ModelStreamError implements _s.AwsException {
   }
 }
 
-/// A wrapper for pieces of the payload that's returned in response to a
-/// streaming inference request. A streaming inference response consists of one
-/// or more payload parts.
-class PayloadPart {
-  /// A blob that contains part of the response for your streaming inference
-  /// request.
-  final Uint8List? bytes;
-
-  PayloadPart({
-    this.bytes,
-  });
-
-  factory PayloadPart.fromJson(Map<String, dynamic> json) {
-    return PayloadPart(
-      bytes: _s.decodeNullableUint8List(json['Bytes'] as String?),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bytes = this.bytes;
-    return {
-      if (bytes != null) 'Bytes': base64Encode(bytes),
-    };
-  }
-}
-
 /// A stream of payload parts. Each part contains a portion of the response for
 /// a streaming inference request.
 class ResponseStream {
@@ -738,7 +781,7 @@ class ResponseStream {
   /// following error codes:
   /// <dl> <dt>ModelInvocationTimeExceeded</dt> <dd>
   /// The model failed to finish sending the response within the timeout period
-  /// allowed by Amazon SageMaker.
+  /// allowed by Amazon SageMaker AI.
   /// </dd> <dt>StreamBroken</dt> <dd>
   /// The Transmission Control Protocol (TCP) connection between the client and
   /// the model was reset or closed.
@@ -781,6 +824,32 @@ class ResponseStream {
         'InternalStreamFailure': internalStreamFailure,
       if (modelStreamError != null) 'ModelStreamError': modelStreamError,
       if (payloadPart != null) 'PayloadPart': payloadPart,
+    };
+  }
+}
+
+/// A wrapper for pieces of the payload that's returned in response to a
+/// streaming inference request. A streaming inference response consists of one
+/// or more payload parts.
+class PayloadPart {
+  /// A blob that contains part of the response for your streaming inference
+  /// request.
+  final Uint8List? bytes;
+
+  PayloadPart({
+    this.bytes,
+  });
+
+  factory PayloadPart.fromJson(Map<String, dynamic> json) {
+    return PayloadPart(
+      bytes: _s.decodeNullableUint8List(json['Bytes'] as String?),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bytes = this.bytes;
+    return {
+      if (bytes != null) 'Bytes': base64Encode(bytes),
     };
   }
 }

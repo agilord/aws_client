@@ -57,8 +57,8 @@ class ServiceCatalog {
   /// Accepts an offer to share the specified portfolio.
   ///
   /// May throw [InvalidParametersException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [portfolioId] :
   /// The portfolio identifier.
@@ -121,8 +121,8 @@ class ServiceCatalog {
 
   /// Associates the specified budget with the specified resource.
   ///
-  /// May throw [InvalidParametersException].
   /// May throw [DuplicateResourceException].
+  /// May throw [InvalidParametersException].
   /// May throw [LimitExceededException].
   /// May throw [ResourceNotFoundException].
   ///
@@ -178,8 +178,8 @@ class ServiceCatalog {
   /// </note>
   ///
   /// May throw [InvalidParametersException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [portfolioId] :
   /// The portfolio identifier.
@@ -300,8 +300,8 @@ class ServiceCatalog {
   /// A delegated admin is authorized to invoke this command.
   ///
   /// May throw [InvalidParametersException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [portfolioId] :
   /// The portfolio identifier.
@@ -351,10 +351,10 @@ class ServiceCatalog {
 
   /// Associates a self-service action with a provisioning artifact.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [DuplicateResourceException].
-  /// May throw [LimitExceededException].
   /// May throw [InvalidParametersException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [productId] :
   /// The product identifier. For example, <code>prod-abcdzk7xy33qa</code>.
@@ -414,12 +414,12 @@ class ServiceCatalog {
 
   /// Associate the specified TagOption with the specified portfolio or product.
   ///
-  /// May throw [TagOptionNotMigratedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidParametersException].
-  /// May throw [LimitExceededException].
   /// May throw [DuplicateResourceException].
+  /// May throw [InvalidParametersException].
   /// May throw [InvalidStateException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TagOptionNotMigratedException].
   ///
   /// Parameter [resourceId] :
   /// The resource identifier.
@@ -550,8 +550,8 @@ class ServiceCatalog {
   /// This operation is performed asynchronously. To track the progress of the
   /// operation, use <a>DescribeCopyProductStatus</a>.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [sourceProductArn] :
   /// The Amazon Resource Name (ARN) of the source product.
@@ -631,10 +631,10 @@ class ServiceCatalog {
   ///
   /// A delegated admin is authorized to invoke this command.
   ///
-  /// May throw [ResourceNotFoundException].
+  /// May throw [DuplicateResourceException].
   /// May throw [InvalidParametersException].
   /// May throw [LimitExceededException].
-  /// May throw [DuplicateResourceException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [parameters] :
   /// The constraint parameters, in JSON format. The syntax depends on the
@@ -879,11 +879,11 @@ class ServiceCatalog {
   /// before it can be associated.
   /// </note>
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [LimitExceededException].
   /// May throw [InvalidParametersException].
-  /// May throw [OperationNotSupportedException].
   /// May throw [InvalidStateException].
+  /// May throw [LimitExceededException].
+  /// May throw [OperationNotSupportedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [portfolioId] :
   /// The portfolio identifier.
@@ -1103,8 +1103,8 @@ class ServiceCatalog {
   /// product, use <a>ExecuteProvisionedProductPlan</a>.
   ///
   /// May throw [InvalidParametersException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidStateException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [planName] :
   /// The name of the plan.
@@ -1213,9 +1213,9 @@ class ServiceCatalog {
   /// permission is required when using the <code>ImportFromPhysicalId</code>
   /// template source in the information data section.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [parameters] :
   /// The configuration for the provisioning artifact.
@@ -1355,9 +1355,9 @@ class ServiceCatalog {
 
   /// Creates a TagOption.
   ///
-  /// May throw [TagOptionNotMigratedException].
   /// May throw [DuplicateResourceException].
   /// May throw [LimitExceededException].
+  /// May throw [TagOptionNotMigratedException].
   ///
   /// Parameter [key] :
   /// The TagOption key.
@@ -1391,8 +1391,8 @@ class ServiceCatalog {
   ///
   /// A delegated admin is authorized to invoke this command.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [id] :
   /// The identifier of the constraint.
@@ -1436,9 +1436,9 @@ class ServiceCatalog {
   ///
   /// A delegated admin is authorized to invoke this command.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TagOptionNotMigratedException].
   ///
   /// Parameter [id] :
@@ -1483,10 +1483,10 @@ class ServiceCatalog {
   /// Note that if a delegated admin is de-registered, portfolio shares created
   /// from that account are removed.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
-  /// May throw [OperationNotSupportedException].
   /// May throw [InvalidStateException].
+  /// May throw [OperationNotSupportedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [portfolioId] :
   /// The portfolio identifier.
@@ -1542,9 +1542,9 @@ class ServiceCatalog {
   ///
   /// A delegated admin is authorized to invoke this command.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
   /// May throw [InvalidParametersException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TagOptionNotMigratedException].
   ///
   /// Parameter [id] :
@@ -1635,9 +1635,9 @@ class ServiceCatalog {
   /// was shared with you. You cannot delete the last provisioning artifact for
   /// a product, because a product must have at least one provisioning artifact.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
   /// May throw [InvalidParametersException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [productId] :
   /// The product identifier.
@@ -1681,8 +1681,9 @@ class ServiceCatalog {
 
   /// Deletes a self-service action.
   ///
-  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParametersException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [id] :
   /// The self-service action identifier. For example,
@@ -1733,9 +1734,9 @@ class ServiceCatalog {
   /// You cannot delete a TagOption if it is associated with a product or
   /// portfolio.
   ///
-  /// May throw [TagOptionNotMigratedException].
   /// May throw [ResourceInUseException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [TagOptionNotMigratedException].
   ///
   /// Parameter [id] :
   /// The TagOption identifier.
@@ -1884,38 +1885,6 @@ class ServiceCatalog {
     return DescribePortfolioOutput.fromJson(jsonResponse.body);
   }
 
-  /// Gets the status of the specified portfolio share operation. This API can
-  /// only be called by the management account in the organization or by a
-  /// delegated admin.
-  ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidParametersException].
-  /// May throw [OperationNotSupportedException].
-  ///
-  /// Parameter [portfolioShareToken] :
-  /// The token for the portfolio share operation. This token is returned either
-  /// by CreatePortfolioShare or by DeletePortfolioShare.
-  Future<DescribePortfolioShareStatusOutput> describePortfolioShareStatus({
-    required String portfolioShareToken,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AWS242ServiceCatalogService.DescribePortfolioShareStatus'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'PortfolioShareToken': portfolioShareToken,
-      },
-    );
-
-    return DescribePortfolioShareStatusOutput.fromJson(jsonResponse.body);
-  }
-
   /// Returns a summary of each of the portfolio shares that were created for
   /// the specified portfolio.
   ///
@@ -1926,8 +1895,8 @@ class ServiceCatalog {
   /// The <code>PortfolioId</code> and <code>Type</code> parameters are both
   /// required.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [portfolioId] :
   /// The unique identifier of the portfolio for which shares will be retrieved.
@@ -1986,14 +1955,46 @@ class ServiceCatalog {
     return DescribePortfolioSharesOutput.fromJson(jsonResponse.body);
   }
 
+  /// Gets the status of the specified portfolio share operation. This API can
+  /// only be called by the management account in the organization or by a
+  /// delegated admin.
+  ///
+  /// May throw [InvalidParametersException].
+  /// May throw [OperationNotSupportedException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [portfolioShareToken] :
+  /// The token for the portfolio share operation. This token is returned either
+  /// by CreatePortfolioShare or by DeletePortfolioShare.
+  Future<DescribePortfolioShareStatusOutput> describePortfolioShareStatus({
+    required String portfolioShareToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWS242ServiceCatalogService.DescribePortfolioShareStatus'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'PortfolioShareToken': portfolioShareToken,
+      },
+    );
+
+    return DescribePortfolioShareStatusOutput.fromJson(jsonResponse.body);
+  }
+
   /// Gets information about the specified product.
   /// <note>
   /// Running this operation with administrator access results in a failure.
   /// <a>DescribeProductAsAdmin</a> should be used instead.
   /// </note>
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [acceptLanguage] :
   /// The language code.
@@ -2040,8 +2041,8 @@ class ServiceCatalog {
   /// Gets information about the specified product. This operation is run with
   /// administrator access.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [acceptLanguage] :
   /// The language code.
@@ -2099,8 +2100,8 @@ class ServiceCatalog {
 
   /// Gets information about the specified product.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [id] :
   /// The product view identifier.
@@ -2141,8 +2142,8 @@ class ServiceCatalog {
 
   /// Gets information about the specified provisioned product.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [acceptLanguage] :
   /// The language code.
@@ -2196,8 +2197,8 @@ class ServiceCatalog {
 
   /// Gets information about the resource changes for the specified plan.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [planId] :
   /// The plan identifier.
@@ -2257,8 +2258,8 @@ class ServiceCatalog {
   /// Gets information about the specified provisioning artifact (also known as
   /// a version) for the specified product.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [acceptLanguage] :
   /// The language code.
@@ -2577,8 +2578,8 @@ class ServiceCatalog {
 
   /// Gets information about the specified TagOption.
   ///
-  /// May throw [TagOptionNotMigratedException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [TagOptionNotMigratedException].
   ///
   /// Parameter [id] :
   /// The TagOption identifier.
@@ -2624,9 +2625,9 @@ class ServiceCatalog {
   /// to the previously shared portfolio.
   /// </important>
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidStateException].
   /// May throw [OperationNotSupportedException].
+  /// May throw [ResourceNotFoundException].
   Future<void> disableAWSOrganizationsAccess() async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2759,9 +2760,9 @@ class ServiceCatalog {
   ///
   /// A delegated admin is authorized to invoke this command.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
   /// May throw [InvalidParametersException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [portfolioId] :
   /// The portfolio identifier.
@@ -2807,6 +2808,7 @@ class ServiceCatalog {
   /// Disassociates the specified self-service action association from the
   /// specified provisioning artifact.
   ///
+  /// May throw [InvalidParametersException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [productId] :
@@ -2867,8 +2869,8 @@ class ServiceCatalog {
 
   /// Disassociates the specified TagOption from the specified resource.
   ///
-  /// May throw [TagOptionNotMigratedException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [TagOptionNotMigratedException].
   ///
   /// Parameter [resourceId] :
   /// The resource identifier.
@@ -2920,9 +2922,9 @@ class ServiceCatalog {
   /// Amazon Web Services is working to resolve this issue.
   /// </important>
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidStateException].
   /// May throw [OperationNotSupportedException].
+  /// May throw [ResourceNotFoundException].
   Future<void> enableAWSOrganizationsAccess() async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2941,8 +2943,8 @@ class ServiceCatalog {
   /// specified plan.
   ///
   /// May throw [InvalidParametersException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidStateException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [planId] :
   /// The plan identifier.
@@ -2992,8 +2994,8 @@ class ServiceCatalog {
   /// Executes a self-service action against a provisioned product.
   ///
   /// May throw [InvalidParametersException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidStateException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [provisionedProductId] :
   /// The identifier of the provisioned product.
@@ -3060,8 +3062,8 @@ class ServiceCatalog {
   /// can only be called by the management account in the organization or by a
   /// delegated admin.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [OperationNotSupportedException].
+  /// May throw [ResourceNotFoundException].
   Future<GetAWSOrganizationsAccessStatusOutput>
       getAWSOrganizationsAccessStatus() async {
     final headers = <String, String>{
@@ -3184,9 +3186,9 @@ class ServiceCatalog {
   /// before you import another.
   ///
   /// May throw [DuplicateResourceException].
+  /// May throw [InvalidParametersException].
   /// May throw [InvalidStateException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidParametersException].
   ///
   /// Parameter [physicalId] :
   /// The unique identifier of the resource to be imported. It only currently
@@ -3331,8 +3333,8 @@ class ServiceCatalog {
 
   /// Lists all the budgets associated to the specified resource.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceId] :
   /// The resource identifier.
@@ -3390,8 +3392,8 @@ class ServiceCatalog {
 
   /// Lists the constraints for the specified portfolio and product.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [portfolioId] :
   /// The portfolio identifier.
@@ -3528,9 +3530,9 @@ class ServiceCatalog {
   /// If a delegated admin is de-registered, they can no longer perform this
   /// operation.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
   /// May throw [OperationNotSupportedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [organizationNodeType] :
   /// The organization node type that will be returned in the output.
@@ -3613,8 +3615,8 @@ class ServiceCatalog {
   /// portfolio. Note that if a delegated admin is de-registered, they can no
   /// longer perform this operation.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [portfolioId] :
   /// The portfolio identifier.
@@ -3792,8 +3794,8 @@ class ServiceCatalog {
   /// Lists all <code>PrincipalARN</code>s and corresponding
   /// <code>PrincipalType</code>s associated with the specified portfolio.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [portfolioId] :
   /// The portfolio identifier.
@@ -3852,8 +3854,8 @@ class ServiceCatalog {
   /// Lists the plans for the specified provisioned product or all plans to
   /// which the user has access.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [acceptLanguage] :
   /// The language code.
@@ -3919,8 +3921,8 @@ class ServiceCatalog {
   /// Lists all provisioning artifacts (also known as versions) for the
   /// specified product.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [productId] :
   /// The product identifier.
@@ -3962,8 +3964,8 @@ class ServiceCatalog {
   /// Lists all provisioning artifacts (also known as versions) for the
   /// specified self-service action.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [serviceActionId] :
   /// The self-service action identifier. For example,
@@ -4089,9 +4091,9 @@ class ServiceCatalog {
 
   /// Lists the resources associated with the specified TagOption.
   ///
-  /// May throw [TagOptionNotMigratedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TagOptionNotMigratedException].
   ///
   /// Parameter [tagOptionId] :
   /// The TagOption identifier.
@@ -4203,8 +4205,8 @@ class ServiceCatalog {
   /// Returns a paginated list of self-service actions associated with the
   /// specified Product ID and Provisioning Artifact ID.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [productId] :
   /// The product identifier. For example, <code>prod-abcdzk7xy33qa</code>.
@@ -4336,8 +4338,8 @@ class ServiceCatalog {
 
   /// Lists the specified TagOptions or all TagOptions.
   ///
-  /// May throw [TagOptionNotMigratedException].
   /// May throw [InvalidParametersException].
+  /// May throw [TagOptionNotMigratedException].
   ///
   /// Parameter [filters] :
   /// The search filters. If no search filters are specified, the output
@@ -4562,9 +4564,9 @@ class ServiceCatalog {
   /// users access</a> in the <i>Service Catalog User Guide</i>.
   /// </note>
   ///
+  /// May throw [DuplicateResourceException].
   /// May throw [InvalidParametersException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [DuplicateResourceException].
   ///
   /// Parameter [provisionedProductName] :
   /// A user-friendly name for the provisioned product. This value must be
@@ -4869,8 +4871,8 @@ class ServiceCatalog {
   /// Gets information about the products for the specified portfolio or all
   /// products.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [acceptLanguage] :
   /// The language code.
@@ -4967,7 +4969,7 @@ class ServiceCatalog {
   ///
   /// Parameter [accessLevelFilter] :
   /// The access level to use to obtain results. The default is
-  /// <code>User</code>.
+  /// <code>Account</code>.
   ///
   /// Parameter [filters] :
   /// The search filters.
@@ -5119,8 +5121,8 @@ class ServiceCatalog {
 
   /// Updates the specified constraint.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [id] :
   /// The identifier of the constraint.
@@ -5234,8 +5236,8 @@ class ServiceCatalog {
   /// You cannot update a product that was shared with you.
   ///
   /// May throw [InvalidParametersException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TagOptionNotMigratedException].
   ///
   /// Parameter [id] :
@@ -5333,10 +5335,10 @@ class ServiceCatalog {
   /// before it can be associated.
   /// </note>
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
-  /// May throw [OperationNotSupportedException].
   /// May throw [InvalidStateException].
+  /// May throw [OperationNotSupportedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [portfolioId] :
   /// The unique identifier of the portfolio for which the share will be
@@ -5401,8 +5403,8 @@ class ServiceCatalog {
 
   /// Updates the specified product.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TagOptionNotMigratedException].
   ///
   /// Parameter [id] :
@@ -5631,8 +5633,8 @@ class ServiceCatalog {
   /// Requests updates to the properties of the specified provisioned product.
   ///
   /// May throw [InvalidParametersException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidStateException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [provisionedProductId] :
   /// The identifier of the provisioned product.
@@ -5720,8 +5722,8 @@ class ServiceCatalog {
   /// You cannot update a provisioning artifact for a product that was shared
   /// with you.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [productId] :
   /// The product identifier.
@@ -5800,8 +5802,8 @@ class ServiceCatalog {
 
   /// Updates a self-service action.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [id] :
   /// The self-service action identifier.
@@ -5858,10 +5860,10 @@ class ServiceCatalog {
 
   /// Updates the specified TagOption.
   ///
-  /// May throw [TagOptionNotMigratedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [DuplicateResourceException].
   /// May throw [InvalidParametersException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TagOptionNotMigratedException].
   ///
   /// Parameter [id] :
   /// The TagOption identifier.
@@ -5907,93 +5909,6 @@ class AcceptPortfolioShareOutput {
   Map<String, dynamic> toJson() {
     return {};
   }
-}
-
-/// The access level to use to filter results.
-class AccessLevelFilter {
-  /// The access level.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>Account</code> - Filter results based on the account.
-  /// </li>
-  /// <li>
-  /// <code>Role</code> - Filter results based on the federated role of the
-  /// specified user.
-  /// </li>
-  /// <li>
-  /// <code>User</code> - Filter results based on the specified user.
-  /// </li>
-  /// </ul>
-  final AccessLevelFilterKey? key;
-
-  /// The user to which the access level applies. The only supported value is
-  /// <code>self</code>.
-  final String? value;
-
-  AccessLevelFilter({
-    this.key,
-    this.value,
-  });
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      if (key != null) 'Key': key.value,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-class AccessLevelFilterKey {
-  static const account = AccessLevelFilterKey._('Account');
-  static const role = AccessLevelFilterKey._('Role');
-  static const user = AccessLevelFilterKey._('User');
-
-  final String value;
-
-  const AccessLevelFilterKey._(this.value);
-
-  static const values = [account, role, user];
-
-  static AccessLevelFilterKey fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AccessLevelFilterKey._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AccessLevelFilterKey && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class AccessStatus {
-  static const enabled = AccessStatus._('ENABLED');
-  static const underChange = AccessStatus._('UNDER_CHANGE');
-  static const disabled = AccessStatus._('DISABLED');
-
-  final String value;
-
-  const AccessStatus._(this.value);
-
-  static const values = [enabled, underChange, disabled];
-
-  static AccessStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => AccessStatus._(value));
-
-  @override
-  bool operator ==(other) => other is AccessStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class AssociateBudgetWithResourceOutput {
@@ -6121,268 +6036,6 @@ class BatchDisassociateServiceActionFromProvisioningArtifactOutput {
   }
 }
 
-/// Information about a budget.
-class BudgetDetail {
-  /// Name of the associated budget.
-  final String? budgetName;
-
-  BudgetDetail({
-    this.budgetName,
-  });
-
-  factory BudgetDetail.fromJson(Map<String, dynamic> json) {
-    return BudgetDetail(
-      budgetName: json['BudgetName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final budgetName = this.budgetName;
-    return {
-      if (budgetName != null) 'BudgetName': budgetName,
-    };
-  }
-}
-
-class ChangeAction {
-  static const add = ChangeAction._('ADD');
-  static const modify = ChangeAction._('MODIFY');
-  static const remove = ChangeAction._('REMOVE');
-
-  final String value;
-
-  const ChangeAction._(this.value);
-
-  static const values = [add, modify, remove];
-
-  static ChangeAction fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ChangeAction._(value));
-
-  @override
-  bool operator ==(other) => other is ChangeAction && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about a CloudWatch dashboard.
-class CloudWatchDashboard {
-  /// The name of the CloudWatch dashboard.
-  final String? name;
-
-  CloudWatchDashboard({
-    this.name,
-  });
-
-  factory CloudWatchDashboard.fromJson(Map<String, dynamic> json) {
-    return CloudWatchDashboard(
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    return {
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
-/// The subtype containing details about the Codestar connection
-/// <code>Type</code>.
-class CodeStarParameters {
-  /// The absolute path wehre the artifact resides within the repo and branch,
-  /// formatted as "folder/file.json."
-  final String artifactPath;
-
-  /// The specific branch where the artifact resides.
-  final String branch;
-
-  /// The CodeStar ARN, which is the connection between Service Catalog and the
-  /// external repository.
-  final String connectionArn;
-
-  /// The specific repository where the product’s artifact-to-be-synced resides,
-  /// formatted as "Account/Repo."
-  final String repository;
-
-  CodeStarParameters({
-    required this.artifactPath,
-    required this.branch,
-    required this.connectionArn,
-    required this.repository,
-  });
-
-  factory CodeStarParameters.fromJson(Map<String, dynamic> json) {
-    return CodeStarParameters(
-      artifactPath: (json['ArtifactPath'] as String?) ?? '',
-      branch: (json['Branch'] as String?) ?? '',
-      connectionArn: (json['ConnectionArn'] as String?) ?? '',
-      repository: (json['Repository'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final artifactPath = this.artifactPath;
-    final branch = this.branch;
-    final connectionArn = this.connectionArn;
-    final repository = this.repository;
-    return {
-      'ArtifactPath': artifactPath,
-      'Branch': branch,
-      'ConnectionArn': connectionArn,
-      'Repository': repository,
-    };
-  }
-}
-
-/// Information about a constraint.
-class ConstraintDetail {
-  /// The identifier of the constraint.
-  final String? constraintId;
-
-  /// The description of the constraint.
-  final String? description;
-
-  /// The owner of the constraint.
-  final String? owner;
-
-  /// The identifier of the portfolio the product resides in. The constraint
-  /// applies only to the instance of the product that lives within this
-  /// portfolio.
-  final String? portfolioId;
-
-  /// The identifier of the product the constraint applies to. Note that a
-  /// constraint applies to a specific instance of a product within a certain
-  /// portfolio.
-  final String? productId;
-
-  /// The type of constraint.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>LAUNCH</code>
-  /// </li>
-  /// <li>
-  /// <code>NOTIFICATION</code>
-  /// </li>
-  /// <li>
-  /// STACKSET
-  /// </li>
-  /// <li>
-  /// <code>TEMPLATE</code>
-  /// </li>
-  /// </ul>
-  final String? type;
-
-  ConstraintDetail({
-    this.constraintId,
-    this.description,
-    this.owner,
-    this.portfolioId,
-    this.productId,
-    this.type,
-  });
-
-  factory ConstraintDetail.fromJson(Map<String, dynamic> json) {
-    return ConstraintDetail(
-      constraintId: json['ConstraintId'] as String?,
-      description: json['Description'] as String?,
-      owner: json['Owner'] as String?,
-      portfolioId: json['PortfolioId'] as String?,
-      productId: json['ProductId'] as String?,
-      type: json['Type'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final constraintId = this.constraintId;
-    final description = this.description;
-    final owner = this.owner;
-    final portfolioId = this.portfolioId;
-    final productId = this.productId;
-    final type = this.type;
-    return {
-      if (constraintId != null) 'ConstraintId': constraintId,
-      if (description != null) 'Description': description,
-      if (owner != null) 'Owner': owner,
-      if (portfolioId != null) 'PortfolioId': portfolioId,
-      if (productId != null) 'ProductId': productId,
-      if (type != null) 'Type': type,
-    };
-  }
-}
-
-/// Summary information about a constraint.
-class ConstraintSummary {
-  /// The description of the constraint.
-  final String? description;
-
-  /// The type of constraint.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>LAUNCH</code>
-  /// </li>
-  /// <li>
-  /// <code>NOTIFICATION</code>
-  /// </li>
-  /// <li>
-  /// STACKSET
-  /// </li>
-  /// <li>
-  /// <code>TEMPLATE</code>
-  /// </li>
-  /// </ul>
-  final String? type;
-
-  ConstraintSummary({
-    this.description,
-    this.type,
-  });
-
-  factory ConstraintSummary.fromJson(Map<String, dynamic> json) {
-    return ConstraintSummary(
-      description: json['Description'] as String?,
-      type: json['Type'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final type = this.type;
-    return {
-      if (description != null) 'Description': description,
-      if (type != null) 'Type': type,
-    };
-  }
-}
-
-class CopyOption {
-  static const copyTags = CopyOption._('CopyTags');
-
-  final String value;
-
-  const CopyOption._(this.value);
-
-  static const values = [copyTags];
-
-  static CopyOption fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => CopyOption._(value));
-
-  @override
-  bool operator ==(other) => other is CopyOption && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class CopyProductOutput {
   /// The token to use to track the progress of the operation.
   final String? copyProductToken;
@@ -6403,31 +6056,6 @@ class CopyProductOutput {
       if (copyProductToken != null) 'CopyProductToken': copyProductToken,
     };
   }
-}
-
-class CopyProductStatus {
-  static const succeeded = CopyProductStatus._('SUCCEEDED');
-  static const inProgress = CopyProductStatus._('IN_PROGRESS');
-  static const failed = CopyProductStatus._('FAILED');
-
-  final String value;
-
-  const CopyProductStatus._(this.value);
-
-  static const values = [succeeded, inProgress, failed];
-
-  static CopyProductStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CopyProductStatus._(value));
-
-  @override
-  bool operator ==(other) => other is CopyProductStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class CreateConstraintOutput {
@@ -6976,6 +6604,40 @@ class DescribePortfolioOutput {
   }
 }
 
+class DescribePortfolioSharesOutput {
+  /// The page token to use to retrieve the next set of results. If there are no
+  /// additional results, this value is null.
+  final String? nextPageToken;
+
+  /// Summaries about each of the portfolio shares.
+  final List<PortfolioShareDetail>? portfolioShareDetails;
+
+  DescribePortfolioSharesOutput({
+    this.nextPageToken,
+    this.portfolioShareDetails,
+  });
+
+  factory DescribePortfolioSharesOutput.fromJson(Map<String, dynamic> json) {
+    return DescribePortfolioSharesOutput(
+      nextPageToken: json['NextPageToken'] as String?,
+      portfolioShareDetails: (json['PortfolioShareDetails'] as List?)
+          ?.nonNulls
+          .map((e) => PortfolioShareDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextPageToken = this.nextPageToken;
+    final portfolioShareDetails = this.portfolioShareDetails;
+    return {
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+      if (portfolioShareDetails != null)
+        'PortfolioShareDetails': portfolioShareDetails,
+    };
+  }
+}
+
 class DescribePortfolioShareStatusOutput {
   /// Organization node identifier. It can be either account id, organizational
   /// unit id or organization id.
@@ -7033,70 +6695,58 @@ class DescribePortfolioShareStatusOutput {
   }
 }
 
-class DescribePortfolioShareType {
-  static const account = DescribePortfolioShareType._('ACCOUNT');
-  static const organization = DescribePortfolioShareType._('ORGANIZATION');
-  static const organizationalUnit =
-      DescribePortfolioShareType._('ORGANIZATIONAL_UNIT');
-  static const organizationMemberAccount =
-      DescribePortfolioShareType._('ORGANIZATION_MEMBER_ACCOUNT');
+class DescribeProductOutput {
+  /// Information about the associated budgets.
+  final List<BudgetDetail>? budgets;
 
-  final String value;
+  /// Information about the associated launch paths.
+  final List<LaunchPath>? launchPaths;
 
-  const DescribePortfolioShareType._(this.value);
+  /// Summary information about the product view.
+  final ProductViewSummary? productViewSummary;
 
-  static const values = [
-    account,
-    organization,
-    organizationalUnit,
-    organizationMemberAccount
-  ];
+  /// Information about the provisioning artifacts for the specified product.
+  final List<ProvisioningArtifact>? provisioningArtifacts;
 
-  static DescribePortfolioShareType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DescribePortfolioShareType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DescribePortfolioShareType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DescribePortfolioSharesOutput {
-  /// The page token to use to retrieve the next set of results. If there are no
-  /// additional results, this value is null.
-  final String? nextPageToken;
-
-  /// Summaries about each of the portfolio shares.
-  final List<PortfolioShareDetail>? portfolioShareDetails;
-
-  DescribePortfolioSharesOutput({
-    this.nextPageToken,
-    this.portfolioShareDetails,
+  DescribeProductOutput({
+    this.budgets,
+    this.launchPaths,
+    this.productViewSummary,
+    this.provisioningArtifacts,
   });
 
-  factory DescribePortfolioSharesOutput.fromJson(Map<String, dynamic> json) {
-    return DescribePortfolioSharesOutput(
-      nextPageToken: json['NextPageToken'] as String?,
-      portfolioShareDetails: (json['PortfolioShareDetails'] as List?)
+  factory DescribeProductOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeProductOutput(
+      budgets: (json['Budgets'] as List?)
           ?.nonNulls
-          .map((e) => PortfolioShareDetail.fromJson(e as Map<String, dynamic>))
+          .map((e) => BudgetDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      launchPaths: (json['LaunchPaths'] as List?)
+          ?.nonNulls
+          .map((e) => LaunchPath.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      productViewSummary: json['ProductViewSummary'] != null
+          ? ProductViewSummary.fromJson(
+              json['ProductViewSummary'] as Map<String, dynamic>)
+          : null,
+      provisioningArtifacts: (json['ProvisioningArtifacts'] as List?)
+          ?.nonNulls
+          .map((e) => ProvisioningArtifact.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final nextPageToken = this.nextPageToken;
-    final portfolioShareDetails = this.portfolioShareDetails;
+    final budgets = this.budgets;
+    final launchPaths = this.launchPaths;
+    final productViewSummary = this.productViewSummary;
+    final provisioningArtifacts = this.provisioningArtifacts;
     return {
-      if (nextPageToken != null) 'NextPageToken': nextPageToken,
-      if (portfolioShareDetails != null)
-        'PortfolioShareDetails': portfolioShareDetails,
+      if (budgets != null) 'Budgets': budgets,
+      if (launchPaths != null) 'LaunchPaths': launchPaths,
+      if (productViewSummary != null) 'ProductViewSummary': productViewSummary,
+      if (provisioningArtifacts != null)
+        'ProvisioningArtifacts': provisioningArtifacts,
     };
   }
 }
@@ -7166,62 +6816,6 @@ class DescribeProductAsAdminOutput {
         'ProvisioningArtifactSummaries': provisioningArtifactSummaries,
       if (tagOptions != null) 'TagOptions': tagOptions,
       if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-class DescribeProductOutput {
-  /// Information about the associated budgets.
-  final List<BudgetDetail>? budgets;
-
-  /// Information about the associated launch paths.
-  final List<LaunchPath>? launchPaths;
-
-  /// Summary information about the product view.
-  final ProductViewSummary? productViewSummary;
-
-  /// Information about the provisioning artifacts for the specified product.
-  final List<ProvisioningArtifact>? provisioningArtifacts;
-
-  DescribeProductOutput({
-    this.budgets,
-    this.launchPaths,
-    this.productViewSummary,
-    this.provisioningArtifacts,
-  });
-
-  factory DescribeProductOutput.fromJson(Map<String, dynamic> json) {
-    return DescribeProductOutput(
-      budgets: (json['Budgets'] as List?)
-          ?.nonNulls
-          .map((e) => BudgetDetail.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      launchPaths: (json['LaunchPaths'] as List?)
-          ?.nonNulls
-          .map((e) => LaunchPath.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      productViewSummary: json['ProductViewSummary'] != null
-          ? ProductViewSummary.fromJson(
-              json['ProductViewSummary'] as Map<String, dynamic>)
-          : null,
-      provisioningArtifacts: (json['ProvisioningArtifacts'] as List?)
-          ?.nonNulls
-          .map((e) => ProvisioningArtifact.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final budgets = this.budgets;
-    final launchPaths = this.launchPaths;
-    final productViewSummary = this.productViewSummary;
-    final provisioningArtifacts = this.provisioningArtifacts;
-    return {
-      if (budgets != null) 'Budgets': budgets,
-      if (launchPaths != null) 'LaunchPaths': launchPaths,
-      if (productViewSummary != null) 'ProductViewSummary': productViewSummary,
-      if (provisioningArtifacts != null)
-        'ProvisioningArtifacts': provisioningArtifacts,
     };
   }
 }
@@ -7551,6 +7145,32 @@ class DescribeRecordOutput {
   }
 }
 
+class DescribeServiceActionOutput {
+  /// Detailed information about the self-service action.
+  final ServiceActionDetail? serviceActionDetail;
+
+  DescribeServiceActionOutput({
+    this.serviceActionDetail,
+  });
+
+  factory DescribeServiceActionOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeServiceActionOutput(
+      serviceActionDetail: json['ServiceActionDetail'] != null
+          ? ServiceActionDetail.fromJson(
+              json['ServiceActionDetail'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceActionDetail = this.serviceActionDetail;
+    return {
+      if (serviceActionDetail != null)
+        'ServiceActionDetail': serviceActionDetail,
+    };
+  }
+}
+
 class DescribeServiceActionExecutionParametersOutput {
   /// The parameters of the self-service action.
   final List<ExecutionParameter>? serviceActionParameters;
@@ -7574,32 +7194,6 @@ class DescribeServiceActionExecutionParametersOutput {
     return {
       if (serviceActionParameters != null)
         'ServiceActionParameters': serviceActionParameters,
-    };
-  }
-}
-
-class DescribeServiceActionOutput {
-  /// Detailed information about the self-service action.
-  final ServiceActionDetail? serviceActionDetail;
-
-  DescribeServiceActionOutput({
-    this.serviceActionDetail,
-  });
-
-  factory DescribeServiceActionOutput.fromJson(Map<String, dynamic> json) {
-    return DescribeServiceActionOutput(
-      serviceActionDetail: json['ServiceActionDetail'] != null
-          ? ServiceActionDetail.fromJson(
-              json['ServiceActionDetail'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final serviceActionDetail = this.serviceActionDetail;
-    return {
-      if (serviceActionDetail != null)
-        'ServiceActionDetail': serviceActionDetail,
     };
   }
 }
@@ -7718,74 +7312,6 @@ class EnableAWSOrganizationsAccessOutput {
   }
 }
 
-/// The ID for the provisioned product resources that are part of a resource
-/// group.
-class EngineWorkflowResourceIdentifier {
-  /// The unique key-value pair for a tag that identifies provisioned product
-  /// resources.
-  final UniqueTagResourceIdentifier? uniqueTag;
-
-  EngineWorkflowResourceIdentifier({
-    this.uniqueTag,
-  });
-
-  Map<String, dynamic> toJson() {
-    final uniqueTag = this.uniqueTag;
-    return {
-      if (uniqueTag != null) 'UniqueTag': uniqueTag,
-    };
-  }
-}
-
-class EngineWorkflowStatus {
-  static const succeeded = EngineWorkflowStatus._('SUCCEEDED');
-  static const failed = EngineWorkflowStatus._('FAILED');
-
-  final String value;
-
-  const EngineWorkflowStatus._(this.value);
-
-  static const values = [succeeded, failed];
-
-  static EngineWorkflowStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EngineWorkflowStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is EngineWorkflowStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class EvaluationType {
-  static const static = EvaluationType._('STATIC');
-  static const $dynamic = EvaluationType._('DYNAMIC');
-
-  final String value;
-
-  const EvaluationType._(this.value);
-
-  static const values = [static, $dynamic];
-
-  static EvaluationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EvaluationType._(value));
-
-  @override
-  bool operator ==(other) => other is EvaluationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class ExecuteProvisionedProductPlanOutput {
   /// Information about the result of provisioning the product.
   final RecordDetail? recordDetail;
@@ -7833,103 +7359,6 @@ class ExecuteProvisionedProductServiceActionOutput {
     final recordDetail = this.recordDetail;
     return {
       if (recordDetail != null) 'RecordDetail': recordDetail,
-    };
-  }
-}
-
-/// Details of an execution parameter value that is passed to a self-service
-/// action when executed on a provisioned product.
-class ExecutionParameter {
-  /// The default values for the execution parameter.
-  final List<String>? defaultValues;
-
-  /// The name of the execution parameter.
-  final String? name;
-
-  /// The execution parameter type.
-  final String? type;
-
-  ExecutionParameter({
-    this.defaultValues,
-    this.name,
-    this.type,
-  });
-
-  factory ExecutionParameter.fromJson(Map<String, dynamic> json) {
-    return ExecutionParameter(
-      defaultValues: (json['DefaultValues'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      name: json['Name'] as String?,
-      type: json['Type'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final defaultValues = this.defaultValues;
-    final name = this.name;
-    final type = this.type;
-    return {
-      if (defaultValues != null) 'DefaultValues': defaultValues,
-      if (name != null) 'Name': name,
-      if (type != null) 'Type': type,
-    };
-  }
-}
-
-/// An object containing information about the error, along with identifying
-/// information about the self-service action and its associations.
-class FailedServiceActionAssociation {
-  /// The error code. Valid values are listed below.
-  final ServiceActionAssociationErrorCode? errorCode;
-
-  /// A text description of the error.
-  final String? errorMessage;
-
-  /// The product identifier. For example, <code>prod-abcdzk7xy33qa</code>.
-  final String? productId;
-
-  /// The identifier of the provisioning artifact. For example,
-  /// <code>pa-4abcdjnxjj6ne</code>.
-  final String? provisioningArtifactId;
-
-  /// The self-service action identifier. For example,
-  /// <code>act-fs7abcd89wxyz</code>.
-  final String? serviceActionId;
-
-  FailedServiceActionAssociation({
-    this.errorCode,
-    this.errorMessage,
-    this.productId,
-    this.provisioningArtifactId,
-    this.serviceActionId,
-  });
-
-  factory FailedServiceActionAssociation.fromJson(Map<String, dynamic> json) {
-    return FailedServiceActionAssociation(
-      errorCode: (json['ErrorCode'] as String?)
-          ?.let(ServiceActionAssociationErrorCode.fromString),
-      errorMessage: json['ErrorMessage'] as String?,
-      productId: json['ProductId'] as String?,
-      provisioningArtifactId: json['ProvisioningArtifactId'] as String?,
-      serviceActionId: json['ServiceActionId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    final productId = this.productId;
-    final provisioningArtifactId = this.provisioningArtifactId;
-    final serviceActionId = this.serviceActionId;
-    return {
-      if (errorCode != null) 'ErrorCode': errorCode.value,
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-      if (productId != null) 'ProductId': productId,
-      if (provisioningArtifactId != null)
-        'ProvisioningArtifactId': provisioningArtifactId,
-      if (serviceActionId != null) 'ServiceActionId': serviceActionId,
     };
   }
 }
@@ -8013,193 +7442,6 @@ class ImportAsProvisionedProductOutput {
     final recordDetail = this.recordDetail;
     return {
       if (recordDetail != null) 'RecordDetail': recordDetail,
-    };
-  }
-}
-
-/// Provides details about the product's connection sync and contains the
-/// following sub-fields.
-///
-/// <ul>
-/// <li>
-/// <code>LastSyncTime</code>
-/// </li>
-/// <li>
-/// <code>LastSyncStatus</code>
-/// </li>
-/// <li>
-/// <code>LastSyncStatusMessage</code>
-/// </li>
-/// <li>
-/// <code>LastSuccessfulSyncTime</code>
-/// </li>
-/// <li>
-/// <code>LastSuccessfulSyncProvisioningArtifactID</code>
-/// </li>
-/// </ul>
-class LastSync {
-  /// The ProvisioningArtifactID of the ProvisioningArtifact created from the
-  /// latest successful sync.
-  final String? lastSuccessfulSyncProvisioningArtifactId;
-
-  /// The time of the latest successful sync from the source repo artifact to the
-  /// Service Catalog product.
-  final DateTime? lastSuccessfulSyncTime;
-
-  /// The current status of the sync. Responses include <code>SUCCEEDED</code> or
-  /// <code>FAILED</code>.
-  final LastSyncStatus? lastSyncStatus;
-
-  /// The sync's status message.
-  final String? lastSyncStatusMessage;
-
-  /// The time of the last attempted sync from the repository to the Service
-  /// Catalog product.
-  final DateTime? lastSyncTime;
-
-  LastSync({
-    this.lastSuccessfulSyncProvisioningArtifactId,
-    this.lastSuccessfulSyncTime,
-    this.lastSyncStatus,
-    this.lastSyncStatusMessage,
-    this.lastSyncTime,
-  });
-
-  factory LastSync.fromJson(Map<String, dynamic> json) {
-    return LastSync(
-      lastSuccessfulSyncProvisioningArtifactId:
-          json['LastSuccessfulSyncProvisioningArtifactId'] as String?,
-      lastSuccessfulSyncTime: timeStampFromJson(json['LastSuccessfulSyncTime']),
-      lastSyncStatus:
-          (json['LastSyncStatus'] as String?)?.let(LastSyncStatus.fromString),
-      lastSyncStatusMessage: json['LastSyncStatusMessage'] as String?,
-      lastSyncTime: timeStampFromJson(json['LastSyncTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lastSuccessfulSyncProvisioningArtifactId =
-        this.lastSuccessfulSyncProvisioningArtifactId;
-    final lastSuccessfulSyncTime = this.lastSuccessfulSyncTime;
-    final lastSyncStatus = this.lastSyncStatus;
-    final lastSyncStatusMessage = this.lastSyncStatusMessage;
-    final lastSyncTime = this.lastSyncTime;
-    return {
-      if (lastSuccessfulSyncProvisioningArtifactId != null)
-        'LastSuccessfulSyncProvisioningArtifactId':
-            lastSuccessfulSyncProvisioningArtifactId,
-      if (lastSuccessfulSyncTime != null)
-        'LastSuccessfulSyncTime': unixTimestampToJson(lastSuccessfulSyncTime),
-      if (lastSyncStatus != null) 'LastSyncStatus': lastSyncStatus.value,
-      if (lastSyncStatusMessage != null)
-        'LastSyncStatusMessage': lastSyncStatusMessage,
-      if (lastSyncTime != null)
-        'LastSyncTime': unixTimestampToJson(lastSyncTime),
-    };
-  }
-}
-
-class LastSyncStatus {
-  static const succeeded = LastSyncStatus._('SUCCEEDED');
-  static const failed = LastSyncStatus._('FAILED');
-
-  final String value;
-
-  const LastSyncStatus._(this.value);
-
-  static const values = [succeeded, failed];
-
-  static LastSyncStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LastSyncStatus._(value));
-
-  @override
-  bool operator ==(other) => other is LastSyncStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A launch path object.
-class LaunchPath {
-  /// The identifier of the launch path.
-  final String? id;
-
-  /// The name of the launch path.
-  final String? name;
-
-  LaunchPath({
-    this.id,
-    this.name,
-  });
-
-  factory LaunchPath.fromJson(Map<String, dynamic> json) {
-    return LaunchPath(
-      id: json['Id'] as String?,
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final name = this.name;
-    return {
-      if (id != null) 'Id': id,
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
-/// Summary information about a product path for a user.
-class LaunchPathSummary {
-  /// The constraints on the portfolio-product relationship.
-  final List<ConstraintSummary>? constraintSummaries;
-
-  /// The identifier of the product path.
-  final String? id;
-
-  /// The name of the portfolio that contains the product.
-  final String? name;
-
-  /// The tags associated with this product path.
-  final List<Tag>? tags;
-
-  LaunchPathSummary({
-    this.constraintSummaries,
-    this.id,
-    this.name,
-    this.tags,
-  });
-
-  factory LaunchPathSummary.fromJson(Map<String, dynamic> json) {
-    return LaunchPathSummary(
-      constraintSummaries: (json['ConstraintSummaries'] as List?)
-          ?.nonNulls
-          .map((e) => ConstraintSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      id: json['Id'] as String?,
-      name: json['Name'] as String?,
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final constraintSummaries = this.constraintSummaries;
-    final id = this.id;
-    final name = this.name;
-    final tags = this.tags;
-    return {
-      if (constraintSummaries != null)
-        'ConstraintSummaries': constraintSummaries,
-      if (id != null) 'Id': id,
-      if (name != null) 'Name': name,
-      if (tags != null) 'Tags': tags,
     };
   }
 }
@@ -8407,7 +7649,7 @@ class ListPortfolioAccessOutput {
   }
 }
 
-class ListPortfoliosForProductOutput {
+class ListPortfoliosOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
   final String? nextPageToken;
@@ -8415,13 +7657,13 @@ class ListPortfoliosForProductOutput {
   /// Information about the portfolios.
   final List<PortfolioDetail>? portfolioDetails;
 
-  ListPortfoliosForProductOutput({
+  ListPortfoliosOutput({
     this.nextPageToken,
     this.portfolioDetails,
   });
 
-  factory ListPortfoliosForProductOutput.fromJson(Map<String, dynamic> json) {
-    return ListPortfoliosForProductOutput(
+  factory ListPortfoliosOutput.fromJson(Map<String, dynamic> json) {
+    return ListPortfoliosOutput(
       nextPageToken: json['NextPageToken'] as String?,
       portfolioDetails: (json['PortfolioDetails'] as List?)
           ?.nonNulls
@@ -8440,7 +7682,7 @@ class ListPortfoliosForProductOutput {
   }
 }
 
-class ListPortfoliosOutput {
+class ListPortfoliosForProductOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
   final String? nextPageToken;
@@ -8448,13 +7690,13 @@ class ListPortfoliosOutput {
   /// Information about the portfolios.
   final List<PortfolioDetail>? portfolioDetails;
 
-  ListPortfoliosOutput({
+  ListPortfoliosForProductOutput({
     this.nextPageToken,
     this.portfolioDetails,
   });
 
-  factory ListPortfoliosOutput.fromJson(Map<String, dynamic> json) {
-    return ListPortfoliosOutput(
+  factory ListPortfoliosForProductOutput.fromJson(Map<String, dynamic> json) {
+    return ListPortfoliosForProductOutput(
       nextPageToken: json['NextPageToken'] as String?,
       portfolioDetails: (json['PortfolioDetails'] as List?)
           ?.nonNulls
@@ -8543,6 +7785,42 @@ class ListProvisionedProductPlansOutput {
   }
 }
 
+class ListProvisioningArtifactsOutput {
+  /// The page token to use to retrieve the next set of results. If there are no
+  /// additional results, this value is null.
+  final String? nextPageToken;
+
+  /// Information about the provisioning artifacts.
+  final List<ProvisioningArtifactDetail>? provisioningArtifactDetails;
+
+  ListProvisioningArtifactsOutput({
+    this.nextPageToken,
+    this.provisioningArtifactDetails,
+  });
+
+  factory ListProvisioningArtifactsOutput.fromJson(Map<String, dynamic> json) {
+    return ListProvisioningArtifactsOutput(
+      nextPageToken: json['NextPageToken'] as String?,
+      provisioningArtifactDetails: (json['ProvisioningArtifactDetails']
+              as List?)
+          ?.nonNulls
+          .map((e) =>
+              ProvisioningArtifactDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextPageToken = this.nextPageToken;
+    final provisioningArtifactDetails = this.provisioningArtifactDetails;
+    return {
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+      if (provisioningArtifactDetails != null)
+        'ProvisioningArtifactDetails': provisioningArtifactDetails,
+    };
+  }
+}
+
 class ListProvisioningArtifactsForServiceActionOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
@@ -8580,42 +7858,6 @@ class ListProvisioningArtifactsForServiceActionOutput {
   }
 }
 
-class ListProvisioningArtifactsOutput {
-  /// The page token to use to retrieve the next set of results. If there are no
-  /// additional results, this value is null.
-  final String? nextPageToken;
-
-  /// Information about the provisioning artifacts.
-  final List<ProvisioningArtifactDetail>? provisioningArtifactDetails;
-
-  ListProvisioningArtifactsOutput({
-    this.nextPageToken,
-    this.provisioningArtifactDetails,
-  });
-
-  factory ListProvisioningArtifactsOutput.fromJson(Map<String, dynamic> json) {
-    return ListProvisioningArtifactsOutput(
-      nextPageToken: json['NextPageToken'] as String?,
-      provisioningArtifactDetails: (json['ProvisioningArtifactDetails']
-              as List?)
-          ?.nonNulls
-          .map((e) =>
-              ProvisioningArtifactDetail.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextPageToken = this.nextPageToken;
-    final provisioningArtifactDetails = this.provisioningArtifactDetails;
-    return {
-      if (nextPageToken != null) 'NextPageToken': nextPageToken,
-      if (provisioningArtifactDetails != null)
-        'ProvisioningArtifactDetails': provisioningArtifactDetails,
-    };
-  }
-}
-
 class ListRecordHistoryOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
@@ -8645,40 +7887,6 @@ class ListRecordHistoryOutput {
     return {
       if (nextPageToken != null) 'NextPageToken': nextPageToken,
       if (recordDetails != null) 'RecordDetails': recordDetails,
-    };
-  }
-}
-
-/// The search filter to use when listing history records.
-class ListRecordHistorySearchFilter {
-  /// The filter key.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>product</code> - Filter results based on the specified product
-  /// identifier.
-  /// </li>
-  /// <li>
-  /// <code>provisionedproduct</code> - Filter results based on the provisioned
-  /// product identifier.
-  /// </li>
-  /// </ul>
-  final String? key;
-
-  /// The filter value.
-  final String? value;
-
-  ListRecordHistorySearchFilter({
-    this.key,
-    this.value,
-  });
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      if (key != null) 'Key': key,
-      if (value != null) 'Value': value,
     };
   }
 }
@@ -8716,23 +7924,22 @@ class ListResourcesForTagOptionOutput {
   }
 }
 
-class ListServiceActionsForProvisioningArtifactOutput {
+class ListServiceActionsOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
   final String? nextPageToken;
 
-  /// An object containing information about the self-service actions associated
-  /// with the provisioning artifact.
+  /// An object containing information about the service actions associated with
+  /// the provisioning artifact.
   final List<ServiceActionSummary>? serviceActionSummaries;
 
-  ListServiceActionsForProvisioningArtifactOutput({
+  ListServiceActionsOutput({
     this.nextPageToken,
     this.serviceActionSummaries,
   });
 
-  factory ListServiceActionsForProvisioningArtifactOutput.fromJson(
-      Map<String, dynamic> json) {
-    return ListServiceActionsForProvisioningArtifactOutput(
+  factory ListServiceActionsOutput.fromJson(Map<String, dynamic> json) {
+    return ListServiceActionsOutput(
       nextPageToken: json['NextPageToken'] as String?,
       serviceActionSummaries: (json['ServiceActionSummaries'] as List?)
           ?.nonNulls
@@ -8752,22 +7959,23 @@ class ListServiceActionsForProvisioningArtifactOutput {
   }
 }
 
-class ListServiceActionsOutput {
+class ListServiceActionsForProvisioningArtifactOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
   final String? nextPageToken;
 
-  /// An object containing information about the service actions associated with
-  /// the provisioning artifact.
+  /// An object containing information about the self-service actions associated
+  /// with the provisioning artifact.
   final List<ServiceActionSummary>? serviceActionSummaries;
 
-  ListServiceActionsOutput({
+  ListServiceActionsForProvisioningArtifactOutput({
     this.nextPageToken,
     this.serviceActionSummaries,
   });
 
-  factory ListServiceActionsOutput.fromJson(Map<String, dynamic> json) {
-    return ListServiceActionsOutput(
+  factory ListServiceActionsForProvisioningArtifactOutput.fromJson(
+      Map<String, dynamic> json) {
+    return ListServiceActionsForProvisioningArtifactOutput(
       nextPageToken: json['NextPageToken'] as String?,
       serviceActionSummaries: (json['ServiceActionSummaries'] as List?)
           ?.nonNulls
@@ -8817,35 +8025,6 @@ class ListStackInstancesForProvisionedProductOutput {
     return {
       if (nextPageToken != null) 'NextPageToken': nextPageToken,
       if (stackInstances != null) 'StackInstances': stackInstances,
-    };
-  }
-}
-
-/// Filters to use when listing TagOptions.
-class ListTagOptionsFilters {
-  /// The active state.
-  final bool? active;
-
-  /// The TagOption key.
-  final String? key;
-
-  /// The TagOption value.
-  final String? value;
-
-  ListTagOptionsFilters({
-    this.active,
-    this.key,
-    this.value,
-  });
-
-  Map<String, dynamic> toJson() {
-    final active = this.active;
-    final key = this.key;
-    final value = this.value;
-    return {
-      if (active != null) 'Active': active,
-      if (key != null) 'Key': key,
-      if (value != null) 'Value': value,
     };
   }
 }
@@ -8922,703 +8101,6 @@ class NotifyUpdateProvisionedProductEngineWorkflowResultOutput {
   }
 }
 
-/// Information about the organization node.
-class OrganizationNode {
-  /// The organization node type.
-  final OrganizationNodeType? type;
-
-  /// The identifier of the organization node.
-  final String? value;
-
-  OrganizationNode({
-    this.type,
-    this.value,
-  });
-
-  factory OrganizationNode.fromJson(Map<String, dynamic> json) {
-    return OrganizationNode(
-      type: (json['Type'] as String?)?.let(OrganizationNodeType.fromString),
-      value: json['Value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final type = this.type;
-    final value = this.value;
-    return {
-      if (type != null) 'Type': type.value,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-class OrganizationNodeType {
-  static const organization = OrganizationNodeType._('ORGANIZATION');
-  static const organizationalUnit =
-      OrganizationNodeType._('ORGANIZATIONAL_UNIT');
-  static const account = OrganizationNodeType._('ACCOUNT');
-
-  final String value;
-
-  const OrganizationNodeType._(this.value);
-
-  static const values = [organization, organizationalUnit, account];
-
-  static OrganizationNodeType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => OrganizationNodeType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is OrganizationNodeType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The constraints that the administrator has put on the parameter.
-class ParameterConstraints {
-  /// A regular expression that represents the patterns that allow for
-  /// <code>String</code> types. The pattern must match the entire parameter value
-  /// provided.
-  final String? allowedPattern;
-
-  /// The values that the administrator has allowed for the parameter.
-  final List<String>? allowedValues;
-
-  /// A string that explains a constraint when the constraint is violated. For
-  /// example, without a constraint description, a parameter that has an allowed
-  /// pattern of <code>[A-Za-z0-9]+</code> displays the following error message
-  /// when the user specifies an invalid value:
-  ///
-  /// <code>Malformed input-Parameter MyParameter must match pattern
-  /// [A-Za-z0-9]+</code>
-  ///
-  /// By adding a constraint description, such as must only contain letters
-  /// (uppercase and lowercase) and numbers, you can display the following
-  /// customized error message:
-  ///
-  /// <code>Malformed input-Parameter MyParameter must only contain uppercase and
-  /// lowercase letters and numbers.</code>
-  final String? constraintDescription;
-
-  /// An integer value that determines the largest number of characters you want
-  /// to allow for <code>String</code> types.
-  final String? maxLength;
-
-  /// A numeric value that determines the largest numeric value you want to allow
-  /// for <code>Number</code> types.
-  final String? maxValue;
-
-  /// An integer value that determines the smallest number of characters you want
-  /// to allow for <code>String</code> types.
-  final String? minLength;
-
-  /// A numeric value that determines the smallest numeric value you want to allow
-  /// for <code>Number</code> types.
-  final String? minValue;
-
-  ParameterConstraints({
-    this.allowedPattern,
-    this.allowedValues,
-    this.constraintDescription,
-    this.maxLength,
-    this.maxValue,
-    this.minLength,
-    this.minValue,
-  });
-
-  factory ParameterConstraints.fromJson(Map<String, dynamic> json) {
-    return ParameterConstraints(
-      allowedPattern: json['AllowedPattern'] as String?,
-      allowedValues: (json['AllowedValues'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      constraintDescription: json['ConstraintDescription'] as String?,
-      maxLength: json['MaxLength'] as String?,
-      maxValue: json['MaxValue'] as String?,
-      minLength: json['MinLength'] as String?,
-      minValue: json['MinValue'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final allowedPattern = this.allowedPattern;
-    final allowedValues = this.allowedValues;
-    final constraintDescription = this.constraintDescription;
-    final maxLength = this.maxLength;
-    final maxValue = this.maxValue;
-    final minLength = this.minLength;
-    final minValue = this.minValue;
-    return {
-      if (allowedPattern != null) 'AllowedPattern': allowedPattern,
-      if (allowedValues != null) 'AllowedValues': allowedValues,
-      if (constraintDescription != null)
-        'ConstraintDescription': constraintDescription,
-      if (maxLength != null) 'MaxLength': maxLength,
-      if (maxValue != null) 'MaxValue': maxValue,
-      if (minLength != null) 'MinLength': minLength,
-      if (minValue != null) 'MinValue': minValue,
-    };
-  }
-}
-
-/// Information about a portfolio.
-class PortfolioDetail {
-  /// The ARN assigned to the portfolio.
-  final String? arn;
-
-  /// The UTC time stamp of the creation time.
-  final DateTime? createdTime;
-
-  /// The description of the portfolio.
-  final String? description;
-
-  /// The name to use for display purposes.
-  final String? displayName;
-
-  /// The portfolio identifier.
-  final String? id;
-
-  /// The name of the portfolio provider.
-  final String? providerName;
-
-  PortfolioDetail({
-    this.arn,
-    this.createdTime,
-    this.description,
-    this.displayName,
-    this.id,
-    this.providerName,
-  });
-
-  factory PortfolioDetail.fromJson(Map<String, dynamic> json) {
-    return PortfolioDetail(
-      arn: json['ARN'] as String?,
-      createdTime: timeStampFromJson(json['CreatedTime']),
-      description: json['Description'] as String?,
-      displayName: json['DisplayName'] as String?,
-      id: json['Id'] as String?,
-      providerName: json['ProviderName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final createdTime = this.createdTime;
-    final description = this.description;
-    final displayName = this.displayName;
-    final id = this.id;
-    final providerName = this.providerName;
-    return {
-      if (arn != null) 'ARN': arn,
-      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
-      if (description != null) 'Description': description,
-      if (displayName != null) 'DisplayName': displayName,
-      if (id != null) 'Id': id,
-      if (providerName != null) 'ProviderName': providerName,
-    };
-  }
-}
-
-/// Information about the portfolio share.
-class PortfolioShareDetail {
-  /// Indicates whether the shared portfolio is imported by the recipient account.
-  /// If the recipient is in an organization node, the share is automatically
-  /// imported, and the field is always set to true.
-  final bool? accepted;
-
-  /// The identifier of the recipient entity that received the portfolio share.
-  /// The recipient entity can be one of the following:
-  ///
-  /// 1. An external account.
-  ///
-  /// 2. An organziation member account.
-  ///
-  /// 3. An organzational unit (OU).
-  ///
-  /// 4. The organization itself. (This shares with every account in the
-  /// organization).
-  final String? principalId;
-
-  /// Indicates if <code>Principal</code> sharing is enabled or disabled for the
-  /// portfolio share.
-  final bool? sharePrincipals;
-
-  /// Indicates whether TagOptions sharing is enabled or disabled for the
-  /// portfolio share.
-  final bool? shareTagOptions;
-
-  /// The type of the portfolio share.
-  final DescribePortfolioShareType? type;
-
-  PortfolioShareDetail({
-    this.accepted,
-    this.principalId,
-    this.sharePrincipals,
-    this.shareTagOptions,
-    this.type,
-  });
-
-  factory PortfolioShareDetail.fromJson(Map<String, dynamic> json) {
-    return PortfolioShareDetail(
-      accepted: json['Accepted'] as bool?,
-      principalId: json['PrincipalId'] as String?,
-      sharePrincipals: json['SharePrincipals'] as bool?,
-      shareTagOptions: json['ShareTagOptions'] as bool?,
-      type:
-          (json['Type'] as String?)?.let(DescribePortfolioShareType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accepted = this.accepted;
-    final principalId = this.principalId;
-    final sharePrincipals = this.sharePrincipals;
-    final shareTagOptions = this.shareTagOptions;
-    final type = this.type;
-    return {
-      if (accepted != null) 'Accepted': accepted,
-      if (principalId != null) 'PrincipalId': principalId,
-      if (sharePrincipals != null) 'SharePrincipals': sharePrincipals,
-      if (shareTagOptions != null) 'ShareTagOptions': shareTagOptions,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class PortfolioShareType {
-  static const imported = PortfolioShareType._('IMPORTED');
-  static const awsServicecatalog = PortfolioShareType._('AWS_SERVICECATALOG');
-  static const awsOrganizations = PortfolioShareType._('AWS_ORGANIZATIONS');
-
-  final String value;
-
-  const PortfolioShareType._(this.value);
-
-  static const values = [imported, awsServicecatalog, awsOrganizations];
-
-  static PortfolioShareType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PortfolioShareType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PortfolioShareType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about a principal.
-class Principal {
-  /// The ARN of the principal (user, role, or group). This field allows for an
-  /// ARN with no <code>accountID</code>, with or without wildcard characters if
-  /// the <code>PrincipalType</code> is an <code>IAM_PATTERN</code>.
-  ///
-  /// For more information, review <a
-  /// href="https://docs.aws.amazon.com/cli/latest/reference/servicecatalog/associate-principal-with-portfolio.html#options">associate-principal-with-portfolio</a>
-  /// in the Amazon Web Services CLI Command Reference.
-  final String? principalARN;
-
-  /// The principal type. The supported value is <code>IAM</code> if you use a
-  /// fully defined ARN, or <code>IAM_PATTERN</code> if you use an ARN with no
-  /// <code>accountID</code>, with or without wildcard characters.
-  final PrincipalType? principalType;
-
-  Principal({
-    this.principalARN,
-    this.principalType,
-  });
-
-  factory Principal.fromJson(Map<String, dynamic> json) {
-    return Principal(
-      principalARN: json['PrincipalARN'] as String?,
-      principalType:
-          (json['PrincipalType'] as String?)?.let(PrincipalType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final principalARN = this.principalARN;
-    final principalType = this.principalType;
-    return {
-      if (principalARN != null) 'PrincipalARN': principalARN,
-      if (principalType != null) 'PrincipalType': principalType.value,
-    };
-  }
-}
-
-class PrincipalType {
-  static const iam = PrincipalType._('IAM');
-  static const iamPattern = PrincipalType._('IAM_PATTERN');
-
-  final String value;
-
-  const PrincipalType._(this.value);
-
-  static const values = [iam, iamPattern];
-
-  static PrincipalType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PrincipalType._(value));
-
-  @override
-  bool operator ==(other) => other is PrincipalType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ProductSource {
-  static const account = ProductSource._('ACCOUNT');
-
-  final String value;
-
-  const ProductSource._(this.value);
-
-  static const values = [account];
-
-  static ProductSource fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ProductSource._(value));
-
-  @override
-  bool operator ==(other) => other is ProductSource && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ProductType {
-  static const cloudFormationTemplate =
-      ProductType._('CLOUD_FORMATION_TEMPLATE');
-  static const marketplace = ProductType._('MARKETPLACE');
-  static const terraformOpenSource = ProductType._('TERRAFORM_OPEN_SOURCE');
-  static const terraformCloud = ProductType._('TERRAFORM_CLOUD');
-  static const external = ProductType._('EXTERNAL');
-
-  final String value;
-
-  const ProductType._(this.value);
-
-  static const values = [
-    cloudFormationTemplate,
-    marketplace,
-    terraformOpenSource,
-    terraformCloud,
-    external
-  ];
-
-  static ProductType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ProductType._(value));
-
-  @override
-  bool operator ==(other) => other is ProductType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A single product view aggregation value/count pair, containing metadata
-/// about each product to which the calling user has access.
-class ProductViewAggregationValue {
-  /// An approximate count of the products that match the value.
-  final int? approximateCount;
-
-  /// The value of the product view aggregation.
-  final String? value;
-
-  ProductViewAggregationValue({
-    this.approximateCount,
-    this.value,
-  });
-
-  factory ProductViewAggregationValue.fromJson(Map<String, dynamic> json) {
-    return ProductViewAggregationValue(
-      approximateCount: json['ApproximateCount'] as int?,
-      value: json['Value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final approximateCount = this.approximateCount;
-    final value = this.value;
-    return {
-      if (approximateCount != null) 'ApproximateCount': approximateCount,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-/// Information about a product view.
-class ProductViewDetail {
-  /// The UTC time stamp of the creation time.
-  final DateTime? createdTime;
-
-  /// The ARN of the product.
-  final String? productARN;
-
-  /// Summary information about the product view.
-  final ProductViewSummary? productViewSummary;
-
-  /// A top level <code>ProductViewDetail</code> response containing details about
-  /// the product’s connection. Service Catalog returns this field for the
-  /// <code>CreateProduct</code>, <code>UpdateProduct</code>,
-  /// <code>DescribeProductAsAdmin</code>, and <code>SearchProductAsAdmin</code>
-  /// APIs. This response contains the same fields as the
-  /// <code>ConnectionParameters</code> request, with the addition of the
-  /// <code>LastSync</code> response.
-  final SourceConnectionDetail? sourceConnection;
-
-  /// The status of the product.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>AVAILABLE</code> - The product is ready for use.
-  /// </li>
-  /// <li>
-  /// <code>CREATING</code> - Product creation has started; the product is not
-  /// ready for use.
-  /// </li>
-  /// <li>
-  /// <code>FAILED</code> - An action failed.
-  /// </li>
-  /// </ul>
-  final Status? status;
-
-  ProductViewDetail({
-    this.createdTime,
-    this.productARN,
-    this.productViewSummary,
-    this.sourceConnection,
-    this.status,
-  });
-
-  factory ProductViewDetail.fromJson(Map<String, dynamic> json) {
-    return ProductViewDetail(
-      createdTime: timeStampFromJson(json['CreatedTime']),
-      productARN: json['ProductARN'] as String?,
-      productViewSummary: json['ProductViewSummary'] != null
-          ? ProductViewSummary.fromJson(
-              json['ProductViewSummary'] as Map<String, dynamic>)
-          : null,
-      sourceConnection: json['SourceConnection'] != null
-          ? SourceConnectionDetail.fromJson(
-              json['SourceConnection'] as Map<String, dynamic>)
-          : null,
-      status: (json['Status'] as String?)?.let(Status.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdTime = this.createdTime;
-    final productARN = this.productARN;
-    final productViewSummary = this.productViewSummary;
-    final sourceConnection = this.sourceConnection;
-    final status = this.status;
-    return {
-      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
-      if (productARN != null) 'ProductARN': productARN,
-      if (productViewSummary != null) 'ProductViewSummary': productViewSummary,
-      if (sourceConnection != null) 'SourceConnection': sourceConnection,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-class ProductViewFilterBy {
-  static const fullTextSearch = ProductViewFilterBy._('FullTextSearch');
-  static const owner = ProductViewFilterBy._('Owner');
-  static const productType = ProductViewFilterBy._('ProductType');
-  static const sourceProductId = ProductViewFilterBy._('SourceProductId');
-
-  final String value;
-
-  const ProductViewFilterBy._(this.value);
-
-  static const values = [fullTextSearch, owner, productType, sourceProductId];
-
-  static ProductViewFilterBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ProductViewFilterBy._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ProductViewFilterBy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ProductViewSortBy {
-  static const title = ProductViewSortBy._('Title');
-  static const versionCount = ProductViewSortBy._('VersionCount');
-  static const creationDate = ProductViewSortBy._('CreationDate');
-
-  final String value;
-
-  const ProductViewSortBy._(this.value);
-
-  static const values = [title, versionCount, creationDate];
-
-  static ProductViewSortBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ProductViewSortBy._(value));
-
-  @override
-  bool operator ==(other) => other is ProductViewSortBy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Summary information about a product view.
-class ProductViewSummary {
-  /// The distributor of the product. Contact the product administrator for the
-  /// significance of this value.
-  final String? distributor;
-
-  /// Indicates whether the product has a default path. If the product does not
-  /// have a default path, call <a>ListLaunchPaths</a> to disambiguate between
-  /// paths. Otherwise, <a>ListLaunchPaths</a> is not required, and the output of
-  /// <a>ProductViewSummary</a> can be used directly with
-  /// <a>DescribeProvisioningParameters</a>.
-  final bool? hasDefaultPath;
-
-  /// The product view identifier.
-  final String? id;
-
-  /// The name of the product.
-  final String? name;
-
-  /// The owner of the product. Contact the product administrator for the
-  /// significance of this value.
-  final String? owner;
-
-  /// The product identifier.
-  final String? productId;
-
-  /// Short description of the product.
-  final String? shortDescription;
-
-  /// The description of the support for this Product.
-  final String? supportDescription;
-
-  /// The email contact information to obtain support for this Product.
-  final String? supportEmail;
-
-  /// The URL information to obtain support for this Product.
-  final String? supportUrl;
-
-  /// The product type. Contact the product administrator for the significance of
-  /// this value. If this value is <code>MARKETPLACE</code>, the product was
-  /// created by Amazon Web Services Marketplace.
-  final ProductType? type;
-
-  ProductViewSummary({
-    this.distributor,
-    this.hasDefaultPath,
-    this.id,
-    this.name,
-    this.owner,
-    this.productId,
-    this.shortDescription,
-    this.supportDescription,
-    this.supportEmail,
-    this.supportUrl,
-    this.type,
-  });
-
-  factory ProductViewSummary.fromJson(Map<String, dynamic> json) {
-    return ProductViewSummary(
-      distributor: json['Distributor'] as String?,
-      hasDefaultPath: json['HasDefaultPath'] as bool?,
-      id: json['Id'] as String?,
-      name: json['Name'] as String?,
-      owner: json['Owner'] as String?,
-      productId: json['ProductId'] as String?,
-      shortDescription: json['ShortDescription'] as String?,
-      supportDescription: json['SupportDescription'] as String?,
-      supportEmail: json['SupportEmail'] as String?,
-      supportUrl: json['SupportUrl'] as String?,
-      type: (json['Type'] as String?)?.let(ProductType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final distributor = this.distributor;
-    final hasDefaultPath = this.hasDefaultPath;
-    final id = this.id;
-    final name = this.name;
-    final owner = this.owner;
-    final productId = this.productId;
-    final shortDescription = this.shortDescription;
-    final supportDescription = this.supportDescription;
-    final supportEmail = this.supportEmail;
-    final supportUrl = this.supportUrl;
-    final type = this.type;
-    return {
-      if (distributor != null) 'Distributor': distributor,
-      if (hasDefaultPath != null) 'HasDefaultPath': hasDefaultPath,
-      if (id != null) 'Id': id,
-      if (name != null) 'Name': name,
-      if (owner != null) 'Owner': owner,
-      if (productId != null) 'ProductId': productId,
-      if (shortDescription != null) 'ShortDescription': shortDescription,
-      if (supportDescription != null) 'SupportDescription': supportDescription,
-      if (supportEmail != null) 'SupportEmail': supportEmail,
-      if (supportUrl != null) 'SupportUrl': supportUrl,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class PropertyKey {
-  static const owner = PropertyKey._('OWNER');
-  static const launchRole = PropertyKey._('LAUNCH_ROLE');
-
-  final String value;
-
-  const PropertyKey._(this.value);
-
-  static const values = [owner, launchRole];
-
-  static PropertyKey fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => PropertyKey._(value));
-
-  @override
-  bool operator ==(other) => other is PropertyKey && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class ProvisionProductOutput {
   /// Information about the result of provisioning the product.
   final RecordDetail? recordDetail;
@@ -9643,1767 +8125,6 @@ class ProvisionProductOutput {
   }
 }
 
-/// Information about a provisioned product.
-class ProvisionedProductAttribute {
-  /// The ARN of the provisioned product.
-  final String? arn;
-
-  /// The UTC time stamp of the creation time.
-  final DateTime? createdTime;
-
-  /// The identifier of the provisioned product.
-  final String? id;
-
-  /// A unique identifier that you provide to ensure idempotency. If multiple
-  /// requests differ only by the idempotency token, the same response is returned
-  /// for each repeated request.
-  final String? idempotencyToken;
-
-  /// The record identifier of the last request performed on this provisioned
-  /// product of the following types:
-  ///
-  /// <ul>
-  /// <li>
-  /// ProvisionProduct
-  /// </li>
-  /// <li>
-  /// UpdateProvisionedProduct
-  /// </li>
-  /// <li>
-  /// ExecuteProvisionedProductPlan
-  /// </li>
-  /// <li>
-  /// TerminateProvisionedProduct
-  /// </li>
-  /// </ul>
-  final String? lastProvisioningRecordId;
-
-  /// The record identifier of the last request performed on this provisioned
-  /// product.
-  final String? lastRecordId;
-
-  /// The record identifier of the last successful request performed on this
-  /// provisioned product of the following types:
-  ///
-  /// <ul>
-  /// <li>
-  /// ProvisionProduct
-  /// </li>
-  /// <li>
-  /// UpdateProvisionedProduct
-  /// </li>
-  /// <li>
-  /// ExecuteProvisionedProductPlan
-  /// </li>
-  /// <li>
-  /// TerminateProvisionedProduct
-  /// </li>
-  /// </ul>
-  final String? lastSuccessfulProvisioningRecordId;
-
-  /// The user-friendly name of the provisioned product.
-  final String? name;
-
-  /// The assigned identifier for the resource, such as an EC2 instance ID or an
-  /// S3 bucket name.
-  final String? physicalId;
-
-  /// The product identifier.
-  final String? productId;
-
-  /// The name of the product.
-  final String? productName;
-
-  /// The identifier of the provisioning artifact.
-  final String? provisioningArtifactId;
-
-  /// The name of the provisioning artifact.
-  final String? provisioningArtifactName;
-
-  /// The current status of the provisioned product.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>AVAILABLE</code> - Stable state, ready to perform any operation. The
-  /// most recent operation succeeded and completed.
-  /// </li>
-  /// <li>
-  /// <code>UNDER_CHANGE</code> - Transitive state. Operations performed might not
-  /// have valid results. Wait for an <code>AVAILABLE</code> status before
-  /// performing operations.
-  /// </li>
-  /// <li>
-  /// <code>TAINTED</code> - Stable state, ready to perform any operation. The
-  /// stack has completed the requested operation but is not exactly what was
-  /// requested. For example, a request to update to a new version failed and the
-  /// stack rolled back to the current version.
-  /// </li>
-  /// <li>
-  /// <code>ERROR</code> - An unexpected error occurred. The provisioned product
-  /// exists but the stack is not running. For example, CloudFormation received a
-  /// parameter value that was not valid and could not launch the stack.
-  /// </li>
-  /// <li>
-  /// <code>PLAN_IN_PROGRESS</code> - Transitive state. The plan operations were
-  /// performed to provision a new product, but resources have not yet been
-  /// created. After reviewing the list of resources to be created, execute the
-  /// plan. Wait for an <code>AVAILABLE</code> status before performing
-  /// operations.
-  /// </li>
-  /// </ul>
-  final ProvisionedProductStatus? status;
-
-  /// The current status message of the provisioned product.
-  final String? statusMessage;
-
-  /// One or more tags.
-  final List<Tag>? tags;
-
-  /// The type of provisioned product. The supported values are
-  /// <code>CFN_STACK</code>, <code>CFN_STACKSET</code>,
-  /// <code>TERRAFORM_OPEN_SOURCE</code>, <code>TERRAFORM_CLOUD</code>, and
-  /// <code>EXTERNAL</code>.
-  final String? type;
-
-  /// The Amazon Resource Name (ARN) of the user.
-  final String? userArn;
-
-  /// The ARN of the user in the session. This ARN might contain a session ID.
-  final String? userArnSession;
-
-  ProvisionedProductAttribute({
-    this.arn,
-    this.createdTime,
-    this.id,
-    this.idempotencyToken,
-    this.lastProvisioningRecordId,
-    this.lastRecordId,
-    this.lastSuccessfulProvisioningRecordId,
-    this.name,
-    this.physicalId,
-    this.productId,
-    this.productName,
-    this.provisioningArtifactId,
-    this.provisioningArtifactName,
-    this.status,
-    this.statusMessage,
-    this.tags,
-    this.type,
-    this.userArn,
-    this.userArnSession,
-  });
-
-  factory ProvisionedProductAttribute.fromJson(Map<String, dynamic> json) {
-    return ProvisionedProductAttribute(
-      arn: json['Arn'] as String?,
-      createdTime: timeStampFromJson(json['CreatedTime']),
-      id: json['Id'] as String?,
-      idempotencyToken: json['IdempotencyToken'] as String?,
-      lastProvisioningRecordId: json['LastProvisioningRecordId'] as String?,
-      lastRecordId: json['LastRecordId'] as String?,
-      lastSuccessfulProvisioningRecordId:
-          json['LastSuccessfulProvisioningRecordId'] as String?,
-      name: json['Name'] as String?,
-      physicalId: json['PhysicalId'] as String?,
-      productId: json['ProductId'] as String?,
-      productName: json['ProductName'] as String?,
-      provisioningArtifactId: json['ProvisioningArtifactId'] as String?,
-      provisioningArtifactName: json['ProvisioningArtifactName'] as String?,
-      status:
-          (json['Status'] as String?)?.let(ProvisionedProductStatus.fromString),
-      statusMessage: json['StatusMessage'] as String?,
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      type: json['Type'] as String?,
-      userArn: json['UserArn'] as String?,
-      userArnSession: json['UserArnSession'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final createdTime = this.createdTime;
-    final id = this.id;
-    final idempotencyToken = this.idempotencyToken;
-    final lastProvisioningRecordId = this.lastProvisioningRecordId;
-    final lastRecordId = this.lastRecordId;
-    final lastSuccessfulProvisioningRecordId =
-        this.lastSuccessfulProvisioningRecordId;
-    final name = this.name;
-    final physicalId = this.physicalId;
-    final productId = this.productId;
-    final productName = this.productName;
-    final provisioningArtifactId = this.provisioningArtifactId;
-    final provisioningArtifactName = this.provisioningArtifactName;
-    final status = this.status;
-    final statusMessage = this.statusMessage;
-    final tags = this.tags;
-    final type = this.type;
-    final userArn = this.userArn;
-    final userArnSession = this.userArnSession;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
-      if (id != null) 'Id': id,
-      if (idempotencyToken != null) 'IdempotencyToken': idempotencyToken,
-      if (lastProvisioningRecordId != null)
-        'LastProvisioningRecordId': lastProvisioningRecordId,
-      if (lastRecordId != null) 'LastRecordId': lastRecordId,
-      if (lastSuccessfulProvisioningRecordId != null)
-        'LastSuccessfulProvisioningRecordId':
-            lastSuccessfulProvisioningRecordId,
-      if (name != null) 'Name': name,
-      if (physicalId != null) 'PhysicalId': physicalId,
-      if (productId != null) 'ProductId': productId,
-      if (productName != null) 'ProductName': productName,
-      if (provisioningArtifactId != null)
-        'ProvisioningArtifactId': provisioningArtifactId,
-      if (provisioningArtifactName != null)
-        'ProvisioningArtifactName': provisioningArtifactName,
-      if (status != null) 'Status': status.value,
-      if (statusMessage != null) 'StatusMessage': statusMessage,
-      if (tags != null) 'Tags': tags,
-      if (type != null) 'Type': type,
-      if (userArn != null) 'UserArn': userArn,
-      if (userArnSession != null) 'UserArnSession': userArnSession,
-    };
-  }
-}
-
-/// Information about a provisioned product.
-class ProvisionedProductDetail {
-  /// The ARN of the provisioned product.
-  final String? arn;
-
-  /// The UTC time stamp of the creation time.
-  final DateTime? createdTime;
-
-  /// The identifier of the provisioned product.
-  final String? id;
-
-  /// A unique identifier that you provide to ensure idempotency. If multiple
-  /// requests differ only by the idempotency token, the same response is returned
-  /// for each repeated request.
-  final String? idempotencyToken;
-
-  /// The record identifier of the last request performed on this provisioned
-  /// product of the following types:
-  ///
-  /// <ul>
-  /// <li>
-  /// ProvisionProduct
-  /// </li>
-  /// <li>
-  /// UpdateProvisionedProduct
-  /// </li>
-  /// <li>
-  /// ExecuteProvisionedProductPlan
-  /// </li>
-  /// <li>
-  /// TerminateProvisionedProduct
-  /// </li>
-  /// </ul>
-  final String? lastProvisioningRecordId;
-
-  /// The record identifier of the last request performed on this provisioned
-  /// product.
-  final String? lastRecordId;
-
-  /// The record identifier of the last successful request performed on this
-  /// provisioned product of the following types:
-  ///
-  /// <ul>
-  /// <li>
-  /// ProvisionProduct
-  /// </li>
-  /// <li>
-  /// UpdateProvisionedProduct
-  /// </li>
-  /// <li>
-  /// ExecuteProvisionedProductPlan
-  /// </li>
-  /// <li>
-  /// TerminateProvisionedProduct
-  /// </li>
-  /// </ul>
-  final String? lastSuccessfulProvisioningRecordId;
-
-  /// The ARN of the launch role associated with the provisioned product.
-  final String? launchRoleArn;
-
-  /// The user-friendly name of the provisioned product.
-  final String? name;
-
-  /// The product identifier. For example, <code>prod-abcdzk7xy33qa</code>.
-  final String? productId;
-
-  /// The identifier of the provisioning artifact. For example,
-  /// <code>pa-4abcdjnxjj6ne</code>.
-  final String? provisioningArtifactId;
-
-  /// The current status of the provisioned product.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>AVAILABLE</code> - Stable state, ready to perform any operation. The
-  /// most recent operation succeeded and completed.
-  /// </li>
-  /// <li>
-  /// <code>UNDER_CHANGE</code> - Transitive state. Operations performed might not
-  /// have valid results. Wait for an <code>AVAILABLE</code> status before
-  /// performing operations.
-  /// </li>
-  /// <li>
-  /// <code>TAINTED</code> - Stable state, ready to perform any operation. The
-  /// stack has completed the requested operation but is not exactly what was
-  /// requested. For example, a request to update to a new version failed and the
-  /// stack rolled back to the current version.
-  /// </li>
-  /// <li>
-  /// <code>ERROR</code> - An unexpected error occurred. The provisioned product
-  /// exists but the stack is not running. For example, CloudFormation received a
-  /// parameter value that was not valid and could not launch the stack.
-  /// </li>
-  /// <li>
-  /// <code>PLAN_IN_PROGRESS</code> - Transitive state. The plan operations were
-  /// performed to provision a new product, but resources have not yet been
-  /// created. After reviewing the list of resources to be created, execute the
-  /// plan. Wait for an <code>AVAILABLE</code> status before performing
-  /// operations.
-  /// </li>
-  /// </ul>
-  final ProvisionedProductStatus? status;
-
-  /// The current status message of the provisioned product.
-  final String? statusMessage;
-
-  /// The type of provisioned product. The supported values are
-  /// <code>CFN_STACK</code>, <code>CFN_STACKSET</code>,
-  /// <code>TERRAFORM_OPEN_SOURCE</code>, <code>TERRAFORM_CLOUD</code>, and
-  /// <code>EXTERNAL</code>.
-  final String? type;
-
-  ProvisionedProductDetail({
-    this.arn,
-    this.createdTime,
-    this.id,
-    this.idempotencyToken,
-    this.lastProvisioningRecordId,
-    this.lastRecordId,
-    this.lastSuccessfulProvisioningRecordId,
-    this.launchRoleArn,
-    this.name,
-    this.productId,
-    this.provisioningArtifactId,
-    this.status,
-    this.statusMessage,
-    this.type,
-  });
-
-  factory ProvisionedProductDetail.fromJson(Map<String, dynamic> json) {
-    return ProvisionedProductDetail(
-      arn: json['Arn'] as String?,
-      createdTime: timeStampFromJson(json['CreatedTime']),
-      id: json['Id'] as String?,
-      idempotencyToken: json['IdempotencyToken'] as String?,
-      lastProvisioningRecordId: json['LastProvisioningRecordId'] as String?,
-      lastRecordId: json['LastRecordId'] as String?,
-      lastSuccessfulProvisioningRecordId:
-          json['LastSuccessfulProvisioningRecordId'] as String?,
-      launchRoleArn: json['LaunchRoleArn'] as String?,
-      name: json['Name'] as String?,
-      productId: json['ProductId'] as String?,
-      provisioningArtifactId: json['ProvisioningArtifactId'] as String?,
-      status:
-          (json['Status'] as String?)?.let(ProvisionedProductStatus.fromString),
-      statusMessage: json['StatusMessage'] as String?,
-      type: json['Type'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final createdTime = this.createdTime;
-    final id = this.id;
-    final idempotencyToken = this.idempotencyToken;
-    final lastProvisioningRecordId = this.lastProvisioningRecordId;
-    final lastRecordId = this.lastRecordId;
-    final lastSuccessfulProvisioningRecordId =
-        this.lastSuccessfulProvisioningRecordId;
-    final launchRoleArn = this.launchRoleArn;
-    final name = this.name;
-    final productId = this.productId;
-    final provisioningArtifactId = this.provisioningArtifactId;
-    final status = this.status;
-    final statusMessage = this.statusMessage;
-    final type = this.type;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
-      if (id != null) 'Id': id,
-      if (idempotencyToken != null) 'IdempotencyToken': idempotencyToken,
-      if (lastProvisioningRecordId != null)
-        'LastProvisioningRecordId': lastProvisioningRecordId,
-      if (lastRecordId != null) 'LastRecordId': lastRecordId,
-      if (lastSuccessfulProvisioningRecordId != null)
-        'LastSuccessfulProvisioningRecordId':
-            lastSuccessfulProvisioningRecordId,
-      if (launchRoleArn != null) 'LaunchRoleArn': launchRoleArn,
-      if (name != null) 'Name': name,
-      if (productId != null) 'ProductId': productId,
-      if (provisioningArtifactId != null)
-        'ProvisioningArtifactId': provisioningArtifactId,
-      if (status != null) 'Status': status.value,
-      if (statusMessage != null) 'StatusMessage': statusMessage,
-      if (type != null) 'Type': type,
-    };
-  }
-}
-
-/// Information about a plan.
-class ProvisionedProductPlanDetails {
-  /// The UTC time stamp of the creation time.
-  final DateTime? createdTime;
-
-  /// Passed to CloudFormation. The SNS topic ARNs to which to publish
-  /// stack-related events.
-  final List<String>? notificationArns;
-
-  /// The path identifier of the product. This value is optional if the product
-  /// has a default path, and required if the product has more than one path. To
-  /// list the paths for a product, use <a>ListLaunchPaths</a>.
-  final String? pathId;
-
-  /// The plan identifier.
-  final String? planId;
-
-  /// The name of the plan.
-  final String? planName;
-
-  /// The plan type.
-  final ProvisionedProductPlanType? planType;
-
-  /// The product identifier.
-  final String? productId;
-
-  /// The product identifier.
-  final String? provisionProductId;
-
-  /// The user-friendly name of the provisioned product.
-  final String? provisionProductName;
-
-  /// The identifier of the provisioning artifact.
-  final String? provisioningArtifactId;
-
-  /// Parameters specified by the administrator that are required for provisioning
-  /// the product.
-  final List<UpdateProvisioningParameter>? provisioningParameters;
-
-  /// The status.
-  final ProvisionedProductPlanStatus? status;
-
-  /// The status message.
-  final String? statusMessage;
-
-  /// One or more tags.
-  final List<Tag>? tags;
-
-  /// The UTC time stamp when the plan was last updated.
-  final DateTime? updatedTime;
-
-  ProvisionedProductPlanDetails({
-    this.createdTime,
-    this.notificationArns,
-    this.pathId,
-    this.planId,
-    this.planName,
-    this.planType,
-    this.productId,
-    this.provisionProductId,
-    this.provisionProductName,
-    this.provisioningArtifactId,
-    this.provisioningParameters,
-    this.status,
-    this.statusMessage,
-    this.tags,
-    this.updatedTime,
-  });
-
-  factory ProvisionedProductPlanDetails.fromJson(Map<String, dynamic> json) {
-    return ProvisionedProductPlanDetails(
-      createdTime: timeStampFromJson(json['CreatedTime']),
-      notificationArns: (json['NotificationArns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      pathId: json['PathId'] as String?,
-      planId: json['PlanId'] as String?,
-      planName: json['PlanName'] as String?,
-      planType: (json['PlanType'] as String?)
-          ?.let(ProvisionedProductPlanType.fromString),
-      productId: json['ProductId'] as String?,
-      provisionProductId: json['ProvisionProductId'] as String?,
-      provisionProductName: json['ProvisionProductName'] as String?,
-      provisioningArtifactId: json['ProvisioningArtifactId'] as String?,
-      provisioningParameters: (json['ProvisioningParameters'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              UpdateProvisioningParameter.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      status: (json['Status'] as String?)
-          ?.let(ProvisionedProductPlanStatus.fromString),
-      statusMessage: json['StatusMessage'] as String?,
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      updatedTime: timeStampFromJson(json['UpdatedTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdTime = this.createdTime;
-    final notificationArns = this.notificationArns;
-    final pathId = this.pathId;
-    final planId = this.planId;
-    final planName = this.planName;
-    final planType = this.planType;
-    final productId = this.productId;
-    final provisionProductId = this.provisionProductId;
-    final provisionProductName = this.provisionProductName;
-    final provisioningArtifactId = this.provisioningArtifactId;
-    final provisioningParameters = this.provisioningParameters;
-    final status = this.status;
-    final statusMessage = this.statusMessage;
-    final tags = this.tags;
-    final updatedTime = this.updatedTime;
-    return {
-      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
-      if (notificationArns != null) 'NotificationArns': notificationArns,
-      if (pathId != null) 'PathId': pathId,
-      if (planId != null) 'PlanId': planId,
-      if (planName != null) 'PlanName': planName,
-      if (planType != null) 'PlanType': planType.value,
-      if (productId != null) 'ProductId': productId,
-      if (provisionProductId != null) 'ProvisionProductId': provisionProductId,
-      if (provisionProductName != null)
-        'ProvisionProductName': provisionProductName,
-      if (provisioningArtifactId != null)
-        'ProvisioningArtifactId': provisioningArtifactId,
-      if (provisioningParameters != null)
-        'ProvisioningParameters': provisioningParameters,
-      if (status != null) 'Status': status.value,
-      if (statusMessage != null) 'StatusMessage': statusMessage,
-      if (tags != null) 'Tags': tags,
-      if (updatedTime != null) 'UpdatedTime': unixTimestampToJson(updatedTime),
-    };
-  }
-}
-
-class ProvisionedProductPlanStatus {
-  static const createInProgress =
-      ProvisionedProductPlanStatus._('CREATE_IN_PROGRESS');
-  static const createSuccess = ProvisionedProductPlanStatus._('CREATE_SUCCESS');
-  static const createFailed = ProvisionedProductPlanStatus._('CREATE_FAILED');
-  static const executeInProgress =
-      ProvisionedProductPlanStatus._('EXECUTE_IN_PROGRESS');
-  static const executeSuccess =
-      ProvisionedProductPlanStatus._('EXECUTE_SUCCESS');
-  static const executeFailed = ProvisionedProductPlanStatus._('EXECUTE_FAILED');
-
-  final String value;
-
-  const ProvisionedProductPlanStatus._(this.value);
-
-  static const values = [
-    createInProgress,
-    createSuccess,
-    createFailed,
-    executeInProgress,
-    executeSuccess,
-    executeFailed
-  ];
-
-  static ProvisionedProductPlanStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ProvisionedProductPlanStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ProvisionedProductPlanStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Summary information about a plan.
-class ProvisionedProductPlanSummary {
-  /// The plan identifier.
-  final String? planId;
-
-  /// The name of the plan.
-  final String? planName;
-
-  /// The plan type.
-  final ProvisionedProductPlanType? planType;
-
-  /// The product identifier.
-  final String? provisionProductId;
-
-  /// The user-friendly name of the provisioned product.
-  final String? provisionProductName;
-
-  /// The identifier of the provisioning artifact.
-  final String? provisioningArtifactId;
-
-  ProvisionedProductPlanSummary({
-    this.planId,
-    this.planName,
-    this.planType,
-    this.provisionProductId,
-    this.provisionProductName,
-    this.provisioningArtifactId,
-  });
-
-  factory ProvisionedProductPlanSummary.fromJson(Map<String, dynamic> json) {
-    return ProvisionedProductPlanSummary(
-      planId: json['PlanId'] as String?,
-      planName: json['PlanName'] as String?,
-      planType: (json['PlanType'] as String?)
-          ?.let(ProvisionedProductPlanType.fromString),
-      provisionProductId: json['ProvisionProductId'] as String?,
-      provisionProductName: json['ProvisionProductName'] as String?,
-      provisioningArtifactId: json['ProvisioningArtifactId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final planId = this.planId;
-    final planName = this.planName;
-    final planType = this.planType;
-    final provisionProductId = this.provisionProductId;
-    final provisionProductName = this.provisionProductName;
-    final provisioningArtifactId = this.provisioningArtifactId;
-    return {
-      if (planId != null) 'PlanId': planId,
-      if (planName != null) 'PlanName': planName,
-      if (planType != null) 'PlanType': planType.value,
-      if (provisionProductId != null) 'ProvisionProductId': provisionProductId,
-      if (provisionProductName != null)
-        'ProvisionProductName': provisionProductName,
-      if (provisioningArtifactId != null)
-        'ProvisioningArtifactId': provisioningArtifactId,
-    };
-  }
-}
-
-class ProvisionedProductPlanType {
-  static const cloudformation = ProvisionedProductPlanType._('CLOUDFORMATION');
-
-  final String value;
-
-  const ProvisionedProductPlanType._(this.value);
-
-  static const values = [cloudformation];
-
-  static ProvisionedProductPlanType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ProvisionedProductPlanType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ProvisionedProductPlanType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ProvisionedProductStatus {
-  static const available = ProvisionedProductStatus._('AVAILABLE');
-  static const underChange = ProvisionedProductStatus._('UNDER_CHANGE');
-  static const tainted = ProvisionedProductStatus._('TAINTED');
-  static const error = ProvisionedProductStatus._('ERROR');
-  static const planInProgress = ProvisionedProductStatus._('PLAN_IN_PROGRESS');
-
-  final String value;
-
-  const ProvisionedProductStatus._(this.value);
-
-  static const values = [
-    available,
-    underChange,
-    tainted,
-    error,
-    planInProgress
-  ];
-
-  static ProvisionedProductStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ProvisionedProductStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ProvisionedProductStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ProvisionedProductViewFilterBy {
-  static const searchQuery = ProvisionedProductViewFilterBy._('SearchQuery');
-
-  final String value;
-
-  const ProvisionedProductViewFilterBy._(this.value);
-
-  static const values = [searchQuery];
-
-  static ProvisionedProductViewFilterBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ProvisionedProductViewFilterBy._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ProvisionedProductViewFilterBy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about a provisioning artifact. A provisioning artifact is also
-/// known as a product version.
-class ProvisioningArtifact {
-  /// The UTC time stamp of the creation time.
-  final DateTime? createdTime;
-
-  /// The description of the provisioning artifact.
-  final String? description;
-
-  /// Information set by the administrator to provide guidance to end users about
-  /// which provisioning artifacts to use.
-  final ProvisioningArtifactGuidance? guidance;
-
-  /// The identifier of the provisioning artifact.
-  final String? id;
-
-  /// The name of the provisioning artifact.
-  final String? name;
-
-  ProvisioningArtifact({
-    this.createdTime,
-    this.description,
-    this.guidance,
-    this.id,
-    this.name,
-  });
-
-  factory ProvisioningArtifact.fromJson(Map<String, dynamic> json) {
-    return ProvisioningArtifact(
-      createdTime: timeStampFromJson(json['CreatedTime']),
-      description: json['Description'] as String?,
-      guidance: (json['Guidance'] as String?)
-          ?.let(ProvisioningArtifactGuidance.fromString),
-      id: json['Id'] as String?,
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdTime = this.createdTime;
-    final description = this.description;
-    final guidance = this.guidance;
-    final id = this.id;
-    final name = this.name;
-    return {
-      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
-      if (description != null) 'Description': description,
-      if (guidance != null) 'Guidance': guidance.value,
-      if (id != null) 'Id': id,
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
-/// Information about a provisioning artifact (also known as a version) for a
-/// product.
-class ProvisioningArtifactDetail {
-  /// Indicates whether the product version is active.
-  final bool? active;
-
-  /// The UTC time stamp of the creation time.
-  final DateTime? createdTime;
-
-  /// The description of the provisioning artifact.
-  final String? description;
-
-  /// Information set by the administrator to provide guidance to end users about
-  /// which provisioning artifacts to use.
-  final ProvisioningArtifactGuidance? guidance;
-
-  /// The identifier of the provisioning artifact.
-  final String? id;
-
-  /// The name of the provisioning artifact.
-  final String? name;
-
-  /// Specifies the revision of the external artifact that was used to
-  /// automatically sync the Service Catalog product and create the provisioning
-  /// artifact. Service Catalog includes this response parameter as a high level
-  /// field to the existing <code>ProvisioningArtifactDetail</code> type, which is
-  /// returned as part of the response for <code>CreateProduct</code>,
-  /// <code>UpdateProduct</code>, <code>DescribeProductAsAdmin</code>,
-  /// <code>DescribeProvisioningArtifact</code>,
-  /// <code>ListProvisioningArtifact</code>, and
-  /// <code>UpdateProvisioningArticat</code> APIs.
-  ///
-  /// This field only exists for Repo-Synced products.
-  final String? sourceRevision;
-
-  /// The type of provisioning artifact.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>CLOUD_FORMATION_TEMPLATE</code> - CloudFormation template
-  /// </li>
-  /// <li>
-  /// <code>TERRAFORM_OPEN_SOURCE</code> - Terraform Open Source configuration
-  /// file
-  /// </li>
-  /// <li>
-  /// <code>TERRAFORM_CLOUD</code> - Terraform Cloud configuration file
-  /// </li>
-  /// <li>
-  /// <code>EXTERNAL</code> - External configuration file
-  /// </li>
-  /// </ul>
-  final ProvisioningArtifactType? type;
-
-  ProvisioningArtifactDetail({
-    this.active,
-    this.createdTime,
-    this.description,
-    this.guidance,
-    this.id,
-    this.name,
-    this.sourceRevision,
-    this.type,
-  });
-
-  factory ProvisioningArtifactDetail.fromJson(Map<String, dynamic> json) {
-    return ProvisioningArtifactDetail(
-      active: json['Active'] as bool?,
-      createdTime: timeStampFromJson(json['CreatedTime']),
-      description: json['Description'] as String?,
-      guidance: (json['Guidance'] as String?)
-          ?.let(ProvisioningArtifactGuidance.fromString),
-      id: json['Id'] as String?,
-      name: json['Name'] as String?,
-      sourceRevision: json['SourceRevision'] as String?,
-      type: (json['Type'] as String?)?.let(ProvisioningArtifactType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final active = this.active;
-    final createdTime = this.createdTime;
-    final description = this.description;
-    final guidance = this.guidance;
-    final id = this.id;
-    final name = this.name;
-    final sourceRevision = this.sourceRevision;
-    final type = this.type;
-    return {
-      if (active != null) 'Active': active,
-      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
-      if (description != null) 'Description': description,
-      if (guidance != null) 'Guidance': guidance.value,
-      if (id != null) 'Id': id,
-      if (name != null) 'Name': name,
-      if (sourceRevision != null) 'SourceRevision': sourceRevision,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class ProvisioningArtifactGuidance {
-  static const $default = ProvisioningArtifactGuidance._('DEFAULT');
-  static const deprecated = ProvisioningArtifactGuidance._('DEPRECATED');
-
-  final String value;
-
-  const ProvisioningArtifactGuidance._(this.value);
-
-  static const values = [$default, deprecated];
-
-  static ProvisioningArtifactGuidance fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ProvisioningArtifactGuidance._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ProvisioningArtifactGuidance && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provisioning artifact output.
-class ProvisioningArtifactOutput {
-  /// Description of the provisioning artifact output key.
-  final String? description;
-
-  /// The provisioning artifact output key.
-  final String? key;
-
-  ProvisioningArtifactOutput({
-    this.description,
-    this.key,
-  });
-
-  factory ProvisioningArtifactOutput.fromJson(Map<String, dynamic> json) {
-    return ProvisioningArtifactOutput(
-      description: json['Description'] as String?,
-      key: json['Key'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final key = this.key;
-    return {
-      if (description != null) 'Description': description,
-      if (key != null) 'Key': key,
-    };
-  }
-}
-
-/// Information about a parameter used to provision a product.
-class ProvisioningArtifactParameter {
-  /// The default value.
-  final String? defaultValue;
-
-  /// The description of the parameter.
-  final String? description;
-
-  /// If this value is true, the value for this parameter is obfuscated from view
-  /// when the parameter is retrieved. This parameter is used to hide sensitive
-  /// information.
-  final bool? isNoEcho;
-
-  /// Constraints that the administrator has put on a parameter.
-  final ParameterConstraints? parameterConstraints;
-
-  /// The parameter key.
-  final String? parameterKey;
-
-  /// The parameter type.
-  final String? parameterType;
-
-  ProvisioningArtifactParameter({
-    this.defaultValue,
-    this.description,
-    this.isNoEcho,
-    this.parameterConstraints,
-    this.parameterKey,
-    this.parameterType,
-  });
-
-  factory ProvisioningArtifactParameter.fromJson(Map<String, dynamic> json) {
-    return ProvisioningArtifactParameter(
-      defaultValue: json['DefaultValue'] as String?,
-      description: json['Description'] as String?,
-      isNoEcho: json['IsNoEcho'] as bool?,
-      parameterConstraints: json['ParameterConstraints'] != null
-          ? ParameterConstraints.fromJson(
-              json['ParameterConstraints'] as Map<String, dynamic>)
-          : null,
-      parameterKey: json['ParameterKey'] as String?,
-      parameterType: json['ParameterType'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final defaultValue = this.defaultValue;
-    final description = this.description;
-    final isNoEcho = this.isNoEcho;
-    final parameterConstraints = this.parameterConstraints;
-    final parameterKey = this.parameterKey;
-    final parameterType = this.parameterType;
-    return {
-      if (defaultValue != null) 'DefaultValue': defaultValue,
-      if (description != null) 'Description': description,
-      if (isNoEcho != null) 'IsNoEcho': isNoEcho,
-      if (parameterConstraints != null)
-        'ParameterConstraints': parameterConstraints,
-      if (parameterKey != null) 'ParameterKey': parameterKey,
-      if (parameterType != null) 'ParameterType': parameterType,
-    };
-  }
-}
-
-/// The user-defined preferences that will be applied during product
-/// provisioning, unless overridden by <code>ProvisioningPreferences</code> or
-/// <code>UpdateProvisioningPreferences</code>.
-///
-/// For more information on maximum concurrent accounts and failure tolerance,
-/// see <a
-/// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html#stackset-ops-options">Stack
-/// set operation options</a> in the <i>CloudFormation User Guide</i>.
-class ProvisioningArtifactPreferences {
-  /// One or more Amazon Web Services accounts where stack instances are deployed
-  /// from the stack set. These accounts can be scoped in
-  /// <code>ProvisioningPreferences$StackSetAccounts</code> and
-  /// <code>UpdateProvisioningPreferences$StackSetAccounts</code>.
-  ///
-  /// Applicable only to a <code>CFN_STACKSET</code> provisioned product type.
-  final List<String>? stackSetAccounts;
-
-  /// One or more Amazon Web Services Regions where stack instances are deployed
-  /// from the stack set. These Regions can be scoped in
-  /// <code>ProvisioningPreferences$StackSetRegions</code> and
-  /// <code>UpdateProvisioningPreferences$StackSetRegions</code>.
-  ///
-  /// Applicable only to a <code>CFN_STACKSET</code> provisioned product type.
-  final List<String>? stackSetRegions;
-
-  ProvisioningArtifactPreferences({
-    this.stackSetAccounts,
-    this.stackSetRegions,
-  });
-
-  factory ProvisioningArtifactPreferences.fromJson(Map<String, dynamic> json) {
-    return ProvisioningArtifactPreferences(
-      stackSetAccounts: (json['StackSetAccounts'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      stackSetRegions: (json['StackSetRegions'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final stackSetAccounts = this.stackSetAccounts;
-    final stackSetRegions = this.stackSetRegions;
-    return {
-      if (stackSetAccounts != null) 'StackSetAccounts': stackSetAccounts,
-      if (stackSetRegions != null) 'StackSetRegions': stackSetRegions,
-    };
-  }
-}
-
-/// Information about a provisioning artifact (also known as a version) for a
-/// product.
-class ProvisioningArtifactProperties {
-  /// The description of the provisioning artifact, including how it differs from
-  /// the previous provisioning artifact.
-  final String? description;
-
-  /// If set to true, Service Catalog stops validating the specified provisioning
-  /// artifact even if it is invalid.
-  ///
-  /// Service Catalog does not support template validation for the
-  /// <code>TERRAFORM_OS</code> product type.
-  final bool? disableTemplateValidation;
-
-  /// Specify the template source with one of the following options, but not both.
-  /// Keys accepted: [ <code>LoadTemplateFromURL</code>,
-  /// <code>ImportFromPhysicalId</code> ]
-  ///
-  /// The URL of the CloudFormation template in Amazon S3 or GitHub in JSON
-  /// format. Specify the URL in JSON format as follows:
-  ///
-  /// <code>"LoadTemplateFromURL":
-  /// "https://s3.amazonaws.com/cf-templates-ozkq9d3hgiq2-us-east-1/..."</code>
-  ///
-  /// <code>ImportFromPhysicalId</code>: The physical id of the resource that
-  /// contains the template. Currently only supports CloudFormation stack arn.
-  /// Specify the physical id in JSON format as follows:
-  /// <code>ImportFromPhysicalId:
-  /// “arn:aws:cloudformation:[us-east-1]:[accountId]:stack/[StackName]/[resourceId]</code>
-  final Map<String, String>? info;
-
-  /// The name of the provisioning artifact (for example, v1 v2beta). No spaces
-  /// are allowed.
-  final String? name;
-
-  /// The type of provisioning artifact.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>CLOUD_FORMATION_TEMPLATE</code> - CloudFormation template
-  /// </li>
-  /// <li>
-  /// <code>TERRAFORM_OPEN_SOURCE</code> - Terraform Open Source configuration
-  /// file
-  /// </li>
-  /// <li>
-  /// <code>TERRAFORM_CLOUD</code> - Terraform Cloud configuration file
-  /// </li>
-  /// <li>
-  /// <code>EXTERNAL</code> - External configuration file
-  /// </li>
-  /// </ul>
-  final ProvisioningArtifactType? type;
-
-  ProvisioningArtifactProperties({
-    this.description,
-    this.disableTemplateValidation,
-    this.info,
-    this.name,
-    this.type,
-  });
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final disableTemplateValidation = this.disableTemplateValidation;
-    final info = this.info;
-    final name = this.name;
-    final type = this.type;
-    return {
-      if (description != null) 'Description': description,
-      if (disableTemplateValidation != null)
-        'DisableTemplateValidation': disableTemplateValidation,
-      if (info != null) 'Info': info,
-      if (name != null) 'Name': name,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class ProvisioningArtifactPropertyName {
-  static const id = ProvisioningArtifactPropertyName._('Id');
-
-  final String value;
-
-  const ProvisioningArtifactPropertyName._(this.value);
-
-  static const values = [id];
-
-  static ProvisioningArtifactPropertyName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ProvisioningArtifactPropertyName._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ProvisioningArtifactPropertyName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Summary information about a provisioning artifact (also known as a version)
-/// for a product.
-class ProvisioningArtifactSummary {
-  /// The UTC time stamp of the creation time.
-  final DateTime? createdTime;
-
-  /// The description of the provisioning artifact.
-  final String? description;
-
-  /// The identifier of the provisioning artifact.
-  final String? id;
-
-  /// The name of the provisioning artifact.
-  final String? name;
-
-  /// The metadata for the provisioning artifact. This is used with Amazon Web
-  /// Services Marketplace products.
-  final Map<String, String>? provisioningArtifactMetadata;
-
-  ProvisioningArtifactSummary({
-    this.createdTime,
-    this.description,
-    this.id,
-    this.name,
-    this.provisioningArtifactMetadata,
-  });
-
-  factory ProvisioningArtifactSummary.fromJson(Map<String, dynamic> json) {
-    return ProvisioningArtifactSummary(
-      createdTime: timeStampFromJson(json['CreatedTime']),
-      description: json['Description'] as String?,
-      id: json['Id'] as String?,
-      name: json['Name'] as String?,
-      provisioningArtifactMetadata:
-          (json['ProvisioningArtifactMetadata'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdTime = this.createdTime;
-    final description = this.description;
-    final id = this.id;
-    final name = this.name;
-    final provisioningArtifactMetadata = this.provisioningArtifactMetadata;
-    return {
-      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
-      if (description != null) 'Description': description,
-      if (id != null) 'Id': id,
-      if (name != null) 'Name': name,
-      if (provisioningArtifactMetadata != null)
-        'ProvisioningArtifactMetadata': provisioningArtifactMetadata,
-    };
-  }
-}
-
-class ProvisioningArtifactType {
-  static const cloudFormationTemplate =
-      ProvisioningArtifactType._('CLOUD_FORMATION_TEMPLATE');
-  static const marketplaceAmi = ProvisioningArtifactType._('MARKETPLACE_AMI');
-  static const marketplaceCar = ProvisioningArtifactType._('MARKETPLACE_CAR');
-  static const terraformOpenSource =
-      ProvisioningArtifactType._('TERRAFORM_OPEN_SOURCE');
-  static const terraformCloud = ProvisioningArtifactType._('TERRAFORM_CLOUD');
-  static const external = ProvisioningArtifactType._('EXTERNAL');
-
-  final String value;
-
-  const ProvisioningArtifactType._(this.value);
-
-  static const values = [
-    cloudFormationTemplate,
-    marketplaceAmi,
-    marketplaceCar,
-    terraformOpenSource,
-    terraformCloud,
-    external
-  ];
-
-  static ProvisioningArtifactType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ProvisioningArtifactType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ProvisioningArtifactType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object that contains summary information about a product view and a
-/// provisioning artifact.
-class ProvisioningArtifactView {
-  /// Summary information about a product view.
-  final ProductViewSummary? productViewSummary;
-
-  /// Information about a provisioning artifact. A provisioning artifact is also
-  /// known as a product version.
-  final ProvisioningArtifact? provisioningArtifact;
-
-  ProvisioningArtifactView({
-    this.productViewSummary,
-    this.provisioningArtifact,
-  });
-
-  factory ProvisioningArtifactView.fromJson(Map<String, dynamic> json) {
-    return ProvisioningArtifactView(
-      productViewSummary: json['ProductViewSummary'] != null
-          ? ProductViewSummary.fromJson(
-              json['ProductViewSummary'] as Map<String, dynamic>)
-          : null,
-      provisioningArtifact: json['ProvisioningArtifact'] != null
-          ? ProvisioningArtifact.fromJson(
-              json['ProvisioningArtifact'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final productViewSummary = this.productViewSummary;
-    final provisioningArtifact = this.provisioningArtifact;
-    return {
-      if (productViewSummary != null) 'ProductViewSummary': productViewSummary,
-      if (provisioningArtifact != null)
-        'ProvisioningArtifact': provisioningArtifact,
-    };
-  }
-}
-
-/// Information about a parameter used to provision a product.
-class ProvisioningParameter {
-  /// The parameter key.
-  final String? key;
-
-  /// The parameter value.
-  final String? value;
-
-  ProvisioningParameter({
-    this.key,
-    this.value,
-  });
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      if (key != null) 'Key': key,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-/// The user-defined preferences that will be applied when updating a
-/// provisioned product. Not all preferences are applicable to all provisioned
-/// product type
-///
-/// One or more Amazon Web Services accounts that will have access to the
-/// provisioned product.
-///
-/// Applicable only to a <code>CFN_STACKSET</code> provisioned product type.
-///
-/// The Amazon Web Services accounts specified should be within the list of
-/// accounts in the <code>STACKSET</code> constraint. To get the list of
-/// accounts in the <code>STACKSET</code> constraint, use the
-/// <code>DescribeProvisioningParameters</code> operation.
-///
-/// If no values are specified, the default value is all accounts from the
-/// <code>STACKSET</code> constraint.
-class ProvisioningPreferences {
-  /// One or more Amazon Web Services accounts where the provisioned product will
-  /// be available.
-  ///
-  /// Applicable only to a <code>CFN_STACKSET</code> provisioned product type.
-  ///
-  /// The specified accounts should be within the list of accounts from the
-  /// <code>STACKSET</code> constraint. To get the list of accounts in the
-  /// <code>STACKSET</code> constraint, use the
-  /// <code>DescribeProvisioningParameters</code> operation.
-  ///
-  /// If no values are specified, the default value is all acounts from the
-  /// <code>STACKSET</code> constraint.
-  final List<String>? stackSetAccounts;
-
-  /// The number of accounts, per Region, for which this operation can fail before
-  /// Service Catalog stops the operation in that Region. If the operation is
-  /// stopped in a Region, Service Catalog doesn't attempt the operation in any
-  /// subsequent Regions.
-  ///
-  /// Applicable only to a <code>CFN_STACKSET</code> provisioned product type.
-  ///
-  /// Conditional: You must specify either
-  /// <code>StackSetFailureToleranceCount</code> or
-  /// <code>StackSetFailureTolerancePercentage</code>, but not both.
-  ///
-  /// The default value is <code>0</code> if no value is specified.
-  final int? stackSetFailureToleranceCount;
-
-  /// The percentage of accounts, per Region, for which this stack operation can
-  /// fail before Service Catalog stops the operation in that Region. If the
-  /// operation is stopped in a Region, Service Catalog doesn't attempt the
-  /// operation in any subsequent Regions.
-  ///
-  /// When calculating the number of accounts based on the specified percentage,
-  /// Service Catalog rounds down to the next whole number.
-  ///
-  /// Applicable only to a <code>CFN_STACKSET</code> provisioned product type.
-  ///
-  /// Conditional: You must specify either
-  /// <code>StackSetFailureToleranceCount</code> or
-  /// <code>StackSetFailureTolerancePercentage</code>, but not both.
-  final int? stackSetFailureTolerancePercentage;
-
-  /// The maximum number of accounts in which to perform this operation at one
-  /// time. This is dependent on the value of
-  /// <code>StackSetFailureToleranceCount</code>.
-  /// <code>StackSetMaxConcurrentCount</code> is at most one more than the
-  /// <code>StackSetFailureToleranceCount</code>.
-  ///
-  /// Note that this setting lets you specify the maximum for operations. For
-  /// large deployments, under certain circumstances the actual number of accounts
-  /// acted upon concurrently may be lower due to service throttling.
-  ///
-  /// Applicable only to a <code>CFN_STACKSET</code> provisioned product type.
-  ///
-  /// Conditional: You must specify either <code>StackSetMaxConcurrentCount</code>
-  /// or <code>StackSetMaxConcurrentPercentage</code>, but not both.
-  final int? stackSetMaxConcurrencyCount;
-
-  /// The maximum percentage of accounts in which to perform this operation at one
-  /// time.
-  ///
-  /// When calculating the number of accounts based on the specified percentage,
-  /// Service Catalog rounds down to the next whole number. This is true except in
-  /// cases where rounding down would result is zero. In this case, Service
-  /// Catalog sets the number as <code>1</code> instead.
-  ///
-  /// Note that this setting lets you specify the maximum for operations. For
-  /// large deployments, under certain circumstances the actual number of accounts
-  /// acted upon concurrently may be lower due to service throttling.
-  ///
-  /// Applicable only to a <code>CFN_STACKSET</code> provisioned product type.
-  ///
-  /// Conditional: You must specify either <code>StackSetMaxConcurrentCount</code>
-  /// or <code>StackSetMaxConcurrentPercentage</code>, but not both.
-  final int? stackSetMaxConcurrencyPercentage;
-
-  /// One or more Amazon Web Services Regions where the provisioned product will
-  /// be available.
-  ///
-  /// Applicable only to a <code>CFN_STACKSET</code> provisioned product type.
-  ///
-  /// The specified Regions should be within the list of Regions from the
-  /// <code>STACKSET</code> constraint. To get the list of Regions in the
-  /// <code>STACKSET</code> constraint, use the
-  /// <code>DescribeProvisioningParameters</code> operation.
-  ///
-  /// If no values are specified, the default value is all Regions from the
-  /// <code>STACKSET</code> constraint.
-  final List<String>? stackSetRegions;
-
-  ProvisioningPreferences({
-    this.stackSetAccounts,
-    this.stackSetFailureToleranceCount,
-    this.stackSetFailureTolerancePercentage,
-    this.stackSetMaxConcurrencyCount,
-    this.stackSetMaxConcurrencyPercentage,
-    this.stackSetRegions,
-  });
-
-  Map<String, dynamic> toJson() {
-    final stackSetAccounts = this.stackSetAccounts;
-    final stackSetFailureToleranceCount = this.stackSetFailureToleranceCount;
-    final stackSetFailureTolerancePercentage =
-        this.stackSetFailureTolerancePercentage;
-    final stackSetMaxConcurrencyCount = this.stackSetMaxConcurrencyCount;
-    final stackSetMaxConcurrencyPercentage =
-        this.stackSetMaxConcurrencyPercentage;
-    final stackSetRegions = this.stackSetRegions;
-    return {
-      if (stackSetAccounts != null) 'StackSetAccounts': stackSetAccounts,
-      if (stackSetFailureToleranceCount != null)
-        'StackSetFailureToleranceCount': stackSetFailureToleranceCount,
-      if (stackSetFailureTolerancePercentage != null)
-        'StackSetFailureTolerancePercentage':
-            stackSetFailureTolerancePercentage,
-      if (stackSetMaxConcurrencyCount != null)
-        'StackSetMaxConcurrencyCount': stackSetMaxConcurrencyCount,
-      if (stackSetMaxConcurrencyPercentage != null)
-        'StackSetMaxConcurrencyPercentage': stackSetMaxConcurrencyPercentage,
-      if (stackSetRegions != null) 'StackSetRegions': stackSetRegions,
-    };
-  }
-}
-
-/// Information about a request operation.
-class RecordDetail {
-  /// The UTC time stamp of the creation time.
-  final DateTime? createdTime;
-
-  /// The ARN of the launch role associated with the provisioned product.
-  final String? launchRoleArn;
-
-  /// The path identifier.
-  final String? pathId;
-
-  /// The product identifier.
-  final String? productId;
-
-  /// The identifier of the provisioned product.
-  final String? provisionedProductId;
-
-  /// The user-friendly name of the provisioned product.
-  final String? provisionedProductName;
-
-  /// The type of provisioned product. The supported values are
-  /// <code>CFN_STACK</code>, <code>CFN_STACKSET</code>,
-  /// <code>TERRAFORM_OPEN_SOURCE</code>, <code>TERRAFORM_CLOUD</code>, and
-  /// <code>EXTERNAL</code>.
-  final String? provisionedProductType;
-
-  /// The identifier of the provisioning artifact.
-  final String? provisioningArtifactId;
-
-  /// The errors that occurred.
-  final List<RecordError>? recordErrors;
-
-  /// The identifier of the record.
-  final String? recordId;
-
-  /// One or more tags.
-  final List<RecordTag>? recordTags;
-
-  /// The record type.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>PROVISION_PRODUCT</code>
-  /// </li>
-  /// <li>
-  /// <code>UPDATE_PROVISIONED_PRODUCT</code>
-  /// </li>
-  /// <li>
-  /// <code>TERMINATE_PROVISIONED_PRODUCT</code>
-  /// </li>
-  /// </ul>
-  final String? recordType;
-
-  /// The status of the provisioned product.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>CREATED</code> - The request was created but the operation has not
-  /// started.
-  /// </li>
-  /// <li>
-  /// <code>IN_PROGRESS</code> - The requested operation is in progress.
-  /// </li>
-  /// <li>
-  /// <code>IN_PROGRESS_IN_ERROR</code> - The provisioned product is under change
-  /// but the requested operation failed and some remediation is occurring. For
-  /// example, a rollback.
-  /// </li>
-  /// <li>
-  /// <code>SUCCEEDED</code> - The requested operation has successfully completed.
-  /// </li>
-  /// <li>
-  /// <code>FAILED</code> - The requested operation has unsuccessfully completed.
-  /// Investigate using the error messages returned.
-  /// </li>
-  /// </ul>
-  final RecordStatus? status;
-
-  /// The time when the record was last updated.
-  final DateTime? updatedTime;
-
-  RecordDetail({
-    this.createdTime,
-    this.launchRoleArn,
-    this.pathId,
-    this.productId,
-    this.provisionedProductId,
-    this.provisionedProductName,
-    this.provisionedProductType,
-    this.provisioningArtifactId,
-    this.recordErrors,
-    this.recordId,
-    this.recordTags,
-    this.recordType,
-    this.status,
-    this.updatedTime,
-  });
-
-  factory RecordDetail.fromJson(Map<String, dynamic> json) {
-    return RecordDetail(
-      createdTime: timeStampFromJson(json['CreatedTime']),
-      launchRoleArn: json['LaunchRoleArn'] as String?,
-      pathId: json['PathId'] as String?,
-      productId: json['ProductId'] as String?,
-      provisionedProductId: json['ProvisionedProductId'] as String?,
-      provisionedProductName: json['ProvisionedProductName'] as String?,
-      provisionedProductType: json['ProvisionedProductType'] as String?,
-      provisioningArtifactId: json['ProvisioningArtifactId'] as String?,
-      recordErrors: (json['RecordErrors'] as List?)
-          ?.nonNulls
-          .map((e) => RecordError.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      recordId: json['RecordId'] as String?,
-      recordTags: (json['RecordTags'] as List?)
-          ?.nonNulls
-          .map((e) => RecordTag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      recordType: json['RecordType'] as String?,
-      status: (json['Status'] as String?)?.let(RecordStatus.fromString),
-      updatedTime: timeStampFromJson(json['UpdatedTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdTime = this.createdTime;
-    final launchRoleArn = this.launchRoleArn;
-    final pathId = this.pathId;
-    final productId = this.productId;
-    final provisionedProductId = this.provisionedProductId;
-    final provisionedProductName = this.provisionedProductName;
-    final provisionedProductType = this.provisionedProductType;
-    final provisioningArtifactId = this.provisioningArtifactId;
-    final recordErrors = this.recordErrors;
-    final recordId = this.recordId;
-    final recordTags = this.recordTags;
-    final recordType = this.recordType;
-    final status = this.status;
-    final updatedTime = this.updatedTime;
-    return {
-      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
-      if (launchRoleArn != null) 'LaunchRoleArn': launchRoleArn,
-      if (pathId != null) 'PathId': pathId,
-      if (productId != null) 'ProductId': productId,
-      if (provisionedProductId != null)
-        'ProvisionedProductId': provisionedProductId,
-      if (provisionedProductName != null)
-        'ProvisionedProductName': provisionedProductName,
-      if (provisionedProductType != null)
-        'ProvisionedProductType': provisionedProductType,
-      if (provisioningArtifactId != null)
-        'ProvisioningArtifactId': provisioningArtifactId,
-      if (recordErrors != null) 'RecordErrors': recordErrors,
-      if (recordId != null) 'RecordId': recordId,
-      if (recordTags != null) 'RecordTags': recordTags,
-      if (recordType != null) 'RecordType': recordType,
-      if (status != null) 'Status': status.value,
-      if (updatedTime != null) 'UpdatedTime': unixTimestampToJson(updatedTime),
-    };
-  }
-}
-
-/// The error code and description resulting from an operation.
-class RecordError {
-  /// The numeric value of the error.
-  final String? code;
-
-  /// The description of the error.
-  final String? description;
-
-  RecordError({
-    this.code,
-    this.description,
-  });
-
-  factory RecordError.fromJson(Map<String, dynamic> json) {
-    return RecordError(
-      code: json['Code'] as String?,
-      description: json['Description'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final description = this.description;
-    return {
-      if (code != null) 'Code': code,
-      if (description != null) 'Description': description,
-    };
-  }
-}
-
-/// The output for the product created as the result of a request. For example,
-/// the output for a CloudFormation-backed product that creates an S3 bucket
-/// would include the S3 bucket URL.
-class RecordOutput {
-  /// The description of the output.
-  final String? description;
-
-  /// The output key.
-  final String? outputKey;
-
-  /// The output value.
-  final String? outputValue;
-
-  RecordOutput({
-    this.description,
-    this.outputKey,
-    this.outputValue,
-  });
-
-  factory RecordOutput.fromJson(Map<String, dynamic> json) {
-    return RecordOutput(
-      description: json['Description'] as String?,
-      outputKey: json['OutputKey'] as String?,
-      outputValue: json['OutputValue'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final outputKey = this.outputKey;
-    final outputValue = this.outputValue;
-    return {
-      if (description != null) 'Description': description,
-      if (outputKey != null) 'OutputKey': outputKey,
-      if (outputValue != null) 'OutputValue': outputValue,
-    };
-  }
-}
-
-class RecordStatus {
-  static const created = RecordStatus._('CREATED');
-  static const inProgress = RecordStatus._('IN_PROGRESS');
-  static const inProgressInError = RecordStatus._('IN_PROGRESS_IN_ERROR');
-  static const succeeded = RecordStatus._('SUCCEEDED');
-  static const failed = RecordStatus._('FAILED');
-
-  final String value;
-
-  const RecordStatus._(this.value);
-
-  static const values = [
-    created,
-    inProgress,
-    inProgressInError,
-    succeeded,
-    failed
-  ];
-
-  static RecordStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => RecordStatus._(value));
-
-  @override
-  bool operator ==(other) => other is RecordStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about a tag, which is a key-value pair.
-class RecordTag {
-  /// The key for this tag.
-  final String? key;
-
-  /// The value for this tag.
-  final String? value;
-
-  RecordTag({
-    this.key,
-    this.value,
-  });
-
-  factory RecordTag.fromJson(Map<String, dynamic> json) {
-    return RecordTag(
-      key: json['Key'] as String?,
-      value: json['Value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      if (key != null) 'Key': key,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
 class RejectPortfolioShareOutput {
   RejectPortfolioShareOutput();
 
@@ -11413,300 +8134,6 @@ class RejectPortfolioShareOutput {
 
   Map<String, dynamic> toJson() {
     return {};
-  }
-}
-
-class Replacement {
-  static const $true = Replacement._('TRUE');
-  static const $false = Replacement._('FALSE');
-  static const conditional = Replacement._('CONDITIONAL');
-
-  final String value;
-
-  const Replacement._(this.value);
-
-  static const values = [$true, $false, conditional];
-
-  static Replacement fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Replacement._(value));
-
-  @override
-  bool operator ==(other) => other is Replacement && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class RequiresRecreation {
-  static const never = RequiresRecreation._('NEVER');
-  static const conditionally = RequiresRecreation._('CONDITIONALLY');
-  static const always = RequiresRecreation._('ALWAYS');
-
-  final String value;
-
-  const RequiresRecreation._(this.value);
-
-  static const values = [never, conditionally, always];
-
-  static RequiresRecreation fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RequiresRecreation._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is RequiresRecreation && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ResourceAttribute {
-  static const properties = ResourceAttribute._('PROPERTIES');
-  static const metadata = ResourceAttribute._('METADATA');
-  static const creationpolicy = ResourceAttribute._('CREATIONPOLICY');
-  static const updatepolicy = ResourceAttribute._('UPDATEPOLICY');
-  static const deletionpolicy = ResourceAttribute._('DELETIONPOLICY');
-  static const tags = ResourceAttribute._('TAGS');
-
-  final String value;
-
-  const ResourceAttribute._(this.value);
-
-  static const values = [
-    properties,
-    metadata,
-    creationpolicy,
-    updatepolicy,
-    deletionpolicy,
-    tags
-  ];
-
-  static ResourceAttribute fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ResourceAttribute._(value));
-
-  @override
-  bool operator ==(other) => other is ResourceAttribute && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about a resource change that will occur when a plan is executed.
-class ResourceChange {
-  /// The change action.
-  final ChangeAction? action;
-
-  /// Information about the resource changes.
-  final List<ResourceChangeDetail>? details;
-
-  /// The ID of the resource, as defined in the CloudFormation template.
-  final String? logicalResourceId;
-
-  /// The ID of the resource, if it was already created.
-  final String? physicalResourceId;
-
-  /// If the change type is <code>Modify</code>, indicates whether the existing
-  /// resource is deleted and replaced with a new one.
-  final Replacement? replacement;
-
-  /// The type of resource.
-  final String? resourceType;
-
-  /// The change scope.
-  final List<ResourceAttribute>? scope;
-
-  ResourceChange({
-    this.action,
-    this.details,
-    this.logicalResourceId,
-    this.physicalResourceId,
-    this.replacement,
-    this.resourceType,
-    this.scope,
-  });
-
-  factory ResourceChange.fromJson(Map<String, dynamic> json) {
-    return ResourceChange(
-      action: (json['Action'] as String?)?.let(ChangeAction.fromString),
-      details: (json['Details'] as List?)
-          ?.nonNulls
-          .map((e) => ResourceChangeDetail.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      logicalResourceId: json['LogicalResourceId'] as String?,
-      physicalResourceId: json['PhysicalResourceId'] as String?,
-      replacement:
-          (json['Replacement'] as String?)?.let(Replacement.fromString),
-      resourceType: json['ResourceType'] as String?,
-      scope: (json['Scope'] as List?)
-          ?.nonNulls
-          .map((e) => ResourceAttribute.fromString((e as String)))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final action = this.action;
-    final details = this.details;
-    final logicalResourceId = this.logicalResourceId;
-    final physicalResourceId = this.physicalResourceId;
-    final replacement = this.replacement;
-    final resourceType = this.resourceType;
-    final scope = this.scope;
-    return {
-      if (action != null) 'Action': action.value,
-      if (details != null) 'Details': details,
-      if (logicalResourceId != null) 'LogicalResourceId': logicalResourceId,
-      if (physicalResourceId != null) 'PhysicalResourceId': physicalResourceId,
-      if (replacement != null) 'Replacement': replacement.value,
-      if (resourceType != null) 'ResourceType': resourceType,
-      if (scope != null) 'Scope': scope.map((e) => e.value).toList(),
-    };
-  }
-}
-
-/// Information about a change to a resource attribute.
-class ResourceChangeDetail {
-  /// The ID of the entity that caused the change.
-  final String? causingEntity;
-
-  /// For static evaluations, the value of the resource attribute will change and
-  /// the new value is known. For dynamic evaluations, the value might change, and
-  /// any new value will be determined when the plan is updated.
-  final EvaluationType? evaluation;
-
-  /// Information about the resource attribute to be modified.
-  final ResourceTargetDefinition? target;
-
-  ResourceChangeDetail({
-    this.causingEntity,
-    this.evaluation,
-    this.target,
-  });
-
-  factory ResourceChangeDetail.fromJson(Map<String, dynamic> json) {
-    return ResourceChangeDetail(
-      causingEntity: json['CausingEntity'] as String?,
-      evaluation:
-          (json['Evaluation'] as String?)?.let(EvaluationType.fromString),
-      target: json['Target'] != null
-          ? ResourceTargetDefinition.fromJson(
-              json['Target'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final causingEntity = this.causingEntity;
-    final evaluation = this.evaluation;
-    final target = this.target;
-    return {
-      if (causingEntity != null) 'CausingEntity': causingEntity,
-      if (evaluation != null) 'Evaluation': evaluation.value,
-      if (target != null) 'Target': target,
-    };
-  }
-}
-
-/// Information about a resource.
-class ResourceDetail {
-  /// The ARN of the resource.
-  final String? arn;
-
-  /// The creation time of the resource.
-  final DateTime? createdTime;
-
-  /// The description of the resource.
-  final String? description;
-
-  /// The identifier of the resource.
-  final String? id;
-
-  /// The name of the resource.
-  final String? name;
-
-  ResourceDetail({
-    this.arn,
-    this.createdTime,
-    this.description,
-    this.id,
-    this.name,
-  });
-
-  factory ResourceDetail.fromJson(Map<String, dynamic> json) {
-    return ResourceDetail(
-      arn: json['ARN'] as String?,
-      createdTime: timeStampFromJson(json['CreatedTime']),
-      description: json['Description'] as String?,
-      id: json['Id'] as String?,
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final createdTime = this.createdTime;
-    final description = this.description;
-    final id = this.id;
-    final name = this.name;
-    return {
-      if (arn != null) 'ARN': arn,
-      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
-      if (description != null) 'Description': description,
-      if (id != null) 'Id': id,
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
-/// Information about a change to a resource attribute.
-class ResourceTargetDefinition {
-  /// The attribute to be changed.
-  final ResourceAttribute? attribute;
-
-  /// If the attribute is <code>Properties</code>, the value is the name of the
-  /// property. Otherwise, the value is null.
-  final String? name;
-
-  /// If the attribute is <code>Properties</code>, indicates whether a change to
-  /// this property causes the resource to be re-created.
-  final RequiresRecreation? requiresRecreation;
-
-  ResourceTargetDefinition({
-    this.attribute,
-    this.name,
-    this.requiresRecreation,
-  });
-
-  factory ResourceTargetDefinition.fromJson(Map<String, dynamic> json) {
-    return ResourceTargetDefinition(
-      attribute:
-          (json['Attribute'] as String?)?.let(ResourceAttribute.fromString),
-      name: json['Name'] as String?,
-      requiresRecreation: (json['RequiresRecreation'] as String?)
-          ?.let(RequiresRecreation.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attribute = this.attribute;
-    final name = this.name;
-    final requiresRecreation = this.requiresRecreation;
-    return {
-      if (attribute != null) 'Attribute': attribute.value,
-      if (name != null) 'Name': name,
-      if (requiresRecreation != null)
-        'RequiresRecreation': requiresRecreation.value,
-    };
   }
 }
 
@@ -11741,39 +8168,6 @@ class ScanProvisionedProductsOutput {
       if (nextPageToken != null) 'NextPageToken': nextPageToken,
       if (provisionedProducts != null)
         'ProvisionedProducts': provisionedProducts,
-    };
-  }
-}
-
-class SearchProductsAsAdminOutput {
-  /// The page token to use to retrieve the next set of results. If there are no
-  /// additional results, this value is null.
-  final String? nextPageToken;
-
-  /// Information about the product views.
-  final List<ProductViewDetail>? productViewDetails;
-
-  SearchProductsAsAdminOutput({
-    this.nextPageToken,
-    this.productViewDetails,
-  });
-
-  factory SearchProductsAsAdminOutput.fromJson(Map<String, dynamic> json) {
-    return SearchProductsAsAdminOutput(
-      nextPageToken: json['NextPageToken'] as String?,
-      productViewDetails: (json['ProductViewDetails'] as List?)
-          ?.nonNulls
-          .map((e) => ProductViewDetail.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextPageToken = this.nextPageToken;
-    final productViewDetails = this.productViewDetails;
-    return {
-      if (nextPageToken != null) 'NextPageToken': nextPageToken,
-      if (productViewDetails != null) 'ProductViewDetails': productViewDetails,
     };
   }
 }
@@ -11828,6 +8222,39 @@ class SearchProductsOutput {
   }
 }
 
+class SearchProductsAsAdminOutput {
+  /// The page token to use to retrieve the next set of results. If there are no
+  /// additional results, this value is null.
+  final String? nextPageToken;
+
+  /// Information about the product views.
+  final List<ProductViewDetail>? productViewDetails;
+
+  SearchProductsAsAdminOutput({
+    this.nextPageToken,
+    this.productViewDetails,
+  });
+
+  factory SearchProductsAsAdminOutput.fromJson(Map<String, dynamic> json) {
+    return SearchProductsAsAdminOutput(
+      nextPageToken: json['NextPageToken'] as String?,
+      productViewDetails: (json['ProductViewDetails'] as List?)
+          ?.nonNulls
+          .map((e) => ProductViewDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextPageToken = this.nextPageToken;
+    final productViewDetails = this.productViewDetails;
+    return {
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+      if (productViewDetails != null) 'ProductViewDetails': productViewDetails,
+    };
+  }
+}
+
 class SearchProvisionedProductsOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
@@ -11870,742 +8297,6 @@ class SearchProvisionedProductsOutput {
   }
 }
 
-/// A self-service action association consisting of the Action ID, the Product
-/// ID, and the Provisioning Artifact ID.
-class ServiceActionAssociation {
-  /// The product identifier. For example, <code>prod-abcdzk7xy33qa</code>.
-  final String productId;
-
-  /// The identifier of the provisioning artifact. For example,
-  /// <code>pa-4abcdjnxjj6ne</code>.
-  final String provisioningArtifactId;
-
-  /// The self-service action identifier. For example,
-  /// <code>act-fs7abcd89wxyz</code>.
-  final String serviceActionId;
-
-  ServiceActionAssociation({
-    required this.productId,
-    required this.provisioningArtifactId,
-    required this.serviceActionId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final productId = this.productId;
-    final provisioningArtifactId = this.provisioningArtifactId;
-    final serviceActionId = this.serviceActionId;
-    return {
-      'ProductId': productId,
-      'ProvisioningArtifactId': provisioningArtifactId,
-      'ServiceActionId': serviceActionId,
-    };
-  }
-}
-
-class ServiceActionAssociationErrorCode {
-  static const duplicateResource =
-      ServiceActionAssociationErrorCode._('DUPLICATE_RESOURCE');
-  static const internalFailure =
-      ServiceActionAssociationErrorCode._('INTERNAL_FAILURE');
-  static const limitExceeded =
-      ServiceActionAssociationErrorCode._('LIMIT_EXCEEDED');
-  static const resourceNotFound =
-      ServiceActionAssociationErrorCode._('RESOURCE_NOT_FOUND');
-  static const throttling = ServiceActionAssociationErrorCode._('THROTTLING');
-  static const invalidParameter =
-      ServiceActionAssociationErrorCode._('INVALID_PARAMETER');
-
-  final String value;
-
-  const ServiceActionAssociationErrorCode._(this.value);
-
-  static const values = [
-    duplicateResource,
-    internalFailure,
-    limitExceeded,
-    resourceNotFound,
-    throttling,
-    invalidParameter
-  ];
-
-  static ServiceActionAssociationErrorCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ServiceActionAssociationErrorCode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ServiceActionAssociationErrorCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ServiceActionDefinitionKey {
-  static const name = ServiceActionDefinitionKey._('Name');
-  static const version = ServiceActionDefinitionKey._('Version');
-  static const assumeRole = ServiceActionDefinitionKey._('AssumeRole');
-  static const parameters = ServiceActionDefinitionKey._('Parameters');
-
-  final String value;
-
-  const ServiceActionDefinitionKey._(this.value);
-
-  static const values = [name, version, assumeRole, parameters];
-
-  static ServiceActionDefinitionKey fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ServiceActionDefinitionKey._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ServiceActionDefinitionKey && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ServiceActionDefinitionType {
-  static const ssmAutomation = ServiceActionDefinitionType._('SSM_AUTOMATION');
-
-  final String value;
-
-  const ServiceActionDefinitionType._(this.value);
-
-  static const values = [ssmAutomation];
-
-  static ServiceActionDefinitionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ServiceActionDefinitionType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ServiceActionDefinitionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object containing detailed information about the self-service action.
-class ServiceActionDetail {
-  /// A map that defines the self-service action.
-  final Map<ServiceActionDefinitionKey, String>? definition;
-
-  /// Summary information about the self-service action.
-  final ServiceActionSummary? serviceActionSummary;
-
-  ServiceActionDetail({
-    this.definition,
-    this.serviceActionSummary,
-  });
-
-  factory ServiceActionDetail.fromJson(Map<String, dynamic> json) {
-    return ServiceActionDetail(
-      definition: (json['Definition'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(ServiceActionDefinitionKey.fromString(k), e as String)),
-      serviceActionSummary: json['ServiceActionSummary'] != null
-          ? ServiceActionSummary.fromJson(
-              json['ServiceActionSummary'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final definition = this.definition;
-    final serviceActionSummary = this.serviceActionSummary;
-    return {
-      if (definition != null)
-        'Definition': definition.map((k, e) => MapEntry(k.value, e)),
-      if (serviceActionSummary != null)
-        'ServiceActionSummary': serviceActionSummary,
-    };
-  }
-}
-
-/// Detailed information about the self-service action.
-class ServiceActionSummary {
-  /// The self-service action definition type. For example,
-  /// <code>SSM_AUTOMATION</code>.
-  final ServiceActionDefinitionType? definitionType;
-
-  /// The self-service action description.
-  final String? description;
-
-  /// The self-service action identifier.
-  final String? id;
-
-  /// The self-service action name.
-  final String? name;
-
-  ServiceActionSummary({
-    this.definitionType,
-    this.description,
-    this.id,
-    this.name,
-  });
-
-  factory ServiceActionSummary.fromJson(Map<String, dynamic> json) {
-    return ServiceActionSummary(
-      definitionType: (json['DefinitionType'] as String?)
-          ?.let(ServiceActionDefinitionType.fromString),
-      description: json['Description'] as String?,
-      id: json['Id'] as String?,
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final definitionType = this.definitionType;
-    final description = this.description;
-    final id = this.id;
-    final name = this.name;
-    return {
-      if (definitionType != null) 'DefinitionType': definitionType.value,
-      if (description != null) 'Description': description,
-      if (id != null) 'Id': id,
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
-/// Information about the portfolio share operation.
-class ShareDetails {
-  /// List of errors.
-  final List<ShareError>? shareErrors;
-
-  /// List of accounts for whom the operation succeeded.
-  final List<String>? successfulShares;
-
-  ShareDetails({
-    this.shareErrors,
-    this.successfulShares,
-  });
-
-  factory ShareDetails.fromJson(Map<String, dynamic> json) {
-    return ShareDetails(
-      shareErrors: (json['ShareErrors'] as List?)
-          ?.nonNulls
-          .map((e) => ShareError.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      successfulShares: (json['SuccessfulShares'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final shareErrors = this.shareErrors;
-    final successfulShares = this.successfulShares;
-    return {
-      if (shareErrors != null) 'ShareErrors': shareErrors,
-      if (successfulShares != null) 'SuccessfulShares': successfulShares,
-    };
-  }
-}
-
-/// Errors that occurred during the portfolio share operation.
-class ShareError {
-  /// List of accounts impacted by the error.
-  final List<String>? accounts;
-
-  /// Error type that happened when processing the operation.
-  final String? error;
-
-  /// Information about the error.
-  final String? message;
-
-  ShareError({
-    this.accounts,
-    this.error,
-    this.message,
-  });
-
-  factory ShareError.fromJson(Map<String, dynamic> json) {
-    return ShareError(
-      accounts: (json['Accounts'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      error: json['Error'] as String?,
-      message: json['Message'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accounts = this.accounts;
-    final error = this.error;
-    final message = this.message;
-    return {
-      if (accounts != null) 'Accounts': accounts,
-      if (error != null) 'Error': error,
-      if (message != null) 'Message': message,
-    };
-  }
-}
-
-class ShareStatus {
-  static const notStarted = ShareStatus._('NOT_STARTED');
-  static const inProgress = ShareStatus._('IN_PROGRESS');
-  static const completed = ShareStatus._('COMPLETED');
-  static const completedWithErrors = ShareStatus._('COMPLETED_WITH_ERRORS');
-  static const error = ShareStatus._('ERROR');
-
-  final String value;
-
-  const ShareStatus._(this.value);
-
-  static const values = [
-    notStarted,
-    inProgress,
-    completed,
-    completedWithErrors,
-    error
-  ];
-
-  static ShareStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ShareStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ShareStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class SortOrder {
-  static const ascending = SortOrder._('ASCENDING');
-  static const descending = SortOrder._('DESCENDING');
-
-  final String value;
-
-  const SortOrder._(this.value);
-
-  static const values = [ascending, descending];
-
-  static SortOrder fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
-
-  @override
-  bool operator ==(other) => other is SortOrder && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A top level <code>ProductViewDetail</code> response containing details about
-/// the product’s connection. Service Catalog returns this field for the
-/// <code>CreateProduct</code>, <code>UpdateProduct</code>,
-/// <code>DescribeProductAsAdmin</code>, and <code>SearchProductAsAdmin</code>
-/// APIs. This response contains the same fields as the
-/// <code>ConnectionParameters</code> request, with the addition of the
-/// <code>LastSync</code> response.
-class SourceConnection {
-  /// The connection details based on the connection <code>Type</code>.
-  final SourceConnectionParameters connectionParameters;
-
-  /// The only supported <code>SourceConnection</code> type is Codestar.
-  final SourceType? type;
-
-  SourceConnection({
-    required this.connectionParameters,
-    this.type,
-  });
-
-  Map<String, dynamic> toJson() {
-    final connectionParameters = this.connectionParameters;
-    final type = this.type;
-    return {
-      'ConnectionParameters': connectionParameters,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-/// Provides details about the configured <code>SourceConnection</code>.
-class SourceConnectionDetail {
-  /// The connection details based on the connection <code>Type</code>.
-  final SourceConnectionParameters? connectionParameters;
-
-  /// Provides details about the product's connection sync and contains the
-  /// following sub-fields.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>LastSyncTime</code>
-  /// </li>
-  /// <li>
-  /// <code>LastSyncStatus</code>
-  /// </li>
-  /// <li>
-  /// <code>LastSyncStatusMessage</code>
-  /// </li>
-  /// <li>
-  /// <code>LastSuccessfulSyncTime</code>
-  /// </li>
-  /// <li>
-  /// <code>LastSuccessfulSyncProvisioningArtifactID</code>
-  /// </li>
-  /// </ul>
-  final LastSync? lastSync;
-
-  /// The only supported <code>SourceConnection</code> type is Codestar.
-  final SourceType? type;
-
-  SourceConnectionDetail({
-    this.connectionParameters,
-    this.lastSync,
-    this.type,
-  });
-
-  factory SourceConnectionDetail.fromJson(Map<String, dynamic> json) {
-    return SourceConnectionDetail(
-      connectionParameters: json['ConnectionParameters'] != null
-          ? SourceConnectionParameters.fromJson(
-              json['ConnectionParameters'] as Map<String, dynamic>)
-          : null,
-      lastSync: json['LastSync'] != null
-          ? LastSync.fromJson(json['LastSync'] as Map<String, dynamic>)
-          : null,
-      type: (json['Type'] as String?)?.let(SourceType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connectionParameters = this.connectionParameters;
-    final lastSync = this.lastSync;
-    final type = this.type;
-    return {
-      if (connectionParameters != null)
-        'ConnectionParameters': connectionParameters,
-      if (lastSync != null) 'LastSync': lastSync,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-/// Provides connection details.
-class SourceConnectionParameters {
-  /// Provides <code>ConnectionType</code> details.
-  final CodeStarParameters? codeStar;
-
-  SourceConnectionParameters({
-    this.codeStar,
-  });
-
-  factory SourceConnectionParameters.fromJson(Map<String, dynamic> json) {
-    return SourceConnectionParameters(
-      codeStar: json['CodeStar'] != null
-          ? CodeStarParameters.fromJson(
-              json['CodeStar'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final codeStar = this.codeStar;
-    return {
-      if (codeStar != null) 'CodeStar': codeStar,
-    };
-  }
-}
-
-class SourceType {
-  static const codestar = SourceType._('CODESTAR');
-
-  final String value;
-
-  const SourceType._(this.value);
-
-  static const values = [codestar];
-
-  static SourceType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SourceType._(value));
-
-  @override
-  bool operator ==(other) => other is SourceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An CloudFormation stack, in a specific account and Region, that's part of a
-/// stack set operation. A stack instance is a reference to an attempted or
-/// actual stack in a given account within a given Region. A stack instance can
-/// exist without a stack—for example, if the stack couldn't be created for some
-/// reason. A stack instance is associated with only one stack set. Each stack
-/// instance contains the ID of its associated stack set, as well as the ID of
-/// the actual stack and the stack status.
-class StackInstance {
-  /// The name of the Amazon Web Services account that the stack instance is
-  /// associated with.
-  final String? account;
-
-  /// The name of the Amazon Web Services Region that the stack instance is
-  /// associated with.
-  final String? region;
-
-  /// The status of the stack instance, in terms of its synchronization with its
-  /// associated stack set.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>INOPERABLE</code>: A <code>DeleteStackInstances</code> operation has
-  /// failed and left the stack in an unstable state. Stacks in this state are
-  /// excluded from further <code>UpdateStackSet</code> operations. You might need
-  /// to perform a <code>DeleteStackInstances</code> operation, with
-  /// <code>RetainStacks</code> set to true, to delete the stack instance, and
-  /// then delete the stack manually.
-  /// </li>
-  /// <li>
-  /// <code>OUTDATED</code>: The stack isn't currently up to date with the stack
-  /// set because either the associated stack failed during a
-  /// <code>CreateStackSet</code> or <code>UpdateStackSet</code> operation, or the
-  /// stack was part of a <code>CreateStackSet</code> or
-  /// <code>UpdateStackSet</code> operation that failed or was stopped before the
-  /// stack was created or updated.
-  /// </li>
-  /// <li>
-  /// <code>CURRENT</code>: The stack is currently up to date with the stack set.
-  /// </li>
-  /// </ul>
-  final StackInstanceStatus? stackInstanceStatus;
-
-  StackInstance({
-    this.account,
-    this.region,
-    this.stackInstanceStatus,
-  });
-
-  factory StackInstance.fromJson(Map<String, dynamic> json) {
-    return StackInstance(
-      account: json['Account'] as String?,
-      region: json['Region'] as String?,
-      stackInstanceStatus: (json['StackInstanceStatus'] as String?)
-          ?.let(StackInstanceStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final account = this.account;
-    final region = this.region;
-    final stackInstanceStatus = this.stackInstanceStatus;
-    return {
-      if (account != null) 'Account': account,
-      if (region != null) 'Region': region,
-      if (stackInstanceStatus != null)
-        'StackInstanceStatus': stackInstanceStatus.value,
-    };
-  }
-}
-
-class StackInstanceStatus {
-  static const current = StackInstanceStatus._('CURRENT');
-  static const outdated = StackInstanceStatus._('OUTDATED');
-  static const inoperable = StackInstanceStatus._('INOPERABLE');
-
-  final String value;
-
-  const StackInstanceStatus._(this.value);
-
-  static const values = [current, outdated, inoperable];
-
-  static StackInstanceStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => StackInstanceStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is StackInstanceStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class StackSetOperationType {
-  static const create = StackSetOperationType._('CREATE');
-  static const update = StackSetOperationType._('UPDATE');
-  static const delete = StackSetOperationType._('DELETE');
-
-  final String value;
-
-  const StackSetOperationType._(this.value);
-
-  static const values = [create, update, delete];
-
-  static StackSetOperationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => StackSetOperationType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is StackSetOperationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class Status {
-  static const available = Status._('AVAILABLE');
-  static const creating = Status._('CREATING');
-  static const failed = Status._('FAILED');
-
-  final String value;
-
-  const Status._(this.value);
-
-  static const values = [available, creating, failed];
-
-  static Status fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
-
-  @override
-  bool operator ==(other) => other is Status && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about a tag. A tag is a key-value pair. Tags are propagated to
-/// the resources created when provisioning a product.
-class Tag {
-  /// The tag key.
-  final String key;
-
-  /// The value for this key.
-  final String value;
-
-  Tag({
-    required this.key,
-    required this.value,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['Key'] as String?) ?? '',
-      value: (json['Value'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'Key': key,
-      'Value': value,
-    };
-  }
-}
-
-/// Information about a TagOption.
-class TagOptionDetail {
-  /// The TagOption active state.
-  final bool? active;
-
-  /// The TagOption identifier.
-  final String? id;
-
-  /// The TagOption key.
-  final String? key;
-
-  /// The Amazon Web Services account Id of the owner account that created the
-  /// TagOption.
-  final String? owner;
-
-  /// The TagOption value.
-  final String? value;
-
-  TagOptionDetail({
-    this.active,
-    this.id,
-    this.key,
-    this.owner,
-    this.value,
-  });
-
-  factory TagOptionDetail.fromJson(Map<String, dynamic> json) {
-    return TagOptionDetail(
-      active: json['Active'] as bool?,
-      id: json['Id'] as String?,
-      key: json['Key'] as String?,
-      owner: json['Owner'] as String?,
-      value: json['Value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final active = this.active;
-    final id = this.id;
-    final key = this.key;
-    final owner = this.owner;
-    final value = this.value;
-    return {
-      if (active != null) 'Active': active,
-      if (id != null) 'Id': id,
-      if (key != null) 'Key': key,
-      if (owner != null) 'Owner': owner,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-/// Summary information about a TagOption.
-class TagOptionSummary {
-  /// The TagOption key.
-  final String? key;
-
-  /// The TagOption value.
-  final List<String>? values;
-
-  TagOptionSummary({
-    this.key,
-    this.values,
-  });
-
-  factory TagOptionSummary.fromJson(Map<String, dynamic> json) {
-    return TagOptionSummary(
-      key: json['Key'] as String?,
-      values:
-          (json['Values'] as List?)?.nonNulls.map((e) => e as String).toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final values = this.values;
-    return {
-      if (key != null) 'Key': key,
-      if (values != null) 'Values': values,
-    };
-  }
-}
-
 class TerminateProvisionedProductOutput {
   /// Information about the result of this request.
   final RecordDetail? recordDetail;
@@ -12627,30 +8318,6 @@ class TerminateProvisionedProductOutput {
     final recordDetail = this.recordDetail;
     return {
       if (recordDetail != null) 'RecordDetail': recordDetail,
-    };
-  }
-}
-
-/// The unique key-value pair for a tag that identifies provisioned product
-/// resources.
-class UniqueTagResourceIdentifier {
-  /// A unique key that's attached to a resource.
-  final String? key;
-
-  /// A unique value that's attached to a resource.
-  final String? value;
-
-  UniqueTagResourceIdentifier({
-    this.key,
-    this.value,
-  });
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      if (key != null) 'Key': key,
-      if (value != null) 'Value': value,
     };
   }
 }
@@ -12913,40 +8580,702 @@ class UpdateProvisioningArtifactOutput {
   }
 }
 
-/// The parameter key-value pair used to update a provisioned product.
-class UpdateProvisioningParameter {
-  /// The parameter key.
+class UpdateServiceActionOutput {
+  /// Detailed information about the self-service action.
+  final ServiceActionDetail? serviceActionDetail;
+
+  UpdateServiceActionOutput({
+    this.serviceActionDetail,
+  });
+
+  factory UpdateServiceActionOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateServiceActionOutput(
+      serviceActionDetail: json['ServiceActionDetail'] != null
+          ? ServiceActionDetail.fromJson(
+              json['ServiceActionDetail'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceActionDetail = this.serviceActionDetail;
+    return {
+      if (serviceActionDetail != null)
+        'ServiceActionDetail': serviceActionDetail,
+    };
+  }
+}
+
+class UpdateTagOptionOutput {
+  /// Information about the TagOption.
+  final TagOptionDetail? tagOptionDetail;
+
+  UpdateTagOptionOutput({
+    this.tagOptionDetail,
+  });
+
+  factory UpdateTagOptionOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateTagOptionOutput(
+      tagOptionDetail: json['TagOptionDetail'] != null
+          ? TagOptionDetail.fromJson(
+              json['TagOptionDetail'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tagOptionDetail = this.tagOptionDetail;
+    return {
+      if (tagOptionDetail != null) 'TagOptionDetail': tagOptionDetail,
+    };
+  }
+}
+
+/// Information about a TagOption.
+class TagOptionDetail {
+  /// The TagOption active state.
+  final bool? active;
+
+  /// The TagOption identifier.
+  final String? id;
+
+  /// The TagOption key.
   final String? key;
 
-  /// If set to true, <code>Value</code> is ignored and the previous parameter
-  /// value is kept.
-  final bool? usePreviousValue;
+  /// The Amazon Web Services account Id of the owner account that created the
+  /// TagOption.
+  final String? owner;
 
-  /// The parameter value.
+  /// The TagOption value.
   final String? value;
 
-  UpdateProvisioningParameter({
+  TagOptionDetail({
+    this.active,
+    this.id,
     this.key,
-    this.usePreviousValue,
+    this.owner,
     this.value,
   });
 
-  factory UpdateProvisioningParameter.fromJson(Map<String, dynamic> json) {
-    return UpdateProvisioningParameter(
+  factory TagOptionDetail.fromJson(Map<String, dynamic> json) {
+    return TagOptionDetail(
+      active: json['Active'] as bool?,
+      id: json['Id'] as String?,
       key: json['Key'] as String?,
-      usePreviousValue: json['UsePreviousValue'] as bool?,
+      owner: json['Owner'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final active = this.active;
+    final id = this.id;
+    final key = this.key;
+    final owner = this.owner;
+    final value = this.value;
+    return {
+      if (active != null) 'Active': active,
+      if (id != null) 'Id': id,
+      if (key != null) 'Key': key,
+      if (owner != null) 'Owner': owner,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// An object containing detailed information about the self-service action.
+class ServiceActionDetail {
+  /// A map that defines the self-service action.
+  final Map<ServiceActionDefinitionKey, String>? definition;
+
+  /// Summary information about the self-service action.
+  final ServiceActionSummary? serviceActionSummary;
+
+  ServiceActionDetail({
+    this.definition,
+    this.serviceActionSummary,
+  });
+
+  factory ServiceActionDetail.fromJson(Map<String, dynamic> json) {
+    return ServiceActionDetail(
+      definition: (json['Definition'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(ServiceActionDefinitionKey.fromString(k), e as String)),
+      serviceActionSummary: json['ServiceActionSummary'] != null
+          ? ServiceActionSummary.fromJson(
+              json['ServiceActionSummary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final definition = this.definition;
+    final serviceActionSummary = this.serviceActionSummary;
+    return {
+      if (definition != null)
+        'Definition': definition.map((k, e) => MapEntry(k.value, e)),
+      if (serviceActionSummary != null)
+        'ServiceActionSummary': serviceActionSummary,
+    };
+  }
+}
+
+/// Detailed information about the self-service action.
+class ServiceActionSummary {
+  /// The self-service action definition type. For example,
+  /// <code>SSM_AUTOMATION</code>.
+  final ServiceActionDefinitionType? definitionType;
+
+  /// The self-service action description.
+  final String? description;
+
+  /// The self-service action identifier.
+  final String? id;
+
+  /// The self-service action name.
+  final String? name;
+
+  ServiceActionSummary({
+    this.definitionType,
+    this.description,
+    this.id,
+    this.name,
+  });
+
+  factory ServiceActionSummary.fromJson(Map<String, dynamic> json) {
+    return ServiceActionSummary(
+      definitionType: (json['DefinitionType'] as String?)
+          ?.let(ServiceActionDefinitionType.fromString),
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final definitionType = this.definitionType;
+    final description = this.description;
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (definitionType != null) 'DefinitionType': definitionType.value,
+      if (description != null) 'Description': description,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+class ServiceActionDefinitionKey {
+  static const name = ServiceActionDefinitionKey._('Name');
+  static const version = ServiceActionDefinitionKey._('Version');
+  static const assumeRole = ServiceActionDefinitionKey._('AssumeRole');
+  static const parameters = ServiceActionDefinitionKey._('Parameters');
+
+  final String value;
+
+  const ServiceActionDefinitionKey._(this.value);
+
+  static const values = [name, version, assumeRole, parameters];
+
+  static ServiceActionDefinitionKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ServiceActionDefinitionKey._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ServiceActionDefinitionKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ServiceActionDefinitionType {
+  static const ssmAutomation = ServiceActionDefinitionType._('SSM_AUTOMATION');
+
+  final String value;
+
+  const ServiceActionDefinitionType._(this.value);
+
+  static const values = [ssmAutomation];
+
+  static ServiceActionDefinitionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ServiceActionDefinitionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ServiceActionDefinitionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a provisioning artifact (also known as a version) for a
+/// product.
+class ProvisioningArtifactDetail {
+  /// Indicates whether the product version is active.
+  final bool? active;
+
+  /// The UTC time stamp of the creation time.
+  final DateTime? createdTime;
+
+  /// The description of the provisioning artifact.
+  final String? description;
+
+  /// Information set by the administrator to provide guidance to end users about
+  /// which provisioning artifacts to use.
+  final ProvisioningArtifactGuidance? guidance;
+
+  /// The identifier of the provisioning artifact.
+  final String? id;
+
+  /// The name of the provisioning artifact.
+  final String? name;
+
+  /// Specifies the revision of the external artifact that was used to
+  /// automatically sync the Service Catalog product and create the provisioning
+  /// artifact. Service Catalog includes this response parameter as a high level
+  /// field to the existing <code>ProvisioningArtifactDetail</code> type, which is
+  /// returned as part of the response for <code>CreateProduct</code>,
+  /// <code>UpdateProduct</code>, <code>DescribeProductAsAdmin</code>,
+  /// <code>DescribeProvisioningArtifact</code>,
+  /// <code>ListProvisioningArtifact</code>, and
+  /// <code>UpdateProvisioningArticat</code> APIs.
+  ///
+  /// This field only exists for Repo-Synced products.
+  final String? sourceRevision;
+
+  /// The type of provisioning artifact.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CLOUD_FORMATION_TEMPLATE</code> - CloudFormation template
+  /// </li>
+  /// <li>
+  /// <code>TERRAFORM_OPEN_SOURCE</code> - Terraform Open Source configuration
+  /// file
+  /// </li>
+  /// <li>
+  /// <code>TERRAFORM_CLOUD</code> - Terraform Cloud configuration file
+  /// </li>
+  /// <li>
+  /// <code>EXTERNAL</code> - External configuration file
+  /// </li>
+  /// </ul>
+  final ProvisioningArtifactType? type;
+
+  ProvisioningArtifactDetail({
+    this.active,
+    this.createdTime,
+    this.description,
+    this.guidance,
+    this.id,
+    this.name,
+    this.sourceRevision,
+    this.type,
+  });
+
+  factory ProvisioningArtifactDetail.fromJson(Map<String, dynamic> json) {
+    return ProvisioningArtifactDetail(
+      active: json['Active'] as bool?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      description: json['Description'] as String?,
+      guidance: (json['Guidance'] as String?)
+          ?.let(ProvisioningArtifactGuidance.fromString),
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      sourceRevision: json['SourceRevision'] as String?,
+      type: (json['Type'] as String?)?.let(ProvisioningArtifactType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final active = this.active;
+    final createdTime = this.createdTime;
+    final description = this.description;
+    final guidance = this.guidance;
+    final id = this.id;
+    final name = this.name;
+    final sourceRevision = this.sourceRevision;
+    final type = this.type;
+    return {
+      if (active != null) 'Active': active,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (description != null) 'Description': description,
+      if (guidance != null) 'Guidance': guidance.value,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (sourceRevision != null) 'SourceRevision': sourceRevision,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class Status {
+  static const available = Status._('AVAILABLE');
+  static const creating = Status._('CREATING');
+  static const failed = Status._('FAILED');
+
+  final String value;
+
+  const Status._(this.value);
+
+  static const values = [available, creating, failed];
+
+  static Status fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+
+  @override
+  bool operator ==(other) => other is Status && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ProvisioningArtifactType {
+  static const cloudFormationTemplate =
+      ProvisioningArtifactType._('CLOUD_FORMATION_TEMPLATE');
+  static const marketplaceAmi = ProvisioningArtifactType._('MARKETPLACE_AMI');
+  static const marketplaceCar = ProvisioningArtifactType._('MARKETPLACE_CAR');
+  static const terraformOpenSource =
+      ProvisioningArtifactType._('TERRAFORM_OPEN_SOURCE');
+  static const terraformCloud = ProvisioningArtifactType._('TERRAFORM_CLOUD');
+  static const external = ProvisioningArtifactType._('EXTERNAL');
+
+  final String value;
+
+  const ProvisioningArtifactType._(this.value);
+
+  static const values = [
+    cloudFormationTemplate,
+    marketplaceAmi,
+    marketplaceCar,
+    terraformOpenSource,
+    terraformCloud,
+    external
+  ];
+
+  static ProvisioningArtifactType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProvisioningArtifactType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProvisioningArtifactType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ProvisioningArtifactGuidance {
+  static const $default = ProvisioningArtifactGuidance._('DEFAULT');
+  static const deprecated = ProvisioningArtifactGuidance._('DEPRECATED');
+
+  final String value;
+
+  const ProvisioningArtifactGuidance._(this.value);
+
+  static const values = [$default, deprecated];
+
+  static ProvisioningArtifactGuidance fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProvisioningArtifactGuidance._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProvisioningArtifactGuidance && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class RecordStatus {
+  static const created = RecordStatus._('CREATED');
+  static const inProgress = RecordStatus._('IN_PROGRESS');
+  static const inProgressInError = RecordStatus._('IN_PROGRESS_IN_ERROR');
+  static const succeeded = RecordStatus._('SUCCEEDED');
+  static const failed = RecordStatus._('FAILED');
+
+  final String value;
+
+  const RecordStatus._(this.value);
+
+  static const values = [
+    created,
+    inProgress,
+    inProgressInError,
+    succeeded,
+    failed
+  ];
+
+  static RecordStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RecordStatus._(value));
+
+  @override
+  bool operator ==(other) => other is RecordStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class PropertyKey {
+  static const owner = PropertyKey._('OWNER');
+  static const launchRole = PropertyKey._('LAUNCH_ROLE');
+
+  final String value;
+
+  const PropertyKey._(this.value);
+
+  static const values = [owner, launchRole];
+
+  static PropertyKey fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PropertyKey._(value));
+
+  @override
+  bool operator ==(other) => other is PropertyKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a request operation.
+class RecordDetail {
+  /// The UTC time stamp of the creation time.
+  final DateTime? createdTime;
+
+  /// The ARN of the launch role associated with the provisioned product.
+  final String? launchRoleArn;
+
+  /// The path identifier.
+  final String? pathId;
+
+  /// The product identifier.
+  final String? productId;
+
+  /// The identifier of the provisioned product.
+  final String? provisionedProductId;
+
+  /// The user-friendly name of the provisioned product.
+  final String? provisionedProductName;
+
+  /// The type of provisioned product. The supported values are
+  /// <code>CFN_STACK</code>, <code>CFN_STACKSET</code>,
+  /// <code>TERRAFORM_OPEN_SOURCE</code>, <code>TERRAFORM_CLOUD</code>, and
+  /// <code>EXTERNAL</code>.
+  final String? provisionedProductType;
+
+  /// The identifier of the provisioning artifact.
+  final String? provisioningArtifactId;
+
+  /// The errors that occurred.
+  final List<RecordError>? recordErrors;
+
+  /// The identifier of the record.
+  final String? recordId;
+
+  /// One or more tags.
+  final List<RecordTag>? recordTags;
+
+  /// The record type.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PROVISION_PRODUCT</code>
+  /// </li>
+  /// <li>
+  /// <code>UPDATE_PROVISIONED_PRODUCT</code>
+  /// </li>
+  /// <li>
+  /// <code>TERMINATE_PROVISIONED_PRODUCT</code>
+  /// </li>
+  /// </ul>
+  final String? recordType;
+
+  /// The status of the provisioned product.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATED</code> - The request was created but the operation has not
+  /// started.
+  /// </li>
+  /// <li>
+  /// <code>IN_PROGRESS</code> - The requested operation is in progress.
+  /// </li>
+  /// <li>
+  /// <code>IN_PROGRESS_IN_ERROR</code> - The provisioned product is under change
+  /// but the requested operation failed and some remediation is occurring. For
+  /// example, a rollback.
+  /// </li>
+  /// <li>
+  /// <code>SUCCEEDED</code> - The requested operation has successfully completed.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> - The requested operation has unsuccessfully completed.
+  /// Investigate using the error messages returned.
+  /// </li>
+  /// </ul>
+  final RecordStatus? status;
+
+  /// The time when the record was last updated.
+  final DateTime? updatedTime;
+
+  RecordDetail({
+    this.createdTime,
+    this.launchRoleArn,
+    this.pathId,
+    this.productId,
+    this.provisionedProductId,
+    this.provisionedProductName,
+    this.provisionedProductType,
+    this.provisioningArtifactId,
+    this.recordErrors,
+    this.recordId,
+    this.recordTags,
+    this.recordType,
+    this.status,
+    this.updatedTime,
+  });
+
+  factory RecordDetail.fromJson(Map<String, dynamic> json) {
+    return RecordDetail(
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      launchRoleArn: json['LaunchRoleArn'] as String?,
+      pathId: json['PathId'] as String?,
+      productId: json['ProductId'] as String?,
+      provisionedProductId: json['ProvisionedProductId'] as String?,
+      provisionedProductName: json['ProvisionedProductName'] as String?,
+      provisionedProductType: json['ProvisionedProductType'] as String?,
+      provisioningArtifactId: json['ProvisioningArtifactId'] as String?,
+      recordErrors: (json['RecordErrors'] as List?)
+          ?.nonNulls
+          .map((e) => RecordError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      recordId: json['RecordId'] as String?,
+      recordTags: (json['RecordTags'] as List?)
+          ?.nonNulls
+          .map((e) => RecordTag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      recordType: json['RecordType'] as String?,
+      status: (json['Status'] as String?)?.let(RecordStatus.fromString),
+      updatedTime: timeStampFromJson(json['UpdatedTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTime = this.createdTime;
+    final launchRoleArn = this.launchRoleArn;
+    final pathId = this.pathId;
+    final productId = this.productId;
+    final provisionedProductId = this.provisionedProductId;
+    final provisionedProductName = this.provisionedProductName;
+    final provisionedProductType = this.provisionedProductType;
+    final provisioningArtifactId = this.provisioningArtifactId;
+    final recordErrors = this.recordErrors;
+    final recordId = this.recordId;
+    final recordTags = this.recordTags;
+    final recordType = this.recordType;
+    final status = this.status;
+    final updatedTime = this.updatedTime;
+    return {
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (launchRoleArn != null) 'LaunchRoleArn': launchRoleArn,
+      if (pathId != null) 'PathId': pathId,
+      if (productId != null) 'ProductId': productId,
+      if (provisionedProductId != null)
+        'ProvisionedProductId': provisionedProductId,
+      if (provisionedProductName != null)
+        'ProvisionedProductName': provisionedProductName,
+      if (provisionedProductType != null)
+        'ProvisionedProductType': provisionedProductType,
+      if (provisioningArtifactId != null)
+        'ProvisioningArtifactId': provisioningArtifactId,
+      if (recordErrors != null) 'RecordErrors': recordErrors,
+      if (recordId != null) 'RecordId': recordId,
+      if (recordTags != null) 'RecordTags': recordTags,
+      if (recordType != null) 'RecordType': recordType,
+      if (status != null) 'Status': status.value,
+      if (updatedTime != null) 'UpdatedTime': unixTimestampToJson(updatedTime),
+    };
+  }
+}
+
+/// Information about a tag, which is a key-value pair.
+class RecordTag {
+  /// The key for this tag.
+  final String? key;
+
+  /// The value for this tag.
+  final String? value;
+
+  RecordTag({
+    this.key,
+    this.value,
+  });
+
+  factory RecordTag.fromJson(Map<String, dynamic> json) {
+    return RecordTag(
+      key: json['Key'] as String?,
       value: json['Value'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final key = this.key;
-    final usePreviousValue = this.usePreviousValue;
     final value = this.value;
     return {
       if (key != null) 'Key': key,
-      if (usePreviousValue != null) 'UsePreviousValue': usePreviousValue,
       if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// The error code and description resulting from an operation.
+class RecordError {
+  /// The numeric value of the error.
+  final String? code;
+
+  /// The description of the error.
+  final String? description;
+
+  RecordError({
+    this.code,
+    this.description,
+  });
+
+  factory RecordError.fromJson(Map<String, dynamic> json) {
+    return RecordError(
+      code: json['Code'] as String?,
+      description: json['Description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final description = this.description;
+    return {
+      if (code != null) 'Code': code,
+      if (description != null) 'Description': description,
     };
   }
 }
@@ -13103,53 +9432,2540 @@ class UpdateProvisioningPreferences {
   }
 }
 
-class UpdateServiceActionOutput {
-  /// Detailed information about the self-service action.
-  final ServiceActionDetail? serviceActionDetail;
+/// Information about a tag. A tag is a key-value pair. Tags are propagated to
+/// the resources created when provisioning a product.
+class Tag {
+  /// The tag key.
+  final String key;
 
-  UpdateServiceActionOutput({
-    this.serviceActionDetail,
+  /// The value for this key.
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
   });
 
-  factory UpdateServiceActionOutput.fromJson(Map<String, dynamic> json) {
-    return UpdateServiceActionOutput(
-      serviceActionDetail: json['ServiceActionDetail'] != null
-          ? ServiceActionDetail.fromJson(
-              json['ServiceActionDetail'] as Map<String, dynamic>)
-          : null,
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    final serviceActionDetail = this.serviceActionDetail;
+    final key = this.key;
+    final value = this.value;
     return {
-      if (serviceActionDetail != null)
-        'ServiceActionDetail': serviceActionDetail,
+      'Key': key,
+      'Value': value,
     };
   }
 }
 
-class UpdateTagOptionOutput {
-  /// Information about the TagOption.
-  final TagOptionDetail? tagOptionDetail;
+class StackSetOperationType {
+  static const create = StackSetOperationType._('CREATE');
+  static const update = StackSetOperationType._('UPDATE');
+  static const delete = StackSetOperationType._('DELETE');
 
-  UpdateTagOptionOutput({
-    this.tagOptionDetail,
+  final String value;
+
+  const StackSetOperationType._(this.value);
+
+  static const values = [create, update, delete];
+
+  static StackSetOperationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StackSetOperationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StackSetOperationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The parameter key-value pair used to update a provisioned product.
+class UpdateProvisioningParameter {
+  /// The parameter key.
+  final String? key;
+
+  /// If set to true, <code>Value</code> is ignored and the previous parameter
+  /// value is kept.
+  final bool? usePreviousValue;
+
+  /// The parameter value.
+  final String? value;
+
+  UpdateProvisioningParameter({
+    this.key,
+    this.usePreviousValue,
+    this.value,
   });
 
-  factory UpdateTagOptionOutput.fromJson(Map<String, dynamic> json) {
-    return UpdateTagOptionOutput(
-      tagOptionDetail: json['TagOptionDetail'] != null
-          ? TagOptionDetail.fromJson(
-              json['TagOptionDetail'] as Map<String, dynamic>)
+  factory UpdateProvisioningParameter.fromJson(Map<String, dynamic> json) {
+    return UpdateProvisioningParameter(
+      key: json['Key'] as String?,
+      usePreviousValue: json['UsePreviousValue'] as bool?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final usePreviousValue = this.usePreviousValue;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (usePreviousValue != null) 'UsePreviousValue': usePreviousValue,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Information about a product view.
+class ProductViewDetail {
+  /// The UTC time stamp of the creation time.
+  final DateTime? createdTime;
+
+  /// The ARN of the product.
+  final String? productARN;
+
+  /// Summary information about the product view.
+  final ProductViewSummary? productViewSummary;
+
+  /// A top level <code>ProductViewDetail</code> response containing details about
+  /// the product’s connection. Service Catalog returns this field for the
+  /// <code>CreateProduct</code>, <code>UpdateProduct</code>,
+  /// <code>DescribeProductAsAdmin</code>, and <code>SearchProductAsAdmin</code>
+  /// APIs. This response contains the same fields as the
+  /// <code>ConnectionParameters</code> request, with the addition of the
+  /// <code>LastSync</code> response.
+  final SourceConnectionDetail? sourceConnection;
+
+  /// The status of the product.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AVAILABLE</code> - The product is ready for use.
+  /// </li>
+  /// <li>
+  /// <code>CREATING</code> - Product creation has started; the product is not
+  /// ready for use.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> - An action failed.
+  /// </li>
+  /// </ul>
+  final Status? status;
+
+  ProductViewDetail({
+    this.createdTime,
+    this.productARN,
+    this.productViewSummary,
+    this.sourceConnection,
+    this.status,
+  });
+
+  factory ProductViewDetail.fromJson(Map<String, dynamic> json) {
+    return ProductViewDetail(
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      productARN: json['ProductARN'] as String?,
+      productViewSummary: json['ProductViewSummary'] != null
+          ? ProductViewSummary.fromJson(
+              json['ProductViewSummary'] as Map<String, dynamic>)
+          : null,
+      sourceConnection: json['SourceConnection'] != null
+          ? SourceConnectionDetail.fromJson(
+              json['SourceConnection'] as Map<String, dynamic>)
+          : null,
+      status: (json['Status'] as String?)?.let(Status.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTime = this.createdTime;
+    final productARN = this.productARN;
+    final productViewSummary = this.productViewSummary;
+    final sourceConnection = this.sourceConnection;
+    final status = this.status;
+    return {
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (productARN != null) 'ProductARN': productARN,
+      if (productViewSummary != null) 'ProductViewSummary': productViewSummary,
+      if (sourceConnection != null) 'SourceConnection': sourceConnection,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+/// Summary information about a product view.
+class ProductViewSummary {
+  /// The distributor of the product. Contact the product administrator for the
+  /// significance of this value.
+  final String? distributor;
+
+  /// Indicates whether the product has a default path. If the product does not
+  /// have a default path, call <a>ListLaunchPaths</a> to disambiguate between
+  /// paths. Otherwise, <a>ListLaunchPaths</a> is not required, and the output of
+  /// <a>ProductViewSummary</a> can be used directly with
+  /// <a>DescribeProvisioningParameters</a>.
+  final bool? hasDefaultPath;
+
+  /// The product view identifier.
+  final String? id;
+
+  /// The name of the product.
+  final String? name;
+
+  /// The owner of the product. Contact the product administrator for the
+  /// significance of this value.
+  final String? owner;
+
+  /// The product identifier.
+  final String? productId;
+
+  /// Short description of the product.
+  final String? shortDescription;
+
+  /// The description of the support for this Product.
+  final String? supportDescription;
+
+  /// The email contact information to obtain support for this Product.
+  final String? supportEmail;
+
+  /// The URL information to obtain support for this Product.
+  final String? supportUrl;
+
+  /// The product type. Contact the product administrator for the significance of
+  /// this value. If this value is <code>MARKETPLACE</code>, the product was
+  /// created by Amazon Web Services Marketplace.
+  final ProductType? type;
+
+  ProductViewSummary({
+    this.distributor,
+    this.hasDefaultPath,
+    this.id,
+    this.name,
+    this.owner,
+    this.productId,
+    this.shortDescription,
+    this.supportDescription,
+    this.supportEmail,
+    this.supportUrl,
+    this.type,
+  });
+
+  factory ProductViewSummary.fromJson(Map<String, dynamic> json) {
+    return ProductViewSummary(
+      distributor: json['Distributor'] as String?,
+      hasDefaultPath: json['HasDefaultPath'] as bool?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      owner: json['Owner'] as String?,
+      productId: json['ProductId'] as String?,
+      shortDescription: json['ShortDescription'] as String?,
+      supportDescription: json['SupportDescription'] as String?,
+      supportEmail: json['SupportEmail'] as String?,
+      supportUrl: json['SupportUrl'] as String?,
+      type: (json['Type'] as String?)?.let(ProductType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final distributor = this.distributor;
+    final hasDefaultPath = this.hasDefaultPath;
+    final id = this.id;
+    final name = this.name;
+    final owner = this.owner;
+    final productId = this.productId;
+    final shortDescription = this.shortDescription;
+    final supportDescription = this.supportDescription;
+    final supportEmail = this.supportEmail;
+    final supportUrl = this.supportUrl;
+    final type = this.type;
+    return {
+      if (distributor != null) 'Distributor': distributor,
+      if (hasDefaultPath != null) 'HasDefaultPath': hasDefaultPath,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (owner != null) 'Owner': owner,
+      if (productId != null) 'ProductId': productId,
+      if (shortDescription != null) 'ShortDescription': shortDescription,
+      if (supportDescription != null) 'SupportDescription': supportDescription,
+      if (supportEmail != null) 'SupportEmail': supportEmail,
+      if (supportUrl != null) 'SupportUrl': supportUrl,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+/// Provides details about the configured <code>SourceConnection</code>.
+class SourceConnectionDetail {
+  /// The connection details based on the connection <code>Type</code>.
+  final SourceConnectionParameters? connectionParameters;
+
+  /// Provides details about the product's connection sync and contains the
+  /// following sub-fields.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>LastSyncTime</code>
+  /// </li>
+  /// <li>
+  /// <code>LastSyncStatus</code>
+  /// </li>
+  /// <li>
+  /// <code>LastSyncStatusMessage</code>
+  /// </li>
+  /// <li>
+  /// <code>LastSuccessfulSyncTime</code>
+  /// </li>
+  /// <li>
+  /// <code>LastSuccessfulSyncProvisioningArtifactID</code>
+  /// </li>
+  /// </ul>
+  final LastSync? lastSync;
+
+  /// The only supported <code>SourceConnection</code> type is Codestar.
+  final SourceType? type;
+
+  SourceConnectionDetail({
+    this.connectionParameters,
+    this.lastSync,
+    this.type,
+  });
+
+  factory SourceConnectionDetail.fromJson(Map<String, dynamic> json) {
+    return SourceConnectionDetail(
+      connectionParameters: json['ConnectionParameters'] != null
+          ? SourceConnectionParameters.fromJson(
+              json['ConnectionParameters'] as Map<String, dynamic>)
+          : null,
+      lastSync: json['LastSync'] != null
+          ? LastSync.fromJson(json['LastSync'] as Map<String, dynamic>)
+          : null,
+      type: (json['Type'] as String?)?.let(SourceType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectionParameters = this.connectionParameters;
+    final lastSync = this.lastSync;
+    final type = this.type;
+    return {
+      if (connectionParameters != null)
+        'ConnectionParameters': connectionParameters,
+      if (lastSync != null) 'LastSync': lastSync,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class SourceType {
+  static const codestar = SourceType._('CODESTAR');
+
+  final String value;
+
+  const SourceType._(this.value);
+
+  static const values = [codestar];
+
+  static SourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SourceType._(value));
+
+  @override
+  bool operator ==(other) => other is SourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides connection details.
+class SourceConnectionParameters {
+  /// Provides <code>ConnectionType</code> details.
+  final CodeStarParameters? codeStar;
+
+  SourceConnectionParameters({
+    this.codeStar,
+  });
+
+  factory SourceConnectionParameters.fromJson(Map<String, dynamic> json) {
+    return SourceConnectionParameters(
+      codeStar: json['CodeStar'] != null
+          ? CodeStarParameters.fromJson(
+              json['CodeStar'] as Map<String, dynamic>)
           : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final tagOptionDetail = this.tagOptionDetail;
+    final codeStar = this.codeStar;
     return {
-      if (tagOptionDetail != null) 'TagOptionDetail': tagOptionDetail,
+      if (codeStar != null) 'CodeStar': codeStar,
+    };
+  }
+}
+
+/// Provides details about the product's connection sync and contains the
+/// following sub-fields.
+///
+/// <ul>
+/// <li>
+/// <code>LastSyncTime</code>
+/// </li>
+/// <li>
+/// <code>LastSyncStatus</code>
+/// </li>
+/// <li>
+/// <code>LastSyncStatusMessage</code>
+/// </li>
+/// <li>
+/// <code>LastSuccessfulSyncTime</code>
+/// </li>
+/// <li>
+/// <code>LastSuccessfulSyncProvisioningArtifactID</code>
+/// </li>
+/// </ul>
+class LastSync {
+  /// The ProvisioningArtifactID of the ProvisioningArtifact created from the
+  /// latest successful sync.
+  final String? lastSuccessfulSyncProvisioningArtifactId;
+
+  /// The time of the latest successful sync from the source repo artifact to the
+  /// Service Catalog product.
+  final DateTime? lastSuccessfulSyncTime;
+
+  /// The current status of the sync. Responses include <code>SUCCEEDED</code> or
+  /// <code>FAILED</code>.
+  final LastSyncStatus? lastSyncStatus;
+
+  /// The sync's status message.
+  final String? lastSyncStatusMessage;
+
+  /// The time of the last attempted sync from the repository to the Service
+  /// Catalog product.
+  final DateTime? lastSyncTime;
+
+  LastSync({
+    this.lastSuccessfulSyncProvisioningArtifactId,
+    this.lastSuccessfulSyncTime,
+    this.lastSyncStatus,
+    this.lastSyncStatusMessage,
+    this.lastSyncTime,
+  });
+
+  factory LastSync.fromJson(Map<String, dynamic> json) {
+    return LastSync(
+      lastSuccessfulSyncProvisioningArtifactId:
+          json['LastSuccessfulSyncProvisioningArtifactId'] as String?,
+      lastSuccessfulSyncTime: timeStampFromJson(json['LastSuccessfulSyncTime']),
+      lastSyncStatus:
+          (json['LastSyncStatus'] as String?)?.let(LastSyncStatus.fromString),
+      lastSyncStatusMessage: json['LastSyncStatusMessage'] as String?,
+      lastSyncTime: timeStampFromJson(json['LastSyncTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastSuccessfulSyncProvisioningArtifactId =
+        this.lastSuccessfulSyncProvisioningArtifactId;
+    final lastSuccessfulSyncTime = this.lastSuccessfulSyncTime;
+    final lastSyncStatus = this.lastSyncStatus;
+    final lastSyncStatusMessage = this.lastSyncStatusMessage;
+    final lastSyncTime = this.lastSyncTime;
+    return {
+      if (lastSuccessfulSyncProvisioningArtifactId != null)
+        'LastSuccessfulSyncProvisioningArtifactId':
+            lastSuccessfulSyncProvisioningArtifactId,
+      if (lastSuccessfulSyncTime != null)
+        'LastSuccessfulSyncTime': unixTimestampToJson(lastSuccessfulSyncTime),
+      if (lastSyncStatus != null) 'LastSyncStatus': lastSyncStatus.value,
+      if (lastSyncStatusMessage != null)
+        'LastSyncStatusMessage': lastSyncStatusMessage,
+      if (lastSyncTime != null)
+        'LastSyncTime': unixTimestampToJson(lastSyncTime),
+    };
+  }
+}
+
+class LastSyncStatus {
+  static const succeeded = LastSyncStatus._('SUCCEEDED');
+  static const failed = LastSyncStatus._('FAILED');
+
+  final String value;
+
+  const LastSyncStatus._(this.value);
+
+  static const values = [succeeded, failed];
+
+  static LastSyncStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LastSyncStatus._(value));
+
+  @override
+  bool operator ==(other) => other is LastSyncStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The subtype containing details about the Codestar connection
+/// <code>Type</code>.
+class CodeStarParameters {
+  /// The absolute path wehre the artifact resides within the repo and branch,
+  /// formatted as "folder/file.json."
+  final String artifactPath;
+
+  /// The specific branch where the artifact resides.
+  final String branch;
+
+  /// The CodeStar ARN, which is the connection between Service Catalog and the
+  /// external repository.
+  final String connectionArn;
+
+  /// The specific repository where the product’s artifact-to-be-synced resides,
+  /// formatted as "Account/Repo."
+  final String repository;
+
+  CodeStarParameters({
+    required this.artifactPath,
+    required this.branch,
+    required this.connectionArn,
+    required this.repository,
+  });
+
+  factory CodeStarParameters.fromJson(Map<String, dynamic> json) {
+    return CodeStarParameters(
+      artifactPath: (json['ArtifactPath'] as String?) ?? '',
+      branch: (json['Branch'] as String?) ?? '',
+      connectionArn: (json['ConnectionArn'] as String?) ?? '',
+      repository: (json['Repository'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final artifactPath = this.artifactPath;
+    final branch = this.branch;
+    final connectionArn = this.connectionArn;
+    final repository = this.repository;
+    return {
+      'ArtifactPath': artifactPath,
+      'Branch': branch,
+      'ConnectionArn': connectionArn,
+      'Repository': repository,
+    };
+  }
+}
+
+class ProductType {
+  static const cloudFormationTemplate =
+      ProductType._('CLOUD_FORMATION_TEMPLATE');
+  static const marketplace = ProductType._('MARKETPLACE');
+  static const terraformOpenSource = ProductType._('TERRAFORM_OPEN_SOURCE');
+  static const terraformCloud = ProductType._('TERRAFORM_CLOUD');
+  static const external = ProductType._('EXTERNAL');
+
+  final String value;
+
+  const ProductType._(this.value);
+
+  static const values = [
+    cloudFormationTemplate,
+    marketplace,
+    terraformOpenSource,
+    terraformCloud,
+    external
+  ];
+
+  static ProductType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ProductType._(value));
+
+  @override
+  bool operator ==(other) => other is ProductType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A top level <code>ProductViewDetail</code> response containing details about
+/// the product’s connection. Service Catalog returns this field for the
+/// <code>CreateProduct</code>, <code>UpdateProduct</code>,
+/// <code>DescribeProductAsAdmin</code>, and <code>SearchProductAsAdmin</code>
+/// APIs. This response contains the same fields as the
+/// <code>ConnectionParameters</code> request, with the addition of the
+/// <code>LastSync</code> response.
+class SourceConnection {
+  /// The connection details based on the connection <code>Type</code>.
+  final SourceConnectionParameters connectionParameters;
+
+  /// The only supported <code>SourceConnection</code> type is Codestar.
+  final SourceType? type;
+
+  SourceConnection({
+    required this.connectionParameters,
+    this.type,
+  });
+
+  Map<String, dynamic> toJson() {
+    final connectionParameters = this.connectionParameters;
+    final type = this.type;
+    return {
+      'ConnectionParameters': connectionParameters,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class ShareStatus {
+  static const notStarted = ShareStatus._('NOT_STARTED');
+  static const inProgress = ShareStatus._('IN_PROGRESS');
+  static const completed = ShareStatus._('COMPLETED');
+  static const completedWithErrors = ShareStatus._('COMPLETED_WITH_ERRORS');
+  static const error = ShareStatus._('ERROR');
+
+  final String value;
+
+  const ShareStatus._(this.value);
+
+  static const values = [
+    notStarted,
+    inProgress,
+    completed,
+    completedWithErrors,
+    error
+  ];
+
+  static ShareStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ShareStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ShareStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about the organization node.
+class OrganizationNode {
+  /// The organization node type.
+  final OrganizationNodeType? type;
+
+  /// The identifier of the organization node.
+  final String? value;
+
+  OrganizationNode({
+    this.type,
+    this.value,
+  });
+
+  factory OrganizationNode.fromJson(Map<String, dynamic> json) {
+    return OrganizationNode(
+      type: (json['Type'] as String?)?.let(OrganizationNodeType.fromString),
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final value = this.value;
+    return {
+      if (type != null) 'Type': type.value,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+class OrganizationNodeType {
+  static const organization = OrganizationNodeType._('ORGANIZATION');
+  static const organizationalUnit =
+      OrganizationNodeType._('ORGANIZATIONAL_UNIT');
+  static const account = OrganizationNodeType._('ACCOUNT');
+
+  final String value;
+
+  const OrganizationNodeType._(this.value);
+
+  static const values = [organization, organizationalUnit, account];
+
+  static OrganizationNodeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OrganizationNodeType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OrganizationNodeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a portfolio.
+class PortfolioDetail {
+  /// The ARN assigned to the portfolio.
+  final String? arn;
+
+  /// The UTC time stamp of the creation time.
+  final DateTime? createdTime;
+
+  /// The description of the portfolio.
+  final String? description;
+
+  /// The name to use for display purposes.
+  final String? displayName;
+
+  /// The portfolio identifier.
+  final String? id;
+
+  /// The name of the portfolio provider.
+  final String? providerName;
+
+  PortfolioDetail({
+    this.arn,
+    this.createdTime,
+    this.description,
+    this.displayName,
+    this.id,
+    this.providerName,
+  });
+
+  factory PortfolioDetail.fromJson(Map<String, dynamic> json) {
+    return PortfolioDetail(
+      arn: json['ARN'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      description: json['Description'] as String?,
+      displayName: json['DisplayName'] as String?,
+      id: json['Id'] as String?,
+      providerName: json['ProviderName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdTime = this.createdTime;
+    final description = this.description;
+    final displayName = this.displayName;
+    final id = this.id;
+    final providerName = this.providerName;
+    return {
+      if (arn != null) 'ARN': arn,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (description != null) 'Description': description,
+      if (displayName != null) 'DisplayName': displayName,
+      if (id != null) 'Id': id,
+      if (providerName != null) 'ProviderName': providerName,
+    };
+  }
+}
+
+/// Information about a constraint.
+class ConstraintDetail {
+  /// The identifier of the constraint.
+  final String? constraintId;
+
+  /// The description of the constraint.
+  final String? description;
+
+  /// The owner of the constraint.
+  final String? owner;
+
+  /// The identifier of the portfolio the product resides in. The constraint
+  /// applies only to the instance of the product that lives within this
+  /// portfolio.
+  final String? portfolioId;
+
+  /// The identifier of the product the constraint applies to. Note that a
+  /// constraint applies to a specific instance of a product within a certain
+  /// portfolio.
+  final String? productId;
+
+  /// The type of constraint.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>LAUNCH</code>
+  /// </li>
+  /// <li>
+  /// <code>NOTIFICATION</code>
+  /// </li>
+  /// <li>
+  /// STACKSET
+  /// </li>
+  /// <li>
+  /// <code>TEMPLATE</code>
+  /// </li>
+  /// </ul>
+  final String? type;
+
+  ConstraintDetail({
+    this.constraintId,
+    this.description,
+    this.owner,
+    this.portfolioId,
+    this.productId,
+    this.type,
+  });
+
+  factory ConstraintDetail.fromJson(Map<String, dynamic> json) {
+    return ConstraintDetail(
+      constraintId: json['ConstraintId'] as String?,
+      description: json['Description'] as String?,
+      owner: json['Owner'] as String?,
+      portfolioId: json['PortfolioId'] as String?,
+      productId: json['ProductId'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final constraintId = this.constraintId;
+    final description = this.description;
+    final owner = this.owner;
+    final portfolioId = this.portfolioId;
+    final productId = this.productId;
+    final type = this.type;
+    return {
+      if (constraintId != null) 'ConstraintId': constraintId,
+      if (description != null) 'Description': description,
+      if (owner != null) 'Owner': owner,
+      if (portfolioId != null) 'PortfolioId': portfolioId,
+      if (productId != null) 'ProductId': productId,
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+/// Information about a provisioned product.
+class ProvisionedProductAttribute {
+  /// The ARN of the provisioned product.
+  final String? arn;
+
+  /// The UTC time stamp of the creation time.
+  final DateTime? createdTime;
+
+  /// The identifier of the provisioned product.
+  final String? id;
+
+  /// A unique identifier that you provide to ensure idempotency. If multiple
+  /// requests differ only by the idempotency token, the same response is returned
+  /// for each repeated request.
+  final String? idempotencyToken;
+
+  /// The record identifier of the last request performed on this provisioned
+  /// product of the following types:
+  ///
+  /// <ul>
+  /// <li>
+  /// ProvisionProduct
+  /// </li>
+  /// <li>
+  /// UpdateProvisionedProduct
+  /// </li>
+  /// <li>
+  /// ExecuteProvisionedProductPlan
+  /// </li>
+  /// <li>
+  /// TerminateProvisionedProduct
+  /// </li>
+  /// </ul>
+  final String? lastProvisioningRecordId;
+
+  /// The record identifier of the last request performed on this provisioned
+  /// product.
+  final String? lastRecordId;
+
+  /// The record identifier of the last successful request performed on this
+  /// provisioned product of the following types:
+  ///
+  /// <ul>
+  /// <li>
+  /// ProvisionProduct
+  /// </li>
+  /// <li>
+  /// UpdateProvisionedProduct
+  /// </li>
+  /// <li>
+  /// ExecuteProvisionedProductPlan
+  /// </li>
+  /// <li>
+  /// TerminateProvisionedProduct
+  /// </li>
+  /// </ul>
+  final String? lastSuccessfulProvisioningRecordId;
+
+  /// The user-friendly name of the provisioned product.
+  final String? name;
+
+  /// The assigned identifier for the resource, such as an EC2 instance ID or an
+  /// S3 bucket name.
+  final String? physicalId;
+
+  /// The product identifier.
+  final String? productId;
+
+  /// The name of the product.
+  final String? productName;
+
+  /// The identifier of the provisioning artifact.
+  final String? provisioningArtifactId;
+
+  /// The name of the provisioning artifact.
+  final String? provisioningArtifactName;
+
+  /// The current status of the provisioned product.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AVAILABLE</code> - Stable state, ready to perform any operation. The
+  /// most recent operation succeeded and completed.
+  /// </li>
+  /// <li>
+  /// <code>UNDER_CHANGE</code> - Transitive state. Operations performed might not
+  /// have valid results. Wait for an <code>AVAILABLE</code> status before
+  /// performing operations.
+  /// </li>
+  /// <li>
+  /// <code>TAINTED</code> - Stable state, ready to perform any operation. The
+  /// stack has completed the requested operation but is not exactly what was
+  /// requested. For example, a request to update to a new version failed and the
+  /// stack rolled back to the current version.
+  /// </li>
+  /// <li>
+  /// <code>ERROR</code> - An unexpected error occurred. The provisioned product
+  /// exists but the stack is not running. For example, CloudFormation received a
+  /// parameter value that was not valid and could not launch the stack.
+  /// </li>
+  /// <li>
+  /// <code>PLAN_IN_PROGRESS</code> - Transitive state. The plan operations were
+  /// performed to provision a new product, but resources have not yet been
+  /// created. After reviewing the list of resources to be created, execute the
+  /// plan. Wait for an <code>AVAILABLE</code> status before performing
+  /// operations.
+  /// </li>
+  /// </ul>
+  final ProvisionedProductStatus? status;
+
+  /// The current status message of the provisioned product.
+  final String? statusMessage;
+
+  /// One or more tags.
+  final List<Tag>? tags;
+
+  /// The type of provisioned product. The supported values are
+  /// <code>CFN_STACK</code>, <code>CFN_STACKSET</code>,
+  /// <code>TERRAFORM_OPEN_SOURCE</code>, <code>TERRAFORM_CLOUD</code>, and
+  /// <code>EXTERNAL</code>.
+  final String? type;
+
+  /// The Amazon Resource Name (ARN) of the user.
+  final String? userArn;
+
+  /// The ARN of the user in the session. This ARN might contain a session ID.
+  final String? userArnSession;
+
+  ProvisionedProductAttribute({
+    this.arn,
+    this.createdTime,
+    this.id,
+    this.idempotencyToken,
+    this.lastProvisioningRecordId,
+    this.lastRecordId,
+    this.lastSuccessfulProvisioningRecordId,
+    this.name,
+    this.physicalId,
+    this.productId,
+    this.productName,
+    this.provisioningArtifactId,
+    this.provisioningArtifactName,
+    this.status,
+    this.statusMessage,
+    this.tags,
+    this.type,
+    this.userArn,
+    this.userArnSession,
+  });
+
+  factory ProvisionedProductAttribute.fromJson(Map<String, dynamic> json) {
+    return ProvisionedProductAttribute(
+      arn: json['Arn'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      id: json['Id'] as String?,
+      idempotencyToken: json['IdempotencyToken'] as String?,
+      lastProvisioningRecordId: json['LastProvisioningRecordId'] as String?,
+      lastRecordId: json['LastRecordId'] as String?,
+      lastSuccessfulProvisioningRecordId:
+          json['LastSuccessfulProvisioningRecordId'] as String?,
+      name: json['Name'] as String?,
+      physicalId: json['PhysicalId'] as String?,
+      productId: json['ProductId'] as String?,
+      productName: json['ProductName'] as String?,
+      provisioningArtifactId: json['ProvisioningArtifactId'] as String?,
+      provisioningArtifactName: json['ProvisioningArtifactName'] as String?,
+      status:
+          (json['Status'] as String?)?.let(ProvisionedProductStatus.fromString),
+      statusMessage: json['StatusMessage'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: json['Type'] as String?,
+      userArn: json['UserArn'] as String?,
+      userArnSession: json['UserArnSession'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdTime = this.createdTime;
+    final id = this.id;
+    final idempotencyToken = this.idempotencyToken;
+    final lastProvisioningRecordId = this.lastProvisioningRecordId;
+    final lastRecordId = this.lastRecordId;
+    final lastSuccessfulProvisioningRecordId =
+        this.lastSuccessfulProvisioningRecordId;
+    final name = this.name;
+    final physicalId = this.physicalId;
+    final productId = this.productId;
+    final productName = this.productName;
+    final provisioningArtifactId = this.provisioningArtifactId;
+    final provisioningArtifactName = this.provisioningArtifactName;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    final tags = this.tags;
+    final type = this.type;
+    final userArn = this.userArn;
+    final userArnSession = this.userArnSession;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (id != null) 'Id': id,
+      if (idempotencyToken != null) 'IdempotencyToken': idempotencyToken,
+      if (lastProvisioningRecordId != null)
+        'LastProvisioningRecordId': lastProvisioningRecordId,
+      if (lastRecordId != null) 'LastRecordId': lastRecordId,
+      if (lastSuccessfulProvisioningRecordId != null)
+        'LastSuccessfulProvisioningRecordId':
+            lastSuccessfulProvisioningRecordId,
+      if (name != null) 'Name': name,
+      if (physicalId != null) 'PhysicalId': physicalId,
+      if (productId != null) 'ProductId': productId,
+      if (productName != null) 'ProductName': productName,
+      if (provisioningArtifactId != null)
+        'ProvisioningArtifactId': provisioningArtifactId,
+      if (provisioningArtifactName != null)
+        'ProvisioningArtifactName': provisioningArtifactName,
+      if (status != null) 'Status': status.value,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+      if (tags != null) 'Tags': tags,
+      if (type != null) 'Type': type,
+      if (userArn != null) 'UserArn': userArn,
+      if (userArnSession != null) 'UserArnSession': userArnSession,
+    };
+  }
+}
+
+class ProvisionedProductStatus {
+  static const available = ProvisionedProductStatus._('AVAILABLE');
+  static const underChange = ProvisionedProductStatus._('UNDER_CHANGE');
+  static const tainted = ProvisionedProductStatus._('TAINTED');
+  static const error = ProvisionedProductStatus._('ERROR');
+  static const planInProgress = ProvisionedProductStatus._('PLAN_IN_PROGRESS');
+
+  final String value;
+
+  const ProvisionedProductStatus._(this.value);
+
+  static const values = [
+    available,
+    underChange,
+    tainted,
+    error,
+    planInProgress
+  ];
+
+  static ProvisionedProductStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProvisionedProductStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProvisionedProductStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The access level to use to filter results.
+class AccessLevelFilter {
+  /// The access level.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Account</code> - Filter results based on the account.
+  /// </li>
+  /// <li>
+  /// <code>Role</code> - Filter results based on the federated role of the
+  /// specified user.
+  /// </li>
+  /// <li>
+  /// <code>User</code> - Filter results based on the specified user.
+  /// </li>
+  /// </ul>
+  final AccessLevelFilterKey? key;
+
+  /// The user to which the access level applies. The only supported value is
+  /// <code>self</code>.
+  final String? value;
+
+  AccessLevelFilter({
+    this.key,
+    this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key.value,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+class SortOrder {
+  static const ascending = SortOrder._('ASCENDING');
+  static const descending = SortOrder._('DESCENDING');
+
+  final String value;
+
+  const SortOrder._(this.value);
+
+  static const values = [ascending, descending];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ProvisionedProductViewFilterBy {
+  static const searchQuery = ProvisionedProductViewFilterBy._('SearchQuery');
+
+  final String value;
+
+  const ProvisionedProductViewFilterBy._(this.value);
+
+  static const values = [searchQuery];
+
+  static ProvisionedProductViewFilterBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProvisionedProductViewFilterBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProvisionedProductViewFilterBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AccessLevelFilterKey {
+  static const account = AccessLevelFilterKey._('Account');
+  static const role = AccessLevelFilterKey._('Role');
+  static const user = AccessLevelFilterKey._('User');
+
+  final String value;
+
+  const AccessLevelFilterKey._(this.value);
+
+  static const values = [account, role, user];
+
+  static AccessLevelFilterKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AccessLevelFilterKey._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AccessLevelFilterKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ProductViewSortBy {
+  static const title = ProductViewSortBy._('Title');
+  static const versionCount = ProductViewSortBy._('VersionCount');
+  static const creationDate = ProductViewSortBy._('CreationDate');
+
+  final String value;
+
+  const ProductViewSortBy._(this.value);
+
+  static const values = [title, versionCount, creationDate];
+
+  static ProductViewSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProductViewSortBy._(value));
+
+  @override
+  bool operator ==(other) => other is ProductViewSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ProductSource {
+  static const account = ProductSource._('ACCOUNT');
+
+  final String value;
+
+  const ProductSource._(this.value);
+
+  static const values = [account];
+
+  static ProductSource fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProductSource._(value));
+
+  @override
+  bool operator ==(other) => other is ProductSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ProductViewFilterBy {
+  static const fullTextSearch = ProductViewFilterBy._('FullTextSearch');
+  static const owner = ProductViewFilterBy._('Owner');
+  static const productType = ProductViewFilterBy._('ProductType');
+  static const sourceProductId = ProductViewFilterBy._('SourceProductId');
+
+  final String value;
+
+  const ProductViewFilterBy._(this.value);
+
+  static const values = [fullTextSearch, owner, productType, sourceProductId];
+
+  static ProductViewFilterBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProductViewFilterBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProductViewFilterBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A single product view aggregation value/count pair, containing metadata
+/// about each product to which the calling user has access.
+class ProductViewAggregationValue {
+  /// An approximate count of the products that match the value.
+  final int? approximateCount;
+
+  /// The value of the product view aggregation.
+  final String? value;
+
+  ProductViewAggregationValue({
+    this.approximateCount,
+    this.value,
+  });
+
+  factory ProductViewAggregationValue.fromJson(Map<String, dynamic> json) {
+    return ProductViewAggregationValue(
+      approximateCount: json['ApproximateCount'] as int?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approximateCount = this.approximateCount;
+    final value = this.value;
+    return {
+      if (approximateCount != null) 'ApproximateCount': approximateCount,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Information about a provisioned product.
+class ProvisionedProductDetail {
+  /// The ARN of the provisioned product.
+  final String? arn;
+
+  /// The UTC time stamp of the creation time.
+  final DateTime? createdTime;
+
+  /// The identifier of the provisioned product.
+  final String? id;
+
+  /// A unique identifier that you provide to ensure idempotency. If multiple
+  /// requests differ only by the idempotency token, the same response is returned
+  /// for each repeated request.
+  final String? idempotencyToken;
+
+  /// The record identifier of the last request performed on this provisioned
+  /// product of the following types:
+  ///
+  /// <ul>
+  /// <li>
+  /// ProvisionProduct
+  /// </li>
+  /// <li>
+  /// UpdateProvisionedProduct
+  /// </li>
+  /// <li>
+  /// ExecuteProvisionedProductPlan
+  /// </li>
+  /// <li>
+  /// TerminateProvisionedProduct
+  /// </li>
+  /// </ul>
+  final String? lastProvisioningRecordId;
+
+  /// The record identifier of the last request performed on this provisioned
+  /// product.
+  final String? lastRecordId;
+
+  /// The record identifier of the last successful request performed on this
+  /// provisioned product of the following types:
+  ///
+  /// <ul>
+  /// <li>
+  /// ProvisionProduct
+  /// </li>
+  /// <li>
+  /// UpdateProvisionedProduct
+  /// </li>
+  /// <li>
+  /// ExecuteProvisionedProductPlan
+  /// </li>
+  /// <li>
+  /// TerminateProvisionedProduct
+  /// </li>
+  /// </ul>
+  final String? lastSuccessfulProvisioningRecordId;
+
+  /// The ARN of the launch role associated with the provisioned product.
+  final String? launchRoleArn;
+
+  /// The user-friendly name of the provisioned product.
+  final String? name;
+
+  /// The product identifier. For example, <code>prod-abcdzk7xy33qa</code>.
+  final String? productId;
+
+  /// The identifier of the provisioning artifact. For example,
+  /// <code>pa-4abcdjnxjj6ne</code>.
+  final String? provisioningArtifactId;
+
+  /// The current status of the provisioned product.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AVAILABLE</code> - Stable state, ready to perform any operation. The
+  /// most recent operation succeeded and completed.
+  /// </li>
+  /// <li>
+  /// <code>UNDER_CHANGE</code> - Transitive state. Operations performed might not
+  /// have valid results. Wait for an <code>AVAILABLE</code> status before
+  /// performing operations.
+  /// </li>
+  /// <li>
+  /// <code>TAINTED</code> - Stable state, ready to perform any operation. The
+  /// stack has completed the requested operation but is not exactly what was
+  /// requested. For example, a request to update to a new version failed and the
+  /// stack rolled back to the current version.
+  /// </li>
+  /// <li>
+  /// <code>ERROR</code> - An unexpected error occurred. The provisioned product
+  /// exists but the stack is not running. For example, CloudFormation received a
+  /// parameter value that was not valid and could not launch the stack.
+  /// </li>
+  /// <li>
+  /// <code>PLAN_IN_PROGRESS</code> - Transitive state. The plan operations were
+  /// performed to provision a new product, but resources have not yet been
+  /// created. After reviewing the list of resources to be created, execute the
+  /// plan. Wait for an <code>AVAILABLE</code> status before performing
+  /// operations.
+  /// </li>
+  /// </ul>
+  final ProvisionedProductStatus? status;
+
+  /// The current status message of the provisioned product.
+  final String? statusMessage;
+
+  /// The type of provisioned product. The supported values are
+  /// <code>CFN_STACK</code>, <code>CFN_STACKSET</code>,
+  /// <code>TERRAFORM_OPEN_SOURCE</code>, <code>TERRAFORM_CLOUD</code>, and
+  /// <code>EXTERNAL</code>.
+  final String? type;
+
+  ProvisionedProductDetail({
+    this.arn,
+    this.createdTime,
+    this.id,
+    this.idempotencyToken,
+    this.lastProvisioningRecordId,
+    this.lastRecordId,
+    this.lastSuccessfulProvisioningRecordId,
+    this.launchRoleArn,
+    this.name,
+    this.productId,
+    this.provisioningArtifactId,
+    this.status,
+    this.statusMessage,
+    this.type,
+  });
+
+  factory ProvisionedProductDetail.fromJson(Map<String, dynamic> json) {
+    return ProvisionedProductDetail(
+      arn: json['Arn'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      id: json['Id'] as String?,
+      idempotencyToken: json['IdempotencyToken'] as String?,
+      lastProvisioningRecordId: json['LastProvisioningRecordId'] as String?,
+      lastRecordId: json['LastRecordId'] as String?,
+      lastSuccessfulProvisioningRecordId:
+          json['LastSuccessfulProvisioningRecordId'] as String?,
+      launchRoleArn: json['LaunchRoleArn'] as String?,
+      name: json['Name'] as String?,
+      productId: json['ProductId'] as String?,
+      provisioningArtifactId: json['ProvisioningArtifactId'] as String?,
+      status:
+          (json['Status'] as String?)?.let(ProvisionedProductStatus.fromString),
+      statusMessage: json['StatusMessage'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdTime = this.createdTime;
+    final id = this.id;
+    final idempotencyToken = this.idempotencyToken;
+    final lastProvisioningRecordId = this.lastProvisioningRecordId;
+    final lastRecordId = this.lastRecordId;
+    final lastSuccessfulProvisioningRecordId =
+        this.lastSuccessfulProvisioningRecordId;
+    final launchRoleArn = this.launchRoleArn;
+    final name = this.name;
+    final productId = this.productId;
+    final provisioningArtifactId = this.provisioningArtifactId;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    final type = this.type;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (id != null) 'Id': id,
+      if (idempotencyToken != null) 'IdempotencyToken': idempotencyToken,
+      if (lastProvisioningRecordId != null)
+        'LastProvisioningRecordId': lastProvisioningRecordId,
+      if (lastRecordId != null) 'LastRecordId': lastRecordId,
+      if (lastSuccessfulProvisioningRecordId != null)
+        'LastSuccessfulProvisioningRecordId':
+            lastSuccessfulProvisioningRecordId,
+      if (launchRoleArn != null) 'LaunchRoleArn': launchRoleArn,
+      if (name != null) 'Name': name,
+      if (productId != null) 'ProductId': productId,
+      if (provisioningArtifactId != null)
+        'ProvisioningArtifactId': provisioningArtifactId,
+      if (status != null) 'Status': status.value,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+class PortfolioShareType {
+  static const imported = PortfolioShareType._('IMPORTED');
+  static const awsServicecatalog = PortfolioShareType._('AWS_SERVICECATALOG');
+  static const awsOrganizations = PortfolioShareType._('AWS_ORGANIZATIONS');
+
+  final String value;
+
+  const PortfolioShareType._(this.value);
+
+  static const values = [imported, awsServicecatalog, awsOrganizations];
+
+  static PortfolioShareType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PortfolioShareType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PortfolioShareType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The user-defined preferences that will be applied when updating a
+/// provisioned product. Not all preferences are applicable to all provisioned
+/// product type
+///
+/// One or more Amazon Web Services accounts that will have access to the
+/// provisioned product.
+///
+/// Applicable only to a <code>CFN_STACKSET</code> provisioned product type.
+///
+/// The Amazon Web Services accounts specified should be within the list of
+/// accounts in the <code>STACKSET</code> constraint. To get the list of
+/// accounts in the <code>STACKSET</code> constraint, use the
+/// <code>DescribeProvisioningParameters</code> operation.
+///
+/// If no values are specified, the default value is all accounts from the
+/// <code>STACKSET</code> constraint.
+class ProvisioningPreferences {
+  /// One or more Amazon Web Services accounts where the provisioned product will
+  /// be available.
+  ///
+  /// Applicable only to a <code>CFN_STACKSET</code> provisioned product type.
+  ///
+  /// The specified accounts should be within the list of accounts from the
+  /// <code>STACKSET</code> constraint. To get the list of accounts in the
+  /// <code>STACKSET</code> constraint, use the
+  /// <code>DescribeProvisioningParameters</code> operation.
+  ///
+  /// If no values are specified, the default value is all acounts from the
+  /// <code>STACKSET</code> constraint.
+  final List<String>? stackSetAccounts;
+
+  /// The number of accounts, per Region, for which this operation can fail before
+  /// Service Catalog stops the operation in that Region. If the operation is
+  /// stopped in a Region, Service Catalog doesn't attempt the operation in any
+  /// subsequent Regions.
+  ///
+  /// Applicable only to a <code>CFN_STACKSET</code> provisioned product type.
+  ///
+  /// Conditional: You must specify either
+  /// <code>StackSetFailureToleranceCount</code> or
+  /// <code>StackSetFailureTolerancePercentage</code>, but not both.
+  ///
+  /// The default value is <code>0</code> if no value is specified.
+  final int? stackSetFailureToleranceCount;
+
+  /// The percentage of accounts, per Region, for which this stack operation can
+  /// fail before Service Catalog stops the operation in that Region. If the
+  /// operation is stopped in a Region, Service Catalog doesn't attempt the
+  /// operation in any subsequent Regions.
+  ///
+  /// When calculating the number of accounts based on the specified percentage,
+  /// Service Catalog rounds down to the next whole number.
+  ///
+  /// Applicable only to a <code>CFN_STACKSET</code> provisioned product type.
+  ///
+  /// Conditional: You must specify either
+  /// <code>StackSetFailureToleranceCount</code> or
+  /// <code>StackSetFailureTolerancePercentage</code>, but not both.
+  final int? stackSetFailureTolerancePercentage;
+
+  /// The maximum number of accounts in which to perform this operation at one
+  /// time. This is dependent on the value of
+  /// <code>StackSetFailureToleranceCount</code>.
+  /// <code>StackSetMaxConcurrentCount</code> is at most one more than the
+  /// <code>StackSetFailureToleranceCount</code>.
+  ///
+  /// Note that this setting lets you specify the maximum for operations. For
+  /// large deployments, under certain circumstances the actual number of accounts
+  /// acted upon concurrently may be lower due to service throttling.
+  ///
+  /// Applicable only to a <code>CFN_STACKSET</code> provisioned product type.
+  ///
+  /// Conditional: You must specify either <code>StackSetMaxConcurrentCount</code>
+  /// or <code>StackSetMaxConcurrentPercentage</code>, but not both.
+  final int? stackSetMaxConcurrencyCount;
+
+  /// The maximum percentage of accounts in which to perform this operation at one
+  /// time.
+  ///
+  /// When calculating the number of accounts based on the specified percentage,
+  /// Service Catalog rounds down to the next whole number. This is true except in
+  /// cases where rounding down would result is zero. In this case, Service
+  /// Catalog sets the number as <code>1</code> instead.
+  ///
+  /// Note that this setting lets you specify the maximum for operations. For
+  /// large deployments, under certain circumstances the actual number of accounts
+  /// acted upon concurrently may be lower due to service throttling.
+  ///
+  /// Applicable only to a <code>CFN_STACKSET</code> provisioned product type.
+  ///
+  /// Conditional: You must specify either <code>StackSetMaxConcurrentCount</code>
+  /// or <code>StackSetMaxConcurrentPercentage</code>, but not both.
+  final int? stackSetMaxConcurrencyPercentage;
+
+  /// One or more Amazon Web Services Regions where the provisioned product will
+  /// be available.
+  ///
+  /// Applicable only to a <code>CFN_STACKSET</code> provisioned product type.
+  ///
+  /// The specified Regions should be within the list of Regions from the
+  /// <code>STACKSET</code> constraint. To get the list of Regions in the
+  /// <code>STACKSET</code> constraint, use the
+  /// <code>DescribeProvisioningParameters</code> operation.
+  ///
+  /// If no values are specified, the default value is all Regions from the
+  /// <code>STACKSET</code> constraint.
+  final List<String>? stackSetRegions;
+
+  ProvisioningPreferences({
+    this.stackSetAccounts,
+    this.stackSetFailureToleranceCount,
+    this.stackSetFailureTolerancePercentage,
+    this.stackSetMaxConcurrencyCount,
+    this.stackSetMaxConcurrencyPercentage,
+    this.stackSetRegions,
+  });
+
+  Map<String, dynamic> toJson() {
+    final stackSetAccounts = this.stackSetAccounts;
+    final stackSetFailureToleranceCount = this.stackSetFailureToleranceCount;
+    final stackSetFailureTolerancePercentage =
+        this.stackSetFailureTolerancePercentage;
+    final stackSetMaxConcurrencyCount = this.stackSetMaxConcurrencyCount;
+    final stackSetMaxConcurrencyPercentage =
+        this.stackSetMaxConcurrencyPercentage;
+    final stackSetRegions = this.stackSetRegions;
+    return {
+      if (stackSetAccounts != null) 'StackSetAccounts': stackSetAccounts,
+      if (stackSetFailureToleranceCount != null)
+        'StackSetFailureToleranceCount': stackSetFailureToleranceCount,
+      if (stackSetFailureTolerancePercentage != null)
+        'StackSetFailureTolerancePercentage':
+            stackSetFailureTolerancePercentage,
+      if (stackSetMaxConcurrencyCount != null)
+        'StackSetMaxConcurrencyCount': stackSetMaxConcurrencyCount,
+      if (stackSetMaxConcurrencyPercentage != null)
+        'StackSetMaxConcurrencyPercentage': stackSetMaxConcurrencyPercentage,
+      if (stackSetRegions != null) 'StackSetRegions': stackSetRegions,
+    };
+  }
+}
+
+/// Information about a parameter used to provision a product.
+class ProvisioningParameter {
+  /// The parameter key.
+  final String? key;
+
+  /// The parameter value.
+  final String? value;
+
+  ProvisioningParameter({
+    this.key,
+    this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+class EngineWorkflowStatus {
+  static const succeeded = EngineWorkflowStatus._('SUCCEEDED');
+  static const failed = EngineWorkflowStatus._('FAILED');
+
+  final String value;
+
+  const EngineWorkflowStatus._(this.value);
+
+  static const values = [succeeded, failed];
+
+  static EngineWorkflowStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EngineWorkflowStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EngineWorkflowStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The output for the product created as the result of a request. For example,
+/// the output for a CloudFormation-backed product that creates an S3 bucket
+/// would include the S3 bucket URL.
+class RecordOutput {
+  /// The description of the output.
+  final String? description;
+
+  /// The output key.
+  final String? outputKey;
+
+  /// The output value.
+  final String? outputValue;
+
+  RecordOutput({
+    this.description,
+    this.outputKey,
+    this.outputValue,
+  });
+
+  factory RecordOutput.fromJson(Map<String, dynamic> json) {
+    return RecordOutput(
+      description: json['Description'] as String?,
+      outputKey: json['OutputKey'] as String?,
+      outputValue: json['OutputValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final outputKey = this.outputKey;
+    final outputValue = this.outputValue;
+    return {
+      if (description != null) 'Description': description,
+      if (outputKey != null) 'OutputKey': outputKey,
+      if (outputValue != null) 'OutputValue': outputValue,
+    };
+  }
+}
+
+/// The ID for the provisioned product resources that are part of a resource
+/// group.
+class EngineWorkflowResourceIdentifier {
+  /// The unique key-value pair for a tag that identifies provisioned product
+  /// resources.
+  final UniqueTagResourceIdentifier? uniqueTag;
+
+  EngineWorkflowResourceIdentifier({
+    this.uniqueTag,
+  });
+
+  Map<String, dynamic> toJson() {
+    final uniqueTag = this.uniqueTag;
+    return {
+      if (uniqueTag != null) 'UniqueTag': uniqueTag,
+    };
+  }
+}
+
+/// The unique key-value pair for a tag that identifies provisioned product
+/// resources.
+class UniqueTagResourceIdentifier {
+  /// A unique key that's attached to a resource.
+  final String? key;
+
+  /// A unique value that's attached to a resource.
+  final String? value;
+
+  UniqueTagResourceIdentifier({
+    this.key,
+    this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Filters to use when listing TagOptions.
+class ListTagOptionsFilters {
+  /// The active state.
+  final bool? active;
+
+  /// The TagOption key.
+  final String? key;
+
+  /// The TagOption value.
+  final String? value;
+
+  ListTagOptionsFilters({
+    this.active,
+    this.key,
+    this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final active = this.active;
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (active != null) 'Active': active,
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// An CloudFormation stack, in a specific account and Region, that's part of a
+/// stack set operation. A stack instance is a reference to an attempted or
+/// actual stack in a given account within a given Region. A stack instance can
+/// exist without a stack—for example, if the stack couldn't be created for some
+/// reason. A stack instance is associated with only one stack set. Each stack
+/// instance contains the ID of its associated stack set, as well as the ID of
+/// the actual stack and the stack status.
+class StackInstance {
+  /// The name of the Amazon Web Services account that the stack instance is
+  /// associated with.
+  final String? account;
+
+  /// The name of the Amazon Web Services Region that the stack instance is
+  /// associated with.
+  final String? region;
+
+  /// The status of the stack instance, in terms of its synchronization with its
+  /// associated stack set.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>INOPERABLE</code>: A <code>DeleteStackInstances</code> operation has
+  /// failed and left the stack in an unstable state. Stacks in this state are
+  /// excluded from further <code>UpdateStackSet</code> operations. You might need
+  /// to perform a <code>DeleteStackInstances</code> operation, with
+  /// <code>RetainStacks</code> set to true, to delete the stack instance, and
+  /// then delete the stack manually.
+  /// </li>
+  /// <li>
+  /// <code>OUTDATED</code>: The stack isn't currently up to date with the stack
+  /// set because either the associated stack failed during a
+  /// <code>CreateStackSet</code> or <code>UpdateStackSet</code> operation, or the
+  /// stack was part of a <code>CreateStackSet</code> or
+  /// <code>UpdateStackSet</code> operation that failed or was stopped before the
+  /// stack was created or updated.
+  /// </li>
+  /// <li>
+  /// <code>CURRENT</code>: The stack is currently up to date with the stack set.
+  /// </li>
+  /// </ul>
+  final StackInstanceStatus? stackInstanceStatus;
+
+  StackInstance({
+    this.account,
+    this.region,
+    this.stackInstanceStatus,
+  });
+
+  factory StackInstance.fromJson(Map<String, dynamic> json) {
+    return StackInstance(
+      account: json['Account'] as String?,
+      region: json['Region'] as String?,
+      stackInstanceStatus: (json['StackInstanceStatus'] as String?)
+          ?.let(StackInstanceStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final account = this.account;
+    final region = this.region;
+    final stackInstanceStatus = this.stackInstanceStatus;
+    return {
+      if (account != null) 'Account': account,
+      if (region != null) 'Region': region,
+      if (stackInstanceStatus != null)
+        'StackInstanceStatus': stackInstanceStatus.value,
+    };
+  }
+}
+
+class StackInstanceStatus {
+  static const current = StackInstanceStatus._('CURRENT');
+  static const outdated = StackInstanceStatus._('OUTDATED');
+  static const inoperable = StackInstanceStatus._('INOPERABLE');
+
+  final String value;
+
+  const StackInstanceStatus._(this.value);
+
+  static const values = [current, outdated, inoperable];
+
+  static StackInstanceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StackInstanceStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StackInstanceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a resource.
+class ResourceDetail {
+  /// The ARN of the resource.
+  final String? arn;
+
+  /// The creation time of the resource.
+  final DateTime? createdTime;
+
+  /// The description of the resource.
+  final String? description;
+
+  /// The identifier of the resource.
+  final String? id;
+
+  /// The name of the resource.
+  final String? name;
+
+  ResourceDetail({
+    this.arn,
+    this.createdTime,
+    this.description,
+    this.id,
+    this.name,
+  });
+
+  factory ResourceDetail.fromJson(Map<String, dynamic> json) {
+    return ResourceDetail(
+      arn: json['ARN'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdTime = this.createdTime;
+    final description = this.description;
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (arn != null) 'ARN': arn,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (description != null) 'Description': description,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// The search filter to use when listing history records.
+class ListRecordHistorySearchFilter {
+  /// The filter key.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>product</code> - Filter results based on the specified product
+  /// identifier.
+  /// </li>
+  /// <li>
+  /// <code>provisionedproduct</code> - Filter results based on the provisioned
+  /// product identifier.
+  /// </li>
+  /// </ul>
+  final String? key;
+
+  /// The filter value.
+  final String? value;
+
+  ListRecordHistorySearchFilter({
+    this.key,
+    this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// An object that contains summary information about a product view and a
+/// provisioning artifact.
+class ProvisioningArtifactView {
+  /// Summary information about a product view.
+  final ProductViewSummary? productViewSummary;
+
+  /// Information about a provisioning artifact. A provisioning artifact is also
+  /// known as a product version.
+  final ProvisioningArtifact? provisioningArtifact;
+
+  ProvisioningArtifactView({
+    this.productViewSummary,
+    this.provisioningArtifact,
+  });
+
+  factory ProvisioningArtifactView.fromJson(Map<String, dynamic> json) {
+    return ProvisioningArtifactView(
+      productViewSummary: json['ProductViewSummary'] != null
+          ? ProductViewSummary.fromJson(
+              json['ProductViewSummary'] as Map<String, dynamic>)
+          : null,
+      provisioningArtifact: json['ProvisioningArtifact'] != null
+          ? ProvisioningArtifact.fromJson(
+              json['ProvisioningArtifact'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final productViewSummary = this.productViewSummary;
+    final provisioningArtifact = this.provisioningArtifact;
+    return {
+      if (productViewSummary != null) 'ProductViewSummary': productViewSummary,
+      if (provisioningArtifact != null)
+        'ProvisioningArtifact': provisioningArtifact,
+    };
+  }
+}
+
+/// Information about a provisioning artifact. A provisioning artifact is also
+/// known as a product version.
+class ProvisioningArtifact {
+  /// The UTC time stamp of the creation time.
+  final DateTime? createdTime;
+
+  /// The description of the provisioning artifact.
+  final String? description;
+
+  /// Information set by the administrator to provide guidance to end users about
+  /// which provisioning artifacts to use.
+  final ProvisioningArtifactGuidance? guidance;
+
+  /// The identifier of the provisioning artifact.
+  final String? id;
+
+  /// The name of the provisioning artifact.
+  final String? name;
+
+  ProvisioningArtifact({
+    this.createdTime,
+    this.description,
+    this.guidance,
+    this.id,
+    this.name,
+  });
+
+  factory ProvisioningArtifact.fromJson(Map<String, dynamic> json) {
+    return ProvisioningArtifact(
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      description: json['Description'] as String?,
+      guidance: (json['Guidance'] as String?)
+          ?.let(ProvisioningArtifactGuidance.fromString),
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTime = this.createdTime;
+    final description = this.description;
+    final guidance = this.guidance;
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (description != null) 'Description': description,
+      if (guidance != null) 'Guidance': guidance.value,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// Summary information about a plan.
+class ProvisionedProductPlanSummary {
+  /// The plan identifier.
+  final String? planId;
+
+  /// The name of the plan.
+  final String? planName;
+
+  /// The plan type.
+  final ProvisionedProductPlanType? planType;
+
+  /// The product identifier.
+  final String? provisionProductId;
+
+  /// The user-friendly name of the provisioned product.
+  final String? provisionProductName;
+
+  /// The identifier of the provisioning artifact.
+  final String? provisioningArtifactId;
+
+  ProvisionedProductPlanSummary({
+    this.planId,
+    this.planName,
+    this.planType,
+    this.provisionProductId,
+    this.provisionProductName,
+    this.provisioningArtifactId,
+  });
+
+  factory ProvisionedProductPlanSummary.fromJson(Map<String, dynamic> json) {
+    return ProvisionedProductPlanSummary(
+      planId: json['PlanId'] as String?,
+      planName: json['PlanName'] as String?,
+      planType: (json['PlanType'] as String?)
+          ?.let(ProvisionedProductPlanType.fromString),
+      provisionProductId: json['ProvisionProductId'] as String?,
+      provisionProductName: json['ProvisionProductName'] as String?,
+      provisioningArtifactId: json['ProvisioningArtifactId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final planId = this.planId;
+    final planName = this.planName;
+    final planType = this.planType;
+    final provisionProductId = this.provisionProductId;
+    final provisionProductName = this.provisionProductName;
+    final provisioningArtifactId = this.provisioningArtifactId;
+    return {
+      if (planId != null) 'PlanId': planId,
+      if (planName != null) 'PlanName': planName,
+      if (planType != null) 'PlanType': planType.value,
+      if (provisionProductId != null) 'ProvisionProductId': provisionProductId,
+      if (provisionProductName != null)
+        'ProvisionProductName': provisionProductName,
+      if (provisioningArtifactId != null)
+        'ProvisioningArtifactId': provisioningArtifactId,
+    };
+  }
+}
+
+class ProvisionedProductPlanType {
+  static const cloudformation = ProvisionedProductPlanType._('CLOUDFORMATION');
+
+  final String value;
+
+  const ProvisionedProductPlanType._(this.value);
+
+  static const values = [cloudformation];
+
+  static ProvisionedProductPlanType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProvisionedProductPlanType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProvisionedProductPlanType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a principal.
+class Principal {
+  /// The ARN of the principal (user, role, or group). This field allows for an
+  /// ARN with no <code>accountID</code>, with or without wildcard characters if
+  /// the <code>PrincipalType</code> is an <code>IAM_PATTERN</code>.
+  ///
+  /// For more information, review <a
+  /// href="https://docs.aws.amazon.com/cli/latest/reference/servicecatalog/associate-principal-with-portfolio.html#options">associate-principal-with-portfolio</a>
+  /// in the Amazon Web Services CLI Command Reference.
+  final String? principalARN;
+
+  /// The principal type. The supported value is <code>IAM</code> if you use a
+  /// fully defined ARN, or <code>IAM_PATTERN</code> if you use an ARN with no
+  /// <code>accountID</code>, with or without wildcard characters.
+  final PrincipalType? principalType;
+
+  Principal({
+    this.principalARN,
+    this.principalType,
+  });
+
+  factory Principal.fromJson(Map<String, dynamic> json) {
+    return Principal(
+      principalARN: json['PrincipalARN'] as String?,
+      principalType:
+          (json['PrincipalType'] as String?)?.let(PrincipalType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final principalARN = this.principalARN;
+    final principalType = this.principalType;
+    return {
+      if (principalARN != null) 'PrincipalARN': principalARN,
+      if (principalType != null) 'PrincipalType': principalType.value,
+    };
+  }
+}
+
+class PrincipalType {
+  static const iam = PrincipalType._('IAM');
+  static const iamPattern = PrincipalType._('IAM_PATTERN');
+
+  final String value;
+
+  const PrincipalType._(this.value);
+
+  static const values = [iam, iamPattern];
+
+  static PrincipalType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PrincipalType._(value));
+
+  @override
+  bool operator ==(other) => other is PrincipalType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Summary information about a product path for a user.
+class LaunchPathSummary {
+  /// The constraints on the portfolio-product relationship.
+  final List<ConstraintSummary>? constraintSummaries;
+
+  /// The identifier of the product path.
+  final String? id;
+
+  /// The name of the portfolio that contains the product.
+  final String? name;
+
+  /// The tags associated with this product path.
+  final List<Tag>? tags;
+
+  LaunchPathSummary({
+    this.constraintSummaries,
+    this.id,
+    this.name,
+    this.tags,
+  });
+
+  factory LaunchPathSummary.fromJson(Map<String, dynamic> json) {
+    return LaunchPathSummary(
+      constraintSummaries: (json['ConstraintSummaries'] as List?)
+          ?.nonNulls
+          .map((e) => ConstraintSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final constraintSummaries = this.constraintSummaries;
+    final id = this.id;
+    final name = this.name;
+    final tags = this.tags;
+    return {
+      if (constraintSummaries != null)
+        'ConstraintSummaries': constraintSummaries,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// Summary information about a constraint.
+class ConstraintSummary {
+  /// The description of the constraint.
+  final String? description;
+
+  /// The type of constraint.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>LAUNCH</code>
+  /// </li>
+  /// <li>
+  /// <code>NOTIFICATION</code>
+  /// </li>
+  /// <li>
+  /// STACKSET
+  /// </li>
+  /// <li>
+  /// <code>TEMPLATE</code>
+  /// </li>
+  /// </ul>
+  final String? type;
+
+  ConstraintSummary({
+    this.description,
+    this.type,
+  });
+
+  factory ConstraintSummary.fromJson(Map<String, dynamic> json) {
+    return ConstraintSummary(
+      description: json['Description'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final type = this.type;
+    return {
+      if (description != null) 'Description': description,
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+/// Information about a budget.
+class BudgetDetail {
+  /// Name of the associated budget.
+  final String? budgetName;
+
+  BudgetDetail({
+    this.budgetName,
+  });
+
+  factory BudgetDetail.fromJson(Map<String, dynamic> json) {
+    return BudgetDetail(
+      budgetName: json['BudgetName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final budgetName = this.budgetName;
+    return {
+      if (budgetName != null) 'BudgetName': budgetName,
+    };
+  }
+}
+
+class AccessStatus {
+  static const enabled = AccessStatus._('ENABLED');
+  static const underChange = AccessStatus._('UNDER_CHANGE');
+  static const disabled = AccessStatus._('DISABLED');
+
+  final String value;
+
+  const AccessStatus._(this.value);
+
+  static const values = [enabled, underChange, disabled];
+
+  static AccessStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AccessStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AccessStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Details of an execution parameter value that is passed to a self-service
+/// action when executed on a provisioned product.
+class ExecutionParameter {
+  /// The default values for the execution parameter.
+  final List<String>? defaultValues;
+
+  /// The name of the execution parameter.
+  final String? name;
+
+  /// The execution parameter type.
+  final String? type;
+
+  ExecutionParameter({
+    this.defaultValues,
+    this.name,
+    this.type,
+  });
+
+  factory ExecutionParameter.fromJson(Map<String, dynamic> json) {
+    return ExecutionParameter(
+      defaultValues: (json['DefaultValues'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultValues = this.defaultValues;
+    final name = this.name;
+    final type = this.type;
+    return {
+      if (defaultValues != null) 'DefaultValues': defaultValues,
+      if (name != null) 'Name': name,
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+/// The user-defined preferences that will be applied during product
+/// provisioning, unless overridden by <code>ProvisioningPreferences</code> or
+/// <code>UpdateProvisioningPreferences</code>.
+///
+/// For more information on maximum concurrent accounts and failure tolerance,
+/// see <a
+/// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html#stackset-ops-options">Stack
+/// set operation options</a> in the <i>CloudFormation User Guide</i>.
+class ProvisioningArtifactPreferences {
+  /// One or more Amazon Web Services accounts where stack instances are deployed
+  /// from the stack set. These accounts can be scoped in
+  /// <code>ProvisioningPreferences$StackSetAccounts</code> and
+  /// <code>UpdateProvisioningPreferences$StackSetAccounts</code>.
+  ///
+  /// Applicable only to a <code>CFN_STACKSET</code> provisioned product type.
+  final List<String>? stackSetAccounts;
+
+  /// One or more Amazon Web Services Regions where stack instances are deployed
+  /// from the stack set. These Regions can be scoped in
+  /// <code>ProvisioningPreferences$StackSetRegions</code> and
+  /// <code>UpdateProvisioningPreferences$StackSetRegions</code>.
+  ///
+  /// Applicable only to a <code>CFN_STACKSET</code> provisioned product type.
+  final List<String>? stackSetRegions;
+
+  ProvisioningArtifactPreferences({
+    this.stackSetAccounts,
+    this.stackSetRegions,
+  });
+
+  factory ProvisioningArtifactPreferences.fromJson(Map<String, dynamic> json) {
+    return ProvisioningArtifactPreferences(
+      stackSetAccounts: (json['StackSetAccounts'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      stackSetRegions: (json['StackSetRegions'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final stackSetAccounts = this.stackSetAccounts;
+    final stackSetRegions = this.stackSetRegions;
+    return {
+      if (stackSetAccounts != null) 'StackSetAccounts': stackSetAccounts,
+      if (stackSetRegions != null) 'StackSetRegions': stackSetRegions,
+    };
+  }
+}
+
+/// Provisioning artifact output.
+class ProvisioningArtifactOutput {
+  /// Description of the provisioning artifact output key.
+  final String? description;
+
+  /// The provisioning artifact output key.
+  final String? key;
+
+  ProvisioningArtifactOutput({
+    this.description,
+    this.key,
+  });
+
+  factory ProvisioningArtifactOutput.fromJson(Map<String, dynamic> json) {
+    return ProvisioningArtifactOutput(
+      description: json['Description'] as String?,
+      key: json['Key'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final key = this.key;
+    return {
+      if (description != null) 'Description': description,
+      if (key != null) 'Key': key,
+    };
+  }
+}
+
+/// Summary information about a TagOption.
+class TagOptionSummary {
+  /// The TagOption key.
+  final String? key;
+
+  /// The TagOption value.
+  final List<String>? values;
+
+  TagOptionSummary({
+    this.key,
+    this.values,
+  });
+
+  factory TagOptionSummary.fromJson(Map<String, dynamic> json) {
+    return TagOptionSummary(
+      key: json['Key'] as String?,
+      values:
+          (json['Values'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final values = this.values;
+    return {
+      if (key != null) 'Key': key,
+      if (values != null) 'Values': values,
     };
   }
 }
@@ -13180,6 +11996,1192 @@ class UsageInstruction {
     return {
       if (type != null) 'Type': type,
       if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Information about a parameter used to provision a product.
+class ProvisioningArtifactParameter {
+  /// The default value.
+  final String? defaultValue;
+
+  /// The description of the parameter.
+  final String? description;
+
+  /// If this value is true, the value for this parameter is obfuscated from view
+  /// when the parameter is retrieved. This parameter is used to hide sensitive
+  /// information.
+  final bool? isNoEcho;
+
+  /// Constraints that the administrator has put on a parameter.
+  final ParameterConstraints? parameterConstraints;
+
+  /// The parameter key.
+  final String? parameterKey;
+
+  /// The parameter type.
+  final String? parameterType;
+
+  ProvisioningArtifactParameter({
+    this.defaultValue,
+    this.description,
+    this.isNoEcho,
+    this.parameterConstraints,
+    this.parameterKey,
+    this.parameterType,
+  });
+
+  factory ProvisioningArtifactParameter.fromJson(Map<String, dynamic> json) {
+    return ProvisioningArtifactParameter(
+      defaultValue: json['DefaultValue'] as String?,
+      description: json['Description'] as String?,
+      isNoEcho: json['IsNoEcho'] as bool?,
+      parameterConstraints: json['ParameterConstraints'] != null
+          ? ParameterConstraints.fromJson(
+              json['ParameterConstraints'] as Map<String, dynamic>)
+          : null,
+      parameterKey: json['ParameterKey'] as String?,
+      parameterType: json['ParameterType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultValue = this.defaultValue;
+    final description = this.description;
+    final isNoEcho = this.isNoEcho;
+    final parameterConstraints = this.parameterConstraints;
+    final parameterKey = this.parameterKey;
+    final parameterType = this.parameterType;
+    return {
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (description != null) 'Description': description,
+      if (isNoEcho != null) 'IsNoEcho': isNoEcho,
+      if (parameterConstraints != null)
+        'ParameterConstraints': parameterConstraints,
+      if (parameterKey != null) 'ParameterKey': parameterKey,
+      if (parameterType != null) 'ParameterType': parameterType,
+    };
+  }
+}
+
+/// The constraints that the administrator has put on the parameter.
+class ParameterConstraints {
+  /// A regular expression that represents the patterns that allow for
+  /// <code>String</code> types. The pattern must match the entire parameter value
+  /// provided.
+  final String? allowedPattern;
+
+  /// The values that the administrator has allowed for the parameter.
+  final List<String>? allowedValues;
+
+  /// A string that explains a constraint when the constraint is violated. For
+  /// example, without a constraint description, a parameter that has an allowed
+  /// pattern of <code>[A-Za-z0-9]+</code> displays the following error message
+  /// when the user specifies an invalid value:
+  ///
+  /// <code>Malformed input-Parameter MyParameter must match pattern
+  /// [A-Za-z0-9]+</code>
+  ///
+  /// By adding a constraint description, such as must only contain letters
+  /// (uppercase and lowercase) and numbers, you can display the following
+  /// customized error message:
+  ///
+  /// <code>Malformed input-Parameter MyParameter must only contain uppercase and
+  /// lowercase letters and numbers.</code>
+  final String? constraintDescription;
+
+  /// An integer value that determines the largest number of characters you want
+  /// to allow for <code>String</code> types.
+  final String? maxLength;
+
+  /// A numeric value that determines the largest numeric value you want to allow
+  /// for <code>Number</code> types.
+  final String? maxValue;
+
+  /// An integer value that determines the smallest number of characters you want
+  /// to allow for <code>String</code> types.
+  final String? minLength;
+
+  /// A numeric value that determines the smallest numeric value you want to allow
+  /// for <code>Number</code> types.
+  final String? minValue;
+
+  ParameterConstraints({
+    this.allowedPattern,
+    this.allowedValues,
+    this.constraintDescription,
+    this.maxLength,
+    this.maxValue,
+    this.minLength,
+    this.minValue,
+  });
+
+  factory ParameterConstraints.fromJson(Map<String, dynamic> json) {
+    return ParameterConstraints(
+      allowedPattern: json['AllowedPattern'] as String?,
+      allowedValues: (json['AllowedValues'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      constraintDescription: json['ConstraintDescription'] as String?,
+      maxLength: json['MaxLength'] as String?,
+      maxValue: json['MaxValue'] as String?,
+      minLength: json['MinLength'] as String?,
+      minValue: json['MinValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedPattern = this.allowedPattern;
+    final allowedValues = this.allowedValues;
+    final constraintDescription = this.constraintDescription;
+    final maxLength = this.maxLength;
+    final maxValue = this.maxValue;
+    final minLength = this.minLength;
+    final minValue = this.minValue;
+    return {
+      if (allowedPattern != null) 'AllowedPattern': allowedPattern,
+      if (allowedValues != null) 'AllowedValues': allowedValues,
+      if (constraintDescription != null)
+        'ConstraintDescription': constraintDescription,
+      if (maxLength != null) 'MaxLength': maxLength,
+      if (maxValue != null) 'MaxValue': maxValue,
+      if (minLength != null) 'MinLength': minLength,
+      if (minValue != null) 'MinValue': minValue,
+    };
+  }
+}
+
+/// Information about a plan.
+class ProvisionedProductPlanDetails {
+  /// The UTC time stamp of the creation time.
+  final DateTime? createdTime;
+
+  /// Passed to CloudFormation. The SNS topic ARNs to which to publish
+  /// stack-related events.
+  final List<String>? notificationArns;
+
+  /// The path identifier of the product. This value is optional if the product
+  /// has a default path, and required if the product has more than one path. To
+  /// list the paths for a product, use <a>ListLaunchPaths</a>.
+  final String? pathId;
+
+  /// The plan identifier.
+  final String? planId;
+
+  /// The name of the plan.
+  final String? planName;
+
+  /// The plan type.
+  final ProvisionedProductPlanType? planType;
+
+  /// The product identifier.
+  final String? productId;
+
+  /// The product identifier.
+  final String? provisionProductId;
+
+  /// The user-friendly name of the provisioned product.
+  final String? provisionProductName;
+
+  /// The identifier of the provisioning artifact.
+  final String? provisioningArtifactId;
+
+  /// Parameters specified by the administrator that are required for provisioning
+  /// the product.
+  final List<UpdateProvisioningParameter>? provisioningParameters;
+
+  /// The status.
+  final ProvisionedProductPlanStatus? status;
+
+  /// The status message.
+  final String? statusMessage;
+
+  /// One or more tags.
+  final List<Tag>? tags;
+
+  /// The UTC time stamp when the plan was last updated.
+  final DateTime? updatedTime;
+
+  ProvisionedProductPlanDetails({
+    this.createdTime,
+    this.notificationArns,
+    this.pathId,
+    this.planId,
+    this.planName,
+    this.planType,
+    this.productId,
+    this.provisionProductId,
+    this.provisionProductName,
+    this.provisioningArtifactId,
+    this.provisioningParameters,
+    this.status,
+    this.statusMessage,
+    this.tags,
+    this.updatedTime,
+  });
+
+  factory ProvisionedProductPlanDetails.fromJson(Map<String, dynamic> json) {
+    return ProvisionedProductPlanDetails(
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      notificationArns: (json['NotificationArns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      pathId: json['PathId'] as String?,
+      planId: json['PlanId'] as String?,
+      planName: json['PlanName'] as String?,
+      planType: (json['PlanType'] as String?)
+          ?.let(ProvisionedProductPlanType.fromString),
+      productId: json['ProductId'] as String?,
+      provisionProductId: json['ProvisionProductId'] as String?,
+      provisionProductName: json['ProvisionProductName'] as String?,
+      provisioningArtifactId: json['ProvisioningArtifactId'] as String?,
+      provisioningParameters: (json['ProvisioningParameters'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              UpdateProvisioningParameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status: (json['Status'] as String?)
+          ?.let(ProvisionedProductPlanStatus.fromString),
+      statusMessage: json['StatusMessage'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      updatedTime: timeStampFromJson(json['UpdatedTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTime = this.createdTime;
+    final notificationArns = this.notificationArns;
+    final pathId = this.pathId;
+    final planId = this.planId;
+    final planName = this.planName;
+    final planType = this.planType;
+    final productId = this.productId;
+    final provisionProductId = this.provisionProductId;
+    final provisionProductName = this.provisionProductName;
+    final provisioningArtifactId = this.provisioningArtifactId;
+    final provisioningParameters = this.provisioningParameters;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    final tags = this.tags;
+    final updatedTime = this.updatedTime;
+    return {
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (notificationArns != null) 'NotificationArns': notificationArns,
+      if (pathId != null) 'PathId': pathId,
+      if (planId != null) 'PlanId': planId,
+      if (planName != null) 'PlanName': planName,
+      if (planType != null) 'PlanType': planType.value,
+      if (productId != null) 'ProductId': productId,
+      if (provisionProductId != null) 'ProvisionProductId': provisionProductId,
+      if (provisionProductName != null)
+        'ProvisionProductName': provisionProductName,
+      if (provisioningArtifactId != null)
+        'ProvisioningArtifactId': provisioningArtifactId,
+      if (provisioningParameters != null)
+        'ProvisioningParameters': provisioningParameters,
+      if (status != null) 'Status': status.value,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+      if (tags != null) 'Tags': tags,
+      if (updatedTime != null) 'UpdatedTime': unixTimestampToJson(updatedTime),
+    };
+  }
+}
+
+/// Information about a resource change that will occur when a plan is executed.
+class ResourceChange {
+  /// The change action.
+  final ChangeAction? action;
+
+  /// Information about the resource changes.
+  final List<ResourceChangeDetail>? details;
+
+  /// The ID of the resource, as defined in the CloudFormation template.
+  final String? logicalResourceId;
+
+  /// The ID of the resource, if it was already created.
+  final String? physicalResourceId;
+
+  /// If the change type is <code>Modify</code>, indicates whether the existing
+  /// resource is deleted and replaced with a new one.
+  final Replacement? replacement;
+
+  /// The type of resource.
+  final String? resourceType;
+
+  /// The change scope.
+  final List<ResourceAttribute>? scope;
+
+  ResourceChange({
+    this.action,
+    this.details,
+    this.logicalResourceId,
+    this.physicalResourceId,
+    this.replacement,
+    this.resourceType,
+    this.scope,
+  });
+
+  factory ResourceChange.fromJson(Map<String, dynamic> json) {
+    return ResourceChange(
+      action: (json['Action'] as String?)?.let(ChangeAction.fromString),
+      details: (json['Details'] as List?)
+          ?.nonNulls
+          .map((e) => ResourceChangeDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      logicalResourceId: json['LogicalResourceId'] as String?,
+      physicalResourceId: json['PhysicalResourceId'] as String?,
+      replacement:
+          (json['Replacement'] as String?)?.let(Replacement.fromString),
+      resourceType: json['ResourceType'] as String?,
+      scope: (json['Scope'] as List?)
+          ?.nonNulls
+          .map((e) => ResourceAttribute.fromString((e as String)))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final details = this.details;
+    final logicalResourceId = this.logicalResourceId;
+    final physicalResourceId = this.physicalResourceId;
+    final replacement = this.replacement;
+    final resourceType = this.resourceType;
+    final scope = this.scope;
+    return {
+      if (action != null) 'Action': action.value,
+      if (details != null) 'Details': details,
+      if (logicalResourceId != null) 'LogicalResourceId': logicalResourceId,
+      if (physicalResourceId != null) 'PhysicalResourceId': physicalResourceId,
+      if (replacement != null) 'Replacement': replacement.value,
+      if (resourceType != null) 'ResourceType': resourceType,
+      if (scope != null) 'Scope': scope.map((e) => e.value).toList(),
+    };
+  }
+}
+
+class ChangeAction {
+  static const add = ChangeAction._('ADD');
+  static const modify = ChangeAction._('MODIFY');
+  static const remove = ChangeAction._('REMOVE');
+
+  final String value;
+
+  const ChangeAction._(this.value);
+
+  static const values = [add, modify, remove];
+
+  static ChangeAction fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChangeAction._(value));
+
+  @override
+  bool operator ==(other) => other is ChangeAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class Replacement {
+  static const $true = Replacement._('TRUE');
+  static const $false = Replacement._('FALSE');
+  static const conditional = Replacement._('CONDITIONAL');
+
+  final String value;
+
+  const Replacement._(this.value);
+
+  static const values = [$true, $false, conditional];
+
+  static Replacement fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Replacement._(value));
+
+  @override
+  bool operator ==(other) => other is Replacement && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a change to a resource attribute.
+class ResourceChangeDetail {
+  /// The ID of the entity that caused the change.
+  final String? causingEntity;
+
+  /// For static evaluations, the value of the resource attribute will change and
+  /// the new value is known. For dynamic evaluations, the value might change, and
+  /// any new value will be determined when the plan is updated.
+  final EvaluationType? evaluation;
+
+  /// Information about the resource attribute to be modified.
+  final ResourceTargetDefinition? target;
+
+  ResourceChangeDetail({
+    this.causingEntity,
+    this.evaluation,
+    this.target,
+  });
+
+  factory ResourceChangeDetail.fromJson(Map<String, dynamic> json) {
+    return ResourceChangeDetail(
+      causingEntity: json['CausingEntity'] as String?,
+      evaluation:
+          (json['Evaluation'] as String?)?.let(EvaluationType.fromString),
+      target: json['Target'] != null
+          ? ResourceTargetDefinition.fromJson(
+              json['Target'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final causingEntity = this.causingEntity;
+    final evaluation = this.evaluation;
+    final target = this.target;
+    return {
+      if (causingEntity != null) 'CausingEntity': causingEntity,
+      if (evaluation != null) 'Evaluation': evaluation.value,
+      if (target != null) 'Target': target,
+    };
+  }
+}
+
+/// Information about a change to a resource attribute.
+class ResourceTargetDefinition {
+  /// The attribute to be changed.
+  final ResourceAttribute? attribute;
+
+  /// If the attribute is <code>Properties</code>, the value is the name of the
+  /// property. Otherwise, the value is null.
+  final String? name;
+
+  /// If the attribute is <code>Properties</code>, indicates whether a change to
+  /// this property causes the resource to be re-created.
+  final RequiresRecreation? requiresRecreation;
+
+  ResourceTargetDefinition({
+    this.attribute,
+    this.name,
+    this.requiresRecreation,
+  });
+
+  factory ResourceTargetDefinition.fromJson(Map<String, dynamic> json) {
+    return ResourceTargetDefinition(
+      attribute:
+          (json['Attribute'] as String?)?.let(ResourceAttribute.fromString),
+      name: json['Name'] as String?,
+      requiresRecreation: (json['RequiresRecreation'] as String?)
+          ?.let(RequiresRecreation.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attribute = this.attribute;
+    final name = this.name;
+    final requiresRecreation = this.requiresRecreation;
+    return {
+      if (attribute != null) 'Attribute': attribute.value,
+      if (name != null) 'Name': name,
+      if (requiresRecreation != null)
+        'RequiresRecreation': requiresRecreation.value,
+    };
+  }
+}
+
+class EvaluationType {
+  static const static = EvaluationType._('STATIC');
+  static const $dynamic = EvaluationType._('DYNAMIC');
+
+  final String value;
+
+  const EvaluationType._(this.value);
+
+  static const values = [static, $dynamic];
+
+  static EvaluationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EvaluationType._(value));
+
+  @override
+  bool operator ==(other) => other is EvaluationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ResourceAttribute {
+  static const properties = ResourceAttribute._('PROPERTIES');
+  static const metadata = ResourceAttribute._('METADATA');
+  static const creationpolicy = ResourceAttribute._('CREATIONPOLICY');
+  static const updatepolicy = ResourceAttribute._('UPDATEPOLICY');
+  static const deletionpolicy = ResourceAttribute._('DELETIONPOLICY');
+  static const tags = ResourceAttribute._('TAGS');
+
+  final String value;
+
+  const ResourceAttribute._(this.value);
+
+  static const values = [
+    properties,
+    metadata,
+    creationpolicy,
+    updatepolicy,
+    deletionpolicy,
+    tags
+  ];
+
+  static ResourceAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceAttribute._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class RequiresRecreation {
+  static const never = RequiresRecreation._('NEVER');
+  static const conditionally = RequiresRecreation._('CONDITIONALLY');
+  static const always = RequiresRecreation._('ALWAYS');
+
+  final String value;
+
+  const RequiresRecreation._(this.value);
+
+  static const values = [never, conditionally, always];
+
+  static RequiresRecreation fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RequiresRecreation._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RequiresRecreation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ProvisionedProductPlanStatus {
+  static const createInProgress =
+      ProvisionedProductPlanStatus._('CREATE_IN_PROGRESS');
+  static const createSuccess = ProvisionedProductPlanStatus._('CREATE_SUCCESS');
+  static const createFailed = ProvisionedProductPlanStatus._('CREATE_FAILED');
+  static const executeInProgress =
+      ProvisionedProductPlanStatus._('EXECUTE_IN_PROGRESS');
+  static const executeSuccess =
+      ProvisionedProductPlanStatus._('EXECUTE_SUCCESS');
+  static const executeFailed = ProvisionedProductPlanStatus._('EXECUTE_FAILED');
+
+  final String value;
+
+  const ProvisionedProductPlanStatus._(this.value);
+
+  static const values = [
+    createInProgress,
+    createSuccess,
+    createFailed,
+    executeInProgress,
+    executeSuccess,
+    executeFailed
+  ];
+
+  static ProvisionedProductPlanStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProvisionedProductPlanStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProvisionedProductPlanStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a CloudWatch dashboard.
+class CloudWatchDashboard {
+  /// The name of the CloudWatch dashboard.
+  final String? name;
+
+  CloudWatchDashboard({
+    this.name,
+  });
+
+  factory CloudWatchDashboard.fromJson(Map<String, dynamic> json) {
+    return CloudWatchDashboard(
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// Summary information about a provisioning artifact (also known as a version)
+/// for a product.
+class ProvisioningArtifactSummary {
+  /// The UTC time stamp of the creation time.
+  final DateTime? createdTime;
+
+  /// The description of the provisioning artifact.
+  final String? description;
+
+  /// The identifier of the provisioning artifact.
+  final String? id;
+
+  /// The name of the provisioning artifact.
+  final String? name;
+
+  /// The metadata for the provisioning artifact. This is used with Amazon Web
+  /// Services Marketplace products.
+  final Map<String, String>? provisioningArtifactMetadata;
+
+  ProvisioningArtifactSummary({
+    this.createdTime,
+    this.description,
+    this.id,
+    this.name,
+    this.provisioningArtifactMetadata,
+  });
+
+  factory ProvisioningArtifactSummary.fromJson(Map<String, dynamic> json) {
+    return ProvisioningArtifactSummary(
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      provisioningArtifactMetadata:
+          (json['ProvisioningArtifactMetadata'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTime = this.createdTime;
+    final description = this.description;
+    final id = this.id;
+    final name = this.name;
+    final provisioningArtifactMetadata = this.provisioningArtifactMetadata;
+    return {
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (description != null) 'Description': description,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (provisioningArtifactMetadata != null)
+        'ProvisioningArtifactMetadata': provisioningArtifactMetadata,
+    };
+  }
+}
+
+/// A launch path object.
+class LaunchPath {
+  /// The identifier of the launch path.
+  final String? id;
+
+  /// The name of the launch path.
+  final String? name;
+
+  LaunchPath({
+    this.id,
+    this.name,
+  });
+
+  factory LaunchPath.fromJson(Map<String, dynamic> json) {
+    return LaunchPath(
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// Information about the portfolio share operation.
+class ShareDetails {
+  /// List of errors.
+  final List<ShareError>? shareErrors;
+
+  /// List of accounts for whom the operation succeeded.
+  final List<String>? successfulShares;
+
+  ShareDetails({
+    this.shareErrors,
+    this.successfulShares,
+  });
+
+  factory ShareDetails.fromJson(Map<String, dynamic> json) {
+    return ShareDetails(
+      shareErrors: (json['ShareErrors'] as List?)
+          ?.nonNulls
+          .map((e) => ShareError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      successfulShares: (json['SuccessfulShares'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final shareErrors = this.shareErrors;
+    final successfulShares = this.successfulShares;
+    return {
+      if (shareErrors != null) 'ShareErrors': shareErrors,
+      if (successfulShares != null) 'SuccessfulShares': successfulShares,
+    };
+  }
+}
+
+/// Errors that occurred during the portfolio share operation.
+class ShareError {
+  /// List of accounts impacted by the error.
+  final List<String>? accounts;
+
+  /// Error type that happened when processing the operation.
+  final String? error;
+
+  /// Information about the error.
+  final String? message;
+
+  ShareError({
+    this.accounts,
+    this.error,
+    this.message,
+  });
+
+  factory ShareError.fromJson(Map<String, dynamic> json) {
+    return ShareError(
+      accounts: (json['Accounts'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      error: json['Error'] as String?,
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accounts = this.accounts;
+    final error = this.error;
+    final message = this.message;
+    return {
+      if (accounts != null) 'Accounts': accounts,
+      if (error != null) 'Error': error,
+      if (message != null) 'Message': message,
+    };
+  }
+}
+
+/// Information about the portfolio share.
+class PortfolioShareDetail {
+  /// Indicates whether the shared portfolio is imported by the recipient account.
+  /// If the recipient is in an organization node, the share is automatically
+  /// imported, and the field is always set to true.
+  final bool? accepted;
+
+  /// The identifier of the recipient entity that received the portfolio share.
+  /// The recipient entity can be one of the following:
+  ///
+  /// 1. An external account.
+  ///
+  /// 2. An organziation member account.
+  ///
+  /// 3. An organzational unit (OU).
+  ///
+  /// 4. The organization itself. (This shares with every account in the
+  /// organization).
+  final String? principalId;
+
+  /// Indicates if <code>Principal</code> sharing is enabled or disabled for the
+  /// portfolio share.
+  final bool? sharePrincipals;
+
+  /// Indicates whether TagOptions sharing is enabled or disabled for the
+  /// portfolio share.
+  final bool? shareTagOptions;
+
+  /// The type of the portfolio share.
+  final DescribePortfolioShareType? type;
+
+  PortfolioShareDetail({
+    this.accepted,
+    this.principalId,
+    this.sharePrincipals,
+    this.shareTagOptions,
+    this.type,
+  });
+
+  factory PortfolioShareDetail.fromJson(Map<String, dynamic> json) {
+    return PortfolioShareDetail(
+      accepted: json['Accepted'] as bool?,
+      principalId: json['PrincipalId'] as String?,
+      sharePrincipals: json['SharePrincipals'] as bool?,
+      shareTagOptions: json['ShareTagOptions'] as bool?,
+      type:
+          (json['Type'] as String?)?.let(DescribePortfolioShareType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accepted = this.accepted;
+    final principalId = this.principalId;
+    final sharePrincipals = this.sharePrincipals;
+    final shareTagOptions = this.shareTagOptions;
+    final type = this.type;
+    return {
+      if (accepted != null) 'Accepted': accepted,
+      if (principalId != null) 'PrincipalId': principalId,
+      if (sharePrincipals != null) 'SharePrincipals': sharePrincipals,
+      if (shareTagOptions != null) 'ShareTagOptions': shareTagOptions,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class DescribePortfolioShareType {
+  static const account = DescribePortfolioShareType._('ACCOUNT');
+  static const organization = DescribePortfolioShareType._('ORGANIZATION');
+  static const organizationalUnit =
+      DescribePortfolioShareType._('ORGANIZATIONAL_UNIT');
+  static const organizationMemberAccount =
+      DescribePortfolioShareType._('ORGANIZATION_MEMBER_ACCOUNT');
+
+  final String value;
+
+  const DescribePortfolioShareType._(this.value);
+
+  static const values = [
+    account,
+    organization,
+    organizationalUnit,
+    organizationMemberAccount
+  ];
+
+  static DescribePortfolioShareType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DescribePortfolioShareType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DescribePortfolioShareType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class CopyProductStatus {
+  static const succeeded = CopyProductStatus._('SUCCEEDED');
+  static const inProgress = CopyProductStatus._('IN_PROGRESS');
+  static const failed = CopyProductStatus._('FAILED');
+
+  final String value;
+
+  const CopyProductStatus._(this.value);
+
+  static const values = [succeeded, inProgress, failed];
+
+  static CopyProductStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CopyProductStatus._(value));
+
+  @override
+  bool operator ==(other) => other is CopyProductStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a provisioning artifact (also known as a version) for a
+/// product.
+class ProvisioningArtifactProperties {
+  /// The description of the provisioning artifact, including how it differs from
+  /// the previous provisioning artifact.
+  final String? description;
+
+  /// If set to true, Service Catalog stops validating the specified provisioning
+  /// artifact even if it is invalid.
+  ///
+  /// Service Catalog does not support template validation for the
+  /// <code>TERRAFORM_OS</code> product type.
+  final bool? disableTemplateValidation;
+
+  /// Specify the template source with one of the following options, but not both.
+  /// Keys accepted: [ <code>LoadTemplateFromURL</code>,
+  /// <code>ImportFromPhysicalId</code> ]
+  ///
+  /// The URL of the CloudFormation template in Amazon S3 or GitHub in JSON
+  /// format. Specify the URL in JSON format as follows:
+  ///
+  /// <code>"LoadTemplateFromURL":
+  /// "https://s3.amazonaws.com/cf-templates-ozkq9d3hgiq2-us-east-1/..."</code>
+  ///
+  /// <code>ImportFromPhysicalId</code>: The physical id of the resource that
+  /// contains the template. Currently only supports CloudFormation stack arn.
+  /// Specify the physical id in JSON format as follows:
+  /// <code>ImportFromPhysicalId:
+  /// “arn:aws:cloudformation:[us-east-1]:[accountId]:stack/[StackName]/[resourceId]</code>
+  final Map<String, String>? info;
+
+  /// The name of the provisioning artifact (for example, v1 v2beta). No spaces
+  /// are allowed.
+  final String? name;
+
+  /// The type of provisioning artifact.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CLOUD_FORMATION_TEMPLATE</code> - CloudFormation template
+  /// </li>
+  /// <li>
+  /// <code>TERRAFORM_OPEN_SOURCE</code> - Terraform Open Source configuration
+  /// file
+  /// </li>
+  /// <li>
+  /// <code>TERRAFORM_CLOUD</code> - Terraform Cloud configuration file
+  /// </li>
+  /// <li>
+  /// <code>EXTERNAL</code> - External configuration file
+  /// </li>
+  /// </ul>
+  final ProvisioningArtifactType? type;
+
+  ProvisioningArtifactProperties({
+    this.description,
+    this.disableTemplateValidation,
+    this.info,
+    this.name,
+    this.type,
+  });
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final disableTemplateValidation = this.disableTemplateValidation;
+    final info = this.info;
+    final name = this.name;
+    final type = this.type;
+    return {
+      if (description != null) 'Description': description,
+      if (disableTemplateValidation != null)
+        'DisableTemplateValidation': disableTemplateValidation,
+      if (info != null) 'Info': info,
+      if (name != null) 'Name': name,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class CopyOption {
+  static const copyTags = CopyOption._('CopyTags');
+
+  final String value;
+
+  const CopyOption._(this.value);
+
+  static const values = [copyTags];
+
+  static CopyOption fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CopyOption._(value));
+
+  @override
+  bool operator ==(other) => other is CopyOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ProvisioningArtifactPropertyName {
+  static const id = ProvisioningArtifactPropertyName._('Id');
+
+  final String value;
+
+  const ProvisioningArtifactPropertyName._(this.value);
+
+  static const values = [id];
+
+  static ProvisioningArtifactPropertyName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProvisioningArtifactPropertyName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProvisioningArtifactPropertyName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object containing information about the error, along with identifying
+/// information about the self-service action and its associations.
+class FailedServiceActionAssociation {
+  /// The error code. Valid values are listed below.
+  final ServiceActionAssociationErrorCode? errorCode;
+
+  /// A text description of the error.
+  final String? errorMessage;
+
+  /// The product identifier. For example, <code>prod-abcdzk7xy33qa</code>.
+  final String? productId;
+
+  /// The identifier of the provisioning artifact. For example,
+  /// <code>pa-4abcdjnxjj6ne</code>.
+  final String? provisioningArtifactId;
+
+  /// The self-service action identifier. For example,
+  /// <code>act-fs7abcd89wxyz</code>.
+  final String? serviceActionId;
+
+  FailedServiceActionAssociation({
+    this.errorCode,
+    this.errorMessage,
+    this.productId,
+    this.provisioningArtifactId,
+    this.serviceActionId,
+  });
+
+  factory FailedServiceActionAssociation.fromJson(Map<String, dynamic> json) {
+    return FailedServiceActionAssociation(
+      errorCode: (json['ErrorCode'] as String?)
+          ?.let(ServiceActionAssociationErrorCode.fromString),
+      errorMessage: json['ErrorMessage'] as String?,
+      productId: json['ProductId'] as String?,
+      provisioningArtifactId: json['ProvisioningArtifactId'] as String?,
+      serviceActionId: json['ServiceActionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final productId = this.productId;
+    final provisioningArtifactId = this.provisioningArtifactId;
+    final serviceActionId = this.serviceActionId;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode.value,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (productId != null) 'ProductId': productId,
+      if (provisioningArtifactId != null)
+        'ProvisioningArtifactId': provisioningArtifactId,
+      if (serviceActionId != null) 'ServiceActionId': serviceActionId,
+    };
+  }
+}
+
+class ServiceActionAssociationErrorCode {
+  static const duplicateResource =
+      ServiceActionAssociationErrorCode._('DUPLICATE_RESOURCE');
+  static const internalFailure =
+      ServiceActionAssociationErrorCode._('INTERNAL_FAILURE');
+  static const limitExceeded =
+      ServiceActionAssociationErrorCode._('LIMIT_EXCEEDED');
+  static const resourceNotFound =
+      ServiceActionAssociationErrorCode._('RESOURCE_NOT_FOUND');
+  static const throttling = ServiceActionAssociationErrorCode._('THROTTLING');
+  static const invalidParameter =
+      ServiceActionAssociationErrorCode._('INVALID_PARAMETER');
+
+  final String value;
+
+  const ServiceActionAssociationErrorCode._(this.value);
+
+  static const values = [
+    duplicateResource,
+    internalFailure,
+    limitExceeded,
+    resourceNotFound,
+    throttling,
+    invalidParameter
+  ];
+
+  static ServiceActionAssociationErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ServiceActionAssociationErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ServiceActionAssociationErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A self-service action association consisting of the Action ID, the Product
+/// ID, and the Provisioning Artifact ID.
+class ServiceActionAssociation {
+  /// The product identifier. For example, <code>prod-abcdzk7xy33qa</code>.
+  final String productId;
+
+  /// The identifier of the provisioning artifact. For example,
+  /// <code>pa-4abcdjnxjj6ne</code>.
+  final String provisioningArtifactId;
+
+  /// The self-service action identifier. For example,
+  /// <code>act-fs7abcd89wxyz</code>.
+  final String serviceActionId;
+
+  ServiceActionAssociation({
+    required this.productId,
+    required this.provisioningArtifactId,
+    required this.serviceActionId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final productId = this.productId;
+    final provisioningArtifactId = this.provisioningArtifactId;
+    final serviceActionId = this.serviceActionId;
+    return {
+      'ProductId': productId,
+      'ProvisioningArtifactId': provisioningArtifactId,
+      'ServiceActionId': serviceActionId,
     };
   }
 }

@@ -36,7 +36,6 @@ class PI {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'pi',
-            signingName: 'pi',
           ),
           region: region,
           credentials: credentials,
@@ -56,12 +55,9 @@ class PI {
   /// Creates a new performance analysis report for a specific time period for
   /// the DB instance.
   ///
-  /// May throw [InvalidArgumentException].
   /// May throw [InternalServiceError].
+  /// May throw [InvalidArgumentException].
   /// May throw [NotAuthorizedException].
-  ///
-  /// Parameter [endTime] :
-  /// The end time defined for the analysis report.
   ///
   /// Parameter [identifier] :
   /// An immutable, Amazon Web Services Region-unique identifier for a data
@@ -78,15 +74,18 @@ class PI {
   /// Parameter [startTime] :
   /// The start time defined for the analysis report.
   ///
+  /// Parameter [endTime] :
+  /// The end time defined for the analysis report.
+  ///
   /// Parameter [tags] :
   /// The metadata assigned to the analysis report consisting of a key-value
   /// pair.
   Future<CreatePerformanceAnalysisReportResponse>
       createPerformanceAnalysisReport({
-    required DateTime endTime,
     required String identifier,
     required ServiceType serviceType,
     required DateTime startTime,
+    DateTime? endTime,
     List<Tag>? tags,
   }) async {
     final headers = <String, String>{
@@ -101,10 +100,10 @@ class PI {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EndTime': unixTimestampToJson(endTime),
         'Identifier': identifier,
         'ServiceType': serviceType.value,
         'StartTime': unixTimestampToJson(startTime),
+        if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
         if (tags != null) 'Tags': tags,
       },
     );
@@ -114,8 +113,8 @@ class PI {
 
   /// Deletes a performance analysis report.
   ///
-  /// May throw [InvalidArgumentException].
   /// May throw [InternalServiceError].
+  /// May throw [InvalidArgumentException].
   /// May throw [NotAuthorizedException].
   ///
   /// Parameter [analysisReportId] :
@@ -166,8 +165,8 @@ class PI {
   /// such as SQL statements, only the first 500 bytes are returned.
   /// </note>
   ///
-  /// May throw [InvalidArgumentException].
   /// May throw [InternalServiceError].
+  /// May throw [InvalidArgumentException].
   /// May throw [NotAuthorizedException].
   ///
   /// Parameter [endTime] :
@@ -247,6 +246,8 @@ class PI {
   /// values for the top <code>N</code> SQL digests. The response syntax is as
   /// follows: <code>"AdditionalMetrics" : { "<i>string</i>" : "<i>string</i>"
   /// }</code>.
+  ///
+  /// The only supported statistic function is <code>.avg</code>.
   ///
   /// Parameter [filter] :
   /// One or more filters to apply in the request. Restrictions:
@@ -358,10 +359,10 @@ class PI {
   /// dimension <code>db.sql.statement</code> associated with this ID. This
   /// operation is useful because <code>GetResourceMetrics</code> and
   /// <code>DescribeDimensionKeys</code> don't support retrieval of large SQL
-  /// statement text.
+  /// statement text, lock snapshots, and execution plans.
   ///
-  /// May throw [InvalidArgumentException].
   /// May throw [InternalServiceError].
+  /// May throw [InvalidArgumentException].
   /// May throw [NotAuthorizedException].
   ///
   /// Parameter [group] :
@@ -370,6 +371,12 @@ class PI {
   /// values are valid:
   ///
   /// <ul>
+  /// <li>
+  /// <code>db.execution_plan</code> (Amazon RDS and Aurora only)
+  /// </li>
+  /// <li>
+  /// <code>db.lock_snapshot</code> (Aurora only)
+  /// </li>
   /// <li>
   /// <code>db.query</code> (Amazon DocumentDB only)
   /// </li>
@@ -385,12 +392,22 @@ class PI {
   ///
   /// <ul>
   /// <li>
+  /// <code>db.execution_plan.id</code> for dimension group
+  /// <code>db.execution_plan</code> (Aurora and RDS only)
+  /// </li>
+  /// <li>
   /// <code>db.sql.id</code> for dimension group <code>db.sql</code> (Aurora and
   /// RDS only)
   /// </li>
   /// <li>
   /// <code>db.query.id</code> for dimension group <code>db.query</code>
   /// (DocumentDB only)
+  /// </li>
+  /// <li>
+  /// For the dimension group <code>db.lock_snapshot</code>, the
+  /// <code>GroupIdentifier</code> is the epoch timestamp when Performance
+  /// Insights captured the snapshot, in seconds. You can retrieve this value
+  /// with the <code>GetResourceMetrics</code> operation for a 1 second period.
   /// </li>
   /// </ul>
   ///
@@ -411,6 +428,16 @@ class PI {
   /// dimension names for the following dimension groups:
   ///
   /// <ul>
+  /// <li>
+  /// <code>db.execution_plan</code> - Specify the dimension name
+  /// <code>db.execution_plan.raw_plan</code> or the short dimension name
+  /// <code>raw_plan</code> (Amazon RDS and Aurora only)
+  /// </li>
+  /// <li>
+  /// <code>db.lock_snapshot</code> - Specify the dimension name
+  /// <code>db.lock_snapshot.lock_trees</code> or the short dimension name
+  /// <code>lock_trees</code>. (Aurora only)
+  /// </li>
   /// <li>
   /// <code>db.sql</code> - Specify either the full dimension name
   /// <code>db.sql.statement</code> or the short dimension name
@@ -458,8 +485,8 @@ class PI {
   /// insights include the <code>description</code> and
   /// <code>recommendation</code> fields.
   ///
-  /// May throw [InvalidArgumentException].
   /// May throw [InternalServiceError].
+  /// May throw [InvalidArgumentException].
   /// May throw [NotAuthorizedException].
   ///
   /// Parameter [analysisReportId] :
@@ -523,8 +550,8 @@ class PI {
   /// might indicate that a feature is turned on or off on a specific DB
   /// instance.
   ///
-  /// May throw [InvalidArgumentException].
   /// May throw [InternalServiceError].
+  /// May throw [InvalidArgumentException].
   /// May throw [NotAuthorizedException].
   ///
   /// Parameter [identifier] :
@@ -569,8 +596,8 @@ class PI {
   /// such as SQL statements, only the first 500 bytes are returned.
   /// </note>
   ///
-  /// May throw [InvalidArgumentException].
   /// May throw [InternalServiceError].
+  /// May throw [InvalidArgumentException].
   /// May throw [NotAuthorizedException].
   ///
   /// Parameter [endTime] :
@@ -626,9 +653,7 @@ class PI {
   /// <code>EndTime</code>.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of items to return in the response. If more items exist
-  /// than the specified <code>MaxRecords</code> value, a pagination token is
-  /// included in the response so that the remaining results can be retrieved.
+  /// The maximum number of items to return in the response.
   ///
   /// Parameter [nextToken] :
   /// An optional pagination token provided by a previous request. If this
@@ -710,8 +735,8 @@ class PI {
   /// Retrieve the dimensions that can be queried for each specified metric type
   /// on a specified DB instance.
   ///
-  /// May throw [InvalidArgumentException].
   /// May throw [InternalServiceError].
+  /// May throw [InvalidArgumentException].
   /// May throw [NotAuthorizedException].
   ///
   /// Parameter [identifier] :
@@ -790,8 +815,8 @@ class PI {
   /// Retrieve metrics of the specified types that can be queried for a
   /// specified DB instance.
   ///
-  /// May throw [InvalidArgumentException].
   /// May throw [InternalServiceError].
+  /// May throw [InvalidArgumentException].
   /// May throw [NotAuthorizedException].
   ///
   /// Parameter [identifier] :
@@ -872,11 +897,88 @@ class PI {
     return ListAvailableResourceMetricsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves recommendations for a performance analysis report.
+  ///
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidArgumentException].
+  /// May throw [NotAuthorizedException].
+  ///
+  /// Parameter [analysisReportId] :
+  /// A unique identifier of the created analysis report. For example,
+  /// <code>report-12345678901234567</code>
+  ///
+  /// Parameter [identifier] :
+  /// An immutable identifier for a data source that is unique for an Amazon Web
+  /// Services Region. Performance Insights gathers metrics from this data
+  /// source. In the console, the identifier is shown as <i>ResourceID</i>. When
+  /// you call <code>DescribeDBInstances</code>, the identifier is returned as
+  /// <code>DbiResourceId</code>.
+  ///
+  /// To use a DB instance as a data source, specify its
+  /// <code>DbiResourceId</code> value. For example, specify
+  /// <code>db-ABCDEFGHIJKLMNOPQRSTU1VW2X</code>.
+  ///
+  /// Parameter [serviceType] :
+  /// The Amazon Web Services service for which Performance Insights returns
+  /// metrics. Valid value is <code>RDS</code>.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return in the response. If more items exist
+  /// than the specified <code>MaxResults</code> value, a pagination token is
+  /// included in the response so that the remaining results can be retrieved.
+  ///
+  /// Parameter [nextToken] :
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// token, up to the value specified by <code>MaxResults</code>.
+  ///
+  /// Parameter [recommendationIds] :
+  /// A list of recommendation identifiers to filter the results.
+  Future<ListPerformanceAnalysisReportRecommendationsResponse>
+      listPerformanceAnalysisReportRecommendations({
+    required String analysisReportId,
+    required String identifier,
+    required ServiceType serviceType,
+    int? maxResults,
+    String? nextToken,
+    List<String>? recommendationIds,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      25,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'PerformanceInsightsv20180227.ListPerformanceAnalysisReportRecommendations'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AnalysisReportId': analysisReportId,
+        'Identifier': identifier,
+        'ServiceType': serviceType.value,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (recommendationIds != null) 'RecommendationIds': recommendationIds,
+      },
+    );
+
+    return ListPerformanceAnalysisReportRecommendationsResponse.fromJson(
+        jsonResponse.body);
+  }
+
   /// Lists all the analysis reports created for the DB instance. The reports
   /// are sorted based on the start time of each report.
   ///
-  /// May throw [InvalidArgumentException].
   /// May throw [InternalServiceError].
+  /// May throw [InvalidArgumentException].
   /// May throw [NotAuthorizedException].
   ///
   /// Parameter [identifier] :
@@ -946,8 +1048,8 @@ class PI {
   /// Retrieves all the metadata tags associated with Amazon RDS Performance
   /// Insights resource.
   ///
-  /// May throw [InvalidArgumentException].
   /// May throw [InternalServiceError].
+  /// May throw [InvalidArgumentException].
   /// May throw [NotAuthorizedException].
   ///
   /// Parameter [resourceARN] :
@@ -985,8 +1087,8 @@ class PI {
 
   /// Adds metadata tags to the Amazon RDS Performance Insights resource.
   ///
-  /// May throw [InvalidArgumentException].
   /// May throw [InternalServiceError].
+  /// May throw [InvalidArgumentException].
   /// May throw [NotAuthorizedException].
   ///
   /// Parameter [resourceARN] :
@@ -1029,8 +1131,8 @@ class PI {
   /// Deletes the metadata tags from the Amazon RDS Performance Insights
   /// resource.
   ///
-  /// May throw [InvalidArgumentException].
   /// May throw [InternalServiceError].
+  /// May throw [InvalidArgumentException].
   /// May throw [NotAuthorizedException].
   ///
   /// Parameter [resourceARN] :
@@ -1071,225 +1173,6 @@ class PI {
   }
 }
 
-class AcceptLanguage {
-  static const enUs = AcceptLanguage._('EN_US');
-
-  final String value;
-
-  const AcceptLanguage._(this.value);
-
-  static const values = [enUs];
-
-  static AcceptLanguage fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AcceptLanguage._(value));
-
-  @override
-  bool operator ==(other) => other is AcceptLanguage && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Retrieves the summary of the performance analysis report created for a time
-/// period.
-class AnalysisReport {
-  /// The name of the analysis report.
-  final String analysisReportId;
-
-  /// The time you created the analysis report.
-  final DateTime? createTime;
-
-  /// The analysis end time in the report.
-  final DateTime? endTime;
-
-  /// The unique identifier of the analysis report.
-  final String? identifier;
-
-  /// The list of identified insights in the analysis report.
-  final List<Insight>? insights;
-
-  /// List the tags for the Amazon Web Services service for which Performance
-  /// Insights returns metrics. Valid values are as follows:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>RDS</code>
-  /// </li>
-  /// <li>
-  /// <code>DOCDB</code>
-  /// </li>
-  /// </ul>
-  final ServiceType? serviceType;
-
-  /// The analysis start time in the report.
-  final DateTime? startTime;
-
-  /// The status of the created analysis report.
-  final AnalysisStatus? status;
-
-  AnalysisReport({
-    required this.analysisReportId,
-    this.createTime,
-    this.endTime,
-    this.identifier,
-    this.insights,
-    this.serviceType,
-    this.startTime,
-    this.status,
-  });
-
-  factory AnalysisReport.fromJson(Map<String, dynamic> json) {
-    return AnalysisReport(
-      analysisReportId: (json['AnalysisReportId'] as String?) ?? '',
-      createTime: timeStampFromJson(json['CreateTime']),
-      endTime: timeStampFromJson(json['EndTime']),
-      identifier: json['Identifier'] as String?,
-      insights: (json['Insights'] as List?)
-          ?.nonNulls
-          .map((e) => Insight.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      serviceType:
-          (json['ServiceType'] as String?)?.let(ServiceType.fromString),
-      startTime: timeStampFromJson(json['StartTime']),
-      status: (json['Status'] as String?)?.let(AnalysisStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final analysisReportId = this.analysisReportId;
-    final createTime = this.createTime;
-    final endTime = this.endTime;
-    final identifier = this.identifier;
-    final insights = this.insights;
-    final serviceType = this.serviceType;
-    final startTime = this.startTime;
-    final status = this.status;
-    return {
-      'AnalysisReportId': analysisReportId,
-      if (createTime != null) 'CreateTime': unixTimestampToJson(createTime),
-      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
-      if (identifier != null) 'Identifier': identifier,
-      if (insights != null) 'Insights': insights,
-      if (serviceType != null) 'ServiceType': serviceType.value,
-      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-/// Retrieves the details of the performance analysis report.
-class AnalysisReportSummary {
-  /// The name of the analysis report.
-  final String? analysisReportId;
-
-  /// The time you created the analysis report.
-  final DateTime? createTime;
-
-  /// The end time of the analysis in the report.
-  final DateTime? endTime;
-
-  /// The start time of the analysis in the report.
-  final DateTime? startTime;
-
-  /// The status of the analysis report.
-  final AnalysisStatus? status;
-
-  /// List of all the tags added to the analysis report.
-  final List<Tag>? tags;
-
-  AnalysisReportSummary({
-    this.analysisReportId,
-    this.createTime,
-    this.endTime,
-    this.startTime,
-    this.status,
-    this.tags,
-  });
-
-  factory AnalysisReportSummary.fromJson(Map<String, dynamic> json) {
-    return AnalysisReportSummary(
-      analysisReportId: json['AnalysisReportId'] as String?,
-      createTime: timeStampFromJson(json['CreateTime']),
-      endTime: timeStampFromJson(json['EndTime']),
-      startTime: timeStampFromJson(json['StartTime']),
-      status: (json['Status'] as String?)?.let(AnalysisStatus.fromString),
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final analysisReportId = this.analysisReportId;
-    final createTime = this.createTime;
-    final endTime = this.endTime;
-    final startTime = this.startTime;
-    final status = this.status;
-    final tags = this.tags;
-    return {
-      if (analysisReportId != null) 'AnalysisReportId': analysisReportId,
-      if (createTime != null) 'CreateTime': unixTimestampToJson(createTime),
-      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
-      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (status != null) 'Status': status.value,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-class AnalysisStatus {
-  static const running = AnalysisStatus._('RUNNING');
-  static const succeeded = AnalysisStatus._('SUCCEEDED');
-  static const failed = AnalysisStatus._('FAILED');
-
-  final String value;
-
-  const AnalysisStatus._(this.value);
-
-  static const values = [running, succeeded, failed];
-
-  static AnalysisStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AnalysisStatus._(value));
-
-  @override
-  bool operator ==(other) => other is AnalysisStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ContextType {
-  static const causal = ContextType._('CAUSAL');
-  static const contextual = ContextType._('CONTEXTUAL');
-
-  final String value;
-
-  const ContextType._(this.value);
-
-  static const values = [causal, contextual];
-
-  static ContextType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ContextType._(value));
-
-  @override
-  bool operator ==(other) => other is ContextType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class CreatePerformanceAnalysisReportResponse {
   /// A unique identifier for the created analysis report.
   final String? analysisReportId;
@@ -1309,69 +1192,6 @@ class CreatePerformanceAnalysisReportResponse {
     final analysisReportId = this.analysisReportId;
     return {
       if (analysisReportId != null) 'AnalysisReportId': analysisReportId,
-    };
-  }
-}
-
-/// List of data objects which provide details about source metrics. This field
-/// can be used to determine the PI metric to render for the insight. This data
-/// type also includes static values for the metrics for the Insight that were
-/// calculated and included in text and annotations on the DB load chart.
-class Data {
-  /// This field determines the Performance Insights metric to render for the
-  /// insight. The <code>name</code> field refers to a Performance Insights
-  /// metric.
-  final PerformanceInsightsMetric? performanceInsightsMetric;
-
-  Data({
-    this.performanceInsightsMetric,
-  });
-
-  factory Data.fromJson(Map<String, dynamic> json) {
-    return Data(
-      performanceInsightsMetric: json['PerformanceInsightsMetric'] != null
-          ? PerformanceInsightsMetric.fromJson(
-              json['PerformanceInsightsMetric'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final performanceInsightsMetric = this.performanceInsightsMetric;
-    return {
-      if (performanceInsightsMetric != null)
-        'PerformanceInsightsMetric': performanceInsightsMetric,
-    };
-  }
-}
-
-/// A timestamp, and a single numerical value, which together represent a
-/// measurement at a particular point in time.
-class DataPoint {
-  /// The time, in epoch format, associated with a particular <code>Value</code>.
-  final DateTime timestamp;
-
-  /// The actual value associated with a particular <code>Timestamp</code>.
-  final double value;
-
-  DataPoint({
-    required this.timestamp,
-    required this.value,
-  });
-
-  factory DataPoint.fromJson(Map<String, dynamic> json) {
-    return DataPoint(
-      timestamp: nonNullableTimeStampFromJson(json['Timestamp'] ?? 0),
-      value: (json['Value'] as double?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final timestamp = this.timestamp;
-    final value = this.value;
-    return {
-      'Timestamp': unixTimestampToJson(timestamp),
-      'Value': value,
     };
   }
 }
@@ -1457,610 +1277,6 @@ class DescribeDimensionKeysResponse {
       if (partitionKeys != null) 'PartitionKeys': partitionKeys,
     };
   }
-}
-
-class DetailStatus {
-  static const available = DetailStatus._('AVAILABLE');
-  static const processing = DetailStatus._('PROCESSING');
-  static const unavailable = DetailStatus._('UNAVAILABLE');
-
-  final String value;
-
-  const DetailStatus._(this.value);
-
-  static const values = [available, processing, unavailable];
-
-  static DetailStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => DetailStatus._(value));
-
-  @override
-  bool operator ==(other) => other is DetailStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The information about a dimension.
-class DimensionDetail {
-  /// The identifier of a dimension.
-  final String? identifier;
-
-  DimensionDetail({
-    this.identifier,
-  });
-
-  factory DimensionDetail.fromJson(Map<String, dynamic> json) {
-    return DimensionDetail(
-      identifier: json['Identifier'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final identifier = this.identifier;
-    return {
-      if (identifier != null) 'Identifier': identifier,
-    };
-  }
-}
-
-/// A logical grouping of Performance Insights metrics for a related subject
-/// area. For example, the <code>db.sql</code> dimension group consists of the
-/// following dimensions:
-///
-/// <ul>
-/// <li>
-/// <code>db.sql.id</code> - The hash of a running SQL statement, generated by
-/// Performance Insights.
-/// </li>
-/// <li>
-/// <code>db.sql.db_id</code> - Either the SQL ID generated by the database
-/// engine, or a value generated by Performance Insights that begins with
-/// <code>pi-</code>.
-/// </li>
-/// <li>
-/// <code>db.sql.statement</code> - The full text of the SQL statement that is
-/// running, for example, <code>SELECT * FROM employees</code>.
-/// </li>
-/// <li>
-/// <code>db.sql_tokenized.id</code> - The hash of the SQL digest generated by
-/// Performance Insights.
-/// </li>
-/// </ul> <note>
-/// Each response element returns a maximum of 500 bytes. For larger elements,
-/// such as SQL statements, only the first 500 bytes are returned.
-/// </note>
-class DimensionGroup {
-  /// The name of the dimension group. Valid values are as follows:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>db</code> - The name of the database to which the client is connected.
-  /// The following values are permitted:
-  ///
-  /// <ul>
-  /// <li>
-  /// Aurora PostgreSQL
-  /// </li>
-  /// <li>
-  /// Amazon RDS PostgreSQL
-  /// </li>
-  /// <li>
-  /// Aurora MySQL
-  /// </li>
-  /// <li>
-  /// Amazon RDS MySQL
-  /// </li>
-  /// <li>
-  /// Amazon RDS MariaDB
-  /// </li>
-  /// <li>
-  /// Amazon DocumentDB
-  /// </li>
-  /// </ul> </li>
-  /// <li>
-  /// <code>db.application</code> - The name of the application that is connected
-  /// to the database. The following values are permitted:
-  ///
-  /// <ul>
-  /// <li>
-  /// Aurora PostgreSQL
-  /// </li>
-  /// <li>
-  /// Amazon RDS PostgreSQL
-  /// </li>
-  /// <li>
-  /// Amazon DocumentDB
-  /// </li>
-  /// </ul> </li>
-  /// <li>
-  /// <code>db.host</code> - The host name of the connected client (all engines).
-  /// </li>
-  /// <li>
-  /// <code>db.query</code> - The query that is currently running (only Amazon
-  /// DocumentDB).
-  /// </li>
-  /// <li>
-  /// <code>db.query_tokenized</code> - The digest query (only Amazon DocumentDB).
-  /// </li>
-  /// <li>
-  /// <code>db.session_type</code> - The type of the current session (only Aurora
-  /// PostgreSQL and RDS PostgreSQL).
-  /// </li>
-  /// <li>
-  /// <code>db.sql</code> - The text of the SQL statement that is currently
-  /// running (all engines except Amazon DocumentDB).
-  /// </li>
-  /// <li>
-  /// <code>db.sql_tokenized</code> - The SQL digest (all engines except Amazon
-  /// DocumentDB).
-  /// </li>
-  /// <li>
-  /// <code>db.user</code> - The user logged in to the database (all engines
-  /// except Amazon DocumentDB).
-  /// </li>
-  /// <li>
-  /// <code>db.wait_event</code> - The event for which the database backend is
-  /// waiting (all engines except Amazon DocumentDB).
-  /// </li>
-  /// <li>
-  /// <code>db.wait_event_type</code> - The type of event for which the database
-  /// backend is waiting (all engines except Amazon DocumentDB).
-  /// </li>
-  /// <li>
-  /// <code>db.wait_state</code> - The event for which the database backend is
-  /// waiting (only Amazon DocumentDB).
-  /// </li>
-  /// </ul>
-  final String group;
-
-  /// A list of specific dimensions from a dimension group. If this parameter is
-  /// not present, then it signifies that all of the dimensions in the group were
-  /// requested, or are present in the response.
-  ///
-  /// Valid values for elements in the <code>Dimensions</code> array are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>db.application.name</code> - The name of the application that is
-  /// connected to the database. Valid values are as follows:
-  ///
-  /// <ul>
-  /// <li>
-  /// Aurora PostgreSQL
-  /// </li>
-  /// <li>
-  /// Amazon RDS PostgreSQL
-  /// </li>
-  /// <li>
-  /// Amazon DocumentDB
-  /// </li>
-  /// </ul> </li>
-  /// <li>
-  /// <code>db.host.id</code> - The host ID of the connected client (all engines).
-  /// </li>
-  /// <li>
-  /// <code>db.host.name</code> - The host name of the connected client (all
-  /// engines).
-  /// </li>
-  /// <li>
-  /// <code>db.name</code> - The name of the database to which the client is
-  /// connected. Valid values are as follows:
-  ///
-  /// <ul>
-  /// <li>
-  /// Aurora PostgreSQL
-  /// </li>
-  /// <li>
-  /// Amazon RDS PostgreSQL
-  /// </li>
-  /// <li>
-  /// Aurora MySQL
-  /// </li>
-  /// <li>
-  /// Amazon RDS MySQL
-  /// </li>
-  /// <li>
-  /// Amazon RDS MariaDB
-  /// </li>
-  /// <li>
-  /// Amazon DocumentDB
-  /// </li>
-  /// </ul> </li>
-  /// <li>
-  /// <code>db.query.id</code> - The query ID generated by Performance Insights
-  /// (only Amazon DocumentDB).
-  /// </li>
-  /// <li>
-  /// <code>db.query.db_id</code> - The query ID generated by the database (only
-  /// Amazon DocumentDB).
-  /// </li>
-  /// <li>
-  /// <code>db.query.statement</code> - The text of the query that is being run
-  /// (only Amazon DocumentDB).
-  /// </li>
-  /// <li>
-  /// <code>db.query.tokenized_id</code>
-  /// </li>
-  /// <li>
-  /// <code>db.query.tokenized.id</code> - The query digest ID generated by
-  /// Performance Insights (only Amazon DocumentDB).
-  /// </li>
-  /// <li>
-  /// <code>db.query.tokenized.db_id</code> - The query digest ID generated by
-  /// Performance Insights (only Amazon DocumentDB).
-  /// </li>
-  /// <li>
-  /// <code>db.query.tokenized.statement</code> - The text of the query digest
-  /// (only Amazon DocumentDB).
-  /// </li>
-  /// <li>
-  /// <code>db.session_type.name</code> - The type of the current session (only
-  /// Amazon DocumentDB).
-  /// </li>
-  /// <li>
-  /// <code>db.sql.id</code> - The hash of the full, non-tokenized SQL statement
-  /// generated by Performance Insights (all engines except Amazon DocumentDB).
-  /// </li>
-  /// <li>
-  /// <code>db.sql.db_id</code> - Either the SQL ID generated by the database
-  /// engine, or a value generated by Performance Insights that begins with
-  /// <code>pi-</code> (all engines except Amazon DocumentDB).
-  /// </li>
-  /// <li>
-  /// <code>db.sql.statement</code> - The full text of the SQL statement that is
-  /// running, as in <code>SELECT * FROM employees</code> (all engines except
-  /// Amazon DocumentDB)
-  /// </li>
-  /// <li>
-  /// <code>db.sql.tokenized_id</code> - The hash of the SQL digest generated by
-  /// Performance Insights (all engines except Amazon DocumentDB). The
-  /// <code>db.sql.tokenized_id</code> dimension fetches the value of the
-  /// <code>db.sql_tokenized.id</code> dimension. Amazon RDS returns
-  /// <code>db.sql.tokenized_id</code> from the <code>db.sql</code> dimension
-  /// group.
-  /// </li>
-  /// <li>
-  /// <code>db.sql_tokenized.id</code> - The hash of the SQL digest generated by
-  /// Performance Insights (all engines except Amazon DocumentDB). In the console,
-  /// <code>db.sql_tokenized.id</code> is called the Support ID because Amazon Web
-  /// Services Support can look at this data to help you troubleshoot database
-  /// issues.
-  /// </li>
-  /// <li>
-  /// <code>db.sql_tokenized.db_id</code> - Either the native database ID used to
-  /// refer to the SQL statement, or a synthetic ID such as
-  /// <code>pi-2372568224</code> that Performance Insights generates if the native
-  /// database ID isn't available (all engines except Amazon DocumentDB).
-  /// </li>
-  /// <li>
-  /// <code>db.sql_tokenized.statement</code> - The text of the SQL digest, as in
-  /// <code>SELECT * FROM employees WHERE employee_id = ?</code> (all engines
-  /// except Amazon DocumentDB)
-  /// </li>
-  /// <li>
-  /// <code>db.user.id</code> - The ID of the user logged in to the database (all
-  /// engines except Amazon DocumentDB).
-  /// </li>
-  /// <li>
-  /// <code>db.user.name</code> - The name of the user logged in to the database
-  /// (all engines except Amazon DocumentDB).
-  /// </li>
-  /// <li>
-  /// <code>db.wait_event.name</code> - The event for which the backend is waiting
-  /// (all engines except Amazon DocumentDB).
-  /// </li>
-  /// <li>
-  /// <code>db.wait_event.type</code> - The type of event for which the backend is
-  /// waiting (all engines except Amazon DocumentDB).
-  /// </li>
-  /// <li>
-  /// <code>db.wait_event_type.name</code> - The name of the event type for which
-  /// the backend is waiting (all engines except Amazon DocumentDB).
-  /// </li>
-  /// <li>
-  /// <code>db.wait_state.name</code> - The event for which the backend is waiting
-  /// (only Amazon DocumentDB).
-  /// </li>
-  /// </ul>
-  final List<String>? dimensions;
-
-  /// The maximum number of items to fetch for this dimension group.
-  final int? limit;
-
-  DimensionGroup({
-    required this.group,
-    this.dimensions,
-    this.limit,
-  });
-
-  Map<String, dynamic> toJson() {
-    final group = this.group;
-    final dimensions = this.dimensions;
-    final limit = this.limit;
-    return {
-      'Group': group,
-      if (dimensions != null) 'Dimensions': dimensions,
-      if (limit != null) 'Limit': limit,
-    };
-  }
-}
-
-/// Information about dimensions within a dimension group.
-class DimensionGroupDetail {
-  /// The dimensions within a dimension group.
-  final List<DimensionDetail>? dimensions;
-
-  /// The name of the dimension group.
-  final String? group;
-
-  DimensionGroupDetail({
-    this.dimensions,
-    this.group,
-  });
-
-  factory DimensionGroupDetail.fromJson(Map<String, dynamic> json) {
-    return DimensionGroupDetail(
-      dimensions: (json['Dimensions'] as List?)
-          ?.nonNulls
-          .map((e) => DimensionDetail.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      group: json['Group'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dimensions = this.dimensions;
-    final group = this.group;
-    return {
-      if (dimensions != null) 'Dimensions': dimensions,
-      if (group != null) 'Group': group,
-    };
-  }
-}
-
-/// An object that includes the requested dimension key values and aggregated
-/// metric values within a dimension group.
-class DimensionKeyDescription {
-  /// A map that contains the value for each additional metric.
-  final Map<String, double>? additionalMetrics;
-
-  /// A map of name-value pairs for the dimensions in the group.
-  final Map<String, String>? dimensions;
-
-  /// If <code>PartitionBy</code> was specified, <code>PartitionKeys</code>
-  /// contains the dimensions that were.
-  final List<double>? partitions;
-
-  /// The aggregated metric value for the dimensions, over the requested time
-  /// range.
-  final double? total;
-
-  DimensionKeyDescription({
-    this.additionalMetrics,
-    this.dimensions,
-    this.partitions,
-    this.total,
-  });
-
-  factory DimensionKeyDescription.fromJson(Map<String, dynamic> json) {
-    return DimensionKeyDescription(
-      additionalMetrics: (json['AdditionalMetrics'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as double)),
-      dimensions: (json['Dimensions'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      partitions: (json['Partitions'] as List?)
-          ?.nonNulls
-          .map((e) => e as double)
-          .toList(),
-      total: json['Total'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final additionalMetrics = this.additionalMetrics;
-    final dimensions = this.dimensions;
-    final partitions = this.partitions;
-    final total = this.total;
-    return {
-      if (additionalMetrics != null) 'AdditionalMetrics': additionalMetrics,
-      if (dimensions != null) 'Dimensions': dimensions,
-      if (partitions != null) 'Partitions': partitions,
-      if (total != null) 'Total': total,
-    };
-  }
-}
-
-/// An object that describes the details for a specified dimension.
-class DimensionKeyDetail {
-  /// The full name of the dimension. The full name includes the group name and
-  /// key name. The following values are valid:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>db.query.statement</code> (Amazon DocumentDB)
-  /// </li>
-  /// <li>
-  /// <code>db.sql.statement</code> (Amazon RDS and Aurora)
-  /// </li>
-  /// </ul>
-  final String? dimension;
-
-  /// The status of the dimension detail data. Possible values include the
-  /// following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>AVAILABLE</code> - The dimension detail data is ready to be retrieved.
-  /// </li>
-  /// <li>
-  /// <code>PROCESSING</code> - The dimension detail data isn't ready to be
-  /// retrieved because more processing time is required. If the requested detail
-  /// data has the status <code>PROCESSING</code>, Performance Insights returns
-  /// the truncated query.
-  /// </li>
-  /// <li>
-  /// <code>UNAVAILABLE</code> - The dimension detail data could not be collected
-  /// successfully.
-  /// </li>
-  /// </ul>
-  final DetailStatus? status;
-
-  /// The value of the dimension detail data. Depending on the return status, this
-  /// value is either the full or truncated SQL query for the following
-  /// dimensions:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>db.query.statement</code> (Amazon DocumentDB)
-  /// </li>
-  /// <li>
-  /// <code>db.sql.statement</code> (Amazon RDS and Aurora)
-  /// </li>
-  /// </ul>
-  final String? value;
-
-  DimensionKeyDetail({
-    this.dimension,
-    this.status,
-    this.value,
-  });
-
-  factory DimensionKeyDetail.fromJson(Map<String, dynamic> json) {
-    return DimensionKeyDetail(
-      dimension: json['Dimension'] as String?,
-      status: (json['Status'] as String?)?.let(DetailStatus.fromString),
-      value: json['Value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dimension = this.dimension;
-    final status = this.status;
-    final value = this.value;
-    return {
-      if (dimension != null) 'Dimension': dimension,
-      if (status != null) 'Status': status.value,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-/// The metadata for a feature. For example, the metadata might indicate that a
-/// feature is turned on or off on a specific DB instance.
-class FeatureMetadata {
-  /// The status of the feature on the DB instance. Possible values include the
-  /// following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ENABLED</code> - The feature is enabled on the instance.
-  /// </li>
-  /// <li>
-  /// <code>DISABLED</code> - The feature is disabled on the instance.
-  /// </li>
-  /// <li>
-  /// <code>UNSUPPORTED</code> - The feature isn't supported on the instance.
-  /// </li>
-  /// <li>
-  /// <code>ENABLED_PENDING_REBOOT</code> - The feature is enabled on the instance
-  /// but requires a reboot to take effect.
-  /// </li>
-  /// <li>
-  /// <code>DISABLED_PENDING_REBOOT</code> - The feature is disabled on the
-  /// instance but requires a reboot to take effect.
-  /// </li>
-  /// <li>
-  /// <code>UNKNOWN</code> - The feature status couldn't be determined.
-  /// </li>
-  /// </ul>
-  final FeatureStatus? status;
-
-  FeatureMetadata({
-    this.status,
-  });
-
-  factory FeatureMetadata.fromJson(Map<String, dynamic> json) {
-    return FeatureMetadata(
-      status: (json['Status'] as String?)?.let(FeatureStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final status = this.status;
-    return {
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-class FeatureStatus {
-  static const enabled = FeatureStatus._('ENABLED');
-  static const disabled = FeatureStatus._('DISABLED');
-  static const unsupported = FeatureStatus._('UNSUPPORTED');
-  static const enabledPendingReboot = FeatureStatus._('ENABLED_PENDING_REBOOT');
-  static const disabledPendingReboot =
-      FeatureStatus._('DISABLED_PENDING_REBOOT');
-  static const unknown = FeatureStatus._('UNKNOWN');
-
-  final String value;
-
-  const FeatureStatus._(this.value);
-
-  static const values = [
-    enabled,
-    disabled,
-    unsupported,
-    enabledPendingReboot,
-    disabledPendingReboot,
-    unknown
-  ];
-
-  static FeatureStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FeatureStatus._(value));
-
-  @override
-  bool operator ==(other) => other is FeatureStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class FineGrainedAction {
-  static const describeDimensionKeys =
-      FineGrainedAction._('DescribeDimensionKeys');
-  static const getDimensionKeyDetails =
-      FineGrainedAction._('GetDimensionKeyDetails');
-  static const getResourceMetrics = FineGrainedAction._('GetResourceMetrics');
-
-  final String value;
-
-  const FineGrainedAction._(this.value);
-
-  static const values = [
-    describeDimensionKeys,
-    getDimensionKeyDetails,
-    getResourceMetrics
-  ];
-
-  static FineGrainedAction fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FineGrainedAction._(value));
-
-  @override
-  bool operator ==(other) => other is FineGrainedAction && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class GetDimensionKeyDetailsResponse {
@@ -2217,6 +1433,1281 @@ class GetResourceMetricsResponse {
   }
 }
 
+class ListAvailableResourceDimensionsResponse {
+  /// The dimension information returned for requested metric types.
+  final List<MetricDimensionGroups>? metricDimensions;
+
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the token,
+  /// up to the value specified by <code>MaxRecords</code>.
+  final String? nextToken;
+
+  ListAvailableResourceDimensionsResponse({
+    this.metricDimensions,
+    this.nextToken,
+  });
+
+  factory ListAvailableResourceDimensionsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListAvailableResourceDimensionsResponse(
+      metricDimensions: (json['MetricDimensions'] as List?)
+          ?.nonNulls
+          .map((e) => MetricDimensionGroups.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricDimensions = this.metricDimensions;
+    final nextToken = this.nextToken;
+    return {
+      if (metricDimensions != null) 'MetricDimensions': metricDimensions,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListAvailableResourceMetricsResponse {
+  /// An array of metrics available to query. Each array element contains the full
+  /// name, description, and unit of the metric.
+  final List<ResponseResourceMetric>? metrics;
+
+  /// A pagination token that indicates the response didn’t return all available
+  /// records because <code>MaxRecords</code> was specified in the previous
+  /// request. To get the remaining records, specify <code>NextToken</code> in a
+  /// separate request with this value.
+  final String? nextToken;
+
+  ListAvailableResourceMetricsResponse({
+    this.metrics,
+    this.nextToken,
+  });
+
+  factory ListAvailableResourceMetricsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListAvailableResourceMetricsResponse(
+      metrics: (json['Metrics'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => ResponseResourceMetric.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metrics = this.metrics;
+    final nextToken = this.nextToken;
+    return {
+      if (metrics != null) 'Metrics': metrics,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListPerformanceAnalysisReportRecommendationsResponse {
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the token,
+  /// up to the value specified by <code>MaxResults</code>.
+  final String? nextToken;
+
+  /// The list of recommendations for the analysis report.
+  final List<Recommendation>? recommendations;
+
+  ListPerformanceAnalysisReportRecommendationsResponse({
+    this.nextToken,
+    this.recommendations,
+  });
+
+  factory ListPerformanceAnalysisReportRecommendationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListPerformanceAnalysisReportRecommendationsResponse(
+      nextToken: json['NextToken'] as String?,
+      recommendations: (json['Recommendations'] as List?)
+          ?.nonNulls
+          .map((e) => Recommendation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final recommendations = this.recommendations;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (recommendations != null) 'Recommendations': recommendations,
+    };
+  }
+}
+
+class ListPerformanceAnalysisReportsResponse {
+  /// List of reports including the report identifier, start and end time,
+  /// creation time, and status.
+  final List<AnalysisReportSummary>? analysisReports;
+
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the token,
+  /// up to the value specified by <code>MaxResults</code>.
+  final String? nextToken;
+
+  ListPerformanceAnalysisReportsResponse({
+    this.analysisReports,
+    this.nextToken,
+  });
+
+  factory ListPerformanceAnalysisReportsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListPerformanceAnalysisReportsResponse(
+      analysisReports: (json['AnalysisReports'] as List?)
+          ?.nonNulls
+          .map((e) => AnalysisReportSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final analysisReports = this.analysisReports;
+    final nextToken = this.nextToken;
+    return {
+      if (analysisReports != null) 'AnalysisReports': analysisReports,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListTagsForResourceResponse {
+  /// The metadata assigned to an Amazon RDS resource consisting of a key-value
+  /// pair.
+  final List<Tag>? tags;
+
+  ListTagsForResourceResponse({
+    this.tags,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class ServiceType {
+  static const rds = ServiceType._('RDS');
+  static const docdb = ServiceType._('DOCDB');
+
+  final String value;
+
+  const ServiceType._(this.value);
+
+  static const values = [rds, docdb];
+
+  static ServiceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ServiceType._(value));
+
+  @override
+  bool operator ==(other) => other is ServiceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Metadata assigned to an Amazon RDS resource consisting of a key-value pair.
+class Tag {
+  /// A key is the required name of the tag. The string value can be from 1 to 128
+  /// Unicode characters in length and can't be prefixed with <code>aws:</code> or
+  /// <code>rds:</code>. The string can only contain only the set of Unicode
+  /// letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java
+  /// regex: <code>"^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$"</code>).
+  final String key;
+
+  /// A value is the optional value of the tag. The string value can be from 1 to
+  /// 256 Unicode characters in length and can't be prefixed with
+  /// <code>aws:</code> or <code>rds:</code>. The string can only contain only the
+  /// set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+',
+  /// '-', '@' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$").
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
+/// Retrieves the details of the performance analysis report.
+class AnalysisReportSummary {
+  /// The name of the analysis report.
+  final String? analysisReportId;
+
+  /// The time you created the analysis report.
+  final DateTime? createTime;
+
+  /// The end time of the analysis in the report.
+  final DateTime? endTime;
+
+  /// The start time of the analysis in the report.
+  final DateTime? startTime;
+
+  /// The status of the analysis report.
+  final AnalysisStatus? status;
+
+  /// List of all the tags added to the analysis report.
+  final List<Tag>? tags;
+
+  AnalysisReportSummary({
+    this.analysisReportId,
+    this.createTime,
+    this.endTime,
+    this.startTime,
+    this.status,
+    this.tags,
+  });
+
+  factory AnalysisReportSummary.fromJson(Map<String, dynamic> json) {
+    return AnalysisReportSummary(
+      analysisReportId: json['AnalysisReportId'] as String?,
+      createTime: timeStampFromJson(json['CreateTime']),
+      endTime: timeStampFromJson(json['EndTime']),
+      startTime: timeStampFromJson(json['StartTime']),
+      status: (json['Status'] as String?)?.let(AnalysisStatus.fromString),
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final analysisReportId = this.analysisReportId;
+    final createTime = this.createTime;
+    final endTime = this.endTime;
+    final startTime = this.startTime;
+    final status = this.status;
+    final tags = this.tags;
+    return {
+      if (analysisReportId != null) 'AnalysisReportId': analysisReportId,
+      if (createTime != null) 'CreateTime': unixTimestampToJson(createTime),
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (status != null) 'Status': status.value,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+class AnalysisStatus {
+  static const running = AnalysisStatus._('RUNNING');
+  static const succeeded = AnalysisStatus._('SUCCEEDED');
+  static const failed = AnalysisStatus._('FAILED');
+
+  final String value;
+
+  const AnalysisStatus._(this.value);
+
+  static const values = [running, succeeded, failed];
+
+  static AnalysisStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AnalysisStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AnalysisStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The list of recommendations for the insight.
+class Recommendation {
+  /// The recommendation details to help resolve the performance issue. For
+  /// example, <code>Investigate the following SQLs that contributed to 100% of
+  /// the total DBLoad during that time period: sql-id</code>
+  final String? recommendationDescription;
+
+  /// Detailed information about the recommendation, including steps to resolve
+  /// the performance issue.
+  final String? recommendationDetails;
+
+  /// The unique identifier for the recommendation.
+  final String? recommendationId;
+
+  Recommendation({
+    this.recommendationDescription,
+    this.recommendationDetails,
+    this.recommendationId,
+  });
+
+  factory Recommendation.fromJson(Map<String, dynamic> json) {
+    return Recommendation(
+      recommendationDescription: json['RecommendationDescription'] as String?,
+      recommendationDetails: json['RecommendationDetails'] as String?,
+      recommendationId: json['RecommendationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recommendationDescription = this.recommendationDescription;
+    final recommendationDetails = this.recommendationDetails;
+    final recommendationId = this.recommendationId;
+    return {
+      if (recommendationDescription != null)
+        'RecommendationDescription': recommendationDescription,
+      if (recommendationDetails != null)
+        'RecommendationDetails': recommendationDetails,
+      if (recommendationId != null) 'RecommendationId': recommendationId,
+    };
+  }
+}
+
+/// An object that contains the full name, description, and unit of a metric.
+class ResponseResourceMetric {
+  /// The description of the metric.
+  final String? description;
+
+  /// The full name of the metric.
+  final String? metric;
+
+  /// The unit of the metric.
+  final String? unit;
+
+  ResponseResourceMetric({
+    this.description,
+    this.metric,
+    this.unit,
+  });
+
+  factory ResponseResourceMetric.fromJson(Map<String, dynamic> json) {
+    return ResponseResourceMetric(
+      description: json['Description'] as String?,
+      metric: json['Metric'] as String?,
+      unit: json['Unit'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final metric = this.metric;
+    final unit = this.unit;
+    return {
+      if (description != null) 'Description': description,
+      if (metric != null) 'Metric': metric,
+      if (unit != null) 'Unit': unit,
+    };
+  }
+}
+
+/// The available dimension information for a metric type.
+class MetricDimensionGroups {
+  /// The available dimension groups for a metric type.
+  final List<DimensionGroupDetail>? groups;
+
+  /// The metric type to which the dimension information belongs.
+  final String? metric;
+
+  MetricDimensionGroups({
+    this.groups,
+    this.metric,
+  });
+
+  factory MetricDimensionGroups.fromJson(Map<String, dynamic> json) {
+    return MetricDimensionGroups(
+      groups: (json['Groups'] as List?)
+          ?.nonNulls
+          .map((e) => DimensionGroupDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      metric: json['Metric'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groups = this.groups;
+    final metric = this.metric;
+    return {
+      if (groups != null) 'Groups': groups,
+      if (metric != null) 'Metric': metric,
+    };
+  }
+}
+
+/// Information about dimensions within a dimension group.
+class DimensionGroupDetail {
+  /// The dimensions within a dimension group.
+  final List<DimensionDetail>? dimensions;
+
+  /// The name of the dimension group.
+  final String? group;
+
+  DimensionGroupDetail({
+    this.dimensions,
+    this.group,
+  });
+
+  factory DimensionGroupDetail.fromJson(Map<String, dynamic> json) {
+    return DimensionGroupDetail(
+      dimensions: (json['Dimensions'] as List?)
+          ?.nonNulls
+          .map((e) => DimensionDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      group: json['Group'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dimensions = this.dimensions;
+    final group = this.group;
+    return {
+      if (dimensions != null) 'Dimensions': dimensions,
+      if (group != null) 'Group': group,
+    };
+  }
+}
+
+/// The information about a dimension.
+class DimensionDetail {
+  /// The identifier of a dimension.
+  final String? identifier;
+
+  DimensionDetail({
+    this.identifier,
+  });
+
+  factory DimensionDetail.fromJson(Map<String, dynamic> json) {
+    return DimensionDetail(
+      identifier: json['Identifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final identifier = this.identifier;
+    return {
+      if (identifier != null) 'Identifier': identifier,
+    };
+  }
+}
+
+class FineGrainedAction {
+  static const describeDimensionKeys =
+      FineGrainedAction._('DescribeDimensionKeys');
+  static const getDimensionKeyDetails =
+      FineGrainedAction._('GetDimensionKeyDetails');
+  static const getResourceMetrics = FineGrainedAction._('GetResourceMetrics');
+
+  final String value;
+
+  const FineGrainedAction._(this.value);
+
+  static const values = [
+    describeDimensionKeys,
+    getDimensionKeyDetails,
+    getResourceMetrics
+  ];
+
+  static FineGrainedAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FineGrainedAction._(value));
+
+  @override
+  bool operator ==(other) => other is FineGrainedAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A time-ordered series of data points, corresponding to a dimension of a
+/// Performance Insights metric.
+class MetricKeyDataPoints {
+  /// An array of timestamp-value pairs, representing measurements over a period
+  /// of time.
+  final List<DataPoint>? dataPoints;
+
+  /// The dimensions to which the data points apply.
+  final ResponseResourceMetricKey? key;
+
+  MetricKeyDataPoints({
+    this.dataPoints,
+    this.key,
+  });
+
+  factory MetricKeyDataPoints.fromJson(Map<String, dynamic> json) {
+    return MetricKeyDataPoints(
+      dataPoints: (json['DataPoints'] as List?)
+          ?.nonNulls
+          .map((e) => DataPoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      key: json['Key'] != null
+          ? ResponseResourceMetricKey.fromJson(
+              json['Key'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataPoints = this.dataPoints;
+    final key = this.key;
+    return {
+      if (dataPoints != null) 'DataPoints': dataPoints,
+      if (key != null) 'Key': key,
+    };
+  }
+}
+
+/// An object describing a Performance Insights metric and one or more
+/// dimensions for that metric.
+class ResponseResourceMetricKey {
+  /// The name of a Performance Insights metric to be measured.
+  ///
+  /// Valid values for <code>Metric</code> are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>db.load.avg</code> - A scaled representation of the number of active
+  /// sessions for the database engine.
+  /// </li>
+  /// <li>
+  /// <code>db.sampledload.avg</code> - The raw number of active sessions for the
+  /// database engine.
+  /// </li>
+  /// <li>
+  /// The counter metrics listed in <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_PerfInsights_Counters.html#USER_PerfInsights_Counters.OS">Performance
+  /// Insights operating system counters</a> in the <i>Amazon Aurora User
+  /// Guide</i>.
+  /// </li>
+  /// <li>
+  /// The counter metrics listed in <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights_Counters.html#USER_PerfInsights_Counters.OS">Performance
+  /// Insights operating system counters</a> in the <i>Amazon RDS User Guide</i>.
+  /// </li>
+  /// </ul>
+  /// If the number of active sessions is less than an internal Performance
+  /// Insights threshold, <code>db.load.avg</code> and
+  /// <code>db.sampledload.avg</code> are the same value. If the number of active
+  /// sessions is greater than the internal threshold, Performance Insights
+  /// samples the active sessions, with <code>db.load.avg</code> showing the
+  /// scaled values, <code>db.sampledload.avg</code> showing the raw values, and
+  /// <code>db.sampledload.avg</code> less than <code>db.load.avg</code>. For most
+  /// use cases, you can query <code>db.load.avg</code> only.
+  final String metric;
+
+  /// The valid dimensions for the metric.
+  final Map<String, String>? dimensions;
+
+  ResponseResourceMetricKey({
+    required this.metric,
+    this.dimensions,
+  });
+
+  factory ResponseResourceMetricKey.fromJson(Map<String, dynamic> json) {
+    return ResponseResourceMetricKey(
+      metric: (json['Metric'] as String?) ?? '',
+      dimensions: (json['Dimensions'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metric = this.metric;
+    final dimensions = this.dimensions;
+    return {
+      'Metric': metric,
+      if (dimensions != null) 'Dimensions': dimensions,
+    };
+  }
+}
+
+/// A timestamp, and a single numerical value, which together represent a
+/// measurement at a particular point in time.
+class DataPoint {
+  /// The time, in epoch format, associated with a particular <code>Value</code>.
+  final DateTime timestamp;
+
+  /// The actual value associated with a particular <code>Timestamp</code>.
+  final double value;
+
+  DataPoint({
+    required this.timestamp,
+    required this.value,
+  });
+
+  factory DataPoint.fromJson(Map<String, dynamic> json) {
+    return DataPoint(
+      timestamp: nonNullableTimeStampFromJson(json['Timestamp'] ?? 0),
+      value: (json['Value'] as double?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timestamp = this.timestamp;
+    final value = this.value;
+    return {
+      'Timestamp': unixTimestampToJson(timestamp),
+      'Value': value,
+    };
+  }
+}
+
+class PeriodAlignment {
+  static const endTime = PeriodAlignment._('END_TIME');
+  static const startTime = PeriodAlignment._('START_TIME');
+
+  final String value;
+
+  const PeriodAlignment._(this.value);
+
+  static const values = [endTime, startTime];
+
+  static PeriodAlignment fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PeriodAlignment._(value));
+
+  @override
+  bool operator ==(other) => other is PeriodAlignment && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A single query to be processed. You must provide the metric to query and
+/// append an aggregate function to the metric. For example, to find the average
+/// for the metric <code>db.load</code> you must use <code>db.load.avg</code>.
+/// Valid values for aggregate functions include <code>.avg</code>,
+/// <code>.min</code>, <code>.max</code>, and <code>.sum</code>. If no other
+/// parameters are specified, Performance Insights returns all data points for
+/// the specified metric. Optionally, you can request that the data points be
+/// aggregated by dimension group (<code>GroupBy</code>), and return only those
+/// data points that match your criteria (<code>Filter</code>).
+class MetricQuery {
+  /// The name of a Performance Insights metric to be measured.
+  ///
+  /// Valid values for <code>Metric</code> are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>db.load.avg</code> - A scaled representation of the number of active
+  /// sessions for the database engine.
+  /// </li>
+  /// <li>
+  /// <code>db.sampledload.avg</code> - The raw number of active sessions for the
+  /// database engine.
+  /// </li>
+  /// <li>
+  /// The counter metrics listed in <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_PerfInsights_Counters.html#USER_PerfInsights_Counters.OS">Performance
+  /// Insights operating system counters</a> in the <i>Amazon Aurora User
+  /// Guide</i>.
+  /// </li>
+  /// <li>
+  /// The counter metrics listed in <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights_Counters.html#USER_PerfInsights_Counters.OS">Performance
+  /// Insights operating system counters</a> in the <i>Amazon RDS User Guide</i>.
+  /// </li>
+  /// </ul>
+  /// If the number of active sessions is less than an internal Performance
+  /// Insights threshold, <code>db.load.avg</code> and
+  /// <code>db.sampledload.avg</code> are the same value. If the number of active
+  /// sessions is greater than the internal threshold, Performance Insights
+  /// samples the active sessions, with <code>db.load.avg</code> showing the
+  /// scaled values, <code>db.sampledload.avg</code> showing the raw values, and
+  /// <code>db.sampledload.avg</code> less than <code>db.load.avg</code>. For most
+  /// use cases, you can query <code>db.load.avg</code> only.
+  final String metric;
+
+  /// One or more filters to apply in the request. Restrictions:
+  ///
+  /// <ul>
+  /// <li>
+  /// Any number of filters by the same dimension, as specified in the
+  /// <code>GroupBy</code> parameter.
+  /// </li>
+  /// <li>
+  /// A single filter for any other dimension in this dimension group.
+  /// </li>
+  /// </ul> <note>
+  /// The <code>db.sql.db_id</code> filter isn't available for RDS for SQL Server
+  /// DB instances.
+  /// </note>
+  final Map<String, String>? filter;
+
+  /// A specification for how to aggregate the data points from a query result.
+  /// You must specify a valid dimension group. Performance Insights will return
+  /// all of the dimensions within that group, unless you provide the names of
+  /// specific dimensions within that group. You can also request that Performance
+  /// Insights return a limited number of values for a dimension.
+  final DimensionGroup? groupBy;
+
+  MetricQuery({
+    required this.metric,
+    this.filter,
+    this.groupBy,
+  });
+
+  Map<String, dynamic> toJson() {
+    final metric = this.metric;
+    final filter = this.filter;
+    final groupBy = this.groupBy;
+    return {
+      'Metric': metric,
+      if (filter != null) 'Filter': filter,
+      if (groupBy != null) 'GroupBy': groupBy,
+    };
+  }
+}
+
+/// A logical grouping of Performance Insights metrics for a related subject
+/// area. For example, the <code>db.sql</code> dimension group consists of the
+/// following dimensions:
+///
+/// <ul>
+/// <li>
+/// <code>db.sql.id</code> - The hash of a running SQL statement, generated by
+/// Performance Insights.
+/// </li>
+/// <li>
+/// <code>db.sql.db_id</code> - Either the SQL ID generated by the database
+/// engine, or a value generated by Performance Insights that begins with
+/// <code>pi-</code>.
+/// </li>
+/// <li>
+/// <code>db.sql.statement</code> - The full text of the SQL statement that is
+/// running, for example, <code>SELECT * FROM employees</code>.
+/// </li>
+/// <li>
+/// <code>db.sql_tokenized.id</code> - The hash of the SQL digest generated by
+/// Performance Insights.
+/// </li>
+/// </ul> <note>
+/// Each response element returns a maximum of 500 bytes. For larger elements,
+/// such as SQL statements, only the first 500 bytes are returned.
+/// </note>
+class DimensionGroup {
+  /// The name of the dimension group. Valid values are as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>db</code> - The name of the database to which the client is connected.
+  /// The following values are permitted:
+  ///
+  /// <ul>
+  /// <li>
+  /// Aurora PostgreSQL
+  /// </li>
+  /// <li>
+  /// Amazon RDS PostgreSQL
+  /// </li>
+  /// <li>
+  /// Aurora MySQL
+  /// </li>
+  /// <li>
+  /// Amazon RDS MySQL
+  /// </li>
+  /// <li>
+  /// Amazon RDS MariaDB
+  /// </li>
+  /// <li>
+  /// Amazon DocumentDB
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>db.application</code> - The name of the application that is connected
+  /// to the database. The following values are permitted:
+  ///
+  /// <ul>
+  /// <li>
+  /// Aurora PostgreSQL
+  /// </li>
+  /// <li>
+  /// Amazon RDS PostgreSQL
+  /// </li>
+  /// <li>
+  /// Amazon DocumentDB
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>db.blocking_sql</code> - The SQL queries blocking the most DB load.
+  /// </li>
+  /// <li>
+  /// <code>db.blocking_session</code> - The sessions blocking the most DB load.
+  /// </li>
+  /// <li>
+  /// <code>db.blocking_object</code> - The object resources acquired by other
+  /// sessions that are blocking the most DB load.
+  /// </li>
+  /// <li>
+  /// <code>db.host</code> - The host name of the connected client (all engines).
+  /// </li>
+  /// <li>
+  /// <code>db.plans</code> - The execution plans for the query (only Aurora
+  /// PostgreSQL).
+  /// </li>
+  /// <li>
+  /// <code>db.query</code> - The query that is currently running (only Amazon
+  /// DocumentDB).
+  /// </li>
+  /// <li>
+  /// <code>db.query_tokenized</code> - The digest query (only Amazon DocumentDB).
+  /// </li>
+  /// <li>
+  /// <code>db.session_type</code> - The type of the current session (only Aurora
+  /// PostgreSQL and RDS PostgreSQL).
+  /// </li>
+  /// <li>
+  /// <code>db.sql</code> - The text of the SQL statement that is currently
+  /// running (all engines except Amazon DocumentDB).
+  /// </li>
+  /// <li>
+  /// <code>db.sql_tokenized</code> - The SQL digest (all engines except Amazon
+  /// DocumentDB).
+  /// </li>
+  /// <li>
+  /// <code>db.user</code> - The user logged in to the database (all engines
+  /// except Amazon DocumentDB).
+  /// </li>
+  /// <li>
+  /// <code>db.wait_event</code> - The event for which the database backend is
+  /// waiting (all engines except Amazon DocumentDB).
+  /// </li>
+  /// <li>
+  /// <code>db.wait_event_type</code> - The type of event for which the database
+  /// backend is waiting (all engines except Amazon DocumentDB).
+  /// </li>
+  /// <li>
+  /// <code>db.wait_state</code> - The event for which the database backend is
+  /// waiting (only Amazon DocumentDB).
+  /// </li>
+  /// </ul>
+  final String group;
+
+  /// A list of specific dimensions from a dimension group. If this parameter is
+  /// not present, then it signifies that all of the dimensions in the group were
+  /// requested, or are present in the response.
+  ///
+  /// Valid values for elements in the <code>Dimensions</code> array are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>db.application.name</code> - The name of the application that is
+  /// connected to the database. Valid values are as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// Aurora PostgreSQL
+  /// </li>
+  /// <li>
+  /// Amazon RDS PostgreSQL
+  /// </li>
+  /// <li>
+  /// Amazon DocumentDB
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>db.blocking_sql.id</code> - The ID for each of the SQL queries
+  /// blocking the most DB load.
+  /// </li>
+  /// <li>
+  /// <code>db.blocking_sql.sql</code> - The SQL text for each of the SQL queries
+  /// blocking the most DB load.
+  /// </li>
+  /// <li>
+  /// <code>db.blocking_session.id</code> - The ID for each of the sessions
+  /// blocking the most DB load.
+  /// </li>
+  /// <li>
+  /// <code>db.blocking_object.id</code> - The ID for each of the object resources
+  /// acquired by other sessions that are blocking the most DB load.
+  /// </li>
+  /// <li>
+  /// <code>db.blocking_object.type</code> - The object type for each of the
+  /// object resources acquired by other sessions that are blocking the most DB
+  /// load.
+  /// </li>
+  /// <li>
+  /// <code>db.blocking_object.value</code> - The value for each of the object
+  /// resources acquired by other sessions that are blocking the most DB load.
+  /// </li>
+  /// <li>
+  /// <code>db.host.id</code> - The host ID of the connected client (all engines).
+  /// </li>
+  /// <li>
+  /// <code>db.host.name</code> - The host name of the connected client (all
+  /// engines).
+  /// </li>
+  /// <li>
+  /// <code>db.name</code> - The name of the database to which the client is
+  /// connected. Valid values are as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// Aurora PostgreSQL
+  /// </li>
+  /// <li>
+  /// Amazon RDS PostgreSQL
+  /// </li>
+  /// <li>
+  /// Aurora MySQL
+  /// </li>
+  /// <li>
+  /// Amazon RDS MySQL
+  /// </li>
+  /// <li>
+  /// Amazon RDS MariaDB
+  /// </li>
+  /// <li>
+  /// Amazon DocumentDB
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>db.query.id</code> - The query ID generated by Performance Insights
+  /// (only Amazon DocumentDB).
+  /// </li>
+  /// <li>
+  /// <code>db.query.db_id</code> - The query ID generated by the database (only
+  /// Amazon DocumentDB).
+  /// </li>
+  /// <li>
+  /// <code>db.query.statement</code> - The text of the query that is being run
+  /// (only Amazon DocumentDB).
+  /// </li>
+  /// <li>
+  /// <code>db.query.tokenized_id</code>
+  /// </li>
+  /// <li>
+  /// <code>db.query.tokenized.id</code> - The query digest ID generated by
+  /// Performance Insights (only Amazon DocumentDB).
+  /// </li>
+  /// <li>
+  /// <code>db.query.tokenized.db_id</code> - The query digest ID generated by
+  /// Performance Insights (only Amazon DocumentDB).
+  /// </li>
+  /// <li>
+  /// <code>db.query.tokenized.statement</code> - The text of the query digest
+  /// (only Amazon DocumentDB).
+  /// </li>
+  /// <li>
+  /// <code>db.session_type.name</code> - The type of the current session (only
+  /// Amazon DocumentDB).
+  /// </li>
+  /// <li>
+  /// <code>db.sql.id</code> - The hash of the full, non-tokenized SQL statement
+  /// generated by Performance Insights (all engines except Amazon DocumentDB).
+  /// </li>
+  /// <li>
+  /// <code>db.sql.db_id</code> - Either the SQL ID generated by the database
+  /// engine, or a value generated by Performance Insights that begins with
+  /// <code>pi-</code> (all engines except Amazon DocumentDB).
+  /// </li>
+  /// <li>
+  /// <code>db.sql.statement</code> - The full text of the SQL statement that is
+  /// running, as in <code>SELECT * FROM employees</code> (all engines except
+  /// Amazon DocumentDB)
+  /// </li>
+  /// <li>
+  /// <code>db.sql.tokenized_id</code> - The hash of the SQL digest generated by
+  /// Performance Insights (all engines except Amazon DocumentDB). The
+  /// <code>db.sql.tokenized_id</code> dimension fetches the value of the
+  /// <code>db.sql_tokenized.id</code> dimension. Amazon RDS returns
+  /// <code>db.sql.tokenized_id</code> from the <code>db.sql</code> dimension
+  /// group.
+  /// </li>
+  /// <li>
+  /// <code>db.sql_tokenized.id</code> - The hash of the SQL digest generated by
+  /// Performance Insights (all engines except Amazon DocumentDB). In the console,
+  /// <code>db.sql_tokenized.id</code> is called the Support ID because Amazon Web
+  /// Services Support can look at this data to help you troubleshoot database
+  /// issues.
+  /// </li>
+  /// <li>
+  /// <code>db.sql_tokenized.db_id</code> - Either the native database ID used to
+  /// refer to the SQL statement, or a synthetic ID such as
+  /// <code>pi-2372568224</code> that Performance Insights generates if the native
+  /// database ID isn't available (all engines except Amazon DocumentDB).
+  /// </li>
+  /// <li>
+  /// <code>db.sql_tokenized.statement</code> - The text of the SQL digest, as in
+  /// <code>SELECT * FROM employees WHERE employee_id = ?</code> (all engines
+  /// except Amazon DocumentDB)
+  /// </li>
+  /// <li>
+  /// <code>db.user.id</code> - The ID of the user logged in to the database (all
+  /// engines except Amazon DocumentDB).
+  /// </li>
+  /// <li>
+  /// <code>db.user.name</code> - The name of the user logged in to the database
+  /// (all engines except Amazon DocumentDB).
+  /// </li>
+  /// <li>
+  /// <code>db.wait_event.name</code> - The event for which the backend is waiting
+  /// (all engines except Amazon DocumentDB).
+  /// </li>
+  /// <li>
+  /// <code>db.wait_event.type</code> - The type of event for which the backend is
+  /// waiting (all engines except Amazon DocumentDB).
+  /// </li>
+  /// <li>
+  /// <code>db.wait_event_type.name</code> - The name of the event type for which
+  /// the backend is waiting (all engines except Amazon DocumentDB).
+  /// </li>
+  /// <li>
+  /// <code>db.wait_state.name</code> - The event for which the backend is waiting
+  /// (only Amazon DocumentDB).
+  /// </li>
+  /// </ul>
+  final List<String>? dimensions;
+
+  /// The maximum number of items to fetch for this dimension group.
+  final int? limit;
+
+  DimensionGroup({
+    required this.group,
+    this.dimensions,
+    this.limit,
+  });
+
+  Map<String, dynamic> toJson() {
+    final group = this.group;
+    final dimensions = this.dimensions;
+    final limit = this.limit;
+    return {
+      'Group': group,
+      if (dimensions != null) 'Dimensions': dimensions,
+      if (limit != null) 'Limit': limit,
+    };
+  }
+}
+
+/// The metadata for a feature. For example, the metadata might indicate that a
+/// feature is turned on or off on a specific DB instance.
+class FeatureMetadata {
+  /// The status of the feature on the DB instance. Possible values include the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ENABLED</code> - The feature is enabled on the instance.
+  /// </li>
+  /// <li>
+  /// <code>DISABLED</code> - The feature is disabled on the instance.
+  /// </li>
+  /// <li>
+  /// <code>UNSUPPORTED</code> - The feature isn't supported on the instance.
+  /// </li>
+  /// <li>
+  /// <code>ENABLED_PENDING_REBOOT</code> - The feature is enabled on the instance
+  /// but requires a reboot to take effect.
+  /// </li>
+  /// <li>
+  /// <code>DISABLED_PENDING_REBOOT</code> - The feature is disabled on the
+  /// instance but requires a reboot to take effect.
+  /// </li>
+  /// <li>
+  /// <code>UNKNOWN</code> - The feature status couldn't be determined.
+  /// </li>
+  /// </ul>
+  final FeatureStatus? status;
+
+  FeatureMetadata({
+    this.status,
+  });
+
+  factory FeatureMetadata.fromJson(Map<String, dynamic> json) {
+    return FeatureMetadata(
+      status: (json['Status'] as String?)?.let(FeatureStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class FeatureStatus {
+  static const enabled = FeatureStatus._('ENABLED');
+  static const disabled = FeatureStatus._('DISABLED');
+  static const unsupported = FeatureStatus._('UNSUPPORTED');
+  static const enabledPendingReboot = FeatureStatus._('ENABLED_PENDING_REBOOT');
+  static const disabledPendingReboot =
+      FeatureStatus._('DISABLED_PENDING_REBOOT');
+  static const unknown = FeatureStatus._('UNKNOWN');
+
+  final String value;
+
+  const FeatureStatus._(this.value);
+
+  static const values = [
+    enabled,
+    disabled,
+    unsupported,
+    enabledPendingReboot,
+    disabledPendingReboot,
+    unknown
+  ];
+
+  static FeatureStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FeatureStatus._(value));
+
+  @override
+  bool operator ==(other) => other is FeatureStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Retrieves the summary of the performance analysis report created for a time
+/// period.
+class AnalysisReport {
+  /// The name of the analysis report.
+  final String analysisReportId;
+
+  /// The time you created the analysis report.
+  final DateTime? createTime;
+
+  /// The analysis end time in the report.
+  final DateTime? endTime;
+
+  /// The unique identifier of the analysis report.
+  final String? identifier;
+
+  /// The list of identified insights in the analysis report.
+  final List<Insight>? insights;
+
+  /// List the tags for the Amazon Web Services service for which Performance
+  /// Insights returns metrics. Valid values are as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>RDS</code>
+  /// </li>
+  /// <li>
+  /// <code>DOCDB</code>
+  /// </li>
+  /// </ul>
+  final ServiceType? serviceType;
+
+  /// The analysis start time in the report.
+  final DateTime? startTime;
+
+  /// The status of the created analysis report.
+  final AnalysisStatus? status;
+
+  AnalysisReport({
+    required this.analysisReportId,
+    this.createTime,
+    this.endTime,
+    this.identifier,
+    this.insights,
+    this.serviceType,
+    this.startTime,
+    this.status,
+  });
+
+  factory AnalysisReport.fromJson(Map<String, dynamic> json) {
+    return AnalysisReport(
+      analysisReportId: (json['AnalysisReportId'] as String?) ?? '',
+      createTime: timeStampFromJson(json['CreateTime']),
+      endTime: timeStampFromJson(json['EndTime']),
+      identifier: json['Identifier'] as String?,
+      insights: (json['Insights'] as List?)
+          ?.nonNulls
+          .map((e) => Insight.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      serviceType:
+          (json['ServiceType'] as String?)?.let(ServiceType.fromString),
+      startTime: timeStampFromJson(json['StartTime']),
+      status: (json['Status'] as String?)?.let(AnalysisStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final analysisReportId = this.analysisReportId;
+    final createTime = this.createTime;
+    final endTime = this.endTime;
+    final identifier = this.identifier;
+    final insights = this.insights;
+    final serviceType = this.serviceType;
+    final startTime = this.startTime;
+    final status = this.status;
+    return {
+      'AnalysisReportId': analysisReportId,
+      if (createTime != null) 'CreateTime': unixTimestampToJson(createTime),
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (identifier != null) 'Identifier': identifier,
+      if (insights != null) 'Insights': insights,
+      if (serviceType != null) 'ServiceType': serviceType.value,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
 /// Retrieves the list of performance issues which are identified.
 class Insight {
   /// The unique identifier for the insight. For example,
@@ -2332,545 +2823,21 @@ class Insight {
   }
 }
 
-class ListAvailableResourceDimensionsResponse {
-  /// The dimension information returned for requested metric types.
-  final List<MetricDimensionGroups>? metricDimensions;
-
-  /// An optional pagination token provided by a previous request. If this
-  /// parameter is specified, the response includes only records beyond the token,
-  /// up to the value specified by <code>MaxRecords</code>.
-  final String? nextToken;
-
-  ListAvailableResourceDimensionsResponse({
-    this.metricDimensions,
-    this.nextToken,
-  });
-
-  factory ListAvailableResourceDimensionsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListAvailableResourceDimensionsResponse(
-      metricDimensions: (json['MetricDimensions'] as List?)
-          ?.nonNulls
-          .map((e) => MetricDimensionGroups.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final metricDimensions = this.metricDimensions;
-    final nextToken = this.nextToken;
-    return {
-      if (metricDimensions != null) 'MetricDimensions': metricDimensions,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListAvailableResourceMetricsResponse {
-  /// An array of metrics available to query. Each array element contains the full
-  /// name, description, and unit of the metric.
-  final List<ResponseResourceMetric>? metrics;
-
-  /// A pagination token that indicates the response didn’t return all available
-  /// records because <code>MaxRecords</code> was specified in the previous
-  /// request. To get the remaining records, specify <code>NextToken</code> in a
-  /// separate request with this value.
-  final String? nextToken;
-
-  ListAvailableResourceMetricsResponse({
-    this.metrics,
-    this.nextToken,
-  });
-
-  factory ListAvailableResourceMetricsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListAvailableResourceMetricsResponse(
-      metrics: (json['Metrics'] as List?)
-          ?.nonNulls
-          .map(
-              (e) => ResponseResourceMetric.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final metrics = this.metrics;
-    final nextToken = this.nextToken;
-    return {
-      if (metrics != null) 'Metrics': metrics,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListPerformanceAnalysisReportsResponse {
-  /// List of reports including the report identifier, start and end time,
-  /// creation time, and status.
-  final List<AnalysisReportSummary>? analysisReports;
-
-  /// An optional pagination token provided by a previous request. If this
-  /// parameter is specified, the response includes only records beyond the token,
-  /// up to the value specified by <code>MaxResults</code>.
-  final String? nextToken;
-
-  ListPerformanceAnalysisReportsResponse({
-    this.analysisReports,
-    this.nextToken,
-  });
-
-  factory ListPerformanceAnalysisReportsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListPerformanceAnalysisReportsResponse(
-      analysisReports: (json['AnalysisReports'] as List?)
-          ?.nonNulls
-          .map((e) => AnalysisReportSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final analysisReports = this.analysisReports;
-    final nextToken = this.nextToken;
-    return {
-      if (analysisReports != null) 'AnalysisReports': analysisReports,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListTagsForResourceResponse {
-  /// The metadata assigned to an Amazon RDS resource consisting of a key-value
-  /// pair.
-  final List<Tag>? tags;
-
-  ListTagsForResourceResponse({
-    this.tags,
-  });
-
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
-    return ListTagsForResourceResponse(
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tags = this.tags;
-    return {
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-/// The available dimension information for a metric type.
-class MetricDimensionGroups {
-  /// The available dimension groups for a metric type.
-  final List<DimensionGroupDetail>? groups;
-
-  /// The metric type to which the dimension information belongs.
-  final String? metric;
-
-  MetricDimensionGroups({
-    this.groups,
-    this.metric,
-  });
-
-  factory MetricDimensionGroups.fromJson(Map<String, dynamic> json) {
-    return MetricDimensionGroups(
-      groups: (json['Groups'] as List?)
-          ?.nonNulls
-          .map((e) => DimensionGroupDetail.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      metric: json['Metric'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final groups = this.groups;
-    final metric = this.metric;
-    return {
-      if (groups != null) 'Groups': groups,
-      if (metric != null) 'Metric': metric,
-    };
-  }
-}
-
-/// A time-ordered series of data points, corresponding to a dimension of a
-/// Performance Insights metric.
-class MetricKeyDataPoints {
-  /// An array of timestamp-value pairs, representing measurements over a period
-  /// of time.
-  final List<DataPoint>? dataPoints;
-
-  /// The dimensions to which the data points apply.
-  final ResponseResourceMetricKey? key;
-
-  MetricKeyDataPoints({
-    this.dataPoints,
-    this.key,
-  });
-
-  factory MetricKeyDataPoints.fromJson(Map<String, dynamic> json) {
-    return MetricKeyDataPoints(
-      dataPoints: (json['DataPoints'] as List?)
-          ?.nonNulls
-          .map((e) => DataPoint.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      key: json['Key'] != null
-          ? ResponseResourceMetricKey.fromJson(
-              json['Key'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataPoints = this.dataPoints;
-    final key = this.key;
-    return {
-      if (dataPoints != null) 'DataPoints': dataPoints,
-      if (key != null) 'Key': key,
-    };
-  }
-}
-
-/// A single query to be processed. You must provide the metric to query and
-/// append an aggregate function to the metric. For example, to find the average
-/// for the metric <code>db.load</code> you must use <code>db.load.avg</code>.
-/// Valid values for aggregate functions include <code>.avg</code>,
-/// <code>.min</code>, <code>.max</code>, and <code>.sum</code>. If no other
-/// parameters are specified, Performance Insights returns all data points for
-/// the specified metric. Optionally, you can request that the data points be
-/// aggregated by dimension group (<code>GroupBy</code>), and return only those
-/// data points that match your criteria (<code>Filter</code>).
-class MetricQuery {
-  /// The name of a Performance Insights metric to be measured.
-  ///
-  /// Valid values for <code>Metric</code> are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>db.load.avg</code> - A scaled representation of the number of active
-  /// sessions for the database engine.
-  /// </li>
-  /// <li>
-  /// <code>db.sampledload.avg</code> - The raw number of active sessions for the
-  /// database engine.
-  /// </li>
-  /// <li>
-  /// The counter metrics listed in <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_PerfInsights_Counters.html#USER_PerfInsights_Counters.OS">Performance
-  /// Insights operating system counters</a> in the <i>Amazon Aurora User
-  /// Guide</i>.
-  /// </li>
-  /// <li>
-  /// The counter metrics listed in <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights_Counters.html#USER_PerfInsights_Counters.OS">Performance
-  /// Insights operating system counters</a> in the <i>Amazon RDS User Guide</i>.
-  /// </li>
-  /// </ul>
-  /// If the number of active sessions is less than an internal Performance
-  /// Insights threshold, <code>db.load.avg</code> and
-  /// <code>db.sampledload.avg</code> are the same value. If the number of active
-  /// sessions is greater than the internal threshold, Performance Insights
-  /// samples the active sessions, with <code>db.load.avg</code> showing the
-  /// scaled values, <code>db.sampledload.avg</code> showing the raw values, and
-  /// <code>db.sampledload.avg</code> less than <code>db.load.avg</code>. For most
-  /// use cases, you can query <code>db.load.avg</code> only.
-  final String metric;
-
-  /// One or more filters to apply in the request. Restrictions:
-  ///
-  /// <ul>
-  /// <li>
-  /// Any number of filters by the same dimension, as specified in the
-  /// <code>GroupBy</code> parameter.
-  /// </li>
-  /// <li>
-  /// A single filter for any other dimension in this dimension group.
-  /// </li>
-  /// </ul> <note>
-  /// The <code>db.sql.db_id</code> filter isn't available for RDS for SQL Server
-  /// DB instances.
-  /// </note>
-  final Map<String, String>? filter;
-
-  /// A specification for how to aggregate the data points from a query result.
-  /// You must specify a valid dimension group. Performance Insights will return
-  /// all of the dimensions within that group, unless you provide the names of
-  /// specific dimensions within that group. You can also request that Performance
-  /// Insights return a limited number of values for a dimension.
-  final DimensionGroup? groupBy;
-
-  MetricQuery({
-    required this.metric,
-    this.filter,
-    this.groupBy,
-  });
-
-  Map<String, dynamic> toJson() {
-    final metric = this.metric;
-    final filter = this.filter;
-    final groupBy = this.groupBy;
-    return {
-      'Metric': metric,
-      if (filter != null) 'Filter': filter,
-      if (groupBy != null) 'GroupBy': groupBy,
-    };
-  }
-}
-
-/// This data type helps to determine Performance Insights metric to render for
-/// the insight.
-class PerformanceInsightsMetric {
-  /// A dimension map that contains the dimensions for this partition.
-  final Map<String, String>? dimensions;
-
-  /// The Performance Insights metric name.
-  final String? displayName;
-
-  /// The Performance Insights metric.
-  final String? metric;
-
-  /// The value of the metric. For example, <code>9</code> for
-  /// <code>db.load.avg</code>.
-  final double? value;
-
-  PerformanceInsightsMetric({
-    this.dimensions,
-    this.displayName,
-    this.metric,
-    this.value,
-  });
-
-  factory PerformanceInsightsMetric.fromJson(Map<String, dynamic> json) {
-    return PerformanceInsightsMetric(
-      dimensions: (json['Dimensions'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      displayName: json['DisplayName'] as String?,
-      metric: json['Metric'] as String?,
-      value: json['Value'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dimensions = this.dimensions;
-    final displayName = this.displayName;
-    final metric = this.metric;
-    final value = this.value;
-    return {
-      if (dimensions != null) 'Dimensions': dimensions,
-      if (displayName != null) 'DisplayName': displayName,
-      if (metric != null) 'Metric': metric,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-class PeriodAlignment {
-  static const endTime = PeriodAlignment._('END_TIME');
-  static const startTime = PeriodAlignment._('START_TIME');
+class ContextType {
+  static const causal = ContextType._('CAUSAL');
+  static const contextual = ContextType._('CONTEXTUAL');
 
   final String value;
 
-  const PeriodAlignment._(this.value);
+  const ContextType._(this.value);
 
-  static const values = [endTime, startTime];
+  static const values = [causal, contextual];
 
-  static PeriodAlignment fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PeriodAlignment._(value));
-
-  @override
-  bool operator ==(other) => other is PeriodAlignment && other.value == value;
+  static ContextType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ContextType._(value));
 
   @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The list of recommendations for the insight.
-class Recommendation {
-  /// The recommendation details to help resolve the performance issue. For
-  /// example, <code>Investigate the following SQLs that contributed to 100% of
-  /// the total DBLoad during that time period: sql-id</code>
-  final String? recommendationDescription;
-
-  /// The unique identifier for the recommendation.
-  final String? recommendationId;
-
-  Recommendation({
-    this.recommendationDescription,
-    this.recommendationId,
-  });
-
-  factory Recommendation.fromJson(Map<String, dynamic> json) {
-    return Recommendation(
-      recommendationDescription: json['RecommendationDescription'] as String?,
-      recommendationId: json['RecommendationId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final recommendationDescription = this.recommendationDescription;
-    final recommendationId = this.recommendationId;
-    return {
-      if (recommendationDescription != null)
-        'RecommendationDescription': recommendationDescription,
-      if (recommendationId != null) 'RecommendationId': recommendationId,
-    };
-  }
-}
-
-/// If <code>PartitionBy</code> was specified in a
-/// <code>DescribeDimensionKeys</code> request, the dimensions are returned in
-/// an array. Each element in the array specifies one dimension.
-class ResponsePartitionKey {
-  /// A dimension map that contains the dimensions for this partition.
-  final Map<String, String> dimensions;
-
-  ResponsePartitionKey({
-    required this.dimensions,
-  });
-
-  factory ResponsePartitionKey.fromJson(Map<String, dynamic> json) {
-    return ResponsePartitionKey(
-      dimensions: ((json['Dimensions'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{})
-          .map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dimensions = this.dimensions;
-    return {
-      'Dimensions': dimensions,
-    };
-  }
-}
-
-/// An object that contains the full name, description, and unit of a metric.
-class ResponseResourceMetric {
-  /// The description of the metric.
-  final String? description;
-
-  /// The full name of the metric.
-  final String? metric;
-
-  /// The unit of the metric.
-  final String? unit;
-
-  ResponseResourceMetric({
-    this.description,
-    this.metric,
-    this.unit,
-  });
-
-  factory ResponseResourceMetric.fromJson(Map<String, dynamic> json) {
-    return ResponseResourceMetric(
-      description: json['Description'] as String?,
-      metric: json['Metric'] as String?,
-      unit: json['Unit'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final metric = this.metric;
-    final unit = this.unit;
-    return {
-      if (description != null) 'Description': description,
-      if (metric != null) 'Metric': metric,
-      if (unit != null) 'Unit': unit,
-    };
-  }
-}
-
-/// An object describing a Performance Insights metric and one or more
-/// dimensions for that metric.
-class ResponseResourceMetricKey {
-  /// The name of a Performance Insights metric to be measured.
-  ///
-  /// Valid values for <code>Metric</code> are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>db.load.avg</code> - A scaled representation of the number of active
-  /// sessions for the database engine.
-  /// </li>
-  /// <li>
-  /// <code>db.sampledload.avg</code> - The raw number of active sessions for the
-  /// database engine.
-  /// </li>
-  /// <li>
-  /// The counter metrics listed in <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_PerfInsights_Counters.html#USER_PerfInsights_Counters.OS">Performance
-  /// Insights operating system counters</a> in the <i>Amazon Aurora User
-  /// Guide</i>.
-  /// </li>
-  /// <li>
-  /// The counter metrics listed in <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights_Counters.html#USER_PerfInsights_Counters.OS">Performance
-  /// Insights operating system counters</a> in the <i>Amazon RDS User Guide</i>.
-  /// </li>
-  /// </ul>
-  /// If the number of active sessions is less than an internal Performance
-  /// Insights threshold, <code>db.load.avg</code> and
-  /// <code>db.sampledload.avg</code> are the same value. If the number of active
-  /// sessions is greater than the internal threshold, Performance Insights
-  /// samples the active sessions, with <code>db.load.avg</code> showing the
-  /// scaled values, <code>db.sampledload.avg</code> showing the raw values, and
-  /// <code>db.sampledload.avg</code> less than <code>db.load.avg</code>. For most
-  /// use cases, you can query <code>db.load.avg</code> only.
-  final String metric;
-
-  /// The valid dimensions for the metric.
-  final Map<String, String>? dimensions;
-
-  ResponseResourceMetricKey({
-    required this.metric,
-    this.dimensions,
-  });
-
-  factory ResponseResourceMetricKey.fromJson(Map<String, dynamic> json) {
-    return ResponseResourceMetricKey(
-      metric: (json['Metric'] as String?) ?? '',
-      dimensions: (json['Dimensions'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final metric = this.metric;
-    final dimensions = this.dimensions;
-    return {
-      'Metric': metric,
-      if (dimensions != null) 'Dimensions': dimensions,
-    };
-  }
-}
-
-class ServiceType {
-  static const rds = ServiceType._('RDS');
-  static const docdb = ServiceType._('DOCDB');
-
-  final String value;
-
-  const ServiceType._(this.value);
-
-  static const values = [rds, docdb];
-
-  static ServiceType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ServiceType._(value));
-
-  @override
-  bool operator ==(other) => other is ServiceType && other.value == value;
+  bool operator ==(other) => other is ContextType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -2903,53 +2870,90 @@ class Severity {
   String toString() => value;
 }
 
-/// Metadata assigned to an Amazon RDS resource consisting of a key-value pair.
-class Tag {
-  /// A key is the required name of the tag. The string value can be from 1 to 128
-  /// Unicode characters in length and can't be prefixed with <code>aws:</code> or
-  /// <code>rds:</code>. The string can only contain only the set of Unicode
-  /// letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java
-  /// regex: <code>"^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$"</code>).
-  final String key;
+/// List of data objects which provide details about source metrics. This field
+/// can be used to determine the PI metric to render for the insight. This data
+/// type also includes static values for the metrics for the Insight that were
+/// calculated and included in text and annotations on the DB load chart.
+class Data {
+  /// This field determines the Performance Insights metric to render for the
+  /// insight. The <code>name</code> field refers to a Performance Insights
+  /// metric.
+  final PerformanceInsightsMetric? performanceInsightsMetric;
 
-  /// A value is the optional value of the tag. The string value can be from 1 to
-  /// 256 Unicode characters in length and can't be prefixed with
-  /// <code>aws:</code> or <code>rds:</code>. The string can only contain only the
-  /// set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+',
-  /// '-', '@' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$").
-  final String value;
-
-  Tag({
-    required this.key,
-    required this.value,
+  Data({
+    this.performanceInsightsMetric,
   });
 
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['Key'] as String?) ?? '',
-      value: (json['Value'] as String?) ?? '',
+  factory Data.fromJson(Map<String, dynamic> json) {
+    return Data(
+      performanceInsightsMetric: json['PerformanceInsightsMetric'] != null
+          ? PerformanceInsightsMetric.fromJson(
+              json['PerformanceInsightsMetric'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
+    final performanceInsightsMetric = this.performanceInsightsMetric;
     return {
-      'Key': key,
-      'Value': value,
+      if (performanceInsightsMetric != null)
+        'PerformanceInsightsMetric': performanceInsightsMetric,
     };
   }
 }
 
-class TagResourceResponse {
-  TagResourceResponse();
+/// This data type helps to determine Performance Insights metric to render for
+/// the insight.
+class PerformanceInsightsMetric {
+  /// A dimension map that contains the dimensions for this partition.
+  final Map<String, String>? dimensions;
 
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
+  /// The Performance Insights metric name.
+  final String? displayName;
+
+  /// The filter for the Performance Insights metric.
+  final Map<String, String>? filter;
+
+  /// The Performance Insights metric.
+  final String? metric;
+
+  /// The value of the metric. For example, <code>9</code> for
+  /// <code>db.load.avg</code>.
+  final double? value;
+
+  PerformanceInsightsMetric({
+    this.dimensions,
+    this.displayName,
+    this.filter,
+    this.metric,
+    this.value,
+  });
+
+  factory PerformanceInsightsMetric.fromJson(Map<String, dynamic> json) {
+    return PerformanceInsightsMetric(
+      dimensions: (json['Dimensions'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      displayName: json['DisplayName'] as String?,
+      filter: (json['Filter'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      metric: json['Metric'] as String?,
+      value: json['Value'] as double?,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final dimensions = this.dimensions;
+    final displayName = this.displayName;
+    final filter = this.filter;
+    final metric = this.metric;
+    final value = this.value;
+    return {
+      if (dimensions != null) 'Dimensions': dimensions,
+      if (displayName != null) 'DisplayName': displayName,
+      if (filter != null) 'Filter': filter,
+      if (metric != null) 'Metric': metric,
+      if (value != null) 'Value': value,
+    };
   }
 }
 
@@ -2976,15 +2980,204 @@ class TextFormat {
   String toString() => value;
 }
 
-class UntagResourceResponse {
-  UntagResourceResponse();
+class AcceptLanguage {
+  static const enUs = AcceptLanguage._('EN_US');
 
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
+  final String value;
+
+  const AcceptLanguage._(this.value);
+
+  static const values = [enUs];
+
+  static AcceptLanguage fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AcceptLanguage._(value));
+
+  @override
+  bool operator ==(other) => other is AcceptLanguage && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object that describes the details for a specified dimension.
+class DimensionKeyDetail {
+  /// The full name of the dimension. The full name includes the group name and
+  /// key name. The following values are valid:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>db.query.statement</code> (Amazon DocumentDB)
+  /// </li>
+  /// <li>
+  /// <code>db.sql.statement</code> (Amazon RDS and Aurora)
+  /// </li>
+  /// </ul>
+  final String? dimension;
+
+  /// The status of the dimension detail data. Possible values include the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AVAILABLE</code> - The dimension detail data is ready to be retrieved.
+  /// </li>
+  /// <li>
+  /// <code>PROCESSING</code> - The dimension detail data isn't ready to be
+  /// retrieved because more processing time is required. If the requested detail
+  /// data has the status <code>PROCESSING</code>, Performance Insights returns
+  /// the truncated query.
+  /// </li>
+  /// <li>
+  /// <code>UNAVAILABLE</code> - The dimension detail data could not be collected
+  /// successfully.
+  /// </li>
+  /// </ul>
+  final DetailStatus? status;
+
+  /// The value of the dimension detail data. Depending on the return status, this
+  /// value is either the full or truncated SQL query for the following
+  /// dimensions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>db.query.statement</code> (Amazon DocumentDB)
+  /// </li>
+  /// <li>
+  /// <code>db.sql.statement</code> (Amazon RDS and Aurora)
+  /// </li>
+  /// </ul>
+  final String? value;
+
+  DimensionKeyDetail({
+    this.dimension,
+    this.status,
+    this.value,
+  });
+
+  factory DimensionKeyDetail.fromJson(Map<String, dynamic> json) {
+    return DimensionKeyDetail(
+      dimension: json['Dimension'] as String?,
+      status: (json['Status'] as String?)?.let(DetailStatus.fromString),
+      value: json['Value'] as String?,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final dimension = this.dimension;
+    final status = this.status;
+    final value = this.value;
+    return {
+      if (dimension != null) 'Dimension': dimension,
+      if (status != null) 'Status': status.value,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+class DetailStatus {
+  static const available = DetailStatus._('AVAILABLE');
+  static const processing = DetailStatus._('PROCESSING');
+  static const unavailable = DetailStatus._('UNAVAILABLE');
+
+  final String value;
+
+  const DetailStatus._(this.value);
+
+  static const values = [available, processing, unavailable];
+
+  static DetailStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DetailStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DetailStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object that includes the requested dimension key values and aggregated
+/// metric values within a dimension group.
+class DimensionKeyDescription {
+  /// A map that contains the value for each additional metric.
+  final Map<String, double>? additionalMetrics;
+
+  /// A map of name-value pairs for the dimensions in the group.
+  final Map<String, String>? dimensions;
+
+  /// If <code>PartitionBy</code> was specified, <code>PartitionKeys</code>
+  /// contains the dimensions that were.
+  final List<double>? partitions;
+
+  /// The aggregated metric value for the dimensions, over the requested time
+  /// range.
+  final double? total;
+
+  DimensionKeyDescription({
+    this.additionalMetrics,
+    this.dimensions,
+    this.partitions,
+    this.total,
+  });
+
+  factory DimensionKeyDescription.fromJson(Map<String, dynamic> json) {
+    return DimensionKeyDescription(
+      additionalMetrics: (json['AdditionalMetrics'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as double)),
+      dimensions: (json['Dimensions'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      partitions: (json['Partitions'] as List?)
+          ?.nonNulls
+          .map((e) => e as double)
+          .toList(),
+      total: json['Total'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalMetrics = this.additionalMetrics;
+    final dimensions = this.dimensions;
+    final partitions = this.partitions;
+    final total = this.total;
+    return {
+      if (additionalMetrics != null) 'AdditionalMetrics': additionalMetrics,
+      if (dimensions != null) 'Dimensions': dimensions,
+      if (partitions != null) 'Partitions': partitions,
+      if (total != null) 'Total': total,
+    };
+  }
+}
+
+/// If <code>PartitionBy</code> was specified in a
+/// <code>DescribeDimensionKeys</code> request, the dimensions are returned in
+/// an array. Each element in the array specifies one dimension.
+class ResponsePartitionKey {
+  /// A dimension map that contains the dimensions for this partition.
+  final Map<String, String> dimensions;
+
+  ResponsePartitionKey({
+    required this.dimensions,
+  });
+
+  factory ResponsePartitionKey.fromJson(Map<String, dynamic> json) {
+    return ResponsePartitionKey(
+      dimensions: ((json['Dimensions'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dimensions = this.dimensions;
+    return {
+      'Dimensions': dimensions,
+    };
   }
 }
 

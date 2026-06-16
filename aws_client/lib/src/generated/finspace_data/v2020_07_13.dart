@@ -21,9 +21,9 @@ import '../../shared/shared.dart'
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// The FinSpace APIs let you take actions inside the FinSpace.
-class FinSpaceData {
+class FinspaceData {
   final _s.RestJsonProtocol _protocol;
-  FinSpaceData({
+  FinspaceData({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
@@ -33,7 +33,6 @@ class FinSpaceData {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'finspace-api',
-            signingName: 'finspace-api',
           ),
           region: region,
           credentials: credentials,
@@ -53,12 +52,12 @@ class FinSpaceData {
   /// Adds a user to a permission group to grant permissions for actions a user
   /// can perform in FinSpace.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [permissionGroupId] :
   /// The unique identifier for the permission group.
@@ -68,7 +67,6 @@ class FinSpaceData {
   ///
   /// Parameter [clientToken] :
   /// A token that ensures idempotency. This token expires in 10 minutes.
-  @Deprecated('This method will be discontinued.')
   Future<AssociateUserToPermissionGroupResponse>
       associateUserToPermissionGroup({
     required String permissionGroupId,
@@ -90,13 +88,13 @@ class FinSpaceData {
 
   /// Creates a new Changeset in a FinSpace Dataset.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [LimitExceededException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [changeType] :
   /// The option to indicate how a Changeset will be applied to a Dataset.
@@ -181,7 +179,6 @@ class FinSpaceData {
   ///
   /// Parameter [clientToken] :
   /// A token that ensures idempotency. This token expires in 10 minutes.
-  @Deprecated('This method will be discontinued.')
   Future<CreateChangesetResponse> createChangeset({
     required ChangeType changeType,
     required String datasetId,
@@ -204,73 +201,15 @@ class FinSpaceData {
     return CreateChangesetResponse.fromJson(response);
   }
 
-  /// Creates a Dataview for a Dataset.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
-  /// May throw [ConflictException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [datasetId] :
-  /// The unique Dataset identifier that is used to create a Dataview.
-  ///
-  /// Parameter [destinationTypeParams] :
-  /// Options that define the destination type for the Dataview.
-  ///
-  /// Parameter [asOfTimestamp] :
-  /// Beginning time to use for the Dataview. The value is determined as epoch
-  /// time in milliseconds. For example, the value for Monday, November 1, 2021
-  /// 12:00:00 PM UTC is specified as 1635768000000.
-  ///
-  /// Parameter [autoUpdate] :
-  /// Flag to indicate Dataview should be updated automatically.
-  ///
-  /// Parameter [clientToken] :
-  /// A token that ensures idempotency. This token expires in 10 minutes.
-  ///
-  /// Parameter [partitionColumns] :
-  /// Ordered set of column names used to partition data.
-  ///
-  /// Parameter [sortColumns] :
-  /// Columns to be used for sorting the data.
-  @Deprecated('This method will be discontinued.')
-  Future<CreateDataViewResponse> createDataView({
-    required String datasetId,
-    required DataViewDestinationTypeParams destinationTypeParams,
-    int? asOfTimestamp,
-    bool? autoUpdate,
-    String? clientToken,
-    List<String>? partitionColumns,
-    List<String>? sortColumns,
-  }) async {
-    final $payload = <String, dynamic>{
-      'destinationTypeParams': destinationTypeParams,
-      if (asOfTimestamp != null) 'asOfTimestamp': asOfTimestamp,
-      if (autoUpdate != null) 'autoUpdate': autoUpdate,
-      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
-      if (partitionColumns != null) 'partitionColumns': partitionColumns,
-      if (sortColumns != null) 'sortColumns': sortColumns,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/datasets/${Uri.encodeComponent(datasetId)}/dataviewsv2',
-      exceptionFnMap: _exceptionFns,
-    );
-    return CreateDataViewResponse.fromJson(response);
-  }
-
   /// Creates a new FinSpace Dataset.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [LimitExceededException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [datasetTitle] :
   /// Display title for a FinSpace Dataset.
@@ -304,7 +243,6 @@ class FinSpaceData {
   ///
   /// Parameter [schemaDefinition] :
   /// Definition for a schema on a tabular Dataset.
-  @Deprecated('This method will be discontinued.')
   Future<CreateDatasetResponse> createDataset({
     required String datasetTitle,
     required DatasetKind kind,
@@ -334,15 +272,72 @@ class FinSpaceData {
     return CreateDatasetResponse.fromJson(response);
   }
 
+  /// Creates a Dataview for a Dataset.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [datasetId] :
+  /// The unique Dataset identifier that is used to create a Dataview.
+  ///
+  /// Parameter [destinationTypeParams] :
+  /// Options that define the destination type for the Dataview.
+  ///
+  /// Parameter [asOfTimestamp] :
+  /// Beginning time to use for the Dataview. The value is determined as epoch
+  /// time in milliseconds. For example, the value for Monday, November 1, 2021
+  /// 12:00:00 PM UTC is specified as 1635768000000.
+  ///
+  /// Parameter [autoUpdate] :
+  /// Flag to indicate Dataview should be updated automatically.
+  ///
+  /// Parameter [clientToken] :
+  /// A token that ensures idempotency. This token expires in 10 minutes.
+  ///
+  /// Parameter [partitionColumns] :
+  /// Ordered set of column names used to partition data.
+  ///
+  /// Parameter [sortColumns] :
+  /// Columns to be used for sorting the data.
+  Future<CreateDataViewResponse> createDataView({
+    required String datasetId,
+    required DataViewDestinationTypeParams destinationTypeParams,
+    int? asOfTimestamp,
+    bool? autoUpdate,
+    String? clientToken,
+    List<String>? partitionColumns,
+    List<String>? sortColumns,
+  }) async {
+    final $payload = <String, dynamic>{
+      'destinationTypeParams': destinationTypeParams,
+      if (asOfTimestamp != null) 'asOfTimestamp': asOfTimestamp,
+      if (autoUpdate != null) 'autoUpdate': autoUpdate,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (partitionColumns != null) 'partitionColumns': partitionColumns,
+      if (sortColumns != null) 'sortColumns': sortColumns,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/datasets/${Uri.encodeComponent(datasetId)}/dataviewsv2',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateDataViewResponse.fromJson(response);
+  }
+
   /// Creates a group of permissions for various actions that a user can perform
   /// in FinSpace.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [LimitExceededException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [LimitExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [applicationPermissions] :
   /// The option to indicate FinSpace application permissions that are granted
@@ -392,7 +387,6 @@ class FinSpaceData {
   ///
   /// Parameter [description] :
   /// A brief description for the permission group.
-  @Deprecated('This method will be discontinued.')
   Future<CreatePermissionGroupResponse> createPermissionGroup({
     required List<ApplicationPermission> applicationPermissions,
     required String name,
@@ -417,12 +411,12 @@ class FinSpaceData {
 
   /// Creates a new user in FinSpace.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [LimitExceededException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [LimitExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [emailAddress] :
   /// The email address of the user that you want to register. The email address
@@ -473,7 +467,6 @@ class FinSpaceData {
   ///
   /// Parameter [lastName] :
   /// The last name of the user that you want to register.
-  @Deprecated('This method will be discontinued.')
   Future<CreateUserResponse> createUser({
     required String emailAddress,
     required UserType type,
@@ -504,20 +497,19 @@ class FinSpaceData {
 
   /// Deletes a FinSpace Dataset.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [LimitExceededException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [datasetId] :
   /// The unique identifier of the Dataset to be deleted.
   ///
   /// Parameter [clientToken] :
   /// A token that ensures idempotency. This token expires in 10 minutes.
-  @Deprecated('This method will be discontinued.')
   Future<DeleteDatasetResponse> deleteDataset({
     required String datasetId,
     String? clientToken,
@@ -537,20 +529,19 @@ class FinSpaceData {
 
   /// Deletes a permission group. This action is irreversible.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [LimitExceededException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [permissionGroupId] :
   /// The unique identifier for the permission group that you want to delete.
   ///
   /// Parameter [clientToken] :
   /// A token that ensures idempotency. This token expires in 10 minutes.
-  @Deprecated('This method will be discontinued.')
   Future<DeletePermissionGroupResponse> deletePermissionGroup({
     required String permissionGroupId,
     String? clientToken,
@@ -571,19 +562,18 @@ class FinSpaceData {
   /// Denies access to the FinSpace web application and API for the specified
   /// user.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [userId] :
   /// The unique identifier for the user that you want to deactivate.
   ///
   /// Parameter [clientToken] :
   /// A token that ensures idempotency. This token expires in 10 minutes.
-  @Deprecated('This method will be discontinued.')
   Future<DisableUserResponse> disableUser({
     required String userId,
     String? clientToken,
@@ -602,12 +592,12 @@ class FinSpaceData {
 
   /// Removes a user from a permission group.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [permissionGroupId] :
   /// The unique identifier for the permission group.
@@ -617,7 +607,6 @@ class FinSpaceData {
   ///
   /// Parameter [clientToken] :
   /// A token that ensures idempotency. This token expires in 10 minutes.
-  @Deprecated('This method will be discontinued.')
   Future<DisassociateUserFromPermissionGroupResponse>
       disassociateUserFromPermissionGroup({
     required String permissionGroupId,
@@ -640,20 +629,19 @@ class FinSpaceData {
 
   /// Allows the specified user to access the FinSpace web application and API.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [LimitExceededException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [userId] :
   /// The unique identifier for the user that you want to activate.
   ///
   /// Parameter [clientToken] :
   /// A token that ensures idempotency. This token expires in 10 minutes.
-  @Deprecated('This method will be discontinued.')
   Future<EnableUserResponse> enableUser({
     required String userId,
     String? clientToken,
@@ -672,12 +660,12 @@ class FinSpaceData {
 
   /// Get information about a Changeset.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [changesetId] :
   /// The unique identifier of the Changeset for which to get data.
@@ -685,7 +673,6 @@ class FinSpaceData {
   /// Parameter [datasetId] :
   /// The unique identifier for the FinSpace Dataset where the Changeset is
   /// created.
-  @Deprecated('This method will be discontinued.')
   Future<GetChangesetResponse> getChangeset({
     required String changesetId,
     required String datasetId,
@@ -700,20 +687,42 @@ class FinSpaceData {
     return GetChangesetResponse.fromJson(response);
   }
 
-  /// Gets information about a Dataview.
+  /// Returns information about a Dataset.
   ///
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
+  ///
+  /// Parameter [datasetId] :
+  /// The unique identifier for a Dataset.
+  Future<GetDatasetResponse> getDataset({
+    required String datasetId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/datasetsv2/${Uri.encodeComponent(datasetId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetDatasetResponse.fromJson(response);
+  }
+
+  /// Gets information about a Dataview.
+  ///
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [dataViewId] :
   /// The unique identifier for the Dataview.
   ///
   /// Parameter [datasetId] :
   /// The unique identifier for the Dataset used in the Dataview.
-  @Deprecated('This method will be discontinued.')
   Future<GetDataViewResponse> getDataView({
     required String dataViewId,
     required String datasetId,
@@ -726,30 +735,6 @@ class FinSpaceData {
       exceptionFnMap: _exceptionFns,
     );
     return GetDataViewResponse.fromJson(response);
-  }
-
-  /// Returns information about a Dataset.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
-  ///
-  /// Parameter [datasetId] :
-  /// The unique identifier for a Dataset.
-  @Deprecated('This method will be discontinued.')
-  Future<GetDatasetResponse> getDataset({
-    required String datasetId,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/datasetsv2/${Uri.encodeComponent(datasetId)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetDatasetResponse.fromJson(response);
   }
 
   /// Returns the credentials to access the external Dataview from an S3
@@ -765,18 +750,17 @@ class FinSpaceData {
   /// </li>
   /// </ul>
   ///
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [dataViewId] :
   /// The unique identifier for the Dataview that you want to access.
   ///
   /// Parameter [datasetId] :
   /// The unique identifier for the Dataset.
-  @Deprecated('This method will be discontinued.')
   Future<GetExternalDataViewAccessDetailsResponse>
       getExternalDataViewAccessDetails({
     required String dataViewId,
@@ -794,15 +778,14 @@ class FinSpaceData {
 
   /// Retrieves the details of a specific permission group.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [permissionGroupId] :
   /// The unique identifier for the permission group.
-  @Deprecated('This method will be discontinued.')
   Future<GetPermissionGroupResponse> getPermissionGroup({
     required String permissionGroupId,
   }) async {
@@ -821,17 +804,16 @@ class FinSpaceData {
   /// 2. Access credentials programmatically using IAM access key id and secret
   /// access key</a>.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [environmentId] :
   /// The FinSpace environment identifier.
   ///
   /// Parameter [durationInMinutes] :
   /// The time duration in which the credentials remain valid.
-  @Deprecated('This method will be discontinued.')
   Future<GetProgrammaticAccessCredentialsResponse>
       getProgrammaticAccessCredentials({
     required String environmentId,
@@ -860,15 +842,14 @@ class FinSpaceData {
 
   /// Retrieves details for a specific user.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [userId] :
   /// The unique identifier of the user to get data for.
-  @Deprecated('This method will be discontinued.')
   Future<GetUserResponse> getUser({
     required String userId,
   }) async {
@@ -884,8 +865,8 @@ class FinSpaceData {
   /// A temporary Amazon S3 location, where you can copy your files from a
   /// source location to stage or use as a scratch space in FinSpace notebook.
   ///
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
@@ -904,7 +885,6 @@ class FinSpaceData {
   /// creation operation.
   /// </li>
   /// </ul>
-  @Deprecated('This method will be discontinued.')
   Future<GetWorkingLocationResponse> getWorkingLocation({
     LocationType? locationType,
   }) async {
@@ -922,12 +902,12 @@ class FinSpaceData {
 
   /// Lists the FinSpace Changesets for a Dataset.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [datasetId] :
   /// The unique identifier for the FinSpace Dataset to which the Changeset
@@ -938,7 +918,6 @@ class FinSpaceData {
   ///
   /// Parameter [nextToken] :
   /// A token that indicates where a results page should begin.
-  @Deprecated('This method will be discontinued.')
   Future<ListChangesetsResponse> listChangesets({
     required String datasetId,
     int? maxResults,
@@ -964,13 +943,50 @@ class FinSpaceData {
     return ListChangesetsResponse.fromJson(response);
   }
 
-  /// Lists all available Dataviews for a Dataset.
+  /// Lists all of the active Datasets that a user has access to.
   ///
-  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results per page.
+  ///
+  /// Parameter [nextToken] :
+  /// A token that indicates where a results page should begin.
+  Future<ListDatasetsResponse> listDatasets({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/datasetsv2',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListDatasetsResponse.fromJson(response);
+  }
+
+  /// Lists all available Dataviews for a Dataset.
+  ///
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [datasetId] :
   /// The unique identifier of the Dataset for which to retrieve Dataviews.
@@ -980,7 +996,6 @@ class FinSpaceData {
   ///
   /// Parameter [nextToken] :
   /// A token that indicates where a results page should begin.
-  @Deprecated('This method will be discontinued.')
   Future<ListDataViewsResponse> listDataViews({
     required String datasetId,
     int? maxResults,
@@ -1006,57 +1021,18 @@ class FinSpaceData {
     return ListDataViewsResponse.fromJson(response);
   }
 
-  /// Lists all of the active Datasets that a user has access to.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of results per page.
-  ///
-  /// Parameter [nextToken] :
-  /// A token that indicates where a results page should begin.
-  @Deprecated('This method will be discontinued.')
-  Future<ListDatasetsResponse> listDatasets({
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    final $query = <String, List<String>>{
-      if (maxResults != null) 'maxResults': [maxResults.toString()],
-      if (nextToken != null) 'nextToken': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/datasetsv2',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListDatasetsResponse.fromJson(response);
-  }
-
   /// Lists all available permission groups in FinSpace.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results per page.
   ///
   /// Parameter [nextToken] :
   /// A token that indicates where a results page should begin.
-  @Deprecated('This method will be discontinued.')
   Future<ListPermissionGroupsResponse> listPermissionGroups({
     required int maxResults,
     String? nextToken,
@@ -1084,11 +1060,11 @@ class FinSpaceData {
 
   /// Lists all the permission groups that are associated with a specific user.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results per page.
@@ -1098,7 +1074,6 @@ class FinSpaceData {
   ///
   /// Parameter [nextToken] :
   /// A token that indicates where a results page should begin.
-  @Deprecated('This method will be discontinued.')
   Future<ListPermissionGroupsByUserResponse> listPermissionGroupsByUser({
     required int maxResults,
     required String userId,
@@ -1127,17 +1102,16 @@ class FinSpaceData {
 
   /// Lists all available users in FinSpace.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results per page.
   ///
   /// Parameter [nextToken] :
   /// A token that indicates where a results page should begin.
-  @Deprecated('This method will be discontinued.')
   Future<ListUsersResponse> listUsers({
     required int maxResults,
     String? nextToken,
@@ -1165,11 +1139,11 @@ class FinSpaceData {
 
   /// Lists details of all the users in a specific permission group.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results per page.
@@ -1179,7 +1153,6 @@ class FinSpaceData {
   ///
   /// Parameter [nextToken] :
   /// A token that indicates where a results page should begin.
-  @Deprecated('This method will be discontinued.')
   Future<ListUsersByPermissionGroupResponse> listUsersByPermissionGroup({
     required int maxResults,
     required String permissionGroupId,
@@ -1212,12 +1185,12 @@ class FinSpaceData {
   /// password immediately invalidates the previous password associated with the
   /// user.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [userId] :
   /// The unique identifier of the user that a temporary password is requested
@@ -1225,7 +1198,6 @@ class FinSpaceData {
   ///
   /// Parameter [clientToken] :
   /// A token that ensures idempotency. This token expires in 10 minutes.
-  @Deprecated('This method will be discontinued.')
   Future<ResetUserPasswordResponse> resetUserPassword({
     required String userId,
     String? clientToken,
@@ -1244,12 +1216,12 @@ class FinSpaceData {
 
   /// Updates a FinSpace Changeset.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [changesetId] :
   /// The unique identifier for the Changeset to update.
@@ -1319,7 +1291,6 @@ class FinSpaceData {
   ///
   /// Parameter [clientToken] :
   /// A token that ensures idempotency. This token expires in 10 minutes.
-  @Deprecated('This method will be discontinued.')
   Future<UpdateChangesetResponse> updateChangeset({
     required String changesetId,
     required String datasetId,
@@ -1344,12 +1315,12 @@ class FinSpaceData {
 
   /// Updates a FinSpace Dataset.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [datasetId] :
   /// The unique identifier for the Dataset to update.
@@ -1380,7 +1351,6 @@ class FinSpaceData {
   ///
   /// Parameter [schemaDefinition] :
   /// Definition for a schema on a tabular Dataset.
-  @Deprecated('This method will be discontinued.')
   Future<UpdateDatasetResponse> updateDataset({
     required String datasetId,
     required String datasetTitle,
@@ -1410,12 +1380,12 @@ class FinSpaceData {
   /// Modifies the details of a permission group. You cannot modify a
   /// <code>permissionGroupID</code>.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [permissionGroupId] :
   /// The unique identifier for the permission group to update.
@@ -1468,7 +1438,6 @@ class FinSpaceData {
   ///
   /// Parameter [name] :
   /// The name of the permission group.
-  @Deprecated('This method will be discontinued.')
   Future<UpdatePermissionGroupResponse> updatePermissionGroup({
     required String permissionGroupId,
     List<ApplicationPermission>? applicationPermissions,
@@ -1496,12 +1465,12 @@ class FinSpaceData {
   /// Modifies the details of the specified user. You cannot update the
   /// <code>userId</code> for a user.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [userId] :
   /// The unique identifier for the user that you want to update.
@@ -1549,7 +1518,6 @@ class FinSpaceData {
   /// users are assigned permissions by adding them to a permission group.
   /// </li>
   /// </ul>
-  @Deprecated('This method will be discontinued.')
   Future<UpdateUserResponse> updateUser({
     required String userId,
     ApiAccess? apiAccess,
@@ -1578,70 +1546,6 @@ class FinSpaceData {
   }
 }
 
-class ApiAccess {
-  static const enabled = ApiAccess._('ENABLED');
-  static const disabled = ApiAccess._('DISABLED');
-
-  final String value;
-
-  const ApiAccess._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static ApiAccess fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ApiAccess._(value));
-
-  @override
-  bool operator ==(other) => other is ApiAccess && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ApplicationPermission {
-  static const createDataset = ApplicationPermission._('CreateDataset');
-  static const manageClusters = ApplicationPermission._('ManageClusters');
-  static const manageUsersAndGroups =
-      ApplicationPermission._('ManageUsersAndGroups');
-  static const manageAttributeSets =
-      ApplicationPermission._('ManageAttributeSets');
-  static const viewAuditData = ApplicationPermission._('ViewAuditData');
-  static const accessNotebooks = ApplicationPermission._('AccessNotebooks');
-  static const getTemporaryCredentials =
-      ApplicationPermission._('GetTemporaryCredentials');
-
-  final String value;
-
-  const ApplicationPermission._(this.value);
-
-  static const values = [
-    createDataset,
-    manageClusters,
-    manageUsersAndGroups,
-    manageAttributeSets,
-    viewAuditData,
-    accessNotebooks,
-    getTemporaryCredentials
-  ];
-
-  static ApplicationPermission fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ApplicationPermission._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ApplicationPermission && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class AssociateUserToPermissionGroupResponse {
   /// The returned status code of the response.
   final int? statusCode;
@@ -1660,407 +1564,6 @@ class AssociateUserToPermissionGroupResponse {
   Map<String, dynamic> toJson() {
     final statusCode = this.statusCode;
     return {};
-  }
-}
-
-/// The credentials required to access the external Dataview from the S3
-/// location.
-class AwsCredentials {
-  /// The unique identifier for the security credentials.
-  final String? accessKeyId;
-
-  /// The Epoch time when the current credentials expire.
-  final int? expiration;
-
-  /// The secret access key that can be used to sign requests.
-  final String? secretAccessKey;
-
-  /// The token that users must pass to use the credentials.
-  final String? sessionToken;
-
-  AwsCredentials({
-    this.accessKeyId,
-    this.expiration,
-    this.secretAccessKey,
-    this.sessionToken,
-  });
-
-  factory AwsCredentials.fromJson(Map<String, dynamic> json) {
-    return AwsCredentials(
-      accessKeyId: json['accessKeyId'] as String?,
-      expiration: json['expiration'] as int?,
-      secretAccessKey: json['secretAccessKey'] as String?,
-      sessionToken: json['sessionToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accessKeyId = this.accessKeyId;
-    final expiration = this.expiration;
-    final secretAccessKey = this.secretAccessKey;
-    final sessionToken = this.sessionToken;
-    return {
-      if (accessKeyId != null) 'accessKeyId': accessKeyId,
-      if (expiration != null) 'expiration': expiration,
-      if (secretAccessKey != null) 'secretAccessKey': secretAccessKey,
-      if (sessionToken != null) 'sessionToken': sessionToken,
-    };
-  }
-}
-
-/// Indicates how the given change will be applied to the dataset.
-class ChangeType {
-  static const replace = ChangeType._('REPLACE');
-  static const append = ChangeType._('APPEND');
-  static const modify = ChangeType._('MODIFY');
-
-  final String value;
-
-  const ChangeType._(this.value);
-
-  static const values = [replace, append, modify];
-
-  static ChangeType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ChangeType._(value));
-
-  @override
-  bool operator ==(other) => other is ChangeType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The structure with error messages.
-class ChangesetErrorInfo {
-  /// The category of the error.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>VALIDATION</code> – The inputs to this request are invalid.
-  /// </li>
-  /// <li>
-  /// <code>SERVICE_QUOTA_EXCEEDED</code> – Service quotas have been exceeded.
-  /// Please contact AWS support to increase quotas.
-  /// </li>
-  /// <li>
-  /// <code>ACCESS_DENIED</code> – Missing required permission to perform this
-  /// request.
-  /// </li>
-  /// <li>
-  /// <code>RESOURCE_NOT_FOUND</code> – One or more inputs to this request were
-  /// not found.
-  /// </li>
-  /// <li>
-  /// <code>THROTTLING</code> – The system temporarily lacks sufficient resources
-  /// to process the request.
-  /// </li>
-  /// <li>
-  /// <code>INTERNAL_SERVICE_EXCEPTION</code> – An internal service error has
-  /// occurred.
-  /// </li>
-  /// <li>
-  /// <code>CANCELLED</code> – Cancelled.
-  /// </li>
-  /// <li>
-  /// <code>USER_RECOVERABLE</code> – A user recoverable error has occurred.
-  /// </li>
-  /// </ul>
-  final ErrorCategory? errorCategory;
-
-  /// The text of the error message.
-  final String? errorMessage;
-
-  ChangesetErrorInfo({
-    this.errorCategory,
-    this.errorMessage,
-  });
-
-  factory ChangesetErrorInfo.fromJson(Map<String, dynamic> json) {
-    return ChangesetErrorInfo(
-      errorCategory:
-          (json['errorCategory'] as String?)?.let(ErrorCategory.fromString),
-      errorMessage: json['errorMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCategory = this.errorCategory;
-    final errorMessage = this.errorMessage;
-    return {
-      if (errorCategory != null) 'errorCategory': errorCategory.value,
-      if (errorMessage != null) 'errorMessage': errorMessage,
-    };
-  }
-}
-
-/// A Changeset is unit of data in a Dataset.
-class ChangesetSummary {
-  /// Beginning time from which the Changeset is active. The value is determined
-  /// as epoch time in milliseconds. For example, the value for Monday, November
-  /// 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-  final int? activeFromTimestamp;
-
-  /// Time until which the Changeset is active. The value is determined as epoch
-  /// time in milliseconds. For example, the value for Monday, November 1, 2021
-  /// 12:00:00 PM UTC is specified as 1635768000000.
-  final int? activeUntilTimestamp;
-
-  /// Type that indicates how a Changeset is applied to a Dataset.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>REPLACE</code> – Changeset is considered as a replacement to all prior
-  /// loaded Changesets.
-  /// </li>
-  /// <li>
-  /// <code>APPEND</code> – Changeset is considered as an addition to the end of
-  /// all prior loaded Changesets.
-  /// </li>
-  /// <li>
-  /// <code>MODIFY</code> – Changeset is considered as a replacement to a specific
-  /// prior ingested Changeset.
-  /// </li>
-  /// </ul>
-  final ChangeType? changeType;
-
-  /// The ARN identifier of the Changeset.
-  final String? changesetArn;
-
-  /// The unique identifier for a Changeset.
-  final String? changesetId;
-
-  /// The timestamp at which the Changeset was created in FinSpace. The value is
-  /// determined as epoch time in milliseconds. For example, the value for Monday,
-  /// November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-  final int? createTime;
-
-  /// The unique identifier for the FinSpace Dataset in which the Changeset is
-  /// created.
-  final String? datasetId;
-
-  /// The structure with error messages.
-  final ChangesetErrorInfo? errorInfo;
-
-  /// Options that define the structure of the source file(s).
-  final Map<String, String>? formatParams;
-
-  /// Options that define the location of the data being ingested.
-  final Map<String, String>? sourceParams;
-
-  /// Status of the Changeset ingestion.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>PENDING</code> – Changeset is pending creation.
-  /// </li>
-  /// <li>
-  /// <code>FAILED</code> – Changeset creation has failed.
-  /// </li>
-  /// <li>
-  /// <code>SUCCESS</code> – Changeset creation has succeeded.
-  /// </li>
-  /// <li>
-  /// <code>RUNNING</code> – Changeset creation is running.
-  /// </li>
-  /// <li>
-  /// <code>STOP_REQUESTED</code> – User requested Changeset creation to stop.
-  /// </li>
-  /// </ul>
-  final IngestionStatus? status;
-
-  /// The unique identifier of the updated Changeset.
-  final String? updatedByChangesetId;
-
-  /// The unique identifier of the Changeset that is updated.
-  final String? updatesChangesetId;
-
-  ChangesetSummary({
-    this.activeFromTimestamp,
-    this.activeUntilTimestamp,
-    this.changeType,
-    this.changesetArn,
-    this.changesetId,
-    this.createTime,
-    this.datasetId,
-    this.errorInfo,
-    this.formatParams,
-    this.sourceParams,
-    this.status,
-    this.updatedByChangesetId,
-    this.updatesChangesetId,
-  });
-
-  factory ChangesetSummary.fromJson(Map<String, dynamic> json) {
-    return ChangesetSummary(
-      activeFromTimestamp: json['activeFromTimestamp'] as int?,
-      activeUntilTimestamp: json['activeUntilTimestamp'] as int?,
-      changeType: (json['changeType'] as String?)?.let(ChangeType.fromString),
-      changesetArn: json['changesetArn'] as String?,
-      changesetId: json['changesetId'] as String?,
-      createTime: json['createTime'] as int?,
-      datasetId: json['datasetId'] as String?,
-      errorInfo: json['errorInfo'] != null
-          ? ChangesetErrorInfo.fromJson(
-              json['errorInfo'] as Map<String, dynamic>)
-          : null,
-      formatParams: (json['formatParams'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      sourceParams: (json['sourceParams'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      status: (json['status'] as String?)?.let(IngestionStatus.fromString),
-      updatedByChangesetId: json['updatedByChangesetId'] as String?,
-      updatesChangesetId: json['updatesChangesetId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final activeFromTimestamp = this.activeFromTimestamp;
-    final activeUntilTimestamp = this.activeUntilTimestamp;
-    final changeType = this.changeType;
-    final changesetArn = this.changesetArn;
-    final changesetId = this.changesetId;
-    final createTime = this.createTime;
-    final datasetId = this.datasetId;
-    final errorInfo = this.errorInfo;
-    final formatParams = this.formatParams;
-    final sourceParams = this.sourceParams;
-    final status = this.status;
-    final updatedByChangesetId = this.updatedByChangesetId;
-    final updatesChangesetId = this.updatesChangesetId;
-    return {
-      if (activeFromTimestamp != null)
-        'activeFromTimestamp': activeFromTimestamp,
-      if (activeUntilTimestamp != null)
-        'activeUntilTimestamp': activeUntilTimestamp,
-      if (changeType != null) 'changeType': changeType.value,
-      if (changesetArn != null) 'changesetArn': changesetArn,
-      if (changesetId != null) 'changesetId': changesetId,
-      if (createTime != null) 'createTime': createTime,
-      if (datasetId != null) 'datasetId': datasetId,
-      if (errorInfo != null) 'errorInfo': errorInfo,
-      if (formatParams != null) 'formatParams': formatParams,
-      if (sourceParams != null) 'sourceParams': sourceParams,
-      if (status != null) 'status': status.value,
-      if (updatedByChangesetId != null)
-        'updatedByChangesetId': updatedByChangesetId,
-      if (updatesChangesetId != null) 'updatesChangesetId': updatesChangesetId,
-    };
-  }
-}
-
-/// Data type of a column.
-class ColumnDataType {
-  static const string = ColumnDataType._('STRING');
-  static const char = ColumnDataType._('CHAR');
-  static const integer = ColumnDataType._('INTEGER');
-  static const tinyint = ColumnDataType._('TINYINT');
-  static const smallint = ColumnDataType._('SMALLINT');
-  static const bigint = ColumnDataType._('BIGINT');
-  static const float = ColumnDataType._('FLOAT');
-  static const $double = ColumnDataType._('DOUBLE');
-  static const date = ColumnDataType._('DATE');
-  static const datetime = ColumnDataType._('DATETIME');
-  static const boolean = ColumnDataType._('BOOLEAN');
-  static const binary = ColumnDataType._('BINARY');
-
-  final String value;
-
-  const ColumnDataType._(this.value);
-
-  static const values = [
-    string,
-    char,
-    integer,
-    tinyint,
-    smallint,
-    bigint,
-    float,
-    $double,
-    date,
-    datetime,
-    boolean,
-    binary
-  ];
-
-  static ColumnDataType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ColumnDataType._(value));
-
-  @override
-  bool operator ==(other) => other is ColumnDataType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The definition of a column in a tabular Dataset.
-class ColumnDefinition {
-  /// Description for a column.
-  final String? columnDescription;
-
-  /// The name of a column.
-  final String? columnName;
-
-  /// Data type of a column.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>STRING</code> – A String data type.
-  ///
-  /// <code>CHAR</code> – A char data type.
-  ///
-  /// <code>INTEGER</code> – An integer data type.
-  ///
-  /// <code>TINYINT</code> – A tinyint data type.
-  ///
-  /// <code>SMALLINT</code> – A smallint data type.
-  ///
-  /// <code>BIGINT</code> – A bigint data type.
-  ///
-  /// <code>FLOAT</code> – A float data type.
-  ///
-  /// <code>DOUBLE</code> – A double data type.
-  ///
-  /// <code>DATE</code> – A date data type.
-  ///
-  /// <code>DATETIME</code> – A datetime data type.
-  ///
-  /// <code>BOOLEAN</code> – A boolean data type.
-  ///
-  /// <code>BINARY</code> – A binary data type.
-  /// </li>
-  /// </ul>
-  final ColumnDataType? dataType;
-
-  ColumnDefinition({
-    this.columnDescription,
-    this.columnName,
-    this.dataType,
-  });
-
-  factory ColumnDefinition.fromJson(Map<String, dynamic> json) {
-    return ColumnDefinition(
-      columnDescription: json['columnDescription'] as String?,
-      columnName: json['columnName'] as String?,
-      dataType: (json['dataType'] as String?)?.let(ColumnDataType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final columnDescription = this.columnDescription;
-    final columnName = this.columnName;
-    final dataType = this.dataType;
-    return {
-      if (columnDescription != null) 'columnDescription': columnDescription,
-      if (columnName != null) 'columnName': columnName,
-      if (dataType != null) 'dataType': dataType.value,
-    };
   }
 }
 
@@ -2095,6 +1598,29 @@ class CreateChangesetResponse {
   }
 }
 
+/// The response from a CreateDataset operation
+class CreateDatasetResponse {
+  /// The unique identifier for the created Dataset.
+  final String? datasetId;
+
+  CreateDatasetResponse({
+    this.datasetId,
+  });
+
+  factory CreateDatasetResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDatasetResponse(
+      datasetId: json['datasetId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datasetId = this.datasetId;
+    return {
+      if (datasetId != null) 'datasetId': datasetId,
+    };
+  }
+}
+
 /// Response for creating a data view.
 class CreateDataViewResponse {
   /// The unique identifier for the created Dataview.
@@ -2120,29 +1646,6 @@ class CreateDataViewResponse {
     final datasetId = this.datasetId;
     return {
       if (dataViewId != null) 'dataViewId': dataViewId,
-      if (datasetId != null) 'datasetId': datasetId,
-    };
-  }
-}
-
-/// The response from a CreateDataset operation
-class CreateDatasetResponse {
-  /// The unique identifier for the created Dataset.
-  final String? datasetId;
-
-  CreateDatasetResponse({
-    this.datasetId,
-  });
-
-  factory CreateDatasetResponse.fromJson(Map<String, dynamic> json) {
-    return CreateDatasetResponse(
-      datasetId: json['datasetId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final datasetId = this.datasetId;
-    return {
       if (datasetId != null) 'datasetId': datasetId,
     };
   }
@@ -2190,554 +1693,6 @@ class CreateUserResponse {
       if (userId != null) 'userId': userId,
     };
   }
-}
-
-/// Short term API credentials.
-class Credentials {
-  /// The access key identifier.
-  final String? accessKeyId;
-
-  /// The access key.
-  final String? secretAccessKey;
-
-  /// The session token.
-  final String? sessionToken;
-
-  Credentials({
-    this.accessKeyId,
-    this.secretAccessKey,
-    this.sessionToken,
-  });
-
-  factory Credentials.fromJson(Map<String, dynamic> json) {
-    return Credentials(
-      accessKeyId: json['accessKeyId'] as String?,
-      secretAccessKey: json['secretAccessKey'] as String?,
-      sessionToken: json['sessionToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accessKeyId = this.accessKeyId;
-    final secretAccessKey = this.secretAccessKey;
-    final sessionToken = this.sessionToken;
-    return {
-      if (accessKeyId != null) 'accessKeyId': accessKeyId,
-      if (secretAccessKey != null) 'secretAccessKey': secretAccessKey,
-      if (sessionToken != null) 'sessionToken': sessionToken,
-    };
-  }
-}
-
-/// Structure for the Dataview destination type parameters.
-class DataViewDestinationTypeParams {
-  /// Destination type for a Dataview.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>GLUE_TABLE</code> – Glue table destination type.
-  /// </li>
-  /// <li>
-  /// <code>S3</code> – S3 destination type.
-  /// </li>
-  /// </ul>
-  final String destinationType;
-
-  /// Dataview export file format.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>PARQUET</code> – Parquet export file format.
-  /// </li>
-  /// <li>
-  /// <code>DELIMITED_TEXT</code> – Delimited text export file format.
-  /// </li>
-  /// </ul>
-  final ExportFileFormat? s3DestinationExportFileFormat;
-
-  /// Format Options for S3 Destination type.
-  ///
-  /// Here is an example of how you could specify the
-  /// <code>s3DestinationExportFileFormatOptions</code>
-  ///
-  /// <code> { "header": "true", "delimiter": ",", "compression": "gzip" }</code>
-  final Map<String, String>? s3DestinationExportFileFormatOptions;
-
-  DataViewDestinationTypeParams({
-    required this.destinationType,
-    this.s3DestinationExportFileFormat,
-    this.s3DestinationExportFileFormatOptions,
-  });
-
-  factory DataViewDestinationTypeParams.fromJson(Map<String, dynamic> json) {
-    return DataViewDestinationTypeParams(
-      destinationType: (json['destinationType'] as String?) ?? '',
-      s3DestinationExportFileFormat:
-          (json['s3DestinationExportFileFormat'] as String?)
-              ?.let(ExportFileFormat.fromString),
-      s3DestinationExportFileFormatOptions:
-          (json['s3DestinationExportFileFormatOptions']
-                  as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final destinationType = this.destinationType;
-    final s3DestinationExportFileFormat = this.s3DestinationExportFileFormat;
-    final s3DestinationExportFileFormatOptions =
-        this.s3DestinationExportFileFormatOptions;
-    return {
-      'destinationType': destinationType,
-      if (s3DestinationExportFileFormat != null)
-        's3DestinationExportFileFormat': s3DestinationExportFileFormat.value,
-      if (s3DestinationExportFileFormatOptions != null)
-        's3DestinationExportFileFormatOptions':
-            s3DestinationExportFileFormatOptions,
-    };
-  }
-}
-
-/// The structure with error messages.
-class DataViewErrorInfo {
-  /// The category of the error.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>VALIDATION</code> – The inputs to this request are invalid.
-  /// </li>
-  /// <li>
-  /// <code>SERVICE_QUOTA_EXCEEDED</code> – Service quotas have been exceeded.
-  /// Please contact AWS support to increase quotas.
-  /// </li>
-  /// <li>
-  /// <code>ACCESS_DENIED</code> – Missing required permission to perform this
-  /// request.
-  /// </li>
-  /// <li>
-  /// <code>RESOURCE_NOT_FOUND</code> – One or more inputs to this request were
-  /// not found.
-  /// </li>
-  /// <li>
-  /// <code>THROTTLING</code> – The system temporarily lacks sufficient resources
-  /// to process the request.
-  /// </li>
-  /// <li>
-  /// <code>INTERNAL_SERVICE_EXCEPTION</code> – An internal service error has
-  /// occurred.
-  /// </li>
-  /// <li>
-  /// <code>CANCELLED</code> – Cancelled.
-  /// </li>
-  /// <li>
-  /// <code>USER_RECOVERABLE</code> – A user recoverable error has occurred.
-  /// </li>
-  /// </ul>
-  final ErrorCategory? errorCategory;
-
-  /// The text of the error message.
-  final String? errorMessage;
-
-  DataViewErrorInfo({
-    this.errorCategory,
-    this.errorMessage,
-  });
-
-  factory DataViewErrorInfo.fromJson(Map<String, dynamic> json) {
-    return DataViewErrorInfo(
-      errorCategory:
-          (json['errorCategory'] as String?)?.let(ErrorCategory.fromString),
-      errorMessage: json['errorMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCategory = this.errorCategory;
-    final errorMessage = this.errorMessage;
-    return {
-      if (errorCategory != null) 'errorCategory': errorCategory.value,
-      if (errorMessage != null) 'errorMessage': errorMessage,
-    };
-  }
-}
-
-/// Status of a DataView
-class DataViewStatus {
-  static const running = DataViewStatus._('RUNNING');
-  static const starting = DataViewStatus._('STARTING');
-  static const failed = DataViewStatus._('FAILED');
-  static const cancelled = DataViewStatus._('CANCELLED');
-  static const timeout = DataViewStatus._('TIMEOUT');
-  static const success = DataViewStatus._('SUCCESS');
-  static const pending = DataViewStatus._('PENDING');
-  static const failedCleanupFailed = DataViewStatus._('FAILED_CLEANUP_FAILED');
-
-  final String value;
-
-  const DataViewStatus._(this.value);
-
-  static const values = [
-    running,
-    starting,
-    failed,
-    cancelled,
-    timeout,
-    success,
-    pending,
-    failedCleanupFailed
-  ];
-
-  static DataViewStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DataViewStatus._(value));
-
-  @override
-  bool operator ==(other) => other is DataViewStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Structure for the summary of a Dataview.
-class DataViewSummary {
-  /// Time range to use for the Dataview. The value is determined as epoch time in
-  /// milliseconds. For example, the value for Monday, November 1, 2021 12:00:00
-  /// PM UTC is specified as 1635768000000.
-  final int? asOfTimestamp;
-
-  /// The flag to indicate Dataview should be updated automatically.
-  final bool? autoUpdate;
-
-  /// The timestamp at which the Dataview was created in FinSpace. The value is
-  /// determined as epoch time in milliseconds. For example, the value for Monday,
-  /// November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-  final int? createTime;
-
-  /// The ARN identifier of the Dataview.
-  final String? dataViewArn;
-
-  /// The unique identifier for the Dataview.
-  final String? dataViewId;
-
-  /// Th unique identifier for the Dataview Dataset.
-  final String? datasetId;
-
-  /// Information about the Dataview destination.
-  final DataViewDestinationTypeParams? destinationTypeProperties;
-
-  /// The structure with error messages.
-  final DataViewErrorInfo? errorInfo;
-
-  /// The last time that a Dataview was modified. The value is determined as epoch
-  /// time in milliseconds. For example, the value for Monday, November 1, 2021
-  /// 12:00:00 PM UTC is specified as 1635768000000.
-  final int? lastModifiedTime;
-
-  /// Ordered set of column names used to partition data.
-  final List<String>? partitionColumns;
-
-  /// Columns to be used for sorting the data.
-  final List<String>? sortColumns;
-
-  /// The status of a Dataview creation.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>RUNNING</code> – Dataview creation is running.
-  /// </li>
-  /// <li>
-  /// <code>STARTING</code> – Dataview creation is starting.
-  /// </li>
-  /// <li>
-  /// <code>FAILED</code> – Dataview creation has failed.
-  /// </li>
-  /// <li>
-  /// <code>CANCELLED</code> – Dataview creation has been cancelled.
-  /// </li>
-  /// <li>
-  /// <code>TIMEOUT</code> – Dataview creation has timed out.
-  /// </li>
-  /// <li>
-  /// <code>SUCCESS</code> – Dataview creation has succeeded.
-  /// </li>
-  /// <li>
-  /// <code>PENDING</code> – Dataview creation is pending.
-  /// </li>
-  /// <li>
-  /// <code>FAILED_CLEANUP_FAILED</code> – Dataview creation failed and resource
-  /// cleanup failed.
-  /// </li>
-  /// </ul>
-  final DataViewStatus? status;
-
-  DataViewSummary({
-    this.asOfTimestamp,
-    this.autoUpdate,
-    this.createTime,
-    this.dataViewArn,
-    this.dataViewId,
-    this.datasetId,
-    this.destinationTypeProperties,
-    this.errorInfo,
-    this.lastModifiedTime,
-    this.partitionColumns,
-    this.sortColumns,
-    this.status,
-  });
-
-  factory DataViewSummary.fromJson(Map<String, dynamic> json) {
-    return DataViewSummary(
-      asOfTimestamp: json['asOfTimestamp'] as int?,
-      autoUpdate: json['autoUpdate'] as bool?,
-      createTime: json['createTime'] as int?,
-      dataViewArn: json['dataViewArn'] as String?,
-      dataViewId: json['dataViewId'] as String?,
-      datasetId: json['datasetId'] as String?,
-      destinationTypeProperties: json['destinationTypeProperties'] != null
-          ? DataViewDestinationTypeParams.fromJson(
-              json['destinationTypeProperties'] as Map<String, dynamic>)
-          : null,
-      errorInfo: json['errorInfo'] != null
-          ? DataViewErrorInfo.fromJson(
-              json['errorInfo'] as Map<String, dynamic>)
-          : null,
-      lastModifiedTime: json['lastModifiedTime'] as int?,
-      partitionColumns: (json['partitionColumns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      sortColumns: (json['sortColumns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      status: (json['status'] as String?)?.let(DataViewStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final asOfTimestamp = this.asOfTimestamp;
-    final autoUpdate = this.autoUpdate;
-    final createTime = this.createTime;
-    final dataViewArn = this.dataViewArn;
-    final dataViewId = this.dataViewId;
-    final datasetId = this.datasetId;
-    final destinationTypeProperties = this.destinationTypeProperties;
-    final errorInfo = this.errorInfo;
-    final lastModifiedTime = this.lastModifiedTime;
-    final partitionColumns = this.partitionColumns;
-    final sortColumns = this.sortColumns;
-    final status = this.status;
-    return {
-      if (asOfTimestamp != null) 'asOfTimestamp': asOfTimestamp,
-      if (autoUpdate != null) 'autoUpdate': autoUpdate,
-      if (createTime != null) 'createTime': createTime,
-      if (dataViewArn != null) 'dataViewArn': dataViewArn,
-      if (dataViewId != null) 'dataViewId': dataViewId,
-      if (datasetId != null) 'datasetId': datasetId,
-      if (destinationTypeProperties != null)
-        'destinationTypeProperties': destinationTypeProperties,
-      if (errorInfo != null) 'errorInfo': errorInfo,
-      if (lastModifiedTime != null) 'lastModifiedTime': lastModifiedTime,
-      if (partitionColumns != null) 'partitionColumns': partitionColumns,
-      if (sortColumns != null) 'sortColumns': sortColumns,
-      if (status != null) 'status': status.value,
-    };
-  }
-}
-
-/// The structure for a Dataset.
-class Dataset {
-  /// The unique resource identifier for a Dataset.
-  final String? alias;
-
-  /// The timestamp at which the Dataset was created in FinSpace. The value is
-  /// determined as epoch time in milliseconds. For example, the value for Monday,
-  /// November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-  final int? createTime;
-
-  /// The ARN identifier of the Dataset.
-  final String? datasetArn;
-
-  /// Description for a Dataset.
-  final String? datasetDescription;
-
-  /// An identifier for a Dataset.
-  final String? datasetId;
-
-  /// Display title for a Dataset.
-  final String? datasetTitle;
-
-  /// The format in which Dataset data is structured.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>TABULAR</code> – Data is structured in a tabular format.
-  /// </li>
-  /// <li>
-  /// <code>NON_TABULAR</code> – Data is structured in a non-tabular format.
-  /// </li>
-  /// </ul>
-  final DatasetKind? kind;
-
-  /// The last time that the Dataset was modified. The value is determined as
-  /// epoch time in milliseconds. For example, the value for Monday, November 1,
-  /// 2021 12:00:00 PM UTC is specified as 1635768000000.
-  final int? lastModifiedTime;
-
-  /// Contact information for a Dataset owner.
-  final DatasetOwnerInfo? ownerInfo;
-
-  /// Definition for a schema on a tabular Dataset.
-  final SchemaUnion? schemaDefinition;
-
-  Dataset({
-    this.alias,
-    this.createTime,
-    this.datasetArn,
-    this.datasetDescription,
-    this.datasetId,
-    this.datasetTitle,
-    this.kind,
-    this.lastModifiedTime,
-    this.ownerInfo,
-    this.schemaDefinition,
-  });
-
-  factory Dataset.fromJson(Map<String, dynamic> json) {
-    return Dataset(
-      alias: json['alias'] as String?,
-      createTime: json['createTime'] as int?,
-      datasetArn: json['datasetArn'] as String?,
-      datasetDescription: json['datasetDescription'] as String?,
-      datasetId: json['datasetId'] as String?,
-      datasetTitle: json['datasetTitle'] as String?,
-      kind: (json['kind'] as String?)?.let(DatasetKind.fromString),
-      lastModifiedTime: json['lastModifiedTime'] as int?,
-      ownerInfo: json['ownerInfo'] != null
-          ? DatasetOwnerInfo.fromJson(json['ownerInfo'] as Map<String, dynamic>)
-          : null,
-      schemaDefinition: json['schemaDefinition'] != null
-          ? SchemaUnion.fromJson(
-              json['schemaDefinition'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final alias = this.alias;
-    final createTime = this.createTime;
-    final datasetArn = this.datasetArn;
-    final datasetDescription = this.datasetDescription;
-    final datasetId = this.datasetId;
-    final datasetTitle = this.datasetTitle;
-    final kind = this.kind;
-    final lastModifiedTime = this.lastModifiedTime;
-    final ownerInfo = this.ownerInfo;
-    final schemaDefinition = this.schemaDefinition;
-    return {
-      if (alias != null) 'alias': alias,
-      if (createTime != null) 'createTime': createTime,
-      if (datasetArn != null) 'datasetArn': datasetArn,
-      if (datasetDescription != null) 'datasetDescription': datasetDescription,
-      if (datasetId != null) 'datasetId': datasetId,
-      if (datasetTitle != null) 'datasetTitle': datasetTitle,
-      if (kind != null) 'kind': kind.value,
-      if (lastModifiedTime != null) 'lastModifiedTime': lastModifiedTime,
-      if (ownerInfo != null) 'ownerInfo': ownerInfo,
-      if (schemaDefinition != null) 'schemaDefinition': schemaDefinition,
-    };
-  }
-}
-
-/// Dataset Kind
-class DatasetKind {
-  static const tabular = DatasetKind._('TABULAR');
-  static const nonTabular = DatasetKind._('NON_TABULAR');
-
-  final String value;
-
-  const DatasetKind._(this.value);
-
-  static const values = [tabular, nonTabular];
-
-  static DatasetKind fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => DatasetKind._(value));
-
-  @override
-  bool operator ==(other) => other is DatasetKind && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A structure for Dataset owner info.
-class DatasetOwnerInfo {
-  /// Email address for the Dataset owner.
-  final String? email;
-
-  /// The name of the Dataset owner.
-  final String? name;
-
-  /// Phone number for the Dataset owner.
-  final String? phoneNumber;
-
-  DatasetOwnerInfo({
-    this.email,
-    this.name,
-    this.phoneNumber,
-  });
-
-  factory DatasetOwnerInfo.fromJson(Map<String, dynamic> json) {
-    return DatasetOwnerInfo(
-      email: json['email'] as String?,
-      name: json['name'] as String?,
-      phoneNumber: json['phoneNumber'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final email = this.email;
-    final name = this.name;
-    final phoneNumber = this.phoneNumber;
-    return {
-      if (email != null) 'email': email,
-      if (name != null) 'name': name,
-      if (phoneNumber != null) 'phoneNumber': phoneNumber,
-    };
-  }
-}
-
-/// Status of the dataset process returned from scheduler service.
-class DatasetStatus {
-  static const pending = DatasetStatus._('PENDING');
-  static const failed = DatasetStatus._('FAILED');
-  static const success = DatasetStatus._('SUCCESS');
-  static const running = DatasetStatus._('RUNNING');
-
-  final String value;
-
-  const DatasetStatus._(this.value);
-
-  static const values = [pending, failed, success, running];
-
-  static DatasetStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DatasetStatus._(value));
-
-  @override
-  bool operator ==(other) => other is DatasetStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// The response from an DeleteDataset operation
@@ -2848,72 +1803,6 @@ class EnableUserResponse {
       if (userId != null) 'userId': userId,
     };
   }
-}
-
-/// Changeset Error Category
-class ErrorCategory {
-  static const validation = ErrorCategory._('VALIDATION');
-  static const serviceQuotaExceeded = ErrorCategory._('SERVICE_QUOTA_EXCEEDED');
-  static const accessDenied = ErrorCategory._('ACCESS_DENIED');
-  static const resourceNotFound = ErrorCategory._('RESOURCE_NOT_FOUND');
-  static const throttling = ErrorCategory._('THROTTLING');
-  static const internalServiceException =
-      ErrorCategory._('INTERNAL_SERVICE_EXCEPTION');
-  static const cancelled = ErrorCategory._('CANCELLED');
-  static const userRecoverable = ErrorCategory._('USER_RECOVERABLE');
-
-  final String value;
-
-  const ErrorCategory._(this.value);
-
-  static const values = [
-    validation,
-    serviceQuotaExceeded,
-    accessDenied,
-    resourceNotFound,
-    throttling,
-    internalServiceException,
-    cancelled,
-    userRecoverable
-  ];
-
-  static ErrorCategory fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ErrorCategory._(value));
-
-  @override
-  bool operator ==(other) => other is ErrorCategory && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Data View Export File Format
-class ExportFileFormat {
-  static const parquet = ExportFileFormat._('PARQUET');
-  static const delimitedText = ExportFileFormat._('DELIMITED_TEXT');
-
-  final String value;
-
-  const ExportFileFormat._(this.value);
-
-  static const values = [parquet, delimitedText];
-
-  static ExportFileFormat fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ExportFileFormat._(value));
-
-  @override
-  bool operator ==(other) => other is ExportFileFormat && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// The response from a describe changeset operation
@@ -3049,6 +1938,123 @@ class GetChangesetResponse {
       if (updatedByChangesetId != null)
         'updatedByChangesetId': updatedByChangesetId,
       if (updatesChangesetId != null) 'updatesChangesetId': updatesChangesetId,
+    };
+  }
+}
+
+/// Response for the GetDataset operation
+class GetDatasetResponse {
+  /// The unique resource identifier for a Dataset.
+  final String? alias;
+
+  /// The timestamp at which the Dataset was created in FinSpace. The value is
+  /// determined as epoch time in milliseconds. For example, the value for Monday,
+  /// November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+  final int? createTime;
+
+  /// The ARN identifier of the Dataset.
+  final String? datasetArn;
+
+  /// A description of the Dataset.
+  final String? datasetDescription;
+
+  /// The unique identifier for a Dataset.
+  final String? datasetId;
+
+  /// Display title for a Dataset.
+  final String? datasetTitle;
+
+  /// The format in which Dataset data is structured.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>TABULAR</code> – Data is structured in a tabular format.
+  /// </li>
+  /// <li>
+  /// <code>NON_TABULAR</code> – Data is structured in a non-tabular format.
+  /// </li>
+  /// </ul>
+  final DatasetKind? kind;
+
+  /// The last time that the Dataset was modified. The value is determined as
+  /// epoch time in milliseconds. For example, the value for Monday, November 1,
+  /// 2021 12:00:00 PM UTC is specified as 1635768000000.
+  final int? lastModifiedTime;
+
+  /// Definition for a schema on a tabular Dataset.
+  final SchemaUnion? schemaDefinition;
+
+  /// Status of the Dataset creation.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PENDING</code> – Dataset is pending creation.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> – Dataset creation has failed.
+  /// </li>
+  /// <li>
+  /// <code>SUCCESS</code> – Dataset creation has succeeded.
+  /// </li>
+  /// <li>
+  /// <code>RUNNING</code> – Dataset creation is running.
+  /// </li>
+  /// </ul>
+  final DatasetStatus? status;
+
+  GetDatasetResponse({
+    this.alias,
+    this.createTime,
+    this.datasetArn,
+    this.datasetDescription,
+    this.datasetId,
+    this.datasetTitle,
+    this.kind,
+    this.lastModifiedTime,
+    this.schemaDefinition,
+    this.status,
+  });
+
+  factory GetDatasetResponse.fromJson(Map<String, dynamic> json) {
+    return GetDatasetResponse(
+      alias: json['alias'] as String?,
+      createTime: json['createTime'] as int?,
+      datasetArn: json['datasetArn'] as String?,
+      datasetDescription: json['datasetDescription'] as String?,
+      datasetId: json['datasetId'] as String?,
+      datasetTitle: json['datasetTitle'] as String?,
+      kind: (json['kind'] as String?)?.let(DatasetKind.fromString),
+      lastModifiedTime: json['lastModifiedTime'] as int?,
+      schemaDefinition: json['schemaDefinition'] != null
+          ? SchemaUnion.fromJson(
+              json['schemaDefinition'] as Map<String, dynamic>)
+          : null,
+      status: (json['status'] as String?)?.let(DatasetStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final alias = this.alias;
+    final createTime = this.createTime;
+    final datasetArn = this.datasetArn;
+    final datasetDescription = this.datasetDescription;
+    final datasetId = this.datasetId;
+    final datasetTitle = this.datasetTitle;
+    final kind = this.kind;
+    final lastModifiedTime = this.lastModifiedTime;
+    final schemaDefinition = this.schemaDefinition;
+    final status = this.status;
+    return {
+      if (alias != null) 'alias': alias,
+      if (createTime != null) 'createTime': createTime,
+      if (datasetArn != null) 'datasetArn': datasetArn,
+      if (datasetDescription != null) 'datasetDescription': datasetDescription,
+      if (datasetId != null) 'datasetId': datasetId,
+      if (datasetTitle != null) 'datasetTitle': datasetTitle,
+      if (kind != null) 'kind': kind.value,
+      if (lastModifiedTime != null) 'lastModifiedTime': lastModifiedTime,
+      if (schemaDefinition != null) 'schemaDefinition': schemaDefinition,
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -3196,123 +2202,6 @@ class GetDataViewResponse {
       if (lastModifiedTime != null) 'lastModifiedTime': lastModifiedTime,
       if (partitionColumns != null) 'partitionColumns': partitionColumns,
       if (sortColumns != null) 'sortColumns': sortColumns,
-      if (status != null) 'status': status.value,
-    };
-  }
-}
-
-/// Response for the GetDataset operation
-class GetDatasetResponse {
-  /// The unique resource identifier for a Dataset.
-  final String? alias;
-
-  /// The timestamp at which the Dataset was created in FinSpace. The value is
-  /// determined as epoch time in milliseconds. For example, the value for Monday,
-  /// November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-  final int? createTime;
-
-  /// The ARN identifier of the Dataset.
-  final String? datasetArn;
-
-  /// A description of the Dataset.
-  final String? datasetDescription;
-
-  /// The unique identifier for a Dataset.
-  final String? datasetId;
-
-  /// Display title for a Dataset.
-  final String? datasetTitle;
-
-  /// The format in which Dataset data is structured.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>TABULAR</code> – Data is structured in a tabular format.
-  /// </li>
-  /// <li>
-  /// <code>NON_TABULAR</code> – Data is structured in a non-tabular format.
-  /// </li>
-  /// </ul>
-  final DatasetKind? kind;
-
-  /// The last time that the Dataset was modified. The value is determined as
-  /// epoch time in milliseconds. For example, the value for Monday, November 1,
-  /// 2021 12:00:00 PM UTC is specified as 1635768000000.
-  final int? lastModifiedTime;
-
-  /// Definition for a schema on a tabular Dataset.
-  final SchemaUnion? schemaDefinition;
-
-  /// Status of the Dataset creation.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>PENDING</code> – Dataset is pending creation.
-  /// </li>
-  /// <li>
-  /// <code>FAILED</code> – Dataset creation has failed.
-  /// </li>
-  /// <li>
-  /// <code>SUCCESS</code> – Dataset creation has succeeded.
-  /// </li>
-  /// <li>
-  /// <code>RUNNING</code> – Dataset creation is running.
-  /// </li>
-  /// </ul>
-  final DatasetStatus? status;
-
-  GetDatasetResponse({
-    this.alias,
-    this.createTime,
-    this.datasetArn,
-    this.datasetDescription,
-    this.datasetId,
-    this.datasetTitle,
-    this.kind,
-    this.lastModifiedTime,
-    this.schemaDefinition,
-    this.status,
-  });
-
-  factory GetDatasetResponse.fromJson(Map<String, dynamic> json) {
-    return GetDatasetResponse(
-      alias: json['alias'] as String?,
-      createTime: json['createTime'] as int?,
-      datasetArn: json['datasetArn'] as String?,
-      datasetDescription: json['datasetDescription'] as String?,
-      datasetId: json['datasetId'] as String?,
-      datasetTitle: json['datasetTitle'] as String?,
-      kind: (json['kind'] as String?)?.let(DatasetKind.fromString),
-      lastModifiedTime: json['lastModifiedTime'] as int?,
-      schemaDefinition: json['schemaDefinition'] != null
-          ? SchemaUnion.fromJson(
-              json['schemaDefinition'] as Map<String, dynamic>)
-          : null,
-      status: (json['status'] as String?)?.let(DatasetStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final alias = this.alias;
-    final createTime = this.createTime;
-    final datasetArn = this.datasetArn;
-    final datasetDescription = this.datasetDescription;
-    final datasetId = this.datasetId;
-    final datasetTitle = this.datasetTitle;
-    final kind = this.kind;
-    final lastModifiedTime = this.lastModifiedTime;
-    final schemaDefinition = this.schemaDefinition;
-    final status = this.status;
-    return {
-      if (alias != null) 'alias': alias,
-      if (createTime != null) 'createTime': createTime,
-      if (datasetArn != null) 'datasetArn': datasetArn,
-      if (datasetDescription != null) 'datasetDescription': datasetDescription,
-      if (datasetId != null) 'datasetId': datasetId,
-      if (datasetTitle != null) 'datasetTitle': datasetTitle,
-      if (kind != null) 'kind': kind.value,
-      if (lastModifiedTime != null) 'lastModifiedTime': lastModifiedTime,
-      if (schemaDefinition != null) 'schemaDefinition': schemaDefinition,
       if (status != null) 'status': status.value,
     };
   }
@@ -3597,34 +2486,6 @@ class GetWorkingLocationResponse {
   }
 }
 
-/// Status of the ingestion process returned from scheduler service.
-class IngestionStatus {
-  static const pending = IngestionStatus._('PENDING');
-  static const failed = IngestionStatus._('FAILED');
-  static const success = IngestionStatus._('SUCCESS');
-  static const running = IngestionStatus._('RUNNING');
-  static const stopRequested = IngestionStatus._('STOP_REQUESTED');
-
-  final String value;
-
-  const IngestionStatus._(this.value);
-
-  static const values = [pending, failed, success, running, stopRequested];
-
-  static IngestionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => IngestionStatus._(value));
-
-  @override
-  bool operator ==(other) => other is IngestionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 /// Response to ListChangesetsResponse. This returns a list of dataset
 /// changesets that match the query criteria.
 class ListChangesetsResponse {
@@ -3654,38 +2515,6 @@ class ListChangesetsResponse {
     final nextToken = this.nextToken;
     return {
       if (changesets != null) 'changesets': changesets,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListDataViewsResponse {
-  /// A list of Dataviews.
-  final List<DataViewSummary>? dataViews;
-
-  /// A token that indicates where a results page should begin.
-  final String? nextToken;
-
-  ListDataViewsResponse({
-    this.dataViews,
-    this.nextToken,
-  });
-
-  factory ListDataViewsResponse.fromJson(Map<String, dynamic> json) {
-    return ListDataViewsResponse(
-      dataViews: (json['dataViews'] as List?)
-          ?.nonNulls
-          .map((e) => DataViewSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataViews = this.dataViews;
-    final nextToken = this.nextToken;
-    return {
-      if (dataViews != null) 'dataViews': dataViews,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
@@ -3724,6 +2553,70 @@ class ListDatasetsResponse {
   }
 }
 
+class ListDataViewsResponse {
+  /// A list of Dataviews.
+  final List<DataViewSummary>? dataViews;
+
+  /// A token that indicates where a results page should begin.
+  final String? nextToken;
+
+  ListDataViewsResponse({
+    this.dataViews,
+    this.nextToken,
+  });
+
+  factory ListDataViewsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDataViewsResponse(
+      dataViews: (json['dataViews'] as List?)
+          ?.nonNulls
+          .map((e) => DataViewSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataViews = this.dataViews;
+    final nextToken = this.nextToken;
+    return {
+      if (dataViews != null) 'dataViews': dataViews,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListPermissionGroupsResponse {
+  /// A token that indicates where a results page should begin.
+  final String? nextToken;
+
+  /// A list of all the permission groups.
+  final List<PermissionGroup>? permissionGroups;
+
+  ListPermissionGroupsResponse({
+    this.nextToken,
+    this.permissionGroups,
+  });
+
+  factory ListPermissionGroupsResponse.fromJson(Map<String, dynamic> json) {
+    return ListPermissionGroupsResponse(
+      nextToken: json['nextToken'] as String?,
+      permissionGroups: (json['permissionGroups'] as List?)
+          ?.nonNulls
+          .map((e) => PermissionGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final permissionGroups = this.permissionGroups;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (permissionGroups != null) 'permissionGroups': permissionGroups,
+    };
+  }
+}
+
 class ListPermissionGroupsByUserResponse {
   /// A token that indicates where a results page should begin.
   final String? nextToken;
@@ -3757,34 +2650,34 @@ class ListPermissionGroupsByUserResponse {
   }
 }
 
-class ListPermissionGroupsResponse {
+class ListUsersResponse {
   /// A token that indicates where a results page should begin.
   final String? nextToken;
 
-  /// A list of all the permission groups.
-  final List<PermissionGroup>? permissionGroups;
+  /// A list of all the users.
+  final List<User>? users;
 
-  ListPermissionGroupsResponse({
+  ListUsersResponse({
     this.nextToken,
-    this.permissionGroups,
+    this.users,
   });
 
-  factory ListPermissionGroupsResponse.fromJson(Map<String, dynamic> json) {
-    return ListPermissionGroupsResponse(
+  factory ListUsersResponse.fromJson(Map<String, dynamic> json) {
+    return ListUsersResponse(
       nextToken: json['nextToken'] as String?,
-      permissionGroups: (json['permissionGroups'] as List?)
+      users: (json['users'] as List?)
           ?.nonNulls
-          .map((e) => PermissionGroup.fromJson(e as Map<String, dynamic>))
+          .map((e) => User.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final nextToken = this.nextToken;
-    final permissionGroups = this.permissionGroups;
+    final users = this.users;
     return {
       if (nextToken != null) 'nextToken': nextToken,
-      if (permissionGroups != null) 'permissionGroups': permissionGroups,
+      if (users != null) 'users': users,
     };
   }
 }
@@ -3822,279 +2715,6 @@ class ListUsersByPermissionGroupResponse {
   }
 }
 
-class ListUsersResponse {
-  /// A token that indicates where a results page should begin.
-  final String? nextToken;
-
-  /// A list of all the users.
-  final List<User>? users;
-
-  ListUsersResponse({
-    this.nextToken,
-    this.users,
-  });
-
-  factory ListUsersResponse.fromJson(Map<String, dynamic> json) {
-    return ListUsersResponse(
-      nextToken: json['nextToken'] as String?,
-      users: (json['users'] as List?)
-          ?.nonNulls
-          .map((e) => User.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final users = this.users;
-    return {
-      if (nextToken != null) 'nextToken': nextToken,
-      if (users != null) 'users': users,
-    };
-  }
-}
-
-/// The structure for a permission group.
-class PermissionGroup {
-  /// Indicates the permissions that are granted to a specific group for accessing
-  /// the FinSpace application.
-  /// <important>
-  /// When assigning application permissions, be aware that the permission
-  /// <code>ManageUsersAndGroups</code> allows users to grant themselves or others
-  /// access to any functionality in their FinSpace environment's application. It
-  /// should only be granted to trusted users.
-  /// </important>
-  /// <ul>
-  /// <li>
-  /// <code>CreateDataset</code> – Group members can create new datasets.
-  /// </li>
-  /// <li>
-  /// <code>ManageClusters</code> – Group members can manage Apache Spark clusters
-  /// from FinSpace notebooks.
-  /// </li>
-  /// <li>
-  /// <code>ManageUsersAndGroups</code> – Group members can manage users and
-  /// permission groups. This is a privileged permission that allows users to
-  /// grant themselves or others access to any functionality in the application.
-  /// It should only be granted to trusted users.
-  /// </li>
-  /// <li>
-  /// <code>ManageAttributeSets</code> – Group members can manage attribute sets.
-  /// </li>
-  /// <li>
-  /// <code>ViewAuditData</code> – Group members can view audit data.
-  /// </li>
-  /// <li>
-  /// <code>AccessNotebooks</code> – Group members will have access to FinSpace
-  /// notebooks.
-  /// </li>
-  /// <li>
-  /// <code>GetTemporaryCredentials</code> – Group members can get temporary API
-  /// credentials.
-  /// </li>
-  /// </ul>
-  final List<ApplicationPermission>? applicationPermissions;
-
-  /// The timestamp at which the group was created in FinSpace. The value is
-  /// determined as epoch time in milliseconds.
-  final int? createTime;
-
-  /// A brief description for the permission group.
-  final String? description;
-
-  /// Describes the last time the permission group was updated. The value is
-  /// determined as epoch time in milliseconds.
-  final int? lastModifiedTime;
-
-  /// Indicates the status of the user within a permission group.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ADDITION_IN_PROGRESS</code> – The user is currently being added to the
-  /// permission group.
-  /// </li>
-  /// <li>
-  /// <code>ADDITION_SUCCESS</code> – The user is successfully added to the
-  /// permission group.
-  /// </li>
-  /// <li>
-  /// <code>REMOVAL_IN_PROGRESS</code> – The user is currently being removed from
-  /// the permission group.
-  /// </li>
-  /// </ul>
-  final PermissionGroupMembershipStatus? membershipStatus;
-
-  /// The name of the permission group.
-  final String? name;
-
-  /// The unique identifier for the permission group.
-  final String? permissionGroupId;
-
-  PermissionGroup({
-    this.applicationPermissions,
-    this.createTime,
-    this.description,
-    this.lastModifiedTime,
-    this.membershipStatus,
-    this.name,
-    this.permissionGroupId,
-  });
-
-  factory PermissionGroup.fromJson(Map<String, dynamic> json) {
-    return PermissionGroup(
-      applicationPermissions: (json['applicationPermissions'] as List?)
-          ?.nonNulls
-          .map((e) => ApplicationPermission.fromString((e as String)))
-          .toList(),
-      createTime: json['createTime'] as int?,
-      description: json['description'] as String?,
-      lastModifiedTime: json['lastModifiedTime'] as int?,
-      membershipStatus: (json['membershipStatus'] as String?)
-          ?.let(PermissionGroupMembershipStatus.fromString),
-      name: json['name'] as String?,
-      permissionGroupId: json['permissionGroupId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final applicationPermissions = this.applicationPermissions;
-    final createTime = this.createTime;
-    final description = this.description;
-    final lastModifiedTime = this.lastModifiedTime;
-    final membershipStatus = this.membershipStatus;
-    final name = this.name;
-    final permissionGroupId = this.permissionGroupId;
-    return {
-      if (applicationPermissions != null)
-        'applicationPermissions':
-            applicationPermissions.map((e) => e.value).toList(),
-      if (createTime != null) 'createTime': createTime,
-      if (description != null) 'description': description,
-      if (lastModifiedTime != null) 'lastModifiedTime': lastModifiedTime,
-      if (membershipStatus != null) 'membershipStatus': membershipStatus.value,
-      if (name != null) 'name': name,
-      if (permissionGroupId != null) 'permissionGroupId': permissionGroupId,
-    };
-  }
-}
-
-/// The structure of a permission group associated with a user.
-class PermissionGroupByUser {
-  /// Indicates the status of the user within a permission group.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ADDITION_IN_PROGRESS</code> – The user is currently being added to the
-  /// permission group.
-  /// </li>
-  /// <li>
-  /// <code>ADDITION_SUCCESS</code> – The user is successfully added to the
-  /// permission group.
-  /// </li>
-  /// <li>
-  /// <code>REMOVAL_IN_PROGRESS</code> – The user is currently being removed from
-  /// the permission group.
-  /// </li>
-  /// </ul>
-  final PermissionGroupMembershipStatus? membershipStatus;
-
-  /// The name of the permission group.
-  final String? name;
-
-  /// The unique identifier for the permission group.
-  final String? permissionGroupId;
-
-  PermissionGroupByUser({
-    this.membershipStatus,
-    this.name,
-    this.permissionGroupId,
-  });
-
-  factory PermissionGroupByUser.fromJson(Map<String, dynamic> json) {
-    return PermissionGroupByUser(
-      membershipStatus: (json['membershipStatus'] as String?)
-          ?.let(PermissionGroupMembershipStatus.fromString),
-      name: json['name'] as String?,
-      permissionGroupId: json['permissionGroupId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final membershipStatus = this.membershipStatus;
-    final name = this.name;
-    final permissionGroupId = this.permissionGroupId;
-    return {
-      if (membershipStatus != null) 'membershipStatus': membershipStatus.value,
-      if (name != null) 'name': name,
-      if (permissionGroupId != null) 'permissionGroupId': permissionGroupId,
-    };
-  }
-}
-
-class PermissionGroupMembershipStatus {
-  static const additionInProgress =
-      PermissionGroupMembershipStatus._('ADDITION_IN_PROGRESS');
-  static const additionSuccess =
-      PermissionGroupMembershipStatus._('ADDITION_SUCCESS');
-  static const removalInProgress =
-      PermissionGroupMembershipStatus._('REMOVAL_IN_PROGRESS');
-
-  final String value;
-
-  const PermissionGroupMembershipStatus._(this.value);
-
-  static const values = [
-    additionInProgress,
-    additionSuccess,
-    removalInProgress
-  ];
-
-  static PermissionGroupMembershipStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PermissionGroupMembershipStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PermissionGroupMembershipStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Permission group parameters for Dataset permissions.
-///
-/// Here is an example of how you could specify the
-/// <code>PermissionGroupParams</code>:
-///
-/// <code> { "permissionGroupId": "0r6fCRtSTUk4XPfXQe3M0g",
-/// "datasetPermissions": [ {"permission": "ViewDatasetDetails"}, {"permission":
-/// "AddDatasetData"}, {"permission": "EditDatasetMetadata"}, {"permission":
-/// "DeleteDataset"} ] } </code>
-class PermissionGroupParams {
-  /// List of resource permissions.
-  final List<ResourcePermission>? datasetPermissions;
-
-  /// The unique identifier for the <code>PermissionGroup</code>.
-  final String? permissionGroupId;
-
-  PermissionGroupParams({
-    this.datasetPermissions,
-    this.permissionGroupId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final datasetPermissions = this.datasetPermissions;
-    final permissionGroupId = this.permissionGroupId;
-    return {
-      if (datasetPermissions != null) 'datasetPermissions': datasetPermissions,
-      if (permissionGroupId != null) 'permissionGroupId': permissionGroupId,
-    };
-  }
-}
-
 class ResetUserPasswordResponse {
   /// A randomly generated temporary password for the requested user. This
   /// password expires in 7 days.
@@ -4121,145 +2741,6 @@ class ResetUserPasswordResponse {
     return {
       if (temporaryPassword != null) 'temporaryPassword': temporaryPassword,
       if (userId != null) 'userId': userId,
-    };
-  }
-}
-
-/// Resource permission for a dataset. When you create a dataset, all the other
-/// members of the same user group inherit access to the dataset. You can only
-/// create a dataset if your user group has application permission for Create
-/// Datasets.
-///
-/// The following is a list of valid dataset permissions that you can apply:
-///
-/// <ul>
-/// <li>
-/// <code>ViewDatasetDetails</code>
-/// </li>
-/// <li>
-/// <code>ReadDatasetDetails</code>
-/// </li>
-/// <li>
-/// <code>AddDatasetData</code>
-/// </li>
-/// <li>
-/// <code>CreateDataView</code>
-/// </li>
-/// <li>
-/// <code>EditDatasetMetadata</code>
-/// </li>
-/// <li>
-/// <code>DeleteDataset</code>
-/// </li>
-/// </ul>
-/// For more information on the dataset permissions, see <a
-/// href="https://docs.aws.amazon.com/finspace/latest/userguide/managing-user-permissions.html#supported-dataset-permissions">Supported
-/// Dataset Permissions</a> in the FinSpace User Guide.
-class ResourcePermission {
-  /// Permission for a resource.
-  final String? permission;
-
-  ResourcePermission({
-    this.permission,
-  });
-
-  Map<String, dynamic> toJson() {
-    final permission = this.permission;
-    return {
-      if (permission != null) 'permission': permission,
-    };
-  }
-}
-
-/// The location of an external Dataview in an S3 bucket.
-class S3Location {
-  /// The name of the S3 bucket.
-  final String bucket;
-
-  /// The path of the folder, within the S3 bucket that contains the Dataset.
-  final String key;
-
-  S3Location({
-    required this.bucket,
-    required this.key,
-  });
-
-  factory S3Location.fromJson(Map<String, dynamic> json) {
-    return S3Location(
-      bucket: (json['bucket'] as String?) ?? '',
-      key: (json['key'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucket = this.bucket;
-    final key = this.key;
-    return {
-      'bucket': bucket,
-      'key': key,
-    };
-  }
-}
-
-/// Definition for a schema on a tabular Dataset.
-class SchemaDefinition {
-  /// List of column definitions.
-  final List<ColumnDefinition>? columns;
-
-  /// List of column names used for primary key.
-  final List<String>? primaryKeyColumns;
-
-  SchemaDefinition({
-    this.columns,
-    this.primaryKeyColumns,
-  });
-
-  factory SchemaDefinition.fromJson(Map<String, dynamic> json) {
-    return SchemaDefinition(
-      columns: (json['columns'] as List?)
-          ?.nonNulls
-          .map((e) => ColumnDefinition.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      primaryKeyColumns: (json['primaryKeyColumns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final columns = this.columns;
-    final primaryKeyColumns = this.primaryKeyColumns;
-    return {
-      if (columns != null) 'columns': columns,
-      if (primaryKeyColumns != null) 'primaryKeyColumns': primaryKeyColumns,
-    };
-  }
-}
-
-/// A union of schema types.
-class SchemaUnion {
-  /// The configuration for a schema on a tabular Dataset.
-  final SchemaDefinition? tabularSchemaConfig;
-
-  SchemaUnion({
-    this.tabularSchemaConfig,
-  });
-
-  factory SchemaUnion.fromJson(Map<String, dynamic> json) {
-    return SchemaUnion(
-      tabularSchemaConfig: json['tabularSchemaConfig'] != null
-          ? SchemaDefinition.fromJson(
-              json['tabularSchemaConfig'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tabularSchemaConfig = this.tabularSchemaConfig;
-    return {
-      if (tabularSchemaConfig != null)
-        'tabularSchemaConfig': tabularSchemaConfig,
     };
   }
 }
@@ -4362,155 +2843,291 @@ class UpdateUserResponse {
   }
 }
 
-/// The details of the user.
-class User {
-  /// Indicates whether the user can use the
-  /// <code>GetProgrammaticAccessCredentials</code> API to obtain credentials that
-  /// can then be used to access other FinSpace Data API operations.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ENABLED</code> – The user has permissions to use the APIs.
-  /// </li>
-  /// <li>
-  /// <code>DISABLED</code> – The user does not have permissions to use any APIs.
-  /// </li>
-  /// </ul>
-  final ApiAccess? apiAccess;
+class UserType {
+  static const superUser = UserType._('SUPER_USER');
+  static const appUser = UserType._('APP_USER');
 
-  /// The ARN identifier of an AWS user or role that is allowed to call the
-  /// <code>GetProgrammaticAccessCredentials</code> API to obtain a credentials
-  /// token for a specific FinSpace user. This must be an IAM role within your
-  /// FinSpace account.
-  final String? apiAccessPrincipalArn;
+  final String value;
 
-  /// The timestamp at which the user was created in FinSpace. The value is
-  /// determined as epoch time in milliseconds.
-  final int? createTime;
+  const UserType._(this.value);
 
-  /// The email address of the user. The email address serves as a uniquer
-  /// identifier for each user and cannot be changed after it's created.
-  final String? emailAddress;
+  static const values = [superUser, appUser];
 
-  /// The first name of the user.
-  final String? firstName;
+  static UserType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UserType._(value));
 
-  /// Describes the last time the user was deactivated. The value is determined as
-  /// epoch time in milliseconds.
-  final int? lastDisabledTime;
+  @override
+  bool operator ==(other) => other is UserType && other.value == value;
 
-  /// Describes the last time the user was activated. The value is determined as
-  /// epoch time in milliseconds.
-  final int? lastEnabledTime;
+  @override
+  int get hashCode => value.hashCode;
 
-  /// Describes the last time that the user logged into their account. The value
-  /// is determined as epoch time in milliseconds.
-  final int? lastLoginTime;
+  @override
+  String toString() => value;
+}
 
-  /// Describes the last time the user was updated. The value is determined as
-  /// epoch time in milliseconds.
-  final int? lastModifiedTime;
+class ApiAccess {
+  static const enabled = ApiAccess._('ENABLED');
+  static const disabled = ApiAccess._('DISABLED');
 
-  /// The last name of the user.
-  final String? lastName;
+  final String value;
 
-  /// The current status of the user.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>CREATING</code> – The user creation is in progress.
-  /// </li>
-  /// <li>
-  /// <code>ENABLED</code> – The user is created and is currently active.
-  /// </li>
-  /// <li>
-  /// <code>DISABLED</code> – The user is currently inactive.
-  /// </li>
-  /// </ul>
-  final UserStatus? status;
+  const ApiAccess._(this.value);
 
-  /// Indicates the type of user.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>SUPER_USER</code> – A user with permission to all the functionality
-  /// and data in FinSpace.
-  /// </li>
-  /// <li>
-  /// <code>APP_USER</code> – A user with specific permissions in FinSpace. The
-  /// users are assigned permissions by adding them to a permission group.
-  /// </li>
-  /// </ul>
-  final UserType? type;
+  static const values = [enabled, disabled];
 
-  /// The unique identifier for the user.
-  final String? userId;
+  static ApiAccess fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ApiAccess._(value));
 
-  User({
-    this.apiAccess,
-    this.apiAccessPrincipalArn,
-    this.createTime,
-    this.emailAddress,
-    this.firstName,
-    this.lastDisabledTime,
-    this.lastEnabledTime,
-    this.lastLoginTime,
-    this.lastModifiedTime,
-    this.lastName,
-    this.status,
-    this.type,
-    this.userId,
+  @override
+  bool operator ==(other) => other is ApiAccess && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ApplicationPermission {
+  static const createDataset = ApplicationPermission._('CreateDataset');
+  static const manageClusters = ApplicationPermission._('ManageClusters');
+  static const manageUsersAndGroups =
+      ApplicationPermission._('ManageUsersAndGroups');
+  static const manageAttributeSets =
+      ApplicationPermission._('ManageAttributeSets');
+  static const viewAuditData = ApplicationPermission._('ViewAuditData');
+  static const accessNotebooks = ApplicationPermission._('AccessNotebooks');
+  static const getTemporaryCredentials =
+      ApplicationPermission._('GetTemporaryCredentials');
+
+  final String value;
+
+  const ApplicationPermission._(this.value);
+
+  static const values = [
+    createDataset,
+    manageClusters,
+    manageUsersAndGroups,
+    manageAttributeSets,
+    viewAuditData,
+    accessNotebooks,
+    getTemporaryCredentials
+  ];
+
+  static ApplicationPermission fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ApplicationPermission._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ApplicationPermission && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Dataset Kind
+class DatasetKind {
+  static const tabular = DatasetKind._('TABULAR');
+  static const nonTabular = DatasetKind._('NON_TABULAR');
+
+  final String value;
+
+  const DatasetKind._(this.value);
+
+  static const values = [tabular, nonTabular];
+
+  static DatasetKind fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DatasetKind._(value));
+
+  @override
+  bool operator ==(other) => other is DatasetKind && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A union of schema types.
+class SchemaUnion {
+  /// The configuration for a schema on a tabular Dataset.
+  final SchemaDefinition? tabularSchemaConfig;
+
+  SchemaUnion({
+    this.tabularSchemaConfig,
   });
 
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      apiAccess: (json['apiAccess'] as String?)?.let(ApiAccess.fromString),
-      apiAccessPrincipalArn: json['apiAccessPrincipalArn'] as String?,
-      createTime: json['createTime'] as int?,
-      emailAddress: json['emailAddress'] as String?,
-      firstName: json['firstName'] as String?,
-      lastDisabledTime: json['lastDisabledTime'] as int?,
-      lastEnabledTime: json['lastEnabledTime'] as int?,
-      lastLoginTime: json['lastLoginTime'] as int?,
-      lastModifiedTime: json['lastModifiedTime'] as int?,
-      lastName: json['lastName'] as String?,
-      status: (json['status'] as String?)?.let(UserStatus.fromString),
-      type: (json['type'] as String?)?.let(UserType.fromString),
-      userId: json['userId'] as String?,
+  factory SchemaUnion.fromJson(Map<String, dynamic> json) {
+    return SchemaUnion(
+      tabularSchemaConfig: json['tabularSchemaConfig'] != null
+          ? SchemaDefinition.fromJson(
+              json['tabularSchemaConfig'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final apiAccess = this.apiAccess;
-    final apiAccessPrincipalArn = this.apiAccessPrincipalArn;
-    final createTime = this.createTime;
-    final emailAddress = this.emailAddress;
-    final firstName = this.firstName;
-    final lastDisabledTime = this.lastDisabledTime;
-    final lastEnabledTime = this.lastEnabledTime;
-    final lastLoginTime = this.lastLoginTime;
-    final lastModifiedTime = this.lastModifiedTime;
-    final lastName = this.lastName;
-    final status = this.status;
-    final type = this.type;
-    final userId = this.userId;
+    final tabularSchemaConfig = this.tabularSchemaConfig;
     return {
-      if (apiAccess != null) 'apiAccess': apiAccess.value,
-      if (apiAccessPrincipalArn != null)
-        'apiAccessPrincipalArn': apiAccessPrincipalArn,
-      if (createTime != null) 'createTime': createTime,
-      if (emailAddress != null) 'emailAddress': emailAddress,
-      if (firstName != null) 'firstName': firstName,
-      if (lastDisabledTime != null) 'lastDisabledTime': lastDisabledTime,
-      if (lastEnabledTime != null) 'lastEnabledTime': lastEnabledTime,
-      if (lastLoginTime != null) 'lastLoginTime': lastLoginTime,
-      if (lastModifiedTime != null) 'lastModifiedTime': lastModifiedTime,
-      if (lastName != null) 'lastName': lastName,
-      if (status != null) 'status': status.value,
-      if (type != null) 'type': type.value,
-      if (userId != null) 'userId': userId,
+      if (tabularSchemaConfig != null)
+        'tabularSchemaConfig': tabularSchemaConfig,
     };
   }
+}
+
+/// Definition for a schema on a tabular Dataset.
+class SchemaDefinition {
+  /// List of column definitions.
+  final List<ColumnDefinition>? columns;
+
+  /// List of column names used for primary key.
+  final List<String>? primaryKeyColumns;
+
+  SchemaDefinition({
+    this.columns,
+    this.primaryKeyColumns,
+  });
+
+  factory SchemaDefinition.fromJson(Map<String, dynamic> json) {
+    return SchemaDefinition(
+      columns: (json['columns'] as List?)
+          ?.nonNulls
+          .map((e) => ColumnDefinition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      primaryKeyColumns: (json['primaryKeyColumns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columns = this.columns;
+    final primaryKeyColumns = this.primaryKeyColumns;
+    return {
+      if (columns != null) 'columns': columns,
+      if (primaryKeyColumns != null) 'primaryKeyColumns': primaryKeyColumns,
+    };
+  }
+}
+
+/// The definition of a column in a tabular Dataset.
+class ColumnDefinition {
+  /// Description for a column.
+  final String? columnDescription;
+
+  /// The name of a column.
+  final String? columnName;
+
+  /// Data type of a column.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>STRING</code> – A String data type.
+  ///
+  /// <code>CHAR</code> – A char data type.
+  ///
+  /// <code>INTEGER</code> – An integer data type.
+  ///
+  /// <code>TINYINT</code> – A tinyint data type.
+  ///
+  /// <code>SMALLINT</code> – A smallint data type.
+  ///
+  /// <code>BIGINT</code> – A bigint data type.
+  ///
+  /// <code>FLOAT</code> – A float data type.
+  ///
+  /// <code>DOUBLE</code> – A double data type.
+  ///
+  /// <code>DATE</code> – A date data type.
+  ///
+  /// <code>DATETIME</code> – A datetime data type.
+  ///
+  /// <code>BOOLEAN</code> – A boolean data type.
+  ///
+  /// <code>BINARY</code> – A binary data type.
+  /// </li>
+  /// </ul>
+  final ColumnDataType? dataType;
+
+  ColumnDefinition({
+    this.columnDescription,
+    this.columnName,
+    this.dataType,
+  });
+
+  factory ColumnDefinition.fromJson(Map<String, dynamic> json) {
+    return ColumnDefinition(
+      columnDescription: json['columnDescription'] as String?,
+      columnName: json['columnName'] as String?,
+      dataType: (json['dataType'] as String?)?.let(ColumnDataType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columnDescription = this.columnDescription;
+    final columnName = this.columnName;
+    final dataType = this.dataType;
+    return {
+      if (columnDescription != null) 'columnDescription': columnDescription,
+      if (columnName != null) 'columnName': columnName,
+      if (dataType != null) 'dataType': dataType.value,
+    };
+  }
+}
+
+/// Data type of a column.
+class ColumnDataType {
+  static const string = ColumnDataType._('STRING');
+  static const char = ColumnDataType._('CHAR');
+  static const integer = ColumnDataType._('INTEGER');
+  static const tinyint = ColumnDataType._('TINYINT');
+  static const smallint = ColumnDataType._('SMALLINT');
+  static const bigint = ColumnDataType._('BIGINT');
+  static const float = ColumnDataType._('FLOAT');
+  static const $double = ColumnDataType._('DOUBLE');
+  static const date = ColumnDataType._('DATE');
+  static const datetime = ColumnDataType._('DATETIME');
+  static const boolean = ColumnDataType._('BOOLEAN');
+  static const binary = ColumnDataType._('BINARY');
+
+  final String value;
+
+  const ColumnDataType._(this.value);
+
+  static const values = [
+    string,
+    char,
+    integer,
+    tinyint,
+    smallint,
+    bigint,
+    float,
+    $double,
+    date,
+    datetime,
+    boolean,
+    binary
+  ];
+
+  static ColumnDataType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ColumnDataType._(value));
+
+  @override
+  bool operator ==(other) => other is ColumnDataType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The structure of a user associated with a permission group.
@@ -4667,27 +3284,1162 @@ class UserStatus {
   String toString() => value;
 }
 
-class UserType {
-  static const superUser = UserType._('SUPER_USER');
-  static const appUser = UserType._('APP_USER');
+class PermissionGroupMembershipStatus {
+  static const additionInProgress =
+      PermissionGroupMembershipStatus._('ADDITION_IN_PROGRESS');
+  static const additionSuccess =
+      PermissionGroupMembershipStatus._('ADDITION_SUCCESS');
+  static const removalInProgress =
+      PermissionGroupMembershipStatus._('REMOVAL_IN_PROGRESS');
 
   final String value;
 
-  const UserType._(this.value);
+  const PermissionGroupMembershipStatus._(this.value);
 
-  static const values = [superUser, appUser];
+  static const values = [
+    additionInProgress,
+    additionSuccess,
+    removalInProgress
+  ];
 
-  static UserType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => UserType._(value));
+  static PermissionGroupMembershipStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PermissionGroupMembershipStatus._(value));
 
   @override
-  bool operator ==(other) => other is UserType && other.value == value;
+  bool operator ==(other) =>
+      other is PermissionGroupMembershipStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
+}
+
+/// The details of the user.
+class User {
+  /// Indicates whether the user can use the
+  /// <code>GetProgrammaticAccessCredentials</code> API to obtain credentials that
+  /// can then be used to access other FinSpace Data API operations.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ENABLED</code> – The user has permissions to use the APIs.
+  /// </li>
+  /// <li>
+  /// <code>DISABLED</code> – The user does not have permissions to use any APIs.
+  /// </li>
+  /// </ul>
+  final ApiAccess? apiAccess;
+
+  /// The ARN identifier of an AWS user or role that is allowed to call the
+  /// <code>GetProgrammaticAccessCredentials</code> API to obtain a credentials
+  /// token for a specific FinSpace user. This must be an IAM role within your
+  /// FinSpace account.
+  final String? apiAccessPrincipalArn;
+
+  /// The timestamp at which the user was created in FinSpace. The value is
+  /// determined as epoch time in milliseconds.
+  final int? createTime;
+
+  /// The email address of the user. The email address serves as a uniquer
+  /// identifier for each user and cannot be changed after it's created.
+  final String? emailAddress;
+
+  /// The first name of the user.
+  final String? firstName;
+
+  /// Describes the last time the user was deactivated. The value is determined as
+  /// epoch time in milliseconds.
+  final int? lastDisabledTime;
+
+  /// Describes the last time the user was activated. The value is determined as
+  /// epoch time in milliseconds.
+  final int? lastEnabledTime;
+
+  /// Describes the last time that the user logged into their account. The value
+  /// is determined as epoch time in milliseconds.
+  final int? lastLoginTime;
+
+  /// Describes the last time the user was updated. The value is determined as
+  /// epoch time in milliseconds.
+  final int? lastModifiedTime;
+
+  /// The last name of the user.
+  final String? lastName;
+
+  /// The current status of the user.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATING</code> – The user creation is in progress.
+  /// </li>
+  /// <li>
+  /// <code>ENABLED</code> – The user is created and is currently active.
+  /// </li>
+  /// <li>
+  /// <code>DISABLED</code> – The user is currently inactive.
+  /// </li>
+  /// </ul>
+  final UserStatus? status;
+
+  /// Indicates the type of user.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>SUPER_USER</code> – A user with permission to all the functionality
+  /// and data in FinSpace.
+  /// </li>
+  /// <li>
+  /// <code>APP_USER</code> – A user with specific permissions in FinSpace. The
+  /// users are assigned permissions by adding them to a permission group.
+  /// </li>
+  /// </ul>
+  final UserType? type;
+
+  /// The unique identifier for the user.
+  final String? userId;
+
+  User({
+    this.apiAccess,
+    this.apiAccessPrincipalArn,
+    this.createTime,
+    this.emailAddress,
+    this.firstName,
+    this.lastDisabledTime,
+    this.lastEnabledTime,
+    this.lastLoginTime,
+    this.lastModifiedTime,
+    this.lastName,
+    this.status,
+    this.type,
+    this.userId,
+  });
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      apiAccess: (json['apiAccess'] as String?)?.let(ApiAccess.fromString),
+      apiAccessPrincipalArn: json['apiAccessPrincipalArn'] as String?,
+      createTime: json['createTime'] as int?,
+      emailAddress: json['emailAddress'] as String?,
+      firstName: json['firstName'] as String?,
+      lastDisabledTime: json['lastDisabledTime'] as int?,
+      lastEnabledTime: json['lastEnabledTime'] as int?,
+      lastLoginTime: json['lastLoginTime'] as int?,
+      lastModifiedTime: json['lastModifiedTime'] as int?,
+      lastName: json['lastName'] as String?,
+      status: (json['status'] as String?)?.let(UserStatus.fromString),
+      type: (json['type'] as String?)?.let(UserType.fromString),
+      userId: json['userId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final apiAccess = this.apiAccess;
+    final apiAccessPrincipalArn = this.apiAccessPrincipalArn;
+    final createTime = this.createTime;
+    final emailAddress = this.emailAddress;
+    final firstName = this.firstName;
+    final lastDisabledTime = this.lastDisabledTime;
+    final lastEnabledTime = this.lastEnabledTime;
+    final lastLoginTime = this.lastLoginTime;
+    final lastModifiedTime = this.lastModifiedTime;
+    final lastName = this.lastName;
+    final status = this.status;
+    final type = this.type;
+    final userId = this.userId;
+    return {
+      if (apiAccess != null) 'apiAccess': apiAccess.value,
+      if (apiAccessPrincipalArn != null)
+        'apiAccessPrincipalArn': apiAccessPrincipalArn,
+      if (createTime != null) 'createTime': createTime,
+      if (emailAddress != null) 'emailAddress': emailAddress,
+      if (firstName != null) 'firstName': firstName,
+      if (lastDisabledTime != null) 'lastDisabledTime': lastDisabledTime,
+      if (lastEnabledTime != null) 'lastEnabledTime': lastEnabledTime,
+      if (lastLoginTime != null) 'lastLoginTime': lastLoginTime,
+      if (lastModifiedTime != null) 'lastModifiedTime': lastModifiedTime,
+      if (lastName != null) 'lastName': lastName,
+      if (status != null) 'status': status.value,
+      if (type != null) 'type': type.value,
+      if (userId != null) 'userId': userId,
+    };
+  }
+}
+
+/// The structure of a permission group associated with a user.
+class PermissionGroupByUser {
+  /// Indicates the status of the user within a permission group.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ADDITION_IN_PROGRESS</code> – The user is currently being added to the
+  /// permission group.
+  /// </li>
+  /// <li>
+  /// <code>ADDITION_SUCCESS</code> – The user is successfully added to the
+  /// permission group.
+  /// </li>
+  /// <li>
+  /// <code>REMOVAL_IN_PROGRESS</code> – The user is currently being removed from
+  /// the permission group.
+  /// </li>
+  /// </ul>
+  final PermissionGroupMembershipStatus? membershipStatus;
+
+  /// The name of the permission group.
+  final String? name;
+
+  /// The unique identifier for the permission group.
+  final String? permissionGroupId;
+
+  PermissionGroupByUser({
+    this.membershipStatus,
+    this.name,
+    this.permissionGroupId,
+  });
+
+  factory PermissionGroupByUser.fromJson(Map<String, dynamic> json) {
+    return PermissionGroupByUser(
+      membershipStatus: (json['membershipStatus'] as String?)
+          ?.let(PermissionGroupMembershipStatus.fromString),
+      name: json['name'] as String?,
+      permissionGroupId: json['permissionGroupId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final membershipStatus = this.membershipStatus;
+    final name = this.name;
+    final permissionGroupId = this.permissionGroupId;
+    return {
+      if (membershipStatus != null) 'membershipStatus': membershipStatus.value,
+      if (name != null) 'name': name,
+      if (permissionGroupId != null) 'permissionGroupId': permissionGroupId,
+    };
+  }
+}
+
+/// The structure for a permission group.
+class PermissionGroup {
+  /// Indicates the permissions that are granted to a specific group for accessing
+  /// the FinSpace application.
+  /// <important>
+  /// When assigning application permissions, be aware that the permission
+  /// <code>ManageUsersAndGroups</code> allows users to grant themselves or others
+  /// access to any functionality in their FinSpace environment's application. It
+  /// should only be granted to trusted users.
+  /// </important>
+  /// <ul>
+  /// <li>
+  /// <code>CreateDataset</code> – Group members can create new datasets.
+  /// </li>
+  /// <li>
+  /// <code>ManageClusters</code> – Group members can manage Apache Spark clusters
+  /// from FinSpace notebooks.
+  /// </li>
+  /// <li>
+  /// <code>ManageUsersAndGroups</code> – Group members can manage users and
+  /// permission groups. This is a privileged permission that allows users to
+  /// grant themselves or others access to any functionality in the application.
+  /// It should only be granted to trusted users.
+  /// </li>
+  /// <li>
+  /// <code>ManageAttributeSets</code> – Group members can manage attribute sets.
+  /// </li>
+  /// <li>
+  /// <code>ViewAuditData</code> – Group members can view audit data.
+  /// </li>
+  /// <li>
+  /// <code>AccessNotebooks</code> – Group members will have access to FinSpace
+  /// notebooks.
+  /// </li>
+  /// <li>
+  /// <code>GetTemporaryCredentials</code> – Group members can get temporary API
+  /// credentials.
+  /// </li>
+  /// </ul>
+  final List<ApplicationPermission>? applicationPermissions;
+
+  /// The timestamp at which the group was created in FinSpace. The value is
+  /// determined as epoch time in milliseconds.
+  final int? createTime;
+
+  /// A brief description for the permission group.
+  final String? description;
+
+  /// Describes the last time the permission group was updated. The value is
+  /// determined as epoch time in milliseconds.
+  final int? lastModifiedTime;
+
+  /// Indicates the status of the user within a permission group.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ADDITION_IN_PROGRESS</code> – The user is currently being added to the
+  /// permission group.
+  /// </li>
+  /// <li>
+  /// <code>ADDITION_SUCCESS</code> – The user is successfully added to the
+  /// permission group.
+  /// </li>
+  /// <li>
+  /// <code>REMOVAL_IN_PROGRESS</code> – The user is currently being removed from
+  /// the permission group.
+  /// </li>
+  /// </ul>
+  final PermissionGroupMembershipStatus? membershipStatus;
+
+  /// The name of the permission group.
+  final String? name;
+
+  /// The unique identifier for the permission group.
+  final String? permissionGroupId;
+
+  PermissionGroup({
+    this.applicationPermissions,
+    this.createTime,
+    this.description,
+    this.lastModifiedTime,
+    this.membershipStatus,
+    this.name,
+    this.permissionGroupId,
+  });
+
+  factory PermissionGroup.fromJson(Map<String, dynamic> json) {
+    return PermissionGroup(
+      applicationPermissions: (json['applicationPermissions'] as List?)
+          ?.nonNulls
+          .map((e) => ApplicationPermission.fromString((e as String)))
+          .toList(),
+      createTime: json['createTime'] as int?,
+      description: json['description'] as String?,
+      lastModifiedTime: json['lastModifiedTime'] as int?,
+      membershipStatus: (json['membershipStatus'] as String?)
+          ?.let(PermissionGroupMembershipStatus.fromString),
+      name: json['name'] as String?,
+      permissionGroupId: json['permissionGroupId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationPermissions = this.applicationPermissions;
+    final createTime = this.createTime;
+    final description = this.description;
+    final lastModifiedTime = this.lastModifiedTime;
+    final membershipStatus = this.membershipStatus;
+    final name = this.name;
+    final permissionGroupId = this.permissionGroupId;
+    return {
+      if (applicationPermissions != null)
+        'applicationPermissions':
+            applicationPermissions.map((e) => e.value).toList(),
+      if (createTime != null) 'createTime': createTime,
+      if (description != null) 'description': description,
+      if (lastModifiedTime != null) 'lastModifiedTime': lastModifiedTime,
+      if (membershipStatus != null) 'membershipStatus': membershipStatus.value,
+      if (name != null) 'name': name,
+      if (permissionGroupId != null) 'permissionGroupId': permissionGroupId,
+    };
+  }
+}
+
+/// Structure for the summary of a Dataview.
+class DataViewSummary {
+  /// Time range to use for the Dataview. The value is determined as epoch time in
+  /// milliseconds. For example, the value for Monday, November 1, 2021 12:00:00
+  /// PM UTC is specified as 1635768000000.
+  final int? asOfTimestamp;
+
+  /// The flag to indicate Dataview should be updated automatically.
+  final bool? autoUpdate;
+
+  /// The timestamp at which the Dataview was created in FinSpace. The value is
+  /// determined as epoch time in milliseconds. For example, the value for Monday,
+  /// November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+  final int? createTime;
+
+  /// The ARN identifier of the Dataview.
+  final String? dataViewArn;
+
+  /// The unique identifier for the Dataview.
+  final String? dataViewId;
+
+  /// Th unique identifier for the Dataview Dataset.
+  final String? datasetId;
+
+  /// Information about the Dataview destination.
+  final DataViewDestinationTypeParams? destinationTypeProperties;
+
+  /// The structure with error messages.
+  final DataViewErrorInfo? errorInfo;
+
+  /// The last time that a Dataview was modified. The value is determined as epoch
+  /// time in milliseconds. For example, the value for Monday, November 1, 2021
+  /// 12:00:00 PM UTC is specified as 1635768000000.
+  final int? lastModifiedTime;
+
+  /// Ordered set of column names used to partition data.
+  final List<String>? partitionColumns;
+
+  /// Columns to be used for sorting the data.
+  final List<String>? sortColumns;
+
+  /// The status of a Dataview creation.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>RUNNING</code> – Dataview creation is running.
+  /// </li>
+  /// <li>
+  /// <code>STARTING</code> – Dataview creation is starting.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> – Dataview creation has failed.
+  /// </li>
+  /// <li>
+  /// <code>CANCELLED</code> – Dataview creation has been cancelled.
+  /// </li>
+  /// <li>
+  /// <code>TIMEOUT</code> – Dataview creation has timed out.
+  /// </li>
+  /// <li>
+  /// <code>SUCCESS</code> – Dataview creation has succeeded.
+  /// </li>
+  /// <li>
+  /// <code>PENDING</code> – Dataview creation is pending.
+  /// </li>
+  /// <li>
+  /// <code>FAILED_CLEANUP_FAILED</code> – Dataview creation failed and resource
+  /// cleanup failed.
+  /// </li>
+  /// </ul>
+  final DataViewStatus? status;
+
+  DataViewSummary({
+    this.asOfTimestamp,
+    this.autoUpdate,
+    this.createTime,
+    this.dataViewArn,
+    this.dataViewId,
+    this.datasetId,
+    this.destinationTypeProperties,
+    this.errorInfo,
+    this.lastModifiedTime,
+    this.partitionColumns,
+    this.sortColumns,
+    this.status,
+  });
+
+  factory DataViewSummary.fromJson(Map<String, dynamic> json) {
+    return DataViewSummary(
+      asOfTimestamp: json['asOfTimestamp'] as int?,
+      autoUpdate: json['autoUpdate'] as bool?,
+      createTime: json['createTime'] as int?,
+      dataViewArn: json['dataViewArn'] as String?,
+      dataViewId: json['dataViewId'] as String?,
+      datasetId: json['datasetId'] as String?,
+      destinationTypeProperties: json['destinationTypeProperties'] != null
+          ? DataViewDestinationTypeParams.fromJson(
+              json['destinationTypeProperties'] as Map<String, dynamic>)
+          : null,
+      errorInfo: json['errorInfo'] != null
+          ? DataViewErrorInfo.fromJson(
+              json['errorInfo'] as Map<String, dynamic>)
+          : null,
+      lastModifiedTime: json['lastModifiedTime'] as int?,
+      partitionColumns: (json['partitionColumns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      sortColumns: (json['sortColumns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      status: (json['status'] as String?)?.let(DataViewStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final asOfTimestamp = this.asOfTimestamp;
+    final autoUpdate = this.autoUpdate;
+    final createTime = this.createTime;
+    final dataViewArn = this.dataViewArn;
+    final dataViewId = this.dataViewId;
+    final datasetId = this.datasetId;
+    final destinationTypeProperties = this.destinationTypeProperties;
+    final errorInfo = this.errorInfo;
+    final lastModifiedTime = this.lastModifiedTime;
+    final partitionColumns = this.partitionColumns;
+    final sortColumns = this.sortColumns;
+    final status = this.status;
+    return {
+      if (asOfTimestamp != null) 'asOfTimestamp': asOfTimestamp,
+      if (autoUpdate != null) 'autoUpdate': autoUpdate,
+      if (createTime != null) 'createTime': createTime,
+      if (dataViewArn != null) 'dataViewArn': dataViewArn,
+      if (dataViewId != null) 'dataViewId': dataViewId,
+      if (datasetId != null) 'datasetId': datasetId,
+      if (destinationTypeProperties != null)
+        'destinationTypeProperties': destinationTypeProperties,
+      if (errorInfo != null) 'errorInfo': errorInfo,
+      if (lastModifiedTime != null) 'lastModifiedTime': lastModifiedTime,
+      if (partitionColumns != null) 'partitionColumns': partitionColumns,
+      if (sortColumns != null) 'sortColumns': sortColumns,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+/// Status of a DataView
+class DataViewStatus {
+  static const running = DataViewStatus._('RUNNING');
+  static const starting = DataViewStatus._('STARTING');
+  static const failed = DataViewStatus._('FAILED');
+  static const cancelled = DataViewStatus._('CANCELLED');
+  static const timeout = DataViewStatus._('TIMEOUT');
+  static const success = DataViewStatus._('SUCCESS');
+  static const pending = DataViewStatus._('PENDING');
+  static const failedCleanupFailed = DataViewStatus._('FAILED_CLEANUP_FAILED');
+
+  final String value;
+
+  const DataViewStatus._(this.value);
+
+  static const values = [
+    running,
+    starting,
+    failed,
+    cancelled,
+    timeout,
+    success,
+    pending,
+    failedCleanupFailed
+  ];
+
+  static DataViewStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataViewStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DataViewStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The structure with error messages.
+class DataViewErrorInfo {
+  /// The category of the error.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>VALIDATION</code> – The inputs to this request are invalid.
+  /// </li>
+  /// <li>
+  /// <code>SERVICE_QUOTA_EXCEEDED</code> – Service quotas have been exceeded.
+  /// Please contact AWS support to increase quotas.
+  /// </li>
+  /// <li>
+  /// <code>ACCESS_DENIED</code> – Missing required permission to perform this
+  /// request.
+  /// </li>
+  /// <li>
+  /// <code>RESOURCE_NOT_FOUND</code> – One or more inputs to this request were
+  /// not found.
+  /// </li>
+  /// <li>
+  /// <code>THROTTLING</code> – The system temporarily lacks sufficient resources
+  /// to process the request.
+  /// </li>
+  /// <li>
+  /// <code>INTERNAL_SERVICE_EXCEPTION</code> – An internal service error has
+  /// occurred.
+  /// </li>
+  /// <li>
+  /// <code>CANCELLED</code> – Cancelled.
+  /// </li>
+  /// <li>
+  /// <code>USER_RECOVERABLE</code> – A user recoverable error has occurred.
+  /// </li>
+  /// </ul>
+  final ErrorCategory? errorCategory;
+
+  /// The text of the error message.
+  final String? errorMessage;
+
+  DataViewErrorInfo({
+    this.errorCategory,
+    this.errorMessage,
+  });
+
+  factory DataViewErrorInfo.fromJson(Map<String, dynamic> json) {
+    return DataViewErrorInfo(
+      errorCategory:
+          (json['errorCategory'] as String?)?.let(ErrorCategory.fromString),
+      errorMessage: json['errorMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCategory = this.errorCategory;
+    final errorMessage = this.errorMessage;
+    return {
+      if (errorCategory != null) 'errorCategory': errorCategory.value,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+    };
+  }
+}
+
+/// Structure for the Dataview destination type parameters.
+class DataViewDestinationTypeParams {
+  /// Destination type for a Dataview.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>GLUE_TABLE</code> – Glue table destination type.
+  /// </li>
+  /// <li>
+  /// <code>S3</code> – S3 destination type.
+  /// </li>
+  /// </ul>
+  final String destinationType;
+
+  /// Dataview export file format.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PARQUET</code> – Parquet export file format.
+  /// </li>
+  /// <li>
+  /// <code>DELIMITED_TEXT</code> – Delimited text export file format.
+  /// </li>
+  /// </ul>
+  final ExportFileFormat? s3DestinationExportFileFormat;
+
+  /// Format Options for S3 Destination type.
+  ///
+  /// Here is an example of how you could specify the
+  /// <code>s3DestinationExportFileFormatOptions</code>
+  ///
+  /// <code> { "header": "true", "delimiter": ",", "compression": "gzip" }</code>
+  final Map<String, String>? s3DestinationExportFileFormatOptions;
+
+  DataViewDestinationTypeParams({
+    required this.destinationType,
+    this.s3DestinationExportFileFormat,
+    this.s3DestinationExportFileFormatOptions,
+  });
+
+  factory DataViewDestinationTypeParams.fromJson(Map<String, dynamic> json) {
+    return DataViewDestinationTypeParams(
+      destinationType: (json['destinationType'] as String?) ?? '',
+      s3DestinationExportFileFormat:
+          (json['s3DestinationExportFileFormat'] as String?)
+              ?.let(ExportFileFormat.fromString),
+      s3DestinationExportFileFormatOptions:
+          (json['s3DestinationExportFileFormatOptions']
+                  as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationType = this.destinationType;
+    final s3DestinationExportFileFormat = this.s3DestinationExportFileFormat;
+    final s3DestinationExportFileFormatOptions =
+        this.s3DestinationExportFileFormatOptions;
+    return {
+      'destinationType': destinationType,
+      if (s3DestinationExportFileFormat != null)
+        's3DestinationExportFileFormat': s3DestinationExportFileFormat.value,
+      if (s3DestinationExportFileFormatOptions != null)
+        's3DestinationExportFileFormatOptions':
+            s3DestinationExportFileFormatOptions,
+    };
+  }
+}
+
+/// Data View Export File Format
+class ExportFileFormat {
+  static const parquet = ExportFileFormat._('PARQUET');
+  static const delimitedText = ExportFileFormat._('DELIMITED_TEXT');
+
+  final String value;
+
+  const ExportFileFormat._(this.value);
+
+  static const values = [parquet, delimitedText];
+
+  static ExportFileFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExportFileFormat._(value));
+
+  @override
+  bool operator ==(other) => other is ExportFileFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Changeset Error Category
+class ErrorCategory {
+  static const validation = ErrorCategory._('VALIDATION');
+  static const serviceQuotaExceeded = ErrorCategory._('SERVICE_QUOTA_EXCEEDED');
+  static const accessDenied = ErrorCategory._('ACCESS_DENIED');
+  static const resourceNotFound = ErrorCategory._('RESOURCE_NOT_FOUND');
+  static const throttling = ErrorCategory._('THROTTLING');
+  static const internalServiceException =
+      ErrorCategory._('INTERNAL_SERVICE_EXCEPTION');
+  static const cancelled = ErrorCategory._('CANCELLED');
+  static const userRecoverable = ErrorCategory._('USER_RECOVERABLE');
+
+  final String value;
+
+  const ErrorCategory._(this.value);
+
+  static const values = [
+    validation,
+    serviceQuotaExceeded,
+    accessDenied,
+    resourceNotFound,
+    throttling,
+    internalServiceException,
+    cancelled,
+    userRecoverable
+  ];
+
+  static ErrorCategory fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ErrorCategory._(value));
+
+  @override
+  bool operator ==(other) => other is ErrorCategory && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The structure for a Dataset.
+class Dataset {
+  /// The unique resource identifier for a Dataset.
+  final String? alias;
+
+  /// The timestamp at which the Dataset was created in FinSpace. The value is
+  /// determined as epoch time in milliseconds. For example, the value for Monday,
+  /// November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+  final int? createTime;
+
+  /// The ARN identifier of the Dataset.
+  final String? datasetArn;
+
+  /// Description for a Dataset.
+  final String? datasetDescription;
+
+  /// An identifier for a Dataset.
+  final String? datasetId;
+
+  /// Display title for a Dataset.
+  final String? datasetTitle;
+
+  /// The format in which Dataset data is structured.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>TABULAR</code> – Data is structured in a tabular format.
+  /// </li>
+  /// <li>
+  /// <code>NON_TABULAR</code> – Data is structured in a non-tabular format.
+  /// </li>
+  /// </ul>
+  final DatasetKind? kind;
+
+  /// The last time that the Dataset was modified. The value is determined as
+  /// epoch time in milliseconds. For example, the value for Monday, November 1,
+  /// 2021 12:00:00 PM UTC is specified as 1635768000000.
+  final int? lastModifiedTime;
+
+  /// Contact information for a Dataset owner.
+  final DatasetOwnerInfo? ownerInfo;
+
+  /// Definition for a schema on a tabular Dataset.
+  final SchemaUnion? schemaDefinition;
+
+  Dataset({
+    this.alias,
+    this.createTime,
+    this.datasetArn,
+    this.datasetDescription,
+    this.datasetId,
+    this.datasetTitle,
+    this.kind,
+    this.lastModifiedTime,
+    this.ownerInfo,
+    this.schemaDefinition,
+  });
+
+  factory Dataset.fromJson(Map<String, dynamic> json) {
+    return Dataset(
+      alias: json['alias'] as String?,
+      createTime: json['createTime'] as int?,
+      datasetArn: json['datasetArn'] as String?,
+      datasetDescription: json['datasetDescription'] as String?,
+      datasetId: json['datasetId'] as String?,
+      datasetTitle: json['datasetTitle'] as String?,
+      kind: (json['kind'] as String?)?.let(DatasetKind.fromString),
+      lastModifiedTime: json['lastModifiedTime'] as int?,
+      ownerInfo: json['ownerInfo'] != null
+          ? DatasetOwnerInfo.fromJson(json['ownerInfo'] as Map<String, dynamic>)
+          : null,
+      schemaDefinition: json['schemaDefinition'] != null
+          ? SchemaUnion.fromJson(
+              json['schemaDefinition'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final alias = this.alias;
+    final createTime = this.createTime;
+    final datasetArn = this.datasetArn;
+    final datasetDescription = this.datasetDescription;
+    final datasetId = this.datasetId;
+    final datasetTitle = this.datasetTitle;
+    final kind = this.kind;
+    final lastModifiedTime = this.lastModifiedTime;
+    final ownerInfo = this.ownerInfo;
+    final schemaDefinition = this.schemaDefinition;
+    return {
+      if (alias != null) 'alias': alias,
+      if (createTime != null) 'createTime': createTime,
+      if (datasetArn != null) 'datasetArn': datasetArn,
+      if (datasetDescription != null) 'datasetDescription': datasetDescription,
+      if (datasetId != null) 'datasetId': datasetId,
+      if (datasetTitle != null) 'datasetTitle': datasetTitle,
+      if (kind != null) 'kind': kind.value,
+      if (lastModifiedTime != null) 'lastModifiedTime': lastModifiedTime,
+      if (ownerInfo != null) 'ownerInfo': ownerInfo,
+      if (schemaDefinition != null) 'schemaDefinition': schemaDefinition,
+    };
+  }
+}
+
+/// A structure for Dataset owner info.
+class DatasetOwnerInfo {
+  /// Email address for the Dataset owner.
+  final String? email;
+
+  /// The name of the Dataset owner.
+  final String? name;
+
+  /// Phone number for the Dataset owner.
+  final String? phoneNumber;
+
+  DatasetOwnerInfo({
+    this.email,
+    this.name,
+    this.phoneNumber,
+  });
+
+  factory DatasetOwnerInfo.fromJson(Map<String, dynamic> json) {
+    return DatasetOwnerInfo(
+      email: json['email'] as String?,
+      name: json['name'] as String?,
+      phoneNumber: json['phoneNumber'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final email = this.email;
+    final name = this.name;
+    final phoneNumber = this.phoneNumber;
+    return {
+      if (email != null) 'email': email,
+      if (name != null) 'name': name,
+      if (phoneNumber != null) 'phoneNumber': phoneNumber,
+    };
+  }
+}
+
+/// A Changeset is unit of data in a Dataset.
+class ChangesetSummary {
+  /// Beginning time from which the Changeset is active. The value is determined
+  /// as epoch time in milliseconds. For example, the value for Monday, November
+  /// 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+  final int? activeFromTimestamp;
+
+  /// Time until which the Changeset is active. The value is determined as epoch
+  /// time in milliseconds. For example, the value for Monday, November 1, 2021
+  /// 12:00:00 PM UTC is specified as 1635768000000.
+  final int? activeUntilTimestamp;
+
+  /// Type that indicates how a Changeset is applied to a Dataset.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>REPLACE</code> – Changeset is considered as a replacement to all prior
+  /// loaded Changesets.
+  /// </li>
+  /// <li>
+  /// <code>APPEND</code> – Changeset is considered as an addition to the end of
+  /// all prior loaded Changesets.
+  /// </li>
+  /// <li>
+  /// <code>MODIFY</code> – Changeset is considered as a replacement to a specific
+  /// prior ingested Changeset.
+  /// </li>
+  /// </ul>
+  final ChangeType? changeType;
+
+  /// The ARN identifier of the Changeset.
+  final String? changesetArn;
+
+  /// The unique identifier for a Changeset.
+  final String? changesetId;
+
+  /// The timestamp at which the Changeset was created in FinSpace. The value is
+  /// determined as epoch time in milliseconds. For example, the value for Monday,
+  /// November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+  final int? createTime;
+
+  /// The unique identifier for the FinSpace Dataset in which the Changeset is
+  /// created.
+  final String? datasetId;
+
+  /// The structure with error messages.
+  final ChangesetErrorInfo? errorInfo;
+
+  /// Options that define the structure of the source file(s).
+  final Map<String, String>? formatParams;
+
+  /// Options that define the location of the data being ingested.
+  final Map<String, String>? sourceParams;
+
+  /// Status of the Changeset ingestion.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PENDING</code> – Changeset is pending creation.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> – Changeset creation has failed.
+  /// </li>
+  /// <li>
+  /// <code>SUCCESS</code> – Changeset creation has succeeded.
+  /// </li>
+  /// <li>
+  /// <code>RUNNING</code> – Changeset creation is running.
+  /// </li>
+  /// <li>
+  /// <code>STOP_REQUESTED</code> – User requested Changeset creation to stop.
+  /// </li>
+  /// </ul>
+  final IngestionStatus? status;
+
+  /// The unique identifier of the updated Changeset.
+  final String? updatedByChangesetId;
+
+  /// The unique identifier of the Changeset that is updated.
+  final String? updatesChangesetId;
+
+  ChangesetSummary({
+    this.activeFromTimestamp,
+    this.activeUntilTimestamp,
+    this.changeType,
+    this.changesetArn,
+    this.changesetId,
+    this.createTime,
+    this.datasetId,
+    this.errorInfo,
+    this.formatParams,
+    this.sourceParams,
+    this.status,
+    this.updatedByChangesetId,
+    this.updatesChangesetId,
+  });
+
+  factory ChangesetSummary.fromJson(Map<String, dynamic> json) {
+    return ChangesetSummary(
+      activeFromTimestamp: json['activeFromTimestamp'] as int?,
+      activeUntilTimestamp: json['activeUntilTimestamp'] as int?,
+      changeType: (json['changeType'] as String?)?.let(ChangeType.fromString),
+      changesetArn: json['changesetArn'] as String?,
+      changesetId: json['changesetId'] as String?,
+      createTime: json['createTime'] as int?,
+      datasetId: json['datasetId'] as String?,
+      errorInfo: json['errorInfo'] != null
+          ? ChangesetErrorInfo.fromJson(
+              json['errorInfo'] as Map<String, dynamic>)
+          : null,
+      formatParams: (json['formatParams'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      sourceParams: (json['sourceParams'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      status: (json['status'] as String?)?.let(IngestionStatus.fromString),
+      updatedByChangesetId: json['updatedByChangesetId'] as String?,
+      updatesChangesetId: json['updatesChangesetId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activeFromTimestamp = this.activeFromTimestamp;
+    final activeUntilTimestamp = this.activeUntilTimestamp;
+    final changeType = this.changeType;
+    final changesetArn = this.changesetArn;
+    final changesetId = this.changesetId;
+    final createTime = this.createTime;
+    final datasetId = this.datasetId;
+    final errorInfo = this.errorInfo;
+    final formatParams = this.formatParams;
+    final sourceParams = this.sourceParams;
+    final status = this.status;
+    final updatedByChangesetId = this.updatedByChangesetId;
+    final updatesChangesetId = this.updatesChangesetId;
+    return {
+      if (activeFromTimestamp != null)
+        'activeFromTimestamp': activeFromTimestamp,
+      if (activeUntilTimestamp != null)
+        'activeUntilTimestamp': activeUntilTimestamp,
+      if (changeType != null) 'changeType': changeType.value,
+      if (changesetArn != null) 'changesetArn': changesetArn,
+      if (changesetId != null) 'changesetId': changesetId,
+      if (createTime != null) 'createTime': createTime,
+      if (datasetId != null) 'datasetId': datasetId,
+      if (errorInfo != null) 'errorInfo': errorInfo,
+      if (formatParams != null) 'formatParams': formatParams,
+      if (sourceParams != null) 'sourceParams': sourceParams,
+      if (status != null) 'status': status.value,
+      if (updatedByChangesetId != null)
+        'updatedByChangesetId': updatedByChangesetId,
+      if (updatesChangesetId != null) 'updatesChangesetId': updatesChangesetId,
+    };
+  }
+}
+
+/// Indicates how the given change will be applied to the dataset.
+class ChangeType {
+  static const replace = ChangeType._('REPLACE');
+  static const append = ChangeType._('APPEND');
+  static const modify = ChangeType._('MODIFY');
+
+  final String value;
+
+  const ChangeType._(this.value);
+
+  static const values = [replace, append, modify];
+
+  static ChangeType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChangeType._(value));
+
+  @override
+  bool operator ==(other) => other is ChangeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Status of the ingestion process returned from scheduler service.
+class IngestionStatus {
+  static const pending = IngestionStatus._('PENDING');
+  static const failed = IngestionStatus._('FAILED');
+  static const success = IngestionStatus._('SUCCESS');
+  static const running = IngestionStatus._('RUNNING');
+  static const stopRequested = IngestionStatus._('STOP_REQUESTED');
+
+  final String value;
+
+  const IngestionStatus._(this.value);
+
+  static const values = [pending, failed, success, running, stopRequested];
+
+  static IngestionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IngestionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is IngestionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The structure with error messages.
+class ChangesetErrorInfo {
+  /// The category of the error.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>VALIDATION</code> – The inputs to this request are invalid.
+  /// </li>
+  /// <li>
+  /// <code>SERVICE_QUOTA_EXCEEDED</code> – Service quotas have been exceeded.
+  /// Please contact AWS support to increase quotas.
+  /// </li>
+  /// <li>
+  /// <code>ACCESS_DENIED</code> – Missing required permission to perform this
+  /// request.
+  /// </li>
+  /// <li>
+  /// <code>RESOURCE_NOT_FOUND</code> – One or more inputs to this request were
+  /// not found.
+  /// </li>
+  /// <li>
+  /// <code>THROTTLING</code> – The system temporarily lacks sufficient resources
+  /// to process the request.
+  /// </li>
+  /// <li>
+  /// <code>INTERNAL_SERVICE_EXCEPTION</code> – An internal service error has
+  /// occurred.
+  /// </li>
+  /// <li>
+  /// <code>CANCELLED</code> – Cancelled.
+  /// </li>
+  /// <li>
+  /// <code>USER_RECOVERABLE</code> – A user recoverable error has occurred.
+  /// </li>
+  /// </ul>
+  final ErrorCategory? errorCategory;
+
+  /// The text of the error message.
+  final String? errorMessage;
+
+  ChangesetErrorInfo({
+    this.errorCategory,
+    this.errorMessage,
+  });
+
+  factory ChangesetErrorInfo.fromJson(Map<String, dynamic> json) {
+    return ChangesetErrorInfo(
+      errorCategory:
+          (json['errorCategory'] as String?)?.let(ErrorCategory.fromString),
+      errorMessage: json['errorMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCategory = this.errorCategory;
+    final errorMessage = this.errorMessage;
+    return {
+      if (errorCategory != null) 'errorCategory': errorCategory.value,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+    };
+  }
 }
 
 class LocationType {
@@ -4711,6 +4463,222 @@ class LocationType {
 
   @override
   String toString() => value;
+}
+
+/// Short term API credentials.
+class Credentials {
+  /// The access key identifier.
+  final String? accessKeyId;
+
+  /// The access key.
+  final String? secretAccessKey;
+
+  /// The session token.
+  final String? sessionToken;
+
+  Credentials({
+    this.accessKeyId,
+    this.secretAccessKey,
+    this.sessionToken,
+  });
+
+  factory Credentials.fromJson(Map<String, dynamic> json) {
+    return Credentials(
+      accessKeyId: json['accessKeyId'] as String?,
+      secretAccessKey: json['secretAccessKey'] as String?,
+      sessionToken: json['sessionToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessKeyId = this.accessKeyId;
+    final secretAccessKey = this.secretAccessKey;
+    final sessionToken = this.sessionToken;
+    return {
+      if (accessKeyId != null) 'accessKeyId': accessKeyId,
+      if (secretAccessKey != null) 'secretAccessKey': secretAccessKey,
+      if (sessionToken != null) 'sessionToken': sessionToken,
+    };
+  }
+}
+
+/// The credentials required to access the external Dataview from the S3
+/// location.
+class AwsCredentials {
+  /// The unique identifier for the security credentials.
+  final String? accessKeyId;
+
+  /// The Epoch time when the current credentials expire.
+  final int? expiration;
+
+  /// The secret access key that can be used to sign requests.
+  final String? secretAccessKey;
+
+  /// The token that users must pass to use the credentials.
+  final String? sessionToken;
+
+  AwsCredentials({
+    this.accessKeyId,
+    this.expiration,
+    this.secretAccessKey,
+    this.sessionToken,
+  });
+
+  factory AwsCredentials.fromJson(Map<String, dynamic> json) {
+    return AwsCredentials(
+      accessKeyId: json['accessKeyId'] as String?,
+      expiration: json['expiration'] as int?,
+      secretAccessKey: json['secretAccessKey'] as String?,
+      sessionToken: json['sessionToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessKeyId = this.accessKeyId;
+    final expiration = this.expiration;
+    final secretAccessKey = this.secretAccessKey;
+    final sessionToken = this.sessionToken;
+    return {
+      if (accessKeyId != null) 'accessKeyId': accessKeyId,
+      if (expiration != null) 'expiration': expiration,
+      if (secretAccessKey != null) 'secretAccessKey': secretAccessKey,
+      if (sessionToken != null) 'sessionToken': sessionToken,
+    };
+  }
+}
+
+/// The location of an external Dataview in an S3 bucket.
+class S3Location {
+  /// The name of the S3 bucket.
+  final String bucket;
+
+  /// The path of the folder, within the S3 bucket that contains the Dataset.
+  final String key;
+
+  S3Location({
+    required this.bucket,
+    required this.key,
+  });
+
+  factory S3Location.fromJson(Map<String, dynamic> json) {
+    return S3Location(
+      bucket: (json['bucket'] as String?) ?? '',
+      key: (json['key'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final key = this.key;
+    return {
+      'bucket': bucket,
+      'key': key,
+    };
+  }
+}
+
+/// Status of the dataset process returned from scheduler service.
+class DatasetStatus {
+  static const pending = DatasetStatus._('PENDING');
+  static const failed = DatasetStatus._('FAILED');
+  static const success = DatasetStatus._('SUCCESS');
+  static const running = DatasetStatus._('RUNNING');
+
+  final String value;
+
+  const DatasetStatus._(this.value);
+
+  static const values = [pending, failed, success, running];
+
+  static DatasetStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DatasetStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DatasetStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Permission group parameters for Dataset permissions.
+///
+/// Here is an example of how you could specify the
+/// <code>PermissionGroupParams</code>:
+///
+/// <code> { "permissionGroupId": "0r6fCRtSTUk4XPfXQe3M0g",
+/// "datasetPermissions": [ {"permission": "ViewDatasetDetails"}, {"permission":
+/// "AddDatasetData"}, {"permission": "EditDatasetMetadata"}, {"permission":
+/// "DeleteDataset"} ] } </code>
+class PermissionGroupParams {
+  /// List of resource permissions.
+  final List<ResourcePermission>? datasetPermissions;
+
+  /// The unique identifier for the <code>PermissionGroup</code>.
+  final String? permissionGroupId;
+
+  PermissionGroupParams({
+    this.datasetPermissions,
+    this.permissionGroupId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final datasetPermissions = this.datasetPermissions;
+    final permissionGroupId = this.permissionGroupId;
+    return {
+      if (datasetPermissions != null) 'datasetPermissions': datasetPermissions,
+      if (permissionGroupId != null) 'permissionGroupId': permissionGroupId,
+    };
+  }
+}
+
+/// Resource permission for a dataset. When you create a dataset, all the other
+/// members of the same user group inherit access to the dataset. You can only
+/// create a dataset if your user group has application permission for Create
+/// Datasets.
+///
+/// The following is a list of valid dataset permissions that you can apply:
+///
+/// <ul>
+/// <li>
+/// <code>ViewDatasetDetails</code>
+/// </li>
+/// <li>
+/// <code>ReadDatasetDetails</code>
+/// </li>
+/// <li>
+/// <code>AddDatasetData</code>
+/// </li>
+/// <li>
+/// <code>CreateDataView</code>
+/// </li>
+/// <li>
+/// <code>EditDatasetMetadata</code>
+/// </li>
+/// <li>
+/// <code>DeleteDataset</code>
+/// </li>
+/// </ul>
+/// For more information on the dataset permissions, see <a
+/// href="https://docs.aws.amazon.com/finspace/latest/userguide/managing-user-permissions.html#supported-dataset-permissions">Supported
+/// Dataset Permissions</a> in the FinSpace User Guide.
+class ResourcePermission {
+  /// Permission for a resource.
+  final String? permission;
+
+  ResourcePermission({
+    this.permission,
+  });
+
+  Map<String, dynamic> toJson() {
+    final permission = this.permission;
+    return {
+      if (permission != null) 'permission': permission,
+    };
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

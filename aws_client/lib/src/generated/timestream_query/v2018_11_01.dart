@@ -59,9 +59,9 @@ class TimestreamQuery {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidEndpointException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InvalidEndpointException].
   ///
   /// Parameter [queryId] :
   /// The ID of the query that needs to be cancelled. <code>QueryID</code> is
@@ -96,10 +96,10 @@ class TimestreamQuery {
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidEndpointException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InvalidEndpointException].
   ///
   /// Parameter [errorReportConfiguration] :
   /// Configuration for error reporting. Error reports will be generated when a
@@ -209,10 +209,10 @@ class TimestreamQuery {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidEndpointException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InvalidEndpointException].
   ///
   /// Parameter [scheduledQueryArn] :
   /// The ARN of the scheduled query.
@@ -244,8 +244,8 @@ class TimestreamQuery {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
   /// May throw [InvalidEndpointException].
+  /// May throw [ThrottlingException].
   Future<DescribeAccountSettingsResponse> describeAccountSettings() async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -290,8 +290,8 @@ class TimestreamQuery {
   /// Endpoint Discovery Pattern</a>.
   ///
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<DescribeEndpointsResponse> describeEndpoints() async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -312,10 +312,10 @@ class TimestreamQuery {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidEndpointException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InvalidEndpointException].
   ///
   /// Parameter [scheduledQueryArn] :
   /// The ARN of the scheduled query.
@@ -342,12 +342,20 @@ class TimestreamQuery {
 
   /// You can use this API to run a scheduled query manually.
   ///
+  /// If you enabled <code>QueryInsights</code>, this API also returns insights
+  /// and metrics related to the query that you executed as part of an Amazon
+  /// SNS notification. <code>QueryInsights</code> helps with performance tuning
+  /// of your query. For more information about <code>QueryInsights</code>, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/using-query-insights.html">Using
+  /// query insights to optimize queries in Amazon Timestream</a>.
+  ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidEndpointException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InvalidEndpointException].
   ///
   /// Parameter [invocationTime] :
   /// The timestamp in UTC. Query will be run as if it was invoked at this
@@ -358,10 +366,18 @@ class TimestreamQuery {
   ///
   /// Parameter [clientToken] :
   /// Not used.
+  ///
+  /// Parameter [queryInsights] :
+  /// Encapsulates settings for enabling <code>QueryInsights</code>.
+  ///
+  /// Enabling <code>QueryInsights</code> returns insights and metrics as a part
+  /// of the Amazon SNS notification for the query that you executed. You can
+  /// use <code>QueryInsights</code> to tune your query performance and cost.
   Future<void> executeScheduledQuery({
     required DateTime invocationTime,
     required String scheduledQueryArn,
     String? clientToken,
+    ScheduledQueryInsights? queryInsights,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -377,6 +393,7 @@ class TimestreamQuery {
         'InvocationTime': unixTimestampToJson(invocationTime),
         'ScheduledQueryArn': scheduledQueryArn,
         'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+        if (queryInsights != null) 'QueryInsights': queryInsights,
       },
     );
   }
@@ -386,9 +403,9 @@ class TimestreamQuery {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidEndpointException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InvalidEndpointException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of items to return in the output. If the total number
@@ -430,10 +447,10 @@ class TimestreamQuery {
 
   /// List all tags on a Timestream query resource.
   ///
+  /// May throw [InvalidEndpointException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InvalidEndpointException].
   ///
   /// Parameter [resourceARN] :
   /// The Timestream resource with tags to be listed. This value is an Amazon
@@ -482,9 +499,9 @@ class TimestreamQuery {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidEndpointException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InvalidEndpointException].
   ///
   /// Parameter [queryString] :
   /// The Timestream query string that you want to use as a prepared statement.
@@ -519,9 +536,21 @@ class TimestreamQuery {
   }
 
   /// <code>Query</code> is a synchronous operation that enables you to run a
-  /// query against your Amazon Timestream data. <code>Query</code> will time
-  /// out after 60 seconds. You must update the default timeout in the SDK to
-  /// support a timeout of 60 seconds. See the <a
+  /// query against your Amazon Timestream data.
+  ///
+  /// If you enabled <code>QueryInsights</code>, this API also returns insights
+  /// and metrics related to the query that you executed.
+  /// <code>QueryInsights</code> helps with performance tuning of your query.
+  /// For more information about <code>QueryInsights</code>, see <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/using-query-insights.html">Using
+  /// query insights to optimize queries in Amazon Timestream</a>.
+  /// <note>
+  /// The maximum number of <code>Query</code> API requests you're allowed to
+  /// make with <code>QueryInsights</code> enabled is 1 query per second (QPS).
+  /// If you exceed this query rate, it might result in throttling.
+  /// </note>
+  /// <code>Query</code> will time out after 60 seconds. You must update the
+  /// default timeout in the SDK to support a timeout of 60 seconds. See the <a
   /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.run-query.html">code
   /// sample</a> for details.
   ///
@@ -554,10 +583,10 @@ class TimestreamQuery {
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidEndpointException].
   /// May throw [QueryExecutionException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InvalidEndpointException].
   ///
   /// Parameter [queryString] :
   /// The query to be run by Timestream.
@@ -658,11 +687,19 @@ class TimestreamQuery {
   /// <code>Invalid pagination token</code> error.
   /// </li>
   /// </ul>
+  ///
+  /// Parameter [queryInsights] :
+  /// Encapsulates settings for enabling <code>QueryInsights</code>.
+  ///
+  /// Enabling <code>QueryInsights</code> returns insights and metrics in
+  /// addition to query results for the query that you executed. You can use
+  /// <code>QueryInsights</code> to tune your query performance.
   Future<QueryResponse> query({
     required String queryString,
     String? clientToken,
     int? maxRows,
     String? nextToken,
+    QueryInsights? queryInsights,
   }) async {
     _s.validateNumRange(
       'maxRows',
@@ -685,6 +722,7 @@ class TimestreamQuery {
         'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (maxRows != null) 'MaxRows': maxRows,
         if (nextToken != null) 'NextToken': nextToken,
+        if (queryInsights != null) 'QueryInsights': queryInsights,
       },
     );
 
@@ -695,11 +733,11 @@ class TimestreamQuery {
   /// these user-defined tags so that they appear on the Billing and Cost
   /// Management console for cost allocation tracking.
   ///
+  /// May throw [InvalidEndpointException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InvalidEndpointException].
   ///
   /// Parameter [resourceARN] :
   /// Identifies the Timestream resource to which tags should be added. This
@@ -730,10 +768,10 @@ class TimestreamQuery {
 
   /// Removes the association of tags from a Timestream query resource.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidEndpointException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceARN] :
   /// The Timestream resource that the tags will be removed from. This value is
@@ -774,21 +812,35 @@ class TimestreamQuery {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidEndpointException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InvalidEndpointException].
   ///
   /// Parameter [maxQueryTCU] :
   /// The maximum number of compute units the service will use at any point in
   /// time to serve your queries. To run queries, you must set a minimum
   /// capacity of 4 TCU. You can set the maximum number of TCU in multiples of
-  /// 4, for example, 4, 8, 16, 32, and so on.
+  /// 4, for example, 4, 8, 16, 32, and so on. The maximum value supported for
+  /// <code>MaxQueryTCU</code> is 1000. To request an increase to this soft
+  /// limit, contact Amazon Web Services Support. For information about the
+  /// default quota for maxQueryTCU, see Default quotas. This configuration is
+  /// applicable only for on-demand usage of Timestream Compute Units (TCUs).
   ///
   /// The maximum value supported for <code>MaxQueryTCU</code> is 1000. To
   /// request an increase to this soft limit, contact Amazon Web Services
-  /// Support. For information about the default quota for maxQueryTCU, see <a
+  /// Support. For information about the default quota for
+  /// <code>maxQueryTCU</code>, see <a
   /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html#limits.default">Default
   /// quotas</a>.
+  ///
+  /// Parameter [queryCompute] :
+  /// Modifies the query compute settings configured in your account, including
+  /// the query pricing model and provisioned Timestream Compute Units (TCUs) in
+  /// your account.
+  /// <note>
+  /// This API is idempotent, meaning that making the same request multiple
+  /// times will have the same effect as making the request once.
+  /// </note>
   ///
   /// Parameter [queryPricingModel] :
   /// The pricing model for queries in an account.
@@ -799,6 +851,7 @@ class TimestreamQuery {
   /// </note>
   Future<UpdateAccountSettingsResponse> updateAccountSettings({
     int? maxQueryTCU,
+    QueryComputeRequest? queryCompute,
     QueryPricingModel? queryPricingModel,
   }) async {
     final headers = <String, String>{
@@ -813,6 +866,7 @@ class TimestreamQuery {
       headers: headers,
       payload: {
         if (maxQueryTCU != null) 'MaxQueryTCU': maxQueryTCU,
+        if (queryCompute != null) 'QueryCompute': queryCompute,
         if (queryPricingModel != null)
           'QueryPricingModel': queryPricingModel.value,
       },
@@ -825,10 +879,10 @@ class TimestreamQuery {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidEndpointException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InvalidEndpointException].
   ///
   /// Parameter [scheduledQueryArn] :
   /// ARN of the scheuled query.
@@ -882,41 +936,6 @@ class CancelQueryResponse {
   }
 }
 
-/// Contains the metadata for query results such as the column names, data
-/// types, and other attributes.
-class ColumnInfo {
-  /// The data type of the result set column. The data type can be a scalar or
-  /// complex. Scalar data types are integers, strings, doubles, Booleans, and
-  /// others. Complex data types are types such as arrays, rows, and others.
-  final Type type;
-
-  /// The name of the result set column. The name of the result set is available
-  /// for columns of all data types except for arrays.
-  final String? name;
-
-  ColumnInfo({
-    required this.type,
-    this.name,
-  });
-
-  factory ColumnInfo.fromJson(Map<String, dynamic> json) {
-    return ColumnInfo(
-      type: Type.fromJson(
-          (json['Type'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final type = this.type;
-    final name = this.name;
-    return {
-      'Type': type,
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
 class CreateScheduledQueryResponse {
   /// ARN for the created scheduled query.
   final String arn;
@@ -939,84 +958,41 @@ class CreateScheduledQueryResponse {
   }
 }
 
-/// Datum represents a single data point in a query result.
-class Datum {
-  /// Indicates if the data point is an array.
-  final List<Datum>? arrayValue;
-
-  /// Indicates if the data point is null.
-  final bool? nullValue;
-
-  /// Indicates if the data point is a row.
-  final Row? rowValue;
-
-  /// Indicates if the data point is a scalar value such as integer, string,
-  /// double, or Boolean.
-  final String? scalarValue;
-
-  /// Indicates if the data point is a timeseries data type.
-  final List<TimeSeriesDataPoint>? timeSeriesValue;
-
-  Datum({
-    this.arrayValue,
-    this.nullValue,
-    this.rowValue,
-    this.scalarValue,
-    this.timeSeriesValue,
-  });
-
-  factory Datum.fromJson(Map<String, dynamic> json) {
-    return Datum(
-      arrayValue: (json['ArrayValue'] as List?)
-          ?.nonNulls
-          .map((e) => Datum.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nullValue: json['NullValue'] as bool?,
-      rowValue: json['RowValue'] != null
-          ? Row.fromJson(json['RowValue'] as Map<String, dynamic>)
-          : null,
-      scalarValue: json['ScalarValue'] as String?,
-      timeSeriesValue: (json['TimeSeriesValue'] as List?)
-          ?.nonNulls
-          .map((e) => TimeSeriesDataPoint.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arrayValue = this.arrayValue;
-    final nullValue = this.nullValue;
-    final rowValue = this.rowValue;
-    final scalarValue = this.scalarValue;
-    final timeSeriesValue = this.timeSeriesValue;
-    return {
-      if (arrayValue != null) 'ArrayValue': arrayValue,
-      if (nullValue != null) 'NullValue': nullValue,
-      if (rowValue != null) 'RowValue': rowValue,
-      if (scalarValue != null) 'ScalarValue': scalarValue,
-      if (timeSeriesValue != null) 'TimeSeriesValue': timeSeriesValue,
-    };
-  }
-}
-
 class DescribeAccountSettingsResponse {
   /// The maximum number of <a
   /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/tcu.html">Timestream
   /// compute units</a> (TCUs) the service will use at any point in time to serve
-  /// your queries.
+  /// your queries. To run queries, you must set a minimum capacity of 4 TCU. You
+  /// can set the maximum number of TCU in multiples of 4, for example, 4, 8, 16,
+  /// 32, and so on. This configuration is applicable only for on-demand usage of
+  /// (TCUs).
   final int? maxQueryTCU;
 
+  /// An object that contains the usage settings for Timestream Compute Units
+  /// (TCUs) in your account for the query workload.
+  final QueryComputeResponse? queryCompute;
+
   /// The pricing model for queries in your account.
+  /// <note>
+  /// The <code>QueryPricingModel</code> parameter is used by several Timestream
+  /// operations; however, the <code>UpdateAccountSettings</code> API operation
+  /// doesn't recognize any values other than <code>COMPUTE_UNITS</code>.
+  /// </note>
   final QueryPricingModel? queryPricingModel;
 
   DescribeAccountSettingsResponse({
     this.maxQueryTCU,
+    this.queryCompute,
     this.queryPricingModel,
   });
 
   factory DescribeAccountSettingsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeAccountSettingsResponse(
       maxQueryTCU: json['MaxQueryTCU'] as int?,
+      queryCompute: json['QueryCompute'] != null
+          ? QueryComputeResponse.fromJson(
+              json['QueryCompute'] as Map<String, dynamic>)
+          : null,
       queryPricingModel: (json['QueryPricingModel'] as String?)
           ?.let(QueryPricingModel.fromString),
     );
@@ -1024,9 +1000,11 @@ class DescribeAccountSettingsResponse {
 
   Map<String, dynamic> toJson() {
     final maxQueryTCU = this.maxQueryTCU;
+    final queryCompute = this.queryCompute;
     final queryPricingModel = this.queryPricingModel;
     return {
       if (maxQueryTCU != null) 'MaxQueryTCU': maxQueryTCU,
+      if (queryCompute != null) 'QueryCompute': queryCompute,
       if (queryPricingModel != null)
         'QueryPricingModel': queryPricingModel.value,
     };
@@ -1079,207 +1057,6 @@ class DescribeScheduledQueryResponse {
     final scheduledQuery = this.scheduledQuery;
     return {
       'ScheduledQuery': scheduledQuery,
-    };
-  }
-}
-
-/// This type is used to map column(s) from the query result to a dimension in
-/// the destination table.
-class DimensionMapping {
-  /// Type for the dimension.
-  final DimensionValueType dimensionValueType;
-
-  /// Column name from query result.
-  final String name;
-
-  DimensionMapping({
-    required this.dimensionValueType,
-    required this.name,
-  });
-
-  factory DimensionMapping.fromJson(Map<String, dynamic> json) {
-    return DimensionMapping(
-      dimensionValueType: DimensionValueType.fromString(
-          (json['DimensionValueType'] as String?) ?? ''),
-      name: (json['Name'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dimensionValueType = this.dimensionValueType;
-    final name = this.name;
-    return {
-      'DimensionValueType': dimensionValueType.value,
-      'Name': name,
-    };
-  }
-}
-
-class DimensionValueType {
-  static const varchar = DimensionValueType._('VARCHAR');
-
-  final String value;
-
-  const DimensionValueType._(this.value);
-
-  static const values = [varchar];
-
-  static DimensionValueType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DimensionValueType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DimensionValueType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents an available endpoint against which to make API calls against, as
-/// well as the TTL for that endpoint.
-class Endpoint {
-  /// An endpoint address.
-  final String address;
-
-  /// The TTL for the endpoint, in minutes.
-  final int cachePeriodInMinutes;
-
-  Endpoint({
-    required this.address,
-    required this.cachePeriodInMinutes,
-  });
-
-  factory Endpoint.fromJson(Map<String, dynamic> json) {
-    return Endpoint(
-      address: (json['Address'] as String?) ?? '',
-      cachePeriodInMinutes: (json['CachePeriodInMinutes'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final address = this.address;
-    final cachePeriodInMinutes = this.cachePeriodInMinutes;
-    return {
-      'Address': address,
-      'CachePeriodInMinutes': cachePeriodInMinutes,
-    };
-  }
-}
-
-/// Configuration required for error reporting.
-class ErrorReportConfiguration {
-  /// The S3 configuration for the error reports.
-  final S3Configuration s3Configuration;
-
-  ErrorReportConfiguration({
-    required this.s3Configuration,
-  });
-
-  factory ErrorReportConfiguration.fromJson(Map<String, dynamic> json) {
-    return ErrorReportConfiguration(
-      s3Configuration: S3Configuration.fromJson(
-          (json['S3Configuration'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final s3Configuration = this.s3Configuration;
-    return {
-      'S3Configuration': s3Configuration,
-    };
-  }
-}
-
-/// This contains the location of the error report for a single scheduled query
-/// call.
-class ErrorReportLocation {
-  /// The S3 location where error reports are written.
-  final S3ReportLocation? s3ReportLocation;
-
-  ErrorReportLocation({
-    this.s3ReportLocation,
-  });
-
-  factory ErrorReportLocation.fromJson(Map<String, dynamic> json) {
-    return ErrorReportLocation(
-      s3ReportLocation: json['S3ReportLocation'] != null
-          ? S3ReportLocation.fromJson(
-              json['S3ReportLocation'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final s3ReportLocation = this.s3ReportLocation;
-    return {
-      if (s3ReportLocation != null) 'S3ReportLocation': s3ReportLocation,
-    };
-  }
-}
-
-/// Statistics for a single scheduled query run.
-class ExecutionStats {
-  /// Bytes metered for a single scheduled query run.
-  final int? bytesMetered;
-
-  /// Bytes scanned for a single scheduled query run.
-  final int? cumulativeBytesScanned;
-
-  /// Data writes metered for records ingested in a single scheduled query run.
-  final int? dataWrites;
-
-  /// Total time, measured in milliseconds, that was needed for the scheduled
-  /// query run to complete.
-  final int? executionTimeInMillis;
-
-  /// Number of rows present in the output from running a query before ingestion
-  /// to destination data source.
-  final int? queryResultRows;
-
-  /// The number of records ingested for a single scheduled query run.
-  final int? recordsIngested;
-
-  ExecutionStats({
-    this.bytesMetered,
-    this.cumulativeBytesScanned,
-    this.dataWrites,
-    this.executionTimeInMillis,
-    this.queryResultRows,
-    this.recordsIngested,
-  });
-
-  factory ExecutionStats.fromJson(Map<String, dynamic> json) {
-    return ExecutionStats(
-      bytesMetered: json['BytesMetered'] as int?,
-      cumulativeBytesScanned: json['CumulativeBytesScanned'] as int?,
-      dataWrites: json['DataWrites'] as int?,
-      executionTimeInMillis: json['ExecutionTimeInMillis'] as int?,
-      queryResultRows: json['QueryResultRows'] as int?,
-      recordsIngested: json['RecordsIngested'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bytesMetered = this.bytesMetered;
-    final cumulativeBytesScanned = this.cumulativeBytesScanned;
-    final dataWrites = this.dataWrites;
-    final executionTimeInMillis = this.executionTimeInMillis;
-    final queryResultRows = this.queryResultRows;
-    final recordsIngested = this.recordsIngested;
-    return {
-      if (bytesMetered != null) 'BytesMetered': bytesMetered,
-      if (cumulativeBytesScanned != null)
-        'CumulativeBytesScanned': cumulativeBytesScanned,
-      if (dataWrites != null) 'DataWrites': dataWrites,
-      if (executionTimeInMillis != null)
-        'ExecutionTimeInMillis': executionTimeInMillis,
-      if (queryResultRows != null) 'QueryResultRows': queryResultRows,
-      if (recordsIngested != null) 'RecordsIngested': recordsIngested,
     };
   }
 }
@@ -1350,237 +1127,6 @@ class ListTagsForResourceResponse {
   }
 }
 
-class MeasureValueType {
-  static const bigint = MeasureValueType._('BIGINT');
-  static const boolean = MeasureValueType._('BOOLEAN');
-  static const $double = MeasureValueType._('DOUBLE');
-  static const varchar = MeasureValueType._('VARCHAR');
-  static const multi = MeasureValueType._('MULTI');
-
-  final String value;
-
-  const MeasureValueType._(this.value);
-
-  static const values = [bigint, boolean, $double, varchar, multi];
-
-  static MeasureValueType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MeasureValueType._(value));
-
-  @override
-  bool operator ==(other) => other is MeasureValueType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// MixedMeasureMappings are mappings that can be used to ingest data into a
-/// mixture of narrow and multi measures in the derived table.
-class MixedMeasureMapping {
-  /// Type of the value that is to be read from sourceColumn. If the mapping is
-  /// for MULTI, use MeasureValueType.MULTI.
-  final MeasureValueType measureValueType;
-
-  /// Refers to the value of measure_name in a result row. This field is required
-  /// if MeasureNameColumn is provided.
-  final String? measureName;
-
-  /// Required when measureValueType is MULTI. Attribute mappings for MULTI value
-  /// measures.
-  final List<MultiMeasureAttributeMapping>? multiMeasureAttributeMappings;
-
-  /// This field refers to the source column from which measure-value is to be
-  /// read for result materialization.
-  final String? sourceColumn;
-
-  /// Target measure name to be used. If not provided, the target measure name by
-  /// default would be measure-name if provided, or sourceColumn otherwise.
-  final String? targetMeasureName;
-
-  MixedMeasureMapping({
-    required this.measureValueType,
-    this.measureName,
-    this.multiMeasureAttributeMappings,
-    this.sourceColumn,
-    this.targetMeasureName,
-  });
-
-  factory MixedMeasureMapping.fromJson(Map<String, dynamic> json) {
-    return MixedMeasureMapping(
-      measureValueType: MeasureValueType.fromString(
-          (json['MeasureValueType'] as String?) ?? ''),
-      measureName: json['MeasureName'] as String?,
-      multiMeasureAttributeMappings: (json['MultiMeasureAttributeMappings']
-              as List?)
-          ?.nonNulls
-          .map((e) =>
-              MultiMeasureAttributeMapping.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      sourceColumn: json['SourceColumn'] as String?,
-      targetMeasureName: json['TargetMeasureName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final measureValueType = this.measureValueType;
-    final measureName = this.measureName;
-    final multiMeasureAttributeMappings = this.multiMeasureAttributeMappings;
-    final sourceColumn = this.sourceColumn;
-    final targetMeasureName = this.targetMeasureName;
-    return {
-      'MeasureValueType': measureValueType.value,
-      if (measureName != null) 'MeasureName': measureName,
-      if (multiMeasureAttributeMappings != null)
-        'MultiMeasureAttributeMappings': multiMeasureAttributeMappings,
-      if (sourceColumn != null) 'SourceColumn': sourceColumn,
-      if (targetMeasureName != null) 'TargetMeasureName': targetMeasureName,
-    };
-  }
-}
-
-/// Attribute mapping for MULTI value measures.
-class MultiMeasureAttributeMapping {
-  /// Type of the attribute to be read from the source column.
-  final ScalarMeasureValueType measureValueType;
-
-  /// Source column from where the attribute value is to be read.
-  final String sourceColumn;
-
-  /// Custom name to be used for attribute name in derived table. If not provided,
-  /// source column name would be used.
-  final String? targetMultiMeasureAttributeName;
-
-  MultiMeasureAttributeMapping({
-    required this.measureValueType,
-    required this.sourceColumn,
-    this.targetMultiMeasureAttributeName,
-  });
-
-  factory MultiMeasureAttributeMapping.fromJson(Map<String, dynamic> json) {
-    return MultiMeasureAttributeMapping(
-      measureValueType: ScalarMeasureValueType.fromString(
-          (json['MeasureValueType'] as String?) ?? ''),
-      sourceColumn: (json['SourceColumn'] as String?) ?? '',
-      targetMultiMeasureAttributeName:
-          json['TargetMultiMeasureAttributeName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final measureValueType = this.measureValueType;
-    final sourceColumn = this.sourceColumn;
-    final targetMultiMeasureAttributeName =
-        this.targetMultiMeasureAttributeName;
-    return {
-      'MeasureValueType': measureValueType.value,
-      'SourceColumn': sourceColumn,
-      if (targetMultiMeasureAttributeName != null)
-        'TargetMultiMeasureAttributeName': targetMultiMeasureAttributeName,
-    };
-  }
-}
-
-/// Only one of MixedMeasureMappings or MultiMeasureMappings is to be provided.
-/// MultiMeasureMappings can be used to ingest data as multi measures in the
-/// derived table.
-class MultiMeasureMappings {
-  /// Required. Attribute mappings to be used for mapping query results to ingest
-  /// data for multi-measure attributes.
-  final List<MultiMeasureAttributeMapping> multiMeasureAttributeMappings;
-
-  /// The name of the target multi-measure name in the derived table. This input
-  /// is required when measureNameColumn is not provided. If MeasureNameColumn is
-  /// provided, then value from that column will be used as multi-measure name.
-  final String? targetMultiMeasureName;
-
-  MultiMeasureMappings({
-    required this.multiMeasureAttributeMappings,
-    this.targetMultiMeasureName,
-  });
-
-  factory MultiMeasureMappings.fromJson(Map<String, dynamic> json) {
-    return MultiMeasureMappings(
-      multiMeasureAttributeMappings: ((json['MultiMeasureAttributeMappings']
-                  as List?) ??
-              const [])
-          .nonNulls
-          .map((e) =>
-              MultiMeasureAttributeMapping.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      targetMultiMeasureName: json['TargetMultiMeasureName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final multiMeasureAttributeMappings = this.multiMeasureAttributeMappings;
-    final targetMultiMeasureName = this.targetMultiMeasureName;
-    return {
-      'MultiMeasureAttributeMappings': multiMeasureAttributeMappings,
-      if (targetMultiMeasureName != null)
-        'TargetMultiMeasureName': targetMultiMeasureName,
-    };
-  }
-}
-
-/// Notification configuration for a scheduled query. A notification is sent by
-/// Timestream when a scheduled query is created, its state is updated or when
-/// it is deleted.
-class NotificationConfiguration {
-  /// Details on SNS configuration.
-  final SnsConfiguration snsConfiguration;
-
-  NotificationConfiguration({
-    required this.snsConfiguration,
-  });
-
-  factory NotificationConfiguration.fromJson(Map<String, dynamic> json) {
-    return NotificationConfiguration(
-      snsConfiguration: SnsConfiguration.fromJson(
-          (json['SnsConfiguration'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final snsConfiguration = this.snsConfiguration;
-    return {
-      'SnsConfiguration': snsConfiguration,
-    };
-  }
-}
-
-/// Mapping for named parameters.
-class ParameterMapping {
-  /// Parameter name.
-  final String name;
-  final Type type;
-
-  ParameterMapping({
-    required this.name,
-    required this.type,
-  });
-
-  factory ParameterMapping.fromJson(Map<String, dynamic> json) {
-    return ParameterMapping(
-      name: (json['Name'] as String?) ?? '',
-      type: Type.fromJson(
-          (json['Type'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final type = this.type;
-    return {
-      'Name': name,
-      'Type': type,
-    };
-  }
-}
-
 class PrepareQueryResponse {
   /// A list of SELECT clause columns of the submitted query string.
   final List<SelectColumn> columns;
@@ -1623,6 +1169,169 @@ class PrepareQueryResponse {
   }
 }
 
+class QueryResponse {
+  /// The column data types of the returned result set.
+  final List<ColumnInfo> columnInfo;
+
+  /// A unique ID for the given query.
+  final String queryId;
+
+  /// The result set rows returned by the query.
+  final List<Row> rows;
+
+  /// A pagination token that can be used again on a <code>Query</code> call to
+  /// get the next set of results.
+  final String? nextToken;
+
+  /// Encapsulates <code>QueryInsights</code> containing insights and metrics
+  /// related to the query that you executed.
+  final QueryInsightsResponse? queryInsightsResponse;
+
+  /// Information about the status of the query, including progress and bytes
+  /// scanned.
+  final QueryStatus? queryStatus;
+
+  QueryResponse({
+    required this.columnInfo,
+    required this.queryId,
+    required this.rows,
+    this.nextToken,
+    this.queryInsightsResponse,
+    this.queryStatus,
+  });
+
+  factory QueryResponse.fromJson(Map<String, dynamic> json) {
+    return QueryResponse(
+      columnInfo: ((json['ColumnInfo'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => ColumnInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      queryId: (json['QueryId'] as String?) ?? '',
+      rows: ((json['Rows'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Row.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+      queryInsightsResponse: json['QueryInsightsResponse'] != null
+          ? QueryInsightsResponse.fromJson(
+              json['QueryInsightsResponse'] as Map<String, dynamic>)
+          : null,
+      queryStatus: json['QueryStatus'] != null
+          ? QueryStatus.fromJson(json['QueryStatus'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columnInfo = this.columnInfo;
+    final queryId = this.queryId;
+    final rows = this.rows;
+    final nextToken = this.nextToken;
+    final queryInsightsResponse = this.queryInsightsResponse;
+    final queryStatus = this.queryStatus;
+    return {
+      'ColumnInfo': columnInfo,
+      'QueryId': queryId,
+      'Rows': rows,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (queryInsightsResponse != null)
+        'QueryInsightsResponse': queryInsightsResponse,
+      if (queryStatus != null) 'QueryStatus': queryStatus,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateAccountSettingsResponse {
+  /// The configured maximum number of compute units the service will use at any
+  /// point in time to serve your queries.
+  final int? maxQueryTCU;
+
+  /// Confirms the updated account settings for querying data in your account.
+  final QueryComputeResponse? queryCompute;
+
+  /// The pricing model for an account.
+  final QueryPricingModel? queryPricingModel;
+
+  UpdateAccountSettingsResponse({
+    this.maxQueryTCU,
+    this.queryCompute,
+    this.queryPricingModel,
+  });
+
+  factory UpdateAccountSettingsResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateAccountSettingsResponse(
+      maxQueryTCU: json['MaxQueryTCU'] as int?,
+      queryCompute: json['QueryCompute'] != null
+          ? QueryComputeResponse.fromJson(
+              json['QueryCompute'] as Map<String, dynamic>)
+          : null,
+      queryPricingModel: (json['QueryPricingModel'] as String?)
+          ?.let(QueryPricingModel.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxQueryTCU = this.maxQueryTCU;
+    final queryCompute = this.queryCompute;
+    final queryPricingModel = this.queryPricingModel;
+    return {
+      if (maxQueryTCU != null) 'MaxQueryTCU': maxQueryTCU,
+      if (queryCompute != null) 'QueryCompute': queryCompute,
+      if (queryPricingModel != null)
+        'QueryPricingModel': queryPricingModel.value,
+    };
+  }
+}
+
+class ScheduledQueryState {
+  static const enabled = ScheduledQueryState._('ENABLED');
+  static const disabled = ScheduledQueryState._('DISABLED');
+
+  final String value;
+
+  const ScheduledQueryState._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static ScheduledQueryState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ScheduledQueryState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ScheduledQueryState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 class QueryPricingModel {
   static const bytesScanned = QueryPricingModel._('BYTES_SCANNED');
   static const computeUnits = QueryPricingModel._('COMPUTE_UNITS');
@@ -1647,62 +1356,322 @@ class QueryPricingModel {
   String toString() => value;
 }
 
-class QueryResponse {
-  /// The column data types of the returned result set.
-  final List<ColumnInfo> columnInfo;
+/// The response to a request to retrieve or update the compute capacity
+/// settings for querying data.
+class QueryComputeResponse {
+  /// The mode in which Timestream Compute Units (TCUs) are allocated and utilized
+  /// within an account. Note that in the Asia Pacific (Mumbai) region, the API
+  /// operation only recognizes the value <code>PROVISIONED</code>.
+  final ComputeMode? computeMode;
 
-  /// A unique ID for the given query.
-  final String queryId;
+  /// Configuration object that contains settings for provisioned Timestream
+  /// Compute Units (TCUs) in your account.
+  final ProvisionedCapacityResponse? provisionedCapacity;
 
-  /// The result set rows returned by the query.
-  final List<Row> rows;
-
-  /// A pagination token that can be used again on a <code>Query</code> call to
-  /// get the next set of results.
-  final String? nextToken;
-
-  /// Information about the status of the query, including progress and bytes
-  /// scanned.
-  final QueryStatus? queryStatus;
-
-  QueryResponse({
-    required this.columnInfo,
-    required this.queryId,
-    required this.rows,
-    this.nextToken,
-    this.queryStatus,
+  QueryComputeResponse({
+    this.computeMode,
+    this.provisionedCapacity,
   });
 
-  factory QueryResponse.fromJson(Map<String, dynamic> json) {
-    return QueryResponse(
-      columnInfo: ((json['ColumnInfo'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => ColumnInfo.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      queryId: (json['QueryId'] as String?) ?? '',
-      rows: ((json['Rows'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => Row.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-      queryStatus: json['QueryStatus'] != null
-          ? QueryStatus.fromJson(json['QueryStatus'] as Map<String, dynamic>)
+  factory QueryComputeResponse.fromJson(Map<String, dynamic> json) {
+    return QueryComputeResponse(
+      computeMode:
+          (json['ComputeMode'] as String?)?.let(ComputeMode.fromString),
+      provisionedCapacity: json['ProvisionedCapacity'] != null
+          ? ProvisionedCapacityResponse.fromJson(
+              json['ProvisionedCapacity'] as Map<String, dynamic>)
           : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final columnInfo = this.columnInfo;
-    final queryId = this.queryId;
-    final rows = this.rows;
-    final nextToken = this.nextToken;
-    final queryStatus = this.queryStatus;
+    final computeMode = this.computeMode;
+    final provisionedCapacity = this.provisionedCapacity;
     return {
-      'ColumnInfo': columnInfo,
-      'QueryId': queryId,
-      'Rows': rows,
-      if (nextToken != null) 'NextToken': nextToken,
-      if (queryStatus != null) 'QueryStatus': queryStatus,
+      if (computeMode != null) 'ComputeMode': computeMode.value,
+      if (provisionedCapacity != null)
+        'ProvisionedCapacity': provisionedCapacity,
+    };
+  }
+}
+
+class ComputeMode {
+  static const onDemand = ComputeMode._('ON_DEMAND');
+  static const provisioned = ComputeMode._('PROVISIONED');
+
+  final String value;
+
+  const ComputeMode._(this.value);
+
+  static const values = [onDemand, provisioned];
+
+  static ComputeMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ComputeMode._(value));
+
+  @override
+  bool operator ==(other) => other is ComputeMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The response to a request to update the provisioned capacity settings for
+/// querying data.
+class ProvisionedCapacityResponse {
+  /// The number of Timestream Compute Units (TCUs) provisioned in the account.
+  /// This field is only visible when the compute mode is
+  /// <code>PROVISIONED</code>.
+  final int? activeQueryTCU;
+
+  /// Information about the last update to the provisioned capacity settings.
+  final LastUpdate? lastUpdate;
+
+  /// An object that contains settings for notifications that are sent whenever
+  /// the provisioned capacity settings are modified. This field is only visible
+  /// when the compute mode is <code>PROVISIONED</code>.
+  final AccountSettingsNotificationConfiguration? notificationConfiguration;
+
+  ProvisionedCapacityResponse({
+    this.activeQueryTCU,
+    this.lastUpdate,
+    this.notificationConfiguration,
+  });
+
+  factory ProvisionedCapacityResponse.fromJson(Map<String, dynamic> json) {
+    return ProvisionedCapacityResponse(
+      activeQueryTCU: json['ActiveQueryTCU'] as int?,
+      lastUpdate: json['LastUpdate'] != null
+          ? LastUpdate.fromJson(json['LastUpdate'] as Map<String, dynamic>)
+          : null,
+      notificationConfiguration: json['NotificationConfiguration'] != null
+          ? AccountSettingsNotificationConfiguration.fromJson(
+              json['NotificationConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activeQueryTCU = this.activeQueryTCU;
+    final lastUpdate = this.lastUpdate;
+    final notificationConfiguration = this.notificationConfiguration;
+    return {
+      if (activeQueryTCU != null) 'ActiveQueryTCU': activeQueryTCU,
+      if (lastUpdate != null) 'LastUpdate': lastUpdate,
+      if (notificationConfiguration != null)
+        'NotificationConfiguration': notificationConfiguration,
+    };
+  }
+}
+
+/// Configuration settings for notifications related to account settings.
+class AccountSettingsNotificationConfiguration {
+  /// An Amazon Resource Name (ARN) that grants Timestream permission to publish
+  /// notifications. This field is only visible if SNS Topic is provided when
+  /// updating the account settings.
+  final String roleArn;
+  final SnsConfiguration? snsConfiguration;
+
+  AccountSettingsNotificationConfiguration({
+    required this.roleArn,
+    this.snsConfiguration,
+  });
+
+  factory AccountSettingsNotificationConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return AccountSettingsNotificationConfiguration(
+      roleArn: (json['RoleArn'] as String?) ?? '',
+      snsConfiguration: json['SnsConfiguration'] != null
+          ? SnsConfiguration.fromJson(
+              json['SnsConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roleArn = this.roleArn;
+    final snsConfiguration = this.snsConfiguration;
+    return {
+      'RoleArn': roleArn,
+      if (snsConfiguration != null) 'SnsConfiguration': snsConfiguration,
+    };
+  }
+}
+
+/// Configuration object that contains the most recent account settings update,
+/// visible only if settings have been updated previously.
+class LastUpdate {
+  /// The status of the last update. Can be either <code>PENDING</code>,
+  /// <code>FAILED</code>, or <code>SUCCEEDED</code>.
+  final LastUpdateStatus? status;
+
+  /// Error message describing the last account settings update status, visible
+  /// only if an error occurred.
+  final String? statusMessage;
+
+  /// The number of TimeStream Compute Units (TCUs) requested in the last account
+  /// settings update.
+  final int? targetQueryTCU;
+
+  LastUpdate({
+    this.status,
+    this.statusMessage,
+    this.targetQueryTCU,
+  });
+
+  factory LastUpdate.fromJson(Map<String, dynamic> json) {
+    return LastUpdate(
+      status: (json['Status'] as String?)?.let(LastUpdateStatus.fromString),
+      statusMessage: json['StatusMessage'] as String?,
+      targetQueryTCU: json['TargetQueryTCU'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    final targetQueryTCU = this.targetQueryTCU;
+    return {
+      if (status != null) 'Status': status.value,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+      if (targetQueryTCU != null) 'TargetQueryTCU': targetQueryTCU,
+    };
+  }
+}
+
+class LastUpdateStatus {
+  static const pending = LastUpdateStatus._('PENDING');
+  static const failed = LastUpdateStatus._('FAILED');
+  static const succeeded = LastUpdateStatus._('SUCCEEDED');
+
+  final String value;
+
+  const LastUpdateStatus._(this.value);
+
+  static const values = [pending, failed, succeeded];
+
+  static LastUpdateStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LastUpdateStatus._(value));
+
+  @override
+  bool operator ==(other) => other is LastUpdateStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Details on SNS that are required to send the notification.
+class SnsConfiguration {
+  /// SNS topic ARN that the scheduled query status notifications will be sent to.
+  final String topicArn;
+
+  SnsConfiguration({
+    required this.topicArn,
+  });
+
+  factory SnsConfiguration.fromJson(Map<String, dynamic> json) {
+    return SnsConfiguration(
+      topicArn: (json['TopicArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final topicArn = this.topicArn;
+    return {
+      'TopicArn': topicArn,
+    };
+  }
+}
+
+/// A request to retrieve or update the compute capacity settings for querying
+/// data.
+class QueryComputeRequest {
+  /// The mode in which Timestream Compute Units (TCUs) are allocated and utilized
+  /// within an account. Note that in the Asia Pacific (Mumbai) region, the API
+  /// operation only recognizes the value <code>PROVISIONED</code>.
+  final ComputeMode? computeMode;
+
+  /// Configuration object that contains settings for provisioned Timestream
+  /// Compute Units (TCUs) in your account.
+  final ProvisionedCapacityRequest? provisionedCapacity;
+
+  QueryComputeRequest({
+    this.computeMode,
+    this.provisionedCapacity,
+  });
+
+  Map<String, dynamic> toJson() {
+    final computeMode = this.computeMode;
+    final provisionedCapacity = this.provisionedCapacity;
+    return {
+      if (computeMode != null) 'ComputeMode': computeMode.value,
+      if (provisionedCapacity != null)
+        'ProvisionedCapacity': provisionedCapacity,
+    };
+  }
+}
+
+/// A request to update the provisioned capacity settings for querying data.
+class ProvisionedCapacityRequest {
+  /// The target compute capacity for querying data, specified in Timestream
+  /// Compute Units (TCUs).
+  final int targetQueryTCU;
+
+  /// Configuration settings for notifications related to the provisioned capacity
+  /// update.
+  final AccountSettingsNotificationConfiguration? notificationConfiguration;
+
+  ProvisionedCapacityRequest({
+    required this.targetQueryTCU,
+    this.notificationConfiguration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final targetQueryTCU = this.targetQueryTCU;
+    final notificationConfiguration = this.notificationConfiguration;
+    return {
+      'TargetQueryTCU': targetQueryTCU,
+      if (notificationConfiguration != null)
+        'NotificationConfiguration': notificationConfiguration,
+    };
+  }
+}
+
+/// A tag is a label that you assign to a Timestream database and/or table. Each
+/// tag consists of a key and an optional value, both of which you define. Tags
+/// enable you to categorize databases and/or tables, for example, by purpose,
+/// owner, or environment.
+class Tag {
+  /// The key of the tag. Tag keys are case sensitive.
+  final String key;
+
+  /// The value of the tag. Tag values are case sensitive and can be null.
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
     };
   }
 }
@@ -1753,153 +1722,375 @@ class QueryStatus {
   }
 }
 
-/// Represents a single row in the query results.
-class Row {
-  /// List of data points in a single row of the result set.
-  final List<Datum> data;
+/// Provides various insights and metrics related to the query that you
+/// executed.
+class QueryInsightsResponse {
+  /// Indicates the size of query result set in bytes. You can use this data to
+  /// validate if the result set has changed as part of the query tuning exercise.
+  final int? outputBytes;
 
-  Row({
-    required this.data,
+  /// Indicates the total number of rows returned as part of the query result set.
+  /// You can use this data to validate if the number of rows in the result set
+  /// have changed as part of the query tuning exercise.
+  final int? outputRows;
+
+  /// Provides insights into the spatial coverage of the query, including the
+  /// table with sub-optimal (max) spatial pruning. This information can help you
+  /// identify areas for improvement in your partitioning strategy to enhance
+  /// spatial pruning.
+  final QuerySpatialCoverage? querySpatialCoverage;
+
+  /// Indicates the number of tables in the query.
+  final int? queryTableCount;
+
+  /// Provides insights into the temporal range of the query, including the table
+  /// with the largest (max) time range. Following are some of the potential
+  /// options for optimizing time-based pruning:
+  ///
+  /// <ul>
+  /// <li>
+  /// Add missing time-predicates.
+  /// </li>
+  /// <li>
+  /// Remove functions around the time predicates.
+  /// </li>
+  /// <li>
+  /// Add time predicates to all the sub-queries.
+  /// </li>
+  /// </ul>
+  final QueryTemporalRange? queryTemporalRange;
+
+  /// Indicates the partitions created by the <code>Unload</code> operation.
+  final int? unloadPartitionCount;
+
+  /// Indicates the size, in bytes, written by the <code>Unload</code> operation.
+  final int? unloadWrittenBytes;
+
+  /// Indicates the rows written by the <code>Unload</code> query.
+  final int? unloadWrittenRows;
+
+  QueryInsightsResponse({
+    this.outputBytes,
+    this.outputRows,
+    this.querySpatialCoverage,
+    this.queryTableCount,
+    this.queryTemporalRange,
+    this.unloadPartitionCount,
+    this.unloadWrittenBytes,
+    this.unloadWrittenRows,
   });
 
-  factory Row.fromJson(Map<String, dynamic> json) {
-    return Row(
-      data: ((json['Data'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => Datum.fromJson(e as Map<String, dynamic>))
+  factory QueryInsightsResponse.fromJson(Map<String, dynamic> json) {
+    return QueryInsightsResponse(
+      outputBytes: json['OutputBytes'] as int?,
+      outputRows: json['OutputRows'] as int?,
+      querySpatialCoverage: json['QuerySpatialCoverage'] != null
+          ? QuerySpatialCoverage.fromJson(
+              json['QuerySpatialCoverage'] as Map<String, dynamic>)
+          : null,
+      queryTableCount: json['QueryTableCount'] as int?,
+      queryTemporalRange: json['QueryTemporalRange'] != null
+          ? QueryTemporalRange.fromJson(
+              json['QueryTemporalRange'] as Map<String, dynamic>)
+          : null,
+      unloadPartitionCount: json['UnloadPartitionCount'] as int?,
+      unloadWrittenBytes: json['UnloadWrittenBytes'] as int?,
+      unloadWrittenRows: json['UnloadWrittenRows'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final outputBytes = this.outputBytes;
+    final outputRows = this.outputRows;
+    final querySpatialCoverage = this.querySpatialCoverage;
+    final queryTableCount = this.queryTableCount;
+    final queryTemporalRange = this.queryTemporalRange;
+    final unloadPartitionCount = this.unloadPartitionCount;
+    final unloadWrittenBytes = this.unloadWrittenBytes;
+    final unloadWrittenRows = this.unloadWrittenRows;
+    return {
+      if (outputBytes != null) 'OutputBytes': outputBytes,
+      if (outputRows != null) 'OutputRows': outputRows,
+      if (querySpatialCoverage != null)
+        'QuerySpatialCoverage': querySpatialCoverage,
+      if (queryTableCount != null) 'QueryTableCount': queryTableCount,
+      if (queryTemporalRange != null) 'QueryTemporalRange': queryTemporalRange,
+      if (unloadPartitionCount != null)
+        'UnloadPartitionCount': unloadPartitionCount,
+      if (unloadWrittenBytes != null) 'UnloadWrittenBytes': unloadWrittenBytes,
+      if (unloadWrittenRows != null) 'UnloadWrittenRows': unloadWrittenRows,
+    };
+  }
+}
+
+/// Provides insights into the spatial coverage of the query, including the
+/// table with sub-optimal (max) spatial pruning. This information can help you
+/// identify areas for improvement in your partitioning strategy to enhance
+/// spatial pruning
+///
+/// For example, you can do the following with the
+/// <code>QuerySpatialCoverage</code> information:
+///
+/// <ul>
+/// <li>
+/// Add measure_name or use <a
+/// href="https://docs.aws.amazon.com/timestream/latest/developerguide/customer-defined-partition-keys.html">customer-defined
+/// partition key</a> (CDPK) predicates.
+/// </li>
+/// <li>
+/// If you've already done the preceding action, remove functions around them or
+/// clauses, such as <code>LIKE</code>.
+/// </li>
+/// </ul>
+class QuerySpatialCoverage {
+  /// Provides insights into the spatial coverage of the executed query and the
+  /// table with the most inefficient spatial pruning.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Value</code> – The maximum ratio of spatial coverage.
+  /// </li>
+  /// <li>
+  /// <code>TableArn</code> – The Amazon Resource Name (ARN) of the table with
+  /// sub-optimal spatial pruning.
+  /// </li>
+  /// <li>
+  /// <code>PartitionKey</code> – The partition key used for partitioning, which
+  /// can be a default <code>measure_name</code> or a CDPK.
+  /// </li>
+  /// </ul>
+  final QuerySpatialCoverageMax? max;
+
+  QuerySpatialCoverage({
+    this.max,
+  });
+
+  factory QuerySpatialCoverage.fromJson(Map<String, dynamic> json) {
+    return QuerySpatialCoverage(
+      max: json['Max'] != null
+          ? QuerySpatialCoverageMax.fromJson(
+              json['Max'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final max = this.max;
+    return {
+      if (max != null) 'Max': max,
+    };
+  }
+}
+
+/// Provides insights into the temporal range of the query, including the table
+/// with the largest (max) time range.
+class QueryTemporalRange {
+  /// Encapsulates the following properties that provide insights into the most
+  /// sub-optimal performing table on the temporal axis:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Value</code> – The maximum duration in nanoseconds between the start
+  /// and end of the query.
+  /// </li>
+  /// <li>
+  /// <code>TableArn</code> – The Amazon Resource Name (ARN) of the table which is
+  /// queried with the largest time range.
+  /// </li>
+  /// </ul>
+  final QueryTemporalRangeMax? max;
+
+  QueryTemporalRange({
+    this.max,
+  });
+
+  factory QueryTemporalRange.fromJson(Map<String, dynamic> json) {
+    return QueryTemporalRange(
+      max: json['Max'] != null
+          ? QueryTemporalRangeMax.fromJson(json['Max'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final max = this.max;
+    return {
+      if (max != null) 'Max': max,
+    };
+  }
+}
+
+/// Provides insights into the table with the most sub-optimal temporal pruning
+/// scanned by your query.
+class QueryTemporalRangeMax {
+  /// The Amazon Resource Name (ARN) of the table which is queried with the
+  /// largest time range.
+  final String? tableArn;
+
+  /// The maximum duration in nanoseconds between the start and end of the query.
+  final int? value;
+
+  QueryTemporalRangeMax({
+    this.tableArn,
+    this.value,
+  });
+
+  factory QueryTemporalRangeMax.fromJson(Map<String, dynamic> json) {
+    return QueryTemporalRangeMax(
+      tableArn: json['TableArn'] as String?,
+      value: json['Value'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tableArn = this.tableArn;
+    final value = this.value;
+    return {
+      if (tableArn != null) 'TableArn': tableArn,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Provides insights into the table with the most sub-optimal spatial range
+/// scanned by your query.
+class QuerySpatialCoverageMax {
+  /// The partition key used for partitioning, which can be a default
+  /// <code>measure_name</code> or a <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/customer-defined-partition-keys.html">customer
+  /// defined partition key</a>.
+  final List<String>? partitionKey;
+
+  /// The Amazon Resource Name (ARN) of the table with the most sub-optimal
+  /// spatial pruning.
+  final String? tableArn;
+
+  /// The maximum ratio of spatial coverage.
+  final double? value;
+
+  QuerySpatialCoverageMax({
+    this.partitionKey,
+    this.tableArn,
+    this.value,
+  });
+
+  factory QuerySpatialCoverageMax.fromJson(Map<String, dynamic> json) {
+    return QuerySpatialCoverageMax(
+      partitionKey: (json['PartitionKey'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
           .toList(),
+      tableArn: json['TableArn'] as String?,
+      value: json['Value'] as double?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final data = this.data;
+    final partitionKey = this.partitionKey;
+    final tableArn = this.tableArn;
+    final value = this.value;
     return {
-      'Data': data,
+      if (partitionKey != null) 'PartitionKey': partitionKey,
+      if (tableArn != null) 'TableArn': tableArn,
+      if (value != null) 'Value': value,
     };
   }
 }
 
-/// Details on S3 location for error reports that result from running a query.
-class S3Configuration {
-  /// Name of the S3 bucket under which error reports will be created.
-  final String bucketName;
+/// Contains the metadata for query results such as the column names, data
+/// types, and other attributes.
+class ColumnInfo {
+  /// The data type of the result set column. The data type can be a scalar or
+  /// complex. Scalar data types are integers, strings, doubles, Booleans, and
+  /// others. Complex data types are types such as arrays, rows, and others.
+  final Type type;
 
-  /// Encryption at rest options for the error reports. If no encryption option is
-  /// specified, Timestream will choose SSE_S3 as default.
-  final S3EncryptionOption? encryptionOption;
+  /// The name of the result set column. The name of the result set is available
+  /// for columns of all data types except for arrays.
+  final String? name;
 
-  /// Prefix for the error report key. Timestream by default adds the following
-  /// prefix to the error report path.
-  final String? objectKeyPrefix;
-
-  S3Configuration({
-    required this.bucketName,
-    this.encryptionOption,
-    this.objectKeyPrefix,
+  ColumnInfo({
+    required this.type,
+    this.name,
   });
 
-  factory S3Configuration.fromJson(Map<String, dynamic> json) {
-    return S3Configuration(
-      bucketName: (json['BucketName'] as String?) ?? '',
-      encryptionOption: (json['EncryptionOption'] as String?)
-          ?.let(S3EncryptionOption.fromString),
-      objectKeyPrefix: json['ObjectKeyPrefix'] as String?,
+  factory ColumnInfo.fromJson(Map<String, dynamic> json) {
+    return ColumnInfo(
+      type: Type.fromJson(
+          (json['Type'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+      name: json['Name'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final bucketName = this.bucketName;
-    final encryptionOption = this.encryptionOption;
-    final objectKeyPrefix = this.objectKeyPrefix;
+    final type = this.type;
+    final name = this.name;
     return {
-      'BucketName': bucketName,
-      if (encryptionOption != null) 'EncryptionOption': encryptionOption.value,
-      if (objectKeyPrefix != null) 'ObjectKeyPrefix': objectKeyPrefix,
+      'Type': type,
+      if (name != null) 'Name': name,
     };
   }
 }
 
-class S3EncryptionOption {
-  static const sseS3 = S3EncryptionOption._('SSE_S3');
-  static const sseKms = S3EncryptionOption._('SSE_KMS');
+/// Contains the data type of a column in a query result set. The data type can
+/// be scalar or complex. The supported scalar data types are integers, Boolean,
+/// string, double, timestamp, date, time, and intervals. The supported complex
+/// data types are arrays, rows, and timeseries.
+class Type {
+  /// Indicates if the column is an array.
+  final ColumnInfo? arrayColumnInfo;
 
-  final String value;
+  /// Indicates if the column is a row.
+  final List<ColumnInfo>? rowColumnInfo;
 
-  const S3EncryptionOption._(this.value);
+  /// Indicates if the column is of type string, integer, Boolean, double,
+  /// timestamp, date, time. For more information, see <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/supported-data-types.html">Supported
+  /// data types</a>.
+  final ScalarType? scalarType;
 
-  static const values = [sseS3, sseKms];
+  /// Indicates if the column is a timeseries data type.
+  final ColumnInfo? timeSeriesMeasureValueColumnInfo;
 
-  static S3EncryptionOption fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => S3EncryptionOption._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is S3EncryptionOption && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// S3 report location for the scheduled query run.
-class S3ReportLocation {
-  /// S3 bucket name.
-  final String? bucketName;
-
-  /// S3 key.
-  final String? objectKey;
-
-  S3ReportLocation({
-    this.bucketName,
-    this.objectKey,
+  Type({
+    this.arrayColumnInfo,
+    this.rowColumnInfo,
+    this.scalarType,
+    this.timeSeriesMeasureValueColumnInfo,
   });
 
-  factory S3ReportLocation.fromJson(Map<String, dynamic> json) {
-    return S3ReportLocation(
-      bucketName: json['BucketName'] as String?,
-      objectKey: json['ObjectKey'] as String?,
+  factory Type.fromJson(Map<String, dynamic> json) {
+    return Type(
+      arrayColumnInfo: json['ArrayColumnInfo'] != null
+          ? ColumnInfo.fromJson(json['ArrayColumnInfo'] as Map<String, dynamic>)
+          : null,
+      rowColumnInfo: (json['RowColumnInfo'] as List?)
+          ?.nonNulls
+          .map((e) => ColumnInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      scalarType: (json['ScalarType'] as String?)?.let(ScalarType.fromString),
+      timeSeriesMeasureValueColumnInfo:
+          json['TimeSeriesMeasureValueColumnInfo'] != null
+              ? ColumnInfo.fromJson(json['TimeSeriesMeasureValueColumnInfo']
+                  as Map<String, dynamic>)
+              : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final bucketName = this.bucketName;
-    final objectKey = this.objectKey;
+    final arrayColumnInfo = this.arrayColumnInfo;
+    final rowColumnInfo = this.rowColumnInfo;
+    final scalarType = this.scalarType;
+    final timeSeriesMeasureValueColumnInfo =
+        this.timeSeriesMeasureValueColumnInfo;
     return {
-      if (bucketName != null) 'BucketName': bucketName,
-      if (objectKey != null) 'ObjectKey': objectKey,
+      if (arrayColumnInfo != null) 'ArrayColumnInfo': arrayColumnInfo,
+      if (rowColumnInfo != null) 'RowColumnInfo': rowColumnInfo,
+      if (scalarType != null) 'ScalarType': scalarType.value,
+      if (timeSeriesMeasureValueColumnInfo != null)
+        'TimeSeriesMeasureValueColumnInfo': timeSeriesMeasureValueColumnInfo,
     };
   }
-}
-
-class ScalarMeasureValueType {
-  static const bigint = ScalarMeasureValueType._('BIGINT');
-  static const boolean = ScalarMeasureValueType._('BOOLEAN');
-  static const $double = ScalarMeasureValueType._('DOUBLE');
-  static const varchar = ScalarMeasureValueType._('VARCHAR');
-  static const timestamp = ScalarMeasureValueType._('TIMESTAMP');
-
-  final String value;
-
-  const ScalarMeasureValueType._(this.value);
-
-  static const values = [bigint, boolean, $double, varchar, timestamp];
-
-  static ScalarMeasureValueType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ScalarMeasureValueType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ScalarMeasureValueType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class ScalarType {
@@ -1946,26 +2137,300 @@ class ScalarType {
   String toString() => value;
 }
 
-/// Configuration of the schedule of the query.
-class ScheduleConfiguration {
-  /// An expression that denotes when to trigger the scheduled query run. This can
-  /// be a cron expression or a rate expression.
-  final String scheduleExpression;
+/// Represents a single row in the query results.
+class Row {
+  /// List of data points in a single row of the result set.
+  final List<Datum> data;
 
-  ScheduleConfiguration({
-    required this.scheduleExpression,
+  Row({
+    required this.data,
   });
 
-  factory ScheduleConfiguration.fromJson(Map<String, dynamic> json) {
-    return ScheduleConfiguration(
-      scheduleExpression: (json['ScheduleExpression'] as String?) ?? '',
+  factory Row.fromJson(Map<String, dynamic> json) {
+    return Row(
+      data: ((json['Data'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Datum.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final scheduleExpression = this.scheduleExpression;
+    final data = this.data;
     return {
-      'ScheduleExpression': scheduleExpression,
+      'Data': data,
+    };
+  }
+}
+
+/// Datum represents a single data point in a query result.
+class Datum {
+  /// Indicates if the data point is an array.
+  final List<Datum>? arrayValue;
+
+  /// Indicates if the data point is null.
+  final bool? nullValue;
+
+  /// Indicates if the data point is a row.
+  final Row? rowValue;
+
+  /// Indicates if the data point is a scalar value such as integer, string,
+  /// double, or Boolean.
+  final String? scalarValue;
+
+  /// Indicates if the data point is a timeseries data type.
+  final List<TimeSeriesDataPoint>? timeSeriesValue;
+
+  Datum({
+    this.arrayValue,
+    this.nullValue,
+    this.rowValue,
+    this.scalarValue,
+    this.timeSeriesValue,
+  });
+
+  factory Datum.fromJson(Map<String, dynamic> json) {
+    return Datum(
+      arrayValue: (json['ArrayValue'] as List?)
+          ?.nonNulls
+          .map((e) => Datum.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nullValue: json['NullValue'] as bool?,
+      rowValue: json['RowValue'] != null
+          ? Row.fromJson(json['RowValue'] as Map<String, dynamic>)
+          : null,
+      scalarValue: json['ScalarValue'] as String?,
+      timeSeriesValue: (json['TimeSeriesValue'] as List?)
+          ?.nonNulls
+          .map((e) => TimeSeriesDataPoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arrayValue = this.arrayValue;
+    final nullValue = this.nullValue;
+    final rowValue = this.rowValue;
+    final scalarValue = this.scalarValue;
+    final timeSeriesValue = this.timeSeriesValue;
+    return {
+      if (arrayValue != null) 'ArrayValue': arrayValue,
+      if (nullValue != null) 'NullValue': nullValue,
+      if (rowValue != null) 'RowValue': rowValue,
+      if (scalarValue != null) 'ScalarValue': scalarValue,
+      if (timeSeriesValue != null) 'TimeSeriesValue': timeSeriesValue,
+    };
+  }
+}
+
+/// The timeseries data type represents the values of a measure over time. A
+/// time series is an array of rows of timestamps and measure values, with rows
+/// sorted in ascending order of time. A TimeSeriesDataPoint is a single data
+/// point in the time series. It represents a tuple of (time, measure value) in
+/// a time series.
+class TimeSeriesDataPoint {
+  /// The timestamp when the measure value was collected.
+  final String time;
+
+  /// The measure value for the data point.
+  final Datum value;
+
+  TimeSeriesDataPoint({
+    required this.time,
+    required this.value,
+  });
+
+  factory TimeSeriesDataPoint.fromJson(Map<String, dynamic> json) {
+    return TimeSeriesDataPoint(
+      time: (json['Time'] as String?) ?? '',
+      value: Datum.fromJson((json['Value'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final time = this.time;
+    final value = this.value;
+    return {
+      'Time': time,
+      'Value': value,
+    };
+  }
+}
+
+/// <code>QueryInsights</code> is a performance tuning feature that helps you
+/// optimize your queries, reducing costs and improving performance. With
+/// <code>QueryInsights</code>, you can assess the pruning efficiency of your
+/// queries and identify areas for improvement to enhance query performance.
+/// With <code>QueryInsights</code>, you can also analyze the effectiveness of
+/// your queries in terms of temporal and spatial pruning, and identify
+/// opportunities to improve performance. Specifically, you can evaluate how
+/// well your queries use time-based and partition key-based indexing strategies
+/// to optimize data retrieval. To optimize query performance, it's essential
+/// that you fine-tune both the temporal and spatial parameters that govern
+/// query execution.
+///
+/// The key metrics provided by <code>QueryInsights</code> are
+/// <code>QuerySpatialCoverage</code> and <code>QueryTemporalRange</code>.
+/// <code>QuerySpatialCoverage</code> indicates how much of the spatial axis the
+/// query scans, with lower values being more efficient.
+/// <code>QueryTemporalRange</code> shows the time range scanned, with narrower
+/// ranges being more performant.
+///
+/// <b>Benefits of QueryInsights</b>
+///
+/// The following are the key benefits of using <code>QueryInsights</code>:
+///
+/// <ul>
+/// <li>
+/// <b>Identifying inefficient queries</b> – <code>QueryInsights</code> provides
+/// information on the time-based and attribute-based pruning of the tables
+/// accessed by the query. This information helps you identify the tables that
+/// are sub-optimally accessed.
+/// </li>
+/// <li>
+/// <b>Optimizing your data model and partitioning</b> – You can use the
+/// <code>QueryInsights</code> information to access and fine-tune your data
+/// model and partitioning strategy.
+/// </li>
+/// <li>
+/// <b>Tuning queries</b> – <code>QueryInsights</code> highlights opportunities
+/// to use indexes more effectively.
+/// </li>
+/// </ul> <note>
+/// The maximum number of <code>Query</code> API requests you're allowed to make
+/// with <code>QueryInsights</code> enabled is 1 query per second (QPS). If you
+/// exceed this query rate, it might result in throttling.
+/// </note>
+class QueryInsights {
+  /// Provides the following modes to enable <code>QueryInsights</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ENABLED_WITH_RATE_CONTROL</code> – Enables <code>QueryInsights</code>
+  /// for the queries being processed. This mode also includes a rate control
+  /// mechanism, which limits the <code>QueryInsights</code> feature to 1 query
+  /// per second (QPS).
+  /// </li>
+  /// <li>
+  /// <code>DISABLED</code> – Disables <code>QueryInsights</code>.
+  /// </li>
+  /// </ul>
+  final QueryInsightsMode mode;
+
+  QueryInsights({
+    required this.mode,
+  });
+
+  Map<String, dynamic> toJson() {
+    final mode = this.mode;
+    return {
+      'Mode': mode.value,
+    };
+  }
+}
+
+class QueryInsightsMode {
+  static const enabledWithRateControl =
+      QueryInsightsMode._('ENABLED_WITH_RATE_CONTROL');
+  static const disabled = QueryInsightsMode._('DISABLED');
+
+  final String value;
+
+  const QueryInsightsMode._(this.value);
+
+  static const values = [enabledWithRateControl, disabled];
+
+  static QueryInsightsMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => QueryInsightsMode._(value));
+
+  @override
+  bool operator ==(other) => other is QueryInsightsMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Mapping for named parameters.
+class ParameterMapping {
+  /// Parameter name.
+  final String name;
+  final Type type;
+
+  ParameterMapping({
+    required this.name,
+    required this.type,
+  });
+
+  factory ParameterMapping.fromJson(Map<String, dynamic> json) {
+    return ParameterMapping(
+      name: (json['Name'] as String?) ?? '',
+      type: Type.fromJson(
+          (json['Type'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final type = this.type;
+    return {
+      'Name': name,
+      'Type': type,
+    };
+  }
+}
+
+/// Details of the column that is returned by the query.
+class SelectColumn {
+  /// True, if the column name was aliased by the query. False otherwise.
+  final bool? aliased;
+
+  /// Database that has this column.
+  final String? databaseName;
+
+  /// Name of the column.
+  final String? name;
+
+  /// Table within the database that has this column.
+  final String? tableName;
+  final Type? type;
+
+  SelectColumn({
+    this.aliased,
+    this.databaseName,
+    this.name,
+    this.tableName,
+    this.type,
+  });
+
+  factory SelectColumn.fromJson(Map<String, dynamic> json) {
+    return SelectColumn(
+      aliased: json['Aliased'] as bool?,
+      databaseName: json['DatabaseName'] as String?,
+      name: json['Name'] as String?,
+      tableName: json['TableName'] as String?,
+      type: json['Type'] != null
+          ? Type.fromJson(json['Type'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aliased = this.aliased;
+    final databaseName = this.databaseName;
+    final name = this.name;
+    final tableName = this.tableName;
+    final type = this.type;
+    return {
+      if (aliased != null) 'Aliased': aliased,
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (name != null) 'Name': name,
+      if (tableName != null) 'TableName': tableName,
+      if (type != null) 'Type': type,
     };
   }
 }
@@ -2058,6 +2523,246 @@ class ScheduledQuery {
       if (targetDestination != null) 'TargetDestination': targetDestination,
     };
   }
+}
+
+/// Configuration required for error reporting.
+class ErrorReportConfiguration {
+  /// The S3 configuration for the error reports.
+  final S3Configuration s3Configuration;
+
+  ErrorReportConfiguration({
+    required this.s3Configuration,
+  });
+
+  factory ErrorReportConfiguration.fromJson(Map<String, dynamic> json) {
+    return ErrorReportConfiguration(
+      s3Configuration: S3Configuration.fromJson(
+          (json['S3Configuration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Configuration = this.s3Configuration;
+    return {
+      'S3Configuration': s3Configuration,
+    };
+  }
+}
+
+/// Destination details to write data for a target data source. Current
+/// supported data source is Timestream.
+class TargetDestination {
+  /// Query result destination details for Timestream data source.
+  final TimestreamDestination? timestreamDestination;
+
+  TargetDestination({
+    this.timestreamDestination,
+  });
+
+  factory TargetDestination.fromJson(Map<String, dynamic> json) {
+    return TargetDestination(
+      timestreamDestination: json['TimestreamDestination'] != null
+          ? TimestreamDestination.fromJson(
+              json['TimestreamDestination'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timestreamDestination = this.timestreamDestination;
+    return {
+      if (timestreamDestination != null)
+        'TimestreamDestination': timestreamDestination,
+    };
+  }
+}
+
+class ScheduledQueryRunStatus {
+  static const autoTriggerSuccess =
+      ScheduledQueryRunStatus._('AUTO_TRIGGER_SUCCESS');
+  static const autoTriggerFailure =
+      ScheduledQueryRunStatus._('AUTO_TRIGGER_FAILURE');
+  static const manualTriggerSuccess =
+      ScheduledQueryRunStatus._('MANUAL_TRIGGER_SUCCESS');
+  static const manualTriggerFailure =
+      ScheduledQueryRunStatus._('MANUAL_TRIGGER_FAILURE');
+
+  final String value;
+
+  const ScheduledQueryRunStatus._(this.value);
+
+  static const values = [
+    autoTriggerSuccess,
+    autoTriggerFailure,
+    manualTriggerSuccess,
+    manualTriggerFailure
+  ];
+
+  static ScheduledQueryRunStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ScheduledQueryRunStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ScheduledQueryRunStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Destination for scheduled query.
+class TimestreamDestination {
+  /// Timestream database name.
+  final String? databaseName;
+
+  /// Timestream table name.
+  final String? tableName;
+
+  TimestreamDestination({
+    this.databaseName,
+    this.tableName,
+  });
+
+  factory TimestreamDestination.fromJson(Map<String, dynamic> json) {
+    return TimestreamDestination(
+      databaseName: json['DatabaseName'] as String?,
+      tableName: json['TableName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databaseName = this.databaseName;
+    final tableName = this.tableName;
+    return {
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (tableName != null) 'TableName': tableName,
+    };
+  }
+}
+
+/// Details on S3 location for error reports that result from running a query.
+class S3Configuration {
+  /// Name of the S3 bucket under which error reports will be created.
+  final String bucketName;
+
+  /// Encryption at rest options for the error reports. If no encryption option is
+  /// specified, Timestream will choose SSE_S3 as default.
+  final S3EncryptionOption? encryptionOption;
+
+  /// Prefix for the error report key. Timestream by default adds the following
+  /// prefix to the error report path.
+  final String? objectKeyPrefix;
+
+  S3Configuration({
+    required this.bucketName,
+    this.encryptionOption,
+    this.objectKeyPrefix,
+  });
+
+  factory S3Configuration.fromJson(Map<String, dynamic> json) {
+    return S3Configuration(
+      bucketName: (json['BucketName'] as String?) ?? '',
+      encryptionOption: (json['EncryptionOption'] as String?)
+          ?.let(S3EncryptionOption.fromString),
+      objectKeyPrefix: json['ObjectKeyPrefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final encryptionOption = this.encryptionOption;
+    final objectKeyPrefix = this.objectKeyPrefix;
+    return {
+      'BucketName': bucketName,
+      if (encryptionOption != null) 'EncryptionOption': encryptionOption.value,
+      if (objectKeyPrefix != null) 'ObjectKeyPrefix': objectKeyPrefix,
+    };
+  }
+}
+
+class S3EncryptionOption {
+  static const sseS3 = S3EncryptionOption._('SSE_S3');
+  static const sseKms = S3EncryptionOption._('SSE_KMS');
+
+  final String value;
+
+  const S3EncryptionOption._(this.value);
+
+  static const values = [sseS3, sseKms];
+
+  static S3EncryptionOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => S3EncryptionOption._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is S3EncryptionOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Encapsulates settings for enabling <code>QueryInsights</code> on an
+/// <code>ExecuteScheduledQueryRequest</code>.
+class ScheduledQueryInsights {
+  /// Provides the following modes to enable <code>ScheduledQueryInsights</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ENABLED_WITH_RATE_CONTROL</code> – Enables
+  /// <code>ScheduledQueryInsights</code> for the queries being processed. This
+  /// mode also includes a rate control mechanism, which limits the
+  /// <code>QueryInsights</code> feature to 1 query per second (QPS).
+  /// </li>
+  /// <li>
+  /// <code>DISABLED</code> – Disables <code>ScheduledQueryInsights</code>.
+  /// </li>
+  /// </ul>
+  final ScheduledQueryInsightsMode mode;
+
+  ScheduledQueryInsights({
+    required this.mode,
+  });
+
+  Map<String, dynamic> toJson() {
+    final mode = this.mode;
+    return {
+      'Mode': mode.value,
+    };
+  }
+}
+
+class ScheduledQueryInsightsMode {
+  static const enabledWithRateControl =
+      ScheduledQueryInsightsMode._('ENABLED_WITH_RATE_CONTROL');
+  static const disabled = ScheduledQueryInsightsMode._('DISABLED');
+
+  final String value;
+
+  const ScheduledQueryInsightsMode._(this.value);
+
+  static const values = [enabledWithRateControl, disabled];
+
+  static ScheduledQueryInsightsMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ScheduledQueryInsightsMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ScheduledQueryInsightsMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Structure that describes scheduled query.
@@ -2205,253 +2910,56 @@ class ScheduledQueryDescription {
   }
 }
 
-class ScheduledQueryRunStatus {
-  static const autoTriggerSuccess =
-      ScheduledQueryRunStatus._('AUTO_TRIGGER_SUCCESS');
-  static const autoTriggerFailure =
-      ScheduledQueryRunStatus._('AUTO_TRIGGER_FAILURE');
-  static const manualTriggerSuccess =
-      ScheduledQueryRunStatus._('MANUAL_TRIGGER_SUCCESS');
-  static const manualTriggerFailure =
-      ScheduledQueryRunStatus._('MANUAL_TRIGGER_FAILURE');
+/// Configuration of the schedule of the query.
+class ScheduleConfiguration {
+  /// An expression that denotes when to trigger the scheduled query run. This can
+  /// be a cron expression or a rate expression.
+  final String scheduleExpression;
 
-  final String value;
-
-  const ScheduledQueryRunStatus._(this.value);
-
-  static const values = [
-    autoTriggerSuccess,
-    autoTriggerFailure,
-    manualTriggerSuccess,
-    manualTriggerFailure
-  ];
-
-  static ScheduledQueryRunStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ScheduledQueryRunStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ScheduledQueryRunStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Run summary for the scheduled query
-class ScheduledQueryRunSummary {
-  /// S3 location for error report.
-  final ErrorReportLocation? errorReportLocation;
-
-  /// Runtime statistics for a scheduled run.
-  final ExecutionStats? executionStats;
-
-  /// Error message for the scheduled query in case of failure. You might have to
-  /// look at the error report to get more detailed error reasons.
-  final String? failureReason;
-
-  /// InvocationTime for this run. This is the time at which the query is
-  /// scheduled to run. Parameter <code>@scheduled_runtime</code> can be used in
-  /// the query to get the value.
-  final DateTime? invocationTime;
-
-  /// The status of a scheduled query run.
-  final ScheduledQueryRunStatus? runStatus;
-
-  /// The actual time when the query was run.
-  final DateTime? triggerTime;
-
-  ScheduledQueryRunSummary({
-    this.errorReportLocation,
-    this.executionStats,
-    this.failureReason,
-    this.invocationTime,
-    this.runStatus,
-    this.triggerTime,
+  ScheduleConfiguration({
+    required this.scheduleExpression,
   });
 
-  factory ScheduledQueryRunSummary.fromJson(Map<String, dynamic> json) {
-    return ScheduledQueryRunSummary(
-      errorReportLocation: json['ErrorReportLocation'] != null
-          ? ErrorReportLocation.fromJson(
-              json['ErrorReportLocation'] as Map<String, dynamic>)
-          : null,
-      executionStats: json['ExecutionStats'] != null
-          ? ExecutionStats.fromJson(
-              json['ExecutionStats'] as Map<String, dynamic>)
-          : null,
-      failureReason: json['FailureReason'] as String?,
-      invocationTime: timeStampFromJson(json['InvocationTime']),
-      runStatus: (json['RunStatus'] as String?)
-          ?.let(ScheduledQueryRunStatus.fromString),
-      triggerTime: timeStampFromJson(json['TriggerTime']),
+  factory ScheduleConfiguration.fromJson(Map<String, dynamic> json) {
+    return ScheduleConfiguration(
+      scheduleExpression: (json['ScheduleExpression'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    final errorReportLocation = this.errorReportLocation;
-    final executionStats = this.executionStats;
-    final failureReason = this.failureReason;
-    final invocationTime = this.invocationTime;
-    final runStatus = this.runStatus;
-    final triggerTime = this.triggerTime;
+    final scheduleExpression = this.scheduleExpression;
     return {
-      if (errorReportLocation != null)
-        'ErrorReportLocation': errorReportLocation,
-      if (executionStats != null) 'ExecutionStats': executionStats,
-      if (failureReason != null) 'FailureReason': failureReason,
-      if (invocationTime != null)
-        'InvocationTime': unixTimestampToJson(invocationTime),
-      if (runStatus != null) 'RunStatus': runStatus.value,
-      if (triggerTime != null) 'TriggerTime': unixTimestampToJson(triggerTime),
+      'ScheduleExpression': scheduleExpression,
     };
   }
 }
 
-class ScheduledQueryState {
-  static const enabled = ScheduledQueryState._('ENABLED');
-  static const disabled = ScheduledQueryState._('DISABLED');
+/// Notification configuration for a scheduled query. A notification is sent by
+/// Timestream when a scheduled query is created, its state is updated or when
+/// it is deleted.
+class NotificationConfiguration {
+  /// Details about the Amazon Simple Notification Service (SNS) configuration.
+  /// This field is visible only when SNS Topic is provided when updating the
+  /// account settings.
+  final SnsConfiguration snsConfiguration;
 
-  final String value;
-
-  const ScheduledQueryState._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static ScheduledQueryState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ScheduledQueryState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ScheduledQueryState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Details of the column that is returned by the query.
-class SelectColumn {
-  /// True, if the column name was aliased by the query. False otherwise.
-  final bool? aliased;
-
-  /// Database that has this column.
-  final String? databaseName;
-
-  /// Name of the column.
-  final String? name;
-
-  /// Table within the database that has this column.
-  final String? tableName;
-  final Type? type;
-
-  SelectColumn({
-    this.aliased,
-    this.databaseName,
-    this.name,
-    this.tableName,
-    this.type,
+  NotificationConfiguration({
+    required this.snsConfiguration,
   });
 
-  factory SelectColumn.fromJson(Map<String, dynamic> json) {
-    return SelectColumn(
-      aliased: json['Aliased'] as bool?,
-      databaseName: json['DatabaseName'] as String?,
-      name: json['Name'] as String?,
-      tableName: json['TableName'] as String?,
-      type: json['Type'] != null
-          ? Type.fromJson(json['Type'] as Map<String, dynamic>)
-          : null,
+  factory NotificationConfiguration.fromJson(Map<String, dynamic> json) {
+    return NotificationConfiguration(
+      snsConfiguration: SnsConfiguration.fromJson(
+          (json['SnsConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final aliased = this.aliased;
-    final databaseName = this.databaseName;
-    final name = this.name;
-    final tableName = this.tableName;
-    final type = this.type;
+    final snsConfiguration = this.snsConfiguration;
     return {
-      if (aliased != null) 'Aliased': aliased,
-      if (databaseName != null) 'DatabaseName': databaseName,
-      if (name != null) 'Name': name,
-      if (tableName != null) 'TableName': tableName,
-      if (type != null) 'Type': type,
+      'SnsConfiguration': snsConfiguration,
     };
-  }
-}
-
-/// Details on SNS that are required to send the notification.
-class SnsConfiguration {
-  /// SNS topic ARN that the scheduled query status notifications will be sent to.
-  final String topicArn;
-
-  SnsConfiguration({
-    required this.topicArn,
-  });
-
-  factory SnsConfiguration.fromJson(Map<String, dynamic> json) {
-    return SnsConfiguration(
-      topicArn: (json['TopicArn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final topicArn = this.topicArn;
-    return {
-      'TopicArn': topicArn,
-    };
-  }
-}
-
-/// A tag is a label that you assign to a Timestream database and/or table. Each
-/// tag consists of a key and an optional value, both of which you define. Tags
-/// enable you to categorize databases and/or tables, for example, by purpose,
-/// owner, or environment.
-class Tag {
-  /// The key of the tag. Tag keys are case sensitive.
-  final String key;
-
-  /// The value of the tag. Tag values are case sensitive and can be null.
-  final String value;
-
-  Tag({
-    required this.key,
-    required this.value,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['Key'] as String?) ?? '',
-      value: (json['Value'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'Key': key,
-      'Value': value,
-    };
-  }
-}
-
-class TagResourceResponse {
-  TagResourceResponse();
-
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
   }
 }
 
@@ -2480,65 +2988,282 @@ class TargetConfiguration {
   }
 }
 
-/// Destination details to write data for a target data source. Current
-/// supported data source is Timestream.
-class TargetDestination {
-  /// Query result destination details for Timestream data source.
-  final TimestreamDestination? timestreamDestination;
+/// Run summary for the scheduled query
+class ScheduledQueryRunSummary {
+  /// S3 location for error report.
+  final ErrorReportLocation? errorReportLocation;
 
-  TargetDestination({
-    this.timestreamDestination,
+  /// Runtime statistics for a scheduled run.
+  final ExecutionStats? executionStats;
+
+  /// Error message for the scheduled query in case of failure. You might have to
+  /// look at the error report to get more detailed error reasons.
+  final String? failureReason;
+
+  /// InvocationTime for this run. This is the time at which the query is
+  /// scheduled to run. Parameter <code>@scheduled_runtime</code> can be used in
+  /// the query to get the value.
+  final DateTime? invocationTime;
+
+  /// Provides various insights and metrics related to the run summary of the
+  /// scheduled query.
+  final ScheduledQueryInsightsResponse? queryInsightsResponse;
+
+  /// The status of a scheduled query run.
+  final ScheduledQueryRunStatus? runStatus;
+
+  /// The actual time when the query was run.
+  final DateTime? triggerTime;
+
+  ScheduledQueryRunSummary({
+    this.errorReportLocation,
+    this.executionStats,
+    this.failureReason,
+    this.invocationTime,
+    this.queryInsightsResponse,
+    this.runStatus,
+    this.triggerTime,
   });
 
-  factory TargetDestination.fromJson(Map<String, dynamic> json) {
-    return TargetDestination(
-      timestreamDestination: json['TimestreamDestination'] != null
-          ? TimestreamDestination.fromJson(
-              json['TimestreamDestination'] as Map<String, dynamic>)
+  factory ScheduledQueryRunSummary.fromJson(Map<String, dynamic> json) {
+    return ScheduledQueryRunSummary(
+      errorReportLocation: json['ErrorReportLocation'] != null
+          ? ErrorReportLocation.fromJson(
+              json['ErrorReportLocation'] as Map<String, dynamic>)
+          : null,
+      executionStats: json['ExecutionStats'] != null
+          ? ExecutionStats.fromJson(
+              json['ExecutionStats'] as Map<String, dynamic>)
+          : null,
+      failureReason: json['FailureReason'] as String?,
+      invocationTime: timeStampFromJson(json['InvocationTime']),
+      queryInsightsResponse: json['QueryInsightsResponse'] != null
+          ? ScheduledQueryInsightsResponse.fromJson(
+              json['QueryInsightsResponse'] as Map<String, dynamic>)
+          : null,
+      runStatus: (json['RunStatus'] as String?)
+          ?.let(ScheduledQueryRunStatus.fromString),
+      triggerTime: timeStampFromJson(json['TriggerTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorReportLocation = this.errorReportLocation;
+    final executionStats = this.executionStats;
+    final failureReason = this.failureReason;
+    final invocationTime = this.invocationTime;
+    final queryInsightsResponse = this.queryInsightsResponse;
+    final runStatus = this.runStatus;
+    final triggerTime = this.triggerTime;
+    return {
+      if (errorReportLocation != null)
+        'ErrorReportLocation': errorReportLocation,
+      if (executionStats != null) 'ExecutionStats': executionStats,
+      if (failureReason != null) 'FailureReason': failureReason,
+      if (invocationTime != null)
+        'InvocationTime': unixTimestampToJson(invocationTime),
+      if (queryInsightsResponse != null)
+        'QueryInsightsResponse': queryInsightsResponse,
+      if (runStatus != null) 'RunStatus': runStatus.value,
+      if (triggerTime != null) 'TriggerTime': unixTimestampToJson(triggerTime),
+    };
+  }
+}
+
+/// Statistics for a single scheduled query run.
+class ExecutionStats {
+  /// Bytes metered for a single scheduled query run.
+  final int? bytesMetered;
+
+  /// Bytes scanned for a single scheduled query run.
+  final int? cumulativeBytesScanned;
+
+  /// Data writes metered for records ingested in a single scheduled query run.
+  final int? dataWrites;
+
+  /// Total time, measured in milliseconds, that was needed for the scheduled
+  /// query run to complete.
+  final int? executionTimeInMillis;
+
+  /// Number of rows present in the output from running a query before ingestion
+  /// to destination data source.
+  final int? queryResultRows;
+
+  /// The number of records ingested for a single scheduled query run.
+  final int? recordsIngested;
+
+  ExecutionStats({
+    this.bytesMetered,
+    this.cumulativeBytesScanned,
+    this.dataWrites,
+    this.executionTimeInMillis,
+    this.queryResultRows,
+    this.recordsIngested,
+  });
+
+  factory ExecutionStats.fromJson(Map<String, dynamic> json) {
+    return ExecutionStats(
+      bytesMetered: json['BytesMetered'] as int?,
+      cumulativeBytesScanned: json['CumulativeBytesScanned'] as int?,
+      dataWrites: json['DataWrites'] as int?,
+      executionTimeInMillis: json['ExecutionTimeInMillis'] as int?,
+      queryResultRows: json['QueryResultRows'] as int?,
+      recordsIngested: json['RecordsIngested'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bytesMetered = this.bytesMetered;
+    final cumulativeBytesScanned = this.cumulativeBytesScanned;
+    final dataWrites = this.dataWrites;
+    final executionTimeInMillis = this.executionTimeInMillis;
+    final queryResultRows = this.queryResultRows;
+    final recordsIngested = this.recordsIngested;
+    return {
+      if (bytesMetered != null) 'BytesMetered': bytesMetered,
+      if (cumulativeBytesScanned != null)
+        'CumulativeBytesScanned': cumulativeBytesScanned,
+      if (dataWrites != null) 'DataWrites': dataWrites,
+      if (executionTimeInMillis != null)
+        'ExecutionTimeInMillis': executionTimeInMillis,
+      if (queryResultRows != null) 'QueryResultRows': queryResultRows,
+      if (recordsIngested != null) 'RecordsIngested': recordsIngested,
+    };
+  }
+}
+
+/// Provides various insights and metrics related to the
+/// <code>ExecuteScheduledQueryRequest</code> that was executed.
+class ScheduledQueryInsightsResponse {
+  /// Indicates the size of query result set in bytes. You can use this data to
+  /// validate if the result set has changed as part of the query tuning exercise.
+  final int? outputBytes;
+
+  /// Indicates the total number of rows returned as part of the query result set.
+  /// You can use this data to validate if the number of rows in the result set
+  /// have changed as part of the query tuning exercise.
+  final int? outputRows;
+
+  /// Provides insights into the spatial coverage of the query, including the
+  /// table with sub-optimal (max) spatial pruning. This information can help you
+  /// identify areas for improvement in your partitioning strategy to enhance
+  /// spatial pruning.
+  final QuerySpatialCoverage? querySpatialCoverage;
+
+  /// Indicates the number of tables in the query.
+  final int? queryTableCount;
+
+  /// Provides insights into the temporal range of the query, including the table
+  /// with the largest (max) time range. Following are some of the potential
+  /// options for optimizing time-based pruning:
+  ///
+  /// <ul>
+  /// <li>
+  /// Add missing time-predicates.
+  /// </li>
+  /// <li>
+  /// Remove functions around the time predicates.
+  /// </li>
+  /// <li>
+  /// Add time predicates to all the sub-queries.
+  /// </li>
+  /// </ul>
+  final QueryTemporalRange? queryTemporalRange;
+
+  ScheduledQueryInsightsResponse({
+    this.outputBytes,
+    this.outputRows,
+    this.querySpatialCoverage,
+    this.queryTableCount,
+    this.queryTemporalRange,
+  });
+
+  factory ScheduledQueryInsightsResponse.fromJson(Map<String, dynamic> json) {
+    return ScheduledQueryInsightsResponse(
+      outputBytes: json['OutputBytes'] as int?,
+      outputRows: json['OutputRows'] as int?,
+      querySpatialCoverage: json['QuerySpatialCoverage'] != null
+          ? QuerySpatialCoverage.fromJson(
+              json['QuerySpatialCoverage'] as Map<String, dynamic>)
+          : null,
+      queryTableCount: json['QueryTableCount'] as int?,
+      queryTemporalRange: json['QueryTemporalRange'] != null
+          ? QueryTemporalRange.fromJson(
+              json['QueryTemporalRange'] as Map<String, dynamic>)
           : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final timestreamDestination = this.timestreamDestination;
+    final outputBytes = this.outputBytes;
+    final outputRows = this.outputRows;
+    final querySpatialCoverage = this.querySpatialCoverage;
+    final queryTableCount = this.queryTableCount;
+    final queryTemporalRange = this.queryTemporalRange;
     return {
-      if (timestreamDestination != null)
-        'TimestreamDestination': timestreamDestination,
+      if (outputBytes != null) 'OutputBytes': outputBytes,
+      if (outputRows != null) 'OutputRows': outputRows,
+      if (querySpatialCoverage != null)
+        'QuerySpatialCoverage': querySpatialCoverage,
+      if (queryTableCount != null) 'QueryTableCount': queryTableCount,
+      if (queryTemporalRange != null) 'QueryTemporalRange': queryTemporalRange,
     };
   }
 }
 
-/// The timeseries data type represents the values of a measure over time. A
-/// time series is an array of rows of timestamps and measure values, with rows
-/// sorted in ascending order of time. A TimeSeriesDataPoint is a single data
-/// point in the time series. It represents a tuple of (time, measure value) in
-/// a time series.
-class TimeSeriesDataPoint {
-  /// The timestamp when the measure value was collected.
-  final String time;
+/// This contains the location of the error report for a single scheduled query
+/// call.
+class ErrorReportLocation {
+  /// The S3 location where error reports are written.
+  final S3ReportLocation? s3ReportLocation;
 
-  /// The measure value for the data point.
-  final Datum value;
-
-  TimeSeriesDataPoint({
-    required this.time,
-    required this.value,
+  ErrorReportLocation({
+    this.s3ReportLocation,
   });
 
-  factory TimeSeriesDataPoint.fromJson(Map<String, dynamic> json) {
-    return TimeSeriesDataPoint(
-      time: (json['Time'] as String?) ?? '',
-      value: Datum.fromJson((json['Value'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
+  factory ErrorReportLocation.fromJson(Map<String, dynamic> json) {
+    return ErrorReportLocation(
+      s3ReportLocation: json['S3ReportLocation'] != null
+          ? S3ReportLocation.fromJson(
+              json['S3ReportLocation'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final time = this.time;
-    final value = this.value;
+    final s3ReportLocation = this.s3ReportLocation;
     return {
-      'Time': time,
-      'Value': value,
+      if (s3ReportLocation != null) 'S3ReportLocation': s3ReportLocation,
+    };
+  }
+}
+
+/// S3 report location for the scheduled query run.
+class S3ReportLocation {
+  /// S3 bucket name.
+  final String? bucketName;
+
+  /// S3 key.
+  final String? objectKey;
+
+  S3ReportLocation({
+    this.bucketName,
+    this.objectKey,
+  });
+
+  factory S3ReportLocation.fromJson(Map<String, dynamic> json) {
+    return S3ReportLocation(
+      bucketName: json['BucketName'] as String?,
+      objectKey: json['ObjectKey'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final objectKey = this.objectKey;
+    return {
+      if (bucketName != null) 'BucketName': bucketName,
+      if (objectKey != null) 'ObjectKey': objectKey,
     };
   }
 }
@@ -2625,137 +3350,292 @@ class TimestreamConfiguration {
   }
 }
 
-/// Destination for scheduled query.
-class TimestreamDestination {
-  /// Timestream database name.
-  final String? databaseName;
+/// Only one of MixedMeasureMappings or MultiMeasureMappings is to be provided.
+/// MultiMeasureMappings can be used to ingest data as multi measures in the
+/// derived table.
+class MultiMeasureMappings {
+  /// Required. Attribute mappings to be used for mapping query results to ingest
+  /// data for multi-measure attributes.
+  final List<MultiMeasureAttributeMapping> multiMeasureAttributeMappings;
 
-  /// Timestream table name.
-  final String? tableName;
+  /// The name of the target multi-measure name in the derived table. This input
+  /// is required when measureNameColumn is not provided. If MeasureNameColumn is
+  /// provided, then value from that column will be used as multi-measure name.
+  final String? targetMultiMeasureName;
 
-  TimestreamDestination({
-    this.databaseName,
-    this.tableName,
+  MultiMeasureMappings({
+    required this.multiMeasureAttributeMappings,
+    this.targetMultiMeasureName,
   });
 
-  factory TimestreamDestination.fromJson(Map<String, dynamic> json) {
-    return TimestreamDestination(
-      databaseName: json['DatabaseName'] as String?,
-      tableName: json['TableName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final databaseName = this.databaseName;
-    final tableName = this.tableName;
-    return {
-      if (databaseName != null) 'DatabaseName': databaseName,
-      if (tableName != null) 'TableName': tableName,
-    };
-  }
-}
-
-/// Contains the data type of a column in a query result set. The data type can
-/// be scalar or complex. The supported scalar data types are integers, Boolean,
-/// string, double, timestamp, date, time, and intervals. The supported complex
-/// data types are arrays, rows, and timeseries.
-class Type {
-  /// Indicates if the column is an array.
-  final ColumnInfo? arrayColumnInfo;
-
-  /// Indicates if the column is a row.
-  final List<ColumnInfo>? rowColumnInfo;
-
-  /// Indicates if the column is of type string, integer, Boolean, double,
-  /// timestamp, date, time. For more information, see <a
-  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/supported-data-types.html">Supported
-  /// data types</a>.
-  final ScalarType? scalarType;
-
-  /// Indicates if the column is a timeseries data type.
-  final ColumnInfo? timeSeriesMeasureValueColumnInfo;
-
-  Type({
-    this.arrayColumnInfo,
-    this.rowColumnInfo,
-    this.scalarType,
-    this.timeSeriesMeasureValueColumnInfo,
-  });
-
-  factory Type.fromJson(Map<String, dynamic> json) {
-    return Type(
-      arrayColumnInfo: json['ArrayColumnInfo'] != null
-          ? ColumnInfo.fromJson(json['ArrayColumnInfo'] as Map<String, dynamic>)
-          : null,
-      rowColumnInfo: (json['RowColumnInfo'] as List?)
-          ?.nonNulls
-          .map((e) => ColumnInfo.fromJson(e as Map<String, dynamic>))
+  factory MultiMeasureMappings.fromJson(Map<String, dynamic> json) {
+    return MultiMeasureMappings(
+      multiMeasureAttributeMappings: ((json['MultiMeasureAttributeMappings']
+                  as List?) ??
+              const [])
+          .nonNulls
+          .map((e) =>
+              MultiMeasureAttributeMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
-      scalarType: (json['ScalarType'] as String?)?.let(ScalarType.fromString),
-      timeSeriesMeasureValueColumnInfo:
-          json['TimeSeriesMeasureValueColumnInfo'] != null
-              ? ColumnInfo.fromJson(json['TimeSeriesMeasureValueColumnInfo']
-                  as Map<String, dynamic>)
-              : null,
+      targetMultiMeasureName: json['TargetMultiMeasureName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final arrayColumnInfo = this.arrayColumnInfo;
-    final rowColumnInfo = this.rowColumnInfo;
-    final scalarType = this.scalarType;
-    final timeSeriesMeasureValueColumnInfo =
-        this.timeSeriesMeasureValueColumnInfo;
+    final multiMeasureAttributeMappings = this.multiMeasureAttributeMappings;
+    final targetMultiMeasureName = this.targetMultiMeasureName;
     return {
-      if (arrayColumnInfo != null) 'ArrayColumnInfo': arrayColumnInfo,
-      if (rowColumnInfo != null) 'RowColumnInfo': rowColumnInfo,
-      if (scalarType != null) 'ScalarType': scalarType.value,
-      if (timeSeriesMeasureValueColumnInfo != null)
-        'TimeSeriesMeasureValueColumnInfo': timeSeriesMeasureValueColumnInfo,
+      'MultiMeasureAttributeMappings': multiMeasureAttributeMappings,
+      if (targetMultiMeasureName != null)
+        'TargetMultiMeasureName': targetMultiMeasureName,
     };
   }
 }
 
-class UntagResourceResponse {
-  UntagResourceResponse();
+/// MixedMeasureMappings are mappings that can be used to ingest data into a
+/// mixture of narrow and multi measures in the derived table.
+class MixedMeasureMapping {
+  /// Type of the value that is to be read from sourceColumn. If the mapping is
+  /// for MULTI, use MeasureValueType.MULTI.
+  final MeasureValueType measureValueType;
 
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
+  /// Refers to the value of measure_name in a result row. This field is required
+  /// if MeasureNameColumn is provided.
+  final String? measureName;
 
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
+  /// Required when measureValueType is MULTI. Attribute mappings for MULTI value
+  /// measures.
+  final List<MultiMeasureAttributeMapping>? multiMeasureAttributeMappings;
 
-class UpdateAccountSettingsResponse {
-  /// The configured maximum number of compute units the service will use at any
-  /// point in time to serve your queries.
-  final int? maxQueryTCU;
+  /// This field refers to the source column from which measure-value is to be
+  /// read for result materialization.
+  final String? sourceColumn;
 
-  /// The pricing model for an account.
-  final QueryPricingModel? queryPricingModel;
+  /// Target measure name to be used. If not provided, the target measure name by
+  /// default would be measure-name if provided, or sourceColumn otherwise.
+  final String? targetMeasureName;
 
-  UpdateAccountSettingsResponse({
-    this.maxQueryTCU,
-    this.queryPricingModel,
+  MixedMeasureMapping({
+    required this.measureValueType,
+    this.measureName,
+    this.multiMeasureAttributeMappings,
+    this.sourceColumn,
+    this.targetMeasureName,
   });
 
-  factory UpdateAccountSettingsResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateAccountSettingsResponse(
-      maxQueryTCU: json['MaxQueryTCU'] as int?,
-      queryPricingModel: (json['QueryPricingModel'] as String?)
-          ?.let(QueryPricingModel.fromString),
+  factory MixedMeasureMapping.fromJson(Map<String, dynamic> json) {
+    return MixedMeasureMapping(
+      measureValueType: MeasureValueType.fromString(
+          (json['MeasureValueType'] as String?) ?? ''),
+      measureName: json['MeasureName'] as String?,
+      multiMeasureAttributeMappings: (json['MultiMeasureAttributeMappings']
+              as List?)
+          ?.nonNulls
+          .map((e) =>
+              MultiMeasureAttributeMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      sourceColumn: json['SourceColumn'] as String?,
+      targetMeasureName: json['TargetMeasureName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final maxQueryTCU = this.maxQueryTCU;
-    final queryPricingModel = this.queryPricingModel;
+    final measureValueType = this.measureValueType;
+    final measureName = this.measureName;
+    final multiMeasureAttributeMappings = this.multiMeasureAttributeMappings;
+    final sourceColumn = this.sourceColumn;
+    final targetMeasureName = this.targetMeasureName;
     return {
-      if (maxQueryTCU != null) 'MaxQueryTCU': maxQueryTCU,
-      if (queryPricingModel != null)
-        'QueryPricingModel': queryPricingModel.value,
+      'MeasureValueType': measureValueType.value,
+      if (measureName != null) 'MeasureName': measureName,
+      if (multiMeasureAttributeMappings != null)
+        'MultiMeasureAttributeMappings': multiMeasureAttributeMappings,
+      if (sourceColumn != null) 'SourceColumn': sourceColumn,
+      if (targetMeasureName != null) 'TargetMeasureName': targetMeasureName,
+    };
+  }
+}
+
+class MeasureValueType {
+  static const bigint = MeasureValueType._('BIGINT');
+  static const boolean = MeasureValueType._('BOOLEAN');
+  static const $double = MeasureValueType._('DOUBLE');
+  static const varchar = MeasureValueType._('VARCHAR');
+  static const multi = MeasureValueType._('MULTI');
+
+  final String value;
+
+  const MeasureValueType._(this.value);
+
+  static const values = [bigint, boolean, $double, varchar, multi];
+
+  static MeasureValueType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MeasureValueType._(value));
+
+  @override
+  bool operator ==(other) => other is MeasureValueType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Attribute mapping for MULTI value measures.
+class MultiMeasureAttributeMapping {
+  /// Type of the attribute to be read from the source column.
+  final ScalarMeasureValueType measureValueType;
+
+  /// Source column from where the attribute value is to be read.
+  final String sourceColumn;
+
+  /// Custom name to be used for attribute name in derived table. If not provided,
+  /// source column name would be used.
+  final String? targetMultiMeasureAttributeName;
+
+  MultiMeasureAttributeMapping({
+    required this.measureValueType,
+    required this.sourceColumn,
+    this.targetMultiMeasureAttributeName,
+  });
+
+  factory MultiMeasureAttributeMapping.fromJson(Map<String, dynamic> json) {
+    return MultiMeasureAttributeMapping(
+      measureValueType: ScalarMeasureValueType.fromString(
+          (json['MeasureValueType'] as String?) ?? ''),
+      sourceColumn: (json['SourceColumn'] as String?) ?? '',
+      targetMultiMeasureAttributeName:
+          json['TargetMultiMeasureAttributeName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final measureValueType = this.measureValueType;
+    final sourceColumn = this.sourceColumn;
+    final targetMultiMeasureAttributeName =
+        this.targetMultiMeasureAttributeName;
+    return {
+      'MeasureValueType': measureValueType.value,
+      'SourceColumn': sourceColumn,
+      if (targetMultiMeasureAttributeName != null)
+        'TargetMultiMeasureAttributeName': targetMultiMeasureAttributeName,
+    };
+  }
+}
+
+class ScalarMeasureValueType {
+  static const bigint = ScalarMeasureValueType._('BIGINT');
+  static const boolean = ScalarMeasureValueType._('BOOLEAN');
+  static const $double = ScalarMeasureValueType._('DOUBLE');
+  static const varchar = ScalarMeasureValueType._('VARCHAR');
+  static const timestamp = ScalarMeasureValueType._('TIMESTAMP');
+
+  final String value;
+
+  const ScalarMeasureValueType._(this.value);
+
+  static const values = [bigint, boolean, $double, varchar, timestamp];
+
+  static ScalarMeasureValueType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ScalarMeasureValueType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ScalarMeasureValueType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// This type is used to map column(s) from the query result to a dimension in
+/// the destination table.
+class DimensionMapping {
+  /// Type for the dimension.
+  final DimensionValueType dimensionValueType;
+
+  /// Column name from query result.
+  final String name;
+
+  DimensionMapping({
+    required this.dimensionValueType,
+    required this.name,
+  });
+
+  factory DimensionMapping.fromJson(Map<String, dynamic> json) {
+    return DimensionMapping(
+      dimensionValueType: DimensionValueType.fromString(
+          (json['DimensionValueType'] as String?) ?? ''),
+      name: (json['Name'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dimensionValueType = this.dimensionValueType;
+    final name = this.name;
+    return {
+      'DimensionValueType': dimensionValueType.value,
+      'Name': name,
+    };
+  }
+}
+
+class DimensionValueType {
+  static const varchar = DimensionValueType._('VARCHAR');
+
+  final String value;
+
+  const DimensionValueType._(this.value);
+
+  static const values = [varchar];
+
+  static DimensionValueType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DimensionValueType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DimensionValueType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents an available endpoint against which to make API calls against, as
+/// well as the TTL for that endpoint.
+class Endpoint {
+  /// An endpoint address.
+  final String address;
+
+  /// The TTL for the endpoint, in minutes.
+  final int cachePeriodInMinutes;
+
+  Endpoint({
+    required this.address,
+    required this.cachePeriodInMinutes,
+  });
+
+  factory Endpoint.fromJson(Map<String, dynamic> json) {
+    return Endpoint(
+      address: (json['Address'] as String?) ?? '',
+      cachePeriodInMinutes: (json['CachePeriodInMinutes'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final address = this.address;
+    final cachePeriodInMinutes = this.cachePeriodInMinutes;
+    return {
+      'Address': address,
+      'CachePeriodInMinutes': cachePeriodInMinutes,
     };
   }
 }

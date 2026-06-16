@@ -278,12 +278,12 @@ class Polly {
   /// Lexicons</a>.
   ///
   /// May throw [InvalidLexiconException].
-  /// May throw [UnsupportedPlsAlphabetException].
-  /// May throw [UnsupportedPlsLanguageException].
   /// May throw [LexiconSizeExceededException].
   /// May throw [MaxLexemeLengthExceededException].
   /// May throw [MaxLexiconsNumberExceededException].
   /// May throw [ServiceFailureException].
+  /// May throw [UnsupportedPlsAlphabetException].
+  /// May throw [UnsupportedPlsLanguageException].
   ///
   /// Parameter [content] :
   /// Content of the PLS lexicon as string data.
@@ -307,6 +307,90 @@ class Polly {
     );
   }
 
+  /// Synthesizes UTF-8 input, plain text, or SSML over a bidirectional
+  /// streaming connection. Specify synthesis parameters in HTTP/2 headers, send
+  /// text incrementally as events on the input stream, and receive synthesized
+  /// audio as it becomes available.
+  ///
+  /// This operation serves as a bidirectional counterpart to
+  /// <code>SynthesizeSpeech</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/polly/latest/API/API_SynthesizeSpeech.html">SynthesizeSpeech</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [engine] :
+  /// Specifies the engine for Amazon Polly to use when processing input text
+  /// for speech synthesis. Currently, only the <code>generative</code> engine
+  /// is supported. If you specify a voice that the selected engine doesn't
+  /// support, Amazon Polly returns an error.
+  ///
+  /// Parameter [outputFormat] :
+  /// The audio format for the synthesized speech. Currently, Amazon Polly does
+  /// not support JSON speech marks.
+  ///
+  /// Parameter [voiceId] :
+  /// The voice to use in synthesis. To get a list of available voice IDs, use
+  /// the <a
+  /// href="https://docs.aws.amazon.com/polly/latest/API/API_DescribeVoices.html">DescribeVoices</a>
+  /// operation.
+  ///
+  /// Parameter [actionStream] :
+  /// The input event stream that contains text events and stream control
+  /// events.
+  ///
+  /// Parameter [languageCode] :
+  /// An optional parameter that sets the language code for the speech synthesis
+  /// request. Specify this parameter only when using a bilingual voice. If a
+  /// bilingual voice is used and no language code is specified, Amazon Polly
+  /// uses the default language of the bilingual voice.
+  ///
+  /// Parameter [lexiconNames] :
+  /// The names of one or more pronunciation lexicons for the service to apply
+  /// during synthesis. Amazon Polly applies lexicons only when the lexicon
+  /// language matches the voice language.
+  ///
+  /// Parameter [sampleRate] :
+  /// The audio frequency, specified in Hz.
+  Future<StartSpeechSynthesisStreamOutput> startSpeechSynthesisStream({
+    required Engine engine,
+    required OutputFormat outputFormat,
+    required VoiceId voiceId,
+    StartSpeechSynthesisStreamActionStream? actionStream,
+    LanguageCode? languageCode,
+    List<String>? lexiconNames,
+    String? sampleRate,
+  }) async {
+    final headers = <String, String>{
+      'x-amzn-Engine': engine.value,
+      'x-amzn-OutputFormat': outputFormat.value,
+      'x-amzn-VoiceId': voiceId.value,
+      if (languageCode != null) 'x-amzn-LanguageCode': languageCode.value,
+      if (lexiconNames != null)
+        'x-amzn-LexiconNames': _s.encodeHttpHeaderList(lexiconNames),
+      if (sampleRate != null) 'x-amzn-SampleRate': sampleRate.toString(),
+    };
+    final response = await _protocol.sendRaw(
+      payload: actionStream,
+      method: 'POST',
+      requestUri: '/v1/synthesisStream',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    final $json = await _s.jsonFromResponse(response);
+    return StartSpeechSynthesisStreamOutput(
+      eventStream: StartSpeechSynthesisStreamEventStream.fromJson($json),
+    );
+  }
+
   /// Allows the creation of an asynchronous synthesis task, by starting a new
   /// <code>SpeechSynthesisTask</code>. This operation requires all the standard
   /// information needed for speech synthesis, plus the name of an Amazon S3
@@ -318,22 +402,23 @@ class Polly {
   /// <code>SpeechSynthesisTask</code> object is available for 72 hours after
   /// starting the asynchronous synthesis task.
   ///
-  /// May throw [TextLengthExceededException].
+  /// May throw [EngineNotSupportedException].
   /// May throw [InvalidS3BucketException].
   /// May throw [InvalidS3KeyException].
   /// May throw [InvalidSampleRateException].
   /// May throw [InvalidSnsTopicArnException].
   /// May throw [InvalidSsmlException].
-  /// May throw [EngineNotSupportedException].
-  /// May throw [LexiconNotFoundException].
-  /// May throw [ServiceFailureException].
-  /// May throw [MarksNotSupportedForFormatException].
-  /// May throw [SsmlMarksNotSupportedForTextTypeException].
   /// May throw [LanguageNotSupportedException].
+  /// May throw [LexiconNotFoundException].
+  /// May throw [MarksNotSupportedForFormatException].
+  /// May throw [ServiceFailureException].
+  /// May throw [SsmlMarksNotSupportedForTextTypeException].
+  /// May throw [TextLengthExceededException].
   ///
   /// Parameter [outputFormat] :
   /// The format in which the returned output will be encoded. For audio stream,
-  /// this will be mp3, ogg_vorbis, or pcm. For speech marks, this will be json.
+  /// this will be mp3, ogg_vorbis, ogg_opus, mu-law, a-law, or pcm. For speech
+  /// marks, this will be json.
   ///
   /// Parameter [outputS3BucketName] :
   /// Amazon S3 bucket name to which the output file will be saved.
@@ -381,6 +466,10 @@ class Polly {
   /// is "24000". The default value for generative voices is "24000".
   ///
   /// Valid values for pcm are "8000" and "16000" The default value is "16000".
+  ///
+  /// Valid value for ogg_opus is "48000".
+  ///
+  /// Valid value for mu-law and a-law is "8000".
   ///
   /// Parameter [snsTopicArn] :
   /// ARN for the SNS topic optionally used for providing status notification
@@ -438,19 +527,20 @@ class Polly {
   /// href="https://docs.aws.amazon.com/polly/latest/dg/how-text-to-speech-works.html">How
   /// it Works</a>.
   ///
-  /// May throw [TextLengthExceededException].
+  /// May throw [EngineNotSupportedException].
   /// May throw [InvalidSampleRateException].
   /// May throw [InvalidSsmlException].
-  /// May throw [LexiconNotFoundException].
-  /// May throw [ServiceFailureException].
-  /// May throw [MarksNotSupportedForFormatException].
-  /// May throw [SsmlMarksNotSupportedForTextTypeException].
   /// May throw [LanguageNotSupportedException].
-  /// May throw [EngineNotSupportedException].
+  /// May throw [LexiconNotFoundException].
+  /// May throw [MarksNotSupportedForFormatException].
+  /// May throw [ServiceFailureException].
+  /// May throw [SsmlMarksNotSupportedForTextTypeException].
+  /// May throw [TextLengthExceededException].
   ///
   /// Parameter [outputFormat] :
   /// The format in which the returned output will be encoded. For audio stream,
-  /// this will be mp3, ogg_vorbis, or pcm. For speech marks, this will be json.
+  /// this will be mp3, ogg_vorbis, ogg_opus, mu-law, a-law or pcm. For speech
+  /// marks, this will be json.
   ///
   /// When pcm is used, the content returned is audio/pcm in a signed 16-bit, 1
   /// channel (mono), little-endian format.
@@ -477,13 +567,6 @@ class Polly {
   /// href="https://docs.aws.amazon.com/polly/latest/dg/voicelist.html">Available
   /// Voices</a>.
   ///
-  /// Type: String
-  ///
-  /// Valid Values: <code>standard</code> | <code>neural</code> |
-  /// <code>long-form</code> | <code>generative</code>
-  ///
-  /// Required: Yes
-  ///
   /// Parameter [languageCode] :
   /// Optional language code for the Synthesize Speech request. This is only
   /// necessary if using a bilingual voice, such as Aditi, which can be used for
@@ -507,12 +590,17 @@ class Polly {
   /// Parameter [sampleRate] :
   /// The audio frequency specified in Hz.
   ///
-  /// The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and
-  /// "24000". The default value for standard voices is "22050". The default
-  /// value for neural voices is "24000". The default value for long-form voices
-  /// is "24000". The default value for generative voices is "24000".
+  /// The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050",
+  /// "24000", "44100" and "48000". The default value for standard voices is
+  /// "22050". The default value for neural voices is "24000". The default value
+  /// for long-form voices is "24000". The default value for generative voices
+  /// is "24000".
   ///
   /// Valid values for pcm are "8000" and "16000" The default value is "16000".
+  ///
+  /// Valid value for ogg_opus is "48000".
+  ///
+  /// Valid value for mu-law and a-law is "8000".
   ///
   /// Parameter [speechMarkTypes] :
   /// The type of speech marks returned for the input text.
@@ -573,6 +661,28 @@ class DeleteLexiconOutput {
   }
 }
 
+/// An unknown condition has caused a service failure.
+class ServiceFailureException implements _s.AwsException {
+  final String? message;
+
+  ServiceFailureException({
+    this.message,
+  });
+
+  factory ServiceFailureException.fromJson(Map<String, dynamic> json) {
+    return ServiceFailureException(
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    return {
+      if (message != null) 'message': message,
+    };
+  }
+}
+
 class DescribeVoicesOutput {
   /// The pagination token to use in the next request to continue the listing of
   /// voices. <code>NextToken</code> is returned only if the response is
@@ -605,54 +715,6 @@ class DescribeVoicesOutput {
       if (voices != null) 'Voices': voices,
     };
   }
-}
-
-class Engine {
-  static const standard = Engine._('standard');
-  static const neural = Engine._('neural');
-  static const longForm = Engine._('long-form');
-  static const generative = Engine._('generative');
-
-  final String value;
-
-  const Engine._(this.value);
-
-  static const values = [standard, neural, longForm, generative];
-
-  static Engine fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Engine._(value));
-
-  @override
-  bool operator ==(other) => other is Engine && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class Gender {
-  static const female = Gender._('Female');
-  static const male = Gender._('Male');
-
-  final String value;
-
-  const Gender._(this.value);
-
-  static const values = [female, male];
-
-  static Gender fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Gender._(value));
-
-  @override
-  bool operator ==(other) => other is Gender && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class GetLexiconOutput {
@@ -713,243 +775,6 @@ class GetSpeechSynthesisTaskOutput {
     final synthesisTask = this.synthesisTask;
     return {
       if (synthesisTask != null) 'SynthesisTask': synthesisTask,
-    };
-  }
-}
-
-class LanguageCode {
-  static const arb = LanguageCode._('arb');
-  static const cmnCn = LanguageCode._('cmn-CN');
-  static const cyGb = LanguageCode._('cy-GB');
-  static const daDk = LanguageCode._('da-DK');
-  static const deDe = LanguageCode._('de-DE');
-  static const enAu = LanguageCode._('en-AU');
-  static const enGb = LanguageCode._('en-GB');
-  static const enGbWls = LanguageCode._('en-GB-WLS');
-  static const enIn = LanguageCode._('en-IN');
-  static const enUs = LanguageCode._('en-US');
-  static const esEs = LanguageCode._('es-ES');
-  static const esMx = LanguageCode._('es-MX');
-  static const esUs = LanguageCode._('es-US');
-  static const frCa = LanguageCode._('fr-CA');
-  static const frFr = LanguageCode._('fr-FR');
-  static const isIs = LanguageCode._('is-IS');
-  static const itIt = LanguageCode._('it-IT');
-  static const jaJp = LanguageCode._('ja-JP');
-  static const hiIn = LanguageCode._('hi-IN');
-  static const koKr = LanguageCode._('ko-KR');
-  static const nbNo = LanguageCode._('nb-NO');
-  static const nlNl = LanguageCode._('nl-NL');
-  static const plPl = LanguageCode._('pl-PL');
-  static const ptBr = LanguageCode._('pt-BR');
-  static const ptPt = LanguageCode._('pt-PT');
-  static const roRo = LanguageCode._('ro-RO');
-  static const ruRu = LanguageCode._('ru-RU');
-  static const svSe = LanguageCode._('sv-SE');
-  static const trTr = LanguageCode._('tr-TR');
-  static const enNz = LanguageCode._('en-NZ');
-  static const enZa = LanguageCode._('en-ZA');
-  static const caEs = LanguageCode._('ca-ES');
-  static const deAt = LanguageCode._('de-AT');
-  static const yueCn = LanguageCode._('yue-CN');
-  static const arAe = LanguageCode._('ar-AE');
-  static const fiFi = LanguageCode._('fi-FI');
-  static const enIe = LanguageCode._('en-IE');
-  static const nlBe = LanguageCode._('nl-BE');
-  static const frBe = LanguageCode._('fr-BE');
-  static const csCz = LanguageCode._('cs-CZ');
-  static const deCh = LanguageCode._('de-CH');
-
-  final String value;
-
-  const LanguageCode._(this.value);
-
-  static const values = [
-    arb,
-    cmnCn,
-    cyGb,
-    daDk,
-    deDe,
-    enAu,
-    enGb,
-    enGbWls,
-    enIn,
-    enUs,
-    esEs,
-    esMx,
-    esUs,
-    frCa,
-    frFr,
-    isIs,
-    itIt,
-    jaJp,
-    hiIn,
-    koKr,
-    nbNo,
-    nlNl,
-    plPl,
-    ptBr,
-    ptPt,
-    roRo,
-    ruRu,
-    svSe,
-    trTr,
-    enNz,
-    enZa,
-    caEs,
-    deAt,
-    yueCn,
-    arAe,
-    fiFi,
-    enIe,
-    nlBe,
-    frBe,
-    csCz,
-    deCh
-  ];
-
-  static LanguageCode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => LanguageCode._(value));
-
-  @override
-  bool operator ==(other) => other is LanguageCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides lexicon name and lexicon content in string format. For more
-/// information, see <a
-/// href="https://www.w3.org/TR/pronunciation-lexicon/">Pronunciation Lexicon
-/// Specification (PLS) Version 1.0</a>.
-class Lexicon {
-  /// Lexicon content in string format. The content of a lexicon must be in PLS
-  /// format.
-  final String? content;
-
-  /// Name of the lexicon.
-  final String? name;
-
-  Lexicon({
-    this.content,
-    this.name,
-  });
-
-  factory Lexicon.fromJson(Map<String, dynamic> json) {
-    return Lexicon(
-      content: json['Content'] as String?,
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final content = this.content;
-    final name = this.name;
-    return {
-      if (content != null) 'Content': content,
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
-/// Contains metadata describing the lexicon such as the number of lexemes,
-/// language code, and so on. For more information, see <a
-/// href="https://docs.aws.amazon.com/polly/latest/dg/managing-lexicons.html">Managing
-/// Lexicons</a>.
-class LexiconAttributes {
-  /// Phonetic alphabet used in the lexicon. Valid values are <code>ipa</code> and
-  /// <code>x-sampa</code>.
-  final String? alphabet;
-
-  /// Language code that the lexicon applies to. A lexicon with a language code
-  /// such as "en" would be applied to all English languages (en-GB, en-US,
-  /// en-AUS, en-WLS, and so on.
-  final LanguageCode? languageCode;
-
-  /// Date lexicon was last modified (a timestamp value).
-  final DateTime? lastModified;
-
-  /// Number of lexemes in the lexicon.
-  final int? lexemesCount;
-
-  /// Amazon Resource Name (ARN) of the lexicon.
-  final String? lexiconArn;
-
-  /// Total size of the lexicon, in characters.
-  final int? size;
-
-  LexiconAttributes({
-    this.alphabet,
-    this.languageCode,
-    this.lastModified,
-    this.lexemesCount,
-    this.lexiconArn,
-    this.size,
-  });
-
-  factory LexiconAttributes.fromJson(Map<String, dynamic> json) {
-    return LexiconAttributes(
-      alphabet: json['Alphabet'] as String?,
-      languageCode:
-          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
-      lastModified: timeStampFromJson(json['LastModified']),
-      lexemesCount: json['LexemesCount'] as int?,
-      lexiconArn: json['LexiconArn'] as String?,
-      size: json['Size'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final alphabet = this.alphabet;
-    final languageCode = this.languageCode;
-    final lastModified = this.lastModified;
-    final lexemesCount = this.lexemesCount;
-    final lexiconArn = this.lexiconArn;
-    final size = this.size;
-    return {
-      if (alphabet != null) 'Alphabet': alphabet,
-      if (languageCode != null) 'LanguageCode': languageCode.value,
-      if (lastModified != null)
-        'LastModified': unixTimestampToJson(lastModified),
-      if (lexemesCount != null) 'LexemesCount': lexemesCount,
-      if (lexiconArn != null) 'LexiconArn': lexiconArn,
-      if (size != null) 'Size': size,
-    };
-  }
-}
-
-/// Describes the content of the lexicon.
-class LexiconDescription {
-  /// Provides lexicon metadata.
-  final LexiconAttributes? attributes;
-
-  /// Name of the lexicon.
-  final String? name;
-
-  LexiconDescription({
-    this.attributes,
-    this.name,
-  });
-
-  factory LexiconDescription.fromJson(Map<String, dynamic> json) {
-    return LexiconDescription(
-      attributes: json['Attributes'] != null
-          ? LexiconAttributes.fromJson(
-              json['Attributes'] as Map<String, dynamic>)
-          : null,
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attributes = this.attributes;
-    final name = this.name;
-    return {
-      if (attributes != null) 'Attributes': attributes,
-      if (name != null) 'Name': name,
     };
   }
 }
@@ -1023,31 +848,6 @@ class ListSpeechSynthesisTasksOutput {
   }
 }
 
-class OutputFormat {
-  static const json = OutputFormat._('json');
-  static const mp3 = OutputFormat._('mp3');
-  static const oggVorbis = OutputFormat._('ogg_vorbis');
-  static const pcm = OutputFormat._('pcm');
-
-  final String value;
-
-  const OutputFormat._(this.value);
-
-  static const values = [json, mp3, oggVorbis, pcm];
-
-  static OutputFormat fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => OutputFormat._(value));
-
-  @override
-  bool operator ==(other) => other is OutputFormat && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class PutLexiconOutput {
   PutLexiconOutput();
 
@@ -1060,30 +860,130 @@ class PutLexiconOutput {
   }
 }
 
-class SpeechMarkType {
-  static const sentence = SpeechMarkType._('sentence');
-  static const ssml = SpeechMarkType._('ssml');
-  static const viseme = SpeechMarkType._('viseme');
-  static const word = SpeechMarkType._('word');
+class StartSpeechSynthesisStreamOutput {
+  /// The output event stream that contains synthesized audio events and stream
+  /// status events.
+  final StartSpeechSynthesisStreamEventStream? eventStream;
 
-  final String value;
+  StartSpeechSynthesisStreamOutput({
+    this.eventStream,
+  });
 
-  const SpeechMarkType._(this.value);
+  Map<String, dynamic> toJson() {
+    final eventStream = this.eventStream;
+    return {
+      if (eventStream != null) 'EventStream': eventStream,
+    };
+  }
+}
 
-  static const values = [sentence, ssml, viseme, word];
+/// The request would cause a service quota to be exceeded.
+class ServiceQuotaExceededException implements _s.AwsException {
+  final String? message;
 
-  static SpeechMarkType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SpeechMarkType._(value));
+  /// The quota code identifying the specific quota.
+  final QuotaCode? quotaCode;
 
-  @override
-  bool operator ==(other) => other is SpeechMarkType && other.value == value;
+  /// The service code identifying the originating service.
+  final ServiceCode? serviceCode;
 
-  @override
-  int get hashCode => value.hashCode;
+  ServiceQuotaExceededException({
+    this.message,
+    this.quotaCode,
+    this.serviceCode,
+  });
 
-  @override
-  String toString() => value;
+  factory ServiceQuotaExceededException.fromJson(Map<String, dynamic> json) {
+    return ServiceQuotaExceededException(
+      message: json['message'] as String?,
+      quotaCode: (json['quotaCode'] as String?)?.let(QuotaCode.fromString),
+      serviceCode:
+          (json['serviceCode'] as String?)?.let(ServiceCode.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final quotaCode = this.quotaCode;
+    final serviceCode = this.serviceCode;
+    return {
+      if (message != null) 'message': message,
+      if (quotaCode != null) 'quotaCode': quotaCode.value,
+      if (serviceCode != null) 'serviceCode': serviceCode.value,
+    };
+  }
+}
+
+/// The request was denied because of request throttling.
+class ThrottlingException implements _s.AwsException {
+  final String? message;
+
+  /// A list of reasons explaining why the request was throttled.
+  final List<ThrottlingReason>? throttlingReasons;
+
+  ThrottlingException({
+    this.message,
+    this.throttlingReasons,
+  });
+
+  factory ThrottlingException.fromJson(Map<String, dynamic> json) {
+    return ThrottlingException(
+      message: json['message'] as String?,
+      throttlingReasons: (json['throttlingReasons'] as List?)
+          ?.nonNulls
+          .map((e) => ThrottlingReason.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final throttlingReasons = this.throttlingReasons;
+    return {
+      if (message != null) 'message': message,
+      if (throttlingReasons != null) 'throttlingReasons': throttlingReasons,
+    };
+  }
+}
+
+/// The input fails to satisfy the constraints specified by the service.
+class ValidationException implements _s.AwsException {
+  /// The fields that caused the validation error.
+  final List<ValidationExceptionField>? fields;
+  final String? message;
+
+  /// The reason the request failed validation.
+  final ValidationExceptionReason? reason;
+
+  ValidationException({
+    this.fields,
+    this.message,
+    this.reason,
+  });
+
+  factory ValidationException.fromJson(Map<String, dynamic> json) {
+    return ValidationException(
+      fields: (json['fields'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ValidationExceptionField.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      message: json['message'] as String?,
+      reason: (json['reason'] as String?)
+          ?.let(ValidationExceptionReason.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fields = this.fields;
+    final message = this.message;
+    final reason = this.reason;
+    return {
+      if (fields != null) 'fields': fields,
+      if (message != null) 'message': message,
+      if (reason != null) 'reason': reason.value,
+    };
+  }
 }
 
 class StartSpeechSynthesisTaskOutput {
@@ -1110,6 +1010,508 @@ class StartSpeechSynthesisTaskOutput {
       if (synthesisTask != null) 'SynthesisTask': synthesisTask,
     };
   }
+}
+
+class SynthesizeSpeechOutput {
+  /// Stream containing the synthesized speech.
+  final Uint8List? audioStream;
+
+  /// Specifies the type audio stream. This should reflect the
+  /// <code>OutputFormat</code> parameter in your request.
+  ///
+  /// <ul>
+  /// <li>
+  /// If you request <code>mp3</code> as the <code>OutputFormat</code>, the
+  /// <code>ContentType</code> returned is audio/mpeg.
+  /// </li>
+  /// <li>
+  /// If you request <code>ogg_vorbis</code> as the <code>OutputFormat</code>, the
+  /// <code>ContentType</code> returned is audio/ogg.
+  /// </li>
+  /// <li>
+  /// If you request <code>ogg_opus</code> as the <code>OutputFormat</code>, the
+  /// <code>ContentType</code> returned is audio/ogg.
+  /// </li>
+  /// <li>
+  /// If you request <code>pcm</code> as the <code>OutputFormat</code>, the
+  /// <code>ContentType</code> returned is audio/pcm in a signed 16-bit, 1 channel
+  /// (mono), little-endian format.
+  /// </li>
+  /// <li>
+  /// If you request <code>mu-law</code> as the <code>OutputFormat</code>, the
+  /// <code>ContentType</code> returned is audio/mulaw.
+  /// </li>
+  /// <li>
+  /// If you request <code>a-law</code> as the <code>OutputFormat</code>, the
+  /// <code>ContentType</code> returned is audio/alaw.
+  /// </li>
+  /// <li>
+  /// If you request <code>json</code> as the <code>OutputFormat</code>, the
+  /// <code>ContentType</code> returned is application/x-json-stream.
+  /// </li>
+  /// </ul>
+  ///
+  final String? contentType;
+
+  /// Number of characters synthesized.
+  final int? requestCharacters;
+
+  SynthesizeSpeechOutput({
+    this.audioStream,
+    this.contentType,
+    this.requestCharacters,
+  });
+
+  Map<String, dynamic> toJson() {
+    final audioStream = this.audioStream;
+    final contentType = this.contentType;
+    final requestCharacters = this.requestCharacters;
+    return {
+      if (audioStream != null) 'AudioStream': base64Encode(audioStream),
+    };
+  }
+}
+
+class Engine {
+  static const standard = Engine._('standard');
+  static const neural = Engine._('neural');
+  static const longForm = Engine._('long-form');
+  static const generative = Engine._('generative');
+
+  final String value;
+
+  const Engine._(this.value);
+
+  static const values = [standard, neural, longForm, generative];
+
+  static Engine fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Engine._(value));
+
+  @override
+  bool operator ==(other) => other is Engine && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class LanguageCode {
+  static const arb = LanguageCode._('arb');
+  static const cmnCn = LanguageCode._('cmn-CN');
+  static const cyGb = LanguageCode._('cy-GB');
+  static const daDk = LanguageCode._('da-DK');
+  static const deDe = LanguageCode._('de-DE');
+  static const enAu = LanguageCode._('en-AU');
+  static const enGb = LanguageCode._('en-GB');
+  static const enGbWls = LanguageCode._('en-GB-WLS');
+  static const enIn = LanguageCode._('en-IN');
+  static const enUs = LanguageCode._('en-US');
+  static const esEs = LanguageCode._('es-ES');
+  static const esMx = LanguageCode._('es-MX');
+  static const esUs = LanguageCode._('es-US');
+  static const frCa = LanguageCode._('fr-CA');
+  static const frFr = LanguageCode._('fr-FR');
+  static const isIs = LanguageCode._('is-IS');
+  static const itIt = LanguageCode._('it-IT');
+  static const jaJp = LanguageCode._('ja-JP');
+  static const hiIn = LanguageCode._('hi-IN');
+  static const koKr = LanguageCode._('ko-KR');
+  static const nbNo = LanguageCode._('nb-NO');
+  static const nlNl = LanguageCode._('nl-NL');
+  static const plPl = LanguageCode._('pl-PL');
+  static const ptBr = LanguageCode._('pt-BR');
+  static const ptPt = LanguageCode._('pt-PT');
+  static const roRo = LanguageCode._('ro-RO');
+  static const ruRu = LanguageCode._('ru-RU');
+  static const svSe = LanguageCode._('sv-SE');
+  static const trTr = LanguageCode._('tr-TR');
+  static const enNz = LanguageCode._('en-NZ');
+  static const enZa = LanguageCode._('en-ZA');
+  static const caEs = LanguageCode._('ca-ES');
+  static const deAt = LanguageCode._('de-AT');
+  static const yueCn = LanguageCode._('yue-CN');
+  static const arAe = LanguageCode._('ar-AE');
+  static const fiFi = LanguageCode._('fi-FI');
+  static const enIe = LanguageCode._('en-IE');
+  static const nlBe = LanguageCode._('nl-BE');
+  static const frBe = LanguageCode._('fr-BE');
+  static const csCz = LanguageCode._('cs-CZ');
+  static const deCh = LanguageCode._('de-CH');
+  static const enSg = LanguageCode._('en-SG');
+
+  final String value;
+
+  const LanguageCode._(this.value);
+
+  static const values = [
+    arb,
+    cmnCn,
+    cyGb,
+    daDk,
+    deDe,
+    enAu,
+    enGb,
+    enGbWls,
+    enIn,
+    enUs,
+    esEs,
+    esMx,
+    esUs,
+    frCa,
+    frFr,
+    isIs,
+    itIt,
+    jaJp,
+    hiIn,
+    koKr,
+    nbNo,
+    nlNl,
+    plPl,
+    ptBr,
+    ptPt,
+    roRo,
+    ruRu,
+    svSe,
+    trTr,
+    enNz,
+    enZa,
+    caEs,
+    deAt,
+    yueCn,
+    arAe,
+    fiFi,
+    enIe,
+    nlBe,
+    frBe,
+    csCz,
+    deCh,
+    enSg
+  ];
+
+  static LanguageCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LanguageCode._(value));
+
+  @override
+  bool operator ==(other) => other is LanguageCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class OutputFormat {
+  static const json = OutputFormat._('json');
+  static const mp3 = OutputFormat._('mp3');
+  static const oggOpus = OutputFormat._('ogg_opus');
+  static const oggVorbis = OutputFormat._('ogg_vorbis');
+  static const pcm = OutputFormat._('pcm');
+  static const mulaw = OutputFormat._('mulaw');
+  static const alaw = OutputFormat._('alaw');
+
+  final String value;
+
+  const OutputFormat._(this.value);
+
+  static const values = [json, mp3, oggOpus, oggVorbis, pcm, mulaw, alaw];
+
+  static OutputFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OutputFormat._(value));
+
+  @override
+  bool operator ==(other) => other is OutputFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TextType {
+  static const ssml = TextType._('ssml');
+  static const text = TextType._('text');
+
+  final String value;
+
+  const TextType._(this.value);
+
+  static const values = [ssml, text];
+
+  static TextType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TextType._(value));
+
+  @override
+  bool operator ==(other) => other is TextType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class VoiceId {
+  static const aditi = VoiceId._('Aditi');
+  static const amy = VoiceId._('Amy');
+  static const astrid = VoiceId._('Astrid');
+  static const bianca = VoiceId._('Bianca');
+  static const brian = VoiceId._('Brian');
+  static const camila = VoiceId._('Camila');
+  static const carla = VoiceId._('Carla');
+  static const carmen = VoiceId._('Carmen');
+  static const celine = VoiceId._('Celine');
+  static const chantal = VoiceId._('Chantal');
+  static const conchita = VoiceId._('Conchita');
+  static const cristiano = VoiceId._('Cristiano');
+  static const dora = VoiceId._('Dora');
+  static const emma = VoiceId._('Emma');
+  static const enrique = VoiceId._('Enrique');
+  static const ewa = VoiceId._('Ewa');
+  static const filiz = VoiceId._('Filiz');
+  static const gabrielle = VoiceId._('Gabrielle');
+  static const geraint = VoiceId._('Geraint');
+  static const giorgio = VoiceId._('Giorgio');
+  static const gwyneth = VoiceId._('Gwyneth');
+  static const hans = VoiceId._('Hans');
+  static const ines = VoiceId._('Ines');
+  static const ivy = VoiceId._('Ivy');
+  static const jacek = VoiceId._('Jacek');
+  static const jan = VoiceId._('Jan');
+  static const joanna = VoiceId._('Joanna');
+  static const joey = VoiceId._('Joey');
+  static const justin = VoiceId._('Justin');
+  static const karl = VoiceId._('Karl');
+  static const kendra = VoiceId._('Kendra');
+  static const kevin = VoiceId._('Kevin');
+  static const kimberly = VoiceId._('Kimberly');
+  static const lea = VoiceId._('Lea');
+  static const liv = VoiceId._('Liv');
+  static const lotte = VoiceId._('Lotte');
+  static const lucia = VoiceId._('Lucia');
+  static const lupe = VoiceId._('Lupe');
+  static const mads = VoiceId._('Mads');
+  static const maja = VoiceId._('Maja');
+  static const marlene = VoiceId._('Marlene');
+  static const mathieu = VoiceId._('Mathieu');
+  static const matthew = VoiceId._('Matthew');
+  static const maxim = VoiceId._('Maxim');
+  static const mia = VoiceId._('Mia');
+  static const miguel = VoiceId._('Miguel');
+  static const mizuki = VoiceId._('Mizuki');
+  static const naja = VoiceId._('Naja');
+  static const nicole = VoiceId._('Nicole');
+  static const olivia = VoiceId._('Olivia');
+  static const penelope = VoiceId._('Penelope');
+  static const raveena = VoiceId._('Raveena');
+  static const ricardo = VoiceId._('Ricardo');
+  static const ruben = VoiceId._('Ruben');
+  static const russell = VoiceId._('Russell');
+  static const salli = VoiceId._('Salli');
+  static const seoyeon = VoiceId._('Seoyeon');
+  static const takumi = VoiceId._('Takumi');
+  static const tatyana = VoiceId._('Tatyana');
+  static const vicki = VoiceId._('Vicki');
+  static const vitoria = VoiceId._('Vitoria');
+  static const zeina = VoiceId._('Zeina');
+  static const zhiyu = VoiceId._('Zhiyu');
+  static const aria = VoiceId._('Aria');
+  static const ayanda = VoiceId._('Ayanda');
+  static const arlet = VoiceId._('Arlet');
+  static const hannah = VoiceId._('Hannah');
+  static const arthur = VoiceId._('Arthur');
+  static const daniel = VoiceId._('Daniel');
+  static const liam = VoiceId._('Liam');
+  static const pedro = VoiceId._('Pedro');
+  static const kajal = VoiceId._('Kajal');
+  static const hiujin = VoiceId._('Hiujin');
+  static const laura = VoiceId._('Laura');
+  static const elin = VoiceId._('Elin');
+  static const ida = VoiceId._('Ida');
+  static const suvi = VoiceId._('Suvi');
+  static const ola = VoiceId._('Ola');
+  static const hala = VoiceId._('Hala');
+  static const andres = VoiceId._('Andres');
+  static const sergio = VoiceId._('Sergio');
+  static const remi = VoiceId._('Remi');
+  static const adriano = VoiceId._('Adriano');
+  static const thiago = VoiceId._('Thiago');
+  static const ruth = VoiceId._('Ruth');
+  static const stephen = VoiceId._('Stephen');
+  static const kazuha = VoiceId._('Kazuha');
+  static const tomoko = VoiceId._('Tomoko');
+  static const niamh = VoiceId._('Niamh');
+  static const sofie = VoiceId._('Sofie');
+  static const lisa = VoiceId._('Lisa');
+  static const isabelle = VoiceId._('Isabelle');
+  static const zayd = VoiceId._('Zayd');
+  static const danielle = VoiceId._('Danielle');
+  static const gregory = VoiceId._('Gregory');
+  static const burcu = VoiceId._('Burcu');
+  static const jitka = VoiceId._('Jitka');
+  static const sabrina = VoiceId._('Sabrina');
+  static const jasmine = VoiceId._('Jasmine');
+  static const jihye = VoiceId._('Jihye');
+  static const ambre = VoiceId._('Ambre');
+  static const beatrice = VoiceId._('Beatrice');
+  static const florian = VoiceId._('Florian');
+  static const lennart = VoiceId._('Lennart');
+  static const lorenzo = VoiceId._('Lorenzo');
+  static const tiffany = VoiceId._('Tiffany');
+
+  final String value;
+
+  const VoiceId._(this.value);
+
+  static const values = [
+    aditi,
+    amy,
+    astrid,
+    bianca,
+    brian,
+    camila,
+    carla,
+    carmen,
+    celine,
+    chantal,
+    conchita,
+    cristiano,
+    dora,
+    emma,
+    enrique,
+    ewa,
+    filiz,
+    gabrielle,
+    geraint,
+    giorgio,
+    gwyneth,
+    hans,
+    ines,
+    ivy,
+    jacek,
+    jan,
+    joanna,
+    joey,
+    justin,
+    karl,
+    kendra,
+    kevin,
+    kimberly,
+    lea,
+    liv,
+    lotte,
+    lucia,
+    lupe,
+    mads,
+    maja,
+    marlene,
+    mathieu,
+    matthew,
+    maxim,
+    mia,
+    miguel,
+    mizuki,
+    naja,
+    nicole,
+    olivia,
+    penelope,
+    raveena,
+    ricardo,
+    ruben,
+    russell,
+    salli,
+    seoyeon,
+    takumi,
+    tatyana,
+    vicki,
+    vitoria,
+    zeina,
+    zhiyu,
+    aria,
+    ayanda,
+    arlet,
+    hannah,
+    arthur,
+    daniel,
+    liam,
+    pedro,
+    kajal,
+    hiujin,
+    laura,
+    elin,
+    ida,
+    suvi,
+    ola,
+    hala,
+    andres,
+    sergio,
+    remi,
+    adriano,
+    thiago,
+    ruth,
+    stephen,
+    kazuha,
+    tomoko,
+    niamh,
+    sofie,
+    lisa,
+    isabelle,
+    zayd,
+    danielle,
+    gregory,
+    burcu,
+    jitka,
+    sabrina,
+    jasmine,
+    jihye,
+    ambre,
+    beatrice,
+    florian,
+    lennart,
+    lorenzo,
+    tiffany
+  ];
+
+  static VoiceId fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => VoiceId._(value));
+
+  @override
+  bool operator ==(other) => other is VoiceId && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SpeechMarkType {
+  static const sentence = SpeechMarkType._('sentence');
+  static const ssml = SpeechMarkType._('ssml');
+  static const viseme = SpeechMarkType._('viseme');
+  static const word = SpeechMarkType._('word');
+
+  final String value;
+
+  const SpeechMarkType._(this.value);
+
+  static const values = [sentence, ssml, viseme, word];
+
+  static SpeechMarkType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SpeechMarkType._(value));
+
+  @override
+  bool operator ==(other) => other is SpeechMarkType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// SynthesisTask object that provides information about a speech synthesis
@@ -1142,7 +1544,8 @@ class SynthesisTask {
   final List<String>? lexiconNames;
 
   /// The format in which the returned output will be encoded. For audio stream,
-  /// this will be mp3, ogg_vorbis, or pcm. For speech marks, this will be json.
+  /// this will be mp3, ogg_vorbis, ogg_opus, mu-law, a-law, or pcm. For speech
+  /// marks, this will be json.
   final OutputFormat? outputFormat;
 
   /// Pathway for the output speech file.
@@ -1159,6 +1562,10 @@ class SynthesisTask {
   /// "24000". The default value for generative voices is "24000".
   ///
   /// Valid values for pcm are "8000" and "16000" The default value is "16000".
+  ///
+  /// Valid value for ogg_opus is "48000".
+  ///
+  /// Valid value for mu-law and a-law is "8000".
   final String? sampleRate;
 
   /// ARN for the SNS topic optionally used for providing status notification for
@@ -1269,54 +1676,6 @@ class SynthesisTask {
   }
 }
 
-class SynthesizeSpeechOutput {
-  /// Stream containing the synthesized speech.
-  final Uint8List? audioStream;
-
-  /// Specifies the type audio stream. This should reflect the
-  /// <code>OutputFormat</code> parameter in your request.
-  ///
-  /// <ul>
-  /// <li>
-  /// If you request <code>mp3</code> as the <code>OutputFormat</code>, the
-  /// <code>ContentType</code> returned is audio/mpeg.
-  /// </li>
-  /// <li>
-  /// If you request <code>ogg_vorbis</code> as the <code>OutputFormat</code>, the
-  /// <code>ContentType</code> returned is audio/ogg.
-  /// </li>
-  /// <li>
-  /// If you request <code>pcm</code> as the <code>OutputFormat</code>, the
-  /// <code>ContentType</code> returned is audio/pcm in a signed 16-bit, 1 channel
-  /// (mono), little-endian format.
-  /// </li>
-  /// <li>
-  /// If you request <code>json</code> as the <code>OutputFormat</code>, the
-  /// <code>ContentType</code> returned is application/x-json-stream.
-  /// </li>
-  /// </ul>
-  ///
-  final String? contentType;
-
-  /// Number of characters synthesized.
-  final int? requestCharacters;
-
-  SynthesizeSpeechOutput({
-    this.audioStream,
-    this.contentType,
-    this.requestCharacters,
-  });
-
-  Map<String, dynamic> toJson() {
-    final audioStream = this.audioStream;
-    final contentType = this.contentType;
-    final requestCharacters = this.requestCharacters;
-    return {
-      if (audioStream != null) 'AudioStream': base64Encode(audioStream),
-    };
-  }
-}
-
 class TaskStatus {
   static const scheduled = TaskStatus._('scheduled');
   static const inProgress = TaskStatus._('inProgress');
@@ -1342,27 +1701,491 @@ class TaskStatus {
   String toString() => value;
 }
 
-class TextType {
-  static const ssml = TextType._('ssml');
-  static const text = TextType._('text');
+class ValidationExceptionReason {
+  static const unsupportedOperation =
+      ValidationExceptionReason._('unsupportedOperation');
+  static const fieldValidationFailed =
+      ValidationExceptionReason._('fieldValidationFailed');
+  static const other = ValidationExceptionReason._('other');
+  static const invalidInboundEvent =
+      ValidationExceptionReason._('invalidInboundEvent');
 
   final String value;
 
-  const TextType._(this.value);
+  const ValidationExceptionReason._(this.value);
 
-  static const values = [ssml, text];
+  static const values = [
+    unsupportedOperation,
+    fieldValidationFailed,
+    other,
+    invalidInboundEvent
+  ];
 
-  static TextType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => TextType._(value));
+  static ValidationExceptionReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ValidationExceptionReason._(value));
 
   @override
-  bool operator ==(other) => other is TextType && other.value == value;
+  bool operator ==(other) =>
+      other is ValidationExceptionReason && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
+}
+
+/// Information about a field that failed validation.
+class ValidationExceptionField {
+  /// A message describing why the field failed validation.
+  final String message;
+
+  /// The name of the field that failed validation.
+  final String name;
+
+  ValidationExceptionField({
+    required this.message,
+    required this.name,
+  });
+
+  factory ValidationExceptionField.fromJson(Map<String, dynamic> json) {
+    return ValidationExceptionField(
+      message: (json['message'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final name = this.name;
+    return {
+      'message': message,
+      'name': name,
+    };
+  }
+}
+
+/// Provides information about a specific throttling reason.
+class ThrottlingReason {
+  /// The reason code explaining why the request was throttled.
+  final String? reason;
+
+  /// The resource that caused the throttling.
+  final String? resource;
+
+  ThrottlingReason({
+    this.reason,
+    this.resource,
+  });
+
+  factory ThrottlingReason.fromJson(Map<String, dynamic> json) {
+    return ThrottlingReason(
+      reason: json['reason'] as String?,
+      resource: json['resource'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reason = this.reason;
+    final resource = this.resource;
+    return {
+      if (reason != null) 'reason': reason,
+      if (resource != null) 'resource': resource,
+    };
+  }
+}
+
+class QuotaCode {
+  static const inputStreamInboundEventTimeout =
+      QuotaCode._('input-stream-inbound-event-timeout');
+  static const inputStreamTimeout = QuotaCode._('input-stream-timeout');
+
+  final String value;
+
+  const QuotaCode._(this.value);
+
+  static const values = [inputStreamInboundEventTimeout, inputStreamTimeout];
+
+  static QuotaCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => QuotaCode._(value));
+
+  @override
+  bool operator ==(other) => other is QuotaCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ServiceCode {
+  static const polly = ServiceCode._('polly');
+
+  final String value;
+
+  const ServiceCode._(this.value);
+
+  static const values = [polly];
+
+  static ServiceCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ServiceCode._(value));
+
+  @override
+  bool operator ==(other) => other is ServiceCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Outbound event stream that contains synthesized audio data and stream status
+/// events.
+class StartSpeechSynthesisStreamEventStream {
+  /// An audio event containing synthesized speech.
+  final AudioEvent? audioEvent;
+  final ServiceFailureException? serviceFailureException;
+
+  /// An exception indicating a service quota would be exceeded.
+  final ServiceQuotaExceededException? serviceQuotaExceededException;
+
+  /// An event, with summary information, indicating the stream has closed.
+  final StreamClosedEvent? streamClosedEvent;
+
+  /// An exception indicating the request was throttled.
+  final ThrottlingException? throttlingException;
+
+  /// An exception indicating the input failed validation.
+  final ValidationException? validationException;
+
+  StartSpeechSynthesisStreamEventStream({
+    this.audioEvent,
+    this.serviceFailureException,
+    this.serviceQuotaExceededException,
+    this.streamClosedEvent,
+    this.throttlingException,
+    this.validationException,
+  });
+
+  factory StartSpeechSynthesisStreamEventStream.fromJson(
+      Map<String, dynamic> json) {
+    return StartSpeechSynthesisStreamEventStream(
+      audioEvent: json['AudioEvent'] != null
+          ? AudioEvent.fromJson(json['AudioEvent'] as Map<String, dynamic>)
+          : null,
+      serviceFailureException: json['ServiceFailureException'] != null
+          ? ServiceFailureException.fromJson(
+              json['ServiceFailureException'] as Map<String, dynamic>)
+          : null,
+      serviceQuotaExceededException:
+          json['ServiceQuotaExceededException'] != null
+              ? ServiceQuotaExceededException.fromJson(
+                  json['ServiceQuotaExceededException'] as Map<String, dynamic>)
+              : null,
+      streamClosedEvent: json['StreamClosedEvent'] != null
+          ? StreamClosedEvent.fromJson(
+              json['StreamClosedEvent'] as Map<String, dynamic>)
+          : null,
+      throttlingException: json['ThrottlingException'] != null
+          ? ThrottlingException.fromJson(
+              json['ThrottlingException'] as Map<String, dynamic>)
+          : null,
+      validationException: json['ValidationException'] != null
+          ? ValidationException.fromJson(
+              json['ValidationException'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final audioEvent = this.audioEvent;
+    final serviceFailureException = this.serviceFailureException;
+    final serviceQuotaExceededException = this.serviceQuotaExceededException;
+    final streamClosedEvent = this.streamClosedEvent;
+    final throttlingException = this.throttlingException;
+    final validationException = this.validationException;
+    return {
+      if (audioEvent != null) 'AudioEvent': audioEvent,
+      if (serviceFailureException != null)
+        'ServiceFailureException': serviceFailureException,
+      if (serviceQuotaExceededException != null)
+        'ServiceQuotaExceededException': serviceQuotaExceededException,
+      if (streamClosedEvent != null) 'StreamClosedEvent': streamClosedEvent,
+      if (throttlingException != null)
+        'ThrottlingException': throttlingException,
+      if (validationException != null)
+        'ValidationException': validationException,
+    };
+  }
+}
+
+/// Contains a chunk of synthesized audio data.
+class AudioEvent {
+  /// A chunk of synthesized audio data encoded in the format specified by the
+  /// <code>OutputFormat</code> parameter.
+  final Uint8List? audioChunk;
+
+  AudioEvent({
+    this.audioChunk,
+  });
+
+  factory AudioEvent.fromJson(Map<String, dynamic> json) {
+    return AudioEvent(
+      audioChunk: _s.decodeNullableUint8List(json['AudioChunk'] as String?),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final audioChunk = this.audioChunk;
+    return {
+      if (audioChunk != null) 'AudioChunk': base64Encode(audioChunk),
+    };
+  }
+}
+
+/// Indicates that the synthesis stream is closed and provides summary
+/// information.
+class StreamClosedEvent {
+  /// The total number of characters synthesized during the streaming session.
+  final int? requestCharacters;
+
+  StreamClosedEvent({
+    this.requestCharacters,
+  });
+
+  factory StreamClosedEvent.fromJson(Map<String, dynamic> json) {
+    return StreamClosedEvent(
+      requestCharacters: json['RequestCharacters'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final requestCharacters = this.requestCharacters;
+    return {
+      if (requestCharacters != null) 'RequestCharacters': requestCharacters,
+    };
+  }
+}
+
+/// Inbound event stream for sending input and control events to manage
+/// bidirectional speech synthesis.
+class StartSpeechSynthesisStreamActionStream {
+  /// An event indicating the end of the input stream.
+  final CloseStreamEvent? closeStreamEvent;
+
+  /// A text event containing content to be synthesized.
+  final TextEvent? textEvent;
+
+  StartSpeechSynthesisStreamActionStream({
+    this.closeStreamEvent,
+    this.textEvent,
+  });
+
+  Map<String, dynamic> toJson() {
+    final closeStreamEvent = this.closeStreamEvent;
+    final textEvent = this.textEvent;
+    return {
+      if (closeStreamEvent != null) 'CloseStreamEvent': closeStreamEvent,
+      if (textEvent != null) 'TextEvent': textEvent,
+    };
+  }
+}
+
+/// Contains text content to be synthesized into speech.
+class TextEvent {
+  /// The text content to synthesize. If you specify <code>ssml</code> as the
+  /// <code>TextType</code>, follow the SSML format for the input text.
+  final String text;
+
+  /// Configuration for controlling when synthesized audio flushes to the output
+  /// stream.
+  final FlushStreamConfiguration? flushStreamConfiguration;
+
+  /// Specifies whether the input text is plain text or SSML. Default: plain text.
+  final TextType? textType;
+
+  TextEvent({
+    required this.text,
+    this.flushStreamConfiguration,
+    this.textType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final text = this.text;
+    final flushStreamConfiguration = this.flushStreamConfiguration;
+    final textType = this.textType;
+    return {
+      'Text': text,
+      if (flushStreamConfiguration != null)
+        'FlushStreamConfiguration': flushStreamConfiguration,
+      if (textType != null) 'TextType': textType.value,
+    };
+  }
+}
+
+/// Indicates the end of the input stream. After sending this event, the input
+/// stream will be closed and all audio will be returned.
+class CloseStreamEvent {
+  CloseStreamEvent();
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Configuration that controls when synthesized audio data is sent on the
+/// output stream.
+class FlushStreamConfiguration {
+  /// Specifies whether to force the synthesis engine to immediately write
+  /// buffered audio data to the output stream.
+  final bool? force;
+
+  FlushStreamConfiguration({
+    this.force,
+  });
+
+  Map<String, dynamic> toJson() {
+    final force = this.force;
+    return {
+      if (force != null) 'Force': force,
+    };
+  }
+}
+
+/// Describes the content of the lexicon.
+class LexiconDescription {
+  /// Provides lexicon metadata.
+  final LexiconAttributes? attributes;
+
+  /// Name of the lexicon.
+  final String? name;
+
+  LexiconDescription({
+    this.attributes,
+    this.name,
+  });
+
+  factory LexiconDescription.fromJson(Map<String, dynamic> json) {
+    return LexiconDescription(
+      attributes: json['Attributes'] != null
+          ? LexiconAttributes.fromJson(
+              json['Attributes'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final name = this.name;
+    return {
+      if (attributes != null) 'Attributes': attributes,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// Contains metadata describing the lexicon such as the number of lexemes,
+/// language code, and so on. For more information, see <a
+/// href="https://docs.aws.amazon.com/polly/latest/dg/managing-lexicons.html">Managing
+/// Lexicons</a>.
+class LexiconAttributes {
+  /// Phonetic alphabet used in the lexicon. Valid values are <code>ipa</code> and
+  /// <code>x-sampa</code>.
+  final String? alphabet;
+
+  /// Language code that the lexicon applies to. A lexicon with a language code
+  /// such as "en" would be applied to all English languages (en-GB, en-US,
+  /// en-AUS, en-WLS, and so on.
+  final LanguageCode? languageCode;
+
+  /// Date lexicon was last modified (a timestamp value).
+  final DateTime? lastModified;
+
+  /// Number of lexemes in the lexicon.
+  final int? lexemesCount;
+
+  /// Amazon Resource Name (ARN) of the lexicon.
+  final String? lexiconArn;
+
+  /// Total size of the lexicon, in characters.
+  final int? size;
+
+  LexiconAttributes({
+    this.alphabet,
+    this.languageCode,
+    this.lastModified,
+    this.lexemesCount,
+    this.lexiconArn,
+    this.size,
+  });
+
+  factory LexiconAttributes.fromJson(Map<String, dynamic> json) {
+    return LexiconAttributes(
+      alphabet: json['Alphabet'] as String?,
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
+      lastModified: timeStampFromJson(json['LastModified']),
+      lexemesCount: json['LexemesCount'] as int?,
+      lexiconArn: json['LexiconArn'] as String?,
+      size: json['Size'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final alphabet = this.alphabet;
+    final languageCode = this.languageCode;
+    final lastModified = this.lastModified;
+    final lexemesCount = this.lexemesCount;
+    final lexiconArn = this.lexiconArn;
+    final size = this.size;
+    return {
+      if (alphabet != null) 'Alphabet': alphabet,
+      if (languageCode != null) 'LanguageCode': languageCode.value,
+      if (lastModified != null)
+        'LastModified': unixTimestampToJson(lastModified),
+      if (lexemesCount != null) 'LexemesCount': lexemesCount,
+      if (lexiconArn != null) 'LexiconArn': lexiconArn,
+      if (size != null) 'Size': size,
+    };
+  }
+}
+
+/// Provides lexicon name and lexicon content in string format. For more
+/// information, see <a
+/// href="https://www.w3.org/TR/pronunciation-lexicon/">Pronunciation Lexicon
+/// Specification (PLS) Version 1.0</a>.
+class Lexicon {
+  /// Lexicon content in string format. The content of a lexicon must be in PLS
+  /// format.
+  final String? content;
+
+  /// Name of the lexicon.
+  final String? name;
+
+  Lexicon({
+    this.content,
+    this.name,
+  });
+
+  factory Lexicon.fromJson(Map<String, dynamic> json) {
+    return Lexicon(
+      content: json['Content'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final name = this.name;
+    return {
+      if (content != null) 'Content': content,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
 /// Description of the voice.
@@ -1450,216 +2273,21 @@ class Voice {
   }
 }
 
-class VoiceId {
-  static const aditi = VoiceId._('Aditi');
-  static const amy = VoiceId._('Amy');
-  static const astrid = VoiceId._('Astrid');
-  static const bianca = VoiceId._('Bianca');
-  static const brian = VoiceId._('Brian');
-  static const camila = VoiceId._('Camila');
-  static const carla = VoiceId._('Carla');
-  static const carmen = VoiceId._('Carmen');
-  static const celine = VoiceId._('Celine');
-  static const chantal = VoiceId._('Chantal');
-  static const conchita = VoiceId._('Conchita');
-  static const cristiano = VoiceId._('Cristiano');
-  static const dora = VoiceId._('Dora');
-  static const emma = VoiceId._('Emma');
-  static const enrique = VoiceId._('Enrique');
-  static const ewa = VoiceId._('Ewa');
-  static const filiz = VoiceId._('Filiz');
-  static const gabrielle = VoiceId._('Gabrielle');
-  static const geraint = VoiceId._('Geraint');
-  static const giorgio = VoiceId._('Giorgio');
-  static const gwyneth = VoiceId._('Gwyneth');
-  static const hans = VoiceId._('Hans');
-  static const ines = VoiceId._('Ines');
-  static const ivy = VoiceId._('Ivy');
-  static const jacek = VoiceId._('Jacek');
-  static const jan = VoiceId._('Jan');
-  static const joanna = VoiceId._('Joanna');
-  static const joey = VoiceId._('Joey');
-  static const justin = VoiceId._('Justin');
-  static const karl = VoiceId._('Karl');
-  static const kendra = VoiceId._('Kendra');
-  static const kevin = VoiceId._('Kevin');
-  static const kimberly = VoiceId._('Kimberly');
-  static const lea = VoiceId._('Lea');
-  static const liv = VoiceId._('Liv');
-  static const lotte = VoiceId._('Lotte');
-  static const lucia = VoiceId._('Lucia');
-  static const lupe = VoiceId._('Lupe');
-  static const mads = VoiceId._('Mads');
-  static const maja = VoiceId._('Maja');
-  static const marlene = VoiceId._('Marlene');
-  static const mathieu = VoiceId._('Mathieu');
-  static const matthew = VoiceId._('Matthew');
-  static const maxim = VoiceId._('Maxim');
-  static const mia = VoiceId._('Mia');
-  static const miguel = VoiceId._('Miguel');
-  static const mizuki = VoiceId._('Mizuki');
-  static const naja = VoiceId._('Naja');
-  static const nicole = VoiceId._('Nicole');
-  static const olivia = VoiceId._('Olivia');
-  static const penelope = VoiceId._('Penelope');
-  static const raveena = VoiceId._('Raveena');
-  static const ricardo = VoiceId._('Ricardo');
-  static const ruben = VoiceId._('Ruben');
-  static const russell = VoiceId._('Russell');
-  static const salli = VoiceId._('Salli');
-  static const seoyeon = VoiceId._('Seoyeon');
-  static const takumi = VoiceId._('Takumi');
-  static const tatyana = VoiceId._('Tatyana');
-  static const vicki = VoiceId._('Vicki');
-  static const vitoria = VoiceId._('Vitoria');
-  static const zeina = VoiceId._('Zeina');
-  static const zhiyu = VoiceId._('Zhiyu');
-  static const aria = VoiceId._('Aria');
-  static const ayanda = VoiceId._('Ayanda');
-  static const arlet = VoiceId._('Arlet');
-  static const hannah = VoiceId._('Hannah');
-  static const arthur = VoiceId._('Arthur');
-  static const daniel = VoiceId._('Daniel');
-  static const liam = VoiceId._('Liam');
-  static const pedro = VoiceId._('Pedro');
-  static const kajal = VoiceId._('Kajal');
-  static const hiujin = VoiceId._('Hiujin');
-  static const laura = VoiceId._('Laura');
-  static const elin = VoiceId._('Elin');
-  static const ida = VoiceId._('Ida');
-  static const suvi = VoiceId._('Suvi');
-  static const ola = VoiceId._('Ola');
-  static const hala = VoiceId._('Hala');
-  static const andres = VoiceId._('Andres');
-  static const sergio = VoiceId._('Sergio');
-  static const remi = VoiceId._('Remi');
-  static const adriano = VoiceId._('Adriano');
-  static const thiago = VoiceId._('Thiago');
-  static const ruth = VoiceId._('Ruth');
-  static const stephen = VoiceId._('Stephen');
-  static const kazuha = VoiceId._('Kazuha');
-  static const tomoko = VoiceId._('Tomoko');
-  static const niamh = VoiceId._('Niamh');
-  static const sofie = VoiceId._('Sofie');
-  static const lisa = VoiceId._('Lisa');
-  static const isabelle = VoiceId._('Isabelle');
-  static const zayd = VoiceId._('Zayd');
-  static const danielle = VoiceId._('Danielle');
-  static const gregory = VoiceId._('Gregory');
-  static const burcu = VoiceId._('Burcu');
-  static const jitka = VoiceId._('Jitka');
-  static const sabrina = VoiceId._('Sabrina');
+class Gender {
+  static const female = Gender._('Female');
+  static const male = Gender._('Male');
 
   final String value;
 
-  const VoiceId._(this.value);
+  const Gender._(this.value);
 
-  static const values = [
-    aditi,
-    amy,
-    astrid,
-    bianca,
-    brian,
-    camila,
-    carla,
-    carmen,
-    celine,
-    chantal,
-    conchita,
-    cristiano,
-    dora,
-    emma,
-    enrique,
-    ewa,
-    filiz,
-    gabrielle,
-    geraint,
-    giorgio,
-    gwyneth,
-    hans,
-    ines,
-    ivy,
-    jacek,
-    jan,
-    joanna,
-    joey,
-    justin,
-    karl,
-    kendra,
-    kevin,
-    kimberly,
-    lea,
-    liv,
-    lotte,
-    lucia,
-    lupe,
-    mads,
-    maja,
-    marlene,
-    mathieu,
-    matthew,
-    maxim,
-    mia,
-    miguel,
-    mizuki,
-    naja,
-    nicole,
-    olivia,
-    penelope,
-    raveena,
-    ricardo,
-    ruben,
-    russell,
-    salli,
-    seoyeon,
-    takumi,
-    tatyana,
-    vicki,
-    vitoria,
-    zeina,
-    zhiyu,
-    aria,
-    ayanda,
-    arlet,
-    hannah,
-    arthur,
-    daniel,
-    liam,
-    pedro,
-    kajal,
-    hiujin,
-    laura,
-    elin,
-    ida,
-    suvi,
-    ola,
-    hala,
-    andres,
-    sergio,
-    remi,
-    adriano,
-    thiago,
-    ruth,
-    stephen,
-    kazuha,
-    tomoko,
-    niamh,
-    sofie,
-    lisa,
-    isabelle,
-    zayd,
-    danielle,
-    gregory,
-    burcu,
-    jitka,
-    sabrina
-  ];
+  static const values = [female, male];
 
-  static VoiceId fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => VoiceId._(value));
+  static Gender fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Gender._(value));
 
   @override
-  bool operator ==(other) => other is VoiceId && other.value == value;
+  bool operator ==(other) => other is Gender && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -1758,11 +2386,6 @@ class MaxLexiconsNumberExceededException extends _s.GenericAwsException {
             message: message);
 }
 
-class ServiceFailureException extends _s.GenericAwsException {
-  ServiceFailureException({String? type, String? message})
-      : super(type: type, code: 'ServiceFailureException', message: message);
-}
-
 class SsmlMarksNotSupportedForTextTypeException extends _s.GenericAwsException {
   SsmlMarksNotSupportedForTextTypeException({String? type, String? message})
       : super(
@@ -1833,15 +2456,21 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
   'MaxLexiconsNumberExceededException': (type, message) =>
       MaxLexiconsNumberExceededException(type: type, message: message),
   'ServiceFailureException': (type, message) =>
-      ServiceFailureException(type: type, message: message),
+      ServiceFailureException(message: message),
+  'ServiceQuotaExceededException': (type, message) =>
+      ServiceQuotaExceededException(message: message),
   'SsmlMarksNotSupportedForTextTypeException': (type, message) =>
       SsmlMarksNotSupportedForTextTypeException(type: type, message: message),
   'SynthesisTaskNotFoundException': (type, message) =>
       SynthesisTaskNotFoundException(type: type, message: message),
   'TextLengthExceededException': (type, message) =>
       TextLengthExceededException(type: type, message: message),
+  'ThrottlingException': (type, message) =>
+      ThrottlingException(message: message),
   'UnsupportedPlsAlphabetException': (type, message) =>
       UnsupportedPlsAlphabetException(type: type, message: message),
   'UnsupportedPlsLanguageException': (type, message) =>
       UnsupportedPlsLanguageException(type: type, message: message),
+  'ValidationException': (type, message) =>
+      ValidationException(message: message),
 };

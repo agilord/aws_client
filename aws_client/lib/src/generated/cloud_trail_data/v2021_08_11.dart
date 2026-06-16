@@ -40,7 +40,6 @@ class CloudTrailData {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'cloudtrail-data',
-            signingName: 'cloudtrail-data',
           ),
           region: region,
           credentials: credentials,
@@ -65,9 +64,9 @@ class CloudTrailData {
   ///
   /// May throw [ChannelInsufficientPermission].
   /// May throw [ChannelNotFound].
-  /// May throw [InvalidChannelARN].
   /// May throw [ChannelUnsupportedSchema].
   /// May throw [DuplicatedAuditEventId].
+  /// May throw [InvalidChannelARN].
   /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [auditEvents] :
@@ -101,73 +100,6 @@ class CloudTrailData {
       exceptionFnMap: _exceptionFns,
     );
     return PutAuditEventsResponse.fromJson(response);
-  }
-}
-
-/// An event from a source outside of Amazon Web Services that you want
-/// CloudTrail to log.
-class AuditEvent {
-  /// The content of an audit event that comes from the event, such as
-  /// <code>userIdentity</code>, <code>userAgent</code>, and
-  /// <code>eventSource</code>.
-  final String eventData;
-
-  /// The original event ID from the source event.
-  final String id;
-
-  /// A checksum is a base64-SHA256 algorithm that helps you verify that
-  /// CloudTrail receives the event that matches with the checksum. Calculate the
-  /// checksum by running a command like the following:
-  ///
-  /// <code>printf %s <i>$eventdata</i> | openssl dgst -binary -sha256 |
-  /// base64</code>
-  final String? eventDataChecksum;
-
-  AuditEvent({
-    required this.eventData,
-    required this.id,
-    this.eventDataChecksum,
-  });
-
-  Map<String, dynamic> toJson() {
-    final eventData = this.eventData;
-    final id = this.id;
-    final eventDataChecksum = this.eventDataChecksum;
-    return {
-      'eventData': eventData,
-      'id': id,
-      if (eventDataChecksum != null) 'eventDataChecksum': eventDataChecksum,
-    };
-  }
-}
-
-/// A response that includes successful and failed event results.
-class AuditEventResultEntry {
-  /// The event ID assigned by CloudTrail.
-  final String eventID;
-
-  /// The original event ID from the source event.
-  final String id;
-
-  AuditEventResultEntry({
-    required this.eventID,
-    required this.id,
-  });
-
-  factory AuditEventResultEntry.fromJson(Map<String, dynamic> json) {
-    return AuditEventResultEntry(
-      eventID: (json['eventID'] as String?) ?? '',
-      id: (json['id'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eventID = this.eventID;
-    final id = this.id;
-    return {
-      'eventID': eventID,
-      'id': id,
-    };
   }
 }
 
@@ -250,6 +182,73 @@ class ResultErrorEntry {
       'errorCode': errorCode,
       'errorMessage': errorMessage,
       'id': id,
+    };
+  }
+}
+
+/// A response that includes successful and failed event results.
+class AuditEventResultEntry {
+  /// The event ID assigned by CloudTrail.
+  final String eventID;
+
+  /// The original event ID from the source event.
+  final String id;
+
+  AuditEventResultEntry({
+    required this.eventID,
+    required this.id,
+  });
+
+  factory AuditEventResultEntry.fromJson(Map<String, dynamic> json) {
+    return AuditEventResultEntry(
+      eventID: (json['eventID'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventID = this.eventID;
+    final id = this.id;
+    return {
+      'eventID': eventID,
+      'id': id,
+    };
+  }
+}
+
+/// An event from a source outside of Amazon Web Services that you want
+/// CloudTrail to log.
+class AuditEvent {
+  /// The content of an audit event that comes from the event, such as
+  /// <code>userIdentity</code>, <code>userAgent</code>, and
+  /// <code>eventSource</code>.
+  final String eventData;
+
+  /// The original event ID from the source event.
+  final String id;
+
+  /// A checksum is a base64-SHA256 algorithm that helps you verify that
+  /// CloudTrail receives the event that matches with the checksum. Calculate the
+  /// checksum by running a command like the following:
+  ///
+  /// <code>printf %s <i>$eventdata</i> | openssl dgst -binary -sha256 |
+  /// base64</code>
+  final String? eventDataChecksum;
+
+  AuditEvent({
+    required this.eventData,
+    required this.id,
+    this.eventDataChecksum,
+  });
+
+  Map<String, dynamic> toJson() {
+    final eventData = this.eventData;
+    final id = this.id;
+    final eventDataChecksum = this.eventDataChecksum;
+    return {
+      'eventData': eventData,
+      'id': id,
+      if (eventDataChecksum != null) 'eventDataChecksum': eventDataChecksum,
     };
   }
 }

@@ -55,7 +55,6 @@ class CodeGuruProfiler {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'codeguru-profiler',
-            signingName: 'codeguru-profiler',
           ),
           region: region,
           credentials: credentials,
@@ -72,14 +71,355 @@ class CodeGuruProfiler {
     _protocol.close();
   }
 
+  /// Returns a list of <a
+  /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_FindingsReportSummary.html">
+  /// <code>FindingsReportSummary</code> </a> objects that contain analysis
+  /// results for all profiling groups in your AWS account.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [dailyReportsOnly] :
+  /// A <code>Boolean</code> value indicating whether to only return reports
+  /// from daily profiles. If set to <code>True</code>, only analysis data from
+  /// daily profiles is returned. If set to <code>False</code>, analysis data is
+  /// returned from smaller time windows (for example, one hour).
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results returned by <code>
+  /// GetFindingsReportAccountSummary</code> in paginated output. When this
+  /// parameter is used, <code>GetFindingsReportAccountSummary</code> only
+  /// returns <code>maxResults</code> results in a single page along with a
+  /// <code>nextToken</code> response element. The remaining results of the
+  /// initial request can be seen by sending another
+  /// <code>GetFindingsReportAccountSummary</code> request with the returned
+  /// <code>nextToken</code> value.
+  ///
+  /// Parameter [nextToken] :
+  /// The <code>nextToken</code> value returned from a previous paginated
+  /// <code>GetFindingsReportAccountSummary</code> request where
+  /// <code>maxResults</code> was used and the results exceeded the value of
+  /// that parameter. Pagination continues from the end of the previous results
+  /// that returned the <code>nextToken</code> value.
+  /// <note>
+  /// This token should be treated as an opaque identifier that is only used to
+  /// retrieve the next items in a list and not for other programmatic purposes.
+  /// </note>
+  Future<GetFindingsReportAccountSummaryResponse>
+      getFindingsReportAccountSummary({
+    bool? dailyReportsOnly,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (dailyReportsOnly != null)
+        'dailyReportsOnly': [dailyReportsOnly.toString()],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/internal/findingsReports',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetFindingsReportAccountSummaryResponse.fromJson(response);
+  }
+
+  /// Returns a list of the tags that are assigned to a specified resource.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource that contains the tags to
+  /// return.
+  Future<ListTagsForResourceResponse> listTagsForResource({
+    required String resourceArn,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTagsForResourceResponse.fromJson(response);
+  }
+
+  /// Use to assign one or more tags to a resource.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource that the tags are added to.
+  ///
+  /// Parameter [tags] :
+  /// The list of tags that are added to the specified resource.
+  Future<void> tagResource({
+    required String resourceArn,
+    required Map<String, String> tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Use to remove one or more tags from a resource.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource that contains the tags to
+  /// remove.
+  ///
+  /// Parameter [tagKeys] :
+  /// A list of tag keys. Existing tags of resources with keys in this list are
+  /// removed from the specified resource.
+  Future<void> untagResource({
+    required String resourceArn,
+    required List<String> tagKeys,
+  }) async {
+    final $query = <String, List<String>>{
+      'tagKeys': tagKeys,
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Creates a profiling group.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [profilingGroupName] :
+  /// The name of the profiling group to create.
+  ///
+  /// Parameter [agentOrchestrationConfig] :
+  /// Specifies whether profiling is enabled or disabled for the created
+  /// profiling group.
+  ///
+  /// Parameter [clientToken] :
+  /// Amazon CodeGuru Profiler uses this universally unique identifier (UUID) to
+  /// prevent the accidental creation of duplicate profiling groups if there are
+  /// failures and retries.
+  ///
+  /// Parameter [computePlatform] :
+  /// The compute platform of the profiling group. Use <code>AWSLambda</code> if
+  /// your application runs on AWS Lambda. Use <code>Default</code> if your
+  /// application runs on a compute platform that is not AWS Lambda, such an
+  /// Amazon EC2 instance, an on-premises server, or a different platform. If
+  /// not specified, <code>Default</code> is used.
+  ///
+  /// Parameter [tags] :
+  /// A list of tags to add to the created profiling group.
+  Future<CreateProfilingGroupResponse> createProfilingGroup({
+    required String profilingGroupName,
+    AgentOrchestrationConfig? agentOrchestrationConfig,
+    String? clientToken,
+    ComputePlatform? computePlatform,
+    Map<String, String>? tags,
+  }) async {
+    final $query = <String, List<String>>{
+      if (clientToken != null) 'clientToken': [clientToken],
+    };
+    final $payload = <String, dynamic>{
+      'profilingGroupName': profilingGroupName,
+      if (agentOrchestrationConfig != null)
+        'agentOrchestrationConfig': agentOrchestrationConfig,
+      if (computePlatform != null) 'computePlatform': computePlatform.value,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.sendRaw(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/profilingGroups',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    final $json = await _s.jsonFromResponse(response);
+    return CreateProfilingGroupResponse(
+      profilingGroup: ProfilingGroupDescription.fromJson($json),
+    );
+  }
+
+  /// Returns a <a
+  /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html">
+  /// <code>ProfilingGroupDescription</code> </a> object that contains
+  /// information about the requested profiling group.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [profilingGroupName] :
+  /// The name of the profiling group to get information about.
+  Future<DescribeProfilingGroupResponse> describeProfilingGroup({
+    required String profilingGroupName,
+  }) async {
+    final response = await _protocol.sendRaw(
+      payload: null,
+      method: 'GET',
+      requestUri: '/profilingGroups/${Uri.encodeComponent(profilingGroupName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    final $json = await _s.jsonFromResponse(response);
+    return DescribeProfilingGroupResponse(
+      profilingGroup: ProfilingGroupDescription.fromJson($json),
+    );
+  }
+
+  /// Updates a profiling group.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [agentOrchestrationConfig] :
+  /// Specifies whether profiling is enabled or disabled for a profiling group.
+  ///
+  /// Parameter [profilingGroupName] :
+  /// The name of the profiling group to update.
+  Future<UpdateProfilingGroupResponse> updateProfilingGroup({
+    required AgentOrchestrationConfig agentOrchestrationConfig,
+    required String profilingGroupName,
+  }) async {
+    final $payload = <String, dynamic>{
+      'agentOrchestrationConfig': agentOrchestrationConfig,
+    };
+    final response = await _protocol.sendRaw(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/profilingGroups/${Uri.encodeComponent(profilingGroupName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    final $json = await _s.jsonFromResponse(response);
+    return UpdateProfilingGroupResponse(
+      profilingGroup: ProfilingGroupDescription.fromJson($json),
+    );
+  }
+
+  /// Deletes a profiling group.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [profilingGroupName] :
+  /// The name of the profiling group to delete.
+  Future<void> deleteProfilingGroup({
+    required String profilingGroupName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/profilingGroups/${Uri.encodeComponent(profilingGroupName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Returns a list of profiling groups. The profiling groups are returned as
+  /// <a
+  /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html">
+  /// <code>ProfilingGroupDescription</code> </a> objects.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [includeDescription] :
+  /// A <code>Boolean</code> value indicating whether to include a description.
+  /// If <code>true</code>, then a list of <a
+  /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html">
+  /// <code>ProfilingGroupDescription</code> </a> objects that contain detailed
+  /// information about profiling groups is returned. If <code>false</code>,
+  /// then a list of profiling group names is returned.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of profiling groups results returned by
+  /// <code>ListProfilingGroups</code> in paginated output. When this parameter
+  /// is used, <code>ListProfilingGroups</code> only returns
+  /// <code>maxResults</code> results in a single page along with a
+  /// <code>nextToken</code> response element. The remaining results of the
+  /// initial request can be seen by sending another
+  /// <code>ListProfilingGroups</code> request with the returned
+  /// <code>nextToken</code> value.
+  ///
+  /// Parameter [nextToken] :
+  /// The <code>nextToken</code> value returned from a previous paginated
+  /// <code>ListProfilingGroups</code> request where <code>maxResults</code> was
+  /// used and the results exceeded the value of that parameter. Pagination
+  /// continues from the end of the previous results that returned the
+  /// <code>nextToken</code> value.
+  /// <note>
+  /// This token should be treated as an opaque identifier that is only used to
+  /// retrieve the next items in a list and not for other programmatic purposes.
+  /// </note>
+  Future<ListProfilingGroupsResponse> listProfilingGroups({
+    bool? includeDescription,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (includeDescription != null)
+        'includeDescription': [includeDescription.toString()],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/profilingGroups',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListProfilingGroupsResponse.fromJson(response);
+  }
+
   /// Add up to 2 anomaly notifications channels for a profiling group.
   ///
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [InternalServerException].
   /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [channels] :
   /// One or 2 channels to report to when anomalies are detected.
@@ -107,9 +447,9 @@ class CodeGuruProfiler {
   /// from a time period.
   ///
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [profilingGroupName] :
   /// The name of the profiling group associated with the the frame metrics used
@@ -192,9 +532,9 @@ class CodeGuruProfiler {
   /// return profiling data.
   ///
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [profilingGroupName] :
   /// The name of the profiling group for which the configured agent is
@@ -269,183 +609,13 @@ class CodeGuruProfiler {
     );
   }
 
-  /// Creates a profiling group.
-  ///
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
-  ///
-  /// Parameter [profilingGroupName] :
-  /// The name of the profiling group to create.
-  ///
-  /// Parameter [agentOrchestrationConfig] :
-  /// Specifies whether profiling is enabled or disabled for the created
-  /// profiling group.
-  ///
-  /// Parameter [clientToken] :
-  /// Amazon CodeGuru Profiler uses this universally unique identifier (UUID) to
-  /// prevent the accidental creation of duplicate profiling groups if there are
-  /// failures and retries.
-  ///
-  /// Parameter [computePlatform] :
-  /// The compute platform of the profiling group. Use <code>AWSLambda</code> if
-  /// your application runs on AWS Lambda. Use <code>Default</code> if your
-  /// application runs on a compute platform that is not AWS Lambda, such an
-  /// Amazon EC2 instance, an on-premises server, or a different platform. If
-  /// not specified, <code>Default</code> is used.
-  ///
-  /// Parameter [tags] :
-  /// A list of tags to add to the created profiling group.
-  Future<CreateProfilingGroupResponse> createProfilingGroup({
-    required String profilingGroupName,
-    AgentOrchestrationConfig? agentOrchestrationConfig,
-    String? clientToken,
-    ComputePlatform? computePlatform,
-    Map<String, String>? tags,
-  }) async {
-    final $query = <String, List<String>>{
-      if (clientToken != null) 'clientToken': [clientToken],
-    };
-    final $payload = <String, dynamic>{
-      'profilingGroupName': profilingGroupName,
-      if (agentOrchestrationConfig != null)
-        'agentOrchestrationConfig': agentOrchestrationConfig,
-      if (computePlatform != null) 'computePlatform': computePlatform.value,
-      if (tags != null) 'tags': tags,
-    };
-    final response = await _protocol.sendRaw(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/profilingGroups',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    final $json = await _s.jsonFromResponse(response);
-    return CreateProfilingGroupResponse(
-      profilingGroup: ProfilingGroupDescription.fromJson($json),
-    );
-  }
-
-  /// Deletes a profiling group.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [profilingGroupName] :
-  /// The name of the profiling group to delete.
-  Future<void> deleteProfilingGroup({
-    required String profilingGroupName,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'DELETE',
-      requestUri: '/profilingGroups/${Uri.encodeComponent(profilingGroupName)}',
-      exceptionFnMap: _exceptionFns,
-    );
-  }
-
-  /// Returns a <a
-  /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html">
-  /// <code>ProfilingGroupDescription</code> </a> object that contains
-  /// information about the requested profiling group.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [profilingGroupName] :
-  /// The name of the profiling group to get information about.
-  Future<DescribeProfilingGroupResponse> describeProfilingGroup({
-    required String profilingGroupName,
-  }) async {
-    final response = await _protocol.sendRaw(
-      payload: null,
-      method: 'GET',
-      requestUri: '/profilingGroups/${Uri.encodeComponent(profilingGroupName)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    final $json = await _s.jsonFromResponse(response);
-    return DescribeProfilingGroupResponse(
-      profilingGroup: ProfilingGroupDescription.fromJson($json),
-    );
-  }
-
-  /// Returns a list of <a
-  /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_FindingsReportSummary.html">
-  /// <code>FindingsReportSummary</code> </a> objects that contain analysis
-  /// results for all profiling groups in your AWS account.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
-  ///
-  /// Parameter [dailyReportsOnly] :
-  /// A <code>Boolean</code> value indicating whether to only return reports
-  /// from daily profiles. If set to <code>True</code>, only analysis data from
-  /// daily profiles is returned. If set to <code>False</code>, analysis data is
-  /// returned from smaller time windows (for example, one hour).
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of results returned by <code>
-  /// GetFindingsReportAccountSummary</code> in paginated output. When this
-  /// parameter is used, <code>GetFindingsReportAccountSummary</code> only
-  /// returns <code>maxResults</code> results in a single page along with a
-  /// <code>nextToken</code> response element. The remaining results of the
-  /// initial request can be seen by sending another
-  /// <code>GetFindingsReportAccountSummary</code> request with the returned
-  /// <code>nextToken</code> value.
-  ///
-  /// Parameter [nextToken] :
-  /// The <code>nextToken</code> value returned from a previous paginated
-  /// <code>GetFindingsReportAccountSummary</code> request where
-  /// <code>maxResults</code> was used and the results exceeded the value of
-  /// that parameter. Pagination continues from the end of the previous results
-  /// that returned the <code>nextToken</code> value.
-  /// <note>
-  /// This token should be treated as an opaque identifier that is only used to
-  /// retrieve the next items in a list and not for other programmatic purposes.
-  /// </note>
-  Future<GetFindingsReportAccountSummaryResponse>
-      getFindingsReportAccountSummary({
-    bool? dailyReportsOnly,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
-    final $query = <String, List<String>>{
-      if (dailyReportsOnly != null)
-        'dailyReportsOnly': [dailyReportsOnly.toString()],
-      if (maxResults != null) 'maxResults': [maxResults.toString()],
-      if (nextToken != null) 'nextToken': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/internal/findingsReports',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetFindingsReportAccountSummaryResponse.fromJson(response);
-  }
-
   /// Get the current configuration for anomaly notifications for a profiling
   /// group.
   ///
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [profilingGroupName] :
   /// The name of the profiling group we want to get the notification
@@ -466,8 +636,8 @@ class CodeGuruProfiler {
   /// Returns the JSON-formatted resource-based policy on a profiling group.
   ///
   /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [profilingGroupName] :
   /// The name of the profiling group.
@@ -487,51 +657,64 @@ class CodeGuruProfiler {
   /// Gets the aggregated profile of a profiling group for a specified time
   /// range. Amazon CodeGuru Profiler collects posted agent profiles for a
   /// profiling group into aggregated profiles.
-  /// <pre><code> &lt;note&gt; &lt;p&gt; Because aggregated profiles expire over
-  /// time &lt;code&gt;GetProfile&lt;/code&gt; is not idempotent. &lt;/p&gt;
-  /// &lt;/note&gt; &lt;p&gt; Specify the time range for the requested
-  /// aggregated profile using 1 or 2 of the following parameters:
-  /// &lt;code&gt;startTime&lt;/code&gt;, &lt;code&gt;endTime&lt;/code&gt;,
-  /// &lt;code&gt;period&lt;/code&gt;. The maximum time range allowed is 7 days.
-  /// If you specify all 3 parameters, an exception is thrown. If you specify
-  /// only &lt;code&gt;period&lt;/code&gt;, the latest aggregated profile is
-  /// returned. &lt;/p&gt; &lt;p&gt; Aggregated profiles are available with
-  /// aggregation periods of 5 minutes, 1 hour, and 1 day, aligned to UTC. The
-  /// aggregation period of an aggregated profile determines how long it is
-  /// retained. For more information, see &lt;a
-  /// href=&quot;https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_AggregatedProfileTime.html&quot;&gt;
-  /// &lt;code&gt;AggregatedProfileTime&lt;/code&gt; &lt;/a&gt;. The aggregated
-  /// profile's aggregation period determines how long it is retained by
-  /// CodeGuru Profiler. &lt;/p&gt; &lt;ul&gt; &lt;li&gt; &lt;p&gt; If the
-  /// aggregation period is 5 minutes, the aggregated profile is retained for 15
-  /// days. &lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt; If the aggregation
-  /// period is 1 hour, the aggregated profile is retained for 60 days.
-  /// &lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt; If the aggregation period is 1
-  /// day, the aggregated profile is retained for 3 years. &lt;/p&gt;
-  /// &lt;/li&gt; &lt;/ul&gt; &lt;p&gt;There are two use cases for calling
-  /// &lt;code&gt;GetProfile&lt;/code&gt;.&lt;/p&gt; &lt;ol&gt; &lt;li&gt;
-  /// &lt;p&gt; If you want to return an aggregated profile that already exists,
-  /// use &lt;a
-  /// href=&quot;https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ListProfileTimes.html&quot;&gt;
-  /// &lt;code&gt;ListProfileTimes&lt;/code&gt; &lt;/a&gt; to view the time
-  /// ranges of existing aggregated profiles. Use them in a
-  /// &lt;code&gt;GetProfile&lt;/code&gt; request to return a specific, existing
-  /// aggregated profile. &lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt; If you
-  /// want to return an aggregated profile for a time range that doesn't align
-  /// with an existing aggregated profile, then CodeGuru Profiler makes a best
-  /// effort to combine existing aggregated profiles from the requested time
-  /// range and return them as one aggregated profile. &lt;/p&gt; &lt;p&gt; If
-  /// aggregated profiles do not exist for the full time range requested, then
-  /// aggregated profiles for a smaller time range are returned. For example, if
-  /// the requested time range is from 00:00 to 00:20, and the existing
-  /// aggregated profiles are from 00:15 and 00:25, then the aggregated profiles
-  /// from 00:15 to 00:20 are returned. &lt;/p&gt; &lt;/li&gt; &lt;/ol&gt;
-  /// </code></pre>
+  /// <note>
+  /// Because aggregated profiles expire over time <code>GetProfile</code> is
+  /// not idempotent.
+  /// </note>
+  /// Specify the time range for the requested aggregated profile using 1 or 2
+  /// of the following parameters: <code>startTime</code>, <code>endTime</code>,
+  /// <code>period</code>. The maximum time range allowed is 7 days. If you
+  /// specify all 3 parameters, an exception is thrown. If you specify only
+  /// <code>period</code>, the latest aggregated profile is returned.
+  ///
+  /// Aggregated profiles are available with aggregation periods of 5 minutes, 1
+  /// hour, and 1 day, aligned to UTC. The aggregation period of an aggregated
+  /// profile determines how long it is retained. For more information, see <a
+  /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_AggregatedProfileTime.html">
+  /// <code>AggregatedProfileTime</code> </a>. The aggregated profile's
+  /// aggregation period determines how long it is retained by CodeGuru
+  /// Profiler.
+  ///
+  /// <ul>
+  /// <li>
+  /// If the aggregation period is 5 minutes, the aggregated profile is retained
+  /// for 15 days.
+  /// </li>
+  /// <li>
+  /// If the aggregation period is 1 hour, the aggregated profile is retained
+  /// for 60 days.
+  /// </li>
+  /// <li>
+  /// If the aggregation period is 1 day, the aggregated profile is retained for
+  /// 3 years.
+  /// </li>
+  /// </ul>
+  /// There are two use cases for calling <code>GetProfile</code>.
+  /// <ol>
+  /// <li>
+  /// If you want to return an aggregated profile that already exists, use <a
+  /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ListProfileTimes.html">
+  /// <code>ListProfileTimes</code> </a> to view the time ranges of existing
+  /// aggregated profiles. Use them in a <code>GetProfile</code> request to
+  /// return a specific, existing aggregated profile.
+  /// </li>
+  /// <li>
+  /// If you want to return an aggregated profile for a time range that doesn't
+  /// align with an existing aggregated profile, then CodeGuru Profiler makes a
+  /// best effort to combine existing aggregated profiles from the requested
+  /// time range and return them as one aggregated profile.
+  ///
+  /// If aggregated profiles do not exist for the full time range requested,
+  /// then aggregated profiles for a smaller time range are returned. For
+  /// example, if the requested time range is from 00:00 to 00:20, and the
+  /// existing aggregated profiles are from 00:15 and 00:25, then the aggregated
+  /// profiles from 00:15 to 00:20 are returned.
+  /// </li> </ol>
   ///
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [profilingGroupName] :
   /// The name of the profiling group to get.
@@ -540,13 +723,16 @@ class CodeGuruProfiler {
   /// The format of the returned profiling data. The format maps to the
   /// <code>Accept</code> and <code>Content-Type</code> headers of the HTTP
   /// request. You can specify one of the following: or the default .
-  /// <pre><code> &lt;ul&gt; &lt;li&gt; &lt;p&gt;
-  /// &lt;code&gt;application/json&lt;/code&gt; — standard JSON format
-  /// &lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt;
-  /// &lt;code&gt;application/x-amzn-ion&lt;/code&gt; — the Amazon Ion data
-  /// format. For more information, see &lt;a
-  /// href=&quot;http://amzn.github.io/ion-docs/&quot;&gt;Amazon Ion&lt;/a&gt;.
-  /// &lt;/p&gt; &lt;/li&gt; &lt;/ul&gt; </code></pre>
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>application/json</code> — standard JSON format
+  /// </li>
+  /// <li>
+  /// <code>application/x-amzn-ion</code> — the Amazon Ion data format. For more
+  /// information, see <a href="http://amzn.github.io/ion-docs/">Amazon Ion</a>.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [endTime] :
   /// The end time of the requested profile. Specify using the ISO 8601 format.
@@ -568,16 +754,16 @@ class CodeGuruProfiler {
   /// Used with <code>startTime</code> or <code>endTime</code> to specify the
   /// time range for the returned aggregated profile. Specify using the ISO 8601
   /// format. For example, <code>P1DT1H1M1S</code>.
-  /// <pre><code> &lt;p&gt; To get the latest aggregated profile, specify only
-  /// &lt;code&gt;period&lt;/code&gt;. &lt;/p&gt; </code></pre>
+  ///
+  /// To get the latest aggregated profile, specify only <code>period</code>.
   ///
   /// Parameter [startTime] :
   /// The start time of the profile to get. Specify using the ISO 8601 format.
   /// For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June
   /// 1, 2020 1:15:02 PM UTC.
-  /// <pre><code> &lt;p&gt; If you specify &lt;code&gt;startTime&lt;/code&gt;,
-  /// then you must also specify &lt;code&gt;period&lt;/code&gt; or
-  /// &lt;code&gt;endTime&lt;/code&gt;, but not both. &lt;/p&gt; </code></pre>
+  ///
+  /// If you specify <code>startTime</code>, then you must also specify
+  /// <code>period</code> or <code>endTime</code>, but not both.
   Future<GetProfileResponse> getProfile({
     required String profilingGroupName,
     String? accept,
@@ -629,9 +815,9 @@ class CodeGuruProfiler {
   /// detected in the profiling group for the same time period is also returned.
   ///
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [endTime] :
   /// The start time of the profile to get analysis data about. You must specify
@@ -712,9 +898,9 @@ class CodeGuruProfiler {
   /// List the available reports for a given profiling group and time range.
   ///
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [endTime] :
   /// The end time of the profile to get analysis data about. You must specify
@@ -794,9 +980,9 @@ class CodeGuruProfiler {
   /// group for an aggregation period within the specified time range.
   ///
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [endTime] :
   /// The end time of the time range from which to list the profiles.
@@ -881,99 +1067,15 @@ class CodeGuruProfiler {
     return ListProfileTimesResponse.fromJson(response);
   }
 
-  /// Returns a list of profiling groups. The profiling groups are returned as
-  /// <a
-  /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html">
-  /// <code>ProfilingGroupDescription</code> </a> objects.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
-  ///
-  /// Parameter [includeDescription] :
-  /// A <code>Boolean</code> value indicating whether to include a description.
-  /// If <code>true</code>, then a list of <a
-  /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html">
-  /// <code>ProfilingGroupDescription</code> </a> objects that contain detailed
-  /// information about profiling groups is returned. If <code>false</code>,
-  /// then a list of profiling group names is returned.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of profiling groups results returned by
-  /// <code>ListProfilingGroups</code> in paginated output. When this parameter
-  /// is used, <code>ListProfilingGroups</code> only returns
-  /// <code>maxResults</code> results in a single page along with a
-  /// <code>nextToken</code> response element. The remaining results of the
-  /// initial request can be seen by sending another
-  /// <code>ListProfilingGroups</code> request with the returned
-  /// <code>nextToken</code> value.
-  ///
-  /// Parameter [nextToken] :
-  /// The <code>nextToken</code> value returned from a previous paginated
-  /// <code>ListProfilingGroups</code> request where <code>maxResults</code> was
-  /// used and the results exceeded the value of that parameter. Pagination
-  /// continues from the end of the previous results that returned the
-  /// <code>nextToken</code> value.
-  /// <note>
-  /// This token should be treated as an opaque identifier that is only used to
-  /// retrieve the next items in a list and not for other programmatic purposes.
-  /// </note>
-  Future<ListProfilingGroupsResponse> listProfilingGroups({
-    bool? includeDescription,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
-    final $query = <String, List<String>>{
-      if (includeDescription != null)
-        'includeDescription': [includeDescription.toString()],
-      if (maxResults != null) 'maxResults': [maxResults.toString()],
-      if (nextToken != null) 'nextToken': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/profilingGroups',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListProfilingGroupsResponse.fromJson(response);
-  }
-
-  /// Returns a list of the tags that are assigned to a specified resource.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [resourceArn] :
-  /// The Amazon Resource Name (ARN) of the resource that contains the tags to
-  /// return.
-  Future<ListTagsForResourceResponse> listTagsForResource({
-    required String resourceArn,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListTagsForResourceResponse.fromJson(response);
-  }
-
   /// Submits profiling data to an aggregated profile of a profiling group. To
   /// get an aggregated profile that is created with this profiling data, use <a
   /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_GetProfile.html">
   /// <code>GetProfile</code> </a>.
   ///
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [agentProfile] :
   /// The submitted profiling data.
@@ -982,13 +1084,16 @@ class CodeGuruProfiler {
   /// The format of the submitted profiling data. The format maps to the
   /// <code>Accept</code> and <code>Content-Type</code> headers of the HTTP
   /// request. You can specify one of the following: or the default .
-  /// <pre><code> &lt;ul&gt; &lt;li&gt; &lt;p&gt;
-  /// &lt;code&gt;application/json&lt;/code&gt; — standard JSON format
-  /// &lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt;
-  /// &lt;code&gt;application/x-amzn-ion&lt;/code&gt; — the Amazon Ion data
-  /// format. For more information, see &lt;a
-  /// href=&quot;http://amzn.github.io/ion-docs/&quot;&gt;Amazon Ion&lt;/a&gt;.
-  /// &lt;/p&gt; &lt;/li&gt; &lt;/ul&gt; </code></pre>
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>application/json</code> — standard JSON format
+  /// </li>
+  /// <li>
+  /// <code>application/x-amzn-ion</code> — the Amazon Ion data format. For more
+  /// information, see <a href="http://amzn.github.io/ion-docs/">Amazon Ion</a>.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [profilingGroupName] :
   /// The name of the profiling group with the aggregated profile that receives
@@ -1026,31 +1131,32 @@ class CodeGuruProfiler {
   /// resource-based policy, one is created for it using the permissions in the
   /// action group and the roles and users in the <code>principals</code>
   /// parameter.
-  /// <pre><code> &lt;p&gt; The one supported action group that can be added is
-  /// &lt;code&gt;agentPermission&lt;/code&gt; which grants
-  /// &lt;code&gt;ConfigureAgent&lt;/code&gt; and
-  /// &lt;code&gt;PostAgent&lt;/code&gt; permissions. For more information, see
-  /// &lt;a
-  /// href=&quot;https://docs.aws.amazon.com/codeguru/latest/profiler-ug/resource-based-policies.html&quot;&gt;Resource-based
-  /// policies in CodeGuru Profiler&lt;/a&gt; in the &lt;i&gt;Amazon CodeGuru
-  /// Profiler User Guide&lt;/i&gt;, &lt;a
-  /// href=&quot;https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ConfigureAgent.html&quot;&gt;
-  /// &lt;code&gt;ConfigureAgent&lt;/code&gt; &lt;/a&gt;, and &lt;a
-  /// href=&quot;https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_PostAgentProfile.html&quot;&gt;
-  /// &lt;code&gt;PostAgentProfile&lt;/code&gt; &lt;/a&gt;. &lt;/p&gt; &lt;p&gt;
-  /// The first time you call &lt;code&gt;PutPermission&lt;/code&gt; on a
-  /// profiling group, do not specify a &lt;code&gt;revisionId&lt;/code&gt;
-  /// because it doesn't have a resource-based policy. Subsequent calls must
-  /// provide a &lt;code&gt;revisionId&lt;/code&gt; to specify which revision of
-  /// the resource-based policy to add the permissions to. &lt;/p&gt; &lt;p&gt;
-  /// The response contains the profiling group's JSON-formatted resource
-  /// policy. &lt;/p&gt; </code></pre>
   ///
-  /// May throw [InternalServerException].
+  /// The one supported action group that can be added is
+  /// <code>agentPermission</code> which grants <code>ConfigureAgent</code> and
+  /// <code>PostAgent</code> permissions. For more information, see <a
+  /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-ug/resource-based-policies.html">Resource-based
+  /// policies in CodeGuru Profiler</a> in the <i>Amazon CodeGuru Profiler User
+  /// Guide</i>, <a
+  /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ConfigureAgent.html">
+  /// <code>ConfigureAgent</code> </a>, and <a
+  /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_PostAgentProfile.html">
+  /// <code>PostAgentProfile</code> </a>.
+  ///
+  /// The first time you call <code>PutPermission</code> on a profiling group,
+  /// do not specify a <code>revisionId</code> because it doesn't have a
+  /// resource-based policy. Subsequent calls must provide a
+  /// <code>revisionId</code> to specify which revision of the resource-based
+  /// policy to add the permissions to.
+  ///
+  /// The response contains the profiling group's JSON-formatted resource
+  /// policy.
+  ///
   /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [actionGroup] :
   /// Specifies an action group that contains permissions to add to a profiling
@@ -1095,9 +1201,9 @@ class CodeGuruProfiler {
   /// Remove one anomaly notifications channel for a profiling group.
   ///
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [channelId] :
   /// The id of the channel that we want to stop receiving notifications.
@@ -1132,11 +1238,11 @@ class CodeGuruProfiler {
   /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_PostAgentProfile.html">
   /// <code>PostAgentProfile</code> </a>.
   ///
-  /// May throw [InternalServerException].
   /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [actionGroup] :
   /// Specifies an action group that contains the permissions to remove from a
@@ -1173,9 +1279,9 @@ class CodeGuruProfiler {
   /// the analysis is useful or not.
   ///
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [anomalyInstanceId] :
   /// The universally unique identifier (UUID) of the <a
@@ -1210,115 +1316,227 @@ class CodeGuruProfiler {
       exceptionFnMap: _exceptionFns,
     );
   }
+}
 
-  /// Use to assign one or more tags to a resource.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [resourceArn] :
-  /// The Amazon Resource Name (ARN) of the resource that the tags are added to.
-  ///
-  /// Parameter [tags] :
-  /// The list of tags that are added to the specified resource.
-  Future<void> tagResource({
-    required String resourceArn,
-    required Map<String, String> tags,
-  }) async {
-    final $payload = <String, dynamic>{
-      'tags': tags,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
-      exceptionFnMap: _exceptionFns,
+/// The structure representing the GetFindingsReportAccountSummaryResponse.
+class GetFindingsReportAccountSummaryResponse {
+  /// The return list of <a
+  /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_FindingsReportSummary.html">
+  /// <code>FindingsReportSummary</code> </a> objects taht contain summaries of
+  /// analysis results for all profiling groups in your AWS account.
+  final List<FindingsReportSummary> reportSummaries;
+
+  /// The <code>nextToken</code> value to include in a future
+  /// <code>GetFindingsReportAccountSummary</code> request. When the results of a
+  /// <code>GetFindingsReportAccountSummary</code> request exceed
+  /// <code>maxResults</code>, this value can be used to retrieve the next page of
+  /// results. This value is <code>null</code> when there are no more results to
+  /// return.
+  final String? nextToken;
+
+  GetFindingsReportAccountSummaryResponse({
+    required this.reportSummaries,
+    this.nextToken,
+  });
+
+  factory GetFindingsReportAccountSummaryResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetFindingsReportAccountSummaryResponse(
+      reportSummaries: ((json['reportSummaries'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => FindingsReportSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
     );
   }
 
-  /// Use to remove one or more tags from a resource.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [resourceArn] :
-  /// The Amazon Resource Name (ARN) of the resource that contains the tags to
-  /// remove.
-  ///
-  /// Parameter [tagKeys] :
-  /// A list of tag keys. Existing tags of resources with keys in this list are
-  /// removed from the specified resource.
-  Future<void> untagResource({
-    required String resourceArn,
-    required List<String> tagKeys,
-  }) async {
-    final $query = <String, List<String>>{
-      'tagKeys': tagKeys,
+  Map<String, dynamic> toJson() {
+    final reportSummaries = this.reportSummaries;
+    final nextToken = this.nextToken;
+    return {
+      'reportSummaries': reportSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
     };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'DELETE',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-  }
-
-  /// Updates a profiling group.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [agentOrchestrationConfig] :
-  /// Specifies whether profiling is enabled or disabled for a profiling group.
-  ///
-  /// Parameter [profilingGroupName] :
-  /// The name of the profiling group to update.
-  Future<UpdateProfilingGroupResponse> updateProfilingGroup({
-    required AgentOrchestrationConfig agentOrchestrationConfig,
-    required String profilingGroupName,
-  }) async {
-    final $payload = <String, dynamic>{
-      'agentOrchestrationConfig': agentOrchestrationConfig,
-    };
-    final response = await _protocol.sendRaw(
-      payload: $payload,
-      method: 'PUT',
-      requestUri: '/profilingGroups/${Uri.encodeComponent(profilingGroupName)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    final $json = await _s.jsonFromResponse(response);
-    return UpdateProfilingGroupResponse(
-      profilingGroup: ProfilingGroupDescription.fromJson($json),
-    );
   }
 }
 
-class ActionGroup {
-  static const agentPermissions = ActionGroup._('agentPermissions');
+class ListTagsForResourceResponse {
+  /// The list of tags assigned to the specified resource. This is the list of
+  /// tags returned in the response.
+  final Map<String, String>? tags;
 
-  final String value;
+  ListTagsForResourceResponse({
+    this.tags,
+  });
 
-  const ActionGroup._(this.value);
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 
-  static const values = [agentPermissions];
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
 
-  static ActionGroup fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ActionGroup._(value));
+class TagResourceResponse {
+  TagResourceResponse();
 
-  @override
-  bool operator ==(other) => other is ActionGroup && other.value == value;
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
 
-  @override
-  int get hashCode => value.hashCode;
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
 
-  @override
-  String toString() => value;
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The structure representing the createProfilingGroupResponse.
+class CreateProfilingGroupResponse {
+  /// The returned <a
+  /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html">
+  /// <code>ProfilingGroupDescription</code> </a> object that contains information
+  /// about the created profiling group.
+  final ProfilingGroupDescription profilingGroup;
+
+  CreateProfilingGroupResponse({
+    required this.profilingGroup,
+  });
+
+  Map<String, dynamic> toJson() {
+    final profilingGroup = this.profilingGroup;
+    return {
+      'profilingGroup': profilingGroup,
+    };
+  }
+}
+
+/// The structure representing the describeProfilingGroupResponse.
+class DescribeProfilingGroupResponse {
+  /// The returned <a
+  /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html">
+  /// <code>ProfilingGroupDescription</code> </a> object that contains information
+  /// about the requested profiling group.
+  final ProfilingGroupDescription profilingGroup;
+
+  DescribeProfilingGroupResponse({
+    required this.profilingGroup,
+  });
+
+  Map<String, dynamic> toJson() {
+    final profilingGroup = this.profilingGroup;
+    return {
+      'profilingGroup': profilingGroup,
+    };
+  }
+}
+
+/// The structure representing the updateProfilingGroupResponse.
+class UpdateProfilingGroupResponse {
+  /// A <a
+  /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html">
+  /// <code>ProfilingGroupDescription</code> </a> that contains information about
+  /// the returned updated profiling group.
+  final ProfilingGroupDescription profilingGroup;
+
+  UpdateProfilingGroupResponse({
+    required this.profilingGroup,
+  });
+
+  Map<String, dynamic> toJson() {
+    final profilingGroup = this.profilingGroup;
+    return {
+      'profilingGroup': profilingGroup,
+    };
+  }
+}
+
+/// The structure representing the deleteProfilingGroupResponse.
+class DeleteProfilingGroupResponse {
+  DeleteProfilingGroupResponse();
+
+  factory DeleteProfilingGroupResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteProfilingGroupResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The structure representing the listProfilingGroupsResponse.
+class ListProfilingGroupsResponse {
+  /// A returned list of profiling group names. A list of the names is returned
+  /// only if <code>includeDescription</code> is <code>false</code>, otherwise a
+  /// list of <a
+  /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html">
+  /// <code>ProfilingGroupDescription</code> </a> objects is returned.
+  final List<String> profilingGroupNames;
+
+  /// The <code>nextToken</code> value to include in a future
+  /// <code>ListProfilingGroups</code> request. When the results of a
+  /// <code>ListProfilingGroups</code> request exceed <code>maxResults</code>,
+  /// this value can be used to retrieve the next page of results. This value is
+  /// <code>null</code> when there are no more results to return.
+  final String? nextToken;
+
+  /// A returned list <a
+  /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html">
+  /// <code>ProfilingGroupDescription</code> </a> objects. A list of <a
+  /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html">
+  /// <code>ProfilingGroupDescription</code> </a> objects is returned only if
+  /// <code>includeDescription</code> is <code>true</code>, otherwise a list of
+  /// profiling group names is returned.
+  final List<ProfilingGroupDescription>? profilingGroups;
+
+  ListProfilingGroupsResponse({
+    required this.profilingGroupNames,
+    this.nextToken,
+    this.profilingGroups,
+  });
+
+  factory ListProfilingGroupsResponse.fromJson(Map<String, dynamic> json) {
+    return ListProfilingGroupsResponse(
+      profilingGroupNames: ((json['profilingGroupNames'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+      profilingGroups: (json['profilingGroups'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ProfilingGroupDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final profilingGroupNames = this.profilingGroupNames;
+    final nextToken = this.nextToken;
+    final profilingGroups = this.profilingGroups;
+    return {
+      'profilingGroupNames': profilingGroupNames,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (profilingGroups != null) 'profilingGroups': profilingGroups,
+    };
+  }
 }
 
 /// The structure representing the AddNotificationChannelsResponse.
@@ -1344,327 +1562,6 @@ class AddNotificationChannelsResponse {
     return {
       if (notificationConfiguration != null)
         'notificationConfiguration': notificationConfiguration,
-    };
-  }
-}
-
-/// The response of <a
-/// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ConfigureAgent.html">
-/// <code>ConfigureAgent</code> </a> that specifies if an agent profiles or not
-/// and for how long to return profiling data.
-class AgentConfiguration {
-  /// How long a profiling agent should send profiling data using <a
-  /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ConfigureAgent.html">
-  /// <code>ConfigureAgent</code> </a>. For example, if this is set to 300, the
-  /// profiling agent calls <a
-  /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ConfigureAgent.html">
-  /// <code>ConfigureAgent</code> </a> every 5 minutes to submit the profiled data
-  /// collected during that period.
-  final int periodInSeconds;
-
-  /// A <code>Boolean</code> that specifies whether the profiling agent collects
-  /// profiling data or not. Set to <code>true</code> to enable profiling.
-  final bool shouldProfile;
-
-  /// Parameters used by the profiler. The valid parameters are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>MaxStackDepth</code> - The maximum depth of the stacks in the code
-  /// that is represented in the profile. For example, if CodeGuru Profiler finds
-  /// a method <code>A</code>, which calls method <code>B</code>, which calls
-  /// method <code>C</code>, which calls method <code>D</code>, then the depth is
-  /// 4. If the <code>maxDepth</code> is set to 2, then the profiler evaluates
-  /// <code>A</code> and <code>B</code>.
-  /// </li>
-  /// <li>
-  /// <code>MemoryUsageLimitPercent</code> - The percentage of memory that is used
-  /// by the profiler.
-  /// </li>
-  /// <li>
-  /// <code>MinimumTimeForReportingInMilliseconds</code> - The minimum time in
-  /// milliseconds between sending reports.
-  /// </li>
-  /// <li>
-  /// <code>ReportingIntervalInMilliseconds</code> - The reporting interval in
-  /// milliseconds used to report profiles.
-  /// </li>
-  /// <li>
-  /// <code>SamplingIntervalInMilliseconds</code> - The sampling interval in
-  /// milliseconds that is used to profile samples.
-  /// </li>
-  /// </ul>
-  final Map<AgentParameterField, String>? agentParameters;
-
-  AgentConfiguration({
-    required this.periodInSeconds,
-    required this.shouldProfile,
-    this.agentParameters,
-  });
-
-  factory AgentConfiguration.fromJson(Map<String, dynamic> json) {
-    return AgentConfiguration(
-      periodInSeconds: (json['periodInSeconds'] as int?) ?? 0,
-      shouldProfile: (json['shouldProfile'] as bool?) ?? false,
-      agentParameters: (json['agentParameters'] as Map<String, dynamic>?)?.map(
-          (k, e) => MapEntry(AgentParameterField.fromString(k), e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final periodInSeconds = this.periodInSeconds;
-    final shouldProfile = this.shouldProfile;
-    final agentParameters = this.agentParameters;
-    return {
-      'periodInSeconds': periodInSeconds,
-      'shouldProfile': shouldProfile,
-      if (agentParameters != null)
-        'agentParameters': agentParameters.map((k, e) => MapEntry(k.value, e)),
-    };
-  }
-}
-
-/// Specifies whether profiling is enabled or disabled for a profiling group. It
-/// is used by <a
-/// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ConfigureAgent.html">
-/// <code>ConfigureAgent</code> </a> to enable or disable profiling for a
-/// profiling group.
-class AgentOrchestrationConfig {
-  /// A <code>Boolean</code> that specifies whether the profiling agent collects
-  /// profiling data or not. Set to <code>true</code> to enable profiling.
-  final bool profilingEnabled;
-
-  AgentOrchestrationConfig({
-    required this.profilingEnabled,
-  });
-
-  factory AgentOrchestrationConfig.fromJson(Map<String, dynamic> json) {
-    return AgentOrchestrationConfig(
-      profilingEnabled: (json['profilingEnabled'] as bool?) ?? false,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final profilingEnabled = this.profilingEnabled;
-    return {
-      'profilingEnabled': profilingEnabled,
-    };
-  }
-}
-
-class AgentParameterField {
-  static const samplingIntervalInMilliseconds =
-      AgentParameterField._('SamplingIntervalInMilliseconds');
-  static const reportingIntervalInMilliseconds =
-      AgentParameterField._('ReportingIntervalInMilliseconds');
-  static const minimumTimeForReportingInMilliseconds =
-      AgentParameterField._('MinimumTimeForReportingInMilliseconds');
-  static const memoryUsageLimitPercent =
-      AgentParameterField._('MemoryUsageLimitPercent');
-  static const maxStackDepth = AgentParameterField._('MaxStackDepth');
-
-  final String value;
-
-  const AgentParameterField._(this.value);
-
-  static const values = [
-    samplingIntervalInMilliseconds,
-    reportingIntervalInMilliseconds,
-    minimumTimeForReportingInMilliseconds,
-    memoryUsageLimitPercent,
-    maxStackDepth
-  ];
-
-  static AgentParameterField fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AgentParameterField._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AgentParameterField && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Specifies the aggregation period and aggregation start time for an
-/// aggregated profile. An aggregated profile is used to collect posted agent
-/// profiles during an aggregation period. There are three possible aggregation
-/// periods (1 day, 1 hour, or 5 minutes).
-class AggregatedProfileTime {
-  /// The aggregation period. This indicates the period during which an
-  /// aggregation profile collects posted agent profiles for a profiling group.
-  /// Use one of three valid durations that are specified using the ISO 8601
-  /// format.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>P1D</code> — 1 day
-  /// </li>
-  /// <li>
-  /// <code>PT1H</code> — 1 hour
-  /// </li>
-  /// <li>
-  /// <code>PT5M</code> — 5 minutes
-  /// </li>
-  /// </ul>
-  final AggregationPeriod? period;
-
-  /// The time that aggregation of posted agent profiles for a profiling group
-  /// starts. The aggregation profile contains profiles posted by the agent
-  /// starting at this time for an aggregation period specified by the
-  /// <code>period</code> property of the <code>AggregatedProfileTime</code>
-  /// object.
-  ///
-  /// Specify <code>start</code> using the ISO 8601 format. For example,
-  /// 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02
-  /// PM UTC.
-  final DateTime? start;
-
-  AggregatedProfileTime({
-    this.period,
-    this.start,
-  });
-
-  factory AggregatedProfileTime.fromJson(Map<String, dynamic> json) {
-    return AggregatedProfileTime(
-      period: (json['period'] as String?)?.let(AggregationPeriod.fromString),
-      start: timeStampFromJson(json['start']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final period = this.period;
-    final start = this.start;
-    return {
-      if (period != null) 'period': period.value,
-      if (start != null) 'start': iso8601ToJson(start),
-    };
-  }
-}
-
-class AggregationPeriod {
-  static const pt5m = AggregationPeriod._('PT5M');
-  static const pt1h = AggregationPeriod._('PT1H');
-  static const p1d = AggregationPeriod._('P1D');
-
-  final String value;
-
-  const AggregationPeriod._(this.value);
-
-  static const values = [pt5m, pt1h, p1d];
-
-  static AggregationPeriod fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AggregationPeriod._(value));
-
-  @override
-  bool operator ==(other) => other is AggregationPeriod && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Details about an anomaly in a specific metric of application profile. The
-/// anomaly is detected using analysis of the metric data over a period of time.
-class Anomaly {
-  /// A list of the instances of the detected anomalies during the requested
-  /// period.
-  final List<AnomalyInstance> instances;
-
-  /// Details about the metric that the analysis used when it detected the
-  /// anomaly. The metric includes the name of the frame that was analyzed with
-  /// the type and thread states used to derive the metric value for that frame.
-  final Metric metric;
-
-  /// The reason for which metric was flagged as anomalous.
-  final String reason;
-
-  Anomaly({
-    required this.instances,
-    required this.metric,
-    required this.reason,
-  });
-
-  factory Anomaly.fromJson(Map<String, dynamic> json) {
-    return Anomaly(
-      instances: ((json['instances'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => AnomalyInstance.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      metric: Metric.fromJson((json['metric'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-      reason: (json['reason'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final instances = this.instances;
-    final metric = this.metric;
-    final reason = this.reason;
-    return {
-      'instances': instances,
-      'metric': metric,
-      'reason': reason,
-    };
-  }
-}
-
-/// The specific duration in which the metric is flagged as anomalous.
-class AnomalyInstance {
-  /// The universally unique identifier (UUID) of an instance of an anomaly in a
-  /// metric.
-  final String id;
-
-  /// The start time of the period during which the metric is flagged as
-  /// anomalous. This is specified using the ISO 8601 format. For example,
-  /// 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02
-  /// PM UTC.
-  final DateTime startTime;
-
-  /// The end time of the period during which the metric is flagged as anomalous.
-  /// This is specified using the ISO 8601 format. For example,
-  /// 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02
-  /// PM UTC.
-  final DateTime? endTime;
-
-  /// Feedback type on a specific instance of anomaly submitted by the user.
-  final UserFeedback? userFeedback;
-
-  AnomalyInstance({
-    required this.id,
-    required this.startTime,
-    this.endTime,
-    this.userFeedback,
-  });
-
-  factory AnomalyInstance.fromJson(Map<String, dynamic> json) {
-    return AnomalyInstance(
-      id: (json['id'] as String?) ?? '',
-      startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
-      endTime: timeStampFromJson(json['endTime']),
-      userFeedback: json['userFeedback'] != null
-          ? UserFeedback.fromJson(json['userFeedback'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final startTime = this.startTime;
-    final endTime = this.endTime;
-    final userFeedback = this.userFeedback;
-    return {
-      'id': id,
-      'startTime': iso8601ToJson(startTime),
-      if (endTime != null) 'endTime': iso8601ToJson(endTime),
-      if (userFeedback != null) 'userFeedback': userFeedback,
     };
   }
 }
@@ -1769,77 +1666,6 @@ class BatchGetFrameMetricDataResponse {
   }
 }
 
-/// Notification medium for users to get alerted for events that occur in
-/// application profile. We support SNS topic as a notification channel.
-class Channel {
-  /// List of publishers for different type of events that may be detected in an
-  /// application from the profile. Anomaly detection is the only event publisher
-  /// in Profiler.
-  final List<EventPublisher> eventPublishers;
-
-  /// Unique arn of the resource to be used for notifications. We support a valid
-  /// SNS topic arn as a channel uri.
-  final String uri;
-
-  /// Unique identifier for each <code>Channel</code> in the notification
-  /// configuration of a Profiling Group. A random UUID for channelId is used when
-  /// adding a channel to the notification configuration if not specified in the
-  /// request.
-  final String? id;
-
-  Channel({
-    required this.eventPublishers,
-    required this.uri,
-    this.id,
-  });
-
-  factory Channel.fromJson(Map<String, dynamic> json) {
-    return Channel(
-      eventPublishers: ((json['eventPublishers'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => EventPublisher.fromString((e as String)))
-          .toList(),
-      uri: (json['uri'] as String?) ?? '',
-      id: json['id'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eventPublishers = this.eventPublishers;
-    final uri = this.uri;
-    final id = this.id;
-    return {
-      'eventPublishers': eventPublishers.map((e) => e.value).toList(),
-      'uri': uri,
-      if (id != null) 'id': id,
-    };
-  }
-}
-
-class ComputePlatform {
-  static const $default = ComputePlatform._('Default');
-  static const awsLambda = ComputePlatform._('AWSLambda');
-
-  final String value;
-
-  const ComputePlatform._(this.value);
-
-  static const values = [$default, awsLambda];
-
-  static ComputePlatform fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ComputePlatform._(value));
-
-  @override
-  bool operator ==(other) => other is ComputePlatform && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 /// The structure representing the configureAgentResponse.
 class ConfigureAgentResponse {
   /// An <a
@@ -1856,288 +1682,6 @@ class ConfigureAgentResponse {
     final configuration = this.configuration;
     return {
       'configuration': configuration,
-    };
-  }
-}
-
-/// The structure representing the createProfilingGroupResponse.
-class CreateProfilingGroupResponse {
-  /// The returned <a
-  /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html">
-  /// <code>ProfilingGroupDescription</code> </a> object that contains information
-  /// about the created profiling group.
-  final ProfilingGroupDescription profilingGroup;
-
-  CreateProfilingGroupResponse({
-    required this.profilingGroup,
-  });
-
-  Map<String, dynamic> toJson() {
-    final profilingGroup = this.profilingGroup;
-    return {
-      'profilingGroup': profilingGroup,
-    };
-  }
-}
-
-/// The structure representing the deleteProfilingGroupResponse.
-class DeleteProfilingGroupResponse {
-  DeleteProfilingGroupResponse();
-
-  factory DeleteProfilingGroupResponse.fromJson(Map<String, dynamic> _) {
-    return DeleteProfilingGroupResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// The structure representing the describeProfilingGroupResponse.
-class DescribeProfilingGroupResponse {
-  /// The returned <a
-  /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html">
-  /// <code>ProfilingGroupDescription</code> </a> object that contains information
-  /// about the requested profiling group.
-  final ProfilingGroupDescription profilingGroup;
-
-  DescribeProfilingGroupResponse({
-    required this.profilingGroup,
-  });
-
-  Map<String, dynamic> toJson() {
-    final profilingGroup = this.profilingGroup;
-    return {
-      'profilingGroup': profilingGroup,
-    };
-  }
-}
-
-class EventPublisher {
-  static const anomalyDetection = EventPublisher._('AnomalyDetection');
-
-  final String value;
-
-  const EventPublisher._(this.value);
-
-  static const values = [anomalyDetection];
-
-  static EventPublisher fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EventPublisher._(value));
-
-  @override
-  bool operator ==(other) => other is EventPublisher && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class FeedbackType {
-  static const positive = FeedbackType._('Positive');
-  static const negative = FeedbackType._('Negative');
-
-  final String value;
-
-  const FeedbackType._(this.value);
-
-  static const values = [positive, negative];
-
-  static FeedbackType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => FeedbackType._(value));
-
-  @override
-  bool operator ==(other) => other is FeedbackType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about potential recommendations that might be created from the
-/// analysis of profiling data.
-class FindingsReportSummary {
-  /// The universally unique identifier (UUID) of the recommendation report.
-  final String? id;
-
-  /// The end time of the period during which the metric is flagged as anomalous.
-  /// This is specified using the ISO 8601 format. For example,
-  /// 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02
-  /// PM UTC.
-  final DateTime? profileEndTime;
-
-  /// The start time of the profile the analysis data is about. This is specified
-  /// using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents
-  /// 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-  final DateTime? profileStartTime;
-
-  /// The name of the profiling group that is associated with the analysis data.
-  final String? profilingGroupName;
-
-  /// The total number of different recommendations that were found by the
-  /// analysis.
-  final int? totalNumberOfFindings;
-
-  FindingsReportSummary({
-    this.id,
-    this.profileEndTime,
-    this.profileStartTime,
-    this.profilingGroupName,
-    this.totalNumberOfFindings,
-  });
-
-  factory FindingsReportSummary.fromJson(Map<String, dynamic> json) {
-    return FindingsReportSummary(
-      id: json['id'] as String?,
-      profileEndTime: timeStampFromJson(json['profileEndTime']),
-      profileStartTime: timeStampFromJson(json['profileStartTime']),
-      profilingGroupName: json['profilingGroupName'] as String?,
-      totalNumberOfFindings: json['totalNumberOfFindings'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final profileEndTime = this.profileEndTime;
-    final profileStartTime = this.profileStartTime;
-    final profilingGroupName = this.profilingGroupName;
-    final totalNumberOfFindings = this.totalNumberOfFindings;
-    return {
-      if (id != null) 'id': id,
-      if (profileEndTime != null)
-        'profileEndTime': iso8601ToJson(profileEndTime),
-      if (profileStartTime != null)
-        'profileStartTime': iso8601ToJson(profileStartTime),
-      if (profilingGroupName != null) 'profilingGroupName': profilingGroupName,
-      if (totalNumberOfFindings != null)
-        'totalNumberOfFindings': totalNumberOfFindings,
-    };
-  }
-}
-
-/// The frame name, metric type, and thread states. These are used to derive the
-/// value of the metric for the frame.
-class FrameMetric {
-  /// Name of the method common across the multiple occurrences of a frame in an
-  /// application profile.
-  final String frameName;
-
-  /// List of application runtime thread states used to get the counts for a frame
-  /// a derive a metric value.
-  final List<String> threadStates;
-
-  /// A type of aggregation that specifies how a metric for a frame is analyzed.
-  /// The supported value <code>AggregatedRelativeTotalTime</code> is an
-  /// aggregation of the metric value for one frame that is calculated across the
-  /// occurrences of all frames in a profile.
-  final MetricType type;
-
-  FrameMetric({
-    required this.frameName,
-    required this.threadStates,
-    required this.type,
-  });
-
-  factory FrameMetric.fromJson(Map<String, dynamic> json) {
-    return FrameMetric(
-      frameName: (json['frameName'] as String?) ?? '',
-      threadStates: ((json['threadStates'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      type: MetricType.fromString((json['type'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final frameName = this.frameName;
-    final threadStates = this.threadStates;
-    final type = this.type;
-    return {
-      'frameName': frameName,
-      'threadStates': threadStates,
-      'type': type.value,
-    };
-  }
-}
-
-/// Information about a frame metric and its values.
-class FrameMetricDatum {
-  final FrameMetric frameMetric;
-
-  /// A list of values that are associated with a frame metric.
-  final List<double> values;
-
-  FrameMetricDatum({
-    required this.frameMetric,
-    required this.values,
-  });
-
-  factory FrameMetricDatum.fromJson(Map<String, dynamic> json) {
-    return FrameMetricDatum(
-      frameMetric: FrameMetric.fromJson(
-          (json['frameMetric'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      values: ((json['values'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as double)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final frameMetric = this.frameMetric;
-    final values = this.values;
-    return {
-      'frameMetric': frameMetric,
-      'values': values,
-    };
-  }
-}
-
-/// The structure representing the GetFindingsReportAccountSummaryResponse.
-class GetFindingsReportAccountSummaryResponse {
-  /// The return list of <a
-  /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_FindingsReportSummary.html">
-  /// <code>FindingsReportSummary</code> </a> objects taht contain summaries of
-  /// analysis results for all profiling groups in your AWS account.
-  final List<FindingsReportSummary> reportSummaries;
-
-  /// The <code>nextToken</code> value to include in a future
-  /// <code>GetFindingsReportAccountSummary</code> request. When the results of a
-  /// <code>GetFindingsReportAccountSummary</code> request exceed
-  /// <code>maxResults</code>, this value can be used to retrieve the next page of
-  /// results. This value is <code>null</code> when there are no more results to
-  /// return.
-  final String? nextToken;
-
-  GetFindingsReportAccountSummaryResponse({
-    required this.reportSummaries,
-    this.nextToken,
-  });
-
-  factory GetFindingsReportAccountSummaryResponse.fromJson(
-      Map<String, dynamic> json) {
-    return GetFindingsReportAccountSummaryResponse(
-      reportSummaries: ((json['reportSummaries'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => FindingsReportSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final reportSummaries = this.reportSummaries;
-    final nextToken = this.nextToken;
-    return {
-      'reportSummaries': reportSummaries,
-      if (nextToken != null) 'nextToken': nextToken,
     };
   }
 }
@@ -2366,169 +1910,448 @@ class ListProfileTimesResponse {
   }
 }
 
-/// The structure representing the listProfilingGroupsResponse.
-class ListProfilingGroupsResponse {
-  /// A returned list of profiling group names. A list of the names is returned
-  /// only if <code>includeDescription</code> is <code>false</code>, otherwise a
-  /// list of <a
-  /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html">
-  /// <code>ProfilingGroupDescription</code> </a> objects is returned.
-  final List<String> profilingGroupNames;
+/// The structure representing the postAgentProfileResponse.
+class PostAgentProfileResponse {
+  PostAgentProfileResponse();
 
-  /// The <code>nextToken</code> value to include in a future
-  /// <code>ListProfilingGroups</code> request. When the results of a
-  /// <code>ListProfilingGroups</code> request exceed <code>maxResults</code>,
-  /// this value can be used to retrieve the next page of results. This value is
-  /// <code>null</code> when there are no more results to return.
-  final String? nextToken;
+  factory PostAgentProfileResponse.fromJson(Map<String, dynamic> _) {
+    return PostAgentProfileResponse();
+  }
 
-  /// A returned list <a
-  /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html">
-  /// <code>ProfilingGroupDescription</code> </a> objects. A list of <a
-  /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html">
-  /// <code>ProfilingGroupDescription</code> </a> objects is returned only if
-  /// <code>includeDescription</code> is <code>true</code>, otherwise a list of
-  /// profiling group names is returned.
-  final List<ProfilingGroupDescription>? profilingGroups;
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
 
-  ListProfilingGroupsResponse({
-    required this.profilingGroupNames,
-    this.nextToken,
-    this.profilingGroups,
+/// The structure representing the <code>putPermissionResponse</code>.
+class PutPermissionResponse {
+  /// The JSON-formatted resource-based policy on the profiling group that
+  /// includes the added permissions.
+  final String policy;
+
+  /// A universally unique identifier (UUID) for the revision of the
+  /// resource-based policy that includes the added permissions. The
+  /// JSON-formatted policy is in the <code>policy</code> element of the response.
+  final String revisionId;
+
+  PutPermissionResponse({
+    required this.policy,
+    required this.revisionId,
   });
 
-  factory ListProfilingGroupsResponse.fromJson(Map<String, dynamic> json) {
-    return ListProfilingGroupsResponse(
-      profilingGroupNames: ((json['profilingGroupNames'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-      profilingGroups: (json['profilingGroups'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              ProfilingGroupDescription.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  factory PutPermissionResponse.fromJson(Map<String, dynamic> json) {
+    return PutPermissionResponse(
+      policy: (json['policy'] as String?) ?? '',
+      revisionId: (json['revisionId'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    final profilingGroupNames = this.profilingGroupNames;
-    final nextToken = this.nextToken;
-    final profilingGroups = this.profilingGroups;
+    final policy = this.policy;
+    final revisionId = this.revisionId;
     return {
-      'profilingGroupNames': profilingGroupNames,
-      if (nextToken != null) 'nextToken': nextToken,
-      if (profilingGroups != null) 'profilingGroups': profilingGroups,
+      'policy': policy,
+      'revisionId': revisionId,
     };
   }
 }
 
-class ListTagsForResourceResponse {
-  /// The list of tags assigned to the specified resource. This is the list of
-  /// tags returned in the response.
-  final Map<String, String>? tags;
+/// The structure representing the RemoveNotificationChannelResponse.
+class RemoveNotificationChannelResponse {
+  /// The new notification configuration for this profiling group.
+  final NotificationConfiguration? notificationConfiguration;
 
-  ListTagsForResourceResponse({
-    this.tags,
+  RemoveNotificationChannelResponse({
+    this.notificationConfiguration,
   });
 
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
-    return ListTagsForResourceResponse(
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
+  factory RemoveNotificationChannelResponse.fromJson(
+      Map<String, dynamic> json) {
+    return RemoveNotificationChannelResponse(
+      notificationConfiguration: json['notificationConfiguration'] != null
+          ? NotificationConfiguration.fromJson(
+              json['notificationConfiguration'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final tags = this.tags;
+    final notificationConfiguration = this.notificationConfiguration;
     return {
-      if (tags != null) 'tags': tags,
+      if (notificationConfiguration != null)
+        'notificationConfiguration': notificationConfiguration,
     };
   }
 }
 
-/// The part of a profile that contains a recommendation found during analysis.
-class Match {
-  /// The location in the profiling graph that contains a recommendation found
-  /// during analysis.
-  final String? frameAddress;
+/// The structure representing the <code>removePermissionResponse</code>.
+class RemovePermissionResponse {
+  /// The JSON-formatted resource-based policy on the profiling group after the
+  /// specified permissions were removed.
+  final String policy;
 
-  /// The target frame that triggered a match.
-  final int? targetFramesIndex;
+  /// A universally unique identifier (UUID) for the revision of the
+  /// resource-based policy after the specified permissions were removed. The
+  /// updated JSON-formatted policy is in the <code>policy</code> element of the
+  /// response.
+  final String revisionId;
 
-  /// The value in the profile data that exceeded the recommendation threshold.
-  final double? thresholdBreachValue;
-
-  Match({
-    this.frameAddress,
-    this.targetFramesIndex,
-    this.thresholdBreachValue,
+  RemovePermissionResponse({
+    required this.policy,
+    required this.revisionId,
   });
 
-  factory Match.fromJson(Map<String, dynamic> json) {
-    return Match(
-      frameAddress: json['frameAddress'] as String?,
-      targetFramesIndex: json['targetFramesIndex'] as int?,
-      thresholdBreachValue: json['thresholdBreachValue'] as double?,
+  factory RemovePermissionResponse.fromJson(Map<String, dynamic> json) {
+    return RemovePermissionResponse(
+      policy: (json['policy'] as String?) ?? '',
+      revisionId: (json['revisionId'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    final frameAddress = this.frameAddress;
-    final targetFramesIndex = this.targetFramesIndex;
-    final thresholdBreachValue = this.thresholdBreachValue;
+    final policy = this.policy;
+    final revisionId = this.revisionId;
     return {
-      if (frameAddress != null) 'frameAddress': frameAddress,
-      if (targetFramesIndex != null) 'targetFramesIndex': targetFramesIndex,
-      if (thresholdBreachValue != null)
-        'thresholdBreachValue': thresholdBreachValue,
+      'policy': policy,
+      'revisionId': revisionId,
     };
   }
 }
 
-class MetadataField {
-  static const computePlatform = MetadataField._('ComputePlatform');
-  static const agentId = MetadataField._('AgentId');
-  static const awsRequestId = MetadataField._('AwsRequestId');
-  static const executionEnvironment = MetadataField._('ExecutionEnvironment');
-  static const lambdaFunctionArn = MetadataField._('LambdaFunctionArn');
-  static const lambdaMemoryLimitInMB = MetadataField._('LambdaMemoryLimitInMB');
-  static const lambdaRemainingTimeInMilliseconds =
-      MetadataField._('LambdaRemainingTimeInMilliseconds');
-  static const lambdaTimeGapBetweenInvokesInMilliseconds =
-      MetadataField._('LambdaTimeGapBetweenInvokesInMilliseconds');
-  static const lambdaPreviousExecutionTimeInMilliseconds =
-      MetadataField._('LambdaPreviousExecutionTimeInMilliseconds');
+/// The structure representing the SubmitFeedbackResponse.
+class SubmitFeedbackResponse {
+  SubmitFeedbackResponse();
+
+  factory SubmitFeedbackResponse.fromJson(Map<String, dynamic> _) {
+    return SubmitFeedbackResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class FeedbackType {
+  static const positive = FeedbackType._('Positive');
+  static const negative = FeedbackType._('Negative');
 
   final String value;
 
-  const MetadataField._(this.value);
+  const FeedbackType._(this.value);
 
-  static const values = [
-    computePlatform,
-    agentId,
-    awsRequestId,
-    executionEnvironment,
-    lambdaFunctionArn,
-    lambdaMemoryLimitInMB,
-    lambdaRemainingTimeInMilliseconds,
-    lambdaTimeGapBetweenInvokesInMilliseconds,
-    lambdaPreviousExecutionTimeInMilliseconds
-  ];
+  static const values = [positive, negative];
 
-  static MetadataField fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MetadataField._(value));
+  static FeedbackType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FeedbackType._(value));
 
   @override
-  bool operator ==(other) => other is MetadataField && other.value == value;
+  bool operator ==(other) => other is FeedbackType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
+}
+
+class ActionGroup {
+  static const agentPermissions = ActionGroup._('agentPermissions');
+
+  final String value;
+
+  const ActionGroup._(this.value);
+
+  static const values = [agentPermissions];
+
+  static ActionGroup fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ActionGroup._(value));
+
+  @override
+  bool operator ==(other) => other is ActionGroup && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The configuration for notifications stored for each profiling group. This
+/// includes up to to two channels and a list of event publishers associated
+/// with each channel.
+class NotificationConfiguration {
+  /// List of up to two channels to be used for sending notifications for events
+  /// detected from the application profile.
+  final List<Channel>? channels;
+
+  NotificationConfiguration({
+    this.channels,
+  });
+
+  factory NotificationConfiguration.fromJson(Map<String, dynamic> json) {
+    return NotificationConfiguration(
+      channels: (json['channels'] as List?)
+          ?.nonNulls
+          .map((e) => Channel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channels = this.channels;
+    return {
+      if (channels != null) 'channels': channels,
+    };
+  }
+}
+
+/// Notification medium for users to get alerted for events that occur in
+/// application profile. We support SNS topic as a notification channel.
+class Channel {
+  /// List of publishers for different type of events that may be detected in an
+  /// application from the profile. Anomaly detection is the only event publisher
+  /// in Profiler.
+  final List<EventPublisher> eventPublishers;
+
+  /// Unique arn of the resource to be used for notifications. We support a valid
+  /// SNS topic arn as a channel uri.
+  final String uri;
+
+  /// Unique identifier for each <code>Channel</code> in the notification
+  /// configuration of a Profiling Group. A random UUID for channelId is used when
+  /// adding a channel to the notification configuration if not specified in the
+  /// request.
+  final String? id;
+
+  Channel({
+    required this.eventPublishers,
+    required this.uri,
+    this.id,
+  });
+
+  factory Channel.fromJson(Map<String, dynamic> json) {
+    return Channel(
+      eventPublishers: ((json['eventPublishers'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => EventPublisher.fromString((e as String)))
+          .toList(),
+      uri: (json['uri'] as String?) ?? '',
+      id: json['id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventPublishers = this.eventPublishers;
+    final uri = this.uri;
+    final id = this.id;
+    return {
+      'eventPublishers': eventPublishers.map((e) => e.value).toList(),
+      'uri': uri,
+      if (id != null) 'id': id,
+    };
+  }
+}
+
+class EventPublisher {
+  static const anomalyDetection = EventPublisher._('AnomalyDetection');
+
+  final String value;
+
+  const EventPublisher._(this.value);
+
+  static const values = [anomalyDetection];
+
+  static EventPublisher fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EventPublisher._(value));
+
+  @override
+  bool operator ==(other) => other is EventPublisher && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains the start time of a profile.
+class ProfileTime {
+  /// The start time of a profile. It is specified using the ISO 8601 format. For
+  /// example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020
+  /// 1:15:02 PM UTC.
+  final DateTime? start;
+
+  ProfileTime({
+    this.start,
+  });
+
+  factory ProfileTime.fromJson(Map<String, dynamic> json) {
+    return ProfileTime(
+      start: timeStampFromJson(json['start']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final start = this.start;
+    return {
+      if (start != null) 'start': iso8601ToJson(start),
+    };
+  }
+}
+
+class AggregationPeriod {
+  static const pt5m = AggregationPeriod._('PT5M');
+  static const pt1h = AggregationPeriod._('PT1H');
+  static const p1d = AggregationPeriod._('P1D');
+
+  final String value;
+
+  const AggregationPeriod._(this.value);
+
+  static const values = [pt5m, pt1h, p1d];
+
+  static AggregationPeriod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AggregationPeriod._(value));
+
+  @override
+  bool operator ==(other) => other is AggregationPeriod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class OrderBy {
+  static const timestampDescending = OrderBy._('TimestampDescending');
+  static const timestampAscending = OrderBy._('TimestampAscending');
+
+  final String value;
+
+  const OrderBy._(this.value);
+
+  static const values = [timestampDescending, timestampAscending];
+
+  static OrderBy fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OrderBy._(value));
+
+  @override
+  bool operator ==(other) => other is OrderBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about potential recommendations that might be created from the
+/// analysis of profiling data.
+class FindingsReportSummary {
+  /// The universally unique identifier (UUID) of the recommendation report.
+  final String? id;
+
+  /// The end time of the period during which the metric is flagged as anomalous.
+  /// This is specified using the ISO 8601 format. For example,
+  /// 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02
+  /// PM UTC.
+  final DateTime? profileEndTime;
+
+  /// The start time of the profile the analysis data is about. This is specified
+  /// using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents
+  /// 1 millisecond past June 1, 2020 1:15:02 PM UTC.
+  final DateTime? profileStartTime;
+
+  /// The name of the profiling group that is associated with the analysis data.
+  final String? profilingGroupName;
+
+  /// The total number of different recommendations that were found by the
+  /// analysis.
+  final int? totalNumberOfFindings;
+
+  FindingsReportSummary({
+    this.id,
+    this.profileEndTime,
+    this.profileStartTime,
+    this.profilingGroupName,
+    this.totalNumberOfFindings,
+  });
+
+  factory FindingsReportSummary.fromJson(Map<String, dynamic> json) {
+    return FindingsReportSummary(
+      id: json['id'] as String?,
+      profileEndTime: timeStampFromJson(json['profileEndTime']),
+      profileStartTime: timeStampFromJson(json['profileStartTime']),
+      profilingGroupName: json['profilingGroupName'] as String?,
+      totalNumberOfFindings: json['totalNumberOfFindings'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final profileEndTime = this.profileEndTime;
+    final profileStartTime = this.profileStartTime;
+    final profilingGroupName = this.profilingGroupName;
+    final totalNumberOfFindings = this.totalNumberOfFindings;
+    return {
+      if (id != null) 'id': id,
+      if (profileEndTime != null)
+        'profileEndTime': iso8601ToJson(profileEndTime),
+      if (profileStartTime != null)
+        'profileStartTime': iso8601ToJson(profileStartTime),
+      if (profilingGroupName != null) 'profilingGroupName': profilingGroupName,
+      if (totalNumberOfFindings != null)
+        'totalNumberOfFindings': totalNumberOfFindings,
+    };
+  }
+}
+
+/// Details about an anomaly in a specific metric of application profile. The
+/// anomaly is detected using analysis of the metric data over a period of time.
+class Anomaly {
+  /// A list of the instances of the detected anomalies during the requested
+  /// period.
+  final List<AnomalyInstance> instances;
+
+  /// Details about the metric that the analysis used when it detected the
+  /// anomaly. The metric includes the name of the frame that was analyzed with
+  /// the type and thread states used to derive the metric value for that frame.
+  final Metric metric;
+
+  /// The reason for which metric was flagged as anomalous.
+  final String reason;
+
+  Anomaly({
+    required this.instances,
+    required this.metric,
+    required this.reason,
+  });
+
+  factory Anomaly.fromJson(Map<String, dynamic> json) {
+    return Anomaly(
+      instances: ((json['instances'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => AnomalyInstance.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      metric: Metric.fromJson((json['metric'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      reason: (json['reason'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instances = this.instances;
+    final metric = this.metric;
+    final reason = this.reason;
+    return {
+      'instances': instances,
+      'metric': metric,
+      'reason': reason,
+    };
+  }
 }
 
 /// Details about the metric that the analysis used when it detected the
@@ -2578,6 +2401,85 @@ class Metric {
   }
 }
 
+/// The specific duration in which the metric is flagged as anomalous.
+class AnomalyInstance {
+  /// The universally unique identifier (UUID) of an instance of an anomaly in a
+  /// metric.
+  final String id;
+
+  /// The start time of the period during which the metric is flagged as
+  /// anomalous. This is specified using the ISO 8601 format. For example,
+  /// 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02
+  /// PM UTC.
+  final DateTime startTime;
+
+  /// The end time of the period during which the metric is flagged as anomalous.
+  /// This is specified using the ISO 8601 format. For example,
+  /// 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02
+  /// PM UTC.
+  final DateTime? endTime;
+
+  /// Feedback type on a specific instance of anomaly submitted by the user.
+  final UserFeedback? userFeedback;
+
+  AnomalyInstance({
+    required this.id,
+    required this.startTime,
+    this.endTime,
+    this.userFeedback,
+  });
+
+  factory AnomalyInstance.fromJson(Map<String, dynamic> json) {
+    return AnomalyInstance(
+      id: (json['id'] as String?) ?? '',
+      startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
+      endTime: timeStampFromJson(json['endTime']),
+      userFeedback: json['userFeedback'] != null
+          ? UserFeedback.fromJson(json['userFeedback'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final startTime = this.startTime;
+    final endTime = this.endTime;
+    final userFeedback = this.userFeedback;
+    return {
+      'id': id,
+      'startTime': iso8601ToJson(startTime),
+      if (endTime != null) 'endTime': iso8601ToJson(endTime),
+      if (userFeedback != null) 'userFeedback': userFeedback,
+    };
+  }
+}
+
+/// Feedback that can be submitted for each instance of an anomaly by the user.
+/// Feedback is be used for improvements in generating recommendations for the
+/// application.
+class UserFeedback {
+  /// Optional <code>Positive</code> or <code>Negative</code> feedback submitted
+  /// by the user about whether the recommendation is useful or not.
+  final FeedbackType type;
+
+  UserFeedback({
+    required this.type,
+  });
+
+  factory UserFeedback.fromJson(Map<String, dynamic> json) {
+    return UserFeedback(
+      type: FeedbackType.fromString((json['type'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    return {
+      'type': type.value,
+    };
+  }
+}
+
 class MetricType {
   static const aggregatedRelativeTotalTime =
       MetricType._('AggregatedRelativeTotalTime');
@@ -2601,56 +2503,71 @@ class MetricType {
   String toString() => value;
 }
 
-/// The configuration for notifications stored for each profiling group. This
-/// includes up to to two channels and a list of event publishers associated
-/// with each channel.
-class NotificationConfiguration {
-  /// List of up to two channels to be used for sending notifications for events
-  /// detected from the application profile.
-  final List<Channel>? channels;
+/// A potential improvement that was found from analyzing the profiling data.
+class Recommendation {
+  /// How many different places in the profile graph triggered a match.
+  final int allMatchesCount;
 
-  NotificationConfiguration({
-    this.channels,
+  /// How much of the total sample count is potentially affected.
+  final double allMatchesSum;
+
+  /// End time of the profile that was used by this analysis. This is specified
+  /// using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents
+  /// 1 millisecond past June 1, 2020 1:15:02 PM UTC.
+  final DateTime endTime;
+
+  /// The pattern that analysis recognized in the profile to make this
+  /// recommendation.
+  final Pattern pattern;
+
+  /// The start time of the profile that was used by this analysis. This is
+  /// specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z
+  /// represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
+  final DateTime startTime;
+
+  /// List of the matches with most impact.
+  final List<Match> topMatches;
+
+  Recommendation({
+    required this.allMatchesCount,
+    required this.allMatchesSum,
+    required this.endTime,
+    required this.pattern,
+    required this.startTime,
+    required this.topMatches,
   });
 
-  factory NotificationConfiguration.fromJson(Map<String, dynamic> json) {
-    return NotificationConfiguration(
-      channels: (json['channels'] as List?)
-          ?.nonNulls
-          .map((e) => Channel.fromJson(e as Map<String, dynamic>))
+  factory Recommendation.fromJson(Map<String, dynamic> json) {
+    return Recommendation(
+      allMatchesCount: (json['allMatchesCount'] as int?) ?? 0,
+      allMatchesSum: (json['allMatchesSum'] as double?) ?? 0,
+      endTime: nonNullableTimeStampFromJson(json['endTime'] ?? 0),
+      pattern: Pattern.fromJson((json['pattern'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
+      topMatches: ((json['topMatches'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Match.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final channels = this.channels;
+    final allMatchesCount = this.allMatchesCount;
+    final allMatchesSum = this.allMatchesSum;
+    final endTime = this.endTime;
+    final pattern = this.pattern;
+    final startTime = this.startTime;
+    final topMatches = this.topMatches;
     return {
-      if (channels != null) 'channels': channels,
+      'allMatchesCount': allMatchesCount,
+      'allMatchesSum': allMatchesSum,
+      'endTime': iso8601ToJson(endTime),
+      'pattern': pattern,
+      'startTime': iso8601ToJson(startTime),
+      'topMatches': topMatches,
     };
   }
-}
-
-class OrderBy {
-  static const timestampDescending = OrderBy._('TimestampDescending');
-  static const timestampAscending = OrderBy._('TimestampAscending');
-
-  final String value;
-
-  const OrderBy._(this.value);
-
-  static const values = [timestampDescending, timestampAscending];
-
-  static OrderBy fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => OrderBy._(value));
-
-  @override
-  bool operator ==(other) => other is OrderBy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// A set of rules used to make a recommendation during an analysis.
@@ -2730,40 +2647,306 @@ class Pattern {
   }
 }
 
-/// The structure representing the postAgentProfileResponse.
-class PostAgentProfileResponse {
-  PostAgentProfileResponse();
+/// The part of a profile that contains a recommendation found during analysis.
+class Match {
+  /// The location in the profiling graph that contains a recommendation found
+  /// during analysis.
+  final String? frameAddress;
 
-  factory PostAgentProfileResponse.fromJson(Map<String, dynamic> _) {
-    return PostAgentProfileResponse();
-  }
+  /// The target frame that triggered a match.
+  final int? targetFramesIndex;
 
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
+  /// The value in the profile data that exceeded the recommendation threshold.
+  final double? thresholdBreachValue;
 
-/// Contains the start time of a profile.
-class ProfileTime {
-  /// The start time of a profile. It is specified using the ISO 8601 format. For
-  /// example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020
-  /// 1:15:02 PM UTC.
-  final DateTime? start;
-
-  ProfileTime({
-    this.start,
+  Match({
+    this.frameAddress,
+    this.targetFramesIndex,
+    this.thresholdBreachValue,
   });
 
-  factory ProfileTime.fromJson(Map<String, dynamic> json) {
-    return ProfileTime(
-      start: timeStampFromJson(json['start']),
+  factory Match.fromJson(Map<String, dynamic> json) {
+    return Match(
+      frameAddress: json['frameAddress'] as String?,
+      targetFramesIndex: json['targetFramesIndex'] as int?,
+      thresholdBreachValue: json['thresholdBreachValue'] as double?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final start = this.start;
+    final frameAddress = this.frameAddress;
+    final targetFramesIndex = this.targetFramesIndex;
+    final thresholdBreachValue = this.thresholdBreachValue;
     return {
-      if (start != null) 'start': iso8601ToJson(start),
+      if (frameAddress != null) 'frameAddress': frameAddress,
+      if (targetFramesIndex != null) 'targetFramesIndex': targetFramesIndex,
+      if (thresholdBreachValue != null)
+        'thresholdBreachValue': thresholdBreachValue,
+    };
+  }
+}
+
+/// The response of <a
+/// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ConfigureAgent.html">
+/// <code>ConfigureAgent</code> </a> that specifies if an agent profiles or not
+/// and for how long to return profiling data.
+class AgentConfiguration {
+  /// How long a profiling agent should send profiling data using <a
+  /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ConfigureAgent.html">
+  /// <code>ConfigureAgent</code> </a>. For example, if this is set to 300, the
+  /// profiling agent calls <a
+  /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ConfigureAgent.html">
+  /// <code>ConfigureAgent</code> </a> every 5 minutes to submit the profiled data
+  /// collected during that period.
+  final int periodInSeconds;
+
+  /// A <code>Boolean</code> that specifies whether the profiling agent collects
+  /// profiling data or not. Set to <code>true</code> to enable profiling.
+  final bool shouldProfile;
+
+  /// Parameters used by the profiler. The valid parameters are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>MaxStackDepth</code> - The maximum depth of the stacks in the code
+  /// that is represented in the profile. For example, if CodeGuru Profiler finds
+  /// a method <code>A</code>, which calls method <code>B</code>, which calls
+  /// method <code>C</code>, which calls method <code>D</code>, then the depth is
+  /// 4. If the <code>maxDepth</code> is set to 2, then the profiler evaluates
+  /// <code>A</code> and <code>B</code>.
+  /// </li>
+  /// <li>
+  /// <code>MemoryUsageLimitPercent</code> - The percentage of memory that is used
+  /// by the profiler.
+  /// </li>
+  /// <li>
+  /// <code>MinimumTimeForReportingInMilliseconds</code> - The minimum time in
+  /// milliseconds between sending reports.
+  /// </li>
+  /// <li>
+  /// <code>ReportingIntervalInMilliseconds</code> - The reporting interval in
+  /// milliseconds used to report profiles.
+  /// </li>
+  /// <li>
+  /// <code>SamplingIntervalInMilliseconds</code> - The sampling interval in
+  /// milliseconds that is used to profile samples.
+  /// </li>
+  /// </ul>
+  final Map<AgentParameterField, String>? agentParameters;
+
+  AgentConfiguration({
+    required this.periodInSeconds,
+    required this.shouldProfile,
+    this.agentParameters,
+  });
+
+  factory AgentConfiguration.fromJson(Map<String, dynamic> json) {
+    return AgentConfiguration(
+      periodInSeconds: (json['periodInSeconds'] as int?) ?? 0,
+      shouldProfile: (json['shouldProfile'] as bool?) ?? false,
+      agentParameters: (json['agentParameters'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(AgentParameterField.fromString(k), e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final periodInSeconds = this.periodInSeconds;
+    final shouldProfile = this.shouldProfile;
+    final agentParameters = this.agentParameters;
+    return {
+      'periodInSeconds': periodInSeconds,
+      'shouldProfile': shouldProfile,
+      if (agentParameters != null)
+        'agentParameters': agentParameters.map((k, e) => MapEntry(k.value, e)),
+    };
+  }
+}
+
+class AgentParameterField {
+  static const samplingIntervalInMilliseconds =
+      AgentParameterField._('SamplingIntervalInMilliseconds');
+  static const reportingIntervalInMilliseconds =
+      AgentParameterField._('ReportingIntervalInMilliseconds');
+  static const minimumTimeForReportingInMilliseconds =
+      AgentParameterField._('MinimumTimeForReportingInMilliseconds');
+  static const memoryUsageLimitPercent =
+      AgentParameterField._('MemoryUsageLimitPercent');
+  static const maxStackDepth = AgentParameterField._('MaxStackDepth');
+
+  final String value;
+
+  const AgentParameterField._(this.value);
+
+  static const values = [
+    samplingIntervalInMilliseconds,
+    reportingIntervalInMilliseconds,
+    minimumTimeForReportingInMilliseconds,
+    memoryUsageLimitPercent,
+    maxStackDepth
+  ];
+
+  static AgentParameterField fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AgentParameterField._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AgentParameterField && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class MetadataField {
+  static const computePlatform = MetadataField._('ComputePlatform');
+  static const agentId = MetadataField._('AgentId');
+  static const awsRequestId = MetadataField._('AwsRequestId');
+  static const executionEnvironment = MetadataField._('ExecutionEnvironment');
+  static const lambdaFunctionArn = MetadataField._('LambdaFunctionArn');
+  static const lambdaMemoryLimitInMB = MetadataField._('LambdaMemoryLimitInMB');
+  static const lambdaRemainingTimeInMilliseconds =
+      MetadataField._('LambdaRemainingTimeInMilliseconds');
+  static const lambdaTimeGapBetweenInvokesInMilliseconds =
+      MetadataField._('LambdaTimeGapBetweenInvokesInMilliseconds');
+  static const lambdaPreviousExecutionTimeInMilliseconds =
+      MetadataField._('LambdaPreviousExecutionTimeInMilliseconds');
+
+  final String value;
+
+  const MetadataField._(this.value);
+
+  static const values = [
+    computePlatform,
+    agentId,
+    awsRequestId,
+    executionEnvironment,
+    lambdaFunctionArn,
+    lambdaMemoryLimitInMB,
+    lambdaRemainingTimeInMilliseconds,
+    lambdaTimeGapBetweenInvokesInMilliseconds,
+    lambdaPreviousExecutionTimeInMilliseconds
+  ];
+
+  static MetadataField fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MetadataField._(value));
+
+  @override
+  bool operator ==(other) => other is MetadataField && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a frame metric and its values.
+class FrameMetricDatum {
+  final FrameMetric frameMetric;
+
+  /// A list of values that are associated with a frame metric.
+  final List<double> values;
+
+  FrameMetricDatum({
+    required this.frameMetric,
+    required this.values,
+  });
+
+  factory FrameMetricDatum.fromJson(Map<String, dynamic> json) {
+    return FrameMetricDatum(
+      frameMetric: FrameMetric.fromJson(
+          (json['frameMetric'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      values: ((json['values'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as double)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final frameMetric = this.frameMetric;
+    final values = this.values;
+    return {
+      'frameMetric': frameMetric,
+      'values': values,
+    };
+  }
+}
+
+/// The frame name, metric type, and thread states. These are used to derive the
+/// value of the metric for the frame.
+class FrameMetric {
+  /// Name of the method common across the multiple occurrences of a frame in an
+  /// application profile.
+  final String frameName;
+
+  /// List of application runtime thread states used to get the counts for a frame
+  /// a derive a metric value.
+  final List<String> threadStates;
+
+  /// A type of aggregation that specifies how a metric for a frame is analyzed.
+  /// The supported value <code>AggregatedRelativeTotalTime</code> is an
+  /// aggregation of the metric value for one frame that is calculated across the
+  /// occurrences of all frames in a profile.
+  final MetricType type;
+
+  FrameMetric({
+    required this.frameName,
+    required this.threadStates,
+    required this.type,
+  });
+
+  factory FrameMetric.fromJson(Map<String, dynamic> json) {
+    return FrameMetric(
+      frameName: (json['frameName'] as String?) ?? '',
+      threadStates: ((json['threadStates'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      type: MetricType.fromString((json['type'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final frameName = this.frameName;
+    final threadStates = this.threadStates;
+    final type = this.type;
+    return {
+      'frameName': frameName,
+      'threadStates': threadStates,
+      'type': type.value,
+    };
+  }
+}
+
+/// A data type that contains a <code>Timestamp</code> object. This is specified
+/// using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents
+/// 1 millisecond past June 1, 2020 1:15:02 PM UTC.
+class TimestampStructure {
+  /// A <code>Timestamp</code>. This is specified using the ISO 8601 format. For
+  /// example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020
+  /// 1:15:02 PM UTC.
+  final DateTime value;
+
+  TimestampStructure({
+    required this.value,
+  });
+
+  factory TimestampStructure.fromJson(Map<String, dynamic> json) {
+    return TimestampStructure(
+      value: nonNullableTimeStampFromJson(json['value'] ?? 0),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final value = this.value;
+    return {
+      'value': iso8601ToJson(value),
     };
   }
 }
@@ -2866,6 +3049,34 @@ class ProfilingGroupDescription {
   }
 }
 
+/// Specifies whether profiling is enabled or disabled for a profiling group. It
+/// is used by <a
+/// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ConfigureAgent.html">
+/// <code>ConfigureAgent</code> </a> to enable or disable profiling for a
+/// profiling group.
+class AgentOrchestrationConfig {
+  /// A <code>Boolean</code> that specifies whether the profiling agent collects
+  /// profiling data or not. Set to <code>true</code> to enable profiling.
+  final bool profilingEnabled;
+
+  AgentOrchestrationConfig({
+    required this.profilingEnabled,
+  });
+
+  factory AgentOrchestrationConfig.fromJson(Map<String, dynamic> json) {
+    return AgentOrchestrationConfig(
+      profilingEnabled: (json['profilingEnabled'] as bool?) ?? false,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final profilingEnabled = this.profilingEnabled;
+    return {
+      'profilingEnabled': profilingEnabled,
+    };
+  }
+}
+
 /// Profiling status includes information about the last time a profile agent
 /// pinged back, the last time a profile was received, and the aggregation
 /// period and start time for the most recent aggregated profile.
@@ -2921,274 +3132,82 @@ class ProfilingStatus {
   }
 }
 
-/// The structure representing the <code>putPermissionResponse</code>.
-class PutPermissionResponse {
-  /// The JSON-formatted resource-based policy on the profiling group that
-  /// includes the added permissions.
-  final String policy;
+class ComputePlatform {
+  static const $default = ComputePlatform._('Default');
+  static const awsLambda = ComputePlatform._('AWSLambda');
 
-  /// A universally unique identifier (UUID) for the revision of the
-  /// resource-based policy that includes the added permissions. The
-  /// JSON-formatted policy is in the <code>policy</code> element of the response.
-  final String revisionId;
+  final String value;
 
-  PutPermissionResponse({
-    required this.policy,
-    required this.revisionId,
+  const ComputePlatform._(this.value);
+
+  static const values = [$default, awsLambda];
+
+  static ComputePlatform fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ComputePlatform._(value));
+
+  @override
+  bool operator ==(other) => other is ComputePlatform && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Specifies the aggregation period and aggregation start time for an
+/// aggregated profile. An aggregated profile is used to collect posted agent
+/// profiles during an aggregation period. There are three possible aggregation
+/// periods (1 day, 1 hour, or 5 minutes).
+class AggregatedProfileTime {
+  /// The aggregation period. This indicates the period during which an
+  /// aggregation profile collects posted agent profiles for a profiling group.
+  /// Use one of three valid durations that are specified using the ISO 8601
+  /// format.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>P1D</code> — 1 day
+  /// </li>
+  /// <li>
+  /// <code>PT1H</code> — 1 hour
+  /// </li>
+  /// <li>
+  /// <code>PT5M</code> — 5 minutes
+  /// </li>
+  /// </ul>
+  final AggregationPeriod? period;
+
+  /// The time that aggregation of posted agent profiles for a profiling group
+  /// starts. The aggregation profile contains profiles posted by the agent
+  /// starting at this time for an aggregation period specified by the
+  /// <code>period</code> property of the <code>AggregatedProfileTime</code>
+  /// object.
+  ///
+  /// Specify <code>start</code> using the ISO 8601 format. For example,
+  /// 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02
+  /// PM UTC.
+  final DateTime? start;
+
+  AggregatedProfileTime({
+    this.period,
+    this.start,
   });
 
-  factory PutPermissionResponse.fromJson(Map<String, dynamic> json) {
-    return PutPermissionResponse(
-      policy: (json['policy'] as String?) ?? '',
-      revisionId: (json['revisionId'] as String?) ?? '',
+  factory AggregatedProfileTime.fromJson(Map<String, dynamic> json) {
+    return AggregatedProfileTime(
+      period: (json['period'] as String?)?.let(AggregationPeriod.fromString),
+      start: timeStampFromJson(json['start']),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final policy = this.policy;
-    final revisionId = this.revisionId;
+    final period = this.period;
+    final start = this.start;
     return {
-      'policy': policy,
-      'revisionId': revisionId,
-    };
-  }
-}
-
-/// A potential improvement that was found from analyzing the profiling data.
-class Recommendation {
-  /// How many different places in the profile graph triggered a match.
-  final int allMatchesCount;
-
-  /// How much of the total sample count is potentially affected.
-  final double allMatchesSum;
-
-  /// End time of the profile that was used by this analysis. This is specified
-  /// using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents
-  /// 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-  final DateTime endTime;
-
-  /// The pattern that analysis recognized in the profile to make this
-  /// recommendation.
-  final Pattern pattern;
-
-  /// The start time of the profile that was used by this analysis. This is
-  /// specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z
-  /// represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-  final DateTime startTime;
-
-  /// List of the matches with most impact.
-  final List<Match> topMatches;
-
-  Recommendation({
-    required this.allMatchesCount,
-    required this.allMatchesSum,
-    required this.endTime,
-    required this.pattern,
-    required this.startTime,
-    required this.topMatches,
-  });
-
-  factory Recommendation.fromJson(Map<String, dynamic> json) {
-    return Recommendation(
-      allMatchesCount: (json['allMatchesCount'] as int?) ?? 0,
-      allMatchesSum: (json['allMatchesSum'] as double?) ?? 0,
-      endTime: nonNullableTimeStampFromJson(json['endTime'] ?? 0),
-      pattern: Pattern.fromJson((json['pattern'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-      startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
-      topMatches: ((json['topMatches'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => Match.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final allMatchesCount = this.allMatchesCount;
-    final allMatchesSum = this.allMatchesSum;
-    final endTime = this.endTime;
-    final pattern = this.pattern;
-    final startTime = this.startTime;
-    final topMatches = this.topMatches;
-    return {
-      'allMatchesCount': allMatchesCount,
-      'allMatchesSum': allMatchesSum,
-      'endTime': iso8601ToJson(endTime),
-      'pattern': pattern,
-      'startTime': iso8601ToJson(startTime),
-      'topMatches': topMatches,
-    };
-  }
-}
-
-/// The structure representing the RemoveNotificationChannelResponse.
-class RemoveNotificationChannelResponse {
-  /// The new notification configuration for this profiling group.
-  final NotificationConfiguration? notificationConfiguration;
-
-  RemoveNotificationChannelResponse({
-    this.notificationConfiguration,
-  });
-
-  factory RemoveNotificationChannelResponse.fromJson(
-      Map<String, dynamic> json) {
-    return RemoveNotificationChannelResponse(
-      notificationConfiguration: json['notificationConfiguration'] != null
-          ? NotificationConfiguration.fromJson(
-              json['notificationConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final notificationConfiguration = this.notificationConfiguration;
-    return {
-      if (notificationConfiguration != null)
-        'notificationConfiguration': notificationConfiguration,
-    };
-  }
-}
-
-/// The structure representing the <code>removePermissionResponse</code>.
-class RemovePermissionResponse {
-  /// The JSON-formatted resource-based policy on the profiling group after the
-  /// specified permissions were removed.
-  final String policy;
-
-  /// A universally unique identifier (UUID) for the revision of the
-  /// resource-based policy after the specified permissions were removed. The
-  /// updated JSON-formatted policy is in the <code>policy</code> element of the
-  /// response.
-  final String revisionId;
-
-  RemovePermissionResponse({
-    required this.policy,
-    required this.revisionId,
-  });
-
-  factory RemovePermissionResponse.fromJson(Map<String, dynamic> json) {
-    return RemovePermissionResponse(
-      policy: (json['policy'] as String?) ?? '',
-      revisionId: (json['revisionId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final policy = this.policy;
-    final revisionId = this.revisionId;
-    return {
-      'policy': policy,
-      'revisionId': revisionId,
-    };
-  }
-}
-
-/// The structure representing the SubmitFeedbackResponse.
-class SubmitFeedbackResponse {
-  SubmitFeedbackResponse();
-
-  factory SubmitFeedbackResponse.fromJson(Map<String, dynamic> _) {
-    return SubmitFeedbackResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class TagResourceResponse {
-  TagResourceResponse();
-
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// A data type that contains a <code>Timestamp</code> object. This is specified
-/// using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents
-/// 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-class TimestampStructure {
-  /// A <code>Timestamp</code>. This is specified using the ISO 8601 format. For
-  /// example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020
-  /// 1:15:02 PM UTC.
-  final DateTime value;
-
-  TimestampStructure({
-    required this.value,
-  });
-
-  factory TimestampStructure.fromJson(Map<String, dynamic> json) {
-    return TimestampStructure(
-      value: nonNullableTimeStampFromJson(json['value'] ?? 0),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final value = this.value;
-    return {
-      'value': iso8601ToJson(value),
-    };
-  }
-}
-
-class UntagResourceResponse {
-  UntagResourceResponse();
-
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// The structure representing the updateProfilingGroupResponse.
-class UpdateProfilingGroupResponse {
-  /// A <a
-  /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html">
-  /// <code>ProfilingGroupDescription</code> </a> that contains information about
-  /// the returned updated profiling group.
-  final ProfilingGroupDescription profilingGroup;
-
-  UpdateProfilingGroupResponse({
-    required this.profilingGroup,
-  });
-
-  Map<String, dynamic> toJson() {
-    final profilingGroup = this.profilingGroup;
-    return {
-      'profilingGroup': profilingGroup,
-    };
-  }
-}
-
-/// Feedback that can be submitted for each instance of an anomaly by the user.
-/// Feedback is be used for improvements in generating recommendations for the
-/// application.
-class UserFeedback {
-  /// Optional <code>Positive</code> or <code>Negative</code> feedback submitted
-  /// by the user about whether the recommendation is useful or not.
-  final FeedbackType type;
-
-  UserFeedback({
-    required this.type,
-  });
-
-  factory UserFeedback.fromJson(Map<String, dynamic> json) {
-    return UserFeedback(
-      type: FeedbackType.fromString((json['type'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final type = this.type;
-    return {
-      'type': type.value,
+      if (period != null) 'period': period.value,
+      if (start != null) 'start': iso8601ToJson(start),
     };
   }
 }

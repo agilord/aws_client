@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:aws_client/dynamo_db_2012_08_10.dart';
+import 'package:aws_client/dynamo_db.dart';
 import 'package:test/test.dart';
 
 import 'harness.dart';

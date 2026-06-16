@@ -34,7 +34,6 @@ class Route53Profiles {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'route53profiles',
-            signingName: 'route53profiles',
           ),
           region: region,
           credentials: credentials,
@@ -56,14 +55,14 @@ class Route53Profiles {
   /// VPCs (and you can request a higher quota). For more information, see <a
   /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html#limits-api-entities">https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html#limits-api-entities</a>.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceExistsException].
-  /// May throw [LimitExceededException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InvalidParameterException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceExistsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [name] :
   /// A name for the association.
@@ -100,14 +99,14 @@ class Route53Profiles {
 
   /// Associates a DNS reource configuration to a Route 53 Profile.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalServiceErrorException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [name] :
   /// Name for the resource association.
@@ -147,11 +146,11 @@ class Route53Profiles {
 
   /// Creates an empty Route 53 Profile.
   ///
-  /// May throw [LimitExceededException].
+  /// May throw [AccessDeniedException].
   /// May throw [InvalidParameterException].
+  /// May throw [LimitExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [name] :
   /// A name for the Profile.
@@ -189,11 +188,11 @@ class Route53Profiles {
   /// Deletes the specified Route 53 Profile. Before you can delete a profile,
   /// you must first disassociate it from all VPCs.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [profileId] :
   /// The ID of the Profile that you want to delete.
@@ -211,12 +210,12 @@ class Route53Profiles {
 
   /// Dissociates a specified Route 53 Profile from the specified VPC.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [LimitExceededException].
+  /// May throw [AccessDeniedException].
   /// May throw [InvalidParameterException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [profileId] :
   /// ID of the Profile.
@@ -239,14 +238,14 @@ class Route53Profiles {
 
   /// Dissoaciated a specified resource, from the Route 53 Profile.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalServiceErrorException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [profileId] :
   /// The ID of the Profile.
@@ -271,10 +270,10 @@ class Route53Profiles {
   /// Returns information about a specified Route 53 Profile, such as whether
   /// whether the Profile is shared, and the current status of the Profile.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [profileId] :
   /// ID of the Profile.
@@ -294,10 +293,10 @@ class Route53Profiles {
   /// one Profile association, but a Profile can be associated with up to 5000
   /// VPCs.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [profileAssociationId] :
   /// The identifier of the association you want to get information about.
@@ -317,17 +316,15 @@ class Route53Profiles {
   /// Returns information about a specified Route 53 Profile resource
   /// association.
   ///
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [profileResourceAssociationId] :
-  ///
   /// The ID of the profile resource association that you want to get
   /// information about.
-  ///
   Future<GetProfileResourceAssociationResponse> getProfileResourceAssociation({
     required String profileResourceAssociationId,
   }) async {
@@ -343,11 +340,11 @@ class Route53Profiles {
 
   /// Lists all the VPCs that the specified Route 53 Profile is associated with.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidNextTokenException].
   /// May throw [InvalidParameterException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of objects that you want to return for this request. If
@@ -402,13 +399,13 @@ class Route53Profiles {
 
   /// Lists all the resource associations for the specified Route 53 Profile.
   ///
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidNextTokenException].
   /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [profileId] :
   /// The ID of the Profile.
@@ -465,11 +462,11 @@ class Route53Profiles {
   /// Lists all the Route 53 Profiles associated with your Amazon Web Services
   /// account.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidNextTokenException].
   /// May throw [InvalidParameterException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of objects that you want to return for this request. If
@@ -514,11 +511,11 @@ class Route53Profiles {
 
   /// Lists the tags that you associated with the specified resource.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) for the resource that you want to list the
@@ -537,10 +534,10 @@ class Route53Profiles {
 
   /// Adds one or more tags to a specified resource.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) for the resource that you want to add tags
@@ -565,11 +562,11 @@ class Route53Profiles {
 
   /// Removes one or more tags from a specified resource.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) for the resource that you want to remove
@@ -595,14 +592,14 @@ class Route53Profiles {
 
   /// Updates the specified Route 53 Profile resourse association.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalServiceErrorException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [profileResourceAssociationId] :
   /// ID of the resource association.
@@ -793,6 +790,30 @@ class DisassociateResourceFromProfileResponse {
   }
 }
 
+class GetProfileResponse {
+  /// Information about the Profile, including the status of the Profile.
+  final Profile? profile;
+
+  GetProfileResponse({
+    this.profile,
+  });
+
+  factory GetProfileResponse.fromJson(Map<String, dynamic> json) {
+    return GetProfileResponse(
+      profile: json['Profile'] != null
+          ? Profile.fromJson(json['Profile'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final profile = this.profile;
+    return {
+      if (profile != null) 'Profile': profile,
+    };
+  }
+}
+
 class GetProfileAssociationResponse {
   /// Information about the Profile association that you specified in a
   /// <code>GetProfileAssociation</code> request.
@@ -843,30 +864,6 @@ class GetProfileResourceAssociationResponse {
     return {
       if (profileResourceAssociation != null)
         'ProfileResourceAssociation': profileResourceAssociation,
-    };
-  }
-}
-
-class GetProfileResponse {
-  /// Information about the Profile, including the status of the Profile.
-  final Profile? profile;
-
-  GetProfileResponse({
-    this.profile,
-  });
-
-  factory GetProfileResponse.fromJson(Map<String, dynamic> json) {
-    return GetProfileResponse(
-      profile: json['Profile'] != null
-          ? Profile.fromJson(json['Profile'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final profile = this.profile;
-    return {
-      if (profile != null) 'Profile': profile,
     };
   }
 }
@@ -1010,177 +1007,54 @@ class ListTagsForResourceResponse {
   }
 }
 
-/// A complex type that includes settings for a Route 53 Profile.
-class Profile {
-  /// The Amazon Resource Name (ARN) of the Profile.
-  final String? arn;
+class TagResourceResponse {
+  TagResourceResponse();
 
-  /// The <code>ClientToken</code> value that was assigned when the Profile was
-  /// created.
-  final String? clientToken;
-
-  /// The date and time that the Profile was created, in Unix time format and
-  /// Coordinated Universal Time (UTC).
-  final DateTime? creationTime;
-
-  /// ID of the Profile.
-  final String? id;
-
-  /// The date and time that the Profile was modified, in Unix time format and
-  /// Coordinated Universal Time (UTC).
-  final DateTime? modificationTime;
-
-  /// Name of the Profile.
-  final String? name;
-
-  /// Amazon Web Services account ID of the Profile owner.
-  final String? ownerId;
-
-  /// Sharing status for the Profile.
-  final ShareStatus? shareStatus;
-
-  /// The status for the Profile.
-  final ProfileStatus? status;
-
-  /// Status message that includes additiona information about the Profile.
-  final String? statusMessage;
-
-  Profile({
-    this.arn,
-    this.clientToken,
-    this.creationTime,
-    this.id,
-    this.modificationTime,
-    this.name,
-    this.ownerId,
-    this.shareStatus,
-    this.status,
-    this.statusMessage,
-  });
-
-  factory Profile.fromJson(Map<String, dynamic> json) {
-    return Profile(
-      arn: json['Arn'] as String?,
-      clientToken: json['ClientToken'] as String?,
-      creationTime: timeStampFromJson(json['CreationTime']),
-      id: json['Id'] as String?,
-      modificationTime: timeStampFromJson(json['ModificationTime']),
-      name: json['Name'] as String?,
-      ownerId: json['OwnerId'] as String?,
-      shareStatus:
-          (json['ShareStatus'] as String?)?.let(ShareStatus.fromString),
-      status: (json['Status'] as String?)?.let(ProfileStatus.fromString),
-      statusMessage: json['StatusMessage'] as String?,
-    );
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
   }
 
   Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final clientToken = this.clientToken;
-    final creationTime = this.creationTime;
-    final id = this.id;
-    final modificationTime = this.modificationTime;
-    final name = this.name;
-    final ownerId = this.ownerId;
-    final shareStatus = this.shareStatus;
-    final status = this.status;
-    final statusMessage = this.statusMessage;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (clientToken != null) 'ClientToken': clientToken,
-      if (creationTime != null)
-        'CreationTime': unixTimestampToJson(creationTime),
-      if (id != null) 'Id': id,
-      if (modificationTime != null)
-        'ModificationTime': unixTimestampToJson(modificationTime),
-      if (name != null) 'Name': name,
-      if (ownerId != null) 'OwnerId': ownerId,
-      if (shareStatus != null) 'ShareStatus': shareStatus.value,
-      if (status != null) 'Status': status.value,
-      if (statusMessage != null) 'StatusMessage': statusMessage,
-    };
+    return {};
   }
 }
 
-/// An association between a Route 53 Profile and a VPC.
-class ProfileAssociation {
-  /// The date and time that the Profile association was created, in Unix time
-  /// format and Coordinated Universal Time (UTC).
-  final DateTime? creationTime;
+class UntagResourceResponse {
+  UntagResourceResponse();
 
-  /// ID of the Profile association.
-  final String? id;
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
 
-  /// The date and time that the Profile association was modified, in Unix time
-  /// format and Coordinated Universal Time (UTC).
-  final DateTime? modificationTime;
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
 
-  /// Name of the Profile association.
-  final String? name;
+class UpdateProfileResourceAssociationResponse {
+  /// Information about the <code>UpdateProfileResourceAssociation</code> request,
+  /// including a status message.
+  final ProfileResourceAssociation? profileResourceAssociation;
 
-  /// Amazon Web Services account ID of the Profile association owner.
-  final String? ownerId;
-
-  /// ID of the Profile.
-  final String? profileId;
-
-  /// The Amazon Resource Name (ARN) of the VPC.
-  final String? resourceId;
-
-  /// Status of the Profile association.
-  final ProfileStatus? status;
-
-  /// Additional information about the Profile association.
-  final String? statusMessage;
-
-  ProfileAssociation({
-    this.creationTime,
-    this.id,
-    this.modificationTime,
-    this.name,
-    this.ownerId,
-    this.profileId,
-    this.resourceId,
-    this.status,
-    this.statusMessage,
+  UpdateProfileResourceAssociationResponse({
+    this.profileResourceAssociation,
   });
 
-  factory ProfileAssociation.fromJson(Map<String, dynamic> json) {
-    return ProfileAssociation(
-      creationTime: timeStampFromJson(json['CreationTime']),
-      id: json['Id'] as String?,
-      modificationTime: timeStampFromJson(json['ModificationTime']),
-      name: json['Name'] as String?,
-      ownerId: json['OwnerId'] as String?,
-      profileId: json['ProfileId'] as String?,
-      resourceId: json['ResourceId'] as String?,
-      status: (json['Status'] as String?)?.let(ProfileStatus.fromString),
-      statusMessage: json['StatusMessage'] as String?,
+  factory UpdateProfileResourceAssociationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateProfileResourceAssociationResponse(
+      profileResourceAssociation: json['ProfileResourceAssociation'] != null
+          ? ProfileResourceAssociation.fromJson(
+              json['ProfileResourceAssociation'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final creationTime = this.creationTime;
-    final id = this.id;
-    final modificationTime = this.modificationTime;
-    final name = this.name;
-    final ownerId = this.ownerId;
-    final profileId = this.profileId;
-    final resourceId = this.resourceId;
-    final status = this.status;
-    final statusMessage = this.statusMessage;
+    final profileResourceAssociation = this.profileResourceAssociation;
     return {
-      if (creationTime != null)
-        'CreationTime': unixTimestampToJson(creationTime),
-      if (id != null) 'Id': id,
-      if (modificationTime != null)
-        'ModificationTime': unixTimestampToJson(modificationTime),
-      if (name != null) 'Name': name,
-      if (ownerId != null) 'OwnerId': ownerId,
-      if (profileId != null) 'ProfileId': profileId,
-      if (resourceId != null) 'ResourceId': resourceId,
-      if (status != null) 'Status': status.value,
-      if (statusMessage != null) 'StatusMessage': statusMessage,
+      if (profileResourceAssociation != null)
+        'ProfileResourceAssociation': profileResourceAssociation,
     };
   }
 }
@@ -1387,6 +1261,181 @@ class ShareStatus {
   String toString() => value;
 }
 
+/// An association between a Route 53 Profile and a VPC.
+class ProfileAssociation {
+  /// The date and time that the Profile association was created, in Unix time
+  /// format and Coordinated Universal Time (UTC).
+  final DateTime? creationTime;
+
+  /// ID of the Profile association.
+  final String? id;
+
+  /// The date and time that the Profile association was modified, in Unix time
+  /// format and Coordinated Universal Time (UTC).
+  final DateTime? modificationTime;
+
+  /// Name of the Profile association.
+  final String? name;
+
+  /// Amazon Web Services account ID of the Profile association owner.
+  final String? ownerId;
+
+  /// ID of the Profile.
+  final String? profileId;
+
+  /// The Amazon Resource Name (ARN) of the VPC.
+  final String? resourceId;
+
+  /// Status of the Profile association.
+  final ProfileStatus? status;
+
+  /// Additional information about the Profile association.
+  final String? statusMessage;
+
+  ProfileAssociation({
+    this.creationTime,
+    this.id,
+    this.modificationTime,
+    this.name,
+    this.ownerId,
+    this.profileId,
+    this.resourceId,
+    this.status,
+    this.statusMessage,
+  });
+
+  factory ProfileAssociation.fromJson(Map<String, dynamic> json) {
+    return ProfileAssociation(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      id: json['Id'] as String?,
+      modificationTime: timeStampFromJson(json['ModificationTime']),
+      name: json['Name'] as String?,
+      ownerId: json['OwnerId'] as String?,
+      profileId: json['ProfileId'] as String?,
+      resourceId: json['ResourceId'] as String?,
+      status: (json['Status'] as String?)?.let(ProfileStatus.fromString),
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final id = this.id;
+    final modificationTime = this.modificationTime;
+    final name = this.name;
+    final ownerId = this.ownerId;
+    final profileId = this.profileId;
+    final resourceId = this.resourceId;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    return {
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (id != null) 'Id': id,
+      if (modificationTime != null)
+        'ModificationTime': unixTimestampToJson(modificationTime),
+      if (name != null) 'Name': name,
+      if (ownerId != null) 'OwnerId': ownerId,
+      if (profileId != null) 'ProfileId': profileId,
+      if (resourceId != null) 'ResourceId': resourceId,
+      if (status != null) 'Status': status.value,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+    };
+  }
+}
+
+/// A complex type that includes settings for a Route 53 Profile.
+class Profile {
+  /// The Amazon Resource Name (ARN) of the Profile.
+  final String? arn;
+
+  /// The <code>ClientToken</code> value that was assigned when the Profile was
+  /// created.
+  final String? clientToken;
+
+  /// The date and time that the Profile was created, in Unix time format and
+  /// Coordinated Universal Time (UTC).
+  final DateTime? creationTime;
+
+  /// ID of the Profile.
+  final String? id;
+
+  /// The date and time that the Profile was modified, in Unix time format and
+  /// Coordinated Universal Time (UTC).
+  final DateTime? modificationTime;
+
+  /// Name of the Profile.
+  final String? name;
+
+  /// Amazon Web Services account ID of the Profile owner.
+  final String? ownerId;
+
+  /// Sharing status for the Profile.
+  final ShareStatus? shareStatus;
+
+  /// The status for the Profile.
+  final ProfileStatus? status;
+
+  /// Status message that includes additiona information about the Profile.
+  final String? statusMessage;
+
+  Profile({
+    this.arn,
+    this.clientToken,
+    this.creationTime,
+    this.id,
+    this.modificationTime,
+    this.name,
+    this.ownerId,
+    this.shareStatus,
+    this.status,
+    this.statusMessage,
+  });
+
+  factory Profile.fromJson(Map<String, dynamic> json) {
+    return Profile(
+      arn: json['Arn'] as String?,
+      clientToken: json['ClientToken'] as String?,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      id: json['Id'] as String?,
+      modificationTime: timeStampFromJson(json['ModificationTime']),
+      name: json['Name'] as String?,
+      ownerId: json['OwnerId'] as String?,
+      shareStatus:
+          (json['ShareStatus'] as String?)?.let(ShareStatus.fromString),
+      status: (json['Status'] as String?)?.let(ProfileStatus.fromString),
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final clientToken = this.clientToken;
+    final creationTime = this.creationTime;
+    final id = this.id;
+    final modificationTime = this.modificationTime;
+    final name = this.name;
+    final ownerId = this.ownerId;
+    final shareStatus = this.shareStatus;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (clientToken != null) 'ClientToken': clientToken,
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (id != null) 'Id': id,
+      if (modificationTime != null)
+        'ModificationTime': unixTimestampToJson(modificationTime),
+      if (name != null) 'Name': name,
+      if (ownerId != null) 'OwnerId': ownerId,
+      if (shareStatus != null) 'ShareStatus': shareStatus.value,
+      if (status != null) 'Status': status.value,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+    };
+  }
+}
+
 /// Tag for the Profile.
 class Tag {
   /// Key associated with the <code>Tag</code>.
@@ -1406,58 +1455,6 @@ class Tag {
     return {
       'Key': key,
       'Value': value,
-    };
-  }
-}
-
-class TagResourceResponse {
-  TagResourceResponse();
-
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UntagResourceResponse {
-  UntagResourceResponse();
-
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateProfileResourceAssociationResponse {
-  /// Information about the <code>UpdateProfileResourceAssociation</code> request,
-  /// including a status message.
-  final ProfileResourceAssociation? profileResourceAssociation;
-
-  UpdateProfileResourceAssociationResponse({
-    this.profileResourceAssociation,
-  });
-
-  factory UpdateProfileResourceAssociationResponse.fromJson(
-      Map<String, dynamic> json) {
-    return UpdateProfileResourceAssociationResponse(
-      profileResourceAssociation: json['ProfileResourceAssociation'] != null
-          ? ProfileResourceAssociation.fromJson(
-              json['ProfileResourceAssociation'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final profileResourceAssociation = this.profileResourceAssociation;
-    return {
-      if (profileResourceAssociation != null)
-        'ProfileResourceAssociation': profileResourceAssociation,
     };
   }
 }

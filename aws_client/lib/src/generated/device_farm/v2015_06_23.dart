@@ -72,8 +72,8 @@ class DeviceFarm {
   /// Creates a device pool.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [name] :
@@ -130,8 +130,8 @@ class DeviceFarm {
   /// instances.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [name] :
@@ -187,8 +187,8 @@ class DeviceFarm {
   /// Creates a network profile.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [name] :
@@ -295,8 +295,8 @@ class DeviceFarm {
   /// Creates a project.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   /// May throw [TagOperationException].
   ///
@@ -308,11 +308,25 @@ class DeviceFarm {
   /// in this project use the specified execution timeout value unless
   /// overridden when scheduling a run.
   ///
+  /// Parameter [environmentVariables] :
+  /// A set of environment variables which are used by default for all runs in
+  /// the project. These environment variables are applied to the test run
+  /// during the execution of a test spec file.
+  ///
+  /// For more information about using test spec files, please see <a
+  /// href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/custom-test-environments.html">Custom
+  /// test environments </a> in <i>AWS Device Farm.</i>
+  ///
+  /// Parameter [executionRoleArn] :
+  /// An IAM role to be assumed by the test host for all runs in the project.
+  ///
   /// Parameter [vpcConfig] :
   /// The VPC security groups and subnets that are attached to a project.
   Future<CreateProjectResult> createProject({
     required String name,
     int? defaultJobTimeoutMinutes,
+    List<EnvironmentVariable>? environmentVariables,
+    String? executionRoleArn,
     VpcConfig? vpcConfig,
   }) async {
     final headers = <String, String>{
@@ -329,6 +343,9 @@ class DeviceFarm {
         'name': name,
         if (defaultJobTimeoutMinutes != null)
           'defaultJobTimeoutMinutes': defaultJobTimeoutMinutes,
+        if (environmentVariables != null)
+          'environmentVariables': environmentVariables,
+        if (executionRoleArn != null) 'executionRoleArn': executionRoleArn,
         if (vpcConfig != null) 'vpcConfig': vpcConfig,
       },
     );
@@ -339,8 +356,8 @@ class DeviceFarm {
   /// Specifies and starts a remote access session.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [deviceArn] :
@@ -351,16 +368,9 @@ class DeviceFarm {
   /// The Amazon Resource Name (ARN) of the project for which you want to create
   /// a remote access session.
   ///
-  /// Parameter [clientId] :
-  /// Unique identifier for the client. If you want access to multiple devices
-  /// on the same client, you should pass the same <code>clientId</code> value
-  /// in each call to <code>CreateRemoteAccessSession</code>. This identifier is
-  /// required only if <code>remoteDebugEnabled</code> is set to
-  /// <code>true</code>.
-  ///
-  /// Remote debugging is <a
-  /// href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html">no
-  /// longer supported</a>.
+  /// Parameter [appArn] :
+  /// The Amazon Resource Name (ARN) of the app to create the remote access
+  /// session.
   ///
   /// Parameter [configuration] :
   /// The configuration information for the remote access session request.
@@ -370,43 +380,11 @@ class DeviceFarm {
   /// to create a remote access session.
   ///
   /// Parameter [interactionMode] :
-  /// The interaction mode of the remote access session. Valid values are:
-  ///
-  /// <ul>
-  /// <li>
-  /// INTERACTIVE: You can interact with the iOS device by viewing, touching,
-  /// and rotating the screen. You cannot run XCUITest framework-based tests in
-  /// this mode.
-  /// </li>
-  /// <li>
-  /// NO_VIDEO: You are connected to the device, but cannot interact with it or
-  /// view the screen. This mode has the fastest test execution speed. You can
-  /// run XCUITest framework-based tests in this mode.
-  /// </li>
-  /// <li>
-  /// VIDEO_ONLY: You can view the screen, but cannot touch or rotate it. You
-  /// can run XCUITest framework-based tests and watch the screen in this mode.
-  /// </li>
-  /// </ul>
+  /// The interaction mode of the remote access session. Changing the
+  /// interactive mode of remote access sessions is no longer available.
   ///
   /// Parameter [name] :
   /// The name of the remote access session to create.
-  ///
-  /// Parameter [remoteDebugEnabled] :
-  /// Set to <code>true</code> if you want to access devices remotely for
-  /// debugging in your remote access session.
-  ///
-  /// Remote debugging is <a
-  /// href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html">no
-  /// longer supported</a>.
-  ///
-  /// Parameter [remoteRecordAppArn] :
-  /// The Amazon Resource Name (ARN) for the app to be recorded in the remote
-  /// access session.
-  ///
-  /// Parameter [remoteRecordEnabled] :
-  /// Set to <code>true</code> to enable remote recording for the remote access
-  /// session.
   ///
   /// Parameter [skipAppResign] :
   /// When set to <code>true</code>, for private devices, Device Farm does not
@@ -416,29 +394,15 @@ class DeviceFarm {
   /// For more information on how Device Farm modifies your uploads during
   /// tests, see <a href="http://aws.amazon.com/device-farm/faqs/">Do you modify
   /// my app?</a>
-  ///
-  /// Parameter [sshPublicKey] :
-  /// Ignored. The public key of the <code>ssh</code> key pair you want to use
-  /// for connecting to remote devices in your remote debugging session. This
-  /// key is required only if <code>remoteDebugEnabled</code> is set to
-  /// <code>true</code>.
-  ///
-  /// Remote debugging is <a
-  /// href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html">no
-  /// longer supported</a>.
   Future<CreateRemoteAccessSessionResult> createRemoteAccessSession({
     required String deviceArn,
     required String projectArn,
-    String? clientId,
+    String? appArn,
     CreateRemoteAccessSessionConfiguration? configuration,
     String? instanceArn,
     InteractionMode? interactionMode,
     String? name,
-    bool? remoteDebugEnabled,
-    String? remoteRecordAppArn,
-    bool? remoteRecordEnabled,
     bool? skipAppResign,
-    String? sshPublicKey,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -453,19 +417,12 @@ class DeviceFarm {
       payload: {
         'deviceArn': deviceArn,
         'projectArn': projectArn,
-        if (clientId != null) 'clientId': clientId,
+        if (appArn != null) 'appArn': appArn,
         if (configuration != null) 'configuration': configuration,
         if (instanceArn != null) 'instanceArn': instanceArn,
         if (interactionMode != null) 'interactionMode': interactionMode.value,
         if (name != null) 'name': name,
-        if (remoteDebugEnabled != null)
-          'remoteDebugEnabled': remoteDebugEnabled,
-        if (remoteRecordAppArn != null)
-          'remoteRecordAppArn': remoteRecordAppArn,
-        if (remoteRecordEnabled != null)
-          'remoteRecordEnabled': remoteRecordEnabled,
         if (skipAppResign != null) 'skipAppResign': skipAppResign,
-        if (sshPublicKey != null) 'sshPublicKey': sshPublicKey,
       },
     );
 
@@ -476,8 +433,8 @@ class DeviceFarm {
   /// <a>TestGridSession</a> instances.
   ///
   /// May throw [ArgumentException].
-  /// May throw [LimitExceededException].
   /// May throw [InternalServiceException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [name] :
   /// Human-readable name of the Selenium testing project.
@@ -515,9 +472,9 @@ class DeviceFarm {
   /// Creates a signed, short-term URL that can be passed to a Selenium
   /// <code>RemoteWebDriver</code> constructor.
   ///
-  /// May throw [NotFoundException].
   /// May throw [ArgumentException].
   /// May throw [InternalServiceException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [expiresInSeconds] :
   /// Lifetime, in seconds, of the URL.
@@ -558,8 +515,8 @@ class DeviceFarm {
   /// Uploads an app or test scripts.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [name] :
@@ -753,8 +710,8 @@ class DeviceFarm {
   /// curated pools owned by the system.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -783,8 +740,8 @@ class DeviceFarm {
   /// instances.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -812,8 +769,8 @@ class DeviceFarm {
   /// Deletes a network profile.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -837,13 +794,15 @@ class DeviceFarm {
     );
   }
 
-  /// Deletes an AWS Device Farm project, given the project ARN.
-  ///
-  /// Deleting this resource does not stop an in-progress run.
+  /// Deletes an AWS Device Farm project, given the project ARN. You cannot
+  /// delete a project if it has an active run or session.
+  /// <important>
+  /// You cannot undo this operation.
+  /// </important>
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -868,11 +827,15 @@ class DeviceFarm {
     );
   }
 
-  /// Deletes a completed remote access session and its results.
+  /// Deletes a completed remote access session and its results. You cannot
+  /// delete a remote access session if it is still active.
+  /// <important>
+  /// You cannot undo this operation.
+  /// </important>
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -897,13 +860,15 @@ class DeviceFarm {
     );
   }
 
-  /// Deletes the run, given the run ARN.
-  ///
-  /// Deleting this resource does not stop an in-progress run.
+  /// Deletes the run, given the run ARN. You cannot delete a run if it is still
+  /// active.
+  /// <important>
+  /// You cannot undo this operation.
+  /// </important>
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -927,17 +892,16 @@ class DeviceFarm {
     );
   }
 
-  /// Deletes a Selenium testing project and all content generated under it.
+  /// Deletes a Selenium testing project and all content generated under it. You
+  /// cannot delete a project if it has active sessions.
   /// <important>
   /// You cannot undo this operation.
-  /// </important> <note>
-  /// You cannot delete a project if it has active sessions.
-  /// </note>
+  /// </important>
   ///
-  /// May throw [NotFoundException].
   /// May throw [ArgumentException].
   /// May throw [CannotDeleteException].
   /// May throw [InternalServiceException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [projectArn] :
   /// The ARN of the project to delete, from <a>CreateTestGridProject</a> or
@@ -964,8 +928,8 @@ class DeviceFarm {
   /// Deletes an upload given the upload ARN.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -994,9 +958,9 @@ class DeviceFarm {
   /// endpoint.
   ///
   /// May throw [ArgumentException].
+  /// May throw [InvalidOperationException].
   /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
-  /// May throw [InvalidOperationException].
   ///
   /// Parameter [arn] :
   /// The Amazon Resource Name (ARN) of the VPC endpoint configuration you want
@@ -1024,8 +988,8 @@ class DeviceFarm {
   /// been purchased by the account.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   Future<GetAccountSettingsResult> getAccountSettings() async {
     final headers = <String, String>{
@@ -1046,8 +1010,8 @@ class DeviceFarm {
   /// Gets information about a unique device type.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -1077,8 +1041,8 @@ class DeviceFarm {
   /// device fleet.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -1108,8 +1072,8 @@ class DeviceFarm {
   /// Gets information about a device pool.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -1138,8 +1102,8 @@ class DeviceFarm {
   /// Gets information about compatibility with a device pool.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [devicePoolArn] :
@@ -1150,6 +1114,10 @@ class DeviceFarm {
   ///
   /// Parameter [configuration] :
   /// An object that contains information about the settings for a run.
+  ///
+  /// Parameter [projectArn] :
+  /// The ARN of the project for which you want to check device pool
+  /// compatibility.
   ///
   /// Parameter [test] :
   /// Information about the uploaded test to be run against the device pool.
@@ -1207,6 +1175,7 @@ class DeviceFarm {
     required String devicePoolArn,
     String? appArn,
     ScheduleRunConfiguration? configuration,
+    String? projectArn,
     ScheduleRunTest? test,
     TestType? testType,
   }) async {
@@ -1224,6 +1193,7 @@ class DeviceFarm {
         'devicePoolArn': devicePoolArn,
         if (appArn != null) 'appArn': appArn,
         if (configuration != null) 'configuration': configuration,
+        if (projectArn != null) 'projectArn': projectArn,
         if (test != null) 'test': test,
         if (testType != null) 'testType': testType.value,
       },
@@ -1235,8 +1205,8 @@ class DeviceFarm {
   /// Returns information about the specified instance profile.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -1265,8 +1235,8 @@ class DeviceFarm {
   /// Gets information about a job.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -1295,8 +1265,8 @@ class DeviceFarm {
   /// Returns information about a network profile.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -1331,9 +1301,9 @@ class DeviceFarm {
   /// href="mailto:aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com</a>.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
-  /// May throw [NotEligibleException].
   /// May throw [LimitExceededException].
+  /// May throw [NotEligibleException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [nextToken] :
@@ -1363,8 +1333,8 @@ class DeviceFarm {
   /// Gets information about a project.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -1393,8 +1363,8 @@ class DeviceFarm {
   /// Returns a link to a currently running remote access session.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -1424,8 +1394,8 @@ class DeviceFarm {
   /// Gets information about a run.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -1454,8 +1424,8 @@ class DeviceFarm {
   /// Gets information about a suite.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -1484,8 +1454,8 @@ class DeviceFarm {
   /// Gets information about a test.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -1513,9 +1483,9 @@ class DeviceFarm {
 
   /// Retrieves information about a Selenium testing project.
   ///
-  /// May throw [NotFoundException].
   /// May throw [ArgumentException].
   /// May throw [InternalServiceException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [projectArn] :
   /// The ARN of the Selenium testing project, from either
@@ -1555,11 +1525,12 @@ class DeviceFarm {
   /// (<a>GetTestGridSessionRequest$projectArn</a> and
   /// <a>GetTestGridSessionRequest$sessionId</a>).
   /// </li>
-  /// </ul> <p/>
+  /// </ul>
   ///
-  /// May throw [NotFoundException].
+  ///
   /// May throw [ArgumentException].
   /// May throw [InternalServiceException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [projectArn] :
   /// The ARN for the project that this session belongs to. See
@@ -1598,8 +1569,8 @@ class DeviceFarm {
   /// Gets information about an upload.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -1661,8 +1632,8 @@ class DeviceFarm {
   /// applications, the file must be in .ipa format.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [appArn] :
@@ -1697,8 +1668,8 @@ class DeviceFarm {
   /// Gets information about artifacts.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -1753,8 +1724,8 @@ class DeviceFarm {
   /// or more AWS accounts.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [maxResults] :
@@ -1790,8 +1761,8 @@ class DeviceFarm {
   /// Gets information about device pools.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -1843,8 +1814,8 @@ class DeviceFarm {
   /// Gets information about unique device types.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -1976,8 +1947,8 @@ class DeviceFarm {
   /// Returns information about all the instance profiles in an AWS account.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [maxResults] :
@@ -2013,8 +1984,8 @@ class DeviceFarm {
   /// Gets information about jobs for a given test run.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -2049,8 +2020,8 @@ class DeviceFarm {
   /// Returns the list of available network profiles.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -2097,9 +2068,9 @@ class DeviceFarm {
   /// if you must be able to invoke this operation.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
-  /// May throw [NotEligibleException].
   /// May throw [LimitExceededException].
+  /// May throw [NotEligibleException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [nextToken] :
@@ -2126,43 +2097,6 @@ class DeviceFarm {
     return ListOfferingPromotionsResult.fromJson(jsonResponse.body);
   }
 
-  /// Returns a list of all historical purchases, renewals, and system renewal
-  /// transactions for an AWS account. The list is paginated and ordered by a
-  /// descending timestamp (most recent transactions are first). The API returns
-  /// a <code>NotEligible</code> error if the user is not permitted to invoke
-  /// the operation. If you must be able to invoke this operation, contact <a
-  /// href="mailto:aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com</a>.
-  ///
-  /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
-  /// May throw [NotEligibleException].
-  /// May throw [LimitExceededException].
-  /// May throw [ServiceAccountException].
-  ///
-  /// Parameter [nextToken] :
-  /// An identifier that was returned from the previous call to this operation,
-  /// which can be used to return the next set of items in the list.
-  Future<ListOfferingTransactionsResult> listOfferingTransactions({
-    String? nextToken,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'DeviceFarm_20150623.ListOfferingTransactions'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        if (nextToken != null) 'nextToken': nextToken,
-      },
-    );
-
-    return ListOfferingTransactionsResult.fromJson(jsonResponse.body);
-  }
-
   /// Returns a list of products or offerings that the user can manage through
   /// the API. Each offering record indicates the recurring price per unit and
   /// the frequency for that offering. The API returns a
@@ -2171,9 +2105,9 @@ class DeviceFarm {
   /// href="mailto:aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com</a>.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
-  /// May throw [NotEligibleException].
   /// May throw [LimitExceededException].
+  /// May throw [NotEligibleException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [nextToken] :
@@ -2200,11 +2134,48 @@ class DeviceFarm {
     return ListOfferingsResult.fromJson(jsonResponse.body);
   }
 
+  /// Returns a list of all historical purchases, renewals, and system renewal
+  /// transactions for an AWS account. The list is paginated and ordered by a
+  /// descending timestamp (most recent transactions are first). The API returns
+  /// a <code>NotEligible</code> error if the user is not permitted to invoke
+  /// the operation. If you must be able to invoke this operation, contact <a
+  /// href="mailto:aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com</a>.
+  ///
+  /// May throw [ArgumentException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotEligibleException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceAccountException].
+  ///
+  /// Parameter [nextToken] :
+  /// An identifier that was returned from the previous call to this operation,
+  /// which can be used to return the next set of items in the list.
+  Future<ListOfferingTransactionsResult> listOfferingTransactions({
+    String? nextToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'DeviceFarm_20150623.ListOfferingTransactions'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return ListOfferingTransactionsResult.fromJson(jsonResponse.body);
+  }
+
   /// Gets information about projects.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -2241,8 +2212,8 @@ class DeviceFarm {
   /// Returns a list of all currently running remote access sessions.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -2278,8 +2249,8 @@ class DeviceFarm {
   /// Gets information about runs, given an AWS Device Farm project ARN.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -2315,8 +2286,8 @@ class DeviceFarm {
   /// Gets information about samples, given an AWS Device Farm job ARN.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -2351,8 +2322,8 @@ class DeviceFarm {
   /// Gets information about test suites for a given job.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -2393,10 +2364,10 @@ class DeviceFarm {
   /// Parameter [resourceARN] :
   /// The Amazon Resource Name (ARN) of the resource or resources for which to
   /// list tags. You can associate tags with the following Device Farm
-  /// resources: <code>PROJECT</code>, <code>RUN</code>,
-  /// <code>NETWORK_PROFILE</code>, <code>INSTANCE_PROFILE</code>,
-  /// <code>DEVICE_INSTANCE</code>, <code>SESSION</code>,
-  /// <code>DEVICE_POOL</code>, <code>DEVICE</code>, and
+  /// resources: <code>PROJECT</code>, <code>TESTGRID_PROJECT</code>,
+  /// <code>RUN</code>, <code>NETWORK_PROFILE</code>,
+  /// <code>INSTANCE_PROFILE</code>, <code>DEVICE_INSTANCE</code>,
+  /// <code>SESSION</code>, <code>DEVICE_POOL</code>, <code>DEVICE</code>, and
   /// <code>VPCE_CONFIGURATION</code>.
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceARN,
@@ -2460,9 +2431,9 @@ class DeviceFarm {
 
   /// Returns a list of the actions taken in a <a>TestGridSession</a>.
   ///
-  /// May throw [NotFoundException].
   /// May throw [ArgumentException].
   /// May throw [InternalServiceException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [sessionArn] :
   /// The ARN of the session to retrieve.
@@ -2505,9 +2476,9 @@ class DeviceFarm {
 
   /// Retrieves a list of artifacts created during the session.
   ///
-  /// May throw [NotFoundException].
   /// May throw [ArgumentException].
   /// May throw [InternalServiceException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [sessionArn] :
   /// The ARN of a <a>TestGridSession</a>.
@@ -2555,9 +2526,9 @@ class DeviceFarm {
 
   /// Retrieves a list of sessions for a <a>TestGridProject</a>.
   ///
-  /// May throw [NotFoundException].
   /// May throw [ArgumentException].
   /// May throw [InternalServiceException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [projectArn] :
   /// ARN of a <a>TestGridProject</a>.
@@ -2630,8 +2601,8 @@ class DeviceFarm {
   /// Gets information about tests in a given test suite.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -2672,8 +2643,8 @@ class DeviceFarm {
   /// single entry instead of many individual entries for that exception.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -2708,8 +2679,8 @@ class DeviceFarm {
   /// Gets information about uploads, given an AWS Device Farm project ARN.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -2883,9 +2854,9 @@ class DeviceFarm {
   /// href="mailto:aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com</a>.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
-  /// May throw [NotEligibleException].
   /// May throw [LimitExceededException].
+  /// May throw [NotEligibleException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [offeringId] :
@@ -2929,9 +2900,9 @@ class DeviceFarm {
   /// href="mailto:aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com</a>.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
-  /// May throw [NotEligibleException].
   /// May throw [LimitExceededException].
+  /// May throw [NotEligibleException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [offeringId] :
@@ -2965,9 +2936,9 @@ class DeviceFarm {
   /// Schedules a run.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
-  /// May throw [LimitExceededException].
   /// May throw [IdempotencyException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [projectArn] :
@@ -3044,8 +3015,8 @@ class DeviceFarm {
   /// completed.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -3074,8 +3045,8 @@ class DeviceFarm {
   /// Ends a specified remote access session.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -3109,8 +3080,8 @@ class DeviceFarm {
   /// progress or already completed.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -3144,15 +3115,16 @@ class DeviceFarm {
   /// May throw [ArgumentException].
   /// May throw [NotFoundException].
   /// May throw [TagOperationException].
-  /// May throw [TooManyTagsException].
   /// May throw [TagPolicyException].
+  /// May throw [TooManyTagsException].
   ///
   /// Parameter [resourceARN] :
   /// The Amazon Resource Name (ARN) of the resource or resources to which to
   /// add tags. You can associate tags with the following Device Farm resources:
-  /// <code>PROJECT</code>, <code>RUN</code>, <code>NETWORK_PROFILE</code>,
-  /// <code>INSTANCE_PROFILE</code>, <code>DEVICE_INSTANCE</code>,
-  /// <code>SESSION</code>, <code>DEVICE_POOL</code>, <code>DEVICE</code>, and
+  /// <code>PROJECT</code>, <code>TESTGRID_PROJECT</code>, <code>RUN</code>,
+  /// <code>NETWORK_PROFILE</code>, <code>INSTANCE_PROFILE</code>,
+  /// <code>DEVICE_INSTANCE</code>, <code>SESSION</code>,
+  /// <code>DEVICE_POOL</code>, <code>DEVICE</code>, and
   /// <code>VPCE_CONFIGURATION</code>.
   ///
   /// Parameter [tags] :
@@ -3189,10 +3161,10 @@ class DeviceFarm {
   /// Parameter [resourceARN] :
   /// The Amazon Resource Name (ARN) of the resource or resources from which to
   /// delete tags. You can associate tags with the following Device Farm
-  /// resources: <code>PROJECT</code>, <code>RUN</code>,
-  /// <code>NETWORK_PROFILE</code>, <code>INSTANCE_PROFILE</code>,
-  /// <code>DEVICE_INSTANCE</code>, <code>SESSION</code>,
-  /// <code>DEVICE_POOL</code>, <code>DEVICE</code>, and
+  /// resources: <code>PROJECT</code>, <code>TESTGRID_PROJECT</code>,
+  /// <code>RUN</code>, <code>NETWORK_PROFILE</code>,
+  /// <code>INSTANCE_PROFILE</code>, <code>DEVICE_INSTANCE</code>,
+  /// <code>SESSION</code>, <code>DEVICE_POOL</code>, <code>DEVICE</code>, and
   /// <code>VPCE_CONFIGURATION</code>.
   ///
   /// Parameter [tagKeys] :
@@ -3221,8 +3193,8 @@ class DeviceFarm {
   /// Updates information about a private device instance.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -3264,8 +3236,8 @@ class DeviceFarm {
   /// can only be updated as a whole (or not at all).
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -3339,8 +3311,8 @@ class DeviceFarm {
   /// Updates information about an existing private device instance profile.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -3401,8 +3373,8 @@ class DeviceFarm {
   /// Updates the network profile.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -3511,8 +3483,8 @@ class DeviceFarm {
   /// Modifies the specified project name, given the project ARN and a new name.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -3521,6 +3493,18 @@ class DeviceFarm {
   /// Parameter [defaultJobTimeoutMinutes] :
   /// The number of minutes a test run in the project executes before it times
   /// out.
+  ///
+  /// Parameter [environmentVariables] :
+  /// A set of environment variables which are used by default for all runs in
+  /// the project. These environment variables are applied to the test run
+  /// during the execution of a test spec file.
+  ///
+  /// For more information about using test spec files, please see <a
+  /// href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/custom-test-environments.html">Custom
+  /// test environments </a> in <i>AWS Device Farm.</i>
+  ///
+  /// Parameter [executionRoleArn] :
+  /// An IAM role to be assumed by the test host for all runs in the project.
   ///
   /// Parameter [name] :
   /// A string that represents the new name of the project that you are
@@ -3531,6 +3515,8 @@ class DeviceFarm {
   Future<UpdateProjectResult> updateProject({
     required String arn,
     int? defaultJobTimeoutMinutes,
+    List<EnvironmentVariable>? environmentVariables,
+    String? executionRoleArn,
     String? name,
     VpcConfig? vpcConfig,
   }) async {
@@ -3548,6 +3534,9 @@ class DeviceFarm {
         'arn': arn,
         if (defaultJobTimeoutMinutes != null)
           'defaultJobTimeoutMinutes': defaultJobTimeoutMinutes,
+        if (environmentVariables != null)
+          'environmentVariables': environmentVariables,
+        if (executionRoleArn != null) 'executionRoleArn': executionRoleArn,
         if (name != null) 'name': name,
         if (vpcConfig != null) 'vpcConfig': vpcConfig,
       },
@@ -3558,10 +3547,10 @@ class DeviceFarm {
 
   /// Change details of a project.
   ///
-  /// May throw [NotFoundException].
   /// May throw [ArgumentException].
-  /// May throw [LimitExceededException].
   /// May throw [InternalServiceException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [projectArn] :
   /// ARN of the project to update.
@@ -3604,8 +3593,8 @@ class DeviceFarm {
   /// Updates an uploaded test spec.
   ///
   /// May throw [ArgumentException].
-  /// May throw [NotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
   ///
   /// Parameter [arn] :
@@ -3653,9 +3642,9 @@ class DeviceFarm {
   /// configuration.
   ///
   /// May throw [ArgumentException].
+  /// May throw [InvalidOperationException].
   /// May throw [NotFoundException].
   /// May throw [ServiceAccountException].
-  /// May throw [InvalidOperationException].
   ///
   /// Parameter [arn] :
   /// The Amazon Resource Name (ARN) of the VPC endpoint configuration you want
@@ -3705,460 +3694,6 @@ class DeviceFarm {
     );
 
     return UpdateVPCEConfigurationResult.fromJson(jsonResponse.body);
-  }
-}
-
-/// A container for account-level settings in AWS Device Farm.
-class AccountSettings {
-  /// The AWS account number specified in the <code>AccountSettings</code>
-  /// container.
-  final String? awsAccountNumber;
-
-  /// The default number of minutes (at the account level) a test run executes
-  /// before it times out. The default value is 150 minutes.
-  final int? defaultJobTimeoutMinutes;
-
-  /// The maximum number of minutes a test run executes before it times out.
-  final int? maxJobTimeoutMinutes;
-
-  /// The maximum number of device slots that the AWS account can purchase. Each
-  /// maximum is expressed as an <code>offering-id:number</code> pair, where the
-  /// <code>offering-id</code> represents one of the IDs returned by the
-  /// <code>ListOfferings</code> command.
-  final Map<String, int>? maxSlots;
-
-  /// When set to <code>true</code>, for private devices, Device Farm does not
-  /// sign your app again. For public devices, Device Farm always signs your apps
-  /// again.
-  ///
-  /// For more information about how Device Farm re-signs your apps, see <a
-  /// href="http://aws.amazon.com/device-farm/faqs/">Do you modify my app?</a> in
-  /// the <i>AWS Device Farm FAQs</i>.
-  final bool? skipAppResign;
-
-  /// Information about an AWS account's usage of free trial device minutes.
-  final TrialMinutes? trialMinutes;
-
-  /// Returns the unmetered devices you have purchased or want to purchase.
-  final Map<DevicePlatform, int>? unmeteredDevices;
-
-  /// Returns the unmetered remote access devices you have purchased or want to
-  /// purchase.
-  final Map<DevicePlatform, int>? unmeteredRemoteAccessDevices;
-
-  AccountSettings({
-    this.awsAccountNumber,
-    this.defaultJobTimeoutMinutes,
-    this.maxJobTimeoutMinutes,
-    this.maxSlots,
-    this.skipAppResign,
-    this.trialMinutes,
-    this.unmeteredDevices,
-    this.unmeteredRemoteAccessDevices,
-  });
-
-  factory AccountSettings.fromJson(Map<String, dynamic> json) {
-    return AccountSettings(
-      awsAccountNumber: json['awsAccountNumber'] as String?,
-      defaultJobTimeoutMinutes: json['defaultJobTimeoutMinutes'] as int?,
-      maxJobTimeoutMinutes: json['maxJobTimeoutMinutes'] as int?,
-      maxSlots: (json['maxSlots'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as int)),
-      skipAppResign: json['skipAppResign'] as bool?,
-      trialMinutes: json['trialMinutes'] != null
-          ? TrialMinutes.fromJson(json['trialMinutes'] as Map<String, dynamic>)
-          : null,
-      unmeteredDevices: (json['unmeteredDevices'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(DevicePlatform.fromString(k), e as int)),
-      unmeteredRemoteAccessDevices:
-          (json['unmeteredRemoteAccessDevices'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(DevicePlatform.fromString(k), e as int)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final awsAccountNumber = this.awsAccountNumber;
-    final defaultJobTimeoutMinutes = this.defaultJobTimeoutMinutes;
-    final maxJobTimeoutMinutes = this.maxJobTimeoutMinutes;
-    final maxSlots = this.maxSlots;
-    final skipAppResign = this.skipAppResign;
-    final trialMinutes = this.trialMinutes;
-    final unmeteredDevices = this.unmeteredDevices;
-    final unmeteredRemoteAccessDevices = this.unmeteredRemoteAccessDevices;
-    return {
-      if (awsAccountNumber != null) 'awsAccountNumber': awsAccountNumber,
-      if (defaultJobTimeoutMinutes != null)
-        'defaultJobTimeoutMinutes': defaultJobTimeoutMinutes,
-      if (maxJobTimeoutMinutes != null)
-        'maxJobTimeoutMinutes': maxJobTimeoutMinutes,
-      if (maxSlots != null) 'maxSlots': maxSlots,
-      if (skipAppResign != null) 'skipAppResign': skipAppResign,
-      if (trialMinutes != null) 'trialMinutes': trialMinutes,
-      if (unmeteredDevices != null)
-        'unmeteredDevices':
-            unmeteredDevices.map((k, e) => MapEntry(k.value, e)),
-      if (unmeteredRemoteAccessDevices != null)
-        'unmeteredRemoteAccessDevices':
-            unmeteredRemoteAccessDevices.map((k, e) => MapEntry(k.value, e)),
-    };
-  }
-}
-
-/// Represents the output of a test. Examples of artifacts include logs and
-/// screenshots.
-class Artifact {
-  /// The artifact's ARN.
-  final String? arn;
-
-  /// The artifact's file extension.
-  final String? extension;
-
-  /// The artifact's name.
-  final String? name;
-
-  /// The artifact's type.
-  ///
-  /// Allowed values include the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// UNKNOWN
-  /// </li>
-  /// <li>
-  /// SCREENSHOT
-  /// </li>
-  /// <li>
-  /// DEVICE_LOG
-  /// </li>
-  /// <li>
-  /// MESSAGE_LOG
-  /// </li>
-  /// <li>
-  /// VIDEO_LOG
-  /// </li>
-  /// <li>
-  /// RESULT_LOG
-  /// </li>
-  /// <li>
-  /// SERVICE_LOG
-  /// </li>
-  /// <li>
-  /// WEBKIT_LOG
-  /// </li>
-  /// <li>
-  /// INSTRUMENTATION_OUTPUT
-  /// </li>
-  /// <li>
-  /// EXERCISER_MONKEY_OUTPUT: the artifact (log) generated by an Android fuzz
-  /// test.
-  /// </li>
-  /// <li>
-  /// APPIUM_SERVER_OUTPUT
-  /// </li>
-  /// <li>
-  /// APPIUM_JAVA_OUTPUT
-  /// </li>
-  /// <li>
-  /// APPIUM_JAVA_XML_OUTPUT
-  /// </li>
-  /// <li>
-  /// APPIUM_PYTHON_OUTPUT
-  /// </li>
-  /// <li>
-  /// APPIUM_PYTHON_XML_OUTPUT
-  /// </li>
-  /// <li>
-  /// APPLICATION_CRASH_REPORT
-  /// </li>
-  /// <li>
-  /// XCTEST_LOG
-  /// </li>
-  /// <li>
-  /// VIDEO
-  /// </li>
-  /// <li>
-  /// CUSTOMER_ARTIFACT
-  /// </li>
-  /// <li>
-  /// CUSTOMER_ARTIFACT_LOG
-  /// </li>
-  /// <li>
-  /// TESTSPEC_OUTPUT
-  /// </li>
-  /// </ul>
-  final ArtifactType? type;
-
-  /// The presigned Amazon S3 URL that can be used with a GET request to download
-  /// the artifact's file.
-  final String? url;
-
-  Artifact({
-    this.arn,
-    this.extension,
-    this.name,
-    this.type,
-    this.url,
-  });
-
-  factory Artifact.fromJson(Map<String, dynamic> json) {
-    return Artifact(
-      arn: json['arn'] as String?,
-      extension: json['extension'] as String?,
-      name: json['name'] as String?,
-      type: (json['type'] as String?)?.let(ArtifactType.fromString),
-      url: json['url'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final extension = this.extension;
-    final name = this.name;
-    final type = this.type;
-    final url = this.url;
-    return {
-      if (arn != null) 'arn': arn,
-      if (extension != null) 'extension': extension,
-      if (name != null) 'name': name,
-      if (type != null) 'type': type.value,
-      if (url != null) 'url': url,
-    };
-  }
-}
-
-class ArtifactCategory {
-  static const screenshot = ArtifactCategory._('SCREENSHOT');
-  static const file = ArtifactCategory._('FILE');
-  static const log = ArtifactCategory._('LOG');
-
-  final String value;
-
-  const ArtifactCategory._(this.value);
-
-  static const values = [screenshot, file, log];
-
-  static ArtifactCategory fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ArtifactCategory._(value));
-
-  @override
-  bool operator ==(other) => other is ArtifactCategory && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ArtifactType {
-  static const unknown = ArtifactType._('UNKNOWN');
-  static const screenshot = ArtifactType._('SCREENSHOT');
-  static const deviceLog = ArtifactType._('DEVICE_LOG');
-  static const messageLog = ArtifactType._('MESSAGE_LOG');
-  static const videoLog = ArtifactType._('VIDEO_LOG');
-  static const resultLog = ArtifactType._('RESULT_LOG');
-  static const serviceLog = ArtifactType._('SERVICE_LOG');
-  static const webkitLog = ArtifactType._('WEBKIT_LOG');
-  static const instrumentationOutput = ArtifactType._('INSTRUMENTATION_OUTPUT');
-  static const exerciserMonkeyOutput =
-      ArtifactType._('EXERCISER_MONKEY_OUTPUT');
-  static const calabashJsonOutput = ArtifactType._('CALABASH_JSON_OUTPUT');
-  static const calabashPrettyOutput = ArtifactType._('CALABASH_PRETTY_OUTPUT');
-  static const calabashStandardOutput =
-      ArtifactType._('CALABASH_STANDARD_OUTPUT');
-  static const calabashJavaXmlOutput =
-      ArtifactType._('CALABASH_JAVA_XML_OUTPUT');
-  static const automationOutput = ArtifactType._('AUTOMATION_OUTPUT');
-  static const appiumServerOutput = ArtifactType._('APPIUM_SERVER_OUTPUT');
-  static const appiumJavaOutput = ArtifactType._('APPIUM_JAVA_OUTPUT');
-  static const appiumJavaXmlOutput = ArtifactType._('APPIUM_JAVA_XML_OUTPUT');
-  static const appiumPythonOutput = ArtifactType._('APPIUM_PYTHON_OUTPUT');
-  static const appiumPythonXmlOutput =
-      ArtifactType._('APPIUM_PYTHON_XML_OUTPUT');
-  static const explorerEventLog = ArtifactType._('EXPLORER_EVENT_LOG');
-  static const explorerSummaryLog = ArtifactType._('EXPLORER_SUMMARY_LOG');
-  static const applicationCrashReport =
-      ArtifactType._('APPLICATION_CRASH_REPORT');
-  static const xctestLog = ArtifactType._('XCTEST_LOG');
-  static const video = ArtifactType._('VIDEO');
-  static const customerArtifact = ArtifactType._('CUSTOMER_ARTIFACT');
-  static const customerArtifactLog = ArtifactType._('CUSTOMER_ARTIFACT_LOG');
-  static const testspecOutput = ArtifactType._('TESTSPEC_OUTPUT');
-
-  final String value;
-
-  const ArtifactType._(this.value);
-
-  static const values = [
-    unknown,
-    screenshot,
-    deviceLog,
-    messageLog,
-    videoLog,
-    resultLog,
-    serviceLog,
-    webkitLog,
-    instrumentationOutput,
-    exerciserMonkeyOutput,
-    calabashJsonOutput,
-    calabashPrettyOutput,
-    calabashStandardOutput,
-    calabashJavaXmlOutput,
-    automationOutput,
-    appiumServerOutput,
-    appiumJavaOutput,
-    appiumJavaXmlOutput,
-    appiumPythonOutput,
-    appiumPythonXmlOutput,
-    explorerEventLog,
-    explorerSummaryLog,
-    applicationCrashReport,
-    xctestLog,
-    video,
-    customerArtifact,
-    customerArtifactLog,
-    testspecOutput
-  ];
-
-  static ArtifactType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ArtifactType._(value));
-
-  @override
-  bool operator ==(other) => other is ArtifactType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class BillingMethod {
-  static const metered = BillingMethod._('METERED');
-  static const unmetered = BillingMethod._('UNMETERED');
-
-  final String value;
-
-  const BillingMethod._(this.value);
-
-  static const values = [metered, unmetered];
-
-  static BillingMethod fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => BillingMethod._(value));
-
-  @override
-  bool operator ==(other) => other is BillingMethod && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents the amount of CPU that an app is using on a physical device. Does
-/// not represent system-wide CPU usage.
-class CPU {
-  /// The CPU's architecture (for example, x86 or ARM).
-  final String? architecture;
-
-  /// The clock speed of the device's CPU, expressed in hertz (Hz). For example, a
-  /// 1.2 GHz CPU is expressed as 1200000000.
-  final double? clock;
-
-  /// The CPU's frequency.
-  final String? frequency;
-
-  CPU({
-    this.architecture,
-    this.clock,
-    this.frequency,
-  });
-
-  factory CPU.fromJson(Map<String, dynamic> json) {
-    return CPU(
-      architecture: json['architecture'] as String?,
-      clock: json['clock'] as double?,
-      frequency: json['frequency'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final architecture = this.architecture;
-    final clock = this.clock;
-    final frequency = this.frequency;
-    return {
-      if (architecture != null) 'architecture': architecture,
-      if (clock != null) 'clock': clock,
-      if (frequency != null) 'frequency': frequency,
-    };
-  }
-}
-
-/// Represents entity counters.
-class Counters {
-  /// The number of errored entities.
-  final int? errored;
-
-  /// The number of failed entities.
-  final int? failed;
-
-  /// The number of passed entities.
-  final int? passed;
-
-  /// The number of skipped entities.
-  final int? skipped;
-
-  /// The number of stopped entities.
-  final int? stopped;
-
-  /// The total number of entities.
-  final int? total;
-
-  /// The number of warned entities.
-  final int? warned;
-
-  Counters({
-    this.errored,
-    this.failed,
-    this.passed,
-    this.skipped,
-    this.stopped,
-    this.total,
-    this.warned,
-  });
-
-  factory Counters.fromJson(Map<String, dynamic> json) {
-    return Counters(
-      errored: json['errored'] as int?,
-      failed: json['failed'] as int?,
-      passed: json['passed'] as int?,
-      skipped: json['skipped'] as int?,
-      stopped: json['stopped'] as int?,
-      total: json['total'] as int?,
-      warned: json['warned'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errored = this.errored;
-    final failed = this.failed;
-    final passed = this.passed;
-    final skipped = this.skipped;
-    final stopped = this.stopped;
-    final total = this.total;
-    final warned = this.warned;
-    return {
-      if (errored != null) 'errored': errored,
-      if (failed != null) 'failed': failed,
-      if (passed != null) 'passed': passed,
-      if (skipped != null) 'skipped': skipped,
-      if (stopped != null) 'stopped': stopped,
-      if (total != null) 'total': total,
-      if (warned != null) 'warned': warned,
-    };
   }
 }
 
@@ -4258,31 +3793,6 @@ class CreateProjectResult {
     final project = this.project;
     return {
       if (project != null) 'project': project,
-    };
-  }
-}
-
-/// Configuration settings for a remote access session, including billing
-/// method.
-class CreateRemoteAccessSessionConfiguration {
-  /// The billing method for the remote access session.
-  final BillingMethod? billingMethod;
-
-  /// An array of ARNs included in the VPC endpoint configuration.
-  final List<String>? vpceConfigurationArns;
-
-  CreateRemoteAccessSessionConfiguration({
-    this.billingMethod,
-    this.vpceConfigurationArns,
-  });
-
-  Map<String, dynamic> toJson() {
-    final billingMethod = this.billingMethod;
-    final vpceConfigurationArns = this.vpceConfigurationArns;
-    return {
-      if (billingMethod != null) 'billingMethod': billingMethod.value,
-      if (vpceConfigurationArns != null)
-        'vpceConfigurationArns': vpceConfigurationArns,
     };
   }
 }
@@ -4422,84 +3932,6 @@ class CreateVPCEConfigurationResult {
   }
 }
 
-class CurrencyCode {
-  static const usd = CurrencyCode._('USD');
-
-  final String value;
-
-  const CurrencyCode._(this.value);
-
-  static const values = [usd];
-
-  static CurrencyCode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => CurrencyCode._(value));
-
-  @override
-  bool operator ==(other) => other is CurrencyCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A JSON object that specifies the paths where the artifacts generated by the
-/// customer's tests, on the device or in the test environment, are pulled from.
-///
-/// Specify <code>deviceHostPaths</code> and optionally specify either
-/// <code>iosPaths</code> or <code>androidPaths</code>.
-///
-/// For web app tests, you can specify both <code>iosPaths</code> and
-/// <code>androidPaths</code>.
-class CustomerArtifactPaths {
-  /// Comma-separated list of paths on the Android device where the artifacts
-  /// generated by the customer's tests are pulled from.
-  final List<String>? androidPaths;
-
-  /// Comma-separated list of paths in the test execution environment where the
-  /// artifacts generated by the customer's tests are pulled from.
-  final List<String>? deviceHostPaths;
-
-  /// Comma-separated list of paths on the iOS device where the artifacts
-  /// generated by the customer's tests are pulled from.
-  final List<String>? iosPaths;
-
-  CustomerArtifactPaths({
-    this.androidPaths,
-    this.deviceHostPaths,
-    this.iosPaths,
-  });
-
-  factory CustomerArtifactPaths.fromJson(Map<String, dynamic> json) {
-    return CustomerArtifactPaths(
-      androidPaths: (json['androidPaths'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      deviceHostPaths: (json['deviceHostPaths'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      iosPaths: (json['iosPaths'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final androidPaths = this.androidPaths;
-    final deviceHostPaths = this.deviceHostPaths;
-    final iosPaths = this.iosPaths;
-    return {
-      if (androidPaths != null) 'androidPaths': androidPaths,
-      if (deviceHostPaths != null) 'deviceHostPaths': deviceHostPaths,
-      if (iosPaths != null) 'iosPaths': iosPaths,
-    };
-  }
-}
-
 /// Represents the result of a delete device pool request.
 class DeleteDevicePoolResult {
   DeleteDevicePoolResult();
@@ -4614,1118 +4046,6 @@ class DeleteVPCEConfigurationResult {
   }
 }
 
-/// Represents a device type that an app is tested against.
-class Device {
-  /// The device's ARN.
-  final String? arn;
-
-  /// Indicates how likely a device is available for a test run. Currently
-  /// available in the <a>ListDevices</a> and GetDevice API methods.
-  final DeviceAvailability? availability;
-
-  /// The device's carrier.
-  final String? carrier;
-
-  /// Information about the device's CPU.
-  final CPU? cpu;
-
-  /// The name of the fleet to which this device belongs.
-  final String? fleetName;
-
-  /// The type of fleet to which this device belongs. Possible values are PRIVATE
-  /// and PUBLIC.
-  final String? fleetType;
-
-  /// The device's form factor.
-  ///
-  /// Allowed values include:
-  ///
-  /// <ul>
-  /// <li>
-  /// PHONE
-  /// </li>
-  /// <li>
-  /// TABLET
-  /// </li>
-  /// </ul>
-  final DeviceFormFactor? formFactor;
-
-  /// The device's heap size, expressed in bytes.
-  final int? heapSize;
-
-  /// The device's image name.
-  final String? image;
-
-  /// The instances that belong to this device.
-  final List<DeviceInstance>? instances;
-
-  /// The device's manufacturer name.
-  final String? manufacturer;
-
-  /// The device's total memory size, expressed in bytes.
-  final int? memory;
-
-  /// The device's model name.
-  final String? model;
-
-  /// The device's model ID.
-  final String? modelId;
-
-  /// The device's display name.
-  final String? name;
-
-  /// The device's operating system type.
-  final String? os;
-
-  /// The device's platform.
-  ///
-  /// Allowed values include:
-  ///
-  /// <ul>
-  /// <li>
-  /// ANDROID
-  /// </li>
-  /// <li>
-  /// IOS
-  /// </li>
-  /// </ul>
-  final DevicePlatform? platform;
-
-  /// The device's radio.
-  final String? radio;
-
-  /// Specifies whether remote access has been enabled for the specified device.
-  final bool? remoteAccessEnabled;
-
-  /// This flag is set to <code>true</code> if remote debugging is enabled for the
-  /// device.
-  ///
-  /// Remote debugging is <a
-  /// href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html">no
-  /// longer supported</a>.
-  final bool? remoteDebugEnabled;
-
-  /// The resolution of the device.
-  final Resolution? resolution;
-
-  Device({
-    this.arn,
-    this.availability,
-    this.carrier,
-    this.cpu,
-    this.fleetName,
-    this.fleetType,
-    this.formFactor,
-    this.heapSize,
-    this.image,
-    this.instances,
-    this.manufacturer,
-    this.memory,
-    this.model,
-    this.modelId,
-    this.name,
-    this.os,
-    this.platform,
-    this.radio,
-    this.remoteAccessEnabled,
-    this.remoteDebugEnabled,
-    this.resolution,
-  });
-
-  factory Device.fromJson(Map<String, dynamic> json) {
-    return Device(
-      arn: json['arn'] as String?,
-      availability:
-          (json['availability'] as String?)?.let(DeviceAvailability.fromString),
-      carrier: json['carrier'] as String?,
-      cpu: json['cpu'] != null
-          ? CPU.fromJson(json['cpu'] as Map<String, dynamic>)
-          : null,
-      fleetName: json['fleetName'] as String?,
-      fleetType: json['fleetType'] as String?,
-      formFactor:
-          (json['formFactor'] as String?)?.let(DeviceFormFactor.fromString),
-      heapSize: json['heapSize'] as int?,
-      image: json['image'] as String?,
-      instances: (json['instances'] as List?)
-          ?.nonNulls
-          .map((e) => DeviceInstance.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      manufacturer: json['manufacturer'] as String?,
-      memory: json['memory'] as int?,
-      model: json['model'] as String?,
-      modelId: json['modelId'] as String?,
-      name: json['name'] as String?,
-      os: json['os'] as String?,
-      platform: (json['platform'] as String?)?.let(DevicePlatform.fromString),
-      radio: json['radio'] as String?,
-      remoteAccessEnabled: json['remoteAccessEnabled'] as bool?,
-      remoteDebugEnabled: json['remoteDebugEnabled'] as bool?,
-      resolution: json['resolution'] != null
-          ? Resolution.fromJson(json['resolution'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final availability = this.availability;
-    final carrier = this.carrier;
-    final cpu = this.cpu;
-    final fleetName = this.fleetName;
-    final fleetType = this.fleetType;
-    final formFactor = this.formFactor;
-    final heapSize = this.heapSize;
-    final image = this.image;
-    final instances = this.instances;
-    final manufacturer = this.manufacturer;
-    final memory = this.memory;
-    final model = this.model;
-    final modelId = this.modelId;
-    final name = this.name;
-    final os = this.os;
-    final platform = this.platform;
-    final radio = this.radio;
-    final remoteAccessEnabled = this.remoteAccessEnabled;
-    final remoteDebugEnabled = this.remoteDebugEnabled;
-    final resolution = this.resolution;
-    return {
-      if (arn != null) 'arn': arn,
-      if (availability != null) 'availability': availability.value,
-      if (carrier != null) 'carrier': carrier,
-      if (cpu != null) 'cpu': cpu,
-      if (fleetName != null) 'fleetName': fleetName,
-      if (fleetType != null) 'fleetType': fleetType,
-      if (formFactor != null) 'formFactor': formFactor.value,
-      if (heapSize != null) 'heapSize': heapSize,
-      if (image != null) 'image': image,
-      if (instances != null) 'instances': instances,
-      if (manufacturer != null) 'manufacturer': manufacturer,
-      if (memory != null) 'memory': memory,
-      if (model != null) 'model': model,
-      if (modelId != null) 'modelId': modelId,
-      if (name != null) 'name': name,
-      if (os != null) 'os': os,
-      if (platform != null) 'platform': platform.value,
-      if (radio != null) 'radio': radio,
-      if (remoteAccessEnabled != null)
-        'remoteAccessEnabled': remoteAccessEnabled,
-      if (remoteDebugEnabled != null) 'remoteDebugEnabled': remoteDebugEnabled,
-      if (resolution != null) 'resolution': resolution,
-    };
-  }
-}
-
-class DeviceAttribute {
-  static const arn = DeviceAttribute._('ARN');
-  static const platform = DeviceAttribute._('PLATFORM');
-  static const formFactor = DeviceAttribute._('FORM_FACTOR');
-  static const manufacturer = DeviceAttribute._('MANUFACTURER');
-  static const remoteAccessEnabled = DeviceAttribute._('REMOTE_ACCESS_ENABLED');
-  static const remoteDebugEnabled = DeviceAttribute._('REMOTE_DEBUG_ENABLED');
-  static const appiumVersion = DeviceAttribute._('APPIUM_VERSION');
-  static const instanceArn = DeviceAttribute._('INSTANCE_ARN');
-  static const instanceLabels = DeviceAttribute._('INSTANCE_LABELS');
-  static const fleetType = DeviceAttribute._('FLEET_TYPE');
-  static const osVersion = DeviceAttribute._('OS_VERSION');
-  static const model = DeviceAttribute._('MODEL');
-  static const availability = DeviceAttribute._('AVAILABILITY');
-
-  final String value;
-
-  const DeviceAttribute._(this.value);
-
-  static const values = [
-    arn,
-    platform,
-    formFactor,
-    manufacturer,
-    remoteAccessEnabled,
-    remoteDebugEnabled,
-    appiumVersion,
-    instanceArn,
-    instanceLabels,
-    fleetType,
-    osVersion,
-    model,
-    availability
-  ];
-
-  static DeviceAttribute fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DeviceAttribute._(value));
-
-  @override
-  bool operator ==(other) => other is DeviceAttribute && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DeviceAvailability {
-  static const temporaryNotAvailable =
-      DeviceAvailability._('TEMPORARY_NOT_AVAILABLE');
-  static const busy = DeviceAvailability._('BUSY');
-  static const available = DeviceAvailability._('AVAILABLE');
-  static const highlyAvailable = DeviceAvailability._('HIGHLY_AVAILABLE');
-
-  final String value;
-
-  const DeviceAvailability._(this.value);
-
-  static const values = [
-    temporaryNotAvailable,
-    busy,
-    available,
-    highlyAvailable
-  ];
-
-  static DeviceAvailability fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DeviceAvailability._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DeviceAvailability && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents a device filter used to select a set of devices to be included in
-/// a test run. This data structure is passed in as the
-/// <code>deviceSelectionConfiguration</code> parameter to
-/// <code>ScheduleRun</code>. For an example of the JSON request syntax, see
-/// <a>ScheduleRun</a>.
-///
-/// It is also passed in as the <code>filters</code> parameter to
-/// <code>ListDevices</code>. For an example of the JSON request syntax, see
-/// <a>ListDevices</a>.
-class DeviceFilter {
-  /// The aspect of a device such as platform or model used as the selection
-  /// criteria in a device filter.
-  ///
-  /// The supported operators for each attribute are provided in the following
-  /// list.
-  /// <dl> <dt>ARN</dt> <dd>
-  /// The Amazon Resource Name (ARN) of the device (for example,
-  /// <code>arn:aws:devicefarm:us-west-2::device:12345Example</code>).
-  ///
-  /// Supported operators: <code>EQUALS</code>, <code>IN</code>,
-  /// <code>NOT_IN</code>
-  /// </dd> <dt>PLATFORM</dt> <dd>
-  /// The device platform. Valid values are ANDROID or IOS.
-  ///
-  /// Supported operators: <code>EQUALS</code>
-  /// </dd> <dt>OS_VERSION</dt> <dd>
-  /// The operating system version (for example, 10.3.2).
-  ///
-  /// Supported operators: <code>EQUALS</code>, <code>GREATER_THAN</code>,
-  /// <code>GREATER_THAN_OR_EQUALS</code>, <code>IN</code>,
-  /// <code>LESS_THAN</code>, <code>LESS_THAN_OR_EQUALS</code>,
-  /// <code>NOT_IN</code>
-  /// </dd> <dt>MODEL</dt> <dd>
-  /// The device model (for example, iPad 5th Gen).
-  ///
-  /// Supported operators: <code>CONTAINS</code>, <code>EQUALS</code>,
-  /// <code>IN</code>, <code>NOT_IN</code>
-  /// </dd> <dt>AVAILABILITY</dt> <dd>
-  /// The current availability of the device. Valid values are AVAILABLE,
-  /// HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE.
-  ///
-  /// Supported operators: <code>EQUALS</code>
-  /// </dd> <dt>FORM_FACTOR</dt> <dd>
-  /// The device form factor. Valid values are PHONE or TABLET.
-  ///
-  /// Supported operators: <code>EQUALS</code>
-  /// </dd> <dt>MANUFACTURER</dt> <dd>
-  /// The device manufacturer (for example, Apple).
-  ///
-  /// Supported operators: <code>EQUALS</code>, <code>IN</code>,
-  /// <code>NOT_IN</code>
-  /// </dd> <dt>REMOTE_ACCESS_ENABLED</dt> <dd>
-  /// Whether the device is enabled for remote access. Valid values are TRUE or
-  /// FALSE.
-  ///
-  /// Supported operators: <code>EQUALS</code>
-  /// </dd> <dt>REMOTE_DEBUG_ENABLED</dt> <dd>
-  /// Whether the device is enabled for remote debugging. Valid values are TRUE or
-  /// FALSE.
-  ///
-  /// Supported operators: <code>EQUALS</code>
-  ///
-  /// Because remote debugging is <a
-  /// href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html">no
-  /// longer supported</a>, this filter is ignored.
-  /// </dd> <dt>INSTANCE_ARN</dt> <dd>
-  /// The Amazon Resource Name (ARN) of the device instance.
-  ///
-  /// Supported operators: <code>EQUALS</code>, <code>IN</code>,
-  /// <code>NOT_IN</code>
-  /// </dd> <dt>INSTANCE_LABELS</dt> <dd>
-  /// The label of the device instance.
-  ///
-  /// Supported operators: <code>CONTAINS</code>
-  /// </dd> <dt>FLEET_TYPE</dt> <dd>
-  /// The fleet type. Valid values are PUBLIC or PRIVATE.
-  ///
-  /// Supported operators: <code>EQUALS</code>
-  /// </dd> </dl>
-  final DeviceFilterAttribute attribute;
-
-  /// Specifies how Device Farm compares the filter's attribute to the value. See
-  /// the attribute descriptions.
-  final RuleOperator operator;
-
-  /// An array of one or more filter values used in a device filter.
-  /// <p class="title"> <b>Operator Values</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// The IN and NOT_IN operators can take a values array that has more than one
-  /// element.
-  /// </li>
-  /// <li>
-  /// The other operators require an array with a single element.
-  /// </li>
-  /// </ul> <p class="title"> <b>Attribute Values</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// The PLATFORM attribute can be set to ANDROID or IOS.
-  /// </li>
-  /// <li>
-  /// The AVAILABILITY attribute can be set to AVAILABLE, HIGHLY_AVAILABLE, BUSY,
-  /// or TEMPORARY_NOT_AVAILABLE.
-  /// </li>
-  /// <li>
-  /// The FORM_FACTOR attribute can be set to PHONE or TABLET.
-  /// </li>
-  /// <li>
-  /// The FLEET_TYPE attribute can be set to PUBLIC or PRIVATE.
-  /// </li>
-  /// </ul>
-  final List<String> values;
-
-  DeviceFilter({
-    required this.attribute,
-    required this.operator,
-    required this.values,
-  });
-
-  factory DeviceFilter.fromJson(Map<String, dynamic> json) {
-    return DeviceFilter(
-      attribute: DeviceFilterAttribute.fromString(
-          (json['attribute'] as String?) ?? ''),
-      operator: RuleOperator.fromString((json['operator'] as String?) ?? ''),
-      values: ((json['values'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attribute = this.attribute;
-    final operator = this.operator;
-    final values = this.values;
-    return {
-      'attribute': attribute.value,
-      'operator': operator.value,
-      'values': values,
-    };
-  }
-}
-
-class DeviceFilterAttribute {
-  static const arn = DeviceFilterAttribute._('ARN');
-  static const platform = DeviceFilterAttribute._('PLATFORM');
-  static const osVersion = DeviceFilterAttribute._('OS_VERSION');
-  static const model = DeviceFilterAttribute._('MODEL');
-  static const availability = DeviceFilterAttribute._('AVAILABILITY');
-  static const formFactor = DeviceFilterAttribute._('FORM_FACTOR');
-  static const manufacturer = DeviceFilterAttribute._('MANUFACTURER');
-  static const remoteAccessEnabled =
-      DeviceFilterAttribute._('REMOTE_ACCESS_ENABLED');
-  static const remoteDebugEnabled =
-      DeviceFilterAttribute._('REMOTE_DEBUG_ENABLED');
-  static const instanceArn = DeviceFilterAttribute._('INSTANCE_ARN');
-  static const instanceLabels = DeviceFilterAttribute._('INSTANCE_LABELS');
-  static const fleetType = DeviceFilterAttribute._('FLEET_TYPE');
-
-  final String value;
-
-  const DeviceFilterAttribute._(this.value);
-
-  static const values = [
-    arn,
-    platform,
-    osVersion,
-    model,
-    availability,
-    formFactor,
-    manufacturer,
-    remoteAccessEnabled,
-    remoteDebugEnabled,
-    instanceArn,
-    instanceLabels,
-    fleetType
-  ];
-
-  static DeviceFilterAttribute fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DeviceFilterAttribute._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DeviceFilterAttribute && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DeviceFormFactor {
-  static const phone = DeviceFormFactor._('PHONE');
-  static const tablet = DeviceFormFactor._('TABLET');
-
-  final String value;
-
-  const DeviceFormFactor._(this.value);
-
-  static const values = [phone, tablet];
-
-  static DeviceFormFactor fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DeviceFormFactor._(value));
-
-  @override
-  bool operator ==(other) => other is DeviceFormFactor && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents the device instance.
-class DeviceInstance {
-  /// The Amazon Resource Name (ARN) of the device instance.
-  final String? arn;
-
-  /// The ARN of the device.
-  final String? deviceArn;
-
-  /// A object that contains information about the instance profile.
-  final InstanceProfile? instanceProfile;
-
-  /// An array of strings that describe the device instance.
-  final List<String>? labels;
-
-  /// The status of the device instance. Valid values are listed here.
-  final InstanceStatus? status;
-
-  /// Unique device identifier for the device instance.
-  final String? udid;
-
-  DeviceInstance({
-    this.arn,
-    this.deviceArn,
-    this.instanceProfile,
-    this.labels,
-    this.status,
-    this.udid,
-  });
-
-  factory DeviceInstance.fromJson(Map<String, dynamic> json) {
-    return DeviceInstance(
-      arn: json['arn'] as String?,
-      deviceArn: json['deviceArn'] as String?,
-      instanceProfile: json['instanceProfile'] != null
-          ? InstanceProfile.fromJson(
-              json['instanceProfile'] as Map<String, dynamic>)
-          : null,
-      labels:
-          (json['labels'] as List?)?.nonNulls.map((e) => e as String).toList(),
-      status: (json['status'] as String?)?.let(InstanceStatus.fromString),
-      udid: json['udid'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final deviceArn = this.deviceArn;
-    final instanceProfile = this.instanceProfile;
-    final labels = this.labels;
-    final status = this.status;
-    final udid = this.udid;
-    return {
-      if (arn != null) 'arn': arn,
-      if (deviceArn != null) 'deviceArn': deviceArn,
-      if (instanceProfile != null) 'instanceProfile': instanceProfile,
-      if (labels != null) 'labels': labels,
-      if (status != null) 'status': status.value,
-      if (udid != null) 'udid': udid,
-    };
-  }
-}
-
-/// Represents the total (metered or unmetered) minutes used by the resource to
-/// run tests. Contains the sum of minutes consumed by all children.
-class DeviceMinutes {
-  /// When specified, represents only the sum of metered minutes used by the
-  /// resource to run tests.
-  final double? metered;
-
-  /// When specified, represents the total minutes used by the resource to run
-  /// tests.
-  final double? total;
-
-  /// When specified, represents only the sum of unmetered minutes used by the
-  /// resource to run tests.
-  final double? unmetered;
-
-  DeviceMinutes({
-    this.metered,
-    this.total,
-    this.unmetered,
-  });
-
-  factory DeviceMinutes.fromJson(Map<String, dynamic> json) {
-    return DeviceMinutes(
-      metered: json['metered'] as double?,
-      total: json['total'] as double?,
-      unmetered: json['unmetered'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final metered = this.metered;
-    final total = this.total;
-    final unmetered = this.unmetered;
-    return {
-      if (metered != null) 'metered': metered,
-      if (total != null) 'total': total,
-      if (unmetered != null) 'unmetered': unmetered,
-    };
-  }
-}
-
-class DevicePlatform {
-  static const android = DevicePlatform._('ANDROID');
-  static const ios = DevicePlatform._('IOS');
-
-  final String value;
-
-  const DevicePlatform._(this.value);
-
-  static const values = [android, ios];
-
-  static DevicePlatform fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DevicePlatform._(value));
-
-  @override
-  bool operator ==(other) => other is DevicePlatform && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents a collection of device types.
-class DevicePool {
-  /// The device pool's ARN.
-  final String? arn;
-
-  /// The device pool's description.
-  final String? description;
-
-  /// The number of devices that Device Farm can add to your device pool. Device
-  /// Farm adds devices that are available and meet the criteria that you assign
-  /// for the <code>rules</code> parameter. Depending on how many devices meet
-  /// these constraints, your device pool might contain fewer devices than the
-  /// value for this parameter.
-  ///
-  /// By specifying the maximum number of devices, you can control the costs that
-  /// you incur by running tests.
-  final int? maxDevices;
-
-  /// The device pool's name.
-  final String? name;
-
-  /// Information about the device pool's rules.
-  final List<Rule>? rules;
-
-  /// The device pool's type.
-  ///
-  /// Allowed values include:
-  ///
-  /// <ul>
-  /// <li>
-  /// CURATED: A device pool that is created and managed by AWS Device Farm.
-  /// </li>
-  /// <li>
-  /// PRIVATE: A device pool that is created and managed by the device pool
-  /// developer.
-  /// </li>
-  /// </ul>
-  final DevicePoolType? type;
-
-  DevicePool({
-    this.arn,
-    this.description,
-    this.maxDevices,
-    this.name,
-    this.rules,
-    this.type,
-  });
-
-  factory DevicePool.fromJson(Map<String, dynamic> json) {
-    return DevicePool(
-      arn: json['arn'] as String?,
-      description: json['description'] as String?,
-      maxDevices: json['maxDevices'] as int?,
-      name: json['name'] as String?,
-      rules: (json['rules'] as List?)
-          ?.nonNulls
-          .map((e) => Rule.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      type: (json['type'] as String?)?.let(DevicePoolType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final description = this.description;
-    final maxDevices = this.maxDevices;
-    final name = this.name;
-    final rules = this.rules;
-    final type = this.type;
-    return {
-      if (arn != null) 'arn': arn,
-      if (description != null) 'description': description,
-      if (maxDevices != null) 'maxDevices': maxDevices,
-      if (name != null) 'name': name,
-      if (rules != null) 'rules': rules,
-      if (type != null) 'type': type.value,
-    };
-  }
-}
-
-/// Represents a device pool compatibility result.
-class DevicePoolCompatibilityResult {
-  /// Whether the result was compatible with the device pool.
-  final bool? compatible;
-
-  /// The device (phone or tablet) to return information about.
-  final Device? device;
-
-  /// Information about the compatibility.
-  final List<IncompatibilityMessage>? incompatibilityMessages;
-
-  DevicePoolCompatibilityResult({
-    this.compatible,
-    this.device,
-    this.incompatibilityMessages,
-  });
-
-  factory DevicePoolCompatibilityResult.fromJson(Map<String, dynamic> json) {
-    return DevicePoolCompatibilityResult(
-      compatible: json['compatible'] as bool?,
-      device: json['device'] != null
-          ? Device.fromJson(json['device'] as Map<String, dynamic>)
-          : null,
-      incompatibilityMessages: (json['incompatibilityMessages'] as List?)
-          ?.nonNulls
-          .map(
-              (e) => IncompatibilityMessage.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final compatible = this.compatible;
-    final device = this.device;
-    final incompatibilityMessages = this.incompatibilityMessages;
-    return {
-      if (compatible != null) 'compatible': compatible,
-      if (device != null) 'device': device,
-      if (incompatibilityMessages != null)
-        'incompatibilityMessages': incompatibilityMessages,
-    };
-  }
-}
-
-class DevicePoolType {
-  static const curated = DevicePoolType._('CURATED');
-  static const private = DevicePoolType._('PRIVATE');
-
-  final String value;
-
-  const DevicePoolType._(this.value);
-
-  static const values = [curated, private];
-
-  static DevicePoolType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DevicePoolType._(value));
-
-  @override
-  bool operator ==(other) => other is DevicePoolType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents the device filters used in a test run and the maximum number of
-/// devices to be included in the run. It is passed in as the
-/// <code>deviceSelectionConfiguration</code> request parameter in
-/// <a>ScheduleRun</a>.
-class DeviceSelectionConfiguration {
-  /// Used to dynamically select a set of devices for a test run. A filter is made
-  /// up of an attribute, an operator, and one or more values.
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>Attribute</b>
-  ///
-  /// The aspect of a device such as platform or model used as the selection
-  /// criteria in a device filter.
-  ///
-  /// Allowed values include:
-  ///
-  /// <ul>
-  /// <li>
-  /// ARN: The Amazon Resource Name (ARN) of the device (for example,
-  /// <code>arn:aws:devicefarm:us-west-2::device:12345Example</code>).
-  /// </li>
-  /// <li>
-  /// PLATFORM: The device platform. Valid values are ANDROID or IOS.
-  /// </li>
-  /// <li>
-  /// OS_VERSION: The operating system version (for example, 10.3.2).
-  /// </li>
-  /// <li>
-  /// MODEL: The device model (for example, iPad 5th Gen).
-  /// </li>
-  /// <li>
-  /// AVAILABILITY: The current availability of the device. Valid values are
-  /// AVAILABLE, HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE.
-  /// </li>
-  /// <li>
-  /// FORM_FACTOR: The device form factor. Valid values are PHONE or TABLET.
-  /// </li>
-  /// <li>
-  /// MANUFACTURER: The device manufacturer (for example, Apple).
-  /// </li>
-  /// <li>
-  /// REMOTE_ACCESS_ENABLED: Whether the device is enabled for remote access.
-  /// Valid values are TRUE or FALSE.
-  /// </li>
-  /// <li>
-  /// REMOTE_DEBUG_ENABLED: Whether the device is enabled for remote debugging.
-  /// Valid values are TRUE or FALSE. Because remote debugging is <a
-  /// href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html">no
-  /// longer supported</a>, this filter is ignored.
-  /// </li>
-  /// <li>
-  /// INSTANCE_ARN: The Amazon Resource Name (ARN) of the device instance.
-  /// </li>
-  /// <li>
-  /// INSTANCE_LABELS: The label of the device instance.
-  /// </li>
-  /// <li>
-  /// FLEET_TYPE: The fleet type. Valid values are PUBLIC or PRIVATE.
-  /// </li>
-  /// </ul> </li>
-  /// <li>
-  /// <b>Operator</b>
-  ///
-  /// The filter operator.
-  ///
-  /// <ul>
-  /// <li>
-  /// The EQUALS operator is available for every attribute except INSTANCE_LABELS.
-  /// </li>
-  /// <li>
-  /// The CONTAINS operator is available for the INSTANCE_LABELS and MODEL
-  /// attributes.
-  /// </li>
-  /// <li>
-  /// The IN and NOT_IN operators are available for the ARN, OS_VERSION, MODEL,
-  /// MANUFACTURER, and INSTANCE_ARN attributes.
-  /// </li>
-  /// <li>
-  /// The LESS_THAN, GREATER_THAN, LESS_THAN_OR_EQUALS, and GREATER_THAN_OR_EQUALS
-  /// operators are also available for the OS_VERSION attribute.
-  /// </li>
-  /// </ul> </li>
-  /// <li>
-  /// <b>Values</b>
-  ///
-  /// An array of one or more filter values.
-  /// <p class="title"> <b>Operator Values</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// The IN and NOT_IN operators can take a values array that has more than one
-  /// element.
-  /// </li>
-  /// <li>
-  /// The other operators require an array with a single element.
-  /// </li>
-  /// </ul> <p class="title"> <b>Attribute Values</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// The PLATFORM attribute can be set to ANDROID or IOS.
-  /// </li>
-  /// <li>
-  /// The AVAILABILITY attribute can be set to AVAILABLE, HIGHLY_AVAILABLE, BUSY,
-  /// or TEMPORARY_NOT_AVAILABLE.
-  /// </li>
-  /// <li>
-  /// The FORM_FACTOR attribute can be set to PHONE or TABLET.
-  /// </li>
-  /// <li>
-  /// The FLEET_TYPE attribute can be set to PUBLIC or PRIVATE.
-  /// </li>
-  /// </ul> </li>
-  /// </ul>
-  final List<DeviceFilter> filters;
-
-  /// The maximum number of devices to be included in a test run.
-  final int maxDevices;
-
-  DeviceSelectionConfiguration({
-    required this.filters,
-    required this.maxDevices,
-  });
-
-  Map<String, dynamic> toJson() {
-    final filters = this.filters;
-    final maxDevices = this.maxDevices;
-    return {
-      'filters': filters,
-      'maxDevices': maxDevices,
-    };
-  }
-}
-
-/// Contains the run results requested by the device selection configuration and
-/// how many devices were returned. For an example of the JSON response syntax,
-/// see <a>ScheduleRun</a>.
-class DeviceSelectionResult {
-  /// The filters in a device selection result.
-  final List<DeviceFilter>? filters;
-
-  /// The number of devices that matched the device filter selection criteria.
-  final int? matchedDevicesCount;
-
-  /// The maximum number of devices to be selected by a device filter and included
-  /// in a test run.
-  final int? maxDevices;
-
-  DeviceSelectionResult({
-    this.filters,
-    this.matchedDevicesCount,
-    this.maxDevices,
-  });
-
-  factory DeviceSelectionResult.fromJson(Map<String, dynamic> json) {
-    return DeviceSelectionResult(
-      filters: (json['filters'] as List?)
-          ?.nonNulls
-          .map((e) => DeviceFilter.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      matchedDevicesCount: json['matchedDevicesCount'] as int?,
-      maxDevices: json['maxDevices'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final filters = this.filters;
-    final matchedDevicesCount = this.matchedDevicesCount;
-    final maxDevices = this.maxDevices;
-    return {
-      if (filters != null) 'filters': filters,
-      if (matchedDevicesCount != null)
-        'matchedDevicesCount': matchedDevicesCount,
-      if (maxDevices != null) 'maxDevices': maxDevices,
-    };
-  }
-}
-
-/// Represents configuration information about a test run, such as the execution
-/// timeout (in minutes).
-class ExecutionConfiguration {
-  /// True if account cleanup is enabled at the beginning of the test. Otherwise,
-  /// false.
-  final bool? accountsCleanup;
-
-  /// True if app package cleanup is enabled at the beginning of the test.
-  /// Otherwise, false.
-  final bool? appPackagesCleanup;
-
-  /// The number of minutes a test run executes before it times out.
-  final int? jobTimeoutMinutes;
-
-  /// When set to <code>true</code>, for private devices, Device Farm does not
-  /// sign your app again. For public devices, Device Farm always signs your apps
-  /// again.
-  ///
-  /// For more information about how Device Farm re-signs your apps, see <a
-  /// href="http://aws.amazon.com/device-farm/faqs/">Do you modify my app?</a> in
-  /// the <i>AWS Device Farm FAQs</i>.
-  final bool? skipAppResign;
-
-  /// Set to true to enable video capture. Otherwise, set to false. The default is
-  /// true.
-  final bool? videoCapture;
-
-  ExecutionConfiguration({
-    this.accountsCleanup,
-    this.appPackagesCleanup,
-    this.jobTimeoutMinutes,
-    this.skipAppResign,
-    this.videoCapture,
-  });
-
-  Map<String, dynamic> toJson() {
-    final accountsCleanup = this.accountsCleanup;
-    final appPackagesCleanup = this.appPackagesCleanup;
-    final jobTimeoutMinutes = this.jobTimeoutMinutes;
-    final skipAppResign = this.skipAppResign;
-    final videoCapture = this.videoCapture;
-    return {
-      if (accountsCleanup != null) 'accountsCleanup': accountsCleanup,
-      if (appPackagesCleanup != null) 'appPackagesCleanup': appPackagesCleanup,
-      if (jobTimeoutMinutes != null) 'jobTimeoutMinutes': jobTimeoutMinutes,
-      if (skipAppResign != null) 'skipAppResign': skipAppResign,
-      if (videoCapture != null) 'videoCapture': videoCapture,
-    };
-  }
-}
-
-class ExecutionResult {
-  static const pending = ExecutionResult._('PENDING');
-  static const passed = ExecutionResult._('PASSED');
-  static const warned = ExecutionResult._('WARNED');
-  static const failed = ExecutionResult._('FAILED');
-  static const skipped = ExecutionResult._('SKIPPED');
-  static const errored = ExecutionResult._('ERRORED');
-  static const stopped = ExecutionResult._('STOPPED');
-
-  final String value;
-
-  const ExecutionResult._(this.value);
-
-  static const values = [
-    pending,
-    passed,
-    warned,
-    failed,
-    skipped,
-    errored,
-    stopped
-  ];
-
-  static ExecutionResult fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ExecutionResult._(value));
-
-  @override
-  bool operator ==(other) => other is ExecutionResult && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ExecutionResultCode {
-  static const parsingFailed = ExecutionResultCode._('PARSING_FAILED');
-  static const vpcEndpointSetupFailed =
-      ExecutionResultCode._('VPC_ENDPOINT_SETUP_FAILED');
-
-  final String value;
-
-  const ExecutionResultCode._(this.value);
-
-  static const values = [parsingFailed, vpcEndpointSetupFailed];
-
-  static ExecutionResultCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ExecutionResultCode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ExecutionResultCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ExecutionStatus {
-  static const pending = ExecutionStatus._('PENDING');
-  static const pendingConcurrency = ExecutionStatus._('PENDING_CONCURRENCY');
-  static const pendingDevice = ExecutionStatus._('PENDING_DEVICE');
-  static const processing = ExecutionStatus._('PROCESSING');
-  static const scheduling = ExecutionStatus._('SCHEDULING');
-  static const preparing = ExecutionStatus._('PREPARING');
-  static const running = ExecutionStatus._('RUNNING');
-  static const completed = ExecutionStatus._('COMPLETED');
-  static const stopping = ExecutionStatus._('STOPPING');
-
-  final String value;
-
-  const ExecutionStatus._(this.value);
-
-  static const values = [
-    pending,
-    pendingConcurrency,
-    pendingDevice,
-    processing,
-    scheduling,
-    preparing,
-    running,
-    completed,
-    stopping
-  ];
-
-  static ExecutionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ExecutionStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ExecutionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 /// Represents the account settings return values from the
 /// <code>GetAccountSettings</code> request.
 class GetAccountSettingsResult {
@@ -5753,6 +4073,31 @@ class GetAccountSettingsResult {
   }
 }
 
+/// Represents the result of a get device request.
+class GetDeviceResult {
+  /// An object that contains information about the requested device.
+  final Device? device;
+
+  GetDeviceResult({
+    this.device,
+  });
+
+  factory GetDeviceResult.fromJson(Map<String, dynamic> json) {
+    return GetDeviceResult(
+      device: json['device'] != null
+          ? Device.fromJson(json['device'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final device = this.device;
+    return {
+      if (device != null) 'device': device,
+    };
+  }
+}
+
 class GetDeviceInstanceResult {
   /// An object that contains information about your device instance.
   final DeviceInstance? deviceInstance;
@@ -5774,6 +4119,31 @@ class GetDeviceInstanceResult {
     final deviceInstance = this.deviceInstance;
     return {
       if (deviceInstance != null) 'deviceInstance': deviceInstance,
+    };
+  }
+}
+
+/// Represents the result of a get device pool request.
+class GetDevicePoolResult {
+  /// An object that contains information about the requested device pool.
+  final DevicePool? devicePool;
+
+  GetDevicePoolResult({
+    this.devicePool,
+  });
+
+  factory GetDevicePoolResult.fromJson(Map<String, dynamic> json) {
+    return GetDevicePoolResult(
+      devicePool: json['devicePool'] != null
+          ? DevicePool.fromJson(json['devicePool'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final devicePool = this.devicePool;
+    return {
+      if (devicePool != null) 'devicePool': devicePool,
     };
   }
 }
@@ -5813,56 +4183,6 @@ class GetDevicePoolCompatibilityResult {
       if (compatibleDevices != null) 'compatibleDevices': compatibleDevices,
       if (incompatibleDevices != null)
         'incompatibleDevices': incompatibleDevices,
-    };
-  }
-}
-
-/// Represents the result of a get device pool request.
-class GetDevicePoolResult {
-  /// An object that contains information about the requested device pool.
-  final DevicePool? devicePool;
-
-  GetDevicePoolResult({
-    this.devicePool,
-  });
-
-  factory GetDevicePoolResult.fromJson(Map<String, dynamic> json) {
-    return GetDevicePoolResult(
-      devicePool: json['devicePool'] != null
-          ? DevicePool.fromJson(json['devicePool'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final devicePool = this.devicePool;
-    return {
-      if (devicePool != null) 'devicePool': devicePool,
-    };
-  }
-}
-
-/// Represents the result of a get device request.
-class GetDeviceResult {
-  /// An object that contains information about the requested device.
-  final Device? device;
-
-  GetDeviceResult({
-    this.device,
-  });
-
-  factory GetDeviceResult.fromJson(Map<String, dynamic> json) {
-    return GetDeviceResult(
-      device: json['device'] != null
-          ? Device.fromJson(json['device'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final device = this.device;
-    return {
-      if (device != null) 'device': device,
     };
   }
 }
@@ -6085,6 +4405,31 @@ class GetSuiteResult {
   }
 }
 
+/// Represents the result of a get test request.
+class GetTestResult {
+  /// A test condition that is evaluated.
+  final Test? test;
+
+  GetTestResult({
+    this.test,
+  });
+
+  factory GetTestResult.fromJson(Map<String, dynamic> json) {
+    return GetTestResult(
+      test: json['test'] != null
+          ? Test.fromJson(json['test'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final test = this.test;
+    return {
+      if (test != null) 'test': test,
+    };
+  }
+}
+
 class GetTestGridProjectResult {
   /// A <a>TestGridProject</a>.
   final TestGridProject? testGridProject;
@@ -6131,31 +4476,6 @@ class GetTestGridSessionResult {
     final testGridSession = this.testGridSession;
     return {
       if (testGridSession != null) 'testGridSession': testGridSession,
-    };
-  }
-}
-
-/// Represents the result of a get test request.
-class GetTestResult {
-  /// A test condition that is evaluated.
-  final Test? test;
-
-  GetTestResult({
-    this.test,
-  });
-
-  factory GetTestResult.fromJson(Map<String, dynamic> json) {
-    return GetTestResult(
-      test: json['test'] != null
-          ? Test.fromJson(json['test'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final test = this.test;
-    return {
-      if (test != null) 'test': test,
     };
   }
 }
@@ -6210,59 +4530,6 @@ class GetVPCEConfigurationResult {
   }
 }
 
-/// Represents information about incompatibility.
-class IncompatibilityMessage {
-  /// A message about the incompatibility.
-  final String? message;
-
-  /// The type of incompatibility.
-  ///
-  /// Allowed values include:
-  ///
-  /// <ul>
-  /// <li>
-  /// ARN
-  /// </li>
-  /// <li>
-  /// FORM_FACTOR (for example, phone or tablet)
-  /// </li>
-  /// <li>
-  /// MANUFACTURER
-  /// </li>
-  /// <li>
-  /// PLATFORM (for example, Android or iOS)
-  /// </li>
-  /// <li>
-  /// REMOTE_ACCESS_ENABLED
-  /// </li>
-  /// <li>
-  /// APPIUM_VERSION
-  /// </li>
-  /// </ul>
-  final DeviceAttribute? type;
-
-  IncompatibilityMessage({
-    this.message,
-    this.type,
-  });
-
-  factory IncompatibilityMessage.fromJson(Map<String, dynamic> json) {
-    return IncompatibilityMessage(
-      message: json['message'] as String?,
-      type: (json['type'] as String?)?.let(DeviceAttribute.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final message = this.message;
-    final type = this.type;
-    return {
-      if (message != null) 'message': message,
-      if (type != null) 'type': type.value,
-    };
-  }
-}
-
 /// Represents the response from the server after AWS Device Farm makes a
 /// request to install to a remote access session.
 class InstallToRemoteAccessSessionResult {
@@ -6286,360 +4553,6 @@ class InstallToRemoteAccessSessionResult {
     final appUpload = this.appUpload;
     return {
       if (appUpload != null) 'appUpload': appUpload,
-    };
-  }
-}
-
-/// Represents the instance profile.
-class InstanceProfile {
-  /// The Amazon Resource Name (ARN) of the instance profile.
-  final String? arn;
-
-  /// The description of the instance profile.
-  final String? description;
-
-  /// An array of strings containing the list of app packages that should not be
-  /// cleaned up from the device after a test run completes.
-  ///
-  /// The list of packages is considered only if you set
-  /// <code>packageCleanup</code> to <code>true</code>.
-  final List<String>? excludeAppPackagesFromCleanup;
-
-  /// The name of the instance profile.
-  final String? name;
-
-  /// When set to <code>true</code>, Device Farm removes app packages after a test
-  /// run. The default value is <code>false</code> for private devices.
-  final bool? packageCleanup;
-
-  /// When set to <code>true</code>, Device Farm reboots the instance after a test
-  /// run. The default value is <code>true</code>.
-  final bool? rebootAfterUse;
-
-  InstanceProfile({
-    this.arn,
-    this.description,
-    this.excludeAppPackagesFromCleanup,
-    this.name,
-    this.packageCleanup,
-    this.rebootAfterUse,
-  });
-
-  factory InstanceProfile.fromJson(Map<String, dynamic> json) {
-    return InstanceProfile(
-      arn: json['arn'] as String?,
-      description: json['description'] as String?,
-      excludeAppPackagesFromCleanup:
-          (json['excludeAppPackagesFromCleanup'] as List?)
-              ?.nonNulls
-              .map((e) => e as String)
-              .toList(),
-      name: json['name'] as String?,
-      packageCleanup: json['packageCleanup'] as bool?,
-      rebootAfterUse: json['rebootAfterUse'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final description = this.description;
-    final excludeAppPackagesFromCleanup = this.excludeAppPackagesFromCleanup;
-    final name = this.name;
-    final packageCleanup = this.packageCleanup;
-    final rebootAfterUse = this.rebootAfterUse;
-    return {
-      if (arn != null) 'arn': arn,
-      if (description != null) 'description': description,
-      if (excludeAppPackagesFromCleanup != null)
-        'excludeAppPackagesFromCleanup': excludeAppPackagesFromCleanup,
-      if (name != null) 'name': name,
-      if (packageCleanup != null) 'packageCleanup': packageCleanup,
-      if (rebootAfterUse != null) 'rebootAfterUse': rebootAfterUse,
-    };
-  }
-}
-
-class InstanceStatus {
-  static const inUse = InstanceStatus._('IN_USE');
-  static const preparing = InstanceStatus._('PREPARING');
-  static const available = InstanceStatus._('AVAILABLE');
-  static const notAvailable = InstanceStatus._('NOT_AVAILABLE');
-
-  final String value;
-
-  const InstanceStatus._(this.value);
-
-  static const values = [inUse, preparing, available, notAvailable];
-
-  static InstanceStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => InstanceStatus._(value));
-
-  @override
-  bool operator ==(other) => other is InstanceStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class InteractionMode {
-  static const interactive = InteractionMode._('INTERACTIVE');
-  static const noVideo = InteractionMode._('NO_VIDEO');
-  static const videoOnly = InteractionMode._('VIDEO_ONLY');
-
-  final String value;
-
-  const InteractionMode._(this.value);
-
-  static const values = [interactive, noVideo, videoOnly];
-
-  static InteractionMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => InteractionMode._(value));
-
-  @override
-  bool operator ==(other) => other is InteractionMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents a device.
-class Job {
-  /// The job's ARN.
-  final String? arn;
-
-  /// The job's result counters.
-  final Counters? counters;
-
-  /// When the job was created.
-  final DateTime? created;
-
-  /// The device (phone or tablet).
-  final Device? device;
-
-  /// Represents the total (metered or unmetered) minutes used by the job.
-  final DeviceMinutes? deviceMinutes;
-
-  /// The ARN of the instance.
-  final String? instanceArn;
-
-  /// A message about the job's result.
-  final String? message;
-
-  /// The job's name.
-  final String? name;
-
-  /// The job's result.
-  ///
-  /// Allowed values include:
-  ///
-  /// <ul>
-  /// <li>
-  /// PENDING
-  /// </li>
-  /// <li>
-  /// PASSED
-  /// </li>
-  /// <li>
-  /// WARNED
-  /// </li>
-  /// <li>
-  /// FAILED
-  /// </li>
-  /// <li>
-  /// SKIPPED
-  /// </li>
-  /// <li>
-  /// ERRORED
-  /// </li>
-  /// <li>
-  /// STOPPED
-  /// </li>
-  /// </ul>
-  final ExecutionResult? result;
-
-  /// The job's start time.
-  final DateTime? started;
-
-  /// The job's status.
-  ///
-  /// Allowed values include:
-  ///
-  /// <ul>
-  /// <li>
-  /// PENDING
-  /// </li>
-  /// <li>
-  /// PENDING_CONCURRENCY
-  /// </li>
-  /// <li>
-  /// PENDING_DEVICE
-  /// </li>
-  /// <li>
-  /// PROCESSING
-  /// </li>
-  /// <li>
-  /// SCHEDULING
-  /// </li>
-  /// <li>
-  /// PREPARING
-  /// </li>
-  /// <li>
-  /// RUNNING
-  /// </li>
-  /// <li>
-  /// COMPLETED
-  /// </li>
-  /// <li>
-  /// STOPPING
-  /// </li>
-  /// </ul>
-  final ExecutionStatus? status;
-
-  /// The job's stop time.
-  final DateTime? stopped;
-
-  /// The job's type.
-  ///
-  /// Allowed values include the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// BUILTIN_FUZZ
-  /// </li>
-  /// <li>
-  /// APPIUM_JAVA_JUNIT
-  /// </li>
-  /// <li>
-  /// APPIUM_JAVA_TESTNG
-  /// </li>
-  /// <li>
-  /// APPIUM_PYTHON
-  /// </li>
-  /// <li>
-  /// APPIUM_NODE
-  /// </li>
-  /// <li>
-  /// APPIUM_RUBY
-  /// </li>
-  /// <li>
-  /// APPIUM_WEB_JAVA_JUNIT
-  /// </li>
-  /// <li>
-  /// APPIUM_WEB_JAVA_TESTNG
-  /// </li>
-  /// <li>
-  /// APPIUM_WEB_PYTHON
-  /// </li>
-  /// <li>
-  /// APPIUM_WEB_NODE
-  /// </li>
-  /// <li>
-  /// APPIUM_WEB_RUBY
-  /// </li>
-  /// <li>
-  /// INSTRUMENTATION
-  /// </li>
-  /// <li>
-  /// XCTEST
-  /// </li>
-  /// <li>
-  /// XCTEST_UI
-  /// </li>
-  /// </ul>
-  final TestType? type;
-
-  /// This value is set to true if video capture is enabled. Otherwise, it is set
-  /// to false.
-  final bool? videoCapture;
-
-  /// The endpoint for streaming device video.
-  final String? videoEndpoint;
-
-  Job({
-    this.arn,
-    this.counters,
-    this.created,
-    this.device,
-    this.deviceMinutes,
-    this.instanceArn,
-    this.message,
-    this.name,
-    this.result,
-    this.started,
-    this.status,
-    this.stopped,
-    this.type,
-    this.videoCapture,
-    this.videoEndpoint,
-  });
-
-  factory Job.fromJson(Map<String, dynamic> json) {
-    return Job(
-      arn: json['arn'] as String?,
-      counters: json['counters'] != null
-          ? Counters.fromJson(json['counters'] as Map<String, dynamic>)
-          : null,
-      created: timeStampFromJson(json['created']),
-      device: json['device'] != null
-          ? Device.fromJson(json['device'] as Map<String, dynamic>)
-          : null,
-      deviceMinutes: json['deviceMinutes'] != null
-          ? DeviceMinutes.fromJson(
-              json['deviceMinutes'] as Map<String, dynamic>)
-          : null,
-      instanceArn: json['instanceArn'] as String?,
-      message: json['message'] as String?,
-      name: json['name'] as String?,
-      result: (json['result'] as String?)?.let(ExecutionResult.fromString),
-      started: timeStampFromJson(json['started']),
-      status: (json['status'] as String?)?.let(ExecutionStatus.fromString),
-      stopped: timeStampFromJson(json['stopped']),
-      type: (json['type'] as String?)?.let(TestType.fromString),
-      videoCapture: json['videoCapture'] as bool?,
-      videoEndpoint: json['videoEndpoint'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final counters = this.counters;
-    final created = this.created;
-    final device = this.device;
-    final deviceMinutes = this.deviceMinutes;
-    final instanceArn = this.instanceArn;
-    final message = this.message;
-    final name = this.name;
-    final result = this.result;
-    final started = this.started;
-    final status = this.status;
-    final stopped = this.stopped;
-    final type = this.type;
-    final videoCapture = this.videoCapture;
-    final videoEndpoint = this.videoEndpoint;
-    return {
-      if (arn != null) 'arn': arn,
-      if (counters != null) 'counters': counters,
-      if (created != null) 'created': unixTimestampToJson(created),
-      if (device != null) 'device': device,
-      if (deviceMinutes != null) 'deviceMinutes': deviceMinutes,
-      if (instanceArn != null) 'instanceArn': instanceArn,
-      if (message != null) 'message': message,
-      if (name != null) 'name': name,
-      if (result != null) 'result': result.value,
-      if (started != null) 'started': unixTimestampToJson(started),
-      if (status != null) 'status': status.value,
-      if (stopped != null) 'stopped': unixTimestampToJson(stopped),
-      if (type != null) 'type': type.value,
-      if (videoCapture != null) 'videoCapture': videoCapture,
-      if (videoEndpoint != null) 'videoEndpoint': videoEndpoint,
     };
   }
 }
@@ -6916,6 +4829,40 @@ class ListOfferingPromotionsResult {
   }
 }
 
+/// Represents the return values of the list of offerings.
+class ListOfferingsResult {
+  /// An identifier that was returned from the previous call to this operation,
+  /// which can be used to return the next set of items in the list.
+  final String? nextToken;
+
+  /// A value that represents the list offering results.
+  final List<Offering>? offerings;
+
+  ListOfferingsResult({
+    this.nextToken,
+    this.offerings,
+  });
+
+  factory ListOfferingsResult.fromJson(Map<String, dynamic> json) {
+    return ListOfferingsResult(
+      nextToken: json['nextToken'] as String?,
+      offerings: (json['offerings'] as List?)
+          ?.nonNulls
+          .map((e) => Offering.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final offerings = this.offerings;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (offerings != null) 'offerings': offerings,
+    };
+  }
+}
+
 /// Returns the transaction log of the specified offerings.
 class ListOfferingTransactionsResult {
   /// An identifier that was returned from the previous call to this operation,
@@ -6948,40 +4895,6 @@ class ListOfferingTransactionsResult {
       if (nextToken != null) 'nextToken': nextToken,
       if (offeringTransactions != null)
         'offeringTransactions': offeringTransactions,
-    };
-  }
-}
-
-/// Represents the return values of the list of offerings.
-class ListOfferingsResult {
-  /// An identifier that was returned from the previous call to this operation,
-  /// which can be used to return the next set of items in the list.
-  final String? nextToken;
-
-  /// A value that represents the list offering results.
-  final List<Offering>? offerings;
-
-  ListOfferingsResult({
-    this.nextToken,
-    this.offerings,
-  });
-
-  factory ListOfferingsResult.fromJson(Map<String, dynamic> json) {
-    return ListOfferingsResult(
-      nextToken: json['nextToken'] as String?,
-      offerings: (json['offerings'] as List?)
-          ?.nonNulls
-          .map((e) => Offering.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final offerings = this.offerings;
-    return {
-      if (nextToken != null) 'nextToken': nextToken,
-      if (offerings != null) 'offerings': offerings,
     };
   }
 }
@@ -7491,628 +5404,6 @@ class ListVPCEConfigurationsResult {
   }
 }
 
-/// Represents a latitude and longitude pair, expressed in geographic coordinate
-/// system degrees (for example, 47.6204, -122.3491).
-///
-/// Elevation is currently not supported.
-class Location {
-  /// The latitude.
-  final double latitude;
-
-  /// The longitude.
-  final double longitude;
-
-  Location({
-    required this.latitude,
-    required this.longitude,
-  });
-
-  factory Location.fromJson(Map<String, dynamic> json) {
-    return Location(
-      latitude: (json['latitude'] as double?) ?? 0,
-      longitude: (json['longitude'] as double?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final latitude = this.latitude;
-    final longitude = this.longitude;
-    return {
-      'latitude': latitude,
-      'longitude': longitude,
-    };
-  }
-}
-
-/// A number that represents the monetary amount for an offering or transaction.
-class MonetaryAmount {
-  /// The numerical amount of an offering or transaction.
-  final double? amount;
-
-  /// The currency code of a monetary amount. For example, <code>USD</code> means
-  /// U.S. dollars.
-  final CurrencyCode? currencyCode;
-
-  MonetaryAmount({
-    this.amount,
-    this.currencyCode,
-  });
-
-  factory MonetaryAmount.fromJson(Map<String, dynamic> json) {
-    return MonetaryAmount(
-      amount: json['amount'] as double?,
-      currencyCode:
-          (json['currencyCode'] as String?)?.let(CurrencyCode.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final amount = this.amount;
-    final currencyCode = this.currencyCode;
-    return {
-      if (amount != null) 'amount': amount,
-      if (currencyCode != null) 'currencyCode': currencyCode.value,
-    };
-  }
-}
-
-/// An array of settings that describes characteristics of a network profile.
-class NetworkProfile {
-  /// The Amazon Resource Name (ARN) of the network profile.
-  final String? arn;
-
-  /// The description of the network profile.
-  final String? description;
-
-  /// The data throughput rate in bits per second, as an integer from 0 to
-  /// 104857600.
-  final int? downlinkBandwidthBits;
-
-  /// Delay time for all packets to destination in milliseconds as an integer from
-  /// 0 to 2000.
-  final int? downlinkDelayMs;
-
-  /// Time variation in the delay of received packets in milliseconds as an
-  /// integer from 0 to 2000.
-  final int? downlinkJitterMs;
-
-  /// Proportion of received packets that fail to arrive from 0 to 100 percent.
-  final int? downlinkLossPercent;
-
-  /// The name of the network profile.
-  final String? name;
-
-  /// The type of network profile. Valid values are listed here.
-  final NetworkProfileType? type;
-
-  /// The data throughput rate in bits per second, as an integer from 0 to
-  /// 104857600.
-  final int? uplinkBandwidthBits;
-
-  /// Delay time for all packets to destination in milliseconds as an integer from
-  /// 0 to 2000.
-  final int? uplinkDelayMs;
-
-  /// Time variation in the delay of received packets in milliseconds as an
-  /// integer from 0 to 2000.
-  final int? uplinkJitterMs;
-
-  /// Proportion of transmitted packets that fail to arrive from 0 to 100 percent.
-  final int? uplinkLossPercent;
-
-  NetworkProfile({
-    this.arn,
-    this.description,
-    this.downlinkBandwidthBits,
-    this.downlinkDelayMs,
-    this.downlinkJitterMs,
-    this.downlinkLossPercent,
-    this.name,
-    this.type,
-    this.uplinkBandwidthBits,
-    this.uplinkDelayMs,
-    this.uplinkJitterMs,
-    this.uplinkLossPercent,
-  });
-
-  factory NetworkProfile.fromJson(Map<String, dynamic> json) {
-    return NetworkProfile(
-      arn: json['arn'] as String?,
-      description: json['description'] as String?,
-      downlinkBandwidthBits: json['downlinkBandwidthBits'] as int?,
-      downlinkDelayMs: json['downlinkDelayMs'] as int?,
-      downlinkJitterMs: json['downlinkJitterMs'] as int?,
-      downlinkLossPercent: json['downlinkLossPercent'] as int?,
-      name: json['name'] as String?,
-      type: (json['type'] as String?)?.let(NetworkProfileType.fromString),
-      uplinkBandwidthBits: json['uplinkBandwidthBits'] as int?,
-      uplinkDelayMs: json['uplinkDelayMs'] as int?,
-      uplinkJitterMs: json['uplinkJitterMs'] as int?,
-      uplinkLossPercent: json['uplinkLossPercent'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final description = this.description;
-    final downlinkBandwidthBits = this.downlinkBandwidthBits;
-    final downlinkDelayMs = this.downlinkDelayMs;
-    final downlinkJitterMs = this.downlinkJitterMs;
-    final downlinkLossPercent = this.downlinkLossPercent;
-    final name = this.name;
-    final type = this.type;
-    final uplinkBandwidthBits = this.uplinkBandwidthBits;
-    final uplinkDelayMs = this.uplinkDelayMs;
-    final uplinkJitterMs = this.uplinkJitterMs;
-    final uplinkLossPercent = this.uplinkLossPercent;
-    return {
-      if (arn != null) 'arn': arn,
-      if (description != null) 'description': description,
-      if (downlinkBandwidthBits != null)
-        'downlinkBandwidthBits': downlinkBandwidthBits,
-      if (downlinkDelayMs != null) 'downlinkDelayMs': downlinkDelayMs,
-      if (downlinkJitterMs != null) 'downlinkJitterMs': downlinkJitterMs,
-      if (downlinkLossPercent != null)
-        'downlinkLossPercent': downlinkLossPercent,
-      if (name != null) 'name': name,
-      if (type != null) 'type': type.value,
-      if (uplinkBandwidthBits != null)
-        'uplinkBandwidthBits': uplinkBandwidthBits,
-      if (uplinkDelayMs != null) 'uplinkDelayMs': uplinkDelayMs,
-      if (uplinkJitterMs != null) 'uplinkJitterMs': uplinkJitterMs,
-      if (uplinkLossPercent != null) 'uplinkLossPercent': uplinkLossPercent,
-    };
-  }
-}
-
-class NetworkProfileType {
-  static const curated = NetworkProfileType._('CURATED');
-  static const private = NetworkProfileType._('PRIVATE');
-
-  final String value;
-
-  const NetworkProfileType._(this.value);
-
-  static const values = [curated, private];
-
-  static NetworkProfileType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => NetworkProfileType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is NetworkProfileType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents the metadata of a device offering.
-class Offering {
-  /// A string that describes the offering.
-  final String? description;
-
-  /// The ID that corresponds to a device offering.
-  final String? id;
-
-  /// The platform of the device (for example, <code>ANDROID</code> or
-  /// <code>IOS</code>).
-  final DevicePlatform? platform;
-
-  /// Specifies whether there are recurring charges for the offering.
-  final List<RecurringCharge>? recurringCharges;
-
-  /// The type of offering (for example, <code>RECURRING</code>) for a device.
-  final OfferingType? type;
-
-  Offering({
-    this.description,
-    this.id,
-    this.platform,
-    this.recurringCharges,
-    this.type,
-  });
-
-  factory Offering.fromJson(Map<String, dynamic> json) {
-    return Offering(
-      description: json['description'] as String?,
-      id: json['id'] as String?,
-      platform: (json['platform'] as String?)?.let(DevicePlatform.fromString),
-      recurringCharges: (json['recurringCharges'] as List?)
-          ?.nonNulls
-          .map((e) => RecurringCharge.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      type: (json['type'] as String?)?.let(OfferingType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final id = this.id;
-    final platform = this.platform;
-    final recurringCharges = this.recurringCharges;
-    final type = this.type;
-    return {
-      if (description != null) 'description': description,
-      if (id != null) 'id': id,
-      if (platform != null) 'platform': platform.value,
-      if (recurringCharges != null) 'recurringCharges': recurringCharges,
-      if (type != null) 'type': type.value,
-    };
-  }
-}
-
-/// Represents information about an offering promotion.
-class OfferingPromotion {
-  /// A string that describes the offering promotion.
-  final String? description;
-
-  /// The ID of the offering promotion.
-  final String? id;
-
-  OfferingPromotion({
-    this.description,
-    this.id,
-  });
-
-  factory OfferingPromotion.fromJson(Map<String, dynamic> json) {
-    return OfferingPromotion(
-      description: json['description'] as String?,
-      id: json['id'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final id = this.id;
-    return {
-      if (description != null) 'description': description,
-      if (id != null) 'id': id,
-    };
-  }
-}
-
-/// The status of the offering.
-class OfferingStatus {
-  /// The date on which the offering is effective.
-  final DateTime? effectiveOn;
-
-  /// Represents the metadata of an offering status.
-  final Offering? offering;
-
-  /// The number of available devices in the offering.
-  final int? quantity;
-
-  /// The type specified for the offering status.
-  final OfferingTransactionType? type;
-
-  OfferingStatus({
-    this.effectiveOn,
-    this.offering,
-    this.quantity,
-    this.type,
-  });
-
-  factory OfferingStatus.fromJson(Map<String, dynamic> json) {
-    return OfferingStatus(
-      effectiveOn: timeStampFromJson(json['effectiveOn']),
-      offering: json['offering'] != null
-          ? Offering.fromJson(json['offering'] as Map<String, dynamic>)
-          : null,
-      quantity: json['quantity'] as int?,
-      type: (json['type'] as String?)?.let(OfferingTransactionType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final effectiveOn = this.effectiveOn;
-    final offering = this.offering;
-    final quantity = this.quantity;
-    final type = this.type;
-    return {
-      if (effectiveOn != null) 'effectiveOn': unixTimestampToJson(effectiveOn),
-      if (offering != null) 'offering': offering,
-      if (quantity != null) 'quantity': quantity,
-      if (type != null) 'type': type.value,
-    };
-  }
-}
-
-/// Represents the metadata of an offering transaction.
-class OfferingTransaction {
-  /// The cost of an offering transaction.
-  final MonetaryAmount? cost;
-
-  /// The date on which an offering transaction was created.
-  final DateTime? createdOn;
-
-  /// The ID that corresponds to a device offering promotion.
-  final String? offeringPromotionId;
-
-  /// The status of an offering transaction.
-  final OfferingStatus? offeringStatus;
-
-  /// The transaction ID of the offering transaction.
-  final String? transactionId;
-
-  OfferingTransaction({
-    this.cost,
-    this.createdOn,
-    this.offeringPromotionId,
-    this.offeringStatus,
-    this.transactionId,
-  });
-
-  factory OfferingTransaction.fromJson(Map<String, dynamic> json) {
-    return OfferingTransaction(
-      cost: json['cost'] != null
-          ? MonetaryAmount.fromJson(json['cost'] as Map<String, dynamic>)
-          : null,
-      createdOn: timeStampFromJson(json['createdOn']),
-      offeringPromotionId: json['offeringPromotionId'] as String?,
-      offeringStatus: json['offeringStatus'] != null
-          ? OfferingStatus.fromJson(
-              json['offeringStatus'] as Map<String, dynamic>)
-          : null,
-      transactionId: json['transactionId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cost = this.cost;
-    final createdOn = this.createdOn;
-    final offeringPromotionId = this.offeringPromotionId;
-    final offeringStatus = this.offeringStatus;
-    final transactionId = this.transactionId;
-    return {
-      if (cost != null) 'cost': cost,
-      if (createdOn != null) 'createdOn': unixTimestampToJson(createdOn),
-      if (offeringPromotionId != null)
-        'offeringPromotionId': offeringPromotionId,
-      if (offeringStatus != null) 'offeringStatus': offeringStatus,
-      if (transactionId != null) 'transactionId': transactionId,
-    };
-  }
-}
-
-class OfferingTransactionType {
-  static const purchase = OfferingTransactionType._('PURCHASE');
-  static const renew = OfferingTransactionType._('RENEW');
-  static const system = OfferingTransactionType._('SYSTEM');
-
-  final String value;
-
-  const OfferingTransactionType._(this.value);
-
-  static const values = [purchase, renew, system];
-
-  static OfferingTransactionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => OfferingTransactionType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is OfferingTransactionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class OfferingType {
-  static const recurring = OfferingType._('RECURRING');
-
-  final String value;
-
-  const OfferingType._(this.value);
-
-  static const values = [recurring];
-
-  static OfferingType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => OfferingType._(value));
-
-  @override
-  bool operator ==(other) => other is OfferingType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents a specific warning or failure.
-class Problem {
-  /// Information about the associated device.
-  final Device? device;
-
-  /// Information about the associated job.
-  final ProblemDetail? job;
-
-  /// A message about the problem's result.
-  final String? message;
-
-  /// The problem's result.
-  ///
-  /// Allowed values include:
-  ///
-  /// <ul>
-  /// <li>
-  /// PENDING
-  /// </li>
-  /// <li>
-  /// PASSED
-  /// </li>
-  /// <li>
-  /// WARNED
-  /// </li>
-  /// <li>
-  /// FAILED
-  /// </li>
-  /// <li>
-  /// SKIPPED
-  /// </li>
-  /// <li>
-  /// ERRORED
-  /// </li>
-  /// <li>
-  /// STOPPED
-  /// </li>
-  /// </ul>
-  final ExecutionResult? result;
-
-  /// Information about the associated run.
-  final ProblemDetail? run;
-
-  /// Information about the associated suite.
-  final ProblemDetail? suite;
-
-  /// Information about the associated test.
-  final ProblemDetail? test;
-
-  Problem({
-    this.device,
-    this.job,
-    this.message,
-    this.result,
-    this.run,
-    this.suite,
-    this.test,
-  });
-
-  factory Problem.fromJson(Map<String, dynamic> json) {
-    return Problem(
-      device: json['device'] != null
-          ? Device.fromJson(json['device'] as Map<String, dynamic>)
-          : null,
-      job: json['job'] != null
-          ? ProblemDetail.fromJson(json['job'] as Map<String, dynamic>)
-          : null,
-      message: json['message'] as String?,
-      result: (json['result'] as String?)?.let(ExecutionResult.fromString),
-      run: json['run'] != null
-          ? ProblemDetail.fromJson(json['run'] as Map<String, dynamic>)
-          : null,
-      suite: json['suite'] != null
-          ? ProblemDetail.fromJson(json['suite'] as Map<String, dynamic>)
-          : null,
-      test: json['test'] != null
-          ? ProblemDetail.fromJson(json['test'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final device = this.device;
-    final job = this.job;
-    final message = this.message;
-    final result = this.result;
-    final run = this.run;
-    final suite = this.suite;
-    final test = this.test;
-    return {
-      if (device != null) 'device': device,
-      if (job != null) 'job': job,
-      if (message != null) 'message': message,
-      if (result != null) 'result': result.value,
-      if (run != null) 'run': run,
-      if (suite != null) 'suite': suite,
-      if (test != null) 'test': test,
-    };
-  }
-}
-
-/// Information about a problem detail.
-class ProblemDetail {
-  /// The problem detail's ARN.
-  final String? arn;
-
-  /// The problem detail's name.
-  final String? name;
-
-  ProblemDetail({
-    this.arn,
-    this.name,
-  });
-
-  factory ProblemDetail.fromJson(Map<String, dynamic> json) {
-    return ProblemDetail(
-      arn: json['arn'] as String?,
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final name = this.name;
-    return {
-      if (arn != null) 'arn': arn,
-      if (name != null) 'name': name,
-    };
-  }
-}
-
-/// Represents an operating-system neutral workspace for running and managing
-/// tests.
-class Project {
-  /// The project's ARN.
-  final String? arn;
-
-  /// When the project was created.
-  final DateTime? created;
-
-  /// The default number of minutes (at the project level) a test run executes
-  /// before it times out. The default value is 150 minutes.
-  final int? defaultJobTimeoutMinutes;
-
-  /// The project's name.
-  final String? name;
-
-  /// The VPC security groups and subnets that are attached to a project.
-  final VpcConfig? vpcConfig;
-
-  Project({
-    this.arn,
-    this.created,
-    this.defaultJobTimeoutMinutes,
-    this.name,
-    this.vpcConfig,
-  });
-
-  factory Project.fromJson(Map<String, dynamic> json) {
-    return Project(
-      arn: json['arn'] as String?,
-      created: timeStampFromJson(json['created']),
-      defaultJobTimeoutMinutes: json['defaultJobTimeoutMinutes'] as int?,
-      name: json['name'] as String?,
-      vpcConfig: json['vpcConfig'] != null
-          ? VpcConfig.fromJson(json['vpcConfig'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final created = this.created;
-    final defaultJobTimeoutMinutes = this.defaultJobTimeoutMinutes;
-    final name = this.name;
-    final vpcConfig = this.vpcConfig;
-    return {
-      if (arn != null) 'arn': arn,
-      if (created != null) 'created': unixTimestampToJson(created),
-      if (defaultJobTimeoutMinutes != null)
-        'defaultJobTimeoutMinutes': defaultJobTimeoutMinutes,
-      if (name != null) 'name': name,
-      if (vpcConfig != null) 'vpcConfig': vpcConfig,
-    };
-  }
-}
-
 /// The result of the purchase offering (for example, success or failure).
 class PurchaseOfferingResult {
   /// Represents the offering transaction for the purchase result.
@@ -8136,392 +5427,6 @@ class PurchaseOfferingResult {
     return {
       if (offeringTransaction != null)
         'offeringTransaction': offeringTransaction,
-    };
-  }
-}
-
-/// Represents the set of radios and their states on a device. Examples of
-/// radios include Wi-Fi, GPS, Bluetooth, and NFC.
-class Radios {
-  /// True if Bluetooth is enabled at the beginning of the test. Otherwise, false.
-  final bool? bluetooth;
-
-  /// True if GPS is enabled at the beginning of the test. Otherwise, false.
-  final bool? gps;
-
-  /// True if NFC is enabled at the beginning of the test. Otherwise, false.
-  final bool? nfc;
-
-  /// True if Wi-Fi is enabled at the beginning of the test. Otherwise, false.
-  final bool? wifi;
-
-  Radios({
-    this.bluetooth,
-    this.gps,
-    this.nfc,
-    this.wifi,
-  });
-
-  factory Radios.fromJson(Map<String, dynamic> json) {
-    return Radios(
-      bluetooth: json['bluetooth'] as bool?,
-      gps: json['gps'] as bool?,
-      nfc: json['nfc'] as bool?,
-      wifi: json['wifi'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bluetooth = this.bluetooth;
-    final gps = this.gps;
-    final nfc = this.nfc;
-    final wifi = this.wifi;
-    return {
-      if (bluetooth != null) 'bluetooth': bluetooth,
-      if (gps != null) 'gps': gps,
-      if (nfc != null) 'nfc': nfc,
-      if (wifi != null) 'wifi': wifi,
-    };
-  }
-}
-
-/// Specifies whether charges for devices are recurring.
-class RecurringCharge {
-  /// The cost of the recurring charge.
-  final MonetaryAmount? cost;
-
-  /// The frequency in which charges recur.
-  final RecurringChargeFrequency? frequency;
-
-  RecurringCharge({
-    this.cost,
-    this.frequency,
-  });
-
-  factory RecurringCharge.fromJson(Map<String, dynamic> json) {
-    return RecurringCharge(
-      cost: json['cost'] != null
-          ? MonetaryAmount.fromJson(json['cost'] as Map<String, dynamic>)
-          : null,
-      frequency: (json['frequency'] as String?)
-          ?.let(RecurringChargeFrequency.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cost = this.cost;
-    final frequency = this.frequency;
-    return {
-      if (cost != null) 'cost': cost,
-      if (frequency != null) 'frequency': frequency.value,
-    };
-  }
-}
-
-class RecurringChargeFrequency {
-  static const monthly = RecurringChargeFrequency._('MONTHLY');
-
-  final String value;
-
-  const RecurringChargeFrequency._(this.value);
-
-  static const values = [monthly];
-
-  static RecurringChargeFrequency fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RecurringChargeFrequency._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is RecurringChargeFrequency && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents information about the remote access session.
-class RemoteAccessSession {
-  /// The Amazon Resource Name (ARN) of the remote access session.
-  final String? arn;
-
-  /// The billing method of the remote access session. Possible values include
-  /// <code>METERED</code> or <code>UNMETERED</code>. For more information about
-  /// metered devices, see <a
-  /// href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/welcome.html#welcome-terminology">AWS
-  /// Device Farm terminology</a>.
-  final BillingMethod? billingMethod;
-
-  /// Unique identifier of your client for the remote access session. Only
-  /// returned if remote debugging is enabled for the remote access session.
-  ///
-  /// Remote debugging is <a
-  /// href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html">no
-  /// longer supported</a>.
-  final String? clientId;
-
-  /// The date and time the remote access session was created.
-  final DateTime? created;
-
-  /// The device (phone or tablet) used in the remote access session.
-  final Device? device;
-
-  /// The number of minutes a device is used in a remote access session (including
-  /// setup and teardown minutes).
-  final DeviceMinutes? deviceMinutes;
-
-  /// Unique device identifier for the remote device. Only returned if remote
-  /// debugging is enabled for the remote access session.
-  ///
-  /// Remote debugging is <a
-  /// href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html">no
-  /// longer supported</a>.
-  final String? deviceUdid;
-
-  /// The endpoint for the remote access sesssion.
-  final String? endpoint;
-
-  /// IP address of the EC2 host where you need to connect to remotely debug
-  /// devices. Only returned if remote debugging is enabled for the remote access
-  /// session.
-  ///
-  /// Remote debugging is <a
-  /// href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html">no
-  /// longer supported</a>.
-  final String? hostAddress;
-
-  /// The ARN of the instance.
-  final String? instanceArn;
-
-  /// The interaction mode of the remote access session. Valid values are:
-  ///
-  /// <ul>
-  /// <li>
-  /// INTERACTIVE: You can interact with the iOS device by viewing, touching, and
-  /// rotating the screen. You cannot run XCUITest framework-based tests in this
-  /// mode.
-  /// </li>
-  /// <li>
-  /// NO_VIDEO: You are connected to the device, but cannot interact with it or
-  /// view the screen. This mode has the fastest test execution speed. You can run
-  /// XCUITest framework-based tests in this mode.
-  /// </li>
-  /// <li>
-  /// VIDEO_ONLY: You can view the screen, but cannot touch or rotate it. You can
-  /// run XCUITest framework-based tests and watch the screen in this mode.
-  /// </li>
-  /// </ul>
-  final InteractionMode? interactionMode;
-
-  /// A message about the remote access session.
-  final String? message;
-
-  /// The name of the remote access session.
-  final String? name;
-
-  /// This flag is set to <code>true</code> if remote debugging is enabled for the
-  /// remote access session.
-  ///
-  /// Remote debugging is <a
-  /// href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html">no
-  /// longer supported</a>.
-  final bool? remoteDebugEnabled;
-
-  /// The ARN for the app to be recorded in the remote access session.
-  final String? remoteRecordAppArn;
-
-  /// This flag is set to <code>true</code> if remote recording is enabled for the
-  /// remote access session.
-  final bool? remoteRecordEnabled;
-
-  /// The result of the remote access session. Can be any of the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// PENDING.
-  /// </li>
-  /// <li>
-  /// PASSED.
-  /// </li>
-  /// <li>
-  /// WARNED.
-  /// </li>
-  /// <li>
-  /// FAILED.
-  /// </li>
-  /// <li>
-  /// SKIPPED.
-  /// </li>
-  /// <li>
-  /// ERRORED.
-  /// </li>
-  /// <li>
-  /// STOPPED.
-  /// </li>
-  /// </ul>
-  final ExecutionResult? result;
-
-  /// When set to <code>true</code>, for private devices, Device Farm does not
-  /// sign your app again. For public devices, Device Farm always signs your apps
-  /// again.
-  ///
-  /// For more information about how Device Farm re-signs your apps, see <a
-  /// href="http://aws.amazon.com/device-farm/faqs/">Do you modify my app?</a> in
-  /// the <i>AWS Device Farm FAQs</i>.
-  final bool? skipAppResign;
-
-  /// The date and time the remote access session was started.
-  final DateTime? started;
-
-  /// The status of the remote access session. Can be any of the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// PENDING.
-  /// </li>
-  /// <li>
-  /// PENDING_CONCURRENCY.
-  /// </li>
-  /// <li>
-  /// PENDING_DEVICE.
-  /// </li>
-  /// <li>
-  /// PROCESSING.
-  /// </li>
-  /// <li>
-  /// SCHEDULING.
-  /// </li>
-  /// <li>
-  /// PREPARING.
-  /// </li>
-  /// <li>
-  /// RUNNING.
-  /// </li>
-  /// <li>
-  /// COMPLETED.
-  /// </li>
-  /// <li>
-  /// STOPPING.
-  /// </li>
-  /// </ul>
-  final ExecutionStatus? status;
-
-  /// The date and time the remote access session was stopped.
-  final DateTime? stopped;
-
-  /// The VPC security groups and subnets that are attached to a project.
-  final VpcConfig? vpcConfig;
-
-  RemoteAccessSession({
-    this.arn,
-    this.billingMethod,
-    this.clientId,
-    this.created,
-    this.device,
-    this.deviceMinutes,
-    this.deviceUdid,
-    this.endpoint,
-    this.hostAddress,
-    this.instanceArn,
-    this.interactionMode,
-    this.message,
-    this.name,
-    this.remoteDebugEnabled,
-    this.remoteRecordAppArn,
-    this.remoteRecordEnabled,
-    this.result,
-    this.skipAppResign,
-    this.started,
-    this.status,
-    this.stopped,
-    this.vpcConfig,
-  });
-
-  factory RemoteAccessSession.fromJson(Map<String, dynamic> json) {
-    return RemoteAccessSession(
-      arn: json['arn'] as String?,
-      billingMethod:
-          (json['billingMethod'] as String?)?.let(BillingMethod.fromString),
-      clientId: json['clientId'] as String?,
-      created: timeStampFromJson(json['created']),
-      device: json['device'] != null
-          ? Device.fromJson(json['device'] as Map<String, dynamic>)
-          : null,
-      deviceMinutes: json['deviceMinutes'] != null
-          ? DeviceMinutes.fromJson(
-              json['deviceMinutes'] as Map<String, dynamic>)
-          : null,
-      deviceUdid: json['deviceUdid'] as String?,
-      endpoint: json['endpoint'] as String?,
-      hostAddress: json['hostAddress'] as String?,
-      instanceArn: json['instanceArn'] as String?,
-      interactionMode:
-          (json['interactionMode'] as String?)?.let(InteractionMode.fromString),
-      message: json['message'] as String?,
-      name: json['name'] as String?,
-      remoteDebugEnabled: json['remoteDebugEnabled'] as bool?,
-      remoteRecordAppArn: json['remoteRecordAppArn'] as String?,
-      remoteRecordEnabled: json['remoteRecordEnabled'] as bool?,
-      result: (json['result'] as String?)?.let(ExecutionResult.fromString),
-      skipAppResign: json['skipAppResign'] as bool?,
-      started: timeStampFromJson(json['started']),
-      status: (json['status'] as String?)?.let(ExecutionStatus.fromString),
-      stopped: timeStampFromJson(json['stopped']),
-      vpcConfig: json['vpcConfig'] != null
-          ? VpcConfig.fromJson(json['vpcConfig'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final billingMethod = this.billingMethod;
-    final clientId = this.clientId;
-    final created = this.created;
-    final device = this.device;
-    final deviceMinutes = this.deviceMinutes;
-    final deviceUdid = this.deviceUdid;
-    final endpoint = this.endpoint;
-    final hostAddress = this.hostAddress;
-    final instanceArn = this.instanceArn;
-    final interactionMode = this.interactionMode;
-    final message = this.message;
-    final name = this.name;
-    final remoteDebugEnabled = this.remoteDebugEnabled;
-    final remoteRecordAppArn = this.remoteRecordAppArn;
-    final remoteRecordEnabled = this.remoteRecordEnabled;
-    final result = this.result;
-    final skipAppResign = this.skipAppResign;
-    final started = this.started;
-    final status = this.status;
-    final stopped = this.stopped;
-    final vpcConfig = this.vpcConfig;
-    return {
-      if (arn != null) 'arn': arn,
-      if (billingMethod != null) 'billingMethod': billingMethod.value,
-      if (clientId != null) 'clientId': clientId,
-      if (created != null) 'created': unixTimestampToJson(created),
-      if (device != null) 'device': device,
-      if (deviceMinutes != null) 'deviceMinutes': deviceMinutes,
-      if (deviceUdid != null) 'deviceUdid': deviceUdid,
-      if (endpoint != null) 'endpoint': endpoint,
-      if (hostAddress != null) 'hostAddress': hostAddress,
-      if (instanceArn != null) 'instanceArn': instanceArn,
-      if (interactionMode != null) 'interactionMode': interactionMode.value,
-      if (message != null) 'message': message,
-      if (name != null) 'name': name,
-      if (remoteDebugEnabled != null) 'remoteDebugEnabled': remoteDebugEnabled,
-      if (remoteRecordAppArn != null) 'remoteRecordAppArn': remoteRecordAppArn,
-      if (remoteRecordEnabled != null)
-        'remoteRecordEnabled': remoteRecordEnabled,
-      if (result != null) 'result': result.value,
-      if (skipAppResign != null) 'skipAppResign': skipAppResign,
-      if (started != null) 'started': unixTimestampToJson(started),
-      if (status != null) 'status': status.value,
-      if (stopped != null) 'stopped': unixTimestampToJson(stopped),
-      if (vpcConfig != null) 'vpcConfig': vpcConfig,
     };
   }
 }
@@ -8553,822 +5458,6 @@ class RenewOfferingResult {
   }
 }
 
-/// Represents the screen resolution of a device in height and width, expressed
-/// in pixels.
-class Resolution {
-  /// The screen resolution's height, expressed in pixels.
-  final int? height;
-
-  /// The screen resolution's width, expressed in pixels.
-  final int? width;
-
-  Resolution({
-    this.height,
-    this.width,
-  });
-
-  factory Resolution.fromJson(Map<String, dynamic> json) {
-    return Resolution(
-      height: json['height'] as int?,
-      width: json['width'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final height = this.height;
-    final width = this.width;
-    return {
-      if (height != null) 'height': height,
-      if (width != null) 'width': width,
-    };
-  }
-}
-
-/// Represents a condition for a device pool.
-class Rule {
-  /// The rule's stringified attribute. For example, specify the value as
-  /// <code>"\"abc\""</code>.
-  ///
-  /// The supported operators for each attribute are provided in the following
-  /// list.
-  /// <dl> <dt>APPIUM_VERSION</dt> <dd>
-  /// The Appium version for the test.
-  ///
-  /// Supported operators: <code>CONTAINS</code>
-  /// </dd> <dt>ARN</dt> <dd>
-  /// The Amazon Resource Name (ARN) of the device (for example,
-  /// <code>arn:aws:devicefarm:us-west-2::device:12345Example</code>.
-  ///
-  /// Supported operators: <code>EQUALS</code>, <code>IN</code>,
-  /// <code>NOT_IN</code>
-  /// </dd> <dt>AVAILABILITY</dt> <dd>
-  /// The current availability of the device. Valid values are AVAILABLE,
-  /// HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE.
-  ///
-  /// Supported operators: <code>EQUALS</code>
-  /// </dd> <dt>FLEET_TYPE</dt> <dd>
-  /// The fleet type. Valid values are PUBLIC or PRIVATE.
-  ///
-  /// Supported operators: <code>EQUALS</code>
-  /// </dd> <dt>FORM_FACTOR</dt> <dd>
-  /// The device form factor. Valid values are PHONE or TABLET.
-  ///
-  /// Supported operators: <code>EQUALS</code>, <code>IN</code>,
-  /// <code>NOT_IN</code>
-  /// </dd> <dt>INSTANCE_ARN</dt> <dd>
-  /// The Amazon Resource Name (ARN) of the device instance.
-  ///
-  /// Supported operators: <code>IN</code>, <code>NOT_IN</code>
-  /// </dd> <dt>INSTANCE_LABELS</dt> <dd>
-  /// The label of the device instance.
-  ///
-  /// Supported operators: <code>CONTAINS</code>
-  /// </dd> <dt>MANUFACTURER</dt> <dd>
-  /// The device manufacturer (for example, Apple).
-  ///
-  /// Supported operators: <code>EQUALS</code>, <code>IN</code>,
-  /// <code>NOT_IN</code>
-  /// </dd> <dt>MODEL</dt> <dd>
-  /// The device model, such as Apple iPad Air 2 or Google Pixel.
-  ///
-  /// Supported operators: <code>CONTAINS</code>, <code>EQUALS</code>,
-  /// <code>IN</code>, <code>NOT_IN</code>
-  /// </dd> <dt>OS_VERSION</dt> <dd>
-  /// The operating system version (for example, 10.3.2).
-  ///
-  /// Supported operators: <code>EQUALS</code>, <code>GREATER_THAN</code>,
-  /// <code>GREATER_THAN_OR_EQUALS</code>, <code>IN</code>,
-  /// <code>LESS_THAN</code>, <code>LESS_THAN_OR_EQUALS</code>,
-  /// <code>NOT_IN</code>
-  /// </dd> <dt>PLATFORM</dt> <dd>
-  /// The device platform. Valid values are ANDROID or IOS.
-  ///
-  /// Supported operators: <code>EQUALS</code>, <code>IN</code>,
-  /// <code>NOT_IN</code>
-  /// </dd> <dt>REMOTE_ACCESS_ENABLED</dt> <dd>
-  /// Whether the device is enabled for remote access. Valid values are TRUE or
-  /// FALSE.
-  ///
-  /// Supported operators: <code>EQUALS</code>
-  /// </dd> <dt>REMOTE_DEBUG_ENABLED</dt> <dd>
-  /// Whether the device is enabled for remote debugging. Valid values are TRUE or
-  /// FALSE.
-  ///
-  /// Supported operators: <code>EQUALS</code>
-  ///
-  /// Because remote debugging is <a
-  /// href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html">no
-  /// longer supported</a>, this filter is ignored.
-  /// </dd> </dl>
-  final DeviceAttribute? attribute;
-
-  /// Specifies how Device Farm compares the rule's attribute to the value. For
-  /// the operators that are supported by each attribute, see the attribute
-  /// descriptions.
-  final RuleOperator? operator;
-
-  /// The rule's value.
-  final String? value;
-
-  Rule({
-    this.attribute,
-    this.operator,
-    this.value,
-  });
-
-  factory Rule.fromJson(Map<String, dynamic> json) {
-    return Rule(
-      attribute:
-          (json['attribute'] as String?)?.let(DeviceAttribute.fromString),
-      operator: (json['operator'] as String?)?.let(RuleOperator.fromString),
-      value: json['value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attribute = this.attribute;
-    final operator = this.operator;
-    final value = this.value;
-    return {
-      if (attribute != null) 'attribute': attribute.value,
-      if (operator != null) 'operator': operator.value,
-      if (value != null) 'value': value,
-    };
-  }
-}
-
-class RuleOperator {
-  static const equals = RuleOperator._('EQUALS');
-  static const lessThan = RuleOperator._('LESS_THAN');
-  static const lessThanOrEquals = RuleOperator._('LESS_THAN_OR_EQUALS');
-  static const greaterThan = RuleOperator._('GREATER_THAN');
-  static const greaterThanOrEquals = RuleOperator._('GREATER_THAN_OR_EQUALS');
-  static const $in = RuleOperator._('IN');
-  static const notIn = RuleOperator._('NOT_IN');
-  static const contains = RuleOperator._('CONTAINS');
-
-  final String value;
-
-  const RuleOperator._(this.value);
-
-  static const values = [
-    equals,
-    lessThan,
-    lessThanOrEquals,
-    greaterThan,
-    greaterThanOrEquals,
-    $in,
-    notIn,
-    contains
-  ];
-
-  static RuleOperator fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => RuleOperator._(value));
-
-  @override
-  bool operator ==(other) => other is RuleOperator && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents a test run on a set of devices with a given app package, test
-/// parameters, and so on.
-class Run {
-  /// An app to upload or that has been uploaded.
-  final String? appUpload;
-
-  /// The run's ARN.
-  final String? arn;
-
-  /// Specifies the billing method for a test run: <code>metered</code> or
-  /// <code>unmetered</code>. If the parameter is not specified, the default value
-  /// is <code>metered</code>.
-  /// <note>
-  /// If you have unmetered device slots, you must set this to
-  /// <code>unmetered</code> to use them. Otherwise, the run is counted toward
-  /// metered device minutes.
-  /// </note>
-  final BillingMethod? billingMethod;
-
-  /// The total number of completed jobs.
-  final int? completedJobs;
-
-  /// The run's result counters.
-  final Counters? counters;
-
-  /// When the run was created.
-  final DateTime? created;
-
-  /// Output <code>CustomerArtifactPaths</code> object for the test run.
-  final CustomerArtifactPaths? customerArtifactPaths;
-
-  /// Represents the total (metered or unmetered) minutes used by the test run.
-  final DeviceMinutes? deviceMinutes;
-
-  /// The ARN of the device pool for the run.
-  final String? devicePoolArn;
-
-  /// The results of a device filter used to select the devices for a test run.
-  final DeviceSelectionResult? deviceSelectionResult;
-
-  /// For fuzz tests, this is the number of events, between 1 and 10000, that the
-  /// UI fuzz test should perform.
-  final int? eventCount;
-
-  /// The number of minutes the job executes before it times out.
-  final int? jobTimeoutMinutes;
-
-  /// Information about the locale that is used for the run.
-  final String? locale;
-
-  /// Information about the location that is used for the run.
-  final Location? location;
-
-  /// A message about the run's result.
-  final String? message;
-
-  /// The run's name.
-  final String? name;
-
-  /// The network profile being used for a test run.
-  final NetworkProfile? networkProfile;
-
-  /// Read-only URL for an object in an S3 bucket where you can get the parsing
-  /// results of the test package. If the test package doesn't parse, the reason
-  /// why it doesn't parse appears in the file that this URL points to.
-  final String? parsingResultUrl;
-
-  /// The run's platform.
-  ///
-  /// Allowed values include:
-  ///
-  /// <ul>
-  /// <li>
-  /// ANDROID
-  /// </li>
-  /// <li>
-  /// IOS
-  /// </li>
-  /// </ul>
-  final DevicePlatform? platform;
-
-  /// Information about the radio states for the run.
-  final Radios? radios;
-
-  /// The run's result.
-  ///
-  /// Allowed values include:
-  ///
-  /// <ul>
-  /// <li>
-  /// PENDING
-  /// </li>
-  /// <li>
-  /// PASSED
-  /// </li>
-  /// <li>
-  /// WARNED
-  /// </li>
-  /// <li>
-  /// FAILED
-  /// </li>
-  /// <li>
-  /// SKIPPED
-  /// </li>
-  /// <li>
-  /// ERRORED
-  /// </li>
-  /// <li>
-  /// STOPPED
-  /// </li>
-  /// </ul>
-  final ExecutionResult? result;
-
-  /// Supporting field for the result field. Set only if <code>result</code> is
-  /// <code>SKIPPED</code>. <code>PARSING_FAILED</code> if the result is skipped
-  /// because of test package parsing failure.
-  final ExecutionResultCode? resultCode;
-
-  /// For fuzz tests, this is a seed to use for randomizing the UI fuzz test.
-  /// Using the same seed value between tests ensures identical event sequences.
-  final int? seed;
-
-  /// When set to <code>true</code>, for private devices, Device Farm does not
-  /// sign your app again. For public devices, Device Farm always signs your apps
-  /// again.
-  ///
-  /// For more information about how Device Farm re-signs your apps, see <a
-  /// href="http://aws.amazon.com/device-farm/faqs/">Do you modify my app?</a> in
-  /// the <i>AWS Device Farm FAQs</i>.
-  final bool? skipAppResign;
-
-  /// The run's start time.
-  final DateTime? started;
-
-  /// The run's status.
-  ///
-  /// Allowed values include:
-  ///
-  /// <ul>
-  /// <li>
-  /// PENDING
-  /// </li>
-  /// <li>
-  /// PENDING_CONCURRENCY
-  /// </li>
-  /// <li>
-  /// PENDING_DEVICE
-  /// </li>
-  /// <li>
-  /// PROCESSING
-  /// </li>
-  /// <li>
-  /// SCHEDULING
-  /// </li>
-  /// <li>
-  /// PREPARING
-  /// </li>
-  /// <li>
-  /// RUNNING
-  /// </li>
-  /// <li>
-  /// COMPLETED
-  /// </li>
-  /// <li>
-  /// STOPPING
-  /// </li>
-  /// </ul>
-  final ExecutionStatus? status;
-
-  /// The run's stop time.
-  final DateTime? stopped;
-
-  /// The ARN of the YAML-formatted test specification for the run.
-  final String? testSpecArn;
-
-  /// The total number of jobs for the run.
-  final int? totalJobs;
-
-  /// The run's type.
-  ///
-  /// Must be one of the following values:
-  ///
-  /// <ul>
-  /// <li>
-  /// BUILTIN_FUZZ
-  /// </li>
-  /// <li>
-  /// APPIUM_JAVA_JUNIT
-  /// </li>
-  /// <li>
-  /// APPIUM_JAVA_TESTNG
-  /// </li>
-  /// <li>
-  /// APPIUM_PYTHON
-  /// </li>
-  /// <li>
-  /// APPIUM_NODE
-  /// </li>
-  /// <li>
-  /// APPIUM_RUBY
-  /// </li>
-  /// <li>
-  /// APPIUM_WEB_JAVA_JUNIT
-  /// </li>
-  /// <li>
-  /// APPIUM_WEB_JAVA_TESTNG
-  /// </li>
-  /// <li>
-  /// APPIUM_WEB_PYTHON
-  /// </li>
-  /// <li>
-  /// APPIUM_WEB_NODE
-  /// </li>
-  /// <li>
-  /// APPIUM_WEB_RUBY
-  /// </li>
-  /// <li>
-  /// INSTRUMENTATION
-  /// </li>
-  /// <li>
-  /// XCTEST
-  /// </li>
-  /// <li>
-  /// XCTEST_UI
-  /// </li>
-  /// </ul>
-  final TestType? type;
-
-  /// The VPC security groups and subnets that are attached to a project.
-  final VpcConfig? vpcConfig;
-
-  /// The Device Farm console URL for the recording of the run.
-  final String? webUrl;
-
-  Run({
-    this.appUpload,
-    this.arn,
-    this.billingMethod,
-    this.completedJobs,
-    this.counters,
-    this.created,
-    this.customerArtifactPaths,
-    this.deviceMinutes,
-    this.devicePoolArn,
-    this.deviceSelectionResult,
-    this.eventCount,
-    this.jobTimeoutMinutes,
-    this.locale,
-    this.location,
-    this.message,
-    this.name,
-    this.networkProfile,
-    this.parsingResultUrl,
-    this.platform,
-    this.radios,
-    this.result,
-    this.resultCode,
-    this.seed,
-    this.skipAppResign,
-    this.started,
-    this.status,
-    this.stopped,
-    this.testSpecArn,
-    this.totalJobs,
-    this.type,
-    this.vpcConfig,
-    this.webUrl,
-  });
-
-  factory Run.fromJson(Map<String, dynamic> json) {
-    return Run(
-      appUpload: json['appUpload'] as String?,
-      arn: json['arn'] as String?,
-      billingMethod:
-          (json['billingMethod'] as String?)?.let(BillingMethod.fromString),
-      completedJobs: json['completedJobs'] as int?,
-      counters: json['counters'] != null
-          ? Counters.fromJson(json['counters'] as Map<String, dynamic>)
-          : null,
-      created: timeStampFromJson(json['created']),
-      customerArtifactPaths: json['customerArtifactPaths'] != null
-          ? CustomerArtifactPaths.fromJson(
-              json['customerArtifactPaths'] as Map<String, dynamic>)
-          : null,
-      deviceMinutes: json['deviceMinutes'] != null
-          ? DeviceMinutes.fromJson(
-              json['deviceMinutes'] as Map<String, dynamic>)
-          : null,
-      devicePoolArn: json['devicePoolArn'] as String?,
-      deviceSelectionResult: json['deviceSelectionResult'] != null
-          ? DeviceSelectionResult.fromJson(
-              json['deviceSelectionResult'] as Map<String, dynamic>)
-          : null,
-      eventCount: json['eventCount'] as int?,
-      jobTimeoutMinutes: json['jobTimeoutMinutes'] as int?,
-      locale: json['locale'] as String?,
-      location: json['location'] != null
-          ? Location.fromJson(json['location'] as Map<String, dynamic>)
-          : null,
-      message: json['message'] as String?,
-      name: json['name'] as String?,
-      networkProfile: json['networkProfile'] != null
-          ? NetworkProfile.fromJson(
-              json['networkProfile'] as Map<String, dynamic>)
-          : null,
-      parsingResultUrl: json['parsingResultUrl'] as String?,
-      platform: (json['platform'] as String?)?.let(DevicePlatform.fromString),
-      radios: json['radios'] != null
-          ? Radios.fromJson(json['radios'] as Map<String, dynamic>)
-          : null,
-      result: (json['result'] as String?)?.let(ExecutionResult.fromString),
-      resultCode:
-          (json['resultCode'] as String?)?.let(ExecutionResultCode.fromString),
-      seed: json['seed'] as int?,
-      skipAppResign: json['skipAppResign'] as bool?,
-      started: timeStampFromJson(json['started']),
-      status: (json['status'] as String?)?.let(ExecutionStatus.fromString),
-      stopped: timeStampFromJson(json['stopped']),
-      testSpecArn: json['testSpecArn'] as String?,
-      totalJobs: json['totalJobs'] as int?,
-      type: (json['type'] as String?)?.let(TestType.fromString),
-      vpcConfig: json['vpcConfig'] != null
-          ? VpcConfig.fromJson(json['vpcConfig'] as Map<String, dynamic>)
-          : null,
-      webUrl: json['webUrl'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final appUpload = this.appUpload;
-    final arn = this.arn;
-    final billingMethod = this.billingMethod;
-    final completedJobs = this.completedJobs;
-    final counters = this.counters;
-    final created = this.created;
-    final customerArtifactPaths = this.customerArtifactPaths;
-    final deviceMinutes = this.deviceMinutes;
-    final devicePoolArn = this.devicePoolArn;
-    final deviceSelectionResult = this.deviceSelectionResult;
-    final eventCount = this.eventCount;
-    final jobTimeoutMinutes = this.jobTimeoutMinutes;
-    final locale = this.locale;
-    final location = this.location;
-    final message = this.message;
-    final name = this.name;
-    final networkProfile = this.networkProfile;
-    final parsingResultUrl = this.parsingResultUrl;
-    final platform = this.platform;
-    final radios = this.radios;
-    final result = this.result;
-    final resultCode = this.resultCode;
-    final seed = this.seed;
-    final skipAppResign = this.skipAppResign;
-    final started = this.started;
-    final status = this.status;
-    final stopped = this.stopped;
-    final testSpecArn = this.testSpecArn;
-    final totalJobs = this.totalJobs;
-    final type = this.type;
-    final vpcConfig = this.vpcConfig;
-    final webUrl = this.webUrl;
-    return {
-      if (appUpload != null) 'appUpload': appUpload,
-      if (arn != null) 'arn': arn,
-      if (billingMethod != null) 'billingMethod': billingMethod.value,
-      if (completedJobs != null) 'completedJobs': completedJobs,
-      if (counters != null) 'counters': counters,
-      if (created != null) 'created': unixTimestampToJson(created),
-      if (customerArtifactPaths != null)
-        'customerArtifactPaths': customerArtifactPaths,
-      if (deviceMinutes != null) 'deviceMinutes': deviceMinutes,
-      if (devicePoolArn != null) 'devicePoolArn': devicePoolArn,
-      if (deviceSelectionResult != null)
-        'deviceSelectionResult': deviceSelectionResult,
-      if (eventCount != null) 'eventCount': eventCount,
-      if (jobTimeoutMinutes != null) 'jobTimeoutMinutes': jobTimeoutMinutes,
-      if (locale != null) 'locale': locale,
-      if (location != null) 'location': location,
-      if (message != null) 'message': message,
-      if (name != null) 'name': name,
-      if (networkProfile != null) 'networkProfile': networkProfile,
-      if (parsingResultUrl != null) 'parsingResultUrl': parsingResultUrl,
-      if (platform != null) 'platform': platform.value,
-      if (radios != null) 'radios': radios,
-      if (result != null) 'result': result.value,
-      if (resultCode != null) 'resultCode': resultCode.value,
-      if (seed != null) 'seed': seed,
-      if (skipAppResign != null) 'skipAppResign': skipAppResign,
-      if (started != null) 'started': unixTimestampToJson(started),
-      if (status != null) 'status': status.value,
-      if (stopped != null) 'stopped': unixTimestampToJson(stopped),
-      if (testSpecArn != null) 'testSpecArn': testSpecArn,
-      if (totalJobs != null) 'totalJobs': totalJobs,
-      if (type != null) 'type': type.value,
-      if (vpcConfig != null) 'vpcConfig': vpcConfig,
-      if (webUrl != null) 'webUrl': webUrl,
-    };
-  }
-}
-
-/// Represents a sample of performance data.
-class Sample {
-  /// The sample's ARN.
-  final String? arn;
-
-  /// The sample's type.
-  ///
-  /// Must be one of the following values:
-  ///
-  /// <ul>
-  /// <li>
-  /// CPU: A CPU sample type. This is expressed as the app processing CPU time
-  /// (including child processes) as reported by process, as a percentage.
-  /// </li>
-  /// <li>
-  /// MEMORY: A memory usage sample type. This is expressed as the total
-  /// proportional set size of an app process, in kilobytes.
-  /// </li>
-  /// <li>
-  /// NATIVE_AVG_DRAWTIME
-  /// </li>
-  /// <li>
-  /// NATIVE_FPS
-  /// </li>
-  /// <li>
-  /// NATIVE_FRAMES
-  /// </li>
-  /// <li>
-  /// NATIVE_MAX_DRAWTIME
-  /// </li>
-  /// <li>
-  /// NATIVE_MIN_DRAWTIME
-  /// </li>
-  /// <li>
-  /// OPENGL_AVG_DRAWTIME
-  /// </li>
-  /// <li>
-  /// OPENGL_FPS
-  /// </li>
-  /// <li>
-  /// OPENGL_FRAMES
-  /// </li>
-  /// <li>
-  /// OPENGL_MAX_DRAWTIME
-  /// </li>
-  /// <li>
-  /// OPENGL_MIN_DRAWTIME
-  /// </li>
-  /// <li>
-  /// RX
-  /// </li>
-  /// <li>
-  /// RX_RATE: The total number of bytes per second (TCP and UDP) that are sent,
-  /// by app process.
-  /// </li>
-  /// <li>
-  /// THREADS: A threads sample type. This is expressed as the total number of
-  /// threads per app process.
-  /// </li>
-  /// <li>
-  /// TX
-  /// </li>
-  /// <li>
-  /// TX_RATE: The total number of bytes per second (TCP and UDP) that are
-  /// received, by app process.
-  /// </li>
-  /// </ul>
-  final SampleType? type;
-
-  /// The presigned Amazon S3 URL that can be used with a GET request to download
-  /// the sample's file.
-  final String? url;
-
-  Sample({
-    this.arn,
-    this.type,
-    this.url,
-  });
-
-  factory Sample.fromJson(Map<String, dynamic> json) {
-    return Sample(
-      arn: json['arn'] as String?,
-      type: (json['type'] as String?)?.let(SampleType.fromString),
-      url: json['url'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final type = this.type;
-    final url = this.url;
-    return {
-      if (arn != null) 'arn': arn,
-      if (type != null) 'type': type.value,
-      if (url != null) 'url': url,
-    };
-  }
-}
-
-class SampleType {
-  static const cpu = SampleType._('CPU');
-  static const memory = SampleType._('MEMORY');
-  static const threads = SampleType._('THREADS');
-  static const rxRate = SampleType._('RX_RATE');
-  static const txRate = SampleType._('TX_RATE');
-  static const rx = SampleType._('RX');
-  static const tx = SampleType._('TX');
-  static const nativeFrames = SampleType._('NATIVE_FRAMES');
-  static const nativeFps = SampleType._('NATIVE_FPS');
-  static const nativeMinDrawtime = SampleType._('NATIVE_MIN_DRAWTIME');
-  static const nativeAvgDrawtime = SampleType._('NATIVE_AVG_DRAWTIME');
-  static const nativeMaxDrawtime = SampleType._('NATIVE_MAX_DRAWTIME');
-  static const openglFrames = SampleType._('OPENGL_FRAMES');
-  static const openglFps = SampleType._('OPENGL_FPS');
-  static const openglMinDrawtime = SampleType._('OPENGL_MIN_DRAWTIME');
-  static const openglAvgDrawtime = SampleType._('OPENGL_AVG_DRAWTIME');
-  static const openglMaxDrawtime = SampleType._('OPENGL_MAX_DRAWTIME');
-
-  final String value;
-
-  const SampleType._(this.value);
-
-  static const values = [
-    cpu,
-    memory,
-    threads,
-    rxRate,
-    txRate,
-    rx,
-    tx,
-    nativeFrames,
-    nativeFps,
-    nativeMinDrawtime,
-    nativeAvgDrawtime,
-    nativeMaxDrawtime,
-    openglFrames,
-    openglFps,
-    openglMinDrawtime,
-    openglAvgDrawtime,
-    openglMaxDrawtime
-  ];
-
-  static SampleType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SampleType._(value));
-
-  @override
-  bool operator ==(other) => other is SampleType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents the settings for a run. Includes things like location, radio
-/// states, auxiliary apps, and network profiles.
-class ScheduleRunConfiguration {
-  /// A list of upload ARNs for app packages to be installed with your app.
-  final List<String>? auxiliaryApps;
-
-  /// Specifies the billing method for a test run: <code>metered</code> or
-  /// <code>unmetered</code>. If the parameter is not specified, the default value
-  /// is <code>metered</code>.
-  /// <note>
-  /// If you have purchased unmetered device slots, you must set this parameter to
-  /// <code>unmetered</code> to make use of them. Otherwise, your run counts
-  /// against your metered time.
-  /// </note>
-  final BillingMethod? billingMethod;
-
-  /// Input <code>CustomerArtifactPaths</code> object for the scheduled run
-  /// configuration.
-  final CustomerArtifactPaths? customerArtifactPaths;
-
-  /// The ARN of the extra data for the run. The extra data is a .zip file that
-  /// AWS Device Farm extracts to external data for Android or the app's sandbox
-  /// for iOS.
-  final String? extraDataPackageArn;
-
-  /// Information about the locale that is used for the run.
-  final String? locale;
-
-  /// Information about the location that is used for the run.
-  final Location? location;
-
-  /// Reserved for internal use.
-  final String? networkProfileArn;
-
-  /// Information about the radio states for the run.
-  final Radios? radios;
-
-  /// An array of ARNs for your VPC endpoint configurations.
-  final List<String>? vpceConfigurationArns;
-
-  ScheduleRunConfiguration({
-    this.auxiliaryApps,
-    this.billingMethod,
-    this.customerArtifactPaths,
-    this.extraDataPackageArn,
-    this.locale,
-    this.location,
-    this.networkProfileArn,
-    this.radios,
-    this.vpceConfigurationArns,
-  });
-
-  Map<String, dynamic> toJson() {
-    final auxiliaryApps = this.auxiliaryApps;
-    final billingMethod = this.billingMethod;
-    final customerArtifactPaths = this.customerArtifactPaths;
-    final extraDataPackageArn = this.extraDataPackageArn;
-    final locale = this.locale;
-    final location = this.location;
-    final networkProfileArn = this.networkProfileArn;
-    final radios = this.radios;
-    final vpceConfigurationArns = this.vpceConfigurationArns;
-    return {
-      if (auxiliaryApps != null) 'auxiliaryApps': auxiliaryApps,
-      if (billingMethod != null) 'billingMethod': billingMethod.value,
-      if (customerArtifactPaths != null)
-        'customerArtifactPaths': customerArtifactPaths,
-      if (extraDataPackageArn != null)
-        'extraDataPackageArn': extraDataPackageArn,
-      if (locale != null) 'locale': locale,
-      if (location != null) 'location': location,
-      if (networkProfileArn != null) 'networkProfileArn': networkProfileArn,
-      if (radios != null) 'radios': radios,
-      if (vpceConfigurationArns != null)
-        'vpceConfigurationArns': vpceConfigurationArns,
-    };
-  }
-}
-
 /// Represents the result of a schedule run request.
 class ScheduleRunResult {
   /// Information about the scheduled run.
@@ -9390,184 +5479,6 @@ class ScheduleRunResult {
     final run = this.run;
     return {
       if (run != null) 'run': run,
-    };
-  }
-}
-
-/// Represents test settings. This data structure is passed in as the test
-/// parameter to ScheduleRun. For an example of the JSON request syntax, see
-/// <a>ScheduleRun</a>.
-class ScheduleRunTest {
-  /// The test's type.
-  ///
-  /// Must be one of the following values:
-  ///
-  /// <ul>
-  /// <li>
-  /// BUILTIN_FUZZ
-  /// </li>
-  /// <li>
-  /// APPIUM_JAVA_JUNIT
-  /// </li>
-  /// <li>
-  /// APPIUM_JAVA_TESTNG
-  /// </li>
-  /// <li>
-  /// APPIUM_PYTHON
-  /// </li>
-  /// <li>
-  /// APPIUM_NODE
-  /// </li>
-  /// <li>
-  /// APPIUM_RUBY
-  /// </li>
-  /// <li>
-  /// APPIUM_WEB_JAVA_JUNIT
-  /// </li>
-  /// <li>
-  /// APPIUM_WEB_JAVA_TESTNG
-  /// </li>
-  /// <li>
-  /// APPIUM_WEB_PYTHON
-  /// </li>
-  /// <li>
-  /// APPIUM_WEB_NODE
-  /// </li>
-  /// <li>
-  /// APPIUM_WEB_RUBY
-  /// </li>
-  /// <li>
-  /// INSTRUMENTATION
-  /// </li>
-  /// <li>
-  /// XCTEST
-  /// </li>
-  /// <li>
-  /// XCTEST_UI
-  /// </li>
-  /// </ul>
-  final TestType type;
-
-  /// The test's filter.
-  final String? filter;
-
-  /// The test's parameters, such as test framework parameters and fixture
-  /// settings. Parameters are represented by name-value pairs of strings.
-  ///
-  /// For all tests:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>app_performance_monitoring</code>: Performance monitoring is enabled
-  /// by default. Set this parameter to false to disable it.
-  /// </li>
-  /// </ul>
-  /// For Appium tests (all types):
-  ///
-  /// <ul>
-  /// <li>
-  /// appium_version: The Appium version. Currently supported values are 1.6.5
-  /// (and later), latest, and default.
-  ///
-  /// <ul>
-  /// <li>
-  /// latest runs the latest Appium version supported by Device Farm (1.9.1).
-  /// </li>
-  /// <li>
-  /// For default, Device Farm selects a compatible version of Appium for the
-  /// device. The current behavior is to run 1.7.2 on Android devices and iOS 9
-  /// and earlier and 1.7.2 for iOS 10 and later.
-  /// </li>
-  /// <li>
-  /// This behavior is subject to change.
-  /// </li>
-  /// </ul> </li>
-  /// </ul>
-  /// For fuzz tests (Android only):
-  ///
-  /// <ul>
-  /// <li>
-  /// event_count: The number of events, between 1 and 10000, that the UI fuzz
-  /// test should perform.
-  /// </li>
-  /// <li>
-  /// throttle: The time, in ms, between 0 and 1000, that the UI fuzz test should
-  /// wait between events.
-  /// </li>
-  /// <li>
-  /// seed: A seed to use for randomizing the UI fuzz test. Using the same seed
-  /// value between tests ensures identical event sequences.
-  /// </li>
-  /// </ul>
-  /// For Instrumentation:
-  ///
-  /// <ul>
-  /// <li>
-  /// filter: A test filter string. Examples:
-  ///
-  /// <ul>
-  /// <li>
-  /// Running a single test case: <code>com.android.abc.Test1</code>
-  /// </li>
-  /// <li>
-  /// Running a single test: <code>com.android.abc.Test1#smoke</code>
-  /// </li>
-  /// <li>
-  /// Running multiple tests:
-  /// <code>com.android.abc.Test1,com.android.abc.Test2</code>
-  /// </li>
-  /// </ul> </li>
-  /// </ul>
-  /// For XCTest and XCTestUI:
-  ///
-  /// <ul>
-  /// <li>
-  /// filter: A test filter string. Examples:
-  ///
-  /// <ul>
-  /// <li>
-  /// Running a single test class: <code>LoginTests</code>
-  /// </li>
-  /// <li>
-  /// Running a multiple test classes: <code>LoginTests,SmokeTests</code>
-  /// </li>
-  /// <li>
-  /// Running a single test: <code>LoginTests/testValid</code>
-  /// </li>
-  /// <li>
-  /// Running multiple tests:
-  /// <code>LoginTests/testValid,LoginTests/testInvalid</code>
-  /// </li>
-  /// </ul> </li>
-  /// </ul>
-  final Map<String, String>? parameters;
-
-  /// The ARN of the uploaded test to be run.
-  final String? testPackageArn;
-
-  /// The ARN of the YAML-formatted test specification.
-  final String? testSpecArn;
-
-  ScheduleRunTest({
-    required this.type,
-    this.filter,
-    this.parameters,
-    this.testPackageArn,
-    this.testSpecArn,
-  });
-
-  Map<String, dynamic> toJson() {
-    final type = this.type;
-    final filter = this.filter;
-    final parameters = this.parameters;
-    final testPackageArn = this.testPackageArn;
-    final testSpecArn = this.testSpecArn;
-    return {
-      'type': type.value,
-      if (filter != null) 'filter': filter,
-      if (parameters != null) 'parameters': parameters,
-      if (testPackageArn != null) 'testPackageArn': testPackageArn,
-      if (testSpecArn != null) 'testSpecArn': testSpecArn,
     };
   }
 }
@@ -9650,244 +5561,6 @@ class StopRunResult {
   }
 }
 
-/// Represents a collection of one or more tests.
-class Suite {
-  /// The suite's ARN.
-  final String? arn;
-
-  /// The suite's result counters.
-  final Counters? counters;
-
-  /// When the suite was created.
-  final DateTime? created;
-
-  /// Represents the total (metered or unmetered) minutes used by the test suite.
-  final DeviceMinutes? deviceMinutes;
-
-  /// A message about the suite's result.
-  final String? message;
-
-  /// The suite's name.
-  final String? name;
-
-  /// The suite's result.
-  ///
-  /// Allowed values include:
-  ///
-  /// <ul>
-  /// <li>
-  /// PENDING
-  /// </li>
-  /// <li>
-  /// PASSED
-  /// </li>
-  /// <li>
-  /// WARNED
-  /// </li>
-  /// <li>
-  /// FAILED
-  /// </li>
-  /// <li>
-  /// SKIPPED
-  /// </li>
-  /// <li>
-  /// ERRORED
-  /// </li>
-  /// <li>
-  /// STOPPED
-  /// </li>
-  /// </ul>
-  final ExecutionResult? result;
-
-  /// The suite's start time.
-  final DateTime? started;
-
-  /// The suite's status.
-  ///
-  /// Allowed values include:
-  ///
-  /// <ul>
-  /// <li>
-  /// PENDING
-  /// </li>
-  /// <li>
-  /// PENDING_CONCURRENCY
-  /// </li>
-  /// <li>
-  /// PENDING_DEVICE
-  /// </li>
-  /// <li>
-  /// PROCESSING
-  /// </li>
-  /// <li>
-  /// SCHEDULING
-  /// </li>
-  /// <li>
-  /// PREPARING
-  /// </li>
-  /// <li>
-  /// RUNNING
-  /// </li>
-  /// <li>
-  /// COMPLETED
-  /// </li>
-  /// <li>
-  /// STOPPING
-  /// </li>
-  /// </ul>
-  final ExecutionStatus? status;
-
-  /// The suite's stop time.
-  final DateTime? stopped;
-
-  /// The suite's type.
-  ///
-  /// Must be one of the following values:
-  ///
-  /// <ul>
-  /// <li>
-  /// BUILTIN_FUZZ
-  /// </li>
-  /// <li>
-  /// APPIUM_JAVA_JUNIT
-  /// </li>
-  /// <li>
-  /// APPIUM_JAVA_TESTNG
-  /// </li>
-  /// <li>
-  /// APPIUM_PYTHON
-  /// </li>
-  /// <li>
-  /// APPIUM_NODE
-  /// </li>
-  /// <li>
-  /// APPIUM_RUBY
-  /// </li>
-  /// <li>
-  /// APPIUM_WEB_JAVA_JUNIT
-  /// </li>
-  /// <li>
-  /// APPIUM_WEB_JAVA_TESTNG
-  /// </li>
-  /// <li>
-  /// APPIUM_WEB_PYTHON
-  /// </li>
-  /// <li>
-  /// APPIUM_WEB_NODE
-  /// </li>
-  /// <li>
-  /// APPIUM_WEB_RUBY
-  /// </li>
-  /// <li>
-  /// INSTRUMENTATION
-  /// </li>
-  /// <li>
-  /// XCTEST
-  /// </li>
-  /// <li>
-  /// XCTEST_UI
-  /// </li>
-  /// </ul>
-  final TestType? type;
-
-  Suite({
-    this.arn,
-    this.counters,
-    this.created,
-    this.deviceMinutes,
-    this.message,
-    this.name,
-    this.result,
-    this.started,
-    this.status,
-    this.stopped,
-    this.type,
-  });
-
-  factory Suite.fromJson(Map<String, dynamic> json) {
-    return Suite(
-      arn: json['arn'] as String?,
-      counters: json['counters'] != null
-          ? Counters.fromJson(json['counters'] as Map<String, dynamic>)
-          : null,
-      created: timeStampFromJson(json['created']),
-      deviceMinutes: json['deviceMinutes'] != null
-          ? DeviceMinutes.fromJson(
-              json['deviceMinutes'] as Map<String, dynamic>)
-          : null,
-      message: json['message'] as String?,
-      name: json['name'] as String?,
-      result: (json['result'] as String?)?.let(ExecutionResult.fromString),
-      started: timeStampFromJson(json['started']),
-      status: (json['status'] as String?)?.let(ExecutionStatus.fromString),
-      stopped: timeStampFromJson(json['stopped']),
-      type: (json['type'] as String?)?.let(TestType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final counters = this.counters;
-    final created = this.created;
-    final deviceMinutes = this.deviceMinutes;
-    final message = this.message;
-    final name = this.name;
-    final result = this.result;
-    final started = this.started;
-    final status = this.status;
-    final stopped = this.stopped;
-    final type = this.type;
-    return {
-      if (arn != null) 'arn': arn,
-      if (counters != null) 'counters': counters,
-      if (created != null) 'created': unixTimestampToJson(created),
-      if (deviceMinutes != null) 'deviceMinutes': deviceMinutes,
-      if (message != null) 'message': message,
-      if (name != null) 'name': name,
-      if (result != null) 'result': result.value,
-      if (started != null) 'started': unixTimestampToJson(started),
-      if (status != null) 'status': status.value,
-      if (stopped != null) 'stopped': unixTimestampToJson(stopped),
-      if (type != null) 'type': type.value,
-    };
-  }
-}
-
-/// The metadata that you apply to a resource to help you categorize and
-/// organize it. Each tag consists of a key and an optional value, both of which
-/// you define. Tag keys can have a maximum character length of 128 characters.
-/// Tag values can have a maximum length of 256 characters.
-class Tag {
-  /// One part of a key-value pair that makes up a tag. A <code>key</code> is a
-  /// general label that acts like a category for more specific tag values.
-  final String key;
-
-  /// The optional part of a key-value pair that makes up a tag. A
-  /// <code>value</code> acts as a descriptor in a tag category (key).
-  final String value;
-
-  Tag({
-    required this.key,
-    required this.value,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['Key'] as String?) ?? '',
-      value: (json['Value'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'Key': key,
-      'Value': value,
-    };
-  }
-}
-
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -9897,651 +5570,6 @@ class TagResourceResponse {
 
   Map<String, dynamic> toJson() {
     return {};
-  }
-}
-
-/// Represents a condition that is evaluated.
-class Test {
-  /// The test's ARN.
-  final String? arn;
-
-  /// The test's result counters.
-  final Counters? counters;
-
-  /// When the test was created.
-  final DateTime? created;
-
-  /// Represents the total (metered or unmetered) minutes used by the test.
-  final DeviceMinutes? deviceMinutes;
-
-  /// A message about the test's result.
-  final String? message;
-
-  /// The test's name.
-  final String? name;
-
-  /// The test's result.
-  ///
-  /// Allowed values include:
-  ///
-  /// <ul>
-  /// <li>
-  /// PENDING
-  /// </li>
-  /// <li>
-  /// PASSED
-  /// </li>
-  /// <li>
-  /// WARNED
-  /// </li>
-  /// <li>
-  /// FAILED
-  /// </li>
-  /// <li>
-  /// SKIPPED
-  /// </li>
-  /// <li>
-  /// ERRORED
-  /// </li>
-  /// <li>
-  /// STOPPED
-  /// </li>
-  /// </ul>
-  final ExecutionResult? result;
-
-  /// The test's start time.
-  final DateTime? started;
-
-  /// The test's status.
-  ///
-  /// Allowed values include:
-  ///
-  /// <ul>
-  /// <li>
-  /// PENDING
-  /// </li>
-  /// <li>
-  /// PENDING_CONCURRENCY
-  /// </li>
-  /// <li>
-  /// PENDING_DEVICE
-  /// </li>
-  /// <li>
-  /// PROCESSING
-  /// </li>
-  /// <li>
-  /// SCHEDULING
-  /// </li>
-  /// <li>
-  /// PREPARING
-  /// </li>
-  /// <li>
-  /// RUNNING
-  /// </li>
-  /// <li>
-  /// COMPLETED
-  /// </li>
-  /// <li>
-  /// STOPPING
-  /// </li>
-  /// </ul>
-  final ExecutionStatus? status;
-
-  /// The test's stop time.
-  final DateTime? stopped;
-
-  /// The test's type.
-  ///
-  /// Must be one of the following values:
-  ///
-  /// <ul>
-  /// <li>
-  /// BUILTIN_FUZZ
-  /// </li>
-  /// <li>
-  /// APPIUM_JAVA_JUNIT
-  /// </li>
-  /// <li>
-  /// APPIUM_JAVA_TESTNG
-  /// </li>
-  /// <li>
-  /// APPIUM_PYTHON
-  /// </li>
-  /// <li>
-  /// APPIUM_NODE
-  /// </li>
-  /// <li>
-  /// APPIUM_RUBY
-  /// </li>
-  /// <li>
-  /// APPIUM_WEB_JAVA_JUNIT
-  /// </li>
-  /// <li>
-  /// APPIUM_WEB_JAVA_TESTNG
-  /// </li>
-  /// <li>
-  /// APPIUM_WEB_PYTHON
-  /// </li>
-  /// <li>
-  /// APPIUM_WEB_NODE
-  /// </li>
-  /// <li>
-  /// APPIUM_WEB_RUBY
-  /// </li>
-  /// <li>
-  /// INSTRUMENTATION
-  /// </li>
-  /// <li>
-  /// XCTEST
-  /// </li>
-  /// <li>
-  /// XCTEST_UI
-  /// </li>
-  /// </ul>
-  final TestType? type;
-
-  Test({
-    this.arn,
-    this.counters,
-    this.created,
-    this.deviceMinutes,
-    this.message,
-    this.name,
-    this.result,
-    this.started,
-    this.status,
-    this.stopped,
-    this.type,
-  });
-
-  factory Test.fromJson(Map<String, dynamic> json) {
-    return Test(
-      arn: json['arn'] as String?,
-      counters: json['counters'] != null
-          ? Counters.fromJson(json['counters'] as Map<String, dynamic>)
-          : null,
-      created: timeStampFromJson(json['created']),
-      deviceMinutes: json['deviceMinutes'] != null
-          ? DeviceMinutes.fromJson(
-              json['deviceMinutes'] as Map<String, dynamic>)
-          : null,
-      message: json['message'] as String?,
-      name: json['name'] as String?,
-      result: (json['result'] as String?)?.let(ExecutionResult.fromString),
-      started: timeStampFromJson(json['started']),
-      status: (json['status'] as String?)?.let(ExecutionStatus.fromString),
-      stopped: timeStampFromJson(json['stopped']),
-      type: (json['type'] as String?)?.let(TestType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final counters = this.counters;
-    final created = this.created;
-    final deviceMinutes = this.deviceMinutes;
-    final message = this.message;
-    final name = this.name;
-    final result = this.result;
-    final started = this.started;
-    final status = this.status;
-    final stopped = this.stopped;
-    final type = this.type;
-    return {
-      if (arn != null) 'arn': arn,
-      if (counters != null) 'counters': counters,
-      if (created != null) 'created': unixTimestampToJson(created),
-      if (deviceMinutes != null) 'deviceMinutes': deviceMinutes,
-      if (message != null) 'message': message,
-      if (name != null) 'name': name,
-      if (result != null) 'result': result.value,
-      if (started != null) 'started': unixTimestampToJson(started),
-      if (status != null) 'status': status.value,
-      if (stopped != null) 'stopped': unixTimestampToJson(stopped),
-      if (type != null) 'type': type.value,
-    };
-  }
-}
-
-/// A Selenium testing project. Projects are used to collect and collate
-/// sessions.
-class TestGridProject {
-  /// The ARN for the project.
-  final String? arn;
-
-  /// When the project was created.
-  final DateTime? created;
-
-  /// A human-readable description for the project.
-  final String? description;
-
-  /// A human-readable name for the project.
-  final String? name;
-
-  /// The VPC security groups and subnets that are attached to a project.
-  final TestGridVpcConfig? vpcConfig;
-
-  TestGridProject({
-    this.arn,
-    this.created,
-    this.description,
-    this.name,
-    this.vpcConfig,
-  });
-
-  factory TestGridProject.fromJson(Map<String, dynamic> json) {
-    return TestGridProject(
-      arn: json['arn'] as String?,
-      created: timeStampFromJson(json['created']),
-      description: json['description'] as String?,
-      name: json['name'] as String?,
-      vpcConfig: json['vpcConfig'] != null
-          ? TestGridVpcConfig.fromJson(
-              json['vpcConfig'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final created = this.created;
-    final description = this.description;
-    final name = this.name;
-    final vpcConfig = this.vpcConfig;
-    return {
-      if (arn != null) 'arn': arn,
-      if (created != null) 'created': unixTimestampToJson(created),
-      if (description != null) 'description': description,
-      if (name != null) 'name': name,
-      if (vpcConfig != null) 'vpcConfig': vpcConfig,
-    };
-  }
-}
-
-/// A <a>TestGridSession</a> is a single instance of a browser launched from the
-/// URL provided by a call to <a>CreateTestGridUrl</a>.
-class TestGridSession {
-  /// The ARN of the session.
-  final String? arn;
-
-  /// The number of billed minutes that were used for this session.
-  final double? billingMinutes;
-
-  /// The time that the session was started.
-  final DateTime? created;
-
-  /// The time the session ended.
-  final DateTime? ended;
-
-  /// A JSON object of options and parameters passed to the Selenium WebDriver.
-  final String? seleniumProperties;
-
-  /// The state of the session.
-  final TestGridSessionStatus? status;
-
-  TestGridSession({
-    this.arn,
-    this.billingMinutes,
-    this.created,
-    this.ended,
-    this.seleniumProperties,
-    this.status,
-  });
-
-  factory TestGridSession.fromJson(Map<String, dynamic> json) {
-    return TestGridSession(
-      arn: json['arn'] as String?,
-      billingMinutes: json['billingMinutes'] as double?,
-      created: timeStampFromJson(json['created']),
-      ended: timeStampFromJson(json['ended']),
-      seleniumProperties: json['seleniumProperties'] as String?,
-      status:
-          (json['status'] as String?)?.let(TestGridSessionStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final billingMinutes = this.billingMinutes;
-    final created = this.created;
-    final ended = this.ended;
-    final seleniumProperties = this.seleniumProperties;
-    final status = this.status;
-    return {
-      if (arn != null) 'arn': arn,
-      if (billingMinutes != null) 'billingMinutes': billingMinutes,
-      if (created != null) 'created': unixTimestampToJson(created),
-      if (ended != null) 'ended': unixTimestampToJson(ended),
-      if (seleniumProperties != null) 'seleniumProperties': seleniumProperties,
-      if (status != null) 'status': status.value,
-    };
-  }
-}
-
-/// An action taken by a <a>TestGridSession</a> browser instance.
-class TestGridSessionAction {
-  /// The action taken by the session.
-  final String? action;
-
-  /// The time, in milliseconds, that the action took to complete in the browser.
-  final int? duration;
-
-  /// HTTP method that the browser used to make the request.
-  final String? requestMethod;
-
-  /// The time that the session invoked the action.
-  final DateTime? started;
-
-  /// HTTP status code returned to the browser when the action was taken.
-  final String? statusCode;
-
-  TestGridSessionAction({
-    this.action,
-    this.duration,
-    this.requestMethod,
-    this.started,
-    this.statusCode,
-  });
-
-  factory TestGridSessionAction.fromJson(Map<String, dynamic> json) {
-    return TestGridSessionAction(
-      action: json['action'] as String?,
-      duration: json['duration'] as int?,
-      requestMethod: json['requestMethod'] as String?,
-      started: timeStampFromJson(json['started']),
-      statusCode: json['statusCode'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final action = this.action;
-    final duration = this.duration;
-    final requestMethod = this.requestMethod;
-    final started = this.started;
-    final statusCode = this.statusCode;
-    return {
-      if (action != null) 'action': action,
-      if (duration != null) 'duration': duration,
-      if (requestMethod != null) 'requestMethod': requestMethod,
-      if (started != null) 'started': unixTimestampToJson(started),
-      if (statusCode != null) 'statusCode': statusCode,
-    };
-  }
-}
-
-/// Artifacts are video and other files that are produced in the process of
-/// running a browser in an automated context.
-/// <note>
-/// Video elements might be broken up into multiple artifacts as they grow in
-/// size during creation.
-/// </note>
-class TestGridSessionArtifact {
-  /// The file name of the artifact.
-  final String? filename;
-
-  /// The kind of artifact.
-  final TestGridSessionArtifactType? type;
-
-  /// A semi-stable URL to the content of the object.
-  final String? url;
-
-  TestGridSessionArtifact({
-    this.filename,
-    this.type,
-    this.url,
-  });
-
-  factory TestGridSessionArtifact.fromJson(Map<String, dynamic> json) {
-    return TestGridSessionArtifact(
-      filename: json['filename'] as String?,
-      type: (json['type'] as String?)
-          ?.let(TestGridSessionArtifactType.fromString),
-      url: json['url'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final filename = this.filename;
-    final type = this.type;
-    final url = this.url;
-    return {
-      if (filename != null) 'filename': filename,
-      if (type != null) 'type': type.value,
-      if (url != null) 'url': url,
-    };
-  }
-}
-
-class TestGridSessionArtifactCategory {
-  static const video = TestGridSessionArtifactCategory._('VIDEO');
-  static const log = TestGridSessionArtifactCategory._('LOG');
-
-  final String value;
-
-  const TestGridSessionArtifactCategory._(this.value);
-
-  static const values = [video, log];
-
-  static TestGridSessionArtifactCategory fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TestGridSessionArtifactCategory._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is TestGridSessionArtifactCategory && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class TestGridSessionArtifactType {
-  static const unknown = TestGridSessionArtifactType._('UNKNOWN');
-  static const video = TestGridSessionArtifactType._('VIDEO');
-  static const seleniumLog = TestGridSessionArtifactType._('SELENIUM_LOG');
-
-  final String value;
-
-  const TestGridSessionArtifactType._(this.value);
-
-  static const values = [unknown, video, seleniumLog];
-
-  static TestGridSessionArtifactType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TestGridSessionArtifactType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is TestGridSessionArtifactType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class TestGridSessionStatus {
-  static const active = TestGridSessionStatus._('ACTIVE');
-  static const closed = TestGridSessionStatus._('CLOSED');
-  static const errored = TestGridSessionStatus._('ERRORED');
-
-  final String value;
-
-  const TestGridSessionStatus._(this.value);
-
-  static const values = [active, closed, errored];
-
-  static TestGridSessionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TestGridSessionStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is TestGridSessionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The VPC security groups and subnets that are attached to a project.
-class TestGridVpcConfig {
-  /// A list of VPC security group IDs in your Amazon VPC.
-  final List<String> securityGroupIds;
-
-  /// A list of VPC subnet IDs in your Amazon VPC.
-  final List<String> subnetIds;
-
-  /// The ID of the Amazon VPC.
-  final String vpcId;
-
-  TestGridVpcConfig({
-    required this.securityGroupIds,
-    required this.subnetIds,
-    required this.vpcId,
-  });
-
-  factory TestGridVpcConfig.fromJson(Map<String, dynamic> json) {
-    return TestGridVpcConfig(
-      securityGroupIds: ((json['securityGroupIds'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      subnetIds: ((json['subnetIds'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      vpcId: (json['vpcId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final securityGroupIds = this.securityGroupIds;
-    final subnetIds = this.subnetIds;
-    final vpcId = this.vpcId;
-    return {
-      'securityGroupIds': securityGroupIds,
-      'subnetIds': subnetIds,
-      'vpcId': vpcId,
-    };
-  }
-}
-
-class TestType {
-  static const builtinFuzz = TestType._('BUILTIN_FUZZ');
-  static const appiumJavaJunit = TestType._('APPIUM_JAVA_JUNIT');
-  static const appiumJavaTestng = TestType._('APPIUM_JAVA_TESTNG');
-  static const appiumPython = TestType._('APPIUM_PYTHON');
-  static const appiumNode = TestType._('APPIUM_NODE');
-  static const appiumRuby = TestType._('APPIUM_RUBY');
-  static const appiumWebJavaJunit = TestType._('APPIUM_WEB_JAVA_JUNIT');
-  static const appiumWebJavaTestng = TestType._('APPIUM_WEB_JAVA_TESTNG');
-  static const appiumWebPython = TestType._('APPIUM_WEB_PYTHON');
-  static const appiumWebNode = TestType._('APPIUM_WEB_NODE');
-  static const appiumWebRuby = TestType._('APPIUM_WEB_RUBY');
-  static const instrumentation = TestType._('INSTRUMENTATION');
-  static const xctest = TestType._('XCTEST');
-  static const xctestUi = TestType._('XCTEST_UI');
-
-  final String value;
-
-  const TestType._(this.value);
-
-  static const values = [
-    builtinFuzz,
-    appiumJavaJunit,
-    appiumJavaTestng,
-    appiumPython,
-    appiumNode,
-    appiumRuby,
-    appiumWebJavaJunit,
-    appiumWebJavaTestng,
-    appiumWebPython,
-    appiumWebNode,
-    appiumWebRuby,
-    instrumentation,
-    xctest,
-    xctestUi
-  ];
-
-  static TestType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => TestType._(value));
-
-  @override
-  bool operator ==(other) => other is TestType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents information about free trial device minutes for an AWS account.
-class TrialMinutes {
-  /// The number of free trial minutes remaining in the account.
-  final double? remaining;
-
-  /// The total number of free trial minutes that the account started with.
-  final double? total;
-
-  TrialMinutes({
-    this.remaining,
-    this.total,
-  });
-
-  factory TrialMinutes.fromJson(Map<String, dynamic> json) {
-    return TrialMinutes(
-      remaining: json['remaining'] as double?,
-      total: json['total'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final remaining = this.remaining;
-    final total = this.total;
-    return {
-      if (remaining != null) 'remaining': remaining,
-      if (total != null) 'total': total,
-    };
-  }
-}
-
-/// A collection of one or more problems, grouped by their result.
-class UniqueProblem {
-  /// A message about the unique problems' result.
-  final String? message;
-
-  /// Information about the problems.
-  final List<Problem>? problems;
-
-  UniqueProblem({
-    this.message,
-    this.problems,
-  });
-
-  factory UniqueProblem.fromJson(Map<String, dynamic> json) {
-    return UniqueProblem(
-      message: json['message'] as String?,
-      problems: (json['problems'] as List?)
-          ?.nonNulls
-          .map((e) => Problem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final message = this.message;
-    final problems = this.problems;
-    return {
-      if (message != null) 'message': message,
-      if (problems != null) 'problems': problems,
-    };
   }
 }
 
@@ -10756,6 +5784,64 @@ class UpdateVPCEConfigurationResult {
   }
 }
 
+/// Represents an Amazon Virtual Private Cloud (VPC) endpoint configuration.
+class VPCEConfiguration {
+  /// The Amazon Resource Name (ARN) of the VPC endpoint configuration.
+  final String? arn;
+
+  /// The DNS name that maps to the private IP address of the service you want to
+  /// access.
+  final String? serviceDnsName;
+
+  /// An optional description that provides details about your VPC endpoint
+  /// configuration.
+  final String? vpceConfigurationDescription;
+
+  /// The friendly name you give to your VPC endpoint configuration to manage your
+  /// configurations more easily.
+  final String? vpceConfigurationName;
+
+  /// The name of the VPC endpoint service running in your AWS account that you
+  /// want Device Farm to test.
+  final String? vpceServiceName;
+
+  VPCEConfiguration({
+    this.arn,
+    this.serviceDnsName,
+    this.vpceConfigurationDescription,
+    this.vpceConfigurationName,
+    this.vpceServiceName,
+  });
+
+  factory VPCEConfiguration.fromJson(Map<String, dynamic> json) {
+    return VPCEConfiguration(
+      arn: json['arn'] as String?,
+      serviceDnsName: json['serviceDnsName'] as String?,
+      vpceConfigurationDescription:
+          json['vpceConfigurationDescription'] as String?,
+      vpceConfigurationName: json['vpceConfigurationName'] as String?,
+      vpceServiceName: json['vpceServiceName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final serviceDnsName = this.serviceDnsName;
+    final vpceConfigurationDescription = this.vpceConfigurationDescription;
+    final vpceConfigurationName = this.vpceConfigurationName;
+    final vpceServiceName = this.vpceServiceName;
+    return {
+      if (arn != null) 'arn': arn,
+      if (serviceDnsName != null) 'serviceDnsName': serviceDnsName,
+      if (vpceConfigurationDescription != null)
+        'vpceConfigurationDescription': vpceConfigurationDescription,
+      if (vpceConfigurationName != null)
+        'vpceConfigurationName': vpceConfigurationName,
+      if (vpceServiceName != null) 'vpceServiceName': vpceServiceName,
+    };
+  }
+}
+
 /// An app or a set of one or more tests to upload or that have been uploaded.
 class Upload {
   /// The upload's ARN.
@@ -10964,55 +6050,6 @@ class Upload {
   }
 }
 
-class UploadCategory {
-  static const curated = UploadCategory._('CURATED');
-  static const private = UploadCategory._('PRIVATE');
-
-  final String value;
-
-  const UploadCategory._(this.value);
-
-  static const values = [curated, private];
-
-  static UploadCategory fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => UploadCategory._(value));
-
-  @override
-  bool operator ==(other) => other is UploadCategory && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class UploadStatus {
-  static const initialized = UploadStatus._('INITIALIZED');
-  static const processing = UploadStatus._('PROCESSING');
-  static const succeeded = UploadStatus._('SUCCEEDED');
-  static const failed = UploadStatus._('FAILED');
-
-  final String value;
-
-  const UploadStatus._(this.value);
-
-  static const values = [initialized, processing, succeeded, failed];
-
-  static UploadStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => UploadStatus._(value));
-
-  @override
-  bool operator ==(other) => other is UploadStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class UploadType {
   static const androidApp = UploadType._('ANDROID_APP');
   static const iosApp = UploadType._('IOS_APP');
@@ -11118,60 +6155,223 @@ class UploadType {
   String toString() => value;
 }
 
-/// Represents an Amazon Virtual Private Cloud (VPC) endpoint configuration.
-class VPCEConfiguration {
-  /// The Amazon Resource Name (ARN) of the VPC endpoint configuration.
+class UploadStatus {
+  static const initialized = UploadStatus._('INITIALIZED');
+  static const processing = UploadStatus._('PROCESSING');
+  static const succeeded = UploadStatus._('SUCCEEDED');
+  static const failed = UploadStatus._('FAILED');
+
+  final String value;
+
+  const UploadStatus._(this.value);
+
+  static const values = [initialized, processing, succeeded, failed];
+
+  static UploadStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UploadStatus._(value));
+
+  @override
+  bool operator ==(other) => other is UploadStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class UploadCategory {
+  static const curated = UploadCategory._('CURATED');
+  static const private = UploadCategory._('PRIVATE');
+
+  final String value;
+
+  const UploadCategory._(this.value);
+
+  static const values = [curated, private];
+
+  static UploadCategory fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UploadCategory._(value));
+
+  @override
+  bool operator ==(other) => other is UploadCategory && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A Selenium testing project. Projects are used to collect and collate
+/// sessions.
+class TestGridProject {
+  /// The ARN for the project.
   final String? arn;
 
-  /// The DNS name that maps to the private IP address of the service you want to
-  /// access.
-  final String? serviceDnsName;
+  /// When the project was created.
+  final DateTime? created;
 
-  /// An optional description that provides details about your VPC endpoint
-  /// configuration.
-  final String? vpceConfigurationDescription;
+  /// A human-readable description for the project.
+  final String? description;
 
-  /// The friendly name you give to your VPC endpoint configuration to manage your
-  /// configurations more easily.
-  final String? vpceConfigurationName;
+  /// A human-readable name for the project.
+  final String? name;
 
-  /// The name of the VPC endpoint service running in your AWS account that you
-  /// want Device Farm to test.
-  final String? vpceServiceName;
+  /// The VPC security groups and subnets that are attached to a project.
+  final TestGridVpcConfig? vpcConfig;
 
-  VPCEConfiguration({
+  TestGridProject({
     this.arn,
-    this.serviceDnsName,
-    this.vpceConfigurationDescription,
-    this.vpceConfigurationName,
-    this.vpceServiceName,
+    this.created,
+    this.description,
+    this.name,
+    this.vpcConfig,
   });
 
-  factory VPCEConfiguration.fromJson(Map<String, dynamic> json) {
-    return VPCEConfiguration(
+  factory TestGridProject.fromJson(Map<String, dynamic> json) {
+    return TestGridProject(
       arn: json['arn'] as String?,
-      serviceDnsName: json['serviceDnsName'] as String?,
-      vpceConfigurationDescription:
-          json['vpceConfigurationDescription'] as String?,
-      vpceConfigurationName: json['vpceConfigurationName'] as String?,
-      vpceServiceName: json['vpceServiceName'] as String?,
+      created: timeStampFromJson(json['created']),
+      description: json['description'] as String?,
+      name: json['name'] as String?,
+      vpcConfig: json['vpcConfig'] != null
+          ? TestGridVpcConfig.fromJson(
+              json['vpcConfig'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final arn = this.arn;
-    final serviceDnsName = this.serviceDnsName;
-    final vpceConfigurationDescription = this.vpceConfigurationDescription;
-    final vpceConfigurationName = this.vpceConfigurationName;
-    final vpceServiceName = this.vpceServiceName;
+    final created = this.created;
+    final description = this.description;
+    final name = this.name;
+    final vpcConfig = this.vpcConfig;
     return {
       if (arn != null) 'arn': arn,
-      if (serviceDnsName != null) 'serviceDnsName': serviceDnsName,
-      if (vpceConfigurationDescription != null)
-        'vpceConfigurationDescription': vpceConfigurationDescription,
-      if (vpceConfigurationName != null)
-        'vpceConfigurationName': vpceConfigurationName,
-      if (vpceServiceName != null) 'vpceServiceName': vpceServiceName,
+      if (created != null) 'created': unixTimestampToJson(created),
+      if (description != null) 'description': description,
+      if (name != null) 'name': name,
+      if (vpcConfig != null) 'vpcConfig': vpcConfig,
+    };
+  }
+}
+
+/// The VPC security groups and subnets that are attached to a project.
+class TestGridVpcConfig {
+  /// A list of VPC security group IDs in your Amazon VPC.
+  final List<String> securityGroupIds;
+
+  /// A list of VPC subnet IDs in your Amazon VPC.
+  final List<String> subnetIds;
+
+  /// The ID of the Amazon VPC.
+  final String vpcId;
+
+  TestGridVpcConfig({
+    required this.securityGroupIds,
+    required this.subnetIds,
+    required this.vpcId,
+  });
+
+  factory TestGridVpcConfig.fromJson(Map<String, dynamic> json) {
+    return TestGridVpcConfig(
+      securityGroupIds: ((json['securityGroupIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      subnetIds: ((json['subnetIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      vpcId: (json['vpcId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final securityGroupIds = this.securityGroupIds;
+    final subnetIds = this.subnetIds;
+    final vpcId = this.vpcId;
+    return {
+      'securityGroupIds': securityGroupIds,
+      'subnetIds': subnetIds,
+      'vpcId': vpcId,
+    };
+  }
+}
+
+/// Represents an operating-system neutral workspace for running and managing
+/// tests.
+class Project {
+  /// The project's ARN.
+  final String? arn;
+
+  /// When the project was created.
+  final DateTime? created;
+
+  /// The default number of minutes (at the project level) a test run executes
+  /// before it times out. The default value is 150 minutes.
+  final int? defaultJobTimeoutMinutes;
+
+  /// Environment variables associated with the project.
+  final List<EnvironmentVariable>? environmentVariables;
+
+  /// The IAM execution role associated with the project.
+  final String? executionRoleArn;
+
+  /// The project's name.
+  final String? name;
+
+  /// The VPC security groups and subnets that are attached to a project.
+  final VpcConfig? vpcConfig;
+
+  Project({
+    this.arn,
+    this.created,
+    this.defaultJobTimeoutMinutes,
+    this.environmentVariables,
+    this.executionRoleArn,
+    this.name,
+    this.vpcConfig,
+  });
+
+  factory Project.fromJson(Map<String, dynamic> json) {
+    return Project(
+      arn: json['arn'] as String?,
+      created: timeStampFromJson(json['created']),
+      defaultJobTimeoutMinutes: json['defaultJobTimeoutMinutes'] as int?,
+      environmentVariables: (json['environmentVariables'] as List?)
+          ?.nonNulls
+          .map((e) => EnvironmentVariable.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      executionRoleArn: json['executionRoleArn'] as String?,
+      name: json['name'] as String?,
+      vpcConfig: json['vpcConfig'] != null
+          ? VpcConfig.fromJson(json['vpcConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final created = this.created;
+    final defaultJobTimeoutMinutes = this.defaultJobTimeoutMinutes;
+    final environmentVariables = this.environmentVariables;
+    final executionRoleArn = this.executionRoleArn;
+    final name = this.name;
+    final vpcConfig = this.vpcConfig;
+    return {
+      if (arn != null) 'arn': arn,
+      if (created != null) 'created': unixTimestampToJson(created),
+      if (defaultJobTimeoutMinutes != null)
+        'defaultJobTimeoutMinutes': defaultJobTimeoutMinutes,
+      if (environmentVariables != null)
+        'environmentVariables': environmentVariables,
+      if (executionRoleArn != null) 'executionRoleArn': executionRoleArn,
+      if (name != null) 'name': name,
+      if (vpcConfig != null) 'vpcConfig': vpcConfig,
     };
   }
 }
@@ -11216,6 +6416,4925 @@ class VpcConfig {
       'securityGroupIds': securityGroupIds,
       'subnetIds': subnetIds,
       'vpcId': vpcId,
+    };
+  }
+}
+
+/// Information about an environment variable for a project or a run.
+class EnvironmentVariable {
+  /// The name of the environment variable.
+  final String name;
+
+  /// The value of the environment variable.
+  final String value;
+
+  EnvironmentVariable({
+    required this.name,
+    required this.value,
+  });
+
+  factory EnvironmentVariable.fromJson(Map<String, dynamic> json) {
+    return EnvironmentVariable(
+      name: (json['name'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'name': name,
+      'value': value,
+    };
+  }
+}
+
+/// An array of settings that describes characteristics of a network profile.
+class NetworkProfile {
+  /// The Amazon Resource Name (ARN) of the network profile.
+  final String? arn;
+
+  /// The description of the network profile.
+  final String? description;
+
+  /// The data throughput rate in bits per second, as an integer from 0 to
+  /// 104857600.
+  final int? downlinkBandwidthBits;
+
+  /// Delay time for all packets to destination in milliseconds as an integer from
+  /// 0 to 2000.
+  final int? downlinkDelayMs;
+
+  /// Time variation in the delay of received packets in milliseconds as an
+  /// integer from 0 to 2000.
+  final int? downlinkJitterMs;
+
+  /// Proportion of received packets that fail to arrive from 0 to 100 percent.
+  final int? downlinkLossPercent;
+
+  /// The name of the network profile.
+  final String? name;
+
+  /// The type of network profile. Valid values are listed here.
+  final NetworkProfileType? type;
+
+  /// The data throughput rate in bits per second, as an integer from 0 to
+  /// 104857600.
+  final int? uplinkBandwidthBits;
+
+  /// Delay time for all packets to destination in milliseconds as an integer from
+  /// 0 to 2000.
+  final int? uplinkDelayMs;
+
+  /// Time variation in the delay of received packets in milliseconds as an
+  /// integer from 0 to 2000.
+  final int? uplinkJitterMs;
+
+  /// Proportion of transmitted packets that fail to arrive from 0 to 100 percent.
+  final int? uplinkLossPercent;
+
+  NetworkProfile({
+    this.arn,
+    this.description,
+    this.downlinkBandwidthBits,
+    this.downlinkDelayMs,
+    this.downlinkJitterMs,
+    this.downlinkLossPercent,
+    this.name,
+    this.type,
+    this.uplinkBandwidthBits,
+    this.uplinkDelayMs,
+    this.uplinkJitterMs,
+    this.uplinkLossPercent,
+  });
+
+  factory NetworkProfile.fromJson(Map<String, dynamic> json) {
+    return NetworkProfile(
+      arn: json['arn'] as String?,
+      description: json['description'] as String?,
+      downlinkBandwidthBits: json['downlinkBandwidthBits'] as int?,
+      downlinkDelayMs: json['downlinkDelayMs'] as int?,
+      downlinkJitterMs: json['downlinkJitterMs'] as int?,
+      downlinkLossPercent: json['downlinkLossPercent'] as int?,
+      name: json['name'] as String?,
+      type: (json['type'] as String?)?.let(NetworkProfileType.fromString),
+      uplinkBandwidthBits: json['uplinkBandwidthBits'] as int?,
+      uplinkDelayMs: json['uplinkDelayMs'] as int?,
+      uplinkJitterMs: json['uplinkJitterMs'] as int?,
+      uplinkLossPercent: json['uplinkLossPercent'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final description = this.description;
+    final downlinkBandwidthBits = this.downlinkBandwidthBits;
+    final downlinkDelayMs = this.downlinkDelayMs;
+    final downlinkJitterMs = this.downlinkJitterMs;
+    final downlinkLossPercent = this.downlinkLossPercent;
+    final name = this.name;
+    final type = this.type;
+    final uplinkBandwidthBits = this.uplinkBandwidthBits;
+    final uplinkDelayMs = this.uplinkDelayMs;
+    final uplinkJitterMs = this.uplinkJitterMs;
+    final uplinkLossPercent = this.uplinkLossPercent;
+    return {
+      if (arn != null) 'arn': arn,
+      if (description != null) 'description': description,
+      if (downlinkBandwidthBits != null)
+        'downlinkBandwidthBits': downlinkBandwidthBits,
+      if (downlinkDelayMs != null) 'downlinkDelayMs': downlinkDelayMs,
+      if (downlinkJitterMs != null) 'downlinkJitterMs': downlinkJitterMs,
+      if (downlinkLossPercent != null)
+        'downlinkLossPercent': downlinkLossPercent,
+      if (name != null) 'name': name,
+      if (type != null) 'type': type.value,
+      if (uplinkBandwidthBits != null)
+        'uplinkBandwidthBits': uplinkBandwidthBits,
+      if (uplinkDelayMs != null) 'uplinkDelayMs': uplinkDelayMs,
+      if (uplinkJitterMs != null) 'uplinkJitterMs': uplinkJitterMs,
+      if (uplinkLossPercent != null) 'uplinkLossPercent': uplinkLossPercent,
+    };
+  }
+}
+
+class NetworkProfileType {
+  static const curated = NetworkProfileType._('CURATED');
+  static const private = NetworkProfileType._('PRIVATE');
+
+  final String value;
+
+  const NetworkProfileType._(this.value);
+
+  static const values = [curated, private];
+
+  static NetworkProfileType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NetworkProfileType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NetworkProfileType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the instance profile.
+class InstanceProfile {
+  /// The Amazon Resource Name (ARN) of the instance profile.
+  final String? arn;
+
+  /// The description of the instance profile.
+  final String? description;
+
+  /// An array of strings containing the list of app packages that should not be
+  /// cleaned up from the device after a test run completes.
+  ///
+  /// The list of packages is considered only if you set
+  /// <code>packageCleanup</code> to <code>true</code>.
+  final List<String>? excludeAppPackagesFromCleanup;
+
+  /// The name of the instance profile.
+  final String? name;
+
+  /// When set to <code>true</code>, Device Farm removes app packages after a test
+  /// run. The default value is <code>false</code> for private devices.
+  final bool? packageCleanup;
+
+  /// When set to <code>true</code>, Device Farm reboots the instance after a test
+  /// run. The default value is <code>true</code>.
+  final bool? rebootAfterUse;
+
+  InstanceProfile({
+    this.arn,
+    this.description,
+    this.excludeAppPackagesFromCleanup,
+    this.name,
+    this.packageCleanup,
+    this.rebootAfterUse,
+  });
+
+  factory InstanceProfile.fromJson(Map<String, dynamic> json) {
+    return InstanceProfile(
+      arn: json['arn'] as String?,
+      description: json['description'] as String?,
+      excludeAppPackagesFromCleanup:
+          (json['excludeAppPackagesFromCleanup'] as List?)
+              ?.nonNulls
+              .map((e) => e as String)
+              .toList(),
+      name: json['name'] as String?,
+      packageCleanup: json['packageCleanup'] as bool?,
+      rebootAfterUse: json['rebootAfterUse'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final description = this.description;
+    final excludeAppPackagesFromCleanup = this.excludeAppPackagesFromCleanup;
+    final name = this.name;
+    final packageCleanup = this.packageCleanup;
+    final rebootAfterUse = this.rebootAfterUse;
+    return {
+      if (arn != null) 'arn': arn,
+      if (description != null) 'description': description,
+      if (excludeAppPackagesFromCleanup != null)
+        'excludeAppPackagesFromCleanup': excludeAppPackagesFromCleanup,
+      if (name != null) 'name': name,
+      if (packageCleanup != null) 'packageCleanup': packageCleanup,
+      if (rebootAfterUse != null) 'rebootAfterUse': rebootAfterUse,
+    };
+  }
+}
+
+/// Represents a collection of device types.
+class DevicePool {
+  /// The device pool's ARN.
+  final String? arn;
+
+  /// The device pool's description.
+  final String? description;
+
+  /// The number of devices that Device Farm can add to your device pool. Device
+  /// Farm adds devices that are available and meet the criteria that you assign
+  /// for the <code>rules</code> parameter. Depending on how many devices meet
+  /// these constraints, your device pool might contain fewer devices than the
+  /// value for this parameter.
+  ///
+  /// By specifying the maximum number of devices, you can control the costs that
+  /// you incur by running tests.
+  final int? maxDevices;
+
+  /// The device pool's name.
+  final String? name;
+
+  /// Information about the device pool's rules.
+  final List<Rule>? rules;
+
+  /// The device pool's type.
+  ///
+  /// Allowed values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// CURATED: A device pool that is created and managed by AWS Device Farm.
+  /// </li>
+  /// <li>
+  /// PRIVATE: A device pool that is created and managed by the device pool
+  /// developer.
+  /// </li>
+  /// </ul>
+  final DevicePoolType? type;
+
+  DevicePool({
+    this.arn,
+    this.description,
+    this.maxDevices,
+    this.name,
+    this.rules,
+    this.type,
+  });
+
+  factory DevicePool.fromJson(Map<String, dynamic> json) {
+    return DevicePool(
+      arn: json['arn'] as String?,
+      description: json['description'] as String?,
+      maxDevices: json['maxDevices'] as int?,
+      name: json['name'] as String?,
+      rules: (json['rules'] as List?)
+          ?.nonNulls
+          .map((e) => Rule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['type'] as String?)?.let(DevicePoolType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final description = this.description;
+    final maxDevices = this.maxDevices;
+    final name = this.name;
+    final rules = this.rules;
+    final type = this.type;
+    return {
+      if (arn != null) 'arn': arn,
+      if (description != null) 'description': description,
+      if (maxDevices != null) 'maxDevices': maxDevices,
+      if (name != null) 'name': name,
+      if (rules != null) 'rules': rules,
+      if (type != null) 'type': type.value,
+    };
+  }
+}
+
+class DevicePoolType {
+  static const curated = DevicePoolType._('CURATED');
+  static const private = DevicePoolType._('PRIVATE');
+
+  final String value;
+
+  const DevicePoolType._(this.value);
+
+  static const values = [curated, private];
+
+  static DevicePoolType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DevicePoolType._(value));
+
+  @override
+  bool operator ==(other) => other is DevicePoolType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents a condition for a device pool.
+class Rule {
+  /// The rule's stringified attribute. For example, specify the value as
+  /// <code>"\"abc\""</code>.
+  ///
+  /// The supported operators for each attribute are provided in the following
+  /// list.
+  /// <dl> <dt>APPIUM_VERSION</dt> <dd>
+  /// The Appium version for the test.
+  ///
+  /// Supported operators: <code>CONTAINS</code>
+  /// </dd> <dt>ARN</dt> <dd>
+  /// The Amazon Resource Name (ARN) of the device (for example,
+  /// <code>arn:aws:devicefarm:us-west-2::device:12345Example</code>.
+  ///
+  /// Supported operators: <code>EQUALS</code>, <code>IN</code>,
+  /// <code>NOT_IN</code>
+  /// </dd> <dt>AVAILABILITY</dt> <dd>
+  /// The current availability of the device. Valid values are AVAILABLE,
+  /// HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE.
+  ///
+  /// Supported operators: <code>EQUALS</code>
+  /// </dd> <dt>FLEET_TYPE</dt> <dd>
+  /// The fleet type. Valid values are PUBLIC or PRIVATE.
+  ///
+  /// Supported operators: <code>EQUALS</code>
+  /// </dd> <dt>FORM_FACTOR</dt> <dd>
+  /// The device form factor. Valid values are PHONE or TABLET.
+  ///
+  /// Supported operators: <code>EQUALS</code>, <code>IN</code>,
+  /// <code>NOT_IN</code>
+  /// </dd> <dt>INSTANCE_ARN</dt> <dd>
+  /// The Amazon Resource Name (ARN) of the device instance.
+  ///
+  /// Supported operators: <code>IN</code>, <code>NOT_IN</code>
+  /// </dd> <dt>INSTANCE_LABELS</dt> <dd>
+  /// The label of the device instance.
+  ///
+  /// Supported operators: <code>CONTAINS</code>
+  /// </dd> <dt>MANUFACTURER</dt> <dd>
+  /// The device manufacturer (for example, Apple).
+  ///
+  /// Supported operators: <code>EQUALS</code>, <code>IN</code>,
+  /// <code>NOT_IN</code>
+  /// </dd> <dt>MODEL</dt> <dd>
+  /// The device model, such as Apple iPad Air 2 or Google Pixel.
+  ///
+  /// Supported operators: <code>CONTAINS</code>, <code>EQUALS</code>,
+  /// <code>IN</code>, <code>NOT_IN</code>
+  /// </dd> <dt>OS_VERSION</dt> <dd>
+  /// The operating system version (for example, 10.3.2).
+  ///
+  /// Supported operators: <code>EQUALS</code>, <code>GREATER_THAN</code>,
+  /// <code>GREATER_THAN_OR_EQUALS</code>, <code>IN</code>,
+  /// <code>LESS_THAN</code>, <code>LESS_THAN_OR_EQUALS</code>,
+  /// <code>NOT_IN</code>
+  /// </dd> <dt>PLATFORM</dt> <dd>
+  /// The device platform. Valid values are ANDROID or IOS.
+  ///
+  /// Supported operators: <code>EQUALS</code>, <code>IN</code>,
+  /// <code>NOT_IN</code>
+  /// </dd> <dt>REMOTE_ACCESS_ENABLED</dt> <dd>
+  /// Whether the device is enabled for remote access. Valid values are TRUE or
+  /// FALSE.
+  ///
+  /// Supported operators: <code>EQUALS</code>
+  /// </dd> <dt>REMOTE_DEBUG_ENABLED</dt> <dd>
+  /// Whether the device is enabled for remote debugging. Valid values are TRUE or
+  /// FALSE.
+  ///
+  /// Supported operators: <code>EQUALS</code>
+  ///
+  /// Because remote debugging is <a
+  /// href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html">no
+  /// longer supported</a>, this filter is ignored.
+  /// </dd> </dl>
+  final DeviceAttribute? attribute;
+
+  /// Specifies how Device Farm compares the rule's attribute to the value. For
+  /// the operators that are supported by each attribute, see the attribute
+  /// descriptions.
+  final RuleOperator? operator;
+
+  /// The rule's value.
+  final String? value;
+
+  Rule({
+    this.attribute,
+    this.operator,
+    this.value,
+  });
+
+  factory Rule.fromJson(Map<String, dynamic> json) {
+    return Rule(
+      attribute:
+          (json['attribute'] as String?)?.let(DeviceAttribute.fromString),
+      operator: (json['operator'] as String?)?.let(RuleOperator.fromString),
+      value: json['value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attribute = this.attribute;
+    final operator = this.operator;
+    final value = this.value;
+    return {
+      if (attribute != null) 'attribute': attribute.value,
+      if (operator != null) 'operator': operator.value,
+      if (value != null) 'value': value,
+    };
+  }
+}
+
+class DeviceAttribute {
+  static const arn = DeviceAttribute._('ARN');
+  static const platform = DeviceAttribute._('PLATFORM');
+  static const formFactor = DeviceAttribute._('FORM_FACTOR');
+  static const manufacturer = DeviceAttribute._('MANUFACTURER');
+  static const remoteAccessEnabled = DeviceAttribute._('REMOTE_ACCESS_ENABLED');
+  static const remoteDebugEnabled = DeviceAttribute._('REMOTE_DEBUG_ENABLED');
+  static const appiumVersion = DeviceAttribute._('APPIUM_VERSION');
+  static const instanceArn = DeviceAttribute._('INSTANCE_ARN');
+  static const instanceLabels = DeviceAttribute._('INSTANCE_LABELS');
+  static const fleetType = DeviceAttribute._('FLEET_TYPE');
+  static const osVersion = DeviceAttribute._('OS_VERSION');
+  static const model = DeviceAttribute._('MODEL');
+  static const availability = DeviceAttribute._('AVAILABILITY');
+
+  final String value;
+
+  const DeviceAttribute._(this.value);
+
+  static const values = [
+    arn,
+    platform,
+    formFactor,
+    manufacturer,
+    remoteAccessEnabled,
+    remoteDebugEnabled,
+    appiumVersion,
+    instanceArn,
+    instanceLabels,
+    fleetType,
+    osVersion,
+    model,
+    availability
+  ];
+
+  static DeviceAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeviceAttribute._(value));
+
+  @override
+  bool operator ==(other) => other is DeviceAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class RuleOperator {
+  static const equals = RuleOperator._('EQUALS');
+  static const lessThan = RuleOperator._('LESS_THAN');
+  static const lessThanOrEquals = RuleOperator._('LESS_THAN_OR_EQUALS');
+  static const greaterThan = RuleOperator._('GREATER_THAN');
+  static const greaterThanOrEquals = RuleOperator._('GREATER_THAN_OR_EQUALS');
+  static const $in = RuleOperator._('IN');
+  static const notIn = RuleOperator._('NOT_IN');
+  static const contains = RuleOperator._('CONTAINS');
+
+  final String value;
+
+  const RuleOperator._(this.value);
+
+  static const values = [
+    equals,
+    lessThan,
+    lessThanOrEquals,
+    greaterThan,
+    greaterThanOrEquals,
+    $in,
+    notIn,
+    contains
+  ];
+
+  static RuleOperator fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RuleOperator._(value));
+
+  @override
+  bool operator ==(other) => other is RuleOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the device instance.
+class DeviceInstance {
+  /// The Amazon Resource Name (ARN) of the device instance.
+  final String? arn;
+
+  /// The ARN of the device.
+  final String? deviceArn;
+
+  /// A object that contains information about the instance profile.
+  final InstanceProfile? instanceProfile;
+
+  /// An array of strings that describe the device instance.
+  final List<String>? labels;
+
+  /// The status of the device instance. Valid values are listed here.
+  final InstanceStatus? status;
+
+  /// Unique device identifier for the device instance.
+  final String? udid;
+
+  DeviceInstance({
+    this.arn,
+    this.deviceArn,
+    this.instanceProfile,
+    this.labels,
+    this.status,
+    this.udid,
+  });
+
+  factory DeviceInstance.fromJson(Map<String, dynamic> json) {
+    return DeviceInstance(
+      arn: json['arn'] as String?,
+      deviceArn: json['deviceArn'] as String?,
+      instanceProfile: json['instanceProfile'] != null
+          ? InstanceProfile.fromJson(
+              json['instanceProfile'] as Map<String, dynamic>)
+          : null,
+      labels:
+          (json['labels'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      status: (json['status'] as String?)?.let(InstanceStatus.fromString),
+      udid: json['udid'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final deviceArn = this.deviceArn;
+    final instanceProfile = this.instanceProfile;
+    final labels = this.labels;
+    final status = this.status;
+    final udid = this.udid;
+    return {
+      if (arn != null) 'arn': arn,
+      if (deviceArn != null) 'deviceArn': deviceArn,
+      if (instanceProfile != null) 'instanceProfile': instanceProfile,
+      if (labels != null) 'labels': labels,
+      if (status != null) 'status': status.value,
+      if (udid != null) 'udid': udid,
+    };
+  }
+}
+
+class InstanceStatus {
+  static const inUse = InstanceStatus._('IN_USE');
+  static const preparing = InstanceStatus._('PREPARING');
+  static const available = InstanceStatus._('AVAILABLE');
+  static const notAvailable = InstanceStatus._('NOT_AVAILABLE');
+
+  final String value;
+
+  const InstanceStatus._(this.value);
+
+  static const values = [inUse, preparing, available, notAvailable];
+
+  static InstanceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InstanceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is InstanceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The metadata that you apply to a resource to help you categorize and
+/// organize it. Each tag consists of a key and an optional value, both of which
+/// you define. Tag keys can have a maximum character length of 128 characters.
+/// Tag values can have a maximum length of 256 characters.
+class Tag {
+  /// One part of a key-value pair that makes up a tag. A <code>key</code> is a
+  /// general label that acts like a category for more specific tag values.
+  final String key;
+
+  /// The optional part of a key-value pair that makes up a tag. A
+  /// <code>value</code> acts as a descriptor in a tag category (key).
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
+/// Represents a test run on a set of devices with a given app package, test
+/// parameters, and so on.
+class Run {
+  /// An app to upload or that has been uploaded.
+  final String? appUpload;
+
+  /// The run's ARN.
+  final String? arn;
+
+  /// Specifies the billing method for a test run: <code>metered</code> or
+  /// <code>unmetered</code>. If the parameter is not specified, the default value
+  /// is <code>metered</code>.
+  /// <note>
+  /// If you have unmetered device slots, you must set this to
+  /// <code>unmetered</code> to use them. Otherwise, the run is counted toward
+  /// metered device minutes.
+  /// </note>
+  final BillingMethod? billingMethod;
+
+  /// The total number of completed jobs.
+  final int? completedJobs;
+
+  /// The run's result counters.
+  final Counters? counters;
+
+  /// When the run was created.
+  final DateTime? created;
+
+  /// Output <code>CustomerArtifactPaths</code> object for the test run.
+  final CustomerArtifactPaths? customerArtifactPaths;
+
+  /// Represents the total (metered or unmetered) minutes used by the test run.
+  final DeviceMinutes? deviceMinutes;
+
+  /// The ARN of the device pool for the run.
+  final String? devicePoolArn;
+
+  /// The device proxy configured for the devices in the run.
+  final DeviceProxy? deviceProxy;
+
+  /// The results of a device filter used to select the devices for a test run.
+  final DeviceSelectionResult? deviceSelectionResult;
+
+  /// Environment variables associated with the run.
+  final List<EnvironmentVariable>? environmentVariables;
+
+  /// For fuzz tests, this is the number of events, between 1 and 10000, that the
+  /// UI fuzz test should perform.
+  final int? eventCount;
+
+  /// The IAM role associated with the run.
+  final String? executionRoleArn;
+
+  /// The number of minutes the job executes before it times out.
+  final int? jobTimeoutMinutes;
+
+  /// Information about the locale that is used for the run.
+  final String? locale;
+
+  /// Information about the location that is used for the run.
+  final Location? location;
+
+  /// A message about the run's result.
+  final String? message;
+
+  /// The run's name.
+  final String? name;
+
+  /// The network profile being used for a test run.
+  final NetworkProfile? networkProfile;
+
+  /// Read-only URL for an object in an S3 bucket where you can get the parsing
+  /// results of the test package. If the test package doesn't parse, the reason
+  /// why it doesn't parse appears in the file that this URL points to.
+  final String? parsingResultUrl;
+
+  /// The run's platform.
+  ///
+  /// Allowed values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// ANDROID
+  /// </li>
+  /// <li>
+  /// IOS
+  /// </li>
+  /// </ul>
+  final DevicePlatform? platform;
+
+  /// Information about the radio states for the run.
+  final Radios? radios;
+
+  /// The run's result.
+  ///
+  /// Allowed values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// PENDING
+  /// </li>
+  /// <li>
+  /// PASSED
+  /// </li>
+  /// <li>
+  /// WARNED
+  /// </li>
+  /// <li>
+  /// FAILED
+  /// </li>
+  /// <li>
+  /// SKIPPED
+  /// </li>
+  /// <li>
+  /// ERRORED
+  /// </li>
+  /// <li>
+  /// STOPPED
+  /// </li>
+  /// </ul>
+  final ExecutionResult? result;
+
+  /// Supporting field for the result field. Set only if <code>result</code> is
+  /// <code>SKIPPED</code>. <code>PARSING_FAILED</code> if the result is skipped
+  /// because of test package parsing failure.
+  final ExecutionResultCode? resultCode;
+
+  /// For fuzz tests, this is a seed to use for randomizing the UI fuzz test.
+  /// Using the same seed value between tests ensures identical event sequences.
+  final int? seed;
+
+  /// When set to <code>true</code>, for private devices, Device Farm does not
+  /// sign your app again. For public devices, Device Farm always signs your apps
+  /// again.
+  ///
+  /// For more information about how Device Farm re-signs your apps, see <a
+  /// href="http://aws.amazon.com/device-farm/faqs/">Do you modify my app?</a> in
+  /// the <i>AWS Device Farm FAQs</i>.
+  final bool? skipAppResign;
+
+  /// The run's start time.
+  final DateTime? started;
+
+  /// The run's status.
+  ///
+  /// Allowed values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// PENDING
+  /// </li>
+  /// <li>
+  /// PENDING_CONCURRENCY
+  /// </li>
+  /// <li>
+  /// PENDING_DEVICE
+  /// </li>
+  /// <li>
+  /// PROCESSING
+  /// </li>
+  /// <li>
+  /// SCHEDULING
+  /// </li>
+  /// <li>
+  /// PREPARING
+  /// </li>
+  /// <li>
+  /// RUNNING
+  /// </li>
+  /// <li>
+  /// COMPLETED
+  /// </li>
+  /// <li>
+  /// STOPPING
+  /// </li>
+  /// </ul>
+  final ExecutionStatus? status;
+
+  /// The run's stop time.
+  final DateTime? stopped;
+
+  /// The ARN of the YAML-formatted test specification for the run.
+  final String? testSpecArn;
+
+  /// The total number of jobs for the run.
+  final int? totalJobs;
+
+  /// The run's type.
+  ///
+  /// Must be one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// BUILTIN_FUZZ
+  /// </li>
+  /// <li>
+  /// APPIUM_JAVA_JUNIT
+  /// </li>
+  /// <li>
+  /// APPIUM_JAVA_TESTNG
+  /// </li>
+  /// <li>
+  /// APPIUM_PYTHON
+  /// </li>
+  /// <li>
+  /// APPIUM_NODE
+  /// </li>
+  /// <li>
+  /// APPIUM_RUBY
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_JAVA_JUNIT
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_JAVA_TESTNG
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_PYTHON
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_NODE
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_RUBY
+  /// </li>
+  /// <li>
+  /// INSTRUMENTATION
+  /// </li>
+  /// <li>
+  /// XCTEST
+  /// </li>
+  /// <li>
+  /// XCTEST_UI
+  /// </li>
+  /// </ul>
+  final TestType? type;
+
+  /// The VPC security groups and subnets that are attached to a project.
+  final VpcConfig? vpcConfig;
+
+  /// The Device Farm console URL for the recording of the run.
+  final String? webUrl;
+
+  Run({
+    this.appUpload,
+    this.arn,
+    this.billingMethod,
+    this.completedJobs,
+    this.counters,
+    this.created,
+    this.customerArtifactPaths,
+    this.deviceMinutes,
+    this.devicePoolArn,
+    this.deviceProxy,
+    this.deviceSelectionResult,
+    this.environmentVariables,
+    this.eventCount,
+    this.executionRoleArn,
+    this.jobTimeoutMinutes,
+    this.locale,
+    this.location,
+    this.message,
+    this.name,
+    this.networkProfile,
+    this.parsingResultUrl,
+    this.platform,
+    this.radios,
+    this.result,
+    this.resultCode,
+    this.seed,
+    this.skipAppResign,
+    this.started,
+    this.status,
+    this.stopped,
+    this.testSpecArn,
+    this.totalJobs,
+    this.type,
+    this.vpcConfig,
+    this.webUrl,
+  });
+
+  factory Run.fromJson(Map<String, dynamic> json) {
+    return Run(
+      appUpload: json['appUpload'] as String?,
+      arn: json['arn'] as String?,
+      billingMethod:
+          (json['billingMethod'] as String?)?.let(BillingMethod.fromString),
+      completedJobs: json['completedJobs'] as int?,
+      counters: json['counters'] != null
+          ? Counters.fromJson(json['counters'] as Map<String, dynamic>)
+          : null,
+      created: timeStampFromJson(json['created']),
+      customerArtifactPaths: json['customerArtifactPaths'] != null
+          ? CustomerArtifactPaths.fromJson(
+              json['customerArtifactPaths'] as Map<String, dynamic>)
+          : null,
+      deviceMinutes: json['deviceMinutes'] != null
+          ? DeviceMinutes.fromJson(
+              json['deviceMinutes'] as Map<String, dynamic>)
+          : null,
+      devicePoolArn: json['devicePoolArn'] as String?,
+      deviceProxy: json['deviceProxy'] != null
+          ? DeviceProxy.fromJson(json['deviceProxy'] as Map<String, dynamic>)
+          : null,
+      deviceSelectionResult: json['deviceSelectionResult'] != null
+          ? DeviceSelectionResult.fromJson(
+              json['deviceSelectionResult'] as Map<String, dynamic>)
+          : null,
+      environmentVariables: (json['environmentVariables'] as List?)
+          ?.nonNulls
+          .map((e) => EnvironmentVariable.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      eventCount: json['eventCount'] as int?,
+      executionRoleArn: json['executionRoleArn'] as String?,
+      jobTimeoutMinutes: json['jobTimeoutMinutes'] as int?,
+      locale: json['locale'] as String?,
+      location: json['location'] != null
+          ? Location.fromJson(json['location'] as Map<String, dynamic>)
+          : null,
+      message: json['message'] as String?,
+      name: json['name'] as String?,
+      networkProfile: json['networkProfile'] != null
+          ? NetworkProfile.fromJson(
+              json['networkProfile'] as Map<String, dynamic>)
+          : null,
+      parsingResultUrl: json['parsingResultUrl'] as String?,
+      platform: (json['platform'] as String?)?.let(DevicePlatform.fromString),
+      radios: json['radios'] != null
+          ? Radios.fromJson(json['radios'] as Map<String, dynamic>)
+          : null,
+      result: (json['result'] as String?)?.let(ExecutionResult.fromString),
+      resultCode:
+          (json['resultCode'] as String?)?.let(ExecutionResultCode.fromString),
+      seed: json['seed'] as int?,
+      skipAppResign: json['skipAppResign'] as bool?,
+      started: timeStampFromJson(json['started']),
+      status: (json['status'] as String?)?.let(ExecutionStatus.fromString),
+      stopped: timeStampFromJson(json['stopped']),
+      testSpecArn: json['testSpecArn'] as String?,
+      totalJobs: json['totalJobs'] as int?,
+      type: (json['type'] as String?)?.let(TestType.fromString),
+      vpcConfig: json['vpcConfig'] != null
+          ? VpcConfig.fromJson(json['vpcConfig'] as Map<String, dynamic>)
+          : null,
+      webUrl: json['webUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appUpload = this.appUpload;
+    final arn = this.arn;
+    final billingMethod = this.billingMethod;
+    final completedJobs = this.completedJobs;
+    final counters = this.counters;
+    final created = this.created;
+    final customerArtifactPaths = this.customerArtifactPaths;
+    final deviceMinutes = this.deviceMinutes;
+    final devicePoolArn = this.devicePoolArn;
+    final deviceProxy = this.deviceProxy;
+    final deviceSelectionResult = this.deviceSelectionResult;
+    final environmentVariables = this.environmentVariables;
+    final eventCount = this.eventCount;
+    final executionRoleArn = this.executionRoleArn;
+    final jobTimeoutMinutes = this.jobTimeoutMinutes;
+    final locale = this.locale;
+    final location = this.location;
+    final message = this.message;
+    final name = this.name;
+    final networkProfile = this.networkProfile;
+    final parsingResultUrl = this.parsingResultUrl;
+    final platform = this.platform;
+    final radios = this.radios;
+    final result = this.result;
+    final resultCode = this.resultCode;
+    final seed = this.seed;
+    final skipAppResign = this.skipAppResign;
+    final started = this.started;
+    final status = this.status;
+    final stopped = this.stopped;
+    final testSpecArn = this.testSpecArn;
+    final totalJobs = this.totalJobs;
+    final type = this.type;
+    final vpcConfig = this.vpcConfig;
+    final webUrl = this.webUrl;
+    return {
+      if (appUpload != null) 'appUpload': appUpload,
+      if (arn != null) 'arn': arn,
+      if (billingMethod != null) 'billingMethod': billingMethod.value,
+      if (completedJobs != null) 'completedJobs': completedJobs,
+      if (counters != null) 'counters': counters,
+      if (created != null) 'created': unixTimestampToJson(created),
+      if (customerArtifactPaths != null)
+        'customerArtifactPaths': customerArtifactPaths,
+      if (deviceMinutes != null) 'deviceMinutes': deviceMinutes,
+      if (devicePoolArn != null) 'devicePoolArn': devicePoolArn,
+      if (deviceProxy != null) 'deviceProxy': deviceProxy,
+      if (deviceSelectionResult != null)
+        'deviceSelectionResult': deviceSelectionResult,
+      if (environmentVariables != null)
+        'environmentVariables': environmentVariables,
+      if (eventCount != null) 'eventCount': eventCount,
+      if (executionRoleArn != null) 'executionRoleArn': executionRoleArn,
+      if (jobTimeoutMinutes != null) 'jobTimeoutMinutes': jobTimeoutMinutes,
+      if (locale != null) 'locale': locale,
+      if (location != null) 'location': location,
+      if (message != null) 'message': message,
+      if (name != null) 'name': name,
+      if (networkProfile != null) 'networkProfile': networkProfile,
+      if (parsingResultUrl != null) 'parsingResultUrl': parsingResultUrl,
+      if (platform != null) 'platform': platform.value,
+      if (radios != null) 'radios': radios,
+      if (result != null) 'result': result.value,
+      if (resultCode != null) 'resultCode': resultCode.value,
+      if (seed != null) 'seed': seed,
+      if (skipAppResign != null) 'skipAppResign': skipAppResign,
+      if (started != null) 'started': unixTimestampToJson(started),
+      if (status != null) 'status': status.value,
+      if (stopped != null) 'stopped': unixTimestampToJson(stopped),
+      if (testSpecArn != null) 'testSpecArn': testSpecArn,
+      if (totalJobs != null) 'totalJobs': totalJobs,
+      if (type != null) 'type': type.value,
+      if (vpcConfig != null) 'vpcConfig': vpcConfig,
+      if (webUrl != null) 'webUrl': webUrl,
+    };
+  }
+}
+
+class TestType {
+  static const builtinFuzz = TestType._('BUILTIN_FUZZ');
+  static const appiumJavaJunit = TestType._('APPIUM_JAVA_JUNIT');
+  static const appiumJavaTestng = TestType._('APPIUM_JAVA_TESTNG');
+  static const appiumPython = TestType._('APPIUM_PYTHON');
+  static const appiumNode = TestType._('APPIUM_NODE');
+  static const appiumRuby = TestType._('APPIUM_RUBY');
+  static const appiumWebJavaJunit = TestType._('APPIUM_WEB_JAVA_JUNIT');
+  static const appiumWebJavaTestng = TestType._('APPIUM_WEB_JAVA_TESTNG');
+  static const appiumWebPython = TestType._('APPIUM_WEB_PYTHON');
+  static const appiumWebNode = TestType._('APPIUM_WEB_NODE');
+  static const appiumWebRuby = TestType._('APPIUM_WEB_RUBY');
+  static const instrumentation = TestType._('INSTRUMENTATION');
+  static const xctest = TestType._('XCTEST');
+  static const xctestUi = TestType._('XCTEST_UI');
+
+  final String value;
+
+  const TestType._(this.value);
+
+  static const values = [
+    builtinFuzz,
+    appiumJavaJunit,
+    appiumJavaTestng,
+    appiumPython,
+    appiumNode,
+    appiumRuby,
+    appiumWebJavaJunit,
+    appiumWebJavaTestng,
+    appiumWebPython,
+    appiumWebNode,
+    appiumWebRuby,
+    instrumentation,
+    xctest,
+    xctestUi
+  ];
+
+  static TestType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TestType._(value));
+
+  @override
+  bool operator ==(other) => other is TestType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DevicePlatform {
+  static const android = DevicePlatform._('ANDROID');
+  static const ios = DevicePlatform._('IOS');
+
+  final String value;
+
+  const DevicePlatform._(this.value);
+
+  static const values = [android, ios];
+
+  static DevicePlatform fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DevicePlatform._(value));
+
+  @override
+  bool operator ==(other) => other is DevicePlatform && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ExecutionStatus {
+  static const pending = ExecutionStatus._('PENDING');
+  static const pendingConcurrency = ExecutionStatus._('PENDING_CONCURRENCY');
+  static const pendingDevice = ExecutionStatus._('PENDING_DEVICE');
+  static const processing = ExecutionStatus._('PROCESSING');
+  static const scheduling = ExecutionStatus._('SCHEDULING');
+  static const preparing = ExecutionStatus._('PREPARING');
+  static const running = ExecutionStatus._('RUNNING');
+  static const completed = ExecutionStatus._('COMPLETED');
+  static const stopping = ExecutionStatus._('STOPPING');
+
+  final String value;
+
+  const ExecutionStatus._(this.value);
+
+  static const values = [
+    pending,
+    pendingConcurrency,
+    pendingDevice,
+    processing,
+    scheduling,
+    preparing,
+    running,
+    completed,
+    stopping
+  ];
+
+  static ExecutionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExecutionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ExecutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ExecutionResult {
+  static const pending = ExecutionResult._('PENDING');
+  static const passed = ExecutionResult._('PASSED');
+  static const warned = ExecutionResult._('WARNED');
+  static const failed = ExecutionResult._('FAILED');
+  static const skipped = ExecutionResult._('SKIPPED');
+  static const errored = ExecutionResult._('ERRORED');
+  static const stopped = ExecutionResult._('STOPPED');
+
+  final String value;
+
+  const ExecutionResult._(this.value);
+
+  static const values = [
+    pending,
+    passed,
+    warned,
+    failed,
+    skipped,
+    errored,
+    stopped
+  ];
+
+  static ExecutionResult fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExecutionResult._(value));
+
+  @override
+  bool operator ==(other) => other is ExecutionResult && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents entity counters.
+class Counters {
+  /// The number of errored entities.
+  final int? errored;
+
+  /// The number of failed entities.
+  final int? failed;
+
+  /// The number of passed entities.
+  final int? passed;
+
+  /// The number of skipped entities.
+  final int? skipped;
+
+  /// The number of stopped entities.
+  final int? stopped;
+
+  /// The total number of entities.
+  final int? total;
+
+  /// The number of warned entities.
+  final int? warned;
+
+  Counters({
+    this.errored,
+    this.failed,
+    this.passed,
+    this.skipped,
+    this.stopped,
+    this.total,
+    this.warned,
+  });
+
+  factory Counters.fromJson(Map<String, dynamic> json) {
+    return Counters(
+      errored: json['errored'] as int?,
+      failed: json['failed'] as int?,
+      passed: json['passed'] as int?,
+      skipped: json['skipped'] as int?,
+      stopped: json['stopped'] as int?,
+      total: json['total'] as int?,
+      warned: json['warned'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errored = this.errored;
+    final failed = this.failed;
+    final passed = this.passed;
+    final skipped = this.skipped;
+    final stopped = this.stopped;
+    final total = this.total;
+    final warned = this.warned;
+    return {
+      if (errored != null) 'errored': errored,
+      if (failed != null) 'failed': failed,
+      if (passed != null) 'passed': passed,
+      if (skipped != null) 'skipped': skipped,
+      if (stopped != null) 'stopped': stopped,
+      if (total != null) 'total': total,
+      if (warned != null) 'warned': warned,
+    };
+  }
+}
+
+class BillingMethod {
+  static const metered = BillingMethod._('METERED');
+  static const unmetered = BillingMethod._('UNMETERED');
+
+  final String value;
+
+  const BillingMethod._(this.value);
+
+  static const values = [metered, unmetered];
+
+  static BillingMethod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BillingMethod._(value));
+
+  @override
+  bool operator ==(other) => other is BillingMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the total (metered or unmetered) minutes used by the resource to
+/// run tests. Contains the sum of minutes consumed by all children.
+class DeviceMinutes {
+  /// When specified, represents only the sum of metered minutes used by the
+  /// resource to run tests.
+  final double? metered;
+
+  /// When specified, represents the total minutes used by the resource to run
+  /// tests.
+  final double? total;
+
+  /// When specified, represents only the sum of unmetered minutes used by the
+  /// resource to run tests.
+  final double? unmetered;
+
+  DeviceMinutes({
+    this.metered,
+    this.total,
+    this.unmetered,
+  });
+
+  factory DeviceMinutes.fromJson(Map<String, dynamic> json) {
+    return DeviceMinutes(
+      metered: json['metered'] as double?,
+      total: json['total'] as double?,
+      unmetered: json['unmetered'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metered = this.metered;
+    final total = this.total;
+    final unmetered = this.unmetered;
+    return {
+      if (metered != null) 'metered': metered,
+      if (total != null) 'total': total,
+      if (unmetered != null) 'unmetered': unmetered,
+    };
+  }
+}
+
+/// Represents the http/s proxy configuration that will be applied to a device
+/// during a run.
+class DeviceProxy {
+  /// Hostname or IPv4 address of the proxy.
+  final String host;
+
+  /// The port number on which the http/s proxy is listening.
+  final int port;
+
+  DeviceProxy({
+    required this.host,
+    required this.port,
+  });
+
+  factory DeviceProxy.fromJson(Map<String, dynamic> json) {
+    return DeviceProxy(
+      host: (json['host'] as String?) ?? '',
+      port: (json['port'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final host = this.host;
+    final port = this.port;
+    return {
+      'host': host,
+      'port': port,
+    };
+  }
+}
+
+class ExecutionResultCode {
+  static const parsingFailed = ExecutionResultCode._('PARSING_FAILED');
+  static const vpcEndpointSetupFailed =
+      ExecutionResultCode._('VPC_ENDPOINT_SETUP_FAILED');
+
+  final String value;
+
+  const ExecutionResultCode._(this.value);
+
+  static const values = [parsingFailed, vpcEndpointSetupFailed];
+
+  static ExecutionResultCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExecutionResultCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExecutionResultCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the set of radios and their states on a device. Examples of
+/// radios include Wi-Fi, GPS, Bluetooth, and NFC.
+class Radios {
+  /// True if Bluetooth is enabled at the beginning of the test. Otherwise, false.
+  final bool? bluetooth;
+
+  /// True if GPS is enabled at the beginning of the test. Otherwise, false.
+  final bool? gps;
+
+  /// True if NFC is enabled at the beginning of the test. Otherwise, false.
+  final bool? nfc;
+
+  /// True if Wi-Fi is enabled at the beginning of the test. Otherwise, false.
+  final bool? wifi;
+
+  Radios({
+    this.bluetooth,
+    this.gps,
+    this.nfc,
+    this.wifi,
+  });
+
+  factory Radios.fromJson(Map<String, dynamic> json) {
+    return Radios(
+      bluetooth: json['bluetooth'] as bool?,
+      gps: json['gps'] as bool?,
+      nfc: json['nfc'] as bool?,
+      wifi: json['wifi'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bluetooth = this.bluetooth;
+    final gps = this.gps;
+    final nfc = this.nfc;
+    final wifi = this.wifi;
+    return {
+      if (bluetooth != null) 'bluetooth': bluetooth,
+      if (gps != null) 'gps': gps,
+      if (nfc != null) 'nfc': nfc,
+      if (wifi != null) 'wifi': wifi,
+    };
+  }
+}
+
+/// Represents a latitude and longitude pair, expressed in geographic coordinate
+/// system degrees (for example, 47.6204, -122.3491).
+///
+/// Elevation is currently not supported.
+class Location {
+  /// The latitude.
+  final double latitude;
+
+  /// The longitude.
+  final double longitude;
+
+  Location({
+    required this.latitude,
+    required this.longitude,
+  });
+
+  factory Location.fromJson(Map<String, dynamic> json) {
+    return Location(
+      latitude: (json['latitude'] as double?) ?? 0,
+      longitude: (json['longitude'] as double?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final latitude = this.latitude;
+    final longitude = this.longitude;
+    return {
+      'latitude': latitude,
+      'longitude': longitude,
+    };
+  }
+}
+
+/// A JSON object that specifies the paths where the artifacts generated by the
+/// customer's tests, on the device or in the test environment, are pulled from.
+///
+/// Specify <code>deviceHostPaths</code> and optionally specify either
+/// <code>iosPaths</code> or <code>androidPaths</code>.
+///
+/// For web app tests, you can specify both <code>iosPaths</code> and
+/// <code>androidPaths</code>.
+class CustomerArtifactPaths {
+  /// Comma-separated list of paths on the Android device where the artifacts
+  /// generated by the customer's tests are pulled from.
+  final List<String>? androidPaths;
+
+  /// Comma-separated list of paths in the test execution environment where the
+  /// artifacts generated by the customer's tests are pulled from.
+  final List<String>? deviceHostPaths;
+
+  /// Comma-separated list of paths on the iOS device where the artifacts
+  /// generated by the customer's tests are pulled from.
+  final List<String>? iosPaths;
+
+  CustomerArtifactPaths({
+    this.androidPaths,
+    this.deviceHostPaths,
+    this.iosPaths,
+  });
+
+  factory CustomerArtifactPaths.fromJson(Map<String, dynamic> json) {
+    return CustomerArtifactPaths(
+      androidPaths: (json['androidPaths'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      deviceHostPaths: (json['deviceHostPaths'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      iosPaths: (json['iosPaths'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final androidPaths = this.androidPaths;
+    final deviceHostPaths = this.deviceHostPaths;
+    final iosPaths = this.iosPaths;
+    return {
+      if (androidPaths != null) 'androidPaths': androidPaths,
+      if (deviceHostPaths != null) 'deviceHostPaths': deviceHostPaths,
+      if (iosPaths != null) 'iosPaths': iosPaths,
+    };
+  }
+}
+
+/// Contains the run results requested by the device selection configuration and
+/// how many devices were returned. For an example of the JSON response syntax,
+/// see <a>ScheduleRun</a>.
+class DeviceSelectionResult {
+  /// The filters in a device selection result.
+  final List<DeviceFilter>? filters;
+
+  /// The number of devices that matched the device filter selection criteria.
+  final int? matchedDevicesCount;
+
+  /// The maximum number of devices to be selected by a device filter and included
+  /// in a test run.
+  final int? maxDevices;
+
+  DeviceSelectionResult({
+    this.filters,
+    this.matchedDevicesCount,
+    this.maxDevices,
+  });
+
+  factory DeviceSelectionResult.fromJson(Map<String, dynamic> json) {
+    return DeviceSelectionResult(
+      filters: (json['filters'] as List?)
+          ?.nonNulls
+          .map((e) => DeviceFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      matchedDevicesCount: json['matchedDevicesCount'] as int?,
+      maxDevices: json['maxDevices'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filters = this.filters;
+    final matchedDevicesCount = this.matchedDevicesCount;
+    final maxDevices = this.maxDevices;
+    return {
+      if (filters != null) 'filters': filters,
+      if (matchedDevicesCount != null)
+        'matchedDevicesCount': matchedDevicesCount,
+      if (maxDevices != null) 'maxDevices': maxDevices,
+    };
+  }
+}
+
+/// Represents a device filter used to select a set of devices to be included in
+/// a test run. This data structure is passed in as the
+/// <code>deviceSelectionConfiguration</code> parameter to
+/// <code>ScheduleRun</code>. For an example of the JSON request syntax, see
+/// <a>ScheduleRun</a>.
+///
+/// It is also passed in as the <code>filters</code> parameter to
+/// <code>ListDevices</code>. For an example of the JSON request syntax, see
+/// <a>ListDevices</a>.
+class DeviceFilter {
+  /// The aspect of a device such as platform or model used as the selection
+  /// criteria in a device filter.
+  ///
+  /// The supported operators for each attribute are provided in the following
+  /// list.
+  /// <dl> <dt>ARN</dt> <dd>
+  /// The Amazon Resource Name (ARN) of the device (for example,
+  /// <code>arn:aws:devicefarm:us-west-2::device:12345Example</code>).
+  ///
+  /// Supported operators: <code>EQUALS</code>, <code>IN</code>,
+  /// <code>NOT_IN</code>
+  /// </dd> <dt>PLATFORM</dt> <dd>
+  /// The device platform. Valid values are ANDROID or IOS.
+  ///
+  /// Supported operators: <code>EQUALS</code>
+  /// </dd> <dt>OS_VERSION</dt> <dd>
+  /// The operating system version (for example, 10.3.2).
+  ///
+  /// Supported operators: <code>EQUALS</code>, <code>GREATER_THAN</code>,
+  /// <code>GREATER_THAN_OR_EQUALS</code>, <code>IN</code>,
+  /// <code>LESS_THAN</code>, <code>LESS_THAN_OR_EQUALS</code>,
+  /// <code>NOT_IN</code>
+  /// </dd> <dt>MODEL</dt> <dd>
+  /// The device model (for example, iPad 5th Gen).
+  ///
+  /// Supported operators: <code>CONTAINS</code>, <code>EQUALS</code>,
+  /// <code>IN</code>, <code>NOT_IN</code>
+  /// </dd> <dt>AVAILABILITY</dt> <dd>
+  /// The current availability of the device. Valid values are AVAILABLE,
+  /// HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE.
+  ///
+  /// Supported operators: <code>EQUALS</code>
+  /// </dd> <dt>FORM_FACTOR</dt> <dd>
+  /// The device form factor. Valid values are PHONE or TABLET.
+  ///
+  /// Supported operators: <code>EQUALS</code>
+  /// </dd> <dt>MANUFACTURER</dt> <dd>
+  /// The device manufacturer (for example, Apple).
+  ///
+  /// Supported operators: <code>EQUALS</code>, <code>IN</code>,
+  /// <code>NOT_IN</code>
+  /// </dd> <dt>REMOTE_ACCESS_ENABLED</dt> <dd>
+  /// Whether the device is enabled for remote access. Valid values are TRUE or
+  /// FALSE.
+  ///
+  /// Supported operators: <code>EQUALS</code>
+  /// </dd> <dt>REMOTE_DEBUG_ENABLED</dt> <dd>
+  /// Whether the device is enabled for remote debugging. Valid values are TRUE or
+  /// FALSE.
+  ///
+  /// Supported operators: <code>EQUALS</code>
+  ///
+  /// Because remote debugging is <a
+  /// href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html">no
+  /// longer supported</a>, this filter is ignored.
+  /// </dd> <dt>INSTANCE_ARN</dt> <dd>
+  /// The Amazon Resource Name (ARN) of the device instance.
+  ///
+  /// Supported operators: <code>EQUALS</code>, <code>IN</code>,
+  /// <code>NOT_IN</code>
+  /// </dd> <dt>INSTANCE_LABELS</dt> <dd>
+  /// The label of the device instance.
+  ///
+  /// Supported operators: <code>CONTAINS</code>
+  /// </dd> <dt>FLEET_TYPE</dt> <dd>
+  /// The fleet type. Valid values are PUBLIC or PRIVATE.
+  ///
+  /// Supported operators: <code>EQUALS</code>
+  /// </dd> </dl>
+  final DeviceFilterAttribute attribute;
+
+  /// Specifies how Device Farm compares the filter's attribute to the value. See
+  /// the attribute descriptions.
+  final RuleOperator operator;
+
+  /// An array of one or more filter values used in a device filter.
+  /// <p class="title"> <b>Operator Values</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// The IN and NOT_IN operators can take a values array that has more than one
+  /// element.
+  /// </li>
+  /// <li>
+  /// The other operators require an array with a single element.
+  /// </li>
+  /// </ul> <p class="title"> <b>Attribute Values</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// The PLATFORM attribute can be set to ANDROID or IOS.
+  /// </li>
+  /// <li>
+  /// The AVAILABILITY attribute can be set to AVAILABLE, HIGHLY_AVAILABLE, BUSY,
+  /// or TEMPORARY_NOT_AVAILABLE.
+  /// </li>
+  /// <li>
+  /// The FORM_FACTOR attribute can be set to PHONE or TABLET.
+  /// </li>
+  /// <li>
+  /// The FLEET_TYPE attribute can be set to PUBLIC or PRIVATE.
+  /// </li>
+  /// </ul>
+  final List<String> values;
+
+  DeviceFilter({
+    required this.attribute,
+    required this.operator,
+    required this.values,
+  });
+
+  factory DeviceFilter.fromJson(Map<String, dynamic> json) {
+    return DeviceFilter(
+      attribute: DeviceFilterAttribute.fromString(
+          (json['attribute'] as String?) ?? ''),
+      operator: RuleOperator.fromString((json['operator'] as String?) ?? ''),
+      values: ((json['values'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attribute = this.attribute;
+    final operator = this.operator;
+    final values = this.values;
+    return {
+      'attribute': attribute.value,
+      'operator': operator.value,
+      'values': values,
+    };
+  }
+}
+
+class DeviceFilterAttribute {
+  static const arn = DeviceFilterAttribute._('ARN');
+  static const platform = DeviceFilterAttribute._('PLATFORM');
+  static const osVersion = DeviceFilterAttribute._('OS_VERSION');
+  static const model = DeviceFilterAttribute._('MODEL');
+  static const availability = DeviceFilterAttribute._('AVAILABILITY');
+  static const formFactor = DeviceFilterAttribute._('FORM_FACTOR');
+  static const manufacturer = DeviceFilterAttribute._('MANUFACTURER');
+  static const remoteAccessEnabled =
+      DeviceFilterAttribute._('REMOTE_ACCESS_ENABLED');
+  static const remoteDebugEnabled =
+      DeviceFilterAttribute._('REMOTE_DEBUG_ENABLED');
+  static const instanceArn = DeviceFilterAttribute._('INSTANCE_ARN');
+  static const instanceLabels = DeviceFilterAttribute._('INSTANCE_LABELS');
+  static const fleetType = DeviceFilterAttribute._('FLEET_TYPE');
+
+  final String value;
+
+  const DeviceFilterAttribute._(this.value);
+
+  static const values = [
+    arn,
+    platform,
+    osVersion,
+    model,
+    availability,
+    formFactor,
+    manufacturer,
+    remoteAccessEnabled,
+    remoteDebugEnabled,
+    instanceArn,
+    instanceLabels,
+    fleetType
+  ];
+
+  static DeviceFilterAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeviceFilterAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeviceFilterAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents information about the remote access session.
+class RemoteAccessSession {
+  /// The ARN for the app to be installed onto your device.
+  final String? appUpload;
+
+  /// The Amazon Resource Name (ARN) of the remote access session.
+  final String? arn;
+
+  /// The billing method of the remote access session. Possible values include
+  /// <code>METERED</code> or <code>UNMETERED</code>. For more information about
+  /// metered devices, see <a
+  /// href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/welcome.html#welcome-terminology">AWS
+  /// Device Farm terminology</a>.
+  final BillingMethod? billingMethod;
+
+  /// The date and time the remote access session was created.
+  final DateTime? created;
+
+  /// The device (phone or tablet) used in the remote access session.
+  final Device? device;
+
+  /// The number of minutes a device is used in a remote access session (including
+  /// setup and teardown minutes).
+  final DeviceMinutes? deviceMinutes;
+
+  /// The device proxy configured for the remote access session.
+  final DeviceProxy? deviceProxy;
+
+  /// Unique device identifier for the remote device. Only returned if remote
+  /// debugging is enabled for the remote access session.
+  ///
+  /// Remote debugging is <a
+  /// href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html">no
+  /// longer supported</a>.
+  final String? deviceUdid;
+
+  /// The endpoint for the remote access session. This field is deprecated, and is
+  /// replaced by the new <code>endpoints.interactiveEndpoint</code> field.
+  final String? endpoint;
+  final RemoteAccessEndpoints? endpoints;
+
+  /// The ARN of the instance.
+  final String? instanceArn;
+
+  /// The interaction mode of the remote access session. Changing the interactive
+  /// mode of remote access sessions is no longer available.
+  final InteractionMode? interactionMode;
+
+  /// A message about the remote access session.
+  final String? message;
+
+  /// The name of the remote access session.
+  final String? name;
+
+  /// The result of the remote access session. Can be any of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// PENDING.
+  /// </li>
+  /// <li>
+  /// PASSED.
+  /// </li>
+  /// <li>
+  /// WARNED.
+  /// </li>
+  /// <li>
+  /// FAILED.
+  /// </li>
+  /// <li>
+  /// SKIPPED.
+  /// </li>
+  /// <li>
+  /// ERRORED.
+  /// </li>
+  /// <li>
+  /// STOPPED.
+  /// </li>
+  /// </ul>
+  final ExecutionResult? result;
+
+  /// When set to <code>true</code>, for private devices, Device Farm does not
+  /// sign your app again. For public devices, Device Farm always signs your apps
+  /// again.
+  ///
+  /// For more information about how Device Farm re-signs your apps, see <a
+  /// href="http://aws.amazon.com/device-farm/faqs/">Do you modify my app?</a> in
+  /// the <i>AWS Device Farm FAQs</i>.
+  final bool? skipAppResign;
+
+  /// The date and time the remote access session was started.
+  final DateTime? started;
+
+  /// The status of the remote access session. Can be any of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// PENDING.
+  /// </li>
+  /// <li>
+  /// PENDING_CONCURRENCY.
+  /// </li>
+  /// <li>
+  /// PENDING_DEVICE.
+  /// </li>
+  /// <li>
+  /// PROCESSING.
+  /// </li>
+  /// <li>
+  /// SCHEDULING.
+  /// </li>
+  /// <li>
+  /// PREPARING.
+  /// </li>
+  /// <li>
+  /// RUNNING.
+  /// </li>
+  /// <li>
+  /// COMPLETED.
+  /// </li>
+  /// <li>
+  /// STOPPING.
+  /// </li>
+  /// </ul>
+  final ExecutionStatus? status;
+
+  /// The date and time the remote access session was stopped.
+  final DateTime? stopped;
+
+  /// The VPC security groups and subnets that are attached to a project.
+  final VpcConfig? vpcConfig;
+
+  RemoteAccessSession({
+    this.appUpload,
+    this.arn,
+    this.billingMethod,
+    this.created,
+    this.device,
+    this.deviceMinutes,
+    this.deviceProxy,
+    this.deviceUdid,
+    this.endpoint,
+    this.endpoints,
+    this.instanceArn,
+    this.interactionMode,
+    this.message,
+    this.name,
+    this.result,
+    this.skipAppResign,
+    this.started,
+    this.status,
+    this.stopped,
+    this.vpcConfig,
+  });
+
+  factory RemoteAccessSession.fromJson(Map<String, dynamic> json) {
+    return RemoteAccessSession(
+      appUpload: json['appUpload'] as String?,
+      arn: json['arn'] as String?,
+      billingMethod:
+          (json['billingMethod'] as String?)?.let(BillingMethod.fromString),
+      created: timeStampFromJson(json['created']),
+      device: json['device'] != null
+          ? Device.fromJson(json['device'] as Map<String, dynamic>)
+          : null,
+      deviceMinutes: json['deviceMinutes'] != null
+          ? DeviceMinutes.fromJson(
+              json['deviceMinutes'] as Map<String, dynamic>)
+          : null,
+      deviceProxy: json['deviceProxy'] != null
+          ? DeviceProxy.fromJson(json['deviceProxy'] as Map<String, dynamic>)
+          : null,
+      deviceUdid: json['deviceUdid'] as String?,
+      endpoint: json['endpoint'] as String?,
+      endpoints: json['endpoints'] != null
+          ? RemoteAccessEndpoints.fromJson(
+              json['endpoints'] as Map<String, dynamic>)
+          : null,
+      instanceArn: json['instanceArn'] as String?,
+      interactionMode:
+          (json['interactionMode'] as String?)?.let(InteractionMode.fromString),
+      message: json['message'] as String?,
+      name: json['name'] as String?,
+      result: (json['result'] as String?)?.let(ExecutionResult.fromString),
+      skipAppResign: json['skipAppResign'] as bool?,
+      started: timeStampFromJson(json['started']),
+      status: (json['status'] as String?)?.let(ExecutionStatus.fromString),
+      stopped: timeStampFromJson(json['stopped']),
+      vpcConfig: json['vpcConfig'] != null
+          ? VpcConfig.fromJson(json['vpcConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appUpload = this.appUpload;
+    final arn = this.arn;
+    final billingMethod = this.billingMethod;
+    final created = this.created;
+    final device = this.device;
+    final deviceMinutes = this.deviceMinutes;
+    final deviceProxy = this.deviceProxy;
+    final deviceUdid = this.deviceUdid;
+    final endpoint = this.endpoint;
+    final endpoints = this.endpoints;
+    final instanceArn = this.instanceArn;
+    final interactionMode = this.interactionMode;
+    final message = this.message;
+    final name = this.name;
+    final result = this.result;
+    final skipAppResign = this.skipAppResign;
+    final started = this.started;
+    final status = this.status;
+    final stopped = this.stopped;
+    final vpcConfig = this.vpcConfig;
+    return {
+      if (appUpload != null) 'appUpload': appUpload,
+      if (arn != null) 'arn': arn,
+      if (billingMethod != null) 'billingMethod': billingMethod.value,
+      if (created != null) 'created': unixTimestampToJson(created),
+      if (device != null) 'device': device,
+      if (deviceMinutes != null) 'deviceMinutes': deviceMinutes,
+      if (deviceProxy != null) 'deviceProxy': deviceProxy,
+      if (deviceUdid != null) 'deviceUdid': deviceUdid,
+      if (endpoint != null) 'endpoint': endpoint,
+      if (endpoints != null) 'endpoints': endpoints,
+      if (instanceArn != null) 'instanceArn': instanceArn,
+      if (interactionMode != null) 'interactionMode': interactionMode.value,
+      if (message != null) 'message': message,
+      if (name != null) 'name': name,
+      if (result != null) 'result': result.value,
+      if (skipAppResign != null) 'skipAppResign': skipAppResign,
+      if (started != null) 'started': unixTimestampToJson(started),
+      if (status != null) 'status': status.value,
+      if (stopped != null) 'stopped': unixTimestampToJson(stopped),
+      if (vpcConfig != null) 'vpcConfig': vpcConfig,
+    };
+  }
+}
+
+/// Represents a device type that an app is tested against.
+class Device {
+  /// The device's ARN.
+  final String? arn;
+
+  /// Indicates how likely a device is available for a test run. Currently
+  /// available in the <a>ListDevices</a> and GetDevice API methods.
+  final DeviceAvailability? availability;
+
+  /// The device's carrier.
+  final String? carrier;
+
+  /// Information about the device's CPU.
+  final CPU? cpu;
+
+  /// The name of the fleet to which this device belongs.
+  final String? fleetName;
+
+  /// The type of fleet to which this device belongs. Possible values are PRIVATE
+  /// and PUBLIC.
+  final String? fleetType;
+
+  /// The device's form factor.
+  ///
+  /// Allowed values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// PHONE
+  /// </li>
+  /// <li>
+  /// TABLET
+  /// </li>
+  /// </ul>
+  final DeviceFormFactor? formFactor;
+
+  /// The device's heap size, expressed in bytes.
+  final int? heapSize;
+
+  /// The device's image name.
+  final String? image;
+
+  /// The instances that belong to this device.
+  final List<DeviceInstance>? instances;
+
+  /// The device's manufacturer name.
+  final String? manufacturer;
+
+  /// The device's total memory size, expressed in bytes.
+  final int? memory;
+
+  /// The device's model name.
+  final String? model;
+
+  /// The device's model ID.
+  final String? modelId;
+
+  /// The device's display name.
+  final String? name;
+
+  /// The device's operating system type.
+  final String? os;
+
+  /// The device's platform.
+  ///
+  /// Allowed values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// ANDROID
+  /// </li>
+  /// <li>
+  /// IOS
+  /// </li>
+  /// </ul>
+  final DevicePlatform? platform;
+
+  /// The device's radio.
+  final String? radio;
+
+  /// Specifies whether remote access has been enabled for the specified device.
+  final bool? remoteAccessEnabled;
+
+  /// This flag is set to <code>true</code> if remote debugging is enabled for the
+  /// device.
+  ///
+  /// Remote debugging is <a
+  /// href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html">no
+  /// longer supported</a>.
+  final bool? remoteDebugEnabled;
+
+  /// The resolution of the device.
+  final Resolution? resolution;
+
+  Device({
+    this.arn,
+    this.availability,
+    this.carrier,
+    this.cpu,
+    this.fleetName,
+    this.fleetType,
+    this.formFactor,
+    this.heapSize,
+    this.image,
+    this.instances,
+    this.manufacturer,
+    this.memory,
+    this.model,
+    this.modelId,
+    this.name,
+    this.os,
+    this.platform,
+    this.radio,
+    this.remoteAccessEnabled,
+    this.remoteDebugEnabled,
+    this.resolution,
+  });
+
+  factory Device.fromJson(Map<String, dynamic> json) {
+    return Device(
+      arn: json['arn'] as String?,
+      availability:
+          (json['availability'] as String?)?.let(DeviceAvailability.fromString),
+      carrier: json['carrier'] as String?,
+      cpu: json['cpu'] != null
+          ? CPU.fromJson(json['cpu'] as Map<String, dynamic>)
+          : null,
+      fleetName: json['fleetName'] as String?,
+      fleetType: json['fleetType'] as String?,
+      formFactor:
+          (json['formFactor'] as String?)?.let(DeviceFormFactor.fromString),
+      heapSize: json['heapSize'] as int?,
+      image: json['image'] as String?,
+      instances: (json['instances'] as List?)
+          ?.nonNulls
+          .map((e) => DeviceInstance.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      manufacturer: json['manufacturer'] as String?,
+      memory: json['memory'] as int?,
+      model: json['model'] as String?,
+      modelId: json['modelId'] as String?,
+      name: json['name'] as String?,
+      os: json['os'] as String?,
+      platform: (json['platform'] as String?)?.let(DevicePlatform.fromString),
+      radio: json['radio'] as String?,
+      remoteAccessEnabled: json['remoteAccessEnabled'] as bool?,
+      remoteDebugEnabled: json['remoteDebugEnabled'] as bool?,
+      resolution: json['resolution'] != null
+          ? Resolution.fromJson(json['resolution'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final availability = this.availability;
+    final carrier = this.carrier;
+    final cpu = this.cpu;
+    final fleetName = this.fleetName;
+    final fleetType = this.fleetType;
+    final formFactor = this.formFactor;
+    final heapSize = this.heapSize;
+    final image = this.image;
+    final instances = this.instances;
+    final manufacturer = this.manufacturer;
+    final memory = this.memory;
+    final model = this.model;
+    final modelId = this.modelId;
+    final name = this.name;
+    final os = this.os;
+    final platform = this.platform;
+    final radio = this.radio;
+    final remoteAccessEnabled = this.remoteAccessEnabled;
+    final remoteDebugEnabled = this.remoteDebugEnabled;
+    final resolution = this.resolution;
+    return {
+      if (arn != null) 'arn': arn,
+      if (availability != null) 'availability': availability.value,
+      if (carrier != null) 'carrier': carrier,
+      if (cpu != null) 'cpu': cpu,
+      if (fleetName != null) 'fleetName': fleetName,
+      if (fleetType != null) 'fleetType': fleetType,
+      if (formFactor != null) 'formFactor': formFactor.value,
+      if (heapSize != null) 'heapSize': heapSize,
+      if (image != null) 'image': image,
+      if (instances != null) 'instances': instances,
+      if (manufacturer != null) 'manufacturer': manufacturer,
+      if (memory != null) 'memory': memory,
+      if (model != null) 'model': model,
+      if (modelId != null) 'modelId': modelId,
+      if (name != null) 'name': name,
+      if (os != null) 'os': os,
+      if (platform != null) 'platform': platform.value,
+      if (radio != null) 'radio': radio,
+      if (remoteAccessEnabled != null)
+        'remoteAccessEnabled': remoteAccessEnabled,
+      if (remoteDebugEnabled != null) 'remoteDebugEnabled': remoteDebugEnabled,
+      if (resolution != null) 'resolution': resolution,
+    };
+  }
+}
+
+class InteractionMode {
+  static const interactive = InteractionMode._('INTERACTIVE');
+  static const noVideo = InteractionMode._('NO_VIDEO');
+  static const videoOnly = InteractionMode._('VIDEO_ONLY');
+
+  final String value;
+
+  const InteractionMode._(this.value);
+
+  static const values = [interactive, noVideo, videoOnly];
+
+  static InteractionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InteractionMode._(value));
+
+  @override
+  bool operator ==(other) => other is InteractionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the remote endpoints for viewing and controlling a device during
+/// a remote access session.
+class RemoteAccessEndpoints {
+  /// URL for viewing and interacting with the device during the remote access
+  /// session.
+  final String? interactiveEndpoint;
+
+  /// URL for controlling the device using WebDriver-compliant clients, like
+  /// Appium, during the remote access session.
+  final String? remoteDriverEndpoint;
+
+  RemoteAccessEndpoints({
+    this.interactiveEndpoint,
+    this.remoteDriverEndpoint,
+  });
+
+  factory RemoteAccessEndpoints.fromJson(Map<String, dynamic> json) {
+    return RemoteAccessEndpoints(
+      interactiveEndpoint: json['interactiveEndpoint'] as String?,
+      remoteDriverEndpoint: json['remoteDriverEndpoint'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final interactiveEndpoint = this.interactiveEndpoint;
+    final remoteDriverEndpoint = this.remoteDriverEndpoint;
+    return {
+      if (interactiveEndpoint != null)
+        'interactiveEndpoint': interactiveEndpoint,
+      if (remoteDriverEndpoint != null)
+        'remoteDriverEndpoint': remoteDriverEndpoint,
+    };
+  }
+}
+
+class DeviceFormFactor {
+  static const phone = DeviceFormFactor._('PHONE');
+  static const tablet = DeviceFormFactor._('TABLET');
+
+  final String value;
+
+  const DeviceFormFactor._(this.value);
+
+  static const values = [phone, tablet];
+
+  static DeviceFormFactor fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeviceFormFactor._(value));
+
+  @override
+  bool operator ==(other) => other is DeviceFormFactor && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the amount of CPU that an app is using on a physical device. Does
+/// not represent system-wide CPU usage.
+class CPU {
+  /// The CPU's architecture (for example, x86 or ARM).
+  final String? architecture;
+
+  /// The clock speed of the device's CPU, expressed in hertz (Hz). For example, a
+  /// 1.2 GHz CPU is expressed as 1200000000.
+  final double? clock;
+
+  /// The CPU's frequency.
+  final String? frequency;
+
+  CPU({
+    this.architecture,
+    this.clock,
+    this.frequency,
+  });
+
+  factory CPU.fromJson(Map<String, dynamic> json) {
+    return CPU(
+      architecture: json['architecture'] as String?,
+      clock: json['clock'] as double?,
+      frequency: json['frequency'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final architecture = this.architecture;
+    final clock = this.clock;
+    final frequency = this.frequency;
+    return {
+      if (architecture != null) 'architecture': architecture,
+      if (clock != null) 'clock': clock,
+      if (frequency != null) 'frequency': frequency,
+    };
+  }
+}
+
+/// Represents the screen resolution of a device in height and width, expressed
+/// in pixels.
+class Resolution {
+  /// The screen resolution's height, expressed in pixels.
+  final int? height;
+
+  /// The screen resolution's width, expressed in pixels.
+  final int? width;
+
+  Resolution({
+    this.height,
+    this.width,
+  });
+
+  factory Resolution.fromJson(Map<String, dynamic> json) {
+    return Resolution(
+      height: json['height'] as int?,
+      width: json['width'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final height = this.height;
+    final width = this.width;
+    return {
+      if (height != null) 'height': height,
+      if (width != null) 'width': width,
+    };
+  }
+}
+
+class DeviceAvailability {
+  static const temporaryNotAvailable =
+      DeviceAvailability._('TEMPORARY_NOT_AVAILABLE');
+  static const busy = DeviceAvailability._('BUSY');
+  static const available = DeviceAvailability._('AVAILABLE');
+  static const highlyAvailable = DeviceAvailability._('HIGHLY_AVAILABLE');
+
+  final String value;
+
+  const DeviceAvailability._(this.value);
+
+  static const values = [
+    temporaryNotAvailable,
+    busy,
+    available,
+    highlyAvailable
+  ];
+
+  static DeviceAvailability fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeviceAvailability._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeviceAvailability && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents a device.
+class Job {
+  /// The job's ARN.
+  final String? arn;
+
+  /// The job's result counters.
+  final Counters? counters;
+
+  /// When the job was created.
+  final DateTime? created;
+
+  /// The device (phone or tablet).
+  final Device? device;
+
+  /// Represents the total (metered or unmetered) minutes used by the job.
+  final DeviceMinutes? deviceMinutes;
+
+  /// The ARN of the instance.
+  final String? instanceArn;
+
+  /// A message about the job's result.
+  final String? message;
+
+  /// The job's name.
+  final String? name;
+
+  /// The job's result.
+  ///
+  /// Allowed values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// PENDING
+  /// </li>
+  /// <li>
+  /// PASSED
+  /// </li>
+  /// <li>
+  /// WARNED
+  /// </li>
+  /// <li>
+  /// FAILED
+  /// </li>
+  /// <li>
+  /// SKIPPED
+  /// </li>
+  /// <li>
+  /// ERRORED
+  /// </li>
+  /// <li>
+  /// STOPPED
+  /// </li>
+  /// </ul>
+  final ExecutionResult? result;
+
+  /// The job's start time.
+  final DateTime? started;
+
+  /// The job's status.
+  ///
+  /// Allowed values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// PENDING
+  /// </li>
+  /// <li>
+  /// PENDING_CONCURRENCY
+  /// </li>
+  /// <li>
+  /// PENDING_DEVICE
+  /// </li>
+  /// <li>
+  /// PROCESSING
+  /// </li>
+  /// <li>
+  /// SCHEDULING
+  /// </li>
+  /// <li>
+  /// PREPARING
+  /// </li>
+  /// <li>
+  /// RUNNING
+  /// </li>
+  /// <li>
+  /// COMPLETED
+  /// </li>
+  /// <li>
+  /// STOPPING
+  /// </li>
+  /// </ul>
+  final ExecutionStatus? status;
+
+  /// The job's stop time.
+  final DateTime? stopped;
+
+  /// The job's type.
+  ///
+  /// Allowed values include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// BUILTIN_FUZZ
+  /// </li>
+  /// <li>
+  /// APPIUM_JAVA_JUNIT
+  /// </li>
+  /// <li>
+  /// APPIUM_JAVA_TESTNG
+  /// </li>
+  /// <li>
+  /// APPIUM_PYTHON
+  /// </li>
+  /// <li>
+  /// APPIUM_NODE
+  /// </li>
+  /// <li>
+  /// APPIUM_RUBY
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_JAVA_JUNIT
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_JAVA_TESTNG
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_PYTHON
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_NODE
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_RUBY
+  /// </li>
+  /// <li>
+  /// INSTRUMENTATION
+  /// </li>
+  /// <li>
+  /// XCTEST
+  /// </li>
+  /// <li>
+  /// XCTEST_UI
+  /// </li>
+  /// </ul>
+  final TestType? type;
+
+  /// This value is set to true if video capture is enabled. Otherwise, it is set
+  /// to false.
+  final bool? videoCapture;
+
+  /// The endpoint for streaming device video.
+  final String? videoEndpoint;
+
+  Job({
+    this.arn,
+    this.counters,
+    this.created,
+    this.device,
+    this.deviceMinutes,
+    this.instanceArn,
+    this.message,
+    this.name,
+    this.result,
+    this.started,
+    this.status,
+    this.stopped,
+    this.type,
+    this.videoCapture,
+    this.videoEndpoint,
+  });
+
+  factory Job.fromJson(Map<String, dynamic> json) {
+    return Job(
+      arn: json['arn'] as String?,
+      counters: json['counters'] != null
+          ? Counters.fromJson(json['counters'] as Map<String, dynamic>)
+          : null,
+      created: timeStampFromJson(json['created']),
+      device: json['device'] != null
+          ? Device.fromJson(json['device'] as Map<String, dynamic>)
+          : null,
+      deviceMinutes: json['deviceMinutes'] != null
+          ? DeviceMinutes.fromJson(
+              json['deviceMinutes'] as Map<String, dynamic>)
+          : null,
+      instanceArn: json['instanceArn'] as String?,
+      message: json['message'] as String?,
+      name: json['name'] as String?,
+      result: (json['result'] as String?)?.let(ExecutionResult.fromString),
+      started: timeStampFromJson(json['started']),
+      status: (json['status'] as String?)?.let(ExecutionStatus.fromString),
+      stopped: timeStampFromJson(json['stopped']),
+      type: (json['type'] as String?)?.let(TestType.fromString),
+      videoCapture: json['videoCapture'] as bool?,
+      videoEndpoint: json['videoEndpoint'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final counters = this.counters;
+    final created = this.created;
+    final device = this.device;
+    final deviceMinutes = this.deviceMinutes;
+    final instanceArn = this.instanceArn;
+    final message = this.message;
+    final name = this.name;
+    final result = this.result;
+    final started = this.started;
+    final status = this.status;
+    final stopped = this.stopped;
+    final type = this.type;
+    final videoCapture = this.videoCapture;
+    final videoEndpoint = this.videoEndpoint;
+    return {
+      if (arn != null) 'arn': arn,
+      if (counters != null) 'counters': counters,
+      if (created != null) 'created': unixTimestampToJson(created),
+      if (device != null) 'device': device,
+      if (deviceMinutes != null) 'deviceMinutes': deviceMinutes,
+      if (instanceArn != null) 'instanceArn': instanceArn,
+      if (message != null) 'message': message,
+      if (name != null) 'name': name,
+      if (result != null) 'result': result.value,
+      if (started != null) 'started': unixTimestampToJson(started),
+      if (status != null) 'status': status.value,
+      if (stopped != null) 'stopped': unixTimestampToJson(stopped),
+      if (type != null) 'type': type.value,
+      if (videoCapture != null) 'videoCapture': videoCapture,
+      if (videoEndpoint != null) 'videoEndpoint': videoEndpoint,
+    };
+  }
+}
+
+/// Represents the device filters used in a test run and the maximum number of
+/// devices to be included in the run. It is passed in as the
+/// <code>deviceSelectionConfiguration</code> request parameter in
+/// <a>ScheduleRun</a>.
+class DeviceSelectionConfiguration {
+  /// Used to dynamically select a set of devices for a test run. A filter is made
+  /// up of an attribute, an operator, and one or more values.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Attribute</b>
+  ///
+  /// The aspect of a device such as platform or model used as the selection
+  /// criteria in a device filter.
+  ///
+  /// Allowed values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// ARN: The Amazon Resource Name (ARN) of the device (for example,
+  /// <code>arn:aws:devicefarm:us-west-2::device:12345Example</code>).
+  /// </li>
+  /// <li>
+  /// PLATFORM: The device platform. Valid values are ANDROID or IOS.
+  /// </li>
+  /// <li>
+  /// OS_VERSION: The operating system version (for example, 10.3.2).
+  /// </li>
+  /// <li>
+  /// MODEL: The device model (for example, iPad 5th Gen).
+  /// </li>
+  /// <li>
+  /// AVAILABILITY: The current availability of the device. Valid values are
+  /// AVAILABLE, HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE.
+  /// </li>
+  /// <li>
+  /// FORM_FACTOR: The device form factor. Valid values are PHONE or TABLET.
+  /// </li>
+  /// <li>
+  /// MANUFACTURER: The device manufacturer (for example, Apple).
+  /// </li>
+  /// <li>
+  /// REMOTE_ACCESS_ENABLED: Whether the device is enabled for remote access.
+  /// Valid values are TRUE or FALSE.
+  /// </li>
+  /// <li>
+  /// REMOTE_DEBUG_ENABLED: Whether the device is enabled for remote debugging.
+  /// Valid values are TRUE or FALSE. Because remote debugging is <a
+  /// href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html">no
+  /// longer supported</a>, this filter is ignored.
+  /// </li>
+  /// <li>
+  /// INSTANCE_ARN: The Amazon Resource Name (ARN) of the device instance.
+  /// </li>
+  /// <li>
+  /// INSTANCE_LABELS: The label of the device instance.
+  /// </li>
+  /// <li>
+  /// FLEET_TYPE: The fleet type. Valid values are PUBLIC or PRIVATE.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <b>Operator</b>
+  ///
+  /// The filter operator.
+  ///
+  /// <ul>
+  /// <li>
+  /// The EQUALS operator is available for every attribute except INSTANCE_LABELS.
+  /// </li>
+  /// <li>
+  /// The CONTAINS operator is available for the INSTANCE_LABELS and MODEL
+  /// attributes.
+  /// </li>
+  /// <li>
+  /// The IN and NOT_IN operators are available for the ARN, OS_VERSION, MODEL,
+  /// MANUFACTURER, and INSTANCE_ARN attributes.
+  /// </li>
+  /// <li>
+  /// The LESS_THAN, GREATER_THAN, LESS_THAN_OR_EQUALS, and GREATER_THAN_OR_EQUALS
+  /// operators are also available for the OS_VERSION attribute.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <b>Values</b>
+  ///
+  /// An array of one or more filter values.
+  /// <p class="title"> <b>Operator Values</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// The IN and NOT_IN operators can take a values array that has more than one
+  /// element.
+  /// </li>
+  /// <li>
+  /// The other operators require an array with a single element.
+  /// </li>
+  /// </ul> <p class="title"> <b>Attribute Values</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// The PLATFORM attribute can be set to ANDROID or IOS.
+  /// </li>
+  /// <li>
+  /// The AVAILABILITY attribute can be set to AVAILABLE, HIGHLY_AVAILABLE, BUSY,
+  /// or TEMPORARY_NOT_AVAILABLE.
+  /// </li>
+  /// <li>
+  /// The FORM_FACTOR attribute can be set to PHONE or TABLET.
+  /// </li>
+  /// <li>
+  /// The FLEET_TYPE attribute can be set to PUBLIC or PRIVATE.
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
+  final List<DeviceFilter> filters;
+
+  /// The maximum number of devices to be included in a test run.
+  final int maxDevices;
+
+  DeviceSelectionConfiguration({
+    required this.filters,
+    required this.maxDevices,
+  });
+
+  Map<String, dynamic> toJson() {
+    final filters = this.filters;
+    final maxDevices = this.maxDevices;
+    return {
+      'filters': filters,
+      'maxDevices': maxDevices,
+    };
+  }
+}
+
+/// Represents test settings. This data structure is passed in as the test
+/// parameter to ScheduleRun. For an example of the JSON request syntax, see
+/// <a>ScheduleRun</a>.
+class ScheduleRunTest {
+  /// The test's type.
+  ///
+  /// Must be one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// BUILTIN_FUZZ
+  /// </li>
+  /// <li>
+  /// APPIUM_JAVA_JUNIT
+  /// </li>
+  /// <li>
+  /// APPIUM_JAVA_TESTNG
+  /// </li>
+  /// <li>
+  /// APPIUM_PYTHON
+  /// </li>
+  /// <li>
+  /// APPIUM_NODE
+  /// </li>
+  /// <li>
+  /// APPIUM_RUBY
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_JAVA_JUNIT
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_JAVA_TESTNG
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_PYTHON
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_NODE
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_RUBY
+  /// </li>
+  /// <li>
+  /// INSTRUMENTATION
+  /// </li>
+  /// <li>
+  /// XCTEST
+  /// </li>
+  /// <li>
+  /// XCTEST_UI
+  /// </li>
+  /// </ul>
+  final TestType type;
+
+  /// The test's filter.
+  final String? filter;
+
+  /// The test's parameters, such as test framework parameters and fixture
+  /// settings. Parameters are represented by name-value pairs of strings.
+  ///
+  /// For all tests:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>app_performance_monitoring</code>: Performance monitoring is enabled
+  /// by default. Set this parameter to false to disable it.
+  /// </li>
+  /// </ul>
+  /// For Appium tests (all types):
+  ///
+  /// <ul>
+  /// <li>
+  /// appium_version: The Appium version. Currently supported values are 1.6.5
+  /// (and later), latest, and default.
+  ///
+  /// <ul>
+  /// <li>
+  /// latest runs the latest Appium version supported by Device Farm (1.9.1).
+  /// </li>
+  /// <li>
+  /// For default, Device Farm selects a compatible version of Appium for the
+  /// device. The current behavior is to run 1.7.2 on Android devices and iOS 9
+  /// and earlier and 1.7.2 for iOS 10 and later.
+  /// </li>
+  /// <li>
+  /// This behavior is subject to change.
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
+  /// For fuzz tests (Android only):
+  ///
+  /// <ul>
+  /// <li>
+  /// event_count: The number of events, between 1 and 10000, that the UI fuzz
+  /// test should perform.
+  /// </li>
+  /// <li>
+  /// throttle: The time, in ms, between 0 and 1000, that the UI fuzz test should
+  /// wait between events.
+  /// </li>
+  /// <li>
+  /// seed: A seed to use for randomizing the UI fuzz test. Using the same seed
+  /// value between tests ensures identical event sequences.
+  /// </li>
+  /// </ul>
+  /// For Instrumentation:
+  ///
+  /// <ul>
+  /// <li>
+  /// filter: A test filter string. Examples:
+  ///
+  /// <ul>
+  /// <li>
+  /// Running a single test case: <code>com.android.abc.Test1</code>
+  /// </li>
+  /// <li>
+  /// Running a single test: <code>com.android.abc.Test1#smoke</code>
+  /// </li>
+  /// <li>
+  /// Running multiple tests:
+  /// <code>com.android.abc.Test1,com.android.abc.Test2</code>
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
+  /// For XCTest and XCTestUI:
+  ///
+  /// <ul>
+  /// <li>
+  /// filter: A test filter string. Examples:
+  ///
+  /// <ul>
+  /// <li>
+  /// Running a single test class: <code>LoginTests</code>
+  /// </li>
+  /// <li>
+  /// Running a multiple test classes: <code>LoginTests,SmokeTests</code>
+  /// </li>
+  /// <li>
+  /// Running a single test: <code>LoginTests/testValid</code>
+  /// </li>
+  /// <li>
+  /// Running multiple tests:
+  /// <code>LoginTests/testValid,LoginTests/testInvalid</code>
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
+  final Map<String, String>? parameters;
+
+  /// The ARN of the uploaded test to be run.
+  final String? testPackageArn;
+
+  /// The ARN of the YAML-formatted test specification.
+  final String? testSpecArn;
+
+  ScheduleRunTest({
+    required this.type,
+    this.filter,
+    this.parameters,
+    this.testPackageArn,
+    this.testSpecArn,
+  });
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final filter = this.filter;
+    final parameters = this.parameters;
+    final testPackageArn = this.testPackageArn;
+    final testSpecArn = this.testSpecArn;
+    return {
+      'type': type.value,
+      if (filter != null) 'filter': filter,
+      if (parameters != null) 'parameters': parameters,
+      if (testPackageArn != null) 'testPackageArn': testPackageArn,
+      if (testSpecArn != null) 'testSpecArn': testSpecArn,
+    };
+  }
+}
+
+/// Represents the settings for a run. Includes things like location, radio
+/// states, auxiliary apps, and network profiles.
+class ScheduleRunConfiguration {
+  /// A list of upload ARNs for app packages to be installed with your app.
+  final List<String>? auxiliaryApps;
+
+  /// Specifies the billing method for a test run: <code>metered</code> or
+  /// <code>unmetered</code>. If the parameter is not specified, the default value
+  /// is <code>metered</code>.
+  /// <note>
+  /// If you have purchased unmetered device slots, you must set this parameter to
+  /// <code>unmetered</code> to make use of them. Otherwise, your run counts
+  /// against your metered time.
+  /// </note>
+  final BillingMethod? billingMethod;
+
+  /// Input <code>CustomerArtifactPaths</code> object for the scheduled run
+  /// configuration.
+  final CustomerArtifactPaths? customerArtifactPaths;
+
+  /// The device proxy to be configured on the device for the run.
+  final DeviceProxy? deviceProxy;
+
+  /// Environment variables associated with the run.
+  final List<EnvironmentVariable>? environmentVariables;
+
+  /// An IAM role to be assumed by the test host for the run.
+  final String? executionRoleArn;
+
+  /// The ARN of the extra data for the run. The extra data is a .zip file that
+  /// AWS Device Farm extracts to external data for Android or the app's sandbox
+  /// for iOS.
+  final String? extraDataPackageArn;
+
+  /// Information about the locale that is used for the run.
+  final String? locale;
+
+  /// Information about the location that is used for the run.
+  final Location? location;
+
+  /// Reserved for internal use.
+  final String? networkProfileArn;
+
+  /// Information about the radio states for the run.
+  final Radios? radios;
+
+  /// An array of ARNs for your VPC endpoint configurations.
+  final List<String>? vpceConfigurationArns;
+
+  ScheduleRunConfiguration({
+    this.auxiliaryApps,
+    this.billingMethod,
+    this.customerArtifactPaths,
+    this.deviceProxy,
+    this.environmentVariables,
+    this.executionRoleArn,
+    this.extraDataPackageArn,
+    this.locale,
+    this.location,
+    this.networkProfileArn,
+    this.radios,
+    this.vpceConfigurationArns,
+  });
+
+  Map<String, dynamic> toJson() {
+    final auxiliaryApps = this.auxiliaryApps;
+    final billingMethod = this.billingMethod;
+    final customerArtifactPaths = this.customerArtifactPaths;
+    final deviceProxy = this.deviceProxy;
+    final environmentVariables = this.environmentVariables;
+    final executionRoleArn = this.executionRoleArn;
+    final extraDataPackageArn = this.extraDataPackageArn;
+    final locale = this.locale;
+    final location = this.location;
+    final networkProfileArn = this.networkProfileArn;
+    final radios = this.radios;
+    final vpceConfigurationArns = this.vpceConfigurationArns;
+    return {
+      if (auxiliaryApps != null) 'auxiliaryApps': auxiliaryApps,
+      if (billingMethod != null) 'billingMethod': billingMethod.value,
+      if (customerArtifactPaths != null)
+        'customerArtifactPaths': customerArtifactPaths,
+      if (deviceProxy != null) 'deviceProxy': deviceProxy,
+      if (environmentVariables != null)
+        'environmentVariables': environmentVariables,
+      if (executionRoleArn != null) 'executionRoleArn': executionRoleArn,
+      if (extraDataPackageArn != null)
+        'extraDataPackageArn': extraDataPackageArn,
+      if (locale != null) 'locale': locale,
+      if (location != null) 'location': location,
+      if (networkProfileArn != null) 'networkProfileArn': networkProfileArn,
+      if (radios != null) 'radios': radios,
+      if (vpceConfigurationArns != null)
+        'vpceConfigurationArns': vpceConfigurationArns,
+    };
+  }
+}
+
+/// Represents configuration information about a test run, such as the execution
+/// timeout (in minutes).
+class ExecutionConfiguration {
+  /// True if account cleanup is enabled at the beginning of the test. Otherwise,
+  /// false.
+  final bool? accountsCleanup;
+
+  /// True if app package cleanup is enabled at the beginning of the test.
+  /// Otherwise, false.
+  final bool? appPackagesCleanup;
+
+  /// The number of minutes a test run executes before it times out.
+  final int? jobTimeoutMinutes;
+
+  /// When set to <code>true</code>, for private devices, Device Farm does not
+  /// sign your app again. For public devices, Device Farm always signs your apps
+  /// again.
+  ///
+  /// For more information about how Device Farm re-signs your apps, see <a
+  /// href="http://aws.amazon.com/device-farm/faqs/">Do you modify my app?</a> in
+  /// the <i>AWS Device Farm FAQs</i>.
+  final bool? skipAppResign;
+
+  /// Set to true to enable video capture. Otherwise, set to false. The default is
+  /// true.
+  final bool? videoCapture;
+
+  ExecutionConfiguration({
+    this.accountsCleanup,
+    this.appPackagesCleanup,
+    this.jobTimeoutMinutes,
+    this.skipAppResign,
+    this.videoCapture,
+  });
+
+  Map<String, dynamic> toJson() {
+    final accountsCleanup = this.accountsCleanup;
+    final appPackagesCleanup = this.appPackagesCleanup;
+    final jobTimeoutMinutes = this.jobTimeoutMinutes;
+    final skipAppResign = this.skipAppResign;
+    final videoCapture = this.videoCapture;
+    return {
+      if (accountsCleanup != null) 'accountsCleanup': accountsCleanup,
+      if (appPackagesCleanup != null) 'appPackagesCleanup': appPackagesCleanup,
+      if (jobTimeoutMinutes != null) 'jobTimeoutMinutes': jobTimeoutMinutes,
+      if (skipAppResign != null) 'skipAppResign': skipAppResign,
+      if (videoCapture != null) 'videoCapture': videoCapture,
+    };
+  }
+}
+
+/// Represents the metadata of an offering transaction.
+class OfferingTransaction {
+  /// The cost of an offering transaction.
+  final MonetaryAmount? cost;
+
+  /// The date on which an offering transaction was created.
+  final DateTime? createdOn;
+
+  /// The ID that corresponds to a device offering promotion.
+  final String? offeringPromotionId;
+
+  /// The status of an offering transaction.
+  final OfferingStatus? offeringStatus;
+
+  /// The transaction ID of the offering transaction.
+  final String? transactionId;
+
+  OfferingTransaction({
+    this.cost,
+    this.createdOn,
+    this.offeringPromotionId,
+    this.offeringStatus,
+    this.transactionId,
+  });
+
+  factory OfferingTransaction.fromJson(Map<String, dynamic> json) {
+    return OfferingTransaction(
+      cost: json['cost'] != null
+          ? MonetaryAmount.fromJson(json['cost'] as Map<String, dynamic>)
+          : null,
+      createdOn: timeStampFromJson(json['createdOn']),
+      offeringPromotionId: json['offeringPromotionId'] as String?,
+      offeringStatus: json['offeringStatus'] != null
+          ? OfferingStatus.fromJson(
+              json['offeringStatus'] as Map<String, dynamic>)
+          : null,
+      transactionId: json['transactionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cost = this.cost;
+    final createdOn = this.createdOn;
+    final offeringPromotionId = this.offeringPromotionId;
+    final offeringStatus = this.offeringStatus;
+    final transactionId = this.transactionId;
+    return {
+      if (cost != null) 'cost': cost,
+      if (createdOn != null) 'createdOn': unixTimestampToJson(createdOn),
+      if (offeringPromotionId != null)
+        'offeringPromotionId': offeringPromotionId,
+      if (offeringStatus != null) 'offeringStatus': offeringStatus,
+      if (transactionId != null) 'transactionId': transactionId,
+    };
+  }
+}
+
+/// The status of the offering.
+class OfferingStatus {
+  /// The date on which the offering is effective.
+  final DateTime? effectiveOn;
+
+  /// Represents the metadata of an offering status.
+  final Offering? offering;
+
+  /// The number of available devices in the offering.
+  final int? quantity;
+
+  /// The type specified for the offering status.
+  final OfferingTransactionType? type;
+
+  OfferingStatus({
+    this.effectiveOn,
+    this.offering,
+    this.quantity,
+    this.type,
+  });
+
+  factory OfferingStatus.fromJson(Map<String, dynamic> json) {
+    return OfferingStatus(
+      effectiveOn: timeStampFromJson(json['effectiveOn']),
+      offering: json['offering'] != null
+          ? Offering.fromJson(json['offering'] as Map<String, dynamic>)
+          : null,
+      quantity: json['quantity'] as int?,
+      type: (json['type'] as String?)?.let(OfferingTransactionType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final effectiveOn = this.effectiveOn;
+    final offering = this.offering;
+    final quantity = this.quantity;
+    final type = this.type;
+    return {
+      if (effectiveOn != null) 'effectiveOn': unixTimestampToJson(effectiveOn),
+      if (offering != null) 'offering': offering,
+      if (quantity != null) 'quantity': quantity,
+      if (type != null) 'type': type.value,
+    };
+  }
+}
+
+/// A number that represents the monetary amount for an offering or transaction.
+class MonetaryAmount {
+  /// The numerical amount of an offering or transaction.
+  final double? amount;
+
+  /// The currency code of a monetary amount. For example, <code>USD</code> means
+  /// U.S. dollars.
+  final CurrencyCode? currencyCode;
+
+  MonetaryAmount({
+    this.amount,
+    this.currencyCode,
+  });
+
+  factory MonetaryAmount.fromJson(Map<String, dynamic> json) {
+    return MonetaryAmount(
+      amount: json['amount'] as double?,
+      currencyCode:
+          (json['currencyCode'] as String?)?.let(CurrencyCode.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final amount = this.amount;
+    final currencyCode = this.currencyCode;
+    return {
+      if (amount != null) 'amount': amount,
+      if (currencyCode != null) 'currencyCode': currencyCode.value,
+    };
+  }
+}
+
+class CurrencyCode {
+  static const usd = CurrencyCode._('USD');
+
+  final String value;
+
+  const CurrencyCode._(this.value);
+
+  static const values = [usd];
+
+  static CurrencyCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CurrencyCode._(value));
+
+  @override
+  bool operator ==(other) => other is CurrencyCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class OfferingTransactionType {
+  static const purchase = OfferingTransactionType._('PURCHASE');
+  static const renew = OfferingTransactionType._('RENEW');
+  static const system = OfferingTransactionType._('SYSTEM');
+
+  final String value;
+
+  const OfferingTransactionType._(this.value);
+
+  static const values = [purchase, renew, system];
+
+  static OfferingTransactionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OfferingTransactionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OfferingTransactionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the metadata of a device offering.
+class Offering {
+  /// A string that describes the offering.
+  final String? description;
+
+  /// The ID that corresponds to a device offering.
+  final String? id;
+
+  /// The platform of the device (for example, <code>ANDROID</code> or
+  /// <code>IOS</code>).
+  final DevicePlatform? platform;
+
+  /// Specifies whether there are recurring charges for the offering.
+  final List<RecurringCharge>? recurringCharges;
+
+  /// The type of offering (for example, <code>RECURRING</code>) for a device.
+  final OfferingType? type;
+
+  Offering({
+    this.description,
+    this.id,
+    this.platform,
+    this.recurringCharges,
+    this.type,
+  });
+
+  factory Offering.fromJson(Map<String, dynamic> json) {
+    return Offering(
+      description: json['description'] as String?,
+      id: json['id'] as String?,
+      platform: (json['platform'] as String?)?.let(DevicePlatform.fromString),
+      recurringCharges: (json['recurringCharges'] as List?)
+          ?.nonNulls
+          .map((e) => RecurringCharge.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['type'] as String?)?.let(OfferingType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final id = this.id;
+    final platform = this.platform;
+    final recurringCharges = this.recurringCharges;
+    final type = this.type;
+    return {
+      if (description != null) 'description': description,
+      if (id != null) 'id': id,
+      if (platform != null) 'platform': platform.value,
+      if (recurringCharges != null) 'recurringCharges': recurringCharges,
+      if (type != null) 'type': type.value,
+    };
+  }
+}
+
+class OfferingType {
+  static const recurring = OfferingType._('RECURRING');
+
+  final String value;
+
+  const OfferingType._(this.value);
+
+  static const values = [recurring];
+
+  static OfferingType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OfferingType._(value));
+
+  @override
+  bool operator ==(other) => other is OfferingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Specifies whether charges for devices are recurring.
+class RecurringCharge {
+  /// The cost of the recurring charge.
+  final MonetaryAmount? cost;
+
+  /// The frequency in which charges recur.
+  final RecurringChargeFrequency? frequency;
+
+  RecurringCharge({
+    this.cost,
+    this.frequency,
+  });
+
+  factory RecurringCharge.fromJson(Map<String, dynamic> json) {
+    return RecurringCharge(
+      cost: json['cost'] != null
+          ? MonetaryAmount.fromJson(json['cost'] as Map<String, dynamic>)
+          : null,
+      frequency: (json['frequency'] as String?)
+          ?.let(RecurringChargeFrequency.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cost = this.cost;
+    final frequency = this.frequency;
+    return {
+      if (cost != null) 'cost': cost,
+      if (frequency != null) 'frequency': frequency.value,
+    };
+  }
+}
+
+class RecurringChargeFrequency {
+  static const monthly = RecurringChargeFrequency._('MONTHLY');
+
+  final String value;
+
+  const RecurringChargeFrequency._(this.value);
+
+  static const values = [monthly];
+
+  static RecurringChargeFrequency fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RecurringChargeFrequency._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecurringChargeFrequency && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A collection of one or more problems, grouped by their result.
+class UniqueProblem {
+  /// A message about the unique problems' result.
+  final String? message;
+
+  /// Information about the problems.
+  final List<Problem>? problems;
+
+  UniqueProblem({
+    this.message,
+    this.problems,
+  });
+
+  factory UniqueProblem.fromJson(Map<String, dynamic> json) {
+    return UniqueProblem(
+      message: json['message'] as String?,
+      problems: (json['problems'] as List?)
+          ?.nonNulls
+          .map((e) => Problem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final problems = this.problems;
+    return {
+      if (message != null) 'message': message,
+      if (problems != null) 'problems': problems,
+    };
+  }
+}
+
+/// Represents a specific warning or failure.
+class Problem {
+  /// Information about the associated device.
+  final Device? device;
+
+  /// Information about the associated job.
+  final ProblemDetail? job;
+
+  /// A message about the problem's result.
+  final String? message;
+
+  /// The problem's result.
+  ///
+  /// Allowed values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// PENDING
+  /// </li>
+  /// <li>
+  /// PASSED
+  /// </li>
+  /// <li>
+  /// WARNED
+  /// </li>
+  /// <li>
+  /// FAILED
+  /// </li>
+  /// <li>
+  /// SKIPPED
+  /// </li>
+  /// <li>
+  /// ERRORED
+  /// </li>
+  /// <li>
+  /// STOPPED
+  /// </li>
+  /// </ul>
+  final ExecutionResult? result;
+
+  /// Information about the associated run.
+  final ProblemDetail? run;
+
+  /// Information about the associated suite.
+  final ProblemDetail? suite;
+
+  /// Information about the associated test.
+  final ProblemDetail? test;
+
+  Problem({
+    this.device,
+    this.job,
+    this.message,
+    this.result,
+    this.run,
+    this.suite,
+    this.test,
+  });
+
+  factory Problem.fromJson(Map<String, dynamic> json) {
+    return Problem(
+      device: json['device'] != null
+          ? Device.fromJson(json['device'] as Map<String, dynamic>)
+          : null,
+      job: json['job'] != null
+          ? ProblemDetail.fromJson(json['job'] as Map<String, dynamic>)
+          : null,
+      message: json['message'] as String?,
+      result: (json['result'] as String?)?.let(ExecutionResult.fromString),
+      run: json['run'] != null
+          ? ProblemDetail.fromJson(json['run'] as Map<String, dynamic>)
+          : null,
+      suite: json['suite'] != null
+          ? ProblemDetail.fromJson(json['suite'] as Map<String, dynamic>)
+          : null,
+      test: json['test'] != null
+          ? ProblemDetail.fromJson(json['test'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final device = this.device;
+    final job = this.job;
+    final message = this.message;
+    final result = this.result;
+    final run = this.run;
+    final suite = this.suite;
+    final test = this.test;
+    return {
+      if (device != null) 'device': device,
+      if (job != null) 'job': job,
+      if (message != null) 'message': message,
+      if (result != null) 'result': result.value,
+      if (run != null) 'run': run,
+      if (suite != null) 'suite': suite,
+      if (test != null) 'test': test,
+    };
+  }
+}
+
+/// Information about a problem detail.
+class ProblemDetail {
+  /// The problem detail's ARN.
+  final String? arn;
+
+  /// The problem detail's name.
+  final String? name;
+
+  ProblemDetail({
+    this.arn,
+    this.name,
+  });
+
+  factory ProblemDetail.fromJson(Map<String, dynamic> json) {
+    return ProblemDetail(
+      arn: json['arn'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    return {
+      if (arn != null) 'arn': arn,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// Represents a condition that is evaluated.
+class Test {
+  /// The test's ARN.
+  final String? arn;
+
+  /// The test's result counters.
+  final Counters? counters;
+
+  /// When the test was created.
+  final DateTime? created;
+
+  /// Represents the total (metered or unmetered) minutes used by the test.
+  final DeviceMinutes? deviceMinutes;
+
+  /// A message about the test's result.
+  final String? message;
+
+  /// The test's name.
+  final String? name;
+
+  /// The test's result.
+  ///
+  /// Allowed values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// PENDING
+  /// </li>
+  /// <li>
+  /// PASSED
+  /// </li>
+  /// <li>
+  /// WARNED
+  /// </li>
+  /// <li>
+  /// FAILED
+  /// </li>
+  /// <li>
+  /// SKIPPED
+  /// </li>
+  /// <li>
+  /// ERRORED
+  /// </li>
+  /// <li>
+  /// STOPPED
+  /// </li>
+  /// </ul>
+  final ExecutionResult? result;
+
+  /// The test's start time.
+  final DateTime? started;
+
+  /// The test's status.
+  ///
+  /// Allowed values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// PENDING
+  /// </li>
+  /// <li>
+  /// PENDING_CONCURRENCY
+  /// </li>
+  /// <li>
+  /// PENDING_DEVICE
+  /// </li>
+  /// <li>
+  /// PROCESSING
+  /// </li>
+  /// <li>
+  /// SCHEDULING
+  /// </li>
+  /// <li>
+  /// PREPARING
+  /// </li>
+  /// <li>
+  /// RUNNING
+  /// </li>
+  /// <li>
+  /// COMPLETED
+  /// </li>
+  /// <li>
+  /// STOPPING
+  /// </li>
+  /// </ul>
+  final ExecutionStatus? status;
+
+  /// The test's stop time.
+  final DateTime? stopped;
+
+  /// The test's type.
+  ///
+  /// Must be one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// BUILTIN_FUZZ
+  /// </li>
+  /// <li>
+  /// APPIUM_JAVA_JUNIT
+  /// </li>
+  /// <li>
+  /// APPIUM_JAVA_TESTNG
+  /// </li>
+  /// <li>
+  /// APPIUM_PYTHON
+  /// </li>
+  /// <li>
+  /// APPIUM_NODE
+  /// </li>
+  /// <li>
+  /// APPIUM_RUBY
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_JAVA_JUNIT
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_JAVA_TESTNG
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_PYTHON
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_NODE
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_RUBY
+  /// </li>
+  /// <li>
+  /// INSTRUMENTATION
+  /// </li>
+  /// <li>
+  /// XCTEST
+  /// </li>
+  /// <li>
+  /// XCTEST_UI
+  /// </li>
+  /// </ul>
+  final TestType? type;
+
+  Test({
+    this.arn,
+    this.counters,
+    this.created,
+    this.deviceMinutes,
+    this.message,
+    this.name,
+    this.result,
+    this.started,
+    this.status,
+    this.stopped,
+    this.type,
+  });
+
+  factory Test.fromJson(Map<String, dynamic> json) {
+    return Test(
+      arn: json['arn'] as String?,
+      counters: json['counters'] != null
+          ? Counters.fromJson(json['counters'] as Map<String, dynamic>)
+          : null,
+      created: timeStampFromJson(json['created']),
+      deviceMinutes: json['deviceMinutes'] != null
+          ? DeviceMinutes.fromJson(
+              json['deviceMinutes'] as Map<String, dynamic>)
+          : null,
+      message: json['message'] as String?,
+      name: json['name'] as String?,
+      result: (json['result'] as String?)?.let(ExecutionResult.fromString),
+      started: timeStampFromJson(json['started']),
+      status: (json['status'] as String?)?.let(ExecutionStatus.fromString),
+      stopped: timeStampFromJson(json['stopped']),
+      type: (json['type'] as String?)?.let(TestType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final counters = this.counters;
+    final created = this.created;
+    final deviceMinutes = this.deviceMinutes;
+    final message = this.message;
+    final name = this.name;
+    final result = this.result;
+    final started = this.started;
+    final status = this.status;
+    final stopped = this.stopped;
+    final type = this.type;
+    return {
+      if (arn != null) 'arn': arn,
+      if (counters != null) 'counters': counters,
+      if (created != null) 'created': unixTimestampToJson(created),
+      if (deviceMinutes != null) 'deviceMinutes': deviceMinutes,
+      if (message != null) 'message': message,
+      if (name != null) 'name': name,
+      if (result != null) 'result': result.value,
+      if (started != null) 'started': unixTimestampToJson(started),
+      if (status != null) 'status': status.value,
+      if (stopped != null) 'stopped': unixTimestampToJson(stopped),
+      if (type != null) 'type': type.value,
+    };
+  }
+}
+
+/// A <a>TestGridSession</a> is a single instance of a browser launched from the
+/// URL provided by a call to <a>CreateTestGridUrl</a>.
+class TestGridSession {
+  /// The ARN of the session.
+  final String? arn;
+
+  /// The number of billed minutes that were used for this session.
+  final double? billingMinutes;
+
+  /// The time that the session was started.
+  final DateTime? created;
+
+  /// The time the session ended.
+  final DateTime? ended;
+
+  /// A JSON object of options and parameters passed to the Selenium WebDriver.
+  final String? seleniumProperties;
+
+  /// The state of the session.
+  final TestGridSessionStatus? status;
+
+  TestGridSession({
+    this.arn,
+    this.billingMinutes,
+    this.created,
+    this.ended,
+    this.seleniumProperties,
+    this.status,
+  });
+
+  factory TestGridSession.fromJson(Map<String, dynamic> json) {
+    return TestGridSession(
+      arn: json['arn'] as String?,
+      billingMinutes: json['billingMinutes'] as double?,
+      created: timeStampFromJson(json['created']),
+      ended: timeStampFromJson(json['ended']),
+      seleniumProperties: json['seleniumProperties'] as String?,
+      status:
+          (json['status'] as String?)?.let(TestGridSessionStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final billingMinutes = this.billingMinutes;
+    final created = this.created;
+    final ended = this.ended;
+    final seleniumProperties = this.seleniumProperties;
+    final status = this.status;
+    return {
+      if (arn != null) 'arn': arn,
+      if (billingMinutes != null) 'billingMinutes': billingMinutes,
+      if (created != null) 'created': unixTimestampToJson(created),
+      if (ended != null) 'ended': unixTimestampToJson(ended),
+      if (seleniumProperties != null) 'seleniumProperties': seleniumProperties,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+class TestGridSessionStatus {
+  static const active = TestGridSessionStatus._('ACTIVE');
+  static const closed = TestGridSessionStatus._('CLOSED');
+  static const errored = TestGridSessionStatus._('ERRORED');
+
+  final String value;
+
+  const TestGridSessionStatus._(this.value);
+
+  static const values = [active, closed, errored];
+
+  static TestGridSessionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TestGridSessionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TestGridSessionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Artifacts are video and other files that are produced in the process of
+/// running a browser in an automated context.
+/// <note>
+/// Video elements might be broken up into multiple artifacts as they grow in
+/// size during creation.
+/// </note>
+class TestGridSessionArtifact {
+  /// The file name of the artifact.
+  final String? filename;
+
+  /// The kind of artifact.
+  final TestGridSessionArtifactType? type;
+
+  /// A semi-stable URL to the content of the object.
+  final String? url;
+
+  TestGridSessionArtifact({
+    this.filename,
+    this.type,
+    this.url,
+  });
+
+  factory TestGridSessionArtifact.fromJson(Map<String, dynamic> json) {
+    return TestGridSessionArtifact(
+      filename: json['filename'] as String?,
+      type: (json['type'] as String?)
+          ?.let(TestGridSessionArtifactType.fromString),
+      url: json['url'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filename = this.filename;
+    final type = this.type;
+    final url = this.url;
+    return {
+      if (filename != null) 'filename': filename,
+      if (type != null) 'type': type.value,
+      if (url != null) 'url': url,
+    };
+  }
+}
+
+class TestGridSessionArtifactType {
+  static const unknown = TestGridSessionArtifactType._('UNKNOWN');
+  static const video = TestGridSessionArtifactType._('VIDEO');
+  static const seleniumLog = TestGridSessionArtifactType._('SELENIUM_LOG');
+
+  final String value;
+
+  const TestGridSessionArtifactType._(this.value);
+
+  static const values = [unknown, video, seleniumLog];
+
+  static TestGridSessionArtifactType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TestGridSessionArtifactType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TestGridSessionArtifactType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TestGridSessionArtifactCategory {
+  static const video = TestGridSessionArtifactCategory._('VIDEO');
+  static const log = TestGridSessionArtifactCategory._('LOG');
+
+  final String value;
+
+  const TestGridSessionArtifactCategory._(this.value);
+
+  static const values = [video, log];
+
+  static TestGridSessionArtifactCategory fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TestGridSessionArtifactCategory._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TestGridSessionArtifactCategory && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An action taken by a <a>TestGridSession</a> browser instance.
+class TestGridSessionAction {
+  /// The action taken by the session.
+  final String? action;
+
+  /// The time, in milliseconds, that the action took to complete in the browser.
+  final int? duration;
+
+  /// HTTP method that the browser used to make the request.
+  final String? requestMethod;
+
+  /// The time that the session invoked the action.
+  final DateTime? started;
+
+  /// HTTP status code returned to the browser when the action was taken.
+  final String? statusCode;
+
+  TestGridSessionAction({
+    this.action,
+    this.duration,
+    this.requestMethod,
+    this.started,
+    this.statusCode,
+  });
+
+  factory TestGridSessionAction.fromJson(Map<String, dynamic> json) {
+    return TestGridSessionAction(
+      action: json['action'] as String?,
+      duration: json['duration'] as int?,
+      requestMethod: json['requestMethod'] as String?,
+      started: timeStampFromJson(json['started']),
+      statusCode: json['statusCode'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final duration = this.duration;
+    final requestMethod = this.requestMethod;
+    final started = this.started;
+    final statusCode = this.statusCode;
+    return {
+      if (action != null) 'action': action,
+      if (duration != null) 'duration': duration,
+      if (requestMethod != null) 'requestMethod': requestMethod,
+      if (started != null) 'started': unixTimestampToJson(started),
+      if (statusCode != null) 'statusCode': statusCode,
+    };
+  }
+}
+
+/// Represents a collection of one or more tests.
+class Suite {
+  /// The suite's ARN.
+  final String? arn;
+
+  /// The suite's result counters.
+  final Counters? counters;
+
+  /// When the suite was created.
+  final DateTime? created;
+
+  /// Represents the total (metered or unmetered) minutes used by the test suite.
+  final DeviceMinutes? deviceMinutes;
+
+  /// A message about the suite's result.
+  final String? message;
+
+  /// The suite's name.
+  final String? name;
+
+  /// The suite's result.
+  ///
+  /// Allowed values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// PENDING
+  /// </li>
+  /// <li>
+  /// PASSED
+  /// </li>
+  /// <li>
+  /// WARNED
+  /// </li>
+  /// <li>
+  /// FAILED
+  /// </li>
+  /// <li>
+  /// SKIPPED
+  /// </li>
+  /// <li>
+  /// ERRORED
+  /// </li>
+  /// <li>
+  /// STOPPED
+  /// </li>
+  /// </ul>
+  final ExecutionResult? result;
+
+  /// The suite's start time.
+  final DateTime? started;
+
+  /// The suite's status.
+  ///
+  /// Allowed values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// PENDING
+  /// </li>
+  /// <li>
+  /// PENDING_CONCURRENCY
+  /// </li>
+  /// <li>
+  /// PENDING_DEVICE
+  /// </li>
+  /// <li>
+  /// PROCESSING
+  /// </li>
+  /// <li>
+  /// SCHEDULING
+  /// </li>
+  /// <li>
+  /// PREPARING
+  /// </li>
+  /// <li>
+  /// RUNNING
+  /// </li>
+  /// <li>
+  /// COMPLETED
+  /// </li>
+  /// <li>
+  /// STOPPING
+  /// </li>
+  /// </ul>
+  final ExecutionStatus? status;
+
+  /// The suite's stop time.
+  final DateTime? stopped;
+
+  /// The suite's type.
+  ///
+  /// Must be one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// BUILTIN_FUZZ
+  /// </li>
+  /// <li>
+  /// APPIUM_JAVA_JUNIT
+  /// </li>
+  /// <li>
+  /// APPIUM_JAVA_TESTNG
+  /// </li>
+  /// <li>
+  /// APPIUM_PYTHON
+  /// </li>
+  /// <li>
+  /// APPIUM_NODE
+  /// </li>
+  /// <li>
+  /// APPIUM_RUBY
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_JAVA_JUNIT
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_JAVA_TESTNG
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_PYTHON
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_NODE
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_RUBY
+  /// </li>
+  /// <li>
+  /// INSTRUMENTATION
+  /// </li>
+  /// <li>
+  /// XCTEST
+  /// </li>
+  /// <li>
+  /// XCTEST_UI
+  /// </li>
+  /// </ul>
+  final TestType? type;
+
+  Suite({
+    this.arn,
+    this.counters,
+    this.created,
+    this.deviceMinutes,
+    this.message,
+    this.name,
+    this.result,
+    this.started,
+    this.status,
+    this.stopped,
+    this.type,
+  });
+
+  factory Suite.fromJson(Map<String, dynamic> json) {
+    return Suite(
+      arn: json['arn'] as String?,
+      counters: json['counters'] != null
+          ? Counters.fromJson(json['counters'] as Map<String, dynamic>)
+          : null,
+      created: timeStampFromJson(json['created']),
+      deviceMinutes: json['deviceMinutes'] != null
+          ? DeviceMinutes.fromJson(
+              json['deviceMinutes'] as Map<String, dynamic>)
+          : null,
+      message: json['message'] as String?,
+      name: json['name'] as String?,
+      result: (json['result'] as String?)?.let(ExecutionResult.fromString),
+      started: timeStampFromJson(json['started']),
+      status: (json['status'] as String?)?.let(ExecutionStatus.fromString),
+      stopped: timeStampFromJson(json['stopped']),
+      type: (json['type'] as String?)?.let(TestType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final counters = this.counters;
+    final created = this.created;
+    final deviceMinutes = this.deviceMinutes;
+    final message = this.message;
+    final name = this.name;
+    final result = this.result;
+    final started = this.started;
+    final status = this.status;
+    final stopped = this.stopped;
+    final type = this.type;
+    return {
+      if (arn != null) 'arn': arn,
+      if (counters != null) 'counters': counters,
+      if (created != null) 'created': unixTimestampToJson(created),
+      if (deviceMinutes != null) 'deviceMinutes': deviceMinutes,
+      if (message != null) 'message': message,
+      if (name != null) 'name': name,
+      if (result != null) 'result': result.value,
+      if (started != null) 'started': unixTimestampToJson(started),
+      if (status != null) 'status': status.value,
+      if (stopped != null) 'stopped': unixTimestampToJson(stopped),
+      if (type != null) 'type': type.value,
+    };
+  }
+}
+
+/// Represents a sample of performance data.
+class Sample {
+  /// The sample's ARN.
+  final String? arn;
+
+  /// The sample's type.
+  ///
+  /// Must be one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// CPU: A CPU sample type. This is expressed as the app processing CPU time
+  /// (including child processes) as reported by process, as a percentage.
+  /// </li>
+  /// <li>
+  /// MEMORY: A memory usage sample type. This is expressed as the total
+  /// proportional set size of an app process, in kilobytes.
+  /// </li>
+  /// <li>
+  /// NATIVE_AVG_DRAWTIME
+  /// </li>
+  /// <li>
+  /// NATIVE_FPS
+  /// </li>
+  /// <li>
+  /// NATIVE_FRAMES
+  /// </li>
+  /// <li>
+  /// NATIVE_MAX_DRAWTIME
+  /// </li>
+  /// <li>
+  /// NATIVE_MIN_DRAWTIME
+  /// </li>
+  /// <li>
+  /// OPENGL_AVG_DRAWTIME
+  /// </li>
+  /// <li>
+  /// OPENGL_FPS
+  /// </li>
+  /// <li>
+  /// OPENGL_FRAMES
+  /// </li>
+  /// <li>
+  /// OPENGL_MAX_DRAWTIME
+  /// </li>
+  /// <li>
+  /// OPENGL_MIN_DRAWTIME
+  /// </li>
+  /// <li>
+  /// RX
+  /// </li>
+  /// <li>
+  /// RX_RATE: The total number of bytes per second (TCP and UDP) that are sent,
+  /// by app process.
+  /// </li>
+  /// <li>
+  /// THREADS: A threads sample type. This is expressed as the total number of
+  /// threads per app process.
+  /// </li>
+  /// <li>
+  /// TX
+  /// </li>
+  /// <li>
+  /// TX_RATE: The total number of bytes per second (TCP and UDP) that are
+  /// received, by app process.
+  /// </li>
+  /// </ul>
+  final SampleType? type;
+
+  /// The presigned Amazon S3 URL that can be used with a GET request to download
+  /// the sample's file.
+  final String? url;
+
+  Sample({
+    this.arn,
+    this.type,
+    this.url,
+  });
+
+  factory Sample.fromJson(Map<String, dynamic> json) {
+    return Sample(
+      arn: json['arn'] as String?,
+      type: (json['type'] as String?)?.let(SampleType.fromString),
+      url: json['url'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final type = this.type;
+    final url = this.url;
+    return {
+      if (arn != null) 'arn': arn,
+      if (type != null) 'type': type.value,
+      if (url != null) 'url': url,
+    };
+  }
+}
+
+class SampleType {
+  static const cpu = SampleType._('CPU');
+  static const memory = SampleType._('MEMORY');
+  static const threads = SampleType._('THREADS');
+  static const rxRate = SampleType._('RX_RATE');
+  static const txRate = SampleType._('TX_RATE');
+  static const rx = SampleType._('RX');
+  static const tx = SampleType._('TX');
+  static const nativeFrames = SampleType._('NATIVE_FRAMES');
+  static const nativeFps = SampleType._('NATIVE_FPS');
+  static const nativeMinDrawtime = SampleType._('NATIVE_MIN_DRAWTIME');
+  static const nativeAvgDrawtime = SampleType._('NATIVE_AVG_DRAWTIME');
+  static const nativeMaxDrawtime = SampleType._('NATIVE_MAX_DRAWTIME');
+  static const openglFrames = SampleType._('OPENGL_FRAMES');
+  static const openglFps = SampleType._('OPENGL_FPS');
+  static const openglMinDrawtime = SampleType._('OPENGL_MIN_DRAWTIME');
+  static const openglAvgDrawtime = SampleType._('OPENGL_AVG_DRAWTIME');
+  static const openglMaxDrawtime = SampleType._('OPENGL_MAX_DRAWTIME');
+
+  final String value;
+
+  const SampleType._(this.value);
+
+  static const values = [
+    cpu,
+    memory,
+    threads,
+    rxRate,
+    txRate,
+    rx,
+    tx,
+    nativeFrames,
+    nativeFps,
+    nativeMinDrawtime,
+    nativeAvgDrawtime,
+    nativeMaxDrawtime,
+    openglFrames,
+    openglFps,
+    openglMinDrawtime,
+    openglAvgDrawtime,
+    openglMaxDrawtime
+  ];
+
+  static SampleType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SampleType._(value));
+
+  @override
+  bool operator ==(other) => other is SampleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents information about an offering promotion.
+class OfferingPromotion {
+  /// A string that describes the offering promotion.
+  final String? description;
+
+  /// The ID of the offering promotion.
+  final String? id;
+
+  OfferingPromotion({
+    this.description,
+    this.id,
+  });
+
+  factory OfferingPromotion.fromJson(Map<String, dynamic> json) {
+    return OfferingPromotion(
+      description: json['description'] as String?,
+      id: json['id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final id = this.id;
+    return {
+      if (description != null) 'description': description,
+      if (id != null) 'id': id,
+    };
+  }
+}
+
+/// Represents the output of a test. Examples of artifacts include logs and
+/// screenshots.
+class Artifact {
+  /// The artifact's ARN.
+  final String? arn;
+
+  /// The artifact's file extension.
+  final String? extension;
+
+  /// The artifact's name.
+  final String? name;
+
+  /// The artifact's type.
+  ///
+  /// Allowed values include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// UNKNOWN
+  /// </li>
+  /// <li>
+  /// SCREENSHOT
+  /// </li>
+  /// <li>
+  /// DEVICE_LOG
+  /// </li>
+  /// <li>
+  /// MESSAGE_LOG
+  /// </li>
+  /// <li>
+  /// VIDEO_LOG
+  /// </li>
+  /// <li>
+  /// RESULT_LOG
+  /// </li>
+  /// <li>
+  /// SERVICE_LOG
+  /// </li>
+  /// <li>
+  /// WEBKIT_LOG
+  /// </li>
+  /// <li>
+  /// INSTRUMENTATION_OUTPUT
+  /// </li>
+  /// <li>
+  /// EXERCISER_MONKEY_OUTPUT: the artifact (log) generated by an Android fuzz
+  /// test.
+  /// </li>
+  /// <li>
+  /// APPIUM_SERVER_OUTPUT
+  /// </li>
+  /// <li>
+  /// APPIUM_JAVA_OUTPUT
+  /// </li>
+  /// <li>
+  /// APPIUM_JAVA_XML_OUTPUT
+  /// </li>
+  /// <li>
+  /// APPIUM_PYTHON_OUTPUT
+  /// </li>
+  /// <li>
+  /// APPIUM_PYTHON_XML_OUTPUT
+  /// </li>
+  /// <li>
+  /// APPLICATION_CRASH_REPORT
+  /// </li>
+  /// <li>
+  /// XCTEST_LOG
+  /// </li>
+  /// <li>
+  /// VIDEO
+  /// </li>
+  /// <li>
+  /// CUSTOMER_ARTIFACT
+  /// </li>
+  /// <li>
+  /// CUSTOMER_ARTIFACT_LOG
+  /// </li>
+  /// <li>
+  /// TESTSPEC_OUTPUT
+  /// </li>
+  /// </ul>
+  final ArtifactType? type;
+
+  /// The presigned Amazon S3 URL that can be used with a GET request to download
+  /// the artifact's file.
+  final String? url;
+
+  Artifact({
+    this.arn,
+    this.extension,
+    this.name,
+    this.type,
+    this.url,
+  });
+
+  factory Artifact.fromJson(Map<String, dynamic> json) {
+    return Artifact(
+      arn: json['arn'] as String?,
+      extension: json['extension'] as String?,
+      name: json['name'] as String?,
+      type: (json['type'] as String?)?.let(ArtifactType.fromString),
+      url: json['url'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final extension = this.extension;
+    final name = this.name;
+    final type = this.type;
+    final url = this.url;
+    return {
+      if (arn != null) 'arn': arn,
+      if (extension != null) 'extension': extension,
+      if (name != null) 'name': name,
+      if (type != null) 'type': type.value,
+      if (url != null) 'url': url,
+    };
+  }
+}
+
+class ArtifactType {
+  static const unknown = ArtifactType._('UNKNOWN');
+  static const screenshot = ArtifactType._('SCREENSHOT');
+  static const deviceLog = ArtifactType._('DEVICE_LOG');
+  static const messageLog = ArtifactType._('MESSAGE_LOG');
+  static const videoLog = ArtifactType._('VIDEO_LOG');
+  static const resultLog = ArtifactType._('RESULT_LOG');
+  static const serviceLog = ArtifactType._('SERVICE_LOG');
+  static const webkitLog = ArtifactType._('WEBKIT_LOG');
+  static const instrumentationOutput = ArtifactType._('INSTRUMENTATION_OUTPUT');
+  static const exerciserMonkeyOutput =
+      ArtifactType._('EXERCISER_MONKEY_OUTPUT');
+  static const calabashJsonOutput = ArtifactType._('CALABASH_JSON_OUTPUT');
+  static const calabashPrettyOutput = ArtifactType._('CALABASH_PRETTY_OUTPUT');
+  static const calabashStandardOutput =
+      ArtifactType._('CALABASH_STANDARD_OUTPUT');
+  static const calabashJavaXmlOutput =
+      ArtifactType._('CALABASH_JAVA_XML_OUTPUT');
+  static const automationOutput = ArtifactType._('AUTOMATION_OUTPUT');
+  static const appiumServerOutput = ArtifactType._('APPIUM_SERVER_OUTPUT');
+  static const appiumJavaOutput = ArtifactType._('APPIUM_JAVA_OUTPUT');
+  static const appiumJavaXmlOutput = ArtifactType._('APPIUM_JAVA_XML_OUTPUT');
+  static const appiumPythonOutput = ArtifactType._('APPIUM_PYTHON_OUTPUT');
+  static const appiumPythonXmlOutput =
+      ArtifactType._('APPIUM_PYTHON_XML_OUTPUT');
+  static const explorerEventLog = ArtifactType._('EXPLORER_EVENT_LOG');
+  static const explorerSummaryLog = ArtifactType._('EXPLORER_SUMMARY_LOG');
+  static const applicationCrashReport =
+      ArtifactType._('APPLICATION_CRASH_REPORT');
+  static const xctestLog = ArtifactType._('XCTEST_LOG');
+  static const video = ArtifactType._('VIDEO');
+  static const customerArtifact = ArtifactType._('CUSTOMER_ARTIFACT');
+  static const customerArtifactLog = ArtifactType._('CUSTOMER_ARTIFACT_LOG');
+  static const testspecOutput = ArtifactType._('TESTSPEC_OUTPUT');
+
+  final String value;
+
+  const ArtifactType._(this.value);
+
+  static const values = [
+    unknown,
+    screenshot,
+    deviceLog,
+    messageLog,
+    videoLog,
+    resultLog,
+    serviceLog,
+    webkitLog,
+    instrumentationOutput,
+    exerciserMonkeyOutput,
+    calabashJsonOutput,
+    calabashPrettyOutput,
+    calabashStandardOutput,
+    calabashJavaXmlOutput,
+    automationOutput,
+    appiumServerOutput,
+    appiumJavaOutput,
+    appiumJavaXmlOutput,
+    appiumPythonOutput,
+    appiumPythonXmlOutput,
+    explorerEventLog,
+    explorerSummaryLog,
+    applicationCrashReport,
+    xctestLog,
+    video,
+    customerArtifact,
+    customerArtifactLog,
+    testspecOutput
+  ];
+
+  static ArtifactType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ArtifactType._(value));
+
+  @override
+  bool operator ==(other) => other is ArtifactType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ArtifactCategory {
+  static const screenshot = ArtifactCategory._('SCREENSHOT');
+  static const file = ArtifactCategory._('FILE');
+  static const log = ArtifactCategory._('LOG');
+
+  final String value;
+
+  const ArtifactCategory._(this.value);
+
+  static const values = [screenshot, file, log];
+
+  static ArtifactCategory fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ArtifactCategory._(value));
+
+  @override
+  bool operator ==(other) => other is ArtifactCategory && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents a device pool compatibility result.
+class DevicePoolCompatibilityResult {
+  /// Whether the result was compatible with the device pool.
+  final bool? compatible;
+
+  /// The device (phone or tablet) to return information about.
+  final Device? device;
+
+  /// Information about the compatibility.
+  final List<IncompatibilityMessage>? incompatibilityMessages;
+
+  DevicePoolCompatibilityResult({
+    this.compatible,
+    this.device,
+    this.incompatibilityMessages,
+  });
+
+  factory DevicePoolCompatibilityResult.fromJson(Map<String, dynamic> json) {
+    return DevicePoolCompatibilityResult(
+      compatible: json['compatible'] as bool?,
+      device: json['device'] != null
+          ? Device.fromJson(json['device'] as Map<String, dynamic>)
+          : null,
+      incompatibilityMessages: (json['incompatibilityMessages'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => IncompatibilityMessage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final compatible = this.compatible;
+    final device = this.device;
+    final incompatibilityMessages = this.incompatibilityMessages;
+    return {
+      if (compatible != null) 'compatible': compatible,
+      if (device != null) 'device': device,
+      if (incompatibilityMessages != null)
+        'incompatibilityMessages': incompatibilityMessages,
+    };
+  }
+}
+
+/// Represents information about incompatibility.
+class IncompatibilityMessage {
+  /// A message about the incompatibility.
+  final String? message;
+
+  /// The type of incompatibility.
+  ///
+  /// Allowed values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// ARN
+  /// </li>
+  /// <li>
+  /// FORM_FACTOR (for example, phone or tablet)
+  /// </li>
+  /// <li>
+  /// MANUFACTURER
+  /// </li>
+  /// <li>
+  /// PLATFORM (for example, Android or iOS)
+  /// </li>
+  /// <li>
+  /// REMOTE_ACCESS_ENABLED
+  /// </li>
+  /// <li>
+  /// APPIUM_VERSION
+  /// </li>
+  /// </ul>
+  final DeviceAttribute? type;
+
+  IncompatibilityMessage({
+    this.message,
+    this.type,
+  });
+
+  factory IncompatibilityMessage.fromJson(Map<String, dynamic> json) {
+    return IncompatibilityMessage(
+      message: json['message'] as String?,
+      type: (json['type'] as String?)?.let(DeviceAttribute.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final type = this.type;
+    return {
+      if (message != null) 'message': message,
+      if (type != null) 'type': type.value,
+    };
+  }
+}
+
+/// A container for account-level settings in AWS Device Farm.
+class AccountSettings {
+  /// The AWS account number specified in the <code>AccountSettings</code>
+  /// container.
+  final String? awsAccountNumber;
+
+  /// The default number of minutes (at the account level) a test run executes
+  /// before it times out. The default value is 150 minutes.
+  final int? defaultJobTimeoutMinutes;
+
+  /// The maximum number of minutes a test run executes before it times out.
+  final int? maxJobTimeoutMinutes;
+
+  /// The maximum number of device slots that the AWS account can purchase. Each
+  /// maximum is expressed as an <code>offering-id:number</code> pair, where the
+  /// <code>offering-id</code> represents one of the IDs returned by the
+  /// <code>ListOfferings</code> command.
+  final Map<String, int>? maxSlots;
+
+  /// When set to <code>true</code>, for private devices, Device Farm does not
+  /// sign your app again. For public devices, Device Farm always signs your apps
+  /// again.
+  ///
+  /// For more information about how Device Farm re-signs your apps, see <a
+  /// href="http://aws.amazon.com/device-farm/faqs/">Do you modify my app?</a> in
+  /// the <i>AWS Device Farm FAQs</i>.
+  final bool? skipAppResign;
+
+  /// Information about an AWS account's usage of free trial device minutes.
+  final TrialMinutes? trialMinutes;
+
+  /// Returns the unmetered devices you have purchased or want to purchase.
+  final Map<DevicePlatform, int>? unmeteredDevices;
+
+  /// Returns the unmetered remote access devices you have purchased or want to
+  /// purchase.
+  final Map<DevicePlatform, int>? unmeteredRemoteAccessDevices;
+
+  AccountSettings({
+    this.awsAccountNumber,
+    this.defaultJobTimeoutMinutes,
+    this.maxJobTimeoutMinutes,
+    this.maxSlots,
+    this.skipAppResign,
+    this.trialMinutes,
+    this.unmeteredDevices,
+    this.unmeteredRemoteAccessDevices,
+  });
+
+  factory AccountSettings.fromJson(Map<String, dynamic> json) {
+    return AccountSettings(
+      awsAccountNumber: json['awsAccountNumber'] as String?,
+      defaultJobTimeoutMinutes: json['defaultJobTimeoutMinutes'] as int?,
+      maxJobTimeoutMinutes: json['maxJobTimeoutMinutes'] as int?,
+      maxSlots: (json['maxSlots'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as int)),
+      skipAppResign: json['skipAppResign'] as bool?,
+      trialMinutes: json['trialMinutes'] != null
+          ? TrialMinutes.fromJson(json['trialMinutes'] as Map<String, dynamic>)
+          : null,
+      unmeteredDevices: (json['unmeteredDevices'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(DevicePlatform.fromString(k), e as int)),
+      unmeteredRemoteAccessDevices:
+          (json['unmeteredRemoteAccessDevices'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(DevicePlatform.fromString(k), e as int)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsAccountNumber = this.awsAccountNumber;
+    final defaultJobTimeoutMinutes = this.defaultJobTimeoutMinutes;
+    final maxJobTimeoutMinutes = this.maxJobTimeoutMinutes;
+    final maxSlots = this.maxSlots;
+    final skipAppResign = this.skipAppResign;
+    final trialMinutes = this.trialMinutes;
+    final unmeteredDevices = this.unmeteredDevices;
+    final unmeteredRemoteAccessDevices = this.unmeteredRemoteAccessDevices;
+    return {
+      if (awsAccountNumber != null) 'awsAccountNumber': awsAccountNumber,
+      if (defaultJobTimeoutMinutes != null)
+        'defaultJobTimeoutMinutes': defaultJobTimeoutMinutes,
+      if (maxJobTimeoutMinutes != null)
+        'maxJobTimeoutMinutes': maxJobTimeoutMinutes,
+      if (maxSlots != null) 'maxSlots': maxSlots,
+      if (skipAppResign != null) 'skipAppResign': skipAppResign,
+      if (trialMinutes != null) 'trialMinutes': trialMinutes,
+      if (unmeteredDevices != null)
+        'unmeteredDevices':
+            unmeteredDevices.map((k, e) => MapEntry(k.value, e)),
+      if (unmeteredRemoteAccessDevices != null)
+        'unmeteredRemoteAccessDevices':
+            unmeteredRemoteAccessDevices.map((k, e) => MapEntry(k.value, e)),
+    };
+  }
+}
+
+/// Represents information about free trial device minutes for an AWS account.
+class TrialMinutes {
+  /// The number of free trial minutes remaining in the account.
+  final double? remaining;
+
+  /// The total number of free trial minutes that the account started with.
+  final double? total;
+
+  TrialMinutes({
+    this.remaining,
+    this.total,
+  });
+
+  factory TrialMinutes.fromJson(Map<String, dynamic> json) {
+    return TrialMinutes(
+      remaining: json['remaining'] as double?,
+      total: json['total'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final remaining = this.remaining;
+    final total = this.total;
+    return {
+      if (remaining != null) 'remaining': remaining,
+      if (total != null) 'total': total,
+    };
+  }
+}
+
+/// Configuration settings for a remote access session, including billing
+/// method.
+class CreateRemoteAccessSessionConfiguration {
+  /// A list of upload ARNs for app packages to be installed onto your device.
+  /// (Maximum 3)
+  final List<String>? auxiliaryApps;
+
+  /// The billing method for the remote access session.
+  final BillingMethod? billingMethod;
+
+  /// The device proxy to be configured on the device for the remote access
+  /// session.
+  final DeviceProxy? deviceProxy;
+
+  /// An array of ARNs included in the VPC endpoint configuration.
+  final List<String>? vpceConfigurationArns;
+
+  CreateRemoteAccessSessionConfiguration({
+    this.auxiliaryApps,
+    this.billingMethod,
+    this.deviceProxy,
+    this.vpceConfigurationArns,
+  });
+
+  Map<String, dynamic> toJson() {
+    final auxiliaryApps = this.auxiliaryApps;
+    final billingMethod = this.billingMethod;
+    final deviceProxy = this.deviceProxy;
+    final vpceConfigurationArns = this.vpceConfigurationArns;
+    return {
+      if (auxiliaryApps != null) 'auxiliaryApps': auxiliaryApps,
+      if (billingMethod != null) 'billingMethod': billingMethod.value,
+      if (deviceProxy != null) 'deviceProxy': deviceProxy,
+      if (vpceConfigurationArns != null)
+        'vpceConfigurationArns': vpceConfigurationArns,
     };
   }
 }

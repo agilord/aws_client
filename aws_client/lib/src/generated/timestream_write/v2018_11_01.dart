@@ -70,14 +70,14 @@ class TimestreamWrite {
   /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.create-batch-load.html">code
   /// sample</a>.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [InvalidEndpointException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
-  /// May throw [InvalidEndpointException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [dataSourceConfiguration] :
   /// Defines configuration details about the data source for a batch load task.
@@ -89,10 +89,10 @@ class TimestreamWrite {
   /// Target Timestream table for a batch load task.
   ///
   /// Parameter [clientToken] :
-  /// <p/>
+  ///
   ///
   /// Parameter [recordVersion] :
-  /// <p/>
+  ///
   Future<CreateBatchLoadTaskResponse> createBatchLoadTask({
     required DataSourceConfiguration dataSourceConfiguration,
     required ReportConfiguration reportConfiguration,
@@ -137,14 +137,13 @@ class TimestreamWrite {
   /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.create-db.html">code
   /// sample</a>.
   ///
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ThrottlingException].
-  /// May throw [InvalidEndpointException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [InvalidEndpointException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [databaseName] :
   /// The name of the Timestream database.
@@ -194,15 +193,14 @@ class TimestreamWrite {
   /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.create-table.html">code
   /// sample</a> for details.
   ///
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [InvalidEndpointException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
-  /// May throw [InvalidEndpointException].
-  /// May throw [InternalServerException].
-  /// May throw [InvalidEndpointException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [databaseName] :
   /// The name of the Timestream database.
@@ -271,12 +269,12 @@ class TimestreamWrite {
   /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.delete-db.html">code
   /// sample</a> for details.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [InvalidEndpointException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [databaseName] :
   /// The name of the Timestream database to be deleted.
@@ -311,12 +309,12 @@ class TimestreamWrite {
   /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.delete-table.html">code
   /// sample</a> for details.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidEndpointException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InvalidEndpointException].
   ///
   /// Parameter [databaseName] :
   /// The name of the database where the Timestream database is to be deleted.
@@ -351,11 +349,11 @@ class TimestreamWrite {
   /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.describe-batch-load.html">code
   /// sample</a> for details.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
   /// May throw [InvalidEndpointException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [taskId] :
   /// The ID of the batch load task.
@@ -388,12 +386,12 @@ class TimestreamWrite {
   /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.describe-db.html">code
   /// sample</a> for details.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
   /// May throw [InvalidEndpointException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [databaseName] :
   /// The name of the Timestream database.
@@ -447,8 +445,8 @@ class TimestreamWrite {
   /// Endpoint Discovery Pattern</a>.
   ///
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<DescribeEndpointsResponse> describeEndpoints() async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -472,12 +470,12 @@ class TimestreamWrite {
   /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.describe-table.html">code
   /// sample</a> for details.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
   /// May throw [InvalidEndpointException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [databaseName] :
   /// The name of the Timestream database.
@@ -512,11 +510,11 @@ class TimestreamWrite {
   /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.list-batch-load-tasks.html">code
   /// sample</a> for details.
   ///
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [InvalidEndpointException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InvalidEndpointException].
   ///
   /// Parameter [maxResults] :
   /// The total number of items to return in the output. If the total number of
@@ -567,11 +565,11 @@ class TimestreamWrite {
   /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.list-db.html">code
   /// sample</a> for details.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidEndpointException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InvalidEndpointException].
   ///
   /// Parameter [maxResults] :
   /// The total number of items to return in the output. If the total number of
@@ -616,12 +614,12 @@ class TimestreamWrite {
   /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.list-table.html">code
   /// sample</a> for details.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidEndpointException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InvalidEndpointException].
   ///
   /// Parameter [databaseName] :
   /// The name of the Timestream database.
@@ -668,10 +666,10 @@ class TimestreamWrite {
 
   /// Lists all tags on a Timestream resource.
   ///
+  /// May throw [InvalidEndpointException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InvalidEndpointException].
   ///
   /// Parameter [resourceARN] :
   /// The Timestream resource with tags to be listed. This value is an Amazon
@@ -699,12 +697,12 @@ class TimestreamWrite {
 
   ///
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
   /// May throw [InvalidEndpointException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [taskId] :
   /// The ID of the batch load task to resume.
@@ -731,11 +729,11 @@ class TimestreamWrite {
   /// these user-defined tags so that they appear on the Billing and Cost
   /// Management console for cost allocation tracking.
   ///
+  /// May throw [InvalidEndpointException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InvalidEndpointException].
   ///
   /// Parameter [resourceARN] :
   /// Identifies the Timestream resource to which tags should be added. This
@@ -766,11 +764,11 @@ class TimestreamWrite {
 
   /// Removes the association of tags from a Timestream resource.
   ///
-  /// May throw [ValidationException].
+  /// May throw [InvalidEndpointException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidEndpointException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceARN] :
   /// The Timestream resource that the tags will be removed from. This value is
@@ -809,13 +807,13 @@ class TimestreamWrite {
   /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.update-db.html">code
   /// sample</a> for details.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [InvalidEndpointException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  /// May throw [InvalidEndpointException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [databaseName] :
   /// The name of the database.
@@ -880,12 +878,12 @@ class TimestreamWrite {
   /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.update-table.html">code
   /// sample</a> for details.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidEndpointException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InvalidEndpointException].
   ///
   /// Parameter [databaseName] :
   /// The name of the Timestream database.
@@ -987,13 +985,13 @@ class TimestreamWrite {
   /// would need to send a version number greater than <code>3</code>, or the
   /// update requests would receive a <code>RejectedRecordsException</code>.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidEndpointException].
+  /// May throw [RejectedRecordsException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  /// May throw [RejectedRecordsException].
-  /// May throw [InvalidEndpointException].
   ///
   /// Parameter [databaseName] :
   /// The name of the Timestream database.
@@ -1038,321 +1036,6 @@ class TimestreamWrite {
     );
 
     return WriteRecordsResponse.fromJson(jsonResponse.body);
-  }
-}
-
-class BatchLoadDataFormat {
-  static const csv = BatchLoadDataFormat._('CSV');
-
-  final String value;
-
-  const BatchLoadDataFormat._(this.value);
-
-  static const values = [csv];
-
-  static BatchLoadDataFormat fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => BatchLoadDataFormat._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is BatchLoadDataFormat && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Details about the progress of a batch load task.
-class BatchLoadProgressReport {
-  /// <p/>
-  final int? bytesMetered;
-
-  /// <p/>
-  final int? fileFailures;
-
-  /// <p/>
-  final int? parseFailures;
-
-  /// <p/>
-  final int? recordIngestionFailures;
-
-  /// <p/>
-  final int? recordsIngested;
-
-  /// <p/>
-  final int? recordsProcessed;
-
-  BatchLoadProgressReport({
-    this.bytesMetered,
-    this.fileFailures,
-    this.parseFailures,
-    this.recordIngestionFailures,
-    this.recordsIngested,
-    this.recordsProcessed,
-  });
-
-  factory BatchLoadProgressReport.fromJson(Map<String, dynamic> json) {
-    return BatchLoadProgressReport(
-      bytesMetered: json['BytesMetered'] as int?,
-      fileFailures: json['FileFailures'] as int?,
-      parseFailures: json['ParseFailures'] as int?,
-      recordIngestionFailures: json['RecordIngestionFailures'] as int?,
-      recordsIngested: json['RecordsIngested'] as int?,
-      recordsProcessed: json['RecordsProcessed'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bytesMetered = this.bytesMetered;
-    final fileFailures = this.fileFailures;
-    final parseFailures = this.parseFailures;
-    final recordIngestionFailures = this.recordIngestionFailures;
-    final recordsIngested = this.recordsIngested;
-    final recordsProcessed = this.recordsProcessed;
-    return {
-      if (bytesMetered != null) 'BytesMetered': bytesMetered,
-      if (fileFailures != null) 'FileFailures': fileFailures,
-      if (parseFailures != null) 'ParseFailures': parseFailures,
-      if (recordIngestionFailures != null)
-        'RecordIngestionFailures': recordIngestionFailures,
-      if (recordsIngested != null) 'RecordsIngested': recordsIngested,
-      if (recordsProcessed != null) 'RecordsProcessed': recordsProcessed,
-    };
-  }
-}
-
-class BatchLoadStatus {
-  static const created = BatchLoadStatus._('CREATED');
-  static const inProgress = BatchLoadStatus._('IN_PROGRESS');
-  static const failed = BatchLoadStatus._('FAILED');
-  static const succeeded = BatchLoadStatus._('SUCCEEDED');
-  static const progressStopped = BatchLoadStatus._('PROGRESS_STOPPED');
-  static const pendingResume = BatchLoadStatus._('PENDING_RESUME');
-
-  final String value;
-
-  const BatchLoadStatus._(this.value);
-
-  static const values = [
-    created,
-    inProgress,
-    failed,
-    succeeded,
-    progressStopped,
-    pendingResume
-  ];
-
-  static BatchLoadStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => BatchLoadStatus._(value));
-
-  @override
-  bool operator ==(other) => other is BatchLoadStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Details about a batch load task.
-class BatchLoadTask {
-  /// The time when the Timestream batch load task was created.
-  final DateTime? creationTime;
-
-  /// Database name for the database into which a batch load task loads data.
-  final String? databaseName;
-
-  /// The time when the Timestream batch load task was last updated.
-  final DateTime? lastUpdatedTime;
-
-  ///
-  final DateTime? resumableUntil;
-
-  /// Table name for the table into which a batch load task loads data.
-  final String? tableName;
-
-  /// The ID of the batch load task.
-  final String? taskId;
-
-  /// Status of the batch load task.
-  final BatchLoadStatus? taskStatus;
-
-  BatchLoadTask({
-    this.creationTime,
-    this.databaseName,
-    this.lastUpdatedTime,
-    this.resumableUntil,
-    this.tableName,
-    this.taskId,
-    this.taskStatus,
-  });
-
-  factory BatchLoadTask.fromJson(Map<String, dynamic> json) {
-    return BatchLoadTask(
-      creationTime: timeStampFromJson(json['CreationTime']),
-      databaseName: json['DatabaseName'] as String?,
-      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
-      resumableUntil: timeStampFromJson(json['ResumableUntil']),
-      tableName: json['TableName'] as String?,
-      taskId: json['TaskId'] as String?,
-      taskStatus:
-          (json['TaskStatus'] as String?)?.let(BatchLoadStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationTime = this.creationTime;
-    final databaseName = this.databaseName;
-    final lastUpdatedTime = this.lastUpdatedTime;
-    final resumableUntil = this.resumableUntil;
-    final tableName = this.tableName;
-    final taskId = this.taskId;
-    final taskStatus = this.taskStatus;
-    return {
-      if (creationTime != null)
-        'CreationTime': unixTimestampToJson(creationTime),
-      if (databaseName != null) 'DatabaseName': databaseName,
-      if (lastUpdatedTime != null)
-        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
-      if (resumableUntil != null)
-        'ResumableUntil': unixTimestampToJson(resumableUntil),
-      if (tableName != null) 'TableName': tableName,
-      if (taskId != null) 'TaskId': taskId,
-      if (taskStatus != null) 'TaskStatus': taskStatus.value,
-    };
-  }
-}
-
-/// Details about a batch load task.
-class BatchLoadTaskDescription {
-  /// The time when the Timestream batch load task was created.
-  final DateTime? creationTime;
-
-  /// Data model configuration for a batch load task. This contains details about
-  /// where a data model for a batch load task is stored.
-  final DataModelConfiguration? dataModelConfiguration;
-
-  /// Configuration details about the data source for a batch load task.
-  final DataSourceConfiguration? dataSourceConfiguration;
-
-  /// <p/>
-  final String? errorMessage;
-
-  /// The time when the Timestream batch load task was last updated.
-  final DateTime? lastUpdatedTime;
-
-  /// <p/>
-  final BatchLoadProgressReport? progressReport;
-
-  /// <p/>
-  final int? recordVersion;
-
-  /// Report configuration for a batch load task. This contains details about
-  /// where error reports are stored.
-  final ReportConfiguration? reportConfiguration;
-
-  ///
-  final DateTime? resumableUntil;
-
-  /// <p/>
-  final String? targetDatabaseName;
-
-  /// <p/>
-  final String? targetTableName;
-
-  /// The ID of the batch load task.
-  final String? taskId;
-
-  /// Status of the batch load task.
-  final BatchLoadStatus? taskStatus;
-
-  BatchLoadTaskDescription({
-    this.creationTime,
-    this.dataModelConfiguration,
-    this.dataSourceConfiguration,
-    this.errorMessage,
-    this.lastUpdatedTime,
-    this.progressReport,
-    this.recordVersion,
-    this.reportConfiguration,
-    this.resumableUntil,
-    this.targetDatabaseName,
-    this.targetTableName,
-    this.taskId,
-    this.taskStatus,
-  });
-
-  factory BatchLoadTaskDescription.fromJson(Map<String, dynamic> json) {
-    return BatchLoadTaskDescription(
-      creationTime: timeStampFromJson(json['CreationTime']),
-      dataModelConfiguration: json['DataModelConfiguration'] != null
-          ? DataModelConfiguration.fromJson(
-              json['DataModelConfiguration'] as Map<String, dynamic>)
-          : null,
-      dataSourceConfiguration: json['DataSourceConfiguration'] != null
-          ? DataSourceConfiguration.fromJson(
-              json['DataSourceConfiguration'] as Map<String, dynamic>)
-          : null,
-      errorMessage: json['ErrorMessage'] as String?,
-      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
-      progressReport: json['ProgressReport'] != null
-          ? BatchLoadProgressReport.fromJson(
-              json['ProgressReport'] as Map<String, dynamic>)
-          : null,
-      recordVersion: json['RecordVersion'] as int?,
-      reportConfiguration: json['ReportConfiguration'] != null
-          ? ReportConfiguration.fromJson(
-              json['ReportConfiguration'] as Map<String, dynamic>)
-          : null,
-      resumableUntil: timeStampFromJson(json['ResumableUntil']),
-      targetDatabaseName: json['TargetDatabaseName'] as String?,
-      targetTableName: json['TargetTableName'] as String?,
-      taskId: json['TaskId'] as String?,
-      taskStatus:
-          (json['TaskStatus'] as String?)?.let(BatchLoadStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationTime = this.creationTime;
-    final dataModelConfiguration = this.dataModelConfiguration;
-    final dataSourceConfiguration = this.dataSourceConfiguration;
-    final errorMessage = this.errorMessage;
-    final lastUpdatedTime = this.lastUpdatedTime;
-    final progressReport = this.progressReport;
-    final recordVersion = this.recordVersion;
-    final reportConfiguration = this.reportConfiguration;
-    final resumableUntil = this.resumableUntil;
-    final targetDatabaseName = this.targetDatabaseName;
-    final targetTableName = this.targetTableName;
-    final taskId = this.taskId;
-    final taskStatus = this.taskStatus;
-    return {
-      if (creationTime != null)
-        'CreationTime': unixTimestampToJson(creationTime),
-      if (dataModelConfiguration != null)
-        'DataModelConfiguration': dataModelConfiguration,
-      if (dataSourceConfiguration != null)
-        'DataSourceConfiguration': dataSourceConfiguration,
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-      if (lastUpdatedTime != null)
-        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
-      if (progressReport != null) 'ProgressReport': progressReport,
-      if (recordVersion != null) 'RecordVersion': recordVersion,
-      if (reportConfiguration != null)
-        'ReportConfiguration': reportConfiguration,
-      if (resumableUntil != null)
-        'ResumableUntil': unixTimestampToJson(resumableUntil),
-      if (targetDatabaseName != null) 'TargetDatabaseName': targetDatabaseName,
-      if (targetTableName != null) 'TargetTableName': targetTableName,
-      if (taskId != null) 'TaskId': taskId,
-      if (taskStatus != null) 'TaskStatus': taskStatus.value,
-    };
   }
 }
 
@@ -1422,330 +1105,6 @@ class CreateTableResponse {
     final table = this.table;
     return {
       if (table != null) 'Table': table,
-    };
-  }
-}
-
-/// A delimited data format where the column separator can be a comma and the
-/// record separator is a newline character.
-class CsvConfiguration {
-  /// Column separator can be one of comma (','), pipe ('|), semicolon (';'),
-  /// tab('/t'), or blank space (' ').
-  final String? columnSeparator;
-
-  /// Escape character can be one of
-  final String? escapeChar;
-
-  /// Can be blank space (' ').
-  final String? nullValue;
-
-  /// Can be single quote (') or double quote (").
-  final String? quoteChar;
-
-  /// Specifies to trim leading and trailing white space.
-  final bool? trimWhiteSpace;
-
-  CsvConfiguration({
-    this.columnSeparator,
-    this.escapeChar,
-    this.nullValue,
-    this.quoteChar,
-    this.trimWhiteSpace,
-  });
-
-  factory CsvConfiguration.fromJson(Map<String, dynamic> json) {
-    return CsvConfiguration(
-      columnSeparator: json['ColumnSeparator'] as String?,
-      escapeChar: json['EscapeChar'] as String?,
-      nullValue: json['NullValue'] as String?,
-      quoteChar: json['QuoteChar'] as String?,
-      trimWhiteSpace: json['TrimWhiteSpace'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final columnSeparator = this.columnSeparator;
-    final escapeChar = this.escapeChar;
-    final nullValue = this.nullValue;
-    final quoteChar = this.quoteChar;
-    final trimWhiteSpace = this.trimWhiteSpace;
-    return {
-      if (columnSeparator != null) 'ColumnSeparator': columnSeparator,
-      if (escapeChar != null) 'EscapeChar': escapeChar,
-      if (nullValue != null) 'NullValue': nullValue,
-      if (quoteChar != null) 'QuoteChar': quoteChar,
-      if (trimWhiteSpace != null) 'TrimWhiteSpace': trimWhiteSpace,
-    };
-  }
-}
-
-/// Data model for a batch load task.
-class DataModel {
-  /// Source to target mappings for dimensions.
-  final List<DimensionMapping> dimensionMappings;
-
-  /// <p/>
-  final String? measureNameColumn;
-
-  /// Source to target mappings for measures.
-  final List<MixedMeasureMapping>? mixedMeasureMappings;
-
-  /// Source to target mappings for multi-measure records.
-  final MultiMeasureMappings? multiMeasureMappings;
-
-  /// Source column to be mapped to time.
-  final String? timeColumn;
-
-  /// The granularity of the timestamp unit. It indicates if the time value is in
-  /// seconds, milliseconds, nanoseconds, or other supported values. Default is
-  /// <code>MILLISECONDS</code>.
-  final TimeUnit? timeUnit;
-
-  DataModel({
-    required this.dimensionMappings,
-    this.measureNameColumn,
-    this.mixedMeasureMappings,
-    this.multiMeasureMappings,
-    this.timeColumn,
-    this.timeUnit,
-  });
-
-  factory DataModel.fromJson(Map<String, dynamic> json) {
-    return DataModel(
-      dimensionMappings: ((json['DimensionMappings'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => DimensionMapping.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      measureNameColumn: json['MeasureNameColumn'] as String?,
-      mixedMeasureMappings: (json['MixedMeasureMappings'] as List?)
-          ?.nonNulls
-          .map((e) => MixedMeasureMapping.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      multiMeasureMappings: json['MultiMeasureMappings'] != null
-          ? MultiMeasureMappings.fromJson(
-              json['MultiMeasureMappings'] as Map<String, dynamic>)
-          : null,
-      timeColumn: json['TimeColumn'] as String?,
-      timeUnit: (json['TimeUnit'] as String?)?.let(TimeUnit.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dimensionMappings = this.dimensionMappings;
-    final measureNameColumn = this.measureNameColumn;
-    final mixedMeasureMappings = this.mixedMeasureMappings;
-    final multiMeasureMappings = this.multiMeasureMappings;
-    final timeColumn = this.timeColumn;
-    final timeUnit = this.timeUnit;
-    return {
-      'DimensionMappings': dimensionMappings,
-      if (measureNameColumn != null) 'MeasureNameColumn': measureNameColumn,
-      if (mixedMeasureMappings != null)
-        'MixedMeasureMappings': mixedMeasureMappings,
-      if (multiMeasureMappings != null)
-        'MultiMeasureMappings': multiMeasureMappings,
-      if (timeColumn != null) 'TimeColumn': timeColumn,
-      if (timeUnit != null) 'TimeUnit': timeUnit.value,
-    };
-  }
-}
-
-/// <p/>
-class DataModelConfiguration {
-  /// <p/>
-  final DataModel? dataModel;
-
-  /// <p/>
-  final DataModelS3Configuration? dataModelS3Configuration;
-
-  DataModelConfiguration({
-    this.dataModel,
-    this.dataModelS3Configuration,
-  });
-
-  factory DataModelConfiguration.fromJson(Map<String, dynamic> json) {
-    return DataModelConfiguration(
-      dataModel: json['DataModel'] != null
-          ? DataModel.fromJson(json['DataModel'] as Map<String, dynamic>)
-          : null,
-      dataModelS3Configuration: json['DataModelS3Configuration'] != null
-          ? DataModelS3Configuration.fromJson(
-              json['DataModelS3Configuration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataModel = this.dataModel;
-    final dataModelS3Configuration = this.dataModelS3Configuration;
-    return {
-      if (dataModel != null) 'DataModel': dataModel,
-      if (dataModelS3Configuration != null)
-        'DataModelS3Configuration': dataModelS3Configuration,
-    };
-  }
-}
-
-/// <p/>
-class DataModelS3Configuration {
-  /// <p/>
-  final String? bucketName;
-
-  /// <p/>
-  final String? objectKey;
-
-  DataModelS3Configuration({
-    this.bucketName,
-    this.objectKey,
-  });
-
-  factory DataModelS3Configuration.fromJson(Map<String, dynamic> json) {
-    return DataModelS3Configuration(
-      bucketName: json['BucketName'] as String?,
-      objectKey: json['ObjectKey'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucketName = this.bucketName;
-    final objectKey = this.objectKey;
-    return {
-      if (bucketName != null) 'BucketName': bucketName,
-      if (objectKey != null) 'ObjectKey': objectKey,
-    };
-  }
-}
-
-/// Defines configuration details about the data source.
-class DataSourceConfiguration {
-  /// This is currently CSV.
-  final BatchLoadDataFormat dataFormat;
-
-  /// Configuration of an S3 location for a file which contains data to load.
-  final DataSourceS3Configuration dataSourceS3Configuration;
-  final CsvConfiguration? csvConfiguration;
-
-  DataSourceConfiguration({
-    required this.dataFormat,
-    required this.dataSourceS3Configuration,
-    this.csvConfiguration,
-  });
-
-  factory DataSourceConfiguration.fromJson(Map<String, dynamic> json) {
-    return DataSourceConfiguration(
-      dataFormat:
-          BatchLoadDataFormat.fromString((json['DataFormat'] as String?) ?? ''),
-      dataSourceS3Configuration: DataSourceS3Configuration.fromJson(
-          (json['DataSourceS3Configuration'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      csvConfiguration: json['CsvConfiguration'] != null
-          ? CsvConfiguration.fromJson(
-              json['CsvConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataFormat = this.dataFormat;
-    final dataSourceS3Configuration = this.dataSourceS3Configuration;
-    final csvConfiguration = this.csvConfiguration;
-    return {
-      'DataFormat': dataFormat.value,
-      'DataSourceS3Configuration': dataSourceS3Configuration,
-      if (csvConfiguration != null) 'CsvConfiguration': csvConfiguration,
-    };
-  }
-}
-
-///
-class DataSourceS3Configuration {
-  /// The bucket name of the customer S3 bucket.
-  final String bucketName;
-
-  ///
-  final String? objectKeyPrefix;
-
-  DataSourceS3Configuration({
-    required this.bucketName,
-    this.objectKeyPrefix,
-  });
-
-  factory DataSourceS3Configuration.fromJson(Map<String, dynamic> json) {
-    return DataSourceS3Configuration(
-      bucketName: (json['BucketName'] as String?) ?? '',
-      objectKeyPrefix: json['ObjectKeyPrefix'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucketName = this.bucketName;
-    final objectKeyPrefix = this.objectKeyPrefix;
-    return {
-      'BucketName': bucketName,
-      if (objectKeyPrefix != null) 'ObjectKeyPrefix': objectKeyPrefix,
-    };
-  }
-}
-
-/// A top-level container for a table. Databases and tables are the fundamental
-/// management concepts in Amazon Timestream. All tables in a database are
-/// encrypted with the same KMS key.
-class Database {
-  /// The Amazon Resource Name that uniquely identifies this database.
-  final String? arn;
-
-  /// The time when the database was created, calculated from the Unix epoch time.
-  final DateTime? creationTime;
-
-  /// The name of the Timestream database.
-  final String? databaseName;
-
-  /// The identifier of the KMS key used to encrypt the data stored in the
-  /// database.
-  final String? kmsKeyId;
-
-  /// The last time that this database was updated.
-  final DateTime? lastUpdatedTime;
-
-  /// The total number of tables found within a Timestream database.
-  final int? tableCount;
-
-  Database({
-    this.arn,
-    this.creationTime,
-    this.databaseName,
-    this.kmsKeyId,
-    this.lastUpdatedTime,
-    this.tableCount,
-  });
-
-  factory Database.fromJson(Map<String, dynamic> json) {
-    return Database(
-      arn: json['Arn'] as String?,
-      creationTime: timeStampFromJson(json['CreationTime']),
-      databaseName: json['DatabaseName'] as String?,
-      kmsKeyId: json['KmsKeyId'] as String?,
-      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
-      tableCount: json['TableCount'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final creationTime = this.creationTime;
-    final databaseName = this.databaseName;
-    final kmsKeyId = this.kmsKeyId;
-    final lastUpdatedTime = this.lastUpdatedTime;
-    final tableCount = this.tableCount;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (creationTime != null)
-        'CreationTime': unixTimestampToJson(creationTime),
-      if (databaseName != null) 'DatabaseName': databaseName,
-      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-      if (lastUpdatedTime != null)
-        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
-      if (tableCount != null) 'TableCount': tableCount,
     };
   }
 }
@@ -1844,129 +1203,6 @@ class DescribeTableResponse {
     final table = this.table;
     return {
       if (table != null) 'Table': table,
-    };
-  }
-}
-
-/// Represents the metadata attributes of the time series. For example, the name
-/// and Availability Zone of an EC2 instance or the name of the manufacturer of
-/// a wind turbine are dimensions.
-class Dimension {
-  /// Dimension represents the metadata attributes of the time series. For
-  /// example, the name and Availability Zone of an EC2 instance or the name of
-  /// the manufacturer of a wind turbine are dimensions.
-  ///
-  /// For constraints on dimension names, see <a
-  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html#limits.naming">Naming
-  /// Constraints</a>.
-  final String name;
-
-  /// The value of the dimension.
-  final String value;
-
-  /// The data type of the dimension for the time-series data point.
-  final DimensionValueType? dimensionValueType;
-
-  Dimension({
-    required this.name,
-    required this.value,
-    this.dimensionValueType,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final value = this.value;
-    final dimensionValueType = this.dimensionValueType;
-    return {
-      'Name': name,
-      'Value': value,
-      if (dimensionValueType != null)
-        'DimensionValueType': dimensionValueType.value,
-    };
-  }
-}
-
-/// <p/>
-class DimensionMapping {
-  ///
-  final String? destinationColumn;
-
-  /// <p/>
-  final String? sourceColumn;
-
-  DimensionMapping({
-    this.destinationColumn,
-    this.sourceColumn,
-  });
-
-  factory DimensionMapping.fromJson(Map<String, dynamic> json) {
-    return DimensionMapping(
-      destinationColumn: json['DestinationColumn'] as String?,
-      sourceColumn: json['SourceColumn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final destinationColumn = this.destinationColumn;
-    final sourceColumn = this.sourceColumn;
-    return {
-      if (destinationColumn != null) 'DestinationColumn': destinationColumn,
-      if (sourceColumn != null) 'SourceColumn': sourceColumn,
-    };
-  }
-}
-
-class DimensionValueType {
-  static const varchar = DimensionValueType._('VARCHAR');
-
-  final String value;
-
-  const DimensionValueType._(this.value);
-
-  static const values = [varchar];
-
-  static DimensionValueType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DimensionValueType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DimensionValueType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents an available endpoint against which to make API calls against, as
-/// well as the TTL for that endpoint.
-class Endpoint {
-  /// An endpoint address.
-  final String address;
-
-  /// The TTL for the endpoint, in minutes.
-  final int cachePeriodInMinutes;
-
-  Endpoint({
-    required this.address,
-    required this.cachePeriodInMinutes,
-  });
-
-  factory Endpoint.fromJson(Map<String, dynamic> json) {
-    return Endpoint(
-      address: (json['Address'] as String?) ?? '',
-      cachePeriodInMinutes: (json['CachePeriodInMinutes'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final address = this.address;
-    final cachePeriodInMinutes = this.cachePeriodInMinutes;
-    return {
-      'Address': address,
-      'CachePeriodInMinutes': cachePeriodInMinutes,
     };
   }
 }
@@ -2095,371 +1331,149 @@ class ListTagsForResourceResponse {
   }
 }
 
-/// The location to write error reports for records rejected, asynchronously,
-/// during magnetic store writes.
-class MagneticStoreRejectedDataLocation {
-  /// Configuration of an S3 location to write error reports for records rejected,
-  /// asynchronously, during magnetic store writes.
-  final S3Configuration? s3Configuration;
+class ResumeBatchLoadTaskResponse {
+  ResumeBatchLoadTaskResponse();
 
-  MagneticStoreRejectedDataLocation({
-    this.s3Configuration,
+  factory ResumeBatchLoadTaskResponse.fromJson(Map<String, dynamic> _) {
+    return ResumeBatchLoadTaskResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateDatabaseResponse {
+  final Database? database;
+
+  UpdateDatabaseResponse({
+    this.database,
   });
 
-  factory MagneticStoreRejectedDataLocation.fromJson(
-      Map<String, dynamic> json) {
-    return MagneticStoreRejectedDataLocation(
-      s3Configuration: json['S3Configuration'] != null
-          ? S3Configuration.fromJson(
-              json['S3Configuration'] as Map<String, dynamic>)
+  factory UpdateDatabaseResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateDatabaseResponse(
+      database: json['Database'] != null
+          ? Database.fromJson(json['Database'] as Map<String, dynamic>)
           : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final s3Configuration = this.s3Configuration;
+    final database = this.database;
     return {
-      if (s3Configuration != null) 'S3Configuration': s3Configuration,
+      if (database != null) 'Database': database,
     };
   }
 }
 
-/// The set of properties on a table for configuring magnetic store writes.
-class MagneticStoreWriteProperties {
-  /// A flag to enable magnetic store writes.
-  final bool enableMagneticStoreWrites;
+class UpdateTableResponse {
+  /// The updated Timestream table.
+  final Table? table;
 
-  /// The location to write error reports for records rejected asynchronously
-  /// during magnetic store writes.
-  final MagneticStoreRejectedDataLocation? magneticStoreRejectedDataLocation;
-
-  MagneticStoreWriteProperties({
-    required this.enableMagneticStoreWrites,
-    this.magneticStoreRejectedDataLocation,
+  UpdateTableResponse({
+    this.table,
   });
 
-  factory MagneticStoreWriteProperties.fromJson(Map<String, dynamic> json) {
-    return MagneticStoreWriteProperties(
-      enableMagneticStoreWrites:
-          (json['EnableMagneticStoreWrites'] as bool?) ?? false,
-      magneticStoreRejectedDataLocation:
-          json['MagneticStoreRejectedDataLocation'] != null
-              ? MagneticStoreRejectedDataLocation.fromJson(
-                  json['MagneticStoreRejectedDataLocation']
-                      as Map<String, dynamic>)
-              : null,
+  factory UpdateTableResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateTableResponse(
+      table: json['Table'] != null
+          ? Table.fromJson(json['Table'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final enableMagneticStoreWrites = this.enableMagneticStoreWrites;
-    final magneticStoreRejectedDataLocation =
-        this.magneticStoreRejectedDataLocation;
+    final table = this.table;
     return {
-      'EnableMagneticStoreWrites': enableMagneticStoreWrites,
-      if (magneticStoreRejectedDataLocation != null)
-        'MagneticStoreRejectedDataLocation': magneticStoreRejectedDataLocation,
+      if (table != null) 'Table': table,
     };
   }
 }
 
-/// Represents the data attribute of the time series. For example, the CPU
-/// utilization of an EC2 instance or the RPM of a wind turbine are measures.
-/// MeasureValue has both name and value.
-///
-/// MeasureValue is only allowed for type <code>MULTI</code>. Using
-/// <code>MULTI</code> type, you can pass multiple data attributes associated
-/// with the same time series in a single record
-class MeasureValue {
-  /// The name of the MeasureValue.
-  ///
-  /// For constraints on MeasureValue names, see <a
-  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html#limits.naming">
-  /// Naming Constraints</a> in the Amazon Timestream Developer Guide.
-  final String name;
+class WriteRecordsResponse {
+  /// Information on the records ingested by this request.
+  final RecordsIngested? recordsIngested;
 
-  /// Contains the data type of the MeasureValue for the time-series data point.
-  final MeasureValueType type;
-
-  /// The value for the MeasureValue. For information, see <a
-  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/writes.html#writes.data-types">Data
-  /// types</a>.
-  final String value;
-
-  MeasureValue({
-    required this.name,
-    required this.type,
-    required this.value,
+  WriteRecordsResponse({
+    this.recordsIngested,
   });
 
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final type = this.type;
-    final value = this.value;
-    return {
-      'Name': name,
-      'Type': type.value,
-      'Value': value,
-    };
-  }
-}
-
-class MeasureValueType {
-  static const $double = MeasureValueType._('DOUBLE');
-  static const bigint = MeasureValueType._('BIGINT');
-  static const varchar = MeasureValueType._('VARCHAR');
-  static const boolean = MeasureValueType._('BOOLEAN');
-  static const timestamp = MeasureValueType._('TIMESTAMP');
-  static const multi = MeasureValueType._('MULTI');
-
-  final String value;
-
-  const MeasureValueType._(this.value);
-
-  static const values = [$double, bigint, varchar, boolean, timestamp, multi];
-
-  static MeasureValueType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MeasureValueType._(value));
-
-  @override
-  bool operator ==(other) => other is MeasureValueType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// <p/>
-class MixedMeasureMapping {
-  /// <p/>
-  final MeasureValueType measureValueType;
-
-  /// <p/>
-  final String? measureName;
-
-  /// <p/>
-  final List<MultiMeasureAttributeMapping>? multiMeasureAttributeMappings;
-
-  /// <p/>
-  final String? sourceColumn;
-
-  /// <p/>
-  final String? targetMeasureName;
-
-  MixedMeasureMapping({
-    required this.measureValueType,
-    this.measureName,
-    this.multiMeasureAttributeMappings,
-    this.sourceColumn,
-    this.targetMeasureName,
-  });
-
-  factory MixedMeasureMapping.fromJson(Map<String, dynamic> json) {
-    return MixedMeasureMapping(
-      measureValueType: MeasureValueType.fromString(
-          (json['MeasureValueType'] as String?) ?? ''),
-      measureName: json['MeasureName'] as String?,
-      multiMeasureAttributeMappings: (json['MultiMeasureAttributeMappings']
-              as List?)
-          ?.nonNulls
-          .map((e) =>
-              MultiMeasureAttributeMapping.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      sourceColumn: json['SourceColumn'] as String?,
-      targetMeasureName: json['TargetMeasureName'] as String?,
+  factory WriteRecordsResponse.fromJson(Map<String, dynamic> json) {
+    return WriteRecordsResponse(
+      recordsIngested: json['RecordsIngested'] != null
+          ? RecordsIngested.fromJson(
+              json['RecordsIngested'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final measureValueType = this.measureValueType;
-    final measureName = this.measureName;
-    final multiMeasureAttributeMappings = this.multiMeasureAttributeMappings;
-    final sourceColumn = this.sourceColumn;
-    final targetMeasureName = this.targetMeasureName;
+    final recordsIngested = this.recordsIngested;
     return {
-      'MeasureValueType': measureValueType.value,
-      if (measureName != null) 'MeasureName': measureName,
-      if (multiMeasureAttributeMappings != null)
-        'MultiMeasureAttributeMappings': multiMeasureAttributeMappings,
-      if (sourceColumn != null) 'SourceColumn': sourceColumn,
-      if (targetMeasureName != null) 'TargetMeasureName': targetMeasureName,
+      if (recordsIngested != null) 'RecordsIngested': recordsIngested,
     };
   }
 }
 
-/// <p/>
-class MultiMeasureAttributeMapping {
-  /// <p/>
-  final String sourceColumn;
+/// Information on the records ingested by this request.
+class RecordsIngested {
+  /// Count of records ingested into the magnetic store.
+  final int? magneticStore;
 
-  /// <p/>
-  final ScalarMeasureValueType? measureValueType;
+  /// Count of records ingested into the memory store.
+  final int? memoryStore;
 
-  /// <p/>
-  final String? targetMultiMeasureAttributeName;
+  /// Total count of successfully ingested records.
+  final int? total;
 
-  MultiMeasureAttributeMapping({
-    required this.sourceColumn,
-    this.measureValueType,
-    this.targetMultiMeasureAttributeName,
+  RecordsIngested({
+    this.magneticStore,
+    this.memoryStore,
+    this.total,
   });
 
-  factory MultiMeasureAttributeMapping.fromJson(Map<String, dynamic> json) {
-    return MultiMeasureAttributeMapping(
-      sourceColumn: (json['SourceColumn'] as String?) ?? '',
-      measureValueType: (json['MeasureValueType'] as String?)
-          ?.let(ScalarMeasureValueType.fromString),
-      targetMultiMeasureAttributeName:
-          json['TargetMultiMeasureAttributeName'] as String?,
+  factory RecordsIngested.fromJson(Map<String, dynamic> json) {
+    return RecordsIngested(
+      magneticStore: json['MagneticStore'] as int?,
+      memoryStore: json['MemoryStore'] as int?,
+      total: json['Total'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final sourceColumn = this.sourceColumn;
-    final measureValueType = this.measureValueType;
-    final targetMultiMeasureAttributeName =
-        this.targetMultiMeasureAttributeName;
+    final magneticStore = this.magneticStore;
+    final memoryStore = this.memoryStore;
+    final total = this.total;
     return {
-      'SourceColumn': sourceColumn,
-      if (measureValueType != null) 'MeasureValueType': measureValueType.value,
-      if (targetMultiMeasureAttributeName != null)
-        'TargetMultiMeasureAttributeName': targetMultiMeasureAttributeName,
+      if (magneticStore != null) 'MagneticStore': magneticStore,
+      if (memoryStore != null) 'MemoryStore': memoryStore,
+      if (total != null) 'Total': total,
     };
   }
-}
-
-/// <p/>
-class MultiMeasureMappings {
-  /// <p/>
-  final List<MultiMeasureAttributeMapping> multiMeasureAttributeMappings;
-
-  /// <p/>
-  final String? targetMultiMeasureName;
-
-  MultiMeasureMappings({
-    required this.multiMeasureAttributeMappings,
-    this.targetMultiMeasureName,
-  });
-
-  factory MultiMeasureMappings.fromJson(Map<String, dynamic> json) {
-    return MultiMeasureMappings(
-      multiMeasureAttributeMappings: ((json['MultiMeasureAttributeMappings']
-                  as List?) ??
-              const [])
-          .nonNulls
-          .map((e) =>
-              MultiMeasureAttributeMapping.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      targetMultiMeasureName: json['TargetMultiMeasureName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final multiMeasureAttributeMappings = this.multiMeasureAttributeMappings;
-    final targetMultiMeasureName = this.targetMultiMeasureName;
-    return {
-      'MultiMeasureAttributeMappings': multiMeasureAttributeMappings,
-      if (targetMultiMeasureName != null)
-        'TargetMultiMeasureName': targetMultiMeasureName,
-    };
-  }
-}
-
-/// An attribute used in partitioning data in a table. A dimension key
-/// partitions data using the values of the dimension specified by the
-/// dimension-name as partition key, while a measure key partitions data using
-/// measure names (values of the 'measure_name' column).
-class PartitionKey {
-  /// The type of the partition key. Options are DIMENSION (dimension key) and
-  /// MEASURE (measure key).
-  final PartitionKeyType type;
-
-  /// The level of enforcement for the specification of a dimension key in
-  /// ingested records. Options are REQUIRED (dimension key must be specified) and
-  /// OPTIONAL (dimension key does not have to be specified).
-  final PartitionKeyEnforcementLevel? enforcementInRecord;
-
-  /// The name of the attribute used for a dimension key.
-  final String? name;
-
-  PartitionKey({
-    required this.type,
-    this.enforcementInRecord,
-    this.name,
-  });
-
-  factory PartitionKey.fromJson(Map<String, dynamic> json) {
-    return PartitionKey(
-      type: PartitionKeyType.fromString((json['Type'] as String?) ?? ''),
-      enforcementInRecord: (json['EnforcementInRecord'] as String?)
-          ?.let(PartitionKeyEnforcementLevel.fromString),
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final type = this.type;
-    final enforcementInRecord = this.enforcementInRecord;
-    final name = this.name;
-    return {
-      'Type': type.value,
-      if (enforcementInRecord != null)
-        'EnforcementInRecord': enforcementInRecord.value,
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
-class PartitionKeyEnforcementLevel {
-  static const required = PartitionKeyEnforcementLevel._('REQUIRED');
-  static const optional = PartitionKeyEnforcementLevel._('OPTIONAL');
-
-  final String value;
-
-  const PartitionKeyEnforcementLevel._(this.value);
-
-  static const values = [required, optional];
-
-  static PartitionKeyEnforcementLevel fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PartitionKeyEnforcementLevel._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PartitionKeyEnforcementLevel && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class PartitionKeyType {
-  static const dimension = PartitionKeyType._('DIMENSION');
-  static const measure = PartitionKeyType._('MEASURE');
-
-  final String value;
-
-  const PartitionKeyType._(this.value);
-
-  static const values = [dimension, measure];
-
-  static PartitionKeyType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PartitionKeyType._(value));
-
-  @override
-  bool operator ==(other) => other is PartitionKeyType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// Represents a time-series data point being written into Timestream. Each
@@ -2557,229 +1571,26 @@ class Record {
   }
 }
 
-/// Information on the records ingested by this request.
-class RecordsIngested {
-  /// Count of records ingested into the magnetic store.
-  final int? magneticStore;
-
-  /// Count of records ingested into the memory store.
-  final int? memoryStore;
-
-  /// Total count of successfully ingested records.
-  final int? total;
-
-  RecordsIngested({
-    this.magneticStore,
-    this.memoryStore,
-    this.total,
-  });
-
-  factory RecordsIngested.fromJson(Map<String, dynamic> json) {
-    return RecordsIngested(
-      magneticStore: json['MagneticStore'] as int?,
-      memoryStore: json['MemoryStore'] as int?,
-      total: json['Total'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final magneticStore = this.magneticStore;
-    final memoryStore = this.memoryStore;
-    final total = this.total;
-    return {
-      if (magneticStore != null) 'MagneticStore': magneticStore,
-      if (memoryStore != null) 'MemoryStore': memoryStore,
-      if (total != null) 'Total': total,
-    };
-  }
-}
-
-/// Report configuration for a batch load task. This contains details about
-/// where error reports are stored.
-class ReportConfiguration {
-  /// Configuration of an S3 location to write error reports and events for a
-  /// batch load.
-  final ReportS3Configuration? reportS3Configuration;
-
-  ReportConfiguration({
-    this.reportS3Configuration,
-  });
-
-  factory ReportConfiguration.fromJson(Map<String, dynamic> json) {
-    return ReportConfiguration(
-      reportS3Configuration: json['ReportS3Configuration'] != null
-          ? ReportS3Configuration.fromJson(
-              json['ReportS3Configuration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final reportS3Configuration = this.reportS3Configuration;
-    return {
-      if (reportS3Configuration != null)
-        'ReportS3Configuration': reportS3Configuration,
-    };
-  }
-}
-
-/// <p/>
-class ReportS3Configuration {
-  /// <p/>
-  final String bucketName;
-
-  /// <p/>
-  final S3EncryptionOption? encryptionOption;
-
-  /// <p/>
-  final String? kmsKeyId;
-
-  /// <p/>
-  final String? objectKeyPrefix;
-
-  ReportS3Configuration({
-    required this.bucketName,
-    this.encryptionOption,
-    this.kmsKeyId,
-    this.objectKeyPrefix,
-  });
-
-  factory ReportS3Configuration.fromJson(Map<String, dynamic> json) {
-    return ReportS3Configuration(
-      bucketName: (json['BucketName'] as String?) ?? '',
-      encryptionOption: (json['EncryptionOption'] as String?)
-          ?.let(S3EncryptionOption.fromString),
-      kmsKeyId: json['KmsKeyId'] as String?,
-      objectKeyPrefix: json['ObjectKeyPrefix'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucketName = this.bucketName;
-    final encryptionOption = this.encryptionOption;
-    final kmsKeyId = this.kmsKeyId;
-    final objectKeyPrefix = this.objectKeyPrefix;
-    return {
-      'BucketName': bucketName,
-      if (encryptionOption != null) 'EncryptionOption': encryptionOption.value,
-      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-      if (objectKeyPrefix != null) 'ObjectKeyPrefix': objectKeyPrefix,
-    };
-  }
-}
-
-class ResumeBatchLoadTaskResponse {
-  ResumeBatchLoadTaskResponse();
-
-  factory ResumeBatchLoadTaskResponse.fromJson(Map<String, dynamic> _) {
-    return ResumeBatchLoadTaskResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Retention properties contain the duration for which your time-series data
-/// must be stored in the magnetic store and the memory store.
-class RetentionProperties {
-  /// The duration for which data must be stored in the magnetic store.
-  final int magneticStoreRetentionPeriodInDays;
-
-  /// The duration for which data must be stored in the memory store.
-  final int memoryStoreRetentionPeriodInHours;
-
-  RetentionProperties({
-    required this.magneticStoreRetentionPeriodInDays,
-    required this.memoryStoreRetentionPeriodInHours,
-  });
-
-  factory RetentionProperties.fromJson(Map<String, dynamic> json) {
-    return RetentionProperties(
-      magneticStoreRetentionPeriodInDays:
-          (json['MagneticStoreRetentionPeriodInDays'] as int?) ?? 0,
-      memoryStoreRetentionPeriodInHours:
-          (json['MemoryStoreRetentionPeriodInHours'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final magneticStoreRetentionPeriodInDays =
-        this.magneticStoreRetentionPeriodInDays;
-    final memoryStoreRetentionPeriodInHours =
-        this.memoryStoreRetentionPeriodInHours;
-    return {
-      'MagneticStoreRetentionPeriodInDays': magneticStoreRetentionPeriodInDays,
-      'MemoryStoreRetentionPeriodInHours': memoryStoreRetentionPeriodInHours,
-    };
-  }
-}
-
-/// The configuration that specifies an S3 location.
-class S3Configuration {
-  /// The bucket name of the customer S3 bucket.
-  final String? bucketName;
-
-  /// The encryption option for the customer S3 location. Options are S3
-  /// server-side encryption with an S3 managed key or Amazon Web Services managed
-  /// key.
-  final S3EncryptionOption? encryptionOption;
-
-  /// The KMS key ID for the customer S3 location when encrypting with an Amazon
-  /// Web Services managed key.
-  final String? kmsKeyId;
-
-  /// The object key preview for the customer S3 location.
-  final String? objectKeyPrefix;
-
-  S3Configuration({
-    this.bucketName,
-    this.encryptionOption,
-    this.kmsKeyId,
-    this.objectKeyPrefix,
-  });
-
-  factory S3Configuration.fromJson(Map<String, dynamic> json) {
-    return S3Configuration(
-      bucketName: json['BucketName'] as String?,
-      encryptionOption: (json['EncryptionOption'] as String?)
-          ?.let(S3EncryptionOption.fromString),
-      kmsKeyId: json['KmsKeyId'] as String?,
-      objectKeyPrefix: json['ObjectKeyPrefix'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucketName = this.bucketName;
-    final encryptionOption = this.encryptionOption;
-    final kmsKeyId = this.kmsKeyId;
-    final objectKeyPrefix = this.objectKeyPrefix;
-    return {
-      if (bucketName != null) 'BucketName': bucketName,
-      if (encryptionOption != null) 'EncryptionOption': encryptionOption.value,
-      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-      if (objectKeyPrefix != null) 'ObjectKeyPrefix': objectKeyPrefix,
-    };
-  }
-}
-
-class S3EncryptionOption {
-  static const sseS3 = S3EncryptionOption._('SSE_S3');
-  static const sseKms = S3EncryptionOption._('SSE_KMS');
+class MeasureValueType {
+  static const $double = MeasureValueType._('DOUBLE');
+  static const bigint = MeasureValueType._('BIGINT');
+  static const varchar = MeasureValueType._('VARCHAR');
+  static const boolean = MeasureValueType._('BOOLEAN');
+  static const timestamp = MeasureValueType._('TIMESTAMP');
+  static const multi = MeasureValueType._('MULTI');
 
   final String value;
 
-  const S3EncryptionOption._(this.value);
+  const MeasureValueType._(this.value);
 
-  static const values = [sseS3, sseKms];
+  static const values = [$double, bigint, varchar, boolean, timestamp, multi];
 
-  static S3EncryptionOption fromString(String value) =>
+  static MeasureValueType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => S3EncryptionOption._(value));
+          orElse: () => MeasureValueType._(value));
 
   @override
-  bool operator ==(other) =>
-      other is S3EncryptionOption && other.value == value;
+  bool operator ==(other) => other is MeasureValueType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -2788,26 +1599,23 @@ class S3EncryptionOption {
   String toString() => value;
 }
 
-class ScalarMeasureValueType {
-  static const $double = ScalarMeasureValueType._('DOUBLE');
-  static const bigint = ScalarMeasureValueType._('BIGINT');
-  static const boolean = ScalarMeasureValueType._('BOOLEAN');
-  static const varchar = ScalarMeasureValueType._('VARCHAR');
-  static const timestamp = ScalarMeasureValueType._('TIMESTAMP');
+class TimeUnit {
+  static const milliseconds = TimeUnit._('MILLISECONDS');
+  static const seconds = TimeUnit._('SECONDS');
+  static const microseconds = TimeUnit._('MICROSECONDS');
+  static const nanoseconds = TimeUnit._('NANOSECONDS');
 
   final String value;
 
-  const ScalarMeasureValueType._(this.value);
+  const TimeUnit._(this.value);
 
-  static const values = [$double, bigint, boolean, varchar, timestamp];
+  static const values = [milliseconds, seconds, microseconds, nanoseconds];
 
-  static ScalarMeasureValueType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ScalarMeasureValueType._(value));
+  static TimeUnit fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TimeUnit._(value));
 
   @override
-  bool operator ==(other) =>
-      other is ScalarMeasureValueType && other.value == value;
+  bool operator ==(other) => other is TimeUnit && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -2816,35 +1624,107 @@ class ScalarMeasureValueType {
   String toString() => value;
 }
 
-/// A Schema specifies the expected data model of the table.
-class Schema {
-  /// A non-empty list of partition keys defining the attributes used to partition
-  /// the table data. The order of the list determines the partition hierarchy.
-  /// The name and type of each partition key as well as the partition key order
-  /// cannot be changed after the table is created. However, the enforcement level
-  /// of each partition key can be changed.
-  final List<PartitionKey>? compositePartitionKey;
+/// Represents the data attribute of the time series. For example, the CPU
+/// utilization of an EC2 instance or the RPM of a wind turbine are measures.
+/// MeasureValue has both name and value.
+///
+/// MeasureValue is only allowed for type <code>MULTI</code>. Using
+/// <code>MULTI</code> type, you can pass multiple data attributes associated
+/// with the same time series in a single record
+class MeasureValue {
+  /// The name of the MeasureValue.
+  ///
+  /// For constraints on MeasureValue names, see <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html#limits.naming">
+  /// Naming Constraints</a> in the Amazon Timestream Developer Guide.
+  final String name;
 
-  Schema({
-    this.compositePartitionKey,
+  /// Contains the data type of the MeasureValue for the time-series data point.
+  final MeasureValueType type;
+
+  /// The value for the MeasureValue. For information, see <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/writes.html#writes.data-types">Data
+  /// types</a>.
+  final String value;
+
+  MeasureValue({
+    required this.name,
+    required this.type,
+    required this.value,
   });
 
-  factory Schema.fromJson(Map<String, dynamic> json) {
-    return Schema(
-      compositePartitionKey: (json['CompositePartitionKey'] as List?)
-          ?.nonNulls
-          .map((e) => PartitionKey.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final compositePartitionKey = this.compositePartitionKey;
+    final name = this.name;
+    final type = this.type;
+    final value = this.value;
     return {
-      if (compositePartitionKey != null)
-        'CompositePartitionKey': compositePartitionKey,
+      'Name': name,
+      'Type': type.value,
+      'Value': value,
     };
   }
+}
+
+/// Represents the metadata attributes of the time series. For example, the name
+/// and Availability Zone of an EC2 instance or the name of the manufacturer of
+/// a wind turbine are dimensions.
+class Dimension {
+  /// Dimension represents the metadata attributes of the time series. For
+  /// example, the name and Availability Zone of an EC2 instance or the name of
+  /// the manufacturer of a wind turbine are dimensions.
+  ///
+  /// For constraints on dimension names, see <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html#limits.naming">Naming
+  /// Constraints</a>.
+  final String name;
+
+  /// The value of the dimension.
+  final String value;
+
+  /// The data type of the dimension for the time-series data point.
+  final DimensionValueType? dimensionValueType;
+
+  Dimension({
+    required this.name,
+    required this.value,
+    this.dimensionValueType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    final dimensionValueType = this.dimensionValueType;
+    return {
+      'Name': name,
+      'Value': value,
+      if (dimensionValueType != null)
+        'DimensionValueType': dimensionValueType.value,
+    };
+  }
+}
+
+class DimensionValueType {
+  static const varchar = DimensionValueType._('VARCHAR');
+
+  final String value;
+
+  const DimensionValueType._(this.value);
+
+  static const values = [varchar];
+
+  static DimensionValueType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DimensionValueType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DimensionValueType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a database table in Timestream. Tables contain one or more
@@ -2974,6 +1854,370 @@ class TableStatus {
   String toString() => value;
 }
 
+/// Retention properties contain the duration for which your time-series data
+/// must be stored in the magnetic store and the memory store.
+class RetentionProperties {
+  /// The duration for which data must be stored in the magnetic store.
+  final int magneticStoreRetentionPeriodInDays;
+
+  /// The duration for which data must be stored in the memory store.
+  final int memoryStoreRetentionPeriodInHours;
+
+  RetentionProperties({
+    required this.magneticStoreRetentionPeriodInDays,
+    required this.memoryStoreRetentionPeriodInHours,
+  });
+
+  factory RetentionProperties.fromJson(Map<String, dynamic> json) {
+    return RetentionProperties(
+      magneticStoreRetentionPeriodInDays:
+          (json['MagneticStoreRetentionPeriodInDays'] as int?) ?? 0,
+      memoryStoreRetentionPeriodInHours:
+          (json['MemoryStoreRetentionPeriodInHours'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final magneticStoreRetentionPeriodInDays =
+        this.magneticStoreRetentionPeriodInDays;
+    final memoryStoreRetentionPeriodInHours =
+        this.memoryStoreRetentionPeriodInHours;
+    return {
+      'MagneticStoreRetentionPeriodInDays': magneticStoreRetentionPeriodInDays,
+      'MemoryStoreRetentionPeriodInHours': memoryStoreRetentionPeriodInHours,
+    };
+  }
+}
+
+/// The set of properties on a table for configuring magnetic store writes.
+class MagneticStoreWriteProperties {
+  /// A flag to enable magnetic store writes.
+  final bool enableMagneticStoreWrites;
+
+  /// The location to write error reports for records rejected asynchronously
+  /// during magnetic store writes.
+  final MagneticStoreRejectedDataLocation? magneticStoreRejectedDataLocation;
+
+  MagneticStoreWriteProperties({
+    required this.enableMagneticStoreWrites,
+    this.magneticStoreRejectedDataLocation,
+  });
+
+  factory MagneticStoreWriteProperties.fromJson(Map<String, dynamic> json) {
+    return MagneticStoreWriteProperties(
+      enableMagneticStoreWrites:
+          (json['EnableMagneticStoreWrites'] as bool?) ?? false,
+      magneticStoreRejectedDataLocation:
+          json['MagneticStoreRejectedDataLocation'] != null
+              ? MagneticStoreRejectedDataLocation.fromJson(
+                  json['MagneticStoreRejectedDataLocation']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enableMagneticStoreWrites = this.enableMagneticStoreWrites;
+    final magneticStoreRejectedDataLocation =
+        this.magneticStoreRejectedDataLocation;
+    return {
+      'EnableMagneticStoreWrites': enableMagneticStoreWrites,
+      if (magneticStoreRejectedDataLocation != null)
+        'MagneticStoreRejectedDataLocation': magneticStoreRejectedDataLocation,
+    };
+  }
+}
+
+/// A Schema specifies the expected data model of the table.
+class Schema {
+  /// A non-empty list of partition keys defining the attributes used to partition
+  /// the table data. The order of the list determines the partition hierarchy.
+  /// The name and type of each partition key as well as the partition key order
+  /// cannot be changed after the table is created. However, the enforcement level
+  /// of each partition key can be changed.
+  final List<PartitionKey>? compositePartitionKey;
+
+  Schema({
+    this.compositePartitionKey,
+  });
+
+  factory Schema.fromJson(Map<String, dynamic> json) {
+    return Schema(
+      compositePartitionKey: (json['CompositePartitionKey'] as List?)
+          ?.nonNulls
+          .map((e) => PartitionKey.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final compositePartitionKey = this.compositePartitionKey;
+    return {
+      if (compositePartitionKey != null)
+        'CompositePartitionKey': compositePartitionKey,
+    };
+  }
+}
+
+/// An attribute used in partitioning data in a table. A dimension key
+/// partitions data using the values of the dimension specified by the
+/// dimension-name as partition key, while a measure key partitions data using
+/// measure names (values of the 'measure_name' column).
+class PartitionKey {
+  /// The type of the partition key. Options are DIMENSION (dimension key) and
+  /// MEASURE (measure key).
+  final PartitionKeyType type;
+
+  /// The level of enforcement for the specification of a dimension key in
+  /// ingested records. Options are REQUIRED (dimension key must be specified) and
+  /// OPTIONAL (dimension key does not have to be specified).
+  final PartitionKeyEnforcementLevel? enforcementInRecord;
+
+  /// The name of the attribute used for a dimension key.
+  final String? name;
+
+  PartitionKey({
+    required this.type,
+    this.enforcementInRecord,
+    this.name,
+  });
+
+  factory PartitionKey.fromJson(Map<String, dynamic> json) {
+    return PartitionKey(
+      type: PartitionKeyType.fromString((json['Type'] as String?) ?? ''),
+      enforcementInRecord: (json['EnforcementInRecord'] as String?)
+          ?.let(PartitionKeyEnforcementLevel.fromString),
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final enforcementInRecord = this.enforcementInRecord;
+    final name = this.name;
+    return {
+      'Type': type.value,
+      if (enforcementInRecord != null)
+        'EnforcementInRecord': enforcementInRecord.value,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+class PartitionKeyType {
+  static const dimension = PartitionKeyType._('DIMENSION');
+  static const measure = PartitionKeyType._('MEASURE');
+
+  final String value;
+
+  const PartitionKeyType._(this.value);
+
+  static const values = [dimension, measure];
+
+  static PartitionKeyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PartitionKeyType._(value));
+
+  @override
+  bool operator ==(other) => other is PartitionKeyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class PartitionKeyEnforcementLevel {
+  static const required = PartitionKeyEnforcementLevel._('REQUIRED');
+  static const optional = PartitionKeyEnforcementLevel._('OPTIONAL');
+
+  final String value;
+
+  const PartitionKeyEnforcementLevel._(this.value);
+
+  static const values = [required, optional];
+
+  static PartitionKeyEnforcementLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PartitionKeyEnforcementLevel._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PartitionKeyEnforcementLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The location to write error reports for records rejected, asynchronously,
+/// during magnetic store writes.
+class MagneticStoreRejectedDataLocation {
+  /// Configuration of an S3 location to write error reports for records rejected,
+  /// asynchronously, during magnetic store writes.
+  final S3Configuration? s3Configuration;
+
+  MagneticStoreRejectedDataLocation({
+    this.s3Configuration,
+  });
+
+  factory MagneticStoreRejectedDataLocation.fromJson(
+      Map<String, dynamic> json) {
+    return MagneticStoreRejectedDataLocation(
+      s3Configuration: json['S3Configuration'] != null
+          ? S3Configuration.fromJson(
+              json['S3Configuration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Configuration = this.s3Configuration;
+    return {
+      if (s3Configuration != null) 'S3Configuration': s3Configuration,
+    };
+  }
+}
+
+/// The configuration that specifies an S3 location.
+class S3Configuration {
+  /// The bucket name of the customer S3 bucket.
+  final String? bucketName;
+
+  /// The encryption option for the customer S3 location. Options are S3
+  /// server-side encryption with an S3 managed key or Amazon Web Services managed
+  /// key.
+  final S3EncryptionOption? encryptionOption;
+
+  /// The KMS key ID for the customer S3 location when encrypting with an Amazon
+  /// Web Services managed key.
+  final String? kmsKeyId;
+
+  /// The object key preview for the customer S3 location.
+  final String? objectKeyPrefix;
+
+  S3Configuration({
+    this.bucketName,
+    this.encryptionOption,
+    this.kmsKeyId,
+    this.objectKeyPrefix,
+  });
+
+  factory S3Configuration.fromJson(Map<String, dynamic> json) {
+    return S3Configuration(
+      bucketName: json['BucketName'] as String?,
+      encryptionOption: (json['EncryptionOption'] as String?)
+          ?.let(S3EncryptionOption.fromString),
+      kmsKeyId: json['KmsKeyId'] as String?,
+      objectKeyPrefix: json['ObjectKeyPrefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final encryptionOption = this.encryptionOption;
+    final kmsKeyId = this.kmsKeyId;
+    final objectKeyPrefix = this.objectKeyPrefix;
+    return {
+      if (bucketName != null) 'BucketName': bucketName,
+      if (encryptionOption != null) 'EncryptionOption': encryptionOption.value,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (objectKeyPrefix != null) 'ObjectKeyPrefix': objectKeyPrefix,
+    };
+  }
+}
+
+class S3EncryptionOption {
+  static const sseS3 = S3EncryptionOption._('SSE_S3');
+  static const sseKms = S3EncryptionOption._('SSE_KMS');
+
+  final String value;
+
+  const S3EncryptionOption._(this.value);
+
+  static const values = [sseS3, sseKms];
+
+  static S3EncryptionOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => S3EncryptionOption._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is S3EncryptionOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A top-level container for a table. Databases and tables are the fundamental
+/// management concepts in Amazon Timestream. All tables in a database are
+/// encrypted with the same KMS key.
+class Database {
+  /// The Amazon Resource Name that uniquely identifies this database.
+  final String? arn;
+
+  /// The time when the database was created, calculated from the Unix epoch time.
+  final DateTime? creationTime;
+
+  /// The name of the Timestream database.
+  final String? databaseName;
+
+  /// The identifier of the KMS key used to encrypt the data stored in the
+  /// database.
+  final String? kmsKeyId;
+
+  /// The last time that this database was updated.
+  final DateTime? lastUpdatedTime;
+
+  /// The total number of tables found within a Timestream database.
+  final int? tableCount;
+
+  Database({
+    this.arn,
+    this.creationTime,
+    this.databaseName,
+    this.kmsKeyId,
+    this.lastUpdatedTime,
+    this.tableCount,
+  });
+
+  factory Database.fromJson(Map<String, dynamic> json) {
+    return Database(
+      arn: json['Arn'] as String?,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      databaseName: json['DatabaseName'] as String?,
+      kmsKeyId: json['KmsKeyId'] as String?,
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      tableCount: json['TableCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTime = this.creationTime;
+    final databaseName = this.databaseName;
+    final kmsKeyId = this.kmsKeyId;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final tableCount = this.tableCount;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (lastUpdatedTime != null)
+        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      if (tableCount != null) 'TableCount': tableCount,
+    };
+  }
+}
+
 /// A tag is a label that you assign to a Timestream database and/or table. Each
 /// tag consists of a key and an optional value, both of which you define. With
 /// tags, you can categorize databases and/or tables, for example, by purpose,
@@ -3007,35 +2251,102 @@ class Tag {
   }
 }
 
-class TagResourceResponse {
-  TagResourceResponse();
+/// Details about a batch load task.
+class BatchLoadTask {
+  /// The time when the Timestream batch load task was created.
+  final DateTime? creationTime;
 
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
+  /// Database name for the database into which a batch load task loads data.
+  final String? databaseName;
+
+  /// The time when the Timestream batch load task was last updated.
+  final DateTime? lastUpdatedTime;
+
+  ///
+  final DateTime? resumableUntil;
+
+  /// Table name for the table into which a batch load task loads data.
+  final String? tableName;
+
+  /// The ID of the batch load task.
+  final String? taskId;
+
+  /// Status of the batch load task.
+  final BatchLoadStatus? taskStatus;
+
+  BatchLoadTask({
+    this.creationTime,
+    this.databaseName,
+    this.lastUpdatedTime,
+    this.resumableUntil,
+    this.tableName,
+    this.taskId,
+    this.taskStatus,
+  });
+
+  factory BatchLoadTask.fromJson(Map<String, dynamic> json) {
+    return BatchLoadTask(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      databaseName: json['DatabaseName'] as String?,
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      resumableUntil: timeStampFromJson(json['ResumableUntil']),
+      tableName: json['TableName'] as String?,
+      taskId: json['TaskId'] as String?,
+      taskStatus:
+          (json['TaskStatus'] as String?)?.let(BatchLoadStatus.fromString),
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final creationTime = this.creationTime;
+    final databaseName = this.databaseName;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final resumableUntil = this.resumableUntil;
+    final tableName = this.tableName;
+    final taskId = this.taskId;
+    final taskStatus = this.taskStatus;
+    return {
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (lastUpdatedTime != null)
+        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      if (resumableUntil != null)
+        'ResumableUntil': unixTimestampToJson(resumableUntil),
+      if (tableName != null) 'TableName': tableName,
+      if (taskId != null) 'TaskId': taskId,
+      if (taskStatus != null) 'TaskStatus': taskStatus.value,
+    };
   }
 }
 
-class TimeUnit {
-  static const milliseconds = TimeUnit._('MILLISECONDS');
-  static const seconds = TimeUnit._('SECONDS');
-  static const microseconds = TimeUnit._('MICROSECONDS');
-  static const nanoseconds = TimeUnit._('NANOSECONDS');
+class BatchLoadStatus {
+  static const created = BatchLoadStatus._('CREATED');
+  static const inProgress = BatchLoadStatus._('IN_PROGRESS');
+  static const failed = BatchLoadStatus._('FAILED');
+  static const succeeded = BatchLoadStatus._('SUCCEEDED');
+  static const progressStopped = BatchLoadStatus._('PROGRESS_STOPPED');
+  static const pendingResume = BatchLoadStatus._('PENDING_RESUME');
 
   final String value;
 
-  const TimeUnit._(this.value);
+  const BatchLoadStatus._(this.value);
 
-  static const values = [milliseconds, seconds, microseconds, nanoseconds];
+  static const values = [
+    created,
+    inProgress,
+    failed,
+    succeeded,
+    progressStopped,
+    pendingResume
+  ];
 
-  static TimeUnit fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => TimeUnit._(value));
+  static BatchLoadStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BatchLoadStatus._(value));
 
   @override
-  bool operator ==(other) => other is TimeUnit && other.value == value;
+  bool operator ==(other) => other is BatchLoadStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -3044,88 +2355,775 @@ class TimeUnit {
   String toString() => value;
 }
 
-class UntagResourceResponse {
-  UntagResourceResponse();
+/// Represents an available endpoint against which to make API calls against, as
+/// well as the TTL for that endpoint.
+class Endpoint {
+  /// An endpoint address.
+  final String address;
 
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
+  /// The TTL for the endpoint, in minutes.
+  final int cachePeriodInMinutes;
+
+  Endpoint({
+    required this.address,
+    required this.cachePeriodInMinutes,
+  });
+
+  factory Endpoint.fromJson(Map<String, dynamic> json) {
+    return Endpoint(
+      address: (json['Address'] as String?) ?? '',
+      cachePeriodInMinutes: (json['CachePeriodInMinutes'] as int?) ?? 0,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final address = this.address;
+    final cachePeriodInMinutes = this.cachePeriodInMinutes;
+    return {
+      'Address': address,
+      'CachePeriodInMinutes': cachePeriodInMinutes,
+    };
   }
 }
 
-class UpdateDatabaseResponse {
-  final Database? database;
+/// Details about a batch load task.
+class BatchLoadTaskDescription {
+  /// The time when the Timestream batch load task was created.
+  final DateTime? creationTime;
 
-  UpdateDatabaseResponse({
-    this.database,
+  /// Data model configuration for a batch load task. This contains details about
+  /// where a data model for a batch load task is stored.
+  final DataModelConfiguration? dataModelConfiguration;
+
+  /// Configuration details about the data source for a batch load task.
+  final DataSourceConfiguration? dataSourceConfiguration;
+
+  ///
+  final String? errorMessage;
+
+  /// The time when the Timestream batch load task was last updated.
+  final DateTime? lastUpdatedTime;
+
+  ///
+  final BatchLoadProgressReport? progressReport;
+
+  ///
+  final int? recordVersion;
+
+  /// Report configuration for a batch load task. This contains details about
+  /// where error reports are stored.
+  final ReportConfiguration? reportConfiguration;
+
+  ///
+  final DateTime? resumableUntil;
+
+  ///
+  final String? targetDatabaseName;
+
+  ///
+  final String? targetTableName;
+
+  /// The ID of the batch load task.
+  final String? taskId;
+
+  /// Status of the batch load task.
+  final BatchLoadStatus? taskStatus;
+
+  BatchLoadTaskDescription({
+    this.creationTime,
+    this.dataModelConfiguration,
+    this.dataSourceConfiguration,
+    this.errorMessage,
+    this.lastUpdatedTime,
+    this.progressReport,
+    this.recordVersion,
+    this.reportConfiguration,
+    this.resumableUntil,
+    this.targetDatabaseName,
+    this.targetTableName,
+    this.taskId,
+    this.taskStatus,
   });
 
-  factory UpdateDatabaseResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateDatabaseResponse(
-      database: json['Database'] != null
-          ? Database.fromJson(json['Database'] as Map<String, dynamic>)
+  factory BatchLoadTaskDescription.fromJson(Map<String, dynamic> json) {
+    return BatchLoadTaskDescription(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      dataModelConfiguration: json['DataModelConfiguration'] != null
+          ? DataModelConfiguration.fromJson(
+              json['DataModelConfiguration'] as Map<String, dynamic>)
+          : null,
+      dataSourceConfiguration: json['DataSourceConfiguration'] != null
+          ? DataSourceConfiguration.fromJson(
+              json['DataSourceConfiguration'] as Map<String, dynamic>)
+          : null,
+      errorMessage: json['ErrorMessage'] as String?,
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      progressReport: json['ProgressReport'] != null
+          ? BatchLoadProgressReport.fromJson(
+              json['ProgressReport'] as Map<String, dynamic>)
+          : null,
+      recordVersion: json['RecordVersion'] as int?,
+      reportConfiguration: json['ReportConfiguration'] != null
+          ? ReportConfiguration.fromJson(
+              json['ReportConfiguration'] as Map<String, dynamic>)
+          : null,
+      resumableUntil: timeStampFromJson(json['ResumableUntil']),
+      targetDatabaseName: json['TargetDatabaseName'] as String?,
+      targetTableName: json['TargetTableName'] as String?,
+      taskId: json['TaskId'] as String?,
+      taskStatus:
+          (json['TaskStatus'] as String?)?.let(BatchLoadStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final dataModelConfiguration = this.dataModelConfiguration;
+    final dataSourceConfiguration = this.dataSourceConfiguration;
+    final errorMessage = this.errorMessage;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final progressReport = this.progressReport;
+    final recordVersion = this.recordVersion;
+    final reportConfiguration = this.reportConfiguration;
+    final resumableUntil = this.resumableUntil;
+    final targetDatabaseName = this.targetDatabaseName;
+    final targetTableName = this.targetTableName;
+    final taskId = this.taskId;
+    final taskStatus = this.taskStatus;
+    return {
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (dataModelConfiguration != null)
+        'DataModelConfiguration': dataModelConfiguration,
+      if (dataSourceConfiguration != null)
+        'DataSourceConfiguration': dataSourceConfiguration,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (lastUpdatedTime != null)
+        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      if (progressReport != null) 'ProgressReport': progressReport,
+      if (recordVersion != null) 'RecordVersion': recordVersion,
+      if (reportConfiguration != null)
+        'ReportConfiguration': reportConfiguration,
+      if (resumableUntil != null)
+        'ResumableUntil': unixTimestampToJson(resumableUntil),
+      if (targetDatabaseName != null) 'TargetDatabaseName': targetDatabaseName,
+      if (targetTableName != null) 'TargetTableName': targetTableName,
+      if (taskId != null) 'TaskId': taskId,
+      if (taskStatus != null) 'TaskStatus': taskStatus.value,
+    };
+  }
+}
+
+/// Defines configuration details about the data source.
+class DataSourceConfiguration {
+  /// This is currently CSV.
+  final BatchLoadDataFormat dataFormat;
+
+  /// Configuration of an S3 location for a file which contains data to load.
+  final DataSourceS3Configuration dataSourceS3Configuration;
+  final CsvConfiguration? csvConfiguration;
+
+  DataSourceConfiguration({
+    required this.dataFormat,
+    required this.dataSourceS3Configuration,
+    this.csvConfiguration,
+  });
+
+  factory DataSourceConfiguration.fromJson(Map<String, dynamic> json) {
+    return DataSourceConfiguration(
+      dataFormat:
+          BatchLoadDataFormat.fromString((json['DataFormat'] as String?) ?? ''),
+      dataSourceS3Configuration: DataSourceS3Configuration.fromJson(
+          (json['DataSourceS3Configuration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      csvConfiguration: json['CsvConfiguration'] != null
+          ? CsvConfiguration.fromJson(
+              json['CsvConfiguration'] as Map<String, dynamic>)
           : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final database = this.database;
+    final dataFormat = this.dataFormat;
+    final dataSourceS3Configuration = this.dataSourceS3Configuration;
+    final csvConfiguration = this.csvConfiguration;
     return {
-      if (database != null) 'Database': database,
+      'DataFormat': dataFormat.value,
+      'DataSourceS3Configuration': dataSourceS3Configuration,
+      if (csvConfiguration != null) 'CsvConfiguration': csvConfiguration,
     };
   }
 }
 
-class UpdateTableResponse {
-  /// The updated Timestream table.
-  final Table? table;
+/// Details about the progress of a batch load task.
+class BatchLoadProgressReport {
+  ///
+  final int? bytesMetered;
 
-  UpdateTableResponse({
-    this.table,
-  });
+  ///
+  final int? fileFailures;
 
-  factory UpdateTableResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateTableResponse(
-      table: json['Table'] != null
-          ? Table.fromJson(json['Table'] as Map<String, dynamic>)
-          : null,
-    );
-  }
+  ///
+  final int? parseFailures;
 
-  Map<String, dynamic> toJson() {
-    final table = this.table;
-    return {
-      if (table != null) 'Table': table,
-    };
-  }
-}
+  ///
+  final int? recordIngestionFailures;
 
-class WriteRecordsResponse {
-  /// Information on the records ingested by this request.
-  final RecordsIngested? recordsIngested;
+  ///
+  final int? recordsIngested;
 
-  WriteRecordsResponse({
+  ///
+  final int? recordsProcessed;
+
+  BatchLoadProgressReport({
+    this.bytesMetered,
+    this.fileFailures,
+    this.parseFailures,
+    this.recordIngestionFailures,
     this.recordsIngested,
+    this.recordsProcessed,
   });
 
-  factory WriteRecordsResponse.fromJson(Map<String, dynamic> json) {
-    return WriteRecordsResponse(
-      recordsIngested: json['RecordsIngested'] != null
-          ? RecordsIngested.fromJson(
-              json['RecordsIngested'] as Map<String, dynamic>)
+  factory BatchLoadProgressReport.fromJson(Map<String, dynamic> json) {
+    return BatchLoadProgressReport(
+      bytesMetered: json['BytesMetered'] as int?,
+      fileFailures: json['FileFailures'] as int?,
+      parseFailures: json['ParseFailures'] as int?,
+      recordIngestionFailures: json['RecordIngestionFailures'] as int?,
+      recordsIngested: json['RecordsIngested'] as int?,
+      recordsProcessed: json['RecordsProcessed'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bytesMetered = this.bytesMetered;
+    final fileFailures = this.fileFailures;
+    final parseFailures = this.parseFailures;
+    final recordIngestionFailures = this.recordIngestionFailures;
+    final recordsIngested = this.recordsIngested;
+    final recordsProcessed = this.recordsProcessed;
+    return {
+      if (bytesMetered != null) 'BytesMetered': bytesMetered,
+      if (fileFailures != null) 'FileFailures': fileFailures,
+      if (parseFailures != null) 'ParseFailures': parseFailures,
+      if (recordIngestionFailures != null)
+        'RecordIngestionFailures': recordIngestionFailures,
+      if (recordsIngested != null) 'RecordsIngested': recordsIngested,
+      if (recordsProcessed != null) 'RecordsProcessed': recordsProcessed,
+    };
+  }
+}
+
+/// Report configuration for a batch load task. This contains details about
+/// where error reports are stored.
+class ReportConfiguration {
+  /// Configuration of an S3 location to write error reports and events for a
+  /// batch load.
+  final ReportS3Configuration? reportS3Configuration;
+
+  ReportConfiguration({
+    this.reportS3Configuration,
+  });
+
+  factory ReportConfiguration.fromJson(Map<String, dynamic> json) {
+    return ReportConfiguration(
+      reportS3Configuration: json['ReportS3Configuration'] != null
+          ? ReportS3Configuration.fromJson(
+              json['ReportS3Configuration'] as Map<String, dynamic>)
           : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final recordsIngested = this.recordsIngested;
+    final reportS3Configuration = this.reportS3Configuration;
     return {
-      if (recordsIngested != null) 'RecordsIngested': recordsIngested,
+      if (reportS3Configuration != null)
+        'ReportS3Configuration': reportS3Configuration,
     };
   }
+}
+
+///
+class DataModelConfiguration {
+  ///
+  final DataModel? dataModel;
+
+  ///
+  final DataModelS3Configuration? dataModelS3Configuration;
+
+  DataModelConfiguration({
+    this.dataModel,
+    this.dataModelS3Configuration,
+  });
+
+  factory DataModelConfiguration.fromJson(Map<String, dynamic> json) {
+    return DataModelConfiguration(
+      dataModel: json['DataModel'] != null
+          ? DataModel.fromJson(json['DataModel'] as Map<String, dynamic>)
+          : null,
+      dataModelS3Configuration: json['DataModelS3Configuration'] != null
+          ? DataModelS3Configuration.fromJson(
+              json['DataModelS3Configuration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataModel = this.dataModel;
+    final dataModelS3Configuration = this.dataModelS3Configuration;
+    return {
+      if (dataModel != null) 'DataModel': dataModel,
+      if (dataModelS3Configuration != null)
+        'DataModelS3Configuration': dataModelS3Configuration,
+    };
+  }
+}
+
+/// Data model for a batch load task.
+class DataModel {
+  /// Source to target mappings for dimensions.
+  final List<DimensionMapping> dimensionMappings;
+
+  ///
+  final String? measureNameColumn;
+
+  /// Source to target mappings for measures.
+  final List<MixedMeasureMapping>? mixedMeasureMappings;
+
+  /// Source to target mappings for multi-measure records.
+  final MultiMeasureMappings? multiMeasureMappings;
+
+  /// Source column to be mapped to time.
+  final String? timeColumn;
+
+  /// The granularity of the timestamp unit. It indicates if the time value is in
+  /// seconds, milliseconds, nanoseconds, or other supported values. Default is
+  /// <code>MILLISECONDS</code>.
+  final TimeUnit? timeUnit;
+
+  DataModel({
+    required this.dimensionMappings,
+    this.measureNameColumn,
+    this.mixedMeasureMappings,
+    this.multiMeasureMappings,
+    this.timeColumn,
+    this.timeUnit,
+  });
+
+  factory DataModel.fromJson(Map<String, dynamic> json) {
+    return DataModel(
+      dimensionMappings: ((json['DimensionMappings'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => DimensionMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      measureNameColumn: json['MeasureNameColumn'] as String?,
+      mixedMeasureMappings: (json['MixedMeasureMappings'] as List?)
+          ?.nonNulls
+          .map((e) => MixedMeasureMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      multiMeasureMappings: json['MultiMeasureMappings'] != null
+          ? MultiMeasureMappings.fromJson(
+              json['MultiMeasureMappings'] as Map<String, dynamic>)
+          : null,
+      timeColumn: json['TimeColumn'] as String?,
+      timeUnit: (json['TimeUnit'] as String?)?.let(TimeUnit.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dimensionMappings = this.dimensionMappings;
+    final measureNameColumn = this.measureNameColumn;
+    final mixedMeasureMappings = this.mixedMeasureMappings;
+    final multiMeasureMappings = this.multiMeasureMappings;
+    final timeColumn = this.timeColumn;
+    final timeUnit = this.timeUnit;
+    return {
+      'DimensionMappings': dimensionMappings,
+      if (measureNameColumn != null) 'MeasureNameColumn': measureNameColumn,
+      if (mixedMeasureMappings != null)
+        'MixedMeasureMappings': mixedMeasureMappings,
+      if (multiMeasureMappings != null)
+        'MultiMeasureMappings': multiMeasureMappings,
+      if (timeColumn != null) 'TimeColumn': timeColumn,
+      if (timeUnit != null) 'TimeUnit': timeUnit.value,
+    };
+  }
+}
+
+///
+class DataModelS3Configuration {
+  ///
+  final String? bucketName;
+
+  ///
+  final String? objectKey;
+
+  DataModelS3Configuration({
+    this.bucketName,
+    this.objectKey,
+  });
+
+  factory DataModelS3Configuration.fromJson(Map<String, dynamic> json) {
+    return DataModelS3Configuration(
+      bucketName: json['BucketName'] as String?,
+      objectKey: json['ObjectKey'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final objectKey = this.objectKey;
+    return {
+      if (bucketName != null) 'BucketName': bucketName,
+      if (objectKey != null) 'ObjectKey': objectKey,
+    };
+  }
+}
+
+///
+class MultiMeasureMappings {
+  ///
+  final List<MultiMeasureAttributeMapping> multiMeasureAttributeMappings;
+
+  ///
+  final String? targetMultiMeasureName;
+
+  MultiMeasureMappings({
+    required this.multiMeasureAttributeMappings,
+    this.targetMultiMeasureName,
+  });
+
+  factory MultiMeasureMappings.fromJson(Map<String, dynamic> json) {
+    return MultiMeasureMappings(
+      multiMeasureAttributeMappings: ((json['MultiMeasureAttributeMappings']
+                  as List?) ??
+              const [])
+          .nonNulls
+          .map((e) =>
+              MultiMeasureAttributeMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      targetMultiMeasureName: json['TargetMultiMeasureName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final multiMeasureAttributeMappings = this.multiMeasureAttributeMappings;
+    final targetMultiMeasureName = this.targetMultiMeasureName;
+    return {
+      'MultiMeasureAttributeMappings': multiMeasureAttributeMappings,
+      if (targetMultiMeasureName != null)
+        'TargetMultiMeasureName': targetMultiMeasureName,
+    };
+  }
+}
+
+///
+class MixedMeasureMapping {
+  ///
+  final MeasureValueType measureValueType;
+
+  ///
+  final String? measureName;
+
+  ///
+  final List<MultiMeasureAttributeMapping>? multiMeasureAttributeMappings;
+
+  ///
+  final String? sourceColumn;
+
+  ///
+  final String? targetMeasureName;
+
+  MixedMeasureMapping({
+    required this.measureValueType,
+    this.measureName,
+    this.multiMeasureAttributeMappings,
+    this.sourceColumn,
+    this.targetMeasureName,
+  });
+
+  factory MixedMeasureMapping.fromJson(Map<String, dynamic> json) {
+    return MixedMeasureMapping(
+      measureValueType: MeasureValueType.fromString(
+          (json['MeasureValueType'] as String?) ?? ''),
+      measureName: json['MeasureName'] as String?,
+      multiMeasureAttributeMappings: (json['MultiMeasureAttributeMappings']
+              as List?)
+          ?.nonNulls
+          .map((e) =>
+              MultiMeasureAttributeMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      sourceColumn: json['SourceColumn'] as String?,
+      targetMeasureName: json['TargetMeasureName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final measureValueType = this.measureValueType;
+    final measureName = this.measureName;
+    final multiMeasureAttributeMappings = this.multiMeasureAttributeMappings;
+    final sourceColumn = this.sourceColumn;
+    final targetMeasureName = this.targetMeasureName;
+    return {
+      'MeasureValueType': measureValueType.value,
+      if (measureName != null) 'MeasureName': measureName,
+      if (multiMeasureAttributeMappings != null)
+        'MultiMeasureAttributeMappings': multiMeasureAttributeMappings,
+      if (sourceColumn != null) 'SourceColumn': sourceColumn,
+      if (targetMeasureName != null) 'TargetMeasureName': targetMeasureName,
+    };
+  }
+}
+
+///
+class MultiMeasureAttributeMapping {
+  ///
+  final String sourceColumn;
+
+  ///
+  final ScalarMeasureValueType? measureValueType;
+
+  ///
+  final String? targetMultiMeasureAttributeName;
+
+  MultiMeasureAttributeMapping({
+    required this.sourceColumn,
+    this.measureValueType,
+    this.targetMultiMeasureAttributeName,
+  });
+
+  factory MultiMeasureAttributeMapping.fromJson(Map<String, dynamic> json) {
+    return MultiMeasureAttributeMapping(
+      sourceColumn: (json['SourceColumn'] as String?) ?? '',
+      measureValueType: (json['MeasureValueType'] as String?)
+          ?.let(ScalarMeasureValueType.fromString),
+      targetMultiMeasureAttributeName:
+          json['TargetMultiMeasureAttributeName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sourceColumn = this.sourceColumn;
+    final measureValueType = this.measureValueType;
+    final targetMultiMeasureAttributeName =
+        this.targetMultiMeasureAttributeName;
+    return {
+      'SourceColumn': sourceColumn,
+      if (measureValueType != null) 'MeasureValueType': measureValueType.value,
+      if (targetMultiMeasureAttributeName != null)
+        'TargetMultiMeasureAttributeName': targetMultiMeasureAttributeName,
+    };
+  }
+}
+
+class ScalarMeasureValueType {
+  static const $double = ScalarMeasureValueType._('DOUBLE');
+  static const bigint = ScalarMeasureValueType._('BIGINT');
+  static const boolean = ScalarMeasureValueType._('BOOLEAN');
+  static const varchar = ScalarMeasureValueType._('VARCHAR');
+  static const timestamp = ScalarMeasureValueType._('TIMESTAMP');
+
+  final String value;
+
+  const ScalarMeasureValueType._(this.value);
+
+  static const values = [$double, bigint, boolean, varchar, timestamp];
+
+  static ScalarMeasureValueType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ScalarMeasureValueType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ScalarMeasureValueType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+///
+class DimensionMapping {
+  ///
+  final String? destinationColumn;
+
+  ///
+  final String? sourceColumn;
+
+  DimensionMapping({
+    this.destinationColumn,
+    this.sourceColumn,
+  });
+
+  factory DimensionMapping.fromJson(Map<String, dynamic> json) {
+    return DimensionMapping(
+      destinationColumn: json['DestinationColumn'] as String?,
+      sourceColumn: json['SourceColumn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationColumn = this.destinationColumn;
+    final sourceColumn = this.sourceColumn;
+    return {
+      if (destinationColumn != null) 'DestinationColumn': destinationColumn,
+      if (sourceColumn != null) 'SourceColumn': sourceColumn,
+    };
+  }
+}
+
+///
+class ReportS3Configuration {
+  ///
+  final String bucketName;
+
+  ///
+  final S3EncryptionOption? encryptionOption;
+
+  ///
+  final String? kmsKeyId;
+
+  ///
+  final String? objectKeyPrefix;
+
+  ReportS3Configuration({
+    required this.bucketName,
+    this.encryptionOption,
+    this.kmsKeyId,
+    this.objectKeyPrefix,
+  });
+
+  factory ReportS3Configuration.fromJson(Map<String, dynamic> json) {
+    return ReportS3Configuration(
+      bucketName: (json['BucketName'] as String?) ?? '',
+      encryptionOption: (json['EncryptionOption'] as String?)
+          ?.let(S3EncryptionOption.fromString),
+      kmsKeyId: json['KmsKeyId'] as String?,
+      objectKeyPrefix: json['ObjectKeyPrefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final encryptionOption = this.encryptionOption;
+    final kmsKeyId = this.kmsKeyId;
+    final objectKeyPrefix = this.objectKeyPrefix;
+    return {
+      'BucketName': bucketName,
+      if (encryptionOption != null) 'EncryptionOption': encryptionOption.value,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (objectKeyPrefix != null) 'ObjectKeyPrefix': objectKeyPrefix,
+    };
+  }
+}
+
+///
+class DataSourceS3Configuration {
+  /// The bucket name of the customer S3 bucket.
+  final String bucketName;
+
+  ///
+  final String? objectKeyPrefix;
+
+  DataSourceS3Configuration({
+    required this.bucketName,
+    this.objectKeyPrefix,
+  });
+
+  factory DataSourceS3Configuration.fromJson(Map<String, dynamic> json) {
+    return DataSourceS3Configuration(
+      bucketName: (json['BucketName'] as String?) ?? '',
+      objectKeyPrefix: json['ObjectKeyPrefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final objectKeyPrefix = this.objectKeyPrefix;
+    return {
+      'BucketName': bucketName,
+      if (objectKeyPrefix != null) 'ObjectKeyPrefix': objectKeyPrefix,
+    };
+  }
+}
+
+/// A delimited data format where the column separator can be a comma and the
+/// record separator is a newline character.
+class CsvConfiguration {
+  /// Column separator can be one of comma (','), pipe ('|), semicolon (';'),
+  /// tab('/t'), or blank space (' ').
+  final String? columnSeparator;
+
+  /// Escape character can be one of
+  final String? escapeChar;
+
+  /// Can be blank space (' ').
+  final String? nullValue;
+
+  /// Can be single quote (') or double quote (").
+  final String? quoteChar;
+
+  /// Specifies to trim leading and trailing white space.
+  final bool? trimWhiteSpace;
+
+  CsvConfiguration({
+    this.columnSeparator,
+    this.escapeChar,
+    this.nullValue,
+    this.quoteChar,
+    this.trimWhiteSpace,
+  });
+
+  factory CsvConfiguration.fromJson(Map<String, dynamic> json) {
+    return CsvConfiguration(
+      columnSeparator: json['ColumnSeparator'] as String?,
+      escapeChar: json['EscapeChar'] as String?,
+      nullValue: json['NullValue'] as String?,
+      quoteChar: json['QuoteChar'] as String?,
+      trimWhiteSpace: json['TrimWhiteSpace'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columnSeparator = this.columnSeparator;
+    final escapeChar = this.escapeChar;
+    final nullValue = this.nullValue;
+    final quoteChar = this.quoteChar;
+    final trimWhiteSpace = this.trimWhiteSpace;
+    return {
+      if (columnSeparator != null) 'ColumnSeparator': columnSeparator,
+      if (escapeChar != null) 'EscapeChar': escapeChar,
+      if (nullValue != null) 'NullValue': nullValue,
+      if (quoteChar != null) 'QuoteChar': quoteChar,
+      if (trimWhiteSpace != null) 'TrimWhiteSpace': trimWhiteSpace,
+    };
+  }
+}
+
+class BatchLoadDataFormat {
+  static const csv = BatchLoadDataFormat._('CSV');
+
+  final String value;
+
+  const BatchLoadDataFormat._(this.value);
+
+  static const values = [csv];
+
+  static BatchLoadDataFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BatchLoadDataFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BatchLoadDataFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

@@ -25,9 +25,9 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// spot and time-consuming to fix. DataBrew empowers users of all technical
 /// levels to visualize the data and perform one-click data transformations,
 /// with no coding required.
-class GlueDataBrew {
+class DataBrew {
   final _s.RestJsonProtocol _protocol;
-  GlueDataBrew({
+  DataBrew({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
@@ -37,7 +37,6 @@ class GlueDataBrew {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'databrew',
-            signingName: 'databrew',
           ),
           region: region,
           credentials: credentials,
@@ -686,9 +685,9 @@ class GlueDataBrew {
 
   /// Deletes a ruleset.
   ///
+  /// May throw [ConflictException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [name] :
   /// The name of the ruleset to be deleted.
@@ -1022,45 +1021,6 @@ class GlueDataBrew {
     return ListProjectsResponse.fromJson(response);
   }
 
-  /// Lists the versions of a particular DataBrew recipe, except for
-  /// <code>LATEST_WORKING</code>.
-  ///
-  /// May throw [ValidationException].
-  ///
-  /// Parameter [name] :
-  /// The name of the recipe for which to return version information.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of results to return in this request.
-  ///
-  /// Parameter [nextToken] :
-  /// The token returned by a previous call to retrieve the next set of results.
-  Future<ListRecipeVersionsResponse> listRecipeVersions({
-    required String name,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    final $query = <String, List<String>>{
-      'name': [name],
-      if (maxResults != null) 'maxResults': [maxResults.toString()],
-      if (nextToken != null) 'nextToken': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/recipeVersions',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListRecipeVersionsResponse.fromJson(response);
-  }
-
   /// Lists all of the DataBrew recipes that are defined.
   ///
   /// May throw [ValidationException].
@@ -1102,6 +1062,45 @@ class GlueDataBrew {
       exceptionFnMap: _exceptionFns,
     );
     return ListRecipesResponse.fromJson(response);
+  }
+
+  /// Lists the versions of a particular DataBrew recipe, except for
+  /// <code>LATEST_WORKING</code>.
+  ///
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [name] :
+  /// The name of the recipe for which to return version information.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in this request.
+  ///
+  /// Parameter [nextToken] :
+  /// The token returned by a previous call to retrieve the next set of results.
+  Future<ListRecipeVersionsResponse> listRecipeVersions({
+    required String name,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      'name': [name],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/recipeVersions',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListRecipeVersionsResponse.fromJson(response);
   }
 
   /// List all rulesets available in the current account or rulesets associated
@@ -1209,9 +1208,9 @@ class GlueDataBrew {
 
   /// Publishes a new version of a DataBrew recipe.
   ///
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [name] :
   /// The name of the recipe to be published.
@@ -1597,8 +1596,8 @@ class GlueDataBrew {
   /// Modifies the definition of the <code>LATEST_WORKING</code> version of a
   /// DataBrew recipe.
   ///
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [name] :
   /// The name of the recipe to be updated.
@@ -1796,59 +1795,6 @@ class GlueDataBrew {
   }
 }
 
-/// Configuration of statistics that are allowed to be run on columns that
-/// contain detected entities. When undefined, no statistics will be computed on
-/// columns that contain detected entities.
-class AllowedStatistics {
-  /// One or more column statistics to allow for columns that contain detected
-  /// entities.
-  final List<String> statistics;
-
-  AllowedStatistics({
-    required this.statistics,
-  });
-
-  factory AllowedStatistics.fromJson(Map<String, dynamic> json) {
-    return AllowedStatistics(
-      statistics: ((json['Statistics'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final statistics = this.statistics;
-    return {
-      'Statistics': statistics,
-    };
-  }
-}
-
-class AnalyticsMode {
-  static const enable = AnalyticsMode._('ENABLE');
-  static const disable = AnalyticsMode._('DISABLE');
-
-  final String value;
-
-  const AnalyticsMode._(this.value);
-
-  static const values = [enable, disable];
-
-  static AnalyticsMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AnalyticsMode._(value));
-
-  @override
-  bool operator ==(other) => other is AnalyticsMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class BatchDeleteRecipeVersionResponse {
   /// The name of the recipe that was modified.
   final String name;
@@ -1879,166 +1825,6 @@ class BatchDeleteRecipeVersionResponse {
     return {
       'Name': name,
       if (errors != null) 'Errors': errors,
-    };
-  }
-}
-
-/// Selector of a column from a dataset for profile job configuration. One
-/// selector includes either a column name or a regular expression.
-class ColumnSelector {
-  /// The name of a column from a dataset.
-  final String? name;
-
-  /// A regular expression for selecting a column from a dataset.
-  final String? regex;
-
-  ColumnSelector({
-    this.name,
-    this.regex,
-  });
-
-  factory ColumnSelector.fromJson(Map<String, dynamic> json) {
-    return ColumnSelector(
-      name: json['Name'] as String?,
-      regex: json['Regex'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final regex = this.regex;
-    return {
-      if (name != null) 'Name': name,
-      if (regex != null) 'Regex': regex,
-    };
-  }
-}
-
-/// Configuration for column evaluations for a profile job.
-/// ColumnStatisticsConfiguration can be used to select evaluations and override
-/// parameters of evaluations for particular columns.
-class ColumnStatisticsConfiguration {
-  /// Configuration for evaluations. Statistics can be used to select evaluations
-  /// and override parameters of evaluations.
-  final StatisticsConfiguration statistics;
-
-  /// List of column selectors. Selectors can be used to select columns from the
-  /// dataset. When selectors are undefined, configuration will be applied to all
-  /// supported columns.
-  final List<ColumnSelector>? selectors;
-
-  ColumnStatisticsConfiguration({
-    required this.statistics,
-    this.selectors,
-  });
-
-  factory ColumnStatisticsConfiguration.fromJson(Map<String, dynamic> json) {
-    return ColumnStatisticsConfiguration(
-      statistics: StatisticsConfiguration.fromJson(
-          (json['Statistics'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      selectors: (json['Selectors'] as List?)
-          ?.nonNulls
-          .map((e) => ColumnSelector.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final statistics = this.statistics;
-    final selectors = this.selectors;
-    return {
-      'Statistics': statistics,
-      if (selectors != null) 'Selectors': selectors,
-    };
-  }
-}
-
-class CompressionFormat {
-  static const gzip = CompressionFormat._('GZIP');
-  static const lz4 = CompressionFormat._('LZ4');
-  static const snappy = CompressionFormat._('SNAPPY');
-  static const bzip2 = CompressionFormat._('BZIP2');
-  static const deflate = CompressionFormat._('DEFLATE');
-  static const lzo = CompressionFormat._('LZO');
-  static const brotli = CompressionFormat._('BROTLI');
-  static const zstd = CompressionFormat._('ZSTD');
-  static const zlib = CompressionFormat._('ZLIB');
-
-  final String value;
-
-  const CompressionFormat._(this.value);
-
-  static const values = [
-    gzip,
-    lz4,
-    snappy,
-    bzip2,
-    deflate,
-    lzo,
-    brotli,
-    zstd,
-    zlib
-  ];
-
-  static CompressionFormat fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CompressionFormat._(value));
-
-  @override
-  bool operator ==(other) => other is CompressionFormat && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents an individual condition that evaluates to true or false.
-///
-/// Conditions are used with recipe actions. The action is only performed for
-/// column values where the condition evaluates to true.
-///
-/// If a recipe requires more than one condition, then the recipe must specify
-/// multiple <code>ConditionExpression</code> elements. Each condition is
-/// applied to the rows in a dataset first, before the recipe action is
-/// performed.
-class ConditionExpression {
-  /// A specific condition to apply to a recipe action. For more information, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/databrew/latest/dg/recipes.html#recipes.structure">Recipe
-  /// structure</a> in the <i>Glue DataBrew Developer Guide</i>.
-  final String condition;
-
-  /// A column to apply this condition to.
-  final String targetColumn;
-
-  /// A value that the condition must evaluate to for the condition to succeed.
-  final String? value;
-
-  ConditionExpression({
-    required this.condition,
-    required this.targetColumn,
-    this.value,
-  });
-
-  factory ConditionExpression.fromJson(Map<String, dynamic> json) {
-    return ConditionExpression(
-      condition: (json['Condition'] as String?) ?? '',
-      targetColumn: (json['TargetColumn'] as String?) ?? '',
-      value: json['Value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final condition = this.condition;
-    final targetColumn = this.targetColumn;
-    final value = this.value;
-    return {
-      'Condition': condition,
-      'TargetColumn': targetColumn,
-      if (value != null) 'Value': value,
     };
   }
 }
@@ -2109,16 +1895,16 @@ class CreateProjectResponse {
   }
 }
 
-class CreateRecipeJobResponse {
-  /// The name of the job that you created.
+class CreateRecipeResponse {
+  /// The name of the recipe that you created.
   final String name;
 
-  CreateRecipeJobResponse({
+  CreateRecipeResponse({
     required this.name,
   });
 
-  factory CreateRecipeJobResponse.fromJson(Map<String, dynamic> json) {
-    return CreateRecipeJobResponse(
+  factory CreateRecipeResponse.fromJson(Map<String, dynamic> json) {
+    return CreateRecipeResponse(
       name: (json['Name'] as String?) ?? '',
     );
   }
@@ -2131,16 +1917,16 @@ class CreateRecipeJobResponse {
   }
 }
 
-class CreateRecipeResponse {
-  /// The name of the recipe that you created.
+class CreateRecipeJobResponse {
+  /// The name of the job that you created.
   final String name;
 
-  CreateRecipeResponse({
+  CreateRecipeJobResponse({
     required this.name,
   });
 
-  factory CreateRecipeResponse.fromJson(Map<String, dynamic> json) {
-    return CreateRecipeResponse(
+  factory CreateRecipeJobResponse.fromJson(Map<String, dynamic> json) {
+    return CreateRecipeJobResponse(
       name: (json['Name'] as String?) ?? '',
     );
   }
@@ -2193,555 +1979,6 @@ class CreateScheduleResponse {
     final name = this.name;
     return {
       'Name': name,
-    };
-  }
-}
-
-/// Represents a set of options that define how DataBrew will read a
-/// comma-separated value (CSV) file when creating a dataset from that file.
-class CsvOptions {
-  /// A single character that specifies the delimiter being used in the CSV file.
-  final String? delimiter;
-
-  /// A variable that specifies whether the first row in the file is parsed as the
-  /// header. If this value is false, column names are auto-generated.
-  final bool? headerRow;
-
-  CsvOptions({
-    this.delimiter,
-    this.headerRow,
-  });
-
-  factory CsvOptions.fromJson(Map<String, dynamic> json) {
-    return CsvOptions(
-      delimiter: json['Delimiter'] as String?,
-      headerRow: json['HeaderRow'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final delimiter = this.delimiter;
-    final headerRow = this.headerRow;
-    return {
-      if (delimiter != null) 'Delimiter': delimiter,
-      if (headerRow != null) 'HeaderRow': headerRow,
-    };
-  }
-}
-
-/// Represents a set of options that define how DataBrew will write a
-/// comma-separated value (CSV) file.
-class CsvOutputOptions {
-  /// A single character that specifies the delimiter used to create CSV job
-  /// output.
-  final String? delimiter;
-
-  CsvOutputOptions({
-    this.delimiter,
-  });
-
-  factory CsvOutputOptions.fromJson(Map<String, dynamic> json) {
-    return CsvOutputOptions(
-      delimiter: json['Delimiter'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final delimiter = this.delimiter;
-    return {
-      if (delimiter != null) 'Delimiter': delimiter,
-    };
-  }
-}
-
-/// Represents how metadata stored in the Glue Data Catalog is defined in a
-/// DataBrew dataset.
-class DataCatalogInputDefinition {
-  /// The name of a database in the Data Catalog.
-  final String databaseName;
-
-  /// The name of a database table in the Data Catalog. This table corresponds to
-  /// a DataBrew dataset.
-  final String tableName;
-
-  /// The unique identifier of the Amazon Web Services account that holds the Data
-  /// Catalog that stores the data.
-  final String? catalogId;
-
-  /// Represents an Amazon location where DataBrew can store intermediate results.
-  final S3Location? tempDirectory;
-
-  DataCatalogInputDefinition({
-    required this.databaseName,
-    required this.tableName,
-    this.catalogId,
-    this.tempDirectory,
-  });
-
-  factory DataCatalogInputDefinition.fromJson(Map<String, dynamic> json) {
-    return DataCatalogInputDefinition(
-      databaseName: (json['DatabaseName'] as String?) ?? '',
-      tableName: (json['TableName'] as String?) ?? '',
-      catalogId: json['CatalogId'] as String?,
-      tempDirectory: json['TempDirectory'] != null
-          ? S3Location.fromJson(json['TempDirectory'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final databaseName = this.databaseName;
-    final tableName = this.tableName;
-    final catalogId = this.catalogId;
-    final tempDirectory = this.tempDirectory;
-    return {
-      'DatabaseName': databaseName,
-      'TableName': tableName,
-      if (catalogId != null) 'CatalogId': catalogId,
-      if (tempDirectory != null) 'TempDirectory': tempDirectory,
-    };
-  }
-}
-
-/// Represents options that specify how and where in the Glue Data Catalog
-/// DataBrew writes the output generated by recipe jobs.
-class DataCatalogOutput {
-  /// The name of a database in the Data Catalog.
-  final String databaseName;
-
-  /// The name of a table in the Data Catalog.
-  final String tableName;
-
-  /// The unique identifier of the Amazon Web Services account that holds the Data
-  /// Catalog that stores the data.
-  final String? catalogId;
-
-  /// Represents options that specify how and where DataBrew writes the database
-  /// output generated by recipe jobs.
-  final DatabaseTableOutputOptions? databaseOptions;
-
-  /// A value that, if true, means that any data in the location specified for
-  /// output is overwritten with new output. Not supported with DatabaseOptions.
-  final bool? overwrite;
-
-  /// Represents options that specify how and where DataBrew writes the Amazon S3
-  /// output generated by recipe jobs.
-  final S3TableOutputOptions? s3Options;
-
-  DataCatalogOutput({
-    required this.databaseName,
-    required this.tableName,
-    this.catalogId,
-    this.databaseOptions,
-    this.overwrite,
-    this.s3Options,
-  });
-
-  factory DataCatalogOutput.fromJson(Map<String, dynamic> json) {
-    return DataCatalogOutput(
-      databaseName: (json['DatabaseName'] as String?) ?? '',
-      tableName: (json['TableName'] as String?) ?? '',
-      catalogId: json['CatalogId'] as String?,
-      databaseOptions: json['DatabaseOptions'] != null
-          ? DatabaseTableOutputOptions.fromJson(
-              json['DatabaseOptions'] as Map<String, dynamic>)
-          : null,
-      overwrite: json['Overwrite'] as bool?,
-      s3Options: json['S3Options'] != null
-          ? S3TableOutputOptions.fromJson(
-              json['S3Options'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final databaseName = this.databaseName;
-    final tableName = this.tableName;
-    final catalogId = this.catalogId;
-    final databaseOptions = this.databaseOptions;
-    final overwrite = this.overwrite;
-    final s3Options = this.s3Options;
-    return {
-      'DatabaseName': databaseName,
-      'TableName': tableName,
-      if (catalogId != null) 'CatalogId': catalogId,
-      if (databaseOptions != null) 'DatabaseOptions': databaseOptions,
-      if (overwrite != null) 'Overwrite': overwrite,
-      if (s3Options != null) 'S3Options': s3Options,
-    };
-  }
-}
-
-/// Connection information for dataset input files stored in a database.
-class DatabaseInputDefinition {
-  /// The Glue Connection that stores the connection information for the target
-  /// database.
-  final String glueConnectionName;
-
-  /// The table within the target database.
-  final String? databaseTableName;
-
-  /// Custom SQL to run against the provided Glue connection. This SQL will be
-  /// used as the input for DataBrew projects and jobs.
-  final String? queryString;
-  final S3Location? tempDirectory;
-
-  DatabaseInputDefinition({
-    required this.glueConnectionName,
-    this.databaseTableName,
-    this.queryString,
-    this.tempDirectory,
-  });
-
-  factory DatabaseInputDefinition.fromJson(Map<String, dynamic> json) {
-    return DatabaseInputDefinition(
-      glueConnectionName: (json['GlueConnectionName'] as String?) ?? '',
-      databaseTableName: json['DatabaseTableName'] as String?,
-      queryString: json['QueryString'] as String?,
-      tempDirectory: json['TempDirectory'] != null
-          ? S3Location.fromJson(json['TempDirectory'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final glueConnectionName = this.glueConnectionName;
-    final databaseTableName = this.databaseTableName;
-    final queryString = this.queryString;
-    final tempDirectory = this.tempDirectory;
-    return {
-      'GlueConnectionName': glueConnectionName,
-      if (databaseTableName != null) 'DatabaseTableName': databaseTableName,
-      if (queryString != null) 'QueryString': queryString,
-      if (tempDirectory != null) 'TempDirectory': tempDirectory,
-    };
-  }
-}
-
-/// Represents a JDBC database output object which defines the output
-/// destination for a DataBrew recipe job to write into.
-class DatabaseOutput {
-  /// Represents options that specify how and where DataBrew writes the database
-  /// output generated by recipe jobs.
-  final DatabaseTableOutputOptions databaseOptions;
-
-  /// The Glue connection that stores the connection information for the target
-  /// database.
-  final String glueConnectionName;
-
-  /// The output mode to write into the database. Currently supported option:
-  /// NEW_TABLE.
-  final DatabaseOutputMode? databaseOutputMode;
-
-  DatabaseOutput({
-    required this.databaseOptions,
-    required this.glueConnectionName,
-    this.databaseOutputMode,
-  });
-
-  factory DatabaseOutput.fromJson(Map<String, dynamic> json) {
-    return DatabaseOutput(
-      databaseOptions: DatabaseTableOutputOptions.fromJson(
-          (json['DatabaseOptions'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      glueConnectionName: (json['GlueConnectionName'] as String?) ?? '',
-      databaseOutputMode: (json['DatabaseOutputMode'] as String?)
-          ?.let(DatabaseOutputMode.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final databaseOptions = this.databaseOptions;
-    final glueConnectionName = this.glueConnectionName;
-    final databaseOutputMode = this.databaseOutputMode;
-    return {
-      'DatabaseOptions': databaseOptions,
-      'GlueConnectionName': glueConnectionName,
-      if (databaseOutputMode != null)
-        'DatabaseOutputMode': databaseOutputMode.value,
-    };
-  }
-}
-
-class DatabaseOutputMode {
-  static const newTable = DatabaseOutputMode._('NEW_TABLE');
-
-  final String value;
-
-  const DatabaseOutputMode._(this.value);
-
-  static const values = [newTable];
-
-  static DatabaseOutputMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DatabaseOutputMode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DatabaseOutputMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents options that specify how and where DataBrew writes the database
-/// output generated by recipe jobs.
-class DatabaseTableOutputOptions {
-  /// A prefix for the name of a table DataBrew will create in the database.
-  final String tableName;
-
-  /// Represents an Amazon S3 location (bucket name and object key) where DataBrew
-  /// can store intermediate results.
-  final S3Location? tempDirectory;
-
-  DatabaseTableOutputOptions({
-    required this.tableName,
-    this.tempDirectory,
-  });
-
-  factory DatabaseTableOutputOptions.fromJson(Map<String, dynamic> json) {
-    return DatabaseTableOutputOptions(
-      tableName: (json['TableName'] as String?) ?? '',
-      tempDirectory: json['TempDirectory'] != null
-          ? S3Location.fromJson(json['TempDirectory'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tableName = this.tableName;
-    final tempDirectory = this.tempDirectory;
-    return {
-      'TableName': tableName,
-      if (tempDirectory != null) 'TempDirectory': tempDirectory,
-    };
-  }
-}
-
-/// Represents a dataset that can be processed by DataBrew.
-class Dataset {
-  /// Information on how DataBrew can find the dataset, in either the Glue Data
-  /// Catalog or Amazon S3.
-  final Input input;
-
-  /// The unique name of the dataset.
-  final String name;
-
-  /// The ID of the Amazon Web Services account that owns the dataset.
-  final String? accountId;
-
-  /// The date and time that the dataset was created.
-  final DateTime? createDate;
-
-  /// The Amazon Resource Name (ARN) of the user who created the dataset.
-  final String? createdBy;
-
-  /// The file format of a dataset that is created from an Amazon S3 file or
-  /// folder.
-  final InputFormat? format;
-
-  /// A set of options that define how DataBrew interprets the data in the
-  /// dataset.
-  final FormatOptions? formatOptions;
-
-  /// The Amazon Resource Name (ARN) of the user who last modified the dataset.
-  final String? lastModifiedBy;
-
-  /// The last modification date and time of the dataset.
-  final DateTime? lastModifiedDate;
-
-  /// A set of options that defines how DataBrew interprets an Amazon S3 path of
-  /// the dataset.
-  final PathOptions? pathOptions;
-
-  /// The unique Amazon Resource Name (ARN) for the dataset.
-  final String? resourceArn;
-
-  /// The location of the data for the dataset, either Amazon S3 or the Glue Data
-  /// Catalog.
-  final Source? source;
-
-  /// Metadata tags that have been applied to the dataset.
-  final Map<String, String>? tags;
-
-  Dataset({
-    required this.input,
-    required this.name,
-    this.accountId,
-    this.createDate,
-    this.createdBy,
-    this.format,
-    this.formatOptions,
-    this.lastModifiedBy,
-    this.lastModifiedDate,
-    this.pathOptions,
-    this.resourceArn,
-    this.source,
-    this.tags,
-  });
-
-  factory Dataset.fromJson(Map<String, dynamic> json) {
-    return Dataset(
-      input: Input.fromJson((json['Input'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-      name: (json['Name'] as String?) ?? '',
-      accountId: json['AccountId'] as String?,
-      createDate: timeStampFromJson(json['CreateDate']),
-      createdBy: json['CreatedBy'] as String?,
-      format: (json['Format'] as String?)?.let(InputFormat.fromString),
-      formatOptions: json['FormatOptions'] != null
-          ? FormatOptions.fromJson(
-              json['FormatOptions'] as Map<String, dynamic>)
-          : null,
-      lastModifiedBy: json['LastModifiedBy'] as String?,
-      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
-      pathOptions: json['PathOptions'] != null
-          ? PathOptions.fromJson(json['PathOptions'] as Map<String, dynamic>)
-          : null,
-      resourceArn: json['ResourceArn'] as String?,
-      source: (json['Source'] as String?)?.let(Source.fromString),
-      tags: (json['Tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final input = this.input;
-    final name = this.name;
-    final accountId = this.accountId;
-    final createDate = this.createDate;
-    final createdBy = this.createdBy;
-    final format = this.format;
-    final formatOptions = this.formatOptions;
-    final lastModifiedBy = this.lastModifiedBy;
-    final lastModifiedDate = this.lastModifiedDate;
-    final pathOptions = this.pathOptions;
-    final resourceArn = this.resourceArn;
-    final source = this.source;
-    final tags = this.tags;
-    return {
-      'Input': input,
-      'Name': name,
-      if (accountId != null) 'AccountId': accountId,
-      if (createDate != null) 'CreateDate': unixTimestampToJson(createDate),
-      if (createdBy != null) 'CreatedBy': createdBy,
-      if (format != null) 'Format': format.value,
-      if (formatOptions != null) 'FormatOptions': formatOptions,
-      if (lastModifiedBy != null) 'LastModifiedBy': lastModifiedBy,
-      if (lastModifiedDate != null)
-        'LastModifiedDate': unixTimestampToJson(lastModifiedDate),
-      if (pathOptions != null) 'PathOptions': pathOptions,
-      if (resourceArn != null) 'ResourceArn': resourceArn,
-      if (source != null) 'Source': source.value,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-/// Represents a dataset parameter that defines type and conditions for a
-/// parameter in the Amazon S3 path of the dataset.
-class DatasetParameter {
-  /// The name of the parameter that is used in the dataset's Amazon S3 path.
-  final String name;
-
-  /// The type of the dataset parameter, can be one of a 'String', 'Number' or
-  /// 'Datetime'.
-  final ParameterType type;
-
-  /// Optional boolean value that defines whether the captured value of this
-  /// parameter should be used to create a new column in a dataset.
-  final bool? createColumn;
-
-  /// Additional parameter options such as a format and a timezone. Required for
-  /// datetime parameters.
-  final DatetimeOptions? datetimeOptions;
-
-  /// The optional filter expression structure to apply additional matching
-  /// criteria to the parameter.
-  final FilterExpression? filter;
-
-  DatasetParameter({
-    required this.name,
-    required this.type,
-    this.createColumn,
-    this.datetimeOptions,
-    this.filter,
-  });
-
-  factory DatasetParameter.fromJson(Map<String, dynamic> json) {
-    return DatasetParameter(
-      name: (json['Name'] as String?) ?? '',
-      type: ParameterType.fromString((json['Type'] as String?) ?? ''),
-      createColumn: json['CreateColumn'] as bool?,
-      datetimeOptions: json['DatetimeOptions'] != null
-          ? DatetimeOptions.fromJson(
-              json['DatetimeOptions'] as Map<String, dynamic>)
-          : null,
-      filter: json['Filter'] != null
-          ? FilterExpression.fromJson(json['Filter'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final type = this.type;
-    final createColumn = this.createColumn;
-    final datetimeOptions = this.datetimeOptions;
-    final filter = this.filter;
-    return {
-      'Name': name,
-      'Type': type.value,
-      if (createColumn != null) 'CreateColumn': createColumn,
-      if (datetimeOptions != null) 'DatetimeOptions': datetimeOptions,
-      if (filter != null) 'Filter': filter,
-    };
-  }
-}
-
-/// Represents additional options for correct interpretation of datetime
-/// parameters used in the Amazon S3 path of a dataset.
-class DatetimeOptions {
-  /// Required option, that defines the datetime format used for a date parameter
-  /// in the Amazon S3 path. Should use only supported datetime specifiers and
-  /// separation characters, all literal a-z or A-Z characters should be escaped
-  /// with single quotes. E.g. "MM.dd.yyyy-'at'-HH:mm".
-  final String format;
-
-  /// Optional value for a non-US locale code, needed for correct interpretation
-  /// of some date formats.
-  final String? localeCode;
-
-  /// Optional value for a timezone offset of the datetime parameter value in the
-  /// Amazon S3 path. Shouldn't be used if Format for this parameter includes
-  /// timezone fields. If no offset specified, UTC is assumed.
-  final String? timezoneOffset;
-
-  DatetimeOptions({
-    required this.format,
-    this.localeCode,
-    this.timezoneOffset,
-  });
-
-  factory DatetimeOptions.fromJson(Map<String, dynamic> json) {
-    return DatetimeOptions(
-      format: (json['Format'] as String?) ?? '',
-      localeCode: json['LocaleCode'] as String?,
-      timezoneOffset: json['TimezoneOffset'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final format = this.format;
-    final localeCode = this.localeCode;
-    final timezoneOffset = this.timezoneOffset;
-    return {
-      'Format': format,
-      if (localeCode != null) 'LocaleCode': localeCode,
-      if (timezoneOffset != null) 'TimezoneOffset': timezoneOffset,
     };
   }
 }
@@ -3829,6 +3066,827 @@ class DescribeScheduleResponse {
   }
 }
 
+class ListDatasetsResponse {
+  /// A list of datasets that are defined.
+  final List<Dataset> datasets;
+
+  /// A token that you can use in a subsequent call to retrieve the next set of
+  /// results.
+  final String? nextToken;
+
+  ListDatasetsResponse({
+    required this.datasets,
+    this.nextToken,
+  });
+
+  factory ListDatasetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDatasetsResponse(
+      datasets: ((json['Datasets'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Dataset.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datasets = this.datasets;
+    final nextToken = this.nextToken;
+    return {
+      'Datasets': datasets,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListJobRunsResponse {
+  /// A list of job runs that have occurred for the specified job.
+  final List<JobRun> jobRuns;
+
+  /// A token that you can use in a subsequent call to retrieve the next set of
+  /// results.
+  final String? nextToken;
+
+  ListJobRunsResponse({
+    required this.jobRuns,
+    this.nextToken,
+  });
+
+  factory ListJobRunsResponse.fromJson(Map<String, dynamic> json) {
+    return ListJobRunsResponse(
+      jobRuns: ((json['JobRuns'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => JobRun.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobRuns = this.jobRuns;
+    final nextToken = this.nextToken;
+    return {
+      'JobRuns': jobRuns,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListJobsResponse {
+  /// A list of jobs that are defined.
+  final List<Job> jobs;
+
+  /// A token that you can use in a subsequent call to retrieve the next set of
+  /// results.
+  final String? nextToken;
+
+  ListJobsResponse({
+    required this.jobs,
+    this.nextToken,
+  });
+
+  factory ListJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListJobsResponse(
+      jobs: ((json['Jobs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Job.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobs = this.jobs;
+    final nextToken = this.nextToken;
+    return {
+      'Jobs': jobs,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListProjectsResponse {
+  /// A list of projects that are defined .
+  final List<Project> projects;
+
+  /// A token that you can use in a subsequent call to retrieve the next set of
+  /// results.
+  final String? nextToken;
+
+  ListProjectsResponse({
+    required this.projects,
+    this.nextToken,
+  });
+
+  factory ListProjectsResponse.fromJson(Map<String, dynamic> json) {
+    return ListProjectsResponse(
+      projects: ((json['Projects'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Project.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final projects = this.projects;
+    final nextToken = this.nextToken;
+    return {
+      'Projects': projects,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListRecipesResponse {
+  /// A list of recipes that are defined.
+  final List<Recipe> recipes;
+
+  /// A token that you can use in a subsequent call to retrieve the next set of
+  /// results.
+  final String? nextToken;
+
+  ListRecipesResponse({
+    required this.recipes,
+    this.nextToken,
+  });
+
+  factory ListRecipesResponse.fromJson(Map<String, dynamic> json) {
+    return ListRecipesResponse(
+      recipes: ((json['Recipes'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Recipe.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recipes = this.recipes;
+    final nextToken = this.nextToken;
+    return {
+      'Recipes': recipes,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListRecipeVersionsResponse {
+  /// A list of versions for the specified recipe.
+  final List<Recipe> recipes;
+
+  /// A token that you can use in a subsequent call to retrieve the next set of
+  /// results.
+  final String? nextToken;
+
+  ListRecipeVersionsResponse({
+    required this.recipes,
+    this.nextToken,
+  });
+
+  factory ListRecipeVersionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListRecipeVersionsResponse(
+      recipes: ((json['Recipes'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Recipe.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recipes = this.recipes;
+    final nextToken = this.nextToken;
+    return {
+      'Recipes': recipes,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListRulesetsResponse {
+  /// A list of RulesetItem. RulesetItem contains meta data of a ruleset.
+  final List<RulesetItem> rulesets;
+
+  /// A token that you can use in a subsequent call to retrieve the next set of
+  /// results.
+  final String? nextToken;
+
+  ListRulesetsResponse({
+    required this.rulesets,
+    this.nextToken,
+  });
+
+  factory ListRulesetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListRulesetsResponse(
+      rulesets: ((json['Rulesets'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => RulesetItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rulesets = this.rulesets;
+    final nextToken = this.nextToken;
+    return {
+      'Rulesets': rulesets,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListSchedulesResponse {
+  /// A list of schedules that are defined.
+  final List<Schedule> schedules;
+
+  /// A token that you can use in a subsequent call to retrieve the next set of
+  /// results.
+  final String? nextToken;
+
+  ListSchedulesResponse({
+    required this.schedules,
+    this.nextToken,
+  });
+
+  factory ListSchedulesResponse.fromJson(Map<String, dynamic> json) {
+    return ListSchedulesResponse(
+      schedules: ((json['Schedules'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Schedule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final schedules = this.schedules;
+    final nextToken = this.nextToken;
+    return {
+      'Schedules': schedules,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListTagsForResourceResponse {
+  /// A list of tags associated with the DataBrew resource.
+  final Map<String, String>? tags;
+
+  ListTagsForResourceResponse({
+    this.tags,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+class PublishRecipeResponse {
+  /// The name of the recipe that you published.
+  final String name;
+
+  PublishRecipeResponse({
+    required this.name,
+  });
+
+  factory PublishRecipeResponse.fromJson(Map<String, dynamic> json) {
+    return PublishRecipeResponse(
+      name: (json['Name'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      'Name': name,
+    };
+  }
+}
+
+class SendProjectSessionActionResponse {
+  /// The name of the project that was affected by the action.
+  final String name;
+
+  /// A unique identifier for the action that was performed.
+  final int? actionId;
+
+  /// A message indicating the result of performing the action.
+  final String? result;
+
+  SendProjectSessionActionResponse({
+    required this.name,
+    this.actionId,
+    this.result,
+  });
+
+  factory SendProjectSessionActionResponse.fromJson(Map<String, dynamic> json) {
+    return SendProjectSessionActionResponse(
+      name: (json['Name'] as String?) ?? '',
+      actionId: json['ActionId'] as int?,
+      result: json['Result'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final actionId = this.actionId;
+    final result = this.result;
+    return {
+      'Name': name,
+      if (actionId != null) 'ActionId': actionId,
+      if (result != null) 'Result': result,
+    };
+  }
+}
+
+class StartJobRunResponse {
+  /// A system-generated identifier for this particular job run.
+  final String runId;
+
+  StartJobRunResponse({
+    required this.runId,
+  });
+
+  factory StartJobRunResponse.fromJson(Map<String, dynamic> json) {
+    return StartJobRunResponse(
+      runId: (json['RunId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final runId = this.runId;
+    return {
+      'RunId': runId,
+    };
+  }
+}
+
+class StartProjectSessionResponse {
+  /// The name of the project to be acted upon.
+  final String name;
+
+  /// A system-generated identifier for the session.
+  final String? clientSessionId;
+
+  StartProjectSessionResponse({
+    required this.name,
+    this.clientSessionId,
+  });
+
+  factory StartProjectSessionResponse.fromJson(Map<String, dynamic> json) {
+    return StartProjectSessionResponse(
+      name: (json['Name'] as String?) ?? '',
+      clientSessionId: json['ClientSessionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final clientSessionId = this.clientSessionId;
+    return {
+      'Name': name,
+      if (clientSessionId != null) 'ClientSessionId': clientSessionId,
+    };
+  }
+}
+
+class StopJobRunResponse {
+  /// The ID of the job run that you stopped.
+  final String runId;
+
+  StopJobRunResponse({
+    required this.runId,
+  });
+
+  factory StopJobRunResponse.fromJson(Map<String, dynamic> json) {
+    return StopJobRunResponse(
+      runId: (json['RunId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final runId = this.runId;
+    return {
+      'RunId': runId,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateDatasetResponse {
+  /// The name of the dataset that you updated.
+  final String name;
+
+  UpdateDatasetResponse({
+    required this.name,
+  });
+
+  factory UpdateDatasetResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateDatasetResponse(
+      name: (json['Name'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      'Name': name,
+    };
+  }
+}
+
+class UpdateProfileJobResponse {
+  /// The name of the job that was updated.
+  final String name;
+
+  UpdateProfileJobResponse({
+    required this.name,
+  });
+
+  factory UpdateProfileJobResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateProfileJobResponse(
+      name: (json['Name'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      'Name': name,
+    };
+  }
+}
+
+class UpdateProjectResponse {
+  /// The name of the project that you updated.
+  final String name;
+
+  /// The date and time that the project was last modified.
+  final DateTime? lastModifiedDate;
+
+  UpdateProjectResponse({
+    required this.name,
+    this.lastModifiedDate,
+  });
+
+  factory UpdateProjectResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateProjectResponse(
+      name: (json['Name'] as String?) ?? '',
+      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final lastModifiedDate = this.lastModifiedDate;
+    return {
+      'Name': name,
+      if (lastModifiedDate != null)
+        'LastModifiedDate': unixTimestampToJson(lastModifiedDate),
+    };
+  }
+}
+
+class UpdateRecipeResponse {
+  /// The name of the recipe that was updated.
+  final String name;
+
+  UpdateRecipeResponse({
+    required this.name,
+  });
+
+  factory UpdateRecipeResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateRecipeResponse(
+      name: (json['Name'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      'Name': name,
+    };
+  }
+}
+
+class UpdateRecipeJobResponse {
+  /// The name of the job that you updated.
+  final String name;
+
+  UpdateRecipeJobResponse({
+    required this.name,
+  });
+
+  factory UpdateRecipeJobResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateRecipeJobResponse(
+      name: (json['Name'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      'Name': name,
+    };
+  }
+}
+
+class UpdateRulesetResponse {
+  /// The name of the updated ruleset.
+  final String name;
+
+  UpdateRulesetResponse({
+    required this.name,
+  });
+
+  factory UpdateRulesetResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateRulesetResponse(
+      name: (json['Name'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      'Name': name,
+    };
+  }
+}
+
+class UpdateScheduleResponse {
+  /// The name of the schedule that was updated.
+  final String name;
+
+  UpdateScheduleResponse({
+    required this.name,
+  });
+
+  factory UpdateScheduleResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateScheduleResponse(
+      name: (json['Name'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      'Name': name,
+    };
+  }
+}
+
+/// Represents a single data quality requirement that should be validated in the
+/// scope of this dataset.
+class Rule {
+  /// The expression which includes column references, condition names followed by
+  /// variable references, possibly grouped and combined with other conditions.
+  /// For example, <code>(:col1 starts_with :prefix1 or :col1 starts_with
+  /// :prefix2) and (:col1 ends_with :suffix1 or :col1 ends_with :suffix2)</code>.
+  /// Column and value references are substitution variables that should start
+  /// with the ':' symbol. Depending on the context, substitution variables'
+  /// values can be either an actual value or a column name. These values are
+  /// defined in the SubstitutionMap. If a CheckExpression starts with a column
+  /// reference, then ColumnSelectors in the rule should be null. If
+  /// ColumnSelectors has been defined, then there should be no column reference
+  /// in the left side of a condition, for example, <code>is_between :val1 and
+  /// :val2</code>.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/databrew/latest/dg/profile.data-quality-available-checks.html">Available
+  /// checks</a>
+  final String checkExpression;
+
+  /// The name of the rule.
+  final String name;
+
+  /// List of column selectors. Selectors can be used to select columns using a
+  /// name or regular expression from the dataset. Rule will be applied to
+  /// selected columns.
+  final List<ColumnSelector>? columnSelectors;
+
+  /// A value that specifies whether the rule is disabled. Once a rule is
+  /// disabled, a profile job will not validate it during a job run. Default value
+  /// is false.
+  final bool? disabled;
+
+  /// The map of substitution variable names to their values used in a check
+  /// expression. Variable names should start with a ':' (colon). Variable values
+  /// can either be actual values or column names. To differentiate between the
+  /// two, column names should be enclosed in backticks, for example,
+  /// <code>":col1": "`Column A`".</code>
+  final Map<String, String>? substitutionMap;
+
+  /// The threshold used with a non-aggregate check expression. Non-aggregate
+  /// check expressions will be applied to each row in a specific column, and the
+  /// threshold will be used to determine whether the validation succeeds.
+  final Threshold? threshold;
+
+  Rule({
+    required this.checkExpression,
+    required this.name,
+    this.columnSelectors,
+    this.disabled,
+    this.substitutionMap,
+    this.threshold,
+  });
+
+  factory Rule.fromJson(Map<String, dynamic> json) {
+    return Rule(
+      checkExpression: (json['CheckExpression'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      columnSelectors: (json['ColumnSelectors'] as List?)
+          ?.nonNulls
+          .map((e) => ColumnSelector.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      disabled: json['Disabled'] as bool?,
+      substitutionMap: (json['SubstitutionMap'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      threshold: json['Threshold'] != null
+          ? Threshold.fromJson(json['Threshold'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final checkExpression = this.checkExpression;
+    final name = this.name;
+    final columnSelectors = this.columnSelectors;
+    final disabled = this.disabled;
+    final substitutionMap = this.substitutionMap;
+    final threshold = this.threshold;
+    return {
+      'CheckExpression': checkExpression,
+      'Name': name,
+      if (columnSelectors != null) 'ColumnSelectors': columnSelectors,
+      if (disabled != null) 'Disabled': disabled,
+      if (substitutionMap != null) 'SubstitutionMap': substitutionMap,
+      if (threshold != null) 'Threshold': threshold,
+    };
+  }
+}
+
+/// The threshold used with a non-aggregate check expression. The non-aggregate
+/// check expression will be applied to each row in a specific column. Then the
+/// threshold will be used to determine whether the validation succeeds.
+class Threshold {
+  /// The value of a threshold.
+  final double value;
+
+  /// The type of a threshold. Used for comparison of an actual count of rows that
+  /// satisfy the rule to the threshold value.
+  final ThresholdType? type;
+
+  /// Unit of threshold value. Can be either a COUNT or PERCENTAGE of the full
+  /// sample size used for validation.
+  final ThresholdUnit? unit;
+
+  Threshold({
+    required this.value,
+    this.type,
+    this.unit,
+  });
+
+  factory Threshold.fromJson(Map<String, dynamic> json) {
+    return Threshold(
+      value: (json['Value'] as double?) ?? 0,
+      type: (json['Type'] as String?)?.let(ThresholdType.fromString),
+      unit: (json['Unit'] as String?)?.let(ThresholdUnit.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final value = this.value;
+    final type = this.type;
+    final unit = this.unit;
+    return {
+      'Value': value,
+      if (type != null) 'Type': type.value,
+      if (unit != null) 'Unit': unit.value,
+    };
+  }
+}
+
+/// Selector of a column from a dataset for profile job configuration. One
+/// selector includes either a column name or a regular expression.
+class ColumnSelector {
+  /// The name of a column from a dataset.
+  final String? name;
+
+  /// A regular expression for selecting a column from a dataset.
+  final String? regex;
+
+  ColumnSelector({
+    this.name,
+    this.regex,
+  });
+
+  factory ColumnSelector.fromJson(Map<String, dynamic> json) {
+    return ColumnSelector(
+      name: json['Name'] as String?,
+      regex: json['Regex'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final regex = this.regex;
+    return {
+      if (name != null) 'Name': name,
+      if (regex != null) 'Regex': regex,
+    };
+  }
+}
+
+class ThresholdType {
+  static const greaterThanOrEqual = ThresholdType._('GREATER_THAN_OR_EQUAL');
+  static const lessThanOrEqual = ThresholdType._('LESS_THAN_OR_EQUAL');
+  static const greaterThan = ThresholdType._('GREATER_THAN');
+  static const lessThan = ThresholdType._('LESS_THAN');
+
+  final String value;
+
+  const ThresholdType._(this.value);
+
+  static const values = [
+    greaterThanOrEqual,
+    lessThanOrEqual,
+    greaterThan,
+    lessThan
+  ];
+
+  static ThresholdType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ThresholdType._(value));
+
+  @override
+  bool operator ==(other) => other is ThresholdType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ThresholdUnit {
+  static const count = ThresholdUnit._('COUNT');
+  static const percentage = ThresholdUnit._('PERCENTAGE');
+
+  final String value;
+
+  const ThresholdUnit._(this.value);
+
+  static const values = [count, percentage];
+
+  static ThresholdUnit fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ThresholdUnit._(value));
+
+  @override
+  bool operator ==(other) => other is ThresholdUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 class EncryptionMode {
   static const sseKms = EncryptionMode._('SSE-KMS');
   static const sseS3 = EncryptionMode._('SSE-S3');
@@ -3851,6 +3909,898 @@ class EncryptionMode {
 
   @override
   String toString() => value;
+}
+
+class LogSubscription {
+  static const enable = LogSubscription._('ENABLE');
+  static const disable = LogSubscription._('DISABLE');
+
+  final String value;
+
+  const LogSubscription._(this.value);
+
+  static const values = [enable, disable];
+
+  static LogSubscription fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LogSubscription._(value));
+
+  @override
+  bool operator ==(other) => other is LogSubscription && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents a JDBC database output object which defines the output
+/// destination for a DataBrew recipe job to write into.
+class DatabaseOutput {
+  /// Represents options that specify how and where DataBrew writes the database
+  /// output generated by recipe jobs.
+  final DatabaseTableOutputOptions databaseOptions;
+
+  /// The Glue connection that stores the connection information for the target
+  /// database.
+  final String glueConnectionName;
+
+  /// The output mode to write into the database. Currently supported option:
+  /// NEW_TABLE.
+  final DatabaseOutputMode? databaseOutputMode;
+
+  DatabaseOutput({
+    required this.databaseOptions,
+    required this.glueConnectionName,
+    this.databaseOutputMode,
+  });
+
+  factory DatabaseOutput.fromJson(Map<String, dynamic> json) {
+    return DatabaseOutput(
+      databaseOptions: DatabaseTableOutputOptions.fromJson(
+          (json['DatabaseOptions'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      glueConnectionName: (json['GlueConnectionName'] as String?) ?? '',
+      databaseOutputMode: (json['DatabaseOutputMode'] as String?)
+          ?.let(DatabaseOutputMode.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databaseOptions = this.databaseOptions;
+    final glueConnectionName = this.glueConnectionName;
+    final databaseOutputMode = this.databaseOutputMode;
+    return {
+      'DatabaseOptions': databaseOptions,
+      'GlueConnectionName': glueConnectionName,
+      if (databaseOutputMode != null)
+        'DatabaseOutputMode': databaseOutputMode.value,
+    };
+  }
+}
+
+/// Represents options that specify how and where DataBrew writes the database
+/// output generated by recipe jobs.
+class DatabaseTableOutputOptions {
+  /// A prefix for the name of a table DataBrew will create in the database.
+  final String tableName;
+
+  /// Represents an Amazon S3 location (bucket name and object key) where DataBrew
+  /// can store intermediate results.
+  final S3Location? tempDirectory;
+
+  DatabaseTableOutputOptions({
+    required this.tableName,
+    this.tempDirectory,
+  });
+
+  factory DatabaseTableOutputOptions.fromJson(Map<String, dynamic> json) {
+    return DatabaseTableOutputOptions(
+      tableName: (json['TableName'] as String?) ?? '',
+      tempDirectory: json['TempDirectory'] != null
+          ? S3Location.fromJson(json['TempDirectory'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tableName = this.tableName;
+    final tempDirectory = this.tempDirectory;
+    return {
+      'TableName': tableName,
+      if (tempDirectory != null) 'TempDirectory': tempDirectory,
+    };
+  }
+}
+
+class DatabaseOutputMode {
+  static const newTable = DatabaseOutputMode._('NEW_TABLE');
+
+  final String value;
+
+  const DatabaseOutputMode._(this.value);
+
+  static const values = [newTable];
+
+  static DatabaseOutputMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DatabaseOutputMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DatabaseOutputMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents an Amazon S3 location (bucket name, bucket owner, and object key)
+/// where DataBrew can read input data, or write output from a job.
+class S3Location {
+  /// The Amazon S3 bucket name.
+  final String bucket;
+
+  /// The Amazon Web Services account ID of the bucket owner.
+  final String? bucketOwner;
+
+  /// The unique name of the object in the bucket.
+  final String? key;
+
+  S3Location({
+    required this.bucket,
+    this.bucketOwner,
+    this.key,
+  });
+
+  factory S3Location.fromJson(Map<String, dynamic> json) {
+    return S3Location(
+      bucket: (json['Bucket'] as String?) ?? '',
+      bucketOwner: json['BucketOwner'] as String?,
+      key: json['Key'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final bucketOwner = this.bucketOwner;
+    final key = this.key;
+    return {
+      'Bucket': bucket,
+      if (bucketOwner != null) 'BucketOwner': bucketOwner,
+      if (key != null) 'Key': key,
+    };
+  }
+}
+
+/// Represents options that specify how and where in the Glue Data Catalog
+/// DataBrew writes the output generated by recipe jobs.
+class DataCatalogOutput {
+  /// The name of a database in the Data Catalog.
+  final String databaseName;
+
+  /// The name of a table in the Data Catalog.
+  final String tableName;
+
+  /// The unique identifier of the Amazon Web Services account that holds the Data
+  /// Catalog that stores the data.
+  final String? catalogId;
+
+  /// Represents options that specify how and where DataBrew writes the database
+  /// output generated by recipe jobs.
+  final DatabaseTableOutputOptions? databaseOptions;
+
+  /// A value that, if true, means that any data in the location specified for
+  /// output is overwritten with new output. Not supported with DatabaseOptions.
+  final bool? overwrite;
+
+  /// Represents options that specify how and where DataBrew writes the Amazon S3
+  /// output generated by recipe jobs.
+  final S3TableOutputOptions? s3Options;
+
+  DataCatalogOutput({
+    required this.databaseName,
+    required this.tableName,
+    this.catalogId,
+    this.databaseOptions,
+    this.overwrite,
+    this.s3Options,
+  });
+
+  factory DataCatalogOutput.fromJson(Map<String, dynamic> json) {
+    return DataCatalogOutput(
+      databaseName: (json['DatabaseName'] as String?) ?? '',
+      tableName: (json['TableName'] as String?) ?? '',
+      catalogId: json['CatalogId'] as String?,
+      databaseOptions: json['DatabaseOptions'] != null
+          ? DatabaseTableOutputOptions.fromJson(
+              json['DatabaseOptions'] as Map<String, dynamic>)
+          : null,
+      overwrite: json['Overwrite'] as bool?,
+      s3Options: json['S3Options'] != null
+          ? S3TableOutputOptions.fromJson(
+              json['S3Options'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databaseName = this.databaseName;
+    final tableName = this.tableName;
+    final catalogId = this.catalogId;
+    final databaseOptions = this.databaseOptions;
+    final overwrite = this.overwrite;
+    final s3Options = this.s3Options;
+    return {
+      'DatabaseName': databaseName,
+      'TableName': tableName,
+      if (catalogId != null) 'CatalogId': catalogId,
+      if (databaseOptions != null) 'DatabaseOptions': databaseOptions,
+      if (overwrite != null) 'Overwrite': overwrite,
+      if (s3Options != null) 'S3Options': s3Options,
+    };
+  }
+}
+
+/// Represents options that specify how and where DataBrew writes the Amazon S3
+/// output generated by recipe jobs.
+class S3TableOutputOptions {
+  /// Represents an Amazon S3 location (bucket name and object key) where DataBrew
+  /// can write output from a job.
+  final S3Location location;
+
+  S3TableOutputOptions({
+    required this.location,
+  });
+
+  factory S3TableOutputOptions.fromJson(Map<String, dynamic> json) {
+    return S3TableOutputOptions(
+      location: S3Location.fromJson(
+          (json['Location'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final location = this.location;
+    return {
+      'Location': location,
+    };
+  }
+}
+
+/// Represents options that specify how and where in Amazon S3 DataBrew writes
+/// the output generated by recipe jobs or profile jobs.
+class Output {
+  /// The location in Amazon S3 where the job writes its output.
+  final S3Location location;
+
+  /// The compression algorithm used to compress the output text of the job.
+  final CompressionFormat? compressionFormat;
+
+  /// The data format of the output of the job.
+  final OutputFormat? format;
+
+  /// Represents options that define how DataBrew formats job output files.
+  final OutputFormatOptions? formatOptions;
+
+  /// Maximum number of files to be generated by the job and written to the output
+  /// folder. For output partitioned by column(s), the MaxOutputFiles value is the
+  /// maximum number of files per partition.
+  final int? maxOutputFiles;
+
+  /// A value that, if true, means that any data in the location specified for
+  /// output is overwritten with new output.
+  final bool? overwrite;
+
+  /// The names of one or more partition columns for the output of the job.
+  final List<String>? partitionColumns;
+
+  Output({
+    required this.location,
+    this.compressionFormat,
+    this.format,
+    this.formatOptions,
+    this.maxOutputFiles,
+    this.overwrite,
+    this.partitionColumns,
+  });
+
+  factory Output.fromJson(Map<String, dynamic> json) {
+    return Output(
+      location: S3Location.fromJson(
+          (json['Location'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      compressionFormat: (json['CompressionFormat'] as String?)
+          ?.let(CompressionFormat.fromString),
+      format: (json['Format'] as String?)?.let(OutputFormat.fromString),
+      formatOptions: json['FormatOptions'] != null
+          ? OutputFormatOptions.fromJson(
+              json['FormatOptions'] as Map<String, dynamic>)
+          : null,
+      maxOutputFiles: json['MaxOutputFiles'] as int?,
+      overwrite: json['Overwrite'] as bool?,
+      partitionColumns: (json['PartitionColumns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final location = this.location;
+    final compressionFormat = this.compressionFormat;
+    final format = this.format;
+    final formatOptions = this.formatOptions;
+    final maxOutputFiles = this.maxOutputFiles;
+    final overwrite = this.overwrite;
+    final partitionColumns = this.partitionColumns;
+    return {
+      'Location': location,
+      if (compressionFormat != null)
+        'CompressionFormat': compressionFormat.value,
+      if (format != null) 'Format': format.value,
+      if (formatOptions != null) 'FormatOptions': formatOptions,
+      if (maxOutputFiles != null) 'MaxOutputFiles': maxOutputFiles,
+      if (overwrite != null) 'Overwrite': overwrite,
+      if (partitionColumns != null) 'PartitionColumns': partitionColumns,
+    };
+  }
+}
+
+class CompressionFormat {
+  static const gzip = CompressionFormat._('GZIP');
+  static const lz4 = CompressionFormat._('LZ4');
+  static const snappy = CompressionFormat._('SNAPPY');
+  static const bzip2 = CompressionFormat._('BZIP2');
+  static const deflate = CompressionFormat._('DEFLATE');
+  static const lzo = CompressionFormat._('LZO');
+  static const brotli = CompressionFormat._('BROTLI');
+  static const zstd = CompressionFormat._('ZSTD');
+  static const zlib = CompressionFormat._('ZLIB');
+
+  final String value;
+
+  const CompressionFormat._(this.value);
+
+  static const values = [
+    gzip,
+    lz4,
+    snappy,
+    bzip2,
+    deflate,
+    lzo,
+    brotli,
+    zstd,
+    zlib
+  ];
+
+  static CompressionFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CompressionFormat._(value));
+
+  @override
+  bool operator ==(other) => other is CompressionFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class OutputFormat {
+  static const csv = OutputFormat._('CSV');
+  static const json = OutputFormat._('JSON');
+  static const parquet = OutputFormat._('PARQUET');
+  static const glueparquet = OutputFormat._('GLUEPARQUET');
+  static const avro = OutputFormat._('AVRO');
+  static const orc = OutputFormat._('ORC');
+  static const xml = OutputFormat._('XML');
+  static const tableauhyper = OutputFormat._('TABLEAUHYPER');
+
+  final String value;
+
+  const OutputFormat._(this.value);
+
+  static const values = [
+    csv,
+    json,
+    parquet,
+    glueparquet,
+    avro,
+    orc,
+    xml,
+    tableauhyper
+  ];
+
+  static OutputFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OutputFormat._(value));
+
+  @override
+  bool operator ==(other) => other is OutputFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents a set of options that define the structure of comma-separated
+/// (CSV) job output.
+class OutputFormatOptions {
+  /// Represents a set of options that define the structure of comma-separated
+  /// value (CSV) job output.
+  final CsvOutputOptions? csv;
+
+  OutputFormatOptions({
+    this.csv,
+  });
+
+  factory OutputFormatOptions.fromJson(Map<String, dynamic> json) {
+    return OutputFormatOptions(
+      csv: json['Csv'] != null
+          ? CsvOutputOptions.fromJson(json['Csv'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final csv = this.csv;
+    return {
+      if (csv != null) 'Csv': csv,
+    };
+  }
+}
+
+/// Represents a set of options that define how DataBrew will write a
+/// comma-separated value (CSV) file.
+class CsvOutputOptions {
+  /// A single character that specifies the delimiter used to create CSV job
+  /// output.
+  final String? delimiter;
+
+  CsvOutputOptions({
+    this.delimiter,
+  });
+
+  factory CsvOutputOptions.fromJson(Map<String, dynamic> json) {
+    return CsvOutputOptions(
+      delimiter: json['Delimiter'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final delimiter = this.delimiter;
+    return {
+      if (delimiter != null) 'Delimiter': delimiter,
+    };
+  }
+}
+
+/// Represents a single step from a DataBrew recipe to be performed.
+class RecipeStep {
+  /// The particular action to be performed in the recipe step.
+  final RecipeAction action;
+
+  /// One or more conditions that must be met for the recipe step to succeed.
+  /// <note>
+  /// All of the conditions in the array must be met. In other words, all of the
+  /// conditions must be combined using a logical AND operation.
+  /// </note>
+  final List<ConditionExpression>? conditionExpressions;
+
+  RecipeStep({
+    required this.action,
+    this.conditionExpressions,
+  });
+
+  factory RecipeStep.fromJson(Map<String, dynamic> json) {
+    return RecipeStep(
+      action: RecipeAction.fromJson((json['Action'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      conditionExpressions: (json['ConditionExpressions'] as List?)
+          ?.nonNulls
+          .map((e) => ConditionExpression.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final conditionExpressions = this.conditionExpressions;
+    return {
+      'Action': action,
+      if (conditionExpressions != null)
+        'ConditionExpressions': conditionExpressions,
+    };
+  }
+}
+
+/// Represents a transformation and associated parameters that are used to apply
+/// a change to a DataBrew dataset. For more information, see <a
+/// href="https://docs.aws.amazon.com/databrew/latest/dg/recipe-actions-reference.html">Recipe
+/// actions reference</a>.
+class RecipeAction {
+  /// The name of a valid DataBrew transformation to be performed on the data.
+  final String operation;
+
+  /// Contextual parameters for the transformation.
+  final Map<String, String>? parameters;
+
+  RecipeAction({
+    required this.operation,
+    this.parameters,
+  });
+
+  factory RecipeAction.fromJson(Map<String, dynamic> json) {
+    return RecipeAction(
+      operation: (json['Operation'] as String?) ?? '',
+      parameters: (json['Parameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operation = this.operation;
+    final parameters = this.parameters;
+    return {
+      'Operation': operation,
+      if (parameters != null) 'Parameters': parameters,
+    };
+  }
+}
+
+/// Represents an individual condition that evaluates to true or false.
+///
+/// Conditions are used with recipe actions. The action is only performed for
+/// column values where the condition evaluates to true.
+///
+/// If a recipe requires more than one condition, then the recipe must specify
+/// multiple <code>ConditionExpression</code> elements. Each condition is
+/// applied to the rows in a dataset first, before the recipe action is
+/// performed.
+class ConditionExpression {
+  /// A specific condition to apply to a recipe action. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/databrew/latest/dg/recipes.html#recipes.structure">Recipe
+  /// structure</a> in the <i>Glue DataBrew Developer Guide</i>.
+  final String condition;
+
+  /// A column to apply this condition to.
+  final String targetColumn;
+
+  /// A value that the condition must evaluate to for the condition to succeed.
+  final String? value;
+
+  ConditionExpression({
+    required this.condition,
+    required this.targetColumn,
+    this.value,
+  });
+
+  factory ConditionExpression.fromJson(Map<String, dynamic> json) {
+    return ConditionExpression(
+      condition: (json['Condition'] as String?) ?? '',
+      targetColumn: (json['TargetColumn'] as String?) ?? '',
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final condition = this.condition;
+    final targetColumn = this.targetColumn;
+    final value = this.value;
+    return {
+      'Condition': condition,
+      'TargetColumn': targetColumn,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Represents the sample size and sampling type for DataBrew to use for
+/// interactive data analysis.
+class Sample {
+  /// The way in which DataBrew obtains rows from a dataset.
+  final SampleType type;
+
+  /// The number of rows in the sample.
+  final int? size;
+
+  Sample({
+    required this.type,
+    this.size,
+  });
+
+  factory Sample.fromJson(Map<String, dynamic> json) {
+    return Sample(
+      type: SampleType.fromString((json['Type'] as String?) ?? ''),
+      size: json['Size'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final size = this.size;
+    return {
+      'Type': type.value,
+      if (size != null) 'Size': size,
+    };
+  }
+}
+
+class SampleType {
+  static const firstN = SampleType._('FIRST_N');
+  static const lastN = SampleType._('LAST_N');
+  static const random = SampleType._('RANDOM');
+
+  final String value;
+
+  const SampleType._(this.value);
+
+  static const values = [firstN, lastN, random];
+
+  static SampleType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SampleType._(value));
+
+  @override
+  bool operator ==(other) => other is SampleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Configuration for profile jobs. Configuration can be used to select columns,
+/// do evaluations, and override default parameters of evaluations. When
+/// configuration is undefined, the profile job will apply default settings to
+/// all supported columns.
+class ProfileConfiguration {
+  /// List of configurations for column evaluations.
+  /// ColumnStatisticsConfigurations are used to select evaluations and override
+  /// parameters of evaluations for particular columns. When
+  /// ColumnStatisticsConfigurations is undefined, the profile job will profile
+  /// all supported columns and run all supported evaluations.
+  final List<ColumnStatisticsConfiguration>? columnStatisticsConfigurations;
+
+  /// Configuration for inter-column evaluations. Configuration can be used to
+  /// select evaluations and override parameters of evaluations. When
+  /// configuration is undefined, the profile job will run all supported
+  /// inter-column evaluations.
+  final StatisticsConfiguration? datasetStatisticsConfiguration;
+
+  /// Configuration of entity detection for a profile job. When undefined, entity
+  /// detection is disabled.
+  final EntityDetectorConfiguration? entityDetectorConfiguration;
+
+  /// List of column selectors. ProfileColumns can be used to select columns from
+  /// the dataset. When ProfileColumns is undefined, the profile job will profile
+  /// all supported columns.
+  final List<ColumnSelector>? profileColumns;
+
+  ProfileConfiguration({
+    this.columnStatisticsConfigurations,
+    this.datasetStatisticsConfiguration,
+    this.entityDetectorConfiguration,
+    this.profileColumns,
+  });
+
+  factory ProfileConfiguration.fromJson(Map<String, dynamic> json) {
+    return ProfileConfiguration(
+      columnStatisticsConfigurations: (json['ColumnStatisticsConfigurations']
+              as List?)
+          ?.nonNulls
+          .map((e) =>
+              ColumnStatisticsConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      datasetStatisticsConfiguration: json['DatasetStatisticsConfiguration'] !=
+              null
+          ? StatisticsConfiguration.fromJson(
+              json['DatasetStatisticsConfiguration'] as Map<String, dynamic>)
+          : null,
+      entityDetectorConfiguration: json['EntityDetectorConfiguration'] != null
+          ? EntityDetectorConfiguration.fromJson(
+              json['EntityDetectorConfiguration'] as Map<String, dynamic>)
+          : null,
+      profileColumns: (json['ProfileColumns'] as List?)
+          ?.nonNulls
+          .map((e) => ColumnSelector.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columnStatisticsConfigurations = this.columnStatisticsConfigurations;
+    final datasetStatisticsConfiguration = this.datasetStatisticsConfiguration;
+    final entityDetectorConfiguration = this.entityDetectorConfiguration;
+    final profileColumns = this.profileColumns;
+    return {
+      if (columnStatisticsConfigurations != null)
+        'ColumnStatisticsConfigurations': columnStatisticsConfigurations,
+      if (datasetStatisticsConfiguration != null)
+        'DatasetStatisticsConfiguration': datasetStatisticsConfiguration,
+      if (entityDetectorConfiguration != null)
+        'EntityDetectorConfiguration': entityDetectorConfiguration,
+      if (profileColumns != null) 'ProfileColumns': profileColumns,
+    };
+  }
+}
+
+/// A sample configuration for profile jobs only, which determines the number of
+/// rows on which the profile job is run. If a <code>JobSample</code> value
+/// isn't provided, the default is used. The default value is CUSTOM_ROWS for
+/// the mode parameter and 20,000 for the size parameter.
+class JobSample {
+  /// A value that determines whether the profile job is run on the entire dataset
+  /// or a specified number of rows. This value must be one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// FULL_DATASET - The profile job is run on the entire dataset.
+  /// </li>
+  /// <li>
+  /// CUSTOM_ROWS - The profile job is run on the number of rows specified in the
+  /// <code>Size</code> parameter.
+  /// </li>
+  /// </ul>
+  final SampleMode? mode;
+
+  /// The <code>Size</code> parameter is only required when the mode is
+  /// CUSTOM_ROWS. The profile job is run on the specified number of rows. The
+  /// maximum value for size is Long.MAX_VALUE.
+  ///
+  /// Long.MAX_VALUE = 9223372036854775807
+  final int? size;
+
+  JobSample({
+    this.mode,
+    this.size,
+  });
+
+  factory JobSample.fromJson(Map<String, dynamic> json) {
+    return JobSample(
+      mode: (json['Mode'] as String?)?.let(SampleMode.fromString),
+      size: json['Size'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mode = this.mode;
+    final size = this.size;
+    return {
+      if (mode != null) 'Mode': mode.value,
+      if (size != null) 'Size': size,
+    };
+  }
+}
+
+class SampleMode {
+  static const fullDataset = SampleMode._('FULL_DATASET');
+  static const customRows = SampleMode._('CUSTOM_ROWS');
+
+  final String value;
+
+  const SampleMode._(this.value);
+
+  static const values = [fullDataset, customRows];
+
+  static SampleMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SampleMode._(value));
+
+  @override
+  bool operator ==(other) => other is SampleMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Configuration for data quality validation. Used to select the Rulesets and
+/// Validation Mode to be used in the profile job. When ValidationConfiguration
+/// is null, the profile job will run without data quality validation.
+class ValidationConfiguration {
+  /// The Amazon Resource Name (ARN) for the ruleset to be validated in the
+  /// profile job. The TargetArn of the selected ruleset should be the same as the
+  /// Amazon Resource Name (ARN) of the dataset that is associated with the
+  /// profile job.
+  final String rulesetArn;
+
+  /// Mode of data quality validation. Default mode is “CHECK_ALL” which verifies
+  /// all rules defined in the selected ruleset.
+  final ValidationMode? validationMode;
+
+  ValidationConfiguration({
+    required this.rulesetArn,
+    this.validationMode,
+  });
+
+  factory ValidationConfiguration.fromJson(Map<String, dynamic> json) {
+    return ValidationConfiguration(
+      rulesetArn: (json['RulesetArn'] as String?) ?? '',
+      validationMode:
+          (json['ValidationMode'] as String?)?.let(ValidationMode.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rulesetArn = this.rulesetArn;
+    final validationMode = this.validationMode;
+    return {
+      'RulesetArn': rulesetArn,
+      if (validationMode != null) 'ValidationMode': validationMode.value,
+    };
+  }
+}
+
+class ValidationMode {
+  static const checkAll = ValidationMode._('CHECK_ALL');
+
+  final String value;
+
+  const ValidationMode._(this.value);
+
+  static const values = [checkAll];
+
+  static ValidationMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ValidationMode._(value));
+
+  @override
+  bool operator ==(other) => other is ValidationMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Configuration of evaluations for a profile job. This configuration can be
+/// used to select evaluations and override the parameters of selected
+/// evaluations.
+class StatisticsConfiguration {
+  /// List of included evaluations. When the list is undefined, all supported
+  /// evaluations will be included.
+  final List<String>? includedStatistics;
+
+  /// List of overrides for evaluations.
+  final List<StatisticOverride>? overrides;
+
+  StatisticsConfiguration({
+    this.includedStatistics,
+    this.overrides,
+  });
+
+  factory StatisticsConfiguration.fromJson(Map<String, dynamic> json) {
+    return StatisticsConfiguration(
+      includedStatistics: (json['IncludedStatistics'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      overrides: (json['Overrides'] as List?)
+          ?.nonNulls
+          .map((e) => StatisticOverride.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final includedStatistics = this.includedStatistics;
+    final overrides = this.overrides;
+    return {
+      if (includedStatistics != null) 'IncludedStatistics': includedStatistics,
+      if (overrides != null) 'Overrides': overrides,
+    };
+  }
 }
 
 /// Configuration of entity detection for a profile job. When undefined, entity
@@ -3954,133 +4904,131 @@ class EntityDetectorConfiguration {
   }
 }
 
-/// Represents a set of options that define how DataBrew will interpret a
-/// Microsoft Excel file when creating a dataset from that file.
-class ExcelOptions {
-  /// A variable that specifies whether the first row in the file is parsed as the
-  /// header. If this value is false, column names are auto-generated.
-  final bool? headerRow;
+/// Configuration of statistics that are allowed to be run on columns that
+/// contain detected entities. When undefined, no statistics will be computed on
+/// columns that contain detected entities.
+class AllowedStatistics {
+  /// One or more column statistics to allow for columns that contain detected
+  /// entities.
+  final List<String> statistics;
 
-  /// One or more sheet numbers in the Excel file that will be included in the
-  /// dataset.
-  final List<int>? sheetIndexes;
-
-  /// One or more named sheets in the Excel file that will be included in the
-  /// dataset.
-  final List<String>? sheetNames;
-
-  ExcelOptions({
-    this.headerRow,
-    this.sheetIndexes,
-    this.sheetNames,
+  AllowedStatistics({
+    required this.statistics,
   });
 
-  factory ExcelOptions.fromJson(Map<String, dynamic> json) {
-    return ExcelOptions(
-      headerRow: json['HeaderRow'] as bool?,
-      sheetIndexes: (json['SheetIndexes'] as List?)
-          ?.nonNulls
-          .map((e) => e as int)
-          .toList(),
-      sheetNames: (json['SheetNames'] as List?)
-          ?.nonNulls
+  factory AllowedStatistics.fromJson(Map<String, dynamic> json) {
+    return AllowedStatistics(
+      statistics: ((json['Statistics'] as List?) ?? const [])
+          .nonNulls
           .map((e) => e as String)
           .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final headerRow = this.headerRow;
-    final sheetIndexes = this.sheetIndexes;
-    final sheetNames = this.sheetNames;
+    final statistics = this.statistics;
     return {
-      if (headerRow != null) 'HeaderRow': headerRow,
-      if (sheetIndexes != null) 'SheetIndexes': sheetIndexes,
-      if (sheetNames != null) 'SheetNames': sheetNames,
+      'Statistics': statistics,
     };
   }
 }
 
-/// Represents a limit imposed on number of Amazon S3 files that should be
-/// selected for a dataset from a connected Amazon S3 path.
-class FilesLimit {
-  /// The number of Amazon S3 files to select.
-  final int maxFiles;
+/// Configuration for column evaluations for a profile job.
+/// ColumnStatisticsConfiguration can be used to select evaluations and override
+/// parameters of evaluations for particular columns.
+class ColumnStatisticsConfiguration {
+  /// Configuration for evaluations. Statistics can be used to select evaluations
+  /// and override parameters of evaluations.
+  final StatisticsConfiguration statistics;
 
-  /// A criteria to use for Amazon S3 files sorting before their selection. By
-  /// default uses DESCENDING order, i.e. most recent files are selected first.
-  /// Another possible value is ASCENDING.
-  final Order? order;
+  /// List of column selectors. Selectors can be used to select columns from the
+  /// dataset. When selectors are undefined, configuration will be applied to all
+  /// supported columns.
+  final List<ColumnSelector>? selectors;
 
-  /// A criteria to use for Amazon S3 files sorting before their selection. By
-  /// default uses LAST_MODIFIED_DATE as a sorting criteria. Currently it's the
-  /// only allowed value.
-  final OrderedBy? orderedBy;
-
-  FilesLimit({
-    required this.maxFiles,
-    this.order,
-    this.orderedBy,
+  ColumnStatisticsConfiguration({
+    required this.statistics,
+    this.selectors,
   });
 
-  factory FilesLimit.fromJson(Map<String, dynamic> json) {
-    return FilesLimit(
-      maxFiles: (json['MaxFiles'] as int?) ?? 0,
-      order: (json['Order'] as String?)?.let(Order.fromString),
-      orderedBy: (json['OrderedBy'] as String?)?.let(OrderedBy.fromString),
+  factory ColumnStatisticsConfiguration.fromJson(Map<String, dynamic> json) {
+    return ColumnStatisticsConfiguration(
+      statistics: StatisticsConfiguration.fromJson(
+          (json['Statistics'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      selectors: (json['Selectors'] as List?)
+          ?.nonNulls
+          .map((e) => ColumnSelector.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final maxFiles = this.maxFiles;
-    final order = this.order;
-    final orderedBy = this.orderedBy;
+    final statistics = this.statistics;
+    final selectors = this.selectors;
     return {
-      'MaxFiles': maxFiles,
-      if (order != null) 'Order': order.value,
-      if (orderedBy != null) 'OrderedBy': orderedBy.value,
+      'Statistics': statistics,
+      if (selectors != null) 'Selectors': selectors,
     };
   }
 }
 
-/// Represents a structure for defining parameter conditions. Supported
-/// conditions are described here: <a
-/// href="https://docs.aws.amazon.com/databrew/latest/dg/datasets.multiple-files.html#conditions.for.dynamic.datasets">Supported
-/// conditions for dynamic datasets</a> in the <i>Glue DataBrew Developer
-/// Guide</i>.
-class FilterExpression {
-  /// The expression which includes condition names followed by substitution
-  /// variables, possibly grouped and combined with other conditions. For example,
-  /// "(starts_with :prefix1 or starts_with :prefix2) and (ends_with :suffix1 or
-  /// ends_with :suffix2)". Substitution variables should start with ':' symbol.
-  final String expression;
+/// Override of a particular evaluation for a profile job.
+class StatisticOverride {
+  /// A map that includes overrides of an evaluation’s parameters.
+  final Map<String, String> parameters;
 
-  /// The map of substitution variable names to their values used in this filter
-  /// expression.
-  final Map<String, String> valuesMap;
+  /// The name of an evaluation
+  final String statistic;
 
-  FilterExpression({
-    required this.expression,
-    required this.valuesMap,
+  StatisticOverride({
+    required this.parameters,
+    required this.statistic,
   });
 
-  factory FilterExpression.fromJson(Map<String, dynamic> json) {
-    return FilterExpression(
-      expression: (json['Expression'] as String?) ?? '',
-      valuesMap: ((json['ValuesMap'] as Map<String, dynamic>?) ??
+  factory StatisticOverride.fromJson(Map<String, dynamic> json) {
+    return StatisticOverride(
+      parameters: ((json['Parameters'] as Map<String, dynamic>?) ??
               const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as String)),
+      statistic: (json['Statistic'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    final expression = this.expression;
-    final valuesMap = this.valuesMap;
+    final parameters = this.parameters;
+    final statistic = this.statistic;
     return {
-      'Expression': expression,
-      'ValuesMap': valuesMap,
+      'Parameters': parameters,
+      'Statistic': statistic,
     };
   }
+}
+
+class InputFormat {
+  static const csv = InputFormat._('CSV');
+  static const json = InputFormat._('JSON');
+  static const parquet = InputFormat._('PARQUET');
+  static const excel = InputFormat._('EXCEL');
+  static const orc = InputFormat._('ORC');
+
+  final String value;
+
+  const InputFormat._(this.value);
+
+  static const values = [csv, json, parquet, excel, orc];
+
+  static InputFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => InputFormat._(value));
+
+  @override
+  bool operator ==(other) => other is InputFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a set of options that define the structure of either
@@ -4185,30 +5133,1046 @@ class Input {
   }
 }
 
-class InputFormat {
-  static const csv = InputFormat._('CSV');
-  static const json = InputFormat._('JSON');
-  static const parquet = InputFormat._('PARQUET');
-  static const excel = InputFormat._('EXCEL');
-  static const orc = InputFormat._('ORC');
+/// Represents a set of options that define how DataBrew selects files for a
+/// given Amazon S3 path in a dataset.
+class PathOptions {
+  /// If provided, this structure imposes a limit on a number of files that should
+  /// be selected.
+  final FilesLimit? filesLimit;
+
+  /// If provided, this structure defines a date range for matching Amazon S3
+  /// objects based on their LastModifiedDate attribute in Amazon S3.
+  final FilterExpression? lastModifiedDateCondition;
+
+  /// A structure that maps names of parameters used in the Amazon S3 path of a
+  /// dataset to their definitions.
+  final Map<String, DatasetParameter>? parameters;
+
+  PathOptions({
+    this.filesLimit,
+    this.lastModifiedDateCondition,
+    this.parameters,
+  });
+
+  factory PathOptions.fromJson(Map<String, dynamic> json) {
+    return PathOptions(
+      filesLimit: json['FilesLimit'] != null
+          ? FilesLimit.fromJson(json['FilesLimit'] as Map<String, dynamic>)
+          : null,
+      lastModifiedDateCondition: json['LastModifiedDateCondition'] != null
+          ? FilterExpression.fromJson(
+              json['LastModifiedDateCondition'] as Map<String, dynamic>)
+          : null,
+      parameters: (json['Parameters'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, DatasetParameter.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filesLimit = this.filesLimit;
+    final lastModifiedDateCondition = this.lastModifiedDateCondition;
+    final parameters = this.parameters;
+    return {
+      if (filesLimit != null) 'FilesLimit': filesLimit,
+      if (lastModifiedDateCondition != null)
+        'LastModifiedDateCondition': lastModifiedDateCondition,
+      if (parameters != null) 'Parameters': parameters,
+    };
+  }
+}
+
+/// Represents a structure for defining parameter conditions. Supported
+/// conditions are described here: <a
+/// href="https://docs.aws.amazon.com/databrew/latest/dg/datasets.multiple-files.html#conditions.for.dynamic.datasets">Supported
+/// conditions for dynamic datasets</a> in the <i>Glue DataBrew Developer
+/// Guide</i>.
+class FilterExpression {
+  /// The expression which includes condition names followed by substitution
+  /// variables, possibly grouped and combined with other conditions. For example,
+  /// "(starts_with :prefix1 or starts_with :prefix2) and (ends_with :suffix1 or
+  /// ends_with :suffix2)". Substitution variables should start with ':' symbol.
+  final String expression;
+
+  /// The map of substitution variable names to their values used in this filter
+  /// expression.
+  final Map<String, String> valuesMap;
+
+  FilterExpression({
+    required this.expression,
+    required this.valuesMap,
+  });
+
+  factory FilterExpression.fromJson(Map<String, dynamic> json) {
+    return FilterExpression(
+      expression: (json['Expression'] as String?) ?? '',
+      valuesMap: ((json['ValuesMap'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final expression = this.expression;
+    final valuesMap = this.valuesMap;
+    return {
+      'Expression': expression,
+      'ValuesMap': valuesMap,
+    };
+  }
+}
+
+/// Represents a limit imposed on number of Amazon S3 files that should be
+/// selected for a dataset from a connected Amazon S3 path.
+class FilesLimit {
+  /// The number of Amazon S3 files to select.
+  final int maxFiles;
+
+  /// A criteria to use for Amazon S3 files sorting before their selection. By
+  /// default uses DESCENDING order, i.e. most recent files are selected first.
+  /// Another possible value is ASCENDING.
+  final Order? order;
+
+  /// A criteria to use for Amazon S3 files sorting before their selection. By
+  /// default uses LAST_MODIFIED_DATE as a sorting criteria. Currently it's the
+  /// only allowed value.
+  final OrderedBy? orderedBy;
+
+  FilesLimit({
+    required this.maxFiles,
+    this.order,
+    this.orderedBy,
+  });
+
+  factory FilesLimit.fromJson(Map<String, dynamic> json) {
+    return FilesLimit(
+      maxFiles: (json['MaxFiles'] as int?) ?? 0,
+      order: (json['Order'] as String?)?.let(Order.fromString),
+      orderedBy: (json['OrderedBy'] as String?)?.let(OrderedBy.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxFiles = this.maxFiles;
+    final order = this.order;
+    final orderedBy = this.orderedBy;
+    return {
+      'MaxFiles': maxFiles,
+      if (order != null) 'Order': order.value,
+      if (orderedBy != null) 'OrderedBy': orderedBy.value,
+    };
+  }
+}
+
+/// Represents a dataset parameter that defines type and conditions for a
+/// parameter in the Amazon S3 path of the dataset.
+class DatasetParameter {
+  /// The name of the parameter that is used in the dataset's Amazon S3 path.
+  final String name;
+
+  /// The type of the dataset parameter, can be one of a 'String', 'Number' or
+  /// 'Datetime'.
+  final ParameterType type;
+
+  /// Optional boolean value that defines whether the captured value of this
+  /// parameter should be used to create a new column in a dataset.
+  final bool? createColumn;
+
+  /// Additional parameter options such as a format and a timezone. Required for
+  /// datetime parameters.
+  final DatetimeOptions? datetimeOptions;
+
+  /// The optional filter expression structure to apply additional matching
+  /// criteria to the parameter.
+  final FilterExpression? filter;
+
+  DatasetParameter({
+    required this.name,
+    required this.type,
+    this.createColumn,
+    this.datetimeOptions,
+    this.filter,
+  });
+
+  factory DatasetParameter.fromJson(Map<String, dynamic> json) {
+    return DatasetParameter(
+      name: (json['Name'] as String?) ?? '',
+      type: ParameterType.fromString((json['Type'] as String?) ?? ''),
+      createColumn: json['CreateColumn'] as bool?,
+      datetimeOptions: json['DatetimeOptions'] != null
+          ? DatetimeOptions.fromJson(
+              json['DatetimeOptions'] as Map<String, dynamic>)
+          : null,
+      filter: json['Filter'] != null
+          ? FilterExpression.fromJson(json['Filter'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final type = this.type;
+    final createColumn = this.createColumn;
+    final datetimeOptions = this.datetimeOptions;
+    final filter = this.filter;
+    return {
+      'Name': name,
+      'Type': type.value,
+      if (createColumn != null) 'CreateColumn': createColumn,
+      if (datetimeOptions != null) 'DatetimeOptions': datetimeOptions,
+      if (filter != null) 'Filter': filter,
+    };
+  }
+}
+
+class ParameterType {
+  static const datetime = ParameterType._('Datetime');
+  static const number = ParameterType._('Number');
+  static const string = ParameterType._('String');
 
   final String value;
 
-  const InputFormat._(this.value);
+  const ParameterType._(this.value);
 
-  static const values = [csv, json, parquet, excel, orc];
+  static const values = [datetime, number, string];
 
-  static InputFormat fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => InputFormat._(value));
+  static ParameterType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ParameterType._(value));
 
   @override
-  bool operator ==(other) => other is InputFormat && other.value == value;
+  bool operator ==(other) => other is ParameterType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
+}
+
+/// Represents additional options for correct interpretation of datetime
+/// parameters used in the Amazon S3 path of a dataset.
+class DatetimeOptions {
+  /// Required option, that defines the datetime format used for a date parameter
+  /// in the Amazon S3 path. Should use only supported datetime specifiers and
+  /// separation characters, all literal a-z or A-Z characters should be escaped
+  /// with single quotes. E.g. "MM.dd.yyyy-'at'-HH:mm".
+  final String format;
+
+  /// Optional value for a non-US locale code, needed for correct interpretation
+  /// of some date formats.
+  final String? localeCode;
+
+  /// Optional value for a timezone offset of the datetime parameter value in the
+  /// Amazon S3 path. Shouldn't be used if Format for this parameter includes
+  /// timezone fields. If no offset specified, UTC is assumed.
+  final String? timezoneOffset;
+
+  DatetimeOptions({
+    required this.format,
+    this.localeCode,
+    this.timezoneOffset,
+  });
+
+  factory DatetimeOptions.fromJson(Map<String, dynamic> json) {
+    return DatetimeOptions(
+      format: (json['Format'] as String?) ?? '',
+      localeCode: json['LocaleCode'] as String?,
+      timezoneOffset: json['TimezoneOffset'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final format = this.format;
+    final localeCode = this.localeCode;
+    final timezoneOffset = this.timezoneOffset;
+    return {
+      'Format': format,
+      if (localeCode != null) 'LocaleCode': localeCode,
+      if (timezoneOffset != null) 'TimezoneOffset': timezoneOffset,
+    };
+  }
+}
+
+class OrderedBy {
+  static const lastModifiedDate = OrderedBy._('LAST_MODIFIED_DATE');
+
+  final String value;
+
+  const OrderedBy._(this.value);
+
+  static const values = [lastModifiedDate];
+
+  static OrderedBy fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OrderedBy._(value));
+
+  @override
+  bool operator ==(other) => other is OrderedBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class Order {
+  static const descending = Order._('DESCENDING');
+  static const ascending = Order._('ASCENDING');
+
+  final String value;
+
+  const Order._(this.value);
+
+  static const values = [descending, ascending];
+
+  static Order fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Order._(value));
+
+  @override
+  bool operator ==(other) => other is Order && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents how metadata stored in the Glue Data Catalog is defined in a
+/// DataBrew dataset.
+class DataCatalogInputDefinition {
+  /// The name of a database in the Data Catalog.
+  final String databaseName;
+
+  /// The name of a database table in the Data Catalog. This table corresponds to
+  /// a DataBrew dataset.
+  final String tableName;
+
+  /// The unique identifier of the Amazon Web Services account that holds the Data
+  /// Catalog that stores the data.
+  final String? catalogId;
+
+  /// Represents an Amazon location where DataBrew can store intermediate results.
+  final S3Location? tempDirectory;
+
+  DataCatalogInputDefinition({
+    required this.databaseName,
+    required this.tableName,
+    this.catalogId,
+    this.tempDirectory,
+  });
+
+  factory DataCatalogInputDefinition.fromJson(Map<String, dynamic> json) {
+    return DataCatalogInputDefinition(
+      databaseName: (json['DatabaseName'] as String?) ?? '',
+      tableName: (json['TableName'] as String?) ?? '',
+      catalogId: json['CatalogId'] as String?,
+      tempDirectory: json['TempDirectory'] != null
+          ? S3Location.fromJson(json['TempDirectory'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databaseName = this.databaseName;
+    final tableName = this.tableName;
+    final catalogId = this.catalogId;
+    final tempDirectory = this.tempDirectory;
+    return {
+      'DatabaseName': databaseName,
+      'TableName': tableName,
+      if (catalogId != null) 'CatalogId': catalogId,
+      if (tempDirectory != null) 'TempDirectory': tempDirectory,
+    };
+  }
+}
+
+/// Connection information for dataset input files stored in a database.
+class DatabaseInputDefinition {
+  /// The Glue Connection that stores the connection information for the target
+  /// database.
+  final String glueConnectionName;
+
+  /// The table within the target database.
+  final String? databaseTableName;
+
+  /// Custom SQL to run against the provided Glue connection. This SQL will be
+  /// used as the input for DataBrew projects and jobs.
+  final String? queryString;
+  final S3Location? tempDirectory;
+
+  DatabaseInputDefinition({
+    required this.glueConnectionName,
+    this.databaseTableName,
+    this.queryString,
+    this.tempDirectory,
+  });
+
+  factory DatabaseInputDefinition.fromJson(Map<String, dynamic> json) {
+    return DatabaseInputDefinition(
+      glueConnectionName: (json['GlueConnectionName'] as String?) ?? '',
+      databaseTableName: json['DatabaseTableName'] as String?,
+      queryString: json['QueryString'] as String?,
+      tempDirectory: json['TempDirectory'] != null
+          ? S3Location.fromJson(json['TempDirectory'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final glueConnectionName = this.glueConnectionName;
+    final databaseTableName = this.databaseTableName;
+    final queryString = this.queryString;
+    final tempDirectory = this.tempDirectory;
+    return {
+      'GlueConnectionName': glueConnectionName,
+      if (databaseTableName != null) 'DatabaseTableName': databaseTableName,
+      if (queryString != null) 'QueryString': queryString,
+      if (tempDirectory != null) 'TempDirectory': tempDirectory,
+    };
+  }
+}
+
+/// Contains additional resource information needed for specific datasets.
+class Metadata {
+  /// The Amazon Resource Name (ARN) associated with the dataset. Currently,
+  /// DataBrew only supports ARNs from Amazon AppFlow.
+  final String? sourceArn;
+
+  Metadata({
+    this.sourceArn,
+  });
+
+  factory Metadata.fromJson(Map<String, dynamic> json) {
+    return Metadata(
+      sourceArn: json['SourceArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sourceArn = this.sourceArn;
+    return {
+      if (sourceArn != null) 'SourceArn': sourceArn,
+    };
+  }
+}
+
+/// Represents the JSON-specific options that define how input is to be
+/// interpreted by Glue DataBrew.
+class JsonOptions {
+  /// A value that specifies whether JSON input contains embedded new line
+  /// characters.
+  final bool? multiLine;
+
+  JsonOptions({
+    this.multiLine,
+  });
+
+  factory JsonOptions.fromJson(Map<String, dynamic> json) {
+    return JsonOptions(
+      multiLine: json['MultiLine'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final multiLine = this.multiLine;
+    return {
+      if (multiLine != null) 'MultiLine': multiLine,
+    };
+  }
+}
+
+/// Represents a set of options that define how DataBrew will interpret a
+/// Microsoft Excel file when creating a dataset from that file.
+class ExcelOptions {
+  /// A variable that specifies whether the first row in the file is parsed as the
+  /// header. If this value is false, column names are auto-generated.
+  final bool? headerRow;
+
+  /// One or more sheet numbers in the Excel file that will be included in the
+  /// dataset.
+  final List<int>? sheetIndexes;
+
+  /// One or more named sheets in the Excel file that will be included in the
+  /// dataset.
+  final List<String>? sheetNames;
+
+  ExcelOptions({
+    this.headerRow,
+    this.sheetIndexes,
+    this.sheetNames,
+  });
+
+  factory ExcelOptions.fromJson(Map<String, dynamic> json) {
+    return ExcelOptions(
+      headerRow: json['HeaderRow'] as bool?,
+      sheetIndexes: (json['SheetIndexes'] as List?)
+          ?.nonNulls
+          .map((e) => e as int)
+          .toList(),
+      sheetNames: (json['SheetNames'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final headerRow = this.headerRow;
+    final sheetIndexes = this.sheetIndexes;
+    final sheetNames = this.sheetNames;
+    return {
+      if (headerRow != null) 'HeaderRow': headerRow,
+      if (sheetIndexes != null) 'SheetIndexes': sheetIndexes,
+      if (sheetNames != null) 'SheetNames': sheetNames,
+    };
+  }
+}
+
+/// Represents a set of options that define how DataBrew will read a
+/// comma-separated value (CSV) file when creating a dataset from that file.
+class CsvOptions {
+  /// A single character that specifies the delimiter being used in the CSV file.
+  final String? delimiter;
+
+  /// A variable that specifies whether the first row in the file is parsed as the
+  /// header. If this value is false, column names are auto-generated.
+  final bool? headerRow;
+
+  CsvOptions({
+    this.delimiter,
+    this.headerRow,
+  });
+
+  factory CsvOptions.fromJson(Map<String, dynamic> json) {
+    return CsvOptions(
+      delimiter: json['Delimiter'] as String?,
+      headerRow: json['HeaderRow'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final delimiter = this.delimiter;
+    final headerRow = this.headerRow;
+    return {
+      if (delimiter != null) 'Delimiter': delimiter,
+      if (headerRow != null) 'HeaderRow': headerRow,
+    };
+  }
+}
+
+/// Represents the data being transformed during an action.
+class ViewFrame {
+  /// The starting index for the range of columns to return in the view frame.
+  final int startColumnIndex;
+
+  /// Controls if analytics computation is enabled or disabled. Enabled by
+  /// default.
+  final AnalyticsMode? analytics;
+
+  /// The number of columns to include in the view frame, beginning with the
+  /// <code>StartColumnIndex</code> value and ignoring any columns in the
+  /// <code>HiddenColumns</code> list.
+  final int? columnRange;
+
+  /// A list of columns to hide in the view frame.
+  final List<String>? hiddenColumns;
+
+  /// The number of rows to include in the view frame, beginning with the
+  /// <code>StartRowIndex</code> value.
+  final int? rowRange;
+
+  /// The starting index for the range of rows to return in the view frame.
+  final int? startRowIndex;
+
+  ViewFrame({
+    required this.startColumnIndex,
+    this.analytics,
+    this.columnRange,
+    this.hiddenColumns,
+    this.rowRange,
+    this.startRowIndex,
+  });
+
+  Map<String, dynamic> toJson() {
+    final startColumnIndex = this.startColumnIndex;
+    final analytics = this.analytics;
+    final columnRange = this.columnRange;
+    final hiddenColumns = this.hiddenColumns;
+    final rowRange = this.rowRange;
+    final startRowIndex = this.startRowIndex;
+    return {
+      'StartColumnIndex': startColumnIndex,
+      if (analytics != null) 'Analytics': analytics.value,
+      if (columnRange != null) 'ColumnRange': columnRange,
+      if (hiddenColumns != null) 'HiddenColumns': hiddenColumns,
+      if (rowRange != null) 'RowRange': rowRange,
+      if (startRowIndex != null) 'StartRowIndex': startRowIndex,
+    };
+  }
+}
+
+class AnalyticsMode {
+  static const enable = AnalyticsMode._('ENABLE');
+  static const disable = AnalyticsMode._('DISABLE');
+
+  final String value;
+
+  const AnalyticsMode._(this.value);
+
+  static const values = [enable, disable];
+
+  static AnalyticsMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AnalyticsMode._(value));
+
+  @override
+  bool operator ==(other) => other is AnalyticsMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents one or more dates and times when a job is to run.
+class Schedule {
+  /// The name of the schedule.
+  final String name;
+
+  /// The ID of the Amazon Web Services account that owns the schedule.
+  final String? accountId;
+
+  /// The date and time that the schedule was created.
+  final DateTime? createDate;
+
+  /// The Amazon Resource Name (ARN) of the user who created the schedule.
+  final String? createdBy;
+
+  /// The dates and times when the job is to run. For more information, see <a
+  /// href="https://docs.aws.amazon.com/databrew/latest/dg/jobs.cron.html">Cron
+  /// expressions</a> in the <i>Glue DataBrew Developer Guide</i>.
+  final String? cronExpression;
+
+  /// A list of jobs to be run, according to the schedule.
+  final List<String>? jobNames;
+
+  /// The Amazon Resource Name (ARN) of the user who last modified the schedule.
+  final String? lastModifiedBy;
+
+  /// The date and time when the schedule was last modified.
+  final DateTime? lastModifiedDate;
+
+  /// The Amazon Resource Name (ARN) of the schedule.
+  final String? resourceArn;
+
+  /// Metadata tags that have been applied to the schedule.
+  final Map<String, String>? tags;
+
+  Schedule({
+    required this.name,
+    this.accountId,
+    this.createDate,
+    this.createdBy,
+    this.cronExpression,
+    this.jobNames,
+    this.lastModifiedBy,
+    this.lastModifiedDate,
+    this.resourceArn,
+    this.tags,
+  });
+
+  factory Schedule.fromJson(Map<String, dynamic> json) {
+    return Schedule(
+      name: (json['Name'] as String?) ?? '',
+      accountId: json['AccountId'] as String?,
+      createDate: timeStampFromJson(json['CreateDate']),
+      createdBy: json['CreatedBy'] as String?,
+      cronExpression: json['CronExpression'] as String?,
+      jobNames: (json['JobNames'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      lastModifiedBy: json['LastModifiedBy'] as String?,
+      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
+      resourceArn: json['ResourceArn'] as String?,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final accountId = this.accountId;
+    final createDate = this.createDate;
+    final createdBy = this.createdBy;
+    final cronExpression = this.cronExpression;
+    final jobNames = this.jobNames;
+    final lastModifiedBy = this.lastModifiedBy;
+    final lastModifiedDate = this.lastModifiedDate;
+    final resourceArn = this.resourceArn;
+    final tags = this.tags;
+    return {
+      'Name': name,
+      if (accountId != null) 'AccountId': accountId,
+      if (createDate != null) 'CreateDate': unixTimestampToJson(createDate),
+      if (createdBy != null) 'CreatedBy': createdBy,
+      if (cronExpression != null) 'CronExpression': cronExpression,
+      if (jobNames != null) 'JobNames': jobNames,
+      if (lastModifiedBy != null) 'LastModifiedBy': lastModifiedBy,
+      if (lastModifiedDate != null)
+        'LastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// Contains metadata about the ruleset.
+class RulesetItem {
+  /// The name of the ruleset.
+  final String name;
+
+  /// The Amazon Resource Name (ARN) of a resource (dataset) that the ruleset is
+  /// associated with.
+  final String targetArn;
+
+  /// The ID of the Amazon Web Services account that owns the ruleset.
+  final String? accountId;
+
+  /// The date and time that the ruleset was created.
+  final DateTime? createDate;
+
+  /// The Amazon Resource Name (ARN) of the user who created the ruleset.
+  final String? createdBy;
+
+  /// The description of the ruleset.
+  final String? description;
+
+  /// The Amazon Resource Name (ARN) of the user who last modified the ruleset.
+  final String? lastModifiedBy;
+
+  /// The modification date and time of the ruleset.
+  final DateTime? lastModifiedDate;
+
+  /// The Amazon Resource Name (ARN) for the ruleset.
+  final String? resourceArn;
+
+  /// The number of rules that are defined in the ruleset.
+  final int? ruleCount;
+
+  /// Metadata tags that have been applied to the ruleset.
+  final Map<String, String>? tags;
+
+  RulesetItem({
+    required this.name,
+    required this.targetArn,
+    this.accountId,
+    this.createDate,
+    this.createdBy,
+    this.description,
+    this.lastModifiedBy,
+    this.lastModifiedDate,
+    this.resourceArn,
+    this.ruleCount,
+    this.tags,
+  });
+
+  factory RulesetItem.fromJson(Map<String, dynamic> json) {
+    return RulesetItem(
+      name: (json['Name'] as String?) ?? '',
+      targetArn: (json['TargetArn'] as String?) ?? '',
+      accountId: json['AccountId'] as String?,
+      createDate: timeStampFromJson(json['CreateDate']),
+      createdBy: json['CreatedBy'] as String?,
+      description: json['Description'] as String?,
+      lastModifiedBy: json['LastModifiedBy'] as String?,
+      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
+      resourceArn: json['ResourceArn'] as String?,
+      ruleCount: json['RuleCount'] as int?,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final targetArn = this.targetArn;
+    final accountId = this.accountId;
+    final createDate = this.createDate;
+    final createdBy = this.createdBy;
+    final description = this.description;
+    final lastModifiedBy = this.lastModifiedBy;
+    final lastModifiedDate = this.lastModifiedDate;
+    final resourceArn = this.resourceArn;
+    final ruleCount = this.ruleCount;
+    final tags = this.tags;
+    return {
+      'Name': name,
+      'TargetArn': targetArn,
+      if (accountId != null) 'AccountId': accountId,
+      if (createDate != null) 'CreateDate': unixTimestampToJson(createDate),
+      if (createdBy != null) 'CreatedBy': createdBy,
+      if (description != null) 'Description': description,
+      if (lastModifiedBy != null) 'LastModifiedBy': lastModifiedBy,
+      if (lastModifiedDate != null)
+        'LastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+      if (ruleCount != null) 'RuleCount': ruleCount,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// Represents one or more actions to be performed on a DataBrew dataset.
+class Recipe {
+  /// The unique name for the recipe.
+  final String name;
+
+  /// The date and time that the recipe was created.
+  final DateTime? createDate;
+
+  /// The Amazon Resource Name (ARN) of the user who created the recipe.
+  final String? createdBy;
+
+  /// The description of the recipe.
+  final String? description;
+
+  /// The Amazon Resource Name (ARN) of the user who last modified the recipe.
+  final String? lastModifiedBy;
+
+  /// The last modification date and time of the recipe.
+  final DateTime? lastModifiedDate;
+
+  /// The name of the project that the recipe is associated with.
+  final String? projectName;
+
+  /// The Amazon Resource Name (ARN) of the user who published the recipe.
+  final String? publishedBy;
+
+  /// The date and time when the recipe was published.
+  final DateTime? publishedDate;
+
+  /// The identifier for the version for the recipe. Must be one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// Numeric version (<code>X.Y</code>) - <code>X</code> and <code>Y</code> stand
+  /// for major and minor version numbers. The maximum length of each is 6 digits,
+  /// and neither can be negative values. Both <code>X</code> and <code>Y</code>
+  /// are required, and "0.0" isn't a valid version.
+  /// </li>
+  /// <li>
+  /// <code>LATEST_WORKING</code> - the most recent valid version being developed
+  /// in a DataBrew project.
+  /// </li>
+  /// <li>
+  /// <code>LATEST_PUBLISHED</code> - the most recent published version.
+  /// </li>
+  /// </ul>
+  final String? recipeVersion;
+
+  /// The Amazon Resource Name (ARN) for the recipe.
+  final String? resourceArn;
+
+  /// A list of steps that are defined by the recipe.
+  final List<RecipeStep>? steps;
+
+  /// Metadata tags that have been applied to the recipe.
+  final Map<String, String>? tags;
+
+  Recipe({
+    required this.name,
+    this.createDate,
+    this.createdBy,
+    this.description,
+    this.lastModifiedBy,
+    this.lastModifiedDate,
+    this.projectName,
+    this.publishedBy,
+    this.publishedDate,
+    this.recipeVersion,
+    this.resourceArn,
+    this.steps,
+    this.tags,
+  });
+
+  factory Recipe.fromJson(Map<String, dynamic> json) {
+    return Recipe(
+      name: (json['Name'] as String?) ?? '',
+      createDate: timeStampFromJson(json['CreateDate']),
+      createdBy: json['CreatedBy'] as String?,
+      description: json['Description'] as String?,
+      lastModifiedBy: json['LastModifiedBy'] as String?,
+      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
+      projectName: json['ProjectName'] as String?,
+      publishedBy: json['PublishedBy'] as String?,
+      publishedDate: timeStampFromJson(json['PublishedDate']),
+      recipeVersion: json['RecipeVersion'] as String?,
+      resourceArn: json['ResourceArn'] as String?,
+      steps: (json['Steps'] as List?)
+          ?.nonNulls
+          .map((e) => RecipeStep.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final createDate = this.createDate;
+    final createdBy = this.createdBy;
+    final description = this.description;
+    final lastModifiedBy = this.lastModifiedBy;
+    final lastModifiedDate = this.lastModifiedDate;
+    final projectName = this.projectName;
+    final publishedBy = this.publishedBy;
+    final publishedDate = this.publishedDate;
+    final recipeVersion = this.recipeVersion;
+    final resourceArn = this.resourceArn;
+    final steps = this.steps;
+    final tags = this.tags;
+    return {
+      'Name': name,
+      if (createDate != null) 'CreateDate': unixTimestampToJson(createDate),
+      if (createdBy != null) 'CreatedBy': createdBy,
+      if (description != null) 'Description': description,
+      if (lastModifiedBy != null) 'LastModifiedBy': lastModifiedBy,
+      if (lastModifiedDate != null)
+        'LastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (projectName != null) 'ProjectName': projectName,
+      if (publishedBy != null) 'PublishedBy': publishedBy,
+      if (publishedDate != null)
+        'PublishedDate': unixTimestampToJson(publishedDate),
+      if (recipeVersion != null) 'RecipeVersion': recipeVersion,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+      if (steps != null) 'Steps': steps,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// Represents all of the attributes of a DataBrew project.
+class Project {
+  /// The unique name of a project.
+  final String name;
+
+  /// The name of a recipe that will be developed during a project session.
+  final String recipeName;
+
+  /// The ID of the Amazon Web Services account that owns the project.
+  final String? accountId;
+
+  /// The date and time that the project was created.
+  final DateTime? createDate;
+
+  /// The Amazon Resource Name (ARN) of the user who crated the project.
+  final String? createdBy;
+
+  /// The dataset that the project is to act upon.
+  final String? datasetName;
+
+  /// The Amazon Resource Name (ARN) of the user who last modified the project.
+  final String? lastModifiedBy;
+
+  /// The last modification date and time for the project.
+  final DateTime? lastModifiedDate;
+
+  /// The date and time when the project was opened.
+  final DateTime? openDate;
+
+  /// The Amazon Resource Name (ARN) of the user that opened the project for use.
+  final String? openedBy;
+
+  /// The Amazon Resource Name (ARN) for the project.
+  final String? resourceArn;
+
+  /// The Amazon Resource Name (ARN) of the role that will be assumed for this
+  /// project.
+  final String? roleArn;
+
+  /// The sample size and sampling type to apply to the data. If this parameter
+  /// isn't specified, then the sample consists of the first 500 rows from the
+  /// dataset.
+  final Sample? sample;
+
+  /// Metadata tags that have been applied to the project.
+  final Map<String, String>? tags;
+
+  Project({
+    required this.name,
+    required this.recipeName,
+    this.accountId,
+    this.createDate,
+    this.createdBy,
+    this.datasetName,
+    this.lastModifiedBy,
+    this.lastModifiedDate,
+    this.openDate,
+    this.openedBy,
+    this.resourceArn,
+    this.roleArn,
+    this.sample,
+    this.tags,
+  });
+
+  factory Project.fromJson(Map<String, dynamic> json) {
+    return Project(
+      name: (json['Name'] as String?) ?? '',
+      recipeName: (json['RecipeName'] as String?) ?? '',
+      accountId: json['AccountId'] as String?,
+      createDate: timeStampFromJson(json['CreateDate']),
+      createdBy: json['CreatedBy'] as String?,
+      datasetName: json['DatasetName'] as String?,
+      lastModifiedBy: json['LastModifiedBy'] as String?,
+      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
+      openDate: timeStampFromJson(json['OpenDate']),
+      openedBy: json['OpenedBy'] as String?,
+      resourceArn: json['ResourceArn'] as String?,
+      roleArn: json['RoleArn'] as String?,
+      sample: json['Sample'] != null
+          ? Sample.fromJson(json['Sample'] as Map<String, dynamic>)
+          : null,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final recipeName = this.recipeName;
+    final accountId = this.accountId;
+    final createDate = this.createDate;
+    final createdBy = this.createdBy;
+    final datasetName = this.datasetName;
+    final lastModifiedBy = this.lastModifiedBy;
+    final lastModifiedDate = this.lastModifiedDate;
+    final openDate = this.openDate;
+    final openedBy = this.openedBy;
+    final resourceArn = this.resourceArn;
+    final roleArn = this.roleArn;
+    final sample = this.sample;
+    final tags = this.tags;
+    return {
+      'Name': name,
+      'RecipeName': recipeName,
+      if (accountId != null) 'AccountId': accountId,
+      if (createDate != null) 'CreateDate': unixTimestampToJson(createDate),
+      if (createdBy != null) 'CreatedBy': createdBy,
+      if (datasetName != null) 'DatasetName': datasetName,
+      if (lastModifiedBy != null) 'LastModifiedBy': lastModifiedBy,
+      if (lastModifiedDate != null)
+        'LastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (openDate != null) 'OpenDate': unixTimestampToJson(openDate),
+      if (openedBy != null) 'OpenedBy': openedBy,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+      if (roleArn != null) 'RoleArn': roleArn,
+      if (sample != null) 'Sample': sample,
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
 /// Represents all of the attributes of a DataBrew job.
@@ -4448,6 +6412,59 @@ class Job {
   }
 }
 
+class JobType {
+  static const profile = JobType._('PROFILE');
+  static const recipe = JobType._('RECIPE');
+
+  final String value;
+
+  const JobType._(this.value);
+
+  static const values = [profile, recipe];
+
+  static JobType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobType._(value));
+
+  @override
+  bool operator ==(other) => other is JobType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the name and version of a DataBrew recipe.
+class RecipeReference {
+  /// The name of the recipe.
+  final String name;
+
+  /// The identifier for the version for the recipe.
+  final String? recipeVersion;
+
+  RecipeReference({
+    required this.name,
+    this.recipeVersion,
+  });
+
+  factory RecipeReference.fromJson(Map<String, dynamic> json) {
+    return RecipeReference(
+      name: (json['Name'] as String?) ?? '',
+      recipeVersion: json['RecipeVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final recipeVersion = this.recipeVersion;
+    return {
+      'Name': name,
+      if (recipeVersion != null) 'RecipeVersion': recipeVersion,
+    };
+  }
+}
+
 /// Represents one run of a DataBrew job.
 class JobRun {
   /// The number of times that DataBrew has attempted to run the job.
@@ -4653,1643 +6670,148 @@ class JobRunState {
   String toString() => value;
 }
 
-/// A sample configuration for profile jobs only, which determines the number of
-/// rows on which the profile job is run. If a <code>JobSample</code> value
-/// isn't provided, the default is used. The default value is CUSTOM_ROWS for
-/// the mode parameter and 20,000 for the size parameter.
-class JobSample {
-  /// A value that determines whether the profile job is run on the entire dataset
-  /// or a specified number of rows. This value must be one of the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// FULL_DATASET - The profile job is run on the entire dataset.
-  /// </li>
-  /// <li>
-  /// CUSTOM_ROWS - The profile job is run on the number of rows specified in the
-  /// <code>Size</code> parameter.
-  /// </li>
-  /// </ul>
-  final SampleMode? mode;
+/// Represents a dataset that can be processed by DataBrew.
+class Dataset {
+  /// Information on how DataBrew can find the dataset, in either the Glue Data
+  /// Catalog or Amazon S3.
+  final Input input;
 
-  /// The <code>Size</code> parameter is only required when the mode is
-  /// CUSTOM_ROWS. The profile job is run on the specified number of rows. The
-  /// maximum value for size is Long.MAX_VALUE.
-  ///
-  /// Long.MAX_VALUE = 9223372036854775807
-  final int? size;
+  /// The unique name of the dataset.
+  final String name;
 
-  JobSample({
-    this.mode,
-    this.size,
-  });
+  /// The ID of the Amazon Web Services account that owns the dataset.
+  final String? accountId;
 
-  factory JobSample.fromJson(Map<String, dynamic> json) {
-    return JobSample(
-      mode: (json['Mode'] as String?)?.let(SampleMode.fromString),
-      size: json['Size'] as int?,
-    );
-  }
+  /// The date and time that the dataset was created.
+  final DateTime? createDate;
 
-  Map<String, dynamic> toJson() {
-    final mode = this.mode;
-    final size = this.size;
-    return {
-      if (mode != null) 'Mode': mode.value,
-      if (size != null) 'Size': size,
-    };
-  }
-}
+  /// The Amazon Resource Name (ARN) of the user who created the dataset.
+  final String? createdBy;
 
-class JobType {
-  static const profile = JobType._('PROFILE');
-  static const recipe = JobType._('RECIPE');
+  /// The file format of a dataset that is created from an Amazon S3 file or
+  /// folder.
+  final InputFormat? format;
 
-  final String value;
+  /// A set of options that define how DataBrew interprets the data in the
+  /// dataset.
+  final FormatOptions? formatOptions;
 
-  const JobType._(this.value);
+  /// The Amazon Resource Name (ARN) of the user who last modified the dataset.
+  final String? lastModifiedBy;
 
-  static const values = [profile, recipe];
+  /// The last modification date and time of the dataset.
+  final DateTime? lastModifiedDate;
 
-  static JobType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => JobType._(value));
+  /// A set of options that defines how DataBrew interprets an Amazon S3 path of
+  /// the dataset.
+  final PathOptions? pathOptions;
 
-  @override
-  bool operator ==(other) => other is JobType && other.value == value;
+  /// The unique Amazon Resource Name (ARN) for the dataset.
+  final String? resourceArn;
 
-  @override
-  int get hashCode => value.hashCode;
+  /// The location of the data for the dataset, either Amazon S3 or the Glue Data
+  /// Catalog.
+  final Source? source;
 
-  @override
-  String toString() => value;
-}
-
-/// Represents the JSON-specific options that define how input is to be
-/// interpreted by Glue DataBrew.
-class JsonOptions {
-  /// A value that specifies whether JSON input contains embedded new line
-  /// characters.
-  final bool? multiLine;
-
-  JsonOptions({
-    this.multiLine,
-  });
-
-  factory JsonOptions.fromJson(Map<String, dynamic> json) {
-    return JsonOptions(
-      multiLine: json['MultiLine'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final multiLine = this.multiLine;
-    return {
-      if (multiLine != null) 'MultiLine': multiLine,
-    };
-  }
-}
-
-class ListDatasetsResponse {
-  /// A list of datasets that are defined.
-  final List<Dataset> datasets;
-
-  /// A token that you can use in a subsequent call to retrieve the next set of
-  /// results.
-  final String? nextToken;
-
-  ListDatasetsResponse({
-    required this.datasets,
-    this.nextToken,
-  });
-
-  factory ListDatasetsResponse.fromJson(Map<String, dynamic> json) {
-    return ListDatasetsResponse(
-      datasets: ((json['Datasets'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => Dataset.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final datasets = this.datasets;
-    final nextToken = this.nextToken;
-    return {
-      'Datasets': datasets,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListJobRunsResponse {
-  /// A list of job runs that have occurred for the specified job.
-  final List<JobRun> jobRuns;
-
-  /// A token that you can use in a subsequent call to retrieve the next set of
-  /// results.
-  final String? nextToken;
-
-  ListJobRunsResponse({
-    required this.jobRuns,
-    this.nextToken,
-  });
-
-  factory ListJobRunsResponse.fromJson(Map<String, dynamic> json) {
-    return ListJobRunsResponse(
-      jobRuns: ((json['JobRuns'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => JobRun.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final jobRuns = this.jobRuns;
-    final nextToken = this.nextToken;
-    return {
-      'JobRuns': jobRuns,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListJobsResponse {
-  /// A list of jobs that are defined.
-  final List<Job> jobs;
-
-  /// A token that you can use in a subsequent call to retrieve the next set of
-  /// results.
-  final String? nextToken;
-
-  ListJobsResponse({
-    required this.jobs,
-    this.nextToken,
-  });
-
-  factory ListJobsResponse.fromJson(Map<String, dynamic> json) {
-    return ListJobsResponse(
-      jobs: ((json['Jobs'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => Job.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final jobs = this.jobs;
-    final nextToken = this.nextToken;
-    return {
-      'Jobs': jobs,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListProjectsResponse {
-  /// A list of projects that are defined .
-  final List<Project> projects;
-
-  /// A token that you can use in a subsequent call to retrieve the next set of
-  /// results.
-  final String? nextToken;
-
-  ListProjectsResponse({
-    required this.projects,
-    this.nextToken,
-  });
-
-  factory ListProjectsResponse.fromJson(Map<String, dynamic> json) {
-    return ListProjectsResponse(
-      projects: ((json['Projects'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => Project.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final projects = this.projects;
-    final nextToken = this.nextToken;
-    return {
-      'Projects': projects,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListRecipeVersionsResponse {
-  /// A list of versions for the specified recipe.
-  final List<Recipe> recipes;
-
-  /// A token that you can use in a subsequent call to retrieve the next set of
-  /// results.
-  final String? nextToken;
-
-  ListRecipeVersionsResponse({
-    required this.recipes,
-    this.nextToken,
-  });
-
-  factory ListRecipeVersionsResponse.fromJson(Map<String, dynamic> json) {
-    return ListRecipeVersionsResponse(
-      recipes: ((json['Recipes'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => Recipe.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final recipes = this.recipes;
-    final nextToken = this.nextToken;
-    return {
-      'Recipes': recipes,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListRecipesResponse {
-  /// A list of recipes that are defined.
-  final List<Recipe> recipes;
-
-  /// A token that you can use in a subsequent call to retrieve the next set of
-  /// results.
-  final String? nextToken;
-
-  ListRecipesResponse({
-    required this.recipes,
-    this.nextToken,
-  });
-
-  factory ListRecipesResponse.fromJson(Map<String, dynamic> json) {
-    return ListRecipesResponse(
-      recipes: ((json['Recipes'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => Recipe.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final recipes = this.recipes;
-    final nextToken = this.nextToken;
-    return {
-      'Recipes': recipes,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListRulesetsResponse {
-  /// A list of RulesetItem. RulesetItem contains meta data of a ruleset.
-  final List<RulesetItem> rulesets;
-
-  /// A token that you can use in a subsequent call to retrieve the next set of
-  /// results.
-  final String? nextToken;
-
-  ListRulesetsResponse({
-    required this.rulesets,
-    this.nextToken,
-  });
-
-  factory ListRulesetsResponse.fromJson(Map<String, dynamic> json) {
-    return ListRulesetsResponse(
-      rulesets: ((json['Rulesets'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => RulesetItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final rulesets = this.rulesets;
-    final nextToken = this.nextToken;
-    return {
-      'Rulesets': rulesets,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListSchedulesResponse {
-  /// A list of schedules that are defined.
-  final List<Schedule> schedules;
-
-  /// A token that you can use in a subsequent call to retrieve the next set of
-  /// results.
-  final String? nextToken;
-
-  ListSchedulesResponse({
-    required this.schedules,
-    this.nextToken,
-  });
-
-  factory ListSchedulesResponse.fromJson(Map<String, dynamic> json) {
-    return ListSchedulesResponse(
-      schedules: ((json['Schedules'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => Schedule.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final schedules = this.schedules;
-    final nextToken = this.nextToken;
-    return {
-      'Schedules': schedules,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListTagsForResourceResponse {
-  /// A list of tags associated with the DataBrew resource.
+  /// Metadata tags that have been applied to the dataset.
   final Map<String, String>? tags;
 
-  ListTagsForResourceResponse({
-    this.tags,
-  });
-
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
-    return ListTagsForResourceResponse(
-      tags: (json['Tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tags = this.tags;
-    return {
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-class LogSubscription {
-  static const enable = LogSubscription._('ENABLE');
-  static const disable = LogSubscription._('DISABLE');
-
-  final String value;
-
-  const LogSubscription._(this.value);
-
-  static const values = [enable, disable];
-
-  static LogSubscription fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LogSubscription._(value));
-
-  @override
-  bool operator ==(other) => other is LogSubscription && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains additional resource information needed for specific datasets.
-class Metadata {
-  /// The Amazon Resource Name (ARN) associated with the dataset. Currently,
-  /// DataBrew only supports ARNs from Amazon AppFlow.
-  final String? sourceArn;
-
-  Metadata({
-    this.sourceArn,
-  });
-
-  factory Metadata.fromJson(Map<String, dynamic> json) {
-    return Metadata(
-      sourceArn: json['SourceArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final sourceArn = this.sourceArn;
-    return {
-      if (sourceArn != null) 'SourceArn': sourceArn,
-    };
-  }
-}
-
-class Order {
-  static const descending = Order._('DESCENDING');
-  static const ascending = Order._('ASCENDING');
-
-  final String value;
-
-  const Order._(this.value);
-
-  static const values = [descending, ascending];
-
-  static Order fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Order._(value));
-
-  @override
-  bool operator ==(other) => other is Order && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class OrderedBy {
-  static const lastModifiedDate = OrderedBy._('LAST_MODIFIED_DATE');
-
-  final String value;
-
-  const OrderedBy._(this.value);
-
-  static const values = [lastModifiedDate];
-
-  static OrderedBy fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => OrderedBy._(value));
-
-  @override
-  bool operator ==(other) => other is OrderedBy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents options that specify how and where in Amazon S3 DataBrew writes
-/// the output generated by recipe jobs or profile jobs.
-class Output {
-  /// The location in Amazon S3 where the job writes its output.
-  final S3Location location;
-
-  /// The compression algorithm used to compress the output text of the job.
-  final CompressionFormat? compressionFormat;
-
-  /// The data format of the output of the job.
-  final OutputFormat? format;
-
-  /// Represents options that define how DataBrew formats job output files.
-  final OutputFormatOptions? formatOptions;
-
-  /// Maximum number of files to be generated by the job and written to the output
-  /// folder. For output partitioned by column(s), the MaxOutputFiles value is the
-  /// maximum number of files per partition.
-  final int? maxOutputFiles;
-
-  /// A value that, if true, means that any data in the location specified for
-  /// output is overwritten with new output.
-  final bool? overwrite;
-
-  /// The names of one or more partition columns for the output of the job.
-  final List<String>? partitionColumns;
-
-  Output({
-    required this.location,
-    this.compressionFormat,
+  Dataset({
+    required this.input,
+    required this.name,
+    this.accountId,
+    this.createDate,
+    this.createdBy,
     this.format,
     this.formatOptions,
-    this.maxOutputFiles,
-    this.overwrite,
-    this.partitionColumns,
+    this.lastModifiedBy,
+    this.lastModifiedDate,
+    this.pathOptions,
+    this.resourceArn,
+    this.source,
+    this.tags,
   });
 
-  factory Output.fromJson(Map<String, dynamic> json) {
-    return Output(
-      location: S3Location.fromJson(
-          (json['Location'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      compressionFormat: (json['CompressionFormat'] as String?)
-          ?.let(CompressionFormat.fromString),
-      format: (json['Format'] as String?)?.let(OutputFormat.fromString),
+  factory Dataset.fromJson(Map<String, dynamic> json) {
+    return Dataset(
+      input: Input.fromJson((json['Input'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      name: (json['Name'] as String?) ?? '',
+      accountId: json['AccountId'] as String?,
+      createDate: timeStampFromJson(json['CreateDate']),
+      createdBy: json['CreatedBy'] as String?,
+      format: (json['Format'] as String?)?.let(InputFormat.fromString),
       formatOptions: json['FormatOptions'] != null
-          ? OutputFormatOptions.fromJson(
+          ? FormatOptions.fromJson(
               json['FormatOptions'] as Map<String, dynamic>)
           : null,
-      maxOutputFiles: json['MaxOutputFiles'] as int?,
-      overwrite: json['Overwrite'] as bool?,
-      partitionColumns: (json['PartitionColumns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
+      lastModifiedBy: json['LastModifiedBy'] as String?,
+      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
+      pathOptions: json['PathOptions'] != null
+          ? PathOptions.fromJson(json['PathOptions'] as Map<String, dynamic>)
+          : null,
+      resourceArn: json['ResourceArn'] as String?,
+      source: (json['Source'] as String?)?.let(Source.fromString),
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final location = this.location;
-    final compressionFormat = this.compressionFormat;
+    final input = this.input;
+    final name = this.name;
+    final accountId = this.accountId;
+    final createDate = this.createDate;
+    final createdBy = this.createdBy;
     final format = this.format;
     final formatOptions = this.formatOptions;
-    final maxOutputFiles = this.maxOutputFiles;
-    final overwrite = this.overwrite;
-    final partitionColumns = this.partitionColumns;
+    final lastModifiedBy = this.lastModifiedBy;
+    final lastModifiedDate = this.lastModifiedDate;
+    final pathOptions = this.pathOptions;
+    final resourceArn = this.resourceArn;
+    final source = this.source;
+    final tags = this.tags;
     return {
-      'Location': location,
-      if (compressionFormat != null)
-        'CompressionFormat': compressionFormat.value,
+      'Input': input,
+      'Name': name,
+      if (accountId != null) 'AccountId': accountId,
+      if (createDate != null) 'CreateDate': unixTimestampToJson(createDate),
+      if (createdBy != null) 'CreatedBy': createdBy,
       if (format != null) 'Format': format.value,
       if (formatOptions != null) 'FormatOptions': formatOptions,
-      if (maxOutputFiles != null) 'MaxOutputFiles': maxOutputFiles,
-      if (overwrite != null) 'Overwrite': overwrite,
-      if (partitionColumns != null) 'PartitionColumns': partitionColumns,
+      if (lastModifiedBy != null) 'LastModifiedBy': lastModifiedBy,
+      if (lastModifiedDate != null)
+        'LastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (pathOptions != null) 'PathOptions': pathOptions,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+      if (source != null) 'Source': source.value,
+      if (tags != null) 'Tags': tags,
     };
   }
 }
 
-class OutputFormat {
-  static const csv = OutputFormat._('CSV');
-  static const json = OutputFormat._('JSON');
-  static const parquet = OutputFormat._('PARQUET');
-  static const glueparquet = OutputFormat._('GLUEPARQUET');
-  static const avro = OutputFormat._('AVRO');
-  static const orc = OutputFormat._('ORC');
-  static const xml = OutputFormat._('XML');
-  static const tableauhyper = OutputFormat._('TABLEAUHYPER');
+class Source {
+  static const s3 = Source._('S3');
+  static const dataCatalog = Source._('DATA-CATALOG');
+  static const database = Source._('DATABASE');
 
   final String value;
 
-  const OutputFormat._(this.value);
+  const Source._(this.value);
 
-  static const values = [
-    csv,
-    json,
-    parquet,
-    glueparquet,
-    avro,
-    orc,
-    xml,
-    tableauhyper
-  ];
+  static const values = [s3, dataCatalog, database];
 
-  static OutputFormat fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => OutputFormat._(value));
+  static Source fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Source._(value));
 
   @override
-  bool operator ==(other) => other is OutputFormat && other.value == value;
+  bool operator ==(other) => other is Source && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
-}
-
-/// Represents a set of options that define the structure of comma-separated
-/// (CSV) job output.
-class OutputFormatOptions {
-  /// Represents a set of options that define the structure of comma-separated
-  /// value (CSV) job output.
-  final CsvOutputOptions? csv;
-
-  OutputFormatOptions({
-    this.csv,
-  });
-
-  factory OutputFormatOptions.fromJson(Map<String, dynamic> json) {
-    return OutputFormatOptions(
-      csv: json['Csv'] != null
-          ? CsvOutputOptions.fromJson(json['Csv'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final csv = this.csv;
-    return {
-      if (csv != null) 'Csv': csv,
-    };
-  }
-}
-
-class ParameterType {
-  static const datetime = ParameterType._('Datetime');
-  static const number = ParameterType._('Number');
-  static const string = ParameterType._('String');
-
-  final String value;
-
-  const ParameterType._(this.value);
-
-  static const values = [datetime, number, string];
-
-  static ParameterType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ParameterType._(value));
-
-  @override
-  bool operator ==(other) => other is ParameterType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents a set of options that define how DataBrew selects files for a
-/// given Amazon S3 path in a dataset.
-class PathOptions {
-  /// If provided, this structure imposes a limit on a number of files that should
-  /// be selected.
-  final FilesLimit? filesLimit;
-
-  /// If provided, this structure defines a date range for matching Amazon S3
-  /// objects based on their LastModifiedDate attribute in Amazon S3.
-  final FilterExpression? lastModifiedDateCondition;
-
-  /// A structure that maps names of parameters used in the Amazon S3 path of a
-  /// dataset to their definitions.
-  final Map<String, DatasetParameter>? parameters;
-
-  PathOptions({
-    this.filesLimit,
-    this.lastModifiedDateCondition,
-    this.parameters,
-  });
-
-  factory PathOptions.fromJson(Map<String, dynamic> json) {
-    return PathOptions(
-      filesLimit: json['FilesLimit'] != null
-          ? FilesLimit.fromJson(json['FilesLimit'] as Map<String, dynamic>)
-          : null,
-      lastModifiedDateCondition: json['LastModifiedDateCondition'] != null
-          ? FilterExpression.fromJson(
-              json['LastModifiedDateCondition'] as Map<String, dynamic>)
-          : null,
-      parameters: (json['Parameters'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(k, DatasetParameter.fromJson(e as Map<String, dynamic>))),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final filesLimit = this.filesLimit;
-    final lastModifiedDateCondition = this.lastModifiedDateCondition;
-    final parameters = this.parameters;
-    return {
-      if (filesLimit != null) 'FilesLimit': filesLimit,
-      if (lastModifiedDateCondition != null)
-        'LastModifiedDateCondition': lastModifiedDateCondition,
-      if (parameters != null) 'Parameters': parameters,
-    };
-  }
-}
-
-/// Configuration for profile jobs. Configuration can be used to select columns,
-/// do evaluations, and override default parameters of evaluations. When
-/// configuration is undefined, the profile job will apply default settings to
-/// all supported columns.
-class ProfileConfiguration {
-  /// List of configurations for column evaluations.
-  /// ColumnStatisticsConfigurations are used to select evaluations and override
-  /// parameters of evaluations for particular columns. When
-  /// ColumnStatisticsConfigurations is undefined, the profile job will profile
-  /// all supported columns and run all supported evaluations.
-  final List<ColumnStatisticsConfiguration>? columnStatisticsConfigurations;
-
-  /// Configuration for inter-column evaluations. Configuration can be used to
-  /// select evaluations and override parameters of evaluations. When
-  /// configuration is undefined, the profile job will run all supported
-  /// inter-column evaluations.
-  final StatisticsConfiguration? datasetStatisticsConfiguration;
-
-  /// Configuration of entity detection for a profile job. When undefined, entity
-  /// detection is disabled.
-  final EntityDetectorConfiguration? entityDetectorConfiguration;
-
-  /// List of column selectors. ProfileColumns can be used to select columns from
-  /// the dataset. When ProfileColumns is undefined, the profile job will profile
-  /// all supported columns.
-  final List<ColumnSelector>? profileColumns;
-
-  ProfileConfiguration({
-    this.columnStatisticsConfigurations,
-    this.datasetStatisticsConfiguration,
-    this.entityDetectorConfiguration,
-    this.profileColumns,
-  });
-
-  factory ProfileConfiguration.fromJson(Map<String, dynamic> json) {
-    return ProfileConfiguration(
-      columnStatisticsConfigurations: (json['ColumnStatisticsConfigurations']
-              as List?)
-          ?.nonNulls
-          .map((e) =>
-              ColumnStatisticsConfiguration.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      datasetStatisticsConfiguration: json['DatasetStatisticsConfiguration'] !=
-              null
-          ? StatisticsConfiguration.fromJson(
-              json['DatasetStatisticsConfiguration'] as Map<String, dynamic>)
-          : null,
-      entityDetectorConfiguration: json['EntityDetectorConfiguration'] != null
-          ? EntityDetectorConfiguration.fromJson(
-              json['EntityDetectorConfiguration'] as Map<String, dynamic>)
-          : null,
-      profileColumns: (json['ProfileColumns'] as List?)
-          ?.nonNulls
-          .map((e) => ColumnSelector.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final columnStatisticsConfigurations = this.columnStatisticsConfigurations;
-    final datasetStatisticsConfiguration = this.datasetStatisticsConfiguration;
-    final entityDetectorConfiguration = this.entityDetectorConfiguration;
-    final profileColumns = this.profileColumns;
-    return {
-      if (columnStatisticsConfigurations != null)
-        'ColumnStatisticsConfigurations': columnStatisticsConfigurations,
-      if (datasetStatisticsConfiguration != null)
-        'DatasetStatisticsConfiguration': datasetStatisticsConfiguration,
-      if (entityDetectorConfiguration != null)
-        'EntityDetectorConfiguration': entityDetectorConfiguration,
-      if (profileColumns != null) 'ProfileColumns': profileColumns,
-    };
-  }
-}
-
-/// Represents all of the attributes of a DataBrew project.
-class Project {
-  /// The unique name of a project.
-  final String name;
-
-  /// The name of a recipe that will be developed during a project session.
-  final String recipeName;
-
-  /// The ID of the Amazon Web Services account that owns the project.
-  final String? accountId;
-
-  /// The date and time that the project was created.
-  final DateTime? createDate;
-
-  /// The Amazon Resource Name (ARN) of the user who crated the project.
-  final String? createdBy;
-
-  /// The dataset that the project is to act upon.
-  final String? datasetName;
-
-  /// The Amazon Resource Name (ARN) of the user who last modified the project.
-  final String? lastModifiedBy;
-
-  /// The last modification date and time for the project.
-  final DateTime? lastModifiedDate;
-
-  /// The date and time when the project was opened.
-  final DateTime? openDate;
-
-  /// The Amazon Resource Name (ARN) of the user that opened the project for use.
-  final String? openedBy;
-
-  /// The Amazon Resource Name (ARN) for the project.
-  final String? resourceArn;
-
-  /// The Amazon Resource Name (ARN) of the role that will be assumed for this
-  /// project.
-  final String? roleArn;
-
-  /// The sample size and sampling type to apply to the data. If this parameter
-  /// isn't specified, then the sample consists of the first 500 rows from the
-  /// dataset.
-  final Sample? sample;
-
-  /// Metadata tags that have been applied to the project.
-  final Map<String, String>? tags;
-
-  Project({
-    required this.name,
-    required this.recipeName,
-    this.accountId,
-    this.createDate,
-    this.createdBy,
-    this.datasetName,
-    this.lastModifiedBy,
-    this.lastModifiedDate,
-    this.openDate,
-    this.openedBy,
-    this.resourceArn,
-    this.roleArn,
-    this.sample,
-    this.tags,
-  });
-
-  factory Project.fromJson(Map<String, dynamic> json) {
-    return Project(
-      name: (json['Name'] as String?) ?? '',
-      recipeName: (json['RecipeName'] as String?) ?? '',
-      accountId: json['AccountId'] as String?,
-      createDate: timeStampFromJson(json['CreateDate']),
-      createdBy: json['CreatedBy'] as String?,
-      datasetName: json['DatasetName'] as String?,
-      lastModifiedBy: json['LastModifiedBy'] as String?,
-      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
-      openDate: timeStampFromJson(json['OpenDate']),
-      openedBy: json['OpenedBy'] as String?,
-      resourceArn: json['ResourceArn'] as String?,
-      roleArn: json['RoleArn'] as String?,
-      sample: json['Sample'] != null
-          ? Sample.fromJson(json['Sample'] as Map<String, dynamic>)
-          : null,
-      tags: (json['Tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final recipeName = this.recipeName;
-    final accountId = this.accountId;
-    final createDate = this.createDate;
-    final createdBy = this.createdBy;
-    final datasetName = this.datasetName;
-    final lastModifiedBy = this.lastModifiedBy;
-    final lastModifiedDate = this.lastModifiedDate;
-    final openDate = this.openDate;
-    final openedBy = this.openedBy;
-    final resourceArn = this.resourceArn;
-    final roleArn = this.roleArn;
-    final sample = this.sample;
-    final tags = this.tags;
-    return {
-      'Name': name,
-      'RecipeName': recipeName,
-      if (accountId != null) 'AccountId': accountId,
-      if (createDate != null) 'CreateDate': unixTimestampToJson(createDate),
-      if (createdBy != null) 'CreatedBy': createdBy,
-      if (datasetName != null) 'DatasetName': datasetName,
-      if (lastModifiedBy != null) 'LastModifiedBy': lastModifiedBy,
-      if (lastModifiedDate != null)
-        'LastModifiedDate': unixTimestampToJson(lastModifiedDate),
-      if (openDate != null) 'OpenDate': unixTimestampToJson(openDate),
-      if (openedBy != null) 'OpenedBy': openedBy,
-      if (resourceArn != null) 'ResourceArn': resourceArn,
-      if (roleArn != null) 'RoleArn': roleArn,
-      if (sample != null) 'Sample': sample,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-class PublishRecipeResponse {
-  /// The name of the recipe that you published.
-  final String name;
-
-  PublishRecipeResponse({
-    required this.name,
-  });
-
-  factory PublishRecipeResponse.fromJson(Map<String, dynamic> json) {
-    return PublishRecipeResponse(
-      name: (json['Name'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    return {
-      'Name': name,
-    };
-  }
-}
-
-/// Represents one or more actions to be performed on a DataBrew dataset.
-class Recipe {
-  /// The unique name for the recipe.
-  final String name;
-
-  /// The date and time that the recipe was created.
-  final DateTime? createDate;
-
-  /// The Amazon Resource Name (ARN) of the user who created the recipe.
-  final String? createdBy;
-
-  /// The description of the recipe.
-  final String? description;
-
-  /// The Amazon Resource Name (ARN) of the user who last modified the recipe.
-  final String? lastModifiedBy;
-
-  /// The last modification date and time of the recipe.
-  final DateTime? lastModifiedDate;
-
-  /// The name of the project that the recipe is associated with.
-  final String? projectName;
-
-  /// The Amazon Resource Name (ARN) of the user who published the recipe.
-  final String? publishedBy;
-
-  /// The date and time when the recipe was published.
-  final DateTime? publishedDate;
-
-  /// The identifier for the version for the recipe. Must be one of the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// Numeric version (<code>X.Y</code>) - <code>X</code> and <code>Y</code> stand
-  /// for major and minor version numbers. The maximum length of each is 6 digits,
-  /// and neither can be negative values. Both <code>X</code> and <code>Y</code>
-  /// are required, and "0.0" isn't a valid version.
-  /// </li>
-  /// <li>
-  /// <code>LATEST_WORKING</code> - the most recent valid version being developed
-  /// in a DataBrew project.
-  /// </li>
-  /// <li>
-  /// <code>LATEST_PUBLISHED</code> - the most recent published version.
-  /// </li>
-  /// </ul>
-  final String? recipeVersion;
-
-  /// The Amazon Resource Name (ARN) for the recipe.
-  final String? resourceArn;
-
-  /// A list of steps that are defined by the recipe.
-  final List<RecipeStep>? steps;
-
-  /// Metadata tags that have been applied to the recipe.
-  final Map<String, String>? tags;
-
-  Recipe({
-    required this.name,
-    this.createDate,
-    this.createdBy,
-    this.description,
-    this.lastModifiedBy,
-    this.lastModifiedDate,
-    this.projectName,
-    this.publishedBy,
-    this.publishedDate,
-    this.recipeVersion,
-    this.resourceArn,
-    this.steps,
-    this.tags,
-  });
-
-  factory Recipe.fromJson(Map<String, dynamic> json) {
-    return Recipe(
-      name: (json['Name'] as String?) ?? '',
-      createDate: timeStampFromJson(json['CreateDate']),
-      createdBy: json['CreatedBy'] as String?,
-      description: json['Description'] as String?,
-      lastModifiedBy: json['LastModifiedBy'] as String?,
-      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
-      projectName: json['ProjectName'] as String?,
-      publishedBy: json['PublishedBy'] as String?,
-      publishedDate: timeStampFromJson(json['PublishedDate']),
-      recipeVersion: json['RecipeVersion'] as String?,
-      resourceArn: json['ResourceArn'] as String?,
-      steps: (json['Steps'] as List?)
-          ?.nonNulls
-          .map((e) => RecipeStep.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      tags: (json['Tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final createDate = this.createDate;
-    final createdBy = this.createdBy;
-    final description = this.description;
-    final lastModifiedBy = this.lastModifiedBy;
-    final lastModifiedDate = this.lastModifiedDate;
-    final projectName = this.projectName;
-    final publishedBy = this.publishedBy;
-    final publishedDate = this.publishedDate;
-    final recipeVersion = this.recipeVersion;
-    final resourceArn = this.resourceArn;
-    final steps = this.steps;
-    final tags = this.tags;
-    return {
-      'Name': name,
-      if (createDate != null) 'CreateDate': unixTimestampToJson(createDate),
-      if (createdBy != null) 'CreatedBy': createdBy,
-      if (description != null) 'Description': description,
-      if (lastModifiedBy != null) 'LastModifiedBy': lastModifiedBy,
-      if (lastModifiedDate != null)
-        'LastModifiedDate': unixTimestampToJson(lastModifiedDate),
-      if (projectName != null) 'ProjectName': projectName,
-      if (publishedBy != null) 'PublishedBy': publishedBy,
-      if (publishedDate != null)
-        'PublishedDate': unixTimestampToJson(publishedDate),
-      if (recipeVersion != null) 'RecipeVersion': recipeVersion,
-      if (resourceArn != null) 'ResourceArn': resourceArn,
-      if (steps != null) 'Steps': steps,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-/// Represents a transformation and associated parameters that are used to apply
-/// a change to a DataBrew dataset. For more information, see <a
-/// href="https://docs.aws.amazon.com/databrew/latest/dg/recipe-actions-reference.html">Recipe
-/// actions reference</a>.
-class RecipeAction {
-  /// The name of a valid DataBrew transformation to be performed on the data.
-  final String operation;
-
-  /// Contextual parameters for the transformation.
-  final Map<String, String>? parameters;
-
-  RecipeAction({
-    required this.operation,
-    this.parameters,
-  });
-
-  factory RecipeAction.fromJson(Map<String, dynamic> json) {
-    return RecipeAction(
-      operation: (json['Operation'] as String?) ?? '',
-      parameters: (json['Parameters'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final operation = this.operation;
-    final parameters = this.parameters;
-    return {
-      'Operation': operation,
-      if (parameters != null) 'Parameters': parameters,
-    };
-  }
-}
-
-/// Represents the name and version of a DataBrew recipe.
-class RecipeReference {
-  /// The name of the recipe.
-  final String name;
-
-  /// The identifier for the version for the recipe.
-  final String? recipeVersion;
-
-  RecipeReference({
-    required this.name,
-    this.recipeVersion,
-  });
-
-  factory RecipeReference.fromJson(Map<String, dynamic> json) {
-    return RecipeReference(
-      name: (json['Name'] as String?) ?? '',
-      recipeVersion: json['RecipeVersion'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final recipeVersion = this.recipeVersion;
-    return {
-      'Name': name,
-      if (recipeVersion != null) 'RecipeVersion': recipeVersion,
-    };
-  }
-}
-
-/// Represents a single step from a DataBrew recipe to be performed.
-class RecipeStep {
-  /// The particular action to be performed in the recipe step.
-  final RecipeAction action;
-
-  /// One or more conditions that must be met for the recipe step to succeed.
-  /// <note>
-  /// All of the conditions in the array must be met. In other words, all of the
-  /// conditions must be combined using a logical AND operation.
-  /// </note>
-  final List<ConditionExpression>? conditionExpressions;
-
-  RecipeStep({
-    required this.action,
-    this.conditionExpressions,
-  });
-
-  factory RecipeStep.fromJson(Map<String, dynamic> json) {
-    return RecipeStep(
-      action: RecipeAction.fromJson((json['Action'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-      conditionExpressions: (json['ConditionExpressions'] as List?)
-          ?.nonNulls
-          .map((e) => ConditionExpression.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final action = this.action;
-    final conditionExpressions = this.conditionExpressions;
-    return {
-      'Action': action,
-      if (conditionExpressions != null)
-        'ConditionExpressions': conditionExpressions,
-    };
-  }
-}
-
-/// Represents any errors encountered when attempting to delete multiple recipe
-/// versions.
-class RecipeVersionErrorDetail {
-  /// The HTTP status code for the error.
-  final String? errorCode;
-
-  /// The text of the error message.
-  final String? errorMessage;
-
-  /// The identifier for the recipe version associated with this error.
-  final String? recipeVersion;
-
-  RecipeVersionErrorDetail({
-    this.errorCode,
-    this.errorMessage,
-    this.recipeVersion,
-  });
-
-  factory RecipeVersionErrorDetail.fromJson(Map<String, dynamic> json) {
-    return RecipeVersionErrorDetail(
-      errorCode: json['ErrorCode'] as String?,
-      errorMessage: json['ErrorMessage'] as String?,
-      recipeVersion: json['RecipeVersion'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    final recipeVersion = this.recipeVersion;
-    return {
-      if (errorCode != null) 'ErrorCode': errorCode,
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-      if (recipeVersion != null) 'RecipeVersion': recipeVersion,
-    };
-  }
-}
-
-/// Represents a single data quality requirement that should be validated in the
-/// scope of this dataset.
-class Rule {
-  /// The expression which includes column references, condition names followed by
-  /// variable references, possibly grouped and combined with other conditions.
-  /// For example, <code>(:col1 starts_with :prefix1 or :col1 starts_with
-  /// :prefix2) and (:col1 ends_with :suffix1 or :col1 ends_with :suffix2)</code>.
-  /// Column and value references are substitution variables that should start
-  /// with the ':' symbol. Depending on the context, substitution variables'
-  /// values can be either an actual value or a column name. These values are
-  /// defined in the SubstitutionMap. If a CheckExpression starts with a column
-  /// reference, then ColumnSelectors in the rule should be null. If
-  /// ColumnSelectors has been defined, then there should be no column reference
-  /// in the left side of a condition, for example, <code>is_between :val1 and
-  /// :val2</code>.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/databrew/latest/dg/profile.data-quality-available-checks.html">Available
-  /// checks</a>
-  final String checkExpression;
-
-  /// The name of the rule.
-  final String name;
-
-  /// List of column selectors. Selectors can be used to select columns using a
-  /// name or regular expression from the dataset. Rule will be applied to
-  /// selected columns.
-  final List<ColumnSelector>? columnSelectors;
-
-  /// A value that specifies whether the rule is disabled. Once a rule is
-  /// disabled, a profile job will not validate it during a job run. Default value
-  /// is false.
-  final bool? disabled;
-
-  /// The map of substitution variable names to their values used in a check
-  /// expression. Variable names should start with a ':' (colon). Variable values
-  /// can either be actual values or column names. To differentiate between the
-  /// two, column names should be enclosed in backticks, for example,
-  /// <code>":col1": "`Column A`".</code>
-  final Map<String, String>? substitutionMap;
-
-  /// The threshold used with a non-aggregate check expression. Non-aggregate
-  /// check expressions will be applied to each row in a specific column, and the
-  /// threshold will be used to determine whether the validation succeeds.
-  final Threshold? threshold;
-
-  Rule({
-    required this.checkExpression,
-    required this.name,
-    this.columnSelectors,
-    this.disabled,
-    this.substitutionMap,
-    this.threshold,
-  });
-
-  factory Rule.fromJson(Map<String, dynamic> json) {
-    return Rule(
-      checkExpression: (json['CheckExpression'] as String?) ?? '',
-      name: (json['Name'] as String?) ?? '',
-      columnSelectors: (json['ColumnSelectors'] as List?)
-          ?.nonNulls
-          .map((e) => ColumnSelector.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      disabled: json['Disabled'] as bool?,
-      substitutionMap: (json['SubstitutionMap'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      threshold: json['Threshold'] != null
-          ? Threshold.fromJson(json['Threshold'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final checkExpression = this.checkExpression;
-    final name = this.name;
-    final columnSelectors = this.columnSelectors;
-    final disabled = this.disabled;
-    final substitutionMap = this.substitutionMap;
-    final threshold = this.threshold;
-    return {
-      'CheckExpression': checkExpression,
-      'Name': name,
-      if (columnSelectors != null) 'ColumnSelectors': columnSelectors,
-      if (disabled != null) 'Disabled': disabled,
-      if (substitutionMap != null) 'SubstitutionMap': substitutionMap,
-      if (threshold != null) 'Threshold': threshold,
-    };
-  }
-}
-
-/// Contains metadata about the ruleset.
-class RulesetItem {
-  /// The name of the ruleset.
-  final String name;
-
-  /// The Amazon Resource Name (ARN) of a resource (dataset) that the ruleset is
-  /// associated with.
-  final String targetArn;
-
-  /// The ID of the Amazon Web Services account that owns the ruleset.
-  final String? accountId;
-
-  /// The date and time that the ruleset was created.
-  final DateTime? createDate;
-
-  /// The Amazon Resource Name (ARN) of the user who created the ruleset.
-  final String? createdBy;
-
-  /// The description of the ruleset.
-  final String? description;
-
-  /// The Amazon Resource Name (ARN) of the user who last modified the ruleset.
-  final String? lastModifiedBy;
-
-  /// The modification date and time of the ruleset.
-  final DateTime? lastModifiedDate;
-
-  /// The Amazon Resource Name (ARN) for the ruleset.
-  final String? resourceArn;
-
-  /// The number of rules that are defined in the ruleset.
-  final int? ruleCount;
-
-  /// Metadata tags that have been applied to the ruleset.
-  final Map<String, String>? tags;
-
-  RulesetItem({
-    required this.name,
-    required this.targetArn,
-    this.accountId,
-    this.createDate,
-    this.createdBy,
-    this.description,
-    this.lastModifiedBy,
-    this.lastModifiedDate,
-    this.resourceArn,
-    this.ruleCount,
-    this.tags,
-  });
-
-  factory RulesetItem.fromJson(Map<String, dynamic> json) {
-    return RulesetItem(
-      name: (json['Name'] as String?) ?? '',
-      targetArn: (json['TargetArn'] as String?) ?? '',
-      accountId: json['AccountId'] as String?,
-      createDate: timeStampFromJson(json['CreateDate']),
-      createdBy: json['CreatedBy'] as String?,
-      description: json['Description'] as String?,
-      lastModifiedBy: json['LastModifiedBy'] as String?,
-      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
-      resourceArn: json['ResourceArn'] as String?,
-      ruleCount: json['RuleCount'] as int?,
-      tags: (json['Tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final targetArn = this.targetArn;
-    final accountId = this.accountId;
-    final createDate = this.createDate;
-    final createdBy = this.createdBy;
-    final description = this.description;
-    final lastModifiedBy = this.lastModifiedBy;
-    final lastModifiedDate = this.lastModifiedDate;
-    final resourceArn = this.resourceArn;
-    final ruleCount = this.ruleCount;
-    final tags = this.tags;
-    return {
-      'Name': name,
-      'TargetArn': targetArn,
-      if (accountId != null) 'AccountId': accountId,
-      if (createDate != null) 'CreateDate': unixTimestampToJson(createDate),
-      if (createdBy != null) 'CreatedBy': createdBy,
-      if (description != null) 'Description': description,
-      if (lastModifiedBy != null) 'LastModifiedBy': lastModifiedBy,
-      if (lastModifiedDate != null)
-        'LastModifiedDate': unixTimestampToJson(lastModifiedDate),
-      if (resourceArn != null) 'ResourceArn': resourceArn,
-      if (ruleCount != null) 'RuleCount': ruleCount,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-/// Represents an Amazon S3 location (bucket name, bucket owner, and object key)
-/// where DataBrew can read input data, or write output from a job.
-class S3Location {
-  /// The Amazon S3 bucket name.
-  final String bucket;
-
-  /// The Amazon Web Services account ID of the bucket owner.
-  final String? bucketOwner;
-
-  /// The unique name of the object in the bucket.
-  final String? key;
-
-  S3Location({
-    required this.bucket,
-    this.bucketOwner,
-    this.key,
-  });
-
-  factory S3Location.fromJson(Map<String, dynamic> json) {
-    return S3Location(
-      bucket: (json['Bucket'] as String?) ?? '',
-      bucketOwner: json['BucketOwner'] as String?,
-      key: json['Key'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucket = this.bucket;
-    final bucketOwner = this.bucketOwner;
-    final key = this.key;
-    return {
-      'Bucket': bucket,
-      if (bucketOwner != null) 'BucketOwner': bucketOwner,
-      if (key != null) 'Key': key,
-    };
-  }
-}
-
-/// Represents options that specify how and where DataBrew writes the Amazon S3
-/// output generated by recipe jobs.
-class S3TableOutputOptions {
-  /// Represents an Amazon S3 location (bucket name and object key) where DataBrew
-  /// can write output from a job.
-  final S3Location location;
-
-  S3TableOutputOptions({
-    required this.location,
-  });
-
-  factory S3TableOutputOptions.fromJson(Map<String, dynamic> json) {
-    return S3TableOutputOptions(
-      location: S3Location.fromJson(
-          (json['Location'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final location = this.location;
-    return {
-      'Location': location,
-    };
-  }
-}
-
-/// Represents the sample size and sampling type for DataBrew to use for
-/// interactive data analysis.
-class Sample {
-  /// The way in which DataBrew obtains rows from a dataset.
-  final SampleType type;
-
-  /// The number of rows in the sample.
-  final int? size;
-
-  Sample({
-    required this.type,
-    this.size,
-  });
-
-  factory Sample.fromJson(Map<String, dynamic> json) {
-    return Sample(
-      type: SampleType.fromString((json['Type'] as String?) ?? ''),
-      size: json['Size'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final type = this.type;
-    final size = this.size;
-    return {
-      'Type': type.value,
-      if (size != null) 'Size': size,
-    };
-  }
-}
-
-class SampleMode {
-  static const fullDataset = SampleMode._('FULL_DATASET');
-  static const customRows = SampleMode._('CUSTOM_ROWS');
-
-  final String value;
-
-  const SampleMode._(this.value);
-
-  static const values = [fullDataset, customRows];
-
-  static SampleMode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SampleMode._(value));
-
-  @override
-  bool operator ==(other) => other is SampleMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class SampleType {
-  static const firstN = SampleType._('FIRST_N');
-  static const lastN = SampleType._('LAST_N');
-  static const random = SampleType._('RANDOM');
-
-  final String value;
-
-  const SampleType._(this.value);
-
-  static const values = [firstN, lastN, random];
-
-  static SampleType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SampleType._(value));
-
-  @override
-  bool operator ==(other) => other is SampleType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents one or more dates and times when a job is to run.
-class Schedule {
-  /// The name of the schedule.
-  final String name;
-
-  /// The ID of the Amazon Web Services account that owns the schedule.
-  final String? accountId;
-
-  /// The date and time that the schedule was created.
-  final DateTime? createDate;
-
-  /// The Amazon Resource Name (ARN) of the user who created the schedule.
-  final String? createdBy;
-
-  /// The dates and times when the job is to run. For more information, see <a
-  /// href="https://docs.aws.amazon.com/databrew/latest/dg/jobs.cron.html">Cron
-  /// expressions</a> in the <i>Glue DataBrew Developer Guide</i>.
-  final String? cronExpression;
-
-  /// A list of jobs to be run, according to the schedule.
-  final List<String>? jobNames;
-
-  /// The Amazon Resource Name (ARN) of the user who last modified the schedule.
-  final String? lastModifiedBy;
-
-  /// The date and time when the schedule was last modified.
-  final DateTime? lastModifiedDate;
-
-  /// The Amazon Resource Name (ARN) of the schedule.
-  final String? resourceArn;
-
-  /// Metadata tags that have been applied to the schedule.
-  final Map<String, String>? tags;
-
-  Schedule({
-    required this.name,
-    this.accountId,
-    this.createDate,
-    this.createdBy,
-    this.cronExpression,
-    this.jobNames,
-    this.lastModifiedBy,
-    this.lastModifiedDate,
-    this.resourceArn,
-    this.tags,
-  });
-
-  factory Schedule.fromJson(Map<String, dynamic> json) {
-    return Schedule(
-      name: (json['Name'] as String?) ?? '',
-      accountId: json['AccountId'] as String?,
-      createDate: timeStampFromJson(json['CreateDate']),
-      createdBy: json['CreatedBy'] as String?,
-      cronExpression: json['CronExpression'] as String?,
-      jobNames: (json['JobNames'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      lastModifiedBy: json['LastModifiedBy'] as String?,
-      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
-      resourceArn: json['ResourceArn'] as String?,
-      tags: (json['Tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final accountId = this.accountId;
-    final createDate = this.createDate;
-    final createdBy = this.createdBy;
-    final cronExpression = this.cronExpression;
-    final jobNames = this.jobNames;
-    final lastModifiedBy = this.lastModifiedBy;
-    final lastModifiedDate = this.lastModifiedDate;
-    final resourceArn = this.resourceArn;
-    final tags = this.tags;
-    return {
-      'Name': name,
-      if (accountId != null) 'AccountId': accountId,
-      if (createDate != null) 'CreateDate': unixTimestampToJson(createDate),
-      if (createdBy != null) 'CreatedBy': createdBy,
-      if (cronExpression != null) 'CronExpression': cronExpression,
-      if (jobNames != null) 'JobNames': jobNames,
-      if (lastModifiedBy != null) 'LastModifiedBy': lastModifiedBy,
-      if (lastModifiedDate != null)
-        'LastModifiedDate': unixTimestampToJson(lastModifiedDate),
-      if (resourceArn != null) 'ResourceArn': resourceArn,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-class SendProjectSessionActionResponse {
-  /// The name of the project that was affected by the action.
-  final String name;
-
-  /// A unique identifier for the action that was performed.
-  final int? actionId;
-
-  /// A message indicating the result of performing the action.
-  final String? result;
-
-  SendProjectSessionActionResponse({
-    required this.name,
-    this.actionId,
-    this.result,
-  });
-
-  factory SendProjectSessionActionResponse.fromJson(Map<String, dynamic> json) {
-    return SendProjectSessionActionResponse(
-      name: (json['Name'] as String?) ?? '',
-      actionId: json['ActionId'] as int?,
-      result: json['Result'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final actionId = this.actionId;
-    final result = this.result;
-    return {
-      'Name': name,
-      if (actionId != null) 'ActionId': actionId,
-      if (result != null) 'Result': result,
-    };
-  }
 }
 
 class SessionStatus {
@@ -6335,563 +6857,40 @@ class SessionStatus {
   String toString() => value;
 }
 
-class Source {
-  static const s3 = Source._('S3');
-  static const dataCatalog = Source._('DATA-CATALOG');
-  static const database = Source._('DATABASE');
+/// Represents any errors encountered when attempting to delete multiple recipe
+/// versions.
+class RecipeVersionErrorDetail {
+  /// The HTTP status code for the error.
+  final String? errorCode;
 
-  final String value;
+  /// The text of the error message.
+  final String? errorMessage;
 
-  const Source._(this.value);
+  /// The identifier for the recipe version associated with this error.
+  final String? recipeVersion;
 
-  static const values = [s3, dataCatalog, database];
-
-  static Source fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Source._(value));
-
-  @override
-  bool operator ==(other) => other is Source && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class StartJobRunResponse {
-  /// A system-generated identifier for this particular job run.
-  final String runId;
-
-  StartJobRunResponse({
-    required this.runId,
+  RecipeVersionErrorDetail({
+    this.errorCode,
+    this.errorMessage,
+    this.recipeVersion,
   });
 
-  factory StartJobRunResponse.fromJson(Map<String, dynamic> json) {
-    return StartJobRunResponse(
-      runId: (json['RunId'] as String?) ?? '',
+  factory RecipeVersionErrorDetail.fromJson(Map<String, dynamic> json) {
+    return RecipeVersionErrorDetail(
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      recipeVersion: json['RecipeVersion'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final runId = this.runId;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final recipeVersion = this.recipeVersion;
     return {
-      'RunId': runId,
-    };
-  }
-}
-
-class StartProjectSessionResponse {
-  /// The name of the project to be acted upon.
-  final String name;
-
-  /// A system-generated identifier for the session.
-  final String? clientSessionId;
-
-  StartProjectSessionResponse({
-    required this.name,
-    this.clientSessionId,
-  });
-
-  factory StartProjectSessionResponse.fromJson(Map<String, dynamic> json) {
-    return StartProjectSessionResponse(
-      name: (json['Name'] as String?) ?? '',
-      clientSessionId: json['ClientSessionId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final clientSessionId = this.clientSessionId;
-    return {
-      'Name': name,
-      if (clientSessionId != null) 'ClientSessionId': clientSessionId,
-    };
-  }
-}
-
-/// Override of a particular evaluation for a profile job.
-class StatisticOverride {
-  /// A map that includes overrides of an evaluation’s parameters.
-  final Map<String, String> parameters;
-
-  /// The name of an evaluation
-  final String statistic;
-
-  StatisticOverride({
-    required this.parameters,
-    required this.statistic,
-  });
-
-  factory StatisticOverride.fromJson(Map<String, dynamic> json) {
-    return StatisticOverride(
-      parameters: ((json['Parameters'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{})
-          .map((k, e) => MapEntry(k, e as String)),
-      statistic: (json['Statistic'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final parameters = this.parameters;
-    final statistic = this.statistic;
-    return {
-      'Parameters': parameters,
-      'Statistic': statistic,
-    };
-  }
-}
-
-/// Configuration of evaluations for a profile job. This configuration can be
-/// used to select evaluations and override the parameters of selected
-/// evaluations.
-class StatisticsConfiguration {
-  /// List of included evaluations. When the list is undefined, all supported
-  /// evaluations will be included.
-  final List<String>? includedStatistics;
-
-  /// List of overrides for evaluations.
-  final List<StatisticOverride>? overrides;
-
-  StatisticsConfiguration({
-    this.includedStatistics,
-    this.overrides,
-  });
-
-  factory StatisticsConfiguration.fromJson(Map<String, dynamic> json) {
-    return StatisticsConfiguration(
-      includedStatistics: (json['IncludedStatistics'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      overrides: (json['Overrides'] as List?)
-          ?.nonNulls
-          .map((e) => StatisticOverride.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final includedStatistics = this.includedStatistics;
-    final overrides = this.overrides;
-    return {
-      if (includedStatistics != null) 'IncludedStatistics': includedStatistics,
-      if (overrides != null) 'Overrides': overrides,
-    };
-  }
-}
-
-class StopJobRunResponse {
-  /// The ID of the job run that you stopped.
-  final String runId;
-
-  StopJobRunResponse({
-    required this.runId,
-  });
-
-  factory StopJobRunResponse.fromJson(Map<String, dynamic> json) {
-    return StopJobRunResponse(
-      runId: (json['RunId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final runId = this.runId;
-    return {
-      'RunId': runId,
-    };
-  }
-}
-
-class TagResourceResponse {
-  TagResourceResponse();
-
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// The threshold used with a non-aggregate check expression. The non-aggregate
-/// check expression will be applied to each row in a specific column. Then the
-/// threshold will be used to determine whether the validation succeeds.
-class Threshold {
-  /// The value of a threshold.
-  final double value;
-
-  /// The type of a threshold. Used for comparison of an actual count of rows that
-  /// satisfy the rule to the threshold value.
-  final ThresholdType? type;
-
-  /// Unit of threshold value. Can be either a COUNT or PERCENTAGE of the full
-  /// sample size used for validation.
-  final ThresholdUnit? unit;
-
-  Threshold({
-    required this.value,
-    this.type,
-    this.unit,
-  });
-
-  factory Threshold.fromJson(Map<String, dynamic> json) {
-    return Threshold(
-      value: (json['Value'] as double?) ?? 0,
-      type: (json['Type'] as String?)?.let(ThresholdType.fromString),
-      unit: (json['Unit'] as String?)?.let(ThresholdUnit.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final value = this.value;
-    final type = this.type;
-    final unit = this.unit;
-    return {
-      'Value': value,
-      if (type != null) 'Type': type.value,
-      if (unit != null) 'Unit': unit.value,
-    };
-  }
-}
-
-class ThresholdType {
-  static const greaterThanOrEqual = ThresholdType._('GREATER_THAN_OR_EQUAL');
-  static const lessThanOrEqual = ThresholdType._('LESS_THAN_OR_EQUAL');
-  static const greaterThan = ThresholdType._('GREATER_THAN');
-  static const lessThan = ThresholdType._('LESS_THAN');
-
-  final String value;
-
-  const ThresholdType._(this.value);
-
-  static const values = [
-    greaterThanOrEqual,
-    lessThanOrEqual,
-    greaterThan,
-    lessThan
-  ];
-
-  static ThresholdType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ThresholdType._(value));
-
-  @override
-  bool operator ==(other) => other is ThresholdType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ThresholdUnit {
-  static const count = ThresholdUnit._('COUNT');
-  static const percentage = ThresholdUnit._('PERCENTAGE');
-
-  final String value;
-
-  const ThresholdUnit._(this.value);
-
-  static const values = [count, percentage];
-
-  static ThresholdUnit fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ThresholdUnit._(value));
-
-  @override
-  bool operator ==(other) => other is ThresholdUnit && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class UntagResourceResponse {
-  UntagResourceResponse();
-
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateDatasetResponse {
-  /// The name of the dataset that you updated.
-  final String name;
-
-  UpdateDatasetResponse({
-    required this.name,
-  });
-
-  factory UpdateDatasetResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateDatasetResponse(
-      name: (json['Name'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    return {
-      'Name': name,
-    };
-  }
-}
-
-class UpdateProfileJobResponse {
-  /// The name of the job that was updated.
-  final String name;
-
-  UpdateProfileJobResponse({
-    required this.name,
-  });
-
-  factory UpdateProfileJobResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateProfileJobResponse(
-      name: (json['Name'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    return {
-      'Name': name,
-    };
-  }
-}
-
-class UpdateProjectResponse {
-  /// The name of the project that you updated.
-  final String name;
-
-  /// The date and time that the project was last modified.
-  final DateTime? lastModifiedDate;
-
-  UpdateProjectResponse({
-    required this.name,
-    this.lastModifiedDate,
-  });
-
-  factory UpdateProjectResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateProjectResponse(
-      name: (json['Name'] as String?) ?? '',
-      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final lastModifiedDate = this.lastModifiedDate;
-    return {
-      'Name': name,
-      if (lastModifiedDate != null)
-        'LastModifiedDate': unixTimestampToJson(lastModifiedDate),
-    };
-  }
-}
-
-class UpdateRecipeJobResponse {
-  /// The name of the job that you updated.
-  final String name;
-
-  UpdateRecipeJobResponse({
-    required this.name,
-  });
-
-  factory UpdateRecipeJobResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateRecipeJobResponse(
-      name: (json['Name'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    return {
-      'Name': name,
-    };
-  }
-}
-
-class UpdateRecipeResponse {
-  /// The name of the recipe that was updated.
-  final String name;
-
-  UpdateRecipeResponse({
-    required this.name,
-  });
-
-  factory UpdateRecipeResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateRecipeResponse(
-      name: (json['Name'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    return {
-      'Name': name,
-    };
-  }
-}
-
-class UpdateRulesetResponse {
-  /// The name of the updated ruleset.
-  final String name;
-
-  UpdateRulesetResponse({
-    required this.name,
-  });
-
-  factory UpdateRulesetResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateRulesetResponse(
-      name: (json['Name'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    return {
-      'Name': name,
-    };
-  }
-}
-
-class UpdateScheduleResponse {
-  /// The name of the schedule that was updated.
-  final String name;
-
-  UpdateScheduleResponse({
-    required this.name,
-  });
-
-  factory UpdateScheduleResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateScheduleResponse(
-      name: (json['Name'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    return {
-      'Name': name,
-    };
-  }
-}
-
-/// Configuration for data quality validation. Used to select the Rulesets and
-/// Validation Mode to be used in the profile job. When ValidationConfiguration
-/// is null, the profile job will run without data quality validation.
-class ValidationConfiguration {
-  /// The Amazon Resource Name (ARN) for the ruleset to be validated in the
-  /// profile job. The TargetArn of the selected ruleset should be the same as the
-  /// Amazon Resource Name (ARN) of the dataset that is associated with the
-  /// profile job.
-  final String rulesetArn;
-
-  /// Mode of data quality validation. Default mode is “CHECK_ALL” which verifies
-  /// all rules defined in the selected ruleset.
-  final ValidationMode? validationMode;
-
-  ValidationConfiguration({
-    required this.rulesetArn,
-    this.validationMode,
-  });
-
-  factory ValidationConfiguration.fromJson(Map<String, dynamic> json) {
-    return ValidationConfiguration(
-      rulesetArn: (json['RulesetArn'] as String?) ?? '',
-      validationMode:
-          (json['ValidationMode'] as String?)?.let(ValidationMode.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final rulesetArn = this.rulesetArn;
-    final validationMode = this.validationMode;
-    return {
-      'RulesetArn': rulesetArn,
-      if (validationMode != null) 'ValidationMode': validationMode.value,
-    };
-  }
-}
-
-class ValidationMode {
-  static const checkAll = ValidationMode._('CHECK_ALL');
-
-  final String value;
-
-  const ValidationMode._(this.value);
-
-  static const values = [checkAll];
-
-  static ValidationMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ValidationMode._(value));
-
-  @override
-  bool operator ==(other) => other is ValidationMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents the data being transformed during an action.
-class ViewFrame {
-  /// The starting index for the range of columns to return in the view frame.
-  final int startColumnIndex;
-
-  /// Controls if analytics computation is enabled or disabled. Enabled by
-  /// default.
-  final AnalyticsMode? analytics;
-
-  /// The number of columns to include in the view frame, beginning with the
-  /// <code>StartColumnIndex</code> value and ignoring any columns in the
-  /// <code>HiddenColumns</code> list.
-  final int? columnRange;
-
-  /// A list of columns to hide in the view frame.
-  final List<String>? hiddenColumns;
-
-  /// The number of rows to include in the view frame, beginning with the
-  /// <code>StartRowIndex</code> value.
-  final int? rowRange;
-
-  /// The starting index for the range of rows to return in the view frame.
-  final int? startRowIndex;
-
-  ViewFrame({
-    required this.startColumnIndex,
-    this.analytics,
-    this.columnRange,
-    this.hiddenColumns,
-    this.rowRange,
-    this.startRowIndex,
-  });
-
-  Map<String, dynamic> toJson() {
-    final startColumnIndex = this.startColumnIndex;
-    final analytics = this.analytics;
-    final columnRange = this.columnRange;
-    final hiddenColumns = this.hiddenColumns;
-    final rowRange = this.rowRange;
-    final startRowIndex = this.startRowIndex;
-    return {
-      'StartColumnIndex': startColumnIndex,
-      if (analytics != null) 'Analytics': analytics.value,
-      if (columnRange != null) 'ColumnRange': columnRange,
-      if (hiddenColumns != null) 'HiddenColumns': hiddenColumns,
-      if (rowRange != null) 'RowRange': rowRange,
-      if (startRowIndex != null) 'StartRowIndex': startRowIndex,
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (recipeVersion != null) 'RecipeVersion': recipeVersion,
     };
   }
 }

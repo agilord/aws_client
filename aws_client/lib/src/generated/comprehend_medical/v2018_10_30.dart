@@ -39,7 +39,6 @@ class ComprehendMedical {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'comprehendmedical',
-            signingName: 'comprehendmedical',
           ),
           region: region,
           credentials: credentials,
@@ -59,10 +58,10 @@ class ComprehendMedical {
   /// Gets the properties associated with a medical entities detection job. Use
   /// this operation to get the status of a detection job.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [jobId] :
   /// The identifier that Amazon Comprehend Medical generated for the job. The
@@ -94,10 +93,10 @@ class ComprehendMedical {
   /// Gets the properties associated with an InferICD10CM job. Use this
   /// operation to get the status of an inference job.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [jobId] :
   /// The identifier that Amazon Comprehend Medical generated for the job.
@@ -127,10 +126,10 @@ class ComprehendMedical {
   /// Gets the properties associated with a protected health information (PHI)
   /// detection job. Use this operation to get the status of a detection job.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [jobId] :
   /// The identifier that Amazon Comprehend Medical generated for the job. The
@@ -160,10 +159,10 @@ class ComprehendMedical {
   /// Gets the properties associated with an InferRxNorm job. Use this operation
   /// to get the status of an inference job.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [jobId] :
   /// The identifier that Amazon Comprehend Medical generated for the job. The
@@ -192,10 +191,10 @@ class ComprehendMedical {
   /// Gets the properties associated with an InferSNOMEDCT job. Use this
   /// operation to get the status of an inference job.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [jobId] :
   /// The identifier that Amazon Comprehend Medical generated for the job. The
@@ -230,16 +229,15 @@ class ComprehendMedical {
   /// confidence score on that information.
   ///
   /// May throw [InternalServerException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [InvalidRequestException].
   /// May throw [InvalidEncodingException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [TextSizeLimitExceededException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [text] :
   /// A UTF-8 text string containing the clinical content being examined for
   /// entities.
-  @Deprecated('This operation is deprecated, use DetectEntitiesV2 instead.')
   Future<DetectEntitiesResponse> detectEntities({
     required String text,
   }) async {
@@ -277,11 +275,11 @@ class ComprehendMedical {
   /// instead of types.
   ///
   /// May throw [InternalServerException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [InvalidRequestException].
   /// May throw [InvalidEncodingException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [TextSizeLimitExceededException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [text] :
   /// A UTF-8 string containing the clinical content being examined for
@@ -313,11 +311,11 @@ class ComprehendMedical {
   /// language texts.
   ///
   /// May throw [InternalServerException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [InvalidRequestException].
   /// May throw [InvalidEncodingException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [TextSizeLimitExceededException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [text] :
   /// A UTF-8 text string containing the clinical content being examined for PHI
@@ -350,11 +348,11 @@ class ComprehendMedical {
   /// texts.
   ///
   /// May throw [InternalServerException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [InvalidRequestException].
   /// May throw [InvalidEncodingException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [TextSizeLimitExceededException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [text] :
   /// The input text used for analysis.
@@ -385,11 +383,11 @@ class ComprehendMedical {
   /// medical entities in English language texts.
   ///
   /// May throw [InternalServerException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [InvalidRequestException].
   /// May throw [InvalidEncodingException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [TextSizeLimitExceededException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [text] :
   /// The input text used for analysis.
@@ -419,11 +417,11 @@ class ComprehendMedical {
   /// (SNOMED-CT) ontology
   ///
   /// May throw [InternalServerException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [InvalidRequestException].
   /// May throw [InvalidEncodingException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [TextSizeLimitExceededException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [text] :
   /// The input text to be analyzed using InferSNOMEDCT.
@@ -450,10 +448,10 @@ class ComprehendMedical {
 
   /// Gets a list of medical entity detection jobs that you have submitted.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ValidationException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [filter] :
   /// Filters the jobs that are returned. You can filter jobs based on their
@@ -498,10 +496,10 @@ class ComprehendMedical {
 
   /// Gets a list of InferICD10CM jobs that you have submitted.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ValidationException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [filter] :
   /// Filters the jobs that are returned. You can filter jobs based on their
@@ -547,10 +545,10 @@ class ComprehendMedical {
   /// Gets a list of protected health information (PHI) detection jobs you have
   /// submitted.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ValidationException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [filter] :
   /// Filters the jobs that are returned. You can filter jobs based on their
@@ -595,10 +593,10 @@ class ComprehendMedical {
 
   /// Gets a list of InferRxNorm jobs that you have submitted.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ValidationException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [filter] :
   /// Filters the jobs that are returned. You can filter jobs based on their
@@ -643,10 +641,10 @@ class ComprehendMedical {
 
   /// Gets a list of InferSNOMEDCT jobs a user has submitted.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ValidationException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return in each page. The default is 100.
@@ -688,10 +686,10 @@ class ComprehendMedical {
   /// documents. Use the <code>DescribeEntitiesDetectionV2Job</code> operation
   /// to track the status of a job.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [dataAccessRoleArn] :
   /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management
@@ -759,10 +757,10 @@ class ComprehendMedical {
   /// the ICD-10-CM ontology. Use the <code>DescribeICD10CMInferenceJob</code>
   /// operation to track the status of a job.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [dataAccessRoleArn] :
   /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management
@@ -829,10 +827,10 @@ class ComprehendMedical {
   /// Use the <code>DescribePHIDetectionJob</code> operation to track the status
   /// of a job.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [dataAccessRoleArn] :
   /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management
@@ -899,10 +897,10 @@ class ComprehendMedical {
   /// the RxNorm ontology. Use the <code>DescribeRxNormInferenceJob</code>
   /// operation to track the status of a job.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [dataAccessRoleArn] :
   /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management
@@ -969,10 +967,10 @@ class ComprehendMedical {
   /// SNOMED-CT ontology. Use the DescribeSNOMEDCTInferenceJob operation to
   /// track the status of a job.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [dataAccessRoleArn] :
   /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management
@@ -1029,9 +1027,9 @@ class ComprehendMedical {
 
   /// Stops a medical entities detection job in progress.
   ///
+  /// May throw [InternalServerException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [jobId] :
   /// The identifier of the medical entities job to stop.
@@ -1058,9 +1056,9 @@ class ComprehendMedical {
 
   /// Stops an InferICD10CM inference job in progress.
   ///
+  /// May throw [InternalServerException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [jobId] :
   /// The identifier of the job.
@@ -1087,9 +1085,9 @@ class ComprehendMedical {
 
   /// Stops a protected health information (PHI) detection job in progress.
   ///
+  /// May throw [InternalServerException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [jobId] :
   /// The identifier of the PHI detection job to stop.
@@ -1116,9 +1114,9 @@ class ComprehendMedical {
 
   /// Stops an InferRxNorm inference job in progress.
   ///
+  /// May throw [InternalServerException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [jobId] :
   /// The identifier of the job.
@@ -1145,10 +1143,10 @@ class ComprehendMedical {
 
   /// Stops an InferSNOMEDCT inference job in progress.
   ///
+  /// May throw [InternalServerException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [jobId] :
   /// The job id of the asynchronous InferSNOMEDCT job to be stopped.
@@ -1171,350 +1169,6 @@ class ComprehendMedical {
     );
 
     return StopSNOMEDCTInferenceJobResponse.fromJson(jsonResponse.body);
-  }
-}
-
-/// An extracted segment of the text that is an attribute of an entity, or
-/// otherwise related to an entity, such as the dosage of a medication taken. It
-/// contains information about the attribute such as id, begin and end offset
-/// within the input text, and the segment of the input text.
-class Attribute {
-  /// The 0-based character offset in the input text that shows where the
-  /// attribute begins. The offset returns the UTF-8 code point in the string.
-  final int? beginOffset;
-
-  /// The category of attribute.
-  final EntityType? category;
-
-  /// The 0-based character offset in the input text that shows where the
-  /// attribute ends. The offset returns the UTF-8 code point in the string.
-  final int? endOffset;
-
-  /// The numeric identifier for this attribute. This is a monotonically
-  /// increasing id unique within this response rather than a global unique
-  /// identifier.
-  final int? id;
-
-  /// The level of confidence that Amazon Comprehend Medical has that this
-  /// attribute is correctly related to this entity.
-  final double? relationshipScore;
-
-  /// The type of relationship between the entity and attribute. Type for the
-  /// relationship is <code>OVERLAP</code>, indicating that the entity occurred at
-  /// the same time as the <code>Date_Expression</code>.
-  final RelationshipType? relationshipType;
-
-  /// The level of confidence that Amazon Comprehend Medical has that the segment
-  /// of text is correctly recognized as an attribute.
-  final double? score;
-
-  /// The segment of input text extracted as this attribute.
-  final String? text;
-
-  /// Contextual information for this attribute.
-  final List<Trait>? traits;
-
-  /// The type of attribute.
-  final EntitySubType? type;
-
-  Attribute({
-    this.beginOffset,
-    this.category,
-    this.endOffset,
-    this.id,
-    this.relationshipScore,
-    this.relationshipType,
-    this.score,
-    this.text,
-    this.traits,
-    this.type,
-  });
-
-  factory Attribute.fromJson(Map<String, dynamic> json) {
-    return Attribute(
-      beginOffset: json['BeginOffset'] as int?,
-      category: (json['Category'] as String?)?.let(EntityType.fromString),
-      endOffset: json['EndOffset'] as int?,
-      id: json['Id'] as int?,
-      relationshipScore: json['RelationshipScore'] as double?,
-      relationshipType: (json['RelationshipType'] as String?)
-          ?.let(RelationshipType.fromString),
-      score: json['Score'] as double?,
-      text: json['Text'] as String?,
-      traits: (json['Traits'] as List?)
-          ?.nonNulls
-          .map((e) => Trait.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      type: (json['Type'] as String?)?.let(EntitySubType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final beginOffset = this.beginOffset;
-    final category = this.category;
-    final endOffset = this.endOffset;
-    final id = this.id;
-    final relationshipScore = this.relationshipScore;
-    final relationshipType = this.relationshipType;
-    final score = this.score;
-    final text = this.text;
-    final traits = this.traits;
-    final type = this.type;
-    return {
-      if (beginOffset != null) 'BeginOffset': beginOffset,
-      if (category != null) 'Category': category.value,
-      if (endOffset != null) 'EndOffset': endOffset,
-      if (id != null) 'Id': id,
-      if (relationshipScore != null) 'RelationshipScore': relationshipScore,
-      if (relationshipType != null) 'RelationshipType': relationshipType.value,
-      if (score != null) 'Score': score,
-      if (text != null) 'Text': text,
-      if (traits != null) 'Traits': traits,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class AttributeName {
-  static const sign = AttributeName._('SIGN');
-  static const symptom = AttributeName._('SYMPTOM');
-  static const diagnosis = AttributeName._('DIAGNOSIS');
-  static const negation = AttributeName._('NEGATION');
-  static const pertainsToFamily = AttributeName._('PERTAINS_TO_FAMILY');
-  static const hypothetical = AttributeName._('HYPOTHETICAL');
-  static const lowConfidence = AttributeName._('LOW_CONFIDENCE');
-  static const pastHistory = AttributeName._('PAST_HISTORY');
-  static const future = AttributeName._('FUTURE');
-
-  final String value;
-
-  const AttributeName._(this.value);
-
-  static const values = [
-    sign,
-    symptom,
-    diagnosis,
-    negation,
-    pertainsToFamily,
-    hypothetical,
-    lowConfidence,
-    pastHistory,
-    future
-  ];
-
-  static AttributeName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AttributeName._(value));
-
-  @override
-  bool operator ==(other) => other is AttributeName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The number of characters in the input text to be analyzed.
-class Characters {
-  /// The number of characters present in the input text document as processed by
-  /// Amazon Comprehend Medical.
-  final int? originalTextCharacters;
-
-  Characters({
-    this.originalTextCharacters,
-  });
-
-  factory Characters.fromJson(Map<String, dynamic> json) {
-    return Characters(
-      originalTextCharacters: json['OriginalTextCharacters'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final originalTextCharacters = this.originalTextCharacters;
-    return {
-      if (originalTextCharacters != null)
-        'OriginalTextCharacters': originalTextCharacters,
-    };
-  }
-}
-
-/// Provides information for filtering a list of detection jobs.
-class ComprehendMedicalAsyncJobFilter {
-  /// Filters on the name of the job.
-  final String? jobName;
-
-  /// Filters the list of jobs based on job status. Returns only jobs with the
-  /// specified status.
-  final JobStatus? jobStatus;
-
-  /// Filters the list of jobs based on the time that the job was submitted for
-  /// processing. Returns only jobs submitted after the specified time. Jobs are
-  /// returned in descending order, newest to oldest.
-  final DateTime? submitTimeAfter;
-
-  /// Filters the list of jobs based on the time that the job was submitted for
-  /// processing. Returns only jobs submitted before the specified time. Jobs are
-  /// returned in ascending order, oldest to newest.
-  final DateTime? submitTimeBefore;
-
-  ComprehendMedicalAsyncJobFilter({
-    this.jobName,
-    this.jobStatus,
-    this.submitTimeAfter,
-    this.submitTimeBefore,
-  });
-
-  Map<String, dynamic> toJson() {
-    final jobName = this.jobName;
-    final jobStatus = this.jobStatus;
-    final submitTimeAfter = this.submitTimeAfter;
-    final submitTimeBefore = this.submitTimeBefore;
-    return {
-      if (jobName != null) 'JobName': jobName,
-      if (jobStatus != null) 'JobStatus': jobStatus.value,
-      if (submitTimeAfter != null)
-        'SubmitTimeAfter': unixTimestampToJson(submitTimeAfter),
-      if (submitTimeBefore != null)
-        'SubmitTimeBefore': unixTimestampToJson(submitTimeBefore),
-    };
-  }
-}
-
-/// Provides information about a detection job.
-class ComprehendMedicalAsyncJobProperties {
-  /// The Amazon Resource Name (ARN) that gives Amazon Comprehend Medical read
-  /// access to your input data.
-  final String? dataAccessRoleArn;
-
-  /// The time that the detection job completed.
-  final DateTime? endTime;
-
-  /// The date and time that job metadata is deleted from the server. Output files
-  /// in your S3 bucket will not be deleted. After the metadata is deleted, the
-  /// job will no longer appear in the results of the
-  /// <code>ListEntitiesDetectionV2Job</code> or the
-  /// <code>ListPHIDetectionJobs</code> operation.
-  final DateTime? expirationTime;
-
-  /// The input data configuration that you supplied when you created the
-  /// detection job.
-  final InputDataConfig? inputDataConfig;
-
-  /// The identifier assigned to the detection job.
-  final String? jobId;
-
-  /// The name that you assigned to the detection job.
-  final String? jobName;
-
-  /// The current status of the detection job. If the status is
-  /// <code>FAILED</code>, the <code>Message</code> field shows the reason for the
-  /// failure.
-  final JobStatus? jobStatus;
-
-  /// The AWS Key Management Service key, if any, used to encrypt the output
-  /// files.
-  final String? kMSKey;
-
-  /// The language code of the input documents.
-  final LanguageCode? languageCode;
-
-  /// The path to the file that describes the results of a batch job.
-  final String? manifestFilePath;
-
-  /// A description of the status of a job.
-  final String? message;
-
-  /// The version of the model used to analyze the documents. The version number
-  /// looks like X.X.X. You can use this information to track the model used for a
-  /// particular batch of documents.
-  final String? modelVersion;
-
-  /// The output data configuration that you supplied when you created the
-  /// detection job.
-  final OutputDataConfig? outputDataConfig;
-
-  /// The time that the detection job was submitted for processing.
-  final DateTime? submitTime;
-
-  ComprehendMedicalAsyncJobProperties({
-    this.dataAccessRoleArn,
-    this.endTime,
-    this.expirationTime,
-    this.inputDataConfig,
-    this.jobId,
-    this.jobName,
-    this.jobStatus,
-    this.kMSKey,
-    this.languageCode,
-    this.manifestFilePath,
-    this.message,
-    this.modelVersion,
-    this.outputDataConfig,
-    this.submitTime,
-  });
-
-  factory ComprehendMedicalAsyncJobProperties.fromJson(
-      Map<String, dynamic> json) {
-    return ComprehendMedicalAsyncJobProperties(
-      dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
-      endTime: timeStampFromJson(json['EndTime']),
-      expirationTime: timeStampFromJson(json['ExpirationTime']),
-      inputDataConfig: json['InputDataConfig'] != null
-          ? InputDataConfig.fromJson(
-              json['InputDataConfig'] as Map<String, dynamic>)
-          : null,
-      jobId: json['JobId'] as String?,
-      jobName: json['JobName'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.let(JobStatus.fromString),
-      kMSKey: json['KMSKey'] as String?,
-      languageCode:
-          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
-      manifestFilePath: json['ManifestFilePath'] as String?,
-      message: json['Message'] as String?,
-      modelVersion: json['ModelVersion'] as String?,
-      outputDataConfig: json['OutputDataConfig'] != null
-          ? OutputDataConfig.fromJson(
-              json['OutputDataConfig'] as Map<String, dynamic>)
-          : null,
-      submitTime: timeStampFromJson(json['SubmitTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataAccessRoleArn = this.dataAccessRoleArn;
-    final endTime = this.endTime;
-    final expirationTime = this.expirationTime;
-    final inputDataConfig = this.inputDataConfig;
-    final jobId = this.jobId;
-    final jobName = this.jobName;
-    final jobStatus = this.jobStatus;
-    final kMSKey = this.kMSKey;
-    final languageCode = this.languageCode;
-    final manifestFilePath = this.manifestFilePath;
-    final message = this.message;
-    final modelVersion = this.modelVersion;
-    final outputDataConfig = this.outputDataConfig;
-    final submitTime = this.submitTime;
-    return {
-      if (dataAccessRoleArn != null) 'DataAccessRoleArn': dataAccessRoleArn,
-      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
-      if (expirationTime != null)
-        'ExpirationTime': unixTimestampToJson(expirationTime),
-      if (inputDataConfig != null) 'InputDataConfig': inputDataConfig,
-      if (jobId != null) 'JobId': jobId,
-      if (jobName != null) 'JobName': jobName,
-      if (jobStatus != null) 'JobStatus': jobStatus.value,
-      if (kMSKey != null) 'KMSKey': kMSKey,
-      if (languageCode != null) 'LanguageCode': languageCode.value,
-      if (manifestFilePath != null) 'ManifestFilePath': manifestFilePath,
-      if (message != null) 'Message': message,
-      if (modelVersion != null) 'ModelVersion': modelVersion,
-      if (outputDataConfig != null) 'OutputDataConfig': outputDataConfig,
-      if (submitTime != null) 'SubmitTime': unixTimestampToJson(submitTime),
-    };
   }
 }
 
@@ -1837,689 +1491,6 @@ class DetectPHIResponse {
   }
 }
 
-/// Provides information about an extracted medical entity.
-class Entity {
-  /// The extracted attributes that relate to this entity.
-  final List<Attribute>? attributes;
-
-  /// The 0-based character offset in the input text that shows where the entity
-  /// begins. The offset returns the UTF-8 code point in the string.
-  final int? beginOffset;
-
-  /// The category of the entity.
-  final EntityType? category;
-
-  /// The 0-based character offset in the input text that shows where the entity
-  /// ends. The offset returns the UTF-8 code point in the string.
-  final int? endOffset;
-
-  /// The numeric identifier for the entity. This is a monotonically increasing id
-  /// unique within this response rather than a global unique identifier.
-  final int? id;
-
-  /// The level of confidence that Amazon Comprehend Medical has in the accuracy
-  /// of the detection.
-  final double? score;
-
-  /// The segment of input text extracted as this entity.
-  final String? text;
-
-  /// Contextual information for the entity.
-  final List<Trait>? traits;
-
-  /// Describes the specific type of entity with category of entities.
-  final EntitySubType? type;
-
-  Entity({
-    this.attributes,
-    this.beginOffset,
-    this.category,
-    this.endOffset,
-    this.id,
-    this.score,
-    this.text,
-    this.traits,
-    this.type,
-  });
-
-  factory Entity.fromJson(Map<String, dynamic> json) {
-    return Entity(
-      attributes: (json['Attributes'] as List?)
-          ?.nonNulls
-          .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      beginOffset: json['BeginOffset'] as int?,
-      category: (json['Category'] as String?)?.let(EntityType.fromString),
-      endOffset: json['EndOffset'] as int?,
-      id: json['Id'] as int?,
-      score: json['Score'] as double?,
-      text: json['Text'] as String?,
-      traits: (json['Traits'] as List?)
-          ?.nonNulls
-          .map((e) => Trait.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      type: (json['Type'] as String?)?.let(EntitySubType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attributes = this.attributes;
-    final beginOffset = this.beginOffset;
-    final category = this.category;
-    final endOffset = this.endOffset;
-    final id = this.id;
-    final score = this.score;
-    final text = this.text;
-    final traits = this.traits;
-    final type = this.type;
-    return {
-      if (attributes != null) 'Attributes': attributes,
-      if (beginOffset != null) 'BeginOffset': beginOffset,
-      if (category != null) 'Category': category.value,
-      if (endOffset != null) 'EndOffset': endOffset,
-      if (id != null) 'Id': id,
-      if (score != null) 'Score': score,
-      if (text != null) 'Text': text,
-      if (traits != null) 'Traits': traits,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class EntitySubType {
-  static const name = EntitySubType._('NAME');
-  static const dxName = EntitySubType._('DX_NAME');
-  static const dosage = EntitySubType._('DOSAGE');
-  static const routeOrMode = EntitySubType._('ROUTE_OR_MODE');
-  static const form = EntitySubType._('FORM');
-  static const frequency = EntitySubType._('FREQUENCY');
-  static const duration = EntitySubType._('DURATION');
-  static const genericName = EntitySubType._('GENERIC_NAME');
-  static const brandName = EntitySubType._('BRAND_NAME');
-  static const strength = EntitySubType._('STRENGTH');
-  static const rate = EntitySubType._('RATE');
-  static const acuity = EntitySubType._('ACUITY');
-  static const testName = EntitySubType._('TEST_NAME');
-  static const testValue = EntitySubType._('TEST_VALUE');
-  static const testUnits = EntitySubType._('TEST_UNITS');
-  static const testUnit = EntitySubType._('TEST_UNIT');
-  static const procedureName = EntitySubType._('PROCEDURE_NAME');
-  static const treatmentName = EntitySubType._('TREATMENT_NAME');
-  static const date = EntitySubType._('DATE');
-  static const age = EntitySubType._('AGE');
-  static const contactPoint = EntitySubType._('CONTACT_POINT');
-  static const phoneOrFax = EntitySubType._('PHONE_OR_FAX');
-  static const email = EntitySubType._('EMAIL');
-  static const identifier = EntitySubType._('IDENTIFIER');
-  static const id = EntitySubType._('ID');
-  static const url = EntitySubType._('URL');
-  static const address = EntitySubType._('ADDRESS');
-  static const profession = EntitySubType._('PROFESSION');
-  static const systemOrganSite = EntitySubType._('SYSTEM_ORGAN_SITE');
-  static const direction = EntitySubType._('DIRECTION');
-  static const quality = EntitySubType._('QUALITY');
-  static const quantity = EntitySubType._('QUANTITY');
-  static const timeExpression = EntitySubType._('TIME_EXPRESSION');
-  static const timeToMedicationName =
-      EntitySubType._('TIME_TO_MEDICATION_NAME');
-  static const timeToDxName = EntitySubType._('TIME_TO_DX_NAME');
-  static const timeToTestName = EntitySubType._('TIME_TO_TEST_NAME');
-  static const timeToProcedureName = EntitySubType._('TIME_TO_PROCEDURE_NAME');
-  static const timeToTreatmentName = EntitySubType._('TIME_TO_TREATMENT_NAME');
-  static const amount = EntitySubType._('AMOUNT');
-  static const gender = EntitySubType._('GENDER');
-  static const raceEthnicity = EntitySubType._('RACE_ETHNICITY');
-  static const allergies = EntitySubType._('ALLERGIES');
-  static const tobaccoUse = EntitySubType._('TOBACCO_USE');
-  static const alcoholConsumption = EntitySubType._('ALCOHOL_CONSUMPTION');
-  static const recDrugUse = EntitySubType._('REC_DRUG_USE');
-
-  final String value;
-
-  const EntitySubType._(this.value);
-
-  static const values = [
-    name,
-    dxName,
-    dosage,
-    routeOrMode,
-    form,
-    frequency,
-    duration,
-    genericName,
-    brandName,
-    strength,
-    rate,
-    acuity,
-    testName,
-    testValue,
-    testUnits,
-    testUnit,
-    procedureName,
-    treatmentName,
-    date,
-    age,
-    contactPoint,
-    phoneOrFax,
-    email,
-    identifier,
-    id,
-    url,
-    address,
-    profession,
-    systemOrganSite,
-    direction,
-    quality,
-    quantity,
-    timeExpression,
-    timeToMedicationName,
-    timeToDxName,
-    timeToTestName,
-    timeToProcedureName,
-    timeToTreatmentName,
-    amount,
-    gender,
-    raceEthnicity,
-    allergies,
-    tobaccoUse,
-    alcoholConsumption,
-    recDrugUse
-  ];
-
-  static EntitySubType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EntitySubType._(value));
-
-  @override
-  bool operator ==(other) => other is EntitySubType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class EntityType {
-  static const medication = EntityType._('MEDICATION');
-  static const medicalCondition = EntityType._('MEDICAL_CONDITION');
-  static const protectedHealthInformation =
-      EntityType._('PROTECTED_HEALTH_INFORMATION');
-  static const testTreatmentProcedure =
-      EntityType._('TEST_TREATMENT_PROCEDURE');
-  static const anatomy = EntityType._('ANATOMY');
-  static const timeExpression = EntityType._('TIME_EXPRESSION');
-  static const behavioralEnvironmentalSocial =
-      EntityType._('BEHAVIORAL_ENVIRONMENTAL_SOCIAL');
-
-  final String value;
-
-  const EntityType._(this.value);
-
-  static const values = [
-    medication,
-    medicalCondition,
-    protectedHealthInformation,
-    testTreatmentProcedure,
-    anatomy,
-    timeExpression,
-    behavioralEnvironmentalSocial
-  ];
-
-  static EntityType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => EntityType._(value));
-
-  @override
-  bool operator ==(other) => other is EntityType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The detected attributes that relate to an entity. This includes an extracted
-/// segment of the text that is an attribute of an entity, or otherwise related
-/// to an entity. InferICD10CM detects the following attributes:
-/// <code>Direction</code>, <code>System, Organ or Site</code>, and
-/// <code>Acuity</code>.
-class ICD10CMAttribute {
-  /// The 0-based character offset in the input text that shows where the
-  /// attribute begins. The offset returns the UTF-8 code point in the string.
-  final int? beginOffset;
-
-  /// The category of attribute. Can be either of <code>DX_NAME</code> or
-  /// <code>TIME_EXPRESSION</code>.
-  final ICD10CMEntityType? category;
-
-  /// The 0-based character offset in the input text that shows where the
-  /// attribute ends. The offset returns the UTF-8 code point in the string.
-  final int? endOffset;
-
-  /// The numeric identifier for this attribute. This is a monotonically
-  /// increasing id unique within this response rather than a global unique
-  /// identifier.
-  final int? id;
-
-  /// The level of confidence that Amazon Comprehend Medical has that this
-  /// attribute is correctly related to this entity.
-  final double? relationshipScore;
-
-  /// The type of relationship between the entity and attribute. Type for the
-  /// relationship can be either of <code>OVERLAP</code> or
-  /// <code>SYSTEM_ORGAN_SITE</code>.
-  final ICD10CMRelationshipType? relationshipType;
-
-  /// The level of confidence that Amazon Comprehend Medical has that the segment
-  /// of text is correctly recognized as an attribute.
-  final double? score;
-
-  /// The segment of input text which contains the detected attribute.
-  final String? text;
-
-  /// The contextual information for the attribute. The traits recognized by
-  /// InferICD10CM are <code>DIAGNOSIS</code>, <code>SIGN</code>,
-  /// <code>SYMPTOM</code>, and <code>NEGATION</code>.
-  final List<ICD10CMTrait>? traits;
-
-  /// The type of attribute. InferICD10CM detects entities of the type
-  /// <code>DX_NAME</code>.
-  final ICD10CMAttributeType? type;
-
-  ICD10CMAttribute({
-    this.beginOffset,
-    this.category,
-    this.endOffset,
-    this.id,
-    this.relationshipScore,
-    this.relationshipType,
-    this.score,
-    this.text,
-    this.traits,
-    this.type,
-  });
-
-  factory ICD10CMAttribute.fromJson(Map<String, dynamic> json) {
-    return ICD10CMAttribute(
-      beginOffset: json['BeginOffset'] as int?,
-      category:
-          (json['Category'] as String?)?.let(ICD10CMEntityType.fromString),
-      endOffset: json['EndOffset'] as int?,
-      id: json['Id'] as int?,
-      relationshipScore: json['RelationshipScore'] as double?,
-      relationshipType: (json['RelationshipType'] as String?)
-          ?.let(ICD10CMRelationshipType.fromString),
-      score: json['Score'] as double?,
-      text: json['Text'] as String?,
-      traits: (json['Traits'] as List?)
-          ?.nonNulls
-          .map((e) => ICD10CMTrait.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      type: (json['Type'] as String?)?.let(ICD10CMAttributeType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final beginOffset = this.beginOffset;
-    final category = this.category;
-    final endOffset = this.endOffset;
-    final id = this.id;
-    final relationshipScore = this.relationshipScore;
-    final relationshipType = this.relationshipType;
-    final score = this.score;
-    final text = this.text;
-    final traits = this.traits;
-    final type = this.type;
-    return {
-      if (beginOffset != null) 'BeginOffset': beginOffset,
-      if (category != null) 'Category': category.value,
-      if (endOffset != null) 'EndOffset': endOffset,
-      if (id != null) 'Id': id,
-      if (relationshipScore != null) 'RelationshipScore': relationshipScore,
-      if (relationshipType != null) 'RelationshipType': relationshipType.value,
-      if (score != null) 'Score': score,
-      if (text != null) 'Text': text,
-      if (traits != null) 'Traits': traits,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class ICD10CMAttributeType {
-  static const acuity = ICD10CMAttributeType._('ACUITY');
-  static const direction = ICD10CMAttributeType._('DIRECTION');
-  static const systemOrganSite = ICD10CMAttributeType._('SYSTEM_ORGAN_SITE');
-  static const quality = ICD10CMAttributeType._('QUALITY');
-  static const quantity = ICD10CMAttributeType._('QUANTITY');
-  static const timeToDxName = ICD10CMAttributeType._('TIME_TO_DX_NAME');
-  static const timeExpression = ICD10CMAttributeType._('TIME_EXPRESSION');
-
-  final String value;
-
-  const ICD10CMAttributeType._(this.value);
-
-  static const values = [
-    acuity,
-    direction,
-    systemOrganSite,
-    quality,
-    quantity,
-    timeToDxName,
-    timeExpression
-  ];
-
-  static ICD10CMAttributeType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ICD10CMAttributeType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ICD10CMAttributeType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The ICD-10-CM concepts that the entity could refer to, along with a score
-/// indicating the likelihood of the match.
-class ICD10CMConcept {
-  /// The ICD-10-CM code that identifies the concept found in the knowledge base
-  /// from the Centers for Disease Control.
-  final String? code;
-
-  /// The long description of the ICD-10-CM code in the ontology.
-  final String? description;
-
-  /// The level of confidence that Amazon Comprehend Medical has that the entity
-  /// is accurately linked to an ICD-10-CM concept.
-  final double? score;
-
-  ICD10CMConcept({
-    this.code,
-    this.description,
-    this.score,
-  });
-
-  factory ICD10CMConcept.fromJson(Map<String, dynamic> json) {
-    return ICD10CMConcept(
-      code: json['Code'] as String?,
-      description: json['Description'] as String?,
-      score: json['Score'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final description = this.description;
-    final score = this.score;
-    return {
-      if (code != null) 'Code': code,
-      if (description != null) 'Description': description,
-      if (score != null) 'Score': score,
-    };
-  }
-}
-
-/// The collection of medical entities extracted from the input text and their
-/// associated information. For each entity, the response provides the entity
-/// text, the entity category, where the entity text begins and ends, and the
-/// level of confidence that Amazon Comprehend Medical has in the detection and
-/// analysis. Attributes and traits of the entity are also returned.
-class ICD10CMEntity {
-  /// The detected attributes that relate to the entity. An extracted segment of
-  /// the text that is an attribute of an entity, or otherwise related to an
-  /// entity, such as the nature of a medical condition.
-  final List<ICD10CMAttribute>? attributes;
-
-  /// The 0-based character offset in the input text that shows where the entity
-  /// begins. The offset returns the UTF-8 code point in the string.
-  final int? beginOffset;
-
-  /// The category of the entity. InferICD10CM detects entities in the
-  /// <code>MEDICAL_CONDITION</code> category.
-  final ICD10CMEntityCategory? category;
-
-  /// The 0-based character offset in the input text that shows where the entity
-  /// ends. The offset returns the UTF-8 code point in the string.
-  final int? endOffset;
-
-  /// The ICD-10-CM concepts that the entity could refer to, along with a score
-  /// indicating the likelihood of the match.
-  final List<ICD10CMConcept>? iCD10CMConcepts;
-
-  /// The numeric identifier for the entity. This is a monotonically increasing id
-  /// unique within this response rather than a global unique identifier.
-  final int? id;
-
-  /// The level of confidence that Amazon Comprehend Medical has in the accuracy
-  /// of the detection.
-  final double? score;
-
-  /// The segment of input text that is matched to the detected entity.
-  final String? text;
-
-  /// Provides Contextual information for the entity. The traits recognized by
-  /// InferICD10CM are <code>DIAGNOSIS</code>, <code>SIGN</code>,
-  /// <code>SYMPTOM</code>, and <code>NEGATION.</code>
-  final List<ICD10CMTrait>? traits;
-
-  /// Describes the specific type of entity with category of entities.
-  /// InferICD10CM detects entities of the type <code>DX_NAME</code> and
-  /// <code>TIME_EXPRESSION</code>.
-  final ICD10CMEntityType? type;
-
-  ICD10CMEntity({
-    this.attributes,
-    this.beginOffset,
-    this.category,
-    this.endOffset,
-    this.iCD10CMConcepts,
-    this.id,
-    this.score,
-    this.text,
-    this.traits,
-    this.type,
-  });
-
-  factory ICD10CMEntity.fromJson(Map<String, dynamic> json) {
-    return ICD10CMEntity(
-      attributes: (json['Attributes'] as List?)
-          ?.nonNulls
-          .map((e) => ICD10CMAttribute.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      beginOffset: json['BeginOffset'] as int?,
-      category:
-          (json['Category'] as String?)?.let(ICD10CMEntityCategory.fromString),
-      endOffset: json['EndOffset'] as int?,
-      iCD10CMConcepts: (json['ICD10CMConcepts'] as List?)
-          ?.nonNulls
-          .map((e) => ICD10CMConcept.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      id: json['Id'] as int?,
-      score: json['Score'] as double?,
-      text: json['Text'] as String?,
-      traits: (json['Traits'] as List?)
-          ?.nonNulls
-          .map((e) => ICD10CMTrait.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      type: (json['Type'] as String?)?.let(ICD10CMEntityType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attributes = this.attributes;
-    final beginOffset = this.beginOffset;
-    final category = this.category;
-    final endOffset = this.endOffset;
-    final iCD10CMConcepts = this.iCD10CMConcepts;
-    final id = this.id;
-    final score = this.score;
-    final text = this.text;
-    final traits = this.traits;
-    final type = this.type;
-    return {
-      if (attributes != null) 'Attributes': attributes,
-      if (beginOffset != null) 'BeginOffset': beginOffset,
-      if (category != null) 'Category': category.value,
-      if (endOffset != null) 'EndOffset': endOffset,
-      if (iCD10CMConcepts != null) 'ICD10CMConcepts': iCD10CMConcepts,
-      if (id != null) 'Id': id,
-      if (score != null) 'Score': score,
-      if (text != null) 'Text': text,
-      if (traits != null) 'Traits': traits,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class ICD10CMEntityCategory {
-  static const medicalCondition = ICD10CMEntityCategory._('MEDICAL_CONDITION');
-
-  final String value;
-
-  const ICD10CMEntityCategory._(this.value);
-
-  static const values = [medicalCondition];
-
-  static ICD10CMEntityCategory fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ICD10CMEntityCategory._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ICD10CMEntityCategory && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ICD10CMEntityType {
-  static const dxName = ICD10CMEntityType._('DX_NAME');
-  static const timeExpression = ICD10CMEntityType._('TIME_EXPRESSION');
-
-  final String value;
-
-  const ICD10CMEntityType._(this.value);
-
-  static const values = [dxName, timeExpression];
-
-  static ICD10CMEntityType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ICD10CMEntityType._(value));
-
-  @override
-  bool operator ==(other) => other is ICD10CMEntityType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ICD10CMRelationshipType {
-  static const overlap = ICD10CMRelationshipType._('OVERLAP');
-  static const systemOrganSite = ICD10CMRelationshipType._('SYSTEM_ORGAN_SITE');
-  static const quality = ICD10CMRelationshipType._('QUALITY');
-
-  final String value;
-
-  const ICD10CMRelationshipType._(this.value);
-
-  static const values = [overlap, systemOrganSite, quality];
-
-  static ICD10CMRelationshipType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ICD10CMRelationshipType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ICD10CMRelationshipType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contextual information for the entity. The traits recognized by InferICD10CM
-/// are <code>DIAGNOSIS</code>, <code>SIGN</code>, <code>SYMPTOM</code>, and
-/// <code>NEGATION</code>.
-class ICD10CMTrait {
-  /// Provides a name or contextual description about the trait.
-  final ICD10CMTraitName? name;
-
-  /// The level of confidence that Amazon Comprehend Medical has that the segment
-  /// of text is correctly recognized as a trait.
-  final double? score;
-
-  ICD10CMTrait({
-    this.name,
-    this.score,
-  });
-
-  factory ICD10CMTrait.fromJson(Map<String, dynamic> json) {
-    return ICD10CMTrait(
-      name: (json['Name'] as String?)?.let(ICD10CMTraitName.fromString),
-      score: json['Score'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final score = this.score;
-    return {
-      if (name != null) 'Name': name.value,
-      if (score != null) 'Score': score,
-    };
-  }
-}
-
-class ICD10CMTraitName {
-  static const negation = ICD10CMTraitName._('NEGATION');
-  static const diagnosis = ICD10CMTraitName._('DIAGNOSIS');
-  static const sign = ICD10CMTraitName._('SIGN');
-  static const symptom = ICD10CMTraitName._('SYMPTOM');
-  static const pertainsToFamily = ICD10CMTraitName._('PERTAINS_TO_FAMILY');
-  static const hypothetical = ICD10CMTraitName._('HYPOTHETICAL');
-  static const lowConfidence = ICD10CMTraitName._('LOW_CONFIDENCE');
-
-  final String value;
-
-  const ICD10CMTraitName._(this.value);
-
-  static const values = [
-    negation,
-    diagnosis,
-    sign,
-    symptom,
-    pertainsToFamily,
-    hypothetical,
-    lowConfidence
-  ];
-
-  static ICD10CMTraitName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ICD10CMTraitName._(value));
-
-  @override
-  bool operator ==(other) => other is ICD10CMTraitName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class InferICD10CMResponse {
   /// The medical conditions detected in the text linked to ICD-10-CM concepts. If
   /// the action is successful, the service sends back an HTTP 200 response, as
@@ -2674,96 +1645,6 @@ class InferSNOMEDCTResponse {
       if (sNOMEDCTDetails != null) 'SNOMEDCTDetails': sNOMEDCTDetails,
     };
   }
-}
-
-/// The input properties for an entities detection job. This includes the name
-/// of the S3 bucket and the path to the files to be analyzed.
-class InputDataConfig {
-  /// The URI of the S3 bucket that contains the input data. The bucket must be in
-  /// the same region as the API endpoint that you are calling.
-  final String s3Bucket;
-
-  /// The path to the input data files in the S3 bucket.
-  final String? s3Key;
-
-  InputDataConfig({
-    required this.s3Bucket,
-    this.s3Key,
-  });
-
-  factory InputDataConfig.fromJson(Map<String, dynamic> json) {
-    return InputDataConfig(
-      s3Bucket: (json['S3Bucket'] as String?) ?? '',
-      s3Key: json['S3Key'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final s3Bucket = this.s3Bucket;
-    final s3Key = this.s3Key;
-    return {
-      'S3Bucket': s3Bucket,
-      if (s3Key != null) 'S3Key': s3Key,
-    };
-  }
-}
-
-class JobStatus {
-  static const submitted = JobStatus._('SUBMITTED');
-  static const inProgress = JobStatus._('IN_PROGRESS');
-  static const completed = JobStatus._('COMPLETED');
-  static const partialSuccess = JobStatus._('PARTIAL_SUCCESS');
-  static const failed = JobStatus._('FAILED');
-  static const stopRequested = JobStatus._('STOP_REQUESTED');
-  static const stopped = JobStatus._('STOPPED');
-
-  final String value;
-
-  const JobStatus._(this.value);
-
-  static const values = [
-    submitted,
-    inProgress,
-    completed,
-    partialSuccess,
-    failed,
-    stopRequested,
-    stopped
-  ];
-
-  static JobStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => JobStatus._(value));
-
-  @override
-  bool operator ==(other) => other is JobStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class LanguageCode {
-  static const en = LanguageCode._('en');
-
-  final String value;
-
-  const LanguageCode._(this.value);
-
-  static const values = [en];
-
-  static LanguageCode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => LanguageCode._(value));
-
-  @override
-  bool operator ==(other) => other is LanguageCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class ListEntitiesDetectionV2JobsResponse {
@@ -2956,993 +1837,6 @@ class ListSNOMEDCTInferenceJobsResponse {
       if (nextToken != null) 'NextToken': nextToken,
     };
   }
-}
-
-/// The output properties for a detection job.
-class OutputDataConfig {
-  /// When you use the <code>OutputDataConfig</code> object with asynchronous
-  /// operations, you specify the Amazon S3 location where you want to write the
-  /// output data. The URI must be in the same region as the API endpoint that you
-  /// are calling. The location is used as the prefix for the actual location of
-  /// the output.
-  final String s3Bucket;
-
-  /// The path to the output data files in the S3 bucket. Amazon Comprehend
-  /// Medical creates an output directory using the job ID so that the output from
-  /// one job does not overwrite the output of another.
-  final String? s3Key;
-
-  OutputDataConfig({
-    required this.s3Bucket,
-    this.s3Key,
-  });
-
-  factory OutputDataConfig.fromJson(Map<String, dynamic> json) {
-    return OutputDataConfig(
-      s3Bucket: (json['S3Bucket'] as String?) ?? '',
-      s3Key: json['S3Key'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final s3Bucket = this.s3Bucket;
-    final s3Key = this.s3Key;
-    return {
-      'S3Bucket': s3Bucket,
-      if (s3Key != null) 'S3Key': s3Key,
-    };
-  }
-}
-
-class RelationshipType {
-  static const every = RelationshipType._('EVERY');
-  static const withDosage = RelationshipType._('WITH_DOSAGE');
-  static const administeredVia = RelationshipType._('ADMINISTERED_VIA');
-  static const $for = RelationshipType._('FOR');
-  static const negative = RelationshipType._('NEGATIVE');
-  static const overlap = RelationshipType._('OVERLAP');
-  static const dosage = RelationshipType._('DOSAGE');
-  static const routeOrMode = RelationshipType._('ROUTE_OR_MODE');
-  static const form = RelationshipType._('FORM');
-  static const frequency = RelationshipType._('FREQUENCY');
-  static const duration = RelationshipType._('DURATION');
-  static const strength = RelationshipType._('STRENGTH');
-  static const rate = RelationshipType._('RATE');
-  static const acuity = RelationshipType._('ACUITY');
-  static const testValue = RelationshipType._('TEST_VALUE');
-  static const testUnits = RelationshipType._('TEST_UNITS');
-  static const testUnit = RelationshipType._('TEST_UNIT');
-  static const direction = RelationshipType._('DIRECTION');
-  static const systemOrganSite = RelationshipType._('SYSTEM_ORGAN_SITE');
-  static const amount = RelationshipType._('AMOUNT');
-  static const usage = RelationshipType._('USAGE');
-  static const quality = RelationshipType._('QUALITY');
-
-  final String value;
-
-  const RelationshipType._(this.value);
-
-  static const values = [
-    every,
-    withDosage,
-    administeredVia,
-    $for,
-    negative,
-    overlap,
-    dosage,
-    routeOrMode,
-    form,
-    frequency,
-    duration,
-    strength,
-    rate,
-    acuity,
-    testValue,
-    testUnits,
-    testUnit,
-    direction,
-    systemOrganSite,
-    amount,
-    usage,
-    quality
-  ];
-
-  static RelationshipType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RelationshipType._(value));
-
-  @override
-  bool operator ==(other) => other is RelationshipType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The extracted attributes that relate to this entity. The attributes
-/// recognized by InferRxNorm are <code>DOSAGE</code>, <code>DURATION</code>,
-/// <code>FORM</code>, <code>FREQUENCY</code>, <code>RATE</code>,
-/// <code>ROUTE_OR_MODE</code>.
-class RxNormAttribute {
-  /// The 0-based character offset in the input text that shows where the
-  /// attribute begins. The offset returns the UTF-8 code point in the string.
-  final int? beginOffset;
-
-  /// The 0-based character offset in the input text that shows where the
-  /// attribute ends. The offset returns the UTF-8 code point in the string.
-  final int? endOffset;
-
-  /// The numeric identifier for this attribute. This is a monotonically
-  /// increasing id unique within this response rather than a global unique
-  /// identifier.
-  final int? id;
-
-  /// The level of confidence that Amazon Comprehend Medical has that the
-  /// attribute is accurately linked to an entity.
-  final double? relationshipScore;
-
-  /// The level of confidence that Amazon Comprehend Medical has that the segment
-  /// of text is correctly recognized as an attribute.
-  final double? score;
-
-  /// The segment of input text which corresponds to the detected attribute.
-  final String? text;
-
-  /// Contextual information for the attribute. InferRxNorm recognizes the trait
-  /// <code>NEGATION</code> for attributes, i.e. that the patient is not taking a
-  /// specific dose or form of a medication.
-  final List<RxNormTrait>? traits;
-
-  /// The type of attribute. The types of attributes recognized by InferRxNorm are
-  /// <code>BRAND_NAME</code> and <code>GENERIC_NAME</code>.
-  final RxNormAttributeType? type;
-
-  RxNormAttribute({
-    this.beginOffset,
-    this.endOffset,
-    this.id,
-    this.relationshipScore,
-    this.score,
-    this.text,
-    this.traits,
-    this.type,
-  });
-
-  factory RxNormAttribute.fromJson(Map<String, dynamic> json) {
-    return RxNormAttribute(
-      beginOffset: json['BeginOffset'] as int?,
-      endOffset: json['EndOffset'] as int?,
-      id: json['Id'] as int?,
-      relationshipScore: json['RelationshipScore'] as double?,
-      score: json['Score'] as double?,
-      text: json['Text'] as String?,
-      traits: (json['Traits'] as List?)
-          ?.nonNulls
-          .map((e) => RxNormTrait.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      type: (json['Type'] as String?)?.let(RxNormAttributeType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final beginOffset = this.beginOffset;
-    final endOffset = this.endOffset;
-    final id = this.id;
-    final relationshipScore = this.relationshipScore;
-    final score = this.score;
-    final text = this.text;
-    final traits = this.traits;
-    final type = this.type;
-    return {
-      if (beginOffset != null) 'BeginOffset': beginOffset,
-      if (endOffset != null) 'EndOffset': endOffset,
-      if (id != null) 'Id': id,
-      if (relationshipScore != null) 'RelationshipScore': relationshipScore,
-      if (score != null) 'Score': score,
-      if (text != null) 'Text': text,
-      if (traits != null) 'Traits': traits,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class RxNormAttributeType {
-  static const dosage = RxNormAttributeType._('DOSAGE');
-  static const duration = RxNormAttributeType._('DURATION');
-  static const form = RxNormAttributeType._('FORM');
-  static const frequency = RxNormAttributeType._('FREQUENCY');
-  static const rate = RxNormAttributeType._('RATE');
-  static const routeOrMode = RxNormAttributeType._('ROUTE_OR_MODE');
-  static const strength = RxNormAttributeType._('STRENGTH');
-
-  final String value;
-
-  const RxNormAttributeType._(this.value);
-
-  static const values = [
-    dosage,
-    duration,
-    form,
-    frequency,
-    rate,
-    routeOrMode,
-    strength
-  ];
-
-  static RxNormAttributeType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RxNormAttributeType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is RxNormAttributeType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The RxNorm concept that the entity could refer to, along with a score
-/// indicating the likelihood of the match.
-class RxNormConcept {
-  /// RxNorm concept ID, also known as the RxCUI.
-  final String? code;
-
-  /// The description of the RxNorm concept.
-  final String? description;
-
-  /// The level of confidence that Amazon Comprehend Medical has that the entity
-  /// is accurately linked to the reported RxNorm concept.
-  final double? score;
-
-  RxNormConcept({
-    this.code,
-    this.description,
-    this.score,
-  });
-
-  factory RxNormConcept.fromJson(Map<String, dynamic> json) {
-    return RxNormConcept(
-      code: json['Code'] as String?,
-      description: json['Description'] as String?,
-      score: json['Score'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final description = this.description;
-    final score = this.score;
-    return {
-      if (code != null) 'Code': code,
-      if (description != null) 'Description': description,
-      if (score != null) 'Score': score,
-    };
-  }
-}
-
-/// The collection of medical entities extracted from the input text and their
-/// associated information. For each entity, the response provides the entity
-/// text, the entity category, where the entity text begins and ends, and the
-/// level of confidence that Amazon Comprehend Medical has in the detection and
-/// analysis. Attributes and traits of the entity are also returned.
-class RxNormEntity {
-  /// The extracted attributes that relate to the entity. The attributes
-  /// recognized by InferRxNorm are <code>DOSAGE</code>, <code>DURATION</code>,
-  /// <code>FORM</code>, <code>FREQUENCY</code>, <code>RATE</code>,
-  /// <code>ROUTE_OR_MODE</code>, and <code>STRENGTH</code>.
-  final List<RxNormAttribute>? attributes;
-
-  /// The 0-based character offset in the input text that shows where the entity
-  /// begins. The offset returns the UTF-8 code point in the string.
-  final int? beginOffset;
-
-  /// The category of the entity. The recognized categories are
-  /// <code>GENERIC</code> or <code>BRAND_NAME</code>.
-  final RxNormEntityCategory? category;
-
-  /// The 0-based character offset in the input text that shows where the entity
-  /// ends. The offset returns the UTF-8 code point in the string.
-  final int? endOffset;
-
-  /// The numeric identifier for the entity. This is a monotonically increasing id
-  /// unique within this response rather than a global unique identifier.
-  final int? id;
-
-  /// The RxNorm concepts that the entity could refer to, along with a score
-  /// indicating the likelihood of the match.
-  final List<RxNormConcept>? rxNormConcepts;
-
-  /// The level of confidence that Amazon Comprehend Medical has in the accuracy
-  /// of the detected entity.
-  final double? score;
-
-  /// The segment of input text extracted from which the entity was detected.
-  final String? text;
-
-  /// Contextual information for the entity.
-  final List<RxNormTrait>? traits;
-
-  /// Describes the specific type of entity. For InferRxNorm, the recognized
-  /// entity type is <code>MEDICATION</code>.
-  final RxNormEntityType? type;
-
-  RxNormEntity({
-    this.attributes,
-    this.beginOffset,
-    this.category,
-    this.endOffset,
-    this.id,
-    this.rxNormConcepts,
-    this.score,
-    this.text,
-    this.traits,
-    this.type,
-  });
-
-  factory RxNormEntity.fromJson(Map<String, dynamic> json) {
-    return RxNormEntity(
-      attributes: (json['Attributes'] as List?)
-          ?.nonNulls
-          .map((e) => RxNormAttribute.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      beginOffset: json['BeginOffset'] as int?,
-      category:
-          (json['Category'] as String?)?.let(RxNormEntityCategory.fromString),
-      endOffset: json['EndOffset'] as int?,
-      id: json['Id'] as int?,
-      rxNormConcepts: (json['RxNormConcepts'] as List?)
-          ?.nonNulls
-          .map((e) => RxNormConcept.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      score: json['Score'] as double?,
-      text: json['Text'] as String?,
-      traits: (json['Traits'] as List?)
-          ?.nonNulls
-          .map((e) => RxNormTrait.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      type: (json['Type'] as String?)?.let(RxNormEntityType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attributes = this.attributes;
-    final beginOffset = this.beginOffset;
-    final category = this.category;
-    final endOffset = this.endOffset;
-    final id = this.id;
-    final rxNormConcepts = this.rxNormConcepts;
-    final score = this.score;
-    final text = this.text;
-    final traits = this.traits;
-    final type = this.type;
-    return {
-      if (attributes != null) 'Attributes': attributes,
-      if (beginOffset != null) 'BeginOffset': beginOffset,
-      if (category != null) 'Category': category.value,
-      if (endOffset != null) 'EndOffset': endOffset,
-      if (id != null) 'Id': id,
-      if (rxNormConcepts != null) 'RxNormConcepts': rxNormConcepts,
-      if (score != null) 'Score': score,
-      if (text != null) 'Text': text,
-      if (traits != null) 'Traits': traits,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class RxNormEntityCategory {
-  static const medication = RxNormEntityCategory._('MEDICATION');
-
-  final String value;
-
-  const RxNormEntityCategory._(this.value);
-
-  static const values = [medication];
-
-  static RxNormEntityCategory fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RxNormEntityCategory._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is RxNormEntityCategory && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class RxNormEntityType {
-  static const brandName = RxNormEntityType._('BRAND_NAME');
-  static const genericName = RxNormEntityType._('GENERIC_NAME');
-
-  final String value;
-
-  const RxNormEntityType._(this.value);
-
-  static const values = [brandName, genericName];
-
-  static RxNormEntityType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RxNormEntityType._(value));
-
-  @override
-  bool operator ==(other) => other is RxNormEntityType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The contextual information for the entity. InferRxNorm recognizes the trait
-/// <code>NEGATION</code>, which is any indication that the patient is not
-/// taking a medication.
-class RxNormTrait {
-  /// Provides a name or contextual description about the trait.
-  final RxNormTraitName? name;
-
-  /// The level of confidence that Amazon Comprehend Medical has in the accuracy
-  /// of the detected trait.
-  final double? score;
-
-  RxNormTrait({
-    this.name,
-    this.score,
-  });
-
-  factory RxNormTrait.fromJson(Map<String, dynamic> json) {
-    return RxNormTrait(
-      name: (json['Name'] as String?)?.let(RxNormTraitName.fromString),
-      score: json['Score'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final score = this.score;
-    return {
-      if (name != null) 'Name': name.value,
-      if (score != null) 'Score': score,
-    };
-  }
-}
-
-class RxNormTraitName {
-  static const negation = RxNormTraitName._('NEGATION');
-  static const pastHistory = RxNormTraitName._('PAST_HISTORY');
-
-  final String value;
-
-  const RxNormTraitName._(this.value);
-
-  static const values = [negation, pastHistory];
-
-  static RxNormTraitName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RxNormTraitName._(value));
-
-  @override
-  bool operator ==(other) => other is RxNormTraitName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The extracted attributes that relate to an entity. An extracted segment of
-/// the text that is an attribute of an entity, or otherwise related to an
-/// entity, such as the dosage of a medication taken.
-class SNOMEDCTAttribute {
-  /// The 0-based character offset in the input text that shows where the
-  /// attribute begins. The offset returns the UTF-8 code point in the string.
-  final int? beginOffset;
-
-  /// The category of the detected attribute. Possible categories include
-  /// MEDICAL_CONDITION, ANATOMY, and TEST_TREATMENT_PROCEDURE.
-  final SNOMEDCTEntityCategory? category;
-
-  /// The 0-based character offset in the input text that shows where the
-  /// attribute ends. The offset returns the UTF-8 code point in the string.
-  final int? endOffset;
-
-  /// The numeric identifier for this attribute. This is a monotonically
-  /// increasing id unique within this response rather than a global unique
-  /// identifier.
-  final int? id;
-
-  /// The level of confidence that Amazon Comprehend Medical has that this
-  /// attribute is correctly related to this entity.
-  final double? relationshipScore;
-
-  /// The type of relationship that exists between the entity and the related
-  /// attribute.
-  final SNOMEDCTRelationshipType? relationshipType;
-
-  /// The SNOMED-CT concepts specific to an attribute, along with a score
-  /// indicating the likelihood of the match.
-  final List<SNOMEDCTConcept>? sNOMEDCTConcepts;
-
-  /// The level of confidence that Amazon Comprehend Medical has that the segment
-  /// of text is correctly recognized as an attribute.
-  final double? score;
-
-  /// The segment of input text extracted as this attribute.
-  final String? text;
-
-  /// Contextual information for an attribute. Examples include signs, symptoms,
-  /// diagnosis, and negation.
-  final List<SNOMEDCTTrait>? traits;
-
-  /// The type of attribute. Possible types include DX_NAME, ACUITY, DIRECTION,
-  /// SYSTEM_ORGAN_SITE,TEST_NAME, TEST_VALUE, TEST_UNIT, PROCEDURE_NAME, and
-  /// TREATMENT_NAME.
-  final SNOMEDCTAttributeType? type;
-
-  SNOMEDCTAttribute({
-    this.beginOffset,
-    this.category,
-    this.endOffset,
-    this.id,
-    this.relationshipScore,
-    this.relationshipType,
-    this.sNOMEDCTConcepts,
-    this.score,
-    this.text,
-    this.traits,
-    this.type,
-  });
-
-  factory SNOMEDCTAttribute.fromJson(Map<String, dynamic> json) {
-    return SNOMEDCTAttribute(
-      beginOffset: json['BeginOffset'] as int?,
-      category:
-          (json['Category'] as String?)?.let(SNOMEDCTEntityCategory.fromString),
-      endOffset: json['EndOffset'] as int?,
-      id: json['Id'] as int?,
-      relationshipScore: json['RelationshipScore'] as double?,
-      relationshipType: (json['RelationshipType'] as String?)
-          ?.let(SNOMEDCTRelationshipType.fromString),
-      sNOMEDCTConcepts: (json['SNOMEDCTConcepts'] as List?)
-          ?.nonNulls
-          .map((e) => SNOMEDCTConcept.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      score: json['Score'] as double?,
-      text: json['Text'] as String?,
-      traits: (json['Traits'] as List?)
-          ?.nonNulls
-          .map((e) => SNOMEDCTTrait.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      type: (json['Type'] as String?)?.let(SNOMEDCTAttributeType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final beginOffset = this.beginOffset;
-    final category = this.category;
-    final endOffset = this.endOffset;
-    final id = this.id;
-    final relationshipScore = this.relationshipScore;
-    final relationshipType = this.relationshipType;
-    final sNOMEDCTConcepts = this.sNOMEDCTConcepts;
-    final score = this.score;
-    final text = this.text;
-    final traits = this.traits;
-    final type = this.type;
-    return {
-      if (beginOffset != null) 'BeginOffset': beginOffset,
-      if (category != null) 'Category': category.value,
-      if (endOffset != null) 'EndOffset': endOffset,
-      if (id != null) 'Id': id,
-      if (relationshipScore != null) 'RelationshipScore': relationshipScore,
-      if (relationshipType != null) 'RelationshipType': relationshipType.value,
-      if (sNOMEDCTConcepts != null) 'SNOMEDCTConcepts': sNOMEDCTConcepts,
-      if (score != null) 'Score': score,
-      if (text != null) 'Text': text,
-      if (traits != null) 'Traits': traits,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class SNOMEDCTAttributeType {
-  static const acuity = SNOMEDCTAttributeType._('ACUITY');
-  static const quality = SNOMEDCTAttributeType._('QUALITY');
-  static const direction = SNOMEDCTAttributeType._('DIRECTION');
-  static const systemOrganSite = SNOMEDCTAttributeType._('SYSTEM_ORGAN_SITE');
-  static const testValue = SNOMEDCTAttributeType._('TEST_VALUE');
-  static const testUnit = SNOMEDCTAttributeType._('TEST_UNIT');
-
-  final String value;
-
-  const SNOMEDCTAttributeType._(this.value);
-
-  static const values = [
-    acuity,
-    quality,
-    direction,
-    systemOrganSite,
-    testValue,
-    testUnit
-  ];
-
-  static SNOMEDCTAttributeType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SNOMEDCTAttributeType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SNOMEDCTAttributeType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The SNOMED-CT concepts that the entity could refer to, along with a score
-/// indicating the likelihood of the match.
-class SNOMEDCTConcept {
-  /// The numeric ID for the SNOMED-CT concept.
-  final String? code;
-
-  /// The description of the SNOMED-CT concept.
-  final String? description;
-
-  /// The level of confidence Amazon Comprehend Medical has that the entity should
-  /// be linked to the identified SNOMED-CT concept.
-  final double? score;
-
-  SNOMEDCTConcept({
-    this.code,
-    this.description,
-    this.score,
-  });
-
-  factory SNOMEDCTConcept.fromJson(Map<String, dynamic> json) {
-    return SNOMEDCTConcept(
-      code: json['Code'] as String?,
-      description: json['Description'] as String?,
-      score: json['Score'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final description = this.description;
-    final score = this.score;
-    return {
-      if (code != null) 'Code': code,
-      if (description != null) 'Description': description,
-      if (score != null) 'Score': score,
-    };
-  }
-}
-
-/// The information about the revision of the SNOMED-CT ontology in the
-/// response. Specifically, the details include the SNOMED-CT edition, language,
-/// and version date.
-class SNOMEDCTDetails {
-  /// The edition of SNOMED-CT used. The edition used for the InferSNOMEDCT
-  /// editions is the US edition.
-  final String? edition;
-
-  /// The language used in the SNOMED-CT ontology. All Amazon Comprehend Medical
-  /// operations are US English (en).
-  final String? language;
-
-  /// The version date of the SNOMED-CT ontology used.
-  final String? versionDate;
-
-  SNOMEDCTDetails({
-    this.edition,
-    this.language,
-    this.versionDate,
-  });
-
-  factory SNOMEDCTDetails.fromJson(Map<String, dynamic> json) {
-    return SNOMEDCTDetails(
-      edition: json['Edition'] as String?,
-      language: json['Language'] as String?,
-      versionDate: json['VersionDate'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final edition = this.edition;
-    final language = this.language;
-    final versionDate = this.versionDate;
-    return {
-      if (edition != null) 'Edition': edition,
-      if (language != null) 'Language': language,
-      if (versionDate != null) 'VersionDate': versionDate,
-    };
-  }
-}
-
-/// The collection of medical entities extracted from the input text and their
-/// associated information. For each entity, the response provides the entity
-/// text, the entity category, where the entity text begins and ends, and the
-/// level of confidence that Amazon Comprehend Medical has in the detection and
-/// analysis. Attributes and traits of the entity are also returned.
-class SNOMEDCTEntity {
-  /// An extracted segment of the text that is an attribute of an entity, or
-  /// otherwise related to an entity, such as the dosage of a medication taken.
-  final List<SNOMEDCTAttribute>? attributes;
-
-  /// The 0-based character offset in the input text that shows where the entity
-  /// begins. The offset returns the UTF-8 code point in the string.
-  final int? beginOffset;
-
-  /// The category of the detected entity. Possible categories are
-  /// MEDICAL_CONDITION, ANATOMY, or TEST_TREATMENT_PROCEDURE.
-  final SNOMEDCTEntityCategory? category;
-
-  /// The 0-based character offset in the input text that shows where the entity
-  /// ends. The offset returns the UTF-8 code point in the string.
-  final int? endOffset;
-
-  /// The numeric identifier for the entity. This is a monotonically increasing id
-  /// unique within this response rather than a global unique identifier.
-  final int? id;
-
-  /// The SNOMED concepts that the entity could refer to, along with a score
-  /// indicating the likelihood of the match.
-  final List<SNOMEDCTConcept>? sNOMEDCTConcepts;
-
-  /// The level of confidence that Amazon Comprehend Medical has in the accuracy
-  /// of the detected entity.
-  final double? score;
-
-  /// The segment of input text extracted as this entity.
-  final String? text;
-
-  /// Contextual information for the entity.
-  final List<SNOMEDCTTrait>? traits;
-
-  /// Describes the specific type of entity with category of entities. Possible
-  /// types include DX_NAME, ACUITY, DIRECTION, SYSTEM_ORGAN_SITE, TEST_NAME,
-  /// TEST_VALUE, TEST_UNIT, PROCEDURE_NAME, or TREATMENT_NAME.
-  final SNOMEDCTEntityType? type;
-
-  SNOMEDCTEntity({
-    this.attributes,
-    this.beginOffset,
-    this.category,
-    this.endOffset,
-    this.id,
-    this.sNOMEDCTConcepts,
-    this.score,
-    this.text,
-    this.traits,
-    this.type,
-  });
-
-  factory SNOMEDCTEntity.fromJson(Map<String, dynamic> json) {
-    return SNOMEDCTEntity(
-      attributes: (json['Attributes'] as List?)
-          ?.nonNulls
-          .map((e) => SNOMEDCTAttribute.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      beginOffset: json['BeginOffset'] as int?,
-      category:
-          (json['Category'] as String?)?.let(SNOMEDCTEntityCategory.fromString),
-      endOffset: json['EndOffset'] as int?,
-      id: json['Id'] as int?,
-      sNOMEDCTConcepts: (json['SNOMEDCTConcepts'] as List?)
-          ?.nonNulls
-          .map((e) => SNOMEDCTConcept.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      score: json['Score'] as double?,
-      text: json['Text'] as String?,
-      traits: (json['Traits'] as List?)
-          ?.nonNulls
-          .map((e) => SNOMEDCTTrait.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      type: (json['Type'] as String?)?.let(SNOMEDCTEntityType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attributes = this.attributes;
-    final beginOffset = this.beginOffset;
-    final category = this.category;
-    final endOffset = this.endOffset;
-    final id = this.id;
-    final sNOMEDCTConcepts = this.sNOMEDCTConcepts;
-    final score = this.score;
-    final text = this.text;
-    final traits = this.traits;
-    final type = this.type;
-    return {
-      if (attributes != null) 'Attributes': attributes,
-      if (beginOffset != null) 'BeginOffset': beginOffset,
-      if (category != null) 'Category': category.value,
-      if (endOffset != null) 'EndOffset': endOffset,
-      if (id != null) 'Id': id,
-      if (sNOMEDCTConcepts != null) 'SNOMEDCTConcepts': sNOMEDCTConcepts,
-      if (score != null) 'Score': score,
-      if (text != null) 'Text': text,
-      if (traits != null) 'Traits': traits,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class SNOMEDCTEntityCategory {
-  static const medicalCondition = SNOMEDCTEntityCategory._('MEDICAL_CONDITION');
-  static const anatomy = SNOMEDCTEntityCategory._('ANATOMY');
-  static const testTreatmentProcedure =
-      SNOMEDCTEntityCategory._('TEST_TREATMENT_PROCEDURE');
-
-  final String value;
-
-  const SNOMEDCTEntityCategory._(this.value);
-
-  static const values = [medicalCondition, anatomy, testTreatmentProcedure];
-
-  static SNOMEDCTEntityCategory fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SNOMEDCTEntityCategory._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SNOMEDCTEntityCategory && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class SNOMEDCTEntityType {
-  static const dxName = SNOMEDCTEntityType._('DX_NAME');
-  static const testName = SNOMEDCTEntityType._('TEST_NAME');
-  static const procedureName = SNOMEDCTEntityType._('PROCEDURE_NAME');
-  static const treatmentName = SNOMEDCTEntityType._('TREATMENT_NAME');
-
-  final String value;
-
-  const SNOMEDCTEntityType._(this.value);
-
-  static const values = [dxName, testName, procedureName, treatmentName];
-
-  static SNOMEDCTEntityType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SNOMEDCTEntityType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SNOMEDCTEntityType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class SNOMEDCTRelationshipType {
-  static const acuity = SNOMEDCTRelationshipType._('ACUITY');
-  static const quality = SNOMEDCTRelationshipType._('QUALITY');
-  static const testValue = SNOMEDCTRelationshipType._('TEST_VALUE');
-  static const testUnits = SNOMEDCTRelationshipType._('TEST_UNITS');
-  static const direction = SNOMEDCTRelationshipType._('DIRECTION');
-  static const systemOrganSite =
-      SNOMEDCTRelationshipType._('SYSTEM_ORGAN_SITE');
-  static const testUnit = SNOMEDCTRelationshipType._('TEST_UNIT');
-
-  final String value;
-
-  const SNOMEDCTRelationshipType._(this.value);
-
-  static const values = [
-    acuity,
-    quality,
-    testValue,
-    testUnits,
-    direction,
-    systemOrganSite,
-    testUnit
-  ];
-
-  static SNOMEDCTRelationshipType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SNOMEDCTRelationshipType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SNOMEDCTRelationshipType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contextual information for an entity.
-class SNOMEDCTTrait {
-  /// The name or contextual description of a detected trait.
-  final SNOMEDCTTraitName? name;
-
-  /// The level of confidence that Amazon Comprehend Medical has in the accuracy
-  /// of a detected trait.
-  final double? score;
-
-  SNOMEDCTTrait({
-    this.name,
-    this.score,
-  });
-
-  factory SNOMEDCTTrait.fromJson(Map<String, dynamic> json) {
-    return SNOMEDCTTrait(
-      name: (json['Name'] as String?)?.let(SNOMEDCTTraitName.fromString),
-      score: json['Score'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final score = this.score;
-    return {
-      if (name != null) 'Name': name.value,
-      if (score != null) 'Score': score,
-    };
-  }
-}
-
-class SNOMEDCTTraitName {
-  static const negation = SNOMEDCTTraitName._('NEGATION');
-  static const diagnosis = SNOMEDCTTraitName._('DIAGNOSIS');
-  static const sign = SNOMEDCTTraitName._('SIGN');
-  static const symptom = SNOMEDCTTraitName._('SYMPTOM');
-  static const pertainsToFamily = SNOMEDCTTraitName._('PERTAINS_TO_FAMILY');
-  static const hypothetical = SNOMEDCTTraitName._('HYPOTHETICAL');
-  static const lowConfidence = SNOMEDCTTraitName._('LOW_CONFIDENCE');
-  static const pastHistory = SNOMEDCTTraitName._('PAST_HISTORY');
-  static const future = SNOMEDCTTraitName._('FUTURE');
-
-  final String value;
-
-  const SNOMEDCTTraitName._(this.value);
-
-  static const values = [
-    negation,
-    diagnosis,
-    sign,
-    symptom,
-    pertainsToFamily,
-    hypothetical,
-    lowConfidence,
-    pastHistory,
-    future
-  ];
-
-  static SNOMEDCTTraitName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SNOMEDCTTraitName._(value));
-
-  @override
-  bool operator ==(other) => other is SNOMEDCTTraitName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class StartEntitiesDetectionV2JobResponse {
@@ -4175,6 +2069,2069 @@ class StopSNOMEDCTInferenceJobResponse {
   }
 }
 
+/// The input properties for an entities detection job. This includes the name
+/// of the S3 bucket and the path to the files to be analyzed.
+class InputDataConfig {
+  /// The URI of the S3 bucket that contains the input data. The bucket must be in
+  /// the same region as the API endpoint that you are calling.
+  final String s3Bucket;
+
+  /// The path to the input data files in the S3 bucket.
+  final String? s3Key;
+
+  InputDataConfig({
+    required this.s3Bucket,
+    this.s3Key,
+  });
+
+  factory InputDataConfig.fromJson(Map<String, dynamic> json) {
+    return InputDataConfig(
+      s3Bucket: (json['S3Bucket'] as String?) ?? '',
+      s3Key: json['S3Key'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Bucket = this.s3Bucket;
+    final s3Key = this.s3Key;
+    return {
+      'S3Bucket': s3Bucket,
+      if (s3Key != null) 'S3Key': s3Key,
+    };
+  }
+}
+
+/// The output properties for a detection job.
+class OutputDataConfig {
+  /// When you use the <code>OutputDataConfig</code> object with asynchronous
+  /// operations, you specify the Amazon S3 location where you want to write the
+  /// output data. The URI must be in the same region as the API endpoint that you
+  /// are calling. The location is used as the prefix for the actual location of
+  /// the output.
+  final String s3Bucket;
+
+  /// The path to the output data files in the S3 bucket. Amazon Comprehend
+  /// Medical creates an output directory using the job ID so that the output from
+  /// one job does not overwrite the output of another.
+  final String? s3Key;
+
+  OutputDataConfig({
+    required this.s3Bucket,
+    this.s3Key,
+  });
+
+  factory OutputDataConfig.fromJson(Map<String, dynamic> json) {
+    return OutputDataConfig(
+      s3Bucket: (json['S3Bucket'] as String?) ?? '',
+      s3Key: json['S3Key'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Bucket = this.s3Bucket;
+    final s3Key = this.s3Key;
+    return {
+      'S3Bucket': s3Bucket,
+      if (s3Key != null) 'S3Key': s3Key,
+    };
+  }
+}
+
+class LanguageCode {
+  static const en = LanguageCode._('en');
+
+  final String value;
+
+  const LanguageCode._(this.value);
+
+  static const values = [en];
+
+  static LanguageCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LanguageCode._(value));
+
+  @override
+  bool operator ==(other) => other is LanguageCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides information about a detection job.
+class ComprehendMedicalAsyncJobProperties {
+  /// The Amazon Resource Name (ARN) that gives Amazon Comprehend Medical read
+  /// access to your input data.
+  final String? dataAccessRoleArn;
+
+  /// The time that the detection job completed.
+  final DateTime? endTime;
+
+  /// The date and time that job metadata is deleted from the server. Output files
+  /// in your S3 bucket will not be deleted. After the metadata is deleted, the
+  /// job will no longer appear in the results of the
+  /// <code>ListEntitiesDetectionV2Job</code> or the
+  /// <code>ListPHIDetectionJobs</code> operation.
+  final DateTime? expirationTime;
+
+  /// The input data configuration that you supplied when you created the
+  /// detection job.
+  final InputDataConfig? inputDataConfig;
+
+  /// The identifier assigned to the detection job.
+  final String? jobId;
+
+  /// The name that you assigned to the detection job.
+  final String? jobName;
+
+  /// The current status of the detection job. If the status is
+  /// <code>FAILED</code>, the <code>Message</code> field shows the reason for the
+  /// failure.
+  final JobStatus? jobStatus;
+
+  /// The AWS Key Management Service key, if any, used to encrypt the output
+  /// files.
+  final String? kMSKey;
+
+  /// The language code of the input documents.
+  final LanguageCode? languageCode;
+
+  /// The path to the file that describes the results of a batch job.
+  final String? manifestFilePath;
+
+  /// A description of the status of a job.
+  final String? message;
+
+  /// The version of the model used to analyze the documents. The version number
+  /// looks like X.X.X. You can use this information to track the model used for a
+  /// particular batch of documents.
+  final String? modelVersion;
+
+  /// The output data configuration that you supplied when you created the
+  /// detection job.
+  final OutputDataConfig? outputDataConfig;
+
+  /// The time that the detection job was submitted for processing.
+  final DateTime? submitTime;
+
+  ComprehendMedicalAsyncJobProperties({
+    this.dataAccessRoleArn,
+    this.endTime,
+    this.expirationTime,
+    this.inputDataConfig,
+    this.jobId,
+    this.jobName,
+    this.jobStatus,
+    this.kMSKey,
+    this.languageCode,
+    this.manifestFilePath,
+    this.message,
+    this.modelVersion,
+    this.outputDataConfig,
+    this.submitTime,
+  });
+
+  factory ComprehendMedicalAsyncJobProperties.fromJson(
+      Map<String, dynamic> json) {
+    return ComprehendMedicalAsyncJobProperties(
+      dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
+      endTime: timeStampFromJson(json['EndTime']),
+      expirationTime: timeStampFromJson(json['ExpirationTime']),
+      inputDataConfig: json['InputDataConfig'] != null
+          ? InputDataConfig.fromJson(
+              json['InputDataConfig'] as Map<String, dynamic>)
+          : null,
+      jobId: json['JobId'] as String?,
+      jobName: json['JobName'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.let(JobStatus.fromString),
+      kMSKey: json['KMSKey'] as String?,
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
+      manifestFilePath: json['ManifestFilePath'] as String?,
+      message: json['Message'] as String?,
+      modelVersion: json['ModelVersion'] as String?,
+      outputDataConfig: json['OutputDataConfig'] != null
+          ? OutputDataConfig.fromJson(
+              json['OutputDataConfig'] as Map<String, dynamic>)
+          : null,
+      submitTime: timeStampFromJson(json['SubmitTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataAccessRoleArn = this.dataAccessRoleArn;
+    final endTime = this.endTime;
+    final expirationTime = this.expirationTime;
+    final inputDataConfig = this.inputDataConfig;
+    final jobId = this.jobId;
+    final jobName = this.jobName;
+    final jobStatus = this.jobStatus;
+    final kMSKey = this.kMSKey;
+    final languageCode = this.languageCode;
+    final manifestFilePath = this.manifestFilePath;
+    final message = this.message;
+    final modelVersion = this.modelVersion;
+    final outputDataConfig = this.outputDataConfig;
+    final submitTime = this.submitTime;
+    return {
+      if (dataAccessRoleArn != null) 'DataAccessRoleArn': dataAccessRoleArn,
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (expirationTime != null)
+        'ExpirationTime': unixTimestampToJson(expirationTime),
+      if (inputDataConfig != null) 'InputDataConfig': inputDataConfig,
+      if (jobId != null) 'JobId': jobId,
+      if (jobName != null) 'JobName': jobName,
+      if (jobStatus != null) 'JobStatus': jobStatus.value,
+      if (kMSKey != null) 'KMSKey': kMSKey,
+      if (languageCode != null) 'LanguageCode': languageCode.value,
+      if (manifestFilePath != null) 'ManifestFilePath': manifestFilePath,
+      if (message != null) 'Message': message,
+      if (modelVersion != null) 'ModelVersion': modelVersion,
+      if (outputDataConfig != null) 'OutputDataConfig': outputDataConfig,
+      if (submitTime != null) 'SubmitTime': unixTimestampToJson(submitTime),
+    };
+  }
+}
+
+class JobStatus {
+  static const submitted = JobStatus._('SUBMITTED');
+  static const inProgress = JobStatus._('IN_PROGRESS');
+  static const completed = JobStatus._('COMPLETED');
+  static const partialSuccess = JobStatus._('PARTIAL_SUCCESS');
+  static const failed = JobStatus._('FAILED');
+  static const stopRequested = JobStatus._('STOP_REQUESTED');
+  static const stopped = JobStatus._('STOPPED');
+
+  final String value;
+
+  const JobStatus._(this.value);
+
+  static const values = [
+    submitted,
+    inProgress,
+    completed,
+    partialSuccess,
+    failed,
+    stopRequested,
+    stopped
+  ];
+
+  static JobStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobStatus._(value));
+
+  @override
+  bool operator ==(other) => other is JobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides information for filtering a list of detection jobs.
+class ComprehendMedicalAsyncJobFilter {
+  /// Filters on the name of the job.
+  final String? jobName;
+
+  /// Filters the list of jobs based on job status. Returns only jobs with the
+  /// specified status.
+  final JobStatus? jobStatus;
+
+  /// Filters the list of jobs based on the time that the job was submitted for
+  /// processing. Returns only jobs submitted after the specified time. Jobs are
+  /// returned in descending order, newest to oldest.
+  final DateTime? submitTimeAfter;
+
+  /// Filters the list of jobs based on the time that the job was submitted for
+  /// processing. Returns only jobs submitted before the specified time. Jobs are
+  /// returned in ascending order, oldest to newest.
+  final DateTime? submitTimeBefore;
+
+  ComprehendMedicalAsyncJobFilter({
+    this.jobName,
+    this.jobStatus,
+    this.submitTimeAfter,
+    this.submitTimeBefore,
+  });
+
+  Map<String, dynamic> toJson() {
+    final jobName = this.jobName;
+    final jobStatus = this.jobStatus;
+    final submitTimeAfter = this.submitTimeAfter;
+    final submitTimeBefore = this.submitTimeBefore;
+    return {
+      if (jobName != null) 'JobName': jobName,
+      if (jobStatus != null) 'JobStatus': jobStatus.value,
+      if (submitTimeAfter != null)
+        'SubmitTimeAfter': unixTimestampToJson(submitTimeAfter),
+      if (submitTimeBefore != null)
+        'SubmitTimeBefore': unixTimestampToJson(submitTimeBefore),
+    };
+  }
+}
+
+/// The information about the revision of the SNOMED-CT ontology in the
+/// response. Specifically, the details include the SNOMED-CT edition, language,
+/// and version date.
+class SNOMEDCTDetails {
+  /// The edition of SNOMED-CT used. The edition used for the InferSNOMEDCT
+  /// editions is the US edition.
+  final String? edition;
+
+  /// The language used in the SNOMED-CT ontology. All Amazon Comprehend Medical
+  /// operations are US English (en).
+  final String? language;
+
+  /// The version date of the SNOMED-CT ontology used.
+  final String? versionDate;
+
+  SNOMEDCTDetails({
+    this.edition,
+    this.language,
+    this.versionDate,
+  });
+
+  factory SNOMEDCTDetails.fromJson(Map<String, dynamic> json) {
+    return SNOMEDCTDetails(
+      edition: json['Edition'] as String?,
+      language: json['Language'] as String?,
+      versionDate: json['VersionDate'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final edition = this.edition;
+    final language = this.language;
+    final versionDate = this.versionDate;
+    return {
+      if (edition != null) 'Edition': edition,
+      if (language != null) 'Language': language,
+      if (versionDate != null) 'VersionDate': versionDate,
+    };
+  }
+}
+
+/// The number of characters in the input text to be analyzed.
+class Characters {
+  /// The number of characters present in the input text document as processed by
+  /// Amazon Comprehend Medical.
+  final int? originalTextCharacters;
+
+  Characters({
+    this.originalTextCharacters,
+  });
+
+  factory Characters.fromJson(Map<String, dynamic> json) {
+    return Characters(
+      originalTextCharacters: json['OriginalTextCharacters'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final originalTextCharacters = this.originalTextCharacters;
+    return {
+      if (originalTextCharacters != null)
+        'OriginalTextCharacters': originalTextCharacters,
+    };
+  }
+}
+
+/// The collection of medical entities extracted from the input text and their
+/// associated information. For each entity, the response provides the entity
+/// text, the entity category, where the entity text begins and ends, and the
+/// level of confidence that Amazon Comprehend Medical has in the detection and
+/// analysis. Attributes and traits of the entity are also returned.
+class SNOMEDCTEntity {
+  /// An extracted segment of the text that is an attribute of an entity, or
+  /// otherwise related to an entity, such as the dosage of a medication taken.
+  final List<SNOMEDCTAttribute>? attributes;
+
+  /// The 0-based character offset in the input text that shows where the entity
+  /// begins. The offset returns the UTF-8 code point in the string.
+  final int? beginOffset;
+
+  /// The category of the detected entity. Possible categories are
+  /// MEDICAL_CONDITION, ANATOMY, or TEST_TREATMENT_PROCEDURE.
+  final SNOMEDCTEntityCategory? category;
+
+  /// The 0-based character offset in the input text that shows where the entity
+  /// ends. The offset returns the UTF-8 code point in the string.
+  final int? endOffset;
+
+  /// The numeric identifier for the entity. This is a monotonically increasing id
+  /// unique within this response rather than a global unique identifier.
+  final int? id;
+
+  /// The SNOMED concepts that the entity could refer to, along with a score
+  /// indicating the likelihood of the match.
+  final List<SNOMEDCTConcept>? sNOMEDCTConcepts;
+
+  /// The level of confidence that Amazon Comprehend Medical has in the accuracy
+  /// of the detected entity.
+  final double? score;
+
+  /// The segment of input text extracted as this entity.
+  final String? text;
+
+  /// Contextual information for the entity.
+  final List<SNOMEDCTTrait>? traits;
+
+  /// Describes the specific type of entity with category of entities. Possible
+  /// types include DX_NAME, ACUITY, DIRECTION, SYSTEM_ORGAN_SITE, TEST_NAME,
+  /// TEST_VALUE, TEST_UNIT, PROCEDURE_NAME, or TREATMENT_NAME.
+  final SNOMEDCTEntityType? type;
+
+  SNOMEDCTEntity({
+    this.attributes,
+    this.beginOffset,
+    this.category,
+    this.endOffset,
+    this.id,
+    this.sNOMEDCTConcepts,
+    this.score,
+    this.text,
+    this.traits,
+    this.type,
+  });
+
+  factory SNOMEDCTEntity.fromJson(Map<String, dynamic> json) {
+    return SNOMEDCTEntity(
+      attributes: (json['Attributes'] as List?)
+          ?.nonNulls
+          .map((e) => SNOMEDCTAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      beginOffset: json['BeginOffset'] as int?,
+      category:
+          (json['Category'] as String?)?.let(SNOMEDCTEntityCategory.fromString),
+      endOffset: json['EndOffset'] as int?,
+      id: json['Id'] as int?,
+      sNOMEDCTConcepts: (json['SNOMEDCTConcepts'] as List?)
+          ?.nonNulls
+          .map((e) => SNOMEDCTConcept.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      score: json['Score'] as double?,
+      text: json['Text'] as String?,
+      traits: (json['Traits'] as List?)
+          ?.nonNulls
+          .map((e) => SNOMEDCTTrait.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['Type'] as String?)?.let(SNOMEDCTEntityType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final beginOffset = this.beginOffset;
+    final category = this.category;
+    final endOffset = this.endOffset;
+    final id = this.id;
+    final sNOMEDCTConcepts = this.sNOMEDCTConcepts;
+    final score = this.score;
+    final text = this.text;
+    final traits = this.traits;
+    final type = this.type;
+    return {
+      if (attributes != null) 'Attributes': attributes,
+      if (beginOffset != null) 'BeginOffset': beginOffset,
+      if (category != null) 'Category': category.value,
+      if (endOffset != null) 'EndOffset': endOffset,
+      if (id != null) 'Id': id,
+      if (sNOMEDCTConcepts != null) 'SNOMEDCTConcepts': sNOMEDCTConcepts,
+      if (score != null) 'Score': score,
+      if (text != null) 'Text': text,
+      if (traits != null) 'Traits': traits,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class SNOMEDCTEntityCategory {
+  static const medicalCondition = SNOMEDCTEntityCategory._('MEDICAL_CONDITION');
+  static const anatomy = SNOMEDCTEntityCategory._('ANATOMY');
+  static const testTreatmentProcedure =
+      SNOMEDCTEntityCategory._('TEST_TREATMENT_PROCEDURE');
+
+  final String value;
+
+  const SNOMEDCTEntityCategory._(this.value);
+
+  static const values = [medicalCondition, anatomy, testTreatmentProcedure];
+
+  static SNOMEDCTEntityCategory fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SNOMEDCTEntityCategory._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SNOMEDCTEntityCategory && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SNOMEDCTEntityType {
+  static const dxName = SNOMEDCTEntityType._('DX_NAME');
+  static const testName = SNOMEDCTEntityType._('TEST_NAME');
+  static const procedureName = SNOMEDCTEntityType._('PROCEDURE_NAME');
+  static const treatmentName = SNOMEDCTEntityType._('TREATMENT_NAME');
+
+  final String value;
+
+  const SNOMEDCTEntityType._(this.value);
+
+  static const values = [dxName, testName, procedureName, treatmentName];
+
+  static SNOMEDCTEntityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SNOMEDCTEntityType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SNOMEDCTEntityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The SNOMED-CT concepts that the entity could refer to, along with a score
+/// indicating the likelihood of the match.
+class SNOMEDCTConcept {
+  /// The numeric ID for the SNOMED-CT concept.
+  final String? code;
+
+  /// The description of the SNOMED-CT concept.
+  final String? description;
+
+  /// The level of confidence Amazon Comprehend Medical has that the entity should
+  /// be linked to the identified SNOMED-CT concept.
+  final double? score;
+
+  SNOMEDCTConcept({
+    this.code,
+    this.description,
+    this.score,
+  });
+
+  factory SNOMEDCTConcept.fromJson(Map<String, dynamic> json) {
+    return SNOMEDCTConcept(
+      code: json['Code'] as String?,
+      description: json['Description'] as String?,
+      score: json['Score'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final description = this.description;
+    final score = this.score;
+    return {
+      if (code != null) 'Code': code,
+      if (description != null) 'Description': description,
+      if (score != null) 'Score': score,
+    };
+  }
+}
+
+/// Contextual information for an entity.
+class SNOMEDCTTrait {
+  /// The name or contextual description of a detected trait.
+  final SNOMEDCTTraitName? name;
+
+  /// The level of confidence that Amazon Comprehend Medical has in the accuracy
+  /// of a detected trait.
+  final double? score;
+
+  SNOMEDCTTrait({
+    this.name,
+    this.score,
+  });
+
+  factory SNOMEDCTTrait.fromJson(Map<String, dynamic> json) {
+    return SNOMEDCTTrait(
+      name: (json['Name'] as String?)?.let(SNOMEDCTTraitName.fromString),
+      score: json['Score'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final score = this.score;
+    return {
+      if (name != null) 'Name': name.value,
+      if (score != null) 'Score': score,
+    };
+  }
+}
+
+class SNOMEDCTTraitName {
+  static const negation = SNOMEDCTTraitName._('NEGATION');
+  static const diagnosis = SNOMEDCTTraitName._('DIAGNOSIS');
+  static const sign = SNOMEDCTTraitName._('SIGN');
+  static const symptom = SNOMEDCTTraitName._('SYMPTOM');
+  static const pertainsToFamily = SNOMEDCTTraitName._('PERTAINS_TO_FAMILY');
+  static const hypothetical = SNOMEDCTTraitName._('HYPOTHETICAL');
+  static const lowConfidence = SNOMEDCTTraitName._('LOW_CONFIDENCE');
+  static const pastHistory = SNOMEDCTTraitName._('PAST_HISTORY');
+  static const future = SNOMEDCTTraitName._('FUTURE');
+
+  final String value;
+
+  const SNOMEDCTTraitName._(this.value);
+
+  static const values = [
+    negation,
+    diagnosis,
+    sign,
+    symptom,
+    pertainsToFamily,
+    hypothetical,
+    lowConfidence,
+    pastHistory,
+    future
+  ];
+
+  static SNOMEDCTTraitName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SNOMEDCTTraitName._(value));
+
+  @override
+  bool operator ==(other) => other is SNOMEDCTTraitName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The extracted attributes that relate to an entity. An extracted segment of
+/// the text that is an attribute of an entity, or otherwise related to an
+/// entity, such as the dosage of a medication taken.
+class SNOMEDCTAttribute {
+  /// The 0-based character offset in the input text that shows where the
+  /// attribute begins. The offset returns the UTF-8 code point in the string.
+  final int? beginOffset;
+
+  /// The category of the detected attribute. Possible categories include
+  /// MEDICAL_CONDITION, ANATOMY, and TEST_TREATMENT_PROCEDURE.
+  final SNOMEDCTEntityCategory? category;
+
+  /// The 0-based character offset in the input text that shows where the
+  /// attribute ends. The offset returns the UTF-8 code point in the string.
+  final int? endOffset;
+
+  /// The numeric identifier for this attribute. This is a monotonically
+  /// increasing id unique within this response rather than a global unique
+  /// identifier.
+  final int? id;
+
+  /// The level of confidence that Amazon Comprehend Medical has that this
+  /// attribute is correctly related to this entity.
+  final double? relationshipScore;
+
+  /// The type of relationship that exists between the entity and the related
+  /// attribute.
+  final SNOMEDCTRelationshipType? relationshipType;
+
+  /// The SNOMED-CT concepts specific to an attribute, along with a score
+  /// indicating the likelihood of the match.
+  final List<SNOMEDCTConcept>? sNOMEDCTConcepts;
+
+  /// The level of confidence that Amazon Comprehend Medical has that the segment
+  /// of text is correctly recognized as an attribute.
+  final double? score;
+
+  /// The segment of input text extracted as this attribute.
+  final String? text;
+
+  /// Contextual information for an attribute. Examples include signs, symptoms,
+  /// diagnosis, and negation.
+  final List<SNOMEDCTTrait>? traits;
+
+  /// The type of attribute. Possible types include DX_NAME, ACUITY, DIRECTION,
+  /// SYSTEM_ORGAN_SITE,TEST_NAME, TEST_VALUE, TEST_UNIT, PROCEDURE_NAME, and
+  /// TREATMENT_NAME.
+  final SNOMEDCTAttributeType? type;
+
+  SNOMEDCTAttribute({
+    this.beginOffset,
+    this.category,
+    this.endOffset,
+    this.id,
+    this.relationshipScore,
+    this.relationshipType,
+    this.sNOMEDCTConcepts,
+    this.score,
+    this.text,
+    this.traits,
+    this.type,
+  });
+
+  factory SNOMEDCTAttribute.fromJson(Map<String, dynamic> json) {
+    return SNOMEDCTAttribute(
+      beginOffset: json['BeginOffset'] as int?,
+      category:
+          (json['Category'] as String?)?.let(SNOMEDCTEntityCategory.fromString),
+      endOffset: json['EndOffset'] as int?,
+      id: json['Id'] as int?,
+      relationshipScore: json['RelationshipScore'] as double?,
+      relationshipType: (json['RelationshipType'] as String?)
+          ?.let(SNOMEDCTRelationshipType.fromString),
+      sNOMEDCTConcepts: (json['SNOMEDCTConcepts'] as List?)
+          ?.nonNulls
+          .map((e) => SNOMEDCTConcept.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      score: json['Score'] as double?,
+      text: json['Text'] as String?,
+      traits: (json['Traits'] as List?)
+          ?.nonNulls
+          .map((e) => SNOMEDCTTrait.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['Type'] as String?)?.let(SNOMEDCTAttributeType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final beginOffset = this.beginOffset;
+    final category = this.category;
+    final endOffset = this.endOffset;
+    final id = this.id;
+    final relationshipScore = this.relationshipScore;
+    final relationshipType = this.relationshipType;
+    final sNOMEDCTConcepts = this.sNOMEDCTConcepts;
+    final score = this.score;
+    final text = this.text;
+    final traits = this.traits;
+    final type = this.type;
+    return {
+      if (beginOffset != null) 'BeginOffset': beginOffset,
+      if (category != null) 'Category': category.value,
+      if (endOffset != null) 'EndOffset': endOffset,
+      if (id != null) 'Id': id,
+      if (relationshipScore != null) 'RelationshipScore': relationshipScore,
+      if (relationshipType != null) 'RelationshipType': relationshipType.value,
+      if (sNOMEDCTConcepts != null) 'SNOMEDCTConcepts': sNOMEDCTConcepts,
+      if (score != null) 'Score': score,
+      if (text != null) 'Text': text,
+      if (traits != null) 'Traits': traits,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class SNOMEDCTAttributeType {
+  static const acuity = SNOMEDCTAttributeType._('ACUITY');
+  static const quality = SNOMEDCTAttributeType._('QUALITY');
+  static const direction = SNOMEDCTAttributeType._('DIRECTION');
+  static const systemOrganSite = SNOMEDCTAttributeType._('SYSTEM_ORGAN_SITE');
+  static const testValue = SNOMEDCTAttributeType._('TEST_VALUE');
+  static const testUnit = SNOMEDCTAttributeType._('TEST_UNIT');
+
+  final String value;
+
+  const SNOMEDCTAttributeType._(this.value);
+
+  static const values = [
+    acuity,
+    quality,
+    direction,
+    systemOrganSite,
+    testValue,
+    testUnit
+  ];
+
+  static SNOMEDCTAttributeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SNOMEDCTAttributeType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SNOMEDCTAttributeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SNOMEDCTRelationshipType {
+  static const acuity = SNOMEDCTRelationshipType._('ACUITY');
+  static const quality = SNOMEDCTRelationshipType._('QUALITY');
+  static const testValue = SNOMEDCTRelationshipType._('TEST_VALUE');
+  static const testUnits = SNOMEDCTRelationshipType._('TEST_UNITS');
+  static const direction = SNOMEDCTRelationshipType._('DIRECTION');
+  static const systemOrganSite =
+      SNOMEDCTRelationshipType._('SYSTEM_ORGAN_SITE');
+  static const testUnit = SNOMEDCTRelationshipType._('TEST_UNIT');
+
+  final String value;
+
+  const SNOMEDCTRelationshipType._(this.value);
+
+  static const values = [
+    acuity,
+    quality,
+    testValue,
+    testUnits,
+    direction,
+    systemOrganSite,
+    testUnit
+  ];
+
+  static SNOMEDCTRelationshipType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SNOMEDCTRelationshipType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SNOMEDCTRelationshipType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The collection of medical entities extracted from the input text and their
+/// associated information. For each entity, the response provides the entity
+/// text, the entity category, where the entity text begins and ends, and the
+/// level of confidence that Amazon Comprehend Medical has in the detection and
+/// analysis. Attributes and traits of the entity are also returned.
+class RxNormEntity {
+  /// The extracted attributes that relate to the entity. The attributes
+  /// recognized by InferRxNorm are <code>DOSAGE</code>, <code>DURATION</code>,
+  /// <code>FORM</code>, <code>FREQUENCY</code>, <code>RATE</code>,
+  /// <code>ROUTE_OR_MODE</code>, and <code>STRENGTH</code>.
+  final List<RxNormAttribute>? attributes;
+
+  /// The 0-based character offset in the input text that shows where the entity
+  /// begins. The offset returns the UTF-8 code point in the string.
+  final int? beginOffset;
+
+  /// The category of the entity. The recognized categories are
+  /// <code>GENERIC</code> or <code>BRAND_NAME</code>.
+  final RxNormEntityCategory? category;
+
+  /// The 0-based character offset in the input text that shows where the entity
+  /// ends. The offset returns the UTF-8 code point in the string.
+  final int? endOffset;
+
+  /// The numeric identifier for the entity. This is a monotonically increasing id
+  /// unique within this response rather than a global unique identifier.
+  final int? id;
+
+  /// The RxNorm concepts that the entity could refer to, along with a score
+  /// indicating the likelihood of the match.
+  final List<RxNormConcept>? rxNormConcepts;
+
+  /// The level of confidence that Amazon Comprehend Medical has in the accuracy
+  /// of the detected entity.
+  final double? score;
+
+  /// The segment of input text extracted from which the entity was detected.
+  final String? text;
+
+  /// Contextual information for the entity.
+  final List<RxNormTrait>? traits;
+
+  /// Describes the specific type of entity. For InferRxNorm, the recognized
+  /// entity type is <code>MEDICATION</code>.
+  final RxNormEntityType? type;
+
+  RxNormEntity({
+    this.attributes,
+    this.beginOffset,
+    this.category,
+    this.endOffset,
+    this.id,
+    this.rxNormConcepts,
+    this.score,
+    this.text,
+    this.traits,
+    this.type,
+  });
+
+  factory RxNormEntity.fromJson(Map<String, dynamic> json) {
+    return RxNormEntity(
+      attributes: (json['Attributes'] as List?)
+          ?.nonNulls
+          .map((e) => RxNormAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      beginOffset: json['BeginOffset'] as int?,
+      category:
+          (json['Category'] as String?)?.let(RxNormEntityCategory.fromString),
+      endOffset: json['EndOffset'] as int?,
+      id: json['Id'] as int?,
+      rxNormConcepts: (json['RxNormConcepts'] as List?)
+          ?.nonNulls
+          .map((e) => RxNormConcept.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      score: json['Score'] as double?,
+      text: json['Text'] as String?,
+      traits: (json['Traits'] as List?)
+          ?.nonNulls
+          .map((e) => RxNormTrait.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['Type'] as String?)?.let(RxNormEntityType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final beginOffset = this.beginOffset;
+    final category = this.category;
+    final endOffset = this.endOffset;
+    final id = this.id;
+    final rxNormConcepts = this.rxNormConcepts;
+    final score = this.score;
+    final text = this.text;
+    final traits = this.traits;
+    final type = this.type;
+    return {
+      if (attributes != null) 'Attributes': attributes,
+      if (beginOffset != null) 'BeginOffset': beginOffset,
+      if (category != null) 'Category': category.value,
+      if (endOffset != null) 'EndOffset': endOffset,
+      if (id != null) 'Id': id,
+      if (rxNormConcepts != null) 'RxNormConcepts': rxNormConcepts,
+      if (score != null) 'Score': score,
+      if (text != null) 'Text': text,
+      if (traits != null) 'Traits': traits,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class RxNormEntityCategory {
+  static const medication = RxNormEntityCategory._('MEDICATION');
+
+  final String value;
+
+  const RxNormEntityCategory._(this.value);
+
+  static const values = [medication];
+
+  static RxNormEntityCategory fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RxNormEntityCategory._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RxNormEntityCategory && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class RxNormEntityType {
+  static const brandName = RxNormEntityType._('BRAND_NAME');
+  static const genericName = RxNormEntityType._('GENERIC_NAME');
+
+  final String value;
+
+  const RxNormEntityType._(this.value);
+
+  static const values = [brandName, genericName];
+
+  static RxNormEntityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RxNormEntityType._(value));
+
+  @override
+  bool operator ==(other) => other is RxNormEntityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The RxNorm concept that the entity could refer to, along with a score
+/// indicating the likelihood of the match.
+class RxNormConcept {
+  /// RxNorm concept ID, also known as the RxCUI.
+  final String? code;
+
+  /// The description of the RxNorm concept.
+  final String? description;
+
+  /// The level of confidence that Amazon Comprehend Medical has that the entity
+  /// is accurately linked to the reported RxNorm concept.
+  final double? score;
+
+  RxNormConcept({
+    this.code,
+    this.description,
+    this.score,
+  });
+
+  factory RxNormConcept.fromJson(Map<String, dynamic> json) {
+    return RxNormConcept(
+      code: json['Code'] as String?,
+      description: json['Description'] as String?,
+      score: json['Score'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final description = this.description;
+    final score = this.score;
+    return {
+      if (code != null) 'Code': code,
+      if (description != null) 'Description': description,
+      if (score != null) 'Score': score,
+    };
+  }
+}
+
+/// The contextual information for the entity. InferRxNorm recognizes the trait
+/// <code>NEGATION</code>, which is any indication that the patient is not
+/// taking a medication.
+class RxNormTrait {
+  /// Provides a name or contextual description about the trait.
+  final RxNormTraitName? name;
+
+  /// The level of confidence that Amazon Comprehend Medical has in the accuracy
+  /// of the detected trait.
+  final double? score;
+
+  RxNormTrait({
+    this.name,
+    this.score,
+  });
+
+  factory RxNormTrait.fromJson(Map<String, dynamic> json) {
+    return RxNormTrait(
+      name: (json['Name'] as String?)?.let(RxNormTraitName.fromString),
+      score: json['Score'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final score = this.score;
+    return {
+      if (name != null) 'Name': name.value,
+      if (score != null) 'Score': score,
+    };
+  }
+}
+
+class RxNormTraitName {
+  static const negation = RxNormTraitName._('NEGATION');
+  static const pastHistory = RxNormTraitName._('PAST_HISTORY');
+
+  final String value;
+
+  const RxNormTraitName._(this.value);
+
+  static const values = [negation, pastHistory];
+
+  static RxNormTraitName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RxNormTraitName._(value));
+
+  @override
+  bool operator ==(other) => other is RxNormTraitName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The extracted attributes that relate to this entity. The attributes
+/// recognized by InferRxNorm are <code>DOSAGE</code>, <code>DURATION</code>,
+/// <code>FORM</code>, <code>FREQUENCY</code>, <code>RATE</code>,
+/// <code>ROUTE_OR_MODE</code>.
+class RxNormAttribute {
+  /// The 0-based character offset in the input text that shows where the
+  /// attribute begins. The offset returns the UTF-8 code point in the string.
+  final int? beginOffset;
+
+  /// The 0-based character offset in the input text that shows where the
+  /// attribute ends. The offset returns the UTF-8 code point in the string.
+  final int? endOffset;
+
+  /// The numeric identifier for this attribute. This is a monotonically
+  /// increasing id unique within this response rather than a global unique
+  /// identifier.
+  final int? id;
+
+  /// The level of confidence that Amazon Comprehend Medical has that the
+  /// attribute is accurately linked to an entity.
+  final double? relationshipScore;
+
+  /// The level of confidence that Amazon Comprehend Medical has that the segment
+  /// of text is correctly recognized as an attribute.
+  final double? score;
+
+  /// The segment of input text which corresponds to the detected attribute.
+  final String? text;
+
+  /// Contextual information for the attribute. InferRxNorm recognizes the trait
+  /// <code>NEGATION</code> for attributes, i.e. that the patient is not taking a
+  /// specific dose or form of a medication.
+  final List<RxNormTrait>? traits;
+
+  /// The type of attribute. The types of attributes recognized by InferRxNorm are
+  /// <code>BRAND_NAME</code> and <code>GENERIC_NAME</code>.
+  final RxNormAttributeType? type;
+
+  RxNormAttribute({
+    this.beginOffset,
+    this.endOffset,
+    this.id,
+    this.relationshipScore,
+    this.score,
+    this.text,
+    this.traits,
+    this.type,
+  });
+
+  factory RxNormAttribute.fromJson(Map<String, dynamic> json) {
+    return RxNormAttribute(
+      beginOffset: json['BeginOffset'] as int?,
+      endOffset: json['EndOffset'] as int?,
+      id: json['Id'] as int?,
+      relationshipScore: json['RelationshipScore'] as double?,
+      score: json['Score'] as double?,
+      text: json['Text'] as String?,
+      traits: (json['Traits'] as List?)
+          ?.nonNulls
+          .map((e) => RxNormTrait.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['Type'] as String?)?.let(RxNormAttributeType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final beginOffset = this.beginOffset;
+    final endOffset = this.endOffset;
+    final id = this.id;
+    final relationshipScore = this.relationshipScore;
+    final score = this.score;
+    final text = this.text;
+    final traits = this.traits;
+    final type = this.type;
+    return {
+      if (beginOffset != null) 'BeginOffset': beginOffset,
+      if (endOffset != null) 'EndOffset': endOffset,
+      if (id != null) 'Id': id,
+      if (relationshipScore != null) 'RelationshipScore': relationshipScore,
+      if (score != null) 'Score': score,
+      if (text != null) 'Text': text,
+      if (traits != null) 'Traits': traits,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class RxNormAttributeType {
+  static const dosage = RxNormAttributeType._('DOSAGE');
+  static const duration = RxNormAttributeType._('DURATION');
+  static const form = RxNormAttributeType._('FORM');
+  static const frequency = RxNormAttributeType._('FREQUENCY');
+  static const rate = RxNormAttributeType._('RATE');
+  static const routeOrMode = RxNormAttributeType._('ROUTE_OR_MODE');
+  static const strength = RxNormAttributeType._('STRENGTH');
+
+  final String value;
+
+  const RxNormAttributeType._(this.value);
+
+  static const values = [
+    dosage,
+    duration,
+    form,
+    frequency,
+    rate,
+    routeOrMode,
+    strength
+  ];
+
+  static RxNormAttributeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RxNormAttributeType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RxNormAttributeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The collection of medical entities extracted from the input text and their
+/// associated information. For each entity, the response provides the entity
+/// text, the entity category, where the entity text begins and ends, and the
+/// level of confidence that Amazon Comprehend Medical has in the detection and
+/// analysis. Attributes and traits of the entity are also returned.
+class ICD10CMEntity {
+  /// The detected attributes that relate to the entity. An extracted segment of
+  /// the text that is an attribute of an entity, or otherwise related to an
+  /// entity, such as the nature of a medical condition.
+  final List<ICD10CMAttribute>? attributes;
+
+  /// The 0-based character offset in the input text that shows where the entity
+  /// begins. The offset returns the UTF-8 code point in the string.
+  final int? beginOffset;
+
+  /// The category of the entity. InferICD10CM detects entities in the
+  /// <code>MEDICAL_CONDITION</code> category.
+  final ICD10CMEntityCategory? category;
+
+  /// The 0-based character offset in the input text that shows where the entity
+  /// ends. The offset returns the UTF-8 code point in the string.
+  final int? endOffset;
+
+  /// The ICD-10-CM concepts that the entity could refer to, along with a score
+  /// indicating the likelihood of the match.
+  final List<ICD10CMConcept>? iCD10CMConcepts;
+
+  /// The numeric identifier for the entity. This is a monotonically increasing id
+  /// unique within this response rather than a global unique identifier.
+  final int? id;
+
+  /// The level of confidence that Amazon Comprehend Medical has in the accuracy
+  /// of the detection.
+  final double? score;
+
+  /// The segment of input text that is matched to the detected entity.
+  final String? text;
+
+  /// Provides Contextual information for the entity. The traits recognized by
+  /// InferICD10CM are <code>DIAGNOSIS</code>, <code>SIGN</code>,
+  /// <code>SYMPTOM</code>, and <code>NEGATION.</code>
+  final List<ICD10CMTrait>? traits;
+
+  /// Describes the specific type of entity with category of entities.
+  /// InferICD10CM detects entities of the type <code>DX_NAME</code> and
+  /// <code>TIME_EXPRESSION</code>.
+  final ICD10CMEntityType? type;
+
+  ICD10CMEntity({
+    this.attributes,
+    this.beginOffset,
+    this.category,
+    this.endOffset,
+    this.iCD10CMConcepts,
+    this.id,
+    this.score,
+    this.text,
+    this.traits,
+    this.type,
+  });
+
+  factory ICD10CMEntity.fromJson(Map<String, dynamic> json) {
+    return ICD10CMEntity(
+      attributes: (json['Attributes'] as List?)
+          ?.nonNulls
+          .map((e) => ICD10CMAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      beginOffset: json['BeginOffset'] as int?,
+      category:
+          (json['Category'] as String?)?.let(ICD10CMEntityCategory.fromString),
+      endOffset: json['EndOffset'] as int?,
+      iCD10CMConcepts: (json['ICD10CMConcepts'] as List?)
+          ?.nonNulls
+          .map((e) => ICD10CMConcept.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      id: json['Id'] as int?,
+      score: json['Score'] as double?,
+      text: json['Text'] as String?,
+      traits: (json['Traits'] as List?)
+          ?.nonNulls
+          .map((e) => ICD10CMTrait.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['Type'] as String?)?.let(ICD10CMEntityType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final beginOffset = this.beginOffset;
+    final category = this.category;
+    final endOffset = this.endOffset;
+    final iCD10CMConcepts = this.iCD10CMConcepts;
+    final id = this.id;
+    final score = this.score;
+    final text = this.text;
+    final traits = this.traits;
+    final type = this.type;
+    return {
+      if (attributes != null) 'Attributes': attributes,
+      if (beginOffset != null) 'BeginOffset': beginOffset,
+      if (category != null) 'Category': category.value,
+      if (endOffset != null) 'EndOffset': endOffset,
+      if (iCD10CMConcepts != null) 'ICD10CMConcepts': iCD10CMConcepts,
+      if (id != null) 'Id': id,
+      if (score != null) 'Score': score,
+      if (text != null) 'Text': text,
+      if (traits != null) 'Traits': traits,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class ICD10CMEntityCategory {
+  static const medicalCondition = ICD10CMEntityCategory._('MEDICAL_CONDITION');
+
+  final String value;
+
+  const ICD10CMEntityCategory._(this.value);
+
+  static const values = [medicalCondition];
+
+  static ICD10CMEntityCategory fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ICD10CMEntityCategory._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ICD10CMEntityCategory && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ICD10CMEntityType {
+  static const dxName = ICD10CMEntityType._('DX_NAME');
+  static const timeExpression = ICD10CMEntityType._('TIME_EXPRESSION');
+
+  final String value;
+
+  const ICD10CMEntityType._(this.value);
+
+  static const values = [dxName, timeExpression];
+
+  static ICD10CMEntityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ICD10CMEntityType._(value));
+
+  @override
+  bool operator ==(other) => other is ICD10CMEntityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The ICD-10-CM concepts that the entity could refer to, along with a score
+/// indicating the likelihood of the match.
+class ICD10CMConcept {
+  /// The ICD-10-CM code that identifies the concept found in the knowledge base
+  /// from the Centers for Disease Control.
+  final String? code;
+
+  /// The long description of the ICD-10-CM code in the ontology.
+  final String? description;
+
+  /// The level of confidence that Amazon Comprehend Medical has that the entity
+  /// is accurately linked to an ICD-10-CM concept.
+  final double? score;
+
+  ICD10CMConcept({
+    this.code,
+    this.description,
+    this.score,
+  });
+
+  factory ICD10CMConcept.fromJson(Map<String, dynamic> json) {
+    return ICD10CMConcept(
+      code: json['Code'] as String?,
+      description: json['Description'] as String?,
+      score: json['Score'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final description = this.description;
+    final score = this.score;
+    return {
+      if (code != null) 'Code': code,
+      if (description != null) 'Description': description,
+      if (score != null) 'Score': score,
+    };
+  }
+}
+
+/// Contextual information for the entity. The traits recognized by InferICD10CM
+/// are <code>DIAGNOSIS</code>, <code>SIGN</code>, <code>SYMPTOM</code>, and
+/// <code>NEGATION</code>.
+class ICD10CMTrait {
+  /// Provides a name or contextual description about the trait.
+  final ICD10CMTraitName? name;
+
+  /// The level of confidence that Amazon Comprehend Medical has that the segment
+  /// of text is correctly recognized as a trait.
+  final double? score;
+
+  ICD10CMTrait({
+    this.name,
+    this.score,
+  });
+
+  factory ICD10CMTrait.fromJson(Map<String, dynamic> json) {
+    return ICD10CMTrait(
+      name: (json['Name'] as String?)?.let(ICD10CMTraitName.fromString),
+      score: json['Score'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final score = this.score;
+    return {
+      if (name != null) 'Name': name.value,
+      if (score != null) 'Score': score,
+    };
+  }
+}
+
+class ICD10CMTraitName {
+  static const negation = ICD10CMTraitName._('NEGATION');
+  static const diagnosis = ICD10CMTraitName._('DIAGNOSIS');
+  static const sign = ICD10CMTraitName._('SIGN');
+  static const symptom = ICD10CMTraitName._('SYMPTOM');
+  static const pertainsToFamily = ICD10CMTraitName._('PERTAINS_TO_FAMILY');
+  static const hypothetical = ICD10CMTraitName._('HYPOTHETICAL');
+  static const lowConfidence = ICD10CMTraitName._('LOW_CONFIDENCE');
+
+  final String value;
+
+  const ICD10CMTraitName._(this.value);
+
+  static const values = [
+    negation,
+    diagnosis,
+    sign,
+    symptom,
+    pertainsToFamily,
+    hypothetical,
+    lowConfidence
+  ];
+
+  static ICD10CMTraitName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ICD10CMTraitName._(value));
+
+  @override
+  bool operator ==(other) => other is ICD10CMTraitName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The detected attributes that relate to an entity. This includes an extracted
+/// segment of the text that is an attribute of an entity, or otherwise related
+/// to an entity. InferICD10CM detects the following attributes:
+/// <code>Direction</code>, <code>System, Organ or Site</code>, and
+/// <code>Acuity</code>.
+class ICD10CMAttribute {
+  /// The 0-based character offset in the input text that shows where the
+  /// attribute begins. The offset returns the UTF-8 code point in the string.
+  final int? beginOffset;
+
+  /// The category of attribute. Can be either of <code>DX_NAME</code> or
+  /// <code>TIME_EXPRESSION</code>.
+  final ICD10CMEntityType? category;
+
+  /// The 0-based character offset in the input text that shows where the
+  /// attribute ends. The offset returns the UTF-8 code point in the string.
+  final int? endOffset;
+
+  /// The numeric identifier for this attribute. This is a monotonically
+  /// increasing id unique within this response rather than a global unique
+  /// identifier.
+  final int? id;
+
+  /// The level of confidence that Amazon Comprehend Medical has that this
+  /// attribute is correctly related to this entity.
+  final double? relationshipScore;
+
+  /// The type of relationship between the entity and attribute. Type for the
+  /// relationship can be either of <code>OVERLAP</code> or
+  /// <code>SYSTEM_ORGAN_SITE</code>.
+  final ICD10CMRelationshipType? relationshipType;
+
+  /// The level of confidence that Amazon Comprehend Medical has that the segment
+  /// of text is correctly recognized as an attribute.
+  final double? score;
+
+  /// The segment of input text which contains the detected attribute.
+  final String? text;
+
+  /// The contextual information for the attribute. The traits recognized by
+  /// InferICD10CM are <code>DIAGNOSIS</code>, <code>SIGN</code>,
+  /// <code>SYMPTOM</code>, and <code>NEGATION</code>.
+  final List<ICD10CMTrait>? traits;
+
+  /// The type of attribute. InferICD10CM detects entities of the type
+  /// <code>DX_NAME</code>.
+  final ICD10CMAttributeType? type;
+
+  ICD10CMAttribute({
+    this.beginOffset,
+    this.category,
+    this.endOffset,
+    this.id,
+    this.relationshipScore,
+    this.relationshipType,
+    this.score,
+    this.text,
+    this.traits,
+    this.type,
+  });
+
+  factory ICD10CMAttribute.fromJson(Map<String, dynamic> json) {
+    return ICD10CMAttribute(
+      beginOffset: json['BeginOffset'] as int?,
+      category:
+          (json['Category'] as String?)?.let(ICD10CMEntityType.fromString),
+      endOffset: json['EndOffset'] as int?,
+      id: json['Id'] as int?,
+      relationshipScore: json['RelationshipScore'] as double?,
+      relationshipType: (json['RelationshipType'] as String?)
+          ?.let(ICD10CMRelationshipType.fromString),
+      score: json['Score'] as double?,
+      text: json['Text'] as String?,
+      traits: (json['Traits'] as List?)
+          ?.nonNulls
+          .map((e) => ICD10CMTrait.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['Type'] as String?)?.let(ICD10CMAttributeType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final beginOffset = this.beginOffset;
+    final category = this.category;
+    final endOffset = this.endOffset;
+    final id = this.id;
+    final relationshipScore = this.relationshipScore;
+    final relationshipType = this.relationshipType;
+    final score = this.score;
+    final text = this.text;
+    final traits = this.traits;
+    final type = this.type;
+    return {
+      if (beginOffset != null) 'BeginOffset': beginOffset,
+      if (category != null) 'Category': category.value,
+      if (endOffset != null) 'EndOffset': endOffset,
+      if (id != null) 'Id': id,
+      if (relationshipScore != null) 'RelationshipScore': relationshipScore,
+      if (relationshipType != null) 'RelationshipType': relationshipType.value,
+      if (score != null) 'Score': score,
+      if (text != null) 'Text': text,
+      if (traits != null) 'Traits': traits,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class ICD10CMAttributeType {
+  static const acuity = ICD10CMAttributeType._('ACUITY');
+  static const direction = ICD10CMAttributeType._('DIRECTION');
+  static const systemOrganSite = ICD10CMAttributeType._('SYSTEM_ORGAN_SITE');
+  static const quality = ICD10CMAttributeType._('QUALITY');
+  static const quantity = ICD10CMAttributeType._('QUANTITY');
+  static const timeToDxName = ICD10CMAttributeType._('TIME_TO_DX_NAME');
+  static const timeExpression = ICD10CMAttributeType._('TIME_EXPRESSION');
+
+  final String value;
+
+  const ICD10CMAttributeType._(this.value);
+
+  static const values = [
+    acuity,
+    direction,
+    systemOrganSite,
+    quality,
+    quantity,
+    timeToDxName,
+    timeExpression
+  ];
+
+  static ICD10CMAttributeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ICD10CMAttributeType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ICD10CMAttributeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ICD10CMRelationshipType {
+  static const overlap = ICD10CMRelationshipType._('OVERLAP');
+  static const systemOrganSite = ICD10CMRelationshipType._('SYSTEM_ORGAN_SITE');
+  static const quality = ICD10CMRelationshipType._('QUALITY');
+
+  final String value;
+
+  const ICD10CMRelationshipType._(this.value);
+
+  static const values = [overlap, systemOrganSite, quality];
+
+  static ICD10CMRelationshipType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ICD10CMRelationshipType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ICD10CMRelationshipType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides information about an extracted medical entity.
+class Entity {
+  /// The extracted attributes that relate to this entity.
+  final List<Attribute>? attributes;
+
+  /// The 0-based character offset in the input text that shows where the entity
+  /// begins. The offset returns the UTF-8 code point in the string.
+  final int? beginOffset;
+
+  /// The category of the entity.
+  final EntityType? category;
+
+  /// The 0-based character offset in the input text that shows where the entity
+  /// ends. The offset returns the UTF-8 code point in the string.
+  final int? endOffset;
+
+  /// The numeric identifier for the entity. This is a monotonically increasing id
+  /// unique within this response rather than a global unique identifier.
+  final int? id;
+
+  /// The level of confidence that Amazon Comprehend Medical has in the accuracy
+  /// of the detection.
+  final double? score;
+
+  /// The segment of input text extracted as this entity.
+  final String? text;
+
+  /// Contextual information for the entity.
+  final List<Trait>? traits;
+
+  /// Describes the specific type of entity with category of entities.
+  final EntitySubType? type;
+
+  Entity({
+    this.attributes,
+    this.beginOffset,
+    this.category,
+    this.endOffset,
+    this.id,
+    this.score,
+    this.text,
+    this.traits,
+    this.type,
+  });
+
+  factory Entity.fromJson(Map<String, dynamic> json) {
+    return Entity(
+      attributes: (json['Attributes'] as List?)
+          ?.nonNulls
+          .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      beginOffset: json['BeginOffset'] as int?,
+      category: (json['Category'] as String?)?.let(EntityType.fromString),
+      endOffset: json['EndOffset'] as int?,
+      id: json['Id'] as int?,
+      score: json['Score'] as double?,
+      text: json['Text'] as String?,
+      traits: (json['Traits'] as List?)
+          ?.nonNulls
+          .map((e) => Trait.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['Type'] as String?)?.let(EntitySubType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final beginOffset = this.beginOffset;
+    final category = this.category;
+    final endOffset = this.endOffset;
+    final id = this.id;
+    final score = this.score;
+    final text = this.text;
+    final traits = this.traits;
+    final type = this.type;
+    return {
+      if (attributes != null) 'Attributes': attributes,
+      if (beginOffset != null) 'BeginOffset': beginOffset,
+      if (category != null) 'Category': category.value,
+      if (endOffset != null) 'EndOffset': endOffset,
+      if (id != null) 'Id': id,
+      if (score != null) 'Score': score,
+      if (text != null) 'Text': text,
+      if (traits != null) 'Traits': traits,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class EntityType {
+  static const medication = EntityType._('MEDICATION');
+  static const medicalCondition = EntityType._('MEDICAL_CONDITION');
+  static const protectedHealthInformation =
+      EntityType._('PROTECTED_HEALTH_INFORMATION');
+  static const testTreatmentProcedure =
+      EntityType._('TEST_TREATMENT_PROCEDURE');
+  static const anatomy = EntityType._('ANATOMY');
+  static const timeExpression = EntityType._('TIME_EXPRESSION');
+  static const behavioralEnvironmentalSocial =
+      EntityType._('BEHAVIORAL_ENVIRONMENTAL_SOCIAL');
+
+  final String value;
+
+  const EntityType._(this.value);
+
+  static const values = [
+    medication,
+    medicalCondition,
+    protectedHealthInformation,
+    testTreatmentProcedure,
+    anatomy,
+    timeExpression,
+    behavioralEnvironmentalSocial
+  ];
+
+  static EntityType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EntityType._(value));
+
+  @override
+  bool operator ==(other) => other is EntityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class EntitySubType {
+  static const name = EntitySubType._('NAME');
+  static const dxName = EntitySubType._('DX_NAME');
+  static const dosage = EntitySubType._('DOSAGE');
+  static const routeOrMode = EntitySubType._('ROUTE_OR_MODE');
+  static const form = EntitySubType._('FORM');
+  static const frequency = EntitySubType._('FREQUENCY');
+  static const duration = EntitySubType._('DURATION');
+  static const genericName = EntitySubType._('GENERIC_NAME');
+  static const brandName = EntitySubType._('BRAND_NAME');
+  static const strength = EntitySubType._('STRENGTH');
+  static const rate = EntitySubType._('RATE');
+  static const acuity = EntitySubType._('ACUITY');
+  static const testName = EntitySubType._('TEST_NAME');
+  static const testValue = EntitySubType._('TEST_VALUE');
+  static const testUnits = EntitySubType._('TEST_UNITS');
+  static const testUnit = EntitySubType._('TEST_UNIT');
+  static const procedureName = EntitySubType._('PROCEDURE_NAME');
+  static const treatmentName = EntitySubType._('TREATMENT_NAME');
+  static const date = EntitySubType._('DATE');
+  static const age = EntitySubType._('AGE');
+  static const contactPoint = EntitySubType._('CONTACT_POINT');
+  static const phoneOrFax = EntitySubType._('PHONE_OR_FAX');
+  static const email = EntitySubType._('EMAIL');
+  static const identifier = EntitySubType._('IDENTIFIER');
+  static const id = EntitySubType._('ID');
+  static const url = EntitySubType._('URL');
+  static const address = EntitySubType._('ADDRESS');
+  static const profession = EntitySubType._('PROFESSION');
+  static const systemOrganSite = EntitySubType._('SYSTEM_ORGAN_SITE');
+  static const direction = EntitySubType._('DIRECTION');
+  static const quality = EntitySubType._('QUALITY');
+  static const quantity = EntitySubType._('QUANTITY');
+  static const timeExpression = EntitySubType._('TIME_EXPRESSION');
+  static const timeToMedicationName =
+      EntitySubType._('TIME_TO_MEDICATION_NAME');
+  static const timeToDxName = EntitySubType._('TIME_TO_DX_NAME');
+  static const timeToTestName = EntitySubType._('TIME_TO_TEST_NAME');
+  static const timeToProcedureName = EntitySubType._('TIME_TO_PROCEDURE_NAME');
+  static const timeToTreatmentName = EntitySubType._('TIME_TO_TREATMENT_NAME');
+  static const amount = EntitySubType._('AMOUNT');
+  static const gender = EntitySubType._('GENDER');
+  static const raceEthnicity = EntitySubType._('RACE_ETHNICITY');
+  static const allergies = EntitySubType._('ALLERGIES');
+  static const tobaccoUse = EntitySubType._('TOBACCO_USE');
+  static const alcoholConsumption = EntitySubType._('ALCOHOL_CONSUMPTION');
+  static const recDrugUse = EntitySubType._('REC_DRUG_USE');
+
+  final String value;
+
+  const EntitySubType._(this.value);
+
+  static const values = [
+    name,
+    dxName,
+    dosage,
+    routeOrMode,
+    form,
+    frequency,
+    duration,
+    genericName,
+    brandName,
+    strength,
+    rate,
+    acuity,
+    testName,
+    testValue,
+    testUnits,
+    testUnit,
+    procedureName,
+    treatmentName,
+    date,
+    age,
+    contactPoint,
+    phoneOrFax,
+    email,
+    identifier,
+    id,
+    url,
+    address,
+    profession,
+    systemOrganSite,
+    direction,
+    quality,
+    quantity,
+    timeExpression,
+    timeToMedicationName,
+    timeToDxName,
+    timeToTestName,
+    timeToProcedureName,
+    timeToTreatmentName,
+    amount,
+    gender,
+    raceEthnicity,
+    allergies,
+    tobaccoUse,
+    alcoholConsumption,
+    recDrugUse
+  ];
+
+  static EntitySubType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EntitySubType._(value));
+
+  @override
+  bool operator ==(other) => other is EntitySubType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An extracted segment of the text that is an attribute of an entity, or
+/// otherwise related to an entity, such as the dosage of a medication taken. It
+/// contains information about the attribute such as id, begin and end offset
+/// within the input text, and the segment of the input text.
+class Attribute {
+  /// The 0-based character offset in the input text that shows where the
+  /// attribute begins. The offset returns the UTF-8 code point in the string.
+  final int? beginOffset;
+
+  /// The category of attribute.
+  final EntityType? category;
+
+  /// The 0-based character offset in the input text that shows where the
+  /// attribute ends. The offset returns the UTF-8 code point in the string.
+  final int? endOffset;
+
+  /// The numeric identifier for this attribute. This is a monotonically
+  /// increasing id unique within this response rather than a global unique
+  /// identifier.
+  final int? id;
+
+  /// The level of confidence that Amazon Comprehend Medical has that this
+  /// attribute is correctly related to this entity.
+  final double? relationshipScore;
+
+  /// The type of relationship between the entity and attribute. Type for the
+  /// relationship is <code>OVERLAP</code>, indicating that the entity occurred at
+  /// the same time as the <code>Date_Expression</code>.
+  final RelationshipType? relationshipType;
+
+  /// The level of confidence that Amazon Comprehend Medical has that the segment
+  /// of text is correctly recognized as an attribute.
+  final double? score;
+
+  /// The segment of input text extracted as this attribute.
+  final String? text;
+
+  /// Contextual information for this attribute.
+  final List<Trait>? traits;
+
+  /// The type of attribute.
+  final EntitySubType? type;
+
+  Attribute({
+    this.beginOffset,
+    this.category,
+    this.endOffset,
+    this.id,
+    this.relationshipScore,
+    this.relationshipType,
+    this.score,
+    this.text,
+    this.traits,
+    this.type,
+  });
+
+  factory Attribute.fromJson(Map<String, dynamic> json) {
+    return Attribute(
+      beginOffset: json['BeginOffset'] as int?,
+      category: (json['Category'] as String?)?.let(EntityType.fromString),
+      endOffset: json['EndOffset'] as int?,
+      id: json['Id'] as int?,
+      relationshipScore: json['RelationshipScore'] as double?,
+      relationshipType: (json['RelationshipType'] as String?)
+          ?.let(RelationshipType.fromString),
+      score: json['Score'] as double?,
+      text: json['Text'] as String?,
+      traits: (json['Traits'] as List?)
+          ?.nonNulls
+          .map((e) => Trait.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['Type'] as String?)?.let(EntitySubType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final beginOffset = this.beginOffset;
+    final category = this.category;
+    final endOffset = this.endOffset;
+    final id = this.id;
+    final relationshipScore = this.relationshipScore;
+    final relationshipType = this.relationshipType;
+    final score = this.score;
+    final text = this.text;
+    final traits = this.traits;
+    final type = this.type;
+    return {
+      if (beginOffset != null) 'BeginOffset': beginOffset,
+      if (category != null) 'Category': category.value,
+      if (endOffset != null) 'EndOffset': endOffset,
+      if (id != null) 'Id': id,
+      if (relationshipScore != null) 'RelationshipScore': relationshipScore,
+      if (relationshipType != null) 'RelationshipType': relationshipType.value,
+      if (score != null) 'Score': score,
+      if (text != null) 'Text': text,
+      if (traits != null) 'Traits': traits,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class RelationshipType {
+  static const every = RelationshipType._('EVERY');
+  static const withDosage = RelationshipType._('WITH_DOSAGE');
+  static const administeredVia = RelationshipType._('ADMINISTERED_VIA');
+  static const $for = RelationshipType._('FOR');
+  static const negative = RelationshipType._('NEGATIVE');
+  static const overlap = RelationshipType._('OVERLAP');
+  static const dosage = RelationshipType._('DOSAGE');
+  static const routeOrMode = RelationshipType._('ROUTE_OR_MODE');
+  static const form = RelationshipType._('FORM');
+  static const frequency = RelationshipType._('FREQUENCY');
+  static const duration = RelationshipType._('DURATION');
+  static const strength = RelationshipType._('STRENGTH');
+  static const rate = RelationshipType._('RATE');
+  static const acuity = RelationshipType._('ACUITY');
+  static const testValue = RelationshipType._('TEST_VALUE');
+  static const testUnits = RelationshipType._('TEST_UNITS');
+  static const testUnit = RelationshipType._('TEST_UNIT');
+  static const direction = RelationshipType._('DIRECTION');
+  static const systemOrganSite = RelationshipType._('SYSTEM_ORGAN_SITE');
+  static const amount = RelationshipType._('AMOUNT');
+  static const usage = RelationshipType._('USAGE');
+  static const quality = RelationshipType._('QUALITY');
+
+  final String value;
+
+  const RelationshipType._(this.value);
+
+  static const values = [
+    every,
+    withDosage,
+    administeredVia,
+    $for,
+    negative,
+    overlap,
+    dosage,
+    routeOrMode,
+    form,
+    frequency,
+    duration,
+    strength,
+    rate,
+    acuity,
+    testValue,
+    testUnits,
+    testUnit,
+    direction,
+    systemOrganSite,
+    amount,
+    usage,
+    quality
+  ];
+
+  static RelationshipType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RelationshipType._(value));
+
+  @override
+  bool operator ==(other) => other is RelationshipType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Provides contextual information about the extracted entity.
 class Trait {
   /// Provides a name or contextual description about the trait.
@@ -4204,6 +4161,47 @@ class Trait {
       if (score != null) 'Score': score,
     };
   }
+}
+
+class AttributeName {
+  static const sign = AttributeName._('SIGN');
+  static const symptom = AttributeName._('SYMPTOM');
+  static const diagnosis = AttributeName._('DIAGNOSIS');
+  static const negation = AttributeName._('NEGATION');
+  static const pertainsToFamily = AttributeName._('PERTAINS_TO_FAMILY');
+  static const hypothetical = AttributeName._('HYPOTHETICAL');
+  static const lowConfidence = AttributeName._('LOW_CONFIDENCE');
+  static const pastHistory = AttributeName._('PAST_HISTORY');
+  static const future = AttributeName._('FUTURE');
+
+  final String value;
+
+  const AttributeName._(this.value);
+
+  static const values = [
+    sign,
+    symptom,
+    diagnosis,
+    negation,
+    pertainsToFamily,
+    hypothetical,
+    lowConfidence,
+    pastHistory,
+    future
+  ];
+
+  static AttributeName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AttributeName._(value));
+
+  @override
+  bool operator ==(other) => other is AttributeName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An attribute that was extracted, but Amazon Comprehend Medical was unable to

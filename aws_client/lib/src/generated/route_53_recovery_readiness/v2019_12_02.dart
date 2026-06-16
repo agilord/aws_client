@@ -33,7 +33,6 @@ class Route53RecoveryReadiness {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'route53-recovery-readiness',
-            signingName: 'route53-recovery-readiness',
           ),
           region: region,
           credentials: credentials,
@@ -52,11 +51,11 @@ class Route53RecoveryReadiness {
 
   /// Creates a cell in an account.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [cellName] :
   /// The name of the cell to create.
@@ -88,11 +87,11 @@ class Route53RecoveryReadiness {
   /// another account to work with Route 53 Application Recovery Controller, for
   /// example, to check the readiness status of resources in a separate account.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [crossAccountAuthorization] :
   /// The cross-account authorization.
@@ -118,11 +117,11 @@ class Route53RecoveryReadiness {
   /// readiness for. The audits run once every minute on every resource that's
   /// associated with a readiness check.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [readinessCheckName] :
   /// The name of the readiness check to create.
@@ -151,11 +150,11 @@ class Route53RecoveryReadiness {
   /// Creates a recovery group in an account. A recovery group corresponds to an
   /// application and includes a list of the cells that make up the application.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [recoveryGroupName] :
   /// The name of the recovery group to create.
@@ -185,11 +184,11 @@ class Route53RecoveryReadiness {
   /// that span multiple cells. You can associate a resource set with a
   /// readiness check to monitor the resources for failover readiness.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [resourceSetName] :
   /// The name of the resource set to create.
@@ -237,11 +236,11 @@ class Route53RecoveryReadiness {
   /// Delete a cell. When successful, the response code is 204, with no response
   /// body.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [cellName] :
   /// The name of the cell.
@@ -258,10 +257,10 @@ class Route53RecoveryReadiness {
 
   /// Deletes cross account readiness authorization.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [crossAccountAuthorization] :
   /// The cross-account authorization.
@@ -279,11 +278,11 @@ class Route53RecoveryReadiness {
 
   /// Deletes a readiness check.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [readinessCheckName] :
   /// Name of a readiness check.
@@ -300,11 +299,11 @@ class Route53RecoveryReadiness {
 
   /// Deletes a recovery group.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [recoveryGroupName] :
   /// The name of a recovery group.
@@ -321,11 +320,11 @@ class Route53RecoveryReadiness {
 
   /// Deletes a resource set.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [resourceSetName] :
   /// Name of a resource set.
@@ -343,11 +342,11 @@ class Route53RecoveryReadiness {
   /// Gets recommendations about architecture designs for improving resiliency
   /// for an application, based on a recovery group.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [recoveryGroupName] :
   /// The name of a recovery group.
@@ -388,11 +387,11 @@ class Route53RecoveryReadiness {
   /// Name (ARN), ARNs of nested cells for this cell, and a list of those cell
   /// ARNs with their associated recovery group ARNs.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [cellName] :
   /// The name of the cell.
@@ -411,11 +410,11 @@ class Route53RecoveryReadiness {
   /// Gets readiness for a cell. Aggregates the readiness of all the resources
   /// that are associated with the cell into a single value.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [cellName] :
   /// The name of the cell.
@@ -452,11 +451,11 @@ class Route53RecoveryReadiness {
 
   /// Gets details about a readiness check.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [readinessCheckName] :
   /// Name of a readiness check.
@@ -477,11 +476,11 @@ class Route53RecoveryReadiness {
   /// for all the readiness checks in the recovery group, use
   /// GetRecoveryGroupReadinessSummary.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [readinessCheckName] :
   /// Name of a readiness check.
@@ -529,11 +528,11 @@ class Route53RecoveryReadiness {
   /// readiness status for all the readiness checks in a recovery group, use
   /// GetRecoveryGroupReadinessSummary.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [readinessCheckName] :
   /// Name of a readiness check.
@@ -572,11 +571,11 @@ class Route53RecoveryReadiness {
   /// Gets details about a recovery group, including a list of the cells that
   /// are included in it.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [recoveryGroupName] :
   /// The name of a recovery group.
@@ -596,11 +595,11 @@ class Route53RecoveryReadiness {
   /// status. Includes the readiness checks for resources in the recovery group
   /// and the readiness status of each one.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [recoveryGroupName] :
   /// The name of a recovery group.
@@ -640,11 +639,11 @@ class Route53RecoveryReadiness {
   /// Displays the details about a resource set, including a list of the
   /// resources in the set.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [resourceSetName] :
   /// Name of a resource set.
@@ -662,10 +661,10 @@ class Route53RecoveryReadiness {
 
   /// Lists the cells for an account.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [maxResults] :
   /// The number of objects that you want to return with this call.
@@ -699,10 +698,10 @@ class Route53RecoveryReadiness {
   /// Lists the cross-account readiness authorizations that are in place for an
   /// account.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [maxResults] :
   /// The number of objects that you want to return with this call.
@@ -736,10 +735,10 @@ class Route53RecoveryReadiness {
 
   /// Lists the readiness checks for an account.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [maxResults] :
   /// The number of objects that you want to return with this call.
@@ -772,10 +771,10 @@ class Route53RecoveryReadiness {
 
   /// Lists the recovery groups in an account.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [maxResults] :
   /// The number of objects that you want to return with this call.
@@ -808,10 +807,10 @@ class Route53RecoveryReadiness {
 
   /// Lists the resource sets in an account.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [maxResults] :
   /// The number of objects that you want to return with this call.
@@ -845,10 +844,10 @@ class Route53RecoveryReadiness {
   /// Lists all readiness rules, or lists the readiness rules for a specific
   /// resource type.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [maxResults] :
   /// The number of objects that you want to return with this call.
@@ -886,9 +885,9 @@ class Route53RecoveryReadiness {
 
   /// Lists the tags for a resource.
   ///
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) for a resource.
@@ -906,9 +905,9 @@ class Route53RecoveryReadiness {
 
   /// Adds a tag to a resource.
   ///
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) for a resource.
@@ -932,9 +931,9 @@ class Route53RecoveryReadiness {
 
   /// Removes a tag from a resource.
   ///
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) for a resource.
@@ -960,11 +959,11 @@ class Route53RecoveryReadiness {
   /// Updates a cell to replace the list of nested cells with a new list of
   /// nested cells.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [cellName] :
   /// The name of the cell.
@@ -990,11 +989,11 @@ class Route53RecoveryReadiness {
 
   /// Updates a readiness check.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [readinessCheckName] :
   /// Name of a readiness check.
@@ -1019,11 +1018,11 @@ class Route53RecoveryReadiness {
 
   /// Updates a recovery group.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [cells] :
   /// A list of cell Amazon Resource Names (ARNs). This list completely replaces
@@ -1049,11 +1048,11 @@ class Route53RecoveryReadiness {
 
   /// Updates a resource set.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [resourceSetName] :
   /// Name of a resource set.
@@ -1090,67 +1089,6 @@ class Route53RecoveryReadiness {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateResourceSetResponse.fromJson(response);
-  }
-}
-
-/// Information about a cell.
-class CellOutput {
-  /// The Amazon Resource Name (ARN) for the cell.
-  final String cellArn;
-
-  /// The name of the cell.
-  final String cellName;
-
-  /// A list of cell ARNs.
-  final List<String> cells;
-
-  /// The readiness scope for the cell, which can be a cell Amazon Resource Name
-  /// (ARN) or a recovery group ARN. This is a list but currently can have only
-  /// one element.
-  final List<String> parentReadinessScopes;
-
-  /// Tags on the resources.
-  final Map<String, String>? tags;
-
-  CellOutput({
-    required this.cellArn,
-    required this.cellName,
-    required this.cells,
-    required this.parentReadinessScopes,
-    this.tags,
-  });
-
-  factory CellOutput.fromJson(Map<String, dynamic> json) {
-    return CellOutput(
-      cellArn: (json['cellArn'] as String?) ?? '',
-      cellName: (json['cellName'] as String?) ?? '',
-      cells: ((json['cells'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      parentReadinessScopes:
-          ((json['parentReadinessScopes'] as List?) ?? const [])
-              .nonNulls
-              .map((e) => e as String)
-              .toList(),
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cellArn = this.cellArn;
-    final cellName = this.cellName;
-    final cells = this.cells;
-    final parentReadinessScopes = this.parentReadinessScopes;
-    final tags = this.tags;
-    return {
-      'cellArn': cellArn,
-      'cellName': cellName,
-      'cells': cells,
-      'parentReadinessScopes': parentReadinessScopes,
-      if (tags != null) 'tags': tags,
-    };
   }
 }
 
@@ -1386,64 +1324,6 @@ class CreateResourceSetResponse {
   }
 }
 
-/// A component for DNS/routing control readiness checks and architecture
-/// checks.
-class DNSTargetResource {
-  /// The domain name that acts as an ingress point to a portion of the customer
-  /// application.
-  final String? domainName;
-
-  /// The hosted zone Amazon Resource Name (ARN) that contains the DNS record with
-  /// the provided name of the target resource.
-  final String? hostedZoneArn;
-
-  /// The Route 53 record set ID that uniquely identifies a DNS record, given a
-  /// name and a type.
-  final String? recordSetId;
-
-  /// The type of DNS record of the target resource.
-  final String? recordType;
-
-  /// The target resource of the DNS target resource.
-  final TargetResource? targetResource;
-
-  DNSTargetResource({
-    this.domainName,
-    this.hostedZoneArn,
-    this.recordSetId,
-    this.recordType,
-    this.targetResource,
-  });
-
-  factory DNSTargetResource.fromJson(Map<String, dynamic> json) {
-    return DNSTargetResource(
-      domainName: json['domainName'] as String?,
-      hostedZoneArn: json['hostedZoneArn'] as String?,
-      recordSetId: json['recordSetId'] as String?,
-      recordType: json['recordType'] as String?,
-      targetResource: json['targetResource'] != null
-          ? TargetResource.fromJson(
-              json['targetResource'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final domainName = this.domainName;
-    final hostedZoneArn = this.hostedZoneArn;
-    final recordSetId = this.recordSetId;
-    final recordType = this.recordType;
-    final targetResource = this.targetResource;
-    return {
-      if (domainName != null) 'domainName': domainName,
-      if (hostedZoneArn != null) 'hostedZoneArn': hostedZoneArn,
-      if (recordSetId != null) 'recordSetId': recordSetId,
-      if (recordType != null) 'recordType': recordType,
-      if (targetResource != null) 'targetResource': targetResource,
-    };
-  }
-}
-
 class DeleteCrossAccountAuthorizationResponse {
   DeleteCrossAccountAuthorizationResponse();
 
@@ -1495,45 +1375,6 @@ class GetArchitectureRecommendationsResponse {
         'lastAuditTimestamp': iso8601ToJson(lastAuditTimestamp),
       if (nextToken != null) 'nextToken': nextToken,
       if (recommendations != null) 'recommendations': recommendations,
-    };
-  }
-}
-
-class GetCellReadinessSummaryResponse {
-  /// The token that identifies which batch of results you want to see.
-  final String? nextToken;
-
-  /// The readiness at a cell level.
-  final Readiness? readiness;
-
-  /// Summaries for the readiness checks that make up the cell.
-  final List<ReadinessCheckSummary>? readinessChecks;
-
-  GetCellReadinessSummaryResponse({
-    this.nextToken,
-    this.readiness,
-    this.readinessChecks,
-  });
-
-  factory GetCellReadinessSummaryResponse.fromJson(Map<String, dynamic> json) {
-    return GetCellReadinessSummaryResponse(
-      nextToken: json['nextToken'] as String?,
-      readiness: (json['readiness'] as String?)?.let(Readiness.fromString),
-      readinessChecks: (json['readinessChecks'] as List?)
-          ?.nonNulls
-          .map((e) => ReadinessCheckSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final readiness = this.readiness;
-    final readinessChecks = this.readinessChecks;
-    return {
-      if (nextToken != null) 'nextToken': nextToken,
-      if (readiness != null) 'readiness': readiness.value,
-      if (readinessChecks != null) 'readinessChecks': readinessChecks,
     };
   }
 }
@@ -1596,30 +1437,29 @@ class GetCellResponse {
   }
 }
 
-class GetReadinessCheckResourceStatusResponse {
+class GetCellReadinessSummaryResponse {
   /// The token that identifies which batch of results you want to see.
   final String? nextToken;
 
-  /// The readiness at a rule level.
+  /// The readiness at a cell level.
   final Readiness? readiness;
 
-  /// Details of the rule's results.
-  final List<RuleResult>? rules;
+  /// Summaries for the readiness checks that make up the cell.
+  final List<ReadinessCheckSummary>? readinessChecks;
 
-  GetReadinessCheckResourceStatusResponse({
+  GetCellReadinessSummaryResponse({
     this.nextToken,
     this.readiness,
-    this.rules,
+    this.readinessChecks,
   });
 
-  factory GetReadinessCheckResourceStatusResponse.fromJson(
-      Map<String, dynamic> json) {
-    return GetReadinessCheckResourceStatusResponse(
+  factory GetCellReadinessSummaryResponse.fromJson(Map<String, dynamic> json) {
+    return GetCellReadinessSummaryResponse(
       nextToken: json['nextToken'] as String?,
       readiness: (json['readiness'] as String?)?.let(Readiness.fromString),
-      rules: (json['rules'] as List?)
+      readinessChecks: (json['readinessChecks'] as List?)
           ?.nonNulls
-          .map((e) => RuleResult.fromJson(e as Map<String, dynamic>))
+          .map((e) => ReadinessCheckSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
@@ -1627,11 +1467,11 @@ class GetReadinessCheckResourceStatusResponse {
   Map<String, dynamic> toJson() {
     final nextToken = this.nextToken;
     final readiness = this.readiness;
-    final rules = this.rules;
+    final readinessChecks = this.readinessChecks;
     return {
       if (nextToken != null) 'nextToken': nextToken,
       if (readiness != null) 'readiness': readiness.value,
-      if (rules != null) 'rules': rules,
+      if (readinessChecks != null) 'readinessChecks': readinessChecks,
     };
   }
 }
@@ -1674,6 +1514,46 @@ class GetReadinessCheckResponse {
       if (readinessCheckName != null) 'readinessCheckName': readinessCheckName,
       if (resourceSet != null) 'resourceSet': resourceSet,
       if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+class GetReadinessCheckResourceStatusResponse {
+  /// The token that identifies which batch of results you want to see.
+  final String? nextToken;
+
+  /// The readiness at a rule level.
+  final Readiness? readiness;
+
+  /// Details of the rule's results.
+  final List<RuleResult>? rules;
+
+  GetReadinessCheckResourceStatusResponse({
+    this.nextToken,
+    this.readiness,
+    this.rules,
+  });
+
+  factory GetReadinessCheckResourceStatusResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetReadinessCheckResourceStatusResponse(
+      nextToken: json['nextToken'] as String?,
+      readiness: (json['readiness'] as String?)?.let(Readiness.fromString),
+      rules: (json['rules'] as List?)
+          ?.nonNulls
+          .map((e) => RuleResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final readiness = this.readiness;
+    final rules = this.rules;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (readiness != null) 'readiness': readiness.value,
+      if (rules != null) 'rules': rules,
     };
   }
 }
@@ -1727,46 +1607,6 @@ class GetReadinessCheckStatusResponse {
   }
 }
 
-class GetRecoveryGroupReadinessSummaryResponse {
-  /// The token that identifies which batch of results you want to see.
-  final String? nextToken;
-
-  /// The readiness status at a recovery group level.
-  final Readiness? readiness;
-
-  /// Summaries of the readiness checks for the recovery group.
-  final List<ReadinessCheckSummary>? readinessChecks;
-
-  GetRecoveryGroupReadinessSummaryResponse({
-    this.nextToken,
-    this.readiness,
-    this.readinessChecks,
-  });
-
-  factory GetRecoveryGroupReadinessSummaryResponse.fromJson(
-      Map<String, dynamic> json) {
-    return GetRecoveryGroupReadinessSummaryResponse(
-      nextToken: json['nextToken'] as String?,
-      readiness: (json['readiness'] as String?)?.let(Readiness.fromString),
-      readinessChecks: (json['readinessChecks'] as List?)
-          ?.nonNulls
-          .map((e) => ReadinessCheckSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final readiness = this.readiness;
-    final readinessChecks = this.readinessChecks;
-    return {
-      if (nextToken != null) 'nextToken': nextToken,
-      if (readiness != null) 'readiness': readiness.value,
-      if (readinessChecks != null) 'readinessChecks': readinessChecks,
-    };
-  }
-}
-
 class GetRecoveryGroupResponse {
   /// A list of a cell's Amazon Resource Names (ARNs).
   final List<String>? cells;
@@ -1808,6 +1648,46 @@ class GetRecoveryGroupResponse {
       if (recoveryGroupArn != null) 'recoveryGroupArn': recoveryGroupArn,
       if (recoveryGroupName != null) 'recoveryGroupName': recoveryGroupName,
       if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+class GetRecoveryGroupReadinessSummaryResponse {
+  /// The token that identifies which batch of results you want to see.
+  final String? nextToken;
+
+  /// The readiness status at a recovery group level.
+  final Readiness? readiness;
+
+  /// Summaries of the readiness checks for the recovery group.
+  final List<ReadinessCheckSummary>? readinessChecks;
+
+  GetRecoveryGroupReadinessSummaryResponse({
+    this.nextToken,
+    this.readiness,
+    this.readinessChecks,
+  });
+
+  factory GetRecoveryGroupReadinessSummaryResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetRecoveryGroupReadinessSummaryResponse(
+      nextToken: json['nextToken'] as String?,
+      readiness: (json['readiness'] as String?)?.let(Readiness.fromString),
+      readinessChecks: (json['readinessChecks'] as List?)
+          ?.nonNulls
+          .map((e) => ReadinessCheckSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final readiness = this.readiness;
+    final readinessChecks = this.readinessChecks;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (readiness != null) 'readiness': readiness.value,
+      if (readinessChecks != null) 'readinessChecks': readinessChecks,
     };
   }
 }
@@ -2037,44 +1917,6 @@ class ListResourceSetsResponse {
   }
 }
 
-/// Readiness rule information, including the resource type, rule ID, and rule
-/// description.
-class ListRulesOutput {
-  /// The resource type that the readiness rule applies to.
-  final String resourceType;
-
-  /// The description of a readiness rule.
-  final String ruleDescription;
-
-  /// The ID for the readiness rule.
-  final String ruleId;
-
-  ListRulesOutput({
-    required this.resourceType,
-    required this.ruleDescription,
-    required this.ruleId,
-  });
-
-  factory ListRulesOutput.fromJson(Map<String, dynamic> json) {
-    return ListRulesOutput(
-      resourceType: (json['resourceType'] as String?) ?? '',
-      ruleDescription: (json['ruleDescription'] as String?) ?? '',
-      ruleId: (json['ruleId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resourceType = this.resourceType;
-    final ruleDescription = this.ruleDescription;
-    final ruleId = this.ruleId;
-    return {
-      'resourceType': resourceType,
-      'ruleDescription': ruleDescription,
-      'ruleId': ruleId,
-    };
-  }
-}
-
 class ListRulesResponse {
   /// The token that identifies which batch of results you want to see.
   final String? nextToken;
@@ -2130,467 +1972,6 @@ class ListTagsForResourcesResponse {
   }
 }
 
-/// Information relating to readiness check status.
-class Message {
-  /// The text of a readiness check message.
-  final String? messageText;
-
-  Message({
-    this.messageText,
-  });
-
-  factory Message.fromJson(Map<String, dynamic> json) {
-    return Message(
-      messageText: json['messageText'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final messageText = this.messageText;
-    return {
-      if (messageText != null) 'messageText': messageText,
-    };
-  }
-}
-
-/// The Network Load Balancer resource that a DNS target resource points to.
-class NLBResource {
-  /// The Network Load Balancer resource Amazon Resource Name (ARN).
-  final String? arn;
-
-  NLBResource({
-    this.arn,
-  });
-
-  factory NLBResource.fromJson(Map<String, dynamic> json) {
-    return NLBResource(
-      arn: json['arn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    return {
-      if (arn != null) 'arn': arn,
-    };
-  }
-}
-
-/// The Route 53 resource that a DNS target resource record points to.
-class R53ResourceRecord {
-  /// The DNS target domain name.
-  final String? domainName;
-
-  /// The Route 53 Resource Record Set ID.
-  final String? recordSetId;
-
-  R53ResourceRecord({
-    this.domainName,
-    this.recordSetId,
-  });
-
-  factory R53ResourceRecord.fromJson(Map<String, dynamic> json) {
-    return R53ResourceRecord(
-      domainName: json['domainName'] as String?,
-      recordSetId: json['recordSetId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final domainName = this.domainName;
-    final recordSetId = this.recordSetId;
-    return {
-      if (domainName != null) 'domainName': domainName,
-      if (recordSetId != null) 'recordSetId': recordSetId,
-    };
-  }
-}
-
-/// The readiness status.
-class Readiness {
-  static const ready = Readiness._('READY');
-  static const notReady = Readiness._('NOT_READY');
-  static const unknown = Readiness._('UNKNOWN');
-  static const notAuthorized = Readiness._('NOT_AUTHORIZED');
-
-  final String value;
-
-  const Readiness._(this.value);
-
-  static const values = [ready, notReady, unknown, notAuthorized];
-
-  static Readiness fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Readiness._(value));
-
-  @override
-  bool operator ==(other) => other is Readiness && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A readiness check.
-class ReadinessCheckOutput {
-  /// The Amazon Resource Name (ARN) associated with a readiness check.
-  final String readinessCheckArn;
-
-  /// Name of the resource set to be checked.
-  final String resourceSet;
-
-  /// Name of a readiness check.
-  final String? readinessCheckName;
-  final Map<String, String>? tags;
-
-  ReadinessCheckOutput({
-    required this.readinessCheckArn,
-    required this.resourceSet,
-    this.readinessCheckName,
-    this.tags,
-  });
-
-  factory ReadinessCheckOutput.fromJson(Map<String, dynamic> json) {
-    return ReadinessCheckOutput(
-      readinessCheckArn: (json['readinessCheckArn'] as String?) ?? '',
-      resourceSet: (json['resourceSet'] as String?) ?? '',
-      readinessCheckName: json['readinessCheckName'] as String?,
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final readinessCheckArn = this.readinessCheckArn;
-    final resourceSet = this.resourceSet;
-    final readinessCheckName = this.readinessCheckName;
-    final tags = this.tags;
-    return {
-      'readinessCheckArn': readinessCheckArn,
-      'resourceSet': resourceSet,
-      if (readinessCheckName != null) 'readinessCheckName': readinessCheckName,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-/// Summary of all readiness check statuses in a recovery group, paginated in
-/// GetRecoveryGroupReadinessSummary and GetCellReadinessSummary.
-class ReadinessCheckSummary {
-  /// The readiness status of this readiness check.
-  final Readiness? readiness;
-
-  /// The name of a readiness check.
-  final String? readinessCheckName;
-
-  ReadinessCheckSummary({
-    this.readiness,
-    this.readinessCheckName,
-  });
-
-  factory ReadinessCheckSummary.fromJson(Map<String, dynamic> json) {
-    return ReadinessCheckSummary(
-      readiness: (json['readiness'] as String?)?.let(Readiness.fromString),
-      readinessCheckName: json['readinessCheckName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final readiness = this.readiness;
-    final readinessCheckName = this.readinessCheckName;
-    return {
-      if (readiness != null) 'readiness': readiness.value,
-      if (readinessCheckName != null) 'readinessCheckName': readinessCheckName,
-    };
-  }
-}
-
-/// Recommendations that are provided to make an application more recovery
-/// resilient.
-class Recommendation {
-  /// Text of the recommendations that are provided to make an application more
-  /// recovery resilient.
-  final String recommendationText;
-
-  Recommendation({
-    required this.recommendationText,
-  });
-
-  factory Recommendation.fromJson(Map<String, dynamic> json) {
-    return Recommendation(
-      recommendationText: (json['recommendationText'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final recommendationText = this.recommendationText;
-    return {
-      'recommendationText': recommendationText,
-    };
-  }
-}
-
-/// A representation of the application, typically containing multiple cells.
-class RecoveryGroupOutput {
-  /// A list of a cell's Amazon Resource Names (ARNs).
-  final List<String> cells;
-
-  /// The Amazon Resource Name (ARN) for the recovery group.
-  final String recoveryGroupArn;
-
-  /// The name of the recovery group.
-  final String recoveryGroupName;
-
-  /// The tags associated with the recovery group.
-  final Map<String, String>? tags;
-
-  RecoveryGroupOutput({
-    required this.cells,
-    required this.recoveryGroupArn,
-    required this.recoveryGroupName,
-    this.tags,
-  });
-
-  factory RecoveryGroupOutput.fromJson(Map<String, dynamic> json) {
-    return RecoveryGroupOutput(
-      cells: ((json['cells'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      recoveryGroupArn: (json['recoveryGroupArn'] as String?) ?? '',
-      recoveryGroupName: (json['recoveryGroupName'] as String?) ?? '',
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cells = this.cells;
-    final recoveryGroupArn = this.recoveryGroupArn;
-    final recoveryGroupName = this.recoveryGroupName;
-    final tags = this.tags;
-    return {
-      'cells': cells,
-      'recoveryGroupArn': recoveryGroupArn,
-      'recoveryGroupName': recoveryGroupName,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-/// The resource element of a resource set.
-class Resource {
-  /// The component identifier of the resource, generated when DNS target resource
-  /// is used.
-  final String? componentId;
-
-  /// The DNS target resource.
-  final DNSTargetResource? dnsTargetResource;
-
-  /// A list of recovery group Amazon Resource Names (ARNs) and cell ARNs that
-  /// this resource is contained within.
-  final List<String>? readinessScopes;
-
-  /// The Amazon Resource Name (ARN) of the Amazon Web Services resource.
-  final String? resourceArn;
-
-  Resource({
-    this.componentId,
-    this.dnsTargetResource,
-    this.readinessScopes,
-    this.resourceArn,
-  });
-
-  factory Resource.fromJson(Map<String, dynamic> json) {
-    return Resource(
-      componentId: json['componentId'] as String?,
-      dnsTargetResource: json['dnsTargetResource'] != null
-          ? DNSTargetResource.fromJson(
-              json['dnsTargetResource'] as Map<String, dynamic>)
-          : null,
-      readinessScopes: (json['readinessScopes'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      resourceArn: json['resourceArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final componentId = this.componentId;
-    final dnsTargetResource = this.dnsTargetResource;
-    final readinessScopes = this.readinessScopes;
-    final resourceArn = this.resourceArn;
-    return {
-      if (componentId != null) 'componentId': componentId,
-      if (dnsTargetResource != null) 'dnsTargetResource': dnsTargetResource,
-      if (readinessScopes != null) 'readinessScopes': readinessScopes,
-      if (resourceArn != null) 'resourceArn': resourceArn,
-    };
-  }
-}
-
-/// The result of a successful Resource request, with status for an individual
-/// resource.
-class ResourceResult {
-  /// The time (UTC) that the resource was last checked for readiness, in ISO-8601
-  /// format.
-  final DateTime lastCheckedTimestamp;
-
-  /// The readiness of a resource.
-  final Readiness readiness;
-
-  /// The component id of the resource.
-  final String? componentId;
-
-  /// The Amazon Resource Name (ARN) of the resource.
-  final String? resourceArn;
-
-  ResourceResult({
-    required this.lastCheckedTimestamp,
-    required this.readiness,
-    this.componentId,
-    this.resourceArn,
-  });
-
-  factory ResourceResult.fromJson(Map<String, dynamic> json) {
-    return ResourceResult(
-      lastCheckedTimestamp:
-          nonNullableTimeStampFromJson(json['lastCheckedTimestamp'] ?? 0),
-      readiness: Readiness.fromString((json['readiness'] as String?) ?? ''),
-      componentId: json['componentId'] as String?,
-      resourceArn: json['resourceArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lastCheckedTimestamp = this.lastCheckedTimestamp;
-    final readiness = this.readiness;
-    final componentId = this.componentId;
-    final resourceArn = this.resourceArn;
-    return {
-      'lastCheckedTimestamp': iso8601ToJson(lastCheckedTimestamp),
-      'readiness': readiness.value,
-      if (componentId != null) 'componentId': componentId,
-      if (resourceArn != null) 'resourceArn': resourceArn,
-    };
-  }
-}
-
-/// A collection of resources of the same type.
-class ResourceSetOutput {
-  /// The Amazon Resource Name (ARN) for the resource set.
-  final String resourceSetArn;
-
-  /// The name of the resource set.
-  final String resourceSetName;
-
-  /// The resource type of the resources in the resource set. Enter one of the
-  /// following values for resource type:
-  ///
-  /// AWS::ApiGateway::Stage, AWS::ApiGatewayV2::Stage,
-  /// AWS::AutoScaling::AutoScalingGroup, AWS::CloudWatch::Alarm,
-  /// AWS::EC2::CustomerGateway, AWS::DynamoDB::Table, AWS::EC2::Volume,
-  /// AWS::ElasticLoadBalancing::LoadBalancer,
-  /// AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::Lambda::Function,
-  /// AWS::MSK::Cluster, AWS::RDS::DBCluster, AWS::Route53::HealthCheck,
-  /// AWS::SQS::Queue, AWS::SNS::Topic, AWS::SNS::Subscription, AWS::EC2::VPC,
-  /// AWS::EC2::VPNConnection, AWS::EC2::VPNGateway,
-  /// AWS::Route53RecoveryReadiness::DNSTargetResource
-  final String resourceSetType;
-
-  /// A list of resource objects.
-  final List<Resource> resources;
-  final Map<String, String>? tags;
-
-  ResourceSetOutput({
-    required this.resourceSetArn,
-    required this.resourceSetName,
-    required this.resourceSetType,
-    required this.resources,
-    this.tags,
-  });
-
-  factory ResourceSetOutput.fromJson(Map<String, dynamic> json) {
-    return ResourceSetOutput(
-      resourceSetArn: (json['resourceSetArn'] as String?) ?? '',
-      resourceSetName: (json['resourceSetName'] as String?) ?? '',
-      resourceSetType: (json['resourceSetType'] as String?) ?? '',
-      resources: ((json['resources'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => Resource.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resourceSetArn = this.resourceSetArn;
-    final resourceSetName = this.resourceSetName;
-    final resourceSetType = this.resourceSetType;
-    final resources = this.resources;
-    final tags = this.tags;
-    return {
-      'resourceSetArn': resourceSetArn,
-      'resourceSetName': resourceSetName,
-      'resourceSetType': resourceSetType,
-      'resources': resources,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-/// The result of a successful Rule request, with status for an individual rule.
-class RuleResult {
-  /// The time the resource was last checked for readiness, in ISO-8601 format,
-  /// UTC.
-  final DateTime lastCheckedTimestamp;
-
-  /// Details about the resource's readiness.
-  final List<Message> messages;
-
-  /// The readiness at rule level.
-  final Readiness readiness;
-
-  /// The identifier of the rule.
-  final String ruleId;
-
-  RuleResult({
-    required this.lastCheckedTimestamp,
-    required this.messages,
-    required this.readiness,
-    required this.ruleId,
-  });
-
-  factory RuleResult.fromJson(Map<String, dynamic> json) {
-    return RuleResult(
-      lastCheckedTimestamp:
-          nonNullableTimeStampFromJson(json['lastCheckedTimestamp'] ?? 0),
-      messages: ((json['messages'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => Message.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      readiness: Readiness.fromString((json['readiness'] as String?) ?? ''),
-      ruleId: (json['ruleId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lastCheckedTimestamp = this.lastCheckedTimestamp;
-    final messages = this.messages;
-    final readiness = this.readiness;
-    final ruleId = this.ruleId;
-    return {
-      'lastCheckedTimestamp': iso8601ToJson(lastCheckedTimestamp),
-      'messages': messages,
-      'readiness': readiness.value,
-      'ruleId': ruleId,
-    };
-  }
-}
-
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2600,41 +1981,6 @@ class TagResourceResponse {
 
   Map<String, dynamic> toJson() {
     return {};
-  }
-}
-
-/// The target resource that the Route 53 record points to.
-class TargetResource {
-  /// The Network Load Balancer Resource.
-  final NLBResource? nLBResource;
-
-  /// The Route 53 resource.
-  final R53ResourceRecord? r53Resource;
-
-  TargetResource({
-    this.nLBResource,
-    this.r53Resource,
-  });
-
-  factory TargetResource.fromJson(Map<String, dynamic> json) {
-    return TargetResource(
-      nLBResource: json['nLBResource'] != null
-          ? NLBResource.fromJson(json['nLBResource'] as Map<String, dynamic>)
-          : null,
-      r53Resource: json['r53Resource'] != null
-          ? R53ResourceRecord.fromJson(
-              json['r53Resource'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nLBResource = this.nLBResource;
-    final r53Resource = this.r53Resource;
-    return {
-      if (nLBResource != null) 'nLBResource': nLBResource,
-      if (r53Resource != null) 'r53Resource': r53Resource,
-    };
   }
 }
 
@@ -2842,6 +2188,659 @@ class UpdateResourceSetResponse {
       if (resourceSetType != null) 'resourceSetType': resourceSetType,
       if (resources != null) 'resources': resources,
       if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// The resource element of a resource set.
+class Resource {
+  /// The component identifier of the resource, generated when DNS target resource
+  /// is used.
+  final String? componentId;
+
+  /// The DNS target resource.
+  final DNSTargetResource? dnsTargetResource;
+
+  /// A list of recovery group Amazon Resource Names (ARNs) and cell ARNs that
+  /// this resource is contained within.
+  final List<String>? readinessScopes;
+
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services resource.
+  final String? resourceArn;
+
+  Resource({
+    this.componentId,
+    this.dnsTargetResource,
+    this.readinessScopes,
+    this.resourceArn,
+  });
+
+  factory Resource.fromJson(Map<String, dynamic> json) {
+    return Resource(
+      componentId: json['componentId'] as String?,
+      dnsTargetResource: json['dnsTargetResource'] != null
+          ? DNSTargetResource.fromJson(
+              json['dnsTargetResource'] as Map<String, dynamic>)
+          : null,
+      readinessScopes: (json['readinessScopes'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      resourceArn: json['resourceArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final componentId = this.componentId;
+    final dnsTargetResource = this.dnsTargetResource;
+    final readinessScopes = this.readinessScopes;
+    final resourceArn = this.resourceArn;
+    return {
+      if (componentId != null) 'componentId': componentId,
+      if (dnsTargetResource != null) 'dnsTargetResource': dnsTargetResource,
+      if (readinessScopes != null) 'readinessScopes': readinessScopes,
+      if (resourceArn != null) 'resourceArn': resourceArn,
+    };
+  }
+}
+
+/// A component for DNS/routing control readiness checks and architecture
+/// checks.
+class DNSTargetResource {
+  /// The domain name that acts as an ingress point to a portion of the customer
+  /// application.
+  final String? domainName;
+
+  /// The hosted zone Amazon Resource Name (ARN) that contains the DNS record with
+  /// the provided name of the target resource.
+  final String? hostedZoneArn;
+
+  /// The Route 53 record set ID that uniquely identifies a DNS record, given a
+  /// name and a type.
+  final String? recordSetId;
+
+  /// The type of DNS record of the target resource.
+  final String? recordType;
+
+  /// The target resource of the DNS target resource.
+  final TargetResource? targetResource;
+
+  DNSTargetResource({
+    this.domainName,
+    this.hostedZoneArn,
+    this.recordSetId,
+    this.recordType,
+    this.targetResource,
+  });
+
+  factory DNSTargetResource.fromJson(Map<String, dynamic> json) {
+    return DNSTargetResource(
+      domainName: json['domainName'] as String?,
+      hostedZoneArn: json['hostedZoneArn'] as String?,
+      recordSetId: json['recordSetId'] as String?,
+      recordType: json['recordType'] as String?,
+      targetResource: json['targetResource'] != null
+          ? TargetResource.fromJson(
+              json['targetResource'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainName = this.domainName;
+    final hostedZoneArn = this.hostedZoneArn;
+    final recordSetId = this.recordSetId;
+    final recordType = this.recordType;
+    final targetResource = this.targetResource;
+    return {
+      if (domainName != null) 'domainName': domainName,
+      if (hostedZoneArn != null) 'hostedZoneArn': hostedZoneArn,
+      if (recordSetId != null) 'recordSetId': recordSetId,
+      if (recordType != null) 'recordType': recordType,
+      if (targetResource != null) 'targetResource': targetResource,
+    };
+  }
+}
+
+/// The target resource that the Route 53 record points to.
+class TargetResource {
+  /// The Network Load Balancer Resource.
+  final NLBResource? nLBResource;
+
+  /// The Route 53 resource.
+  final R53ResourceRecord? r53Resource;
+
+  TargetResource({
+    this.nLBResource,
+    this.r53Resource,
+  });
+
+  factory TargetResource.fromJson(Map<String, dynamic> json) {
+    return TargetResource(
+      nLBResource: json['nLBResource'] != null
+          ? NLBResource.fromJson(json['nLBResource'] as Map<String, dynamic>)
+          : null,
+      r53Resource: json['r53Resource'] != null
+          ? R53ResourceRecord.fromJson(
+              json['r53Resource'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nLBResource = this.nLBResource;
+    final r53Resource = this.r53Resource;
+    return {
+      if (nLBResource != null) 'nLBResource': nLBResource,
+      if (r53Resource != null) 'r53Resource': r53Resource,
+    };
+  }
+}
+
+/// The Network Load Balancer resource that a DNS target resource points to.
+class NLBResource {
+  /// The Network Load Balancer resource Amazon Resource Name (ARN).
+  final String? arn;
+
+  NLBResource({
+    this.arn,
+  });
+
+  factory NLBResource.fromJson(Map<String, dynamic> json) {
+    return NLBResource(
+      arn: json['arn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
+      if (arn != null) 'arn': arn,
+    };
+  }
+}
+
+/// The Route 53 resource that a DNS target resource record points to.
+class R53ResourceRecord {
+  /// The DNS target domain name.
+  final String? domainName;
+
+  /// The Route 53 Resource Record Set ID.
+  final String? recordSetId;
+
+  R53ResourceRecord({
+    this.domainName,
+    this.recordSetId,
+  });
+
+  factory R53ResourceRecord.fromJson(Map<String, dynamic> json) {
+    return R53ResourceRecord(
+      domainName: json['domainName'] as String?,
+      recordSetId: json['recordSetId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainName = this.domainName;
+    final recordSetId = this.recordSetId;
+    return {
+      if (domainName != null) 'domainName': domainName,
+      if (recordSetId != null) 'recordSetId': recordSetId,
+    };
+  }
+}
+
+/// Readiness rule information, including the resource type, rule ID, and rule
+/// description.
+class ListRulesOutput {
+  /// The resource type that the readiness rule applies to.
+  final String resourceType;
+
+  /// The description of a readiness rule.
+  final String ruleDescription;
+
+  /// The ID for the readiness rule.
+  final String ruleId;
+
+  ListRulesOutput({
+    required this.resourceType,
+    required this.ruleDescription,
+    required this.ruleId,
+  });
+
+  factory ListRulesOutput.fromJson(Map<String, dynamic> json) {
+    return ListRulesOutput(
+      resourceType: (json['resourceType'] as String?) ?? '',
+      ruleDescription: (json['ruleDescription'] as String?) ?? '',
+      ruleId: (json['ruleId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceType = this.resourceType;
+    final ruleDescription = this.ruleDescription;
+    final ruleId = this.ruleId;
+    return {
+      'resourceType': resourceType,
+      'ruleDescription': ruleDescription,
+      'ruleId': ruleId,
+    };
+  }
+}
+
+/// A collection of resources of the same type.
+class ResourceSetOutput {
+  /// The Amazon Resource Name (ARN) for the resource set.
+  final String resourceSetArn;
+
+  /// The name of the resource set.
+  final String resourceSetName;
+
+  /// The resource type of the resources in the resource set. Enter one of the
+  /// following values for resource type:
+  ///
+  /// AWS::ApiGateway::Stage, AWS::ApiGatewayV2::Stage,
+  /// AWS::AutoScaling::AutoScalingGroup, AWS::CloudWatch::Alarm,
+  /// AWS::EC2::CustomerGateway, AWS::DynamoDB::Table, AWS::EC2::Volume,
+  /// AWS::ElasticLoadBalancing::LoadBalancer,
+  /// AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::Lambda::Function,
+  /// AWS::MSK::Cluster, AWS::RDS::DBCluster, AWS::Route53::HealthCheck,
+  /// AWS::SQS::Queue, AWS::SNS::Topic, AWS::SNS::Subscription, AWS::EC2::VPC,
+  /// AWS::EC2::VPNConnection, AWS::EC2::VPNGateway,
+  /// AWS::Route53RecoveryReadiness::DNSTargetResource
+  final String resourceSetType;
+
+  /// A list of resource objects.
+  final List<Resource> resources;
+  final Map<String, String>? tags;
+
+  ResourceSetOutput({
+    required this.resourceSetArn,
+    required this.resourceSetName,
+    required this.resourceSetType,
+    required this.resources,
+    this.tags,
+  });
+
+  factory ResourceSetOutput.fromJson(Map<String, dynamic> json) {
+    return ResourceSetOutput(
+      resourceSetArn: (json['resourceSetArn'] as String?) ?? '',
+      resourceSetName: (json['resourceSetName'] as String?) ?? '',
+      resourceSetType: (json['resourceSetType'] as String?) ?? '',
+      resources: ((json['resources'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Resource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceSetArn = this.resourceSetArn;
+    final resourceSetName = this.resourceSetName;
+    final resourceSetType = this.resourceSetType;
+    final resources = this.resources;
+    final tags = this.tags;
+    return {
+      'resourceSetArn': resourceSetArn,
+      'resourceSetName': resourceSetName,
+      'resourceSetType': resourceSetType,
+      'resources': resources,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// A representation of the application, typically containing multiple cells.
+class RecoveryGroupOutput {
+  /// A list of a cell's Amazon Resource Names (ARNs).
+  final List<String> cells;
+
+  /// The Amazon Resource Name (ARN) for the recovery group.
+  final String recoveryGroupArn;
+
+  /// The name of the recovery group.
+  final String recoveryGroupName;
+
+  /// The tags associated with the recovery group.
+  final Map<String, String>? tags;
+
+  RecoveryGroupOutput({
+    required this.cells,
+    required this.recoveryGroupArn,
+    required this.recoveryGroupName,
+    this.tags,
+  });
+
+  factory RecoveryGroupOutput.fromJson(Map<String, dynamic> json) {
+    return RecoveryGroupOutput(
+      cells: ((json['cells'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      recoveryGroupArn: (json['recoveryGroupArn'] as String?) ?? '',
+      recoveryGroupName: (json['recoveryGroupName'] as String?) ?? '',
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cells = this.cells;
+    final recoveryGroupArn = this.recoveryGroupArn;
+    final recoveryGroupName = this.recoveryGroupName;
+    final tags = this.tags;
+    return {
+      'cells': cells,
+      'recoveryGroupArn': recoveryGroupArn,
+      'recoveryGroupName': recoveryGroupName,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// A readiness check.
+class ReadinessCheckOutput {
+  /// The Amazon Resource Name (ARN) associated with a readiness check.
+  final String readinessCheckArn;
+
+  /// Name of the resource set to be checked.
+  final String resourceSet;
+
+  /// Name of a readiness check.
+  final String? readinessCheckName;
+  final Map<String, String>? tags;
+
+  ReadinessCheckOutput({
+    required this.readinessCheckArn,
+    required this.resourceSet,
+    this.readinessCheckName,
+    this.tags,
+  });
+
+  factory ReadinessCheckOutput.fromJson(Map<String, dynamic> json) {
+    return ReadinessCheckOutput(
+      readinessCheckArn: (json['readinessCheckArn'] as String?) ?? '',
+      resourceSet: (json['resourceSet'] as String?) ?? '',
+      readinessCheckName: json['readinessCheckName'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final readinessCheckArn = this.readinessCheckArn;
+    final resourceSet = this.resourceSet;
+    final readinessCheckName = this.readinessCheckName;
+    final tags = this.tags;
+    return {
+      'readinessCheckArn': readinessCheckArn,
+      'resourceSet': resourceSet,
+      if (readinessCheckName != null) 'readinessCheckName': readinessCheckName,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Information about a cell.
+class CellOutput {
+  /// The Amazon Resource Name (ARN) for the cell.
+  final String cellArn;
+
+  /// The name of the cell.
+  final String cellName;
+
+  /// A list of cell ARNs.
+  final List<String> cells;
+
+  /// The readiness scope for the cell, which can be a cell Amazon Resource Name
+  /// (ARN) or a recovery group ARN. This is a list but currently can have only
+  /// one element.
+  final List<String> parentReadinessScopes;
+
+  /// Tags on the resources.
+  final Map<String, String>? tags;
+
+  CellOutput({
+    required this.cellArn,
+    required this.cellName,
+    required this.cells,
+    required this.parentReadinessScopes,
+    this.tags,
+  });
+
+  factory CellOutput.fromJson(Map<String, dynamic> json) {
+    return CellOutput(
+      cellArn: (json['cellArn'] as String?) ?? '',
+      cellName: (json['cellName'] as String?) ?? '',
+      cells: ((json['cells'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      parentReadinessScopes:
+          ((json['parentReadinessScopes'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => e as String)
+              .toList(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cellArn = this.cellArn;
+    final cellName = this.cellName;
+    final cells = this.cells;
+    final parentReadinessScopes = this.parentReadinessScopes;
+    final tags = this.tags;
+    return {
+      'cellArn': cellArn,
+      'cellName': cellName,
+      'cells': cells,
+      'parentReadinessScopes': parentReadinessScopes,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// The readiness status.
+class Readiness {
+  static const ready = Readiness._('READY');
+  static const notReady = Readiness._('NOT_READY');
+  static const unknown = Readiness._('UNKNOWN');
+  static const notAuthorized = Readiness._('NOT_AUTHORIZED');
+
+  final String value;
+
+  const Readiness._(this.value);
+
+  static const values = [ready, notReady, unknown, notAuthorized];
+
+  static Readiness fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Readiness._(value));
+
+  @override
+  bool operator ==(other) => other is Readiness && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Summary of all readiness check statuses in a recovery group, paginated in
+/// GetRecoveryGroupReadinessSummary and GetCellReadinessSummary.
+class ReadinessCheckSummary {
+  /// The readiness status of this readiness check.
+  final Readiness? readiness;
+
+  /// The name of a readiness check.
+  final String? readinessCheckName;
+
+  ReadinessCheckSummary({
+    this.readiness,
+    this.readinessCheckName,
+  });
+
+  factory ReadinessCheckSummary.fromJson(Map<String, dynamic> json) {
+    return ReadinessCheckSummary(
+      readiness: (json['readiness'] as String?)?.let(Readiness.fromString),
+      readinessCheckName: json['readinessCheckName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final readiness = this.readiness;
+    final readinessCheckName = this.readinessCheckName;
+    return {
+      if (readiness != null) 'readiness': readiness.value,
+      if (readinessCheckName != null) 'readinessCheckName': readinessCheckName,
+    };
+  }
+}
+
+/// The result of a successful Resource request, with status for an individual
+/// resource.
+class ResourceResult {
+  /// The time (UTC) that the resource was last checked for readiness, in ISO-8601
+  /// format.
+  final DateTime lastCheckedTimestamp;
+
+  /// The readiness of a resource.
+  final Readiness readiness;
+
+  /// The component id of the resource.
+  final String? componentId;
+
+  /// The Amazon Resource Name (ARN) of the resource.
+  final String? resourceArn;
+
+  ResourceResult({
+    required this.lastCheckedTimestamp,
+    required this.readiness,
+    this.componentId,
+    this.resourceArn,
+  });
+
+  factory ResourceResult.fromJson(Map<String, dynamic> json) {
+    return ResourceResult(
+      lastCheckedTimestamp:
+          nonNullableTimeStampFromJson(json['lastCheckedTimestamp'] ?? 0),
+      readiness: Readiness.fromString((json['readiness'] as String?) ?? ''),
+      componentId: json['componentId'] as String?,
+      resourceArn: json['resourceArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastCheckedTimestamp = this.lastCheckedTimestamp;
+    final readiness = this.readiness;
+    final componentId = this.componentId;
+    final resourceArn = this.resourceArn;
+    return {
+      'lastCheckedTimestamp': iso8601ToJson(lastCheckedTimestamp),
+      'readiness': readiness.value,
+      if (componentId != null) 'componentId': componentId,
+      if (resourceArn != null) 'resourceArn': resourceArn,
+    };
+  }
+}
+
+/// Information relating to readiness check status.
+class Message {
+  /// The text of a readiness check message.
+  final String? messageText;
+
+  Message({
+    this.messageText,
+  });
+
+  factory Message.fromJson(Map<String, dynamic> json) {
+    return Message(
+      messageText: json['messageText'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final messageText = this.messageText;
+    return {
+      if (messageText != null) 'messageText': messageText,
+    };
+  }
+}
+
+/// The result of a successful Rule request, with status for an individual rule.
+class RuleResult {
+  /// The time the resource was last checked for readiness, in ISO-8601 format,
+  /// UTC.
+  final DateTime lastCheckedTimestamp;
+
+  /// Details about the resource's readiness.
+  final List<Message> messages;
+
+  /// The readiness at rule level.
+  final Readiness readiness;
+
+  /// The identifier of the rule.
+  final String ruleId;
+
+  RuleResult({
+    required this.lastCheckedTimestamp,
+    required this.messages,
+    required this.readiness,
+    required this.ruleId,
+  });
+
+  factory RuleResult.fromJson(Map<String, dynamic> json) {
+    return RuleResult(
+      lastCheckedTimestamp:
+          nonNullableTimeStampFromJson(json['lastCheckedTimestamp'] ?? 0),
+      messages: ((json['messages'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Message.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      readiness: Readiness.fromString((json['readiness'] as String?) ?? ''),
+      ruleId: (json['ruleId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastCheckedTimestamp = this.lastCheckedTimestamp;
+    final messages = this.messages;
+    final readiness = this.readiness;
+    final ruleId = this.ruleId;
+    return {
+      'lastCheckedTimestamp': iso8601ToJson(lastCheckedTimestamp),
+      'messages': messages,
+      'readiness': readiness.value,
+      'ruleId': ruleId,
+    };
+  }
+}
+
+/// Recommendations that are provided to make an application more recovery
+/// resilient.
+class Recommendation {
+  /// Text of the recommendations that are provided to make an application more
+  /// recovery resilient.
+  final String recommendationText;
+
+  Recommendation({
+    required this.recommendationText,
+  });
+
+  factory Recommendation.fromJson(Map<String, dynamic> json) {
+    return Recommendation(
+      recommendationText: (json['recommendationText'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recommendationText = this.recommendationText;
+    return {
+      'recommendationText': recommendationText,
     };
   }
 }

@@ -139,6 +139,10 @@ class CloudHsmV2 {
   /// The mode to use in the cluster. The allowed values are <code>FIPS</code>
   /// and <code>NON_FIPS</code>.
   ///
+  /// Parameter [networkType] :
+  /// The NetworkType to create a cluster with. The allowed values are
+  /// <code>IPV4</code> and <code>DUALSTACK</code>.
+  ///
   /// Parameter [sourceBackupId] :
   /// The identifier (ID) or the Amazon Resource Name (ARN) of the cluster
   /// backup to restore. Use this value to restore the cluster from a backup
@@ -153,6 +157,7 @@ class CloudHsmV2 {
     required List<String> subnetIds,
     BackupRetentionPolicy? backupRetentionPolicy,
     ClusterMode? mode,
+    NetworkType? networkType,
     String? sourceBackupId,
     List<Tag>? tagList,
   }) async {
@@ -172,6 +177,7 @@ class CloudHsmV2 {
         if (backupRetentionPolicy != null)
           'BackupRetentionPolicy': backupRetentionPolicy,
         if (mode != null) 'Mode': mode.value,
+        if (networkType != null) 'NetworkType': networkType.value,
         if (sourceBackupId != null) 'SourceBackupId': sourceBackupId,
         if (tagList != null) 'TagList': tagList,
       },
@@ -186,11 +192,11 @@ class CloudHsmV2 {
   /// <b>Cross-account use:</b> No. You cannot perform this operation on an
   /// CloudHSM cluster in a different Amazon Web Service account.
   ///
+  /// May throw [CloudHsmAccessDeniedException].
   /// May throw [CloudHsmInternalFailureException].
-  /// May throw [CloudHsmServiceException].
   /// May throw [CloudHsmInvalidRequestException].
   /// May throw [CloudHsmResourceNotFoundException].
-  /// May throw [CloudHsmAccessDeniedException].
+  /// May throw [CloudHsmServiceException].
   ///
   /// Parameter [availabilityZone] :
   /// The Availability Zone where you are creating the HSM. To find the
@@ -314,11 +320,11 @@ class CloudHsmV2 {
   /// <b>Cross-account use:</b> No. You cannot perform this operation on an
   /// CloudHSM hsm in a different Amazon Web Services account.
   ///
-  /// May throw [CloudHsmInternalFailureException].
-  /// May throw [CloudHsmServiceException].
-  /// May throw [CloudHsmResourceNotFoundException].
-  /// May throw [CloudHsmInvalidRequestException].
   /// May throw [CloudHsmAccessDeniedException].
+  /// May throw [CloudHsmInternalFailureException].
+  /// May throw [CloudHsmInvalidRequestException].
+  /// May throw [CloudHsmResourceNotFoundException].
+  /// May throw [CloudHsmServiceException].
   ///
   /// Parameter [clusterId] :
   /// The identifier (ID) of the cluster that contains the HSM that you are
@@ -369,11 +375,11 @@ class CloudHsmV2 {
   /// <b>Cross-account use:</b> No. You cannot perform this operation on an
   /// CloudHSM resource in a different Amazon Web Services account.
   ///
+  /// May throw [CloudHsmAccessDeniedException].
   /// May throw [CloudHsmInternalFailureException].
-  /// May throw [CloudHsmServiceException].
   /// May throw [CloudHsmInvalidRequestException].
   /// May throw [CloudHsmResourceNotFoundException].
-  /// May throw [CloudHsmAccessDeniedException].
+  /// May throw [CloudHsmServiceException].
   ///
   /// Parameter [resourceArn] :
   /// Amazon Resource Name (ARN) of the resource from which the policy will be
@@ -578,11 +584,11 @@ class CloudHsmV2 {
   /// <b>Cross-account use:</b> No. You cannot perform this operation on an
   /// CloudHSM resource in a different Amazon Web Services account.
   ///
+  /// May throw [CloudHsmAccessDeniedException].
   /// May throw [CloudHsmInternalFailureException].
-  /// May throw [CloudHsmServiceException].
   /// May throw [CloudHsmInvalidRequestException].
   /// May throw [CloudHsmResourceNotFoundException].
-  /// May throw [CloudHsmAccessDeniedException].
+  /// May throw [CloudHsmServiceException].
   ///
   /// Parameter [resourceArn] :
   /// Amazon Resource Name (ARN) of the resource to which a policy is attached.
@@ -778,15 +784,19 @@ class CloudHsmV2 {
   /// May throw [CloudHsmResourceNotFoundException].
   /// May throw [CloudHsmServiceException].
   ///
-  /// Parameter [backupRetentionPolicy] :
-  /// A policy that defines how the service retains backups.
-  ///
   /// Parameter [clusterId] :
   /// The identifier (ID) of the cluster that you want to modify. To find the
   /// cluster ID, use <a>DescribeClusters</a>.
+  ///
+  /// Parameter [backupRetentionPolicy] :
+  /// A policy that defines how the service retains backups.
+  ///
+  /// Parameter [hsmType] :
+  /// The desired HSM type of the cluster.
   Future<ModifyClusterResponse> modifyCluster({
-    required BackupRetentionPolicy backupRetentionPolicy,
     required String clusterId,
+    BackupRetentionPolicy? backupRetentionPolicy,
+    String? hsmType,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -799,8 +809,10 @@ class CloudHsmV2 {
       // TODO queryParams
       headers: headers,
       payload: {
-        'BackupRetentionPolicy': backupRetentionPolicy,
         'ClusterId': clusterId,
+        if (backupRetentionPolicy != null)
+          'BackupRetentionPolicy': backupRetentionPolicy,
+        if (hsmType != null) 'HsmType': hsmType,
       },
     );
 
@@ -836,11 +848,11 @@ class CloudHsmV2 {
   /// <b>Cross-account use:</b> No. You cannot perform this operation on an
   /// CloudHSM resource in a different Amazon Web Services account.
   ///
+  /// May throw [CloudHsmAccessDeniedException].
   /// May throw [CloudHsmInternalFailureException].
-  /// May throw [CloudHsmServiceException].
   /// May throw [CloudHsmInvalidRequestException].
   /// May throw [CloudHsmResourceNotFoundException].
-  /// May throw [CloudHsmAccessDeniedException].
+  /// May throw [CloudHsmServiceException].
   ///
   /// Parameter [policy] :
   /// The policy you want to associate with a resource.
@@ -920,6 +932,7 @@ class CloudHsmV2 {
   /// May throw [CloudHsmAccessDeniedException].
   /// May throw [CloudHsmInternalFailureException].
   /// May throw [CloudHsmInvalidRequestException].
+  /// May throw [CloudHsmResourceLimitExceededException].
   /// May throw [CloudHsmResourceNotFoundException].
   /// May throw [CloudHsmServiceException].
   /// May throw [CloudHsmTagException].
@@ -990,508 +1003,6 @@ class CloudHsmV2 {
       },
     );
   }
-}
-
-/// Contains information about a backup of an CloudHSM cluster. All backup
-/// objects contain the <code>BackupId</code>, <code>BackupState</code>,
-/// <code>ClusterId</code>, and <code>CreateTimestamp</code> parameters. Backups
-/// that were copied into a destination region additionally contain the
-/// <code>CopyTimestamp</code>, <code>SourceBackup</code>,
-/// <code>SourceCluster</code>, and <code>SourceRegion</code> parameters. A
-/// backup that is pending deletion will include the
-/// <code>DeleteTimestamp</code> parameter.
-class Backup {
-  /// The identifier (ID) of the backup.
-  final String backupId;
-
-  /// The Amazon Resource Name (ARN) of the backup.
-  final String? backupArn;
-
-  /// The state of the backup.
-  final BackupState? backupState;
-
-  /// The identifier (ID) of the cluster that was backed up.
-  final String? clusterId;
-
-  /// The date and time when the backup was copied from a source backup.
-  final DateTime? copyTimestamp;
-
-  /// The date and time when the backup was created.
-  final DateTime? createTimestamp;
-
-  /// The date and time when the backup will be permanently deleted.
-  final DateTime? deleteTimestamp;
-
-  /// The HSM type used to create the backup.
-  final String? hsmType;
-
-  /// The mode of the cluster that was backed up.
-  final ClusterMode? mode;
-
-  /// Specifies whether the service should exempt a backup from the retention
-  /// policy for the cluster. <code>True</code> exempts a backup from the
-  /// retention policy. <code>False</code> means the service applies the backup
-  /// retention policy defined at the cluster.
-  final bool? neverExpires;
-
-  /// The identifier (ID) of the source backup from which the new backup was
-  /// copied.
-  final String? sourceBackup;
-
-  /// The identifier (ID) of the cluster containing the source backup from which
-  /// the new backup was copied.
-  final String? sourceCluster;
-
-  /// The AWS Region that contains the source backup from which the new backup was
-  /// copied.
-  final String? sourceRegion;
-
-  /// The list of tags for the backup.
-  final List<Tag>? tagList;
-
-  Backup({
-    required this.backupId,
-    this.backupArn,
-    this.backupState,
-    this.clusterId,
-    this.copyTimestamp,
-    this.createTimestamp,
-    this.deleteTimestamp,
-    this.hsmType,
-    this.mode,
-    this.neverExpires,
-    this.sourceBackup,
-    this.sourceCluster,
-    this.sourceRegion,
-    this.tagList,
-  });
-
-  factory Backup.fromJson(Map<String, dynamic> json) {
-    return Backup(
-      backupId: (json['BackupId'] as String?) ?? '',
-      backupArn: json['BackupArn'] as String?,
-      backupState:
-          (json['BackupState'] as String?)?.let(BackupState.fromString),
-      clusterId: json['ClusterId'] as String?,
-      copyTimestamp: timeStampFromJson(json['CopyTimestamp']),
-      createTimestamp: timeStampFromJson(json['CreateTimestamp']),
-      deleteTimestamp: timeStampFromJson(json['DeleteTimestamp']),
-      hsmType: json['HsmType'] as String?,
-      mode: (json['Mode'] as String?)?.let(ClusterMode.fromString),
-      neverExpires: json['NeverExpires'] as bool?,
-      sourceBackup: json['SourceBackup'] as String?,
-      sourceCluster: json['SourceCluster'] as String?,
-      sourceRegion: json['SourceRegion'] as String?,
-      tagList: (json['TagList'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final backupId = this.backupId;
-    final backupArn = this.backupArn;
-    final backupState = this.backupState;
-    final clusterId = this.clusterId;
-    final copyTimestamp = this.copyTimestamp;
-    final createTimestamp = this.createTimestamp;
-    final deleteTimestamp = this.deleteTimestamp;
-    final hsmType = this.hsmType;
-    final mode = this.mode;
-    final neverExpires = this.neverExpires;
-    final sourceBackup = this.sourceBackup;
-    final sourceCluster = this.sourceCluster;
-    final sourceRegion = this.sourceRegion;
-    final tagList = this.tagList;
-    return {
-      'BackupId': backupId,
-      if (backupArn != null) 'BackupArn': backupArn,
-      if (backupState != null) 'BackupState': backupState.value,
-      if (clusterId != null) 'ClusterId': clusterId,
-      if (copyTimestamp != null)
-        'CopyTimestamp': unixTimestampToJson(copyTimestamp),
-      if (createTimestamp != null)
-        'CreateTimestamp': unixTimestampToJson(createTimestamp),
-      if (deleteTimestamp != null)
-        'DeleteTimestamp': unixTimestampToJson(deleteTimestamp),
-      if (hsmType != null) 'HsmType': hsmType,
-      if (mode != null) 'Mode': mode.value,
-      if (neverExpires != null) 'NeverExpires': neverExpires,
-      if (sourceBackup != null) 'SourceBackup': sourceBackup,
-      if (sourceCluster != null) 'SourceCluster': sourceCluster,
-      if (sourceRegion != null) 'SourceRegion': sourceRegion,
-      if (tagList != null) 'TagList': tagList,
-    };
-  }
-}
-
-class BackupPolicy {
-  static const $default = BackupPolicy._('DEFAULT');
-
-  final String value;
-
-  const BackupPolicy._(this.value);
-
-  static const values = [$default];
-
-  static BackupPolicy fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => BackupPolicy._(value));
-
-  @override
-  bool operator ==(other) => other is BackupPolicy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A policy that defines the number of days to retain backups.
-class BackupRetentionPolicy {
-  /// The type of backup retention policy. For the <code>DAYS</code> type, the
-  /// value is the number of days to retain backups.
-  final BackupRetentionType? type;
-
-  /// Use a value between 7 - 379.
-  final String? value;
-
-  BackupRetentionPolicy({
-    this.type,
-    this.value,
-  });
-
-  factory BackupRetentionPolicy.fromJson(Map<String, dynamic> json) {
-    return BackupRetentionPolicy(
-      type: (json['Type'] as String?)?.let(BackupRetentionType.fromString),
-      value: json['Value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final type = this.type;
-    final value = this.value;
-    return {
-      if (type != null) 'Type': type.value,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-class BackupRetentionType {
-  static const days = BackupRetentionType._('DAYS');
-
-  final String value;
-
-  const BackupRetentionType._(this.value);
-
-  static const values = [days];
-
-  static BackupRetentionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => BackupRetentionType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is BackupRetentionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class BackupState {
-  static const createInProgress = BackupState._('CREATE_IN_PROGRESS');
-  static const ready = BackupState._('READY');
-  static const deleted = BackupState._('DELETED');
-  static const pendingDeletion = BackupState._('PENDING_DELETION');
-
-  final String value;
-
-  const BackupState._(this.value);
-
-  static const values = [createInProgress, ready, deleted, pendingDeletion];
-
-  static BackupState fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => BackupState._(value));
-
-  @override
-  bool operator ==(other) => other is BackupState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains one or more certificates or a certificate signing request (CSR).
-class Certificates {
-  /// The HSM hardware certificate issued (signed) by CloudHSM.
-  final String? awsHardwareCertificate;
-
-  /// The cluster certificate issued (signed) by the issuing certificate authority
-  /// (CA) of the cluster's owner.
-  final String? clusterCertificate;
-
-  /// The cluster's certificate signing request (CSR). The CSR exists only when
-  /// the cluster's state is <code>UNINITIALIZED</code>.
-  final String? clusterCsr;
-
-  /// The HSM certificate issued (signed) by the HSM hardware.
-  final String? hsmCertificate;
-
-  /// The HSM hardware certificate issued (signed) by the hardware manufacturer.
-  final String? manufacturerHardwareCertificate;
-
-  Certificates({
-    this.awsHardwareCertificate,
-    this.clusterCertificate,
-    this.clusterCsr,
-    this.hsmCertificate,
-    this.manufacturerHardwareCertificate,
-  });
-
-  factory Certificates.fromJson(Map<String, dynamic> json) {
-    return Certificates(
-      awsHardwareCertificate: json['AwsHardwareCertificate'] as String?,
-      clusterCertificate: json['ClusterCertificate'] as String?,
-      clusterCsr: json['ClusterCsr'] as String?,
-      hsmCertificate: json['HsmCertificate'] as String?,
-      manufacturerHardwareCertificate:
-          json['ManufacturerHardwareCertificate'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final awsHardwareCertificate = this.awsHardwareCertificate;
-    final clusterCertificate = this.clusterCertificate;
-    final clusterCsr = this.clusterCsr;
-    final hsmCertificate = this.hsmCertificate;
-    final manufacturerHardwareCertificate =
-        this.manufacturerHardwareCertificate;
-    return {
-      if (awsHardwareCertificate != null)
-        'AwsHardwareCertificate': awsHardwareCertificate,
-      if (clusterCertificate != null) 'ClusterCertificate': clusterCertificate,
-      if (clusterCsr != null) 'ClusterCsr': clusterCsr,
-      if (hsmCertificate != null) 'HsmCertificate': hsmCertificate,
-      if (manufacturerHardwareCertificate != null)
-        'ManufacturerHardwareCertificate': manufacturerHardwareCertificate,
-    };
-  }
-}
-
-/// Contains information about an CloudHSM cluster.
-class Cluster {
-  /// The cluster's backup policy.
-  final BackupPolicy? backupPolicy;
-
-  /// A policy that defines how the service retains backups.
-  final BackupRetentionPolicy? backupRetentionPolicy;
-
-  /// Contains one or more certificates or a certificate signing request (CSR).
-  final Certificates? certificates;
-
-  /// The cluster's identifier (ID).
-  final String? clusterId;
-
-  /// The date and time when the cluster was created.
-  final DateTime? createTimestamp;
-
-  /// The type of HSM that the cluster contains.
-  final String? hsmType;
-
-  /// Contains information about the HSMs in the cluster.
-  final List<Hsm>? hsms;
-
-  /// The mode of the cluster.
-  final ClusterMode? mode;
-
-  /// The default password for the cluster's Pre-Crypto Officer (PRECO) user.
-  final String? preCoPassword;
-
-  /// The identifier (ID) of the cluster's security group.
-  final String? securityGroup;
-
-  /// The identifier (ID) of the backup used to create the cluster. This value
-  /// exists only when the cluster was created from a backup.
-  final String? sourceBackupId;
-
-  /// The cluster's state.
-  final ClusterState? state;
-
-  /// A description of the cluster's state.
-  final String? stateMessage;
-
-  /// A map from availability zone to the cluster’s subnet in that availability
-  /// zone.
-  final Map<String, String>? subnetMapping;
-
-  /// The list of tags for the cluster.
-  final List<Tag>? tagList;
-
-  /// The identifier (ID) of the virtual private cloud (VPC) that contains the
-  /// cluster.
-  final String? vpcId;
-
-  Cluster({
-    this.backupPolicy,
-    this.backupRetentionPolicy,
-    this.certificates,
-    this.clusterId,
-    this.createTimestamp,
-    this.hsmType,
-    this.hsms,
-    this.mode,
-    this.preCoPassword,
-    this.securityGroup,
-    this.sourceBackupId,
-    this.state,
-    this.stateMessage,
-    this.subnetMapping,
-    this.tagList,
-    this.vpcId,
-  });
-
-  factory Cluster.fromJson(Map<String, dynamic> json) {
-    return Cluster(
-      backupPolicy:
-          (json['BackupPolicy'] as String?)?.let(BackupPolicy.fromString),
-      backupRetentionPolicy: json['BackupRetentionPolicy'] != null
-          ? BackupRetentionPolicy.fromJson(
-              json['BackupRetentionPolicy'] as Map<String, dynamic>)
-          : null,
-      certificates: json['Certificates'] != null
-          ? Certificates.fromJson(json['Certificates'] as Map<String, dynamic>)
-          : null,
-      clusterId: json['ClusterId'] as String?,
-      createTimestamp: timeStampFromJson(json['CreateTimestamp']),
-      hsmType: json['HsmType'] as String?,
-      hsms: (json['Hsms'] as List?)
-          ?.nonNulls
-          .map((e) => Hsm.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      mode: (json['Mode'] as String?)?.let(ClusterMode.fromString),
-      preCoPassword: json['PreCoPassword'] as String?,
-      securityGroup: json['SecurityGroup'] as String?,
-      sourceBackupId: json['SourceBackupId'] as String?,
-      state: (json['State'] as String?)?.let(ClusterState.fromString),
-      stateMessage: json['StateMessage'] as String?,
-      subnetMapping: (json['SubnetMapping'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      tagList: (json['TagList'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      vpcId: json['VpcId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final backupPolicy = this.backupPolicy;
-    final backupRetentionPolicy = this.backupRetentionPolicy;
-    final certificates = this.certificates;
-    final clusterId = this.clusterId;
-    final createTimestamp = this.createTimestamp;
-    final hsmType = this.hsmType;
-    final hsms = this.hsms;
-    final mode = this.mode;
-    final preCoPassword = this.preCoPassword;
-    final securityGroup = this.securityGroup;
-    final sourceBackupId = this.sourceBackupId;
-    final state = this.state;
-    final stateMessage = this.stateMessage;
-    final subnetMapping = this.subnetMapping;
-    final tagList = this.tagList;
-    final vpcId = this.vpcId;
-    return {
-      if (backupPolicy != null) 'BackupPolicy': backupPolicy.value,
-      if (backupRetentionPolicy != null)
-        'BackupRetentionPolicy': backupRetentionPolicy,
-      if (certificates != null) 'Certificates': certificates,
-      if (clusterId != null) 'ClusterId': clusterId,
-      if (createTimestamp != null)
-        'CreateTimestamp': unixTimestampToJson(createTimestamp),
-      if (hsmType != null) 'HsmType': hsmType,
-      if (hsms != null) 'Hsms': hsms,
-      if (mode != null) 'Mode': mode.value,
-      if (preCoPassword != null) 'PreCoPassword': preCoPassword,
-      if (securityGroup != null) 'SecurityGroup': securityGroup,
-      if (sourceBackupId != null) 'SourceBackupId': sourceBackupId,
-      if (state != null) 'State': state.value,
-      if (stateMessage != null) 'StateMessage': stateMessage,
-      if (subnetMapping != null) 'SubnetMapping': subnetMapping,
-      if (tagList != null) 'TagList': tagList,
-      if (vpcId != null) 'VpcId': vpcId,
-    };
-  }
-}
-
-class ClusterMode {
-  static const fips = ClusterMode._('FIPS');
-  static const nonFips = ClusterMode._('NON_FIPS');
-
-  final String value;
-
-  const ClusterMode._(this.value);
-
-  static const values = [fips, nonFips];
-
-  static ClusterMode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ClusterMode._(value));
-
-  @override
-  bool operator ==(other) => other is ClusterMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ClusterState {
-  static const createInProgress = ClusterState._('CREATE_IN_PROGRESS');
-  static const uninitialized = ClusterState._('UNINITIALIZED');
-  static const initializeInProgress = ClusterState._('INITIALIZE_IN_PROGRESS');
-  static const initialized = ClusterState._('INITIALIZED');
-  static const active = ClusterState._('ACTIVE');
-  static const updateInProgress = ClusterState._('UPDATE_IN_PROGRESS');
-  static const deleteInProgress = ClusterState._('DELETE_IN_PROGRESS');
-  static const deleted = ClusterState._('DELETED');
-  static const degraded = ClusterState._('DEGRADED');
-
-  final String value;
-
-  const ClusterState._(this.value);
-
-  static const values = [
-    createInProgress,
-    uninitialized,
-    initializeInProgress,
-    initialized,
-    active,
-    updateInProgress,
-    deleteInProgress,
-    deleted,
-    degraded
-  ];
-
-  static ClusterState fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ClusterState._(value));
-
-  @override
-  bool operator ==(other) => other is ClusterState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class CopyBackupToRegionResponse {
@@ -1742,55 +1253,6 @@ class DescribeClustersResponse {
   }
 }
 
-/// Contains information about the backup that will be copied and created by the
-/// <a>CopyBackupToRegion</a> operation.
-class DestinationBackup {
-  /// The date and time when both the source backup was created.
-  final DateTime? createTimestamp;
-
-  /// The identifier (ID) of the source backup from which the new backup was
-  /// copied.
-  final String? sourceBackup;
-
-  /// The identifier (ID) of the cluster containing the source backup from which
-  /// the new backup was copied.
-  final String? sourceCluster;
-
-  /// The AWS region that contains the source backup from which the new backup was
-  /// copied.
-  final String? sourceRegion;
-
-  DestinationBackup({
-    this.createTimestamp,
-    this.sourceBackup,
-    this.sourceCluster,
-    this.sourceRegion,
-  });
-
-  factory DestinationBackup.fromJson(Map<String, dynamic> json) {
-    return DestinationBackup(
-      createTimestamp: timeStampFromJson(json['CreateTimestamp']),
-      sourceBackup: json['SourceBackup'] as String?,
-      sourceCluster: json['SourceCluster'] as String?,
-      sourceRegion: json['SourceRegion'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createTimestamp = this.createTimestamp;
-    final sourceBackup = this.sourceBackup;
-    final sourceCluster = this.sourceCluster;
-    final sourceRegion = this.sourceRegion;
-    return {
-      if (createTimestamp != null)
-        'CreateTimestamp': unixTimestampToJson(createTimestamp),
-      if (sourceBackup != null) 'SourceBackup': sourceBackup,
-      if (sourceCluster != null) 'SourceCluster': sourceCluster,
-      if (sourceRegion != null) 'SourceRegion': sourceRegion,
-    };
-  }
-}
-
 class GetResourcePolicyResponse {
   /// The policy attached to a resource.
   final String? policy;
@@ -1811,111 +1273,6 @@ class GetResourcePolicyResponse {
       if (policy != null) 'Policy': policy,
     };
   }
-}
-
-/// Contains information about a hardware security module (HSM) in an CloudHSM
-/// cluster.
-class Hsm {
-  /// The HSM's identifier (ID).
-  final String hsmId;
-
-  /// The Availability Zone that contains the HSM.
-  final String? availabilityZone;
-
-  /// The identifier (ID) of the cluster that contains the HSM.
-  final String? clusterId;
-
-  /// The identifier (ID) of the HSM's elastic network interface (ENI).
-  final String? eniId;
-
-  /// The IP address of the HSM's elastic network interface (ENI).
-  final String? eniIp;
-
-  /// The HSM's state.
-  final HsmState? state;
-
-  /// A description of the HSM's state.
-  final String? stateMessage;
-
-  /// The subnet that contains the HSM's elastic network interface (ENI).
-  final String? subnetId;
-
-  Hsm({
-    required this.hsmId,
-    this.availabilityZone,
-    this.clusterId,
-    this.eniId,
-    this.eniIp,
-    this.state,
-    this.stateMessage,
-    this.subnetId,
-  });
-
-  factory Hsm.fromJson(Map<String, dynamic> json) {
-    return Hsm(
-      hsmId: (json['HsmId'] as String?) ?? '',
-      availabilityZone: json['AvailabilityZone'] as String?,
-      clusterId: json['ClusterId'] as String?,
-      eniId: json['EniId'] as String?,
-      eniIp: json['EniIp'] as String?,
-      state: (json['State'] as String?)?.let(HsmState.fromString),
-      stateMessage: json['StateMessage'] as String?,
-      subnetId: json['SubnetId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hsmId = this.hsmId;
-    final availabilityZone = this.availabilityZone;
-    final clusterId = this.clusterId;
-    final eniId = this.eniId;
-    final eniIp = this.eniIp;
-    final state = this.state;
-    final stateMessage = this.stateMessage;
-    final subnetId = this.subnetId;
-    return {
-      'HsmId': hsmId,
-      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
-      if (clusterId != null) 'ClusterId': clusterId,
-      if (eniId != null) 'EniId': eniId,
-      if (eniIp != null) 'EniIp': eniIp,
-      if (state != null) 'State': state.value,
-      if (stateMessage != null) 'StateMessage': stateMessage,
-      if (subnetId != null) 'SubnetId': subnetId,
-    };
-  }
-}
-
-class HsmState {
-  static const createInProgress = HsmState._('CREATE_IN_PROGRESS');
-  static const active = HsmState._('ACTIVE');
-  static const degraded = HsmState._('DEGRADED');
-  static const deleteInProgress = HsmState._('DELETE_IN_PROGRESS');
-  static const deleted = HsmState._('DELETED');
-
-  final String value;
-
-  const HsmState._(this.value);
-
-  static const values = [
-    createInProgress,
-    active,
-    degraded,
-    deleteInProgress,
-    deleted
-  ];
-
-  static HsmState fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => HsmState._(value));
-
-  @override
-  bool operator ==(other) => other is HsmState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class InitializeClusterResponse {
@@ -2080,6 +1437,30 @@ class RestoreBackupResponse {
   }
 }
 
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 /// Contains a tag. A tag is a key-value pair.
 class Tag {
   /// The key of the tag.
@@ -2110,27 +1491,728 @@ class Tag {
   }
 }
 
-class TagResourceResponse {
-  TagResourceResponse();
+/// Contains information about a backup of an CloudHSM cluster. All backup
+/// objects contain the <code>BackupId</code>, <code>BackupState</code>,
+/// <code>ClusterId</code>, and <code>CreateTimestamp</code> parameters. Backups
+/// that were copied into a destination region additionally contain the
+/// <code>CopyTimestamp</code>, <code>SourceBackup</code>,
+/// <code>SourceCluster</code>, and <code>SourceRegion</code> parameters. A
+/// backup that is pending deletion will include the
+/// <code>DeleteTimestamp</code> parameter.
+class Backup {
+  /// The identifier (ID) of the backup.
+  final String backupId;
 
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
+  /// The Amazon Resource Name (ARN) of the backup.
+  final String? backupArn;
+
+  /// The state of the backup.
+  final BackupState? backupState;
+
+  /// The identifier (ID) of the cluster that was backed up.
+  final String? clusterId;
+
+  /// The date and time when the backup was copied from a source backup.
+  final DateTime? copyTimestamp;
+
+  /// The date and time when the backup was created.
+  final DateTime? createTimestamp;
+
+  /// The date and time when the backup will be permanently deleted.
+  final DateTime? deleteTimestamp;
+
+  /// The HSM type used to create the backup.
+  final String? hsmType;
+
+  /// The mode of the cluster that was backed up.
+  final ClusterMode? mode;
+
+  /// Specifies whether the service should exempt a backup from the retention
+  /// policy for the cluster. <code>True</code> exempts a backup from the
+  /// retention policy. <code>False</code> means the service applies the backup
+  /// retention policy defined at the cluster.
+  final bool? neverExpires;
+
+  /// The identifier (ID) of the source backup from which the new backup was
+  /// copied.
+  final String? sourceBackup;
+
+  /// The identifier (ID) of the cluster containing the source backup from which
+  /// the new backup was copied.
+  final String? sourceCluster;
+
+  /// The AWS Region that contains the source backup from which the new backup was
+  /// copied.
+  final String? sourceRegion;
+
+  /// The list of tags for the backup.
+  final List<Tag>? tagList;
+
+  Backup({
+    required this.backupId,
+    this.backupArn,
+    this.backupState,
+    this.clusterId,
+    this.copyTimestamp,
+    this.createTimestamp,
+    this.deleteTimestamp,
+    this.hsmType,
+    this.mode,
+    this.neverExpires,
+    this.sourceBackup,
+    this.sourceCluster,
+    this.sourceRegion,
+    this.tagList,
+  });
+
+  factory Backup.fromJson(Map<String, dynamic> json) {
+    return Backup(
+      backupId: (json['BackupId'] as String?) ?? '',
+      backupArn: json['BackupArn'] as String?,
+      backupState:
+          (json['BackupState'] as String?)?.let(BackupState.fromString),
+      clusterId: json['ClusterId'] as String?,
+      copyTimestamp: timeStampFromJson(json['CopyTimestamp']),
+      createTimestamp: timeStampFromJson(json['CreateTimestamp']),
+      deleteTimestamp: timeStampFromJson(json['DeleteTimestamp']),
+      hsmType: json['HsmType'] as String?,
+      mode: (json['Mode'] as String?)?.let(ClusterMode.fromString),
+      neverExpires: json['NeverExpires'] as bool?,
+      sourceBackup: json['SourceBackup'] as String?,
+      sourceCluster: json['SourceCluster'] as String?,
+      sourceRegion: json['SourceRegion'] as String?,
+      tagList: (json['TagList'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final backupId = this.backupId;
+    final backupArn = this.backupArn;
+    final backupState = this.backupState;
+    final clusterId = this.clusterId;
+    final copyTimestamp = this.copyTimestamp;
+    final createTimestamp = this.createTimestamp;
+    final deleteTimestamp = this.deleteTimestamp;
+    final hsmType = this.hsmType;
+    final mode = this.mode;
+    final neverExpires = this.neverExpires;
+    final sourceBackup = this.sourceBackup;
+    final sourceCluster = this.sourceCluster;
+    final sourceRegion = this.sourceRegion;
+    final tagList = this.tagList;
+    return {
+      'BackupId': backupId,
+      if (backupArn != null) 'BackupArn': backupArn,
+      if (backupState != null) 'BackupState': backupState.value,
+      if (clusterId != null) 'ClusterId': clusterId,
+      if (copyTimestamp != null)
+        'CopyTimestamp': unixTimestampToJson(copyTimestamp),
+      if (createTimestamp != null)
+        'CreateTimestamp': unixTimestampToJson(createTimestamp),
+      if (deleteTimestamp != null)
+        'DeleteTimestamp': unixTimestampToJson(deleteTimestamp),
+      if (hsmType != null) 'HsmType': hsmType,
+      if (mode != null) 'Mode': mode.value,
+      if (neverExpires != null) 'NeverExpires': neverExpires,
+      if (sourceBackup != null) 'SourceBackup': sourceBackup,
+      if (sourceCluster != null) 'SourceCluster': sourceCluster,
+      if (sourceRegion != null) 'SourceRegion': sourceRegion,
+      if (tagList != null) 'TagList': tagList,
+    };
   }
 }
 
-class UntagResourceResponse {
-  UntagResourceResponse();
+class BackupState {
+  static const createInProgress = BackupState._('CREATE_IN_PROGRESS');
+  static const ready = BackupState._('READY');
+  static const deleted = BackupState._('DELETED');
+  static const pendingDeletion = BackupState._('PENDING_DELETION');
 
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
+  final String value;
+
+  const BackupState._(this.value);
+
+  static const values = [createInProgress, ready, deleted, pendingDeletion];
+
+  static BackupState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BackupState._(value));
+
+  @override
+  bool operator ==(other) => other is BackupState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ClusterMode {
+  static const fips = ClusterMode._('FIPS');
+  static const nonFips = ClusterMode._('NON_FIPS');
+
+  final String value;
+
+  const ClusterMode._(this.value);
+
+  static const values = [fips, nonFips];
+
+  static ClusterMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ClusterMode._(value));
+
+  @override
+  bool operator ==(other) => other is ClusterMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about an CloudHSM cluster.
+class Cluster {
+  /// The cluster's backup policy.
+  final BackupPolicy? backupPolicy;
+
+  /// A policy that defines how the service retains backups.
+  final BackupRetentionPolicy? backupRetentionPolicy;
+
+  /// Contains one or more certificates or a certificate signing request (CSR).
+  final Certificates? certificates;
+
+  /// The cluster's identifier (ID).
+  final String? clusterId;
+
+  /// The date and time when the cluster was created.
+  final DateTime? createTimestamp;
+
+  /// The type of HSM that the cluster contains.
+  final String? hsmType;
+
+  /// The timestamp until when the cluster can be rolled back to its original HSM
+  /// type.
+  final DateTime? hsmTypeRollbackExpiration;
+
+  /// Contains information about the HSMs in the cluster.
+  final List<Hsm>? hsms;
+
+  /// The mode of the cluster.
+  final ClusterMode? mode;
+
+  /// The cluster's NetworkType can be IPv4 (the default) or DUALSTACK. The IPv4
+  /// NetworkType restricts communication between your application and the
+  /// hardware security modules (HSMs) to the IPv4 protocol only. The DUALSTACK
+  /// NetworkType enables communication over both IPv4 and IPv6 protocols. To use
+  /// DUALSTACK, configure your virtual private cloud (VPC) and subnets to support
+  /// both IPv4 and IPv6. This configuration involves adding IPv6 Classless
+  /// Inter-Domain Routing (CIDR) blocks to the existing IPv4 CIDR blocks in your
+  /// subnets. The NetworkType you choose affects the network addressing options
+  /// for your cluster. DUALSTACK provides more flexibility by supporting both
+  /// IPv4 and IPv6 communication.
+  final NetworkType? networkType;
+
+  /// The default password for the cluster's Pre-Crypto Officer (PRECO) user.
+  final String? preCoPassword;
+
+  /// The identifier (ID) of the cluster's security group.
+  final String? securityGroup;
+
+  /// The identifier (ID) of the backup used to create the cluster. This value
+  /// exists only when the cluster was created from a backup.
+  final String? sourceBackupId;
+
+  /// The cluster's state.
+  final ClusterState? state;
+
+  /// A description of the cluster's state.
+  final String? stateMessage;
+
+  /// A map from availability zone to the cluster’s subnet in that availability
+  /// zone.
+  final Map<String, String>? subnetMapping;
+
+  /// The list of tags for the cluster.
+  final List<Tag>? tagList;
+
+  /// The identifier (ID) of the virtual private cloud (VPC) that contains the
+  /// cluster.
+  final String? vpcId;
+
+  Cluster({
+    this.backupPolicy,
+    this.backupRetentionPolicy,
+    this.certificates,
+    this.clusterId,
+    this.createTimestamp,
+    this.hsmType,
+    this.hsmTypeRollbackExpiration,
+    this.hsms,
+    this.mode,
+    this.networkType,
+    this.preCoPassword,
+    this.securityGroup,
+    this.sourceBackupId,
+    this.state,
+    this.stateMessage,
+    this.subnetMapping,
+    this.tagList,
+    this.vpcId,
+  });
+
+  factory Cluster.fromJson(Map<String, dynamic> json) {
+    return Cluster(
+      backupPolicy:
+          (json['BackupPolicy'] as String?)?.let(BackupPolicy.fromString),
+      backupRetentionPolicy: json['BackupRetentionPolicy'] != null
+          ? BackupRetentionPolicy.fromJson(
+              json['BackupRetentionPolicy'] as Map<String, dynamic>)
+          : null,
+      certificates: json['Certificates'] != null
+          ? Certificates.fromJson(json['Certificates'] as Map<String, dynamic>)
+          : null,
+      clusterId: json['ClusterId'] as String?,
+      createTimestamp: timeStampFromJson(json['CreateTimestamp']),
+      hsmType: json['HsmType'] as String?,
+      hsmTypeRollbackExpiration:
+          timeStampFromJson(json['HsmTypeRollbackExpiration']),
+      hsms: (json['Hsms'] as List?)
+          ?.nonNulls
+          .map((e) => Hsm.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      mode: (json['Mode'] as String?)?.let(ClusterMode.fromString),
+      networkType:
+          (json['NetworkType'] as String?)?.let(NetworkType.fromString),
+      preCoPassword: json['PreCoPassword'] as String?,
+      securityGroup: json['SecurityGroup'] as String?,
+      sourceBackupId: json['SourceBackupId'] as String?,
+      state: (json['State'] as String?)?.let(ClusterState.fromString),
+      stateMessage: json['StateMessage'] as String?,
+      subnetMapping: (json['SubnetMapping'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      tagList: (json['TagList'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      vpcId: json['VpcId'] as String?,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final backupPolicy = this.backupPolicy;
+    final backupRetentionPolicy = this.backupRetentionPolicy;
+    final certificates = this.certificates;
+    final clusterId = this.clusterId;
+    final createTimestamp = this.createTimestamp;
+    final hsmType = this.hsmType;
+    final hsmTypeRollbackExpiration = this.hsmTypeRollbackExpiration;
+    final hsms = this.hsms;
+    final mode = this.mode;
+    final networkType = this.networkType;
+    final preCoPassword = this.preCoPassword;
+    final securityGroup = this.securityGroup;
+    final sourceBackupId = this.sourceBackupId;
+    final state = this.state;
+    final stateMessage = this.stateMessage;
+    final subnetMapping = this.subnetMapping;
+    final tagList = this.tagList;
+    final vpcId = this.vpcId;
+    return {
+      if (backupPolicy != null) 'BackupPolicy': backupPolicy.value,
+      if (backupRetentionPolicy != null)
+        'BackupRetentionPolicy': backupRetentionPolicy,
+      if (certificates != null) 'Certificates': certificates,
+      if (clusterId != null) 'ClusterId': clusterId,
+      if (createTimestamp != null)
+        'CreateTimestamp': unixTimestampToJson(createTimestamp),
+      if (hsmType != null) 'HsmType': hsmType,
+      if (hsmTypeRollbackExpiration != null)
+        'HsmTypeRollbackExpiration':
+            unixTimestampToJson(hsmTypeRollbackExpiration),
+      if (hsms != null) 'Hsms': hsms,
+      if (mode != null) 'Mode': mode.value,
+      if (networkType != null) 'NetworkType': networkType.value,
+      if (preCoPassword != null) 'PreCoPassword': preCoPassword,
+      if (securityGroup != null) 'SecurityGroup': securityGroup,
+      if (sourceBackupId != null) 'SourceBackupId': sourceBackupId,
+      if (state != null) 'State': state.value,
+      if (stateMessage != null) 'StateMessage': stateMessage,
+      if (subnetMapping != null) 'SubnetMapping': subnetMapping,
+      if (tagList != null) 'TagList': tagList,
+      if (vpcId != null) 'VpcId': vpcId,
+    };
+  }
+}
+
+class BackupPolicy {
+  static const $default = BackupPolicy._('DEFAULT');
+
+  final String value;
+
+  const BackupPolicy._(this.value);
+
+  static const values = [$default];
+
+  static BackupPolicy fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BackupPolicy._(value));
+
+  @override
+  bool operator ==(other) => other is BackupPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A policy that defines the number of days to retain backups.
+class BackupRetentionPolicy {
+  /// The type of backup retention policy. For the <code>DAYS</code> type, the
+  /// value is the number of days to retain backups.
+  final BackupRetentionType? type;
+
+  /// Use a value between 7 - 379.
+  final String? value;
+
+  BackupRetentionPolicy({
+    this.type,
+    this.value,
+  });
+
+  factory BackupRetentionPolicy.fromJson(Map<String, dynamic> json) {
+    return BackupRetentionPolicy(
+      type: (json['Type'] as String?)?.let(BackupRetentionType.fromString),
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final value = this.value;
+    return {
+      if (type != null) 'Type': type.value,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+class ClusterState {
+  static const createInProgress = ClusterState._('CREATE_IN_PROGRESS');
+  static const uninitialized = ClusterState._('UNINITIALIZED');
+  static const initializeInProgress = ClusterState._('INITIALIZE_IN_PROGRESS');
+  static const initialized = ClusterState._('INITIALIZED');
+  static const active = ClusterState._('ACTIVE');
+  static const updateInProgress = ClusterState._('UPDATE_IN_PROGRESS');
+  static const modifyInProgress = ClusterState._('MODIFY_IN_PROGRESS');
+  static const rollbackInProgress = ClusterState._('ROLLBACK_IN_PROGRESS');
+  static const deleteInProgress = ClusterState._('DELETE_IN_PROGRESS');
+  static const deleted = ClusterState._('DELETED');
+  static const degraded = ClusterState._('DEGRADED');
+
+  final String value;
+
+  const ClusterState._(this.value);
+
+  static const values = [
+    createInProgress,
+    uninitialized,
+    initializeInProgress,
+    initialized,
+    active,
+    updateInProgress,
+    modifyInProgress,
+    rollbackInProgress,
+    deleteInProgress,
+    deleted,
+    degraded
+  ];
+
+  static ClusterState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ClusterState._(value));
+
+  @override
+  bool operator ==(other) => other is ClusterState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class NetworkType {
+  static const ipv4 = NetworkType._('IPV4');
+  static const dualstack = NetworkType._('DUALSTACK');
+
+  final String value;
+
+  const NetworkType._(this.value);
+
+  static const values = [ipv4, dualstack];
+
+  static NetworkType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => NetworkType._(value));
+
+  @override
+  bool operator ==(other) => other is NetworkType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains one or more certificates or a certificate signing request (CSR).
+class Certificates {
+  /// The HSM hardware certificate issued (signed) by CloudHSM.
+  final String? awsHardwareCertificate;
+
+  /// The cluster certificate issued (signed) by the issuing certificate authority
+  /// (CA) of the cluster's owner.
+  final String? clusterCertificate;
+
+  /// The cluster's certificate signing request (CSR). The CSR exists only when
+  /// the cluster's state is <code>UNINITIALIZED</code>.
+  final String? clusterCsr;
+
+  /// The HSM certificate issued (signed) by the HSM hardware.
+  final String? hsmCertificate;
+
+  /// The HSM hardware certificate issued (signed) by the hardware manufacturer.
+  final String? manufacturerHardwareCertificate;
+
+  Certificates({
+    this.awsHardwareCertificate,
+    this.clusterCertificate,
+    this.clusterCsr,
+    this.hsmCertificate,
+    this.manufacturerHardwareCertificate,
+  });
+
+  factory Certificates.fromJson(Map<String, dynamic> json) {
+    return Certificates(
+      awsHardwareCertificate: json['AwsHardwareCertificate'] as String?,
+      clusterCertificate: json['ClusterCertificate'] as String?,
+      clusterCsr: json['ClusterCsr'] as String?,
+      hsmCertificate: json['HsmCertificate'] as String?,
+      manufacturerHardwareCertificate:
+          json['ManufacturerHardwareCertificate'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsHardwareCertificate = this.awsHardwareCertificate;
+    final clusterCertificate = this.clusterCertificate;
+    final clusterCsr = this.clusterCsr;
+    final hsmCertificate = this.hsmCertificate;
+    final manufacturerHardwareCertificate =
+        this.manufacturerHardwareCertificate;
+    return {
+      if (awsHardwareCertificate != null)
+        'AwsHardwareCertificate': awsHardwareCertificate,
+      if (clusterCertificate != null) 'ClusterCertificate': clusterCertificate,
+      if (clusterCsr != null) 'ClusterCsr': clusterCsr,
+      if (hsmCertificate != null) 'HsmCertificate': hsmCertificate,
+      if (manufacturerHardwareCertificate != null)
+        'ManufacturerHardwareCertificate': manufacturerHardwareCertificate,
+    };
+  }
+}
+
+/// Contains information about a hardware security module (HSM) in an CloudHSM
+/// cluster.
+class Hsm {
+  /// The HSM's identifier (ID).
+  final String hsmId;
+
+  /// The Availability Zone that contains the HSM.
+  final String? availabilityZone;
+
+  /// The identifier (ID) of the cluster that contains the HSM.
+  final String? clusterId;
+
+  /// The identifier (ID) of the HSM's elastic network interface (ENI).
+  final String? eniId;
+
+  /// The IP address of the HSM's elastic network interface (ENI).
+  final String? eniIp;
+
+  /// The IPv6 address (if any) of the HSM's elastic network interface (ENI).
+  final String? eniIpV6;
+
+  /// The type of HSM.
+  final String? hsmType;
+
+  /// The HSM's state.
+  final HsmState? state;
+
+  /// A description of the HSM's state.
+  final String? stateMessage;
+
+  /// The subnet that contains the HSM's elastic network interface (ENI).
+  final String? subnetId;
+
+  Hsm({
+    required this.hsmId,
+    this.availabilityZone,
+    this.clusterId,
+    this.eniId,
+    this.eniIp,
+    this.eniIpV6,
+    this.hsmType,
+    this.state,
+    this.stateMessage,
+    this.subnetId,
+  });
+
+  factory Hsm.fromJson(Map<String, dynamic> json) {
+    return Hsm(
+      hsmId: (json['HsmId'] as String?) ?? '',
+      availabilityZone: json['AvailabilityZone'] as String?,
+      clusterId: json['ClusterId'] as String?,
+      eniId: json['EniId'] as String?,
+      eniIp: json['EniIp'] as String?,
+      eniIpV6: json['EniIpV6'] as String?,
+      hsmType: json['HsmType'] as String?,
+      state: (json['State'] as String?)?.let(HsmState.fromString),
+      stateMessage: json['StateMessage'] as String?,
+      subnetId: json['SubnetId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hsmId = this.hsmId;
+    final availabilityZone = this.availabilityZone;
+    final clusterId = this.clusterId;
+    final eniId = this.eniId;
+    final eniIp = this.eniIp;
+    final eniIpV6 = this.eniIpV6;
+    final hsmType = this.hsmType;
+    final state = this.state;
+    final stateMessage = this.stateMessage;
+    final subnetId = this.subnetId;
+    return {
+      'HsmId': hsmId,
+      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+      if (clusterId != null) 'ClusterId': clusterId,
+      if (eniId != null) 'EniId': eniId,
+      if (eniIp != null) 'EniIp': eniIp,
+      if (eniIpV6 != null) 'EniIpV6': eniIpV6,
+      if (hsmType != null) 'HsmType': hsmType,
+      if (state != null) 'State': state.value,
+      if (stateMessage != null) 'StateMessage': stateMessage,
+      if (subnetId != null) 'SubnetId': subnetId,
+    };
+  }
+}
+
+class HsmState {
+  static const createInProgress = HsmState._('CREATE_IN_PROGRESS');
+  static const active = HsmState._('ACTIVE');
+  static const degraded = HsmState._('DEGRADED');
+  static const deleteInProgress = HsmState._('DELETE_IN_PROGRESS');
+  static const deleted = HsmState._('DELETED');
+
+  final String value;
+
+  const HsmState._(this.value);
+
+  static const values = [
+    createInProgress,
+    active,
+    degraded,
+    deleteInProgress,
+    deleted
+  ];
+
+  static HsmState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => HsmState._(value));
+
+  @override
+  bool operator ==(other) => other is HsmState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class BackupRetentionType {
+  static const days = BackupRetentionType._('DAYS');
+
+  final String value;
+
+  const BackupRetentionType._(this.value);
+
+  static const values = [days];
+
+  static BackupRetentionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BackupRetentionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BackupRetentionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about the backup that will be copied and created by the
+/// <a>CopyBackupToRegion</a> operation.
+class DestinationBackup {
+  /// The date and time when both the source backup was created.
+  final DateTime? createTimestamp;
+
+  /// The identifier (ID) of the source backup from which the new backup was
+  /// copied.
+  final String? sourceBackup;
+
+  /// The identifier (ID) of the cluster containing the source backup from which
+  /// the new backup was copied.
+  final String? sourceCluster;
+
+  /// The AWS region that contains the source backup from which the new backup was
+  /// copied.
+  final String? sourceRegion;
+
+  DestinationBackup({
+    this.createTimestamp,
+    this.sourceBackup,
+    this.sourceCluster,
+    this.sourceRegion,
+  });
+
+  factory DestinationBackup.fromJson(Map<String, dynamic> json) {
+    return DestinationBackup(
+      createTimestamp: timeStampFromJson(json['CreateTimestamp']),
+      sourceBackup: json['SourceBackup'] as String?,
+      sourceCluster: json['SourceCluster'] as String?,
+      sourceRegion: json['SourceRegion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createTimestamp = this.createTimestamp;
+    final sourceBackup = this.sourceBackup;
+    final sourceCluster = this.sourceCluster;
+    final sourceRegion = this.sourceRegion;
+    return {
+      if (createTimestamp != null)
+        'CreateTimestamp': unixTimestampToJson(createTimestamp),
+      if (sourceBackup != null) 'SourceBackup': sourceBackup,
+      if (sourceCluster != null) 'SourceCluster': sourceCluster,
+      if (sourceRegion != null) 'SourceRegion': sourceRegion,
+    };
   }
 }
 
@@ -2155,6 +2237,14 @@ class CloudHsmInvalidRequestException extends _s.GenericAwsException {
       : super(
             type: type,
             code: 'CloudHsmInvalidRequestException',
+            message: message);
+}
+
+class CloudHsmResourceLimitExceededException extends _s.GenericAwsException {
+  CloudHsmResourceLimitExceededException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'CloudHsmResourceLimitExceededException',
             message: message);
 }
 
@@ -2183,6 +2273,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       CloudHsmInternalFailureException(type: type, message: message),
   'CloudHsmInvalidRequestException': (type, message) =>
       CloudHsmInvalidRequestException(type: type, message: message),
+  'CloudHsmResourceLimitExceededException': (type, message) =>
+      CloudHsmResourceLimitExceededException(type: type, message: message),
   'CloudHsmResourceNotFoundException': (type, message) =>
       CloudHsmResourceNotFoundException(type: type, message: message),
   'CloudHsmServiceException': (type, message) =>

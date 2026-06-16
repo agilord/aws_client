@@ -20,10 +20,9 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// DataSync is an online data movement and discovery service that simplifies
-/// data migration and helps you quickly, easily, and securely transfer your
-/// file or object data to, from, and between Amazon Web Services storage
-/// services.
+/// DataSync is an online data movement service that simplifies data migration
+/// and helps you quickly, easily, and securely transfer your file or object
+/// data to, from, and between Amazon Web Services storage services.
 class DataSync {
   final _s.JsonProtocol _protocol;
   DataSync({
@@ -36,7 +35,6 @@ class DataSync {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'datasync',
-            signingName: 'datasync',
           ),
           region: region,
           credentials: credentials,
@@ -53,85 +51,6 @@ class DataSync {
     _protocol.close();
   }
 
-  /// Creates an Amazon Web Services resource for an on-premises storage system
-  /// that you want DataSync Discovery to collect information about.
-  ///
-  /// May throw [InvalidRequestException].
-  /// May throw [InternalException].
-  ///
-  /// Parameter [agentArns] :
-  /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that
-  /// connects to and reads from your on-premises storage system's management
-  /// interface. You can only specify one ARN.
-  ///
-  /// Parameter [credentials] :
-  /// Specifies the user name and password for accessing your on-premises
-  /// storage system's management interface.
-  ///
-  /// Parameter [serverConfiguration] :
-  /// Specifies the server name and network port required to connect with the
-  /// management interface of your on-premises storage system.
-  ///
-  /// Parameter [systemType] :
-  /// Specifies the type of on-premises storage system that you want DataSync
-  /// Discovery to collect information about.
-  /// <note>
-  /// DataSync Discovery currently supports NetApp Fabric-Attached Storage (FAS)
-  /// and All Flash FAS (AFF) systems running ONTAP 9.7 or later.
-  /// </note>
-  ///
-  /// Parameter [clientToken] :
-  /// Specifies a client token to make sure requests with this API operation are
-  /// idempotent. If you don't specify a client token, DataSync generates one
-  /// for you automatically.
-  ///
-  /// Parameter [cloudWatchLogGroupArn] :
-  /// Specifies the ARN of the Amazon CloudWatch log group for monitoring and
-  /// logging discovery job events.
-  ///
-  /// Parameter [name] :
-  /// Specifies a familiar name for your on-premises storage system.
-  ///
-  /// Parameter [tags] :
-  /// Specifies labels that help you categorize, filter, and search for your
-  /// Amazon Web Services resources. We recommend creating at least a name tag
-  /// for your on-premises storage system.
-  Future<AddStorageSystemResponse> addStorageSystem({
-    required List<String> agentArns,
-    required Credentials credentials,
-    required DiscoveryServerConfiguration serverConfiguration,
-    required DiscoverySystemType systemType,
-    String? clientToken,
-    String? cloudWatchLogGroupArn,
-    String? name,
-    List<TagListEntry>? tags,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'FmrsService.AddStorageSystem'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'AgentArns': agentArns,
-        'Credentials': credentials,
-        'ServerConfiguration': serverConfiguration,
-        'SystemType': systemType.value,
-        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
-        if (cloudWatchLogGroupArn != null)
-          'CloudWatchLogGroupArn': cloudWatchLogGroupArn,
-        if (name != null) 'Name': name,
-        if (tags != null) 'Tags': tags,
-      },
-    );
-
-    return AddStorageSystemResponse.fromJson(jsonResponse.body);
-  }
-
   /// Stops an DataSync task execution that's in progress. The transfer of some
   /// files are abruptly interrupted. File contents that're transferred to the
   /// destination might be incomplete or inconsistent with the source files.
@@ -142,8 +61,8 @@ class DataSync {
   /// task execution. In all of these cases, DataSync successfully completes the
   /// transfer when you start the next task execution.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [taskExecutionArn] :
   /// The Amazon Resource Name (ARN) of the task execution to stop.
@@ -166,56 +85,35 @@ class DataSync {
     );
   }
 
-  /// Activates an DataSync agent that you've deployed in your storage
-  /// environment. The activation process associates the agent with your Amazon
-  /// Web Services account.
+  /// Activates an DataSync agent that you deploy in your storage environment.
+  /// The activation process associates the agent with your Amazon Web Services
+  /// account.
   ///
-  /// If you haven't deployed an agent yet, see the following topics to learn
-  /// more:
+  /// If you haven't deployed an agent yet, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/do-i-need-datasync-agent.html">Do
+  /// I need a DataSync agent?</a>
   ///
-  /// <ul>
-  /// <li>
-  /// <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/agent-requirements.html">Agent
-  /// requirements</a>
-  /// </li>
-  /// <li>
-  /// <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/configure-agent.html">Create
-  /// an agent</a>
-  /// </li>
-  /// </ul> <note>
-  /// If you're transferring between Amazon Web Services storage services, you
-  /// don't need a DataSync agent.
-  /// </note>
-  ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [activationKey] :
   /// Specifies your DataSync agent's activation key. If you don't have an
   /// activation key, see <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/activate-agent.html">Activate
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/activate-agent.html">Activating
   /// your agent</a>.
   ///
   /// Parameter [agentName] :
-  /// Specifies a name for your agent. You can see this name in the DataSync
-  /// console.
+  /// Specifies a name for your agent. We recommend specifying a name that you
+  /// can remember.
   ///
   /// Parameter [securityGroupArns] :
-  /// Specifies the Amazon Resource Name (ARN) of the security group that
-  /// protects your task's <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/datasync-network.html#required-network-interfaces">network
-  /// interfaces</a> when <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/choose-service-endpoint.html#choose-service-endpoint-vpc">using
-  /// a virtual private cloud (VPC) endpoint</a>. You can only specify one ARN.
+  /// Specifies the Amazon Resource Name (ARN) of the security group that allows
+  /// traffic between your agent and VPC service endpoint. You can only specify
+  /// one ARN.
   ///
   /// Parameter [subnetArns] :
-  /// Specifies the ARN of the subnet where you want to run your DataSync task
-  /// when using a VPC endpoint. This is the subnet where DataSync creates and
-  /// manages the <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/datasync-network.html#required-network-interfaces">network
-  /// interfaces</a> for your transfer. You can only specify one ARN.
+  /// Specifies the ARN of the subnet where your VPC service endpoint is
+  /// located. You can only specify one ARN.
   ///
   /// Parameter [tags] :
   /// Specifies labels that help you categorize, filter, and search for your
@@ -223,12 +121,13 @@ class DataSync {
   /// your agent.
   ///
   /// Parameter [vpcEndpointId] :
-  /// Specifies the ID of the VPC endpoint that you want your agent to connect
-  /// to. For example, a VPC endpoint ID looks like
-  /// <code>vpce-01234d5aff67890e1</code>.
+  /// Specifies the ID of the <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/choose-service-endpoint.html#datasync-in-vpc">VPC
+  /// service endpoint</a> that you're using. For example, a VPC endpoint ID
+  /// looks like <code>vpce-01234d5aff67890e1</code>.
   /// <important>
-  /// The VPC endpoint you use must include the DataSync service name (for
-  /// example, <code>com.amazonaws.us-east-2.datasync</code>).
+  /// The VPC service endpoint you use must include the DataSync service name
+  /// (for example, <code>com.amazonaws.us-east-2.datasync</code>).
   /// </important>
   Future<CreateAgentResponse> createAgent({
     required String activationKey,
@@ -263,7 +162,9 @@ class DataSync {
 
   /// Creates a transfer <i>location</i> for a Microsoft Azure Blob Storage
   /// container. DataSync can use this location as a transfer source or
-  /// destination.
+  /// destination. You can make transfers with or without a <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-creating-agent">DataSync
+  /// agent</a> that connects to your container.
   ///
   /// Before you begin, make sure you know <a
   /// href="https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access">how
@@ -271,20 +172,10 @@ class DataSync {
   /// href="https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access-tiers">access
   /// tiers</a> and <a
   /// href="https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#blob-types">blob
-  /// types</a>. You also need a <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-creating-agent">DataSync
-  /// agent</a> that can connect to your container.
+  /// types</a>.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
-  ///
-  /// Parameter [agentArns] :
-  /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that can
-  /// connect with your Azure Blob Storage container.
-  ///
-  /// You can specify more than one agent. For more information, see <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/multiple-agents.html">Using
-  /// multiple agents for your transfer</a>.
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [authenticationType] :
   /// Specifies the authentication method DataSync uses to access your Azure
@@ -302,6 +193,21 @@ class DataSync {
   /// href="https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access-tiers">Access
   /// tiers</a>.
   ///
+  /// Parameter [agentArns] :
+  /// (Optional) Specifies the Amazon Resource Name (ARN) of the DataSync agent
+  /// that can connect with your Azure Blob Storage container. If you are
+  /// setting up an agentless cross-cloud transfer, you do not need to specify a
+  /// value for this parameter.
+  ///
+  /// You can specify more than one agent. For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/multiple-agents.html">Using
+  /// multiple agents for your transfer</a>.
+  /// <note>
+  /// Make sure you configure this parameter correctly when you first create
+  /// your storage location. You cannot add or remove agents from a storage
+  /// location after you create it.
+  /// </note>
+  ///
   /// Parameter [blobType] :
   /// Specifies the type of blob that you want your objects or files to be when
   /// transferring them into Azure Blob Storage. Currently, DataSync only
@@ -310,9 +216,55 @@ class DataSync {
   /// href="https://learn.microsoft.com/en-us/rest/api/storageservices/understanding-block-blobs--append-blobs--and-page-blobs">Azure
   /// Blob Storage documentation</a>.
   ///
+  /// Parameter [cmkSecretConfig] :
+  /// Specifies configuration information for a DataSync-managed secret, which
+  /// includes the authentication token that DataSync uses to access a specific
+  /// AzureBlob storage location, with a customer-managed KMS key.
+  ///
+  /// When you include this parameter as part of a
+  /// <code>CreateLocationAzureBlob</code> request, you provide only the KMS key
+  /// ARN. DataSync uses this KMS key together with the authentication token you
+  /// specify for <code>SasConfiguration</code> to create a DataSync-managed
+  /// secret to store the location access credentials.
+  ///
+  /// Make sure that DataSync has permission to access the KMS key that you
+  /// specify. For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/location-credentials.html#service-secret-custom-key">
+  /// Using a service-managed secret encrypted with a custom KMS key</a>.
+  /// <note>
+  /// You can use either <code>CmkSecretConfig</code> (with
+  /// <code>SasConfiguration</code>) or <code>CustomSecretConfig</code> (without
+  /// <code>SasConfiguration</code>) to provide credentials for a
+  /// <code>CreateLocationAzureBlob</code> request. Do not provide both
+  /// parameters for the same request.
+  /// </note>
+  ///
+  /// Parameter [customSecretConfig] :
+  /// Specifies configuration information for a customer-managed Secrets Manager
+  /// secret where the authentication token for an AzureBlob storage location is
+  /// stored in plain text, in Secrets Manager. This configuration includes the
+  /// secret ARN, and the ARN for an IAM role that provides access to the
+  /// secret. For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/location-credentials.html#custom-secret-custom-key">
+  /// Using a secret that you manage</a>.
+  /// <note>
+  /// You can use either <code>CmkSecretConfig</code> (with
+  /// <code>SasConfiguration</code>) or <code>CustomSecretConfig</code> (without
+  /// <code>SasConfiguration</code>) to provide credentials for a
+  /// <code>CreateLocationAzureBlob</code> request. Do not provide both
+  /// parameters for the same request.
+  /// </note>
+  ///
   /// Parameter [sasConfiguration] :
   /// Specifies the SAS configuration that allows DataSync to access your Azure
   /// Blob Storage.
+  /// <note>
+  /// If you provide an authentication token using
+  /// <code>SasConfiguration</code>, but do not provide secret configuration
+  /// details using <code>CmkSecretConfig</code> or
+  /// <code>CustomSecretConfig</code>, then DataSync stores the token using your
+  /// Amazon Web Services account's secrets manager secret.
+  /// </note>
   ///
   /// Parameter [subdirectory] :
   /// Specifies path segments if you want to limit your transfer to a virtual
@@ -323,11 +275,13 @@ class DataSync {
   /// Amazon Web Services resources. We recommend creating at least a name tag
   /// for your transfer location.
   Future<CreateLocationAzureBlobResponse> createLocationAzureBlob({
-    required List<String> agentArns,
     required AzureBlobAuthenticationType authenticationType,
     required String containerUrl,
     AzureAccessTier? accessTier,
+    List<String>? agentArns,
     AzureBlobType? blobType,
+    CmkSecretConfig? cmkSecretConfig,
+    CustomSecretConfig? customSecretConfig,
     AzureBlobSasConfiguration? sasConfiguration,
     String? subdirectory,
     List<TagListEntry>? tags,
@@ -343,11 +297,14 @@ class DataSync {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AgentArns': agentArns,
         'AuthenticationType': authenticationType.value,
         'ContainerUrl': containerUrl,
         if (accessTier != null) 'AccessTier': accessTier.value,
+        if (agentArns != null) 'AgentArns': agentArns,
         if (blobType != null) 'BlobType': blobType.value,
+        if (cmkSecretConfig != null) 'CmkSecretConfig': cmkSecretConfig,
+        if (customSecretConfig != null)
+          'CustomSecretConfig': customSecretConfig,
         if (sasConfiguration != null) 'SasConfiguration': sasConfiguration,
         if (subdirectory != null) 'Subdirectory': subdirectory,
         if (tags != null) 'Tags': tags,
@@ -364,27 +321,38 @@ class DataSync {
   /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-efs-location.html#create-efs-location-access">accesses
   /// Amazon EFS file systems</a>.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [ec2Config] :
-  /// Specifies the subnet and security groups DataSync uses to access your
-  /// Amazon EFS file system.
+  /// Specifies the subnet and security groups DataSync uses to connect to one
+  /// of your Amazon EFS file system's <a
+  /// href="https://docs.aws.amazon.com/efs/latest/ug/accessing-fs.html">mount
+  /// targets</a>.
   ///
   /// Parameter [efsFilesystemArn] :
-  /// Specifies the ARN for the Amazon EFS file system.
+  /// Specifies the ARN for your Amazon EFS file system.
   ///
   /// Parameter [accessPointArn] :
   /// Specifies the Amazon Resource Name (ARN) of the access point that DataSync
-  /// uses to access the Amazon EFS file system.
+  /// uses to mount your Amazon EFS file system.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-efs-location.html#create-efs-location-iam">Accessing
+  /// restricted file systems</a>.
   ///
   /// Parameter [fileSystemAccessRoleArn] :
-  /// Specifies an Identity and Access Management (IAM) role that DataSync
-  /// assumes when mounting the Amazon EFS file system.
+  /// Specifies an Identity and Access Management (IAM) role that allows
+  /// DataSync to access your Amazon EFS file system.
+  ///
+  /// For information on creating this role, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-efs-location.html#create-efs-location-iam-role">Creating
+  /// a DataSync IAM role for file system access</a>.
   ///
   /// Parameter [inTransitEncryption] :
   /// Specifies whether you want DataSync to use Transport Layer Security (TLS)
-  /// 1.2 encryption when it copies data to or from the Amazon EFS file system.
+  /// 1.2 encryption when it transfers data to or from your Amazon EFS file
+  /// system.
   ///
   /// If you specify an access point using <code>AccessPointArn</code> or an IAM
   /// role using <code>FileSystemAccessRoleArn</code>, you must set this
@@ -392,13 +360,14 @@ class DataSync {
   ///
   /// Parameter [subdirectory] :
   /// Specifies a mount path for your Amazon EFS file system. This is where
-  /// DataSync reads or writes data (depending on if this is a source or
-  /// destination location). By default, DataSync uses the root directory, but
-  /// you can also include subdirectories.
-  /// <note>
-  /// You must specify a value with forward slashes (for example,
+  /// DataSync reads or writes data on your file system (depending on if this is
+  /// a source or destination location).
+  ///
+  /// By default, DataSync uses the root directory (or <a
+  /// href="https://docs.aws.amazon.com/efs/latest/ug/efs-access-points.html">access
+  /// point</a> if you provide one by using <code>AccessPointArn</code>). You
+  /// can also include subdirectories using forward slashes (for example,
   /// <code>/path/to/folder</code>).
-  /// </note>
   ///
   /// Parameter [tags] :
   /// Specifies the key-value pair that represents a tag that you want to add to
@@ -448,26 +417,36 @@ class DataSync {
   /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-lustre-location.html#create-lustre-location-access">accesses
   /// FSx for Lustre file systems</a>.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [fsxFilesystemArn] :
-  /// The Amazon Resource Name (ARN) for the FSx for Lustre file system.
+  /// Specifies the Amazon Resource Name (ARN) of the FSx for Lustre file
+  /// system.
   ///
   /// Parameter [securityGroupArns] :
-  /// The Amazon Resource Names (ARNs) of the security groups that are used to
-  /// configure the FSx for Lustre file system.
+  /// Specifies the Amazon Resource Names (ARNs) of up to five security groups
+  /// that provide access to your FSx for Lustre file system.
+  ///
+  /// The security groups must be able to access the file system's ports. The
+  /// file system must also allow access from the security groups. For
+  /// information about file system access, see the <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/limit-access-security-groups.html">
+  /// <i>Amazon FSx for Lustre User Guide</i> </a>.
   ///
   /// Parameter [subdirectory] :
-  /// A subdirectory in the location's path. This subdirectory in the FSx for
-  /// Lustre file system is used to read data from the FSx for Lustre source
-  /// location or write data to the FSx for Lustre destination.
+  /// Specifies a mount path for your FSx for Lustre file system. The path can
+  /// include subdirectories.
+  ///
+  /// When the location is used as a source, DataSync reads data from the mount
+  /// path. When the location is used as a destination, DataSync writes data to
+  /// the mount path. If you don't include this parameter, DataSync uses the
+  /// file system's root directory (<code>/</code>).
   ///
   /// Parameter [tags] :
-  /// The key-value pair that represents a tag that you want to add to the
-  /// resource. The value can be an empty string. This value helps you manage,
-  /// filter, and search for your resources. We recommend that you create a name
-  /// tag for your location.
+  /// Specifies labels that help you categorize, filter, and search for your
+  /// Amazon Web Services resources. We recommend creating at least a name tag
+  /// for your location.
   Future<CreateLocationFsxLustreResponse> createLocationFsxLustre({
     required String fsxFilesystemArn,
     required List<String> securityGroupArns,
@@ -503,8 +482,8 @@ class DataSync {
   /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-ontap-location.html#create-ontap-location-access">accesses
   /// FSx for ONTAP file systems</a>.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [securityGroupArns] :
   /// Specifies the Amazon EC2 security groups that provide access to your file
@@ -529,7 +508,8 @@ class DataSync {
   /// where you want to copy data to or from.
   ///
   /// Parameter [subdirectory] :
-  /// Specifies a path to the file share in the SVM where you'll copy your data.
+  /// Specifies a path to the file share in the SVM where you want to transfer
+  /// data to or from.
   ///
   /// You can specify a junction path (also known as a mount point), qtree path
   /// (for NFS file shares), or share name (for SMB file shares). For example,
@@ -588,8 +568,8 @@ class DataSync {
   /// <code>CreateLocationFsxOpenZfs</code> operation.
   /// </note>
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [fsxFilesystemArn] :
   /// The Amazon Resource Name (ARN) of the FSx for OpenZFS file system.
@@ -649,21 +629,22 @@ class DataSync {
   /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-fsx-location.html#create-fsx-location-access">accesses
   /// FSx for Windows File Server file systems</a>.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [fsxFilesystemArn] :
   /// Specifies the Amazon Resource Name (ARN) for the FSx for Windows File
   /// Server file system.
   ///
-  /// Parameter [password] :
-  /// Specifies the password of the user with the permissions to mount and
-  /// access the files, folders, and file metadata in your FSx for Windows File
-  /// Server file system.
-  ///
   /// Parameter [securityGroupArns] :
-  /// Specifies the ARNs of the security groups that provide access to your file
-  /// system's preferred subnet.
+  /// Specifies the ARNs of the Amazon EC2 security groups that provide access
+  /// to your file system's preferred subnet.
+  ///
+  /// The security groups that you specify must be able to communicate with your
+  /// file system's security groups. For information about configuring security
+  /// groups for file system access, see the <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/WindowsGuide/limit-access-security-groups.html">
+  /// <i>Amazon FSx for Windows File Server User Guide</i> </a>.
   /// <note>
   /// If you choose a security group that doesn't allow connections from within
   /// itself, do one of the following:
@@ -688,13 +669,57 @@ class DataSync {
   /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-fsx-location.html#create-fsx-windows-location-permissions">required
   /// permissions</a> for FSx for Windows File Server locations.
   ///
+  /// Parameter [cmkSecretConfig] :
+  /// Specifies configuration information for a DataSync-managed secret, which
+  /// includes the password that DataSync uses to access a specific FSx Windows
+  /// storage location, with a customer-managed KMS key.
+  ///
+  /// When you include this parameter as part of a
+  /// <code>CreateLocationFsxWindows</code> request, you provide only the KMS
+  /// key ARN. DataSync uses this KMS key together with the
+  /// <code>Password</code> you specify for to create a DataSync-managed secret
+  /// to store the location access credentials.
+  ///
+  /// Make sure that DataSync has permission to access the KMS key that you
+  /// specify. For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/location-credentials.html#service-secret-custom-key">
+  /// Using a service-managed secret encrypted with a custom KMS key</a>.
+  /// <note>
+  /// You can use either <code>CmkSecretConfig</code> (with
+  /// <code>Password</code>) or <code>CustomSecretConfig</code> (without
+  /// <code>Password</code>) to provide credentials for a
+  /// <code>CreateLocationFsxWindows</code> request. Do not provide both
+  /// parameters for the same request.
+  /// </note>
+  ///
+  /// Parameter [customSecretConfig] :
+  /// Specifies configuration information for a customer-managed Secrets Manager
+  /// secret where the password for an FSx for Windows File Server storage
+  /// location is stored in plain text, in Secrets Manager. This configuration
+  /// includes the secret ARN, and the ARN for an IAM role that provides access
+  /// to the secret. For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/location-credentials.html#custom-secret-custom-key">
+  /// Using a secret that you manage</a>.
+  /// <note>
+  /// You can use either <code>CmkSecretConfig</code> (with
+  /// <code>Password</code>) or <code>CustomSecretConfig</code> (without
+  /// <code>Password</code>) to provide credentials for a
+  /// <code>CreateLocationFsxWindows</code> request. Do not provide both
+  /// parameters for the same request.
+  /// </note>
+  ///
   /// Parameter [domain] :
-  /// Specifies the name of the Microsoft Active Directory domain that the FSx
-  /// for Windows File Server file system belongs to.
+  /// Specifies the name of the Windows domain that the FSx for Windows File
+  /// Server file system belongs to.
   ///
   /// If you have multiple Active Directory domains in your environment,
   /// configuring this parameter makes sure that DataSync connects to the right
   /// file system.
+  ///
+  /// Parameter [password] :
+  /// Specifies the password of the user with the permissions to mount and
+  /// access the files, folders, and file metadata in your FSx for Windows File
+  /// Server file system.
   ///
   /// Parameter [subdirectory] :
   /// Specifies a mount path for your file system using forward slashes. This is
@@ -707,10 +732,12 @@ class DataSync {
   /// for your location.
   Future<CreateLocationFsxWindowsResponse> createLocationFsxWindows({
     required String fsxFilesystemArn,
-    required String password,
     required List<String> securityGroupArns,
     required String user,
+    CmkSecretConfig? cmkSecretConfig,
+    CustomSecretConfig? customSecretConfig,
     String? domain,
+    String? password,
     String? subdirectory,
     List<TagListEntry>? tags,
   }) async {
@@ -726,10 +753,13 @@ class DataSync {
       headers: headers,
       payload: {
         'FsxFilesystemArn': fsxFilesystemArn,
-        'Password': password,
         'SecurityGroupArns': securityGroupArns,
         'User': user,
+        if (cmkSecretConfig != null) 'CmkSecretConfig': cmkSecretConfig,
+        if (customSecretConfig != null)
+          'CustomSecretConfig': customSecretConfig,
         if (domain != null) 'Domain': domain,
+        if (password != null) 'Password': password,
         if (subdirectory != null) 'Subdirectory': subdirectory,
         if (tags != null) 'Tags': tags,
       },
@@ -746,12 +776,12 @@ class DataSync {
   /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-hdfs-location.html#accessing-hdfs">accesses
   /// HDFS clusters</a>.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [agentArns] :
-  /// The Amazon Resource Names (ARNs) of the agents that are used to connect to
-  /// the HDFS cluster.
+  /// The Amazon Resource Names (ARNs) of the DataSync agents that can connect
+  /// to your HDFS cluster.
   ///
   /// Parameter [authenticationType] :
   /// The type of authentication used to determine the identity of the user.
@@ -767,11 +797,50 @@ class DataSync {
   /// must be a multiple of 512 bytes. The default block size is 128 mebibytes
   /// (MiB).
   ///
+  /// Parameter [cmkSecretConfig] :
+  /// Specifies configuration information for a DataSync-managed secret, which
+  /// includes the Kerberos keytab that DataSync uses to access a specific
+  /// Hadoop Distributed File System (HDFS) storage location, with a
+  /// customer-managed KMS key.
+  ///
+  /// When you include this parameter as part of a
+  /// <code>CreateLocationHdfs</code> request, you provide only the KMS key ARN.
+  /// DataSync uses this KMS key together with the <code>KerberosKeytab</code>
+  /// you specify for to create a DataSync-managed secret to store the location
+  /// access credentials.
+  ///
+  /// Make sure that DataSync has permission to access the KMS key that you
+  /// specify. For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/location-credentials.html#service-secret-custom-key">
+  /// Using a service-managed secret encrypted with a custom KMS key</a>.
+  /// <note>
+  /// You can use either <code>CmkSecretConfig</code> (with
+  /// <code>KerberosKeytab</code>) or <code>CustomSecretConfig</code> (without
+  /// <code>KerberosKeytab</code>) to provide credentials for a
+  /// <code>CreateLocationHdfs</code> request. Do not provide both parameters
+  /// for the same request.
+  /// </note>
+  ///
+  /// Parameter [customSecretConfig] :
+  /// Specifies configuration information for a customer-managed Secrets Manager
+  /// secret where the Kerberos keytab for the HDFS storage location is stored
+  /// in binary, in Secrets Manager. This configuration includes the secret ARN,
+  /// and the ARN for an IAM role that provides access to the secret. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/location-credentials.html#custom-secret-custom-key">
+  /// Using a secret that you manage</a>.
+  /// <note>
+  /// You can use either <code>CmkSecretConfig</code> (with
+  /// <code>KerberosKeytab</code>) or <code>CustomSecretConfig</code> (without
+  /// <code>KerberosKeytab</code>) to provide credentials for a
+  /// <code>CreateLocationHdfs</code> request. Do not provide both parameters
+  /// for the same request.
+  /// </note>
+  ///
   /// Parameter [kerberosKeytab] :
   /// The Kerberos key table (keytab) that contains mappings between the defined
   /// Kerberos principal and the encrypted keys. You can load the keytab from a
-  /// file by providing the file's address. If you're using the CLI, it performs
-  /// base64 encoding for you. Otherwise, provide the base64-encoded text.
+  /// file by providing the file's address.
   /// <note>
   /// If <code>KERBEROS</code> is specified for <code>AuthenticationType</code>,
   /// this parameter is required.
@@ -833,6 +902,8 @@ class DataSync {
     required HdfsAuthenticationType authenticationType,
     required List<HdfsNameNode> nameNodes,
     int? blockSize,
+    CmkSecretConfig? cmkSecretConfig,
+    CustomSecretConfig? customSecretConfig,
     Uint8List? kerberosKeytab,
     Uint8List? kerberosKrb5Conf,
     String? kerberosPrincipal,
@@ -870,6 +941,9 @@ class DataSync {
         'AuthenticationType': authenticationType.value,
         'NameNodes': nameNodes,
         if (blockSize != null) 'BlockSize': blockSize,
+        if (cmkSecretConfig != null) 'CmkSecretConfig': cmkSecretConfig,
+        if (customSecretConfig != null)
+          'CustomSecretConfig': customSecretConfig,
         if (kerberosKeytab != null)
           'KerberosKeytab': base64Encode(kerberosKeytab),
         if (kerberosKrb5Conf != null)
@@ -894,28 +968,21 @@ class DataSync {
   /// Before you begin, make sure that you understand how DataSync <a
   /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#accessing-nfs">accesses
   /// NFS file servers</a>.
-  /// <note>
-  /// If you're copying data to or from an Snowcone device, you can also use
-  /// <code>CreateLocationNfs</code> to create your transfer location. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/nfs-on-snowcone.html">Configuring
-  /// transfers with Snowcone</a>.
-  /// </note>
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [onPremConfig] :
-  /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that want
-  /// to connect to your NFS file server.
+  /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that can
+  /// connect to your NFS file server.
   ///
   /// You can specify more than one agent. For more information, see <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/multiple-agents.html">Using
-  /// multiple agents for transfers</a>.
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/do-i-need-datasync-agent.html#multiple-agents">Using
+  /// multiple DataSync agents</a>.
   ///
   /// Parameter [serverHostname] :
-  /// Specifies the Domain Name System (DNS) name or IP version 4 address of the
-  /// NFS file server that your DataSync agent connects to.
+  /// Specifies the DNS name or IP address (IPv4 or IPv6) of the NFS file server
+  /// that your DataSync agent connects to.
   ///
   /// Parameter [subdirectory] :
   /// Specifies the export path in your NFS file server that you want DataSync
@@ -964,33 +1031,87 @@ class DataSync {
 
   /// Creates a transfer <i>location</i> for an object storage system. DataSync
   /// can use this location as a source or destination for transferring data.
+  /// You can make transfers with or without a <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/do-i-need-datasync-agent.html#when-agent-required">DataSync
+  /// agent</a>.
   ///
   /// Before you begin, make sure that you understand the <a
   /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-object-location.html#create-object-location-prerequisites">prerequisites</a>
   /// for DataSync to work with object storage systems.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
-  ///
-  /// Parameter [agentArns] :
-  /// Specifies the Amazon Resource Names (ARNs) of the DataSync agents that can
-  /// securely connect with your location.
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [bucketName] :
   /// Specifies the name of the object storage bucket involved in the transfer.
   ///
   /// Parameter [serverHostname] :
-  /// Specifies the domain name or IP address of the object storage server. A
-  /// DataSync agent uses this hostname to mount the object storage server in a
-  /// network.
+  /// Specifies the domain name or IP address (IPv4 or IPv6) of the object
+  /// storage server that your DataSync agent connects to.
   ///
   /// Parameter [accessKey] :
   /// Specifies the access key (for example, a user name) if credentials are
   /// required to authenticate with the object storage server.
   ///
+  /// Parameter [agentArns] :
+  /// (Optional) Specifies the Amazon Resource Names (ARNs) of the DataSync
+  /// agents that can connect with your object storage system. If you are
+  /// setting up an agentless cross-cloud transfer, you do not need to specify a
+  /// value for this parameter.
+  /// <note>
+  /// Make sure you configure this parameter correctly when you first create
+  /// your storage location. You cannot add or remove agents from a storage
+  /// location after you create it.
+  /// </note>
+  ///
+  /// Parameter [cmkSecretConfig] :
+  /// Specifies configuration information for a DataSync-managed secret, which
+  /// includes the <code>SecretKey</code> that DataSync uses to access a
+  /// specific object storage location, with a customer-managed KMS key.
+  ///
+  /// When you include this parameter as part of a
+  /// <code>CreateLocationObjectStorage</code> request, you provide only the KMS
+  /// key ARN. DataSync uses this KMS key together with the value you specify
+  /// for the <code>SecretKey</code> parameter to create a DataSync-managed
+  /// secret to store the location access credentials.
+  ///
+  /// Make sure that DataSync has permission to access the KMS key that you
+  /// specify. For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/location-credentials.html#service-secret-custom-key">
+  /// Using a service-managed secret encrypted with a custom KMS key</a>.
+  /// <note>
+  /// You can use either <code>CmkSecretConfig</code> (with
+  /// <code>SecretKey</code>) or <code>CustomSecretConfig</code> (without
+  /// <code>SecretKey</code>) to provide credentials for a
+  /// <code>CreateLocationObjectStorage</code> request. Do not provide both
+  /// parameters for the same request.
+  /// </note>
+  ///
+  /// Parameter [customSecretConfig] :
+  /// Specifies configuration information for a customer-managed Secrets Manager
+  /// secret where the secret key for a specific object storage location is
+  /// stored in plain text, in Secrets Manager. This configuration includes the
+  /// secret ARN, and the ARN for an IAM role that provides access to the
+  /// secret. For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/location-credentials.html#custom-secret-custom-key">
+  /// Using a secret that you manage</a>.
+  /// <note>
+  /// You can use either <code>CmkSecretConfig</code> (with
+  /// <code>SecretKey</code>) or <code>CustomSecretConfig</code> (without
+  /// <code>SecretKey</code>) to provide credentials for a
+  /// <code>CreateLocationObjectStorage</code> request. Do not provide both
+  /// parameters for the same request.
+  /// </note>
+  ///
   /// Parameter [secretKey] :
   /// Specifies the secret key (for example, a password) if credentials are
   /// required to authenticate with the object storage server.
+  /// <note>
+  /// If you provide a secret using <code>SecretKey</code>, but do not provide
+  /// secret configuration details using <code>CmkSecretConfig</code> or
+  /// <code>CustomSecretConfig</code>, then DataSync stores the token using your
+  /// Amazon Web Services account's Secrets Manager secret.
+  /// </note>
   ///
   /// Parameter [serverCertificate] :
   /// Specifies a certificate chain for DataSync to authenticate with your
@@ -1019,7 +1140,7 @@ class DataSync {
   /// certificates:
   ///
   /// <code>cat object_server_certificate.pem intermediate_certificate.pem
-  /// ca_root_certificate.pem &gt; object_storage_certificates.pem</code>
+  /// ca_root_certificate.pem > object_storage_certificates.pem</code>
   ///
   /// To use this parameter, configure <code>ServerProtocol</code> to
   /// <code>HTTPS</code>.
@@ -1030,7 +1151,7 @@ class DataSync {
   ///
   /// Parameter [serverProtocol] :
   /// Specifies the protocol that your object storage server uses to
-  /// communicate.
+  /// communicate. If not specified, the default value is <code>HTTPS</code>.
   ///
   /// Parameter [subdirectory] :
   /// Specifies the object prefix for your object storage server. If this is a
@@ -1042,10 +1163,12 @@ class DataSync {
   /// the resource. Tags can help you manage, filter, and search for your
   /// resources. We recommend creating a name tag for your location.
   Future<CreateLocationObjectStorageResponse> createLocationObjectStorage({
-    required List<String> agentArns,
     required String bucketName,
     required String serverHostname,
     String? accessKey,
+    List<String>? agentArns,
+    CmkSecretConfig? cmkSecretConfig,
+    CustomSecretConfig? customSecretConfig,
     String? secretKey,
     Uint8List? serverCertificate,
     int? serverPort,
@@ -1070,10 +1193,13 @@ class DataSync {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AgentArns': agentArns,
         'BucketName': bucketName,
         'ServerHostname': serverHostname,
         if (accessKey != null) 'AccessKey': accessKey,
+        if (agentArns != null) 'AgentArns': agentArns,
+        if (cmkSecretConfig != null) 'CmkSecretConfig': cmkSecretConfig,
+        if (customSecretConfig != null)
+          'CustomSecretConfig': customSecretConfig,
         if (secretKey != null) 'SecretKey': secretKey,
         if (serverCertificate != null)
           'ServerCertificate': base64Encode(serverCertificate),
@@ -1108,8 +1234,8 @@ class DataSync {
   /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html">Configuring
   /// transfers with Amazon S3</a>.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [s3BucketArn] :
   /// Specifies the ARN of the S3 bucket that you want to use as a location.
@@ -1204,31 +1330,23 @@ class DataSync {
   /// server. DataSync can use this location as a source or destination for
   /// transferring data.
   ///
-  /// Before you begin, make sure that you understand how DataSync <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb">accesses
-  /// SMB file servers</a>.
+  /// Before you begin, make sure that you understand how DataSync accesses SMB
+  /// file servers. For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions">Providing
+  /// DataSync access to SMB file servers</a>.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [agentArns] :
-  /// Specifies the DataSync agent (or agents) which you want to connect to your
-  /// SMB file server. You specify an agent by using its Amazon Resource Name
-  /// (ARN).
-  ///
-  /// Parameter [password] :
-  /// Specifies the password of the user who can mount your SMB file server and
-  /// has permission to access the files and folders involved in your transfer.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions">required
-  /// permissions</a> for SMB locations.
+  /// Specifies the DataSync agent (or agents) that can connect to your SMB file
+  /// server. You specify an agent by using its Amazon Resource Name (ARN).
   ///
   /// Parameter [serverHostname] :
-  /// Specifies the Domain Name Service (DNS) name or IP address of the SMB file
-  /// server that your DataSync agent will mount.
+  /// Specifies the domain name or IP address (IPv4 or IPv6) of the SMB file
+  /// server that your DataSync agent connects to.
   /// <note>
-  /// You can't specify an IP version 6 (IPv6) address.
+  /// If you're using Kerberos authentication, you must specify a domain name.
   /// </note>
   ///
   /// Parameter [subdirectory] :
@@ -1239,43 +1357,145 @@ class DataSync {
   ///
   /// To copy all data in the subdirectory, DataSync must be able to mount the
   /// SMB share and access all of its data. For more information, see <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions">required
-  /// permissions</a> for SMB locations.
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions">Providing
+  /// DataSync access to SMB file servers</a>.
   ///
-  /// Parameter [user] :
-  /// Specifies the user that can mount and access the files, folders, and file
-  /// metadata in your SMB file server.
+  /// Parameter [authenticationType] :
+  /// Specifies the authentication protocol that DataSync uses to connect to
+  /// your SMB file server. DataSync supports <code>NTLM</code> (default) and
+  /// <code>KERBEROS</code> authentication.
   ///
-  /// For information about choosing a user with the right level of access for
-  /// your transfer, see <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions">required
-  /// permissions</a> for SMB locations.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions">Providing
+  /// DataSync access to SMB file servers</a>.
+  ///
+  /// Parameter [cmkSecretConfig] :
+  /// Specifies configuration information for a DataSync-managed secret, either
+  /// a <code>Password</code> or <code>KerberosKeytab</code> (for
+  /// <code>NTLM</code> (default) and <code>KERBEROS</code> authentication
+  /// types, respectively) that DataSync uses to access a specific SMB storage
+  /// location, with a customer-managed KMS key.
+  ///
+  /// When you include this parameter as part of a
+  /// <code>CreateLocationSmbRequest</code> request, you provide only the KMS
+  /// key ARN. DataSync uses this KMS key together with either the
+  /// <code>Password</code> or <code>KerberosKeytab</code> you specify to create
+  /// a DataSync-managed secret to store the location access credentials.
+  ///
+  /// Make sure that DataSync has permission to access the KMS key that you
+  /// specify. For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/location-credentials.html#service-secret-custom-key">
+  /// Using a service-managed secret encrypted with a custom KMS key</a>.
+  /// <note>
+  /// You can use either <code>CmkSecretConfig</code> (with either
+  /// <code>Password</code> or <code>KerberosKeytab</code>) or
+  /// <code>CustomSecretConfig</code> (without any <code>Password</code> and
+  /// <code>KerberosKeytab</code>) to provide credentials for a
+  /// <code>CreateLocationSmbRequest</code> request. Do not provide both
+  /// <code>CmkSecretConfig</code> and <code>CustomSecretConfig</code>
+  /// parameters for the same request.
+  /// </note>
+  ///
+  /// Parameter [customSecretConfig] :
+  /// Specifies configuration information for a customer-managed Secrets Manager
+  /// secret where the SMB storage location credentials is stored in Secrets
+  /// Manager as plain text (for <code>Password</code>) or binary (for
+  /// <code>KerberosKeytab</code>). This configuration includes the secret ARN,
+  /// and the ARN for an IAM role that provides access to the secret. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/location-credentials.html#custom-secret-custom-key">
+  /// Using a secret that you manage</a>.
+  /// <note>
+  /// You can use either <code>CmkSecretConfig</code> (with
+  /// <code>SasConfiguration</code>) or <code>CustomSecretConfig</code> (without
+  /// <code>SasConfiguration</code>) to provide credentials for a
+  /// <code>CreateLocationSmbRequest</code> request. Do not provide both
+  /// parameters for the same request.
+  /// </note>
+  ///
+  /// Parameter [dnsIpAddresses] :
+  /// Specifies the IPv4 or IPv6 addresses for the DNS servers that your SMB
+  /// file server belongs to. This parameter applies only if
+  /// <code>AuthenticationType</code> is set to <code>KERBEROS</code>.
+  ///
+  /// If you have multiple domains in your environment, configuring this
+  /// parameter makes sure that DataSync connects to the right SMB file server.
   ///
   /// Parameter [domain] :
-  /// Specifies the name of the Active Directory domain that your SMB file
-  /// server belongs to.
+  /// Specifies the Windows domain name that your SMB file server belongs to.
+  /// This parameter applies only if <code>AuthenticationType</code> is set to
+  /// <code>NTLM</code>.
   ///
-  /// If you have multiple Active Directory domains in your environment,
-  /// configuring this parameter makes sure that DataSync connects to the right
-  /// file server.
+  /// If you have multiple domains in your environment, configuring this
+  /// parameter makes sure that DataSync connects to the right file server.
+  ///
+  /// Parameter [kerberosKeytab] :
+  /// Specifies your Kerberos key table (keytab) file, which includes mappings
+  /// between your Kerberos principal and encryption keys.
+  ///
+  /// To avoid task execution errors, make sure that the Kerberos principal that
+  /// you use to create the keytab file matches exactly what you specify for
+  /// <code>KerberosPrincipal</code>.
+  ///
+  /// Parameter [kerberosKrb5Conf] :
+  /// Specifies a Kerberos configuration file (<code>krb5.conf</code>) that
+  /// defines your Kerberos realm configuration.
+  ///
+  /// The file must be base64 encoded. If you're using the CLI, the encoding is
+  /// done for you.
+  ///
+  /// Parameter [kerberosPrincipal] :
+  /// Specifies a Kerberos principal, which is an identity in your Kerberos
+  /// realm that has permission to access the files, folders, and file metadata
+  /// in your SMB file server.
+  ///
+  /// A Kerberos principal might look like
+  /// <code>HOST/kerberosuser@MYDOMAIN.ORG</code>.
+  ///
+  /// Principal names are case sensitive. Your DataSync task execution will fail
+  /// if the principal that you specify for this parameter doesn’t exactly match
+  /// the principal that you use to create the keytab file.
   ///
   /// Parameter [mountOptions] :
   /// Specifies the version of the SMB protocol that DataSync uses to access
   /// your SMB file server.
   ///
+  /// Parameter [password] :
+  /// Specifies the password of the user who can mount your SMB file server and
+  /// has permission to access the files and folders involved in your transfer.
+  /// This parameter applies only if <code>AuthenticationType</code> is set to
+  /// <code>NTLM</code>.
+  ///
   /// Parameter [tags] :
   /// Specifies labels that help you categorize, filter, and search for your
   /// Amazon Web Services resources. We recommend creating at least a name tag
   /// for your location.
+  ///
+  /// Parameter [user] :
+  /// Specifies the user that can mount and access the files, folders, and file
+  /// metadata in your SMB file server. This parameter applies only if
+  /// <code>AuthenticationType</code> is set to <code>NTLM</code>.
+  ///
+  /// For information about choosing a user with the right level of access for
+  /// your transfer, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions">Providing
+  /// DataSync access to SMB file servers</a>.
   Future<CreateLocationSmbResponse> createLocationSmb({
     required List<String> agentArns,
-    required String password,
     required String serverHostname,
     required String subdirectory,
-    required String user,
+    SmbAuthenticationType? authenticationType,
+    CmkSecretConfig? cmkSecretConfig,
+    CustomSecretConfig? customSecretConfig,
+    List<String>? dnsIpAddresses,
     String? domain,
+    Uint8List? kerberosKeytab,
+    Uint8List? kerberosKrb5Conf,
+    String? kerberosPrincipal,
     SmbMountOptions? mountOptions,
+    String? password,
     List<TagListEntry>? tags,
+    String? user,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1289,13 +1509,24 @@ class DataSync {
       headers: headers,
       payload: {
         'AgentArns': agentArns,
-        'Password': password,
         'ServerHostname': serverHostname,
         'Subdirectory': subdirectory,
-        'User': user,
+        if (authenticationType != null)
+          'AuthenticationType': authenticationType.value,
+        if (cmkSecretConfig != null) 'CmkSecretConfig': cmkSecretConfig,
+        if (customSecretConfig != null)
+          'CustomSecretConfig': customSecretConfig,
+        if (dnsIpAddresses != null) 'DnsIpAddresses': dnsIpAddresses,
         if (domain != null) 'Domain': domain,
+        if (kerberosKeytab != null)
+          'KerberosKeytab': base64Encode(kerberosKeytab),
+        if (kerberosKrb5Conf != null)
+          'KerberosKrb5Conf': base64Encode(kerberosKrb5Conf),
+        if (kerberosPrincipal != null) 'KerberosPrincipal': kerberosPrincipal,
         if (mountOptions != null) 'MountOptions': mountOptions,
+        if (password != null) 'Password': password,
         if (tags != null) 'Tags': tags,
+        if (user != null) 'User': user,
       },
     );
 
@@ -1316,8 +1547,8 @@ class DataSync {
   /// before you begin.
   /// </important>
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [destinationLocationArn] :
   /// Specifies the ARN of your transfer's destination location.
@@ -1329,6 +1560,10 @@ class DataSync {
   /// Specifies the Amazon Resource Name (ARN) of an Amazon CloudWatch log group
   /// for monitoring your task.
   ///
+  /// For Enhanced mode tasks, you don't need to specify anything. DataSync
+  /// automatically sends logs to a CloudWatch log group named
+  /// <code>/aws/datasync</code>.
+  ///
   /// Parameter [excludes] :
   /// Specifies exclude filters that define the files, objects, and folders in
   /// your source location that you don't want DataSync to transfer. For more
@@ -1337,9 +1572,9 @@ class DataSync {
   /// what DataSync transfers by using filters</a>.
   ///
   /// Parameter [includes] :
-  /// Specifies include filters define the files, objects, and folders in your
-  /// source location that you want DataSync to transfer. For more information
-  /// and examples, see <a
+  /// Specifies include filters that define the files, objects, and folders in
+  /// your source location that you want DataSync to transfer. For more
+  /// information and examples, see <a
   /// href="https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html">Specifying
   /// what DataSync transfers by using filters</a>.
   ///
@@ -1375,6 +1610,37 @@ class DataSync {
   /// <i>Tags</i> are key-value pairs that help you manage, filter, and search
   /// for your DataSync resources.
   ///
+  /// Parameter [taskMode] :
+  /// Specifies one of the following task modes for your data transfer:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ENHANCED</code> - Transfer virtually unlimited numbers of objects
+  /// with higher performance than Basic mode. Enhanced mode tasks optimize the
+  /// data transfer process by listing, preparing, transferring, and verifying
+  /// data in parallel. Enhanced mode is currently available for transfers
+  /// between Amazon S3 locations, transfers between Azure Blob and Amazon S3
+  /// without an agent, and transfers between other clouds and Amazon S3 without
+  /// an agent.
+  /// <note>
+  /// To create an Enhanced mode task, the IAM role that you use to call the
+  /// <code>CreateTask</code> operation must have the
+  /// <code>iam:CreateServiceLinkedRole</code> permission.
+  /// </note> </li>
+  /// <li>
+  /// <code>BASIC</code> (default) - Transfer files or objects between Amazon
+  /// Web Services storage and all other supported DataSync locations. Basic
+  /// mode tasks are subject to <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/datasync-limits.html">quotas</a>
+  /// on the number of files, objects, and directories in a dataset. Basic mode
+  /// sequentially prepares, transfers, and verifies data, making it slower than
+  /// Enhanced mode for most workloads.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html#task-mode-differences">Understanding
+  /// task mode differences</a>.
+  ///
   /// Parameter [taskReportConfig] :
   /// Specifies how you want to configure a task report, which provides detailed
   /// information about your DataSync transfer. For more information, see <a
@@ -1397,6 +1663,7 @@ class DataSync {
     Options? options,
     TaskSchedule? schedule,
     List<TagListEntry>? tags,
+    TaskMode? taskMode,
     TaskReportConfig? taskReportConfig,
   }) async {
     final headers = <String, String>{
@@ -1421,6 +1688,7 @@ class DataSync {
         if (options != null) 'Options': options,
         if (schedule != null) 'Schedule': schedule,
         if (tags != null) 'Tags': tags,
+        if (taskMode != null) 'TaskMode': taskMode.value,
         if (taskReportConfig != null) 'TaskReportConfig': taskReportConfig,
       },
     );
@@ -1437,8 +1705,8 @@ class DataSync {
   /// href="https://docs.aws.amazon.com/datasync/latest/userguide/activate-agent.html">activate
   /// a new agent</a>.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [agentArn] :
   /// The Amazon Resource Name (ARN) of the agent to delete. Use the
@@ -1465,8 +1733,8 @@ class DataSync {
 
   /// Deletes a transfer location resource from DataSync.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [locationArn] :
   /// The Amazon Resource Name (ARN) of the location to delete.
@@ -1491,8 +1759,8 @@ class DataSync {
 
   /// Deletes a transfer task resource from DataSync.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [taskArn] :
   /// Specifies the Amazon Resource Name (ARN) of the task that you want to
@@ -1519,8 +1787,8 @@ class DataSync {
   /// Returns information about an DataSync agent, such as its name, service
   /// endpoint type, and status.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [agentArn] :
   /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that you
@@ -1546,40 +1814,11 @@ class DataSync {
     return DescribeAgentResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns information about a DataSync discovery job.
-  ///
-  /// May throw [InvalidRequestException].
-  /// May throw [InternalException].
-  ///
-  /// Parameter [discoveryJobArn] :
-  /// Specifies the Amazon Resource Name (ARN) of the discovery job that you
-  /// want information about.
-  Future<DescribeDiscoveryJobResponse> describeDiscoveryJob({
-    required String discoveryJobArn,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'FmrsService.DescribeDiscoveryJob'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'DiscoveryJobArn': discoveryJobArn,
-      },
-    );
-
-    return DescribeDiscoveryJobResponse.fromJson(jsonResponse.body);
-  }
-
   /// Provides details about how an DataSync transfer location for Microsoft
   /// Azure Blob Storage is configured.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [locationArn] :
   /// Specifies the Amazon Resource Name (ARN) of your Azure Blob Storage
@@ -1608,8 +1847,8 @@ class DataSync {
   /// Provides details about how an DataSync transfer location for an Amazon EFS
   /// file system is configured.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [locationArn] :
   /// The Amazon Resource Name (ARN) of the Amazon EFS file system location that
@@ -1638,8 +1877,8 @@ class DataSync {
   /// Provides details about how an DataSync transfer location for an Amazon FSx
   /// for Lustre file system is configured.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [locationArn] :
   /// The Amazon Resource Name (ARN) of the FSx for Lustre location to describe.
@@ -1671,8 +1910,8 @@ class DataSync {
   /// operation doesn't actually return a <code>Password</code>.
   /// </note>
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [locationArn] :
   /// Specifies the Amazon Resource Name (ARN) of the FSx for ONTAP file system
@@ -1705,8 +1944,8 @@ class DataSync {
   /// <code>DescribeLocationFsxOpenZfs</code> operation.
   /// </note>
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [locationArn] :
   /// The Amazon Resource Name (ARN) of the FSx for OpenZFS location to
@@ -1735,8 +1974,8 @@ class DataSync {
   /// Provides details about how an DataSync transfer location for an Amazon FSx
   /// for Windows File Server file system is configured.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [locationArn] :
   /// Specifies the Amazon Resource Name (ARN) of the FSx for Windows File
@@ -1765,8 +2004,8 @@ class DataSync {
   /// Provides details about how an DataSync transfer location for a Hadoop
   /// Distributed File System (HDFS) is configured.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [locationArn] :
   /// Specifies the Amazon Resource Name (ARN) of the HDFS location.
@@ -1794,8 +2033,8 @@ class DataSync {
   /// Provides details about how an DataSync transfer location for a Network
   /// File System (NFS) file server is configured.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [locationArn] :
   /// Specifies the Amazon Resource Name (ARN) of the NFS location that you want
@@ -1824,8 +2063,8 @@ class DataSync {
   /// Provides details about how an DataSync transfer location for an object
   /// storage system is configured.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [locationArn] :
   /// Specifies the Amazon Resource Name (ARN) of the object storage system
@@ -1854,8 +2093,8 @@ class DataSync {
   /// Provides details about how an DataSync transfer location for an S3 bucket
   /// is configured.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [locationArn] :
   /// Specifies the Amazon Resource Name (ARN) of the Amazon S3 location.
@@ -1883,8 +2122,8 @@ class DataSync {
   /// Provides details about how an DataSync transfer location for a Server
   /// Message Block (SMB) file server is configured.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [locationArn] :
   /// Specifies the Amazon Resource Name (ARN) of the SMB location that you want
@@ -1910,187 +2149,11 @@ class DataSync {
     return DescribeLocationSmbResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns information about an on-premises storage system that you're using
-  /// with DataSync Discovery.
-  ///
-  /// May throw [InvalidRequestException].
-  /// May throw [InternalException].
-  ///
-  /// Parameter [storageSystemArn] :
-  /// Specifies the Amazon Resource Name (ARN) of an on-premises storage system
-  /// that you're using with DataSync Discovery.
-  Future<DescribeStorageSystemResponse> describeStorageSystem({
-    required String storageSystemArn,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'FmrsService.DescribeStorageSystem'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'StorageSystemArn': storageSystemArn,
-      },
-    );
-
-    return DescribeStorageSystemResponse.fromJson(jsonResponse.body);
-  }
-
-  /// Returns information, including performance data and capacity usage, which
-  /// DataSync Discovery collects about a specific resource in your-premises
-  /// storage system.
-  ///
-  /// May throw [InvalidRequestException].
-  /// May throw [InternalException].
-  ///
-  /// Parameter [discoveryJobArn] :
-  /// Specifies the Amazon Resource Name (ARN) of the discovery job that
-  /// collects information about your on-premises storage system.
-  ///
-  /// Parameter [resourceId] :
-  /// Specifies the universally unique identifier (UUID) of the storage system
-  /// resource that you want information about.
-  ///
-  /// Parameter [resourceType] :
-  /// Specifies the kind of storage system resource that you want information
-  /// about.
-  ///
-  /// Parameter [endTime] :
-  /// Specifies a time within the total duration that the discovery job ran. To
-  /// see information gathered during a certain time frame, use this parameter
-  /// with <code>StartTime</code>.
-  ///
-  /// Parameter [maxResults] :
-  /// Specifies how many results that you want in the response.
-  ///
-  /// Parameter [nextToken] :
-  /// Specifies an opaque string that indicates the position to begin the next
-  /// list of results in the response.
-  ///
-  /// Parameter [startTime] :
-  /// Specifies a time within the total duration that the discovery job ran. To
-  /// see information gathered during a certain time frame, use this parameter
-  /// with <code>EndTime</code>.
-  Future<DescribeStorageSystemResourceMetricsResponse>
-      describeStorageSystemResourceMetrics({
-    required String discoveryJobArn,
-    required String resourceId,
-    required DiscoveryResourceType resourceType,
-    DateTime? endTime,
-    int? maxResults,
-    String? nextToken,
-    DateTime? startTime,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'FmrsService.DescribeStorageSystemResourceMetrics'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'DiscoveryJobArn': discoveryJobArn,
-        'ResourceId': resourceId,
-        'ResourceType': resourceType.value,
-        if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      },
-    );
-
-    return DescribeStorageSystemResourceMetricsResponse.fromJson(
-        jsonResponse.body);
-  }
-
-  /// Returns information that DataSync Discovery collects about resources in
-  /// your on-premises storage system.
-  ///
-  /// May throw [InvalidRequestException].
-  /// May throw [InternalException].
-  ///
-  /// Parameter [discoveryJobArn] :
-  /// Specifies the Amazon Resource Name (ARN) of the discovery job that's
-  /// collecting data from your on-premises storage system.
-  ///
-  /// Parameter [resourceType] :
-  /// Specifies what kind of storage system resources that you want information
-  /// about.
-  ///
-  /// Parameter [filter] :
-  /// Filters the storage system resources that you want returned. For example,
-  /// this might be volumes associated with a specific storage virtual machine
-  /// (SVM).
-  ///
-  /// Parameter [maxResults] :
-  /// Specifies the maximum number of storage system resources that you want to
-  /// list in a response.
-  ///
-  /// Parameter [nextToken] :
-  /// Specifies an opaque string that indicates the position to begin the next
-  /// list of results in the response.
-  ///
-  /// Parameter [resourceIds] :
-  /// Specifies the universally unique identifiers (UUIDs) of the storage system
-  /// resources that you want information about. You can't use this parameter in
-  /// combination with the <code>Filter</code> parameter.
-  Future<DescribeStorageSystemResourcesResponse>
-      describeStorageSystemResources({
-    required String discoveryJobArn,
-    required DiscoveryResourceType resourceType,
-    Map<DiscoveryResourceFilter, List<String>>? filter,
-    int? maxResults,
-    String? nextToken,
-    List<String>? resourceIds,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'FmrsService.DescribeStorageSystemResources'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'DiscoveryJobArn': discoveryJobArn,
-        'ResourceType': resourceType.value,
-        if (filter != null)
-          'Filter': filter.map((k, e) => MapEntry(k.value, e)),
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (resourceIds != null) 'ResourceIds': resourceIds,
-      },
-    );
-
-    return DescribeStorageSystemResourcesResponse.fromJson(jsonResponse.body);
-  }
-
   /// Provides information about a <i>task</i>, which defines where and how
   /// DataSync transfers your data.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [taskArn] :
   /// Specifies the Amazon Resource Name (ARN) of the transfer task that you
@@ -2117,11 +2180,19 @@ class DataSync {
   }
 
   /// Provides information about an execution of your DataSync task. You can use
-  /// this operation to help monitor the progress of an ongoing transfer or
+  /// this operation to help monitor the progress of an ongoing data transfer or
   /// check the results of the transfer.
+  /// <note>
+  /// Some <code>DescribeTaskExecution</code> response elements are only
+  /// relevant to a specific task mode. For information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html#task-mode-differences">Understanding
+  /// task mode differences</a> and <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/transfer-performance-counters.html">Understanding
+  /// data transfer performance counters</a>.
+  /// </note>
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [taskExecutionArn] :
   /// Specifies the Amazon Resource Name (ARN) of the task execution that you
@@ -2147,54 +2218,6 @@ class DataSync {
     return DescribeTaskExecutionResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates recommendations about where to migrate your data to in Amazon Web
-  /// Services. Recommendations are generated based on information that DataSync
-  /// Discovery collects about your on-premises storage system's resources. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/discovery-understand-recommendations.html">Recommendations
-  /// provided by DataSync Discovery</a>.
-  ///
-  /// Once generated, you can view your recommendations by using the <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_DescribeStorageSystemResources.html">DescribeStorageSystemResources</a>
-  /// operation.
-  ///
-  /// May throw [InvalidRequestException].
-  /// May throw [InternalException].
-  ///
-  /// Parameter [discoveryJobArn] :
-  /// Specifies the Amazon Resource Name (ARN) of the discovery job that
-  /// collects information about your on-premises storage system.
-  ///
-  /// Parameter [resourceIds] :
-  /// Specifies the universally unique identifiers (UUIDs) of the resources in
-  /// your storage system that you want recommendations on.
-  ///
-  /// Parameter [resourceType] :
-  /// Specifies the type of resource in your storage system that you want
-  /// recommendations on.
-  Future<void> generateRecommendations({
-    required String discoveryJobArn,
-    required List<String> resourceIds,
-    required DiscoveryResourceType resourceType,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'FmrsService.GenerateRecommendations'
-    };
-    await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'DiscoveryJobArn': discoveryJobArn,
-        'ResourceIds': resourceIds,
-        'ResourceType': resourceType.value,
-      },
-    );
-  }
-
   /// Returns a list of DataSync agents that belong to an Amazon Web Services
   /// account in the Amazon Web Services Region specified in the request.
   ///
@@ -2212,8 +2235,8 @@ class DataSync {
   /// confirm whether an agent has been created (or deleted) by using <a
   /// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_DescribeAgent.html">DescribeAgent</a>.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [maxResults] :
   /// Specifies the maximum number of DataSync agents to list in a response. By
@@ -2251,55 +2274,6 @@ class DataSync {
     return ListAgentsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Provides a list of the existing discovery jobs in the Amazon Web Services
-  /// Region and Amazon Web Services account where you're using DataSync
-  /// Discovery.
-  ///
-  /// May throw [InvalidRequestException].
-  /// May throw [InternalException].
-  ///
-  /// Parameter [maxResults] :
-  /// Specifies how many results you want in the response.
-  ///
-  /// Parameter [nextToken] :
-  /// Specifies an opaque string that indicates the position to begin the next
-  /// list of results in the response.
-  ///
-  /// Parameter [storageSystemArn] :
-  /// Specifies the Amazon Resource Name (ARN) of an on-premises storage system.
-  /// Use this parameter if you only want to list the discovery jobs that are
-  /// associated with a specific storage system.
-  Future<ListDiscoveryJobsResponse> listDiscoveryJobs({
-    int? maxResults,
-    String? nextToken,
-    String? storageSystemArn,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'FmrsService.ListDiscoveryJobs'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (storageSystemArn != null) 'StorageSystemArn': storageSystemArn,
-      },
-    );
-
-    return ListDiscoveryJobsResponse.fromJson(jsonResponse.body);
-  }
-
   /// Returns a list of source and destination locations.
   ///
   /// If you have more locations than are returned in a response (that is, the
@@ -2307,8 +2281,8 @@ class DataSync {
   /// contains a token that you can specify in your next request to fetch the
   /// next page of locations.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [filters] :
   /// You can use API filters to narrow down the list of resources returned by
@@ -2353,51 +2327,10 @@ class DataSync {
     return ListLocationsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Lists the on-premises storage systems that you're using with DataSync
-  /// Discovery.
-  ///
-  /// May throw [InvalidRequestException].
-  /// May throw [InternalException].
-  ///
-  /// Parameter [maxResults] :
-  /// Specifies how many results you want in the response.
-  ///
-  /// Parameter [nextToken] :
-  /// Specifies an opaque string that indicates the position to begin the next
-  /// list of results in the response.
-  Future<ListStorageSystemsResponse> listStorageSystems({
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'FmrsService.ListStorageSystems'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
-    );
-
-    return ListStorageSystemsResponse.fromJson(jsonResponse.body);
-  }
-
   /// Returns all the tags associated with an Amazon Web Services resource.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [resourceArn] :
   /// Specifies the Amazon Resource Name (ARN) of the resource that you want tag
@@ -2442,8 +2375,8 @@ class DataSync {
 
   /// Returns a list of executions for an DataSync transfer task.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [maxResults] :
   /// Specifies how many results you want in the response.
@@ -2488,8 +2421,8 @@ class DataSync {
 
   /// Returns a list of the DataSync tasks you created.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [filters] :
   /// You can use API filters to narrow down the list of resources returned by
@@ -2535,103 +2468,10 @@ class DataSync {
     return ListTasksResponse.fromJson(jsonResponse.body);
   }
 
-  /// Permanently removes a storage system resource from DataSync Discovery,
-  /// including the associated discovery jobs, collected data, and
-  /// recommendations.
-  ///
-  /// May throw [InvalidRequestException].
-  /// May throw [InternalException].
-  ///
-  /// Parameter [storageSystemArn] :
-  /// Specifies the Amazon Resource Name (ARN) of the storage system that you
-  /// want to permanently remove from DataSync Discovery.
-  Future<void> removeStorageSystem({
-    required String storageSystemArn,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'FmrsService.RemoveStorageSystem'
-    };
-    await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'StorageSystemArn': storageSystemArn,
-      },
-    );
-  }
-
-  /// Runs a DataSync discovery job on your on-premises storage system. If you
-  /// haven't added the storage system to DataSync Discovery yet, do this first
-  /// by using the <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_AddStorageSystem.html">AddStorageSystem</a>
-  /// operation.
-  ///
-  /// May throw [InvalidRequestException].
-  /// May throw [InternalException].
-  ///
-  /// Parameter [collectionDurationMinutes] :
-  /// Specifies in minutes how long you want the discovery job to run.
-  /// <note>
-  /// For more accurate recommendations, we recommend a duration of at least 14
-  /// days. Longer durations allow time to collect a sufficient number of data
-  /// points and provide a realistic representation of storage performance and
-  /// utilization.
-  /// </note>
-  ///
-  /// Parameter [storageSystemArn] :
-  /// Specifies the Amazon Resource Name (ARN) of the on-premises storage system
-  /// that you want to run the discovery job on.
-  ///
-  /// Parameter [clientToken] :
-  /// Specifies a client token to make sure requests with this API operation are
-  /// idempotent. If you don't specify a client token, DataSync generates one
-  /// for you automatically.
-  ///
-  /// Parameter [tags] :
-  /// Specifies labels that help you categorize, filter, and search for your
-  /// Amazon Web Services resources.
-  Future<StartDiscoveryJobResponse> startDiscoveryJob({
-    required int collectionDurationMinutes,
-    required String storageSystemArn,
-    String? clientToken,
-    List<TagListEntry>? tags,
-  }) async {
-    _s.validateNumRange(
-      'collectionDurationMinutes',
-      collectionDurationMinutes,
-      60,
-      44640,
-      isRequired: true,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'FmrsService.StartDiscoveryJob'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'CollectionDurationMinutes': collectionDurationMinutes,
-        'StorageSystemArn': storageSystemArn,
-        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
-        if (tags != null) 'Tags': tags,
-      },
-    );
-
-    return StartDiscoveryJobResponse.fromJson(jsonResponse.body);
-  }
-
   /// Starts an DataSync transfer task. For each task, you can only run one task
   /// execution at a time.
   ///
-  /// There are several phases to a task execution. For more information, see <a
+  /// There are several steps to a task execution. For more information, see <a
   /// href="https://docs.aws.amazon.com/datasync/latest/userguide/working-with-task-executions.html#understand-task-execution-statuses">Task
   /// execution statuses</a>.
   /// <important>
@@ -2643,8 +2483,8 @@ class DataSync {
   /// before you begin.
   /// </important>
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [taskArn] :
   /// Specifies the Amazon Resource Name (ARN) of the task that you want to
@@ -2731,40 +2571,6 @@ class DataSync {
     return StartTaskExecutionResponse.fromJson(jsonResponse.body);
   }
 
-  /// Stops a running DataSync discovery job.
-  ///
-  /// You can stop a discovery job anytime. A job that's stopped before it's
-  /// scheduled to end likely will provide you some information about your
-  /// on-premises storage system resources. To get recommendations for a stopped
-  /// job, you must use the <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_GenerateRecommendations.html">GenerateRecommendations</a>
-  /// operation.
-  ///
-  /// May throw [InvalidRequestException].
-  /// May throw [InternalException].
-  ///
-  /// Parameter [discoveryJobArn] :
-  /// Specifies the Amazon Resource Name (ARN) of the discovery job that you
-  /// want to stop.
-  Future<void> stopDiscoveryJob({
-    required String discoveryJobArn,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'FmrsService.StopDiscoveryJob'
-    };
-    await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'DiscoveryJobArn': discoveryJobArn,
-      },
-    );
-  }
-
   /// Applies a <i>tag</i> to an Amazon Web Services resource. Tags are
   /// key-value pairs that can help you manage, filter, and search for your
   /// resources.
@@ -2772,8 +2578,8 @@ class DataSync {
   /// These include DataSync resources, such as locations, tasks, and task
   /// executions.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [resourceArn] :
   /// Specifies the Amazon Resource Name (ARN) of the resource to apply the tag
@@ -2804,8 +2610,8 @@ class DataSync {
 
   /// Removes tags from an Amazon Web Services resource.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [keys] :
   /// Specifies the keys in the tags that you want to remove.
@@ -2836,8 +2642,8 @@ class DataSync {
 
   /// Updates the name of an DataSync agent.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [agentArn] :
   /// The Amazon Resource Name (ARN) of the agent to update.
@@ -2865,52 +2671,15 @@ class DataSync {
     );
   }
 
-  /// Edits a DataSync discovery job configuration.
+  /// Modifies the following configurations of the Microsoft Azure Blob Storage
+  /// transfer location that you're using with DataSync.
   ///
-  /// May throw [InvalidRequestException].
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html">Configuring
+  /// DataSync transfers with Azure Blob Storage</a>.
+  ///
   /// May throw [InternalException].
-  ///
-  /// Parameter [collectionDurationMinutes] :
-  /// Specifies in minutes how long that you want the discovery job to run. (You
-  /// can't set this parameter to less than the number of minutes that the job
-  /// has already run for.)
-  ///
-  /// Parameter [discoveryJobArn] :
-  /// Specifies the Amazon Resource Name (ARN) of the discovery job that you
-  /// want to update.
-  Future<void> updateDiscoveryJob({
-    required int collectionDurationMinutes,
-    required String discoveryJobArn,
-  }) async {
-    _s.validateNumRange(
-      'collectionDurationMinutes',
-      collectionDurationMinutes,
-      60,
-      44640,
-      isRequired: true,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'FmrsService.UpdateDiscoveryJob'
-    };
-    await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'CollectionDurationMinutes': collectionDurationMinutes,
-        'DiscoveryJobArn': discoveryJobArn,
-      },
-    );
-  }
-
-  /// Modifies some configurations of the Microsoft Azure Blob Storage transfer
-  /// location that you're using with DataSync.
-  ///
   /// May throw [InvalidRequestException].
-  /// May throw [InternalException].
   ///
   /// Parameter [locationArn] :
   /// Specifies the ARN of the Azure Blob Storage transfer location that you're
@@ -2924,12 +2693,18 @@ class DataSync {
   /// tiers</a>.
   ///
   /// Parameter [agentArns] :
-  /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that can
-  /// connect with your Azure Blob Storage container.
+  /// (Optional) Specifies the Amazon Resource Name (ARN) of the DataSync agent
+  /// that can connect with your Azure Blob Storage container. If you are
+  /// setting up an agentless cross-cloud transfer, you do not need to specify a
+  /// value for this parameter.
   ///
   /// You can specify more than one agent. For more information, see <a
   /// href="https://docs.aws.amazon.com/datasync/latest/userguide/multiple-agents.html">Using
   /// multiple agents for your transfer</a>.
+  /// <note>
+  /// You cannot add or remove agents from a storage location after you
+  /// initially create it.
+  /// </note>
   ///
   /// Parameter [authenticationType] :
   /// Specifies the authentication method DataSync uses to access your Azure
@@ -2944,6 +2719,17 @@ class DataSync {
   /// href="https://learn.microsoft.com/en-us/rest/api/storageservices/understanding-block-blobs--append-blobs--and-page-blobs">Azure
   /// Blob Storage documentation</a>.
   ///
+  /// Parameter [cmkSecretConfig] :
+  /// Specifies configuration information for a DataSync-managed secret, such as
+  /// an authentication token or set of credentials that DataSync uses to access
+  /// a specific transfer location, and a customer-managed KMS key.
+  ///
+  /// Parameter [customSecretConfig] :
+  /// Specifies configuration information for a customer-managed secret, such as
+  /// an authentication token or set of credentials that DataSync uses to access
+  /// a specific transfer location, and a customer-managed Identity and Access
+  /// Management (IAM) role that provides access to the secret.
+  ///
   /// Parameter [sasConfiguration] :
   /// Specifies the SAS configuration that allows DataSync to access your Azure
   /// Blob Storage.
@@ -2957,6 +2743,8 @@ class DataSync {
     List<String>? agentArns,
     AzureBlobAuthenticationType? authenticationType,
     AzureBlobType? blobType,
+    CmkSecretConfig? cmkSecretConfig,
+    CustomSecretConfig? customSecretConfig,
     AzureBlobSasConfiguration? sasConfiguration,
     String? subdirectory,
   }) async {
@@ -2977,23 +2765,338 @@ class DataSync {
         if (authenticationType != null)
           'AuthenticationType': authenticationType.value,
         if (blobType != null) 'BlobType': blobType.value,
+        if (cmkSecretConfig != null) 'CmkSecretConfig': cmkSecretConfig,
+        if (customSecretConfig != null)
+          'CustomSecretConfig': customSecretConfig,
         if (sasConfiguration != null) 'SasConfiguration': sasConfiguration,
         if (subdirectory != null) 'Subdirectory': subdirectory,
       },
     );
   }
 
-  /// Updates some parameters of a previously created location for a Hadoop
-  /// Distributed File System cluster.
+  /// Modifies the following configuration parameters of the Amazon EFS transfer
+  /// location that you're using with DataSync.
   ///
-  /// May throw [InvalidRequestException].
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-efs-location.html">Configuring
+  /// DataSync transfers with Amazon EFS</a>.
+  ///
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
+  ///
+  /// Parameter [locationArn] :
+  /// Specifies the Amazon Resource Name (ARN) of the Amazon EFS transfer
+  /// location that you're updating.
+  ///
+  /// Parameter [accessPointArn] :
+  /// Specifies the Amazon Resource Name (ARN) of the access point that DataSync
+  /// uses to mount your Amazon EFS file system.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-efs-location.html#create-efs-location-iam">Accessing
+  /// restricted Amazon EFS file systems</a>.
+  ///
+  /// Parameter [fileSystemAccessRoleArn] :
+  /// Specifies an Identity and Access Management (IAM) role that allows
+  /// DataSync to access your Amazon EFS file system.
+  ///
+  /// For information on creating this role, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-efs-location.html#create-efs-location-iam-role">Creating
+  /// a DataSync IAM role for Amazon EFS file system access</a>.
+  ///
+  /// Parameter [inTransitEncryption] :
+  /// Specifies whether you want DataSync to use Transport Layer Security (TLS)
+  /// 1.2 encryption when it transfers data to or from your Amazon EFS file
+  /// system.
+  ///
+  /// If you specify an access point using <code>AccessPointArn</code> or an IAM
+  /// role using <code>FileSystemAccessRoleArn</code>, you must set this
+  /// parameter to <code>TLS1_2</code>.
+  ///
+  /// Parameter [subdirectory] :
+  /// Specifies a mount path for your Amazon EFS file system. This is where
+  /// DataSync reads or writes data on your file system (depending on if this is
+  /// a source or destination location).
+  ///
+  /// By default, DataSync uses the root directory (or <a
+  /// href="https://docs.aws.amazon.com/efs/latest/ug/efs-access-points.html">access
+  /// point</a> if you provide one by using <code>AccessPointArn</code>). You
+  /// can also include subdirectories using forward slashes (for example,
+  /// <code>/path/to/folder</code>).
+  Future<void> updateLocationEfs({
+    required String locationArn,
+    String? accessPointArn,
+    String? fileSystemAccessRoleArn,
+    EfsInTransitEncryption? inTransitEncryption,
+    String? subdirectory,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'FmrsService.UpdateLocationEfs'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'LocationArn': locationArn,
+        if (accessPointArn != null) 'AccessPointArn': accessPointArn,
+        if (fileSystemAccessRoleArn != null)
+          'FileSystemAccessRoleArn': fileSystemAccessRoleArn,
+        if (inTransitEncryption != null)
+          'InTransitEncryption': inTransitEncryption.value,
+        if (subdirectory != null) 'Subdirectory': subdirectory,
+      },
+    );
+  }
+
+  /// Modifies the following configuration parameters of the Amazon FSx for
+  /// Lustre transfer location that you're using with DataSync.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-lustre-location.html">Configuring
+  /// DataSync transfers with FSx for Lustre</a>.
+  ///
+  /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
+  ///
+  /// Parameter [locationArn] :
+  /// Specifies the Amazon Resource Name (ARN) of the FSx for Lustre transfer
+  /// location that you're updating.
+  ///
+  /// Parameter [subdirectory] :
+  /// Specifies a mount path for your FSx for Lustre file system. The path can
+  /// include subdirectories.
+  ///
+  /// When the location is used as a source, DataSync reads data from the mount
+  /// path. When the location is used as a destination, DataSync writes data to
+  /// the mount path. If you don't include this parameter, DataSync uses the
+  /// file system's root directory (<code>/</code>).
+  Future<void> updateLocationFsxLustre({
+    required String locationArn,
+    String? subdirectory,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'FmrsService.UpdateLocationFsxLustre'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'LocationArn': locationArn,
+        if (subdirectory != null) 'Subdirectory': subdirectory,
+      },
+    );
+  }
+
+  /// Modifies the following configuration parameters of the Amazon FSx for
+  /// NetApp ONTAP transfer location that you're using with DataSync.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-ontap-location.html">Configuring
+  /// DataSync transfers with FSx for ONTAP</a>.
+  ///
+  /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
+  ///
+  /// Parameter [locationArn] :
+  /// Specifies the Amazon Resource Name (ARN) of the FSx for ONTAP transfer
+  /// location that you're updating.
+  ///
+  /// Parameter [protocol] :
+  /// Specifies the data transfer protocol that DataSync uses to access your
+  /// Amazon FSx file system.
+  ///
+  /// Parameter [subdirectory] :
+  /// Specifies a path to the file share in the storage virtual machine (SVM)
+  /// where you want to transfer data to or from.
+  ///
+  /// You can specify a junction path (also known as a mount point), qtree path
+  /// (for NFS file shares), or share name (for SMB file shares). For example,
+  /// your mount path might be <code>/vol1</code>, <code>/vol1/tree1</code>, or
+  /// <code>/share1</code>.
+  /// <note>
+  /// Don't specify a junction path in the SVM's root volume. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-svms.html">Managing
+  /// FSx for ONTAP storage virtual machines</a> in the <i>Amazon FSx for NetApp
+  /// ONTAP User Guide</i>.
+  /// </note>
+  Future<void> updateLocationFsxOntap({
+    required String locationArn,
+    FsxUpdateProtocol? protocol,
+    String? subdirectory,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'FmrsService.UpdateLocationFsxOntap'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'LocationArn': locationArn,
+        if (protocol != null) 'Protocol': protocol,
+        if (subdirectory != null) 'Subdirectory': subdirectory,
+      },
+    );
+  }
+
+  /// Modifies the following configuration parameters of the Amazon FSx for
+  /// OpenZFS transfer location that you're using with DataSync.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-openzfs-location.html">Configuring
+  /// DataSync transfers with FSx for OpenZFS</a>.
+  /// <note>
+  /// Request parameters related to <code>SMB</code> aren't supported with the
+  /// <code>UpdateLocationFsxOpenZfs</code> operation.
+  /// </note>
+  ///
+  /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
+  ///
+  /// Parameter [locationArn] :
+  /// Specifies the Amazon Resource Name (ARN) of the FSx for OpenZFS transfer
+  /// location that you're updating.
+  ///
+  /// Parameter [subdirectory] :
+  /// Specifies a subdirectory in the location's path that must begin with
+  /// <code>/fsx</code>. DataSync uses this subdirectory to read or write data
+  /// (depending on whether the file system is a source or destination
+  /// location).
+  Future<void> updateLocationFsxOpenZfs({
+    required String locationArn,
+    FsxProtocol? protocol,
+    String? subdirectory,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'FmrsService.UpdateLocationFsxOpenZfs'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'LocationArn': locationArn,
+        if (protocol != null) 'Protocol': protocol,
+        if (subdirectory != null) 'Subdirectory': subdirectory,
+      },
+    );
+  }
+
+  /// Modifies the following configuration parameters of the Amazon FSx for
+  /// Windows File Server transfer location that you're using with DataSync.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-fsx-location.html">Configuring
+  /// DataSync transfers with FSx for Windows File Server</a>.
+  ///
+  /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
+  ///
+  /// Parameter [locationArn] :
+  /// Specifies the ARN of the FSx for Windows File Server transfer location
+  /// that you're updating.
+  ///
+  /// Parameter [cmkSecretConfig] :
+  /// Specifies configuration information for a DataSync-managed secret, such as
+  /// a <code>Password</code> or set of credentials that DataSync uses to access
+  /// a specific transfer location, and a customer-managed KMS key.
+  ///
+  /// Parameter [customSecretConfig] :
+  /// Specifies configuration information for a customer-managed secret, such as
+  /// a <code>Password</code> or set of credentials that DataSync uses to access
+  /// a specific transfer location, and a customer-managed Identity and Access
+  /// Management (IAM) role that provides access to the secret.
+  ///
+  /// Parameter [domain] :
+  /// Specifies the name of the Windows domain that your FSx for Windows File
+  /// Server file system belongs to.
+  ///
+  /// If you have multiple Active Directory domains in your environment,
+  /// configuring this parameter makes sure that DataSync connects to the right
+  /// file system.
+  ///
+  /// Parameter [password] :
+  /// Specifies the password of the user with the permissions to mount and
+  /// access the files, folders, and file metadata in your FSx for Windows File
+  /// Server file system.
+  ///
+  /// Parameter [subdirectory] :
+  /// Specifies a mount path for your file system using forward slashes.
+  /// DataSync uses this subdirectory to read or write data (depending on
+  /// whether the file system is a source or destination location).
+  ///
+  /// Parameter [user] :
+  /// Specifies the user with the permissions to mount and access the files,
+  /// folders, and file metadata in your FSx for Windows File Server file
+  /// system.
+  ///
+  /// For information about choosing a user with the right level of access for
+  /// your transfer, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-fsx-location.html#create-fsx-windows-location-permissions">required
+  /// permissions</a> for FSx for Windows File Server locations.
+  Future<void> updateLocationFsxWindows({
+    required String locationArn,
+    CmkSecretConfig? cmkSecretConfig,
+    CustomSecretConfig? customSecretConfig,
+    String? domain,
+    String? password,
+    String? subdirectory,
+    String? user,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'FmrsService.UpdateLocationFsxWindows'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'LocationArn': locationArn,
+        if (cmkSecretConfig != null) 'CmkSecretConfig': cmkSecretConfig,
+        if (customSecretConfig != null)
+          'CustomSecretConfig': customSecretConfig,
+        if (domain != null) 'Domain': domain,
+        if (password != null) 'Password': password,
+        if (subdirectory != null) 'Subdirectory': subdirectory,
+        if (user != null) 'User': user,
+      },
+    );
+  }
+
+  /// Modifies the following configuration parameters of the Hadoop Distributed
+  /// File System (HDFS) transfer location that you're using with DataSync.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-hdfs-location.html">Configuring
+  /// DataSync transfers with an HDFS cluster</a>.
+  ///
+  /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [locationArn] :
   /// The Amazon Resource Name (ARN) of the source HDFS cluster location.
   ///
   /// Parameter [agentArns] :
-  /// The ARNs of the agents that are used to connect to the HDFS cluster.
+  /// The Amazon Resource Names (ARNs) of the DataSync agents that can connect
+  /// to your HDFS cluster.
   ///
   /// Parameter [authenticationType] :
   /// The type of authentication used to determine the identity of the user.
@@ -3001,11 +3104,21 @@ class DataSync {
   /// Parameter [blockSize] :
   /// The size of the data blocks to write into the HDFS cluster.
   ///
+  /// Parameter [cmkSecretConfig] :
+  /// Specifies configuration information for a DataSync-managed secret, such as
+  /// a <code>KerberosKeytab</code> or set of credentials that DataSync uses to
+  /// access a specific transfer location, and a customer-managed KMS key.
+  ///
+  /// Parameter [customSecretConfig] :
+  /// Specifies configuration information for a customer-managed secret, such as
+  /// a <code>KerberosKeytab</code> or set of credentials that DataSync uses to
+  /// access a specific transfer location, and a customer-managed Identity and
+  /// Access Management (IAM) role that provides access to the secret.
+  ///
   /// Parameter [kerberosKeytab] :
   /// The Kerberos key table (keytab) that contains mappings between the defined
   /// Kerberos principal and the encrypted keys. You can load the keytab from a
-  /// file by providing the file's address. If you use the CLI, it performs
-  /// base64 encoding for you. Otherwise, provide the base64-encoded text.
+  /// file by providing the file's address.
   ///
   /// Parameter [kerberosKrb5Conf] :
   /// The <code>krb5.conf</code> file that contains the Kerberos configuration
@@ -3046,6 +3159,8 @@ class DataSync {
     List<String>? agentArns,
     HdfsAuthenticationType? authenticationType,
     int? blockSize,
+    CmkSecretConfig? cmkSecretConfig,
+    CustomSecretConfig? customSecretConfig,
     Uint8List? kerberosKeytab,
     Uint8List? kerberosKrb5Conf,
     String? kerberosPrincipal,
@@ -3084,6 +3199,9 @@ class DataSync {
         if (authenticationType != null)
           'AuthenticationType': authenticationType.value,
         if (blockSize != null) 'BlockSize': blockSize,
+        if (cmkSecretConfig != null) 'CmkSecretConfig': cmkSecretConfig,
+        if (customSecretConfig != null)
+          'CustomSecretConfig': customSecretConfig,
         if (kerberosKeytab != null)
           'KerberosKeytab': base64Encode(kerberosKeytab),
         if (kerberosKrb5Conf != null)
@@ -3099,19 +3217,23 @@ class DataSync {
     );
   }
 
-  /// Modifies some configurations of the Network File System (NFS) transfer
-  /// location that you're using with DataSync.
+  /// Modifies the following configuration parameters of the Network File System
+  /// (NFS) transfer location that you're using with DataSync.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html">Configuring
-  /// transfers to or from an NFS file server</a>.
+  /// transfers with an NFS file server</a>.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [locationArn] :
   /// Specifies the Amazon Resource Name (ARN) of the NFS transfer location that
   /// you want to update.
+  ///
+  /// Parameter [serverHostname] :
+  /// Specifies the DNS name or IP address (IPv4 or IPv6) of the NFS file server
+  /// that your DataSync agent connects to.
   ///
   /// Parameter [subdirectory] :
   /// Specifies the export path in your NFS file server that you want DataSync
@@ -3125,6 +3247,7 @@ class DataSync {
     required String locationArn,
     NfsMountOptions? mountOptions,
     OnPremConfig? onPremConfig,
+    String? serverHostname,
     String? subdirectory,
   }) async {
     final headers = <String, String>{
@@ -3141,16 +3264,21 @@ class DataSync {
         'LocationArn': locationArn,
         if (mountOptions != null) 'MountOptions': mountOptions,
         if (onPremConfig != null) 'OnPremConfig': onPremConfig,
+        if (serverHostname != null) 'ServerHostname': serverHostname,
         if (subdirectory != null) 'Subdirectory': subdirectory,
       },
     );
   }
 
-  /// Updates some parameters of an existing DataSync location for an object
-  /// storage system.
+  /// Modifies the following configuration parameters of the object storage
+  /// transfer location that you're using with DataSync.
   ///
-  /// May throw [InvalidRequestException].
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-object-location.html">Configuring
+  /// DataSync transfers with an object storage system</a>.
+  ///
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [locationArn] :
   /// Specifies the ARN of the object storage system location that you're
@@ -3161,12 +3289,35 @@ class DataSync {
   /// required to authenticate with the object storage server.
   ///
   /// Parameter [agentArns] :
-  /// Specifies the Amazon Resource Names (ARNs) of the DataSync agents that can
-  /// securely connect with your location.
+  /// (Optional) Specifies the Amazon Resource Names (ARNs) of the DataSync
+  /// agents that can connect with your object storage system. If you are
+  /// setting up an agentless cross-cloud transfer, you do not need to specify a
+  /// value for this parameter.
+  /// <note>
+  /// You cannot add or remove agents from a storage location after you
+  /// initially create it.
+  /// </note>
+  ///
+  /// Parameter [cmkSecretConfig] :
+  /// Specifies configuration information for a DataSync-managed secret, such as
+  /// an authentication token or set of credentials that DataSync uses to access
+  /// a specific transfer location, and a customer-managed KMS key.
+  ///
+  /// Parameter [customSecretConfig] :
+  /// Specifies configuration information for a customer-managed secret, such as
+  /// an authentication token or set of credentials that DataSync uses to access
+  /// a specific transfer location, and a customer-managed Identity and Access
+  /// Management (IAM) role that provides access to the secret.
   ///
   /// Parameter [secretKey] :
   /// Specifies the secret key (for example, a password) if credentials are
   /// required to authenticate with the object storage server.
+  /// <note>
+  /// If you provide a secret using <code>SecretKey</code>, but do not provide
+  /// secret configuration details using <code>CmkSecretConfig</code> or
+  /// <code>CustomSecretConfig</code>, then DataSync stores the token using your
+  /// Amazon Web Services account's Secrets Manager secret.
+  /// </note>
   ///
   /// Parameter [serverCertificate] :
   /// Specifies a certificate chain for DataSync to authenticate with your
@@ -3195,13 +3346,17 @@ class DataSync {
   /// certificates:
   ///
   /// <code>cat object_server_certificate.pem intermediate_certificate.pem
-  /// ca_root_certificate.pem &gt; object_storage_certificates.pem</code>
+  /// ca_root_certificate.pem > object_storage_certificates.pem</code>
   ///
   /// To use this parameter, configure <code>ServerProtocol</code> to
   /// <code>HTTPS</code>.
   ///
   /// Updating this parameter doesn't interfere with tasks that you have in
   /// progress.
+  ///
+  /// Parameter [serverHostname] :
+  /// Specifies the domain name or IP address (IPv4 or IPv6) of the object
+  /// storage server that your DataSync agent connects to.
   ///
   /// Parameter [serverPort] :
   /// Specifies the port that your object storage server accepts inbound network
@@ -3219,8 +3374,11 @@ class DataSync {
     required String locationArn,
     String? accessKey,
     List<String>? agentArns,
+    CmkSecretConfig? cmkSecretConfig,
+    CustomSecretConfig? customSecretConfig,
     String? secretKey,
     Uint8List? serverCertificate,
+    String? serverHostname,
     int? serverPort,
     ObjectStorageServerProtocol? serverProtocol,
     String? subdirectory,
@@ -3245,9 +3403,13 @@ class DataSync {
         'LocationArn': locationArn,
         if (accessKey != null) 'AccessKey': accessKey,
         if (agentArns != null) 'AgentArns': agentArns,
+        if (cmkSecretConfig != null) 'CmkSecretConfig': cmkSecretConfig,
+        if (customSecretConfig != null)
+          'CustomSecretConfig': customSecretConfig,
         if (secretKey != null) 'SecretKey': secretKey,
         if (serverCertificate != null)
           'ServerCertificate': base64Encode(serverCertificate),
+        if (serverHostname != null) 'ServerHostname': serverHostname,
         if (serverPort != null) 'ServerPort': serverPort,
         if (serverProtocol != null) 'ServerProtocol': serverProtocol.value,
         if (subdirectory != null) 'Subdirectory': subdirectory,
@@ -3255,37 +3417,184 @@ class DataSync {
     );
   }
 
-  /// Updates some of the parameters of a Server Message Block (SMB) file server
-  /// location that you can use for DataSync transfers.
+  /// Modifies the following configuration parameters of the Amazon S3 transfer
+  /// location that you're using with DataSync.
+  /// <important>
+  /// Before you begin, make sure that you read the following topics:
   ///
-  /// May throw [InvalidRequestException].
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#using-storage-classes">Storage
+  /// class considerations with Amazon S3 locations</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-s3-requests">Evaluating
+  /// S3 request costs when using DataSync</a>
+  /// </li>
+  /// </ul> </important>
+  ///
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
+  ///
+  /// Parameter [locationArn] :
+  /// Specifies the Amazon Resource Name (ARN) of the Amazon S3 transfer
+  /// location that you're updating.
+  ///
+  /// Parameter [s3StorageClass] :
+  /// Specifies the storage class that you want your objects to use when Amazon
+  /// S3 is a transfer destination.
+  ///
+  /// For buckets in Amazon Web Services Regions, the storage class defaults to
+  /// <code>STANDARD</code>. For buckets on Outposts, the storage class defaults
+  /// to <code>OUTPOSTS</code>.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#using-storage-classes">Storage
+  /// class considerations with Amazon S3 transfers</a>.
+  ///
+  /// Parameter [subdirectory] :
+  /// Specifies a prefix in the S3 bucket that DataSync reads from or writes to
+  /// (depending on whether the bucket is a source or destination location).
+  /// <note>
+  /// DataSync can't transfer objects with a prefix that begins with a slash
+  /// (<code>/</code>) or includes <code>//</code>, <code>/./</code>, or
+  /// <code>/../</code> patterns. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>/photos</code>
+  /// </li>
+  /// <li>
+  /// <code>photos//2006/January</code>
+  /// </li>
+  /// <li>
+  /// <code>photos/./2006/February</code>
+  /// </li>
+  /// <li>
+  /// <code>photos/../2006/March</code>
+  /// </li>
+  /// </ul> </note>
+  Future<void> updateLocationS3({
+    required String locationArn,
+    S3Config? s3Config,
+    S3StorageClass? s3StorageClass,
+    String? subdirectory,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'FmrsService.UpdateLocationS3'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'LocationArn': locationArn,
+        if (s3Config != null) 'S3Config': s3Config,
+        if (s3StorageClass != null) 'S3StorageClass': s3StorageClass.value,
+        if (subdirectory != null) 'Subdirectory': subdirectory,
+      },
+    );
+  }
+
+  /// Modifies the following configuration parameters of the Server Message
+  /// Block (SMB) transfer location that you're using with DataSync.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html">Configuring
+  /// DataSync transfers with an SMB file server</a>.
+  ///
+  /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [locationArn] :
   /// Specifies the ARN of the SMB location that you want to update.
   ///
   /// Parameter [agentArns] :
-  /// Specifies the DataSync agent (or agents) which you want to connect to your
-  /// SMB file server. You specify an agent by using its Amazon Resource Name
-  /// (ARN).
+  /// Specifies the DataSync agent (or agents) that can connect to your SMB file
+  /// server. You specify an agent by using its Amazon Resource Name (ARN).
+  ///
+  /// Parameter [authenticationType] :
+  /// Specifies the authentication protocol that DataSync uses to connect to
+  /// your SMB file server. DataSync supports <code>NTLM</code> (default) and
+  /// <code>KERBEROS</code> authentication.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions">Providing
+  /// DataSync access to SMB file servers</a>.
+  ///
+  /// Parameter [cmkSecretConfig] :
+  /// Specifies configuration information for a DataSync-managed secret, such as
+  /// a <code>Password</code> or <code>KerberosKeytab</code> or set of
+  /// credentials that DataSync uses to access a specific transfer location, and
+  /// a customer-managed KMS key.
+  ///
+  /// Parameter [customSecretConfig] :
+  /// Specifies configuration information for a customer-managed secret, such as
+  /// a <code>Password</code> or <code>KerberosKeytab</code> or set of
+  /// credentials that DataSync uses to access a specific transfer location, and
+  /// a customer-managed Identity and Access Management (IAM) role that provides
+  /// access to the secret.
+  ///
+  /// Parameter [dnsIpAddresses] :
+  /// Specifies the IP addresses (IPv4 or IPv6) for the DNS servers that your
+  /// SMB file server belongs to. This parameter applies only if
+  /// <code>AuthenticationType</code> is set to <code>KERBEROS</code>.
+  ///
+  /// If you have multiple domains in your environment, configuring this
+  /// parameter makes sure that DataSync connects to the right SMB file server.
   ///
   /// Parameter [domain] :
   /// Specifies the Windows domain name that your SMB file server belongs to.
+  /// This parameter applies only if <code>AuthenticationType</code> is set to
+  /// <code>NTLM</code>.
   ///
   /// If you have multiple domains in your environment, configuring this
   /// parameter makes sure that DataSync connects to the right file server.
   ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions">required
-  /// permissions</a> for SMB locations.
+  /// Parameter [kerberosKeytab] :
+  /// Specifies your Kerberos key table (keytab) file, which includes mappings
+  /// between your Kerberos principal and encryption keys.
+  ///
+  /// To avoid task execution errors, make sure that the Kerberos principal that
+  /// you use to create the keytab file matches exactly what you specify for
+  /// <code>KerberosPrincipal</code>.
+  ///
+  /// Parameter [kerberosKrb5Conf] :
+  /// Specifies a Kerberos configuration file (<code>krb5.conf</code>) that
+  /// defines your Kerberos realm configuration.
+  ///
+  /// The file must be base64 encoded. If you're using the CLI, the encoding is
+  /// done for you.
+  ///
+  /// Parameter [kerberosPrincipal] :
+  /// Specifies a Kerberos prinicpal, which is an identity in your Kerberos
+  /// realm that has permission to access the files, folders, and file metadata
+  /// in your SMB file server.
+  ///
+  /// A Kerberos principal might look like
+  /// <code>HOST/kerberosuser@MYDOMAIN.ORG</code>.
+  ///
+  /// Principal names are case sensitive. Your DataSync task execution will fail
+  /// if the principal that you specify for this parameter doesn’t exactly match
+  /// the principal that you use to create the keytab file.
   ///
   /// Parameter [password] :
   /// Specifies the password of the user who can mount your SMB file server and
   /// has permission to access the files and folders involved in your transfer.
+  /// This parameter applies only if <code>AuthenticationType</code> is set to
+  /// <code>NTLM</code>.
   ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions">required
-  /// permissions</a> for SMB locations.
+  /// Parameter [serverHostname] :
+  /// Specifies the domain name or IP address (IPv4 or IPv6) of the SMB file
+  /// server that your DataSync agent connects to.
+  /// <note>
+  /// If you're using Kerberos authentication, you must specify a domain name.
+  /// </note>
   ///
   /// Parameter [subdirectory] :
   /// Specifies the name of the share exported by your SMB file server where
@@ -3296,23 +3605,33 @@ class DataSync {
   /// To copy all data in the specified subdirectory, DataSync must be able to
   /// mount the SMB share and access all of its data. For more information, see
   /// <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions">required
-  /// permissions</a> for SMB locations.
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions">Providing
+  /// DataSync access to SMB file servers</a>.
   ///
   /// Parameter [user] :
   /// Specifies the user name that can mount your SMB file server and has
-  /// permission to access the files and folders involved in your transfer.
+  /// permission to access the files and folders involved in your transfer. This
+  /// parameter applies only if <code>AuthenticationType</code> is set to
+  /// <code>NTLM</code>.
   ///
   /// For information about choosing a user with the right level of access for
   /// your transfer, see <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions">required
-  /// permissions</a> for SMB locations.
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions">Providing
+  /// DataSync access to SMB file servers</a>.
   Future<void> updateLocationSmb({
     required String locationArn,
     List<String>? agentArns,
+    SmbAuthenticationType? authenticationType,
+    CmkSecretConfig? cmkSecretConfig,
+    CustomSecretConfig? customSecretConfig,
+    List<String>? dnsIpAddresses,
     String? domain,
+    Uint8List? kerberosKeytab,
+    Uint8List? kerberosKrb5Conf,
+    String? kerberosPrincipal,
     SmbMountOptions? mountOptions,
     String? password,
+    String? serverHostname,
     String? subdirectory,
     String? user,
   }) async {
@@ -3329,71 +3648,23 @@ class DataSync {
       payload: {
         'LocationArn': locationArn,
         if (agentArns != null) 'AgentArns': agentArns,
+        if (authenticationType != null)
+          'AuthenticationType': authenticationType.value,
+        if (cmkSecretConfig != null) 'CmkSecretConfig': cmkSecretConfig,
+        if (customSecretConfig != null)
+          'CustomSecretConfig': customSecretConfig,
+        if (dnsIpAddresses != null) 'DnsIpAddresses': dnsIpAddresses,
         if (domain != null) 'Domain': domain,
+        if (kerberosKeytab != null)
+          'KerberosKeytab': base64Encode(kerberosKeytab),
+        if (kerberosKrb5Conf != null)
+          'KerberosKrb5Conf': base64Encode(kerberosKrb5Conf),
+        if (kerberosPrincipal != null) 'KerberosPrincipal': kerberosPrincipal,
         if (mountOptions != null) 'MountOptions': mountOptions,
         if (password != null) 'Password': password,
+        if (serverHostname != null) 'ServerHostname': serverHostname,
         if (subdirectory != null) 'Subdirectory': subdirectory,
         if (user != null) 'User': user,
-      },
-    );
-  }
-
-  /// Modifies some configurations of an on-premises storage system resource
-  /// that you're using with DataSync Discovery.
-  ///
-  /// May throw [InvalidRequestException].
-  /// May throw [InternalException].
-  ///
-  /// Parameter [storageSystemArn] :
-  /// Specifies the ARN of the on-premises storage system that you want
-  /// reconfigure.
-  ///
-  /// Parameter [agentArns] :
-  /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that
-  /// connects to and reads your on-premises storage system. You can only
-  /// specify one ARN.
-  ///
-  /// Parameter [cloudWatchLogGroupArn] :
-  /// Specifies the ARN of the Amazon CloudWatch log group for monitoring and
-  /// logging discovery job events.
-  ///
-  /// Parameter [credentials] :
-  /// Specifies the user name and password for accessing your on-premises
-  /// storage system's management interface.
-  ///
-  /// Parameter [name] :
-  /// Specifies a familiar name for your on-premises storage system.
-  ///
-  /// Parameter [serverConfiguration] :
-  /// Specifies the server name and network port required to connect with your
-  /// on-premises storage system's management interface.
-  Future<void> updateStorageSystem({
-    required String storageSystemArn,
-    List<String>? agentArns,
-    String? cloudWatchLogGroupArn,
-    Credentials? credentials,
-    String? name,
-    DiscoveryServerConfiguration? serverConfiguration,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'FmrsService.UpdateStorageSystem'
-    };
-    await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'StorageSystemArn': storageSystemArn,
-        if (agentArns != null) 'AgentArns': agentArns,
-        if (cloudWatchLogGroupArn != null)
-          'CloudWatchLogGroupArn': cloudWatchLogGroupArn,
-        if (credentials != null) 'Credentials': credentials,
-        if (name != null) 'Name': name,
-        if (serverConfiguration != null)
-          'ServerConfiguration': serverConfiguration,
       },
     );
   }
@@ -3401,8 +3672,8 @@ class DataSync {
   /// Updates the configuration of a <i>task</i>, which defines where and how
   /// DataSync transfers your data.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [taskArn] :
   /// Specifies the ARN of the task that you want to update.
@@ -3410,6 +3681,15 @@ class DataSync {
   /// Parameter [cloudWatchLogGroupArn] :
   /// Specifies the Amazon Resource Name (ARN) of an Amazon CloudWatch log group
   /// for monitoring your task.
+  ///
+  /// For Enhanced mode tasks, you must use <code>/aws/datasync</code> as your
+  /// log group name. For example:
+  ///
+  /// <code>arn:aws:logs:us-east-1:111222333444:log-group:/aws/datasync:*</code>
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/configure-logging.html">Monitoring
+  /// data transfers with CloudWatch Logs</a>.
   ///
   /// Parameter [excludes] :
   /// Specifies exclude filters that define the files, objects, and folders in
@@ -3506,8 +3786,8 @@ class DataSync {
   /// </code>, which throttles bandwidth for a running or queued task execution.
   /// </note>
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [taskExecutionArn] :
   /// Specifies the Amazon Resource Name (ARN) of the task execution that you're
@@ -3534,238 +3814,6 @@ class DataSync {
   }
 }
 
-class AddStorageSystemResponse {
-  /// The ARN of the on-premises storage system that you can use with DataSync
-  /// Discovery.
-  final String storageSystemArn;
-
-  AddStorageSystemResponse({
-    required this.storageSystemArn,
-  });
-
-  factory AddStorageSystemResponse.fromJson(Map<String, dynamic> json) {
-    return AddStorageSystemResponse(
-      storageSystemArn: (json['StorageSystemArn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final storageSystemArn = this.storageSystemArn;
-    return {
-      'StorageSystemArn': storageSystemArn,
-    };
-  }
-}
-
-/// Represents a single entry in a list (or array) of DataSync agents when you
-/// call the <a
-/// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_ListAgents.html">ListAgents</a>
-/// operation.
-class AgentListEntry {
-  /// The Amazon Resource Name (ARN) of a DataSync agent.
-  final String? agentArn;
-
-  /// The name of an agent.
-  final String? name;
-
-  /// The platform-related details about the agent, such as the version number.
-  final Platform? platform;
-
-  /// The status of an agent.
-  ///
-  /// <ul>
-  /// <li>
-  /// If the status is <code>ONLINE</code>, the agent is configured properly and
-  /// ready to use.
-  /// </li>
-  /// <li>
-  /// If the status is <code>OFFLINE</code>, the agent has been out of contact
-  /// with DataSync for five minutes or longer. This can happen for a few reasons.
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/troubleshooting-datasync-agents.html#troubleshoot-agent-offline">What
-  /// do I do if my agent is offline?</a>
-  /// </li>
-  /// </ul>
-  final AgentStatus? status;
-
-  AgentListEntry({
-    this.agentArn,
-    this.name,
-    this.platform,
-    this.status,
-  });
-
-  factory AgentListEntry.fromJson(Map<String, dynamic> json) {
-    return AgentListEntry(
-      agentArn: json['AgentArn'] as String?,
-      name: json['Name'] as String?,
-      platform: json['Platform'] != null
-          ? Platform.fromJson(json['Platform'] as Map<String, dynamic>)
-          : null,
-      status: (json['Status'] as String?)?.let(AgentStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final agentArn = this.agentArn;
-    final name = this.name;
-    final platform = this.platform;
-    final status = this.status;
-    return {
-      if (agentArn != null) 'AgentArn': agentArn,
-      if (name != null) 'Name': name,
-      if (platform != null) 'Platform': platform,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-class AgentStatus {
-  static const online = AgentStatus._('ONLINE');
-  static const offline = AgentStatus._('OFFLINE');
-
-  final String value;
-
-  const AgentStatus._(this.value);
-
-  static const values = [online, offline];
-
-  static AgentStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => AgentStatus._(value));
-
-  @override
-  bool operator ==(other) => other is AgentStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class Atime {
-  static const none = Atime._('NONE');
-  static const bestEffort = Atime._('BEST_EFFORT');
-
-  final String value;
-
-  const Atime._(this.value);
-
-  static const values = [none, bestEffort];
-
-  static Atime fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Atime._(value));
-
-  @override
-  bool operator ==(other) => other is Atime && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class AzureAccessTier {
-  static const hot = AzureAccessTier._('HOT');
-  static const cool = AzureAccessTier._('COOL');
-  static const archive = AzureAccessTier._('ARCHIVE');
-
-  final String value;
-
-  const AzureAccessTier._(this.value);
-
-  static const values = [hot, cool, archive];
-
-  static AzureAccessTier fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AzureAccessTier._(value));
-
-  @override
-  bool operator ==(other) => other is AzureAccessTier && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class AzureBlobAuthenticationType {
-  static const sas = AzureBlobAuthenticationType._('SAS');
-
-  final String value;
-
-  const AzureBlobAuthenticationType._(this.value);
-
-  static const values = [sas];
-
-  static AzureBlobAuthenticationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AzureBlobAuthenticationType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AzureBlobAuthenticationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The shared access signature (SAS) configuration that allows DataSync to
-/// access your Microsoft Azure Blob Storage.
-///
-/// For more information, see <a
-/// href="https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-sas-tokens">SAS
-/// tokens</a> for accessing your Azure Blob Storage.
-class AzureBlobSasConfiguration {
-  /// Specifies a SAS token that provides permissions to access your Azure Blob
-  /// Storage.
-  ///
-  /// The token is part of the SAS URI string that comes after the storage
-  /// resource URI and a question mark. A token looks something like this:
-  ///
-  /// <code>sp=r&amp;st=2023-12-20T14:54:52Z&amp;se=2023-12-20T22:54:52Z&amp;spr=https&amp;sv=2021-06-08&amp;sr=c&amp;sig=aBBKDWQvyuVcTPH9EBp%2FXTI9E%2F%2Fmq171%2BZU178wcwqU%3D</code>
-  final String token;
-
-  AzureBlobSasConfiguration({
-    required this.token,
-  });
-
-  Map<String, dynamic> toJson() {
-    final token = this.token;
-    return {
-      'Token': token,
-    };
-  }
-}
-
-class AzureBlobType {
-  static const block = AzureBlobType._('BLOCK');
-
-  final String value;
-
-  const AzureBlobType._(this.value);
-
-  static const values = [block];
-
-  static AzureBlobType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AzureBlobType._(value));
-
-  @override
-  bool operator ==(other) => other is AzureBlobType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class CancelTaskExecutionResponse {
   CancelTaskExecutionResponse();
 
@@ -3775,54 +3823,6 @@ class CancelTaskExecutionResponse {
 
   Map<String, dynamic> toJson() {
     return {};
-  }
-}
-
-/// The storage capacity of an on-premises storage system resource (for example,
-/// a volume).
-class Capacity {
-  /// The amount of space in the cluster that's in cloud storage (for example, if
-  /// you're using data tiering).
-  final int? clusterCloudStorageUsed;
-
-  /// The amount of space that's being used in a storage system resource without
-  /// accounting for compression or deduplication.
-  final int? logicalUsed;
-
-  /// The total amount of space available in a storage system resource.
-  final int? provisioned;
-
-  /// The amount of space that's being used in a storage system resource.
-  final int? used;
-
-  Capacity({
-    this.clusterCloudStorageUsed,
-    this.logicalUsed,
-    this.provisioned,
-    this.used,
-  });
-
-  factory Capacity.fromJson(Map<String, dynamic> json) {
-    return Capacity(
-      clusterCloudStorageUsed: json['ClusterCloudStorageUsed'] as int?,
-      logicalUsed: json['LogicalUsed'] as int?,
-      provisioned: json['Provisioned'] as int?,
-      used: json['Used'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clusterCloudStorageUsed = this.clusterCloudStorageUsed;
-    final logicalUsed = this.logicalUsed;
-    final provisioned = this.provisioned;
-    final used = this.used;
-    return {
-      if (clusterCloudStorageUsed != null)
-        'ClusterCloudStorageUsed': clusterCloudStorageUsed,
-      if (logicalUsed != null) 'LogicalUsed': logicalUsed,
-      if (provisioned != null) 'Provisioned': provisioned,
-      if (used != null) 'Used': used,
-    };
   }
 }
 
@@ -3900,7 +3900,7 @@ class CreateLocationEfsResponse {
 
 class CreateLocationFsxLustreResponse {
   /// The Amazon Resource Name (ARN) of the FSx for Lustre file system location
-  /// that's created.
+  /// that you created.
   final String? locationArn;
 
   CreateLocationFsxLustreResponse({
@@ -3988,7 +3988,7 @@ class CreateLocationFsxWindowsResponse {
 }
 
 class CreateLocationHdfsResponse {
-  /// The ARN of the source HDFS cluster location that's created.
+  /// The ARN of the source HDFS cluster location that you create.
   final String? locationArn;
 
   CreateLocationHdfsResponse({
@@ -4121,36 +4121,6 @@ class CreateTaskResponse {
     final taskArn = this.taskArn;
     return {
       if (taskArn != null) 'TaskArn': taskArn,
-    };
-  }
-}
-
-/// The credentials that provide DataSync Discovery read access to your
-/// on-premises storage system's management interface.
-///
-/// DataSync Discovery stores these credentials in <a
-/// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html">Secrets
-/// Manager</a>. For more information, see <a
-/// href="https://docs.aws.amazon.com/datasync/latest/userguide/discovery-configure-storage.html">Accessing
-/// your on-premises storage system</a>.
-class Credentials {
-  /// Specifies the password for your storage system's management interface.
-  final String password;
-
-  /// Specifies the user name for your storage system's management interface.
-  final String username;
-
-  Credentials({
-    required this.password,
-    required this.username,
-  });
-
-  Map<String, dynamic> toJson() {
-    final password = this.password;
-    final username = this.username;
-    return {
-      'Password': password,
-      'Username': username,
     };
   }
 }
@@ -4290,68 +4260,6 @@ class DescribeAgentResponse {
   }
 }
 
-class DescribeDiscoveryJobResponse {
-  /// The number of minutes that the discovery job runs.
-  final int? collectionDurationMinutes;
-
-  /// The ARN of the discovery job.
-  final String? discoveryJobArn;
-
-  /// The time when the discovery job ended.
-  final DateTime? jobEndTime;
-
-  /// The time when the discovery job started.
-  final DateTime? jobStartTime;
-
-  /// Indicates the status of a discovery job. For more information, see <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/discovery-job-statuses.html#discovery-job-statuses-table">Discovery
-  /// job statuses</a>.
-  final DiscoveryJobStatus? status;
-
-  /// The ARN of the on-premises storage system you're running the discovery job
-  /// on.
-  final String? storageSystemArn;
-
-  DescribeDiscoveryJobResponse({
-    this.collectionDurationMinutes,
-    this.discoveryJobArn,
-    this.jobEndTime,
-    this.jobStartTime,
-    this.status,
-    this.storageSystemArn,
-  });
-
-  factory DescribeDiscoveryJobResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeDiscoveryJobResponse(
-      collectionDurationMinutes: json['CollectionDurationMinutes'] as int?,
-      discoveryJobArn: json['DiscoveryJobArn'] as String?,
-      jobEndTime: timeStampFromJson(json['JobEndTime']),
-      jobStartTime: timeStampFromJson(json['JobStartTime']),
-      status: (json['Status'] as String?)?.let(DiscoveryJobStatus.fromString),
-      storageSystemArn: json['StorageSystemArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final collectionDurationMinutes = this.collectionDurationMinutes;
-    final discoveryJobArn = this.discoveryJobArn;
-    final jobEndTime = this.jobEndTime;
-    final jobStartTime = this.jobStartTime;
-    final status = this.status;
-    final storageSystemArn = this.storageSystemArn;
-    return {
-      if (collectionDurationMinutes != null)
-        'CollectionDurationMinutes': collectionDurationMinutes,
-      if (discoveryJobArn != null) 'DiscoveryJobArn': discoveryJobArn,
-      if (jobEndTime != null) 'JobEndTime': unixTimestampToJson(jobEndTime),
-      if (jobStartTime != null)
-        'JobStartTime': unixTimestampToJson(jobStartTime),
-      if (status != null) 'Status': status.value,
-      if (storageSystemArn != null) 'StorageSystemArn': storageSystemArn,
-    };
-  }
-}
-
 class DescribeLocationAzureBlobResponse {
   /// The access tier that you want your objects or files transferred into. This
   /// only applies when using the location as a transfer destination. For more
@@ -4376,8 +4284,19 @@ class DescribeLocationAzureBlobResponse {
   /// Blob Storage documentation</a>.
   final AzureBlobType? blobType;
 
+  /// Describes configuration information for a DataSync-managed secret, such as
+  /// an authentication token that DataSync uses to access a specific storage
+  /// location, with a customer-managed KMS key.
+  final CmkSecretConfig? cmkSecretConfig;
+
   /// The time that your Azure Blob Storage transfer location was created.
   final DateTime? creationTime;
+
+  /// Describes configuration information for a customer-managed secret, such as
+  /// an authentication token that DataSync uses to access a specific storage
+  /// location, with a customer-managed Identity and Access Management (IAM) role
+  /// that provides access to the secret.
+  final CustomSecretConfig? customSecretConfig;
 
   /// The ARN of your Azure Blob Storage transfer location.
   final String? locationArn;
@@ -4385,14 +4304,23 @@ class DescribeLocationAzureBlobResponse {
   /// The URL of the Azure Blob Storage container involved in your transfer.
   final String? locationUri;
 
+  /// Describes configuration information for a DataSync-managed secret, such as
+  /// an authentication token that DataSync uses to access a specific storage
+  /// location. DataSync uses the default Amazon Web Services-managed KMS key to
+  /// encrypt this secret in Secrets Manager.
+  final ManagedSecretConfig? managedSecretConfig;
+
   DescribeLocationAzureBlobResponse({
     this.accessTier,
     this.agentArns,
     this.authenticationType,
     this.blobType,
+    this.cmkSecretConfig,
     this.creationTime,
+    this.customSecretConfig,
     this.locationArn,
     this.locationUri,
+    this.managedSecretConfig,
   });
 
   factory DescribeLocationAzureBlobResponse.fromJson(
@@ -4407,9 +4335,21 @@ class DescribeLocationAzureBlobResponse {
       authenticationType: (json['AuthenticationType'] as String?)
           ?.let(AzureBlobAuthenticationType.fromString),
       blobType: (json['BlobType'] as String?)?.let(AzureBlobType.fromString),
+      cmkSecretConfig: json['CmkSecretConfig'] != null
+          ? CmkSecretConfig.fromJson(
+              json['CmkSecretConfig'] as Map<String, dynamic>)
+          : null,
       creationTime: timeStampFromJson(json['CreationTime']),
+      customSecretConfig: json['CustomSecretConfig'] != null
+          ? CustomSecretConfig.fromJson(
+              json['CustomSecretConfig'] as Map<String, dynamic>)
+          : null,
       locationArn: json['LocationArn'] as String?,
       locationUri: json['LocationUri'] as String?,
+      managedSecretConfig: json['ManagedSecretConfig'] != null
+          ? ManagedSecretConfig.fromJson(
+              json['ManagedSecretConfig'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -4418,19 +4358,26 @@ class DescribeLocationAzureBlobResponse {
     final agentArns = this.agentArns;
     final authenticationType = this.authenticationType;
     final blobType = this.blobType;
+    final cmkSecretConfig = this.cmkSecretConfig;
     final creationTime = this.creationTime;
+    final customSecretConfig = this.customSecretConfig;
     final locationArn = this.locationArn;
     final locationUri = this.locationUri;
+    final managedSecretConfig = this.managedSecretConfig;
     return {
       if (accessTier != null) 'AccessTier': accessTier.value,
       if (agentArns != null) 'AgentArns': agentArns,
       if (authenticationType != null)
         'AuthenticationType': authenticationType.value,
       if (blobType != null) 'BlobType': blobType.value,
+      if (cmkSecretConfig != null) 'CmkSecretConfig': cmkSecretConfig,
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
+      if (customSecretConfig != null) 'CustomSecretConfig': customSecretConfig,
       if (locationArn != null) 'LocationArn': locationArn,
       if (locationUri != null) 'LocationUri': locationUri,
+      if (managedSecretConfig != null)
+        'ManagedSecretConfig': managedSecretConfig,
     };
   }
 }
@@ -4439,18 +4386,26 @@ class DescribeLocationAzureBlobResponse {
 class DescribeLocationEfsResponse {
   /// The ARN of the access point that DataSync uses to access the Amazon EFS file
   /// system.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-efs-location.html#create-efs-location-iam">Accessing
+  /// restricted file systems</a>.
   final String? accessPointArn;
 
   /// The time that the location was created.
   final DateTime? creationTime;
   final Ec2Config? ec2Config;
 
-  /// The Identity and Access Management (IAM) role that DataSync assumes when
-  /// mounting the Amazon EFS file system.
+  /// The Identity and Access Management (IAM) role that allows DataSync to access
+  /// your Amazon EFS file system.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-efs-location.html#create-efs-location-iam-role">Creating
+  /// a DataSync IAM role for file system access</a>.
   final String? fileSystemAccessRoleArn;
 
-  /// Describes whether DataSync uses Transport Layer Security (TLS) encryption
-  /// when copying data to or from the Amazon EFS file system.
+  /// Indicates whether DataSync uses Transport Layer Security (TLS) encryption
+  /// when transferring data to or from the Amazon EFS file system.
   final EfsInTransitEncryption? inTransitEncryption;
 
   /// The ARN of the Amazon EFS file system location.
@@ -4692,8 +4647,19 @@ class DescribeLocationFsxOpenZfsResponse {
 }
 
 class DescribeLocationFsxWindowsResponse {
+  /// Describes configuration information for a DataSync-managed secret, such as a
+  /// <code>Password</code> that DataSync uses to access a specific storage
+  /// location, with a customer-managed KMS key.
+  final CmkSecretConfig? cmkSecretConfig;
+
   /// The time that the FSx for Windows File Server location was created.
   final DateTime? creationTime;
+
+  /// Describes configuration information for a customer-managed secret, such as a
+  /// <code>Password</code> that DataSync uses to access a specific storage
+  /// location, with a customer-managed Identity and Access Management (IAM) role
+  /// that provides access to the secret.
+  final CustomSecretConfig? customSecretConfig;
 
   /// The name of the Microsoft Active Directory domain that the FSx for Windows
   /// File Server file system belongs to.
@@ -4706,8 +4672,19 @@ class DescribeLocationFsxWindowsResponse {
   /// location.
   final String? locationUri;
 
-  /// The ARNs of the security groups that are configured for the FSx for Windows
-  /// File Server file system.
+  /// Describes configuration information for a DataSync-managed secret, such as a
+  /// <code>Password</code> that DataSync uses to access a specific storage
+  /// location. DataSync uses the default Amazon Web Services-managed KMS key to
+  /// encrypt this secret in Secrets Manager.
+  final ManagedSecretConfig? managedSecretConfig;
+
+  /// The ARNs of the Amazon EC2 security groups that provide access to your file
+  /// system's preferred subnet.
+  ///
+  /// For information about configuring security groups for file system access,
+  /// see the <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/WindowsGuide/limit-access-security-groups.html">
+  /// <i>Amazon FSx for Windows File Server User Guide</i> </a>.
   final List<String>? securityGroupArns;
 
   /// The user with the permissions to mount and access the FSx for Windows File
@@ -4715,10 +4692,13 @@ class DescribeLocationFsxWindowsResponse {
   final String? user;
 
   DescribeLocationFsxWindowsResponse({
+    this.cmkSecretConfig,
     this.creationTime,
+    this.customSecretConfig,
     this.domain,
     this.locationArn,
     this.locationUri,
+    this.managedSecretConfig,
     this.securityGroupArns,
     this.user,
   });
@@ -4726,10 +4706,22 @@ class DescribeLocationFsxWindowsResponse {
   factory DescribeLocationFsxWindowsResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeLocationFsxWindowsResponse(
+      cmkSecretConfig: json['CmkSecretConfig'] != null
+          ? CmkSecretConfig.fromJson(
+              json['CmkSecretConfig'] as Map<String, dynamic>)
+          : null,
       creationTime: timeStampFromJson(json['CreationTime']),
+      customSecretConfig: json['CustomSecretConfig'] != null
+          ? CustomSecretConfig.fromJson(
+              json['CustomSecretConfig'] as Map<String, dynamic>)
+          : null,
       domain: json['Domain'] as String?,
       locationArn: json['LocationArn'] as String?,
       locationUri: json['LocationUri'] as String?,
+      managedSecretConfig: json['ManagedSecretConfig'] != null
+          ? ManagedSecretConfig.fromJson(
+              json['ManagedSecretConfig'] as Map<String, dynamic>)
+          : null,
       securityGroupArns: (json['SecurityGroupArns'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -4739,18 +4731,25 @@ class DescribeLocationFsxWindowsResponse {
   }
 
   Map<String, dynamic> toJson() {
+    final cmkSecretConfig = this.cmkSecretConfig;
     final creationTime = this.creationTime;
+    final customSecretConfig = this.customSecretConfig;
     final domain = this.domain;
     final locationArn = this.locationArn;
     final locationUri = this.locationUri;
+    final managedSecretConfig = this.managedSecretConfig;
     final securityGroupArns = this.securityGroupArns;
     final user = this.user;
     return {
+      if (cmkSecretConfig != null) 'CmkSecretConfig': cmkSecretConfig,
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
+      if (customSecretConfig != null) 'CustomSecretConfig': customSecretConfig,
       if (domain != null) 'Domain': domain,
       if (locationArn != null) 'LocationArn': locationArn,
       if (locationUri != null) 'LocationUri': locationUri,
+      if (managedSecretConfig != null)
+        'ManagedSecretConfig': managedSecretConfig,
       if (securityGroupArns != null) 'SecurityGroupArns': securityGroupArns,
       if (user != null) 'User': user,
     };
@@ -4767,8 +4766,19 @@ class DescribeLocationHdfsResponse {
   /// The size of the data blocks to write into the HDFS cluster.
   final int? blockSize;
 
+  /// Describes configuration information for a DataSync-managed secret, such as a
+  /// <code>KerberosKeytab</code> that DataSync uses to access a specific storage
+  /// location, with a customer-managed KMS key.
+  final CmkSecretConfig? cmkSecretConfig;
+
   /// The time that the HDFS location was created.
   final DateTime? creationTime;
+
+  /// Describes configuration information for a customer-managed secret, such as a
+  /// <code>KerberosKeytab</code> that DataSync uses to access a specific storage
+  /// location, with a customer-managed Identity and Access Management (IAM) role
+  /// that provides access to the secret.
+  final CustomSecretConfig? customSecretConfig;
 
   /// The Kerberos principal with access to the files and folders on the HDFS
   /// cluster. This parameter is used if the <code>AuthenticationType</code> is
@@ -4783,6 +4793,12 @@ class DescribeLocationHdfsResponse {
 
   /// The URI of the HDFS location.
   final String? locationUri;
+
+  /// Describes configuration information for a DataSync-managed secret, such as a
+  /// <code>KerberosKeytab</code> that DataSync uses to access a specific storage
+  /// location. DataSync uses the default Amazon Web Services-managed KMS key to
+  /// encrypt this secret in Secrets Manager.
+  final ManagedSecretConfig? managedSecretConfig;
 
   /// The NameNode that manages the HDFS namespace.
   final List<HdfsNameNode>? nameNodes;
@@ -4805,11 +4821,14 @@ class DescribeLocationHdfsResponse {
     this.agentArns,
     this.authenticationType,
     this.blockSize,
+    this.cmkSecretConfig,
     this.creationTime,
+    this.customSecretConfig,
     this.kerberosPrincipal,
     this.kmsKeyProviderUri,
     this.locationArn,
     this.locationUri,
+    this.managedSecretConfig,
     this.nameNodes,
     this.qopConfiguration,
     this.replicationFactor,
@@ -4825,11 +4844,23 @@ class DescribeLocationHdfsResponse {
       authenticationType: (json['AuthenticationType'] as String?)
           ?.let(HdfsAuthenticationType.fromString),
       blockSize: json['BlockSize'] as int?,
+      cmkSecretConfig: json['CmkSecretConfig'] != null
+          ? CmkSecretConfig.fromJson(
+              json['CmkSecretConfig'] as Map<String, dynamic>)
+          : null,
       creationTime: timeStampFromJson(json['CreationTime']),
+      customSecretConfig: json['CustomSecretConfig'] != null
+          ? CustomSecretConfig.fromJson(
+              json['CustomSecretConfig'] as Map<String, dynamic>)
+          : null,
       kerberosPrincipal: json['KerberosPrincipal'] as String?,
       kmsKeyProviderUri: json['KmsKeyProviderUri'] as String?,
       locationArn: json['LocationArn'] as String?,
       locationUri: json['LocationUri'] as String?,
+      managedSecretConfig: json['ManagedSecretConfig'] != null
+          ? ManagedSecretConfig.fromJson(
+              json['ManagedSecretConfig'] as Map<String, dynamic>)
+          : null,
       nameNodes: (json['NameNodes'] as List?)
           ?.nonNulls
           .map((e) => HdfsNameNode.fromJson(e as Map<String, dynamic>))
@@ -4847,11 +4878,14 @@ class DescribeLocationHdfsResponse {
     final agentArns = this.agentArns;
     final authenticationType = this.authenticationType;
     final blockSize = this.blockSize;
+    final cmkSecretConfig = this.cmkSecretConfig;
     final creationTime = this.creationTime;
+    final customSecretConfig = this.customSecretConfig;
     final kerberosPrincipal = this.kerberosPrincipal;
     final kmsKeyProviderUri = this.kmsKeyProviderUri;
     final locationArn = this.locationArn;
     final locationUri = this.locationUri;
+    final managedSecretConfig = this.managedSecretConfig;
     final nameNodes = this.nameNodes;
     final qopConfiguration = this.qopConfiguration;
     final replicationFactor = this.replicationFactor;
@@ -4861,12 +4895,16 @@ class DescribeLocationHdfsResponse {
       if (authenticationType != null)
         'AuthenticationType': authenticationType.value,
       if (blockSize != null) 'BlockSize': blockSize,
+      if (cmkSecretConfig != null) 'CmkSecretConfig': cmkSecretConfig,
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
+      if (customSecretConfig != null) 'CustomSecretConfig': customSecretConfig,
       if (kerberosPrincipal != null) 'KerberosPrincipal': kerberosPrincipal,
       if (kmsKeyProviderUri != null) 'KmsKeyProviderUri': kmsKeyProviderUri,
       if (locationArn != null) 'LocationArn': locationArn,
       if (locationUri != null) 'LocationUri': locationUri,
+      if (managedSecretConfig != null)
+        'ManagedSecretConfig': managedSecretConfig,
       if (nameNodes != null) 'NameNodes': nameNodes,
       if (qopConfiguration != null) 'QopConfiguration': qopConfiguration,
       if (replicationFactor != null) 'ReplicationFactor': replicationFactor,
@@ -4940,14 +4978,31 @@ class DescribeLocationObjectStorageResponse {
   /// system.
   final List<String>? agentArns;
 
+  /// Describes configuration information for a DataSync-managed secret, such as
+  /// an authentication token or set of credentials that DataSync uses to access a
+  /// specific transfer location, and a customer-managed KMS key.
+  final CmkSecretConfig? cmkSecretConfig;
+
   /// The time that the location was created.
   final DateTime? creationTime;
+
+  /// Describes configuration information for a customer-managed secret, such as
+  /// an authentication token or set of credentials that DataSync uses to access a
+  /// specific transfer location, and a customer-managed Identity and Access
+  /// Management (IAM) role that provides access to the secret.
+  final CustomSecretConfig? customSecretConfig;
 
   /// The ARN of the object storage system location.
   final String? locationArn;
 
   /// The URI of the object storage system location.
   final String? locationUri;
+
+  /// Describes configuration information for a DataSync-managed secret, such as
+  /// an authentication token or set of credentials that DataSync uses to access a
+  /// specific transfer location. DataSync uses the default Amazon Web
+  /// Services-managed KMS key to encrypt this secret in Secrets Manager.
+  final ManagedSecretConfig? managedSecretConfig;
 
   /// The certificate chain for DataSync to authenticate with your object storage
   /// system if the system uses a private or self-signed certificate authority
@@ -4964,9 +5019,12 @@ class DescribeLocationObjectStorageResponse {
   DescribeLocationObjectStorageResponse({
     this.accessKey,
     this.agentArns,
+    this.cmkSecretConfig,
     this.creationTime,
+    this.customSecretConfig,
     this.locationArn,
     this.locationUri,
+    this.managedSecretConfig,
     this.serverCertificate,
     this.serverPort,
     this.serverProtocol,
@@ -4980,9 +5038,21 @@ class DescribeLocationObjectStorageResponse {
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
+      cmkSecretConfig: json['CmkSecretConfig'] != null
+          ? CmkSecretConfig.fromJson(
+              json['CmkSecretConfig'] as Map<String, dynamic>)
+          : null,
       creationTime: timeStampFromJson(json['CreationTime']),
+      customSecretConfig: json['CustomSecretConfig'] != null
+          ? CustomSecretConfig.fromJson(
+              json['CustomSecretConfig'] as Map<String, dynamic>)
+          : null,
       locationArn: json['LocationArn'] as String?,
       locationUri: json['LocationUri'] as String?,
+      managedSecretConfig: json['ManagedSecretConfig'] != null
+          ? ManagedSecretConfig.fromJson(
+              json['ManagedSecretConfig'] as Map<String, dynamic>)
+          : null,
       serverCertificate:
           _s.decodeNullableUint8List(json['ServerCertificate'] as String?),
       serverPort: json['ServerPort'] as int?,
@@ -4994,19 +5064,26 @@ class DescribeLocationObjectStorageResponse {
   Map<String, dynamic> toJson() {
     final accessKey = this.accessKey;
     final agentArns = this.agentArns;
+    final cmkSecretConfig = this.cmkSecretConfig;
     final creationTime = this.creationTime;
+    final customSecretConfig = this.customSecretConfig;
     final locationArn = this.locationArn;
     final locationUri = this.locationUri;
+    final managedSecretConfig = this.managedSecretConfig;
     final serverCertificate = this.serverCertificate;
     final serverPort = this.serverPort;
     final serverProtocol = this.serverProtocol;
     return {
       if (accessKey != null) 'AccessKey': accessKey,
       if (agentArns != null) 'AgentArns': agentArns,
+      if (cmkSecretConfig != null) 'CmkSecretConfig': cmkSecretConfig,
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
+      if (customSecretConfig != null) 'CustomSecretConfig': customSecretConfig,
       if (locationArn != null) 'LocationArn': locationArn,
       if (locationUri != null) 'LocationUri': locationUri,
+      if (managedSecretConfig != null)
+        'ManagedSecretConfig': managedSecretConfig,
       if (serverCertificate != null)
         'ServerCertificate': base64Encode(serverCertificate),
       if (serverPort != null) 'ServerPort': serverPort,
@@ -5094,12 +5171,37 @@ class DescribeLocationSmbResponse {
   /// The ARNs of the DataSync agents that can connect with your SMB file server.
   final List<String>? agentArns;
 
+  /// The authentication protocol that DataSync uses to connect to your SMB file
+  /// server.
+  final SmbAuthenticationType? authenticationType;
+
+  /// Describes configuration information for a DataSync-managed secret, such as a
+  /// <code>Password</code> or <code>KerberosKeytab</code> that DataSync uses to
+  /// access a specific storage location, with a customer-managed KMS key.
+  final CmkSecretConfig? cmkSecretConfig;
+
   /// The time that the SMB location was created.
   final DateTime? creationTime;
 
-  /// The name of the Microsoft Active Directory domain that the SMB file server
-  /// belongs to.
+  /// Describes configuration information for a customer-managed secret, such as a
+  /// <code>Password</code> or <code>KerberosKeytab</code> that DataSync uses to
+  /// access a specific storage location, with a customer-managed Identity and
+  /// Access Management (IAM) role that provides access to the secret.
+  final CustomSecretConfig? customSecretConfig;
+
+  /// The IPv4 or IPv6 addresses for the DNS servers that your SMB file server
+  /// belongs to. This element applies only if <code>AuthenticationType</code> is
+  /// set to <code>KERBEROS</code>.
+  final List<String>? dnsIpAddresses;
+
+  /// The name of the Windows domain that the SMB file server belongs to. This
+  /// element applies only if <code>AuthenticationType</code> is set to
+  /// <code>NTLM</code>.
   final String? domain;
+
+  /// The Kerberos principal that has permission to access the files, folders, and
+  /// file metadata in your SMB file server.
+  final String? kerberosPrincipal;
 
   /// The ARN of the SMB location.
   final String? locationArn;
@@ -5107,19 +5209,32 @@ class DescribeLocationSmbResponse {
   /// The URI of the SMB location.
   final String? locationUri;
 
-  /// The protocol that DataSync use to access your SMB file.
+  /// Describes configuration information for a DataSync-managed secret, such as a
+  /// <code>Password</code> or <code>KerberosKeytab</code> that DataSync uses to
+  /// access a specific storage location. DataSync uses the default Amazon Web
+  /// Services-managed KMS key to encrypt this secret in Secrets Manager.
+  final ManagedSecretConfig? managedSecretConfig;
+
+  /// The SMB protocol version that DataSync uses to access your SMB file server.
   final SmbMountOptions? mountOptions;
 
   /// The user that can mount and access the files, folders, and file metadata in
-  /// your SMB file server.
+  /// your SMB file server. This element applies only if
+  /// <code>AuthenticationType</code> is set to <code>NTLM</code>.
   final String? user;
 
   DescribeLocationSmbResponse({
     this.agentArns,
+    this.authenticationType,
+    this.cmkSecretConfig,
     this.creationTime,
+    this.customSecretConfig,
+    this.dnsIpAddresses,
     this.domain,
+    this.kerberosPrincipal,
     this.locationArn,
     this.locationUri,
+    this.managedSecretConfig,
     this.mountOptions,
     this.user,
   });
@@ -5130,10 +5245,29 @@ class DescribeLocationSmbResponse {
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
+      authenticationType: (json['AuthenticationType'] as String?)
+          ?.let(SmbAuthenticationType.fromString),
+      cmkSecretConfig: json['CmkSecretConfig'] != null
+          ? CmkSecretConfig.fromJson(
+              json['CmkSecretConfig'] as Map<String, dynamic>)
+          : null,
       creationTime: timeStampFromJson(json['CreationTime']),
+      customSecretConfig: json['CustomSecretConfig'] != null
+          ? CustomSecretConfig.fromJson(
+              json['CustomSecretConfig'] as Map<String, dynamic>)
+          : null,
+      dnsIpAddresses: (json['DnsIpAddresses'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
       domain: json['Domain'] as String?,
+      kerberosPrincipal: json['KerberosPrincipal'] as String?,
       locationArn: json['LocationArn'] as String?,
       locationUri: json['LocationUri'] as String?,
+      managedSecretConfig: json['ManagedSecretConfig'] != null
+          ? ManagedSecretConfig.fromJson(
+              json['ManagedSecretConfig'] as Map<String, dynamic>)
+          : null,
       mountOptions: json['MountOptions'] != null
           ? SmbMountOptions.fromJson(
               json['MountOptions'] as Map<String, dynamic>)
@@ -5144,438 +5278,35 @@ class DescribeLocationSmbResponse {
 
   Map<String, dynamic> toJson() {
     final agentArns = this.agentArns;
+    final authenticationType = this.authenticationType;
+    final cmkSecretConfig = this.cmkSecretConfig;
     final creationTime = this.creationTime;
+    final customSecretConfig = this.customSecretConfig;
+    final dnsIpAddresses = this.dnsIpAddresses;
     final domain = this.domain;
+    final kerberosPrincipal = this.kerberosPrincipal;
     final locationArn = this.locationArn;
     final locationUri = this.locationUri;
+    final managedSecretConfig = this.managedSecretConfig;
     final mountOptions = this.mountOptions;
     final user = this.user;
     return {
       if (agentArns != null) 'AgentArns': agentArns,
+      if (authenticationType != null)
+        'AuthenticationType': authenticationType.value,
+      if (cmkSecretConfig != null) 'CmkSecretConfig': cmkSecretConfig,
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
+      if (customSecretConfig != null) 'CustomSecretConfig': customSecretConfig,
+      if (dnsIpAddresses != null) 'DnsIpAddresses': dnsIpAddresses,
       if (domain != null) 'Domain': domain,
+      if (kerberosPrincipal != null) 'KerberosPrincipal': kerberosPrincipal,
       if (locationArn != null) 'LocationArn': locationArn,
       if (locationUri != null) 'LocationUri': locationUri,
+      if (managedSecretConfig != null)
+        'ManagedSecretConfig': managedSecretConfig,
       if (mountOptions != null) 'MountOptions': mountOptions,
       if (user != null) 'User': user,
-    };
-  }
-}
-
-class DescribeStorageSystemResourceMetricsResponse {
-  /// The details that your discovery job collected about your storage system
-  /// resource.
-  final List<ResourceMetrics>? metrics;
-
-  /// The opaque string that indicates the position to begin the next list of
-  /// results in the response.
-  final String? nextToken;
-
-  DescribeStorageSystemResourceMetricsResponse({
-    this.metrics,
-    this.nextToken,
-  });
-
-  factory DescribeStorageSystemResourceMetricsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return DescribeStorageSystemResourceMetricsResponse(
-      metrics: (json['Metrics'] as List?)
-          ?.nonNulls
-          .map((e) => ResourceMetrics.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final metrics = this.metrics;
-    final nextToken = this.nextToken;
-    return {
-      if (metrics != null) 'Metrics': metrics,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class DescribeStorageSystemResourcesResponse {
-  /// The opaque string that indicates the position to begin the next list of
-  /// results in the response.
-  final String? nextToken;
-
-  /// The information collected about your storage system's resources. A response
-  /// can also include Amazon Web Services storage service recommendations.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/discovery-understand-findings.html">storage
-  /// resource information</a> collected by and <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/discovery-understand-recommendations.html">recommendations</a>
-  /// provided by DataSync Discovery.
-  final ResourceDetails? resourceDetails;
-
-  DescribeStorageSystemResourcesResponse({
-    this.nextToken,
-    this.resourceDetails,
-  });
-
-  factory DescribeStorageSystemResourcesResponse.fromJson(
-      Map<String, dynamic> json) {
-    return DescribeStorageSystemResourcesResponse(
-      nextToken: json['NextToken'] as String?,
-      resourceDetails: json['ResourceDetails'] != null
-          ? ResourceDetails.fromJson(
-              json['ResourceDetails'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final resourceDetails = this.resourceDetails;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (resourceDetails != null) 'ResourceDetails': resourceDetails,
-    };
-  }
-}
-
-class DescribeStorageSystemResponse {
-  /// The ARN of the DataSync agent that connects to and reads from your
-  /// on-premises storage system.
-  final List<String>? agentArns;
-
-  /// The ARN of the Amazon CloudWatch log group that's used to monitor and log
-  /// discovery job events.
-  final String? cloudWatchLogGroupArn;
-
-  /// Indicates whether your DataSync agent can connect to your on-premises
-  /// storage system.
-  final StorageSystemConnectivityStatus? connectivityStatus;
-
-  /// The time when you added the on-premises storage system to DataSync
-  /// Discovery.
-  final DateTime? creationTime;
-
-  /// Describes the connectivity error that the DataSync agent is encountering
-  /// with your on-premises storage system.
-  final String? errorMessage;
-
-  /// The name that you gave your on-premises storage system when adding it to
-  /// DataSync Discovery.
-  final String? name;
-
-  /// The ARN of the secret that stores your on-premises storage system's
-  /// credentials. DataSync Discovery stores these credentials in <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/discovery-configure-storage.html#discovery-add-storage">Secrets
-  /// Manager</a>.
-  final String? secretsManagerArn;
-
-  /// The server name and network port required to connect with your on-premises
-  /// storage system's management interface.
-  final DiscoveryServerConfiguration? serverConfiguration;
-
-  /// The ARN of the on-premises storage system that the discovery job looked at.
-  final String? storageSystemArn;
-
-  /// The type of on-premises storage system.
-  /// <note>
-  /// DataSync Discovery currently only supports NetApp Fabric-Attached Storage
-  /// (FAS) and All Flash FAS (AFF) systems running ONTAP 9.7 or later.
-  /// </note>
-  final DiscoverySystemType? systemType;
-
-  DescribeStorageSystemResponse({
-    this.agentArns,
-    this.cloudWatchLogGroupArn,
-    this.connectivityStatus,
-    this.creationTime,
-    this.errorMessage,
-    this.name,
-    this.secretsManagerArn,
-    this.serverConfiguration,
-    this.storageSystemArn,
-    this.systemType,
-  });
-
-  factory DescribeStorageSystemResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeStorageSystemResponse(
-      agentArns: (json['AgentArns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      cloudWatchLogGroupArn: json['CloudWatchLogGroupArn'] as String?,
-      connectivityStatus: (json['ConnectivityStatus'] as String?)
-          ?.let(StorageSystemConnectivityStatus.fromString),
-      creationTime: timeStampFromJson(json['CreationTime']),
-      errorMessage: json['ErrorMessage'] as String?,
-      name: json['Name'] as String?,
-      secretsManagerArn: json['SecretsManagerArn'] as String?,
-      serverConfiguration: json['ServerConfiguration'] != null
-          ? DiscoveryServerConfiguration.fromJson(
-              json['ServerConfiguration'] as Map<String, dynamic>)
-          : null,
-      storageSystemArn: json['StorageSystemArn'] as String?,
-      systemType:
-          (json['SystemType'] as String?)?.let(DiscoverySystemType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final agentArns = this.agentArns;
-    final cloudWatchLogGroupArn = this.cloudWatchLogGroupArn;
-    final connectivityStatus = this.connectivityStatus;
-    final creationTime = this.creationTime;
-    final errorMessage = this.errorMessage;
-    final name = this.name;
-    final secretsManagerArn = this.secretsManagerArn;
-    final serverConfiguration = this.serverConfiguration;
-    final storageSystemArn = this.storageSystemArn;
-    final systemType = this.systemType;
-    return {
-      if (agentArns != null) 'AgentArns': agentArns,
-      if (cloudWatchLogGroupArn != null)
-        'CloudWatchLogGroupArn': cloudWatchLogGroupArn,
-      if (connectivityStatus != null)
-        'ConnectivityStatus': connectivityStatus.value,
-      if (creationTime != null)
-        'CreationTime': unixTimestampToJson(creationTime),
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-      if (name != null) 'Name': name,
-      if (secretsManagerArn != null) 'SecretsManagerArn': secretsManagerArn,
-      if (serverConfiguration != null)
-        'ServerConfiguration': serverConfiguration,
-      if (storageSystemArn != null) 'StorageSystemArn': storageSystemArn,
-      if (systemType != null) 'SystemType': systemType.value,
-    };
-  }
-}
-
-/// DescribeTaskExecutionResponse
-class DescribeTaskExecutionResponse {
-  /// The physical number of bytes transferred over the network after compression
-  /// was applied. In most cases, this number is less than
-  /// <code>BytesTransferred</code> unless the data isn't compressible.
-  final int? bytesCompressed;
-
-  /// The total number of bytes that are involved in the transfer. For the number
-  /// of bytes sent over the network, see <code>BytesCompressed</code>.
-  final int? bytesTransferred;
-
-  /// The number of logical bytes written to the destination location.
-  final int? bytesWritten;
-
-  /// The estimated physical number of bytes that will transfer over the network.
-  final int? estimatedBytesToTransfer;
-
-  /// The expected number of files, objects, and directories that DataSync will
-  /// delete in your destination location. If you don't <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/configure-metadata.html">configure
-  /// your task</a> to delete data in the destination that isn't in the source,
-  /// the value is always <code>0</code>.
-  final int? estimatedFilesToDelete;
-
-  /// The expected number of files, objects, and directories that DataSync will
-  /// transfer over the network. This value is calculated during the task
-  /// execution's <code>PREPARING</code> phase before the
-  /// <code>TRANSFERRING</code> phase. The calculation is based on comparing the
-  /// content of the source and destination locations and finding the difference
-  /// that needs to be transferred.
-  final int? estimatedFilesToTransfer;
-
-  /// A list of filter rules that exclude specific data during your transfer. For
-  /// more information and examples, see <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html">Filtering
-  /// data transferred by DataSync</a>.
-  final List<FilterRule>? excludes;
-
-  /// The number of files, objects, and directories that DataSync deleted in your
-  /// destination location. If you don't <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/configure-metadata.html">configure
-  /// your task</a> to delete data in the destination that isn't in the source,
-  /// the value is always <code>0</code>.
-  final int? filesDeleted;
-
-  /// The number of files, objects, and directories that DataSync skipped during
-  /// your transfer.
-  final int? filesSkipped;
-
-  /// The actual number of files, objects, and directories that DataSync
-  /// transferred over the network. This value is updated periodically during the
-  /// task execution's <code>TRANSFERRING</code> phase when something is read from
-  /// the source and sent over the network.
-  ///
-  /// If DataSync fails to transfer something, this value can be less than
-  /// <code>EstimatedFilesToTransfer</code>. In some cases, this value can also be
-  /// greater than <code>EstimatedFilesToTransfer</code>. This element is
-  /// implementation-specific for some location types, so don't use it as an exact
-  /// indication of what transferred or to monitor your task execution.
-  final int? filesTransferred;
-
-  /// The number of files, objects, and directories that DataSync verified during
-  /// your transfer.
-  /// <note>
-  /// When you configure your task to <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/configure-data-verification-options.html">verify
-  /// only the data that's transferred</a>, DataSync doesn't verify directories in
-  /// some situations or files that fail to transfer.
-  /// </note>
-  final int? filesVerified;
-
-  /// A list of filter rules that include specific data during your transfer. For
-  /// more information and examples, see <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html">Filtering
-  /// data transferred by DataSync</a>.
-  final List<FilterRule>? includes;
-
-  /// The configuration of the manifest that lists the files or objects to
-  /// transfer. For more information, see <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html">Specifying
-  /// what DataSync transfers by using a manifest</a>.
-  final ManifestConfig? manifestConfig;
-  final Options? options;
-
-  /// Indicates whether DataSync generated a complete <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html">task
-  /// report</a> for your transfer.
-  final ReportResult? reportResult;
-
-  /// The result of the task execution.
-  final TaskExecutionResultDetail? result;
-
-  /// The time when the task execution started.
-  final DateTime? startTime;
-
-  /// The status of the task execution.
-  final TaskExecutionStatus? status;
-
-  /// The ARN of the task execution that you wanted information about.
-  /// <code>TaskExecutionArn</code> is hierarchical and includes
-  /// <code>TaskArn</code> for the task that was executed.
-  ///
-  /// For example, a <code>TaskExecution</code> value with the ARN
-  /// <code>arn:aws:datasync:us-east-1:111222333444:task/task-0208075f79cedf4a2/execution/exec-08ef1e88ec491019b</code>
-  /// executed the task with the ARN
-  /// <code>arn:aws:datasync:us-east-1:111222333444:task/task-0208075f79cedf4a2</code>.
-  final String? taskExecutionArn;
-
-  /// The configuration of your task report, which provides detailed information
-  /// about for your DataSync transfer. For more information, see <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html">Creating
-  /// a task report</a>.
-  final TaskReportConfig? taskReportConfig;
-
-  DescribeTaskExecutionResponse({
-    this.bytesCompressed,
-    this.bytesTransferred,
-    this.bytesWritten,
-    this.estimatedBytesToTransfer,
-    this.estimatedFilesToDelete,
-    this.estimatedFilesToTransfer,
-    this.excludes,
-    this.filesDeleted,
-    this.filesSkipped,
-    this.filesTransferred,
-    this.filesVerified,
-    this.includes,
-    this.manifestConfig,
-    this.options,
-    this.reportResult,
-    this.result,
-    this.startTime,
-    this.status,
-    this.taskExecutionArn,
-    this.taskReportConfig,
-  });
-
-  factory DescribeTaskExecutionResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeTaskExecutionResponse(
-      bytesCompressed: json['BytesCompressed'] as int?,
-      bytesTransferred: json['BytesTransferred'] as int?,
-      bytesWritten: json['BytesWritten'] as int?,
-      estimatedBytesToTransfer: json['EstimatedBytesToTransfer'] as int?,
-      estimatedFilesToDelete: json['EstimatedFilesToDelete'] as int?,
-      estimatedFilesToTransfer: json['EstimatedFilesToTransfer'] as int?,
-      excludes: (json['Excludes'] as List?)
-          ?.nonNulls
-          .map((e) => FilterRule.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      filesDeleted: json['FilesDeleted'] as int?,
-      filesSkipped: json['FilesSkipped'] as int?,
-      filesTransferred: json['FilesTransferred'] as int?,
-      filesVerified: json['FilesVerified'] as int?,
-      includes: (json['Includes'] as List?)
-          ?.nonNulls
-          .map((e) => FilterRule.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      manifestConfig: json['ManifestConfig'] != null
-          ? ManifestConfig.fromJson(
-              json['ManifestConfig'] as Map<String, dynamic>)
-          : null,
-      options: json['Options'] != null
-          ? Options.fromJson(json['Options'] as Map<String, dynamic>)
-          : null,
-      reportResult: json['ReportResult'] != null
-          ? ReportResult.fromJson(json['ReportResult'] as Map<String, dynamic>)
-          : null,
-      result: json['Result'] != null
-          ? TaskExecutionResultDetail.fromJson(
-              json['Result'] as Map<String, dynamic>)
-          : null,
-      startTime: timeStampFromJson(json['StartTime']),
-      status: (json['Status'] as String?)?.let(TaskExecutionStatus.fromString),
-      taskExecutionArn: json['TaskExecutionArn'] as String?,
-      taskReportConfig: json['TaskReportConfig'] != null
-          ? TaskReportConfig.fromJson(
-              json['TaskReportConfig'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bytesCompressed = this.bytesCompressed;
-    final bytesTransferred = this.bytesTransferred;
-    final bytesWritten = this.bytesWritten;
-    final estimatedBytesToTransfer = this.estimatedBytesToTransfer;
-    final estimatedFilesToDelete = this.estimatedFilesToDelete;
-    final estimatedFilesToTransfer = this.estimatedFilesToTransfer;
-    final excludes = this.excludes;
-    final filesDeleted = this.filesDeleted;
-    final filesSkipped = this.filesSkipped;
-    final filesTransferred = this.filesTransferred;
-    final filesVerified = this.filesVerified;
-    final includes = this.includes;
-    final manifestConfig = this.manifestConfig;
-    final options = this.options;
-    final reportResult = this.reportResult;
-    final result = this.result;
-    final startTime = this.startTime;
-    final status = this.status;
-    final taskExecutionArn = this.taskExecutionArn;
-    final taskReportConfig = this.taskReportConfig;
-    return {
-      if (bytesCompressed != null) 'BytesCompressed': bytesCompressed,
-      if (bytesTransferred != null) 'BytesTransferred': bytesTransferred,
-      if (bytesWritten != null) 'BytesWritten': bytesWritten,
-      if (estimatedBytesToTransfer != null)
-        'EstimatedBytesToTransfer': estimatedBytesToTransfer,
-      if (estimatedFilesToDelete != null)
-        'EstimatedFilesToDelete': estimatedFilesToDelete,
-      if (estimatedFilesToTransfer != null)
-        'EstimatedFilesToTransfer': estimatedFilesToTransfer,
-      if (excludes != null) 'Excludes': excludes,
-      if (filesDeleted != null) 'FilesDeleted': filesDeleted,
-      if (filesSkipped != null) 'FilesSkipped': filesSkipped,
-      if (filesTransferred != null) 'FilesTransferred': filesTransferred,
-      if (filesVerified != null) 'FilesVerified': filesVerified,
-      if (includes != null) 'Includes': includes,
-      if (manifestConfig != null) 'ManifestConfig': manifestConfig,
-      if (options != null) 'Options': options,
-      if (reportResult != null) 'ReportResult': reportResult,
-      if (result != null) 'Result': result,
-      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (status != null) 'Status': status.value,
-      if (taskExecutionArn != null) 'TaskExecutionArn': taskExecutionArn,
-      if (taskReportConfig != null) 'TaskReportConfig': taskReportConfig,
     };
   }
 }
@@ -5586,8 +5317,8 @@ class DescribeTaskResponse {
   /// monitoring your task.
   ///
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/monitor-datasync.html">Monitoring
-  /// DataSync with Amazon CloudWatch</a>.
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/configure-logging.html">Monitoring
+  /// data transfers with CloudWatch Logs</a>.
   final String? cloudWatchLogGroupArn;
 
   /// The time that the task was created.
@@ -5665,12 +5396,17 @@ class DescribeTaskResponse {
 
   /// The status of your task. For information about what each status means, see
   /// <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/understand-task-statuses.html#understand-task-creation-statuses">Task
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-task-how-to.html#understand-task-creation-statuses">Task
   /// statuses</a>.
   final TaskStatus? status;
 
   /// The ARN of your task.
   final String? taskArn;
+
+  /// The task mode that you're using. For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html">Choosing
+  /// a task mode for your data transfer</a>.
+  final TaskMode? taskMode;
 
   /// The configuration of your task report, which provides detailed information
   /// about your DataSync transfer. For more information, see <a
@@ -5697,6 +5433,7 @@ class DescribeTaskResponse {
     this.sourceNetworkInterfaceArns,
     this.status,
     this.taskArn,
+    this.taskMode,
     this.taskReportConfig,
   });
 
@@ -5743,6 +5480,7 @@ class DescribeTaskResponse {
           .toList(),
       status: (json['Status'] as String?)?.let(TaskStatus.fromString),
       taskArn: json['TaskArn'] as String?,
+      taskMode: (json['TaskMode'] as String?)?.let(TaskMode.fromString),
       taskReportConfig: json['TaskReportConfig'] != null
           ? TaskReportConfig.fromJson(
               json['TaskReportConfig'] as Map<String, dynamic>)
@@ -5770,6 +5508,7 @@ class DescribeTaskResponse {
     final sourceNetworkInterfaceArns = this.sourceNetworkInterfaceArns;
     final status = this.status;
     final taskArn = this.taskArn;
+    final taskMode = this.taskMode;
     final taskReportConfig = this.taskReportConfig;
     return {
       if (cloudWatchLogGroupArn != null)
@@ -5796,699 +5535,561 @@ class DescribeTaskResponse {
         'SourceNetworkInterfaceArns': sourceNetworkInterfaceArns,
       if (status != null) 'Status': status.value,
       if (taskArn != null) 'TaskArn': taskArn,
+      if (taskMode != null) 'TaskMode': taskMode.value,
       if (taskReportConfig != null) 'TaskReportConfig': taskReportConfig,
     };
   }
 }
 
-/// The details about a specific DataSync discovery job.
-class DiscoveryJobListEntry {
-  /// The Amazon Resource Name (ARN) of a discovery job.
-  final String? discoveryJobArn;
+/// DescribeTaskExecutionResponse
+class DescribeTaskExecutionResponse {
+  /// The number of physical bytes that DataSync transfers over the network after
+  /// compression (if compression is possible). This number is typically less than
+  /// <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_DescribeTaskExecution.html#DataSync-DescribeTaskExecution-response-BytesTransferred">BytesTransferred</a>
+  /// unless the data isn't compressible.
+  final int? bytesCompressed;
 
-  /// The status of a discovery job. For more information, see <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/discovery-job-statuses.html#discovery-job-statuses-table">Discovery
-  /// job statuses</a>.
-  final DiscoveryJobStatus? status;
+  /// The number of bytes that DataSync sends to the network before compression
+  /// (if compression is possible). For the number of bytes transferred over the
+  /// network, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_DescribeTaskExecution.html#DataSync-DescribeTaskExecution-response-BytesCompressed">BytesCompressed</a>.
+  final int? bytesTransferred;
 
-  DiscoveryJobListEntry({
-    this.discoveryJobArn,
-    this.status,
-  });
+  /// The number of logical bytes that DataSync actually writes to the destination
+  /// location.
+  final int? bytesWritten;
 
-  factory DiscoveryJobListEntry.fromJson(Map<String, dynamic> json) {
-    return DiscoveryJobListEntry(
-      discoveryJobArn: json['DiscoveryJobArn'] as String?,
-      status: (json['Status'] as String?)?.let(DiscoveryJobStatus.fromString),
-    );
-  }
+  /// The time that the transfer task ends.
+  final DateTime? endTime;
 
-  Map<String, dynamic> toJson() {
-    final discoveryJobArn = this.discoveryJobArn;
-    final status = this.status;
-    return {
-      if (discoveryJobArn != null) 'DiscoveryJobArn': discoveryJobArn,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
+  /// The number of logical bytes that DataSync expects to write to the
+  /// destination location.
+  final int? estimatedBytesToTransfer;
 
-class DiscoveryJobStatus {
-  static const running = DiscoveryJobStatus._('RUNNING');
-  static const warning = DiscoveryJobStatus._('WARNING');
-  static const terminated = DiscoveryJobStatus._('TERMINATED');
-  static const failed = DiscoveryJobStatus._('FAILED');
-  static const stopped = DiscoveryJobStatus._('STOPPED');
-  static const completed = DiscoveryJobStatus._('COMPLETED');
-  static const completedWithIssues =
-      DiscoveryJobStatus._('COMPLETED_WITH_ISSUES');
+  /// The number of files, objects, and directories that DataSync expects to
+  /// delete in your destination location. If you don't configure your task to <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/configure-metadata.html">delete
+  /// data in the destination that isn't in the source</a>, the value is always
+  /// <code>0</code>.
+  /// <note>
+  /// For <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html">Enhanced
+  /// mode tasks</a>, this counter only includes files or objects. Directories are
+  /// counted in <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_DescribeTaskExecution.html#DataSync-DescribeTaskExecution-response-EstimatedFoldersToDelete">EstimatedFoldersToDelete</a>.
+  /// </note>
+  final int? estimatedFilesToDelete;
 
-  final String value;
-
-  const DiscoveryJobStatus._(this.value);
-
-  static const values = [
-    running,
-    warning,
-    terminated,
-    failed,
-    stopped,
-    completed,
-    completedWithIssues
-  ];
-
-  static DiscoveryJobStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DiscoveryJobStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DiscoveryJobStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DiscoveryResourceFilter {
-  static const svm = DiscoveryResourceFilter._('SVM');
-
-  final String value;
-
-  const DiscoveryResourceFilter._(this.value);
-
-  static const values = [svm];
-
-  static DiscoveryResourceFilter fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DiscoveryResourceFilter._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DiscoveryResourceFilter && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DiscoveryResourceType {
-  static const svm = DiscoveryResourceType._('SVM');
-  static const volume = DiscoveryResourceType._('VOLUME');
-  static const cluster = DiscoveryResourceType._('CLUSTER');
-
-  final String value;
-
-  const DiscoveryResourceType._(this.value);
-
-  static const values = [svm, volume, cluster];
-
-  static DiscoveryResourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DiscoveryResourceType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DiscoveryResourceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The network settings that DataSync Discovery uses to connect with your
-/// on-premises storage system's management interface.
-class DiscoveryServerConfiguration {
-  /// The domain name or IP address of your storage system's management interface.
-  final String serverHostname;
-
-  /// The network port for accessing the storage system's management interface.
-  final int? serverPort;
-
-  DiscoveryServerConfiguration({
-    required this.serverHostname,
-    this.serverPort,
-  });
-
-  factory DiscoveryServerConfiguration.fromJson(Map<String, dynamic> json) {
-    return DiscoveryServerConfiguration(
-      serverHostname: (json['ServerHostname'] as String?) ?? '',
-      serverPort: json['ServerPort'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final serverHostname = this.serverHostname;
-    final serverPort = this.serverPort;
-    return {
-      'ServerHostname': serverHostname,
-      if (serverPort != null) 'ServerPort': serverPort,
-    };
-  }
-}
-
-class DiscoverySystemType {
-  static const netAppONTAP = DiscoverySystemType._('NetAppONTAP');
-
-  final String value;
-
-  const DiscoverySystemType._(this.value);
-
-  static const values = [netAppONTAP];
-
-  static DiscoverySystemType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DiscoverySystemType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DiscoverySystemType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The subnet and security groups that DataSync uses to access your Amazon EFS
-/// file system.
-class Ec2Config {
-  /// Specifies the Amazon Resource Names (ARNs) of the security groups associated
-  /// with an Amazon EFS file system's mount target.
-  final List<String> securityGroupArns;
-
-  /// Specifies the ARN of a subnet where DataSync creates the <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/datasync-network.html#required-network-interfaces">network
-  /// interfaces</a> for managing traffic during your transfer.
+  /// The number of files, objects, and directories that DataSync expects to
+  /// transfer over the network. This value is calculated while DataSync <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/run-task.html#understand-task-execution-statuses">prepares</a>
+  /// the transfer.
   ///
-  /// The subnet must be located:
+  /// How this gets calculated depends primarily on your task’s <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_Options.html#DataSync-Type-Options-TransferMode">transfer
+  /// mode</a> configuration:
   ///
   /// <ul>
   /// <li>
-  /// In the same virtual private cloud (VPC) as the Amazon EFS file system.
+  /// If <code>TranserMode</code> is set to <code>CHANGED</code> - The calculation
+  /// is based on comparing the content of the source and destination locations
+  /// and determining the difference that needs to be transferred. The difference
+  /// can include:
+  ///
+  /// <ul>
+  /// <li>
+  /// Anything that's added or modified at the source location.
   /// </li>
   /// <li>
-  /// In the same Availability Zone as at least one mount target for the Amazon
-  /// EFS file system.
+  /// Anything that's in both locations and modified at the destination after an
+  /// initial transfer (unless <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_Options.html#DataSync-Type-Options-OverwriteMode">OverwriteMode</a>
+  /// is set to <code>NEVER</code>).
+  /// </li>
+  /// <li>
+  /// <b>(Basic task mode only)</b> The number of items that DataSync expects to
+  /// delete (if <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_Options.html#DataSync-Type-Options-PreserveDeletedFiles">PreserveDeletedFiles</a>
+  /// is set to <code>REMOVE</code>).
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// If <code>TranserMode</code> is set to <code>ALL</code> - The calculation is
+  /// based only on the items that DataSync finds at the source location.
   /// </li>
   /// </ul> <note>
-  /// You don't need to specify a subnet that includes a file system mount target.
+  /// For <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html">Enhanced
+  /// mode tasks</a>, this counter only includes files or objects. Directories are
+  /// counted in <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_DescribeTaskExecution.html#DataSync-DescribeTaskExecution-response-EstimatedFoldersToTransfer">EstimatedFoldersToTransfer</a>.
   /// </note>
-  final String subnetArn;
+  final int? estimatedFilesToTransfer;
 
-  Ec2Config({
-    required this.securityGroupArns,
-    required this.subnetArn,
+  /// The number of directories that DataSync expects to delete in your
+  /// destination location. If you don't configure your task to <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/configure-metadata.html">delete
+  /// data in the destination that isn't in the source</a>, the value is always
+  /// <code>0</code>.
+  /// <note>
+  /// Applies only to <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html">Enhanced
+  /// mode tasks</a>.
+  /// </note>
+  final int? estimatedFoldersToDelete;
+
+  /// The number of directories that DataSync expects to transfer over the
+  /// network. This value is calculated as DataSync <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/run-task.html#understand-task-execution-statuses">prepares</a>
+  /// directories to transfer.
+  ///
+  /// How this gets calculated depends primarily on your task’s <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_Options.html#DataSync-Type-Options-TransferMode">transfer
+  /// mode</a> configuration:
+  ///
+  /// <ul>
+  /// <li>
+  /// If <code>TranserMode</code> is set to <code>CHANGED</code> - The calculation
+  /// is based on comparing the content of the source and destination locations
+  /// and determining the difference that needs to be transferred. The difference
+  /// can include:
+  ///
+  /// <ul>
+  /// <li>
+  /// Anything that's added or modified at the source location.
+  /// </li>
+  /// <li>
+  /// Anything that's in both locations and modified at the destination after an
+  /// initial transfer (unless <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_Options.html#DataSync-Type-Options-OverwriteMode">OverwriteMode</a>
+  /// is set to <code>NEVER</code>).
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// If <code>TranserMode</code> is set to <code>ALL</code> - The calculation is
+  /// based only on the items that DataSync finds at the source location.
+  /// </li>
+  /// </ul> <note>
+  /// Applies only to <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html">Enhanced
+  /// mode tasks</a>.
+  /// </note>
+  final int? estimatedFoldersToTransfer;
+
+  /// A list of filter rules that exclude specific data during your transfer. For
+  /// more information and examples, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html">Filtering
+  /// data transferred by DataSync</a>.
+  final List<FilterRule>? excludes;
+
+  /// The number of files, objects, and directories that DataSync actually deletes
+  /// in your destination location. If you don't configure your task to <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/configure-metadata.html">delete
+  /// data in the destination that isn't in the source</a>, the value is always
+  /// <code>0</code>.
+  /// <note>
+  /// For <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html">Enhanced
+  /// mode tasks</a>, this counter only includes files or objects. Directories are
+  /// counted in <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_DescribeTaskExecution.html#DataSync-DescribeTaskExecution-response-FoldersDeleted">FoldersDeleted</a>.
+  /// </note>
+  final int? filesDeleted;
+
+  /// The number of files or objects that DataSync fails to prepare, transfer,
+  /// verify, and delete during your task execution.
+  /// <note>
+  /// Applies only to <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html">Enhanced
+  /// mode tasks</a>.
+  /// </note>
+  final TaskExecutionFilesFailedDetail? filesFailed;
+
+  /// The number of files or objects that DataSync finds at your locations.
+  /// <note>
+  /// Applies only to <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html">Enhanced
+  /// mode tasks</a>.
+  /// </note>
+  final TaskExecutionFilesListedDetail? filesListed;
+
+  /// The number of files or objects that DataSync will attempt to transfer after
+  /// comparing your source and destination locations.
+  /// <note>
+  /// Applies only to <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html">Enhanced
+  /// mode tasks</a>.
+  /// </note>
+  /// This counter isn't applicable if you configure your task to <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/configure-metadata.html#task-option-transfer-mode">transfer
+  /// all data</a>. In that scenario, DataSync copies everything from the source
+  /// to the destination without comparing differences between the locations.
+  final int? filesPrepared;
+
+  /// The number of files, objects, and directories that DataSync skips during
+  /// your transfer.
+  /// <note>
+  /// For <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html">Enhanced
+  /// mode tasks</a>, this counter only includes files or objects. Directories are
+  /// counted in <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_DescribeTaskExecution.html#DataSync-DescribeTaskExecution-response-FoldersSkipped">FoldersSkipped</a>.
+  /// </note>
+  final int? filesSkipped;
+
+  /// The number of files, objects, and directories that DataSync actually
+  /// transfers over the network. This value is updated periodically during your
+  /// task execution when something is read from the source and sent over the
+  /// network.
+  ///
+  /// If DataSync fails to transfer something, this value can be less than
+  /// <code>EstimatedFilesToTransfer</code>. In some cases, this value can also be
+  /// greater than <code>EstimatedFilesToTransfer</code>. This element is
+  /// implementation-specific for some location types, so don't use it as an exact
+  /// indication of what's transferring or to monitor your task execution.
+  /// <note>
+  /// For <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html">Enhanced
+  /// mode tasks</a>, this counter only includes files or objects. Directories are
+  /// counted in <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_DescribeTaskExecution.html#DataSync-DescribeTaskExecution-response-FoldersTransferred">FoldersTransferred</a>.
+  /// </note>
+  final int? filesTransferred;
+
+  /// The number of files, objects, and directories that DataSync verifies during
+  /// your transfer.
+  /// <note>
+  /// When you configure your task to <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/configure-data-verification-options.html">verify
+  /// only the data that's transferred</a>, DataSync doesn't verify directories in
+  /// some situations or files that fail to transfer.
+  ///
+  /// For <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html">Enhanced
+  /// mode tasks</a>, this counter only includes files or objects. Directories are
+  /// counted in <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_DescribeTaskExecution.html#DataSync-DescribeTaskExecution-response-FoldersVerified">FoldersVerified</a>.
+  /// </note>
+  final int? filesVerified;
+
+  /// The number of directories that DataSync actually deletes in your destination
+  /// location. If you don't configure your task to <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/configure-metadata.html">delete
+  /// data in the destination that isn't in the source</a>, the value is always
+  /// <code>0</code>.
+  /// <note>
+  /// Applies only to <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html">Enhanced
+  /// mode tasks</a>.
+  /// </note>
+  final int? foldersDeleted;
+
+  /// The number of directories that DataSync fails to list, prepare, transfer,
+  /// verify, and delete during your task execution.
+  /// <note>
+  /// Applies only to <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html">Enhanced
+  /// mode tasks</a>.
+  /// </note>
+  final TaskExecutionFoldersFailedDetail? foldersFailed;
+
+  /// The number of directories that DataSync finds at your locations.
+  /// <note>
+  /// Applies only to <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html">Enhanced
+  /// mode tasks</a>.
+  /// </note>
+  final TaskExecutionFoldersListedDetail? foldersListed;
+
+  /// The number of directories that DataSync will attempt to transfer after
+  /// comparing your source and destination locations.
+  /// <note>
+  /// Applies only to <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html">Enhanced
+  /// mode tasks</a>.
+  /// </note>
+  /// This counter isn't applicable if you configure your task to <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/configure-metadata.html#task-option-transfer-mode">transfer
+  /// all data</a>. In that scenario, DataSync copies everything from the source
+  /// to the destination without comparing differences between the locations.
+  final int? foldersPrepared;
+
+  /// The number of directories that DataSync skips during your transfer.
+  /// <note>
+  /// Applies only to <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html">Enhanced
+  /// mode tasks</a>.
+  /// </note>
+  final int? foldersSkipped;
+
+  /// The number of directories that DataSync actually transfers over the network.
+  /// This value is updated periodically during your task execution when something
+  /// is read from the source and sent over the network.
+  ///
+  /// If DataSync fails to transfer something, this value can be less than
+  /// <code>EstimatedFoldersToTransfer</code>. In some cases, this value can also
+  /// be greater than <code>EstimatedFoldersToTransfer</code>.
+  /// <note>
+  /// Applies only to <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html">Enhanced
+  /// mode tasks</a>.
+  /// </note>
+  final int? foldersTransferred;
+
+  /// The number of directories that DataSync verifies during your transfer.
+  /// <note>
+  /// Applies only to <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html">Enhanced
+  /// mode tasks</a>.
+  /// </note>
+  final int? foldersVerified;
+
+  /// A list of filter rules that include specific data during your transfer. For
+  /// more information and examples, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html">Filtering
+  /// data transferred by DataSync</a>.
+  final List<FilterRule>? includes;
+
+  /// The time that the task execution actually begins. For non-queued tasks,
+  /// <code>LaunchTime</code> and <code>StartTime</code> are typically the same.
+  /// For queued tasks, <code>LaunchTime</code> is typically later than
+  /// <code>StartTime</code> because previously queued tasks must finish running
+  /// before newer tasks can begin.
+  final DateTime? launchTime;
+
+  /// The configuration of the manifest that lists the files or objects to
+  /// transfer. For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html">Specifying
+  /// what DataSync transfers by using a manifest</a>.
+  final ManifestConfig? manifestConfig;
+  final Options? options;
+
+  /// Indicates whether DataSync generated a complete <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html">task
+  /// report</a> for your transfer.
+  final ReportResult? reportResult;
+
+  /// The result of the task execution.
+  final TaskExecutionResultDetail? result;
+
+  /// The time that DataSync sends the request to start the task execution. For
+  /// non-queued tasks, <code>LaunchTime</code> and <code>StartTime</code> are
+  /// typically the same. For queued tasks, <code>LaunchTime</code> is typically
+  /// later than <code>StartTime</code> because previously queued tasks must
+  /// finish running before newer tasks can begin.
+  final DateTime? startTime;
+
+  /// The status of the task execution.
+  final TaskExecutionStatus? status;
+
+  /// The ARN of the task execution that you wanted information about.
+  /// <code>TaskExecutionArn</code> is hierarchical and includes
+  /// <code>TaskArn</code> for the task that was executed.
+  ///
+  /// For example, a <code>TaskExecution</code> value with the ARN
+  /// <code>arn:aws:datasync:us-east-1:111222333444:task/task-0208075f79cedf4a2/execution/exec-08ef1e88ec491019b</code>
+  /// executed the task with the ARN
+  /// <code>arn:aws:datasync:us-east-1:111222333444:task/task-0208075f79cedf4a2</code>.
+  final String? taskExecutionArn;
+
+  /// The task mode that you're using. For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html">Choosing
+  /// a task mode for your data transfer</a>.
+  final TaskMode? taskMode;
+
+  /// The configuration of your task report, which provides detailed information
+  /// about for your DataSync transfer. For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html">Creating
+  /// a task report</a>.
+  final TaskReportConfig? taskReportConfig;
+
+  DescribeTaskExecutionResponse({
+    this.bytesCompressed,
+    this.bytesTransferred,
+    this.bytesWritten,
+    this.endTime,
+    this.estimatedBytesToTransfer,
+    this.estimatedFilesToDelete,
+    this.estimatedFilesToTransfer,
+    this.estimatedFoldersToDelete,
+    this.estimatedFoldersToTransfer,
+    this.excludes,
+    this.filesDeleted,
+    this.filesFailed,
+    this.filesListed,
+    this.filesPrepared,
+    this.filesSkipped,
+    this.filesTransferred,
+    this.filesVerified,
+    this.foldersDeleted,
+    this.foldersFailed,
+    this.foldersListed,
+    this.foldersPrepared,
+    this.foldersSkipped,
+    this.foldersTransferred,
+    this.foldersVerified,
+    this.includes,
+    this.launchTime,
+    this.manifestConfig,
+    this.options,
+    this.reportResult,
+    this.result,
+    this.startTime,
+    this.status,
+    this.taskExecutionArn,
+    this.taskMode,
+    this.taskReportConfig,
   });
 
-  factory Ec2Config.fromJson(Map<String, dynamic> json) {
-    return Ec2Config(
-      securityGroupArns: ((json['SecurityGroupArns'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
+  factory DescribeTaskExecutionResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeTaskExecutionResponse(
+      bytesCompressed: json['BytesCompressed'] as int?,
+      bytesTransferred: json['BytesTransferred'] as int?,
+      bytesWritten: json['BytesWritten'] as int?,
+      endTime: timeStampFromJson(json['EndTime']),
+      estimatedBytesToTransfer: json['EstimatedBytesToTransfer'] as int?,
+      estimatedFilesToDelete: json['EstimatedFilesToDelete'] as int?,
+      estimatedFilesToTransfer: json['EstimatedFilesToTransfer'] as int?,
+      estimatedFoldersToDelete: json['EstimatedFoldersToDelete'] as int?,
+      estimatedFoldersToTransfer: json['EstimatedFoldersToTransfer'] as int?,
+      excludes: (json['Excludes'] as List?)
+          ?.nonNulls
+          .map((e) => FilterRule.fromJson(e as Map<String, dynamic>))
           .toList(),
-      subnetArn: (json['SubnetArn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final securityGroupArns = this.securityGroupArns;
-    final subnetArn = this.subnetArn;
-    return {
-      'SecurityGroupArns': securityGroupArns,
-      'SubnetArn': subnetArn,
-    };
-  }
-}
-
-class EfsInTransitEncryption {
-  static const none = EfsInTransitEncryption._('NONE');
-  static const tls1_2 = EfsInTransitEncryption._('TLS1_2');
-
-  final String value;
-
-  const EfsInTransitEncryption._(this.value);
-
-  static const values = [none, tls1_2];
-
-  static EfsInTransitEncryption fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EfsInTransitEncryption._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is EfsInTransitEncryption && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class EndpointType {
-  static const public = EndpointType._('PUBLIC');
-  static const privateLink = EndpointType._('PRIVATE_LINK');
-  static const fips = EndpointType._('FIPS');
-
-  final String value;
-
-  const EndpointType._(this.value);
-
-  static const values = [public, privateLink, fips];
-
-  static EndpointType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => EndpointType._(value));
-
-  @override
-  bool operator ==(other) => other is EndpointType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Specifies which files, folders, and objects to include or exclude when
-/// transferring files from source to destination.
-class FilterRule {
-  /// The type of filter rule to apply. DataSync only supports the SIMPLE_PATTERN
-  /// rule type.
-  final FilterType? filterType;
-
-  /// A single filter string that consists of the patterns to include or exclude.
-  /// The patterns are delimited by "|" (that is, a pipe), for example:
-  /// <code>/folder1|/folder2</code>
-  ///
-  ///
-  final String? value;
-
-  FilterRule({
-    this.filterType,
-    this.value,
-  });
-
-  factory FilterRule.fromJson(Map<String, dynamic> json) {
-    return FilterRule(
-      filterType: (json['FilterType'] as String?)?.let(FilterType.fromString),
-      value: json['Value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final filterType = this.filterType;
-    final value = this.value;
-    return {
-      if (filterType != null) 'FilterType': filterType.value,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-class FilterType {
-  static const simplePattern = FilterType._('SIMPLE_PATTERN');
-
-  final String value;
-
-  const FilterType._(this.value);
-
-  static const values = [simplePattern];
-
-  static FilterType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => FilterType._(value));
-
-  @override
-  bool operator ==(other) => other is FilterType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Specifies the data transfer protocol that DataSync uses to access your
-/// Amazon FSx file system.
-class FsxProtocol {
-  /// Specifies the Network File System (NFS) protocol configuration that DataSync
-  /// uses to access your FSx for OpenZFS file system or FSx for ONTAP file
-  /// system's storage virtual machine (SVM).
-  final FsxProtocolNfs? nfs;
-
-  /// Specifies the Server Message Block (SMB) protocol configuration that
-  /// DataSync uses to access your FSx for ONTAP file system's SVM.
-  final FsxProtocolSmb? smb;
-
-  FsxProtocol({
-    this.nfs,
-    this.smb,
-  });
-
-  factory FsxProtocol.fromJson(Map<String, dynamic> json) {
-    return FsxProtocol(
-      nfs: json['NFS'] != null
-          ? FsxProtocolNfs.fromJson(json['NFS'] as Map<String, dynamic>)
+      filesDeleted: json['FilesDeleted'] as int?,
+      filesFailed: json['FilesFailed'] != null
+          ? TaskExecutionFilesFailedDetail.fromJson(
+              json['FilesFailed'] as Map<String, dynamic>)
           : null,
-      smb: json['SMB'] != null
-          ? FsxProtocolSmb.fromJson(json['SMB'] as Map<String, dynamic>)
+      filesListed: json['FilesListed'] != null
+          ? TaskExecutionFilesListedDetail.fromJson(
+              json['FilesListed'] as Map<String, dynamic>)
+          : null,
+      filesPrepared: json['FilesPrepared'] as int?,
+      filesSkipped: json['FilesSkipped'] as int?,
+      filesTransferred: json['FilesTransferred'] as int?,
+      filesVerified: json['FilesVerified'] as int?,
+      foldersDeleted: json['FoldersDeleted'] as int?,
+      foldersFailed: json['FoldersFailed'] != null
+          ? TaskExecutionFoldersFailedDetail.fromJson(
+              json['FoldersFailed'] as Map<String, dynamic>)
+          : null,
+      foldersListed: json['FoldersListed'] != null
+          ? TaskExecutionFoldersListedDetail.fromJson(
+              json['FoldersListed'] as Map<String, dynamic>)
+          : null,
+      foldersPrepared: json['FoldersPrepared'] as int?,
+      foldersSkipped: json['FoldersSkipped'] as int?,
+      foldersTransferred: json['FoldersTransferred'] as int?,
+      foldersVerified: json['FoldersVerified'] as int?,
+      includes: (json['Includes'] as List?)
+          ?.nonNulls
+          .map((e) => FilterRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      launchTime: timeStampFromJson(json['LaunchTime']),
+      manifestConfig: json['ManifestConfig'] != null
+          ? ManifestConfig.fromJson(
+              json['ManifestConfig'] as Map<String, dynamic>)
+          : null,
+      options: json['Options'] != null
+          ? Options.fromJson(json['Options'] as Map<String, dynamic>)
+          : null,
+      reportResult: json['ReportResult'] != null
+          ? ReportResult.fromJson(json['ReportResult'] as Map<String, dynamic>)
+          : null,
+      result: json['Result'] != null
+          ? TaskExecutionResultDetail.fromJson(
+              json['Result'] as Map<String, dynamic>)
+          : null,
+      startTime: timeStampFromJson(json['StartTime']),
+      status: (json['Status'] as String?)?.let(TaskExecutionStatus.fromString),
+      taskExecutionArn: json['TaskExecutionArn'] as String?,
+      taskMode: (json['TaskMode'] as String?)?.let(TaskMode.fromString),
+      taskReportConfig: json['TaskReportConfig'] != null
+          ? TaskReportConfig.fromJson(
+              json['TaskReportConfig'] as Map<String, dynamic>)
           : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final nfs = this.nfs;
-    final smb = this.smb;
+    final bytesCompressed = this.bytesCompressed;
+    final bytesTransferred = this.bytesTransferred;
+    final bytesWritten = this.bytesWritten;
+    final endTime = this.endTime;
+    final estimatedBytesToTransfer = this.estimatedBytesToTransfer;
+    final estimatedFilesToDelete = this.estimatedFilesToDelete;
+    final estimatedFilesToTransfer = this.estimatedFilesToTransfer;
+    final estimatedFoldersToDelete = this.estimatedFoldersToDelete;
+    final estimatedFoldersToTransfer = this.estimatedFoldersToTransfer;
+    final excludes = this.excludes;
+    final filesDeleted = this.filesDeleted;
+    final filesFailed = this.filesFailed;
+    final filesListed = this.filesListed;
+    final filesPrepared = this.filesPrepared;
+    final filesSkipped = this.filesSkipped;
+    final filesTransferred = this.filesTransferred;
+    final filesVerified = this.filesVerified;
+    final foldersDeleted = this.foldersDeleted;
+    final foldersFailed = this.foldersFailed;
+    final foldersListed = this.foldersListed;
+    final foldersPrepared = this.foldersPrepared;
+    final foldersSkipped = this.foldersSkipped;
+    final foldersTransferred = this.foldersTransferred;
+    final foldersVerified = this.foldersVerified;
+    final includes = this.includes;
+    final launchTime = this.launchTime;
+    final manifestConfig = this.manifestConfig;
+    final options = this.options;
+    final reportResult = this.reportResult;
+    final result = this.result;
+    final startTime = this.startTime;
+    final status = this.status;
+    final taskExecutionArn = this.taskExecutionArn;
+    final taskMode = this.taskMode;
+    final taskReportConfig = this.taskReportConfig;
     return {
-      if (nfs != null) 'NFS': nfs,
-      if (smb != null) 'SMB': smb,
-    };
-  }
-}
-
-/// Specifies the Network File System (NFS) protocol configuration that DataSync
-/// uses to access your Amazon FSx for OpenZFS or Amazon FSx for NetApp ONTAP
-/// file system.
-class FsxProtocolNfs {
-  final NfsMountOptions? mountOptions;
-
-  FsxProtocolNfs({
-    this.mountOptions,
-  });
-
-  factory FsxProtocolNfs.fromJson(Map<String, dynamic> json) {
-    return FsxProtocolNfs(
-      mountOptions: json['MountOptions'] != null
-          ? NfsMountOptions.fromJson(
-              json['MountOptions'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final mountOptions = this.mountOptions;
-    return {
-      if (mountOptions != null) 'MountOptions': mountOptions,
-    };
-  }
-}
-
-/// Specifies the Server Message Block (SMB) protocol configuration that
-/// DataSync uses to access your Amazon FSx for NetApp ONTAP file system. For
-/// more information, see <a
-/// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-ontap-location.html#create-ontap-location-access">Accessing
-/// FSx for ONTAP file systems</a>.
-class FsxProtocolSmb {
-  /// Specifies the password of a user who has permission to access your SVM.
-  final String password;
-
-  /// Specifies a user that can mount and access the files, folders, and metadata
-  /// in your SVM.
-  ///
-  /// For information about choosing a user with the right level of access for
-  /// your transfer, see <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-ontap-location.html#create-ontap-location-smb">Using
-  /// the SMB protocol</a>.
-  final String user;
-
-  /// Specifies the fully qualified domain name (FQDN) of the Microsoft Active
-  /// Directory that your storage virtual machine (SVM) belongs to.
-  ///
-  /// If you have multiple domains in your environment, configuring this setting
-  /// makes sure that DataSync connects to the right SVM.
-  final String? domain;
-  final SmbMountOptions? mountOptions;
-
-  FsxProtocolSmb({
-    required this.password,
-    required this.user,
-    this.domain,
-    this.mountOptions,
-  });
-
-  factory FsxProtocolSmb.fromJson(Map<String, dynamic> json) {
-    return FsxProtocolSmb(
-      password: (json['Password'] as String?) ?? '',
-      user: (json['User'] as String?) ?? '',
-      domain: json['Domain'] as String?,
-      mountOptions: json['MountOptions'] != null
-          ? SmbMountOptions.fromJson(
-              json['MountOptions'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final password = this.password;
-    final user = this.user;
-    final domain = this.domain;
-    final mountOptions = this.mountOptions;
-    return {
-      'Password': password,
-      'User': user,
-      if (domain != null) 'Domain': domain,
-      if (mountOptions != null) 'MountOptions': mountOptions,
-    };
-  }
-}
-
-class GenerateRecommendationsResponse {
-  GenerateRecommendationsResponse();
-
-  factory GenerateRecommendationsResponse.fromJson(Map<String, dynamic> _) {
-    return GenerateRecommendationsResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class Gid {
-  static const none = Gid._('NONE');
-  static const intValue = Gid._('INT_VALUE');
-  static const name = Gid._('NAME');
-  static const both = Gid._('BOTH');
-
-  final String value;
-
-  const Gid._(this.value);
-
-  static const values = [none, intValue, name, both];
-
-  static Gid fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Gid._(value));
-
-  @override
-  bool operator ==(other) => other is Gid && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class HdfsAuthenticationType {
-  static const simple = HdfsAuthenticationType._('SIMPLE');
-  static const kerberos = HdfsAuthenticationType._('KERBEROS');
-
-  final String value;
-
-  const HdfsAuthenticationType._(this.value);
-
-  static const values = [simple, kerberos];
-
-  static HdfsAuthenticationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => HdfsAuthenticationType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is HdfsAuthenticationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class HdfsDataTransferProtection {
-  static const disabled = HdfsDataTransferProtection._('DISABLED');
-  static const authentication = HdfsDataTransferProtection._('AUTHENTICATION');
-  static const integrity = HdfsDataTransferProtection._('INTEGRITY');
-  static const privacy = HdfsDataTransferProtection._('PRIVACY');
-
-  final String value;
-
-  const HdfsDataTransferProtection._(this.value);
-
-  static const values = [disabled, authentication, integrity, privacy];
-
-  static HdfsDataTransferProtection fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => HdfsDataTransferProtection._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is HdfsDataTransferProtection && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The NameNode of the Hadoop Distributed File System (HDFS). The NameNode
-/// manages the file system's namespace. The NameNode performs operations such
-/// as opening, closing, and renaming files and directories. The NameNode
-/// contains the information to map blocks of data to the DataNodes.
-class HdfsNameNode {
-  /// The hostname of the NameNode in the HDFS cluster. This value is the IP
-  /// address or Domain Name Service (DNS) name of the NameNode. An agent that's
-  /// installed on-premises uses this hostname to communicate with the NameNode in
-  /// the network.
-  final String hostname;
-
-  /// The port that the NameNode uses to listen to client requests.
-  final int port;
-
-  HdfsNameNode({
-    required this.hostname,
-    required this.port,
-  });
-
-  factory HdfsNameNode.fromJson(Map<String, dynamic> json) {
-    return HdfsNameNode(
-      hostname: (json['Hostname'] as String?) ?? '',
-      port: (json['Port'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hostname = this.hostname;
-    final port = this.port;
-    return {
-      'Hostname': hostname,
-      'Port': port,
-    };
-  }
-}
-
-class HdfsRpcProtection {
-  static const disabled = HdfsRpcProtection._('DISABLED');
-  static const authentication = HdfsRpcProtection._('AUTHENTICATION');
-  static const integrity = HdfsRpcProtection._('INTEGRITY');
-  static const privacy = HdfsRpcProtection._('PRIVACY');
-
-  final String value;
-
-  const HdfsRpcProtection._(this.value);
-
-  static const values = [disabled, authentication, integrity, privacy];
-
-  static HdfsRpcProtection fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => HdfsRpcProtection._(value));
-
-  @override
-  bool operator ==(other) => other is HdfsRpcProtection && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The IOPS peaks for an on-premises storage system resource. Each data point
-/// represents the 95th percentile peak value during a 1-hour interval.
-class IOPS {
-  /// Peak IOPS unrelated to read and write operations.
-  final double? other;
-
-  /// Peak IOPS related to read operations.
-  final double? read;
-
-  /// Peak total IOPS on your on-premises storage system resource.
-  final double? total;
-
-  /// Peak IOPS related to write operations.
-  final double? write;
-
-  IOPS({
-    this.other,
-    this.read,
-    this.total,
-    this.write,
-  });
-
-  factory IOPS.fromJson(Map<String, dynamic> json) {
-    return IOPS(
-      other: json['Other'] as double?,
-      read: json['Read'] as double?,
-      total: json['Total'] as double?,
-      write: json['Write'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final other = this.other;
-    final read = this.read;
-    final total = this.total;
-    final write = this.write;
-    return {
-      if (other != null) 'Other': other,
-      if (read != null) 'Read': read,
-      if (total != null) 'Total': total,
-      if (write != null) 'Write': write,
-    };
-  }
-}
-
-/// The latency peaks for an on-premises storage system resource. Each data
-/// point represents the 95th percentile peak value during a 1-hour interval.
-class Latency {
-  /// Peak latency for operations unrelated to read and write operations.
-  final double? other;
-
-  /// Peak latency for read operations.
-  final double? read;
-
-  /// Peak latency for write operations.
-  final double? write;
-
-  Latency({
-    this.other,
-    this.read,
-    this.write,
-  });
-
-  factory Latency.fromJson(Map<String, dynamic> json) {
-    return Latency(
-      other: json['Other'] as double?,
-      read: json['Read'] as double?,
-      write: json['Write'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final other = this.other;
-    final read = this.read;
-    final write = this.write;
-    return {
-      if (other != null) 'Other': other,
-      if (read != null) 'Read': read,
-      if (write != null) 'Write': write,
+      if (bytesCompressed != null) 'BytesCompressed': bytesCompressed,
+      if (bytesTransferred != null) 'BytesTransferred': bytesTransferred,
+      if (bytesWritten != null) 'BytesWritten': bytesWritten,
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (estimatedBytesToTransfer != null)
+        'EstimatedBytesToTransfer': estimatedBytesToTransfer,
+      if (estimatedFilesToDelete != null)
+        'EstimatedFilesToDelete': estimatedFilesToDelete,
+      if (estimatedFilesToTransfer != null)
+        'EstimatedFilesToTransfer': estimatedFilesToTransfer,
+      if (estimatedFoldersToDelete != null)
+        'EstimatedFoldersToDelete': estimatedFoldersToDelete,
+      if (estimatedFoldersToTransfer != null)
+        'EstimatedFoldersToTransfer': estimatedFoldersToTransfer,
+      if (excludes != null) 'Excludes': excludes,
+      if (filesDeleted != null) 'FilesDeleted': filesDeleted,
+      if (filesFailed != null) 'FilesFailed': filesFailed,
+      if (filesListed != null) 'FilesListed': filesListed,
+      if (filesPrepared != null) 'FilesPrepared': filesPrepared,
+      if (filesSkipped != null) 'FilesSkipped': filesSkipped,
+      if (filesTransferred != null) 'FilesTransferred': filesTransferred,
+      if (filesVerified != null) 'FilesVerified': filesVerified,
+      if (foldersDeleted != null) 'FoldersDeleted': foldersDeleted,
+      if (foldersFailed != null) 'FoldersFailed': foldersFailed,
+      if (foldersListed != null) 'FoldersListed': foldersListed,
+      if (foldersPrepared != null) 'FoldersPrepared': foldersPrepared,
+      if (foldersSkipped != null) 'FoldersSkipped': foldersSkipped,
+      if (foldersTransferred != null) 'FoldersTransferred': foldersTransferred,
+      if (foldersVerified != null) 'FoldersVerified': foldersVerified,
+      if (includes != null) 'Includes': includes,
+      if (launchTime != null) 'LaunchTime': unixTimestampToJson(launchTime),
+      if (manifestConfig != null) 'ManifestConfig': manifestConfig,
+      if (options != null) 'Options': options,
+      if (reportResult != null) 'ReportResult': reportResult,
+      if (result != null) 'Result': result,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (status != null) 'Status': status.value,
+      if (taskExecutionArn != null) 'TaskExecutionArn': taskExecutionArn,
+      if (taskMode != null) 'TaskMode': taskMode.value,
+      if (taskReportConfig != null) 'TaskReportConfig': taskReportConfig,
     };
   }
 }
@@ -6529,39 +6130,6 @@ class ListAgentsResponse {
   }
 }
 
-class ListDiscoveryJobsResponse {
-  /// The discovery jobs that you've run.
-  final List<DiscoveryJobListEntry>? discoveryJobs;
-
-  /// The opaque string that indicates the position to begin the next list of
-  /// results in the response.
-  final String? nextToken;
-
-  ListDiscoveryJobsResponse({
-    this.discoveryJobs,
-    this.nextToken,
-  });
-
-  factory ListDiscoveryJobsResponse.fromJson(Map<String, dynamic> json) {
-    return ListDiscoveryJobsResponse(
-      discoveryJobs: (json['DiscoveryJobs'] as List?)
-          ?.nonNulls
-          .map((e) => DiscoveryJobListEntry.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final discoveryJobs = this.discoveryJobs;
-    final nextToken = this.nextToken;
-    return {
-      if (discoveryJobs != null) 'DiscoveryJobs': discoveryJobs,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
 /// ListLocationsResponse
 class ListLocationsResponse {
   /// An array that contains a list of locations.
@@ -6592,41 +6160,6 @@ class ListLocationsResponse {
     return {
       if (locations != null) 'Locations': locations,
       if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListStorageSystemsResponse {
-  /// The opaque string that indicates the position to begin the next list of
-  /// results in the response.
-  final String? nextToken;
-
-  /// The Amazon Resource Names ARNs) of the on-premises storage systems that
-  /// you're using with DataSync Discovery.
-  final List<StorageSystemListEntry>? storageSystems;
-
-  ListStorageSystemsResponse({
-    this.nextToken,
-    this.storageSystems,
-  });
-
-  factory ListStorageSystemsResponse.fromJson(Map<String, dynamic> json) {
-    return ListStorageSystemsResponse(
-      nextToken: json['NextToken'] as String?,
-      storageSystems: (json['StorageSystems'] as List?)
-          ?.nonNulls
-          .map(
-              (e) => StorageSystemListEntry.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final storageSystems = this.storageSystems;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (storageSystems != null) 'StorageSystems': storageSystems,
     };
   }
 }
@@ -6734,992 +6267,219 @@ class ListTasksResponse {
   }
 }
 
-/// Narrow down the list of resources returned by <code>ListLocations</code>.
-/// For example, to see all your Amazon S3 locations, create a filter using
-/// <code>"Name": "LocationType"</code>, <code>"Operator": "Equals"</code>, and
-/// <code>"Values": "S3"</code>.
-///
-/// For more information, see <a
-/// href="https://docs.aws.amazon.com/datasync/latest/userguide/query-resources.html">filtering
-/// resources</a>.
-class LocationFilter {
-  /// The name of the filter being used. Each API call supports a list of filters
-  /// that are available for it (for example, <code>LocationType</code> for
-  /// <code>ListLocations</code>).
-  final LocationFilterName name;
+/// StartTaskExecutionResponse
+class StartTaskExecutionResponse {
+  /// The ARN of the running task execution.
+  final String? taskExecutionArn;
 
-  /// The operator that is used to compare filter values (for example,
-  /// <code>Equals</code> or <code>Contains</code>).
-  final Operator operator;
-
-  /// The values that you want to filter for. For example, you might want to
-  /// display only Amazon S3 locations.
-  final List<String> values;
-
-  LocationFilter({
-    required this.name,
-    required this.operator,
-    required this.values,
+  StartTaskExecutionResponse({
+    this.taskExecutionArn,
   });
 
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final operator = this.operator;
-    final values = this.values;
-    return {
-      'Name': name.value,
-      'Operator': operator.value,
-      'Values': values,
-    };
-  }
-}
-
-class LocationFilterName {
-  static const locationUri = LocationFilterName._('LocationUri');
-  static const locationType = LocationFilterName._('LocationType');
-  static const creationTime = LocationFilterName._('CreationTime');
-
-  final String value;
-
-  const LocationFilterName._(this.value);
-
-  static const values = [locationUri, locationType, creationTime];
-
-  static LocationFilterName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LocationFilterName._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is LocationFilterName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents a single entry in a list of locations.
-/// <code>LocationListEntry</code> returns an array that contains a list of
-/// locations when the <a
-/// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_ListLocations.html">ListLocations</a>
-/// operation is called.
-class LocationListEntry {
-  /// The Amazon Resource Name (ARN) of the location. For Network File System
-  /// (NFS) or Amazon EFS, the location is the export path. For Amazon S3, the
-  /// location is the prefix path that you want to mount and use as the root of
-  /// the location.
-  final String? locationArn;
-
-  /// Represents a list of URIs of a location. <code>LocationUri</code> returns an
-  /// array that contains a list of locations when the <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_ListLocations.html">ListLocations</a>
-  /// operation is called.
-  ///
-  /// Format: <code>TYPE://GLOBAL_ID/SUBDIR</code>.
-  ///
-  /// TYPE designates the type of location (for example, <code>nfs</code> or
-  /// <code>s3</code>).
-  ///
-  /// GLOBAL_ID is the globally unique identifier of the resource that backs the
-  /// location. An example for EFS is <code>us-east-2.fs-abcd1234</code>. An
-  /// example for Amazon S3 is the bucket name, such as <code>myBucket</code>. An
-  /// example for NFS is a valid IPv4 address or a hostname that is compliant with
-  /// Domain Name Service (DNS).
-  ///
-  /// SUBDIR is a valid file system path, delimited by forward slashes as is the
-  /// *nix convention. For NFS and Amazon EFS, it's the export path to mount the
-  /// location. For Amazon S3, it's the prefix path that you mount to and treat as
-  /// the root of the location.
-  /// <p/>
-  final String? locationUri;
-
-  LocationListEntry({
-    this.locationArn,
-    this.locationUri,
-  });
-
-  factory LocationListEntry.fromJson(Map<String, dynamic> json) {
-    return LocationListEntry(
-      locationArn: json['LocationArn'] as String?,
-      locationUri: json['LocationUri'] as String?,
+  factory StartTaskExecutionResponse.fromJson(Map<String, dynamic> json) {
+    return StartTaskExecutionResponse(
+      taskExecutionArn: json['TaskExecutionArn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final locationArn = this.locationArn;
-    final locationUri = this.locationUri;
+    final taskExecutionArn = this.taskExecutionArn;
     return {
-      if (locationArn != null) 'LocationArn': locationArn,
-      if (locationUri != null) 'LocationUri': locationUri,
+      if (taskExecutionArn != null) 'TaskExecutionArn': taskExecutionArn,
     };
   }
 }
 
-class LogLevel {
-  static const off = LogLevel._('OFF');
-  static const basic = LogLevel._('BASIC');
-  static const transfer = LogLevel._('TRANSFER');
+class TagResourceResponse {
+  TagResourceResponse();
 
-  final String value;
-
-  const LogLevel._(this.value);
-
-  static const values = [off, basic, transfer];
-
-  static LogLevel fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => LogLevel._(value));
-
-  @override
-  bool operator ==(other) => other is LogLevel && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ManifestAction {
-  static const transfer = ManifestAction._('TRANSFER');
-
-  final String value;
-
-  const ManifestAction._(this.value);
-
-  static const values = [transfer];
-
-  static ManifestAction fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ManifestAction._(value));
-
-  @override
-  bool operator ==(other) => other is ManifestAction && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Configures a manifest, which is a list of files or objects that you want
-/// DataSync to transfer. For more information and configuration examples, see
-/// <a
-/// href="https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html">Specifying
-/// what DataSync transfers by using a manifest</a>.
-class ManifestConfig {
-  /// Specifies what DataSync uses the manifest for.
-  final ManifestAction? action;
-
-  /// Specifies the file format of your manifest. For more information, see <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html#transferring-with-manifest-create">Creating
-  /// a manifest</a>.
-  final ManifestFormat? format;
-
-  /// Specifies the manifest that you want DataSync to use and where it's hosted.
-  /// <note>
-  /// You must specify this parameter if you're configuring a new manifest on or
-  /// after February 7, 2024.
-  ///
-  /// If you don't, you'll get a 400 status code and
-  /// <code>ValidationException</code> error stating that you're missing the IAM
-  /// role for DataSync to access the S3 bucket where you're hosting your
-  /// manifest. For more information, see <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html#transferring-with-manifest-access">Providing
-  /// DataSync access to your manifest</a>.
-  /// </note>
-  final SourceManifestConfig? source;
-
-  ManifestConfig({
-    this.action,
-    this.format,
-    this.source,
-  });
-
-  factory ManifestConfig.fromJson(Map<String, dynamic> json) {
-    return ManifestConfig(
-      action: (json['Action'] as String?)?.let(ManifestAction.fromString),
-      format: (json['Format'] as String?)?.let(ManifestFormat.fromString),
-      source: json['Source'] != null
-          ? SourceManifestConfig.fromJson(
-              json['Source'] as Map<String, dynamic>)
-          : null,
-    );
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
   }
 
   Map<String, dynamic> toJson() {
-    final action = this.action;
-    final format = this.format;
-    final source = this.source;
-    return {
-      if (action != null) 'Action': action.value,
-      if (format != null) 'Format': format.value,
-      if (source != null) 'Source': source,
-    };
+    return {};
   }
 }
 
-class ManifestFormat {
-  static const csv = ManifestFormat._('CSV');
+class UntagResourceResponse {
+  UntagResourceResponse();
 
-  final String value;
-
-  const ManifestFormat._(this.value);
-
-  static const values = [csv];
-
-  static ManifestFormat fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ManifestFormat._(value));
-
-  @override
-  bool operator ==(other) => other is ManifestFormat && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The performance data that DataSync Discovery collects about an on-premises
-/// storage system resource.
-class MaxP95Performance {
-  /// Peak IOPS unrelated to read and write operations.
-  final double? iopsOther;
-
-  /// Peak IOPS related to read operations.
-  final double? iopsRead;
-
-  /// Peak total IOPS on your on-premises storage system resource.
-  final double? iopsTotal;
-
-  /// Peak IOPS related to write operations.
-  final double? iopsWrite;
-
-  /// Peak latency for operations unrelated to read and write operations.
-  final double? latencyOther;
-
-  /// Peak latency for read operations.
-  final double? latencyRead;
-
-  /// Peak latency for write operations.
-  final double? latencyWrite;
-
-  /// Peak throughput unrelated to read and write operations.
-  final double? throughputOther;
-
-  /// Peak throughput related to read operations.
-  final double? throughputRead;
-
-  /// Peak total throughput on your on-premises storage system resource.
-  final double? throughputTotal;
-
-  /// Peak throughput related to write operations.
-  final double? throughputWrite;
-
-  MaxP95Performance({
-    this.iopsOther,
-    this.iopsRead,
-    this.iopsTotal,
-    this.iopsWrite,
-    this.latencyOther,
-    this.latencyRead,
-    this.latencyWrite,
-    this.throughputOther,
-    this.throughputRead,
-    this.throughputTotal,
-    this.throughputWrite,
-  });
-
-  factory MaxP95Performance.fromJson(Map<String, dynamic> json) {
-    return MaxP95Performance(
-      iopsOther: json['IopsOther'] as double?,
-      iopsRead: json['IopsRead'] as double?,
-      iopsTotal: json['IopsTotal'] as double?,
-      iopsWrite: json['IopsWrite'] as double?,
-      latencyOther: json['LatencyOther'] as double?,
-      latencyRead: json['LatencyRead'] as double?,
-      latencyWrite: json['LatencyWrite'] as double?,
-      throughputOther: json['ThroughputOther'] as double?,
-      throughputRead: json['ThroughputRead'] as double?,
-      throughputTotal: json['ThroughputTotal'] as double?,
-      throughputWrite: json['ThroughputWrite'] as double?,
-    );
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
   }
 
   Map<String, dynamic> toJson() {
-    final iopsOther = this.iopsOther;
-    final iopsRead = this.iopsRead;
-    final iopsTotal = this.iopsTotal;
-    final iopsWrite = this.iopsWrite;
-    final latencyOther = this.latencyOther;
-    final latencyRead = this.latencyRead;
-    final latencyWrite = this.latencyWrite;
-    final throughputOther = this.throughputOther;
-    final throughputRead = this.throughputRead;
-    final throughputTotal = this.throughputTotal;
-    final throughputWrite = this.throughputWrite;
-    return {
-      if (iopsOther != null) 'IopsOther': iopsOther,
-      if (iopsRead != null) 'IopsRead': iopsRead,
-      if (iopsTotal != null) 'IopsTotal': iopsTotal,
-      if (iopsWrite != null) 'IopsWrite': iopsWrite,
-      if (latencyOther != null) 'LatencyOther': latencyOther,
-      if (latencyRead != null) 'LatencyRead': latencyRead,
-      if (latencyWrite != null) 'LatencyWrite': latencyWrite,
-      if (throughputOther != null) 'ThroughputOther': throughputOther,
-      if (throughputRead != null) 'ThroughputRead': throughputRead,
-      if (throughputTotal != null) 'ThroughputTotal': throughputTotal,
-      if (throughputWrite != null) 'ThroughputWrite': throughputWrite,
-    };
+    return {};
   }
 }
 
-class Mtime {
-  static const none = Mtime._('NONE');
-  static const preserve = Mtime._('PRESERVE');
+class UpdateAgentResponse {
+  UpdateAgentResponse();
 
-  final String value;
-
-  const Mtime._(this.value);
-
-  static const values = [none, preserve];
-
-  static Mtime fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Mtime._(value));
-
-  @override
-  bool operator ==(other) => other is Mtime && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The information that DataSync Discovery collects about an on-premises
-/// storage system cluster.
-class NetAppONTAPCluster {
-  /// The number of CIFS shares in the cluster.
-  final int? cifsShareCount;
-
-  /// The storage space that's being used in the cluster without accounting for
-  /// compression or deduplication.
-  final int? clusterBlockStorageLogicalUsed;
-
-  /// The total storage space that's available in the cluster.
-  final int? clusterBlockStorageSize;
-
-  /// The storage space that's being used in a cluster.
-  final int? clusterBlockStorageUsed;
-
-  /// The amount of space in the cluster that's in cloud storage (for example, if
-  /// you're using data tiering).
-  final int? clusterCloudStorageUsed;
-
-  /// The name of the cluster.
-  final String? clusterName;
-
-  /// The number of LUNs (logical unit numbers) in the cluster.
-  final int? lunCount;
-
-  /// The performance data that DataSync Discovery collects about the cluster.
-  final MaxP95Performance? maxP95Performance;
-
-  /// The number of NFS volumes in the cluster.
-  final int? nfsExportedVolumes;
-
-  /// Indicates whether DataSync Discovery recommendations for the cluster are
-  /// ready to view, incomplete, or can't be determined.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/discovery-job-statuses.html#recommendation-statuses-table">Recommendation
-  /// statuses</a>.
-  final RecommendationStatus? recommendationStatus;
-
-  /// The Amazon Web Services storage services that DataSync Discovery recommends
-  /// for the cluster. For more information, see <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/discovery-understand-recommendations.html">Recommendations
-  /// provided by DataSync Discovery</a>.
-  final List<Recommendation>? recommendations;
-
-  /// The universally unique identifier (UUID) of the cluster.
-  final String? resourceId;
-
-  NetAppONTAPCluster({
-    this.cifsShareCount,
-    this.clusterBlockStorageLogicalUsed,
-    this.clusterBlockStorageSize,
-    this.clusterBlockStorageUsed,
-    this.clusterCloudStorageUsed,
-    this.clusterName,
-    this.lunCount,
-    this.maxP95Performance,
-    this.nfsExportedVolumes,
-    this.recommendationStatus,
-    this.recommendations,
-    this.resourceId,
-  });
-
-  factory NetAppONTAPCluster.fromJson(Map<String, dynamic> json) {
-    return NetAppONTAPCluster(
-      cifsShareCount: json['CifsShareCount'] as int?,
-      clusterBlockStorageLogicalUsed:
-          json['ClusterBlockStorageLogicalUsed'] as int?,
-      clusterBlockStorageSize: json['ClusterBlockStorageSize'] as int?,
-      clusterBlockStorageUsed: json['ClusterBlockStorageUsed'] as int?,
-      clusterCloudStorageUsed: json['ClusterCloudStorageUsed'] as int?,
-      clusterName: json['ClusterName'] as String?,
-      lunCount: json['LunCount'] as int?,
-      maxP95Performance: json['MaxP95Performance'] != null
-          ? MaxP95Performance.fromJson(
-              json['MaxP95Performance'] as Map<String, dynamic>)
-          : null,
-      nfsExportedVolumes: json['NfsExportedVolumes'] as int?,
-      recommendationStatus: (json['RecommendationStatus'] as String?)
-          ?.let(RecommendationStatus.fromString),
-      recommendations: (json['Recommendations'] as List?)
-          ?.nonNulls
-          .map((e) => Recommendation.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      resourceId: json['ResourceId'] as String?,
-    );
+  factory UpdateAgentResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateAgentResponse();
   }
 
   Map<String, dynamic> toJson() {
-    final cifsShareCount = this.cifsShareCount;
-    final clusterBlockStorageLogicalUsed = this.clusterBlockStorageLogicalUsed;
-    final clusterBlockStorageSize = this.clusterBlockStorageSize;
-    final clusterBlockStorageUsed = this.clusterBlockStorageUsed;
-    final clusterCloudStorageUsed = this.clusterCloudStorageUsed;
-    final clusterName = this.clusterName;
-    final lunCount = this.lunCount;
-    final maxP95Performance = this.maxP95Performance;
-    final nfsExportedVolumes = this.nfsExportedVolumes;
-    final recommendationStatus = this.recommendationStatus;
-    final recommendations = this.recommendations;
-    final resourceId = this.resourceId;
-    return {
-      if (cifsShareCount != null) 'CifsShareCount': cifsShareCount,
-      if (clusterBlockStorageLogicalUsed != null)
-        'ClusterBlockStorageLogicalUsed': clusterBlockStorageLogicalUsed,
-      if (clusterBlockStorageSize != null)
-        'ClusterBlockStorageSize': clusterBlockStorageSize,
-      if (clusterBlockStorageUsed != null)
-        'ClusterBlockStorageUsed': clusterBlockStorageUsed,
-      if (clusterCloudStorageUsed != null)
-        'ClusterCloudStorageUsed': clusterCloudStorageUsed,
-      if (clusterName != null) 'ClusterName': clusterName,
-      if (lunCount != null) 'LunCount': lunCount,
-      if (maxP95Performance != null) 'MaxP95Performance': maxP95Performance,
-      if (nfsExportedVolumes != null) 'NfsExportedVolumes': nfsExportedVolumes,
-      if (recommendationStatus != null)
-        'RecommendationStatus': recommendationStatus.value,
-      if (recommendations != null) 'Recommendations': recommendations,
-      if (resourceId != null) 'ResourceId': resourceId,
-    };
+    return {};
   }
 }
 
-/// The information that DataSync Discovery collects about a storage virtual
-/// machine (SVM) in your on-premises storage system.
-class NetAppONTAPSVM {
-  /// The number of CIFS shares in the SVM.
-  final int? cifsShareCount;
+class UpdateLocationAzureBlobResponse {
+  UpdateLocationAzureBlobResponse();
 
-  /// The universally unique identifier (UUID) of the cluster associated with the
-  /// SVM.
-  final String? clusterUuid;
-
-  /// The data transfer protocols (such as NFS) configured for the SVM.
-  final List<String>? enabledProtocols;
-
-  /// The number of LUNs (logical unit numbers) in the SVM.
-  final int? lunCount;
-
-  /// The performance data that DataSync Discovery collects about the SVM.
-  final MaxP95Performance? maxP95Performance;
-
-  /// The number of NFS volumes in the SVM.
-  final int? nfsExportedVolumes;
-
-  /// Indicates whether DataSync Discovery recommendations for the SVM are ready
-  /// to view, incomplete, or can't be determined.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/discovery-job-statuses.html#recommendation-statuses-table">Recommendation
-  /// statuses</a>.
-  final RecommendationStatus? recommendationStatus;
-
-  /// The Amazon Web Services storage services that DataSync Discovery recommends
-  /// for the SVM. For more information, see <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/discovery-understand-recommendations.html">Recommendations
-  /// provided by DataSync Discovery</a>.
-  final List<Recommendation>? recommendations;
-
-  /// The UUID of the SVM.
-  final String? resourceId;
-
-  /// The name of the SVM
-  final String? svmName;
-
-  /// The total storage space that's available in the SVM.
-  final int? totalCapacityProvisioned;
-
-  /// The storage space that's being used in the SVM.
-  final int? totalCapacityUsed;
-
-  /// The storage space that's being used in the SVM without accounting for
-  /// compression or deduplication.
-  final int? totalLogicalCapacityUsed;
-
-  /// The amount of storage in the SVM that's being used for snapshots.
-  final int? totalSnapshotCapacityUsed;
-
-  NetAppONTAPSVM({
-    this.cifsShareCount,
-    this.clusterUuid,
-    this.enabledProtocols,
-    this.lunCount,
-    this.maxP95Performance,
-    this.nfsExportedVolumes,
-    this.recommendationStatus,
-    this.recommendations,
-    this.resourceId,
-    this.svmName,
-    this.totalCapacityProvisioned,
-    this.totalCapacityUsed,
-    this.totalLogicalCapacityUsed,
-    this.totalSnapshotCapacityUsed,
-  });
-
-  factory NetAppONTAPSVM.fromJson(Map<String, dynamic> json) {
-    return NetAppONTAPSVM(
-      cifsShareCount: json['CifsShareCount'] as int?,
-      clusterUuid: json['ClusterUuid'] as String?,
-      enabledProtocols: (json['EnabledProtocols'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      lunCount: json['LunCount'] as int?,
-      maxP95Performance: json['MaxP95Performance'] != null
-          ? MaxP95Performance.fromJson(
-              json['MaxP95Performance'] as Map<String, dynamic>)
-          : null,
-      nfsExportedVolumes: json['NfsExportedVolumes'] as int?,
-      recommendationStatus: (json['RecommendationStatus'] as String?)
-          ?.let(RecommendationStatus.fromString),
-      recommendations: (json['Recommendations'] as List?)
-          ?.nonNulls
-          .map((e) => Recommendation.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      resourceId: json['ResourceId'] as String?,
-      svmName: json['SvmName'] as String?,
-      totalCapacityProvisioned: json['TotalCapacityProvisioned'] as int?,
-      totalCapacityUsed: json['TotalCapacityUsed'] as int?,
-      totalLogicalCapacityUsed: json['TotalLogicalCapacityUsed'] as int?,
-      totalSnapshotCapacityUsed: json['TotalSnapshotCapacityUsed'] as int?,
-    );
+  factory UpdateLocationAzureBlobResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateLocationAzureBlobResponse();
   }
 
   Map<String, dynamic> toJson() {
-    final cifsShareCount = this.cifsShareCount;
-    final clusterUuid = this.clusterUuid;
-    final enabledProtocols = this.enabledProtocols;
-    final lunCount = this.lunCount;
-    final maxP95Performance = this.maxP95Performance;
-    final nfsExportedVolumes = this.nfsExportedVolumes;
-    final recommendationStatus = this.recommendationStatus;
-    final recommendations = this.recommendations;
-    final resourceId = this.resourceId;
-    final svmName = this.svmName;
-    final totalCapacityProvisioned = this.totalCapacityProvisioned;
-    final totalCapacityUsed = this.totalCapacityUsed;
-    final totalLogicalCapacityUsed = this.totalLogicalCapacityUsed;
-    final totalSnapshotCapacityUsed = this.totalSnapshotCapacityUsed;
-    return {
-      if (cifsShareCount != null) 'CifsShareCount': cifsShareCount,
-      if (clusterUuid != null) 'ClusterUuid': clusterUuid,
-      if (enabledProtocols != null) 'EnabledProtocols': enabledProtocols,
-      if (lunCount != null) 'LunCount': lunCount,
-      if (maxP95Performance != null) 'MaxP95Performance': maxP95Performance,
-      if (nfsExportedVolumes != null) 'NfsExportedVolumes': nfsExportedVolumes,
-      if (recommendationStatus != null)
-        'RecommendationStatus': recommendationStatus.value,
-      if (recommendations != null) 'Recommendations': recommendations,
-      if (resourceId != null) 'ResourceId': resourceId,
-      if (svmName != null) 'SvmName': svmName,
-      if (totalCapacityProvisioned != null)
-        'TotalCapacityProvisioned': totalCapacityProvisioned,
-      if (totalCapacityUsed != null) 'TotalCapacityUsed': totalCapacityUsed,
-      if (totalLogicalCapacityUsed != null)
-        'TotalLogicalCapacityUsed': totalLogicalCapacityUsed,
-      if (totalSnapshotCapacityUsed != null)
-        'TotalSnapshotCapacityUsed': totalSnapshotCapacityUsed,
-    };
+    return {};
   }
 }
 
-/// The information that DataSync Discovery collects about a volume in your
-/// on-premises storage system.
-class NetAppONTAPVolume {
-  /// The total storage space that's available in the volume.
-  final int? capacityProvisioned;
+class UpdateLocationEfsResponse {
+  UpdateLocationEfsResponse();
 
-  /// The storage space that's being used in the volume.
-  final int? capacityUsed;
-
-  /// The number of CIFS shares in the volume.
-  final int? cifsShareCount;
-
-  /// The storage space that's being used in the volume without accounting for
-  /// compression or deduplication.
-  final int? logicalCapacityUsed;
-
-  /// The number of LUNs (logical unit numbers) in the volume.
-  final int? lunCount;
-
-  /// The performance data that DataSync Discovery collects about the volume.
-  final MaxP95Performance? maxP95Performance;
-
-  /// The number of NFS volumes in the volume.
-  final bool? nfsExported;
-
-  /// Indicates whether DataSync Discovery recommendations for the volume are
-  /// ready to view, incomplete, or can't be determined.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/discovery-job-statuses.html#recommendation-statuses-table">Recommendation
-  /// statuses</a>.
-  final RecommendationStatus? recommendationStatus;
-
-  /// The Amazon Web Services storage services that DataSync Discovery recommends
-  /// for the volume. For more information, see <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/discovery-understand-recommendations.html">Recommendations
-  /// provided by DataSync Discovery</a>.
-  final List<Recommendation>? recommendations;
-
-  /// The universally unique identifier (UUID) of the volume.
-  final String? resourceId;
-
-  /// The volume's security style (such as Unix or NTFS).
-  final String? securityStyle;
-
-  /// The amount of storage in the volume that's being used for snapshots.
-  final int? snapshotCapacityUsed;
-
-  /// The name of the SVM associated with the volume.
-  final String? svmName;
-
-  /// The UUID of the storage virtual machine (SVM) associated with the volume.
-  final String? svmUuid;
-
-  /// The name of the volume.
-  final String? volumeName;
-
-  NetAppONTAPVolume({
-    this.capacityProvisioned,
-    this.capacityUsed,
-    this.cifsShareCount,
-    this.logicalCapacityUsed,
-    this.lunCount,
-    this.maxP95Performance,
-    this.nfsExported,
-    this.recommendationStatus,
-    this.recommendations,
-    this.resourceId,
-    this.securityStyle,
-    this.snapshotCapacityUsed,
-    this.svmName,
-    this.svmUuid,
-    this.volumeName,
-  });
-
-  factory NetAppONTAPVolume.fromJson(Map<String, dynamic> json) {
-    return NetAppONTAPVolume(
-      capacityProvisioned: json['CapacityProvisioned'] as int?,
-      capacityUsed: json['CapacityUsed'] as int?,
-      cifsShareCount: json['CifsShareCount'] as int?,
-      logicalCapacityUsed: json['LogicalCapacityUsed'] as int?,
-      lunCount: json['LunCount'] as int?,
-      maxP95Performance: json['MaxP95Performance'] != null
-          ? MaxP95Performance.fromJson(
-              json['MaxP95Performance'] as Map<String, dynamic>)
-          : null,
-      nfsExported: json['NfsExported'] as bool?,
-      recommendationStatus: (json['RecommendationStatus'] as String?)
-          ?.let(RecommendationStatus.fromString),
-      recommendations: (json['Recommendations'] as List?)
-          ?.nonNulls
-          .map((e) => Recommendation.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      resourceId: json['ResourceId'] as String?,
-      securityStyle: json['SecurityStyle'] as String?,
-      snapshotCapacityUsed: json['SnapshotCapacityUsed'] as int?,
-      svmName: json['SvmName'] as String?,
-      svmUuid: json['SvmUuid'] as String?,
-      volumeName: json['VolumeName'] as String?,
-    );
+  factory UpdateLocationEfsResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateLocationEfsResponse();
   }
 
   Map<String, dynamic> toJson() {
-    final capacityProvisioned = this.capacityProvisioned;
-    final capacityUsed = this.capacityUsed;
-    final cifsShareCount = this.cifsShareCount;
-    final logicalCapacityUsed = this.logicalCapacityUsed;
-    final lunCount = this.lunCount;
-    final maxP95Performance = this.maxP95Performance;
-    final nfsExported = this.nfsExported;
-    final recommendationStatus = this.recommendationStatus;
-    final recommendations = this.recommendations;
-    final resourceId = this.resourceId;
-    final securityStyle = this.securityStyle;
-    final snapshotCapacityUsed = this.snapshotCapacityUsed;
-    final svmName = this.svmName;
-    final svmUuid = this.svmUuid;
-    final volumeName = this.volumeName;
-    return {
-      if (capacityProvisioned != null)
-        'CapacityProvisioned': capacityProvisioned,
-      if (capacityUsed != null) 'CapacityUsed': capacityUsed,
-      if (cifsShareCount != null) 'CifsShareCount': cifsShareCount,
-      if (logicalCapacityUsed != null)
-        'LogicalCapacityUsed': logicalCapacityUsed,
-      if (lunCount != null) 'LunCount': lunCount,
-      if (maxP95Performance != null) 'MaxP95Performance': maxP95Performance,
-      if (nfsExported != null) 'NfsExported': nfsExported,
-      if (recommendationStatus != null)
-        'RecommendationStatus': recommendationStatus.value,
-      if (recommendations != null) 'Recommendations': recommendations,
-      if (resourceId != null) 'ResourceId': resourceId,
-      if (securityStyle != null) 'SecurityStyle': securityStyle,
-      if (snapshotCapacityUsed != null)
-        'SnapshotCapacityUsed': snapshotCapacityUsed,
-      if (svmName != null) 'SvmName': svmName,
-      if (svmUuid != null) 'SvmUuid': svmUuid,
-      if (volumeName != null) 'VolumeName': volumeName,
-    };
+    return {};
   }
 }
 
-/// Specifies how DataSync can access a location using the NFS protocol.
-class NfsMountOptions {
-  /// Specifies the NFS version that you want DataSync to use when mounting your
-  /// NFS share. If the server refuses to use the version specified, the task
-  /// fails.
-  ///
-  /// You can specify the following options:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>AUTOMATIC</code> (default): DataSync chooses NFS version 4.1.
-  /// </li>
-  /// <li>
-  /// <code>NFS3</code>: Stateless protocol version that allows for asynchronous
-  /// writes on the server.
-  /// </li>
-  /// <li>
-  /// <code>NFSv4_0</code>: Stateful, firewall-friendly protocol version that
-  /// supports delegations and pseudo file systems.
-  /// </li>
-  /// <li>
-  /// <code>NFSv4_1</code>: Stateful protocol version that supports sessions,
-  /// directory delegations, and parallel data processing. NFS version 4.1 also
-  /// includes all features available in version 4.0.
-  /// </li>
-  /// </ul> <note>
-  /// DataSync currently only supports NFS version 3 with Amazon FSx for NetApp
-  /// ONTAP locations.
-  /// </note>
-  final NfsVersion? version;
+class UpdateLocationFsxLustreResponse {
+  UpdateLocationFsxLustreResponse();
 
-  NfsMountOptions({
-    this.version,
-  });
-
-  factory NfsMountOptions.fromJson(Map<String, dynamic> json) {
-    return NfsMountOptions(
-      version: (json['Version'] as String?)?.let(NfsVersion.fromString),
-    );
+  factory UpdateLocationFsxLustreResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateLocationFsxLustreResponse();
   }
 
   Map<String, dynamic> toJson() {
-    final version = this.version;
-    return {
-      if (version != null) 'Version': version.value,
-    };
+    return {};
   }
 }
 
-class NfsVersion {
-  static const automatic = NfsVersion._('AUTOMATIC');
-  static const nfs3 = NfsVersion._('NFS3');
-  static const nfs4_0 = NfsVersion._('NFS4_0');
-  static const nfs4_1 = NfsVersion._('NFS4_1');
+class UpdateLocationFsxOntapResponse {
+  UpdateLocationFsxOntapResponse();
 
-  final String value;
-
-  const NfsVersion._(this.value);
-
-  static const values = [automatic, nfs3, nfs4_0, nfs4_1];
-
-  static NfsVersion fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => NfsVersion._(value));
-
-  @override
-  bool operator ==(other) => other is NfsVersion && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ObjectStorageServerProtocol {
-  static const https = ObjectStorageServerProtocol._('HTTPS');
-  static const http = ObjectStorageServerProtocol._('HTTP');
-
-  final String value;
-
-  const ObjectStorageServerProtocol._(this.value);
-
-  static const values = [https, http];
-
-  static ObjectStorageServerProtocol fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ObjectStorageServerProtocol._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ObjectStorageServerProtocol && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ObjectTags {
-  static const preserve = ObjectTags._('PRESERVE');
-  static const none = ObjectTags._('NONE');
-
-  final String value;
-
-  const ObjectTags._(this.value);
-
-  static const values = [preserve, none];
-
-  static ObjectTags fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ObjectTags._(value));
-
-  @override
-  bool operator ==(other) => other is ObjectTags && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ObjectVersionIds {
-  static const include = ObjectVersionIds._('INCLUDE');
-  static const none = ObjectVersionIds._('NONE');
-
-  final String value;
-
-  const ObjectVersionIds._(this.value);
-
-  static const values = [include, none];
-
-  static ObjectVersionIds fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ObjectVersionIds._(value));
-
-  @override
-  bool operator ==(other) => other is ObjectVersionIds && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The DataSync agents that are connecting to a Network File System (NFS)
-/// location.
-class OnPremConfig {
-  /// The Amazon Resource Names (ARNs) of the agents connecting to a transfer
-  /// location.
-  final List<String> agentArns;
-
-  OnPremConfig({
-    required this.agentArns,
-  });
-
-  factory OnPremConfig.fromJson(Map<String, dynamic> json) {
-    return OnPremConfig(
-      agentArns: ((json['AgentArns'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
+  factory UpdateLocationFsxOntapResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateLocationFsxOntapResponse();
   }
 
   Map<String, dynamic> toJson() {
-    final agentArns = this.agentArns;
-    return {
-      'AgentArns': agentArns,
-    };
+    return {};
   }
 }
 
-class Operator {
-  static const equals = Operator._('Equals');
-  static const notEquals = Operator._('NotEquals');
-  static const $in = Operator._('In');
-  static const lessThanOrEqual = Operator._('LessThanOrEqual');
-  static const lessThan = Operator._('LessThan');
-  static const greaterThanOrEqual = Operator._('GreaterThanOrEqual');
-  static const greaterThan = Operator._('GreaterThan');
-  static const contains = Operator._('Contains');
-  static const notContains = Operator._('NotContains');
-  static const beginsWith = Operator._('BeginsWith');
+class UpdateLocationFsxOpenZfsResponse {
+  UpdateLocationFsxOpenZfsResponse();
 
-  final String value;
+  factory UpdateLocationFsxOpenZfsResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateLocationFsxOpenZfsResponse();
+  }
 
-  const Operator._(this.value);
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
 
-  static const values = [
-    equals,
-    notEquals,
-    $in,
-    lessThanOrEqual,
-    lessThan,
-    greaterThanOrEqual,
-    greaterThan,
-    contains,
-    notContains,
-    beginsWith
-  ];
+class UpdateLocationFsxWindowsResponse {
+  UpdateLocationFsxWindowsResponse();
 
-  static Operator fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Operator._(value));
+  factory UpdateLocationFsxWindowsResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateLocationFsxWindowsResponse();
+  }
 
-  @override
-  bool operator ==(other) => other is Operator && other.value == value;
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
 
-  @override
-  int get hashCode => value.hashCode;
+class UpdateLocationHdfsResponse {
+  UpdateLocationHdfsResponse();
 
-  @override
-  String toString() => value;
+  factory UpdateLocationHdfsResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateLocationHdfsResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateLocationNfsResponse {
+  UpdateLocationNfsResponse();
+
+  factory UpdateLocationNfsResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateLocationNfsResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateLocationObjectStorageResponse {
+  UpdateLocationObjectStorageResponse();
+
+  factory UpdateLocationObjectStorageResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateLocationObjectStorageResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateLocationS3Response {
+  UpdateLocationS3Response();
+
+  factory UpdateLocationS3Response.fromJson(Map<String, dynamic> _) {
+    return UpdateLocationS3Response();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateLocationSmbResponse {
+  UpdateLocationSmbResponse();
+
+  factory UpdateLocationSmbResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateLocationSmbResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateTaskResponse {
+  UpdateTaskResponse();
+
+  factory UpdateTaskResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateTaskResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateTaskExecutionResponse {
+  UpdateTaskExecutionResponse();
+
+  factory UpdateTaskExecutionResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateTaskExecutionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Indicates how your transfer task is configured. These options include how
@@ -7745,7 +6505,7 @@ class Options {
   /// <li>
   /// <code>BEST_EFFORT</code> (default) - DataSync attempts to preserve the
   /// original <code>Atime</code> attribute on all source files (that is, the
-  /// version before the <code>PREPARING</code> phase of the task execution). This
+  /// version before the <code>PREPARING</code> steps of the task execution). This
   /// option is recommended.
   /// </li>
   /// <li>
@@ -7777,8 +6537,8 @@ class Options {
   /// </li>
   /// </ul>
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/special-files.html#metadata-copied">Metadata
-  /// copied by DataSync</a>.
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/metadata-copied.html">Understanding
+  /// how DataSync handles file and object metadata</a>.
   final Gid? gid;
 
   /// Specifies the type of logs that DataSync publishes to a Amazon CloudWatch
@@ -7801,7 +6561,7 @@ class Options {
   final LogLevel? logLevel;
 
   /// Specifies whether to preserve metadata indicating the last time that a file
-  /// was written to before the <code>PREPARING</code> phase of your task
+  /// was written to before the <code>PREPARING</code> step of your task
   /// execution. This option is required when you need to run the a task more than
   /// once.
   ///
@@ -7855,8 +6615,8 @@ class Options {
   /// such as reading, writing, or execution of the file.
   ///
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/special-files.html#metadata-copied">Metadata
-  /// copied by DataSync</a>.
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/metadata-copied.html">Understanding
+  /// how DataSync handles file and object metadata</a>.
   ///
   /// <ul>
   /// <li>
@@ -7920,8 +6680,8 @@ class Options {
   /// This value is only used for transfers between SMB and Amazon FSx for Windows
   /// File Server locations or between two FSx for Windows File Server locations.
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/special-files.html">how
-  /// DataSync handles metadata</a>.
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/metadata-copied.html">Understanding
+  /// how DataSync handles file and object metadata</a>.
   ///
   /// <ul>
   /// <li>
@@ -7982,15 +6742,17 @@ class Options {
   /// multiple tasks</a>. This is <code>ENABLED</code> by default.
   final TaskQueueing? taskQueueing;
 
-  /// Determines whether DataSync transfers only the data and metadata that differ
-  /// between the source and the destination location or transfers all the content
-  /// from the source (without comparing what's in the destination).
+  /// Specifies whether DataSync transfers only the data (including metadata) that
+  /// differs between locations following an initial copy or transfers all data
+  /// every time you run the task. If you're planning on recurring transfers, you
+  /// might only want to transfer what's changed since your previous task
+  /// execution.
   ///
   /// <ul>
   /// <li>
-  /// <code>CHANGED</code> (default) - DataSync copies only data or metadata that
-  /// is new or different content from the source location to the destination
-  /// location.
+  /// <code>CHANGED</code> (default) - After your initial full transfer, DataSync
+  /// copies only the data and metadata that differs between the source and
+  /// destination location.
   /// </li>
   /// <li>
   /// <code>ALL</code> - DataSync copies everything in the source to the
@@ -8015,26 +6777,34 @@ class Options {
   /// copied by DataSync</a>.
   final Uid? uid;
 
-  /// Specifies how and when DataSync checks the integrity of your data during a
-  /// transfer.
+  /// Specifies if and how DataSync checks the integrity of your data at the end
+  /// of your transfer.
   ///
   /// <ul>
   /// <li>
   /// <code>ONLY_FILES_TRANSFERRED</code> (recommended) - DataSync calculates the
-  /// checksum of transferred files and metadata at the source location. At the
-  /// end of the transfer, DataSync then compares this checksum to the checksum
-  /// calculated on those files at the destination.
-  ///
+  /// checksum of transferred data (including metadata) at the source location. At
+  /// the end of the transfer, DataSync then compares this checksum to the
+  /// checksum calculated on that data at the destination.
+  /// <note>
+  /// This is the default option for <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html">Enhanced
+  /// mode tasks</a>.
+  /// </note>
   /// We recommend this option when transferring to S3 Glacier Flexible Retrieval
   /// or S3 Glacier Deep Archive storage classes. For more information, see <a
   /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#using-storage-classes">Storage
   /// class considerations with Amazon S3 locations</a>.
   /// </li>
   /// <li>
-  /// <code>POINT_IN_TIME_CONSISTENT</code> (default) - At the end of the
-  /// transfer, DataSync scans the entire source and destination to verify that
-  /// both locations are fully synchronized.
-  ///
+  /// <code>POINT_IN_TIME_CONSISTENT</code> - At the end of the transfer, DataSync
+  /// checks the entire source and destination to verify that both locations are
+  /// fully synchronized.
+  /// <note>
+  /// The is the default option for <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html">Basic
+  /// mode tasks</a> and isn't currently supported with Enhanced mode tasks.
+  /// </note>
   /// If you use a <a
   /// href="https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html">manifest</a>,
   /// DataSync only scans and verifies what's listed in the manifest.
@@ -8045,9 +6815,9 @@ class Options {
   /// class considerations with Amazon S3 locations</a>.
   /// </li>
   /// <li>
-  /// <code>NONE</code> - DataSync doesn't run additional verification at the end
-  /// of the transfer. All data transmissions are still integrity-checked with
-  /// checksum verification during the transfer.
+  /// <code>NONE</code> - DataSync performs data integrity checks only during your
+  /// transfer. Unlike other options, there's no additional verification at the
+  /// end of your transfer.
   /// </li>
   /// </ul>
   final VerifyMode? verifyMode;
@@ -8136,6 +6906,30 @@ class Options {
   }
 }
 
+class VerifyMode {
+  static const pointInTimeConsistent = VerifyMode._('POINT_IN_TIME_CONSISTENT');
+  static const onlyFilesTransferred = VerifyMode._('ONLY_FILES_TRANSFERRED');
+  static const none = VerifyMode._('NONE');
+
+  final String value;
+
+  const VerifyMode._(this.value);
+
+  static const values = [pointInTimeConsistent, onlyFilesTransferred, none];
+
+  static VerifyMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => VerifyMode._(value));
+
+  @override
+  bool operator ==(other) => other is VerifyMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 class OverwriteMode {
   static const always = OverwriteMode._('ALWAYS');
   static const never = OverwriteMode._('NEVER');
@@ -8160,69 +6954,21 @@ class OverwriteMode {
   String toString() => value;
 }
 
-/// The types of performance data that DataSync Discovery collects about an
-/// on-premises storage system resource.
-class P95Metrics {
-  /// The IOPS peaks for an on-premises storage system resource. Each data point
-  /// represents the 95th percentile peak value during a 1-hour interval.
-  final IOPS? iops;
-
-  /// The latency peaks for an on-premises storage system resource. Each data
-  /// point represents the 95th percentile peak value during a 1-hour interval.
-  final Latency? latency;
-
-  /// The throughput peaks for an on-premises storage system resource. Each data
-  /// point represents the 95th percentile peak value during a 1-hour interval.
-  final Throughput? throughput;
-
-  P95Metrics({
-    this.iops,
-    this.latency,
-    this.throughput,
-  });
-
-  factory P95Metrics.fromJson(Map<String, dynamic> json) {
-    return P95Metrics(
-      iops: json['IOPS'] != null
-          ? IOPS.fromJson(json['IOPS'] as Map<String, dynamic>)
-          : null,
-      latency: json['Latency'] != null
-          ? Latency.fromJson(json['Latency'] as Map<String, dynamic>)
-          : null,
-      throughput: json['Throughput'] != null
-          ? Throughput.fromJson(json['Throughput'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final iops = this.iops;
-    final latency = this.latency;
-    final throughput = this.throughput;
-    return {
-      if (iops != null) 'IOPS': iops,
-      if (latency != null) 'Latency': latency,
-      if (throughput != null) 'Throughput': throughput,
-    };
-  }
-}
-
-class PhaseStatus {
-  static const pending = PhaseStatus._('PENDING');
-  static const success = PhaseStatus._('SUCCESS');
-  static const error = PhaseStatus._('ERROR');
+class Atime {
+  static const none = Atime._('NONE');
+  static const bestEffort = Atime._('BEST_EFFORT');
 
   final String value;
 
-  const PhaseStatus._(this.value);
+  const Atime._(this.value);
 
-  static const values = [pending, success, error];
+  static const values = [none, bestEffort];
 
-  static PhaseStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => PhaseStatus._(value));
+  static Atime fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Atime._(value));
 
   @override
-  bool operator ==(other) => other is PhaseStatus && other.value == value;
+  bool operator ==(other) => other is Atime && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -8231,46 +6977,71 @@ class PhaseStatus {
   String toString() => value;
 }
 
-/// The platform-related details about the DataSync agent, such as the version
-/// number.
-class Platform {
-  /// The version of the DataSync agent.
-  final String? version;
-
-  Platform({
-    this.version,
-  });
-
-  factory Platform.fromJson(Map<String, dynamic> json) {
-    return Platform(
-      version: json['Version'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final version = this.version;
-    return {
-      if (version != null) 'Version': version,
-    };
-  }
-}
-
-class PosixPermissions {
-  static const none = PosixPermissions._('NONE');
-  static const preserve = PosixPermissions._('PRESERVE');
+class Mtime {
+  static const none = Mtime._('NONE');
+  static const preserve = Mtime._('PRESERVE');
 
   final String value;
 
-  const PosixPermissions._(this.value);
+  const Mtime._(this.value);
 
   static const values = [none, preserve];
 
-  static PosixPermissions fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PosixPermissions._(value));
+  static Mtime fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Mtime._(value));
 
   @override
-  bool operator ==(other) => other is PosixPermissions && other.value == value;
+  bool operator ==(other) => other is Mtime && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class Uid {
+  static const none = Uid._('NONE');
+  static const intValue = Uid._('INT_VALUE');
+  static const name = Uid._('NAME');
+  static const both = Uid._('BOTH');
+
+  final String value;
+
+  const Uid._(this.value);
+
+  static const values = [none, intValue, name, both];
+
+  static Uid fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Uid._(value));
+
+  @override
+  bool operator ==(other) => other is Uid && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class Gid {
+  static const none = Gid._('NONE');
+  static const intValue = Gid._('INT_VALUE');
+  static const name = Gid._('NAME');
+  static const both = Gid._('BOTH');
+
+  final String value;
+
+  const Gid._(this.value);
+
+  static const values = [none, intValue, name, both];
+
+  static Gid fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Gid._(value));
+
+  @override
+  bool operator ==(other) => other is Gid && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -8328,278 +7099,22 @@ class PreserveDevices {
   String toString() => value;
 }
 
-/// Specifies how your DataSync agent connects to Amazon Web Services using a <a
-/// href="https://docs.aws.amazon.com/datasync/latest/userguide/choose-service-endpoint.html#choose-service-endpoint-vpc">virtual
-/// private cloud (VPC) service endpoint</a>. An agent that uses a VPC endpoint
-/// isn't accessible over the public internet.
-class PrivateLinkConfig {
-  /// Specifies the VPC endpoint provided by <a
-  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/endpoint-service.html">Amazon
-  /// Web Services PrivateLink</a> that your agent connects to.
-  final String? privateLinkEndpoint;
-
-  /// Specifies the Amazon Resource Names (ARN) of the security group that
-  /// provides DataSync access to your VPC endpoint. You can only specify one ARN.
-  final List<String>? securityGroupArns;
-
-  /// Specifies the ARN of the subnet where your VPC endpoint is located. You can
-  /// only specify one ARN.
-  final List<String>? subnetArns;
-
-  /// Specifies the ID of the VPC endpoint that your agent connects to.
-  final String? vpcEndpointId;
-
-  PrivateLinkConfig({
-    this.privateLinkEndpoint,
-    this.securityGroupArns,
-    this.subnetArns,
-    this.vpcEndpointId,
-  });
-
-  factory PrivateLinkConfig.fromJson(Map<String, dynamic> json) {
-    return PrivateLinkConfig(
-      privateLinkEndpoint: json['PrivateLinkEndpoint'] as String?,
-      securityGroupArns: (json['SecurityGroupArns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      subnetArns: (json['SubnetArns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      vpcEndpointId: json['VpcEndpointId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final privateLinkEndpoint = this.privateLinkEndpoint;
-    final securityGroupArns = this.securityGroupArns;
-    final subnetArns = this.subnetArns;
-    final vpcEndpointId = this.vpcEndpointId;
-    return {
-      if (privateLinkEndpoint != null)
-        'PrivateLinkEndpoint': privateLinkEndpoint,
-      if (securityGroupArns != null) 'SecurityGroupArns': securityGroupArns,
-      if (subnetArns != null) 'SubnetArns': subnetArns,
-      if (vpcEndpointId != null) 'VpcEndpointId': vpcEndpointId,
-    };
-  }
-}
-
-/// The Quality of Protection (QOP) configuration specifies the Remote Procedure
-/// Call (RPC) and data transfer privacy settings configured on the Hadoop
-/// Distributed File System (HDFS) cluster.
-class QopConfiguration {
-  /// The data transfer protection setting configured on the HDFS cluster. This
-  /// setting corresponds to your <code>dfs.data.transfer.protection</code>
-  /// setting in the <code>hdfs-site.xml</code> file on your Hadoop cluster.
-  final HdfsDataTransferProtection? dataTransferProtection;
-
-  /// The RPC protection setting configured on the HDFS cluster. This setting
-  /// corresponds to your <code>hadoop.rpc.protection</code> setting in your
-  /// <code>core-site.xml</code> file on your Hadoop cluster.
-  final HdfsRpcProtection? rpcProtection;
-
-  QopConfiguration({
-    this.dataTransferProtection,
-    this.rpcProtection,
-  });
-
-  factory QopConfiguration.fromJson(Map<String, dynamic> json) {
-    return QopConfiguration(
-      dataTransferProtection: (json['DataTransferProtection'] as String?)
-          ?.let(HdfsDataTransferProtection.fromString),
-      rpcProtection:
-          (json['RpcProtection'] as String?)?.let(HdfsRpcProtection.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataTransferProtection = this.dataTransferProtection;
-    final rpcProtection = this.rpcProtection;
-    return {
-      if (dataTransferProtection != null)
-        'DataTransferProtection': dataTransferProtection.value,
-      if (rpcProtection != null) 'RpcProtection': rpcProtection.value,
-    };
-  }
-}
-
-/// The details about an Amazon Web Services storage service that DataSync
-/// Discovery recommends for a resource in your on-premises storage system.
-///
-/// For more information, see <a
-/// href="https://docs.aws.amazon.com/datasync/latest/userguide/discovery-understand-recommendations.html">Recommendations
-/// provided by DataSync Discovery</a>.
-class Recommendation {
-  /// The estimated monthly cost of the recommended Amazon Web Services storage
-  /// service.
-  final String? estimatedMonthlyStorageCost;
-
-  /// Information about how you can set up a recommended Amazon Web Services
-  /// storage service.
-  final Map<String, String>? storageConfiguration;
-
-  /// A recommended Amazon Web Services storage service that you can migrate data
-  /// to based on information that DataSync Discovery collects about your
-  /// on-premises storage system.
-  final String? storageType;
-
-  Recommendation({
-    this.estimatedMonthlyStorageCost,
-    this.storageConfiguration,
-    this.storageType,
-  });
-
-  factory Recommendation.fromJson(Map<String, dynamic> json) {
-    return Recommendation(
-      estimatedMonthlyStorageCost:
-          json['EstimatedMonthlyStorageCost'] as String?,
-      storageConfiguration:
-          (json['StorageConfiguration'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(k, e as String)),
-      storageType: json['StorageType'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final estimatedMonthlyStorageCost = this.estimatedMonthlyStorageCost;
-    final storageConfiguration = this.storageConfiguration;
-    final storageType = this.storageType;
-    return {
-      if (estimatedMonthlyStorageCost != null)
-        'EstimatedMonthlyStorageCost': estimatedMonthlyStorageCost,
-      if (storageConfiguration != null)
-        'StorageConfiguration': storageConfiguration,
-      if (storageType != null) 'StorageType': storageType,
-    };
-  }
-}
-
-class RecommendationStatus {
-  static const none = RecommendationStatus._('NONE');
-  static const inProgress = RecommendationStatus._('IN_PROGRESS');
-  static const completed = RecommendationStatus._('COMPLETED');
-  static const failed = RecommendationStatus._('FAILED');
+class PosixPermissions {
+  static const none = PosixPermissions._('NONE');
+  static const preserve = PosixPermissions._('PRESERVE');
 
   final String value;
 
-  const RecommendationStatus._(this.value);
+  const PosixPermissions._(this.value);
 
-  static const values = [none, inProgress, completed, failed];
+  static const values = [none, preserve];
 
-  static RecommendationStatus fromString(String value) =>
+  static PosixPermissions fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => RecommendationStatus._(value));
+          orElse: () => PosixPermissions._(value));
 
   @override
-  bool operator ==(other) =>
-      other is RecommendationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class RemoveStorageSystemResponse {
-  RemoveStorageSystemResponse();
-
-  factory RemoveStorageSystemResponse.fromJson(Map<String, dynamic> _) {
-    return RemoveStorageSystemResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Specifies where DataSync uploads your <a
-/// href="https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html">task
-/// report</a>.
-class ReportDestination {
-  /// Specifies the Amazon S3 bucket where DataSync uploads your task report.
-  final ReportDestinationS3? s3;
-
-  ReportDestination({
-    this.s3,
-  });
-
-  factory ReportDestination.fromJson(Map<String, dynamic> json) {
-    return ReportDestination(
-      s3: json['S3'] != null
-          ? ReportDestinationS3.fromJson(json['S3'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final s3 = this.s3;
-    return {
-      if (s3 != null) 'S3': s3,
-    };
-  }
-}
-
-/// Specifies the Amazon S3 bucket where DataSync uploads your <a
-/// href="https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html">task
-/// report</a>.
-class ReportDestinationS3 {
-  /// Specifies the Amazon Resource Name (ARN) of the IAM policy that allows
-  /// DataSync to upload a task report to your S3 bucket. For more information,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html">Allowing
-  /// DataSync to upload a task report to an Amazon S3 bucket</a>.
-  final String bucketAccessRoleArn;
-
-  /// Specifies the ARN of the S3 bucket where DataSync uploads your report.
-  final String s3BucketArn;
-
-  /// Specifies a bucket prefix for your report.
-  final String? subdirectory;
-
-  ReportDestinationS3({
-    required this.bucketAccessRoleArn,
-    required this.s3BucketArn,
-    this.subdirectory,
-  });
-
-  factory ReportDestinationS3.fromJson(Map<String, dynamic> json) {
-    return ReportDestinationS3(
-      bucketAccessRoleArn: (json['BucketAccessRoleArn'] as String?) ?? '',
-      s3BucketArn: (json['S3BucketArn'] as String?) ?? '',
-      subdirectory: json['Subdirectory'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucketAccessRoleArn = this.bucketAccessRoleArn;
-    final s3BucketArn = this.s3BucketArn;
-    final subdirectory = this.subdirectory;
-    return {
-      'BucketAccessRoleArn': bucketAccessRoleArn,
-      'S3BucketArn': s3BucketArn,
-      if (subdirectory != null) 'Subdirectory': subdirectory,
-    };
-  }
-}
-
-class ReportLevel {
-  static const errorsOnly = ReportLevel._('ERRORS_ONLY');
-  static const successesAndErrors = ReportLevel._('SUCCESSES_AND_ERRORS');
-
-  final String value;
-
-  const ReportLevel._(this.value);
-
-  static const values = [errorsOnly, successesAndErrors];
-
-  static ReportLevel fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ReportLevel._(value));
-
-  @override
-  bool operator ==(other) => other is ReportLevel && other.value == value;
+  bool operator ==(other) => other is PosixPermissions && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -8608,442 +7123,21 @@ class ReportLevel {
   String toString() => value;
 }
 
-class ReportOutputType {
-  static const summaryOnly = ReportOutputType._('SUMMARY_ONLY');
-  static const standard = ReportOutputType._('STANDARD');
+class TaskQueueing {
+  static const enabled = TaskQueueing._('ENABLED');
+  static const disabled = TaskQueueing._('DISABLED');
 
   final String value;
 
-  const ReportOutputType._(this.value);
-
-  static const values = [summaryOnly, standard];
-
-  static ReportOutputType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ReportOutputType._(value));
-
-  @override
-  bool operator ==(other) => other is ReportOutputType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Specifies the level of detail for a particular aspect of your DataSync <a
-/// href="https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html">task
-/// report</a>.
-class ReportOverride {
-  /// Specifies whether your task report includes errors only or successes and
-  /// errors.
-  ///
-  /// For example, your report might mostly include only what didn't go well in
-  /// your transfer (<code>ERRORS_ONLY</code>). At the same time, you want to
-  /// verify that your <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html">task
-  /// filter</a> is working correctly. In this situation, you can get a list of
-  /// what files DataSync successfully skipped and if something transferred that
-  /// you didn't to transfer (<code>SUCCESSES_AND_ERRORS</code>).
-  final ReportLevel? reportLevel;
-
-  ReportOverride({
-    this.reportLevel,
-  });
-
-  factory ReportOverride.fromJson(Map<String, dynamic> json) {
-    return ReportOverride(
-      reportLevel:
-          (json['ReportLevel'] as String?)?.let(ReportLevel.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final reportLevel = this.reportLevel;
-    return {
-      if (reportLevel != null) 'ReportLevel': reportLevel.value,
-    };
-  }
-}
-
-/// The level of detail included in each aspect of your DataSync <a
-/// href="https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html">task
-/// report</a>.
-class ReportOverrides {
-  /// Specifies the level of reporting for the files, objects, and directories
-  /// that DataSync attempted to delete in your destination location. This only
-  /// applies if you <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/configure-metadata.html">configure
-  /// your task</a> to delete data in the destination that isn't in the source.
-  final ReportOverride? deleted;
-
-  /// Specifies the level of reporting for the files, objects, and directories
-  /// that DataSync attempted to skip during your transfer.
-  final ReportOverride? skipped;
-
-  /// Specifies the level of reporting for the files, objects, and directories
-  /// that DataSync attempted to transfer.
-  final ReportOverride? transferred;
-
-  /// Specifies the level of reporting for the files, objects, and directories
-  /// that DataSync attempted to verify at the end of your transfer.
-  final ReportOverride? verified;
-
-  ReportOverrides({
-    this.deleted,
-    this.skipped,
-    this.transferred,
-    this.verified,
-  });
-
-  factory ReportOverrides.fromJson(Map<String, dynamic> json) {
-    return ReportOverrides(
-      deleted: json['Deleted'] != null
-          ? ReportOverride.fromJson(json['Deleted'] as Map<String, dynamic>)
-          : null,
-      skipped: json['Skipped'] != null
-          ? ReportOverride.fromJson(json['Skipped'] as Map<String, dynamic>)
-          : null,
-      transferred: json['Transferred'] != null
-          ? ReportOverride.fromJson(json['Transferred'] as Map<String, dynamic>)
-          : null,
-      verified: json['Verified'] != null
-          ? ReportOverride.fromJson(json['Verified'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deleted = this.deleted;
-    final skipped = this.skipped;
-    final transferred = this.transferred;
-    final verified = this.verified;
-    return {
-      if (deleted != null) 'Deleted': deleted,
-      if (skipped != null) 'Skipped': skipped,
-      if (transferred != null) 'Transferred': transferred,
-      if (verified != null) 'Verified': verified,
-    };
-  }
-}
-
-/// Indicates whether DataSync created a complete <a
-/// href="https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html">task
-/// report</a> for your transfer.
-class ReportResult {
-  /// Indicates the code associated with the error if DataSync can't create a
-  /// complete report.
-  final String? errorCode;
-
-  /// Provides details about issues creating a report.
-  final String? errorDetail;
-
-  /// Indicates whether DataSync is still working on your report, created a
-  /// report, or can't create a complete report.
-  final PhaseStatus? status;
-
-  ReportResult({
-    this.errorCode,
-    this.errorDetail,
-    this.status,
-  });
-
-  factory ReportResult.fromJson(Map<String, dynamic> json) {
-    return ReportResult(
-      errorCode: json['ErrorCode'] as String?,
-      errorDetail: json['ErrorDetail'] as String?,
-      status: (json['Status'] as String?)?.let(PhaseStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final errorDetail = this.errorDetail;
-    final status = this.status;
-    return {
-      if (errorCode != null) 'ErrorCode': errorCode,
-      if (errorDetail != null) 'ErrorDetail': errorDetail,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-/// Information provided by DataSync Discovery about the resources in your
-/// on-premises storage system.
-class ResourceDetails {
-  /// The information that DataSync Discovery collects about the cluster in your
-  /// on-premises storage system.
-  final List<NetAppONTAPCluster>? netAppONTAPClusters;
-
-  /// The information that DataSync Discovery collects about storage virtual
-  /// machines (SVMs) in your on-premises storage system.
-  final List<NetAppONTAPSVM>? netAppONTAPSVMs;
-
-  /// The information that DataSync Discovery collects about volumes in your
-  /// on-premises storage system.
-  final List<NetAppONTAPVolume>? netAppONTAPVolumes;
-
-  ResourceDetails({
-    this.netAppONTAPClusters,
-    this.netAppONTAPSVMs,
-    this.netAppONTAPVolumes,
-  });
-
-  factory ResourceDetails.fromJson(Map<String, dynamic> json) {
-    return ResourceDetails(
-      netAppONTAPClusters: (json['NetAppONTAPClusters'] as List?)
-          ?.nonNulls
-          .map((e) => NetAppONTAPCluster.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      netAppONTAPSVMs: (json['NetAppONTAPSVMs'] as List?)
-          ?.nonNulls
-          .map((e) => NetAppONTAPSVM.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      netAppONTAPVolumes: (json['NetAppONTAPVolumes'] as List?)
-          ?.nonNulls
-          .map((e) => NetAppONTAPVolume.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final netAppONTAPClusters = this.netAppONTAPClusters;
-    final netAppONTAPSVMs = this.netAppONTAPSVMs;
-    final netAppONTAPVolumes = this.netAppONTAPVolumes;
-    return {
-      if (netAppONTAPClusters != null)
-        'NetAppONTAPClusters': netAppONTAPClusters,
-      if (netAppONTAPSVMs != null) 'NetAppONTAPSVMs': netAppONTAPSVMs,
-      if (netAppONTAPVolumes != null) 'NetAppONTAPVolumes': netAppONTAPVolumes,
-    };
-  }
-}
-
-/// Information, including performance data and capacity usage, provided by
-/// DataSync Discovery about a resource in your on-premises storage system.
-class ResourceMetrics {
-  /// The storage capacity of the on-premises storage system resource.
-  final Capacity? capacity;
-
-  /// The types of performance data that DataSync Discovery collects about the
-  /// on-premises storage system resource.
-  final P95Metrics? p95Metrics;
-
-  /// The universally unique identifier (UUID) of the on-premises storage system
-  /// resource.
-  final String? resourceId;
-
-  /// The type of on-premises storage system resource.
-  final DiscoveryResourceType? resourceType;
-
-  /// The time when DataSync Discovery collected this information from the
-  /// resource.
-  final DateTime? timestamp;
-
-  ResourceMetrics({
-    this.capacity,
-    this.p95Metrics,
-    this.resourceId,
-    this.resourceType,
-    this.timestamp,
-  });
-
-  factory ResourceMetrics.fromJson(Map<String, dynamic> json) {
-    return ResourceMetrics(
-      capacity: json['Capacity'] != null
-          ? Capacity.fromJson(json['Capacity'] as Map<String, dynamic>)
-          : null,
-      p95Metrics: json['P95Metrics'] != null
-          ? P95Metrics.fromJson(json['P95Metrics'] as Map<String, dynamic>)
-          : null,
-      resourceId: json['ResourceId'] as String?,
-      resourceType: (json['ResourceType'] as String?)
-          ?.let(DiscoveryResourceType.fromString),
-      timestamp: timeStampFromJson(json['Timestamp']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final capacity = this.capacity;
-    final p95Metrics = this.p95Metrics;
-    final resourceId = this.resourceId;
-    final resourceType = this.resourceType;
-    final timestamp = this.timestamp;
-    return {
-      if (capacity != null) 'Capacity': capacity,
-      if (p95Metrics != null) 'P95Metrics': p95Metrics,
-      if (resourceId != null) 'ResourceId': resourceId,
-      if (resourceType != null) 'ResourceType': resourceType.value,
-      if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
-    };
-  }
-}
-
-/// Specifies the Amazon Resource Name (ARN) of the Identity and Access
-/// Management (IAM) role that DataSync uses to access your S3 bucket.
-///
-/// For more information, see <a
-/// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-access">Accessing
-/// S3 buckets</a>.
-class S3Config {
-  /// Specifies the ARN of the IAM role that DataSync uses to access your S3
-  /// bucket.
-  final String bucketAccessRoleArn;
-
-  S3Config({
-    required this.bucketAccessRoleArn,
-  });
-
-  factory S3Config.fromJson(Map<String, dynamic> json) {
-    return S3Config(
-      bucketAccessRoleArn: (json['BucketAccessRoleArn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucketAccessRoleArn = this.bucketAccessRoleArn;
-    return {
-      'BucketAccessRoleArn': bucketAccessRoleArn,
-    };
-  }
-}
-
-/// Specifies the S3 bucket where you're hosting the manifest that you want
-/// DataSync to use. For more information and configuration examples, see <a
-/// href="https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html">Specifying
-/// what DataSync transfers by using a manifest</a>.
-class S3ManifestConfig {
-  /// Specifies the Identity and Access Management (IAM) role that allows DataSync
-  /// to access your manifest. For more information, see <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html#transferring-with-manifest-access">Providing
-  /// DataSync access to your manifest</a>.
-  final String bucketAccessRoleArn;
-
-  /// Specifies the Amazon S3 object key of your manifest. This can include a
-  /// prefix (for example, <code>prefix/my-manifest.csv</code>).
-  final String manifestObjectPath;
-
-  /// Specifies the Amazon Resource Name (ARN) of the S3 bucket where you're
-  /// hosting your manifest.
-  final String s3BucketArn;
-
-  /// Specifies the object version ID of the manifest that you want DataSync to
-  /// use. If you don't set this, DataSync uses the latest version of the object.
-  final String? manifestObjectVersionId;
-
-  S3ManifestConfig({
-    required this.bucketAccessRoleArn,
-    required this.manifestObjectPath,
-    required this.s3BucketArn,
-    this.manifestObjectVersionId,
-  });
-
-  factory S3ManifestConfig.fromJson(Map<String, dynamic> json) {
-    return S3ManifestConfig(
-      bucketAccessRoleArn: (json['BucketAccessRoleArn'] as String?) ?? '',
-      manifestObjectPath: (json['ManifestObjectPath'] as String?) ?? '',
-      s3BucketArn: (json['S3BucketArn'] as String?) ?? '',
-      manifestObjectVersionId: json['ManifestObjectVersionId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucketAccessRoleArn = this.bucketAccessRoleArn;
-    final manifestObjectPath = this.manifestObjectPath;
-    final s3BucketArn = this.s3BucketArn;
-    final manifestObjectVersionId = this.manifestObjectVersionId;
-    return {
-      'BucketAccessRoleArn': bucketAccessRoleArn,
-      'ManifestObjectPath': manifestObjectPath,
-      'S3BucketArn': s3BucketArn,
-      if (manifestObjectVersionId != null)
-        'ManifestObjectVersionId': manifestObjectVersionId,
-    };
-  }
-}
-
-class S3StorageClass {
-  static const standard = S3StorageClass._('STANDARD');
-  static const standardIa = S3StorageClass._('STANDARD_IA');
-  static const onezoneIa = S3StorageClass._('ONEZONE_IA');
-  static const intelligentTiering = S3StorageClass._('INTELLIGENT_TIERING');
-  static const glacier = S3StorageClass._('GLACIER');
-  static const deepArchive = S3StorageClass._('DEEP_ARCHIVE');
-  static const outposts = S3StorageClass._('OUTPOSTS');
-  static const glacierInstantRetrieval =
-      S3StorageClass._('GLACIER_INSTANT_RETRIEVAL');
-
-  final String value;
-
-  const S3StorageClass._(this.value);
-
-  static const values = [
-    standard,
-    standardIa,
-    onezoneIa,
-    intelligentTiering,
-    glacier,
-    deepArchive,
-    outposts,
-    glacierInstantRetrieval
-  ];
-
-  static S3StorageClass fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => S3StorageClass._(value));
-
-  @override
-  bool operator ==(other) => other is S3StorageClass && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ScheduleDisabledBy {
-  static const user = ScheduleDisabledBy._('USER');
-  static const service = ScheduleDisabledBy._('SERVICE');
-
-  final String value;
-
-  const ScheduleDisabledBy._(this.value);
-
-  static const values = [user, service];
-
-  static ScheduleDisabledBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ScheduleDisabledBy._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ScheduleDisabledBy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ScheduleStatus {
-  static const enabled = ScheduleStatus._('ENABLED');
-  static const disabled = ScheduleStatus._('DISABLED');
-
-  final String value;
-
-  const ScheduleStatus._(this.value);
+  const TaskQueueing._(this.value);
 
   static const values = [enabled, disabled];
 
-  static ScheduleStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ScheduleStatus._(value));
+  static TaskQueueing fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TaskQueueing._(value));
 
   @override
-  bool operator ==(other) => other is ScheduleStatus && other.value == value;
+  bool operator ==(other) => other is TaskQueueing && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -9052,64 +7146,51 @@ class ScheduleStatus {
   String toString() => value;
 }
 
-/// Specifies the version of the Server Message Block (SMB) protocol that
-/// DataSync uses to access an SMB file server.
-class SmbMountOptions {
-  /// By default, DataSync automatically chooses an SMB protocol version based on
-  /// negotiation with your SMB file server. You also can configure DataSync to
-  /// use a specific SMB version, but we recommend doing this only if DataSync has
-  /// trouble negotiating with the SMB file server automatically.
-  ///
-  /// These are the following options for configuring the SMB version:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>AUTOMATIC</code> (default): DataSync and the SMB file server negotiate
-  /// the highest version of SMB that they mutually support between 2.1 and 3.1.1.
-  ///
-  /// This is the recommended option. If you instead choose a specific version
-  /// that your file server doesn't support, you may get an <code>Operation Not
-  /// Supported</code> error.
-  /// </li>
-  /// <li>
-  /// <code>SMB3</code>: Restricts the protocol negotiation to only SMB version
-  /// 3.0.2.
-  /// </li>
-  /// <li>
-  /// <code>SMB2</code>: Restricts the protocol negotiation to only SMB version
-  /// 2.1.
-  /// </li>
-  /// <li>
-  /// <code>SMB2_0</code>: Restricts the protocol negotiation to only SMB version
-  /// 2.0.
-  /// </li>
-  /// <li>
-  /// <code>SMB1</code>: Restricts the protocol negotiation to only SMB version
-  /// 1.0.
-  /// <note>
-  /// The <code>SMB1</code> option isn't available when <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_CreateLocationFsxOntap.html">creating
-  /// an Amazon FSx for NetApp ONTAP location</a>.
-  /// </note> </li>
-  /// </ul>
-  final SmbVersion? version;
+class LogLevel {
+  static const off = LogLevel._('OFF');
+  static const basic = LogLevel._('BASIC');
+  static const transfer = LogLevel._('TRANSFER');
 
-  SmbMountOptions({
-    this.version,
-  });
+  final String value;
 
-  factory SmbMountOptions.fromJson(Map<String, dynamic> json) {
-    return SmbMountOptions(
-      version: (json['Version'] as String?)?.let(SmbVersion.fromString),
-    );
-  }
+  const LogLevel._(this.value);
 
-  Map<String, dynamic> toJson() {
-    final version = this.version;
-    return {
-      if (version != null) 'Version': version.value,
-    };
-  }
+  static const values = [off, basic, transfer];
+
+  static LogLevel fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LogLevel._(value));
+
+  @override
+  bool operator ==(other) => other is LogLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TransferMode {
+  static const changed = TransferMode._('CHANGED');
+  static const all = TransferMode._('ALL');
+
+  final String value;
+
+  const TransferMode._(this.value);
+
+  static const values = [changed, all];
+
+  static TransferMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TransferMode._(value));
+
+  @override
+  bool operator ==(other) => other is TransferMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class SmbSecurityDescriptorCopyFlags {
@@ -9139,24 +7220,21 @@ class SmbSecurityDescriptorCopyFlags {
   String toString() => value;
 }
 
-class SmbVersion {
-  static const automatic = SmbVersion._('AUTOMATIC');
-  static const smb2 = SmbVersion._('SMB2');
-  static const smb3 = SmbVersion._('SMB3');
-  static const smb1 = SmbVersion._('SMB1');
-  static const smb2_0 = SmbVersion._('SMB2_0');
+class ObjectTags {
+  static const preserve = ObjectTags._('PRESERVE');
+  static const none = ObjectTags._('NONE');
 
   final String value;
 
-  const SmbVersion._(this.value);
+  const ObjectTags._(this.value);
 
-  static const values = [automatic, smb2, smb3, smb1, smb2_0];
+  static const values = [preserve, none];
 
-  static SmbVersion fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SmbVersion._(value));
+  static ObjectTags fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ObjectTags._(value));
 
   @override
-  bool operator ==(other) => other is SmbVersion && other.value == value;
+  bool operator ==(other) => other is ObjectTags && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -9165,482 +7243,116 @@ class SmbVersion {
   String toString() => value;
 }
 
-/// Specifies the manifest that you want DataSync to use and where it's hosted.
-/// For more information and configuration examples, see <a
+/// Configures your DataSync task to run on a <a
+/// href="https://docs.aws.amazon.com/datasync/latest/userguide/task-scheduling.html">schedule</a>
+/// (at a minimum interval of 1 hour).
+class TaskSchedule {
+  /// Specifies your task schedule by using a cron or rate expression.
+  ///
+  /// Use cron expressions for task schedules that run on a specific time and day.
+  /// For example, the following cron expression creates a task schedule that runs
+  /// at 8 AM on the first Wednesday of every month:
+  ///
+  /// <code>cron(0 8 * * 3#1)</code>
+  ///
+  /// Use rate expressions for task schedules that run on a regular interval. For
+  /// example, the following rate expression creates a task schedule that runs
+  /// every 12 hours:
+  ///
+  /// <code>rate(12 hours)</code>
+  ///
+  /// For information about cron and rate expression syntax, see the <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-scheduled-rule-pattern.html">
+  /// <i>Amazon EventBridge User Guide</i> </a>.
+  final String scheduleExpression;
+
+  /// Specifies whether to enable or disable your task schedule. Your schedule is
+  /// enabled by default, but there can be situations where you need to disable
+  /// it. For example, you might need to pause a recurring transfer to fix an
+  /// issue with your task or perform maintenance on your storage system.
+  ///
+  /// DataSync might disable your schedule automatically if your task fails
+  /// repeatedly with the same error. For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_TaskScheduleDetails.html">TaskScheduleDetails</a>.
+  final ScheduleStatus? status;
+
+  TaskSchedule({
+    required this.scheduleExpression,
+    this.status,
+  });
+
+  factory TaskSchedule.fromJson(Map<String, dynamic> json) {
+    return TaskSchedule(
+      scheduleExpression: (json['ScheduleExpression'] as String?) ?? '',
+      status: (json['Status'] as String?)?.let(ScheduleStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scheduleExpression = this.scheduleExpression;
+    final status = this.status;
+    return {
+      'ScheduleExpression': scheduleExpression,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+/// Configures a manifest, which is a list of files or objects that you want
+/// DataSync to transfer. For more information and configuration examples, see
+/// <a
 /// href="https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html">Specifying
 /// what DataSync transfers by using a manifest</a>.
-class SourceManifestConfig {
-  /// Specifies the S3 bucket where you're hosting your manifest.
-  final S3ManifestConfig s3;
+class ManifestConfig {
+  /// Specifies what DataSync uses the manifest for.
+  final ManifestAction? action;
 
-  SourceManifestConfig({
-    required this.s3,
+  /// Specifies the file format of your manifest. For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html#transferring-with-manifest-create">Creating
+  /// a manifest</a>.
+  final ManifestFormat? format;
+
+  /// Specifies the manifest that you want DataSync to use and where it's hosted.
+  /// <note>
+  /// You must specify this parameter if you're configuring a new manifest on or
+  /// after February 7, 2024.
+  ///
+  /// If you don't, you'll get a 400 status code and
+  /// <code>ValidationException</code> error stating that you're missing the IAM
+  /// role for DataSync to access the S3 bucket where you're hosting your
+  /// manifest. For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html#transferring-with-manifest-access">Providing
+  /// DataSync access to your manifest</a>.
+  /// </note>
+  final SourceManifestConfig? source;
+
+  ManifestConfig({
+    this.action,
+    this.format,
+    this.source,
   });
 
-  factory SourceManifestConfig.fromJson(Map<String, dynamic> json) {
-    return SourceManifestConfig(
-      s3: S3ManifestConfig.fromJson(
-          (json['S3'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+  factory ManifestConfig.fromJson(Map<String, dynamic> json) {
+    return ManifestConfig(
+      action: (json['Action'] as String?)?.let(ManifestAction.fromString),
+      format: (json['Format'] as String?)?.let(ManifestFormat.fromString),
+      source: json['Source'] != null
+          ? SourceManifestConfig.fromJson(
+              json['Source'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final s3 = this.s3;
+    final action = this.action;
+    final format = this.format;
+    final source = this.source;
     return {
-      'S3': s3,
+      if (action != null) 'Action': action.value,
+      if (format != null) 'Format': format.value,
+      if (source != null) 'Source': source,
     };
   }
-}
-
-class StartDiscoveryJobResponse {
-  /// The ARN of the discovery job that you started.
-  final String? discoveryJobArn;
-
-  StartDiscoveryJobResponse({
-    this.discoveryJobArn,
-  });
-
-  factory StartDiscoveryJobResponse.fromJson(Map<String, dynamic> json) {
-    return StartDiscoveryJobResponse(
-      discoveryJobArn: json['DiscoveryJobArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final discoveryJobArn = this.discoveryJobArn;
-    return {
-      if (discoveryJobArn != null) 'DiscoveryJobArn': discoveryJobArn,
-    };
-  }
-}
-
-/// StartTaskExecutionResponse
-class StartTaskExecutionResponse {
-  /// The ARN of the running task execution.
-  final String? taskExecutionArn;
-
-  StartTaskExecutionResponse({
-    this.taskExecutionArn,
-  });
-
-  factory StartTaskExecutionResponse.fromJson(Map<String, dynamic> json) {
-    return StartTaskExecutionResponse(
-      taskExecutionArn: json['TaskExecutionArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final taskExecutionArn = this.taskExecutionArn;
-    return {
-      if (taskExecutionArn != null) 'TaskExecutionArn': taskExecutionArn,
-    };
-  }
-}
-
-class StopDiscoveryJobResponse {
-  StopDiscoveryJobResponse();
-
-  factory StopDiscoveryJobResponse.fromJson(Map<String, dynamic> _) {
-    return StopDiscoveryJobResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class StorageSystemConnectivityStatus {
-  static const pass = StorageSystemConnectivityStatus._('PASS');
-  static const fail = StorageSystemConnectivityStatus._('FAIL');
-  static const unknown = StorageSystemConnectivityStatus._('UNKNOWN');
-
-  final String value;
-
-  const StorageSystemConnectivityStatus._(this.value);
-
-  static const values = [pass, fail, unknown];
-
-  static StorageSystemConnectivityStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => StorageSystemConnectivityStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is StorageSystemConnectivityStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information that identifies an on-premises storage system that you're using
-/// with DataSync Discovery.
-class StorageSystemListEntry {
-  /// The name of an on-premises storage system that you added to DataSync
-  /// Discovery.
-  final String? name;
-
-  /// The Amazon Resource Names (ARN) of an on-premises storage system that you
-  /// added to DataSync Discovery.
-  final String? storageSystemArn;
-
-  StorageSystemListEntry({
-    this.name,
-    this.storageSystemArn,
-  });
-
-  factory StorageSystemListEntry.fromJson(Map<String, dynamic> json) {
-    return StorageSystemListEntry(
-      name: json['Name'] as String?,
-      storageSystemArn: json['StorageSystemArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final storageSystemArn = this.storageSystemArn;
-    return {
-      if (name != null) 'Name': name,
-      if (storageSystemArn != null) 'StorageSystemArn': storageSystemArn,
-    };
-  }
-}
-
-/// A key-value pair representing a single tag that's been applied to an Amazon
-/// Web Services resource.
-class TagListEntry {
-  /// The key for an Amazon Web Services resource tag.
-  final String key;
-
-  /// The value for an Amazon Web Services resource tag.
-  final String? value;
-
-  TagListEntry({
-    required this.key,
-    this.value,
-  });
-
-  factory TagListEntry.fromJson(Map<String, dynamic> json) {
-    return TagListEntry(
-      key: (json['Key'] as String?) ?? '',
-      value: json['Value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'Key': key,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-class TagResourceResponse {
-  TagResourceResponse();
-
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Represents a single entry in a list of DataSync task executions that's
-/// returned with the <a
-/// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_ListTaskExecutions.html">ListTaskExecutions</a>
-/// operation.
-class TaskExecutionListEntry {
-  /// The status of a task execution. For more information, see <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/understand-task-statuses.html#understand-task-execution-statuses">Task
-  /// execution statuses</a>.
-  final TaskExecutionStatus? status;
-
-  /// The Amazon Resource Name (ARN) of a task execution.
-  final String? taskExecutionArn;
-
-  TaskExecutionListEntry({
-    this.status,
-    this.taskExecutionArn,
-  });
-
-  factory TaskExecutionListEntry.fromJson(Map<String, dynamic> json) {
-    return TaskExecutionListEntry(
-      status: (json['Status'] as String?)?.let(TaskExecutionStatus.fromString),
-      taskExecutionArn: json['TaskExecutionArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final status = this.status;
-    final taskExecutionArn = this.taskExecutionArn;
-    return {
-      if (status != null) 'Status': status.value,
-      if (taskExecutionArn != null) 'TaskExecutionArn': taskExecutionArn,
-    };
-  }
-}
-
-/// Describes the detailed result of a <code>TaskExecution</code> operation.
-/// This result includes the time in milliseconds spent in each phase, the
-/// status of the task execution, and the errors encountered.
-class TaskExecutionResultDetail {
-  /// Errors that DataSync encountered during execution of the task. You can use
-  /// this error code to help troubleshoot issues.
-  final String? errorCode;
-
-  /// Detailed description of an error that was encountered during the task
-  /// execution. You can use this information to help troubleshoot issues.
-  final String? errorDetail;
-
-  /// The total time in milliseconds that DataSync spent in the PREPARING phase.
-  final int? prepareDuration;
-
-  /// The status of the PREPARING phase.
-  final PhaseStatus? prepareStatus;
-
-  /// The total time in milliseconds that DataSync took to transfer the file from
-  /// the source to the destination location.
-  final int? totalDuration;
-
-  /// The total time in milliseconds that DataSync spent in the TRANSFERRING
-  /// phase.
-  final int? transferDuration;
-
-  /// The status of the TRANSFERRING phase.
-  final PhaseStatus? transferStatus;
-
-  /// The total time in milliseconds that DataSync spent in the VERIFYING phase.
-  final int? verifyDuration;
-
-  /// The status of the VERIFYING phase.
-  final PhaseStatus? verifyStatus;
-
-  TaskExecutionResultDetail({
-    this.errorCode,
-    this.errorDetail,
-    this.prepareDuration,
-    this.prepareStatus,
-    this.totalDuration,
-    this.transferDuration,
-    this.transferStatus,
-    this.verifyDuration,
-    this.verifyStatus,
-  });
-
-  factory TaskExecutionResultDetail.fromJson(Map<String, dynamic> json) {
-    return TaskExecutionResultDetail(
-      errorCode: json['ErrorCode'] as String?,
-      errorDetail: json['ErrorDetail'] as String?,
-      prepareDuration: json['PrepareDuration'] as int?,
-      prepareStatus:
-          (json['PrepareStatus'] as String?)?.let(PhaseStatus.fromString),
-      totalDuration: json['TotalDuration'] as int?,
-      transferDuration: json['TransferDuration'] as int?,
-      transferStatus:
-          (json['TransferStatus'] as String?)?.let(PhaseStatus.fromString),
-      verifyDuration: json['VerifyDuration'] as int?,
-      verifyStatus:
-          (json['VerifyStatus'] as String?)?.let(PhaseStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final errorDetail = this.errorDetail;
-    final prepareDuration = this.prepareDuration;
-    final prepareStatus = this.prepareStatus;
-    final totalDuration = this.totalDuration;
-    final transferDuration = this.transferDuration;
-    final transferStatus = this.transferStatus;
-    final verifyDuration = this.verifyDuration;
-    final verifyStatus = this.verifyStatus;
-    return {
-      if (errorCode != null) 'ErrorCode': errorCode,
-      if (errorDetail != null) 'ErrorDetail': errorDetail,
-      if (prepareDuration != null) 'PrepareDuration': prepareDuration,
-      if (prepareStatus != null) 'PrepareStatus': prepareStatus.value,
-      if (totalDuration != null) 'TotalDuration': totalDuration,
-      if (transferDuration != null) 'TransferDuration': transferDuration,
-      if (transferStatus != null) 'TransferStatus': transferStatus.value,
-      if (verifyDuration != null) 'VerifyDuration': verifyDuration,
-      if (verifyStatus != null) 'VerifyStatus': verifyStatus.value,
-    };
-  }
-}
-
-class TaskExecutionStatus {
-  static const queued = TaskExecutionStatus._('QUEUED');
-  static const cancelling = TaskExecutionStatus._('CANCELLING');
-  static const launching = TaskExecutionStatus._('LAUNCHING');
-  static const preparing = TaskExecutionStatus._('PREPARING');
-  static const transferring = TaskExecutionStatus._('TRANSFERRING');
-  static const verifying = TaskExecutionStatus._('VERIFYING');
-  static const success = TaskExecutionStatus._('SUCCESS');
-  static const error = TaskExecutionStatus._('ERROR');
-
-  final String value;
-
-  const TaskExecutionStatus._(this.value);
-
-  static const values = [
-    queued,
-    cancelling,
-    launching,
-    preparing,
-    transferring,
-    verifying,
-    success,
-    error
-  ];
-
-  static TaskExecutionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TaskExecutionStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is TaskExecutionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// You can use API filters to narrow down the list of resources returned by
-/// <code>ListTasks</code>. For example, to retrieve all tasks on a source
-/// location, you can use <code>ListTasks</code> with filter name
-/// <code>LocationId</code> and <code>Operator Equals</code> with the ARN for
-/// the location.
-///
-/// For more information, see <a
-/// href="https://docs.aws.amazon.com/datasync/latest/userguide/query-resources.html">filtering
-/// DataSync resources</a>.
-class TaskFilter {
-  /// The name of the filter being used. Each API call supports a list of filters
-  /// that are available for it. For example, <code>LocationId</code> for
-  /// <code>ListTasks</code>.
-  final TaskFilterName name;
-
-  /// The operator that is used to compare filter values (for example,
-  /// <code>Equals</code> or <code>Contains</code>).
-  final Operator operator;
-
-  /// The values that you want to filter for. For example, you might want to
-  /// display only tasks for a specific destination location.
-  final List<String> values;
-
-  TaskFilter({
-    required this.name,
-    required this.operator,
-    required this.values,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final operator = this.operator;
-    final values = this.values;
-    return {
-      'Name': name.value,
-      'Operator': operator.value,
-      'Values': values,
-    };
-  }
-}
-
-class TaskFilterName {
-  static const locationId = TaskFilterName._('LocationId');
-  static const creationTime = TaskFilterName._('CreationTime');
-
-  final String value;
-
-  const TaskFilterName._(this.value);
-
-  static const values = [locationId, creationTime];
-
-  static TaskFilterName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TaskFilterName._(value));
-
-  @override
-  bool operator ==(other) => other is TaskFilterName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents a single entry in a list of tasks. <code>TaskListEntry</code>
-/// returns an array that contains a list of tasks when the <a
-/// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_ListTasks.html">ListTasks</a>
-/// operation is called. A task includes the source and destination file systems
-/// to sync and the options to use for the tasks.
-class TaskListEntry {
-  /// The name of the task.
-  final String? name;
-
-  /// The status of the task.
-  final TaskStatus? status;
-
-  /// The Amazon Resource Name (ARN) of the task.
-  final String? taskArn;
-
-  TaskListEntry({
-    this.name,
-    this.status,
-    this.taskArn,
-  });
-
-  factory TaskListEntry.fromJson(Map<String, dynamic> json) {
-    return TaskListEntry(
-      name: json['Name'] as String?,
-      status: (json['Status'] as String?)?.let(TaskStatus.fromString),
-      taskArn: json['TaskArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final status = this.status;
-    final taskArn = this.taskArn;
-    return {
-      if (name != null) 'Name': name,
-      if (status != null) 'Status': status.value,
-      if (taskArn != null) 'TaskArn': taskArn,
-    };
-  }
-}
-
-class TaskQueueing {
-  static const enabled = TaskQueueing._('ENABLED');
-  static const disabled = TaskQueueing._('DISABLED');
-
-  final String value;
-
-  const TaskQueueing._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static TaskQueueing fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => TaskQueueing._(value));
-
-  @override
-  bool operator ==(other) => other is TaskQueueing && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// Specifies how you want to configure a task report, which provides detailed
@@ -9742,46 +7454,2417 @@ class TaskReportConfig {
   }
 }
 
-/// Configures your DataSync task to run on a <a
-/// href="https://docs.aws.amazon.com/datasync/latest/userguide/task-scheduling.html">schedule</a>
-/// (at a minimum interval of 1 hour).
-class TaskSchedule {
-  /// Specifies your task schedule by using a cron expression in UTC time. For
-  /// information about cron expression syntax, see the <a
-  /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-cron-expressions.html">
-  /// <i>Amazon EventBridge User Guide</i> </a>.
-  final String scheduleExpression;
+/// Specifies where DataSync uploads your <a
+/// href="https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html">task
+/// report</a>.
+class ReportDestination {
+  /// Specifies the Amazon S3 bucket where DataSync uploads your task report.
+  final ReportDestinationS3? s3;
 
-  /// Specifies whether to enable or disable your task schedule. Your schedule is
-  /// enabled by default, but there can be situations where you need to disable
-  /// it. For example, you might need to pause a recurring transfer to fix an
-  /// issue with your task or perform maintenance on your storage system.
-  ///
-  /// DataSync might disable your schedule automatically if your task fails
-  /// repeatedly with the same error. For more information, see <a
-  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_TaskScheduleDetails.html">TaskScheduleDetails</a>.
-  final ScheduleStatus? status;
-
-  TaskSchedule({
-    required this.scheduleExpression,
-    this.status,
+  ReportDestination({
+    this.s3,
   });
 
-  factory TaskSchedule.fromJson(Map<String, dynamic> json) {
-    return TaskSchedule(
-      scheduleExpression: (json['ScheduleExpression'] as String?) ?? '',
-      status: (json['Status'] as String?)?.let(ScheduleStatus.fromString),
+  factory ReportDestination.fromJson(Map<String, dynamic> json) {
+    return ReportDestination(
+      s3: json['S3'] != null
+          ? ReportDestinationS3.fromJson(json['S3'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final scheduleExpression = this.scheduleExpression;
+    final s3 = this.s3;
+    return {
+      if (s3 != null) 'S3': s3,
+    };
+  }
+}
+
+class ReportOutputType {
+  static const summaryOnly = ReportOutputType._('SUMMARY_ONLY');
+  static const standard = ReportOutputType._('STANDARD');
+
+  final String value;
+
+  const ReportOutputType._(this.value);
+
+  static const values = [summaryOnly, standard];
+
+  static ReportOutputType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReportOutputType._(value));
+
+  @override
+  bool operator ==(other) => other is ReportOutputType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ReportLevel {
+  static const errorsOnly = ReportLevel._('ERRORS_ONLY');
+  static const successesAndErrors = ReportLevel._('SUCCESSES_AND_ERRORS');
+
+  final String value;
+
+  const ReportLevel._(this.value);
+
+  static const values = [errorsOnly, successesAndErrors];
+
+  static ReportLevel fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ReportLevel._(value));
+
+  @override
+  bool operator ==(other) => other is ReportLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ObjectVersionIds {
+  static const include = ObjectVersionIds._('INCLUDE');
+  static const none = ObjectVersionIds._('NONE');
+
+  final String value;
+
+  const ObjectVersionIds._(this.value);
+
+  static const values = [include, none];
+
+  static ObjectVersionIds fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ObjectVersionIds._(value));
+
+  @override
+  bool operator ==(other) => other is ObjectVersionIds && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The level of detail included in each aspect of your DataSync <a
+/// href="https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html">task
+/// report</a>.
+class ReportOverrides {
+  /// Specifies the level of reporting for the files, objects, and directories
+  /// that DataSync attempted to delete in your destination location. This only
+  /// applies if you <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/configure-metadata.html">configure
+  /// your task</a> to delete data in the destination that isn't in the source.
+  final ReportOverride? deleted;
+
+  /// Specifies the level of reporting for the files, objects, and directories
+  /// that DataSync attempted to skip during your transfer.
+  final ReportOverride? skipped;
+
+  /// Specifies the level of reporting for the files, objects, and directories
+  /// that DataSync attempted to transfer.
+  final ReportOverride? transferred;
+
+  /// Specifies the level of reporting for the files, objects, and directories
+  /// that DataSync attempted to verify at the end of your transfer.
+  final ReportOverride? verified;
+
+  ReportOverrides({
+    this.deleted,
+    this.skipped,
+    this.transferred,
+    this.verified,
+  });
+
+  factory ReportOverrides.fromJson(Map<String, dynamic> json) {
+    return ReportOverrides(
+      deleted: json['Deleted'] != null
+          ? ReportOverride.fromJson(json['Deleted'] as Map<String, dynamic>)
+          : null,
+      skipped: json['Skipped'] != null
+          ? ReportOverride.fromJson(json['Skipped'] as Map<String, dynamic>)
+          : null,
+      transferred: json['Transferred'] != null
+          ? ReportOverride.fromJson(json['Transferred'] as Map<String, dynamic>)
+          : null,
+      verified: json['Verified'] != null
+          ? ReportOverride.fromJson(json['Verified'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deleted = this.deleted;
+    final skipped = this.skipped;
+    final transferred = this.transferred;
+    final verified = this.verified;
+    return {
+      if (deleted != null) 'Deleted': deleted,
+      if (skipped != null) 'Skipped': skipped,
+      if (transferred != null) 'Transferred': transferred,
+      if (verified != null) 'Verified': verified,
+    };
+  }
+}
+
+/// Specifies the level of detail for a particular aspect of your DataSync <a
+/// href="https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html">task
+/// report</a>.
+class ReportOverride {
+  /// Specifies whether your task report includes errors only or successes and
+  /// errors.
+  ///
+  /// For example, your report might mostly include only what didn't go well in
+  /// your transfer (<code>ERRORS_ONLY</code>). At the same time, you want to
+  /// verify that your <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html">task
+  /// filter</a> is working correctly. In this situation, you can get a list of
+  /// what files DataSync successfully skipped and if something transferred that
+  /// you didn't to transfer (<code>SUCCESSES_AND_ERRORS</code>).
+  final ReportLevel? reportLevel;
+
+  ReportOverride({
+    this.reportLevel,
+  });
+
+  factory ReportOverride.fromJson(Map<String, dynamic> json) {
+    return ReportOverride(
+      reportLevel:
+          (json['ReportLevel'] as String?)?.let(ReportLevel.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reportLevel = this.reportLevel;
+    return {
+      if (reportLevel != null) 'ReportLevel': reportLevel.value,
+    };
+  }
+}
+
+/// Specifies the Amazon S3 bucket where DataSync uploads your <a
+/// href="https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html">task
+/// report</a>.
+class ReportDestinationS3 {
+  /// Specifies the Amazon Resource Name (ARN) of the IAM policy that allows
+  /// DataSync to upload a task report to your S3 bucket. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html">Allowing
+  /// DataSync to upload a task report to an Amazon S3 bucket</a>.
+  final String bucketAccessRoleArn;
+
+  /// Specifies the ARN of the S3 bucket where DataSync uploads your report.
+  final String s3BucketArn;
+
+  /// Specifies a bucket prefix for your report.
+  final String? subdirectory;
+
+  ReportDestinationS3({
+    required this.bucketAccessRoleArn,
+    required this.s3BucketArn,
+    this.subdirectory,
+  });
+
+  factory ReportDestinationS3.fromJson(Map<String, dynamic> json) {
+    return ReportDestinationS3(
+      bucketAccessRoleArn: (json['BucketAccessRoleArn'] as String?) ?? '',
+      s3BucketArn: (json['S3BucketArn'] as String?) ?? '',
+      subdirectory: json['Subdirectory'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketAccessRoleArn = this.bucketAccessRoleArn;
+    final s3BucketArn = this.s3BucketArn;
+    final subdirectory = this.subdirectory;
+    return {
+      'BucketAccessRoleArn': bucketAccessRoleArn,
+      'S3BucketArn': s3BucketArn,
+      if (subdirectory != null) 'Subdirectory': subdirectory,
+    };
+  }
+}
+
+class ManifestAction {
+  static const transfer = ManifestAction._('TRANSFER');
+
+  final String value;
+
+  const ManifestAction._(this.value);
+
+  static const values = [transfer];
+
+  static ManifestAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ManifestAction._(value));
+
+  @override
+  bool operator ==(other) => other is ManifestAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ManifestFormat {
+  static const csv = ManifestFormat._('CSV');
+
+  final String value;
+
+  const ManifestFormat._(this.value);
+
+  static const values = [csv];
+
+  static ManifestFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ManifestFormat._(value));
+
+  @override
+  bool operator ==(other) => other is ManifestFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Specifies the manifest that you want DataSync to use and where it's hosted.
+/// For more information and configuration examples, see <a
+/// href="https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html">Specifying
+/// what DataSync transfers by using a manifest</a>.
+class SourceManifestConfig {
+  /// Specifies the S3 bucket where you're hosting your manifest.
+  final S3ManifestConfig s3;
+
+  SourceManifestConfig({
+    required this.s3,
+  });
+
+  factory SourceManifestConfig.fromJson(Map<String, dynamic> json) {
+    return SourceManifestConfig(
+      s3: S3ManifestConfig.fromJson(
+          (json['S3'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3 = this.s3;
+    return {
+      'S3': s3,
+    };
+  }
+}
+
+/// Specifies the S3 bucket where you're hosting the manifest that you want
+/// DataSync to use. For more information and configuration examples, see <a
+/// href="https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html">Specifying
+/// what DataSync transfers by using a manifest</a>.
+class S3ManifestConfig {
+  /// Specifies the Identity and Access Management (IAM) role that allows DataSync
+  /// to access your manifest. For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html#transferring-with-manifest-access">Providing
+  /// DataSync access to your manifest</a>.
+  final String bucketAccessRoleArn;
+
+  /// Specifies the Amazon S3 object key of your manifest. This can include a
+  /// prefix (for example, <code>prefix/my-manifest.csv</code>).
+  final String manifestObjectPath;
+
+  /// Specifies the Amazon Resource Name (ARN) of the S3 bucket where you're
+  /// hosting your manifest.
+  final String s3BucketArn;
+
+  /// Specifies the object version ID of the manifest that you want DataSync to
+  /// use. If you don't set this, DataSync uses the latest version of the object.
+  final String? manifestObjectVersionId;
+
+  S3ManifestConfig({
+    required this.bucketAccessRoleArn,
+    required this.manifestObjectPath,
+    required this.s3BucketArn,
+    this.manifestObjectVersionId,
+  });
+
+  factory S3ManifestConfig.fromJson(Map<String, dynamic> json) {
+    return S3ManifestConfig(
+      bucketAccessRoleArn: (json['BucketAccessRoleArn'] as String?) ?? '',
+      manifestObjectPath: (json['ManifestObjectPath'] as String?) ?? '',
+      s3BucketArn: (json['S3BucketArn'] as String?) ?? '',
+      manifestObjectVersionId: json['ManifestObjectVersionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketAccessRoleArn = this.bucketAccessRoleArn;
+    final manifestObjectPath = this.manifestObjectPath;
+    final s3BucketArn = this.s3BucketArn;
+    final manifestObjectVersionId = this.manifestObjectVersionId;
+    return {
+      'BucketAccessRoleArn': bucketAccessRoleArn,
+      'ManifestObjectPath': manifestObjectPath,
+      'S3BucketArn': s3BucketArn,
+      if (manifestObjectVersionId != null)
+        'ManifestObjectVersionId': manifestObjectVersionId,
+    };
+  }
+}
+
+class ScheduleStatus {
+  static const enabled = ScheduleStatus._('ENABLED');
+  static const disabled = ScheduleStatus._('DISABLED');
+
+  final String value;
+
+  const ScheduleStatus._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static ScheduleStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ScheduleStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ScheduleStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Specifies which files, folders, and objects to include or exclude when
+/// transferring files from source to destination.
+class FilterRule {
+  /// The type of filter rule to apply. DataSync only supports the SIMPLE_PATTERN
+  /// rule type.
+  final FilterType? filterType;
+
+  /// A single filter string that consists of the patterns to include or exclude.
+  /// The patterns are delimited by "|" (that is, a pipe), for example:
+  /// <code>/folder1|/folder2</code>
+  ///
+  ///
+  final String? value;
+
+  FilterRule({
+    this.filterType,
+    this.value,
+  });
+
+  factory FilterRule.fromJson(Map<String, dynamic> json) {
+    return FilterRule(
+      filterType: (json['FilterType'] as String?)?.let(FilterType.fromString),
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filterType = this.filterType;
+    final value = this.value;
+    return {
+      if (filterType != null) 'FilterType': filterType.value,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+class FilterType {
+  static const simplePattern = FilterType._('SIMPLE_PATTERN');
+
+  final String value;
+
+  const FilterType._(this.value);
+
+  static const values = [simplePattern];
+
+  static FilterType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FilterType._(value));
+
+  @override
+  bool operator ==(other) => other is FilterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Specifies configuration information for a DataSync-managed secret, such as
+/// an authentication token, secret key, password, or Kerberos keytab that
+/// DataSync uses to access a specific storage location, with a customer-managed
+/// KMS key.
+/// <note>
+/// You can use either <code>CmkSecretConfig</code> or
+/// <code>CustomSecretConfig</code> to provide credentials for a
+/// <code>CreateLocation</code> request. Do not provide both parameters for the
+/// same request.
+/// </note>
+class CmkSecretConfig {
+  /// Specifies the ARN for the customer-managed KMS key that DataSync uses to
+  /// encrypt the DataSync-managed secret stored for <code>SecretArn</code>.
+  /// DataSync provides this key to Secrets Manager.
+  final String? kmsKeyArn;
+
+  /// Specifies the ARN for the DataSync-managed Secrets Manager secret that that
+  /// is used to access a specific storage location. This property is generated by
+  /// DataSync and is read-only. DataSync encrypts this secret with the KMS key
+  /// that you specify for <code>KmsKeyArn</code>.
+  final String? secretArn;
+
+  CmkSecretConfig({
+    this.kmsKeyArn,
+    this.secretArn,
+  });
+
+  factory CmkSecretConfig.fromJson(Map<String, dynamic> json) {
+    return CmkSecretConfig(
+      kmsKeyArn: json['KmsKeyArn'] as String?,
+      secretArn: json['SecretArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kmsKeyArn = this.kmsKeyArn;
+    final secretArn = this.secretArn;
+    return {
+      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
+      if (secretArn != null) 'SecretArn': secretArn,
+    };
+  }
+}
+
+/// Specifies configuration information for a customer-managed Secrets Manager
+/// secret where a storage location credentials is stored in Secrets Manager as
+/// plain text (for authentication token, secret key, or password) or as binary
+/// (for Kerberos keytab). This configuration includes the secret ARN, and the
+/// ARN for an IAM role that provides access to the secret.
+/// <note>
+/// You can use either <code>CmkSecretConfig</code> or
+/// <code>CustomSecretConfig</code> to provide credentials for a
+/// <code>CreateLocation</code> request. Do not provide both parameters for the
+/// same request.
+/// </note>
+class CustomSecretConfig {
+  /// Specifies the ARN for the Identity and Access Management role that DataSync
+  /// uses to access the secret specified for <code>SecretArn</code>.
+  final String? secretAccessRoleArn;
+
+  /// Specifies the ARN for an Secrets Manager secret.
+  final String? secretArn;
+
+  CustomSecretConfig({
+    this.secretAccessRoleArn,
+    this.secretArn,
+  });
+
+  factory CustomSecretConfig.fromJson(Map<String, dynamic> json) {
+    return CustomSecretConfig(
+      secretAccessRoleArn: json['SecretAccessRoleArn'] as String?,
+      secretArn: json['SecretArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final secretAccessRoleArn = this.secretAccessRoleArn;
+    final secretArn = this.secretArn;
+    return {
+      if (secretAccessRoleArn != null)
+        'SecretAccessRoleArn': secretAccessRoleArn,
+      if (secretArn != null) 'SecretArn': secretArn,
+    };
+  }
+}
+
+/// Specifies the version of the Server Message Block (SMB) protocol that
+/// DataSync uses to access an SMB file server.
+class SmbMountOptions {
+  /// By default, DataSync automatically chooses an SMB protocol version based on
+  /// negotiation with your SMB file server. You also can configure DataSync to
+  /// use a specific SMB version, but we recommend doing this only if DataSync has
+  /// trouble negotiating with the SMB file server automatically.
+  ///
+  /// These are the following options for configuring the SMB version:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AUTOMATIC</code> (default): DataSync and the SMB file server negotiate
+  /// the highest version of SMB that they mutually support between 2.1 and 3.1.1.
+  ///
+  /// This is the recommended option. If you instead choose a specific version
+  /// that your file server doesn't support, you may get an <code>Operation Not
+  /// Supported</code> error.
+  /// </li>
+  /// <li>
+  /// <code>SMB3</code>: Restricts the protocol negotiation to only SMB version
+  /// 3.0.2.
+  /// </li>
+  /// <li>
+  /// <code>SMB2</code>: Restricts the protocol negotiation to only SMB version
+  /// 2.1.
+  /// </li>
+  /// <li>
+  /// <code>SMB2_0</code>: Restricts the protocol negotiation to only SMB version
+  /// 2.0.
+  /// </li>
+  /// <li>
+  /// <code>SMB1</code>: Restricts the protocol negotiation to only SMB version
+  /// 1.0.
+  /// <note>
+  /// The <code>SMB1</code> option isn't available when <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_CreateLocationFsxOntap.html">creating
+  /// an Amazon FSx for NetApp ONTAP location</a>.
+  /// </note> </li>
+  /// </ul>
+  final SmbVersion? version;
+
+  SmbMountOptions({
+    this.version,
+  });
+
+  factory SmbMountOptions.fromJson(Map<String, dynamic> json) {
+    return SmbMountOptions(
+      version: (json['Version'] as String?)?.let(SmbVersion.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final version = this.version;
+    return {
+      if (version != null) 'Version': version.value,
+    };
+  }
+}
+
+class SmbAuthenticationType {
+  static const ntlm = SmbAuthenticationType._('NTLM');
+  static const kerberos = SmbAuthenticationType._('KERBEROS');
+
+  final String value;
+
+  const SmbAuthenticationType._(this.value);
+
+  static const values = [ntlm, kerberos];
+
+  static SmbAuthenticationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SmbAuthenticationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SmbAuthenticationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SmbVersion {
+  static const automatic = SmbVersion._('AUTOMATIC');
+  static const smb2 = SmbVersion._('SMB2');
+  static const smb3 = SmbVersion._('SMB3');
+  static const smb1 = SmbVersion._('SMB1');
+  static const smb2_0 = SmbVersion._('SMB2_0');
+
+  final String value;
+
+  const SmbVersion._(this.value);
+
+  static const values = [automatic, smb2, smb3, smb1, smb2_0];
+
+  static SmbVersion fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SmbVersion._(value));
+
+  @override
+  bool operator ==(other) => other is SmbVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class S3StorageClass {
+  static const standard = S3StorageClass._('STANDARD');
+  static const standardIa = S3StorageClass._('STANDARD_IA');
+  static const onezoneIa = S3StorageClass._('ONEZONE_IA');
+  static const intelligentTiering = S3StorageClass._('INTELLIGENT_TIERING');
+  static const glacier = S3StorageClass._('GLACIER');
+  static const deepArchive = S3StorageClass._('DEEP_ARCHIVE');
+  static const outposts = S3StorageClass._('OUTPOSTS');
+  static const glacierInstantRetrieval =
+      S3StorageClass._('GLACIER_INSTANT_RETRIEVAL');
+
+  final String value;
+
+  const S3StorageClass._(this.value);
+
+  static const values = [
+    standard,
+    standardIa,
+    onezoneIa,
+    intelligentTiering,
+    glacier,
+    deepArchive,
+    outposts,
+    glacierInstantRetrieval
+  ];
+
+  static S3StorageClass fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => S3StorageClass._(value));
+
+  @override
+  bool operator ==(other) => other is S3StorageClass && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Specifies the Amazon Resource Name (ARN) of the Identity and Access
+/// Management (IAM) role that DataSync uses to access your S3 bucket.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-access">Providing
+/// DataSync access to S3 buckets</a>.
+class S3Config {
+  /// Specifies the ARN of the IAM role that DataSync uses to access your S3
+  /// bucket.
+  final String bucketAccessRoleArn;
+
+  S3Config({
+    required this.bucketAccessRoleArn,
+  });
+
+  factory S3Config.fromJson(Map<String, dynamic> json) {
+    return S3Config(
+      bucketAccessRoleArn: (json['BucketAccessRoleArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketAccessRoleArn = this.bucketAccessRoleArn;
+    return {
+      'BucketAccessRoleArn': bucketAccessRoleArn,
+    };
+  }
+}
+
+class ObjectStorageServerProtocol {
+  static const https = ObjectStorageServerProtocol._('HTTPS');
+  static const http = ObjectStorageServerProtocol._('HTTP');
+
+  final String value;
+
+  const ObjectStorageServerProtocol._(this.value);
+
+  static const values = [https, http];
+
+  static ObjectStorageServerProtocol fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ObjectStorageServerProtocol._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ObjectStorageServerProtocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The DataSync agents that can connect to your Network File System (NFS) file
+/// server.
+class OnPremConfig {
+  /// The Amazon Resource Names (ARNs) of the DataSync agents that can connect to
+  /// your NFS file server.
+  ///
+  /// You can specify more than one agent. For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/do-i-need-datasync-agent.html#multiple-agents">Using
+  /// multiple DataSync agents</a>.
+  final List<String> agentArns;
+
+  OnPremConfig({
+    required this.agentArns,
+  });
+
+  factory OnPremConfig.fromJson(Map<String, dynamic> json) {
+    return OnPremConfig(
+      agentArns: ((json['AgentArns'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agentArns = this.agentArns;
+    return {
+      'AgentArns': agentArns,
+    };
+  }
+}
+
+/// Specifies how DataSync can access a location using the NFS protocol.
+class NfsMountOptions {
+  /// Specifies the NFS version that you want DataSync to use when mounting your
+  /// NFS share. If the server refuses to use the version specified, the task
+  /// fails.
+  ///
+  /// You can specify the following options:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AUTOMATIC</code> (default): DataSync chooses NFS version 4.1.
+  /// </li>
+  /// <li>
+  /// <code>NFS3</code>: Stateless protocol version that allows for asynchronous
+  /// writes on the server.
+  /// </li>
+  /// <li>
+  /// <code>NFSv4_0</code>: Stateful, firewall-friendly protocol version that
+  /// supports delegations and pseudo file systems.
+  /// </li>
+  /// <li>
+  /// <code>NFSv4_1</code>: Stateful protocol version that supports sessions,
+  /// directory delegations, and parallel data processing. NFS version 4.1 also
+  /// includes all features available in version 4.0.
+  /// </li>
+  /// </ul> <note>
+  /// DataSync currently only supports NFS version 3 with Amazon FSx for NetApp
+  /// ONTAP locations.
+  /// </note>
+  final NfsVersion? version;
+
+  NfsMountOptions({
+    this.version,
+  });
+
+  factory NfsMountOptions.fromJson(Map<String, dynamic> json) {
+    return NfsMountOptions(
+      version: (json['Version'] as String?)?.let(NfsVersion.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final version = this.version;
+    return {
+      if (version != null) 'Version': version.value,
+    };
+  }
+}
+
+class NfsVersion {
+  static const automatic = NfsVersion._('AUTOMATIC');
+  static const nfs3 = NfsVersion._('NFS3');
+  static const nfs4_0 = NfsVersion._('NFS4_0');
+  static const nfs4_1 = NfsVersion._('NFS4_1');
+
+  final String value;
+
+  const NfsVersion._(this.value);
+
+  static const values = [automatic, nfs3, nfs4_0, nfs4_1];
+
+  static NfsVersion fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => NfsVersion._(value));
+
+  @override
+  bool operator ==(other) => other is NfsVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The Quality of Protection (QOP) configuration specifies the Remote Procedure
+/// Call (RPC) and data transfer privacy settings configured on the Hadoop
+/// Distributed File System (HDFS) cluster.
+class QopConfiguration {
+  /// The data transfer protection setting configured on the HDFS cluster. This
+  /// setting corresponds to your <code>dfs.data.transfer.protection</code>
+  /// setting in the <code>hdfs-site.xml</code> file on your Hadoop cluster.
+  final HdfsDataTransferProtection? dataTransferProtection;
+
+  /// The RPC protection setting configured on the HDFS cluster. This setting
+  /// corresponds to your <code>hadoop.rpc.protection</code> setting in your
+  /// <code>core-site.xml</code> file on your Hadoop cluster.
+  final HdfsRpcProtection? rpcProtection;
+
+  QopConfiguration({
+    this.dataTransferProtection,
+    this.rpcProtection,
+  });
+
+  factory QopConfiguration.fromJson(Map<String, dynamic> json) {
+    return QopConfiguration(
+      dataTransferProtection: (json['DataTransferProtection'] as String?)
+          ?.let(HdfsDataTransferProtection.fromString),
+      rpcProtection:
+          (json['RpcProtection'] as String?)?.let(HdfsRpcProtection.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataTransferProtection = this.dataTransferProtection;
+    final rpcProtection = this.rpcProtection;
+    return {
+      if (dataTransferProtection != null)
+        'DataTransferProtection': dataTransferProtection.value,
+      if (rpcProtection != null) 'RpcProtection': rpcProtection.value,
+    };
+  }
+}
+
+class HdfsAuthenticationType {
+  static const simple = HdfsAuthenticationType._('SIMPLE');
+  static const kerberos = HdfsAuthenticationType._('KERBEROS');
+
+  final String value;
+
+  const HdfsAuthenticationType._(this.value);
+
+  static const values = [simple, kerberos];
+
+  static HdfsAuthenticationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HdfsAuthenticationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HdfsAuthenticationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class HdfsRpcProtection {
+  static const disabled = HdfsRpcProtection._('DISABLED');
+  static const authentication = HdfsRpcProtection._('AUTHENTICATION');
+  static const integrity = HdfsRpcProtection._('INTEGRITY');
+  static const privacy = HdfsRpcProtection._('PRIVACY');
+
+  final String value;
+
+  const HdfsRpcProtection._(this.value);
+
+  static const values = [disabled, authentication, integrity, privacy];
+
+  static HdfsRpcProtection fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HdfsRpcProtection._(value));
+
+  @override
+  bool operator ==(other) => other is HdfsRpcProtection && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class HdfsDataTransferProtection {
+  static const disabled = HdfsDataTransferProtection._('DISABLED');
+  static const authentication = HdfsDataTransferProtection._('AUTHENTICATION');
+  static const integrity = HdfsDataTransferProtection._('INTEGRITY');
+  static const privacy = HdfsDataTransferProtection._('PRIVACY');
+
+  final String value;
+
+  const HdfsDataTransferProtection._(this.value);
+
+  static const values = [disabled, authentication, integrity, privacy];
+
+  static HdfsDataTransferProtection fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HdfsDataTransferProtection._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HdfsDataTransferProtection && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The NameNode of the Hadoop Distributed File System (HDFS). The NameNode
+/// manages the file system's namespace. The NameNode performs operations such
+/// as opening, closing, and renaming files and directories. The NameNode
+/// contains the information to map blocks of data to the DataNodes.
+class HdfsNameNode {
+  /// The hostname of the NameNode in the HDFS cluster. This value is the IP
+  /// address or Domain Name Service (DNS) name of the NameNode. An agent that's
+  /// installed on-premises uses this hostname to communicate with the NameNode in
+  /// the network.
+  final String hostname;
+
+  /// The port that the NameNode uses to listen to client requests.
+  final int port;
+
+  HdfsNameNode({
+    required this.hostname,
+    required this.port,
+  });
+
+  factory HdfsNameNode.fromJson(Map<String, dynamic> json) {
+    return HdfsNameNode(
+      hostname: (json['Hostname'] as String?) ?? '',
+      port: (json['Port'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostname = this.hostname;
+    final port = this.port;
+    return {
+      'Hostname': hostname,
+      'Port': port,
+    };
+  }
+}
+
+/// Specifies the data transfer protocol that DataSync uses to access your
+/// Amazon FSx file system.
+class FsxProtocol {
+  /// Specifies the Network File System (NFS) protocol configuration that DataSync
+  /// uses to access your FSx for OpenZFS file system or FSx for ONTAP file
+  /// system's storage virtual machine (SVM).
+  final FsxProtocolNfs? nfs;
+
+  /// Specifies the Server Message Block (SMB) protocol configuration that
+  /// DataSync uses to access your FSx for ONTAP file system's SVM.
+  final FsxProtocolSmb? smb;
+
+  FsxProtocol({
+    this.nfs,
+    this.smb,
+  });
+
+  factory FsxProtocol.fromJson(Map<String, dynamic> json) {
+    return FsxProtocol(
+      nfs: json['NFS'] != null
+          ? FsxProtocolNfs.fromJson(json['NFS'] as Map<String, dynamic>)
+          : null,
+      smb: json['SMB'] != null
+          ? FsxProtocolSmb.fromJson(json['SMB'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nfs = this.nfs;
+    final smb = this.smb;
+    return {
+      if (nfs != null) 'NFS': nfs,
+      if (smb != null) 'SMB': smb,
+    };
+  }
+}
+
+/// Specifies the Network File System (NFS) protocol configuration that DataSync
+/// uses to access your FSx for OpenZFS file system or FSx for ONTAP file
+/// system's storage virtual machine (SVM).
+class FsxProtocolNfs {
+  final NfsMountOptions? mountOptions;
+
+  FsxProtocolNfs({
+    this.mountOptions,
+  });
+
+  factory FsxProtocolNfs.fromJson(Map<String, dynamic> json) {
+    return FsxProtocolNfs(
+      mountOptions: json['MountOptions'] != null
+          ? NfsMountOptions.fromJson(
+              json['MountOptions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mountOptions = this.mountOptions;
+    return {
+      if (mountOptions != null) 'MountOptions': mountOptions,
+    };
+  }
+}
+
+/// Specifies the Server Message Block (SMB) protocol configuration that
+/// DataSync uses to access your Amazon FSx for NetApp ONTAP file system's
+/// storage virtual machine (SVM). For more information, see <a
+/// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-ontap-location.html#create-ontap-location-access">Providing
+/// DataSync access to FSx for ONTAP file systems</a>.
+class FsxProtocolSmb {
+  /// Specifies a user that can mount and access the files, folders, and metadata
+  /// in your SVM.
+  ///
+  /// For information about choosing a user with the right level of access for
+  /// your transfer, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-ontap-location.html#create-ontap-location-smb">Using
+  /// the SMB protocol</a>.
+  final String user;
+
+  /// Specifies configuration information for a DataSync-managed secret, which
+  /// includes the password that DataSync uses to access a specific FSx for ONTAP
+  /// storage location (using SMB), with a customer-managed KMS key.
+  ///
+  /// When you include this parameter as part of a
+  /// <code>CreateLocationFsxOntap</code> request, you provide only the KMS key
+  /// ARN. DataSync uses this KMS key together with the <code>Password</code> you
+  /// specify for to create a DataSync-managed secret to store the location access
+  /// credentials.
+  ///
+  /// Make sure that DataSync has permission to access the KMS key that you
+  /// specify. For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/location-credentials.html#service-secret-custom-key">
+  /// Using a service-managed secret encrypted with a custom KMS key</a>.
+  /// <note>
+  /// You can use either <code>CmkSecretConfig</code> (with <code>Password</code>)
+  /// or <code>CustomSecretConfig</code> (without <code>Password</code>) to
+  /// provide credentials for a <code>CreateLocationFsxOntap</code> request. Do
+  /// not provide both parameters for the same request.
+  /// </note>
+  final CmkSecretConfig? cmkSecretConfig;
+
+  /// Specifies configuration information for a customer-managed Secrets Manager
+  /// secret where the password for an FSx for ONTAP storage location (using SMB)
+  /// is stored in plain text, in Secrets Manager. This configuration includes the
+  /// secret ARN, and the ARN for an IAM role that provides access to the secret.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/location-credentials.html#custom-secret-custom-key">
+  /// Using a secret that you manage</a>.
+  /// <note>
+  /// You can use either <code>CmkSecretConfig</code> (with <code>Password</code>)
+  /// or <code>CustomSecretConfig</code> (without <code>Password</code>) to
+  /// provide credentials for a <code>CreateLocationFsxOntap</code> request. Do
+  /// not provide both parameters for the same request.
+  /// </note>
+  final CustomSecretConfig? customSecretConfig;
+
+  /// Specifies the name of the Windows domain that your storage virtual machine
+  /// (SVM) belongs to.
+  ///
+  /// If you have multiple domains in your environment, configuring this setting
+  /// makes sure that DataSync connects to the right SVM.
+  ///
+  /// If you have multiple Active Directory domains in your environment,
+  /// configuring this parameter makes sure that DataSync connects to the right
+  /// SVM.
+  final String? domain;
+
+  /// Describes configuration information for a DataSync-managed secret, such as a
+  /// <code>Password</code> that DataSync uses to access a specific storage
+  /// location. DataSync uses the default Amazon Web Services-managed KMS key to
+  /// encrypt this secret in Secrets Manager.
+  /// <note>
+  /// Do not provide this for a <code>CreateLocation</code> request.
+  /// <code>ManagedSecretConfig</code> is a ReadOnly property and is only be
+  /// populated in the <code>DescribeLocation</code> response.
+  /// </note>
+  final ManagedSecretConfig? managedSecretConfig;
+  final SmbMountOptions? mountOptions;
+
+  /// Specifies the password of a user who has permission to access your SVM.
+  final String? password;
+
+  FsxProtocolSmb({
+    required this.user,
+    this.cmkSecretConfig,
+    this.customSecretConfig,
+    this.domain,
+    this.managedSecretConfig,
+    this.mountOptions,
+    this.password,
+  });
+
+  factory FsxProtocolSmb.fromJson(Map<String, dynamic> json) {
+    return FsxProtocolSmb(
+      user: (json['User'] as String?) ?? '',
+      cmkSecretConfig: json['CmkSecretConfig'] != null
+          ? CmkSecretConfig.fromJson(
+              json['CmkSecretConfig'] as Map<String, dynamic>)
+          : null,
+      customSecretConfig: json['CustomSecretConfig'] != null
+          ? CustomSecretConfig.fromJson(
+              json['CustomSecretConfig'] as Map<String, dynamic>)
+          : null,
+      domain: json['Domain'] as String?,
+      managedSecretConfig: json['ManagedSecretConfig'] != null
+          ? ManagedSecretConfig.fromJson(
+              json['ManagedSecretConfig'] as Map<String, dynamic>)
+          : null,
+      mountOptions: json['MountOptions'] != null
+          ? SmbMountOptions.fromJson(
+              json['MountOptions'] as Map<String, dynamic>)
+          : null,
+      password: json['Password'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final user = this.user;
+    final cmkSecretConfig = this.cmkSecretConfig;
+    final customSecretConfig = this.customSecretConfig;
+    final domain = this.domain;
+    final managedSecretConfig = this.managedSecretConfig;
+    final mountOptions = this.mountOptions;
+    final password = this.password;
+    return {
+      'User': user,
+      if (cmkSecretConfig != null) 'CmkSecretConfig': cmkSecretConfig,
+      if (customSecretConfig != null) 'CustomSecretConfig': customSecretConfig,
+      if (domain != null) 'Domain': domain,
+      if (managedSecretConfig != null)
+        'ManagedSecretConfig': managedSecretConfig,
+      if (mountOptions != null) 'MountOptions': mountOptions,
+      if (password != null) 'Password': password,
+    };
+  }
+}
+
+/// Specifies configuration information for a DataSync-managed secret, such as
+/// an authentication token or set of credentials that DataSync uses to access a
+/// specific transfer location. DataSync uses the default Amazon Web
+/// Services-managed KMS key to encrypt this secret in Secrets Manager.
+class ManagedSecretConfig {
+  /// Specifies the ARN for an Secrets Manager secret.
+  final String? secretArn;
+
+  ManagedSecretConfig({
+    this.secretArn,
+  });
+
+  factory ManagedSecretConfig.fromJson(Map<String, dynamic> json) {
+    return ManagedSecretConfig(
+      secretArn: json['SecretArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final secretArn = this.secretArn;
+    return {
+      if (secretArn != null) 'SecretArn': secretArn,
+    };
+  }
+}
+
+/// Specifies the data transfer protocol that DataSync uses to access your
+/// Amazon FSx file system.
+/// <note>
+/// You can't update the Network File System (NFS) protocol configuration for
+/// FSx for ONTAP locations. DataSync currently only supports NFS version 3 with
+/// this location type.
+/// </note>
+class FsxUpdateProtocol {
+  final FsxProtocolNfs? nfs;
+
+  /// Specifies the Server Message Block (SMB) protocol configuration that
+  /// DataSync uses to access your FSx for ONTAP file system's storage virtual
+  /// machine (SVM).
+  final FsxUpdateProtocolSmb? smb;
+
+  FsxUpdateProtocol({
+    this.nfs,
+    this.smb,
+  });
+
+  Map<String, dynamic> toJson() {
+    final nfs = this.nfs;
+    final smb = this.smb;
+    return {
+      if (nfs != null) 'NFS': nfs,
+      if (smb != null) 'SMB': smb,
+    };
+  }
+}
+
+/// Specifies the Server Message Block (SMB) protocol configuration that
+/// DataSync uses to access your Amazon FSx for NetApp ONTAP file system's
+/// storage virtual machine (SVM). For more information, see <a
+/// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-ontap-location.html#create-ontap-location-access">Providing
+/// DataSync access to FSx for ONTAP file systems</a>.
+class FsxUpdateProtocolSmb {
+  /// Specifies configuration information for a DataSync-managed secret, such as a
+  /// <code>Password</code> or set of credentials that DataSync uses to access a
+  /// specific transfer location, and a customer-managed KMS key.
+  final CmkSecretConfig? cmkSecretConfig;
+
+  /// Specifies configuration information for a customer-managed secret, such as a
+  /// <code>Password</code> or set of credentials that DataSync uses to access a
+  /// specific transfer location. This configuration includes the secret ARN, and
+  /// the ARN for an IAM role that provides access to the secret.
+  final CustomSecretConfig? customSecretConfig;
+
+  /// Specifies the name of the Windows domain that your storage virtual machine
+  /// (SVM) belongs to.
+  ///
+  /// If you have multiple Active Directory domains in your environment,
+  /// configuring this parameter makes sure that DataSync connects to the right
+  /// SVM.
+  final String? domain;
+  final SmbMountOptions? mountOptions;
+
+  /// Specifies the password of a user who has permission to access your SVM.
+  final String? password;
+
+  /// Specifies a user that can mount and access the files, folders, and metadata
+  /// in your SVM.
+  ///
+  /// For information about choosing a user with the right level of access for
+  /// your transfer, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-ontap-location.html#create-ontap-location-smb">Using
+  /// the SMB protocol</a>.
+  final String? user;
+
+  FsxUpdateProtocolSmb({
+    this.cmkSecretConfig,
+    this.customSecretConfig,
+    this.domain,
+    this.mountOptions,
+    this.password,
+    this.user,
+  });
+
+  Map<String, dynamic> toJson() {
+    final cmkSecretConfig = this.cmkSecretConfig;
+    final customSecretConfig = this.customSecretConfig;
+    final domain = this.domain;
+    final mountOptions = this.mountOptions;
+    final password = this.password;
+    final user = this.user;
+    return {
+      if (cmkSecretConfig != null) 'CmkSecretConfig': cmkSecretConfig,
+      if (customSecretConfig != null) 'CustomSecretConfig': customSecretConfig,
+      if (domain != null) 'Domain': domain,
+      if (mountOptions != null) 'MountOptions': mountOptions,
+      if (password != null) 'Password': password,
+      if (user != null) 'User': user,
+    };
+  }
+}
+
+class EfsInTransitEncryption {
+  static const none = EfsInTransitEncryption._('NONE');
+  static const tls1_2 = EfsInTransitEncryption._('TLS1_2');
+
+  final String value;
+
+  const EfsInTransitEncryption._(this.value);
+
+  static const values = [none, tls1_2];
+
+  static EfsInTransitEncryption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EfsInTransitEncryption._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EfsInTransitEncryption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AzureBlobAuthenticationType {
+  static const sas = AzureBlobAuthenticationType._('SAS');
+  static const none = AzureBlobAuthenticationType._('NONE');
+
+  final String value;
+
+  const AzureBlobAuthenticationType._(this.value);
+
+  static const values = [sas, none];
+
+  static AzureBlobAuthenticationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AzureBlobAuthenticationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AzureBlobAuthenticationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The shared access signature (SAS) configuration that allows DataSync to
+/// access your Microsoft Azure Blob Storage.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-sas-tokens">SAS
+/// tokens</a> for accessing your Azure Blob Storage.
+class AzureBlobSasConfiguration {
+  /// Specifies a SAS token that provides permissions to access your Azure Blob
+  /// Storage.
+  ///
+  /// The token is part of the SAS URI string that comes after the storage
+  /// resource URI and a question mark. A token looks something like this:
+  ///
+  /// <code>sp=r&st=2023-12-20T14:54:52Z&se=2023-12-20T22:54:52Z&spr=https&sv=2021-06-08&sr=c&sig=aBBKDWQvyuVcTPH9EBp%2FXTI9E%2F%2Fmq171%2BZU178wcwqU%3D</code>
+  final String token;
+
+  AzureBlobSasConfiguration({
+    required this.token,
+  });
+
+  Map<String, dynamic> toJson() {
+    final token = this.token;
+    return {
+      'Token': token,
+    };
+  }
+}
+
+class AzureBlobType {
+  static const block = AzureBlobType._('BLOCK');
+
+  final String value;
+
+  const AzureBlobType._(this.value);
+
+  static const values = [block];
+
+  static AzureBlobType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AzureBlobType._(value));
+
+  @override
+  bool operator ==(other) => other is AzureBlobType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AzureAccessTier {
+  static const hot = AzureAccessTier._('HOT');
+  static const cool = AzureAccessTier._('COOL');
+  static const archive = AzureAccessTier._('ARCHIVE');
+
+  final String value;
+
+  const AzureAccessTier._(this.value);
+
+  static const values = [hot, cool, archive];
+
+  static AzureAccessTier fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AzureAccessTier._(value));
+
+  @override
+  bool operator ==(other) => other is AzureAccessTier && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A key-value pair representing a single tag that's been applied to an Amazon
+/// Web Services resource.
+class TagListEntry {
+  /// The key for an Amazon Web Services resource tag.
+  final String key;
+
+  /// The value for an Amazon Web Services resource tag.
+  final String? value;
+
+  TagListEntry({
+    required this.key,
+    this.value,
+  });
+
+  factory TagListEntry.fromJson(Map<String, dynamic> json) {
+    return TagListEntry(
+      key: (json['Key'] as String?) ?? '',
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Represents a single entry in a list of tasks. <code>TaskListEntry</code>
+/// returns an array that contains a list of tasks when the <a
+/// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_ListTasks.html">ListTasks</a>
+/// operation is called. A task includes the source and destination file systems
+/// to sync and the options to use for the tasks.
+class TaskListEntry {
+  /// The name of the task.
+  final String? name;
+
+  /// The status of the task.
+  final TaskStatus? status;
+
+  /// The Amazon Resource Name (ARN) of the task.
+  final String? taskArn;
+
+  /// The task mode that you're using. For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html">Choosing
+  /// a task mode for your data transfer</a>.
+  final TaskMode? taskMode;
+
+  TaskListEntry({
+    this.name,
+    this.status,
+    this.taskArn,
+    this.taskMode,
+  });
+
+  factory TaskListEntry.fromJson(Map<String, dynamic> json) {
+    return TaskListEntry(
+      name: json['Name'] as String?,
+      status: (json['Status'] as String?)?.let(TaskStatus.fromString),
+      taskArn: json['TaskArn'] as String?,
+      taskMode: (json['TaskMode'] as String?)?.let(TaskMode.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final status = this.status;
+    final taskArn = this.taskArn;
+    final taskMode = this.taskMode;
+    return {
+      if (name != null) 'Name': name,
+      if (status != null) 'Status': status.value,
+      if (taskArn != null) 'TaskArn': taskArn,
+      if (taskMode != null) 'TaskMode': taskMode.value,
+    };
+  }
+}
+
+class TaskStatus {
+  static const available = TaskStatus._('AVAILABLE');
+  static const creating = TaskStatus._('CREATING');
+  static const queued = TaskStatus._('QUEUED');
+  static const running = TaskStatus._('RUNNING');
+  static const unavailable = TaskStatus._('UNAVAILABLE');
+
+  final String value;
+
+  const TaskStatus._(this.value);
+
+  static const values = [available, creating, queued, running, unavailable];
+
+  static TaskStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TaskStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TaskStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TaskMode {
+  static const basic = TaskMode._('BASIC');
+  static const enhanced = TaskMode._('ENHANCED');
+
+  final String value;
+
+  const TaskMode._(this.value);
+
+  static const values = [basic, enhanced];
+
+  static TaskMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TaskMode._(value));
+
+  @override
+  bool operator ==(other) => other is TaskMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// You can use API filters to narrow down the list of resources returned by
+/// <code>ListTasks</code>. For example, to retrieve all tasks on a source
+/// location, you can use <code>ListTasks</code> with filter name
+/// <code>LocationId</code> and <code>Operator Equals</code> with the ARN for
+/// the location.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/datasync/latest/userguide/query-resources.html">filtering
+/// DataSync resources</a>.
+class TaskFilter {
+  /// The name of the filter being used. Each API call supports a list of filters
+  /// that are available for it. For example, <code>LocationId</code> for
+  /// <code>ListTasks</code>.
+  final TaskFilterName name;
+
+  /// The operator that is used to compare filter values (for example,
+  /// <code>Equals</code> or <code>Contains</code>).
+  final Operator operator;
+
+  /// The values that you want to filter for. For example, you might want to
+  /// display only tasks for a specific destination location.
+  final List<String> values;
+
+  TaskFilter({
+    required this.name,
+    required this.operator,
+    required this.values,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final operator = this.operator;
+    final values = this.values;
+    return {
+      'Name': name.value,
+      'Operator': operator.value,
+      'Values': values,
+    };
+  }
+}
+
+class TaskFilterName {
+  static const locationId = TaskFilterName._('LocationId');
+  static const creationTime = TaskFilterName._('CreationTime');
+
+  final String value;
+
+  const TaskFilterName._(this.value);
+
+  static const values = [locationId, creationTime];
+
+  static TaskFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TaskFilterName._(value));
+
+  @override
+  bool operator ==(other) => other is TaskFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class Operator {
+  static const equals = Operator._('Equals');
+  static const notEquals = Operator._('NotEquals');
+  static const $in = Operator._('In');
+  static const lessThanOrEqual = Operator._('LessThanOrEqual');
+  static const lessThan = Operator._('LessThan');
+  static const greaterThanOrEqual = Operator._('GreaterThanOrEqual');
+  static const greaterThan = Operator._('GreaterThan');
+  static const contains = Operator._('Contains');
+  static const notContains = Operator._('NotContains');
+  static const beginsWith = Operator._('BeginsWith');
+
+  final String value;
+
+  const Operator._(this.value);
+
+  static const values = [
+    equals,
+    notEquals,
+    $in,
+    lessThanOrEqual,
+    lessThan,
+    greaterThanOrEqual,
+    greaterThan,
+    contains,
+    notContains,
+    beginsWith
+  ];
+
+  static Operator fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Operator._(value));
+
+  @override
+  bool operator ==(other) => other is Operator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents a single entry in a list of DataSync task executions that's
+/// returned with the <a
+/// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_ListTaskExecutions.html">ListTaskExecutions</a>
+/// operation.
+class TaskExecutionListEntry {
+  /// The status of a task execution. For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/run-task.html#understand-task-execution-statuses">Task
+  /// execution statuses</a>.
+  final TaskExecutionStatus? status;
+
+  /// The Amazon Resource Name (ARN) of a task execution.
+  final String? taskExecutionArn;
+
+  /// The task mode that you're using. For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html">Choosing
+  /// a task mode for your data transfer</a>.
+  final TaskMode? taskMode;
+
+  TaskExecutionListEntry({
+    this.status,
+    this.taskExecutionArn,
+    this.taskMode,
+  });
+
+  factory TaskExecutionListEntry.fromJson(Map<String, dynamic> json) {
+    return TaskExecutionListEntry(
+      status: (json['Status'] as String?)?.let(TaskExecutionStatus.fromString),
+      taskExecutionArn: json['TaskExecutionArn'] as String?,
+      taskMode: (json['TaskMode'] as String?)?.let(TaskMode.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final taskExecutionArn = this.taskExecutionArn;
+    final taskMode = this.taskMode;
+    return {
+      if (status != null) 'Status': status.value,
+      if (taskExecutionArn != null) 'TaskExecutionArn': taskExecutionArn,
+      if (taskMode != null) 'TaskMode': taskMode.value,
+    };
+  }
+}
+
+class TaskExecutionStatus {
+  static const queued = TaskExecutionStatus._('QUEUED');
+  static const cancelling = TaskExecutionStatus._('CANCELLING');
+  static const launching = TaskExecutionStatus._('LAUNCHING');
+  static const preparing = TaskExecutionStatus._('PREPARING');
+  static const transferring = TaskExecutionStatus._('TRANSFERRING');
+  static const verifying = TaskExecutionStatus._('VERIFYING');
+  static const success = TaskExecutionStatus._('SUCCESS');
+  static const error = TaskExecutionStatus._('ERROR');
+
+  final String value;
+
+  const TaskExecutionStatus._(this.value);
+
+  static const values = [
+    queued,
+    cancelling,
+    launching,
+    preparing,
+    transferring,
+    verifying,
+    success,
+    error
+  ];
+
+  static TaskExecutionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TaskExecutionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TaskExecutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents a single entry in a list of locations.
+/// <code>LocationListEntry</code> returns an array that contains a list of
+/// locations when the <a
+/// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_ListLocations.html">ListLocations</a>
+/// operation is called.
+class LocationListEntry {
+  /// The Amazon Resource Name (ARN) of the location. For Network File System
+  /// (NFS) or Amazon EFS, the location is the export path. For Amazon S3, the
+  /// location is the prefix path that you want to mount and use as the root of
+  /// the location.
+  final String? locationArn;
+
+  /// Represents a list of URIs of a location. <code>LocationUri</code> returns an
+  /// array that contains a list of locations when the <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_ListLocations.html">ListLocations</a>
+  /// operation is called.
+  ///
+  /// Format: <code>TYPE://GLOBAL_ID/SUBDIR</code>.
+  ///
+  /// TYPE designates the type of location (for example, <code>nfs</code> or
+  /// <code>s3</code>).
+  ///
+  /// GLOBAL_ID is the globally unique identifier of the resource that backs the
+  /// location. An example for EFS is <code>us-east-2.fs-abcd1234</code>. An
+  /// example for Amazon S3 is the bucket name, such as <code>myBucket</code>. An
+  /// example for NFS is a valid IPv4 or IPv6 address or a hostname that is
+  /// compliant with DNS.
+  ///
+  /// SUBDIR is a valid file system path, delimited by forward slashes as is the
+  /// *nix convention. For NFS and Amazon EFS, it's the export path to mount the
+  /// location. For Amazon S3, it's the prefix path that you mount to and treat as
+  /// the root of the location.
+  ///
+  ///
+  final String? locationUri;
+
+  LocationListEntry({
+    this.locationArn,
+    this.locationUri,
+  });
+
+  factory LocationListEntry.fromJson(Map<String, dynamic> json) {
+    return LocationListEntry(
+      locationArn: json['LocationArn'] as String?,
+      locationUri: json['LocationUri'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final locationArn = this.locationArn;
+    final locationUri = this.locationUri;
+    return {
+      if (locationArn != null) 'LocationArn': locationArn,
+      if (locationUri != null) 'LocationUri': locationUri,
+    };
+  }
+}
+
+/// Narrow down the list of resources returned by <code>ListLocations</code>.
+/// For example, to see all your Amazon S3 locations, create a filter using
+/// <code>"Name": "LocationType"</code>, <code>"Operator": "Equals"</code>, and
+/// <code>"Values": "S3"</code>.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/datasync/latest/userguide/query-resources.html">filtering
+/// resources</a>.
+class LocationFilter {
+  /// The name of the filter being used. Each API call supports a list of filters
+  /// that are available for it (for example, <code>LocationType</code> for
+  /// <code>ListLocations</code>).
+  final LocationFilterName name;
+
+  /// The operator that is used to compare filter values (for example,
+  /// <code>Equals</code> or <code>Contains</code>).
+  final Operator operator;
+
+  /// The values that you want to filter for. For example, you might want to
+  /// display only Amazon S3 locations.
+  final List<String> values;
+
+  LocationFilter({
+    required this.name,
+    required this.operator,
+    required this.values,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final operator = this.operator;
+    final values = this.values;
+    return {
+      'Name': name.value,
+      'Operator': operator.value,
+      'Values': values,
+    };
+  }
+}
+
+class LocationFilterName {
+  static const locationUri = LocationFilterName._('LocationUri');
+  static const locationType = LocationFilterName._('LocationType');
+  static const creationTime = LocationFilterName._('CreationTime');
+
+  final String value;
+
+  const LocationFilterName._(this.value);
+
+  static const values = [locationUri, locationType, creationTime];
+
+  static LocationFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LocationFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LocationFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents a single entry in a list (or array) of DataSync agents when you
+/// call the <a
+/// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_ListAgents.html">ListAgents</a>
+/// operation.
+class AgentListEntry {
+  /// The Amazon Resource Name (ARN) of a DataSync agent.
+  final String? agentArn;
+
+  /// The name of an agent.
+  final String? name;
+
+  /// The platform-related details about the agent, such as the version number.
+  final Platform? platform;
+
+  /// The status of an agent.
+  ///
+  /// <ul>
+  /// <li>
+  /// If the status is <code>ONLINE</code>, the agent is configured properly and
+  /// ready to use.
+  /// </li>
+  /// <li>
+  /// If the status is <code>OFFLINE</code>, the agent has been out of contact
+  /// with DataSync for five minutes or longer. This can happen for a few reasons.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/troubleshooting-datasync-agents.html#troubleshoot-agent-offline">What
+  /// do I do if my agent is offline?</a>
+  /// </li>
+  /// </ul>
+  final AgentStatus? status;
+
+  AgentListEntry({
+    this.agentArn,
+    this.name,
+    this.platform,
+    this.status,
+  });
+
+  factory AgentListEntry.fromJson(Map<String, dynamic> json) {
+    return AgentListEntry(
+      agentArn: json['AgentArn'] as String?,
+      name: json['Name'] as String?,
+      platform: json['Platform'] != null
+          ? Platform.fromJson(json['Platform'] as Map<String, dynamic>)
+          : null,
+      status: (json['Status'] as String?)?.let(AgentStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agentArn = this.agentArn;
+    final name = this.name;
+    final platform = this.platform;
     final status = this.status;
     return {
-      'ScheduleExpression': scheduleExpression,
+      if (agentArn != null) 'AgentArn': agentArn,
+      if (name != null) 'Name': name,
+      if (platform != null) 'Platform': platform,
       if (status != null) 'Status': status.value,
     };
   }
+}
+
+class AgentStatus {
+  static const online = AgentStatus._('ONLINE');
+  static const offline = AgentStatus._('OFFLINE');
+
+  final String value;
+
+  const AgentStatus._(this.value);
+
+  static const values = [online, offline];
+
+  static AgentStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AgentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AgentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The platform-related details about the DataSync agent, such as the version
+/// number.
+class Platform {
+  /// The version of the DataSync agent.
+  final String? version;
+
+  Platform({
+    this.version,
+  });
+
+  factory Platform.fromJson(Map<String, dynamic> json) {
+    return Platform(
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final version = this.version;
+    return {
+      if (version != null) 'Version': version,
+    };
+  }
+}
+
+/// Provides detailed information about the result of your DataSync task
+/// execution.
+class TaskExecutionResultDetail {
+  /// An error that DataSync encountered during your task execution. You can use
+  /// this information to help <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/troubleshooting-datasync-locations-tasks.html">troubleshoot
+  /// issues</a>.
+  final String? errorCode;
+
+  /// The detailed description of an error that DataSync encountered during your
+  /// task execution. You can use this information to help <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/troubleshooting-datasync-locations-tasks.html">troubleshoot
+  /// issues</a>.
+  final String? errorDetail;
+
+  /// The time in milliseconds that your task execution was in the
+  /// <code>PREPARING</code> step. For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/run-task.html#understand-task-execution-statuses">Task
+  /// execution statuses</a>.
+  ///
+  /// For Enhanced mode tasks, the value is always <code>0</code>. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/how-datasync-transfer-works.html#how-datasync-prepares">How
+  /// DataSync prepares your data transfer</a>.
+  final int? prepareDuration;
+
+  /// The status of the <code>PREPARING</code> step for your task execution. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/run-task.html#understand-task-execution-statuses">Task
+  /// execution statuses</a>.
+  final PhaseStatus? prepareStatus;
+
+  /// The time in milliseconds that your task execution ran.
+  final int? totalDuration;
+
+  /// The time in milliseconds that your task execution was in the
+  /// <code>TRANSFERRING</code> step. For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/run-task.html#understand-task-execution-statuses">Task
+  /// execution statuses</a>.
+  ///
+  /// For Enhanced mode tasks, the value is always <code>0</code>. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/how-datasync-transfer-works.html#how-datasync-transfers">How
+  /// DataSync transfers your data</a>.
+  final int? transferDuration;
+
+  /// The status of the <code>TRANSFERRING</code> step for your task execution.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/run-task.html#understand-task-execution-statuses">Task
+  /// execution statuses</a>.
+  final PhaseStatus? transferStatus;
+
+  /// The time in milliseconds that your task execution was in the
+  /// <code>VERIFYING</code> step. For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/run-task.html#understand-task-execution-statuses">Task
+  /// execution statuses</a>.
+  ///
+  /// For Enhanced mode tasks, the value is always <code>0</code>. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/how-datasync-transfer-works.html#how-verifying-works">How
+  /// DataSync verifies your data's integrity</a>.
+  final int? verifyDuration;
+
+  /// The status of the <code>VERIFYING</code> step for your task execution. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/run-task.html#understand-task-execution-statuses">Task
+  /// execution statuses</a>.
+  final PhaseStatus? verifyStatus;
+
+  TaskExecutionResultDetail({
+    this.errorCode,
+    this.errorDetail,
+    this.prepareDuration,
+    this.prepareStatus,
+    this.totalDuration,
+    this.transferDuration,
+    this.transferStatus,
+    this.verifyDuration,
+    this.verifyStatus,
+  });
+
+  factory TaskExecutionResultDetail.fromJson(Map<String, dynamic> json) {
+    return TaskExecutionResultDetail(
+      errorCode: json['ErrorCode'] as String?,
+      errorDetail: json['ErrorDetail'] as String?,
+      prepareDuration: json['PrepareDuration'] as int?,
+      prepareStatus:
+          (json['PrepareStatus'] as String?)?.let(PhaseStatus.fromString),
+      totalDuration: json['TotalDuration'] as int?,
+      transferDuration: json['TransferDuration'] as int?,
+      transferStatus:
+          (json['TransferStatus'] as String?)?.let(PhaseStatus.fromString),
+      verifyDuration: json['VerifyDuration'] as int?,
+      verifyStatus:
+          (json['VerifyStatus'] as String?)?.let(PhaseStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorDetail = this.errorDetail;
+    final prepareDuration = this.prepareDuration;
+    final prepareStatus = this.prepareStatus;
+    final totalDuration = this.totalDuration;
+    final transferDuration = this.transferDuration;
+    final transferStatus = this.transferStatus;
+    final verifyDuration = this.verifyDuration;
+    final verifyStatus = this.verifyStatus;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (errorDetail != null) 'ErrorDetail': errorDetail,
+      if (prepareDuration != null) 'PrepareDuration': prepareDuration,
+      if (prepareStatus != null) 'PrepareStatus': prepareStatus.value,
+      if (totalDuration != null) 'TotalDuration': totalDuration,
+      if (transferDuration != null) 'TransferDuration': transferDuration,
+      if (transferStatus != null) 'TransferStatus': transferStatus.value,
+      if (verifyDuration != null) 'VerifyDuration': verifyDuration,
+      if (verifyStatus != null) 'VerifyStatus': verifyStatus.value,
+    };
+  }
+}
+
+/// Indicates whether DataSync created a complete <a
+/// href="https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html">task
+/// report</a> for your transfer.
+class ReportResult {
+  /// Indicates the code associated with the error if DataSync can't create a
+  /// complete report.
+  final String? errorCode;
+
+  /// Provides details about issues creating a report.
+  final String? errorDetail;
+
+  /// Indicates whether DataSync is still working on your report, created a
+  /// report, or can't create a complete report.
+  final PhaseStatus? status;
+
+  ReportResult({
+    this.errorCode,
+    this.errorDetail,
+    this.status,
+  });
+
+  factory ReportResult.fromJson(Map<String, dynamic> json) {
+    return ReportResult(
+      errorCode: json['ErrorCode'] as String?,
+      errorDetail: json['ErrorDetail'] as String?,
+      status: (json['Status'] as String?)?.let(PhaseStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorDetail = this.errorDetail;
+    final status = this.status;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (errorDetail != null) 'ErrorDetail': errorDetail,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+/// The number of files or objects that DataSync finds at your locations.
+/// <note>
+/// Applies only to <a
+/// href="https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html">Enhanced
+/// mode tasks</a>.
+/// </note>
+class TaskExecutionFilesListedDetail {
+  /// The number of files or objects that DataSync finds at your destination
+  /// location. This counter is only applicable if you <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/configure-metadata.html#task-option-file-object-handling">configure
+  /// your task</a> to delete data in the destination that isn't in the source.
+  final int? atDestinationForDelete;
+
+  /// The number of files or objects that DataSync finds at your source location.
+  ///
+  /// <ul>
+  /// <li>
+  /// With a <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html">manifest</a>,
+  /// DataSync lists only what's in your manifest (and not everything at your
+  /// source location).
+  /// </li>
+  /// <li>
+  /// With an include <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html">filter</a>,
+  /// DataSync lists only what matches the filter at your source location.
+  /// </li>
+  /// <li>
+  /// With an exclude filter, DataSync lists everything at your source location
+  /// before applying the filter.
+  /// </li>
+  /// </ul>
+  final int? atSource;
+
+  TaskExecutionFilesListedDetail({
+    this.atDestinationForDelete,
+    this.atSource,
+  });
+
+  factory TaskExecutionFilesListedDetail.fromJson(Map<String, dynamic> json) {
+    return TaskExecutionFilesListedDetail(
+      atDestinationForDelete: json['AtDestinationForDelete'] as int?,
+      atSource: json['AtSource'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final atDestinationForDelete = this.atDestinationForDelete;
+    final atSource = this.atSource;
+    return {
+      if (atDestinationForDelete != null)
+        'AtDestinationForDelete': atDestinationForDelete,
+      if (atSource != null) 'AtSource': atSource,
+    };
+  }
+}
+
+/// The number of files or objects that DataSync fails to prepare, transfer,
+/// verify, and delete during your task execution.
+/// <note>
+/// Applies only to <a
+/// href="https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html">Enhanced
+/// mode tasks</a>.
+/// </note>
+class TaskExecutionFilesFailedDetail {
+  /// The number of files or objects that DataSync fails to delete during your
+  /// task execution.
+  final int? delete;
+
+  /// The number of files or objects that DataSync fails to prepare during your
+  /// task execution.
+  final int? prepare;
+
+  /// The number of files or objects that DataSync fails to transfer during your
+  /// task execution.
+  final int? transfer;
+
+  /// The number of files or objects that DataSync fails to verify during your
+  /// task execution.
+  final int? verify;
+
+  TaskExecutionFilesFailedDetail({
+    this.delete,
+    this.prepare,
+    this.transfer,
+    this.verify,
+  });
+
+  factory TaskExecutionFilesFailedDetail.fromJson(Map<String, dynamic> json) {
+    return TaskExecutionFilesFailedDetail(
+      delete: json['Delete'] as int?,
+      prepare: json['Prepare'] as int?,
+      transfer: json['Transfer'] as int?,
+      verify: json['Verify'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final delete = this.delete;
+    final prepare = this.prepare;
+    final transfer = this.transfer;
+    final verify = this.verify;
+    return {
+      if (delete != null) 'Delete': delete,
+      if (prepare != null) 'Prepare': prepare,
+      if (transfer != null) 'Transfer': transfer,
+      if (verify != null) 'Verify': verify,
+    };
+  }
+}
+
+/// The number of directories that DataSync finds at your locations.
+/// <note>
+/// Applies only to <a
+/// href="https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html">Enhanced
+/// mode tasks</a>.
+/// </note>
+class TaskExecutionFoldersListedDetail {
+  /// The number of directories that DataSync finds at your destination location.
+  /// This counter is only applicable if you <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/configure-metadata.html#task-option-file-object-handling">configure
+  /// your task</a> to delete data in the destination that isn't in the source.
+  final int? atDestinationForDelete;
+
+  /// The number of directories that DataSync finds at your source location.
+  ///
+  /// <ul>
+  /// <li>
+  /// With a <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html">manifest</a>,
+  /// DataSync lists only what's in your manifest (and not everything at your
+  /// source location).
+  /// </li>
+  /// <li>
+  /// With an include <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html">filter</a>,
+  /// DataSync lists only what matches the filter at your source location.
+  /// </li>
+  /// <li>
+  /// With an exclude filter, DataSync lists everything at your source location
+  /// before applying the filter.
+  /// </li>
+  /// </ul>
+  final int? atSource;
+
+  TaskExecutionFoldersListedDetail({
+    this.atDestinationForDelete,
+    this.atSource,
+  });
+
+  factory TaskExecutionFoldersListedDetail.fromJson(Map<String, dynamic> json) {
+    return TaskExecutionFoldersListedDetail(
+      atDestinationForDelete: json['AtDestinationForDelete'] as int?,
+      atSource: json['AtSource'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final atDestinationForDelete = this.atDestinationForDelete;
+    final atSource = this.atSource;
+    return {
+      if (atDestinationForDelete != null)
+        'AtDestinationForDelete': atDestinationForDelete,
+      if (atSource != null) 'AtSource': atSource,
+    };
+  }
+}
+
+/// The number of directories that DataSync fails to list, prepare, transfer,
+/// verify, and delete during your task execution.
+/// <note>
+/// Applies only to <a
+/// href="https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html">Enhanced
+/// mode tasks</a>.
+/// </note>
+class TaskExecutionFoldersFailedDetail {
+  /// The number of directories that DataSync fails to delete during your task
+  /// execution.
+  final int? delete;
+
+  /// The number of directories that DataSync fails to list during your task
+  /// execution.
+  final int? list;
+
+  /// The number of directories that DataSync fails to prepare during your task
+  /// execution.
+  final int? prepare;
+
+  /// The number of directories that DataSync fails to transfer during your task
+  /// execution.
+  final int? transfer;
+
+  /// The number of directories that DataSync fails to verify during your task
+  /// execution.
+  final int? verify;
+
+  TaskExecutionFoldersFailedDetail({
+    this.delete,
+    this.list,
+    this.prepare,
+    this.transfer,
+    this.verify,
+  });
+
+  factory TaskExecutionFoldersFailedDetail.fromJson(Map<String, dynamic> json) {
+    return TaskExecutionFoldersFailedDetail(
+      delete: json['Delete'] as int?,
+      list: json['List'] as int?,
+      prepare: json['Prepare'] as int?,
+      transfer: json['Transfer'] as int?,
+      verify: json['Verify'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final delete = this.delete;
+    final list = this.list;
+    final prepare = this.prepare;
+    final transfer = this.transfer;
+    final verify = this.verify;
+    return {
+      if (delete != null) 'Delete': delete,
+      if (list != null) 'List': list,
+      if (prepare != null) 'Prepare': prepare,
+      if (transfer != null) 'Transfer': transfer,
+      if (verify != null) 'Verify': verify,
+    };
+  }
+}
+
+class PhaseStatus {
+  static const pending = PhaseStatus._('PENDING');
+  static const success = PhaseStatus._('SUCCESS');
+  static const error = PhaseStatus._('ERROR');
+
+  final String value;
+
+  const PhaseStatus._(this.value);
+
+  static const values = [pending, success, error];
+
+  static PhaseStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PhaseStatus._(value));
+
+  @override
+  bool operator ==(other) => other is PhaseStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides information about your DataSync <a
@@ -9848,24 +9931,23 @@ class TaskScheduleDetails {
   }
 }
 
-class TaskStatus {
-  static const available = TaskStatus._('AVAILABLE');
-  static const creating = TaskStatus._('CREATING');
-  static const queued = TaskStatus._('QUEUED');
-  static const running = TaskStatus._('RUNNING');
-  static const unavailable = TaskStatus._('UNAVAILABLE');
+class ScheduleDisabledBy {
+  static const user = ScheduleDisabledBy._('USER');
+  static const service = ScheduleDisabledBy._('SERVICE');
 
   final String value;
 
-  const TaskStatus._(this.value);
+  const ScheduleDisabledBy._(this.value);
 
-  static const values = [available, creating, queued, running, unavailable];
+  static const values = [user, service];
 
-  static TaskStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => TaskStatus._(value));
+  static ScheduleDisabledBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ScheduleDisabledBy._(value));
 
   @override
-  bool operator ==(other) => other is TaskStatus && other.value == value;
+  bool operator ==(other) =>
+      other is ScheduleDisabledBy && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -9874,66 +9956,76 @@ class TaskStatus {
   String toString() => value;
 }
 
-/// The throughput peaks for an on-premises storage system volume. Each data
-/// point represents the 95th percentile peak value during a 1-hour interval.
-class Throughput {
-  /// Peak throughput unrelated to read and write operations.
-  final double? other;
+/// The subnet and security groups that DataSync uses to connect to one of your
+/// Amazon EFS file system's <a
+/// href="https://docs.aws.amazon.com/efs/latest/ug/accessing-fs.html">mount
+/// targets</a>.
+class Ec2Config {
+  /// Specifies the Amazon Resource Names (ARNs) of the security groups associated
+  /// with an Amazon EFS file system's mount target.
+  final List<String> securityGroupArns;
 
-  /// Peak throughput related to read operations.
-  final double? read;
+  /// Specifies the ARN of a subnet where DataSync creates the <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/datasync-network.html#required-network-interfaces">network
+  /// interfaces</a> for managing traffic during your transfer.
+  ///
+  /// The subnet must be located:
+  ///
+  /// <ul>
+  /// <li>
+  /// In the same virtual private cloud (VPC) as the Amazon EFS file system.
+  /// </li>
+  /// <li>
+  /// In the same Availability Zone as at least one mount target for the Amazon
+  /// EFS file system.
+  /// </li>
+  /// </ul> <note>
+  /// You don't need to specify a subnet that includes a file system mount target.
+  /// </note>
+  final String subnetArn;
 
-  /// Peak total throughput on your on-premises storage system resource.
-  final double? total;
-
-  /// Peak throughput related to write operations.
-  final double? write;
-
-  Throughput({
-    this.other,
-    this.read,
-    this.total,
-    this.write,
+  Ec2Config({
+    required this.securityGroupArns,
+    required this.subnetArn,
   });
 
-  factory Throughput.fromJson(Map<String, dynamic> json) {
-    return Throughput(
-      other: json['Other'] as double?,
-      read: json['Read'] as double?,
-      total: json['Total'] as double?,
-      write: json['Write'] as double?,
+  factory Ec2Config.fromJson(Map<String, dynamic> json) {
+    return Ec2Config(
+      securityGroupArns: ((json['SecurityGroupArns'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      subnetArn: (json['SubnetArn'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    final other = this.other;
-    final read = this.read;
-    final total = this.total;
-    final write = this.write;
+    final securityGroupArns = this.securityGroupArns;
+    final subnetArn = this.subnetArn;
     return {
-      if (other != null) 'Other': other,
-      if (read != null) 'Read': read,
-      if (total != null) 'Total': total,
-      if (write != null) 'Write': write,
+      'SecurityGroupArns': securityGroupArns,
+      'SubnetArn': subnetArn,
     };
   }
 }
 
-class TransferMode {
-  static const changed = TransferMode._('CHANGED');
-  static const all = TransferMode._('ALL');
+class EndpointType {
+  static const public = EndpointType._('PUBLIC');
+  static const privateLink = EndpointType._('PRIVATE_LINK');
+  static const fips = EndpointType._('FIPS');
+  static const fipsPrivateLink = EndpointType._('FIPS_PRIVATE_LINK');
 
   final String value;
 
-  const TransferMode._(this.value);
+  const EndpointType._(this.value);
 
-  static const values = [changed, all];
+  static const values = [public, privateLink, fips, fipsPrivateLink];
 
-  static TransferMode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => TransferMode._(value));
+  static EndpointType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EndpointType._(value));
 
   @override
-  bool operator ==(other) => other is TransferMode && other.value == value;
+  bool operator ==(other) => other is EndpointType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -9942,185 +10034,62 @@ class TransferMode {
   String toString() => value;
 }
 
-class Uid {
-  static const none = Uid._('NONE');
-  static const intValue = Uid._('INT_VALUE');
-  static const name = Uid._('NAME');
-  static const both = Uid._('BOTH');
+/// Specifies how your DataSync agent connects to Amazon Web Services using a <a
+/// href="https://docs.aws.amazon.com/datasync/latest/userguide/choose-service-endpoint.html#choose-service-endpoint-vpc">virtual
+/// private cloud (VPC) service endpoint</a>. An agent that uses a VPC endpoint
+/// isn't accessible over the public internet.
+class PrivateLinkConfig {
+  /// Specifies the VPC endpoint provided by <a
+  /// href="https://docs.aws.amazon.com/vpc/latest/privatelink/privatelink-share-your-services.html">Amazon
+  /// Web Services PrivateLink</a> that your agent connects to.
+  final String? privateLinkEndpoint;
 
-  final String value;
+  /// Specifies the Amazon Resource Names (ARN) of the security group that
+  /// provides DataSync access to your VPC endpoint. You can only specify one ARN.
+  final List<String>? securityGroupArns;
 
-  const Uid._(this.value);
+  /// Specifies the ARN of the subnet where your VPC endpoint is located. You can
+  /// only specify one ARN.
+  final List<String>? subnetArns;
 
-  static const values = [none, intValue, name, both];
+  /// Specifies the ID of the VPC endpoint that your agent connects to.
+  final String? vpcEndpointId;
 
-  static Uid fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Uid._(value));
+  PrivateLinkConfig({
+    this.privateLinkEndpoint,
+    this.securityGroupArns,
+    this.subnetArns,
+    this.vpcEndpointId,
+  });
 
-  @override
-  bool operator ==(other) => other is Uid && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class UntagResourceResponse {
-  UntagResourceResponse();
-
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
+  factory PrivateLinkConfig.fromJson(Map<String, dynamic> json) {
+    return PrivateLinkConfig(
+      privateLinkEndpoint: json['PrivateLinkEndpoint'] as String?,
+      securityGroupArns: (json['SecurityGroupArns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      subnetArns: (json['SubnetArns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      vpcEndpointId: json['VpcEndpointId'] as String?,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final privateLinkEndpoint = this.privateLinkEndpoint;
+    final securityGroupArns = this.securityGroupArns;
+    final subnetArns = this.subnetArns;
+    final vpcEndpointId = this.vpcEndpointId;
+    return {
+      if (privateLinkEndpoint != null)
+        'PrivateLinkEndpoint': privateLinkEndpoint,
+      if (securityGroupArns != null) 'SecurityGroupArns': securityGroupArns,
+      if (subnetArns != null) 'SubnetArns': subnetArns,
+      if (vpcEndpointId != null) 'VpcEndpointId': vpcEndpointId,
+    };
   }
-}
-
-class UpdateAgentResponse {
-  UpdateAgentResponse();
-
-  factory UpdateAgentResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateAgentResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateDiscoveryJobResponse {
-  UpdateDiscoveryJobResponse();
-
-  factory UpdateDiscoveryJobResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateDiscoveryJobResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateLocationAzureBlobResponse {
-  UpdateLocationAzureBlobResponse();
-
-  factory UpdateLocationAzureBlobResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateLocationAzureBlobResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateLocationHdfsResponse {
-  UpdateLocationHdfsResponse();
-
-  factory UpdateLocationHdfsResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateLocationHdfsResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateLocationNfsResponse {
-  UpdateLocationNfsResponse();
-
-  factory UpdateLocationNfsResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateLocationNfsResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateLocationObjectStorageResponse {
-  UpdateLocationObjectStorageResponse();
-
-  factory UpdateLocationObjectStorageResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateLocationObjectStorageResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateLocationSmbResponse {
-  UpdateLocationSmbResponse();
-
-  factory UpdateLocationSmbResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateLocationSmbResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateStorageSystemResponse {
-  UpdateStorageSystemResponse();
-
-  factory UpdateStorageSystemResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateStorageSystemResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateTaskExecutionResponse {
-  UpdateTaskExecutionResponse();
-
-  factory UpdateTaskExecutionResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateTaskExecutionResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateTaskResponse {
-  UpdateTaskResponse();
-
-  factory UpdateTaskResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateTaskResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class VerifyMode {
-  static const pointInTimeConsistent = VerifyMode._('POINT_IN_TIME_CONSISTENT');
-  static const onlyFilesTransferred = VerifyMode._('ONLY_FILES_TRANSFERRED');
-  static const none = VerifyMode._('NONE');
-
-  final String value;
-
-  const VerifyMode._(this.value);
-
-  static const values = [pointInTimeConsistent, onlyFilesTransferred, none];
-
-  static VerifyMode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => VerifyMode._(value));
-
-  @override
-  bool operator ==(other) => other is VerifyMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class InternalException extends _s.GenericAwsException {

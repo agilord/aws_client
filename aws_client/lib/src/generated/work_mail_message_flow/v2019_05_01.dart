@@ -87,10 +87,10 @@ class WorkMailMessageFlow {
   /// returns an updated message.
   /// </note>
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidContentLocation].
-  /// May throw [MessageRejected].
   /// May throw [MessageFrozen].
+  /// May throw [MessageRejected].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [content] :
   /// Describes the raw message content of the updated email message.
@@ -160,8 +160,8 @@ class PutRawMessageContentResponse {
 /// </li>
 /// <li>
 /// Per <a href="https://tools.ietf.org/html/rfc5321#section-4.5.3.1.6">RFC
-/// 5321</a>, the maximum length of each line of text, including the
-/// &lt;CRLF&gt;, must not exceed 1,000 characters.
+/// 5321</a>, the maximum length of each line of text, including the <CRLF>,
+/// must not exceed 1,000 characters.
 /// </li>
 /// <li>
 /// The message must contain all the required header fields. Check the returned

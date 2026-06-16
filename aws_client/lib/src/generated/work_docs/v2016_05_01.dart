@@ -110,13 +110,13 @@ class WorkDocs {
   /// this call only when it no longer intends to upload the document version,
   /// or fails to do so.
   ///
+  /// May throw [ConcurrentModificationException].
   /// May throw [EntityNotExistsException].
+  /// May throw [FailedDependencyException].
   /// May throw [ProhibitedStateException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [UnauthorizedOperationException].
   /// May throw [UnauthorizedResourceAccessException].
-  /// May throw [FailedDependencyException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ConcurrentModificationException].
   ///
   /// Parameter [documentId] :
   /// The ID of the document.
@@ -150,10 +150,10 @@ class WorkDocs {
   /// WorkDocs.
   ///
   /// May throw [EntityNotExistsException].
-  /// May throw [UnauthorizedOperationException].
-  /// May throw [UnauthorizedResourceAccessException].
   /// May throw [FailedDependencyException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedOperationException].
+  /// May throw [UnauthorizedResourceAccessException].
   ///
   /// Parameter [userId] :
   /// The ID of the user.
@@ -183,11 +183,11 @@ class WorkDocs {
   /// resource permissions are overwritten if the principals already have
   /// different permissions.
   ///
+  /// May throw [FailedDependencyException].
+  /// May throw [ProhibitedStateException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [UnauthorizedOperationException].
   /// May throw [UnauthorizedResourceAccessException].
-  /// May throw [FailedDependencyException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ProhibitedStateException].
   ///
   /// Parameter [principals] :
   /// The users, groups, or organization being granted permission.
@@ -229,14 +229,14 @@ class WorkDocs {
 
   /// Adds a new comment to the specified document version.
   ///
+  /// May throw [DocumentLockedForCommentsException].
   /// May throw [EntityNotExistsException].
+  /// May throw [FailedDependencyException].
+  /// May throw [InvalidCommentOperationException].
   /// May throw [ProhibitedStateException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [UnauthorizedOperationException].
   /// May throw [UnauthorizedResourceAccessException].
-  /// May throw [FailedDependencyException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [DocumentLockedForCommentsException].
-  /// May throw [InvalidCommentOperationException].
   ///
   /// Parameter [documentId] :
   /// The ID of the document.
@@ -302,13 +302,13 @@ class WorkDocs {
   /// Adds one or more custom properties to the specified resource (a folder,
   /// document, or version).
   ///
+  /// May throw [CustomMetadataLimitExceededException].
   /// May throw [EntityNotExistsException].
+  /// May throw [FailedDependencyException].
+  /// May throw [ProhibitedStateException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [UnauthorizedOperationException].
   /// May throw [UnauthorizedResourceAccessException].
-  /// May throw [ProhibitedStateException].
-  /// May throw [CustomMetadataLimitExceededException].
-  /// May throw [FailedDependencyException].
-  /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [customMetadata] :
   /// Custom metadata in the form of name-value pairs.
@@ -352,16 +352,16 @@ class WorkDocs {
 
   /// Creates a folder with the specified name and parent folder.
   ///
-  /// May throw [EntityNotExistsException].
-  /// May throw [EntityAlreadyExistsException].
-  /// May throw [ProhibitedStateException].
-  /// May throw [ConflictingOperationException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [ConflictingOperationException].
+  /// May throw [EntityAlreadyExistsException].
+  /// May throw [EntityNotExistsException].
+  /// May throw [FailedDependencyException].
   /// May throw [LimitExceededException].
+  /// May throw [ProhibitedStateException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [UnauthorizedOperationException].
   /// May throw [UnauthorizedResourceAccessException].
-  /// May throw [FailedDependencyException].
-  /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [parentFolderId] :
   /// The ID of the parent folder.
@@ -399,11 +399,11 @@ class WorkDocs {
   /// folder)
   ///
   /// May throw [EntityNotExistsException].
-  /// May throw [UnauthorizedOperationException].
-  /// May throw [UnauthorizedResourceAccessException].
   /// May throw [FailedDependencyException].
   /// May throw [ServiceUnavailableException].
   /// May throw [TooManyLabelsException].
+  /// May throw [UnauthorizedOperationException].
+  /// May throw [UnauthorizedResourceAccessException].
   ///
   /// Parameter [labels] :
   /// List of labels to add to the resource.
@@ -443,10 +443,10 @@ class WorkDocs {
   /// up notifications for an IAM user or role</a> in the <i>Amazon WorkDocs
   /// Developer Guide</i>.
   ///
-  /// May throw [UnauthorizedResourceAccessException].
-  /// May throw [TooManySubscriptionsException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [InvalidArgumentException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManySubscriptionsException].
+  /// May throw [UnauthorizedResourceAccessException].
   ///
   /// Parameter [endpoint] :
   /// The endpoint to receive the notifications. If the protocol is HTTPS, the
@@ -487,10 +487,10 @@ class WorkDocs {
   /// newly created user is "ACTIVE". New users can access Amazon WorkDocs.
   ///
   /// May throw [EntityAlreadyExistsException].
-  /// May throw [UnauthorizedOperationException].
-  /// May throw [UnauthorizedResourceAccessException].
   /// May throw [FailedDependencyException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedOperationException].
+  /// May throw [UnauthorizedResourceAccessException].
   ///
   /// Parameter [givenName] :
   /// The given name of the user.
@@ -558,10 +558,10 @@ class WorkDocs {
   /// WorkDocs.
   ///
   /// May throw [EntityNotExistsException].
-  /// May throw [UnauthorizedOperationException].
-  /// May throw [UnauthorizedResourceAccessException].
   /// May throw [FailedDependencyException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedOperationException].
+  /// May throw [UnauthorizedResourceAccessException].
   ///
   /// Parameter [userId] :
   /// The ID of the user.
@@ -588,13 +588,13 @@ class WorkDocs {
 
   /// Deletes the specified comment from the document version.
   ///
+  /// May throw [DocumentLockedForCommentsException].
   /// May throw [EntityNotExistsException].
+  /// May throw [FailedDependencyException].
   /// May throw [ProhibitedStateException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [UnauthorizedOperationException].
   /// May throw [UnauthorizedResourceAccessException].
-  /// May throw [FailedDependencyException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [DocumentLockedForCommentsException].
   ///
   /// Parameter [commentId] :
   /// The ID of the comment.
@@ -631,11 +631,11 @@ class WorkDocs {
   /// Deletes custom metadata from the specified resource.
   ///
   /// May throw [EntityNotExistsException].
+  /// May throw [FailedDependencyException].
+  /// May throw [ProhibitedStateException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [UnauthorizedOperationException].
   /// May throw [UnauthorizedResourceAccessException].
-  /// May throw [ProhibitedStateException].
-  /// May throw [FailedDependencyException].
-  /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [resourceId] :
   /// The ID of the resource, either a document or folder.
@@ -683,15 +683,15 @@ class WorkDocs {
 
   /// Permanently deletes the specified document and its associated metadata.
   ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ConflictingOperationException].
   /// May throw [EntityNotExistsException].
+  /// May throw [FailedDependencyException].
   /// May throw [LimitExceededException].
   /// May throw [ProhibitedStateException].
-  /// May throw [ConflictingOperationException].
-  /// May throw [ConcurrentModificationException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [UnauthorizedOperationException].
   /// May throw [UnauthorizedResourceAccessException].
-  /// May throw [FailedDependencyException].
-  /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [documentId] :
   /// The ID of the document.
@@ -718,14 +718,14 @@ class WorkDocs {
 
   /// Deletes a specific version of a document.
   ///
-  /// May throw [EntityNotExistsException].
-  /// May throw [ProhibitedStateException].
-  /// May throw [ConflictingOperationException].
   /// May throw [ConcurrentModificationException].
-  /// May throw [UnauthorizedResourceAccessException].
+  /// May throw [ConflictingOperationException].
+  /// May throw [EntityNotExistsException].
   /// May throw [FailedDependencyException].
   /// May throw [InvalidOperationException].
+  /// May throw [ProhibitedStateException].
   /// May throw [UnauthorizedOperationException].
+  /// May throw [UnauthorizedResourceAccessException].
   ///
   /// Parameter [deletePriorVersions] :
   /// Deletes all versions of a document prior to the current version.
@@ -765,15 +765,15 @@ class WorkDocs {
 
   /// Permanently deletes the specified folder and its contents.
   ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ConflictingOperationException].
   /// May throw [EntityNotExistsException].
+  /// May throw [FailedDependencyException].
   /// May throw [LimitExceededException].
   /// May throw [ProhibitedStateException].
-  /// May throw [ConflictingOperationException].
-  /// May throw [ConcurrentModificationException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [UnauthorizedOperationException].
   /// May throw [UnauthorizedResourceAccessException].
-  /// May throw [FailedDependencyException].
-  /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [folderId] :
   /// The ID of the folder.
@@ -800,13 +800,13 @@ class WorkDocs {
 
   /// Deletes the contents of the specified folder.
   ///
-  /// May throw [EntityNotExistsException].
-  /// May throw [ProhibitedStateException].
   /// May throw [ConflictingOperationException].
+  /// May throw [EntityNotExistsException].
+  /// May throw [FailedDependencyException].
+  /// May throw [ProhibitedStateException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [UnauthorizedOperationException].
   /// May throw [UnauthorizedResourceAccessException].
-  /// May throw [FailedDependencyException].
-  /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [folderId] :
   /// The ID of the folder.
@@ -834,11 +834,11 @@ class WorkDocs {
   /// Deletes the specified list of labels from a resource.
   ///
   /// May throw [EntityNotExistsException].
+  /// May throw [FailedDependencyException].
+  /// May throw [ProhibitedStateException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [UnauthorizedOperationException].
   /// May throw [UnauthorizedResourceAccessException].
-  /// May throw [FailedDependencyException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ProhibitedStateException].
   ///
   /// Parameter [resourceId] :
   /// The ID of the resource.
@@ -878,10 +878,10 @@ class WorkDocs {
 
   /// Deletes the specified subscription from the specified organization.
   ///
-  /// May throw [UnauthorizedResourceAccessException].
   /// May throw [EntityNotExistsException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ProhibitedStateException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedResourceAccessException].
   ///
   /// Parameter [organizationId] :
   /// The ID of the organization.
@@ -909,10 +909,10 @@ class WorkDocs {
   /// </important>
   ///
   /// May throw [EntityNotExistsException].
-  /// May throw [UnauthorizedOperationException].
-  /// May throw [UnauthorizedResourceAccessException].
   /// May throw [FailedDependencyException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedOperationException].
+  /// May throw [UnauthorizedResourceAccessException].
   ///
   /// Parameter [userId] :
   /// The ID of the user.
@@ -940,11 +940,11 @@ class WorkDocs {
 
   /// Describes the user activities in a specified time period.
   ///
+  /// May throw [FailedDependencyException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [UnauthorizedOperationException].
   /// May throw [UnauthorizedResourceAccessException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [FailedDependencyException].
-  /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [activityTypes] :
   /// Specifies which activity types to include in the response. If this field
@@ -1034,11 +1034,11 @@ class WorkDocs {
   /// List all the comments for the specified document version.
   ///
   /// May throw [EntityNotExistsException].
+  /// May throw [FailedDependencyException].
   /// May throw [ProhibitedStateException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [UnauthorizedOperationException].
   /// May throw [UnauthorizedResourceAccessException].
-  /// May throw [FailedDependencyException].
-  /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [documentId] :
   /// The ID of the document.
@@ -1094,13 +1094,13 @@ class WorkDocs {
   /// By default, only active versions are returned.
   ///
   /// May throw [EntityNotExistsException].
+  /// May throw [FailedDependencyException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidPasswordException].
+  /// May throw [ProhibitedStateException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [UnauthorizedOperationException].
   /// May throw [UnauthorizedResourceAccessException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [FailedDependencyException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ProhibitedStateException].
-  /// May throw [InvalidPasswordException].
   ///
   /// Parameter [documentId] :
   /// The ID of the document.
@@ -1168,11 +1168,11 @@ class WorkDocs {
   /// request initialized documents.
   ///
   /// May throw [EntityNotExistsException].
-  /// May throw [UnauthorizedResourceAccessException].
-  /// May throw [InvalidArgumentException].
   /// May throw [FailedDependencyException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [InvalidArgumentException].
   /// May throw [ProhibitedStateException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedResourceAccessException].
   ///
   /// Parameter [folderId] :
   /// The ID of the folder.
@@ -1242,10 +1242,10 @@ class WorkDocs {
   /// Describes the groups specified by the query. Groups are defined by the
   /// underlying Active Directory.
   ///
-  /// May throw [UnauthorizedOperationException].
-  /// May throw [UnauthorizedResourceAccessException].
   /// May throw [FailedDependencyException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedOperationException].
+  /// May throw [UnauthorizedResourceAccessException].
   ///
   /// Parameter [searchQuery] :
   /// A query to describe groups by group name.
@@ -1299,9 +1299,9 @@ class WorkDocs {
 
   /// Lists the specified notification subscriptions.
   ///
-  /// May throw [UnauthorizedResourceAccessException].
   /// May throw [EntityNotExistsException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedResourceAccessException].
   ///
   /// Parameter [organizationId] :
   /// The ID of the organization.
@@ -1341,11 +1341,11 @@ class WorkDocs {
 
   /// Describes the permissions of a specified resource.
   ///
+  /// May throw [FailedDependencyException].
   /// May throw [InvalidArgumentException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [UnauthorizedOperationException].
   /// May throw [UnauthorizedResourceAccessException].
-  /// May throw [FailedDependencyException].
-  /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [resourceId] :
   /// The ID of the resource.
@@ -1410,11 +1410,11 @@ class WorkDocs {
   /// and Access Control for User Applications</a> in the <i>Amazon WorkDocs
   /// Developer Guide</i>.
   ///
+  /// May throw [FailedDependencyException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [UnauthorizedOperationException].
   /// May throw [UnauthorizedResourceAccessException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [FailedDependencyException].
-  /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [authenticationToken] :
   /// Amazon WorkDocs authentication token.
@@ -1462,12 +1462,12 @@ class WorkDocs {
   /// to request the next set of results.
   ///
   /// May throw [EntityNotExistsException].
-  /// May throw [UnauthorizedOperationException].
-  /// May throw [UnauthorizedResourceAccessException].
   /// May throw [FailedDependencyException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [InvalidArgumentException].
   /// May throw [RequestedEntityTooLargeException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedOperationException].
+  /// May throw [UnauthorizedResourceAccessException].
   ///
   /// Parameter [authenticationToken] :
   /// Amazon WorkDocs authentication token. Not required when using Amazon Web
@@ -1583,10 +1583,10 @@ class WorkDocs {
   /// Developer Guide</i>.
   ///
   /// May throw [EntityNotExistsException].
-  /// May throw [UnauthorizedOperationException].
-  /// May throw [UnauthorizedResourceAccessException].
   /// May throw [FailedDependencyException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedOperationException].
+  /// May throw [UnauthorizedResourceAccessException].
   ///
   /// Parameter [authenticationToken] :
   /// Amazon WorkDocs authentication token.
@@ -1609,12 +1609,12 @@ class WorkDocs {
   /// Retrieves details of a document.
   ///
   /// May throw [EntityNotExistsException].
+  /// May throw [FailedDependencyException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidPasswordException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [UnauthorizedOperationException].
   /// May throw [UnauthorizedResourceAccessException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [FailedDependencyException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [InvalidPasswordException].
   ///
   /// Parameter [documentId] :
   /// The ID of the document.
@@ -1658,10 +1658,10 @@ class WorkDocs {
   /// the names of the parent folders.
   ///
   /// May throw [EntityNotExistsException].
-  /// May throw [UnauthorizedOperationException].
-  /// May throw [UnauthorizedResourceAccessException].
   /// May throw [FailedDependencyException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedOperationException].
+  /// May throw [UnauthorizedResourceAccessException].
   ///
   /// Parameter [documentId] :
   /// The ID of the document.
@@ -1715,12 +1715,12 @@ class WorkDocs {
   /// Retrieves version metadata for the specified document.
   ///
   /// May throw [EntityNotExistsException].
+  /// May throw [FailedDependencyException].
+  /// May throw [InvalidPasswordException].
+  /// May throw [ProhibitedStateException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [UnauthorizedOperationException].
   /// May throw [UnauthorizedResourceAccessException].
-  /// May throw [FailedDependencyException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ProhibitedStateException].
-  /// May throw [InvalidPasswordException].
   ///
   /// Parameter [documentId] :
   /// The ID of the document.
@@ -1769,12 +1769,12 @@ class WorkDocs {
   /// Retrieves the metadata of the specified folder.
   ///
   /// May throw [EntityNotExistsException].
+  /// May throw [FailedDependencyException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ProhibitedStateException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [UnauthorizedOperationException].
   /// May throw [UnauthorizedResourceAccessException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [FailedDependencyException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ProhibitedStateException].
   ///
   /// Parameter [folderId] :
   /// The ID of the folder.
@@ -1818,10 +1818,10 @@ class WorkDocs {
   /// the parent folder names.
   ///
   /// May throw [EntityNotExistsException].
-  /// May throw [UnauthorizedOperationException].
-  /// May throw [UnauthorizedResourceAccessException].
   /// May throw [FailedDependencyException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedOperationException].
+  /// May throw [UnauthorizedResourceAccessException].
   ///
   /// Parameter [folderId] :
   /// The ID of the folder.
@@ -1875,11 +1875,11 @@ class WorkDocs {
   /// Retrieves a collection of resources, including folders and documents. The
   /// only <code>CollectionType</code> supported is <code>SHARED_WITH_ME</code>.
   ///
-  /// May throw [UnauthorizedResourceAccessException].
-  /// May throw [UnauthorizedOperationException].
-  /// May throw [InvalidArgumentException].
   /// May throw [FailedDependencyException].
+  /// May throw [InvalidArgumentException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedOperationException].
+  /// May throw [UnauthorizedResourceAccessException].
   ///
   /// Parameter [authenticationToken] :
   /// The Amazon WorkDocs authentication token. Not required when using Amazon
@@ -1942,20 +1942,20 @@ class WorkDocs {
   ///
   /// To cancel the document upload, call <a>AbortDocumentVersionUpload</a>.
   ///
-  /// May throw [EntityNotExistsException].
+  /// May throw [DraftUploadOutOfSyncException].
   /// May throw [EntityAlreadyExistsException].
-  /// May throw [StorageLimitExceededException].
-  /// May throw [StorageLimitWillExceedException].
+  /// May throw [EntityNotExistsException].
+  /// May throw [FailedDependencyException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidPasswordException].
   /// May throw [LimitExceededException].
   /// May throw [ProhibitedStateException].
+  /// May throw [ResourceAlreadyCheckedOutException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [StorageLimitExceededException].
+  /// May throw [StorageLimitWillExceedException].
   /// May throw [UnauthorizedOperationException].
   /// May throw [UnauthorizedResourceAccessException].
-  /// May throw [FailedDependencyException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [DraftUploadOutOfSyncException].
-  /// May throw [ResourceAlreadyCheckedOutException].
-  /// May throw [InvalidPasswordException].
-  /// May throw [InvalidArgumentException].
   ///
   /// Parameter [authenticationToken] :
   /// Amazon WorkDocs authentication token. Not required when using Amazon Web
@@ -2020,10 +2020,10 @@ class WorkDocs {
 
   /// Removes all the permissions from the specified resource.
   ///
-  /// May throw [UnauthorizedOperationException].
-  /// May throw [UnauthorizedResourceAccessException].
   /// May throw [FailedDependencyException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedOperationException].
+  /// May throw [UnauthorizedResourceAccessException].
   ///
   /// Parameter [resourceId] :
   /// The ID of the resource.
@@ -2052,10 +2052,10 @@ class WorkDocs {
   /// Removes the permission for the specified principal from the specified
   /// resource.
   ///
-  /// May throw [UnauthorizedOperationException].
-  /// May throw [UnauthorizedResourceAccessException].
   /// May throw [FailedDependencyException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedOperationException].
+  /// May throw [UnauthorizedResourceAccessException].
   ///
   /// Parameter [principalId] :
   /// The principal ID of the resource.
@@ -2095,14 +2095,14 @@ class WorkDocs {
 
   /// Recovers a deleted version of an Amazon WorkDocs document.
   ///
-  /// May throw [EntityNotExistsException].
-  /// May throw [ProhibitedStateException].
-  /// May throw [ConflictingOperationException].
   /// May throw [ConcurrentModificationException].
-  /// May throw [UnauthorizedResourceAccessException].
+  /// May throw [ConflictingOperationException].
+  /// May throw [EntityNotExistsException].
   /// May throw [FailedDependencyException].
   /// May throw [InvalidOperationException].
+  /// May throw [ProhibitedStateException].
   /// May throw [UnauthorizedOperationException].
+  /// May throw [UnauthorizedResourceAccessException].
   ///
   /// Parameter [documentId] :
   /// The ID of the document.
@@ -2132,17 +2132,17 @@ class WorkDocs {
   /// versions, and comments.
   ///
   /// May throw [InvalidArgumentException].
-  /// May throw [UnauthorizedResourceAccessException].
-  /// May throw [UnauthorizedOperationException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedOperationException].
+  /// May throw [UnauthorizedResourceAccessException].
   ///
   /// Parameter [additionalResponseFields] :
   /// A list of attributes to include in the response. Used to request fields
   /// that are not normally returned in a standard response.
   ///
   /// Parameter [authenticationToken] :
-  /// Amazon WorkDocs authentication token. Not required when using Amazon Web
-  /// Services administrator credentials to access the API.
+  /// WorkDocs authentication token. Not required when using Amazon Web Services
+  /// administrator credentials to access the API.
   ///
   /// Parameter [filters] :
   /// Filters results based on entity metadata.
@@ -2216,16 +2216,16 @@ class WorkDocs {
   /// Updates the specified attributes of a document. The user must have access
   /// to both the document and its parent folder, if applicable.
   ///
-  /// May throw [EntityNotExistsException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ConflictingOperationException].
   /// May throw [EntityAlreadyExistsException].
+  /// May throw [EntityNotExistsException].
+  /// May throw [FailedDependencyException].
   /// May throw [LimitExceededException].
   /// May throw [ProhibitedStateException].
-  /// May throw [ConflictingOperationException].
-  /// May throw [ConcurrentModificationException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [UnauthorizedOperationException].
   /// May throw [UnauthorizedResourceAccessException].
-  /// May throw [FailedDependencyException].
-  /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [documentId] :
   /// The ID of the document.
@@ -2274,14 +2274,14 @@ class WorkDocs {
   /// last step in a document upload, after the client uploads the document to
   /// an S3-presigned URL returned by <a>InitiateDocumentVersionUpload</a>.
   ///
-  /// May throw [EntityNotExistsException].
-  /// May throw [ProhibitedStateException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [EntityNotExistsException].
+  /// May throw [FailedDependencyException].
   /// May throw [InvalidOperationException].
+  /// May throw [ProhibitedStateException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [UnauthorizedOperationException].
   /// May throw [UnauthorizedResourceAccessException].
-  /// May throw [FailedDependencyException].
-  /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [documentId] :
   /// The ID of the document.
@@ -2321,16 +2321,16 @@ class WorkDocs {
   /// Updates the specified attributes of the specified folder. The user must
   /// have access to both the folder and its parent folder, if applicable.
   ///
-  /// May throw [EntityNotExistsException].
-  /// May throw [EntityAlreadyExistsException].
-  /// May throw [ProhibitedStateException].
-  /// May throw [ConflictingOperationException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [ConflictingOperationException].
+  /// May throw [EntityAlreadyExistsException].
+  /// May throw [EntityNotExistsException].
+  /// May throw [FailedDependencyException].
   /// May throw [LimitExceededException].
+  /// May throw [ProhibitedStateException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [UnauthorizedOperationException].
   /// May throw [UnauthorizedResourceAccessException].
-  /// May throw [FailedDependencyException].
-  /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [folderId] :
   /// The ID of the folder.
@@ -2376,15 +2376,15 @@ class WorkDocs {
   /// Updates the specified attributes of the specified user, and grants or
   /// revokes administrative privileges to the Amazon WorkDocs site.
   ///
+  /// May throw [DeactivatingLastSystemUserException].
   /// May throw [EntityNotExistsException].
+  /// May throw [FailedDependencyException].
+  /// May throw [IllegalUserStateException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ProhibitedStateException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [UnauthorizedOperationException].
   /// May throw [UnauthorizedResourceAccessException].
-  /// May throw [IllegalUserStateException].
-  /// May throw [ProhibitedStateException].
-  /// May throw [FailedDependencyException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [DeactivatingLastSystemUserException].
-  /// May throw [InvalidArgumentException].
   ///
   /// Parameter [userId] :
   /// The ID of the user.
@@ -2474,208 +2474,6 @@ class ActivateUserResponse {
   }
 }
 
-/// Describes the activity information.
-class Activity {
-  /// Metadata of the commenting activity. This is an optional field and is filled
-  /// for commenting activities.
-  final CommentMetadata? commentMetadata;
-
-  /// The user who performed the action.
-  final UserMetadata? initiator;
-
-  /// Indicates whether an activity is indirect or direct. An indirect activity
-  /// results from a direct activity performed on a parent resource. For example,
-  /// sharing a parent folder (the direct activity) shares all of the subfolders
-  /// and documents within the parent folder (the indirect activity).
-  final bool? isIndirectActivity;
-
-  /// The ID of the organization.
-  final String? organizationId;
-
-  /// The original parent of the resource. This is an optional field and is filled
-  /// for move activities.
-  final ResourceMetadata? originalParent;
-
-  /// The list of users or groups impacted by this action. This is an optional
-  /// field and is filled for the following sharing activities: DOCUMENT_SHARED,
-  /// DOCUMENT_SHARED, DOCUMENT_UNSHARED, FOLDER_SHARED, FOLDER_UNSHARED.
-  final Participants? participants;
-
-  /// The metadata of the resource involved in the user action.
-  final ResourceMetadata? resourceMetadata;
-
-  /// The timestamp when the action was performed.
-  final DateTime? timeStamp;
-
-  /// The activity type.
-  final ActivityType? type;
-
-  Activity({
-    this.commentMetadata,
-    this.initiator,
-    this.isIndirectActivity,
-    this.organizationId,
-    this.originalParent,
-    this.participants,
-    this.resourceMetadata,
-    this.timeStamp,
-    this.type,
-  });
-
-  factory Activity.fromJson(Map<String, dynamic> json) {
-    return Activity(
-      commentMetadata: json['CommentMetadata'] != null
-          ? CommentMetadata.fromJson(
-              json['CommentMetadata'] as Map<String, dynamic>)
-          : null,
-      initiator: json['Initiator'] != null
-          ? UserMetadata.fromJson(json['Initiator'] as Map<String, dynamic>)
-          : null,
-      isIndirectActivity: json['IsIndirectActivity'] as bool?,
-      organizationId: json['OrganizationId'] as String?,
-      originalParent: json['OriginalParent'] != null
-          ? ResourceMetadata.fromJson(
-              json['OriginalParent'] as Map<String, dynamic>)
-          : null,
-      participants: json['Participants'] != null
-          ? Participants.fromJson(json['Participants'] as Map<String, dynamic>)
-          : null,
-      resourceMetadata: json['ResourceMetadata'] != null
-          ? ResourceMetadata.fromJson(
-              json['ResourceMetadata'] as Map<String, dynamic>)
-          : null,
-      timeStamp: timeStampFromJson(json['TimeStamp']),
-      type: (json['Type'] as String?)?.let(ActivityType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final commentMetadata = this.commentMetadata;
-    final initiator = this.initiator;
-    final isIndirectActivity = this.isIndirectActivity;
-    final organizationId = this.organizationId;
-    final originalParent = this.originalParent;
-    final participants = this.participants;
-    final resourceMetadata = this.resourceMetadata;
-    final timeStamp = this.timeStamp;
-    final type = this.type;
-    return {
-      if (commentMetadata != null) 'CommentMetadata': commentMetadata,
-      if (initiator != null) 'Initiator': initiator,
-      if (isIndirectActivity != null) 'IsIndirectActivity': isIndirectActivity,
-      if (organizationId != null) 'OrganizationId': organizationId,
-      if (originalParent != null) 'OriginalParent': originalParent,
-      if (participants != null) 'Participants': participants,
-      if (resourceMetadata != null) 'ResourceMetadata': resourceMetadata,
-      if (timeStamp != null) 'TimeStamp': unixTimestampToJson(timeStamp),
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class ActivityType {
-  static const documentCheckedIn = ActivityType._('DOCUMENT_CHECKED_IN');
-  static const documentCheckedOut = ActivityType._('DOCUMENT_CHECKED_OUT');
-  static const documentRenamed = ActivityType._('DOCUMENT_RENAMED');
-  static const documentVersionUploaded =
-      ActivityType._('DOCUMENT_VERSION_UPLOADED');
-  static const documentVersionDeleted =
-      ActivityType._('DOCUMENT_VERSION_DELETED');
-  static const documentVersionViewed =
-      ActivityType._('DOCUMENT_VERSION_VIEWED');
-  static const documentVersionDownloaded =
-      ActivityType._('DOCUMENT_VERSION_DOWNLOADED');
-  static const documentRecycled = ActivityType._('DOCUMENT_RECYCLED');
-  static const documentRestored = ActivityType._('DOCUMENT_RESTORED');
-  static const documentReverted = ActivityType._('DOCUMENT_REVERTED');
-  static const documentShared = ActivityType._('DOCUMENT_SHARED');
-  static const documentUnshared = ActivityType._('DOCUMENT_UNSHARED');
-  static const documentSharePermissionChanged =
-      ActivityType._('DOCUMENT_SHARE_PERMISSION_CHANGED');
-  static const documentShareableLinkCreated =
-      ActivityType._('DOCUMENT_SHAREABLE_LINK_CREATED');
-  static const documentShareableLinkRemoved =
-      ActivityType._('DOCUMENT_SHAREABLE_LINK_REMOVED');
-  static const documentShareableLinkPermissionChanged =
-      ActivityType._('DOCUMENT_SHAREABLE_LINK_PERMISSION_CHANGED');
-  static const documentMoved = ActivityType._('DOCUMENT_MOVED');
-  static const documentCommentAdded = ActivityType._('DOCUMENT_COMMENT_ADDED');
-  static const documentCommentDeleted =
-      ActivityType._('DOCUMENT_COMMENT_DELETED');
-  static const documentAnnotationAdded =
-      ActivityType._('DOCUMENT_ANNOTATION_ADDED');
-  static const documentAnnotationDeleted =
-      ActivityType._('DOCUMENT_ANNOTATION_DELETED');
-  static const folderCreated = ActivityType._('FOLDER_CREATED');
-  static const folderDeleted = ActivityType._('FOLDER_DELETED');
-  static const folderRenamed = ActivityType._('FOLDER_RENAMED');
-  static const folderRecycled = ActivityType._('FOLDER_RECYCLED');
-  static const folderRestored = ActivityType._('FOLDER_RESTORED');
-  static const folderShared = ActivityType._('FOLDER_SHARED');
-  static const folderUnshared = ActivityType._('FOLDER_UNSHARED');
-  static const folderSharePermissionChanged =
-      ActivityType._('FOLDER_SHARE_PERMISSION_CHANGED');
-  static const folderShareableLinkCreated =
-      ActivityType._('FOLDER_SHAREABLE_LINK_CREATED');
-  static const folderShareableLinkRemoved =
-      ActivityType._('FOLDER_SHAREABLE_LINK_REMOVED');
-  static const folderShareableLinkPermissionChanged =
-      ActivityType._('FOLDER_SHAREABLE_LINK_PERMISSION_CHANGED');
-  static const folderMoved = ActivityType._('FOLDER_MOVED');
-
-  final String value;
-
-  const ActivityType._(this.value);
-
-  static const values = [
-    documentCheckedIn,
-    documentCheckedOut,
-    documentRenamed,
-    documentVersionUploaded,
-    documentVersionDeleted,
-    documentVersionViewed,
-    documentVersionDownloaded,
-    documentRecycled,
-    documentRestored,
-    documentReverted,
-    documentShared,
-    documentUnshared,
-    documentSharePermissionChanged,
-    documentShareableLinkCreated,
-    documentShareableLinkRemoved,
-    documentShareableLinkPermissionChanged,
-    documentMoved,
-    documentCommentAdded,
-    documentCommentDeleted,
-    documentAnnotationAdded,
-    documentAnnotationDeleted,
-    folderCreated,
-    folderDeleted,
-    folderRenamed,
-    folderRecycled,
-    folderRestored,
-    folderShared,
-    folderUnshared,
-    folderSharePermissionChanged,
-    folderShareableLinkCreated,
-    folderShareableLinkRemoved,
-    folderShareableLinkPermissionChanged,
-    folderMoved
-  ];
-
-  static ActivityType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ActivityType._(value));
-
-  @override
-  bool operator ==(other) => other is ActivityType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class AddResourcePermissionsResponse {
   /// The share results.
   final List<ShareResult>? shareResults;
@@ -2699,295 +2497,6 @@ class AddResourcePermissionsResponse {
       if (shareResults != null) 'ShareResults': shareResults,
     };
   }
-}
-
-class AdditionalResponseFieldType {
-  static const weburl = AdditionalResponseFieldType._('WEBURL');
-
-  final String value;
-
-  const AdditionalResponseFieldType._(this.value);
-
-  static const values = [weburl];
-
-  static AdditionalResponseFieldType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AdditionalResponseFieldType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AdditionalResponseFieldType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class BooleanEnumType {
-  static const $true = BooleanEnumType._('TRUE');
-  static const $false = BooleanEnumType._('FALSE');
-
-  final String value;
-
-  const BooleanEnumType._(this.value);
-
-  static const values = [$true, $false];
-
-  static BooleanEnumType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => BooleanEnumType._(value));
-
-  @override
-  bool operator ==(other) => other is BooleanEnumType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes a comment.
-class Comment {
-  /// The ID of the comment.
-  final String commentId;
-
-  /// The details of the user who made the comment.
-  final User? contributor;
-
-  /// The time that the comment was created.
-  final DateTime? createdTimestamp;
-
-  /// The ID of the parent comment.
-  final String? parentId;
-
-  /// If the comment is a reply to another user's comment, this field contains the
-  /// user ID of the user being replied to.
-  final String? recipientId;
-
-  /// The status of the comment.
-  final CommentStatusType? status;
-
-  /// The text of the comment.
-  final String? text;
-
-  /// The ID of the root comment in the thread.
-  final String? threadId;
-
-  /// The visibility of the comment. Options are either PRIVATE, where the comment
-  /// is visible only to the comment author and document owner and co-owners, or
-  /// PUBLIC, where the comment is visible to document owners, co-owners, and
-  /// contributors.
-  final CommentVisibilityType? visibility;
-
-  Comment({
-    required this.commentId,
-    this.contributor,
-    this.createdTimestamp,
-    this.parentId,
-    this.recipientId,
-    this.status,
-    this.text,
-    this.threadId,
-    this.visibility,
-  });
-
-  factory Comment.fromJson(Map<String, dynamic> json) {
-    return Comment(
-      commentId: (json['CommentId'] as String?) ?? '',
-      contributor: json['Contributor'] != null
-          ? User.fromJson(json['Contributor'] as Map<String, dynamic>)
-          : null,
-      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
-      parentId: json['ParentId'] as String?,
-      recipientId: json['RecipientId'] as String?,
-      status: (json['Status'] as String?)?.let(CommentStatusType.fromString),
-      text: json['Text'] as String?,
-      threadId: json['ThreadId'] as String?,
-      visibility: (json['Visibility'] as String?)
-          ?.let(CommentVisibilityType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final commentId = this.commentId;
-    final contributor = this.contributor;
-    final createdTimestamp = this.createdTimestamp;
-    final parentId = this.parentId;
-    final recipientId = this.recipientId;
-    final status = this.status;
-    final text = this.text;
-    final threadId = this.threadId;
-    final visibility = this.visibility;
-    return {
-      'CommentId': commentId,
-      if (contributor != null) 'Contributor': contributor,
-      if (createdTimestamp != null)
-        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
-      if (parentId != null) 'ParentId': parentId,
-      if (recipientId != null) 'RecipientId': recipientId,
-      if (status != null) 'Status': status.value,
-      if (text != null) 'Text': text,
-      if (threadId != null) 'ThreadId': threadId,
-      if (visibility != null) 'Visibility': visibility.value,
-    };
-  }
-}
-
-/// Describes the metadata of a comment.
-class CommentMetadata {
-  /// The ID of the comment.
-  final String? commentId;
-
-  /// The status of the comment.
-  final CommentStatusType? commentStatus;
-
-  /// The user who made the comment.
-  final User? contributor;
-
-  /// The ID of the user who made the comment.
-  final String? contributorId;
-
-  /// The timestamp that the comment was created.
-  final DateTime? createdTimestamp;
-
-  /// The ID of the user being replied to.
-  final String? recipientId;
-
-  CommentMetadata({
-    this.commentId,
-    this.commentStatus,
-    this.contributor,
-    this.contributorId,
-    this.createdTimestamp,
-    this.recipientId,
-  });
-
-  factory CommentMetadata.fromJson(Map<String, dynamic> json) {
-    return CommentMetadata(
-      commentId: json['CommentId'] as String?,
-      commentStatus:
-          (json['CommentStatus'] as String?)?.let(CommentStatusType.fromString),
-      contributor: json['Contributor'] != null
-          ? User.fromJson(json['Contributor'] as Map<String, dynamic>)
-          : null,
-      contributorId: json['ContributorId'] as String?,
-      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
-      recipientId: json['RecipientId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final commentId = this.commentId;
-    final commentStatus = this.commentStatus;
-    final contributor = this.contributor;
-    final contributorId = this.contributorId;
-    final createdTimestamp = this.createdTimestamp;
-    final recipientId = this.recipientId;
-    return {
-      if (commentId != null) 'CommentId': commentId,
-      if (commentStatus != null) 'CommentStatus': commentStatus.value,
-      if (contributor != null) 'Contributor': contributor,
-      if (contributorId != null) 'ContributorId': contributorId,
-      if (createdTimestamp != null)
-        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
-      if (recipientId != null) 'RecipientId': recipientId,
-    };
-  }
-}
-
-class CommentStatusType {
-  static const draft = CommentStatusType._('DRAFT');
-  static const published = CommentStatusType._('PUBLISHED');
-  static const deleted = CommentStatusType._('DELETED');
-
-  final String value;
-
-  const CommentStatusType._(this.value);
-
-  static const values = [draft, published, deleted];
-
-  static CommentStatusType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CommentStatusType._(value));
-
-  @override
-  bool operator ==(other) => other is CommentStatusType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class CommentVisibilityType {
-  static const public = CommentVisibilityType._('PUBLIC');
-  static const private = CommentVisibilityType._('PRIVATE');
-
-  final String value;
-
-  const CommentVisibilityType._(this.value);
-
-  static const values = [public, private];
-
-  static CommentVisibilityType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CommentVisibilityType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CommentVisibilityType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ContentCategoryType {
-  static const image = ContentCategoryType._('IMAGE');
-  static const document = ContentCategoryType._('DOCUMENT');
-  static const pdf = ContentCategoryType._('PDF');
-  static const spreadsheet = ContentCategoryType._('SPREADSHEET');
-  static const presentation = ContentCategoryType._('PRESENTATION');
-  static const audio = ContentCategoryType._('AUDIO');
-  static const video = ContentCategoryType._('VIDEO');
-  static const sourceCode = ContentCategoryType._('SOURCE_CODE');
-  static const other = ContentCategoryType._('OTHER');
-
-  final String value;
-
-  const ContentCategoryType._(this.value);
-
-  static const values = [
-    image,
-    document,
-    pdf,
-    spreadsheet,
-    presentation,
-    audio,
-    video,
-    sourceCode,
-    other
-  ];
-
-  static ContentCategoryType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ContentCategoryType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ContentCategoryType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class CreateCommentResponse {
@@ -3107,29 +2616,6 @@ class CreateUserResponse {
     final user = this.user;
     return {
       if (user != null) 'User': user,
-    };
-  }
-}
-
-/// Filters results based on timestamp range (in epochs).
-class DateRangeType {
-  /// Timestamp range end value (in epochs).
-  final DateTime? endValue;
-
-  /// Timestamp range start value (in epochs)
-  final DateTime? startValue;
-
-  DateRangeType({
-    this.endValue,
-    this.startValue,
-  });
-
-  Map<String, dynamic> toJson() {
-    final endValue = this.endValue;
-    final startValue = this.startValue;
-    return {
-      if (endValue != null) 'EndValue': unixTimestampToJson(endValue),
-      if (startValue != null) 'StartValue': unixTimestampToJson(startValue),
     };
   }
 }
@@ -3473,502 +2959,6 @@ class DescribeUsersResponse {
   }
 }
 
-/// Describes the document.
-class DocumentMetadata {
-  /// The time when the document was created.
-  final DateTime? createdTimestamp;
-
-  /// The ID of the creator.
-  final String? creatorId;
-
-  /// The ID of the document.
-  final String? id;
-
-  /// List of labels on the document.
-  final List<String>? labels;
-
-  /// The latest version of the document.
-  final DocumentVersionMetadata? latestVersionMetadata;
-
-  /// The time when the document was updated.
-  final DateTime? modifiedTimestamp;
-
-  /// The ID of the parent folder.
-  final String? parentFolderId;
-
-  /// The resource state.
-  final ResourceStateType? resourceState;
-
-  DocumentMetadata({
-    this.createdTimestamp,
-    this.creatorId,
-    this.id,
-    this.labels,
-    this.latestVersionMetadata,
-    this.modifiedTimestamp,
-    this.parentFolderId,
-    this.resourceState,
-  });
-
-  factory DocumentMetadata.fromJson(Map<String, dynamic> json) {
-    return DocumentMetadata(
-      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
-      creatorId: json['CreatorId'] as String?,
-      id: json['Id'] as String?,
-      labels:
-          (json['Labels'] as List?)?.nonNulls.map((e) => e as String).toList(),
-      latestVersionMetadata: json['LatestVersionMetadata'] != null
-          ? DocumentVersionMetadata.fromJson(
-              json['LatestVersionMetadata'] as Map<String, dynamic>)
-          : null,
-      modifiedTimestamp: timeStampFromJson(json['ModifiedTimestamp']),
-      parentFolderId: json['ParentFolderId'] as String?,
-      resourceState:
-          (json['ResourceState'] as String?)?.let(ResourceStateType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdTimestamp = this.createdTimestamp;
-    final creatorId = this.creatorId;
-    final id = this.id;
-    final labels = this.labels;
-    final latestVersionMetadata = this.latestVersionMetadata;
-    final modifiedTimestamp = this.modifiedTimestamp;
-    final parentFolderId = this.parentFolderId;
-    final resourceState = this.resourceState;
-    return {
-      if (createdTimestamp != null)
-        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
-      if (creatorId != null) 'CreatorId': creatorId,
-      if (id != null) 'Id': id,
-      if (labels != null) 'Labels': labels,
-      if (latestVersionMetadata != null)
-        'LatestVersionMetadata': latestVersionMetadata,
-      if (modifiedTimestamp != null)
-        'ModifiedTimestamp': unixTimestampToJson(modifiedTimestamp),
-      if (parentFolderId != null) 'ParentFolderId': parentFolderId,
-      if (resourceState != null) 'ResourceState': resourceState.value,
-    };
-  }
-}
-
-class DocumentSourceType {
-  static const original = DocumentSourceType._('ORIGINAL');
-  static const withComments = DocumentSourceType._('WITH_COMMENTS');
-
-  final String value;
-
-  const DocumentSourceType._(this.value);
-
-  static const values = [original, withComments];
-
-  static DocumentSourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DocumentSourceType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DocumentSourceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DocumentStatusType {
-  static const initialized = DocumentStatusType._('INITIALIZED');
-  static const active = DocumentStatusType._('ACTIVE');
-
-  final String value;
-
-  const DocumentStatusType._(this.value);
-
-  static const values = [initialized, active];
-
-  static DocumentStatusType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DocumentStatusType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DocumentStatusType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DocumentThumbnailType {
-  static const small = DocumentThumbnailType._('SMALL');
-  static const smallHq = DocumentThumbnailType._('SMALL_HQ');
-  static const large = DocumentThumbnailType._('LARGE');
-
-  final String value;
-
-  const DocumentThumbnailType._(this.value);
-
-  static const values = [small, smallHq, large];
-
-  static DocumentThumbnailType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DocumentThumbnailType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DocumentThumbnailType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes a version of a document.
-class DocumentVersionMetadata {
-  /// The timestamp when the content of the document was originally created.
-  final DateTime? contentCreatedTimestamp;
-
-  /// The timestamp when the content of the document was modified.
-  final DateTime? contentModifiedTimestamp;
-
-  /// The content type of the document.
-  final String? contentType;
-
-  /// The timestamp when the document was first uploaded.
-  final DateTime? createdTimestamp;
-
-  /// The ID of the creator.
-  final String? creatorId;
-
-  /// The ID of the version.
-  final String? id;
-
-  /// The timestamp when the document was last uploaded.
-  final DateTime? modifiedTimestamp;
-
-  /// The name of the version.
-  final String? name;
-
-  /// The signature of the document.
-  final String? signature;
-
-  /// The size of the document, in bytes.
-  final int? size;
-
-  /// The source of the document.
-  final Map<DocumentSourceType, String>? source;
-
-  /// The status of the document.
-  final DocumentStatusType? status;
-
-  /// The thumbnail of the document.
-  final Map<DocumentThumbnailType, String>? thumbnail;
-
-  DocumentVersionMetadata({
-    this.contentCreatedTimestamp,
-    this.contentModifiedTimestamp,
-    this.contentType,
-    this.createdTimestamp,
-    this.creatorId,
-    this.id,
-    this.modifiedTimestamp,
-    this.name,
-    this.signature,
-    this.size,
-    this.source,
-    this.status,
-    this.thumbnail,
-  });
-
-  factory DocumentVersionMetadata.fromJson(Map<String, dynamic> json) {
-    return DocumentVersionMetadata(
-      contentCreatedTimestamp:
-          timeStampFromJson(json['ContentCreatedTimestamp']),
-      contentModifiedTimestamp:
-          timeStampFromJson(json['ContentModifiedTimestamp']),
-      contentType: json['ContentType'] as String?,
-      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
-      creatorId: json['CreatorId'] as String?,
-      id: json['Id'] as String?,
-      modifiedTimestamp: timeStampFromJson(json['ModifiedTimestamp']),
-      name: json['Name'] as String?,
-      signature: json['Signature'] as String?,
-      size: json['Size'] as int?,
-      source: (json['Source'] as Map<String, dynamic>?)?.map(
-          (k, e) => MapEntry(DocumentSourceType.fromString(k), e as String)),
-      status: (json['Status'] as String?)?.let(DocumentStatusType.fromString),
-      thumbnail: (json['Thumbnail'] as Map<String, dynamic>?)?.map(
-          (k, e) => MapEntry(DocumentThumbnailType.fromString(k), e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final contentCreatedTimestamp = this.contentCreatedTimestamp;
-    final contentModifiedTimestamp = this.contentModifiedTimestamp;
-    final contentType = this.contentType;
-    final createdTimestamp = this.createdTimestamp;
-    final creatorId = this.creatorId;
-    final id = this.id;
-    final modifiedTimestamp = this.modifiedTimestamp;
-    final name = this.name;
-    final signature = this.signature;
-    final size = this.size;
-    final source = this.source;
-    final status = this.status;
-    final thumbnail = this.thumbnail;
-    return {
-      if (contentCreatedTimestamp != null)
-        'ContentCreatedTimestamp': unixTimestampToJson(contentCreatedTimestamp),
-      if (contentModifiedTimestamp != null)
-        'ContentModifiedTimestamp':
-            unixTimestampToJson(contentModifiedTimestamp),
-      if (contentType != null) 'ContentType': contentType,
-      if (createdTimestamp != null)
-        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
-      if (creatorId != null) 'CreatorId': creatorId,
-      if (id != null) 'Id': id,
-      if (modifiedTimestamp != null)
-        'ModifiedTimestamp': unixTimestampToJson(modifiedTimestamp),
-      if (name != null) 'Name': name,
-      if (signature != null) 'Signature': signature,
-      if (size != null) 'Size': size,
-      if (source != null) 'Source': source.map((k, e) => MapEntry(k.value, e)),
-      if (status != null) 'Status': status.value,
-      if (thumbnail != null)
-        'Thumbnail': thumbnail.map((k, e) => MapEntry(k.value, e)),
-    };
-  }
-}
-
-class DocumentVersionStatus {
-  static const active = DocumentVersionStatus._('ACTIVE');
-
-  final String value;
-
-  const DocumentVersionStatus._(this.value);
-
-  static const values = [active];
-
-  static DocumentVersionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DocumentVersionStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DocumentVersionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Filters results based on entity metadata.
-class Filters {
-  /// Filter based on resource’s path.
-  final List<String>? ancestorIds;
-
-  /// Filters by content category.
-  final List<ContentCategoryType>? contentCategories;
-
-  /// Filter based on resource’s creation timestamp.
-  final DateRangeType? createdRange;
-
-  /// Filter by labels using exact match.
-  final List<String>? labels;
-
-  /// Filter based on resource’s modified timestamp.
-  final DateRangeType? modifiedRange;
-
-  /// Filter based on UserIds or GroupIds.
-  final List<SearchPrincipalType>? principals;
-
-  /// Filters based on entity type.
-  final List<SearchResourceType>? resourceTypes;
-
-  /// Filter based on file groupings.
-  final List<SearchCollectionType>? searchCollectionTypes;
-
-  /// Filter based on size (in bytes).
-  final LongRangeType? sizeRange;
-
-  /// Filters by the locale of the content or comment.
-  final List<LanguageCodeType>? textLocales;
-
-  Filters({
-    this.ancestorIds,
-    this.contentCategories,
-    this.createdRange,
-    this.labels,
-    this.modifiedRange,
-    this.principals,
-    this.resourceTypes,
-    this.searchCollectionTypes,
-    this.sizeRange,
-    this.textLocales,
-  });
-
-  Map<String, dynamic> toJson() {
-    final ancestorIds = this.ancestorIds;
-    final contentCategories = this.contentCategories;
-    final createdRange = this.createdRange;
-    final labels = this.labels;
-    final modifiedRange = this.modifiedRange;
-    final principals = this.principals;
-    final resourceTypes = this.resourceTypes;
-    final searchCollectionTypes = this.searchCollectionTypes;
-    final sizeRange = this.sizeRange;
-    final textLocales = this.textLocales;
-    return {
-      if (ancestorIds != null) 'AncestorIds': ancestorIds,
-      if (contentCategories != null)
-        'ContentCategories': contentCategories.map((e) => e.value).toList(),
-      if (createdRange != null) 'CreatedRange': createdRange,
-      if (labels != null) 'Labels': labels,
-      if (modifiedRange != null) 'ModifiedRange': modifiedRange,
-      if (principals != null) 'Principals': principals,
-      if (resourceTypes != null)
-        'ResourceTypes': resourceTypes.map((e) => e.value).toList(),
-      if (searchCollectionTypes != null)
-        'SearchCollectionTypes':
-            searchCollectionTypes.map((e) => e.value).toList(),
-      if (sizeRange != null) 'SizeRange': sizeRange,
-      if (textLocales != null)
-        'TextLocales': textLocales.map((e) => e.value).toList(),
-    };
-  }
-}
-
-class FolderContentType {
-  static const all = FolderContentType._('ALL');
-  static const document = FolderContentType._('DOCUMENT');
-  static const folder = FolderContentType._('FOLDER');
-
-  final String value;
-
-  const FolderContentType._(this.value);
-
-  static const values = [all, document, folder];
-
-  static FolderContentType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FolderContentType._(value));
-
-  @override
-  bool operator ==(other) => other is FolderContentType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes a folder.
-class FolderMetadata {
-  /// The time when the folder was created.
-  final DateTime? createdTimestamp;
-
-  /// The ID of the creator.
-  final String? creatorId;
-
-  /// The ID of the folder.
-  final String? id;
-
-  /// List of labels on the folder.
-  final List<String>? labels;
-
-  /// The size of the latest version of the folder metadata.
-  final int? latestVersionSize;
-
-  /// The time when the folder was updated.
-  final DateTime? modifiedTimestamp;
-
-  /// The name of the folder.
-  final String? name;
-
-  /// The ID of the parent folder.
-  final String? parentFolderId;
-
-  /// The resource state of the folder.
-  final ResourceStateType? resourceState;
-
-  /// The unique identifier created from the subfolders and documents of the
-  /// folder.
-  final String? signature;
-
-  /// The size of the folder metadata.
-  final int? size;
-
-  FolderMetadata({
-    this.createdTimestamp,
-    this.creatorId,
-    this.id,
-    this.labels,
-    this.latestVersionSize,
-    this.modifiedTimestamp,
-    this.name,
-    this.parentFolderId,
-    this.resourceState,
-    this.signature,
-    this.size,
-  });
-
-  factory FolderMetadata.fromJson(Map<String, dynamic> json) {
-    return FolderMetadata(
-      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
-      creatorId: json['CreatorId'] as String?,
-      id: json['Id'] as String?,
-      labels:
-          (json['Labels'] as List?)?.nonNulls.map((e) => e as String).toList(),
-      latestVersionSize: json['LatestVersionSize'] as int?,
-      modifiedTimestamp: timeStampFromJson(json['ModifiedTimestamp']),
-      name: json['Name'] as String?,
-      parentFolderId: json['ParentFolderId'] as String?,
-      resourceState:
-          (json['ResourceState'] as String?)?.let(ResourceStateType.fromString),
-      signature: json['Signature'] as String?,
-      size: json['Size'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdTimestamp = this.createdTimestamp;
-    final creatorId = this.creatorId;
-    final id = this.id;
-    final labels = this.labels;
-    final latestVersionSize = this.latestVersionSize;
-    final modifiedTimestamp = this.modifiedTimestamp;
-    final name = this.name;
-    final parentFolderId = this.parentFolderId;
-    final resourceState = this.resourceState;
-    final signature = this.signature;
-    final size = this.size;
-    return {
-      if (createdTimestamp != null)
-        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
-      if (creatorId != null) 'CreatorId': creatorId,
-      if (id != null) 'Id': id,
-      if (labels != null) 'Labels': labels,
-      if (latestVersionSize != null) 'LatestVersionSize': latestVersionSize,
-      if (modifiedTimestamp != null)
-        'ModifiedTimestamp': unixTimestampToJson(modifiedTimestamp),
-      if (name != null) 'Name': name,
-      if (parentFolderId != null) 'ParentFolderId': parentFolderId,
-      if (resourceState != null) 'ResourceState': resourceState.value,
-      if (signature != null) 'Signature': signature,
-      if (size != null) 'Size': size,
-    };
-  }
-}
-
 class GetCurrentUserResponse {
   /// Metadata of the user.
   final User? user;
@@ -3989,30 +2979,6 @@ class GetCurrentUserResponse {
     final user = this.user;
     return {
       if (user != null) 'User': user,
-    };
-  }
-}
-
-class GetDocumentPathResponse {
-  /// The path information.
-  final ResourcePath? path;
-
-  GetDocumentPathResponse({
-    this.path,
-  });
-
-  factory GetDocumentPathResponse.fromJson(Map<String, dynamic> json) {
-    return GetDocumentPathResponse(
-      path: json['Path'] != null
-          ? ResourcePath.fromJson(json['Path'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final path = this.path;
-    return {
-      if (path != null) 'Path': path,
     };
   }
 }
@@ -4045,6 +3011,30 @@ class GetDocumentResponse {
     return {
       if (customMetadata != null) 'CustomMetadata': customMetadata,
       if (metadata != null) 'Metadata': metadata,
+    };
+  }
+}
+
+class GetDocumentPathResponse {
+  /// The path information.
+  final ResourcePath? path;
+
+  GetDocumentPathResponse({
+    this.path,
+  });
+
+  factory GetDocumentPathResponse.fromJson(Map<String, dynamic> json) {
+    return GetDocumentPathResponse(
+      path: json['Path'] != null
+          ? ResourcePath.fromJson(json['Path'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final path = this.path;
+    return {
+      if (path != null) 'Path': path,
     };
   }
 }
@@ -4082,30 +3072,6 @@ class GetDocumentVersionResponse {
   }
 }
 
-class GetFolderPathResponse {
-  /// The path information.
-  final ResourcePath? path;
-
-  GetFolderPathResponse({
-    this.path,
-  });
-
-  factory GetFolderPathResponse.fromJson(Map<String, dynamic> json) {
-    return GetFolderPathResponse(
-      path: json['Path'] != null
-          ? ResourcePath.fromJson(json['Path'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final path = this.path;
-    return {
-      if (path != null) 'Path': path,
-    };
-  }
-}
-
 class GetFolderResponse {
   /// The custom metadata on the folder.
   final Map<String, String>? customMetadata;
@@ -4134,6 +3100,30 @@ class GetFolderResponse {
     return {
       if (customMetadata != null) 'CustomMetadata': customMetadata,
       if (metadata != null) 'Metadata': metadata,
+    };
+  }
+}
+
+class GetFolderPathResponse {
+  /// The path information.
+  final ResourcePath? path;
+
+  GetFolderPathResponse({
+    this.path,
+  });
+
+  factory GetFolderPathResponse.fromJson(Map<String, dynamic> json) {
+    return GetFolderPathResponse(
+      path: json['Path'] != null
+          ? ResourcePath.fromJson(json['Path'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final path = this.path;
+    return {
+      if (path != null) 'Path': path,
     };
   }
 }
@@ -4181,36 +3171,6 @@ class GetResourcesResponse {
   }
 }
 
-/// Describes the metadata of a user group.
-class GroupMetadata {
-  /// The ID of the user group.
-  final String? id;
-
-  /// The name of the group.
-  final String? name;
-
-  GroupMetadata({
-    this.id,
-    this.name,
-  });
-
-  factory GroupMetadata.fromJson(Map<String, dynamic> json) {
-    return GroupMetadata(
-      id: json['Id'] as String?,
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final name = this.name;
-    return {
-      if (id != null) 'Id': id,
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
 class InitiateDocumentVersionUploadResponse {
   /// The document metadata.
   final DocumentMetadata? metadata;
@@ -4244,867 +3204,6 @@ class InitiateDocumentVersionUploadResponse {
       if (uploadMetadata != null) 'UploadMetadata': uploadMetadata,
     };
   }
-}
-
-class LanguageCodeType {
-  static const ar = LanguageCodeType._('AR');
-  static const bg = LanguageCodeType._('BG');
-  static const bn = LanguageCodeType._('BN');
-  static const da = LanguageCodeType._('DA');
-  static const de = LanguageCodeType._('DE');
-  static const cs = LanguageCodeType._('CS');
-  static const el = LanguageCodeType._('EL');
-  static const en = LanguageCodeType._('EN');
-  static const es = LanguageCodeType._('ES');
-  static const fa = LanguageCodeType._('FA');
-  static const fi = LanguageCodeType._('FI');
-  static const fr = LanguageCodeType._('FR');
-  static const hi = LanguageCodeType._('HI');
-  static const hu = LanguageCodeType._('HU');
-  static const id = LanguageCodeType._('ID');
-  static const it = LanguageCodeType._('IT');
-  static const ja = LanguageCodeType._('JA');
-  static const ko = LanguageCodeType._('KO');
-  static const lt = LanguageCodeType._('LT');
-  static const lv = LanguageCodeType._('LV');
-  static const nl = LanguageCodeType._('NL');
-  static const no = LanguageCodeType._('NO');
-  static const pt = LanguageCodeType._('PT');
-  static const ro = LanguageCodeType._('RO');
-  static const ru = LanguageCodeType._('RU');
-  static const sv = LanguageCodeType._('SV');
-  static const sw = LanguageCodeType._('SW');
-  static const th = LanguageCodeType._('TH');
-  static const tr = LanguageCodeType._('TR');
-  static const zh = LanguageCodeType._('ZH');
-  static const $default = LanguageCodeType._('DEFAULT');
-
-  final String value;
-
-  const LanguageCodeType._(this.value);
-
-  static const values = [
-    ar,
-    bg,
-    bn,
-    da,
-    de,
-    cs,
-    el,
-    en,
-    es,
-    fa,
-    fi,
-    fr,
-    hi,
-    hu,
-    id,
-    it,
-    ja,
-    ko,
-    lt,
-    lv,
-    nl,
-    no,
-    pt,
-    ro,
-    ru,
-    sv,
-    sw,
-    th,
-    tr,
-    zh,
-    $default
-  ];
-
-  static LanguageCodeType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LanguageCodeType._(value));
-
-  @override
-  bool operator ==(other) => other is LanguageCodeType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class LocaleType {
-  static const en = LocaleType._('en');
-  static const fr = LocaleType._('fr');
-  static const ko = LocaleType._('ko');
-  static const de = LocaleType._('de');
-  static const es = LocaleType._('es');
-  static const ja = LocaleType._('ja');
-  static const ru = LocaleType._('ru');
-  static const zhCn = LocaleType._('zh_CN');
-  static const zhTw = LocaleType._('zh_TW');
-  static const ptBr = LocaleType._('pt_BR');
-  static const $default = LocaleType._('default');
-
-  final String value;
-
-  const LocaleType._(this.value);
-
-  static const values = [
-    en,
-    fr,
-    ko,
-    de,
-    es,
-    ja,
-    ru,
-    zhCn,
-    zhTw,
-    ptBr,
-    $default
-  ];
-
-  static LocaleType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => LocaleType._(value));
-
-  @override
-  bool operator ==(other) => other is LocaleType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Filter based on size (in bytes).
-class LongRangeType {
-  /// The size end range (in bytes).
-  final int? endValue;
-
-  /// The size start range (in bytes).
-  final int? startValue;
-
-  LongRangeType({
-    this.endValue,
-    this.startValue,
-  });
-
-  Map<String, dynamic> toJson() {
-    final endValue = this.endValue;
-    final startValue = this.startValue;
-    return {
-      if (endValue != null) 'EndValue': endValue,
-      if (startValue != null) 'StartValue': startValue,
-    };
-  }
-}
-
-/// Set of options which defines notification preferences of given action.
-class NotificationOptions {
-  /// Text value to be included in the email body.
-  final String? emailMessage;
-
-  /// Boolean value to indicate an email notification should be sent to the
-  /// recipients.
-  final bool? sendEmail;
-
-  NotificationOptions({
-    this.emailMessage,
-    this.sendEmail,
-  });
-
-  Map<String, dynamic> toJson() {
-    final emailMessage = this.emailMessage;
-    final sendEmail = this.sendEmail;
-    return {
-      if (emailMessage != null) 'EmailMessage': emailMessage,
-      if (sendEmail != null) 'SendEmail': sendEmail,
-    };
-  }
-}
-
-class OrderByFieldType {
-  static const relevance = OrderByFieldType._('RELEVANCE');
-  static const name = OrderByFieldType._('NAME');
-  static const size = OrderByFieldType._('SIZE');
-  static const createdTimestamp = OrderByFieldType._('CREATED_TIMESTAMP');
-  static const modifiedTimestamp = OrderByFieldType._('MODIFIED_TIMESTAMP');
-
-  final String value;
-
-  const OrderByFieldType._(this.value);
-
-  static const values = [
-    relevance,
-    name,
-    size,
-    createdTimestamp,
-    modifiedTimestamp
-  ];
-
-  static OrderByFieldType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => OrderByFieldType._(value));
-
-  @override
-  bool operator ==(other) => other is OrderByFieldType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class OrderType {
-  static const ascending = OrderType._('ASCENDING');
-  static const descending = OrderType._('DESCENDING');
-
-  final String value;
-
-  const OrderType._(this.value);
-
-  static const values = [ascending, descending];
-
-  static OrderType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => OrderType._(value));
-
-  @override
-  bool operator ==(other) => other is OrderType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes the users or user groups.
-class Participants {
-  /// The list of user groups.
-  final List<GroupMetadata>? groups;
-
-  /// The list of users.
-  final List<UserMetadata>? users;
-
-  Participants({
-    this.groups,
-    this.users,
-  });
-
-  factory Participants.fromJson(Map<String, dynamic> json) {
-    return Participants(
-      groups: (json['Groups'] as List?)
-          ?.nonNulls
-          .map((e) => GroupMetadata.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      users: (json['Users'] as List?)
-          ?.nonNulls
-          .map((e) => UserMetadata.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final groups = this.groups;
-    final users = this.users;
-    return {
-      if (groups != null) 'Groups': groups,
-      if (users != null) 'Users': users,
-    };
-  }
-}
-
-/// Describes the permissions.
-class PermissionInfo {
-  /// The role of the user.
-  final RoleType? role;
-
-  /// The type of permissions.
-  final RolePermissionType? type;
-
-  PermissionInfo({
-    this.role,
-    this.type,
-  });
-
-  factory PermissionInfo.fromJson(Map<String, dynamic> json) {
-    return PermissionInfo(
-      role: (json['Role'] as String?)?.let(RoleType.fromString),
-      type: (json['Type'] as String?)?.let(RolePermissionType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final role = this.role;
-    final type = this.type;
-    return {
-      if (role != null) 'Role': role.value,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-/// Describes a resource.
-class Principal {
-  /// The ID of the resource.
-  final String? id;
-
-  /// The permission information for the resource.
-  final List<PermissionInfo>? roles;
-
-  /// The type of resource.
-  final PrincipalType? type;
-
-  Principal({
-    this.id,
-    this.roles,
-    this.type,
-  });
-
-  factory Principal.fromJson(Map<String, dynamic> json) {
-    return Principal(
-      id: json['Id'] as String?,
-      roles: (json['Roles'] as List?)
-          ?.nonNulls
-          .map((e) => PermissionInfo.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      type: (json['Type'] as String?)?.let(PrincipalType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final roles = this.roles;
-    final type = this.type;
-    return {
-      if (id != null) 'Id': id,
-      if (roles != null) 'Roles': roles,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class PrincipalRoleType {
-  static const viewer = PrincipalRoleType._('VIEWER');
-  static const contributor = PrincipalRoleType._('CONTRIBUTOR');
-  static const owner = PrincipalRoleType._('OWNER');
-  static const coowner = PrincipalRoleType._('COOWNER');
-
-  final String value;
-
-  const PrincipalRoleType._(this.value);
-
-  static const values = [viewer, contributor, owner, coowner];
-
-  static PrincipalRoleType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PrincipalRoleType._(value));
-
-  @override
-  bool operator ==(other) => other is PrincipalRoleType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class PrincipalType {
-  static const user = PrincipalType._('USER');
-  static const group = PrincipalType._('GROUP');
-  static const invite = PrincipalType._('INVITE');
-  static const anonymous = PrincipalType._('ANONYMOUS');
-  static const organization = PrincipalType._('ORGANIZATION');
-
-  final String value;
-
-  const PrincipalType._(this.value);
-
-  static const values = [user, group, invite, anonymous, organization];
-
-  static PrincipalType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PrincipalType._(value));
-
-  @override
-  bool operator ==(other) => other is PrincipalType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ResourceCollectionType {
-  static const sharedWithMe = ResourceCollectionType._('SHARED_WITH_ME');
-
-  final String value;
-
-  const ResourceCollectionType._(this.value);
-
-  static const values = [sharedWithMe];
-
-  static ResourceCollectionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ResourceCollectionType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ResourceCollectionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes the metadata of a resource.
-class ResourceMetadata {
-  /// The ID of the resource.
-  final String? id;
-
-  /// The name of the resource.
-  final String? name;
-
-  /// The original name of the resource before a rename operation.
-  final String? originalName;
-
-  /// The owner of the resource.
-  final UserMetadata? owner;
-
-  /// The parent ID of the resource before a rename operation.
-  final String? parentId;
-
-  /// The type of resource.
-  final ResourceType? type;
-
-  /// The version ID of the resource. This is an optional field and is filled for
-  /// action on document version.
-  final String? versionId;
-
-  ResourceMetadata({
-    this.id,
-    this.name,
-    this.originalName,
-    this.owner,
-    this.parentId,
-    this.type,
-    this.versionId,
-  });
-
-  factory ResourceMetadata.fromJson(Map<String, dynamic> json) {
-    return ResourceMetadata(
-      id: json['Id'] as String?,
-      name: json['Name'] as String?,
-      originalName: json['OriginalName'] as String?,
-      owner: json['Owner'] != null
-          ? UserMetadata.fromJson(json['Owner'] as Map<String, dynamic>)
-          : null,
-      parentId: json['ParentId'] as String?,
-      type: (json['Type'] as String?)?.let(ResourceType.fromString),
-      versionId: json['VersionId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final name = this.name;
-    final originalName = this.originalName;
-    final owner = this.owner;
-    final parentId = this.parentId;
-    final type = this.type;
-    final versionId = this.versionId;
-    return {
-      if (id != null) 'Id': id,
-      if (name != null) 'Name': name,
-      if (originalName != null) 'OriginalName': originalName,
-      if (owner != null) 'Owner': owner,
-      if (parentId != null) 'ParentId': parentId,
-      if (type != null) 'Type': type.value,
-      if (versionId != null) 'VersionId': versionId,
-    };
-  }
-}
-
-/// Describes the path information of a resource.
-class ResourcePath {
-  /// The components of the resource path.
-  final List<ResourcePathComponent>? components;
-
-  ResourcePath({
-    this.components,
-  });
-
-  factory ResourcePath.fromJson(Map<String, dynamic> json) {
-    return ResourcePath(
-      components: (json['Components'] as List?)
-          ?.nonNulls
-          .map((e) => ResourcePathComponent.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final components = this.components;
-    return {
-      if (components != null) 'Components': components,
-    };
-  }
-}
-
-/// Describes the resource path.
-class ResourcePathComponent {
-  /// The ID of the resource path.
-  final String? id;
-
-  /// The name of the resource path.
-  final String? name;
-
-  ResourcePathComponent({
-    this.id,
-    this.name,
-  });
-
-  factory ResourcePathComponent.fromJson(Map<String, dynamic> json) {
-    return ResourcePathComponent(
-      id: json['Id'] as String?,
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final name = this.name;
-    return {
-      if (id != null) 'Id': id,
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
-class ResourceSortType {
-  static const date = ResourceSortType._('DATE');
-  static const name = ResourceSortType._('NAME');
-
-  final String value;
-
-  const ResourceSortType._(this.value);
-
-  static const values = [date, name];
-
-  static ResourceSortType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ResourceSortType._(value));
-
-  @override
-  bool operator ==(other) => other is ResourceSortType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ResourceStateType {
-  static const active = ResourceStateType._('ACTIVE');
-  static const restoring = ResourceStateType._('RESTORING');
-  static const recycling = ResourceStateType._('RECYCLING');
-  static const recycled = ResourceStateType._('RECYCLED');
-
-  final String value;
-
-  const ResourceStateType._(this.value);
-
-  static const values = [active, restoring, recycling, recycled];
-
-  static ResourceStateType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ResourceStateType._(value));
-
-  @override
-  bool operator ==(other) => other is ResourceStateType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ResourceType {
-  static const folder = ResourceType._('FOLDER');
-  static const document = ResourceType._('DOCUMENT');
-
-  final String value;
-
-  const ResourceType._(this.value);
-
-  static const values = [folder, document];
-
-  static ResourceType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ResourceType._(value));
-
-  @override
-  bool operator ==(other) => other is ResourceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// List of Documents, Folders, Comments, and Document Versions matching the
-/// query.
-class ResponseItem {
-  /// The comment that matches the query.
-  final CommentMetadata? commentMetadata;
-
-  /// The document that matches the query.
-  final DocumentMetadata? documentMetadata;
-
-  /// The document version that matches the metadata.
-  final DocumentVersionMetadata? documentVersionMetadata;
-
-  /// The folder that matches the query.
-  final FolderMetadata? folderMetadata;
-
-  /// The type of item being returned.
-  final ResponseItemType? resourceType;
-
-  /// The webUrl of the item being returned.
-  final String? webUrl;
-
-  ResponseItem({
-    this.commentMetadata,
-    this.documentMetadata,
-    this.documentVersionMetadata,
-    this.folderMetadata,
-    this.resourceType,
-    this.webUrl,
-  });
-
-  factory ResponseItem.fromJson(Map<String, dynamic> json) {
-    return ResponseItem(
-      commentMetadata: json['CommentMetadata'] != null
-          ? CommentMetadata.fromJson(
-              json['CommentMetadata'] as Map<String, dynamic>)
-          : null,
-      documentMetadata: json['DocumentMetadata'] != null
-          ? DocumentMetadata.fromJson(
-              json['DocumentMetadata'] as Map<String, dynamic>)
-          : null,
-      documentVersionMetadata: json['DocumentVersionMetadata'] != null
-          ? DocumentVersionMetadata.fromJson(
-              json['DocumentVersionMetadata'] as Map<String, dynamic>)
-          : null,
-      folderMetadata: json['FolderMetadata'] != null
-          ? FolderMetadata.fromJson(
-              json['FolderMetadata'] as Map<String, dynamic>)
-          : null,
-      resourceType:
-          (json['ResourceType'] as String?)?.let(ResponseItemType.fromString),
-      webUrl: json['WebUrl'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final commentMetadata = this.commentMetadata;
-    final documentMetadata = this.documentMetadata;
-    final documentVersionMetadata = this.documentVersionMetadata;
-    final folderMetadata = this.folderMetadata;
-    final resourceType = this.resourceType;
-    final webUrl = this.webUrl;
-    return {
-      if (commentMetadata != null) 'CommentMetadata': commentMetadata,
-      if (documentMetadata != null) 'DocumentMetadata': documentMetadata,
-      if (documentVersionMetadata != null)
-        'DocumentVersionMetadata': documentVersionMetadata,
-      if (folderMetadata != null) 'FolderMetadata': folderMetadata,
-      if (resourceType != null) 'ResourceType': resourceType.value,
-      if (webUrl != null) 'WebUrl': webUrl,
-    };
-  }
-}
-
-class ResponseItemType {
-  static const document = ResponseItemType._('DOCUMENT');
-  static const folder = ResponseItemType._('FOLDER');
-  static const comment = ResponseItemType._('COMMENT');
-  static const documentVersion = ResponseItemType._('DOCUMENT_VERSION');
-
-  final String value;
-
-  const ResponseItemType._(this.value);
-
-  static const values = [document, folder, comment, documentVersion];
-
-  static ResponseItemType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ResponseItemType._(value));
-
-  @override
-  bool operator ==(other) => other is ResponseItemType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class RolePermissionType {
-  static const direct = RolePermissionType._('DIRECT');
-  static const inherited = RolePermissionType._('INHERITED');
-
-  final String value;
-
-  const RolePermissionType._(this.value);
-
-  static const values = [direct, inherited];
-
-  static RolePermissionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RolePermissionType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is RolePermissionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class RoleType {
-  static const viewer = RoleType._('VIEWER');
-  static const contributor = RoleType._('CONTRIBUTOR');
-  static const owner = RoleType._('OWNER');
-  static const coowner = RoleType._('COOWNER');
-
-  final String value;
-
-  const RoleType._(this.value);
-
-  static const values = [viewer, contributor, owner, coowner];
-
-  static RoleType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => RoleType._(value));
-
-  @override
-  bool operator ==(other) => other is RoleType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class SearchCollectionType {
-  static const owned = SearchCollectionType._('OWNED');
-  static const sharedWithMe = SearchCollectionType._('SHARED_WITH_ME');
-
-  final String value;
-
-  const SearchCollectionType._(this.value);
-
-  static const values = [owned, sharedWithMe];
-
-  static SearchCollectionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SearchCollectionType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SearchCollectionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Filter based on UserIds or GroupIds.
-class SearchPrincipalType {
-  /// UserIds or GroupIds.
-  final String id;
-
-  /// The Role of a User or Group.
-  final List<PrincipalRoleType>? roles;
-
-  SearchPrincipalType({
-    required this.id,
-    this.roles,
-  });
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final roles = this.roles;
-    return {
-      'Id': id,
-      if (roles != null) 'Roles': roles.map((e) => e.value).toList(),
-    };
-  }
-}
-
-class SearchQueryScopeType {
-  static const name = SearchQueryScopeType._('NAME');
-  static const content = SearchQueryScopeType._('CONTENT');
-
-  final String value;
-
-  const SearchQueryScopeType._(this.value);
-
-  static const values = [name, content];
-
-  static SearchQueryScopeType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SearchQueryScopeType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SearchQueryScopeType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class SearchResourceType {
-  static const folder = SearchResourceType._('FOLDER');
-  static const document = SearchResourceType._('DOCUMENT');
-  static const comment = SearchResourceType._('COMMENT');
-  static const documentVersion = SearchResourceType._('DOCUMENT_VERSION');
-
-  final String value;
-
-  const SearchResourceType._(this.value);
-
-  static const values = [folder, document, comment, documentVersion];
-
-  static SearchResourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SearchResourceType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SearchResourceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class SearchResourcesResponse {
@@ -5141,304 +3240,6 @@ class SearchResourcesResponse {
   }
 }
 
-/// The result of the sort operation.
-class SearchSortResult {
-  /// Sort search results based on this field name.
-  final OrderByFieldType? field;
-
-  /// Sort direction.
-  final SortOrder? order;
-
-  SearchSortResult({
-    this.field,
-    this.order,
-  });
-
-  Map<String, dynamic> toJson() {
-    final field = this.field;
-    final order = this.order;
-    return {
-      if (field != null) 'Field': field.value,
-      if (order != null) 'Order': order.value,
-    };
-  }
-}
-
-/// Describes the recipient type and ID, if available.
-class SharePrincipal {
-  /// The ID of the recipient.
-  final String id;
-
-  /// The role of the recipient.
-  final RoleType role;
-
-  /// The type of the recipient.
-  final PrincipalType type;
-
-  SharePrincipal({
-    required this.id,
-    required this.role,
-    required this.type,
-  });
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final role = this.role;
-    final type = this.type;
-    return {
-      'Id': id,
-      'Role': role.value,
-      'Type': type.value,
-    };
-  }
-}
-
-/// Describes the share results of a resource.
-class ShareResult {
-  /// The ID of the invited user.
-  final String? inviteePrincipalId;
-
-  /// The ID of the principal.
-  final String? principalId;
-
-  /// The role.
-  final RoleType? role;
-
-  /// The ID of the resource that was shared.
-  final String? shareId;
-
-  /// The status.
-  final ShareStatusType? status;
-
-  /// The status message.
-  final String? statusMessage;
-
-  ShareResult({
-    this.inviteePrincipalId,
-    this.principalId,
-    this.role,
-    this.shareId,
-    this.status,
-    this.statusMessage,
-  });
-
-  factory ShareResult.fromJson(Map<String, dynamic> json) {
-    return ShareResult(
-      inviteePrincipalId: json['InviteePrincipalId'] as String?,
-      principalId: json['PrincipalId'] as String?,
-      role: (json['Role'] as String?)?.let(RoleType.fromString),
-      shareId: json['ShareId'] as String?,
-      status: (json['Status'] as String?)?.let(ShareStatusType.fromString),
-      statusMessage: json['StatusMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final inviteePrincipalId = this.inviteePrincipalId;
-    final principalId = this.principalId;
-    final role = this.role;
-    final shareId = this.shareId;
-    final status = this.status;
-    final statusMessage = this.statusMessage;
-    return {
-      if (inviteePrincipalId != null) 'InviteePrincipalId': inviteePrincipalId,
-      if (principalId != null) 'PrincipalId': principalId,
-      if (role != null) 'Role': role.value,
-      if (shareId != null) 'ShareId': shareId,
-      if (status != null) 'Status': status.value,
-      if (statusMessage != null) 'StatusMessage': statusMessage,
-    };
-  }
-}
-
-class ShareStatusType {
-  static const success = ShareStatusType._('SUCCESS');
-  static const failure = ShareStatusType._('FAILURE');
-
-  final String value;
-
-  const ShareStatusType._(this.value);
-
-  static const values = [success, failure];
-
-  static ShareStatusType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ShareStatusType._(value));
-
-  @override
-  bool operator ==(other) => other is ShareStatusType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class SortOrder {
-  static const asc = SortOrder._('ASC');
-  static const desc = SortOrder._('DESC');
-
-  final String value;
-
-  const SortOrder._(this.value);
-
-  static const values = [asc, desc];
-
-  static SortOrder fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
-
-  @override
-  bool operator ==(other) => other is SortOrder && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes the storage for a user.
-class StorageRuleType {
-  /// The amount of storage allocated, in bytes.
-  final int? storageAllocatedInBytes;
-
-  /// The type of storage.
-  final StorageType? storageType;
-
-  StorageRuleType({
-    this.storageAllocatedInBytes,
-    this.storageType,
-  });
-
-  factory StorageRuleType.fromJson(Map<String, dynamic> json) {
-    return StorageRuleType(
-      storageAllocatedInBytes: json['StorageAllocatedInBytes'] as int?,
-      storageType:
-          (json['StorageType'] as String?)?.let(StorageType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final storageAllocatedInBytes = this.storageAllocatedInBytes;
-    final storageType = this.storageType;
-    return {
-      if (storageAllocatedInBytes != null)
-        'StorageAllocatedInBytes': storageAllocatedInBytes,
-      if (storageType != null) 'StorageType': storageType.value,
-    };
-  }
-}
-
-class StorageType {
-  static const unlimited = StorageType._('UNLIMITED');
-  static const quota = StorageType._('QUOTA');
-
-  final String value;
-
-  const StorageType._(this.value);
-
-  static const values = [unlimited, quota];
-
-  static StorageType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => StorageType._(value));
-
-  @override
-  bool operator ==(other) => other is StorageType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes a subscription.
-class Subscription {
-  /// The endpoint of the subscription.
-  final String? endPoint;
-
-  /// The protocol of the subscription.
-  final SubscriptionProtocolType? protocol;
-
-  /// The ID of the subscription.
-  final String? subscriptionId;
-
-  Subscription({
-    this.endPoint,
-    this.protocol,
-    this.subscriptionId,
-  });
-
-  factory Subscription.fromJson(Map<String, dynamic> json) {
-    return Subscription(
-      endPoint: json['EndPoint'] as String?,
-      protocol: (json['Protocol'] as String?)
-          ?.let(SubscriptionProtocolType.fromString),
-      subscriptionId: json['SubscriptionId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final endPoint = this.endPoint;
-    final protocol = this.protocol;
-    final subscriptionId = this.subscriptionId;
-    return {
-      if (endPoint != null) 'EndPoint': endPoint,
-      if (protocol != null) 'Protocol': protocol.value,
-      if (subscriptionId != null) 'SubscriptionId': subscriptionId,
-    };
-  }
-}
-
-class SubscriptionProtocolType {
-  static const https = SubscriptionProtocolType._('HTTPS');
-  static const sqs = SubscriptionProtocolType._('SQS');
-
-  final String value;
-
-  const SubscriptionProtocolType._(this.value);
-
-  static const values = [https, sqs];
-
-  static SubscriptionProtocolType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SubscriptionProtocolType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SubscriptionProtocolType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class SubscriptionType {
-  static const all = SubscriptionType._('ALL');
-
-  final String value;
-
-  const SubscriptionType._(this.value);
-
-  static const values = [all];
-
-  static SubscriptionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SubscriptionType._(value));
-
-  @override
-  bool operator ==(other) => other is SubscriptionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class UpdateUserResponse {
   /// The user information.
   final User? user;
@@ -5459,37 +3260,6 @@ class UpdateUserResponse {
     final user = this.user;
     return {
       if (user != null) 'User': user,
-    };
-  }
-}
-
-/// Describes the upload.
-class UploadMetadata {
-  /// The signed headers.
-  final Map<String, String>? signedHeaders;
-
-  /// The URL of the upload.
-  final String? uploadUrl;
-
-  UploadMetadata({
-    this.signedHeaders,
-    this.uploadUrl,
-  });
-
-  factory UploadMetadata.fromJson(Map<String, dynamic> json) {
-    return UploadMetadata(
-      signedHeaders: (json['SignedHeaders'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      uploadUrl: json['UploadUrl'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final signedHeaders = this.signedHeaders;
-    final uploadUrl = this.uploadUrl;
-    return {
-      if (signedHeaders != null) 'SignedHeaders': signedHeaders,
-      if (uploadUrl != null) 'UploadUrl': uploadUrl,
     };
   }
 }
@@ -5620,6 +3390,1437 @@ class User {
   }
 }
 
+class UserStatusType {
+  static const active = UserStatusType._('ACTIVE');
+  static const inactive = UserStatusType._('INACTIVE');
+  static const pending = UserStatusType._('PENDING');
+
+  final String value;
+
+  const UserStatusType._(this.value);
+
+  static const values = [active, inactive, pending];
+
+  static UserStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UserStatusType._(value));
+
+  @override
+  bool operator ==(other) => other is UserStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class UserType {
+  static const user = UserType._('USER');
+  static const admin = UserType._('ADMIN');
+  static const poweruser = UserType._('POWERUSER');
+  static const minimaluser = UserType._('MINIMALUSER');
+  static const workspacesuser = UserType._('WORKSPACESUSER');
+
+  final String value;
+
+  const UserType._(this.value);
+
+  static const values = [user, admin, poweruser, minimaluser, workspacesuser];
+
+  static UserType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UserType._(value));
+
+  @override
+  bool operator ==(other) => other is UserType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class LocaleType {
+  static const en = LocaleType._('en');
+  static const fr = LocaleType._('fr');
+  static const ko = LocaleType._('ko');
+  static const de = LocaleType._('de');
+  static const es = LocaleType._('es');
+  static const ja = LocaleType._('ja');
+  static const ru = LocaleType._('ru');
+  static const zhCn = LocaleType._('zh_CN');
+  static const zhTw = LocaleType._('zh_TW');
+  static const ptBr = LocaleType._('pt_BR');
+  static const $default = LocaleType._('default');
+
+  final String value;
+
+  const LocaleType._(this.value);
+
+  static const values = [
+    en,
+    fr,
+    ko,
+    de,
+    es,
+    ja,
+    ru,
+    zhCn,
+    zhTw,
+    ptBr,
+    $default
+  ];
+
+  static LocaleType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LocaleType._(value));
+
+  @override
+  bool operator ==(other) => other is LocaleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the storage for a user.
+class UserStorageMetadata {
+  /// The storage for a user.
+  final StorageRuleType? storageRule;
+
+  /// The amount of storage used, in bytes.
+  final int? storageUtilizedInBytes;
+
+  UserStorageMetadata({
+    this.storageRule,
+    this.storageUtilizedInBytes,
+  });
+
+  factory UserStorageMetadata.fromJson(Map<String, dynamic> json) {
+    return UserStorageMetadata(
+      storageRule: json['StorageRule'] != null
+          ? StorageRuleType.fromJson(
+              json['StorageRule'] as Map<String, dynamic>)
+          : null,
+      storageUtilizedInBytes: json['StorageUtilizedInBytes'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final storageRule = this.storageRule;
+    final storageUtilizedInBytes = this.storageUtilizedInBytes;
+    return {
+      if (storageRule != null) 'StorageRule': storageRule,
+      if (storageUtilizedInBytes != null)
+        'StorageUtilizedInBytes': storageUtilizedInBytes,
+    };
+  }
+}
+
+/// Describes the storage for a user.
+class StorageRuleType {
+  /// The amount of storage allocated, in bytes.
+  final int? storageAllocatedInBytes;
+
+  /// The type of storage.
+  final StorageType? storageType;
+
+  StorageRuleType({
+    this.storageAllocatedInBytes,
+    this.storageType,
+  });
+
+  factory StorageRuleType.fromJson(Map<String, dynamic> json) {
+    return StorageRuleType(
+      storageAllocatedInBytes: json['StorageAllocatedInBytes'] as int?,
+      storageType:
+          (json['StorageType'] as String?)?.let(StorageType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final storageAllocatedInBytes = this.storageAllocatedInBytes;
+    final storageType = this.storageType;
+    return {
+      if (storageAllocatedInBytes != null)
+        'StorageAllocatedInBytes': storageAllocatedInBytes,
+      if (storageType != null) 'StorageType': storageType.value,
+    };
+  }
+}
+
+class StorageType {
+  static const unlimited = StorageType._('UNLIMITED');
+  static const quota = StorageType._('QUOTA');
+
+  final String value;
+
+  const StorageType._(this.value);
+
+  static const values = [unlimited, quota];
+
+  static StorageType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StorageType._(value));
+
+  @override
+  bool operator ==(other) => other is StorageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class BooleanEnumType {
+  static const $true = BooleanEnumType._('TRUE');
+  static const $false = BooleanEnumType._('FALSE');
+
+  final String value;
+
+  const BooleanEnumType._(this.value);
+
+  static const values = [$true, $false];
+
+  static BooleanEnumType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BooleanEnumType._(value));
+
+  @override
+  bool operator ==(other) => other is BooleanEnumType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ResourceStateType {
+  static const active = ResourceStateType._('ACTIVE');
+  static const restoring = ResourceStateType._('RESTORING');
+  static const recycling = ResourceStateType._('RECYCLING');
+  static const recycled = ResourceStateType._('RECYCLED');
+
+  final String value;
+
+  const ResourceStateType._(this.value);
+
+  static const values = [active, restoring, recycling, recycled];
+
+  static ResourceStateType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceStateType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceStateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DocumentVersionStatus {
+  static const active = DocumentVersionStatus._('ACTIVE');
+
+  final String value;
+
+  const DocumentVersionStatus._(this.value);
+
+  static const values = [active];
+
+  static DocumentVersionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DocumentVersionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DocumentVersionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// List of Documents, Folders, Comments, and Document Versions matching the
+/// query.
+class ResponseItem {
+  /// The comment that matches the query.
+  final CommentMetadata? commentMetadata;
+
+  /// The document that matches the query.
+  final DocumentMetadata? documentMetadata;
+
+  /// The document version that matches the metadata.
+  final DocumentVersionMetadata? documentVersionMetadata;
+
+  /// The folder that matches the query.
+  final FolderMetadata? folderMetadata;
+
+  /// The type of item being returned.
+  final ResponseItemType? resourceType;
+
+  /// The webUrl of the item being returned.
+  final String? webUrl;
+
+  ResponseItem({
+    this.commentMetadata,
+    this.documentMetadata,
+    this.documentVersionMetadata,
+    this.folderMetadata,
+    this.resourceType,
+    this.webUrl,
+  });
+
+  factory ResponseItem.fromJson(Map<String, dynamic> json) {
+    return ResponseItem(
+      commentMetadata: json['CommentMetadata'] != null
+          ? CommentMetadata.fromJson(
+              json['CommentMetadata'] as Map<String, dynamic>)
+          : null,
+      documentMetadata: json['DocumentMetadata'] != null
+          ? DocumentMetadata.fromJson(
+              json['DocumentMetadata'] as Map<String, dynamic>)
+          : null,
+      documentVersionMetadata: json['DocumentVersionMetadata'] != null
+          ? DocumentVersionMetadata.fromJson(
+              json['DocumentVersionMetadata'] as Map<String, dynamic>)
+          : null,
+      folderMetadata: json['FolderMetadata'] != null
+          ? FolderMetadata.fromJson(
+              json['FolderMetadata'] as Map<String, dynamic>)
+          : null,
+      resourceType:
+          (json['ResourceType'] as String?)?.let(ResponseItemType.fromString),
+      webUrl: json['WebUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final commentMetadata = this.commentMetadata;
+    final documentMetadata = this.documentMetadata;
+    final documentVersionMetadata = this.documentVersionMetadata;
+    final folderMetadata = this.folderMetadata;
+    final resourceType = this.resourceType;
+    final webUrl = this.webUrl;
+    return {
+      if (commentMetadata != null) 'CommentMetadata': commentMetadata,
+      if (documentMetadata != null) 'DocumentMetadata': documentMetadata,
+      if (documentVersionMetadata != null)
+        'DocumentVersionMetadata': documentVersionMetadata,
+      if (folderMetadata != null) 'FolderMetadata': folderMetadata,
+      if (resourceType != null) 'ResourceType': resourceType.value,
+      if (webUrl != null) 'WebUrl': webUrl,
+    };
+  }
+}
+
+class ResponseItemType {
+  static const document = ResponseItemType._('DOCUMENT');
+  static const folder = ResponseItemType._('FOLDER');
+  static const comment = ResponseItemType._('COMMENT');
+  static const documentVersion = ResponseItemType._('DOCUMENT_VERSION');
+
+  final String value;
+
+  const ResponseItemType._(this.value);
+
+  static const values = [document, folder, comment, documentVersion];
+
+  static ResponseItemType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResponseItemType._(value));
+
+  @override
+  bool operator ==(other) => other is ResponseItemType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the document.
+class DocumentMetadata {
+  /// The time when the document was created.
+  final DateTime? createdTimestamp;
+
+  /// The ID of the creator.
+  final String? creatorId;
+
+  /// The ID of the document.
+  final String? id;
+
+  /// List of labels on the document.
+  final List<String>? labels;
+
+  /// The latest version of the document.
+  final DocumentVersionMetadata? latestVersionMetadata;
+
+  /// The time when the document was updated.
+  final DateTime? modifiedTimestamp;
+
+  /// The ID of the parent folder.
+  final String? parentFolderId;
+
+  /// The resource state.
+  final ResourceStateType? resourceState;
+
+  DocumentMetadata({
+    this.createdTimestamp,
+    this.creatorId,
+    this.id,
+    this.labels,
+    this.latestVersionMetadata,
+    this.modifiedTimestamp,
+    this.parentFolderId,
+    this.resourceState,
+  });
+
+  factory DocumentMetadata.fromJson(Map<String, dynamic> json) {
+    return DocumentMetadata(
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      creatorId: json['CreatorId'] as String?,
+      id: json['Id'] as String?,
+      labels:
+          (json['Labels'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      latestVersionMetadata: json['LatestVersionMetadata'] != null
+          ? DocumentVersionMetadata.fromJson(
+              json['LatestVersionMetadata'] as Map<String, dynamic>)
+          : null,
+      modifiedTimestamp: timeStampFromJson(json['ModifiedTimestamp']),
+      parentFolderId: json['ParentFolderId'] as String?,
+      resourceState:
+          (json['ResourceState'] as String?)?.let(ResourceStateType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTimestamp = this.createdTimestamp;
+    final creatorId = this.creatorId;
+    final id = this.id;
+    final labels = this.labels;
+    final latestVersionMetadata = this.latestVersionMetadata;
+    final modifiedTimestamp = this.modifiedTimestamp;
+    final parentFolderId = this.parentFolderId;
+    final resourceState = this.resourceState;
+    return {
+      if (createdTimestamp != null)
+        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
+      if (creatorId != null) 'CreatorId': creatorId,
+      if (id != null) 'Id': id,
+      if (labels != null) 'Labels': labels,
+      if (latestVersionMetadata != null)
+        'LatestVersionMetadata': latestVersionMetadata,
+      if (modifiedTimestamp != null)
+        'ModifiedTimestamp': unixTimestampToJson(modifiedTimestamp),
+      if (parentFolderId != null) 'ParentFolderId': parentFolderId,
+      if (resourceState != null) 'ResourceState': resourceState.value,
+    };
+  }
+}
+
+/// Describes a folder.
+class FolderMetadata {
+  /// The time when the folder was created.
+  final DateTime? createdTimestamp;
+
+  /// The ID of the creator.
+  final String? creatorId;
+
+  /// The ID of the folder.
+  final String? id;
+
+  /// List of labels on the folder.
+  final List<String>? labels;
+
+  /// The size of the latest version of the folder metadata.
+  final int? latestVersionSize;
+
+  /// The time when the folder was updated.
+  final DateTime? modifiedTimestamp;
+
+  /// The name of the folder.
+  final String? name;
+
+  /// The ID of the parent folder.
+  final String? parentFolderId;
+
+  /// The resource state of the folder.
+  final ResourceStateType? resourceState;
+
+  /// The unique identifier created from the subfolders and documents of the
+  /// folder.
+  final String? signature;
+
+  /// The size of the folder metadata.
+  final int? size;
+
+  FolderMetadata({
+    this.createdTimestamp,
+    this.creatorId,
+    this.id,
+    this.labels,
+    this.latestVersionSize,
+    this.modifiedTimestamp,
+    this.name,
+    this.parentFolderId,
+    this.resourceState,
+    this.signature,
+    this.size,
+  });
+
+  factory FolderMetadata.fromJson(Map<String, dynamic> json) {
+    return FolderMetadata(
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      creatorId: json['CreatorId'] as String?,
+      id: json['Id'] as String?,
+      labels:
+          (json['Labels'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      latestVersionSize: json['LatestVersionSize'] as int?,
+      modifiedTimestamp: timeStampFromJson(json['ModifiedTimestamp']),
+      name: json['Name'] as String?,
+      parentFolderId: json['ParentFolderId'] as String?,
+      resourceState:
+          (json['ResourceState'] as String?)?.let(ResourceStateType.fromString),
+      signature: json['Signature'] as String?,
+      size: json['Size'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTimestamp = this.createdTimestamp;
+    final creatorId = this.creatorId;
+    final id = this.id;
+    final labels = this.labels;
+    final latestVersionSize = this.latestVersionSize;
+    final modifiedTimestamp = this.modifiedTimestamp;
+    final name = this.name;
+    final parentFolderId = this.parentFolderId;
+    final resourceState = this.resourceState;
+    final signature = this.signature;
+    final size = this.size;
+    return {
+      if (createdTimestamp != null)
+        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
+      if (creatorId != null) 'CreatorId': creatorId,
+      if (id != null) 'Id': id,
+      if (labels != null) 'Labels': labels,
+      if (latestVersionSize != null) 'LatestVersionSize': latestVersionSize,
+      if (modifiedTimestamp != null)
+        'ModifiedTimestamp': unixTimestampToJson(modifiedTimestamp),
+      if (name != null) 'Name': name,
+      if (parentFolderId != null) 'ParentFolderId': parentFolderId,
+      if (resourceState != null) 'ResourceState': resourceState.value,
+      if (signature != null) 'Signature': signature,
+      if (size != null) 'Size': size,
+    };
+  }
+}
+
+/// Describes the metadata of a comment.
+class CommentMetadata {
+  /// The ID of the comment.
+  final String? commentId;
+
+  /// The status of the comment.
+  final CommentStatusType? commentStatus;
+
+  /// The user who made the comment.
+  final User? contributor;
+
+  /// The ID of the user who made the comment.
+  final String? contributorId;
+
+  /// The timestamp that the comment was created.
+  final DateTime? createdTimestamp;
+
+  /// The ID of the user being replied to.
+  final String? recipientId;
+
+  CommentMetadata({
+    this.commentId,
+    this.commentStatus,
+    this.contributor,
+    this.contributorId,
+    this.createdTimestamp,
+    this.recipientId,
+  });
+
+  factory CommentMetadata.fromJson(Map<String, dynamic> json) {
+    return CommentMetadata(
+      commentId: json['CommentId'] as String?,
+      commentStatus:
+          (json['CommentStatus'] as String?)?.let(CommentStatusType.fromString),
+      contributor: json['Contributor'] != null
+          ? User.fromJson(json['Contributor'] as Map<String, dynamic>)
+          : null,
+      contributorId: json['ContributorId'] as String?,
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      recipientId: json['RecipientId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final commentId = this.commentId;
+    final commentStatus = this.commentStatus;
+    final contributor = this.contributor;
+    final contributorId = this.contributorId;
+    final createdTimestamp = this.createdTimestamp;
+    final recipientId = this.recipientId;
+    return {
+      if (commentId != null) 'CommentId': commentId,
+      if (commentStatus != null) 'CommentStatus': commentStatus.value,
+      if (contributor != null) 'Contributor': contributor,
+      if (contributorId != null) 'ContributorId': contributorId,
+      if (createdTimestamp != null)
+        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
+      if (recipientId != null) 'RecipientId': recipientId,
+    };
+  }
+}
+
+/// Describes a version of a document.
+class DocumentVersionMetadata {
+  /// The timestamp when the content of the document was originally created.
+  final DateTime? contentCreatedTimestamp;
+
+  /// The timestamp when the content of the document was modified.
+  final DateTime? contentModifiedTimestamp;
+
+  /// The content type of the document.
+  final String? contentType;
+
+  /// The timestamp when the document was first uploaded.
+  final DateTime? createdTimestamp;
+
+  /// The ID of the creator.
+  final String? creatorId;
+
+  /// The ID of the version.
+  final String? id;
+
+  /// The timestamp when the document was last uploaded.
+  final DateTime? modifiedTimestamp;
+
+  /// The name of the version.
+  final String? name;
+
+  /// The signature of the document.
+  final String? signature;
+
+  /// The size of the document, in bytes.
+  final int? size;
+
+  /// The source of the document.
+  final Map<DocumentSourceType, String>? source;
+
+  /// The status of the document.
+  final DocumentStatusType? status;
+
+  /// The thumbnail of the document.
+  final Map<DocumentThumbnailType, String>? thumbnail;
+
+  DocumentVersionMetadata({
+    this.contentCreatedTimestamp,
+    this.contentModifiedTimestamp,
+    this.contentType,
+    this.createdTimestamp,
+    this.creatorId,
+    this.id,
+    this.modifiedTimestamp,
+    this.name,
+    this.signature,
+    this.size,
+    this.source,
+    this.status,
+    this.thumbnail,
+  });
+
+  factory DocumentVersionMetadata.fromJson(Map<String, dynamic> json) {
+    return DocumentVersionMetadata(
+      contentCreatedTimestamp:
+          timeStampFromJson(json['ContentCreatedTimestamp']),
+      contentModifiedTimestamp:
+          timeStampFromJson(json['ContentModifiedTimestamp']),
+      contentType: json['ContentType'] as String?,
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      creatorId: json['CreatorId'] as String?,
+      id: json['Id'] as String?,
+      modifiedTimestamp: timeStampFromJson(json['ModifiedTimestamp']),
+      name: json['Name'] as String?,
+      signature: json['Signature'] as String?,
+      size: json['Size'] as int?,
+      source: (json['Source'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(DocumentSourceType.fromString(k), e as String)),
+      status: (json['Status'] as String?)?.let(DocumentStatusType.fromString),
+      thumbnail: (json['Thumbnail'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(DocumentThumbnailType.fromString(k), e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contentCreatedTimestamp = this.contentCreatedTimestamp;
+    final contentModifiedTimestamp = this.contentModifiedTimestamp;
+    final contentType = this.contentType;
+    final createdTimestamp = this.createdTimestamp;
+    final creatorId = this.creatorId;
+    final id = this.id;
+    final modifiedTimestamp = this.modifiedTimestamp;
+    final name = this.name;
+    final signature = this.signature;
+    final size = this.size;
+    final source = this.source;
+    final status = this.status;
+    final thumbnail = this.thumbnail;
+    return {
+      if (contentCreatedTimestamp != null)
+        'ContentCreatedTimestamp': unixTimestampToJson(contentCreatedTimestamp),
+      if (contentModifiedTimestamp != null)
+        'ContentModifiedTimestamp':
+            unixTimestampToJson(contentModifiedTimestamp),
+      if (contentType != null) 'ContentType': contentType,
+      if (createdTimestamp != null)
+        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
+      if (creatorId != null) 'CreatorId': creatorId,
+      if (id != null) 'Id': id,
+      if (modifiedTimestamp != null)
+        'ModifiedTimestamp': unixTimestampToJson(modifiedTimestamp),
+      if (name != null) 'Name': name,
+      if (signature != null) 'Signature': signature,
+      if (size != null) 'Size': size,
+      if (source != null) 'Source': source.map((k, e) => MapEntry(k.value, e)),
+      if (status != null) 'Status': status.value,
+      if (thumbnail != null)
+        'Thumbnail': thumbnail.map((k, e) => MapEntry(k.value, e)),
+    };
+  }
+}
+
+class DocumentStatusType {
+  static const initialized = DocumentStatusType._('INITIALIZED');
+  static const active = DocumentStatusType._('ACTIVE');
+
+  final String value;
+
+  const DocumentStatusType._(this.value);
+
+  static const values = [initialized, active];
+
+  static DocumentStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DocumentStatusType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DocumentStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DocumentSourceType {
+  static const original = DocumentSourceType._('ORIGINAL');
+  static const withComments = DocumentSourceType._('WITH_COMMENTS');
+
+  final String value;
+
+  const DocumentSourceType._(this.value);
+
+  static const values = [original, withComments];
+
+  static DocumentSourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DocumentSourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DocumentSourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DocumentThumbnailType {
+  static const small = DocumentThumbnailType._('SMALL');
+  static const smallHq = DocumentThumbnailType._('SMALL_HQ');
+  static const large = DocumentThumbnailType._('LARGE');
+
+  final String value;
+
+  const DocumentThumbnailType._(this.value);
+
+  static const values = [small, smallHq, large];
+
+  static DocumentThumbnailType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DocumentThumbnailType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DocumentThumbnailType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class CommentStatusType {
+  static const draft = CommentStatusType._('DRAFT');
+  static const published = CommentStatusType._('PUBLISHED');
+  static const deleted = CommentStatusType._('DELETED');
+
+  final String value;
+
+  const CommentStatusType._(this.value);
+
+  static const values = [draft, published, deleted];
+
+  static CommentStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CommentStatusType._(value));
+
+  @override
+  bool operator ==(other) => other is CommentStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Filters results based on entity metadata.
+class Filters {
+  /// Filter based on resource’s path.
+  final List<String>? ancestorIds;
+
+  /// Filters by content category.
+  final List<ContentCategoryType>? contentCategories;
+
+  /// Filter based on resource’s creation timestamp.
+  final DateRangeType? createdRange;
+
+  /// Filter by labels using exact match.
+  final List<String>? labels;
+
+  /// Filter based on resource’s modified timestamp.
+  final DateRangeType? modifiedRange;
+
+  /// Filter based on UserIds or GroupIds.
+  final List<SearchPrincipalType>? principals;
+
+  /// Filters based on entity type.
+  final List<SearchResourceType>? resourceTypes;
+
+  /// Filter based on file groupings.
+  final List<SearchCollectionType>? searchCollectionTypes;
+
+  /// Filter based on size (in bytes).
+  final LongRangeType? sizeRange;
+
+  /// Filters by the locale of the content or comment.
+  final List<LanguageCodeType>? textLocales;
+
+  Filters({
+    this.ancestorIds,
+    this.contentCategories,
+    this.createdRange,
+    this.labels,
+    this.modifiedRange,
+    this.principals,
+    this.resourceTypes,
+    this.searchCollectionTypes,
+    this.sizeRange,
+    this.textLocales,
+  });
+
+  Map<String, dynamic> toJson() {
+    final ancestorIds = this.ancestorIds;
+    final contentCategories = this.contentCategories;
+    final createdRange = this.createdRange;
+    final labels = this.labels;
+    final modifiedRange = this.modifiedRange;
+    final principals = this.principals;
+    final resourceTypes = this.resourceTypes;
+    final searchCollectionTypes = this.searchCollectionTypes;
+    final sizeRange = this.sizeRange;
+    final textLocales = this.textLocales;
+    return {
+      if (ancestorIds != null) 'AncestorIds': ancestorIds,
+      if (contentCategories != null)
+        'ContentCategories': contentCategories.map((e) => e.value).toList(),
+      if (createdRange != null) 'CreatedRange': createdRange,
+      if (labels != null) 'Labels': labels,
+      if (modifiedRange != null) 'ModifiedRange': modifiedRange,
+      if (principals != null) 'Principals': principals,
+      if (resourceTypes != null)
+        'ResourceTypes': resourceTypes.map((e) => e.value).toList(),
+      if (searchCollectionTypes != null)
+        'SearchCollectionTypes':
+            searchCollectionTypes.map((e) => e.value).toList(),
+      if (sizeRange != null) 'SizeRange': sizeRange,
+      if (textLocales != null)
+        'TextLocales': textLocales.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// The result of the sort operation.
+class SearchSortResult {
+  /// Sort search results based on this field name.
+  final OrderByFieldType? field;
+
+  /// Sort direction.
+  final SortOrder? order;
+
+  SearchSortResult({
+    this.field,
+    this.order,
+  });
+
+  Map<String, dynamic> toJson() {
+    final field = this.field;
+    final order = this.order;
+    return {
+      if (field != null) 'Field': field.value,
+      if (order != null) 'Order': order.value,
+    };
+  }
+}
+
+class OrderByFieldType {
+  static const relevance = OrderByFieldType._('RELEVANCE');
+  static const name = OrderByFieldType._('NAME');
+  static const size = OrderByFieldType._('SIZE');
+  static const createdTimestamp = OrderByFieldType._('CREATED_TIMESTAMP');
+  static const modifiedTimestamp = OrderByFieldType._('MODIFIED_TIMESTAMP');
+
+  final String value;
+
+  const OrderByFieldType._(this.value);
+
+  static const values = [
+    relevance,
+    name,
+    size,
+    createdTimestamp,
+    modifiedTimestamp
+  ];
+
+  static OrderByFieldType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OrderByFieldType._(value));
+
+  @override
+  bool operator ==(other) => other is OrderByFieldType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SortOrder {
+  static const asc = SortOrder._('ASC');
+  static const desc = SortOrder._('DESC');
+
+  final String value;
+
+  const SortOrder._(this.value);
+
+  static const values = [asc, desc];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Filter based on size (in bytes).
+class LongRangeType {
+  /// The size end range (in bytes).
+  final int? endValue;
+
+  /// The size start range (in bytes).
+  final int? startValue;
+
+  LongRangeType({
+    this.endValue,
+    this.startValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final endValue = this.endValue;
+    final startValue = this.startValue;
+    return {
+      if (endValue != null) 'EndValue': endValue,
+      if (startValue != null) 'StartValue': startValue,
+    };
+  }
+}
+
+/// Filters results based on timestamp range (in epochs).
+class DateRangeType {
+  /// Timestamp range end value (in epochs).
+  final DateTime? endValue;
+
+  /// Timestamp range start value (in epochs)
+  final DateTime? startValue;
+
+  DateRangeType({
+    this.endValue,
+    this.startValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final endValue = this.endValue;
+    final startValue = this.startValue;
+    return {
+      if (endValue != null) 'EndValue': unixTimestampToJson(endValue),
+      if (startValue != null) 'StartValue': unixTimestampToJson(startValue),
+    };
+  }
+}
+
+class SearchCollectionType {
+  static const owned = SearchCollectionType._('OWNED');
+  static const sharedWithMe = SearchCollectionType._('SHARED_WITH_ME');
+
+  final String value;
+
+  const SearchCollectionType._(this.value);
+
+  static const values = [owned, sharedWithMe];
+
+  static SearchCollectionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SearchCollectionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SearchCollectionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Filter based on UserIds or GroupIds.
+class SearchPrincipalType {
+  /// UserIds or GroupIds.
+  final String id;
+
+  /// The Role of a User or Group.
+  final List<PrincipalRoleType>? roles;
+
+  SearchPrincipalType({
+    required this.id,
+    this.roles,
+  });
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final roles = this.roles;
+    return {
+      'Id': id,
+      if (roles != null) 'Roles': roles.map((e) => e.value).toList(),
+    };
+  }
+}
+
+class PrincipalRoleType {
+  static const viewer = PrincipalRoleType._('VIEWER');
+  static const contributor = PrincipalRoleType._('CONTRIBUTOR');
+  static const owner = PrincipalRoleType._('OWNER');
+  static const coowner = PrincipalRoleType._('COOWNER');
+
+  final String value;
+
+  const PrincipalRoleType._(this.value);
+
+  static const values = [viewer, contributor, owner, coowner];
+
+  static PrincipalRoleType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PrincipalRoleType._(value));
+
+  @override
+  bool operator ==(other) => other is PrincipalRoleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SearchResourceType {
+  static const folder = SearchResourceType._('FOLDER');
+  static const document = SearchResourceType._('DOCUMENT');
+  static const comment = SearchResourceType._('COMMENT');
+  static const documentVersion = SearchResourceType._('DOCUMENT_VERSION');
+
+  final String value;
+
+  const SearchResourceType._(this.value);
+
+  static const values = [folder, document, comment, documentVersion];
+
+  static SearchResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SearchResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SearchResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ContentCategoryType {
+  static const image = ContentCategoryType._('IMAGE');
+  static const document = ContentCategoryType._('DOCUMENT');
+  static const pdf = ContentCategoryType._('PDF');
+  static const spreadsheet = ContentCategoryType._('SPREADSHEET');
+  static const presentation = ContentCategoryType._('PRESENTATION');
+  static const audio = ContentCategoryType._('AUDIO');
+  static const video = ContentCategoryType._('VIDEO');
+  static const sourceCode = ContentCategoryType._('SOURCE_CODE');
+  static const other = ContentCategoryType._('OTHER');
+
+  final String value;
+
+  const ContentCategoryType._(this.value);
+
+  static const values = [
+    image,
+    document,
+    pdf,
+    spreadsheet,
+    presentation,
+    audio,
+    video,
+    sourceCode,
+    other
+  ];
+
+  static ContentCategoryType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContentCategoryType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContentCategoryType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class LanguageCodeType {
+  static const ar = LanguageCodeType._('AR');
+  static const bg = LanguageCodeType._('BG');
+  static const bn = LanguageCodeType._('BN');
+  static const da = LanguageCodeType._('DA');
+  static const de = LanguageCodeType._('DE');
+  static const cs = LanguageCodeType._('CS');
+  static const el = LanguageCodeType._('EL');
+  static const en = LanguageCodeType._('EN');
+  static const es = LanguageCodeType._('ES');
+  static const fa = LanguageCodeType._('FA');
+  static const fi = LanguageCodeType._('FI');
+  static const fr = LanguageCodeType._('FR');
+  static const hi = LanguageCodeType._('HI');
+  static const hu = LanguageCodeType._('HU');
+  static const id = LanguageCodeType._('ID');
+  static const it = LanguageCodeType._('IT');
+  static const ja = LanguageCodeType._('JA');
+  static const ko = LanguageCodeType._('KO');
+  static const lt = LanguageCodeType._('LT');
+  static const lv = LanguageCodeType._('LV');
+  static const nl = LanguageCodeType._('NL');
+  static const no = LanguageCodeType._('NO');
+  static const pt = LanguageCodeType._('PT');
+  static const ro = LanguageCodeType._('RO');
+  static const ru = LanguageCodeType._('RU');
+  static const sv = LanguageCodeType._('SV');
+  static const sw = LanguageCodeType._('SW');
+  static const th = LanguageCodeType._('TH');
+  static const tr = LanguageCodeType._('TR');
+  static const zh = LanguageCodeType._('ZH');
+  static const $default = LanguageCodeType._('DEFAULT');
+
+  final String value;
+
+  const LanguageCodeType._(this.value);
+
+  static const values = [
+    ar,
+    bg,
+    bn,
+    da,
+    de,
+    cs,
+    el,
+    en,
+    es,
+    fa,
+    fi,
+    fr,
+    hi,
+    hu,
+    id,
+    it,
+    ja,
+    ko,
+    lt,
+    lv,
+    nl,
+    no,
+    pt,
+    ro,
+    ru,
+    sv,
+    sw,
+    th,
+    tr,
+    zh,
+    $default
+  ];
+
+  static LanguageCodeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LanguageCodeType._(value));
+
+  @override
+  bool operator ==(other) => other is LanguageCodeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AdditionalResponseFieldType {
+  static const weburl = AdditionalResponseFieldType._('WEBURL');
+
+  final String value;
+
+  const AdditionalResponseFieldType._(this.value);
+
+  static const values = [weburl];
+
+  static AdditionalResponseFieldType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AdditionalResponseFieldType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AdditionalResponseFieldType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SearchQueryScopeType {
+  static const name = SearchQueryScopeType._('NAME');
+  static const content = SearchQueryScopeType._('CONTENT');
+
+  final String value;
+
+  const SearchQueryScopeType._(this.value);
+
+  static const values = [name, content];
+
+  static SearchQueryScopeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SearchQueryScopeType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SearchQueryScopeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class PrincipalType {
+  static const user = PrincipalType._('USER');
+  static const group = PrincipalType._('GROUP');
+  static const invite = PrincipalType._('INVITE');
+  static const anonymous = PrincipalType._('ANONYMOUS');
+  static const organization = PrincipalType._('ORGANIZATION');
+
+  final String value;
+
+  const PrincipalType._(this.value);
+
+  static const values = [user, group, invite, anonymous, organization];
+
+  static PrincipalType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PrincipalType._(value));
+
+  @override
+  bool operator ==(other) => other is PrincipalType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the upload.
+class UploadMetadata {
+  /// The signed headers.
+  final Map<String, String>? signedHeaders;
+
+  /// The URL of the upload.
+  final String? uploadUrl;
+
+  UploadMetadata({
+    this.signedHeaders,
+    this.uploadUrl,
+  });
+
+  factory UploadMetadata.fromJson(Map<String, dynamic> json) {
+    return UploadMetadata(
+      signedHeaders: (json['SignedHeaders'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      uploadUrl: json['UploadUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final signedHeaders = this.signedHeaders;
+    final uploadUrl = this.uploadUrl;
+    return {
+      if (signedHeaders != null) 'SignedHeaders': signedHeaders,
+      if (uploadUrl != null) 'UploadUrl': uploadUrl,
+    };
+  }
+}
+
+class ResourceCollectionType {
+  static const sharedWithMe = ResourceCollectionType._('SHARED_WITH_ME');
+
+  final String value;
+
+  const ResourceCollectionType._(this.value);
+
+  static const values = [sharedWithMe];
+
+  static ResourceCollectionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceCollectionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceCollectionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the path information of a resource.
+class ResourcePath {
+  /// The components of the resource path.
+  final List<ResourcePathComponent>? components;
+
+  ResourcePath({
+    this.components,
+  });
+
+  factory ResourcePath.fromJson(Map<String, dynamic> json) {
+    return ResourcePath(
+      components: (json['Components'] as List?)
+          ?.nonNulls
+          .map((e) => ResourcePathComponent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final components = this.components;
+    return {
+      if (components != null) 'Components': components,
+    };
+  }
+}
+
+/// Describes the resource path.
+class ResourcePathComponent {
+  /// The ID of the resource path.
+  final String? id;
+
+  /// The name of the resource path.
+  final String? name;
+
+  ResourcePathComponent({
+    this.id,
+    this.name,
+  });
+
+  factory ResourcePathComponent.fromJson(Map<String, dynamic> json) {
+    return ResourcePathComponent(
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
 class UserFilterType {
   static const all = UserFilterType._('ALL');
   static const activePending = UserFilterType._('ACTIVE_PENDING');
@@ -5636,6 +4837,637 @@ class UserFilterType {
 
   @override
   bool operator ==(other) => other is UserFilterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class OrderType {
+  static const ascending = OrderType._('ASCENDING');
+  static const descending = OrderType._('DESCENDING');
+
+  final String value;
+
+  const OrderType._(this.value);
+
+  static const values = [ascending, descending];
+
+  static OrderType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OrderType._(value));
+
+  @override
+  bool operator ==(other) => other is OrderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class UserSortType {
+  static const userName = UserSortType._('USER_NAME');
+  static const fullName = UserSortType._('FULL_NAME');
+  static const storageLimit = UserSortType._('STORAGE_LIMIT');
+  static const userStatus = UserSortType._('USER_STATUS');
+  static const storageUsed = UserSortType._('STORAGE_USED');
+
+  final String value;
+
+  const UserSortType._(this.value);
+
+  static const values = [
+    userName,
+    fullName,
+    storageLimit,
+    userStatus,
+    storageUsed
+  ];
+
+  static UserSortType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UserSortType._(value));
+
+  @override
+  bool operator ==(other) => other is UserSortType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a resource.
+class Principal {
+  /// The ID of the resource.
+  final String? id;
+
+  /// The permission information for the resource.
+  final List<PermissionInfo>? roles;
+
+  /// The type of resource.
+  final PrincipalType? type;
+
+  Principal({
+    this.id,
+    this.roles,
+    this.type,
+  });
+
+  factory Principal.fromJson(Map<String, dynamic> json) {
+    return Principal(
+      id: json['Id'] as String?,
+      roles: (json['Roles'] as List?)
+          ?.nonNulls
+          .map((e) => PermissionInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['Type'] as String?)?.let(PrincipalType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final roles = this.roles;
+    final type = this.type;
+    return {
+      if (id != null) 'Id': id,
+      if (roles != null) 'Roles': roles,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+/// Describes the permissions.
+class PermissionInfo {
+  /// The role of the user.
+  final RoleType? role;
+
+  /// The type of permissions.
+  final RolePermissionType? type;
+
+  PermissionInfo({
+    this.role,
+    this.type,
+  });
+
+  factory PermissionInfo.fromJson(Map<String, dynamic> json) {
+    return PermissionInfo(
+      role: (json['Role'] as String?)?.let(RoleType.fromString),
+      type: (json['Type'] as String?)?.let(RolePermissionType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final role = this.role;
+    final type = this.type;
+    return {
+      if (role != null) 'Role': role.value,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class RoleType {
+  static const viewer = RoleType._('VIEWER');
+  static const contributor = RoleType._('CONTRIBUTOR');
+  static const owner = RoleType._('OWNER');
+  static const coowner = RoleType._('COOWNER');
+
+  final String value;
+
+  const RoleType._(this.value);
+
+  static const values = [viewer, contributor, owner, coowner];
+
+  static RoleType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RoleType._(value));
+
+  @override
+  bool operator ==(other) => other is RoleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class RolePermissionType {
+  static const direct = RolePermissionType._('DIRECT');
+  static const inherited = RolePermissionType._('INHERITED');
+
+  final String value;
+
+  const RolePermissionType._(this.value);
+
+  static const values = [direct, inherited];
+
+  static RolePermissionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RolePermissionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RolePermissionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a subscription.
+class Subscription {
+  /// The endpoint of the subscription.
+  final String? endPoint;
+
+  /// The protocol of the subscription.
+  final SubscriptionProtocolType? protocol;
+
+  /// The ID of the subscription.
+  final String? subscriptionId;
+
+  Subscription({
+    this.endPoint,
+    this.protocol,
+    this.subscriptionId,
+  });
+
+  factory Subscription.fromJson(Map<String, dynamic> json) {
+    return Subscription(
+      endPoint: json['EndPoint'] as String?,
+      protocol: (json['Protocol'] as String?)
+          ?.let(SubscriptionProtocolType.fromString),
+      subscriptionId: json['SubscriptionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endPoint = this.endPoint;
+    final protocol = this.protocol;
+    final subscriptionId = this.subscriptionId;
+    return {
+      if (endPoint != null) 'EndPoint': endPoint,
+      if (protocol != null) 'Protocol': protocol.value,
+      if (subscriptionId != null) 'SubscriptionId': subscriptionId,
+    };
+  }
+}
+
+class SubscriptionProtocolType {
+  static const https = SubscriptionProtocolType._('HTTPS');
+  static const sqs = SubscriptionProtocolType._('SQS');
+
+  final String value;
+
+  const SubscriptionProtocolType._(this.value);
+
+  static const values = [https, sqs];
+
+  static SubscriptionProtocolType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SubscriptionProtocolType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SubscriptionProtocolType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the metadata of a user group.
+class GroupMetadata {
+  /// The ID of the user group.
+  final String? id;
+
+  /// The name of the group.
+  final String? name;
+
+  GroupMetadata({
+    this.id,
+    this.name,
+  });
+
+  factory GroupMetadata.fromJson(Map<String, dynamic> json) {
+    return GroupMetadata(
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+class ResourceSortType {
+  static const date = ResourceSortType._('DATE');
+  static const name = ResourceSortType._('NAME');
+
+  final String value;
+
+  const ResourceSortType._(this.value);
+
+  static const values = [date, name];
+
+  static ResourceSortType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceSortType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceSortType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class FolderContentType {
+  static const all = FolderContentType._('ALL');
+  static const document = FolderContentType._('DOCUMENT');
+  static const folder = FolderContentType._('FOLDER');
+
+  final String value;
+
+  const FolderContentType._(this.value);
+
+  static const values = [all, document, folder];
+
+  static FolderContentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FolderContentType._(value));
+
+  @override
+  bool operator ==(other) => other is FolderContentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a comment.
+class Comment {
+  /// The ID of the comment.
+  final String commentId;
+
+  /// The details of the user who made the comment.
+  final User? contributor;
+
+  /// The time that the comment was created.
+  final DateTime? createdTimestamp;
+
+  /// The ID of the parent comment.
+  final String? parentId;
+
+  /// If the comment is a reply to another user's comment, this field contains the
+  /// user ID of the user being replied to.
+  final String? recipientId;
+
+  /// The status of the comment.
+  final CommentStatusType? status;
+
+  /// The text of the comment.
+  final String? text;
+
+  /// The ID of the root comment in the thread.
+  final String? threadId;
+
+  /// The visibility of the comment. Options are either PRIVATE, where the comment
+  /// is visible only to the comment author and document owner and co-owners, or
+  /// PUBLIC, where the comment is visible to document owners, co-owners, and
+  /// contributors.
+  final CommentVisibilityType? visibility;
+
+  Comment({
+    required this.commentId,
+    this.contributor,
+    this.createdTimestamp,
+    this.parentId,
+    this.recipientId,
+    this.status,
+    this.text,
+    this.threadId,
+    this.visibility,
+  });
+
+  factory Comment.fromJson(Map<String, dynamic> json) {
+    return Comment(
+      commentId: (json['CommentId'] as String?) ?? '',
+      contributor: json['Contributor'] != null
+          ? User.fromJson(json['Contributor'] as Map<String, dynamic>)
+          : null,
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      parentId: json['ParentId'] as String?,
+      recipientId: json['RecipientId'] as String?,
+      status: (json['Status'] as String?)?.let(CommentStatusType.fromString),
+      text: json['Text'] as String?,
+      threadId: json['ThreadId'] as String?,
+      visibility: (json['Visibility'] as String?)
+          ?.let(CommentVisibilityType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final commentId = this.commentId;
+    final contributor = this.contributor;
+    final createdTimestamp = this.createdTimestamp;
+    final parentId = this.parentId;
+    final recipientId = this.recipientId;
+    final status = this.status;
+    final text = this.text;
+    final threadId = this.threadId;
+    final visibility = this.visibility;
+    return {
+      'CommentId': commentId,
+      if (contributor != null) 'Contributor': contributor,
+      if (createdTimestamp != null)
+        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
+      if (parentId != null) 'ParentId': parentId,
+      if (recipientId != null) 'RecipientId': recipientId,
+      if (status != null) 'Status': status.value,
+      if (text != null) 'Text': text,
+      if (threadId != null) 'ThreadId': threadId,
+      if (visibility != null) 'Visibility': visibility.value,
+    };
+  }
+}
+
+class CommentVisibilityType {
+  static const public = CommentVisibilityType._('PUBLIC');
+  static const private = CommentVisibilityType._('PRIVATE');
+
+  final String value;
+
+  const CommentVisibilityType._(this.value);
+
+  static const values = [public, private];
+
+  static CommentVisibilityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CommentVisibilityType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CommentVisibilityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the activity information.
+class Activity {
+  /// Metadata of the commenting activity. This is an optional field and is filled
+  /// for commenting activities.
+  final CommentMetadata? commentMetadata;
+
+  /// The user who performed the action.
+  final UserMetadata? initiator;
+
+  /// Indicates whether an activity is indirect or direct. An indirect activity
+  /// results from a direct activity performed on a parent resource. For example,
+  /// sharing a parent folder (the direct activity) shares all of the subfolders
+  /// and documents within the parent folder (the indirect activity).
+  final bool? isIndirectActivity;
+
+  /// The ID of the organization.
+  final String? organizationId;
+
+  /// The original parent of the resource. This is an optional field and is filled
+  /// for move activities.
+  final ResourceMetadata? originalParent;
+
+  /// The list of users or groups impacted by this action. This is an optional
+  /// field and is filled for the following sharing activities: DOCUMENT_SHARED,
+  /// DOCUMENT_SHARED, DOCUMENT_UNSHARED, FOLDER_SHARED, FOLDER_UNSHARED.
+  final Participants? participants;
+
+  /// The metadata of the resource involved in the user action.
+  final ResourceMetadata? resourceMetadata;
+
+  /// The timestamp when the action was performed.
+  final DateTime? timeStamp;
+
+  /// The activity type.
+  final ActivityType? type;
+
+  Activity({
+    this.commentMetadata,
+    this.initiator,
+    this.isIndirectActivity,
+    this.organizationId,
+    this.originalParent,
+    this.participants,
+    this.resourceMetadata,
+    this.timeStamp,
+    this.type,
+  });
+
+  factory Activity.fromJson(Map<String, dynamic> json) {
+    return Activity(
+      commentMetadata: json['CommentMetadata'] != null
+          ? CommentMetadata.fromJson(
+              json['CommentMetadata'] as Map<String, dynamic>)
+          : null,
+      initiator: json['Initiator'] != null
+          ? UserMetadata.fromJson(json['Initiator'] as Map<String, dynamic>)
+          : null,
+      isIndirectActivity: json['IsIndirectActivity'] as bool?,
+      organizationId: json['OrganizationId'] as String?,
+      originalParent: json['OriginalParent'] != null
+          ? ResourceMetadata.fromJson(
+              json['OriginalParent'] as Map<String, dynamic>)
+          : null,
+      participants: json['Participants'] != null
+          ? Participants.fromJson(json['Participants'] as Map<String, dynamic>)
+          : null,
+      resourceMetadata: json['ResourceMetadata'] != null
+          ? ResourceMetadata.fromJson(
+              json['ResourceMetadata'] as Map<String, dynamic>)
+          : null,
+      timeStamp: timeStampFromJson(json['TimeStamp']),
+      type: (json['Type'] as String?)?.let(ActivityType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final commentMetadata = this.commentMetadata;
+    final initiator = this.initiator;
+    final isIndirectActivity = this.isIndirectActivity;
+    final organizationId = this.organizationId;
+    final originalParent = this.originalParent;
+    final participants = this.participants;
+    final resourceMetadata = this.resourceMetadata;
+    final timeStamp = this.timeStamp;
+    final type = this.type;
+    return {
+      if (commentMetadata != null) 'CommentMetadata': commentMetadata,
+      if (initiator != null) 'Initiator': initiator,
+      if (isIndirectActivity != null) 'IsIndirectActivity': isIndirectActivity,
+      if (organizationId != null) 'OrganizationId': organizationId,
+      if (originalParent != null) 'OriginalParent': originalParent,
+      if (participants != null) 'Participants': participants,
+      if (resourceMetadata != null) 'ResourceMetadata': resourceMetadata,
+      if (timeStamp != null) 'TimeStamp': unixTimestampToJson(timeStamp),
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class ActivityType {
+  static const documentCheckedIn = ActivityType._('DOCUMENT_CHECKED_IN');
+  static const documentCheckedOut = ActivityType._('DOCUMENT_CHECKED_OUT');
+  static const documentRenamed = ActivityType._('DOCUMENT_RENAMED');
+  static const documentVersionUploaded =
+      ActivityType._('DOCUMENT_VERSION_UPLOADED');
+  static const documentVersionDeleted =
+      ActivityType._('DOCUMENT_VERSION_DELETED');
+  static const documentVersionViewed =
+      ActivityType._('DOCUMENT_VERSION_VIEWED');
+  static const documentVersionDownloaded =
+      ActivityType._('DOCUMENT_VERSION_DOWNLOADED');
+  static const documentRecycled = ActivityType._('DOCUMENT_RECYCLED');
+  static const documentRestored = ActivityType._('DOCUMENT_RESTORED');
+  static const documentReverted = ActivityType._('DOCUMENT_REVERTED');
+  static const documentShared = ActivityType._('DOCUMENT_SHARED');
+  static const documentUnshared = ActivityType._('DOCUMENT_UNSHARED');
+  static const documentSharePermissionChanged =
+      ActivityType._('DOCUMENT_SHARE_PERMISSION_CHANGED');
+  static const documentShareableLinkCreated =
+      ActivityType._('DOCUMENT_SHAREABLE_LINK_CREATED');
+  static const documentShareableLinkRemoved =
+      ActivityType._('DOCUMENT_SHAREABLE_LINK_REMOVED');
+  static const documentShareableLinkPermissionChanged =
+      ActivityType._('DOCUMENT_SHAREABLE_LINK_PERMISSION_CHANGED');
+  static const documentMoved = ActivityType._('DOCUMENT_MOVED');
+  static const documentCommentAdded = ActivityType._('DOCUMENT_COMMENT_ADDED');
+  static const documentCommentDeleted =
+      ActivityType._('DOCUMENT_COMMENT_DELETED');
+  static const documentAnnotationAdded =
+      ActivityType._('DOCUMENT_ANNOTATION_ADDED');
+  static const documentAnnotationDeleted =
+      ActivityType._('DOCUMENT_ANNOTATION_DELETED');
+  static const folderCreated = ActivityType._('FOLDER_CREATED');
+  static const folderDeleted = ActivityType._('FOLDER_DELETED');
+  static const folderRenamed = ActivityType._('FOLDER_RENAMED');
+  static const folderRecycled = ActivityType._('FOLDER_RECYCLED');
+  static const folderRestored = ActivityType._('FOLDER_RESTORED');
+  static const folderShared = ActivityType._('FOLDER_SHARED');
+  static const folderUnshared = ActivityType._('FOLDER_UNSHARED');
+  static const folderSharePermissionChanged =
+      ActivityType._('FOLDER_SHARE_PERMISSION_CHANGED');
+  static const folderShareableLinkCreated =
+      ActivityType._('FOLDER_SHAREABLE_LINK_CREATED');
+  static const folderShareableLinkRemoved =
+      ActivityType._('FOLDER_SHAREABLE_LINK_REMOVED');
+  static const folderShareableLinkPermissionChanged =
+      ActivityType._('FOLDER_SHAREABLE_LINK_PERMISSION_CHANGED');
+  static const folderMoved = ActivityType._('FOLDER_MOVED');
+
+  final String value;
+
+  const ActivityType._(this.value);
+
+  static const values = [
+    documentCheckedIn,
+    documentCheckedOut,
+    documentRenamed,
+    documentVersionUploaded,
+    documentVersionDeleted,
+    documentVersionViewed,
+    documentVersionDownloaded,
+    documentRecycled,
+    documentRestored,
+    documentReverted,
+    documentShared,
+    documentUnshared,
+    documentSharePermissionChanged,
+    documentShareableLinkCreated,
+    documentShareableLinkRemoved,
+    documentShareableLinkPermissionChanged,
+    documentMoved,
+    documentCommentAdded,
+    documentCommentDeleted,
+    documentAnnotationAdded,
+    documentAnnotationDeleted,
+    folderCreated,
+    folderDeleted,
+    folderRenamed,
+    folderRecycled,
+    folderRestored,
+    folderShared,
+    folderUnshared,
+    folderSharePermissionChanged,
+    folderShareableLinkCreated,
+    folderShareableLinkRemoved,
+    folderShareableLinkPermissionChanged,
+    folderMoved
+  ];
+
+  static ActivityType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ActivityType._(value));
+
+  @override
+  bool operator ==(other) => other is ActivityType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -5695,121 +5527,289 @@ class UserMetadata {
   }
 }
 
-class UserSortType {
-  static const userName = UserSortType._('USER_NAME');
-  static const fullName = UserSortType._('FULL_NAME');
-  static const storageLimit = UserSortType._('STORAGE_LIMIT');
-  static const userStatus = UserSortType._('USER_STATUS');
-  static const storageUsed = UserSortType._('STORAGE_USED');
+/// Describes the users or user groups.
+class Participants {
+  /// The list of user groups.
+  final List<GroupMetadata>? groups;
 
-  final String value;
+  /// The list of users.
+  final List<UserMetadata>? users;
 
-  const UserSortType._(this.value);
-
-  static const values = [
-    userName,
-    fullName,
-    storageLimit,
-    userStatus,
-    storageUsed
-  ];
-
-  static UserSortType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => UserSortType._(value));
-
-  @override
-  bool operator ==(other) => other is UserSortType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class UserStatusType {
-  static const active = UserStatusType._('ACTIVE');
-  static const inactive = UserStatusType._('INACTIVE');
-  static const pending = UserStatusType._('PENDING');
-
-  final String value;
-
-  const UserStatusType._(this.value);
-
-  static const values = [active, inactive, pending];
-
-  static UserStatusType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => UserStatusType._(value));
-
-  @override
-  bool operator ==(other) => other is UserStatusType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes the storage for a user.
-class UserStorageMetadata {
-  /// The storage for a user.
-  final StorageRuleType? storageRule;
-
-  /// The amount of storage used, in bytes.
-  final int? storageUtilizedInBytes;
-
-  UserStorageMetadata({
-    this.storageRule,
-    this.storageUtilizedInBytes,
+  Participants({
+    this.groups,
+    this.users,
   });
 
-  factory UserStorageMetadata.fromJson(Map<String, dynamic> json) {
-    return UserStorageMetadata(
-      storageRule: json['StorageRule'] != null
-          ? StorageRuleType.fromJson(
-              json['StorageRule'] as Map<String, dynamic>)
-          : null,
-      storageUtilizedInBytes: json['StorageUtilizedInBytes'] as int?,
+  factory Participants.fromJson(Map<String, dynamic> json) {
+    return Participants(
+      groups: (json['Groups'] as List?)
+          ?.nonNulls
+          .map((e) => GroupMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      users: (json['Users'] as List?)
+          ?.nonNulls
+          .map((e) => UserMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final storageRule = this.storageRule;
-    final storageUtilizedInBytes = this.storageUtilizedInBytes;
+    final groups = this.groups;
+    final users = this.users;
     return {
-      if (storageRule != null) 'StorageRule': storageRule,
-      if (storageUtilizedInBytes != null)
-        'StorageUtilizedInBytes': storageUtilizedInBytes,
+      if (groups != null) 'Groups': groups,
+      if (users != null) 'Users': users,
     };
   }
 }
 
-class UserType {
-  static const user = UserType._('USER');
-  static const admin = UserType._('ADMIN');
-  static const poweruser = UserType._('POWERUSER');
-  static const minimaluser = UserType._('MINIMALUSER');
-  static const workspacesuser = UserType._('WORKSPACESUSER');
+/// Describes the metadata of a resource.
+class ResourceMetadata {
+  /// The ID of the resource.
+  final String? id;
+
+  /// The name of the resource.
+  final String? name;
+
+  /// The original name of the resource before a rename operation.
+  final String? originalName;
+
+  /// The owner of the resource.
+  final UserMetadata? owner;
+
+  /// The parent ID of the resource before a rename operation.
+  final String? parentId;
+
+  /// The type of resource.
+  final ResourceType? type;
+
+  /// The version ID of the resource. This is an optional field and is filled for
+  /// action on document version.
+  final String? versionId;
+
+  ResourceMetadata({
+    this.id,
+    this.name,
+    this.originalName,
+    this.owner,
+    this.parentId,
+    this.type,
+    this.versionId,
+  });
+
+  factory ResourceMetadata.fromJson(Map<String, dynamic> json) {
+    return ResourceMetadata(
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      originalName: json['OriginalName'] as String?,
+      owner: json['Owner'] != null
+          ? UserMetadata.fromJson(json['Owner'] as Map<String, dynamic>)
+          : null,
+      parentId: json['ParentId'] as String?,
+      type: (json['Type'] as String?)?.let(ResourceType.fromString),
+      versionId: json['VersionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    final originalName = this.originalName;
+    final owner = this.owner;
+    final parentId = this.parentId;
+    final type = this.type;
+    final versionId = this.versionId;
+    return {
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (originalName != null) 'OriginalName': originalName,
+      if (owner != null) 'Owner': owner,
+      if (parentId != null) 'ParentId': parentId,
+      if (type != null) 'Type': type.value,
+      if (versionId != null) 'VersionId': versionId,
+    };
+  }
+}
+
+class ResourceType {
+  static const folder = ResourceType._('FOLDER');
+  static const document = ResourceType._('DOCUMENT');
 
   final String value;
 
-  const UserType._(this.value);
+  const ResourceType._(this.value);
 
-  static const values = [user, admin, poweruser, minimaluser, workspacesuser];
+  static const values = [folder, document];
 
-  static UserType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => UserType._(value));
+  static ResourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ResourceType._(value));
 
   @override
-  bool operator ==(other) => other is UserType && other.value == value;
+  bool operator ==(other) => other is ResourceType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
+}
+
+class SubscriptionType {
+  static const all = SubscriptionType._('ALL');
+
+  final String value;
+
+  const SubscriptionType._(this.value);
+
+  static const values = [all];
+
+  static SubscriptionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SubscriptionType._(value));
+
+  @override
+  bool operator ==(other) => other is SubscriptionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the share results of a resource.
+class ShareResult {
+  /// The ID of the invited user.
+  final String? inviteePrincipalId;
+
+  /// The ID of the principal.
+  final String? principalId;
+
+  /// The role.
+  final RoleType? role;
+
+  /// The ID of the resource that was shared.
+  final String? shareId;
+
+  /// The status.
+  final ShareStatusType? status;
+
+  /// The status message.
+  final String? statusMessage;
+
+  ShareResult({
+    this.inviteePrincipalId,
+    this.principalId,
+    this.role,
+    this.shareId,
+    this.status,
+    this.statusMessage,
+  });
+
+  factory ShareResult.fromJson(Map<String, dynamic> json) {
+    return ShareResult(
+      inviteePrincipalId: json['InviteePrincipalId'] as String?,
+      principalId: json['PrincipalId'] as String?,
+      role: (json['Role'] as String?)?.let(RoleType.fromString),
+      shareId: json['ShareId'] as String?,
+      status: (json['Status'] as String?)?.let(ShareStatusType.fromString),
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inviteePrincipalId = this.inviteePrincipalId;
+    final principalId = this.principalId;
+    final role = this.role;
+    final shareId = this.shareId;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    return {
+      if (inviteePrincipalId != null) 'InviteePrincipalId': inviteePrincipalId,
+      if (principalId != null) 'PrincipalId': principalId,
+      if (role != null) 'Role': role.value,
+      if (shareId != null) 'ShareId': shareId,
+      if (status != null) 'Status': status.value,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+    };
+  }
+}
+
+class ShareStatusType {
+  static const success = ShareStatusType._('SUCCESS');
+  static const failure = ShareStatusType._('FAILURE');
+
+  final String value;
+
+  const ShareStatusType._(this.value);
+
+  static const values = [success, failure];
+
+  static ShareStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ShareStatusType._(value));
+
+  @override
+  bool operator ==(other) => other is ShareStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Set of options which defines notification preferences of given action.
+class NotificationOptions {
+  /// Text value to be included in the email body.
+  final String? emailMessage;
+
+  /// Boolean value to indicate an email notification should be sent to the
+  /// recipients.
+  final bool? sendEmail;
+
+  NotificationOptions({
+    this.emailMessage,
+    this.sendEmail,
+  });
+
+  Map<String, dynamic> toJson() {
+    final emailMessage = this.emailMessage;
+    final sendEmail = this.sendEmail;
+    return {
+      if (emailMessage != null) 'EmailMessage': emailMessage,
+      if (sendEmail != null) 'SendEmail': sendEmail,
+    };
+  }
+}
+
+/// Describes the recipient type and ID, if available.
+class SharePrincipal {
+  /// The ID of the recipient.
+  final String id;
+
+  /// The role of the recipient.
+  final RoleType role;
+
+  /// The type of the recipient.
+  final PrincipalType type;
+
+  SharePrincipal({
+    required this.id,
+    required this.role,
+    required this.type,
+  });
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final role = this.role;
+    final type = this.type;
+    return {
+      'Id': id,
+      'Role': role.value,
+      'Type': type.value,
+    };
+  }
 }
 
 class ConcurrentModificationException extends _s.GenericAwsException {

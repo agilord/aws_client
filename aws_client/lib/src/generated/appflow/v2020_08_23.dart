@@ -77,7 +77,6 @@ class Appflow {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'appflow',
-            signingName: 'appflow',
           ),
           region: region,
           credentials: credentials,
@@ -122,11 +121,11 @@ class Appflow {
   /// AppFlow pricing</a>.
   /// </note>
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [flowName] :
   /// The name of a flow with active runs that you want to cancel.
@@ -161,11 +160,11 @@ class Appflow {
   /// Amazon AppFlow support channel. In each connector profile that you create,
   /// you can provide the credentials and properties for only one connector.
   ///
-  /// May throw [ValidationException].
   /// May throw [ConflictException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [ConnectorAuthenticationException].
   /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [connectionMode] :
   /// Indicates the connection mode and specifies whether it is public or
@@ -243,14 +242,14 @@ class Appflow {
   /// you can only transfer data to one item in this list at a time. Amazon
   /// AppFlow does not currently support flows to multiple destinations at once.
   ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ServiceQuotaExceededException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [ConnectorAuthenticationException].
   /// May throw [ConnectorServerException].
-  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [destinationFlowConfigList] :
   /// The configuration that controls how Amazon AppFlow places data in the
@@ -340,9 +339,9 @@ class Appflow {
 
   /// Enables you to delete an existing connector profile.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [connectorProfileName] :
   /// The name of the connector profile. The name is unique for each
@@ -371,9 +370,9 @@ class Appflow {
   /// flow, Amazon AppFlow validates the request by checking the flow
   /// configuration and status. You can delete flows one at a time.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [flowName] :
   /// The specified name of the flow. Spaces are not allowed. Use underscores
@@ -402,9 +401,9 @@ class Appflow {
   /// Services account. This API can be used for custom connectors that are
   /// registered in your account and also for Amazon authored connectors.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [connectorType] :
   /// The connector type, such as CUSTOMCONNECTOR, Saleforce, Marketo. Please
@@ -434,11 +433,11 @@ class Appflow {
   /// Provides details regarding the entity used with the connector, with a
   /// description of the data model for each field in that entity.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConnectorAuthenticationException].
   /// May throw [ConnectorServerException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [connectorEntityName] :
   /// The entity name for that connector.
@@ -484,8 +483,8 @@ class Appflow {
   /// connector profiles in a paginated form. If there is no match, this
   /// operation returns an empty list.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [connectorLabel] :
   /// The name of the connector. The name is unique for each
@@ -543,8 +542,8 @@ class Appflow {
   /// object, which can be be passed in to the next call to the
   /// <code>DescribeConnectors</code> API operation to retrieve the next page.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [connectorTypes] :
   /// The type of connector, such as Salesforce, Amplitude, and so on.
@@ -583,8 +582,8 @@ class Appflow {
 
   /// Provides a description of the specified flow.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [flowName] :
   /// The specified name of the flow. Spaces are not allowed. Use underscores
@@ -606,9 +605,9 @@ class Appflow {
 
   /// Fetches the execution history of the flow.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [flowName] :
   /// The specified name of the flow. Spaces are not allowed. Use underscores
@@ -651,11 +650,11 @@ class Appflow {
   /// <i>Opportunity</i> entities, or query ServiceNow for the <i>Incident</i>
   /// entity.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConnectorAuthenticationException].
   /// May throw [ConnectorServerException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [apiVersion] :
   /// The version of the API that's used by the connector.
@@ -719,8 +718,8 @@ class Appflow {
   /// Services account. This API lists only custom connectors registered in this
   /// account, not the Amazon Web Services authored connectors.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// Specifies the maximum number of items that should be returned in the
@@ -754,8 +753,8 @@ class Appflow {
 
   /// Lists all of the flows associated with your account.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// Specifies the maximum number of items that should be returned in the
@@ -789,8 +788,8 @@ class Appflow {
   /// Retrieves the tags that are associated with a specified flow.
   ///
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the specified flow.
@@ -810,15 +809,15 @@ class Appflow {
   /// Before you can register the connector, you must deploy the associated AWS
   /// lambda function in your account.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ConnectorAuthenticationException].
+  /// May throw [ConnectorServerException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  /// May throw [ConnectorServerException].
-  /// May throw [ConnectorAuthenticationException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [clientToken] :
   /// The <code>clientToken</code> parameter is an idempotency token. It ensures
@@ -887,10 +886,10 @@ class Appflow {
   /// automatically resets the cache once every hour, but you can use this
   /// action when you want to get the latest metadata right away.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [apiVersion] :
   /// The API version that you specified in the connector profile that you’re
@@ -921,7 +920,7 @@ class Appflow {
   /// for.
   ///
   /// You can omit this parameter if you're resetting the cache for any of the
-  /// following connectors: Amazon Connect, Amazon EventBridge, Amazon Lookout
+  /// following connectors: Connect Customer, Amazon EventBridge, Amazon Lookout
   /// for Metrics, Amazon S3, or Upsolver. If you're resetting the cache for any
   /// other connector, you must include this parameter in your request.
   ///
@@ -929,7 +928,7 @@ class Appflow {
   /// The type of connector to reset cached metadata for.
   ///
   /// You must include this parameter in your request if you're resetting the
-  /// cache for any of the following connectors: Amazon Connect, Amazon
+  /// cache for any of the following connectors: Connect Customer, Amazon
   /// EventBridge, Amazon Lookout for Metrics, Amazon S3, or Upsolver. If you're
   /// resetting the cache for any other connector, you can omit this parameter
   /// from your request.
@@ -975,10 +974,10 @@ class Appflow {
   /// flow immediately. For schedule and event-triggered flows, this operation
   /// activates the flow.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [flowName] :
   /// The specified name of the flow. Spaces are not allowed. Use underscores
@@ -1027,9 +1026,9 @@ class Appflow {
   /// and event-triggered flows, this operation deactivates the flow.
   ///
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [UnsupportedOperationException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [flowName] :
   /// The specified name of the flow. Spaces are not allowed. Use underscores
@@ -1052,8 +1051,8 @@ class Appflow {
   /// Applies a tag to the specified flow.
   ///
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the flow that you want to tag.
@@ -1078,9 +1077,9 @@ class Appflow {
   /// Unregisters the custom connector registered in your account that matches
   /// the connector label provided in the request.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [connectorLabel] :
   /// The label of the connector. The label is unique for each
@@ -1109,8 +1108,8 @@ class Appflow {
   /// Removes a tag from the specified flow.
   ///
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the flow that you want to untag.
@@ -1136,11 +1135,11 @@ class Appflow {
 
   /// Updates a given connector profile associated with your account.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
   /// May throw [ConnectorAuthenticationException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [connectionMode] :
   /// Indicates the connection mode and if it is public or private.
@@ -1202,15 +1201,15 @@ class Appflow {
   /// </li>
   /// </ul>
   ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ConnectorAuthenticationException].
+  /// May throw [ConnectorServerException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  /// May throw [ConnectorServerException].
-  /// May throw [ConnectorAuthenticationException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [connectorLabel] :
   /// The name of the connector. The name is unique for each connector
@@ -1259,14 +1258,14 @@ class Appflow {
 
   /// Updates an existing flow.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ServiceQuotaExceededException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [ConnectorAuthenticationException].
   /// May throw [ConnectorServerException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [destinationFlowConfigList] :
   /// The configuration that controls how Amazon AppFlow transfers data to the
@@ -1338,6 +1337,3465 @@ class Appflow {
   }
 }
 
+class CancelFlowExecutionsResponse {
+  /// The IDs of runs that Amazon AppFlow couldn't cancel. These runs might be
+  /// ineligible for canceling because they haven't started yet or have already
+  /// completed.
+  final List<String>? invalidExecutions;
+
+  CancelFlowExecutionsResponse({
+    this.invalidExecutions,
+  });
+
+  factory CancelFlowExecutionsResponse.fromJson(Map<String, dynamic> json) {
+    return CancelFlowExecutionsResponse(
+      invalidExecutions: (json['invalidExecutions'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final invalidExecutions = this.invalidExecutions;
+    return {
+      if (invalidExecutions != null) 'invalidExecutions': invalidExecutions,
+    };
+  }
+}
+
+class CreateConnectorProfileResponse {
+  /// The Amazon Resource Name (ARN) of the connector profile.
+  final String? connectorProfileArn;
+
+  CreateConnectorProfileResponse({
+    this.connectorProfileArn,
+  });
+
+  factory CreateConnectorProfileResponse.fromJson(Map<String, dynamic> json) {
+    return CreateConnectorProfileResponse(
+      connectorProfileArn: json['connectorProfileArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorProfileArn = this.connectorProfileArn;
+    return {
+      if (connectorProfileArn != null)
+        'connectorProfileArn': connectorProfileArn,
+    };
+  }
+}
+
+class CreateFlowResponse {
+  /// The flow's Amazon Resource Name (ARN).
+  final String? flowArn;
+
+  /// Indicates the current status of the flow.
+  final FlowStatus? flowStatus;
+
+  CreateFlowResponse({
+    this.flowArn,
+    this.flowStatus,
+  });
+
+  factory CreateFlowResponse.fromJson(Map<String, dynamic> json) {
+    return CreateFlowResponse(
+      flowArn: json['flowArn'] as String?,
+      flowStatus: (json['flowStatus'] as String?)?.let(FlowStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final flowArn = this.flowArn;
+    final flowStatus = this.flowStatus;
+    return {
+      if (flowArn != null) 'flowArn': flowArn,
+      if (flowStatus != null) 'flowStatus': flowStatus.value,
+    };
+  }
+}
+
+class DeleteConnectorProfileResponse {
+  DeleteConnectorProfileResponse();
+
+  factory DeleteConnectorProfileResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteConnectorProfileResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DeleteFlowResponse {
+  DeleteFlowResponse();
+
+  factory DeleteFlowResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteFlowResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DescribeConnectorResponse {
+  /// Configuration info of all the connectors that the user requested.
+  final ConnectorConfiguration? connectorConfiguration;
+
+  DescribeConnectorResponse({
+    this.connectorConfiguration,
+  });
+
+  factory DescribeConnectorResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeConnectorResponse(
+      connectorConfiguration: json['connectorConfiguration'] != null
+          ? ConnectorConfiguration.fromJson(
+              json['connectorConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorConfiguration = this.connectorConfiguration;
+    return {
+      if (connectorConfiguration != null)
+        'connectorConfiguration': connectorConfiguration,
+    };
+  }
+}
+
+class DescribeConnectorEntityResponse {
+  /// Describes the fields for that connector entity. For example, for an
+  /// <i>account</i> entity, the fields would be <i>account name</i>, <i>account
+  /// ID</i>, and so on.
+  final List<ConnectorEntityField> connectorEntityFields;
+
+  DescribeConnectorEntityResponse({
+    required this.connectorEntityFields,
+  });
+
+  factory DescribeConnectorEntityResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeConnectorEntityResponse(
+      connectorEntityFields: ((json['connectorEntityFields'] as List?) ??
+              const [])
+          .nonNulls
+          .map((e) => ConnectorEntityField.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorEntityFields = this.connectorEntityFields;
+    return {
+      'connectorEntityFields': connectorEntityFields,
+    };
+  }
+}
+
+class DescribeConnectorProfilesResponse {
+  /// Returns information about the connector profiles associated with the flow.
+  final List<ConnectorProfile>? connectorProfileDetails;
+
+  /// The pagination token for the next page of data. If
+  /// <code>nextToken=null</code>, this means that all records have been fetched.
+  final String? nextToken;
+
+  DescribeConnectorProfilesResponse({
+    this.connectorProfileDetails,
+    this.nextToken,
+  });
+
+  factory DescribeConnectorProfilesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeConnectorProfilesResponse(
+      connectorProfileDetails: (json['connectorProfileDetails'] as List?)
+          ?.nonNulls
+          .map((e) => ConnectorProfile.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorProfileDetails = this.connectorProfileDetails;
+    final nextToken = this.nextToken;
+    return {
+      if (connectorProfileDetails != null)
+        'connectorProfileDetails': connectorProfileDetails,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class DescribeConnectorsResponse {
+  /// The configuration that is applied to the connectors used in the flow.
+  final Map<ConnectorType, ConnectorConfiguration>? connectorConfigurations;
+
+  /// Information about the connectors supported in Amazon AppFlow.
+  final List<ConnectorDetail>? connectors;
+
+  /// The pagination token for the next page of data.
+  final String? nextToken;
+
+  DescribeConnectorsResponse({
+    this.connectorConfigurations,
+    this.connectors,
+    this.nextToken,
+  });
+
+  factory DescribeConnectorsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeConnectorsResponse(
+      connectorConfigurations:
+          (json['connectorConfigurations'] as Map<String, dynamic>?)?.map(
+              (k, e) => MapEntry(ConnectorType.fromString(k),
+                  ConnectorConfiguration.fromJson(e as Map<String, dynamic>))),
+      connectors: (json['connectors'] as List?)
+          ?.nonNulls
+          .map((e) => ConnectorDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorConfigurations = this.connectorConfigurations;
+    final connectors = this.connectors;
+    final nextToken = this.nextToken;
+    return {
+      if (connectorConfigurations != null)
+        'connectorConfigurations':
+            connectorConfigurations.map((k, e) => MapEntry(k.value, e)),
+      if (connectors != null) 'connectors': connectors,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class DescribeFlowResponse {
+  /// Specifies when the flow was created.
+  final DateTime? createdAt;
+
+  /// The ARN of the user who created the flow.
+  final String? createdBy;
+
+  /// A description of the flow.
+  final String? description;
+
+  /// The configuration that controls how Amazon AppFlow transfers data to the
+  /// destination connector.
+  final List<DestinationFlowConfig>? destinationFlowConfigList;
+
+  /// The flow's Amazon Resource Name (ARN).
+  final String? flowArn;
+
+  /// The specified name of the flow. Spaces are not allowed. Use underscores (_)
+  /// or hyphens (-) only.
+  final String? flowName;
+
+  /// Indicates the current status of the flow.
+  final FlowStatus? flowStatus;
+
+  /// Contains an error message if the flow status is in a suspended or error
+  /// state. This applies only to scheduled or event-triggered flows.
+  final String? flowStatusMessage;
+
+  /// The ARN (Amazon Resource Name) of the Key Management Service (KMS) key you
+  /// provide for encryption. This is required if you do not want to use the
+  /// Amazon AppFlow-managed KMS key. If you don't provide anything here, Amazon
+  /// AppFlow uses the Amazon AppFlow-managed KMS key.
+  final String? kmsArn;
+
+  /// Describes the details of the most recent flow run.
+  final ExecutionDetails? lastRunExecutionDetails;
+
+  /// Describes the metadata catalog, metadata table, and data partitions that
+  /// Amazon AppFlow used for the associated flow run.
+  final List<MetadataCatalogDetail>? lastRunMetadataCatalogDetails;
+
+  /// Specifies when the flow was last updated.
+  final DateTime? lastUpdatedAt;
+
+  /// Specifies the user name of the account that performed the most recent
+  /// update.
+  final String? lastUpdatedBy;
+
+  /// Specifies the configuration that Amazon AppFlow uses when it catalogs the
+  /// data that's transferred by the associated flow. When Amazon AppFlow catalogs
+  /// the data from a flow, it stores metadata in a data catalog.
+  final MetadataCatalogConfig? metadataCatalogConfig;
+
+  /// The version number of your data schema. Amazon AppFlow assigns this version
+  /// number. The version number increases by one when you change any of the
+  /// following settings in your flow configuration:
+  ///
+  /// <ul>
+  /// <li>
+  /// Source-to-destination field mappings
+  /// </li>
+  /// <li>
+  /// Field data types
+  /// </li>
+  /// <li>
+  /// Partition keys
+  /// </li>
+  /// </ul>
+  final int? schemaVersion;
+
+  /// The configuration that controls how Amazon AppFlow retrieves data from the
+  /// source connector.
+  final SourceFlowConfig? sourceFlowConfig;
+
+  /// The tags used to organize, track, or control access for your flow.
+  final Map<String, String>? tags;
+
+  /// A list of tasks that Amazon AppFlow performs while transferring the data in
+  /// the flow run.
+  final List<Task>? tasks;
+
+  /// The trigger settings that determine how and when the flow runs.
+  final TriggerConfig? triggerConfig;
+
+  DescribeFlowResponse({
+    this.createdAt,
+    this.createdBy,
+    this.description,
+    this.destinationFlowConfigList,
+    this.flowArn,
+    this.flowName,
+    this.flowStatus,
+    this.flowStatusMessage,
+    this.kmsArn,
+    this.lastRunExecutionDetails,
+    this.lastRunMetadataCatalogDetails,
+    this.lastUpdatedAt,
+    this.lastUpdatedBy,
+    this.metadataCatalogConfig,
+    this.schemaVersion,
+    this.sourceFlowConfig,
+    this.tags,
+    this.tasks,
+    this.triggerConfig,
+  });
+
+  factory DescribeFlowResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeFlowResponse(
+      createdAt: timeStampFromJson(json['createdAt']),
+      createdBy: json['createdBy'] as String?,
+      description: json['description'] as String?,
+      destinationFlowConfigList: (json['destinationFlowConfigList'] as List?)
+          ?.nonNulls
+          .map((e) => DestinationFlowConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      flowArn: json['flowArn'] as String?,
+      flowName: json['flowName'] as String?,
+      flowStatus: (json['flowStatus'] as String?)?.let(FlowStatus.fromString),
+      flowStatusMessage: json['flowStatusMessage'] as String?,
+      kmsArn: json['kmsArn'] as String?,
+      lastRunExecutionDetails: json['lastRunExecutionDetails'] != null
+          ? ExecutionDetails.fromJson(
+              json['lastRunExecutionDetails'] as Map<String, dynamic>)
+          : null,
+      lastRunMetadataCatalogDetails: (json['lastRunMetadataCatalogDetails']
+              as List?)
+          ?.nonNulls
+          .map((e) => MetadataCatalogDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+      lastUpdatedBy: json['lastUpdatedBy'] as String?,
+      metadataCatalogConfig: json['metadataCatalogConfig'] != null
+          ? MetadataCatalogConfig.fromJson(
+              json['metadataCatalogConfig'] as Map<String, dynamic>)
+          : null,
+      schemaVersion: json['schemaVersion'] as int?,
+      sourceFlowConfig: json['sourceFlowConfig'] != null
+          ? SourceFlowConfig.fromJson(
+              json['sourceFlowConfig'] as Map<String, dynamic>)
+          : null,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      tasks: (json['tasks'] as List?)
+          ?.nonNulls
+          .map((e) => Task.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      triggerConfig: json['triggerConfig'] != null
+          ? TriggerConfig.fromJson(
+              json['triggerConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final createdBy = this.createdBy;
+    final description = this.description;
+    final destinationFlowConfigList = this.destinationFlowConfigList;
+    final flowArn = this.flowArn;
+    final flowName = this.flowName;
+    final flowStatus = this.flowStatus;
+    final flowStatusMessage = this.flowStatusMessage;
+    final kmsArn = this.kmsArn;
+    final lastRunExecutionDetails = this.lastRunExecutionDetails;
+    final lastRunMetadataCatalogDetails = this.lastRunMetadataCatalogDetails;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final lastUpdatedBy = this.lastUpdatedBy;
+    final metadataCatalogConfig = this.metadataCatalogConfig;
+    final schemaVersion = this.schemaVersion;
+    final sourceFlowConfig = this.sourceFlowConfig;
+    final tags = this.tags;
+    final tasks = this.tasks;
+    final triggerConfig = this.triggerConfig;
+    return {
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (createdBy != null) 'createdBy': createdBy,
+      if (description != null) 'description': description,
+      if (destinationFlowConfigList != null)
+        'destinationFlowConfigList': destinationFlowConfigList,
+      if (flowArn != null) 'flowArn': flowArn,
+      if (flowName != null) 'flowName': flowName,
+      if (flowStatus != null) 'flowStatus': flowStatus.value,
+      if (flowStatusMessage != null) 'flowStatusMessage': flowStatusMessage,
+      if (kmsArn != null) 'kmsArn': kmsArn,
+      if (lastRunExecutionDetails != null)
+        'lastRunExecutionDetails': lastRunExecutionDetails,
+      if (lastRunMetadataCatalogDetails != null)
+        'lastRunMetadataCatalogDetails': lastRunMetadataCatalogDetails,
+      if (lastUpdatedAt != null)
+        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (lastUpdatedBy != null) 'lastUpdatedBy': lastUpdatedBy,
+      if (metadataCatalogConfig != null)
+        'metadataCatalogConfig': metadataCatalogConfig,
+      if (schemaVersion != null) 'schemaVersion': schemaVersion,
+      if (sourceFlowConfig != null) 'sourceFlowConfig': sourceFlowConfig,
+      if (tags != null) 'tags': tags,
+      if (tasks != null) 'tasks': tasks,
+      if (triggerConfig != null) 'triggerConfig': triggerConfig,
+    };
+  }
+}
+
+class DescribeFlowExecutionRecordsResponse {
+  /// Returns a list of all instances when this flow was run.
+  final List<ExecutionRecord>? flowExecutions;
+
+  /// The pagination token for the next page of data.
+  final String? nextToken;
+
+  DescribeFlowExecutionRecordsResponse({
+    this.flowExecutions,
+    this.nextToken,
+  });
+
+  factory DescribeFlowExecutionRecordsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeFlowExecutionRecordsResponse(
+      flowExecutions: (json['flowExecutions'] as List?)
+          ?.nonNulls
+          .map((e) => ExecutionRecord.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final flowExecutions = this.flowExecutions;
+    final nextToken = this.nextToken;
+    return {
+      if (flowExecutions != null) 'flowExecutions': flowExecutions,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListConnectorEntitiesResponse {
+  /// The response of <code>ListConnectorEntities</code> lists entities grouped by
+  /// category. This map's key represents the group name, and its value contains
+  /// the list of entities belonging to that group.
+  final Map<String, List<ConnectorEntity>> connectorEntityMap;
+
+  /// A token that you specify in your next <code>ListConnectorEntities</code>
+  /// operation to get the next page of results in paginated response. The
+  /// <code>ListConnectorEntities</code> operation provides this token if the
+  /// response is too big for the page size.
+  final String? nextToken;
+
+  ListConnectorEntitiesResponse({
+    required this.connectorEntityMap,
+    this.nextToken,
+  });
+
+  factory ListConnectorEntitiesResponse.fromJson(Map<String, dynamic> json) {
+    return ListConnectorEntitiesResponse(
+      connectorEntityMap:
+          ((json['connectorEntityMap'] as Map<String, dynamic>?) ??
+                  const <String, dynamic>{})
+              .map((k, e) => MapEntry(
+                  k,
+                  (e as List)
+                      .nonNulls
+                      .map((e) =>
+                          ConnectorEntity.fromJson(e as Map<String, dynamic>))
+                      .toList())),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorEntityMap = this.connectorEntityMap;
+    final nextToken = this.nextToken;
+    return {
+      'connectorEntityMap': connectorEntityMap,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListConnectorsResponse {
+  /// Contains information about the connectors supported by Amazon AppFlow.
+  final List<ConnectorDetail>? connectors;
+
+  /// The pagination token for the next page of data. If nextToken=null, this
+  /// means that all records have been fetched.
+  final String? nextToken;
+
+  ListConnectorsResponse({
+    this.connectors,
+    this.nextToken,
+  });
+
+  factory ListConnectorsResponse.fromJson(Map<String, dynamic> json) {
+    return ListConnectorsResponse(
+      connectors: (json['connectors'] as List?)
+          ?.nonNulls
+          .map((e) => ConnectorDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectors = this.connectors;
+    final nextToken = this.nextToken;
+    return {
+      if (connectors != null) 'connectors': connectors,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListFlowsResponse {
+  /// The list of flows associated with your account.
+  final List<FlowDefinition>? flows;
+
+  /// The pagination token for next page of data.
+  final String? nextToken;
+
+  ListFlowsResponse({
+    this.flows,
+    this.nextToken,
+  });
+
+  factory ListFlowsResponse.fromJson(Map<String, dynamic> json) {
+    return ListFlowsResponse(
+      flows: (json['flows'] as List?)
+          ?.nonNulls
+          .map((e) => FlowDefinition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final flows = this.flows;
+    final nextToken = this.nextToken;
+    return {
+      if (flows != null) 'flows': flows,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListTagsForResourceResponse {
+  /// The tags used to organize, track, or control access for your flow.
+  final Map<String, String>? tags;
+
+  ListTagsForResourceResponse({
+    this.tags,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+class RegisterConnectorResponse {
+  /// The ARN of the connector being registered.
+  final String? connectorArn;
+
+  RegisterConnectorResponse({
+    this.connectorArn,
+  });
+
+  factory RegisterConnectorResponse.fromJson(Map<String, dynamic> json) {
+    return RegisterConnectorResponse(
+      connectorArn: json['connectorArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorArn = this.connectorArn;
+    return {
+      if (connectorArn != null) 'connectorArn': connectorArn,
+    };
+  }
+}
+
+class ResetConnectorMetadataCacheResponse {
+  ResetConnectorMetadataCacheResponse();
+
+  factory ResetConnectorMetadataCacheResponse.fromJson(Map<String, dynamic> _) {
+    return ResetConnectorMetadataCacheResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class StartFlowResponse {
+  /// Returns the internal execution ID of an on-demand flow when the flow is
+  /// started. For scheduled or event-triggered flows, this value is null.
+  final String? executionId;
+
+  /// The flow's Amazon Resource Name (ARN).
+  final String? flowArn;
+
+  /// Indicates the current status of the flow.
+  final FlowStatus? flowStatus;
+
+  StartFlowResponse({
+    this.executionId,
+    this.flowArn,
+    this.flowStatus,
+  });
+
+  factory StartFlowResponse.fromJson(Map<String, dynamic> json) {
+    return StartFlowResponse(
+      executionId: json['executionId'] as String?,
+      flowArn: json['flowArn'] as String?,
+      flowStatus: (json['flowStatus'] as String?)?.let(FlowStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionId = this.executionId;
+    final flowArn = this.flowArn;
+    final flowStatus = this.flowStatus;
+    return {
+      if (executionId != null) 'executionId': executionId,
+      if (flowArn != null) 'flowArn': flowArn,
+      if (flowStatus != null) 'flowStatus': flowStatus.value,
+    };
+  }
+}
+
+class StopFlowResponse {
+  /// The flow's Amazon Resource Name (ARN).
+  final String? flowArn;
+
+  /// Indicates the current status of the flow.
+  final FlowStatus? flowStatus;
+
+  StopFlowResponse({
+    this.flowArn,
+    this.flowStatus,
+  });
+
+  factory StopFlowResponse.fromJson(Map<String, dynamic> json) {
+    return StopFlowResponse(
+      flowArn: json['flowArn'] as String?,
+      flowStatus: (json['flowStatus'] as String?)?.let(FlowStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final flowArn = this.flowArn;
+    final flowStatus = this.flowStatus;
+    return {
+      if (flowArn != null) 'flowArn': flowArn,
+      if (flowStatus != null) 'flowStatus': flowStatus.value,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UnregisterConnectorResponse {
+  UnregisterConnectorResponse();
+
+  factory UnregisterConnectorResponse.fromJson(Map<String, dynamic> _) {
+    return UnregisterConnectorResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateConnectorProfileResponse {
+  /// The Amazon Resource Name (ARN) of the connector profile.
+  final String? connectorProfileArn;
+
+  UpdateConnectorProfileResponse({
+    this.connectorProfileArn,
+  });
+
+  factory UpdateConnectorProfileResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateConnectorProfileResponse(
+      connectorProfileArn: json['connectorProfileArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorProfileArn = this.connectorProfileArn;
+    return {
+      if (connectorProfileArn != null)
+        'connectorProfileArn': connectorProfileArn,
+    };
+  }
+}
+
+class UpdateConnectorRegistrationResponse {
+  /// The ARN of the connector being updated.
+  final String? connectorArn;
+
+  UpdateConnectorRegistrationResponse({
+    this.connectorArn,
+  });
+
+  factory UpdateConnectorRegistrationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateConnectorRegistrationResponse(
+      connectorArn: json['connectorArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorArn = this.connectorArn;
+    return {
+      if (connectorArn != null) 'connectorArn': connectorArn,
+    };
+  }
+}
+
+class UpdateFlowResponse {
+  /// Indicates the current status of the flow.
+  final FlowStatus? flowStatus;
+
+  UpdateFlowResponse({
+    this.flowStatus,
+  });
+
+  factory UpdateFlowResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateFlowResponse(
+      flowStatus: (json['flowStatus'] as String?)?.let(FlowStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final flowStatus = this.flowStatus;
+    return {
+      if (flowStatus != null) 'flowStatus': flowStatus.value,
+    };
+  }
+}
+
+class FlowStatus {
+  static const active = FlowStatus._('Active');
+  static const deprecated = FlowStatus._('Deprecated');
+  static const deleted = FlowStatus._('Deleted');
+  static const draft = FlowStatus._('Draft');
+  static const errored = FlowStatus._('Errored');
+  static const suspended = FlowStatus._('Suspended');
+
+  final String value;
+
+  const FlowStatus._(this.value);
+
+  static const values = [
+    active,
+    deprecated,
+    deleted,
+    draft,
+    errored,
+    suspended
+  ];
+
+  static FlowStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FlowStatus._(value));
+
+  @override
+  bool operator ==(other) => other is FlowStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The trigger settings that determine how and when Amazon AppFlow runs the
+/// specified flow.
+class TriggerConfig {
+  /// Specifies the type of flow trigger. This can be <code>OnDemand</code>,
+  /// <code>Scheduled</code>, or <code>Event</code>.
+  final TriggerType triggerType;
+
+  /// Specifies the configuration details of a schedule-triggered flow as defined
+  /// by the user. Currently, these settings only apply to the
+  /// <code>Scheduled</code> trigger type.
+  final TriggerProperties? triggerProperties;
+
+  TriggerConfig({
+    required this.triggerType,
+    this.triggerProperties,
+  });
+
+  factory TriggerConfig.fromJson(Map<String, dynamic> json) {
+    return TriggerConfig(
+      triggerType:
+          TriggerType.fromString((json['triggerType'] as String?) ?? ''),
+      triggerProperties: json['triggerProperties'] != null
+          ? TriggerProperties.fromJson(
+              json['triggerProperties'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final triggerType = this.triggerType;
+    final triggerProperties = this.triggerProperties;
+    return {
+      'triggerType': triggerType.value,
+      if (triggerProperties != null) 'triggerProperties': triggerProperties,
+    };
+  }
+}
+
+/// Contains information about the configuration of the source connector used in
+/// the flow.
+class SourceFlowConfig {
+  /// The type of connector, such as Salesforce, Amplitude, and so on.
+  final ConnectorType connectorType;
+
+  /// Specifies the information that is required to query a particular source
+  /// connector.
+  final SourceConnectorProperties sourceConnectorProperties;
+
+  /// The API version of the connector when it's used as a source in the flow.
+  final String? apiVersion;
+
+  /// The name of the connector profile. This name must be unique for each
+  /// connector profile in the Amazon Web Services account.
+  final String? connectorProfileName;
+
+  /// Defines the configuration for a scheduled incremental data pull. If a valid
+  /// configuration is provided, the fields specified in the configuration are
+  /// used when querying for the incremental data pull.
+  final IncrementalPullConfig? incrementalPullConfig;
+
+  SourceFlowConfig({
+    required this.connectorType,
+    required this.sourceConnectorProperties,
+    this.apiVersion,
+    this.connectorProfileName,
+    this.incrementalPullConfig,
+  });
+
+  factory SourceFlowConfig.fromJson(Map<String, dynamic> json) {
+    return SourceFlowConfig(
+      connectorType:
+          ConnectorType.fromString((json['connectorType'] as String?) ?? ''),
+      sourceConnectorProperties: SourceConnectorProperties.fromJson(
+          (json['sourceConnectorProperties'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      apiVersion: json['apiVersion'] as String?,
+      connectorProfileName: json['connectorProfileName'] as String?,
+      incrementalPullConfig: json['incrementalPullConfig'] != null
+          ? IncrementalPullConfig.fromJson(
+              json['incrementalPullConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorType = this.connectorType;
+    final sourceConnectorProperties = this.sourceConnectorProperties;
+    final apiVersion = this.apiVersion;
+    final connectorProfileName = this.connectorProfileName;
+    final incrementalPullConfig = this.incrementalPullConfig;
+    return {
+      'connectorType': connectorType.value,
+      'sourceConnectorProperties': sourceConnectorProperties,
+      if (apiVersion != null) 'apiVersion': apiVersion,
+      if (connectorProfileName != null)
+        'connectorProfileName': connectorProfileName,
+      if (incrementalPullConfig != null)
+        'incrementalPullConfig': incrementalPullConfig,
+    };
+  }
+}
+
+/// Specifies the configuration that Amazon AppFlow uses when it catalogs your
+/// data. When Amazon AppFlow catalogs your data, it stores metadata in a data
+/// catalog.
+class MetadataCatalogConfig {
+  /// Specifies the configuration that Amazon AppFlow uses when it catalogs your
+  /// data with the Glue Data Catalog.
+  final GlueDataCatalogConfig? glueDataCatalog;
+
+  MetadataCatalogConfig({
+    this.glueDataCatalog,
+  });
+
+  factory MetadataCatalogConfig.fromJson(Map<String, dynamic> json) {
+    return MetadataCatalogConfig(
+      glueDataCatalog: json['glueDataCatalog'] != null
+          ? GlueDataCatalogConfig.fromJson(
+              json['glueDataCatalog'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final glueDataCatalog = this.glueDataCatalog;
+    return {
+      if (glueDataCatalog != null) 'glueDataCatalog': glueDataCatalog,
+    };
+  }
+}
+
+/// Specifies the configuration that Amazon AppFlow uses when it catalogs your
+/// data with the Glue Data Catalog. When Amazon AppFlow catalogs your data, it
+/// stores metadata in Data Catalog tables. This metadata represents the data
+/// that's transferred by the flow that you configure with these settings.
+/// <note>
+/// You can configure a flow with these settings only when the flow destination
+/// is Amazon S3.
+/// </note>
+class GlueDataCatalogConfig {
+  /// The name of the Data Catalog database that stores the metadata tables that
+  /// Amazon AppFlow creates in your Amazon Web Services account. These tables
+  /// contain metadata for the data that's transferred by the flow that you
+  /// configure with this parameter.
+  /// <note>
+  /// When you configure a new flow with this parameter, you must specify an
+  /// existing database.
+  /// </note>
+  final String databaseName;
+
+  /// The Amazon Resource Name (ARN) of an IAM role that grants Amazon AppFlow the
+  /// permissions it needs to create Data Catalog tables, databases, and
+  /// partitions.
+  ///
+  /// For an example IAM policy that has the required permissions, see <a
+  /// href="https://docs.aws.amazon.com/appflow/latest/userguide/security_iam_id-based-policy-examples.html">Identity-based
+  /// policy examples for Amazon AppFlow</a>.
+  final String roleArn;
+
+  /// A naming prefix for each Data Catalog table that Amazon AppFlow creates for
+  /// the flow that you configure with this setting. Amazon AppFlow adds the
+  /// prefix to the beginning of the each table name.
+  final String tablePrefix;
+
+  GlueDataCatalogConfig({
+    required this.databaseName,
+    required this.roleArn,
+    required this.tablePrefix,
+  });
+
+  factory GlueDataCatalogConfig.fromJson(Map<String, dynamic> json) {
+    return GlueDataCatalogConfig(
+      databaseName: (json['databaseName'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
+      tablePrefix: (json['tablePrefix'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databaseName = this.databaseName;
+    final roleArn = this.roleArn;
+    final tablePrefix = this.tablePrefix;
+    return {
+      'databaseName': databaseName,
+      'roleArn': roleArn,
+      'tablePrefix': tablePrefix,
+    };
+  }
+}
+
+/// A class for modeling different type of tasks. Task implementation varies
+/// based on the <code>TaskType</code>.
+class Task {
+  /// The source fields to which a particular task is applied.
+  final List<String> sourceFields;
+
+  /// Specifies the particular task implementation that Amazon AppFlow performs.
+  final TaskType taskType;
+
+  /// The operation to be performed on the provided source fields.
+  final ConnectorOperator? connectorOperator;
+
+  /// A field in a destination connector, or a field value against which Amazon
+  /// AppFlow validates a source field.
+  final String? destinationField;
+
+  /// A map used to store task-related information. The execution service looks
+  /// for particular information based on the <code>TaskType</code>.
+  final Map<OperatorPropertiesKeys, String>? taskProperties;
+
+  Task({
+    required this.sourceFields,
+    required this.taskType,
+    this.connectorOperator,
+    this.destinationField,
+    this.taskProperties,
+  });
+
+  factory Task.fromJson(Map<String, dynamic> json) {
+    return Task(
+      sourceFields: ((json['sourceFields'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      taskType: TaskType.fromString((json['taskType'] as String?) ?? ''),
+      connectorOperator: json['connectorOperator'] != null
+          ? ConnectorOperator.fromJson(
+              json['connectorOperator'] as Map<String, dynamic>)
+          : null,
+      destinationField: json['destinationField'] as String?,
+      taskProperties: (json['taskProperties'] as Map<String, dynamic>?)?.map(
+          (k, e) =>
+              MapEntry(OperatorPropertiesKeys.fromString(k), e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sourceFields = this.sourceFields;
+    final taskType = this.taskType;
+    final connectorOperator = this.connectorOperator;
+    final destinationField = this.destinationField;
+    final taskProperties = this.taskProperties;
+    return {
+      'sourceFields': sourceFields,
+      'taskType': taskType.value,
+      if (connectorOperator != null) 'connectorOperator': connectorOperator,
+      if (destinationField != null) 'destinationField': destinationField,
+      if (taskProperties != null)
+        'taskProperties': taskProperties.map((k, e) => MapEntry(k.value, e)),
+    };
+  }
+}
+
+/// The operation to be performed on the provided source fields.
+class ConnectorOperator {
+  /// The operation to be performed on the provided Amplitude source fields.
+  final AmplitudeConnectorOperator? amplitude;
+
+  /// Operators supported by the custom connector.
+  final Operator? customConnector;
+
+  /// The operation to be performed on the provided Datadog source fields.
+  final DatadogConnectorOperator? datadog;
+
+  /// The operation to be performed on the provided Dynatrace source fields.
+  final DynatraceConnectorOperator? dynatrace;
+
+  /// The operation to be performed on the provided Google Analytics source
+  /// fields.
+  final GoogleAnalyticsConnectorOperator? googleAnalytics;
+
+  /// The operation to be performed on the provided Infor Nexus source fields.
+  final InforNexusConnectorOperator? inforNexus;
+
+  /// The operation to be performed on the provided Marketo source fields.
+  final MarketoConnectorOperator? marketo;
+
+  /// The operation to be performed on the provided Salesforce Pardot source
+  /// fields.
+  final PardotConnectorOperator? pardot;
+
+  /// The operation to be performed on the provided Amazon S3 source fields.
+  final S3ConnectorOperator? s3;
+
+  /// The operation to be performed on the provided SAPOData source fields.
+  final SAPODataConnectorOperator? sAPOData;
+
+  /// The operation to be performed on the provided Salesforce source fields.
+  final SalesforceConnectorOperator? salesforce;
+
+  /// The operation to be performed on the provided ServiceNow source fields.
+  final ServiceNowConnectorOperator? serviceNow;
+
+  /// The operation to be performed on the provided Singular source fields.
+  final SingularConnectorOperator? singular;
+
+  /// The operation to be performed on the provided Slack source fields.
+  final SlackConnectorOperator? slack;
+
+  /// The operation to be performed on the provided Trend Micro source fields.
+  final TrendmicroConnectorOperator? trendmicro;
+
+  /// The operation to be performed on the provided Veeva source fields.
+  final VeevaConnectorOperator? veeva;
+
+  /// The operation to be performed on the provided Zendesk source fields.
+  final ZendeskConnectorOperator? zendesk;
+
+  ConnectorOperator({
+    this.amplitude,
+    this.customConnector,
+    this.datadog,
+    this.dynatrace,
+    this.googleAnalytics,
+    this.inforNexus,
+    this.marketo,
+    this.pardot,
+    this.s3,
+    this.sAPOData,
+    this.salesforce,
+    this.serviceNow,
+    this.singular,
+    this.slack,
+    this.trendmicro,
+    this.veeva,
+    this.zendesk,
+  });
+
+  factory ConnectorOperator.fromJson(Map<String, dynamic> json) {
+    return ConnectorOperator(
+      amplitude: (json['Amplitude'] as String?)
+          ?.let(AmplitudeConnectorOperator.fromString),
+      customConnector:
+          (json['CustomConnector'] as String?)?.let(Operator.fromString),
+      datadog: (json['Datadog'] as String?)
+          ?.let(DatadogConnectorOperator.fromString),
+      dynatrace: (json['Dynatrace'] as String?)
+          ?.let(DynatraceConnectorOperator.fromString),
+      googleAnalytics: (json['GoogleAnalytics'] as String?)
+          ?.let(GoogleAnalyticsConnectorOperator.fromString),
+      inforNexus: (json['InforNexus'] as String?)
+          ?.let(InforNexusConnectorOperator.fromString),
+      marketo: (json['Marketo'] as String?)
+          ?.let(MarketoConnectorOperator.fromString),
+      pardot:
+          (json['Pardot'] as String?)?.let(PardotConnectorOperator.fromString),
+      s3: (json['S3'] as String?)?.let(S3ConnectorOperator.fromString),
+      sAPOData: (json['SAPOData'] as String?)
+          ?.let(SAPODataConnectorOperator.fromString),
+      salesforce: (json['Salesforce'] as String?)
+          ?.let(SalesforceConnectorOperator.fromString),
+      serviceNow: (json['ServiceNow'] as String?)
+          ?.let(ServiceNowConnectorOperator.fromString),
+      singular: (json['Singular'] as String?)
+          ?.let(SingularConnectorOperator.fromString),
+      slack: (json['Slack'] as String?)?.let(SlackConnectorOperator.fromString),
+      trendmicro: (json['Trendmicro'] as String?)
+          ?.let(TrendmicroConnectorOperator.fromString),
+      veeva: (json['Veeva'] as String?)?.let(VeevaConnectorOperator.fromString),
+      zendesk: (json['Zendesk'] as String?)
+          ?.let(ZendeskConnectorOperator.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final amplitude = this.amplitude;
+    final customConnector = this.customConnector;
+    final datadog = this.datadog;
+    final dynatrace = this.dynatrace;
+    final googleAnalytics = this.googleAnalytics;
+    final inforNexus = this.inforNexus;
+    final marketo = this.marketo;
+    final pardot = this.pardot;
+    final s3 = this.s3;
+    final sAPOData = this.sAPOData;
+    final salesforce = this.salesforce;
+    final serviceNow = this.serviceNow;
+    final singular = this.singular;
+    final slack = this.slack;
+    final trendmicro = this.trendmicro;
+    final veeva = this.veeva;
+    final zendesk = this.zendesk;
+    return {
+      if (amplitude != null) 'Amplitude': amplitude.value,
+      if (customConnector != null) 'CustomConnector': customConnector.value,
+      if (datadog != null) 'Datadog': datadog.value,
+      if (dynatrace != null) 'Dynatrace': dynatrace.value,
+      if (googleAnalytics != null) 'GoogleAnalytics': googleAnalytics.value,
+      if (inforNexus != null) 'InforNexus': inforNexus.value,
+      if (marketo != null) 'Marketo': marketo.value,
+      if (pardot != null) 'Pardot': pardot.value,
+      if (s3 != null) 'S3': s3.value,
+      if (sAPOData != null) 'SAPOData': sAPOData.value,
+      if (salesforce != null) 'Salesforce': salesforce.value,
+      if (serviceNow != null) 'ServiceNow': serviceNow.value,
+      if (singular != null) 'Singular': singular.value,
+      if (slack != null) 'Slack': slack.value,
+      if (trendmicro != null) 'Trendmicro': trendmicro.value,
+      if (veeva != null) 'Veeva': veeva.value,
+      if (zendesk != null) 'Zendesk': zendesk.value,
+    };
+  }
+}
+
+class TaskType {
+  static const arithmetic = TaskType._('Arithmetic');
+  static const filter = TaskType._('Filter');
+  static const map = TaskType._('Map');
+  static const mapAll = TaskType._('Map_all');
+  static const mask = TaskType._('Mask');
+  static const merge = TaskType._('Merge');
+  static const passthrough = TaskType._('Passthrough');
+  static const truncate = TaskType._('Truncate');
+  static const validate = TaskType._('Validate');
+  static const partition = TaskType._('Partition');
+
+  final String value;
+
+  const TaskType._(this.value);
+
+  static const values = [
+    arithmetic,
+    filter,
+    map,
+    mapAll,
+    mask,
+    merge,
+    passthrough,
+    truncate,
+    validate,
+    partition
+  ];
+
+  static TaskType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TaskType._(value));
+
+  @override
+  bool operator ==(other) => other is TaskType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class OperatorPropertiesKeys {
+  static const $value = OperatorPropertiesKeys._('VALUE');
+  static const $values = OperatorPropertiesKeys._('VALUES');
+  static const dataType = OperatorPropertiesKeys._('DATA_TYPE');
+  static const upperBound = OperatorPropertiesKeys._('UPPER_BOUND');
+  static const lowerBound = OperatorPropertiesKeys._('LOWER_BOUND');
+  static const sourceDataType = OperatorPropertiesKeys._('SOURCE_DATA_TYPE');
+  static const destinationDataType =
+      OperatorPropertiesKeys._('DESTINATION_DATA_TYPE');
+  static const validationAction = OperatorPropertiesKeys._('VALIDATION_ACTION');
+  static const maskValue = OperatorPropertiesKeys._('MASK_VALUE');
+  static const maskLength = OperatorPropertiesKeys._('MASK_LENGTH');
+  static const truncateLength = OperatorPropertiesKeys._('TRUNCATE_LENGTH');
+  static const mathOperationFieldsOrder =
+      OperatorPropertiesKeys._('MATH_OPERATION_FIELDS_ORDER');
+  static const concatFormat = OperatorPropertiesKeys._('CONCAT_FORMAT');
+  static const subfieldCategoryMap =
+      OperatorPropertiesKeys._('SUBFIELD_CATEGORY_MAP');
+  static const excludeSourceFieldsList =
+      OperatorPropertiesKeys._('EXCLUDE_SOURCE_FIELDS_LIST');
+  static const includeNewFields =
+      OperatorPropertiesKeys._('INCLUDE_NEW_FIELDS');
+  static const orderedPartitionKeysList =
+      OperatorPropertiesKeys._('ORDERED_PARTITION_KEYS_LIST');
+
+  final String value;
+
+  const OperatorPropertiesKeys._(this.value);
+
+  static const values = [
+    $value,
+    $values,
+    dataType,
+    upperBound,
+    lowerBound,
+    sourceDataType,
+    destinationDataType,
+    validationAction,
+    maskValue,
+    maskLength,
+    truncateLength,
+    mathOperationFieldsOrder,
+    concatFormat,
+    subfieldCategoryMap,
+    excludeSourceFieldsList,
+    includeNewFields,
+    orderedPartitionKeysList
+  ];
+
+  static OperatorPropertiesKeys fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OperatorPropertiesKeys._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OperatorPropertiesKeys && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AmplitudeConnectorOperator {
+  static const between = AmplitudeConnectorOperator._('BETWEEN');
+
+  final String value;
+
+  const AmplitudeConnectorOperator._(this.value);
+
+  static const values = [between];
+
+  static AmplitudeConnectorOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AmplitudeConnectorOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AmplitudeConnectorOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DatadogConnectorOperator {
+  static const projection = DatadogConnectorOperator._('PROJECTION');
+  static const between = DatadogConnectorOperator._('BETWEEN');
+  static const equalTo = DatadogConnectorOperator._('EQUAL_TO');
+  static const addition = DatadogConnectorOperator._('ADDITION');
+  static const multiplication = DatadogConnectorOperator._('MULTIPLICATION');
+  static const division = DatadogConnectorOperator._('DIVISION');
+  static const subtraction = DatadogConnectorOperator._('SUBTRACTION');
+  static const maskAll = DatadogConnectorOperator._('MASK_ALL');
+  static const maskFirstN = DatadogConnectorOperator._('MASK_FIRST_N');
+  static const maskLastN = DatadogConnectorOperator._('MASK_LAST_N');
+  static const validateNonNull =
+      DatadogConnectorOperator._('VALIDATE_NON_NULL');
+  static const validateNonZero =
+      DatadogConnectorOperator._('VALIDATE_NON_ZERO');
+  static const validateNonNegative =
+      DatadogConnectorOperator._('VALIDATE_NON_NEGATIVE');
+  static const validateNumeric = DatadogConnectorOperator._('VALIDATE_NUMERIC');
+  static const noOp = DatadogConnectorOperator._('NO_OP');
+
+  final String value;
+
+  const DatadogConnectorOperator._(this.value);
+
+  static const values = [
+    projection,
+    between,
+    equalTo,
+    addition,
+    multiplication,
+    division,
+    subtraction,
+    maskAll,
+    maskFirstN,
+    maskLastN,
+    validateNonNull,
+    validateNonZero,
+    validateNonNegative,
+    validateNumeric,
+    noOp
+  ];
+
+  static DatadogConnectorOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DatadogConnectorOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DatadogConnectorOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DynatraceConnectorOperator {
+  static const projection = DynatraceConnectorOperator._('PROJECTION');
+  static const between = DynatraceConnectorOperator._('BETWEEN');
+  static const equalTo = DynatraceConnectorOperator._('EQUAL_TO');
+  static const addition = DynatraceConnectorOperator._('ADDITION');
+  static const multiplication = DynatraceConnectorOperator._('MULTIPLICATION');
+  static const division = DynatraceConnectorOperator._('DIVISION');
+  static const subtraction = DynatraceConnectorOperator._('SUBTRACTION');
+  static const maskAll = DynatraceConnectorOperator._('MASK_ALL');
+  static const maskFirstN = DynatraceConnectorOperator._('MASK_FIRST_N');
+  static const maskLastN = DynatraceConnectorOperator._('MASK_LAST_N');
+  static const validateNonNull =
+      DynatraceConnectorOperator._('VALIDATE_NON_NULL');
+  static const validateNonZero =
+      DynatraceConnectorOperator._('VALIDATE_NON_ZERO');
+  static const validateNonNegative =
+      DynatraceConnectorOperator._('VALIDATE_NON_NEGATIVE');
+  static const validateNumeric =
+      DynatraceConnectorOperator._('VALIDATE_NUMERIC');
+  static const noOp = DynatraceConnectorOperator._('NO_OP');
+
+  final String value;
+
+  const DynatraceConnectorOperator._(this.value);
+
+  static const values = [
+    projection,
+    between,
+    equalTo,
+    addition,
+    multiplication,
+    division,
+    subtraction,
+    maskAll,
+    maskFirstN,
+    maskLastN,
+    validateNonNull,
+    validateNonZero,
+    validateNonNegative,
+    validateNumeric,
+    noOp
+  ];
+
+  static DynatraceConnectorOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DynatraceConnectorOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DynatraceConnectorOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class GoogleAnalyticsConnectorOperator {
+  static const projection = GoogleAnalyticsConnectorOperator._('PROJECTION');
+  static const between = GoogleAnalyticsConnectorOperator._('BETWEEN');
+
+  final String value;
+
+  const GoogleAnalyticsConnectorOperator._(this.value);
+
+  static const values = [projection, between];
+
+  static GoogleAnalyticsConnectorOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GoogleAnalyticsConnectorOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GoogleAnalyticsConnectorOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class InforNexusConnectorOperator {
+  static const projection = InforNexusConnectorOperator._('PROJECTION');
+  static const between = InforNexusConnectorOperator._('BETWEEN');
+  static const equalTo = InforNexusConnectorOperator._('EQUAL_TO');
+  static const addition = InforNexusConnectorOperator._('ADDITION');
+  static const multiplication = InforNexusConnectorOperator._('MULTIPLICATION');
+  static const division = InforNexusConnectorOperator._('DIVISION');
+  static const subtraction = InforNexusConnectorOperator._('SUBTRACTION');
+  static const maskAll = InforNexusConnectorOperator._('MASK_ALL');
+  static const maskFirstN = InforNexusConnectorOperator._('MASK_FIRST_N');
+  static const maskLastN = InforNexusConnectorOperator._('MASK_LAST_N');
+  static const validateNonNull =
+      InforNexusConnectorOperator._('VALIDATE_NON_NULL');
+  static const validateNonZero =
+      InforNexusConnectorOperator._('VALIDATE_NON_ZERO');
+  static const validateNonNegative =
+      InforNexusConnectorOperator._('VALIDATE_NON_NEGATIVE');
+  static const validateNumeric =
+      InforNexusConnectorOperator._('VALIDATE_NUMERIC');
+  static const noOp = InforNexusConnectorOperator._('NO_OP');
+
+  final String value;
+
+  const InforNexusConnectorOperator._(this.value);
+
+  static const values = [
+    projection,
+    between,
+    equalTo,
+    addition,
+    multiplication,
+    division,
+    subtraction,
+    maskAll,
+    maskFirstN,
+    maskLastN,
+    validateNonNull,
+    validateNonZero,
+    validateNonNegative,
+    validateNumeric,
+    noOp
+  ];
+
+  static InforNexusConnectorOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InforNexusConnectorOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InforNexusConnectorOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class MarketoConnectorOperator {
+  static const projection = MarketoConnectorOperator._('PROJECTION');
+  static const lessThan = MarketoConnectorOperator._('LESS_THAN');
+  static const greaterThan = MarketoConnectorOperator._('GREATER_THAN');
+  static const between = MarketoConnectorOperator._('BETWEEN');
+  static const addition = MarketoConnectorOperator._('ADDITION');
+  static const multiplication = MarketoConnectorOperator._('MULTIPLICATION');
+  static const division = MarketoConnectorOperator._('DIVISION');
+  static const subtraction = MarketoConnectorOperator._('SUBTRACTION');
+  static const maskAll = MarketoConnectorOperator._('MASK_ALL');
+  static const maskFirstN = MarketoConnectorOperator._('MASK_FIRST_N');
+  static const maskLastN = MarketoConnectorOperator._('MASK_LAST_N');
+  static const validateNonNull =
+      MarketoConnectorOperator._('VALIDATE_NON_NULL');
+  static const validateNonZero =
+      MarketoConnectorOperator._('VALIDATE_NON_ZERO');
+  static const validateNonNegative =
+      MarketoConnectorOperator._('VALIDATE_NON_NEGATIVE');
+  static const validateNumeric = MarketoConnectorOperator._('VALIDATE_NUMERIC');
+  static const noOp = MarketoConnectorOperator._('NO_OP');
+
+  final String value;
+
+  const MarketoConnectorOperator._(this.value);
+
+  static const values = [
+    projection,
+    lessThan,
+    greaterThan,
+    between,
+    addition,
+    multiplication,
+    division,
+    subtraction,
+    maskAll,
+    maskFirstN,
+    maskLastN,
+    validateNonNull,
+    validateNonZero,
+    validateNonNegative,
+    validateNumeric,
+    noOp
+  ];
+
+  static MarketoConnectorOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MarketoConnectorOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MarketoConnectorOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class S3ConnectorOperator {
+  static const projection = S3ConnectorOperator._('PROJECTION');
+  static const lessThan = S3ConnectorOperator._('LESS_THAN');
+  static const greaterThan = S3ConnectorOperator._('GREATER_THAN');
+  static const between = S3ConnectorOperator._('BETWEEN');
+  static const lessThanOrEqualTo =
+      S3ConnectorOperator._('LESS_THAN_OR_EQUAL_TO');
+  static const greaterThanOrEqualTo =
+      S3ConnectorOperator._('GREATER_THAN_OR_EQUAL_TO');
+  static const equalTo = S3ConnectorOperator._('EQUAL_TO');
+  static const notEqualTo = S3ConnectorOperator._('NOT_EQUAL_TO');
+  static const addition = S3ConnectorOperator._('ADDITION');
+  static const multiplication = S3ConnectorOperator._('MULTIPLICATION');
+  static const division = S3ConnectorOperator._('DIVISION');
+  static const subtraction = S3ConnectorOperator._('SUBTRACTION');
+  static const maskAll = S3ConnectorOperator._('MASK_ALL');
+  static const maskFirstN = S3ConnectorOperator._('MASK_FIRST_N');
+  static const maskLastN = S3ConnectorOperator._('MASK_LAST_N');
+  static const validateNonNull = S3ConnectorOperator._('VALIDATE_NON_NULL');
+  static const validateNonZero = S3ConnectorOperator._('VALIDATE_NON_ZERO');
+  static const validateNonNegative =
+      S3ConnectorOperator._('VALIDATE_NON_NEGATIVE');
+  static const validateNumeric = S3ConnectorOperator._('VALIDATE_NUMERIC');
+  static const noOp = S3ConnectorOperator._('NO_OP');
+
+  final String value;
+
+  const S3ConnectorOperator._(this.value);
+
+  static const values = [
+    projection,
+    lessThan,
+    greaterThan,
+    between,
+    lessThanOrEqualTo,
+    greaterThanOrEqualTo,
+    equalTo,
+    notEqualTo,
+    addition,
+    multiplication,
+    division,
+    subtraction,
+    maskAll,
+    maskFirstN,
+    maskLastN,
+    validateNonNull,
+    validateNonZero,
+    validateNonNegative,
+    validateNumeric,
+    noOp
+  ];
+
+  static S3ConnectorOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => S3ConnectorOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is S3ConnectorOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SalesforceConnectorOperator {
+  static const projection = SalesforceConnectorOperator._('PROJECTION');
+  static const lessThan = SalesforceConnectorOperator._('LESS_THAN');
+  static const contains = SalesforceConnectorOperator._('CONTAINS');
+  static const greaterThan = SalesforceConnectorOperator._('GREATER_THAN');
+  static const between = SalesforceConnectorOperator._('BETWEEN');
+  static const lessThanOrEqualTo =
+      SalesforceConnectorOperator._('LESS_THAN_OR_EQUAL_TO');
+  static const greaterThanOrEqualTo =
+      SalesforceConnectorOperator._('GREATER_THAN_OR_EQUAL_TO');
+  static const equalTo = SalesforceConnectorOperator._('EQUAL_TO');
+  static const notEqualTo = SalesforceConnectorOperator._('NOT_EQUAL_TO');
+  static const addition = SalesforceConnectorOperator._('ADDITION');
+  static const multiplication = SalesforceConnectorOperator._('MULTIPLICATION');
+  static const division = SalesforceConnectorOperator._('DIVISION');
+  static const subtraction = SalesforceConnectorOperator._('SUBTRACTION');
+  static const maskAll = SalesforceConnectorOperator._('MASK_ALL');
+  static const maskFirstN = SalesforceConnectorOperator._('MASK_FIRST_N');
+  static const maskLastN = SalesforceConnectorOperator._('MASK_LAST_N');
+  static const validateNonNull =
+      SalesforceConnectorOperator._('VALIDATE_NON_NULL');
+  static const validateNonZero =
+      SalesforceConnectorOperator._('VALIDATE_NON_ZERO');
+  static const validateNonNegative =
+      SalesforceConnectorOperator._('VALIDATE_NON_NEGATIVE');
+  static const validateNumeric =
+      SalesforceConnectorOperator._('VALIDATE_NUMERIC');
+  static const noOp = SalesforceConnectorOperator._('NO_OP');
+
+  final String value;
+
+  const SalesforceConnectorOperator._(this.value);
+
+  static const values = [
+    projection,
+    lessThan,
+    contains,
+    greaterThan,
+    between,
+    lessThanOrEqualTo,
+    greaterThanOrEqualTo,
+    equalTo,
+    notEqualTo,
+    addition,
+    multiplication,
+    division,
+    subtraction,
+    maskAll,
+    maskFirstN,
+    maskLastN,
+    validateNonNull,
+    validateNonZero,
+    validateNonNegative,
+    validateNumeric,
+    noOp
+  ];
+
+  static SalesforceConnectorOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SalesforceConnectorOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SalesforceConnectorOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ServiceNowConnectorOperator {
+  static const projection = ServiceNowConnectorOperator._('PROJECTION');
+  static const contains = ServiceNowConnectorOperator._('CONTAINS');
+  static const lessThan = ServiceNowConnectorOperator._('LESS_THAN');
+  static const greaterThan = ServiceNowConnectorOperator._('GREATER_THAN');
+  static const between = ServiceNowConnectorOperator._('BETWEEN');
+  static const lessThanOrEqualTo =
+      ServiceNowConnectorOperator._('LESS_THAN_OR_EQUAL_TO');
+  static const greaterThanOrEqualTo =
+      ServiceNowConnectorOperator._('GREATER_THAN_OR_EQUAL_TO');
+  static const equalTo = ServiceNowConnectorOperator._('EQUAL_TO');
+  static const notEqualTo = ServiceNowConnectorOperator._('NOT_EQUAL_TO');
+  static const addition = ServiceNowConnectorOperator._('ADDITION');
+  static const multiplication = ServiceNowConnectorOperator._('MULTIPLICATION');
+  static const division = ServiceNowConnectorOperator._('DIVISION');
+  static const subtraction = ServiceNowConnectorOperator._('SUBTRACTION');
+  static const maskAll = ServiceNowConnectorOperator._('MASK_ALL');
+  static const maskFirstN = ServiceNowConnectorOperator._('MASK_FIRST_N');
+  static const maskLastN = ServiceNowConnectorOperator._('MASK_LAST_N');
+  static const validateNonNull =
+      ServiceNowConnectorOperator._('VALIDATE_NON_NULL');
+  static const validateNonZero =
+      ServiceNowConnectorOperator._('VALIDATE_NON_ZERO');
+  static const validateNonNegative =
+      ServiceNowConnectorOperator._('VALIDATE_NON_NEGATIVE');
+  static const validateNumeric =
+      ServiceNowConnectorOperator._('VALIDATE_NUMERIC');
+  static const noOp = ServiceNowConnectorOperator._('NO_OP');
+
+  final String value;
+
+  const ServiceNowConnectorOperator._(this.value);
+
+  static const values = [
+    projection,
+    contains,
+    lessThan,
+    greaterThan,
+    between,
+    lessThanOrEqualTo,
+    greaterThanOrEqualTo,
+    equalTo,
+    notEqualTo,
+    addition,
+    multiplication,
+    division,
+    subtraction,
+    maskAll,
+    maskFirstN,
+    maskLastN,
+    validateNonNull,
+    validateNonZero,
+    validateNonNegative,
+    validateNumeric,
+    noOp
+  ];
+
+  static ServiceNowConnectorOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ServiceNowConnectorOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ServiceNowConnectorOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SingularConnectorOperator {
+  static const projection = SingularConnectorOperator._('PROJECTION');
+  static const equalTo = SingularConnectorOperator._('EQUAL_TO');
+  static const addition = SingularConnectorOperator._('ADDITION');
+  static const multiplication = SingularConnectorOperator._('MULTIPLICATION');
+  static const division = SingularConnectorOperator._('DIVISION');
+  static const subtraction = SingularConnectorOperator._('SUBTRACTION');
+  static const maskAll = SingularConnectorOperator._('MASK_ALL');
+  static const maskFirstN = SingularConnectorOperator._('MASK_FIRST_N');
+  static const maskLastN = SingularConnectorOperator._('MASK_LAST_N');
+  static const validateNonNull =
+      SingularConnectorOperator._('VALIDATE_NON_NULL');
+  static const validateNonZero =
+      SingularConnectorOperator._('VALIDATE_NON_ZERO');
+  static const validateNonNegative =
+      SingularConnectorOperator._('VALIDATE_NON_NEGATIVE');
+  static const validateNumeric =
+      SingularConnectorOperator._('VALIDATE_NUMERIC');
+  static const noOp = SingularConnectorOperator._('NO_OP');
+
+  final String value;
+
+  const SingularConnectorOperator._(this.value);
+
+  static const values = [
+    projection,
+    equalTo,
+    addition,
+    multiplication,
+    division,
+    subtraction,
+    maskAll,
+    maskFirstN,
+    maskLastN,
+    validateNonNull,
+    validateNonZero,
+    validateNonNegative,
+    validateNumeric,
+    noOp
+  ];
+
+  static SingularConnectorOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SingularConnectorOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SingularConnectorOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SlackConnectorOperator {
+  static const projection = SlackConnectorOperator._('PROJECTION');
+  static const lessThan = SlackConnectorOperator._('LESS_THAN');
+  static const greaterThan = SlackConnectorOperator._('GREATER_THAN');
+  static const between = SlackConnectorOperator._('BETWEEN');
+  static const lessThanOrEqualTo =
+      SlackConnectorOperator._('LESS_THAN_OR_EQUAL_TO');
+  static const greaterThanOrEqualTo =
+      SlackConnectorOperator._('GREATER_THAN_OR_EQUAL_TO');
+  static const equalTo = SlackConnectorOperator._('EQUAL_TO');
+  static const addition = SlackConnectorOperator._('ADDITION');
+  static const multiplication = SlackConnectorOperator._('MULTIPLICATION');
+  static const division = SlackConnectorOperator._('DIVISION');
+  static const subtraction = SlackConnectorOperator._('SUBTRACTION');
+  static const maskAll = SlackConnectorOperator._('MASK_ALL');
+  static const maskFirstN = SlackConnectorOperator._('MASK_FIRST_N');
+  static const maskLastN = SlackConnectorOperator._('MASK_LAST_N');
+  static const validateNonNull = SlackConnectorOperator._('VALIDATE_NON_NULL');
+  static const validateNonZero = SlackConnectorOperator._('VALIDATE_NON_ZERO');
+  static const validateNonNegative =
+      SlackConnectorOperator._('VALIDATE_NON_NEGATIVE');
+  static const validateNumeric = SlackConnectorOperator._('VALIDATE_NUMERIC');
+  static const noOp = SlackConnectorOperator._('NO_OP');
+
+  final String value;
+
+  const SlackConnectorOperator._(this.value);
+
+  static const values = [
+    projection,
+    lessThan,
+    greaterThan,
+    between,
+    lessThanOrEqualTo,
+    greaterThanOrEqualTo,
+    equalTo,
+    addition,
+    multiplication,
+    division,
+    subtraction,
+    maskAll,
+    maskFirstN,
+    maskLastN,
+    validateNonNull,
+    validateNonZero,
+    validateNonNegative,
+    validateNumeric,
+    noOp
+  ];
+
+  static SlackConnectorOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SlackConnectorOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SlackConnectorOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TrendmicroConnectorOperator {
+  static const projection = TrendmicroConnectorOperator._('PROJECTION');
+  static const equalTo = TrendmicroConnectorOperator._('EQUAL_TO');
+  static const addition = TrendmicroConnectorOperator._('ADDITION');
+  static const multiplication = TrendmicroConnectorOperator._('MULTIPLICATION');
+  static const division = TrendmicroConnectorOperator._('DIVISION');
+  static const subtraction = TrendmicroConnectorOperator._('SUBTRACTION');
+  static const maskAll = TrendmicroConnectorOperator._('MASK_ALL');
+  static const maskFirstN = TrendmicroConnectorOperator._('MASK_FIRST_N');
+  static const maskLastN = TrendmicroConnectorOperator._('MASK_LAST_N');
+  static const validateNonNull =
+      TrendmicroConnectorOperator._('VALIDATE_NON_NULL');
+  static const validateNonZero =
+      TrendmicroConnectorOperator._('VALIDATE_NON_ZERO');
+  static const validateNonNegative =
+      TrendmicroConnectorOperator._('VALIDATE_NON_NEGATIVE');
+  static const validateNumeric =
+      TrendmicroConnectorOperator._('VALIDATE_NUMERIC');
+  static const noOp = TrendmicroConnectorOperator._('NO_OP');
+
+  final String value;
+
+  const TrendmicroConnectorOperator._(this.value);
+
+  static const values = [
+    projection,
+    equalTo,
+    addition,
+    multiplication,
+    division,
+    subtraction,
+    maskAll,
+    maskFirstN,
+    maskLastN,
+    validateNonNull,
+    validateNonZero,
+    validateNonNegative,
+    validateNumeric,
+    noOp
+  ];
+
+  static TrendmicroConnectorOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TrendmicroConnectorOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TrendmicroConnectorOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class VeevaConnectorOperator {
+  static const projection = VeevaConnectorOperator._('PROJECTION');
+  static const lessThan = VeevaConnectorOperator._('LESS_THAN');
+  static const greaterThan = VeevaConnectorOperator._('GREATER_THAN');
+  static const contains = VeevaConnectorOperator._('CONTAINS');
+  static const between = VeevaConnectorOperator._('BETWEEN');
+  static const lessThanOrEqualTo =
+      VeevaConnectorOperator._('LESS_THAN_OR_EQUAL_TO');
+  static const greaterThanOrEqualTo =
+      VeevaConnectorOperator._('GREATER_THAN_OR_EQUAL_TO');
+  static const equalTo = VeevaConnectorOperator._('EQUAL_TO');
+  static const notEqualTo = VeevaConnectorOperator._('NOT_EQUAL_TO');
+  static const addition = VeevaConnectorOperator._('ADDITION');
+  static const multiplication = VeevaConnectorOperator._('MULTIPLICATION');
+  static const division = VeevaConnectorOperator._('DIVISION');
+  static const subtraction = VeevaConnectorOperator._('SUBTRACTION');
+  static const maskAll = VeevaConnectorOperator._('MASK_ALL');
+  static const maskFirstN = VeevaConnectorOperator._('MASK_FIRST_N');
+  static const maskLastN = VeevaConnectorOperator._('MASK_LAST_N');
+  static const validateNonNull = VeevaConnectorOperator._('VALIDATE_NON_NULL');
+  static const validateNonZero = VeevaConnectorOperator._('VALIDATE_NON_ZERO');
+  static const validateNonNegative =
+      VeevaConnectorOperator._('VALIDATE_NON_NEGATIVE');
+  static const validateNumeric = VeevaConnectorOperator._('VALIDATE_NUMERIC');
+  static const noOp = VeevaConnectorOperator._('NO_OP');
+
+  final String value;
+
+  const VeevaConnectorOperator._(this.value);
+
+  static const values = [
+    projection,
+    lessThan,
+    greaterThan,
+    contains,
+    between,
+    lessThanOrEqualTo,
+    greaterThanOrEqualTo,
+    equalTo,
+    notEqualTo,
+    addition,
+    multiplication,
+    division,
+    subtraction,
+    maskAll,
+    maskFirstN,
+    maskLastN,
+    validateNonNull,
+    validateNonZero,
+    validateNonNegative,
+    validateNumeric,
+    noOp
+  ];
+
+  static VeevaConnectorOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VeevaConnectorOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VeevaConnectorOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ZendeskConnectorOperator {
+  static const projection = ZendeskConnectorOperator._('PROJECTION');
+  static const greaterThan = ZendeskConnectorOperator._('GREATER_THAN');
+  static const addition = ZendeskConnectorOperator._('ADDITION');
+  static const multiplication = ZendeskConnectorOperator._('MULTIPLICATION');
+  static const division = ZendeskConnectorOperator._('DIVISION');
+  static const subtraction = ZendeskConnectorOperator._('SUBTRACTION');
+  static const maskAll = ZendeskConnectorOperator._('MASK_ALL');
+  static const maskFirstN = ZendeskConnectorOperator._('MASK_FIRST_N');
+  static const maskLastN = ZendeskConnectorOperator._('MASK_LAST_N');
+  static const validateNonNull =
+      ZendeskConnectorOperator._('VALIDATE_NON_NULL');
+  static const validateNonZero =
+      ZendeskConnectorOperator._('VALIDATE_NON_ZERO');
+  static const validateNonNegative =
+      ZendeskConnectorOperator._('VALIDATE_NON_NEGATIVE');
+  static const validateNumeric = ZendeskConnectorOperator._('VALIDATE_NUMERIC');
+  static const noOp = ZendeskConnectorOperator._('NO_OP');
+
+  final String value;
+
+  const ZendeskConnectorOperator._(this.value);
+
+  static const values = [
+    projection,
+    greaterThan,
+    addition,
+    multiplication,
+    division,
+    subtraction,
+    maskAll,
+    maskFirstN,
+    maskLastN,
+    validateNonNull,
+    validateNonZero,
+    validateNonNegative,
+    validateNumeric,
+    noOp
+  ];
+
+  static ZendeskConnectorOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ZendeskConnectorOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ZendeskConnectorOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SAPODataConnectorOperator {
+  static const projection = SAPODataConnectorOperator._('PROJECTION');
+  static const lessThan = SAPODataConnectorOperator._('LESS_THAN');
+  static const contains = SAPODataConnectorOperator._('CONTAINS');
+  static const greaterThan = SAPODataConnectorOperator._('GREATER_THAN');
+  static const between = SAPODataConnectorOperator._('BETWEEN');
+  static const lessThanOrEqualTo =
+      SAPODataConnectorOperator._('LESS_THAN_OR_EQUAL_TO');
+  static const greaterThanOrEqualTo =
+      SAPODataConnectorOperator._('GREATER_THAN_OR_EQUAL_TO');
+  static const equalTo = SAPODataConnectorOperator._('EQUAL_TO');
+  static const notEqualTo = SAPODataConnectorOperator._('NOT_EQUAL_TO');
+  static const addition = SAPODataConnectorOperator._('ADDITION');
+  static const multiplication = SAPODataConnectorOperator._('MULTIPLICATION');
+  static const division = SAPODataConnectorOperator._('DIVISION');
+  static const subtraction = SAPODataConnectorOperator._('SUBTRACTION');
+  static const maskAll = SAPODataConnectorOperator._('MASK_ALL');
+  static const maskFirstN = SAPODataConnectorOperator._('MASK_FIRST_N');
+  static const maskLastN = SAPODataConnectorOperator._('MASK_LAST_N');
+  static const validateNonNull =
+      SAPODataConnectorOperator._('VALIDATE_NON_NULL');
+  static const validateNonZero =
+      SAPODataConnectorOperator._('VALIDATE_NON_ZERO');
+  static const validateNonNegative =
+      SAPODataConnectorOperator._('VALIDATE_NON_NEGATIVE');
+  static const validateNumeric =
+      SAPODataConnectorOperator._('VALIDATE_NUMERIC');
+  static const noOp = SAPODataConnectorOperator._('NO_OP');
+
+  final String value;
+
+  const SAPODataConnectorOperator._(this.value);
+
+  static const values = [
+    projection,
+    lessThan,
+    contains,
+    greaterThan,
+    between,
+    lessThanOrEqualTo,
+    greaterThanOrEqualTo,
+    equalTo,
+    notEqualTo,
+    addition,
+    multiplication,
+    division,
+    subtraction,
+    maskAll,
+    maskFirstN,
+    maskLastN,
+    validateNonNull,
+    validateNonZero,
+    validateNonNegative,
+    validateNumeric,
+    noOp
+  ];
+
+  static SAPODataConnectorOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SAPODataConnectorOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SAPODataConnectorOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class Operator {
+  static const projection = Operator._('PROJECTION');
+  static const lessThan = Operator._('LESS_THAN');
+  static const greaterThan = Operator._('GREATER_THAN');
+  static const contains = Operator._('CONTAINS');
+  static const between = Operator._('BETWEEN');
+  static const lessThanOrEqualTo = Operator._('LESS_THAN_OR_EQUAL_TO');
+  static const greaterThanOrEqualTo = Operator._('GREATER_THAN_OR_EQUAL_TO');
+  static const equalTo = Operator._('EQUAL_TO');
+  static const notEqualTo = Operator._('NOT_EQUAL_TO');
+  static const addition = Operator._('ADDITION');
+  static const multiplication = Operator._('MULTIPLICATION');
+  static const division = Operator._('DIVISION');
+  static const subtraction = Operator._('SUBTRACTION');
+  static const maskAll = Operator._('MASK_ALL');
+  static const maskFirstN = Operator._('MASK_FIRST_N');
+  static const maskLastN = Operator._('MASK_LAST_N');
+  static const validateNonNull = Operator._('VALIDATE_NON_NULL');
+  static const validateNonZero = Operator._('VALIDATE_NON_ZERO');
+  static const validateNonNegative = Operator._('VALIDATE_NON_NEGATIVE');
+  static const validateNumeric = Operator._('VALIDATE_NUMERIC');
+  static const noOp = Operator._('NO_OP');
+
+  final String value;
+
+  const Operator._(this.value);
+
+  static const values = [
+    projection,
+    lessThan,
+    greaterThan,
+    contains,
+    between,
+    lessThanOrEqualTo,
+    greaterThanOrEqualTo,
+    equalTo,
+    notEqualTo,
+    addition,
+    multiplication,
+    division,
+    subtraction,
+    maskAll,
+    maskFirstN,
+    maskLastN,
+    validateNonNull,
+    validateNonZero,
+    validateNonNegative,
+    validateNumeric,
+    noOp
+  ];
+
+  static Operator fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Operator._(value));
+
+  @override
+  bool operator ==(other) => other is Operator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class PardotConnectorOperator {
+  static const projection = PardotConnectorOperator._('PROJECTION');
+  static const equalTo = PardotConnectorOperator._('EQUAL_TO');
+  static const noOp = PardotConnectorOperator._('NO_OP');
+  static const addition = PardotConnectorOperator._('ADDITION');
+  static const multiplication = PardotConnectorOperator._('MULTIPLICATION');
+  static const division = PardotConnectorOperator._('DIVISION');
+  static const subtraction = PardotConnectorOperator._('SUBTRACTION');
+  static const maskAll = PardotConnectorOperator._('MASK_ALL');
+  static const maskFirstN = PardotConnectorOperator._('MASK_FIRST_N');
+  static const maskLastN = PardotConnectorOperator._('MASK_LAST_N');
+  static const validateNonNull = PardotConnectorOperator._('VALIDATE_NON_NULL');
+  static const validateNonZero = PardotConnectorOperator._('VALIDATE_NON_ZERO');
+  static const validateNonNegative =
+      PardotConnectorOperator._('VALIDATE_NON_NEGATIVE');
+  static const validateNumeric = PardotConnectorOperator._('VALIDATE_NUMERIC');
+
+  final String value;
+
+  const PardotConnectorOperator._(this.value);
+
+  static const values = [
+    projection,
+    equalTo,
+    noOp,
+    addition,
+    multiplication,
+    division,
+    subtraction,
+    maskAll,
+    maskFirstN,
+    maskLastN,
+    validateNonNull,
+    validateNonZero,
+    validateNonNegative,
+    validateNumeric
+  ];
+
+  static PardotConnectorOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PardotConnectorOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PardotConnectorOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about the configuration of destination connectors
+/// present in the flow.
+class DestinationFlowConfig {
+  /// The type of connector, such as Salesforce, Amplitude, and so on.
+  final ConnectorType connectorType;
+
+  /// This stores the information that is required to query a particular
+  /// connector.
+  final DestinationConnectorProperties destinationConnectorProperties;
+
+  /// The API version that the destination connector uses.
+  final String? apiVersion;
+
+  /// The name of the connector profile. This name must be unique for each
+  /// connector profile in the Amazon Web Services account.
+  final String? connectorProfileName;
+
+  DestinationFlowConfig({
+    required this.connectorType,
+    required this.destinationConnectorProperties,
+    this.apiVersion,
+    this.connectorProfileName,
+  });
+
+  factory DestinationFlowConfig.fromJson(Map<String, dynamic> json) {
+    return DestinationFlowConfig(
+      connectorType:
+          ConnectorType.fromString((json['connectorType'] as String?) ?? ''),
+      destinationConnectorProperties: DestinationConnectorProperties.fromJson(
+          (json['destinationConnectorProperties'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      apiVersion: json['apiVersion'] as String?,
+      connectorProfileName: json['connectorProfileName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorType = this.connectorType;
+    final destinationConnectorProperties = this.destinationConnectorProperties;
+    final apiVersion = this.apiVersion;
+    final connectorProfileName = this.connectorProfileName;
+    return {
+      'connectorType': connectorType.value,
+      'destinationConnectorProperties': destinationConnectorProperties,
+      if (apiVersion != null) 'apiVersion': apiVersion,
+      if (connectorProfileName != null)
+        'connectorProfileName': connectorProfileName,
+    };
+  }
+}
+
+class ConnectorType {
+  static const salesforce = ConnectorType._('Salesforce');
+  static const singular = ConnectorType._('Singular');
+  static const slack = ConnectorType._('Slack');
+  static const redshift = ConnectorType._('Redshift');
+  static const s3 = ConnectorType._('S3');
+  static const marketo = ConnectorType._('Marketo');
+  static const googleanalytics = ConnectorType._('Googleanalytics');
+  static const zendesk = ConnectorType._('Zendesk');
+  static const servicenow = ConnectorType._('Servicenow');
+  static const datadog = ConnectorType._('Datadog');
+  static const trendmicro = ConnectorType._('Trendmicro');
+  static const snowflake = ConnectorType._('Snowflake');
+  static const dynatrace = ConnectorType._('Dynatrace');
+  static const infornexus = ConnectorType._('Infornexus');
+  static const amplitude = ConnectorType._('Amplitude');
+  static const veeva = ConnectorType._('Veeva');
+  static const eventBridge = ConnectorType._('EventBridge');
+  static const lookoutMetrics = ConnectorType._('LookoutMetrics');
+  static const upsolver = ConnectorType._('Upsolver');
+  static const honeycode = ConnectorType._('Honeycode');
+  static const customerProfiles = ConnectorType._('CustomerProfiles');
+  static const sAPOData = ConnectorType._('SAPOData');
+  static const customConnector = ConnectorType._('CustomConnector');
+  static const pardot = ConnectorType._('Pardot');
+
+  final String value;
+
+  const ConnectorType._(this.value);
+
+  static const values = [
+    salesforce,
+    singular,
+    slack,
+    redshift,
+    s3,
+    marketo,
+    googleanalytics,
+    zendesk,
+    servicenow,
+    datadog,
+    trendmicro,
+    snowflake,
+    dynatrace,
+    infornexus,
+    amplitude,
+    veeva,
+    eventBridge,
+    lookoutMetrics,
+    upsolver,
+    honeycode,
+    customerProfiles,
+    sAPOData,
+    customConnector,
+    pardot
+  ];
+
+  static ConnectorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectorType._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// This stores the information that is required to query a particular
+/// connector.
+class DestinationConnectorProperties {
+  /// The properties that are required to query the custom Connector.
+  final CustomConnectorDestinationProperties? customConnector;
+
+  /// The properties required to query Connect Customer Customer Profiles.
+  final CustomerProfilesDestinationProperties? customerProfiles;
+
+  /// The properties required to query Amazon EventBridge.
+  final EventBridgeDestinationProperties? eventBridge;
+
+  /// The properties required to query Amazon Honeycode.
+  final HoneycodeDestinationProperties? honeycode;
+
+  /// The properties required to query Amazon Lookout for Metrics.
+  final LookoutMetricsDestinationProperties? lookoutMetrics;
+
+  /// The properties required to query Marketo.
+  final MarketoDestinationProperties? marketo;
+
+  /// The properties required to query Amazon Redshift.
+  final RedshiftDestinationProperties? redshift;
+
+  /// The properties required to query Amazon S3.
+  final S3DestinationProperties? s3;
+
+  /// The properties required to query SAPOData.
+  final SAPODataDestinationProperties? sAPOData;
+
+  /// The properties required to query Salesforce.
+  final SalesforceDestinationProperties? salesforce;
+
+  /// The properties required to query Snowflake.
+  final SnowflakeDestinationProperties? snowflake;
+
+  /// The properties required to query Upsolver.
+  final UpsolverDestinationProperties? upsolver;
+
+  /// The properties required to query Zendesk.
+  final ZendeskDestinationProperties? zendesk;
+
+  DestinationConnectorProperties({
+    this.customConnector,
+    this.customerProfiles,
+    this.eventBridge,
+    this.honeycode,
+    this.lookoutMetrics,
+    this.marketo,
+    this.redshift,
+    this.s3,
+    this.sAPOData,
+    this.salesforce,
+    this.snowflake,
+    this.upsolver,
+    this.zendesk,
+  });
+
+  factory DestinationConnectorProperties.fromJson(Map<String, dynamic> json) {
+    return DestinationConnectorProperties(
+      customConnector: json['CustomConnector'] != null
+          ? CustomConnectorDestinationProperties.fromJson(
+              json['CustomConnector'] as Map<String, dynamic>)
+          : null,
+      customerProfiles: json['CustomerProfiles'] != null
+          ? CustomerProfilesDestinationProperties.fromJson(
+              json['CustomerProfiles'] as Map<String, dynamic>)
+          : null,
+      eventBridge: json['EventBridge'] != null
+          ? EventBridgeDestinationProperties.fromJson(
+              json['EventBridge'] as Map<String, dynamic>)
+          : null,
+      honeycode: json['Honeycode'] != null
+          ? HoneycodeDestinationProperties.fromJson(
+              json['Honeycode'] as Map<String, dynamic>)
+          : null,
+      lookoutMetrics: json['LookoutMetrics'] != null
+          ? LookoutMetricsDestinationProperties.fromJson(
+              json['LookoutMetrics'] as Map<String, dynamic>)
+          : null,
+      marketo: json['Marketo'] != null
+          ? MarketoDestinationProperties.fromJson(
+              json['Marketo'] as Map<String, dynamic>)
+          : null,
+      redshift: json['Redshift'] != null
+          ? RedshiftDestinationProperties.fromJson(
+              json['Redshift'] as Map<String, dynamic>)
+          : null,
+      s3: json['S3'] != null
+          ? S3DestinationProperties.fromJson(json['S3'] as Map<String, dynamic>)
+          : null,
+      sAPOData: json['SAPOData'] != null
+          ? SAPODataDestinationProperties.fromJson(
+              json['SAPOData'] as Map<String, dynamic>)
+          : null,
+      salesforce: json['Salesforce'] != null
+          ? SalesforceDestinationProperties.fromJson(
+              json['Salesforce'] as Map<String, dynamic>)
+          : null,
+      snowflake: json['Snowflake'] != null
+          ? SnowflakeDestinationProperties.fromJson(
+              json['Snowflake'] as Map<String, dynamic>)
+          : null,
+      upsolver: json['Upsolver'] != null
+          ? UpsolverDestinationProperties.fromJson(
+              json['Upsolver'] as Map<String, dynamic>)
+          : null,
+      zendesk: json['Zendesk'] != null
+          ? ZendeskDestinationProperties.fromJson(
+              json['Zendesk'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customConnector = this.customConnector;
+    final customerProfiles = this.customerProfiles;
+    final eventBridge = this.eventBridge;
+    final honeycode = this.honeycode;
+    final lookoutMetrics = this.lookoutMetrics;
+    final marketo = this.marketo;
+    final redshift = this.redshift;
+    final s3 = this.s3;
+    final sAPOData = this.sAPOData;
+    final salesforce = this.salesforce;
+    final snowflake = this.snowflake;
+    final upsolver = this.upsolver;
+    final zendesk = this.zendesk;
+    return {
+      if (customConnector != null) 'CustomConnector': customConnector,
+      if (customerProfiles != null) 'CustomerProfiles': customerProfiles,
+      if (eventBridge != null) 'EventBridge': eventBridge,
+      if (honeycode != null) 'Honeycode': honeycode,
+      if (lookoutMetrics != null) 'LookoutMetrics': lookoutMetrics,
+      if (marketo != null) 'Marketo': marketo,
+      if (redshift != null) 'Redshift': redshift,
+      if (s3 != null) 'S3': s3,
+      if (sAPOData != null) 'SAPOData': sAPOData,
+      if (salesforce != null) 'Salesforce': salesforce,
+      if (snowflake != null) 'Snowflake': snowflake,
+      if (upsolver != null) 'Upsolver': upsolver,
+      if (zendesk != null) 'Zendesk': zendesk,
+    };
+  }
+}
+
+/// The properties that are applied when Amazon Redshift is being used as a
+/// destination.
+class RedshiftDestinationProperties {
+  /// The intermediate bucket that Amazon AppFlow uses when moving data into
+  /// Amazon Redshift.
+  final String intermediateBucketName;
+
+  /// The object specified in the Amazon Redshift flow destination.
+  final String object;
+
+  /// The object key for the bucket in which Amazon AppFlow places the destination
+  /// files.
+  final String? bucketPrefix;
+
+  /// The settings that determine how Amazon AppFlow handles an error when placing
+  /// data in the Amazon Redshift destination. For example, this setting would
+  /// determine if the flow should fail after one insertion error, or continue and
+  /// attempt to insert every record regardless of the initial failure.
+  /// <code>ErrorHandlingConfig</code> is a part of the destination connector
+  /// details.
+  final ErrorHandlingConfig? errorHandlingConfig;
+
+  RedshiftDestinationProperties({
+    required this.intermediateBucketName,
+    required this.object,
+    this.bucketPrefix,
+    this.errorHandlingConfig,
+  });
+
+  factory RedshiftDestinationProperties.fromJson(Map<String, dynamic> json) {
+    return RedshiftDestinationProperties(
+      intermediateBucketName: (json['intermediateBucketName'] as String?) ?? '',
+      object: (json['object'] as String?) ?? '',
+      bucketPrefix: json['bucketPrefix'] as String?,
+      errorHandlingConfig: json['errorHandlingConfig'] != null
+          ? ErrorHandlingConfig.fromJson(
+              json['errorHandlingConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final intermediateBucketName = this.intermediateBucketName;
+    final object = this.object;
+    final bucketPrefix = this.bucketPrefix;
+    final errorHandlingConfig = this.errorHandlingConfig;
+    return {
+      'intermediateBucketName': intermediateBucketName,
+      'object': object,
+      if (bucketPrefix != null) 'bucketPrefix': bucketPrefix,
+      if (errorHandlingConfig != null)
+        'errorHandlingConfig': errorHandlingConfig,
+    };
+  }
+}
+
+/// The properties that are applied when Amazon S3 is used as a destination.
+class S3DestinationProperties {
+  /// The Amazon S3 bucket name in which Amazon AppFlow places the transferred
+  /// data.
+  final String bucketName;
+
+  /// The object key for the destination bucket in which Amazon AppFlow places the
+  /// files.
+  final String? bucketPrefix;
+  final S3OutputFormatConfig? s3OutputFormatConfig;
+
+  S3DestinationProperties({
+    required this.bucketName,
+    this.bucketPrefix,
+    this.s3OutputFormatConfig,
+  });
+
+  factory S3DestinationProperties.fromJson(Map<String, dynamic> json) {
+    return S3DestinationProperties(
+      bucketName: (json['bucketName'] as String?) ?? '',
+      bucketPrefix: json['bucketPrefix'] as String?,
+      s3OutputFormatConfig: json['s3OutputFormatConfig'] != null
+          ? S3OutputFormatConfig.fromJson(
+              json['s3OutputFormatConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final bucketPrefix = this.bucketPrefix;
+    final s3OutputFormatConfig = this.s3OutputFormatConfig;
+    return {
+      'bucketName': bucketName,
+      if (bucketPrefix != null) 'bucketPrefix': bucketPrefix,
+      if (s3OutputFormatConfig != null)
+        's3OutputFormatConfig': s3OutputFormatConfig,
+    };
+  }
+}
+
+/// The properties that are applied when Salesforce is being used as a
+/// destination.
+class SalesforceDestinationProperties {
+  /// The object specified in the Salesforce flow destination.
+  final String object;
+
+  /// Specifies which Salesforce API is used by Amazon AppFlow when your flow
+  /// transfers data to Salesforce.
+  /// <dl> <dt>AUTOMATIC</dt> <dd>
+  /// The default. Amazon AppFlow selects which API to use based on the number of
+  /// records that your flow transfers to Salesforce. If your flow transfers fewer
+  /// than 1,000 records, Amazon AppFlow uses Salesforce REST API. If your flow
+  /// transfers 1,000 records or more, Amazon AppFlow uses Salesforce Bulk API
+  /// 2.0.
+  ///
+  /// Each of these Salesforce APIs structures data differently. If Amazon AppFlow
+  /// selects the API automatically, be aware that, for recurring flows, the data
+  /// output might vary from one flow run to the next. For example, if a flow runs
+  /// daily, it might use REST API on one day to transfer 900 records, and it
+  /// might use Bulk API 2.0 on the next day to transfer 1,100 records. For each
+  /// of these flow runs, the respective Salesforce API formats the data
+  /// differently. Some of the differences include how dates are formatted and
+  /// null values are represented. Also, Bulk API 2.0 doesn't transfer Salesforce
+  /// compound fields.
+  ///
+  /// By choosing this option, you optimize flow performance for both small and
+  /// large data transfers, but the tradeoff is inconsistent formatting in the
+  /// output.
+  /// </dd> <dt>BULKV2</dt> <dd>
+  /// Amazon AppFlow uses only Salesforce Bulk API 2.0. This API runs asynchronous
+  /// data transfers, and it's optimal for large sets of data. By choosing this
+  /// option, you ensure that your flow writes consistent output, but you optimize
+  /// performance only for large data transfers.
+  ///
+  /// Note that Bulk API 2.0 does not transfer Salesforce compound fields.
+  /// </dd> <dt>REST_SYNC</dt> <dd>
+  /// Amazon AppFlow uses only Salesforce REST API. By choosing this option, you
+  /// ensure that your flow writes consistent output, but you decrease performance
+  /// for large data transfers that are better suited for Bulk API 2.0. In some
+  /// cases, if your flow attempts to transfer a vary large set of data, it might
+  /// fail with a timed out error.
+  /// </dd> </dl>
+  final SalesforceDataTransferApi? dataTransferApi;
+
+  /// The settings that determine how Amazon AppFlow handles an error when placing
+  /// data in the Salesforce destination. For example, this setting would
+  /// determine if the flow should fail after one insertion error, or continue and
+  /// attempt to insert every record regardless of the initial failure.
+  /// <code>ErrorHandlingConfig</code> is a part of the destination connector
+  /// details.
+  final ErrorHandlingConfig? errorHandlingConfig;
+
+  /// The name of the field that Amazon AppFlow uses as an ID when performing a
+  /// write operation such as update or delete.
+  final List<String>? idFieldNames;
+
+  /// This specifies the type of write operation to be performed in Salesforce.
+  /// When the value is <code>UPSERT</code>, then <code>idFieldNames</code> is
+  /// required.
+  final WriteOperationType? writeOperationType;
+
+  SalesforceDestinationProperties({
+    required this.object,
+    this.dataTransferApi,
+    this.errorHandlingConfig,
+    this.idFieldNames,
+    this.writeOperationType,
+  });
+
+  factory SalesforceDestinationProperties.fromJson(Map<String, dynamic> json) {
+    return SalesforceDestinationProperties(
+      object: (json['object'] as String?) ?? '',
+      dataTransferApi: (json['dataTransferApi'] as String?)
+          ?.let(SalesforceDataTransferApi.fromString),
+      errorHandlingConfig: json['errorHandlingConfig'] != null
+          ? ErrorHandlingConfig.fromJson(
+              json['errorHandlingConfig'] as Map<String, dynamic>)
+          : null,
+      idFieldNames: (json['idFieldNames'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      writeOperationType: (json['writeOperationType'] as String?)
+          ?.let(WriteOperationType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final object = this.object;
+    final dataTransferApi = this.dataTransferApi;
+    final errorHandlingConfig = this.errorHandlingConfig;
+    final idFieldNames = this.idFieldNames;
+    final writeOperationType = this.writeOperationType;
+    return {
+      'object': object,
+      if (dataTransferApi != null) 'dataTransferApi': dataTransferApi.value,
+      if (errorHandlingConfig != null)
+        'errorHandlingConfig': errorHandlingConfig,
+      if (idFieldNames != null) 'idFieldNames': idFieldNames,
+      if (writeOperationType != null)
+        'writeOperationType': writeOperationType.value,
+    };
+  }
+}
+
+/// The properties that are applied when Snowflake is being used as a
+/// destination.
+class SnowflakeDestinationProperties {
+  /// The intermediate bucket that Amazon AppFlow uses when moving data into
+  /// Snowflake.
+  final String intermediateBucketName;
+
+  /// The object specified in the Snowflake flow destination.
+  final String object;
+
+  /// The object key for the destination bucket in which Amazon AppFlow places the
+  /// files.
+  final String? bucketPrefix;
+
+  /// The settings that determine how Amazon AppFlow handles an error when placing
+  /// data in the Snowflake destination. For example, this setting would determine
+  /// if the flow should fail after one insertion error, or continue and attempt
+  /// to insert every record regardless of the initial failure.
+  /// <code>ErrorHandlingConfig</code> is a part of the destination connector
+  /// details.
+  final ErrorHandlingConfig? errorHandlingConfig;
+
+  SnowflakeDestinationProperties({
+    required this.intermediateBucketName,
+    required this.object,
+    this.bucketPrefix,
+    this.errorHandlingConfig,
+  });
+
+  factory SnowflakeDestinationProperties.fromJson(Map<String, dynamic> json) {
+    return SnowflakeDestinationProperties(
+      intermediateBucketName: (json['intermediateBucketName'] as String?) ?? '',
+      object: (json['object'] as String?) ?? '',
+      bucketPrefix: json['bucketPrefix'] as String?,
+      errorHandlingConfig: json['errorHandlingConfig'] != null
+          ? ErrorHandlingConfig.fromJson(
+              json['errorHandlingConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final intermediateBucketName = this.intermediateBucketName;
+    final object = this.object;
+    final bucketPrefix = this.bucketPrefix;
+    final errorHandlingConfig = this.errorHandlingConfig;
+    return {
+      'intermediateBucketName': intermediateBucketName,
+      'object': object,
+      if (bucketPrefix != null) 'bucketPrefix': bucketPrefix,
+      if (errorHandlingConfig != null)
+        'errorHandlingConfig': errorHandlingConfig,
+    };
+  }
+}
+
+/// The properties that are applied when Amazon EventBridge is being used as a
+/// destination.
+class EventBridgeDestinationProperties {
+  /// The object specified in the Amazon EventBridge flow destination.
+  final String object;
+  final ErrorHandlingConfig? errorHandlingConfig;
+
+  EventBridgeDestinationProperties({
+    required this.object,
+    this.errorHandlingConfig,
+  });
+
+  factory EventBridgeDestinationProperties.fromJson(Map<String, dynamic> json) {
+    return EventBridgeDestinationProperties(
+      object: (json['object'] as String?) ?? '',
+      errorHandlingConfig: json['errorHandlingConfig'] != null
+          ? ErrorHandlingConfig.fromJson(
+              json['errorHandlingConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final object = this.object;
+    final errorHandlingConfig = this.errorHandlingConfig;
+    return {
+      'object': object,
+      if (errorHandlingConfig != null)
+        'errorHandlingConfig': errorHandlingConfig,
+    };
+  }
+}
+
+/// The properties that are applied when Amazon Lookout for Metrics is used as a
+/// destination.
+class LookoutMetricsDestinationProperties {
+  LookoutMetricsDestinationProperties();
+
+  factory LookoutMetricsDestinationProperties.fromJson(Map<String, dynamic> _) {
+    return LookoutMetricsDestinationProperties();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The properties that are applied when Upsolver is used as a destination.
+class UpsolverDestinationProperties {
+  /// The Upsolver Amazon S3 bucket name in which Amazon AppFlow places the
+  /// transferred data.
+  final String bucketName;
+
+  /// The configuration that determines how data is formatted when Upsolver is
+  /// used as the flow destination.
+  final UpsolverS3OutputFormatConfig s3OutputFormatConfig;
+
+  /// The object key for the destination Upsolver Amazon S3 bucket in which Amazon
+  /// AppFlow places the files.
+  final String? bucketPrefix;
+
+  UpsolverDestinationProperties({
+    required this.bucketName,
+    required this.s3OutputFormatConfig,
+    this.bucketPrefix,
+  });
+
+  factory UpsolverDestinationProperties.fromJson(Map<String, dynamic> json) {
+    return UpsolverDestinationProperties(
+      bucketName: (json['bucketName'] as String?) ?? '',
+      s3OutputFormatConfig: UpsolverS3OutputFormatConfig.fromJson(
+          (json['s3OutputFormatConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      bucketPrefix: json['bucketPrefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final s3OutputFormatConfig = this.s3OutputFormatConfig;
+    final bucketPrefix = this.bucketPrefix;
+    return {
+      'bucketName': bucketName,
+      's3OutputFormatConfig': s3OutputFormatConfig,
+      if (bucketPrefix != null) 'bucketPrefix': bucketPrefix,
+    };
+  }
+}
+
+/// The properties that are applied when Amazon Honeycode is used as a
+/// destination.
+class HoneycodeDestinationProperties {
+  /// The object specified in the Amazon Honeycode flow destination.
+  final String object;
+  final ErrorHandlingConfig? errorHandlingConfig;
+
+  HoneycodeDestinationProperties({
+    required this.object,
+    this.errorHandlingConfig,
+  });
+
+  factory HoneycodeDestinationProperties.fromJson(Map<String, dynamic> json) {
+    return HoneycodeDestinationProperties(
+      object: (json['object'] as String?) ?? '',
+      errorHandlingConfig: json['errorHandlingConfig'] != null
+          ? ErrorHandlingConfig.fromJson(
+              json['errorHandlingConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final object = this.object;
+    final errorHandlingConfig = this.errorHandlingConfig;
+    return {
+      'object': object,
+      if (errorHandlingConfig != null)
+        'errorHandlingConfig': errorHandlingConfig,
+    };
+  }
+}
+
+/// The properties that are applied when Connect Customer Customer Profiles is
+/// used as a destination.
+class CustomerProfilesDestinationProperties {
+  /// The unique name of the Connect Customer Customer Profiles domain.
+  final String domainName;
+
+  /// The object specified in the Connect Customer Customer Profiles flow
+  /// destination.
+  final String? objectTypeName;
+
+  CustomerProfilesDestinationProperties({
+    required this.domainName,
+    this.objectTypeName,
+  });
+
+  factory CustomerProfilesDestinationProperties.fromJson(
+      Map<String, dynamic> json) {
+    return CustomerProfilesDestinationProperties(
+      domainName: (json['domainName'] as String?) ?? '',
+      objectTypeName: json['objectTypeName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainName = this.domainName;
+    final objectTypeName = this.objectTypeName;
+    return {
+      'domainName': domainName,
+      if (objectTypeName != null) 'objectTypeName': objectTypeName,
+    };
+  }
+}
+
+/// The properties that are applied when Zendesk is used as a destination.
+class ZendeskDestinationProperties {
+  /// The object specified in the Zendesk flow destination.
+  final String object;
+  final ErrorHandlingConfig? errorHandlingConfig;
+  final List<String>? idFieldNames;
+  final WriteOperationType? writeOperationType;
+
+  ZendeskDestinationProperties({
+    required this.object,
+    this.errorHandlingConfig,
+    this.idFieldNames,
+    this.writeOperationType,
+  });
+
+  factory ZendeskDestinationProperties.fromJson(Map<String, dynamic> json) {
+    return ZendeskDestinationProperties(
+      object: (json['object'] as String?) ?? '',
+      errorHandlingConfig: json['errorHandlingConfig'] != null
+          ? ErrorHandlingConfig.fromJson(
+              json['errorHandlingConfig'] as Map<String, dynamic>)
+          : null,
+      idFieldNames: (json['idFieldNames'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      writeOperationType: (json['writeOperationType'] as String?)
+          ?.let(WriteOperationType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final object = this.object;
+    final errorHandlingConfig = this.errorHandlingConfig;
+    final idFieldNames = this.idFieldNames;
+    final writeOperationType = this.writeOperationType;
+    return {
+      'object': object,
+      if (errorHandlingConfig != null)
+        'errorHandlingConfig': errorHandlingConfig,
+      if (idFieldNames != null) 'idFieldNames': idFieldNames,
+      if (writeOperationType != null)
+        'writeOperationType': writeOperationType.value,
+    };
+  }
+}
+
+/// The properties that Amazon AppFlow applies when you use Marketo as a flow
+/// destination.
+class MarketoDestinationProperties {
+  /// The object specified in the Marketo flow destination.
+  final String object;
+  final ErrorHandlingConfig? errorHandlingConfig;
+
+  MarketoDestinationProperties({
+    required this.object,
+    this.errorHandlingConfig,
+  });
+
+  factory MarketoDestinationProperties.fromJson(Map<String, dynamic> json) {
+    return MarketoDestinationProperties(
+      object: (json['object'] as String?) ?? '',
+      errorHandlingConfig: json['errorHandlingConfig'] != null
+          ? ErrorHandlingConfig.fromJson(
+              json['errorHandlingConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final object = this.object;
+    final errorHandlingConfig = this.errorHandlingConfig;
+    return {
+      'object': object,
+      if (errorHandlingConfig != null)
+        'errorHandlingConfig': errorHandlingConfig,
+    };
+  }
+}
+
+/// The properties that are applied when the custom connector is being used as a
+/// destination.
+class CustomConnectorDestinationProperties {
+  /// The entity specified in the custom connector as a destination in the flow.
+  final String entityName;
+
+  /// The custom properties that are specific to the connector when it's used as a
+  /// destination in the flow.
+  final Map<String, String>? customProperties;
+
+  /// The settings that determine how Amazon AppFlow handles an error when placing
+  /// data in the custom connector as destination.
+  final ErrorHandlingConfig? errorHandlingConfig;
+
+  /// The name of the field that Amazon AppFlow uses as an ID when performing a
+  /// write operation such as update, delete, or upsert.
+  final List<String>? idFieldNames;
+
+  /// Specifies the type of write operation to be performed in the custom
+  /// connector when it's used as destination.
+  final WriteOperationType? writeOperationType;
+
+  CustomConnectorDestinationProperties({
+    required this.entityName,
+    this.customProperties,
+    this.errorHandlingConfig,
+    this.idFieldNames,
+    this.writeOperationType,
+  });
+
+  factory CustomConnectorDestinationProperties.fromJson(
+      Map<String, dynamic> json) {
+    return CustomConnectorDestinationProperties(
+      entityName: (json['entityName'] as String?) ?? '',
+      customProperties: (json['customProperties'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      errorHandlingConfig: json['errorHandlingConfig'] != null
+          ? ErrorHandlingConfig.fromJson(
+              json['errorHandlingConfig'] as Map<String, dynamic>)
+          : null,
+      idFieldNames: (json['idFieldNames'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      writeOperationType: (json['writeOperationType'] as String?)
+          ?.let(WriteOperationType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entityName = this.entityName;
+    final customProperties = this.customProperties;
+    final errorHandlingConfig = this.errorHandlingConfig;
+    final idFieldNames = this.idFieldNames;
+    final writeOperationType = this.writeOperationType;
+    return {
+      'entityName': entityName,
+      if (customProperties != null) 'customProperties': customProperties,
+      if (errorHandlingConfig != null)
+        'errorHandlingConfig': errorHandlingConfig,
+      if (idFieldNames != null) 'idFieldNames': idFieldNames,
+      if (writeOperationType != null)
+        'writeOperationType': writeOperationType.value,
+    };
+  }
+}
+
+/// The properties that are applied when using SAPOData as a flow destination
+class SAPODataDestinationProperties {
+  /// The object path specified in the SAPOData flow destination.
+  final String objectPath;
+  final ErrorHandlingConfig? errorHandlingConfig;
+  final List<String>? idFieldNames;
+
+  /// Determines how Amazon AppFlow handles the success response that it gets from
+  /// the connector after placing data.
+  ///
+  /// For example, this setting would determine where to write the response from a
+  /// destination connector upon a successful insert operation.
+  final SuccessResponseHandlingConfig? successResponseHandlingConfig;
+  final WriteOperationType? writeOperationType;
+
+  SAPODataDestinationProperties({
+    required this.objectPath,
+    this.errorHandlingConfig,
+    this.idFieldNames,
+    this.successResponseHandlingConfig,
+    this.writeOperationType,
+  });
+
+  factory SAPODataDestinationProperties.fromJson(Map<String, dynamic> json) {
+    return SAPODataDestinationProperties(
+      objectPath: (json['objectPath'] as String?) ?? '',
+      errorHandlingConfig: json['errorHandlingConfig'] != null
+          ? ErrorHandlingConfig.fromJson(
+              json['errorHandlingConfig'] as Map<String, dynamic>)
+          : null,
+      idFieldNames: (json['idFieldNames'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      successResponseHandlingConfig:
+          json['successResponseHandlingConfig'] != null
+              ? SuccessResponseHandlingConfig.fromJson(
+                  json['successResponseHandlingConfig'] as Map<String, dynamic>)
+              : null,
+      writeOperationType: (json['writeOperationType'] as String?)
+          ?.let(WriteOperationType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final objectPath = this.objectPath;
+    final errorHandlingConfig = this.errorHandlingConfig;
+    final idFieldNames = this.idFieldNames;
+    final successResponseHandlingConfig = this.successResponseHandlingConfig;
+    final writeOperationType = this.writeOperationType;
+    return {
+      'objectPath': objectPath,
+      if (errorHandlingConfig != null)
+        'errorHandlingConfig': errorHandlingConfig,
+      if (idFieldNames != null) 'idFieldNames': idFieldNames,
+      if (successResponseHandlingConfig != null)
+        'successResponseHandlingConfig': successResponseHandlingConfig,
+      if (writeOperationType != null)
+        'writeOperationType': writeOperationType.value,
+    };
+  }
+}
+
+/// Determines how Amazon AppFlow handles the success response that it gets from
+/// the connector after placing data.
+///
+/// For example, this setting would determine where to write the response from
+/// the destination connector upon a successful insert operation.
+class SuccessResponseHandlingConfig {
+  /// The name of the Amazon S3 bucket.
+  final String? bucketName;
+
+  /// The Amazon S3 bucket prefix.
+  final String? bucketPrefix;
+
+  SuccessResponseHandlingConfig({
+    this.bucketName,
+    this.bucketPrefix,
+  });
+
+  factory SuccessResponseHandlingConfig.fromJson(Map<String, dynamic> json) {
+    return SuccessResponseHandlingConfig(
+      bucketName: json['bucketName'] as String?,
+      bucketPrefix: json['bucketPrefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final bucketPrefix = this.bucketPrefix;
+    return {
+      if (bucketName != null) 'bucketName': bucketName,
+      if (bucketPrefix != null) 'bucketPrefix': bucketPrefix,
+    };
+  }
+}
+
+/// The settings that determine how Amazon AppFlow handles an error when placing
+/// data in the destination. For example, this setting would determine if the
+/// flow should fail after one insertion error, or continue and attempt to
+/// insert every record regardless of the initial failure.
+/// <code>ErrorHandlingConfig</code> is a part of the destination connector
+/// details.
+class ErrorHandlingConfig {
+  /// Specifies the name of the Amazon S3 bucket.
+  final String? bucketName;
+
+  /// Specifies the Amazon S3 bucket prefix.
+  final String? bucketPrefix;
+
+  /// Specifies if the flow should fail after the first instance of a failure when
+  /// attempting to place data in the destination.
+  final bool? failOnFirstDestinationError;
+
+  ErrorHandlingConfig({
+    this.bucketName,
+    this.bucketPrefix,
+    this.failOnFirstDestinationError,
+  });
+
+  factory ErrorHandlingConfig.fromJson(Map<String, dynamic> json) {
+    return ErrorHandlingConfig(
+      bucketName: json['bucketName'] as String?,
+      bucketPrefix: json['bucketPrefix'] as String?,
+      failOnFirstDestinationError: json['failOnFirstDestinationError'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final bucketPrefix = this.bucketPrefix;
+    final failOnFirstDestinationError = this.failOnFirstDestinationError;
+    return {
+      if (bucketName != null) 'bucketName': bucketName,
+      if (bucketPrefix != null) 'bucketPrefix': bucketPrefix,
+      if (failOnFirstDestinationError != null)
+        'failOnFirstDestinationError': failOnFirstDestinationError,
+    };
+  }
+}
+
+/// The possible write operations in the destination connector. When this value
+/// is not provided, this defaults to the <code>INSERT</code> operation.
+class WriteOperationType {
+  static const insert = WriteOperationType._('INSERT');
+  static const upsert = WriteOperationType._('UPSERT');
+  static const update = WriteOperationType._('UPDATE');
+  static const delete = WriteOperationType._('DELETE');
+
+  final String value;
+
+  const WriteOperationType._(this.value);
+
+  static const values = [insert, upsert, update, delete];
+
+  static WriteOperationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WriteOperationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WriteOperationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The configuration that determines how Amazon AppFlow formats the flow output
+/// data when Upsolver is used as the destination.
+class UpsolverS3OutputFormatConfig {
+  final PrefixConfig prefixConfig;
+  final AggregationConfig? aggregationConfig;
+
+  /// Indicates the file type that Amazon AppFlow places in the Upsolver Amazon S3
+  /// bucket.
+  final FileType? fileType;
+
+  UpsolverS3OutputFormatConfig({
+    required this.prefixConfig,
+    this.aggregationConfig,
+    this.fileType,
+  });
+
+  factory UpsolverS3OutputFormatConfig.fromJson(Map<String, dynamic> json) {
+    return UpsolverS3OutputFormatConfig(
+      prefixConfig: PrefixConfig.fromJson(
+          (json['prefixConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      aggregationConfig: json['aggregationConfig'] != null
+          ? AggregationConfig.fromJson(
+              json['aggregationConfig'] as Map<String, dynamic>)
+          : null,
+      fileType: (json['fileType'] as String?)?.let(FileType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final prefixConfig = this.prefixConfig;
+    final aggregationConfig = this.aggregationConfig;
+    final fileType = this.fileType;
+    return {
+      'prefixConfig': prefixConfig,
+      if (aggregationConfig != null) 'aggregationConfig': aggregationConfig,
+      if (fileType != null) 'fileType': fileType.value,
+    };
+  }
+}
+
+class FileType {
+  static const csv = FileType._('CSV');
+  static const json = FileType._('JSON');
+  static const parquet = FileType._('PARQUET');
+
+  final String value;
+
+  const FileType._(this.value);
+
+  static const values = [csv, json, parquet];
+
+  static FileType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FileType._(value));
+
+  @override
+  bool operator ==(other) => other is FileType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Specifies elements that Amazon AppFlow includes in the file and folder names
+/// in the flow destination.
+class PrefixConfig {
+  /// Specifies whether the destination file path includes either or both of the
+  /// following elements:
+  /// <dl> <dt>EXECUTION_ID</dt> <dd>
+  /// The ID that Amazon AppFlow assigns to the flow run.
+  /// </dd> <dt>SCHEMA_VERSION</dt> <dd>
+  /// The version number of your data schema. Amazon AppFlow assigns this version
+  /// number. The version number increases by one when you change any of the
+  /// following settings in your flow configuration:
+  ///
+  /// <ul>
+  /// <li>
+  /// Source-to-destination field mappings
+  /// </li>
+  /// <li>
+  /// Field data types
+  /// </li>
+  /// <li>
+  /// Partition keys
+  /// </li>
+  /// </ul> </dd> </dl>
+  final List<PathPrefix>? pathPrefixHierarchy;
+
+  /// Determines the level of granularity for the date and time that's included in
+  /// the prefix.
+  final PrefixFormat? prefixFormat;
+
+  /// Determines the format of the prefix, and whether it applies to the file
+  /// name, file path, or both.
+  final PrefixType? prefixType;
+
+  PrefixConfig({
+    this.pathPrefixHierarchy,
+    this.prefixFormat,
+    this.prefixType,
+  });
+
+  factory PrefixConfig.fromJson(Map<String, dynamic> json) {
+    return PrefixConfig(
+      pathPrefixHierarchy: (json['pathPrefixHierarchy'] as List?)
+          ?.nonNulls
+          .map((e) => PathPrefix.fromString((e as String)))
+          .toList(),
+      prefixFormat:
+          (json['prefixFormat'] as String?)?.let(PrefixFormat.fromString),
+      prefixType: (json['prefixType'] as String?)?.let(PrefixType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pathPrefixHierarchy = this.pathPrefixHierarchy;
+    final prefixFormat = this.prefixFormat;
+    final prefixType = this.prefixType;
+    return {
+      if (pathPrefixHierarchy != null)
+        'pathPrefixHierarchy': pathPrefixHierarchy.map((e) => e.value).toList(),
+      if (prefixFormat != null) 'prefixFormat': prefixFormat.value,
+      if (prefixType != null) 'prefixType': prefixType.value,
+    };
+  }
+}
+
 /// The aggregation settings that you can use to customize the output format of
 /// your flow data.
 class AggregationConfig {
@@ -1399,22 +4857,22 @@ class AggregationType {
   String toString() => value;
 }
 
-class AmplitudeConnectorOperator {
-  static const between = AmplitudeConnectorOperator._('BETWEEN');
+class PrefixType {
+  static const filename = PrefixType._('FILENAME');
+  static const path = PrefixType._('PATH');
+  static const pathAndFilename = PrefixType._('PATH_AND_FILENAME');
 
   final String value;
 
-  const AmplitudeConnectorOperator._(this.value);
+  const PrefixType._(this.value);
 
-  static const values = [between];
+  static const values = [filename, path, pathAndFilename];
 
-  static AmplitudeConnectorOperator fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AmplitudeConnectorOperator._(value));
+  static PrefixType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PrefixType._(value));
 
   @override
-  bool operator ==(other) =>
-      other is AmplitudeConnectorOperator && other.value == value;
+  bool operator ==(other) => other is PrefixType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -1423,53 +4881,353 @@ class AmplitudeConnectorOperator {
   String toString() => value;
 }
 
-/// The connector-specific credentials required when using Amplitude.
-class AmplitudeConnectorProfileCredentials {
-  /// A unique alphanumeric identifier used to authenticate a user, developer, or
-  /// calling program to your API.
-  final String apiKey;
+class PrefixFormat {
+  static const year = PrefixFormat._('YEAR');
+  static const month = PrefixFormat._('MONTH');
+  static const day = PrefixFormat._('DAY');
+  static const hour = PrefixFormat._('HOUR');
+  static const minute = PrefixFormat._('MINUTE');
 
-  /// The Secret Access Key portion of the credentials.
-  final String secretKey;
+  final String value;
 
-  AmplitudeConnectorProfileCredentials({
-    required this.apiKey,
-    required this.secretKey,
+  const PrefixFormat._(this.value);
+
+  static const values = [year, month, day, hour, minute];
+
+  static PrefixFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PrefixFormat._(value));
+
+  @override
+  bool operator ==(other) => other is PrefixFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class PathPrefix {
+  static const executionId = PathPrefix._('EXECUTION_ID');
+  static const schemaVersion = PathPrefix._('SCHEMA_VERSION');
+
+  final String value;
+
+  const PathPrefix._(this.value);
+
+  static const values = [executionId, schemaVersion];
+
+  static PathPrefix fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PathPrefix._(value));
+
+  @override
+  bool operator ==(other) => other is PathPrefix && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SalesforceDataTransferApi {
+  static const automatic = SalesforceDataTransferApi._('AUTOMATIC');
+  static const bulkv2 = SalesforceDataTransferApi._('BULKV2');
+  static const restSync = SalesforceDataTransferApi._('REST_SYNC');
+
+  final String value;
+
+  const SalesforceDataTransferApi._(this.value);
+
+  static const values = [automatic, bulkv2, restSync];
+
+  static SalesforceDataTransferApi fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SalesforceDataTransferApi._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SalesforceDataTransferApi && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The configuration that determines how Amazon AppFlow should format the flow
+/// output data when Amazon S3 is used as the destination.
+class S3OutputFormatConfig {
+  final AggregationConfig? aggregationConfig;
+
+  /// Indicates the file type that Amazon AppFlow places in the Amazon S3 bucket.
+  final FileType? fileType;
+
+  /// Determines the prefix that Amazon AppFlow applies to the folder name in the
+  /// Amazon S3 bucket. You can name folders according to the flow frequency and
+  /// date.
+  final PrefixConfig? prefixConfig;
+
+  /// If your file output format is Parquet, use this parameter to set whether
+  /// Amazon AppFlow preserves the data types in your source data when it writes
+  /// the output to Amazon S3.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>true</code>: Amazon AppFlow preserves the data types when it writes to
+  /// Amazon S3. For example, an integer or <code>1</code> in your source data is
+  /// still an integer in your output.
+  /// </li>
+  /// <li>
+  /// <code>false</code>: Amazon AppFlow converts all of the source data into
+  /// strings when it writes to Amazon S3. For example, an integer of
+  /// <code>1</code> in your source data becomes the string <code>"1"</code> in
+  /// the output.
+  /// </li>
+  /// </ul>
+  final bool? preserveSourceDataTyping;
+
+  S3OutputFormatConfig({
+    this.aggregationConfig,
+    this.fileType,
+    this.prefixConfig,
+    this.preserveSourceDataTyping,
   });
 
+  factory S3OutputFormatConfig.fromJson(Map<String, dynamic> json) {
+    return S3OutputFormatConfig(
+      aggregationConfig: json['aggregationConfig'] != null
+          ? AggregationConfig.fromJson(
+              json['aggregationConfig'] as Map<String, dynamic>)
+          : null,
+      fileType: (json['fileType'] as String?)?.let(FileType.fromString),
+      prefixConfig: json['prefixConfig'] != null
+          ? PrefixConfig.fromJson(json['prefixConfig'] as Map<String, dynamic>)
+          : null,
+      preserveSourceDataTyping: json['preserveSourceDataTyping'] as bool?,
+    );
+  }
+
   Map<String, dynamic> toJson() {
-    final apiKey = this.apiKey;
-    final secretKey = this.secretKey;
+    final aggregationConfig = this.aggregationConfig;
+    final fileType = this.fileType;
+    final prefixConfig = this.prefixConfig;
+    final preserveSourceDataTyping = this.preserveSourceDataTyping;
     return {
-      'apiKey': apiKey,
-      'secretKey': secretKey,
+      if (aggregationConfig != null) 'aggregationConfig': aggregationConfig,
+      if (fileType != null) 'fileType': fileType.value,
+      if (prefixConfig != null) 'prefixConfig': prefixConfig,
+      if (preserveSourceDataTyping != null)
+        'preserveSourceDataTyping': preserveSourceDataTyping,
     };
   }
 }
 
-/// The connector-specific profile properties required when using Amplitude.
-class AmplitudeConnectorProfileProperties {
-  AmplitudeConnectorProfileProperties();
+/// Specifies the information that is required to query a particular connector.
+class SourceConnectorProperties {
+  /// Specifies the information that is required for querying Amplitude.
+  final AmplitudeSourceProperties? amplitude;
+  final CustomConnectorSourceProperties? customConnector;
 
-  factory AmplitudeConnectorProfileProperties.fromJson(Map<String, dynamic> _) {
-    return AmplitudeConnectorProfileProperties();
+  /// Specifies the information that is required for querying Datadog.
+  final DatadogSourceProperties? datadog;
+
+  /// Specifies the information that is required for querying Dynatrace.
+  final DynatraceSourceProperties? dynatrace;
+
+  /// Specifies the information that is required for querying Google Analytics.
+  final GoogleAnalyticsSourceProperties? googleAnalytics;
+
+  /// Specifies the information that is required for querying Infor Nexus.
+  final InforNexusSourceProperties? inforNexus;
+
+  /// Specifies the information that is required for querying Marketo.
+  final MarketoSourceProperties? marketo;
+
+  /// Specifies the information that is required for querying Salesforce Pardot.
+  final PardotSourceProperties? pardot;
+
+  /// Specifies the information that is required for querying Amazon S3.
+  final S3SourceProperties? s3;
+  final SAPODataSourceProperties? sAPOData;
+
+  /// Specifies the information that is required for querying Salesforce.
+  final SalesforceSourceProperties? salesforce;
+
+  /// Specifies the information that is required for querying ServiceNow.
+  final ServiceNowSourceProperties? serviceNow;
+
+  /// Specifies the information that is required for querying Singular.
+  final SingularSourceProperties? singular;
+
+  /// Specifies the information that is required for querying Slack.
+  final SlackSourceProperties? slack;
+
+  /// Specifies the information that is required for querying Trend Micro.
+  final TrendmicroSourceProperties? trendmicro;
+
+  /// Specifies the information that is required for querying Veeva.
+  final VeevaSourceProperties? veeva;
+
+  /// Specifies the information that is required for querying Zendesk.
+  final ZendeskSourceProperties? zendesk;
+
+  SourceConnectorProperties({
+    this.amplitude,
+    this.customConnector,
+    this.datadog,
+    this.dynatrace,
+    this.googleAnalytics,
+    this.inforNexus,
+    this.marketo,
+    this.pardot,
+    this.s3,
+    this.sAPOData,
+    this.salesforce,
+    this.serviceNow,
+    this.singular,
+    this.slack,
+    this.trendmicro,
+    this.veeva,
+    this.zendesk,
+  });
+
+  factory SourceConnectorProperties.fromJson(Map<String, dynamic> json) {
+    return SourceConnectorProperties(
+      amplitude: json['Amplitude'] != null
+          ? AmplitudeSourceProperties.fromJson(
+              json['Amplitude'] as Map<String, dynamic>)
+          : null,
+      customConnector: json['CustomConnector'] != null
+          ? CustomConnectorSourceProperties.fromJson(
+              json['CustomConnector'] as Map<String, dynamic>)
+          : null,
+      datadog: json['Datadog'] != null
+          ? DatadogSourceProperties.fromJson(
+              json['Datadog'] as Map<String, dynamic>)
+          : null,
+      dynatrace: json['Dynatrace'] != null
+          ? DynatraceSourceProperties.fromJson(
+              json['Dynatrace'] as Map<String, dynamic>)
+          : null,
+      googleAnalytics: json['GoogleAnalytics'] != null
+          ? GoogleAnalyticsSourceProperties.fromJson(
+              json['GoogleAnalytics'] as Map<String, dynamic>)
+          : null,
+      inforNexus: json['InforNexus'] != null
+          ? InforNexusSourceProperties.fromJson(
+              json['InforNexus'] as Map<String, dynamic>)
+          : null,
+      marketo: json['Marketo'] != null
+          ? MarketoSourceProperties.fromJson(
+              json['Marketo'] as Map<String, dynamic>)
+          : null,
+      pardot: json['Pardot'] != null
+          ? PardotSourceProperties.fromJson(
+              json['Pardot'] as Map<String, dynamic>)
+          : null,
+      s3: json['S3'] != null
+          ? S3SourceProperties.fromJson(json['S3'] as Map<String, dynamic>)
+          : null,
+      sAPOData: json['SAPOData'] != null
+          ? SAPODataSourceProperties.fromJson(
+              json['SAPOData'] as Map<String, dynamic>)
+          : null,
+      salesforce: json['Salesforce'] != null
+          ? SalesforceSourceProperties.fromJson(
+              json['Salesforce'] as Map<String, dynamic>)
+          : null,
+      serviceNow: json['ServiceNow'] != null
+          ? ServiceNowSourceProperties.fromJson(
+              json['ServiceNow'] as Map<String, dynamic>)
+          : null,
+      singular: json['Singular'] != null
+          ? SingularSourceProperties.fromJson(
+              json['Singular'] as Map<String, dynamic>)
+          : null,
+      slack: json['Slack'] != null
+          ? SlackSourceProperties.fromJson(
+              json['Slack'] as Map<String, dynamic>)
+          : null,
+      trendmicro: json['Trendmicro'] != null
+          ? TrendmicroSourceProperties.fromJson(
+              json['Trendmicro'] as Map<String, dynamic>)
+          : null,
+      veeva: json['Veeva'] != null
+          ? VeevaSourceProperties.fromJson(
+              json['Veeva'] as Map<String, dynamic>)
+          : null,
+      zendesk: json['Zendesk'] != null
+          ? ZendeskSourceProperties.fromJson(
+              json['Zendesk'] as Map<String, dynamic>)
+          : null,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final amplitude = this.amplitude;
+    final customConnector = this.customConnector;
+    final datadog = this.datadog;
+    final dynatrace = this.dynatrace;
+    final googleAnalytics = this.googleAnalytics;
+    final inforNexus = this.inforNexus;
+    final marketo = this.marketo;
+    final pardot = this.pardot;
+    final s3 = this.s3;
+    final sAPOData = this.sAPOData;
+    final salesforce = this.salesforce;
+    final serviceNow = this.serviceNow;
+    final singular = this.singular;
+    final slack = this.slack;
+    final trendmicro = this.trendmicro;
+    final veeva = this.veeva;
+    final zendesk = this.zendesk;
+    return {
+      if (amplitude != null) 'Amplitude': amplitude,
+      if (customConnector != null) 'CustomConnector': customConnector,
+      if (datadog != null) 'Datadog': datadog,
+      if (dynatrace != null) 'Dynatrace': dynatrace,
+      if (googleAnalytics != null) 'GoogleAnalytics': googleAnalytics,
+      if (inforNexus != null) 'InforNexus': inforNexus,
+      if (marketo != null) 'Marketo': marketo,
+      if (pardot != null) 'Pardot': pardot,
+      if (s3 != null) 'S3': s3,
+      if (sAPOData != null) 'SAPOData': sAPOData,
+      if (salesforce != null) 'Salesforce': salesforce,
+      if (serviceNow != null) 'ServiceNow': serviceNow,
+      if (singular != null) 'Singular': singular,
+      if (slack != null) 'Slack': slack,
+      if (trendmicro != null) 'Trendmicro': trendmicro,
+      if (veeva != null) 'Veeva': veeva,
+      if (zendesk != null) 'Zendesk': zendesk,
+    };
   }
 }
 
-/// The connector metadata specific to Amplitude.
-class AmplitudeMetadata {
-  AmplitudeMetadata();
+/// Specifies the configuration used when importing incremental records from the
+/// source.
+class IncrementalPullConfig {
+  /// A field that specifies the date time or timestamp field as the criteria to
+  /// use when importing incremental records from the source.
+  final String? datetimeTypeFieldName;
 
-  factory AmplitudeMetadata.fromJson(Map<String, dynamic> _) {
-    return AmplitudeMetadata();
+  IncrementalPullConfig({
+    this.datetimeTypeFieldName,
+  });
+
+  factory IncrementalPullConfig.fromJson(Map<String, dynamic> json) {
+    return IncrementalPullConfig(
+      datetimeTypeFieldName: json['datetimeTypeFieldName'] as String?,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final datetimeTypeFieldName = this.datetimeTypeFieldName;
+    return {
+      if (datetimeTypeFieldName != null)
+        'datetimeTypeFieldName': datetimeTypeFieldName,
+    };
   }
 }
 
@@ -1496,156 +5254,1911 @@ class AmplitudeSourceProperties {
   }
 }
 
-/// The API key credentials required for API key authentication.
-class ApiKeyCredentials {
-  /// The API key required for API key authentication.
-  final String apiKey;
+/// The properties that are applied when Datadog is being used as a source.
+class DatadogSourceProperties {
+  /// The object specified in the Datadog flow source.
+  final String object;
 
-  /// The API secret key required for API key authentication.
-  final String? apiSecretKey;
-
-  ApiKeyCredentials({
-    required this.apiKey,
-    this.apiSecretKey,
+  DatadogSourceProperties({
+    required this.object,
   });
 
-  Map<String, dynamic> toJson() {
-    final apiKey = this.apiKey;
-    final apiSecretKey = this.apiSecretKey;
-    return {
-      'apiKey': apiKey,
-      if (apiSecretKey != null) 'apiSecretKey': apiSecretKey,
-    };
-  }
-}
-
-/// Information about required authentication parameters.
-class AuthParameter {
-  /// Contains default values for this authentication parameter that are supplied
-  /// by the connector.
-  final List<String>? connectorSuppliedValues;
-
-  /// A description about the authentication parameter.
-  final String? description;
-
-  /// Indicates whether this authentication parameter is required.
-  final bool? isRequired;
-
-  /// Indicates whether this authentication parameter is a sensitive field.
-  final bool? isSensitiveField;
-
-  /// The authentication key required to authenticate with the connector.
-  final String? key;
-
-  /// Label used for authentication parameter.
-  final String? label;
-
-  AuthParameter({
-    this.connectorSuppliedValues,
-    this.description,
-    this.isRequired,
-    this.isSensitiveField,
-    this.key,
-    this.label,
-  });
-
-  factory AuthParameter.fromJson(Map<String, dynamic> json) {
-    return AuthParameter(
-      connectorSuppliedValues: (json['connectorSuppliedValues'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      description: json['description'] as String?,
-      isRequired: json['isRequired'] as bool?,
-      isSensitiveField: json['isSensitiveField'] as bool?,
-      key: json['key'] as String?,
-      label: json['label'] as String?,
+  factory DatadogSourceProperties.fromJson(Map<String, dynamic> json) {
+    return DatadogSourceProperties(
+      object: (json['object'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    final connectorSuppliedValues = this.connectorSuppliedValues;
-    final description = this.description;
-    final isRequired = this.isRequired;
-    final isSensitiveField = this.isSensitiveField;
-    final key = this.key;
-    final label = this.label;
+    final object = this.object;
     return {
-      if (connectorSuppliedValues != null)
-        'connectorSuppliedValues': connectorSuppliedValues,
-      if (description != null) 'description': description,
-      if (isRequired != null) 'isRequired': isRequired,
-      if (isSensitiveField != null) 'isSensitiveField': isSensitiveField,
-      if (key != null) 'key': key,
-      if (label != null) 'label': label,
+      'object': object,
     };
   }
 }
 
-/// Contains information about the authentication config that the connector
-/// supports.
-class AuthenticationConfig {
-  /// Contains information required for custom authentication.
-  final List<CustomAuthConfig>? customAuthConfigs;
+/// The properties that are applied when Dynatrace is being used as a source.
+class DynatraceSourceProperties {
+  /// The object specified in the Dynatrace flow source.
+  final String object;
 
-  /// Indicates whether API key authentication is supported by the connector
-  final bool? isApiKeyAuthSupported;
-
-  /// Indicates whether basic authentication is supported by the connector.
-  final bool? isBasicAuthSupported;
-
-  /// Indicates whether custom authentication is supported by the connector
-  final bool? isCustomAuthSupported;
-
-  /// Indicates whether OAuth 2.0 authentication is supported by the connector.
-  final bool? isOAuth2Supported;
-
-  /// Contains the default values required for OAuth 2.0 authentication.
-  final OAuth2Defaults? oAuth2Defaults;
-
-  AuthenticationConfig({
-    this.customAuthConfigs,
-    this.isApiKeyAuthSupported,
-    this.isBasicAuthSupported,
-    this.isCustomAuthSupported,
-    this.isOAuth2Supported,
-    this.oAuth2Defaults,
+  DynatraceSourceProperties({
+    required this.object,
   });
 
-  factory AuthenticationConfig.fromJson(Map<String, dynamic> json) {
-    return AuthenticationConfig(
-      customAuthConfigs: (json['customAuthConfigs'] as List?)
-          ?.nonNulls
-          .map((e) => CustomAuthConfig.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      isApiKeyAuthSupported: json['isApiKeyAuthSupported'] as bool?,
-      isBasicAuthSupported: json['isBasicAuthSupported'] as bool?,
-      isCustomAuthSupported: json['isCustomAuthSupported'] as bool?,
-      isOAuth2Supported: json['isOAuth2Supported'] as bool?,
-      oAuth2Defaults: json['oAuth2Defaults'] != null
-          ? OAuth2Defaults.fromJson(
-              json['oAuth2Defaults'] as Map<String, dynamic>)
+  factory DynatraceSourceProperties.fromJson(Map<String, dynamic> json) {
+    return DynatraceSourceProperties(
+      object: (json['object'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final object = this.object;
+    return {
+      'object': object,
+    };
+  }
+}
+
+/// The properties that are applied when Google Analytics is being used as a
+/// source.
+class GoogleAnalyticsSourceProperties {
+  /// The object specified in the Google Analytics flow source.
+  final String object;
+
+  GoogleAnalyticsSourceProperties({
+    required this.object,
+  });
+
+  factory GoogleAnalyticsSourceProperties.fromJson(Map<String, dynamic> json) {
+    return GoogleAnalyticsSourceProperties(
+      object: (json['object'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final object = this.object;
+    return {
+      'object': object,
+    };
+  }
+}
+
+/// The properties that are applied when Infor Nexus is being used as a source.
+class InforNexusSourceProperties {
+  /// The object specified in the Infor Nexus flow source.
+  final String object;
+
+  InforNexusSourceProperties({
+    required this.object,
+  });
+
+  factory InforNexusSourceProperties.fromJson(Map<String, dynamic> json) {
+    return InforNexusSourceProperties(
+      object: (json['object'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final object = this.object;
+    return {
+      'object': object,
+    };
+  }
+}
+
+/// The properties that are applied when Marketo is being used as a source.
+class MarketoSourceProperties {
+  /// The object specified in the Marketo flow source.
+  final String object;
+
+  MarketoSourceProperties({
+    required this.object,
+  });
+
+  factory MarketoSourceProperties.fromJson(Map<String, dynamic> json) {
+    return MarketoSourceProperties(
+      object: (json['object'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final object = this.object;
+    return {
+      'object': object,
+    };
+  }
+}
+
+/// The properties that are applied when Amazon S3 is being used as the flow
+/// source.
+class S3SourceProperties {
+  /// The Amazon S3 bucket name where the source files are stored.
+  final String bucketName;
+
+  /// The object key for the Amazon S3 bucket in which the source files are
+  /// stored.
+  final String? bucketPrefix;
+  final S3InputFormatConfig? s3InputFormatConfig;
+
+  S3SourceProperties({
+    required this.bucketName,
+    this.bucketPrefix,
+    this.s3InputFormatConfig,
+  });
+
+  factory S3SourceProperties.fromJson(Map<String, dynamic> json) {
+    return S3SourceProperties(
+      bucketName: (json['bucketName'] as String?) ?? '',
+      bucketPrefix: json['bucketPrefix'] as String?,
+      s3InputFormatConfig: json['s3InputFormatConfig'] != null
+          ? S3InputFormatConfig.fromJson(
+              json['s3InputFormatConfig'] as Map<String, dynamic>)
           : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final customAuthConfigs = this.customAuthConfigs;
-    final isApiKeyAuthSupported = this.isApiKeyAuthSupported;
-    final isBasicAuthSupported = this.isBasicAuthSupported;
-    final isCustomAuthSupported = this.isCustomAuthSupported;
-    final isOAuth2Supported = this.isOAuth2Supported;
-    final oAuth2Defaults = this.oAuth2Defaults;
+    final bucketName = this.bucketName;
+    final bucketPrefix = this.bucketPrefix;
+    final s3InputFormatConfig = this.s3InputFormatConfig;
     return {
-      if (customAuthConfigs != null) 'customAuthConfigs': customAuthConfigs,
-      if (isApiKeyAuthSupported != null)
-        'isApiKeyAuthSupported': isApiKeyAuthSupported,
-      if (isBasicAuthSupported != null)
-        'isBasicAuthSupported': isBasicAuthSupported,
-      if (isCustomAuthSupported != null)
-        'isCustomAuthSupported': isCustomAuthSupported,
-      if (isOAuth2Supported != null) 'isOAuth2Supported': isOAuth2Supported,
-      if (oAuth2Defaults != null) 'oAuth2Defaults': oAuth2Defaults,
+      'bucketName': bucketName,
+      if (bucketPrefix != null) 'bucketPrefix': bucketPrefix,
+      if (s3InputFormatConfig != null)
+        's3InputFormatConfig': s3InputFormatConfig,
+    };
+  }
+}
+
+/// The properties that are applied when Salesforce is being used as a source.
+class SalesforceSourceProperties {
+  /// The object specified in the Salesforce flow source.
+  final String object;
+
+  /// Specifies which Salesforce API is used by Amazon AppFlow when your flow
+  /// transfers data from Salesforce.
+  /// <dl> <dt>AUTOMATIC</dt> <dd>
+  /// The default. Amazon AppFlow selects which API to use based on the number of
+  /// records that your flow transfers from Salesforce. If your flow transfers
+  /// fewer than 1,000,000 records, Amazon AppFlow uses Salesforce REST API. If
+  /// your flow transfers 1,000,000 records or more, Amazon AppFlow uses
+  /// Salesforce Bulk API 2.0.
+  ///
+  /// Each of these Salesforce APIs structures data differently. If Amazon AppFlow
+  /// selects the API automatically, be aware that, for recurring flows, the data
+  /// output might vary from one flow run to the next. For example, if a flow runs
+  /// daily, it might use REST API on one day to transfer 900,000 records, and it
+  /// might use Bulk API 2.0 on the next day to transfer 1,100,000 records. For
+  /// each of these flow runs, the respective Salesforce API formats the data
+  /// differently. Some of the differences include how dates are formatted and
+  /// null values are represented. Also, Bulk API 2.0 doesn't transfer Salesforce
+  /// compound fields.
+  ///
+  /// By choosing this option, you optimize flow performance for both small and
+  /// large data transfers, but the tradeoff is inconsistent formatting in the
+  /// output.
+  /// </dd> <dt>BULKV2</dt> <dd>
+  /// Amazon AppFlow uses only Salesforce Bulk API 2.0. This API runs asynchronous
+  /// data transfers, and it's optimal for large sets of data. By choosing this
+  /// option, you ensure that your flow writes consistent output, but you optimize
+  /// performance only for large data transfers.
+  ///
+  /// Note that Bulk API 2.0 does not transfer Salesforce compound fields.
+  /// </dd> <dt>REST_SYNC</dt> <dd>
+  /// Amazon AppFlow uses only Salesforce REST API. By choosing this option, you
+  /// ensure that your flow writes consistent output, but you decrease performance
+  /// for large data transfers that are better suited for Bulk API 2.0. In some
+  /// cases, if your flow attempts to transfer a vary large set of data, it might
+  /// fail wituh a timed out error.
+  /// </dd> </dl>
+  final SalesforceDataTransferApi? dataTransferApi;
+
+  /// The flag that enables dynamic fetching of new (recently added) fields in the
+  /// Salesforce objects while running a flow.
+  final bool? enableDynamicFieldUpdate;
+
+  /// Indicates whether Amazon AppFlow includes deleted files in the flow run.
+  final bool? includeDeletedRecords;
+
+  SalesforceSourceProperties({
+    required this.object,
+    this.dataTransferApi,
+    this.enableDynamicFieldUpdate,
+    this.includeDeletedRecords,
+  });
+
+  factory SalesforceSourceProperties.fromJson(Map<String, dynamic> json) {
+    return SalesforceSourceProperties(
+      object: (json['object'] as String?) ?? '',
+      dataTransferApi: (json['dataTransferApi'] as String?)
+          ?.let(SalesforceDataTransferApi.fromString),
+      enableDynamicFieldUpdate: json['enableDynamicFieldUpdate'] as bool?,
+      includeDeletedRecords: json['includeDeletedRecords'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final object = this.object;
+    final dataTransferApi = this.dataTransferApi;
+    final enableDynamicFieldUpdate = this.enableDynamicFieldUpdate;
+    final includeDeletedRecords = this.includeDeletedRecords;
+    return {
+      'object': object,
+      if (dataTransferApi != null) 'dataTransferApi': dataTransferApi.value,
+      if (enableDynamicFieldUpdate != null)
+        'enableDynamicFieldUpdate': enableDynamicFieldUpdate,
+      if (includeDeletedRecords != null)
+        'includeDeletedRecords': includeDeletedRecords,
+    };
+  }
+}
+
+/// The properties that are applied when ServiceNow is being used as a source.
+class ServiceNowSourceProperties {
+  /// The object specified in the ServiceNow flow source.
+  final String object;
+
+  ServiceNowSourceProperties({
+    required this.object,
+  });
+
+  factory ServiceNowSourceProperties.fromJson(Map<String, dynamic> json) {
+    return ServiceNowSourceProperties(
+      object: (json['object'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final object = this.object;
+    return {
+      'object': object,
+    };
+  }
+}
+
+/// The properties that are applied when Singular is being used as a source.
+class SingularSourceProperties {
+  /// The object specified in the Singular flow source.
+  final String object;
+
+  SingularSourceProperties({
+    required this.object,
+  });
+
+  factory SingularSourceProperties.fromJson(Map<String, dynamic> json) {
+    return SingularSourceProperties(
+      object: (json['object'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final object = this.object;
+    return {
+      'object': object,
+    };
+  }
+}
+
+/// The properties that are applied when Slack is being used as a source.
+class SlackSourceProperties {
+  /// The object specified in the Slack flow source.
+  final String object;
+
+  SlackSourceProperties({
+    required this.object,
+  });
+
+  factory SlackSourceProperties.fromJson(Map<String, dynamic> json) {
+    return SlackSourceProperties(
+      object: (json['object'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final object = this.object;
+    return {
+      'object': object,
+    };
+  }
+}
+
+/// The properties that are applied when using Trend Micro as a flow source.
+class TrendmicroSourceProperties {
+  /// The object specified in the Trend Micro flow source.
+  final String object;
+
+  TrendmicroSourceProperties({
+    required this.object,
+  });
+
+  factory TrendmicroSourceProperties.fromJson(Map<String, dynamic> json) {
+    return TrendmicroSourceProperties(
+      object: (json['object'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final object = this.object;
+    return {
+      'object': object,
+    };
+  }
+}
+
+/// The properties that are applied when using Veeva as a flow source.
+class VeevaSourceProperties {
+  /// The object specified in the Veeva flow source.
+  final String object;
+
+  /// The document type specified in the Veeva document extract flow.
+  final String? documentType;
+
+  /// Boolean value to include All Versions of files in Veeva document extract
+  /// flow.
+  final bool? includeAllVersions;
+
+  /// Boolean value to include file renditions in Veeva document extract flow.
+  final bool? includeRenditions;
+
+  /// Boolean value to include source files in Veeva document extract flow.
+  final bool? includeSourceFiles;
+
+  VeevaSourceProperties({
+    required this.object,
+    this.documentType,
+    this.includeAllVersions,
+    this.includeRenditions,
+    this.includeSourceFiles,
+  });
+
+  factory VeevaSourceProperties.fromJson(Map<String, dynamic> json) {
+    return VeevaSourceProperties(
+      object: (json['object'] as String?) ?? '',
+      documentType: json['documentType'] as String?,
+      includeAllVersions: json['includeAllVersions'] as bool?,
+      includeRenditions: json['includeRenditions'] as bool?,
+      includeSourceFiles: json['includeSourceFiles'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final object = this.object;
+    final documentType = this.documentType;
+    final includeAllVersions = this.includeAllVersions;
+    final includeRenditions = this.includeRenditions;
+    final includeSourceFiles = this.includeSourceFiles;
+    return {
+      'object': object,
+      if (documentType != null) 'documentType': documentType,
+      if (includeAllVersions != null) 'includeAllVersions': includeAllVersions,
+      if (includeRenditions != null) 'includeRenditions': includeRenditions,
+      if (includeSourceFiles != null) 'includeSourceFiles': includeSourceFiles,
+    };
+  }
+}
+
+/// The properties that are applied when using Zendesk as a flow source.
+class ZendeskSourceProperties {
+  /// The object specified in the Zendesk flow source.
+  final String object;
+
+  ZendeskSourceProperties({
+    required this.object,
+  });
+
+  factory ZendeskSourceProperties.fromJson(Map<String, dynamic> json) {
+    return ZendeskSourceProperties(
+      object: (json['object'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final object = this.object;
+    return {
+      'object': object,
+    };
+  }
+}
+
+/// The properties that are applied when using SAPOData as a flow source.
+class SAPODataSourceProperties {
+  /// The object path specified in the SAPOData flow source.
+  final String? objectPath;
+
+  /// Sets the page size for each concurrent process that transfers OData records
+  /// from your SAP instance.
+  final SAPODataPaginationConfig? paginationConfig;
+
+  /// Sets the number of concurrent processes that transfers OData records from
+  /// your SAP instance.
+  final SAPODataParallelismConfig? parallelismConfig;
+
+  SAPODataSourceProperties({
+    this.objectPath,
+    this.paginationConfig,
+    this.parallelismConfig,
+  });
+
+  factory SAPODataSourceProperties.fromJson(Map<String, dynamic> json) {
+    return SAPODataSourceProperties(
+      objectPath: json['objectPath'] as String?,
+      paginationConfig: json['paginationConfig'] != null
+          ? SAPODataPaginationConfig.fromJson(
+              json['paginationConfig'] as Map<String, dynamic>)
+          : null,
+      parallelismConfig: json['parallelismConfig'] != null
+          ? SAPODataParallelismConfig.fromJson(
+              json['parallelismConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final objectPath = this.objectPath;
+    final paginationConfig = this.paginationConfig;
+    final parallelismConfig = this.parallelismConfig;
+    return {
+      if (objectPath != null) 'objectPath': objectPath,
+      if (paginationConfig != null) 'paginationConfig': paginationConfig,
+      if (parallelismConfig != null) 'parallelismConfig': parallelismConfig,
+    };
+  }
+}
+
+/// The properties that are applied when the custom connector is being used as a
+/// source.
+class CustomConnectorSourceProperties {
+  /// The entity specified in the custom connector as a source in the flow.
+  final String entityName;
+
+  /// Custom properties that are required to use the custom connector as a source.
+  final Map<String, String>? customProperties;
+
+  /// The API of the connector application that Amazon AppFlow uses to transfer
+  /// your data.
+  final DataTransferApi? dataTransferApi;
+
+  CustomConnectorSourceProperties({
+    required this.entityName,
+    this.customProperties,
+    this.dataTransferApi,
+  });
+
+  factory CustomConnectorSourceProperties.fromJson(Map<String, dynamic> json) {
+    return CustomConnectorSourceProperties(
+      entityName: (json['entityName'] as String?) ?? '',
+      customProperties: (json['customProperties'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      dataTransferApi: json['dataTransferApi'] != null
+          ? DataTransferApi.fromJson(
+              json['dataTransferApi'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entityName = this.entityName;
+    final customProperties = this.customProperties;
+    final dataTransferApi = this.dataTransferApi;
+    return {
+      'entityName': entityName,
+      if (customProperties != null) 'customProperties': customProperties,
+      if (dataTransferApi != null) 'dataTransferApi': dataTransferApi,
+    };
+  }
+}
+
+/// The properties that are applied when Salesforce Pardot is being used as a
+/// source.
+class PardotSourceProperties {
+  /// The object specified in the Salesforce Pardot flow source.
+  final String object;
+
+  PardotSourceProperties({
+    required this.object,
+  });
+
+  factory PardotSourceProperties.fromJson(Map<String, dynamic> json) {
+    return PardotSourceProperties(
+      object: (json['object'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final object = this.object;
+    return {
+      'object': object,
+    };
+  }
+}
+
+/// The API of the connector application that Amazon AppFlow uses to transfer
+/// your data.
+class DataTransferApi {
+  /// The name of the connector application API.
+  final String? name;
+
+  /// You can specify one of the following types:
+  /// <dl> <dt>AUTOMATIC</dt> <dd>
+  /// The default. Optimizes a flow for datasets that fluctuate in size from small
+  /// to large. For each flow run, Amazon AppFlow chooses to use the SYNC or ASYNC
+  /// API type based on the amount of data that the run transfers.
+  /// </dd> <dt>SYNC</dt> <dd>
+  /// A synchronous API. This type of API optimizes a flow for small to
+  /// medium-sized datasets.
+  /// </dd> <dt>ASYNC</dt> <dd>
+  /// An asynchronous API. This type of API optimizes a flow for large datasets.
+  /// </dd> </dl>
+  final DataTransferApiType? type;
+
+  DataTransferApi({
+    this.name,
+    this.type,
+  });
+
+  factory DataTransferApi.fromJson(Map<String, dynamic> json) {
+    return DataTransferApi(
+      name: json['Name'] as String?,
+      type: (json['Type'] as String?)?.let(DataTransferApiType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final type = this.type;
+    return {
+      if (name != null) 'Name': name,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class DataTransferApiType {
+  static const sync = DataTransferApiType._('SYNC');
+  static const async = DataTransferApiType._('ASYNC');
+  static const automatic = DataTransferApiType._('AUTOMATIC');
+
+  final String value;
+
+  const DataTransferApiType._(this.value);
+
+  static const values = [sync, async, automatic];
+
+  static DataTransferApiType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataTransferApiType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataTransferApiType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Sets the number of <i>concurrent processes</i> that transfer OData records
+/// from your SAP instance. A concurrent process is query that retrieves a batch
+/// of records as part of a flow run. Amazon AppFlow can run multiple concurrent
+/// processes in parallel to transfer data faster.
+class SAPODataParallelismConfig {
+  /// The maximum number of processes that Amazon AppFlow runs at the same time
+  /// when it retrieves your data from your SAP application.
+  final int maxParallelism;
+
+  SAPODataParallelismConfig({
+    required this.maxParallelism,
+  });
+
+  factory SAPODataParallelismConfig.fromJson(Map<String, dynamic> json) {
+    return SAPODataParallelismConfig(
+      maxParallelism: (json['maxParallelism'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxParallelism = this.maxParallelism;
+    return {
+      'maxParallelism': maxParallelism,
+    };
+  }
+}
+
+/// Sets the page size for each <i>concurrent process</i> that transfers OData
+/// records from your SAP instance. A concurrent process is query that retrieves
+/// a batch of records as part of a flow run. Amazon AppFlow can run multiple
+/// concurrent processes in parallel to transfer data faster.
+class SAPODataPaginationConfig {
+  /// The maximum number of records that Amazon AppFlow receives in each page of
+  /// the response from your SAP application. For transfers of OData records, the
+  /// maximum page size is 3,000. For transfers of data that comes from an ODP
+  /// provider, the maximum page size is 10,000.
+  final int maxPageSize;
+
+  SAPODataPaginationConfig({
+    required this.maxPageSize,
+  });
+
+  factory SAPODataPaginationConfig.fromJson(Map<String, dynamic> json) {
+    return SAPODataPaginationConfig(
+      maxPageSize: (json['maxPageSize'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxPageSize = this.maxPageSize;
+    return {
+      'maxPageSize': maxPageSize,
+    };
+  }
+}
+
+/// When you use Amazon S3 as the source, the configuration format that you
+/// provide the flow input data.
+class S3InputFormatConfig {
+  /// The file type that Amazon AppFlow gets from your Amazon S3 bucket.
+  final S3InputFileType? s3InputFileType;
+
+  S3InputFormatConfig({
+    this.s3InputFileType,
+  });
+
+  factory S3InputFormatConfig.fromJson(Map<String, dynamic> json) {
+    return S3InputFormatConfig(
+      s3InputFileType:
+          (json['s3InputFileType'] as String?)?.let(S3InputFileType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3InputFileType = this.s3InputFileType;
+    return {
+      if (s3InputFileType != null) 's3InputFileType': s3InputFileType.value,
+    };
+  }
+}
+
+class S3InputFileType {
+  static const csv = S3InputFileType._('CSV');
+  static const json = S3InputFileType._('JSON');
+
+  final String value;
+
+  const S3InputFileType._(this.value);
+
+  static const values = [csv, json];
+
+  static S3InputFileType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => S3InputFileType._(value));
+
+  @override
+  bool operator ==(other) => other is S3InputFileType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TriggerType {
+  static const scheduled = TriggerType._('Scheduled');
+  static const event = TriggerType._('Event');
+  static const onDemand = TriggerType._('OnDemand');
+
+  final String value;
+
+  const TriggerType._(this.value);
+
+  static const values = [scheduled, event, onDemand];
+
+  static TriggerType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TriggerType._(value));
+
+  @override
+  bool operator ==(other) => other is TriggerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Specifies the configuration details that control the trigger for a flow.
+/// Currently, these settings only apply to the <code>Scheduled</code> trigger
+/// type.
+class TriggerProperties {
+  /// Specifies the configuration details of a schedule-triggered flow as defined
+  /// by the user.
+  final ScheduledTriggerProperties? scheduled;
+
+  TriggerProperties({
+    this.scheduled,
+  });
+
+  factory TriggerProperties.fromJson(Map<String, dynamic> json) {
+    return TriggerProperties(
+      scheduled: json['Scheduled'] != null
+          ? ScheduledTriggerProperties.fromJson(
+              json['Scheduled'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scheduled = this.scheduled;
+    return {
+      if (scheduled != null) 'Scheduled': scheduled,
+    };
+  }
+}
+
+/// Specifies the configuration details of a schedule-triggered flow as defined
+/// by the user. Currently, these settings only apply to the
+/// <code>Scheduled</code> trigger type.
+class ScheduledTriggerProperties {
+  /// The scheduling expression that determines the rate at which the schedule
+  /// will run, for example <code>rate(5minutes)</code>.
+  final String scheduleExpression;
+
+  /// Specifies whether a scheduled flow has an incremental data transfer or a
+  /// complete data transfer for each flow run.
+  final DataPullMode? dataPullMode;
+
+  /// Specifies the date range for the records to import from the connector in the
+  /// first flow run.
+  final DateTime? firstExecutionFrom;
+
+  /// Defines how many times a scheduled flow fails consecutively before Amazon
+  /// AppFlow deactivates it.
+  final int? flowErrorDeactivationThreshold;
+
+  /// The time at which the scheduled flow ends. The time is formatted as a
+  /// timestamp that follows the ISO 8601 standard, such as
+  /// <code>2022-04-27T13:00:00-07:00</code>.
+  final DateTime? scheduleEndTime;
+
+  /// Specifies the optional offset that is added to the time interval for a
+  /// schedule-triggered flow.
+  final int? scheduleOffset;
+
+  /// The time at which the scheduled flow starts. The time is formatted as a
+  /// timestamp that follows the ISO 8601 standard, such as
+  /// <code>2022-04-26T13:00:00-07:00</code>.
+  final DateTime? scheduleStartTime;
+
+  /// Specifies the time zone used when referring to the dates and times of a
+  /// scheduled flow, such as <code>America/New_York</code>. This time zone is
+  /// only a descriptive label. It doesn't affect how Amazon AppFlow interprets
+  /// the timestamps that you specify to schedule the flow.
+  ///
+  /// If you want to schedule a flow by using times in a particular time zone,
+  /// indicate the time zone as a UTC offset in your timestamps. For example, the
+  /// UTC offsets for the <code>America/New_York</code> timezone are
+  /// <code>-04:00</code> EDT and <code>-05:00 EST</code>.
+  final String? timezone;
+
+  ScheduledTriggerProperties({
+    required this.scheduleExpression,
+    this.dataPullMode,
+    this.firstExecutionFrom,
+    this.flowErrorDeactivationThreshold,
+    this.scheduleEndTime,
+    this.scheduleOffset,
+    this.scheduleStartTime,
+    this.timezone,
+  });
+
+  factory ScheduledTriggerProperties.fromJson(Map<String, dynamic> json) {
+    return ScheduledTriggerProperties(
+      scheduleExpression: (json['scheduleExpression'] as String?) ?? '',
+      dataPullMode:
+          (json['dataPullMode'] as String?)?.let(DataPullMode.fromString),
+      firstExecutionFrom: timeStampFromJson(json['firstExecutionFrom']),
+      flowErrorDeactivationThreshold:
+          json['flowErrorDeactivationThreshold'] as int?,
+      scheduleEndTime: timeStampFromJson(json['scheduleEndTime']),
+      scheduleOffset: json['scheduleOffset'] as int?,
+      scheduleStartTime: timeStampFromJson(json['scheduleStartTime']),
+      timezone: json['timezone'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scheduleExpression = this.scheduleExpression;
+    final dataPullMode = this.dataPullMode;
+    final firstExecutionFrom = this.firstExecutionFrom;
+    final flowErrorDeactivationThreshold = this.flowErrorDeactivationThreshold;
+    final scheduleEndTime = this.scheduleEndTime;
+    final scheduleOffset = this.scheduleOffset;
+    final scheduleStartTime = this.scheduleStartTime;
+    final timezone = this.timezone;
+    return {
+      'scheduleExpression': scheduleExpression,
+      if (dataPullMode != null) 'dataPullMode': dataPullMode.value,
+      if (firstExecutionFrom != null)
+        'firstExecutionFrom': unixTimestampToJson(firstExecutionFrom),
+      if (flowErrorDeactivationThreshold != null)
+        'flowErrorDeactivationThreshold': flowErrorDeactivationThreshold,
+      if (scheduleEndTime != null)
+        'scheduleEndTime': unixTimestampToJson(scheduleEndTime),
+      if (scheduleOffset != null) 'scheduleOffset': scheduleOffset,
+      if (scheduleStartTime != null)
+        'scheduleStartTime': unixTimestampToJson(scheduleStartTime),
+      if (timezone != null) 'timezone': timezone,
+    };
+  }
+}
+
+class DataPullMode {
+  static const incremental = DataPullMode._('Incremental');
+  static const complete = DataPullMode._('Complete');
+
+  final String value;
+
+  const DataPullMode._(this.value);
+
+  static const values = [incremental, complete];
+
+  static DataPullMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DataPullMode._(value));
+
+  @override
+  bool operator ==(other) => other is DataPullMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about the configuration of the connector being
+/// registered.
+class ConnectorProvisioningConfig {
+  /// Contains information about the configuration of the lambda which is being
+  /// registered as the connector.
+  final LambdaConnectorProvisioningConfig? lambda;
+
+  ConnectorProvisioningConfig({
+    this.lambda,
+  });
+
+  factory ConnectorProvisioningConfig.fromJson(Map<String, dynamic> json) {
+    return ConnectorProvisioningConfig(
+      lambda: json['lambda'] != null
+          ? LambdaConnectorProvisioningConfig.fromJson(
+              json['lambda'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lambda = this.lambda;
+    return {
+      if (lambda != null) 'lambda': lambda,
+    };
+  }
+}
+
+/// Contains information about the configuration of the lambda which is being
+/// registered as the connector.
+class LambdaConnectorProvisioningConfig {
+  /// Lambda ARN of the connector being registered.
+  final String lambdaArn;
+
+  LambdaConnectorProvisioningConfig({
+    required this.lambdaArn,
+  });
+
+  factory LambdaConnectorProvisioningConfig.fromJson(
+      Map<String, dynamic> json) {
+    return LambdaConnectorProvisioningConfig(
+      lambdaArn: (json['lambdaArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lambdaArn = this.lambdaArn;
+    return {
+      'lambdaArn': lambdaArn,
+    };
+  }
+}
+
+class ConnectionMode {
+  static const public = ConnectionMode._('Public');
+  static const private = ConnectionMode._('Private');
+
+  final String value;
+
+  const ConnectionMode._(this.value);
+
+  static const values = [public, private];
+
+  static ConnectionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectionMode._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Defines the connector-specific configuration and credentials for the
+/// connector profile.
+class ConnectorProfileConfig {
+  /// The connector-specific properties of the profile configuration.
+  final ConnectorProfileProperties connectorProfileProperties;
+
+  /// The connector-specific credentials required by each connector.
+  final ConnectorProfileCredentials? connectorProfileCredentials;
+
+  ConnectorProfileConfig({
+    required this.connectorProfileProperties,
+    this.connectorProfileCredentials,
+  });
+
+  Map<String, dynamic> toJson() {
+    final connectorProfileProperties = this.connectorProfileProperties;
+    final connectorProfileCredentials = this.connectorProfileCredentials;
+    return {
+      'connectorProfileProperties': connectorProfileProperties,
+      if (connectorProfileCredentials != null)
+        'connectorProfileCredentials': connectorProfileCredentials,
+    };
+  }
+}
+
+/// The connector-specific profile properties required by each connector.
+class ConnectorProfileProperties {
+  /// The connector-specific properties required by Amplitude.
+  final AmplitudeConnectorProfileProperties? amplitude;
+
+  /// The properties required by the custom connector.
+  final CustomConnectorProfileProperties? customConnector;
+
+  /// The connector-specific properties required by Datadog.
+  final DatadogConnectorProfileProperties? datadog;
+
+  /// The connector-specific properties required by Dynatrace.
+  final DynatraceConnectorProfileProperties? dynatrace;
+
+  /// The connector-specific properties required Google Analytics.
+  final GoogleAnalyticsConnectorProfileProperties? googleAnalytics;
+
+  /// The connector-specific properties required by Amazon Honeycode.
+  final HoneycodeConnectorProfileProperties? honeycode;
+
+  /// The connector-specific properties required by Infor Nexus.
+  final InforNexusConnectorProfileProperties? inforNexus;
+
+  /// The connector-specific properties required by Marketo.
+  final MarketoConnectorProfileProperties? marketo;
+
+  /// The connector-specific properties required by Salesforce Pardot.
+  final PardotConnectorProfileProperties? pardot;
+
+  /// The connector-specific properties required by Amazon Redshift.
+  final RedshiftConnectorProfileProperties? redshift;
+  final SAPODataConnectorProfileProperties? sAPOData;
+
+  /// The connector-specific properties required by Salesforce.
+  final SalesforceConnectorProfileProperties? salesforce;
+
+  /// The connector-specific properties required by serviceNow.
+  final ServiceNowConnectorProfileProperties? serviceNow;
+
+  /// The connector-specific properties required by Singular.
+  final SingularConnectorProfileProperties? singular;
+
+  /// The connector-specific properties required by Slack.
+  final SlackConnectorProfileProperties? slack;
+
+  /// The connector-specific properties required by Snowflake.
+  final SnowflakeConnectorProfileProperties? snowflake;
+
+  /// The connector-specific properties required by Trend Micro.
+  final TrendmicroConnectorProfileProperties? trendmicro;
+
+  /// The connector-specific properties required by Veeva.
+  final VeevaConnectorProfileProperties? veeva;
+
+  /// The connector-specific properties required by Zendesk.
+  final ZendeskConnectorProfileProperties? zendesk;
+
+  ConnectorProfileProperties({
+    this.amplitude,
+    this.customConnector,
+    this.datadog,
+    this.dynatrace,
+    this.googleAnalytics,
+    this.honeycode,
+    this.inforNexus,
+    this.marketo,
+    this.pardot,
+    this.redshift,
+    this.sAPOData,
+    this.salesforce,
+    this.serviceNow,
+    this.singular,
+    this.slack,
+    this.snowflake,
+    this.trendmicro,
+    this.veeva,
+    this.zendesk,
+  });
+
+  factory ConnectorProfileProperties.fromJson(Map<String, dynamic> json) {
+    return ConnectorProfileProperties(
+      amplitude: json['Amplitude'] != null
+          ? AmplitudeConnectorProfileProperties.fromJson(
+              json['Amplitude'] as Map<String, dynamic>)
+          : null,
+      customConnector: json['CustomConnector'] != null
+          ? CustomConnectorProfileProperties.fromJson(
+              json['CustomConnector'] as Map<String, dynamic>)
+          : null,
+      datadog: json['Datadog'] != null
+          ? DatadogConnectorProfileProperties.fromJson(
+              json['Datadog'] as Map<String, dynamic>)
+          : null,
+      dynatrace: json['Dynatrace'] != null
+          ? DynatraceConnectorProfileProperties.fromJson(
+              json['Dynatrace'] as Map<String, dynamic>)
+          : null,
+      googleAnalytics: json['GoogleAnalytics'] != null
+          ? GoogleAnalyticsConnectorProfileProperties.fromJson(
+              json['GoogleAnalytics'] as Map<String, dynamic>)
+          : null,
+      honeycode: json['Honeycode'] != null
+          ? HoneycodeConnectorProfileProperties.fromJson(
+              json['Honeycode'] as Map<String, dynamic>)
+          : null,
+      inforNexus: json['InforNexus'] != null
+          ? InforNexusConnectorProfileProperties.fromJson(
+              json['InforNexus'] as Map<String, dynamic>)
+          : null,
+      marketo: json['Marketo'] != null
+          ? MarketoConnectorProfileProperties.fromJson(
+              json['Marketo'] as Map<String, dynamic>)
+          : null,
+      pardot: json['Pardot'] != null
+          ? PardotConnectorProfileProperties.fromJson(
+              json['Pardot'] as Map<String, dynamic>)
+          : null,
+      redshift: json['Redshift'] != null
+          ? RedshiftConnectorProfileProperties.fromJson(
+              json['Redshift'] as Map<String, dynamic>)
+          : null,
+      sAPOData: json['SAPOData'] != null
+          ? SAPODataConnectorProfileProperties.fromJson(
+              json['SAPOData'] as Map<String, dynamic>)
+          : null,
+      salesforce: json['Salesforce'] != null
+          ? SalesforceConnectorProfileProperties.fromJson(
+              json['Salesforce'] as Map<String, dynamic>)
+          : null,
+      serviceNow: json['ServiceNow'] != null
+          ? ServiceNowConnectorProfileProperties.fromJson(
+              json['ServiceNow'] as Map<String, dynamic>)
+          : null,
+      singular: json['Singular'] != null
+          ? SingularConnectorProfileProperties.fromJson(
+              json['Singular'] as Map<String, dynamic>)
+          : null,
+      slack: json['Slack'] != null
+          ? SlackConnectorProfileProperties.fromJson(
+              json['Slack'] as Map<String, dynamic>)
+          : null,
+      snowflake: json['Snowflake'] != null
+          ? SnowflakeConnectorProfileProperties.fromJson(
+              json['Snowflake'] as Map<String, dynamic>)
+          : null,
+      trendmicro: json['Trendmicro'] != null
+          ? TrendmicroConnectorProfileProperties.fromJson(
+              json['Trendmicro'] as Map<String, dynamic>)
+          : null,
+      veeva: json['Veeva'] != null
+          ? VeevaConnectorProfileProperties.fromJson(
+              json['Veeva'] as Map<String, dynamic>)
+          : null,
+      zendesk: json['Zendesk'] != null
+          ? ZendeskConnectorProfileProperties.fromJson(
+              json['Zendesk'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final amplitude = this.amplitude;
+    final customConnector = this.customConnector;
+    final datadog = this.datadog;
+    final dynatrace = this.dynatrace;
+    final googleAnalytics = this.googleAnalytics;
+    final honeycode = this.honeycode;
+    final inforNexus = this.inforNexus;
+    final marketo = this.marketo;
+    final pardot = this.pardot;
+    final redshift = this.redshift;
+    final sAPOData = this.sAPOData;
+    final salesforce = this.salesforce;
+    final serviceNow = this.serviceNow;
+    final singular = this.singular;
+    final slack = this.slack;
+    final snowflake = this.snowflake;
+    final trendmicro = this.trendmicro;
+    final veeva = this.veeva;
+    final zendesk = this.zendesk;
+    return {
+      if (amplitude != null) 'Amplitude': amplitude,
+      if (customConnector != null) 'CustomConnector': customConnector,
+      if (datadog != null) 'Datadog': datadog,
+      if (dynatrace != null) 'Dynatrace': dynatrace,
+      if (googleAnalytics != null) 'GoogleAnalytics': googleAnalytics,
+      if (honeycode != null) 'Honeycode': honeycode,
+      if (inforNexus != null) 'InforNexus': inforNexus,
+      if (marketo != null) 'Marketo': marketo,
+      if (pardot != null) 'Pardot': pardot,
+      if (redshift != null) 'Redshift': redshift,
+      if (sAPOData != null) 'SAPOData': sAPOData,
+      if (salesforce != null) 'Salesforce': salesforce,
+      if (serviceNow != null) 'ServiceNow': serviceNow,
+      if (singular != null) 'Singular': singular,
+      if (slack != null) 'Slack': slack,
+      if (snowflake != null) 'Snowflake': snowflake,
+      if (trendmicro != null) 'Trendmicro': trendmicro,
+      if (veeva != null) 'Veeva': veeva,
+      if (zendesk != null) 'Zendesk': zendesk,
+    };
+  }
+}
+
+/// The connector-specific credentials required by a connector.
+class ConnectorProfileCredentials {
+  /// The connector-specific credentials required when using Amplitude.
+  final AmplitudeConnectorProfileCredentials? amplitude;
+  final CustomConnectorProfileCredentials? customConnector;
+
+  /// The connector-specific credentials required when using Datadog.
+  final DatadogConnectorProfileCredentials? datadog;
+
+  /// The connector-specific credentials required when using Dynatrace.
+  final DynatraceConnectorProfileCredentials? dynatrace;
+
+  /// The connector-specific credentials required when using Google Analytics.
+  final GoogleAnalyticsConnectorProfileCredentials? googleAnalytics;
+
+  /// The connector-specific credentials required when using Amazon Honeycode.
+  final HoneycodeConnectorProfileCredentials? honeycode;
+
+  /// The connector-specific credentials required when using Infor Nexus.
+  final InforNexusConnectorProfileCredentials? inforNexus;
+
+  /// The connector-specific credentials required when using Marketo.
+  final MarketoConnectorProfileCredentials? marketo;
+
+  /// The connector-specific credentials required when using Salesforce Pardot.
+  final PardotConnectorProfileCredentials? pardot;
+
+  /// The connector-specific credentials required when using Amazon Redshift.
+  final RedshiftConnectorProfileCredentials? redshift;
+  final SAPODataConnectorProfileCredentials? sAPOData;
+
+  /// The connector-specific credentials required when using Salesforce.
+  final SalesforceConnectorProfileCredentials? salesforce;
+
+  /// The connector-specific credentials required when using ServiceNow.
+  final ServiceNowConnectorProfileCredentials? serviceNow;
+
+  /// The connector-specific credentials required when using Singular.
+  final SingularConnectorProfileCredentials? singular;
+
+  /// The connector-specific credentials required when using Slack.
+  final SlackConnectorProfileCredentials? slack;
+
+  /// The connector-specific credentials required when using Snowflake.
+  final SnowflakeConnectorProfileCredentials? snowflake;
+
+  /// The connector-specific credentials required when using Trend Micro.
+  final TrendmicroConnectorProfileCredentials? trendmicro;
+
+  /// The connector-specific credentials required when using Veeva.
+  final VeevaConnectorProfileCredentials? veeva;
+
+  /// The connector-specific credentials required when using Zendesk.
+  final ZendeskConnectorProfileCredentials? zendesk;
+
+  ConnectorProfileCredentials({
+    this.amplitude,
+    this.customConnector,
+    this.datadog,
+    this.dynatrace,
+    this.googleAnalytics,
+    this.honeycode,
+    this.inforNexus,
+    this.marketo,
+    this.pardot,
+    this.redshift,
+    this.sAPOData,
+    this.salesforce,
+    this.serviceNow,
+    this.singular,
+    this.slack,
+    this.snowflake,
+    this.trendmicro,
+    this.veeva,
+    this.zendesk,
+  });
+
+  Map<String, dynamic> toJson() {
+    final amplitude = this.amplitude;
+    final customConnector = this.customConnector;
+    final datadog = this.datadog;
+    final dynatrace = this.dynatrace;
+    final googleAnalytics = this.googleAnalytics;
+    final honeycode = this.honeycode;
+    final inforNexus = this.inforNexus;
+    final marketo = this.marketo;
+    final pardot = this.pardot;
+    final redshift = this.redshift;
+    final sAPOData = this.sAPOData;
+    final salesforce = this.salesforce;
+    final serviceNow = this.serviceNow;
+    final singular = this.singular;
+    final slack = this.slack;
+    final snowflake = this.snowflake;
+    final trendmicro = this.trendmicro;
+    final veeva = this.veeva;
+    final zendesk = this.zendesk;
+    return {
+      if (amplitude != null) 'Amplitude': amplitude,
+      if (customConnector != null) 'CustomConnector': customConnector,
+      if (datadog != null) 'Datadog': datadog,
+      if (dynatrace != null) 'Dynatrace': dynatrace,
+      if (googleAnalytics != null) 'GoogleAnalytics': googleAnalytics,
+      if (honeycode != null) 'Honeycode': honeycode,
+      if (inforNexus != null) 'InforNexus': inforNexus,
+      if (marketo != null) 'Marketo': marketo,
+      if (pardot != null) 'Pardot': pardot,
+      if (redshift != null) 'Redshift': redshift,
+      if (sAPOData != null) 'SAPOData': sAPOData,
+      if (salesforce != null) 'Salesforce': salesforce,
+      if (serviceNow != null) 'ServiceNow': serviceNow,
+      if (singular != null) 'Singular': singular,
+      if (slack != null) 'Slack': slack,
+      if (snowflake != null) 'Snowflake': snowflake,
+      if (trendmicro != null) 'Trendmicro': trendmicro,
+      if (veeva != null) 'Veeva': veeva,
+      if (zendesk != null) 'Zendesk': zendesk,
+    };
+  }
+}
+
+/// The connector-specific credentials required when using Amplitude.
+class AmplitudeConnectorProfileCredentials {
+  /// A unique alphanumeric identifier used to authenticate a user, developer, or
+  /// calling program to your API.
+  final String apiKey;
+
+  /// The Secret Access Key portion of the credentials.
+  final String secretKey;
+
+  AmplitudeConnectorProfileCredentials({
+    required this.apiKey,
+    required this.secretKey,
+  });
+
+  Map<String, dynamic> toJson() {
+    final apiKey = this.apiKey;
+    final secretKey = this.secretKey;
+    return {
+      'apiKey': apiKey,
+      'secretKey': secretKey,
+    };
+  }
+}
+
+/// The connector-specific credentials required by Datadog.
+class DatadogConnectorProfileCredentials {
+  /// A unique alphanumeric identifier used to authenticate a user, developer, or
+  /// calling program to your API.
+  final String apiKey;
+
+  /// Application keys, in conjunction with your API key, give you full access to
+  /// Datadog’s programmatic API. Application keys are associated with the user
+  /// account that created them. The application key is used to log all requests
+  /// made to the API.
+  final String applicationKey;
+
+  DatadogConnectorProfileCredentials({
+    required this.apiKey,
+    required this.applicationKey,
+  });
+
+  Map<String, dynamic> toJson() {
+    final apiKey = this.apiKey;
+    final applicationKey = this.applicationKey;
+    return {
+      'apiKey': apiKey,
+      'applicationKey': applicationKey,
+    };
+  }
+}
+
+/// The connector-specific profile credentials required by Dynatrace.
+class DynatraceConnectorProfileCredentials {
+  /// The API tokens used by Dynatrace API to authenticate various API calls.
+  final String apiToken;
+
+  DynatraceConnectorProfileCredentials({
+    required this.apiToken,
+  });
+
+  Map<String, dynamic> toJson() {
+    final apiToken = this.apiToken;
+    return {
+      'apiToken': apiToken,
+    };
+  }
+}
+
+/// The connector-specific profile credentials required by Google Analytics.
+class GoogleAnalyticsConnectorProfileCredentials {
+  /// The identifier for the desired client.
+  final String clientId;
+
+  /// The client secret used by the OAuth client to authenticate to the
+  /// authorization server.
+  final String clientSecret;
+
+  /// The credentials used to access protected Google Analytics resources.
+  final String? accessToken;
+
+  /// The OAuth requirement needed to request security tokens from the connector
+  /// endpoint.
+  final ConnectorOAuthRequest? oAuthRequest;
+
+  /// The credentials used to acquire new access tokens. This is required only for
+  /// OAuth2 access tokens, and is not required for OAuth1 access tokens.
+  final String? refreshToken;
+
+  GoogleAnalyticsConnectorProfileCredentials({
+    required this.clientId,
+    required this.clientSecret,
+    this.accessToken,
+    this.oAuthRequest,
+    this.refreshToken,
+  });
+
+  Map<String, dynamic> toJson() {
+    final clientId = this.clientId;
+    final clientSecret = this.clientSecret;
+    final accessToken = this.accessToken;
+    final oAuthRequest = this.oAuthRequest;
+    final refreshToken = this.refreshToken;
+    return {
+      'clientId': clientId,
+      'clientSecret': clientSecret,
+      if (accessToken != null) 'accessToken': accessToken,
+      if (oAuthRequest != null) 'oAuthRequest': oAuthRequest,
+      if (refreshToken != null) 'refreshToken': refreshToken,
+    };
+  }
+}
+
+/// The connector-specific credentials required when using Amazon Honeycode.
+class HoneycodeConnectorProfileCredentials {
+  /// The credentials used to access protected Amazon Honeycode resources.
+  final String? accessToken;
+  final ConnectorOAuthRequest? oAuthRequest;
+
+  /// The credentials used to acquire new access tokens.
+  final String? refreshToken;
+
+  HoneycodeConnectorProfileCredentials({
+    this.accessToken,
+    this.oAuthRequest,
+    this.refreshToken,
+  });
+
+  Map<String, dynamic> toJson() {
+    final accessToken = this.accessToken;
+    final oAuthRequest = this.oAuthRequest;
+    final refreshToken = this.refreshToken;
+    return {
+      if (accessToken != null) 'accessToken': accessToken,
+      if (oAuthRequest != null) 'oAuthRequest': oAuthRequest,
+      if (refreshToken != null) 'refreshToken': refreshToken,
+    };
+  }
+}
+
+/// The connector-specific profile credentials required by Infor Nexus.
+class InforNexusConnectorProfileCredentials {
+  /// The Access Key portion of the credentials.
+  final String accessKeyId;
+
+  /// The encryption keys used to encrypt data.
+  final String datakey;
+
+  /// The secret key used to sign requests.
+  final String secretAccessKey;
+
+  /// The identifier for the user.
+  final String userId;
+
+  InforNexusConnectorProfileCredentials({
+    required this.accessKeyId,
+    required this.datakey,
+    required this.secretAccessKey,
+    required this.userId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final accessKeyId = this.accessKeyId;
+    final datakey = this.datakey;
+    final secretAccessKey = this.secretAccessKey;
+    final userId = this.userId;
+    return {
+      'accessKeyId': accessKeyId,
+      'datakey': datakey,
+      'secretAccessKey': secretAccessKey,
+      'userId': userId,
+    };
+  }
+}
+
+/// The connector-specific profile credentials required by Marketo.
+class MarketoConnectorProfileCredentials {
+  /// The identifier for the desired client.
+  final String clientId;
+
+  /// The client secret used by the OAuth client to authenticate to the
+  /// authorization server.
+  final String clientSecret;
+
+  /// The credentials used to access protected Marketo resources.
+  final String? accessToken;
+
+  /// The OAuth requirement needed to request security tokens from the connector
+  /// endpoint.
+  final ConnectorOAuthRequest? oAuthRequest;
+
+  MarketoConnectorProfileCredentials({
+    required this.clientId,
+    required this.clientSecret,
+    this.accessToken,
+    this.oAuthRequest,
+  });
+
+  Map<String, dynamic> toJson() {
+    final clientId = this.clientId;
+    final clientSecret = this.clientSecret;
+    final accessToken = this.accessToken;
+    final oAuthRequest = this.oAuthRequest;
+    return {
+      'clientId': clientId,
+      'clientSecret': clientSecret,
+      if (accessToken != null) 'accessToken': accessToken,
+      if (oAuthRequest != null) 'oAuthRequest': oAuthRequest,
+    };
+  }
+}
+
+/// The connector-specific profile credentials required when using Amazon
+/// Redshift.
+class RedshiftConnectorProfileCredentials {
+  /// The password that corresponds to the user name.
+  final String? password;
+
+  /// The name of the user.
+  final String? username;
+
+  RedshiftConnectorProfileCredentials({
+    this.password,
+    this.username,
+  });
+
+  Map<String, dynamic> toJson() {
+    final password = this.password;
+    final username = this.username;
+    return {
+      if (password != null) 'password': password,
+      if (username != null) 'username': username,
+    };
+  }
+}
+
+/// The connector-specific profile credentials required when using Salesforce.
+class SalesforceConnectorProfileCredentials {
+  /// The credentials used to access protected Salesforce resources.
+  final String? accessToken;
+
+  /// The secret manager ARN, which contains the client ID and client secret of
+  /// the connected app.
+  final String? clientCredentialsArn;
+
+  /// A JSON web token (JWT) that authorizes Amazon AppFlow to access your
+  /// Salesforce records.
+  final String? jwtToken;
+
+  /// Specifies the OAuth 2.0 grant type that Amazon AppFlow uses when it requests
+  /// an access token from Salesforce. Amazon AppFlow requires an access token
+  /// each time it attempts to access your Salesforce records.
+  ///
+  /// You can specify one of the following values:
+  /// <dl> <dt>AUTHORIZATION_CODE</dt> <dd>
+  /// Amazon AppFlow passes an authorization code when it requests the access
+  /// token from Salesforce. Amazon AppFlow receives the authorization code from
+  /// Salesforce after you log in to your Salesforce account and authorize Amazon
+  /// AppFlow to access your records.
+  /// </dd> <dt>JWT_BEARER</dt> <dd>
+  /// Amazon AppFlow passes a JSON web token (JWT) when it requests the access
+  /// token from Salesforce. You provide the JWT to Amazon AppFlow when you define
+  /// the connection to your Salesforce account. When you use this grant type, you
+  /// don't need to log in to your Salesforce account to authorize Amazon AppFlow
+  /// to access your records.
+  /// </dd> </dl> <note>
+  /// The CLIENT_CREDENTIALS value is not supported for Salesforce.
+  /// </note>
+  final OAuth2GrantType? oAuth2GrantType;
+
+  /// The OAuth requirement needed to request security tokens from the connector
+  /// endpoint.
+  final ConnectorOAuthRequest? oAuthRequest;
+
+  /// The credentials used to acquire new access tokens.
+  final String? refreshToken;
+
+  SalesforceConnectorProfileCredentials({
+    this.accessToken,
+    this.clientCredentialsArn,
+    this.jwtToken,
+    this.oAuth2GrantType,
+    this.oAuthRequest,
+    this.refreshToken,
+  });
+
+  Map<String, dynamic> toJson() {
+    final accessToken = this.accessToken;
+    final clientCredentialsArn = this.clientCredentialsArn;
+    final jwtToken = this.jwtToken;
+    final oAuth2GrantType = this.oAuth2GrantType;
+    final oAuthRequest = this.oAuthRequest;
+    final refreshToken = this.refreshToken;
+    return {
+      if (accessToken != null) 'accessToken': accessToken,
+      if (clientCredentialsArn != null)
+        'clientCredentialsArn': clientCredentialsArn,
+      if (jwtToken != null) 'jwtToken': jwtToken,
+      if (oAuth2GrantType != null) 'oAuth2GrantType': oAuth2GrantType.value,
+      if (oAuthRequest != null) 'oAuthRequest': oAuthRequest,
+      if (refreshToken != null) 'refreshToken': refreshToken,
+    };
+  }
+}
+
+/// The connector-specific profile credentials required when using ServiceNow.
+class ServiceNowConnectorProfileCredentials {
+  /// The OAuth 2.0 credentials required to authenticate the user.
+  final OAuth2Credentials? oAuth2Credentials;
+
+  /// The password that corresponds to the user name.
+  final String? password;
+
+  /// The name of the user.
+  final String? username;
+
+  ServiceNowConnectorProfileCredentials({
+    this.oAuth2Credentials,
+    this.password,
+    this.username,
+  });
+
+  Map<String, dynamic> toJson() {
+    final oAuth2Credentials = this.oAuth2Credentials;
+    final password = this.password;
+    final username = this.username;
+    return {
+      if (oAuth2Credentials != null) 'oAuth2Credentials': oAuth2Credentials,
+      if (password != null) 'password': password,
+      if (username != null) 'username': username,
+    };
+  }
+}
+
+/// The connector-specific profile credentials required when using Singular.
+class SingularConnectorProfileCredentials {
+  /// A unique alphanumeric identifier used to authenticate a user, developer, or
+  /// calling program to your API.
+  final String apiKey;
+
+  SingularConnectorProfileCredentials({
+    required this.apiKey,
+  });
+
+  Map<String, dynamic> toJson() {
+    final apiKey = this.apiKey;
+    return {
+      'apiKey': apiKey,
+    };
+  }
+}
+
+/// The connector-specific profile credentials required when using Slack.
+class SlackConnectorProfileCredentials {
+  /// The identifier for the client.
+  final String clientId;
+
+  /// The client secret used by the OAuth client to authenticate to the
+  /// authorization server.
+  final String clientSecret;
+
+  /// The credentials used to access protected Slack resources.
+  final String? accessToken;
+
+  /// The OAuth requirement needed to request security tokens from the connector
+  /// endpoint.
+  final ConnectorOAuthRequest? oAuthRequest;
+
+  SlackConnectorProfileCredentials({
+    required this.clientId,
+    required this.clientSecret,
+    this.accessToken,
+    this.oAuthRequest,
+  });
+
+  Map<String, dynamic> toJson() {
+    final clientId = this.clientId;
+    final clientSecret = this.clientSecret;
+    final accessToken = this.accessToken;
+    final oAuthRequest = this.oAuthRequest;
+    return {
+      'clientId': clientId,
+      'clientSecret': clientSecret,
+      if (accessToken != null) 'accessToken': accessToken,
+      if (oAuthRequest != null) 'oAuthRequest': oAuthRequest,
+    };
+  }
+}
+
+/// The connector-specific profile credentials required when using Snowflake.
+class SnowflakeConnectorProfileCredentials {
+  /// The password that corresponds to the user name.
+  final String password;
+
+  /// The name of the user.
+  final String username;
+
+  SnowflakeConnectorProfileCredentials({
+    required this.password,
+    required this.username,
+  });
+
+  Map<String, dynamic> toJson() {
+    final password = this.password;
+    final username = this.username;
+    return {
+      'password': password,
+      'username': username,
+    };
+  }
+}
+
+/// The connector-specific profile credentials required when using Trend Micro.
+class TrendmicroConnectorProfileCredentials {
+  /// The Secret Access Key portion of the credentials.
+  final String apiSecretKey;
+
+  TrendmicroConnectorProfileCredentials({
+    required this.apiSecretKey,
+  });
+
+  Map<String, dynamic> toJson() {
+    final apiSecretKey = this.apiSecretKey;
+    return {
+      'apiSecretKey': apiSecretKey,
+    };
+  }
+}
+
+/// The connector-specific profile credentials required when using Veeva.
+class VeevaConnectorProfileCredentials {
+  /// The password that corresponds to the user name.
+  final String password;
+
+  /// The name of the user.
+  final String username;
+
+  VeevaConnectorProfileCredentials({
+    required this.password,
+    required this.username,
+  });
+
+  Map<String, dynamic> toJson() {
+    final password = this.password;
+    final username = this.username;
+    return {
+      'password': password,
+      'username': username,
+    };
+  }
+}
+
+/// The connector-specific profile credentials required when using Zendesk.
+class ZendeskConnectorProfileCredentials {
+  /// The identifier for the desired client.
+  final String clientId;
+
+  /// The client secret used by the OAuth client to authenticate to the
+  /// authorization server.
+  final String clientSecret;
+
+  /// The credentials used to access protected Zendesk resources.
+  final String? accessToken;
+
+  /// The OAuth requirement needed to request security tokens from the connector
+  /// endpoint.
+  final ConnectorOAuthRequest? oAuthRequest;
+
+  ZendeskConnectorProfileCredentials({
+    required this.clientId,
+    required this.clientSecret,
+    this.accessToken,
+    this.oAuthRequest,
+  });
+
+  Map<String, dynamic> toJson() {
+    final clientId = this.clientId;
+    final clientSecret = this.clientSecret;
+    final accessToken = this.accessToken;
+    final oAuthRequest = this.oAuthRequest;
+    return {
+      'clientId': clientId,
+      'clientSecret': clientSecret,
+      if (accessToken != null) 'accessToken': accessToken,
+      if (oAuthRequest != null) 'oAuthRequest': oAuthRequest,
+    };
+  }
+}
+
+/// The connector-specific profile credentials required when using SAPOData.
+class SAPODataConnectorProfileCredentials {
+  /// The SAPOData basic authentication credentials.
+  final BasicAuthCredentials? basicAuthCredentials;
+
+  /// The SAPOData OAuth type authentication credentials.
+  final OAuthCredentials? oAuthCredentials;
+
+  SAPODataConnectorProfileCredentials({
+    this.basicAuthCredentials,
+    this.oAuthCredentials,
+  });
+
+  Map<String, dynamic> toJson() {
+    final basicAuthCredentials = this.basicAuthCredentials;
+    final oAuthCredentials = this.oAuthCredentials;
+    return {
+      if (basicAuthCredentials != null)
+        'basicAuthCredentials': basicAuthCredentials,
+      if (oAuthCredentials != null) 'oAuthCredentials': oAuthCredentials,
+    };
+  }
+}
+
+/// The connector-specific profile credentials that are required when using the
+/// custom connector.
+class CustomConnectorProfileCredentials {
+  /// The authentication type that the custom connector uses for authenticating
+  /// while creating a connector profile.
+  final AuthenticationType authenticationType;
+
+  /// The API keys required for the authentication of the user.
+  final ApiKeyCredentials? apiKey;
+
+  /// The basic credentials that are required for the authentication of the user.
+  final BasicAuthCredentials? basic;
+
+  /// If the connector uses the custom authentication mechanism, this holds the
+  /// required credentials.
+  final CustomAuthCredentials? custom;
+
+  /// The OAuth 2.0 credentials required for the authentication of the user.
+  final OAuth2Credentials? oauth2;
+
+  CustomConnectorProfileCredentials({
+    required this.authenticationType,
+    this.apiKey,
+    this.basic,
+    this.custom,
+    this.oauth2,
+  });
+
+  Map<String, dynamic> toJson() {
+    final authenticationType = this.authenticationType;
+    final apiKey = this.apiKey;
+    final basic = this.basic;
+    final custom = this.custom;
+    final oauth2 = this.oauth2;
+    return {
+      'authenticationType': authenticationType.value,
+      if (apiKey != null) 'apiKey': apiKey,
+      if (basic != null) 'basic': basic,
+      if (custom != null) 'custom': custom,
+      if (oauth2 != null) 'oauth2': oauth2,
+    };
+  }
+}
+
+/// The connector-specific profile credentials required when using Salesforce
+/// Pardot.
+class PardotConnectorProfileCredentials {
+  /// The credentials used to access protected Salesforce Pardot resources.
+  final String? accessToken;
+
+  /// The secret manager ARN, which contains the client ID and client secret of
+  /// the connected app.
+  final String? clientCredentialsArn;
+  final ConnectorOAuthRequest? oAuthRequest;
+
+  /// The credentials used to acquire new access tokens.
+  final String? refreshToken;
+
+  PardotConnectorProfileCredentials({
+    this.accessToken,
+    this.clientCredentialsArn,
+    this.oAuthRequest,
+    this.refreshToken,
+  });
+
+  Map<String, dynamic> toJson() {
+    final accessToken = this.accessToken;
+    final clientCredentialsArn = this.clientCredentialsArn;
+    final oAuthRequest = this.oAuthRequest;
+    final refreshToken = this.refreshToken;
+    return {
+      if (accessToken != null) 'accessToken': accessToken,
+      if (clientCredentialsArn != null)
+        'clientCredentialsArn': clientCredentialsArn,
+      if (oAuthRequest != null) 'oAuthRequest': oAuthRequest,
+      if (refreshToken != null) 'refreshToken': refreshToken,
+    };
+  }
+}
+
+/// Used by select connectors for which the OAuth workflow is supported, such as
+/// Salesforce, Google Analytics, Marketo, Zendesk, and Slack.
+class ConnectorOAuthRequest {
+  /// The code provided by the connector when it has been authenticated via the
+  /// connected app.
+  final String? authCode;
+
+  /// The URL to which the authentication server redirects the browser after
+  /// authorization has been granted.
+  final String? redirectUri;
+
+  ConnectorOAuthRequest({
+    this.authCode,
+    this.redirectUri,
+  });
+
+  Map<String, dynamic> toJson() {
+    final authCode = this.authCode;
+    final redirectUri = this.redirectUri;
+    return {
+      if (authCode != null) 'authCode': authCode,
+      if (redirectUri != null) 'redirectUri': redirectUri,
     };
   }
 }
@@ -1700,29 +7213,1554 @@ class BasicAuthCredentials {
   }
 }
 
-class CancelFlowExecutionsResponse {
-  /// The IDs of runs that Amazon AppFlow couldn't cancel. These runs might be
-  /// ineligible for canceling because they haven't started yet or have already
-  /// completed.
-  final List<String>? invalidExecutions;
+/// The OAuth 2.0 credentials required for OAuth 2.0 authentication.
+class OAuth2Credentials {
+  /// The access token used to access the connector on your behalf.
+  final String? accessToken;
 
-  CancelFlowExecutionsResponse({
-    this.invalidExecutions,
+  /// The identifier for the desired client.
+  final String? clientId;
+
+  /// The client secret used by the OAuth client to authenticate to the
+  /// authorization server.
+  final String? clientSecret;
+  final ConnectorOAuthRequest? oAuthRequest;
+
+  /// The refresh token used to refresh an expired access token.
+  final String? refreshToken;
+
+  OAuth2Credentials({
+    this.accessToken,
+    this.clientId,
+    this.clientSecret,
+    this.oAuthRequest,
+    this.refreshToken,
   });
 
-  factory CancelFlowExecutionsResponse.fromJson(Map<String, dynamic> json) {
-    return CancelFlowExecutionsResponse(
-      invalidExecutions: (json['invalidExecutions'] as List?)
+  Map<String, dynamic> toJson() {
+    final accessToken = this.accessToken;
+    final clientId = this.clientId;
+    final clientSecret = this.clientSecret;
+    final oAuthRequest = this.oAuthRequest;
+    final refreshToken = this.refreshToken;
+    return {
+      if (accessToken != null) 'accessToken': accessToken,
+      if (clientId != null) 'clientId': clientId,
+      if (clientSecret != null) 'clientSecret': clientSecret,
+      if (oAuthRequest != null) 'oAuthRequest': oAuthRequest,
+      if (refreshToken != null) 'refreshToken': refreshToken,
+    };
+  }
+}
+
+/// The API key credentials required for API key authentication.
+class ApiKeyCredentials {
+  /// The API key required for API key authentication.
+  final String apiKey;
+
+  /// The API secret key required for API key authentication.
+  final String? apiSecretKey;
+
+  ApiKeyCredentials({
+    required this.apiKey,
+    this.apiSecretKey,
+  });
+
+  Map<String, dynamic> toJson() {
+    final apiKey = this.apiKey;
+    final apiSecretKey = this.apiSecretKey;
+    return {
+      'apiKey': apiKey,
+      if (apiSecretKey != null) 'apiSecretKey': apiSecretKey,
+    };
+  }
+}
+
+/// The custom credentials required for custom authentication.
+class CustomAuthCredentials {
+  /// The custom authentication type that the connector uses.
+  final String customAuthenticationType;
+
+  /// A map that holds custom authentication credentials.
+  final Map<String, String>? credentialsMap;
+
+  CustomAuthCredentials({
+    required this.customAuthenticationType,
+    this.credentialsMap,
+  });
+
+  Map<String, dynamic> toJson() {
+    final customAuthenticationType = this.customAuthenticationType;
+    final credentialsMap = this.credentialsMap;
+    return {
+      'customAuthenticationType': customAuthenticationType,
+      if (credentialsMap != null) 'credentialsMap': credentialsMap,
+    };
+  }
+}
+
+/// The OAuth credentials required for OAuth type authentication.
+class OAuthCredentials {
+  /// The identifier for the desired client.
+  final String clientId;
+
+  /// The client secret used by the OAuth client to authenticate to the
+  /// authorization server.
+  final String clientSecret;
+
+  /// The access token used to access protected SAPOData resources.
+  final String? accessToken;
+
+  /// The OAuth requirement needed to request security tokens from the connector
+  /// endpoint.
+  final ConnectorOAuthRequest? oAuthRequest;
+
+  /// The refresh token used to refresh expired access token.
+  final String? refreshToken;
+
+  OAuthCredentials({
+    required this.clientId,
+    required this.clientSecret,
+    this.accessToken,
+    this.oAuthRequest,
+    this.refreshToken,
+  });
+
+  Map<String, dynamic> toJson() {
+    final clientId = this.clientId;
+    final clientSecret = this.clientSecret;
+    final accessToken = this.accessToken;
+    final oAuthRequest = this.oAuthRequest;
+    final refreshToken = this.refreshToken;
+    return {
+      'clientId': clientId,
+      'clientSecret': clientSecret,
+      if (accessToken != null) 'accessToken': accessToken,
+      if (oAuthRequest != null) 'oAuthRequest': oAuthRequest,
+      if (refreshToken != null) 'refreshToken': refreshToken,
+    };
+  }
+}
+
+class OAuth2GrantType {
+  static const clientCredentials = OAuth2GrantType._('CLIENT_CREDENTIALS');
+  static const authorizationCode = OAuth2GrantType._('AUTHORIZATION_CODE');
+  static const jwtBearer = OAuth2GrantType._('JWT_BEARER');
+
+  final String value;
+
+  const OAuth2GrantType._(this.value);
+
+  static const values = [clientCredentials, authorizationCode, jwtBearer];
+
+  static OAuth2GrantType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OAuth2GrantType._(value));
+
+  @override
+  bool operator ==(other) => other is OAuth2GrantType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The connector-specific profile properties required when using Amplitude.
+class AmplitudeConnectorProfileProperties {
+  AmplitudeConnectorProfileProperties();
+
+  factory AmplitudeConnectorProfileProperties.fromJson(Map<String, dynamic> _) {
+    return AmplitudeConnectorProfileProperties();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The connector-specific profile properties required by Datadog.
+class DatadogConnectorProfileProperties {
+  /// The location of the Datadog resource.
+  final String instanceUrl;
+
+  DatadogConnectorProfileProperties({
+    required this.instanceUrl,
+  });
+
+  factory DatadogConnectorProfileProperties.fromJson(
+      Map<String, dynamic> json) {
+    return DatadogConnectorProfileProperties(
+      instanceUrl: (json['instanceUrl'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceUrl = this.instanceUrl;
+    return {
+      'instanceUrl': instanceUrl,
+    };
+  }
+}
+
+/// The connector-specific profile properties required by Dynatrace.
+class DynatraceConnectorProfileProperties {
+  /// The location of the Dynatrace resource.
+  final String instanceUrl;
+
+  DynatraceConnectorProfileProperties({
+    required this.instanceUrl,
+  });
+
+  factory DynatraceConnectorProfileProperties.fromJson(
+      Map<String, dynamic> json) {
+    return DynatraceConnectorProfileProperties(
+      instanceUrl: (json['instanceUrl'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceUrl = this.instanceUrl;
+    return {
+      'instanceUrl': instanceUrl,
+    };
+  }
+}
+
+/// The connector-specific profile properties required by Google Analytics.
+class GoogleAnalyticsConnectorProfileProperties {
+  GoogleAnalyticsConnectorProfileProperties();
+
+  factory GoogleAnalyticsConnectorProfileProperties.fromJson(
+      Map<String, dynamic> _) {
+    return GoogleAnalyticsConnectorProfileProperties();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The connector-specific properties required when using Amazon Honeycode.
+class HoneycodeConnectorProfileProperties {
+  HoneycodeConnectorProfileProperties();
+
+  factory HoneycodeConnectorProfileProperties.fromJson(Map<String, dynamic> _) {
+    return HoneycodeConnectorProfileProperties();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The connector-specific profile properties required by Infor Nexus.
+class InforNexusConnectorProfileProperties {
+  /// The location of the Infor Nexus resource.
+  final String instanceUrl;
+
+  InforNexusConnectorProfileProperties({
+    required this.instanceUrl,
+  });
+
+  factory InforNexusConnectorProfileProperties.fromJson(
+      Map<String, dynamic> json) {
+    return InforNexusConnectorProfileProperties(
+      instanceUrl: (json['instanceUrl'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceUrl = this.instanceUrl;
+    return {
+      'instanceUrl': instanceUrl,
+    };
+  }
+}
+
+/// The connector-specific profile properties required when using Marketo.
+class MarketoConnectorProfileProperties {
+  /// The location of the Marketo resource.
+  final String instanceUrl;
+
+  MarketoConnectorProfileProperties({
+    required this.instanceUrl,
+  });
+
+  factory MarketoConnectorProfileProperties.fromJson(
+      Map<String, dynamic> json) {
+    return MarketoConnectorProfileProperties(
+      instanceUrl: (json['instanceUrl'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceUrl = this.instanceUrl;
+    return {
+      'instanceUrl': instanceUrl,
+    };
+  }
+}
+
+/// The connector-specific profile properties when using Amazon Redshift.
+class RedshiftConnectorProfileProperties {
+  /// A name for the associated Amazon S3 bucket.
+  final String bucketName;
+
+  /// The Amazon Resource Name (ARN) of IAM role that grants Amazon Redshift
+  /// read-only access to Amazon S3. For more information, and for the polices
+  /// that you attach to this role, see <a
+  /// href="https://docs.aws.amazon.com/appflow/latest/userguide/security_iam_service-role-policies.html#redshift-access-s3">Allow
+  /// Amazon Redshift to access your Amazon AppFlow data in Amazon S3</a>.
+  final String roleArn;
+
+  /// The object key for the destination bucket in which Amazon AppFlow places the
+  /// files.
+  final String? bucketPrefix;
+
+  /// The unique ID that's assigned to an Amazon Redshift cluster.
+  final String? clusterIdentifier;
+
+  /// The Amazon Resource Name (ARN) of an IAM role that permits Amazon AppFlow to
+  /// access your Amazon Redshift database through the Data API. For more
+  /// information, and for the polices that you attach to this role, see <a
+  /// href="https://docs.aws.amazon.com/appflow/latest/userguide/security_iam_service-role-policies.html#access-redshift">Allow
+  /// Amazon AppFlow to access Amazon Redshift databases with the Data API</a>.
+  final String? dataApiRoleArn;
+
+  /// The name of an Amazon Redshift database.
+  final String? databaseName;
+
+  /// The JDBC URL of the Amazon Redshift cluster.
+  final String? databaseUrl;
+
+  /// Indicates whether the connector profile defines a connection to an Amazon
+  /// Redshift Serverless data warehouse.
+  final bool? isRedshiftServerless;
+
+  /// The name of an Amazon Redshift workgroup.
+  final String? workgroupName;
+
+  RedshiftConnectorProfileProperties({
+    required this.bucketName,
+    required this.roleArn,
+    this.bucketPrefix,
+    this.clusterIdentifier,
+    this.dataApiRoleArn,
+    this.databaseName,
+    this.databaseUrl,
+    this.isRedshiftServerless,
+    this.workgroupName,
+  });
+
+  factory RedshiftConnectorProfileProperties.fromJson(
+      Map<String, dynamic> json) {
+    return RedshiftConnectorProfileProperties(
+      bucketName: (json['bucketName'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
+      bucketPrefix: json['bucketPrefix'] as String?,
+      clusterIdentifier: json['clusterIdentifier'] as String?,
+      dataApiRoleArn: json['dataApiRoleArn'] as String?,
+      databaseName: json['databaseName'] as String?,
+      databaseUrl: json['databaseUrl'] as String?,
+      isRedshiftServerless: json['isRedshiftServerless'] as bool?,
+      workgroupName: json['workgroupName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final roleArn = this.roleArn;
+    final bucketPrefix = this.bucketPrefix;
+    final clusterIdentifier = this.clusterIdentifier;
+    final dataApiRoleArn = this.dataApiRoleArn;
+    final databaseName = this.databaseName;
+    final databaseUrl = this.databaseUrl;
+    final isRedshiftServerless = this.isRedshiftServerless;
+    final workgroupName = this.workgroupName;
+    return {
+      'bucketName': bucketName,
+      'roleArn': roleArn,
+      if (bucketPrefix != null) 'bucketPrefix': bucketPrefix,
+      if (clusterIdentifier != null) 'clusterIdentifier': clusterIdentifier,
+      if (dataApiRoleArn != null) 'dataApiRoleArn': dataApiRoleArn,
+      if (databaseName != null) 'databaseName': databaseName,
+      if (databaseUrl != null) 'databaseUrl': databaseUrl,
+      if (isRedshiftServerless != null)
+        'isRedshiftServerless': isRedshiftServerless,
+      if (workgroupName != null) 'workgroupName': workgroupName,
+    };
+  }
+}
+
+/// The connector-specific profile properties required when using Salesforce.
+class SalesforceConnectorProfileProperties {
+  /// The location of the Salesforce resource.
+  final String? instanceUrl;
+
+  /// Indicates whether the connector profile applies to a sandbox or production
+  /// environment.
+  final bool? isSandboxEnvironment;
+
+  /// If the connection mode for the connector profile is private, this parameter
+  /// sets whether Amazon AppFlow uses the private network to send metadata and
+  /// authorization calls to Salesforce. Amazon AppFlow sends private calls
+  /// through Amazon Web Services PrivateLink. These calls travel through Amazon
+  /// Web Services infrastructure without being exposed to the public internet.
+  ///
+  /// Set either of the following values:
+  /// <dl> <dt>true</dt> <dd>
+  /// Amazon AppFlow sends all calls to Salesforce over the private network.
+  ///
+  /// These private calls are:
+  ///
+  /// <ul>
+  /// <li>
+  /// Calls to get metadata about your Salesforce records. This metadata describes
+  /// your Salesforce objects and their fields.
+  /// </li>
+  /// <li>
+  /// Calls to get or refresh access tokens that allow Amazon AppFlow to access
+  /// your Salesforce records.
+  /// </li>
+  /// <li>
+  /// Calls to transfer your Salesforce records as part of a flow run.
+  /// </li>
+  /// </ul> </dd> <dt>false</dt> <dd>
+  /// The default value. Amazon AppFlow sends some calls to Salesforce privately
+  /// and other calls over the public internet.
+  ///
+  /// The public calls are:
+  ///
+  /// <ul>
+  /// <li>
+  /// Calls to get metadata about your Salesforce records.
+  /// </li>
+  /// <li>
+  /// Calls to get or refresh access tokens.
+  /// </li>
+  /// </ul>
+  /// The private calls are:
+  ///
+  /// <ul>
+  /// <li>
+  /// Calls to transfer your Salesforce records as part of a flow run.
+  /// </li>
+  /// </ul> </dd> </dl>
+  final bool? usePrivateLinkForMetadataAndAuthorization;
+
+  SalesforceConnectorProfileProperties({
+    this.instanceUrl,
+    this.isSandboxEnvironment,
+    this.usePrivateLinkForMetadataAndAuthorization,
+  });
+
+  factory SalesforceConnectorProfileProperties.fromJson(
+      Map<String, dynamic> json) {
+    return SalesforceConnectorProfileProperties(
+      instanceUrl: json['instanceUrl'] as String?,
+      isSandboxEnvironment: json['isSandboxEnvironment'] as bool?,
+      usePrivateLinkForMetadataAndAuthorization:
+          json['usePrivateLinkForMetadataAndAuthorization'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceUrl = this.instanceUrl;
+    final isSandboxEnvironment = this.isSandboxEnvironment;
+    final usePrivateLinkForMetadataAndAuthorization =
+        this.usePrivateLinkForMetadataAndAuthorization;
+    return {
+      if (instanceUrl != null) 'instanceUrl': instanceUrl,
+      if (isSandboxEnvironment != null)
+        'isSandboxEnvironment': isSandboxEnvironment,
+      if (usePrivateLinkForMetadataAndAuthorization != null)
+        'usePrivateLinkForMetadataAndAuthorization':
+            usePrivateLinkForMetadataAndAuthorization,
+    };
+  }
+}
+
+/// The connector-specific profile properties required when using ServiceNow.
+class ServiceNowConnectorProfileProperties {
+  /// The location of the ServiceNow resource.
+  final String instanceUrl;
+
+  ServiceNowConnectorProfileProperties({
+    required this.instanceUrl,
+  });
+
+  factory ServiceNowConnectorProfileProperties.fromJson(
+      Map<String, dynamic> json) {
+    return ServiceNowConnectorProfileProperties(
+      instanceUrl: (json['instanceUrl'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceUrl = this.instanceUrl;
+    return {
+      'instanceUrl': instanceUrl,
+    };
+  }
+}
+
+/// The connector-specific profile properties required when using Singular.
+class SingularConnectorProfileProperties {
+  SingularConnectorProfileProperties();
+
+  factory SingularConnectorProfileProperties.fromJson(Map<String, dynamic> _) {
+    return SingularConnectorProfileProperties();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The connector-specific profile properties required when using Slack.
+class SlackConnectorProfileProperties {
+  /// The location of the Slack resource.
+  final String instanceUrl;
+
+  SlackConnectorProfileProperties({
+    required this.instanceUrl,
+  });
+
+  factory SlackConnectorProfileProperties.fromJson(Map<String, dynamic> json) {
+    return SlackConnectorProfileProperties(
+      instanceUrl: (json['instanceUrl'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceUrl = this.instanceUrl;
+    return {
+      'instanceUrl': instanceUrl,
+    };
+  }
+}
+
+/// The connector-specific profile properties required when using Snowflake.
+class SnowflakeConnectorProfileProperties {
+  /// The name of the Amazon S3 bucket associated with Snowflake.
+  final String bucketName;
+
+  /// The name of the Amazon S3 stage that was created while setting up an Amazon
+  /// S3 stage in the Snowflake account. This is written in the following format:
+  /// < Database>< Schema><Stage Name>.
+  final String stage;
+
+  /// The name of the Snowflake warehouse.
+  final String warehouse;
+
+  /// The name of the account.
+  final String? accountName;
+
+  /// The bucket path that refers to the Amazon S3 bucket associated with
+  /// Snowflake.
+  final String? bucketPrefix;
+
+  /// The Snowflake Private Link service name to be used for private data
+  /// transfers.
+  final String? privateLinkServiceName;
+
+  /// The Amazon Web Services Region of the Snowflake account.
+  final String? region;
+
+  SnowflakeConnectorProfileProperties({
+    required this.bucketName,
+    required this.stage,
+    required this.warehouse,
+    this.accountName,
+    this.bucketPrefix,
+    this.privateLinkServiceName,
+    this.region,
+  });
+
+  factory SnowflakeConnectorProfileProperties.fromJson(
+      Map<String, dynamic> json) {
+    return SnowflakeConnectorProfileProperties(
+      bucketName: (json['bucketName'] as String?) ?? '',
+      stage: (json['stage'] as String?) ?? '',
+      warehouse: (json['warehouse'] as String?) ?? '',
+      accountName: json['accountName'] as String?,
+      bucketPrefix: json['bucketPrefix'] as String?,
+      privateLinkServiceName: json['privateLinkServiceName'] as String?,
+      region: json['region'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final stage = this.stage;
+    final warehouse = this.warehouse;
+    final accountName = this.accountName;
+    final bucketPrefix = this.bucketPrefix;
+    final privateLinkServiceName = this.privateLinkServiceName;
+    final region = this.region;
+    return {
+      'bucketName': bucketName,
+      'stage': stage,
+      'warehouse': warehouse,
+      if (accountName != null) 'accountName': accountName,
+      if (bucketPrefix != null) 'bucketPrefix': bucketPrefix,
+      if (privateLinkServiceName != null)
+        'privateLinkServiceName': privateLinkServiceName,
+      if (region != null) 'region': region,
+    };
+  }
+}
+
+/// The connector-specific profile properties required when using Trend Micro.
+class TrendmicroConnectorProfileProperties {
+  TrendmicroConnectorProfileProperties();
+
+  factory TrendmicroConnectorProfileProperties.fromJson(
+      Map<String, dynamic> _) {
+    return TrendmicroConnectorProfileProperties();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The connector-specific profile properties required when using Veeva.
+class VeevaConnectorProfileProperties {
+  /// The location of the Veeva resource.
+  final String instanceUrl;
+
+  VeevaConnectorProfileProperties({
+    required this.instanceUrl,
+  });
+
+  factory VeevaConnectorProfileProperties.fromJson(Map<String, dynamic> json) {
+    return VeevaConnectorProfileProperties(
+      instanceUrl: (json['instanceUrl'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceUrl = this.instanceUrl;
+    return {
+      'instanceUrl': instanceUrl,
+    };
+  }
+}
+
+/// The connector-specific profile properties required when using Zendesk.
+class ZendeskConnectorProfileProperties {
+  /// The location of the Zendesk resource.
+  final String instanceUrl;
+
+  ZendeskConnectorProfileProperties({
+    required this.instanceUrl,
+  });
+
+  factory ZendeskConnectorProfileProperties.fromJson(
+      Map<String, dynamic> json) {
+    return ZendeskConnectorProfileProperties(
+      instanceUrl: (json['instanceUrl'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceUrl = this.instanceUrl;
+    return {
+      'instanceUrl': instanceUrl,
+    };
+  }
+}
+
+/// The connector-specific profile properties required when using SAPOData.
+class SAPODataConnectorProfileProperties {
+  /// The location of the SAPOData resource.
+  final String applicationHostUrl;
+
+  /// The application path to catalog service.
+  final String applicationServicePath;
+
+  /// The client number for the client creating the connection.
+  final String clientNumber;
+
+  /// The port number of the SAPOData instance.
+  final int portNumber;
+
+  /// If you set this parameter to <code>true</code>, Amazon AppFlow bypasses the
+  /// single sign-on (SSO) settings in your SAP account when it accesses your SAP
+  /// OData instance.
+  ///
+  /// Whether you need this option depends on the types of credentials that you
+  /// applied to your SAP OData connection profile. If your profile uses basic
+  /// authentication credentials, SAP SSO can prevent Amazon AppFlow from
+  /// connecting to your account with your username and password. In this case,
+  /// bypassing SSO makes it possible for Amazon AppFlow to connect successfully.
+  /// However, if your profile uses OAuth credentials, this parameter has no
+  /// affect.
+  final bool? disableSSO;
+
+  /// The logon language of SAPOData instance.
+  final String? logonLanguage;
+
+  /// The SAPOData OAuth properties required for OAuth type authentication.
+  final OAuthProperties? oAuthProperties;
+
+  /// The SAPOData Private Link service name to be used for private data
+  /// transfers.
+  final String? privateLinkServiceName;
+
+  SAPODataConnectorProfileProperties({
+    required this.applicationHostUrl,
+    required this.applicationServicePath,
+    required this.clientNumber,
+    required this.portNumber,
+    this.disableSSO,
+    this.logonLanguage,
+    this.oAuthProperties,
+    this.privateLinkServiceName,
+  });
+
+  factory SAPODataConnectorProfileProperties.fromJson(
+      Map<String, dynamic> json) {
+    return SAPODataConnectorProfileProperties(
+      applicationHostUrl: (json['applicationHostUrl'] as String?) ?? '',
+      applicationServicePath: (json['applicationServicePath'] as String?) ?? '',
+      clientNumber: (json['clientNumber'] as String?) ?? '',
+      portNumber: (json['portNumber'] as int?) ?? 0,
+      disableSSO: json['disableSSO'] as bool?,
+      logonLanguage: json['logonLanguage'] as String?,
+      oAuthProperties: json['oAuthProperties'] != null
+          ? OAuthProperties.fromJson(
+              json['oAuthProperties'] as Map<String, dynamic>)
+          : null,
+      privateLinkServiceName: json['privateLinkServiceName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationHostUrl = this.applicationHostUrl;
+    final applicationServicePath = this.applicationServicePath;
+    final clientNumber = this.clientNumber;
+    final portNumber = this.portNumber;
+    final disableSSO = this.disableSSO;
+    final logonLanguage = this.logonLanguage;
+    final oAuthProperties = this.oAuthProperties;
+    final privateLinkServiceName = this.privateLinkServiceName;
+    return {
+      'applicationHostUrl': applicationHostUrl,
+      'applicationServicePath': applicationServicePath,
+      'clientNumber': clientNumber,
+      'portNumber': portNumber,
+      if (disableSSO != null) 'disableSSO': disableSSO,
+      if (logonLanguage != null) 'logonLanguage': logonLanguage,
+      if (oAuthProperties != null) 'oAuthProperties': oAuthProperties,
+      if (privateLinkServiceName != null)
+        'privateLinkServiceName': privateLinkServiceName,
+    };
+  }
+}
+
+/// The profile properties required by the custom connector.
+class CustomConnectorProfileProperties {
+  final OAuth2Properties? oAuth2Properties;
+
+  /// A map of properties that are required to create a profile for the custom
+  /// connector.
+  final Map<String, String>? profileProperties;
+
+  CustomConnectorProfileProperties({
+    this.oAuth2Properties,
+    this.profileProperties,
+  });
+
+  factory CustomConnectorProfileProperties.fromJson(Map<String, dynamic> json) {
+    return CustomConnectorProfileProperties(
+      oAuth2Properties: json['oAuth2Properties'] != null
+          ? OAuth2Properties.fromJson(
+              json['oAuth2Properties'] as Map<String, dynamic>)
+          : null,
+      profileProperties: (json['profileProperties'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final oAuth2Properties = this.oAuth2Properties;
+    final profileProperties = this.profileProperties;
+    return {
+      if (oAuth2Properties != null) 'oAuth2Properties': oAuth2Properties,
+      if (profileProperties != null) 'profileProperties': profileProperties,
+    };
+  }
+}
+
+/// The connector-specific profile properties required when using Salesforce
+/// Pardot.
+class PardotConnectorProfileProperties {
+  /// The business unit id of Salesforce Pardot instance.
+  final String? businessUnitId;
+
+  /// The location of the Salesforce Pardot resource.
+  final String? instanceUrl;
+
+  /// Indicates whether the connector profile applies to a sandbox or production
+  /// environment.
+  final bool? isSandboxEnvironment;
+
+  PardotConnectorProfileProperties({
+    this.businessUnitId,
+    this.instanceUrl,
+    this.isSandboxEnvironment,
+  });
+
+  factory PardotConnectorProfileProperties.fromJson(Map<String, dynamic> json) {
+    return PardotConnectorProfileProperties(
+      businessUnitId: json['businessUnitId'] as String?,
+      instanceUrl: json['instanceUrl'] as String?,
+      isSandboxEnvironment: json['isSandboxEnvironment'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final businessUnitId = this.businessUnitId;
+    final instanceUrl = this.instanceUrl;
+    final isSandboxEnvironment = this.isSandboxEnvironment;
+    return {
+      if (businessUnitId != null) 'businessUnitId': businessUnitId,
+      if (instanceUrl != null) 'instanceUrl': instanceUrl,
+      if (isSandboxEnvironment != null)
+        'isSandboxEnvironment': isSandboxEnvironment,
+    };
+  }
+}
+
+/// The OAuth 2.0 properties required for OAuth 2.0 authentication.
+class OAuth2Properties {
+  /// The OAuth 2.0 grant type used by connector for OAuth 2.0 authentication.
+  final OAuth2GrantType oAuth2GrantType;
+
+  /// The token URL required for OAuth 2.0 authentication.
+  final String tokenUrl;
+
+  /// Associates your token URL with a map of properties that you define. Use this
+  /// parameter to provide any additional details that the connector requires to
+  /// authenticate your request.
+  final Map<String, String>? tokenUrlCustomProperties;
+
+  OAuth2Properties({
+    required this.oAuth2GrantType,
+    required this.tokenUrl,
+    this.tokenUrlCustomProperties,
+  });
+
+  factory OAuth2Properties.fromJson(Map<String, dynamic> json) {
+    return OAuth2Properties(
+      oAuth2GrantType: OAuth2GrantType.fromString(
+          (json['oAuth2GrantType'] as String?) ?? ''),
+      tokenUrl: (json['tokenUrl'] as String?) ?? '',
+      tokenUrlCustomProperties:
+          (json['tokenUrlCustomProperties'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final oAuth2GrantType = this.oAuth2GrantType;
+    final tokenUrl = this.tokenUrl;
+    final tokenUrlCustomProperties = this.tokenUrlCustomProperties;
+    return {
+      'oAuth2GrantType': oAuth2GrantType.value,
+      'tokenUrl': tokenUrl,
+      if (tokenUrlCustomProperties != null)
+        'tokenUrlCustomProperties': tokenUrlCustomProperties,
+    };
+  }
+}
+
+/// The OAuth properties required for OAuth type authentication.
+class OAuthProperties {
+  /// The authorization code url required to redirect to SAP Login Page to fetch
+  /// authorization code for OAuth type authentication.
+  final String authCodeUrl;
+
+  /// The OAuth scopes required for OAuth type authentication.
+  final List<String> oAuthScopes;
+
+  /// The token url required to fetch access/refresh tokens using authorization
+  /// code and also to refresh expired access token using refresh token.
+  final String tokenUrl;
+
+  OAuthProperties({
+    required this.authCodeUrl,
+    required this.oAuthScopes,
+    required this.tokenUrl,
+  });
+
+  factory OAuthProperties.fromJson(Map<String, dynamic> json) {
+    return OAuthProperties(
+      authCodeUrl: (json['authCodeUrl'] as String?) ?? '',
+      oAuthScopes: ((json['oAuthScopes'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      tokenUrl: (json['tokenUrl'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authCodeUrl = this.authCodeUrl;
+    final oAuthScopes = this.oAuthScopes;
+    final tokenUrl = this.tokenUrl;
+    return {
+      'authCodeUrl': authCodeUrl,
+      'oAuthScopes': oAuthScopes,
+      'tokenUrl': tokenUrl,
+    };
+  }
+}
+
+/// The type of provisioning that the connector supports, such as Lambda.
+class ConnectorProvisioningType {
+  static const lambda = ConnectorProvisioningType._('LAMBDA');
+
+  final String value;
+
+  const ConnectorProvisioningType._(this.value);
+
+  static const values = [lambda];
+
+  static ConnectorProvisioningType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectorProvisioningType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConnectorProvisioningType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The properties of the flow, such as its source, destination, trigger type,
+/// and so on.
+class FlowDefinition {
+  /// Specifies when the flow was created.
+  final DateTime? createdAt;
+
+  /// The ARN of the user who created the flow.
+  final String? createdBy;
+
+  /// A user-entered description of the flow.
+  final String? description;
+
+  /// The label of the destination connector in the flow.
+  final String? destinationConnectorLabel;
+
+  /// Specifies the destination connector type, such as Salesforce, Amazon S3,
+  /// Amplitude, and so on.
+  final ConnectorType? destinationConnectorType;
+
+  /// The flow's Amazon Resource Name (ARN).
+  final String? flowArn;
+
+  /// The specified name of the flow. Spaces are not allowed. Use underscores (_)
+  /// or hyphens (-) only.
+  final String? flowName;
+
+  /// Indicates the current status of the flow.
+  final FlowStatus? flowStatus;
+
+  /// Describes the details of the most recent flow run.
+  final ExecutionDetails? lastRunExecutionDetails;
+
+  /// Specifies when the flow was last updated.
+  final DateTime? lastUpdatedAt;
+
+  /// Specifies the account user name that most recently updated the flow.
+  final String? lastUpdatedBy;
+
+  /// The label of the source connector in the flow.
+  final String? sourceConnectorLabel;
+
+  /// Specifies the source connector type, such as Salesforce, Amazon S3,
+  /// Amplitude, and so on.
+  final ConnectorType? sourceConnectorType;
+
+  /// The tags used to organize, track, or control access for your flow.
+  final Map<String, String>? tags;
+
+  /// Specifies the type of flow trigger. This can be <code>OnDemand</code>,
+  /// <code>Scheduled</code>, or <code>Event</code>.
+  final TriggerType? triggerType;
+
+  FlowDefinition({
+    this.createdAt,
+    this.createdBy,
+    this.description,
+    this.destinationConnectorLabel,
+    this.destinationConnectorType,
+    this.flowArn,
+    this.flowName,
+    this.flowStatus,
+    this.lastRunExecutionDetails,
+    this.lastUpdatedAt,
+    this.lastUpdatedBy,
+    this.sourceConnectorLabel,
+    this.sourceConnectorType,
+    this.tags,
+    this.triggerType,
+  });
+
+  factory FlowDefinition.fromJson(Map<String, dynamic> json) {
+    return FlowDefinition(
+      createdAt: timeStampFromJson(json['createdAt']),
+      createdBy: json['createdBy'] as String?,
+      description: json['description'] as String?,
+      destinationConnectorLabel: json['destinationConnectorLabel'] as String?,
+      destinationConnectorType: (json['destinationConnectorType'] as String?)
+          ?.let(ConnectorType.fromString),
+      flowArn: json['flowArn'] as String?,
+      flowName: json['flowName'] as String?,
+      flowStatus: (json['flowStatus'] as String?)?.let(FlowStatus.fromString),
+      lastRunExecutionDetails: json['lastRunExecutionDetails'] != null
+          ? ExecutionDetails.fromJson(
+              json['lastRunExecutionDetails'] as Map<String, dynamic>)
+          : null,
+      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+      lastUpdatedBy: json['lastUpdatedBy'] as String?,
+      sourceConnectorLabel: json['sourceConnectorLabel'] as String?,
+      sourceConnectorType: (json['sourceConnectorType'] as String?)
+          ?.let(ConnectorType.fromString),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      triggerType:
+          (json['triggerType'] as String?)?.let(TriggerType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final createdBy = this.createdBy;
+    final description = this.description;
+    final destinationConnectorLabel = this.destinationConnectorLabel;
+    final destinationConnectorType = this.destinationConnectorType;
+    final flowArn = this.flowArn;
+    final flowName = this.flowName;
+    final flowStatus = this.flowStatus;
+    final lastRunExecutionDetails = this.lastRunExecutionDetails;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final lastUpdatedBy = this.lastUpdatedBy;
+    final sourceConnectorLabel = this.sourceConnectorLabel;
+    final sourceConnectorType = this.sourceConnectorType;
+    final tags = this.tags;
+    final triggerType = this.triggerType;
+    return {
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (createdBy != null) 'createdBy': createdBy,
+      if (description != null) 'description': description,
+      if (destinationConnectorLabel != null)
+        'destinationConnectorLabel': destinationConnectorLabel,
+      if (destinationConnectorType != null)
+        'destinationConnectorType': destinationConnectorType.value,
+      if (flowArn != null) 'flowArn': flowArn,
+      if (flowName != null) 'flowName': flowName,
+      if (flowStatus != null) 'flowStatus': flowStatus.value,
+      if (lastRunExecutionDetails != null)
+        'lastRunExecutionDetails': lastRunExecutionDetails,
+      if (lastUpdatedAt != null)
+        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (lastUpdatedBy != null) 'lastUpdatedBy': lastUpdatedBy,
+      if (sourceConnectorLabel != null)
+        'sourceConnectorLabel': sourceConnectorLabel,
+      if (sourceConnectorType != null)
+        'sourceConnectorType': sourceConnectorType.value,
+      if (tags != null) 'tags': tags,
+      if (triggerType != null) 'triggerType': triggerType.value,
+    };
+  }
+}
+
+/// Describes the details of the flow run, including the timestamp, status, and
+/// message.
+class ExecutionDetails {
+  /// Describes the details of the most recent flow run.
+  final String? mostRecentExecutionMessage;
+
+  /// Specifies the status of the most recent flow run.
+  final ExecutionStatus? mostRecentExecutionStatus;
+
+  /// Specifies the time of the most recent flow run.
+  final DateTime? mostRecentExecutionTime;
+
+  ExecutionDetails({
+    this.mostRecentExecutionMessage,
+    this.mostRecentExecutionStatus,
+    this.mostRecentExecutionTime,
+  });
+
+  factory ExecutionDetails.fromJson(Map<String, dynamic> json) {
+    return ExecutionDetails(
+      mostRecentExecutionMessage: json['mostRecentExecutionMessage'] as String?,
+      mostRecentExecutionStatus: (json['mostRecentExecutionStatus'] as String?)
+          ?.let(ExecutionStatus.fromString),
+      mostRecentExecutionTime:
+          timeStampFromJson(json['mostRecentExecutionTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mostRecentExecutionMessage = this.mostRecentExecutionMessage;
+    final mostRecentExecutionStatus = this.mostRecentExecutionStatus;
+    final mostRecentExecutionTime = this.mostRecentExecutionTime;
+    return {
+      if (mostRecentExecutionMessage != null)
+        'mostRecentExecutionMessage': mostRecentExecutionMessage,
+      if (mostRecentExecutionStatus != null)
+        'mostRecentExecutionStatus': mostRecentExecutionStatus.value,
+      if (mostRecentExecutionTime != null)
+        'mostRecentExecutionTime': unixTimestampToJson(mostRecentExecutionTime),
+    };
+  }
+}
+
+class ExecutionStatus {
+  static const inProgress = ExecutionStatus._('InProgress');
+  static const successful = ExecutionStatus._('Successful');
+  static const error = ExecutionStatus._('Error');
+  static const cancelStarted = ExecutionStatus._('CancelStarted');
+  static const canceled = ExecutionStatus._('Canceled');
+
+  final String value;
+
+  const ExecutionStatus._(this.value);
+
+  static const values = [
+    inProgress,
+    successful,
+    error,
+    cancelStarted,
+    canceled
+  ];
+
+  static ExecutionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExecutionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ExecutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about the registered connector.
+class ConnectorDetail {
+  /// The application type of the connector.
+  final String? applicationType;
+
+  /// A description about the registered connector.
+  final String? connectorDescription;
+
+  /// A label used for the connector.
+  final String? connectorLabel;
+
+  /// The connection mode that the connector supports.
+  final List<String>? connectorModes;
+
+  /// The name of the connector.
+  final String? connectorName;
+
+  /// The owner of the connector.
+  final String? connectorOwner;
+
+  /// The provisioning type that the connector uses.
+  final ConnectorProvisioningType? connectorProvisioningType;
+
+  /// The connector type.
+  final ConnectorType? connectorType;
+
+  /// The connector version.
+  final String? connectorVersion;
+
+  /// The time at which the connector was registered.
+  final DateTime? registeredAt;
+
+  /// The user who registered the connector.
+  final String? registeredBy;
+
+  /// The data transfer types that the connector supports.
+  /// <dl> <dt>RECORD</dt> <dd>
+  /// Structured records.
+  /// </dd> <dt>FILE</dt> <dd>
+  /// Files or binary data.
+  /// </dd> </dl>
+  final List<SupportedDataTransferType>? supportedDataTransferTypes;
+
+  ConnectorDetail({
+    this.applicationType,
+    this.connectorDescription,
+    this.connectorLabel,
+    this.connectorModes,
+    this.connectorName,
+    this.connectorOwner,
+    this.connectorProvisioningType,
+    this.connectorType,
+    this.connectorVersion,
+    this.registeredAt,
+    this.registeredBy,
+    this.supportedDataTransferTypes,
+  });
+
+  factory ConnectorDetail.fromJson(Map<String, dynamic> json) {
+    return ConnectorDetail(
+      applicationType: json['applicationType'] as String?,
+      connectorDescription: json['connectorDescription'] as String?,
+      connectorLabel: json['connectorLabel'] as String?,
+      connectorModes: (json['connectorModes'] as List?)
           ?.nonNulls
           .map((e) => e as String)
+          .toList(),
+      connectorName: json['connectorName'] as String?,
+      connectorOwner: json['connectorOwner'] as String?,
+      connectorProvisioningType: (json['connectorProvisioningType'] as String?)
+          ?.let(ConnectorProvisioningType.fromString),
+      connectorType:
+          (json['connectorType'] as String?)?.let(ConnectorType.fromString),
+      connectorVersion: json['connectorVersion'] as String?,
+      registeredAt: timeStampFromJson(json['registeredAt']),
+      registeredBy: json['registeredBy'] as String?,
+      supportedDataTransferTypes: (json['supportedDataTransferTypes'] as List?)
+          ?.nonNulls
+          .map((e) => SupportedDataTransferType.fromString((e as String)))
           .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final invalidExecutions = this.invalidExecutions;
+    final applicationType = this.applicationType;
+    final connectorDescription = this.connectorDescription;
+    final connectorLabel = this.connectorLabel;
+    final connectorModes = this.connectorModes;
+    final connectorName = this.connectorName;
+    final connectorOwner = this.connectorOwner;
+    final connectorProvisioningType = this.connectorProvisioningType;
+    final connectorType = this.connectorType;
+    final connectorVersion = this.connectorVersion;
+    final registeredAt = this.registeredAt;
+    final registeredBy = this.registeredBy;
+    final supportedDataTransferTypes = this.supportedDataTransferTypes;
     return {
-      if (invalidExecutions != null) 'invalidExecutions': invalidExecutions,
+      if (applicationType != null) 'applicationType': applicationType,
+      if (connectorDescription != null)
+        'connectorDescription': connectorDescription,
+      if (connectorLabel != null) 'connectorLabel': connectorLabel,
+      if (connectorModes != null) 'connectorModes': connectorModes,
+      if (connectorName != null) 'connectorName': connectorName,
+      if (connectorOwner != null) 'connectorOwner': connectorOwner,
+      if (connectorProvisioningType != null)
+        'connectorProvisioningType': connectorProvisioningType.value,
+      if (connectorType != null) 'connectorType': connectorType.value,
+      if (connectorVersion != null) 'connectorVersion': connectorVersion,
+      if (registeredAt != null)
+        'registeredAt': unixTimestampToJson(registeredAt),
+      if (registeredBy != null) 'registeredBy': registeredBy,
+      if (supportedDataTransferTypes != null)
+        'supportedDataTransferTypes':
+            supportedDataTransferTypes.map((e) => e.value).toList(),
+    };
+  }
+}
+
+class SupportedDataTransferType {
+  static const record = SupportedDataTransferType._('RECORD');
+  static const file = SupportedDataTransferType._('FILE');
+
+  final String value;
+
+  const SupportedDataTransferType._(this.value);
+
+  static const values = [record, file];
+
+  static SupportedDataTransferType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SupportedDataTransferType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SupportedDataTransferType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The high-level entity that can be queried in Amazon AppFlow. For example, a
+/// Salesforce entity might be an <i>Account</i> or <i>Opportunity</i>, whereas
+/// a ServiceNow entity might be an <i>Incident</i>.
+class ConnectorEntity {
+  /// The name of the connector entity.
+  final String name;
+
+  /// Specifies whether the connector entity is a parent or a category and has
+  /// more entities nested underneath it. If another call is made with
+  /// <code>entitiesPath =
+  /// "the_current_entity_name_with_hasNestedEntities_true"</code>, then it
+  /// returns the nested entities underneath it. This provides a way to retrieve
+  /// all supported entities in a recursive fashion.
+  final bool? hasNestedEntities;
+
+  /// The label applied to the connector entity.
+  final String? label;
+
+  ConnectorEntity({
+    required this.name,
+    this.hasNestedEntities,
+    this.label,
+  });
+
+  factory ConnectorEntity.fromJson(Map<String, dynamic> json) {
+    return ConnectorEntity(
+      name: (json['name'] as String?) ?? '',
+      hasNestedEntities: json['hasNestedEntities'] as bool?,
+      label: json['label'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final hasNestedEntities = this.hasNestedEntities;
+    final label = this.label;
+    return {
+      'name': name,
+      if (hasNestedEntities != null) 'hasNestedEntities': hasNestedEntities,
+      if (label != null) 'label': label,
+    };
+  }
+}
+
+/// Specifies information about the past flow run instances for a given flow.
+class ExecutionRecord {
+  /// The timestamp that indicates the last new or updated record to be
+  /// transferred in the flow run.
+  final DateTime? dataPullEndTime;
+
+  /// The timestamp that determines the first new or updated record to be
+  /// transferred in the flow run.
+  final DateTime? dataPullStartTime;
+
+  /// Specifies the identifier of the given flow run.
+  final String? executionId;
+
+  /// Describes the result of the given flow run.
+  final ExecutionResult? executionResult;
+
+  /// Specifies the flow run status and whether it is in progress, has completed
+  /// successfully, or has failed.
+  final ExecutionStatus? executionStatus;
+
+  /// Specifies the time of the most recent update.
+  final DateTime? lastUpdatedAt;
+
+  /// Describes the metadata catalog, metadata table, and data partitions that
+  /// Amazon AppFlow used for the associated flow run.
+  final List<MetadataCatalogDetail>? metadataCatalogDetails;
+
+  /// Specifies the start time of the flow run.
+  final DateTime? startedAt;
+
+  ExecutionRecord({
+    this.dataPullEndTime,
+    this.dataPullStartTime,
+    this.executionId,
+    this.executionResult,
+    this.executionStatus,
+    this.lastUpdatedAt,
+    this.metadataCatalogDetails,
+    this.startedAt,
+  });
+
+  factory ExecutionRecord.fromJson(Map<String, dynamic> json) {
+    return ExecutionRecord(
+      dataPullEndTime: timeStampFromJson(json['dataPullEndTime']),
+      dataPullStartTime: timeStampFromJson(json['dataPullStartTime']),
+      executionId: json['executionId'] as String?,
+      executionResult: json['executionResult'] != null
+          ? ExecutionResult.fromJson(
+              json['executionResult'] as Map<String, dynamic>)
+          : null,
+      executionStatus:
+          (json['executionStatus'] as String?)?.let(ExecutionStatus.fromString),
+      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+      metadataCatalogDetails: (json['metadataCatalogDetails'] as List?)
+          ?.nonNulls
+          .map((e) => MetadataCatalogDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      startedAt: timeStampFromJson(json['startedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataPullEndTime = this.dataPullEndTime;
+    final dataPullStartTime = this.dataPullStartTime;
+    final executionId = this.executionId;
+    final executionResult = this.executionResult;
+    final executionStatus = this.executionStatus;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final metadataCatalogDetails = this.metadataCatalogDetails;
+    final startedAt = this.startedAt;
+    return {
+      if (dataPullEndTime != null)
+        'dataPullEndTime': unixTimestampToJson(dataPullEndTime),
+      if (dataPullStartTime != null)
+        'dataPullStartTime': unixTimestampToJson(dataPullStartTime),
+      if (executionId != null) 'executionId': executionId,
+      if (executionResult != null) 'executionResult': executionResult,
+      if (executionStatus != null) 'executionStatus': executionStatus.value,
+      if (lastUpdatedAt != null)
+        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (metadataCatalogDetails != null)
+        'metadataCatalogDetails': metadataCatalogDetails,
+      if (startedAt != null) 'startedAt': unixTimestampToJson(startedAt),
+    };
+  }
+}
+
+/// Specifies the end result of the flow run.
+class ExecutionResult {
+  /// The total number of bytes processed by the flow run.
+  final int? bytesProcessed;
+
+  /// The total number of bytes written as a result of the flow run.
+  final int? bytesWritten;
+
+  /// Provides any error message information related to the flow run.
+  final ErrorInfo? errorInfo;
+
+  /// The maximum number of records that Amazon AppFlow receives in each page of
+  /// the response from your SAP application.
+  final int? maxPageSize;
+
+  /// The number of processes that Amazon AppFlow ran at the same time when it
+  /// retrieved your data.
+  final int? numParallelProcesses;
+
+  /// The number of records processed in the flow run.
+  final int? recordsProcessed;
+
+  ExecutionResult({
+    this.bytesProcessed,
+    this.bytesWritten,
+    this.errorInfo,
+    this.maxPageSize,
+    this.numParallelProcesses,
+    this.recordsProcessed,
+  });
+
+  factory ExecutionResult.fromJson(Map<String, dynamic> json) {
+    return ExecutionResult(
+      bytesProcessed: json['bytesProcessed'] as int?,
+      bytesWritten: json['bytesWritten'] as int?,
+      errorInfo: json['errorInfo'] != null
+          ? ErrorInfo.fromJson(json['errorInfo'] as Map<String, dynamic>)
+          : null,
+      maxPageSize: json['maxPageSize'] as int?,
+      numParallelProcesses: json['numParallelProcesses'] as int?,
+      recordsProcessed: json['recordsProcessed'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bytesProcessed = this.bytesProcessed;
+    final bytesWritten = this.bytesWritten;
+    final errorInfo = this.errorInfo;
+    final maxPageSize = this.maxPageSize;
+    final numParallelProcesses = this.numParallelProcesses;
+    final recordsProcessed = this.recordsProcessed;
+    return {
+      if (bytesProcessed != null) 'bytesProcessed': bytesProcessed,
+      if (bytesWritten != null) 'bytesWritten': bytesWritten,
+      if (errorInfo != null) 'errorInfo': errorInfo,
+      if (maxPageSize != null) 'maxPageSize': maxPageSize,
+      if (numParallelProcesses != null)
+        'numParallelProcesses': numParallelProcesses,
+      if (recordsProcessed != null) 'recordsProcessed': recordsProcessed,
+    };
+  }
+}
+
+/// Describes the metadata catalog, metadata table, and data partitions that
+/// Amazon AppFlow used for the associated flow run.
+class MetadataCatalogDetail {
+  /// The type of metadata catalog that Amazon AppFlow used for the associated
+  /// flow run. This parameter returns the following value:
+  /// <dl> <dt>GLUE</dt> <dd>
+  /// The metadata catalog is provided by the Glue Data Catalog. Glue includes the
+  /// Glue Data Catalog as a component.
+  /// </dd> </dl>
+  final CatalogType? catalogType;
+
+  /// Describes the status of the attempt from Amazon AppFlow to register the data
+  /// partitions with the metadata catalog. The data partitions organize the flow
+  /// output into a hierarchical path, such as a folder path in an S3 bucket.
+  /// Amazon AppFlow creates the partitions (if they don't already exist) based on
+  /// your flow configuration.
+  final RegistrationOutput? partitionRegistrationOutput;
+
+  /// The name of the table that stores the metadata for the associated flow run.
+  /// The table stores metadata that represents the data that the flow
+  /// transferred. Amazon AppFlow stores the table in the metadata catalog.
+  final String? tableName;
+
+  /// Describes the status of the attempt from Amazon AppFlow to register the
+  /// metadata table with the metadata catalog. Amazon AppFlow creates or updates
+  /// this table for the associated flow run.
+  final RegistrationOutput? tableRegistrationOutput;
+
+  MetadataCatalogDetail({
+    this.catalogType,
+    this.partitionRegistrationOutput,
+    this.tableName,
+    this.tableRegistrationOutput,
+  });
+
+  factory MetadataCatalogDetail.fromJson(Map<String, dynamic> json) {
+    return MetadataCatalogDetail(
+      catalogType:
+          (json['catalogType'] as String?)?.let(CatalogType.fromString),
+      partitionRegistrationOutput: json['partitionRegistrationOutput'] != null
+          ? RegistrationOutput.fromJson(
+              json['partitionRegistrationOutput'] as Map<String, dynamic>)
+          : null,
+      tableName: json['tableName'] as String?,
+      tableRegistrationOutput: json['tableRegistrationOutput'] != null
+          ? RegistrationOutput.fromJson(
+              json['tableRegistrationOutput'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final catalogType = this.catalogType;
+    final partitionRegistrationOutput = this.partitionRegistrationOutput;
+    final tableName = this.tableName;
+    final tableRegistrationOutput = this.tableRegistrationOutput;
+    return {
+      if (catalogType != null) 'catalogType': catalogType.value,
+      if (partitionRegistrationOutput != null)
+        'partitionRegistrationOutput': partitionRegistrationOutput,
+      if (tableName != null) 'tableName': tableName,
+      if (tableRegistrationOutput != null)
+        'tableRegistrationOutput': tableRegistrationOutput,
     };
   }
 }
@@ -1749,28 +8787,81 @@ class CatalogType {
   String toString() => value;
 }
 
-class ConnectionMode {
-  static const public = ConnectionMode._('Public');
-  static const private = ConnectionMode._('Private');
+/// Describes the status of an attempt from Amazon AppFlow to register a
+/// resource.
+///
+/// When you run a flow that you've configured to use a metadata catalog, Amazon
+/// AppFlow registers a metadata table and data partitions with that catalog.
+/// This operation provides the status of that registration attempt. The
+/// operation also indicates how many related resources Amazon AppFlow created
+/// or updated.
+class RegistrationOutput {
+  /// Explains the status of the registration attempt from Amazon AppFlow. If the
+  /// attempt fails, the message explains why.
+  final String? message;
 
-  final String value;
+  /// Indicates the number of resources that Amazon AppFlow created or updated.
+  /// Possible resources include metadata tables and data partitions.
+  final String? result;
 
-  const ConnectionMode._(this.value);
+  /// Indicates the status of the registration attempt from Amazon AppFlow.
+  final ExecutionStatus? status;
 
-  static const values = [public, private];
+  RegistrationOutput({
+    this.message,
+    this.result,
+    this.status,
+  });
 
-  static ConnectionMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConnectionMode._(value));
+  factory RegistrationOutput.fromJson(Map<String, dynamic> json) {
+    return RegistrationOutput(
+      message: json['message'] as String?,
+      result: json['result'] as String?,
+      status: (json['status'] as String?)?.let(ExecutionStatus.fromString),
+    );
+  }
 
-  @override
-  bool operator ==(other) => other is ConnectionMode && other.value == value;
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final result = this.result;
+    final status = this.status;
+    return {
+      if (message != null) 'message': message,
+      if (result != null) 'result': result,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
 
-  @override
-  int get hashCode => value.hashCode;
+/// Provides details in the event of a failed flow, including the failure count
+/// and the related error messages.
+class ErrorInfo {
+  /// Specifies the error message that appears if a flow fails.
+  final String? executionMessage;
 
-  @override
-  String toString() => value;
+  /// Specifies the failure count for the attempted flow.
+  final int? putFailuresCount;
+
+  ErrorInfo({
+    this.executionMessage,
+    this.putFailuresCount,
+  });
+
+  factory ErrorInfo.fromJson(Map<String, dynamic> json) {
+    return ErrorInfo(
+      executionMessage: json['executionMessage'] as String?,
+      putFailuresCount: json['putFailuresCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionMessage = this.executionMessage;
+    final putFailuresCount = this.putFailuresCount;
+    return {
+      if (executionMessage != null) 'executionMessage': executionMessage,
+      if (putFailuresCount != null) 'putFailuresCount': putFailuresCount,
+    };
+  }
 }
 
 /// The configuration settings related to a given connector.
@@ -2061,280 +9152,6 @@ class ConnectorConfiguration {
   }
 }
 
-/// Information about the registered connector.
-class ConnectorDetail {
-  /// The application type of the connector.
-  final String? applicationType;
-
-  /// A description about the registered connector.
-  final String? connectorDescription;
-
-  /// A label used for the connector.
-  final String? connectorLabel;
-
-  /// The connection mode that the connector supports.
-  final List<String>? connectorModes;
-
-  /// The name of the connector.
-  final String? connectorName;
-
-  /// The owner of the connector.
-  final String? connectorOwner;
-
-  /// The provisioning type that the connector uses.
-  final ConnectorProvisioningType? connectorProvisioningType;
-
-  /// The connector type.
-  final ConnectorType? connectorType;
-
-  /// The connector version.
-  final String? connectorVersion;
-
-  /// The time at which the connector was registered.
-  final DateTime? registeredAt;
-
-  /// The user who registered the connector.
-  final String? registeredBy;
-
-  /// The data transfer types that the connector supports.
-  /// <dl> <dt>RECORD</dt> <dd>
-  /// Structured records.
-  /// </dd> <dt>FILE</dt> <dd>
-  /// Files or binary data.
-  /// </dd> </dl>
-  final List<SupportedDataTransferType>? supportedDataTransferTypes;
-
-  ConnectorDetail({
-    this.applicationType,
-    this.connectorDescription,
-    this.connectorLabel,
-    this.connectorModes,
-    this.connectorName,
-    this.connectorOwner,
-    this.connectorProvisioningType,
-    this.connectorType,
-    this.connectorVersion,
-    this.registeredAt,
-    this.registeredBy,
-    this.supportedDataTransferTypes,
-  });
-
-  factory ConnectorDetail.fromJson(Map<String, dynamic> json) {
-    return ConnectorDetail(
-      applicationType: json['applicationType'] as String?,
-      connectorDescription: json['connectorDescription'] as String?,
-      connectorLabel: json['connectorLabel'] as String?,
-      connectorModes: (json['connectorModes'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      connectorName: json['connectorName'] as String?,
-      connectorOwner: json['connectorOwner'] as String?,
-      connectorProvisioningType: (json['connectorProvisioningType'] as String?)
-          ?.let(ConnectorProvisioningType.fromString),
-      connectorType:
-          (json['connectorType'] as String?)?.let(ConnectorType.fromString),
-      connectorVersion: json['connectorVersion'] as String?,
-      registeredAt: timeStampFromJson(json['registeredAt']),
-      registeredBy: json['registeredBy'] as String?,
-      supportedDataTransferTypes: (json['supportedDataTransferTypes'] as List?)
-          ?.nonNulls
-          .map((e) => SupportedDataTransferType.fromString((e as String)))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final applicationType = this.applicationType;
-    final connectorDescription = this.connectorDescription;
-    final connectorLabel = this.connectorLabel;
-    final connectorModes = this.connectorModes;
-    final connectorName = this.connectorName;
-    final connectorOwner = this.connectorOwner;
-    final connectorProvisioningType = this.connectorProvisioningType;
-    final connectorType = this.connectorType;
-    final connectorVersion = this.connectorVersion;
-    final registeredAt = this.registeredAt;
-    final registeredBy = this.registeredBy;
-    final supportedDataTransferTypes = this.supportedDataTransferTypes;
-    return {
-      if (applicationType != null) 'applicationType': applicationType,
-      if (connectorDescription != null)
-        'connectorDescription': connectorDescription,
-      if (connectorLabel != null) 'connectorLabel': connectorLabel,
-      if (connectorModes != null) 'connectorModes': connectorModes,
-      if (connectorName != null) 'connectorName': connectorName,
-      if (connectorOwner != null) 'connectorOwner': connectorOwner,
-      if (connectorProvisioningType != null)
-        'connectorProvisioningType': connectorProvisioningType.value,
-      if (connectorType != null) 'connectorType': connectorType.value,
-      if (connectorVersion != null) 'connectorVersion': connectorVersion,
-      if (registeredAt != null)
-        'registeredAt': unixTimestampToJson(registeredAt),
-      if (registeredBy != null) 'registeredBy': registeredBy,
-      if (supportedDataTransferTypes != null)
-        'supportedDataTransferTypes':
-            supportedDataTransferTypes.map((e) => e.value).toList(),
-    };
-  }
-}
-
-/// The high-level entity that can be queried in Amazon AppFlow. For example, a
-/// Salesforce entity might be an <i>Account</i> or <i>Opportunity</i>, whereas
-/// a ServiceNow entity might be an <i>Incident</i>.
-class ConnectorEntity {
-  /// The name of the connector entity.
-  final String name;
-
-  /// Specifies whether the connector entity is a parent or a category and has
-  /// more entities nested underneath it. If another call is made with
-  /// <code>entitiesPath =
-  /// "the_current_entity_name_with_hasNestedEntities_true"</code>, then it
-  /// returns the nested entities underneath it. This provides a way to retrieve
-  /// all supported entities in a recursive fashion.
-  final bool? hasNestedEntities;
-
-  /// The label applied to the connector entity.
-  final String? label;
-
-  ConnectorEntity({
-    required this.name,
-    this.hasNestedEntities,
-    this.label,
-  });
-
-  factory ConnectorEntity.fromJson(Map<String, dynamic> json) {
-    return ConnectorEntity(
-      name: (json['name'] as String?) ?? '',
-      hasNestedEntities: json['hasNestedEntities'] as bool?,
-      label: json['label'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final hasNestedEntities = this.hasNestedEntities;
-    final label = this.label;
-    return {
-      'name': name,
-      if (hasNestedEntities != null) 'hasNestedEntities': hasNestedEntities,
-      if (label != null) 'label': label,
-    };
-  }
-}
-
-/// Describes the data model of a connector field. For example, for an
-/// <i>account</i> entity, the fields would be <i>account name</i>, <i>account
-/// ID</i>, and so on.
-class ConnectorEntityField {
-  /// The unique identifier of the connector field.
-  final String identifier;
-
-  /// A map that has specific properties related to the ConnectorEntityField.
-  final Map<String, String>? customProperties;
-
-  /// Default value that can be assigned to this field.
-  final String? defaultValue;
-
-  /// A description of the connector entity field.
-  final String? description;
-
-  /// The properties applied to a field when the connector is being used as a
-  /// destination.
-  final DestinationFieldProperties? destinationProperties;
-
-  /// Booelan value that indicates whether this field is deprecated or not.
-  final bool? isDeprecated;
-
-  /// Booelan value that indicates whether this field can be used as a primary
-  /// key.
-  final bool? isPrimaryKey;
-
-  /// The label applied to a connector entity field.
-  final String? label;
-
-  /// The parent identifier of the connector field.
-  final String? parentIdentifier;
-
-  /// The properties that can be applied to a field when the connector is being
-  /// used as a source.
-  final SourceFieldProperties? sourceProperties;
-
-  /// Contains details regarding the supported <code>FieldType</code>, including
-  /// the corresponding <code>filterOperators</code> and
-  /// <code>supportedValues</code>.
-  final SupportedFieldTypeDetails? supportedFieldTypeDetails;
-
-  ConnectorEntityField({
-    required this.identifier,
-    this.customProperties,
-    this.defaultValue,
-    this.description,
-    this.destinationProperties,
-    this.isDeprecated,
-    this.isPrimaryKey,
-    this.label,
-    this.parentIdentifier,
-    this.sourceProperties,
-    this.supportedFieldTypeDetails,
-  });
-
-  factory ConnectorEntityField.fromJson(Map<String, dynamic> json) {
-    return ConnectorEntityField(
-      identifier: (json['identifier'] as String?) ?? '',
-      customProperties: (json['customProperties'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      defaultValue: json['defaultValue'] as String?,
-      description: json['description'] as String?,
-      destinationProperties: json['destinationProperties'] != null
-          ? DestinationFieldProperties.fromJson(
-              json['destinationProperties'] as Map<String, dynamic>)
-          : null,
-      isDeprecated: json['isDeprecated'] as bool?,
-      isPrimaryKey: json['isPrimaryKey'] as bool?,
-      label: json['label'] as String?,
-      parentIdentifier: json['parentIdentifier'] as String?,
-      sourceProperties: json['sourceProperties'] != null
-          ? SourceFieldProperties.fromJson(
-              json['sourceProperties'] as Map<String, dynamic>)
-          : null,
-      supportedFieldTypeDetails: json['supportedFieldTypeDetails'] != null
-          ? SupportedFieldTypeDetails.fromJson(
-              json['supportedFieldTypeDetails'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final identifier = this.identifier;
-    final customProperties = this.customProperties;
-    final defaultValue = this.defaultValue;
-    final description = this.description;
-    final destinationProperties = this.destinationProperties;
-    final isDeprecated = this.isDeprecated;
-    final isPrimaryKey = this.isPrimaryKey;
-    final label = this.label;
-    final parentIdentifier = this.parentIdentifier;
-    final sourceProperties = this.sourceProperties;
-    final supportedFieldTypeDetails = this.supportedFieldTypeDetails;
-    return {
-      'identifier': identifier,
-      if (customProperties != null) 'customProperties': customProperties,
-      if (defaultValue != null) 'defaultValue': defaultValue,
-      if (description != null) 'description': description,
-      if (destinationProperties != null)
-        'destinationProperties': destinationProperties,
-      if (isDeprecated != null) 'isDeprecated': isDeprecated,
-      if (isPrimaryKey != null) 'isPrimaryKey': isPrimaryKey,
-      if (label != null) 'label': label,
-      if (parentIdentifier != null) 'parentIdentifier': parentIdentifier,
-      if (sourceProperties != null) 'sourceProperties': sourceProperties,
-      if (supportedFieldTypeDetails != null)
-        'supportedFieldTypeDetails': supportedFieldTypeDetails,
-    };
-  }
-}
-
 /// A structure to specify connector-specific metadata such as
 /// <code>oAuthScopes</code>, <code>supportedRegions</code>,
 /// <code>privateLinkServiceUrl</code>, and so on.
@@ -2342,7 +9159,7 @@ class ConnectorMetadata {
   /// The connector metadata specific to Amplitude.
   final AmplitudeMetadata? amplitude;
 
-  /// The connector metadata specific to Amazon Connect Customer Profiles.
+  /// The connector metadata specific to Connect Customer Customer Profiles.
   final CustomerProfilesMetadata? customerProfiles;
 
   /// The connector metadata specific to Datadog.
@@ -2560,181 +9377,903 @@ class ConnectorMetadata {
   }
 }
 
-/// Used by select connectors for which the OAuth workflow is supported, such as
-/// Salesforce, Google Analytics, Marketo, Zendesk, and Slack.
-class ConnectorOAuthRequest {
-  /// The code provided by the connector when it has been authenticated via the
-  /// connected app.
-  final String? authCode;
+/// Contains information about the authentication config that the connector
+/// supports.
+class AuthenticationConfig {
+  /// Contains information required for custom authentication.
+  final List<CustomAuthConfig>? customAuthConfigs;
 
-  /// The URL to which the authentication server redirects the browser after
-  /// authorization has been granted.
-  final String? redirectUri;
+  /// Indicates whether API key authentication is supported by the connector
+  final bool? isApiKeyAuthSupported;
 
-  ConnectorOAuthRequest({
-    this.authCode,
-    this.redirectUri,
+  /// Indicates whether basic authentication is supported by the connector.
+  final bool? isBasicAuthSupported;
+
+  /// Indicates whether custom authentication is supported by the connector
+  final bool? isCustomAuthSupported;
+
+  /// Indicates whether OAuth 2.0 authentication is supported by the connector.
+  final bool? isOAuth2Supported;
+
+  /// Contains the default values required for OAuth 2.0 authentication.
+  final OAuth2Defaults? oAuth2Defaults;
+
+  AuthenticationConfig({
+    this.customAuthConfigs,
+    this.isApiKeyAuthSupported,
+    this.isBasicAuthSupported,
+    this.isCustomAuthSupported,
+    this.isOAuth2Supported,
+    this.oAuth2Defaults,
   });
 
-  Map<String, dynamic> toJson() {
-    final authCode = this.authCode;
-    final redirectUri = this.redirectUri;
-    return {
-      if (authCode != null) 'authCode': authCode,
-      if (redirectUri != null) 'redirectUri': redirectUri,
-    };
-  }
-}
-
-/// The operation to be performed on the provided source fields.
-class ConnectorOperator {
-  /// The operation to be performed on the provided Amplitude source fields.
-  final AmplitudeConnectorOperator? amplitude;
-
-  /// Operators supported by the custom connector.
-  final Operator? customConnector;
-
-  /// The operation to be performed on the provided Datadog source fields.
-  final DatadogConnectorOperator? datadog;
-
-  /// The operation to be performed on the provided Dynatrace source fields.
-  final DynatraceConnectorOperator? dynatrace;
-
-  /// The operation to be performed on the provided Google Analytics source
-  /// fields.
-  final GoogleAnalyticsConnectorOperator? googleAnalytics;
-
-  /// The operation to be performed on the provided Infor Nexus source fields.
-  final InforNexusConnectorOperator? inforNexus;
-
-  /// The operation to be performed on the provided Marketo source fields.
-  final MarketoConnectorOperator? marketo;
-
-  /// The operation to be performed on the provided Salesforce Pardot source
-  /// fields.
-  final PardotConnectorOperator? pardot;
-
-  /// The operation to be performed on the provided Amazon S3 source fields.
-  final S3ConnectorOperator? s3;
-
-  /// The operation to be performed on the provided SAPOData source fields.
-  final SAPODataConnectorOperator? sAPOData;
-
-  /// The operation to be performed on the provided Salesforce source fields.
-  final SalesforceConnectorOperator? salesforce;
-
-  /// The operation to be performed on the provided ServiceNow source fields.
-  final ServiceNowConnectorOperator? serviceNow;
-
-  /// The operation to be performed on the provided Singular source fields.
-  final SingularConnectorOperator? singular;
-
-  /// The operation to be performed on the provided Slack source fields.
-  final SlackConnectorOperator? slack;
-
-  /// The operation to be performed on the provided Trend Micro source fields.
-  final TrendmicroConnectorOperator? trendmicro;
-
-  /// The operation to be performed on the provided Veeva source fields.
-  final VeevaConnectorOperator? veeva;
-
-  /// The operation to be performed on the provided Zendesk source fields.
-  final ZendeskConnectorOperator? zendesk;
-
-  ConnectorOperator({
-    this.amplitude,
-    this.customConnector,
-    this.datadog,
-    this.dynatrace,
-    this.googleAnalytics,
-    this.inforNexus,
-    this.marketo,
-    this.pardot,
-    this.s3,
-    this.sAPOData,
-    this.salesforce,
-    this.serviceNow,
-    this.singular,
-    this.slack,
-    this.trendmicro,
-    this.veeva,
-    this.zendesk,
-  });
-
-  factory ConnectorOperator.fromJson(Map<String, dynamic> json) {
-    return ConnectorOperator(
-      amplitude: (json['Amplitude'] as String?)
-          ?.let(AmplitudeConnectorOperator.fromString),
-      customConnector:
-          (json['CustomConnector'] as String?)?.let(Operator.fromString),
-      datadog: (json['Datadog'] as String?)
-          ?.let(DatadogConnectorOperator.fromString),
-      dynatrace: (json['Dynatrace'] as String?)
-          ?.let(DynatraceConnectorOperator.fromString),
-      googleAnalytics: (json['GoogleAnalytics'] as String?)
-          ?.let(GoogleAnalyticsConnectorOperator.fromString),
-      inforNexus: (json['InforNexus'] as String?)
-          ?.let(InforNexusConnectorOperator.fromString),
-      marketo: (json['Marketo'] as String?)
-          ?.let(MarketoConnectorOperator.fromString),
-      pardot:
-          (json['Pardot'] as String?)?.let(PardotConnectorOperator.fromString),
-      s3: (json['S3'] as String?)?.let(S3ConnectorOperator.fromString),
-      sAPOData: (json['SAPOData'] as String?)
-          ?.let(SAPODataConnectorOperator.fromString),
-      salesforce: (json['Salesforce'] as String?)
-          ?.let(SalesforceConnectorOperator.fromString),
-      serviceNow: (json['ServiceNow'] as String?)
-          ?.let(ServiceNowConnectorOperator.fromString),
-      singular: (json['Singular'] as String?)
-          ?.let(SingularConnectorOperator.fromString),
-      slack: (json['Slack'] as String?)?.let(SlackConnectorOperator.fromString),
-      trendmicro: (json['Trendmicro'] as String?)
-          ?.let(TrendmicroConnectorOperator.fromString),
-      veeva: (json['Veeva'] as String?)?.let(VeevaConnectorOperator.fromString),
-      zendesk: (json['Zendesk'] as String?)
-          ?.let(ZendeskConnectorOperator.fromString),
+  factory AuthenticationConfig.fromJson(Map<String, dynamic> json) {
+    return AuthenticationConfig(
+      customAuthConfigs: (json['customAuthConfigs'] as List?)
+          ?.nonNulls
+          .map((e) => CustomAuthConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isApiKeyAuthSupported: json['isApiKeyAuthSupported'] as bool?,
+      isBasicAuthSupported: json['isBasicAuthSupported'] as bool?,
+      isCustomAuthSupported: json['isCustomAuthSupported'] as bool?,
+      isOAuth2Supported: json['isOAuth2Supported'] as bool?,
+      oAuth2Defaults: json['oAuth2Defaults'] != null
+          ? OAuth2Defaults.fromJson(
+              json['oAuth2Defaults'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final amplitude = this.amplitude;
-    final customConnector = this.customConnector;
-    final datadog = this.datadog;
-    final dynatrace = this.dynatrace;
-    final googleAnalytics = this.googleAnalytics;
-    final inforNexus = this.inforNexus;
-    final marketo = this.marketo;
-    final pardot = this.pardot;
-    final s3 = this.s3;
-    final sAPOData = this.sAPOData;
-    final salesforce = this.salesforce;
-    final serviceNow = this.serviceNow;
-    final singular = this.singular;
-    final slack = this.slack;
-    final trendmicro = this.trendmicro;
-    final veeva = this.veeva;
-    final zendesk = this.zendesk;
+    final customAuthConfigs = this.customAuthConfigs;
+    final isApiKeyAuthSupported = this.isApiKeyAuthSupported;
+    final isBasicAuthSupported = this.isBasicAuthSupported;
+    final isCustomAuthSupported = this.isCustomAuthSupported;
+    final isOAuth2Supported = this.isOAuth2Supported;
+    final oAuth2Defaults = this.oAuth2Defaults;
     return {
-      if (amplitude != null) 'Amplitude': amplitude.value,
-      if (customConnector != null) 'CustomConnector': customConnector.value,
-      if (datadog != null) 'Datadog': datadog.value,
-      if (dynatrace != null) 'Dynatrace': dynatrace.value,
-      if (googleAnalytics != null) 'GoogleAnalytics': googleAnalytics.value,
-      if (inforNexus != null) 'InforNexus': inforNexus.value,
-      if (marketo != null) 'Marketo': marketo.value,
-      if (pardot != null) 'Pardot': pardot.value,
-      if (s3 != null) 'S3': s3.value,
-      if (sAPOData != null) 'SAPOData': sAPOData.value,
-      if (salesforce != null) 'Salesforce': salesforce.value,
-      if (serviceNow != null) 'ServiceNow': serviceNow.value,
-      if (singular != null) 'Singular': singular.value,
-      if (slack != null) 'Slack': slack.value,
-      if (trendmicro != null) 'Trendmicro': trendmicro.value,
-      if (veeva != null) 'Veeva': veeva.value,
-      if (zendesk != null) 'Zendesk': zendesk.value,
+      if (customAuthConfigs != null) 'customAuthConfigs': customAuthConfigs,
+      if (isApiKeyAuthSupported != null)
+        'isApiKeyAuthSupported': isApiKeyAuthSupported,
+      if (isBasicAuthSupported != null)
+        'isBasicAuthSupported': isBasicAuthSupported,
+      if (isCustomAuthSupported != null)
+        'isCustomAuthSupported': isCustomAuthSupported,
+      if (isOAuth2Supported != null) 'isOAuth2Supported': isOAuth2Supported,
+      if (oAuth2Defaults != null) 'oAuth2Defaults': oAuth2Defaults,
     };
   }
+}
+
+class Operators {
+  static const projection = Operators._('PROJECTION');
+  static const lessThan = Operators._('LESS_THAN');
+  static const greaterThan = Operators._('GREATER_THAN');
+  static const contains = Operators._('CONTAINS');
+  static const between = Operators._('BETWEEN');
+  static const lessThanOrEqualTo = Operators._('LESS_THAN_OR_EQUAL_TO');
+  static const greaterThanOrEqualTo = Operators._('GREATER_THAN_OR_EQUAL_TO');
+  static const equalTo = Operators._('EQUAL_TO');
+  static const notEqualTo = Operators._('NOT_EQUAL_TO');
+  static const addition = Operators._('ADDITION');
+  static const multiplication = Operators._('MULTIPLICATION');
+  static const division = Operators._('DIVISION');
+  static const subtraction = Operators._('SUBTRACTION');
+  static const maskAll = Operators._('MASK_ALL');
+  static const maskFirstN = Operators._('MASK_FIRST_N');
+  static const maskLastN = Operators._('MASK_LAST_N');
+  static const validateNonNull = Operators._('VALIDATE_NON_NULL');
+  static const validateNonZero = Operators._('VALIDATE_NON_ZERO');
+  static const validateNonNegative = Operators._('VALIDATE_NON_NEGATIVE');
+  static const validateNumeric = Operators._('VALIDATE_NUMERIC');
+  static const noOp = Operators._('NO_OP');
+
+  final String value;
+
+  const Operators._(this.value);
+
+  static const values = [
+    projection,
+    lessThan,
+    greaterThan,
+    contains,
+    between,
+    lessThanOrEqualTo,
+    greaterThanOrEqualTo,
+    equalTo,
+    notEqualTo,
+    addition,
+    multiplication,
+    division,
+    subtraction,
+    maskAll,
+    maskFirstN,
+    maskLastN,
+    validateNonNull,
+    validateNonZero,
+    validateNonNegative,
+    validateNumeric,
+    noOp
+  ];
+
+  static Operators fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Operators._(value));
+
+  @override
+  bool operator ==(other) => other is Operators && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about the connector runtime settings that are required
+/// for flow execution.
+class ConnectorRuntimeSetting {
+  /// Contains default values for the connector runtime setting that are supplied
+  /// by the connector.
+  final List<String>? connectorSuppliedValueOptions;
+
+  /// Data type of the connector runtime setting.
+  final String? dataType;
+
+  /// A description about the connector runtime setting.
+  final String? description;
+
+  /// Indicates whether this connector runtime setting is required.
+  final bool? isRequired;
+
+  /// Contains value information about the connector runtime setting.
+  final String? key;
+
+  /// A label used for connector runtime setting.
+  final String? label;
+
+  /// Indicates the scope of the connector runtime setting.
+  final String? scope;
+
+  ConnectorRuntimeSetting({
+    this.connectorSuppliedValueOptions,
+    this.dataType,
+    this.description,
+    this.isRequired,
+    this.key,
+    this.label,
+    this.scope,
+  });
+
+  factory ConnectorRuntimeSetting.fromJson(Map<String, dynamic> json) {
+    return ConnectorRuntimeSetting(
+      connectorSuppliedValueOptions:
+          (json['connectorSuppliedValueOptions'] as List?)
+              ?.nonNulls
+              .map((e) => e as String)
+              .toList(),
+      dataType: json['dataType'] as String?,
+      description: json['description'] as String?,
+      isRequired: json['isRequired'] as bool?,
+      key: json['key'] as String?,
+      label: json['label'] as String?,
+      scope: json['scope'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorSuppliedValueOptions = this.connectorSuppliedValueOptions;
+    final dataType = this.dataType;
+    final description = this.description;
+    final isRequired = this.isRequired;
+    final key = this.key;
+    final label = this.label;
+    final scope = this.scope;
+    return {
+      if (connectorSuppliedValueOptions != null)
+        'connectorSuppliedValueOptions': connectorSuppliedValueOptions,
+      if (dataType != null) 'dataType': dataType,
+      if (description != null) 'description': description,
+      if (isRequired != null) 'isRequired': isRequired,
+      if (key != null) 'key': key,
+      if (label != null) 'label': label,
+      if (scope != null) 'scope': scope,
+    };
+  }
+}
+
+/// Contains the default values required for OAuth 2.0 authentication.
+class OAuth2Defaults {
+  /// Auth code URLs that can be used for OAuth 2.0 authentication.
+  final List<String>? authCodeUrls;
+
+  /// List of custom parameters required for OAuth 2.0 authentication.
+  final List<OAuth2CustomParameter>? oauth2CustomProperties;
+
+  /// OAuth 2.0 grant types supported by the connector.
+  final List<OAuth2GrantType>? oauth2GrantTypesSupported;
+
+  /// OAuth 2.0 scopes that the connector supports.
+  final List<String>? oauthScopes;
+
+  /// Token URLs that can be used for OAuth 2.0 authentication.
+  final List<String>? tokenUrls;
+
+  OAuth2Defaults({
+    this.authCodeUrls,
+    this.oauth2CustomProperties,
+    this.oauth2GrantTypesSupported,
+    this.oauthScopes,
+    this.tokenUrls,
+  });
+
+  factory OAuth2Defaults.fromJson(Map<String, dynamic> json) {
+    return OAuth2Defaults(
+      authCodeUrls: (json['authCodeUrls'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      oauth2CustomProperties: (json['oauth2CustomProperties'] as List?)
+          ?.nonNulls
+          .map((e) => OAuth2CustomParameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      oauth2GrantTypesSupported: (json['oauth2GrantTypesSupported'] as List?)
+          ?.nonNulls
+          .map((e) => OAuth2GrantType.fromString((e as String)))
+          .toList(),
+      oauthScopes: (json['oauthScopes'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      tokenUrls: (json['tokenUrls'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authCodeUrls = this.authCodeUrls;
+    final oauth2CustomProperties = this.oauth2CustomProperties;
+    final oauth2GrantTypesSupported = this.oauth2GrantTypesSupported;
+    final oauthScopes = this.oauthScopes;
+    final tokenUrls = this.tokenUrls;
+    return {
+      if (authCodeUrls != null) 'authCodeUrls': authCodeUrls,
+      if (oauth2CustomProperties != null)
+        'oauth2CustomProperties': oauth2CustomProperties,
+      if (oauth2GrantTypesSupported != null)
+        'oauth2GrantTypesSupported':
+            oauth2GrantTypesSupported.map((e) => e.value).toList(),
+      if (oauthScopes != null) 'oauthScopes': oauthScopes,
+      if (tokenUrls != null) 'tokenUrls': tokenUrls,
+    };
+  }
+}
+
+/// Configuration information required for custom authentication.
+class CustomAuthConfig {
+  /// Information about authentication parameters required for authentication.
+  final List<AuthParameter>? authParameters;
+
+  /// The authentication type that the custom connector uses.
+  final String? customAuthenticationType;
+
+  CustomAuthConfig({
+    this.authParameters,
+    this.customAuthenticationType,
+  });
+
+  factory CustomAuthConfig.fromJson(Map<String, dynamic> json) {
+    return CustomAuthConfig(
+      authParameters: (json['authParameters'] as List?)
+          ?.nonNulls
+          .map((e) => AuthParameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      customAuthenticationType: json['customAuthenticationType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authParameters = this.authParameters;
+    final customAuthenticationType = this.customAuthenticationType;
+    return {
+      if (authParameters != null) 'authParameters': authParameters,
+      if (customAuthenticationType != null)
+        'customAuthenticationType': customAuthenticationType,
+    };
+  }
+}
+
+/// Information about required authentication parameters.
+class AuthParameter {
+  /// Contains default values for this authentication parameter that are supplied
+  /// by the connector.
+  final List<String>? connectorSuppliedValues;
+
+  /// A description about the authentication parameter.
+  final String? description;
+
+  /// Indicates whether this authentication parameter is required.
+  final bool? isRequired;
+
+  /// Indicates whether this authentication parameter is a sensitive field.
+  final bool? isSensitiveField;
+
+  /// The authentication key required to authenticate with the connector.
+  final String? key;
+
+  /// Label used for authentication parameter.
+  final String? label;
+
+  AuthParameter({
+    this.connectorSuppliedValues,
+    this.description,
+    this.isRequired,
+    this.isSensitiveField,
+    this.key,
+    this.label,
+  });
+
+  factory AuthParameter.fromJson(Map<String, dynamic> json) {
+    return AuthParameter(
+      connectorSuppliedValues: (json['connectorSuppliedValues'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      description: json['description'] as String?,
+      isRequired: json['isRequired'] as bool?,
+      isSensitiveField: json['isSensitiveField'] as bool?,
+      key: json['key'] as String?,
+      label: json['label'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorSuppliedValues = this.connectorSuppliedValues;
+    final description = this.description;
+    final isRequired = this.isRequired;
+    final isSensitiveField = this.isSensitiveField;
+    final key = this.key;
+    final label = this.label;
+    return {
+      if (connectorSuppliedValues != null)
+        'connectorSuppliedValues': connectorSuppliedValues,
+      if (description != null) 'description': description,
+      if (isRequired != null) 'isRequired': isRequired,
+      if (isSensitiveField != null) 'isSensitiveField': isSensitiveField,
+      if (key != null) 'key': key,
+      if (label != null) 'label': label,
+    };
+  }
+}
+
+/// Custom parameter required for OAuth 2.0 authentication.
+class OAuth2CustomParameter {
+  /// Contains default values for this authentication parameter that are supplied
+  /// by the connector.
+  final List<String>? connectorSuppliedValues;
+
+  /// A description about the custom parameter used for OAuth 2.0 authentication.
+  final String? description;
+
+  /// Indicates whether the custom parameter for OAuth 2.0 authentication is
+  /// required.
+  final bool? isRequired;
+
+  /// Indicates whether this authentication custom parameter is a sensitive field.
+  final bool? isSensitiveField;
+
+  /// The key of the custom parameter required for OAuth 2.0 authentication.
+  final String? key;
+
+  /// The label of the custom parameter used for OAuth 2.0 authentication.
+  final String? label;
+
+  /// Indicates whether custom parameter is used with TokenUrl or AuthUrl.
+  final OAuth2CustomPropType? type;
+
+  OAuth2CustomParameter({
+    this.connectorSuppliedValues,
+    this.description,
+    this.isRequired,
+    this.isSensitiveField,
+    this.key,
+    this.label,
+    this.type,
+  });
+
+  factory OAuth2CustomParameter.fromJson(Map<String, dynamic> json) {
+    return OAuth2CustomParameter(
+      connectorSuppliedValues: (json['connectorSuppliedValues'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      description: json['description'] as String?,
+      isRequired: json['isRequired'] as bool?,
+      isSensitiveField: json['isSensitiveField'] as bool?,
+      key: json['key'] as String?,
+      label: json['label'] as String?,
+      type: (json['type'] as String?)?.let(OAuth2CustomPropType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorSuppliedValues = this.connectorSuppliedValues;
+    final description = this.description;
+    final isRequired = this.isRequired;
+    final isSensitiveField = this.isSensitiveField;
+    final key = this.key;
+    final label = this.label;
+    final type = this.type;
+    return {
+      if (connectorSuppliedValues != null)
+        'connectorSuppliedValues': connectorSuppliedValues,
+      if (description != null) 'description': description,
+      if (isRequired != null) 'isRequired': isRequired,
+      if (isSensitiveField != null) 'isSensitiveField': isSensitiveField,
+      if (key != null) 'key': key,
+      if (label != null) 'label': label,
+      if (type != null) 'type': type.value,
+    };
+  }
+}
+
+class OAuth2CustomPropType {
+  static const tokenUrl = OAuth2CustomPropType._('TOKEN_URL');
+  static const authUrl = OAuth2CustomPropType._('AUTH_URL');
+
+  final String value;
+
+  const OAuth2CustomPropType._(this.value);
+
+  static const values = [tokenUrl, authUrl];
+
+  static OAuth2CustomPropType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OAuth2CustomPropType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OAuth2CustomPropType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The connector metadata specific to Amplitude.
+class AmplitudeMetadata {
+  AmplitudeMetadata();
+
+  factory AmplitudeMetadata.fromJson(Map<String, dynamic> _) {
+    return AmplitudeMetadata();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The connector metadata specific to Datadog.
+class DatadogMetadata {
+  DatadogMetadata();
+
+  factory DatadogMetadata.fromJson(Map<String, dynamic> _) {
+    return DatadogMetadata();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The connector metadata specific to Dynatrace.
+class DynatraceMetadata {
+  DynatraceMetadata();
+
+  factory DynatraceMetadata.fromJson(Map<String, dynamic> _) {
+    return DynatraceMetadata();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The connector metadata specific to Google Analytics.
+class GoogleAnalyticsMetadata {
+  /// The desired authorization scope for the Google Analytics account.
+  final List<String>? oAuthScopes;
+
+  GoogleAnalyticsMetadata({
+    this.oAuthScopes,
+  });
+
+  factory GoogleAnalyticsMetadata.fromJson(Map<String, dynamic> json) {
+    return GoogleAnalyticsMetadata(
+      oAuthScopes: (json['oAuthScopes'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final oAuthScopes = this.oAuthScopes;
+    return {
+      if (oAuthScopes != null) 'oAuthScopes': oAuthScopes,
+    };
+  }
+}
+
+/// The connector metadata specific to Infor Nexus.
+class InforNexusMetadata {
+  InforNexusMetadata();
+
+  factory InforNexusMetadata.fromJson(Map<String, dynamic> _) {
+    return InforNexusMetadata();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The connector metadata specific to Marketo.
+class MarketoMetadata {
+  MarketoMetadata();
+
+  factory MarketoMetadata.fromJson(Map<String, dynamic> _) {
+    return MarketoMetadata();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The connector metadata specific to Amazon Redshift.
+class RedshiftMetadata {
+  RedshiftMetadata();
+
+  factory RedshiftMetadata.fromJson(Map<String, dynamic> _) {
+    return RedshiftMetadata();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The connector metadata specific to Amazon S3.
+class S3Metadata {
+  S3Metadata();
+
+  factory S3Metadata.fromJson(Map<String, dynamic> _) {
+    return S3Metadata();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The connector metadata specific to Salesforce.
+class SalesforceMetadata {
+  /// The Salesforce APIs that you can have Amazon AppFlow use when your flows
+  /// transfers data to or from Salesforce.
+  final List<SalesforceDataTransferApi>? dataTransferApis;
+
+  /// The desired authorization scope for the Salesforce account.
+  final List<String>? oAuthScopes;
+
+  /// The OAuth 2.0 grant types that Amazon AppFlow can use when it requests an
+  /// access token from Salesforce. Amazon AppFlow requires an access token each
+  /// time it attempts to access your Salesforce records.
+  /// <dl> <dt>AUTHORIZATION_CODE</dt> <dd>
+  /// Amazon AppFlow passes an authorization code when it requests the access
+  /// token from Salesforce. Amazon AppFlow receives the authorization code from
+  /// Salesforce after you log in to your Salesforce account and authorize Amazon
+  /// AppFlow to access your records.
+  /// </dd> <dt>JWT_BEARER</dt> <dd>
+  /// Amazon AppFlow passes a JSON web token (JWT) when it requests the access
+  /// token from Salesforce. You provide the JWT to Amazon AppFlow when you define
+  /// the connection to your Salesforce account. When you use this grant type, you
+  /// don't need to log in to your Salesforce account to authorize Amazon AppFlow
+  /// to access your records.
+  /// </dd> </dl> <note>
+  /// The CLIENT_CREDENTIALS value is not supported for Salesforce.
+  /// </note>
+  final List<OAuth2GrantType>? oauth2GrantTypesSupported;
+
+  SalesforceMetadata({
+    this.dataTransferApis,
+    this.oAuthScopes,
+    this.oauth2GrantTypesSupported,
+  });
+
+  factory SalesforceMetadata.fromJson(Map<String, dynamic> json) {
+    return SalesforceMetadata(
+      dataTransferApis: (json['dataTransferApis'] as List?)
+          ?.nonNulls
+          .map((e) => SalesforceDataTransferApi.fromString((e as String)))
+          .toList(),
+      oAuthScopes: (json['oAuthScopes'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      oauth2GrantTypesSupported: (json['oauth2GrantTypesSupported'] as List?)
+          ?.nonNulls
+          .map((e) => OAuth2GrantType.fromString((e as String)))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataTransferApis = this.dataTransferApis;
+    final oAuthScopes = this.oAuthScopes;
+    final oauth2GrantTypesSupported = this.oauth2GrantTypesSupported;
+    return {
+      if (dataTransferApis != null)
+        'dataTransferApis': dataTransferApis.map((e) => e.value).toList(),
+      if (oAuthScopes != null) 'oAuthScopes': oAuthScopes,
+      if (oauth2GrantTypesSupported != null)
+        'oauth2GrantTypesSupported':
+            oauth2GrantTypesSupported.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// The connector metadata specific to ServiceNow.
+class ServiceNowMetadata {
+  ServiceNowMetadata();
+
+  factory ServiceNowMetadata.fromJson(Map<String, dynamic> _) {
+    return ServiceNowMetadata();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The connector metadata specific to Singular.
+class SingularMetadata {
+  SingularMetadata();
+
+  factory SingularMetadata.fromJson(Map<String, dynamic> _) {
+    return SingularMetadata();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The connector metadata specific to Slack.
+class SlackMetadata {
+  /// The desired authorization scope for the Slack account.
+  final List<String>? oAuthScopes;
+
+  SlackMetadata({
+    this.oAuthScopes,
+  });
+
+  factory SlackMetadata.fromJson(Map<String, dynamic> json) {
+    return SlackMetadata(
+      oAuthScopes: (json['oAuthScopes'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final oAuthScopes = this.oAuthScopes;
+    return {
+      if (oAuthScopes != null) 'oAuthScopes': oAuthScopes,
+    };
+  }
+}
+
+/// The connector metadata specific to Snowflake.
+class SnowflakeMetadata {
+  /// Specifies the supported Amazon Web Services Regions when using Snowflake.
+  final List<String>? supportedRegions;
+
+  SnowflakeMetadata({
+    this.supportedRegions,
+  });
+
+  factory SnowflakeMetadata.fromJson(Map<String, dynamic> json) {
+    return SnowflakeMetadata(
+      supportedRegions: (json['supportedRegions'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final supportedRegions = this.supportedRegions;
+    return {
+      if (supportedRegions != null) 'supportedRegions': supportedRegions,
+    };
+  }
+}
+
+/// The connector metadata specific to Trend Micro.
+class TrendmicroMetadata {
+  TrendmicroMetadata();
+
+  factory TrendmicroMetadata.fromJson(Map<String, dynamic> _) {
+    return TrendmicroMetadata();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The connector metadata specific to Veeva.
+class VeevaMetadata {
+  VeevaMetadata();
+
+  factory VeevaMetadata.fromJson(Map<String, dynamic> _) {
+    return VeevaMetadata();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The connector metadata specific to Zendesk.
+class ZendeskMetadata {
+  /// The desired authorization scope for the Zendesk account.
+  final List<String>? oAuthScopes;
+
+  ZendeskMetadata({
+    this.oAuthScopes,
+  });
+
+  factory ZendeskMetadata.fromJson(Map<String, dynamic> json) {
+    return ZendeskMetadata(
+      oAuthScopes: (json['oAuthScopes'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final oAuthScopes = this.oAuthScopes;
+    return {
+      if (oAuthScopes != null) 'oAuthScopes': oAuthScopes,
+    };
+  }
+}
+
+/// The connector metadata specific to Amazon EventBridge.
+class EventBridgeMetadata {
+  EventBridgeMetadata();
+
+  factory EventBridgeMetadata.fromJson(Map<String, dynamic> _) {
+    return EventBridgeMetadata();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The connector metadata specific to Upsolver.
+class UpsolverMetadata {
+  UpsolverMetadata();
+
+  factory UpsolverMetadata.fromJson(Map<String, dynamic> _) {
+    return UpsolverMetadata();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The connector metadata specific to Connect Customer Customer Profiles.
+class CustomerProfilesMetadata {
+  CustomerProfilesMetadata();
+
+  factory CustomerProfilesMetadata.fromJson(Map<String, dynamic> _) {
+    return CustomerProfilesMetadata();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The connector metadata specific to Amazon Honeycode.
+class HoneycodeMetadata {
+  /// The desired authorization scope for the Amazon Honeycode account.
+  final List<String>? oAuthScopes;
+
+  HoneycodeMetadata({
+    this.oAuthScopes,
+  });
+
+  factory HoneycodeMetadata.fromJson(Map<String, dynamic> json) {
+    return HoneycodeMetadata(
+      oAuthScopes: (json['oAuthScopes'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final oAuthScopes = this.oAuthScopes;
+    return {
+      if (oAuthScopes != null) 'oAuthScopes': oAuthScopes,
+    };
+  }
+}
+
+/// The connector metadata specific to SAPOData.
+class SAPODataMetadata {
+  SAPODataMetadata();
+
+  factory SAPODataMetadata.fromJson(Map<String, dynamic> _) {
+    return SAPODataMetadata();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The connector metadata specific to Salesforce Pardot.
+class PardotMetadata {
+  PardotMetadata();
+
+  factory PardotMetadata.fromJson(Map<String, dynamic> _) {
+    return PardotMetadata();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class ScheduleFrequencyType {
+  static const byminute = ScheduleFrequencyType._('BYMINUTE');
+  static const hourly = ScheduleFrequencyType._('HOURLY');
+  static const daily = ScheduleFrequencyType._('DAILY');
+  static const weekly = ScheduleFrequencyType._('WEEKLY');
+  static const monthly = ScheduleFrequencyType._('MONTHLY');
+  static const once = ScheduleFrequencyType._('ONCE');
+
+  final String value;
+
+  const ScheduleFrequencyType._(this.value);
+
+  static const values = [byminute, hourly, daily, weekly, monthly, once];
+
+  static ScheduleFrequencyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ScheduleFrequencyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ScheduleFrequencyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes an instance of a connector. This includes the provided name,
@@ -2846,401 +10385,64 @@ class ConnectorProfile {
   }
 }
 
-/// Defines the connector-specific configuration and credentials for the
-/// connector profile.
-class ConnectorProfileConfig {
-  /// The connector-specific properties of the profile configuration.
-  final ConnectorProfileProperties connectorProfileProperties;
+/// Specifies the private connection provisioning state.
+class PrivateConnectionProvisioningState {
+  /// Specifies the private connection provisioning failure cause.
+  final PrivateConnectionProvisioningFailureCause? failureCause;
 
-  /// The connector-specific credentials required by each connector.
-  final ConnectorProfileCredentials? connectorProfileCredentials;
+  /// Specifies the private connection provisioning failure reason.
+  final String? failureMessage;
 
-  ConnectorProfileConfig({
-    required this.connectorProfileProperties,
-    this.connectorProfileCredentials,
+  /// Specifies the private connection provisioning status.
+  final PrivateConnectionProvisioningStatus? status;
+
+  PrivateConnectionProvisioningState({
+    this.failureCause,
+    this.failureMessage,
+    this.status,
   });
 
-  Map<String, dynamic> toJson() {
-    final connectorProfileProperties = this.connectorProfileProperties;
-    final connectorProfileCredentials = this.connectorProfileCredentials;
-    return {
-      'connectorProfileProperties': connectorProfileProperties,
-      if (connectorProfileCredentials != null)
-        'connectorProfileCredentials': connectorProfileCredentials,
-    };
-  }
-}
-
-/// The connector-specific credentials required by a connector.
-class ConnectorProfileCredentials {
-  /// The connector-specific credentials required when using Amplitude.
-  final AmplitudeConnectorProfileCredentials? amplitude;
-  final CustomConnectorProfileCredentials? customConnector;
-
-  /// The connector-specific credentials required when using Datadog.
-  final DatadogConnectorProfileCredentials? datadog;
-
-  /// The connector-specific credentials required when using Dynatrace.
-  final DynatraceConnectorProfileCredentials? dynatrace;
-
-  /// The connector-specific credentials required when using Google Analytics.
-  final GoogleAnalyticsConnectorProfileCredentials? googleAnalytics;
-
-  /// The connector-specific credentials required when using Amazon Honeycode.
-  final HoneycodeConnectorProfileCredentials? honeycode;
-
-  /// The connector-specific credentials required when using Infor Nexus.
-  final InforNexusConnectorProfileCredentials? inforNexus;
-
-  /// The connector-specific credentials required when using Marketo.
-  final MarketoConnectorProfileCredentials? marketo;
-
-  /// The connector-specific credentials required when using Salesforce Pardot.
-  final PardotConnectorProfileCredentials? pardot;
-
-  /// The connector-specific credentials required when using Amazon Redshift.
-  final RedshiftConnectorProfileCredentials? redshift;
-  final SAPODataConnectorProfileCredentials? sAPOData;
-
-  /// The connector-specific credentials required when using Salesforce.
-  final SalesforceConnectorProfileCredentials? salesforce;
-
-  /// The connector-specific credentials required when using ServiceNow.
-  final ServiceNowConnectorProfileCredentials? serviceNow;
-
-  /// The connector-specific credentials required when using Singular.
-  final SingularConnectorProfileCredentials? singular;
-
-  /// The connector-specific credentials required when using Slack.
-  final SlackConnectorProfileCredentials? slack;
-
-  /// The connector-specific credentials required when using Snowflake.
-  final SnowflakeConnectorProfileCredentials? snowflake;
-
-  /// The connector-specific credentials required when using Trend Micro.
-  final TrendmicroConnectorProfileCredentials? trendmicro;
-
-  /// The connector-specific credentials required when using Veeva.
-  final VeevaConnectorProfileCredentials? veeva;
-
-  /// The connector-specific credentials required when using Zendesk.
-  final ZendeskConnectorProfileCredentials? zendesk;
-
-  ConnectorProfileCredentials({
-    this.amplitude,
-    this.customConnector,
-    this.datadog,
-    this.dynatrace,
-    this.googleAnalytics,
-    this.honeycode,
-    this.inforNexus,
-    this.marketo,
-    this.pardot,
-    this.redshift,
-    this.sAPOData,
-    this.salesforce,
-    this.serviceNow,
-    this.singular,
-    this.slack,
-    this.snowflake,
-    this.trendmicro,
-    this.veeva,
-    this.zendesk,
-  });
-
-  Map<String, dynamic> toJson() {
-    final amplitude = this.amplitude;
-    final customConnector = this.customConnector;
-    final datadog = this.datadog;
-    final dynatrace = this.dynatrace;
-    final googleAnalytics = this.googleAnalytics;
-    final honeycode = this.honeycode;
-    final inforNexus = this.inforNexus;
-    final marketo = this.marketo;
-    final pardot = this.pardot;
-    final redshift = this.redshift;
-    final sAPOData = this.sAPOData;
-    final salesforce = this.salesforce;
-    final serviceNow = this.serviceNow;
-    final singular = this.singular;
-    final slack = this.slack;
-    final snowflake = this.snowflake;
-    final trendmicro = this.trendmicro;
-    final veeva = this.veeva;
-    final zendesk = this.zendesk;
-    return {
-      if (amplitude != null) 'Amplitude': amplitude,
-      if (customConnector != null) 'CustomConnector': customConnector,
-      if (datadog != null) 'Datadog': datadog,
-      if (dynatrace != null) 'Dynatrace': dynatrace,
-      if (googleAnalytics != null) 'GoogleAnalytics': googleAnalytics,
-      if (honeycode != null) 'Honeycode': honeycode,
-      if (inforNexus != null) 'InforNexus': inforNexus,
-      if (marketo != null) 'Marketo': marketo,
-      if (pardot != null) 'Pardot': pardot,
-      if (redshift != null) 'Redshift': redshift,
-      if (sAPOData != null) 'SAPOData': sAPOData,
-      if (salesforce != null) 'Salesforce': salesforce,
-      if (serviceNow != null) 'ServiceNow': serviceNow,
-      if (singular != null) 'Singular': singular,
-      if (slack != null) 'Slack': slack,
-      if (snowflake != null) 'Snowflake': snowflake,
-      if (trendmicro != null) 'Trendmicro': trendmicro,
-      if (veeva != null) 'Veeva': veeva,
-      if (zendesk != null) 'Zendesk': zendesk,
-    };
-  }
-}
-
-/// The connector-specific profile properties required by each connector.
-class ConnectorProfileProperties {
-  /// The connector-specific properties required by Amplitude.
-  final AmplitudeConnectorProfileProperties? amplitude;
-
-  /// The properties required by the custom connector.
-  final CustomConnectorProfileProperties? customConnector;
-
-  /// The connector-specific properties required by Datadog.
-  final DatadogConnectorProfileProperties? datadog;
-
-  /// The connector-specific properties required by Dynatrace.
-  final DynatraceConnectorProfileProperties? dynatrace;
-
-  /// The connector-specific properties required Google Analytics.
-  final GoogleAnalyticsConnectorProfileProperties? googleAnalytics;
-
-  /// The connector-specific properties required by Amazon Honeycode.
-  final HoneycodeConnectorProfileProperties? honeycode;
-
-  /// The connector-specific properties required by Infor Nexus.
-  final InforNexusConnectorProfileProperties? inforNexus;
-
-  /// The connector-specific properties required by Marketo.
-  final MarketoConnectorProfileProperties? marketo;
-
-  /// The connector-specific properties required by Salesforce Pardot.
-  final PardotConnectorProfileProperties? pardot;
-
-  /// The connector-specific properties required by Amazon Redshift.
-  final RedshiftConnectorProfileProperties? redshift;
-  final SAPODataConnectorProfileProperties? sAPOData;
-
-  /// The connector-specific properties required by Salesforce.
-  final SalesforceConnectorProfileProperties? salesforce;
-
-  /// The connector-specific properties required by serviceNow.
-  final ServiceNowConnectorProfileProperties? serviceNow;
-
-  /// The connector-specific properties required by Singular.
-  final SingularConnectorProfileProperties? singular;
-
-  /// The connector-specific properties required by Slack.
-  final SlackConnectorProfileProperties? slack;
-
-  /// The connector-specific properties required by Snowflake.
-  final SnowflakeConnectorProfileProperties? snowflake;
-
-  /// The connector-specific properties required by Trend Micro.
-  final TrendmicroConnectorProfileProperties? trendmicro;
-
-  /// The connector-specific properties required by Veeva.
-  final VeevaConnectorProfileProperties? veeva;
-
-  /// The connector-specific properties required by Zendesk.
-  final ZendeskConnectorProfileProperties? zendesk;
-
-  ConnectorProfileProperties({
-    this.amplitude,
-    this.customConnector,
-    this.datadog,
-    this.dynatrace,
-    this.googleAnalytics,
-    this.honeycode,
-    this.inforNexus,
-    this.marketo,
-    this.pardot,
-    this.redshift,
-    this.sAPOData,
-    this.salesforce,
-    this.serviceNow,
-    this.singular,
-    this.slack,
-    this.snowflake,
-    this.trendmicro,
-    this.veeva,
-    this.zendesk,
-  });
-
-  factory ConnectorProfileProperties.fromJson(Map<String, dynamic> json) {
-    return ConnectorProfileProperties(
-      amplitude: json['Amplitude'] != null
-          ? AmplitudeConnectorProfileProperties.fromJson(
-              json['Amplitude'] as Map<String, dynamic>)
-          : null,
-      customConnector: json['CustomConnector'] != null
-          ? CustomConnectorProfileProperties.fromJson(
-              json['CustomConnector'] as Map<String, dynamic>)
-          : null,
-      datadog: json['Datadog'] != null
-          ? DatadogConnectorProfileProperties.fromJson(
-              json['Datadog'] as Map<String, dynamic>)
-          : null,
-      dynatrace: json['Dynatrace'] != null
-          ? DynatraceConnectorProfileProperties.fromJson(
-              json['Dynatrace'] as Map<String, dynamic>)
-          : null,
-      googleAnalytics: json['GoogleAnalytics'] != null
-          ? GoogleAnalyticsConnectorProfileProperties.fromJson(
-              json['GoogleAnalytics'] as Map<String, dynamic>)
-          : null,
-      honeycode: json['Honeycode'] != null
-          ? HoneycodeConnectorProfileProperties.fromJson(
-              json['Honeycode'] as Map<String, dynamic>)
-          : null,
-      inforNexus: json['InforNexus'] != null
-          ? InforNexusConnectorProfileProperties.fromJson(
-              json['InforNexus'] as Map<String, dynamic>)
-          : null,
-      marketo: json['Marketo'] != null
-          ? MarketoConnectorProfileProperties.fromJson(
-              json['Marketo'] as Map<String, dynamic>)
-          : null,
-      pardot: json['Pardot'] != null
-          ? PardotConnectorProfileProperties.fromJson(
-              json['Pardot'] as Map<String, dynamic>)
-          : null,
-      redshift: json['Redshift'] != null
-          ? RedshiftConnectorProfileProperties.fromJson(
-              json['Redshift'] as Map<String, dynamic>)
-          : null,
-      sAPOData: json['SAPOData'] != null
-          ? SAPODataConnectorProfileProperties.fromJson(
-              json['SAPOData'] as Map<String, dynamic>)
-          : null,
-      salesforce: json['Salesforce'] != null
-          ? SalesforceConnectorProfileProperties.fromJson(
-              json['Salesforce'] as Map<String, dynamic>)
-          : null,
-      serviceNow: json['ServiceNow'] != null
-          ? ServiceNowConnectorProfileProperties.fromJson(
-              json['ServiceNow'] as Map<String, dynamic>)
-          : null,
-      singular: json['Singular'] != null
-          ? SingularConnectorProfileProperties.fromJson(
-              json['Singular'] as Map<String, dynamic>)
-          : null,
-      slack: json['Slack'] != null
-          ? SlackConnectorProfileProperties.fromJson(
-              json['Slack'] as Map<String, dynamic>)
-          : null,
-      snowflake: json['Snowflake'] != null
-          ? SnowflakeConnectorProfileProperties.fromJson(
-              json['Snowflake'] as Map<String, dynamic>)
-          : null,
-      trendmicro: json['Trendmicro'] != null
-          ? TrendmicroConnectorProfileProperties.fromJson(
-              json['Trendmicro'] as Map<String, dynamic>)
-          : null,
-      veeva: json['Veeva'] != null
-          ? VeevaConnectorProfileProperties.fromJson(
-              json['Veeva'] as Map<String, dynamic>)
-          : null,
-      zendesk: json['Zendesk'] != null
-          ? ZendeskConnectorProfileProperties.fromJson(
-              json['Zendesk'] as Map<String, dynamic>)
-          : null,
+  factory PrivateConnectionProvisioningState.fromJson(
+      Map<String, dynamic> json) {
+    return PrivateConnectionProvisioningState(
+      failureCause: (json['failureCause'] as String?)
+          ?.let(PrivateConnectionProvisioningFailureCause.fromString),
+      failureMessage: json['failureMessage'] as String?,
+      status: (json['status'] as String?)
+          ?.let(PrivateConnectionProvisioningStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final amplitude = this.amplitude;
-    final customConnector = this.customConnector;
-    final datadog = this.datadog;
-    final dynatrace = this.dynatrace;
-    final googleAnalytics = this.googleAnalytics;
-    final honeycode = this.honeycode;
-    final inforNexus = this.inforNexus;
-    final marketo = this.marketo;
-    final pardot = this.pardot;
-    final redshift = this.redshift;
-    final sAPOData = this.sAPOData;
-    final salesforce = this.salesforce;
-    final serviceNow = this.serviceNow;
-    final singular = this.singular;
-    final slack = this.slack;
-    final snowflake = this.snowflake;
-    final trendmicro = this.trendmicro;
-    final veeva = this.veeva;
-    final zendesk = this.zendesk;
+    final failureCause = this.failureCause;
+    final failureMessage = this.failureMessage;
+    final status = this.status;
     return {
-      if (amplitude != null) 'Amplitude': amplitude,
-      if (customConnector != null) 'CustomConnector': customConnector,
-      if (datadog != null) 'Datadog': datadog,
-      if (dynatrace != null) 'Dynatrace': dynatrace,
-      if (googleAnalytics != null) 'GoogleAnalytics': googleAnalytics,
-      if (honeycode != null) 'Honeycode': honeycode,
-      if (inforNexus != null) 'InforNexus': inforNexus,
-      if (marketo != null) 'Marketo': marketo,
-      if (pardot != null) 'Pardot': pardot,
-      if (redshift != null) 'Redshift': redshift,
-      if (sAPOData != null) 'SAPOData': sAPOData,
-      if (salesforce != null) 'Salesforce': salesforce,
-      if (serviceNow != null) 'ServiceNow': serviceNow,
-      if (singular != null) 'Singular': singular,
-      if (slack != null) 'Slack': slack,
-      if (snowflake != null) 'Snowflake': snowflake,
-      if (trendmicro != null) 'Trendmicro': trendmicro,
-      if (veeva != null) 'Veeva': veeva,
-      if (zendesk != null) 'Zendesk': zendesk,
+      if (failureCause != null) 'failureCause': failureCause.value,
+      if (failureMessage != null) 'failureMessage': failureMessage,
+      if (status != null) 'status': status.value,
     };
   }
 }
 
-/// Contains information about the configuration of the connector being
-/// registered.
-class ConnectorProvisioningConfig {
-  /// Contains information about the configuration of the lambda which is being
-  /// registered as the connector.
-  final LambdaConnectorProvisioningConfig? lambda;
-
-  ConnectorProvisioningConfig({
-    this.lambda,
-  });
-
-  factory ConnectorProvisioningConfig.fromJson(Map<String, dynamic> json) {
-    return ConnectorProvisioningConfig(
-      lambda: json['lambda'] != null
-          ? LambdaConnectorProvisioningConfig.fromJson(
-              json['lambda'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lambda = this.lambda;
-    return {
-      if (lambda != null) 'lambda': lambda,
-    };
-  }
-}
-
-/// The type of provisioning that the connector supports, such as Lambda.
-class ConnectorProvisioningType {
-  static const lambda = ConnectorProvisioningType._('LAMBDA');
+class PrivateConnectionProvisioningStatus {
+  static const failed = PrivateConnectionProvisioningStatus._('FAILED');
+  static const pending = PrivateConnectionProvisioningStatus._('PENDING');
+  static const created = PrivateConnectionProvisioningStatus._('CREATED');
 
   final String value;
 
-  const ConnectorProvisioningType._(this.value);
+  const PrivateConnectionProvisioningStatus._(this.value);
 
-  static const values = [lambda];
+  static const values = [failed, pending, created];
 
-  static ConnectorProvisioningType fromString(String value) =>
+  static PrivateConnectionProvisioningStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => ConnectorProvisioningType._(value));
+          orElse: () => PrivateConnectionProvisioningStatus._(value));
 
   @override
   bool operator ==(other) =>
-      other is ConnectorProvisioningType && other.value == value;
+      other is PrivateConnectionProvisioningStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -3249,1260 +10451,223 @@ class ConnectorProvisioningType {
   String toString() => value;
 }
 
-/// Contains information about the connector runtime settings that are required
-/// for flow execution.
-class ConnectorRuntimeSetting {
-  /// Contains default values for the connector runtime setting that are supplied
-  /// by the connector.
-  final List<String>? connectorSuppliedValueOptions;
+class PrivateConnectionProvisioningFailureCause {
+  static const connectorAuthentication =
+      PrivateConnectionProvisioningFailureCause._('CONNECTOR_AUTHENTICATION');
+  static const connectorServer =
+      PrivateConnectionProvisioningFailureCause._('CONNECTOR_SERVER');
+  static const internalServer =
+      PrivateConnectionProvisioningFailureCause._('INTERNAL_SERVER');
+  static const accessDenied =
+      PrivateConnectionProvisioningFailureCause._('ACCESS_DENIED');
+  static const validation =
+      PrivateConnectionProvisioningFailureCause._('VALIDATION');
 
-  /// Data type of the connector runtime setting.
-  final String? dataType;
+  final String value;
 
-  /// A description about the connector runtime setting.
+  const PrivateConnectionProvisioningFailureCause._(this.value);
+
+  static const values = [
+    connectorAuthentication,
+    connectorServer,
+    internalServer,
+    accessDenied,
+    validation
+  ];
+
+  static PrivateConnectionProvisioningFailureCause fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PrivateConnectionProvisioningFailureCause._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PrivateConnectionProvisioningFailureCause &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the data model of a connector field. For example, for an
+/// <i>account</i> entity, the fields would be <i>account name</i>, <i>account
+/// ID</i>, and so on.
+class ConnectorEntityField {
+  /// The unique identifier of the connector field.
+  final String identifier;
+
+  /// A map that has specific properties related to the ConnectorEntityField.
+  final Map<String, String>? customProperties;
+
+  /// Default value that can be assigned to this field.
+  final String? defaultValue;
+
+  /// A description of the connector entity field.
   final String? description;
 
-  /// Indicates whether this connector runtime setting is required.
-  final bool? isRequired;
+  /// The properties applied to a field when the connector is being used as a
+  /// destination.
+  final DestinationFieldProperties? destinationProperties;
 
-  /// Contains value information about the connector runtime setting.
-  final String? key;
+  /// Booelan value that indicates whether this field is deprecated or not.
+  final bool? isDeprecated;
 
-  /// A label used for connector runtime setting.
+  /// Booelan value that indicates whether this field can be used as a primary
+  /// key.
+  final bool? isPrimaryKey;
+
+  /// The label applied to a connector entity field.
   final String? label;
 
-  /// Indicates the scope of the connector runtime setting.
-  final String? scope;
+  /// The parent identifier of the connector field.
+  final String? parentIdentifier;
 
-  ConnectorRuntimeSetting({
-    this.connectorSuppliedValueOptions,
-    this.dataType,
+  /// The properties that can be applied to a field when the connector is being
+  /// used as a source.
+  final SourceFieldProperties? sourceProperties;
+
+  /// Contains details regarding the supported <code>FieldType</code>, including
+  /// the corresponding <code>filterOperators</code> and
+  /// <code>supportedValues</code>.
+  final SupportedFieldTypeDetails? supportedFieldTypeDetails;
+
+  ConnectorEntityField({
+    required this.identifier,
+    this.customProperties,
+    this.defaultValue,
     this.description,
-    this.isRequired,
-    this.key,
+    this.destinationProperties,
+    this.isDeprecated,
+    this.isPrimaryKey,
     this.label,
-    this.scope,
+    this.parentIdentifier,
+    this.sourceProperties,
+    this.supportedFieldTypeDetails,
   });
 
-  factory ConnectorRuntimeSetting.fromJson(Map<String, dynamic> json) {
-    return ConnectorRuntimeSetting(
-      connectorSuppliedValueOptions:
-          (json['connectorSuppliedValueOptions'] as List?)
-              ?.nonNulls
-              .map((e) => e as String)
-              .toList(),
-      dataType: json['dataType'] as String?,
+  factory ConnectorEntityField.fromJson(Map<String, dynamic> json) {
+    return ConnectorEntityField(
+      identifier: (json['identifier'] as String?) ?? '',
+      customProperties: (json['customProperties'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      defaultValue: json['defaultValue'] as String?,
       description: json['description'] as String?,
-      isRequired: json['isRequired'] as bool?,
-      key: json['key'] as String?,
+      destinationProperties: json['destinationProperties'] != null
+          ? DestinationFieldProperties.fromJson(
+              json['destinationProperties'] as Map<String, dynamic>)
+          : null,
+      isDeprecated: json['isDeprecated'] as bool?,
+      isPrimaryKey: json['isPrimaryKey'] as bool?,
       label: json['label'] as String?,
-      scope: json['scope'] as String?,
+      parentIdentifier: json['parentIdentifier'] as String?,
+      sourceProperties: json['sourceProperties'] != null
+          ? SourceFieldProperties.fromJson(
+              json['sourceProperties'] as Map<String, dynamic>)
+          : null,
+      supportedFieldTypeDetails: json['supportedFieldTypeDetails'] != null
+          ? SupportedFieldTypeDetails.fromJson(
+              json['supportedFieldTypeDetails'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final connectorSuppliedValueOptions = this.connectorSuppliedValueOptions;
-    final dataType = this.dataType;
+    final identifier = this.identifier;
+    final customProperties = this.customProperties;
+    final defaultValue = this.defaultValue;
     final description = this.description;
-    final isRequired = this.isRequired;
-    final key = this.key;
+    final destinationProperties = this.destinationProperties;
+    final isDeprecated = this.isDeprecated;
+    final isPrimaryKey = this.isPrimaryKey;
     final label = this.label;
-    final scope = this.scope;
+    final parentIdentifier = this.parentIdentifier;
+    final sourceProperties = this.sourceProperties;
+    final supportedFieldTypeDetails = this.supportedFieldTypeDetails;
     return {
-      if (connectorSuppliedValueOptions != null)
-        'connectorSuppliedValueOptions': connectorSuppliedValueOptions,
-      if (dataType != null) 'dataType': dataType,
+      'identifier': identifier,
+      if (customProperties != null) 'customProperties': customProperties,
+      if (defaultValue != null) 'defaultValue': defaultValue,
       if (description != null) 'description': description,
-      if (isRequired != null) 'isRequired': isRequired,
-      if (key != null) 'key': key,
+      if (destinationProperties != null)
+        'destinationProperties': destinationProperties,
+      if (isDeprecated != null) 'isDeprecated': isDeprecated,
+      if (isPrimaryKey != null) 'isPrimaryKey': isPrimaryKey,
       if (label != null) 'label': label,
-      if (scope != null) 'scope': scope,
+      if (parentIdentifier != null) 'parentIdentifier': parentIdentifier,
+      if (sourceProperties != null) 'sourceProperties': sourceProperties,
+      if (supportedFieldTypeDetails != null)
+        'supportedFieldTypeDetails': supportedFieldTypeDetails,
     };
   }
 }
 
-class ConnectorType {
-  static const salesforce = ConnectorType._('Salesforce');
-  static const singular = ConnectorType._('Singular');
-  static const slack = ConnectorType._('Slack');
-  static const redshift = ConnectorType._('Redshift');
-  static const s3 = ConnectorType._('S3');
-  static const marketo = ConnectorType._('Marketo');
-  static const googleanalytics = ConnectorType._('Googleanalytics');
-  static const zendesk = ConnectorType._('Zendesk');
-  static const servicenow = ConnectorType._('Servicenow');
-  static const datadog = ConnectorType._('Datadog');
-  static const trendmicro = ConnectorType._('Trendmicro');
-  static const snowflake = ConnectorType._('Snowflake');
-  static const dynatrace = ConnectorType._('Dynatrace');
-  static const infornexus = ConnectorType._('Infornexus');
-  static const amplitude = ConnectorType._('Amplitude');
-  static const veeva = ConnectorType._('Veeva');
-  static const eventBridge = ConnectorType._('EventBridge');
-  static const lookoutMetrics = ConnectorType._('LookoutMetrics');
-  static const upsolver = ConnectorType._('Upsolver');
-  static const honeycode = ConnectorType._('Honeycode');
-  static const customerProfiles = ConnectorType._('CustomerProfiles');
-  static const sAPOData = ConnectorType._('SAPOData');
-  static const customConnector = ConnectorType._('CustomConnector');
-  static const pardot = ConnectorType._('Pardot');
+/// Contains details regarding all the supported <code>FieldTypes</code> and
+/// their corresponding <code>filterOperators</code> and
+/// <code>supportedValues</code>.
+class SupportedFieldTypeDetails {
+  /// The initial supported version for <code>fieldType</code>. If this is later
+  /// changed to a different version, v2 will be introduced.
+  final FieldTypeDetails v1;
 
-  final String value;
-
-  const ConnectorType._(this.value);
-
-  static const values = [
-    salesforce,
-    singular,
-    slack,
-    redshift,
-    s3,
-    marketo,
-    googleanalytics,
-    zendesk,
-    servicenow,
-    datadog,
-    trendmicro,
-    snowflake,
-    dynatrace,
-    infornexus,
-    amplitude,
-    veeva,
-    eventBridge,
-    lookoutMetrics,
-    upsolver,
-    honeycode,
-    customerProfiles,
-    sAPOData,
-    customConnector,
-    pardot
-  ];
-
-  static ConnectorType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConnectorType._(value));
-
-  @override
-  bool operator ==(other) => other is ConnectorType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class CreateConnectorProfileResponse {
-  /// The Amazon Resource Name (ARN) of the connector profile.
-  final String? connectorProfileArn;
-
-  CreateConnectorProfileResponse({
-    this.connectorProfileArn,
+  SupportedFieldTypeDetails({
+    required this.v1,
   });
 
-  factory CreateConnectorProfileResponse.fromJson(Map<String, dynamic> json) {
-    return CreateConnectorProfileResponse(
-      connectorProfileArn: json['connectorProfileArn'] as String?,
+  factory SupportedFieldTypeDetails.fromJson(Map<String, dynamic> json) {
+    return SupportedFieldTypeDetails(
+      v1: FieldTypeDetails.fromJson(
+          (json['v1'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final connectorProfileArn = this.connectorProfileArn;
+    final v1 = this.v1;
     return {
-      if (connectorProfileArn != null)
-        'connectorProfileArn': connectorProfileArn,
+      'v1': v1,
     };
   }
 }
 
-class CreateFlowResponse {
-  /// The flow's Amazon Resource Name (ARN).
-  final String? flowArn;
+/// The properties that can be applied to a field when the connector is being
+/// used as a source.
+class SourceFieldProperties {
+  /// Indicates if the field can be queried.
+  final bool? isQueryable;
 
-  /// Indicates the current status of the flow.
-  final FlowStatus? flowStatus;
+  /// Indicates whether the field can be returned in a search result.
+  final bool? isRetrievable;
 
-  CreateFlowResponse({
-    this.flowArn,
-    this.flowStatus,
+  /// Indicates if this timestamp field can be used for incremental queries.
+  final bool? isTimestampFieldForIncrementalQueries;
+
+  SourceFieldProperties({
+    this.isQueryable,
+    this.isRetrievable,
+    this.isTimestampFieldForIncrementalQueries,
   });
 
-  factory CreateFlowResponse.fromJson(Map<String, dynamic> json) {
-    return CreateFlowResponse(
-      flowArn: json['flowArn'] as String?,
-      flowStatus: (json['flowStatus'] as String?)?.let(FlowStatus.fromString),
+  factory SourceFieldProperties.fromJson(Map<String, dynamic> json) {
+    return SourceFieldProperties(
+      isQueryable: json['isQueryable'] as bool?,
+      isRetrievable: json['isRetrievable'] as bool?,
+      isTimestampFieldForIncrementalQueries:
+          json['isTimestampFieldForIncrementalQueries'] as bool?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final flowArn = this.flowArn;
-    final flowStatus = this.flowStatus;
+    final isQueryable = this.isQueryable;
+    final isRetrievable = this.isRetrievable;
+    final isTimestampFieldForIncrementalQueries =
+        this.isTimestampFieldForIncrementalQueries;
     return {
-      if (flowArn != null) 'flowArn': flowArn,
-      if (flowStatus != null) 'flowStatus': flowStatus.value,
-    };
-  }
-}
-
-/// Configuration information required for custom authentication.
-class CustomAuthConfig {
-  /// Information about authentication parameters required for authentication.
-  final List<AuthParameter>? authParameters;
-
-  /// The authentication type that the custom connector uses.
-  final String? customAuthenticationType;
-
-  CustomAuthConfig({
-    this.authParameters,
-    this.customAuthenticationType,
-  });
-
-  factory CustomAuthConfig.fromJson(Map<String, dynamic> json) {
-    return CustomAuthConfig(
-      authParameters: (json['authParameters'] as List?)
-          ?.nonNulls
-          .map((e) => AuthParameter.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      customAuthenticationType: json['customAuthenticationType'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final authParameters = this.authParameters;
-    final customAuthenticationType = this.customAuthenticationType;
-    return {
-      if (authParameters != null) 'authParameters': authParameters,
-      if (customAuthenticationType != null)
-        'customAuthenticationType': customAuthenticationType,
-    };
-  }
-}
-
-/// The custom credentials required for custom authentication.
-class CustomAuthCredentials {
-  /// The custom authentication type that the connector uses.
-  final String customAuthenticationType;
-
-  /// A map that holds custom authentication credentials.
-  final Map<String, String>? credentialsMap;
-
-  CustomAuthCredentials({
-    required this.customAuthenticationType,
-    this.credentialsMap,
-  });
-
-  Map<String, dynamic> toJson() {
-    final customAuthenticationType = this.customAuthenticationType;
-    final credentialsMap = this.credentialsMap;
-    return {
-      'customAuthenticationType': customAuthenticationType,
-      if (credentialsMap != null) 'credentialsMap': credentialsMap,
-    };
-  }
-}
-
-/// The properties that are applied when the custom connector is being used as a
-/// destination.
-class CustomConnectorDestinationProperties {
-  /// The entity specified in the custom connector as a destination in the flow.
-  final String entityName;
-
-  /// The custom properties that are specific to the connector when it's used as a
-  /// destination in the flow.
-  final Map<String, String>? customProperties;
-
-  /// The settings that determine how Amazon AppFlow handles an error when placing
-  /// data in the custom connector as destination.
-  final ErrorHandlingConfig? errorHandlingConfig;
-
-  /// The name of the field that Amazon AppFlow uses as an ID when performing a
-  /// write operation such as update, delete, or upsert.
-  final List<String>? idFieldNames;
-
-  /// Specifies the type of write operation to be performed in the custom
-  /// connector when it's used as destination.
-  final WriteOperationType? writeOperationType;
-
-  CustomConnectorDestinationProperties({
-    required this.entityName,
-    this.customProperties,
-    this.errorHandlingConfig,
-    this.idFieldNames,
-    this.writeOperationType,
-  });
-
-  factory CustomConnectorDestinationProperties.fromJson(
-      Map<String, dynamic> json) {
-    return CustomConnectorDestinationProperties(
-      entityName: (json['entityName'] as String?) ?? '',
-      customProperties: (json['customProperties'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      errorHandlingConfig: json['errorHandlingConfig'] != null
-          ? ErrorHandlingConfig.fromJson(
-              json['errorHandlingConfig'] as Map<String, dynamic>)
-          : null,
-      idFieldNames: (json['idFieldNames'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      writeOperationType: (json['writeOperationType'] as String?)
-          ?.let(WriteOperationType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final entityName = this.entityName;
-    final customProperties = this.customProperties;
-    final errorHandlingConfig = this.errorHandlingConfig;
-    final idFieldNames = this.idFieldNames;
-    final writeOperationType = this.writeOperationType;
-    return {
-      'entityName': entityName,
-      if (customProperties != null) 'customProperties': customProperties,
-      if (errorHandlingConfig != null)
-        'errorHandlingConfig': errorHandlingConfig,
-      if (idFieldNames != null) 'idFieldNames': idFieldNames,
-      if (writeOperationType != null)
-        'writeOperationType': writeOperationType.value,
-    };
-  }
-}
-
-/// The connector-specific profile credentials that are required when using the
-/// custom connector.
-class CustomConnectorProfileCredentials {
-  /// The authentication type that the custom connector uses for authenticating
-  /// while creating a connector profile.
-  final AuthenticationType authenticationType;
-
-  /// The API keys required for the authentication of the user.
-  final ApiKeyCredentials? apiKey;
-
-  /// The basic credentials that are required for the authentication of the user.
-  final BasicAuthCredentials? basic;
-
-  /// If the connector uses the custom authentication mechanism, this holds the
-  /// required credentials.
-  final CustomAuthCredentials? custom;
-
-  /// The OAuth 2.0 credentials required for the authentication of the user.
-  final OAuth2Credentials? oauth2;
-
-  CustomConnectorProfileCredentials({
-    required this.authenticationType,
-    this.apiKey,
-    this.basic,
-    this.custom,
-    this.oauth2,
-  });
-
-  Map<String, dynamic> toJson() {
-    final authenticationType = this.authenticationType;
-    final apiKey = this.apiKey;
-    final basic = this.basic;
-    final custom = this.custom;
-    final oauth2 = this.oauth2;
-    return {
-      'authenticationType': authenticationType.value,
-      if (apiKey != null) 'apiKey': apiKey,
-      if (basic != null) 'basic': basic,
-      if (custom != null) 'custom': custom,
-      if (oauth2 != null) 'oauth2': oauth2,
-    };
-  }
-}
-
-/// The profile properties required by the custom connector.
-class CustomConnectorProfileProperties {
-  final OAuth2Properties? oAuth2Properties;
-
-  /// A map of properties that are required to create a profile for the custom
-  /// connector.
-  final Map<String, String>? profileProperties;
-
-  CustomConnectorProfileProperties({
-    this.oAuth2Properties,
-    this.profileProperties,
-  });
-
-  factory CustomConnectorProfileProperties.fromJson(Map<String, dynamic> json) {
-    return CustomConnectorProfileProperties(
-      oAuth2Properties: json['oAuth2Properties'] != null
-          ? OAuth2Properties.fromJson(
-              json['oAuth2Properties'] as Map<String, dynamic>)
-          : null,
-      profileProperties: (json['profileProperties'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final oAuth2Properties = this.oAuth2Properties;
-    final profileProperties = this.profileProperties;
-    return {
-      if (oAuth2Properties != null) 'oAuth2Properties': oAuth2Properties,
-      if (profileProperties != null) 'profileProperties': profileProperties,
-    };
-  }
-}
-
-/// The properties that are applied when the custom connector is being used as a
-/// source.
-class CustomConnectorSourceProperties {
-  /// The entity specified in the custom connector as a source in the flow.
-  final String entityName;
-
-  /// Custom properties that are required to use the custom connector as a source.
-  final Map<String, String>? customProperties;
-
-  /// The API of the connector application that Amazon AppFlow uses to transfer
-  /// your data.
-  final DataTransferApi? dataTransferApi;
-
-  CustomConnectorSourceProperties({
-    required this.entityName,
-    this.customProperties,
-    this.dataTransferApi,
-  });
-
-  factory CustomConnectorSourceProperties.fromJson(Map<String, dynamic> json) {
-    return CustomConnectorSourceProperties(
-      entityName: (json['entityName'] as String?) ?? '',
-      customProperties: (json['customProperties'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      dataTransferApi: json['dataTransferApi'] != null
-          ? DataTransferApi.fromJson(
-              json['dataTransferApi'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final entityName = this.entityName;
-    final customProperties = this.customProperties;
-    final dataTransferApi = this.dataTransferApi;
-    return {
-      'entityName': entityName,
-      if (customProperties != null) 'customProperties': customProperties,
-      if (dataTransferApi != null) 'dataTransferApi': dataTransferApi,
-    };
-  }
-}
-
-/// The properties that are applied when Amazon Connect Customer Profiles is
-/// used as a destination.
-class CustomerProfilesDestinationProperties {
-  /// The unique name of the Amazon Connect Customer Profiles domain.
-  final String domainName;
-
-  /// The object specified in the Amazon Connect Customer Profiles flow
-  /// destination.
-  final String? objectTypeName;
-
-  CustomerProfilesDestinationProperties({
-    required this.domainName,
-    this.objectTypeName,
-  });
-
-  factory CustomerProfilesDestinationProperties.fromJson(
-      Map<String, dynamic> json) {
-    return CustomerProfilesDestinationProperties(
-      domainName: (json['domainName'] as String?) ?? '',
-      objectTypeName: json['objectTypeName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final domainName = this.domainName;
-    final objectTypeName = this.objectTypeName;
-    return {
-      'domainName': domainName,
-      if (objectTypeName != null) 'objectTypeName': objectTypeName,
-    };
-  }
-}
-
-/// The connector metadata specific to Amazon Connect Customer Profiles.
-class CustomerProfilesMetadata {
-  CustomerProfilesMetadata();
-
-  factory CustomerProfilesMetadata.fromJson(Map<String, dynamic> _) {
-    return CustomerProfilesMetadata();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class DataPullMode {
-  static const incremental = DataPullMode._('Incremental');
-  static const complete = DataPullMode._('Complete');
-
-  final String value;
-
-  const DataPullMode._(this.value);
-
-  static const values = [incremental, complete];
-
-  static DataPullMode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => DataPullMode._(value));
-
-  @override
-  bool operator ==(other) => other is DataPullMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The API of the connector application that Amazon AppFlow uses to transfer
-/// your data.
-class DataTransferApi {
-  /// The name of the connector application API.
-  final String? name;
-
-  /// You can specify one of the following types:
-  /// <dl> <dt>AUTOMATIC</dt> <dd>
-  /// The default. Optimizes a flow for datasets that fluctuate in size from small
-  /// to large. For each flow run, Amazon AppFlow chooses to use the SYNC or ASYNC
-  /// API type based on the amount of data that the run transfers.
-  /// </dd> <dt>SYNC</dt> <dd>
-  /// A synchronous API. This type of API optimizes a flow for small to
-  /// medium-sized datasets.
-  /// </dd> <dt>ASYNC</dt> <dd>
-  /// An asynchronous API. This type of API optimizes a flow for large datasets.
-  /// </dd> </dl>
-  final DataTransferApiType? type;
-
-  DataTransferApi({
-    this.name,
-    this.type,
-  });
-
-  factory DataTransferApi.fromJson(Map<String, dynamic> json) {
-    return DataTransferApi(
-      name: json['Name'] as String?,
-      type: (json['Type'] as String?)?.let(DataTransferApiType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final type = this.type;
-    return {
-      if (name != null) 'Name': name,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class DataTransferApiType {
-  static const sync = DataTransferApiType._('SYNC');
-  static const async = DataTransferApiType._('ASYNC');
-  static const automatic = DataTransferApiType._('AUTOMATIC');
-
-  final String value;
-
-  const DataTransferApiType._(this.value);
-
-  static const values = [sync, async, automatic];
-
-  static DataTransferApiType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DataTransferApiType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DataTransferApiType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DatadogConnectorOperator {
-  static const projection = DatadogConnectorOperator._('PROJECTION');
-  static const between = DatadogConnectorOperator._('BETWEEN');
-  static const equalTo = DatadogConnectorOperator._('EQUAL_TO');
-  static const addition = DatadogConnectorOperator._('ADDITION');
-  static const multiplication = DatadogConnectorOperator._('MULTIPLICATION');
-  static const division = DatadogConnectorOperator._('DIVISION');
-  static const subtraction = DatadogConnectorOperator._('SUBTRACTION');
-  static const maskAll = DatadogConnectorOperator._('MASK_ALL');
-  static const maskFirstN = DatadogConnectorOperator._('MASK_FIRST_N');
-  static const maskLastN = DatadogConnectorOperator._('MASK_LAST_N');
-  static const validateNonNull =
-      DatadogConnectorOperator._('VALIDATE_NON_NULL');
-  static const validateNonZero =
-      DatadogConnectorOperator._('VALIDATE_NON_ZERO');
-  static const validateNonNegative =
-      DatadogConnectorOperator._('VALIDATE_NON_NEGATIVE');
-  static const validateNumeric = DatadogConnectorOperator._('VALIDATE_NUMERIC');
-  static const noOp = DatadogConnectorOperator._('NO_OP');
-
-  final String value;
-
-  const DatadogConnectorOperator._(this.value);
-
-  static const values = [
-    projection,
-    between,
-    equalTo,
-    addition,
-    multiplication,
-    division,
-    subtraction,
-    maskAll,
-    maskFirstN,
-    maskLastN,
-    validateNonNull,
-    validateNonZero,
-    validateNonNegative,
-    validateNumeric,
-    noOp
-  ];
-
-  static DatadogConnectorOperator fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DatadogConnectorOperator._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DatadogConnectorOperator && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The connector-specific credentials required by Datadog.
-class DatadogConnectorProfileCredentials {
-  /// A unique alphanumeric identifier used to authenticate a user, developer, or
-  /// calling program to your API.
-  final String apiKey;
-
-  /// Application keys, in conjunction with your API key, give you full access to
-  /// Datadog’s programmatic API. Application keys are associated with the user
-  /// account that created them. The application key is used to log all requests
-  /// made to the API.
-  final String applicationKey;
-
-  DatadogConnectorProfileCredentials({
-    required this.apiKey,
-    required this.applicationKey,
-  });
-
-  Map<String, dynamic> toJson() {
-    final apiKey = this.apiKey;
-    final applicationKey = this.applicationKey;
-    return {
-      'apiKey': apiKey,
-      'applicationKey': applicationKey,
-    };
-  }
-}
-
-/// The connector-specific profile properties required by Datadog.
-class DatadogConnectorProfileProperties {
-  /// The location of the Datadog resource.
-  final String instanceUrl;
-
-  DatadogConnectorProfileProperties({
-    required this.instanceUrl,
-  });
-
-  factory DatadogConnectorProfileProperties.fromJson(
-      Map<String, dynamic> json) {
-    return DatadogConnectorProfileProperties(
-      instanceUrl: (json['instanceUrl'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final instanceUrl = this.instanceUrl;
-    return {
-      'instanceUrl': instanceUrl,
-    };
-  }
-}
-
-/// The connector metadata specific to Datadog.
-class DatadogMetadata {
-  DatadogMetadata();
-
-  factory DatadogMetadata.fromJson(Map<String, dynamic> _) {
-    return DatadogMetadata();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// The properties that are applied when Datadog is being used as a source.
-class DatadogSourceProperties {
-  /// The object specified in the Datadog flow source.
-  final String object;
-
-  DatadogSourceProperties({
-    required this.object,
-  });
-
-  factory DatadogSourceProperties.fromJson(Map<String, dynamic> json) {
-    return DatadogSourceProperties(
-      object: (json['object'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final object = this.object;
-    return {
-      'object': object,
-    };
-  }
-}
-
-class DeleteConnectorProfileResponse {
-  DeleteConnectorProfileResponse();
-
-  factory DeleteConnectorProfileResponse.fromJson(Map<String, dynamic> _) {
-    return DeleteConnectorProfileResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class DeleteFlowResponse {
-  DeleteFlowResponse();
-
-  factory DeleteFlowResponse.fromJson(Map<String, dynamic> _) {
-    return DeleteFlowResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class DescribeConnectorEntityResponse {
-  /// Describes the fields for that connector entity. For example, for an
-  /// <i>account</i> entity, the fields would be <i>account name</i>, <i>account
-  /// ID</i>, and so on.
-  final List<ConnectorEntityField> connectorEntityFields;
-
-  DescribeConnectorEntityResponse({
-    required this.connectorEntityFields,
-  });
-
-  factory DescribeConnectorEntityResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeConnectorEntityResponse(
-      connectorEntityFields: ((json['connectorEntityFields'] as List?) ??
-              const [])
-          .nonNulls
-          .map((e) => ConnectorEntityField.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connectorEntityFields = this.connectorEntityFields;
-    return {
-      'connectorEntityFields': connectorEntityFields,
-    };
-  }
-}
-
-class DescribeConnectorProfilesResponse {
-  /// Returns information about the connector profiles associated with the flow.
-  final List<ConnectorProfile>? connectorProfileDetails;
-
-  /// The pagination token for the next page of data. If
-  /// <code>nextToken=null</code>, this means that all records have been fetched.
-  final String? nextToken;
-
-  DescribeConnectorProfilesResponse({
-    this.connectorProfileDetails,
-    this.nextToken,
-  });
-
-  factory DescribeConnectorProfilesResponse.fromJson(
-      Map<String, dynamic> json) {
-    return DescribeConnectorProfilesResponse(
-      connectorProfileDetails: (json['connectorProfileDetails'] as List?)
-          ?.nonNulls
-          .map((e) => ConnectorProfile.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connectorProfileDetails = this.connectorProfileDetails;
-    final nextToken = this.nextToken;
-    return {
-      if (connectorProfileDetails != null)
-        'connectorProfileDetails': connectorProfileDetails,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class DescribeConnectorResponse {
-  /// Configuration info of all the connectors that the user requested.
-  final ConnectorConfiguration? connectorConfiguration;
-
-  DescribeConnectorResponse({
-    this.connectorConfiguration,
-  });
-
-  factory DescribeConnectorResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeConnectorResponse(
-      connectorConfiguration: json['connectorConfiguration'] != null
-          ? ConnectorConfiguration.fromJson(
-              json['connectorConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connectorConfiguration = this.connectorConfiguration;
-    return {
-      if (connectorConfiguration != null)
-        'connectorConfiguration': connectorConfiguration,
-    };
-  }
-}
-
-class DescribeConnectorsResponse {
-  /// The configuration that is applied to the connectors used in the flow.
-  final Map<ConnectorType, ConnectorConfiguration>? connectorConfigurations;
-
-  /// Information about the connectors supported in Amazon AppFlow.
-  final List<ConnectorDetail>? connectors;
-
-  /// The pagination token for the next page of data.
-  final String? nextToken;
-
-  DescribeConnectorsResponse({
-    this.connectorConfigurations,
-    this.connectors,
-    this.nextToken,
-  });
-
-  factory DescribeConnectorsResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeConnectorsResponse(
-      connectorConfigurations:
-          (json['connectorConfigurations'] as Map<String, dynamic>?)?.map(
-              (k, e) => MapEntry(ConnectorType.fromString(k),
-                  ConnectorConfiguration.fromJson(e as Map<String, dynamic>))),
-      connectors: (json['connectors'] as List?)
-          ?.nonNulls
-          .map((e) => ConnectorDetail.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connectorConfigurations = this.connectorConfigurations;
-    final connectors = this.connectors;
-    final nextToken = this.nextToken;
-    return {
-      if (connectorConfigurations != null)
-        'connectorConfigurations':
-            connectorConfigurations.map((k, e) => MapEntry(k.value, e)),
-      if (connectors != null) 'connectors': connectors,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class DescribeFlowExecutionRecordsResponse {
-  /// Returns a list of all instances when this flow was run.
-  final List<ExecutionRecord>? flowExecutions;
-
-  /// The pagination token for the next page of data.
-  final String? nextToken;
-
-  DescribeFlowExecutionRecordsResponse({
-    this.flowExecutions,
-    this.nextToken,
-  });
-
-  factory DescribeFlowExecutionRecordsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return DescribeFlowExecutionRecordsResponse(
-      flowExecutions: (json['flowExecutions'] as List?)
-          ?.nonNulls
-          .map((e) => ExecutionRecord.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final flowExecutions = this.flowExecutions;
-    final nextToken = this.nextToken;
-    return {
-      if (flowExecutions != null) 'flowExecutions': flowExecutions,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class DescribeFlowResponse {
-  /// Specifies when the flow was created.
-  final DateTime? createdAt;
-
-  /// The ARN of the user who created the flow.
-  final String? createdBy;
-
-  /// A description of the flow.
-  final String? description;
-
-  /// The configuration that controls how Amazon AppFlow transfers data to the
-  /// destination connector.
-  final List<DestinationFlowConfig>? destinationFlowConfigList;
-
-  /// The flow's Amazon Resource Name (ARN).
-  final String? flowArn;
-
-  /// The specified name of the flow. Spaces are not allowed. Use underscores (_)
-  /// or hyphens (-) only.
-  final String? flowName;
-
-  /// Indicates the current status of the flow.
-  final FlowStatus? flowStatus;
-
-  /// Contains an error message if the flow status is in a suspended or error
-  /// state. This applies only to scheduled or event-triggered flows.
-  final String? flowStatusMessage;
-
-  /// The ARN (Amazon Resource Name) of the Key Management Service (KMS) key you
-  /// provide for encryption. This is required if you do not want to use the
-  /// Amazon AppFlow-managed KMS key. If you don't provide anything here, Amazon
-  /// AppFlow uses the Amazon AppFlow-managed KMS key.
-  final String? kmsArn;
-
-  /// Describes the details of the most recent flow run.
-  final ExecutionDetails? lastRunExecutionDetails;
-
-  /// Describes the metadata catalog, metadata table, and data partitions that
-  /// Amazon AppFlow used for the associated flow run.
-  final List<MetadataCatalogDetail>? lastRunMetadataCatalogDetails;
-
-  /// Specifies when the flow was last updated.
-  final DateTime? lastUpdatedAt;
-
-  /// Specifies the user name of the account that performed the most recent
-  /// update.
-  final String? lastUpdatedBy;
-
-  /// Specifies the configuration that Amazon AppFlow uses when it catalogs the
-  /// data that's transferred by the associated flow. When Amazon AppFlow catalogs
-  /// the data from a flow, it stores metadata in a data catalog.
-  final MetadataCatalogConfig? metadataCatalogConfig;
-
-  /// The version number of your data schema. Amazon AppFlow assigns this version
-  /// number. The version number increases by one when you change any of the
-  /// following settings in your flow configuration:
-  ///
-  /// <ul>
-  /// <li>
-  /// Source-to-destination field mappings
-  /// </li>
-  /// <li>
-  /// Field data types
-  /// </li>
-  /// <li>
-  /// Partition keys
-  /// </li>
-  /// </ul>
-  final int? schemaVersion;
-
-  /// The configuration that controls how Amazon AppFlow retrieves data from the
-  /// source connector.
-  final SourceFlowConfig? sourceFlowConfig;
-
-  /// The tags used to organize, track, or control access for your flow.
-  final Map<String, String>? tags;
-
-  /// A list of tasks that Amazon AppFlow performs while transferring the data in
-  /// the flow run.
-  final List<Task>? tasks;
-
-  /// The trigger settings that determine how and when the flow runs.
-  final TriggerConfig? triggerConfig;
-
-  DescribeFlowResponse({
-    this.createdAt,
-    this.createdBy,
-    this.description,
-    this.destinationFlowConfigList,
-    this.flowArn,
-    this.flowName,
-    this.flowStatus,
-    this.flowStatusMessage,
-    this.kmsArn,
-    this.lastRunExecutionDetails,
-    this.lastRunMetadataCatalogDetails,
-    this.lastUpdatedAt,
-    this.lastUpdatedBy,
-    this.metadataCatalogConfig,
-    this.schemaVersion,
-    this.sourceFlowConfig,
-    this.tags,
-    this.tasks,
-    this.triggerConfig,
-  });
-
-  factory DescribeFlowResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeFlowResponse(
-      createdAt: timeStampFromJson(json['createdAt']),
-      createdBy: json['createdBy'] as String?,
-      description: json['description'] as String?,
-      destinationFlowConfigList: (json['destinationFlowConfigList'] as List?)
-          ?.nonNulls
-          .map((e) => DestinationFlowConfig.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      flowArn: json['flowArn'] as String?,
-      flowName: json['flowName'] as String?,
-      flowStatus: (json['flowStatus'] as String?)?.let(FlowStatus.fromString),
-      flowStatusMessage: json['flowStatusMessage'] as String?,
-      kmsArn: json['kmsArn'] as String?,
-      lastRunExecutionDetails: json['lastRunExecutionDetails'] != null
-          ? ExecutionDetails.fromJson(
-              json['lastRunExecutionDetails'] as Map<String, dynamic>)
-          : null,
-      lastRunMetadataCatalogDetails: (json['lastRunMetadataCatalogDetails']
-              as List?)
-          ?.nonNulls
-          .map((e) => MetadataCatalogDetail.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
-      lastUpdatedBy: json['lastUpdatedBy'] as String?,
-      metadataCatalogConfig: json['metadataCatalogConfig'] != null
-          ? MetadataCatalogConfig.fromJson(
-              json['metadataCatalogConfig'] as Map<String, dynamic>)
-          : null,
-      schemaVersion: json['schemaVersion'] as int?,
-      sourceFlowConfig: json['sourceFlowConfig'] != null
-          ? SourceFlowConfig.fromJson(
-              json['sourceFlowConfig'] as Map<String, dynamic>)
-          : null,
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      tasks: (json['tasks'] as List?)
-          ?.nonNulls
-          .map((e) => Task.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      triggerConfig: json['triggerConfig'] != null
-          ? TriggerConfig.fromJson(
-              json['triggerConfig'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final createdBy = this.createdBy;
-    final description = this.description;
-    final destinationFlowConfigList = this.destinationFlowConfigList;
-    final flowArn = this.flowArn;
-    final flowName = this.flowName;
-    final flowStatus = this.flowStatus;
-    final flowStatusMessage = this.flowStatusMessage;
-    final kmsArn = this.kmsArn;
-    final lastRunExecutionDetails = this.lastRunExecutionDetails;
-    final lastRunMetadataCatalogDetails = this.lastRunMetadataCatalogDetails;
-    final lastUpdatedAt = this.lastUpdatedAt;
-    final lastUpdatedBy = this.lastUpdatedBy;
-    final metadataCatalogConfig = this.metadataCatalogConfig;
-    final schemaVersion = this.schemaVersion;
-    final sourceFlowConfig = this.sourceFlowConfig;
-    final tags = this.tags;
-    final tasks = this.tasks;
-    final triggerConfig = this.triggerConfig;
-    return {
-      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
-      if (createdBy != null) 'createdBy': createdBy,
-      if (description != null) 'description': description,
-      if (destinationFlowConfigList != null)
-        'destinationFlowConfigList': destinationFlowConfigList,
-      if (flowArn != null) 'flowArn': flowArn,
-      if (flowName != null) 'flowName': flowName,
-      if (flowStatus != null) 'flowStatus': flowStatus.value,
-      if (flowStatusMessage != null) 'flowStatusMessage': flowStatusMessage,
-      if (kmsArn != null) 'kmsArn': kmsArn,
-      if (lastRunExecutionDetails != null)
-        'lastRunExecutionDetails': lastRunExecutionDetails,
-      if (lastRunMetadataCatalogDetails != null)
-        'lastRunMetadataCatalogDetails': lastRunMetadataCatalogDetails,
-      if (lastUpdatedAt != null)
-        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
-      if (lastUpdatedBy != null) 'lastUpdatedBy': lastUpdatedBy,
-      if (metadataCatalogConfig != null)
-        'metadataCatalogConfig': metadataCatalogConfig,
-      if (schemaVersion != null) 'schemaVersion': schemaVersion,
-      if (sourceFlowConfig != null) 'sourceFlowConfig': sourceFlowConfig,
-      if (tags != null) 'tags': tags,
-      if (tasks != null) 'tasks': tasks,
-      if (triggerConfig != null) 'triggerConfig': triggerConfig,
-    };
-  }
-}
-
-/// This stores the information that is required to query a particular
-/// connector.
-class DestinationConnectorProperties {
-  /// The properties that are required to query the custom Connector.
-  final CustomConnectorDestinationProperties? customConnector;
-
-  /// The properties required to query Amazon Connect Customer Profiles.
-  final CustomerProfilesDestinationProperties? customerProfiles;
-
-  /// The properties required to query Amazon EventBridge.
-  final EventBridgeDestinationProperties? eventBridge;
-
-  /// The properties required to query Amazon Honeycode.
-  final HoneycodeDestinationProperties? honeycode;
-
-  /// The properties required to query Amazon Lookout for Metrics.
-  final LookoutMetricsDestinationProperties? lookoutMetrics;
-
-  /// The properties required to query Marketo.
-  final MarketoDestinationProperties? marketo;
-
-  /// The properties required to query Amazon Redshift.
-  final RedshiftDestinationProperties? redshift;
-
-  /// The properties required to query Amazon S3.
-  final S3DestinationProperties? s3;
-
-  /// The properties required to query SAPOData.
-  final SAPODataDestinationProperties? sAPOData;
-
-  /// The properties required to query Salesforce.
-  final SalesforceDestinationProperties? salesforce;
-
-  /// The properties required to query Snowflake.
-  final SnowflakeDestinationProperties? snowflake;
-
-  /// The properties required to query Upsolver.
-  final UpsolverDestinationProperties? upsolver;
-
-  /// The properties required to query Zendesk.
-  final ZendeskDestinationProperties? zendesk;
-
-  DestinationConnectorProperties({
-    this.customConnector,
-    this.customerProfiles,
-    this.eventBridge,
-    this.honeycode,
-    this.lookoutMetrics,
-    this.marketo,
-    this.redshift,
-    this.s3,
-    this.sAPOData,
-    this.salesforce,
-    this.snowflake,
-    this.upsolver,
-    this.zendesk,
-  });
-
-  factory DestinationConnectorProperties.fromJson(Map<String, dynamic> json) {
-    return DestinationConnectorProperties(
-      customConnector: json['CustomConnector'] != null
-          ? CustomConnectorDestinationProperties.fromJson(
-              json['CustomConnector'] as Map<String, dynamic>)
-          : null,
-      customerProfiles: json['CustomerProfiles'] != null
-          ? CustomerProfilesDestinationProperties.fromJson(
-              json['CustomerProfiles'] as Map<String, dynamic>)
-          : null,
-      eventBridge: json['EventBridge'] != null
-          ? EventBridgeDestinationProperties.fromJson(
-              json['EventBridge'] as Map<String, dynamic>)
-          : null,
-      honeycode: json['Honeycode'] != null
-          ? HoneycodeDestinationProperties.fromJson(
-              json['Honeycode'] as Map<String, dynamic>)
-          : null,
-      lookoutMetrics: json['LookoutMetrics'] != null
-          ? LookoutMetricsDestinationProperties.fromJson(
-              json['LookoutMetrics'] as Map<String, dynamic>)
-          : null,
-      marketo: json['Marketo'] != null
-          ? MarketoDestinationProperties.fromJson(
-              json['Marketo'] as Map<String, dynamic>)
-          : null,
-      redshift: json['Redshift'] != null
-          ? RedshiftDestinationProperties.fromJson(
-              json['Redshift'] as Map<String, dynamic>)
-          : null,
-      s3: json['S3'] != null
-          ? S3DestinationProperties.fromJson(json['S3'] as Map<String, dynamic>)
-          : null,
-      sAPOData: json['SAPOData'] != null
-          ? SAPODataDestinationProperties.fromJson(
-              json['SAPOData'] as Map<String, dynamic>)
-          : null,
-      salesforce: json['Salesforce'] != null
-          ? SalesforceDestinationProperties.fromJson(
-              json['Salesforce'] as Map<String, dynamic>)
-          : null,
-      snowflake: json['Snowflake'] != null
-          ? SnowflakeDestinationProperties.fromJson(
-              json['Snowflake'] as Map<String, dynamic>)
-          : null,
-      upsolver: json['Upsolver'] != null
-          ? UpsolverDestinationProperties.fromJson(
-              json['Upsolver'] as Map<String, dynamic>)
-          : null,
-      zendesk: json['Zendesk'] != null
-          ? ZendeskDestinationProperties.fromJson(
-              json['Zendesk'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final customConnector = this.customConnector;
-    final customerProfiles = this.customerProfiles;
-    final eventBridge = this.eventBridge;
-    final honeycode = this.honeycode;
-    final lookoutMetrics = this.lookoutMetrics;
-    final marketo = this.marketo;
-    final redshift = this.redshift;
-    final s3 = this.s3;
-    final sAPOData = this.sAPOData;
-    final salesforce = this.salesforce;
-    final snowflake = this.snowflake;
-    final upsolver = this.upsolver;
-    final zendesk = this.zendesk;
-    return {
-      if (customConnector != null) 'CustomConnector': customConnector,
-      if (customerProfiles != null) 'CustomerProfiles': customerProfiles,
-      if (eventBridge != null) 'EventBridge': eventBridge,
-      if (honeycode != null) 'Honeycode': honeycode,
-      if (lookoutMetrics != null) 'LookoutMetrics': lookoutMetrics,
-      if (marketo != null) 'Marketo': marketo,
-      if (redshift != null) 'Redshift': redshift,
-      if (s3 != null) 'S3': s3,
-      if (sAPOData != null) 'SAPOData': sAPOData,
-      if (salesforce != null) 'Salesforce': salesforce,
-      if (snowflake != null) 'Snowflake': snowflake,
-      if (upsolver != null) 'Upsolver': upsolver,
-      if (zendesk != null) 'Zendesk': zendesk,
+      if (isQueryable != null) 'isQueryable': isQueryable,
+      if (isRetrievable != null) 'isRetrievable': isRetrievable,
+      if (isTimestampFieldForIncrementalQueries != null)
+        'isTimestampFieldForIncrementalQueries':
+            isTimestampFieldForIncrementalQueries,
     };
   }
 }
@@ -4575,539 +10740,6 @@ class DestinationFieldProperties {
             supportedWriteOperations.map((e) => e.value).toList(),
     };
   }
-}
-
-/// Contains information about the configuration of destination connectors
-/// present in the flow.
-class DestinationFlowConfig {
-  /// The type of connector, such as Salesforce, Amplitude, and so on.
-  final ConnectorType connectorType;
-
-  /// This stores the information that is required to query a particular
-  /// connector.
-  final DestinationConnectorProperties destinationConnectorProperties;
-
-  /// The API version that the destination connector uses.
-  final String? apiVersion;
-
-  /// The name of the connector profile. This name must be unique for each
-  /// connector profile in the Amazon Web Services account.
-  final String? connectorProfileName;
-
-  DestinationFlowConfig({
-    required this.connectorType,
-    required this.destinationConnectorProperties,
-    this.apiVersion,
-    this.connectorProfileName,
-  });
-
-  factory DestinationFlowConfig.fromJson(Map<String, dynamic> json) {
-    return DestinationFlowConfig(
-      connectorType:
-          ConnectorType.fromString((json['connectorType'] as String?) ?? ''),
-      destinationConnectorProperties: DestinationConnectorProperties.fromJson(
-          (json['destinationConnectorProperties'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      apiVersion: json['apiVersion'] as String?,
-      connectorProfileName: json['connectorProfileName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connectorType = this.connectorType;
-    final destinationConnectorProperties = this.destinationConnectorProperties;
-    final apiVersion = this.apiVersion;
-    final connectorProfileName = this.connectorProfileName;
-    return {
-      'connectorType': connectorType.value,
-      'destinationConnectorProperties': destinationConnectorProperties,
-      if (apiVersion != null) 'apiVersion': apiVersion,
-      if (connectorProfileName != null)
-        'connectorProfileName': connectorProfileName,
-    };
-  }
-}
-
-class DynatraceConnectorOperator {
-  static const projection = DynatraceConnectorOperator._('PROJECTION');
-  static const between = DynatraceConnectorOperator._('BETWEEN');
-  static const equalTo = DynatraceConnectorOperator._('EQUAL_TO');
-  static const addition = DynatraceConnectorOperator._('ADDITION');
-  static const multiplication = DynatraceConnectorOperator._('MULTIPLICATION');
-  static const division = DynatraceConnectorOperator._('DIVISION');
-  static const subtraction = DynatraceConnectorOperator._('SUBTRACTION');
-  static const maskAll = DynatraceConnectorOperator._('MASK_ALL');
-  static const maskFirstN = DynatraceConnectorOperator._('MASK_FIRST_N');
-  static const maskLastN = DynatraceConnectorOperator._('MASK_LAST_N');
-  static const validateNonNull =
-      DynatraceConnectorOperator._('VALIDATE_NON_NULL');
-  static const validateNonZero =
-      DynatraceConnectorOperator._('VALIDATE_NON_ZERO');
-  static const validateNonNegative =
-      DynatraceConnectorOperator._('VALIDATE_NON_NEGATIVE');
-  static const validateNumeric =
-      DynatraceConnectorOperator._('VALIDATE_NUMERIC');
-  static const noOp = DynatraceConnectorOperator._('NO_OP');
-
-  final String value;
-
-  const DynatraceConnectorOperator._(this.value);
-
-  static const values = [
-    projection,
-    between,
-    equalTo,
-    addition,
-    multiplication,
-    division,
-    subtraction,
-    maskAll,
-    maskFirstN,
-    maskLastN,
-    validateNonNull,
-    validateNonZero,
-    validateNonNegative,
-    validateNumeric,
-    noOp
-  ];
-
-  static DynatraceConnectorOperator fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DynatraceConnectorOperator._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DynatraceConnectorOperator && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The connector-specific profile credentials required by Dynatrace.
-class DynatraceConnectorProfileCredentials {
-  /// The API tokens used by Dynatrace API to authenticate various API calls.
-  final String apiToken;
-
-  DynatraceConnectorProfileCredentials({
-    required this.apiToken,
-  });
-
-  Map<String, dynamic> toJson() {
-    final apiToken = this.apiToken;
-    return {
-      'apiToken': apiToken,
-    };
-  }
-}
-
-/// The connector-specific profile properties required by Dynatrace.
-class DynatraceConnectorProfileProperties {
-  /// The location of the Dynatrace resource.
-  final String instanceUrl;
-
-  DynatraceConnectorProfileProperties({
-    required this.instanceUrl,
-  });
-
-  factory DynatraceConnectorProfileProperties.fromJson(
-      Map<String, dynamic> json) {
-    return DynatraceConnectorProfileProperties(
-      instanceUrl: (json['instanceUrl'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final instanceUrl = this.instanceUrl;
-    return {
-      'instanceUrl': instanceUrl,
-    };
-  }
-}
-
-/// The connector metadata specific to Dynatrace.
-class DynatraceMetadata {
-  DynatraceMetadata();
-
-  factory DynatraceMetadata.fromJson(Map<String, dynamic> _) {
-    return DynatraceMetadata();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// The properties that are applied when Dynatrace is being used as a source.
-class DynatraceSourceProperties {
-  /// The object specified in the Dynatrace flow source.
-  final String object;
-
-  DynatraceSourceProperties({
-    required this.object,
-  });
-
-  factory DynatraceSourceProperties.fromJson(Map<String, dynamic> json) {
-    return DynatraceSourceProperties(
-      object: (json['object'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final object = this.object;
-    return {
-      'object': object,
-    };
-  }
-}
-
-/// The settings that determine how Amazon AppFlow handles an error when placing
-/// data in the destination. For example, this setting would determine if the
-/// flow should fail after one insertion error, or continue and attempt to
-/// insert every record regardless of the initial failure.
-/// <code>ErrorHandlingConfig</code> is a part of the destination connector
-/// details.
-class ErrorHandlingConfig {
-  /// Specifies the name of the Amazon S3 bucket.
-  final String? bucketName;
-
-  /// Specifies the Amazon S3 bucket prefix.
-  final String? bucketPrefix;
-
-  /// Specifies if the flow should fail after the first instance of a failure when
-  /// attempting to place data in the destination.
-  final bool? failOnFirstDestinationError;
-
-  ErrorHandlingConfig({
-    this.bucketName,
-    this.bucketPrefix,
-    this.failOnFirstDestinationError,
-  });
-
-  factory ErrorHandlingConfig.fromJson(Map<String, dynamic> json) {
-    return ErrorHandlingConfig(
-      bucketName: json['bucketName'] as String?,
-      bucketPrefix: json['bucketPrefix'] as String?,
-      failOnFirstDestinationError: json['failOnFirstDestinationError'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucketName = this.bucketName;
-    final bucketPrefix = this.bucketPrefix;
-    final failOnFirstDestinationError = this.failOnFirstDestinationError;
-    return {
-      if (bucketName != null) 'bucketName': bucketName,
-      if (bucketPrefix != null) 'bucketPrefix': bucketPrefix,
-      if (failOnFirstDestinationError != null)
-        'failOnFirstDestinationError': failOnFirstDestinationError,
-    };
-  }
-}
-
-/// Provides details in the event of a failed flow, including the failure count
-/// and the related error messages.
-class ErrorInfo {
-  /// Specifies the error message that appears if a flow fails.
-  final String? executionMessage;
-
-  /// Specifies the failure count for the attempted flow.
-  final int? putFailuresCount;
-
-  ErrorInfo({
-    this.executionMessage,
-    this.putFailuresCount,
-  });
-
-  factory ErrorInfo.fromJson(Map<String, dynamic> json) {
-    return ErrorInfo(
-      executionMessage: json['executionMessage'] as String?,
-      putFailuresCount: json['putFailuresCount'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final executionMessage = this.executionMessage;
-    final putFailuresCount = this.putFailuresCount;
-    return {
-      if (executionMessage != null) 'executionMessage': executionMessage,
-      if (putFailuresCount != null) 'putFailuresCount': putFailuresCount,
-    };
-  }
-}
-
-/// The properties that are applied when Amazon EventBridge is being used as a
-/// destination.
-class EventBridgeDestinationProperties {
-  /// The object specified in the Amazon EventBridge flow destination.
-  final String object;
-  final ErrorHandlingConfig? errorHandlingConfig;
-
-  EventBridgeDestinationProperties({
-    required this.object,
-    this.errorHandlingConfig,
-  });
-
-  factory EventBridgeDestinationProperties.fromJson(Map<String, dynamic> json) {
-    return EventBridgeDestinationProperties(
-      object: (json['object'] as String?) ?? '',
-      errorHandlingConfig: json['errorHandlingConfig'] != null
-          ? ErrorHandlingConfig.fromJson(
-              json['errorHandlingConfig'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final object = this.object;
-    final errorHandlingConfig = this.errorHandlingConfig;
-    return {
-      'object': object,
-      if (errorHandlingConfig != null)
-        'errorHandlingConfig': errorHandlingConfig,
-    };
-  }
-}
-
-/// The connector metadata specific to Amazon EventBridge.
-class EventBridgeMetadata {
-  EventBridgeMetadata();
-
-  factory EventBridgeMetadata.fromJson(Map<String, dynamic> _) {
-    return EventBridgeMetadata();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Describes the details of the flow run, including the timestamp, status, and
-/// message.
-class ExecutionDetails {
-  /// Describes the details of the most recent flow run.
-  final String? mostRecentExecutionMessage;
-
-  /// Specifies the status of the most recent flow run.
-  final ExecutionStatus? mostRecentExecutionStatus;
-
-  /// Specifies the time of the most recent flow run.
-  final DateTime? mostRecentExecutionTime;
-
-  ExecutionDetails({
-    this.mostRecentExecutionMessage,
-    this.mostRecentExecutionStatus,
-    this.mostRecentExecutionTime,
-  });
-
-  factory ExecutionDetails.fromJson(Map<String, dynamic> json) {
-    return ExecutionDetails(
-      mostRecentExecutionMessage: json['mostRecentExecutionMessage'] as String?,
-      mostRecentExecutionStatus: (json['mostRecentExecutionStatus'] as String?)
-          ?.let(ExecutionStatus.fromString),
-      mostRecentExecutionTime:
-          timeStampFromJson(json['mostRecentExecutionTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final mostRecentExecutionMessage = this.mostRecentExecutionMessage;
-    final mostRecentExecutionStatus = this.mostRecentExecutionStatus;
-    final mostRecentExecutionTime = this.mostRecentExecutionTime;
-    return {
-      if (mostRecentExecutionMessage != null)
-        'mostRecentExecutionMessage': mostRecentExecutionMessage,
-      if (mostRecentExecutionStatus != null)
-        'mostRecentExecutionStatus': mostRecentExecutionStatus.value,
-      if (mostRecentExecutionTime != null)
-        'mostRecentExecutionTime': unixTimestampToJson(mostRecentExecutionTime),
-    };
-  }
-}
-
-/// Specifies information about the past flow run instances for a given flow.
-class ExecutionRecord {
-  /// The timestamp that indicates the last new or updated record to be
-  /// transferred in the flow run.
-  final DateTime? dataPullEndTime;
-
-  /// The timestamp that determines the first new or updated record to be
-  /// transferred in the flow run.
-  final DateTime? dataPullStartTime;
-
-  /// Specifies the identifier of the given flow run.
-  final String? executionId;
-
-  /// Describes the result of the given flow run.
-  final ExecutionResult? executionResult;
-
-  /// Specifies the flow run status and whether it is in progress, has completed
-  /// successfully, or has failed.
-  final ExecutionStatus? executionStatus;
-
-  /// Specifies the time of the most recent update.
-  final DateTime? lastUpdatedAt;
-
-  /// Describes the metadata catalog, metadata table, and data partitions that
-  /// Amazon AppFlow used for the associated flow run.
-  final List<MetadataCatalogDetail>? metadataCatalogDetails;
-
-  /// Specifies the start time of the flow run.
-  final DateTime? startedAt;
-
-  ExecutionRecord({
-    this.dataPullEndTime,
-    this.dataPullStartTime,
-    this.executionId,
-    this.executionResult,
-    this.executionStatus,
-    this.lastUpdatedAt,
-    this.metadataCatalogDetails,
-    this.startedAt,
-  });
-
-  factory ExecutionRecord.fromJson(Map<String, dynamic> json) {
-    return ExecutionRecord(
-      dataPullEndTime: timeStampFromJson(json['dataPullEndTime']),
-      dataPullStartTime: timeStampFromJson(json['dataPullStartTime']),
-      executionId: json['executionId'] as String?,
-      executionResult: json['executionResult'] != null
-          ? ExecutionResult.fromJson(
-              json['executionResult'] as Map<String, dynamic>)
-          : null,
-      executionStatus:
-          (json['executionStatus'] as String?)?.let(ExecutionStatus.fromString),
-      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
-      metadataCatalogDetails: (json['metadataCatalogDetails'] as List?)
-          ?.nonNulls
-          .map((e) => MetadataCatalogDetail.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      startedAt: timeStampFromJson(json['startedAt']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataPullEndTime = this.dataPullEndTime;
-    final dataPullStartTime = this.dataPullStartTime;
-    final executionId = this.executionId;
-    final executionResult = this.executionResult;
-    final executionStatus = this.executionStatus;
-    final lastUpdatedAt = this.lastUpdatedAt;
-    final metadataCatalogDetails = this.metadataCatalogDetails;
-    final startedAt = this.startedAt;
-    return {
-      if (dataPullEndTime != null)
-        'dataPullEndTime': unixTimestampToJson(dataPullEndTime),
-      if (dataPullStartTime != null)
-        'dataPullStartTime': unixTimestampToJson(dataPullStartTime),
-      if (executionId != null) 'executionId': executionId,
-      if (executionResult != null) 'executionResult': executionResult,
-      if (executionStatus != null) 'executionStatus': executionStatus.value,
-      if (lastUpdatedAt != null)
-        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
-      if (metadataCatalogDetails != null)
-        'metadataCatalogDetails': metadataCatalogDetails,
-      if (startedAt != null) 'startedAt': unixTimestampToJson(startedAt),
-    };
-  }
-}
-
-/// Specifies the end result of the flow run.
-class ExecutionResult {
-  /// The total number of bytes processed by the flow run.
-  final int? bytesProcessed;
-
-  /// The total number of bytes written as a result of the flow run.
-  final int? bytesWritten;
-
-  /// Provides any error message information related to the flow run.
-  final ErrorInfo? errorInfo;
-
-  /// The maximum number of records that Amazon AppFlow receives in each page of
-  /// the response from your SAP application.
-  final int? maxPageSize;
-
-  /// The number of processes that Amazon AppFlow ran at the same time when it
-  /// retrieved your data.
-  final int? numParallelProcesses;
-
-  /// The number of records processed in the flow run.
-  final int? recordsProcessed;
-
-  ExecutionResult({
-    this.bytesProcessed,
-    this.bytesWritten,
-    this.errorInfo,
-    this.maxPageSize,
-    this.numParallelProcesses,
-    this.recordsProcessed,
-  });
-
-  factory ExecutionResult.fromJson(Map<String, dynamic> json) {
-    return ExecutionResult(
-      bytesProcessed: json['bytesProcessed'] as int?,
-      bytesWritten: json['bytesWritten'] as int?,
-      errorInfo: json['errorInfo'] != null
-          ? ErrorInfo.fromJson(json['errorInfo'] as Map<String, dynamic>)
-          : null,
-      maxPageSize: json['maxPageSize'] as int?,
-      numParallelProcesses: json['numParallelProcesses'] as int?,
-      recordsProcessed: json['recordsProcessed'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bytesProcessed = this.bytesProcessed;
-    final bytesWritten = this.bytesWritten;
-    final errorInfo = this.errorInfo;
-    final maxPageSize = this.maxPageSize;
-    final numParallelProcesses = this.numParallelProcesses;
-    final recordsProcessed = this.recordsProcessed;
-    return {
-      if (bytesProcessed != null) 'bytesProcessed': bytesProcessed,
-      if (bytesWritten != null) 'bytesWritten': bytesWritten,
-      if (errorInfo != null) 'errorInfo': errorInfo,
-      if (maxPageSize != null) 'maxPageSize': maxPageSize,
-      if (numParallelProcesses != null)
-        'numParallelProcesses': numParallelProcesses,
-      if (recordsProcessed != null) 'recordsProcessed': recordsProcessed,
-    };
-  }
-}
-
-class ExecutionStatus {
-  static const inProgress = ExecutionStatus._('InProgress');
-  static const successful = ExecutionStatus._('Successful');
-  static const error = ExecutionStatus._('Error');
-  static const cancelStarted = ExecutionStatus._('CancelStarted');
-  static const canceled = ExecutionStatus._('Canceled');
-
-  final String value;
-
-  const ExecutionStatus._(this.value);
-
-  static const values = [
-    inProgress,
-    successful,
-    error,
-    cancelStarted,
-    canceled
-  ];
-
-  static ExecutionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ExecutionStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ExecutionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// Contains details regarding the supported field type and the operators that
@@ -5188,2087 +10820,6 @@ class FieldTypeDetails {
   }
 }
 
-class FileType {
-  static const csv = FileType._('CSV');
-  static const json = FileType._('JSON');
-  static const parquet = FileType._('PARQUET');
-
-  final String value;
-
-  const FileType._(this.value);
-
-  static const values = [csv, json, parquet];
-
-  static FileType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => FileType._(value));
-
-  @override
-  bool operator ==(other) => other is FileType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The properties of the flow, such as its source, destination, trigger type,
-/// and so on.
-class FlowDefinition {
-  /// Specifies when the flow was created.
-  final DateTime? createdAt;
-
-  /// The ARN of the user who created the flow.
-  final String? createdBy;
-
-  /// A user-entered description of the flow.
-  final String? description;
-
-  /// The label of the destination connector in the flow.
-  final String? destinationConnectorLabel;
-
-  /// Specifies the destination connector type, such as Salesforce, Amazon S3,
-  /// Amplitude, and so on.
-  final ConnectorType? destinationConnectorType;
-
-  /// The flow's Amazon Resource Name (ARN).
-  final String? flowArn;
-
-  /// The specified name of the flow. Spaces are not allowed. Use underscores (_)
-  /// or hyphens (-) only.
-  final String? flowName;
-
-  /// Indicates the current status of the flow.
-  final FlowStatus? flowStatus;
-
-  /// Describes the details of the most recent flow run.
-  final ExecutionDetails? lastRunExecutionDetails;
-
-  /// Specifies when the flow was last updated.
-  final DateTime? lastUpdatedAt;
-
-  /// Specifies the account user name that most recently updated the flow.
-  final String? lastUpdatedBy;
-
-  /// The label of the source connector in the flow.
-  final String? sourceConnectorLabel;
-
-  /// Specifies the source connector type, such as Salesforce, Amazon S3,
-  /// Amplitude, and so on.
-  final ConnectorType? sourceConnectorType;
-
-  /// The tags used to organize, track, or control access for your flow.
-  final Map<String, String>? tags;
-
-  /// Specifies the type of flow trigger. This can be <code>OnDemand</code>,
-  /// <code>Scheduled</code>, or <code>Event</code>.
-  final TriggerType? triggerType;
-
-  FlowDefinition({
-    this.createdAt,
-    this.createdBy,
-    this.description,
-    this.destinationConnectorLabel,
-    this.destinationConnectorType,
-    this.flowArn,
-    this.flowName,
-    this.flowStatus,
-    this.lastRunExecutionDetails,
-    this.lastUpdatedAt,
-    this.lastUpdatedBy,
-    this.sourceConnectorLabel,
-    this.sourceConnectorType,
-    this.tags,
-    this.triggerType,
-  });
-
-  factory FlowDefinition.fromJson(Map<String, dynamic> json) {
-    return FlowDefinition(
-      createdAt: timeStampFromJson(json['createdAt']),
-      createdBy: json['createdBy'] as String?,
-      description: json['description'] as String?,
-      destinationConnectorLabel: json['destinationConnectorLabel'] as String?,
-      destinationConnectorType: (json['destinationConnectorType'] as String?)
-          ?.let(ConnectorType.fromString),
-      flowArn: json['flowArn'] as String?,
-      flowName: json['flowName'] as String?,
-      flowStatus: (json['flowStatus'] as String?)?.let(FlowStatus.fromString),
-      lastRunExecutionDetails: json['lastRunExecutionDetails'] != null
-          ? ExecutionDetails.fromJson(
-              json['lastRunExecutionDetails'] as Map<String, dynamic>)
-          : null,
-      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
-      lastUpdatedBy: json['lastUpdatedBy'] as String?,
-      sourceConnectorLabel: json['sourceConnectorLabel'] as String?,
-      sourceConnectorType: (json['sourceConnectorType'] as String?)
-          ?.let(ConnectorType.fromString),
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      triggerType:
-          (json['triggerType'] as String?)?.let(TriggerType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final createdBy = this.createdBy;
-    final description = this.description;
-    final destinationConnectorLabel = this.destinationConnectorLabel;
-    final destinationConnectorType = this.destinationConnectorType;
-    final flowArn = this.flowArn;
-    final flowName = this.flowName;
-    final flowStatus = this.flowStatus;
-    final lastRunExecutionDetails = this.lastRunExecutionDetails;
-    final lastUpdatedAt = this.lastUpdatedAt;
-    final lastUpdatedBy = this.lastUpdatedBy;
-    final sourceConnectorLabel = this.sourceConnectorLabel;
-    final sourceConnectorType = this.sourceConnectorType;
-    final tags = this.tags;
-    final triggerType = this.triggerType;
-    return {
-      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
-      if (createdBy != null) 'createdBy': createdBy,
-      if (description != null) 'description': description,
-      if (destinationConnectorLabel != null)
-        'destinationConnectorLabel': destinationConnectorLabel,
-      if (destinationConnectorType != null)
-        'destinationConnectorType': destinationConnectorType.value,
-      if (flowArn != null) 'flowArn': flowArn,
-      if (flowName != null) 'flowName': flowName,
-      if (flowStatus != null) 'flowStatus': flowStatus.value,
-      if (lastRunExecutionDetails != null)
-        'lastRunExecutionDetails': lastRunExecutionDetails,
-      if (lastUpdatedAt != null)
-        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
-      if (lastUpdatedBy != null) 'lastUpdatedBy': lastUpdatedBy,
-      if (sourceConnectorLabel != null)
-        'sourceConnectorLabel': sourceConnectorLabel,
-      if (sourceConnectorType != null)
-        'sourceConnectorType': sourceConnectorType.value,
-      if (tags != null) 'tags': tags,
-      if (triggerType != null) 'triggerType': triggerType.value,
-    };
-  }
-}
-
-class FlowStatus {
-  static const active = FlowStatus._('Active');
-  static const deprecated = FlowStatus._('Deprecated');
-  static const deleted = FlowStatus._('Deleted');
-  static const draft = FlowStatus._('Draft');
-  static const errored = FlowStatus._('Errored');
-  static const suspended = FlowStatus._('Suspended');
-
-  final String value;
-
-  const FlowStatus._(this.value);
-
-  static const values = [
-    active,
-    deprecated,
-    deleted,
-    draft,
-    errored,
-    suspended
-  ];
-
-  static FlowStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => FlowStatus._(value));
-
-  @override
-  bool operator ==(other) => other is FlowStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Specifies the configuration that Amazon AppFlow uses when it catalogs your
-/// data with the Glue Data Catalog. When Amazon AppFlow catalogs your data, it
-/// stores metadata in Data Catalog tables. This metadata represents the data
-/// that's transferred by the flow that you configure with these settings.
-/// <note>
-/// You can configure a flow with these settings only when the flow destination
-/// is Amazon S3.
-/// </note>
-class GlueDataCatalogConfig {
-  /// The name of the Data Catalog database that stores the metadata tables that
-  /// Amazon AppFlow creates in your Amazon Web Services account. These tables
-  /// contain metadata for the data that's transferred by the flow that you
-  /// configure with this parameter.
-  /// <note>
-  /// When you configure a new flow with this parameter, you must specify an
-  /// existing database.
-  /// </note>
-  final String databaseName;
-
-  /// The Amazon Resource Name (ARN) of an IAM role that grants Amazon AppFlow the
-  /// permissions it needs to create Data Catalog tables, databases, and
-  /// partitions.
-  ///
-  /// For an example IAM policy that has the required permissions, see <a
-  /// href="https://docs.aws.amazon.com/appflow/latest/userguide/security_iam_id-based-policy-examples.html">Identity-based
-  /// policy examples for Amazon AppFlow</a>.
-  final String roleArn;
-
-  /// A naming prefix for each Data Catalog table that Amazon AppFlow creates for
-  /// the flow that you configure with this setting. Amazon AppFlow adds the
-  /// prefix to the beginning of the each table name.
-  final String tablePrefix;
-
-  GlueDataCatalogConfig({
-    required this.databaseName,
-    required this.roleArn,
-    required this.tablePrefix,
-  });
-
-  factory GlueDataCatalogConfig.fromJson(Map<String, dynamic> json) {
-    return GlueDataCatalogConfig(
-      databaseName: (json['databaseName'] as String?) ?? '',
-      roleArn: (json['roleArn'] as String?) ?? '',
-      tablePrefix: (json['tablePrefix'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final databaseName = this.databaseName;
-    final roleArn = this.roleArn;
-    final tablePrefix = this.tablePrefix;
-    return {
-      'databaseName': databaseName,
-      'roleArn': roleArn,
-      'tablePrefix': tablePrefix,
-    };
-  }
-}
-
-class GoogleAnalyticsConnectorOperator {
-  static const projection = GoogleAnalyticsConnectorOperator._('PROJECTION');
-  static const between = GoogleAnalyticsConnectorOperator._('BETWEEN');
-
-  final String value;
-
-  const GoogleAnalyticsConnectorOperator._(this.value);
-
-  static const values = [projection, between];
-
-  static GoogleAnalyticsConnectorOperator fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => GoogleAnalyticsConnectorOperator._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is GoogleAnalyticsConnectorOperator && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The connector-specific profile credentials required by Google Analytics.
-class GoogleAnalyticsConnectorProfileCredentials {
-  /// The identifier for the desired client.
-  final String clientId;
-
-  /// The client secret used by the OAuth client to authenticate to the
-  /// authorization server.
-  final String clientSecret;
-
-  /// The credentials used to access protected Google Analytics resources.
-  final String? accessToken;
-
-  /// The OAuth requirement needed to request security tokens from the connector
-  /// endpoint.
-  final ConnectorOAuthRequest? oAuthRequest;
-
-  /// The credentials used to acquire new access tokens. This is required only for
-  /// OAuth2 access tokens, and is not required for OAuth1 access tokens.
-  final String? refreshToken;
-
-  GoogleAnalyticsConnectorProfileCredentials({
-    required this.clientId,
-    required this.clientSecret,
-    this.accessToken,
-    this.oAuthRequest,
-    this.refreshToken,
-  });
-
-  Map<String, dynamic> toJson() {
-    final clientId = this.clientId;
-    final clientSecret = this.clientSecret;
-    final accessToken = this.accessToken;
-    final oAuthRequest = this.oAuthRequest;
-    final refreshToken = this.refreshToken;
-    return {
-      'clientId': clientId,
-      'clientSecret': clientSecret,
-      if (accessToken != null) 'accessToken': accessToken,
-      if (oAuthRequest != null) 'oAuthRequest': oAuthRequest,
-      if (refreshToken != null) 'refreshToken': refreshToken,
-    };
-  }
-}
-
-/// The connector-specific profile properties required by Google Analytics.
-class GoogleAnalyticsConnectorProfileProperties {
-  GoogleAnalyticsConnectorProfileProperties();
-
-  factory GoogleAnalyticsConnectorProfileProperties.fromJson(
-      Map<String, dynamic> _) {
-    return GoogleAnalyticsConnectorProfileProperties();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// The connector metadata specific to Google Analytics.
-class GoogleAnalyticsMetadata {
-  /// The desired authorization scope for the Google Analytics account.
-  final List<String>? oAuthScopes;
-
-  GoogleAnalyticsMetadata({
-    this.oAuthScopes,
-  });
-
-  factory GoogleAnalyticsMetadata.fromJson(Map<String, dynamic> json) {
-    return GoogleAnalyticsMetadata(
-      oAuthScopes: (json['oAuthScopes'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final oAuthScopes = this.oAuthScopes;
-    return {
-      if (oAuthScopes != null) 'oAuthScopes': oAuthScopes,
-    };
-  }
-}
-
-/// The properties that are applied when Google Analytics is being used as a
-/// source.
-class GoogleAnalyticsSourceProperties {
-  /// The object specified in the Google Analytics flow source.
-  final String object;
-
-  GoogleAnalyticsSourceProperties({
-    required this.object,
-  });
-
-  factory GoogleAnalyticsSourceProperties.fromJson(Map<String, dynamic> json) {
-    return GoogleAnalyticsSourceProperties(
-      object: (json['object'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final object = this.object;
-    return {
-      'object': object,
-    };
-  }
-}
-
-/// The connector-specific credentials required when using Amazon Honeycode.
-class HoneycodeConnectorProfileCredentials {
-  /// The credentials used to access protected Amazon Honeycode resources.
-  final String? accessToken;
-  final ConnectorOAuthRequest? oAuthRequest;
-
-  /// The credentials used to acquire new access tokens.
-  final String? refreshToken;
-
-  HoneycodeConnectorProfileCredentials({
-    this.accessToken,
-    this.oAuthRequest,
-    this.refreshToken,
-  });
-
-  Map<String, dynamic> toJson() {
-    final accessToken = this.accessToken;
-    final oAuthRequest = this.oAuthRequest;
-    final refreshToken = this.refreshToken;
-    return {
-      if (accessToken != null) 'accessToken': accessToken,
-      if (oAuthRequest != null) 'oAuthRequest': oAuthRequest,
-      if (refreshToken != null) 'refreshToken': refreshToken,
-    };
-  }
-}
-
-/// The connector-specific properties required when using Amazon Honeycode.
-class HoneycodeConnectorProfileProperties {
-  HoneycodeConnectorProfileProperties();
-
-  factory HoneycodeConnectorProfileProperties.fromJson(Map<String, dynamic> _) {
-    return HoneycodeConnectorProfileProperties();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// The properties that are applied when Amazon Honeycode is used as a
-/// destination.
-class HoneycodeDestinationProperties {
-  /// The object specified in the Amazon Honeycode flow destination.
-  final String object;
-  final ErrorHandlingConfig? errorHandlingConfig;
-
-  HoneycodeDestinationProperties({
-    required this.object,
-    this.errorHandlingConfig,
-  });
-
-  factory HoneycodeDestinationProperties.fromJson(Map<String, dynamic> json) {
-    return HoneycodeDestinationProperties(
-      object: (json['object'] as String?) ?? '',
-      errorHandlingConfig: json['errorHandlingConfig'] != null
-          ? ErrorHandlingConfig.fromJson(
-              json['errorHandlingConfig'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final object = this.object;
-    final errorHandlingConfig = this.errorHandlingConfig;
-    return {
-      'object': object,
-      if (errorHandlingConfig != null)
-        'errorHandlingConfig': errorHandlingConfig,
-    };
-  }
-}
-
-/// The connector metadata specific to Amazon Honeycode.
-class HoneycodeMetadata {
-  /// The desired authorization scope for the Amazon Honeycode account.
-  final List<String>? oAuthScopes;
-
-  HoneycodeMetadata({
-    this.oAuthScopes,
-  });
-
-  factory HoneycodeMetadata.fromJson(Map<String, dynamic> json) {
-    return HoneycodeMetadata(
-      oAuthScopes: (json['oAuthScopes'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final oAuthScopes = this.oAuthScopes;
-    return {
-      if (oAuthScopes != null) 'oAuthScopes': oAuthScopes,
-    };
-  }
-}
-
-/// Specifies the configuration used when importing incremental records from the
-/// source.
-class IncrementalPullConfig {
-  /// A field that specifies the date time or timestamp field as the criteria to
-  /// use when importing incremental records from the source.
-  final String? datetimeTypeFieldName;
-
-  IncrementalPullConfig({
-    this.datetimeTypeFieldName,
-  });
-
-  factory IncrementalPullConfig.fromJson(Map<String, dynamic> json) {
-    return IncrementalPullConfig(
-      datetimeTypeFieldName: json['datetimeTypeFieldName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final datetimeTypeFieldName = this.datetimeTypeFieldName;
-    return {
-      if (datetimeTypeFieldName != null)
-        'datetimeTypeFieldName': datetimeTypeFieldName,
-    };
-  }
-}
-
-class InforNexusConnectorOperator {
-  static const projection = InforNexusConnectorOperator._('PROJECTION');
-  static const between = InforNexusConnectorOperator._('BETWEEN');
-  static const equalTo = InforNexusConnectorOperator._('EQUAL_TO');
-  static const addition = InforNexusConnectorOperator._('ADDITION');
-  static const multiplication = InforNexusConnectorOperator._('MULTIPLICATION');
-  static const division = InforNexusConnectorOperator._('DIVISION');
-  static const subtraction = InforNexusConnectorOperator._('SUBTRACTION');
-  static const maskAll = InforNexusConnectorOperator._('MASK_ALL');
-  static const maskFirstN = InforNexusConnectorOperator._('MASK_FIRST_N');
-  static const maskLastN = InforNexusConnectorOperator._('MASK_LAST_N');
-  static const validateNonNull =
-      InforNexusConnectorOperator._('VALIDATE_NON_NULL');
-  static const validateNonZero =
-      InforNexusConnectorOperator._('VALIDATE_NON_ZERO');
-  static const validateNonNegative =
-      InforNexusConnectorOperator._('VALIDATE_NON_NEGATIVE');
-  static const validateNumeric =
-      InforNexusConnectorOperator._('VALIDATE_NUMERIC');
-  static const noOp = InforNexusConnectorOperator._('NO_OP');
-
-  final String value;
-
-  const InforNexusConnectorOperator._(this.value);
-
-  static const values = [
-    projection,
-    between,
-    equalTo,
-    addition,
-    multiplication,
-    division,
-    subtraction,
-    maskAll,
-    maskFirstN,
-    maskLastN,
-    validateNonNull,
-    validateNonZero,
-    validateNonNegative,
-    validateNumeric,
-    noOp
-  ];
-
-  static InforNexusConnectorOperator fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => InforNexusConnectorOperator._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is InforNexusConnectorOperator && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The connector-specific profile credentials required by Infor Nexus.
-class InforNexusConnectorProfileCredentials {
-  /// The Access Key portion of the credentials.
-  final String accessKeyId;
-
-  /// The encryption keys used to encrypt data.
-  final String datakey;
-
-  /// The secret key used to sign requests.
-  final String secretAccessKey;
-
-  /// The identifier for the user.
-  final String userId;
-
-  InforNexusConnectorProfileCredentials({
-    required this.accessKeyId,
-    required this.datakey,
-    required this.secretAccessKey,
-    required this.userId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final accessKeyId = this.accessKeyId;
-    final datakey = this.datakey;
-    final secretAccessKey = this.secretAccessKey;
-    final userId = this.userId;
-    return {
-      'accessKeyId': accessKeyId,
-      'datakey': datakey,
-      'secretAccessKey': secretAccessKey,
-      'userId': userId,
-    };
-  }
-}
-
-/// The connector-specific profile properties required by Infor Nexus.
-class InforNexusConnectorProfileProperties {
-  /// The location of the Infor Nexus resource.
-  final String instanceUrl;
-
-  InforNexusConnectorProfileProperties({
-    required this.instanceUrl,
-  });
-
-  factory InforNexusConnectorProfileProperties.fromJson(
-      Map<String, dynamic> json) {
-    return InforNexusConnectorProfileProperties(
-      instanceUrl: (json['instanceUrl'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final instanceUrl = this.instanceUrl;
-    return {
-      'instanceUrl': instanceUrl,
-    };
-  }
-}
-
-/// The connector metadata specific to Infor Nexus.
-class InforNexusMetadata {
-  InforNexusMetadata();
-
-  factory InforNexusMetadata.fromJson(Map<String, dynamic> _) {
-    return InforNexusMetadata();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// The properties that are applied when Infor Nexus is being used as a source.
-class InforNexusSourceProperties {
-  /// The object specified in the Infor Nexus flow source.
-  final String object;
-
-  InforNexusSourceProperties({
-    required this.object,
-  });
-
-  factory InforNexusSourceProperties.fromJson(Map<String, dynamic> json) {
-    return InforNexusSourceProperties(
-      object: (json['object'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final object = this.object;
-    return {
-      'object': object,
-    };
-  }
-}
-
-/// Contains information about the configuration of the lambda which is being
-/// registered as the connector.
-class LambdaConnectorProvisioningConfig {
-  /// Lambda ARN of the connector being registered.
-  final String lambdaArn;
-
-  LambdaConnectorProvisioningConfig({
-    required this.lambdaArn,
-  });
-
-  factory LambdaConnectorProvisioningConfig.fromJson(
-      Map<String, dynamic> json) {
-    return LambdaConnectorProvisioningConfig(
-      lambdaArn: (json['lambdaArn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lambdaArn = this.lambdaArn;
-    return {
-      'lambdaArn': lambdaArn,
-    };
-  }
-}
-
-class ListConnectorEntitiesResponse {
-  /// The response of <code>ListConnectorEntities</code> lists entities grouped by
-  /// category. This map's key represents the group name, and its value contains
-  /// the list of entities belonging to that group.
-  final Map<String, List<ConnectorEntity>> connectorEntityMap;
-
-  /// A token that you specify in your next <code>ListConnectorEntities</code>
-  /// operation to get the next page of results in paginated response. The
-  /// <code>ListConnectorEntities</code> operation provides this token if the
-  /// response is too big for the page size.
-  final String? nextToken;
-
-  ListConnectorEntitiesResponse({
-    required this.connectorEntityMap,
-    this.nextToken,
-  });
-
-  factory ListConnectorEntitiesResponse.fromJson(Map<String, dynamic> json) {
-    return ListConnectorEntitiesResponse(
-      connectorEntityMap:
-          ((json['connectorEntityMap'] as Map<String, dynamic>?) ??
-                  const <String, dynamic>{})
-              .map((k, e) => MapEntry(
-                  k,
-                  (e as List)
-                      .nonNulls
-                      .map((e) =>
-                          ConnectorEntity.fromJson(e as Map<String, dynamic>))
-                      .toList())),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connectorEntityMap = this.connectorEntityMap;
-    final nextToken = this.nextToken;
-    return {
-      'connectorEntityMap': connectorEntityMap,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListConnectorsResponse {
-  /// Contains information about the connectors supported by Amazon AppFlow.
-  final List<ConnectorDetail>? connectors;
-
-  /// The pagination token for the next page of data. If nextToken=null, this
-  /// means that all records have been fetched.
-  final String? nextToken;
-
-  ListConnectorsResponse({
-    this.connectors,
-    this.nextToken,
-  });
-
-  factory ListConnectorsResponse.fromJson(Map<String, dynamic> json) {
-    return ListConnectorsResponse(
-      connectors: (json['connectors'] as List?)
-          ?.nonNulls
-          .map((e) => ConnectorDetail.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connectors = this.connectors;
-    final nextToken = this.nextToken;
-    return {
-      if (connectors != null) 'connectors': connectors,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListFlowsResponse {
-  /// The list of flows associated with your account.
-  final List<FlowDefinition>? flows;
-
-  /// The pagination token for next page of data.
-  final String? nextToken;
-
-  ListFlowsResponse({
-    this.flows,
-    this.nextToken,
-  });
-
-  factory ListFlowsResponse.fromJson(Map<String, dynamic> json) {
-    return ListFlowsResponse(
-      flows: (json['flows'] as List?)
-          ?.nonNulls
-          .map((e) => FlowDefinition.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final flows = this.flows;
-    final nextToken = this.nextToken;
-    return {
-      if (flows != null) 'flows': flows,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListTagsForResourceResponse {
-  /// The tags used to organize, track, or control access for your flow.
-  final Map<String, String>? tags;
-
-  ListTagsForResourceResponse({
-    this.tags,
-  });
-
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
-    return ListTagsForResourceResponse(
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tags = this.tags;
-    return {
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-/// The properties that are applied when Amazon Lookout for Metrics is used as a
-/// destination.
-class LookoutMetricsDestinationProperties {
-  LookoutMetricsDestinationProperties();
-
-  factory LookoutMetricsDestinationProperties.fromJson(Map<String, dynamic> _) {
-    return LookoutMetricsDestinationProperties();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class MarketoConnectorOperator {
-  static const projection = MarketoConnectorOperator._('PROJECTION');
-  static const lessThan = MarketoConnectorOperator._('LESS_THAN');
-  static const greaterThan = MarketoConnectorOperator._('GREATER_THAN');
-  static const between = MarketoConnectorOperator._('BETWEEN');
-  static const addition = MarketoConnectorOperator._('ADDITION');
-  static const multiplication = MarketoConnectorOperator._('MULTIPLICATION');
-  static const division = MarketoConnectorOperator._('DIVISION');
-  static const subtraction = MarketoConnectorOperator._('SUBTRACTION');
-  static const maskAll = MarketoConnectorOperator._('MASK_ALL');
-  static const maskFirstN = MarketoConnectorOperator._('MASK_FIRST_N');
-  static const maskLastN = MarketoConnectorOperator._('MASK_LAST_N');
-  static const validateNonNull =
-      MarketoConnectorOperator._('VALIDATE_NON_NULL');
-  static const validateNonZero =
-      MarketoConnectorOperator._('VALIDATE_NON_ZERO');
-  static const validateNonNegative =
-      MarketoConnectorOperator._('VALIDATE_NON_NEGATIVE');
-  static const validateNumeric = MarketoConnectorOperator._('VALIDATE_NUMERIC');
-  static const noOp = MarketoConnectorOperator._('NO_OP');
-
-  final String value;
-
-  const MarketoConnectorOperator._(this.value);
-
-  static const values = [
-    projection,
-    lessThan,
-    greaterThan,
-    between,
-    addition,
-    multiplication,
-    division,
-    subtraction,
-    maskAll,
-    maskFirstN,
-    maskLastN,
-    validateNonNull,
-    validateNonZero,
-    validateNonNegative,
-    validateNumeric,
-    noOp
-  ];
-
-  static MarketoConnectorOperator fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MarketoConnectorOperator._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is MarketoConnectorOperator && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The connector-specific profile credentials required by Marketo.
-class MarketoConnectorProfileCredentials {
-  /// The identifier for the desired client.
-  final String clientId;
-
-  /// The client secret used by the OAuth client to authenticate to the
-  /// authorization server.
-  final String clientSecret;
-
-  /// The credentials used to access protected Marketo resources.
-  final String? accessToken;
-
-  /// The OAuth requirement needed to request security tokens from the connector
-  /// endpoint.
-  final ConnectorOAuthRequest? oAuthRequest;
-
-  MarketoConnectorProfileCredentials({
-    required this.clientId,
-    required this.clientSecret,
-    this.accessToken,
-    this.oAuthRequest,
-  });
-
-  Map<String, dynamic> toJson() {
-    final clientId = this.clientId;
-    final clientSecret = this.clientSecret;
-    final accessToken = this.accessToken;
-    final oAuthRequest = this.oAuthRequest;
-    return {
-      'clientId': clientId,
-      'clientSecret': clientSecret,
-      if (accessToken != null) 'accessToken': accessToken,
-      if (oAuthRequest != null) 'oAuthRequest': oAuthRequest,
-    };
-  }
-}
-
-/// The connector-specific profile properties required when using Marketo.
-class MarketoConnectorProfileProperties {
-  /// The location of the Marketo resource.
-  final String instanceUrl;
-
-  MarketoConnectorProfileProperties({
-    required this.instanceUrl,
-  });
-
-  factory MarketoConnectorProfileProperties.fromJson(
-      Map<String, dynamic> json) {
-    return MarketoConnectorProfileProperties(
-      instanceUrl: (json['instanceUrl'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final instanceUrl = this.instanceUrl;
-    return {
-      'instanceUrl': instanceUrl,
-    };
-  }
-}
-
-/// The properties that Amazon AppFlow applies when you use Marketo as a flow
-/// destination.
-class MarketoDestinationProperties {
-  /// The object specified in the Marketo flow destination.
-  final String object;
-  final ErrorHandlingConfig? errorHandlingConfig;
-
-  MarketoDestinationProperties({
-    required this.object,
-    this.errorHandlingConfig,
-  });
-
-  factory MarketoDestinationProperties.fromJson(Map<String, dynamic> json) {
-    return MarketoDestinationProperties(
-      object: (json['object'] as String?) ?? '',
-      errorHandlingConfig: json['errorHandlingConfig'] != null
-          ? ErrorHandlingConfig.fromJson(
-              json['errorHandlingConfig'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final object = this.object;
-    final errorHandlingConfig = this.errorHandlingConfig;
-    return {
-      'object': object,
-      if (errorHandlingConfig != null)
-        'errorHandlingConfig': errorHandlingConfig,
-    };
-  }
-}
-
-/// The connector metadata specific to Marketo.
-class MarketoMetadata {
-  MarketoMetadata();
-
-  factory MarketoMetadata.fromJson(Map<String, dynamic> _) {
-    return MarketoMetadata();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// The properties that are applied when Marketo is being used as a source.
-class MarketoSourceProperties {
-  /// The object specified in the Marketo flow source.
-  final String object;
-
-  MarketoSourceProperties({
-    required this.object,
-  });
-
-  factory MarketoSourceProperties.fromJson(Map<String, dynamic> json) {
-    return MarketoSourceProperties(
-      object: (json['object'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final object = this.object;
-    return {
-      'object': object,
-    };
-  }
-}
-
-/// Specifies the configuration that Amazon AppFlow uses when it catalogs your
-/// data. When Amazon AppFlow catalogs your data, it stores metadata in a data
-/// catalog.
-class MetadataCatalogConfig {
-  /// Specifies the configuration that Amazon AppFlow uses when it catalogs your
-  /// data with the Glue Data Catalog.
-  final GlueDataCatalogConfig? glueDataCatalog;
-
-  MetadataCatalogConfig({
-    this.glueDataCatalog,
-  });
-
-  factory MetadataCatalogConfig.fromJson(Map<String, dynamic> json) {
-    return MetadataCatalogConfig(
-      glueDataCatalog: json['glueDataCatalog'] != null
-          ? GlueDataCatalogConfig.fromJson(
-              json['glueDataCatalog'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final glueDataCatalog = this.glueDataCatalog;
-    return {
-      if (glueDataCatalog != null) 'glueDataCatalog': glueDataCatalog,
-    };
-  }
-}
-
-/// Describes the metadata catalog, metadata table, and data partitions that
-/// Amazon AppFlow used for the associated flow run.
-class MetadataCatalogDetail {
-  /// The type of metadata catalog that Amazon AppFlow used for the associated
-  /// flow run. This parameter returns the following value:
-  /// <dl> <dt>GLUE</dt> <dd>
-  /// The metadata catalog is provided by the Glue Data Catalog. Glue includes the
-  /// Glue Data Catalog as a component.
-  /// </dd> </dl>
-  final CatalogType? catalogType;
-
-  /// Describes the status of the attempt from Amazon AppFlow to register the data
-  /// partitions with the metadata catalog. The data partitions organize the flow
-  /// output into a hierarchical path, such as a folder path in an S3 bucket.
-  /// Amazon AppFlow creates the partitions (if they don't already exist) based on
-  /// your flow configuration.
-  final RegistrationOutput? partitionRegistrationOutput;
-
-  /// The name of the table that stores the metadata for the associated flow run.
-  /// The table stores metadata that represents the data that the flow
-  /// transferred. Amazon AppFlow stores the table in the metadata catalog.
-  final String? tableName;
-
-  /// Describes the status of the attempt from Amazon AppFlow to register the
-  /// metadata table with the metadata catalog. Amazon AppFlow creates or updates
-  /// this table for the associated flow run.
-  final RegistrationOutput? tableRegistrationOutput;
-
-  MetadataCatalogDetail({
-    this.catalogType,
-    this.partitionRegistrationOutput,
-    this.tableName,
-    this.tableRegistrationOutput,
-  });
-
-  factory MetadataCatalogDetail.fromJson(Map<String, dynamic> json) {
-    return MetadataCatalogDetail(
-      catalogType:
-          (json['catalogType'] as String?)?.let(CatalogType.fromString),
-      partitionRegistrationOutput: json['partitionRegistrationOutput'] != null
-          ? RegistrationOutput.fromJson(
-              json['partitionRegistrationOutput'] as Map<String, dynamic>)
-          : null,
-      tableName: json['tableName'] as String?,
-      tableRegistrationOutput: json['tableRegistrationOutput'] != null
-          ? RegistrationOutput.fromJson(
-              json['tableRegistrationOutput'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final catalogType = this.catalogType;
-    final partitionRegistrationOutput = this.partitionRegistrationOutput;
-    final tableName = this.tableName;
-    final tableRegistrationOutput = this.tableRegistrationOutput;
-    return {
-      if (catalogType != null) 'catalogType': catalogType.value,
-      if (partitionRegistrationOutput != null)
-        'partitionRegistrationOutput': partitionRegistrationOutput,
-      if (tableName != null) 'tableName': tableName,
-      if (tableRegistrationOutput != null)
-        'tableRegistrationOutput': tableRegistrationOutput,
-    };
-  }
-}
-
-/// The OAuth 2.0 credentials required for OAuth 2.0 authentication.
-class OAuth2Credentials {
-  /// The access token used to access the connector on your behalf.
-  final String? accessToken;
-
-  /// The identifier for the desired client.
-  final String? clientId;
-
-  /// The client secret used by the OAuth client to authenticate to the
-  /// authorization server.
-  final String? clientSecret;
-  final ConnectorOAuthRequest? oAuthRequest;
-
-  /// The refresh token used to refresh an expired access token.
-  final String? refreshToken;
-
-  OAuth2Credentials({
-    this.accessToken,
-    this.clientId,
-    this.clientSecret,
-    this.oAuthRequest,
-    this.refreshToken,
-  });
-
-  Map<String, dynamic> toJson() {
-    final accessToken = this.accessToken;
-    final clientId = this.clientId;
-    final clientSecret = this.clientSecret;
-    final oAuthRequest = this.oAuthRequest;
-    final refreshToken = this.refreshToken;
-    return {
-      if (accessToken != null) 'accessToken': accessToken,
-      if (clientId != null) 'clientId': clientId,
-      if (clientSecret != null) 'clientSecret': clientSecret,
-      if (oAuthRequest != null) 'oAuthRequest': oAuthRequest,
-      if (refreshToken != null) 'refreshToken': refreshToken,
-    };
-  }
-}
-
-/// Custom parameter required for OAuth 2.0 authentication.
-class OAuth2CustomParameter {
-  /// Contains default values for this authentication parameter that are supplied
-  /// by the connector.
-  final List<String>? connectorSuppliedValues;
-
-  /// A description about the custom parameter used for OAuth 2.0 authentication.
-  final String? description;
-
-  /// Indicates whether the custom parameter for OAuth 2.0 authentication is
-  /// required.
-  final bool? isRequired;
-
-  /// Indicates whether this authentication custom parameter is a sensitive field.
-  final bool? isSensitiveField;
-
-  /// The key of the custom parameter required for OAuth 2.0 authentication.
-  final String? key;
-
-  /// The label of the custom parameter used for OAuth 2.0 authentication.
-  final String? label;
-
-  /// Indicates whether custom parameter is used with TokenUrl or AuthUrl.
-  final OAuth2CustomPropType? type;
-
-  OAuth2CustomParameter({
-    this.connectorSuppliedValues,
-    this.description,
-    this.isRequired,
-    this.isSensitiveField,
-    this.key,
-    this.label,
-    this.type,
-  });
-
-  factory OAuth2CustomParameter.fromJson(Map<String, dynamic> json) {
-    return OAuth2CustomParameter(
-      connectorSuppliedValues: (json['connectorSuppliedValues'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      description: json['description'] as String?,
-      isRequired: json['isRequired'] as bool?,
-      isSensitiveField: json['isSensitiveField'] as bool?,
-      key: json['key'] as String?,
-      label: json['label'] as String?,
-      type: (json['type'] as String?)?.let(OAuth2CustomPropType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connectorSuppliedValues = this.connectorSuppliedValues;
-    final description = this.description;
-    final isRequired = this.isRequired;
-    final isSensitiveField = this.isSensitiveField;
-    final key = this.key;
-    final label = this.label;
-    final type = this.type;
-    return {
-      if (connectorSuppliedValues != null)
-        'connectorSuppliedValues': connectorSuppliedValues,
-      if (description != null) 'description': description,
-      if (isRequired != null) 'isRequired': isRequired,
-      if (isSensitiveField != null) 'isSensitiveField': isSensitiveField,
-      if (key != null) 'key': key,
-      if (label != null) 'label': label,
-      if (type != null) 'type': type.value,
-    };
-  }
-}
-
-class OAuth2CustomPropType {
-  static const tokenUrl = OAuth2CustomPropType._('TOKEN_URL');
-  static const authUrl = OAuth2CustomPropType._('AUTH_URL');
-
-  final String value;
-
-  const OAuth2CustomPropType._(this.value);
-
-  static const values = [tokenUrl, authUrl];
-
-  static OAuth2CustomPropType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => OAuth2CustomPropType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is OAuth2CustomPropType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains the default values required for OAuth 2.0 authentication.
-class OAuth2Defaults {
-  /// Auth code URLs that can be used for OAuth 2.0 authentication.
-  final List<String>? authCodeUrls;
-
-  /// List of custom parameters required for OAuth 2.0 authentication.
-  final List<OAuth2CustomParameter>? oauth2CustomProperties;
-
-  /// OAuth 2.0 grant types supported by the connector.
-  final List<OAuth2GrantType>? oauth2GrantTypesSupported;
-
-  /// OAuth 2.0 scopes that the connector supports.
-  final List<String>? oauthScopes;
-
-  /// Token URLs that can be used for OAuth 2.0 authentication.
-  final List<String>? tokenUrls;
-
-  OAuth2Defaults({
-    this.authCodeUrls,
-    this.oauth2CustomProperties,
-    this.oauth2GrantTypesSupported,
-    this.oauthScopes,
-    this.tokenUrls,
-  });
-
-  factory OAuth2Defaults.fromJson(Map<String, dynamic> json) {
-    return OAuth2Defaults(
-      authCodeUrls: (json['authCodeUrls'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      oauth2CustomProperties: (json['oauth2CustomProperties'] as List?)
-          ?.nonNulls
-          .map((e) => OAuth2CustomParameter.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      oauth2GrantTypesSupported: (json['oauth2GrantTypesSupported'] as List?)
-          ?.nonNulls
-          .map((e) => OAuth2GrantType.fromString((e as String)))
-          .toList(),
-      oauthScopes: (json['oauthScopes'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      tokenUrls: (json['tokenUrls'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final authCodeUrls = this.authCodeUrls;
-    final oauth2CustomProperties = this.oauth2CustomProperties;
-    final oauth2GrantTypesSupported = this.oauth2GrantTypesSupported;
-    final oauthScopes = this.oauthScopes;
-    final tokenUrls = this.tokenUrls;
-    return {
-      if (authCodeUrls != null) 'authCodeUrls': authCodeUrls,
-      if (oauth2CustomProperties != null)
-        'oauth2CustomProperties': oauth2CustomProperties,
-      if (oauth2GrantTypesSupported != null)
-        'oauth2GrantTypesSupported':
-            oauth2GrantTypesSupported.map((e) => e.value).toList(),
-      if (oauthScopes != null) 'oauthScopes': oauthScopes,
-      if (tokenUrls != null) 'tokenUrls': tokenUrls,
-    };
-  }
-}
-
-class OAuth2GrantType {
-  static const clientCredentials = OAuth2GrantType._('CLIENT_CREDENTIALS');
-  static const authorizationCode = OAuth2GrantType._('AUTHORIZATION_CODE');
-  static const jwtBearer = OAuth2GrantType._('JWT_BEARER');
-
-  final String value;
-
-  const OAuth2GrantType._(this.value);
-
-  static const values = [clientCredentials, authorizationCode, jwtBearer];
-
-  static OAuth2GrantType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => OAuth2GrantType._(value));
-
-  @override
-  bool operator ==(other) => other is OAuth2GrantType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The OAuth 2.0 properties required for OAuth 2.0 authentication.
-class OAuth2Properties {
-  /// The OAuth 2.0 grant type used by connector for OAuth 2.0 authentication.
-  final OAuth2GrantType oAuth2GrantType;
-
-  /// The token URL required for OAuth 2.0 authentication.
-  final String tokenUrl;
-
-  /// Associates your token URL with a map of properties that you define. Use this
-  /// parameter to provide any additional details that the connector requires to
-  /// authenticate your request.
-  final Map<String, String>? tokenUrlCustomProperties;
-
-  OAuth2Properties({
-    required this.oAuth2GrantType,
-    required this.tokenUrl,
-    this.tokenUrlCustomProperties,
-  });
-
-  factory OAuth2Properties.fromJson(Map<String, dynamic> json) {
-    return OAuth2Properties(
-      oAuth2GrantType: OAuth2GrantType.fromString(
-          (json['oAuth2GrantType'] as String?) ?? ''),
-      tokenUrl: (json['tokenUrl'] as String?) ?? '',
-      tokenUrlCustomProperties:
-          (json['tokenUrlCustomProperties'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final oAuth2GrantType = this.oAuth2GrantType;
-    final tokenUrl = this.tokenUrl;
-    final tokenUrlCustomProperties = this.tokenUrlCustomProperties;
-    return {
-      'oAuth2GrantType': oAuth2GrantType.value,
-      'tokenUrl': tokenUrl,
-      if (tokenUrlCustomProperties != null)
-        'tokenUrlCustomProperties': tokenUrlCustomProperties,
-    };
-  }
-}
-
-/// The OAuth credentials required for OAuth type authentication.
-class OAuthCredentials {
-  /// The identifier for the desired client.
-  final String clientId;
-
-  /// The client secret used by the OAuth client to authenticate to the
-  /// authorization server.
-  final String clientSecret;
-
-  /// The access token used to access protected SAPOData resources.
-  final String? accessToken;
-
-  /// The OAuth requirement needed to request security tokens from the connector
-  /// endpoint.
-  final ConnectorOAuthRequest? oAuthRequest;
-
-  /// The refresh token used to refresh expired access token.
-  final String? refreshToken;
-
-  OAuthCredentials({
-    required this.clientId,
-    required this.clientSecret,
-    this.accessToken,
-    this.oAuthRequest,
-    this.refreshToken,
-  });
-
-  Map<String, dynamic> toJson() {
-    final clientId = this.clientId;
-    final clientSecret = this.clientSecret;
-    final accessToken = this.accessToken;
-    final oAuthRequest = this.oAuthRequest;
-    final refreshToken = this.refreshToken;
-    return {
-      'clientId': clientId,
-      'clientSecret': clientSecret,
-      if (accessToken != null) 'accessToken': accessToken,
-      if (oAuthRequest != null) 'oAuthRequest': oAuthRequest,
-      if (refreshToken != null) 'refreshToken': refreshToken,
-    };
-  }
-}
-
-/// The OAuth properties required for OAuth type authentication.
-class OAuthProperties {
-  /// The authorization code url required to redirect to SAP Login Page to fetch
-  /// authorization code for OAuth type authentication.
-  final String authCodeUrl;
-
-  /// The OAuth scopes required for OAuth type authentication.
-  final List<String> oAuthScopes;
-
-  /// The token url required to fetch access/refresh tokens using authorization
-  /// code and also to refresh expired access token using refresh token.
-  final String tokenUrl;
-
-  OAuthProperties({
-    required this.authCodeUrl,
-    required this.oAuthScopes,
-    required this.tokenUrl,
-  });
-
-  factory OAuthProperties.fromJson(Map<String, dynamic> json) {
-    return OAuthProperties(
-      authCodeUrl: (json['authCodeUrl'] as String?) ?? '',
-      oAuthScopes: ((json['oAuthScopes'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      tokenUrl: (json['tokenUrl'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final authCodeUrl = this.authCodeUrl;
-    final oAuthScopes = this.oAuthScopes;
-    final tokenUrl = this.tokenUrl;
-    return {
-      'authCodeUrl': authCodeUrl,
-      'oAuthScopes': oAuthScopes,
-      'tokenUrl': tokenUrl,
-    };
-  }
-}
-
-class Operator {
-  static const projection = Operator._('PROJECTION');
-  static const lessThan = Operator._('LESS_THAN');
-  static const greaterThan = Operator._('GREATER_THAN');
-  static const contains = Operator._('CONTAINS');
-  static const between = Operator._('BETWEEN');
-  static const lessThanOrEqualTo = Operator._('LESS_THAN_OR_EQUAL_TO');
-  static const greaterThanOrEqualTo = Operator._('GREATER_THAN_OR_EQUAL_TO');
-  static const equalTo = Operator._('EQUAL_TO');
-  static const notEqualTo = Operator._('NOT_EQUAL_TO');
-  static const addition = Operator._('ADDITION');
-  static const multiplication = Operator._('MULTIPLICATION');
-  static const division = Operator._('DIVISION');
-  static const subtraction = Operator._('SUBTRACTION');
-  static const maskAll = Operator._('MASK_ALL');
-  static const maskFirstN = Operator._('MASK_FIRST_N');
-  static const maskLastN = Operator._('MASK_LAST_N');
-  static const validateNonNull = Operator._('VALIDATE_NON_NULL');
-  static const validateNonZero = Operator._('VALIDATE_NON_ZERO');
-  static const validateNonNegative = Operator._('VALIDATE_NON_NEGATIVE');
-  static const validateNumeric = Operator._('VALIDATE_NUMERIC');
-  static const noOp = Operator._('NO_OP');
-
-  final String value;
-
-  const Operator._(this.value);
-
-  static const values = [
-    projection,
-    lessThan,
-    greaterThan,
-    contains,
-    between,
-    lessThanOrEqualTo,
-    greaterThanOrEqualTo,
-    equalTo,
-    notEqualTo,
-    addition,
-    multiplication,
-    division,
-    subtraction,
-    maskAll,
-    maskFirstN,
-    maskLastN,
-    validateNonNull,
-    validateNonZero,
-    validateNonNegative,
-    validateNumeric,
-    noOp
-  ];
-
-  static Operator fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Operator._(value));
-
-  @override
-  bool operator ==(other) => other is Operator && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class OperatorPropertiesKeys {
-  static const $value = OperatorPropertiesKeys._('VALUE');
-  static const $values = OperatorPropertiesKeys._('VALUES');
-  static const dataType = OperatorPropertiesKeys._('DATA_TYPE');
-  static const upperBound = OperatorPropertiesKeys._('UPPER_BOUND');
-  static const lowerBound = OperatorPropertiesKeys._('LOWER_BOUND');
-  static const sourceDataType = OperatorPropertiesKeys._('SOURCE_DATA_TYPE');
-  static const destinationDataType =
-      OperatorPropertiesKeys._('DESTINATION_DATA_TYPE');
-  static const validationAction = OperatorPropertiesKeys._('VALIDATION_ACTION');
-  static const maskValue = OperatorPropertiesKeys._('MASK_VALUE');
-  static const maskLength = OperatorPropertiesKeys._('MASK_LENGTH');
-  static const truncateLength = OperatorPropertiesKeys._('TRUNCATE_LENGTH');
-  static const mathOperationFieldsOrder =
-      OperatorPropertiesKeys._('MATH_OPERATION_FIELDS_ORDER');
-  static const concatFormat = OperatorPropertiesKeys._('CONCAT_FORMAT');
-  static const subfieldCategoryMap =
-      OperatorPropertiesKeys._('SUBFIELD_CATEGORY_MAP');
-  static const excludeSourceFieldsList =
-      OperatorPropertiesKeys._('EXCLUDE_SOURCE_FIELDS_LIST');
-  static const includeNewFields =
-      OperatorPropertiesKeys._('INCLUDE_NEW_FIELDS');
-  static const orderedPartitionKeysList =
-      OperatorPropertiesKeys._('ORDERED_PARTITION_KEYS_LIST');
-
-  final String value;
-
-  const OperatorPropertiesKeys._(this.value);
-
-  static const values = [
-    $value,
-    $values,
-    dataType,
-    upperBound,
-    lowerBound,
-    sourceDataType,
-    destinationDataType,
-    validationAction,
-    maskValue,
-    maskLength,
-    truncateLength,
-    mathOperationFieldsOrder,
-    concatFormat,
-    subfieldCategoryMap,
-    excludeSourceFieldsList,
-    includeNewFields,
-    orderedPartitionKeysList
-  ];
-
-  static OperatorPropertiesKeys fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => OperatorPropertiesKeys._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is OperatorPropertiesKeys && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class Operators {
-  static const projection = Operators._('PROJECTION');
-  static const lessThan = Operators._('LESS_THAN');
-  static const greaterThan = Operators._('GREATER_THAN');
-  static const contains = Operators._('CONTAINS');
-  static const between = Operators._('BETWEEN');
-  static const lessThanOrEqualTo = Operators._('LESS_THAN_OR_EQUAL_TO');
-  static const greaterThanOrEqualTo = Operators._('GREATER_THAN_OR_EQUAL_TO');
-  static const equalTo = Operators._('EQUAL_TO');
-  static const notEqualTo = Operators._('NOT_EQUAL_TO');
-  static const addition = Operators._('ADDITION');
-  static const multiplication = Operators._('MULTIPLICATION');
-  static const division = Operators._('DIVISION');
-  static const subtraction = Operators._('SUBTRACTION');
-  static const maskAll = Operators._('MASK_ALL');
-  static const maskFirstN = Operators._('MASK_FIRST_N');
-  static const maskLastN = Operators._('MASK_LAST_N');
-  static const validateNonNull = Operators._('VALIDATE_NON_NULL');
-  static const validateNonZero = Operators._('VALIDATE_NON_ZERO');
-  static const validateNonNegative = Operators._('VALIDATE_NON_NEGATIVE');
-  static const validateNumeric = Operators._('VALIDATE_NUMERIC');
-  static const noOp = Operators._('NO_OP');
-
-  final String value;
-
-  const Operators._(this.value);
-
-  static const values = [
-    projection,
-    lessThan,
-    greaterThan,
-    contains,
-    between,
-    lessThanOrEqualTo,
-    greaterThanOrEqualTo,
-    equalTo,
-    notEqualTo,
-    addition,
-    multiplication,
-    division,
-    subtraction,
-    maskAll,
-    maskFirstN,
-    maskLastN,
-    validateNonNull,
-    validateNonZero,
-    validateNonNegative,
-    validateNumeric,
-    noOp
-  ];
-
-  static Operators fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Operators._(value));
-
-  @override
-  bool operator ==(other) => other is Operators && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class PardotConnectorOperator {
-  static const projection = PardotConnectorOperator._('PROJECTION');
-  static const equalTo = PardotConnectorOperator._('EQUAL_TO');
-  static const noOp = PardotConnectorOperator._('NO_OP');
-  static const addition = PardotConnectorOperator._('ADDITION');
-  static const multiplication = PardotConnectorOperator._('MULTIPLICATION');
-  static const division = PardotConnectorOperator._('DIVISION');
-  static const subtraction = PardotConnectorOperator._('SUBTRACTION');
-  static const maskAll = PardotConnectorOperator._('MASK_ALL');
-  static const maskFirstN = PardotConnectorOperator._('MASK_FIRST_N');
-  static const maskLastN = PardotConnectorOperator._('MASK_LAST_N');
-  static const validateNonNull = PardotConnectorOperator._('VALIDATE_NON_NULL');
-  static const validateNonZero = PardotConnectorOperator._('VALIDATE_NON_ZERO');
-  static const validateNonNegative =
-      PardotConnectorOperator._('VALIDATE_NON_NEGATIVE');
-  static const validateNumeric = PardotConnectorOperator._('VALIDATE_NUMERIC');
-
-  final String value;
-
-  const PardotConnectorOperator._(this.value);
-
-  static const values = [
-    projection,
-    equalTo,
-    noOp,
-    addition,
-    multiplication,
-    division,
-    subtraction,
-    maskAll,
-    maskFirstN,
-    maskLastN,
-    validateNonNull,
-    validateNonZero,
-    validateNonNegative,
-    validateNumeric
-  ];
-
-  static PardotConnectorOperator fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PardotConnectorOperator._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PardotConnectorOperator && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The connector-specific profile credentials required when using Salesforce
-/// Pardot.
-class PardotConnectorProfileCredentials {
-  /// The credentials used to access protected Salesforce Pardot resources.
-  final String? accessToken;
-
-  /// The secret manager ARN, which contains the client ID and client secret of
-  /// the connected app.
-  final String? clientCredentialsArn;
-  final ConnectorOAuthRequest? oAuthRequest;
-
-  /// The credentials used to acquire new access tokens.
-  final String? refreshToken;
-
-  PardotConnectorProfileCredentials({
-    this.accessToken,
-    this.clientCredentialsArn,
-    this.oAuthRequest,
-    this.refreshToken,
-  });
-
-  Map<String, dynamic> toJson() {
-    final accessToken = this.accessToken;
-    final clientCredentialsArn = this.clientCredentialsArn;
-    final oAuthRequest = this.oAuthRequest;
-    final refreshToken = this.refreshToken;
-    return {
-      if (accessToken != null) 'accessToken': accessToken,
-      if (clientCredentialsArn != null)
-        'clientCredentialsArn': clientCredentialsArn,
-      if (oAuthRequest != null) 'oAuthRequest': oAuthRequest,
-      if (refreshToken != null) 'refreshToken': refreshToken,
-    };
-  }
-}
-
-/// The connector-specific profile properties required when using Salesforce
-/// Pardot.
-class PardotConnectorProfileProperties {
-  /// The business unit id of Salesforce Pardot instance.
-  final String? businessUnitId;
-
-  /// The location of the Salesforce Pardot resource.
-  final String? instanceUrl;
-
-  /// Indicates whether the connector profile applies to a sandbox or production
-  /// environment.
-  final bool? isSandboxEnvironment;
-
-  PardotConnectorProfileProperties({
-    this.businessUnitId,
-    this.instanceUrl,
-    this.isSandboxEnvironment,
-  });
-
-  factory PardotConnectorProfileProperties.fromJson(Map<String, dynamic> json) {
-    return PardotConnectorProfileProperties(
-      businessUnitId: json['businessUnitId'] as String?,
-      instanceUrl: json['instanceUrl'] as String?,
-      isSandboxEnvironment: json['isSandboxEnvironment'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final businessUnitId = this.businessUnitId;
-    final instanceUrl = this.instanceUrl;
-    final isSandboxEnvironment = this.isSandboxEnvironment;
-    return {
-      if (businessUnitId != null) 'businessUnitId': businessUnitId,
-      if (instanceUrl != null) 'instanceUrl': instanceUrl,
-      if (isSandboxEnvironment != null)
-        'isSandboxEnvironment': isSandboxEnvironment,
-    };
-  }
-}
-
-/// The connector metadata specific to Salesforce Pardot.
-class PardotMetadata {
-  PardotMetadata();
-
-  factory PardotMetadata.fromJson(Map<String, dynamic> _) {
-    return PardotMetadata();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// The properties that are applied when Salesforce Pardot is being used as a
-/// source.
-class PardotSourceProperties {
-  /// The object specified in the Salesforce Pardot flow source.
-  final String object;
-
-  PardotSourceProperties({
-    required this.object,
-  });
-
-  factory PardotSourceProperties.fromJson(Map<String, dynamic> json) {
-    return PardotSourceProperties(
-      object: (json['object'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final object = this.object;
-    return {
-      'object': object,
-    };
-  }
-}
-
-class PathPrefix {
-  static const executionId = PathPrefix._('EXECUTION_ID');
-  static const schemaVersion = PathPrefix._('SCHEMA_VERSION');
-
-  final String value;
-
-  const PathPrefix._(this.value);
-
-  static const values = [executionId, schemaVersion];
-
-  static PathPrefix fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => PathPrefix._(value));
-
-  @override
-  bool operator ==(other) => other is PathPrefix && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Specifies elements that Amazon AppFlow includes in the file and folder names
-/// in the flow destination.
-class PrefixConfig {
-  /// Specifies whether the destination file path includes either or both of the
-  /// following elements:
-  /// <dl> <dt>EXECUTION_ID</dt> <dd>
-  /// The ID that Amazon AppFlow assigns to the flow run.
-  /// </dd> <dt>SCHEMA_VERSION</dt> <dd>
-  /// The version number of your data schema. Amazon AppFlow assigns this version
-  /// number. The version number increases by one when you change any of the
-  /// following settings in your flow configuration:
-  ///
-  /// <ul>
-  /// <li>
-  /// Source-to-destination field mappings
-  /// </li>
-  /// <li>
-  /// Field data types
-  /// </li>
-  /// <li>
-  /// Partition keys
-  /// </li>
-  /// </ul> </dd> </dl>
-  final List<PathPrefix>? pathPrefixHierarchy;
-
-  /// Determines the level of granularity for the date and time that's included in
-  /// the prefix.
-  final PrefixFormat? prefixFormat;
-
-  /// Determines the format of the prefix, and whether it applies to the file
-  /// name, file path, or both.
-  final PrefixType? prefixType;
-
-  PrefixConfig({
-    this.pathPrefixHierarchy,
-    this.prefixFormat,
-    this.prefixType,
-  });
-
-  factory PrefixConfig.fromJson(Map<String, dynamic> json) {
-    return PrefixConfig(
-      pathPrefixHierarchy: (json['pathPrefixHierarchy'] as List?)
-          ?.nonNulls
-          .map((e) => PathPrefix.fromString((e as String)))
-          .toList(),
-      prefixFormat:
-          (json['prefixFormat'] as String?)?.let(PrefixFormat.fromString),
-      prefixType: (json['prefixType'] as String?)?.let(PrefixType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final pathPrefixHierarchy = this.pathPrefixHierarchy;
-    final prefixFormat = this.prefixFormat;
-    final prefixType = this.prefixType;
-    return {
-      if (pathPrefixHierarchy != null)
-        'pathPrefixHierarchy': pathPrefixHierarchy.map((e) => e.value).toList(),
-      if (prefixFormat != null) 'prefixFormat': prefixFormat.value,
-      if (prefixType != null) 'prefixType': prefixType.value,
-    };
-  }
-}
-
-class PrefixFormat {
-  static const year = PrefixFormat._('YEAR');
-  static const month = PrefixFormat._('MONTH');
-  static const day = PrefixFormat._('DAY');
-  static const hour = PrefixFormat._('HOUR');
-  static const minute = PrefixFormat._('MINUTE');
-
-  final String value;
-
-  const PrefixFormat._(this.value);
-
-  static const values = [year, month, day, hour, minute];
-
-  static PrefixFormat fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => PrefixFormat._(value));
-
-  @override
-  bool operator ==(other) => other is PrefixFormat && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class PrefixType {
-  static const filename = PrefixType._('FILENAME');
-  static const path = PrefixType._('PATH');
-  static const pathAndFilename = PrefixType._('PATH_AND_FILENAME');
-
-  final String value;
-
-  const PrefixType._(this.value);
-
-  static const values = [filename, path, pathAndFilename];
-
-  static PrefixType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => PrefixType._(value));
-
-  @override
-  bool operator ==(other) => other is PrefixType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class PrivateConnectionProvisioningFailureCause {
-  static const connectorAuthentication =
-      PrivateConnectionProvisioningFailureCause._('CONNECTOR_AUTHENTICATION');
-  static const connectorServer =
-      PrivateConnectionProvisioningFailureCause._('CONNECTOR_SERVER');
-  static const internalServer =
-      PrivateConnectionProvisioningFailureCause._('INTERNAL_SERVER');
-  static const accessDenied =
-      PrivateConnectionProvisioningFailureCause._('ACCESS_DENIED');
-  static const validation =
-      PrivateConnectionProvisioningFailureCause._('VALIDATION');
-
-  final String value;
-
-  const PrivateConnectionProvisioningFailureCause._(this.value);
-
-  static const values = [
-    connectorAuthentication,
-    connectorServer,
-    internalServer,
-    accessDenied,
-    validation
-  ];
-
-  static PrivateConnectionProvisioningFailureCause fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PrivateConnectionProvisioningFailureCause._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PrivateConnectionProvisioningFailureCause &&
-      other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Specifies the private connection provisioning state.
-class PrivateConnectionProvisioningState {
-  /// Specifies the private connection provisioning failure cause.
-  final PrivateConnectionProvisioningFailureCause? failureCause;
-
-  /// Specifies the private connection provisioning failure reason.
-  final String? failureMessage;
-
-  /// Specifies the private connection provisioning status.
-  final PrivateConnectionProvisioningStatus? status;
-
-  PrivateConnectionProvisioningState({
-    this.failureCause,
-    this.failureMessage,
-    this.status,
-  });
-
-  factory PrivateConnectionProvisioningState.fromJson(
-      Map<String, dynamic> json) {
-    return PrivateConnectionProvisioningState(
-      failureCause: (json['failureCause'] as String?)
-          ?.let(PrivateConnectionProvisioningFailureCause.fromString),
-      failureMessage: json['failureMessage'] as String?,
-      status: (json['status'] as String?)
-          ?.let(PrivateConnectionProvisioningStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final failureCause = this.failureCause;
-    final failureMessage = this.failureMessage;
-    final status = this.status;
-    return {
-      if (failureCause != null) 'failureCause': failureCause.value,
-      if (failureMessage != null) 'failureMessage': failureMessage,
-      if (status != null) 'status': status.value,
-    };
-  }
-}
-
-class PrivateConnectionProvisioningStatus {
-  static const failed = PrivateConnectionProvisioningStatus._('FAILED');
-  static const pending = PrivateConnectionProvisioningStatus._('PENDING');
-  static const created = PrivateConnectionProvisioningStatus._('CREATED');
-
-  final String value;
-
-  const PrivateConnectionProvisioningStatus._(this.value);
-
-  static const values = [failed, pending, created];
-
-  static PrivateConnectionProvisioningStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PrivateConnectionProvisioningStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PrivateConnectionProvisioningStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 /// The range of values that the property supports.
 class Range {
   /// Maximum value supported by the field.
@@ -7295,3564 +10846,6 @@ class Range {
     return {
       if (maximum != null) 'maximum': maximum,
       if (minimum != null) 'minimum': minimum,
-    };
-  }
-}
-
-/// The connector-specific profile credentials required when using Amazon
-/// Redshift.
-class RedshiftConnectorProfileCredentials {
-  /// The password that corresponds to the user name.
-  final String? password;
-
-  /// The name of the user.
-  final String? username;
-
-  RedshiftConnectorProfileCredentials({
-    this.password,
-    this.username,
-  });
-
-  Map<String, dynamic> toJson() {
-    final password = this.password;
-    final username = this.username;
-    return {
-      if (password != null) 'password': password,
-      if (username != null) 'username': username,
-    };
-  }
-}
-
-/// The connector-specific profile properties when using Amazon Redshift.
-class RedshiftConnectorProfileProperties {
-  /// A name for the associated Amazon S3 bucket.
-  final String bucketName;
-
-  /// The Amazon Resource Name (ARN) of IAM role that grants Amazon Redshift
-  /// read-only access to Amazon S3. For more information, and for the polices
-  /// that you attach to this role, see <a
-  /// href="https://docs.aws.amazon.com/appflow/latest/userguide/security_iam_service-role-policies.html#redshift-access-s3">Allow
-  /// Amazon Redshift to access your Amazon AppFlow data in Amazon S3</a>.
-  final String roleArn;
-
-  /// The object key for the destination bucket in which Amazon AppFlow places the
-  /// files.
-  final String? bucketPrefix;
-
-  /// The unique ID that's assigned to an Amazon Redshift cluster.
-  final String? clusterIdentifier;
-
-  /// The Amazon Resource Name (ARN) of an IAM role that permits Amazon AppFlow to
-  /// access your Amazon Redshift database through the Data API. For more
-  /// information, and for the polices that you attach to this role, see <a
-  /// href="https://docs.aws.amazon.com/appflow/latest/userguide/security_iam_service-role-policies.html#access-redshift">Allow
-  /// Amazon AppFlow to access Amazon Redshift databases with the Data API</a>.
-  final String? dataApiRoleArn;
-
-  /// The name of an Amazon Redshift database.
-  final String? databaseName;
-
-  /// The JDBC URL of the Amazon Redshift cluster.
-  final String? databaseUrl;
-
-  /// Indicates whether the connector profile defines a connection to an Amazon
-  /// Redshift Serverless data warehouse.
-  final bool? isRedshiftServerless;
-
-  /// The name of an Amazon Redshift workgroup.
-  final String? workgroupName;
-
-  RedshiftConnectorProfileProperties({
-    required this.bucketName,
-    required this.roleArn,
-    this.bucketPrefix,
-    this.clusterIdentifier,
-    this.dataApiRoleArn,
-    this.databaseName,
-    this.databaseUrl,
-    this.isRedshiftServerless,
-    this.workgroupName,
-  });
-
-  factory RedshiftConnectorProfileProperties.fromJson(
-      Map<String, dynamic> json) {
-    return RedshiftConnectorProfileProperties(
-      bucketName: (json['bucketName'] as String?) ?? '',
-      roleArn: (json['roleArn'] as String?) ?? '',
-      bucketPrefix: json['bucketPrefix'] as String?,
-      clusterIdentifier: json['clusterIdentifier'] as String?,
-      dataApiRoleArn: json['dataApiRoleArn'] as String?,
-      databaseName: json['databaseName'] as String?,
-      databaseUrl: json['databaseUrl'] as String?,
-      isRedshiftServerless: json['isRedshiftServerless'] as bool?,
-      workgroupName: json['workgroupName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucketName = this.bucketName;
-    final roleArn = this.roleArn;
-    final bucketPrefix = this.bucketPrefix;
-    final clusterIdentifier = this.clusterIdentifier;
-    final dataApiRoleArn = this.dataApiRoleArn;
-    final databaseName = this.databaseName;
-    final databaseUrl = this.databaseUrl;
-    final isRedshiftServerless = this.isRedshiftServerless;
-    final workgroupName = this.workgroupName;
-    return {
-      'bucketName': bucketName,
-      'roleArn': roleArn,
-      if (bucketPrefix != null) 'bucketPrefix': bucketPrefix,
-      if (clusterIdentifier != null) 'clusterIdentifier': clusterIdentifier,
-      if (dataApiRoleArn != null) 'dataApiRoleArn': dataApiRoleArn,
-      if (databaseName != null) 'databaseName': databaseName,
-      if (databaseUrl != null) 'databaseUrl': databaseUrl,
-      if (isRedshiftServerless != null)
-        'isRedshiftServerless': isRedshiftServerless,
-      if (workgroupName != null) 'workgroupName': workgroupName,
-    };
-  }
-}
-
-/// The properties that are applied when Amazon Redshift is being used as a
-/// destination.
-class RedshiftDestinationProperties {
-  /// The intermediate bucket that Amazon AppFlow uses when moving data into
-  /// Amazon Redshift.
-  final String intermediateBucketName;
-
-  /// The object specified in the Amazon Redshift flow destination.
-  final String object;
-
-  /// The object key for the bucket in which Amazon AppFlow places the destination
-  /// files.
-  final String? bucketPrefix;
-
-  /// The settings that determine how Amazon AppFlow handles an error when placing
-  /// data in the Amazon Redshift destination. For example, this setting would
-  /// determine if the flow should fail after one insertion error, or continue and
-  /// attempt to insert every record regardless of the initial failure.
-  /// <code>ErrorHandlingConfig</code> is a part of the destination connector
-  /// details.
-  final ErrorHandlingConfig? errorHandlingConfig;
-
-  RedshiftDestinationProperties({
-    required this.intermediateBucketName,
-    required this.object,
-    this.bucketPrefix,
-    this.errorHandlingConfig,
-  });
-
-  factory RedshiftDestinationProperties.fromJson(Map<String, dynamic> json) {
-    return RedshiftDestinationProperties(
-      intermediateBucketName: (json['intermediateBucketName'] as String?) ?? '',
-      object: (json['object'] as String?) ?? '',
-      bucketPrefix: json['bucketPrefix'] as String?,
-      errorHandlingConfig: json['errorHandlingConfig'] != null
-          ? ErrorHandlingConfig.fromJson(
-              json['errorHandlingConfig'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final intermediateBucketName = this.intermediateBucketName;
-    final object = this.object;
-    final bucketPrefix = this.bucketPrefix;
-    final errorHandlingConfig = this.errorHandlingConfig;
-    return {
-      'intermediateBucketName': intermediateBucketName,
-      'object': object,
-      if (bucketPrefix != null) 'bucketPrefix': bucketPrefix,
-      if (errorHandlingConfig != null)
-        'errorHandlingConfig': errorHandlingConfig,
-    };
-  }
-}
-
-/// The connector metadata specific to Amazon Redshift.
-class RedshiftMetadata {
-  RedshiftMetadata();
-
-  factory RedshiftMetadata.fromJson(Map<String, dynamic> _) {
-    return RedshiftMetadata();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class RegisterConnectorResponse {
-  /// The ARN of the connector being registered.
-  final String? connectorArn;
-
-  RegisterConnectorResponse({
-    this.connectorArn,
-  });
-
-  factory RegisterConnectorResponse.fromJson(Map<String, dynamic> json) {
-    return RegisterConnectorResponse(
-      connectorArn: json['connectorArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connectorArn = this.connectorArn;
-    return {
-      if (connectorArn != null) 'connectorArn': connectorArn,
-    };
-  }
-}
-
-/// Describes the status of an attempt from Amazon AppFlow to register a
-/// resource.
-///
-/// When you run a flow that you've configured to use a metadata catalog, Amazon
-/// AppFlow registers a metadata table and data partitions with that catalog.
-/// This operation provides the status of that registration attempt. The
-/// operation also indicates how many related resources Amazon AppFlow created
-/// or updated.
-class RegistrationOutput {
-  /// Explains the status of the registration attempt from Amazon AppFlow. If the
-  /// attempt fails, the message explains why.
-  final String? message;
-
-  /// Indicates the number of resources that Amazon AppFlow created or updated.
-  /// Possible resources include metadata tables and data partitions.
-  final String? result;
-
-  /// Indicates the status of the registration attempt from Amazon AppFlow.
-  final ExecutionStatus? status;
-
-  RegistrationOutput({
-    this.message,
-    this.result,
-    this.status,
-  });
-
-  factory RegistrationOutput.fromJson(Map<String, dynamic> json) {
-    return RegistrationOutput(
-      message: json['message'] as String?,
-      result: json['result'] as String?,
-      status: (json['status'] as String?)?.let(ExecutionStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final message = this.message;
-    final result = this.result;
-    final status = this.status;
-    return {
-      if (message != null) 'message': message,
-      if (result != null) 'result': result,
-      if (status != null) 'status': status.value,
-    };
-  }
-}
-
-class ResetConnectorMetadataCacheResponse {
-  ResetConnectorMetadataCacheResponse();
-
-  factory ResetConnectorMetadataCacheResponse.fromJson(Map<String, dynamic> _) {
-    return ResetConnectorMetadataCacheResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class S3ConnectorOperator {
-  static const projection = S3ConnectorOperator._('PROJECTION');
-  static const lessThan = S3ConnectorOperator._('LESS_THAN');
-  static const greaterThan = S3ConnectorOperator._('GREATER_THAN');
-  static const between = S3ConnectorOperator._('BETWEEN');
-  static const lessThanOrEqualTo =
-      S3ConnectorOperator._('LESS_THAN_OR_EQUAL_TO');
-  static const greaterThanOrEqualTo =
-      S3ConnectorOperator._('GREATER_THAN_OR_EQUAL_TO');
-  static const equalTo = S3ConnectorOperator._('EQUAL_TO');
-  static const notEqualTo = S3ConnectorOperator._('NOT_EQUAL_TO');
-  static const addition = S3ConnectorOperator._('ADDITION');
-  static const multiplication = S3ConnectorOperator._('MULTIPLICATION');
-  static const division = S3ConnectorOperator._('DIVISION');
-  static const subtraction = S3ConnectorOperator._('SUBTRACTION');
-  static const maskAll = S3ConnectorOperator._('MASK_ALL');
-  static const maskFirstN = S3ConnectorOperator._('MASK_FIRST_N');
-  static const maskLastN = S3ConnectorOperator._('MASK_LAST_N');
-  static const validateNonNull = S3ConnectorOperator._('VALIDATE_NON_NULL');
-  static const validateNonZero = S3ConnectorOperator._('VALIDATE_NON_ZERO');
-  static const validateNonNegative =
-      S3ConnectorOperator._('VALIDATE_NON_NEGATIVE');
-  static const validateNumeric = S3ConnectorOperator._('VALIDATE_NUMERIC');
-  static const noOp = S3ConnectorOperator._('NO_OP');
-
-  final String value;
-
-  const S3ConnectorOperator._(this.value);
-
-  static const values = [
-    projection,
-    lessThan,
-    greaterThan,
-    between,
-    lessThanOrEqualTo,
-    greaterThanOrEqualTo,
-    equalTo,
-    notEqualTo,
-    addition,
-    multiplication,
-    division,
-    subtraction,
-    maskAll,
-    maskFirstN,
-    maskLastN,
-    validateNonNull,
-    validateNonZero,
-    validateNonNegative,
-    validateNumeric,
-    noOp
-  ];
-
-  static S3ConnectorOperator fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => S3ConnectorOperator._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is S3ConnectorOperator && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The properties that are applied when Amazon S3 is used as a destination.
-class S3DestinationProperties {
-  /// The Amazon S3 bucket name in which Amazon AppFlow places the transferred
-  /// data.
-  final String bucketName;
-
-  /// The object key for the destination bucket in which Amazon AppFlow places the
-  /// files.
-  final String? bucketPrefix;
-  final S3OutputFormatConfig? s3OutputFormatConfig;
-
-  S3DestinationProperties({
-    required this.bucketName,
-    this.bucketPrefix,
-    this.s3OutputFormatConfig,
-  });
-
-  factory S3DestinationProperties.fromJson(Map<String, dynamic> json) {
-    return S3DestinationProperties(
-      bucketName: (json['bucketName'] as String?) ?? '',
-      bucketPrefix: json['bucketPrefix'] as String?,
-      s3OutputFormatConfig: json['s3OutputFormatConfig'] != null
-          ? S3OutputFormatConfig.fromJson(
-              json['s3OutputFormatConfig'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucketName = this.bucketName;
-    final bucketPrefix = this.bucketPrefix;
-    final s3OutputFormatConfig = this.s3OutputFormatConfig;
-    return {
-      'bucketName': bucketName,
-      if (bucketPrefix != null) 'bucketPrefix': bucketPrefix,
-      if (s3OutputFormatConfig != null)
-        's3OutputFormatConfig': s3OutputFormatConfig,
-    };
-  }
-}
-
-class S3InputFileType {
-  static const csv = S3InputFileType._('CSV');
-  static const json = S3InputFileType._('JSON');
-
-  final String value;
-
-  const S3InputFileType._(this.value);
-
-  static const values = [csv, json];
-
-  static S3InputFileType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => S3InputFileType._(value));
-
-  @override
-  bool operator ==(other) => other is S3InputFileType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// When you use Amazon S3 as the source, the configuration format that you
-/// provide the flow input data.
-class S3InputFormatConfig {
-  /// The file type that Amazon AppFlow gets from your Amazon S3 bucket.
-  final S3InputFileType? s3InputFileType;
-
-  S3InputFormatConfig({
-    this.s3InputFileType,
-  });
-
-  factory S3InputFormatConfig.fromJson(Map<String, dynamic> json) {
-    return S3InputFormatConfig(
-      s3InputFileType:
-          (json['s3InputFileType'] as String?)?.let(S3InputFileType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final s3InputFileType = this.s3InputFileType;
-    return {
-      if (s3InputFileType != null) 's3InputFileType': s3InputFileType.value,
-    };
-  }
-}
-
-/// The connector metadata specific to Amazon S3.
-class S3Metadata {
-  S3Metadata();
-
-  factory S3Metadata.fromJson(Map<String, dynamic> _) {
-    return S3Metadata();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// The configuration that determines how Amazon AppFlow should format the flow
-/// output data when Amazon S3 is used as the destination.
-class S3OutputFormatConfig {
-  final AggregationConfig? aggregationConfig;
-
-  /// Indicates the file type that Amazon AppFlow places in the Amazon S3 bucket.
-  final FileType? fileType;
-
-  /// Determines the prefix that Amazon AppFlow applies to the folder name in the
-  /// Amazon S3 bucket. You can name folders according to the flow frequency and
-  /// date.
-  final PrefixConfig? prefixConfig;
-
-  /// If your file output format is Parquet, use this parameter to set whether
-  /// Amazon AppFlow preserves the data types in your source data when it writes
-  /// the output to Amazon S3.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>true</code>: Amazon AppFlow preserves the data types when it writes to
-  /// Amazon S3. For example, an integer or <code>1</code> in your source data is
-  /// still an integer in your output.
-  /// </li>
-  /// <li>
-  /// <code>false</code>: Amazon AppFlow converts all of the source data into
-  /// strings when it writes to Amazon S3. For example, an integer of
-  /// <code>1</code> in your source data becomes the string <code>"1"</code> in
-  /// the output.
-  /// </li>
-  /// </ul>
-  final bool? preserveSourceDataTyping;
-
-  S3OutputFormatConfig({
-    this.aggregationConfig,
-    this.fileType,
-    this.prefixConfig,
-    this.preserveSourceDataTyping,
-  });
-
-  factory S3OutputFormatConfig.fromJson(Map<String, dynamic> json) {
-    return S3OutputFormatConfig(
-      aggregationConfig: json['aggregationConfig'] != null
-          ? AggregationConfig.fromJson(
-              json['aggregationConfig'] as Map<String, dynamic>)
-          : null,
-      fileType: (json['fileType'] as String?)?.let(FileType.fromString),
-      prefixConfig: json['prefixConfig'] != null
-          ? PrefixConfig.fromJson(json['prefixConfig'] as Map<String, dynamic>)
-          : null,
-      preserveSourceDataTyping: json['preserveSourceDataTyping'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final aggregationConfig = this.aggregationConfig;
-    final fileType = this.fileType;
-    final prefixConfig = this.prefixConfig;
-    final preserveSourceDataTyping = this.preserveSourceDataTyping;
-    return {
-      if (aggregationConfig != null) 'aggregationConfig': aggregationConfig,
-      if (fileType != null) 'fileType': fileType.value,
-      if (prefixConfig != null) 'prefixConfig': prefixConfig,
-      if (preserveSourceDataTyping != null)
-        'preserveSourceDataTyping': preserveSourceDataTyping,
-    };
-  }
-}
-
-/// The properties that are applied when Amazon S3 is being used as the flow
-/// source.
-class S3SourceProperties {
-  /// The Amazon S3 bucket name where the source files are stored.
-  final String bucketName;
-
-  /// The object key for the Amazon S3 bucket in which the source files are
-  /// stored.
-  final String? bucketPrefix;
-  final S3InputFormatConfig? s3InputFormatConfig;
-
-  S3SourceProperties({
-    required this.bucketName,
-    this.bucketPrefix,
-    this.s3InputFormatConfig,
-  });
-
-  factory S3SourceProperties.fromJson(Map<String, dynamic> json) {
-    return S3SourceProperties(
-      bucketName: (json['bucketName'] as String?) ?? '',
-      bucketPrefix: json['bucketPrefix'] as String?,
-      s3InputFormatConfig: json['s3InputFormatConfig'] != null
-          ? S3InputFormatConfig.fromJson(
-              json['s3InputFormatConfig'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucketName = this.bucketName;
-    final bucketPrefix = this.bucketPrefix;
-    final s3InputFormatConfig = this.s3InputFormatConfig;
-    return {
-      'bucketName': bucketName,
-      if (bucketPrefix != null) 'bucketPrefix': bucketPrefix,
-      if (s3InputFormatConfig != null)
-        's3InputFormatConfig': s3InputFormatConfig,
-    };
-  }
-}
-
-class SAPODataConnectorOperator {
-  static const projection = SAPODataConnectorOperator._('PROJECTION');
-  static const lessThan = SAPODataConnectorOperator._('LESS_THAN');
-  static const contains = SAPODataConnectorOperator._('CONTAINS');
-  static const greaterThan = SAPODataConnectorOperator._('GREATER_THAN');
-  static const between = SAPODataConnectorOperator._('BETWEEN');
-  static const lessThanOrEqualTo =
-      SAPODataConnectorOperator._('LESS_THAN_OR_EQUAL_TO');
-  static const greaterThanOrEqualTo =
-      SAPODataConnectorOperator._('GREATER_THAN_OR_EQUAL_TO');
-  static const equalTo = SAPODataConnectorOperator._('EQUAL_TO');
-  static const notEqualTo = SAPODataConnectorOperator._('NOT_EQUAL_TO');
-  static const addition = SAPODataConnectorOperator._('ADDITION');
-  static const multiplication = SAPODataConnectorOperator._('MULTIPLICATION');
-  static const division = SAPODataConnectorOperator._('DIVISION');
-  static const subtraction = SAPODataConnectorOperator._('SUBTRACTION');
-  static const maskAll = SAPODataConnectorOperator._('MASK_ALL');
-  static const maskFirstN = SAPODataConnectorOperator._('MASK_FIRST_N');
-  static const maskLastN = SAPODataConnectorOperator._('MASK_LAST_N');
-  static const validateNonNull =
-      SAPODataConnectorOperator._('VALIDATE_NON_NULL');
-  static const validateNonZero =
-      SAPODataConnectorOperator._('VALIDATE_NON_ZERO');
-  static const validateNonNegative =
-      SAPODataConnectorOperator._('VALIDATE_NON_NEGATIVE');
-  static const validateNumeric =
-      SAPODataConnectorOperator._('VALIDATE_NUMERIC');
-  static const noOp = SAPODataConnectorOperator._('NO_OP');
-
-  final String value;
-
-  const SAPODataConnectorOperator._(this.value);
-
-  static const values = [
-    projection,
-    lessThan,
-    contains,
-    greaterThan,
-    between,
-    lessThanOrEqualTo,
-    greaterThanOrEqualTo,
-    equalTo,
-    notEqualTo,
-    addition,
-    multiplication,
-    division,
-    subtraction,
-    maskAll,
-    maskFirstN,
-    maskLastN,
-    validateNonNull,
-    validateNonZero,
-    validateNonNegative,
-    validateNumeric,
-    noOp
-  ];
-
-  static SAPODataConnectorOperator fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SAPODataConnectorOperator._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SAPODataConnectorOperator && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The connector-specific profile credentials required when using SAPOData.
-class SAPODataConnectorProfileCredentials {
-  /// The SAPOData basic authentication credentials.
-  final BasicAuthCredentials? basicAuthCredentials;
-
-  /// The SAPOData OAuth type authentication credentials.
-  final OAuthCredentials? oAuthCredentials;
-
-  SAPODataConnectorProfileCredentials({
-    this.basicAuthCredentials,
-    this.oAuthCredentials,
-  });
-
-  Map<String, dynamic> toJson() {
-    final basicAuthCredentials = this.basicAuthCredentials;
-    final oAuthCredentials = this.oAuthCredentials;
-    return {
-      if (basicAuthCredentials != null)
-        'basicAuthCredentials': basicAuthCredentials,
-      if (oAuthCredentials != null) 'oAuthCredentials': oAuthCredentials,
-    };
-  }
-}
-
-/// The connector-specific profile properties required when using SAPOData.
-class SAPODataConnectorProfileProperties {
-  /// The location of the SAPOData resource.
-  final String applicationHostUrl;
-
-  /// The application path to catalog service.
-  final String applicationServicePath;
-
-  /// The client number for the client creating the connection.
-  final String clientNumber;
-
-  /// The port number of the SAPOData instance.
-  final int portNumber;
-
-  /// If you set this parameter to <code>true</code>, Amazon AppFlow bypasses the
-  /// single sign-on (SSO) settings in your SAP account when it accesses your SAP
-  /// OData instance.
-  ///
-  /// Whether you need this option depends on the types of credentials that you
-  /// applied to your SAP OData connection profile. If your profile uses basic
-  /// authentication credentials, SAP SSO can prevent Amazon AppFlow from
-  /// connecting to your account with your username and password. In this case,
-  /// bypassing SSO makes it possible for Amazon AppFlow to connect successfully.
-  /// However, if your profile uses OAuth credentials, this parameter has no
-  /// affect.
-  final bool? disableSSO;
-
-  /// The logon language of SAPOData instance.
-  final String? logonLanguage;
-
-  /// The SAPOData OAuth properties required for OAuth type authentication.
-  final OAuthProperties? oAuthProperties;
-
-  /// The SAPOData Private Link service name to be used for private data
-  /// transfers.
-  final String? privateLinkServiceName;
-
-  SAPODataConnectorProfileProperties({
-    required this.applicationHostUrl,
-    required this.applicationServicePath,
-    required this.clientNumber,
-    required this.portNumber,
-    this.disableSSO,
-    this.logonLanguage,
-    this.oAuthProperties,
-    this.privateLinkServiceName,
-  });
-
-  factory SAPODataConnectorProfileProperties.fromJson(
-      Map<String, dynamic> json) {
-    return SAPODataConnectorProfileProperties(
-      applicationHostUrl: (json['applicationHostUrl'] as String?) ?? '',
-      applicationServicePath: (json['applicationServicePath'] as String?) ?? '',
-      clientNumber: (json['clientNumber'] as String?) ?? '',
-      portNumber: (json['portNumber'] as int?) ?? 0,
-      disableSSO: json['disableSSO'] as bool?,
-      logonLanguage: json['logonLanguage'] as String?,
-      oAuthProperties: json['oAuthProperties'] != null
-          ? OAuthProperties.fromJson(
-              json['oAuthProperties'] as Map<String, dynamic>)
-          : null,
-      privateLinkServiceName: json['privateLinkServiceName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final applicationHostUrl = this.applicationHostUrl;
-    final applicationServicePath = this.applicationServicePath;
-    final clientNumber = this.clientNumber;
-    final portNumber = this.portNumber;
-    final disableSSO = this.disableSSO;
-    final logonLanguage = this.logonLanguage;
-    final oAuthProperties = this.oAuthProperties;
-    final privateLinkServiceName = this.privateLinkServiceName;
-    return {
-      'applicationHostUrl': applicationHostUrl,
-      'applicationServicePath': applicationServicePath,
-      'clientNumber': clientNumber,
-      'portNumber': portNumber,
-      if (disableSSO != null) 'disableSSO': disableSSO,
-      if (logonLanguage != null) 'logonLanguage': logonLanguage,
-      if (oAuthProperties != null) 'oAuthProperties': oAuthProperties,
-      if (privateLinkServiceName != null)
-        'privateLinkServiceName': privateLinkServiceName,
-    };
-  }
-}
-
-/// The properties that are applied when using SAPOData as a flow destination
-class SAPODataDestinationProperties {
-  /// The object path specified in the SAPOData flow destination.
-  final String objectPath;
-  final ErrorHandlingConfig? errorHandlingConfig;
-  final List<String>? idFieldNames;
-
-  /// Determines how Amazon AppFlow handles the success response that it gets from
-  /// the connector after placing data.
-  ///
-  /// For example, this setting would determine where to write the response from a
-  /// destination connector upon a successful insert operation.
-  final SuccessResponseHandlingConfig? successResponseHandlingConfig;
-  final WriteOperationType? writeOperationType;
-
-  SAPODataDestinationProperties({
-    required this.objectPath,
-    this.errorHandlingConfig,
-    this.idFieldNames,
-    this.successResponseHandlingConfig,
-    this.writeOperationType,
-  });
-
-  factory SAPODataDestinationProperties.fromJson(Map<String, dynamic> json) {
-    return SAPODataDestinationProperties(
-      objectPath: (json['objectPath'] as String?) ?? '',
-      errorHandlingConfig: json['errorHandlingConfig'] != null
-          ? ErrorHandlingConfig.fromJson(
-              json['errorHandlingConfig'] as Map<String, dynamic>)
-          : null,
-      idFieldNames: (json['idFieldNames'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      successResponseHandlingConfig:
-          json['successResponseHandlingConfig'] != null
-              ? SuccessResponseHandlingConfig.fromJson(
-                  json['successResponseHandlingConfig'] as Map<String, dynamic>)
-              : null,
-      writeOperationType: (json['writeOperationType'] as String?)
-          ?.let(WriteOperationType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final objectPath = this.objectPath;
-    final errorHandlingConfig = this.errorHandlingConfig;
-    final idFieldNames = this.idFieldNames;
-    final successResponseHandlingConfig = this.successResponseHandlingConfig;
-    final writeOperationType = this.writeOperationType;
-    return {
-      'objectPath': objectPath,
-      if (errorHandlingConfig != null)
-        'errorHandlingConfig': errorHandlingConfig,
-      if (idFieldNames != null) 'idFieldNames': idFieldNames,
-      if (successResponseHandlingConfig != null)
-        'successResponseHandlingConfig': successResponseHandlingConfig,
-      if (writeOperationType != null)
-        'writeOperationType': writeOperationType.value,
-    };
-  }
-}
-
-/// The connector metadata specific to SAPOData.
-class SAPODataMetadata {
-  SAPODataMetadata();
-
-  factory SAPODataMetadata.fromJson(Map<String, dynamic> _) {
-    return SAPODataMetadata();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Sets the page size for each <i>concurrent process</i> that transfers OData
-/// records from your SAP instance. A concurrent process is query that retrieves
-/// a batch of records as part of a flow run. Amazon AppFlow can run multiple
-/// concurrent processes in parallel to transfer data faster.
-class SAPODataPaginationConfig {
-  /// The maximum number of records that Amazon AppFlow receives in each page of
-  /// the response from your SAP application. For transfers of OData records, the
-  /// maximum page size is 3,000. For transfers of data that comes from an ODP
-  /// provider, the maximum page size is 10,000.
-  final int maxPageSize;
-
-  SAPODataPaginationConfig({
-    required this.maxPageSize,
-  });
-
-  factory SAPODataPaginationConfig.fromJson(Map<String, dynamic> json) {
-    return SAPODataPaginationConfig(
-      maxPageSize: (json['maxPageSize'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final maxPageSize = this.maxPageSize;
-    return {
-      'maxPageSize': maxPageSize,
-    };
-  }
-}
-
-/// Sets the number of <i>concurrent processes</i> that transfer OData records
-/// from your SAP instance. A concurrent process is query that retrieves a batch
-/// of records as part of a flow run. Amazon AppFlow can run multiple concurrent
-/// processes in parallel to transfer data faster.
-class SAPODataParallelismConfig {
-  /// The maximum number of processes that Amazon AppFlow runs at the same time
-  /// when it retrieves your data from your SAP application.
-  final int maxParallelism;
-
-  SAPODataParallelismConfig({
-    required this.maxParallelism,
-  });
-
-  factory SAPODataParallelismConfig.fromJson(Map<String, dynamic> json) {
-    return SAPODataParallelismConfig(
-      maxParallelism: (json['maxParallelism'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final maxParallelism = this.maxParallelism;
-    return {
-      'maxParallelism': maxParallelism,
-    };
-  }
-}
-
-/// The properties that are applied when using SAPOData as a flow source.
-class SAPODataSourceProperties {
-  /// The object path specified in the SAPOData flow source.
-  final String? objectPath;
-
-  /// Sets the page size for each concurrent process that transfers OData records
-  /// from your SAP instance.
-  final SAPODataPaginationConfig? paginationConfig;
-
-  /// Sets the number of concurrent processes that transfers OData records from
-  /// your SAP instance.
-  final SAPODataParallelismConfig? parallelismConfig;
-
-  SAPODataSourceProperties({
-    this.objectPath,
-    this.paginationConfig,
-    this.parallelismConfig,
-  });
-
-  factory SAPODataSourceProperties.fromJson(Map<String, dynamic> json) {
-    return SAPODataSourceProperties(
-      objectPath: json['objectPath'] as String?,
-      paginationConfig: json['paginationConfig'] != null
-          ? SAPODataPaginationConfig.fromJson(
-              json['paginationConfig'] as Map<String, dynamic>)
-          : null,
-      parallelismConfig: json['parallelismConfig'] != null
-          ? SAPODataParallelismConfig.fromJson(
-              json['parallelismConfig'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final objectPath = this.objectPath;
-    final paginationConfig = this.paginationConfig;
-    final parallelismConfig = this.parallelismConfig;
-    return {
-      if (objectPath != null) 'objectPath': objectPath,
-      if (paginationConfig != null) 'paginationConfig': paginationConfig,
-      if (parallelismConfig != null) 'parallelismConfig': parallelismConfig,
-    };
-  }
-}
-
-class SalesforceConnectorOperator {
-  static const projection = SalesforceConnectorOperator._('PROJECTION');
-  static const lessThan = SalesforceConnectorOperator._('LESS_THAN');
-  static const contains = SalesforceConnectorOperator._('CONTAINS');
-  static const greaterThan = SalesforceConnectorOperator._('GREATER_THAN');
-  static const between = SalesforceConnectorOperator._('BETWEEN');
-  static const lessThanOrEqualTo =
-      SalesforceConnectorOperator._('LESS_THAN_OR_EQUAL_TO');
-  static const greaterThanOrEqualTo =
-      SalesforceConnectorOperator._('GREATER_THAN_OR_EQUAL_TO');
-  static const equalTo = SalesforceConnectorOperator._('EQUAL_TO');
-  static const notEqualTo = SalesforceConnectorOperator._('NOT_EQUAL_TO');
-  static const addition = SalesforceConnectorOperator._('ADDITION');
-  static const multiplication = SalesforceConnectorOperator._('MULTIPLICATION');
-  static const division = SalesforceConnectorOperator._('DIVISION');
-  static const subtraction = SalesforceConnectorOperator._('SUBTRACTION');
-  static const maskAll = SalesforceConnectorOperator._('MASK_ALL');
-  static const maskFirstN = SalesforceConnectorOperator._('MASK_FIRST_N');
-  static const maskLastN = SalesforceConnectorOperator._('MASK_LAST_N');
-  static const validateNonNull =
-      SalesforceConnectorOperator._('VALIDATE_NON_NULL');
-  static const validateNonZero =
-      SalesforceConnectorOperator._('VALIDATE_NON_ZERO');
-  static const validateNonNegative =
-      SalesforceConnectorOperator._('VALIDATE_NON_NEGATIVE');
-  static const validateNumeric =
-      SalesforceConnectorOperator._('VALIDATE_NUMERIC');
-  static const noOp = SalesforceConnectorOperator._('NO_OP');
-
-  final String value;
-
-  const SalesforceConnectorOperator._(this.value);
-
-  static const values = [
-    projection,
-    lessThan,
-    contains,
-    greaterThan,
-    between,
-    lessThanOrEqualTo,
-    greaterThanOrEqualTo,
-    equalTo,
-    notEqualTo,
-    addition,
-    multiplication,
-    division,
-    subtraction,
-    maskAll,
-    maskFirstN,
-    maskLastN,
-    validateNonNull,
-    validateNonZero,
-    validateNonNegative,
-    validateNumeric,
-    noOp
-  ];
-
-  static SalesforceConnectorOperator fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SalesforceConnectorOperator._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SalesforceConnectorOperator && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The connector-specific profile credentials required when using Salesforce.
-class SalesforceConnectorProfileCredentials {
-  /// The credentials used to access protected Salesforce resources.
-  final String? accessToken;
-
-  /// The secret manager ARN, which contains the client ID and client secret of
-  /// the connected app.
-  final String? clientCredentialsArn;
-
-  /// A JSON web token (JWT) that authorizes Amazon AppFlow to access your
-  /// Salesforce records.
-  final String? jwtToken;
-
-  /// Specifies the OAuth 2.0 grant type that Amazon AppFlow uses when it requests
-  /// an access token from Salesforce. Amazon AppFlow requires an access token
-  /// each time it attempts to access your Salesforce records.
-  ///
-  /// You can specify one of the following values:
-  /// <dl> <dt>AUTHORIZATION_CODE</dt> <dd>
-  /// Amazon AppFlow passes an authorization code when it requests the access
-  /// token from Salesforce. Amazon AppFlow receives the authorization code from
-  /// Salesforce after you log in to your Salesforce account and authorize Amazon
-  /// AppFlow to access your records.
-  /// </dd> <dt>CLIENT_CREDENTIALS</dt> <dd>
-  /// Amazon AppFlow passes client credentials (a client ID and client secret)
-  /// when it requests the access token from Salesforce. You provide these
-  /// credentials to Amazon AppFlow when you define the connection to your
-  /// Salesforce account.
-  /// </dd> <dt>JWT_BEARER</dt> <dd>
-  /// Amazon AppFlow passes a JSON web token (JWT) when it requests the access
-  /// token from Salesforce. You provide the JWT to Amazon AppFlow when you define
-  /// the connection to your Salesforce account. When you use this grant type, you
-  /// don't need to log in to your Salesforce account to authorize Amazon AppFlow
-  /// to access your records.
-  /// </dd> </dl>
-  final OAuth2GrantType? oAuth2GrantType;
-
-  /// The OAuth requirement needed to request security tokens from the connector
-  /// endpoint.
-  final ConnectorOAuthRequest? oAuthRequest;
-
-  /// The credentials used to acquire new access tokens.
-  final String? refreshToken;
-
-  SalesforceConnectorProfileCredentials({
-    this.accessToken,
-    this.clientCredentialsArn,
-    this.jwtToken,
-    this.oAuth2GrantType,
-    this.oAuthRequest,
-    this.refreshToken,
-  });
-
-  Map<String, dynamic> toJson() {
-    final accessToken = this.accessToken;
-    final clientCredentialsArn = this.clientCredentialsArn;
-    final jwtToken = this.jwtToken;
-    final oAuth2GrantType = this.oAuth2GrantType;
-    final oAuthRequest = this.oAuthRequest;
-    final refreshToken = this.refreshToken;
-    return {
-      if (accessToken != null) 'accessToken': accessToken,
-      if (clientCredentialsArn != null)
-        'clientCredentialsArn': clientCredentialsArn,
-      if (jwtToken != null) 'jwtToken': jwtToken,
-      if (oAuth2GrantType != null) 'oAuth2GrantType': oAuth2GrantType.value,
-      if (oAuthRequest != null) 'oAuthRequest': oAuthRequest,
-      if (refreshToken != null) 'refreshToken': refreshToken,
-    };
-  }
-}
-
-/// The connector-specific profile properties required when using Salesforce.
-class SalesforceConnectorProfileProperties {
-  /// The location of the Salesforce resource.
-  final String? instanceUrl;
-
-  /// Indicates whether the connector profile applies to a sandbox or production
-  /// environment.
-  final bool? isSandboxEnvironment;
-
-  /// If the connection mode for the connector profile is private, this parameter
-  /// sets whether Amazon AppFlow uses the private network to send metadata and
-  /// authorization calls to Salesforce. Amazon AppFlow sends private calls
-  /// through Amazon Web Services PrivateLink. These calls travel through Amazon
-  /// Web Services infrastructure without being exposed to the public internet.
-  ///
-  /// Set either of the following values:
-  /// <dl> <dt>true</dt> <dd>
-  /// Amazon AppFlow sends all calls to Salesforce over the private network.
-  ///
-  /// These private calls are:
-  ///
-  /// <ul>
-  /// <li>
-  /// Calls to get metadata about your Salesforce records. This metadata describes
-  /// your Salesforce objects and their fields.
-  /// </li>
-  /// <li>
-  /// Calls to get or refresh access tokens that allow Amazon AppFlow to access
-  /// your Salesforce records.
-  /// </li>
-  /// <li>
-  /// Calls to transfer your Salesforce records as part of a flow run.
-  /// </li>
-  /// </ul> </dd> <dt>false</dt> <dd>
-  /// The default value. Amazon AppFlow sends some calls to Salesforce privately
-  /// and other calls over the public internet.
-  ///
-  /// The public calls are:
-  ///
-  /// <ul>
-  /// <li>
-  /// Calls to get metadata about your Salesforce records.
-  /// </li>
-  /// <li>
-  /// Calls to get or refresh access tokens.
-  /// </li>
-  /// </ul>
-  /// The private calls are:
-  ///
-  /// <ul>
-  /// <li>
-  /// Calls to transfer your Salesforce records as part of a flow run.
-  /// </li>
-  /// </ul> </dd> </dl>
-  final bool? usePrivateLinkForMetadataAndAuthorization;
-
-  SalesforceConnectorProfileProperties({
-    this.instanceUrl,
-    this.isSandboxEnvironment,
-    this.usePrivateLinkForMetadataAndAuthorization,
-  });
-
-  factory SalesforceConnectorProfileProperties.fromJson(
-      Map<String, dynamic> json) {
-    return SalesforceConnectorProfileProperties(
-      instanceUrl: json['instanceUrl'] as String?,
-      isSandboxEnvironment: json['isSandboxEnvironment'] as bool?,
-      usePrivateLinkForMetadataAndAuthorization:
-          json['usePrivateLinkForMetadataAndAuthorization'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final instanceUrl = this.instanceUrl;
-    final isSandboxEnvironment = this.isSandboxEnvironment;
-    final usePrivateLinkForMetadataAndAuthorization =
-        this.usePrivateLinkForMetadataAndAuthorization;
-    return {
-      if (instanceUrl != null) 'instanceUrl': instanceUrl,
-      if (isSandboxEnvironment != null)
-        'isSandboxEnvironment': isSandboxEnvironment,
-      if (usePrivateLinkForMetadataAndAuthorization != null)
-        'usePrivateLinkForMetadataAndAuthorization':
-            usePrivateLinkForMetadataAndAuthorization,
-    };
-  }
-}
-
-class SalesforceDataTransferApi {
-  static const automatic = SalesforceDataTransferApi._('AUTOMATIC');
-  static const bulkv2 = SalesforceDataTransferApi._('BULKV2');
-  static const restSync = SalesforceDataTransferApi._('REST_SYNC');
-
-  final String value;
-
-  const SalesforceDataTransferApi._(this.value);
-
-  static const values = [automatic, bulkv2, restSync];
-
-  static SalesforceDataTransferApi fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SalesforceDataTransferApi._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SalesforceDataTransferApi && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The properties that are applied when Salesforce is being used as a
-/// destination.
-class SalesforceDestinationProperties {
-  /// The object specified in the Salesforce flow destination.
-  final String object;
-
-  /// Specifies which Salesforce API is used by Amazon AppFlow when your flow
-  /// transfers data to Salesforce.
-  /// <dl> <dt>AUTOMATIC</dt> <dd>
-  /// The default. Amazon AppFlow selects which API to use based on the number of
-  /// records that your flow transfers to Salesforce. If your flow transfers fewer
-  /// than 1,000 records, Amazon AppFlow uses Salesforce REST API. If your flow
-  /// transfers 1,000 records or more, Amazon AppFlow uses Salesforce Bulk API
-  /// 2.0.
-  ///
-  /// Each of these Salesforce APIs structures data differently. If Amazon AppFlow
-  /// selects the API automatically, be aware that, for recurring flows, the data
-  /// output might vary from one flow run to the next. For example, if a flow runs
-  /// daily, it might use REST API on one day to transfer 900 records, and it
-  /// might use Bulk API 2.0 on the next day to transfer 1,100 records. For each
-  /// of these flow runs, the respective Salesforce API formats the data
-  /// differently. Some of the differences include how dates are formatted and
-  /// null values are represented. Also, Bulk API 2.0 doesn't transfer Salesforce
-  /// compound fields.
-  ///
-  /// By choosing this option, you optimize flow performance for both small and
-  /// large data transfers, but the tradeoff is inconsistent formatting in the
-  /// output.
-  /// </dd> <dt>BULKV2</dt> <dd>
-  /// Amazon AppFlow uses only Salesforce Bulk API 2.0. This API runs asynchronous
-  /// data transfers, and it's optimal for large sets of data. By choosing this
-  /// option, you ensure that your flow writes consistent output, but you optimize
-  /// performance only for large data transfers.
-  ///
-  /// Note that Bulk API 2.0 does not transfer Salesforce compound fields.
-  /// </dd> <dt>REST_SYNC</dt> <dd>
-  /// Amazon AppFlow uses only Salesforce REST API. By choosing this option, you
-  /// ensure that your flow writes consistent output, but you decrease performance
-  /// for large data transfers that are better suited for Bulk API 2.0. In some
-  /// cases, if your flow attempts to transfer a vary large set of data, it might
-  /// fail with a timed out error.
-  /// </dd> </dl>
-  final SalesforceDataTransferApi? dataTransferApi;
-
-  /// The settings that determine how Amazon AppFlow handles an error when placing
-  /// data in the Salesforce destination. For example, this setting would
-  /// determine if the flow should fail after one insertion error, or continue and
-  /// attempt to insert every record regardless of the initial failure.
-  /// <code>ErrorHandlingConfig</code> is a part of the destination connector
-  /// details.
-  final ErrorHandlingConfig? errorHandlingConfig;
-
-  /// The name of the field that Amazon AppFlow uses as an ID when performing a
-  /// write operation such as update or delete.
-  final List<String>? idFieldNames;
-
-  /// This specifies the type of write operation to be performed in Salesforce.
-  /// When the value is <code>UPSERT</code>, then <code>idFieldNames</code> is
-  /// required.
-  final WriteOperationType? writeOperationType;
-
-  SalesforceDestinationProperties({
-    required this.object,
-    this.dataTransferApi,
-    this.errorHandlingConfig,
-    this.idFieldNames,
-    this.writeOperationType,
-  });
-
-  factory SalesforceDestinationProperties.fromJson(Map<String, dynamic> json) {
-    return SalesforceDestinationProperties(
-      object: (json['object'] as String?) ?? '',
-      dataTransferApi: (json['dataTransferApi'] as String?)
-          ?.let(SalesforceDataTransferApi.fromString),
-      errorHandlingConfig: json['errorHandlingConfig'] != null
-          ? ErrorHandlingConfig.fromJson(
-              json['errorHandlingConfig'] as Map<String, dynamic>)
-          : null,
-      idFieldNames: (json['idFieldNames'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      writeOperationType: (json['writeOperationType'] as String?)
-          ?.let(WriteOperationType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final object = this.object;
-    final dataTransferApi = this.dataTransferApi;
-    final errorHandlingConfig = this.errorHandlingConfig;
-    final idFieldNames = this.idFieldNames;
-    final writeOperationType = this.writeOperationType;
-    return {
-      'object': object,
-      if (dataTransferApi != null) 'dataTransferApi': dataTransferApi.value,
-      if (errorHandlingConfig != null)
-        'errorHandlingConfig': errorHandlingConfig,
-      if (idFieldNames != null) 'idFieldNames': idFieldNames,
-      if (writeOperationType != null)
-        'writeOperationType': writeOperationType.value,
-    };
-  }
-}
-
-/// The connector metadata specific to Salesforce.
-class SalesforceMetadata {
-  /// The Salesforce APIs that you can have Amazon AppFlow use when your flows
-  /// transfers data to or from Salesforce.
-  final List<SalesforceDataTransferApi>? dataTransferApis;
-
-  /// The desired authorization scope for the Salesforce account.
-  final List<String>? oAuthScopes;
-
-  /// The OAuth 2.0 grant types that Amazon AppFlow can use when it requests an
-  /// access token from Salesforce. Amazon AppFlow requires an access token each
-  /// time it attempts to access your Salesforce records.
-  /// <dl> <dt>AUTHORIZATION_CODE</dt> <dd>
-  /// Amazon AppFlow passes an authorization code when it requests the access
-  /// token from Salesforce. Amazon AppFlow receives the authorization code from
-  /// Salesforce after you log in to your Salesforce account and authorize Amazon
-  /// AppFlow to access your records.
-  /// </dd> <dt>CLIENT_CREDENTIALS</dt> <dd>
-  /// Amazon AppFlow passes client credentials (a client ID and client secret)
-  /// when it requests the access token from Salesforce. You provide these
-  /// credentials to Amazon AppFlow when you define the connection to your
-  /// Salesforce account.
-  /// </dd> <dt>JWT_BEARER</dt> <dd>
-  /// Amazon AppFlow passes a JSON web token (JWT) when it requests the access
-  /// token from Salesforce. You provide the JWT to Amazon AppFlow when you define
-  /// the connection to your Salesforce account. When you use this grant type, you
-  /// don't need to log in to your Salesforce account to authorize Amazon AppFlow
-  /// to access your records.
-  /// </dd> </dl>
-  final List<OAuth2GrantType>? oauth2GrantTypesSupported;
-
-  SalesforceMetadata({
-    this.dataTransferApis,
-    this.oAuthScopes,
-    this.oauth2GrantTypesSupported,
-  });
-
-  factory SalesforceMetadata.fromJson(Map<String, dynamic> json) {
-    return SalesforceMetadata(
-      dataTransferApis: (json['dataTransferApis'] as List?)
-          ?.nonNulls
-          .map((e) => SalesforceDataTransferApi.fromString((e as String)))
-          .toList(),
-      oAuthScopes: (json['oAuthScopes'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      oauth2GrantTypesSupported: (json['oauth2GrantTypesSupported'] as List?)
-          ?.nonNulls
-          .map((e) => OAuth2GrantType.fromString((e as String)))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataTransferApis = this.dataTransferApis;
-    final oAuthScopes = this.oAuthScopes;
-    final oauth2GrantTypesSupported = this.oauth2GrantTypesSupported;
-    return {
-      if (dataTransferApis != null)
-        'dataTransferApis': dataTransferApis.map((e) => e.value).toList(),
-      if (oAuthScopes != null) 'oAuthScopes': oAuthScopes,
-      if (oauth2GrantTypesSupported != null)
-        'oauth2GrantTypesSupported':
-            oauth2GrantTypesSupported.map((e) => e.value).toList(),
-    };
-  }
-}
-
-/// The properties that are applied when Salesforce is being used as a source.
-class SalesforceSourceProperties {
-  /// The object specified in the Salesforce flow source.
-  final String object;
-
-  /// Specifies which Salesforce API is used by Amazon AppFlow when your flow
-  /// transfers data from Salesforce.
-  /// <dl> <dt>AUTOMATIC</dt> <dd>
-  /// The default. Amazon AppFlow selects which API to use based on the number of
-  /// records that your flow transfers from Salesforce. If your flow transfers
-  /// fewer than 1,000,000 records, Amazon AppFlow uses Salesforce REST API. If
-  /// your flow transfers 1,000,000 records or more, Amazon AppFlow uses
-  /// Salesforce Bulk API 2.0.
-  ///
-  /// Each of these Salesforce APIs structures data differently. If Amazon AppFlow
-  /// selects the API automatically, be aware that, for recurring flows, the data
-  /// output might vary from one flow run to the next. For example, if a flow runs
-  /// daily, it might use REST API on one day to transfer 900,000 records, and it
-  /// might use Bulk API 2.0 on the next day to transfer 1,100,000 records. For
-  /// each of these flow runs, the respective Salesforce API formats the data
-  /// differently. Some of the differences include how dates are formatted and
-  /// null values are represented. Also, Bulk API 2.0 doesn't transfer Salesforce
-  /// compound fields.
-  ///
-  /// By choosing this option, you optimize flow performance for both small and
-  /// large data transfers, but the tradeoff is inconsistent formatting in the
-  /// output.
-  /// </dd> <dt>BULKV2</dt> <dd>
-  /// Amazon AppFlow uses only Salesforce Bulk API 2.0. This API runs asynchronous
-  /// data transfers, and it's optimal for large sets of data. By choosing this
-  /// option, you ensure that your flow writes consistent output, but you optimize
-  /// performance only for large data transfers.
-  ///
-  /// Note that Bulk API 2.0 does not transfer Salesforce compound fields.
-  /// </dd> <dt>REST_SYNC</dt> <dd>
-  /// Amazon AppFlow uses only Salesforce REST API. By choosing this option, you
-  /// ensure that your flow writes consistent output, but you decrease performance
-  /// for large data transfers that are better suited for Bulk API 2.0. In some
-  /// cases, if your flow attempts to transfer a vary large set of data, it might
-  /// fail wituh a timed out error.
-  /// </dd> </dl>
-  final SalesforceDataTransferApi? dataTransferApi;
-
-  /// The flag that enables dynamic fetching of new (recently added) fields in the
-  /// Salesforce objects while running a flow.
-  final bool? enableDynamicFieldUpdate;
-
-  /// Indicates whether Amazon AppFlow includes deleted files in the flow run.
-  final bool? includeDeletedRecords;
-
-  SalesforceSourceProperties({
-    required this.object,
-    this.dataTransferApi,
-    this.enableDynamicFieldUpdate,
-    this.includeDeletedRecords,
-  });
-
-  factory SalesforceSourceProperties.fromJson(Map<String, dynamic> json) {
-    return SalesforceSourceProperties(
-      object: (json['object'] as String?) ?? '',
-      dataTransferApi: (json['dataTransferApi'] as String?)
-          ?.let(SalesforceDataTransferApi.fromString),
-      enableDynamicFieldUpdate: json['enableDynamicFieldUpdate'] as bool?,
-      includeDeletedRecords: json['includeDeletedRecords'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final object = this.object;
-    final dataTransferApi = this.dataTransferApi;
-    final enableDynamicFieldUpdate = this.enableDynamicFieldUpdate;
-    final includeDeletedRecords = this.includeDeletedRecords;
-    return {
-      'object': object,
-      if (dataTransferApi != null) 'dataTransferApi': dataTransferApi.value,
-      if (enableDynamicFieldUpdate != null)
-        'enableDynamicFieldUpdate': enableDynamicFieldUpdate,
-      if (includeDeletedRecords != null)
-        'includeDeletedRecords': includeDeletedRecords,
-    };
-  }
-}
-
-class ScheduleFrequencyType {
-  static const byminute = ScheduleFrequencyType._('BYMINUTE');
-  static const hourly = ScheduleFrequencyType._('HOURLY');
-  static const daily = ScheduleFrequencyType._('DAILY');
-  static const weekly = ScheduleFrequencyType._('WEEKLY');
-  static const monthly = ScheduleFrequencyType._('MONTHLY');
-  static const once = ScheduleFrequencyType._('ONCE');
-
-  final String value;
-
-  const ScheduleFrequencyType._(this.value);
-
-  static const values = [byminute, hourly, daily, weekly, monthly, once];
-
-  static ScheduleFrequencyType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ScheduleFrequencyType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ScheduleFrequencyType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Specifies the configuration details of a schedule-triggered flow as defined
-/// by the user. Currently, these settings only apply to the
-/// <code>Scheduled</code> trigger type.
-class ScheduledTriggerProperties {
-  /// The scheduling expression that determines the rate at which the schedule
-  /// will run, for example <code>rate(5minutes)</code>.
-  final String scheduleExpression;
-
-  /// Specifies whether a scheduled flow has an incremental data transfer or a
-  /// complete data transfer for each flow run.
-  final DataPullMode? dataPullMode;
-
-  /// Specifies the date range for the records to import from the connector in the
-  /// first flow run.
-  final DateTime? firstExecutionFrom;
-
-  /// Defines how many times a scheduled flow fails consecutively before Amazon
-  /// AppFlow deactivates it.
-  final int? flowErrorDeactivationThreshold;
-
-  /// The time at which the scheduled flow ends. The time is formatted as a
-  /// timestamp that follows the ISO 8601 standard, such as
-  /// <code>2022-04-27T13:00:00-07:00</code>.
-  final DateTime? scheduleEndTime;
-
-  /// Specifies the optional offset that is added to the time interval for a
-  /// schedule-triggered flow.
-  final int? scheduleOffset;
-
-  /// The time at which the scheduled flow starts. The time is formatted as a
-  /// timestamp that follows the ISO 8601 standard, such as
-  /// <code>2022-04-26T13:00:00-07:00</code>.
-  final DateTime? scheduleStartTime;
-
-  /// Specifies the time zone used when referring to the dates and times of a
-  /// scheduled flow, such as <code>America/New_York</code>. This time zone is
-  /// only a descriptive label. It doesn't affect how Amazon AppFlow interprets
-  /// the timestamps that you specify to schedule the flow.
-  ///
-  /// If you want to schedule a flow by using times in a particular time zone,
-  /// indicate the time zone as a UTC offset in your timestamps. For example, the
-  /// UTC offsets for the <code>America/New_York</code> timezone are
-  /// <code>-04:00</code> EDT and <code>-05:00 EST</code>.
-  final String? timezone;
-
-  ScheduledTriggerProperties({
-    required this.scheduleExpression,
-    this.dataPullMode,
-    this.firstExecutionFrom,
-    this.flowErrorDeactivationThreshold,
-    this.scheduleEndTime,
-    this.scheduleOffset,
-    this.scheduleStartTime,
-    this.timezone,
-  });
-
-  factory ScheduledTriggerProperties.fromJson(Map<String, dynamic> json) {
-    return ScheduledTriggerProperties(
-      scheduleExpression: (json['scheduleExpression'] as String?) ?? '',
-      dataPullMode:
-          (json['dataPullMode'] as String?)?.let(DataPullMode.fromString),
-      firstExecutionFrom: timeStampFromJson(json['firstExecutionFrom']),
-      flowErrorDeactivationThreshold:
-          json['flowErrorDeactivationThreshold'] as int?,
-      scheduleEndTime: timeStampFromJson(json['scheduleEndTime']),
-      scheduleOffset: json['scheduleOffset'] as int?,
-      scheduleStartTime: timeStampFromJson(json['scheduleStartTime']),
-      timezone: json['timezone'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final scheduleExpression = this.scheduleExpression;
-    final dataPullMode = this.dataPullMode;
-    final firstExecutionFrom = this.firstExecutionFrom;
-    final flowErrorDeactivationThreshold = this.flowErrorDeactivationThreshold;
-    final scheduleEndTime = this.scheduleEndTime;
-    final scheduleOffset = this.scheduleOffset;
-    final scheduleStartTime = this.scheduleStartTime;
-    final timezone = this.timezone;
-    return {
-      'scheduleExpression': scheduleExpression,
-      if (dataPullMode != null) 'dataPullMode': dataPullMode.value,
-      if (firstExecutionFrom != null)
-        'firstExecutionFrom': unixTimestampToJson(firstExecutionFrom),
-      if (flowErrorDeactivationThreshold != null)
-        'flowErrorDeactivationThreshold': flowErrorDeactivationThreshold,
-      if (scheduleEndTime != null)
-        'scheduleEndTime': unixTimestampToJson(scheduleEndTime),
-      if (scheduleOffset != null) 'scheduleOffset': scheduleOffset,
-      if (scheduleStartTime != null)
-        'scheduleStartTime': unixTimestampToJson(scheduleStartTime),
-      if (timezone != null) 'timezone': timezone,
-    };
-  }
-}
-
-class ServiceNowConnectorOperator {
-  static const projection = ServiceNowConnectorOperator._('PROJECTION');
-  static const contains = ServiceNowConnectorOperator._('CONTAINS');
-  static const lessThan = ServiceNowConnectorOperator._('LESS_THAN');
-  static const greaterThan = ServiceNowConnectorOperator._('GREATER_THAN');
-  static const between = ServiceNowConnectorOperator._('BETWEEN');
-  static const lessThanOrEqualTo =
-      ServiceNowConnectorOperator._('LESS_THAN_OR_EQUAL_TO');
-  static const greaterThanOrEqualTo =
-      ServiceNowConnectorOperator._('GREATER_THAN_OR_EQUAL_TO');
-  static const equalTo = ServiceNowConnectorOperator._('EQUAL_TO');
-  static const notEqualTo = ServiceNowConnectorOperator._('NOT_EQUAL_TO');
-  static const addition = ServiceNowConnectorOperator._('ADDITION');
-  static const multiplication = ServiceNowConnectorOperator._('MULTIPLICATION');
-  static const division = ServiceNowConnectorOperator._('DIVISION');
-  static const subtraction = ServiceNowConnectorOperator._('SUBTRACTION');
-  static const maskAll = ServiceNowConnectorOperator._('MASK_ALL');
-  static const maskFirstN = ServiceNowConnectorOperator._('MASK_FIRST_N');
-  static const maskLastN = ServiceNowConnectorOperator._('MASK_LAST_N');
-  static const validateNonNull =
-      ServiceNowConnectorOperator._('VALIDATE_NON_NULL');
-  static const validateNonZero =
-      ServiceNowConnectorOperator._('VALIDATE_NON_ZERO');
-  static const validateNonNegative =
-      ServiceNowConnectorOperator._('VALIDATE_NON_NEGATIVE');
-  static const validateNumeric =
-      ServiceNowConnectorOperator._('VALIDATE_NUMERIC');
-  static const noOp = ServiceNowConnectorOperator._('NO_OP');
-
-  final String value;
-
-  const ServiceNowConnectorOperator._(this.value);
-
-  static const values = [
-    projection,
-    contains,
-    lessThan,
-    greaterThan,
-    between,
-    lessThanOrEqualTo,
-    greaterThanOrEqualTo,
-    equalTo,
-    notEqualTo,
-    addition,
-    multiplication,
-    division,
-    subtraction,
-    maskAll,
-    maskFirstN,
-    maskLastN,
-    validateNonNull,
-    validateNonZero,
-    validateNonNegative,
-    validateNumeric,
-    noOp
-  ];
-
-  static ServiceNowConnectorOperator fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ServiceNowConnectorOperator._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ServiceNowConnectorOperator && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The connector-specific profile credentials required when using ServiceNow.
-class ServiceNowConnectorProfileCredentials {
-  /// The OAuth 2.0 credentials required to authenticate the user.
-  final OAuth2Credentials? oAuth2Credentials;
-
-  /// The password that corresponds to the user name.
-  final String? password;
-
-  /// The name of the user.
-  final String? username;
-
-  ServiceNowConnectorProfileCredentials({
-    this.oAuth2Credentials,
-    this.password,
-    this.username,
-  });
-
-  Map<String, dynamic> toJson() {
-    final oAuth2Credentials = this.oAuth2Credentials;
-    final password = this.password;
-    final username = this.username;
-    return {
-      if (oAuth2Credentials != null) 'oAuth2Credentials': oAuth2Credentials,
-      if (password != null) 'password': password,
-      if (username != null) 'username': username,
-    };
-  }
-}
-
-/// The connector-specific profile properties required when using ServiceNow.
-class ServiceNowConnectorProfileProperties {
-  /// The location of the ServiceNow resource.
-  final String instanceUrl;
-
-  ServiceNowConnectorProfileProperties({
-    required this.instanceUrl,
-  });
-
-  factory ServiceNowConnectorProfileProperties.fromJson(
-      Map<String, dynamic> json) {
-    return ServiceNowConnectorProfileProperties(
-      instanceUrl: (json['instanceUrl'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final instanceUrl = this.instanceUrl;
-    return {
-      'instanceUrl': instanceUrl,
-    };
-  }
-}
-
-/// The connector metadata specific to ServiceNow.
-class ServiceNowMetadata {
-  ServiceNowMetadata();
-
-  factory ServiceNowMetadata.fromJson(Map<String, dynamic> _) {
-    return ServiceNowMetadata();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// The properties that are applied when ServiceNow is being used as a source.
-class ServiceNowSourceProperties {
-  /// The object specified in the ServiceNow flow source.
-  final String object;
-
-  ServiceNowSourceProperties({
-    required this.object,
-  });
-
-  factory ServiceNowSourceProperties.fromJson(Map<String, dynamic> json) {
-    return ServiceNowSourceProperties(
-      object: (json['object'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final object = this.object;
-    return {
-      'object': object,
-    };
-  }
-}
-
-class SingularConnectorOperator {
-  static const projection = SingularConnectorOperator._('PROJECTION');
-  static const equalTo = SingularConnectorOperator._('EQUAL_TO');
-  static const addition = SingularConnectorOperator._('ADDITION');
-  static const multiplication = SingularConnectorOperator._('MULTIPLICATION');
-  static const division = SingularConnectorOperator._('DIVISION');
-  static const subtraction = SingularConnectorOperator._('SUBTRACTION');
-  static const maskAll = SingularConnectorOperator._('MASK_ALL');
-  static const maskFirstN = SingularConnectorOperator._('MASK_FIRST_N');
-  static const maskLastN = SingularConnectorOperator._('MASK_LAST_N');
-  static const validateNonNull =
-      SingularConnectorOperator._('VALIDATE_NON_NULL');
-  static const validateNonZero =
-      SingularConnectorOperator._('VALIDATE_NON_ZERO');
-  static const validateNonNegative =
-      SingularConnectorOperator._('VALIDATE_NON_NEGATIVE');
-  static const validateNumeric =
-      SingularConnectorOperator._('VALIDATE_NUMERIC');
-  static const noOp = SingularConnectorOperator._('NO_OP');
-
-  final String value;
-
-  const SingularConnectorOperator._(this.value);
-
-  static const values = [
-    projection,
-    equalTo,
-    addition,
-    multiplication,
-    division,
-    subtraction,
-    maskAll,
-    maskFirstN,
-    maskLastN,
-    validateNonNull,
-    validateNonZero,
-    validateNonNegative,
-    validateNumeric,
-    noOp
-  ];
-
-  static SingularConnectorOperator fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SingularConnectorOperator._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SingularConnectorOperator && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The connector-specific profile credentials required when using Singular.
-class SingularConnectorProfileCredentials {
-  /// A unique alphanumeric identifier used to authenticate a user, developer, or
-  /// calling program to your API.
-  final String apiKey;
-
-  SingularConnectorProfileCredentials({
-    required this.apiKey,
-  });
-
-  Map<String, dynamic> toJson() {
-    final apiKey = this.apiKey;
-    return {
-      'apiKey': apiKey,
-    };
-  }
-}
-
-/// The connector-specific profile properties required when using Singular.
-class SingularConnectorProfileProperties {
-  SingularConnectorProfileProperties();
-
-  factory SingularConnectorProfileProperties.fromJson(Map<String, dynamic> _) {
-    return SingularConnectorProfileProperties();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// The connector metadata specific to Singular.
-class SingularMetadata {
-  SingularMetadata();
-
-  factory SingularMetadata.fromJson(Map<String, dynamic> _) {
-    return SingularMetadata();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// The properties that are applied when Singular is being used as a source.
-class SingularSourceProperties {
-  /// The object specified in the Singular flow source.
-  final String object;
-
-  SingularSourceProperties({
-    required this.object,
-  });
-
-  factory SingularSourceProperties.fromJson(Map<String, dynamic> json) {
-    return SingularSourceProperties(
-      object: (json['object'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final object = this.object;
-    return {
-      'object': object,
-    };
-  }
-}
-
-class SlackConnectorOperator {
-  static const projection = SlackConnectorOperator._('PROJECTION');
-  static const lessThan = SlackConnectorOperator._('LESS_THAN');
-  static const greaterThan = SlackConnectorOperator._('GREATER_THAN');
-  static const between = SlackConnectorOperator._('BETWEEN');
-  static const lessThanOrEqualTo =
-      SlackConnectorOperator._('LESS_THAN_OR_EQUAL_TO');
-  static const greaterThanOrEqualTo =
-      SlackConnectorOperator._('GREATER_THAN_OR_EQUAL_TO');
-  static const equalTo = SlackConnectorOperator._('EQUAL_TO');
-  static const addition = SlackConnectorOperator._('ADDITION');
-  static const multiplication = SlackConnectorOperator._('MULTIPLICATION');
-  static const division = SlackConnectorOperator._('DIVISION');
-  static const subtraction = SlackConnectorOperator._('SUBTRACTION');
-  static const maskAll = SlackConnectorOperator._('MASK_ALL');
-  static const maskFirstN = SlackConnectorOperator._('MASK_FIRST_N');
-  static const maskLastN = SlackConnectorOperator._('MASK_LAST_N');
-  static const validateNonNull = SlackConnectorOperator._('VALIDATE_NON_NULL');
-  static const validateNonZero = SlackConnectorOperator._('VALIDATE_NON_ZERO');
-  static const validateNonNegative =
-      SlackConnectorOperator._('VALIDATE_NON_NEGATIVE');
-  static const validateNumeric = SlackConnectorOperator._('VALIDATE_NUMERIC');
-  static const noOp = SlackConnectorOperator._('NO_OP');
-
-  final String value;
-
-  const SlackConnectorOperator._(this.value);
-
-  static const values = [
-    projection,
-    lessThan,
-    greaterThan,
-    between,
-    lessThanOrEqualTo,
-    greaterThanOrEqualTo,
-    equalTo,
-    addition,
-    multiplication,
-    division,
-    subtraction,
-    maskAll,
-    maskFirstN,
-    maskLastN,
-    validateNonNull,
-    validateNonZero,
-    validateNonNegative,
-    validateNumeric,
-    noOp
-  ];
-
-  static SlackConnectorOperator fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SlackConnectorOperator._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SlackConnectorOperator && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The connector-specific profile credentials required when using Slack.
-class SlackConnectorProfileCredentials {
-  /// The identifier for the client.
-  final String clientId;
-
-  /// The client secret used by the OAuth client to authenticate to the
-  /// authorization server.
-  final String clientSecret;
-
-  /// The credentials used to access protected Slack resources.
-  final String? accessToken;
-
-  /// The OAuth requirement needed to request security tokens from the connector
-  /// endpoint.
-  final ConnectorOAuthRequest? oAuthRequest;
-
-  SlackConnectorProfileCredentials({
-    required this.clientId,
-    required this.clientSecret,
-    this.accessToken,
-    this.oAuthRequest,
-  });
-
-  Map<String, dynamic> toJson() {
-    final clientId = this.clientId;
-    final clientSecret = this.clientSecret;
-    final accessToken = this.accessToken;
-    final oAuthRequest = this.oAuthRequest;
-    return {
-      'clientId': clientId,
-      'clientSecret': clientSecret,
-      if (accessToken != null) 'accessToken': accessToken,
-      if (oAuthRequest != null) 'oAuthRequest': oAuthRequest,
-    };
-  }
-}
-
-/// The connector-specific profile properties required when using Slack.
-class SlackConnectorProfileProperties {
-  /// The location of the Slack resource.
-  final String instanceUrl;
-
-  SlackConnectorProfileProperties({
-    required this.instanceUrl,
-  });
-
-  factory SlackConnectorProfileProperties.fromJson(Map<String, dynamic> json) {
-    return SlackConnectorProfileProperties(
-      instanceUrl: (json['instanceUrl'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final instanceUrl = this.instanceUrl;
-    return {
-      'instanceUrl': instanceUrl,
-    };
-  }
-}
-
-/// The connector metadata specific to Slack.
-class SlackMetadata {
-  /// The desired authorization scope for the Slack account.
-  final List<String>? oAuthScopes;
-
-  SlackMetadata({
-    this.oAuthScopes,
-  });
-
-  factory SlackMetadata.fromJson(Map<String, dynamic> json) {
-    return SlackMetadata(
-      oAuthScopes: (json['oAuthScopes'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final oAuthScopes = this.oAuthScopes;
-    return {
-      if (oAuthScopes != null) 'oAuthScopes': oAuthScopes,
-    };
-  }
-}
-
-/// The properties that are applied when Slack is being used as a source.
-class SlackSourceProperties {
-  /// The object specified in the Slack flow source.
-  final String object;
-
-  SlackSourceProperties({
-    required this.object,
-  });
-
-  factory SlackSourceProperties.fromJson(Map<String, dynamic> json) {
-    return SlackSourceProperties(
-      object: (json['object'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final object = this.object;
-    return {
-      'object': object,
-    };
-  }
-}
-
-/// The connector-specific profile credentials required when using Snowflake.
-class SnowflakeConnectorProfileCredentials {
-  /// The password that corresponds to the user name.
-  final String password;
-
-  /// The name of the user.
-  final String username;
-
-  SnowflakeConnectorProfileCredentials({
-    required this.password,
-    required this.username,
-  });
-
-  Map<String, dynamic> toJson() {
-    final password = this.password;
-    final username = this.username;
-    return {
-      'password': password,
-      'username': username,
-    };
-  }
-}
-
-/// The connector-specific profile properties required when using Snowflake.
-class SnowflakeConnectorProfileProperties {
-  /// The name of the Amazon S3 bucket associated with Snowflake.
-  final String bucketName;
-
-  /// The name of the Amazon S3 stage that was created while setting up an Amazon
-  /// S3 stage in the Snowflake account. This is written in the following format:
-  /// &lt; Database&gt;&lt; Schema&gt;&lt;Stage Name&gt;.
-  final String stage;
-
-  /// The name of the Snowflake warehouse.
-  final String warehouse;
-
-  /// The name of the account.
-  final String? accountName;
-
-  /// The bucket path that refers to the Amazon S3 bucket associated with
-  /// Snowflake.
-  final String? bucketPrefix;
-
-  /// The Snowflake Private Link service name to be used for private data
-  /// transfers.
-  final String? privateLinkServiceName;
-
-  /// The Amazon Web Services Region of the Snowflake account.
-  final String? region;
-
-  SnowflakeConnectorProfileProperties({
-    required this.bucketName,
-    required this.stage,
-    required this.warehouse,
-    this.accountName,
-    this.bucketPrefix,
-    this.privateLinkServiceName,
-    this.region,
-  });
-
-  factory SnowflakeConnectorProfileProperties.fromJson(
-      Map<String, dynamic> json) {
-    return SnowflakeConnectorProfileProperties(
-      bucketName: (json['bucketName'] as String?) ?? '',
-      stage: (json['stage'] as String?) ?? '',
-      warehouse: (json['warehouse'] as String?) ?? '',
-      accountName: json['accountName'] as String?,
-      bucketPrefix: json['bucketPrefix'] as String?,
-      privateLinkServiceName: json['privateLinkServiceName'] as String?,
-      region: json['region'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucketName = this.bucketName;
-    final stage = this.stage;
-    final warehouse = this.warehouse;
-    final accountName = this.accountName;
-    final bucketPrefix = this.bucketPrefix;
-    final privateLinkServiceName = this.privateLinkServiceName;
-    final region = this.region;
-    return {
-      'bucketName': bucketName,
-      'stage': stage,
-      'warehouse': warehouse,
-      if (accountName != null) 'accountName': accountName,
-      if (bucketPrefix != null) 'bucketPrefix': bucketPrefix,
-      if (privateLinkServiceName != null)
-        'privateLinkServiceName': privateLinkServiceName,
-      if (region != null) 'region': region,
-    };
-  }
-}
-
-/// The properties that are applied when Snowflake is being used as a
-/// destination.
-class SnowflakeDestinationProperties {
-  /// The intermediate bucket that Amazon AppFlow uses when moving data into
-  /// Snowflake.
-  final String intermediateBucketName;
-
-  /// The object specified in the Snowflake flow destination.
-  final String object;
-
-  /// The object key for the destination bucket in which Amazon AppFlow places the
-  /// files.
-  final String? bucketPrefix;
-
-  /// The settings that determine how Amazon AppFlow handles an error when placing
-  /// data in the Snowflake destination. For example, this setting would determine
-  /// if the flow should fail after one insertion error, or continue and attempt
-  /// to insert every record regardless of the initial failure.
-  /// <code>ErrorHandlingConfig</code> is a part of the destination connector
-  /// details.
-  final ErrorHandlingConfig? errorHandlingConfig;
-
-  SnowflakeDestinationProperties({
-    required this.intermediateBucketName,
-    required this.object,
-    this.bucketPrefix,
-    this.errorHandlingConfig,
-  });
-
-  factory SnowflakeDestinationProperties.fromJson(Map<String, dynamic> json) {
-    return SnowflakeDestinationProperties(
-      intermediateBucketName: (json['intermediateBucketName'] as String?) ?? '',
-      object: (json['object'] as String?) ?? '',
-      bucketPrefix: json['bucketPrefix'] as String?,
-      errorHandlingConfig: json['errorHandlingConfig'] != null
-          ? ErrorHandlingConfig.fromJson(
-              json['errorHandlingConfig'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final intermediateBucketName = this.intermediateBucketName;
-    final object = this.object;
-    final bucketPrefix = this.bucketPrefix;
-    final errorHandlingConfig = this.errorHandlingConfig;
-    return {
-      'intermediateBucketName': intermediateBucketName,
-      'object': object,
-      if (bucketPrefix != null) 'bucketPrefix': bucketPrefix,
-      if (errorHandlingConfig != null)
-        'errorHandlingConfig': errorHandlingConfig,
-    };
-  }
-}
-
-/// The connector metadata specific to Snowflake.
-class SnowflakeMetadata {
-  /// Specifies the supported Amazon Web Services Regions when using Snowflake.
-  final List<String>? supportedRegions;
-
-  SnowflakeMetadata({
-    this.supportedRegions,
-  });
-
-  factory SnowflakeMetadata.fromJson(Map<String, dynamic> json) {
-    return SnowflakeMetadata(
-      supportedRegions: (json['supportedRegions'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final supportedRegions = this.supportedRegions;
-    return {
-      if (supportedRegions != null) 'supportedRegions': supportedRegions,
-    };
-  }
-}
-
-/// Specifies the information that is required to query a particular connector.
-class SourceConnectorProperties {
-  /// Specifies the information that is required for querying Amplitude.
-  final AmplitudeSourceProperties? amplitude;
-  final CustomConnectorSourceProperties? customConnector;
-
-  /// Specifies the information that is required for querying Datadog.
-  final DatadogSourceProperties? datadog;
-
-  /// Specifies the information that is required for querying Dynatrace.
-  final DynatraceSourceProperties? dynatrace;
-
-  /// Specifies the information that is required for querying Google Analytics.
-  final GoogleAnalyticsSourceProperties? googleAnalytics;
-
-  /// Specifies the information that is required for querying Infor Nexus.
-  final InforNexusSourceProperties? inforNexus;
-
-  /// Specifies the information that is required for querying Marketo.
-  final MarketoSourceProperties? marketo;
-
-  /// Specifies the information that is required for querying Salesforce Pardot.
-  final PardotSourceProperties? pardot;
-
-  /// Specifies the information that is required for querying Amazon S3.
-  final S3SourceProperties? s3;
-  final SAPODataSourceProperties? sAPOData;
-
-  /// Specifies the information that is required for querying Salesforce.
-  final SalesforceSourceProperties? salesforce;
-
-  /// Specifies the information that is required for querying ServiceNow.
-  final ServiceNowSourceProperties? serviceNow;
-
-  /// Specifies the information that is required for querying Singular.
-  final SingularSourceProperties? singular;
-
-  /// Specifies the information that is required for querying Slack.
-  final SlackSourceProperties? slack;
-
-  /// Specifies the information that is required for querying Trend Micro.
-  final TrendmicroSourceProperties? trendmicro;
-
-  /// Specifies the information that is required for querying Veeva.
-  final VeevaSourceProperties? veeva;
-
-  /// Specifies the information that is required for querying Zendesk.
-  final ZendeskSourceProperties? zendesk;
-
-  SourceConnectorProperties({
-    this.amplitude,
-    this.customConnector,
-    this.datadog,
-    this.dynatrace,
-    this.googleAnalytics,
-    this.inforNexus,
-    this.marketo,
-    this.pardot,
-    this.s3,
-    this.sAPOData,
-    this.salesforce,
-    this.serviceNow,
-    this.singular,
-    this.slack,
-    this.trendmicro,
-    this.veeva,
-    this.zendesk,
-  });
-
-  factory SourceConnectorProperties.fromJson(Map<String, dynamic> json) {
-    return SourceConnectorProperties(
-      amplitude: json['Amplitude'] != null
-          ? AmplitudeSourceProperties.fromJson(
-              json['Amplitude'] as Map<String, dynamic>)
-          : null,
-      customConnector: json['CustomConnector'] != null
-          ? CustomConnectorSourceProperties.fromJson(
-              json['CustomConnector'] as Map<String, dynamic>)
-          : null,
-      datadog: json['Datadog'] != null
-          ? DatadogSourceProperties.fromJson(
-              json['Datadog'] as Map<String, dynamic>)
-          : null,
-      dynatrace: json['Dynatrace'] != null
-          ? DynatraceSourceProperties.fromJson(
-              json['Dynatrace'] as Map<String, dynamic>)
-          : null,
-      googleAnalytics: json['GoogleAnalytics'] != null
-          ? GoogleAnalyticsSourceProperties.fromJson(
-              json['GoogleAnalytics'] as Map<String, dynamic>)
-          : null,
-      inforNexus: json['InforNexus'] != null
-          ? InforNexusSourceProperties.fromJson(
-              json['InforNexus'] as Map<String, dynamic>)
-          : null,
-      marketo: json['Marketo'] != null
-          ? MarketoSourceProperties.fromJson(
-              json['Marketo'] as Map<String, dynamic>)
-          : null,
-      pardot: json['Pardot'] != null
-          ? PardotSourceProperties.fromJson(
-              json['Pardot'] as Map<String, dynamic>)
-          : null,
-      s3: json['S3'] != null
-          ? S3SourceProperties.fromJson(json['S3'] as Map<String, dynamic>)
-          : null,
-      sAPOData: json['SAPOData'] != null
-          ? SAPODataSourceProperties.fromJson(
-              json['SAPOData'] as Map<String, dynamic>)
-          : null,
-      salesforce: json['Salesforce'] != null
-          ? SalesforceSourceProperties.fromJson(
-              json['Salesforce'] as Map<String, dynamic>)
-          : null,
-      serviceNow: json['ServiceNow'] != null
-          ? ServiceNowSourceProperties.fromJson(
-              json['ServiceNow'] as Map<String, dynamic>)
-          : null,
-      singular: json['Singular'] != null
-          ? SingularSourceProperties.fromJson(
-              json['Singular'] as Map<String, dynamic>)
-          : null,
-      slack: json['Slack'] != null
-          ? SlackSourceProperties.fromJson(
-              json['Slack'] as Map<String, dynamic>)
-          : null,
-      trendmicro: json['Trendmicro'] != null
-          ? TrendmicroSourceProperties.fromJson(
-              json['Trendmicro'] as Map<String, dynamic>)
-          : null,
-      veeva: json['Veeva'] != null
-          ? VeevaSourceProperties.fromJson(
-              json['Veeva'] as Map<String, dynamic>)
-          : null,
-      zendesk: json['Zendesk'] != null
-          ? ZendeskSourceProperties.fromJson(
-              json['Zendesk'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final amplitude = this.amplitude;
-    final customConnector = this.customConnector;
-    final datadog = this.datadog;
-    final dynatrace = this.dynatrace;
-    final googleAnalytics = this.googleAnalytics;
-    final inforNexus = this.inforNexus;
-    final marketo = this.marketo;
-    final pardot = this.pardot;
-    final s3 = this.s3;
-    final sAPOData = this.sAPOData;
-    final salesforce = this.salesforce;
-    final serviceNow = this.serviceNow;
-    final singular = this.singular;
-    final slack = this.slack;
-    final trendmicro = this.trendmicro;
-    final veeva = this.veeva;
-    final zendesk = this.zendesk;
-    return {
-      if (amplitude != null) 'Amplitude': amplitude,
-      if (customConnector != null) 'CustomConnector': customConnector,
-      if (datadog != null) 'Datadog': datadog,
-      if (dynatrace != null) 'Dynatrace': dynatrace,
-      if (googleAnalytics != null) 'GoogleAnalytics': googleAnalytics,
-      if (inforNexus != null) 'InforNexus': inforNexus,
-      if (marketo != null) 'Marketo': marketo,
-      if (pardot != null) 'Pardot': pardot,
-      if (s3 != null) 'S3': s3,
-      if (sAPOData != null) 'SAPOData': sAPOData,
-      if (salesforce != null) 'Salesforce': salesforce,
-      if (serviceNow != null) 'ServiceNow': serviceNow,
-      if (singular != null) 'Singular': singular,
-      if (slack != null) 'Slack': slack,
-      if (trendmicro != null) 'Trendmicro': trendmicro,
-      if (veeva != null) 'Veeva': veeva,
-      if (zendesk != null) 'Zendesk': zendesk,
-    };
-  }
-}
-
-/// The properties that can be applied to a field when the connector is being
-/// used as a source.
-class SourceFieldProperties {
-  /// Indicates if the field can be queried.
-  final bool? isQueryable;
-
-  /// Indicates whether the field can be returned in a search result.
-  final bool? isRetrievable;
-
-  /// Indicates if this timestamp field can be used for incremental queries.
-  final bool? isTimestampFieldForIncrementalQueries;
-
-  SourceFieldProperties({
-    this.isQueryable,
-    this.isRetrievable,
-    this.isTimestampFieldForIncrementalQueries,
-  });
-
-  factory SourceFieldProperties.fromJson(Map<String, dynamic> json) {
-    return SourceFieldProperties(
-      isQueryable: json['isQueryable'] as bool?,
-      isRetrievable: json['isRetrievable'] as bool?,
-      isTimestampFieldForIncrementalQueries:
-          json['isTimestampFieldForIncrementalQueries'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final isQueryable = this.isQueryable;
-    final isRetrievable = this.isRetrievable;
-    final isTimestampFieldForIncrementalQueries =
-        this.isTimestampFieldForIncrementalQueries;
-    return {
-      if (isQueryable != null) 'isQueryable': isQueryable,
-      if (isRetrievable != null) 'isRetrievable': isRetrievable,
-      if (isTimestampFieldForIncrementalQueries != null)
-        'isTimestampFieldForIncrementalQueries':
-            isTimestampFieldForIncrementalQueries,
-    };
-  }
-}
-
-/// Contains information about the configuration of the source connector used in
-/// the flow.
-class SourceFlowConfig {
-  /// The type of connector, such as Salesforce, Amplitude, and so on.
-  final ConnectorType connectorType;
-
-  /// Specifies the information that is required to query a particular source
-  /// connector.
-  final SourceConnectorProperties sourceConnectorProperties;
-
-  /// The API version of the connector when it's used as a source in the flow.
-  final String? apiVersion;
-
-  /// The name of the connector profile. This name must be unique for each
-  /// connector profile in the Amazon Web Services account.
-  final String? connectorProfileName;
-
-  /// Defines the configuration for a scheduled incremental data pull. If a valid
-  /// configuration is provided, the fields specified in the configuration are
-  /// used when querying for the incremental data pull.
-  final IncrementalPullConfig? incrementalPullConfig;
-
-  SourceFlowConfig({
-    required this.connectorType,
-    required this.sourceConnectorProperties,
-    this.apiVersion,
-    this.connectorProfileName,
-    this.incrementalPullConfig,
-  });
-
-  factory SourceFlowConfig.fromJson(Map<String, dynamic> json) {
-    return SourceFlowConfig(
-      connectorType:
-          ConnectorType.fromString((json['connectorType'] as String?) ?? ''),
-      sourceConnectorProperties: SourceConnectorProperties.fromJson(
-          (json['sourceConnectorProperties'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      apiVersion: json['apiVersion'] as String?,
-      connectorProfileName: json['connectorProfileName'] as String?,
-      incrementalPullConfig: json['incrementalPullConfig'] != null
-          ? IncrementalPullConfig.fromJson(
-              json['incrementalPullConfig'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connectorType = this.connectorType;
-    final sourceConnectorProperties = this.sourceConnectorProperties;
-    final apiVersion = this.apiVersion;
-    final connectorProfileName = this.connectorProfileName;
-    final incrementalPullConfig = this.incrementalPullConfig;
-    return {
-      'connectorType': connectorType.value,
-      'sourceConnectorProperties': sourceConnectorProperties,
-      if (apiVersion != null) 'apiVersion': apiVersion,
-      if (connectorProfileName != null)
-        'connectorProfileName': connectorProfileName,
-      if (incrementalPullConfig != null)
-        'incrementalPullConfig': incrementalPullConfig,
-    };
-  }
-}
-
-class StartFlowResponse {
-  /// Returns the internal execution ID of an on-demand flow when the flow is
-  /// started. For scheduled or event-triggered flows, this value is null.
-  final String? executionId;
-
-  /// The flow's Amazon Resource Name (ARN).
-  final String? flowArn;
-
-  /// Indicates the current status of the flow.
-  final FlowStatus? flowStatus;
-
-  StartFlowResponse({
-    this.executionId,
-    this.flowArn,
-    this.flowStatus,
-  });
-
-  factory StartFlowResponse.fromJson(Map<String, dynamic> json) {
-    return StartFlowResponse(
-      executionId: json['executionId'] as String?,
-      flowArn: json['flowArn'] as String?,
-      flowStatus: (json['flowStatus'] as String?)?.let(FlowStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final executionId = this.executionId;
-    final flowArn = this.flowArn;
-    final flowStatus = this.flowStatus;
-    return {
-      if (executionId != null) 'executionId': executionId,
-      if (flowArn != null) 'flowArn': flowArn,
-      if (flowStatus != null) 'flowStatus': flowStatus.value,
-    };
-  }
-}
-
-class StopFlowResponse {
-  /// The flow's Amazon Resource Name (ARN).
-  final String? flowArn;
-
-  /// Indicates the current status of the flow.
-  final FlowStatus? flowStatus;
-
-  StopFlowResponse({
-    this.flowArn,
-    this.flowStatus,
-  });
-
-  factory StopFlowResponse.fromJson(Map<String, dynamic> json) {
-    return StopFlowResponse(
-      flowArn: json['flowArn'] as String?,
-      flowStatus: (json['flowStatus'] as String?)?.let(FlowStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final flowArn = this.flowArn;
-    final flowStatus = this.flowStatus;
-    return {
-      if (flowArn != null) 'flowArn': flowArn,
-      if (flowStatus != null) 'flowStatus': flowStatus.value,
-    };
-  }
-}
-
-/// Determines how Amazon AppFlow handles the success response that it gets from
-/// the connector after placing data.
-///
-/// For example, this setting would determine where to write the response from
-/// the destination connector upon a successful insert operation.
-class SuccessResponseHandlingConfig {
-  /// The name of the Amazon S3 bucket.
-  final String? bucketName;
-
-  /// The Amazon S3 bucket prefix.
-  final String? bucketPrefix;
-
-  SuccessResponseHandlingConfig({
-    this.bucketName,
-    this.bucketPrefix,
-  });
-
-  factory SuccessResponseHandlingConfig.fromJson(Map<String, dynamic> json) {
-    return SuccessResponseHandlingConfig(
-      bucketName: json['bucketName'] as String?,
-      bucketPrefix: json['bucketPrefix'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucketName = this.bucketName;
-    final bucketPrefix = this.bucketPrefix;
-    return {
-      if (bucketName != null) 'bucketName': bucketName,
-      if (bucketPrefix != null) 'bucketPrefix': bucketPrefix,
-    };
-  }
-}
-
-class SupportedDataTransferType {
-  static const record = SupportedDataTransferType._('RECORD');
-  static const file = SupportedDataTransferType._('FILE');
-
-  final String value;
-
-  const SupportedDataTransferType._(this.value);
-
-  static const values = [record, file];
-
-  static SupportedDataTransferType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SupportedDataTransferType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SupportedDataTransferType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains details regarding all the supported <code>FieldTypes</code> and
-/// their corresponding <code>filterOperators</code> and
-/// <code>supportedValues</code>.
-class SupportedFieldTypeDetails {
-  /// The initial supported version for <code>fieldType</code>. If this is later
-  /// changed to a different version, v2 will be introduced.
-  final FieldTypeDetails v1;
-
-  SupportedFieldTypeDetails({
-    required this.v1,
-  });
-
-  factory SupportedFieldTypeDetails.fromJson(Map<String, dynamic> json) {
-    return SupportedFieldTypeDetails(
-      v1: FieldTypeDetails.fromJson(
-          (json['v1'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final v1 = this.v1;
-    return {
-      'v1': v1,
-    };
-  }
-}
-
-class TagResourceResponse {
-  TagResourceResponse();
-
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// A class for modeling different type of tasks. Task implementation varies
-/// based on the <code>TaskType</code>.
-class Task {
-  /// The source fields to which a particular task is applied.
-  final List<String> sourceFields;
-
-  /// Specifies the particular task implementation that Amazon AppFlow performs.
-  final TaskType taskType;
-
-  /// The operation to be performed on the provided source fields.
-  final ConnectorOperator? connectorOperator;
-
-  /// A field in a destination connector, or a field value against which Amazon
-  /// AppFlow validates a source field.
-  final String? destinationField;
-
-  /// A map used to store task-related information. The execution service looks
-  /// for particular information based on the <code>TaskType</code>.
-  final Map<OperatorPropertiesKeys, String>? taskProperties;
-
-  Task({
-    required this.sourceFields,
-    required this.taskType,
-    this.connectorOperator,
-    this.destinationField,
-    this.taskProperties,
-  });
-
-  factory Task.fromJson(Map<String, dynamic> json) {
-    return Task(
-      sourceFields: ((json['sourceFields'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      taskType: TaskType.fromString((json['taskType'] as String?) ?? ''),
-      connectorOperator: json['connectorOperator'] != null
-          ? ConnectorOperator.fromJson(
-              json['connectorOperator'] as Map<String, dynamic>)
-          : null,
-      destinationField: json['destinationField'] as String?,
-      taskProperties: (json['taskProperties'] as Map<String, dynamic>?)?.map(
-          (k, e) =>
-              MapEntry(OperatorPropertiesKeys.fromString(k), e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final sourceFields = this.sourceFields;
-    final taskType = this.taskType;
-    final connectorOperator = this.connectorOperator;
-    final destinationField = this.destinationField;
-    final taskProperties = this.taskProperties;
-    return {
-      'sourceFields': sourceFields,
-      'taskType': taskType.value,
-      if (connectorOperator != null) 'connectorOperator': connectorOperator,
-      if (destinationField != null) 'destinationField': destinationField,
-      if (taskProperties != null)
-        'taskProperties': taskProperties.map((k, e) => MapEntry(k.value, e)),
-    };
-  }
-}
-
-class TaskType {
-  static const arithmetic = TaskType._('Arithmetic');
-  static const filter = TaskType._('Filter');
-  static const map = TaskType._('Map');
-  static const mapAll = TaskType._('Map_all');
-  static const mask = TaskType._('Mask');
-  static const merge = TaskType._('Merge');
-  static const passthrough = TaskType._('Passthrough');
-  static const truncate = TaskType._('Truncate');
-  static const validate = TaskType._('Validate');
-  static const partition = TaskType._('Partition');
-
-  final String value;
-
-  const TaskType._(this.value);
-
-  static const values = [
-    arithmetic,
-    filter,
-    map,
-    mapAll,
-    mask,
-    merge,
-    passthrough,
-    truncate,
-    validate,
-    partition
-  ];
-
-  static TaskType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => TaskType._(value));
-
-  @override
-  bool operator ==(other) => other is TaskType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class TrendmicroConnectorOperator {
-  static const projection = TrendmicroConnectorOperator._('PROJECTION');
-  static const equalTo = TrendmicroConnectorOperator._('EQUAL_TO');
-  static const addition = TrendmicroConnectorOperator._('ADDITION');
-  static const multiplication = TrendmicroConnectorOperator._('MULTIPLICATION');
-  static const division = TrendmicroConnectorOperator._('DIVISION');
-  static const subtraction = TrendmicroConnectorOperator._('SUBTRACTION');
-  static const maskAll = TrendmicroConnectorOperator._('MASK_ALL');
-  static const maskFirstN = TrendmicroConnectorOperator._('MASK_FIRST_N');
-  static const maskLastN = TrendmicroConnectorOperator._('MASK_LAST_N');
-  static const validateNonNull =
-      TrendmicroConnectorOperator._('VALIDATE_NON_NULL');
-  static const validateNonZero =
-      TrendmicroConnectorOperator._('VALIDATE_NON_ZERO');
-  static const validateNonNegative =
-      TrendmicroConnectorOperator._('VALIDATE_NON_NEGATIVE');
-  static const validateNumeric =
-      TrendmicroConnectorOperator._('VALIDATE_NUMERIC');
-  static const noOp = TrendmicroConnectorOperator._('NO_OP');
-
-  final String value;
-
-  const TrendmicroConnectorOperator._(this.value);
-
-  static const values = [
-    projection,
-    equalTo,
-    addition,
-    multiplication,
-    division,
-    subtraction,
-    maskAll,
-    maskFirstN,
-    maskLastN,
-    validateNonNull,
-    validateNonZero,
-    validateNonNegative,
-    validateNumeric,
-    noOp
-  ];
-
-  static TrendmicroConnectorOperator fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TrendmicroConnectorOperator._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is TrendmicroConnectorOperator && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The connector-specific profile credentials required when using Trend Micro.
-class TrendmicroConnectorProfileCredentials {
-  /// The Secret Access Key portion of the credentials.
-  final String apiSecretKey;
-
-  TrendmicroConnectorProfileCredentials({
-    required this.apiSecretKey,
-  });
-
-  Map<String, dynamic> toJson() {
-    final apiSecretKey = this.apiSecretKey;
-    return {
-      'apiSecretKey': apiSecretKey,
-    };
-  }
-}
-
-/// The connector-specific profile properties required when using Trend Micro.
-class TrendmicroConnectorProfileProperties {
-  TrendmicroConnectorProfileProperties();
-
-  factory TrendmicroConnectorProfileProperties.fromJson(
-      Map<String, dynamic> _) {
-    return TrendmicroConnectorProfileProperties();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// The connector metadata specific to Trend Micro.
-class TrendmicroMetadata {
-  TrendmicroMetadata();
-
-  factory TrendmicroMetadata.fromJson(Map<String, dynamic> _) {
-    return TrendmicroMetadata();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// The properties that are applied when using Trend Micro as a flow source.
-class TrendmicroSourceProperties {
-  /// The object specified in the Trend Micro flow source.
-  final String object;
-
-  TrendmicroSourceProperties({
-    required this.object,
-  });
-
-  factory TrendmicroSourceProperties.fromJson(Map<String, dynamic> json) {
-    return TrendmicroSourceProperties(
-      object: (json['object'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final object = this.object;
-    return {
-      'object': object,
-    };
-  }
-}
-
-/// The trigger settings that determine how and when Amazon AppFlow runs the
-/// specified flow.
-class TriggerConfig {
-  /// Specifies the type of flow trigger. This can be <code>OnDemand</code>,
-  /// <code>Scheduled</code>, or <code>Event</code>.
-  final TriggerType triggerType;
-
-  /// Specifies the configuration details of a schedule-triggered flow as defined
-  /// by the user. Currently, these settings only apply to the
-  /// <code>Scheduled</code> trigger type.
-  final TriggerProperties? triggerProperties;
-
-  TriggerConfig({
-    required this.triggerType,
-    this.triggerProperties,
-  });
-
-  factory TriggerConfig.fromJson(Map<String, dynamic> json) {
-    return TriggerConfig(
-      triggerType:
-          TriggerType.fromString((json['triggerType'] as String?) ?? ''),
-      triggerProperties: json['triggerProperties'] != null
-          ? TriggerProperties.fromJson(
-              json['triggerProperties'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final triggerType = this.triggerType;
-    final triggerProperties = this.triggerProperties;
-    return {
-      'triggerType': triggerType.value,
-      if (triggerProperties != null) 'triggerProperties': triggerProperties,
-    };
-  }
-}
-
-/// Specifies the configuration details that control the trigger for a flow.
-/// Currently, these settings only apply to the <code>Scheduled</code> trigger
-/// type.
-class TriggerProperties {
-  /// Specifies the configuration details of a schedule-triggered flow as defined
-  /// by the user.
-  final ScheduledTriggerProperties? scheduled;
-
-  TriggerProperties({
-    this.scheduled,
-  });
-
-  factory TriggerProperties.fromJson(Map<String, dynamic> json) {
-    return TriggerProperties(
-      scheduled: json['Scheduled'] != null
-          ? ScheduledTriggerProperties.fromJson(
-              json['Scheduled'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final scheduled = this.scheduled;
-    return {
-      if (scheduled != null) 'Scheduled': scheduled,
-    };
-  }
-}
-
-class TriggerType {
-  static const scheduled = TriggerType._('Scheduled');
-  static const event = TriggerType._('Event');
-  static const onDemand = TriggerType._('OnDemand');
-
-  final String value;
-
-  const TriggerType._(this.value);
-
-  static const values = [scheduled, event, onDemand];
-
-  static TriggerType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => TriggerType._(value));
-
-  @override
-  bool operator ==(other) => other is TriggerType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class UnregisterConnectorResponse {
-  UnregisterConnectorResponse();
-
-  factory UnregisterConnectorResponse.fromJson(Map<String, dynamic> _) {
-    return UnregisterConnectorResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UntagResourceResponse {
-  UntagResourceResponse();
-
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateConnectorProfileResponse {
-  /// The Amazon Resource Name (ARN) of the connector profile.
-  final String? connectorProfileArn;
-
-  UpdateConnectorProfileResponse({
-    this.connectorProfileArn,
-  });
-
-  factory UpdateConnectorProfileResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateConnectorProfileResponse(
-      connectorProfileArn: json['connectorProfileArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connectorProfileArn = this.connectorProfileArn;
-    return {
-      if (connectorProfileArn != null)
-        'connectorProfileArn': connectorProfileArn,
-    };
-  }
-}
-
-class UpdateConnectorRegistrationResponse {
-  /// The ARN of the connector being updated.
-  final String? connectorArn;
-
-  UpdateConnectorRegistrationResponse({
-    this.connectorArn,
-  });
-
-  factory UpdateConnectorRegistrationResponse.fromJson(
-      Map<String, dynamic> json) {
-    return UpdateConnectorRegistrationResponse(
-      connectorArn: json['connectorArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connectorArn = this.connectorArn;
-    return {
-      if (connectorArn != null) 'connectorArn': connectorArn,
-    };
-  }
-}
-
-class UpdateFlowResponse {
-  /// Indicates the current status of the flow.
-  final FlowStatus? flowStatus;
-
-  UpdateFlowResponse({
-    this.flowStatus,
-  });
-
-  factory UpdateFlowResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateFlowResponse(
-      flowStatus: (json['flowStatus'] as String?)?.let(FlowStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final flowStatus = this.flowStatus;
-    return {
-      if (flowStatus != null) 'flowStatus': flowStatus.value,
-    };
-  }
-}
-
-/// The properties that are applied when Upsolver is used as a destination.
-class UpsolverDestinationProperties {
-  /// The Upsolver Amazon S3 bucket name in which Amazon AppFlow places the
-  /// transferred data.
-  final String bucketName;
-
-  /// The configuration that determines how data is formatted when Upsolver is
-  /// used as the flow destination.
-  final UpsolverS3OutputFormatConfig s3OutputFormatConfig;
-
-  /// The object key for the destination Upsolver Amazon S3 bucket in which Amazon
-  /// AppFlow places the files.
-  final String? bucketPrefix;
-
-  UpsolverDestinationProperties({
-    required this.bucketName,
-    required this.s3OutputFormatConfig,
-    this.bucketPrefix,
-  });
-
-  factory UpsolverDestinationProperties.fromJson(Map<String, dynamic> json) {
-    return UpsolverDestinationProperties(
-      bucketName: (json['bucketName'] as String?) ?? '',
-      s3OutputFormatConfig: UpsolverS3OutputFormatConfig.fromJson(
-          (json['s3OutputFormatConfig'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      bucketPrefix: json['bucketPrefix'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucketName = this.bucketName;
-    final s3OutputFormatConfig = this.s3OutputFormatConfig;
-    final bucketPrefix = this.bucketPrefix;
-    return {
-      'bucketName': bucketName,
-      's3OutputFormatConfig': s3OutputFormatConfig,
-      if (bucketPrefix != null) 'bucketPrefix': bucketPrefix,
-    };
-  }
-}
-
-/// The connector metadata specific to Upsolver.
-class UpsolverMetadata {
-  UpsolverMetadata();
-
-  factory UpsolverMetadata.fromJson(Map<String, dynamic> _) {
-    return UpsolverMetadata();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// The configuration that determines how Amazon AppFlow formats the flow output
-/// data when Upsolver is used as the destination.
-class UpsolverS3OutputFormatConfig {
-  final PrefixConfig prefixConfig;
-  final AggregationConfig? aggregationConfig;
-
-  /// Indicates the file type that Amazon AppFlow places in the Upsolver Amazon S3
-  /// bucket.
-  final FileType? fileType;
-
-  UpsolverS3OutputFormatConfig({
-    required this.prefixConfig,
-    this.aggregationConfig,
-    this.fileType,
-  });
-
-  factory UpsolverS3OutputFormatConfig.fromJson(Map<String, dynamic> json) {
-    return UpsolverS3OutputFormatConfig(
-      prefixConfig: PrefixConfig.fromJson(
-          (json['prefixConfig'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      aggregationConfig: json['aggregationConfig'] != null
-          ? AggregationConfig.fromJson(
-              json['aggregationConfig'] as Map<String, dynamic>)
-          : null,
-      fileType: (json['fileType'] as String?)?.let(FileType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final prefixConfig = this.prefixConfig;
-    final aggregationConfig = this.aggregationConfig;
-    final fileType = this.fileType;
-    return {
-      'prefixConfig': prefixConfig,
-      if (aggregationConfig != null) 'aggregationConfig': aggregationConfig,
-      if (fileType != null) 'fileType': fileType.value,
-    };
-  }
-}
-
-class VeevaConnectorOperator {
-  static const projection = VeevaConnectorOperator._('PROJECTION');
-  static const lessThan = VeevaConnectorOperator._('LESS_THAN');
-  static const greaterThan = VeevaConnectorOperator._('GREATER_THAN');
-  static const contains = VeevaConnectorOperator._('CONTAINS');
-  static const between = VeevaConnectorOperator._('BETWEEN');
-  static const lessThanOrEqualTo =
-      VeevaConnectorOperator._('LESS_THAN_OR_EQUAL_TO');
-  static const greaterThanOrEqualTo =
-      VeevaConnectorOperator._('GREATER_THAN_OR_EQUAL_TO');
-  static const equalTo = VeevaConnectorOperator._('EQUAL_TO');
-  static const notEqualTo = VeevaConnectorOperator._('NOT_EQUAL_TO');
-  static const addition = VeevaConnectorOperator._('ADDITION');
-  static const multiplication = VeevaConnectorOperator._('MULTIPLICATION');
-  static const division = VeevaConnectorOperator._('DIVISION');
-  static const subtraction = VeevaConnectorOperator._('SUBTRACTION');
-  static const maskAll = VeevaConnectorOperator._('MASK_ALL');
-  static const maskFirstN = VeevaConnectorOperator._('MASK_FIRST_N');
-  static const maskLastN = VeevaConnectorOperator._('MASK_LAST_N');
-  static const validateNonNull = VeevaConnectorOperator._('VALIDATE_NON_NULL');
-  static const validateNonZero = VeevaConnectorOperator._('VALIDATE_NON_ZERO');
-  static const validateNonNegative =
-      VeevaConnectorOperator._('VALIDATE_NON_NEGATIVE');
-  static const validateNumeric = VeevaConnectorOperator._('VALIDATE_NUMERIC');
-  static const noOp = VeevaConnectorOperator._('NO_OP');
-
-  final String value;
-
-  const VeevaConnectorOperator._(this.value);
-
-  static const values = [
-    projection,
-    lessThan,
-    greaterThan,
-    contains,
-    between,
-    lessThanOrEqualTo,
-    greaterThanOrEqualTo,
-    equalTo,
-    notEqualTo,
-    addition,
-    multiplication,
-    division,
-    subtraction,
-    maskAll,
-    maskFirstN,
-    maskLastN,
-    validateNonNull,
-    validateNonZero,
-    validateNonNegative,
-    validateNumeric,
-    noOp
-  ];
-
-  static VeevaConnectorOperator fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => VeevaConnectorOperator._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is VeevaConnectorOperator && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The connector-specific profile credentials required when using Veeva.
-class VeevaConnectorProfileCredentials {
-  /// The password that corresponds to the user name.
-  final String password;
-
-  /// The name of the user.
-  final String username;
-
-  VeevaConnectorProfileCredentials({
-    required this.password,
-    required this.username,
-  });
-
-  Map<String, dynamic> toJson() {
-    final password = this.password;
-    final username = this.username;
-    return {
-      'password': password,
-      'username': username,
-    };
-  }
-}
-
-/// The connector-specific profile properties required when using Veeva.
-class VeevaConnectorProfileProperties {
-  /// The location of the Veeva resource.
-  final String instanceUrl;
-
-  VeevaConnectorProfileProperties({
-    required this.instanceUrl,
-  });
-
-  factory VeevaConnectorProfileProperties.fromJson(Map<String, dynamic> json) {
-    return VeevaConnectorProfileProperties(
-      instanceUrl: (json['instanceUrl'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final instanceUrl = this.instanceUrl;
-    return {
-      'instanceUrl': instanceUrl,
-    };
-  }
-}
-
-/// The connector metadata specific to Veeva.
-class VeevaMetadata {
-  VeevaMetadata();
-
-  factory VeevaMetadata.fromJson(Map<String, dynamic> _) {
-    return VeevaMetadata();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// The properties that are applied when using Veeva as a flow source.
-class VeevaSourceProperties {
-  /// The object specified in the Veeva flow source.
-  final String object;
-
-  /// The document type specified in the Veeva document extract flow.
-  final String? documentType;
-
-  /// Boolean value to include All Versions of files in Veeva document extract
-  /// flow.
-  final bool? includeAllVersions;
-
-  /// Boolean value to include file renditions in Veeva document extract flow.
-  final bool? includeRenditions;
-
-  /// Boolean value to include source files in Veeva document extract flow.
-  final bool? includeSourceFiles;
-
-  VeevaSourceProperties({
-    required this.object,
-    this.documentType,
-    this.includeAllVersions,
-    this.includeRenditions,
-    this.includeSourceFiles,
-  });
-
-  factory VeevaSourceProperties.fromJson(Map<String, dynamic> json) {
-    return VeevaSourceProperties(
-      object: (json['object'] as String?) ?? '',
-      documentType: json['documentType'] as String?,
-      includeAllVersions: json['includeAllVersions'] as bool?,
-      includeRenditions: json['includeRenditions'] as bool?,
-      includeSourceFiles: json['includeSourceFiles'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final object = this.object;
-    final documentType = this.documentType;
-    final includeAllVersions = this.includeAllVersions;
-    final includeRenditions = this.includeRenditions;
-    final includeSourceFiles = this.includeSourceFiles;
-    return {
-      'object': object,
-      if (documentType != null) 'documentType': documentType,
-      if (includeAllVersions != null) 'includeAllVersions': includeAllVersions,
-      if (includeRenditions != null) 'includeRenditions': includeRenditions,
-      if (includeSourceFiles != null) 'includeSourceFiles': includeSourceFiles,
-    };
-  }
-}
-
-/// The possible write operations in the destination connector. When this value
-/// is not provided, this defaults to the <code>INSERT</code> operation.
-class WriteOperationType {
-  static const insert = WriteOperationType._('INSERT');
-  static const upsert = WriteOperationType._('UPSERT');
-  static const update = WriteOperationType._('UPDATE');
-  static const delete = WriteOperationType._('DELETE');
-
-  final String value;
-
-  const WriteOperationType._(this.value);
-
-  static const values = [insert, upsert, update, delete];
-
-  static WriteOperationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => WriteOperationType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is WriteOperationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ZendeskConnectorOperator {
-  static const projection = ZendeskConnectorOperator._('PROJECTION');
-  static const greaterThan = ZendeskConnectorOperator._('GREATER_THAN');
-  static const addition = ZendeskConnectorOperator._('ADDITION');
-  static const multiplication = ZendeskConnectorOperator._('MULTIPLICATION');
-  static const division = ZendeskConnectorOperator._('DIVISION');
-  static const subtraction = ZendeskConnectorOperator._('SUBTRACTION');
-  static const maskAll = ZendeskConnectorOperator._('MASK_ALL');
-  static const maskFirstN = ZendeskConnectorOperator._('MASK_FIRST_N');
-  static const maskLastN = ZendeskConnectorOperator._('MASK_LAST_N');
-  static const validateNonNull =
-      ZendeskConnectorOperator._('VALIDATE_NON_NULL');
-  static const validateNonZero =
-      ZendeskConnectorOperator._('VALIDATE_NON_ZERO');
-  static const validateNonNegative =
-      ZendeskConnectorOperator._('VALIDATE_NON_NEGATIVE');
-  static const validateNumeric = ZendeskConnectorOperator._('VALIDATE_NUMERIC');
-  static const noOp = ZendeskConnectorOperator._('NO_OP');
-
-  final String value;
-
-  const ZendeskConnectorOperator._(this.value);
-
-  static const values = [
-    projection,
-    greaterThan,
-    addition,
-    multiplication,
-    division,
-    subtraction,
-    maskAll,
-    maskFirstN,
-    maskLastN,
-    validateNonNull,
-    validateNonZero,
-    validateNonNegative,
-    validateNumeric,
-    noOp
-  ];
-
-  static ZendeskConnectorOperator fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ZendeskConnectorOperator._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ZendeskConnectorOperator && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The connector-specific profile credentials required when using Zendesk.
-class ZendeskConnectorProfileCredentials {
-  /// The identifier for the desired client.
-  final String clientId;
-
-  /// The client secret used by the OAuth client to authenticate to the
-  /// authorization server.
-  final String clientSecret;
-
-  /// The credentials used to access protected Zendesk resources.
-  final String? accessToken;
-
-  /// The OAuth requirement needed to request security tokens from the connector
-  /// endpoint.
-  final ConnectorOAuthRequest? oAuthRequest;
-
-  ZendeskConnectorProfileCredentials({
-    required this.clientId,
-    required this.clientSecret,
-    this.accessToken,
-    this.oAuthRequest,
-  });
-
-  Map<String, dynamic> toJson() {
-    final clientId = this.clientId;
-    final clientSecret = this.clientSecret;
-    final accessToken = this.accessToken;
-    final oAuthRequest = this.oAuthRequest;
-    return {
-      'clientId': clientId,
-      'clientSecret': clientSecret,
-      if (accessToken != null) 'accessToken': accessToken,
-      if (oAuthRequest != null) 'oAuthRequest': oAuthRequest,
-    };
-  }
-}
-
-/// The connector-specific profile properties required when using Zendesk.
-class ZendeskConnectorProfileProperties {
-  /// The location of the Zendesk resource.
-  final String instanceUrl;
-
-  ZendeskConnectorProfileProperties({
-    required this.instanceUrl,
-  });
-
-  factory ZendeskConnectorProfileProperties.fromJson(
-      Map<String, dynamic> json) {
-    return ZendeskConnectorProfileProperties(
-      instanceUrl: (json['instanceUrl'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final instanceUrl = this.instanceUrl;
-    return {
-      'instanceUrl': instanceUrl,
-    };
-  }
-}
-
-/// The properties that are applied when Zendesk is used as a destination.
-class ZendeskDestinationProperties {
-  /// The object specified in the Zendesk flow destination.
-  final String object;
-  final ErrorHandlingConfig? errorHandlingConfig;
-  final List<String>? idFieldNames;
-  final WriteOperationType? writeOperationType;
-
-  ZendeskDestinationProperties({
-    required this.object,
-    this.errorHandlingConfig,
-    this.idFieldNames,
-    this.writeOperationType,
-  });
-
-  factory ZendeskDestinationProperties.fromJson(Map<String, dynamic> json) {
-    return ZendeskDestinationProperties(
-      object: (json['object'] as String?) ?? '',
-      errorHandlingConfig: json['errorHandlingConfig'] != null
-          ? ErrorHandlingConfig.fromJson(
-              json['errorHandlingConfig'] as Map<String, dynamic>)
-          : null,
-      idFieldNames: (json['idFieldNames'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      writeOperationType: (json['writeOperationType'] as String?)
-          ?.let(WriteOperationType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final object = this.object;
-    final errorHandlingConfig = this.errorHandlingConfig;
-    final idFieldNames = this.idFieldNames;
-    final writeOperationType = this.writeOperationType;
-    return {
-      'object': object,
-      if (errorHandlingConfig != null)
-        'errorHandlingConfig': errorHandlingConfig,
-      if (idFieldNames != null) 'idFieldNames': idFieldNames,
-      if (writeOperationType != null)
-        'writeOperationType': writeOperationType.value,
-    };
-  }
-}
-
-/// The connector metadata specific to Zendesk.
-class ZendeskMetadata {
-  /// The desired authorization scope for the Zendesk account.
-  final List<String>? oAuthScopes;
-
-  ZendeskMetadata({
-    this.oAuthScopes,
-  });
-
-  factory ZendeskMetadata.fromJson(Map<String, dynamic> json) {
-    return ZendeskMetadata(
-      oAuthScopes: (json['oAuthScopes'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final oAuthScopes = this.oAuthScopes;
-    return {
-      if (oAuthScopes != null) 'oAuthScopes': oAuthScopes,
-    };
-  }
-}
-
-/// The properties that are applied when using Zendesk as a flow source.
-class ZendeskSourceProperties {
-  /// The object specified in the Zendesk flow source.
-  final String object;
-
-  ZendeskSourceProperties({
-    required this.object,
-  });
-
-  factory ZendeskSourceProperties.fromJson(Map<String, dynamic> json) {
-    return ZendeskSourceProperties(
-      object: (json['object'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final object = this.object;
-    return {
-      'object': object,
     };
   }
 }

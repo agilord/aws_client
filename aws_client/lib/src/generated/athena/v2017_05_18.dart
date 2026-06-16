@@ -178,8 +178,8 @@ class Athena {
   /// reservation that has been cancelled, but you can refer to its tags and
   /// view it for historical reference.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [name] :
   /// The name of the capacity reservation to cancel.
@@ -224,7 +224,7 @@ class Athena {
     _s.validateNumRange(
       'targetDpus',
       targetDpus,
-      24,
+      4,
       1152921504606846976,
       isRequired: true,
     );
@@ -250,6 +250,27 @@ class Athena {
   /// Catalogs created are visible to all users of the same Amazon Web Services
   /// account.
   ///
+  /// For a <code>FEDERATED</code> catalog, this API operation creates the
+  /// following resources.
+  ///
+  /// <ul>
+  /// <li>
+  /// CFN Stack Name with a maximum length of 128 characters and prefix
+  /// <code>athenafederatedcatalog-CATALOG_NAME_SANITIZED</code> with length 23
+  /// characters.
+  /// </li>
+  /// <li>
+  /// Lambda Function Name with a maximum length of 64 characters and prefix
+  /// <code>athenafederatedcatalog_CATALOG_NAME_SANITIZED</code> with length 23
+  /// characters.
+  /// </li>
+  /// <li>
+  /// Glue Connection Name with a maximum length of 255 characters and a prefix
+  /// <code>athenafederatedcatalog_CATALOG_NAME_SANITIZED</code> with length 23
+  /// characters.
+  /// </li>
+  /// </ul>
+  ///
   /// May throw [InternalServerException].
   /// May throw [InvalidRequestException].
   ///
@@ -259,10 +280,32 @@ class Athena {
   /// alphanumeric, underscore, at sign, or hyphen characters. The remainder of
   /// the length constraint of 256 is reserved for use by Athena.
   ///
+  /// For <code>FEDERATED</code> type the catalog name has following
+  /// considerations and limits:
+  ///
+  /// <ul>
+  /// <li>
+  /// The catalog name allows special characters such as <code>_ , @ , \ , -
+  /// </code>. These characters are replaced with a hyphen (-) when creating the
+  /// CFN Stack Name and with an underscore (_) when creating the Lambda
+  /// Function and Glue Connection Name.
+  /// </li>
+  /// <li>
+  /// The catalog name has a theoretical limit of 128 characters. However, since
+  /// we use it to create other resources that allow less characters and we
+  /// prepend a prefix to it, the actual catalog name limit for
+  /// <code>FEDERATED</code> catalog is 64 - 23 = 41 characters.
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [type] :
   /// The type of data catalog to create: <code>LAMBDA</code> for a federated
-  /// catalog, <code>HIVE</code> for an external hive metastore, or
-  /// <code>GLUE</code> for an Glue Data Catalog.
+  /// catalog, <code>GLUE</code> for an Glue Data Catalog, and <code>HIVE</code>
+  /// for an external Apache Hive metastore. <code>FEDERATED</code> is a
+  /// federated catalog for which Athena creates the connection and the Lambda
+  /// function for you based on the parameters that you pass.
+  ///
+  /// For <code>FEDERATED</code> type, we do not support IAM identity center.
   ///
   /// Parameter [description] :
   /// A description of the data catalog to be created.
@@ -315,11 +358,41 @@ class Athena {
   /// you can have only one and cannot modify.
   /// </li>
   /// </ul> </li>
+  /// <li>
+  /// The <code>FEDERATED</code> data catalog type uses one of the following
+  /// parameters, but not both. Use <code>connection-arn</code> for an existing
+  /// Glue connection. Use <code>connection-type</code> and
+  /// <code>connection-properties</code> to specify the configuration setting
+  /// for a new connection.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>connection-arn:<i><glue_connection_arn_to_reuse></i> </code>
+  /// </li>
+  /// <li>
+  /// <code>lambda-role-arn</code> (optional): The execution role to use for the
+  /// Lambda function. If not provided, one is created.
+  /// </li>
+  /// <li>
+  /// <code>connection-type:MYSQL|REDSHIFT|....,
+  /// connection-properties:"<i><json_string></i>"</code>
+  ///
+  /// For <i> <code><json_string></code> </i>, use escaped JSON text, as in the
+  /// following example.
+  ///
+  /// <code>"{\"spill_bucket\":\"my_spill\",\"spill_prefix\":\"athena-spill\",\"host\":\"abc12345.snowflakecomputing.com\",\"port\":\"1234\",\"warehouse\":\"DEV_WH\",\"database\":\"TEST\",\"schema\":\"PUBLIC\",\"SecretArn\":\"arn:aws:secretsmanager:ap-south-1:111122223333:secret:snowflake-XHb67j\"}"</code>
+  /// </li>
+  /// </ul> </li>
   /// </ul>
   ///
   /// Parameter [tags] :
   /// A list of comma separated tags to add to the data catalog that is created.
-  Future<void> createDataCatalog({
+  /// All the resources that are created by the <code>CreateDataCatalog</code>
+  /// API operation with <code>FEDERATED</code> type will have the tag
+  /// <code>federated_athena_datacatalog="true"</code>. This includes the CFN
+  /// Stack, Glue Connection, Athena DataCatalog, and all the resources created
+  /// as part of the CFN Stack (Lambda Function, IAM policies/roles).
+  Future<CreateDataCatalogOutput> createDataCatalog({
     required String name,
     required DataCatalogType type,
     String? description,
@@ -330,7 +403,7 @@ class Athena {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.CreateDataCatalog'
     };
-    await _protocol.send(
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -344,6 +417,8 @@ class Athena {
         if (tags != null) 'Tags': tags,
       },
     );
+
+    return CreateDataCatalogOutput.fromJson(jsonResponse.body);
   }
 
   /// Creates a named query in the specified workgroup. Requires that you have
@@ -596,8 +671,8 @@ class Athena {
   /// <code>GetCapacityReservation</code>, and deleted reservations do not
   /// appear in the output of <code>ListCapacityReservations</code>.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [name] :
   /// The name of the capacity reservation to delete.
@@ -627,14 +702,21 @@ class Athena {
   ///
   /// Parameter [name] :
   /// The name of the data catalog to delete.
-  Future<void> deleteDataCatalog({
+  ///
+  /// Parameter [deleteCatalogOnly] :
+  /// Deletes the Athena Data Catalog. You can only use this with the
+  /// <code>FEDERATED</code> catalogs. You usually perform this before
+  /// registering the connector with Glue Data Catalog. After deletion, you will
+  /// have to manage the Glue Connection and Lambda function.
+  Future<DeleteDataCatalogOutput> deleteDataCatalog({
     required String name,
+    bool? deleteCatalogOnly,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.DeleteDataCatalog'
     };
-    await _protocol.send(
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -642,8 +724,11 @@ class Athena {
       headers: headers,
       payload: {
         'Name': name,
+        if (deleteCatalogOnly != null) 'DeleteCatalogOnly': deleteCatalogOnly,
       },
     );
+
+    return DeleteDataCatalogOutput.fromJson(jsonResponse.body);
   }
 
   /// Deletes the named query if you have access to the workgroup in which the
@@ -886,8 +971,8 @@ class Athena {
   /// Gets the capacity assignment configuration for a capacity reservation, if
   /// one exists.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [capacityReservationName] :
   /// The name of the capacity reservation to retrieve the capacity assignment
@@ -917,8 +1002,8 @@ class Athena {
   /// Returns information about the capacity reservation with the specified
   /// name.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [name] :
   /// The name of the capacity reservation.
@@ -941,40 +1026,6 @@ class Athena {
     );
 
     return GetCapacityReservationOutput.fromJson(jsonResponse.body);
-  }
-
-  /// Returns the specified data catalog.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [InvalidRequestException].
-  ///
-  /// Parameter [name] :
-  /// The name of the data catalog to return.
-  ///
-  /// Parameter [workGroup] :
-  /// The name of the workgroup. Required if making an IAM Identity Center
-  /// request.
-  Future<GetDataCatalogOutput> getDataCatalog({
-    required String name,
-    String? workGroup,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AmazonAthena.GetDataCatalog'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'Name': name,
-        if (workGroup != null) 'WorkGroup': workGroup,
-      },
-    );
-
-    return GetDataCatalogOutput.fromJson(jsonResponse.body);
   }
 
   /// Returns a database object for the specified database and data catalog.
@@ -1015,6 +1066,40 @@ class Athena {
     );
 
     return GetDatabaseOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Returns the specified data catalog.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
+  ///
+  /// Parameter [name] :
+  /// The name of the data catalog to return.
+  ///
+  /// Parameter [workGroup] :
+  /// The name of the workgroup. Required if making an IAM Identity Center
+  /// request.
+  Future<GetDataCatalogOutput> getDataCatalog({
+    required String name,
+    String? workGroup,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonAthena.GetDataCatalog'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+        if (workGroup != null) 'WorkGroup': workGroup,
+      },
+    );
+
+    return GetDataCatalogOutput.fromJson(jsonResponse.body);
   }
 
   /// Returns information about a single query. Requires that you have access to
@@ -1174,10 +1259,19 @@ class Athena {
   /// pagination if a previous request was truncated. To obtain the next set of
   /// pages, pass in the <code>NextToken</code> from the response object of the
   /// previous page call.
+  ///
+  /// Parameter [queryResultType] :
+  /// When you set this to <code>DATA_ROWS</code> or empty,
+  /// <code>GetQueryResults</code> returns the query results in rows. If set to
+  /// <code>DATA_MANIFEST</code>, it returns the manifest file in rows. Only the
+  /// query types <code>CREATE TABLE AS SELECT</code>, <code>UNLOAD</code>, and
+  /// <code>INSERT</code> can generate a manifest file. If you use
+  /// <code>DATA_MANIFEST</code> for other query types, the query will fail.
   Future<GetQueryResultsOutput> getQueryResults({
     required String queryExecutionId,
     int? maxResults,
     String? nextToken,
+    QueryResultType? queryResultType,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1199,6 +1293,7 @@ class Athena {
         'QueryExecutionId': queryExecutionId,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
+        if (queryResultType != null) 'QueryResultType': queryResultType.value,
       },
     );
 
@@ -1212,8 +1307,9 @@ class Athena {
   /// SUCCEEDED or FAILED state. The remaining non-timeline statistics in the
   /// response (like stage-level input and output row count and data size) are
   /// updated asynchronously and may not be available immediately after a query
-  /// completes. The non-timeline statistics are also not included when a query
-  /// has row-level filters defined in Lake Formation.
+  /// completes or, in some cases, may not be returned. The non-timeline
+  /// statistics are also not included when a query has row-level filters
+  /// defined in Lake Formation.
   ///
   /// May throw [InternalServerException].
   /// May throw [InvalidRequestException].
@@ -1239,6 +1335,35 @@ class Athena {
     );
 
     return GetQueryRuntimeStatisticsOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Gets the Live UI/Persistence UI for a session.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [resourceARN] :
+  /// The The Amazon Resource Name (ARN) for a session.
+  Future<GetResourceDashboardResponse> getResourceDashboard({
+    required String resourceARN,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonAthena.GetResourceDashboard'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceARN': resourceARN,
+      },
+    );
+
+    return GetResourceDashboardResponse.fromJson(jsonResponse.body);
   }
 
   /// Gets the full details of a previously created session, including the
@@ -1269,6 +1394,36 @@ class Athena {
     );
 
     return GetSessionResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Gets a connection endpoint and authentication token for a given session
+  /// Id.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [sessionId] :
+  /// The session ID.
+  Future<GetSessionEndpointResponse> getSessionEndpoint({
+    required String sessionId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonAthena.GetSessionEndpoint'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'SessionId': sessionId,
+      },
+    );
+
+    return GetSessionEndpointResponse.fromJson(jsonResponse.body);
   }
 
   /// Gets the current status of a session.
@@ -1604,58 +1759,6 @@ class Athena {
     return ListCapacityReservationsOutput.fromJson(jsonResponse.body);
   }
 
-  /// Lists the data catalogs in the current Amazon Web Services account.
-  /// <note>
-  /// In the Athena console, data catalogs are listed as "data sources" on the
-  /// <b>Data sources</b> page under the <b>Data source name</b> column.
-  /// </note>
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [InvalidRequestException].
-  ///
-  /// Parameter [maxResults] :
-  /// Specifies the maximum number of data catalogs to return.
-  ///
-  /// Parameter [nextToken] :
-  /// A token generated by the Athena service that specifies where to continue
-  /// pagination if a previous request was truncated. To obtain the next set of
-  /// pages, pass in the NextToken from the response object of the previous page
-  /// call.
-  ///
-  /// Parameter [workGroup] :
-  /// The name of the workgroup. Required if making an IAM Identity Center
-  /// request.
-  Future<ListDataCatalogsOutput> listDataCatalogs({
-    int? maxResults,
-    String? nextToken,
-    String? workGroup,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      2,
-      50,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AmazonAthena.ListDataCatalogs'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (workGroup != null) 'WorkGroup': workGroup,
-      },
-    );
-
-    return ListDataCatalogsOutput.fromJson(jsonResponse.body);
-  }
-
   /// Lists the databases in the specified data catalog.
   ///
   /// May throw [InternalServerException].
@@ -1708,6 +1811,58 @@ class Athena {
     );
 
     return ListDatabasesOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Lists the data catalogs in the current Amazon Web Services account.
+  /// <note>
+  /// In the Athena console, data catalogs are listed as "data sources" on the
+  /// <b>Data sources</b> page under the <b>Data source name</b> column.
+  /// </note>
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
+  ///
+  /// Parameter [maxResults] :
+  /// Specifies the maximum number of data catalogs to return.
+  ///
+  /// Parameter [nextToken] :
+  /// A token generated by the Athena service that specifies where to continue
+  /// pagination if a previous request was truncated. To obtain the next set of
+  /// pages, pass in the NextToken from the response object of the previous page
+  /// call.
+  ///
+  /// Parameter [workGroup] :
+  /// The name of the workgroup. Required if making an IAM Identity Center
+  /// request.
+  Future<ListDataCatalogsOutput> listDataCatalogs({
+    int? maxResults,
+    String? nextToken,
+    String? workGroup,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      2,
+      50,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonAthena.ListDataCatalogs'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (workGroup != null) 'WorkGroup': workGroup,
+      },
+    );
+
+    return ListDataCatalogsOutput.fromJson(jsonResponse.body);
   }
 
   /// Returns a list of engine versions that are available to choose from,
@@ -2316,8 +2471,8 @@ class Athena {
   /// capacity reservation, replaces the existing capacity assignment
   /// configuration.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [capacityAssignments] :
   /// The list of assignments for the capacity assignment configuration.
@@ -2448,6 +2603,20 @@ class Athena {
   /// Services CLI, you must provide this token or the action will fail.
   /// </important>
   ///
+  /// Parameter [engineConfiguration] :
+  /// The engine configuration for the workgroup, which includes the
+  /// minimum/maximum number of Data Processing Units (DPU) that queries should
+  /// use when running in provisioned capacity. If not specified, Athena uses
+  /// default values (Default value for min is 4 and for max is Minimum of 124
+  /// and allocated DPUs).
+  ///
+  /// To specify minimum and maximum DPU values for Capacity Reservations
+  /// queries, the workgroup containing <code>EngineConfiguration</code> should
+  /// have the following values: The name of the <code>Classifications</code>
+  /// should be <code>athena-query-engine-properties</code>, with the only
+  /// allowed properties as <code>max-dpu-count</code> and
+  /// <code>min-dpu-count</code>.
+  ///
   /// Parameter [executionParameters] :
   /// A list of values for the parameters in a query. The values are applied
   /// sequentially to the parameters in the query in the order in which the
@@ -2472,6 +2641,7 @@ class Athena {
   Future<StartQueryExecutionOutput> startQueryExecution({
     required String queryString,
     String? clientRequestToken,
+    EngineConfiguration? engineConfiguration,
     List<String>? executionParameters,
     QueryExecutionContext? queryExecutionContext,
     ResultConfiguration? resultConfiguration,
@@ -2492,6 +2662,8 @@ class Athena {
         'QueryString': queryString,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
+        if (engineConfiguration != null)
+          'EngineConfiguration': engineConfiguration,
         if (executionParameters != null)
           'ExecutionParameters': executionParameters,
         if (queryExecutionContext != null)
@@ -2536,8 +2708,20 @@ class Athena {
   /// Services CLI, you must provide this token or the action will fail.
   /// </important>
   ///
+  /// Parameter [copyWorkGroupTags] :
+  /// Copies the tags from the Workgroup to the Session when.
+  ///
   /// Parameter [description] :
   /// The session description.
+  ///
+  /// Parameter [executionRole] :
+  /// The ARN of the execution role used to access user resources for Spark
+  /// sessions and Identity Center enabled workgroups. This property applies
+  /// only to Spark enabled workgroups and Identity Center enabled workgroups.
+  ///
+  /// Parameter [monitoringConfiguration] :
+  /// Contains the configuration settings for managed log persistence,
+  /// delivering logs to Amazon S3 buckets, Amazon CloudWatch log groups etc.
   ///
   /// Parameter [notebookVersion] :
   /// The notebook version. This value is supplied automatically for notebook
@@ -2549,13 +2733,20 @@ class Athena {
   ///
   /// Parameter [sessionIdleTimeoutInMinutes] :
   /// The idle timeout in minutes for the session.
+  ///
+  /// Parameter [tags] :
+  /// A list of comma separated tags to add to the session that is created.
   Future<StartSessionResponse> startSession({
     required EngineConfiguration engineConfiguration,
     required String workGroup,
     String? clientRequestToken,
+    bool? copyWorkGroupTags,
     String? description,
+    String? executionRole,
+    MonitoringConfiguration? monitoringConfiguration,
     String? notebookVersion,
     int? sessionIdleTimeoutInMinutes,
+    List<Tag>? tags,
   }) async {
     _s.validateNumRange(
       'sessionIdleTimeoutInMinutes',
@@ -2578,10 +2769,15 @@ class Athena {
         'WorkGroup': workGroup,
         if (clientRequestToken != null)
           'ClientRequestToken': clientRequestToken,
+        if (copyWorkGroupTags != null) 'CopyWorkGroupTags': copyWorkGroupTags,
         if (description != null) 'Description': description,
+        if (executionRole != null) 'ExecutionRole': executionRole,
+        if (monitoringConfiguration != null)
+          'MonitoringConfiguration': monitoringConfiguration,
         if (notebookVersion != null) 'NotebookVersion': notebookVersion,
         if (sessionIdleTimeoutInMinutes != null)
           'SessionIdleTimeoutInMinutes': sessionIdleTimeoutInMinutes,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -2770,8 +2966,8 @@ class Athena {
   /// Updates the number of requested data processing units for the capacity
   /// reservation with the specified name.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [name] :
   /// The name of the capacity reservation.
@@ -2785,7 +2981,7 @@ class Athena {
     _s.validateNumRange(
       'targetDpus',
       targetDpus,
-      24,
+      4,
       1152921504606846976,
       isRequired: true,
     );
@@ -3115,160 +3311,6 @@ class Athena {
   }
 }
 
-/// Indicates that an Amazon S3 canned ACL should be set to control ownership of
-/// stored query results. When Athena stores query results in Amazon S3, the
-/// canned ACL is set with the <code>x-amz-acl</code> request header. For more
-/// information about S3 Object Ownership, see <a
-/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html#object-ownership-overview">Object
-/// Ownership settings</a> in the <i>Amazon S3 User Guide</i>.
-class AclConfiguration {
-  /// The Amazon S3 canned ACL that Athena should specify when storing query
-  /// results. Currently the only supported canned ACL is
-  /// <code>BUCKET_OWNER_FULL_CONTROL</code>. If a query runs in a workgroup and
-  /// the workgroup overrides client-side settings, then the Amazon S3 canned ACL
-  /// specified in the workgroup's settings is used for all queries that run in
-  /// the workgroup. For more information about Amazon S3 canned ACLs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/acl-overview.html#canned-acl">Canned
-  /// ACL</a> in the <i>Amazon S3 User Guide</i>.
-  final S3AclOption s3AclOption;
-
-  AclConfiguration({
-    required this.s3AclOption,
-  });
-
-  factory AclConfiguration.fromJson(Map<String, dynamic> json) {
-    return AclConfiguration(
-      s3AclOption:
-          S3AclOption.fromString((json['S3AclOption'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final s3AclOption = this.s3AclOption;
-    return {
-      'S3AclOption': s3AclOption.value,
-    };
-  }
-}
-
-/// Contains the application runtime IDs and their supported DPU sizes.
-class ApplicationDPUSizes {
-  /// The name of the supported application runtime (for example, <code>Athena
-  /// notebook version 1</code>).
-  final String? applicationRuntimeId;
-
-  /// A list of the supported DPU sizes that the application runtime supports.
-  final List<int>? supportedDPUSizes;
-
-  ApplicationDPUSizes({
-    this.applicationRuntimeId,
-    this.supportedDPUSizes,
-  });
-
-  factory ApplicationDPUSizes.fromJson(Map<String, dynamic> json) {
-    return ApplicationDPUSizes(
-      applicationRuntimeId: json['ApplicationRuntimeId'] as String?,
-      supportedDPUSizes: (json['SupportedDPUSizes'] as List?)
-          ?.nonNulls
-          .map((e) => e as int)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final applicationRuntimeId = this.applicationRuntimeId;
-    final supportedDPUSizes = this.supportedDPUSizes;
-    return {
-      if (applicationRuntimeId != null)
-        'ApplicationRuntimeId': applicationRuntimeId,
-      if (supportedDPUSizes != null) 'SupportedDPUSizes': supportedDPUSizes,
-    };
-  }
-}
-
-/// Provides information about an Athena query error. The
-/// <code>AthenaError</code> feature provides standardized error information to
-/// help you understand failed queries and take steps after a query failure
-/// occurs. <code>AthenaError</code> includes an <code>ErrorCategory</code>
-/// field that specifies whether the cause of the failed query is due to system
-/// error, user error, or other error.
-class AthenaError {
-  /// An integer value that specifies the category of a query failure error. The
-  /// following list shows the category for each integer value.
-  ///
-  /// <b>1</b> - System
-  ///
-  /// <b>2</b> - User
-  ///
-  /// <b>3</b> - Other
-  final int? errorCategory;
-
-  /// Contains a short description of the error that occurred.
-  final String? errorMessage;
-
-  /// An integer value that provides specific information about an Athena query
-  /// error. For the meaning of specific values, see the <a
-  /// href="https://docs.aws.amazon.com/athena/latest/ug/error-reference.html#error-reference-error-type-reference">Error
-  /// Type Reference</a> in the <i>Amazon Athena User Guide</i>.
-  final int? errorType;
-
-  /// True if the query might succeed if resubmitted.
-  final bool? retryable;
-
-  AthenaError({
-    this.errorCategory,
-    this.errorMessage,
-    this.errorType,
-    this.retryable,
-  });
-
-  factory AthenaError.fromJson(Map<String, dynamic> json) {
-    return AthenaError(
-      errorCategory: json['ErrorCategory'] as int?,
-      errorMessage: json['ErrorMessage'] as String?,
-      errorType: json['ErrorType'] as int?,
-      retryable: json['Retryable'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCategory = this.errorCategory;
-    final errorMessage = this.errorMessage;
-    final errorType = this.errorType;
-    final retryable = this.retryable;
-    return {
-      if (errorCategory != null) 'ErrorCategory': errorCategory,
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-      if (errorType != null) 'ErrorType': errorType,
-      if (retryable != null) 'Retryable': retryable,
-    };
-  }
-}
-
-class AuthenticationType {
-  static const directoryIdentity = AuthenticationType._('DIRECTORY_IDENTITY');
-
-  final String value;
-
-  const AuthenticationType._(this.value);
-
-  static const values = [directoryIdentity];
-
-  static AuthenticationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AuthenticationType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AuthenticationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class BatchGetNamedQueryOutput {
   /// Information about the named query IDs submitted.
   final List<NamedQuery>? namedQueries;
@@ -3385,245 +3427,6 @@ class BatchGetQueryExecutionOutput {
   }
 }
 
-/// Contains configuration information for the calculation.
-class CalculationConfiguration {
-  /// A string that contains the code for the calculation.
-  final String? codeBlock;
-
-  CalculationConfiguration({
-    this.codeBlock,
-  });
-
-  Map<String, dynamic> toJson() {
-    final codeBlock = this.codeBlock;
-    return {
-      if (codeBlock != null) 'CodeBlock': codeBlock,
-    };
-  }
-}
-
-class CalculationExecutionState {
-  static const creating = CalculationExecutionState._('CREATING');
-  static const created = CalculationExecutionState._('CREATED');
-  static const queued = CalculationExecutionState._('QUEUED');
-  static const running = CalculationExecutionState._('RUNNING');
-  static const canceling = CalculationExecutionState._('CANCELING');
-  static const canceled = CalculationExecutionState._('CANCELED');
-  static const completed = CalculationExecutionState._('COMPLETED');
-  static const failed = CalculationExecutionState._('FAILED');
-
-  final String value;
-
-  const CalculationExecutionState._(this.value);
-
-  static const values = [
-    creating,
-    created,
-    queued,
-    running,
-    canceling,
-    canceled,
-    completed,
-    failed
-  ];
-
-  static CalculationExecutionState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CalculationExecutionState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CalculationExecutionState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains information about an application-specific calculation result.
-class CalculationResult {
-  /// The Amazon S3 location of the folder for the calculation results.
-  final String? resultS3Uri;
-
-  /// The data format of the calculation result.
-  final String? resultType;
-
-  /// The Amazon S3 location of the <code>stderr</code> error messages file for
-  /// the calculation.
-  final String? stdErrorS3Uri;
-
-  /// The Amazon S3 location of the <code>stdout</code> file for the calculation.
-  final String? stdOutS3Uri;
-
-  CalculationResult({
-    this.resultS3Uri,
-    this.resultType,
-    this.stdErrorS3Uri,
-    this.stdOutS3Uri,
-  });
-
-  factory CalculationResult.fromJson(Map<String, dynamic> json) {
-    return CalculationResult(
-      resultS3Uri: json['ResultS3Uri'] as String?,
-      resultType: json['ResultType'] as String?,
-      stdErrorS3Uri: json['StdErrorS3Uri'] as String?,
-      stdOutS3Uri: json['StdOutS3Uri'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resultS3Uri = this.resultS3Uri;
-    final resultType = this.resultType;
-    final stdErrorS3Uri = this.stdErrorS3Uri;
-    final stdOutS3Uri = this.stdOutS3Uri;
-    return {
-      if (resultS3Uri != null) 'ResultS3Uri': resultS3Uri,
-      if (resultType != null) 'ResultType': resultType,
-      if (stdErrorS3Uri != null) 'StdErrorS3Uri': stdErrorS3Uri,
-      if (stdOutS3Uri != null) 'StdOutS3Uri': stdOutS3Uri,
-    };
-  }
-}
-
-/// Contains statistics for a notebook calculation.
-class CalculationStatistics {
-  /// The data processing unit execution time in milliseconds for the calculation.
-  final int? dpuExecutionInMillis;
-
-  /// The progress of the calculation.
-  final String? progress;
-
-  CalculationStatistics({
-    this.dpuExecutionInMillis,
-    this.progress,
-  });
-
-  factory CalculationStatistics.fromJson(Map<String, dynamic> json) {
-    return CalculationStatistics(
-      dpuExecutionInMillis: json['DpuExecutionInMillis'] as int?,
-      progress: json['Progress'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dpuExecutionInMillis = this.dpuExecutionInMillis;
-    final progress = this.progress;
-    return {
-      if (dpuExecutionInMillis != null)
-        'DpuExecutionInMillis': dpuExecutionInMillis,
-      if (progress != null) 'Progress': progress,
-    };
-  }
-}
-
-/// Contains information about the status of a notebook calculation.
-class CalculationStatus {
-  /// The date and time the calculation completed processing.
-  final DateTime? completionDateTime;
-
-  /// The state of the calculation execution. A description of each state follows.
-  ///
-  /// <code>CREATING</code> - The calculation is in the process of being created.
-  ///
-  /// <code>CREATED</code> - The calculation has been created and is ready to run.
-  ///
-  /// <code>QUEUED</code> - The calculation has been queued for processing.
-  ///
-  /// <code>RUNNING</code> - The calculation is running.
-  ///
-  /// <code>CANCELING</code> - A request to cancel the calculation has been
-  /// received and the system is working to stop it.
-  ///
-  /// <code>CANCELED</code> - The calculation is no longer running as the result
-  /// of a cancel request.
-  ///
-  /// <code>COMPLETED</code> - The calculation has completed without error.
-  ///
-  /// <code>FAILED</code> - The calculation failed and is no longer running.
-  final CalculationExecutionState? state;
-
-  /// The reason for the calculation state change (for example, the calculation
-  /// was canceled because the session was terminated).
-  final String? stateChangeReason;
-
-  /// The date and time the calculation was submitted for processing.
-  final DateTime? submissionDateTime;
-
-  CalculationStatus({
-    this.completionDateTime,
-    this.state,
-    this.stateChangeReason,
-    this.submissionDateTime,
-  });
-
-  factory CalculationStatus.fromJson(Map<String, dynamic> json) {
-    return CalculationStatus(
-      completionDateTime: timeStampFromJson(json['CompletionDateTime']),
-      state:
-          (json['State'] as String?)?.let(CalculationExecutionState.fromString),
-      stateChangeReason: json['StateChangeReason'] as String?,
-      submissionDateTime: timeStampFromJson(json['SubmissionDateTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final completionDateTime = this.completionDateTime;
-    final state = this.state;
-    final stateChangeReason = this.stateChangeReason;
-    final submissionDateTime = this.submissionDateTime;
-    return {
-      if (completionDateTime != null)
-        'CompletionDateTime': unixTimestampToJson(completionDateTime),
-      if (state != null) 'State': state.value,
-      if (stateChangeReason != null) 'StateChangeReason': stateChangeReason,
-      if (submissionDateTime != null)
-        'SubmissionDateTime': unixTimestampToJson(submissionDateTime),
-    };
-  }
-}
-
-/// Summary information for a notebook calculation.
-class CalculationSummary {
-  /// The calculation execution UUID.
-  final String? calculationExecutionId;
-
-  /// A description of the calculation.
-  final String? description;
-
-  /// Contains information about the status of the calculation.
-  final CalculationStatus? status;
-
-  CalculationSummary({
-    this.calculationExecutionId,
-    this.description,
-    this.status,
-  });
-
-  factory CalculationSummary.fromJson(Map<String, dynamic> json) {
-    return CalculationSummary(
-      calculationExecutionId: json['CalculationExecutionId'] as String?,
-      description: json['Description'] as String?,
-      status: json['Status'] != null
-          ? CalculationStatus.fromJson(json['Status'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final calculationExecutionId = this.calculationExecutionId;
-    final description = this.description;
-    final status = this.status;
-    return {
-      if (calculationExecutionId != null)
-        'CalculationExecutionId': calculationExecutionId,
-      if (description != null) 'Description': description,
-      if (status != null) 'Status': status,
-    };
-  }
-}
-
 class CancelCapacityReservationOutput {
   CancelCapacityReservationOutput();
 
@@ -3634,404 +3437,6 @@ class CancelCapacityReservationOutput {
   Map<String, dynamic> toJson() {
     return {};
   }
-}
-
-/// Contains the submission time of a single allocation request for a capacity
-/// reservation and the most recent status of the attempted allocation.
-class CapacityAllocation {
-  /// The time when the capacity allocation was requested.
-  final DateTime requestTime;
-
-  /// The status of the capacity allocation.
-  final CapacityAllocationStatus status;
-
-  /// The time when the capacity allocation request was completed.
-  final DateTime? requestCompletionTime;
-
-  /// The status message of the capacity allocation.
-  final String? statusMessage;
-
-  CapacityAllocation({
-    required this.requestTime,
-    required this.status,
-    this.requestCompletionTime,
-    this.statusMessage,
-  });
-
-  factory CapacityAllocation.fromJson(Map<String, dynamic> json) {
-    return CapacityAllocation(
-      requestTime: nonNullableTimeStampFromJson(json['RequestTime'] ?? 0),
-      status: CapacityAllocationStatus.fromString(
-          (json['Status'] as String?) ?? ''),
-      requestCompletionTime: timeStampFromJson(json['RequestCompletionTime']),
-      statusMessage: json['StatusMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final requestTime = this.requestTime;
-    final status = this.status;
-    final requestCompletionTime = this.requestCompletionTime;
-    final statusMessage = this.statusMessage;
-    return {
-      'RequestTime': unixTimestampToJson(requestTime),
-      'Status': status.value,
-      if (requestCompletionTime != null)
-        'RequestCompletionTime': unixTimestampToJson(requestCompletionTime),
-      if (statusMessage != null) 'StatusMessage': statusMessage,
-    };
-  }
-}
-
-class CapacityAllocationStatus {
-  static const pending = CapacityAllocationStatus._('PENDING');
-  static const succeeded = CapacityAllocationStatus._('SUCCEEDED');
-  static const failed = CapacityAllocationStatus._('FAILED');
-
-  final String value;
-
-  const CapacityAllocationStatus._(this.value);
-
-  static const values = [pending, succeeded, failed];
-
-  static CapacityAllocationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CapacityAllocationStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CapacityAllocationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A mapping between one or more workgroups and a capacity reservation.
-class CapacityAssignment {
-  /// The list of workgroup names for the capacity assignment.
-  final List<String>? workGroupNames;
-
-  CapacityAssignment({
-    this.workGroupNames,
-  });
-
-  factory CapacityAssignment.fromJson(Map<String, dynamic> json) {
-    return CapacityAssignment(
-      workGroupNames: (json['WorkGroupNames'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final workGroupNames = this.workGroupNames;
-    return {
-      if (workGroupNames != null) 'WorkGroupNames': workGroupNames,
-    };
-  }
-}
-
-/// Assigns Athena workgroups (and hence their queries) to capacity
-/// reservations. A capacity reservation can have only one capacity assignment
-/// configuration, but the capacity assignment configuration can be made up of
-/// multiple individual assignments. Each assignment specifies how Athena
-/// queries can consume capacity from the capacity reservation that their
-/// workgroup is mapped to.
-class CapacityAssignmentConfiguration {
-  /// The list of assignments that make up the capacity assignment configuration.
-  final List<CapacityAssignment>? capacityAssignments;
-
-  /// The name of the reservation that the capacity assignment configuration is
-  /// for.
-  final String? capacityReservationName;
-
-  CapacityAssignmentConfiguration({
-    this.capacityAssignments,
-    this.capacityReservationName,
-  });
-
-  factory CapacityAssignmentConfiguration.fromJson(Map<String, dynamic> json) {
-    return CapacityAssignmentConfiguration(
-      capacityAssignments: (json['CapacityAssignments'] as List?)
-          ?.nonNulls
-          .map((e) => CapacityAssignment.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      capacityReservationName: json['CapacityReservationName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final capacityAssignments = this.capacityAssignments;
-    final capacityReservationName = this.capacityReservationName;
-    return {
-      if (capacityAssignments != null)
-        'CapacityAssignments': capacityAssignments,
-      if (capacityReservationName != null)
-        'CapacityReservationName': capacityReservationName,
-    };
-  }
-}
-
-/// A reservation for a specified number of data processing units (DPUs). When a
-/// reservation is initially created, it has no DPUs. Athena allocates DPUs
-/// until the allocated amount equals the requested amount.
-class CapacityReservation {
-  /// The number of data processing units currently allocated.
-  final int allocatedDpus;
-
-  /// The time in UTC epoch millis when the capacity reservation was created.
-  final DateTime creationTime;
-
-  /// The name of the capacity reservation.
-  final String name;
-
-  /// The status of the capacity reservation.
-  final CapacityReservationStatus status;
-
-  /// The number of data processing units requested.
-  final int targetDpus;
-  final CapacityAllocation? lastAllocation;
-
-  /// The time of the most recent capacity allocation that succeeded.
-  final DateTime? lastSuccessfulAllocationTime;
-
-  CapacityReservation({
-    required this.allocatedDpus,
-    required this.creationTime,
-    required this.name,
-    required this.status,
-    required this.targetDpus,
-    this.lastAllocation,
-    this.lastSuccessfulAllocationTime,
-  });
-
-  factory CapacityReservation.fromJson(Map<String, dynamic> json) {
-    return CapacityReservation(
-      allocatedDpus: (json['AllocatedDpus'] as int?) ?? 0,
-      creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
-      name: (json['Name'] as String?) ?? '',
-      status: CapacityReservationStatus.fromString(
-          (json['Status'] as String?) ?? ''),
-      targetDpus: (json['TargetDpus'] as int?) ?? 0,
-      lastAllocation: json['LastAllocation'] != null
-          ? CapacityAllocation.fromJson(
-              json['LastAllocation'] as Map<String, dynamic>)
-          : null,
-      lastSuccessfulAllocationTime:
-          timeStampFromJson(json['LastSuccessfulAllocationTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final allocatedDpus = this.allocatedDpus;
-    final creationTime = this.creationTime;
-    final name = this.name;
-    final status = this.status;
-    final targetDpus = this.targetDpus;
-    final lastAllocation = this.lastAllocation;
-    final lastSuccessfulAllocationTime = this.lastSuccessfulAllocationTime;
-    return {
-      'AllocatedDpus': allocatedDpus,
-      'CreationTime': unixTimestampToJson(creationTime),
-      'Name': name,
-      'Status': status.value,
-      'TargetDpus': targetDpus,
-      if (lastAllocation != null) 'LastAllocation': lastAllocation,
-      if (lastSuccessfulAllocationTime != null)
-        'LastSuccessfulAllocationTime':
-            unixTimestampToJson(lastSuccessfulAllocationTime),
-    };
-  }
-}
-
-class CapacityReservationStatus {
-  static const pending = CapacityReservationStatus._('PENDING');
-  static const active = CapacityReservationStatus._('ACTIVE');
-  static const cancelling = CapacityReservationStatus._('CANCELLING');
-  static const cancelled = CapacityReservationStatus._('CANCELLED');
-  static const failed = CapacityReservationStatus._('FAILED');
-  static const updatePending = CapacityReservationStatus._('UPDATE_PENDING');
-
-  final String value;
-
-  const CapacityReservationStatus._(this.value);
-
-  static const values = [
-    pending,
-    active,
-    cancelling,
-    cancelled,
-    failed,
-    updatePending
-  ];
-
-  static CapacityReservationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CapacityReservationStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CapacityReservationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains metadata for a column in a table.
-class Column {
-  /// The name of the column.
-  final String name;
-
-  /// Optional information about the column.
-  final String? comment;
-
-  /// The data type of the column.
-  final String? type;
-
-  Column({
-    required this.name,
-    this.comment,
-    this.type,
-  });
-
-  factory Column.fromJson(Map<String, dynamic> json) {
-    return Column(
-      name: (json['Name'] as String?) ?? '',
-      comment: json['Comment'] as String?,
-      type: json['Type'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final comment = this.comment;
-    final type = this.type;
-    return {
-      'Name': name,
-      if (comment != null) 'Comment': comment,
-      if (type != null) 'Type': type,
-    };
-  }
-}
-
-/// Information about the columns in a query execution result.
-class ColumnInfo {
-  /// The name of the column.
-  final String name;
-
-  /// The data type of the column.
-  final String type;
-
-  /// Indicates whether values in the column are case-sensitive.
-  final bool? caseSensitive;
-
-  /// The catalog to which the query results belong.
-  final String? catalogName;
-
-  /// A column label.
-  final String? label;
-
-  /// Unsupported constraint. This value always shows as <code>UNKNOWN</code>.
-  final ColumnNullable? nullable;
-
-  /// For <code>DECIMAL</code> data types, specifies the total number of digits,
-  /// up to 38. For performance reasons, we recommend up to 18 digits.
-  final int? precision;
-
-  /// For <code>DECIMAL</code> data types, specifies the total number of digits in
-  /// the fractional part of the value. Defaults to 0.
-  final int? scale;
-
-  /// The schema name (database name) to which the query results belong.
-  final String? schemaName;
-
-  /// The table name for the query results.
-  final String? tableName;
-
-  ColumnInfo({
-    required this.name,
-    required this.type,
-    this.caseSensitive,
-    this.catalogName,
-    this.label,
-    this.nullable,
-    this.precision,
-    this.scale,
-    this.schemaName,
-    this.tableName,
-  });
-
-  factory ColumnInfo.fromJson(Map<String, dynamic> json) {
-    return ColumnInfo(
-      name: (json['Name'] as String?) ?? '',
-      type: (json['Type'] as String?) ?? '',
-      caseSensitive: json['CaseSensitive'] as bool?,
-      catalogName: json['CatalogName'] as String?,
-      label: json['Label'] as String?,
-      nullable: (json['Nullable'] as String?)?.let(ColumnNullable.fromString),
-      precision: json['Precision'] as int?,
-      scale: json['Scale'] as int?,
-      schemaName: json['SchemaName'] as String?,
-      tableName: json['TableName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final type = this.type;
-    final caseSensitive = this.caseSensitive;
-    final catalogName = this.catalogName;
-    final label = this.label;
-    final nullable = this.nullable;
-    final precision = this.precision;
-    final scale = this.scale;
-    final schemaName = this.schemaName;
-    final tableName = this.tableName;
-    return {
-      'Name': name,
-      'Type': type,
-      if (caseSensitive != null) 'CaseSensitive': caseSensitive,
-      if (catalogName != null) 'CatalogName': catalogName,
-      if (label != null) 'Label': label,
-      if (nullable != null) 'Nullable': nullable.value,
-      if (precision != null) 'Precision': precision,
-      if (scale != null) 'Scale': scale,
-      if (schemaName != null) 'SchemaName': schemaName,
-      if (tableName != null) 'TableName': tableName,
-    };
-  }
-}
-
-class ColumnNullable {
-  static const notNull = ColumnNullable._('NOT_NULL');
-  static const nullable = ColumnNullable._('NULLABLE');
-  static const unknown = ColumnNullable._('UNKNOWN');
-
-  final String value;
-
-  const ColumnNullable._(this.value);
-
-  static const values = [notNull, nullable, unknown];
-
-  static ColumnNullable fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ColumnNullable._(value));
-
-  @override
-  bool operator ==(other) => other is ColumnNullable && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class CreateCapacityReservationOutput {
@@ -4047,14 +3452,25 @@ class CreateCapacityReservationOutput {
 }
 
 class CreateDataCatalogOutput {
-  CreateDataCatalogOutput();
+  final DataCatalog? dataCatalog;
 
-  factory CreateDataCatalogOutput.fromJson(Map<String, dynamic> _) {
-    return CreateDataCatalogOutput();
+  CreateDataCatalogOutput({
+    this.dataCatalog,
+  });
+
+  factory CreateDataCatalogOutput.fromJson(Map<String, dynamic> json) {
+    return CreateDataCatalogOutput(
+      dataCatalog: json['DataCatalog'] != null
+          ? DataCatalog.fromJson(json['DataCatalog'] as Map<String, dynamic>)
+          : null,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final dataCatalog = this.dataCatalog;
+    return {
+      if (dataCatalog != null) 'DataCatalog': dataCatalog,
+    };
   }
 }
 
@@ -4164,254 +3580,6 @@ class CreateWorkGroupOutput {
   }
 }
 
-/// Specifies the customer managed KMS key that is used to encrypt the user's
-/// data stores in Athena. When an Amazon Web Services managed key is used, this
-/// value is null. This setting does not apply to Athena SQL workgroups.
-class CustomerContentEncryptionConfiguration {
-  /// The customer managed KMS key that is used to encrypt the user's data stores
-  /// in Athena.
-  final String kmsKey;
-
-  CustomerContentEncryptionConfiguration({
-    required this.kmsKey,
-  });
-
-  factory CustomerContentEncryptionConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return CustomerContentEncryptionConfiguration(
-      kmsKey: (json['KmsKey'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final kmsKey = this.kmsKey;
-    return {
-      'KmsKey': kmsKey,
-    };
-  }
-}
-
-/// Contains information about a data catalog in an Amazon Web Services account.
-/// <note>
-/// In the Athena console, data catalogs are listed as "data sources" on the
-/// <b>Data sources</b> page under the <b>Data source name</b> column.
-/// </note>
-class DataCatalog {
-  /// The name of the data catalog. The catalog name must be unique for the Amazon
-  /// Web Services account and can use a maximum of 127 alphanumeric, underscore,
-  /// at sign, or hyphen characters. The remainder of the length constraint of 256
-  /// is reserved for use by Athena.
-  final String name;
-
-  /// The type of data catalog to create: <code>LAMBDA</code> for a federated
-  /// catalog, <code>HIVE</code> for an external hive metastore, or
-  /// <code>GLUE</code> for an Glue Data Catalog.
-  final DataCatalogType type;
-
-  /// An optional description of the data catalog.
-  final String? description;
-
-  /// Specifies the Lambda function or functions to use for the data catalog. This
-  /// is a mapping whose values depend on the catalog type.
-  ///
-  /// <ul>
-  /// <li>
-  /// For the <code>HIVE</code> data catalog type, use the following syntax. The
-  /// <code>metadata-function</code> parameter is required. <code>The
-  /// sdk-version</code> parameter is optional and defaults to the currently
-  /// supported version.
-  ///
-  /// <code>metadata-function=<i>lambda_arn</i>, sdk-version=<i>version_number</i>
-  /// </code>
-  /// </li>
-  /// <li>
-  /// For the <code>LAMBDA</code> data catalog type, use one of the following sets
-  /// of required parameters, but not both.
-  ///
-  /// <ul>
-  /// <li>
-  /// If you have one Lambda function that processes metadata and another for
-  /// reading the actual data, use the following syntax. Both parameters are
-  /// required.
-  ///
-  /// <code>metadata-function=<i>lambda_arn</i>, record-function=<i>lambda_arn</i>
-  /// </code>
-  /// </li>
-  /// <li>
-  /// If you have a composite Lambda function that processes both metadata and
-  /// data, use the following syntax to specify your Lambda function.
-  ///
-  /// <code>function=<i>lambda_arn</i> </code>
-  /// </li>
-  /// </ul> </li>
-  /// <li>
-  /// The <code>GLUE</code> type takes a catalog ID parameter and is required. The
-  /// <code> <i>catalog_id</i> </code> is the account ID of the Amazon Web
-  /// Services account to which the Glue catalog belongs.
-  ///
-  /// <code>catalog-id=<i>catalog_id</i> </code>
-  ///
-  /// <ul>
-  /// <li>
-  /// The <code>GLUE</code> data catalog type also applies to the default
-  /// <code>AwsDataCatalog</code> that already exists in your account, of which
-  /// you can have only one and cannot modify.
-  /// </li>
-  /// </ul> </li>
-  /// </ul>
-  final Map<String, String>? parameters;
-
-  DataCatalog({
-    required this.name,
-    required this.type,
-    this.description,
-    this.parameters,
-  });
-
-  factory DataCatalog.fromJson(Map<String, dynamic> json) {
-    return DataCatalog(
-      name: (json['Name'] as String?) ?? '',
-      type: DataCatalogType.fromString((json['Type'] as String?) ?? ''),
-      description: json['Description'] as String?,
-      parameters: (json['Parameters'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final type = this.type;
-    final description = this.description;
-    final parameters = this.parameters;
-    return {
-      'Name': name,
-      'Type': type.value,
-      if (description != null) 'Description': description,
-      if (parameters != null) 'Parameters': parameters,
-    };
-  }
-}
-
-/// The summary information for the data catalog, which includes its name and
-/// type.
-class DataCatalogSummary {
-  /// The name of the data catalog. The catalog name is unique for the Amazon Web
-  /// Services account and can use a maximum of 127 alphanumeric, underscore, at
-  /// sign, or hyphen characters. The remainder of the length constraint of 256 is
-  /// reserved for use by Athena.
-  final String? catalogName;
-
-  /// The data catalog type.
-  final DataCatalogType? type;
-
-  DataCatalogSummary({
-    this.catalogName,
-    this.type,
-  });
-
-  factory DataCatalogSummary.fromJson(Map<String, dynamic> json) {
-    return DataCatalogSummary(
-      catalogName: json['CatalogName'] as String?,
-      type: (json['Type'] as String?)?.let(DataCatalogType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final catalogName = this.catalogName;
-    final type = this.type;
-    return {
-      if (catalogName != null) 'CatalogName': catalogName,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class DataCatalogType {
-  static const lambda = DataCatalogType._('LAMBDA');
-  static const glue = DataCatalogType._('GLUE');
-  static const hive = DataCatalogType._('HIVE');
-
-  final String value;
-
-  const DataCatalogType._(this.value);
-
-  static const values = [lambda, glue, hive];
-
-  static DataCatalogType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DataCatalogType._(value));
-
-  @override
-  bool operator ==(other) => other is DataCatalogType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains metadata information for a database in a data catalog.
-class Database {
-  /// The name of the database.
-  final String name;
-
-  /// An optional description of the database.
-  final String? description;
-
-  /// A set of custom key/value pairs.
-  final Map<String, String>? parameters;
-
-  Database({
-    required this.name,
-    this.description,
-    this.parameters,
-  });
-
-  factory Database.fromJson(Map<String, dynamic> json) {
-    return Database(
-      name: (json['Name'] as String?) ?? '',
-      description: json['Description'] as String?,
-      parameters: (json['Parameters'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final description = this.description;
-    final parameters = this.parameters;
-    return {
-      'Name': name,
-      if (description != null) 'Description': description,
-      if (parameters != null) 'Parameters': parameters,
-    };
-  }
-}
-
-/// A piece of data (a field in the table).
-class Datum {
-  /// The value of the datum.
-  final String? varCharValue;
-
-  Datum({
-    this.varCharValue,
-  });
-
-  factory Datum.fromJson(Map<String, dynamic> json) {
-    return Datum(
-      varCharValue: json['VarCharValue'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final varCharValue = this.varCharValue;
-    return {
-      if (varCharValue != null) 'VarCharValue': varCharValue,
-    };
-  }
-}
-
 class DeleteCapacityReservationOutput {
   DeleteCapacityReservationOutput();
 
@@ -4425,14 +3593,25 @@ class DeleteCapacityReservationOutput {
 }
 
 class DeleteDataCatalogOutput {
-  DeleteDataCatalogOutput();
+  final DataCatalog? dataCatalog;
 
-  factory DeleteDataCatalogOutput.fromJson(Map<String, dynamic> _) {
-    return DeleteDataCatalogOutput();
+  DeleteDataCatalogOutput({
+    this.dataCatalog,
+  });
+
+  factory DeleteDataCatalogOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteDataCatalogOutput(
+      dataCatalog: json['DataCatalog'] != null
+          ? DataCatalog.fromJson(json['DataCatalog'] as Map<String, dynamic>)
+          : null,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final dataCatalog = this.dataCatalog;
+    return {
+      if (dataCatalog != null) 'DataCatalog': dataCatalog,
+    };
   }
 }
 
@@ -4484,315 +3663,6 @@ class DeleteWorkGroupOutput {
   }
 }
 
-/// If query and calculation results are encrypted in Amazon S3, indicates the
-/// encryption option used (for example, <code>SSE_KMS</code> or
-/// <code>CSE_KMS</code>) and key information.
-class EncryptionConfiguration {
-  /// Indicates whether Amazon S3 server-side encryption with Amazon S3-managed
-  /// keys (<code>SSE_S3</code>), server-side encryption with KMS-managed keys
-  /// (<code>SSE_KMS</code>), or client-side encryption with KMS-managed keys
-  /// (<code>CSE_KMS</code>) is used.
-  ///
-  /// If a query runs in a workgroup and the workgroup overrides client-side
-  /// settings, then the workgroup's setting for encryption is used. It specifies
-  /// whether query results must be encrypted, for all queries that run in this
-  /// workgroup.
-  final EncryptionOption encryptionOption;
-
-  /// For <code>SSE_KMS</code> and <code>CSE_KMS</code>, this is the KMS key ARN
-  /// or ID.
-  final String? kmsKey;
-
-  EncryptionConfiguration({
-    required this.encryptionOption,
-    this.kmsKey,
-  });
-
-  factory EncryptionConfiguration.fromJson(Map<String, dynamic> json) {
-    return EncryptionConfiguration(
-      encryptionOption: EncryptionOption.fromString(
-          (json['EncryptionOption'] as String?) ?? ''),
-      kmsKey: json['KmsKey'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final encryptionOption = this.encryptionOption;
-    final kmsKey = this.kmsKey;
-    return {
-      'EncryptionOption': encryptionOption.value,
-      if (kmsKey != null) 'KmsKey': kmsKey,
-    };
-  }
-}
-
-class EncryptionOption {
-  static const sseS3 = EncryptionOption._('SSE_S3');
-  static const sseKms = EncryptionOption._('SSE_KMS');
-  static const cseKms = EncryptionOption._('CSE_KMS');
-
-  final String value;
-
-  const EncryptionOption._(this.value);
-
-  static const values = [sseS3, sseKms, cseKms];
-
-  static EncryptionOption fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EncryptionOption._(value));
-
-  @override
-  bool operator ==(other) => other is EncryptionOption && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains data processing unit (DPU) configuration settings and parameter
-/// mappings for a notebook engine.
-class EngineConfiguration {
-  /// The maximum number of DPUs that can run concurrently.
-  final int maxConcurrentDpus;
-
-  /// Contains additional notebook engine <code>MAP&lt;string, string&gt;</code>
-  /// parameter mappings in the form of key-value pairs. To specify an Athena
-  /// notebook that the Jupyter server will download and serve, specify a value
-  /// for the <a>StartSessionRequest$NotebookVersion</a> field, and then add a key
-  /// named <code>NotebookId</code> to <code>AdditionalConfigs</code> that has the
-  /// value of the Athena notebook ID.
-  final Map<String, String>? additionalConfigs;
-
-  /// The number of DPUs to use for the coordinator. A coordinator is a special
-  /// executor that orchestrates processing work and manages other executors in a
-  /// notebook session. The default is 1.
-  final int? coordinatorDpuSize;
-
-  /// The default number of DPUs to use for executors. An executor is the smallest
-  /// unit of compute that a notebook session can request from Athena. The default
-  /// is 1.
-  final int? defaultExecutorDpuSize;
-
-  /// Specifies custom jar files and Spark properties for use cases like cluster
-  /// encryption, table formats, and general Spark tuning.
-  final Map<String, String>? sparkProperties;
-
-  EngineConfiguration({
-    required this.maxConcurrentDpus,
-    this.additionalConfigs,
-    this.coordinatorDpuSize,
-    this.defaultExecutorDpuSize,
-    this.sparkProperties,
-  });
-
-  factory EngineConfiguration.fromJson(Map<String, dynamic> json) {
-    return EngineConfiguration(
-      maxConcurrentDpus: (json['MaxConcurrentDpus'] as int?) ?? 0,
-      additionalConfigs: (json['AdditionalConfigs'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      coordinatorDpuSize: json['CoordinatorDpuSize'] as int?,
-      defaultExecutorDpuSize: json['DefaultExecutorDpuSize'] as int?,
-      sparkProperties: (json['SparkProperties'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final maxConcurrentDpus = this.maxConcurrentDpus;
-    final additionalConfigs = this.additionalConfigs;
-    final coordinatorDpuSize = this.coordinatorDpuSize;
-    final defaultExecutorDpuSize = this.defaultExecutorDpuSize;
-    final sparkProperties = this.sparkProperties;
-    return {
-      'MaxConcurrentDpus': maxConcurrentDpus,
-      if (additionalConfigs != null) 'AdditionalConfigs': additionalConfigs,
-      if (coordinatorDpuSize != null) 'CoordinatorDpuSize': coordinatorDpuSize,
-      if (defaultExecutorDpuSize != null)
-        'DefaultExecutorDpuSize': defaultExecutorDpuSize,
-      if (sparkProperties != null) 'SparkProperties': sparkProperties,
-    };
-  }
-}
-
-/// The Athena engine version for running queries, or the PySpark engine version
-/// for running sessions.
-class EngineVersion {
-  /// Read only. The engine version on which the query runs. If the user requests
-  /// a valid engine version other than Auto, the effective engine version is the
-  /// same as the engine version that the user requested. If the user requests
-  /// Auto, the effective engine version is chosen by Athena. When a request to
-  /// update the engine version is made by a <code>CreateWorkGroup</code> or
-  /// <code>UpdateWorkGroup</code> operation, the
-  /// <code>EffectiveEngineVersion</code> field is ignored.
-  final String? effectiveEngineVersion;
-
-  /// The engine version requested by the user. Possible values are determined by
-  /// the output of <code>ListEngineVersions</code>, including AUTO. The default
-  /// is AUTO.
-  final String? selectedEngineVersion;
-
-  EngineVersion({
-    this.effectiveEngineVersion,
-    this.selectedEngineVersion,
-  });
-
-  factory EngineVersion.fromJson(Map<String, dynamic> json) {
-    return EngineVersion(
-      effectiveEngineVersion: json['EffectiveEngineVersion'] as String?,
-      selectedEngineVersion: json['SelectedEngineVersion'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final effectiveEngineVersion = this.effectiveEngineVersion;
-    final selectedEngineVersion = this.selectedEngineVersion;
-    return {
-      if (effectiveEngineVersion != null)
-        'EffectiveEngineVersion': effectiveEngineVersion,
-      if (selectedEngineVersion != null)
-        'SelectedEngineVersion': selectedEngineVersion,
-    };
-  }
-}
-
-class ExecutorState {
-  static const creating = ExecutorState._('CREATING');
-  static const created = ExecutorState._('CREATED');
-  static const registered = ExecutorState._('REGISTERED');
-  static const terminating = ExecutorState._('TERMINATING');
-  static const terminated = ExecutorState._('TERMINATED');
-  static const failed = ExecutorState._('FAILED');
-
-  final String value;
-
-  const ExecutorState._(this.value);
-
-  static const values = [
-    creating,
-    created,
-    registered,
-    terminating,
-    terminated,
-    failed
-  ];
-
-  static ExecutorState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ExecutorState._(value));
-
-  @override
-  bool operator ==(other) => other is ExecutorState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ExecutorType {
-  static const coordinator = ExecutorType._('COORDINATOR');
-  static const gateway = ExecutorType._('GATEWAY');
-  static const worker = ExecutorType._('WORKER');
-
-  final String value;
-
-  const ExecutorType._(this.value);
-
-  static const values = [coordinator, gateway, worker];
-
-  static ExecutorType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ExecutorType._(value));
-
-  @override
-  bool operator ==(other) => other is ExecutorType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains summary information about an executor.
-class ExecutorsSummary {
-  /// The UUID of the executor.
-  final String executorId;
-
-  /// The smallest unit of compute that a session can request from Athena. Size is
-  /// measured in data processing unit (DPU) values, a relative measure of
-  /// processing power.
-  final int? executorSize;
-
-  /// The processing state of the executor. A description of each state follows.
-  ///
-  /// <code>CREATING</code> - The executor is being started, including acquiring
-  /// resources.
-  ///
-  /// <code>CREATED</code> - The executor has been started.
-  ///
-  /// <code>REGISTERED</code> - The executor has been registered.
-  ///
-  /// <code>TERMINATING</code> - The executor is in the process of shutting down.
-  ///
-  /// <code>TERMINATED</code> - The executor is no longer running.
-  ///
-  /// <code>FAILED</code> - Due to a failure, the executor is no longer running.
-  final ExecutorState? executorState;
-
-  /// The type of executor used for the application (<code>COORDINATOR</code>,
-  /// <code>GATEWAY</code>, or <code>WORKER</code>).
-  final ExecutorType? executorType;
-
-  /// The date and time that the executor started.
-  final int? startDateTime;
-
-  /// The date and time that the executor was terminated.
-  final int? terminationDateTime;
-
-  ExecutorsSummary({
-    required this.executorId,
-    this.executorSize,
-    this.executorState,
-    this.executorType,
-    this.startDateTime,
-    this.terminationDateTime,
-  });
-
-  factory ExecutorsSummary.fromJson(Map<String, dynamic> json) {
-    return ExecutorsSummary(
-      executorId: (json['ExecutorId'] as String?) ?? '',
-      executorSize: json['ExecutorSize'] as int?,
-      executorState:
-          (json['ExecutorState'] as String?)?.let(ExecutorState.fromString),
-      executorType:
-          (json['ExecutorType'] as String?)?.let(ExecutorType.fromString),
-      startDateTime: json['StartDateTime'] as int?,
-      terminationDateTime: json['TerminationDateTime'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final executorId = this.executorId;
-    final executorSize = this.executorSize;
-    final executorState = this.executorState;
-    final executorType = this.executorType;
-    final startDateTime = this.startDateTime;
-    final terminationDateTime = this.terminationDateTime;
-    return {
-      'ExecutorId': executorId,
-      if (executorSize != null) 'ExecutorSize': executorSize,
-      if (executorState != null) 'ExecutorState': executorState.value,
-      if (executorType != null) 'ExecutorType': executorType.value,
-      if (startDateTime != null) 'StartDateTime': startDateTime,
-      if (terminationDateTime != null)
-        'TerminationDateTime': terminationDateTime,
-    };
-  }
-}
-
 class ExportNotebookOutput {
   /// The notebook metadata, including notebook ID, notebook name, and workgroup
   /// name.
@@ -4822,46 +3692,6 @@ class ExportNotebookOutput {
     return {
       if (notebookMetadata != null) 'NotebookMetadata': notebookMetadata,
       if (payload != null) 'Payload': payload,
-    };
-  }
-}
-
-/// A string for searching notebook names.
-class FilterDefinition {
-  /// The name of the notebook to search for.
-  final String? name;
-
-  FilterDefinition({
-    this.name,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    return {
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
-class GetCalculationExecutionCodeResponse {
-  /// The unencrypted code that was executed for the calculation.
-  final String? codeBlock;
-
-  GetCalculationExecutionCodeResponse({
-    this.codeBlock,
-  });
-
-  factory GetCalculationExecutionCodeResponse.fromJson(
-      Map<String, dynamic> json) {
-    return GetCalculationExecutionCodeResponse(
-      codeBlock: json['CodeBlock'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final codeBlock = this.codeBlock;
-    return {
-      if (codeBlock != null) 'CodeBlock': codeBlock,
     };
   }
 }
@@ -4936,6 +3766,29 @@ class GetCalculationExecutionResponse {
       if (statistics != null) 'Statistics': statistics,
       if (status != null) 'Status': status,
       if (workingDirectory != null) 'WorkingDirectory': workingDirectory,
+    };
+  }
+}
+
+class GetCalculationExecutionCodeResponse {
+  /// The unencrypted code that was executed for the calculation.
+  final String? codeBlock;
+
+  GetCalculationExecutionCodeResponse({
+    this.codeBlock,
+  });
+
+  factory GetCalculationExecutionCodeResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetCalculationExecutionCodeResponse(
+      codeBlock: json['CodeBlock'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final codeBlock = this.codeBlock;
+    return {
+      if (codeBlock != null) 'CodeBlock': codeBlock,
     };
   }
 }
@@ -5026,30 +3879,6 @@ class GetCapacityReservationOutput {
   }
 }
 
-class GetDataCatalogOutput {
-  /// The data catalog returned.
-  final DataCatalog? dataCatalog;
-
-  GetDataCatalogOutput({
-    this.dataCatalog,
-  });
-
-  factory GetDataCatalogOutput.fromJson(Map<String, dynamic> json) {
-    return GetDataCatalogOutput(
-      dataCatalog: json['DataCatalog'] != null
-          ? DataCatalog.fromJson(json['DataCatalog'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataCatalog = this.dataCatalog;
-    return {
-      if (dataCatalog != null) 'DataCatalog': dataCatalog,
-    };
-  }
-}
-
 class GetDatabaseOutput {
   /// The database returned.
   final Database? database;
@@ -5070,6 +3899,30 @@ class GetDatabaseOutput {
     final database = this.database;
     return {
       if (database != null) 'Database': database,
+    };
+  }
+}
+
+class GetDataCatalogOutput {
+  /// The data catalog returned.
+  final DataCatalog? dataCatalog;
+
+  GetDataCatalogOutput({
+    this.dataCatalog,
+  });
+
+  factory GetDataCatalogOutput.fromJson(Map<String, dynamic> json) {
+    return GetDataCatalogOutput(
+      dataCatalog: json['DataCatalog'] != null
+          ? DataCatalog.fromJson(json['DataCatalog'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataCatalog = this.dataCatalog;
+    return {
+      if (dataCatalog != null) 'DataCatalog': dataCatalog,
     };
   }
 }
@@ -5183,8 +4036,8 @@ class GetQueryResultsOutput {
   /// The results of the query execution.
   final ResultSet? resultSet;
 
-  /// The number of rows inserted with a <code>CREATE TABLE AS SELECT</code>
-  /// statement.
+  /// The number of rows inserted with a <code>CREATE TABLE AS SELECT</code>,
+  /// <code>INSERT INTO</code>, or <code>UPDATE</code> statement.
   final int? updateCount;
 
   GetQueryResultsOutput({
@@ -5241,6 +4094,28 @@ class GetQueryRuntimeStatisticsOutput {
   }
 }
 
+class GetResourceDashboardResponse {
+  /// The Live UI/Persistence UI url for a session.
+  final String url;
+
+  GetResourceDashboardResponse({
+    required this.url,
+  });
+
+  factory GetResourceDashboardResponse.fromJson(Map<String, dynamic> json) {
+    return GetResourceDashboardResponse(
+      url: (json['Url'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final url = this.url;
+    return {
+      'Url': url,
+    };
+  }
+}
+
 class GetSessionResponse {
   /// The session description.
   final String? description;
@@ -5252,6 +4127,7 @@ class GetSessionResponse {
   /// version 3</code>). You can get a list of engine versions by calling
   /// <a>ListEngineVersions</a>.
   final String? engineVersion;
+  final MonitoringConfiguration? monitoringConfiguration;
 
   /// The notebook version.
   final String? notebookVersion;
@@ -5275,6 +4151,7 @@ class GetSessionResponse {
     this.description,
     this.engineConfiguration,
     this.engineVersion,
+    this.monitoringConfiguration,
     this.notebookVersion,
     this.sessionConfiguration,
     this.sessionId,
@@ -5291,6 +4168,10 @@ class GetSessionResponse {
               json['EngineConfiguration'] as Map<String, dynamic>)
           : null,
       engineVersion: json['EngineVersion'] as String?,
+      monitoringConfiguration: json['MonitoringConfiguration'] != null
+          ? MonitoringConfiguration.fromJson(
+              json['MonitoringConfiguration'] as Map<String, dynamic>)
+          : null,
       notebookVersion: json['NotebookVersion'] as String?,
       sessionConfiguration: json['SessionConfiguration'] != null
           ? SessionConfiguration.fromJson(
@@ -5312,6 +4193,7 @@ class GetSessionResponse {
     final description = this.description;
     final engineConfiguration = this.engineConfiguration;
     final engineVersion = this.engineVersion;
+    final monitoringConfiguration = this.monitoringConfiguration;
     final notebookVersion = this.notebookVersion;
     final sessionConfiguration = this.sessionConfiguration;
     final sessionId = this.sessionId;
@@ -5323,6 +4205,8 @@ class GetSessionResponse {
       if (engineConfiguration != null)
         'EngineConfiguration': engineConfiguration,
       if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (monitoringConfiguration != null)
+        'MonitoringConfiguration': monitoringConfiguration,
       if (notebookVersion != null) 'NotebookVersion': notebookVersion,
       if (sessionConfiguration != null)
         'SessionConfiguration': sessionConfiguration,
@@ -5330,6 +4214,43 @@ class GetSessionResponse {
       if (statistics != null) 'Statistics': statistics,
       if (status != null) 'Status': status,
       if (workGroup != null) 'WorkGroup': workGroup,
+    };
+  }
+}
+
+class GetSessionEndpointResponse {
+  /// Authentication token for the connection
+  final String authToken;
+
+  /// Expiration time of the auth token.
+  final DateTime authTokenExpirationTime;
+
+  /// The endpoint for connecting to the session.
+  final String endpointUrl;
+
+  GetSessionEndpointResponse({
+    required this.authToken,
+    required this.authTokenExpirationTime,
+    required this.endpointUrl,
+  });
+
+  factory GetSessionEndpointResponse.fromJson(Map<String, dynamic> json) {
+    return GetSessionEndpointResponse(
+      authToken: (json['AuthToken'] as String?) ?? '',
+      authTokenExpirationTime:
+          nonNullableTimeStampFromJson(json['AuthTokenExpirationTime'] ?? 0),
+      endpointUrl: (json['EndpointUrl'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authToken = this.authToken;
+    final authTokenExpirationTime = this.authTokenExpirationTime;
+    final endpointUrl = this.endpointUrl;
+    return {
+      'AuthToken': authToken,
+      'AuthTokenExpirationTime': unixTimestampToJson(authTokenExpirationTime),
+      'EndpointUrl': endpointUrl,
     };
   }
 }
@@ -5410,38 +4331,6 @@ class GetWorkGroupOutput {
     final workGroup = this.workGroup;
     return {
       if (workGroup != null) 'WorkGroup': workGroup,
-    };
-  }
-}
-
-/// Specifies whether the workgroup is IAM Identity Center supported.
-class IdentityCenterConfiguration {
-  /// Specifies whether the workgroup is IAM Identity Center supported.
-  final bool? enableIdentityCenter;
-
-  /// The IAM Identity Center instance ARN that the workgroup associates to.
-  final String? identityCenterInstanceArn;
-
-  IdentityCenterConfiguration({
-    this.enableIdentityCenter,
-    this.identityCenterInstanceArn,
-  });
-
-  factory IdentityCenterConfiguration.fromJson(Map<String, dynamic> json) {
-    return IdentityCenterConfiguration(
-      enableIdentityCenter: json['EnableIdentityCenter'] as bool?,
-      identityCenterInstanceArn: json['IdentityCenterInstanceArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final enableIdentityCenter = this.enableIdentityCenter;
-    final identityCenterInstanceArn = this.identityCenterInstanceArn;
-    return {
-      if (enableIdentityCenter != null)
-        'EnableIdentityCenter': enableIdentityCenter,
-      if (identityCenterInstanceArn != null)
-        'IdentityCenterInstanceArn': identityCenterInstanceArn,
     };
   }
 }
@@ -5576,6 +4465,41 @@ class ListCapacityReservationsOutput {
   }
 }
 
+class ListDatabasesOutput {
+  /// A list of databases from a data catalog.
+  final List<Database>? databaseList;
+
+  /// A token generated by the Athena service that specifies where to continue
+  /// pagination if a previous request was truncated. To obtain the next set of
+  /// pages, pass in the NextToken from the response object of the previous page
+  /// call.
+  final String? nextToken;
+
+  ListDatabasesOutput({
+    this.databaseList,
+    this.nextToken,
+  });
+
+  factory ListDatabasesOutput.fromJson(Map<String, dynamic> json) {
+    return ListDatabasesOutput(
+      databaseList: (json['DatabaseList'] as List?)
+          ?.nonNulls
+          .map((e) => Database.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databaseList = this.databaseList;
+    final nextToken = this.nextToken;
+    return {
+      if (databaseList != null) 'DatabaseList': databaseList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 class ListDataCatalogsOutput {
   /// A summary list of data catalogs.
   final List<DataCatalogSummary>? dataCatalogsSummary;
@@ -5607,41 +4531,6 @@ class ListDataCatalogsOutput {
     return {
       if (dataCatalogsSummary != null)
         'DataCatalogsSummary': dataCatalogsSummary,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListDatabasesOutput {
-  /// A list of databases from a data catalog.
-  final List<Database>? databaseList;
-
-  /// A token generated by the Athena service that specifies where to continue
-  /// pagination if a previous request was truncated. To obtain the next set of
-  /// pages, pass in the NextToken from the response object of the previous page
-  /// call.
-  final String? nextToken;
-
-  ListDatabasesOutput({
-    this.databaseList,
-    this.nextToken,
-  });
-
-  factory ListDatabasesOutput.fromJson(Map<String, dynamic> json) {
-    return ListDatabasesOutput(
-      databaseList: (json['DatabaseList'] as List?)
-          ?.nonNulls
-          .map((e) => Database.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final databaseList = this.databaseList;
-    final nextToken = this.nextToken;
-    return {
-      if (databaseList != null) 'DatabaseList': databaseList,
       if (nextToken != null) 'NextToken': nextToken,
     };
   }
@@ -6038,61 +4927,2040 @@ class ListWorkGroupsOutput {
   }
 }
 
-/// A query, where <code>QueryString</code> contains the SQL statements that
-/// make up the query.
-class NamedQuery {
-  /// The database to which the query belongs.
-  final String database;
+class PutCapacityAssignmentConfigurationOutput {
+  PutCapacityAssignmentConfigurationOutput();
 
-  /// The query name.
-  final String name;
+  factory PutCapacityAssignmentConfigurationOutput.fromJson(
+      Map<String, dynamic> _) {
+    return PutCapacityAssignmentConfigurationOutput();
+  }
 
-  /// The SQL statements that make up the query.
-  final String queryString;
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
 
-  /// The query description.
-  final String? description;
+class StartCalculationExecutionResponse {
+  /// The calculation execution UUID.
+  final String? calculationExecutionId;
 
-  /// The unique identifier of the query.
-  final String? namedQueryId;
+  /// <code>CREATING</code> - The calculation is in the process of being created.
+  ///
+  /// <code>CREATED</code> - The calculation has been created and is ready to run.
+  ///
+  /// <code>QUEUED</code> - The calculation has been queued for processing.
+  ///
+  /// <code>RUNNING</code> - The calculation is running.
+  ///
+  /// <code>CANCELING</code> - A request to cancel the calculation has been
+  /// received and the system is working to stop it.
+  ///
+  /// <code>CANCELED</code> - The calculation is no longer running as the result
+  /// of a cancel request.
+  ///
+  /// <code>COMPLETED</code> - The calculation has completed without error.
+  ///
+  /// <code>FAILED</code> - The calculation failed and is no longer running.
+  final CalculationExecutionState? state;
 
-  /// The name of the workgroup that contains the named query.
-  final String? workGroup;
-
-  NamedQuery({
-    required this.database,
-    required this.name,
-    required this.queryString,
-    this.description,
-    this.namedQueryId,
-    this.workGroup,
+  StartCalculationExecutionResponse({
+    this.calculationExecutionId,
+    this.state,
   });
 
-  factory NamedQuery.fromJson(Map<String, dynamic> json) {
-    return NamedQuery(
-      database: (json['Database'] as String?) ?? '',
-      name: (json['Name'] as String?) ?? '',
-      queryString: (json['QueryString'] as String?) ?? '',
-      description: json['Description'] as String?,
-      namedQueryId: json['NamedQueryId'] as String?,
-      workGroup: json['WorkGroup'] as String?,
+  factory StartCalculationExecutionResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartCalculationExecutionResponse(
+      calculationExecutionId: json['CalculationExecutionId'] as String?,
+      state:
+          (json['State'] as String?)?.let(CalculationExecutionState.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final database = this.database;
-    final name = this.name;
-    final queryString = this.queryString;
-    final description = this.description;
-    final namedQueryId = this.namedQueryId;
-    final workGroup = this.workGroup;
+    final calculationExecutionId = this.calculationExecutionId;
+    final state = this.state;
     return {
-      'Database': database,
-      'Name': name,
-      'QueryString': queryString,
+      if (calculationExecutionId != null)
+        'CalculationExecutionId': calculationExecutionId,
+      if (state != null) 'State': state.value,
+    };
+  }
+}
+
+class StartQueryExecutionOutput {
+  /// The unique ID of the query that ran as a result of this request.
+  final String? queryExecutionId;
+
+  StartQueryExecutionOutput({
+    this.queryExecutionId,
+  });
+
+  factory StartQueryExecutionOutput.fromJson(Map<String, dynamic> json) {
+    return StartQueryExecutionOutput(
+      queryExecutionId: json['QueryExecutionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final queryExecutionId = this.queryExecutionId;
+    return {
+      if (queryExecutionId != null) 'QueryExecutionId': queryExecutionId,
+    };
+  }
+}
+
+class StartSessionResponse {
+  /// The session ID.
+  final String? sessionId;
+
+  /// The state of the session. A description of each state follows.
+  ///
+  /// <code>CREATING</code> - The session is being started, including acquiring
+  /// resources.
+  ///
+  /// <code>CREATED</code> - The session has been started.
+  ///
+  /// <code>IDLE</code> - The session is able to accept a calculation.
+  ///
+  /// <code>BUSY</code> - The session is processing another task and is unable to
+  /// accept a calculation.
+  ///
+  /// <code>TERMINATING</code> - The session is in the process of shutting down.
+  ///
+  /// <code>TERMINATED</code> - The session and its resources are no longer
+  /// running.
+  ///
+  /// <code>DEGRADED</code> - The session has no healthy coordinators.
+  ///
+  /// <code>FAILED</code> - Due to a failure, the session and its resources are no
+  /// longer running.
+  final SessionState? state;
+
+  StartSessionResponse({
+    this.sessionId,
+    this.state,
+  });
+
+  factory StartSessionResponse.fromJson(Map<String, dynamic> json) {
+    return StartSessionResponse(
+      sessionId: json['SessionId'] as String?,
+      state: (json['State'] as String?)?.let(SessionState.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sessionId = this.sessionId;
+    final state = this.state;
+    return {
+      if (sessionId != null) 'SessionId': sessionId,
+      if (state != null) 'State': state.value,
+    };
+  }
+}
+
+class StopCalculationExecutionResponse {
+  /// <code>CREATING</code> - The calculation is in the process of being created.
+  ///
+  /// <code>CREATED</code> - The calculation has been created and is ready to run.
+  ///
+  /// <code>QUEUED</code> - The calculation has been queued for processing.
+  ///
+  /// <code>RUNNING</code> - The calculation is running.
+  ///
+  /// <code>CANCELING</code> - A request to cancel the calculation has been
+  /// received and the system is working to stop it.
+  ///
+  /// <code>CANCELED</code> - The calculation is no longer running as the result
+  /// of a cancel request.
+  ///
+  /// <code>COMPLETED</code> - The calculation has completed without error.
+  ///
+  /// <code>FAILED</code> - The calculation failed and is no longer running.
+  final CalculationExecutionState? state;
+
+  StopCalculationExecutionResponse({
+    this.state,
+  });
+
+  factory StopCalculationExecutionResponse.fromJson(Map<String, dynamic> json) {
+    return StopCalculationExecutionResponse(
+      state:
+          (json['State'] as String?)?.let(CalculationExecutionState.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final state = this.state;
+    return {
+      if (state != null) 'State': state.value,
+    };
+  }
+}
+
+class StopQueryExecutionOutput {
+  StopQueryExecutionOutput();
+
+  factory StopQueryExecutionOutput.fromJson(Map<String, dynamic> _) {
+    return StopQueryExecutionOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class TagResourceOutput {
+  TagResourceOutput();
+
+  factory TagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return TagResourceOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class TerminateSessionResponse {
+  /// The state of the session. A description of each state follows.
+  ///
+  /// <code>CREATING</code> - The session is being started, including acquiring
+  /// resources.
+  ///
+  /// <code>CREATED</code> - The session has been started.
+  ///
+  /// <code>IDLE</code> - The session is able to accept a calculation.
+  ///
+  /// <code>BUSY</code> - The session is processing another task and is unable to
+  /// accept a calculation.
+  ///
+  /// <code>TERMINATING</code> - The session is in the process of shutting down.
+  ///
+  /// <code>TERMINATED</code> - The session and its resources are no longer
+  /// running.
+  ///
+  /// <code>DEGRADED</code> - The session has no healthy coordinators.
+  ///
+  /// <code>FAILED</code> - Due to a failure, the session and its resources are no
+  /// longer running.
+  final SessionState? state;
+
+  TerminateSessionResponse({
+    this.state,
+  });
+
+  factory TerminateSessionResponse.fromJson(Map<String, dynamic> json) {
+    return TerminateSessionResponse(
+      state: (json['State'] as String?)?.let(SessionState.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final state = this.state;
+    return {
+      if (state != null) 'State': state.value,
+    };
+  }
+}
+
+class UntagResourceOutput {
+  UntagResourceOutput();
+
+  factory UntagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return UntagResourceOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateCapacityReservationOutput {
+  UpdateCapacityReservationOutput();
+
+  factory UpdateCapacityReservationOutput.fromJson(Map<String, dynamic> _) {
+    return UpdateCapacityReservationOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateDataCatalogOutput {
+  UpdateDataCatalogOutput();
+
+  factory UpdateDataCatalogOutput.fromJson(Map<String, dynamic> _) {
+    return UpdateDataCatalogOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateNamedQueryOutput {
+  UpdateNamedQueryOutput();
+
+  factory UpdateNamedQueryOutput.fromJson(Map<String, dynamic> _) {
+    return UpdateNamedQueryOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateNotebookOutput {
+  UpdateNotebookOutput();
+
+  factory UpdateNotebookOutput.fromJson(Map<String, dynamic> _) {
+    return UpdateNotebookOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateNotebookMetadataOutput {
+  UpdateNotebookMetadataOutput();
+
+  factory UpdateNotebookMetadataOutput.fromJson(Map<String, dynamic> _) {
+    return UpdateNotebookMetadataOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdatePreparedStatementOutput {
+  UpdatePreparedStatementOutput();
+
+  factory UpdatePreparedStatementOutput.fromJson(Map<String, dynamic> _) {
+    return UpdatePreparedStatementOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateWorkGroupOutput {
+  UpdateWorkGroupOutput();
+
+  factory UpdateWorkGroupOutput.fromJson(Map<String, dynamic> _) {
+    return UpdateWorkGroupOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The configuration information that will be updated for this workgroup, which
+/// includes the location in Amazon S3 where query and calculation results are
+/// stored, the encryption option, if any, used for query results, whether the
+/// Amazon CloudWatch Metrics are enabled for the workgroup, whether the
+/// workgroup settings override the client-side settings, and the data usage
+/// limit for the amount of bytes scanned per query, if it is specified.
+class WorkGroupConfigurationUpdates {
+  /// Contains a user defined string in JSON format for a Spark-enabled workgroup.
+  final String? additionalConfiguration;
+
+  /// The upper limit (cutoff) for the amount of bytes a single query in a
+  /// workgroup is allowed to scan.
+  final int? bytesScannedCutoffPerQuery;
+  final CustomerContentEncryptionConfiguration?
+      customerContentEncryptionConfiguration;
+
+  /// Enforces a minimal level of encryption for the workgroup for query and
+  /// calculation results that are written to Amazon S3. When enabled, workgroup
+  /// users can set encryption only to the minimum level set by the administrator
+  /// or higher when they submit queries. This setting does not apply to
+  /// Spark-enabled workgroups.
+  ///
+  /// The <code>EnforceWorkGroupConfiguration</code> setting takes precedence over
+  /// the <code>EnableMinimumEncryptionConfiguration</code> flag. This means that
+  /// if <code>EnforceWorkGroupConfiguration</code> is true, the
+  /// <code>EnableMinimumEncryptionConfiguration</code> flag is ignored, and the
+  /// workgroup configuration for encryption is used.
+  final bool? enableMinimumEncryptionConfiguration;
+
+  /// If set to "true", the settings for the workgroup override client-side
+  /// settings. If set to "false" client-side settings are used. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html">Workgroup
+  /// Settings Override Client-Side Settings</a>.
+  final bool? enforceWorkGroupConfiguration;
+  final EngineConfiguration? engineConfiguration;
+
+  /// The engine version requested when a workgroup is updated. After the update,
+  /// all queries on the workgroup run on the requested engine version. If no
+  /// value was previously set, the default is Auto. Queries on the
+  /// <code>AmazonAthenaPreviewFunctionality</code> workgroup run on the preview
+  /// engine regardless of this setting.
+  final EngineVersion? engineVersion;
+
+  /// The ARN of the execution role used to access user resources for Spark
+  /// sessions and Identity Center enabled workgroups. This property applies only
+  /// to Spark enabled workgroups and Identity Center enabled workgroups.
+  final String? executionRole;
+
+  /// Updates configuration information for managed query results in the
+  /// workgroup.
+  final ManagedQueryResultsConfigurationUpdates?
+      managedQueryResultsConfigurationUpdates;
+
+  /// Contains the configuration settings for managed log persistence, delivering
+  /// logs to Amazon S3 buckets, Amazon CloudWatch log groups etc.
+  final MonitoringConfiguration? monitoringConfiguration;
+
+  /// Indicates whether this workgroup enables publishing metrics to Amazon
+  /// CloudWatch.
+  final bool? publishCloudWatchMetricsEnabled;
+
+  /// Specifies whether Amazon S3 access grants are enabled for query results.
+  final QueryResultsS3AccessGrantsConfiguration?
+      queryResultsS3AccessGrantsConfiguration;
+
+  /// Indicates that the data usage control limit per query is removed.
+  /// <a>WorkGroupConfiguration$BytesScannedCutoffPerQuery</a>
+  final bool? removeBytesScannedCutoffPerQuery;
+
+  /// Removes content encryption configuration from an Apache Spark-enabled Athena
+  /// workgroup.
+  final bool? removeCustomerContentEncryptionConfiguration;
+
+  /// If set to <code>true</code>, allows members assigned to a workgroup to
+  /// specify Amazon S3 Requester Pays buckets in queries. If set to
+  /// <code>false</code>, workgroup members cannot query data from Requester Pays
+  /// buckets, and queries that retrieve data from Requester Pays buckets cause an
+  /// error. The default is <code>false</code>. For more information about
+  /// Requester Pays buckets, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/RequesterPaysBuckets.html">Requester
+  /// Pays Buckets</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
+  final bool? requesterPaysEnabled;
+
+  /// The result configuration information about the queries in this workgroup
+  /// that will be updated. Includes the updated results location and an updated
+  /// option for encrypting query results.
+  final ResultConfigurationUpdates? resultConfigurationUpdates;
+
+  WorkGroupConfigurationUpdates({
+    this.additionalConfiguration,
+    this.bytesScannedCutoffPerQuery,
+    this.customerContentEncryptionConfiguration,
+    this.enableMinimumEncryptionConfiguration,
+    this.enforceWorkGroupConfiguration,
+    this.engineConfiguration,
+    this.engineVersion,
+    this.executionRole,
+    this.managedQueryResultsConfigurationUpdates,
+    this.monitoringConfiguration,
+    this.publishCloudWatchMetricsEnabled,
+    this.queryResultsS3AccessGrantsConfiguration,
+    this.removeBytesScannedCutoffPerQuery,
+    this.removeCustomerContentEncryptionConfiguration,
+    this.requesterPaysEnabled,
+    this.resultConfigurationUpdates,
+  });
+
+  Map<String, dynamic> toJson() {
+    final additionalConfiguration = this.additionalConfiguration;
+    final bytesScannedCutoffPerQuery = this.bytesScannedCutoffPerQuery;
+    final customerContentEncryptionConfiguration =
+        this.customerContentEncryptionConfiguration;
+    final enableMinimumEncryptionConfiguration =
+        this.enableMinimumEncryptionConfiguration;
+    final enforceWorkGroupConfiguration = this.enforceWorkGroupConfiguration;
+    final engineConfiguration = this.engineConfiguration;
+    final engineVersion = this.engineVersion;
+    final executionRole = this.executionRole;
+    final managedQueryResultsConfigurationUpdates =
+        this.managedQueryResultsConfigurationUpdates;
+    final monitoringConfiguration = this.monitoringConfiguration;
+    final publishCloudWatchMetricsEnabled =
+        this.publishCloudWatchMetricsEnabled;
+    final queryResultsS3AccessGrantsConfiguration =
+        this.queryResultsS3AccessGrantsConfiguration;
+    final removeBytesScannedCutoffPerQuery =
+        this.removeBytesScannedCutoffPerQuery;
+    final removeCustomerContentEncryptionConfiguration =
+        this.removeCustomerContentEncryptionConfiguration;
+    final requesterPaysEnabled = this.requesterPaysEnabled;
+    final resultConfigurationUpdates = this.resultConfigurationUpdates;
+    return {
+      if (additionalConfiguration != null)
+        'AdditionalConfiguration': additionalConfiguration,
+      if (bytesScannedCutoffPerQuery != null)
+        'BytesScannedCutoffPerQuery': bytesScannedCutoffPerQuery,
+      if (customerContentEncryptionConfiguration != null)
+        'CustomerContentEncryptionConfiguration':
+            customerContentEncryptionConfiguration,
+      if (enableMinimumEncryptionConfiguration != null)
+        'EnableMinimumEncryptionConfiguration':
+            enableMinimumEncryptionConfiguration,
+      if (enforceWorkGroupConfiguration != null)
+        'EnforceWorkGroupConfiguration': enforceWorkGroupConfiguration,
+      if (engineConfiguration != null)
+        'EngineConfiguration': engineConfiguration,
+      if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (executionRole != null) 'ExecutionRole': executionRole,
+      if (managedQueryResultsConfigurationUpdates != null)
+        'ManagedQueryResultsConfigurationUpdates':
+            managedQueryResultsConfigurationUpdates,
+      if (monitoringConfiguration != null)
+        'MonitoringConfiguration': monitoringConfiguration,
+      if (publishCloudWatchMetricsEnabled != null)
+        'PublishCloudWatchMetricsEnabled': publishCloudWatchMetricsEnabled,
+      if (queryResultsS3AccessGrantsConfiguration != null)
+        'QueryResultsS3AccessGrantsConfiguration':
+            queryResultsS3AccessGrantsConfiguration,
+      if (removeBytesScannedCutoffPerQuery != null)
+        'RemoveBytesScannedCutoffPerQuery': removeBytesScannedCutoffPerQuery,
+      if (removeCustomerContentEncryptionConfiguration != null)
+        'RemoveCustomerContentEncryptionConfiguration':
+            removeCustomerContentEncryptionConfiguration,
+      if (requesterPaysEnabled != null)
+        'RequesterPaysEnabled': requesterPaysEnabled,
+      if (resultConfigurationUpdates != null)
+        'ResultConfigurationUpdates': resultConfigurationUpdates,
+    };
+  }
+}
+
+class WorkGroupState {
+  static const enabled = WorkGroupState._('ENABLED');
+  static const disabled = WorkGroupState._('DISABLED');
+
+  final String value;
+
+  const WorkGroupState._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static WorkGroupState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WorkGroupState._(value));
+
+  @override
+  bool operator ==(other) => other is WorkGroupState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The information about the updates in the query results, such as output
+/// location and encryption configuration for the query results.
+class ResultConfigurationUpdates {
+  /// The ACL configuration for the query results.
+  final AclConfiguration? aclConfiguration;
+
+  /// The encryption configuration for query and calculation results.
+  final EncryptionConfiguration? encryptionConfiguration;
+
+  /// The Amazon Web Services account ID that you expect to be the owner of the
+  /// Amazon S3 bucket specified by <a>ResultConfiguration$OutputLocation</a>. If
+  /// set, Athena uses the value for <code>ExpectedBucketOwner</code> when it
+  /// makes Amazon S3 calls to your specified output location. If the
+  /// <code>ExpectedBucketOwner</code> Amazon Web Services account ID does not
+  /// match the actual owner of the Amazon S3 bucket, the call fails with a
+  /// permissions error.
+  ///
+  /// If workgroup settings override client-side settings, then the query uses the
+  /// <code>ExpectedBucketOwner</code> setting that is specified for the
+  /// workgroup, and also uses the location for storing query results specified in
+  /// the workgroup. See
+  /// <a>WorkGroupConfiguration$EnforceWorkGroupConfiguration</a> and <a
+  /// href="https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html">Workgroup
+  /// Settings Override Client-Side Settings</a>.
+  final String? expectedBucketOwner;
+
+  /// The location in Amazon S3 where your query and calculation results are
+  /// stored, such as <code>s3://path/to/query/bucket/</code>. If workgroup
+  /// settings override client-side settings, then the query uses the location for
+  /// the query results and the encryption configuration that are specified for
+  /// the workgroup. The "workgroup settings override" is specified in
+  /// <code>EnforceWorkGroupConfiguration</code> (true/false) in the
+  /// <code>WorkGroupConfiguration</code>. See
+  /// <a>WorkGroupConfiguration$EnforceWorkGroupConfiguration</a>.
+  final String? outputLocation;
+
+  /// If set to <code>true</code>, indicates that the previously-specified ACL
+  /// configuration for queries in this workgroup should be ignored and set to
+  /// null. If set to <code>false</code> or not set, and a value is present in the
+  /// <code>AclConfiguration</code> of <code>ResultConfigurationUpdates</code>,
+  /// the <code>AclConfiguration</code> in the workgroup's
+  /// <code>ResultConfiguration</code> is updated with the new value. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html">Workgroup
+  /// Settings Override Client-Side Settings</a>.
+  final bool? removeAclConfiguration;
+
+  /// If set to "true", indicates that the previously-specified encryption
+  /// configuration (also known as the client-side setting) for queries in this
+  /// workgroup should be ignored and set to null. If set to "false" or not set,
+  /// and a value is present in the <code>EncryptionConfiguration</code> in
+  /// <code>ResultConfigurationUpdates</code> (the client-side setting), the
+  /// <code>EncryptionConfiguration</code> in the workgroup's
+  /// <code>ResultConfiguration</code> will be updated with the new value. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html">Workgroup
+  /// Settings Override Client-Side Settings</a>.
+  final bool? removeEncryptionConfiguration;
+
+  /// If set to "true", removes the Amazon Web Services account ID previously
+  /// specified for <a>ResultConfiguration$ExpectedBucketOwner</a>. If set to
+  /// "false" or not set, and a value is present in the
+  /// <code>ExpectedBucketOwner</code> in <code>ResultConfigurationUpdates</code>
+  /// (the client-side setting), the <code>ExpectedBucketOwner</code> in the
+  /// workgroup's <code>ResultConfiguration</code> is updated with the new value.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html">Workgroup
+  /// Settings Override Client-Side Settings</a>.
+  final bool? removeExpectedBucketOwner;
+
+  /// If set to "true", indicates that the previously-specified query results
+  /// location (also known as a client-side setting) for queries in this workgroup
+  /// should be ignored and set to null. If set to "false" or not set, and a value
+  /// is present in the <code>OutputLocation</code> in
+  /// <code>ResultConfigurationUpdates</code> (the client-side setting), the
+  /// <code>OutputLocation</code> in the workgroup's
+  /// <code>ResultConfiguration</code> will be updated with the new value. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html">Workgroup
+  /// Settings Override Client-Side Settings</a>.
+  final bool? removeOutputLocation;
+
+  ResultConfigurationUpdates({
+    this.aclConfiguration,
+    this.encryptionConfiguration,
+    this.expectedBucketOwner,
+    this.outputLocation,
+    this.removeAclConfiguration,
+    this.removeEncryptionConfiguration,
+    this.removeExpectedBucketOwner,
+    this.removeOutputLocation,
+  });
+
+  Map<String, dynamic> toJson() {
+    final aclConfiguration = this.aclConfiguration;
+    final encryptionConfiguration = this.encryptionConfiguration;
+    final expectedBucketOwner = this.expectedBucketOwner;
+    final outputLocation = this.outputLocation;
+    final removeAclConfiguration = this.removeAclConfiguration;
+    final removeEncryptionConfiguration = this.removeEncryptionConfiguration;
+    final removeExpectedBucketOwner = this.removeExpectedBucketOwner;
+    final removeOutputLocation = this.removeOutputLocation;
+    return {
+      if (aclConfiguration != null) 'AclConfiguration': aclConfiguration,
+      if (encryptionConfiguration != null)
+        'EncryptionConfiguration': encryptionConfiguration,
+      if (expectedBucketOwner != null)
+        'ExpectedBucketOwner': expectedBucketOwner,
+      if (outputLocation != null) 'OutputLocation': outputLocation,
+      if (removeAclConfiguration != null)
+        'RemoveAclConfiguration': removeAclConfiguration,
+      if (removeEncryptionConfiguration != null)
+        'RemoveEncryptionConfiguration': removeEncryptionConfiguration,
+      if (removeExpectedBucketOwner != null)
+        'RemoveExpectedBucketOwner': removeExpectedBucketOwner,
+      if (removeOutputLocation != null)
+        'RemoveOutputLocation': removeOutputLocation,
+    };
+  }
+}
+
+/// Updates the configuration for managed query results.
+class ManagedQueryResultsConfigurationUpdates {
+  /// If set to true, specifies that Athena manages query results in Athena owned
+  /// storage.
+  final bool? enabled;
+
+  /// If you encrypt query and calculation results in Athena owned storage, this
+  /// field indicates the encryption option (for example, SSE_KMS or CSE_KMS) and
+  /// key information.
+  final ManagedQueryResultsEncryptionConfiguration? encryptionConfiguration;
+
+  /// If set to true, it removes workgroup from Athena owned storage. The existing
+  /// query results are cleaned up after 24hrs. You must provide query results in
+  /// location specified under <code>ResultConfiguration$OutputLocation</code>.
+  final bool? removeEncryptionConfiguration;
+
+  ManagedQueryResultsConfigurationUpdates({
+    this.enabled,
+    this.encryptionConfiguration,
+    this.removeEncryptionConfiguration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final encryptionConfiguration = this.encryptionConfiguration;
+    final removeEncryptionConfiguration = this.removeEncryptionConfiguration;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+      if (encryptionConfiguration != null)
+        'EncryptionConfiguration': encryptionConfiguration,
+      if (removeEncryptionConfiguration != null)
+        'RemoveEncryptionConfiguration': removeEncryptionConfiguration,
+    };
+  }
+}
+
+/// The Athena engine version for running queries, or the PySpark engine version
+/// for running sessions.
+class EngineVersion {
+  /// Read only. The engine version on which the query runs. If the user requests
+  /// a valid engine version other than Auto, the effective engine version is the
+  /// same as the engine version that the user requested. If the user requests
+  /// Auto, the effective engine version is chosen by Athena. When a request to
+  /// update the engine version is made by a <code>CreateWorkGroup</code> or
+  /// <code>UpdateWorkGroup</code> operation, the
+  /// <code>EffectiveEngineVersion</code> field is ignored.
+  final String? effectiveEngineVersion;
+
+  /// The engine version requested by the user. Possible values are determined by
+  /// the output of <code>ListEngineVersions</code>, including AUTO. The default
+  /// is AUTO.
+  final String? selectedEngineVersion;
+
+  EngineVersion({
+    this.effectiveEngineVersion,
+    this.selectedEngineVersion,
+  });
+
+  factory EngineVersion.fromJson(Map<String, dynamic> json) {
+    return EngineVersion(
+      effectiveEngineVersion: json['EffectiveEngineVersion'] as String?,
+      selectedEngineVersion: json['SelectedEngineVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final effectiveEngineVersion = this.effectiveEngineVersion;
+    final selectedEngineVersion = this.selectedEngineVersion;
+    return {
+      if (effectiveEngineVersion != null)
+        'EffectiveEngineVersion': effectiveEngineVersion,
+      if (selectedEngineVersion != null)
+        'SelectedEngineVersion': selectedEngineVersion,
+    };
+  }
+}
+
+/// Specifies the customer managed KMS key that is used to encrypt the user's
+/// data stores in Athena. When an Amazon Web Services managed key is used, this
+/// value is null. This setting does not apply to Athena SQL workgroups.
+class CustomerContentEncryptionConfiguration {
+  /// The customer managed KMS key that is used to encrypt the user's data stores
+  /// in Athena.
+  final String kmsKey;
+
+  CustomerContentEncryptionConfiguration({
+    required this.kmsKey,
+  });
+
+  factory CustomerContentEncryptionConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return CustomerContentEncryptionConfiguration(
+      kmsKey: (json['KmsKey'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kmsKey = this.kmsKey;
+    return {
+      'KmsKey': kmsKey,
+    };
+  }
+}
+
+/// Specifies whether Amazon S3 access grants are enabled for query results.
+class QueryResultsS3AccessGrantsConfiguration {
+  /// The authentication type used for Amazon S3 access grants. Currently, only
+  /// <code>DIRECTORY_IDENTITY</code> is supported.
+  final AuthenticationType authenticationType;
+
+  /// Specifies whether Amazon S3 access grants are enabled for query results.
+  final bool enableS3AccessGrants;
+
+  /// When enabled, appends the user ID as an Amazon S3 path prefix to the query
+  /// result output location.
+  final bool? createUserLevelPrefix;
+
+  QueryResultsS3AccessGrantsConfiguration({
+    required this.authenticationType,
+    required this.enableS3AccessGrants,
+    this.createUserLevelPrefix,
+  });
+
+  factory QueryResultsS3AccessGrantsConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return QueryResultsS3AccessGrantsConfiguration(
+      authenticationType: AuthenticationType.fromString(
+          (json['AuthenticationType'] as String?) ?? ''),
+      enableS3AccessGrants: (json['EnableS3AccessGrants'] as bool?) ?? false,
+      createUserLevelPrefix: json['CreateUserLevelPrefix'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authenticationType = this.authenticationType;
+    final enableS3AccessGrants = this.enableS3AccessGrants;
+    final createUserLevelPrefix = this.createUserLevelPrefix;
+    return {
+      'AuthenticationType': authenticationType.value,
+      'EnableS3AccessGrants': enableS3AccessGrants,
+      if (createUserLevelPrefix != null)
+        'CreateUserLevelPrefix': createUserLevelPrefix,
+    };
+  }
+}
+
+/// Contains the configuration settings for managed log persistence, delivering
+/// logs to Amazon S3 buckets, Amazon CloudWatch log groups etc.
+class MonitoringConfiguration {
+  /// Configuration settings for delivering logs to Amazon CloudWatch log groups.
+  final CloudWatchLoggingConfiguration? cloudWatchLoggingConfiguration;
+
+  /// Configuration settings for managed log persistence.
+  final ManagedLoggingConfiguration? managedLoggingConfiguration;
+
+  /// Configuration settings for delivering logs to Amazon S3 buckets.
+  final S3LoggingConfiguration? s3LoggingConfiguration;
+
+  MonitoringConfiguration({
+    this.cloudWatchLoggingConfiguration,
+    this.managedLoggingConfiguration,
+    this.s3LoggingConfiguration,
+  });
+
+  factory MonitoringConfiguration.fromJson(Map<String, dynamic> json) {
+    return MonitoringConfiguration(
+      cloudWatchLoggingConfiguration: json['CloudWatchLoggingConfiguration'] !=
+              null
+          ? CloudWatchLoggingConfiguration.fromJson(
+              json['CloudWatchLoggingConfiguration'] as Map<String, dynamic>)
+          : null,
+      managedLoggingConfiguration: json['ManagedLoggingConfiguration'] != null
+          ? ManagedLoggingConfiguration.fromJson(
+              json['ManagedLoggingConfiguration'] as Map<String, dynamic>)
+          : null,
+      s3LoggingConfiguration: json['S3LoggingConfiguration'] != null
+          ? S3LoggingConfiguration.fromJson(
+              json['S3LoggingConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchLoggingConfiguration = this.cloudWatchLoggingConfiguration;
+    final managedLoggingConfiguration = this.managedLoggingConfiguration;
+    final s3LoggingConfiguration = this.s3LoggingConfiguration;
+    return {
+      if (cloudWatchLoggingConfiguration != null)
+        'CloudWatchLoggingConfiguration': cloudWatchLoggingConfiguration,
+      if (managedLoggingConfiguration != null)
+        'ManagedLoggingConfiguration': managedLoggingConfiguration,
+      if (s3LoggingConfiguration != null)
+        'S3LoggingConfiguration': s3LoggingConfiguration,
+    };
+  }
+}
+
+/// The engine configuration for the workgroup, which includes the
+/// minimum/maximum number of Data Processing Units (DPU) that queries should
+/// use when running in provisioned capacity. If not specified, Athena uses
+/// default values (Default value for min is 4 and for max is Minimum of 124 and
+/// allocated DPUs).
+///
+/// To specify DPU values for PC queries the WG containing EngineConfiguration
+/// should have the following values: The name of the Classifications should be
+/// <code>athena-query-engine-properties</code>, with the only allowed
+/// properties as <code>max-dpu-count</code> and <code>min-dpu-count</code>.
+class EngineConfiguration {
+  /// Contains additional notebook engine <code>MAP<string, string></code>
+  /// parameter mappings in the form of key-value pairs. To specify an Athena
+  /// notebook that the Jupyter server will download and serve, specify a value
+  /// for the <a>StartSessionRequest$NotebookVersion</a> field, and then add a key
+  /// named <code>NotebookId</code> to <code>AdditionalConfigs</code> that has the
+  /// value of the Athena notebook ID.
+  final Map<String, String>? additionalConfigs;
+
+  /// The configuration classifications that can be specified for the engine.
+  final List<Classification>? classifications;
+
+  /// The number of DPUs to use for the coordinator. A coordinator is a special
+  /// executor that orchestrates processing work and manages other executors in a
+  /// notebook session. The default is 1.
+  final int? coordinatorDpuSize;
+
+  /// The default number of DPUs to use for executors. An executor is the smallest
+  /// unit of compute that a notebook session can request from Athena. The default
+  /// is 1.
+  final int? defaultExecutorDpuSize;
+
+  /// The maximum number of DPUs that can run concurrently.
+  final int? maxConcurrentDpus;
+
+  /// Specifies custom jar files and Spark properties for use cases like cluster
+  /// encryption, table formats, and general Spark tuning.
+  final Map<String, String>? sparkProperties;
+
+  EngineConfiguration({
+    this.additionalConfigs,
+    this.classifications,
+    this.coordinatorDpuSize,
+    this.defaultExecutorDpuSize,
+    this.maxConcurrentDpus,
+    this.sparkProperties,
+  });
+
+  factory EngineConfiguration.fromJson(Map<String, dynamic> json) {
+    return EngineConfiguration(
+      additionalConfigs: (json['AdditionalConfigs'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      classifications: (json['Classifications'] as List?)
+          ?.nonNulls
+          .map((e) => Classification.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      coordinatorDpuSize: json['CoordinatorDpuSize'] as int?,
+      defaultExecutorDpuSize: json['DefaultExecutorDpuSize'] as int?,
+      maxConcurrentDpus: json['MaxConcurrentDpus'] as int?,
+      sparkProperties: (json['SparkProperties'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalConfigs = this.additionalConfigs;
+    final classifications = this.classifications;
+    final coordinatorDpuSize = this.coordinatorDpuSize;
+    final defaultExecutorDpuSize = this.defaultExecutorDpuSize;
+    final maxConcurrentDpus = this.maxConcurrentDpus;
+    final sparkProperties = this.sparkProperties;
+    return {
+      if (additionalConfigs != null) 'AdditionalConfigs': additionalConfigs,
+      if (classifications != null) 'Classifications': classifications,
+      if (coordinatorDpuSize != null) 'CoordinatorDpuSize': coordinatorDpuSize,
+      if (defaultExecutorDpuSize != null)
+        'DefaultExecutorDpuSize': defaultExecutorDpuSize,
+      if (maxConcurrentDpus != null) 'MaxConcurrentDpus': maxConcurrentDpus,
+      if (sparkProperties != null) 'SparkProperties': sparkProperties,
+    };
+  }
+}
+
+/// A classification refers to a set of specific configurations.
+class Classification {
+  /// The name of the configuration classification.
+  final String? name;
+
+  /// A set of properties specified within a configuration classification.
+  final Map<String, String>? properties;
+
+  Classification({
+    this.name,
+    this.properties,
+  });
+
+  factory Classification.fromJson(Map<String, dynamic> json) {
+    return Classification(
+      name: json['Name'] as String?,
+      properties: (json['Properties'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final properties = this.properties;
+    return {
+      if (name != null) 'Name': name,
+      if (properties != null) 'Properties': properties,
+    };
+  }
+}
+
+/// Configuration settings for delivering logs to Amazon CloudWatch log groups.
+class CloudWatchLoggingConfiguration {
+  /// Enables CloudWatch logging.
+  final bool enabled;
+
+  /// The name of the log group in Amazon CloudWatch Logs where you want to
+  /// publish your logs.
+  final String? logGroup;
+
+  /// Prefix for the CloudWatch log stream name.
+  final String? logStreamNamePrefix;
+
+  /// The types of logs that you want to publish to CloudWatch.
+  final Map<String, List<String>>? logTypes;
+
+  CloudWatchLoggingConfiguration({
+    required this.enabled,
+    this.logGroup,
+    this.logStreamNamePrefix,
+    this.logTypes,
+  });
+
+  factory CloudWatchLoggingConfiguration.fromJson(Map<String, dynamic> json) {
+    return CloudWatchLoggingConfiguration(
+      enabled: (json['Enabled'] as bool?) ?? false,
+      logGroup: json['LogGroup'] as String?,
+      logStreamNamePrefix: json['LogStreamNamePrefix'] as String?,
+      logTypes: (json['LogTypes'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, (e as List).nonNulls.map((e) => e as String).toList())),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final logGroup = this.logGroup;
+    final logStreamNamePrefix = this.logStreamNamePrefix;
+    final logTypes = this.logTypes;
+    return {
+      'Enabled': enabled,
+      if (logGroup != null) 'LogGroup': logGroup,
+      if (logStreamNamePrefix != null)
+        'LogStreamNamePrefix': logStreamNamePrefix,
+      if (logTypes != null) 'LogTypes': logTypes,
+    };
+  }
+}
+
+/// Configuration settings for delivering logs to Amazon S3 buckets.
+class ManagedLoggingConfiguration {
+  /// Enables mamanged log persistence.
+  final bool enabled;
+
+  /// The KMS key ARN to encrypt the logs stored in managed log persistence.
+  final String? kmsKey;
+
+  ManagedLoggingConfiguration({
+    required this.enabled,
+    this.kmsKey,
+  });
+
+  factory ManagedLoggingConfiguration.fromJson(Map<String, dynamic> json) {
+    return ManagedLoggingConfiguration(
+      enabled: (json['Enabled'] as bool?) ?? false,
+      kmsKey: json['KmsKey'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final kmsKey = this.kmsKey;
+    return {
+      'Enabled': enabled,
+      if (kmsKey != null) 'KmsKey': kmsKey,
+    };
+  }
+}
+
+/// Configuration settings for delivering logs to Amazon S3 buckets.
+class S3LoggingConfiguration {
+  /// Enables S3 log delivery.
+  final bool enabled;
+
+  /// The KMS key ARN to encrypt the logs published to the given Amazon S3
+  /// destination.
+  final String? kmsKey;
+
+  /// The Amazon S3 destination URI for log publishing.
+  final String? logLocation;
+
+  S3LoggingConfiguration({
+    required this.enabled,
+    this.kmsKey,
+    this.logLocation,
+  });
+
+  factory S3LoggingConfiguration.fromJson(Map<String, dynamic> json) {
+    return S3LoggingConfiguration(
+      enabled: (json['Enabled'] as bool?) ?? false,
+      kmsKey: json['KmsKey'] as String?,
+      logLocation: json['LogLocation'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final kmsKey = this.kmsKey;
+    final logLocation = this.logLocation;
+    return {
+      'Enabled': enabled,
+      if (kmsKey != null) 'KmsKey': kmsKey,
+      if (logLocation != null) 'LogLocation': logLocation,
+    };
+  }
+}
+
+class AuthenticationType {
+  static const directoryIdentity = AuthenticationType._('DIRECTORY_IDENTITY');
+
+  final String value;
+
+  const AuthenticationType._(this.value);
+
+  static const values = [directoryIdentity];
+
+  static AuthenticationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AuthenticationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AuthenticationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// If you encrypt query and calculation results in Athena owned storage, this
+/// field indicates the encryption option (for example, SSE_KMS or CSE_KMS) and
+/// key information.
+class ManagedQueryResultsEncryptionConfiguration {
+  /// The ARN of an KMS key for encrypting managed query results.
+  final String kmsKey;
+
+  ManagedQueryResultsEncryptionConfiguration({
+    required this.kmsKey,
+  });
+
+  factory ManagedQueryResultsEncryptionConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return ManagedQueryResultsEncryptionConfiguration(
+      kmsKey: (json['KmsKey'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kmsKey = this.kmsKey;
+    return {
+      'KmsKey': kmsKey,
+    };
+  }
+}
+
+/// If query and calculation results are encrypted in Amazon S3, indicates the
+/// encryption option used (for example, <code>SSE_KMS</code> or
+/// <code>CSE_KMS</code>) and key information.
+class EncryptionConfiguration {
+  /// Indicates whether Amazon S3 server-side encryption with Amazon S3-managed
+  /// keys (<code>SSE_S3</code>), server-side encryption with KMS-managed keys
+  /// (<code>SSE_KMS</code>), or client-side encryption with KMS-managed keys
+  /// (<code>CSE_KMS</code>) is used.
+  ///
+  /// If a query runs in a workgroup and the workgroup overrides client-side
+  /// settings, then the workgroup's setting for encryption is used. It specifies
+  /// whether query results must be encrypted, for all queries that run in this
+  /// workgroup.
+  final EncryptionOption encryptionOption;
+
+  /// For <code>SSE_KMS</code> and <code>CSE_KMS</code>, this is the KMS key ARN
+  /// or ID.
+  final String? kmsKey;
+
+  EncryptionConfiguration({
+    required this.encryptionOption,
+    this.kmsKey,
+  });
+
+  factory EncryptionConfiguration.fromJson(Map<String, dynamic> json) {
+    return EncryptionConfiguration(
+      encryptionOption: EncryptionOption.fromString(
+          (json['EncryptionOption'] as String?) ?? ''),
+      kmsKey: json['KmsKey'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final encryptionOption = this.encryptionOption;
+    final kmsKey = this.kmsKey;
+    return {
+      'EncryptionOption': encryptionOption.value,
+      if (kmsKey != null) 'KmsKey': kmsKey,
+    };
+  }
+}
+
+/// Indicates that an Amazon S3 canned ACL should be set to control ownership of
+/// stored query results, including data files inserted by Athena as the result
+/// of statements like CTAS or INSERT INTO. When Athena stores query results in
+/// Amazon S3, the canned ACL is set with the <code>x-amz-acl</code> request
+/// header. For more information about S3 Object Ownership, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html#object-ownership-overview">Object
+/// Ownership settings</a> in the <i>Amazon S3 User Guide</i>.
+class AclConfiguration {
+  /// The Amazon S3 canned ACL that Athena should specify when storing query
+  /// results, including data files inserted by Athena as the result of statements
+  /// like CTAS or INSERT INTO. Currently the only supported canned ACL is
+  /// <code>BUCKET_OWNER_FULL_CONTROL</code>. If a query runs in a workgroup and
+  /// the workgroup overrides client-side settings, then the Amazon S3 canned ACL
+  /// specified in the workgroup's settings is used for all queries that run in
+  /// the workgroup. For more information about Amazon S3 canned ACLs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/acl-overview.html#canned-acl">Canned
+  /// ACL</a> in the <i>Amazon S3 User Guide</i>.
+  final S3AclOption s3AclOption;
+
+  AclConfiguration({
+    required this.s3AclOption,
+  });
+
+  factory AclConfiguration.fromJson(Map<String, dynamic> json) {
+    return AclConfiguration(
+      s3AclOption:
+          S3AclOption.fromString((json['S3AclOption'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3AclOption = this.s3AclOption;
+    return {
+      'S3AclOption': s3AclOption.value,
+    };
+  }
+}
+
+class S3AclOption {
+  static const bucketOwnerFullControl =
+      S3AclOption._('BUCKET_OWNER_FULL_CONTROL');
+
+  final String value;
+
+  const S3AclOption._(this.value);
+
+  static const values = [bucketOwnerFullControl];
+
+  static S3AclOption fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => S3AclOption._(value));
+
+  @override
+  bool operator ==(other) => other is S3AclOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class EncryptionOption {
+  static const sseS3 = EncryptionOption._('SSE_S3');
+  static const sseKms = EncryptionOption._('SSE_KMS');
+  static const cseKms = EncryptionOption._('CSE_KMS');
+
+  final String value;
+
+  const EncryptionOption._(this.value);
+
+  static const values = [sseS3, sseKms, cseKms];
+
+  static EncryptionOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EncryptionOption._(value));
+
+  @override
+  bool operator ==(other) => other is EncryptionOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class NotebookType {
+  static const ipynb = NotebookType._('IPYNB');
+
+  final String value;
+
+  const NotebookType._(this.value);
+
+  static const values = [ipynb];
+
+  static NotebookType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => NotebookType._(value));
+
+  @override
+  bool operator ==(other) => other is NotebookType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DataCatalogType {
+  static const lambda = DataCatalogType._('LAMBDA');
+  static const glue = DataCatalogType._('GLUE');
+  static const hive = DataCatalogType._('HIVE');
+  static const federated = DataCatalogType._('FEDERATED');
+
+  final String value;
+
+  const DataCatalogType._(this.value);
+
+  static const values = [lambda, glue, hive, federated];
+
+  static DataCatalogType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataCatalogType._(value));
+
+  @override
+  bool operator ==(other) => other is DataCatalogType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SessionState {
+  static const creating = SessionState._('CREATING');
+  static const created = SessionState._('CREATED');
+  static const idle = SessionState._('IDLE');
+  static const busy = SessionState._('BUSY');
+  static const terminating = SessionState._('TERMINATING');
+  static const terminated = SessionState._('TERMINATED');
+  static const degraded = SessionState._('DEGRADED');
+  static const failed = SessionState._('FAILED');
+
+  final String value;
+
+  const SessionState._(this.value);
+
+  static const values = [
+    creating,
+    created,
+    idle,
+    busy,
+    terminating,
+    terminated,
+    degraded,
+    failed
+  ];
+
+  static SessionState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SessionState._(value));
+
+  @override
+  bool operator ==(other) => other is SessionState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A label that you assign to a resource. Athena resources include workgroups,
+/// data catalogs, and capacity reservations. Each tag consists of a key and an
+/// optional value, both of which you define. For example, you can use tags to
+/// categorize Athena resources by purpose, owner, or environment. Use a
+/// consistent set of tag keys to make it easier to search and filter the
+/// resources in your account. For best practices, see <a
+/// href="https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html">Tagging
+/// Best Practices</a>. Tag keys can be from 1 to 128 UTF-8 Unicode characters,
+/// and tag values can be from 0 to 256 UTF-8 Unicode characters. Tags can use
+/// letters and numbers representable in UTF-8, and the following characters: +
+/// - = . _ : / @. Tag keys and values are case-sensitive. Tag keys must be
+/// unique per resource. If you specify more than one tag, separate them by
+/// commas.
+class Tag {
+  /// A tag key. The tag key length is from 1 to 128 Unicode characters in UTF-8.
+  /// You can use letters and numbers representable in UTF-8, and the following
+  /// characters: + - = . _ : / @. Tag keys are case-sensitive and must be unique
+  /// per resource.
+  final String? key;
+
+  /// A tag value. The tag value length is from 0 to 256 Unicode characters in
+  /// UTF-8. You can use letters and numbers representable in UTF-8, and the
+  /// following characters: + - = . _ : / @. Tag values are case-sensitive.
+  final String? value;
+
+  Tag({
+    this.key,
+    this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+class CalculationExecutionState {
+  static const creating = CalculationExecutionState._('CREATING');
+  static const created = CalculationExecutionState._('CREATED');
+  static const queued = CalculationExecutionState._('QUEUED');
+  static const running = CalculationExecutionState._('RUNNING');
+  static const canceling = CalculationExecutionState._('CANCELING');
+  static const canceled = CalculationExecutionState._('CANCELED');
+  static const completed = CalculationExecutionState._('COMPLETED');
+  static const failed = CalculationExecutionState._('FAILED');
+
+  final String value;
+
+  const CalculationExecutionState._(this.value);
+
+  static const values = [
+    creating,
+    created,
+    queued,
+    running,
+    canceling,
+    canceled,
+    completed,
+    failed
+  ];
+
+  static CalculationExecutionState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CalculationExecutionState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CalculationExecutionState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The database and data catalog context in which the query execution occurs.
+class QueryExecutionContext {
+  /// The name of the data catalog used in the query execution.
+  final String? catalog;
+
+  /// The name of the database used in the query execution. The database must
+  /// exist in the catalog.
+  final String? database;
+
+  QueryExecutionContext({
+    this.catalog,
+    this.database,
+  });
+
+  factory QueryExecutionContext.fromJson(Map<String, dynamic> json) {
+    return QueryExecutionContext(
+      catalog: json['Catalog'] as String?,
+      database: json['Database'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final catalog = this.catalog;
+    final database = this.database;
+    return {
+      if (catalog != null) 'Catalog': catalog,
+      if (database != null) 'Database': database,
+    };
+  }
+}
+
+/// The location in Amazon S3 where query and calculation results are stored and
+/// the encryption option, if any, used for query and calculation results. These
+/// are known as "client-side settings". If workgroup settings override
+/// client-side settings, then the query uses the workgroup settings.
+class ResultConfiguration {
+  /// Indicates that an Amazon S3 canned ACL should be set to control ownership of
+  /// stored query results. Currently the only supported canned ACL is
+  /// <code>BUCKET_OWNER_FULL_CONTROL</code>. This is a client-side setting. If
+  /// workgroup settings override client-side settings, then the query uses the
+  /// ACL configuration that is specified for the workgroup, and also uses the
+  /// location for storing query results specified in the workgroup. For more
+  /// information, see <a>WorkGroupConfiguration$EnforceWorkGroupConfiguration</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html">Workgroup
+  /// Settings Override Client-Side Settings</a>.
+  final AclConfiguration? aclConfiguration;
+
+  /// If query and calculation results are encrypted in Amazon S3, indicates the
+  /// encryption option used (for example, <code>SSE_KMS</code> or
+  /// <code>CSE_KMS</code>) and key information. This is a client-side setting. If
+  /// workgroup settings override client-side settings, then the query uses the
+  /// encryption configuration that is specified for the workgroup, and also uses
+  /// the location for storing query results specified in the workgroup. See
+  /// <a>WorkGroupConfiguration$EnforceWorkGroupConfiguration</a> and <a
+  /// href="https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html">Workgroup
+  /// Settings Override Client-Side Settings</a>.
+  final EncryptionConfiguration? encryptionConfiguration;
+
+  /// The Amazon Web Services account ID that you expect to be the owner of the
+  /// Amazon S3 bucket specified by <a>ResultConfiguration$OutputLocation</a>. If
+  /// set, Athena uses the value for <code>ExpectedBucketOwner</code> when it
+  /// makes Amazon S3 calls to your specified output location. If the
+  /// <code>ExpectedBucketOwner</code> Amazon Web Services account ID does not
+  /// match the actual owner of the Amazon S3 bucket, the call fails with a
+  /// permissions error.
+  ///
+  /// This is a client-side setting. If workgroup settings override client-side
+  /// settings, then the query uses the <code>ExpectedBucketOwner</code> setting
+  /// that is specified for the workgroup, and also uses the location for storing
+  /// query results specified in the workgroup. See
+  /// <a>WorkGroupConfiguration$EnforceWorkGroupConfiguration</a> and <a
+  /// href="https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html">Workgroup
+  /// Settings Override Client-Side Settings</a>.
+  final String? expectedBucketOwner;
+
+  /// The location in Amazon S3 where your query and calculation results are
+  /// stored, such as <code>s3://path/to/query/bucket/</code>. To run the query,
+  /// you must specify the query results location using one of the ways: either
+  /// for individual queries using either this setting (client-side), or in the
+  /// workgroup, using <a>WorkGroupConfiguration</a>. If none of them is set,
+  /// Athena issues an error that no output location is provided. If workgroup
+  /// settings override client-side settings, then the query uses the settings
+  /// specified for the workgroup. See
+  /// <a>WorkGroupConfiguration$EnforceWorkGroupConfiguration</a>.
+  final String? outputLocation;
+
+  ResultConfiguration({
+    this.aclConfiguration,
+    this.encryptionConfiguration,
+    this.expectedBucketOwner,
+    this.outputLocation,
+  });
+
+  factory ResultConfiguration.fromJson(Map<String, dynamic> json) {
+    return ResultConfiguration(
+      aclConfiguration: json['AclConfiguration'] != null
+          ? AclConfiguration.fromJson(
+              json['AclConfiguration'] as Map<String, dynamic>)
+          : null,
+      encryptionConfiguration: json['EncryptionConfiguration'] != null
+          ? EncryptionConfiguration.fromJson(
+              json['EncryptionConfiguration'] as Map<String, dynamic>)
+          : null,
+      expectedBucketOwner: json['ExpectedBucketOwner'] as String?,
+      outputLocation: json['OutputLocation'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aclConfiguration = this.aclConfiguration;
+    final encryptionConfiguration = this.encryptionConfiguration;
+    final expectedBucketOwner = this.expectedBucketOwner;
+    final outputLocation = this.outputLocation;
+    return {
+      if (aclConfiguration != null) 'AclConfiguration': aclConfiguration,
+      if (encryptionConfiguration != null)
+        'EncryptionConfiguration': encryptionConfiguration,
+      if (expectedBucketOwner != null)
+        'ExpectedBucketOwner': expectedBucketOwner,
+      if (outputLocation != null) 'OutputLocation': outputLocation,
+    };
+  }
+}
+
+/// Specifies the query result reuse behavior for the query.
+class ResultReuseConfiguration {
+  /// Specifies whether previous query results are reused, and if so, their
+  /// maximum age.
+  final ResultReuseByAgeConfiguration? resultReuseByAgeConfiguration;
+
+  ResultReuseConfiguration({
+    this.resultReuseByAgeConfiguration,
+  });
+
+  factory ResultReuseConfiguration.fromJson(Map<String, dynamic> json) {
+    return ResultReuseConfiguration(
+      resultReuseByAgeConfiguration:
+          json['ResultReuseByAgeConfiguration'] != null
+              ? ResultReuseByAgeConfiguration.fromJson(
+                  json['ResultReuseByAgeConfiguration'] as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resultReuseByAgeConfiguration = this.resultReuseByAgeConfiguration;
+    return {
+      if (resultReuseByAgeConfiguration != null)
+        'ResultReuseByAgeConfiguration': resultReuseByAgeConfiguration,
+    };
+  }
+}
+
+/// Specifies whether previous query results are reused, and if so, their
+/// maximum age.
+class ResultReuseByAgeConfiguration {
+  /// True if previous query results can be reused when the query is run;
+  /// otherwise, false. The default is false.
+  final bool enabled;
+
+  /// Specifies, in minutes, the maximum age of a previous query result that
+  /// Athena should consider for reuse. The default is 60.
+  final int? maxAgeInMinutes;
+
+  ResultReuseByAgeConfiguration({
+    required this.enabled,
+    this.maxAgeInMinutes,
+  });
+
+  factory ResultReuseByAgeConfiguration.fromJson(Map<String, dynamic> json) {
+    return ResultReuseByAgeConfiguration(
+      enabled: (json['Enabled'] as bool?) ?? false,
+      maxAgeInMinutes: json['MaxAgeInMinutes'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final maxAgeInMinutes = this.maxAgeInMinutes;
+    return {
+      'Enabled': enabled,
+      if (maxAgeInMinutes != null) 'MaxAgeInMinutes': maxAgeInMinutes,
+    };
+  }
+}
+
+/// Contains configuration information for the calculation.
+class CalculationConfiguration {
+  /// A string that contains the code for the calculation.
+  final String? codeBlock;
+
+  CalculationConfiguration({
+    this.codeBlock,
+  });
+
+  Map<String, dynamic> toJson() {
+    final codeBlock = this.codeBlock;
+    return {
+      if (codeBlock != null) 'CodeBlock': codeBlock,
+    };
+  }
+}
+
+/// A mapping between one or more workgroups and a capacity reservation.
+class CapacityAssignment {
+  /// The list of workgroup names for the capacity assignment.
+  final List<String>? workGroupNames;
+
+  CapacityAssignment({
+    this.workGroupNames,
+  });
+
+  factory CapacityAssignment.fromJson(Map<String, dynamic> json) {
+    return CapacityAssignment(
+      workGroupNames: (json['WorkGroupNames'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final workGroupNames = this.workGroupNames;
+    return {
+      if (workGroupNames != null) 'WorkGroupNames': workGroupNames,
+    };
+  }
+}
+
+/// The summary information for the workgroup, which includes its name, state,
+/// description, and the date and time it was created.
+class WorkGroupSummary {
+  /// The workgroup creation date and time.
+  final DateTime? creationTime;
+
+  /// The workgroup description.
+  final String? description;
+
+  /// The engine version setting for all queries on the workgroup. Queries on the
+  /// <code>AmazonAthenaPreviewFunctionality</code> workgroup run on the preview
+  /// engine regardless of this setting.
+  final EngineVersion? engineVersion;
+
+  /// The ARN of the IAM Identity Center enabled application associated with the
+  /// workgroup.
+  final String? identityCenterApplicationArn;
+
+  /// The name of the workgroup.
+  final String? name;
+
+  /// The state of the workgroup.
+  final WorkGroupState? state;
+
+  WorkGroupSummary({
+    this.creationTime,
+    this.description,
+    this.engineVersion,
+    this.identityCenterApplicationArn,
+    this.name,
+    this.state,
+  });
+
+  factory WorkGroupSummary.fromJson(Map<String, dynamic> json) {
+    return WorkGroupSummary(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      description: json['Description'] as String?,
+      engineVersion: json['EngineVersion'] != null
+          ? EngineVersion.fromJson(
+              json['EngineVersion'] as Map<String, dynamic>)
+          : null,
+      identityCenterApplicationArn:
+          json['IdentityCenterApplicationArn'] as String?,
+      name: json['Name'] as String?,
+      state: (json['State'] as String?)?.let(WorkGroupState.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final description = this.description;
+    final engineVersion = this.engineVersion;
+    final identityCenterApplicationArn = this.identityCenterApplicationArn;
+    final name = this.name;
+    final state = this.state;
+    return {
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
       if (description != null) 'Description': description,
-      if (namedQueryId != null) 'NamedQueryId': namedQueryId,
-      if (workGroup != null) 'WorkGroup': workGroup,
+      if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (identityCenterApplicationArn != null)
+        'IdentityCenterApplicationArn': identityCenterApplicationArn,
+      if (name != null) 'Name': name,
+      if (state != null) 'State': state.value,
+    };
+  }
+}
+
+/// Contains metadata for a table.
+class TableMetadata {
+  /// The name of the table.
+  final String name;
+
+  /// A list of the columns in the table.
+  final List<Column>? columns;
+
+  /// The time that the table was created.
+  final DateTime? createTime;
+
+  /// The last time the table was accessed.
+  final DateTime? lastAccessTime;
+
+  /// A set of custom key/value pairs for table properties.
+  final Map<String, String>? parameters;
+
+  /// A list of the partition keys in the table.
+  final List<Column>? partitionKeys;
+
+  /// The type of table. In Athena, only <code>EXTERNAL_TABLE</code> is supported.
+  final String? tableType;
+
+  TableMetadata({
+    required this.name,
+    this.columns,
+    this.createTime,
+    this.lastAccessTime,
+    this.parameters,
+    this.partitionKeys,
+    this.tableType,
+  });
+
+  factory TableMetadata.fromJson(Map<String, dynamic> json) {
+    return TableMetadata(
+      name: (json['Name'] as String?) ?? '',
+      columns: (json['Columns'] as List?)
+          ?.nonNulls
+          .map((e) => Column.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      createTime: timeStampFromJson(json['CreateTime']),
+      lastAccessTime: timeStampFromJson(json['LastAccessTime']),
+      parameters: (json['Parameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      partitionKeys: (json['PartitionKeys'] as List?)
+          ?.nonNulls
+          .map((e) => Column.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tableType: json['TableType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final columns = this.columns;
+    final createTime = this.createTime;
+    final lastAccessTime = this.lastAccessTime;
+    final parameters = this.parameters;
+    final partitionKeys = this.partitionKeys;
+    final tableType = this.tableType;
+    return {
+      'Name': name,
+      if (columns != null) 'Columns': columns,
+      if (createTime != null) 'CreateTime': unixTimestampToJson(createTime),
+      if (lastAccessTime != null)
+        'LastAccessTime': unixTimestampToJson(lastAccessTime),
+      if (parameters != null) 'Parameters': parameters,
+      if (partitionKeys != null) 'PartitionKeys': partitionKeys,
+      if (tableType != null) 'TableType': tableType,
+    };
+  }
+}
+
+/// Contains metadata for a column in a table.
+class Column {
+  /// The name of the column.
+  final String name;
+
+  /// Optional information about the column.
+  final String? comment;
+
+  /// The data type of the column.
+  final String? type;
+
+  Column({
+    required this.name,
+    this.comment,
+    this.type,
+  });
+
+  factory Column.fromJson(Map<String, dynamic> json) {
+    return Column(
+      name: (json['Name'] as String?) ?? '',
+      comment: json['Comment'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final comment = this.comment;
+    final type = this.type;
+    return {
+      'Name': name,
+      if (comment != null) 'Comment': comment,
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+/// Contains summary information about a session.
+class SessionSummary {
+  /// The session description.
+  final String? description;
+
+  /// The engine version used by the session (for example, <code>PySpark engine
+  /// version 3</code>).
+  final EngineVersion? engineVersion;
+
+  /// The notebook version.
+  final String? notebookVersion;
+
+  /// The session ID.
+  final String? sessionId;
+
+  /// Contains information about the session status.
+  final SessionStatus? status;
+
+  SessionSummary({
+    this.description,
+    this.engineVersion,
+    this.notebookVersion,
+    this.sessionId,
+    this.status,
+  });
+
+  factory SessionSummary.fromJson(Map<String, dynamic> json) {
+    return SessionSummary(
+      description: json['Description'] as String?,
+      engineVersion: json['EngineVersion'] != null
+          ? EngineVersion.fromJson(
+              json['EngineVersion'] as Map<String, dynamic>)
+          : null,
+      notebookVersion: json['NotebookVersion'] as String?,
+      sessionId: json['SessionId'] as String?,
+      status: json['Status'] != null
+          ? SessionStatus.fromJson(json['Status'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final engineVersion = this.engineVersion;
+    final notebookVersion = this.notebookVersion;
+    final sessionId = this.sessionId;
+    final status = this.status;
+    return {
+      if (description != null) 'Description': description,
+      if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (notebookVersion != null) 'NotebookVersion': notebookVersion,
+      if (sessionId != null) 'SessionId': sessionId,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
+/// Contains information about the status of a session.
+class SessionStatus {
+  /// The date and time that the session ended.
+  final DateTime? endDateTime;
+
+  /// The date and time starting at which the session became idle. Can be empty if
+  /// the session is not currently idle.
+  final DateTime? idleSinceDateTime;
+
+  /// The most recent date and time that the session was modified.
+  final DateTime? lastModifiedDateTime;
+
+  /// The date and time that the session started.
+  final DateTime? startDateTime;
+
+  /// The state of the session. A description of each state follows.
+  ///
+  /// <code>CREATING</code> - The session is being started, including acquiring
+  /// resources.
+  ///
+  /// <code>CREATED</code> - The session has been started.
+  ///
+  /// <code>IDLE</code> - The session is able to accept a calculation.
+  ///
+  /// <code>BUSY</code> - The session is processing another task and is unable to
+  /// accept a calculation.
+  ///
+  /// <code>TERMINATING</code> - The session is in the process of shutting down.
+  ///
+  /// <code>TERMINATED</code> - The session and its resources are no longer
+  /// running.
+  ///
+  /// <code>DEGRADED</code> - The session has no healthy coordinators.
+  ///
+  /// <code>FAILED</code> - Due to a failure, the session and its resources are no
+  /// longer running.
+  final SessionState? state;
+
+  /// The reason for the session state change (for example, canceled because the
+  /// session was terminated).
+  final String? stateChangeReason;
+
+  SessionStatus({
+    this.endDateTime,
+    this.idleSinceDateTime,
+    this.lastModifiedDateTime,
+    this.startDateTime,
+    this.state,
+    this.stateChangeReason,
+  });
+
+  factory SessionStatus.fromJson(Map<String, dynamic> json) {
+    return SessionStatus(
+      endDateTime: timeStampFromJson(json['EndDateTime']),
+      idleSinceDateTime: timeStampFromJson(json['IdleSinceDateTime']),
+      lastModifiedDateTime: timeStampFromJson(json['LastModifiedDateTime']),
+      startDateTime: timeStampFromJson(json['StartDateTime']),
+      state: (json['State'] as String?)?.let(SessionState.fromString),
+      stateChangeReason: json['StateChangeReason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endDateTime = this.endDateTime;
+    final idleSinceDateTime = this.idleSinceDateTime;
+    final lastModifiedDateTime = this.lastModifiedDateTime;
+    final startDateTime = this.startDateTime;
+    final state = this.state;
+    final stateChangeReason = this.stateChangeReason;
+    return {
+      if (endDateTime != null) 'EndDateTime': unixTimestampToJson(endDateTime),
+      if (idleSinceDateTime != null)
+        'IdleSinceDateTime': unixTimestampToJson(idleSinceDateTime),
+      if (lastModifiedDateTime != null)
+        'LastModifiedDateTime': unixTimestampToJson(lastModifiedDateTime),
+      if (startDateTime != null)
+        'StartDateTime': unixTimestampToJson(startDateTime),
+      if (state != null) 'State': state.value,
+      if (stateChangeReason != null) 'StateChangeReason': stateChangeReason,
+    };
+  }
+}
+
+/// The name and last modified time of the prepared statement.
+class PreparedStatementSummary {
+  /// The last modified time of the prepared statement.
+  final DateTime? lastModifiedTime;
+
+  /// The name of the prepared statement.
+  final String? statementName;
+
+  PreparedStatementSummary({
+    this.lastModifiedTime,
+    this.statementName,
+  });
+
+  factory PreparedStatementSummary.fromJson(Map<String, dynamic> json) {
+    return PreparedStatementSummary(
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      statementName: json['StatementName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastModifiedTime = this.lastModifiedTime;
+    final statementName = this.statementName;
+    return {
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (statementName != null) 'StatementName': statementName,
+    };
+  }
+}
+
+/// Contains the notebook session ID and notebook session creation time.
+class NotebookSessionSummary {
+  /// The time when the notebook session was created.
+  final DateTime? creationTime;
+
+  /// The notebook session ID.
+  final String? sessionId;
+
+  NotebookSessionSummary({
+    this.creationTime,
+    this.sessionId,
+  });
+
+  factory NotebookSessionSummary.fromJson(Map<String, dynamic> json) {
+    return NotebookSessionSummary(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      sessionId: json['SessionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final sessionId = this.sessionId;
+    return {
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (sessionId != null) 'SessionId': sessionId,
     };
   }
 }
@@ -6158,51 +7026,116 @@ class NotebookMetadata {
   }
 }
 
-/// Contains the notebook session ID and notebook session creation time.
-class NotebookSessionSummary {
-  /// The time when the notebook session was created.
-  final DateTime? creationTime;
+/// A string for searching notebook names.
+class FilterDefinition {
+  /// The name of the notebook to search for.
+  final String? name;
 
-  /// The notebook session ID.
-  final String? sessionId;
-
-  NotebookSessionSummary({
-    this.creationTime,
-    this.sessionId,
+  FilterDefinition({
+    this.name,
   });
 
-  factory NotebookSessionSummary.fromJson(Map<String, dynamic> json) {
-    return NotebookSessionSummary(
-      creationTime: timeStampFromJson(json['CreationTime']),
-      sessionId: json['SessionId'] as String?,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final creationTime = this.creationTime;
-    final sessionId = this.sessionId;
+    final name = this.name;
     return {
-      if (creationTime != null)
-        'CreationTime': unixTimestampToJson(creationTime),
-      if (sessionId != null) 'SessionId': sessionId,
+      if (name != null) 'Name': name,
     };
   }
 }
 
-class NotebookType {
-  static const ipynb = NotebookType._('IPYNB');
+/// Contains summary information about an executor.
+class ExecutorsSummary {
+  /// The UUID of the executor.
+  final String executorId;
+
+  /// The smallest unit of compute that a session can request from Athena. Size is
+  /// measured in data processing unit (DPU) values, a relative measure of
+  /// processing power.
+  final int? executorSize;
+
+  /// The processing state of the executor. A description of each state follows.
+  ///
+  /// <code>CREATING</code> - The executor is being started, including acquiring
+  /// resources.
+  ///
+  /// <code>CREATED</code> - The executor has been started.
+  ///
+  /// <code>REGISTERED</code> - The executor has been registered.
+  ///
+  /// <code>TERMINATING</code> - The executor is in the process of shutting down.
+  ///
+  /// <code>TERMINATED</code> - The executor is no longer running.
+  ///
+  /// <code>FAILED</code> - Due to a failure, the executor is no longer running.
+  final ExecutorState? executorState;
+
+  /// The type of executor used for the application (<code>COORDINATOR</code>,
+  /// <code>GATEWAY</code>, or <code>WORKER</code>).
+  final ExecutorType? executorType;
+
+  /// The date and time that the executor started.
+  final int? startDateTime;
+
+  /// The date and time that the executor was terminated.
+  final int? terminationDateTime;
+
+  ExecutorsSummary({
+    required this.executorId,
+    this.executorSize,
+    this.executorState,
+    this.executorType,
+    this.startDateTime,
+    this.terminationDateTime,
+  });
+
+  factory ExecutorsSummary.fromJson(Map<String, dynamic> json) {
+    return ExecutorsSummary(
+      executorId: (json['ExecutorId'] as String?) ?? '',
+      executorSize: json['ExecutorSize'] as int?,
+      executorState:
+          (json['ExecutorState'] as String?)?.let(ExecutorState.fromString),
+      executorType:
+          (json['ExecutorType'] as String?)?.let(ExecutorType.fromString),
+      startDateTime: json['StartDateTime'] as int?,
+      terminationDateTime: json['TerminationDateTime'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executorId = this.executorId;
+    final executorSize = this.executorSize;
+    final executorState = this.executorState;
+    final executorType = this.executorType;
+    final startDateTime = this.startDateTime;
+    final terminationDateTime = this.terminationDateTime;
+    return {
+      'ExecutorId': executorId,
+      if (executorSize != null) 'ExecutorSize': executorSize,
+      if (executorState != null) 'ExecutorState': executorState.value,
+      if (executorType != null) 'ExecutorType': executorType.value,
+      if (startDateTime != null) 'StartDateTime': startDateTime,
+      if (terminationDateTime != null)
+        'TerminationDateTime': terminationDateTime,
+    };
+  }
+}
+
+class ExecutorType {
+  static const coordinator = ExecutorType._('COORDINATOR');
+  static const gateway = ExecutorType._('GATEWAY');
+  static const worker = ExecutorType._('WORKER');
 
   final String value;
 
-  const NotebookType._(this.value);
+  const ExecutorType._(this.value);
 
-  static const values = [ipynb];
+  static const values = [coordinator, gateway, worker];
 
-  static NotebookType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => NotebookType._(value));
+  static ExecutorType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ExecutorType._(value));
 
   @override
-  bool operator ==(other) => other is NotebookType && other.value == value;
+  bool operator ==(other) => other is ExecutorType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -6211,308 +7144,397 @@ class NotebookType {
   String toString() => value;
 }
 
-/// A prepared SQL statement for use with Athena.
-class PreparedStatement {
-  /// The description of the prepared statement.
-  final String? description;
-
-  /// The last modified time of the prepared statement.
-  final DateTime? lastModifiedTime;
-
-  /// The query string for the prepared statement.
-  final String? queryStatement;
-
-  /// The name of the prepared statement.
-  final String? statementName;
-
-  /// The name of the workgroup to which the prepared statement belongs.
-  final String? workGroupName;
-
-  PreparedStatement({
-    this.description,
-    this.lastModifiedTime,
-    this.queryStatement,
-    this.statementName,
-    this.workGroupName,
-  });
-
-  factory PreparedStatement.fromJson(Map<String, dynamic> json) {
-    return PreparedStatement(
-      description: json['Description'] as String?,
-      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
-      queryStatement: json['QueryStatement'] as String?,
-      statementName: json['StatementName'] as String?,
-      workGroupName: json['WorkGroupName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final lastModifiedTime = this.lastModifiedTime;
-    final queryStatement = this.queryStatement;
-    final statementName = this.statementName;
-    final workGroupName = this.workGroupName;
-    return {
-      if (description != null) 'Description': description,
-      if (lastModifiedTime != null)
-        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
-      if (queryStatement != null) 'QueryStatement': queryStatement,
-      if (statementName != null) 'StatementName': statementName,
-      if (workGroupName != null) 'WorkGroupName': workGroupName,
-    };
-  }
-}
-
-/// The name and last modified time of the prepared statement.
-class PreparedStatementSummary {
-  /// The last modified time of the prepared statement.
-  final DateTime? lastModifiedTime;
-
-  /// The name of the prepared statement.
-  final String? statementName;
-
-  PreparedStatementSummary({
-    this.lastModifiedTime,
-    this.statementName,
-  });
-
-  factory PreparedStatementSummary.fromJson(Map<String, dynamic> json) {
-    return PreparedStatementSummary(
-      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
-      statementName: json['StatementName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lastModifiedTime = this.lastModifiedTime;
-    final statementName = this.statementName;
-    return {
-      if (lastModifiedTime != null)
-        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
-      if (statementName != null) 'StatementName': statementName,
-    };
-  }
-}
-
-class PutCapacityAssignmentConfigurationOutput {
-  PutCapacityAssignmentConfigurationOutput();
-
-  factory PutCapacityAssignmentConfigurationOutput.fromJson(
-      Map<String, dynamic> _) {
-    return PutCapacityAssignmentConfigurationOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Information about a single instance of a query execution.
-class QueryExecution {
-  /// The engine version that executed the query.
-  final EngineVersion? engineVersion;
-
-  /// A list of values for the parameters in a query. The values are applied
-  /// sequentially to the parameters in the query in the order in which the
-  /// parameters occur. The list of parameters is not returned in the response.
-  final List<String>? executionParameters;
-
-  /// The SQL query statements which the query execution ran.
-  final String? query;
-
-  /// The database in which the query execution occurred.
-  final QueryExecutionContext? queryExecutionContext;
-
-  /// The unique identifier for each query execution.
-  final String? queryExecutionId;
-
-  /// Specifies whether Amazon S3 access grants are enabled for query results.
-  final QueryResultsS3AccessGrantsConfiguration?
-      queryResultsS3AccessGrantsConfiguration;
-
-  /// The location in Amazon S3 where query and calculation results are stored and
-  /// the encryption option, if any, used for query results. These are known as
-  /// "client-side settings". If workgroup settings override client-side settings,
-  /// then the query uses the location for the query results and the encryption
-  /// configuration that are specified for the workgroup.
-  final ResultConfiguration? resultConfiguration;
-
-  /// Specifies the query result reuse behavior that was used for the query.
-  final ResultReuseConfiguration? resultReuseConfiguration;
-
-  /// The type of query statement that was run. <code>DDL</code> indicates DDL
-  /// query statements. <code>DML</code> indicates DML (Data Manipulation
-  /// Language) query statements, such as <code>CREATE TABLE AS SELECT</code>.
-  /// <code>UTILITY</code> indicates query statements other than DDL and DML, such
-  /// as <code>SHOW CREATE TABLE</code>, or <code>DESCRIBE TABLE</code>.
-  final StatementType? statementType;
-
-  /// Query execution statistics, such as the amount of data scanned, the amount
-  /// of time that the query took to process, and the type of statement that was
-  /// run.
-  final QueryExecutionStatistics? statistics;
-
-  /// The completion date, current state, submission time, and state change reason
-  /// (if applicable) for the query execution.
-  final QueryExecutionStatus? status;
-
-  /// The kind of query statement that was run.
-  final String? substatementType;
-
-  /// The name of the workgroup in which the query ran.
-  final String? workGroup;
-
-  QueryExecution({
-    this.engineVersion,
-    this.executionParameters,
-    this.query,
-    this.queryExecutionContext,
-    this.queryExecutionId,
-    this.queryResultsS3AccessGrantsConfiguration,
-    this.resultConfiguration,
-    this.resultReuseConfiguration,
-    this.statementType,
-    this.statistics,
-    this.status,
-    this.substatementType,
-    this.workGroup,
-  });
-
-  factory QueryExecution.fromJson(Map<String, dynamic> json) {
-    return QueryExecution(
-      engineVersion: json['EngineVersion'] != null
-          ? EngineVersion.fromJson(
-              json['EngineVersion'] as Map<String, dynamic>)
-          : null,
-      executionParameters: (json['ExecutionParameters'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      query: json['Query'] as String?,
-      queryExecutionContext: json['QueryExecutionContext'] != null
-          ? QueryExecutionContext.fromJson(
-              json['QueryExecutionContext'] as Map<String, dynamic>)
-          : null,
-      queryExecutionId: json['QueryExecutionId'] as String?,
-      queryResultsS3AccessGrantsConfiguration:
-          json['QueryResultsS3AccessGrantsConfiguration'] != null
-              ? QueryResultsS3AccessGrantsConfiguration.fromJson(
-                  json['QueryResultsS3AccessGrantsConfiguration']
-                      as Map<String, dynamic>)
-              : null,
-      resultConfiguration: json['ResultConfiguration'] != null
-          ? ResultConfiguration.fromJson(
-              json['ResultConfiguration'] as Map<String, dynamic>)
-          : null,
-      resultReuseConfiguration: json['ResultReuseConfiguration'] != null
-          ? ResultReuseConfiguration.fromJson(
-              json['ResultReuseConfiguration'] as Map<String, dynamic>)
-          : null,
-      statementType:
-          (json['StatementType'] as String?)?.let(StatementType.fromString),
-      statistics: json['Statistics'] != null
-          ? QueryExecutionStatistics.fromJson(
-              json['Statistics'] as Map<String, dynamic>)
-          : null,
-      status: json['Status'] != null
-          ? QueryExecutionStatus.fromJson(
-              json['Status'] as Map<String, dynamic>)
-          : null,
-      substatementType: json['SubstatementType'] as String?,
-      workGroup: json['WorkGroup'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final engineVersion = this.engineVersion;
-    final executionParameters = this.executionParameters;
-    final query = this.query;
-    final queryExecutionContext = this.queryExecutionContext;
-    final queryExecutionId = this.queryExecutionId;
-    final queryResultsS3AccessGrantsConfiguration =
-        this.queryResultsS3AccessGrantsConfiguration;
-    final resultConfiguration = this.resultConfiguration;
-    final resultReuseConfiguration = this.resultReuseConfiguration;
-    final statementType = this.statementType;
-    final statistics = this.statistics;
-    final status = this.status;
-    final substatementType = this.substatementType;
-    final workGroup = this.workGroup;
-    return {
-      if (engineVersion != null) 'EngineVersion': engineVersion,
-      if (executionParameters != null)
-        'ExecutionParameters': executionParameters,
-      if (query != null) 'Query': query,
-      if (queryExecutionContext != null)
-        'QueryExecutionContext': queryExecutionContext,
-      if (queryExecutionId != null) 'QueryExecutionId': queryExecutionId,
-      if (queryResultsS3AccessGrantsConfiguration != null)
-        'QueryResultsS3AccessGrantsConfiguration':
-            queryResultsS3AccessGrantsConfiguration,
-      if (resultConfiguration != null)
-        'ResultConfiguration': resultConfiguration,
-      if (resultReuseConfiguration != null)
-        'ResultReuseConfiguration': resultReuseConfiguration,
-      if (statementType != null) 'StatementType': statementType.value,
-      if (statistics != null) 'Statistics': statistics,
-      if (status != null) 'Status': status,
-      if (substatementType != null) 'SubstatementType': substatementType,
-      if (workGroup != null) 'WorkGroup': workGroup,
-    };
-  }
-}
-
-/// The database and data catalog context in which the query execution occurs.
-class QueryExecutionContext {
-  /// The name of the data catalog used in the query execution.
-  final String? catalog;
-
-  /// The name of the database used in the query execution. The database must
-  /// exist in the catalog.
-  final String? database;
-
-  QueryExecutionContext({
-    this.catalog,
-    this.database,
-  });
-
-  factory QueryExecutionContext.fromJson(Map<String, dynamic> json) {
-    return QueryExecutionContext(
-      catalog: json['Catalog'] as String?,
-      database: json['Database'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final catalog = this.catalog;
-    final database = this.database;
-    return {
-      if (catalog != null) 'Catalog': catalog,
-      if (database != null) 'Database': database,
-    };
-  }
-}
-
-class QueryExecutionState {
-  static const queued = QueryExecutionState._('QUEUED');
-  static const running = QueryExecutionState._('RUNNING');
-  static const succeeded = QueryExecutionState._('SUCCEEDED');
-  static const failed = QueryExecutionState._('FAILED');
-  static const cancelled = QueryExecutionState._('CANCELLED');
+class ExecutorState {
+  static const creating = ExecutorState._('CREATING');
+  static const created = ExecutorState._('CREATED');
+  static const registered = ExecutorState._('REGISTERED');
+  static const terminating = ExecutorState._('TERMINATING');
+  static const terminated = ExecutorState._('TERMINATED');
+  static const failed = ExecutorState._('FAILED');
 
   final String value;
 
-  const QueryExecutionState._(this.value);
+  const ExecutorState._(this.value);
 
-  static const values = [queued, running, succeeded, failed, cancelled];
+  static const values = [
+    creating,
+    created,
+    registered,
+    terminating,
+    terminated,
+    failed
+  ];
 
-  static QueryExecutionState fromString(String value) =>
+  static ExecutorState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => QueryExecutionState._(value));
+          orElse: () => ExecutorState._(value));
+
+  @override
+  bool operator ==(other) => other is ExecutorState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The summary information for the data catalog, which includes its name and
+/// type.
+class DataCatalogSummary {
+  /// The name of the data catalog. The catalog name is unique for the Amazon Web
+  /// Services account and can use a maximum of 127 alphanumeric, underscore, at
+  /// sign, or hyphen characters. The remainder of the length constraint of 256 is
+  /// reserved for use by Athena.
+  final String? catalogName;
+
+  /// The type of connection for a <code>FEDERATED</code> data catalog (for
+  /// example, <code>REDSHIFT</code>, <code>MYSQL</code>, or
+  /// <code>SQLSERVER</code>). For information about individual connectors, see <a
+  /// href="https://docs.aws.amazon.com/athena/latest/ug/connectors-available.html">Available
+  /// data source connectors</a>.
+  final ConnectionType? connectionType;
+
+  /// Text of the error that occurred during data catalog creation or deletion.
+  final String? error;
+
+  /// The status of the creation or deletion of the data catalog.
+  ///
+  /// <ul>
+  /// <li>
+  /// The <code>LAMBDA</code>, <code>GLUE</code>, and <code>HIVE</code> data
+  /// catalog types are created synchronously. Their status is either
+  /// <code>CREATE_COMPLETE</code> or <code>CREATE_FAILED</code>.
+  /// </li>
+  /// <li>
+  /// The <code>FEDERATED</code> data catalog type is created asynchronously.
+  /// </li>
+  /// </ul>
+  /// Data catalog creation status:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATE_IN_PROGRESS</code>: Federated data catalog creation in
+  /// progress.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_COMPLETE</code>: Data catalog creation complete.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_FAILED</code>: Data catalog could not be created.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_FAILED_CLEANUP_IN_PROGRESS</code>: Federated data catalog
+  /// creation failed and is being removed.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_FAILED_CLEANUP_COMPLETE</code>: Federated data catalog creation
+  /// failed and was removed.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_FAILED_CLEANUP_FAILED</code>: Federated data catalog creation
+  /// failed but could not be removed.
+  /// </li>
+  /// </ul>
+  /// Data catalog deletion status:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>DELETE_IN_PROGRESS</code>: Federated data catalog deletion in
+  /// progress.
+  /// </li>
+  /// <li>
+  /// <code>DELETE_COMPLETE</code>: Federated data catalog deleted.
+  /// </li>
+  /// <li>
+  /// <code>DELETE_FAILED</code>: Federated data catalog could not be deleted.
+  /// </li>
+  /// </ul>
+  final DataCatalogStatus? status;
+
+  /// The data catalog type.
+  final DataCatalogType? type;
+
+  DataCatalogSummary({
+    this.catalogName,
+    this.connectionType,
+    this.error,
+    this.status,
+    this.type,
+  });
+
+  factory DataCatalogSummary.fromJson(Map<String, dynamic> json) {
+    return DataCatalogSummary(
+      catalogName: json['CatalogName'] as String?,
+      connectionType:
+          (json['ConnectionType'] as String?)?.let(ConnectionType.fromString),
+      error: json['Error'] as String?,
+      status: (json['Status'] as String?)?.let(DataCatalogStatus.fromString),
+      type: (json['Type'] as String?)?.let(DataCatalogType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final catalogName = this.catalogName;
+    final connectionType = this.connectionType;
+    final error = this.error;
+    final status = this.status;
+    final type = this.type;
+    return {
+      if (catalogName != null) 'CatalogName': catalogName,
+      if (connectionType != null) 'ConnectionType': connectionType.value,
+      if (error != null) 'Error': error,
+      if (status != null) 'Status': status.value,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class DataCatalogStatus {
+  static const createInProgress = DataCatalogStatus._('CREATE_IN_PROGRESS');
+  static const createComplete = DataCatalogStatus._('CREATE_COMPLETE');
+  static const createFailed = DataCatalogStatus._('CREATE_FAILED');
+  static const createFailedCleanupInProgress =
+      DataCatalogStatus._('CREATE_FAILED_CLEANUP_IN_PROGRESS');
+  static const createFailedCleanupComplete =
+      DataCatalogStatus._('CREATE_FAILED_CLEANUP_COMPLETE');
+  static const createFailedCleanupFailed =
+      DataCatalogStatus._('CREATE_FAILED_CLEANUP_FAILED');
+  static const deleteInProgress = DataCatalogStatus._('DELETE_IN_PROGRESS');
+  static const deleteComplete = DataCatalogStatus._('DELETE_COMPLETE');
+  static const deleteFailed = DataCatalogStatus._('DELETE_FAILED');
+
+  final String value;
+
+  const DataCatalogStatus._(this.value);
+
+  static const values = [
+    createInProgress,
+    createComplete,
+    createFailed,
+    createFailedCleanupInProgress,
+    createFailedCleanupComplete,
+    createFailedCleanupFailed,
+    deleteInProgress,
+    deleteComplete,
+    deleteFailed
+  ];
+
+  static DataCatalogStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataCatalogStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DataCatalogStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ConnectionType {
+  static const dynamodb = ConnectionType._('DYNAMODB');
+  static const mysql = ConnectionType._('MYSQL');
+  static const postgresql = ConnectionType._('POSTGRESQL');
+  static const redshift = ConnectionType._('REDSHIFT');
+  static const oracle = ConnectionType._('ORACLE');
+  static const synapse = ConnectionType._('SYNAPSE');
+  static const sqlserver = ConnectionType._('SQLSERVER');
+  static const db2 = ConnectionType._('DB2');
+  static const opensearch = ConnectionType._('OPENSEARCH');
+  static const bigquery = ConnectionType._('BIGQUERY');
+  static const googlecloudstorage = ConnectionType._('GOOGLECLOUDSTORAGE');
+  static const hbase = ConnectionType._('HBASE');
+  static const documentdb = ConnectionType._('DOCUMENTDB');
+  static const cmdb = ConnectionType._('CMDB');
+  static const tpcds = ConnectionType._('TPCDS');
+  static const timestream = ConnectionType._('TIMESTREAM');
+  static const saphana = ConnectionType._('SAPHANA');
+  static const snowflake = ConnectionType._('SNOWFLAKE');
+  static const datalakegen2 = ConnectionType._('DATALAKEGEN2');
+  static const db2as400 = ConnectionType._('DB2AS400');
+
+  final String value;
+
+  const ConnectionType._(this.value);
+
+  static const values = [
+    dynamodb,
+    mysql,
+    postgresql,
+    redshift,
+    oracle,
+    synapse,
+    sqlserver,
+    db2,
+    opensearch,
+    bigquery,
+    googlecloudstorage,
+    hbase,
+    documentdb,
+    cmdb,
+    tpcds,
+    timestream,
+    saphana,
+    snowflake,
+    datalakegen2,
+    db2as400
+  ];
+
+  static ConnectionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectionType._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains metadata information for a database in a data catalog.
+class Database {
+  /// The name of the database.
+  final String name;
+
+  /// An optional description of the database.
+  final String? description;
+
+  /// A set of custom key/value pairs.
+  final Map<String, String>? parameters;
+
+  Database({
+    required this.name,
+    this.description,
+    this.parameters,
+  });
+
+  factory Database.fromJson(Map<String, dynamic> json) {
+    return Database(
+      name: (json['Name'] as String?) ?? '',
+      description: json['Description'] as String?,
+      parameters: (json['Parameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final description = this.description;
+    final parameters = this.parameters;
+    return {
+      'Name': name,
+      if (description != null) 'Description': description,
+      if (parameters != null) 'Parameters': parameters,
+    };
+  }
+}
+
+/// A reservation for a specified number of data processing units (DPUs). When a
+/// reservation is initially created, it has no DPUs. Athena allocates DPUs
+/// until the allocated amount equals the requested amount.
+class CapacityReservation {
+  /// The number of data processing units currently allocated.
+  final int allocatedDpus;
+
+  /// The time in UTC epoch millis when the capacity reservation was created.
+  final DateTime creationTime;
+
+  /// The name of the capacity reservation.
+  final String name;
+
+  /// The status of the capacity reservation.
+  final CapacityReservationStatus status;
+
+  /// The number of data processing units requested.
+  final int targetDpus;
+  final CapacityAllocation? lastAllocation;
+
+  /// The time of the most recent capacity allocation that succeeded.
+  final DateTime? lastSuccessfulAllocationTime;
+
+  CapacityReservation({
+    required this.allocatedDpus,
+    required this.creationTime,
+    required this.name,
+    required this.status,
+    required this.targetDpus,
+    this.lastAllocation,
+    this.lastSuccessfulAllocationTime,
+  });
+
+  factory CapacityReservation.fromJson(Map<String, dynamic> json) {
+    return CapacityReservation(
+      allocatedDpus: (json['AllocatedDpus'] as int?) ?? 0,
+      creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
+      name: (json['Name'] as String?) ?? '',
+      status: CapacityReservationStatus.fromString(
+          (json['Status'] as String?) ?? ''),
+      targetDpus: (json['TargetDpus'] as int?) ?? 0,
+      lastAllocation: json['LastAllocation'] != null
+          ? CapacityAllocation.fromJson(
+              json['LastAllocation'] as Map<String, dynamic>)
+          : null,
+      lastSuccessfulAllocationTime:
+          timeStampFromJson(json['LastSuccessfulAllocationTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allocatedDpus = this.allocatedDpus;
+    final creationTime = this.creationTime;
+    final name = this.name;
+    final status = this.status;
+    final targetDpus = this.targetDpus;
+    final lastAllocation = this.lastAllocation;
+    final lastSuccessfulAllocationTime = this.lastSuccessfulAllocationTime;
+    return {
+      'AllocatedDpus': allocatedDpus,
+      'CreationTime': unixTimestampToJson(creationTime),
+      'Name': name,
+      'Status': status.value,
+      'TargetDpus': targetDpus,
+      if (lastAllocation != null) 'LastAllocation': lastAllocation,
+      if (lastSuccessfulAllocationTime != null)
+        'LastSuccessfulAllocationTime':
+            unixTimestampToJson(lastSuccessfulAllocationTime),
+    };
+  }
+}
+
+class CapacityReservationStatus {
+  static const pending = CapacityReservationStatus._('PENDING');
+  static const active = CapacityReservationStatus._('ACTIVE');
+  static const cancelling = CapacityReservationStatus._('CANCELLING');
+  static const cancelled = CapacityReservationStatus._('CANCELLED');
+  static const failed = CapacityReservationStatus._('FAILED');
+  static const updatePending = CapacityReservationStatus._('UPDATE_PENDING');
+
+  final String value;
+
+  const CapacityReservationStatus._(this.value);
+
+  static const values = [
+    pending,
+    active,
+    cancelling,
+    cancelled,
+    failed,
+    updatePending
+  ];
+
+  static CapacityReservationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CapacityReservationStatus._(value));
 
   @override
   bool operator ==(other) =>
-      other is QueryExecutionState && other.value == value;
+      other is CapacityReservationStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -6521,173 +7543,175 @@ class QueryExecutionState {
   String toString() => value;
 }
 
-/// The amount of data scanned during the query execution and the amount of time
-/// that it took to execute, and the type of statement that was run.
-class QueryExecutionStatistics {
-  /// The location and file name of a data manifest file. The manifest file is
-  /// saved to the Athena query results location in Amazon S3. The manifest file
-  /// tracks files that the query wrote to Amazon S3. If the query fails, the
-  /// manifest file also tracks files that the query intended to write. The
-  /// manifest is useful for identifying orphaned files resulting from a failed
-  /// query. For more information, see <a
-  /// href="https://docs.aws.amazon.com/athena/latest/ug/querying.html">Working
-  /// with Query Results, Output Files, and Query History</a> in the <i>Amazon
-  /// Athena User Guide</i>.
-  final String? dataManifestLocation;
+/// Contains the submission time of a single allocation request for a capacity
+/// reservation and the most recent status of the attempted allocation.
+class CapacityAllocation {
+  /// The time when the capacity allocation was requested.
+  final DateTime requestTime;
 
-  /// The number of bytes in the data that was queried.
-  final int? dataScannedInBytes;
+  /// The status of the capacity allocation.
+  final CapacityAllocationStatus status;
 
-  /// The number of milliseconds that the query took to execute.
-  final int? engineExecutionTimeInMillis;
+  /// The time when the capacity allocation request was completed.
+  final DateTime? requestCompletionTime;
 
-  /// The number of milliseconds that Athena took to plan the query processing
-  /// flow. This includes the time spent retrieving table partitions from the data
-  /// source. Note that because the query engine performs the query planning,
-  /// query planning time is a subset of engine processing time.
-  final int? queryPlanningTimeInMillis;
+  /// The status message of the capacity allocation.
+  final String? statusMessage;
 
-  /// The number of milliseconds that the query was in your query queue waiting
-  /// for resources. Note that if transient errors occur, Athena might
-  /// automatically add the query back to the queue.
-  final int? queryQueueTimeInMillis;
-
-  /// Contains information about whether previous query results were reused for
-  /// the query.
-  final ResultReuseInformation? resultReuseInformation;
-
-  /// The number of milliseconds that Athena took to preprocess the query before
-  /// submitting the query to the query engine.
-  final int? servicePreProcessingTimeInMillis;
-
-  /// The number of milliseconds that Athena took to finalize and publish the
-  /// query results after the query engine finished running the query.
-  final int? serviceProcessingTimeInMillis;
-
-  /// The number of milliseconds that Athena took to run the query.
-  final int? totalExecutionTimeInMillis;
-
-  QueryExecutionStatistics({
-    this.dataManifestLocation,
-    this.dataScannedInBytes,
-    this.engineExecutionTimeInMillis,
-    this.queryPlanningTimeInMillis,
-    this.queryQueueTimeInMillis,
-    this.resultReuseInformation,
-    this.servicePreProcessingTimeInMillis,
-    this.serviceProcessingTimeInMillis,
-    this.totalExecutionTimeInMillis,
+  CapacityAllocation({
+    required this.requestTime,
+    required this.status,
+    this.requestCompletionTime,
+    this.statusMessage,
   });
 
-  factory QueryExecutionStatistics.fromJson(Map<String, dynamic> json) {
-    return QueryExecutionStatistics(
-      dataManifestLocation: json['DataManifestLocation'] as String?,
-      dataScannedInBytes: json['DataScannedInBytes'] as int?,
-      engineExecutionTimeInMillis: json['EngineExecutionTimeInMillis'] as int?,
-      queryPlanningTimeInMillis: json['QueryPlanningTimeInMillis'] as int?,
-      queryQueueTimeInMillis: json['QueryQueueTimeInMillis'] as int?,
-      resultReuseInformation: json['ResultReuseInformation'] != null
-          ? ResultReuseInformation.fromJson(
-              json['ResultReuseInformation'] as Map<String, dynamic>)
-          : null,
-      servicePreProcessingTimeInMillis:
-          json['ServicePreProcessingTimeInMillis'] as int?,
-      serviceProcessingTimeInMillis:
-          json['ServiceProcessingTimeInMillis'] as int?,
-      totalExecutionTimeInMillis: json['TotalExecutionTimeInMillis'] as int?,
+  factory CapacityAllocation.fromJson(Map<String, dynamic> json) {
+    return CapacityAllocation(
+      requestTime: nonNullableTimeStampFromJson(json['RequestTime'] ?? 0),
+      status: CapacityAllocationStatus.fromString(
+          (json['Status'] as String?) ?? ''),
+      requestCompletionTime: timeStampFromJson(json['RequestCompletionTime']),
+      statusMessage: json['StatusMessage'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final dataManifestLocation = this.dataManifestLocation;
-    final dataScannedInBytes = this.dataScannedInBytes;
-    final engineExecutionTimeInMillis = this.engineExecutionTimeInMillis;
-    final queryPlanningTimeInMillis = this.queryPlanningTimeInMillis;
-    final queryQueueTimeInMillis = this.queryQueueTimeInMillis;
-    final resultReuseInformation = this.resultReuseInformation;
-    final servicePreProcessingTimeInMillis =
-        this.servicePreProcessingTimeInMillis;
-    final serviceProcessingTimeInMillis = this.serviceProcessingTimeInMillis;
-    final totalExecutionTimeInMillis = this.totalExecutionTimeInMillis;
+    final requestTime = this.requestTime;
+    final status = this.status;
+    final requestCompletionTime = this.requestCompletionTime;
+    final statusMessage = this.statusMessage;
     return {
-      if (dataManifestLocation != null)
-        'DataManifestLocation': dataManifestLocation,
-      if (dataScannedInBytes != null) 'DataScannedInBytes': dataScannedInBytes,
-      if (engineExecutionTimeInMillis != null)
-        'EngineExecutionTimeInMillis': engineExecutionTimeInMillis,
-      if (queryPlanningTimeInMillis != null)
-        'QueryPlanningTimeInMillis': queryPlanningTimeInMillis,
-      if (queryQueueTimeInMillis != null)
-        'QueryQueueTimeInMillis': queryQueueTimeInMillis,
-      if (resultReuseInformation != null)
-        'ResultReuseInformation': resultReuseInformation,
-      if (servicePreProcessingTimeInMillis != null)
-        'ServicePreProcessingTimeInMillis': servicePreProcessingTimeInMillis,
-      if (serviceProcessingTimeInMillis != null)
-        'ServiceProcessingTimeInMillis': serviceProcessingTimeInMillis,
-      if (totalExecutionTimeInMillis != null)
-        'TotalExecutionTimeInMillis': totalExecutionTimeInMillis,
+      'RequestTime': unixTimestampToJson(requestTime),
+      'Status': status.value,
+      if (requestCompletionTime != null)
+        'RequestCompletionTime': unixTimestampToJson(requestCompletionTime),
+      if (statusMessage != null) 'StatusMessage': statusMessage,
     };
   }
 }
 
-/// The completion date, current state, submission time, and state change reason
-/// (if applicable) for the query execution.
-class QueryExecutionStatus {
-  /// Provides information about an Athena query error.
-  final AthenaError? athenaError;
+class CapacityAllocationStatus {
+  static const pending = CapacityAllocationStatus._('PENDING');
+  static const succeeded = CapacityAllocationStatus._('SUCCEEDED');
+  static const failed = CapacityAllocationStatus._('FAILED');
 
-  /// The date and time that the query completed.
+  final String value;
+
+  const CapacityAllocationStatus._(this.value);
+
+  static const values = [pending, succeeded, failed];
+
+  static CapacityAllocationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CapacityAllocationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CapacityAllocationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Summary information for a notebook calculation.
+class CalculationSummary {
+  /// The calculation execution UUID.
+  final String? calculationExecutionId;
+
+  /// A description of the calculation.
+  final String? description;
+
+  /// Contains information about the status of the calculation.
+  final CalculationStatus? status;
+
+  CalculationSummary({
+    this.calculationExecutionId,
+    this.description,
+    this.status,
+  });
+
+  factory CalculationSummary.fromJson(Map<String, dynamic> json) {
+    return CalculationSummary(
+      calculationExecutionId: json['CalculationExecutionId'] as String?,
+      description: json['Description'] as String?,
+      status: json['Status'] != null
+          ? CalculationStatus.fromJson(json['Status'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final calculationExecutionId = this.calculationExecutionId;
+    final description = this.description;
+    final status = this.status;
+    return {
+      if (calculationExecutionId != null)
+        'CalculationExecutionId': calculationExecutionId,
+      if (description != null) 'Description': description,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
+/// Contains information about the status of a notebook calculation.
+class CalculationStatus {
+  /// The date and time the calculation completed processing.
   final DateTime? completionDateTime;
 
-  /// The state of query execution. <code>QUEUED</code> indicates that the query
-  /// has been submitted to the service, and Athena will execute the query as soon
-  /// as resources are available. <code>RUNNING</code> indicates that the query is
-  /// in execution phase. <code>SUCCEEDED</code> indicates that the query
-  /// completed without errors. <code>FAILED</code> indicates that the query
-  /// experienced an error and did not complete processing. <code>CANCELLED</code>
-  /// indicates that a user input interrupted query execution.
-  /// <note>
-  /// Athena automatically retries your queries in cases of certain transient
-  /// errors. As a result, you may see the query state transition from
-  /// <code>RUNNING</code> or <code>FAILED</code> to <code>QUEUED</code>.
-  /// </note>
-  final QueryExecutionState? state;
+  /// The state of the calculation execution. A description of each state follows.
+  ///
+  /// <code>CREATING</code> - The calculation is in the process of being created.
+  ///
+  /// <code>CREATED</code> - The calculation has been created and is ready to run.
+  ///
+  /// <code>QUEUED</code> - The calculation has been queued for processing.
+  ///
+  /// <code>RUNNING</code> - The calculation is running.
+  ///
+  /// <code>CANCELING</code> - A request to cancel the calculation has been
+  /// received and the system is working to stop it.
+  ///
+  /// <code>CANCELED</code> - The calculation is no longer running as the result
+  /// of a cancel request.
+  ///
+  /// <code>COMPLETED</code> - The calculation has completed without error.
+  ///
+  /// <code>FAILED</code> - The calculation failed and is no longer running.
+  final CalculationExecutionState? state;
 
-  /// Further detail about the status of the query.
+  /// The reason for the calculation state change (for example, the calculation
+  /// was canceled because the session was terminated).
   final String? stateChangeReason;
 
-  /// The date and time that the query was submitted.
+  /// The date and time the calculation was submitted for processing.
   final DateTime? submissionDateTime;
 
-  QueryExecutionStatus({
-    this.athenaError,
+  CalculationStatus({
     this.completionDateTime,
     this.state,
     this.stateChangeReason,
     this.submissionDateTime,
   });
 
-  factory QueryExecutionStatus.fromJson(Map<String, dynamic> json) {
-    return QueryExecutionStatus(
-      athenaError: json['AthenaError'] != null
-          ? AthenaError.fromJson(json['AthenaError'] as Map<String, dynamic>)
-          : null,
+  factory CalculationStatus.fromJson(Map<String, dynamic> json) {
+    return CalculationStatus(
       completionDateTime: timeStampFromJson(json['CompletionDateTime']),
-      state: (json['State'] as String?)?.let(QueryExecutionState.fromString),
+      state:
+          (json['State'] as String?)?.let(CalculationExecutionState.fromString),
       stateChangeReason: json['StateChangeReason'] as String?,
       submissionDateTime: timeStampFromJson(json['SubmissionDateTime']),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final athenaError = this.athenaError;
     final completionDateTime = this.completionDateTime;
     final state = this.state;
     final stateChangeReason = this.stateChangeReason;
     final submissionDateTime = this.submissionDateTime;
     return {
-      if (athenaError != null) 'AthenaError': athenaError,
       if (completionDateTime != null)
         'CompletionDateTime': unixTimestampToJson(completionDateTime),
       if (state != null) 'State': state.value,
@@ -6698,44 +7722,495 @@ class QueryExecutionStatus {
   }
 }
 
-/// Specifies whether Amazon S3 access grants are enabled for query results.
-class QueryResultsS3AccessGrantsConfiguration {
-  /// The authentication type used for Amazon S3 access grants. Currently, only
-  /// <code>DIRECTORY_IDENTITY</code> is supported.
-  final AuthenticationType authenticationType;
+/// Contains the application runtime IDs and their supported DPU sizes.
+class ApplicationDPUSizes {
+  /// The name of the supported application runtime (for example, <code>Athena
+  /// notebook version 1</code>).
+  final String? applicationRuntimeId;
 
-  /// Specifies whether Amazon S3 access grants are enabled for query results.
-  final bool enableS3AccessGrants;
+  /// A list of the supported DPU sizes that the application runtime supports.
+  final List<int>? supportedDPUSizes;
 
-  /// When enabled, appends the user ID as an Amazon S3 path prefix to the query
-  /// result output location.
-  final bool? createUserLevelPrefix;
-
-  QueryResultsS3AccessGrantsConfiguration({
-    required this.authenticationType,
-    required this.enableS3AccessGrants,
-    this.createUserLevelPrefix,
+  ApplicationDPUSizes({
+    this.applicationRuntimeId,
+    this.supportedDPUSizes,
   });
 
-  factory QueryResultsS3AccessGrantsConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return QueryResultsS3AccessGrantsConfiguration(
-      authenticationType: AuthenticationType.fromString(
-          (json['AuthenticationType'] as String?) ?? ''),
-      enableS3AccessGrants: (json['EnableS3AccessGrants'] as bool?) ?? false,
-      createUserLevelPrefix: json['CreateUserLevelPrefix'] as bool?,
+  factory ApplicationDPUSizes.fromJson(Map<String, dynamic> json) {
+    return ApplicationDPUSizes(
+      applicationRuntimeId: json['ApplicationRuntimeId'] as String?,
+      supportedDPUSizes: (json['SupportedDPUSizes'] as List?)
+          ?.nonNulls
+          .map((e) => e as int)
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final authenticationType = this.authenticationType;
-    final enableS3AccessGrants = this.enableS3AccessGrants;
-    final createUserLevelPrefix = this.createUserLevelPrefix;
+    final applicationRuntimeId = this.applicationRuntimeId;
+    final supportedDPUSizes = this.supportedDPUSizes;
     return {
-      'AuthenticationType': authenticationType.value,
-      'EnableS3AccessGrants': enableS3AccessGrants,
-      if (createUserLevelPrefix != null)
-        'CreateUserLevelPrefix': createUserLevelPrefix,
+      if (applicationRuntimeId != null)
+        'ApplicationRuntimeId': applicationRuntimeId,
+      if (supportedDPUSizes != null) 'SupportedDPUSizes': supportedDPUSizes,
+    };
+  }
+}
+
+/// A workgroup, which contains a name, description, creation time, state, and
+/// other configuration, listed under <a>WorkGroup$Configuration</a>. Each
+/// workgroup enables you to isolate queries for you or your group of users from
+/// other queries in the same account, to configure the query results location
+/// and the encryption configuration (known as workgroup settings), to enable
+/// sending query metrics to Amazon CloudWatch, and to establish per-query data
+/// usage control limits for all queries in a workgroup. The workgroup settings
+/// override is specified in <code>EnforceWorkGroupConfiguration</code>
+/// (true/false) in the <code>WorkGroupConfiguration</code>. See
+/// <a>WorkGroupConfiguration$EnforceWorkGroupConfiguration</a>.
+class WorkGroup {
+  /// The workgroup name.
+  final String name;
+
+  /// The configuration of the workgroup, which includes the location in Amazon S3
+  /// where query and calculation results are stored, the encryption
+  /// configuration, if any, used for query and calculation results; whether the
+  /// Amazon CloudWatch Metrics are enabled for the workgroup; whether workgroup
+  /// settings override client-side settings; and the data usage limits for the
+  /// amount of data scanned per query or per workgroup. The workgroup settings
+  /// override is specified in <code>EnforceWorkGroupConfiguration</code>
+  /// (true/false) in the <code>WorkGroupConfiguration</code>. See
+  /// <a>WorkGroupConfiguration$EnforceWorkGroupConfiguration</a>.
+  final WorkGroupConfiguration? configuration;
+
+  /// The date and time the workgroup was created.
+  final DateTime? creationTime;
+
+  /// The workgroup description.
+  final String? description;
+
+  /// The ARN of the IAM Identity Center enabled application associated with the
+  /// workgroup.
+  final String? identityCenterApplicationArn;
+
+  /// The state of the workgroup: ENABLED or DISABLED.
+  final WorkGroupState? state;
+
+  WorkGroup({
+    required this.name,
+    this.configuration,
+    this.creationTime,
+    this.description,
+    this.identityCenterApplicationArn,
+    this.state,
+  });
+
+  factory WorkGroup.fromJson(Map<String, dynamic> json) {
+    return WorkGroup(
+      name: (json['Name'] as String?) ?? '',
+      configuration: json['Configuration'] != null
+          ? WorkGroupConfiguration.fromJson(
+              json['Configuration'] as Map<String, dynamic>)
+          : null,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      description: json['Description'] as String?,
+      identityCenterApplicationArn:
+          json['IdentityCenterApplicationArn'] as String?,
+      state: (json['State'] as String?)?.let(WorkGroupState.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final configuration = this.configuration;
+    final creationTime = this.creationTime;
+    final description = this.description;
+    final identityCenterApplicationArn = this.identityCenterApplicationArn;
+    final state = this.state;
+    return {
+      'Name': name,
+      if (configuration != null) 'Configuration': configuration,
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (description != null) 'Description': description,
+      if (identityCenterApplicationArn != null)
+        'IdentityCenterApplicationArn': identityCenterApplicationArn,
+      if (state != null) 'State': state.value,
+    };
+  }
+}
+
+/// The configuration of the workgroup, which includes the location in Amazon S3
+/// where query and calculation results are stored, the encryption option, if
+/// any, used for query and calculation results, whether the Amazon CloudWatch
+/// Metrics are enabled for the workgroup and whether workgroup settings
+/// override query settings, and the data usage limits for the amount of data
+/// scanned per query or per workgroup. The workgroup settings override is
+/// specified in <code>EnforceWorkGroupConfiguration</code> (true/false) in the
+/// <code>WorkGroupConfiguration</code>. See
+/// <a>WorkGroupConfiguration$EnforceWorkGroupConfiguration</a>.
+class WorkGroupConfiguration {
+  /// Specifies a user defined JSON string that is passed to the notebook engine.
+  final String? additionalConfiguration;
+
+  /// The upper data usage limit (cutoff) for the amount of bytes a single query
+  /// in a workgroup is allowed to scan.
+  final int? bytesScannedCutoffPerQuery;
+
+  /// Specifies the KMS key that is used to encrypt the user's data stores in
+  /// Athena. This setting does not apply to Athena SQL workgroups.
+  final CustomerContentEncryptionConfiguration?
+      customerContentEncryptionConfiguration;
+
+  /// Enforces a minimal level of encryption for the workgroup for query and
+  /// calculation results that are written to Amazon S3. When enabled, workgroup
+  /// users can set encryption only to the minimum level set by the administrator
+  /// or higher when they submit queries.
+  ///
+  /// The <code>EnforceWorkGroupConfiguration</code> setting takes precedence over
+  /// the <code>EnableMinimumEncryptionConfiguration</code> flag. This means that
+  /// if <code>EnforceWorkGroupConfiguration</code> is true, the
+  /// <code>EnableMinimumEncryptionConfiguration</code> flag is ignored, and the
+  /// workgroup configuration for encryption is used.
+  final bool? enableMinimumEncryptionConfiguration;
+
+  /// If set to "true", the settings for the workgroup override client-side
+  /// settings. If set to "false", client-side settings are used. This property is
+  /// not required for Apache Spark enabled workgroups. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html">Workgroup
+  /// Settings Override Client-Side Settings</a>.
+  final bool? enforceWorkGroupConfiguration;
+  final EngineConfiguration? engineConfiguration;
+
+  /// The engine version that all queries running on the workgroup use. Queries on
+  /// the <code>AmazonAthenaPreviewFunctionality</code> workgroup run on the
+  /// preview engine regardless of this setting.
+  final EngineVersion? engineVersion;
+
+  /// The ARN of the execution role used to access user resources for Spark
+  /// sessions and IAM Identity Center enabled workgroups. This property applies
+  /// only to Spark enabled workgroups and IAM Identity Center enabled workgroups.
+  /// The property is required for IAM Identity Center enabled workgroups.
+  final String? executionRole;
+
+  /// Specifies whether the workgroup is IAM Identity Center supported.
+  final IdentityCenterConfiguration? identityCenterConfiguration;
+
+  /// The configuration for storing results in Athena owned storage, which
+  /// includes whether this feature is enabled; whether encryption configuration,
+  /// if any, is used for encrypting query results.
+  final ManagedQueryResultsConfiguration? managedQueryResultsConfiguration;
+
+  /// Contains the configuration settings for managed log persistence, delivering
+  /// logs to Amazon S3 buckets, Amazon CloudWatch log groups etc.
+  final MonitoringConfiguration? monitoringConfiguration;
+
+  /// Indicates that the Amazon CloudWatch metrics are enabled for the workgroup.
+  final bool? publishCloudWatchMetricsEnabled;
+
+  /// Specifies whether Amazon S3 access grants are enabled for query results.
+  final QueryResultsS3AccessGrantsConfiguration?
+      queryResultsS3AccessGrantsConfiguration;
+
+  /// If set to <code>true</code>, allows members assigned to a workgroup to
+  /// reference Amazon S3 Requester Pays buckets in queries. If set to
+  /// <code>false</code>, workgroup members cannot query data from Requester Pays
+  /// buckets, and queries that retrieve data from Requester Pays buckets cause an
+  /// error. The default is <code>false</code>. For more information about
+  /// Requester Pays buckets, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/RequesterPaysBuckets.html">Requester
+  /// Pays Buckets</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
+  final bool? requesterPaysEnabled;
+
+  /// The configuration for the workgroup, which includes the location in Amazon
+  /// S3 where query and calculation results are stored and the encryption option,
+  /// if any, used for query and calculation results. To run the query, you must
+  /// specify the query results location using one of the ways: either in the
+  /// workgroup using this setting, or for individual queries (client-side), using
+  /// <a>ResultConfiguration$OutputLocation</a>. If none of them is set, Athena
+  /// issues an error that no output location is provided.
+  final ResultConfiguration? resultConfiguration;
+
+  WorkGroupConfiguration({
+    this.additionalConfiguration,
+    this.bytesScannedCutoffPerQuery,
+    this.customerContentEncryptionConfiguration,
+    this.enableMinimumEncryptionConfiguration,
+    this.enforceWorkGroupConfiguration,
+    this.engineConfiguration,
+    this.engineVersion,
+    this.executionRole,
+    this.identityCenterConfiguration,
+    this.managedQueryResultsConfiguration,
+    this.monitoringConfiguration,
+    this.publishCloudWatchMetricsEnabled,
+    this.queryResultsS3AccessGrantsConfiguration,
+    this.requesterPaysEnabled,
+    this.resultConfiguration,
+  });
+
+  factory WorkGroupConfiguration.fromJson(Map<String, dynamic> json) {
+    return WorkGroupConfiguration(
+      additionalConfiguration: json['AdditionalConfiguration'] as String?,
+      bytesScannedCutoffPerQuery: json['BytesScannedCutoffPerQuery'] as int?,
+      customerContentEncryptionConfiguration:
+          json['CustomerContentEncryptionConfiguration'] != null
+              ? CustomerContentEncryptionConfiguration.fromJson(
+                  json['CustomerContentEncryptionConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      enableMinimumEncryptionConfiguration:
+          json['EnableMinimumEncryptionConfiguration'] as bool?,
+      enforceWorkGroupConfiguration:
+          json['EnforceWorkGroupConfiguration'] as bool?,
+      engineConfiguration: json['EngineConfiguration'] != null
+          ? EngineConfiguration.fromJson(
+              json['EngineConfiguration'] as Map<String, dynamic>)
+          : null,
+      engineVersion: json['EngineVersion'] != null
+          ? EngineVersion.fromJson(
+              json['EngineVersion'] as Map<String, dynamic>)
+          : null,
+      executionRole: json['ExecutionRole'] as String?,
+      identityCenterConfiguration: json['IdentityCenterConfiguration'] != null
+          ? IdentityCenterConfiguration.fromJson(
+              json['IdentityCenterConfiguration'] as Map<String, dynamic>)
+          : null,
+      managedQueryResultsConfiguration:
+          json['ManagedQueryResultsConfiguration'] != null
+              ? ManagedQueryResultsConfiguration.fromJson(
+                  json['ManagedQueryResultsConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      monitoringConfiguration: json['MonitoringConfiguration'] != null
+          ? MonitoringConfiguration.fromJson(
+              json['MonitoringConfiguration'] as Map<String, dynamic>)
+          : null,
+      publishCloudWatchMetricsEnabled:
+          json['PublishCloudWatchMetricsEnabled'] as bool?,
+      queryResultsS3AccessGrantsConfiguration:
+          json['QueryResultsS3AccessGrantsConfiguration'] != null
+              ? QueryResultsS3AccessGrantsConfiguration.fromJson(
+                  json['QueryResultsS3AccessGrantsConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      requesterPaysEnabled: json['RequesterPaysEnabled'] as bool?,
+      resultConfiguration: json['ResultConfiguration'] != null
+          ? ResultConfiguration.fromJson(
+              json['ResultConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalConfiguration = this.additionalConfiguration;
+    final bytesScannedCutoffPerQuery = this.bytesScannedCutoffPerQuery;
+    final customerContentEncryptionConfiguration =
+        this.customerContentEncryptionConfiguration;
+    final enableMinimumEncryptionConfiguration =
+        this.enableMinimumEncryptionConfiguration;
+    final enforceWorkGroupConfiguration = this.enforceWorkGroupConfiguration;
+    final engineConfiguration = this.engineConfiguration;
+    final engineVersion = this.engineVersion;
+    final executionRole = this.executionRole;
+    final identityCenterConfiguration = this.identityCenterConfiguration;
+    final managedQueryResultsConfiguration =
+        this.managedQueryResultsConfiguration;
+    final monitoringConfiguration = this.monitoringConfiguration;
+    final publishCloudWatchMetricsEnabled =
+        this.publishCloudWatchMetricsEnabled;
+    final queryResultsS3AccessGrantsConfiguration =
+        this.queryResultsS3AccessGrantsConfiguration;
+    final requesterPaysEnabled = this.requesterPaysEnabled;
+    final resultConfiguration = this.resultConfiguration;
+    return {
+      if (additionalConfiguration != null)
+        'AdditionalConfiguration': additionalConfiguration,
+      if (bytesScannedCutoffPerQuery != null)
+        'BytesScannedCutoffPerQuery': bytesScannedCutoffPerQuery,
+      if (customerContentEncryptionConfiguration != null)
+        'CustomerContentEncryptionConfiguration':
+            customerContentEncryptionConfiguration,
+      if (enableMinimumEncryptionConfiguration != null)
+        'EnableMinimumEncryptionConfiguration':
+            enableMinimumEncryptionConfiguration,
+      if (enforceWorkGroupConfiguration != null)
+        'EnforceWorkGroupConfiguration': enforceWorkGroupConfiguration,
+      if (engineConfiguration != null)
+        'EngineConfiguration': engineConfiguration,
+      if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (executionRole != null) 'ExecutionRole': executionRole,
+      if (identityCenterConfiguration != null)
+        'IdentityCenterConfiguration': identityCenterConfiguration,
+      if (managedQueryResultsConfiguration != null)
+        'ManagedQueryResultsConfiguration': managedQueryResultsConfiguration,
+      if (monitoringConfiguration != null)
+        'MonitoringConfiguration': monitoringConfiguration,
+      if (publishCloudWatchMetricsEnabled != null)
+        'PublishCloudWatchMetricsEnabled': publishCloudWatchMetricsEnabled,
+      if (queryResultsS3AccessGrantsConfiguration != null)
+        'QueryResultsS3AccessGrantsConfiguration':
+            queryResultsS3AccessGrantsConfiguration,
+      if (requesterPaysEnabled != null)
+        'RequesterPaysEnabled': requesterPaysEnabled,
+      if (resultConfiguration != null)
+        'ResultConfiguration': resultConfiguration,
+    };
+  }
+}
+
+/// The configuration for storing results in Athena owned storage, which
+/// includes whether this feature is enabled; whether encryption configuration,
+/// if any, is used for encrypting query results.
+class ManagedQueryResultsConfiguration {
+  /// If set to true, allows you to store query results in Athena owned storage.
+  /// If set to false, workgroup member stores query results in location specified
+  /// under <code>ResultConfiguration$OutputLocation</code>. The default is false.
+  /// A workgroup cannot have the <code>ResultConfiguration$OutputLocation</code>
+  /// parameter when you set this field to true.
+  final bool enabled;
+
+  /// If you encrypt query and calculation results in Athena owned storage, this
+  /// field indicates the encryption option (for example, SSE_KMS or CSE_KMS) and
+  /// key information.
+  final ManagedQueryResultsEncryptionConfiguration? encryptionConfiguration;
+
+  ManagedQueryResultsConfiguration({
+    required this.enabled,
+    this.encryptionConfiguration,
+  });
+
+  factory ManagedQueryResultsConfiguration.fromJson(Map<String, dynamic> json) {
+    return ManagedQueryResultsConfiguration(
+      enabled: (json['Enabled'] as bool?) ?? false,
+      encryptionConfiguration: json['EncryptionConfiguration'] != null
+          ? ManagedQueryResultsEncryptionConfiguration.fromJson(
+              json['EncryptionConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final encryptionConfiguration = this.encryptionConfiguration;
+    return {
+      'Enabled': enabled,
+      if (encryptionConfiguration != null)
+        'EncryptionConfiguration': encryptionConfiguration,
+    };
+  }
+}
+
+/// Specifies whether the workgroup is IAM Identity Center supported.
+class IdentityCenterConfiguration {
+  /// Specifies whether the workgroup is IAM Identity Center supported.
+  final bool? enableIdentityCenter;
+
+  /// The IAM Identity Center instance ARN that the workgroup associates to.
+  final String? identityCenterInstanceArn;
+
+  IdentityCenterConfiguration({
+    this.enableIdentityCenter,
+    this.identityCenterInstanceArn,
+  });
+
+  factory IdentityCenterConfiguration.fromJson(Map<String, dynamic> json) {
+    return IdentityCenterConfiguration(
+      enableIdentityCenter: json['EnableIdentityCenter'] as bool?,
+      identityCenterInstanceArn: json['IdentityCenterInstanceArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enableIdentityCenter = this.enableIdentityCenter;
+    final identityCenterInstanceArn = this.identityCenterInstanceArn;
+    return {
+      if (enableIdentityCenter != null)
+        'EnableIdentityCenter': enableIdentityCenter,
+      if (identityCenterInstanceArn != null)
+        'IdentityCenterInstanceArn': identityCenterInstanceArn,
+    };
+  }
+}
+
+/// Contains session configuration information.
+class SessionConfiguration {
+  final EncryptionConfiguration? encryptionConfiguration;
+
+  /// The ARN of the execution role used to access user resources for Spark
+  /// sessions and Identity Center enabled workgroups. This property applies only
+  /// to Spark enabled workgroups and Identity Center enabled workgroups.
+  final String? executionRole;
+
+  /// The idle timeout in seconds for the session.
+  final int? idleTimeoutSeconds;
+
+  /// The idle timeout in seconds for the session.
+  final int? sessionIdleTimeoutInMinutes;
+
+  /// The Amazon S3 location that stores information for the notebook.
+  final String? workingDirectory;
+
+  SessionConfiguration({
+    this.encryptionConfiguration,
+    this.executionRole,
+    this.idleTimeoutSeconds,
+    this.sessionIdleTimeoutInMinutes,
+    this.workingDirectory,
+  });
+
+  factory SessionConfiguration.fromJson(Map<String, dynamic> json) {
+    return SessionConfiguration(
+      encryptionConfiguration: json['EncryptionConfiguration'] != null
+          ? EncryptionConfiguration.fromJson(
+              json['EncryptionConfiguration'] as Map<String, dynamic>)
+          : null,
+      executionRole: json['ExecutionRole'] as String?,
+      idleTimeoutSeconds: json['IdleTimeoutSeconds'] as int?,
+      sessionIdleTimeoutInMinutes: json['SessionIdleTimeoutInMinutes'] as int?,
+      workingDirectory: json['WorkingDirectory'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final encryptionConfiguration = this.encryptionConfiguration;
+    final executionRole = this.executionRole;
+    final idleTimeoutSeconds = this.idleTimeoutSeconds;
+    final sessionIdleTimeoutInMinutes = this.sessionIdleTimeoutInMinutes;
+    final workingDirectory = this.workingDirectory;
+    return {
+      if (encryptionConfiguration != null)
+        'EncryptionConfiguration': encryptionConfiguration,
+      if (executionRole != null) 'ExecutionRole': executionRole,
+      if (idleTimeoutSeconds != null) 'IdleTimeoutSeconds': idleTimeoutSeconds,
+      if (sessionIdleTimeoutInMinutes != null)
+        'SessionIdleTimeoutInMinutes': sessionIdleTimeoutInMinutes,
+      if (workingDirectory != null) 'WorkingDirectory': workingDirectory,
+    };
+  }
+}
+
+/// Contains statistics for a session.
+class SessionStatistics {
+  /// The data processing unit execution time for a session in milliseconds.
+  final int? dpuExecutionInMillis;
+
+  SessionStatistics({
+    this.dpuExecutionInMillis,
+  });
+
+  factory SessionStatistics.fromJson(Map<String, dynamic> json) {
+    return SessionStatistics(
+      dpuExecutionInMillis: json['DpuExecutionInMillis'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dpuExecutionInMillis = this.dpuExecutionInMillis;
+    return {
+      if (dpuExecutionInMillis != null)
+        'DpuExecutionInMillis': dpuExecutionInMillis,
     };
   }
 }
@@ -6780,51 +8255,6 @@ class QueryRuntimeStatistics {
       if (outputStage != null) 'OutputStage': outputStage,
       if (rows != null) 'Rows': rows,
       if (timeline != null) 'Timeline': timeline,
-    };
-  }
-}
-
-/// Statistics such as input rows and bytes read by the query, rows and bytes
-/// output by the query, and the number of rows written by the query.
-class QueryRuntimeStatisticsRows {
-  /// The number of bytes read to execute the query.
-  final int? inputBytes;
-
-  /// The number of rows read to execute the query.
-  final int? inputRows;
-
-  /// The number of bytes returned by the query.
-  final int? outputBytes;
-
-  /// The number of rows returned by the query.
-  final int? outputRows;
-
-  QueryRuntimeStatisticsRows({
-    this.inputBytes,
-    this.inputRows,
-    this.outputBytes,
-    this.outputRows,
-  });
-
-  factory QueryRuntimeStatisticsRows.fromJson(Map<String, dynamic> json) {
-    return QueryRuntimeStatisticsRows(
-      inputBytes: json['InputBytes'] as int?,
-      inputRows: json['InputRows'] as int?,
-      outputBytes: json['OutputBytes'] as int?,
-      outputRows: json['OutputRows'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final inputBytes = this.inputBytes;
-    final inputRows = this.inputRows;
-    final outputBytes = this.outputBytes;
-    final outputRows = this.outputRows;
-    return {
-      if (inputBytes != null) 'InputBytes': inputBytes,
-      if (inputRows != null) 'InputRows': inputRows,
-      if (outputBytes != null) 'OutputBytes': outputBytes,
-      if (outputRows != null) 'OutputRows': outputRows,
     };
   }
 }
@@ -6900,6 +8330,51 @@ class QueryRuntimeStatisticsTimeline {
         'ServiceProcessingTimeInMillis': serviceProcessingTimeInMillis,
       if (totalExecutionTimeInMillis != null)
         'TotalExecutionTimeInMillis': totalExecutionTimeInMillis,
+    };
+  }
+}
+
+/// Statistics such as input rows and bytes read by the query, rows and bytes
+/// output by the query, and the number of rows written by the query.
+class QueryRuntimeStatisticsRows {
+  /// The number of bytes read to execute the query.
+  final int? inputBytes;
+
+  /// The number of rows read to execute the query.
+  final int? inputRows;
+
+  /// The number of bytes returned by the query.
+  final int? outputBytes;
+
+  /// The number of rows returned by the query.
+  final int? outputRows;
+
+  QueryRuntimeStatisticsRows({
+    this.inputBytes,
+    this.inputRows,
+    this.outputBytes,
+    this.outputRows,
+  });
+
+  factory QueryRuntimeStatisticsRows.fromJson(Map<String, dynamic> json) {
+    return QueryRuntimeStatisticsRows(
+      inputBytes: json['InputBytes'] as int?,
+      inputRows: json['InputRows'] as int?,
+      outputBytes: json['OutputBytes'] as int?,
+      outputRows: json['OutputRows'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputBytes = this.inputBytes;
+    final inputRows = this.inputRows;
+    final outputBytes = this.outputBytes;
+    final outputRows = this.outputRows;
+    return {
+      if (inputBytes != null) 'InputBytes': inputBytes,
+      if (inputRows != null) 'InputRows': inputRows,
+      if (outputBytes != null) 'OutputBytes': outputBytes,
+      if (outputRows != null) 'OutputRows': outputRows,
     };
   }
 }
@@ -7045,308 +8520,6 @@ class QueryStagePlanNode {
   }
 }
 
-/// The location in Amazon S3 where query and calculation results are stored and
-/// the encryption option, if any, used for query and calculation results. These
-/// are known as "client-side settings". If workgroup settings override
-/// client-side settings, then the query uses the workgroup settings.
-class ResultConfiguration {
-  /// Indicates that an Amazon S3 canned ACL should be set to control ownership of
-  /// stored query results. Currently the only supported canned ACL is
-  /// <code>BUCKET_OWNER_FULL_CONTROL</code>. This is a client-side setting. If
-  /// workgroup settings override client-side settings, then the query uses the
-  /// ACL configuration that is specified for the workgroup, and also uses the
-  /// location for storing query results specified in the workgroup. For more
-  /// information, see <a>WorkGroupConfiguration$EnforceWorkGroupConfiguration</a>
-  /// and <a
-  /// href="https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html">Workgroup
-  /// Settings Override Client-Side Settings</a>.
-  final AclConfiguration? aclConfiguration;
-
-  /// If query and calculation results are encrypted in Amazon S3, indicates the
-  /// encryption option used (for example, <code>SSE_KMS</code> or
-  /// <code>CSE_KMS</code>) and key information. This is a client-side setting. If
-  /// workgroup settings override client-side settings, then the query uses the
-  /// encryption configuration that is specified for the workgroup, and also uses
-  /// the location for storing query results specified in the workgroup. See
-  /// <a>WorkGroupConfiguration$EnforceWorkGroupConfiguration</a> and <a
-  /// href="https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html">Workgroup
-  /// Settings Override Client-Side Settings</a>.
-  final EncryptionConfiguration? encryptionConfiguration;
-
-  /// The Amazon Web Services account ID that you expect to be the owner of the
-  /// Amazon S3 bucket specified by <a>ResultConfiguration$OutputLocation</a>. If
-  /// set, Athena uses the value for <code>ExpectedBucketOwner</code> when it
-  /// makes Amazon S3 calls to your specified output location. If the
-  /// <code>ExpectedBucketOwner</code> Amazon Web Services account ID does not
-  /// match the actual owner of the Amazon S3 bucket, the call fails with a
-  /// permissions error.
-  ///
-  /// This is a client-side setting. If workgroup settings override client-side
-  /// settings, then the query uses the <code>ExpectedBucketOwner</code> setting
-  /// that is specified for the workgroup, and also uses the location for storing
-  /// query results specified in the workgroup. See
-  /// <a>WorkGroupConfiguration$EnforceWorkGroupConfiguration</a> and <a
-  /// href="https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html">Workgroup
-  /// Settings Override Client-Side Settings</a>.
-  final String? expectedBucketOwner;
-
-  /// The location in Amazon S3 where your query and calculation results are
-  /// stored, such as <code>s3://path/to/query/bucket/</code>. To run the query,
-  /// you must specify the query results location using one of the ways: either
-  /// for individual queries using either this setting (client-side), or in the
-  /// workgroup, using <a>WorkGroupConfiguration</a>. If none of them is set,
-  /// Athena issues an error that no output location is provided. If workgroup
-  /// settings override client-side settings, then the query uses the settings
-  /// specified for the workgroup. See
-  /// <a>WorkGroupConfiguration$EnforceWorkGroupConfiguration</a>.
-  final String? outputLocation;
-
-  ResultConfiguration({
-    this.aclConfiguration,
-    this.encryptionConfiguration,
-    this.expectedBucketOwner,
-    this.outputLocation,
-  });
-
-  factory ResultConfiguration.fromJson(Map<String, dynamic> json) {
-    return ResultConfiguration(
-      aclConfiguration: json['AclConfiguration'] != null
-          ? AclConfiguration.fromJson(
-              json['AclConfiguration'] as Map<String, dynamic>)
-          : null,
-      encryptionConfiguration: json['EncryptionConfiguration'] != null
-          ? EncryptionConfiguration.fromJson(
-              json['EncryptionConfiguration'] as Map<String, dynamic>)
-          : null,
-      expectedBucketOwner: json['ExpectedBucketOwner'] as String?,
-      outputLocation: json['OutputLocation'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final aclConfiguration = this.aclConfiguration;
-    final encryptionConfiguration = this.encryptionConfiguration;
-    final expectedBucketOwner = this.expectedBucketOwner;
-    final outputLocation = this.outputLocation;
-    return {
-      if (aclConfiguration != null) 'AclConfiguration': aclConfiguration,
-      if (encryptionConfiguration != null)
-        'EncryptionConfiguration': encryptionConfiguration,
-      if (expectedBucketOwner != null)
-        'ExpectedBucketOwner': expectedBucketOwner,
-      if (outputLocation != null) 'OutputLocation': outputLocation,
-    };
-  }
-}
-
-/// The information about the updates in the query results, such as output
-/// location and encryption configuration for the query results.
-class ResultConfigurationUpdates {
-  /// The ACL configuration for the query results.
-  final AclConfiguration? aclConfiguration;
-
-  /// The encryption configuration for query and calculation results.
-  final EncryptionConfiguration? encryptionConfiguration;
-
-  /// The Amazon Web Services account ID that you expect to be the owner of the
-  /// Amazon S3 bucket specified by <a>ResultConfiguration$OutputLocation</a>. If
-  /// set, Athena uses the value for <code>ExpectedBucketOwner</code> when it
-  /// makes Amazon S3 calls to your specified output location. If the
-  /// <code>ExpectedBucketOwner</code> Amazon Web Services account ID does not
-  /// match the actual owner of the Amazon S3 bucket, the call fails with a
-  /// permissions error.
-  ///
-  /// If workgroup settings override client-side settings, then the query uses the
-  /// <code>ExpectedBucketOwner</code> setting that is specified for the
-  /// workgroup, and also uses the location for storing query results specified in
-  /// the workgroup. See
-  /// <a>WorkGroupConfiguration$EnforceWorkGroupConfiguration</a> and <a
-  /// href="https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html">Workgroup
-  /// Settings Override Client-Side Settings</a>.
-  final String? expectedBucketOwner;
-
-  /// The location in Amazon S3 where your query and calculation results are
-  /// stored, such as <code>s3://path/to/query/bucket/</code>. If workgroup
-  /// settings override client-side settings, then the query uses the location for
-  /// the query results and the encryption configuration that are specified for
-  /// the workgroup. The "workgroup settings override" is specified in
-  /// <code>EnforceWorkGroupConfiguration</code> (true/false) in the
-  /// <code>WorkGroupConfiguration</code>. See
-  /// <a>WorkGroupConfiguration$EnforceWorkGroupConfiguration</a>.
-  final String? outputLocation;
-
-  /// If set to <code>true</code>, indicates that the previously-specified ACL
-  /// configuration for queries in this workgroup should be ignored and set to
-  /// null. If set to <code>false</code> or not set, and a value is present in the
-  /// <code>AclConfiguration</code> of <code>ResultConfigurationUpdates</code>,
-  /// the <code>AclConfiguration</code> in the workgroup's
-  /// <code>ResultConfiguration</code> is updated with the new value. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html">Workgroup
-  /// Settings Override Client-Side Settings</a>.
-  final bool? removeAclConfiguration;
-
-  /// If set to "true", indicates that the previously-specified encryption
-  /// configuration (also known as the client-side setting) for queries in this
-  /// workgroup should be ignored and set to null. If set to "false" or not set,
-  /// and a value is present in the <code>EncryptionConfiguration</code> in
-  /// <code>ResultConfigurationUpdates</code> (the client-side setting), the
-  /// <code>EncryptionConfiguration</code> in the workgroup's
-  /// <code>ResultConfiguration</code> will be updated with the new value. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html">Workgroup
-  /// Settings Override Client-Side Settings</a>.
-  final bool? removeEncryptionConfiguration;
-
-  /// If set to "true", removes the Amazon Web Services account ID previously
-  /// specified for <a>ResultConfiguration$ExpectedBucketOwner</a>. If set to
-  /// "false" or not set, and a value is present in the
-  /// <code>ExpectedBucketOwner</code> in <code>ResultConfigurationUpdates</code>
-  /// (the client-side setting), the <code>ExpectedBucketOwner</code> in the
-  /// workgroup's <code>ResultConfiguration</code> is updated with the new value.
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html">Workgroup
-  /// Settings Override Client-Side Settings</a>.
-  final bool? removeExpectedBucketOwner;
-
-  /// If set to "true", indicates that the previously-specified query results
-  /// location (also known as a client-side setting) for queries in this workgroup
-  /// should be ignored and set to null. If set to "false" or not set, and a value
-  /// is present in the <code>OutputLocation</code> in
-  /// <code>ResultConfigurationUpdates</code> (the client-side setting), the
-  /// <code>OutputLocation</code> in the workgroup's
-  /// <code>ResultConfiguration</code> will be updated with the new value. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html">Workgroup
-  /// Settings Override Client-Side Settings</a>.
-  final bool? removeOutputLocation;
-
-  ResultConfigurationUpdates({
-    this.aclConfiguration,
-    this.encryptionConfiguration,
-    this.expectedBucketOwner,
-    this.outputLocation,
-    this.removeAclConfiguration,
-    this.removeEncryptionConfiguration,
-    this.removeExpectedBucketOwner,
-    this.removeOutputLocation,
-  });
-
-  Map<String, dynamic> toJson() {
-    final aclConfiguration = this.aclConfiguration;
-    final encryptionConfiguration = this.encryptionConfiguration;
-    final expectedBucketOwner = this.expectedBucketOwner;
-    final outputLocation = this.outputLocation;
-    final removeAclConfiguration = this.removeAclConfiguration;
-    final removeEncryptionConfiguration = this.removeEncryptionConfiguration;
-    final removeExpectedBucketOwner = this.removeExpectedBucketOwner;
-    final removeOutputLocation = this.removeOutputLocation;
-    return {
-      if (aclConfiguration != null) 'AclConfiguration': aclConfiguration,
-      if (encryptionConfiguration != null)
-        'EncryptionConfiguration': encryptionConfiguration,
-      if (expectedBucketOwner != null)
-        'ExpectedBucketOwner': expectedBucketOwner,
-      if (outputLocation != null) 'OutputLocation': outputLocation,
-      if (removeAclConfiguration != null)
-        'RemoveAclConfiguration': removeAclConfiguration,
-      if (removeEncryptionConfiguration != null)
-        'RemoveEncryptionConfiguration': removeEncryptionConfiguration,
-      if (removeExpectedBucketOwner != null)
-        'RemoveExpectedBucketOwner': removeExpectedBucketOwner,
-      if (removeOutputLocation != null)
-        'RemoveOutputLocation': removeOutputLocation,
-    };
-  }
-}
-
-/// Specifies whether previous query results are reused, and if so, their
-/// maximum age.
-class ResultReuseByAgeConfiguration {
-  /// True if previous query results can be reused when the query is run;
-  /// otherwise, false. The default is false.
-  final bool enabled;
-
-  /// Specifies, in minutes, the maximum age of a previous query result that
-  /// Athena should consider for reuse. The default is 60.
-  final int? maxAgeInMinutes;
-
-  ResultReuseByAgeConfiguration({
-    required this.enabled,
-    this.maxAgeInMinutes,
-  });
-
-  factory ResultReuseByAgeConfiguration.fromJson(Map<String, dynamic> json) {
-    return ResultReuseByAgeConfiguration(
-      enabled: (json['Enabled'] as bool?) ?? false,
-      maxAgeInMinutes: json['MaxAgeInMinutes'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final enabled = this.enabled;
-    final maxAgeInMinutes = this.maxAgeInMinutes;
-    return {
-      'Enabled': enabled,
-      if (maxAgeInMinutes != null) 'MaxAgeInMinutes': maxAgeInMinutes,
-    };
-  }
-}
-
-/// Specifies the query result reuse behavior for the query.
-class ResultReuseConfiguration {
-  /// Specifies whether previous query results are reused, and if so, their
-  /// maximum age.
-  final ResultReuseByAgeConfiguration? resultReuseByAgeConfiguration;
-
-  ResultReuseConfiguration({
-    this.resultReuseByAgeConfiguration,
-  });
-
-  factory ResultReuseConfiguration.fromJson(Map<String, dynamic> json) {
-    return ResultReuseConfiguration(
-      resultReuseByAgeConfiguration:
-          json['ResultReuseByAgeConfiguration'] != null
-              ? ResultReuseByAgeConfiguration.fromJson(
-                  json['ResultReuseByAgeConfiguration'] as Map<String, dynamic>)
-              : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resultReuseByAgeConfiguration = this.resultReuseByAgeConfiguration;
-    return {
-      if (resultReuseByAgeConfiguration != null)
-        'ResultReuseByAgeConfiguration': resultReuseByAgeConfiguration,
-    };
-  }
-}
-
-/// Contains information about whether the result of a previous query was
-/// reused.
-class ResultReuseInformation {
-  /// True if a previous query result was reused; false if the result was
-  /// generated from a new run of the query.
-  final bool reusedPreviousResult;
-
-  ResultReuseInformation({
-    required this.reusedPreviousResult,
-  });
-
-  factory ResultReuseInformation.fromJson(Map<String, dynamic> json) {
-    return ResultReuseInformation(
-      reusedPreviousResult: (json['ReusedPreviousResult'] as bool?) ?? false,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final reusedPreviousResult = this.reusedPreviousResult;
-    return {
-      'ReusedPreviousResult': reusedPreviousResult,
-    };
-  }
-}
-
 /// The metadata and rows that make up a query result set. The metadata
 /// describes the column structure and data types. To return a
 /// <code>ResultSet</code> object, use <a>GetQueryResults</a>.
@@ -7414,6 +8587,119 @@ class ResultSetMetadata {
   }
 }
 
+/// Information about the columns in a query execution result.
+class ColumnInfo {
+  /// The name of the column.
+  final String name;
+
+  /// The data type of the column.
+  final String type;
+
+  /// Indicates whether values in the column are case-sensitive.
+  final bool? caseSensitive;
+
+  /// The catalog to which the query results belong.
+  final String? catalogName;
+
+  /// A column label.
+  final String? label;
+
+  /// Unsupported constraint. This value always shows as <code>UNKNOWN</code>.
+  final ColumnNullable? nullable;
+
+  /// For <code>DECIMAL</code> data types, specifies the total number of digits,
+  /// up to 38. For performance reasons, we recommend up to 18 digits.
+  final int? precision;
+
+  /// For <code>DECIMAL</code> data types, specifies the total number of digits in
+  /// the fractional part of the value. Defaults to 0.
+  final int? scale;
+
+  /// The schema name (database name) to which the query results belong.
+  final String? schemaName;
+
+  /// The table name for the query results.
+  final String? tableName;
+
+  ColumnInfo({
+    required this.name,
+    required this.type,
+    this.caseSensitive,
+    this.catalogName,
+    this.label,
+    this.nullable,
+    this.precision,
+    this.scale,
+    this.schemaName,
+    this.tableName,
+  });
+
+  factory ColumnInfo.fromJson(Map<String, dynamic> json) {
+    return ColumnInfo(
+      name: (json['Name'] as String?) ?? '',
+      type: (json['Type'] as String?) ?? '',
+      caseSensitive: json['CaseSensitive'] as bool?,
+      catalogName: json['CatalogName'] as String?,
+      label: json['Label'] as String?,
+      nullable: (json['Nullable'] as String?)?.let(ColumnNullable.fromString),
+      precision: json['Precision'] as int?,
+      scale: json['Scale'] as int?,
+      schemaName: json['SchemaName'] as String?,
+      tableName: json['TableName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final type = this.type;
+    final caseSensitive = this.caseSensitive;
+    final catalogName = this.catalogName;
+    final label = this.label;
+    final nullable = this.nullable;
+    final precision = this.precision;
+    final scale = this.scale;
+    final schemaName = this.schemaName;
+    final tableName = this.tableName;
+    return {
+      'Name': name,
+      'Type': type,
+      if (caseSensitive != null) 'CaseSensitive': caseSensitive,
+      if (catalogName != null) 'CatalogName': catalogName,
+      if (label != null) 'Label': label,
+      if (nullable != null) 'Nullable': nullable.value,
+      if (precision != null) 'Precision': precision,
+      if (scale != null) 'Scale': scale,
+      if (schemaName != null) 'SchemaName': schemaName,
+      if (tableName != null) 'TableName': tableName,
+    };
+  }
+}
+
+class ColumnNullable {
+  static const notNull = ColumnNullable._('NOT_NULL');
+  static const nullable = ColumnNullable._('NULLABLE');
+  static const unknown = ColumnNullable._('UNKNOWN');
+
+  final String value;
+
+  const ColumnNullable._(this.value);
+
+  static const values = [notNull, nullable, unknown];
+
+  static ColumnNullable fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ColumnNullable._(value));
+
+  @override
+  bool operator ==(other) => other is ColumnNullable && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// The rows that make up a query result table.
 class Row {
   /// The data that populates a row in a query result table.
@@ -7440,21 +8726,45 @@ class Row {
   }
 }
 
-class S3AclOption {
-  static const bucketOwnerFullControl =
-      S3AclOption._('BUCKET_OWNER_FULL_CONTROL');
+/// A piece of data (a field in the table).
+class Datum {
+  /// The value of the datum.
+  final String? varCharValue;
+
+  Datum({
+    this.varCharValue,
+  });
+
+  factory Datum.fromJson(Map<String, dynamic> json) {
+    return Datum(
+      varCharValue: json['VarCharValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final varCharValue = this.varCharValue;
+    return {
+      if (varCharValue != null) 'VarCharValue': varCharValue,
+    };
+  }
+}
+
+class QueryResultType {
+  static const dataManifest = QueryResultType._('DATA_MANIFEST');
+  static const dataRows = QueryResultType._('DATA_ROWS');
 
   final String value;
 
-  const S3AclOption._(this.value);
+  const QueryResultType._(this.value);
 
-  static const values = [bucketOwnerFullControl];
+  static const values = [dataManifest, dataRows];
 
-  static S3AclOption fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => S3AclOption._(value));
+  static QueryResultType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => QueryResultType._(value));
 
   @override
-  bool operator ==(other) => other is S3AclOption && other.value == value;
+  bool operator ==(other) => other is QueryResultType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -7463,372 +8773,174 @@ class S3AclOption {
   String toString() => value;
 }
 
-/// Contains session configuration information.
-class SessionConfiguration {
-  final EncryptionConfiguration? encryptionConfiguration;
-
-  /// The ARN of the execution role used to access user resources for Spark
-  /// sessions and Identity Center enabled workgroups. This property applies only
-  /// to Spark enabled workgroups and Identity Center enabled workgroups.
-  final String? executionRole;
-
-  /// The idle timeout in seconds for the session.
-  final int? idleTimeoutSeconds;
-
-  /// The Amazon S3 location that stores information for the notebook.
-  final String? workingDirectory;
-
-  SessionConfiguration({
-    this.encryptionConfiguration,
-    this.executionRole,
-    this.idleTimeoutSeconds,
-    this.workingDirectory,
-  });
-
-  factory SessionConfiguration.fromJson(Map<String, dynamic> json) {
-    return SessionConfiguration(
-      encryptionConfiguration: json['EncryptionConfiguration'] != null
-          ? EncryptionConfiguration.fromJson(
-              json['EncryptionConfiguration'] as Map<String, dynamic>)
-          : null,
-      executionRole: json['ExecutionRole'] as String?,
-      idleTimeoutSeconds: json['IdleTimeoutSeconds'] as int?,
-      workingDirectory: json['WorkingDirectory'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final encryptionConfiguration = this.encryptionConfiguration;
-    final executionRole = this.executionRole;
-    final idleTimeoutSeconds = this.idleTimeoutSeconds;
-    final workingDirectory = this.workingDirectory;
-    return {
-      if (encryptionConfiguration != null)
-        'EncryptionConfiguration': encryptionConfiguration,
-      if (executionRole != null) 'ExecutionRole': executionRole,
-      if (idleTimeoutSeconds != null) 'IdleTimeoutSeconds': idleTimeoutSeconds,
-      if (workingDirectory != null) 'WorkingDirectory': workingDirectory,
-    };
-  }
-}
-
-class SessionState {
-  static const creating = SessionState._('CREATING');
-  static const created = SessionState._('CREATED');
-  static const idle = SessionState._('IDLE');
-  static const busy = SessionState._('BUSY');
-  static const terminating = SessionState._('TERMINATING');
-  static const terminated = SessionState._('TERMINATED');
-  static const degraded = SessionState._('DEGRADED');
-  static const failed = SessionState._('FAILED');
-
-  final String value;
-
-  const SessionState._(this.value);
-
-  static const values = [
-    creating,
-    created,
-    idle,
-    busy,
-    terminating,
-    terminated,
-    degraded,
-    failed
-  ];
-
-  static SessionState fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SessionState._(value));
-
-  @override
-  bool operator ==(other) => other is SessionState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains statistics for a session.
-class SessionStatistics {
-  /// The data processing unit execution time for a session in milliseconds.
-  final int? dpuExecutionInMillis;
-
-  SessionStatistics({
-    this.dpuExecutionInMillis,
-  });
-
-  factory SessionStatistics.fromJson(Map<String, dynamic> json) {
-    return SessionStatistics(
-      dpuExecutionInMillis: json['DpuExecutionInMillis'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dpuExecutionInMillis = this.dpuExecutionInMillis;
-    return {
-      if (dpuExecutionInMillis != null)
-        'DpuExecutionInMillis': dpuExecutionInMillis,
-    };
-  }
-}
-
-/// Contains information about the status of a session.
-class SessionStatus {
-  /// The date and time that the session ended.
-  final DateTime? endDateTime;
-
-  /// The date and time starting at which the session became idle. Can be empty if
-  /// the session is not currently idle.
-  final DateTime? idleSinceDateTime;
-
-  /// The most recent date and time that the session was modified.
-  final DateTime? lastModifiedDateTime;
-
-  /// The date and time that the session started.
-  final DateTime? startDateTime;
-
-  /// The state of the session. A description of each state follows.
-  ///
-  /// <code>CREATING</code> - The session is being started, including acquiring
-  /// resources.
-  ///
-  /// <code>CREATED</code> - The session has been started.
-  ///
-  /// <code>IDLE</code> - The session is able to accept a calculation.
-  ///
-  /// <code>BUSY</code> - The session is processing another task and is unable to
-  /// accept a calculation.
-  ///
-  /// <code>TERMINATING</code> - The session is in the process of shutting down.
-  ///
-  /// <code>TERMINATED</code> - The session and its resources are no longer
-  /// running.
-  ///
-  /// <code>DEGRADED</code> - The session has no healthy coordinators.
-  ///
-  /// <code>FAILED</code> - Due to a failure, the session and its resources are no
-  /// longer running.
-  final SessionState? state;
-
-  /// The reason for the session state change (for example, canceled because the
-  /// session was terminated).
-  final String? stateChangeReason;
-
-  SessionStatus({
-    this.endDateTime,
-    this.idleSinceDateTime,
-    this.lastModifiedDateTime,
-    this.startDateTime,
-    this.state,
-    this.stateChangeReason,
-  });
-
-  factory SessionStatus.fromJson(Map<String, dynamic> json) {
-    return SessionStatus(
-      endDateTime: timeStampFromJson(json['EndDateTime']),
-      idleSinceDateTime: timeStampFromJson(json['IdleSinceDateTime']),
-      lastModifiedDateTime: timeStampFromJson(json['LastModifiedDateTime']),
-      startDateTime: timeStampFromJson(json['StartDateTime']),
-      state: (json['State'] as String?)?.let(SessionState.fromString),
-      stateChangeReason: json['StateChangeReason'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final endDateTime = this.endDateTime;
-    final idleSinceDateTime = this.idleSinceDateTime;
-    final lastModifiedDateTime = this.lastModifiedDateTime;
-    final startDateTime = this.startDateTime;
-    final state = this.state;
-    final stateChangeReason = this.stateChangeReason;
-    return {
-      if (endDateTime != null) 'EndDateTime': unixTimestampToJson(endDateTime),
-      if (idleSinceDateTime != null)
-        'IdleSinceDateTime': unixTimestampToJson(idleSinceDateTime),
-      if (lastModifiedDateTime != null)
-        'LastModifiedDateTime': unixTimestampToJson(lastModifiedDateTime),
-      if (startDateTime != null)
-        'StartDateTime': unixTimestampToJson(startDateTime),
-      if (state != null) 'State': state.value,
-      if (stateChangeReason != null) 'StateChangeReason': stateChangeReason,
-    };
-  }
-}
-
-/// Contains summary information about a session.
-class SessionSummary {
-  /// The session description.
-  final String? description;
-
-  /// The engine version used by the session (for example, <code>PySpark engine
-  /// version 3</code>).
+/// Information about a single instance of a query execution.
+class QueryExecution {
+  /// The engine version that executed the query.
   final EngineVersion? engineVersion;
 
-  /// The notebook version.
-  final String? notebookVersion;
+  /// A list of values for the parameters in a query. The values are applied
+  /// sequentially to the parameters in the query in the order in which the
+  /// parameters occur. The list of parameters is not returned in the response.
+  final List<String>? executionParameters;
 
-  /// The session ID.
-  final String? sessionId;
+  /// The configuration for storing results in Athena owned storage, which
+  /// includes whether this feature is enabled; whether encryption configuration,
+  /// if any, is used for encrypting query results.
+  final ManagedQueryResultsConfiguration? managedQueryResultsConfiguration;
 
-  /// Contains information about the session status.
-  final SessionStatus? status;
+  /// The SQL query statements which the query execution ran.
+  final String? query;
 
-  SessionSummary({
-    this.description,
+  /// The database in which the query execution occurred.
+  final QueryExecutionContext? queryExecutionContext;
+
+  /// The unique identifier for each query execution.
+  final String? queryExecutionId;
+
+  /// Specifies whether Amazon S3 access grants are enabled for query results.
+  final QueryResultsS3AccessGrantsConfiguration?
+      queryResultsS3AccessGrantsConfiguration;
+
+  /// The location in Amazon S3 where query and calculation results are stored and
+  /// the encryption option, if any, used for query results. These are known as
+  /// "client-side settings". If workgroup settings override client-side settings,
+  /// then the query uses the location for the query results and the encryption
+  /// configuration that are specified for the workgroup.
+  final ResultConfiguration? resultConfiguration;
+
+  /// Specifies the query result reuse behavior that was used for the query.
+  final ResultReuseConfiguration? resultReuseConfiguration;
+
+  /// The type of query statement that was run. <code>DDL</code> indicates DDL
+  /// query statements. <code>DML</code> indicates DML (Data Manipulation
+  /// Language) query statements, such as <code>CREATE TABLE AS SELECT</code>.
+  /// <code>UTILITY</code> indicates query statements other than DDL and DML, such
+  /// as <code>SHOW CREATE TABLE</code>, <code>EXPLAIN</code>,
+  /// <code>DESCRIBE</code>, or <code>SHOW TABLES</code>.
+  final StatementType? statementType;
+
+  /// Query execution statistics, such as the amount of data scanned, the amount
+  /// of time that the query took to process, and the type of statement that was
+  /// run.
+  final QueryExecutionStatistics? statistics;
+
+  /// The completion date, current state, submission time, and state change reason
+  /// (if applicable) for the query execution.
+  final QueryExecutionStatus? status;
+
+  /// The kind of query statement that was run.
+  final String? substatementType;
+
+  /// The name of the workgroup in which the query ran.
+  final String? workGroup;
+
+  QueryExecution({
     this.engineVersion,
-    this.notebookVersion,
-    this.sessionId,
+    this.executionParameters,
+    this.managedQueryResultsConfiguration,
+    this.query,
+    this.queryExecutionContext,
+    this.queryExecutionId,
+    this.queryResultsS3AccessGrantsConfiguration,
+    this.resultConfiguration,
+    this.resultReuseConfiguration,
+    this.statementType,
+    this.statistics,
     this.status,
+    this.substatementType,
+    this.workGroup,
   });
 
-  factory SessionSummary.fromJson(Map<String, dynamic> json) {
-    return SessionSummary(
-      description: json['Description'] as String?,
+  factory QueryExecution.fromJson(Map<String, dynamic> json) {
+    return QueryExecution(
       engineVersion: json['EngineVersion'] != null
           ? EngineVersion.fromJson(
               json['EngineVersion'] as Map<String, dynamic>)
           : null,
-      notebookVersion: json['NotebookVersion'] as String?,
-      sessionId: json['SessionId'] as String?,
-      status: json['Status'] != null
-          ? SessionStatus.fromJson(json['Status'] as Map<String, dynamic>)
+      executionParameters: (json['ExecutionParameters'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      managedQueryResultsConfiguration:
+          json['ManagedQueryResultsConfiguration'] != null
+              ? ManagedQueryResultsConfiguration.fromJson(
+                  json['ManagedQueryResultsConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      query: json['Query'] as String?,
+      queryExecutionContext: json['QueryExecutionContext'] != null
+          ? QueryExecutionContext.fromJson(
+              json['QueryExecutionContext'] as Map<String, dynamic>)
           : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final engineVersion = this.engineVersion;
-    final notebookVersion = this.notebookVersion;
-    final sessionId = this.sessionId;
-    final status = this.status;
-    return {
-      if (description != null) 'Description': description,
-      if (engineVersion != null) 'EngineVersion': engineVersion,
-      if (notebookVersion != null) 'NotebookVersion': notebookVersion,
-      if (sessionId != null) 'SessionId': sessionId,
-      if (status != null) 'Status': status,
-    };
-  }
-}
-
-class StartCalculationExecutionResponse {
-  /// The calculation execution UUID.
-  final String? calculationExecutionId;
-
-  /// <code>CREATING</code> - The calculation is in the process of being created.
-  ///
-  /// <code>CREATED</code> - The calculation has been created and is ready to run.
-  ///
-  /// <code>QUEUED</code> - The calculation has been queued for processing.
-  ///
-  /// <code>RUNNING</code> - The calculation is running.
-  ///
-  /// <code>CANCELING</code> - A request to cancel the calculation has been
-  /// received and the system is working to stop it.
-  ///
-  /// <code>CANCELED</code> - The calculation is no longer running as the result
-  /// of a cancel request.
-  ///
-  /// <code>COMPLETED</code> - The calculation has completed without error.
-  ///
-  /// <code>FAILED</code> - The calculation failed and is no longer running.
-  final CalculationExecutionState? state;
-
-  StartCalculationExecutionResponse({
-    this.calculationExecutionId,
-    this.state,
-  });
-
-  factory StartCalculationExecutionResponse.fromJson(
-      Map<String, dynamic> json) {
-    return StartCalculationExecutionResponse(
-      calculationExecutionId: json['CalculationExecutionId'] as String?,
-      state:
-          (json['State'] as String?)?.let(CalculationExecutionState.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final calculationExecutionId = this.calculationExecutionId;
-    final state = this.state;
-    return {
-      if (calculationExecutionId != null)
-        'CalculationExecutionId': calculationExecutionId,
-      if (state != null) 'State': state.value,
-    };
-  }
-}
-
-class StartQueryExecutionOutput {
-  /// The unique ID of the query that ran as a result of this request.
-  final String? queryExecutionId;
-
-  StartQueryExecutionOutput({
-    this.queryExecutionId,
-  });
-
-  factory StartQueryExecutionOutput.fromJson(Map<String, dynamic> json) {
-    return StartQueryExecutionOutput(
       queryExecutionId: json['QueryExecutionId'] as String?,
+      queryResultsS3AccessGrantsConfiguration:
+          json['QueryResultsS3AccessGrantsConfiguration'] != null
+              ? QueryResultsS3AccessGrantsConfiguration.fromJson(
+                  json['QueryResultsS3AccessGrantsConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      resultConfiguration: json['ResultConfiguration'] != null
+          ? ResultConfiguration.fromJson(
+              json['ResultConfiguration'] as Map<String, dynamic>)
+          : null,
+      resultReuseConfiguration: json['ResultReuseConfiguration'] != null
+          ? ResultReuseConfiguration.fromJson(
+              json['ResultReuseConfiguration'] as Map<String, dynamic>)
+          : null,
+      statementType:
+          (json['StatementType'] as String?)?.let(StatementType.fromString),
+      statistics: json['Statistics'] != null
+          ? QueryExecutionStatistics.fromJson(
+              json['Statistics'] as Map<String, dynamic>)
+          : null,
+      status: json['Status'] != null
+          ? QueryExecutionStatus.fromJson(
+              json['Status'] as Map<String, dynamic>)
+          : null,
+      substatementType: json['SubstatementType'] as String?,
+      workGroup: json['WorkGroup'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final engineVersion = this.engineVersion;
+    final executionParameters = this.executionParameters;
+    final managedQueryResultsConfiguration =
+        this.managedQueryResultsConfiguration;
+    final query = this.query;
+    final queryExecutionContext = this.queryExecutionContext;
     final queryExecutionId = this.queryExecutionId;
+    final queryResultsS3AccessGrantsConfiguration =
+        this.queryResultsS3AccessGrantsConfiguration;
+    final resultConfiguration = this.resultConfiguration;
+    final resultReuseConfiguration = this.resultReuseConfiguration;
+    final statementType = this.statementType;
+    final statistics = this.statistics;
+    final status = this.status;
+    final substatementType = this.substatementType;
+    final workGroup = this.workGroup;
     return {
+      if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (executionParameters != null)
+        'ExecutionParameters': executionParameters,
+      if (managedQueryResultsConfiguration != null)
+        'ManagedQueryResultsConfiguration': managedQueryResultsConfiguration,
+      if (query != null) 'Query': query,
+      if (queryExecutionContext != null)
+        'QueryExecutionContext': queryExecutionContext,
       if (queryExecutionId != null) 'QueryExecutionId': queryExecutionId,
-    };
-  }
-}
-
-class StartSessionResponse {
-  /// The session ID.
-  final String? sessionId;
-
-  /// The state of the session. A description of each state follows.
-  ///
-  /// <code>CREATING</code> - The session is being started, including acquiring
-  /// resources.
-  ///
-  /// <code>CREATED</code> - The session has been started.
-  ///
-  /// <code>IDLE</code> - The session is able to accept a calculation.
-  ///
-  /// <code>BUSY</code> - The session is processing another task and is unable to
-  /// accept a calculation.
-  ///
-  /// <code>TERMINATING</code> - The session is in the process of shutting down.
-  ///
-  /// <code>TERMINATED</code> - The session and its resources are no longer
-  /// running.
-  ///
-  /// <code>DEGRADED</code> - The session has no healthy coordinators.
-  ///
-  /// <code>FAILED</code> - Due to a failure, the session and its resources are no
-  /// longer running.
-  final SessionState? state;
-
-  StartSessionResponse({
-    this.sessionId,
-    this.state,
-  });
-
-  factory StartSessionResponse.fromJson(Map<String, dynamic> json) {
-    return StartSessionResponse(
-      sessionId: json['SessionId'] as String?,
-      state: (json['State'] as String?)?.let(SessionState.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final sessionId = this.sessionId;
-    final state = this.state;
-    return {
-      if (sessionId != null) 'SessionId': sessionId,
-      if (state != null) 'State': state.value,
+      if (queryResultsS3AccessGrantsConfiguration != null)
+        'QueryResultsS3AccessGrantsConfiguration':
+            queryResultsS3AccessGrantsConfiguration,
+      if (resultConfiguration != null)
+        'ResultConfiguration': resultConfiguration,
+      if (resultReuseConfiguration != null)
+        'ResultReuseConfiguration': resultReuseConfiguration,
+      if (statementType != null) 'StatementType': statementType.value,
+      if (statistics != null) 'Statistics': statistics,
+      if (status != null) 'Status': status,
+      if (substatementType != null) 'SubstatementType': substatementType,
+      if (workGroup != null) 'WorkGroup': workGroup,
     };
   }
 }
@@ -7858,266 +8970,767 @@ class StatementType {
   String toString() => value;
 }
 
-class StopCalculationExecutionResponse {
-  /// <code>CREATING</code> - The calculation is in the process of being created.
-  ///
-  /// <code>CREATED</code> - The calculation has been created and is ready to run.
-  ///
-  /// <code>QUEUED</code> - The calculation has been queued for processing.
-  ///
-  /// <code>RUNNING</code> - The calculation is running.
-  ///
-  /// <code>CANCELING</code> - A request to cancel the calculation has been
-  /// received and the system is working to stop it.
-  ///
-  /// <code>CANCELED</code> - The calculation is no longer running as the result
-  /// of a cancel request.
-  ///
-  /// <code>COMPLETED</code> - The calculation has completed without error.
-  ///
-  /// <code>FAILED</code> - The calculation failed and is no longer running.
-  final CalculationExecutionState? state;
+/// The completion date, current state, submission time, and state change reason
+/// (if applicable) for the query execution.
+class QueryExecutionStatus {
+  /// Provides information about an Athena query error.
+  final AthenaError? athenaError;
 
-  StopCalculationExecutionResponse({
+  /// The date and time that the query completed.
+  final DateTime? completionDateTime;
+
+  /// The state of query execution. <code>QUEUED</code> indicates that the query
+  /// has been submitted to the service, and Athena will execute the query as soon
+  /// as resources are available. <code>RUNNING</code> indicates that the query is
+  /// in execution phase. <code>SUCCEEDED</code> indicates that the query
+  /// completed without errors. <code>FAILED</code> indicates that the query
+  /// experienced an error and did not complete processing. <code>CANCELLED</code>
+  /// indicates that a user input interrupted query execution.
+  /// <note>
+  /// For queries that experience certain transient errors, the state transitions
+  /// from <code>RUNNING</code> back to <code>QUEUED</code>. The
+  /// <code>FAILED</code> state is always terminal with no automatic retry.
+  /// </note>
+  final QueryExecutionState? state;
+
+  /// Further detail about the status of the query.
+  final String? stateChangeReason;
+
+  /// The date and time that the query was submitted.
+  final DateTime? submissionDateTime;
+
+  QueryExecutionStatus({
+    this.athenaError,
+    this.completionDateTime,
     this.state,
+    this.stateChangeReason,
+    this.submissionDateTime,
   });
 
-  factory StopCalculationExecutionResponse.fromJson(Map<String, dynamic> json) {
-    return StopCalculationExecutionResponse(
-      state:
-          (json['State'] as String?)?.let(CalculationExecutionState.fromString),
+  factory QueryExecutionStatus.fromJson(Map<String, dynamic> json) {
+    return QueryExecutionStatus(
+      athenaError: json['AthenaError'] != null
+          ? AthenaError.fromJson(json['AthenaError'] as Map<String, dynamic>)
+          : null,
+      completionDateTime: timeStampFromJson(json['CompletionDateTime']),
+      state: (json['State'] as String?)?.let(QueryExecutionState.fromString),
+      stateChangeReason: json['StateChangeReason'] as String?,
+      submissionDateTime: timeStampFromJson(json['SubmissionDateTime']),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final athenaError = this.athenaError;
+    final completionDateTime = this.completionDateTime;
     final state = this.state;
+    final stateChangeReason = this.stateChangeReason;
+    final submissionDateTime = this.submissionDateTime;
     return {
+      if (athenaError != null) 'AthenaError': athenaError,
+      if (completionDateTime != null)
+        'CompletionDateTime': unixTimestampToJson(completionDateTime),
       if (state != null) 'State': state.value,
+      if (stateChangeReason != null) 'StateChangeReason': stateChangeReason,
+      if (submissionDateTime != null)
+        'SubmissionDateTime': unixTimestampToJson(submissionDateTime),
     };
   }
 }
 
-class StopQueryExecutionOutput {
-  StopQueryExecutionOutput();
+/// The amount of data scanned during the query execution and the amount of time
+/// that it took to execute, and the type of statement that was run.
+class QueryExecutionStatistics {
+  /// The location and file name of a data manifest file. The manifest file is
+  /// saved to the Athena query results location in Amazon S3. The manifest file
+  /// tracks files that the query wrote to Amazon S3. If the query fails, the
+  /// manifest file also tracks files that the query intended to write. The
+  /// manifest is useful for identifying orphaned files resulting from a failed
+  /// query. For more information, see <a
+  /// href="https://docs.aws.amazon.com/athena/latest/ug/querying.html">Working
+  /// with Query Results, Output Files, and Query History</a> in the <i>Amazon
+  /// Athena User Guide</i>.
+  final String? dataManifestLocation;
 
-  factory StopQueryExecutionOutput.fromJson(Map<String, dynamic> _) {
-    return StopQueryExecutionOutput();
+  /// The number of bytes in the data that was queried.
+  final int? dataScannedInBytes;
+
+  /// The number of Data Processing Units (DPUs) that Athena used to run the
+  /// query.
+  final double? dpuCount;
+
+  /// The number of milliseconds that the query took to execute.
+  final int? engineExecutionTimeInMillis;
+
+  /// The number of milliseconds that Athena took to plan the query processing
+  /// flow. This includes the time spent retrieving table partitions from the data
+  /// source. Note that because the query engine performs the query planning,
+  /// query planning time is a subset of engine processing time.
+  final int? queryPlanningTimeInMillis;
+
+  /// The number of milliseconds that the query was in your query queue waiting
+  /// for resources. Note that if transient errors occur, Athena might
+  /// automatically add the query back to the queue.
+  final int? queryQueueTimeInMillis;
+
+  /// Contains information about whether previous query results were reused for
+  /// the query.
+  final ResultReuseInformation? resultReuseInformation;
+
+  /// The number of milliseconds that Athena took to preprocess the query before
+  /// submitting the query to the query engine.
+  final int? servicePreProcessingTimeInMillis;
+
+  /// The number of milliseconds that Athena took to finalize and publish the
+  /// query results after the query engine finished running the query.
+  final int? serviceProcessingTimeInMillis;
+
+  /// The number of milliseconds that Athena took to run the query.
+  final int? totalExecutionTimeInMillis;
+
+  QueryExecutionStatistics({
+    this.dataManifestLocation,
+    this.dataScannedInBytes,
+    this.dpuCount,
+    this.engineExecutionTimeInMillis,
+    this.queryPlanningTimeInMillis,
+    this.queryQueueTimeInMillis,
+    this.resultReuseInformation,
+    this.servicePreProcessingTimeInMillis,
+    this.serviceProcessingTimeInMillis,
+    this.totalExecutionTimeInMillis,
+  });
+
+  factory QueryExecutionStatistics.fromJson(Map<String, dynamic> json) {
+    return QueryExecutionStatistics(
+      dataManifestLocation: json['DataManifestLocation'] as String?,
+      dataScannedInBytes: json['DataScannedInBytes'] as int?,
+      dpuCount: json['DpuCount'] as double?,
+      engineExecutionTimeInMillis: json['EngineExecutionTimeInMillis'] as int?,
+      queryPlanningTimeInMillis: json['QueryPlanningTimeInMillis'] as int?,
+      queryQueueTimeInMillis: json['QueryQueueTimeInMillis'] as int?,
+      resultReuseInformation: json['ResultReuseInformation'] != null
+          ? ResultReuseInformation.fromJson(
+              json['ResultReuseInformation'] as Map<String, dynamic>)
+          : null,
+      servicePreProcessingTimeInMillis:
+          json['ServicePreProcessingTimeInMillis'] as int?,
+      serviceProcessingTimeInMillis:
+          json['ServiceProcessingTimeInMillis'] as int?,
+      totalExecutionTimeInMillis: json['TotalExecutionTimeInMillis'] as int?,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final dataManifestLocation = this.dataManifestLocation;
+    final dataScannedInBytes = this.dataScannedInBytes;
+    final dpuCount = this.dpuCount;
+    final engineExecutionTimeInMillis = this.engineExecutionTimeInMillis;
+    final queryPlanningTimeInMillis = this.queryPlanningTimeInMillis;
+    final queryQueueTimeInMillis = this.queryQueueTimeInMillis;
+    final resultReuseInformation = this.resultReuseInformation;
+    final servicePreProcessingTimeInMillis =
+        this.servicePreProcessingTimeInMillis;
+    final serviceProcessingTimeInMillis = this.serviceProcessingTimeInMillis;
+    final totalExecutionTimeInMillis = this.totalExecutionTimeInMillis;
+    return {
+      if (dataManifestLocation != null)
+        'DataManifestLocation': dataManifestLocation,
+      if (dataScannedInBytes != null) 'DataScannedInBytes': dataScannedInBytes,
+      if (dpuCount != null) 'DpuCount': dpuCount,
+      if (engineExecutionTimeInMillis != null)
+        'EngineExecutionTimeInMillis': engineExecutionTimeInMillis,
+      if (queryPlanningTimeInMillis != null)
+        'QueryPlanningTimeInMillis': queryPlanningTimeInMillis,
+      if (queryQueueTimeInMillis != null)
+        'QueryQueueTimeInMillis': queryQueueTimeInMillis,
+      if (resultReuseInformation != null)
+        'ResultReuseInformation': resultReuseInformation,
+      if (servicePreProcessingTimeInMillis != null)
+        'ServicePreProcessingTimeInMillis': servicePreProcessingTimeInMillis,
+      if (serviceProcessingTimeInMillis != null)
+        'ServiceProcessingTimeInMillis': serviceProcessingTimeInMillis,
+      if (totalExecutionTimeInMillis != null)
+        'TotalExecutionTimeInMillis': totalExecutionTimeInMillis,
+    };
   }
 }
 
-/// Contains metadata for a table.
-class TableMetadata {
-  /// The name of the table.
-  final String name;
+/// Contains information about whether the result of a previous query was
+/// reused.
+class ResultReuseInformation {
+  /// True if a previous query result was reused; false if the result was
+  /// generated from a new run of the query.
+  final bool reusedPreviousResult;
 
-  /// A list of the columns in the table.
-  final List<Column>? columns;
-
-  /// The time that the table was created.
-  final DateTime? createTime;
-
-  /// The last time the table was accessed.
-  final DateTime? lastAccessTime;
-
-  /// A set of custom key/value pairs for table properties.
-  final Map<String, String>? parameters;
-
-  /// A list of the partition keys in the table.
-  final List<Column>? partitionKeys;
-
-  /// The type of table. In Athena, only <code>EXTERNAL_TABLE</code> is supported.
-  final String? tableType;
-
-  TableMetadata({
-    required this.name,
-    this.columns,
-    this.createTime,
-    this.lastAccessTime,
-    this.parameters,
-    this.partitionKeys,
-    this.tableType,
+  ResultReuseInformation({
+    required this.reusedPreviousResult,
   });
 
-  factory TableMetadata.fromJson(Map<String, dynamic> json) {
-    return TableMetadata(
+  factory ResultReuseInformation.fromJson(Map<String, dynamic> json) {
+    return ResultReuseInformation(
+      reusedPreviousResult: (json['ReusedPreviousResult'] as bool?) ?? false,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reusedPreviousResult = this.reusedPreviousResult;
+    return {
+      'ReusedPreviousResult': reusedPreviousResult,
+    };
+  }
+}
+
+class QueryExecutionState {
+  static const queued = QueryExecutionState._('QUEUED');
+  static const running = QueryExecutionState._('RUNNING');
+  static const succeeded = QueryExecutionState._('SUCCEEDED');
+  static const failed = QueryExecutionState._('FAILED');
+  static const cancelled = QueryExecutionState._('CANCELLED');
+
+  final String value;
+
+  const QueryExecutionState._(this.value);
+
+  static const values = [queued, running, succeeded, failed, cancelled];
+
+  static QueryExecutionState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => QueryExecutionState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is QueryExecutionState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides information about an Athena query error. The
+/// <code>AthenaError</code> feature provides standardized error information to
+/// help you understand failed queries and take steps after a query failure
+/// occurs. <code>AthenaError</code> includes an <code>ErrorCategory</code>
+/// field that specifies whether the cause of the failed query is due to system
+/// error, user error, or other error.
+class AthenaError {
+  /// An integer value that specifies the category of a query failure error. The
+  /// following list shows the category for each integer value.
+  ///
+  /// <b>1</b> - System
+  ///
+  /// <b>2</b> - User
+  ///
+  /// <b>3</b> - Other
+  final int? errorCategory;
+
+  /// Contains a short description of the error that occurred.
+  final String? errorMessage;
+
+  /// An integer value that provides specific information about an Athena query
+  /// error. For the meaning of specific values, see the <a
+  /// href="https://docs.aws.amazon.com/athena/latest/ug/error-reference.html#error-reference-error-type-reference">Error
+  /// Type Reference</a> in the <i>Amazon Athena User Guide</i>.
+  final int? errorType;
+
+  /// True if the query might succeed if resubmitted.
+  final bool? retryable;
+
+  AthenaError({
+    this.errorCategory,
+    this.errorMessage,
+    this.errorType,
+    this.retryable,
+  });
+
+  factory AthenaError.fromJson(Map<String, dynamic> json) {
+    return AthenaError(
+      errorCategory: json['ErrorCategory'] as int?,
+      errorMessage: json['ErrorMessage'] as String?,
+      errorType: json['ErrorType'] as int?,
+      retryable: json['Retryable'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCategory = this.errorCategory;
+    final errorMessage = this.errorMessage;
+    final errorType = this.errorType;
+    final retryable = this.retryable;
+    return {
+      if (errorCategory != null) 'ErrorCategory': errorCategory,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (errorType != null) 'ErrorType': errorType,
+      if (retryable != null) 'Retryable': retryable,
+    };
+  }
+}
+
+/// A prepared SQL statement for use with Athena.
+class PreparedStatement {
+  /// The description of the prepared statement.
+  final String? description;
+
+  /// The last modified time of the prepared statement.
+  final DateTime? lastModifiedTime;
+
+  /// The query string for the prepared statement.
+  final String? queryStatement;
+
+  /// The name of the prepared statement.
+  final String? statementName;
+
+  /// The name of the workgroup to which the prepared statement belongs.
+  final String? workGroupName;
+
+  PreparedStatement({
+    this.description,
+    this.lastModifiedTime,
+    this.queryStatement,
+    this.statementName,
+    this.workGroupName,
+  });
+
+  factory PreparedStatement.fromJson(Map<String, dynamic> json) {
+    return PreparedStatement(
+      description: json['Description'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      queryStatement: json['QueryStatement'] as String?,
+      statementName: json['StatementName'] as String?,
+      workGroupName: json['WorkGroupName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final lastModifiedTime = this.lastModifiedTime;
+    final queryStatement = this.queryStatement;
+    final statementName = this.statementName;
+    final workGroupName = this.workGroupName;
+    return {
+      if (description != null) 'Description': description,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (queryStatement != null) 'QueryStatement': queryStatement,
+      if (statementName != null) 'StatementName': statementName,
+      if (workGroupName != null) 'WorkGroupName': workGroupName,
+    };
+  }
+}
+
+/// A query, where <code>QueryString</code> contains the SQL statements that
+/// make up the query.
+class NamedQuery {
+  /// The database to which the query belongs.
+  final String database;
+
+  /// The query name.
+  final String name;
+
+  /// The SQL statements that make up the query.
+  final String queryString;
+
+  /// The query description.
+  final String? description;
+
+  /// The unique identifier of the query.
+  final String? namedQueryId;
+
+  /// The name of the workgroup that contains the named query.
+  final String? workGroup;
+
+  NamedQuery({
+    required this.database,
+    required this.name,
+    required this.queryString,
+    this.description,
+    this.namedQueryId,
+    this.workGroup,
+  });
+
+  factory NamedQuery.fromJson(Map<String, dynamic> json) {
+    return NamedQuery(
+      database: (json['Database'] as String?) ?? '',
       name: (json['Name'] as String?) ?? '',
-      columns: (json['Columns'] as List?)
-          ?.nonNulls
-          .map((e) => Column.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      createTime: timeStampFromJson(json['CreateTime']),
-      lastAccessTime: timeStampFromJson(json['LastAccessTime']),
+      queryString: (json['QueryString'] as String?) ?? '',
+      description: json['Description'] as String?,
+      namedQueryId: json['NamedQueryId'] as String?,
+      workGroup: json['WorkGroup'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final database = this.database;
+    final name = this.name;
+    final queryString = this.queryString;
+    final description = this.description;
+    final namedQueryId = this.namedQueryId;
+    final workGroup = this.workGroup;
+    return {
+      'Database': database,
+      'Name': name,
+      'QueryString': queryString,
+      if (description != null) 'Description': description,
+      if (namedQueryId != null) 'NamedQueryId': namedQueryId,
+      if (workGroup != null) 'WorkGroup': workGroup,
+    };
+  }
+}
+
+/// Contains information about a data catalog in an Amazon Web Services account.
+/// <note>
+/// In the Athena console, data catalogs are listed as "data sources" on the
+/// <b>Data sources</b> page under the <b>Data source name</b> column.
+/// </note>
+class DataCatalog {
+  /// The name of the data catalog. The catalog name must be unique for the Amazon
+  /// Web Services account and can use a maximum of 127 alphanumeric, underscore,
+  /// at sign, or hyphen characters. The remainder of the length constraint of 256
+  /// is reserved for use by Athena.
+  final String name;
+
+  /// The type of data catalog to create: <code>LAMBDA</code> for a federated
+  /// catalog, <code>GLUE</code> for an Glue Data Catalog, and <code>HIVE</code>
+  /// for an external Apache Hive metastore. <code>FEDERATED</code> is a federated
+  /// catalog for which Athena creates the connection and the Lambda function for
+  /// you based on the parameters that you pass.
+  final DataCatalogType type;
+
+  /// The type of connection for a <code>FEDERATED</code> data catalog (for
+  /// example, <code>REDSHIFT</code>, <code>MYSQL</code>, or
+  /// <code>SQLSERVER</code>). For information about individual connectors, see <a
+  /// href="https://docs.aws.amazon.com/athena/latest/ug/connectors-available.html">Available
+  /// data source connectors</a>.
+  final ConnectionType? connectionType;
+
+  /// An optional description of the data catalog.
+  final String? description;
+
+  /// Text of the error that occurred during data catalog creation or deletion.
+  final String? error;
+
+  /// Specifies the Lambda function or functions to use for the data catalog. This
+  /// is a mapping whose values depend on the catalog type.
+  ///
+  /// <ul>
+  /// <li>
+  /// For the <code>HIVE</code> data catalog type, use the following syntax. The
+  /// <code>metadata-function</code> parameter is required. <code>The
+  /// sdk-version</code> parameter is optional and defaults to the currently
+  /// supported version.
+  ///
+  /// <code>metadata-function=<i>lambda_arn</i>, sdk-version=<i>version_number</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// For the <code>LAMBDA</code> data catalog type, use one of the following sets
+  /// of required parameters, but not both.
+  ///
+  /// <ul>
+  /// <li>
+  /// If you have one Lambda function that processes metadata and another for
+  /// reading the actual data, use the following syntax. Both parameters are
+  /// required.
+  ///
+  /// <code>metadata-function=<i>lambda_arn</i>, record-function=<i>lambda_arn</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// If you have a composite Lambda function that processes both metadata and
+  /// data, use the following syntax to specify your Lambda function.
+  ///
+  /// <code>function=<i>lambda_arn</i> </code>
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// The <code>GLUE</code> type takes a catalog ID parameter and is required. The
+  /// <code> <i>catalog_id</i> </code> is the account ID of the Amazon Web
+  /// Services account to which the Glue catalog belongs.
+  ///
+  /// <code>catalog-id=<i>catalog_id</i> </code>
+  ///
+  /// <ul>
+  /// <li>
+  /// The <code>GLUE</code> data catalog type also applies to the default
+  /// <code>AwsDataCatalog</code> that already exists in your account, of which
+  /// you can have only one and cannot modify.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// The <code>FEDERATED</code> data catalog type uses one of the following
+  /// parameters, but not both. Use <code>connection-arn</code> for an existing
+  /// Glue connection. Use <code>connection-type</code> and
+  /// <code>connection-properties</code> to specify the configuration setting for
+  /// a new connection.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>connection-arn:<i><glue_connection_arn_to_reuse></i> </code>
+  /// </li>
+  /// <li>
+  /// <code>connection-type:MYSQL|REDSHIFT|....,
+  /// connection-properties:"<i><json_string></i>"</code>
+  ///
+  /// For <i> <code><json_string></code> </i>, use escaped JSON text, as in the
+  /// following example.
+  ///
+  /// <code>"{\"spill_bucket\":\"my_spill\",\"spill_prefix\":\"athena-spill\",\"host\":\"abc12345.snowflakecomputing.com\",\"port\":\"1234\",\"warehouse\":\"DEV_WH\",\"database\":\"TEST\",\"schema\":\"PUBLIC\",\"SecretArn\":\"arn:aws:secretsmanager:ap-south-1:111122223333:secret:snowflake-XHb67j\"}"</code>
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
+  final Map<String, String>? parameters;
+
+  /// The status of the creation or deletion of the data catalog.
+  ///
+  /// <ul>
+  /// <li>
+  /// The <code>LAMBDA</code>, <code>GLUE</code>, and <code>HIVE</code> data
+  /// catalog types are created synchronously. Their status is either
+  /// <code>CREATE_COMPLETE</code> or <code>CREATE_FAILED</code>.
+  /// </li>
+  /// <li>
+  /// The <code>FEDERATED</code> data catalog type is created asynchronously.
+  /// </li>
+  /// </ul>
+  /// Data catalog creation status:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATE_IN_PROGRESS</code>: Federated data catalog creation in
+  /// progress.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_COMPLETE</code>: Data catalog creation complete.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_FAILED</code>: Data catalog could not be created.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_FAILED_CLEANUP_IN_PROGRESS</code>: Federated data catalog
+  /// creation failed and is being removed.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_FAILED_CLEANUP_COMPLETE</code>: Federated data catalog creation
+  /// failed and was removed.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_FAILED_CLEANUP_FAILED</code>: Federated data catalog creation
+  /// failed but could not be removed.
+  /// </li>
+  /// </ul>
+  /// Data catalog deletion status:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>DELETE_IN_PROGRESS</code>: Federated data catalog deletion in
+  /// progress.
+  /// </li>
+  /// <li>
+  /// <code>DELETE_COMPLETE</code>: Federated data catalog deleted.
+  /// </li>
+  /// <li>
+  /// <code>DELETE_FAILED</code>: Federated data catalog could not be deleted.
+  /// </li>
+  /// </ul>
+  final DataCatalogStatus? status;
+
+  DataCatalog({
+    required this.name,
+    required this.type,
+    this.connectionType,
+    this.description,
+    this.error,
+    this.parameters,
+    this.status,
+  });
+
+  factory DataCatalog.fromJson(Map<String, dynamic> json) {
+    return DataCatalog(
+      name: (json['Name'] as String?) ?? '',
+      type: DataCatalogType.fromString((json['Type'] as String?) ?? ''),
+      connectionType:
+          (json['ConnectionType'] as String?)?.let(ConnectionType.fromString),
+      description: json['Description'] as String?,
+      error: json['Error'] as String?,
       parameters: (json['Parameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
-      partitionKeys: (json['PartitionKeys'] as List?)
-          ?.nonNulls
-          .map((e) => Column.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      tableType: json['TableType'] as String?,
+      status: (json['Status'] as String?)?.let(DataCatalogStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final name = this.name;
-    final columns = this.columns;
-    final createTime = this.createTime;
-    final lastAccessTime = this.lastAccessTime;
+    final type = this.type;
+    final connectionType = this.connectionType;
+    final description = this.description;
+    final error = this.error;
     final parameters = this.parameters;
-    final partitionKeys = this.partitionKeys;
-    final tableType = this.tableType;
+    final status = this.status;
     return {
       'Name': name,
-      if (columns != null) 'Columns': columns,
-      if (createTime != null) 'CreateTime': unixTimestampToJson(createTime),
-      if (lastAccessTime != null)
-        'LastAccessTime': unixTimestampToJson(lastAccessTime),
+      'Type': type.value,
+      if (connectionType != null) 'ConnectionType': connectionType.value,
+      if (description != null) 'Description': description,
+      if (error != null) 'Error': error,
       if (parameters != null) 'Parameters': parameters,
-      if (partitionKeys != null) 'PartitionKeys': partitionKeys,
-      if (tableType != null) 'TableType': tableType,
+      if (status != null) 'Status': status.value,
     };
   }
 }
 
-/// A label that you assign to a resource. Athena resources include workgroups,
-/// data catalogs, and capacity reservations. Each tag consists of a key and an
-/// optional value, both of which you define. For example, you can use tags to
-/// categorize Athena resources by purpose, owner, or environment. Use a
-/// consistent set of tag keys to make it easier to search and filter the
-/// resources in your account. For best practices, see <a
-/// href="https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html">Tagging
-/// Best Practices</a>. Tag keys can be from 1 to 128 UTF-8 Unicode characters,
-/// and tag values can be from 0 to 256 UTF-8 Unicode characters. Tags can use
-/// letters and numbers representable in UTF-8, and the following characters: +
-/// - = . _ : / @. Tag keys and values are case-sensitive. Tag keys must be
-/// unique per resource. If you specify more than one tag, separate them by
-/// commas.
-class Tag {
-  /// A tag key. The tag key length is from 1 to 128 Unicode characters in UTF-8.
-  /// You can use letters and numbers representable in UTF-8, and the following
-  /// characters: + - = . _ : / @. Tag keys are case-sensitive and must be unique
-  /// per resource.
-  final String? key;
+/// Assigns Athena workgroups (and hence their queries) to capacity
+/// reservations. A capacity reservation can have only one capacity assignment
+/// configuration, but the capacity assignment configuration can be made up of
+/// multiple individual assignments. Each assignment specifies how Athena
+/// queries can consume capacity from the capacity reservation that their
+/// workgroup is mapped to.
+class CapacityAssignmentConfiguration {
+  /// The list of assignments that make up the capacity assignment configuration.
+  final List<CapacityAssignment>? capacityAssignments;
 
-  /// A tag value. The tag value length is from 0 to 256 Unicode characters in
-  /// UTF-8. You can use letters and numbers representable in UTF-8, and the
-  /// following characters: + - = . _ : / @. Tag values are case-sensitive.
-  final String? value;
+  /// The name of the reservation that the capacity assignment configuration is
+  /// for.
+  final String? capacityReservationName;
 
-  Tag({
-    this.key,
-    this.value,
+  CapacityAssignmentConfiguration({
+    this.capacityAssignments,
+    this.capacityReservationName,
   });
 
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: json['Key'] as String?,
-      value: json['Value'] as String?,
+  factory CapacityAssignmentConfiguration.fromJson(Map<String, dynamic> json) {
+    return CapacityAssignmentConfiguration(
+      capacityAssignments: (json['CapacityAssignments'] as List?)
+          ?.nonNulls
+          .map((e) => CapacityAssignment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      capacityReservationName: json['CapacityReservationName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
+    final capacityAssignments = this.capacityAssignments;
+    final capacityReservationName = this.capacityReservationName;
     return {
-      if (key != null) 'Key': key,
-      if (value != null) 'Value': value,
+      if (capacityAssignments != null)
+        'CapacityAssignments': capacityAssignments,
+      if (capacityReservationName != null)
+        'CapacityReservationName': capacityReservationName,
     };
   }
 }
 
-class TagResourceOutput {
-  TagResourceOutput();
+/// Contains statistics for a notebook calculation.
+class CalculationStatistics {
+  /// The data processing unit execution time in milliseconds for the calculation.
+  final int? dpuExecutionInMillis;
 
-  factory TagResourceOutput.fromJson(Map<String, dynamic> _) {
-    return TagResourceOutput();
-  }
+  /// The progress of the calculation.
+  final String? progress;
 
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class TerminateSessionResponse {
-  /// The state of the session. A description of each state follows.
-  ///
-  /// <code>CREATING</code> - The session is being started, including acquiring
-  /// resources.
-  ///
-  /// <code>CREATED</code> - The session has been started.
-  ///
-  /// <code>IDLE</code> - The session is able to accept a calculation.
-  ///
-  /// <code>BUSY</code> - The session is processing another task and is unable to
-  /// accept a calculation.
-  ///
-  /// <code>TERMINATING</code> - The session is in the process of shutting down.
-  ///
-  /// <code>TERMINATED</code> - The session and its resources are no longer
-  /// running.
-  ///
-  /// <code>DEGRADED</code> - The session has no healthy coordinators.
-  ///
-  /// <code>FAILED</code> - Due to a failure, the session and its resources are no
-  /// longer running.
-  final SessionState? state;
-
-  TerminateSessionResponse({
-    this.state,
+  CalculationStatistics({
+    this.dpuExecutionInMillis,
+    this.progress,
   });
 
-  factory TerminateSessionResponse.fromJson(Map<String, dynamic> json) {
-    return TerminateSessionResponse(
-      state: (json['State'] as String?)?.let(SessionState.fromString),
+  factory CalculationStatistics.fromJson(Map<String, dynamic> json) {
+    return CalculationStatistics(
+      dpuExecutionInMillis: json['DpuExecutionInMillis'] as int?,
+      progress: json['Progress'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final state = this.state;
+    final dpuExecutionInMillis = this.dpuExecutionInMillis;
+    final progress = this.progress;
     return {
-      if (state != null) 'State': state.value,
+      if (dpuExecutionInMillis != null)
+        'DpuExecutionInMillis': dpuExecutionInMillis,
+      if (progress != null) 'Progress': progress,
     };
   }
 }
 
-/// Information about a named query ID that could not be processed.
-class UnprocessedNamedQueryId {
-  /// The error code returned when the processing request for the named query
-  /// failed, if applicable.
+/// Contains information about an application-specific calculation result.
+class CalculationResult {
+  /// The Amazon S3 location of the folder for the calculation results.
+  final String? resultS3Uri;
+
+  /// The data format of the calculation result.
+  final String? resultType;
+
+  /// The Amazon S3 location of the <code>stderr</code> error messages file for
+  /// the calculation.
+  final String? stdErrorS3Uri;
+
+  /// The Amazon S3 location of the <code>stdout</code> file for the calculation.
+  final String? stdOutS3Uri;
+
+  CalculationResult({
+    this.resultS3Uri,
+    this.resultType,
+    this.stdErrorS3Uri,
+    this.stdOutS3Uri,
+  });
+
+  factory CalculationResult.fromJson(Map<String, dynamic> json) {
+    return CalculationResult(
+      resultS3Uri: json['ResultS3Uri'] as String?,
+      resultType: json['ResultType'] as String?,
+      stdErrorS3Uri: json['StdErrorS3Uri'] as String?,
+      stdOutS3Uri: json['StdOutS3Uri'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resultS3Uri = this.resultS3Uri;
+    final resultType = this.resultType;
+    final stdErrorS3Uri = this.stdErrorS3Uri;
+    final stdOutS3Uri = this.stdOutS3Uri;
+    return {
+      if (resultS3Uri != null) 'ResultS3Uri': resultS3Uri,
+      if (resultType != null) 'ResultType': resultType,
+      if (stdErrorS3Uri != null) 'StdErrorS3Uri': stdErrorS3Uri,
+      if (stdOutS3Uri != null) 'StdOutS3Uri': stdOutS3Uri,
+    };
+  }
+}
+
+/// Describes a query execution that failed to process.
+class UnprocessedQueryExecutionId {
+  /// The error code returned when the query execution failed to process, if
+  /// applicable.
   final String? errorCode;
 
-  /// The error message returned when the processing request for the named query
-  /// failed, if applicable.
+  /// The error message returned when the query execution failed to process, if
+  /// applicable.
   final String? errorMessage;
 
-  /// The unique identifier of the named query.
-  final String? namedQueryId;
+  /// The unique identifier of the query execution.
+  final String? queryExecutionId;
 
-  UnprocessedNamedQueryId({
+  UnprocessedQueryExecutionId({
     this.errorCode,
     this.errorMessage,
-    this.namedQueryId,
+    this.queryExecutionId,
   });
 
-  factory UnprocessedNamedQueryId.fromJson(Map<String, dynamic> json) {
-    return UnprocessedNamedQueryId(
+  factory UnprocessedQueryExecutionId.fromJson(Map<String, dynamic> json) {
+    return UnprocessedQueryExecutionId(
       errorCode: json['ErrorCode'] as String?,
       errorMessage: json['ErrorMessage'] as String?,
-      namedQueryId: json['NamedQueryId'] as String?,
+      queryExecutionId: json['QueryExecutionId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final errorCode = this.errorCode;
     final errorMessage = this.errorMessage;
-    final namedQueryId = this.namedQueryId;
+    final queryExecutionId = this.queryExecutionId;
     return {
       if (errorCode != null) 'ErrorCode': errorCode,
       if (errorMessage != null) 'ErrorMessage': errorMessage,
-      if (namedQueryId != null) 'NamedQueryId': namedQueryId,
+      if (queryExecutionId != null) 'QueryExecutionId': queryExecutionId,
     };
   }
 }
@@ -8175,643 +9788,41 @@ class UnprocessedPreparedStatementName {
   }
 }
 
-/// Describes a query execution that failed to process.
-class UnprocessedQueryExecutionId {
-  /// The error code returned when the query execution failed to process, if
-  /// applicable.
+/// Information about a named query ID that could not be processed.
+class UnprocessedNamedQueryId {
+  /// The error code returned when the processing request for the named query
+  /// failed, if applicable.
   final String? errorCode;
 
-  /// The error message returned when the query execution failed to process, if
-  /// applicable.
+  /// The error message returned when the processing request for the named query
+  /// failed, if applicable.
   final String? errorMessage;
 
-  /// The unique identifier of the query execution.
-  final String? queryExecutionId;
+  /// The unique identifier of the named query.
+  final String? namedQueryId;
 
-  UnprocessedQueryExecutionId({
+  UnprocessedNamedQueryId({
     this.errorCode,
     this.errorMessage,
-    this.queryExecutionId,
+    this.namedQueryId,
   });
 
-  factory UnprocessedQueryExecutionId.fromJson(Map<String, dynamic> json) {
-    return UnprocessedQueryExecutionId(
+  factory UnprocessedNamedQueryId.fromJson(Map<String, dynamic> json) {
+    return UnprocessedNamedQueryId(
       errorCode: json['ErrorCode'] as String?,
       errorMessage: json['ErrorMessage'] as String?,
-      queryExecutionId: json['QueryExecutionId'] as String?,
+      namedQueryId: json['NamedQueryId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final errorCode = this.errorCode;
     final errorMessage = this.errorMessage;
-    final queryExecutionId = this.queryExecutionId;
+    final namedQueryId = this.namedQueryId;
     return {
       if (errorCode != null) 'ErrorCode': errorCode,
       if (errorMessage != null) 'ErrorMessage': errorMessage,
-      if (queryExecutionId != null) 'QueryExecutionId': queryExecutionId,
-    };
-  }
-}
-
-class UntagResourceOutput {
-  UntagResourceOutput();
-
-  factory UntagResourceOutput.fromJson(Map<String, dynamic> _) {
-    return UntagResourceOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateCapacityReservationOutput {
-  UpdateCapacityReservationOutput();
-
-  factory UpdateCapacityReservationOutput.fromJson(Map<String, dynamic> _) {
-    return UpdateCapacityReservationOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateDataCatalogOutput {
-  UpdateDataCatalogOutput();
-
-  factory UpdateDataCatalogOutput.fromJson(Map<String, dynamic> _) {
-    return UpdateDataCatalogOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateNamedQueryOutput {
-  UpdateNamedQueryOutput();
-
-  factory UpdateNamedQueryOutput.fromJson(Map<String, dynamic> _) {
-    return UpdateNamedQueryOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateNotebookMetadataOutput {
-  UpdateNotebookMetadataOutput();
-
-  factory UpdateNotebookMetadataOutput.fromJson(Map<String, dynamic> _) {
-    return UpdateNotebookMetadataOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateNotebookOutput {
-  UpdateNotebookOutput();
-
-  factory UpdateNotebookOutput.fromJson(Map<String, dynamic> _) {
-    return UpdateNotebookOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdatePreparedStatementOutput {
-  UpdatePreparedStatementOutput();
-
-  factory UpdatePreparedStatementOutput.fromJson(Map<String, dynamic> _) {
-    return UpdatePreparedStatementOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateWorkGroupOutput {
-  UpdateWorkGroupOutput();
-
-  factory UpdateWorkGroupOutput.fromJson(Map<String, dynamic> _) {
-    return UpdateWorkGroupOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// A workgroup, which contains a name, description, creation time, state, and
-/// other configuration, listed under <a>WorkGroup$Configuration</a>. Each
-/// workgroup enables you to isolate queries for you or your group of users from
-/// other queries in the same account, to configure the query results location
-/// and the encryption configuration (known as workgroup settings), to enable
-/// sending query metrics to Amazon CloudWatch, and to establish per-query data
-/// usage control limits for all queries in a workgroup. The workgroup settings
-/// override is specified in <code>EnforceWorkGroupConfiguration</code>
-/// (true/false) in the <code>WorkGroupConfiguration</code>. See
-/// <a>WorkGroupConfiguration$EnforceWorkGroupConfiguration</a>.
-class WorkGroup {
-  /// The workgroup name.
-  final String name;
-
-  /// The configuration of the workgroup, which includes the location in Amazon S3
-  /// where query and calculation results are stored, the encryption
-  /// configuration, if any, used for query and calculation results; whether the
-  /// Amazon CloudWatch Metrics are enabled for the workgroup; whether workgroup
-  /// settings override client-side settings; and the data usage limits for the
-  /// amount of data scanned per query or per workgroup. The workgroup settings
-  /// override is specified in <code>EnforceWorkGroupConfiguration</code>
-  /// (true/false) in the <code>WorkGroupConfiguration</code>. See
-  /// <a>WorkGroupConfiguration$EnforceWorkGroupConfiguration</a>.
-  final WorkGroupConfiguration? configuration;
-
-  /// The date and time the workgroup was created.
-  final DateTime? creationTime;
-
-  /// The workgroup description.
-  final String? description;
-
-  /// The ARN of the IAM Identity Center enabled application associated with the
-  /// workgroup.
-  final String? identityCenterApplicationArn;
-
-  /// The state of the workgroup: ENABLED or DISABLED.
-  final WorkGroupState? state;
-
-  WorkGroup({
-    required this.name,
-    this.configuration,
-    this.creationTime,
-    this.description,
-    this.identityCenterApplicationArn,
-    this.state,
-  });
-
-  factory WorkGroup.fromJson(Map<String, dynamic> json) {
-    return WorkGroup(
-      name: (json['Name'] as String?) ?? '',
-      configuration: json['Configuration'] != null
-          ? WorkGroupConfiguration.fromJson(
-              json['Configuration'] as Map<String, dynamic>)
-          : null,
-      creationTime: timeStampFromJson(json['CreationTime']),
-      description: json['Description'] as String?,
-      identityCenterApplicationArn:
-          json['IdentityCenterApplicationArn'] as String?,
-      state: (json['State'] as String?)?.let(WorkGroupState.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final configuration = this.configuration;
-    final creationTime = this.creationTime;
-    final description = this.description;
-    final identityCenterApplicationArn = this.identityCenterApplicationArn;
-    final state = this.state;
-    return {
-      'Name': name,
-      if (configuration != null) 'Configuration': configuration,
-      if (creationTime != null)
-        'CreationTime': unixTimestampToJson(creationTime),
-      if (description != null) 'Description': description,
-      if (identityCenterApplicationArn != null)
-        'IdentityCenterApplicationArn': identityCenterApplicationArn,
-      if (state != null) 'State': state.value,
-    };
-  }
-}
-
-/// The configuration of the workgroup, which includes the location in Amazon S3
-/// where query and calculation results are stored, the encryption option, if
-/// any, used for query and calculation results, whether the Amazon CloudWatch
-/// Metrics are enabled for the workgroup and whether workgroup settings
-/// override query settings, and the data usage limits for the amount of data
-/// scanned per query or per workgroup. The workgroup settings override is
-/// specified in <code>EnforceWorkGroupConfiguration</code> (true/false) in the
-/// <code>WorkGroupConfiguration</code>. See
-/// <a>WorkGroupConfiguration$EnforceWorkGroupConfiguration</a>.
-class WorkGroupConfiguration {
-  /// Specifies a user defined JSON string that is passed to the notebook engine.
-  final String? additionalConfiguration;
-
-  /// The upper data usage limit (cutoff) for the amount of bytes a single query
-  /// in a workgroup is allowed to scan.
-  final int? bytesScannedCutoffPerQuery;
-
-  /// Specifies the KMS key that is used to encrypt the user's data stores in
-  /// Athena. This setting does not apply to Athena SQL workgroups.
-  final CustomerContentEncryptionConfiguration?
-      customerContentEncryptionConfiguration;
-
-  /// Enforces a minimal level of encryption for the workgroup for query and
-  /// calculation results that are written to Amazon S3. When enabled, workgroup
-  /// users can set encryption only to the minimum level set by the administrator
-  /// or higher when they submit queries.
-  ///
-  /// The <code>EnforceWorkGroupConfiguration</code> setting takes precedence over
-  /// the <code>EnableMinimumEncryptionConfiguration</code> flag. This means that
-  /// if <code>EnforceWorkGroupConfiguration</code> is true, the
-  /// <code>EnableMinimumEncryptionConfiguration</code> flag is ignored, and the
-  /// workgroup configuration for encryption is used.
-  final bool? enableMinimumEncryptionConfiguration;
-
-  /// If set to "true", the settings for the workgroup override client-side
-  /// settings. If set to "false", client-side settings are used. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html">Workgroup
-  /// Settings Override Client-Side Settings</a>.
-  final bool? enforceWorkGroupConfiguration;
-
-  /// The engine version that all queries running on the workgroup use. Queries on
-  /// the <code>AmazonAthenaPreviewFunctionality</code> workgroup run on the
-  /// preview engine regardless of this setting.
-  final EngineVersion? engineVersion;
-
-  /// The ARN of the execution role used to access user resources for Spark
-  /// sessions and IAM Identity Center enabled workgroups. This property applies
-  /// only to Spark enabled workgroups and IAM Identity Center enabled workgroups.
-  /// The property is required for IAM Identity Center enabled workgroups.
-  final String? executionRole;
-
-  /// Specifies whether the workgroup is IAM Identity Center supported.
-  final IdentityCenterConfiguration? identityCenterConfiguration;
-
-  /// Indicates that the Amazon CloudWatch metrics are enabled for the workgroup.
-  final bool? publishCloudWatchMetricsEnabled;
-
-  /// Specifies whether Amazon S3 access grants are enabled for query results.
-  final QueryResultsS3AccessGrantsConfiguration?
-      queryResultsS3AccessGrantsConfiguration;
-
-  /// If set to <code>true</code>, allows members assigned to a workgroup to
-  /// reference Amazon S3 Requester Pays buckets in queries. If set to
-  /// <code>false</code>, workgroup members cannot query data from Requester Pays
-  /// buckets, and queries that retrieve data from Requester Pays buckets cause an
-  /// error. The default is <code>false</code>. For more information about
-  /// Requester Pays buckets, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/RequesterPaysBuckets.html">Requester
-  /// Pays Buckets</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
-  final bool? requesterPaysEnabled;
-
-  /// The configuration for the workgroup, which includes the location in Amazon
-  /// S3 where query and calculation results are stored and the encryption option,
-  /// if any, used for query and calculation results. To run the query, you must
-  /// specify the query results location using one of the ways: either in the
-  /// workgroup using this setting, or for individual queries (client-side), using
-  /// <a>ResultConfiguration$OutputLocation</a>. If none of them is set, Athena
-  /// issues an error that no output location is provided.
-  final ResultConfiguration? resultConfiguration;
-
-  WorkGroupConfiguration({
-    this.additionalConfiguration,
-    this.bytesScannedCutoffPerQuery,
-    this.customerContentEncryptionConfiguration,
-    this.enableMinimumEncryptionConfiguration,
-    this.enforceWorkGroupConfiguration,
-    this.engineVersion,
-    this.executionRole,
-    this.identityCenterConfiguration,
-    this.publishCloudWatchMetricsEnabled,
-    this.queryResultsS3AccessGrantsConfiguration,
-    this.requesterPaysEnabled,
-    this.resultConfiguration,
-  });
-
-  factory WorkGroupConfiguration.fromJson(Map<String, dynamic> json) {
-    return WorkGroupConfiguration(
-      additionalConfiguration: json['AdditionalConfiguration'] as String?,
-      bytesScannedCutoffPerQuery: json['BytesScannedCutoffPerQuery'] as int?,
-      customerContentEncryptionConfiguration:
-          json['CustomerContentEncryptionConfiguration'] != null
-              ? CustomerContentEncryptionConfiguration.fromJson(
-                  json['CustomerContentEncryptionConfiguration']
-                      as Map<String, dynamic>)
-              : null,
-      enableMinimumEncryptionConfiguration:
-          json['EnableMinimumEncryptionConfiguration'] as bool?,
-      enforceWorkGroupConfiguration:
-          json['EnforceWorkGroupConfiguration'] as bool?,
-      engineVersion: json['EngineVersion'] != null
-          ? EngineVersion.fromJson(
-              json['EngineVersion'] as Map<String, dynamic>)
-          : null,
-      executionRole: json['ExecutionRole'] as String?,
-      identityCenterConfiguration: json['IdentityCenterConfiguration'] != null
-          ? IdentityCenterConfiguration.fromJson(
-              json['IdentityCenterConfiguration'] as Map<String, dynamic>)
-          : null,
-      publishCloudWatchMetricsEnabled:
-          json['PublishCloudWatchMetricsEnabled'] as bool?,
-      queryResultsS3AccessGrantsConfiguration:
-          json['QueryResultsS3AccessGrantsConfiguration'] != null
-              ? QueryResultsS3AccessGrantsConfiguration.fromJson(
-                  json['QueryResultsS3AccessGrantsConfiguration']
-                      as Map<String, dynamic>)
-              : null,
-      requesterPaysEnabled: json['RequesterPaysEnabled'] as bool?,
-      resultConfiguration: json['ResultConfiguration'] != null
-          ? ResultConfiguration.fromJson(
-              json['ResultConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final additionalConfiguration = this.additionalConfiguration;
-    final bytesScannedCutoffPerQuery = this.bytesScannedCutoffPerQuery;
-    final customerContentEncryptionConfiguration =
-        this.customerContentEncryptionConfiguration;
-    final enableMinimumEncryptionConfiguration =
-        this.enableMinimumEncryptionConfiguration;
-    final enforceWorkGroupConfiguration = this.enforceWorkGroupConfiguration;
-    final engineVersion = this.engineVersion;
-    final executionRole = this.executionRole;
-    final identityCenterConfiguration = this.identityCenterConfiguration;
-    final publishCloudWatchMetricsEnabled =
-        this.publishCloudWatchMetricsEnabled;
-    final queryResultsS3AccessGrantsConfiguration =
-        this.queryResultsS3AccessGrantsConfiguration;
-    final requesterPaysEnabled = this.requesterPaysEnabled;
-    final resultConfiguration = this.resultConfiguration;
-    return {
-      if (additionalConfiguration != null)
-        'AdditionalConfiguration': additionalConfiguration,
-      if (bytesScannedCutoffPerQuery != null)
-        'BytesScannedCutoffPerQuery': bytesScannedCutoffPerQuery,
-      if (customerContentEncryptionConfiguration != null)
-        'CustomerContentEncryptionConfiguration':
-            customerContentEncryptionConfiguration,
-      if (enableMinimumEncryptionConfiguration != null)
-        'EnableMinimumEncryptionConfiguration':
-            enableMinimumEncryptionConfiguration,
-      if (enforceWorkGroupConfiguration != null)
-        'EnforceWorkGroupConfiguration': enforceWorkGroupConfiguration,
-      if (engineVersion != null) 'EngineVersion': engineVersion,
-      if (executionRole != null) 'ExecutionRole': executionRole,
-      if (identityCenterConfiguration != null)
-        'IdentityCenterConfiguration': identityCenterConfiguration,
-      if (publishCloudWatchMetricsEnabled != null)
-        'PublishCloudWatchMetricsEnabled': publishCloudWatchMetricsEnabled,
-      if (queryResultsS3AccessGrantsConfiguration != null)
-        'QueryResultsS3AccessGrantsConfiguration':
-            queryResultsS3AccessGrantsConfiguration,
-      if (requesterPaysEnabled != null)
-        'RequesterPaysEnabled': requesterPaysEnabled,
-      if (resultConfiguration != null)
-        'ResultConfiguration': resultConfiguration,
-    };
-  }
-}
-
-/// The configuration information that will be updated for this workgroup, which
-/// includes the location in Amazon S3 where query and calculation results are
-/// stored, the encryption option, if any, used for query results, whether the
-/// Amazon CloudWatch Metrics are enabled for the workgroup, whether the
-/// workgroup settings override the client-side settings, and the data usage
-/// limit for the amount of bytes scanned per query, if it is specified.
-class WorkGroupConfigurationUpdates {
-  /// Contains a user defined string in JSON format for a Spark-enabled workgroup.
-  final String? additionalConfiguration;
-
-  /// The upper limit (cutoff) for the amount of bytes a single query in a
-  /// workgroup is allowed to scan.
-  final int? bytesScannedCutoffPerQuery;
-  final CustomerContentEncryptionConfiguration?
-      customerContentEncryptionConfiguration;
-
-  /// Enforces a minimal level of encryption for the workgroup for query and
-  /// calculation results that are written to Amazon S3. When enabled, workgroup
-  /// users can set encryption only to the minimum level set by the administrator
-  /// or higher when they submit queries. This setting does not apply to
-  /// Spark-enabled workgroups.
-  ///
-  /// The <code>EnforceWorkGroupConfiguration</code> setting takes precedence over
-  /// the <code>EnableMinimumEncryptionConfiguration</code> flag. This means that
-  /// if <code>EnforceWorkGroupConfiguration</code> is true, the
-  /// <code>EnableMinimumEncryptionConfiguration</code> flag is ignored, and the
-  /// workgroup configuration for encryption is used.
-  final bool? enableMinimumEncryptionConfiguration;
-
-  /// If set to "true", the settings for the workgroup override client-side
-  /// settings. If set to "false" client-side settings are used. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html">Workgroup
-  /// Settings Override Client-Side Settings</a>.
-  final bool? enforceWorkGroupConfiguration;
-
-  /// The engine version requested when a workgroup is updated. After the update,
-  /// all queries on the workgroup run on the requested engine version. If no
-  /// value was previously set, the default is Auto. Queries on the
-  /// <code>AmazonAthenaPreviewFunctionality</code> workgroup run on the preview
-  /// engine regardless of this setting.
-  final EngineVersion? engineVersion;
-
-  /// The ARN of the execution role used to access user resources for Spark
-  /// sessions and Identity Center enabled workgroups. This property applies only
-  /// to Spark enabled workgroups and Identity Center enabled workgroups.
-  final String? executionRole;
-
-  /// Indicates whether this workgroup enables publishing metrics to Amazon
-  /// CloudWatch.
-  final bool? publishCloudWatchMetricsEnabled;
-
-  /// Specifies whether Amazon S3 access grants are enabled for query results.
-  final QueryResultsS3AccessGrantsConfiguration?
-      queryResultsS3AccessGrantsConfiguration;
-
-  /// Indicates that the data usage control limit per query is removed.
-  /// <a>WorkGroupConfiguration$BytesScannedCutoffPerQuery</a>
-  final bool? removeBytesScannedCutoffPerQuery;
-
-  /// Removes content encryption configuration from an Apache Spark-enabled Athena
-  /// workgroup.
-  final bool? removeCustomerContentEncryptionConfiguration;
-
-  /// If set to <code>true</code>, allows members assigned to a workgroup to
-  /// specify Amazon S3 Requester Pays buckets in queries. If set to
-  /// <code>false</code>, workgroup members cannot query data from Requester Pays
-  /// buckets, and queries that retrieve data from Requester Pays buckets cause an
-  /// error. The default is <code>false</code>. For more information about
-  /// Requester Pays buckets, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/RequesterPaysBuckets.html">Requester
-  /// Pays Buckets</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
-  final bool? requesterPaysEnabled;
-
-  /// The result configuration information about the queries in this workgroup
-  /// that will be updated. Includes the updated results location and an updated
-  /// option for encrypting query results.
-  final ResultConfigurationUpdates? resultConfigurationUpdates;
-
-  WorkGroupConfigurationUpdates({
-    this.additionalConfiguration,
-    this.bytesScannedCutoffPerQuery,
-    this.customerContentEncryptionConfiguration,
-    this.enableMinimumEncryptionConfiguration,
-    this.enforceWorkGroupConfiguration,
-    this.engineVersion,
-    this.executionRole,
-    this.publishCloudWatchMetricsEnabled,
-    this.queryResultsS3AccessGrantsConfiguration,
-    this.removeBytesScannedCutoffPerQuery,
-    this.removeCustomerContentEncryptionConfiguration,
-    this.requesterPaysEnabled,
-    this.resultConfigurationUpdates,
-  });
-
-  Map<String, dynamic> toJson() {
-    final additionalConfiguration = this.additionalConfiguration;
-    final bytesScannedCutoffPerQuery = this.bytesScannedCutoffPerQuery;
-    final customerContentEncryptionConfiguration =
-        this.customerContentEncryptionConfiguration;
-    final enableMinimumEncryptionConfiguration =
-        this.enableMinimumEncryptionConfiguration;
-    final enforceWorkGroupConfiguration = this.enforceWorkGroupConfiguration;
-    final engineVersion = this.engineVersion;
-    final executionRole = this.executionRole;
-    final publishCloudWatchMetricsEnabled =
-        this.publishCloudWatchMetricsEnabled;
-    final queryResultsS3AccessGrantsConfiguration =
-        this.queryResultsS3AccessGrantsConfiguration;
-    final removeBytesScannedCutoffPerQuery =
-        this.removeBytesScannedCutoffPerQuery;
-    final removeCustomerContentEncryptionConfiguration =
-        this.removeCustomerContentEncryptionConfiguration;
-    final requesterPaysEnabled = this.requesterPaysEnabled;
-    final resultConfigurationUpdates = this.resultConfigurationUpdates;
-    return {
-      if (additionalConfiguration != null)
-        'AdditionalConfiguration': additionalConfiguration,
-      if (bytesScannedCutoffPerQuery != null)
-        'BytesScannedCutoffPerQuery': bytesScannedCutoffPerQuery,
-      if (customerContentEncryptionConfiguration != null)
-        'CustomerContentEncryptionConfiguration':
-            customerContentEncryptionConfiguration,
-      if (enableMinimumEncryptionConfiguration != null)
-        'EnableMinimumEncryptionConfiguration':
-            enableMinimumEncryptionConfiguration,
-      if (enforceWorkGroupConfiguration != null)
-        'EnforceWorkGroupConfiguration': enforceWorkGroupConfiguration,
-      if (engineVersion != null) 'EngineVersion': engineVersion,
-      if (executionRole != null) 'ExecutionRole': executionRole,
-      if (publishCloudWatchMetricsEnabled != null)
-        'PublishCloudWatchMetricsEnabled': publishCloudWatchMetricsEnabled,
-      if (queryResultsS3AccessGrantsConfiguration != null)
-        'QueryResultsS3AccessGrantsConfiguration':
-            queryResultsS3AccessGrantsConfiguration,
-      if (removeBytesScannedCutoffPerQuery != null)
-        'RemoveBytesScannedCutoffPerQuery': removeBytesScannedCutoffPerQuery,
-      if (removeCustomerContentEncryptionConfiguration != null)
-        'RemoveCustomerContentEncryptionConfiguration':
-            removeCustomerContentEncryptionConfiguration,
-      if (requesterPaysEnabled != null)
-        'RequesterPaysEnabled': requesterPaysEnabled,
-      if (resultConfigurationUpdates != null)
-        'ResultConfigurationUpdates': resultConfigurationUpdates,
-    };
-  }
-}
-
-class WorkGroupState {
-  static const enabled = WorkGroupState._('ENABLED');
-  static const disabled = WorkGroupState._('DISABLED');
-
-  final String value;
-
-  const WorkGroupState._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static WorkGroupState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => WorkGroupState._(value));
-
-  @override
-  bool operator ==(other) => other is WorkGroupState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The summary information for the workgroup, which includes its name, state,
-/// description, and the date and time it was created.
-class WorkGroupSummary {
-  /// The workgroup creation date and time.
-  final DateTime? creationTime;
-
-  /// The workgroup description.
-  final String? description;
-
-  /// The engine version setting for all queries on the workgroup. Queries on the
-  /// <code>AmazonAthenaPreviewFunctionality</code> workgroup run on the preview
-  /// engine regardless of this setting.
-  final EngineVersion? engineVersion;
-
-  /// The ARN of the IAM Identity Center enabled application associated with the
-  /// workgroup.
-  final String? identityCenterApplicationArn;
-
-  /// The name of the workgroup.
-  final String? name;
-
-  /// The state of the workgroup.
-  final WorkGroupState? state;
-
-  WorkGroupSummary({
-    this.creationTime,
-    this.description,
-    this.engineVersion,
-    this.identityCenterApplicationArn,
-    this.name,
-    this.state,
-  });
-
-  factory WorkGroupSummary.fromJson(Map<String, dynamic> json) {
-    return WorkGroupSummary(
-      creationTime: timeStampFromJson(json['CreationTime']),
-      description: json['Description'] as String?,
-      engineVersion: json['EngineVersion'] != null
-          ? EngineVersion.fromJson(
-              json['EngineVersion'] as Map<String, dynamic>)
-          : null,
-      identityCenterApplicationArn:
-          json['IdentityCenterApplicationArn'] as String?,
-      name: json['Name'] as String?,
-      state: (json['State'] as String?)?.let(WorkGroupState.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationTime = this.creationTime;
-    final description = this.description;
-    final engineVersion = this.engineVersion;
-    final identityCenterApplicationArn = this.identityCenterApplicationArn;
-    final name = this.name;
-    final state = this.state;
-    return {
-      if (creationTime != null)
-        'CreationTime': unixTimestampToJson(creationTime),
-      if (description != null) 'Description': description,
-      if (engineVersion != null) 'EngineVersion': engineVersion,
-      if (identityCenterApplicationArn != null)
-        'IdentityCenterApplicationArn': identityCenterApplicationArn,
-      if (name != null) 'Name': name,
-      if (state != null) 'State': state.value,
+      if (namedQueryId != null) 'NamedQueryId': namedQueryId,
     };
   }
 }

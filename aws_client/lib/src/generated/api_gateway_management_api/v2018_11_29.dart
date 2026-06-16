@@ -38,7 +38,6 @@ class ApiGatewayManagementApi {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'execute-api',
-            signingName: 'execute-api',
           ),
           region: region,
           credentials: credentials,
@@ -57,9 +56,9 @@ class ApiGatewayManagementApi {
 
   /// Delete the connection with the provided id.
   ///
+  /// May throw [ForbiddenException].
   /// May throw [GoneException].
   /// May throw [LimitExceededException].
-  /// May throw [ForbiddenException].
   Future<void> deleteConnection({
     required String connectionId,
   }) async {
@@ -73,9 +72,9 @@ class ApiGatewayManagementApi {
 
   /// Get information about the connection with the provided id.
   ///
+  /// May throw [ForbiddenException].
   /// May throw [GoneException].
   /// May throw [LimitExceededException].
-  /// May throw [ForbiddenException].
   Future<GetConnectionResponse> getConnection({
     required String connectionId,
   }) async {
@@ -90,10 +89,10 @@ class ApiGatewayManagementApi {
 
   /// Sends the provided data to the specified connection.
   ///
+  /// May throw [ForbiddenException].
   /// May throw [GoneException].
   /// May throw [LimitExceededException].
   /// May throw [PayloadTooLargeException].
-  /// May throw [ForbiddenException].
   ///
   /// Parameter [connectionId] :
   /// The identifier of the connection that a specific client is using.

@@ -38,7 +38,6 @@ class DocDB {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'rds',
-            signingName: 'rds',
           ),
           region: region,
           credentials: credentials,
@@ -57,8 +56,8 @@ class DocDB {
 
   /// Adds a source identifier to an existing event notification subscription.
   ///
-  /// May throw [SubscriptionNotFoundFault].
   /// May throw [SourceNotFoundFault].
+  /// May throw [SubscriptionNotFoundFault].
   ///
   /// Parameter [sourceIdentifier] :
   /// The identifier of the event source to be added:
@@ -111,9 +110,9 @@ class DocDB {
   /// with Amazon DocumentDB resources or in a <code>Condition</code> statement
   /// in an Identity and Access Management (IAM) policy for Amazon DocumentDB.
   ///
+  /// May throw [DBClusterNotFoundFault].
   /// May throw [DBInstanceNotFoundFault].
   /// May throw [DBSnapshotNotFoundFault].
-  /// May throw [DBClusterNotFoundFault].
   ///
   /// Parameter [resourceName] :
   /// The Amazon DocumentDB resource that the tags are added to. This value is
@@ -147,9 +146,9 @@ class DocDB {
   /// Applies a pending maintenance action to a resource (for example, to an
   /// Amazon DocumentDB instance).
   ///
-  /// May throw [ResourceNotFoundFault].
   /// May throw [InvalidDBClusterStateFault].
   /// May throw [InvalidDBInstanceStateFault].
+  /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [applyAction] :
   /// The pending maintenance action to apply to this resource.
@@ -203,9 +202,9 @@ class DocDB {
 
   /// Copies the specified cluster parameter group.
   ///
+  /// May throw [DBParameterGroupAlreadyExistsFault].
   /// May throw [DBParameterGroupNotFoundFault].
   /// May throw [DBParameterGroupQuotaExceededFault].
-  /// May throw [DBParameterGroupAlreadyExistsFault].
   ///
   /// Parameter [sourceDBClusterParameterGroupIdentifier] :
   /// The identifier or Amazon Resource Name (ARN) for the source cluster
@@ -303,10 +302,10 @@ class DocDB {
   ///
   /// May throw [DBClusterSnapshotAlreadyExistsFault].
   /// May throw [DBClusterSnapshotNotFoundFault].
-  /// May throw [InvalidDBClusterStateFault].
   /// May throw [InvalidDBClusterSnapshotStateFault].
-  /// May throw [SnapshotQuotaExceededFault].
+  /// May throw [InvalidDBClusterStateFault].
   /// May throw [KMSKeyNotAccessibleFault].
+  /// May throw [SnapshotQuotaExceededFault].
   ///
   /// Parameter [sourceDBClusterSnapshotIdentifier] :
   /// The identifier of the cluster snapshot to copy. This parameter is not case
@@ -316,15 +315,16 @@ class DocDB {
   ///
   /// <ul>
   /// <li>
-  /// Must specify a valid system snapshot in the <i>available</i> state.
+  /// Must specify a valid cluster snapshot in the <i>available</i> state.
   /// </li>
   /// <li>
-  /// If the source snapshot is in the same Amazon Web Services Region as the
-  /// copy, specify a valid snapshot identifier.
+  /// If the source cluster snapshot is in the same Amazon Web Services Region
+  /// as the copy, specify a valid snapshot identifier.
   /// </li>
   /// <li>
-  /// If the source snapshot is in a different Amazon Web Services Region than
-  /// the copy, specify a valid cluster snapshot ARN.
+  /// If the source cluster snapshot is in a different Amazon Web Services
+  /// Region or owned by another Amazon Web Services account, specify the
+  /// snapshot ARN.
   /// </li>
   /// </ul>
   /// Example: <code>my-cluster-snapshot1</code>
@@ -458,22 +458,23 @@ class DocDB {
   /// Creates a new Amazon DocumentDB cluster.
   ///
   /// May throw [DBClusterAlreadyExistsFault].
-  /// May throw [InsufficientStorageClusterCapacityFault].
-  /// May throw [DBClusterQuotaExceededFault].
-  /// May throw [StorageQuotaExceededFault].
-  /// May throw [DBSubnetGroupNotFoundFault].
-  /// May throw [InvalidVPCNetworkStateFault].
-  /// May throw [InvalidDBClusterStateFault].
-  /// May throw [InvalidDBSubnetGroupStateFault].
-  /// May throw [InvalidSubnet].
-  /// May throw [InvalidDBInstanceStateFault].
-  /// May throw [DBClusterParameterGroupNotFoundFault].
-  /// May throw [KMSKeyNotAccessibleFault].
   /// May throw [DBClusterNotFoundFault].
+  /// May throw [DBClusterParameterGroupNotFoundFault].
+  /// May throw [DBClusterQuotaExceededFault].
   /// May throw [DBInstanceNotFoundFault].
   /// May throw [DBSubnetGroupDoesNotCoverEnoughAZs].
+  /// May throw [DBSubnetGroupNotFoundFault].
   /// May throw [GlobalClusterNotFoundFault].
+  /// May throw [InsufficientStorageClusterCapacityFault].
+  /// May throw [InvalidDBClusterStateFault].
+  /// May throw [InvalidDBInstanceStateFault].
+  /// May throw [InvalidDBSubnetGroupStateFault].
   /// May throw [InvalidGlobalClusterStateFault].
+  /// May throw [InvalidSubnet].
+  /// May throw [InvalidVPCNetworkStateFault].
+  /// May throw [KMSKeyNotAccessibleFault].
+  /// May throw [NetworkTypeNotSupported].
+  /// May throw [StorageQuotaExceededFault].
   ///
   /// Parameter [dBClusterIdentifier] :
   /// The cluster identifier. This parameter is stored as a lowercase string.
@@ -573,12 +574,40 @@ class DocDB {
   /// account. Your Amazon Web Services account has a different default
   /// encryption key for each Amazon Web Services Regions.
   ///
+  /// Parameter [manageMasterUserPassword] :
+  /// Specifies whether to manage the master user password with Amazon Web
+  /// Services Secrets Manager.
+  ///
+  /// Constraint: You can't manage the master user password with Amazon Web
+  /// Services Secrets Manager if <code>MasterUserPassword</code> is specified.
+  ///
   /// Parameter [masterUserPassword] :
   /// The password for the master database user. This password can contain any
   /// printable ASCII character except forward slash (/), double quote ("), or
   /// the "at" symbol (@).
   ///
   /// Constraints: Must contain from 8 to 100 characters.
+  ///
+  /// Parameter [masterUserSecretKmsKeyId] :
+  /// The Amazon Web Services KMS key identifier to encrypt a secret that is
+  /// automatically generated and managed in Amazon Web Services Secrets
+  /// Manager. This setting is valid only if the master user password is managed
+  /// by Amazon DocumentDB in Amazon Web Services Secrets Manager for the DB
+  /// cluster.
+  ///
+  /// The Amazon Web Services KMS key identifier is the key ARN, key ID, alias
+  /// ARN, or alias name for the KMS key. To use a KMS key in a different Amazon
+  /// Web Services account, specify the key ARN or alias ARN.
+  ///
+  /// If you don't specify <code>MasterUserSecretKmsKeyId</code>, then the
+  /// <code>aws/secretsmanager</code> KMS key is used to encrypt the secret. If
+  /// the secret is in a different Amazon Web Services account, then you can't
+  /// use the <code>aws/secretsmanager</code> KMS key to encrypt the secret, and
+  /// you must use a customer managed KMS key.
+  ///
+  /// There is a default KMS key for your Amazon Web Services account. Your
+  /// Amazon Web Services account has a different default KMS key for each
+  /// Amazon Web Services Region.
   ///
   /// Parameter [masterUsername] :
   /// The name of the master user for the cluster.
@@ -596,6 +625,19 @@ class DocDB {
   /// Cannot be a reserved word for the chosen database engine.
   /// </li>
   /// </ul>
+  ///
+  /// Parameter [networkType] :
+  /// The network type of the cluster.
+  ///
+  /// The network type is determined by the <code>DBSubnetGroup</code> specified
+  /// for the cluster. A <code>DBSubnetGroup</code> can support only the IPv4
+  /// protocol or the IPv4 and the IPv6 protocols (<code>DUAL</code>).
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/documentdb/latest/developerguide/vpc-clusters.html">DocumentDB
+  /// clusters in a VPC</a> in the Amazon DocumentDB Developer Guide.
+  ///
+  /// Valid Values: <code>IPV4</code> | <code>DUAL</code>
   ///
   /// Parameter [port] :
   /// The port number on which the instances in the cluster accept connections.
@@ -642,6 +684,10 @@ class DocDB {
   ///
   /// Constraints: Minimum 30-minute window.
   ///
+  /// Parameter [serverlessV2ScalingConfiguration] :
+  /// Contains the scaling configuration of an Amazon DocumentDB Serverless
+  /// cluster.
+  ///
   /// Parameter [storageEncrypted] :
   /// Specifies whether the cluster is encrypted.
   ///
@@ -656,7 +702,7 @@ class DocDB {
   ///
   /// Default value is <code>standard </code>
   /// <note>
-  /// When you create a DocumentDB DB cluster with the storage type set to
+  /// When you create an Amazon DocumentDB cluster with the storage type set to
   /// <code>iopt1</code>, the storage type is returned in the response. The
   /// storage type isn't returned when you set it to <code>standard</code>.
   /// </note>
@@ -678,12 +724,16 @@ class DocDB {
     String? engineVersion,
     String? globalClusterIdentifier,
     String? kmsKeyId,
+    bool? manageMasterUserPassword,
     String? masterUserPassword,
+    String? masterUserSecretKmsKeyId,
     String? masterUsername,
+    String? networkType,
     int? port,
     String? preSignedUrl,
     String? preferredBackupWindow,
     String? preferredMaintenanceWindow,
+    ServerlessV2ScalingConfiguration? serverlessV2ScalingConfiguration,
     bool? storageEncrypted,
     String? storageType,
     List<Tag>? tags,
@@ -717,14 +767,22 @@ class DocDB {
       if (globalClusterIdentifier != null)
         'GlobalClusterIdentifier': globalClusterIdentifier,
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (manageMasterUserPassword != null)
+        'ManageMasterUserPassword': manageMasterUserPassword.toString(),
       if (masterUserPassword != null) 'MasterUserPassword': masterUserPassword,
+      if (masterUserSecretKmsKeyId != null)
+        'MasterUserSecretKmsKeyId': masterUserSecretKmsKeyId,
       if (masterUsername != null) 'MasterUsername': masterUsername,
+      if (networkType != null) 'NetworkType': networkType,
       if (port != null) 'Port': port.toString(),
       if (preSignedUrl != null) 'PreSignedUrl': preSignedUrl,
       if (preferredBackupWindow != null)
         'PreferredBackupWindow': preferredBackupWindow,
       if (preferredMaintenanceWindow != null)
         'PreferredMaintenanceWindow': preferredMaintenanceWindow,
+      if (serverlessV2ScalingConfiguration != null)
+        for (var e1 in serverlessV2ScalingConfiguration.toQueryMap().entries)
+          'ServerlessV2ScalingConfiguration.${e1.key}': e1.value,
       if (storageEncrypted != null)
         'StorageEncrypted': storageEncrypted.toString(),
       if (storageType != null) 'StorageType': storageType,
@@ -776,8 +834,8 @@ class DocDB {
   /// href="https://docs.aws.amazon.com/documentdb/latest/developerguide/cluster_parameter_group-modify.html">
   /// Modifying Amazon DocumentDB Cluster Parameter Groups</a>.
   ///
-  /// May throw [DBParameterGroupQuotaExceededFault].
   /// May throw [DBParameterGroupAlreadyExistsFault].
+  /// May throw [DBParameterGroupQuotaExceededFault].
   ///
   /// Parameter [dBClusterParameterGroupName] :
   /// The name of the cluster parameter group.
@@ -833,11 +891,11 @@ class DocDB {
 
   /// Creates a snapshot of a cluster.
   ///
-  /// May throw [DBClusterSnapshotAlreadyExistsFault].
-  /// May throw [InvalidDBClusterStateFault].
   /// May throw [DBClusterNotFoundFault].
-  /// May throw [SnapshotQuotaExceededFault].
+  /// May throw [DBClusterSnapshotAlreadyExistsFault].
   /// May throw [InvalidDBClusterSnapshotStateFault].
+  /// May throw [InvalidDBClusterStateFault].
+  /// May throw [SnapshotQuotaExceededFault].
   ///
   /// Parameter [dBClusterIdentifier] :
   /// The identifier of the cluster to create a snapshot for. This parameter is
@@ -903,21 +961,21 @@ class DocDB {
 
   /// Creates a new instance.
   ///
+  /// May throw [AuthorizationNotFoundFault].
+  /// May throw [DBClusterNotFoundFault].
   /// May throw [DBInstanceAlreadyExistsFault].
-  /// May throw [InsufficientDBInstanceCapacityFault].
   /// May throw [DBParameterGroupNotFoundFault].
   /// May throw [DBSecurityGroupNotFoundFault].
-  /// May throw [InstanceQuotaExceededFault].
-  /// May throw [StorageQuotaExceededFault].
-  /// May throw [DBSubnetGroupNotFoundFault].
   /// May throw [DBSubnetGroupDoesNotCoverEnoughAZs].
+  /// May throw [DBSubnetGroupNotFoundFault].
+  /// May throw [InstanceQuotaExceededFault].
+  /// May throw [InsufficientDBInstanceCapacityFault].
   /// May throw [InvalidDBClusterStateFault].
   /// May throw [InvalidSubnet].
   /// May throw [InvalidVPCNetworkStateFault].
-  /// May throw [DBClusterNotFoundFault].
-  /// May throw [StorageTypeNotSupportedFault].
-  /// May throw [AuthorizationNotFoundFault].
   /// May throw [KMSKeyNotAccessibleFault].
+  /// May throw [StorageQuotaExceededFault].
+  /// May throw [StorageTypeNotSupportedFault].
   ///
   /// Parameter [dBClusterIdentifier] :
   /// The identifier of the cluster that the instance will belong to.
@@ -1079,9 +1137,9 @@ class DocDB {
   /// in at least two Availability Zones in the Amazon Web Services Region.
   ///
   /// May throw [DBSubnetGroupAlreadyExistsFault].
+  /// May throw [DBSubnetGroupDoesNotCoverEnoughAZs].
   /// May throw [DBSubnetGroupQuotaExceededFault].
   /// May throw [DBSubnetQuotaExceededFault].
-  /// May throw [DBSubnetGroupDoesNotCoverEnoughAZs].
   /// May throw [InvalidSubnet].
   ///
   /// Parameter [dBSubnetGroupDescription] :
@@ -1161,12 +1219,12 @@ class DocDB {
   /// belonging to your customer account.
   ///
   /// May throw [EventSubscriptionQuotaExceededFault].
-  /// May throw [SubscriptionAlreadyExistFault].
   /// May throw [SNSInvalidTopicFault].
   /// May throw [SNSNoAuthorizationFault].
   /// May throw [SNSTopicArnNotFoundFault].
-  /// May throw [SubscriptionCategoryNotFoundFault].
   /// May throw [SourceNotFoundFault].
+  /// May throw [SubscriptionAlreadyExistFault].
+  /// May throw [SubscriptionCategoryNotFoundFault].
   ///
   /// Parameter [snsTopicArn] :
   /// The Amazon Resource Name (ARN) of the SNS topic created for event
@@ -1278,11 +1336,13 @@ class DocDB {
 
   /// Creates an Amazon DocumentDB global cluster that can span multiple
   /// multiple Amazon Web Services Regions. The global cluster contains one
-  /// primary cluster with read-write capability, and up-to give read-only
+  /// primary cluster with read-write capability, and up-to 10 read-only
   /// secondary clusters. Global clusters uses storage-based fast replication
   /// across regions with latencies less than one second, using dedicated
   /// infrastructure with no impact to your workload’s performance.
-  /// <p/>
+  ///
+  ///
+  ///
   /// You can create a global cluster that is initially empty, and then add a
   /// primary and a secondary to it. Or you can specify an existing cluster
   /// during the create operation, and this cluster becomes the primary of the
@@ -1291,10 +1351,10 @@ class DocDB {
   /// This action only applies to Amazon DocumentDB clusters.
   /// </note>
   ///
+  /// May throw [DBClusterNotFoundFault].
   /// May throw [GlobalClusterAlreadyExistsFault].
   /// May throw [GlobalClusterQuotaExceededFault].
   /// May throw [InvalidDBClusterStateFault].
-  /// May throw [DBClusterNotFoundFault].
   ///
   /// Parameter [globalClusterIdentifier] :
   /// The cluster identifier of the new global cluster.
@@ -1356,13 +1416,14 @@ class DocDB {
   /// Deletes a previously provisioned cluster. When you delete a cluster, all
   /// automated backups for that cluster are deleted and can't be recovered.
   /// Manual DB cluster snapshots of the specified cluster are not deleted.
-  /// <p/>
+  ///
+  ///
   ///
   /// May throw [DBClusterNotFoundFault].
-  /// May throw [InvalidDBClusterStateFault].
   /// May throw [DBClusterSnapshotAlreadyExistsFault].
-  /// May throw [SnapshotQuotaExceededFault].
   /// May throw [InvalidDBClusterSnapshotStateFault].
+  /// May throw [InvalidDBClusterStateFault].
+  /// May throw [SnapshotQuotaExceededFault].
   ///
   /// Parameter [dBClusterIdentifier] :
   /// The cluster identifier for the cluster to be deleted. This parameter isn't
@@ -1435,8 +1496,8 @@ class DocDB {
   /// Deletes a specified cluster parameter group. The cluster parameter group
   /// to be deleted can't be associated with any clusters.
   ///
-  /// May throw [InvalidDBParameterGroupStateFault].
   /// May throw [DBParameterGroupNotFoundFault].
+  /// May throw [InvalidDBParameterGroupStateFault].
   ///
   /// Parameter [dBClusterParameterGroupName] :
   /// The name of the cluster parameter group.
@@ -1477,8 +1538,8 @@ class DocDB {
   /// deleted.
   /// </note>
   ///
-  /// May throw [InvalidDBClusterSnapshotStateFault].
   /// May throw [DBClusterSnapshotNotFoundFault].
+  /// May throw [InvalidDBClusterSnapshotStateFault].
   ///
   /// Parameter [dBClusterSnapshotIdentifier] :
   /// The identifier of the cluster snapshot to delete.
@@ -1506,10 +1567,10 @@ class DocDB {
   /// Deletes a previously provisioned instance.
   ///
   /// May throw [DBInstanceNotFoundFault].
-  /// May throw [InvalidDBInstanceStateFault].
   /// May throw [DBSnapshotAlreadyExistsFault].
-  /// May throw [SnapshotQuotaExceededFault].
   /// May throw [InvalidDBClusterStateFault].
+  /// May throw [InvalidDBInstanceStateFault].
+  /// May throw [SnapshotQuotaExceededFault].
   ///
   /// Parameter [dBInstanceIdentifier] :
   /// The instance identifier for the instance to be deleted. This parameter
@@ -1546,9 +1607,9 @@ class DocDB {
   /// instances.
   /// </note>
   ///
+  /// May throw [DBSubnetGroupNotFoundFault].
   /// May throw [InvalidDBSubnetGroupStateFault].
   /// May throw [InvalidDBSubnetStateFault].
-  /// May throw [DBSubnetGroupNotFoundFault].
   ///
   /// Parameter [dBSubnetGroupName] :
   /// The name of the database subnet group to delete.
@@ -1579,8 +1640,8 @@ class DocDB {
 
   /// Deletes an Amazon DocumentDB event notification subscription.
   ///
-  /// May throw [SubscriptionNotFoundFault].
   /// May throw [InvalidEventSubscriptionStateFault].
+  /// May throw [SubscriptionNotFoundFault].
   ///
   /// Parameter [subscriptionName] :
   /// The name of the Amazon DocumentDB event notification subscription that you
@@ -1847,6 +1908,86 @@ class DocDB {
     return DBClusterParameterGroupDetails.fromXml($result);
   }
 
+  /// Returns information about provisioned Amazon DocumentDB clusters. This API
+  /// operation supports pagination. For certain management features such as
+  /// cluster and instance lifecycle management, Amazon DocumentDB leverages
+  /// operational technology that is shared with Amazon RDS and Amazon Neptune.
+  /// Use the <code>filterName=engine,Values=docdb</code> filter parameter to
+  /// return only Amazon DocumentDB clusters.
+  ///
+  /// May throw [DBClusterNotFoundFault].
+  ///
+  /// Parameter [dBClusterIdentifier] :
+  /// The user-provided cluster identifier. If this parameter is specified,
+  /// information from only the specific cluster is returned. This parameter
+  /// isn't case sensitive.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// If provided, must match an existing <code>DBClusterIdentifier</code>.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [filters] :
+  /// A filter that specifies one or more clusters to describe.
+  ///
+  /// Supported filters:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>db-cluster-id</code> - Accepts cluster identifiers and cluster
+  /// Amazon Resource Names (ARNs). The results list only includes information
+  /// about the clusters identified by these ARNs.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [marker] :
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, a pagination token
+  /// (marker) is included in the response so that the remaining results can be
+  /// retrieved.
+  ///
+  /// Default: 100
+  ///
+  /// Constraints: Minimum 20, maximum 100.
+  Future<DBClusterMessage> describeDBClusters({
+    String? dBClusterIdentifier,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
+  }) async {
+    final $request = <String, String>{
+      if (dBClusterIdentifier != null)
+        'DBClusterIdentifier': dBClusterIdentifier,
+      if (filters != null)
+        if (filters.isEmpty)
+          'Filters': ''
+        else
+          for (var i1 = 0; i1 < filters.length; i1++)
+            for (var e3 in filters[i1].toQueryMap().entries)
+              'Filters.Filter.${i1 + 1}.${e3.key}': e3.value,
+      if (marker != null) 'Marker': marker,
+      if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'DescribeDBClusters',
+      version: '2014-10-31',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'DescribeDBClustersResult',
+    );
+    return DBClusterMessage.fromXml($result);
+  }
+
   /// Returns a list of cluster snapshot attribute names and values for a manual
   /// DB cluster snapshot.
   ///
@@ -2021,86 +2162,6 @@ class DocDB {
       resultWrapper: 'DescribeDBClusterSnapshotsResult',
     );
     return DBClusterSnapshotMessage.fromXml($result);
-  }
-
-  /// Returns information about provisioned Amazon DocumentDB clusters. This API
-  /// operation supports pagination. For certain management features such as
-  /// cluster and instance lifecycle management, Amazon DocumentDB leverages
-  /// operational technology that is shared with Amazon RDS and Amazon Neptune.
-  /// Use the <code>filterName=engine,Values=docdb</code> filter parameter to
-  /// return only Amazon DocumentDB clusters.
-  ///
-  /// May throw [DBClusterNotFoundFault].
-  ///
-  /// Parameter [dBClusterIdentifier] :
-  /// The user-provided cluster identifier. If this parameter is specified,
-  /// information from only the specific cluster is returned. This parameter
-  /// isn't case sensitive.
-  ///
-  /// Constraints:
-  ///
-  /// <ul>
-  /// <li>
-  /// If provided, must match an existing <code>DBClusterIdentifier</code>.
-  /// </li>
-  /// </ul>
-  ///
-  /// Parameter [filters] :
-  /// A filter that specifies one or more clusters to describe.
-  ///
-  /// Supported filters:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>db-cluster-id</code> - Accepts cluster identifiers and cluster
-  /// Amazon Resource Names (ARNs). The results list only includes information
-  /// about the clusters identified by these ARNs.
-  /// </li>
-  /// </ul>
-  ///
-  /// Parameter [marker] :
-  /// An optional pagination token provided by a previous request. If this
-  /// parameter is specified, the response includes only records beyond the
-  /// marker, up to the value specified by <code>MaxRecords</code>.
-  ///
-  /// Parameter [maxRecords] :
-  /// The maximum number of records to include in the response. If more records
-  /// exist than the specified <code>MaxRecords</code> value, a pagination token
-  /// (marker) is included in the response so that the remaining results can be
-  /// retrieved.
-  ///
-  /// Default: 100
-  ///
-  /// Constraints: Minimum 20, maximum 100.
-  Future<DBClusterMessage> describeDBClusters({
-    String? dBClusterIdentifier,
-    List<Filter>? filters,
-    String? marker,
-    int? maxRecords,
-  }) async {
-    final $request = <String, String>{
-      if (dBClusterIdentifier != null)
-        'DBClusterIdentifier': dBClusterIdentifier,
-      if (filters != null)
-        if (filters.isEmpty)
-          'Filters': ''
-        else
-          for (var i1 = 0; i1 < filters.length; i1++)
-            for (var e3 in filters[i1].toQueryMap().entries)
-              'Filters.Filter.${i1 + 1}.${e3.key}': e3.value,
-      if (marker != null) 'Marker': marker,
-      if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
-    };
-    final $result = await _protocol.send(
-      $request,
-      action: 'DescribeDBClusters',
-      version: '2014-10-31',
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      resultWrapper: 'DescribeDBClustersResult',
-    );
-    return DBClusterMessage.fromXml($result);
   }
 
   /// Returns a list of the available engines.
@@ -2430,68 +2491,6 @@ class DocDB {
     return EventCategoriesMessage.fromXml($result);
   }
 
-  /// Lists all the subscription descriptions for a customer account. The
-  /// description for a subscription includes <code>SubscriptionName</code>,
-  /// <code>SNSTopicARN</code>, <code>CustomerID</code>,
-  /// <code>SourceType</code>, <code>SourceID</code>, <code>CreationTime</code>,
-  /// and <code>Status</code>.
-  ///
-  /// If you specify a <code>SubscriptionName</code>, lists the description for
-  /// that subscription.
-  ///
-  /// May throw [SubscriptionNotFoundFault].
-  ///
-  /// Parameter [filters] :
-  /// This parameter is not currently supported.
-  ///
-  /// Parameter [marker] :
-  /// An optional pagination token provided by a previous request. If this
-  /// parameter is specified, the response includes only records beyond the
-  /// marker, up to the value specified by <code>MaxRecords</code>.
-  ///
-  /// Parameter [maxRecords] :
-  /// The maximum number of records to include in the response. If more records
-  /// exist than the specified <code>MaxRecords</code> value, a pagination token
-  /// (marker) is included in the response so that the remaining results can be
-  /// retrieved.
-  ///
-  /// Default: 100
-  ///
-  /// Constraints: Minimum 20, maximum 100.
-  ///
-  /// Parameter [subscriptionName] :
-  /// The name of the Amazon DocumentDB event notification subscription that you
-  /// want to describe.
-  Future<EventSubscriptionsMessage> describeEventSubscriptions({
-    List<Filter>? filters,
-    String? marker,
-    int? maxRecords,
-    String? subscriptionName,
-  }) async {
-    final $request = <String, String>{
-      if (filters != null)
-        if (filters.isEmpty)
-          'Filters': ''
-        else
-          for (var i1 = 0; i1 < filters.length; i1++)
-            for (var e3 in filters[i1].toQueryMap().entries)
-              'Filters.Filter.${i1 + 1}.${e3.key}': e3.value,
-      if (marker != null) 'Marker': marker,
-      if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
-      if (subscriptionName != null) 'SubscriptionName': subscriptionName,
-    };
-    final $result = await _protocol.send(
-      $request,
-      action: 'DescribeEventSubscriptions',
-      version: '2014-10-31',
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      resultWrapper: 'DescribeEventSubscriptionsResult',
-    );
-    return EventSubscriptionsMessage.fromXml($result);
-  }
-
   /// Returns events related to instances, security groups, snapshots, and DB
   /// parameter groups for the past 14 days. You can obtain events specific to a
   /// particular DB instance, security group, snapshot, or parameter group by
@@ -2615,6 +2614,68 @@ class DocDB {
       resultWrapper: 'DescribeEventsResult',
     );
     return EventsMessage.fromXml($result);
+  }
+
+  /// Lists all the subscription descriptions for a customer account. The
+  /// description for a subscription includes <code>SubscriptionName</code>,
+  /// <code>SNSTopicARN</code>, <code>CustomerID</code>,
+  /// <code>SourceType</code>, <code>SourceID</code>, <code>CreationTime</code>,
+  /// and <code>Status</code>.
+  ///
+  /// If you specify a <code>SubscriptionName</code>, lists the description for
+  /// that subscription.
+  ///
+  /// May throw [SubscriptionNotFoundFault].
+  ///
+  /// Parameter [filters] :
+  /// This parameter is not currently supported.
+  ///
+  /// Parameter [marker] :
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, a pagination token
+  /// (marker) is included in the response so that the remaining results can be
+  /// retrieved.
+  ///
+  /// Default: 100
+  ///
+  /// Constraints: Minimum 20, maximum 100.
+  ///
+  /// Parameter [subscriptionName] :
+  /// The name of the Amazon DocumentDB event notification subscription that you
+  /// want to describe.
+  Future<EventSubscriptionsMessage> describeEventSubscriptions({
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
+    String? subscriptionName,
+  }) async {
+    final $request = <String, String>{
+      if (filters != null)
+        if (filters.isEmpty)
+          'Filters': ''
+        else
+          for (var i1 = 0; i1 < filters.length; i1++)
+            for (var e3 in filters[i1].toQueryMap().entries)
+              'Filters.Filter.${i1 + 1}.${e3.key}': e3.value,
+      if (marker != null) 'Marker': marker,
+      if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
+      if (subscriptionName != null) 'SubscriptionName': subscriptionName,
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'DescribeEventSubscriptions',
+      version: '2014-10-31',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'DescribeEventSubscriptionsResult',
+    );
+    return EventSubscriptionsMessage.fromXml($result);
   }
 
   /// Returns information about Amazon DocumentDB global clusters. This API
@@ -2890,10 +2951,10 @@ class DocDB {
   /// instance guarantees that the data is in a transactionally consistent
   /// state.
   ///
-  /// May throw [GlobalClusterNotFoundFault].
-  /// May throw [InvalidGlobalClusterStateFault].
-  /// May throw [InvalidDBClusterStateFault].
   /// May throw [DBClusterNotFoundFault].
+  /// May throw [GlobalClusterNotFoundFault].
+  /// May throw [InvalidDBClusterStateFault].
+  /// May throw [InvalidGlobalClusterStateFault].
   ///
   /// Parameter [globalClusterIdentifier] :
   /// The identifier of the Amazon DocumentDB global cluster to apply this
@@ -2981,9 +3042,9 @@ class DocDB {
 
   /// Lists all tags on an Amazon DocumentDB resource.
   ///
+  /// May throw [DBClusterNotFoundFault].
   /// May throw [DBInstanceNotFoundFault].
   /// May throw [DBSnapshotNotFoundFault].
-  /// May throw [DBClusterNotFoundFault].
   ///
   /// Parameter [resourceName] :
   /// The Amazon DocumentDB resource with tags to be listed. This value is an
@@ -3021,17 +3082,18 @@ class DocDB {
   /// more database configuration parameters by specifying these parameters and
   /// the new values in the request.
   ///
+  /// May throw [DBClusterAlreadyExistsFault].
   /// May throw [DBClusterNotFoundFault].
-  /// May throw [InvalidDBClusterStateFault].
-  /// May throw [StorageQuotaExceededFault].
+  /// May throw [DBClusterParameterGroupNotFoundFault].
   /// May throw [DBSubnetGroupNotFoundFault].
-  /// May throw [InvalidVPCNetworkStateFault].
+  /// May throw [InvalidDBClusterStateFault].
+  /// May throw [InvalidDBInstanceStateFault].
+  /// May throw [InvalidDBSecurityGroupStateFault].
   /// May throw [InvalidDBSubnetGroupStateFault].
   /// May throw [InvalidSubnet].
-  /// May throw [DBClusterParameterGroupNotFoundFault].
-  /// May throw [InvalidDBSecurityGroupStateFault].
-  /// May throw [InvalidDBInstanceStateFault].
-  /// May throw [DBClusterAlreadyExistsFault].
+  /// May throw [InvalidVPCNetworkStateFault].
+  /// May throw [NetworkTypeNotSupported].
+  /// May throw [StorageQuotaExceededFault].
   ///
   /// Parameter [dBClusterIdentifier] :
   /// The cluster identifier for the cluster that is being modified. This
@@ -3048,9 +3110,36 @@ class DocDB {
   /// Parameter [allowMajorVersionUpgrade] :
   /// A value that indicates whether major version upgrades are allowed.
   ///
-  /// Constraints: You must allow major version upgrades when specifying a value
-  /// for the <code>EngineVersion</code> parameter that is a different major
-  /// version than the DB cluster's current version.
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// You must allow major version upgrades when specifying a value for the
+  /// <code>EngineVersion</code> parameter that is a different major version
+  /// than the cluster's current version.
+  /// </li>
+  /// <li>
+  /// Since some parameters are version specific, changing them requires
+  /// executing a new <code>ModifyDBCluster</code> API call after the in-place
+  /// MVU completes.
+  /// </li>
+  /// </ul> <note>
+  /// Performing an MVU directly impacts the following parameters:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>MasterUserPassword</code>
+  /// </li>
+  /// <li>
+  /// <code>NewDBClusterIdentifier</code>
+  /// </li>
+  /// <li>
+  /// <code>VpcSecurityGroupIds</code>
+  /// </li>
+  /// <li>
+  /// <code>Port</code>
+  /// </li>
+  /// </ul> </note>
   ///
   /// Parameter [applyImmediately] :
   /// A value that specifies whether the changes in this request and any pending
@@ -3111,12 +3200,70 @@ class DocDB {
   /// <code>aws docdb describe-db-engine-versions --engine docdb --query
   /// "DBEngineVersions[].EngineVersion"</code>
   ///
+  /// Parameter [manageMasterUserPassword] :
+  /// Specifies whether to manage the master user password with Amazon Web
+  /// Services Secrets Manager. If the cluster doesn't manage the master user
+  /// password with Amazon Web Services Secrets Manager, you can turn on this
+  /// management. In this case, you can't specify
+  /// <code>MasterUserPassword</code>. If the cluster already manages the master
+  /// user password with Amazon Web Services Secrets Manager, and you specify
+  /// that the master user password is not managed with Amazon Web Services
+  /// Secrets Manager, then you must specify <code>MasterUserPassword</code>. In
+  /// this case, Amazon DocumentDB deletes the secret and uses the new password
+  /// for the master user specified by <code>MasterUserPassword</code>.
+  ///
   /// Parameter [masterUserPassword] :
   /// The password for the master database user. This password can contain any
   /// printable ASCII character except forward slash (/), double quote ("), or
   /// the "at" symbol (@).
   ///
   /// Constraints: Must contain from 8 to 100 characters.
+  ///
+  /// Parameter [masterUserSecretKmsKeyId] :
+  /// The Amazon Web Services KMS key identifier to encrypt a secret that is
+  /// automatically generated and managed in Amazon Web Services Secrets
+  /// Manager.
+  ///
+  /// This setting is valid only if both of the following conditions are met:
+  ///
+  /// <ul>
+  /// <li>
+  /// The cluster doesn't manage the master user password in Amazon Web Services
+  /// Secrets Manager. If the cluster already manages the master user password
+  /// in Amazon Web Services Secrets Manager, you can't change the KMS key that
+  /// is used to encrypt the secret.
+  /// </li>
+  /// <li>
+  /// You are enabling <code>ManageMasterUserPassword</code> to manage the
+  /// master user password in Amazon Web Services Secrets Manager. If you are
+  /// turning on <code>ManageMasterUserPassword</code> and don't specify
+  /// <code>MasterUserSecretKmsKeyId</code>, then the
+  /// <code>aws/secretsmanager</code> KMS key is used to encrypt the secret. If
+  /// the secret is in a different Amazon Web Services account, then you can't
+  /// use the <code>aws/secretsmanager</code> KMS key to encrypt the secret, and
+  /// you must use a customer managed KMS key.
+  /// </li>
+  /// </ul>
+  /// The Amazon Web Services KMS key identifier is the key ARN, key ID, alias
+  /// ARN, or alias name for the KMS key. To use a KMS key in a different Amazon
+  /// Web Services account, specify the key ARN or alias ARN.
+  ///
+  /// There is a default KMS key for your Amazon Web Services account. Your
+  /// Amazon Web Services account has a different default KMS key for each
+  /// Amazon Web Services Region.
+  ///
+  /// Parameter [networkType] :
+  /// The network type of the cluster.
+  ///
+  /// The network type is determined by the <code>DBSubnetGroup</code> specified
+  /// for the cluster. A <code>DBSubnetGroup</code> can support only the IPv4
+  /// protocol or the IPv4 and the IPv6 protocols (<code>DUAL</code>).
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/documentdb/latest/developerguide/vpc-clusters.html">DocumentDB
+  /// clusters in a VPC</a> in the Amazon DocumentDB Developer Guide.
+  ///
+  /// Valid Values: <code>IPV4</code> | <code>DUAL</code>
   ///
   /// Parameter [newDBClusterIdentifier] :
   /// The new cluster identifier for the cluster when renaming a cluster. This
@@ -3183,6 +3330,21 @@ class DocDB {
   ///
   /// Constraints: Minimum 30-minute window.
   ///
+  /// Parameter [rotateMasterUserPassword] :
+  /// Specifies whether to rotate the secret managed by Amazon Web Services
+  /// Secrets Manager for the master user password.
+  ///
+  /// This setting is valid only if the master user password is managed by
+  /// Amazon DocumentDB in Amazon Web Services Secrets Manager for the cluster.
+  /// The secret value contains the updated password.
+  ///
+  /// Constraint: You must apply the change immediately when rotating the master
+  /// user password.
+  ///
+  /// Parameter [serverlessV2ScalingConfiguration] :
+  /// Contains the scaling configuration of an Amazon DocumentDB Serverless
+  /// cluster.
+  ///
   /// Parameter [storageType] :
   /// The storage type to associate with the DB cluster.
   ///
@@ -3206,11 +3368,16 @@ class DocDB {
     String? dBClusterParameterGroupName,
     bool? deletionProtection,
     String? engineVersion,
+    bool? manageMasterUserPassword,
     String? masterUserPassword,
+    String? masterUserSecretKmsKeyId,
+    String? networkType,
     String? newDBClusterIdentifier,
     int? port,
     String? preferredBackupWindow,
     String? preferredMaintenanceWindow,
+    bool? rotateMasterUserPassword,
+    ServerlessV2ScalingConfiguration? serverlessV2ScalingConfiguration,
     String? storageType,
     List<String>? vpcSecurityGroupIds,
   }) async {
@@ -3230,7 +3397,12 @@ class DocDB {
       if (deletionProtection != null)
         'DeletionProtection': deletionProtection.toString(),
       if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (manageMasterUserPassword != null)
+        'ManageMasterUserPassword': manageMasterUserPassword.toString(),
       if (masterUserPassword != null) 'MasterUserPassword': masterUserPassword,
+      if (masterUserSecretKmsKeyId != null)
+        'MasterUserSecretKmsKeyId': masterUserSecretKmsKeyId,
+      if (networkType != null) 'NetworkType': networkType,
       if (newDBClusterIdentifier != null)
         'NewDBClusterIdentifier': newDBClusterIdentifier,
       if (port != null) 'Port': port.toString(),
@@ -3238,6 +3410,11 @@ class DocDB {
         'PreferredBackupWindow': preferredBackupWindow,
       if (preferredMaintenanceWindow != null)
         'PreferredMaintenanceWindow': preferredMaintenanceWindow,
+      if (rotateMasterUserPassword != null)
+        'RotateMasterUserPassword': rotateMasterUserPassword.toString(),
+      if (serverlessV2ScalingConfiguration != null)
+        for (var e1 in serverlessV2ScalingConfiguration.toQueryMap().entries)
+          'ServerlessV2ScalingConfiguration.${e1.key}': e1.value,
       if (storageType != null) 'StorageType': storageType,
       if (vpcSecurityGroupIds != null)
         if (vpcSecurityGroupIds.isEmpty)
@@ -3404,19 +3581,19 @@ class DocDB {
   /// configuration parameters by specifying these parameters and the new values
   /// in the request.
   ///
-  /// May throw [InvalidDBInstanceStateFault].
-  /// May throw [InvalidDBSecurityGroupStateFault].
-  /// May throw [DBInstanceAlreadyExistsFault].
-  /// May throw [DBInstanceNotFoundFault].
-  /// May throw [DBSecurityGroupNotFoundFault].
-  /// May throw [DBParameterGroupNotFoundFault].
-  /// May throw [InsufficientDBInstanceCapacityFault].
-  /// May throw [StorageQuotaExceededFault].
-  /// May throw [InvalidVPCNetworkStateFault].
-  /// May throw [DBUpgradeDependencyFailureFault].
-  /// May throw [StorageTypeNotSupportedFault].
   /// May throw [AuthorizationNotFoundFault].
   /// May throw [CertificateNotFoundFault].
+  /// May throw [DBInstanceAlreadyExistsFault].
+  /// May throw [DBInstanceNotFoundFault].
+  /// May throw [DBParameterGroupNotFoundFault].
+  /// May throw [DBSecurityGroupNotFoundFault].
+  /// May throw [DBUpgradeDependencyFailureFault].
+  /// May throw [InsufficientDBInstanceCapacityFault].
+  /// May throw [InvalidDBInstanceStateFault].
+  /// May throw [InvalidDBSecurityGroupStateFault].
+  /// May throw [InvalidVPCNetworkStateFault].
+  /// May throw [StorageQuotaExceededFault].
+  /// May throw [StorageTypeNotSupportedFault].
   ///
   /// Parameter [dBInstanceIdentifier] :
   /// The instance identifier. This value is stored as a lowercase string.
@@ -3601,11 +3778,11 @@ class DocDB {
   /// subnet in at least two Availability Zones in the Amazon Web Services
   /// Region.
   ///
+  /// May throw [DBSubnetGroupDoesNotCoverEnoughAZs].
   /// May throw [DBSubnetGroupNotFoundFault].
   /// May throw [DBSubnetQuotaExceededFault].
-  /// May throw [SubnetAlreadyInUse].
-  /// May throw [DBSubnetGroupDoesNotCoverEnoughAZs].
   /// May throw [InvalidSubnet].
+  /// May throw [SubnetAlreadyInUse].
   ///
   /// Parameter [dBSubnetGroupName] :
   /// The name for the subnet group. This value is stored as a lowercase string.
@@ -3651,11 +3828,11 @@ class DocDB {
   /// Modifies an existing Amazon DocumentDB event notification subscription.
   ///
   /// May throw [EventSubscriptionQuotaExceededFault].
-  /// May throw [SubscriptionNotFoundFault].
   /// May throw [SNSInvalidTopicFault].
   /// May throw [SNSNoAuthorizationFault].
   /// May throw [SNSTopicArnNotFoundFault].
   /// May throw [SubscriptionCategoryNotFoundFault].
+  /// May throw [SubscriptionNotFoundFault].
   ///
   /// Parameter [subscriptionName] :
   /// The name of the Amazon DocumentDB event notification subscription.
@@ -3785,8 +3962,8 @@ class DocDB {
   /// instance results in a momentary outage, during which the instance status
   /// is set to <i>rebooting</i>.
   ///
-  /// May throw [InvalidDBInstanceStateFault].
   /// May throw [DBInstanceNotFoundFault].
+  /// May throw [InvalidDBInstanceStateFault].
   ///
   /// Parameter [dBInstanceIdentifier] :
   /// The instance identifier. This parameter is stored as a lowercase string.
@@ -3832,9 +4009,9 @@ class DocDB {
   /// This action only applies to Amazon DocumentDB clusters.
   /// </note>
   ///
+  /// May throw [DBClusterNotFoundFault].
   /// May throw [GlobalClusterNotFoundFault].
   /// May throw [InvalidGlobalClusterStateFault].
-  /// May throw [DBClusterNotFoundFault].
   ///
   /// Parameter [dbClusterIdentifier] :
   /// The Amazon Resource Name (ARN) identifying the cluster that was detached
@@ -3866,8 +4043,8 @@ class DocDB {
   /// Removes a source identifier from an existing Amazon DocumentDB event
   /// notification subscription.
   ///
-  /// May throw [SubscriptionNotFoundFault].
   /// May throw [SourceNotFoundFault].
+  /// May throw [SubscriptionNotFoundFault].
   ///
   /// Parameter [sourceIdentifier] :
   /// The source identifier to be removed from the subscription, such as the
@@ -3899,9 +4076,9 @@ class DocDB {
 
   /// Removes metadata tags from an Amazon DocumentDB resource.
   ///
+  /// May throw [DBClusterNotFoundFault].
   /// May throw [DBInstanceNotFoundFault].
   /// May throw [DBSnapshotNotFoundFault].
-  /// May throw [DBClusterNotFoundFault].
   ///
   /// Parameter [resourceName] :
   /// The Amazon DocumentDB resource that the tags are removed from. This value
@@ -3942,8 +4119,8 @@ class DocDB {
   /// immediately and static parameters are set to <code>pending-reboot</code>
   /// to take effect on the next DB instance reboot.
   ///
-  /// May throw [InvalidDBParameterGroupStateFault].
   /// May throw [DBParameterGroupNotFoundFault].
+  /// May throw [InvalidDBParameterGroupStateFault].
   ///
   /// Parameter [dBClusterParameterGroupName] :
   /// The name of the cluster parameter group to reset.
@@ -3999,20 +4176,19 @@ class DocDB {
   ///
   /// May throw [DBClusterAlreadyExistsFault].
   /// May throw [DBClusterQuotaExceededFault].
-  /// May throw [StorageQuotaExceededFault].
-  /// May throw [DBSubnetGroupNotFoundFault].
-  /// May throw [DBSnapshotNotFoundFault].
   /// May throw [DBClusterSnapshotNotFoundFault].
+  /// May throw [DBSnapshotNotFoundFault].
+  /// May throw [DBSubnetGroupNotFoundFault].
   /// May throw [InsufficientDBClusterCapacityFault].
   /// May throw [InsufficientStorageClusterCapacityFault].
-  /// May throw [InvalidDBSnapshotStateFault].
   /// May throw [InvalidDBClusterSnapshotStateFault].
-  /// May throw [StorageQuotaExceededFault].
-  /// May throw [InvalidVPCNetworkStateFault].
+  /// May throw [InvalidDBSnapshotStateFault].
   /// May throw [InvalidRestoreFault].
-  /// May throw [DBSubnetGroupNotFoundFault].
   /// May throw [InvalidSubnet].
+  /// May throw [InvalidVPCNetworkStateFault].
   /// May throw [KMSKeyNotAccessibleFault].
+  /// May throw [NetworkTypeNotSupported].
+  /// May throw [StorageQuotaExceededFault].
   ///
   /// Parameter [dBClusterIdentifier] :
   /// The name of the cluster to create from the snapshot or cluster snapshot.
@@ -4062,7 +4238,7 @@ class DocDB {
   /// The name of the DB cluster parameter group to associate with this DB
   /// cluster.
   ///
-  /// <i>Type:</i> String.       <i>Required:</i> No.
+  /// <i>Type:</i> String. <i>Required:</i> No.
   ///
   /// If this argument is omitted, the default DB cluster parameter group is
   /// used. If supplied, must match the name of an existing default DB cluster
@@ -4117,12 +4293,29 @@ class DocDB {
   /// </li>
   /// </ul>
   ///
+  /// Parameter [networkType] :
+  /// The network type of the cluster.
+  ///
+  /// The network type is determined by the <code>DBSubnetGroup</code> specified
+  /// for the cluster. A <code>DBSubnetGroup</code> can support only the IPv4
+  /// protocol or the IPv4 and the IPv6 protocols (<code>DUAL</code>).
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/documentdb/latest/developerguide/vpc-clusters.html">DocumentDB
+  /// clusters in a VPC</a> in the Amazon DocumentDB Developer Guide.
+  ///
+  /// Valid Values: <code>IPV4</code> | <code>DUAL</code>
+  ///
   /// Parameter [port] :
   /// The port number on which the new cluster accepts connections.
   ///
   /// Constraints: Must be a value from <code>1150</code> to <code>65535</code>.
   ///
   /// Default: The same port as the original cluster.
+  ///
+  /// Parameter [serverlessV2ScalingConfiguration] :
+  /// Contains the scaling configuration of an Amazon DocumentDB Serverless
+  /// cluster.
   ///
   /// Parameter [storageType] :
   /// The storage type to associate with the DB cluster.
@@ -4152,7 +4345,9 @@ class DocDB {
     List<String>? enableCloudwatchLogsExports,
     String? engineVersion,
     String? kmsKeyId,
+    String? networkType,
     int? port,
+    ServerlessV2ScalingConfiguration? serverlessV2ScalingConfiguration,
     String? storageType,
     List<Tag>? tags,
     List<String>? vpcSecurityGroupIds,
@@ -4182,7 +4377,11 @@ class DocDB {
                 enableCloudwatchLogsExports[i1],
       if (engineVersion != null) 'EngineVersion': engineVersion,
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (networkType != null) 'NetworkType': networkType,
       if (port != null) 'Port': port.toString(),
+      if (serverlessV2ScalingConfiguration != null)
+        for (var e1 in serverlessV2ScalingConfiguration.toQueryMap().entries)
+          'ServerlessV2ScalingConfiguration.${e1.key}': e1.value,
       if (storageType != null) 'StorageType': storageType,
       if (tags != null)
         if (tags.isEmpty)
@@ -4232,6 +4431,7 @@ class DocDB {
   /// May throw [InvalidSubnet].
   /// May throw [InvalidVPCNetworkStateFault].
   /// May throw [KMSKeyNotAccessibleFault].
+  /// May throw [NetworkTypeNotSupported].
   /// May throw [StorageQuotaExceededFault].
   ///
   /// Parameter [dBClusterIdentifier] :
@@ -4312,6 +4512,19 @@ class DocDB {
   /// If <code>DBClusterIdentifier</code> refers to a cluster that is not
   /// encrypted, then the restore request is rejected.
   ///
+  /// Parameter [networkType] :
+  /// The network type of the cluster.
+  ///
+  /// The network type is determined by the <code>DBSubnetGroup</code> specified
+  /// for the cluster. A <code>DBSubnetGroup</code> can support only the IPv4
+  /// protocol or the IPv4 and the IPv6 protocols (<code>DUAL</code>).
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/documentdb/latest/developerguide/vpc-clusters.html">DocumentDB
+  /// clusters in a VPC</a> in the Amazon DocumentDB Developer Guide.
+  ///
+  /// Valid Values: <code>IPV4</code> | <code>DUAL</code>
+  ///
   /// Parameter [port] :
   /// The port number on which the new cluster accepts connections.
   ///
@@ -4365,6 +4578,10 @@ class DocDB {
   /// If you don't specify a <code>RestoreType</code> value, then the new DB
   /// cluster is restored as a full copy of the source DB cluster.
   ///
+  /// Parameter [serverlessV2ScalingConfiguration] :
+  /// Contains the scaling configuration of an Amazon DocumentDB Serverless
+  /// cluster.
+  ///
   /// Parameter [storageType] :
   /// The storage type to associate with the DB cluster.
   ///
@@ -4397,9 +4614,11 @@ class DocDB {
     bool? deletionProtection,
     List<String>? enableCloudwatchLogsExports,
     String? kmsKeyId,
+    String? networkType,
     int? port,
     DateTime? restoreToTime,
     String? restoreType,
+    ServerlessV2ScalingConfiguration? serverlessV2ScalingConfiguration,
     String? storageType,
     List<Tag>? tags,
     bool? useLatestRestorableTime,
@@ -4419,10 +4638,14 @@ class DocDB {
             'EnableCloudwatchLogsExports.member.${i1 + 1}':
                 enableCloudwatchLogsExports[i1],
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (networkType != null) 'NetworkType': networkType,
       if (port != null) 'Port': port.toString(),
       if (restoreToTime != null)
         'RestoreToTime': _s.iso8601ToJson(restoreToTime),
       if (restoreType != null) 'RestoreType': restoreType,
+      if (serverlessV2ScalingConfiguration != null)
+        for (var e1 in serverlessV2ScalingConfiguration.toQueryMap().entries)
+          'ServerlessV2ScalingConfiguration.${e1.key}': e1.value,
       if (storageType != null) 'StorageType': storageType,
       if (tags != null)
         if (tags.isEmpty)
@@ -4517,10 +4740,10 @@ class DocDB {
   /// Switches over the specified secondary Amazon DocumentDB cluster to be the
   /// new primary Amazon DocumentDB cluster in the global database cluster.
   ///
-  /// May throw [GlobalClusterNotFoundFault].
-  /// May throw [InvalidGlobalClusterStateFault].
   /// May throw [DBClusterNotFoundFault].
+  /// May throw [GlobalClusterNotFoundFault].
   /// May throw [InvalidDBClusterStateFault].
+  /// May throw [InvalidGlobalClusterStateFault].
   ///
   /// Parameter [globalClusterIdentifier] :
   /// The identifier of the Amazon DocumentDB global database cluster to switch
@@ -4601,29 +4824,6 @@ class AddSourceIdentifierToSubscriptionResult {
   }
 }
 
-class ApplyMethod {
-  static const immediate = ApplyMethod._('immediate');
-  static const pendingReboot = ApplyMethod._('pending-reboot');
-
-  final String value;
-
-  const ApplyMethod._(this.value);
-
-  static const values = [immediate, pendingReboot];
-
-  static ApplyMethod fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ApplyMethod._(value));
-
-  @override
-  bool operator ==(other) => other is ApplyMethod && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class ApplyPendingMaintenanceActionResult {
   final ResourcePendingMaintenanceActions? resourcePendingMaintenanceActions;
 
@@ -4644,214 +4844,6 @@ class ApplyPendingMaintenanceActionResult {
     return {
       if (resourcePendingMaintenanceActions != null)
         'ResourcePendingMaintenanceActions': resourcePendingMaintenanceActions,
-    };
-  }
-}
-
-/// Information about an Availability Zone.
-class AvailabilityZone {
-  /// The name of the Availability Zone.
-  final String? name;
-
-  AvailabilityZone({
-    this.name,
-  });
-  factory AvailabilityZone.fromXml(_s.XmlElement elem) {
-    return AvailabilityZone(
-      name: _s.extractXmlStringValue(elem, 'Name'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    return {
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
-/// A certificate authority (CA) certificate for an Amazon Web Services account.
-class Certificate {
-  /// The Amazon Resource Name (ARN) for the certificate.
-  ///
-  /// Example: <code>arn:aws:rds:us-east-1::cert:rds-ca-2019</code>
-  final String? certificateArn;
-
-  /// The unique key that identifies a certificate.
-  ///
-  /// Example: <code>rds-ca-2019</code>
-  final String? certificateIdentifier;
-
-  /// The type of the certificate.
-  ///
-  /// Example: <code>CA</code>
-  final String? certificateType;
-
-  /// The thumbprint of the certificate.
-  final String? thumbprint;
-
-  /// The starting date-time from which the certificate is valid.
-  ///
-  /// Example: <code>2019-07-31T17:57:09Z</code>
-  final DateTime? validFrom;
-
-  /// The date-time after which the certificate is no longer valid.
-  ///
-  /// Example: <code>2024-07-31T17:57:09Z</code>
-  final DateTime? validTill;
-
-  Certificate({
-    this.certificateArn,
-    this.certificateIdentifier,
-    this.certificateType,
-    this.thumbprint,
-    this.validFrom,
-    this.validTill,
-  });
-  factory Certificate.fromXml(_s.XmlElement elem) {
-    return Certificate(
-      certificateArn: _s.extractXmlStringValue(elem, 'CertificateArn'),
-      certificateIdentifier:
-          _s.extractXmlStringValue(elem, 'CertificateIdentifier'),
-      certificateType: _s.extractXmlStringValue(elem, 'CertificateType'),
-      thumbprint: _s.extractXmlStringValue(elem, 'Thumbprint'),
-      validFrom: _s.extractXmlDateTimeValue(elem, 'ValidFrom'),
-      validTill: _s.extractXmlDateTimeValue(elem, 'ValidTill'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final certificateArn = this.certificateArn;
-    final certificateIdentifier = this.certificateIdentifier;
-    final certificateType = this.certificateType;
-    final thumbprint = this.thumbprint;
-    final validFrom = this.validFrom;
-    final validTill = this.validTill;
-    return {
-      if (certificateArn != null) 'CertificateArn': certificateArn,
-      if (certificateIdentifier != null)
-        'CertificateIdentifier': certificateIdentifier,
-      if (certificateType != null) 'CertificateType': certificateType,
-      if (thumbprint != null) 'Thumbprint': thumbprint,
-      if (validFrom != null) 'ValidFrom': iso8601ToJson(validFrom),
-      if (validTill != null) 'ValidTill': iso8601ToJson(validTill),
-    };
-  }
-}
-
-/// Returns the details of the DB instance’s server certificate.
-///
-/// For more information, see <a
-/// href="https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html">Updating
-/// Your Amazon DocumentDB TLS Certificates</a> and <a
-/// href="https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html">
-/// Encrypting Data in Transit</a> in the <i>Amazon DocumentDB Developer
-/// Guide</i>.
-class CertificateDetails {
-  /// The CA identifier of the CA certificate used for the DB instance's server
-  /// certificate.
-  final String? cAIdentifier;
-
-  /// The expiration date of the DB instance’s server certificate.
-  final DateTime? validTill;
-
-  CertificateDetails({
-    this.cAIdentifier,
-    this.validTill,
-  });
-  factory CertificateDetails.fromXml(_s.XmlElement elem) {
-    return CertificateDetails(
-      cAIdentifier: _s.extractXmlStringValue(elem, 'CAIdentifier'),
-      validTill: _s.extractXmlDateTimeValue(elem, 'ValidTill'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cAIdentifier = this.cAIdentifier;
-    final validTill = this.validTill;
-    return {
-      if (cAIdentifier != null) 'CAIdentifier': cAIdentifier,
-      if (validTill != null) 'ValidTill': iso8601ToJson(validTill),
-    };
-  }
-}
-
-class CertificateMessage {
-  /// A list of certificates for this Amazon Web Services account.
-  final List<Certificate>? certificates;
-
-  /// An optional pagination token provided if the number of records retrieved is
-  /// greater than <code>MaxRecords</code>. If this parameter is specified, the
-  /// marker specifies the next record in the list. Including the value of
-  /// <code>Marker</code> in the next call to <code>DescribeCertificates</code>
-  /// results in the next page of certificates.
-  final String? marker;
-
-  CertificateMessage({
-    this.certificates,
-    this.marker,
-  });
-  factory CertificateMessage.fromXml(_s.XmlElement elem) {
-    return CertificateMessage(
-      certificates: _s.extractXmlChild(elem, 'Certificates')?.let((elem) =>
-          elem.findElements('Certificate').map(Certificate.fromXml).toList()),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final certificates = this.certificates;
-    final marker = this.marker;
-    return {
-      if (certificates != null) 'Certificates': certificates,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-/// The configuration setting for the log types to be enabled for export to
-/// Amazon CloudWatch Logs for a specific instance or cluster.
-///
-/// The <code>EnableLogTypes</code> and <code>DisableLogTypes</code> arrays
-/// determine which logs are exported (or not exported) to CloudWatch Logs. The
-/// values within these arrays depend on the engine that is being used.
-class CloudwatchLogsExportConfiguration {
-  /// The list of log types to disable.
-  final List<String>? disableLogTypes;
-
-  /// The list of log types to enable.
-  final List<String>? enableLogTypes;
-
-  CloudwatchLogsExportConfiguration({
-    this.disableLogTypes,
-    this.enableLogTypes,
-  });
-
-  Map<String, dynamic> toJson() {
-    final disableLogTypes = this.disableLogTypes;
-    final enableLogTypes = this.enableLogTypes;
-    return {
-      if (disableLogTypes != null) 'DisableLogTypes': disableLogTypes,
-      if (enableLogTypes != null) 'EnableLogTypes': enableLogTypes,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final disableLogTypes = this.disableLogTypes;
-    final enableLogTypes = this.enableLogTypes;
-    return {
-      if (disableLogTypes != null)
-        if (disableLogTypes.isEmpty)
-          'DisableLogTypes': ''
-        else
-          for (var i1 = 0; i1 < disableLogTypes.length; i1++)
-            'DisableLogTypes.member.${i1 + 1}': disableLogTypes[i1],
-      if (enableLogTypes != null)
-        if (enableLogTypes.isEmpty)
-          'EnableLogTypes': ''
-        else
-          for (var i1 = 0; i1 < enableLogTypes.length; i1++)
-            'EnableLogTypes.member.${i1 + 1}': enableLogTypes[i1],
     };
   }
 }
@@ -4901,6 +4893,26 @@ class CopyDBClusterSnapshotResult {
   }
 }
 
+class CreateDBClusterResult {
+  final DBCluster? dBCluster;
+
+  CreateDBClusterResult({
+    this.dBCluster,
+  });
+  factory CreateDBClusterResult.fromXml(_s.XmlElement elem) {
+    return CreateDBClusterResult(
+      dBCluster: _s.extractXmlChild(elem, 'DBCluster')?.let(DBCluster.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dBCluster = this.dBCluster;
+    return {
+      if (dBCluster != null) 'DBCluster': dBCluster,
+    };
+  }
+}
+
 class CreateDBClusterParameterGroupResult {
   final DBClusterParameterGroup? dBClusterParameterGroup;
 
@@ -4920,26 +4932,6 @@ class CreateDBClusterParameterGroupResult {
     return {
       if (dBClusterParameterGroup != null)
         'DBClusterParameterGroup': dBClusterParameterGroup,
-    };
-  }
-}
-
-class CreateDBClusterResult {
-  final DBCluster? dBCluster;
-
-  CreateDBClusterResult({
-    this.dBCluster,
-  });
-  factory CreateDBClusterResult.fromXml(_s.XmlElement elem) {
-    return CreateDBClusterResult(
-      dBCluster: _s.extractXmlChild(elem, 'DBCluster')?.let(DBCluster.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dBCluster = this.dBCluster;
-    return {
-      if (dBCluster != null) 'DBCluster': dBCluster,
     };
   }
 }
@@ -5051,6 +5043,1374 @@ class CreateGlobalClusterResult {
   }
 }
 
+class DeleteDBClusterResult {
+  final DBCluster? dBCluster;
+
+  DeleteDBClusterResult({
+    this.dBCluster,
+  });
+  factory DeleteDBClusterResult.fromXml(_s.XmlElement elem) {
+    return DeleteDBClusterResult(
+      dBCluster: _s.extractXmlChild(elem, 'DBCluster')?.let(DBCluster.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dBCluster = this.dBCluster;
+    return {
+      if (dBCluster != null) 'DBCluster': dBCluster,
+    };
+  }
+}
+
+class DeleteDBClusterSnapshotResult {
+  final DBClusterSnapshot? dBClusterSnapshot;
+
+  DeleteDBClusterSnapshotResult({
+    this.dBClusterSnapshot,
+  });
+  factory DeleteDBClusterSnapshotResult.fromXml(_s.XmlElement elem) {
+    return DeleteDBClusterSnapshotResult(
+      dBClusterSnapshot: _s
+          .extractXmlChild(elem, 'DBClusterSnapshot')
+          ?.let(DBClusterSnapshot.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dBClusterSnapshot = this.dBClusterSnapshot;
+    return {
+      if (dBClusterSnapshot != null) 'DBClusterSnapshot': dBClusterSnapshot,
+    };
+  }
+}
+
+class DeleteDBInstanceResult {
+  final DBInstance? dBInstance;
+
+  DeleteDBInstanceResult({
+    this.dBInstance,
+  });
+  factory DeleteDBInstanceResult.fromXml(_s.XmlElement elem) {
+    return DeleteDBInstanceResult(
+      dBInstance:
+          _s.extractXmlChild(elem, 'DBInstance')?.let(DBInstance.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dBInstance = this.dBInstance;
+    return {
+      if (dBInstance != null) 'DBInstance': dBInstance,
+    };
+  }
+}
+
+class DeleteEventSubscriptionResult {
+  final EventSubscription? eventSubscription;
+
+  DeleteEventSubscriptionResult({
+    this.eventSubscription,
+  });
+  factory DeleteEventSubscriptionResult.fromXml(_s.XmlElement elem) {
+    return DeleteEventSubscriptionResult(
+      eventSubscription: _s
+          .extractXmlChild(elem, 'EventSubscription')
+          ?.let(EventSubscription.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventSubscription = this.eventSubscription;
+    return {
+      if (eventSubscription != null) 'EventSubscription': eventSubscription,
+    };
+  }
+}
+
+class DeleteGlobalClusterResult {
+  final GlobalCluster? globalCluster;
+
+  DeleteGlobalClusterResult({
+    this.globalCluster,
+  });
+  factory DeleteGlobalClusterResult.fromXml(_s.XmlElement elem) {
+    return DeleteGlobalClusterResult(
+      globalCluster:
+          _s.extractXmlChild(elem, 'GlobalCluster')?.let(GlobalCluster.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalCluster = this.globalCluster;
+    return {
+      if (globalCluster != null) 'GlobalCluster': globalCluster,
+    };
+  }
+}
+
+class CertificateMessage {
+  /// A list of certificates for this Amazon Web Services account.
+  final List<Certificate>? certificates;
+
+  /// An optional pagination token provided if the number of records retrieved is
+  /// greater than <code>MaxRecords</code>. If this parameter is specified, the
+  /// marker specifies the next record in the list. Including the value of
+  /// <code>Marker</code> in the next call to <code>DescribeCertificates</code>
+  /// results in the next page of certificates.
+  final String? marker;
+
+  CertificateMessage({
+    this.certificates,
+    this.marker,
+  });
+  factory CertificateMessage.fromXml(_s.XmlElement elem) {
+    return CertificateMessage(
+      certificates: _s.extractXmlChild(elem, 'Certificates')?.let((elem) =>
+          elem.findElements('Certificate').map(Certificate.fromXml).toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificates = this.certificates;
+    final marker = this.marker;
+    return {
+      if (certificates != null) 'Certificates': certificates,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+/// Represents the output of <a>DBClusterParameterGroups</a>.
+class DBClusterParameterGroupsMessage {
+  /// A list of cluster parameter groups.
+  final List<DBClusterParameterGroup>? dBClusterParameterGroups;
+
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  final String? marker;
+
+  DBClusterParameterGroupsMessage({
+    this.dBClusterParameterGroups,
+    this.marker,
+  });
+  factory DBClusterParameterGroupsMessage.fromXml(_s.XmlElement elem) {
+    return DBClusterParameterGroupsMessage(
+      dBClusterParameterGroups: _s
+          .extractXmlChild(elem, 'DBClusterParameterGroups')
+          ?.let((elem) => elem
+              .findElements('DBClusterParameterGroup')
+              .map(DBClusterParameterGroup.fromXml)
+              .toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dBClusterParameterGroups = this.dBClusterParameterGroups;
+    final marker = this.marker;
+    return {
+      if (dBClusterParameterGroups != null)
+        'DBClusterParameterGroups': dBClusterParameterGroups,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+/// Represents the output of <a>DBClusterParameterGroup</a>.
+class DBClusterParameterGroupDetails {
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  final String? marker;
+
+  /// Provides a list of parameters for the cluster parameter group.
+  final List<Parameter>? parameters;
+
+  DBClusterParameterGroupDetails({
+    this.marker,
+    this.parameters,
+  });
+  factory DBClusterParameterGroupDetails.fromXml(_s.XmlElement elem) {
+    return DBClusterParameterGroupDetails(
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      parameters: _s.extractXmlChild(elem, 'Parameters')?.let((elem) =>
+          elem.findElements('Parameter').map(Parameter.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final parameters = this.parameters;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (parameters != null) 'Parameters': parameters,
+    };
+  }
+}
+
+/// Represents the output of <a>DescribeDBClusters</a>.
+class DBClusterMessage {
+  /// A list of clusters.
+  final List<DBCluster>? dBClusters;
+
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  final String? marker;
+
+  DBClusterMessage({
+    this.dBClusters,
+    this.marker,
+  });
+  factory DBClusterMessage.fromXml(_s.XmlElement elem) {
+    return DBClusterMessage(
+      dBClusters: _s.extractXmlChild(elem, 'DBClusters')?.let((elem) =>
+          elem.findElements('DBCluster').map(DBCluster.fromXml).toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dBClusters = this.dBClusters;
+    final marker = this.marker;
+    return {
+      if (dBClusters != null) 'DBClusters': dBClusters,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+class DescribeDBClusterSnapshotAttributesResult {
+  final DBClusterSnapshotAttributesResult? dBClusterSnapshotAttributesResult;
+
+  DescribeDBClusterSnapshotAttributesResult({
+    this.dBClusterSnapshotAttributesResult,
+  });
+  factory DescribeDBClusterSnapshotAttributesResult.fromXml(
+      _s.XmlElement elem) {
+    return DescribeDBClusterSnapshotAttributesResult(
+      dBClusterSnapshotAttributesResult: _s
+          .extractXmlChild(elem, 'DBClusterSnapshotAttributesResult')
+          ?.let(DBClusterSnapshotAttributesResult.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dBClusterSnapshotAttributesResult =
+        this.dBClusterSnapshotAttributesResult;
+    return {
+      if (dBClusterSnapshotAttributesResult != null)
+        'DBClusterSnapshotAttributesResult': dBClusterSnapshotAttributesResult,
+    };
+  }
+}
+
+/// Represents the output of <a>DescribeDBClusterSnapshots</a>.
+class DBClusterSnapshotMessage {
+  /// Provides a list of cluster snapshots.
+  final List<DBClusterSnapshot>? dBClusterSnapshots;
+
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  final String? marker;
+
+  DBClusterSnapshotMessage({
+    this.dBClusterSnapshots,
+    this.marker,
+  });
+  factory DBClusterSnapshotMessage.fromXml(_s.XmlElement elem) {
+    return DBClusterSnapshotMessage(
+      dBClusterSnapshots: _s.extractXmlChild(elem, 'DBClusterSnapshots')?.let(
+          (elem) => elem
+              .findElements('DBClusterSnapshot')
+              .map(DBClusterSnapshot.fromXml)
+              .toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dBClusterSnapshots = this.dBClusterSnapshots;
+    final marker = this.marker;
+    return {
+      if (dBClusterSnapshots != null) 'DBClusterSnapshots': dBClusterSnapshots,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+/// Represents the output of <a>DescribeDBEngineVersions</a>.
+class DBEngineVersionMessage {
+  /// Detailed information about one or more engine versions.
+  final List<DBEngineVersion>? dBEngineVersions;
+
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  final String? marker;
+
+  DBEngineVersionMessage({
+    this.dBEngineVersions,
+    this.marker,
+  });
+  factory DBEngineVersionMessage.fromXml(_s.XmlElement elem) {
+    return DBEngineVersionMessage(
+      dBEngineVersions: _s.extractXmlChild(elem, 'DBEngineVersions')?.let(
+          (elem) => elem
+              .findElements('DBEngineVersion')
+              .map(DBEngineVersion.fromXml)
+              .toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dBEngineVersions = this.dBEngineVersions;
+    final marker = this.marker;
+    return {
+      if (dBEngineVersions != null) 'DBEngineVersions': dBEngineVersions,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+/// Represents the output of <a>DescribeDBInstances</a>.
+class DBInstanceMessage {
+  /// Detailed information about one or more instances.
+  final List<DBInstance>? dBInstances;
+
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  final String? marker;
+
+  DBInstanceMessage({
+    this.dBInstances,
+    this.marker,
+  });
+  factory DBInstanceMessage.fromXml(_s.XmlElement elem) {
+    return DBInstanceMessage(
+      dBInstances: _s.extractXmlChild(elem, 'DBInstances')?.let((elem) =>
+          elem.findElements('DBInstance').map(DBInstance.fromXml).toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dBInstances = this.dBInstances;
+    final marker = this.marker;
+    return {
+      if (dBInstances != null) 'DBInstances': dBInstances,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+/// Represents the output of <a>DescribeDBSubnetGroups</a>.
+class DBSubnetGroupMessage {
+  /// Detailed information about one or more subnet groups.
+  final List<DBSubnetGroup>? dBSubnetGroups;
+
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  final String? marker;
+
+  DBSubnetGroupMessage({
+    this.dBSubnetGroups,
+    this.marker,
+  });
+  factory DBSubnetGroupMessage.fromXml(_s.XmlElement elem) {
+    return DBSubnetGroupMessage(
+      dBSubnetGroups: _s.extractXmlChild(elem, 'DBSubnetGroups')?.let((elem) =>
+          elem
+              .findElements('DBSubnetGroup')
+              .map(DBSubnetGroup.fromXml)
+              .toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dBSubnetGroups = this.dBSubnetGroups;
+    final marker = this.marker;
+    return {
+      if (dBSubnetGroups != null) 'DBSubnetGroups': dBSubnetGroups,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+class DescribeEngineDefaultClusterParametersResult {
+  final EngineDefaults? engineDefaults;
+
+  DescribeEngineDefaultClusterParametersResult({
+    this.engineDefaults,
+  });
+  factory DescribeEngineDefaultClusterParametersResult.fromXml(
+      _s.XmlElement elem) {
+    return DescribeEngineDefaultClusterParametersResult(
+      engineDefaults: _s
+          .extractXmlChild(elem, 'EngineDefaults')
+          ?.let(EngineDefaults.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final engineDefaults = this.engineDefaults;
+    return {
+      if (engineDefaults != null) 'EngineDefaults': engineDefaults,
+    };
+  }
+}
+
+/// Represents the output of <a>DescribeEventCategories</a>.
+class EventCategoriesMessage {
+  /// A list of event category maps.
+  final List<EventCategoriesMap>? eventCategoriesMapList;
+
+  EventCategoriesMessage({
+    this.eventCategoriesMapList,
+  });
+  factory EventCategoriesMessage.fromXml(_s.XmlElement elem) {
+    return EventCategoriesMessage(
+      eventCategoriesMapList: _s
+          .extractXmlChild(elem, 'EventCategoriesMapList')
+          ?.let((elem) => elem
+              .findElements('EventCategoriesMap')
+              .map(EventCategoriesMap.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventCategoriesMapList = this.eventCategoriesMapList;
+    return {
+      if (eventCategoriesMapList != null)
+        'EventCategoriesMapList': eventCategoriesMapList,
+    };
+  }
+}
+
+/// Represents the output of <a>DescribeEvents</a>.
+class EventsMessage {
+  /// Detailed information about one or more events.
+  final List<Event>? events;
+
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  final String? marker;
+
+  EventsMessage({
+    this.events,
+    this.marker,
+  });
+  factory EventsMessage.fromXml(_s.XmlElement elem) {
+    return EventsMessage(
+      events: _s.extractXmlChild(elem, 'Events')?.let(
+          (elem) => elem.findElements('Event').map(Event.fromXml).toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final events = this.events;
+    final marker = this.marker;
+    return {
+      if (events != null) 'Events': events,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+/// Represents the output of <a>DescribeEventSubscriptions</a>.
+class EventSubscriptionsMessage {
+  /// A list of event subscriptions.
+  final List<EventSubscription>? eventSubscriptionsList;
+
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  final String? marker;
+
+  EventSubscriptionsMessage({
+    this.eventSubscriptionsList,
+    this.marker,
+  });
+  factory EventSubscriptionsMessage.fromXml(_s.XmlElement elem) {
+    return EventSubscriptionsMessage(
+      eventSubscriptionsList: _s
+          .extractXmlChild(elem, 'EventSubscriptionsList')
+          ?.let((elem) => elem
+              .findElements('EventSubscription')
+              .map(EventSubscription.fromXml)
+              .toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventSubscriptionsList = this.eventSubscriptionsList;
+    final marker = this.marker;
+    return {
+      if (eventSubscriptionsList != null)
+        'EventSubscriptionsList': eventSubscriptionsList,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+class GlobalClustersMessage {
+  ///
+  final List<GlobalCluster>? globalClusters;
+
+  ///
+  final String? marker;
+
+  GlobalClustersMessage({
+    this.globalClusters,
+    this.marker,
+  });
+  factory GlobalClustersMessage.fromXml(_s.XmlElement elem) {
+    return GlobalClustersMessage(
+      globalClusters: _s.extractXmlChild(elem, 'GlobalClusters')?.let((elem) =>
+          elem
+              .findElements('GlobalClusterMember')
+              .map(GlobalCluster.fromXml)
+              .toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalClusters = this.globalClusters;
+    final marker = this.marker;
+    return {
+      if (globalClusters != null) 'GlobalClusters': globalClusters,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+/// Represents the output of <a>DescribeOrderableDBInstanceOptions</a>.
+class OrderableDBInstanceOptionsMessage {
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  final String? marker;
+
+  /// The options that are available for a particular orderable instance.
+  final List<OrderableDBInstanceOption>? orderableDBInstanceOptions;
+
+  OrderableDBInstanceOptionsMessage({
+    this.marker,
+    this.orderableDBInstanceOptions,
+  });
+  factory OrderableDBInstanceOptionsMessage.fromXml(_s.XmlElement elem) {
+    return OrderableDBInstanceOptionsMessage(
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      orderableDBInstanceOptions: _s
+          .extractXmlChild(elem, 'OrderableDBInstanceOptions')
+          ?.let((elem) => elem
+              .findElements('OrderableDBInstanceOption')
+              .map(OrderableDBInstanceOption.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final orderableDBInstanceOptions = this.orderableDBInstanceOptions;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (orderableDBInstanceOptions != null)
+        'OrderableDBInstanceOptions': orderableDBInstanceOptions,
+    };
+  }
+}
+
+/// Represents the output of <a>DescribePendingMaintenanceActions</a>.
+class PendingMaintenanceActionsMessage {
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  final String? marker;
+
+  /// The maintenance actions to be applied.
+  final List<ResourcePendingMaintenanceActions>? pendingMaintenanceActions;
+
+  PendingMaintenanceActionsMessage({
+    this.marker,
+    this.pendingMaintenanceActions,
+  });
+  factory PendingMaintenanceActionsMessage.fromXml(_s.XmlElement elem) {
+    return PendingMaintenanceActionsMessage(
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      pendingMaintenanceActions: _s
+          .extractXmlChild(elem, 'PendingMaintenanceActions')
+          ?.let((elem) => elem
+              .findElements('ResourcePendingMaintenanceActions')
+              .map(ResourcePendingMaintenanceActions.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final pendingMaintenanceActions = this.pendingMaintenanceActions;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (pendingMaintenanceActions != null)
+        'PendingMaintenanceActions': pendingMaintenanceActions,
+    };
+  }
+}
+
+class FailoverDBClusterResult {
+  final DBCluster? dBCluster;
+
+  FailoverDBClusterResult({
+    this.dBCluster,
+  });
+  factory FailoverDBClusterResult.fromXml(_s.XmlElement elem) {
+    return FailoverDBClusterResult(
+      dBCluster: _s.extractXmlChild(elem, 'DBCluster')?.let(DBCluster.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dBCluster = this.dBCluster;
+    return {
+      if (dBCluster != null) 'DBCluster': dBCluster,
+    };
+  }
+}
+
+class FailoverGlobalClusterResult {
+  final GlobalCluster? globalCluster;
+
+  FailoverGlobalClusterResult({
+    this.globalCluster,
+  });
+  factory FailoverGlobalClusterResult.fromXml(_s.XmlElement elem) {
+    return FailoverGlobalClusterResult(
+      globalCluster:
+          _s.extractXmlChild(elem, 'GlobalCluster')?.let(GlobalCluster.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalCluster = this.globalCluster;
+    return {
+      if (globalCluster != null) 'GlobalCluster': globalCluster,
+    };
+  }
+}
+
+/// Represents the output of <a>ListTagsForResource</a>.
+class TagListMessage {
+  /// A list of one or more tags.
+  final List<Tag>? tagList;
+
+  TagListMessage({
+    this.tagList,
+  });
+  factory TagListMessage.fromXml(_s.XmlElement elem) {
+    return TagListMessage(
+      tagList: _s
+          .extractXmlChild(elem, 'TagList')
+          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tagList = this.tagList;
+    return {
+      if (tagList != null) 'TagList': tagList,
+    };
+  }
+}
+
+class ModifyDBClusterResult {
+  final DBCluster? dBCluster;
+
+  ModifyDBClusterResult({
+    this.dBCluster,
+  });
+  factory ModifyDBClusterResult.fromXml(_s.XmlElement elem) {
+    return ModifyDBClusterResult(
+      dBCluster: _s.extractXmlChild(elem, 'DBCluster')?.let(DBCluster.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dBCluster = this.dBCluster;
+    return {
+      if (dBCluster != null) 'DBCluster': dBCluster,
+    };
+  }
+}
+
+/// Contains the name of a cluster parameter group.
+class DBClusterParameterGroupNameMessage {
+  /// The name of a cluster parameter group.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Must be from 1 to 255 letters or numbers.
+  /// </li>
+  /// <li>
+  /// The first character must be a letter.
+  /// </li>
+  /// <li>
+  /// Cannot end with a hyphen or contain two consecutive hyphens.
+  /// </li>
+  /// </ul> <note>
+  /// This value is stored as a lowercase string.
+  /// </note>
+  final String? dBClusterParameterGroupName;
+
+  DBClusterParameterGroupNameMessage({
+    this.dBClusterParameterGroupName,
+  });
+  factory DBClusterParameterGroupNameMessage.fromXml(_s.XmlElement elem) {
+    return DBClusterParameterGroupNameMessage(
+      dBClusterParameterGroupName:
+          _s.extractXmlStringValue(elem, 'DBClusterParameterGroupName'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dBClusterParameterGroupName = this.dBClusterParameterGroupName;
+    return {
+      if (dBClusterParameterGroupName != null)
+        'DBClusterParameterGroupName': dBClusterParameterGroupName,
+    };
+  }
+}
+
+class ModifyDBClusterSnapshotAttributeResult {
+  final DBClusterSnapshotAttributesResult? dBClusterSnapshotAttributesResult;
+
+  ModifyDBClusterSnapshotAttributeResult({
+    this.dBClusterSnapshotAttributesResult,
+  });
+  factory ModifyDBClusterSnapshotAttributeResult.fromXml(_s.XmlElement elem) {
+    return ModifyDBClusterSnapshotAttributeResult(
+      dBClusterSnapshotAttributesResult: _s
+          .extractXmlChild(elem, 'DBClusterSnapshotAttributesResult')
+          ?.let(DBClusterSnapshotAttributesResult.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dBClusterSnapshotAttributesResult =
+        this.dBClusterSnapshotAttributesResult;
+    return {
+      if (dBClusterSnapshotAttributesResult != null)
+        'DBClusterSnapshotAttributesResult': dBClusterSnapshotAttributesResult,
+    };
+  }
+}
+
+class ModifyDBInstanceResult {
+  final DBInstance? dBInstance;
+
+  ModifyDBInstanceResult({
+    this.dBInstance,
+  });
+  factory ModifyDBInstanceResult.fromXml(_s.XmlElement elem) {
+    return ModifyDBInstanceResult(
+      dBInstance:
+          _s.extractXmlChild(elem, 'DBInstance')?.let(DBInstance.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dBInstance = this.dBInstance;
+    return {
+      if (dBInstance != null) 'DBInstance': dBInstance,
+    };
+  }
+}
+
+class ModifyDBSubnetGroupResult {
+  final DBSubnetGroup? dBSubnetGroup;
+
+  ModifyDBSubnetGroupResult({
+    this.dBSubnetGroup,
+  });
+  factory ModifyDBSubnetGroupResult.fromXml(_s.XmlElement elem) {
+    return ModifyDBSubnetGroupResult(
+      dBSubnetGroup:
+          _s.extractXmlChild(elem, 'DBSubnetGroup')?.let(DBSubnetGroup.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dBSubnetGroup = this.dBSubnetGroup;
+    return {
+      if (dBSubnetGroup != null) 'DBSubnetGroup': dBSubnetGroup,
+    };
+  }
+}
+
+class ModifyEventSubscriptionResult {
+  final EventSubscription? eventSubscription;
+
+  ModifyEventSubscriptionResult({
+    this.eventSubscription,
+  });
+  factory ModifyEventSubscriptionResult.fromXml(_s.XmlElement elem) {
+    return ModifyEventSubscriptionResult(
+      eventSubscription: _s
+          .extractXmlChild(elem, 'EventSubscription')
+          ?.let(EventSubscription.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventSubscription = this.eventSubscription;
+    return {
+      if (eventSubscription != null) 'EventSubscription': eventSubscription,
+    };
+  }
+}
+
+class ModifyGlobalClusterResult {
+  final GlobalCluster? globalCluster;
+
+  ModifyGlobalClusterResult({
+    this.globalCluster,
+  });
+  factory ModifyGlobalClusterResult.fromXml(_s.XmlElement elem) {
+    return ModifyGlobalClusterResult(
+      globalCluster:
+          _s.extractXmlChild(elem, 'GlobalCluster')?.let(GlobalCluster.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalCluster = this.globalCluster;
+    return {
+      if (globalCluster != null) 'GlobalCluster': globalCluster,
+    };
+  }
+}
+
+class RebootDBInstanceResult {
+  final DBInstance? dBInstance;
+
+  RebootDBInstanceResult({
+    this.dBInstance,
+  });
+  factory RebootDBInstanceResult.fromXml(_s.XmlElement elem) {
+    return RebootDBInstanceResult(
+      dBInstance:
+          _s.extractXmlChild(elem, 'DBInstance')?.let(DBInstance.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dBInstance = this.dBInstance;
+    return {
+      if (dBInstance != null) 'DBInstance': dBInstance,
+    };
+  }
+}
+
+class RemoveFromGlobalClusterResult {
+  final GlobalCluster? globalCluster;
+
+  RemoveFromGlobalClusterResult({
+    this.globalCluster,
+  });
+  factory RemoveFromGlobalClusterResult.fromXml(_s.XmlElement elem) {
+    return RemoveFromGlobalClusterResult(
+      globalCluster:
+          _s.extractXmlChild(elem, 'GlobalCluster')?.let(GlobalCluster.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalCluster = this.globalCluster;
+    return {
+      if (globalCluster != null) 'GlobalCluster': globalCluster,
+    };
+  }
+}
+
+class RemoveSourceIdentifierFromSubscriptionResult {
+  final EventSubscription? eventSubscription;
+
+  RemoveSourceIdentifierFromSubscriptionResult({
+    this.eventSubscription,
+  });
+  factory RemoveSourceIdentifierFromSubscriptionResult.fromXml(
+      _s.XmlElement elem) {
+    return RemoveSourceIdentifierFromSubscriptionResult(
+      eventSubscription: _s
+          .extractXmlChild(elem, 'EventSubscription')
+          ?.let(EventSubscription.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventSubscription = this.eventSubscription;
+    return {
+      if (eventSubscription != null) 'EventSubscription': eventSubscription,
+    };
+  }
+}
+
+class RestoreDBClusterFromSnapshotResult {
+  final DBCluster? dBCluster;
+
+  RestoreDBClusterFromSnapshotResult({
+    this.dBCluster,
+  });
+  factory RestoreDBClusterFromSnapshotResult.fromXml(_s.XmlElement elem) {
+    return RestoreDBClusterFromSnapshotResult(
+      dBCluster: _s.extractXmlChild(elem, 'DBCluster')?.let(DBCluster.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dBCluster = this.dBCluster;
+    return {
+      if (dBCluster != null) 'DBCluster': dBCluster,
+    };
+  }
+}
+
+class RestoreDBClusterToPointInTimeResult {
+  final DBCluster? dBCluster;
+
+  RestoreDBClusterToPointInTimeResult({
+    this.dBCluster,
+  });
+  factory RestoreDBClusterToPointInTimeResult.fromXml(_s.XmlElement elem) {
+    return RestoreDBClusterToPointInTimeResult(
+      dBCluster: _s.extractXmlChild(elem, 'DBCluster')?.let(DBCluster.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dBCluster = this.dBCluster;
+    return {
+      if (dBCluster != null) 'DBCluster': dBCluster,
+    };
+  }
+}
+
+class StartDBClusterResult {
+  final DBCluster? dBCluster;
+
+  StartDBClusterResult({
+    this.dBCluster,
+  });
+  factory StartDBClusterResult.fromXml(_s.XmlElement elem) {
+    return StartDBClusterResult(
+      dBCluster: _s.extractXmlChild(elem, 'DBCluster')?.let(DBCluster.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dBCluster = this.dBCluster;
+    return {
+      if (dBCluster != null) 'DBCluster': dBCluster,
+    };
+  }
+}
+
+class StopDBClusterResult {
+  final DBCluster? dBCluster;
+
+  StopDBClusterResult({
+    this.dBCluster,
+  });
+  factory StopDBClusterResult.fromXml(_s.XmlElement elem) {
+    return StopDBClusterResult(
+      dBCluster: _s.extractXmlChild(elem, 'DBCluster')?.let(DBCluster.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dBCluster = this.dBCluster;
+    return {
+      if (dBCluster != null) 'DBCluster': dBCluster,
+    };
+  }
+}
+
+class SwitchoverGlobalClusterResult {
+  final GlobalCluster? globalCluster;
+
+  SwitchoverGlobalClusterResult({
+    this.globalCluster,
+  });
+  factory SwitchoverGlobalClusterResult.fromXml(_s.XmlElement elem) {
+    return SwitchoverGlobalClusterResult(
+      globalCluster:
+          _s.extractXmlChild(elem, 'GlobalCluster')?.let(GlobalCluster.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalCluster = this.globalCluster;
+    return {
+      if (globalCluster != null) 'GlobalCluster': globalCluster,
+    };
+  }
+}
+
+/// A data type representing an Amazon DocumentDB global cluster.
+class GlobalCluster {
+  /// The default database name within the new global cluster.
+  final String? databaseName;
+
+  /// The deletion protection setting for the new global cluster.
+  final bool? deletionProtection;
+
+  /// The Amazon DocumentDB database engine used by the global cluster.
+  final String? engine;
+
+  /// Indicates the database engine version.
+  final String? engineVersion;
+
+  /// A data object containing all properties for the current state of an
+  /// in-process or pending switchover or failover process for this global
+  /// cluster. This object is empty unless the
+  /// <code>SwitchoverGlobalCluster</code> or <code>FailoverGlobalCluster</code>
+  /// operation was called on this global cluster.
+  final FailoverState? failoverState;
+
+  /// The Amazon Resource Name (ARN) for the global cluster.
+  final String? globalClusterArn;
+
+  /// Contains a user-supplied global cluster identifier. This identifier is the
+  /// unique key that identifies a global cluster.
+  final String? globalClusterIdentifier;
+
+  /// The list of cluster IDs for secondary clusters within the global cluster.
+  /// Currently limited to one item.
+  final List<GlobalClusterMember>? globalClusterMembers;
+
+  /// The Amazon Web Services RegionRegion-unique, immutable identifier for the
+  /// global database cluster. This identifier is found in CloudTrail log entries
+  /// whenever the KMS customer master key (CMK) for the cluster is accessed.
+  final String? globalClusterResourceId;
+
+  /// Specifies the current state of this global cluster.
+  final String? status;
+
+  /// The storage encryption setting for the global cluster.
+  final bool? storageEncrypted;
+
+  /// A list of global cluster tags.
+  final List<Tag>? tagList;
+
+  GlobalCluster({
+    this.databaseName,
+    this.deletionProtection,
+    this.engine,
+    this.engineVersion,
+    this.failoverState,
+    this.globalClusterArn,
+    this.globalClusterIdentifier,
+    this.globalClusterMembers,
+    this.globalClusterResourceId,
+    this.status,
+    this.storageEncrypted,
+    this.tagList,
+  });
+  factory GlobalCluster.fromXml(_s.XmlElement elem) {
+    return GlobalCluster(
+      databaseName: _s.extractXmlStringValue(elem, 'DatabaseName'),
+      deletionProtection: _s.extractXmlBoolValue(elem, 'DeletionProtection'),
+      engine: _s.extractXmlStringValue(elem, 'Engine'),
+      engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
+      failoverState:
+          _s.extractXmlChild(elem, 'FailoverState')?.let(FailoverState.fromXml),
+      globalClusterArn: _s.extractXmlStringValue(elem, 'GlobalClusterArn'),
+      globalClusterIdentifier:
+          _s.extractXmlStringValue(elem, 'GlobalClusterIdentifier'),
+      globalClusterMembers: _s
+          .extractXmlChild(elem, 'GlobalClusterMembers')
+          ?.let((elem) => elem
+              .findElements('GlobalClusterMember')
+              .map(GlobalClusterMember.fromXml)
+              .toList()),
+      globalClusterResourceId:
+          _s.extractXmlStringValue(elem, 'GlobalClusterResourceId'),
+      status: _s.extractXmlStringValue(elem, 'Status'),
+      storageEncrypted: _s.extractXmlBoolValue(elem, 'StorageEncrypted'),
+      tagList: _s
+          .extractXmlChild(elem, 'TagList')
+          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databaseName = this.databaseName;
+    final deletionProtection = this.deletionProtection;
+    final engine = this.engine;
+    final engineVersion = this.engineVersion;
+    final failoverState = this.failoverState;
+    final globalClusterArn = this.globalClusterArn;
+    final globalClusterIdentifier = this.globalClusterIdentifier;
+    final globalClusterMembers = this.globalClusterMembers;
+    final globalClusterResourceId = this.globalClusterResourceId;
+    final status = this.status;
+    final storageEncrypted = this.storageEncrypted;
+    final tagList = this.tagList;
+    return {
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (deletionProtection != null) 'DeletionProtection': deletionProtection,
+      if (engine != null) 'Engine': engine,
+      if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (failoverState != null) 'FailoverState': failoverState,
+      if (globalClusterArn != null) 'GlobalClusterArn': globalClusterArn,
+      if (globalClusterIdentifier != null)
+        'GlobalClusterIdentifier': globalClusterIdentifier,
+      if (globalClusterMembers != null)
+        'GlobalClusterMembers': globalClusterMembers,
+      if (globalClusterResourceId != null)
+        'GlobalClusterResourceId': globalClusterResourceId,
+      if (status != null) 'Status': status,
+      if (storageEncrypted != null) 'StorageEncrypted': storageEncrypted,
+      if (tagList != null) 'TagList': tagList,
+    };
+  }
+}
+
+/// Contains the state of scheduled or in-process operations on an Amazon
+/// DocumentDB global cluster. This data type is empty unless a switchover or
+/// failover operation is scheduled or is in progress on the global cluster.
+class FailoverState {
+  /// The Amazon Resource Name (ARN) of the Amazon DocumentDB cluster that is
+  /// currently being demoted, and which is associated with this state.
+  final String? fromDbClusterArn;
+
+  /// Indicates whether the operation is a global switchover or a global failover.
+  /// If data loss is allowed, then the operation is a global failover. Otherwise,
+  /// it's a switchover.
+  final bool? isDataLossAllowed;
+
+  /// The current status of the global cluster. Possible values are as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>pending</b> – The service received a request to switch over or fail over
+  /// the global cluster. The global cluster's primary cluster and the specified
+  /// secondary cluster are being verified before the operation starts.
+  /// </li>
+  /// <li>
+  /// <b>failing-over</b> – The chosen secondary cluster is being promoted to
+  /// become the new primary cluster to fail over the global cluster.
+  /// </li>
+  /// <li>
+  /// <b>cancelling</b> – The request to switch over or fail over the global
+  /// cluster was cancelled and the primary cluster and the selected secondary
+  /// cluster are returning to their previous states.
+  /// </li>
+  /// </ul>
+  final FailoverStatus? status;
+
+  /// The Amazon Resource Name (ARN) of the Amazon DocumentDB cluster that is
+  /// currently being promoted, and which is associated with this state.
+  final String? toDbClusterArn;
+
+  FailoverState({
+    this.fromDbClusterArn,
+    this.isDataLossAllowed,
+    this.status,
+    this.toDbClusterArn,
+  });
+  factory FailoverState.fromXml(_s.XmlElement elem) {
+    return FailoverState(
+      fromDbClusterArn: _s.extractXmlStringValue(elem, 'FromDbClusterArn'),
+      isDataLossAllowed: _s.extractXmlBoolValue(elem, 'IsDataLossAllowed'),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(FailoverStatus.fromString),
+      toDbClusterArn: _s.extractXmlStringValue(elem, 'ToDbClusterArn'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fromDbClusterArn = this.fromDbClusterArn;
+    final isDataLossAllowed = this.isDataLossAllowed;
+    final status = this.status;
+    final toDbClusterArn = this.toDbClusterArn;
+    return {
+      if (fromDbClusterArn != null) 'FromDbClusterArn': fromDbClusterArn,
+      if (isDataLossAllowed != null) 'IsDataLossAllowed': isDataLossAllowed,
+      if (status != null) 'Status': status.value,
+      if (toDbClusterArn != null) 'ToDbClusterArn': toDbClusterArn,
+    };
+  }
+}
+
+/// Metadata assigned to an Amazon DocumentDB resource consisting of a key-value
+/// pair.
+class Tag {
+  /// The required name of the tag. The string value can be from 1 to 128 Unicode
+  /// characters in length and can't be prefixed with "<code>aws:</code>" or
+  /// "<code>rds:</code>". The string can contain only the set of Unicode letters,
+  /// digits, white space, '_', '.', '/', '=', '+', '-' (Java regex:
+  /// "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+  final String? key;
+
+  /// The optional value of the tag. The string value can be from 1 to 256 Unicode
+  /// characters in length and can't be prefixed with "<code>aws:</code>" or
+  /// "<code>rds:</code>". The string can contain only the set of Unicode letters,
+  /// digits, white space, '_', '.', '/', '=', '+', '-' (Java regex:
+  /// "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+  final String? value;
+
+  Tag({
+    this.key,
+    this.value,
+  });
+  factory Tag.fromXml(_s.XmlElement elem) {
+    return Tag(
+      key: _s.extractXmlStringValue(elem, 'Key'),
+      value: _s.extractXmlStringValue(elem, 'Value'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+class FailoverStatus {
+  static const pending = FailoverStatus._('pending');
+  static const failingOver = FailoverStatus._('failing-over');
+  static const cancelling = FailoverStatus._('cancelling');
+
+  final String value;
+
+  const FailoverStatus._(this.value);
+
+  static const values = [pending, failingOver, cancelling];
+
+  static FailoverStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FailoverStatus._(value));
+
+  @override
+  bool operator ==(other) => other is FailoverStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A data structure with information about any primary and secondary clusters
+/// associated with an Amazon DocumentDB global clusters.
+class GlobalClusterMember {
+  /// The Amazon Resource Name (ARN) for each Amazon DocumentDB cluster.
+  final String? dBClusterArn;
+
+  /// Specifies whether the Amazon DocumentDB cluster is the primary cluster (that
+  /// is, has read-write capability) for the Amazon DocumentDB global cluster with
+  /// which it is associated.
+  final bool? isWriter;
+
+  /// The Amazon Resource Name (ARN) for each read-only secondary cluster
+  /// associated with the Amazon DocumentDB global cluster.
+  final List<String>? readers;
+
+  /// The status of synchronization of each Amazon DocumentDB cluster in the
+  /// global cluster.
+  final GlobalClusterMemberSynchronizationStatus? synchronizationStatus;
+
+  GlobalClusterMember({
+    this.dBClusterArn,
+    this.isWriter,
+    this.readers,
+    this.synchronizationStatus,
+  });
+  factory GlobalClusterMember.fromXml(_s.XmlElement elem) {
+    return GlobalClusterMember(
+      dBClusterArn: _s.extractXmlStringValue(elem, 'DBClusterArn'),
+      isWriter: _s.extractXmlBoolValue(elem, 'IsWriter'),
+      readers: _s
+          .extractXmlChild(elem, 'Readers')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      synchronizationStatus: _s
+          .extractXmlStringValue(elem, 'SynchronizationStatus')
+          ?.let(GlobalClusterMemberSynchronizationStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dBClusterArn = this.dBClusterArn;
+    final isWriter = this.isWriter;
+    final readers = this.readers;
+    final synchronizationStatus = this.synchronizationStatus;
+    return {
+      if (dBClusterArn != null) 'DBClusterArn': dBClusterArn,
+      if (isWriter != null) 'IsWriter': isWriter,
+      if (readers != null) 'Readers': readers,
+      if (synchronizationStatus != null)
+        'SynchronizationStatus': synchronizationStatus.value,
+    };
+  }
+}
+
+class GlobalClusterMemberSynchronizationStatus {
+  static const connected =
+      GlobalClusterMemberSynchronizationStatus._('connected');
+  static const pendingResync =
+      GlobalClusterMemberSynchronizationStatus._('pending-resync');
+
+  final String value;
+
+  const GlobalClusterMemberSynchronizationStatus._(this.value);
+
+  static const values = [connected, pendingResync];
+
+  static GlobalClusterMemberSynchronizationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GlobalClusterMemberSynchronizationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GlobalClusterMemberSynchronizationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Detailed information about a cluster.
 class DBCluster {
   /// Provides a list of the Identity and Access Management (IAM) roles that are
@@ -5122,6 +6482,10 @@ class DBCluster {
   /// Specifies the ID that Amazon Route 53 assigns when you create a hosted zone.
   final String? hostedZoneId;
 
+  /// The next time you can modify the Amazon DocumentDB cluster to use the iopt1
+  /// storage type.
+  final DateTime? iOOptimizedNextAllowedModificationTime;
+
   /// If <code>StorageEncrypted</code> is <code>true</code>, the KMS key
   /// identifier for the encrypted cluster.
   final String? kmsKeyId;
@@ -5130,11 +6494,28 @@ class DBCluster {
   /// point-in-time restore.
   final DateTime? latestRestorableTime;
 
+  /// The secret managed by Amazon DocumentDB in Amazon Web Services Secrets
+  /// Manager for the master user password.
+  final ClusterMasterUserSecret? masterUserSecret;
+
   /// Contains the master user name for the cluster.
   final String? masterUsername;
 
   /// Specifies whether the cluster has instances in multiple Availability Zones.
   final bool? multiAZ;
+
+  /// The network type of the cluster.
+  ///
+  /// The network type is determined by the <code>DBSubnetGroup</code> specified
+  /// for the cluster. A <code>DBSubnetGroup</code> can support only the IPv4
+  /// protocol or the IPv4 and the IPv6 protocols (<code>DUAL</code>).
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/documentdb/latest/developerguide/vpc-clusters.html">DocumentDB
+  /// clusters in a VPC</a> in the Amazon DocumentDB Developer Guide.
+  ///
+  /// Valid Values: <code>IPV4</code> | <code>DUAL</code>
+  final String? networkType;
 
   /// Specifies the progress of the operation as a percentage.
   final String? percentProgress;
@@ -5173,14 +6554,15 @@ class DBCluster {
   /// cluster.
   final String? replicationSourceIdentifier;
 
+  /// The scaling configuration of an Amazon DocumentDB Serverless cluster.
+  final ServerlessV2ScalingConfigurationInfo? serverlessV2ScalingConfiguration;
+
   /// Specifies the current state of this cluster.
   final String? status;
 
   /// Specifies whether the cluster is encrypted.
   final bool? storageEncrypted;
 
-  /// Storage type associated with your cluster
-  ///
   /// Storage type associated with your cluster
   ///
   /// For information on storage types for Amazon DocumentDB clusters, see Cluster
@@ -5214,10 +6596,13 @@ class DBCluster {
     this.engine,
     this.engineVersion,
     this.hostedZoneId,
+    this.iOOptimizedNextAllowedModificationTime,
     this.kmsKeyId,
     this.latestRestorableTime,
+    this.masterUserSecret,
     this.masterUsername,
     this.multiAZ,
+    this.networkType,
     this.percentProgress,
     this.port,
     this.preferredBackupWindow,
@@ -5225,6 +6610,7 @@ class DBCluster {
     this.readReplicaIdentifiers,
     this.readerEndpoint,
     this.replicationSourceIdentifier,
+    this.serverlessV2ScalingConfiguration,
     this.status,
     this.storageEncrypted,
     this.storageType,
@@ -5266,11 +6652,17 @@ class DBCluster {
       engine: _s.extractXmlStringValue(elem, 'Engine'),
       engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
       hostedZoneId: _s.extractXmlStringValue(elem, 'HostedZoneId'),
+      iOOptimizedNextAllowedModificationTime: _s.extractXmlDateTimeValue(
+          elem, 'IOOptimizedNextAllowedModificationTime'),
       kmsKeyId: _s.extractXmlStringValue(elem, 'KmsKeyId'),
       latestRestorableTime:
           _s.extractXmlDateTimeValue(elem, 'LatestRestorableTime'),
+      masterUserSecret: _s
+          .extractXmlChild(elem, 'MasterUserSecret')
+          ?.let(ClusterMasterUserSecret.fromXml),
       masterUsername: _s.extractXmlStringValue(elem, 'MasterUsername'),
       multiAZ: _s.extractXmlBoolValue(elem, 'MultiAZ'),
+      networkType: _s.extractXmlStringValue(elem, 'NetworkType'),
       percentProgress: _s.extractXmlStringValue(elem, 'PercentProgress'),
       port: _s.extractXmlIntValue(elem, 'Port'),
       preferredBackupWindow:
@@ -5284,6 +6676,9 @@ class DBCluster {
       readerEndpoint: _s.extractXmlStringValue(elem, 'ReaderEndpoint'),
       replicationSourceIdentifier:
           _s.extractXmlStringValue(elem, 'ReplicationSourceIdentifier'),
+      serverlessV2ScalingConfiguration: _s
+          .extractXmlChild(elem, 'ServerlessV2ScalingConfiguration')
+          ?.let(ServerlessV2ScalingConfigurationInfo.fromXml),
       status: _s.extractXmlStringValue(elem, 'Status'),
       storageEncrypted: _s.extractXmlBoolValue(elem, 'StorageEncrypted'),
       storageType: _s.extractXmlStringValue(elem, 'StorageType'),
@@ -5314,10 +6709,14 @@ class DBCluster {
     final engine = this.engine;
     final engineVersion = this.engineVersion;
     final hostedZoneId = this.hostedZoneId;
+    final iOOptimizedNextAllowedModificationTime =
+        this.iOOptimizedNextAllowedModificationTime;
     final kmsKeyId = this.kmsKeyId;
     final latestRestorableTime = this.latestRestorableTime;
+    final masterUserSecret = this.masterUserSecret;
     final masterUsername = this.masterUsername;
     final multiAZ = this.multiAZ;
+    final networkType = this.networkType;
     final percentProgress = this.percentProgress;
     final port = this.port;
     final preferredBackupWindow = this.preferredBackupWindow;
@@ -5325,6 +6724,8 @@ class DBCluster {
     final readReplicaIdentifiers = this.readReplicaIdentifiers;
     final readerEndpoint = this.readerEndpoint;
     final replicationSourceIdentifier = this.replicationSourceIdentifier;
+    final serverlessV2ScalingConfiguration =
+        this.serverlessV2ScalingConfiguration;
     final status = this.status;
     final storageEncrypted = this.storageEncrypted;
     final storageType = this.storageType;
@@ -5355,11 +6756,16 @@ class DBCluster {
       if (engine != null) 'Engine': engine,
       if (engineVersion != null) 'EngineVersion': engineVersion,
       if (hostedZoneId != null) 'HostedZoneId': hostedZoneId,
+      if (iOOptimizedNextAllowedModificationTime != null)
+        'IOOptimizedNextAllowedModificationTime':
+            iso8601ToJson(iOOptimizedNextAllowedModificationTime),
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
       if (latestRestorableTime != null)
         'LatestRestorableTime': iso8601ToJson(latestRestorableTime),
+      if (masterUserSecret != null) 'MasterUserSecret': masterUserSecret,
       if (masterUsername != null) 'MasterUsername': masterUsername,
       if (multiAZ != null) 'MultiAZ': multiAZ,
+      if (networkType != null) 'NetworkType': networkType,
       if (percentProgress != null) 'PercentProgress': percentProgress,
       if (port != null) 'Port': port,
       if (preferredBackupWindow != null)
@@ -5371,10 +6777,186 @@ class DBCluster {
       if (readerEndpoint != null) 'ReaderEndpoint': readerEndpoint,
       if (replicationSourceIdentifier != null)
         'ReplicationSourceIdentifier': replicationSourceIdentifier,
+      if (serverlessV2ScalingConfiguration != null)
+        'ServerlessV2ScalingConfiguration': serverlessV2ScalingConfiguration,
       if (status != null) 'Status': status,
       if (storageEncrypted != null) 'StorageEncrypted': storageEncrypted,
       if (storageType != null) 'StorageType': storageType,
       if (vpcSecurityGroups != null) 'VpcSecurityGroups': vpcSecurityGroups,
+    };
+  }
+}
+
+/// Retrieves the scaling configuration for an Amazon DocumentDB Serverless
+/// cluster.
+class ServerlessV2ScalingConfigurationInfo {
+  /// The maximum number of Amazon DocumentDB capacity units (DCUs) for an
+  /// instance in an Amazon DocumentDB Serverless cluster. You can specify DCU
+  /// values in half-step increments, such as 32, 32.5, 33, and so on.
+  final double? maxCapacity;
+
+  /// The minimum number of Amazon DocumentDB capacity units (DCUs) for an
+  /// instance in an Amazon DocumentDB Serverless cluster. You can specify DCU
+  /// values in half-step increments, such as 8, 8.5, 9, and so on.
+  final double? minCapacity;
+
+  ServerlessV2ScalingConfigurationInfo({
+    this.maxCapacity,
+    this.minCapacity,
+  });
+  factory ServerlessV2ScalingConfigurationInfo.fromXml(_s.XmlElement elem) {
+    return ServerlessV2ScalingConfigurationInfo(
+      maxCapacity: _s.extractXmlDoubleValue(elem, 'MaxCapacity'),
+      minCapacity: _s.extractXmlDoubleValue(elem, 'MinCapacity'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxCapacity = this.maxCapacity;
+    final minCapacity = this.minCapacity;
+    return {
+      if (maxCapacity != null) 'MaxCapacity': maxCapacity,
+      if (minCapacity != null) 'MinCapacity': minCapacity,
+    };
+  }
+}
+
+/// Contains the secret managed by Amazon DocumentDB in Amazon Web Services
+/// Secrets Manager for the master user password.
+class ClusterMasterUserSecret {
+  /// The Amazon Web Services KMS key identifier that is used to encrypt the
+  /// secret.
+  final String? kmsKeyId;
+
+  /// The Amazon Resource Name (ARN) of the secret.
+  final String? secretArn;
+
+  /// The status of the secret.
+  ///
+  /// The possible status values include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// creating - The secret is being created.
+  /// </li>
+  /// <li>
+  /// active - The secret is available for normal use and rotation.
+  /// </li>
+  /// <li>
+  /// rotating - The secret is being rotated.
+  /// </li>
+  /// <li>
+  /// impaired - The secret can be used to access database credentials, but it
+  /// can't be rotated. A secret might have this status if, for example,
+  /// permissions are changed so that Amazon DocumentDB can no longer access
+  /// either the secret or the KMS key for the secret.
+  ///
+  /// When a secret has this status, you can correct the condition that caused the
+  /// status. Alternatively, modify the instance to turn off automatic management
+  /// of database credentials, and then modify the instance again to turn on
+  /// automatic management of database credentials.
+  /// </li>
+  /// </ul>
+  final String? secretStatus;
+
+  ClusterMasterUserSecret({
+    this.kmsKeyId,
+    this.secretArn,
+    this.secretStatus,
+  });
+  factory ClusterMasterUserSecret.fromXml(_s.XmlElement elem) {
+    return ClusterMasterUserSecret(
+      kmsKeyId: _s.extractXmlStringValue(elem, 'KmsKeyId'),
+      secretArn: _s.extractXmlStringValue(elem, 'SecretArn'),
+      secretStatus: _s.extractXmlStringValue(elem, 'SecretStatus'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kmsKeyId = this.kmsKeyId;
+    final secretArn = this.secretArn;
+    final secretStatus = this.secretStatus;
+    return {
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (secretArn != null) 'SecretArn': secretArn,
+      if (secretStatus != null) 'SecretStatus': secretStatus,
+    };
+  }
+}
+
+/// Describes an Identity and Access Management (IAM) role that is associated
+/// with a cluster.
+class DBClusterRole {
+  /// The Amazon Resource Name (ARN) of the IAMrole that is associated with the DB
+  /// cluster.
+  final String? roleArn;
+
+  /// Describes the state of association between the IAMrole and the cluster. The
+  /// <code>Status</code> property returns one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code> - The IAMrole ARN is associated with the cluster and can
+  /// be used to access other Amazon Web Services services on your behalf.
+  /// </li>
+  /// <li>
+  /// <code>PENDING</code> - The IAMrole ARN is being associated with the cluster.
+  /// </li>
+  /// <li>
+  /// <code>INVALID</code> - The IAMrole ARN is associated with the cluster, but
+  /// the cluster cannot assume the IAMrole to access other Amazon Web Services
+  /// services on your behalf.
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  DBClusterRole({
+    this.roleArn,
+    this.status,
+  });
+  factory DBClusterRole.fromXml(_s.XmlElement elem) {
+    return DBClusterRole(
+      roleArn: _s.extractXmlStringValue(elem, 'RoleArn'),
+      status: _s.extractXmlStringValue(elem, 'Status'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roleArn = this.roleArn;
+    final status = this.status;
+    return {
+      if (roleArn != null) 'RoleArn': roleArn,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
+/// Used as a response element for queries on virtual private cloud (VPC)
+/// security group membership.
+class VpcSecurityGroupMembership {
+  /// The status of the VPC security group.
+  final String? status;
+
+  /// The name of the VPC security group.
+  final String? vpcSecurityGroupId;
+
+  VpcSecurityGroupMembership({
+    this.status,
+    this.vpcSecurityGroupId,
+  });
+  factory VpcSecurityGroupMembership.fromXml(_s.XmlElement elem) {
+    return VpcSecurityGroupMembership(
+      status: _s.extractXmlStringValue(elem, 'Status'),
+      vpcSecurityGroupId: _s.extractXmlStringValue(elem, 'VpcSecurityGroupId'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final vpcSecurityGroupId = this.vpcSecurityGroupId;
+    return {
+      if (status != null) 'Status': status,
+      if (vpcSecurityGroupId != null) 'VpcSecurityGroupId': vpcSecurityGroupId,
     };
   }
 }
@@ -5430,679 +7012,321 @@ class DBClusterMember {
   }
 }
 
-/// Represents the output of <a>DescribeDBClusters</a>.
-class DBClusterMessage {
-  /// A list of clusters.
-  final List<DBCluster>? dBClusters;
+/// Sets the scaling configuration of an Amazon DocumentDB Serverless cluster.
+class ServerlessV2ScalingConfiguration {
+  /// The maximum number of Amazon DocumentDB capacity units (DCUs) for an
+  /// instance in an Amazon DocumentDB Serverless cluster. You can specify DCU
+  /// values in half-step increments, such as 32, 32.5, 33, and so on.
+  final double? maxCapacity;
 
-  /// An optional pagination token provided by a previous request. If this
-  /// parameter is specified, the response includes only records beyond the
-  /// marker, up to the value specified by <code>MaxRecords</code>.
-  final String? marker;
+  /// The minimum number of Amazon DocumentDB capacity units (DCUs) for an
+  /// instance in an Amazon DocumentDB Serverless cluster. You can specify DCU
+  /// values in half-step increments, such as 8, 8.5, 9, and so on.
+  final double? minCapacity;
 
-  DBClusterMessage({
-    this.dBClusters,
-    this.marker,
+  ServerlessV2ScalingConfiguration({
+    this.maxCapacity,
+    this.minCapacity,
   });
-  factory DBClusterMessage.fromXml(_s.XmlElement elem) {
-    return DBClusterMessage(
-      dBClusters: _s.extractXmlChild(elem, 'DBClusters')?.let((elem) =>
-          elem.findElements('DBCluster').map(DBCluster.fromXml).toList()),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
 
   Map<String, dynamic> toJson() {
-    final dBClusters = this.dBClusters;
-    final marker = this.marker;
+    final maxCapacity = this.maxCapacity;
+    final minCapacity = this.minCapacity;
     return {
-      if (dBClusters != null) 'DBClusters': dBClusters,
-      if (marker != null) 'Marker': marker,
+      if (maxCapacity != null) 'MaxCapacity': maxCapacity,
+      if (minCapacity != null) 'MinCapacity': minCapacity,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final maxCapacity = this.maxCapacity;
+    final minCapacity = this.minCapacity;
+    return {
+      if (maxCapacity != null) 'MaxCapacity': maxCapacity.toString(),
+      if (minCapacity != null) 'MinCapacity': minCapacity.toString(),
     };
   }
 }
 
-/// Detailed information about a cluster parameter group.
-class DBClusterParameterGroup {
-  /// The Amazon Resource Name (ARN) for the cluster parameter group.
-  final String? dBClusterParameterGroupArn;
+/// Detailed information about an individual parameter.
+class Parameter {
+  /// Specifies the valid range of values for the parameter.
+  final String? allowedValues;
 
-  /// Provides the name of the cluster parameter group.
-  final String? dBClusterParameterGroupName;
+  /// Indicates when to apply parameter updates.
+  final ApplyMethod? applyMethod;
 
-  /// Provides the name of the parameter group family that this cluster parameter
-  /// group is compatible with.
-  final String? dBParameterGroupFamily;
+  /// Specifies the engine-specific parameters type.
+  final String? applyType;
 
-  /// Provides the customer-specified description for this cluster parameter
-  /// group.
+  /// Specifies the valid data type for the parameter.
+  final String? dataType;
+
+  /// Provides a description of the parameter.
   final String? description;
 
-  DBClusterParameterGroup({
-    this.dBClusterParameterGroupArn,
-    this.dBClusterParameterGroupName,
-    this.dBParameterGroupFamily,
+  /// Indicates whether (<code>true</code>) or not (<code>false</code>) the
+  /// parameter can be modified. Some parameters have security or operational
+  /// implications that prevent them from being changed.
+  final bool? isModifiable;
+
+  /// The earliest engine version to which the parameter can apply.
+  final String? minimumEngineVersion;
+
+  /// Specifies the name of the parameter.
+  final String? parameterName;
+
+  /// Specifies the value of the parameter. Must be one or more of the cluster
+  /// parameter's <code>AllowedValues</code> in CSV format:
+  ///
+  /// Valid values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>enabled</code>: The cluster accepts secure connections using TLS
+  /// version 1.0 through 1.3.
+  /// </li>
+  /// <li>
+  /// <code>disabled</code>: The cluster does not accept secure connections using
+  /// TLS.
+  /// </li>
+  /// <li>
+  /// <code>fips-140-3</code>: The cluster only accepts secure connections per the
+  /// requirements of the Federal Information Processing Standards (FIPS)
+  /// publication 140-3. Only supported starting with Amazon DocumentDB 5.0
+  /// (engine version 3.0.3727) clusters in these regions: ca-central-1,
+  /// us-west-2, us-east-1, us-east-2, us-gov-east-1, us-gov-west-1.
+  /// </li>
+  /// <li>
+  /// <code>tls1.2+</code>: The cluster accepts secure connections using TLS
+  /// version 1.2 and above. Only supported starting with Amazon DocumentDB 4.0
+  /// (engine version 2.0.10980) and Amazon DocumentDB 5.0 (engine version
+  /// 3.0.11051).
+  /// </li>
+  /// <li>
+  /// <code>tls1.3+</code>: The cluster accepts secure connections using TLS
+  /// version 1.3 and above. Only supported starting with Amazon DocumentDB 4.0
+  /// (engine version 2.0.10980) and Amazon DocumentDB 5.0 (engine version
+  /// 3.0.11051).
+  /// </li>
+  /// </ul>
+  final String? parameterValue;
+
+  /// Indicates the source of the parameter value.
+  final String? source;
+
+  Parameter({
+    this.allowedValues,
+    this.applyMethod,
+    this.applyType,
+    this.dataType,
     this.description,
+    this.isModifiable,
+    this.minimumEngineVersion,
+    this.parameterName,
+    this.parameterValue,
+    this.source,
   });
-  factory DBClusterParameterGroup.fromXml(_s.XmlElement elem) {
-    return DBClusterParameterGroup(
-      dBClusterParameterGroupArn:
-          _s.extractXmlStringValue(elem, 'DBClusterParameterGroupArn'),
-      dBClusterParameterGroupName:
-          _s.extractXmlStringValue(elem, 'DBClusterParameterGroupName'),
-      dBParameterGroupFamily:
-          _s.extractXmlStringValue(elem, 'DBParameterGroupFamily'),
+  factory Parameter.fromXml(_s.XmlElement elem) {
+    return Parameter(
+      allowedValues: _s.extractXmlStringValue(elem, 'AllowedValues'),
+      applyMethod: _s
+          .extractXmlStringValue(elem, 'ApplyMethod')
+          ?.let(ApplyMethod.fromString),
+      applyType: _s.extractXmlStringValue(elem, 'ApplyType'),
+      dataType: _s.extractXmlStringValue(elem, 'DataType'),
       description: _s.extractXmlStringValue(elem, 'Description'),
+      isModifiable: _s.extractXmlBoolValue(elem, 'IsModifiable'),
+      minimumEngineVersion:
+          _s.extractXmlStringValue(elem, 'MinimumEngineVersion'),
+      parameterName: _s.extractXmlStringValue(elem, 'ParameterName'),
+      parameterValue: _s.extractXmlStringValue(elem, 'ParameterValue'),
+      source: _s.extractXmlStringValue(elem, 'Source'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final dBClusterParameterGroupArn = this.dBClusterParameterGroupArn;
-    final dBClusterParameterGroupName = this.dBClusterParameterGroupName;
-    final dBParameterGroupFamily = this.dBParameterGroupFamily;
+    final allowedValues = this.allowedValues;
+    final applyMethod = this.applyMethod;
+    final applyType = this.applyType;
+    final dataType = this.dataType;
     final description = this.description;
+    final isModifiable = this.isModifiable;
+    final minimumEngineVersion = this.minimumEngineVersion;
+    final parameterName = this.parameterName;
+    final parameterValue = this.parameterValue;
+    final source = this.source;
     return {
-      if (dBClusterParameterGroupArn != null)
-        'DBClusterParameterGroupArn': dBClusterParameterGroupArn,
-      if (dBClusterParameterGroupName != null)
-        'DBClusterParameterGroupName': dBClusterParameterGroupName,
-      if (dBParameterGroupFamily != null)
-        'DBParameterGroupFamily': dBParameterGroupFamily,
+      if (allowedValues != null) 'AllowedValues': allowedValues,
+      if (applyMethod != null) 'ApplyMethod': applyMethod.value,
+      if (applyType != null) 'ApplyType': applyType,
+      if (dataType != null) 'DataType': dataType,
       if (description != null) 'Description': description,
+      if (isModifiable != null) 'IsModifiable': isModifiable,
+      if (minimumEngineVersion != null)
+        'MinimumEngineVersion': minimumEngineVersion,
+      if (parameterName != null) 'ParameterName': parameterName,
+      if (parameterValue != null) 'ParameterValue': parameterValue,
+      if (source != null) 'Source': source,
     };
   }
-}
 
-/// Represents the output of <a>DBClusterParameterGroup</a>.
-class DBClusterParameterGroupDetails {
-  /// An optional pagination token provided by a previous request. If this
-  /// parameter is specified, the response includes only records beyond the
-  /// marker, up to the value specified by <code>MaxRecords</code>.
-  final String? marker;
-
-  /// Provides a list of parameters for the cluster parameter group.
-  final List<Parameter>? parameters;
-
-  DBClusterParameterGroupDetails({
-    this.marker,
-    this.parameters,
-  });
-  factory DBClusterParameterGroupDetails.fromXml(_s.XmlElement elem) {
-    return DBClusterParameterGroupDetails(
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      parameters: _s.extractXmlChild(elem, 'Parameters')?.let((elem) =>
-          elem.findElements('Parameter').map(Parameter.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final marker = this.marker;
-    final parameters = this.parameters;
+  Map<String, String> toQueryMap() {
+    final allowedValues = this.allowedValues;
+    final applyMethod = this.applyMethod;
+    final applyType = this.applyType;
+    final dataType = this.dataType;
+    final description = this.description;
+    final isModifiable = this.isModifiable;
+    final minimumEngineVersion = this.minimumEngineVersion;
+    final parameterName = this.parameterName;
+    final parameterValue = this.parameterValue;
+    final source = this.source;
     return {
-      if (marker != null) 'Marker': marker,
-      if (parameters != null) 'Parameters': parameters,
+      if (allowedValues != null) 'AllowedValues': allowedValues,
+      if (applyMethod != null) 'ApplyMethod': applyMethod.value,
+      if (applyType != null) 'ApplyType': applyType,
+      if (dataType != null) 'DataType': dataType,
+      if (description != null) 'Description': description,
+      if (isModifiable != null) 'IsModifiable': isModifiable.toString(),
+      if (minimumEngineVersion != null)
+        'MinimumEngineVersion': minimumEngineVersion,
+      if (parameterName != null) 'ParameterName': parameterName,
+      if (parameterValue != null) 'ParameterValue': parameterValue,
+      if (source != null) 'Source': source,
     };
   }
 }
 
-/// Contains the name of a cluster parameter group.
-class DBClusterParameterGroupNameMessage {
-  /// The name of a cluster parameter group.
+class ApplyMethod {
+  static const immediate = ApplyMethod._('immediate');
+  static const pendingReboot = ApplyMethod._('pending-reboot');
+
+  final String value;
+
+  const ApplyMethod._(this.value);
+
+  static const values = [immediate, pendingReboot];
+
+  static ApplyMethod fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ApplyMethod._(value));
+
+  @override
+  bool operator ==(other) => other is ApplyMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Detailed information about an event to which you have subscribed.
+class EventSubscription {
+  /// The Amazon DocumentDB event notification subscription ID.
+  final String? custSubscriptionId;
+
+  /// The Amazon Web Services customer account that is associated with the Amazon
+  /// DocumentDB event notification subscription.
+  final String? customerAwsId;
+
+  /// A Boolean value indicating whether the subscription is enabled. A value of
+  /// <code>true</code> indicates that the subscription is enabled.
+  final bool? enabled;
+
+  /// A list of event categories for the Amazon DocumentDB event notification
+  /// subscription.
+  final List<String>? eventCategoriesList;
+
+  /// The Amazon Resource Name (ARN) for the event subscription.
+  final String? eventSubscriptionArn;
+
+  /// The topic ARN of the Amazon DocumentDB event notification subscription.
+  final String? snsTopicArn;
+
+  /// A list of source IDs for the Amazon DocumentDB event notification
+  /// subscription.
+  final List<String>? sourceIdsList;
+
+  /// The source type for the Amazon DocumentDB event notification subscription.
+  final String? sourceType;
+
+  /// The status of the Amazon DocumentDB event notification subscription.
   ///
   /// Constraints:
   ///
-  /// <ul>
-  /// <li>
-  /// Must be from 1 to 255 letters or numbers.
-  /// </li>
-  /// <li>
-  /// The first character must be a letter.
-  /// </li>
-  /// <li>
-  /// Cannot end with a hyphen or contain two consecutive hyphens.
-  /// </li>
-  /// </ul> <note>
-  /// This value is stored as a lowercase string.
-  /// </note>
-  final String? dBClusterParameterGroupName;
-
-  DBClusterParameterGroupNameMessage({
-    this.dBClusterParameterGroupName,
-  });
-  factory DBClusterParameterGroupNameMessage.fromXml(_s.XmlElement elem) {
-    return DBClusterParameterGroupNameMessage(
-      dBClusterParameterGroupName:
-          _s.extractXmlStringValue(elem, 'DBClusterParameterGroupName'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dBClusterParameterGroupName = this.dBClusterParameterGroupName;
-    return {
-      if (dBClusterParameterGroupName != null)
-        'DBClusterParameterGroupName': dBClusterParameterGroupName,
-    };
-  }
-}
-
-/// Represents the output of <a>DBClusterParameterGroups</a>.
-class DBClusterParameterGroupsMessage {
-  /// A list of cluster parameter groups.
-  final List<DBClusterParameterGroup>? dBClusterParameterGroups;
-
-  /// An optional pagination token provided by a previous request. If this
-  /// parameter is specified, the response includes only records beyond the
-  /// marker, up to the value specified by <code>MaxRecords</code>.
-  final String? marker;
-
-  DBClusterParameterGroupsMessage({
-    this.dBClusterParameterGroups,
-    this.marker,
-  });
-  factory DBClusterParameterGroupsMessage.fromXml(_s.XmlElement elem) {
-    return DBClusterParameterGroupsMessage(
-      dBClusterParameterGroups: _s
-          .extractXmlChild(elem, 'DBClusterParameterGroups')
-          ?.let((elem) => elem
-              .findElements('DBClusterParameterGroup')
-              .map(DBClusterParameterGroup.fromXml)
-              .toList()),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dBClusterParameterGroups = this.dBClusterParameterGroups;
-    final marker = this.marker;
-    return {
-      if (dBClusterParameterGroups != null)
-        'DBClusterParameterGroups': dBClusterParameterGroups,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-/// Describes an Identity and Access Management (IAM) role that is associated
-/// with a cluster.
-class DBClusterRole {
-  /// The Amazon Resource Name (ARN) of the IAMrole that is associated with the DB
-  /// cluster.
-  final String? roleArn;
-
-  /// Describes the state of association between the IAMrole and the cluster. The
-  /// <code>Status</code> property returns one of the following values:
+  /// Can be one of the following: <code>creating</code>, <code>modifying</code>,
+  /// <code>deleting</code>, <code>active</code>, <code>no-permission</code>,
+  /// <code>topic-not-exist</code>
   ///
-  /// <ul>
-  /// <li>
-  /// <code>ACTIVE</code> - The IAMrole ARN is associated with the cluster and can
-  /// be used to access other Amazon Web Services services on your behalf.
-  /// </li>
-  /// <li>
-  /// <code>PENDING</code> - The IAMrole ARN is being associated with the cluster.
-  /// </li>
-  /// <li>
-  /// <code>INVALID</code> - The IAMrole ARN is associated with the cluster, but
-  /// the cluster cannot assume the IAMrole to access other Amazon Web Services
-  /// services on your behalf.
-  /// </li>
-  /// </ul>
+  /// The <code>no-permission</code> status indicates that Amazon DocumentDB no
+  /// longer has permission to post to the SNS topic. The
+  /// <code>topic-not-exist</code> status indicates that the topic was deleted
+  /// after the subscription was created.
   final String? status;
 
-  DBClusterRole({
-    this.roleArn,
+  /// The time at which the Amazon DocumentDB event notification subscription was
+  /// created.
+  final String? subscriptionCreationTime;
+
+  EventSubscription({
+    this.custSubscriptionId,
+    this.customerAwsId,
+    this.enabled,
+    this.eventCategoriesList,
+    this.eventSubscriptionArn,
+    this.snsTopicArn,
+    this.sourceIdsList,
+    this.sourceType,
     this.status,
+    this.subscriptionCreationTime,
   });
-  factory DBClusterRole.fromXml(_s.XmlElement elem) {
-    return DBClusterRole(
-      roleArn: _s.extractXmlStringValue(elem, 'RoleArn'),
+  factory EventSubscription.fromXml(_s.XmlElement elem) {
+    return EventSubscription(
+      custSubscriptionId: _s.extractXmlStringValue(elem, 'CustSubscriptionId'),
+      customerAwsId: _s.extractXmlStringValue(elem, 'CustomerAwsId'),
+      enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
+      eventCategoriesList: _s
+          .extractXmlChild(elem, 'EventCategoriesList')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'EventCategory')),
+      eventSubscriptionArn:
+          _s.extractXmlStringValue(elem, 'EventSubscriptionArn'),
+      snsTopicArn: _s.extractXmlStringValue(elem, 'SnsTopicArn'),
+      sourceIdsList: _s
+          .extractXmlChild(elem, 'SourceIdsList')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'SourceId')),
+      sourceType: _s.extractXmlStringValue(elem, 'SourceType'),
       status: _s.extractXmlStringValue(elem, 'Status'),
+      subscriptionCreationTime:
+          _s.extractXmlStringValue(elem, 'SubscriptionCreationTime'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final roleArn = this.roleArn;
+    final custSubscriptionId = this.custSubscriptionId;
+    final customerAwsId = this.customerAwsId;
+    final enabled = this.enabled;
+    final eventCategoriesList = this.eventCategoriesList;
+    final eventSubscriptionArn = this.eventSubscriptionArn;
+    final snsTopicArn = this.snsTopicArn;
+    final sourceIdsList = this.sourceIdsList;
+    final sourceType = this.sourceType;
     final status = this.status;
+    final subscriptionCreationTime = this.subscriptionCreationTime;
     return {
-      if (roleArn != null) 'RoleArn': roleArn,
+      if (custSubscriptionId != null) 'CustSubscriptionId': custSubscriptionId,
+      if (customerAwsId != null) 'CustomerAwsId': customerAwsId,
+      if (enabled != null) 'Enabled': enabled,
+      if (eventCategoriesList != null)
+        'EventCategoriesList': eventCategoriesList,
+      if (eventSubscriptionArn != null)
+        'EventSubscriptionArn': eventSubscriptionArn,
+      if (snsTopicArn != null) 'SnsTopicArn': snsTopicArn,
+      if (sourceIdsList != null) 'SourceIdsList': sourceIdsList,
+      if (sourceType != null) 'SourceType': sourceType,
       if (status != null) 'Status': status,
-    };
-  }
-}
-
-/// Detailed information about a cluster snapshot.
-class DBClusterSnapshot {
-  /// Provides the list of Amazon EC2 Availability Zones that instances in the
-  /// cluster snapshot can be restored in.
-  final List<String>? availabilityZones;
-
-  /// Specifies the time when the cluster was created, in Universal Coordinated
-  /// Time (UTC).
-  final DateTime? clusterCreateTime;
-
-  /// Specifies the cluster identifier of the cluster that this cluster snapshot
-  /// was created from.
-  final String? dBClusterIdentifier;
-
-  /// The Amazon Resource Name (ARN) for the cluster snapshot.
-  final String? dBClusterSnapshotArn;
-
-  /// Specifies the identifier for the cluster snapshot.
-  final String? dBClusterSnapshotIdentifier;
-
-  /// Specifies the name of the database engine.
-  final String? engine;
-
-  /// Provides the version of the database engine for this cluster snapshot.
-  final String? engineVersion;
-
-  /// If <code>StorageEncrypted</code> is <code>true</code>, the KMS key
-  /// identifier for the encrypted cluster snapshot.
-  final String? kmsKeyId;
-
-  /// Provides the master user name for the cluster snapshot.
-  final String? masterUsername;
-
-  /// Specifies the percentage of the estimated data that has been transferred.
-  final int? percentProgress;
-
-  /// Specifies the port that the cluster was listening on at the time of the
-  /// snapshot.
-  final int? port;
-
-  /// Provides the time when the snapshot was taken, in UTC.
-  final DateTime? snapshotCreateTime;
-
-  /// Provides the type of the cluster snapshot.
-  final String? snapshotType;
-
-  /// If the cluster snapshot was copied from a source cluster snapshot, the ARN
-  /// for the source cluster snapshot; otherwise, a null value.
-  final String? sourceDBClusterSnapshotArn;
-
-  /// Specifies the status of this cluster snapshot.
-  final String? status;
-
-  /// Specifies whether the cluster snapshot is encrypted.
-  final bool? storageEncrypted;
-
-  /// Storage type associated with your cluster snapshot
-  ///
-  /// For information on storage types for Amazon DocumentDB clusters, see Cluster
-  /// storage configurations in the <i>Amazon DocumentDB Developer Guide</i>.
-  ///
-  /// Valid values for storage type - <code>standard | iopt1</code>
-  ///
-  /// Default value is <code>standard </code>
-  final String? storageType;
-
-  /// Provides the virtual private cloud (VPC) ID that is associated with the
-  /// cluster snapshot.
-  final String? vpcId;
-
-  DBClusterSnapshot({
-    this.availabilityZones,
-    this.clusterCreateTime,
-    this.dBClusterIdentifier,
-    this.dBClusterSnapshotArn,
-    this.dBClusterSnapshotIdentifier,
-    this.engine,
-    this.engineVersion,
-    this.kmsKeyId,
-    this.masterUsername,
-    this.percentProgress,
-    this.port,
-    this.snapshotCreateTime,
-    this.snapshotType,
-    this.sourceDBClusterSnapshotArn,
-    this.status,
-    this.storageEncrypted,
-    this.storageType,
-    this.vpcId,
-  });
-  factory DBClusterSnapshot.fromXml(_s.XmlElement elem) {
-    return DBClusterSnapshot(
-      availabilityZones: _s.extractXmlChild(elem, 'AvailabilityZones')?.let(
-          (elem) => _s.extractXmlStringListValues(elem, 'AvailabilityZone')),
-      clusterCreateTime: _s.extractXmlDateTimeValue(elem, 'ClusterCreateTime'),
-      dBClusterIdentifier:
-          _s.extractXmlStringValue(elem, 'DBClusterIdentifier'),
-      dBClusterSnapshotArn:
-          _s.extractXmlStringValue(elem, 'DBClusterSnapshotArn'),
-      dBClusterSnapshotIdentifier:
-          _s.extractXmlStringValue(elem, 'DBClusterSnapshotIdentifier'),
-      engine: _s.extractXmlStringValue(elem, 'Engine'),
-      engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
-      kmsKeyId: _s.extractXmlStringValue(elem, 'KmsKeyId'),
-      masterUsername: _s.extractXmlStringValue(elem, 'MasterUsername'),
-      percentProgress: _s.extractXmlIntValue(elem, 'PercentProgress'),
-      port: _s.extractXmlIntValue(elem, 'Port'),
-      snapshotCreateTime:
-          _s.extractXmlDateTimeValue(elem, 'SnapshotCreateTime'),
-      snapshotType: _s.extractXmlStringValue(elem, 'SnapshotType'),
-      sourceDBClusterSnapshotArn:
-          _s.extractXmlStringValue(elem, 'SourceDBClusterSnapshotArn'),
-      status: _s.extractXmlStringValue(elem, 'Status'),
-      storageEncrypted: _s.extractXmlBoolValue(elem, 'StorageEncrypted'),
-      storageType: _s.extractXmlStringValue(elem, 'StorageType'),
-      vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final availabilityZones = this.availabilityZones;
-    final clusterCreateTime = this.clusterCreateTime;
-    final dBClusterIdentifier = this.dBClusterIdentifier;
-    final dBClusterSnapshotArn = this.dBClusterSnapshotArn;
-    final dBClusterSnapshotIdentifier = this.dBClusterSnapshotIdentifier;
-    final engine = this.engine;
-    final engineVersion = this.engineVersion;
-    final kmsKeyId = this.kmsKeyId;
-    final masterUsername = this.masterUsername;
-    final percentProgress = this.percentProgress;
-    final port = this.port;
-    final snapshotCreateTime = this.snapshotCreateTime;
-    final snapshotType = this.snapshotType;
-    final sourceDBClusterSnapshotArn = this.sourceDBClusterSnapshotArn;
-    final status = this.status;
-    final storageEncrypted = this.storageEncrypted;
-    final storageType = this.storageType;
-    final vpcId = this.vpcId;
-    return {
-      if (availabilityZones != null) 'AvailabilityZones': availabilityZones,
-      if (clusterCreateTime != null)
-        'ClusterCreateTime': iso8601ToJson(clusterCreateTime),
-      if (dBClusterIdentifier != null)
-        'DBClusterIdentifier': dBClusterIdentifier,
-      if (dBClusterSnapshotArn != null)
-        'DBClusterSnapshotArn': dBClusterSnapshotArn,
-      if (dBClusterSnapshotIdentifier != null)
-        'DBClusterSnapshotIdentifier': dBClusterSnapshotIdentifier,
-      if (engine != null) 'Engine': engine,
-      if (engineVersion != null) 'EngineVersion': engineVersion,
-      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-      if (masterUsername != null) 'MasterUsername': masterUsername,
-      if (percentProgress != null) 'PercentProgress': percentProgress,
-      if (port != null) 'Port': port,
-      if (snapshotCreateTime != null)
-        'SnapshotCreateTime': iso8601ToJson(snapshotCreateTime),
-      if (snapshotType != null) 'SnapshotType': snapshotType,
-      if (sourceDBClusterSnapshotArn != null)
-        'SourceDBClusterSnapshotArn': sourceDBClusterSnapshotArn,
-      if (status != null) 'Status': status,
-      if (storageEncrypted != null) 'StorageEncrypted': storageEncrypted,
-      if (storageType != null) 'StorageType': storageType,
-      if (vpcId != null) 'VpcId': vpcId,
-    };
-  }
-}
-
-/// Contains the name and values of a manual cluster snapshot attribute.
-///
-/// Manual cluster snapshot attributes are used to authorize other Amazon Web
-/// Services accounts to restore a manual cluster snapshot.
-class DBClusterSnapshotAttribute {
-  /// The name of the manual cluster snapshot attribute.
-  ///
-  /// The attribute named <code>restore</code> refers to the list of Amazon Web
-  /// Services accounts that have permission to copy or restore the manual cluster
-  /// snapshot.
-  final String? attributeName;
-
-  /// The values for the manual cluster snapshot attribute.
-  ///
-  /// If the <code>AttributeName</code> field is set to <code>restore</code>, then
-  /// this element returns a list of IDs of the Amazon Web Services accounts that
-  /// are authorized to copy or restore the manual cluster snapshot. If a value of
-  /// <code>all</code> is in the list, then the manual cluster snapshot is public
-  /// and available for any Amazon Web Services account to copy or restore.
-  final List<String>? attributeValues;
-
-  DBClusterSnapshotAttribute({
-    this.attributeName,
-    this.attributeValues,
-  });
-  factory DBClusterSnapshotAttribute.fromXml(_s.XmlElement elem) {
-    return DBClusterSnapshotAttribute(
-      attributeName: _s.extractXmlStringValue(elem, 'AttributeName'),
-      attributeValues: _s.extractXmlChild(elem, 'AttributeValues')?.let(
-          (elem) => _s.extractXmlStringListValues(elem, 'AttributeValue')),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attributeName = this.attributeName;
-    final attributeValues = this.attributeValues;
-    return {
-      if (attributeName != null) 'AttributeName': attributeName,
-      if (attributeValues != null) 'AttributeValues': attributeValues,
-    };
-  }
-}
-
-/// Detailed information about the attributes that are associated with a cluster
-/// snapshot.
-class DBClusterSnapshotAttributesResult {
-  /// The list of attributes and values for the cluster snapshot.
-  final List<DBClusterSnapshotAttribute>? dBClusterSnapshotAttributes;
-
-  /// The identifier of the cluster snapshot that the attributes apply to.
-  final String? dBClusterSnapshotIdentifier;
-
-  DBClusterSnapshotAttributesResult({
-    this.dBClusterSnapshotAttributes,
-    this.dBClusterSnapshotIdentifier,
-  });
-  factory DBClusterSnapshotAttributesResult.fromXml(_s.XmlElement elem) {
-    return DBClusterSnapshotAttributesResult(
-      dBClusterSnapshotAttributes: _s
-          .extractXmlChild(elem, 'DBClusterSnapshotAttributes')
-          ?.let((elem) => elem
-              .findElements('DBClusterSnapshotAttribute')
-              .map(DBClusterSnapshotAttribute.fromXml)
-              .toList()),
-      dBClusterSnapshotIdentifier:
-          _s.extractXmlStringValue(elem, 'DBClusterSnapshotIdentifier'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dBClusterSnapshotAttributes = this.dBClusterSnapshotAttributes;
-    final dBClusterSnapshotIdentifier = this.dBClusterSnapshotIdentifier;
-    return {
-      if (dBClusterSnapshotAttributes != null)
-        'DBClusterSnapshotAttributes': dBClusterSnapshotAttributes,
-      if (dBClusterSnapshotIdentifier != null)
-        'DBClusterSnapshotIdentifier': dBClusterSnapshotIdentifier,
-    };
-  }
-}
-
-/// Represents the output of <a>DescribeDBClusterSnapshots</a>.
-class DBClusterSnapshotMessage {
-  /// Provides a list of cluster snapshots.
-  final List<DBClusterSnapshot>? dBClusterSnapshots;
-
-  /// An optional pagination token provided by a previous request. If this
-  /// parameter is specified, the response includes only records beyond the
-  /// marker, up to the value specified by <code>MaxRecords</code>.
-  final String? marker;
-
-  DBClusterSnapshotMessage({
-    this.dBClusterSnapshots,
-    this.marker,
-  });
-  factory DBClusterSnapshotMessage.fromXml(_s.XmlElement elem) {
-    return DBClusterSnapshotMessage(
-      dBClusterSnapshots: _s.extractXmlChild(elem, 'DBClusterSnapshots')?.let(
-          (elem) => elem
-              .findElements('DBClusterSnapshot')
-              .map(DBClusterSnapshot.fromXml)
-              .toList()),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dBClusterSnapshots = this.dBClusterSnapshots;
-    final marker = this.marker;
-    return {
-      if (dBClusterSnapshots != null) 'DBClusterSnapshots': dBClusterSnapshots,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-/// Detailed information about an engine version.
-class DBEngineVersion {
-  /// The description of the database engine.
-  final String? dBEngineDescription;
-
-  /// The description of the database engine version.
-  final String? dBEngineVersionDescription;
-
-  /// The name of the parameter group family for the database engine.
-  final String? dBParameterGroupFamily;
-
-  /// The name of the database engine.
-  final String? engine;
-
-  /// The version number of the database engine.
-  final String? engineVersion;
-
-  /// The types of logs that the database engine has available for export to
-  /// Amazon CloudWatch Logs.
-  final List<String>? exportableLogTypes;
-
-  /// A list of the supported CA certificate identifiers.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html">Updating
-  /// Your Amazon DocumentDB TLS Certificates</a> and <a
-  /// href="https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html">
-  /// Encrypting Data in Transit</a> in the <i>Amazon DocumentDB Developer
-  /// Guide</i>.
-  final List<String>? supportedCACertificateIdentifiers;
-
-  /// Indicates whether the engine version supports rotating the server
-  /// certificate without rebooting the DB instance.
-  final bool? supportsCertificateRotationWithoutRestart;
-
-  /// A value that indicates whether the engine version supports exporting the log
-  /// types specified by <code>ExportableLogTypes</code> to CloudWatch Logs.
-  final bool? supportsLogExportsToCloudwatchLogs;
-
-  /// A list of engine versions that this database engine version can be upgraded
-  /// to.
-  final List<UpgradeTarget>? validUpgradeTarget;
-
-  DBEngineVersion({
-    this.dBEngineDescription,
-    this.dBEngineVersionDescription,
-    this.dBParameterGroupFamily,
-    this.engine,
-    this.engineVersion,
-    this.exportableLogTypes,
-    this.supportedCACertificateIdentifiers,
-    this.supportsCertificateRotationWithoutRestart,
-    this.supportsLogExportsToCloudwatchLogs,
-    this.validUpgradeTarget,
-  });
-  factory DBEngineVersion.fromXml(_s.XmlElement elem) {
-    return DBEngineVersion(
-      dBEngineDescription:
-          _s.extractXmlStringValue(elem, 'DBEngineDescription'),
-      dBEngineVersionDescription:
-          _s.extractXmlStringValue(elem, 'DBEngineVersionDescription'),
-      dBParameterGroupFamily:
-          _s.extractXmlStringValue(elem, 'DBParameterGroupFamily'),
-      engine: _s.extractXmlStringValue(elem, 'Engine'),
-      engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
-      exportableLogTypes: _s
-          .extractXmlChild(elem, 'ExportableLogTypes')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      supportedCACertificateIdentifiers: _s
-          .extractXmlChild(elem, 'SupportedCACertificateIdentifiers')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      supportsCertificateRotationWithoutRestart: _s.extractXmlBoolValue(
-          elem, 'SupportsCertificateRotationWithoutRestart'),
-      supportsLogExportsToCloudwatchLogs:
-          _s.extractXmlBoolValue(elem, 'SupportsLogExportsToCloudwatchLogs'),
-      validUpgradeTarget: _s.extractXmlChild(elem, 'ValidUpgradeTarget')?.let(
-          (elem) => elem
-              .findElements('UpgradeTarget')
-              .map(UpgradeTarget.fromXml)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dBEngineDescription = this.dBEngineDescription;
-    final dBEngineVersionDescription = this.dBEngineVersionDescription;
-    final dBParameterGroupFamily = this.dBParameterGroupFamily;
-    final engine = this.engine;
-    final engineVersion = this.engineVersion;
-    final exportableLogTypes = this.exportableLogTypes;
-    final supportedCACertificateIdentifiers =
-        this.supportedCACertificateIdentifiers;
-    final supportsCertificateRotationWithoutRestart =
-        this.supportsCertificateRotationWithoutRestart;
-    final supportsLogExportsToCloudwatchLogs =
-        this.supportsLogExportsToCloudwatchLogs;
-    final validUpgradeTarget = this.validUpgradeTarget;
-    return {
-      if (dBEngineDescription != null)
-        'DBEngineDescription': dBEngineDescription,
-      if (dBEngineVersionDescription != null)
-        'DBEngineVersionDescription': dBEngineVersionDescription,
-      if (dBParameterGroupFamily != null)
-        'DBParameterGroupFamily': dBParameterGroupFamily,
-      if (engine != null) 'Engine': engine,
-      if (engineVersion != null) 'EngineVersion': engineVersion,
-      if (exportableLogTypes != null) 'ExportableLogTypes': exportableLogTypes,
-      if (supportedCACertificateIdentifiers != null)
-        'SupportedCACertificateIdentifiers': supportedCACertificateIdentifiers,
-      if (supportsCertificateRotationWithoutRestart != null)
-        'SupportsCertificateRotationWithoutRestart':
-            supportsCertificateRotationWithoutRestart,
-      if (supportsLogExportsToCloudwatchLogs != null)
-        'SupportsLogExportsToCloudwatchLogs':
-            supportsLogExportsToCloudwatchLogs,
-      if (validUpgradeTarget != null) 'ValidUpgradeTarget': validUpgradeTarget,
-    };
-  }
-}
-
-/// Represents the output of <a>DescribeDBEngineVersions</a>.
-class DBEngineVersionMessage {
-  /// Detailed information about one or more engine versions.
-  final List<DBEngineVersion>? dBEngineVersions;
-
-  /// An optional pagination token provided by a previous request. If this
-  /// parameter is specified, the response includes only records beyond the
-  /// marker, up to the value specified by <code>MaxRecords</code>.
-  final String? marker;
-
-  DBEngineVersionMessage({
-    this.dBEngineVersions,
-    this.marker,
-  });
-  factory DBEngineVersionMessage.fromXml(_s.XmlElement elem) {
-    return DBEngineVersionMessage(
-      dBEngineVersions: _s.extractXmlChild(elem, 'DBEngineVersions')?.let(
-          (elem) => elem
-              .findElements('DBEngineVersion')
-              .map(DBEngineVersion.fromXml)
-              .toList()),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dBEngineVersions = this.dBEngineVersions;
-    final marker = this.marker;
-    return {
-      if (dBEngineVersions != null) 'DBEngineVersions': dBEngineVersions,
-      if (marker != null) 'Marker': marker,
+      if (subscriptionCreationTime != null)
+        'SubscriptionCreationTime': subscriptionCreationTime,
     };
   }
 }
@@ -6394,334 +7618,6 @@ class DBInstance {
   }
 }
 
-/// Represents the output of <a>DescribeDBInstances</a>.
-class DBInstanceMessage {
-  /// Detailed information about one or more instances.
-  final List<DBInstance>? dBInstances;
-
-  /// An optional pagination token provided by a previous request. If this
-  /// parameter is specified, the response includes only records beyond the
-  /// marker, up to the value specified by <code>MaxRecords</code>.
-  final String? marker;
-
-  DBInstanceMessage({
-    this.dBInstances,
-    this.marker,
-  });
-  factory DBInstanceMessage.fromXml(_s.XmlElement elem) {
-    return DBInstanceMessage(
-      dBInstances: _s.extractXmlChild(elem, 'DBInstances')?.let((elem) =>
-          elem.findElements('DBInstance').map(DBInstance.fromXml).toList()),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dBInstances = this.dBInstances;
-    final marker = this.marker;
-    return {
-      if (dBInstances != null) 'DBInstances': dBInstances,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-/// Provides a list of status information for an instance.
-class DBInstanceStatusInfo {
-  /// Details of the error if there is an error for the instance. If the instance
-  /// is not in an error state, this value is blank.
-  final String? message;
-
-  /// A Boolean value that is <code>true</code> if the instance is operating
-  /// normally, or <code>false</code> if the instance is in an error state.
-  final bool? normal;
-
-  /// Status of the instance. For a <code>StatusType</code> of read replica, the
-  /// values can be <code>replicating</code>, error, <code>stopped</code>, or
-  /// <code>terminated</code>.
-  final String? status;
-
-  /// This value is currently "<code>read replication</code>."
-  final String? statusType;
-
-  DBInstanceStatusInfo({
-    this.message,
-    this.normal,
-    this.status,
-    this.statusType,
-  });
-  factory DBInstanceStatusInfo.fromXml(_s.XmlElement elem) {
-    return DBInstanceStatusInfo(
-      message: _s.extractXmlStringValue(elem, 'Message'),
-      normal: _s.extractXmlBoolValue(elem, 'Normal'),
-      status: _s.extractXmlStringValue(elem, 'Status'),
-      statusType: _s.extractXmlStringValue(elem, 'StatusType'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final message = this.message;
-    final normal = this.normal;
-    final status = this.status;
-    final statusType = this.statusType;
-    return {
-      if (message != null) 'Message': message,
-      if (normal != null) 'Normal': normal,
-      if (status != null) 'Status': status,
-      if (statusType != null) 'StatusType': statusType,
-    };
-  }
-}
-
-/// Detailed information about a subnet group.
-class DBSubnetGroup {
-  /// The Amazon Resource Name (ARN) for the DB subnet group.
-  final String? dBSubnetGroupArn;
-
-  /// Provides the description of the subnet group.
-  final String? dBSubnetGroupDescription;
-
-  /// The name of the subnet group.
-  final String? dBSubnetGroupName;
-
-  /// Provides the status of the subnet group.
-  final String? subnetGroupStatus;
-
-  /// Detailed information about one or more subnets within a subnet group.
-  final List<Subnet>? subnets;
-
-  /// Provides the virtual private cloud (VPC) ID of the subnet group.
-  final String? vpcId;
-
-  DBSubnetGroup({
-    this.dBSubnetGroupArn,
-    this.dBSubnetGroupDescription,
-    this.dBSubnetGroupName,
-    this.subnetGroupStatus,
-    this.subnets,
-    this.vpcId,
-  });
-  factory DBSubnetGroup.fromXml(_s.XmlElement elem) {
-    return DBSubnetGroup(
-      dBSubnetGroupArn: _s.extractXmlStringValue(elem, 'DBSubnetGroupArn'),
-      dBSubnetGroupDescription:
-          _s.extractXmlStringValue(elem, 'DBSubnetGroupDescription'),
-      dBSubnetGroupName: _s.extractXmlStringValue(elem, 'DBSubnetGroupName'),
-      subnetGroupStatus: _s.extractXmlStringValue(elem, 'SubnetGroupStatus'),
-      subnets: _s.extractXmlChild(elem, 'Subnets')?.let(
-          (elem) => elem.findElements('Subnet').map(Subnet.fromXml).toList()),
-      vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dBSubnetGroupArn = this.dBSubnetGroupArn;
-    final dBSubnetGroupDescription = this.dBSubnetGroupDescription;
-    final dBSubnetGroupName = this.dBSubnetGroupName;
-    final subnetGroupStatus = this.subnetGroupStatus;
-    final subnets = this.subnets;
-    final vpcId = this.vpcId;
-    return {
-      if (dBSubnetGroupArn != null) 'DBSubnetGroupArn': dBSubnetGroupArn,
-      if (dBSubnetGroupDescription != null)
-        'DBSubnetGroupDescription': dBSubnetGroupDescription,
-      if (dBSubnetGroupName != null) 'DBSubnetGroupName': dBSubnetGroupName,
-      if (subnetGroupStatus != null) 'SubnetGroupStatus': subnetGroupStatus,
-      if (subnets != null) 'Subnets': subnets,
-      if (vpcId != null) 'VpcId': vpcId,
-    };
-  }
-}
-
-/// Represents the output of <a>DescribeDBSubnetGroups</a>.
-class DBSubnetGroupMessage {
-  /// Detailed information about one or more subnet groups.
-  final List<DBSubnetGroup>? dBSubnetGroups;
-
-  /// An optional pagination token provided by a previous request. If this
-  /// parameter is specified, the response includes only records beyond the
-  /// marker, up to the value specified by <code>MaxRecords</code>.
-  final String? marker;
-
-  DBSubnetGroupMessage({
-    this.dBSubnetGroups,
-    this.marker,
-  });
-  factory DBSubnetGroupMessage.fromXml(_s.XmlElement elem) {
-    return DBSubnetGroupMessage(
-      dBSubnetGroups: _s.extractXmlChild(elem, 'DBSubnetGroups')?.let((elem) =>
-          elem
-              .findElements('DBSubnetGroup')
-              .map(DBSubnetGroup.fromXml)
-              .toList()),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dBSubnetGroups = this.dBSubnetGroups;
-    final marker = this.marker;
-    return {
-      if (dBSubnetGroups != null) 'DBSubnetGroups': dBSubnetGroups,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-class DeleteDBClusterResult {
-  final DBCluster? dBCluster;
-
-  DeleteDBClusterResult({
-    this.dBCluster,
-  });
-  factory DeleteDBClusterResult.fromXml(_s.XmlElement elem) {
-    return DeleteDBClusterResult(
-      dBCluster: _s.extractXmlChild(elem, 'DBCluster')?.let(DBCluster.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dBCluster = this.dBCluster;
-    return {
-      if (dBCluster != null) 'DBCluster': dBCluster,
-    };
-  }
-}
-
-class DeleteDBClusterSnapshotResult {
-  final DBClusterSnapshot? dBClusterSnapshot;
-
-  DeleteDBClusterSnapshotResult({
-    this.dBClusterSnapshot,
-  });
-  factory DeleteDBClusterSnapshotResult.fromXml(_s.XmlElement elem) {
-    return DeleteDBClusterSnapshotResult(
-      dBClusterSnapshot: _s
-          .extractXmlChild(elem, 'DBClusterSnapshot')
-          ?.let(DBClusterSnapshot.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dBClusterSnapshot = this.dBClusterSnapshot;
-    return {
-      if (dBClusterSnapshot != null) 'DBClusterSnapshot': dBClusterSnapshot,
-    };
-  }
-}
-
-class DeleteDBInstanceResult {
-  final DBInstance? dBInstance;
-
-  DeleteDBInstanceResult({
-    this.dBInstance,
-  });
-  factory DeleteDBInstanceResult.fromXml(_s.XmlElement elem) {
-    return DeleteDBInstanceResult(
-      dBInstance:
-          _s.extractXmlChild(elem, 'DBInstance')?.let(DBInstance.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dBInstance = this.dBInstance;
-    return {
-      if (dBInstance != null) 'DBInstance': dBInstance,
-    };
-  }
-}
-
-class DeleteEventSubscriptionResult {
-  final EventSubscription? eventSubscription;
-
-  DeleteEventSubscriptionResult({
-    this.eventSubscription,
-  });
-  factory DeleteEventSubscriptionResult.fromXml(_s.XmlElement elem) {
-    return DeleteEventSubscriptionResult(
-      eventSubscription: _s
-          .extractXmlChild(elem, 'EventSubscription')
-          ?.let(EventSubscription.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eventSubscription = this.eventSubscription;
-    return {
-      if (eventSubscription != null) 'EventSubscription': eventSubscription,
-    };
-  }
-}
-
-class DeleteGlobalClusterResult {
-  final GlobalCluster? globalCluster;
-
-  DeleteGlobalClusterResult({
-    this.globalCluster,
-  });
-  factory DeleteGlobalClusterResult.fromXml(_s.XmlElement elem) {
-    return DeleteGlobalClusterResult(
-      globalCluster:
-          _s.extractXmlChild(elem, 'GlobalCluster')?.let(GlobalCluster.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final globalCluster = this.globalCluster;
-    return {
-      if (globalCluster != null) 'GlobalCluster': globalCluster,
-    };
-  }
-}
-
-class DescribeDBClusterSnapshotAttributesResult {
-  final DBClusterSnapshotAttributesResult? dBClusterSnapshotAttributesResult;
-
-  DescribeDBClusterSnapshotAttributesResult({
-    this.dBClusterSnapshotAttributesResult,
-  });
-  factory DescribeDBClusterSnapshotAttributesResult.fromXml(
-      _s.XmlElement elem) {
-    return DescribeDBClusterSnapshotAttributesResult(
-      dBClusterSnapshotAttributesResult: _s
-          .extractXmlChild(elem, 'DBClusterSnapshotAttributesResult')
-          ?.let(DBClusterSnapshotAttributesResult.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dBClusterSnapshotAttributesResult =
-        this.dBClusterSnapshotAttributesResult;
-    return {
-      if (dBClusterSnapshotAttributesResult != null)
-        'DBClusterSnapshotAttributesResult': dBClusterSnapshotAttributesResult,
-    };
-  }
-}
-
-class DescribeEngineDefaultClusterParametersResult {
-  final EngineDefaults? engineDefaults;
-
-  DescribeEngineDefaultClusterParametersResult({
-    this.engineDefaults,
-  });
-  factory DescribeEngineDefaultClusterParametersResult.fromXml(
-      _s.XmlElement elem) {
-    return DescribeEngineDefaultClusterParametersResult(
-      engineDefaults: _s
-          .extractXmlChild(elem, 'EngineDefaults')
-          ?.let(EngineDefaults.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final engineDefaults = this.engineDefaults;
-    return {
-      if (engineDefaults != null) 'EngineDefaults': engineDefaults,
-    };
-  }
-}
-
 /// Network information for accessing a cluster or instance. Client programs
 /// must specify a valid endpoint to access these Amazon DocumentDB resources.
 class Endpoint {
@@ -6759,1091 +7655,77 @@ class Endpoint {
   }
 }
 
-/// Contains the result of a successful invocation of the
-/// <code>DescribeEngineDefaultClusterParameters</code> operation.
-class EngineDefaults {
-  /// The name of the cluster parameter group family to return the engine
-  /// parameter information for.
-  final String? dBParameterGroupFamily;
+/// Detailed information about a subnet group.
+class DBSubnetGroup {
+  /// The Amazon Resource Name (ARN) for the DB subnet group.
+  final String? dBSubnetGroupArn;
 
-  /// An optional pagination token provided by a previous request. If this
-  /// parameter is specified, the response includes only records beyond the
-  /// marker, up to the value specified by <code>MaxRecords</code>.
-  final String? marker;
+  /// Provides the description of the subnet group.
+  final String? dBSubnetGroupDescription;
 
-  /// The parameters of a particular cluster parameter group family.
-  final List<Parameter>? parameters;
+  /// The name of the subnet group.
+  final String? dBSubnetGroupName;
 
-  EngineDefaults({
-    this.dBParameterGroupFamily,
-    this.marker,
-    this.parameters,
-  });
-  factory EngineDefaults.fromXml(_s.XmlElement elem) {
-    return EngineDefaults(
-      dBParameterGroupFamily:
-          _s.extractXmlStringValue(elem, 'DBParameterGroupFamily'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      parameters: _s.extractXmlChild(elem, 'Parameters')?.let((elem) =>
-          elem.findElements('Parameter').map(Parameter.fromXml).toList()),
-    );
-  }
+  /// Provides the status of the subnet group.
+  final String? subnetGroupStatus;
 
-  Map<String, dynamic> toJson() {
-    final dBParameterGroupFamily = this.dBParameterGroupFamily;
-    final marker = this.marker;
-    final parameters = this.parameters;
-    return {
-      if (dBParameterGroupFamily != null)
-        'DBParameterGroupFamily': dBParameterGroupFamily,
-      if (marker != null) 'Marker': marker,
-      if (parameters != null) 'Parameters': parameters,
-    };
-  }
-}
+  /// Detailed information about one or more subnets within a subnet group.
+  final List<Subnet>? subnets;
 
-/// Detailed information about an event.
-class Event {
-  /// Specifies the date and time of the event.
-  final DateTime? date;
-
-  /// Specifies the category for the event.
-  final List<String>? eventCategories;
-
-  /// Provides the text of this event.
-  final String? message;
-
-  /// The Amazon Resource Name (ARN) for the event.
-  final String? sourceArn;
-
-  /// Provides the identifier for the source of the event.
-  final String? sourceIdentifier;
-
-  /// Specifies the source type for this event.
-  final SourceType? sourceType;
-
-  Event({
-    this.date,
-    this.eventCategories,
-    this.message,
-    this.sourceArn,
-    this.sourceIdentifier,
-    this.sourceType,
-  });
-  factory Event.fromXml(_s.XmlElement elem) {
-    return Event(
-      date: _s.extractXmlDateTimeValue(elem, 'Date'),
-      eventCategories: _s
-          .extractXmlChild(elem, 'EventCategories')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'EventCategory')),
-      message: _s.extractXmlStringValue(elem, 'Message'),
-      sourceArn: _s.extractXmlStringValue(elem, 'SourceArn'),
-      sourceIdentifier: _s.extractXmlStringValue(elem, 'SourceIdentifier'),
-      sourceType: _s
-          .extractXmlStringValue(elem, 'SourceType')
-          ?.let(SourceType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final date = this.date;
-    final eventCategories = this.eventCategories;
-    final message = this.message;
-    final sourceArn = this.sourceArn;
-    final sourceIdentifier = this.sourceIdentifier;
-    final sourceType = this.sourceType;
-    return {
-      if (date != null) 'Date': iso8601ToJson(date),
-      if (eventCategories != null) 'EventCategories': eventCategories,
-      if (message != null) 'Message': message,
-      if (sourceArn != null) 'SourceArn': sourceArn,
-      if (sourceIdentifier != null) 'SourceIdentifier': sourceIdentifier,
-      if (sourceType != null) 'SourceType': sourceType.value,
-    };
-  }
-}
-
-/// An event source type, accompanied by one or more event category names.
-class EventCategoriesMap {
-  /// The event categories for the specified source type.
-  final List<String>? eventCategories;
-
-  /// The source type that the returned categories belong to.
-  final String? sourceType;
-
-  EventCategoriesMap({
-    this.eventCategories,
-    this.sourceType,
-  });
-  factory EventCategoriesMap.fromXml(_s.XmlElement elem) {
-    return EventCategoriesMap(
-      eventCategories: _s
-          .extractXmlChild(elem, 'EventCategories')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'EventCategory')),
-      sourceType: _s.extractXmlStringValue(elem, 'SourceType'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eventCategories = this.eventCategories;
-    final sourceType = this.sourceType;
-    return {
-      if (eventCategories != null) 'EventCategories': eventCategories,
-      if (sourceType != null) 'SourceType': sourceType,
-    };
-  }
-}
-
-/// Represents the output of <a>DescribeEventCategories</a>.
-class EventCategoriesMessage {
-  /// A list of event category maps.
-  final List<EventCategoriesMap>? eventCategoriesMapList;
-
-  EventCategoriesMessage({
-    this.eventCategoriesMapList,
-  });
-  factory EventCategoriesMessage.fromXml(_s.XmlElement elem) {
-    return EventCategoriesMessage(
-      eventCategoriesMapList: _s
-          .extractXmlChild(elem, 'EventCategoriesMapList')
-          ?.let((elem) => elem
-              .findElements('EventCategoriesMap')
-              .map(EventCategoriesMap.fromXml)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eventCategoriesMapList = this.eventCategoriesMapList;
-    return {
-      if (eventCategoriesMapList != null)
-        'EventCategoriesMapList': eventCategoriesMapList,
-    };
-  }
-}
-
-/// Detailed information about an event to which you have subscribed.
-class EventSubscription {
-  /// The Amazon DocumentDB event notification subscription ID.
-  final String? custSubscriptionId;
-
-  /// The Amazon Web Services customer account that is associated with the Amazon
-  /// DocumentDB event notification subscription.
-  final String? customerAwsId;
-
-  /// A Boolean value indicating whether the subscription is enabled. A value of
-  /// <code>true</code> indicates that the subscription is enabled.
-  final bool? enabled;
-
-  /// A list of event categories for the Amazon DocumentDB event notification
-  /// subscription.
-  final List<String>? eventCategoriesList;
-
-  /// The Amazon Resource Name (ARN) for the event subscription.
-  final String? eventSubscriptionArn;
-
-  /// The topic ARN of the Amazon DocumentDB event notification subscription.
-  final String? snsTopicArn;
-
-  /// A list of source IDs for the Amazon DocumentDB event notification
-  /// subscription.
-  final List<String>? sourceIdsList;
-
-  /// The source type for the Amazon DocumentDB event notification subscription.
-  final String? sourceType;
-
-  /// The status of the Amazon DocumentDB event notification subscription.
+  /// The network type of the DB subnet group.
   ///
-  /// Constraints:
+  /// Valid Values: <code>IPV4</code> | <code>DUAL</code>
   ///
-  /// Can be one of the following: <code>creating</code>, <code>modifying</code>,
-  /// <code>deleting</code>, <code>active</code>, <code>no-permission</code>,
-  /// <code>topic-not-exist</code>
-  ///
-  /// The <code>no-permission</code> status indicates that Amazon DocumentDB no
-  /// longer has permission to post to the SNS topic. The
-  /// <code>topic-not-exist</code> status indicates that the topic was deleted
-  /// after the subscription was created.
-  final String? status;
+  /// A <code>DBSubnetGroup</code> can support only the IPv4 protocol or the IPv4
+  /// and the IPv6 protocols (DUAL).
+  final List<String>? supportedNetworkTypes;
 
-  /// The time at which the Amazon DocumentDB event notification subscription was
-  /// created.
-  final String? subscriptionCreationTime;
+  /// Provides the virtual private cloud (VPC) ID of the subnet group.
+  final String? vpcId;
 
-  EventSubscription({
-    this.custSubscriptionId,
-    this.customerAwsId,
-    this.enabled,
-    this.eventCategoriesList,
-    this.eventSubscriptionArn,
-    this.snsTopicArn,
-    this.sourceIdsList,
-    this.sourceType,
-    this.status,
-    this.subscriptionCreationTime,
+  DBSubnetGroup({
+    this.dBSubnetGroupArn,
+    this.dBSubnetGroupDescription,
+    this.dBSubnetGroupName,
+    this.subnetGroupStatus,
+    this.subnets,
+    this.supportedNetworkTypes,
+    this.vpcId,
   });
-  factory EventSubscription.fromXml(_s.XmlElement elem) {
-    return EventSubscription(
-      custSubscriptionId: _s.extractXmlStringValue(elem, 'CustSubscriptionId'),
-      customerAwsId: _s.extractXmlStringValue(elem, 'CustomerAwsId'),
-      enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
-      eventCategoriesList: _s
-          .extractXmlChild(elem, 'EventCategoriesList')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'EventCategory')),
-      eventSubscriptionArn:
-          _s.extractXmlStringValue(elem, 'EventSubscriptionArn'),
-      snsTopicArn: _s.extractXmlStringValue(elem, 'SnsTopicArn'),
-      sourceIdsList: _s
-          .extractXmlChild(elem, 'SourceIdsList')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'SourceId')),
-      sourceType: _s.extractXmlStringValue(elem, 'SourceType'),
-      status: _s.extractXmlStringValue(elem, 'Status'),
-      subscriptionCreationTime:
-          _s.extractXmlStringValue(elem, 'SubscriptionCreationTime'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final custSubscriptionId = this.custSubscriptionId;
-    final customerAwsId = this.customerAwsId;
-    final enabled = this.enabled;
-    final eventCategoriesList = this.eventCategoriesList;
-    final eventSubscriptionArn = this.eventSubscriptionArn;
-    final snsTopicArn = this.snsTopicArn;
-    final sourceIdsList = this.sourceIdsList;
-    final sourceType = this.sourceType;
-    final status = this.status;
-    final subscriptionCreationTime = this.subscriptionCreationTime;
-    return {
-      if (custSubscriptionId != null) 'CustSubscriptionId': custSubscriptionId,
-      if (customerAwsId != null) 'CustomerAwsId': customerAwsId,
-      if (enabled != null) 'Enabled': enabled,
-      if (eventCategoriesList != null)
-        'EventCategoriesList': eventCategoriesList,
-      if (eventSubscriptionArn != null)
-        'EventSubscriptionArn': eventSubscriptionArn,
-      if (snsTopicArn != null) 'SnsTopicArn': snsTopicArn,
-      if (sourceIdsList != null) 'SourceIdsList': sourceIdsList,
-      if (sourceType != null) 'SourceType': sourceType,
-      if (status != null) 'Status': status,
-      if (subscriptionCreationTime != null)
-        'SubscriptionCreationTime': subscriptionCreationTime,
-    };
-  }
-}
-
-/// Represents the output of <a>DescribeEventSubscriptions</a>.
-class EventSubscriptionsMessage {
-  /// A list of event subscriptions.
-  final List<EventSubscription>? eventSubscriptionsList;
-
-  /// An optional pagination token provided by a previous request. If this
-  /// parameter is specified, the response includes only records beyond the
-  /// marker, up to the value specified by <code>MaxRecords</code>.
-  final String? marker;
-
-  EventSubscriptionsMessage({
-    this.eventSubscriptionsList,
-    this.marker,
-  });
-  factory EventSubscriptionsMessage.fromXml(_s.XmlElement elem) {
-    return EventSubscriptionsMessage(
-      eventSubscriptionsList: _s
-          .extractXmlChild(elem, 'EventSubscriptionsList')
-          ?.let((elem) => elem
-              .findElements('EventSubscription')
-              .map(EventSubscription.fromXml)
-              .toList()),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eventSubscriptionsList = this.eventSubscriptionsList;
-    final marker = this.marker;
-    return {
-      if (eventSubscriptionsList != null)
-        'EventSubscriptionsList': eventSubscriptionsList,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-/// Represents the output of <a>DescribeEvents</a>.
-class EventsMessage {
-  /// Detailed information about one or more events.
-  final List<Event>? events;
-
-  /// An optional pagination token provided by a previous request. If this
-  /// parameter is specified, the response includes only records beyond the
-  /// marker, up to the value specified by <code>MaxRecords</code>.
-  final String? marker;
-
-  EventsMessage({
-    this.events,
-    this.marker,
-  });
-  factory EventsMessage.fromXml(_s.XmlElement elem) {
-    return EventsMessage(
-      events: _s.extractXmlChild(elem, 'Events')?.let(
-          (elem) => elem.findElements('Event').map(Event.fromXml).toList()),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final events = this.events;
-    final marker = this.marker;
-    return {
-      if (events != null) 'Events': events,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-class FailoverDBClusterResult {
-  final DBCluster? dBCluster;
-
-  FailoverDBClusterResult({
-    this.dBCluster,
-  });
-  factory FailoverDBClusterResult.fromXml(_s.XmlElement elem) {
-    return FailoverDBClusterResult(
-      dBCluster: _s.extractXmlChild(elem, 'DBCluster')?.let(DBCluster.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dBCluster = this.dBCluster;
-    return {
-      if (dBCluster != null) 'DBCluster': dBCluster,
-    };
-  }
-}
-
-class FailoverGlobalClusterResult {
-  final GlobalCluster? globalCluster;
-
-  FailoverGlobalClusterResult({
-    this.globalCluster,
-  });
-  factory FailoverGlobalClusterResult.fromXml(_s.XmlElement elem) {
-    return FailoverGlobalClusterResult(
-      globalCluster:
-          _s.extractXmlChild(elem, 'GlobalCluster')?.let(GlobalCluster.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final globalCluster = this.globalCluster;
-    return {
-      if (globalCluster != null) 'GlobalCluster': globalCluster,
-    };
-  }
-}
-
-/// A named set of filter values, used to return a more specific list of
-/// results. You can use a filter to match a set of resources by specific
-/// criteria, such as IDs.
-///
-/// Wildcards are not supported in filters.
-class Filter {
-  /// The name of the filter. Filter names are case sensitive.
-  final String name;
-
-  /// One or more filter values. Filter values are case sensitive.
-  final List<String> values;
-
-  Filter({
-    required this.name,
-    required this.values,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final values = this.values;
-    return {
-      'Name': name,
-      'Values': values,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final name = this.name;
-    final values = this.values;
-    return {
-      'Name': name,
-      if (values.isEmpty)
-        'Value': ''
-      else
-        for (var i1 = 0; i1 < values.length; i1++)
-          'Value.Value.${i1 + 1}': values[i1],
-    };
-  }
-}
-
-/// A data type representing an Amazon DocumentDB global cluster.
-class GlobalCluster {
-  /// The default database name within the new global cluster.
-  final String? databaseName;
-
-  /// The deletion protection setting for the new global cluster.
-  final bool? deletionProtection;
-
-  /// The Amazon DocumentDB database engine used by the global cluster.
-  final String? engine;
-
-  /// Indicates the database engine version.
-  final String? engineVersion;
-
-  /// The Amazon Resource Name (ARN) for the global cluster.
-  final String? globalClusterArn;
-
-  /// Contains a user-supplied global cluster identifier. This identifier is the
-  /// unique key that identifies a global cluster.
-  final String? globalClusterIdentifier;
-
-  /// The list of cluster IDs for secondary clusters within the global cluster.
-  /// Currently limited to one item.
-  final List<GlobalClusterMember>? globalClusterMembers;
-
-  /// The Amazon Web Services Region-unique, immutable identifier for the global
-  /// database cluster. This identifier is found in CloudTrail log entries
-  /// whenever the KMS customer master key (CMK) for the cluster is accessed.
-  final String? globalClusterResourceId;
-
-  /// Specifies the current state of this global cluster.
-  final String? status;
-
-  /// The storage encryption setting for the global cluster.
-  final bool? storageEncrypted;
-
-  GlobalCluster({
-    this.databaseName,
-    this.deletionProtection,
-    this.engine,
-    this.engineVersion,
-    this.globalClusterArn,
-    this.globalClusterIdentifier,
-    this.globalClusterMembers,
-    this.globalClusterResourceId,
-    this.status,
-    this.storageEncrypted,
-  });
-  factory GlobalCluster.fromXml(_s.XmlElement elem) {
-    return GlobalCluster(
-      databaseName: _s.extractXmlStringValue(elem, 'DatabaseName'),
-      deletionProtection: _s.extractXmlBoolValue(elem, 'DeletionProtection'),
-      engine: _s.extractXmlStringValue(elem, 'Engine'),
-      engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
-      globalClusterArn: _s.extractXmlStringValue(elem, 'GlobalClusterArn'),
-      globalClusterIdentifier:
-          _s.extractXmlStringValue(elem, 'GlobalClusterIdentifier'),
-      globalClusterMembers: _s
-          .extractXmlChild(elem, 'GlobalClusterMembers')
-          ?.let((elem) => elem
-              .findElements('GlobalClusterMember')
-              .map(GlobalClusterMember.fromXml)
-              .toList()),
-      globalClusterResourceId:
-          _s.extractXmlStringValue(elem, 'GlobalClusterResourceId'),
-      status: _s.extractXmlStringValue(elem, 'Status'),
-      storageEncrypted: _s.extractXmlBoolValue(elem, 'StorageEncrypted'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final databaseName = this.databaseName;
-    final deletionProtection = this.deletionProtection;
-    final engine = this.engine;
-    final engineVersion = this.engineVersion;
-    final globalClusterArn = this.globalClusterArn;
-    final globalClusterIdentifier = this.globalClusterIdentifier;
-    final globalClusterMembers = this.globalClusterMembers;
-    final globalClusterResourceId = this.globalClusterResourceId;
-    final status = this.status;
-    final storageEncrypted = this.storageEncrypted;
-    return {
-      if (databaseName != null) 'DatabaseName': databaseName,
-      if (deletionProtection != null) 'DeletionProtection': deletionProtection,
-      if (engine != null) 'Engine': engine,
-      if (engineVersion != null) 'EngineVersion': engineVersion,
-      if (globalClusterArn != null) 'GlobalClusterArn': globalClusterArn,
-      if (globalClusterIdentifier != null)
-        'GlobalClusterIdentifier': globalClusterIdentifier,
-      if (globalClusterMembers != null)
-        'GlobalClusterMembers': globalClusterMembers,
-      if (globalClusterResourceId != null)
-        'GlobalClusterResourceId': globalClusterResourceId,
-      if (status != null) 'Status': status,
-      if (storageEncrypted != null) 'StorageEncrypted': storageEncrypted,
-    };
-  }
-}
-
-/// A data structure with information about any primary and secondary clusters
-/// associated with an Amazon DocumentDB global clusters.
-class GlobalClusterMember {
-  /// The Amazon Resource Name (ARN) for each Amazon DocumentDB cluster.
-  final String? dBClusterArn;
-
-  /// Specifies whether the Amazon DocumentDB cluster is the primary cluster (that
-  /// is, has read-write capability) for the Amazon DocumentDB global cluster with
-  /// which it is associated.
-  final bool? isWriter;
-
-  /// The Amazon Resource Name (ARN) for each read-only secondary cluster
-  /// associated with the Aurora global cluster.
-  final List<String>? readers;
-
-  GlobalClusterMember({
-    this.dBClusterArn,
-    this.isWriter,
-    this.readers,
-  });
-  factory GlobalClusterMember.fromXml(_s.XmlElement elem) {
-    return GlobalClusterMember(
-      dBClusterArn: _s.extractXmlStringValue(elem, 'DBClusterArn'),
-      isWriter: _s.extractXmlBoolValue(elem, 'IsWriter'),
-      readers: _s
-          .extractXmlChild(elem, 'Readers')
+  factory DBSubnetGroup.fromXml(_s.XmlElement elem) {
+    return DBSubnetGroup(
+      dBSubnetGroupArn: _s.extractXmlStringValue(elem, 'DBSubnetGroupArn'),
+      dBSubnetGroupDescription:
+          _s.extractXmlStringValue(elem, 'DBSubnetGroupDescription'),
+      dBSubnetGroupName: _s.extractXmlStringValue(elem, 'DBSubnetGroupName'),
+      subnetGroupStatus: _s.extractXmlStringValue(elem, 'SubnetGroupStatus'),
+      subnets: _s.extractXmlChild(elem, 'Subnets')?.let(
+          (elem) => elem.findElements('Subnet').map(Subnet.fromXml).toList()),
+      supportedNetworkTypes: _s
+          .extractXmlChild(elem, 'SupportedNetworkTypes')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final dBClusterArn = this.dBClusterArn;
-    final isWriter = this.isWriter;
-    final readers = this.readers;
+    final dBSubnetGroupArn = this.dBSubnetGroupArn;
+    final dBSubnetGroupDescription = this.dBSubnetGroupDescription;
+    final dBSubnetGroupName = this.dBSubnetGroupName;
+    final subnetGroupStatus = this.subnetGroupStatus;
+    final subnets = this.subnets;
+    final supportedNetworkTypes = this.supportedNetworkTypes;
+    final vpcId = this.vpcId;
     return {
-      if (dBClusterArn != null) 'DBClusterArn': dBClusterArn,
-      if (isWriter != null) 'IsWriter': isWriter,
-      if (readers != null) 'Readers': readers,
-    };
-  }
-}
-
-class GlobalClustersMessage {
-  /// <p/>
-  final List<GlobalCluster>? globalClusters;
-
-  /// <p/>
-  final String? marker;
-
-  GlobalClustersMessage({
-    this.globalClusters,
-    this.marker,
-  });
-  factory GlobalClustersMessage.fromXml(_s.XmlElement elem) {
-    return GlobalClustersMessage(
-      globalClusters: _s.extractXmlChild(elem, 'GlobalClusters')?.let((elem) =>
-          elem
-              .findElements('GlobalClusterMember')
-              .map(GlobalCluster.fromXml)
-              .toList()),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final globalClusters = this.globalClusters;
-    final marker = this.marker;
-    return {
-      if (globalClusters != null) 'GlobalClusters': globalClusters,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-class ModifyDBClusterResult {
-  final DBCluster? dBCluster;
-
-  ModifyDBClusterResult({
-    this.dBCluster,
-  });
-  factory ModifyDBClusterResult.fromXml(_s.XmlElement elem) {
-    return ModifyDBClusterResult(
-      dBCluster: _s.extractXmlChild(elem, 'DBCluster')?.let(DBCluster.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dBCluster = this.dBCluster;
-    return {
-      if (dBCluster != null) 'DBCluster': dBCluster,
-    };
-  }
-}
-
-class ModifyDBClusterSnapshotAttributeResult {
-  final DBClusterSnapshotAttributesResult? dBClusterSnapshotAttributesResult;
-
-  ModifyDBClusterSnapshotAttributeResult({
-    this.dBClusterSnapshotAttributesResult,
-  });
-  factory ModifyDBClusterSnapshotAttributeResult.fromXml(_s.XmlElement elem) {
-    return ModifyDBClusterSnapshotAttributeResult(
-      dBClusterSnapshotAttributesResult: _s
-          .extractXmlChild(elem, 'DBClusterSnapshotAttributesResult')
-          ?.let(DBClusterSnapshotAttributesResult.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dBClusterSnapshotAttributesResult =
-        this.dBClusterSnapshotAttributesResult;
-    return {
-      if (dBClusterSnapshotAttributesResult != null)
-        'DBClusterSnapshotAttributesResult': dBClusterSnapshotAttributesResult,
-    };
-  }
-}
-
-class ModifyDBInstanceResult {
-  final DBInstance? dBInstance;
-
-  ModifyDBInstanceResult({
-    this.dBInstance,
-  });
-  factory ModifyDBInstanceResult.fromXml(_s.XmlElement elem) {
-    return ModifyDBInstanceResult(
-      dBInstance:
-          _s.extractXmlChild(elem, 'DBInstance')?.let(DBInstance.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dBInstance = this.dBInstance;
-    return {
-      if (dBInstance != null) 'DBInstance': dBInstance,
-    };
-  }
-}
-
-class ModifyDBSubnetGroupResult {
-  final DBSubnetGroup? dBSubnetGroup;
-
-  ModifyDBSubnetGroupResult({
-    this.dBSubnetGroup,
-  });
-  factory ModifyDBSubnetGroupResult.fromXml(_s.XmlElement elem) {
-    return ModifyDBSubnetGroupResult(
-      dBSubnetGroup:
-          _s.extractXmlChild(elem, 'DBSubnetGroup')?.let(DBSubnetGroup.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dBSubnetGroup = this.dBSubnetGroup;
-    return {
-      if (dBSubnetGroup != null) 'DBSubnetGroup': dBSubnetGroup,
-    };
-  }
-}
-
-class ModifyEventSubscriptionResult {
-  final EventSubscription? eventSubscription;
-
-  ModifyEventSubscriptionResult({
-    this.eventSubscription,
-  });
-  factory ModifyEventSubscriptionResult.fromXml(_s.XmlElement elem) {
-    return ModifyEventSubscriptionResult(
-      eventSubscription: _s
-          .extractXmlChild(elem, 'EventSubscription')
-          ?.let(EventSubscription.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eventSubscription = this.eventSubscription;
-    return {
-      if (eventSubscription != null) 'EventSubscription': eventSubscription,
-    };
-  }
-}
-
-class ModifyGlobalClusterResult {
-  final GlobalCluster? globalCluster;
-
-  ModifyGlobalClusterResult({
-    this.globalCluster,
-  });
-  factory ModifyGlobalClusterResult.fromXml(_s.XmlElement elem) {
-    return ModifyGlobalClusterResult(
-      globalCluster:
-          _s.extractXmlChild(elem, 'GlobalCluster')?.let(GlobalCluster.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final globalCluster = this.globalCluster;
-    return {
-      if (globalCluster != null) 'GlobalCluster': globalCluster,
-    };
-  }
-}
-
-/// The options that are available for an instance.
-class OrderableDBInstanceOption {
-  /// A list of Availability Zones for an instance.
-  final List<AvailabilityZone>? availabilityZones;
-
-  /// The instance class for an instance.
-  final String? dBInstanceClass;
-
-  /// The engine type of an instance.
-  final String? engine;
-
-  /// The engine version of an instance.
-  final String? engineVersion;
-
-  /// The license model for an instance.
-  final String? licenseModel;
-
-  /// The storage type to associate with the DB cluster
-  final String? storageType;
-
-  /// Indicates whether an instance is in a virtual private cloud (VPC).
-  final bool? vpc;
-
-  OrderableDBInstanceOption({
-    this.availabilityZones,
-    this.dBInstanceClass,
-    this.engine,
-    this.engineVersion,
-    this.licenseModel,
-    this.storageType,
-    this.vpc,
-  });
-  factory OrderableDBInstanceOption.fromXml(_s.XmlElement elem) {
-    return OrderableDBInstanceOption(
-      availabilityZones: _s.extractXmlChild(elem, 'AvailabilityZones')?.let(
-          (elem) => elem
-              .findElements('AvailabilityZone')
-              .map(AvailabilityZone.fromXml)
-              .toList()),
-      dBInstanceClass: _s.extractXmlStringValue(elem, 'DBInstanceClass'),
-      engine: _s.extractXmlStringValue(elem, 'Engine'),
-      engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
-      licenseModel: _s.extractXmlStringValue(elem, 'LicenseModel'),
-      storageType: _s.extractXmlStringValue(elem, 'StorageType'),
-      vpc: _s.extractXmlBoolValue(elem, 'Vpc'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final availabilityZones = this.availabilityZones;
-    final dBInstanceClass = this.dBInstanceClass;
-    final engine = this.engine;
-    final engineVersion = this.engineVersion;
-    final licenseModel = this.licenseModel;
-    final storageType = this.storageType;
-    final vpc = this.vpc;
-    return {
-      if (availabilityZones != null) 'AvailabilityZones': availabilityZones,
-      if (dBInstanceClass != null) 'DBInstanceClass': dBInstanceClass,
-      if (engine != null) 'Engine': engine,
-      if (engineVersion != null) 'EngineVersion': engineVersion,
-      if (licenseModel != null) 'LicenseModel': licenseModel,
-      if (storageType != null) 'StorageType': storageType,
-      if (vpc != null) 'Vpc': vpc,
-    };
-  }
-}
-
-/// Represents the output of <a>DescribeOrderableDBInstanceOptions</a>.
-class OrderableDBInstanceOptionsMessage {
-  /// An optional pagination token provided by a previous request. If this
-  /// parameter is specified, the response includes only records beyond the
-  /// marker, up to the value specified by <code>MaxRecords</code>.
-  final String? marker;
-
-  /// The options that are available for a particular orderable instance.
-  final List<OrderableDBInstanceOption>? orderableDBInstanceOptions;
-
-  OrderableDBInstanceOptionsMessage({
-    this.marker,
-    this.orderableDBInstanceOptions,
-  });
-  factory OrderableDBInstanceOptionsMessage.fromXml(_s.XmlElement elem) {
-    return OrderableDBInstanceOptionsMessage(
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      orderableDBInstanceOptions: _s
-          .extractXmlChild(elem, 'OrderableDBInstanceOptions')
-          ?.let((elem) => elem
-              .findElements('OrderableDBInstanceOption')
-              .map(OrderableDBInstanceOption.fromXml)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final marker = this.marker;
-    final orderableDBInstanceOptions = this.orderableDBInstanceOptions;
-    return {
-      if (marker != null) 'Marker': marker,
-      if (orderableDBInstanceOptions != null)
-        'OrderableDBInstanceOptions': orderableDBInstanceOptions,
-    };
-  }
-}
-
-/// Detailed information about an individual parameter.
-class Parameter {
-  /// Specifies the valid range of values for the parameter.
-  final String? allowedValues;
-
-  /// Indicates when to apply parameter updates.
-  final ApplyMethod? applyMethod;
-
-  /// Specifies the engine-specific parameters type.
-  final String? applyType;
-
-  /// Specifies the valid data type for the parameter.
-  final String? dataType;
-
-  /// Provides a description of the parameter.
-  final String? description;
-
-  /// Indicates whether (<code>true</code>) or not (<code>false</code>) the
-  /// parameter can be modified. Some parameters have security or operational
-  /// implications that prevent them from being changed.
-  final bool? isModifiable;
-
-  /// The earliest engine version to which the parameter can apply.
-  final String? minimumEngineVersion;
-
-  /// Specifies the name of the parameter.
-  final String? parameterName;
-
-  /// Specifies the value of the parameter.
-  final String? parameterValue;
-
-  /// Indicates the source of the parameter value.
-  final String? source;
-
-  Parameter({
-    this.allowedValues,
-    this.applyMethod,
-    this.applyType,
-    this.dataType,
-    this.description,
-    this.isModifiable,
-    this.minimumEngineVersion,
-    this.parameterName,
-    this.parameterValue,
-    this.source,
-  });
-  factory Parameter.fromXml(_s.XmlElement elem) {
-    return Parameter(
-      allowedValues: _s.extractXmlStringValue(elem, 'AllowedValues'),
-      applyMethod: _s
-          .extractXmlStringValue(elem, 'ApplyMethod')
-          ?.let(ApplyMethod.fromString),
-      applyType: _s.extractXmlStringValue(elem, 'ApplyType'),
-      dataType: _s.extractXmlStringValue(elem, 'DataType'),
-      description: _s.extractXmlStringValue(elem, 'Description'),
-      isModifiable: _s.extractXmlBoolValue(elem, 'IsModifiable'),
-      minimumEngineVersion:
-          _s.extractXmlStringValue(elem, 'MinimumEngineVersion'),
-      parameterName: _s.extractXmlStringValue(elem, 'ParameterName'),
-      parameterValue: _s.extractXmlStringValue(elem, 'ParameterValue'),
-      source: _s.extractXmlStringValue(elem, 'Source'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final allowedValues = this.allowedValues;
-    final applyMethod = this.applyMethod;
-    final applyType = this.applyType;
-    final dataType = this.dataType;
-    final description = this.description;
-    final isModifiable = this.isModifiable;
-    final minimumEngineVersion = this.minimumEngineVersion;
-    final parameterName = this.parameterName;
-    final parameterValue = this.parameterValue;
-    final source = this.source;
-    return {
-      if (allowedValues != null) 'AllowedValues': allowedValues,
-      if (applyMethod != null) 'ApplyMethod': applyMethod.value,
-      if (applyType != null) 'ApplyType': applyType,
-      if (dataType != null) 'DataType': dataType,
-      if (description != null) 'Description': description,
-      if (isModifiable != null) 'IsModifiable': isModifiable,
-      if (minimumEngineVersion != null)
-        'MinimumEngineVersion': minimumEngineVersion,
-      if (parameterName != null) 'ParameterName': parameterName,
-      if (parameterValue != null) 'ParameterValue': parameterValue,
-      if (source != null) 'Source': source,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final allowedValues = this.allowedValues;
-    final applyMethod = this.applyMethod;
-    final applyType = this.applyType;
-    final dataType = this.dataType;
-    final description = this.description;
-    final isModifiable = this.isModifiable;
-    final minimumEngineVersion = this.minimumEngineVersion;
-    final parameterName = this.parameterName;
-    final parameterValue = this.parameterValue;
-    final source = this.source;
-    return {
-      if (allowedValues != null) 'AllowedValues': allowedValues,
-      if (applyMethod != null) 'ApplyMethod': applyMethod.value,
-      if (applyType != null) 'ApplyType': applyType,
-      if (dataType != null) 'DataType': dataType,
-      if (description != null) 'Description': description,
-      if (isModifiable != null) 'IsModifiable': isModifiable.toString(),
-      if (minimumEngineVersion != null)
-        'MinimumEngineVersion': minimumEngineVersion,
-      if (parameterName != null) 'ParameterName': parameterName,
-      if (parameterValue != null) 'ParameterValue': parameterValue,
-      if (source != null) 'Source': source,
-    };
-  }
-}
-
-/// A list of the log types whose configuration is still pending. These log
-/// types are in the process of being activated or deactivated.
-class PendingCloudwatchLogsExports {
-  /// Log types that are in the process of being enabled. After they are enabled,
-  /// these log types are exported to Amazon CloudWatch Logs.
-  final List<String>? logTypesToDisable;
-
-  /// Log types that are in the process of being deactivated. After they are
-  /// deactivated, these log types aren't exported to CloudWatch Logs.
-  final List<String>? logTypesToEnable;
-
-  PendingCloudwatchLogsExports({
-    this.logTypesToDisable,
-    this.logTypesToEnable,
-  });
-  factory PendingCloudwatchLogsExports.fromXml(_s.XmlElement elem) {
-    return PendingCloudwatchLogsExports(
-      logTypesToDisable: _s
-          .extractXmlChild(elem, 'LogTypesToDisable')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      logTypesToEnable: _s
-          .extractXmlChild(elem, 'LogTypesToEnable')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final logTypesToDisable = this.logTypesToDisable;
-    final logTypesToEnable = this.logTypesToEnable;
-    return {
-      if (logTypesToDisable != null) 'LogTypesToDisable': logTypesToDisable,
-      if (logTypesToEnable != null) 'LogTypesToEnable': logTypesToEnable,
-    };
-  }
-}
-
-/// Provides information about a pending maintenance action for a resource.
-class PendingMaintenanceAction {
-  /// The type of pending maintenance action that is available for the resource.
-  final String? action;
-
-  /// The date of the maintenance window when the action is applied. The
-  /// maintenance action is applied to the resource during its first maintenance
-  /// window after this date. If this date is specified, any
-  /// <code>next-maintenance</code> opt-in requests are ignored.
-  final DateTime? autoAppliedAfterDate;
-
-  /// The effective date when the pending maintenance action is applied to the
-  /// resource.
-  final DateTime? currentApplyDate;
-
-  /// A description providing more detail about the maintenance action.
-  final String? description;
-
-  /// The date when the maintenance action is automatically applied. The
-  /// maintenance action is applied to the resource on this date regardless of the
-  /// maintenance window for the resource. If this date is specified, any
-  /// <code>immediate</code> opt-in requests are ignored.
-  final DateTime? forcedApplyDate;
-
-  /// Indicates the type of opt-in request that has been received for the
-  /// resource.
-  final String? optInStatus;
-
-  PendingMaintenanceAction({
-    this.action,
-    this.autoAppliedAfterDate,
-    this.currentApplyDate,
-    this.description,
-    this.forcedApplyDate,
-    this.optInStatus,
-  });
-  factory PendingMaintenanceAction.fromXml(_s.XmlElement elem) {
-    return PendingMaintenanceAction(
-      action: _s.extractXmlStringValue(elem, 'Action'),
-      autoAppliedAfterDate:
-          _s.extractXmlDateTimeValue(elem, 'AutoAppliedAfterDate'),
-      currentApplyDate: _s.extractXmlDateTimeValue(elem, 'CurrentApplyDate'),
-      description: _s.extractXmlStringValue(elem, 'Description'),
-      forcedApplyDate: _s.extractXmlDateTimeValue(elem, 'ForcedApplyDate'),
-      optInStatus: _s.extractXmlStringValue(elem, 'OptInStatus'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final action = this.action;
-    final autoAppliedAfterDate = this.autoAppliedAfterDate;
-    final currentApplyDate = this.currentApplyDate;
-    final description = this.description;
-    final forcedApplyDate = this.forcedApplyDate;
-    final optInStatus = this.optInStatus;
-    return {
-      if (action != null) 'Action': action,
-      if (autoAppliedAfterDate != null)
-        'AutoAppliedAfterDate': iso8601ToJson(autoAppliedAfterDate),
-      if (currentApplyDate != null)
-        'CurrentApplyDate': iso8601ToJson(currentApplyDate),
-      if (description != null) 'Description': description,
-      if (forcedApplyDate != null)
-        'ForcedApplyDate': iso8601ToJson(forcedApplyDate),
-      if (optInStatus != null) 'OptInStatus': optInStatus,
-    };
-  }
-}
-
-/// Represents the output of <a>DescribePendingMaintenanceActions</a>.
-class PendingMaintenanceActionsMessage {
-  /// An optional pagination token provided by a previous request. If this
-  /// parameter is specified, the response includes only records beyond the
-  /// marker, up to the value specified by <code>MaxRecords</code>.
-  final String? marker;
-
-  /// The maintenance actions to be applied.
-  final List<ResourcePendingMaintenanceActions>? pendingMaintenanceActions;
-
-  PendingMaintenanceActionsMessage({
-    this.marker,
-    this.pendingMaintenanceActions,
-  });
-  factory PendingMaintenanceActionsMessage.fromXml(_s.XmlElement elem) {
-    return PendingMaintenanceActionsMessage(
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      pendingMaintenanceActions: _s
-          .extractXmlChild(elem, 'PendingMaintenanceActions')
-          ?.let((elem) => elem
-              .findElements('ResourcePendingMaintenanceActions')
-              .map(ResourcePendingMaintenanceActions.fromXml)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final marker = this.marker;
-    final pendingMaintenanceActions = this.pendingMaintenanceActions;
-    return {
-      if (marker != null) 'Marker': marker,
-      if (pendingMaintenanceActions != null)
-        'PendingMaintenanceActions': pendingMaintenanceActions,
+      if (dBSubnetGroupArn != null) 'DBSubnetGroupArn': dBSubnetGroupArn,
+      if (dBSubnetGroupDescription != null)
+        'DBSubnetGroupDescription': dBSubnetGroupDescription,
+      if (dBSubnetGroupName != null) 'DBSubnetGroupName': dBSubnetGroupName,
+      if (subnetGroupStatus != null) 'SubnetGroupStatus': subnetGroupStatus,
+      if (subnets != null) 'Subnets': subnets,
+      if (supportedNetworkTypes != null)
+        'SupportedNetworkTypes': supportedNetworkTypes,
+      if (vpcId != null) 'VpcId': vpcId,
     };
   }
 }
@@ -7982,219 +7864,122 @@ class PendingModifiedValues {
   }
 }
 
-class RebootDBInstanceResult {
-  final DBInstance? dBInstance;
+/// Returns the details of the DB instance’s server certificate.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html">Updating
+/// Your Amazon DocumentDB TLS Certificates</a> and <a
+/// href="https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html">
+/// Encrypting Data in Transit</a> in the <i>Amazon DocumentDB Developer
+/// Guide</i>.
+class CertificateDetails {
+  /// The CA identifier of the CA certificate used for the DB instance's server
+  /// certificate.
+  final String? cAIdentifier;
 
-  RebootDBInstanceResult({
-    this.dBInstance,
+  /// The expiration date of the DB instance’s server certificate.
+  final DateTime? validTill;
+
+  CertificateDetails({
+    this.cAIdentifier,
+    this.validTill,
   });
-  factory RebootDBInstanceResult.fromXml(_s.XmlElement elem) {
-    return RebootDBInstanceResult(
-      dBInstance:
-          _s.extractXmlChild(elem, 'DBInstance')?.let(DBInstance.fromXml),
+  factory CertificateDetails.fromXml(_s.XmlElement elem) {
+    return CertificateDetails(
+      cAIdentifier: _s.extractXmlStringValue(elem, 'CAIdentifier'),
+      validTill: _s.extractXmlDateTimeValue(elem, 'ValidTill'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final dBInstance = this.dBInstance;
+    final cAIdentifier = this.cAIdentifier;
+    final validTill = this.validTill;
     return {
-      if (dBInstance != null) 'DBInstance': dBInstance,
+      if (cAIdentifier != null) 'CAIdentifier': cAIdentifier,
+      if (validTill != null) 'ValidTill': iso8601ToJson(validTill),
     };
   }
 }
 
-class RemoveFromGlobalClusterResult {
-  final GlobalCluster? globalCluster;
+/// Provides a list of status information for an instance.
+class DBInstanceStatusInfo {
+  /// Details of the error if there is an error for the instance. If the instance
+  /// is not in an error state, this value is blank.
+  final String? message;
 
-  RemoveFromGlobalClusterResult({
-    this.globalCluster,
+  /// A Boolean value that is <code>true</code> if the instance is operating
+  /// normally, or <code>false</code> if the instance is in an error state.
+  final bool? normal;
+
+  /// Status of the instance. For a <code>StatusType</code> of read replica, the
+  /// values can be <code>replicating</code>, error, <code>stopped</code>, or
+  /// <code>terminated</code>.
+  final String? status;
+
+  /// This value is currently "<code>read replication</code>."
+  final String? statusType;
+
+  DBInstanceStatusInfo({
+    this.message,
+    this.normal,
+    this.status,
+    this.statusType,
   });
-  factory RemoveFromGlobalClusterResult.fromXml(_s.XmlElement elem) {
-    return RemoveFromGlobalClusterResult(
-      globalCluster:
-          _s.extractXmlChild(elem, 'GlobalCluster')?.let(GlobalCluster.fromXml),
+  factory DBInstanceStatusInfo.fromXml(_s.XmlElement elem) {
+    return DBInstanceStatusInfo(
+      message: _s.extractXmlStringValue(elem, 'Message'),
+      normal: _s.extractXmlBoolValue(elem, 'Normal'),
+      status: _s.extractXmlStringValue(elem, 'Status'),
+      statusType: _s.extractXmlStringValue(elem, 'StatusType'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final globalCluster = this.globalCluster;
+    final message = this.message;
+    final normal = this.normal;
+    final status = this.status;
+    final statusType = this.statusType;
     return {
-      if (globalCluster != null) 'GlobalCluster': globalCluster,
+      if (message != null) 'Message': message,
+      if (normal != null) 'Normal': normal,
+      if (status != null) 'Status': status,
+      if (statusType != null) 'StatusType': statusType,
     };
   }
 }
 
-class RemoveSourceIdentifierFromSubscriptionResult {
-  final EventSubscription? eventSubscription;
+/// A list of the log types whose configuration is still pending. These log
+/// types are in the process of being activated or deactivated.
+class PendingCloudwatchLogsExports {
+  /// Log types that are in the process of being enabled. After they are enabled,
+  /// these log types are exported to Amazon CloudWatch Logs.
+  final List<String>? logTypesToDisable;
 
-  RemoveSourceIdentifierFromSubscriptionResult({
-    this.eventSubscription,
+  /// Log types that are in the process of being deactivated. After they are
+  /// deactivated, these log types aren't exported to CloudWatch Logs.
+  final List<String>? logTypesToEnable;
+
+  PendingCloudwatchLogsExports({
+    this.logTypesToDisable,
+    this.logTypesToEnable,
   });
-  factory RemoveSourceIdentifierFromSubscriptionResult.fromXml(
-      _s.XmlElement elem) {
-    return RemoveSourceIdentifierFromSubscriptionResult(
-      eventSubscription: _s
-          .extractXmlChild(elem, 'EventSubscription')
-          ?.let(EventSubscription.fromXml),
+  factory PendingCloudwatchLogsExports.fromXml(_s.XmlElement elem) {
+    return PendingCloudwatchLogsExports(
+      logTypesToDisable: _s
+          .extractXmlChild(elem, 'LogTypesToDisable')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      logTypesToEnable: _s
+          .extractXmlChild(elem, 'LogTypesToEnable')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final eventSubscription = this.eventSubscription;
+    final logTypesToDisable = this.logTypesToDisable;
+    final logTypesToEnable = this.logTypesToEnable;
     return {
-      if (eventSubscription != null) 'EventSubscription': eventSubscription,
-    };
-  }
-}
-
-/// Represents the output of <a>ApplyPendingMaintenanceAction</a>.
-class ResourcePendingMaintenanceActions {
-  /// A list that provides details about the pending maintenance actions for the
-  /// resource.
-  final List<PendingMaintenanceAction>? pendingMaintenanceActionDetails;
-
-  /// The Amazon Resource Name (ARN) of the resource that has pending maintenance
-  /// actions.
-  final String? resourceIdentifier;
-
-  ResourcePendingMaintenanceActions({
-    this.pendingMaintenanceActionDetails,
-    this.resourceIdentifier,
-  });
-  factory ResourcePendingMaintenanceActions.fromXml(_s.XmlElement elem) {
-    return ResourcePendingMaintenanceActions(
-      pendingMaintenanceActionDetails: _s
-          .extractXmlChild(elem, 'PendingMaintenanceActionDetails')
-          ?.let((elem) => elem
-              .findElements('PendingMaintenanceAction')
-              .map(PendingMaintenanceAction.fromXml)
-              .toList()),
-      resourceIdentifier: _s.extractXmlStringValue(elem, 'ResourceIdentifier'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final pendingMaintenanceActionDetails =
-        this.pendingMaintenanceActionDetails;
-    final resourceIdentifier = this.resourceIdentifier;
-    return {
-      if (pendingMaintenanceActionDetails != null)
-        'PendingMaintenanceActionDetails': pendingMaintenanceActionDetails,
-      if (resourceIdentifier != null) 'ResourceIdentifier': resourceIdentifier,
-    };
-  }
-}
-
-class RestoreDBClusterFromSnapshotResult {
-  final DBCluster? dBCluster;
-
-  RestoreDBClusterFromSnapshotResult({
-    this.dBCluster,
-  });
-  factory RestoreDBClusterFromSnapshotResult.fromXml(_s.XmlElement elem) {
-    return RestoreDBClusterFromSnapshotResult(
-      dBCluster: _s.extractXmlChild(elem, 'DBCluster')?.let(DBCluster.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dBCluster = this.dBCluster;
-    return {
-      if (dBCluster != null) 'DBCluster': dBCluster,
-    };
-  }
-}
-
-class RestoreDBClusterToPointInTimeResult {
-  final DBCluster? dBCluster;
-
-  RestoreDBClusterToPointInTimeResult({
-    this.dBCluster,
-  });
-  factory RestoreDBClusterToPointInTimeResult.fromXml(_s.XmlElement elem) {
-    return RestoreDBClusterToPointInTimeResult(
-      dBCluster: _s.extractXmlChild(elem, 'DBCluster')?.let(DBCluster.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dBCluster = this.dBCluster;
-    return {
-      if (dBCluster != null) 'DBCluster': dBCluster,
-    };
-  }
-}
-
-class SourceType {
-  static const dbInstance = SourceType._('db-instance');
-  static const dbParameterGroup = SourceType._('db-parameter-group');
-  static const dbSecurityGroup = SourceType._('db-security-group');
-  static const dbSnapshot = SourceType._('db-snapshot');
-  static const dbCluster = SourceType._('db-cluster');
-  static const dbClusterSnapshot = SourceType._('db-cluster-snapshot');
-
-  final String value;
-
-  const SourceType._(this.value);
-
-  static const values = [
-    dbInstance,
-    dbParameterGroup,
-    dbSecurityGroup,
-    dbSnapshot,
-    dbCluster,
-    dbClusterSnapshot
-  ];
-
-  static SourceType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SourceType._(value));
-
-  @override
-  bool operator ==(other) => other is SourceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class StartDBClusterResult {
-  final DBCluster? dBCluster;
-
-  StartDBClusterResult({
-    this.dBCluster,
-  });
-  factory StartDBClusterResult.fromXml(_s.XmlElement elem) {
-    return StartDBClusterResult(
-      dBCluster: _s.extractXmlChild(elem, 'DBCluster')?.let(DBCluster.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dBCluster = this.dBCluster;
-    return {
-      if (dBCluster != null) 'DBCluster': dBCluster,
-    };
-  }
-}
-
-class StopDBClusterResult {
-  final DBCluster? dBCluster;
-
-  StopDBClusterResult({
-    this.dBCluster,
-  });
-  factory StopDBClusterResult.fromXml(_s.XmlElement elem) {
-    return StopDBClusterResult(
-      dBCluster: _s.extractXmlChild(elem, 'DBCluster')?.let(DBCluster.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dBCluster = this.dBCluster;
-    return {
-      if (dBCluster != null) 'DBCluster': dBCluster,
+      if (logTypesToDisable != null) 'LogTypesToDisable': logTypesToDisable,
+      if (logTypesToEnable != null) 'LogTypesToEnable': logTypesToEnable,
     };
   }
 }
@@ -8238,94 +8023,709 @@ class Subnet {
   }
 }
 
-class SwitchoverGlobalClusterResult {
-  final GlobalCluster? globalCluster;
+/// Information about an Availability Zone.
+class AvailabilityZone {
+  /// The name of the Availability Zone.
+  final String? name;
 
-  SwitchoverGlobalClusterResult({
-    this.globalCluster,
+  AvailabilityZone({
+    this.name,
   });
-  factory SwitchoverGlobalClusterResult.fromXml(_s.XmlElement elem) {
-    return SwitchoverGlobalClusterResult(
-      globalCluster:
-          _s.extractXmlChild(elem, 'GlobalCluster')?.let(GlobalCluster.fromXml),
+  factory AvailabilityZone.fromXml(_s.XmlElement elem) {
+    return AvailabilityZone(
+      name: _s.extractXmlStringValue(elem, 'Name'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final globalCluster = this.globalCluster;
+    final name = this.name;
     return {
-      if (globalCluster != null) 'GlobalCluster': globalCluster,
+      if (name != null) 'Name': name,
     };
   }
 }
 
-/// Metadata assigned to an Amazon DocumentDB resource consisting of a key-value
-/// pair.
-class Tag {
-  /// The required name of the tag. The string value can be from 1 to 128 Unicode
-  /// characters in length and can't be prefixed with "<code>aws:</code>" or
-  /// "<code>rds:</code>". The string can contain only the set of Unicode letters,
-  /// digits, white space, '_', '.', '/', '=', '+', '-' (Java regex:
-  /// "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
-  final String? key;
+/// Detailed information about the attributes that are associated with a cluster
+/// snapshot.
+class DBClusterSnapshotAttributesResult {
+  /// The list of attributes and values for the cluster snapshot.
+  final List<DBClusterSnapshotAttribute>? dBClusterSnapshotAttributes;
 
-  /// The optional value of the tag. The string value can be from 1 to 256 Unicode
-  /// characters in length and can't be prefixed with "<code>aws:</code>" or
-  /// "<code>rds:</code>". The string can contain only the set of Unicode letters,
-  /// digits, white space, '_', '.', '/', '=', '+', '-' (Java regex:
-  /// "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
-  final String? value;
+  /// The identifier of the cluster snapshot that the attributes apply to.
+  final String? dBClusterSnapshotIdentifier;
 
-  Tag({
-    this.key,
-    this.value,
+  DBClusterSnapshotAttributesResult({
+    this.dBClusterSnapshotAttributes,
+    this.dBClusterSnapshotIdentifier,
   });
-  factory Tag.fromXml(_s.XmlElement elem) {
-    return Tag(
-      key: _s.extractXmlStringValue(elem, 'Key'),
-      value: _s.extractXmlStringValue(elem, 'Value'),
+  factory DBClusterSnapshotAttributesResult.fromXml(_s.XmlElement elem) {
+    return DBClusterSnapshotAttributesResult(
+      dBClusterSnapshotAttributes: _s
+          .extractXmlChild(elem, 'DBClusterSnapshotAttributes')
+          ?.let((elem) => elem
+              .findElements('DBClusterSnapshotAttribute')
+              .map(DBClusterSnapshotAttribute.fromXml)
+              .toList()),
+      dBClusterSnapshotIdentifier:
+          _s.extractXmlStringValue(elem, 'DBClusterSnapshotIdentifier'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
+    final dBClusterSnapshotAttributes = this.dBClusterSnapshotAttributes;
+    final dBClusterSnapshotIdentifier = this.dBClusterSnapshotIdentifier;
     return {
-      if (key != null) 'Key': key,
-      if (value != null) 'Value': value,
+      if (dBClusterSnapshotAttributes != null)
+        'DBClusterSnapshotAttributes': dBClusterSnapshotAttributes,
+      if (dBClusterSnapshotIdentifier != null)
+        'DBClusterSnapshotIdentifier': dBClusterSnapshotIdentifier,
+    };
+  }
+}
+
+/// Contains the name and values of a manual cluster snapshot attribute.
+///
+/// Manual cluster snapshot attributes are used to authorize other Amazon Web
+/// Services accounts to restore a manual cluster snapshot.
+class DBClusterSnapshotAttribute {
+  /// The name of the manual cluster snapshot attribute.
+  ///
+  /// The attribute named <code>restore</code> refers to the list of Amazon Web
+  /// Services accounts that have permission to copy or restore the manual cluster
+  /// snapshot.
+  final String? attributeName;
+
+  /// The values for the manual cluster snapshot attribute.
+  ///
+  /// If the <code>AttributeName</code> field is set to <code>restore</code>, then
+  /// this element returns a list of IDs of the Amazon Web Services accounts that
+  /// are authorized to copy or restore the manual cluster snapshot. If a value of
+  /// <code>all</code> is in the list, then the manual cluster snapshot is public
+  /// and available for any Amazon Web Services account to copy or restore.
+  final List<String>? attributeValues;
+
+  DBClusterSnapshotAttribute({
+    this.attributeName,
+    this.attributeValues,
+  });
+  factory DBClusterSnapshotAttribute.fromXml(_s.XmlElement elem) {
+    return DBClusterSnapshotAttribute(
+      attributeName: _s.extractXmlStringValue(elem, 'AttributeName'),
+      attributeValues: _s.extractXmlChild(elem, 'AttributeValues')?.let(
+          (elem) => _s.extractXmlStringListValues(elem, 'AttributeValue')),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeName = this.attributeName;
+    final attributeValues = this.attributeValues;
+    return {
+      if (attributeName != null) 'AttributeName': attributeName,
+      if (attributeValues != null) 'AttributeValues': attributeValues,
+    };
+  }
+}
+
+/// The configuration setting for the log types to be enabled for export to
+/// Amazon CloudWatch Logs for a specific instance or cluster.
+///
+/// The <code>EnableLogTypes</code> and <code>DisableLogTypes</code> arrays
+/// determine which logs are exported (or not exported) to CloudWatch Logs. The
+/// values within these arrays depend on the engine that is being used.
+class CloudwatchLogsExportConfiguration {
+  /// The list of log types to disable.
+  final List<String>? disableLogTypes;
+
+  /// The list of log types to enable.
+  final List<String>? enableLogTypes;
+
+  CloudwatchLogsExportConfiguration({
+    this.disableLogTypes,
+    this.enableLogTypes,
+  });
+
+  Map<String, dynamic> toJson() {
+    final disableLogTypes = this.disableLogTypes;
+    final enableLogTypes = this.enableLogTypes;
+    return {
+      if (disableLogTypes != null) 'DisableLogTypes': disableLogTypes,
+      if (enableLogTypes != null) 'EnableLogTypes': enableLogTypes,
     };
   }
 
   Map<String, String> toQueryMap() {
-    final key = this.key;
-    final value = this.value;
+    final disableLogTypes = this.disableLogTypes;
+    final enableLogTypes = this.enableLogTypes;
     return {
-      if (key != null) 'Key': key,
-      if (value != null) 'Value': value,
+      if (disableLogTypes != null)
+        if (disableLogTypes.isEmpty)
+          'DisableLogTypes': ''
+        else
+          for (var i1 = 0; i1 < disableLogTypes.length; i1++)
+            'DisableLogTypes.member.${i1 + 1}': disableLogTypes[i1],
+      if (enableLogTypes != null)
+        if (enableLogTypes.isEmpty)
+          'EnableLogTypes': ''
+        else
+          for (var i1 = 0; i1 < enableLogTypes.length; i1++)
+            'EnableLogTypes.member.${i1 + 1}': enableLogTypes[i1],
     };
   }
 }
 
-/// Represents the output of <a>ListTagsForResource</a>.
-class TagListMessage {
-  /// A list of one or more tags.
-  final List<Tag>? tagList;
+/// A named set of filter values, used to return a more specific list of
+/// results. You can use a filter to match a set of resources by specific
+/// criteria, such as IDs.
+///
+/// Wildcards are not supported in filters.
+class Filter {
+  /// The name of the filter. Filter names are case sensitive.
+  final String name;
 
-  TagListMessage({
-    this.tagList,
+  /// One or more filter values. Filter values are case sensitive.
+  final List<String> values;
+
+  Filter({
+    required this.name,
+    required this.values,
   });
-  factory TagListMessage.fromXml(_s.XmlElement elem) {
-    return TagListMessage(
-      tagList: _s
-          .extractXmlChild(elem, 'TagList')
-          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      'Name': name,
+      'Values': values,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      'Name': name,
+      if (values.isEmpty)
+        'Value': ''
+      else
+        for (var i1 = 0; i1 < values.length; i1++)
+          'Value.Value.${i1 + 1}': values[i1],
+    };
+  }
+}
+
+/// Represents the output of <a>ApplyPendingMaintenanceAction</a>.
+class ResourcePendingMaintenanceActions {
+  /// A list that provides details about the pending maintenance actions for the
+  /// resource.
+  final List<PendingMaintenanceAction>? pendingMaintenanceActionDetails;
+
+  /// The Amazon Resource Name (ARN) of the resource that has pending maintenance
+  /// actions.
+  final String? resourceIdentifier;
+
+  ResourcePendingMaintenanceActions({
+    this.pendingMaintenanceActionDetails,
+    this.resourceIdentifier,
+  });
+  factory ResourcePendingMaintenanceActions.fromXml(_s.XmlElement elem) {
+    return ResourcePendingMaintenanceActions(
+      pendingMaintenanceActionDetails: _s
+          .extractXmlChild(elem, 'PendingMaintenanceActionDetails')
+          ?.let((elem) => elem
+              .findElements('PendingMaintenanceAction')
+              .map(PendingMaintenanceAction.fromXml)
+              .toList()),
+      resourceIdentifier: _s.extractXmlStringValue(elem, 'ResourceIdentifier'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final tagList = this.tagList;
+    final pendingMaintenanceActionDetails =
+        this.pendingMaintenanceActionDetails;
+    final resourceIdentifier = this.resourceIdentifier;
     return {
-      if (tagList != null) 'TagList': tagList,
+      if (pendingMaintenanceActionDetails != null)
+        'PendingMaintenanceActionDetails': pendingMaintenanceActionDetails,
+      if (resourceIdentifier != null) 'ResourceIdentifier': resourceIdentifier,
+    };
+  }
+}
+
+/// Provides information about a pending maintenance action for a resource.
+class PendingMaintenanceAction {
+  /// The type of pending maintenance action that is available for the resource.
+  final String? action;
+
+  /// The date of the maintenance window when the action is applied. The
+  /// maintenance action is applied to the resource during its first maintenance
+  /// window after this date. If this date is specified, any
+  /// <code>next-maintenance</code> opt-in requests are ignored.
+  final DateTime? autoAppliedAfterDate;
+
+  /// The effective date when the pending maintenance action is applied to the
+  /// resource.
+  final DateTime? currentApplyDate;
+
+  /// A description providing more detail about the maintenance action.
+  final String? description;
+
+  /// The date when the maintenance action is automatically applied. The
+  /// maintenance action is applied to the resource on this date regardless of the
+  /// maintenance window for the resource. If this date is specified, any
+  /// <code>immediate</code> opt-in requests are ignored.
+  final DateTime? forcedApplyDate;
+
+  /// Indicates the type of opt-in request that has been received for the
+  /// resource.
+  final String? optInStatus;
+
+  PendingMaintenanceAction({
+    this.action,
+    this.autoAppliedAfterDate,
+    this.currentApplyDate,
+    this.description,
+    this.forcedApplyDate,
+    this.optInStatus,
+  });
+  factory PendingMaintenanceAction.fromXml(_s.XmlElement elem) {
+    return PendingMaintenanceAction(
+      action: _s.extractXmlStringValue(elem, 'Action'),
+      autoAppliedAfterDate:
+          _s.extractXmlDateTimeValue(elem, 'AutoAppliedAfterDate'),
+      currentApplyDate: _s.extractXmlDateTimeValue(elem, 'CurrentApplyDate'),
+      description: _s.extractXmlStringValue(elem, 'Description'),
+      forcedApplyDate: _s.extractXmlDateTimeValue(elem, 'ForcedApplyDate'),
+      optInStatus: _s.extractXmlStringValue(elem, 'OptInStatus'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final autoAppliedAfterDate = this.autoAppliedAfterDate;
+    final currentApplyDate = this.currentApplyDate;
+    final description = this.description;
+    final forcedApplyDate = this.forcedApplyDate;
+    final optInStatus = this.optInStatus;
+    return {
+      if (action != null) 'Action': action,
+      if (autoAppliedAfterDate != null)
+        'AutoAppliedAfterDate': iso8601ToJson(autoAppliedAfterDate),
+      if (currentApplyDate != null)
+        'CurrentApplyDate': iso8601ToJson(currentApplyDate),
+      if (description != null) 'Description': description,
+      if (forcedApplyDate != null)
+        'ForcedApplyDate': iso8601ToJson(forcedApplyDate),
+      if (optInStatus != null) 'OptInStatus': optInStatus,
+    };
+  }
+}
+
+/// The options that are available for an instance.
+class OrderableDBInstanceOption {
+  /// A list of Availability Zones for an instance.
+  final List<AvailabilityZone>? availabilityZones;
+
+  /// The instance class for an instance.
+  final String? dBInstanceClass;
+
+  /// The engine type of an instance.
+  final String? engine;
+
+  /// The engine version of an instance.
+  final String? engineVersion;
+
+  /// The license model for an instance.
+  final String? licenseModel;
+
+  /// The storage type to associate with the DB cluster
+  final String? storageType;
+
+  /// Indicates whether an instance is in a virtual private cloud (VPC).
+  final bool? vpc;
+
+  OrderableDBInstanceOption({
+    this.availabilityZones,
+    this.dBInstanceClass,
+    this.engine,
+    this.engineVersion,
+    this.licenseModel,
+    this.storageType,
+    this.vpc,
+  });
+  factory OrderableDBInstanceOption.fromXml(_s.XmlElement elem) {
+    return OrderableDBInstanceOption(
+      availabilityZones: _s.extractXmlChild(elem, 'AvailabilityZones')?.let(
+          (elem) => elem
+              .findElements('AvailabilityZone')
+              .map(AvailabilityZone.fromXml)
+              .toList()),
+      dBInstanceClass: _s.extractXmlStringValue(elem, 'DBInstanceClass'),
+      engine: _s.extractXmlStringValue(elem, 'Engine'),
+      engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
+      licenseModel: _s.extractXmlStringValue(elem, 'LicenseModel'),
+      storageType: _s.extractXmlStringValue(elem, 'StorageType'),
+      vpc: _s.extractXmlBoolValue(elem, 'Vpc'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZones = this.availabilityZones;
+    final dBInstanceClass = this.dBInstanceClass;
+    final engine = this.engine;
+    final engineVersion = this.engineVersion;
+    final licenseModel = this.licenseModel;
+    final storageType = this.storageType;
+    final vpc = this.vpc;
+    return {
+      if (availabilityZones != null) 'AvailabilityZones': availabilityZones,
+      if (dBInstanceClass != null) 'DBInstanceClass': dBInstanceClass,
+      if (engine != null) 'Engine': engine,
+      if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (licenseModel != null) 'LicenseModel': licenseModel,
+      if (storageType != null) 'StorageType': storageType,
+      if (vpc != null) 'Vpc': vpc,
+    };
+  }
+}
+
+/// Detailed information about an event.
+class Event {
+  /// Specifies the date and time of the event.
+  final DateTime? date;
+
+  /// Specifies the category for the event.
+  final List<String>? eventCategories;
+
+  /// Provides the text of this event.
+  final String? message;
+
+  /// The Amazon Resource Name (ARN) for the event.
+  final String? sourceArn;
+
+  /// Provides the identifier for the source of the event.
+  final String? sourceIdentifier;
+
+  /// Specifies the source type for this event.
+  final SourceType? sourceType;
+
+  Event({
+    this.date,
+    this.eventCategories,
+    this.message,
+    this.sourceArn,
+    this.sourceIdentifier,
+    this.sourceType,
+  });
+  factory Event.fromXml(_s.XmlElement elem) {
+    return Event(
+      date: _s.extractXmlDateTimeValue(elem, 'Date'),
+      eventCategories: _s
+          .extractXmlChild(elem, 'EventCategories')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'EventCategory')),
+      message: _s.extractXmlStringValue(elem, 'Message'),
+      sourceArn: _s.extractXmlStringValue(elem, 'SourceArn'),
+      sourceIdentifier: _s.extractXmlStringValue(elem, 'SourceIdentifier'),
+      sourceType: _s
+          .extractXmlStringValue(elem, 'SourceType')
+          ?.let(SourceType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final date = this.date;
+    final eventCategories = this.eventCategories;
+    final message = this.message;
+    final sourceArn = this.sourceArn;
+    final sourceIdentifier = this.sourceIdentifier;
+    final sourceType = this.sourceType;
+    return {
+      if (date != null) 'Date': iso8601ToJson(date),
+      if (eventCategories != null) 'EventCategories': eventCategories,
+      if (message != null) 'Message': message,
+      if (sourceArn != null) 'SourceArn': sourceArn,
+      if (sourceIdentifier != null) 'SourceIdentifier': sourceIdentifier,
+      if (sourceType != null) 'SourceType': sourceType.value,
+    };
+  }
+}
+
+class SourceType {
+  static const dbInstance = SourceType._('db-instance');
+  static const dbParameterGroup = SourceType._('db-parameter-group');
+  static const dbSecurityGroup = SourceType._('db-security-group');
+  static const dbSnapshot = SourceType._('db-snapshot');
+  static const dbCluster = SourceType._('db-cluster');
+  static const dbClusterSnapshot = SourceType._('db-cluster-snapshot');
+
+  final String value;
+
+  const SourceType._(this.value);
+
+  static const values = [
+    dbInstance,
+    dbParameterGroup,
+    dbSecurityGroup,
+    dbSnapshot,
+    dbCluster,
+    dbClusterSnapshot
+  ];
+
+  static SourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SourceType._(value));
+
+  @override
+  bool operator ==(other) => other is SourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An event source type, accompanied by one or more event category names.
+class EventCategoriesMap {
+  /// The event categories for the specified source type.
+  final List<String>? eventCategories;
+
+  /// The source type that the returned categories belong to.
+  final String? sourceType;
+
+  EventCategoriesMap({
+    this.eventCategories,
+    this.sourceType,
+  });
+  factory EventCategoriesMap.fromXml(_s.XmlElement elem) {
+    return EventCategoriesMap(
+      eventCategories: _s
+          .extractXmlChild(elem, 'EventCategories')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'EventCategory')),
+      sourceType: _s.extractXmlStringValue(elem, 'SourceType'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventCategories = this.eventCategories;
+    final sourceType = this.sourceType;
+    return {
+      if (eventCategories != null) 'EventCategories': eventCategories,
+      if (sourceType != null) 'SourceType': sourceType,
+    };
+  }
+}
+
+/// Contains the result of a successful invocation of the
+/// <code>DescribeEngineDefaultClusterParameters</code> operation.
+class EngineDefaults {
+  /// The name of the cluster parameter group family to return the engine
+  /// parameter information for.
+  final String? dBParameterGroupFamily;
+
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  final String? marker;
+
+  /// The parameters of a particular cluster parameter group family.
+  final List<Parameter>? parameters;
+
+  EngineDefaults({
+    this.dBParameterGroupFamily,
+    this.marker,
+    this.parameters,
+  });
+  factory EngineDefaults.fromXml(_s.XmlElement elem) {
+    return EngineDefaults(
+      dBParameterGroupFamily:
+          _s.extractXmlStringValue(elem, 'DBParameterGroupFamily'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      parameters: _s.extractXmlChild(elem, 'Parameters')?.let((elem) =>
+          elem.findElements('Parameter').map(Parameter.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dBParameterGroupFamily = this.dBParameterGroupFamily;
+    final marker = this.marker;
+    final parameters = this.parameters;
+    return {
+      if (dBParameterGroupFamily != null)
+        'DBParameterGroupFamily': dBParameterGroupFamily,
+      if (marker != null) 'Marker': marker,
+      if (parameters != null) 'Parameters': parameters,
+    };
+  }
+}
+
+/// Detailed information about an engine version.
+class DBEngineVersion {
+  /// The description of the database engine.
+  final String? dBEngineDescription;
+
+  /// The description of the database engine version.
+  final String? dBEngineVersionDescription;
+
+  /// The name of the parameter group family for the database engine.
+  final String? dBParameterGroupFamily;
+
+  /// The name of the database engine.
+  final String? engine;
+
+  /// The version number of the database engine.
+  final String? engineVersion;
+
+  /// The types of logs that the database engine has available for export to
+  /// Amazon CloudWatch Logs.
+  final List<String>? exportableLogTypes;
+
+  /// Specifies any Amazon DocumentDB Serverless properties or limits that differ
+  /// between Amazon DocumentDB engine versions. You can test the values of this
+  /// attribute when deciding which Amazon DocumentDB version to use in a new or
+  /// upgraded cluster. You can also retrieve the version of an existing cluster
+  /// and check whether that version supports certain Amazon DocumentDB Serverless
+  /// features before you attempt to use those features.
+  final ServerlessV2FeaturesSupport? serverlessV2FeaturesSupport;
+
+  /// A list of the supported CA certificate identifiers.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html">Updating
+  /// Your Amazon DocumentDB TLS Certificates</a> and <a
+  /// href="https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html">
+  /// Encrypting Data in Transit</a> in the <i>Amazon DocumentDB Developer
+  /// Guide</i>.
+  final List<String>? supportedCACertificateIdentifiers;
+
+  /// Indicates whether the engine version supports rotating the server
+  /// certificate without rebooting the DB instance.
+  final bool? supportsCertificateRotationWithoutRestart;
+
+  /// A value that indicates whether the engine version supports exporting the log
+  /// types specified by <code>ExportableLogTypes</code> to CloudWatch Logs.
+  final bool? supportsLogExportsToCloudwatchLogs;
+
+  /// A list of engine versions that this database engine version can be upgraded
+  /// to.
+  final List<UpgradeTarget>? validUpgradeTarget;
+
+  DBEngineVersion({
+    this.dBEngineDescription,
+    this.dBEngineVersionDescription,
+    this.dBParameterGroupFamily,
+    this.engine,
+    this.engineVersion,
+    this.exportableLogTypes,
+    this.serverlessV2FeaturesSupport,
+    this.supportedCACertificateIdentifiers,
+    this.supportsCertificateRotationWithoutRestart,
+    this.supportsLogExportsToCloudwatchLogs,
+    this.validUpgradeTarget,
+  });
+  factory DBEngineVersion.fromXml(_s.XmlElement elem) {
+    return DBEngineVersion(
+      dBEngineDescription:
+          _s.extractXmlStringValue(elem, 'DBEngineDescription'),
+      dBEngineVersionDescription:
+          _s.extractXmlStringValue(elem, 'DBEngineVersionDescription'),
+      dBParameterGroupFamily:
+          _s.extractXmlStringValue(elem, 'DBParameterGroupFamily'),
+      engine: _s.extractXmlStringValue(elem, 'Engine'),
+      engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
+      exportableLogTypes: _s
+          .extractXmlChild(elem, 'ExportableLogTypes')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      serverlessV2FeaturesSupport: _s
+          .extractXmlChild(elem, 'ServerlessV2FeaturesSupport')
+          ?.let(ServerlessV2FeaturesSupport.fromXml),
+      supportedCACertificateIdentifiers: _s
+          .extractXmlChild(elem, 'SupportedCACertificateIdentifiers')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      supportsCertificateRotationWithoutRestart: _s.extractXmlBoolValue(
+          elem, 'SupportsCertificateRotationWithoutRestart'),
+      supportsLogExportsToCloudwatchLogs:
+          _s.extractXmlBoolValue(elem, 'SupportsLogExportsToCloudwatchLogs'),
+      validUpgradeTarget: _s.extractXmlChild(elem, 'ValidUpgradeTarget')?.let(
+          (elem) => elem
+              .findElements('UpgradeTarget')
+              .map(UpgradeTarget.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dBEngineDescription = this.dBEngineDescription;
+    final dBEngineVersionDescription = this.dBEngineVersionDescription;
+    final dBParameterGroupFamily = this.dBParameterGroupFamily;
+    final engine = this.engine;
+    final engineVersion = this.engineVersion;
+    final exportableLogTypes = this.exportableLogTypes;
+    final serverlessV2FeaturesSupport = this.serverlessV2FeaturesSupport;
+    final supportedCACertificateIdentifiers =
+        this.supportedCACertificateIdentifiers;
+    final supportsCertificateRotationWithoutRestart =
+        this.supportsCertificateRotationWithoutRestart;
+    final supportsLogExportsToCloudwatchLogs =
+        this.supportsLogExportsToCloudwatchLogs;
+    final validUpgradeTarget = this.validUpgradeTarget;
+    return {
+      if (dBEngineDescription != null)
+        'DBEngineDescription': dBEngineDescription,
+      if (dBEngineVersionDescription != null)
+        'DBEngineVersionDescription': dBEngineVersionDescription,
+      if (dBParameterGroupFamily != null)
+        'DBParameterGroupFamily': dBParameterGroupFamily,
+      if (engine != null) 'Engine': engine,
+      if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (exportableLogTypes != null) 'ExportableLogTypes': exportableLogTypes,
+      if (serverlessV2FeaturesSupport != null)
+        'ServerlessV2FeaturesSupport': serverlessV2FeaturesSupport,
+      if (supportedCACertificateIdentifiers != null)
+        'SupportedCACertificateIdentifiers': supportedCACertificateIdentifiers,
+      if (supportsCertificateRotationWithoutRestart != null)
+        'SupportsCertificateRotationWithoutRestart':
+            supportsCertificateRotationWithoutRestart,
+      if (supportsLogExportsToCloudwatchLogs != null)
+        'SupportsLogExportsToCloudwatchLogs':
+            supportsLogExportsToCloudwatchLogs,
+      if (validUpgradeTarget != null) 'ValidUpgradeTarget': validUpgradeTarget,
+    };
+  }
+}
+
+/// Specifies any Amazon DocumentDB Serverless properties or limits that differ
+/// between Amazon DocumentDB engine versions. You can test the values of this
+/// attribute when deciding which Amazon DocumentDB version to use in a new or
+/// upgraded cluster. You can also retrieve the version of an existing cluster
+/// and check whether that version supports certain Amazon DocumentDB Serverless
+/// features before you attempt to use those features.
+class ServerlessV2FeaturesSupport {
+  /// The maximum number of Amazon DocumentDB capacity units (DCUs) for an
+  /// instance in an Amazon DocumentDB Serverless cluster. You can specify DCU
+  /// values in half-step increments, such as 32, 32.5, 33, and so on.
+  final double? maxCapacity;
+
+  /// The minimum number of Amazon DocumentDB capacity units (DCUs) for an
+  /// instance in an Amazon DocumentDB Serverless cluster. You can specify DCU
+  /// values in half-step increments, such as 8, 8.5, 9, and so on.
+  final double? minCapacity;
+
+  ServerlessV2FeaturesSupport({
+    this.maxCapacity,
+    this.minCapacity,
+  });
+  factory ServerlessV2FeaturesSupport.fromXml(_s.XmlElement elem) {
+    return ServerlessV2FeaturesSupport(
+      maxCapacity: _s.extractXmlDoubleValue(elem, 'MaxCapacity'),
+      minCapacity: _s.extractXmlDoubleValue(elem, 'MinCapacity'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxCapacity = this.maxCapacity;
+    final minCapacity = this.minCapacity;
+    return {
+      if (maxCapacity != null) 'MaxCapacity': maxCapacity,
+      if (minCapacity != null) 'MinCapacity': minCapacity,
     };
   }
 }
@@ -8385,32 +8785,289 @@ class UpgradeTarget {
   }
 }
 
-/// Used as a response element for queries on virtual private cloud (VPC)
-/// security group membership.
-class VpcSecurityGroupMembership {
-  /// The status of the VPC security group.
+/// Detailed information about a cluster snapshot.
+class DBClusterSnapshot {
+  /// Provides the list of Amazon EC2 Availability Zones that instances in the
+  /// cluster snapshot can be restored in.
+  final List<String>? availabilityZones;
+
+  /// Specifies the time when the cluster was created, in Universal Coordinated
+  /// Time (UTC).
+  final DateTime? clusterCreateTime;
+
+  /// Specifies the cluster identifier of the cluster that this cluster snapshot
+  /// was created from.
+  final String? dBClusterIdentifier;
+
+  /// The Amazon Resource Name (ARN) for the cluster snapshot.
+  final String? dBClusterSnapshotArn;
+
+  /// Specifies the identifier for the cluster snapshot.
+  final String? dBClusterSnapshotIdentifier;
+
+  /// Specifies the name of the database engine.
+  final String? engine;
+
+  /// Provides the version of the database engine for this cluster snapshot.
+  final String? engineVersion;
+
+  /// If <code>StorageEncrypted</code> is <code>true</code>, the KMS key
+  /// identifier for the encrypted cluster snapshot.
+  final String? kmsKeyId;
+
+  /// Provides the master user name for the cluster snapshot.
+  final String? masterUsername;
+
+  /// Specifies the percentage of the estimated data that has been transferred.
+  final int? percentProgress;
+
+  /// Specifies the port that the cluster was listening on at the time of the
+  /// snapshot.
+  final int? port;
+
+  /// Provides the time when the snapshot was taken, in UTC.
+  final DateTime? snapshotCreateTime;
+
+  /// Provides the type of the cluster snapshot.
+  final String? snapshotType;
+
+  /// If the cluster snapshot was copied from a source cluster snapshot, the ARN
+  /// for the source cluster snapshot; otherwise, a null value.
+  final String? sourceDBClusterSnapshotArn;
+
+  /// Specifies the status of this cluster snapshot.
   final String? status;
 
-  /// The name of the VPC security group.
-  final String? vpcSecurityGroupId;
+  /// Specifies whether the cluster snapshot is encrypted.
+  final bool? storageEncrypted;
 
-  VpcSecurityGroupMembership({
+  /// Storage type associated with your cluster snapshot
+  ///
+  /// For information on storage types for Amazon DocumentDB clusters, see Cluster
+  /// storage configurations in the <i>Amazon DocumentDB Developer Guide</i>.
+  ///
+  /// Valid values for storage type - <code>standard | iopt1</code>
+  ///
+  /// Default value is <code>standard </code>
+  final String? storageType;
+
+  /// Provides the virtual private cloud (VPC) ID that is associated with the
+  /// cluster snapshot.
+  final String? vpcId;
+
+  DBClusterSnapshot({
+    this.availabilityZones,
+    this.clusterCreateTime,
+    this.dBClusterIdentifier,
+    this.dBClusterSnapshotArn,
+    this.dBClusterSnapshotIdentifier,
+    this.engine,
+    this.engineVersion,
+    this.kmsKeyId,
+    this.masterUsername,
+    this.percentProgress,
+    this.port,
+    this.snapshotCreateTime,
+    this.snapshotType,
+    this.sourceDBClusterSnapshotArn,
     this.status,
-    this.vpcSecurityGroupId,
+    this.storageEncrypted,
+    this.storageType,
+    this.vpcId,
   });
-  factory VpcSecurityGroupMembership.fromXml(_s.XmlElement elem) {
-    return VpcSecurityGroupMembership(
+  factory DBClusterSnapshot.fromXml(_s.XmlElement elem) {
+    return DBClusterSnapshot(
+      availabilityZones: _s.extractXmlChild(elem, 'AvailabilityZones')?.let(
+          (elem) => _s.extractXmlStringListValues(elem, 'AvailabilityZone')),
+      clusterCreateTime: _s.extractXmlDateTimeValue(elem, 'ClusterCreateTime'),
+      dBClusterIdentifier:
+          _s.extractXmlStringValue(elem, 'DBClusterIdentifier'),
+      dBClusterSnapshotArn:
+          _s.extractXmlStringValue(elem, 'DBClusterSnapshotArn'),
+      dBClusterSnapshotIdentifier:
+          _s.extractXmlStringValue(elem, 'DBClusterSnapshotIdentifier'),
+      engine: _s.extractXmlStringValue(elem, 'Engine'),
+      engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
+      kmsKeyId: _s.extractXmlStringValue(elem, 'KmsKeyId'),
+      masterUsername: _s.extractXmlStringValue(elem, 'MasterUsername'),
+      percentProgress: _s.extractXmlIntValue(elem, 'PercentProgress'),
+      port: _s.extractXmlIntValue(elem, 'Port'),
+      snapshotCreateTime:
+          _s.extractXmlDateTimeValue(elem, 'SnapshotCreateTime'),
+      snapshotType: _s.extractXmlStringValue(elem, 'SnapshotType'),
+      sourceDBClusterSnapshotArn:
+          _s.extractXmlStringValue(elem, 'SourceDBClusterSnapshotArn'),
       status: _s.extractXmlStringValue(elem, 'Status'),
-      vpcSecurityGroupId: _s.extractXmlStringValue(elem, 'VpcSecurityGroupId'),
+      storageEncrypted: _s.extractXmlBoolValue(elem, 'StorageEncrypted'),
+      storageType: _s.extractXmlStringValue(elem, 'StorageType'),
+      vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final availabilityZones = this.availabilityZones;
+    final clusterCreateTime = this.clusterCreateTime;
+    final dBClusterIdentifier = this.dBClusterIdentifier;
+    final dBClusterSnapshotArn = this.dBClusterSnapshotArn;
+    final dBClusterSnapshotIdentifier = this.dBClusterSnapshotIdentifier;
+    final engine = this.engine;
+    final engineVersion = this.engineVersion;
+    final kmsKeyId = this.kmsKeyId;
+    final masterUsername = this.masterUsername;
+    final percentProgress = this.percentProgress;
+    final port = this.port;
+    final snapshotCreateTime = this.snapshotCreateTime;
+    final snapshotType = this.snapshotType;
+    final sourceDBClusterSnapshotArn = this.sourceDBClusterSnapshotArn;
     final status = this.status;
-    final vpcSecurityGroupId = this.vpcSecurityGroupId;
+    final storageEncrypted = this.storageEncrypted;
+    final storageType = this.storageType;
+    final vpcId = this.vpcId;
     return {
+      if (availabilityZones != null) 'AvailabilityZones': availabilityZones,
+      if (clusterCreateTime != null)
+        'ClusterCreateTime': iso8601ToJson(clusterCreateTime),
+      if (dBClusterIdentifier != null)
+        'DBClusterIdentifier': dBClusterIdentifier,
+      if (dBClusterSnapshotArn != null)
+        'DBClusterSnapshotArn': dBClusterSnapshotArn,
+      if (dBClusterSnapshotIdentifier != null)
+        'DBClusterSnapshotIdentifier': dBClusterSnapshotIdentifier,
+      if (engine != null) 'Engine': engine,
+      if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (masterUsername != null) 'MasterUsername': masterUsername,
+      if (percentProgress != null) 'PercentProgress': percentProgress,
+      if (port != null) 'Port': port,
+      if (snapshotCreateTime != null)
+        'SnapshotCreateTime': iso8601ToJson(snapshotCreateTime),
+      if (snapshotType != null) 'SnapshotType': snapshotType,
+      if (sourceDBClusterSnapshotArn != null)
+        'SourceDBClusterSnapshotArn': sourceDBClusterSnapshotArn,
       if (status != null) 'Status': status,
-      if (vpcSecurityGroupId != null) 'VpcSecurityGroupId': vpcSecurityGroupId,
+      if (storageEncrypted != null) 'StorageEncrypted': storageEncrypted,
+      if (storageType != null) 'StorageType': storageType,
+      if (vpcId != null) 'VpcId': vpcId,
+    };
+  }
+}
+
+/// Detailed information about a cluster parameter group.
+class DBClusterParameterGroup {
+  /// The Amazon Resource Name (ARN) for the cluster parameter group.
+  final String? dBClusterParameterGroupArn;
+
+  /// Provides the name of the cluster parameter group.
+  final String? dBClusterParameterGroupName;
+
+  /// Provides the name of the parameter group family that this cluster parameter
+  /// group is compatible with.
+  final String? dBParameterGroupFamily;
+
+  /// Provides the customer-specified description for this cluster parameter
+  /// group.
+  final String? description;
+
+  DBClusterParameterGroup({
+    this.dBClusterParameterGroupArn,
+    this.dBClusterParameterGroupName,
+    this.dBParameterGroupFamily,
+    this.description,
+  });
+  factory DBClusterParameterGroup.fromXml(_s.XmlElement elem) {
+    return DBClusterParameterGroup(
+      dBClusterParameterGroupArn:
+          _s.extractXmlStringValue(elem, 'DBClusterParameterGroupArn'),
+      dBClusterParameterGroupName:
+          _s.extractXmlStringValue(elem, 'DBClusterParameterGroupName'),
+      dBParameterGroupFamily:
+          _s.extractXmlStringValue(elem, 'DBParameterGroupFamily'),
+      description: _s.extractXmlStringValue(elem, 'Description'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dBClusterParameterGroupArn = this.dBClusterParameterGroupArn;
+    final dBClusterParameterGroupName = this.dBClusterParameterGroupName;
+    final dBParameterGroupFamily = this.dBParameterGroupFamily;
+    final description = this.description;
+    return {
+      if (dBClusterParameterGroupArn != null)
+        'DBClusterParameterGroupArn': dBClusterParameterGroupArn,
+      if (dBClusterParameterGroupName != null)
+        'DBClusterParameterGroupName': dBClusterParameterGroupName,
+      if (dBParameterGroupFamily != null)
+        'DBParameterGroupFamily': dBParameterGroupFamily,
+      if (description != null) 'Description': description,
+    };
+  }
+}
+
+/// A certificate authority (CA) certificate for an Amazon Web Services account.
+class Certificate {
+  /// The Amazon Resource Name (ARN) for the certificate.
+  ///
+  /// Example: <code>arn:aws:rds:us-east-1::cert:rds-ca-2019</code>
+  final String? certificateArn;
+
+  /// The unique key that identifies a certificate.
+  ///
+  /// Example: <code>rds-ca-2019</code>
+  final String? certificateIdentifier;
+
+  /// The type of the certificate.
+  ///
+  /// Example: <code>CA</code>
+  final String? certificateType;
+
+  /// The thumbprint of the certificate.
+  final String? thumbprint;
+
+  /// The starting date-time from which the certificate is valid.
+  ///
+  /// Example: <code>2019-07-31T17:57:09Z</code>
+  final DateTime? validFrom;
+
+  /// The date-time after which the certificate is no longer valid.
+  ///
+  /// Example: <code>2024-07-31T17:57:09Z</code>
+  final DateTime? validTill;
+
+  Certificate({
+    this.certificateArn,
+    this.certificateIdentifier,
+    this.certificateType,
+    this.thumbprint,
+    this.validFrom,
+    this.validTill,
+  });
+  factory Certificate.fromXml(_s.XmlElement elem) {
+    return Certificate(
+      certificateArn: _s.extractXmlStringValue(elem, 'CertificateArn'),
+      certificateIdentifier:
+          _s.extractXmlStringValue(elem, 'CertificateIdentifier'),
+      certificateType: _s.extractXmlStringValue(elem, 'CertificateType'),
+      thumbprint: _s.extractXmlStringValue(elem, 'Thumbprint'),
+      validFrom: _s.extractXmlDateTimeValue(elem, 'ValidFrom'),
+      validTill: _s.extractXmlDateTimeValue(elem, 'ValidTill'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    final certificateIdentifier = this.certificateIdentifier;
+    final certificateType = this.certificateType;
+    final thumbprint = this.thumbprint;
+    final validFrom = this.validFrom;
+    final validTill = this.validTill;
+    return {
+      if (certificateArn != null) 'CertificateArn': certificateArn,
+      if (certificateIdentifier != null)
+        'CertificateIdentifier': certificateIdentifier,
+      if (certificateType != null) 'CertificateType': certificateType,
+      if (thumbprint != null) 'Thumbprint': thumbprint,
+      if (validFrom != null) 'ValidFrom': iso8601ToJson(validFrom),
+      if (validTill != null) 'ValidTill': iso8601ToJson(validTill),
     };
   }
 }
@@ -8709,6 +9366,11 @@ class KMSKeyNotAccessibleFault extends _s.GenericAwsException {
       : super(type: type, code: 'KMSKeyNotAccessibleFault', message: message);
 }
 
+class NetworkTypeNotSupported extends _s.GenericAwsException {
+  NetworkTypeNotSupported({String? type, String? message})
+      : super(type: type, code: 'NetworkTypeNotSupported', message: message);
+}
+
 class ResourceNotFoundFault extends _s.GenericAwsException {
   ResourceNotFoundFault({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundFault', message: message);
@@ -8873,6 +9535,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InvalidVPCNetworkStateFault(type: type, message: message),
   'KMSKeyNotAccessibleFault': (type, message) =>
       KMSKeyNotAccessibleFault(type: type, message: message),
+  'NetworkTypeNotSupported': (type, message) =>
+      NetworkTypeNotSupported(type: type, message: message),
   'ResourceNotFoundFault': (type, message) =>
       ResourceNotFoundFault(type: type, message: message),
   'SNSInvalidTopicFault': (type, message) =>

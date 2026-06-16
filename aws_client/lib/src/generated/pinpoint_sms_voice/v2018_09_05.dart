@@ -53,11 +53,11 @@ class PinpointSmsVoice {
   /// Create a new configuration set. After you create the configuration set,
   /// you can add one or more event destinations to it.
   ///
-  /// May throw [TooManyRequestsException].
-  /// May throw [BadRequestException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalServiceErrorException].
   /// May throw [AlreadyExistsException].
+  /// May throw [BadRequestException].
+  /// May throw [InternalServiceErrorException].
+  /// May throw [LimitExceededException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [configurationSetName] :
   /// The name that you want to give the configuration set.
@@ -78,12 +78,12 @@ class PinpointSmsVoice {
 
   /// Create a new event destination in a configuration set.
   ///
+  /// May throw [AlreadyExistsException].
   /// May throw [BadRequestException].
-  /// May throw [LimitExceededException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [AlreadyExistsException].
   ///
   /// Parameter [configurationSetName] :
   /// ConfigurationSetName
@@ -111,10 +111,10 @@ class PinpointSmsVoice {
 
   /// Deletes an existing configuration set.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [configurationSetName] :
   /// ConfigurationSetName
@@ -132,10 +132,10 @@ class PinpointSmsVoice {
 
   /// Deletes an event destination in a configuration set.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [configurationSetName] :
   /// ConfigurationSetName
@@ -159,10 +159,10 @@ class PinpointSmsVoice {
   /// events it reports, the Amazon Resource Name (ARN) of the destination, and
   /// the name of the event destination.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [configurationSetName] :
   /// ConfigurationSetName
@@ -183,9 +183,9 @@ class PinpointSmsVoice {
   /// List all of the configuration sets associated with your Amazon Pinpoint
   /// account in the current region.
   ///
-  /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [nextToken] :
   /// A token returned from a previous call to the API that indicates the
@@ -214,9 +214,9 @@ class PinpointSmsVoice {
 
   /// Create a new voice message and send it to a recipient's phone number.
   ///
-  /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [callerId] :
   /// The phone number that appears on recipients' devices when they receive the
@@ -265,10 +265,10 @@ class PinpointSmsVoice {
   /// example, you can log an event to an Amazon CloudWatch destination when a
   /// call fails.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [configurationSetName] :
   /// ConfigurationSetName
@@ -293,21 +293,200 @@ class PinpointSmsVoice {
   }
 }
 
-/// An object that defines a message that contains text formatted using Amazon
-/// Pinpoint Voice Instructions markup.
-class CallInstructionsMessageType {
-  /// The language to use when delivering the message. For a complete list of
-  /// supported languages, see the Amazon Polly Developer Guide.
-  final String? text;
+/// An empty object that indicates that the configuration set was successfully
+/// created.
+class CreateConfigurationSetResponse {
+  CreateConfigurationSetResponse();
 
-  CallInstructionsMessageType({
-    this.text,
+  factory CreateConfigurationSetResponse.fromJson(Map<String, dynamic> _) {
+    return CreateConfigurationSetResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// An empty object that indicates that the event destination was created
+/// successfully.
+class CreateConfigurationSetEventDestinationResponse {
+  CreateConfigurationSetEventDestinationResponse();
+
+  factory CreateConfigurationSetEventDestinationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return CreateConfigurationSetEventDestinationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// An empty object that indicates that the configuration set was deleted
+/// successfully.
+class DeleteConfigurationSetResponse {
+  DeleteConfigurationSetResponse();
+
+  factory DeleteConfigurationSetResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteConfigurationSetResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// An empty object that indicates that the event destination was deleted
+/// successfully.
+class DeleteConfigurationSetEventDestinationResponse {
+  DeleteConfigurationSetEventDestinationResponse();
+
+  factory DeleteConfigurationSetEventDestinationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return DeleteConfigurationSetEventDestinationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// An object that contains information about an event destination.
+class GetConfigurationSetEventDestinationsResponse {
+  final List<EventDestination>? eventDestinations;
+
+  GetConfigurationSetEventDestinationsResponse({
+    this.eventDestinations,
+  });
+
+  factory GetConfigurationSetEventDestinationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetConfigurationSetEventDestinationsResponse(
+      eventDestinations: (json['EventDestinations'] as List?)
+          ?.nonNulls
+          .map((e) => EventDestination.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventDestinations = this.eventDestinations;
+    return {
+      if (eventDestinations != null) 'EventDestinations': eventDestinations,
+    };
+  }
+}
+
+/// An object that contains information about the configuration sets for your
+/// account in the current region.
+class ListConfigurationSetsResponse {
+  /// An object that contains a list of configuration sets for your account in the
+  /// current region.
+  final List<String>? configurationSets;
+
+  /// A token returned from a previous call to ListConfigurationSets to indicate
+  /// the position in the list of configuration sets.
+  final String? nextToken;
+
+  ListConfigurationSetsResponse({
+    this.configurationSets,
+    this.nextToken,
+  });
+
+  factory ListConfigurationSetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListConfigurationSetsResponse(
+      configurationSets: (json['ConfigurationSets'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configurationSets = this.configurationSets;
+    final nextToken = this.nextToken;
+    return {
+      if (configurationSets != null) 'ConfigurationSets': configurationSets,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// An object that that contains the Message ID of a Voice message that was sent
+/// successfully.
+class SendVoiceMessageResponse {
+  /// A unique identifier for the voice message.
+  final String? messageId;
+
+  SendVoiceMessageResponse({
+    this.messageId,
+  });
+
+  factory SendVoiceMessageResponse.fromJson(Map<String, dynamic> json) {
+    return SendVoiceMessageResponse(
+      messageId: json['MessageId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final messageId = this.messageId;
+    return {
+      if (messageId != null) 'MessageId': messageId,
+    };
+  }
+}
+
+/// An empty object that indicates that the event destination was updated
+/// successfully.
+class UpdateConfigurationSetEventDestinationResponse {
+  UpdateConfigurationSetEventDestinationResponse();
+
+  factory UpdateConfigurationSetEventDestinationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return UpdateConfigurationSetEventDestinationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// An object that defines a single event destination.
+class EventDestinationDefinition {
+  final CloudWatchLogsDestination? cloudWatchLogsDestination;
+
+  /// Indicates whether or not the event destination is enabled. If the event
+  /// destination is enabled, then Amazon Pinpoint sends response data to the
+  /// specified event destination.
+  final bool? enabled;
+  final KinesisFirehoseDestination? kinesisFirehoseDestination;
+  final List<EventType>? matchingEventTypes;
+  final SnsDestination? snsDestination;
+
+  EventDestinationDefinition({
+    this.cloudWatchLogsDestination,
+    this.enabled,
+    this.kinesisFirehoseDestination,
+    this.matchingEventTypes,
+    this.snsDestination,
   });
 
   Map<String, dynamic> toJson() {
-    final text = this.text;
+    final cloudWatchLogsDestination = this.cloudWatchLogsDestination;
+    final enabled = this.enabled;
+    final kinesisFirehoseDestination = this.kinesisFirehoseDestination;
+    final matchingEventTypes = this.matchingEventTypes;
+    final snsDestination = this.snsDestination;
     return {
-      if (text != null) 'Text': text,
+      if (cloudWatchLogsDestination != null)
+        'CloudWatchLogsDestination': cloudWatchLogsDestination,
+      if (enabled != null) 'Enabled': enabled,
+      if (kinesisFirehoseDestination != null)
+        'KinesisFirehoseDestination': kinesisFirehoseDestination,
+      if (matchingEventTypes != null)
+        'MatchingEventTypes': matchingEventTypes.map((e) => e.value).toList(),
+      if (snsDestination != null) 'SnsDestination': snsDestination,
     };
   }
 }
@@ -346,61 +525,205 @@ class CloudWatchLogsDestination {
   }
 }
 
-/// An empty object that indicates that the event destination was created
-/// successfully.
-class CreateConfigurationSetEventDestinationResponse {
-  CreateConfigurationSetEventDestinationResponse();
+/// An object that contains information about an event destination that sends
+/// data to Amazon Kinesis Data Firehose.
+class KinesisFirehoseDestination {
+  /// The Amazon Resource Name (ARN) of an IAM role that can write data to an
+  /// Amazon Kinesis Data Firehose stream.
+  final String? deliveryStreamArn;
 
-  factory CreateConfigurationSetEventDestinationResponse.fromJson(
-      Map<String, dynamic> _) {
-    return CreateConfigurationSetEventDestinationResponse();
+  /// The Amazon Resource Name (ARN) of the Amazon Kinesis Data Firehose
+  /// destination that you want to use in the event destination.
+  final String? iamRoleArn;
+
+  KinesisFirehoseDestination({
+    this.deliveryStreamArn,
+    this.iamRoleArn,
+  });
+
+  factory KinesisFirehoseDestination.fromJson(Map<String, dynamic> json) {
+    return KinesisFirehoseDestination(
+      deliveryStreamArn: json['DeliveryStreamArn'] as String?,
+      iamRoleArn: json['IamRoleArn'] as String?,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final deliveryStreamArn = this.deliveryStreamArn;
+    final iamRoleArn = this.iamRoleArn;
+    return {
+      if (deliveryStreamArn != null) 'DeliveryStreamArn': deliveryStreamArn,
+      if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
+    };
   }
 }
 
-/// An empty object that indicates that the configuration set was successfully
-/// created.
-class CreateConfigurationSetResponse {
-  CreateConfigurationSetResponse();
+/// An object that contains information about an event destination that sends
+/// data to Amazon SNS.
+class SnsDestination {
+  /// The Amazon Resource Name (ARN) of the Amazon SNS topic that you want to
+  /// publish events to.
+  final String? topicArn;
 
-  factory CreateConfigurationSetResponse.fromJson(Map<String, dynamic> _) {
-    return CreateConfigurationSetResponse();
+  SnsDestination({
+    this.topicArn,
+  });
+
+  factory SnsDestination.fromJson(Map<String, dynamic> json) {
+    return SnsDestination(
+      topicArn: json['TopicArn'] as String?,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final topicArn = this.topicArn;
+    return {
+      if (topicArn != null) 'TopicArn': topicArn,
+    };
   }
 }
 
-/// An empty object that indicates that the event destination was deleted
-/// successfully.
-class DeleteConfigurationSetEventDestinationResponse {
-  DeleteConfigurationSetEventDestinationResponse();
+/// The types of events that are sent to the event destination.
+class EventType {
+  static const initiatedCall = EventType._('INITIATED_CALL');
+  static const ringing = EventType._('RINGING');
+  static const answered = EventType._('ANSWERED');
+  static const completedCall = EventType._('COMPLETED_CALL');
+  static const busy = EventType._('BUSY');
+  static const failed = EventType._('FAILED');
+  static const noAnswer = EventType._('NO_ANSWER');
 
-  factory DeleteConfigurationSetEventDestinationResponse.fromJson(
-      Map<String, dynamic> _) {
-    return DeleteConfigurationSetEventDestinationResponse();
-  }
+  final String value;
+
+  const EventType._(this.value);
+
+  static const values = [
+    initiatedCall,
+    ringing,
+    answered,
+    completedCall,
+    busy,
+    failed,
+    noAnswer
+  ];
+
+  static EventType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EventType._(value));
+
+  @override
+  bool operator ==(other) => other is EventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object that contains a voice message and information about the recipient
+/// that you want to send it to.
+class VoiceMessageContent {
+  final CallInstructionsMessageType? callInstructionsMessage;
+  final PlainTextMessageType? plainTextMessage;
+  final SSMLMessageType? sSMLMessage;
+
+  VoiceMessageContent({
+    this.callInstructionsMessage,
+    this.plainTextMessage,
+    this.sSMLMessage,
+  });
 
   Map<String, dynamic> toJson() {
-    return {};
+    final callInstructionsMessage = this.callInstructionsMessage;
+    final plainTextMessage = this.plainTextMessage;
+    final sSMLMessage = this.sSMLMessage;
+    return {
+      if (callInstructionsMessage != null)
+        'CallInstructionsMessage': callInstructionsMessage,
+      if (plainTextMessage != null) 'PlainTextMessage': plainTextMessage,
+      if (sSMLMessage != null) 'SSMLMessage': sSMLMessage,
+    };
   }
 }
 
-/// An empty object that indicates that the configuration set was deleted
-/// successfully.
-class DeleteConfigurationSetResponse {
-  DeleteConfigurationSetResponse();
+/// An object that defines a message that contains text formatted using Amazon
+/// Pinpoint Voice Instructions markup.
+class CallInstructionsMessageType {
+  /// The language to use when delivering the message. For a complete list of
+  /// supported languages, see the Amazon Polly Developer Guide.
+  final String? text;
 
-  factory DeleteConfigurationSetResponse.fromJson(Map<String, dynamic> _) {
-    return DeleteConfigurationSetResponse();
-  }
+  CallInstructionsMessageType({
+    this.text,
+  });
 
   Map<String, dynamic> toJson() {
-    return {};
+    final text = this.text;
+    return {
+      if (text != null) 'Text': text,
+    };
+  }
+}
+
+/// An object that defines a message that contains unformatted text.
+class PlainTextMessageType {
+  /// The language to use when delivering the message. For a complete list of
+  /// supported languages, see the Amazon Polly Developer Guide.
+  final String? languageCode;
+
+  /// The plain (not SSML-formatted) text to deliver to the recipient.
+  final String? text;
+
+  /// The name of the voice that you want to use to deliver the message. For a
+  /// complete list of supported voices, see the Amazon Polly Developer Guide.
+  final String? voiceId;
+
+  PlainTextMessageType({
+    this.languageCode,
+    this.text,
+    this.voiceId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final languageCode = this.languageCode;
+    final text = this.text;
+    final voiceId = this.voiceId;
+    return {
+      if (languageCode != null) 'LanguageCode': languageCode,
+      if (text != null) 'Text': text,
+      if (voiceId != null) 'VoiceId': voiceId,
+    };
+  }
+}
+
+/// An object that defines a message that contains SSML-formatted text.
+class SSMLMessageType {
+  /// The language to use when delivering the message. For a complete list of
+  /// supported languages, see the Amazon Polly Developer Guide.
+  final String? languageCode;
+
+  /// The SSML-formatted text to deliver to the recipient.
+  final String? text;
+
+  /// The name of the voice that you want to use to deliver the message. For a
+  /// complete list of supported voices, see the Amazon Polly Developer Guide.
+  final String? voiceId;
+
+  SSMLMessageType({
+    this.languageCode,
+    this.text,
+    this.voiceId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final languageCode = this.languageCode;
+    final text = this.text;
+    final voiceId = this.voiceId;
+    return {
+      if (languageCode != null) 'LanguageCode': languageCode,
+      if (text != null) 'Text': text,
+      if (voiceId != null) 'VoiceId': voiceId,
+    };
   }
 }
 
@@ -468,329 +791,6 @@ class EventDestination {
         'MatchingEventTypes': matchingEventTypes.map((e) => e.value).toList(),
       if (name != null) 'Name': name,
       if (snsDestination != null) 'SnsDestination': snsDestination,
-    };
-  }
-}
-
-/// An object that defines a single event destination.
-class EventDestinationDefinition {
-  final CloudWatchLogsDestination? cloudWatchLogsDestination;
-
-  /// Indicates whether or not the event destination is enabled. If the event
-  /// destination is enabled, then Amazon Pinpoint sends response data to the
-  /// specified event destination.
-  final bool? enabled;
-  final KinesisFirehoseDestination? kinesisFirehoseDestination;
-  final List<EventType>? matchingEventTypes;
-  final SnsDestination? snsDestination;
-
-  EventDestinationDefinition({
-    this.cloudWatchLogsDestination,
-    this.enabled,
-    this.kinesisFirehoseDestination,
-    this.matchingEventTypes,
-    this.snsDestination,
-  });
-
-  Map<String, dynamic> toJson() {
-    final cloudWatchLogsDestination = this.cloudWatchLogsDestination;
-    final enabled = this.enabled;
-    final kinesisFirehoseDestination = this.kinesisFirehoseDestination;
-    final matchingEventTypes = this.matchingEventTypes;
-    final snsDestination = this.snsDestination;
-    return {
-      if (cloudWatchLogsDestination != null)
-        'CloudWatchLogsDestination': cloudWatchLogsDestination,
-      if (enabled != null) 'Enabled': enabled,
-      if (kinesisFirehoseDestination != null)
-        'KinesisFirehoseDestination': kinesisFirehoseDestination,
-      if (matchingEventTypes != null)
-        'MatchingEventTypes': matchingEventTypes.map((e) => e.value).toList(),
-      if (snsDestination != null) 'SnsDestination': snsDestination,
-    };
-  }
-}
-
-/// The types of events that are sent to the event destination.
-class EventType {
-  static const initiatedCall = EventType._('INITIATED_CALL');
-  static const ringing = EventType._('RINGING');
-  static const answered = EventType._('ANSWERED');
-  static const completedCall = EventType._('COMPLETED_CALL');
-  static const busy = EventType._('BUSY');
-  static const failed = EventType._('FAILED');
-  static const noAnswer = EventType._('NO_ANSWER');
-
-  final String value;
-
-  const EventType._(this.value);
-
-  static const values = [
-    initiatedCall,
-    ringing,
-    answered,
-    completedCall,
-    busy,
-    failed,
-    noAnswer
-  ];
-
-  static EventType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => EventType._(value));
-
-  @override
-  bool operator ==(other) => other is EventType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object that contains information about an event destination.
-class GetConfigurationSetEventDestinationsResponse {
-  final List<EventDestination>? eventDestinations;
-
-  GetConfigurationSetEventDestinationsResponse({
-    this.eventDestinations,
-  });
-
-  factory GetConfigurationSetEventDestinationsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return GetConfigurationSetEventDestinationsResponse(
-      eventDestinations: (json['EventDestinations'] as List?)
-          ?.nonNulls
-          .map((e) => EventDestination.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eventDestinations = this.eventDestinations;
-    return {
-      if (eventDestinations != null) 'EventDestinations': eventDestinations,
-    };
-  }
-}
-
-/// An object that contains information about an event destination that sends
-/// data to Amazon Kinesis Data Firehose.
-class KinesisFirehoseDestination {
-  /// The Amazon Resource Name (ARN) of an IAM role that can write data to an
-  /// Amazon Kinesis Data Firehose stream.
-  final String? deliveryStreamArn;
-
-  /// The Amazon Resource Name (ARN) of the Amazon Kinesis Data Firehose
-  /// destination that you want to use in the event destination.
-  final String? iamRoleArn;
-
-  KinesisFirehoseDestination({
-    this.deliveryStreamArn,
-    this.iamRoleArn,
-  });
-
-  factory KinesisFirehoseDestination.fromJson(Map<String, dynamic> json) {
-    return KinesisFirehoseDestination(
-      deliveryStreamArn: json['DeliveryStreamArn'] as String?,
-      iamRoleArn: json['IamRoleArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deliveryStreamArn = this.deliveryStreamArn;
-    final iamRoleArn = this.iamRoleArn;
-    return {
-      if (deliveryStreamArn != null) 'DeliveryStreamArn': deliveryStreamArn,
-      if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
-    };
-  }
-}
-
-/// An object that contains information about the configuration sets for your
-/// account in the current region.
-class ListConfigurationSetsResponse {
-  /// An object that contains a list of configuration sets for your account in the
-  /// current region.
-  final List<String>? configurationSets;
-
-  /// A token returned from a previous call to ListConfigurationSets to indicate
-  /// the position in the list of configuration sets.
-  final String? nextToken;
-
-  ListConfigurationSetsResponse({
-    this.configurationSets,
-    this.nextToken,
-  });
-
-  factory ListConfigurationSetsResponse.fromJson(Map<String, dynamic> json) {
-    return ListConfigurationSetsResponse(
-      configurationSets: (json['ConfigurationSets'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final configurationSets = this.configurationSets;
-    final nextToken = this.nextToken;
-    return {
-      if (configurationSets != null) 'ConfigurationSets': configurationSets,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-/// An object that defines a message that contains unformatted text.
-class PlainTextMessageType {
-  /// The language to use when delivering the message. For a complete list of
-  /// supported languages, see the Amazon Polly Developer Guide.
-  final String? languageCode;
-
-  /// The plain (not SSML-formatted) text to deliver to the recipient.
-  final String? text;
-
-  /// The name of the voice that you want to use to deliver the message. For a
-  /// complete list of supported voices, see the Amazon Polly Developer Guide.
-  final String? voiceId;
-
-  PlainTextMessageType({
-    this.languageCode,
-    this.text,
-    this.voiceId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final languageCode = this.languageCode;
-    final text = this.text;
-    final voiceId = this.voiceId;
-    return {
-      if (languageCode != null) 'LanguageCode': languageCode,
-      if (text != null) 'Text': text,
-      if (voiceId != null) 'VoiceId': voiceId,
-    };
-  }
-}
-
-/// An object that defines a message that contains SSML-formatted text.
-class SSMLMessageType {
-  /// The language to use when delivering the message. For a complete list of
-  /// supported languages, see the Amazon Polly Developer Guide.
-  final String? languageCode;
-
-  /// The SSML-formatted text to deliver to the recipient.
-  final String? text;
-
-  /// The name of the voice that you want to use to deliver the message. For a
-  /// complete list of supported voices, see the Amazon Polly Developer Guide.
-  final String? voiceId;
-
-  SSMLMessageType({
-    this.languageCode,
-    this.text,
-    this.voiceId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final languageCode = this.languageCode;
-    final text = this.text;
-    final voiceId = this.voiceId;
-    return {
-      if (languageCode != null) 'LanguageCode': languageCode,
-      if (text != null) 'Text': text,
-      if (voiceId != null) 'VoiceId': voiceId,
-    };
-  }
-}
-
-/// An object that that contains the Message ID of a Voice message that was sent
-/// successfully.
-class SendVoiceMessageResponse {
-  /// A unique identifier for the voice message.
-  final String? messageId;
-
-  SendVoiceMessageResponse({
-    this.messageId,
-  });
-
-  factory SendVoiceMessageResponse.fromJson(Map<String, dynamic> json) {
-    return SendVoiceMessageResponse(
-      messageId: json['MessageId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final messageId = this.messageId;
-    return {
-      if (messageId != null) 'MessageId': messageId,
-    };
-  }
-}
-
-/// An object that contains information about an event destination that sends
-/// data to Amazon SNS.
-class SnsDestination {
-  /// The Amazon Resource Name (ARN) of the Amazon SNS topic that you want to
-  /// publish events to.
-  final String? topicArn;
-
-  SnsDestination({
-    this.topicArn,
-  });
-
-  factory SnsDestination.fromJson(Map<String, dynamic> json) {
-    return SnsDestination(
-      topicArn: json['TopicArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final topicArn = this.topicArn;
-    return {
-      if (topicArn != null) 'TopicArn': topicArn,
-    };
-  }
-}
-
-/// An empty object that indicates that the event destination was updated
-/// successfully.
-class UpdateConfigurationSetEventDestinationResponse {
-  UpdateConfigurationSetEventDestinationResponse();
-
-  factory UpdateConfigurationSetEventDestinationResponse.fromJson(
-      Map<String, dynamic> _) {
-    return UpdateConfigurationSetEventDestinationResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// An object that contains a voice message and information about the recipient
-/// that you want to send it to.
-class VoiceMessageContent {
-  final CallInstructionsMessageType? callInstructionsMessage;
-  final PlainTextMessageType? plainTextMessage;
-  final SSMLMessageType? sSMLMessage;
-
-  VoiceMessageContent({
-    this.callInstructionsMessage,
-    this.plainTextMessage,
-    this.sSMLMessage,
-  });
-
-  Map<String, dynamic> toJson() {
-    final callInstructionsMessage = this.callInstructionsMessage;
-    final plainTextMessage = this.plainTextMessage;
-    final sSMLMessage = this.sSMLMessage;
-    return {
-      if (callInstructionsMessage != null)
-        'CallInstructionsMessage': callInstructionsMessage,
-      if (plainTextMessage != null) 'PlainTextMessage': plainTextMessage,
-      if (sSMLMessage != null) 'SSMLMessage': sSMLMessage,
     };
   }
 }

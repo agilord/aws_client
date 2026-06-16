@@ -23,10 +23,10 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// DAX is a managed caching service engineered for Amazon DynamoDB. DAX
 /// dramatically speeds up database reads by caching frequently-accessed data
 /// from DynamoDB, so applications can access that data with sub-millisecond
-/// latency. You can create a DAX cluster easily, using the AWS Management
-/// Console. With a few simple modifications to your code, your application can
-/// begin taking advantage of the DAX cluster and realize significant
-/// improvements in read performance.
+/// latency. You can create a DAX cluster easily, using the Amazon Web Services
+/// Management Console. With a few simple modifications to your code, your
+/// application can begin taking advantage of the DAX cluster and realize
+/// significant improvements in read performance.
 class Dax {
   final _s.JsonProtocol _protocol;
   Dax({
@@ -59,20 +59,20 @@ class Dax {
   /// software.
   ///
   /// May throw [ClusterAlreadyExistsFault].
-  /// May throw [InvalidClusterStateFault].
-  /// May throw [InsufficientClusterCapacityFault].
-  /// May throw [SubnetGroupNotFoundFault].
-  /// May throw [InvalidParameterGroupStateFault].
-  /// May throw [ParameterGroupNotFoundFault].
   /// May throw [ClusterQuotaForCustomerExceededFault].
+  /// May throw [InsufficientClusterCapacityFault].
+  /// May throw [InvalidClusterStateFault].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterGroupStateFault].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidVPCNetworkStateFault].
   /// May throw [NodeQuotaForClusterExceededFault].
   /// May throw [NodeQuotaForCustomerExceededFault].
-  /// May throw [InvalidVPCNetworkStateFault].
-  /// May throw [TagQuotaPerResourceExceeded].
+  /// May throw [ParameterGroupNotFoundFault].
   /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [SubnetGroupNotFoundFault].
+  /// May throw [TagQuotaPerResourceExceeded].
   ///
   /// Parameter [clusterName] :
   /// The cluster identifier. This parameter is stored as a lowercase string.
@@ -108,7 +108,8 @@ class Dax {
   /// read replicas). <code>If the AvailabilityZones</code> parameter is
   /// provided, its length must equal the <code>ReplicationFactor</code>.
   /// <note>
-  /// AWS recommends that you have at least two read replicas per cluster.
+  /// Amazon Web Services recommends that you have at least two read replicas
+  /// per cluster.
   /// </note>
   ///
   /// Parameter [availabilityZones] :
@@ -132,6 +133,26 @@ class Dax {
   ///
   /// Parameter [description] :
   /// A description of the cluster.
+  ///
+  /// Parameter [networkType] :
+  /// Specifies the IP protocol(s) the cluster uses for network communications.
+  /// Values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ipv4</code> - The cluster is accessible only through IPv4 addresses
+  /// </li>
+  /// <li>
+  /// <code>ipv6</code> - The cluster is accessible only through IPv6 addresses
+  /// </li>
+  /// <li>
+  /// <code>dual_stack</code> - The cluster is accessible through both IPv4 and
+  /// IPv6 addresses.
+  /// </li>
+  /// </ul> <note>
+  /// If no explicit <code>NetworkType</code> is provided, the network type is
+  /// derived based on the subnet group's configuration.
+  /// </note>
   ///
   /// Parameter [notificationTopicArn] :
   /// The Amazon Resource Name (ARN) of the Amazon SNS topic to which
@@ -207,6 +228,7 @@ class Dax {
     List<String>? availabilityZones,
     ClusterEndpointEncryptionType? clusterEndpointEncryptionType,
     String? description,
+    NetworkType? networkType,
     String? notificationTopicArn,
     String? parameterGroupName,
     String? preferredMaintenanceWindow,
@@ -234,6 +256,7 @@ class Dax {
         if (clusterEndpointEncryptionType != null)
           'ClusterEndpointEncryptionType': clusterEndpointEncryptionType.value,
         if (description != null) 'Description': description,
+        if (networkType != null) 'NetworkType': networkType.value,
         if (notificationTopicArn != null)
           'NotificationTopicArn': notificationTopicArn,
         if (parameterGroupName != null)
@@ -253,12 +276,12 @@ class Dax {
   /// Creates a new parameter group. A parameter group is a collection of
   /// parameters that you apply to all of the nodes in a DAX cluster.
   ///
-  /// May throw [ParameterGroupQuotaExceededFault].
-  /// May throw [ParameterGroupAlreadyExistsFault].
-  /// May throw [InvalidParameterGroupStateFault].
-  /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterGroupStateFault].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ParameterGroupAlreadyExistsFault].
+  /// May throw [ParameterGroupQuotaExceededFault].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
   ///
   /// Parameter [parameterGroupName] :
   /// The name of the parameter group to apply to all of the clusters in this
@@ -291,11 +314,12 @@ class Dax {
 
   /// Creates a new subnet group.
   ///
-  /// May throw [SubnetGroupAlreadyExistsFault].
-  /// May throw [SubnetGroupQuotaExceededFault].
-  /// May throw [SubnetQuotaExceededFault].
   /// May throw [InvalidSubnet].
   /// May throw [ServiceLinkedRoleNotFoundFault].
+  /// May throw [SubnetGroupAlreadyExistsFault].
+  /// May throw [SubnetGroupQuotaExceededFault].
+  /// May throw [SubnetNotAllowedFault].
+  /// May throw [SubnetQuotaExceededFault].
   ///
   /// Parameter [subnetGroupName] :
   /// A name for the subnet group. This value is stored as a lowercase string.
@@ -338,11 +362,11 @@ class Dax {
   /// </note>
   ///
   /// May throw [ClusterNotFoundFault].
-  /// May throw [NodeNotFoundFault].
   /// May throw [InvalidClusterStateFault].
-  /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [NodeNotFoundFault].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
   ///
   /// Parameter [clusterName] :
   /// The name of the DAX cluster from which you want to remove nodes.
@@ -389,9 +413,9 @@ class Dax {
   ///
   /// May throw [ClusterNotFoundFault].
   /// May throw [InvalidClusterStateFault].
-  /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
   ///
   /// Parameter [clusterName] :
   /// The name of the cluster to be deleted.
@@ -419,11 +443,11 @@ class Dax {
   /// Deletes the specified parameter group. You cannot delete a parameter group
   /// if it is associated with any DAX clusters.
   ///
+  /// May throw [InvalidParameterCombinationException].
   /// May throw [InvalidParameterGroupStateFault].
+  /// May throw [InvalidParameterValueException].
   /// May throw [ParameterGroupNotFoundFault].
   /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
   ///
   /// Parameter [parameterGroupName] :
   /// The name of the parameter group to delete.
@@ -454,9 +478,9 @@ class Dax {
   /// clusters.
   /// </note>
   ///
+  /// May throw [ServiceLinkedRoleNotFoundFault].
   /// May throw [SubnetGroupInUseFault].
   /// May throw [SubnetGroupNotFoundFault].
-  /// May throw [ServiceLinkedRoleNotFoundFault].
   ///
   /// Parameter [subnetGroupName] :
   /// The name of the subnet group to delete.
@@ -500,9 +524,9 @@ class Dax {
   /// information for the removed nodes is displayed.
   ///
   /// May throw [ClusterNotFoundFault].
-  /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
   ///
   /// Parameter [clusterNames] :
   /// The names of the DAX clusters being described.
@@ -547,9 +571,9 @@ class Dax {
   /// Returns the default system parameter information for the DAX caching
   /// software.
   ///
-  /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to include in the response. If more results
@@ -594,9 +618,9 @@ class Dax {
   /// returned; however, you can retrieve up to 14 days' worth of events if
   /// necessary.
   ///
-  /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
   ///
   /// Parameter [duration] :
   /// The number of minutes' worth of events to retrieve.
@@ -665,10 +689,10 @@ class Dax {
   /// Returns a list of parameter group descriptions. If a parameter group name
   /// is specified, the list will contain only the descriptions for that group.
   ///
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
   /// May throw [ParameterGroupNotFoundFault].
   /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to include in the response. If more results
@@ -713,10 +737,10 @@ class Dax {
 
   /// Returns the detailed parameter list for a particular parameter group.
   ///
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
   /// May throw [ParameterGroupNotFoundFault].
   /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
   ///
   /// Parameter [parameterGroupName] :
   /// The name of the parameter group.
@@ -767,8 +791,8 @@ class Dax {
   /// Returns a list of subnet group descriptions. If a subnet group name is
   /// specified, the list will contain only the description of that group.
   ///
-  /// May throw [SubnetGroupNotFoundFault].
   /// May throw [ServiceLinkedRoleNotFoundFault].
+  /// May throw [SubnetGroupNotFoundFault].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to include in the response. If more results
@@ -813,14 +837,14 @@ class Dax {
   /// Adds one or more nodes to a DAX cluster.
   ///
   /// May throw [ClusterNotFoundFault].
-  /// May throw [InvalidClusterStateFault].
   /// May throw [InsufficientClusterCapacityFault].
+  /// May throw [InvalidClusterStateFault].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidVPCNetworkStateFault].
   /// May throw [NodeQuotaForClusterExceededFault].
   /// May throw [NodeQuotaForCustomerExceededFault].
   /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
   ///
   /// Parameter [clusterName] :
   /// The name of the DAX cluster that will receive additional nodes.
@@ -864,9 +888,9 @@ class Dax {
   /// May throw [ClusterNotFoundFault].
   /// May throw [InvalidARNFault].
   /// May throw [InvalidClusterStateFault].
-  /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
   ///
   /// Parameter [resourceName] :
   /// The name of the DAX resource to which the tags belong.
@@ -906,11 +930,11 @@ class Dax {
   /// </note>
   ///
   /// May throw [ClusterNotFoundFault].
-  /// May throw [NodeNotFoundFault].
   /// May throw [InvalidClusterStateFault].
-  /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [NodeNotFoundFault].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
   ///
   /// Parameter [clusterName] :
   /// The name of the DAX cluster containing the node to be rebooted.
@@ -944,12 +968,12 @@ class Dax {
   /// <code>TagResource</code> up to 5 times per second, per account.
   ///
   /// May throw [ClusterNotFoundFault].
-  /// May throw [TagQuotaPerResourceExceeded].
   /// May throw [InvalidARNFault].
   /// May throw [InvalidClusterStateFault].
-  /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
+  /// May throw [TagQuotaPerResourceExceeded].
   ///
   /// Parameter [resourceName] :
   /// The name of the DAX resource to which tags should be added.
@@ -984,11 +1008,11 @@ class Dax {
   ///
   /// May throw [ClusterNotFoundFault].
   /// May throw [InvalidARNFault].
-  /// May throw [TagNotFoundFault].
   /// May throw [InvalidClusterStateFault].
-  /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
+  /// May throw [TagNotFoundFault].
   ///
   /// Parameter [resourceName] :
   /// The name of the DAX resource from which the tags should be removed.
@@ -1023,13 +1047,13 @@ class Dax {
   /// one or more cluster configuration parameters by specifying the parameters
   /// and the new values.
   ///
-  /// May throw [InvalidClusterStateFault].
   /// May throw [ClusterNotFoundFault].
+  /// May throw [InvalidClusterStateFault].
+  /// May throw [InvalidParameterCombinationException].
   /// May throw [InvalidParameterGroupStateFault].
+  /// May throw [InvalidParameterValueException].
   /// May throw [ParameterGroupNotFoundFault].
   /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
   ///
   /// Parameter [clusterName] :
   /// The name of the DAX cluster to be modified.
@@ -1099,11 +1123,11 @@ class Dax {
   /// parameters in a single request by submitting a list parameter name and
   /// value pairs.
   ///
+  /// May throw [InvalidParameterCombinationException].
   /// May throw [InvalidParameterGroupStateFault].
+  /// May throw [InvalidParameterValueException].
   /// May throw [ParameterGroupNotFoundFault].
   /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
   ///
   /// Parameter [parameterGroupName] :
   /// The name of the parameter group.
@@ -1142,11 +1166,12 @@ class Dax {
 
   /// Modifies an existing subnet group.
   ///
-  /// May throw [SubnetGroupNotFoundFault].
-  /// May throw [SubnetQuotaExceededFault].
-  /// May throw [SubnetInUse].
   /// May throw [InvalidSubnet].
   /// May throw [ServiceLinkedRoleNotFoundFault].
+  /// May throw [SubnetGroupNotFoundFault].
+  /// May throw [SubnetInUse].
+  /// May throw [SubnetNotAllowedFault].
+  /// May throw [SubnetQuotaExceededFault].
   ///
   /// Parameter [subnetGroupName] :
   /// The name of the subnet group.
@@ -1180,245 +1205,6 @@ class Dax {
 
     return UpdateSubnetGroupResponse.fromJson(jsonResponse.body);
   }
-}
-
-class ChangeType {
-  static const immediate = ChangeType._('IMMEDIATE');
-  static const requiresReboot = ChangeType._('REQUIRES_REBOOT');
-
-  final String value;
-
-  const ChangeType._(this.value);
-
-  static const values = [immediate, requiresReboot];
-
-  static ChangeType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ChangeType._(value));
-
-  @override
-  bool operator ==(other) => other is ChangeType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains all of the attributes of a specific DAX cluster.
-class Cluster {
-  /// The number of nodes in the cluster that are active (i.e., capable of serving
-  /// requests).
-  final int? activeNodes;
-
-  /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
-  final String? clusterArn;
-
-  /// The endpoint for this DAX cluster, consisting of a DNS name, a port number,
-  /// and a URL. Applications should use the URL to configure the DAX client to
-  /// find their cluster.
-  final Endpoint? clusterDiscoveryEndpoint;
-
-  /// The type of encryption supported by the cluster's endpoint. Values are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>NONE</code> for no encryption
-  ///
-  /// <code>TLS</code> for Transport Layer Security
-  /// </li>
-  /// </ul>
-  final ClusterEndpointEncryptionType? clusterEndpointEncryptionType;
-
-  /// The name of the DAX cluster.
-  final String? clusterName;
-
-  /// The description of the cluster.
-  final String? description;
-
-  /// A valid Amazon Resource Name (ARN) that identifies an IAM role. At runtime,
-  /// DAX will assume this role and use the role's permissions to access DynamoDB
-  /// on your behalf.
-  final String? iamRoleArn;
-
-  /// A list of nodes to be removed from the cluster.
-  final List<String>? nodeIdsToRemove;
-
-  /// The node type for the nodes in the cluster. (All nodes in a DAX cluster are
-  /// of the same type.)
-  final String? nodeType;
-
-  /// A list of nodes that are currently in the cluster.
-  final List<Node>? nodes;
-
-  /// Describes a notification topic and its status. Notification topics are used
-  /// for publishing DAX events to subscribers using Amazon Simple Notification
-  /// Service (SNS).
-  final NotificationConfiguration? notificationConfiguration;
-
-  /// The parameter group being used by nodes in the cluster.
-  final ParameterGroupStatus? parameterGroup;
-
-  /// A range of time when maintenance of DAX cluster software will be performed.
-  /// For example: <code>sun:01:00-sun:09:00</code>. Cluster maintenance normally
-  /// takes less than 30 minutes, and is performed automatically within the
-  /// maintenance window.
-  final String? preferredMaintenanceWindow;
-
-  /// The description of the server-side encryption status on the specified DAX
-  /// cluster.
-  final SSEDescription? sSEDescription;
-
-  /// A list of security groups, and the status of each, for the nodes in the
-  /// cluster.
-  final List<SecurityGroupMembership>? securityGroups;
-
-  /// The current status of the cluster.
-  final String? status;
-
-  /// The subnet group where the DAX cluster is running.
-  final String? subnetGroup;
-
-  /// The total number of nodes in the cluster.
-  final int? totalNodes;
-
-  Cluster({
-    this.activeNodes,
-    this.clusterArn,
-    this.clusterDiscoveryEndpoint,
-    this.clusterEndpointEncryptionType,
-    this.clusterName,
-    this.description,
-    this.iamRoleArn,
-    this.nodeIdsToRemove,
-    this.nodeType,
-    this.nodes,
-    this.notificationConfiguration,
-    this.parameterGroup,
-    this.preferredMaintenanceWindow,
-    this.sSEDescription,
-    this.securityGroups,
-    this.status,
-    this.subnetGroup,
-    this.totalNodes,
-  });
-
-  factory Cluster.fromJson(Map<String, dynamic> json) {
-    return Cluster(
-      activeNodes: json['ActiveNodes'] as int?,
-      clusterArn: json['ClusterArn'] as String?,
-      clusterDiscoveryEndpoint: json['ClusterDiscoveryEndpoint'] != null
-          ? Endpoint.fromJson(
-              json['ClusterDiscoveryEndpoint'] as Map<String, dynamic>)
-          : null,
-      clusterEndpointEncryptionType:
-          (json['ClusterEndpointEncryptionType'] as String?)
-              ?.let(ClusterEndpointEncryptionType.fromString),
-      clusterName: json['ClusterName'] as String?,
-      description: json['Description'] as String?,
-      iamRoleArn: json['IamRoleArn'] as String?,
-      nodeIdsToRemove: (json['NodeIdsToRemove'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      nodeType: json['NodeType'] as String?,
-      nodes: (json['Nodes'] as List?)
-          ?.nonNulls
-          .map((e) => Node.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      notificationConfiguration: json['NotificationConfiguration'] != null
-          ? NotificationConfiguration.fromJson(
-              json['NotificationConfiguration'] as Map<String, dynamic>)
-          : null,
-      parameterGroup: json['ParameterGroup'] != null
-          ? ParameterGroupStatus.fromJson(
-              json['ParameterGroup'] as Map<String, dynamic>)
-          : null,
-      preferredMaintenanceWindow: json['PreferredMaintenanceWindow'] as String?,
-      sSEDescription: json['SSEDescription'] != null
-          ? SSEDescription.fromJson(
-              json['SSEDescription'] as Map<String, dynamic>)
-          : null,
-      securityGroups: (json['SecurityGroups'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              SecurityGroupMembership.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      status: json['Status'] as String?,
-      subnetGroup: json['SubnetGroup'] as String?,
-      totalNodes: json['TotalNodes'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final activeNodes = this.activeNodes;
-    final clusterArn = this.clusterArn;
-    final clusterDiscoveryEndpoint = this.clusterDiscoveryEndpoint;
-    final clusterEndpointEncryptionType = this.clusterEndpointEncryptionType;
-    final clusterName = this.clusterName;
-    final description = this.description;
-    final iamRoleArn = this.iamRoleArn;
-    final nodeIdsToRemove = this.nodeIdsToRemove;
-    final nodeType = this.nodeType;
-    final nodes = this.nodes;
-    final notificationConfiguration = this.notificationConfiguration;
-    final parameterGroup = this.parameterGroup;
-    final preferredMaintenanceWindow = this.preferredMaintenanceWindow;
-    final sSEDescription = this.sSEDescription;
-    final securityGroups = this.securityGroups;
-    final status = this.status;
-    final subnetGroup = this.subnetGroup;
-    final totalNodes = this.totalNodes;
-    return {
-      if (activeNodes != null) 'ActiveNodes': activeNodes,
-      if (clusterArn != null) 'ClusterArn': clusterArn,
-      if (clusterDiscoveryEndpoint != null)
-        'ClusterDiscoveryEndpoint': clusterDiscoveryEndpoint,
-      if (clusterEndpointEncryptionType != null)
-        'ClusterEndpointEncryptionType': clusterEndpointEncryptionType.value,
-      if (clusterName != null) 'ClusterName': clusterName,
-      if (description != null) 'Description': description,
-      if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
-      if (nodeIdsToRemove != null) 'NodeIdsToRemove': nodeIdsToRemove,
-      if (nodeType != null) 'NodeType': nodeType,
-      if (nodes != null) 'Nodes': nodes,
-      if (notificationConfiguration != null)
-        'NotificationConfiguration': notificationConfiguration,
-      if (parameterGroup != null) 'ParameterGroup': parameterGroup,
-      if (preferredMaintenanceWindow != null)
-        'PreferredMaintenanceWindow': preferredMaintenanceWindow,
-      if (sSEDescription != null) 'SSEDescription': sSEDescription,
-      if (securityGroups != null) 'SecurityGroups': securityGroups,
-      if (status != null) 'Status': status,
-      if (subnetGroup != null) 'SubnetGroup': subnetGroup,
-      if (totalNodes != null) 'TotalNodes': totalNodes,
-    };
-  }
-}
-
-class ClusterEndpointEncryptionType {
-  static const none = ClusterEndpointEncryptionType._('NONE');
-  static const tls = ClusterEndpointEncryptionType._('TLS');
-
-  final String value;
-
-  const ClusterEndpointEncryptionType._(this.value);
-
-  static const values = [none, tls];
-
-  static ClusterEndpointEncryptionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ClusterEndpointEncryptionType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ClusterEndpointEncryptionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class CreateClusterResponse {
@@ -1787,95 +1573,8 @@ class DescribeSubnetGroupsResponse {
   }
 }
 
-/// Represents the information required for client programs to connect to the
-/// endpoint for a DAX cluster.
-class Endpoint {
-  /// The DNS hostname of the endpoint.
-  final String? address;
-
-  /// The port number that applications should use to connect to the endpoint.
-  final int? port;
-
-  /// The URL that applications should use to connect to the endpoint. The default
-  /// ports are 8111 for the "dax" protocol and 9111 for the "daxs" protocol.
-  final String? url;
-
-  Endpoint({
-    this.address,
-    this.port,
-    this.url,
-  });
-
-  factory Endpoint.fromJson(Map<String, dynamic> json) {
-    return Endpoint(
-      address: json['Address'] as String?,
-      port: json['Port'] as int?,
-      url: json['URL'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final address = this.address;
-    final port = this.port;
-    final url = this.url;
-    return {
-      if (address != null) 'Address': address,
-      if (port != null) 'Port': port,
-      if (url != null) 'URL': url,
-    };
-  }
-}
-
-/// Represents a single occurrence of something interesting within the system.
-/// Some examples of events are creating a DAX cluster, adding or removing a
-/// node, or rebooting a node.
-class Event {
-  /// The date and time when the event occurred.
-  final DateTime? date;
-
-  /// A user-defined message associated with the event.
-  final String? message;
-
-  /// The source of the event. For example, if the event occurred at the node
-  /// level, the source would be the node ID.
-  final String? sourceName;
-
-  /// Specifies the origin of this event - a cluster, a parameter group, a node
-  /// ID, etc.
-  final SourceType? sourceType;
-
-  Event({
-    this.date,
-    this.message,
-    this.sourceName,
-    this.sourceType,
-  });
-
-  factory Event.fromJson(Map<String, dynamic> json) {
-    return Event(
-      date: timeStampFromJson(json['Date']),
-      message: json['Message'] as String?,
-      sourceName: json['SourceName'] as String?,
-      sourceType: (json['SourceType'] as String?)?.let(SourceType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final date = this.date;
-    final message = this.message;
-    final sourceName = this.sourceName;
-    final sourceType = this.sourceType;
-    return {
-      if (date != null) 'Date': unixTimestampToJson(date),
-      if (message != null) 'Message': message,
-      if (sourceName != null) 'SourceName': sourceName,
-      if (sourceType != null) 'SourceType': sourceType.value,
-    };
-  }
-}
-
 class IncreaseReplicationFactorResponse {
-  /// A description of the DAX cluster. with its new replication factor.
+  /// A description of the DAX cluster, with its new replication factor.
   final Cluster? cluster;
 
   IncreaseReplicationFactorResponse({
@@ -1897,30 +1596,6 @@ class IncreaseReplicationFactorResponse {
       if (cluster != null) 'Cluster': cluster,
     };
   }
-}
-
-class IsModifiable {
-  static const $true = IsModifiable._('TRUE');
-  static const $false = IsModifiable._('FALSE');
-  static const conditional = IsModifiable._('CONDITIONAL');
-
-  final String value;
-
-  const IsModifiable._(this.value);
-
-  static const values = [$true, $false, conditional];
-
-  static IsModifiable fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => IsModifiable._(value));
-
-  @override
-  bool operator ==(other) => other is IsModifiable && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class ListTagsResponse {
@@ -1957,351 +1632,6 @@ class ListTagsResponse {
   }
 }
 
-/// Represents an individual node within a DAX cluster.
-class Node {
-  /// The Availability Zone (AZ) in which the node has been deployed.
-  final String? availabilityZone;
-
-  /// The endpoint for the node, consisting of a DNS name and a port number.
-  /// Client applications can connect directly to a node endpoint, if desired (as
-  /// an alternative to allowing DAX client software to intelligently route
-  /// requests and responses to nodes in the DAX cluster.
-  final Endpoint? endpoint;
-
-  /// The date and time (in UNIX epoch format) when the node was launched.
-  final DateTime? nodeCreateTime;
-
-  /// A system-generated identifier for the node.
-  final String? nodeId;
-
-  /// The current status of the node. For example: <code>available</code>.
-  final String? nodeStatus;
-
-  /// The status of the parameter group associated with this node. For example,
-  /// <code>in-sync</code>.
-  final String? parameterGroupStatus;
-
-  Node({
-    this.availabilityZone,
-    this.endpoint,
-    this.nodeCreateTime,
-    this.nodeId,
-    this.nodeStatus,
-    this.parameterGroupStatus,
-  });
-
-  factory Node.fromJson(Map<String, dynamic> json) {
-    return Node(
-      availabilityZone: json['AvailabilityZone'] as String?,
-      endpoint: json['Endpoint'] != null
-          ? Endpoint.fromJson(json['Endpoint'] as Map<String, dynamic>)
-          : null,
-      nodeCreateTime: timeStampFromJson(json['NodeCreateTime']),
-      nodeId: json['NodeId'] as String?,
-      nodeStatus: json['NodeStatus'] as String?,
-      parameterGroupStatus: json['ParameterGroupStatus'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final availabilityZone = this.availabilityZone;
-    final endpoint = this.endpoint;
-    final nodeCreateTime = this.nodeCreateTime;
-    final nodeId = this.nodeId;
-    final nodeStatus = this.nodeStatus;
-    final parameterGroupStatus = this.parameterGroupStatus;
-    return {
-      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
-      if (endpoint != null) 'Endpoint': endpoint,
-      if (nodeCreateTime != null)
-        'NodeCreateTime': unixTimestampToJson(nodeCreateTime),
-      if (nodeId != null) 'NodeId': nodeId,
-      if (nodeStatus != null) 'NodeStatus': nodeStatus,
-      if (parameterGroupStatus != null)
-        'ParameterGroupStatus': parameterGroupStatus,
-    };
-  }
-}
-
-/// Represents a parameter value that is applicable to a particular node type.
-class NodeTypeSpecificValue {
-  /// A node type to which the parameter value applies.
-  final String? nodeType;
-
-  /// The parameter value for this node type.
-  final String? value;
-
-  NodeTypeSpecificValue({
-    this.nodeType,
-    this.value,
-  });
-
-  factory NodeTypeSpecificValue.fromJson(Map<String, dynamic> json) {
-    return NodeTypeSpecificValue(
-      nodeType: json['NodeType'] as String?,
-      value: json['Value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nodeType = this.nodeType;
-    final value = this.value;
-    return {
-      if (nodeType != null) 'NodeType': nodeType,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-/// Describes a notification topic and its status. Notification topics are used
-/// for publishing DAX events to subscribers using Amazon Simple Notification
-/// Service (SNS).
-class NotificationConfiguration {
-  /// The Amazon Resource Name (ARN) that identifies the topic.
-  final String? topicArn;
-
-  /// The current state of the topic. A value of “active” means that notifications
-  /// will be sent to the topic. A value of “inactive” means that notifications
-  /// will not be sent to the topic.
-  final String? topicStatus;
-
-  NotificationConfiguration({
-    this.topicArn,
-    this.topicStatus,
-  });
-
-  factory NotificationConfiguration.fromJson(Map<String, dynamic> json) {
-    return NotificationConfiguration(
-      topicArn: json['TopicArn'] as String?,
-      topicStatus: json['TopicStatus'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final topicArn = this.topicArn;
-    final topicStatus = this.topicStatus;
-    return {
-      if (topicArn != null) 'TopicArn': topicArn,
-      if (topicStatus != null) 'TopicStatus': topicStatus,
-    };
-  }
-}
-
-/// Describes an individual setting that controls some aspect of DAX behavior.
-class Parameter {
-  /// A range of values within which the parameter can be set.
-  final String? allowedValues;
-
-  /// The conditions under which changes to this parameter can be applied. For
-  /// example, <code>requires-reboot</code> indicates that a new value for this
-  /// parameter will only take effect if a node is rebooted.
-  final ChangeType? changeType;
-
-  /// The data type of the parameter. For example, <code>integer</code>:
-  final String? dataType;
-
-  /// A description of the parameter
-  final String? description;
-
-  /// Whether the customer is allowed to modify the parameter.
-  final IsModifiable? isModifiable;
-
-  /// A list of node types, and specific parameter values for each node.
-  final List<NodeTypeSpecificValue>? nodeTypeSpecificValues;
-
-  /// The name of the parameter.
-  final String? parameterName;
-
-  /// Determines whether the parameter can be applied to any nodes, or only nodes
-  /// of a particular type.
-  final ParameterType? parameterType;
-
-  /// The value for the parameter.
-  final String? parameterValue;
-
-  /// How the parameter is defined. For example, <code>system</code> denotes a
-  /// system-defined parameter.
-  final String? source;
-
-  Parameter({
-    this.allowedValues,
-    this.changeType,
-    this.dataType,
-    this.description,
-    this.isModifiable,
-    this.nodeTypeSpecificValues,
-    this.parameterName,
-    this.parameterType,
-    this.parameterValue,
-    this.source,
-  });
-
-  factory Parameter.fromJson(Map<String, dynamic> json) {
-    return Parameter(
-      allowedValues: json['AllowedValues'] as String?,
-      changeType: (json['ChangeType'] as String?)?.let(ChangeType.fromString),
-      dataType: json['DataType'] as String?,
-      description: json['Description'] as String?,
-      isModifiable:
-          (json['IsModifiable'] as String?)?.let(IsModifiable.fromString),
-      nodeTypeSpecificValues: (json['NodeTypeSpecificValues'] as List?)
-          ?.nonNulls
-          .map((e) => NodeTypeSpecificValue.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      parameterName: json['ParameterName'] as String?,
-      parameterType:
-          (json['ParameterType'] as String?)?.let(ParameterType.fromString),
-      parameterValue: json['ParameterValue'] as String?,
-      source: json['Source'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final allowedValues = this.allowedValues;
-    final changeType = this.changeType;
-    final dataType = this.dataType;
-    final description = this.description;
-    final isModifiable = this.isModifiable;
-    final nodeTypeSpecificValues = this.nodeTypeSpecificValues;
-    final parameterName = this.parameterName;
-    final parameterType = this.parameterType;
-    final parameterValue = this.parameterValue;
-    final source = this.source;
-    return {
-      if (allowedValues != null) 'AllowedValues': allowedValues,
-      if (changeType != null) 'ChangeType': changeType.value,
-      if (dataType != null) 'DataType': dataType,
-      if (description != null) 'Description': description,
-      if (isModifiable != null) 'IsModifiable': isModifiable.value,
-      if (nodeTypeSpecificValues != null)
-        'NodeTypeSpecificValues': nodeTypeSpecificValues,
-      if (parameterName != null) 'ParameterName': parameterName,
-      if (parameterType != null) 'ParameterType': parameterType.value,
-      if (parameterValue != null) 'ParameterValue': parameterValue,
-      if (source != null) 'Source': source,
-    };
-  }
-}
-
-/// A named set of parameters that are applied to all of the nodes in a DAX
-/// cluster.
-class ParameterGroup {
-  /// A description of the parameter group.
-  final String? description;
-
-  /// The name of the parameter group.
-  final String? parameterGroupName;
-
-  ParameterGroup({
-    this.description,
-    this.parameterGroupName,
-  });
-
-  factory ParameterGroup.fromJson(Map<String, dynamic> json) {
-    return ParameterGroup(
-      description: json['Description'] as String?,
-      parameterGroupName: json['ParameterGroupName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final parameterGroupName = this.parameterGroupName;
-    return {
-      if (description != null) 'Description': description,
-      if (parameterGroupName != null) 'ParameterGroupName': parameterGroupName,
-    };
-  }
-}
-
-/// The status of a parameter group.
-class ParameterGroupStatus {
-  /// The node IDs of one or more nodes to be rebooted.
-  final List<String>? nodeIdsToReboot;
-
-  /// The status of parameter updates.
-  final String? parameterApplyStatus;
-
-  /// The name of the parameter group.
-  final String? parameterGroupName;
-
-  ParameterGroupStatus({
-    this.nodeIdsToReboot,
-    this.parameterApplyStatus,
-    this.parameterGroupName,
-  });
-
-  factory ParameterGroupStatus.fromJson(Map<String, dynamic> json) {
-    return ParameterGroupStatus(
-      nodeIdsToReboot: (json['NodeIdsToReboot'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      parameterApplyStatus: json['ParameterApplyStatus'] as String?,
-      parameterGroupName: json['ParameterGroupName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nodeIdsToReboot = this.nodeIdsToReboot;
-    final parameterApplyStatus = this.parameterApplyStatus;
-    final parameterGroupName = this.parameterGroupName;
-    return {
-      if (nodeIdsToReboot != null) 'NodeIdsToReboot': nodeIdsToReboot,
-      if (parameterApplyStatus != null)
-        'ParameterApplyStatus': parameterApplyStatus,
-      if (parameterGroupName != null) 'ParameterGroupName': parameterGroupName,
-    };
-  }
-}
-
-/// An individual DAX parameter.
-class ParameterNameValue {
-  /// The name of the parameter.
-  final String? parameterName;
-
-  /// The value of the parameter.
-  final String? parameterValue;
-
-  ParameterNameValue({
-    this.parameterName,
-    this.parameterValue,
-  });
-
-  Map<String, dynamic> toJson() {
-    final parameterName = this.parameterName;
-    final parameterValue = this.parameterValue;
-    return {
-      if (parameterName != null) 'ParameterName': parameterName,
-      if (parameterValue != null) 'ParameterValue': parameterValue,
-    };
-  }
-}
-
-class ParameterType {
-  static const $default = ParameterType._('DEFAULT');
-  static const nodeTypeSpecific = ParameterType._('NODE_TYPE_SPECIFIC');
-
-  final String value;
-
-  const ParameterType._(this.value);
-
-  static const values = [$default, nodeTypeSpecific];
-
-  static ParameterType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ParameterType._(value));
-
-  @override
-  bool operator ==(other) => other is ParameterType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class RebootNodeResponse {
   /// A description of the DAX cluster after a node has been rebooted.
   final Cluster? cluster;
@@ -2322,272 +1652,6 @@ class RebootNodeResponse {
     final cluster = this.cluster;
     return {
       if (cluster != null) 'Cluster': cluster,
-    };
-  }
-}
-
-/// The description of the server-side encryption status on the specified DAX
-/// cluster.
-class SSEDescription {
-  /// The current state of server-side encryption:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ENABLING</code> - Server-side encryption is being enabled.
-  /// </li>
-  /// <li>
-  /// <code>ENABLED</code> - Server-side encryption is enabled.
-  /// </li>
-  /// <li>
-  /// <code>DISABLING</code> - Server-side encryption is being disabled.
-  /// </li>
-  /// <li>
-  /// <code>DISABLED</code> - Server-side encryption is disabled.
-  /// </li>
-  /// </ul>
-  final SSEStatus? status;
-
-  SSEDescription({
-    this.status,
-  });
-
-  factory SSEDescription.fromJson(Map<String, dynamic> json) {
-    return SSEDescription(
-      status: (json['Status'] as String?)?.let(SSEStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final status = this.status;
-    return {
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-/// Represents the settings used to enable server-side encryption.
-class SSESpecification {
-  /// Indicates whether server-side encryption is enabled (true) or disabled
-  /// (false) on the cluster.
-  final bool enabled;
-
-  SSESpecification({
-    required this.enabled,
-  });
-
-  Map<String, dynamic> toJson() {
-    final enabled = this.enabled;
-    return {
-      'Enabled': enabled,
-    };
-  }
-}
-
-class SSEStatus {
-  static const enabling = SSEStatus._('ENABLING');
-  static const enabled = SSEStatus._('ENABLED');
-  static const disabling = SSEStatus._('DISABLING');
-  static const disabled = SSEStatus._('DISABLED');
-
-  final String value;
-
-  const SSEStatus._(this.value);
-
-  static const values = [enabling, enabled, disabling, disabled];
-
-  static SSEStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SSEStatus._(value));
-
-  @override
-  bool operator ==(other) => other is SSEStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An individual VPC security group and its status.
-class SecurityGroupMembership {
-  /// The unique ID for this security group.
-  final String? securityGroupIdentifier;
-
-  /// The status of this security group.
-  final String? status;
-
-  SecurityGroupMembership({
-    this.securityGroupIdentifier,
-    this.status,
-  });
-
-  factory SecurityGroupMembership.fromJson(Map<String, dynamic> json) {
-    return SecurityGroupMembership(
-      securityGroupIdentifier: json['SecurityGroupIdentifier'] as String?,
-      status: json['Status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final securityGroupIdentifier = this.securityGroupIdentifier;
-    final status = this.status;
-    return {
-      if (securityGroupIdentifier != null)
-        'SecurityGroupIdentifier': securityGroupIdentifier,
-      if (status != null) 'Status': status,
-    };
-  }
-}
-
-class SourceType {
-  static const cluster = SourceType._('CLUSTER');
-  static const parameterGroup = SourceType._('PARAMETER_GROUP');
-  static const subnetGroup = SourceType._('SUBNET_GROUP');
-
-  final String value;
-
-  const SourceType._(this.value);
-
-  static const values = [cluster, parameterGroup, subnetGroup];
-
-  static SourceType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SourceType._(value));
-
-  @override
-  bool operator ==(other) => other is SourceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents the subnet associated with a DAX cluster. This parameter refers
-/// to subnets defined in Amazon Virtual Private Cloud (Amazon VPC) and used
-/// with DAX.
-class Subnet {
-  /// The Availability Zone (AZ) for the subnet.
-  final String? subnetAvailabilityZone;
-
-  /// The system-assigned identifier for the subnet.
-  final String? subnetIdentifier;
-
-  Subnet({
-    this.subnetAvailabilityZone,
-    this.subnetIdentifier,
-  });
-
-  factory Subnet.fromJson(Map<String, dynamic> json) {
-    return Subnet(
-      subnetAvailabilityZone: json['SubnetAvailabilityZone'] as String?,
-      subnetIdentifier: json['SubnetIdentifier'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final subnetAvailabilityZone = this.subnetAvailabilityZone;
-    final subnetIdentifier = this.subnetIdentifier;
-    return {
-      if (subnetAvailabilityZone != null)
-        'SubnetAvailabilityZone': subnetAvailabilityZone,
-      if (subnetIdentifier != null) 'SubnetIdentifier': subnetIdentifier,
-    };
-  }
-}
-
-/// Represents the output of one of the following actions:
-///
-/// <ul>
-/// <li>
-/// <i>CreateSubnetGroup</i>
-/// </li>
-/// <li>
-/// <i>ModifySubnetGroup</i>
-/// </li>
-/// </ul>
-class SubnetGroup {
-  /// The description of the subnet group.
-  final String? description;
-
-  /// The name of the subnet group.
-  final String? subnetGroupName;
-
-  /// A list of subnets associated with the subnet group.
-  final List<Subnet>? subnets;
-
-  /// The Amazon Virtual Private Cloud identifier (VPC ID) of the subnet group.
-  final String? vpcId;
-
-  SubnetGroup({
-    this.description,
-    this.subnetGroupName,
-    this.subnets,
-    this.vpcId,
-  });
-
-  factory SubnetGroup.fromJson(Map<String, dynamic> json) {
-    return SubnetGroup(
-      description: json['Description'] as String?,
-      subnetGroupName: json['SubnetGroupName'] as String?,
-      subnets: (json['Subnets'] as List?)
-          ?.nonNulls
-          .map((e) => Subnet.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      vpcId: json['VpcId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final subnetGroupName = this.subnetGroupName;
-    final subnets = this.subnets;
-    final vpcId = this.vpcId;
-    return {
-      if (description != null) 'Description': description,
-      if (subnetGroupName != null) 'SubnetGroupName': subnetGroupName,
-      if (subnets != null) 'Subnets': subnets,
-      if (vpcId != null) 'VpcId': vpcId,
-    };
-  }
-}
-
-/// A description of a tag. Every tag is a key-value pair. You can add up to 50
-/// tags to a single DAX cluster.
-///
-/// AWS-assigned tag names and values are automatically assigned the
-/// <code>aws:</code> prefix, which the user cannot assign. AWS-assigned tag
-/// names do not count towards the tag limit of 50. User-assigned tag names have
-/// the prefix <code>user:</code>.
-///
-/// You cannot backdate the application of a tag.
-class Tag {
-  /// The key for the tag. Tag keys are case sensitive. Every DAX cluster can only
-  /// have one tag with the same key. If you try to add an existing tag (same
-  /// key), the existing tag value will be updated to the new value.
-  final String? key;
-
-  /// The value of the tag. Tag values are case-sensitive and can be null.
-  final String? value;
-
-  Tag({
-    this.key,
-    this.value,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: json['Key'] as String?,
-      value: json['Value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      if (key != null) 'Key': key,
-      if (value != null) 'Value': value,
     };
   }
 }
@@ -2711,6 +1775,1040 @@ class UpdateSubnetGroupResponse {
     final subnetGroup = this.subnetGroup;
     return {
       if (subnetGroup != null) 'SubnetGroup': subnetGroup,
+    };
+  }
+}
+
+/// Represents the output of one of the following actions:
+///
+/// <ul>
+/// <li>
+/// <i>CreateSubnetGroup</i>
+/// </li>
+/// <li>
+/// <i>ModifySubnetGroup</i>
+/// </li>
+/// </ul>
+class SubnetGroup {
+  /// The description of the subnet group.
+  final String? description;
+
+  /// The name of the subnet group.
+  final String? subnetGroupName;
+
+  /// A list of subnets associated with the subnet group.
+  final List<Subnet>? subnets;
+
+  /// The network types supported by this subnet. Returns an array of strings that
+  /// can include <code>ipv4</code>, <code>ipv6</code>, or both, indicating
+  /// whether the subnet group supports IPv4 only, IPv6 only, or dual-stack
+  /// deployments.
+  final List<NetworkType>? supportedNetworkTypes;
+
+  /// The Amazon Virtual Private Cloud identifier (VPC ID) of the subnet group.
+  final String? vpcId;
+
+  SubnetGroup({
+    this.description,
+    this.subnetGroupName,
+    this.subnets,
+    this.supportedNetworkTypes,
+    this.vpcId,
+  });
+
+  factory SubnetGroup.fromJson(Map<String, dynamic> json) {
+    return SubnetGroup(
+      description: json['Description'] as String?,
+      subnetGroupName: json['SubnetGroupName'] as String?,
+      subnets: (json['Subnets'] as List?)
+          ?.nonNulls
+          .map((e) => Subnet.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      supportedNetworkTypes: (json['SupportedNetworkTypes'] as List?)
+          ?.nonNulls
+          .map((e) => NetworkType.fromString((e as String)))
+          .toList(),
+      vpcId: json['VpcId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final subnetGroupName = this.subnetGroupName;
+    final subnets = this.subnets;
+    final supportedNetworkTypes = this.supportedNetworkTypes;
+    final vpcId = this.vpcId;
+    return {
+      if (description != null) 'Description': description,
+      if (subnetGroupName != null) 'SubnetGroupName': subnetGroupName,
+      if (subnets != null) 'Subnets': subnets,
+      if (supportedNetworkTypes != null)
+        'SupportedNetworkTypes':
+            supportedNetworkTypes.map((e) => e.value).toList(),
+      if (vpcId != null) 'VpcId': vpcId,
+    };
+  }
+}
+
+class NetworkType {
+  static const ipv4 = NetworkType._('ipv4');
+  static const ipv6 = NetworkType._('ipv6');
+  static const dualStack = NetworkType._('dual_stack');
+
+  final String value;
+
+  const NetworkType._(this.value);
+
+  static const values = [ipv4, ipv6, dualStack];
+
+  static NetworkType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => NetworkType._(value));
+
+  @override
+  bool operator ==(other) => other is NetworkType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the subnet associated with a DAX cluster. This parameter refers
+/// to subnets defined in Amazon Virtual Private Cloud (Amazon VPC) and used
+/// with DAX.
+class Subnet {
+  /// The Availability Zone (AZ) for the subnet.
+  final String? subnetAvailabilityZone;
+
+  /// The system-assigned identifier for the subnet.
+  final String? subnetIdentifier;
+
+  /// The network types supported by this subnet. Returns an array of strings that
+  /// can include <code>ipv4</code>, <code>ipv6</code>, or both, indicating
+  /// whether the subnet supports IPv4 only, IPv6 only, or dual-stack deployments.
+  final List<NetworkType>? supportedNetworkTypes;
+
+  Subnet({
+    this.subnetAvailabilityZone,
+    this.subnetIdentifier,
+    this.supportedNetworkTypes,
+  });
+
+  factory Subnet.fromJson(Map<String, dynamic> json) {
+    return Subnet(
+      subnetAvailabilityZone: json['SubnetAvailabilityZone'] as String?,
+      subnetIdentifier: json['SubnetIdentifier'] as String?,
+      supportedNetworkTypes: (json['SupportedNetworkTypes'] as List?)
+          ?.nonNulls
+          .map((e) => NetworkType.fromString((e as String)))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final subnetAvailabilityZone = this.subnetAvailabilityZone;
+    final subnetIdentifier = this.subnetIdentifier;
+    final supportedNetworkTypes = this.supportedNetworkTypes;
+    return {
+      if (subnetAvailabilityZone != null)
+        'SubnetAvailabilityZone': subnetAvailabilityZone,
+      if (subnetIdentifier != null) 'SubnetIdentifier': subnetIdentifier,
+      if (supportedNetworkTypes != null)
+        'SupportedNetworkTypes':
+            supportedNetworkTypes.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// A named set of parameters that are applied to all of the nodes in a DAX
+/// cluster.
+class ParameterGroup {
+  /// A description of the parameter group.
+  final String? description;
+
+  /// The name of the parameter group.
+  final String? parameterGroupName;
+
+  ParameterGroup({
+    this.description,
+    this.parameterGroupName,
+  });
+
+  factory ParameterGroup.fromJson(Map<String, dynamic> json) {
+    return ParameterGroup(
+      description: json['Description'] as String?,
+      parameterGroupName: json['ParameterGroupName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final parameterGroupName = this.parameterGroupName;
+    return {
+      if (description != null) 'Description': description,
+      if (parameterGroupName != null) 'ParameterGroupName': parameterGroupName,
+    };
+  }
+}
+
+/// An individual DAX parameter.
+class ParameterNameValue {
+  /// The name of the parameter.
+  final String? parameterName;
+
+  /// The value of the parameter.
+  final String? parameterValue;
+
+  ParameterNameValue({
+    this.parameterName,
+    this.parameterValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final parameterName = this.parameterName;
+    final parameterValue = this.parameterValue;
+    return {
+      if (parameterName != null) 'ParameterName': parameterName,
+      if (parameterValue != null) 'ParameterValue': parameterValue,
+    };
+  }
+}
+
+/// Contains all of the attributes of a specific DAX cluster.
+class Cluster {
+  /// The number of nodes in the cluster that are active (i.e., capable of serving
+  /// requests).
+  final int? activeNodes;
+
+  /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+  final String? clusterArn;
+
+  /// The endpoint for this DAX cluster, consisting of a DNS name, a port number,
+  /// and a URL. Applications should use the URL to configure the DAX client to
+  /// find their cluster.
+  final Endpoint? clusterDiscoveryEndpoint;
+
+  /// The type of encryption supported by the cluster's endpoint. Values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>NONE</code> for no encryption
+  ///
+  /// <code>TLS</code> for Transport Layer Security
+  /// </li>
+  /// </ul>
+  final ClusterEndpointEncryptionType? clusterEndpointEncryptionType;
+
+  /// The name of the DAX cluster.
+  final String? clusterName;
+
+  /// The description of the cluster.
+  final String? description;
+
+  /// A valid Amazon Resource Name (ARN) that identifies an IAM role. At runtime,
+  /// DAX will assume this role and use the role's permissions to access DynamoDB
+  /// on your behalf.
+  final String? iamRoleArn;
+
+  /// The IP address type of the cluster. Values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ipv4</code> - IPv4 addresses only
+  /// </li>
+  /// <li>
+  /// <code>ipv6</code> - IPv6 addresses only
+  /// </li>
+  /// <li>
+  /// <code>dual_stack</code> - Both IPv4 and IPv6 addresses
+  /// </li>
+  /// </ul>
+  final NetworkType? networkType;
+
+  /// A list of nodes to be removed from the cluster.
+  final List<String>? nodeIdsToRemove;
+
+  /// The node type for the nodes in the cluster. (All nodes in a DAX cluster are
+  /// of the same type.)
+  final String? nodeType;
+
+  /// A list of nodes that are currently in the cluster.
+  final List<Node>? nodes;
+
+  /// Describes a notification topic and its status. Notification topics are used
+  /// for publishing DAX events to subscribers using Amazon Simple Notification
+  /// Service (SNS).
+  final NotificationConfiguration? notificationConfiguration;
+
+  /// The parameter group being used by nodes in the cluster.
+  final ParameterGroupStatus? parameterGroup;
+
+  /// A range of time when maintenance of DAX cluster software will be performed.
+  /// For example: <code>sun:01:00-sun:09:00</code>. Cluster maintenance normally
+  /// takes less than 30 minutes, and is performed automatically within the
+  /// maintenance window.
+  final String? preferredMaintenanceWindow;
+
+  /// The description of the server-side encryption status on the specified DAX
+  /// cluster.
+  final SSEDescription? sSEDescription;
+
+  /// A list of security groups, and the status of each, for the nodes in the
+  /// cluster.
+  final List<SecurityGroupMembership>? securityGroups;
+
+  /// The current status of the cluster.
+  final String? status;
+
+  /// The subnet group where the DAX cluster is running.
+  final String? subnetGroup;
+
+  /// The total number of nodes in the cluster.
+  final int? totalNodes;
+
+  Cluster({
+    this.activeNodes,
+    this.clusterArn,
+    this.clusterDiscoveryEndpoint,
+    this.clusterEndpointEncryptionType,
+    this.clusterName,
+    this.description,
+    this.iamRoleArn,
+    this.networkType,
+    this.nodeIdsToRemove,
+    this.nodeType,
+    this.nodes,
+    this.notificationConfiguration,
+    this.parameterGroup,
+    this.preferredMaintenanceWindow,
+    this.sSEDescription,
+    this.securityGroups,
+    this.status,
+    this.subnetGroup,
+    this.totalNodes,
+  });
+
+  factory Cluster.fromJson(Map<String, dynamic> json) {
+    return Cluster(
+      activeNodes: json['ActiveNodes'] as int?,
+      clusterArn: json['ClusterArn'] as String?,
+      clusterDiscoveryEndpoint: json['ClusterDiscoveryEndpoint'] != null
+          ? Endpoint.fromJson(
+              json['ClusterDiscoveryEndpoint'] as Map<String, dynamic>)
+          : null,
+      clusterEndpointEncryptionType:
+          (json['ClusterEndpointEncryptionType'] as String?)
+              ?.let(ClusterEndpointEncryptionType.fromString),
+      clusterName: json['ClusterName'] as String?,
+      description: json['Description'] as String?,
+      iamRoleArn: json['IamRoleArn'] as String?,
+      networkType:
+          (json['NetworkType'] as String?)?.let(NetworkType.fromString),
+      nodeIdsToRemove: (json['NodeIdsToRemove'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      nodeType: json['NodeType'] as String?,
+      nodes: (json['Nodes'] as List?)
+          ?.nonNulls
+          .map((e) => Node.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      notificationConfiguration: json['NotificationConfiguration'] != null
+          ? NotificationConfiguration.fromJson(
+              json['NotificationConfiguration'] as Map<String, dynamic>)
+          : null,
+      parameterGroup: json['ParameterGroup'] != null
+          ? ParameterGroupStatus.fromJson(
+              json['ParameterGroup'] as Map<String, dynamic>)
+          : null,
+      preferredMaintenanceWindow: json['PreferredMaintenanceWindow'] as String?,
+      sSEDescription: json['SSEDescription'] != null
+          ? SSEDescription.fromJson(
+              json['SSEDescription'] as Map<String, dynamic>)
+          : null,
+      securityGroups: (json['SecurityGroups'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              SecurityGroupMembership.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status: json['Status'] as String?,
+      subnetGroup: json['SubnetGroup'] as String?,
+      totalNodes: json['TotalNodes'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activeNodes = this.activeNodes;
+    final clusterArn = this.clusterArn;
+    final clusterDiscoveryEndpoint = this.clusterDiscoveryEndpoint;
+    final clusterEndpointEncryptionType = this.clusterEndpointEncryptionType;
+    final clusterName = this.clusterName;
+    final description = this.description;
+    final iamRoleArn = this.iamRoleArn;
+    final networkType = this.networkType;
+    final nodeIdsToRemove = this.nodeIdsToRemove;
+    final nodeType = this.nodeType;
+    final nodes = this.nodes;
+    final notificationConfiguration = this.notificationConfiguration;
+    final parameterGroup = this.parameterGroup;
+    final preferredMaintenanceWindow = this.preferredMaintenanceWindow;
+    final sSEDescription = this.sSEDescription;
+    final securityGroups = this.securityGroups;
+    final status = this.status;
+    final subnetGroup = this.subnetGroup;
+    final totalNodes = this.totalNodes;
+    return {
+      if (activeNodes != null) 'ActiveNodes': activeNodes,
+      if (clusterArn != null) 'ClusterArn': clusterArn,
+      if (clusterDiscoveryEndpoint != null)
+        'ClusterDiscoveryEndpoint': clusterDiscoveryEndpoint,
+      if (clusterEndpointEncryptionType != null)
+        'ClusterEndpointEncryptionType': clusterEndpointEncryptionType.value,
+      if (clusterName != null) 'ClusterName': clusterName,
+      if (description != null) 'Description': description,
+      if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
+      if (networkType != null) 'NetworkType': networkType.value,
+      if (nodeIdsToRemove != null) 'NodeIdsToRemove': nodeIdsToRemove,
+      if (nodeType != null) 'NodeType': nodeType,
+      if (nodes != null) 'Nodes': nodes,
+      if (notificationConfiguration != null)
+        'NotificationConfiguration': notificationConfiguration,
+      if (parameterGroup != null) 'ParameterGroup': parameterGroup,
+      if (preferredMaintenanceWindow != null)
+        'PreferredMaintenanceWindow': preferredMaintenanceWindow,
+      if (sSEDescription != null) 'SSEDescription': sSEDescription,
+      if (securityGroups != null) 'SecurityGroups': securityGroups,
+      if (status != null) 'Status': status,
+      if (subnetGroup != null) 'SubnetGroup': subnetGroup,
+      if (totalNodes != null) 'TotalNodes': totalNodes,
+    };
+  }
+}
+
+/// Represents the information required for client programs to connect to the
+/// endpoint for a DAX cluster.
+class Endpoint {
+  /// The DNS hostname of the endpoint.
+  final String? address;
+
+  /// The port number that applications should use to connect to the endpoint.
+  final int? port;
+
+  /// The URL that applications should use to connect to the endpoint. The default
+  /// ports are 8111 for the "dax" protocol and 9111 for the "daxs" protocol.
+  final String? url;
+
+  Endpoint({
+    this.address,
+    this.port,
+    this.url,
+  });
+
+  factory Endpoint.fromJson(Map<String, dynamic> json) {
+    return Endpoint(
+      address: json['Address'] as String?,
+      port: json['Port'] as int?,
+      url: json['URL'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final address = this.address;
+    final port = this.port;
+    final url = this.url;
+    return {
+      if (address != null) 'Address': address,
+      if (port != null) 'Port': port,
+      if (url != null) 'URL': url,
+    };
+  }
+}
+
+/// Describes a notification topic and its status. Notification topics are used
+/// for publishing DAX events to subscribers using Amazon Simple Notification
+/// Service (SNS).
+class NotificationConfiguration {
+  /// The Amazon Resource Name (ARN) that identifies the topic.
+  final String? topicArn;
+
+  /// The current state of the topic. A value of “active” means that notifications
+  /// will be sent to the topic. A value of “inactive” means that notifications
+  /// will not be sent to the topic.
+  final String? topicStatus;
+
+  NotificationConfiguration({
+    this.topicArn,
+    this.topicStatus,
+  });
+
+  factory NotificationConfiguration.fromJson(Map<String, dynamic> json) {
+    return NotificationConfiguration(
+      topicArn: json['TopicArn'] as String?,
+      topicStatus: json['TopicStatus'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final topicArn = this.topicArn;
+    final topicStatus = this.topicStatus;
+    return {
+      if (topicArn != null) 'TopicArn': topicArn,
+      if (topicStatus != null) 'TopicStatus': topicStatus,
+    };
+  }
+}
+
+/// The status of a parameter group.
+class ParameterGroupStatus {
+  /// The node IDs of one or more nodes to be rebooted.
+  final List<String>? nodeIdsToReboot;
+
+  /// The status of parameter updates.
+  final String? parameterApplyStatus;
+
+  /// The name of the parameter group.
+  final String? parameterGroupName;
+
+  ParameterGroupStatus({
+    this.nodeIdsToReboot,
+    this.parameterApplyStatus,
+    this.parameterGroupName,
+  });
+
+  factory ParameterGroupStatus.fromJson(Map<String, dynamic> json) {
+    return ParameterGroupStatus(
+      nodeIdsToReboot: (json['NodeIdsToReboot'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      parameterApplyStatus: json['ParameterApplyStatus'] as String?,
+      parameterGroupName: json['ParameterGroupName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nodeIdsToReboot = this.nodeIdsToReboot;
+    final parameterApplyStatus = this.parameterApplyStatus;
+    final parameterGroupName = this.parameterGroupName;
+    return {
+      if (nodeIdsToReboot != null) 'NodeIdsToReboot': nodeIdsToReboot,
+      if (parameterApplyStatus != null)
+        'ParameterApplyStatus': parameterApplyStatus,
+      if (parameterGroupName != null) 'ParameterGroupName': parameterGroupName,
+    };
+  }
+}
+
+/// The description of the server-side encryption status on the specified DAX
+/// cluster.
+class SSEDescription {
+  /// The current state of server-side encryption:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ENABLING</code> - Server-side encryption is being enabled.
+  /// </li>
+  /// <li>
+  /// <code>ENABLED</code> - Server-side encryption is enabled.
+  /// </li>
+  /// <li>
+  /// <code>DISABLING</code> - Server-side encryption is being disabled.
+  /// </li>
+  /// <li>
+  /// <code>DISABLED</code> - Server-side encryption is disabled.
+  /// </li>
+  /// </ul>
+  final SSEStatus? status;
+
+  SSEDescription({
+    this.status,
+  });
+
+  factory SSEDescription.fromJson(Map<String, dynamic> json) {
+    return SSEDescription(
+      status: (json['Status'] as String?)?.let(SSEStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class ClusterEndpointEncryptionType {
+  static const none = ClusterEndpointEncryptionType._('NONE');
+  static const tls = ClusterEndpointEncryptionType._('TLS');
+
+  final String value;
+
+  const ClusterEndpointEncryptionType._(this.value);
+
+  static const values = [none, tls];
+
+  static ClusterEndpointEncryptionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ClusterEndpointEncryptionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ClusterEndpointEncryptionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SSEStatus {
+  static const enabling = SSEStatus._('ENABLING');
+  static const enabled = SSEStatus._('ENABLED');
+  static const disabling = SSEStatus._('DISABLING');
+  static const disabled = SSEStatus._('DISABLED');
+
+  final String value;
+
+  const SSEStatus._(this.value);
+
+  static const values = [enabling, enabled, disabling, disabled];
+
+  static SSEStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SSEStatus._(value));
+
+  @override
+  bool operator ==(other) => other is SSEStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An individual VPC security group and its status.
+class SecurityGroupMembership {
+  /// The unique ID for this security group.
+  final String? securityGroupIdentifier;
+
+  /// The status of this security group.
+  final String? status;
+
+  SecurityGroupMembership({
+    this.securityGroupIdentifier,
+    this.status,
+  });
+
+  factory SecurityGroupMembership.fromJson(Map<String, dynamic> json) {
+    return SecurityGroupMembership(
+      securityGroupIdentifier: json['SecurityGroupIdentifier'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final securityGroupIdentifier = this.securityGroupIdentifier;
+    final status = this.status;
+    return {
+      if (securityGroupIdentifier != null)
+        'SecurityGroupIdentifier': securityGroupIdentifier,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
+/// Represents an individual node within a DAX cluster.
+class Node {
+  /// The Availability Zone (AZ) in which the node has been deployed.
+  final String? availabilityZone;
+
+  /// The endpoint for the node, consisting of a DNS name and a port number.
+  /// Client applications can connect directly to a node endpoint, if desired (as
+  /// an alternative to allowing DAX client software to intelligently route
+  /// requests and responses to nodes in the DAX cluster.
+  final Endpoint? endpoint;
+
+  /// The date and time (in UNIX epoch format) when the node was launched.
+  final DateTime? nodeCreateTime;
+
+  /// A system-generated identifier for the node.
+  final String? nodeId;
+
+  /// The current status of the node. For example: <code>available</code>.
+  final String? nodeStatus;
+
+  /// The status of the parameter group associated with this node. For example,
+  /// <code>in-sync</code>.
+  final String? parameterGroupStatus;
+
+  Node({
+    this.availabilityZone,
+    this.endpoint,
+    this.nodeCreateTime,
+    this.nodeId,
+    this.nodeStatus,
+    this.parameterGroupStatus,
+  });
+
+  factory Node.fromJson(Map<String, dynamic> json) {
+    return Node(
+      availabilityZone: json['AvailabilityZone'] as String?,
+      endpoint: json['Endpoint'] != null
+          ? Endpoint.fromJson(json['Endpoint'] as Map<String, dynamic>)
+          : null,
+      nodeCreateTime: timeStampFromJson(json['NodeCreateTime']),
+      nodeId: json['NodeId'] as String?,
+      nodeStatus: json['NodeStatus'] as String?,
+      parameterGroupStatus: json['ParameterGroupStatus'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZone = this.availabilityZone;
+    final endpoint = this.endpoint;
+    final nodeCreateTime = this.nodeCreateTime;
+    final nodeId = this.nodeId;
+    final nodeStatus = this.nodeStatus;
+    final parameterGroupStatus = this.parameterGroupStatus;
+    return {
+      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+      if (endpoint != null) 'Endpoint': endpoint,
+      if (nodeCreateTime != null)
+        'NodeCreateTime': unixTimestampToJson(nodeCreateTime),
+      if (nodeId != null) 'NodeId': nodeId,
+      if (nodeStatus != null) 'NodeStatus': nodeStatus,
+      if (parameterGroupStatus != null)
+        'ParameterGroupStatus': parameterGroupStatus,
+    };
+  }
+}
+
+/// A description of a tag. Every tag is a key-value pair. You can add up to 50
+/// tags to a single DAX cluster.
+///
+/// Amazon Web Services-assigned tag names and values are automatically assigned
+/// the <code>aws:</code> prefix, which the user cannot assign. Amazon Web
+/// Services-assigned tag names do not count towards the tag limit of 50.
+/// User-assigned tag names have the prefix <code>user:</code>.
+///
+/// You cannot backdate the application of a tag.
+class Tag {
+  /// The key for the tag. Tag keys are case sensitive. Every DAX cluster can only
+  /// have one tag with the same key. If you try to add an existing tag (same
+  /// key), the existing tag value will be updated to the new value.
+  final String? key;
+
+  /// The value of the tag. Tag values are case-sensitive and can be null.
+  final String? value;
+
+  Tag({
+    this.key,
+    this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Describes an individual setting that controls some aspect of DAX behavior.
+class Parameter {
+  /// A range of values within which the parameter can be set.
+  final String? allowedValues;
+
+  /// The conditions under which changes to this parameter can be applied. For
+  /// example, <code>requires-reboot</code> indicates that a new value for this
+  /// parameter will only take effect if a node is rebooted.
+  final ChangeType? changeType;
+
+  /// The data type of the parameter. For example, <code>integer</code>:
+  final String? dataType;
+
+  /// A description of the parameter
+  final String? description;
+
+  /// Whether the customer is allowed to modify the parameter.
+  final IsModifiable? isModifiable;
+
+  /// A list of node types, and specific parameter values for each node.
+  final List<NodeTypeSpecificValue>? nodeTypeSpecificValues;
+
+  /// The name of the parameter.
+  final String? parameterName;
+
+  /// Determines whether the parameter can be applied to any nodes, or only nodes
+  /// of a particular type.
+  final ParameterType? parameterType;
+
+  /// The value for the parameter.
+  final String? parameterValue;
+
+  /// How the parameter is defined. For example, <code>system</code> denotes a
+  /// system-defined parameter.
+  final String? source;
+
+  Parameter({
+    this.allowedValues,
+    this.changeType,
+    this.dataType,
+    this.description,
+    this.isModifiable,
+    this.nodeTypeSpecificValues,
+    this.parameterName,
+    this.parameterType,
+    this.parameterValue,
+    this.source,
+  });
+
+  factory Parameter.fromJson(Map<String, dynamic> json) {
+    return Parameter(
+      allowedValues: json['AllowedValues'] as String?,
+      changeType: (json['ChangeType'] as String?)?.let(ChangeType.fromString),
+      dataType: json['DataType'] as String?,
+      description: json['Description'] as String?,
+      isModifiable:
+          (json['IsModifiable'] as String?)?.let(IsModifiable.fromString),
+      nodeTypeSpecificValues: (json['NodeTypeSpecificValues'] as List?)
+          ?.nonNulls
+          .map((e) => NodeTypeSpecificValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      parameterName: json['ParameterName'] as String?,
+      parameterType:
+          (json['ParameterType'] as String?)?.let(ParameterType.fromString),
+      parameterValue: json['ParameterValue'] as String?,
+      source: json['Source'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedValues = this.allowedValues;
+    final changeType = this.changeType;
+    final dataType = this.dataType;
+    final description = this.description;
+    final isModifiable = this.isModifiable;
+    final nodeTypeSpecificValues = this.nodeTypeSpecificValues;
+    final parameterName = this.parameterName;
+    final parameterType = this.parameterType;
+    final parameterValue = this.parameterValue;
+    final source = this.source;
+    return {
+      if (allowedValues != null) 'AllowedValues': allowedValues,
+      if (changeType != null) 'ChangeType': changeType.value,
+      if (dataType != null) 'DataType': dataType,
+      if (description != null) 'Description': description,
+      if (isModifiable != null) 'IsModifiable': isModifiable.value,
+      if (nodeTypeSpecificValues != null)
+        'NodeTypeSpecificValues': nodeTypeSpecificValues,
+      if (parameterName != null) 'ParameterName': parameterName,
+      if (parameterType != null) 'ParameterType': parameterType.value,
+      if (parameterValue != null) 'ParameterValue': parameterValue,
+      if (source != null) 'Source': source,
+    };
+  }
+}
+
+class ParameterType {
+  static const $default = ParameterType._('DEFAULT');
+  static const nodeTypeSpecific = ParameterType._('NODE_TYPE_SPECIFIC');
+
+  final String value;
+
+  const ParameterType._(this.value);
+
+  static const values = [$default, nodeTypeSpecific];
+
+  static ParameterType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ParameterType._(value));
+
+  @override
+  bool operator ==(other) => other is ParameterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class IsModifiable {
+  static const $true = IsModifiable._('TRUE');
+  static const $false = IsModifiable._('FALSE');
+  static const conditional = IsModifiable._('CONDITIONAL');
+
+  final String value;
+
+  const IsModifiable._(this.value);
+
+  static const values = [$true, $false, conditional];
+
+  static IsModifiable fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IsModifiable._(value));
+
+  @override
+  bool operator ==(other) => other is IsModifiable && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ChangeType {
+  static const immediate = ChangeType._('IMMEDIATE');
+  static const requiresReboot = ChangeType._('REQUIRES_REBOOT');
+
+  final String value;
+
+  const ChangeType._(this.value);
+
+  static const values = [immediate, requiresReboot];
+
+  static ChangeType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChangeType._(value));
+
+  @override
+  bool operator ==(other) => other is ChangeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents a parameter value that is applicable to a particular node type.
+class NodeTypeSpecificValue {
+  /// A node type to which the parameter value applies.
+  final String? nodeType;
+
+  /// The parameter value for this node type.
+  final String? value;
+
+  NodeTypeSpecificValue({
+    this.nodeType,
+    this.value,
+  });
+
+  factory NodeTypeSpecificValue.fromJson(Map<String, dynamic> json) {
+    return NodeTypeSpecificValue(
+      nodeType: json['NodeType'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nodeType = this.nodeType;
+    final value = this.value;
+    return {
+      if (nodeType != null) 'NodeType': nodeType,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Represents a single occurrence of something interesting within the system.
+/// Some examples of events are creating a DAX cluster, adding or removing a
+/// node, or rebooting a node.
+class Event {
+  /// The date and time when the event occurred.
+  final DateTime? date;
+
+  /// A user-defined message associated with the event.
+  final String? message;
+
+  /// The source of the event. For example, if the event occurred at the node
+  /// level, the source would be the node ID.
+  final String? sourceName;
+
+  /// Specifies the origin of this event - a cluster, a parameter group, a node
+  /// ID, etc.
+  final SourceType? sourceType;
+
+  Event({
+    this.date,
+    this.message,
+    this.sourceName,
+    this.sourceType,
+  });
+
+  factory Event.fromJson(Map<String, dynamic> json) {
+    return Event(
+      date: timeStampFromJson(json['Date']),
+      message: json['Message'] as String?,
+      sourceName: json['SourceName'] as String?,
+      sourceType: (json['SourceType'] as String?)?.let(SourceType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final date = this.date;
+    final message = this.message;
+    final sourceName = this.sourceName;
+    final sourceType = this.sourceType;
+    return {
+      if (date != null) 'Date': unixTimestampToJson(date),
+      if (message != null) 'Message': message,
+      if (sourceName != null) 'SourceName': sourceName,
+      if (sourceType != null) 'SourceType': sourceType.value,
+    };
+  }
+}
+
+class SourceType {
+  static const cluster = SourceType._('CLUSTER');
+  static const parameterGroup = SourceType._('PARAMETER_GROUP');
+  static const subnetGroup = SourceType._('SUBNET_GROUP');
+
+  final String value;
+
+  const SourceType._(this.value);
+
+  static const values = [cluster, parameterGroup, subnetGroup];
+
+  static SourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SourceType._(value));
+
+  @override
+  bool operator ==(other) => other is SourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the settings used to enable server-side encryption.
+class SSESpecification {
+  /// Indicates whether server-side encryption is enabled (true) or disabled
+  /// (false) on the cluster.
+  final bool enabled;
+
+  SSESpecification({
+    required this.enabled,
+  });
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    return {
+      'Enabled': enabled,
     };
   }
 }
@@ -2876,6 +2974,11 @@ class SubnetInUse extends _s.GenericAwsException {
       : super(type: type, code: 'SubnetInUse', message: message);
 }
 
+class SubnetNotAllowedFault extends _s.GenericAwsException {
+  SubnetNotAllowedFault({String? type, String? message})
+      : super(type: type, code: 'SubnetNotAllowedFault', message: message);
+}
+
 class SubnetQuotaExceededFault extends _s.GenericAwsException {
   SubnetQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'SubnetQuotaExceededFault', message: message);
@@ -2940,6 +3043,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
   'SubnetGroupQuotaExceededFault': (type, message) =>
       SubnetGroupQuotaExceededFault(type: type, message: message),
   'SubnetInUse': (type, message) => SubnetInUse(type: type, message: message),
+  'SubnetNotAllowedFault': (type, message) =>
+      SubnetNotAllowedFault(type: type, message: message),
   'SubnetQuotaExceededFault': (type, message) =>
       SubnetQuotaExceededFault(type: type, message: message),
   'TagNotFoundFault': (type, message) =>

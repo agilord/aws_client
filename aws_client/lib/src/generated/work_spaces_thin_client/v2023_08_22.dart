@@ -51,7 +51,6 @@ class WorkSpacesThinClient {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'thinclient',
-            signingName: 'thinclient',
           ),
           region: region,
           credentials: credentials,
@@ -70,17 +69,17 @@ class WorkSpacesThinClient {
 
   /// Creates an environment for your thin client devices.
   ///
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [desktopArn] :
   /// The Amazon Resource Name (ARN) of the desktop to stream from Amazon
-  /// WorkSpaces, WorkSpaces Web, or AppStream 2.0.
+  /// WorkSpaces, WorkSpaces Secure Browser, or AppStream 2.0.
   ///
   /// Parameter [clientToken] :
   /// Specifies a unique, case-sensitive identifier that you provide to ensure
@@ -168,12 +167,12 @@ class WorkSpacesThinClient {
 
   /// Deletes a thin client device.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The ID of the device to delete.
@@ -211,12 +210,12 @@ class WorkSpacesThinClient {
 
   /// Deletes an environment.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The ID of the environment to delete.
@@ -254,12 +253,12 @@ class WorkSpacesThinClient {
 
   /// Deregisters a thin client device.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The ID of the device to deregister.
@@ -302,11 +301,11 @@ class WorkSpacesThinClient {
 
   /// Returns information for a thin client device.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The ID of the device for which to return information.
@@ -324,11 +323,11 @@ class WorkSpacesThinClient {
 
   /// Returns information for an environment.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The ID of the environment for which to return information.
@@ -346,11 +345,11 @@ class WorkSpacesThinClient {
 
   /// Returns information for a software set.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The ID of the software set for which to return information.
@@ -368,10 +367,10 @@ class WorkSpacesThinClient {
 
   /// Returns a list of thin client devices.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results that are returned per call. You can use
@@ -413,10 +412,10 @@ class WorkSpacesThinClient {
 
   /// Returns a list of environments.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results that are returned per call. You can use
@@ -458,10 +457,10 @@ class WorkSpacesThinClient {
 
   /// Returns a list of software sets.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results that are returned per call. You can use
@@ -503,11 +502,11 @@ class WorkSpacesThinClient {
 
   /// Returns a list of tags for a resource.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource for which you want to
@@ -526,12 +525,12 @@ class WorkSpacesThinClient {
 
   /// Assigns one or more tags (key-value pairs) to the specified resource.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource that you want to tag.
@@ -555,12 +554,12 @@ class WorkSpacesThinClient {
 
   /// Removes a tag or tags from a resource.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource that you want to untag.
@@ -586,11 +585,11 @@ class WorkSpacesThinClient {
 
   /// Updates a thin client device.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The ID of the device to update.
@@ -628,11 +627,12 @@ class WorkSpacesThinClient {
 
   /// Updates an environment.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The ID of the environment to update.
@@ -642,7 +642,7 @@ class WorkSpacesThinClient {
   ///
   /// Parameter [desktopArn] :
   /// The Amazon Resource Name (ARN) of the desktop to stream from Amazon
-  /// WorkSpaces, WorkSpaces Web, or AppStream 2.0.
+  /// WorkSpaces, WorkSpaces Secure Browser, or AppStream 2.0.
   ///
   /// Parameter [desktopEndpoint] :
   /// The URL for the identity provider login (only for environments that use
@@ -699,11 +699,11 @@ class WorkSpacesThinClient {
 
   /// Updates a software set.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The ID of the software set to update.
@@ -724,29 +724,6 @@ class WorkSpacesThinClient {
       exceptionFnMap: _exceptionFns,
     );
   }
-}
-
-class ApplyTimeOf {
-  static const utc = ApplyTimeOf._('UTC');
-  static const device = ApplyTimeOf._('DEVICE');
-
-  final String value;
-
-  const ApplyTimeOf._(this.value);
-
-  static const values = [utc, device];
-
-  static ApplyTimeOf fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ApplyTimeOf._(value));
-
-  @override
-  bool operator ==(other) => other is ApplyTimeOf && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class CreateEnvironmentResponse {
@@ -772,42 +749,6 @@ class CreateEnvironmentResponse {
       if (environment != null) 'environment': environment,
     };
   }
-}
-
-class DayOfWeek {
-  static const monday = DayOfWeek._('MONDAY');
-  static const tuesday = DayOfWeek._('TUESDAY');
-  static const wednesday = DayOfWeek._('WEDNESDAY');
-  static const thursday = DayOfWeek._('THURSDAY');
-  static const friday = DayOfWeek._('FRIDAY');
-  static const saturday = DayOfWeek._('SATURDAY');
-  static const sunday = DayOfWeek._('SUNDAY');
-
-  final String value;
-
-  const DayOfWeek._(this.value);
-
-  static const values = [
-    monday,
-    tuesday,
-    wednesday,
-    thursday,
-    friday,
-    saturday,
-    sunday
-  ];
-
-  static DayOfWeek fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => DayOfWeek._(value));
-
-  @override
-  bool operator ==(other) => other is DayOfWeek && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class DeleteDeviceResponse {
@@ -843,728 +784,6 @@ class DeregisterDeviceResponse {
 
   Map<String, dynamic> toJson() {
     return {};
-  }
-}
-
-class DesktopType {
-  static const workspaces = DesktopType._('workspaces');
-  static const appstream = DesktopType._('appstream');
-  static const workspacesWeb = DesktopType._('workspaces-web');
-
-  final String value;
-
-  const DesktopType._(this.value);
-
-  static const values = [workspaces, appstream, workspacesWeb];
-
-  static DesktopType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => DesktopType._(value));
-
-  @override
-  bool operator ==(other) => other is DesktopType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes a thin client device.
-class Device {
-  /// The Amazon Resource Name (ARN) of the device.
-  final String? arn;
-
-  /// The timestamp of when the device was created.
-  final DateTime? createdAt;
-
-  /// The ID of the software set currently installed on the device.
-  final String? currentSoftwareSetId;
-
-  /// The version of the software set currently installed on the device.
-  final String? currentSoftwareSetVersion;
-
-  /// The ID of the software set which the device has been set to.
-  final String? desiredSoftwareSetId;
-
-  /// The ID of the environment the device is associated with.
-  final String? environmentId;
-
-  /// The ID of the device.
-  final String? id;
-
-  /// The Amazon Resource Name (ARN) of the Key Management Service key used to
-  /// encrypt the device.
-  final String? kmsKeyArn;
-
-  /// The timestamp of the most recent session on the device.
-  final DateTime? lastConnectedAt;
-
-  /// The timestamp of the most recent check-in of the device.
-  final DateTime? lastPostureAt;
-
-  /// The model number of the device.
-  final String? model;
-
-  /// The name of the device.
-  final String? name;
-
-  /// The ID of the software set that is pending to be installed on the device.
-  final String? pendingSoftwareSetId;
-
-  /// The version of the software set that is pending to be installed on the
-  /// device.
-  final String? pendingSoftwareSetVersion;
-
-  /// The hardware serial number of the device.
-  final String? serialNumber;
-
-  /// Describes if the software currently installed on the device is a supported
-  /// version.
-  final DeviceSoftwareSetComplianceStatus? softwareSetComplianceStatus;
-
-  /// An option to define if software updates should be applied within a
-  /// maintenance window.
-  final SoftwareSetUpdateSchedule? softwareSetUpdateSchedule;
-
-  /// Describes if the device has a supported version of software installed.
-  final SoftwareSetUpdateStatus? softwareSetUpdateStatus;
-
-  /// The status of the device.
-  final DeviceStatus? status;
-
-  /// The tag keys and optional values for the resource.
-  final Map<String, String>? tags;
-
-  /// The timestamp of when the device was updated.
-  final DateTime? updatedAt;
-
-  Device({
-    this.arn,
-    this.createdAt,
-    this.currentSoftwareSetId,
-    this.currentSoftwareSetVersion,
-    this.desiredSoftwareSetId,
-    this.environmentId,
-    this.id,
-    this.kmsKeyArn,
-    this.lastConnectedAt,
-    this.lastPostureAt,
-    this.model,
-    this.name,
-    this.pendingSoftwareSetId,
-    this.pendingSoftwareSetVersion,
-    this.serialNumber,
-    this.softwareSetComplianceStatus,
-    this.softwareSetUpdateSchedule,
-    this.softwareSetUpdateStatus,
-    this.status,
-    this.tags,
-    this.updatedAt,
-  });
-
-  factory Device.fromJson(Map<String, dynamic> json) {
-    return Device(
-      arn: json['arn'] as String?,
-      createdAt: timeStampFromJson(json['createdAt']),
-      currentSoftwareSetId: json['currentSoftwareSetId'] as String?,
-      currentSoftwareSetVersion: json['currentSoftwareSetVersion'] as String?,
-      desiredSoftwareSetId: json['desiredSoftwareSetId'] as String?,
-      environmentId: json['environmentId'] as String?,
-      id: json['id'] as String?,
-      kmsKeyArn: json['kmsKeyArn'] as String?,
-      lastConnectedAt: timeStampFromJson(json['lastConnectedAt']),
-      lastPostureAt: timeStampFromJson(json['lastPostureAt']),
-      model: json['model'] as String?,
-      name: json['name'] as String?,
-      pendingSoftwareSetId: json['pendingSoftwareSetId'] as String?,
-      pendingSoftwareSetVersion: json['pendingSoftwareSetVersion'] as String?,
-      serialNumber: json['serialNumber'] as String?,
-      softwareSetComplianceStatus:
-          (json['softwareSetComplianceStatus'] as String?)
-              ?.let(DeviceSoftwareSetComplianceStatus.fromString),
-      softwareSetUpdateSchedule: (json['softwareSetUpdateSchedule'] as String?)
-          ?.let(SoftwareSetUpdateSchedule.fromString),
-      softwareSetUpdateStatus: (json['softwareSetUpdateStatus'] as String?)
-          ?.let(SoftwareSetUpdateStatus.fromString),
-      status: (json['status'] as String?)?.let(DeviceStatus.fromString),
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      updatedAt: timeStampFromJson(json['updatedAt']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final createdAt = this.createdAt;
-    final currentSoftwareSetId = this.currentSoftwareSetId;
-    final currentSoftwareSetVersion = this.currentSoftwareSetVersion;
-    final desiredSoftwareSetId = this.desiredSoftwareSetId;
-    final environmentId = this.environmentId;
-    final id = this.id;
-    final kmsKeyArn = this.kmsKeyArn;
-    final lastConnectedAt = this.lastConnectedAt;
-    final lastPostureAt = this.lastPostureAt;
-    final model = this.model;
-    final name = this.name;
-    final pendingSoftwareSetId = this.pendingSoftwareSetId;
-    final pendingSoftwareSetVersion = this.pendingSoftwareSetVersion;
-    final serialNumber = this.serialNumber;
-    final softwareSetComplianceStatus = this.softwareSetComplianceStatus;
-    final softwareSetUpdateSchedule = this.softwareSetUpdateSchedule;
-    final softwareSetUpdateStatus = this.softwareSetUpdateStatus;
-    final status = this.status;
-    final tags = this.tags;
-    final updatedAt = this.updatedAt;
-    return {
-      if (arn != null) 'arn': arn,
-      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
-      if (currentSoftwareSetId != null)
-        'currentSoftwareSetId': currentSoftwareSetId,
-      if (currentSoftwareSetVersion != null)
-        'currentSoftwareSetVersion': currentSoftwareSetVersion,
-      if (desiredSoftwareSetId != null)
-        'desiredSoftwareSetId': desiredSoftwareSetId,
-      if (environmentId != null) 'environmentId': environmentId,
-      if (id != null) 'id': id,
-      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
-      if (lastConnectedAt != null)
-        'lastConnectedAt': unixTimestampToJson(lastConnectedAt),
-      if (lastPostureAt != null)
-        'lastPostureAt': unixTimestampToJson(lastPostureAt),
-      if (model != null) 'model': model,
-      if (name != null) 'name': name,
-      if (pendingSoftwareSetId != null)
-        'pendingSoftwareSetId': pendingSoftwareSetId,
-      if (pendingSoftwareSetVersion != null)
-        'pendingSoftwareSetVersion': pendingSoftwareSetVersion,
-      if (serialNumber != null) 'serialNumber': serialNumber,
-      if (softwareSetComplianceStatus != null)
-        'softwareSetComplianceStatus': softwareSetComplianceStatus.value,
-      if (softwareSetUpdateSchedule != null)
-        'softwareSetUpdateSchedule': softwareSetUpdateSchedule.value,
-      if (softwareSetUpdateStatus != null)
-        'softwareSetUpdateStatus': softwareSetUpdateStatus.value,
-      if (status != null) 'status': status.value,
-      if (tags != null) 'tags': tags,
-      if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
-    };
-  }
-}
-
-class DeviceSoftwareSetComplianceStatus {
-  static const none = DeviceSoftwareSetComplianceStatus._('NONE');
-  static const compliant = DeviceSoftwareSetComplianceStatus._('COMPLIANT');
-  static const notCompliant =
-      DeviceSoftwareSetComplianceStatus._('NOT_COMPLIANT');
-
-  final String value;
-
-  const DeviceSoftwareSetComplianceStatus._(this.value);
-
-  static const values = [none, compliant, notCompliant];
-
-  static DeviceSoftwareSetComplianceStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DeviceSoftwareSetComplianceStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DeviceSoftwareSetComplianceStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DeviceStatus {
-  static const registered = DeviceStatus._('REGISTERED');
-  static const deregistering = DeviceStatus._('DEREGISTERING');
-  static const deregistered = DeviceStatus._('DEREGISTERED');
-  static const archived = DeviceStatus._('ARCHIVED');
-
-  final String value;
-
-  const DeviceStatus._(this.value);
-
-  static const values = [registered, deregistering, deregistered, archived];
-
-  static DeviceStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => DeviceStatus._(value));
-
-  @override
-  bool operator ==(other) => other is DeviceStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes a thin client device.
-class DeviceSummary {
-  /// The Amazon Resource Name (ARN) of the device.
-  final String? arn;
-
-  /// The timestamp of when the device was created.
-  final DateTime? createdAt;
-
-  /// The ID of the software set currently installed on the device.
-  final String? currentSoftwareSetId;
-
-  /// The ID of the software set which the device has been set to.
-  final String? desiredSoftwareSetId;
-
-  /// The ID of the environment the device is associated with.
-  final String? environmentId;
-
-  /// The ID of the device.
-  final String? id;
-
-  /// The timestamp of the most recent session on the device.
-  final DateTime? lastConnectedAt;
-
-  /// The timestamp of the most recent check-in of the device.
-  final DateTime? lastPostureAt;
-
-  /// The model number of the device.
-  final String? model;
-
-  /// The name of the device.
-  final String? name;
-
-  /// The ID of the software set that is pending to be installed on the device.
-  final String? pendingSoftwareSetId;
-
-  /// The hardware serial number of the device.
-  final String? serialNumber;
-
-  /// An option to define if software updates should be applied within a
-  /// maintenance window.
-  final SoftwareSetUpdateSchedule? softwareSetUpdateSchedule;
-
-  /// The status of the device.
-  final DeviceStatus? status;
-
-  /// The timestamp of when the device was updated.
-  final DateTime? updatedAt;
-
-  DeviceSummary({
-    this.arn,
-    this.createdAt,
-    this.currentSoftwareSetId,
-    this.desiredSoftwareSetId,
-    this.environmentId,
-    this.id,
-    this.lastConnectedAt,
-    this.lastPostureAt,
-    this.model,
-    this.name,
-    this.pendingSoftwareSetId,
-    this.serialNumber,
-    this.softwareSetUpdateSchedule,
-    this.status,
-    this.updatedAt,
-  });
-
-  factory DeviceSummary.fromJson(Map<String, dynamic> json) {
-    return DeviceSummary(
-      arn: json['arn'] as String?,
-      createdAt: timeStampFromJson(json['createdAt']),
-      currentSoftwareSetId: json['currentSoftwareSetId'] as String?,
-      desiredSoftwareSetId: json['desiredSoftwareSetId'] as String?,
-      environmentId: json['environmentId'] as String?,
-      id: json['id'] as String?,
-      lastConnectedAt: timeStampFromJson(json['lastConnectedAt']),
-      lastPostureAt: timeStampFromJson(json['lastPostureAt']),
-      model: json['model'] as String?,
-      name: json['name'] as String?,
-      pendingSoftwareSetId: json['pendingSoftwareSetId'] as String?,
-      serialNumber: json['serialNumber'] as String?,
-      softwareSetUpdateSchedule: (json['softwareSetUpdateSchedule'] as String?)
-          ?.let(SoftwareSetUpdateSchedule.fromString),
-      status: (json['status'] as String?)?.let(DeviceStatus.fromString),
-      updatedAt: timeStampFromJson(json['updatedAt']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final createdAt = this.createdAt;
-    final currentSoftwareSetId = this.currentSoftwareSetId;
-    final desiredSoftwareSetId = this.desiredSoftwareSetId;
-    final environmentId = this.environmentId;
-    final id = this.id;
-    final lastConnectedAt = this.lastConnectedAt;
-    final lastPostureAt = this.lastPostureAt;
-    final model = this.model;
-    final name = this.name;
-    final pendingSoftwareSetId = this.pendingSoftwareSetId;
-    final serialNumber = this.serialNumber;
-    final softwareSetUpdateSchedule = this.softwareSetUpdateSchedule;
-    final status = this.status;
-    final updatedAt = this.updatedAt;
-    return {
-      if (arn != null) 'arn': arn,
-      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
-      if (currentSoftwareSetId != null)
-        'currentSoftwareSetId': currentSoftwareSetId,
-      if (desiredSoftwareSetId != null)
-        'desiredSoftwareSetId': desiredSoftwareSetId,
-      if (environmentId != null) 'environmentId': environmentId,
-      if (id != null) 'id': id,
-      if (lastConnectedAt != null)
-        'lastConnectedAt': unixTimestampToJson(lastConnectedAt),
-      if (lastPostureAt != null)
-        'lastPostureAt': unixTimestampToJson(lastPostureAt),
-      if (model != null) 'model': model,
-      if (name != null) 'name': name,
-      if (pendingSoftwareSetId != null)
-        'pendingSoftwareSetId': pendingSoftwareSetId,
-      if (serialNumber != null) 'serialNumber': serialNumber,
-      if (softwareSetUpdateSchedule != null)
-        'softwareSetUpdateSchedule': softwareSetUpdateSchedule.value,
-      if (status != null) 'status': status.value,
-      if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
-    };
-  }
-}
-
-/// Describes an environment.
-class Environment {
-  /// The activation code to register a device to the environment.
-  final String? activationCode;
-
-  /// The Amazon Resource Name (ARN) of the environment.
-  final String? arn;
-
-  /// The timestamp of when the environment was created.
-  final DateTime? createdAt;
-
-  /// The ID of the software set to apply.
-  final String? desiredSoftwareSetId;
-
-  /// The Amazon Resource Name (ARN) of the desktop to stream from Amazon
-  /// WorkSpaces, WorkSpaces Web, or AppStream 2.0.
-  final String? desktopArn;
-
-  /// The URL for the identity provider login (only for environments that use
-  /// AppStream 2.0).
-  final String? desktopEndpoint;
-
-  /// The type of streaming desktop for the environment.
-  final DesktopType? desktopType;
-
-  /// The tag keys and optional values for the newly created devices for this
-  /// environment.
-  final Map<String, String>? deviceCreationTags;
-
-  /// The ID of the environment.
-  final String? id;
-
-  /// The Amazon Resource Name (ARN) of the Key Management Service key used to
-  /// encrypt the environment.
-  final String? kmsKeyArn;
-
-  /// A specification for a time window to apply software updates.
-  final MaintenanceWindow? maintenanceWindow;
-
-  /// The name of the environment.
-  final String? name;
-
-  /// The ID of the software set that is pending to be installed.
-  final String? pendingSoftwareSetId;
-
-  /// The version of the software set that is pending to be installed.
-  final String? pendingSoftwareSetVersion;
-
-  /// The number of devices registered to the environment.
-  final int? registeredDevicesCount;
-
-  /// Describes if the software currently installed on all devices in the
-  /// environment is a supported version.
-  final EnvironmentSoftwareSetComplianceStatus? softwareSetComplianceStatus;
-
-  /// An option to define which software updates to apply.
-  final SoftwareSetUpdateMode? softwareSetUpdateMode;
-
-  /// An option to define if software updates should be applied within a
-  /// maintenance window.
-  final SoftwareSetUpdateSchedule? softwareSetUpdateSchedule;
-
-  /// The tag keys and optional values for the resource.
-  final Map<String, String>? tags;
-
-  /// The timestamp of when the device was updated.
-  final DateTime? updatedAt;
-
-  Environment({
-    this.activationCode,
-    this.arn,
-    this.createdAt,
-    this.desiredSoftwareSetId,
-    this.desktopArn,
-    this.desktopEndpoint,
-    this.desktopType,
-    this.deviceCreationTags,
-    this.id,
-    this.kmsKeyArn,
-    this.maintenanceWindow,
-    this.name,
-    this.pendingSoftwareSetId,
-    this.pendingSoftwareSetVersion,
-    this.registeredDevicesCount,
-    this.softwareSetComplianceStatus,
-    this.softwareSetUpdateMode,
-    this.softwareSetUpdateSchedule,
-    this.tags,
-    this.updatedAt,
-  });
-
-  factory Environment.fromJson(Map<String, dynamic> json) {
-    return Environment(
-      activationCode: json['activationCode'] as String?,
-      arn: json['arn'] as String?,
-      createdAt: timeStampFromJson(json['createdAt']),
-      desiredSoftwareSetId: json['desiredSoftwareSetId'] as String?,
-      desktopArn: json['desktopArn'] as String?,
-      desktopEndpoint: json['desktopEndpoint'] as String?,
-      desktopType:
-          (json['desktopType'] as String?)?.let(DesktopType.fromString),
-      deviceCreationTags: (json['deviceCreationTags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      id: json['id'] as String?,
-      kmsKeyArn: json['kmsKeyArn'] as String?,
-      maintenanceWindow: json['maintenanceWindow'] != null
-          ? MaintenanceWindow.fromJson(
-              json['maintenanceWindow'] as Map<String, dynamic>)
-          : null,
-      name: json['name'] as String?,
-      pendingSoftwareSetId: json['pendingSoftwareSetId'] as String?,
-      pendingSoftwareSetVersion: json['pendingSoftwareSetVersion'] as String?,
-      registeredDevicesCount: json['registeredDevicesCount'] as int?,
-      softwareSetComplianceStatus:
-          (json['softwareSetComplianceStatus'] as String?)
-              ?.let(EnvironmentSoftwareSetComplianceStatus.fromString),
-      softwareSetUpdateMode: (json['softwareSetUpdateMode'] as String?)
-          ?.let(SoftwareSetUpdateMode.fromString),
-      softwareSetUpdateSchedule: (json['softwareSetUpdateSchedule'] as String?)
-          ?.let(SoftwareSetUpdateSchedule.fromString),
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      updatedAt: timeStampFromJson(json['updatedAt']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final activationCode = this.activationCode;
-    final arn = this.arn;
-    final createdAt = this.createdAt;
-    final desiredSoftwareSetId = this.desiredSoftwareSetId;
-    final desktopArn = this.desktopArn;
-    final desktopEndpoint = this.desktopEndpoint;
-    final desktopType = this.desktopType;
-    final deviceCreationTags = this.deviceCreationTags;
-    final id = this.id;
-    final kmsKeyArn = this.kmsKeyArn;
-    final maintenanceWindow = this.maintenanceWindow;
-    final name = this.name;
-    final pendingSoftwareSetId = this.pendingSoftwareSetId;
-    final pendingSoftwareSetVersion = this.pendingSoftwareSetVersion;
-    final registeredDevicesCount = this.registeredDevicesCount;
-    final softwareSetComplianceStatus = this.softwareSetComplianceStatus;
-    final softwareSetUpdateMode = this.softwareSetUpdateMode;
-    final softwareSetUpdateSchedule = this.softwareSetUpdateSchedule;
-    final tags = this.tags;
-    final updatedAt = this.updatedAt;
-    return {
-      if (activationCode != null) 'activationCode': activationCode,
-      if (arn != null) 'arn': arn,
-      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
-      if (desiredSoftwareSetId != null)
-        'desiredSoftwareSetId': desiredSoftwareSetId,
-      if (desktopArn != null) 'desktopArn': desktopArn,
-      if (desktopEndpoint != null) 'desktopEndpoint': desktopEndpoint,
-      if (desktopType != null) 'desktopType': desktopType.value,
-      if (deviceCreationTags != null) 'deviceCreationTags': deviceCreationTags,
-      if (id != null) 'id': id,
-      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
-      if (maintenanceWindow != null) 'maintenanceWindow': maintenanceWindow,
-      if (name != null) 'name': name,
-      if (pendingSoftwareSetId != null)
-        'pendingSoftwareSetId': pendingSoftwareSetId,
-      if (pendingSoftwareSetVersion != null)
-        'pendingSoftwareSetVersion': pendingSoftwareSetVersion,
-      if (registeredDevicesCount != null)
-        'registeredDevicesCount': registeredDevicesCount,
-      if (softwareSetComplianceStatus != null)
-        'softwareSetComplianceStatus': softwareSetComplianceStatus.value,
-      if (softwareSetUpdateMode != null)
-        'softwareSetUpdateMode': softwareSetUpdateMode.value,
-      if (softwareSetUpdateSchedule != null)
-        'softwareSetUpdateSchedule': softwareSetUpdateSchedule.value,
-      if (tags != null) 'tags': tags,
-      if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
-    };
-  }
-}
-
-class EnvironmentSoftwareSetComplianceStatus {
-  static const noRegisteredDevices =
-      EnvironmentSoftwareSetComplianceStatus._('NO_REGISTERED_DEVICES');
-  static const compliant =
-      EnvironmentSoftwareSetComplianceStatus._('COMPLIANT');
-  static const notCompliant =
-      EnvironmentSoftwareSetComplianceStatus._('NOT_COMPLIANT');
-
-  final String value;
-
-  const EnvironmentSoftwareSetComplianceStatus._(this.value);
-
-  static const values = [noRegisteredDevices, compliant, notCompliant];
-
-  static EnvironmentSoftwareSetComplianceStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EnvironmentSoftwareSetComplianceStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is EnvironmentSoftwareSetComplianceStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes an environment.
-class EnvironmentSummary {
-  /// The activation code to register a device to the environment.
-  final String? activationCode;
-
-  /// The Amazon Resource Name (ARN) of the environment.
-  final String? arn;
-
-  /// The timestamp of when the environment was created.
-  final DateTime? createdAt;
-
-  /// The ID of the software set to apply.
-  final String? desiredSoftwareSetId;
-
-  /// The Amazon Resource Name (ARN) of the desktop to stream from Amazon
-  /// WorkSpaces, WorkSpaces Web, or AppStream 2.0.
-  final String? desktopArn;
-
-  /// The URL for the identity provider login (only for environments that use
-  /// AppStream 2.0).
-  final String? desktopEndpoint;
-
-  /// The type of streaming desktop for the environment.
-  final DesktopType? desktopType;
-
-  /// The ID of the environment.
-  final String? id;
-
-  /// A specification for a time window to apply software updates.
-  final MaintenanceWindow? maintenanceWindow;
-
-  /// The name of the environment.
-  final String? name;
-
-  /// The ID of the software set that is pending to be installed.
-  final String? pendingSoftwareSetId;
-
-  /// An option to define which software updates to apply.
-  final SoftwareSetUpdateMode? softwareSetUpdateMode;
-
-  /// An option to define if software updates should be applied within a
-  /// maintenance window.
-  final SoftwareSetUpdateSchedule? softwareSetUpdateSchedule;
-
-  /// The timestamp of when the device was updated.
-  final DateTime? updatedAt;
-
-  EnvironmentSummary({
-    this.activationCode,
-    this.arn,
-    this.createdAt,
-    this.desiredSoftwareSetId,
-    this.desktopArn,
-    this.desktopEndpoint,
-    this.desktopType,
-    this.id,
-    this.maintenanceWindow,
-    this.name,
-    this.pendingSoftwareSetId,
-    this.softwareSetUpdateMode,
-    this.softwareSetUpdateSchedule,
-    this.updatedAt,
-  });
-
-  factory EnvironmentSummary.fromJson(Map<String, dynamic> json) {
-    return EnvironmentSummary(
-      activationCode: json['activationCode'] as String?,
-      arn: json['arn'] as String?,
-      createdAt: timeStampFromJson(json['createdAt']),
-      desiredSoftwareSetId: json['desiredSoftwareSetId'] as String?,
-      desktopArn: json['desktopArn'] as String?,
-      desktopEndpoint: json['desktopEndpoint'] as String?,
-      desktopType:
-          (json['desktopType'] as String?)?.let(DesktopType.fromString),
-      id: json['id'] as String?,
-      maintenanceWindow: json['maintenanceWindow'] != null
-          ? MaintenanceWindow.fromJson(
-              json['maintenanceWindow'] as Map<String, dynamic>)
-          : null,
-      name: json['name'] as String?,
-      pendingSoftwareSetId: json['pendingSoftwareSetId'] as String?,
-      softwareSetUpdateMode: (json['softwareSetUpdateMode'] as String?)
-          ?.let(SoftwareSetUpdateMode.fromString),
-      softwareSetUpdateSchedule: (json['softwareSetUpdateSchedule'] as String?)
-          ?.let(SoftwareSetUpdateSchedule.fromString),
-      updatedAt: timeStampFromJson(json['updatedAt']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final activationCode = this.activationCode;
-    final arn = this.arn;
-    final createdAt = this.createdAt;
-    final desiredSoftwareSetId = this.desiredSoftwareSetId;
-    final desktopArn = this.desktopArn;
-    final desktopEndpoint = this.desktopEndpoint;
-    final desktopType = this.desktopType;
-    final id = this.id;
-    final maintenanceWindow = this.maintenanceWindow;
-    final name = this.name;
-    final pendingSoftwareSetId = this.pendingSoftwareSetId;
-    final softwareSetUpdateMode = this.softwareSetUpdateMode;
-    final softwareSetUpdateSchedule = this.softwareSetUpdateSchedule;
-    final updatedAt = this.updatedAt;
-    return {
-      if (activationCode != null) 'activationCode': activationCode,
-      if (arn != null) 'arn': arn,
-      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
-      if (desiredSoftwareSetId != null)
-        'desiredSoftwareSetId': desiredSoftwareSetId,
-      if (desktopArn != null) 'desktopArn': desktopArn,
-      if (desktopEndpoint != null) 'desktopEndpoint': desktopEndpoint,
-      if (desktopType != null) 'desktopType': desktopType.value,
-      if (id != null) 'id': id,
-      if (maintenanceWindow != null) 'maintenanceWindow': maintenanceWindow,
-      if (name != null) 'name': name,
-      if (pendingSoftwareSetId != null)
-        'pendingSoftwareSetId': pendingSoftwareSetId,
-      if (softwareSetUpdateMode != null)
-        'softwareSetUpdateMode': softwareSetUpdateMode.value,
-      if (softwareSetUpdateSchedule != null)
-        'softwareSetUpdateSchedule': softwareSetUpdateSchedule.value,
-      if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
-    };
   }
 }
 
@@ -1775,375 +994,6 @@ class ListTagsForResourceResponse {
   }
 }
 
-/// Describes the maintenance window for a thin client device.
-class MaintenanceWindow {
-  /// The option to set the maintenance window during the device local time or
-  /// Universal Coordinated Time (UTC).
-  final ApplyTimeOf? applyTimeOf;
-
-  /// The days of the week during which the maintenance window is open.
-  final List<DayOfWeek>? daysOfTheWeek;
-
-  /// The hour for the maintenance window end (<code>00</code>-<code>23</code>).
-  final int? endTimeHour;
-
-  /// The minutes for the maintenance window end
-  /// (<code>00</code>-<code>59</code>).
-  final int? endTimeMinute;
-
-  /// The hour for the maintenance window start (<code>00</code>-<code>23</code>).
-  final int? startTimeHour;
-
-  /// The minutes past the hour for the maintenance window start
-  /// (<code>00</code>-<code>59</code>).
-  final int? startTimeMinute;
-
-  /// An option to select the default or custom maintenance window.
-  final MaintenanceWindowType? type;
-
-  MaintenanceWindow({
-    this.applyTimeOf,
-    this.daysOfTheWeek,
-    this.endTimeHour,
-    this.endTimeMinute,
-    this.startTimeHour,
-    this.startTimeMinute,
-    this.type,
-  });
-
-  factory MaintenanceWindow.fromJson(Map<String, dynamic> json) {
-    return MaintenanceWindow(
-      applyTimeOf:
-          (json['applyTimeOf'] as String?)?.let(ApplyTimeOf.fromString),
-      daysOfTheWeek: (json['daysOfTheWeek'] as List?)
-          ?.nonNulls
-          .map((e) => DayOfWeek.fromString((e as String)))
-          .toList(),
-      endTimeHour: json['endTimeHour'] as int?,
-      endTimeMinute: json['endTimeMinute'] as int?,
-      startTimeHour: json['startTimeHour'] as int?,
-      startTimeMinute: json['startTimeMinute'] as int?,
-      type: (json['type'] as String?)?.let(MaintenanceWindowType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final applyTimeOf = this.applyTimeOf;
-    final daysOfTheWeek = this.daysOfTheWeek;
-    final endTimeHour = this.endTimeHour;
-    final endTimeMinute = this.endTimeMinute;
-    final startTimeHour = this.startTimeHour;
-    final startTimeMinute = this.startTimeMinute;
-    final type = this.type;
-    return {
-      if (applyTimeOf != null) 'applyTimeOf': applyTimeOf.value,
-      if (daysOfTheWeek != null)
-        'daysOfTheWeek': daysOfTheWeek.map((e) => e.value).toList(),
-      if (endTimeHour != null) 'endTimeHour': endTimeHour,
-      if (endTimeMinute != null) 'endTimeMinute': endTimeMinute,
-      if (startTimeHour != null) 'startTimeHour': startTimeHour,
-      if (startTimeMinute != null) 'startTimeMinute': startTimeMinute,
-      if (type != null) 'type': type.value,
-    };
-  }
-}
-
-class MaintenanceWindowType {
-  static const system = MaintenanceWindowType._('SYSTEM');
-  static const custom = MaintenanceWindowType._('CUSTOM');
-
-  final String value;
-
-  const MaintenanceWindowType._(this.value);
-
-  static const values = [system, custom];
-
-  static MaintenanceWindowType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MaintenanceWindowType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is MaintenanceWindowType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes software.
-class Software {
-  /// The name of the software component.
-  final String? name;
-
-  /// The version of the software component.
-  final String? version;
-
-  Software({
-    this.name,
-    this.version,
-  });
-
-  factory Software.fromJson(Map<String, dynamic> json) {
-    return Software(
-      name: json['name'] as String?,
-      version: json['version'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final version = this.version;
-    return {
-      if (name != null) 'name': name,
-      if (version != null) 'version': version,
-    };
-  }
-}
-
-/// Describes a software set.
-class SoftwareSet {
-  /// The Amazon Resource Name (ARN) of the software set.
-  final String? arn;
-
-  /// The ID of the software set.
-  final String? id;
-
-  /// The timestamp of when the software set was released.
-  final DateTime? releasedAt;
-
-  /// A list of the software components in the software set.
-  final List<Software>? software;
-
-  /// The timestamp of the end of support for the software set.
-  final DateTime? supportedUntil;
-
-  /// The tag keys and optional values for the resource.
-  final Map<String, String>? tags;
-
-  /// An option to define if the software set has been validated.
-  final SoftwareSetValidationStatus? validationStatus;
-
-  /// The version of the software set.
-  final String? version;
-
-  SoftwareSet({
-    this.arn,
-    this.id,
-    this.releasedAt,
-    this.software,
-    this.supportedUntil,
-    this.tags,
-    this.validationStatus,
-    this.version,
-  });
-
-  factory SoftwareSet.fromJson(Map<String, dynamic> json) {
-    return SoftwareSet(
-      arn: json['arn'] as String?,
-      id: json['id'] as String?,
-      releasedAt: timeStampFromJson(json['releasedAt']),
-      software: (json['software'] as List?)
-          ?.nonNulls
-          .map((e) => Software.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      supportedUntil: timeStampFromJson(json['supportedUntil']),
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      validationStatus: (json['validationStatus'] as String?)
-          ?.let(SoftwareSetValidationStatus.fromString),
-      version: json['version'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final id = this.id;
-    final releasedAt = this.releasedAt;
-    final software = this.software;
-    final supportedUntil = this.supportedUntil;
-    final tags = this.tags;
-    final validationStatus = this.validationStatus;
-    final version = this.version;
-    return {
-      if (arn != null) 'arn': arn,
-      if (id != null) 'id': id,
-      if (releasedAt != null) 'releasedAt': unixTimestampToJson(releasedAt),
-      if (software != null) 'software': software,
-      if (supportedUntil != null)
-        'supportedUntil': unixTimestampToJson(supportedUntil),
-      if (tags != null) 'tags': tags,
-      if (validationStatus != null) 'validationStatus': validationStatus.value,
-      if (version != null) 'version': version,
-    };
-  }
-}
-
-/// Describes a software set.
-class SoftwareSetSummary {
-  /// The Amazon Resource Name (ARN) of the software set.
-  final String? arn;
-
-  /// The ID of the software set.
-  final String? id;
-
-  /// The timestamp of when the software set was released.
-  final DateTime? releasedAt;
-
-  /// The timestamp of the end of support for the software set.
-  final DateTime? supportedUntil;
-
-  /// An option to define if the software set has been validated.
-  final SoftwareSetValidationStatus? validationStatus;
-
-  /// The version of the software set.
-  final String? version;
-
-  SoftwareSetSummary({
-    this.arn,
-    this.id,
-    this.releasedAt,
-    this.supportedUntil,
-    this.validationStatus,
-    this.version,
-  });
-
-  factory SoftwareSetSummary.fromJson(Map<String, dynamic> json) {
-    return SoftwareSetSummary(
-      arn: json['arn'] as String?,
-      id: json['id'] as String?,
-      releasedAt: timeStampFromJson(json['releasedAt']),
-      supportedUntil: timeStampFromJson(json['supportedUntil']),
-      validationStatus: (json['validationStatus'] as String?)
-          ?.let(SoftwareSetValidationStatus.fromString),
-      version: json['version'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final id = this.id;
-    final releasedAt = this.releasedAt;
-    final supportedUntil = this.supportedUntil;
-    final validationStatus = this.validationStatus;
-    final version = this.version;
-    return {
-      if (arn != null) 'arn': arn,
-      if (id != null) 'id': id,
-      if (releasedAt != null) 'releasedAt': unixTimestampToJson(releasedAt),
-      if (supportedUntil != null)
-        'supportedUntil': unixTimestampToJson(supportedUntil),
-      if (validationStatus != null) 'validationStatus': validationStatus.value,
-      if (version != null) 'version': version,
-    };
-  }
-}
-
-class SoftwareSetUpdateMode {
-  static const useLatest = SoftwareSetUpdateMode._('USE_LATEST');
-  static const useDesired = SoftwareSetUpdateMode._('USE_DESIRED');
-
-  final String value;
-
-  const SoftwareSetUpdateMode._(this.value);
-
-  static const values = [useLatest, useDesired];
-
-  static SoftwareSetUpdateMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SoftwareSetUpdateMode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SoftwareSetUpdateMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class SoftwareSetUpdateSchedule {
-  static const useMaintenanceWindow =
-      SoftwareSetUpdateSchedule._('USE_MAINTENANCE_WINDOW');
-  static const applyImmediately =
-      SoftwareSetUpdateSchedule._('APPLY_IMMEDIATELY');
-
-  final String value;
-
-  const SoftwareSetUpdateSchedule._(this.value);
-
-  static const values = [useMaintenanceWindow, applyImmediately];
-
-  static SoftwareSetUpdateSchedule fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SoftwareSetUpdateSchedule._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SoftwareSetUpdateSchedule && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class SoftwareSetUpdateStatus {
-  static const available = SoftwareSetUpdateStatus._('AVAILABLE');
-  static const inProgress = SoftwareSetUpdateStatus._('IN_PROGRESS');
-  static const upToDate = SoftwareSetUpdateStatus._('UP_TO_DATE');
-
-  final String value;
-
-  const SoftwareSetUpdateStatus._(this.value);
-
-  static const values = [available, inProgress, upToDate];
-
-  static SoftwareSetUpdateStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SoftwareSetUpdateStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SoftwareSetUpdateStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class SoftwareSetValidationStatus {
-  static const validated = SoftwareSetValidationStatus._('VALIDATED');
-  static const notValidated = SoftwareSetValidationStatus._('NOT_VALIDATED');
-
-  final String value;
-
-  const SoftwareSetValidationStatus._(this.value);
-
-  static const values = [validated, notValidated];
-
-  static SoftwareSetValidationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SoftwareSetValidationStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SoftwareSetValidationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2154,31 +1004,6 @@ class TagResourceResponse {
   Map<String, dynamic> toJson() {
     return {};
   }
-}
-
-class TargetDeviceStatus {
-  static const deregistered = TargetDeviceStatus._('DEREGISTERED');
-  static const archived = TargetDeviceStatus._('ARCHIVED');
-
-  final String value;
-
-  const TargetDeviceStatus._(this.value);
-
-  static const values = [deregistered, archived];
-
-  static TargetDeviceStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TargetDeviceStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is TargetDeviceStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class UntagResourceResponse {
@@ -2252,6 +1077,1171 @@ class UpdateSoftwareSetResponse {
   Map<String, dynamic> toJson() {
     return {};
   }
+}
+
+class SoftwareSetValidationStatus {
+  static const validated = SoftwareSetValidationStatus._('VALIDATED');
+  static const notValidated = SoftwareSetValidationStatus._('NOT_VALIDATED');
+
+  final String value;
+
+  const SoftwareSetValidationStatus._(this.value);
+
+  static const values = [validated, notValidated];
+
+  static SoftwareSetValidationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SoftwareSetValidationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SoftwareSetValidationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes an environment.
+class EnvironmentSummary {
+  /// The activation code to register a device to the environment.
+  final String? activationCode;
+
+  /// The Amazon Resource Name (ARN) of the environment.
+  final String? arn;
+
+  /// The timestamp of when the environment was created.
+  final DateTime? createdAt;
+
+  /// The ID of the software set to apply.
+  final String? desiredSoftwareSetId;
+
+  /// The Amazon Resource Name (ARN) of the desktop to stream from Amazon
+  /// WorkSpaces, WorkSpaces Secure Browser, or AppStream 2.0.
+  final String? desktopArn;
+
+  /// The URL for the identity provider login (only for environments that use
+  /// AppStream 2.0).
+  final String? desktopEndpoint;
+
+  /// The type of streaming desktop for the environment.
+  final DesktopType? desktopType;
+
+  /// The ID of the environment.
+  final String? id;
+
+  /// A specification for a time window to apply software updates.
+  final MaintenanceWindow? maintenanceWindow;
+
+  /// The name of the environment.
+  final String? name;
+
+  /// The ID of the software set that is pending to be installed.
+  final String? pendingSoftwareSetId;
+
+  /// An option to define which software updates to apply.
+  final SoftwareSetUpdateMode? softwareSetUpdateMode;
+
+  /// An option to define if software updates should be applied within a
+  /// maintenance window.
+  final SoftwareSetUpdateSchedule? softwareSetUpdateSchedule;
+
+  /// The timestamp of when the device was updated.
+  final DateTime? updatedAt;
+
+  EnvironmentSummary({
+    this.activationCode,
+    this.arn,
+    this.createdAt,
+    this.desiredSoftwareSetId,
+    this.desktopArn,
+    this.desktopEndpoint,
+    this.desktopType,
+    this.id,
+    this.maintenanceWindow,
+    this.name,
+    this.pendingSoftwareSetId,
+    this.softwareSetUpdateMode,
+    this.softwareSetUpdateSchedule,
+    this.updatedAt,
+  });
+
+  factory EnvironmentSummary.fromJson(Map<String, dynamic> json) {
+    return EnvironmentSummary(
+      activationCode: json['activationCode'] as String?,
+      arn: json['arn'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      desiredSoftwareSetId: json['desiredSoftwareSetId'] as String?,
+      desktopArn: json['desktopArn'] as String?,
+      desktopEndpoint: json['desktopEndpoint'] as String?,
+      desktopType:
+          (json['desktopType'] as String?)?.let(DesktopType.fromString),
+      id: json['id'] as String?,
+      maintenanceWindow: json['maintenanceWindow'] != null
+          ? MaintenanceWindow.fromJson(
+              json['maintenanceWindow'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+      pendingSoftwareSetId: json['pendingSoftwareSetId'] as String?,
+      softwareSetUpdateMode: (json['softwareSetUpdateMode'] as String?)
+          ?.let(SoftwareSetUpdateMode.fromString),
+      softwareSetUpdateSchedule: (json['softwareSetUpdateSchedule'] as String?)
+          ?.let(SoftwareSetUpdateSchedule.fromString),
+      updatedAt: timeStampFromJson(json['updatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activationCode = this.activationCode;
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final desiredSoftwareSetId = this.desiredSoftwareSetId;
+    final desktopArn = this.desktopArn;
+    final desktopEndpoint = this.desktopEndpoint;
+    final desktopType = this.desktopType;
+    final id = this.id;
+    final maintenanceWindow = this.maintenanceWindow;
+    final name = this.name;
+    final pendingSoftwareSetId = this.pendingSoftwareSetId;
+    final softwareSetUpdateMode = this.softwareSetUpdateMode;
+    final softwareSetUpdateSchedule = this.softwareSetUpdateSchedule;
+    final updatedAt = this.updatedAt;
+    return {
+      if (activationCode != null) 'activationCode': activationCode,
+      if (arn != null) 'arn': arn,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (desiredSoftwareSetId != null)
+        'desiredSoftwareSetId': desiredSoftwareSetId,
+      if (desktopArn != null) 'desktopArn': desktopArn,
+      if (desktopEndpoint != null) 'desktopEndpoint': desktopEndpoint,
+      if (desktopType != null) 'desktopType': desktopType.value,
+      if (id != null) 'id': id,
+      if (maintenanceWindow != null) 'maintenanceWindow': maintenanceWindow,
+      if (name != null) 'name': name,
+      if (pendingSoftwareSetId != null)
+        'pendingSoftwareSetId': pendingSoftwareSetId,
+      if (softwareSetUpdateMode != null)
+        'softwareSetUpdateMode': softwareSetUpdateMode.value,
+      if (softwareSetUpdateSchedule != null)
+        'softwareSetUpdateSchedule': softwareSetUpdateSchedule.value,
+      if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+class DesktopType {
+  static const workspaces = DesktopType._('workspaces');
+  static const appstream = DesktopType._('appstream');
+  static const workspacesWeb = DesktopType._('workspaces-web');
+
+  final String value;
+
+  const DesktopType._(this.value);
+
+  static const values = [workspaces, appstream, workspacesWeb];
+
+  static DesktopType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DesktopType._(value));
+
+  @override
+  bool operator ==(other) => other is DesktopType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SoftwareSetUpdateSchedule {
+  static const useMaintenanceWindow =
+      SoftwareSetUpdateSchedule._('USE_MAINTENANCE_WINDOW');
+  static const applyImmediately =
+      SoftwareSetUpdateSchedule._('APPLY_IMMEDIATELY');
+
+  final String value;
+
+  const SoftwareSetUpdateSchedule._(this.value);
+
+  static const values = [useMaintenanceWindow, applyImmediately];
+
+  static SoftwareSetUpdateSchedule fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SoftwareSetUpdateSchedule._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SoftwareSetUpdateSchedule && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the maintenance window for a thin client device.
+class MaintenanceWindow {
+  /// An option to select the default or custom maintenance window.
+  final MaintenanceWindowType type;
+
+  /// The option to set the maintenance window during the device local time or
+  /// Universal Coordinated Time (UTC).
+  final ApplyTimeOf? applyTimeOf;
+
+  /// The days of the week during which the maintenance window is open.
+  final List<DayOfWeek>? daysOfTheWeek;
+
+  /// The hour for the maintenance window end (<code>00</code>-<code>23</code>).
+  final int? endTimeHour;
+
+  /// The minutes for the maintenance window end
+  /// (<code>00</code>-<code>59</code>).
+  final int? endTimeMinute;
+
+  /// The hour for the maintenance window start (<code>00</code>-<code>23</code>).
+  final int? startTimeHour;
+
+  /// The minutes past the hour for the maintenance window start
+  /// (<code>00</code>-<code>59</code>).
+  final int? startTimeMinute;
+
+  MaintenanceWindow({
+    required this.type,
+    this.applyTimeOf,
+    this.daysOfTheWeek,
+    this.endTimeHour,
+    this.endTimeMinute,
+    this.startTimeHour,
+    this.startTimeMinute,
+  });
+
+  factory MaintenanceWindow.fromJson(Map<String, dynamic> json) {
+    return MaintenanceWindow(
+      type: MaintenanceWindowType.fromString((json['type'] as String?) ?? ''),
+      applyTimeOf:
+          (json['applyTimeOf'] as String?)?.let(ApplyTimeOf.fromString),
+      daysOfTheWeek: (json['daysOfTheWeek'] as List?)
+          ?.nonNulls
+          .map((e) => DayOfWeek.fromString((e as String)))
+          .toList(),
+      endTimeHour: json['endTimeHour'] as int?,
+      endTimeMinute: json['endTimeMinute'] as int?,
+      startTimeHour: json['startTimeHour'] as int?,
+      startTimeMinute: json['startTimeMinute'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final applyTimeOf = this.applyTimeOf;
+    final daysOfTheWeek = this.daysOfTheWeek;
+    final endTimeHour = this.endTimeHour;
+    final endTimeMinute = this.endTimeMinute;
+    final startTimeHour = this.startTimeHour;
+    final startTimeMinute = this.startTimeMinute;
+    return {
+      'type': type.value,
+      if (applyTimeOf != null) 'applyTimeOf': applyTimeOf.value,
+      if (daysOfTheWeek != null)
+        'daysOfTheWeek': daysOfTheWeek.map((e) => e.value).toList(),
+      if (endTimeHour != null) 'endTimeHour': endTimeHour,
+      if (endTimeMinute != null) 'endTimeMinute': endTimeMinute,
+      if (startTimeHour != null) 'startTimeHour': startTimeHour,
+      if (startTimeMinute != null) 'startTimeMinute': startTimeMinute,
+    };
+  }
+}
+
+class SoftwareSetUpdateMode {
+  static const useLatest = SoftwareSetUpdateMode._('USE_LATEST');
+  static const useDesired = SoftwareSetUpdateMode._('USE_DESIRED');
+
+  final String value;
+
+  const SoftwareSetUpdateMode._(this.value);
+
+  static const values = [useLatest, useDesired];
+
+  static SoftwareSetUpdateMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SoftwareSetUpdateMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SoftwareSetUpdateMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class MaintenanceWindowType {
+  static const system = MaintenanceWindowType._('SYSTEM');
+  static const custom = MaintenanceWindowType._('CUSTOM');
+
+  final String value;
+
+  const MaintenanceWindowType._(this.value);
+
+  static const values = [system, custom];
+
+  static MaintenanceWindowType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MaintenanceWindowType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MaintenanceWindowType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ApplyTimeOf {
+  static const utc = ApplyTimeOf._('UTC');
+  static const device = ApplyTimeOf._('DEVICE');
+
+  final String value;
+
+  const ApplyTimeOf._(this.value);
+
+  static const values = [utc, device];
+
+  static ApplyTimeOf fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ApplyTimeOf._(value));
+
+  @override
+  bool operator ==(other) => other is ApplyTimeOf && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DayOfWeek {
+  static const monday = DayOfWeek._('MONDAY');
+  static const tuesday = DayOfWeek._('TUESDAY');
+  static const wednesday = DayOfWeek._('WEDNESDAY');
+  static const thursday = DayOfWeek._('THURSDAY');
+  static const friday = DayOfWeek._('FRIDAY');
+  static const saturday = DayOfWeek._('SATURDAY');
+  static const sunday = DayOfWeek._('SUNDAY');
+
+  final String value;
+
+  const DayOfWeek._(this.value);
+
+  static const values = [
+    monday,
+    tuesday,
+    wednesday,
+    thursday,
+    friday,
+    saturday,
+    sunday
+  ];
+
+  static DayOfWeek fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DayOfWeek._(value));
+
+  @override
+  bool operator ==(other) => other is DayOfWeek && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a thin client device.
+class DeviceSummary {
+  /// The Amazon Resource Name (ARN) of the device.
+  final String? arn;
+
+  /// The timestamp of when the device was created.
+  final DateTime? createdAt;
+
+  /// The ID of the software set currently installed on the device.
+  final String? currentSoftwareSetId;
+
+  /// The ID of the software set which the device has been set to.
+  final String? desiredSoftwareSetId;
+
+  /// The ID of the environment the device is associated with.
+  final String? environmentId;
+
+  /// The ID of the device.
+  final String? id;
+
+  /// The timestamp of the most recent session on the device.
+  final DateTime? lastConnectedAt;
+
+  /// The timestamp of the most recent check-in of the device.
+  final DateTime? lastPostureAt;
+
+  /// The user ID of the most recent session on the device.
+  final String? lastUserId;
+
+  /// The model number of the device.
+  final String? model;
+
+  /// The name of the device.
+  final String? name;
+
+  /// The ID of the software set that is pending to be installed on the device.
+  final String? pendingSoftwareSetId;
+
+  /// The hardware serial number of the device.
+  final String? serialNumber;
+
+  /// An option to define if software updates should be applied within a
+  /// maintenance window.
+  final SoftwareSetUpdateSchedule? softwareSetUpdateSchedule;
+
+  /// The status of the device.
+  final DeviceStatus? status;
+
+  /// The timestamp of when the device was updated.
+  final DateTime? updatedAt;
+
+  DeviceSummary({
+    this.arn,
+    this.createdAt,
+    this.currentSoftwareSetId,
+    this.desiredSoftwareSetId,
+    this.environmentId,
+    this.id,
+    this.lastConnectedAt,
+    this.lastPostureAt,
+    this.lastUserId,
+    this.model,
+    this.name,
+    this.pendingSoftwareSetId,
+    this.serialNumber,
+    this.softwareSetUpdateSchedule,
+    this.status,
+    this.updatedAt,
+  });
+
+  factory DeviceSummary.fromJson(Map<String, dynamic> json) {
+    return DeviceSummary(
+      arn: json['arn'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      currentSoftwareSetId: json['currentSoftwareSetId'] as String?,
+      desiredSoftwareSetId: json['desiredSoftwareSetId'] as String?,
+      environmentId: json['environmentId'] as String?,
+      id: json['id'] as String?,
+      lastConnectedAt: timeStampFromJson(json['lastConnectedAt']),
+      lastPostureAt: timeStampFromJson(json['lastPostureAt']),
+      lastUserId: json['lastUserId'] as String?,
+      model: json['model'] as String?,
+      name: json['name'] as String?,
+      pendingSoftwareSetId: json['pendingSoftwareSetId'] as String?,
+      serialNumber: json['serialNumber'] as String?,
+      softwareSetUpdateSchedule: (json['softwareSetUpdateSchedule'] as String?)
+          ?.let(SoftwareSetUpdateSchedule.fromString),
+      status: (json['status'] as String?)?.let(DeviceStatus.fromString),
+      updatedAt: timeStampFromJson(json['updatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final currentSoftwareSetId = this.currentSoftwareSetId;
+    final desiredSoftwareSetId = this.desiredSoftwareSetId;
+    final environmentId = this.environmentId;
+    final id = this.id;
+    final lastConnectedAt = this.lastConnectedAt;
+    final lastPostureAt = this.lastPostureAt;
+    final lastUserId = this.lastUserId;
+    final model = this.model;
+    final name = this.name;
+    final pendingSoftwareSetId = this.pendingSoftwareSetId;
+    final serialNumber = this.serialNumber;
+    final softwareSetUpdateSchedule = this.softwareSetUpdateSchedule;
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (currentSoftwareSetId != null)
+        'currentSoftwareSetId': currentSoftwareSetId,
+      if (desiredSoftwareSetId != null)
+        'desiredSoftwareSetId': desiredSoftwareSetId,
+      if (environmentId != null) 'environmentId': environmentId,
+      if (id != null) 'id': id,
+      if (lastConnectedAt != null)
+        'lastConnectedAt': unixTimestampToJson(lastConnectedAt),
+      if (lastPostureAt != null)
+        'lastPostureAt': unixTimestampToJson(lastPostureAt),
+      if (lastUserId != null) 'lastUserId': lastUserId,
+      if (model != null) 'model': model,
+      if (name != null) 'name': name,
+      if (pendingSoftwareSetId != null)
+        'pendingSoftwareSetId': pendingSoftwareSetId,
+      if (serialNumber != null) 'serialNumber': serialNumber,
+      if (softwareSetUpdateSchedule != null)
+        'softwareSetUpdateSchedule': softwareSetUpdateSchedule.value,
+      if (status != null) 'status': status.value,
+      if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+class DeviceStatus {
+  static const registered = DeviceStatus._('REGISTERED');
+  static const deregistering = DeviceStatus._('DEREGISTERING');
+  static const deregistered = DeviceStatus._('DEREGISTERED');
+  static const archived = DeviceStatus._('ARCHIVED');
+
+  final String value;
+
+  const DeviceStatus._(this.value);
+
+  static const values = [registered, deregistering, deregistered, archived];
+
+  static DeviceStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DeviceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DeviceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a software set.
+class SoftwareSetSummary {
+  /// The Amazon Resource Name (ARN) of the software set.
+  final String? arn;
+
+  /// The ID of the software set.
+  final String? id;
+
+  /// The timestamp of when the software set was released.
+  final DateTime? releasedAt;
+
+  /// The timestamp of the end of support for the software set.
+  final DateTime? supportedUntil;
+
+  /// An option to define if the software set has been validated.
+  final SoftwareSetValidationStatus? validationStatus;
+
+  /// The version of the software set.
+  final String? version;
+
+  SoftwareSetSummary({
+    this.arn,
+    this.id,
+    this.releasedAt,
+    this.supportedUntil,
+    this.validationStatus,
+    this.version,
+  });
+
+  factory SoftwareSetSummary.fromJson(Map<String, dynamic> json) {
+    return SoftwareSetSummary(
+      arn: json['arn'] as String?,
+      id: json['id'] as String?,
+      releasedAt: timeStampFromJson(json['releasedAt']),
+      supportedUntil: timeStampFromJson(json['supportedUntil']),
+      validationStatus: (json['validationStatus'] as String?)
+          ?.let(SoftwareSetValidationStatus.fromString),
+      version: json['version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final releasedAt = this.releasedAt;
+    final supportedUntil = this.supportedUntil;
+    final validationStatus = this.validationStatus;
+    final version = this.version;
+    return {
+      if (arn != null) 'arn': arn,
+      if (id != null) 'id': id,
+      if (releasedAt != null) 'releasedAt': unixTimestampToJson(releasedAt),
+      if (supportedUntil != null)
+        'supportedUntil': unixTimestampToJson(supportedUntil),
+      if (validationStatus != null) 'validationStatus': validationStatus.value,
+      if (version != null) 'version': version,
+    };
+  }
+}
+
+/// Describes a software set.
+class SoftwareSet {
+  /// The Amazon Resource Name (ARN) of the software set.
+  final String? arn;
+
+  /// The ID of the software set.
+  final String? id;
+
+  /// The timestamp of when the software set was released.
+  final DateTime? releasedAt;
+
+  /// A list of the software components in the software set.
+  final List<Software>? software;
+
+  /// The timestamp of the end of support for the software set.
+  final DateTime? supportedUntil;
+
+  /// An option to define if the software set has been validated.
+  final SoftwareSetValidationStatus? validationStatus;
+
+  /// The version of the software set.
+  final String? version;
+
+  SoftwareSet({
+    this.arn,
+    this.id,
+    this.releasedAt,
+    this.software,
+    this.supportedUntil,
+    this.validationStatus,
+    this.version,
+  });
+
+  factory SoftwareSet.fromJson(Map<String, dynamic> json) {
+    return SoftwareSet(
+      arn: json['arn'] as String?,
+      id: json['id'] as String?,
+      releasedAt: timeStampFromJson(json['releasedAt']),
+      software: (json['software'] as List?)
+          ?.nonNulls
+          .map((e) => Software.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      supportedUntil: timeStampFromJson(json['supportedUntil']),
+      validationStatus: (json['validationStatus'] as String?)
+          ?.let(SoftwareSetValidationStatus.fromString),
+      version: json['version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final releasedAt = this.releasedAt;
+    final software = this.software;
+    final supportedUntil = this.supportedUntil;
+    final validationStatus = this.validationStatus;
+    final version = this.version;
+    return {
+      if (arn != null) 'arn': arn,
+      if (id != null) 'id': id,
+      if (releasedAt != null) 'releasedAt': unixTimestampToJson(releasedAt),
+      if (software != null) 'software': software,
+      if (supportedUntil != null)
+        'supportedUntil': unixTimestampToJson(supportedUntil),
+      if (validationStatus != null) 'validationStatus': validationStatus.value,
+      if (version != null) 'version': version,
+    };
+  }
+}
+
+/// Describes software.
+class Software {
+  /// The name of the software component.
+  final String? name;
+
+  /// The version of the software component.
+  final String? version;
+
+  Software({
+    this.name,
+    this.version,
+  });
+
+  factory Software.fromJson(Map<String, dynamic> json) {
+    return Software(
+      name: json['name'] as String?,
+      version: json['version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final version = this.version;
+    return {
+      if (name != null) 'name': name,
+      if (version != null) 'version': version,
+    };
+  }
+}
+
+/// Describes an environment.
+class Environment {
+  /// The activation code to register a device to the environment.
+  final String? activationCode;
+
+  /// The Amazon Resource Name (ARN) of the environment.
+  final String? arn;
+
+  /// The timestamp of when the environment was created.
+  final DateTime? createdAt;
+
+  /// The ID of the software set to apply.
+  final String? desiredSoftwareSetId;
+
+  /// The Amazon Resource Name (ARN) of the desktop to stream from Amazon
+  /// WorkSpaces, WorkSpaces Secure Browser, or AppStream 2.0.
+  final String? desktopArn;
+
+  /// The URL for the identity provider login (only for environments that use
+  /// AppStream 2.0).
+  final String? desktopEndpoint;
+
+  /// The type of streaming desktop for the environment.
+  final DesktopType? desktopType;
+
+  /// The tag keys and optional values for the newly created devices for this
+  /// environment.
+  final Map<String, String>? deviceCreationTags;
+
+  /// The ID of the environment.
+  final String? id;
+
+  /// The Amazon Resource Name (ARN) of the Key Management Service key used to
+  /// encrypt the environment.
+  final String? kmsKeyArn;
+
+  /// A specification for a time window to apply software updates.
+  final MaintenanceWindow? maintenanceWindow;
+
+  /// The name of the environment.
+  final String? name;
+
+  /// The ID of the software set that is pending to be installed.
+  final String? pendingSoftwareSetId;
+
+  /// The version of the software set that is pending to be installed.
+  final String? pendingSoftwareSetVersion;
+
+  /// The number of devices registered to the environment.
+  final int? registeredDevicesCount;
+
+  /// Describes if the software currently installed on all devices in the
+  /// environment is a supported version.
+  final EnvironmentSoftwareSetComplianceStatus? softwareSetComplianceStatus;
+
+  /// An option to define which software updates to apply.
+  final SoftwareSetUpdateMode? softwareSetUpdateMode;
+
+  /// An option to define if software updates should be applied within a
+  /// maintenance window.
+  final SoftwareSetUpdateSchedule? softwareSetUpdateSchedule;
+
+  /// The timestamp of when the device was updated.
+  final DateTime? updatedAt;
+
+  Environment({
+    this.activationCode,
+    this.arn,
+    this.createdAt,
+    this.desiredSoftwareSetId,
+    this.desktopArn,
+    this.desktopEndpoint,
+    this.desktopType,
+    this.deviceCreationTags,
+    this.id,
+    this.kmsKeyArn,
+    this.maintenanceWindow,
+    this.name,
+    this.pendingSoftwareSetId,
+    this.pendingSoftwareSetVersion,
+    this.registeredDevicesCount,
+    this.softwareSetComplianceStatus,
+    this.softwareSetUpdateMode,
+    this.softwareSetUpdateSchedule,
+    this.updatedAt,
+  });
+
+  factory Environment.fromJson(Map<String, dynamic> json) {
+    return Environment(
+      activationCode: json['activationCode'] as String?,
+      arn: json['arn'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      desiredSoftwareSetId: json['desiredSoftwareSetId'] as String?,
+      desktopArn: json['desktopArn'] as String?,
+      desktopEndpoint: json['desktopEndpoint'] as String?,
+      desktopType:
+          (json['desktopType'] as String?)?.let(DesktopType.fromString),
+      deviceCreationTags: (json['deviceCreationTags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      id: json['id'] as String?,
+      kmsKeyArn: json['kmsKeyArn'] as String?,
+      maintenanceWindow: json['maintenanceWindow'] != null
+          ? MaintenanceWindow.fromJson(
+              json['maintenanceWindow'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+      pendingSoftwareSetId: json['pendingSoftwareSetId'] as String?,
+      pendingSoftwareSetVersion: json['pendingSoftwareSetVersion'] as String?,
+      registeredDevicesCount: json['registeredDevicesCount'] as int?,
+      softwareSetComplianceStatus:
+          (json['softwareSetComplianceStatus'] as String?)
+              ?.let(EnvironmentSoftwareSetComplianceStatus.fromString),
+      softwareSetUpdateMode: (json['softwareSetUpdateMode'] as String?)
+          ?.let(SoftwareSetUpdateMode.fromString),
+      softwareSetUpdateSchedule: (json['softwareSetUpdateSchedule'] as String?)
+          ?.let(SoftwareSetUpdateSchedule.fromString),
+      updatedAt: timeStampFromJson(json['updatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activationCode = this.activationCode;
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final desiredSoftwareSetId = this.desiredSoftwareSetId;
+    final desktopArn = this.desktopArn;
+    final desktopEndpoint = this.desktopEndpoint;
+    final desktopType = this.desktopType;
+    final deviceCreationTags = this.deviceCreationTags;
+    final id = this.id;
+    final kmsKeyArn = this.kmsKeyArn;
+    final maintenanceWindow = this.maintenanceWindow;
+    final name = this.name;
+    final pendingSoftwareSetId = this.pendingSoftwareSetId;
+    final pendingSoftwareSetVersion = this.pendingSoftwareSetVersion;
+    final registeredDevicesCount = this.registeredDevicesCount;
+    final softwareSetComplianceStatus = this.softwareSetComplianceStatus;
+    final softwareSetUpdateMode = this.softwareSetUpdateMode;
+    final softwareSetUpdateSchedule = this.softwareSetUpdateSchedule;
+    final updatedAt = this.updatedAt;
+    return {
+      if (activationCode != null) 'activationCode': activationCode,
+      if (arn != null) 'arn': arn,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (desiredSoftwareSetId != null)
+        'desiredSoftwareSetId': desiredSoftwareSetId,
+      if (desktopArn != null) 'desktopArn': desktopArn,
+      if (desktopEndpoint != null) 'desktopEndpoint': desktopEndpoint,
+      if (desktopType != null) 'desktopType': desktopType.value,
+      if (deviceCreationTags != null) 'deviceCreationTags': deviceCreationTags,
+      if (id != null) 'id': id,
+      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
+      if (maintenanceWindow != null) 'maintenanceWindow': maintenanceWindow,
+      if (name != null) 'name': name,
+      if (pendingSoftwareSetId != null)
+        'pendingSoftwareSetId': pendingSoftwareSetId,
+      if (pendingSoftwareSetVersion != null)
+        'pendingSoftwareSetVersion': pendingSoftwareSetVersion,
+      if (registeredDevicesCount != null)
+        'registeredDevicesCount': registeredDevicesCount,
+      if (softwareSetComplianceStatus != null)
+        'softwareSetComplianceStatus': softwareSetComplianceStatus.value,
+      if (softwareSetUpdateMode != null)
+        'softwareSetUpdateMode': softwareSetUpdateMode.value,
+      if (softwareSetUpdateSchedule != null)
+        'softwareSetUpdateSchedule': softwareSetUpdateSchedule.value,
+      if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+class EnvironmentSoftwareSetComplianceStatus {
+  static const noRegisteredDevices =
+      EnvironmentSoftwareSetComplianceStatus._('NO_REGISTERED_DEVICES');
+  static const compliant =
+      EnvironmentSoftwareSetComplianceStatus._('COMPLIANT');
+  static const notCompliant =
+      EnvironmentSoftwareSetComplianceStatus._('NOT_COMPLIANT');
+
+  final String value;
+
+  const EnvironmentSoftwareSetComplianceStatus._(this.value);
+
+  static const values = [noRegisteredDevices, compliant, notCompliant];
+
+  static EnvironmentSoftwareSetComplianceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EnvironmentSoftwareSetComplianceStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EnvironmentSoftwareSetComplianceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a thin client device.
+class Device {
+  /// The Amazon Resource Name (ARN) of the device.
+  final String? arn;
+
+  /// The timestamp of when the device was created.
+  final DateTime? createdAt;
+
+  /// The ID of the software set currently installed on the device.
+  final String? currentSoftwareSetId;
+
+  /// The version of the software set currently installed on the device.
+  final String? currentSoftwareSetVersion;
+
+  /// The ID of the software set which the device has been set to.
+  final String? desiredSoftwareSetId;
+
+  /// The ID of the environment the device is associated with.
+  final String? environmentId;
+
+  /// The ID of the device.
+  final String? id;
+
+  /// The Amazon Resource Name (ARN) of the Key Management Service key used to
+  /// encrypt the device.
+  final String? kmsKeyArn;
+
+  /// The timestamp of the most recent session on the device.
+  final DateTime? lastConnectedAt;
+
+  /// The timestamp of the most recent check-in of the device.
+  final DateTime? lastPostureAt;
+
+  /// The user ID of the most recent session on the device.
+  final String? lastUserId;
+
+  /// The model number of the device.
+  final String? model;
+
+  /// The name of the device.
+  final String? name;
+
+  /// The ID of the software set that is pending to be installed on the device.
+  final String? pendingSoftwareSetId;
+
+  /// The version of the software set that is pending to be installed on the
+  /// device.
+  final String? pendingSoftwareSetVersion;
+
+  /// The hardware serial number of the device.
+  final String? serialNumber;
+
+  /// Describes if the software currently installed on the device is a supported
+  /// version.
+  final DeviceSoftwareSetComplianceStatus? softwareSetComplianceStatus;
+
+  /// An option to define if software updates should be applied within a
+  /// maintenance window.
+  final SoftwareSetUpdateSchedule? softwareSetUpdateSchedule;
+
+  /// Describes if the device has a supported version of software installed.
+  final SoftwareSetUpdateStatus? softwareSetUpdateStatus;
+
+  /// The status of the device.
+  final DeviceStatus? status;
+
+  /// The timestamp of when the device was updated.
+  final DateTime? updatedAt;
+
+  Device({
+    this.arn,
+    this.createdAt,
+    this.currentSoftwareSetId,
+    this.currentSoftwareSetVersion,
+    this.desiredSoftwareSetId,
+    this.environmentId,
+    this.id,
+    this.kmsKeyArn,
+    this.lastConnectedAt,
+    this.lastPostureAt,
+    this.lastUserId,
+    this.model,
+    this.name,
+    this.pendingSoftwareSetId,
+    this.pendingSoftwareSetVersion,
+    this.serialNumber,
+    this.softwareSetComplianceStatus,
+    this.softwareSetUpdateSchedule,
+    this.softwareSetUpdateStatus,
+    this.status,
+    this.updatedAt,
+  });
+
+  factory Device.fromJson(Map<String, dynamic> json) {
+    return Device(
+      arn: json['arn'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      currentSoftwareSetId: json['currentSoftwareSetId'] as String?,
+      currentSoftwareSetVersion: json['currentSoftwareSetVersion'] as String?,
+      desiredSoftwareSetId: json['desiredSoftwareSetId'] as String?,
+      environmentId: json['environmentId'] as String?,
+      id: json['id'] as String?,
+      kmsKeyArn: json['kmsKeyArn'] as String?,
+      lastConnectedAt: timeStampFromJson(json['lastConnectedAt']),
+      lastPostureAt: timeStampFromJson(json['lastPostureAt']),
+      lastUserId: json['lastUserId'] as String?,
+      model: json['model'] as String?,
+      name: json['name'] as String?,
+      pendingSoftwareSetId: json['pendingSoftwareSetId'] as String?,
+      pendingSoftwareSetVersion: json['pendingSoftwareSetVersion'] as String?,
+      serialNumber: json['serialNumber'] as String?,
+      softwareSetComplianceStatus:
+          (json['softwareSetComplianceStatus'] as String?)
+              ?.let(DeviceSoftwareSetComplianceStatus.fromString),
+      softwareSetUpdateSchedule: (json['softwareSetUpdateSchedule'] as String?)
+          ?.let(SoftwareSetUpdateSchedule.fromString),
+      softwareSetUpdateStatus: (json['softwareSetUpdateStatus'] as String?)
+          ?.let(SoftwareSetUpdateStatus.fromString),
+      status: (json['status'] as String?)?.let(DeviceStatus.fromString),
+      updatedAt: timeStampFromJson(json['updatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final currentSoftwareSetId = this.currentSoftwareSetId;
+    final currentSoftwareSetVersion = this.currentSoftwareSetVersion;
+    final desiredSoftwareSetId = this.desiredSoftwareSetId;
+    final environmentId = this.environmentId;
+    final id = this.id;
+    final kmsKeyArn = this.kmsKeyArn;
+    final lastConnectedAt = this.lastConnectedAt;
+    final lastPostureAt = this.lastPostureAt;
+    final lastUserId = this.lastUserId;
+    final model = this.model;
+    final name = this.name;
+    final pendingSoftwareSetId = this.pendingSoftwareSetId;
+    final pendingSoftwareSetVersion = this.pendingSoftwareSetVersion;
+    final serialNumber = this.serialNumber;
+    final softwareSetComplianceStatus = this.softwareSetComplianceStatus;
+    final softwareSetUpdateSchedule = this.softwareSetUpdateSchedule;
+    final softwareSetUpdateStatus = this.softwareSetUpdateStatus;
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (currentSoftwareSetId != null)
+        'currentSoftwareSetId': currentSoftwareSetId,
+      if (currentSoftwareSetVersion != null)
+        'currentSoftwareSetVersion': currentSoftwareSetVersion,
+      if (desiredSoftwareSetId != null)
+        'desiredSoftwareSetId': desiredSoftwareSetId,
+      if (environmentId != null) 'environmentId': environmentId,
+      if (id != null) 'id': id,
+      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
+      if (lastConnectedAt != null)
+        'lastConnectedAt': unixTimestampToJson(lastConnectedAt),
+      if (lastPostureAt != null)
+        'lastPostureAt': unixTimestampToJson(lastPostureAt),
+      if (lastUserId != null) 'lastUserId': lastUserId,
+      if (model != null) 'model': model,
+      if (name != null) 'name': name,
+      if (pendingSoftwareSetId != null)
+        'pendingSoftwareSetId': pendingSoftwareSetId,
+      if (pendingSoftwareSetVersion != null)
+        'pendingSoftwareSetVersion': pendingSoftwareSetVersion,
+      if (serialNumber != null) 'serialNumber': serialNumber,
+      if (softwareSetComplianceStatus != null)
+        'softwareSetComplianceStatus': softwareSetComplianceStatus.value,
+      if (softwareSetUpdateSchedule != null)
+        'softwareSetUpdateSchedule': softwareSetUpdateSchedule.value,
+      if (softwareSetUpdateStatus != null)
+        'softwareSetUpdateStatus': softwareSetUpdateStatus.value,
+      if (status != null) 'status': status.value,
+      if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+class DeviceSoftwareSetComplianceStatus {
+  static const none = DeviceSoftwareSetComplianceStatus._('NONE');
+  static const compliant = DeviceSoftwareSetComplianceStatus._('COMPLIANT');
+  static const notCompliant =
+      DeviceSoftwareSetComplianceStatus._('NOT_COMPLIANT');
+
+  final String value;
+
+  const DeviceSoftwareSetComplianceStatus._(this.value);
+
+  static const values = [none, compliant, notCompliant];
+
+  static DeviceSoftwareSetComplianceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeviceSoftwareSetComplianceStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeviceSoftwareSetComplianceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SoftwareSetUpdateStatus {
+  static const available = SoftwareSetUpdateStatus._('AVAILABLE');
+  static const inProgress = SoftwareSetUpdateStatus._('IN_PROGRESS');
+  static const upToDate = SoftwareSetUpdateStatus._('UP_TO_DATE');
+
+  final String value;
+
+  const SoftwareSetUpdateStatus._(this.value);
+
+  static const values = [available, inProgress, upToDate];
+
+  static SoftwareSetUpdateStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SoftwareSetUpdateStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SoftwareSetUpdateStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TargetDeviceStatus {
+  static const deregistered = TargetDeviceStatus._('DEREGISTERED');
+  static const archived = TargetDeviceStatus._('ARCHIVED');
+
+  final String value;
+
+  const TargetDeviceStatus._(this.value);
+
+  static const values = [deregistered, archived];
+
+  static TargetDeviceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TargetDeviceStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TargetDeviceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

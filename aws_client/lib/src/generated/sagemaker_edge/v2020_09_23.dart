@@ -22,9 +22,9 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// SageMaker Edge Manager dataplane service for communicating with active
 /// agents.
-class SagemakerEdgeManager {
+class SagemakerEdge {
   final _s.RestJsonProtocol _protocol;
-  SagemakerEdgeManager({
+  SagemakerEdge({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
@@ -153,105 +153,115 @@ class SagemakerEdgeManager {
   }
 }
 
-/// Information about the checksum of a model deployed on a device.
-class Checksum {
-  /// The checksum of the model.
-  final String? sum;
+class GetDeploymentsResult {
+  /// Returns a list of the configurations of the active deployments on the
+  /// device.
+  final List<EdgeDeployment>? deployments;
 
-  /// The type of the checksum.
-  final ChecksumType? type;
-
-  Checksum({
-    this.sum,
-    this.type,
+  GetDeploymentsResult({
+    this.deployments,
   });
 
-  factory Checksum.fromJson(Map<String, dynamic> json) {
-    return Checksum(
-      sum: json['Sum'] as String?,
-      type: (json['Type'] as String?)?.let(ChecksumType.fromString),
+  factory GetDeploymentsResult.fromJson(Map<String, dynamic> json) {
+    return GetDeploymentsResult(
+      deployments: (json['Deployments'] as List?)
+          ?.nonNulls
+          .map((e) => EdgeDeployment.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final sum = this.sum;
-    final type = this.type;
+    final deployments = this.deployments;
     return {
-      if (sum != null) 'Sum': sum,
-      if (type != null) 'Type': type.value,
+      if (deployments != null) 'Deployments': deployments,
     };
   }
 }
 
-class ChecksumType {
-  static const sha1 = ChecksumType._('SHA1');
+class GetDeviceRegistrationResult {
+  /// The amount of time, in seconds, that the registration status is stored on
+  /// the device’s cache before it is refreshed.
+  final String? cacheTTL;
 
-  final String value;
+  /// Describes if the device is currently registered with SageMaker Edge Manager.
+  final String? deviceRegistration;
 
-  const ChecksumType._(this.value);
-
-  static const values = [sha1];
-
-  static ChecksumType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ChecksumType._(value));
-
-  @override
-  bool operator ==(other) => other is ChecksumType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// <p/>
-class Definition {
-  /// The checksum information of the model.
-  final Checksum? checksum;
-
-  /// The unique model handle.
-  final String? modelHandle;
-
-  /// The absolute S3 location of the model.
-  final String? s3Url;
-
-  /// The desired state of the model.
-  final ModelState? state;
-
-  Definition({
-    this.checksum,
-    this.modelHandle,
-    this.s3Url,
-    this.state,
+  GetDeviceRegistrationResult({
+    this.cacheTTL,
+    this.deviceRegistration,
   });
 
-  factory Definition.fromJson(Map<String, dynamic> json) {
-    return Definition(
-      checksum: json['Checksum'] != null
-          ? Checksum.fromJson(json['Checksum'] as Map<String, dynamic>)
-          : null,
-      modelHandle: json['ModelHandle'] as String?,
-      s3Url: json['S3Url'] as String?,
-      state: (json['State'] as String?)?.let(ModelState.fromString),
+  factory GetDeviceRegistrationResult.fromJson(Map<String, dynamic> json) {
+    return GetDeviceRegistrationResult(
+      cacheTTL: json['CacheTTL'] as String?,
+      deviceRegistration: json['DeviceRegistration'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final checksum = this.checksum;
-    final modelHandle = this.modelHandle;
-    final s3Url = this.s3Url;
-    final state = this.state;
+    final cacheTTL = this.cacheTTL;
+    final deviceRegistration = this.deviceRegistration;
     return {
-      if (checksum != null) 'Checksum': checksum,
-      if (modelHandle != null) 'ModelHandle': modelHandle,
-      if (s3Url != null) 'S3Url': s3Url,
-      if (state != null) 'State': state.value,
+      if (cacheTTL != null) 'CacheTTL': cacheTTL,
+      if (deviceRegistration != null) 'DeviceRegistration': deviceRegistration,
     };
   }
 }
 
-/// <p/>
+/// Information about the result of a deployment on an edge device that is
+/// registered with SageMaker Edge Manager.
+class DeploymentResult {
+  /// The timestamp of when the deployment was ended, and the agent got the
+  /// deployment results.
+  final DateTime? deploymentEndTime;
+
+  /// Returns a list of models deployed on the agent.
+  final List<DeploymentModel>? deploymentModels;
+
+  /// The name and unique ID of the deployment.
+  final String? deploymentName;
+
+  /// The timestamp of when the deployment was started on the agent.
+  final DateTime? deploymentStartTime;
+
+  /// Returns the bucket error code.
+  final String? deploymentStatus;
+
+  /// Returns the detailed error message.
+  final String? deploymentStatusMessage;
+
+  DeploymentResult({
+    this.deploymentEndTime,
+    this.deploymentModels,
+    this.deploymentName,
+    this.deploymentStartTime,
+    this.deploymentStatus,
+    this.deploymentStatusMessage,
+  });
+
+  Map<String, dynamic> toJson() {
+    final deploymentEndTime = this.deploymentEndTime;
+    final deploymentModels = this.deploymentModels;
+    final deploymentName = this.deploymentName;
+    final deploymentStartTime = this.deploymentStartTime;
+    final deploymentStatus = this.deploymentStatus;
+    final deploymentStatusMessage = this.deploymentStatusMessage;
+    return {
+      if (deploymentEndTime != null)
+        'DeploymentEndTime': unixTimestampToJson(deploymentEndTime),
+      if (deploymentModels != null) 'DeploymentModels': deploymentModels,
+      if (deploymentName != null) 'DeploymentName': deploymentName,
+      if (deploymentStartTime != null)
+        'DeploymentStartTime': unixTimestampToJson(deploymentStartTime),
+      if (deploymentStatus != null) 'DeploymentStatus': deploymentStatus,
+      if (deploymentStatusMessage != null)
+        'DeploymentStatusMessage': deploymentStatusMessage,
+    };
+  }
+}
+
+///
 class DeploymentModel {
   /// The desired state of the model.
   final ModelState? desiredState;
@@ -311,56 +321,27 @@ class DeploymentModel {
   }
 }
 
-/// Information about the result of a deployment on an edge device that is
-/// registered with SageMaker Edge Manager.
-class DeploymentResult {
-  /// The timestamp of when the deployment was ended, and the agent got the
-  /// deployment results.
-  final DateTime? deploymentEndTime;
+class ModelState {
+  static const deploy = ModelState._('DEPLOY');
+  static const undeploy = ModelState._('UNDEPLOY');
 
-  /// Returns a list of models deployed on the agent.
-  final List<DeploymentModel>? deploymentModels;
+  final String value;
 
-  /// The name and unique ID of the deployment.
-  final String? deploymentName;
+  const ModelState._(this.value);
 
-  /// The timestamp of when the deployment was started on the agent.
-  final DateTime? deploymentStartTime;
+  static const values = [deploy, undeploy];
 
-  /// Returns the bucket error code.
-  final String? deploymentStatus;
+  static ModelState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ModelState._(value));
 
-  /// Returns the detailed error message.
-  final String? deploymentStatusMessage;
+  @override
+  bool operator ==(other) => other is ModelState && other.value == value;
 
-  DeploymentResult({
-    this.deploymentEndTime,
-    this.deploymentModels,
-    this.deploymentName,
-    this.deploymentStartTime,
-    this.deploymentStatus,
-    this.deploymentStatusMessage,
-  });
+  @override
+  int get hashCode => value.hashCode;
 
-  Map<String, dynamic> toJson() {
-    final deploymentEndTime = this.deploymentEndTime;
-    final deploymentModels = this.deploymentModels;
-    final deploymentName = this.deploymentName;
-    final deploymentStartTime = this.deploymentStartTime;
-    final deploymentStatus = this.deploymentStatus;
-    final deploymentStatusMessage = this.deploymentStatusMessage;
-    return {
-      if (deploymentEndTime != null)
-        'DeploymentEndTime': unixTimestampToJson(deploymentEndTime),
-      if (deploymentModels != null) 'DeploymentModels': deploymentModels,
-      if (deploymentName != null) 'DeploymentName': deploymentName,
-      if (deploymentStartTime != null)
-        'DeploymentStartTime': unixTimestampToJson(deploymentStartTime),
-      if (deploymentStatus != null) 'DeploymentStatus': deploymentStatus,
-      if (deploymentStatusMessage != null)
-        'DeploymentStatusMessage': deploymentStatusMessage,
-    };
-  }
+  @override
+  String toString() => value;
 }
 
 class DeploymentStatus {
@@ -387,27 +368,83 @@ class DeploymentStatus {
   String toString() => value;
 }
 
-class DeploymentType {
-  static const model = DeploymentType._('Model');
+/// Information about a model deployed on an edge device that is registered with
+/// SageMaker Edge Manager.
+class Model {
+  /// The timestamp of the last inference that was made.
+  final DateTime? latestInference;
 
-  final String value;
+  /// The timestamp of the last data sample taken.
+  final DateTime? latestSampleTime;
 
-  const DeploymentType._(this.value);
+  /// Information required for model metrics.
+  final List<EdgeMetric>? modelMetrics;
 
-  static const values = [model];
+  /// The name of the model.
+  final String? modelName;
 
-  static DeploymentType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DeploymentType._(value));
+  /// The version of the model.
+  final String? modelVersion;
 
-  @override
-  bool operator ==(other) => other is DeploymentType && other.value == value;
+  Model({
+    this.latestInference,
+    this.latestSampleTime,
+    this.modelMetrics,
+    this.modelName,
+    this.modelVersion,
+  });
 
-  @override
-  int get hashCode => value.hashCode;
+  Map<String, dynamic> toJson() {
+    final latestInference = this.latestInference;
+    final latestSampleTime = this.latestSampleTime;
+    final modelMetrics = this.modelMetrics;
+    final modelName = this.modelName;
+    final modelVersion = this.modelVersion;
+    return {
+      if (latestInference != null)
+        'LatestInference': unixTimestampToJson(latestInference),
+      if (latestSampleTime != null)
+        'LatestSampleTime': unixTimestampToJson(latestSampleTime),
+      if (modelMetrics != null) 'ModelMetrics': modelMetrics,
+      if (modelName != null) 'ModelName': modelName,
+      if (modelVersion != null) 'ModelVersion': modelVersion,
+    };
+  }
+}
 
-  @override
-  String toString() => value;
+/// Information required for edge device metrics.
+class EdgeMetric {
+  /// The dimension of metrics published.
+  final String? dimension;
+
+  /// Returns the name of the metric.
+  final String? metricName;
+
+  /// Timestamp of when the metric was requested.
+  final DateTime? timestamp;
+
+  /// Returns the value of the metric.
+  final double? value;
+
+  EdgeMetric({
+    this.dimension,
+    this.metricName,
+    this.timestamp,
+    this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dimension = this.dimension;
+    final metricName = this.metricName;
+    final timestamp = this.timestamp;
+    final value = this.value;
+    return {
+      if (dimension != null) 'Dimension': dimension,
+      if (metricName != null) 'MetricName': metricName,
+      if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 /// Information about a deployment on an edge device that is registered with
@@ -461,39 +498,27 @@ class EdgeDeployment {
   }
 }
 
-/// Information required for edge device metrics.
-class EdgeMetric {
-  /// The dimension of metrics published.
-  final String? dimension;
+class DeploymentType {
+  static const model = DeploymentType._('Model');
 
-  /// Returns the name of the metric.
-  final String? metricName;
+  final String value;
 
-  /// Timestamp of when the metric was requested.
-  final DateTime? timestamp;
+  const DeploymentType._(this.value);
 
-  /// Returns the value of the metric.
-  final double? value;
+  static const values = [model];
 
-  EdgeMetric({
-    this.dimension,
-    this.metricName,
-    this.timestamp,
-    this.value,
-  });
+  static DeploymentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeploymentType._(value));
 
-  Map<String, dynamic> toJson() {
-    final dimension = this.dimension;
-    final metricName = this.metricName;
-    final timestamp = this.timestamp;
-    final value = this.value;
-    return {
-      if (dimension != null) 'Dimension': dimension,
-      if (metricName != null) 'MetricName': metricName,
-      if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
-      if (value != null) 'Value': value,
-    };
-  }
+  @override
+  bool operator ==(other) => other is DeploymentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class FailureHandlingPolicy {
@@ -522,121 +547,96 @@ class FailureHandlingPolicy {
   String toString() => value;
 }
 
-class GetDeploymentsResult {
-  /// Returns a list of the configurations of the active deployments on the
-  /// device.
-  final List<EdgeDeployment>? deployments;
+///
+class Definition {
+  /// The checksum information of the model.
+  final Checksum? checksum;
 
-  GetDeploymentsResult({
-    this.deployments,
+  /// The unique model handle.
+  final String? modelHandle;
+
+  /// The absolute S3 location of the model.
+  final String? s3Url;
+
+  /// The desired state of the model.
+  final ModelState? state;
+
+  Definition({
+    this.checksum,
+    this.modelHandle,
+    this.s3Url,
+    this.state,
   });
 
-  factory GetDeploymentsResult.fromJson(Map<String, dynamic> json) {
-    return GetDeploymentsResult(
-      deployments: (json['Deployments'] as List?)
-          ?.nonNulls
-          .map((e) => EdgeDeployment.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  factory Definition.fromJson(Map<String, dynamic> json) {
+    return Definition(
+      checksum: json['Checksum'] != null
+          ? Checksum.fromJson(json['Checksum'] as Map<String, dynamic>)
+          : null,
+      modelHandle: json['ModelHandle'] as String?,
+      s3Url: json['S3Url'] as String?,
+      state: (json['State'] as String?)?.let(ModelState.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final deployments = this.deployments;
+    final checksum = this.checksum;
+    final modelHandle = this.modelHandle;
+    final s3Url = this.s3Url;
+    final state = this.state;
     return {
-      if (deployments != null) 'Deployments': deployments,
+      if (checksum != null) 'Checksum': checksum,
+      if (modelHandle != null) 'ModelHandle': modelHandle,
+      if (s3Url != null) 'S3Url': s3Url,
+      if (state != null) 'State': state.value,
     };
   }
 }
 
-class GetDeviceRegistrationResult {
-  /// The amount of time, in seconds, that the registration status is stored on
-  /// the device’s cache before it is refreshed.
-  final String? cacheTTL;
+/// Information about the checksum of a model deployed on a device.
+class Checksum {
+  /// The checksum of the model.
+  final String? sum;
 
-  /// Describes if the device is currently registered with SageMaker Edge Manager.
-  final String? deviceRegistration;
+  /// The type of the checksum.
+  final ChecksumType? type;
 
-  GetDeviceRegistrationResult({
-    this.cacheTTL,
-    this.deviceRegistration,
+  Checksum({
+    this.sum,
+    this.type,
   });
 
-  factory GetDeviceRegistrationResult.fromJson(Map<String, dynamic> json) {
-    return GetDeviceRegistrationResult(
-      cacheTTL: json['CacheTTL'] as String?,
-      deviceRegistration: json['DeviceRegistration'] as String?,
+  factory Checksum.fromJson(Map<String, dynamic> json) {
+    return Checksum(
+      sum: json['Sum'] as String?,
+      type: (json['Type'] as String?)?.let(ChecksumType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final cacheTTL = this.cacheTTL;
-    final deviceRegistration = this.deviceRegistration;
+    final sum = this.sum;
+    final type = this.type;
     return {
-      if (cacheTTL != null) 'CacheTTL': cacheTTL,
-      if (deviceRegistration != null) 'DeviceRegistration': deviceRegistration,
+      if (sum != null) 'Sum': sum,
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
-/// Information about a model deployed on an edge device that is registered with
-/// SageMaker Edge Manager.
-class Model {
-  /// The timestamp of the last inference that was made.
-  final DateTime? latestInference;
-
-  /// The timestamp of the last data sample taken.
-  final DateTime? latestSampleTime;
-
-  /// Information required for model metrics.
-  final List<EdgeMetric>? modelMetrics;
-
-  /// The name of the model.
-  final String? modelName;
-
-  /// The version of the model.
-  final String? modelVersion;
-
-  Model({
-    this.latestInference,
-    this.latestSampleTime,
-    this.modelMetrics,
-    this.modelName,
-    this.modelVersion,
-  });
-
-  Map<String, dynamic> toJson() {
-    final latestInference = this.latestInference;
-    final latestSampleTime = this.latestSampleTime;
-    final modelMetrics = this.modelMetrics;
-    final modelName = this.modelName;
-    final modelVersion = this.modelVersion;
-    return {
-      if (latestInference != null)
-        'LatestInference': unixTimestampToJson(latestInference),
-      if (latestSampleTime != null)
-        'LatestSampleTime': unixTimestampToJson(latestSampleTime),
-      if (modelMetrics != null) 'ModelMetrics': modelMetrics,
-      if (modelName != null) 'ModelName': modelName,
-      if (modelVersion != null) 'ModelVersion': modelVersion,
-    };
-  }
-}
-
-class ModelState {
-  static const deploy = ModelState._('DEPLOY');
-  static const undeploy = ModelState._('UNDEPLOY');
+class ChecksumType {
+  static const sha1 = ChecksumType._('SHA1');
 
   final String value;
 
-  const ModelState._(this.value);
+  const ChecksumType._(this.value);
 
-  static const values = [deploy, undeploy];
+  static const values = [sha1];
 
-  static ModelState fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ModelState._(value));
+  static ChecksumType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChecksumType._(value));
 
   @override
-  bool operator ==(other) => other is ModelState && other.value == value;
+  bool operator ==(other) => other is ChecksumType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;

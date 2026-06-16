@@ -24,9 +24,9 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// features with recommended best practices. Quick Setup simplifies setting up
 /// services, including Systems Manager, by automating common or recommended
 /// tasks.
-class SystemsManagerQuickSetup {
+class SsmQuickSetup {
   final _s.RestJsonProtocol _protocol;
-  SystemsManagerQuickSetup({
+  SsmQuickSetup({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
@@ -36,7 +36,6 @@ class SystemsManagerQuickSetup {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'ssm-quicksetup',
-            signingName: 'ssm-quicksetup',
           ),
           region: region,
           credentials: credentials,
@@ -57,11 +56,11 @@ class SystemsManagerQuickSetup {
   /// collection of desired state configurations for multiple configuration
   /// definitions and summaries describing the deployments of those definitions.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [configurationDefinitions] :
   /// The definition of the Quick Setup configuration that the configuration
@@ -98,12 +97,12 @@ class SystemsManagerQuickSetup {
 
   /// Deletes a configuration manager.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [managerArn] :
   /// The ID of the configuration manager.
@@ -118,14 +117,37 @@ class SystemsManagerQuickSetup {
     );
   }
 
-  /// Returns a configuration manager.
+  /// Returns details about the specified configuration.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [configurationId] :
+  /// A service generated identifier for the configuration.
+  Future<GetConfigurationOutput> getConfiguration({
+    required String configurationId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/getConfiguration/${Uri.encodeComponent(configurationId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetConfigurationOutput.fromJson(response);
+  }
+
+  /// Returns a configuration manager.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [managerArn] :
   /// The ARN of the configuration manager.
@@ -144,9 +166,9 @@ class SystemsManagerQuickSetup {
   /// Returns settings configured for Quick Setup in the requesting Amazon Web
   /// Services account and Amazon Web Services Region.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
   Future<GetServiceSettingsOutput> getServiceSettings() async {
     final response = await _protocol.send(
@@ -160,11 +182,11 @@ class SystemsManagerQuickSetup {
 
   /// Returns Quick Setup configuration managers.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [filters] :
   /// Filters the results returned by the request.
@@ -180,12 +202,6 @@ class SystemsManagerQuickSetup {
     int? maxItems,
     String? startingToken,
   }) async {
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      100,
-    );
     final $payload = <String, dynamic>{
       if (filters != null) 'Filters': filters,
       if (maxItems != null) 'MaxItems': maxItems,
@@ -200,11 +216,59 @@ class SystemsManagerQuickSetup {
     return ListConfigurationManagersOutput.fromJson(response);
   }
 
+  /// Returns configurations deployed by Quick Setup in the requesting Amazon
+  /// Web Services account and Amazon Web Services Region.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [configurationDefinitionId] :
+  /// The ID of the configuration definition.
+  ///
+  /// Parameter [filters] :
+  /// Filters the results returned by the request.
+  ///
+  /// Parameter [managerArn] :
+  /// The ARN of the configuration manager.
+  ///
+  /// Parameter [maxItems] :
+  /// Specifies the maximum number of configurations that are returned by the
+  /// request.
+  ///
+  /// Parameter [startingToken] :
+  /// The token to use when requesting a specific set of items from a list.
+  Future<ListConfigurationsOutput> listConfigurations({
+    String? configurationDefinitionId,
+    List<Filter>? filters,
+    String? managerArn,
+    int? maxItems,
+    String? startingToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (configurationDefinitionId != null)
+        'ConfigurationDefinitionId': configurationDefinitionId,
+      if (filters != null) 'Filters': filters,
+      if (managerArn != null) 'ManagerArn': managerArn,
+      if (maxItems != null) 'MaxItems': maxItems,
+      if (startingToken != null) 'StartingToken': startingToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/listConfigurations',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListConfigurationsOutput.fromJson(response);
+  }
+
   /// Returns the available Quick Setup types.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
   Future<ListQuickSetupTypesOutput> listQuickSetupTypes() async {
     final response = await _protocol.send(
@@ -218,12 +282,12 @@ class SystemsManagerQuickSetup {
 
   /// Returns tags assigned to the resource.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The ARN of the resource the tag is assigned to.
@@ -241,12 +305,12 @@ class SystemsManagerQuickSetup {
 
   /// Assigns key-value pairs of metadata to Amazon Web Services resources.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The ARN of the resource to tag.
@@ -270,12 +334,12 @@ class SystemsManagerQuickSetup {
 
   /// Removes tags from the specified resource.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The ARN of the resource to remove tags from.
@@ -300,12 +364,12 @@ class SystemsManagerQuickSetup {
 
   /// Updates a Quick Setup configuration definition.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The ID of the configuration definition you want to update.
@@ -354,12 +418,12 @@ class SystemsManagerQuickSetup {
 
   /// Updates a Quick Setup configuration manager.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [managerArn] :
   /// The ARN of the configuration manager.
@@ -388,11 +452,11 @@ class SystemsManagerQuickSetup {
 
   /// Updates settings configured for Quick Setup.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [explorerEnablingRoleArn] :
   /// The IAM role used to enable Explorer.
@@ -409,6 +473,791 @@ class SystemsManagerQuickSetup {
       requestUri: '/serviceSettings',
       exceptionFnMap: _exceptionFns,
     );
+  }
+}
+
+class CreateConfigurationManagerOutput {
+  /// The ARN for the newly created configuration manager.
+  final String managerArn;
+
+  CreateConfigurationManagerOutput({
+    required this.managerArn,
+  });
+
+  factory CreateConfigurationManagerOutput.fromJson(Map<String, dynamic> json) {
+    return CreateConfigurationManagerOutput(
+      managerArn: (json['ManagerArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final managerArn = this.managerArn;
+    return {
+      'ManagerArn': managerArn,
+    };
+  }
+}
+
+class GetConfigurationOutput {
+  /// The ID of the Amazon Web Services account where the configuration was
+  /// deployed.
+  final String? account;
+
+  /// The ID of the configuration definition.
+  final String? configurationDefinitionId;
+
+  /// The datetime stamp when the configuration manager was created.
+  final DateTime? createdAt;
+
+  /// A service generated identifier for the configuration.
+  final String? id;
+
+  /// The datetime stamp when the configuration manager was last updated.
+  final DateTime? lastModifiedAt;
+
+  /// The ARN of the configuration manager.
+  final String? managerArn;
+
+  /// The parameters for the configuration definition type.
+  final Map<String, String>? parameters;
+
+  /// The Amazon Web Services Region where the configuration was deployed.
+  final String? region;
+
+  /// A summary of the state of the configuration manager. This includes
+  /// deployment statuses, association statuses, drift statuses, health checks,
+  /// and more.
+  final List<StatusSummary>? statusSummaries;
+
+  /// The type of the Quick Setup configuration.
+  final String? type;
+
+  /// The version of the Quick Setup type used.
+  final String? typeVersion;
+
+  GetConfigurationOutput({
+    this.account,
+    this.configurationDefinitionId,
+    this.createdAt,
+    this.id,
+    this.lastModifiedAt,
+    this.managerArn,
+    this.parameters,
+    this.region,
+    this.statusSummaries,
+    this.type,
+    this.typeVersion,
+  });
+
+  factory GetConfigurationOutput.fromJson(Map<String, dynamic> json) {
+    return GetConfigurationOutput(
+      account: json['Account'] as String?,
+      configurationDefinitionId: json['ConfigurationDefinitionId'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      id: json['Id'] as String?,
+      lastModifiedAt: timeStampFromJson(json['LastModifiedAt']),
+      managerArn: json['ManagerArn'] as String?,
+      parameters: (json['Parameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      region: json['Region'] as String?,
+      statusSummaries: (json['StatusSummaries'] as List?)
+          ?.nonNulls
+          .map((e) => StatusSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: json['Type'] as String?,
+      typeVersion: json['TypeVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final account = this.account;
+    final configurationDefinitionId = this.configurationDefinitionId;
+    final createdAt = this.createdAt;
+    final id = this.id;
+    final lastModifiedAt = this.lastModifiedAt;
+    final managerArn = this.managerArn;
+    final parameters = this.parameters;
+    final region = this.region;
+    final statusSummaries = this.statusSummaries;
+    final type = this.type;
+    final typeVersion = this.typeVersion;
+    return {
+      if (account != null) 'Account': account,
+      if (configurationDefinitionId != null)
+        'ConfigurationDefinitionId': configurationDefinitionId,
+      if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
+      if (id != null) 'Id': id,
+      if (lastModifiedAt != null)
+        'LastModifiedAt': iso8601ToJson(lastModifiedAt),
+      if (managerArn != null) 'ManagerArn': managerArn,
+      if (parameters != null) 'Parameters': parameters,
+      if (region != null) 'Region': region,
+      if (statusSummaries != null) 'StatusSummaries': statusSummaries,
+      if (type != null) 'Type': type,
+      if (typeVersion != null) 'TypeVersion': typeVersion,
+    };
+  }
+}
+
+class GetConfigurationManagerOutput {
+  /// The ARN of the configuration manager.
+  final String managerArn;
+
+  /// The configuration definitions association with the configuration manager.
+  final List<ConfigurationDefinition>? configurationDefinitions;
+
+  /// The datetime stamp when the configuration manager was created.
+  final DateTime? createdAt;
+
+  /// The description of the configuration manager.
+  final String? description;
+
+  /// The datetime stamp when the configuration manager was last updated.
+  final DateTime? lastModifiedAt;
+
+  /// The name of the configuration manager.
+  final String? name;
+
+  /// A summary of the state of the configuration manager. This includes
+  /// deployment statuses, association statuses, drift statuses, health checks,
+  /// and more.
+  final List<StatusSummary>? statusSummaries;
+
+  /// Key-value pairs of metadata to assign to the configuration manager.
+  final Map<String, String>? tags;
+
+  GetConfigurationManagerOutput({
+    required this.managerArn,
+    this.configurationDefinitions,
+    this.createdAt,
+    this.description,
+    this.lastModifiedAt,
+    this.name,
+    this.statusSummaries,
+    this.tags,
+  });
+
+  factory GetConfigurationManagerOutput.fromJson(Map<String, dynamic> json) {
+    return GetConfigurationManagerOutput(
+      managerArn: (json['ManagerArn'] as String?) ?? '',
+      configurationDefinitions: (json['ConfigurationDefinitions'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ConfigurationDefinition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      lastModifiedAt: timeStampFromJson(json['LastModifiedAt']),
+      name: json['Name'] as String?,
+      statusSummaries: (json['StatusSummaries'] as List?)
+          ?.nonNulls
+          .map((e) => StatusSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final managerArn = this.managerArn;
+    final configurationDefinitions = this.configurationDefinitions;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final lastModifiedAt = this.lastModifiedAt;
+    final name = this.name;
+    final statusSummaries = this.statusSummaries;
+    final tags = this.tags;
+    return {
+      'ManagerArn': managerArn,
+      if (configurationDefinitions != null)
+        'ConfigurationDefinitions': configurationDefinitions,
+      if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
+      if (description != null) 'Description': description,
+      if (lastModifiedAt != null)
+        'LastModifiedAt': iso8601ToJson(lastModifiedAt),
+      if (name != null) 'Name': name,
+      if (statusSummaries != null) 'StatusSummaries': statusSummaries,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+class GetServiceSettingsOutput {
+  /// Returns details about the settings for Quick Setup in the requesting Amazon
+  /// Web Services account and Amazon Web Services Region.
+  final ServiceSettings? serviceSettings;
+
+  GetServiceSettingsOutput({
+    this.serviceSettings,
+  });
+
+  factory GetServiceSettingsOutput.fromJson(Map<String, dynamic> json) {
+    return GetServiceSettingsOutput(
+      serviceSettings: json['ServiceSettings'] != null
+          ? ServiceSettings.fromJson(
+              json['ServiceSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceSettings = this.serviceSettings;
+    return {
+      if (serviceSettings != null) 'ServiceSettings': serviceSettings,
+    };
+  }
+}
+
+class ListConfigurationManagersOutput {
+  /// The configuration managers returned by the request.
+  final List<ConfigurationManagerSummary>? configurationManagersList;
+
+  /// The token to use when requesting the next set of configuration managers. If
+  /// there are no additional operations to return, the string is empty.
+  final String? nextToken;
+
+  ListConfigurationManagersOutput({
+    this.configurationManagersList,
+    this.nextToken,
+  });
+
+  factory ListConfigurationManagersOutput.fromJson(Map<String, dynamic> json) {
+    return ListConfigurationManagersOutput(
+      configurationManagersList: (json['ConfigurationManagersList'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ConfigurationManagerSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configurationManagersList = this.configurationManagersList;
+    final nextToken = this.nextToken;
+    return {
+      if (configurationManagersList != null)
+        'ConfigurationManagersList': configurationManagersList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListConfigurationsOutput {
+  /// An array of configurations.
+  final List<ConfigurationSummary>? configurationsList;
+
+  /// The token to use when requesting the next set of items. If there are no
+  /// additional items to return, the string is empty.
+  final String? nextToken;
+
+  ListConfigurationsOutput({
+    this.configurationsList,
+    this.nextToken,
+  });
+
+  factory ListConfigurationsOutput.fromJson(Map<String, dynamic> json) {
+    return ListConfigurationsOutput(
+      configurationsList: (json['ConfigurationsList'] as List?)
+          ?.nonNulls
+          .map((e) => ConfigurationSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configurationsList = this.configurationsList;
+    final nextToken = this.nextToken;
+    return {
+      if (configurationsList != null) 'ConfigurationsList': configurationsList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListQuickSetupTypesOutput {
+  /// An array of Quick Setup types.
+  final List<QuickSetupTypeOutput>? quickSetupTypeList;
+
+  ListQuickSetupTypesOutput({
+    this.quickSetupTypeList,
+  });
+
+  factory ListQuickSetupTypesOutput.fromJson(Map<String, dynamic> json) {
+    return ListQuickSetupTypesOutput(
+      quickSetupTypeList: (json['QuickSetupTypeList'] as List?)
+          ?.nonNulls
+          .map((e) => QuickSetupTypeOutput.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final quickSetupTypeList = this.quickSetupTypeList;
+    return {
+      if (quickSetupTypeList != null) 'QuickSetupTypeList': quickSetupTypeList,
+    };
+  }
+}
+
+class ListTagsForResourceResponse {
+  /// Key-value pairs of metadata assigned to the resource.
+  final List<TagEntry>? tags;
+
+  ListTagsForResourceResponse({
+    this.tags,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => TagEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// Key-value pairs of metadata.
+class TagEntry {
+  /// The key for the tag.
+  final String? key;
+
+  /// The value for the tag.
+  final String? value;
+
+  TagEntry({
+    this.key,
+    this.value,
+  });
+
+  factory TagEntry.fromJson(Map<String, dynamic> json) {
+    return TagEntry(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Information about the Quick Setup type.
+class QuickSetupTypeOutput {
+  /// The latest version number of the configuration.
+  final String? latestVersion;
+
+  /// The type of the Quick Setup configuration.
+  final String? type;
+
+  QuickSetupTypeOutput({
+    this.latestVersion,
+    this.type,
+  });
+
+  factory QuickSetupTypeOutput.fromJson(Map<String, dynamic> json) {
+    return QuickSetupTypeOutput(
+      latestVersion: json['LatestVersion'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final latestVersion = this.latestVersion;
+    final type = this.type;
+    return {
+      if (latestVersion != null) 'LatestVersion': latestVersion,
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+/// Details for a Quick Setup configuration.
+class ConfigurationSummary {
+  /// The ID of the Amazon Web Services account where the configuration was
+  /// deployed.
+  final String? account;
+
+  /// The ID of the configuration definition.
+  final String? configurationDefinitionId;
+
+  /// The datetime stamp when the configuration was created.
+  final DateTime? createdAt;
+
+  /// The common parameters and values for the configuration definition.
+  final Map<String, String>? firstClassParameters;
+
+  /// A service generated identifier for the configuration.
+  final String? id;
+
+  /// The ARN of the configuration manager.
+  final String? managerArn;
+
+  /// The Amazon Web Services Region where the configuration was deployed.
+  final String? region;
+
+  /// A summary of the state of the configuration manager. This includes
+  /// deployment statuses, association statuses, drift statuses, health checks,
+  /// and more.
+  final List<StatusSummary>? statusSummaries;
+
+  /// The type of the Quick Setup configuration.
+  final String? type;
+
+  /// The version of the Quick Setup type used.
+  final String? typeVersion;
+
+  ConfigurationSummary({
+    this.account,
+    this.configurationDefinitionId,
+    this.createdAt,
+    this.firstClassParameters,
+    this.id,
+    this.managerArn,
+    this.region,
+    this.statusSummaries,
+    this.type,
+    this.typeVersion,
+  });
+
+  factory ConfigurationSummary.fromJson(Map<String, dynamic> json) {
+    return ConfigurationSummary(
+      account: json['Account'] as String?,
+      configurationDefinitionId: json['ConfigurationDefinitionId'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      firstClassParameters:
+          (json['FirstClassParameters'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      id: json['Id'] as String?,
+      managerArn: json['ManagerArn'] as String?,
+      region: json['Region'] as String?,
+      statusSummaries: (json['StatusSummaries'] as List?)
+          ?.nonNulls
+          .map((e) => StatusSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: json['Type'] as String?,
+      typeVersion: json['TypeVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final account = this.account;
+    final configurationDefinitionId = this.configurationDefinitionId;
+    final createdAt = this.createdAt;
+    final firstClassParameters = this.firstClassParameters;
+    final id = this.id;
+    final managerArn = this.managerArn;
+    final region = this.region;
+    final statusSummaries = this.statusSummaries;
+    final type = this.type;
+    final typeVersion = this.typeVersion;
+    return {
+      if (account != null) 'Account': account,
+      if (configurationDefinitionId != null)
+        'ConfigurationDefinitionId': configurationDefinitionId,
+      if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
+      if (firstClassParameters != null)
+        'FirstClassParameters': firstClassParameters,
+      if (id != null) 'Id': id,
+      if (managerArn != null) 'ManagerArn': managerArn,
+      if (region != null) 'Region': region,
+      if (statusSummaries != null) 'StatusSummaries': statusSummaries,
+      if (type != null) 'Type': type,
+      if (typeVersion != null) 'TypeVersion': typeVersion,
+    };
+  }
+}
+
+/// A summarized description of the status.
+class StatusSummary {
+  /// The datetime stamp when the status was last updated.
+  final DateTime lastUpdatedAt;
+
+  /// The type of a status summary.
+  final StatusType statusType;
+
+  /// The current status.
+  final Status? status;
+
+  /// Details about the status.
+  final Map<String, String>? statusDetails;
+
+  /// When applicable, returns an informational message relevant to the current
+  /// status and status type of the status summary object. We don't recommend
+  /// implementing parsing logic around this value since the messages returned can
+  /// vary in format.
+  final String? statusMessage;
+
+  StatusSummary({
+    required this.lastUpdatedAt,
+    required this.statusType,
+    this.status,
+    this.statusDetails,
+    this.statusMessage,
+  });
+
+  factory StatusSummary.fromJson(Map<String, dynamic> json) {
+    return StatusSummary(
+      lastUpdatedAt: nonNullableTimeStampFromJson(json['LastUpdatedAt'] ?? 0),
+      statusType: StatusType.fromString((json['StatusType'] as String?) ?? ''),
+      status: (json['Status'] as String?)?.let(Status.fromString),
+      statusDetails: (json['StatusDetails'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final statusType = this.statusType;
+    final status = this.status;
+    final statusDetails = this.statusDetails;
+    final statusMessage = this.statusMessage;
+    return {
+      'LastUpdatedAt': iso8601ToJson(lastUpdatedAt),
+      'StatusType': statusType.value,
+      if (status != null) 'Status': status.value,
+      if (statusDetails != null) 'StatusDetails': statusDetails,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+    };
+  }
+}
+
+class StatusType {
+  static const deployment = StatusType._('Deployment');
+  static const asyncExecutions = StatusType._('AsyncExecutions');
+
+  final String value;
+
+  const StatusType._(this.value);
+
+  static const values = [deployment, asyncExecutions];
+
+  static StatusType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StatusType._(value));
+
+  @override
+  bool operator ==(other) => other is StatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class Status {
+  static const initializing = Status._('INITIALIZING');
+  static const deploying = Status._('DEPLOYING');
+  static const succeeded = Status._('SUCCEEDED');
+  static const deleting = Status._('DELETING');
+  static const stopping = Status._('STOPPING');
+  static const failed = Status._('FAILED');
+  static const stopped = Status._('STOPPED');
+  static const deleteFailed = Status._('DELETE_FAILED');
+  static const stopFailed = Status._('STOP_FAILED');
+  static const none = Status._('NONE');
+
+  final String value;
+
+  const Status._(this.value);
+
+  static const values = [
+    initializing,
+    deploying,
+    succeeded,
+    deleting,
+    stopping,
+    failed,
+    stopped,
+    deleteFailed,
+    stopFailed,
+    none
+  ];
+
+  static Status fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+
+  @override
+  bool operator ==(other) => other is Status && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A key-value pair to filter results.
+class Filter {
+  /// The key for the filter.
+  final String key;
+
+  /// The values for the filter keys.
+  final List<String> values;
+
+  Filter({
+    required this.key,
+    required this.values,
+  });
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final values = this.values;
+    return {
+      'Key': key,
+      'Values': values,
+    };
+  }
+}
+
+/// A summary of a Quick Setup configuration manager.
+class ConfigurationManagerSummary {
+  /// The ARN of the Quick Setup configuration.
+  final String managerArn;
+
+  /// A summary of the Quick Setup configuration definition.
+  final List<ConfigurationDefinitionSummary>? configurationDefinitionSummaries;
+
+  /// The description of the configuration.
+  final String? description;
+
+  /// The name of the configuration
+  final String? name;
+
+  /// Summaries of the state of the configuration manager. These summaries include
+  /// an aggregate of the statuses from the configuration definition associated
+  /// with the configuration manager. This includes deployment statuses,
+  /// association statuses, drift statuses, health checks, and more.
+  final List<StatusSummary>? statusSummaries;
+
+  ConfigurationManagerSummary({
+    required this.managerArn,
+    this.configurationDefinitionSummaries,
+    this.description,
+    this.name,
+    this.statusSummaries,
+  });
+
+  factory ConfigurationManagerSummary.fromJson(Map<String, dynamic> json) {
+    return ConfigurationManagerSummary(
+      managerArn: (json['ManagerArn'] as String?) ?? '',
+      configurationDefinitionSummaries:
+          (json['ConfigurationDefinitionSummaries'] as List?)
+              ?.nonNulls
+              .map((e) => ConfigurationDefinitionSummary.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      description: json['Description'] as String?,
+      name: json['Name'] as String?,
+      statusSummaries: (json['StatusSummaries'] as List?)
+          ?.nonNulls
+          .map((e) => StatusSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final managerArn = this.managerArn;
+    final configurationDefinitionSummaries =
+        this.configurationDefinitionSummaries;
+    final description = this.description;
+    final name = this.name;
+    final statusSummaries = this.statusSummaries;
+    return {
+      'ManagerArn': managerArn,
+      if (configurationDefinitionSummaries != null)
+        'ConfigurationDefinitionSummaries': configurationDefinitionSummaries,
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
+      if (statusSummaries != null) 'StatusSummaries': statusSummaries,
+    };
+  }
+}
+
+/// A summarized definition of a Quick Setup configuration definition.
+class ConfigurationDefinitionSummary {
+  /// The common parameters and values for the configuration definition.
+  final Map<String, String>? firstClassParameters;
+
+  /// The ID of the configuration definition.
+  final String? id;
+
+  /// The type of the Quick Setup configuration used by the configuration
+  /// definition.
+  final String? type;
+
+  /// The version of the Quick Setup type used by the configuration definition.
+  final String? typeVersion;
+
+  ConfigurationDefinitionSummary({
+    this.firstClassParameters,
+    this.id,
+    this.type,
+    this.typeVersion,
+  });
+
+  factory ConfigurationDefinitionSummary.fromJson(Map<String, dynamic> json) {
+    return ConfigurationDefinitionSummary(
+      firstClassParameters:
+          (json['FirstClassParameters'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      id: json['Id'] as String?,
+      type: json['Type'] as String?,
+      typeVersion: json['TypeVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final firstClassParameters = this.firstClassParameters;
+    final id = this.id;
+    final type = this.type;
+    final typeVersion = this.typeVersion;
+    return {
+      if (firstClassParameters != null)
+        'FirstClassParameters': firstClassParameters,
+      if (id != null) 'Id': id,
+      if (type != null) 'Type': type,
+      if (typeVersion != null) 'TypeVersion': typeVersion,
+    };
+  }
+}
+
+/// Settings configured for Quick Setup.
+class ServiceSettings {
+  /// The IAM role used to enable Explorer.
+  final String? explorerEnablingRoleArn;
+
+  ServiceSettings({
+    this.explorerEnablingRoleArn,
+  });
+
+  factory ServiceSettings.fromJson(Map<String, dynamic> json) {
+    return ServiceSettings(
+      explorerEnablingRoleArn: json['ExplorerEnablingRoleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final explorerEnablingRoleArn = this.explorerEnablingRoleArn;
+    return {
+      if (explorerEnablingRoleArn != null)
+        'ExplorerEnablingRoleArn': explorerEnablingRoleArn,
+    };
   }
 }
 
@@ -706,7 +1555,7 @@ class ConfigurationDefinitionInput {
   /// Regions you want to deploy the configuration to.
   /// </li>
   /// </ul> </li>
-  /// </ul> </dd> <dt>DevOps Guru (Type: Amazon Web
+  /// </ul> </dd> <dt>DevOps Guru (Type: Amazon Web
   /// ServicesQuickSetupType-DevOpsGuru)</dt> <dd>
   /// <ul>
   /// <li>
@@ -714,7 +1563,7 @@ class ConfigurationDefinitionInput {
   ///
   /// <ul>
   /// <li>
-  /// Description: (Optional) A boolean value that determines whether DevOps Guru
+  /// Description: (Optional) A boolean value that determines whether DevOps Guru
   /// analyzes all CloudFormation stacks in the account. The default value is
   /// "<code>false</code>".
   /// </li>
@@ -724,7 +1573,7 @@ class ConfigurationDefinitionInput {
   ///
   /// <ul>
   /// <li>
-  /// Description: (Optional) A boolean value that determines whether DevOps Guru
+  /// Description: (Optional) A boolean value that determines whether DevOps Guru
   /// sends notifications when an insight is created. The default value is
   /// "<code>true</code>".
   /// </li>
@@ -734,7 +1583,7 @@ class ConfigurationDefinitionInput {
   ///
   /// <ul>
   /// <li>
-  /// Description: (Optional) A boolean value that determines whether DevOps Guru
+  /// Description: (Optional) A boolean value that determines whether DevOps Guru
   /// creates an OpsCenter OpsItem when an insight is created. The default value
   /// is "<code>true</code>".
   /// </li>
@@ -1353,9 +2202,9 @@ class ConfigurationDefinitionInput {
   ///
   /// <ul>
   /// <li>
-  /// Description: (Optional) A boolean value that determines whether instances
-  /// are rebooted after patches are installed. The default value is
-  /// "<code>false</code>".
+  /// Description: (Optional) Determines whether instances are rebooted after
+  /// patches are installed. Valid values are <code>RebootIfNeeded</code> and
+  /// <code>NoReboot</code>.
   /// </li>
   /// </ul> </li>
   /// <li>
@@ -1540,561 +2389,6 @@ class ConfigurationDefinitionInput {
       if (localDeploymentExecutionRoleName != null)
         'LocalDeploymentExecutionRoleName': localDeploymentExecutionRoleName,
       if (typeVersion != null) 'TypeVersion': typeVersion,
-    };
-  }
-}
-
-/// A summarized definition of a Quick Setup configuration definition.
-class ConfigurationDefinitionSummary {
-  /// The common parameters and values for the configuration definition.
-  final Map<String, String>? firstClassParameters;
-
-  /// The ID of the configuration definition.
-  final String? id;
-
-  /// The type of the Quick Setup configuration used by the configuration
-  /// definition.
-  final String? type;
-
-  /// The version of the Quick Setup type used by the configuration definition.
-  final String? typeVersion;
-
-  ConfigurationDefinitionSummary({
-    this.firstClassParameters,
-    this.id,
-    this.type,
-    this.typeVersion,
-  });
-
-  factory ConfigurationDefinitionSummary.fromJson(Map<String, dynamic> json) {
-    return ConfigurationDefinitionSummary(
-      firstClassParameters:
-          (json['FirstClassParameters'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(k, e as String)),
-      id: json['Id'] as String?,
-      type: json['Type'] as String?,
-      typeVersion: json['TypeVersion'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final firstClassParameters = this.firstClassParameters;
-    final id = this.id;
-    final type = this.type;
-    final typeVersion = this.typeVersion;
-    return {
-      if (firstClassParameters != null)
-        'FirstClassParameters': firstClassParameters,
-      if (id != null) 'Id': id,
-      if (type != null) 'Type': type,
-      if (typeVersion != null) 'TypeVersion': typeVersion,
-    };
-  }
-}
-
-/// A summary of a Quick Setup configuration manager.
-class ConfigurationManagerSummary {
-  /// The ARN of the Quick Setup configuration.
-  final String managerArn;
-
-  /// A summary of the Quick Setup configuration definition.
-  final List<ConfigurationDefinitionSummary>? configurationDefinitionSummaries;
-
-  /// The description of the configuration.
-  final String? description;
-
-  /// The name of the configuration
-  final String? name;
-
-  /// Summaries of the state of the configuration manager. These summaries include
-  /// an aggregate of the statuses from the configuration definition associated
-  /// with the configuration manager. This includes deployment statuses,
-  /// association statuses, drift statuses, health checks, and more.
-  final List<StatusSummary>? statusSummaries;
-
-  ConfigurationManagerSummary({
-    required this.managerArn,
-    this.configurationDefinitionSummaries,
-    this.description,
-    this.name,
-    this.statusSummaries,
-  });
-
-  factory ConfigurationManagerSummary.fromJson(Map<String, dynamic> json) {
-    return ConfigurationManagerSummary(
-      managerArn: (json['ManagerArn'] as String?) ?? '',
-      configurationDefinitionSummaries:
-          (json['ConfigurationDefinitionSummaries'] as List?)
-              ?.nonNulls
-              .map((e) => ConfigurationDefinitionSummary.fromJson(
-                  e as Map<String, dynamic>))
-              .toList(),
-      description: json['Description'] as String?,
-      name: json['Name'] as String?,
-      statusSummaries: (json['StatusSummaries'] as List?)
-          ?.nonNulls
-          .map((e) => StatusSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final managerArn = this.managerArn;
-    final configurationDefinitionSummaries =
-        this.configurationDefinitionSummaries;
-    final description = this.description;
-    final name = this.name;
-    final statusSummaries = this.statusSummaries;
-    return {
-      'ManagerArn': managerArn,
-      if (configurationDefinitionSummaries != null)
-        'ConfigurationDefinitionSummaries': configurationDefinitionSummaries,
-      if (description != null) 'Description': description,
-      if (name != null) 'Name': name,
-      if (statusSummaries != null) 'StatusSummaries': statusSummaries,
-    };
-  }
-}
-
-class CreateConfigurationManagerOutput {
-  /// The ARN for the newly created configuration manager.
-  final String managerArn;
-
-  CreateConfigurationManagerOutput({
-    required this.managerArn,
-  });
-
-  factory CreateConfigurationManagerOutput.fromJson(Map<String, dynamic> json) {
-    return CreateConfigurationManagerOutput(
-      managerArn: (json['ManagerArn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final managerArn = this.managerArn;
-    return {
-      'ManagerArn': managerArn,
-    };
-  }
-}
-
-/// A key-value pair to filter results.
-class Filter {
-  /// The key for the filter.
-  final String key;
-
-  /// The values for the filter keys.
-  final List<String> values;
-
-  Filter({
-    required this.key,
-    required this.values,
-  });
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final values = this.values;
-    return {
-      'Key': key,
-      'Values': values,
-    };
-  }
-}
-
-class GetConfigurationManagerOutput {
-  /// The ARN of the configuration manager.
-  final String managerArn;
-
-  /// The configuration definitions association with the configuration manager.
-  final List<ConfigurationDefinition>? configurationDefinitions;
-
-  /// The datetime stamp when the configuration manager was created.
-  final DateTime? createdAt;
-
-  /// The description of the configuration manager.
-  final String? description;
-
-  /// The datetime stamp when the configuration manager was last updated.
-  final DateTime? lastModifiedAt;
-
-  /// The name of the configuration manager.
-  final String? name;
-
-  /// A summary of the state of the configuration manager. This includes
-  /// deployment statuses, association statuses, drift statuses, health checks,
-  /// and more.
-  final List<StatusSummary>? statusSummaries;
-
-  /// Key-value pairs of metadata to assign to the configuration manager.
-  final Map<String, String>? tags;
-
-  GetConfigurationManagerOutput({
-    required this.managerArn,
-    this.configurationDefinitions,
-    this.createdAt,
-    this.description,
-    this.lastModifiedAt,
-    this.name,
-    this.statusSummaries,
-    this.tags,
-  });
-
-  factory GetConfigurationManagerOutput.fromJson(Map<String, dynamic> json) {
-    return GetConfigurationManagerOutput(
-      managerArn: (json['ManagerArn'] as String?) ?? '',
-      configurationDefinitions: (json['ConfigurationDefinitions'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              ConfigurationDefinition.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      description: json['Description'] as String?,
-      lastModifiedAt: timeStampFromJson(json['LastModifiedAt']),
-      name: json['Name'] as String?,
-      statusSummaries: (json['StatusSummaries'] as List?)
-          ?.nonNulls
-          .map((e) => StatusSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      tags: (json['Tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final managerArn = this.managerArn;
-    final configurationDefinitions = this.configurationDefinitions;
-    final createdAt = this.createdAt;
-    final description = this.description;
-    final lastModifiedAt = this.lastModifiedAt;
-    final name = this.name;
-    final statusSummaries = this.statusSummaries;
-    final tags = this.tags;
-    return {
-      'ManagerArn': managerArn,
-      if (configurationDefinitions != null)
-        'ConfigurationDefinitions': configurationDefinitions,
-      if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
-      if (description != null) 'Description': description,
-      if (lastModifiedAt != null)
-        'LastModifiedAt': iso8601ToJson(lastModifiedAt),
-      if (name != null) 'Name': name,
-      if (statusSummaries != null) 'StatusSummaries': statusSummaries,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-class GetServiceSettingsOutput {
-  /// Returns details about the settings for Quick Setup in the requesting Amazon
-  /// Web Services account and Amazon Web Services Region.
-  final ServiceSettings? serviceSettings;
-
-  GetServiceSettingsOutput({
-    this.serviceSettings,
-  });
-
-  factory GetServiceSettingsOutput.fromJson(Map<String, dynamic> json) {
-    return GetServiceSettingsOutput(
-      serviceSettings: json['ServiceSettings'] != null
-          ? ServiceSettings.fromJson(
-              json['ServiceSettings'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final serviceSettings = this.serviceSettings;
-    return {
-      if (serviceSettings != null) 'ServiceSettings': serviceSettings,
-    };
-  }
-}
-
-class ListConfigurationManagersOutput {
-  /// The configuration managers returned by the request.
-  final List<ConfigurationManagerSummary>? configurationManagersList;
-
-  /// The token to use when requesting the next set of configuration managers. If
-  /// there are no additional operations to return, the string is empty.
-  final String? nextToken;
-
-  ListConfigurationManagersOutput({
-    this.configurationManagersList,
-    this.nextToken,
-  });
-
-  factory ListConfigurationManagersOutput.fromJson(Map<String, dynamic> json) {
-    return ListConfigurationManagersOutput(
-      configurationManagersList: (json['ConfigurationManagersList'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              ConfigurationManagerSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final configurationManagersList = this.configurationManagersList;
-    final nextToken = this.nextToken;
-    return {
-      if (configurationManagersList != null)
-        'ConfigurationManagersList': configurationManagersList,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListQuickSetupTypesOutput {
-  /// An array of Quick Setup types.
-  final List<QuickSetupTypeOutput>? quickSetupTypeList;
-
-  ListQuickSetupTypesOutput({
-    this.quickSetupTypeList,
-  });
-
-  factory ListQuickSetupTypesOutput.fromJson(Map<String, dynamic> json) {
-    return ListQuickSetupTypesOutput(
-      quickSetupTypeList: (json['QuickSetupTypeList'] as List?)
-          ?.nonNulls
-          .map((e) => QuickSetupTypeOutput.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final quickSetupTypeList = this.quickSetupTypeList;
-    return {
-      if (quickSetupTypeList != null) 'QuickSetupTypeList': quickSetupTypeList,
-    };
-  }
-}
-
-class ListTagsForResourceResponse {
-  /// Key-value pairs of metadata assigned to the resource.
-  final List<TagEntry>? tags;
-
-  ListTagsForResourceResponse({
-    this.tags,
-  });
-
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
-    return ListTagsForResourceResponse(
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => TagEntry.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tags = this.tags;
-    return {
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-/// Information about the Quick Setup type.
-class QuickSetupTypeOutput {
-  /// The latest version number of the configuration.
-  final String? latestVersion;
-
-  /// The type of the Quick Setup configuration.
-  final String? type;
-
-  QuickSetupTypeOutput({
-    this.latestVersion,
-    this.type,
-  });
-
-  factory QuickSetupTypeOutput.fromJson(Map<String, dynamic> json) {
-    return QuickSetupTypeOutput(
-      latestVersion: json['LatestVersion'] as String?,
-      type: json['Type'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final latestVersion = this.latestVersion;
-    final type = this.type;
-    return {
-      if (latestVersion != null) 'LatestVersion': latestVersion,
-      if (type != null) 'Type': type,
-    };
-  }
-}
-
-/// Settings configured for Quick Setup.
-class ServiceSettings {
-  /// The IAM role used to enable Explorer.
-  final String? explorerEnablingRoleArn;
-
-  ServiceSettings({
-    this.explorerEnablingRoleArn,
-  });
-
-  factory ServiceSettings.fromJson(Map<String, dynamic> json) {
-    return ServiceSettings(
-      explorerEnablingRoleArn: json['ExplorerEnablingRoleArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final explorerEnablingRoleArn = this.explorerEnablingRoleArn;
-    return {
-      if (explorerEnablingRoleArn != null)
-        'ExplorerEnablingRoleArn': explorerEnablingRoleArn,
-    };
-  }
-}
-
-class Status {
-  static const initializing = Status._('INITIALIZING');
-  static const deploying = Status._('DEPLOYING');
-  static const succeeded = Status._('SUCCEEDED');
-  static const deleting = Status._('DELETING');
-  static const stopping = Status._('STOPPING');
-  static const failed = Status._('FAILED');
-  static const stopped = Status._('STOPPED');
-  static const deleteFailed = Status._('DELETE_FAILED');
-  static const stopFailed = Status._('STOP_FAILED');
-  static const none = Status._('NONE');
-
-  final String value;
-
-  const Status._(this.value);
-
-  static const values = [
-    initializing,
-    deploying,
-    succeeded,
-    deleting,
-    stopping,
-    failed,
-    stopped,
-    deleteFailed,
-    stopFailed,
-    none
-  ];
-
-  static Status fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
-
-  @override
-  bool operator ==(other) => other is Status && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A summarized description of the status.
-class StatusSummary {
-  /// The datetime stamp when the status was last updated.
-  final DateTime lastUpdatedAt;
-
-  /// The type of a status summary.
-  final StatusType statusType;
-
-  /// The current status.
-  final Status? status;
-
-  /// Details about the status.
-  final Map<String, String>? statusDetails;
-
-  /// When applicable, returns an informational message relevant to the current
-  /// status and status type of the status summary object. We don't recommend
-  /// implementing parsing logic around this value since the messages returned can
-  /// vary in format.
-  final String? statusMessage;
-
-  StatusSummary({
-    required this.lastUpdatedAt,
-    required this.statusType,
-    this.status,
-    this.statusDetails,
-    this.statusMessage,
-  });
-
-  factory StatusSummary.fromJson(Map<String, dynamic> json) {
-    return StatusSummary(
-      lastUpdatedAt: nonNullableTimeStampFromJson(json['LastUpdatedAt'] ?? 0),
-      statusType: StatusType.fromString((json['StatusType'] as String?) ?? ''),
-      status: (json['Status'] as String?)?.let(Status.fromString),
-      statusDetails: (json['StatusDetails'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      statusMessage: json['StatusMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lastUpdatedAt = this.lastUpdatedAt;
-    final statusType = this.statusType;
-    final status = this.status;
-    final statusDetails = this.statusDetails;
-    final statusMessage = this.statusMessage;
-    return {
-      'LastUpdatedAt': iso8601ToJson(lastUpdatedAt),
-      'StatusType': statusType.value,
-      if (status != null) 'Status': status.value,
-      if (statusDetails != null) 'StatusDetails': statusDetails,
-      if (statusMessage != null) 'StatusMessage': statusMessage,
-    };
-  }
-}
-
-class StatusType {
-  static const deployment = StatusType._('Deployment');
-  static const asyncExecutions = StatusType._('AsyncExecutions');
-
-  final String value;
-
-  const StatusType._(this.value);
-
-  static const values = [deployment, asyncExecutions];
-
-  static StatusType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => StatusType._(value));
-
-  @override
-  bool operator ==(other) => other is StatusType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Key-value pairs of metadata.
-class TagEntry {
-  /// The key for the tag.
-  final String? key;
-
-  /// The value for the tag.
-  final String? value;
-
-  TagEntry({
-    this.key,
-    this.value,
-  });
-
-  factory TagEntry.fromJson(Map<String, dynamic> json) {
-    return TagEntry(
-      key: json['Key'] as String?,
-      value: json['Value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      if (key != null) 'Key': key,
-      if (value != null) 'Value': value,
     };
   }
 }

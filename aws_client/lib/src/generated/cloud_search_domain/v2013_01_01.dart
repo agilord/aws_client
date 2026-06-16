@@ -237,16 +237,16 @@ class CloudSearchDomain {
   /// occurrence is highlighted. </li>
   /// <li> <code>pre_tag</code>: specifies the string to prepend to an
   /// occurrence of a search term. The default for HTML highlights is
-  /// <code>&amp;lt;em&amp;gt;</code>. The default for text highlights is
+  /// <code>&lt;em&gt;</code>. The default for text highlights is
   /// <code>*</code>. </li>
   /// <li> <code>post_tag</code>: specifies the string to append to an
   /// occurrence of a search term. The default for HTML highlights is
-  /// <code>&amp;lt;/em&amp;gt;</code>. The default for text highlights is
+  /// <code>&lt;/em&gt;</code>. The default for text highlights is
   /// <code>*</code>. </li>
   /// </ul>
   /// If no highlight options are specified for a field, the returned field text
   /// is treated as HTML and the first match is highlighted with emphasis tags:
-  /// <code>&amp;lt;em&gt;search-term&amp;lt;/em&amp;gt;</code>.
+  /// <code>&lt;em>search-term&lt;/em&gt;</code>.
   ///
   /// For example, the following request retrieves highlights for the
   /// <code>actors</code> and <code>title</code> fields.
@@ -608,59 +608,163 @@ class CloudSearchDomain {
   }
 }
 
-/// A container for facet information.
-class Bucket {
-  /// The number of hits that contain the facet value in the specified facet
-  /// field.
-  final int? count;
+/// The result of a <code>Search</code> request. Contains the documents that
+/// match the specified search criteria and any requested fields, highlights,
+/// and facet information.
+class SearchResponse {
+  /// The requested facet information.
+  final Map<String, BucketInfo>? facets;
 
-  /// The facet value being counted.
-  final String? value;
+  /// The documents that match the search criteria.
+  final Hits? hits;
 
-  Bucket({
-    this.count,
-    this.value,
+  /// The requested field statistics information.
+  final Map<String, FieldStats>? stats;
+
+  /// The status information returned for the search request.
+  final SearchStatus? status;
+
+  SearchResponse({
+    this.facets,
+    this.hits,
+    this.stats,
+    this.status,
   });
 
-  factory Bucket.fromJson(Map<String, dynamic> json) {
-    return Bucket(
-      count: json['count'] as int?,
-      value: json['value'] as String?,
+  factory SearchResponse.fromJson(Map<String, dynamic> json) {
+    return SearchResponse(
+      facets: (json['facets'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, BucketInfo.fromJson(e as Map<String, dynamic>))),
+      hits: json['hits'] != null
+          ? Hits.fromJson(json['hits'] as Map<String, dynamic>)
+          : null,
+      stats: (json['stats'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, FieldStats.fromJson(e as Map<String, dynamic>))),
+      status: json['status'] != null
+          ? SearchStatus.fromJson(json['status'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final count = this.count;
-    final value = this.value;
+    final facets = this.facets;
+    final hits = this.hits;
+    final stats = this.stats;
+    final status = this.status;
     return {
-      if (count != null) 'count': count,
-      if (value != null) 'value': value,
+      if (facets != null) 'facets': facets,
+      if (hits != null) 'hits': hits,
+      if (stats != null) 'stats': stats,
+      if (status != null) 'status': status,
     };
   }
 }
 
-/// A container for the calculated facet values and counts.
-class BucketInfo {
-  /// A list of the calculated facet values and counts.
-  final List<Bucket>? buckets;
+/// Contains the response to a <code>Suggest</code> request.
+class SuggestResponse {
+  /// The status of a <code>SuggestRequest</code>. Contains the resource ID
+  /// (<code>rid</code>) and how long it took to process the request
+  /// (<code>timems</code>).
+  final SuggestStatus? status;
 
-  BucketInfo({
-    this.buckets,
+  /// Container for the matching search suggestion information.
+  final SuggestModel? suggest;
+
+  SuggestResponse({
+    this.status,
+    this.suggest,
   });
 
-  factory BucketInfo.fromJson(Map<String, dynamic> json) {
-    return BucketInfo(
-      buckets: (json['buckets'] as List?)
+  factory SuggestResponse.fromJson(Map<String, dynamic> json) {
+    return SuggestResponse(
+      status: json['status'] != null
+          ? SuggestStatus.fromJson(json['status'] as Map<String, dynamic>)
+          : null,
+      suggest: json['suggest'] != null
+          ? SuggestModel.fromJson(json['suggest'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final suggest = this.suggest;
+    return {
+      if (status != null) 'status': status,
+      if (suggest != null) 'suggest': suggest,
+    };
+  }
+}
+
+/// Contains the response to an <code>UploadDocuments</code> request.
+class UploadDocumentsResponse {
+  /// The number of documents that were added to the search domain.
+  final int? adds;
+
+  /// The number of documents that were deleted from the search domain.
+  final int? deletes;
+
+  /// The status of an <code>UploadDocumentsRequest</code>.
+  final String? status;
+
+  /// Any warnings returned by the document service about the documents being
+  /// uploaded.
+  final List<DocumentServiceWarning>? warnings;
+
+  UploadDocumentsResponse({
+    this.adds,
+    this.deletes,
+    this.status,
+    this.warnings,
+  });
+
+  factory UploadDocumentsResponse.fromJson(Map<String, dynamic> json) {
+    return UploadDocumentsResponse(
+      adds: json['adds'] as int?,
+      deletes: json['deletes'] as int?,
+      status: json['status'] as String?,
+      warnings: (json['warnings'] as List?)
           ?.nonNulls
-          .map((e) => Bucket.fromJson(e as Map<String, dynamic>))
+          .map(
+              (e) => DocumentServiceWarning.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final buckets = this.buckets;
+    final adds = this.adds;
+    final deletes = this.deletes;
+    final status = this.status;
+    final warnings = this.warnings;
     return {
-      if (buckets != null) 'buckets': buckets,
+      if (adds != null) 'adds': adds,
+      if (deletes != null) 'deletes': deletes,
+      if (status != null) 'status': status,
+      if (warnings != null) 'warnings': warnings,
+    };
+  }
+}
+
+/// A warning returned by the document service when an issue is discovered while
+/// processing an upload request.
+class DocumentServiceWarning {
+  /// The description for a warning returned by the document service.
+  final String? message;
+
+  DocumentServiceWarning({
+    this.message,
+  });
+
+  factory DocumentServiceWarning.fromJson(Map<String, dynamic> json) {
+    return DocumentServiceWarning(
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    return {
+      if (message != null) 'message': message,
     };
   }
 }
@@ -688,58 +792,192 @@ class ContentType {
   String toString() => value;
 }
 
-/// Information about any problems encountered while processing an upload
-/// request.
-class DocumentServiceException implements _s.AwsException {
-  /// The description of the errors returned by the document service.
-  final String? message;
+/// Contains the resource id (<code>rid</code>) and the time it took to process
+/// the request (<code>timems</code>).
+class SuggestStatus {
+  /// The encrypted resource ID for the request.
+  final String? rid;
 
-  /// The return status of a document upload request, <code>error</code> or
-  /// <code>success</code>.
-  final String? status;
+  /// How long it took to process the request, in milliseconds.
+  final int? timems;
 
-  DocumentServiceException({
-    this.message,
-    this.status,
+  SuggestStatus({
+    this.rid,
+    this.timems,
   });
 
-  factory DocumentServiceException.fromJson(Map<String, dynamic> json) {
-    return DocumentServiceException(
-      message: json['message'] as String?,
-      status: json['status'] as String?,
+  factory SuggestStatus.fromJson(Map<String, dynamic> json) {
+    return SuggestStatus(
+      rid: json['rid'] as String?,
+      timems: json['timems'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final message = this.message;
-    final status = this.status;
+    final rid = this.rid;
+    final timems = this.timems;
     return {
-      if (message != null) 'message': message,
-      if (status != null) 'status': status,
+      if (rid != null) 'rid': rid,
+      if (timems != null) 'timems': timems,
     };
   }
 }
 
-/// A warning returned by the document service when an issue is discovered while
-/// processing an upload request.
-class DocumentServiceWarning {
-  /// The description for a warning returned by the document service.
-  final String? message;
+/// Container for the suggestion information returned in a
+/// <code>SuggestResponse</code>.
+class SuggestModel {
+  /// The number of documents that were found to match the query string.
+  final int? found;
 
-  DocumentServiceWarning({
-    this.message,
+  /// The query string specified in the suggest request.
+  final String? query;
+
+  /// The documents that match the query string.
+  final List<SuggestionMatch>? suggestions;
+
+  SuggestModel({
+    this.found,
+    this.query,
+    this.suggestions,
   });
 
-  factory DocumentServiceWarning.fromJson(Map<String, dynamic> json) {
-    return DocumentServiceWarning(
-      message: json['message'] as String?,
+  factory SuggestModel.fromJson(Map<String, dynamic> json) {
+    return SuggestModel(
+      found: json['found'] as int?,
+      query: json['query'] as String?,
+      suggestions: (json['suggestions'] as List?)
+          ?.nonNulls
+          .map((e) => SuggestionMatch.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final message = this.message;
+    final found = this.found;
+    final query = this.query;
+    final suggestions = this.suggestions;
     return {
-      if (message != null) 'message': message,
+      if (found != null) 'found': found,
+      if (query != null) 'query': query,
+      if (suggestions != null) 'suggestions': suggestions,
+    };
+  }
+}
+
+/// An autocomplete suggestion that matches the query string specified in a
+/// <code>SuggestRequest</code>.
+class SuggestionMatch {
+  /// The document ID of the suggested document.
+  final String? id;
+
+  /// The relevance score of a suggested match.
+  final int? score;
+
+  /// The string that matches the query string specified in the
+  /// <code>SuggestRequest</code>.
+  final String? suggestion;
+
+  SuggestionMatch({
+    this.id,
+    this.score,
+    this.suggestion,
+  });
+
+  factory SuggestionMatch.fromJson(Map<String, dynamic> json) {
+    return SuggestionMatch(
+      id: json['id'] as String?,
+      score: json['score'] as int?,
+      suggestion: json['suggestion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final score = this.score;
+    final suggestion = this.suggestion;
+    return {
+      if (id != null) 'id': id,
+      if (score != null) 'score': score,
+      if (suggestion != null) 'suggestion': suggestion,
+    };
+  }
+}
+
+/// Contains the resource id (<code>rid</code>) and the time it took to process
+/// the request (<code>timems</code>).
+class SearchStatus {
+  /// The encrypted resource ID for the request.
+  final String? rid;
+
+  /// How long it took to process the request, in milliseconds.
+  final int? timems;
+
+  SearchStatus({
+    this.rid,
+    this.timems,
+  });
+
+  factory SearchStatus.fromJson(Map<String, dynamic> json) {
+    return SearchStatus(
+      rid: json['rid'] as String?,
+      timems: json['timems'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rid = this.rid;
+    final timems = this.timems;
+    return {
+      if (rid != null) 'rid': rid,
+      if (timems != null) 'timems': timems,
+    };
+  }
+}
+
+/// The collection of documents that match the search request.
+class Hits {
+  /// A cursor that can be used to retrieve the next set of matching documents
+  /// when you want to page through a large result set.
+  final String? cursor;
+
+  /// The total number of documents that match the search request.
+  final int? found;
+
+  /// A document that matches the search request.
+  final List<Hit>? hit;
+
+  /// The index of the first matching document.
+  final int? start;
+
+  Hits({
+    this.cursor,
+    this.found,
+    this.hit,
+    this.start,
+  });
+
+  factory Hits.fromJson(Map<String, dynamic> json) {
+    return Hits(
+      cursor: json['cursor'] as String?,
+      found: json['found'] as int?,
+      hit: (json['hit'] as List?)
+          ?.nonNulls
+          .map((e) => Hit.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      start: json['start'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cursor = this.cursor;
+    final found = this.found;
+    final hit = this.hit;
+    final start = this.start;
+    return {
+      if (cursor != null) 'cursor': cursor,
+      if (found != null) 'found': found,
+      if (hit != null) 'hit': hit,
+      if (start != null) 'start': start,
     };
   }
 }
@@ -844,6 +1082,63 @@ class FieldStats {
   }
 }
 
+/// A container for the calculated facet values and counts.
+class BucketInfo {
+  /// A list of the calculated facet values and counts.
+  final List<Bucket>? buckets;
+
+  BucketInfo({
+    this.buckets,
+  });
+
+  factory BucketInfo.fromJson(Map<String, dynamic> json) {
+    return BucketInfo(
+      buckets: (json['buckets'] as List?)
+          ?.nonNulls
+          .map((e) => Bucket.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final buckets = this.buckets;
+    return {
+      if (buckets != null) 'buckets': buckets,
+    };
+  }
+}
+
+/// A container for facet information.
+class Bucket {
+  /// The number of hits that contain the facet value in the specified facet
+  /// field.
+  final int? count;
+
+  /// The facet value being counted.
+  final String? value;
+
+  Bucket({
+    this.count,
+    this.value,
+  });
+
+  factory Bucket.fromJson(Map<String, dynamic> json) {
+    return Bucket(
+      count: json['count'] as int?,
+      value: json['value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final count = this.count;
+    final value = this.value;
+    return {
+      if (count != null) 'count': count,
+      if (value != null) 'value': value,
+    };
+  }
+}
+
 /// Information about a document that matches the search request.
 class Hit {
   /// The expressions returned from a document that matches the search request.
@@ -891,54 +1186,6 @@ class Hit {
   }
 }
 
-/// The collection of documents that match the search request.
-class Hits {
-  /// A cursor that can be used to retrieve the next set of matching documents
-  /// when you want to page through a large result set.
-  final String? cursor;
-
-  /// The total number of documents that match the search request.
-  final int? found;
-
-  /// A document that matches the search request.
-  final List<Hit>? hit;
-
-  /// The index of the first matching document.
-  final int? start;
-
-  Hits({
-    this.cursor,
-    this.found,
-    this.hit,
-    this.start,
-  });
-
-  factory Hits.fromJson(Map<String, dynamic> json) {
-    return Hits(
-      cursor: json['cursor'] as String?,
-      found: json['found'] as int?,
-      hit: (json['hit'] as List?)
-          ?.nonNulls
-          .map((e) => Hit.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      start: json['start'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cursor = this.cursor;
-    final found = this.found;
-    final hit = this.hit;
-    final start = this.start;
-    return {
-      if (cursor != null) 'cursor': cursor,
-      if (found != null) 'found': found,
-      if (hit != null) 'hit': hit,
-      if (start != null) 'start': start,
-    };
-  }
-}
-
 class QueryParser {
   static const simple = QueryParser._('simple');
   static const structured = QueryParser._('structured');
@@ -964,311 +1211,19 @@ class QueryParser {
   String toString() => value;
 }
 
-/// Information about any problems encountered while processing a search
-/// request.
-class SearchException implements _s.AwsException {
-  /// A description of the error returned by the search service.
-  final String? message;
-
-  SearchException({
-    this.message,
-  });
-
-  factory SearchException.fromJson(Map<String, dynamic> json) {
-    return SearchException(
-      message: json['message'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final message = this.message;
-    return {
-      if (message != null) 'message': message,
-    };
-  }
+class DocumentServiceException extends _s.GenericAwsException {
+  DocumentServiceException({String? type, String? message})
+      : super(type: type, code: 'DocumentServiceException', message: message);
 }
 
-/// The result of a <code>Search</code> request. Contains the documents that
-/// match the specified search criteria and any requested fields, highlights,
-/// and facet information.
-class SearchResponse {
-  /// The requested facet information.
-  final Map<String, BucketInfo>? facets;
-
-  /// The documents that match the search criteria.
-  final Hits? hits;
-
-  /// The requested field statistics information.
-  final Map<String, FieldStats>? stats;
-
-  /// The status information returned for the search request.
-  final SearchStatus? status;
-
-  SearchResponse({
-    this.facets,
-    this.hits,
-    this.stats,
-    this.status,
-  });
-
-  factory SearchResponse.fromJson(Map<String, dynamic> json) {
-    return SearchResponse(
-      facets: (json['facets'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(k, BucketInfo.fromJson(e as Map<String, dynamic>))),
-      hits: json['hits'] != null
-          ? Hits.fromJson(json['hits'] as Map<String, dynamic>)
-          : null,
-      stats: (json['stats'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(k, FieldStats.fromJson(e as Map<String, dynamic>))),
-      status: json['status'] != null
-          ? SearchStatus.fromJson(json['status'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final facets = this.facets;
-    final hits = this.hits;
-    final stats = this.stats;
-    final status = this.status;
-    return {
-      if (facets != null) 'facets': facets,
-      if (hits != null) 'hits': hits,
-      if (stats != null) 'stats': stats,
-      if (status != null) 'status': status,
-    };
-  }
-}
-
-/// Contains the resource id (<code>rid</code>) and the time it took to process
-/// the request (<code>timems</code>).
-class SearchStatus {
-  /// The encrypted resource ID for the request.
-  final String? rid;
-
-  /// How long it took to process the request, in milliseconds.
-  final int? timems;
-
-  SearchStatus({
-    this.rid,
-    this.timems,
-  });
-
-  factory SearchStatus.fromJson(Map<String, dynamic> json) {
-    return SearchStatus(
-      rid: json['rid'] as String?,
-      timems: json['timems'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final rid = this.rid;
-    final timems = this.timems;
-    return {
-      if (rid != null) 'rid': rid,
-      if (timems != null) 'timems': timems,
-    };
-  }
-}
-
-/// Container for the suggestion information returned in a
-/// <code>SuggestResponse</code>.
-class SuggestModel {
-  /// The number of documents that were found to match the query string.
-  final int? found;
-
-  /// The query string specified in the suggest request.
-  final String? query;
-
-  /// The documents that match the query string.
-  final List<SuggestionMatch>? suggestions;
-
-  SuggestModel({
-    this.found,
-    this.query,
-    this.suggestions,
-  });
-
-  factory SuggestModel.fromJson(Map<String, dynamic> json) {
-    return SuggestModel(
-      found: json['found'] as int?,
-      query: json['query'] as String?,
-      suggestions: (json['suggestions'] as List?)
-          ?.nonNulls
-          .map((e) => SuggestionMatch.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final found = this.found;
-    final query = this.query;
-    final suggestions = this.suggestions;
-    return {
-      if (found != null) 'found': found,
-      if (query != null) 'query': query,
-      if (suggestions != null) 'suggestions': suggestions,
-    };
-  }
-}
-
-/// Contains the response to a <code>Suggest</code> request.
-class SuggestResponse {
-  /// The status of a <code>SuggestRequest</code>. Contains the resource ID
-  /// (<code>rid</code>) and how long it took to process the request
-  /// (<code>timems</code>).
-  final SuggestStatus? status;
-
-  /// Container for the matching search suggestion information.
-  final SuggestModel? suggest;
-
-  SuggestResponse({
-    this.status,
-    this.suggest,
-  });
-
-  factory SuggestResponse.fromJson(Map<String, dynamic> json) {
-    return SuggestResponse(
-      status: json['status'] != null
-          ? SuggestStatus.fromJson(json['status'] as Map<String, dynamic>)
-          : null,
-      suggest: json['suggest'] != null
-          ? SuggestModel.fromJson(json['suggest'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final status = this.status;
-    final suggest = this.suggest;
-    return {
-      if (status != null) 'status': status,
-      if (suggest != null) 'suggest': suggest,
-    };
-  }
-}
-
-/// Contains the resource id (<code>rid</code>) and the time it took to process
-/// the request (<code>timems</code>).
-class SuggestStatus {
-  /// The encrypted resource ID for the request.
-  final String? rid;
-
-  /// How long it took to process the request, in milliseconds.
-  final int? timems;
-
-  SuggestStatus({
-    this.rid,
-    this.timems,
-  });
-
-  factory SuggestStatus.fromJson(Map<String, dynamic> json) {
-    return SuggestStatus(
-      rid: json['rid'] as String?,
-      timems: json['timems'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final rid = this.rid;
-    final timems = this.timems;
-    return {
-      if (rid != null) 'rid': rid,
-      if (timems != null) 'timems': timems,
-    };
-  }
-}
-
-/// An autocomplete suggestion that matches the query string specified in a
-/// <code>SuggestRequest</code>.
-class SuggestionMatch {
-  /// The document ID of the suggested document.
-  final String? id;
-
-  /// The relevance score of a suggested match.
-  final int? score;
-
-  /// The string that matches the query string specified in the
-  /// <code>SuggestRequest</code>.
-  final String? suggestion;
-
-  SuggestionMatch({
-    this.id,
-    this.score,
-    this.suggestion,
-  });
-
-  factory SuggestionMatch.fromJson(Map<String, dynamic> json) {
-    return SuggestionMatch(
-      id: json['id'] as String?,
-      score: json['score'] as int?,
-      suggestion: json['suggestion'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final score = this.score;
-    final suggestion = this.suggestion;
-    return {
-      if (id != null) 'id': id,
-      if (score != null) 'score': score,
-      if (suggestion != null) 'suggestion': suggestion,
-    };
-  }
-}
-
-/// Contains the response to an <code>UploadDocuments</code> request.
-class UploadDocumentsResponse {
-  /// The number of documents that were added to the search domain.
-  final int? adds;
-
-  /// The number of documents that were deleted from the search domain.
-  final int? deletes;
-
-  /// The status of an <code>UploadDocumentsRequest</code>.
-  final String? status;
-
-  /// Any warnings returned by the document service about the documents being
-  /// uploaded.
-  final List<DocumentServiceWarning>? warnings;
-
-  UploadDocumentsResponse({
-    this.adds,
-    this.deletes,
-    this.status,
-    this.warnings,
-  });
-
-  factory UploadDocumentsResponse.fromJson(Map<String, dynamic> json) {
-    return UploadDocumentsResponse(
-      adds: json['adds'] as int?,
-      deletes: json['deletes'] as int?,
-      status: json['status'] as String?,
-      warnings: (json['warnings'] as List?)
-          ?.nonNulls
-          .map(
-              (e) => DocumentServiceWarning.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final adds = this.adds;
-    final deletes = this.deletes;
-    final status = this.status;
-    final warnings = this.warnings;
-    return {
-      if (adds != null) 'adds': adds,
-      if (deletes != null) 'deletes': deletes,
-      if (status != null) 'status': status,
-      if (warnings != null) 'warnings': warnings,
-    };
-  }
+class SearchException extends _s.GenericAwsException {
+  SearchException({String? type, String? message})
+      : super(type: type, code: 'SearchException', message: message);
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'DocumentServiceException': (type, message) =>
-      DocumentServiceException(message: message),
-  'SearchException': (type, message) => SearchException(message: message),
+      DocumentServiceException(type: type, message: message),
+  'SearchException': (type, message) =>
+      SearchException(type: type, message: message),
 };

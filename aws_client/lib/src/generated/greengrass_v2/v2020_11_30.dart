@@ -75,8 +75,8 @@ class GreengrassV2 {
   /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-service-role.html">Greengrass
   /// service role</a> in the <i>IoT Greengrass Version 2 Developer Guide</i>.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [roleArn] :
   /// The Amazon Resource Name (ARN) of the service role to associate with IoT
@@ -115,11 +115,11 @@ class GreengrassV2 {
   /// Guide</i>.
   /// </note>
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [coreDeviceThingName] :
   /// The name of the core device. This is also the name of the IoT thing.
@@ -149,11 +149,11 @@ class GreengrassV2 {
   /// be able to use cloud discovery to retrieve the core device's connectivity
   /// information and certificates.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [coreDeviceThingName] :
   /// The name of the core device. This is also the name of the IoT thing.
@@ -183,12 +183,12 @@ class GreengrassV2 {
   /// that haven't yet received it. If a device already received the deployment,
   /// this operation doesn't change anything for that device.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [deploymentId] :
   /// The ID of the deployment.
@@ -246,13 +246,13 @@ class GreengrassV2 {
   /// </note> </li>
   /// </ul>
   ///
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
   /// May throw [RequestAlreadyInProgressException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [clientToken] :
   /// A unique, case-sensitive identifier that you can provide to ensure that
@@ -322,13 +322,13 @@ class GreengrassV2 {
   /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/create-deployments.html">Create
   /// deployments</a> in the <i>IoT Greengrass V2 Developer Guide</i>.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [RequestAlreadyInProgressException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [targetArn] :
   /// The <a
@@ -411,12 +411,12 @@ class GreengrassV2 {
   /// from the deployment or update the deployment to use a valid version.
   /// </note>
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [arn] :
   /// The <a
@@ -440,12 +440,12 @@ class GreengrassV2 {
   /// href="https://docs.aws.amazon.com/iot/latest/apireference/API_DeleteThing.html">DeleteThing</a>
   /// in the <i>IoT API Reference</i>.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [coreDeviceThingName] :
   /// The name of the core device. This is also the name of the IoT thing.
@@ -470,12 +470,12 @@ class GreengrassV2 {
   /// the device. Additionally, core devices can roll back to a previous
   /// deployment that has been deleted.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [deploymentId] :
   /// The ID of the deployment.
@@ -493,11 +493,11 @@ class GreengrassV2 {
 
   /// Retrieves metadata for a version of a component.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [arn] :
   /// The <a
@@ -538,11 +538,11 @@ class GreengrassV2 {
 
   /// Gets the recipe for a version of a component.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [arn] :
   /// The <a
@@ -573,11 +573,11 @@ class GreengrassV2 {
   /// artifact. Core devices call this operation to identify the URL that they
   /// can use to download an artifact to install.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [arn] :
   /// The <a
@@ -646,8 +646,8 @@ class GreengrassV2 {
   /// client devices to core devices</a> in the <i>IoT Greengrass Version 2
   /// Developer Guide</i>.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [thingName] :
   /// The name of the core device. This is also the name of the IoT thing.
@@ -698,11 +698,11 @@ class GreengrassV2 {
   /// </li>
   /// </ul> </note>
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [coreDeviceThingName] :
   /// The name of the core device. This is also the name of the IoT thing.
@@ -722,11 +722,11 @@ class GreengrassV2 {
   /// Gets a deployment. Deployments define the components that run on
   /// Greengrass core devices.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [deploymentId] :
   /// The ID of the deployment.
@@ -764,11 +764,11 @@ class GreengrassV2 {
   /// Retrieves a paginated list of client devices that are associated with a
   /// core device.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [coreDeviceThingName] :
   /// The name of the core device. This is also the name of the IoT thing.
@@ -805,59 +805,14 @@ class GreengrassV2 {
     return ListClientDevicesAssociatedWithCoreDeviceResponse.fromJson(response);
   }
 
-  /// Retrieves a paginated list of all versions for a component. Greater
-  /// versions are listed first.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  ///
-  /// Parameter [arn] :
-  /// The <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
-  /// of the component.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of results to be returned per paginated request.
-  ///
-  /// Parameter [nextToken] :
-  /// The token to be used for the next set of paginated results.
-  Future<ListComponentVersionsResponse> listComponentVersions({
-    required String arn,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    final $query = <String, List<String>>{
-      if (maxResults != null) 'maxResults': [maxResults.toString()],
-      if (nextToken != null) 'nextToken': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri:
-          '/greengrass/v2/components/${Uri.encodeComponent(arn)}/versions',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListComponentVersionsResponse.fromJson(response);
-  }
-
   /// Retrieves a paginated list of component summaries. This list includes
   /// components that you have permission to view.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to be returned per paginated request.
@@ -895,6 +850,51 @@ class GreengrassV2 {
     return ListComponentsResponse.fromJson(response);
   }
 
+  /// Retrieves a paginated list of all versions for a component. Greater
+  /// versions are listed first.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [arn] :
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
+  /// of the component.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to be returned per paginated request.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to be used for the next set of paginated results.
+  Future<ListComponentVersionsResponse> listComponentVersions({
+    required String arn,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/greengrass/v2/components/${Uri.encodeComponent(arn)}/versions',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListComponentVersionsResponse.fromJson(response);
+  }
+
   /// Retrieves a paginated list of Greengrass core devices.
   /// <note>
   /// IoT Greengrass relies on individual devices to send status updates to the
@@ -915,8 +915,15 @@ class GreengrassV2 {
   /// Cloud
   /// </li>
   /// <li>
-  /// When the status of any component on the core device becomes
-  /// <code>BROKEN</code>
+  /// For Greengrass nucleus 2.12.2 and earlier, the core device sends status
+  /// updates when the status of any component on the core device becomes
+  /// <code>ERRORED</code> or <code>BROKEN</code>.
+  /// </li>
+  /// <li>
+  /// For Greengrass nucleus 2.12.3 and later, the core device sends status
+  /// updates when the status of any component on the core device becomes
+  /// <code>ERRORED</code>, <code>BROKEN</code>, <code>RUNNING</code>, or
+  /// <code>FINISHED</code>.
   /// </li>
   /// <li>
   /// At a <a
@@ -929,16 +936,28 @@ class GreengrassV2 {
   /// </li>
   /// </ul> </note>
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to be returned per paginated request.
   ///
   /// Parameter [nextToken] :
   /// The token to be used for the next set of paginated results.
+  ///
+  /// Parameter [runtime] :
+  /// The runtime to be used by the core device. The runtime can be:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>aws_nucleus_classic</code>
+  /// </li>
+  /// <li>
+  /// <code>aws_nucleus_lite</code>
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [status] :
   /// The core device status by which to filter. If you specify this parameter,
@@ -966,6 +985,7 @@ class GreengrassV2 {
   Future<ListCoreDevicesResponse> listCoreDevices({
     int? maxResults,
     String? nextToken,
+    String? runtime,
     CoreDeviceStatus? status,
     String? thingGroupArn,
   }) async {
@@ -978,6 +998,7 @@ class GreengrassV2 {
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
+      if (runtime != null) 'runtime': [runtime],
       if (status != null) 'status': [status.value],
       if (thingGroupArn != null) 'thingGroupArn': [thingGroupArn],
     };
@@ -993,10 +1014,10 @@ class GreengrassV2 {
 
   /// Retrieves a paginated list of deployments.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [historyFilter] :
   /// The filter for the list of deployments. Choose one of the following
@@ -1063,11 +1084,11 @@ class GreengrassV2 {
   /// Retrieves a paginated list of deployment jobs that IoT Greengrass sends to
   /// Greengrass core devices.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [coreDeviceThingName] :
   /// The name of the core device. This is also the name of the IoT thing.
@@ -1141,11 +1162,11 @@ class GreengrassV2 {
   /// </li>
   /// </ul> </note>
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [coreDeviceThingName] :
   /// The name of the core device. This is also the name of the IoT thing.
@@ -1203,8 +1224,8 @@ class GreengrassV2 {
   /// Retrieves the list of tags for an IoT Greengrass resource.
   ///
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The <a
@@ -1230,8 +1251,8 @@ class GreengrassV2 {
   /// This operation identifies components that meet all dependency requirements
   /// for a deployment. If the requirements conflict, then this operation
   /// returns an error and the deployment fails. For example, this occurs if
-  /// component <code>A</code> requires version <code>&gt;2.0.0</code> and
-  /// component <code>B</code> requires version <code>&lt;2.0.0</code> of a
+  /// component <code>A</code> requires version <code>>2.0.0</code> and
+  /// component <code>B</code> requires version <code><2.0.0</code> of a
   /// component dependency.
   ///
   /// When you specify the component candidates to resolve, IoT Greengrass
@@ -1246,12 +1267,12 @@ class GreengrassV2 {
   /// Greengrass endpoints and quotas</a>.
   /// </important>
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [componentCandidates] :
   /// The list of components to resolve.
@@ -1280,8 +1301,8 @@ class GreengrassV2 {
   /// resource, this operation updates the tag's value.
   ///
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The <a
@@ -1311,8 +1332,8 @@ class GreengrassV2 {
   /// Removes a tag from an IoT Greengrass resource.
   ///
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The <a
@@ -1350,8 +1371,8 @@ class GreengrassV2 {
   /// client devices to core devices</a> in the <i>IoT Greengrass Version 2
   /// Developer Guide</i>.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [connectivityInfo] :
   /// The connectivity information for the core device.
@@ -1376,66 +1397,6 @@ class GreengrassV2 {
   }
 }
 
-/// Contains a request to associate a client device with a core device. The <a
-/// href="https://docs.aws.amazon.com/greengrass/v2/APIReference/API_BatchAssociateClientDeviceWithCoreDevice.html">BatchAssociateClientDeviceWithCoreDevice</a>
-/// operation consumes a list of these requests.
-class AssociateClientDeviceWithCoreDeviceEntry {
-  /// The name of the IoT thing that represents the client device to associate.
-  final String thingName;
-
-  AssociateClientDeviceWithCoreDeviceEntry({
-    required this.thingName,
-  });
-
-  Map<String, dynamic> toJson() {
-    final thingName = this.thingName;
-    return {
-      'thingName': thingName,
-    };
-  }
-}
-
-/// Contains an error that occurs from a request to associate a client device
-/// with a core device. The <a
-/// href="https://docs.aws.amazon.com/greengrass/v2/APIReference/API_BatchAssociateClientDeviceWithCoreDevice.html">BatchAssociateClientDeviceWithCoreDevice</a>
-/// operation returns a list of these errors.
-class AssociateClientDeviceWithCoreDeviceErrorEntry {
-  /// The error code for the request.
-  final String? code;
-
-  /// A message that provides additional information about the error.
-  final String? message;
-
-  /// The name of the IoT thing whose associate request failed.
-  final String? thingName;
-
-  AssociateClientDeviceWithCoreDeviceErrorEntry({
-    this.code,
-    this.message,
-    this.thingName,
-  });
-
-  factory AssociateClientDeviceWithCoreDeviceErrorEntry.fromJson(
-      Map<String, dynamic> json) {
-    return AssociateClientDeviceWithCoreDeviceErrorEntry(
-      code: json['code'] as String?,
-      message: json['message'] as String?,
-      thingName: json['thingName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final message = this.message;
-    final thingName = this.thingName;
-    return {
-      if (code != null) 'code': code,
-      if (message != null) 'message': message,
-      if (thingName != null) 'thingName': thingName,
-    };
-  }
-}
-
 class AssociateServiceRoleToAccountResponse {
   /// The time when the service role was associated with IoT Greengrass for your
   /// Amazon Web Services account in this Amazon Web Services Region.
@@ -1456,39 +1417,6 @@ class AssociateServiceRoleToAccountResponse {
     final associatedAt = this.associatedAt;
     return {
       if (associatedAt != null) 'AssociatedAt': associatedAt,
-    };
-  }
-}
-
-/// Contains information about a client device that is associated to a core
-/// device for cloud discovery.
-class AssociatedClientDevice {
-  /// The time that the client device was associated, expressed in ISO 8601
-  /// format.
-  final DateTime? associationTimestamp;
-
-  /// The name of the IoT thing that represents the associated client device.
-  final String? thingName;
-
-  AssociatedClientDevice({
-    this.associationTimestamp,
-    this.thingName,
-  });
-
-  factory AssociatedClientDevice.fromJson(Map<String, dynamic> json) {
-    return AssociatedClientDevice(
-      associationTimestamp: timeStampFromJson(json['associationTimestamp']),
-      thingName: json['thingName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final associationTimestamp = this.associationTimestamp;
-    final thingName = this.thingName;
-    return {
-      if (associationTimestamp != null)
-        'associationTimestamp': unixTimestampToJson(associationTimestamp),
-      if (thingName != null) 'thingName': thingName,
     };
   }
 }
@@ -1569,730 +1497,6 @@ class CancelDeploymentResponse {
       if (message != null) 'message': message,
     };
   }
-}
-
-class CloudComponentState {
-  static const requested = CloudComponentState._('REQUESTED');
-  static const initiated = CloudComponentState._('INITIATED');
-  static const deployable = CloudComponentState._('DEPLOYABLE');
-  static const failed = CloudComponentState._('FAILED');
-  static const deprecated = CloudComponentState._('DEPRECATED');
-
-  final String value;
-
-  const CloudComponentState._(this.value);
-
-  static const values = [requested, initiated, deployable, failed, deprecated];
-
-  static CloudComponentState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CloudComponentState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CloudComponentState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains the status of a component version in the IoT Greengrass service.
-class CloudComponentStatus {
-  /// The state of the component version.
-  final CloudComponentState? componentState;
-
-  /// A dictionary of errors that communicate why the component version is in an
-  /// error state. For example, if IoT Greengrass can't access an artifact for the
-  /// component version, then <code>errors</code> contains the artifact's URI as a
-  /// key, and the error message as the value for that key.
-  final Map<String, String>? errors;
-
-  /// A message that communicates details, such as errors, about the status of the
-  /// component version.
-  final String? message;
-
-  /// The vendor guidance state for the component version. This state indicates
-  /// whether the component version has any issues that you should consider before
-  /// you deploy it. The vendor guidance state can be:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ACTIVE</code> – This component version is available and recommended
-  /// for use.
-  /// </li>
-  /// <li>
-  /// <code>DISCONTINUED</code> – This component version has been discontinued by
-  /// its publisher. You can deploy this component version, but we recommend that
-  /// you use a different version of this component.
-  /// </li>
-  /// <li>
-  /// <code>DELETED</code> – This component version has been deleted by its
-  /// publisher, so you can't deploy it. If you have any existing deployments that
-  /// specify this component version, those deployments will fail.
-  /// </li>
-  /// </ul>
-  final VendorGuidance? vendorGuidance;
-
-  /// A message that communicates details about the vendor guidance state of the
-  /// component version. This message communicates why a component version is
-  /// discontinued or deleted.
-  final String? vendorGuidanceMessage;
-
-  CloudComponentStatus({
-    this.componentState,
-    this.errors,
-    this.message,
-    this.vendorGuidance,
-    this.vendorGuidanceMessage,
-  });
-
-  factory CloudComponentStatus.fromJson(Map<String, dynamic> json) {
-    return CloudComponentStatus(
-      componentState: (json['componentState'] as String?)
-          ?.let(CloudComponentState.fromString),
-      errors: (json['errors'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      message: json['message'] as String?,
-      vendorGuidance:
-          (json['vendorGuidance'] as String?)?.let(VendorGuidance.fromString),
-      vendorGuidanceMessage: json['vendorGuidanceMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final componentState = this.componentState;
-    final errors = this.errors;
-    final message = this.message;
-    final vendorGuidance = this.vendorGuidance;
-    final vendorGuidanceMessage = this.vendorGuidanceMessage;
-    return {
-      if (componentState != null) 'componentState': componentState.value,
-      if (errors != null) 'errors': errors,
-      if (message != null) 'message': message,
-      if (vendorGuidance != null) 'vendorGuidance': vendorGuidance.value,
-      if (vendorGuidanceMessage != null)
-        'vendorGuidanceMessage': vendorGuidanceMessage,
-    };
-  }
-}
-
-/// Contains information about a component.
-class Component {
-  /// The <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
-  /// of the component version.
-  final String? arn;
-
-  /// The name of the component.
-  final String? componentName;
-
-  /// The latest version of the component and its details.
-  final ComponentLatestVersion? latestVersion;
-
-  Component({
-    this.arn,
-    this.componentName,
-    this.latestVersion,
-  });
-
-  factory Component.fromJson(Map<String, dynamic> json) {
-    return Component(
-      arn: json['arn'] as String?,
-      componentName: json['componentName'] as String?,
-      latestVersion: json['latestVersion'] != null
-          ? ComponentLatestVersion.fromJson(
-              json['latestVersion'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final componentName = this.componentName;
-    final latestVersion = this.latestVersion;
-    return {
-      if (arn != null) 'arn': arn,
-      if (componentName != null) 'componentName': componentName,
-      if (latestVersion != null) 'latestVersion': latestVersion,
-    };
-  }
-}
-
-/// Contains information about a component that is a candidate to deploy to a
-/// Greengrass core device.
-class ComponentCandidate {
-  /// The name of the component.
-  final String? componentName;
-
-  /// The version of the component.
-  final String? componentVersion;
-
-  /// The version requirements for the component's dependencies. Greengrass core
-  /// devices get the version requirements from component recipes.
-  ///
-  /// IoT Greengrass V2 uses semantic version constraints. For more information,
-  /// see <a href="https://semver.org/">Semantic Versioning</a>.
-  final Map<String, String>? versionRequirements;
-
-  ComponentCandidate({
-    this.componentName,
-    this.componentVersion,
-    this.versionRequirements,
-  });
-
-  Map<String, dynamic> toJson() {
-    final componentName = this.componentName;
-    final componentVersion = this.componentVersion;
-    final versionRequirements = this.versionRequirements;
-    return {
-      if (componentName != null) 'componentName': componentName,
-      if (componentVersion != null) 'componentVersion': componentVersion,
-      if (versionRequirements != null)
-        'versionRequirements': versionRequirements,
-    };
-  }
-}
-
-/// Contains information about a deployment's update to a component's
-/// configuration on Greengrass core devices. For more information, see <a
-/// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/update-component-configurations.html">Update
-/// component configurations</a> in the <i>IoT Greengrass V2 Developer
-/// Guide</i>.
-class ComponentConfigurationUpdate {
-  /// A serialized JSON string that contains the configuration object to merge to
-  /// target devices. The core device merges this configuration with the
-  /// component's existing configuration. If this is the first time a component
-  /// deploys on a device, the core device merges this configuration with the
-  /// component's default configuration. This means that the core device keeps
-  /// it's existing configuration for keys and values that you don't specify in
-  /// this object. For more information, see <a
-  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/update-component-configurations.html#merge-configuration-update">Merge
-  /// configuration updates</a> in the <i>IoT Greengrass V2 Developer Guide</i>.
-  final String? merge;
-
-  /// The list of configuration nodes to reset to default values on target
-  /// devices. Use JSON pointers to specify each node to reset. JSON pointers
-  /// start with a forward slash (<code>/</code>) and use forward slashes to
-  /// separate the key for each level in the object. For more information, see the
-  /// <a href="https://tools.ietf.org/html/rfc6901">JSON pointer specification</a>
-  /// and <a
-  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/update-component-configurations.html#reset-configuration-update">Reset
-  /// configuration updates</a> in the <i>IoT Greengrass V2 Developer Guide</i>.
-  final List<String>? reset;
-
-  ComponentConfigurationUpdate({
-    this.merge,
-    this.reset,
-  });
-
-  factory ComponentConfigurationUpdate.fromJson(Map<String, dynamic> json) {
-    return ComponentConfigurationUpdate(
-      merge: json['merge'] as String?,
-      reset:
-          (json['reset'] as List?)?.nonNulls.map((e) => e as String).toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final merge = this.merge;
-    final reset = this.reset;
-    return {
-      if (merge != null) 'merge': merge,
-      if (reset != null) 'reset': reset,
-    };
-  }
-}
-
-/// Contains information about a component dependency for a Lambda function
-/// component.
-class ComponentDependencyRequirement {
-  /// The type of this dependency. Choose from the following options:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>SOFT</code> – The component doesn't restart if the dependency changes
-  /// state.
-  /// </li>
-  /// <li>
-  /// <code>HARD</code> – The component restarts if the dependency changes state.
-  /// </li>
-  /// </ul>
-  /// Default: <code>HARD</code>
-  final ComponentDependencyType? dependencyType;
-
-  /// The component version requirement for the component dependency.
-  ///
-  /// IoT Greengrass V2 uses semantic version constraints. For more information,
-  /// see <a href="https://semver.org/">Semantic Versioning</a>.
-  final String? versionRequirement;
-
-  ComponentDependencyRequirement({
-    this.dependencyType,
-    this.versionRequirement,
-  });
-
-  Map<String, dynamic> toJson() {
-    final dependencyType = this.dependencyType;
-    final versionRequirement = this.versionRequirement;
-    return {
-      if (dependencyType != null) 'dependencyType': dependencyType.value,
-      if (versionRequirement != null) 'versionRequirement': versionRequirement,
-    };
-  }
-}
-
-class ComponentDependencyType {
-  static const hard = ComponentDependencyType._('HARD');
-  static const soft = ComponentDependencyType._('SOFT');
-
-  final String value;
-
-  const ComponentDependencyType._(this.value);
-
-  static const values = [hard, soft];
-
-  static ComponentDependencyType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ComponentDependencyType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ComponentDependencyType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains information about a component to deploy.
-class ComponentDeploymentSpecification {
-  /// The version of the component.
-  final String componentVersion;
-
-  /// The configuration updates to deploy for the component. You can define
-  /// <i>reset</i> updates and <i>merge</i> updates. A reset updates the keys that
-  /// you specify to the default configuration for the component. A merge updates
-  /// the core device's component configuration with the keys and values that you
-  /// specify. The IoT Greengrass Core software applies reset updates before it
-  /// applies merge updates. For more information, see <a
-  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/update-component-configurations.html">Update
-  /// component configurations</a> in the <i>IoT Greengrass V2 Developer
-  /// Guide</i>.
-  final ComponentConfigurationUpdate? configurationUpdate;
-
-  /// The system user and group that the IoT Greengrass Core software uses to run
-  /// component processes on the core device. If you omit this parameter, the IoT
-  /// Greengrass Core software uses the system user and group that you configure
-  /// for the core device. For more information, see <a
-  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/configure-greengrass-core-v2.html#configure-component-user">Configure
-  /// the user and group that run components</a> in the <i>IoT Greengrass V2
-  /// Developer Guide</i>.
-  final ComponentRunWith? runWith;
-
-  ComponentDeploymentSpecification({
-    required this.componentVersion,
-    this.configurationUpdate,
-    this.runWith,
-  });
-
-  factory ComponentDeploymentSpecification.fromJson(Map<String, dynamic> json) {
-    return ComponentDeploymentSpecification(
-      componentVersion: (json['componentVersion'] as String?) ?? '',
-      configurationUpdate: json['configurationUpdate'] != null
-          ? ComponentConfigurationUpdate.fromJson(
-              json['configurationUpdate'] as Map<String, dynamic>)
-          : null,
-      runWith: json['runWith'] != null
-          ? ComponentRunWith.fromJson(json['runWith'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final componentVersion = this.componentVersion;
-    final configurationUpdate = this.configurationUpdate;
-    final runWith = this.runWith;
-    return {
-      'componentVersion': componentVersion,
-      if (configurationUpdate != null)
-        'configurationUpdate': configurationUpdate,
-      if (runWith != null) 'runWith': runWith,
-    };
-  }
-}
-
-/// Contains information about the latest version of a component.
-class ComponentLatestVersion {
-  /// The <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
-  /// of the component version.
-  final String? arn;
-
-  /// The version of the component.
-  final String? componentVersion;
-
-  /// The time at which the component was created, expressed in ISO 8601 format.
-  final DateTime? creationTimestamp;
-
-  /// The description of the component version.
-  final String? description;
-
-  /// The platforms that the component version supports.
-  final List<ComponentPlatform>? platforms;
-
-  /// The publisher of the component version.
-  final String? publisher;
-
-  ComponentLatestVersion({
-    this.arn,
-    this.componentVersion,
-    this.creationTimestamp,
-    this.description,
-    this.platforms,
-    this.publisher,
-  });
-
-  factory ComponentLatestVersion.fromJson(Map<String, dynamic> json) {
-    return ComponentLatestVersion(
-      arn: json['arn'] as String?,
-      componentVersion: json['componentVersion'] as String?,
-      creationTimestamp: timeStampFromJson(json['creationTimestamp']),
-      description: json['description'] as String?,
-      platforms: (json['platforms'] as List?)
-          ?.nonNulls
-          .map((e) => ComponentPlatform.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      publisher: json['publisher'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final componentVersion = this.componentVersion;
-    final creationTimestamp = this.creationTimestamp;
-    final description = this.description;
-    final platforms = this.platforms;
-    final publisher = this.publisher;
-    return {
-      if (arn != null) 'arn': arn,
-      if (componentVersion != null) 'componentVersion': componentVersion,
-      if (creationTimestamp != null)
-        'creationTimestamp': unixTimestampToJson(creationTimestamp),
-      if (description != null) 'description': description,
-      if (platforms != null) 'platforms': platforms,
-      if (publisher != null) 'publisher': publisher,
-    };
-  }
-}
-
-/// Contains information about a platform that a component supports.
-class ComponentPlatform {
-  /// A dictionary of attributes for the platform. The IoT Greengrass Core
-  /// software defines the <code>os</code> and <code>architecture</code> by
-  /// default. You can specify additional platform attributes for a core device
-  /// when you deploy the Greengrass nucleus component. For more information, see
-  /// the <a
-  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-nucleus-component.html">Greengrass
-  /// nucleus component</a> in the <i>IoT Greengrass V2 Developer Guide</i>.
-  final Map<String, String>? attributes;
-
-  /// The friendly name of the platform. This name helps you identify the
-  /// platform.
-  ///
-  /// If you omit this parameter, IoT Greengrass creates a friendly name from the
-  /// <code>os</code> and <code>architecture</code> of the platform.
-  final String? name;
-
-  ComponentPlatform({
-    this.attributes,
-    this.name,
-  });
-
-  factory ComponentPlatform.fromJson(Map<String, dynamic> json) {
-    return ComponentPlatform(
-      attributes: (json['attributes'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attributes = this.attributes;
-    final name = this.name;
-    return {
-      if (attributes != null) 'attributes': attributes,
-      if (name != null) 'name': name,
-    };
-  }
-}
-
-/// Contains information system user and group that the IoT Greengrass Core
-/// software uses to run component processes on the core device. For more
-/// information, see <a
-/// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/configure-greengrass-core-v2.html#configure-component-user">Configure
-/// the user and group that run components</a> in the <i>IoT Greengrass V2
-/// Developer Guide</i>.
-class ComponentRunWith {
-  /// The POSIX system user and, optionally, group to use to run this component on
-  /// Linux core devices. The user, and group if specified, must exist on each
-  /// Linux core device. Specify the user and group separated by a colon
-  /// (<code>:</code>) in the following format: <code>user:group</code>. The group
-  /// is optional. If you don't specify a group, the IoT Greengrass Core software
-  /// uses the primary user for the group.
-  ///
-  /// If you omit this parameter, the IoT Greengrass Core software uses the
-  /// default system user and group that you configure on the Greengrass nucleus
-  /// component. For more information, see <a
-  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/configure-greengrass-core-v2.html#configure-component-user">Configure
-  /// the user and group that run components</a>.
-  final String? posixUser;
-
-  /// The system resource limits to apply to this component's process on the core
-  /// device. IoT Greengrass currently supports this feature on only Linux core
-  /// devices.
-  ///
-  /// If you omit this parameter, the IoT Greengrass Core software uses the
-  /// default system resource limits that you configure on the Greengrass nucleus
-  /// component. For more information, see <a
-  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/configure-greengrass-core-v2.html#configure-component-system-resource-limits">Configure
-  /// system resource limits for components</a>.
-  final SystemResourceLimits? systemResourceLimits;
-
-  /// The Windows user to use to run this component on Windows core devices. The
-  /// user must exist on each Windows core device, and its name and password must
-  /// be in the LocalSystem account's Credentials Manager instance.
-  ///
-  /// If you omit this parameter, the IoT Greengrass Core software uses the
-  /// default Windows user that you configure on the Greengrass nucleus component.
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/configure-greengrass-core-v2.html#configure-component-user">Configure
-  /// the user and group that run components</a>.
-  final String? windowsUser;
-
-  ComponentRunWith({
-    this.posixUser,
-    this.systemResourceLimits,
-    this.windowsUser,
-  });
-
-  factory ComponentRunWith.fromJson(Map<String, dynamic> json) {
-    return ComponentRunWith(
-      posixUser: json['posixUser'] as String?,
-      systemResourceLimits: json['systemResourceLimits'] != null
-          ? SystemResourceLimits.fromJson(
-              json['systemResourceLimits'] as Map<String, dynamic>)
-          : null,
-      windowsUser: json['windowsUser'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final posixUser = this.posixUser;
-    final systemResourceLimits = this.systemResourceLimits;
-    final windowsUser = this.windowsUser;
-    return {
-      if (posixUser != null) 'posixUser': posixUser,
-      if (systemResourceLimits != null)
-        'systemResourceLimits': systemResourceLimits,
-      if (windowsUser != null) 'windowsUser': windowsUser,
-    };
-  }
-}
-
-/// Contains information about a component version in a list.
-class ComponentVersionListItem {
-  /// The <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
-  /// of the component version.
-  final String? arn;
-
-  /// The name of the component.
-  final String? componentName;
-
-  /// The version of the component.
-  final String? componentVersion;
-
-  ComponentVersionListItem({
-    this.arn,
-    this.componentName,
-    this.componentVersion,
-  });
-
-  factory ComponentVersionListItem.fromJson(Map<String, dynamic> json) {
-    return ComponentVersionListItem(
-      arn: json['arn'] as String?,
-      componentName: json['componentName'] as String?,
-      componentVersion: json['componentVersion'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final componentName = this.componentName;
-    final componentVersion = this.componentVersion;
-    return {
-      if (arn != null) 'arn': arn,
-      if (componentName != null) 'componentName': componentName,
-      if (componentVersion != null) 'componentVersion': componentVersion,
-    };
-  }
-}
-
-class ComponentVisibilityScope {
-  static const private = ComponentVisibilityScope._('PRIVATE');
-  static const public = ComponentVisibilityScope._('PUBLIC');
-
-  final String value;
-
-  const ComponentVisibilityScope._(this.value);
-
-  static const values = [private, public];
-
-  static ComponentVisibilityScope fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ComponentVisibilityScope._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ComponentVisibilityScope && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains information about an endpoint and port where client devices can
-/// connect to an MQTT broker on a Greengrass core device.
-class ConnectivityInfo {
-  /// The IP address or DNS address where client devices can connect to an MQTT
-  /// broker on the Greengrass core device.
-  final String? hostAddress;
-
-  /// An ID for the connectivity information.
-  final String? id;
-
-  /// Additional metadata to provide to client devices that connect to this core
-  /// device.
-  final String? metadata;
-
-  /// The port where the MQTT broker operates on the core device. This port is
-  /// typically 8883, which is the default port for the MQTT broker component that
-  /// runs on core devices.
-  final int? portNumber;
-
-  ConnectivityInfo({
-    this.hostAddress,
-    this.id,
-    this.metadata,
-    this.portNumber,
-  });
-
-  factory ConnectivityInfo.fromJson(Map<String, dynamic> json) {
-    return ConnectivityInfo(
-      hostAddress: json['HostAddress'] as String?,
-      id: json['Id'] as String?,
-      metadata: json['Metadata'] as String?,
-      portNumber: json['PortNumber'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hostAddress = this.hostAddress;
-    final id = this.id;
-    final metadata = this.metadata;
-    final portNumber = this.portNumber;
-    return {
-      if (hostAddress != null) 'HostAddress': hostAddress,
-      if (id != null) 'Id': id,
-      if (metadata != null) 'Metadata': metadata,
-      if (portNumber != null) 'PortNumber': portNumber,
-    };
-  }
-}
-
-/// Contains information about a Greengrass core device, which is an IoT thing
-/// that runs the IoT Greengrass Core software.
-class CoreDevice {
-  /// The name of the core device. This is also the name of the IoT thing.
-  final String? coreDeviceThingName;
-
-  /// The time at which the core device's status last updated, expressed in ISO
-  /// 8601 format.
-  final DateTime? lastStatusUpdateTimestamp;
-
-  /// The status of the core device. Core devices can have the following statuses:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>HEALTHY</code> – The IoT Greengrass Core software and all components
-  /// run on the core device without issue.
-  /// </li>
-  /// <li>
-  /// <code>UNHEALTHY</code> – The IoT Greengrass Core software or a component is
-  /// in a failed state on the core device.
-  /// </li>
-  /// </ul>
-  final CoreDeviceStatus? status;
-
-  CoreDevice({
-    this.coreDeviceThingName,
-    this.lastStatusUpdateTimestamp,
-    this.status,
-  });
-
-  factory CoreDevice.fromJson(Map<String, dynamic> json) {
-    return CoreDevice(
-      coreDeviceThingName: json['coreDeviceThingName'] as String?,
-      lastStatusUpdateTimestamp:
-          timeStampFromJson(json['lastStatusUpdateTimestamp']),
-      status: (json['status'] as String?)?.let(CoreDeviceStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final coreDeviceThingName = this.coreDeviceThingName;
-    final lastStatusUpdateTimestamp = this.lastStatusUpdateTimestamp;
-    final status = this.status;
-    return {
-      if (coreDeviceThingName != null)
-        'coreDeviceThingName': coreDeviceThingName,
-      if (lastStatusUpdateTimestamp != null)
-        'lastStatusUpdateTimestamp':
-            unixTimestampToJson(lastStatusUpdateTimestamp),
-      if (status != null) 'status': status.value,
-    };
-  }
-}
-
-class CoreDeviceStatus {
-  static const healthy = CoreDeviceStatus._('HEALTHY');
-  static const unhealthy = CoreDeviceStatus._('UNHEALTHY');
-
-  final String value;
-
-  const CoreDeviceStatus._(this.value);
-
-  static const values = [healthy, unhealthy];
-
-  static CoreDeviceStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CoreDeviceStatus._(value));
-
-  @override
-  bool operator ==(other) => other is CoreDeviceStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class CreateComponentVersionResponse {
@@ -2389,393 +1593,6 @@ class CreateDeploymentResponse {
   }
 }
 
-/// Contains information about a deployment.
-class Deployment {
-  /// The time at which the deployment was created, expressed in ISO 8601 format.
-  final DateTime? creationTimestamp;
-
-  /// The ID of the deployment.
-  final String? deploymentId;
-
-  /// The name of the deployment.
-  final String? deploymentName;
-
-  /// The status of the deployment.
-  final DeploymentStatus? deploymentStatus;
-
-  /// Whether or not the deployment is the latest revision for its target.
-  final bool? isLatestForTarget;
-
-  /// The parent deployment's target <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
-  /// within a subdeployment.
-  final String? parentTargetArn;
-
-  /// The revision number of the deployment.
-  final String? revisionId;
-
-  /// The <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
-  /// of the target IoT thing or thing group. When creating a subdeployment, the
-  /// targetARN can only be a thing group.
-  final String? targetArn;
-
-  Deployment({
-    this.creationTimestamp,
-    this.deploymentId,
-    this.deploymentName,
-    this.deploymentStatus,
-    this.isLatestForTarget,
-    this.parentTargetArn,
-    this.revisionId,
-    this.targetArn,
-  });
-
-  factory Deployment.fromJson(Map<String, dynamic> json) {
-    return Deployment(
-      creationTimestamp: timeStampFromJson(json['creationTimestamp']),
-      deploymentId: json['deploymentId'] as String?,
-      deploymentName: json['deploymentName'] as String?,
-      deploymentStatus: (json['deploymentStatus'] as String?)
-          ?.let(DeploymentStatus.fromString),
-      isLatestForTarget: json['isLatestForTarget'] as bool?,
-      parentTargetArn: json['parentTargetArn'] as String?,
-      revisionId: json['revisionId'] as String?,
-      targetArn: json['targetArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationTimestamp = this.creationTimestamp;
-    final deploymentId = this.deploymentId;
-    final deploymentName = this.deploymentName;
-    final deploymentStatus = this.deploymentStatus;
-    final isLatestForTarget = this.isLatestForTarget;
-    final parentTargetArn = this.parentTargetArn;
-    final revisionId = this.revisionId;
-    final targetArn = this.targetArn;
-    return {
-      if (creationTimestamp != null)
-        'creationTimestamp': unixTimestampToJson(creationTimestamp),
-      if (deploymentId != null) 'deploymentId': deploymentId,
-      if (deploymentName != null) 'deploymentName': deploymentName,
-      if (deploymentStatus != null) 'deploymentStatus': deploymentStatus.value,
-      if (isLatestForTarget != null) 'isLatestForTarget': isLatestForTarget,
-      if (parentTargetArn != null) 'parentTargetArn': parentTargetArn,
-      if (revisionId != null) 'revisionId': revisionId,
-      if (targetArn != null) 'targetArn': targetArn,
-    };
-  }
-}
-
-/// Contains information about a deployment's policy that defines when
-/// components are safe to update.
-///
-/// Each component on a device can report whether or not it's ready to update.
-/// After a component and its dependencies are ready, they can apply the update
-/// in the deployment. You can configure whether or not the deployment notifies
-/// components of an update and waits for a response. You specify the amount of
-/// time each component has to respond to the update notification.
-class DeploymentComponentUpdatePolicy {
-  /// Whether or not to notify components and wait for components to become safe
-  /// to update. Choose from the following options:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>NOTIFY_COMPONENTS</code> – The deployment notifies each component
-  /// before it stops and updates that component. Components can use the <a
-  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/interprocess-communication.html#ipc-operation-subscribetocomponentupdates">SubscribeToComponentUpdates</a>
-  /// IPC operation to receive these notifications. Then, components can respond
-  /// with the <a
-  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/interprocess-communication.html#ipc-operation-defercomponentupdate">DeferComponentUpdate</a>
-  /// IPC operation. For more information, see <a
-  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/create-deployments.html">Create
-  /// deployments</a> in the <i>IoT Greengrass V2 Developer Guide</i>.
-  /// </li>
-  /// <li>
-  /// <code>SKIP_NOTIFY_COMPONENTS</code> – The deployment doesn't notify
-  /// components or wait for them to be safe to update.
-  /// </li>
-  /// </ul>
-  /// Default: <code>NOTIFY_COMPONENTS</code>
-  final DeploymentComponentUpdatePolicyAction? action;
-
-  /// The amount of time in seconds that each component on a device has to report
-  /// that it's safe to update. If the component waits for longer than this
-  /// timeout, then the deployment proceeds on the device.
-  ///
-  /// Default: <code>60</code>
-  final int? timeoutInSeconds;
-
-  DeploymentComponentUpdatePolicy({
-    this.action,
-    this.timeoutInSeconds,
-  });
-
-  factory DeploymentComponentUpdatePolicy.fromJson(Map<String, dynamic> json) {
-    return DeploymentComponentUpdatePolicy(
-      action: (json['action'] as String?)
-          ?.let(DeploymentComponentUpdatePolicyAction.fromString),
-      timeoutInSeconds: json['timeoutInSeconds'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final action = this.action;
-    final timeoutInSeconds = this.timeoutInSeconds;
-    return {
-      if (action != null) 'action': action.value,
-      if (timeoutInSeconds != null) 'timeoutInSeconds': timeoutInSeconds,
-    };
-  }
-}
-
-class DeploymentComponentUpdatePolicyAction {
-  static const notifyComponents =
-      DeploymentComponentUpdatePolicyAction._('NOTIFY_COMPONENTS');
-  static const skipNotifyComponents =
-      DeploymentComponentUpdatePolicyAction._('SKIP_NOTIFY_COMPONENTS');
-
-  final String value;
-
-  const DeploymentComponentUpdatePolicyAction._(this.value);
-
-  static const values = [notifyComponents, skipNotifyComponents];
-
-  static DeploymentComponentUpdatePolicyAction fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DeploymentComponentUpdatePolicyAction._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DeploymentComponentUpdatePolicyAction && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains information about how long a component on a core device can
-/// validate its configuration updates before it times out. Components can use
-/// the <a
-/// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/interprocess-communication.html#ipc-operation-subscribetovalidateconfigurationupdates">SubscribeToValidateConfigurationUpdates</a>
-/// IPC operation to receive notifications when a deployment specifies a
-/// configuration update. Then, components can respond with the <a
-/// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/interprocess-communication.html#ipc-operation-sendconfigurationvalidityreport">SendConfigurationValidityReport</a>
-/// IPC operation. For more information, see <a
-/// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/create-deployments.html">Create
-/// deployments</a> in the <i>IoT Greengrass V2 Developer Guide</i>.
-class DeploymentConfigurationValidationPolicy {
-  /// The amount of time in seconds that a component can validate its
-  /// configuration updates. If the validation time exceeds this timeout, then the
-  /// deployment proceeds for the device.
-  ///
-  /// Default: <code>30</code>
-  final int? timeoutInSeconds;
-
-  DeploymentConfigurationValidationPolicy({
-    this.timeoutInSeconds,
-  });
-
-  factory DeploymentConfigurationValidationPolicy.fromJson(
-      Map<String, dynamic> json) {
-    return DeploymentConfigurationValidationPolicy(
-      timeoutInSeconds: json['timeoutInSeconds'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final timeoutInSeconds = this.timeoutInSeconds;
-    return {
-      if (timeoutInSeconds != null) 'timeoutInSeconds': timeoutInSeconds,
-    };
-  }
-}
-
-class DeploymentFailureHandlingPolicy {
-  static const rollback = DeploymentFailureHandlingPolicy._('ROLLBACK');
-  static const doNothing = DeploymentFailureHandlingPolicy._('DO_NOTHING');
-
-  final String value;
-
-  const DeploymentFailureHandlingPolicy._(this.value);
-
-  static const values = [rollback, doNothing];
-
-  static DeploymentFailureHandlingPolicy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DeploymentFailureHandlingPolicy._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DeploymentFailureHandlingPolicy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DeploymentHistoryFilter {
-  static const all = DeploymentHistoryFilter._('ALL');
-  static const latestOnly = DeploymentHistoryFilter._('LATEST_ONLY');
-
-  final String value;
-
-  const DeploymentHistoryFilter._(this.value);
-
-  static const values = [all, latestOnly];
-
-  static DeploymentHistoryFilter fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DeploymentHistoryFilter._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DeploymentHistoryFilter && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains information about an IoT job configuration.
-class DeploymentIoTJobConfiguration {
-  /// The stop configuration for the job. This configuration defines when and how
-  /// to stop a job rollout.
-  final IoTJobAbortConfig? abortConfig;
-
-  /// The rollout configuration for the job. This configuration defines the rate
-  /// at which the job rolls out to the fleet of target devices.
-  final IoTJobExecutionsRolloutConfig? jobExecutionsRolloutConfig;
-
-  /// The timeout configuration for the job. This configuration defines the amount
-  /// of time each device has to complete the job.
-  final IoTJobTimeoutConfig? timeoutConfig;
-
-  DeploymentIoTJobConfiguration({
-    this.abortConfig,
-    this.jobExecutionsRolloutConfig,
-    this.timeoutConfig,
-  });
-
-  factory DeploymentIoTJobConfiguration.fromJson(Map<String, dynamic> json) {
-    return DeploymentIoTJobConfiguration(
-      abortConfig: json['abortConfig'] != null
-          ? IoTJobAbortConfig.fromJson(
-              json['abortConfig'] as Map<String, dynamic>)
-          : null,
-      jobExecutionsRolloutConfig: json['jobExecutionsRolloutConfig'] != null
-          ? IoTJobExecutionsRolloutConfig.fromJson(
-              json['jobExecutionsRolloutConfig'] as Map<String, dynamic>)
-          : null,
-      timeoutConfig: json['timeoutConfig'] != null
-          ? IoTJobTimeoutConfig.fromJson(
-              json['timeoutConfig'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final abortConfig = this.abortConfig;
-    final jobExecutionsRolloutConfig = this.jobExecutionsRolloutConfig;
-    final timeoutConfig = this.timeoutConfig;
-    return {
-      if (abortConfig != null) 'abortConfig': abortConfig,
-      if (jobExecutionsRolloutConfig != null)
-        'jobExecutionsRolloutConfig': jobExecutionsRolloutConfig,
-      if (timeoutConfig != null) 'timeoutConfig': timeoutConfig,
-    };
-  }
-}
-
-/// Contains information about policies that define how a deployment updates
-/// components and handles failure.
-class DeploymentPolicies {
-  /// The component update policy for the configuration deployment. This policy
-  /// defines when it's safe to deploy the configuration to devices.
-  final DeploymentComponentUpdatePolicy? componentUpdatePolicy;
-
-  /// The configuration validation policy for the configuration deployment. This
-  /// policy defines how long each component has to validate its configure
-  /// updates.
-  final DeploymentConfigurationValidationPolicy? configurationValidationPolicy;
-
-  /// The failure handling policy for the configuration deployment. This policy
-  /// defines what to do if the deployment fails.
-  ///
-  /// Default: <code>ROLLBACK</code>
-  final DeploymentFailureHandlingPolicy? failureHandlingPolicy;
-
-  DeploymentPolicies({
-    this.componentUpdatePolicy,
-    this.configurationValidationPolicy,
-    this.failureHandlingPolicy,
-  });
-
-  factory DeploymentPolicies.fromJson(Map<String, dynamic> json) {
-    return DeploymentPolicies(
-      componentUpdatePolicy: json['componentUpdatePolicy'] != null
-          ? DeploymentComponentUpdatePolicy.fromJson(
-              json['componentUpdatePolicy'] as Map<String, dynamic>)
-          : null,
-      configurationValidationPolicy:
-          json['configurationValidationPolicy'] != null
-              ? DeploymentConfigurationValidationPolicy.fromJson(
-                  json['configurationValidationPolicy'] as Map<String, dynamic>)
-              : null,
-      failureHandlingPolicy: (json['failureHandlingPolicy'] as String?)
-          ?.let(DeploymentFailureHandlingPolicy.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final componentUpdatePolicy = this.componentUpdatePolicy;
-    final configurationValidationPolicy = this.configurationValidationPolicy;
-    final failureHandlingPolicy = this.failureHandlingPolicy;
-    return {
-      if (componentUpdatePolicy != null)
-        'componentUpdatePolicy': componentUpdatePolicy,
-      if (configurationValidationPolicy != null)
-        'configurationValidationPolicy': configurationValidationPolicy,
-      if (failureHandlingPolicy != null)
-        'failureHandlingPolicy': failureHandlingPolicy.value,
-    };
-  }
-}
-
-class DeploymentStatus {
-  static const active = DeploymentStatus._('ACTIVE');
-  static const completed = DeploymentStatus._('COMPLETED');
-  static const canceled = DeploymentStatus._('CANCELED');
-  static const failed = DeploymentStatus._('FAILED');
-  static const inactive = DeploymentStatus._('INACTIVE');
-
-  final String value;
-
-  const DeploymentStatus._(this.value);
-
-  static const values = [active, completed, canceled, failed, inactive];
-
-  static DeploymentStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DeploymentStatus._(value));
-
-  @override
-  bool operator ==(other) => other is DeploymentStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class DescribeComponentResponse {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
@@ -2868,67 +1685,6 @@ class DescribeComponentResponse {
   }
 }
 
-/// Contains a request to disassociate a client device from a core device. The
-/// <a
-/// href="https://docs.aws.amazon.com/greengrass/v2/APIReference/API_BatchDisassociateClientDeviceWithCoreDevice.html">BatchDisassociateClientDeviceWithCoreDevice</a>
-/// operation consumes a list of these requests.
-class DisassociateClientDeviceFromCoreDeviceEntry {
-  /// The name of the IoT thing that represents the client device to disassociate.
-  final String thingName;
-
-  DisassociateClientDeviceFromCoreDeviceEntry({
-    required this.thingName,
-  });
-
-  Map<String, dynamic> toJson() {
-    final thingName = this.thingName;
-    return {
-      'thingName': thingName,
-    };
-  }
-}
-
-/// Contains an error that occurs from a request to disassociate a client device
-/// from a core device. The <a
-/// href="https://docs.aws.amazon.com/greengrass/v2/APIReference/API_BatchDisassociateClientDeviceWithCoreDevice.html">BatchDisassociateClientDeviceWithCoreDevice</a>
-/// operation returns a list of these errors.
-class DisassociateClientDeviceFromCoreDeviceErrorEntry {
-  /// The error code for the request.
-  final String? code;
-
-  /// A message that provides additional information about the error.
-  final String? message;
-
-  /// The name of the IoT thing whose disassociate request failed.
-  final String? thingName;
-
-  DisassociateClientDeviceFromCoreDeviceErrorEntry({
-    this.code,
-    this.message,
-    this.thingName,
-  });
-
-  factory DisassociateClientDeviceFromCoreDeviceErrorEntry.fromJson(
-      Map<String, dynamic> json) {
-    return DisassociateClientDeviceFromCoreDeviceErrorEntry(
-      code: json['code'] as String?,
-      message: json['message'] as String?,
-      thingName: json['thingName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final message = this.message;
-    final thingName = this.thingName;
-    return {
-      if (code != null) 'code': code,
-      if (message != null) 'message': message,
-      if (thingName != null) 'thingName': thingName,
-    };
-  }
-}
-
 class DisassociateServiceRoleFromAccountResponse {
   /// The time when the service role was disassociated from IoT Greengrass for
   /// your Amazon Web Services account in this Amazon Web Services Region.
@@ -2951,6 +1707,1145 @@ class DisassociateServiceRoleFromAccountResponse {
       if (disassociatedAt != null) 'DisassociatedAt': disassociatedAt,
     };
   }
+}
+
+class GetComponentResponse {
+  /// The recipe of the component version.
+  final Uint8List recipe;
+
+  /// The format of the recipe.
+  final RecipeOutputFormat recipeOutputFormat;
+
+  /// A list of key-value pairs that contain metadata for the resource. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/tag-resources.html">Tag
+  /// your resources</a> in the <i>IoT Greengrass V2 Developer Guide</i>.
+  final Map<String, String>? tags;
+
+  GetComponentResponse({
+    required this.recipe,
+    required this.recipeOutputFormat,
+    this.tags,
+  });
+
+  factory GetComponentResponse.fromJson(Map<String, dynamic> json) {
+    return GetComponentResponse(
+      recipe: _s.decodeUint8List((json['recipe'] as String?) ?? ''),
+      recipeOutputFormat: RecipeOutputFormat.fromString(
+          (json['recipeOutputFormat'] as String?) ?? ''),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recipe = this.recipe;
+    final recipeOutputFormat = this.recipeOutputFormat;
+    final tags = this.tags;
+    return {
+      'recipe': base64Encode(recipe),
+      'recipeOutputFormat': recipeOutputFormat.value,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+class GetComponentVersionArtifactResponse {
+  /// The URL of the artifact.
+  final String preSignedUrl;
+
+  GetComponentVersionArtifactResponse({
+    required this.preSignedUrl,
+  });
+
+  factory GetComponentVersionArtifactResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetComponentVersionArtifactResponse(
+      preSignedUrl: (json['preSignedUrl'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final preSignedUrl = this.preSignedUrl;
+    return {
+      'preSignedUrl': preSignedUrl,
+    };
+  }
+}
+
+class GetConnectivityInfoResponse {
+  /// The connectivity information for the core device.
+  final List<ConnectivityInfo>? connectivityInfo;
+
+  /// A message about the connectivity information request.
+  final String? message;
+
+  GetConnectivityInfoResponse({
+    this.connectivityInfo,
+    this.message,
+  });
+
+  factory GetConnectivityInfoResponse.fromJson(Map<String, dynamic> json) {
+    return GetConnectivityInfoResponse(
+      connectivityInfo: (json['ConnectivityInfo'] as List?)
+          ?.nonNulls
+          .map((e) => ConnectivityInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectivityInfo = this.connectivityInfo;
+    final message = this.message;
+    return {
+      if (connectivityInfo != null) 'ConnectivityInfo': connectivityInfo,
+      if (message != null) 'Message': message,
+    };
+  }
+}
+
+class GetCoreDeviceResponse {
+  /// The computer architecture of the core device.
+  final String? architecture;
+
+  /// The name of the core device. This is also the name of the IoT thing.
+  final String? coreDeviceThingName;
+
+  /// The version of the IoT Greengrass Core software that the core device runs.
+  /// This version is equivalent to the version of the Greengrass nucleus
+  /// component that runs on the core device. For more information, see the <a
+  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-nucleus-component.html">Greengrass
+  /// nucleus component</a> in the <i>IoT Greengrass V2 Developer Guide</i>.
+  final String? coreVersion;
+
+  /// The time at which the core device's status last updated, expressed in ISO
+  /// 8601 format.
+  final DateTime? lastStatusUpdateTimestamp;
+
+  /// The operating system platform that the core device runs.
+  final String? platform;
+
+  /// The runtime for the core device. The runtime can be:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>aws_nucleus_classic</code>
+  /// </li>
+  /// <li>
+  /// <code>aws_nucleus_lite</code>
+  /// </li>
+  /// </ul>
+  final String? runtime;
+
+  /// The status of the core device. The core device status can be:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>HEALTHY</code> – The IoT Greengrass Core software and all components
+  /// run on the core device without issue.
+  /// </li>
+  /// <li>
+  /// <code>UNHEALTHY</code> – The IoT Greengrass Core software or a component is
+  /// in a failed state on the core device.
+  /// </li>
+  /// </ul>
+  final CoreDeviceStatus? status;
+
+  /// A list of key-value pairs that contain metadata for the resource. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/tag-resources.html">Tag
+  /// your resources</a> in the <i>IoT Greengrass V2 Developer Guide</i>.
+  final Map<String, String>? tags;
+
+  GetCoreDeviceResponse({
+    this.architecture,
+    this.coreDeviceThingName,
+    this.coreVersion,
+    this.lastStatusUpdateTimestamp,
+    this.platform,
+    this.runtime,
+    this.status,
+    this.tags,
+  });
+
+  factory GetCoreDeviceResponse.fromJson(Map<String, dynamic> json) {
+    return GetCoreDeviceResponse(
+      architecture: json['architecture'] as String?,
+      coreDeviceThingName: json['coreDeviceThingName'] as String?,
+      coreVersion: json['coreVersion'] as String?,
+      lastStatusUpdateTimestamp:
+          timeStampFromJson(json['lastStatusUpdateTimestamp']),
+      platform: json['platform'] as String?,
+      runtime: json['runtime'] as String?,
+      status: (json['status'] as String?)?.let(CoreDeviceStatus.fromString),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final architecture = this.architecture;
+    final coreDeviceThingName = this.coreDeviceThingName;
+    final coreVersion = this.coreVersion;
+    final lastStatusUpdateTimestamp = this.lastStatusUpdateTimestamp;
+    final platform = this.platform;
+    final runtime = this.runtime;
+    final status = this.status;
+    final tags = this.tags;
+    return {
+      if (architecture != null) 'architecture': architecture,
+      if (coreDeviceThingName != null)
+        'coreDeviceThingName': coreDeviceThingName,
+      if (coreVersion != null) 'coreVersion': coreVersion,
+      if (lastStatusUpdateTimestamp != null)
+        'lastStatusUpdateTimestamp':
+            unixTimestampToJson(lastStatusUpdateTimestamp),
+      if (platform != null) 'platform': platform,
+      if (runtime != null) 'runtime': runtime,
+      if (status != null) 'status': status.value,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+class GetDeploymentResponse {
+  /// The components to deploy. This is a dictionary, where each key is the name
+  /// of a component, and each key's value is the version and configuration to
+  /// deploy for that component.
+  final Map<String, ComponentDeploymentSpecification>? components;
+
+  /// The time at which the deployment was created, expressed in ISO 8601 format.
+  final DateTime? creationTimestamp;
+
+  /// The ID of the deployment.
+  final String? deploymentId;
+
+  /// The name of the deployment.
+  final String? deploymentName;
+
+  /// The deployment policies for the deployment. These policies define how the
+  /// deployment updates components and handles failure.
+  final DeploymentPolicies? deploymentPolicies;
+
+  /// The status of the deployment.
+  final DeploymentStatus? deploymentStatus;
+
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
+  /// of the IoT job that applies the deployment to target devices.
+  final String? iotJobArn;
+
+  /// The job configuration for the deployment configuration. The job
+  /// configuration specifies the rollout, timeout, and stop configurations for
+  /// the deployment configuration.
+  final DeploymentIoTJobConfiguration? iotJobConfiguration;
+
+  /// The ID of the IoT job that applies the deployment to target devices.
+  final String? iotJobId;
+
+  /// Whether or not the deployment is the latest revision for its target.
+  final bool? isLatestForTarget;
+
+  /// The parent deployment's target <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
+  /// within a subdeployment.
+  final String? parentTargetArn;
+
+  /// The revision number of the deployment.
+  final String? revisionId;
+
+  /// A list of key-value pairs that contain metadata for the resource. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/tag-resources.html">Tag
+  /// your resources</a> in the <i>IoT Greengrass V2 Developer Guide</i>.
+  final Map<String, String>? tags;
+
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
+  /// of the target IoT thing or thing group.
+  final String? targetArn;
+
+  GetDeploymentResponse({
+    this.components,
+    this.creationTimestamp,
+    this.deploymentId,
+    this.deploymentName,
+    this.deploymentPolicies,
+    this.deploymentStatus,
+    this.iotJobArn,
+    this.iotJobConfiguration,
+    this.iotJobId,
+    this.isLatestForTarget,
+    this.parentTargetArn,
+    this.revisionId,
+    this.tags,
+    this.targetArn,
+  });
+
+  factory GetDeploymentResponse.fromJson(Map<String, dynamic> json) {
+    return GetDeploymentResponse(
+      components: (json['components'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(
+              k,
+              ComponentDeploymentSpecification.fromJson(
+                  e as Map<String, dynamic>))),
+      creationTimestamp: timeStampFromJson(json['creationTimestamp']),
+      deploymentId: json['deploymentId'] as String?,
+      deploymentName: json['deploymentName'] as String?,
+      deploymentPolicies: json['deploymentPolicies'] != null
+          ? DeploymentPolicies.fromJson(
+              json['deploymentPolicies'] as Map<String, dynamic>)
+          : null,
+      deploymentStatus: (json['deploymentStatus'] as String?)
+          ?.let(DeploymentStatus.fromString),
+      iotJobArn: json['iotJobArn'] as String?,
+      iotJobConfiguration: json['iotJobConfiguration'] != null
+          ? DeploymentIoTJobConfiguration.fromJson(
+              json['iotJobConfiguration'] as Map<String, dynamic>)
+          : null,
+      iotJobId: json['iotJobId'] as String?,
+      isLatestForTarget: json['isLatestForTarget'] as bool?,
+      parentTargetArn: json['parentTargetArn'] as String?,
+      revisionId: json['revisionId'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      targetArn: json['targetArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final components = this.components;
+    final creationTimestamp = this.creationTimestamp;
+    final deploymentId = this.deploymentId;
+    final deploymentName = this.deploymentName;
+    final deploymentPolicies = this.deploymentPolicies;
+    final deploymentStatus = this.deploymentStatus;
+    final iotJobArn = this.iotJobArn;
+    final iotJobConfiguration = this.iotJobConfiguration;
+    final iotJobId = this.iotJobId;
+    final isLatestForTarget = this.isLatestForTarget;
+    final parentTargetArn = this.parentTargetArn;
+    final revisionId = this.revisionId;
+    final tags = this.tags;
+    final targetArn = this.targetArn;
+    return {
+      if (components != null) 'components': components,
+      if (creationTimestamp != null)
+        'creationTimestamp': unixTimestampToJson(creationTimestamp),
+      if (deploymentId != null) 'deploymentId': deploymentId,
+      if (deploymentName != null) 'deploymentName': deploymentName,
+      if (deploymentPolicies != null) 'deploymentPolicies': deploymentPolicies,
+      if (deploymentStatus != null) 'deploymentStatus': deploymentStatus.value,
+      if (iotJobArn != null) 'iotJobArn': iotJobArn,
+      if (iotJobConfiguration != null)
+        'iotJobConfiguration': iotJobConfiguration,
+      if (iotJobId != null) 'iotJobId': iotJobId,
+      if (isLatestForTarget != null) 'isLatestForTarget': isLatestForTarget,
+      if (parentTargetArn != null) 'parentTargetArn': parentTargetArn,
+      if (revisionId != null) 'revisionId': revisionId,
+      if (tags != null) 'tags': tags,
+      if (targetArn != null) 'targetArn': targetArn,
+    };
+  }
+}
+
+class GetServiceRoleForAccountResponse {
+  /// The time when the service role was associated with IoT Greengrass for your
+  /// Amazon Web Services account in this Amazon Web Services Region.
+  final String? associatedAt;
+
+  /// The ARN of the service role that is associated with IoT Greengrass for your
+  /// Amazon Web Services account in this Amazon Web Services Region.
+  final String? roleArn;
+
+  GetServiceRoleForAccountResponse({
+    this.associatedAt,
+    this.roleArn,
+  });
+
+  factory GetServiceRoleForAccountResponse.fromJson(Map<String, dynamic> json) {
+    return GetServiceRoleForAccountResponse(
+      associatedAt: json['AssociatedAt'] as String?,
+      roleArn: json['RoleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associatedAt = this.associatedAt;
+    final roleArn = this.roleArn;
+    return {
+      if (associatedAt != null) 'AssociatedAt': associatedAt,
+      if (roleArn != null) 'RoleArn': roleArn,
+    };
+  }
+}
+
+class ListClientDevicesAssociatedWithCoreDeviceResponse {
+  /// A list that describes the client devices that are associated with the core
+  /// device.
+  final List<AssociatedClientDevice>? associatedClientDevices;
+
+  /// The token for the next set of results, or null if there are no additional
+  /// results.
+  final String? nextToken;
+
+  ListClientDevicesAssociatedWithCoreDeviceResponse({
+    this.associatedClientDevices,
+    this.nextToken,
+  });
+
+  factory ListClientDevicesAssociatedWithCoreDeviceResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListClientDevicesAssociatedWithCoreDeviceResponse(
+      associatedClientDevices: (json['associatedClientDevices'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => AssociatedClientDevice.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associatedClientDevices = this.associatedClientDevices;
+    final nextToken = this.nextToken;
+    return {
+      if (associatedClientDevices != null)
+        'associatedClientDevices': associatedClientDevices,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListComponentsResponse {
+  /// A list that summarizes each component.
+  final List<Component>? components;
+
+  /// The token for the next set of results, or null if there are no additional
+  /// results.
+  final String? nextToken;
+
+  ListComponentsResponse({
+    this.components,
+    this.nextToken,
+  });
+
+  factory ListComponentsResponse.fromJson(Map<String, dynamic> json) {
+    return ListComponentsResponse(
+      components: (json['components'] as List?)
+          ?.nonNulls
+          .map((e) => Component.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final components = this.components;
+    final nextToken = this.nextToken;
+    return {
+      if (components != null) 'components': components,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListComponentVersionsResponse {
+  /// A list of versions that exist for the component.
+  final List<ComponentVersionListItem>? componentVersions;
+
+  /// The token for the next set of results, or null if there are no additional
+  /// results.
+  final String? nextToken;
+
+  ListComponentVersionsResponse({
+    this.componentVersions,
+    this.nextToken,
+  });
+
+  factory ListComponentVersionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListComponentVersionsResponse(
+      componentVersions: (json['componentVersions'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ComponentVersionListItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final componentVersions = this.componentVersions;
+    final nextToken = this.nextToken;
+    return {
+      if (componentVersions != null) 'componentVersions': componentVersions,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListCoreDevicesResponse {
+  /// A list that summarizes each core device.
+  final List<CoreDevice>? coreDevices;
+
+  /// The token for the next set of results, or null if there are no additional
+  /// results.
+  final String? nextToken;
+
+  ListCoreDevicesResponse({
+    this.coreDevices,
+    this.nextToken,
+  });
+
+  factory ListCoreDevicesResponse.fromJson(Map<String, dynamic> json) {
+    return ListCoreDevicesResponse(
+      coreDevices: (json['coreDevices'] as List?)
+          ?.nonNulls
+          .map((e) => CoreDevice.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final coreDevices = this.coreDevices;
+    final nextToken = this.nextToken;
+    return {
+      if (coreDevices != null) 'coreDevices': coreDevices,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListDeploymentsResponse {
+  /// A list that summarizes each deployment.
+  final List<Deployment>? deployments;
+
+  /// The token for the next set of results, or null if there are no additional
+  /// results.
+  final String? nextToken;
+
+  ListDeploymentsResponse({
+    this.deployments,
+    this.nextToken,
+  });
+
+  factory ListDeploymentsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDeploymentsResponse(
+      deployments: (json['deployments'] as List?)
+          ?.nonNulls
+          .map((e) => Deployment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deployments = this.deployments;
+    final nextToken = this.nextToken;
+    return {
+      if (deployments != null) 'deployments': deployments,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListEffectiveDeploymentsResponse {
+  /// A list that summarizes each deployment on the core device.
+  final List<EffectiveDeployment>? effectiveDeployments;
+
+  /// The token for the next set of results, or null if there are no additional
+  /// results.
+  final String? nextToken;
+
+  ListEffectiveDeploymentsResponse({
+    this.effectiveDeployments,
+    this.nextToken,
+  });
+
+  factory ListEffectiveDeploymentsResponse.fromJson(Map<String, dynamic> json) {
+    return ListEffectiveDeploymentsResponse(
+      effectiveDeployments: (json['effectiveDeployments'] as List?)
+          ?.nonNulls
+          .map((e) => EffectiveDeployment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final effectiveDeployments = this.effectiveDeployments;
+    final nextToken = this.nextToken;
+    return {
+      if (effectiveDeployments != null)
+        'effectiveDeployments': effectiveDeployments,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListInstalledComponentsResponse {
+  /// A list that summarizes each component on the core device.
+  /// <note>
+  /// Greengrass nucleus v2.7.0 or later is required to get an accurate
+  /// <code>lastStatusChangeTimestamp</code> response. This response can be
+  /// inaccurate in earlier Greengrass nucleus versions.
+  /// </note> <note>
+  /// Greengrass nucleus v2.8.0 or later is required to get an accurate
+  /// <code>lastInstallationSource</code> and <code>lastReportedTimestamp</code>
+  /// response. This response can be inaccurate or null in earlier Greengrass
+  /// nucleus versions.
+  /// </note>
+  final List<InstalledComponent>? installedComponents;
+
+  /// The token for the next set of results, or null if there are no additional
+  /// results.
+  final String? nextToken;
+
+  ListInstalledComponentsResponse({
+    this.installedComponents,
+    this.nextToken,
+  });
+
+  factory ListInstalledComponentsResponse.fromJson(Map<String, dynamic> json) {
+    return ListInstalledComponentsResponse(
+      installedComponents: (json['installedComponents'] as List?)
+          ?.nonNulls
+          .map((e) => InstalledComponent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final installedComponents = this.installedComponents;
+    final nextToken = this.nextToken;
+    return {
+      if (installedComponents != null)
+        'installedComponents': installedComponents,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListTagsForResourceResponse {
+  /// A list of key-value pairs that contain metadata for the resource. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/tag-resources.html">Tag
+  /// your resources</a> in the <i>IoT Greengrass V2 Developer Guide</i>.
+  final Map<String, String>? tags;
+
+  ListTagsForResourceResponse({
+    this.tags,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+class ResolveComponentCandidatesResponse {
+  /// A list of components that meet the requirements that you specify in the
+  /// request. This list includes each component's recipe that you can use to
+  /// install the component.
+  final List<ResolvedComponentVersion>? resolvedComponentVersions;
+
+  ResolveComponentCandidatesResponse({
+    this.resolvedComponentVersions,
+  });
+
+  factory ResolveComponentCandidatesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ResolveComponentCandidatesResponse(
+      resolvedComponentVersions: (json['resolvedComponentVersions'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ResolvedComponentVersion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resolvedComponentVersions = this.resolvedComponentVersions;
+    return {
+      if (resolvedComponentVersions != null)
+        'resolvedComponentVersions': resolvedComponentVersions,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateConnectivityInfoResponse {
+  /// A message about the connectivity information update request.
+  final String? message;
+
+  /// The new version of the connectivity information for the core device.
+  final String? version;
+
+  UpdateConnectivityInfoResponse({
+    this.message,
+    this.version,
+  });
+
+  factory UpdateConnectivityInfoResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateConnectivityInfoResponse(
+      message: json['Message'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final version = this.version;
+    return {
+      if (message != null) 'Message': message,
+      if (version != null) 'Version': version,
+    };
+  }
+}
+
+/// Contains information about an endpoint and port where client devices can
+/// connect to an MQTT broker on a Greengrass core device.
+class ConnectivityInfo {
+  /// The IP address or DNS address where client devices can connect to an MQTT
+  /// broker on the Greengrass core device.
+  final String? hostAddress;
+
+  /// An ID for the connectivity information.
+  final String? id;
+
+  /// Additional metadata to provide to client devices that connect to this core
+  /// device.
+  final String? metadata;
+
+  /// The port where the MQTT broker operates on the core device. This port is
+  /// typically 8883, which is the default port for the MQTT broker component that
+  /// runs on core devices.
+  final int? portNumber;
+
+  ConnectivityInfo({
+    this.hostAddress,
+    this.id,
+    this.metadata,
+    this.portNumber,
+  });
+
+  factory ConnectivityInfo.fromJson(Map<String, dynamic> json) {
+    return ConnectivityInfo(
+      hostAddress: json['HostAddress'] as String?,
+      id: json['Id'] as String?,
+      metadata: json['Metadata'] as String?,
+      portNumber: json['PortNumber'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostAddress = this.hostAddress;
+    final id = this.id;
+    final metadata = this.metadata;
+    final portNumber = this.portNumber;
+    return {
+      if (hostAddress != null) 'HostAddress': hostAddress,
+      if (id != null) 'Id': id,
+      if (metadata != null) 'Metadata': metadata,
+      if (portNumber != null) 'PortNumber': portNumber,
+    };
+  }
+}
+
+/// Contains information about a component version that is compatible to run on
+/// a Greengrass core device.
+class ResolvedComponentVersion {
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
+  /// of the component version.
+  final String? arn;
+
+  /// The name of the component.
+  final String? componentName;
+
+  /// The version of the component.
+  final String? componentVersion;
+
+  /// A message that communicates details about the vendor guidance state of the
+  /// component version. This message communicates why a component version is
+  /// discontinued or deleted.
+  final String? message;
+
+  /// The recipe of the component version.
+  final Uint8List? recipe;
+
+  /// The vendor guidance state for the component version. This state indicates
+  /// whether the component version has any issues that you should consider before
+  /// you deploy it. The vendor guidance state can be:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code> – This component version is available and recommended
+  /// for use.
+  /// </li>
+  /// <li>
+  /// <code>DISCONTINUED</code> – This component version has been discontinued by
+  /// its publisher. You can deploy this component version, but we recommend that
+  /// you use a different version of this component.
+  /// </li>
+  /// <li>
+  /// <code>DELETED</code> – This component version has been deleted by its
+  /// publisher, so you can't deploy it. If you have any existing deployments that
+  /// specify this component version, those deployments will fail.
+  /// </li>
+  /// </ul>
+  final VendorGuidance? vendorGuidance;
+
+  ResolvedComponentVersion({
+    this.arn,
+    this.componentName,
+    this.componentVersion,
+    this.message,
+    this.recipe,
+    this.vendorGuidance,
+  });
+
+  factory ResolvedComponentVersion.fromJson(Map<String, dynamic> json) {
+    return ResolvedComponentVersion(
+      arn: json['arn'] as String?,
+      componentName: json['componentName'] as String?,
+      componentVersion: json['componentVersion'] as String?,
+      message: json['message'] as String?,
+      recipe: _s.decodeNullableUint8List(json['recipe'] as String?),
+      vendorGuidance:
+          (json['vendorGuidance'] as String?)?.let(VendorGuidance.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final componentName = this.componentName;
+    final componentVersion = this.componentVersion;
+    final message = this.message;
+    final recipe = this.recipe;
+    final vendorGuidance = this.vendorGuidance;
+    return {
+      if (arn != null) 'arn': arn,
+      if (componentName != null) 'componentName': componentName,
+      if (componentVersion != null) 'componentVersion': componentVersion,
+      if (message != null) 'message': message,
+      if (recipe != null) 'recipe': base64Encode(recipe),
+      if (vendorGuidance != null) 'vendorGuidance': vendorGuidance.value,
+    };
+  }
+}
+
+class VendorGuidance {
+  static const active = VendorGuidance._('ACTIVE');
+  static const discontinued = VendorGuidance._('DISCONTINUED');
+  static const deleted = VendorGuidance._('DELETED');
+
+  final String value;
+
+  const VendorGuidance._(this.value);
+
+  static const values = [active, discontinued, deleted];
+
+  static VendorGuidance fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VendorGuidance._(value));
+
+  @override
+  bool operator ==(other) => other is VendorGuidance && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about a platform that a component supports.
+class ComponentPlatform {
+  /// A dictionary of attributes for the platform. The IoT Greengrass Core
+  /// software defines the <code>os</code> and <code>architecture</code> by
+  /// default. You can specify additional platform attributes for a core device
+  /// when you deploy the Greengrass nucleus component. For more information, see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-nucleus-component.html">Greengrass
+  /// nucleus component</a> in the <i>IoT Greengrass V2 Developer Guide</i>.
+  final Map<String, String>? attributes;
+
+  /// The friendly name of the platform. This name helps you identify the
+  /// platform.
+  ///
+  /// If you omit this parameter, IoT Greengrass creates a friendly name from the
+  /// <code>os</code> and <code>architecture</code> of the platform.
+  final String? name;
+
+  ComponentPlatform({
+    this.attributes,
+    this.name,
+  });
+
+  factory ComponentPlatform.fromJson(Map<String, dynamic> json) {
+    return ComponentPlatform(
+      attributes: (json['attributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final name = this.name;
+    return {
+      if (attributes != null) 'attributes': attributes,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// Contains information about a component that is a candidate to deploy to a
+/// Greengrass core device.
+class ComponentCandidate {
+  /// The name of the component.
+  final String? componentName;
+
+  /// The version of the component.
+  final String? componentVersion;
+
+  /// The version requirements for the component's dependencies. Greengrass core
+  /// devices get the version requirements from component recipes.
+  ///
+  /// IoT Greengrass V2 uses semantic version constraints. For more information,
+  /// see <a href="https://semver.org/">Semantic Versioning</a>.
+  final Map<String, String>? versionRequirements;
+
+  ComponentCandidate({
+    this.componentName,
+    this.componentVersion,
+    this.versionRequirements,
+  });
+
+  Map<String, dynamic> toJson() {
+    final componentName = this.componentName;
+    final componentVersion = this.componentVersion;
+    final versionRequirements = this.versionRequirements;
+    return {
+      if (componentName != null) 'componentName': componentName,
+      if (componentVersion != null) 'componentVersion': componentVersion,
+      if (versionRequirements != null)
+        'versionRequirements': versionRequirements,
+    };
+  }
+}
+
+/// Contains information about a component on a Greengrass core device.
+class InstalledComponent {
+  /// The name of the component.
+  final String? componentName;
+
+  /// The version of the component.
+  final String? componentVersion;
+
+  /// Whether or not the component is a root component.
+  final bool? isRoot;
+
+  /// The most recent deployment source that brought the component to the
+  /// Greengrass core device. For a thing group deployment or thing deployment,
+  /// the source will be the ID of the last deployment that contained the
+  /// component. For local deployments it will be <code>LOCAL</code>.
+  /// <note>
+  /// Any deployment will attempt to reinstall currently broken components on the
+  /// device, which will update the last installation source.
+  /// </note>
+  final String? lastInstallationSource;
+
+  /// The last time the Greengrass core device sent a message containing a
+  /// component's state to the Amazon Web Services Cloud.
+  ///
+  /// A component does not need to see a state change for this field to update.
+  final DateTime? lastReportedTimestamp;
+
+  /// The status of how current the data is.
+  ///
+  /// This response is based off of component state changes. The status reflects
+  /// component disruptions and deployments. If a component only sees a
+  /// configuration update during a deployment, it might not undergo a state
+  /// change and this status would not be updated.
+  final DateTime? lastStatusChangeTimestamp;
+
+  /// The lifecycle state of the component.
+  final InstalledComponentLifecycleState? lifecycleState;
+
+  /// A detailed response about the lifecycle state of the component that explains
+  /// the reason why a component has an error or is broken.
+  final String? lifecycleStateDetails;
+
+  /// The status codes that indicate the reason for failure whenever the
+  /// <code>lifecycleState</code> has an error or is in a broken state.
+  /// <note>
+  /// Greengrass nucleus v2.8.0 or later is required to get an accurate
+  /// <code>lifecycleStatusCodes</code> response. This response can be inaccurate
+  /// in earlier Greengrass nucleus versions.
+  /// </note>
+  final List<String>? lifecycleStatusCodes;
+
+  InstalledComponent({
+    this.componentName,
+    this.componentVersion,
+    this.isRoot,
+    this.lastInstallationSource,
+    this.lastReportedTimestamp,
+    this.lastStatusChangeTimestamp,
+    this.lifecycleState,
+    this.lifecycleStateDetails,
+    this.lifecycleStatusCodes,
+  });
+
+  factory InstalledComponent.fromJson(Map<String, dynamic> json) {
+    return InstalledComponent(
+      componentName: json['componentName'] as String?,
+      componentVersion: json['componentVersion'] as String?,
+      isRoot: json['isRoot'] as bool?,
+      lastInstallationSource: json['lastInstallationSource'] as String?,
+      lastReportedTimestamp: timeStampFromJson(json['lastReportedTimestamp']),
+      lastStatusChangeTimestamp:
+          timeStampFromJson(json['lastStatusChangeTimestamp']),
+      lifecycleState: (json['lifecycleState'] as String?)
+          ?.let(InstalledComponentLifecycleState.fromString),
+      lifecycleStateDetails: json['lifecycleStateDetails'] as String?,
+      lifecycleStatusCodes: (json['lifecycleStatusCodes'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final componentName = this.componentName;
+    final componentVersion = this.componentVersion;
+    final isRoot = this.isRoot;
+    final lastInstallationSource = this.lastInstallationSource;
+    final lastReportedTimestamp = this.lastReportedTimestamp;
+    final lastStatusChangeTimestamp = this.lastStatusChangeTimestamp;
+    final lifecycleState = this.lifecycleState;
+    final lifecycleStateDetails = this.lifecycleStateDetails;
+    final lifecycleStatusCodes = this.lifecycleStatusCodes;
+    return {
+      if (componentName != null) 'componentName': componentName,
+      if (componentVersion != null) 'componentVersion': componentVersion,
+      if (isRoot != null) 'isRoot': isRoot,
+      if (lastInstallationSource != null)
+        'lastInstallationSource': lastInstallationSource,
+      if (lastReportedTimestamp != null)
+        'lastReportedTimestamp': unixTimestampToJson(lastReportedTimestamp),
+      if (lastStatusChangeTimestamp != null)
+        'lastStatusChangeTimestamp':
+            unixTimestampToJson(lastStatusChangeTimestamp),
+      if (lifecycleState != null) 'lifecycleState': lifecycleState.value,
+      if (lifecycleStateDetails != null)
+        'lifecycleStateDetails': lifecycleStateDetails,
+      if (lifecycleStatusCodes != null)
+        'lifecycleStatusCodes': lifecycleStatusCodes,
+    };
+  }
+}
+
+class InstalledComponentLifecycleState {
+  static const $new = InstalledComponentLifecycleState._('NEW');
+  static const installed = InstalledComponentLifecycleState._('INSTALLED');
+  static const starting = InstalledComponentLifecycleState._('STARTING');
+  static const running = InstalledComponentLifecycleState._('RUNNING');
+  static const stopping = InstalledComponentLifecycleState._('STOPPING');
+  static const errored = InstalledComponentLifecycleState._('ERRORED');
+  static const broken = InstalledComponentLifecycleState._('BROKEN');
+  static const finished = InstalledComponentLifecycleState._('FINISHED');
+
+  final String value;
+
+  const InstalledComponentLifecycleState._(this.value);
+
+  static const values = [
+    $new,
+    installed,
+    starting,
+    running,
+    stopping,
+    errored,
+    broken,
+    finished
+  ];
+
+  static InstalledComponentLifecycleState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InstalledComponentLifecycleState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstalledComponentLifecycleState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class InstalledComponentTopologyFilter {
+  static const all = InstalledComponentTopologyFilter._('ALL');
+  static const root = InstalledComponentTopologyFilter._('ROOT');
+
+  final String value;
+
+  const InstalledComponentTopologyFilter._(this.value);
+
+  static const values = [all, root];
+
+  static InstalledComponentTopologyFilter fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InstalledComponentTopologyFilter._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstalledComponentTopologyFilter && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about a deployment job that IoT Greengrass sends to a
@@ -3179,115 +3074,145 @@ class EffectiveDeploymentStatusDetails {
   }
 }
 
-class GetComponentResponse {
-  /// The recipe of the component version.
-  final Uint8List recipe;
+/// Contains information about a deployment.
+class Deployment {
+  /// The time at which the deployment was created, expressed in ISO 8601 format.
+  final DateTime? creationTimestamp;
 
-  /// The format of the recipe.
-  final RecipeOutputFormat recipeOutputFormat;
+  /// The ID of the deployment.
+  final String? deploymentId;
 
-  /// A list of key-value pairs that contain metadata for the resource. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/tag-resources.html">Tag
-  /// your resources</a> in the <i>IoT Greengrass V2 Developer Guide</i>.
-  final Map<String, String>? tags;
+  /// The name of the deployment.
+  final String? deploymentName;
 
-  GetComponentResponse({
-    required this.recipe,
-    required this.recipeOutputFormat,
-    this.tags,
+  /// The status of the deployment.
+  final DeploymentStatus? deploymentStatus;
+
+  /// Whether or not the deployment is the latest revision for its target.
+  final bool? isLatestForTarget;
+
+  /// The parent deployment's target <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
+  /// within a subdeployment.
+  final String? parentTargetArn;
+
+  /// The revision number of the deployment.
+  final String? revisionId;
+
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
+  /// of the target IoT thing or thing group. When creating a subdeployment, the
+  /// targetARN can only be a thing group.
+  final String? targetArn;
+
+  Deployment({
+    this.creationTimestamp,
+    this.deploymentId,
+    this.deploymentName,
+    this.deploymentStatus,
+    this.isLatestForTarget,
+    this.parentTargetArn,
+    this.revisionId,
+    this.targetArn,
   });
 
-  factory GetComponentResponse.fromJson(Map<String, dynamic> json) {
-    return GetComponentResponse(
-      recipe: _s.decodeUint8List((json['recipe'] as String?) ?? ''),
-      recipeOutputFormat: RecipeOutputFormat.fromString(
-          (json['recipeOutputFormat'] as String?) ?? ''),
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
+  factory Deployment.fromJson(Map<String, dynamic> json) {
+    return Deployment(
+      creationTimestamp: timeStampFromJson(json['creationTimestamp']),
+      deploymentId: json['deploymentId'] as String?,
+      deploymentName: json['deploymentName'] as String?,
+      deploymentStatus: (json['deploymentStatus'] as String?)
+          ?.let(DeploymentStatus.fromString),
+      isLatestForTarget: json['isLatestForTarget'] as bool?,
+      parentTargetArn: json['parentTargetArn'] as String?,
+      revisionId: json['revisionId'] as String?,
+      targetArn: json['targetArn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final recipe = this.recipe;
-    final recipeOutputFormat = this.recipeOutputFormat;
-    final tags = this.tags;
+    final creationTimestamp = this.creationTimestamp;
+    final deploymentId = this.deploymentId;
+    final deploymentName = this.deploymentName;
+    final deploymentStatus = this.deploymentStatus;
+    final isLatestForTarget = this.isLatestForTarget;
+    final parentTargetArn = this.parentTargetArn;
+    final revisionId = this.revisionId;
+    final targetArn = this.targetArn;
     return {
-      'recipe': base64Encode(recipe),
-      'recipeOutputFormat': recipeOutputFormat.value,
-      if (tags != null) 'tags': tags,
+      if (creationTimestamp != null)
+        'creationTimestamp': unixTimestampToJson(creationTimestamp),
+      if (deploymentId != null) 'deploymentId': deploymentId,
+      if (deploymentName != null) 'deploymentName': deploymentName,
+      if (deploymentStatus != null) 'deploymentStatus': deploymentStatus.value,
+      if (isLatestForTarget != null) 'isLatestForTarget': isLatestForTarget,
+      if (parentTargetArn != null) 'parentTargetArn': parentTargetArn,
+      if (revisionId != null) 'revisionId': revisionId,
+      if (targetArn != null) 'targetArn': targetArn,
     };
   }
 }
 
-class GetComponentVersionArtifactResponse {
-  /// The URL of the artifact.
-  final String preSignedUrl;
+class DeploymentStatus {
+  static const active = DeploymentStatus._('ACTIVE');
+  static const completed = DeploymentStatus._('COMPLETED');
+  static const canceled = DeploymentStatus._('CANCELED');
+  static const failed = DeploymentStatus._('FAILED');
+  static const inactive = DeploymentStatus._('INACTIVE');
 
-  GetComponentVersionArtifactResponse({
-    required this.preSignedUrl,
-  });
+  final String value;
 
-  factory GetComponentVersionArtifactResponse.fromJson(
-      Map<String, dynamic> json) {
-    return GetComponentVersionArtifactResponse(
-      preSignedUrl: (json['preSignedUrl'] as String?) ?? '',
-    );
-  }
+  const DeploymentStatus._(this.value);
 
-  Map<String, dynamic> toJson() {
-    final preSignedUrl = this.preSignedUrl;
-    return {
-      'preSignedUrl': preSignedUrl,
-    };
-  }
+  static const values = [active, completed, canceled, failed, inactive];
+
+  static DeploymentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeploymentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DeploymentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-class GetConnectivityInfoResponse {
-  /// The connectivity information for the core device.
-  final List<ConnectivityInfo>? connectivityInfo;
+class DeploymentHistoryFilter {
+  static const all = DeploymentHistoryFilter._('ALL');
+  static const latestOnly = DeploymentHistoryFilter._('LATEST_ONLY');
 
-  /// A message about the connectivity information request.
-  final String? message;
+  final String value;
 
-  GetConnectivityInfoResponse({
-    this.connectivityInfo,
-    this.message,
-  });
+  const DeploymentHistoryFilter._(this.value);
 
-  factory GetConnectivityInfoResponse.fromJson(Map<String, dynamic> json) {
-    return GetConnectivityInfoResponse(
-      connectivityInfo: (json['ConnectivityInfo'] as List?)
-          ?.nonNulls
-          .map((e) => ConnectivityInfo.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      message: json['Message'] as String?,
-    );
-  }
+  static const values = [all, latestOnly];
 
-  Map<String, dynamic> toJson() {
-    final connectivityInfo = this.connectivityInfo;
-    final message = this.message;
-    return {
-      if (connectivityInfo != null) 'ConnectivityInfo': connectivityInfo,
-      if (message != null) 'Message': message,
-    };
-  }
+  static DeploymentHistoryFilter fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeploymentHistoryFilter._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeploymentHistoryFilter && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-class GetCoreDeviceResponse {
+/// Contains information about a Greengrass core device, which is an IoT thing
+/// that runs the IoT Greengrass Core software.
+class CoreDevice {
   /// The computer architecture of the core device.
   final String? architecture;
 
   /// The name of the core device. This is also the name of the IoT thing.
   final String? coreDeviceThingName;
-
-  /// The version of the IoT Greengrass Core software that the core device runs.
-  /// This version is equivalent to the version of the Greengrass nucleus
-  /// component that runs on the core device. For more information, see the <a
-  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-nucleus-component.html">Greengrass
-  /// nucleus component</a> in the <i>IoT Greengrass V2 Developer Guide</i>.
-  final String? coreVersion;
 
   /// The time at which the core device's status last updated, expressed in ISO
   /// 8601 format.
@@ -3296,7 +3221,19 @@ class GetCoreDeviceResponse {
   /// The operating system platform that the core device runs.
   final String? platform;
 
-  /// The status of the core device. The core device status can be:
+  /// The runtime for the core device. The runtime can be:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>aws_nucleus_classic</code>
+  /// </li>
+  /// <li>
+  /// <code>aws_nucleus_lite</code>
+  /// </li>
+  /// </ul>
+  final String? runtime;
+
+  /// The status of the core device. Core devices can have the following statuses:
   ///
   /// <ul>
   /// <li>
@@ -3310,375 +3247,234 @@ class GetCoreDeviceResponse {
   /// </ul>
   final CoreDeviceStatus? status;
 
-  /// A list of key-value pairs that contain metadata for the resource. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/tag-resources.html">Tag
-  /// your resources</a> in the <i>IoT Greengrass V2 Developer Guide</i>.
-  final Map<String, String>? tags;
-
-  GetCoreDeviceResponse({
+  CoreDevice({
     this.architecture,
     this.coreDeviceThingName,
-    this.coreVersion,
     this.lastStatusUpdateTimestamp,
     this.platform,
+    this.runtime,
     this.status,
-    this.tags,
   });
 
-  factory GetCoreDeviceResponse.fromJson(Map<String, dynamic> json) {
-    return GetCoreDeviceResponse(
+  factory CoreDevice.fromJson(Map<String, dynamic> json) {
+    return CoreDevice(
       architecture: json['architecture'] as String?,
       coreDeviceThingName: json['coreDeviceThingName'] as String?,
-      coreVersion: json['coreVersion'] as String?,
       lastStatusUpdateTimestamp:
           timeStampFromJson(json['lastStatusUpdateTimestamp']),
       platform: json['platform'] as String?,
+      runtime: json['runtime'] as String?,
       status: (json['status'] as String?)?.let(CoreDeviceStatus.fromString),
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final architecture = this.architecture;
     final coreDeviceThingName = this.coreDeviceThingName;
-    final coreVersion = this.coreVersion;
     final lastStatusUpdateTimestamp = this.lastStatusUpdateTimestamp;
     final platform = this.platform;
+    final runtime = this.runtime;
     final status = this.status;
-    final tags = this.tags;
     return {
       if (architecture != null) 'architecture': architecture,
       if (coreDeviceThingName != null)
         'coreDeviceThingName': coreDeviceThingName,
-      if (coreVersion != null) 'coreVersion': coreVersion,
       if (lastStatusUpdateTimestamp != null)
         'lastStatusUpdateTimestamp':
             unixTimestampToJson(lastStatusUpdateTimestamp),
       if (platform != null) 'platform': platform,
+      if (runtime != null) 'runtime': runtime,
       if (status != null) 'status': status.value,
-      if (tags != null) 'tags': tags,
     };
   }
 }
 
-class GetDeploymentResponse {
-  /// The components to deploy. This is a dictionary, where each key is the name
-  /// of a component, and each key's value is the version and configuration to
-  /// deploy for that component.
-  final Map<String, ComponentDeploymentSpecification>? components;
+class CoreDeviceStatus {
+  static const healthy = CoreDeviceStatus._('HEALTHY');
+  static const unhealthy = CoreDeviceStatus._('UNHEALTHY');
 
-  /// The time at which the deployment was created, expressed in ISO 8601 format.
-  final DateTime? creationTimestamp;
+  final String value;
 
-  /// The ID of the deployment.
-  final String? deploymentId;
+  const CoreDeviceStatus._(this.value);
 
-  /// The name of the deployment.
-  final String? deploymentName;
+  static const values = [healthy, unhealthy];
 
-  /// The deployment policies for the deployment. These policies define how the
-  /// deployment updates components and handles failure.
-  final DeploymentPolicies? deploymentPolicies;
+  static CoreDeviceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CoreDeviceStatus._(value));
 
-  /// The status of the deployment.
-  final DeploymentStatus? deploymentStatus;
+  @override
+  bool operator ==(other) => other is CoreDeviceStatus && other.value == value;
 
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about a component version in a list.
+class ComponentVersionListItem {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
-  /// of the IoT job that applies the deployment to target devices.
-  final String? iotJobArn;
+  /// of the component version.
+  final String? arn;
 
-  /// The job configuration for the deployment configuration. The job
-  /// configuration specifies the rollout, timeout, and stop configurations for
-  /// the deployment configuration.
-  final DeploymentIoTJobConfiguration? iotJobConfiguration;
-
-  /// The ID of the IoT job that applies the deployment to target devices.
-  final String? iotJobId;
-
-  /// Whether or not the deployment is the latest revision for its target.
-  final bool? isLatestForTarget;
-
-  /// The parent deployment's target <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
-  /// within a subdeployment.
-  final String? parentTargetArn;
-
-  /// The revision number of the deployment.
-  final String? revisionId;
-
-  /// A list of key-value pairs that contain metadata for the resource. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/tag-resources.html">Tag
-  /// your resources</a> in the <i>IoT Greengrass V2 Developer Guide</i>.
-  final Map<String, String>? tags;
-
-  /// The <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
-  /// of the target IoT thing or thing group.
-  final String? targetArn;
-
-  GetDeploymentResponse({
-    this.components,
-    this.creationTimestamp,
-    this.deploymentId,
-    this.deploymentName,
-    this.deploymentPolicies,
-    this.deploymentStatus,
-    this.iotJobArn,
-    this.iotJobConfiguration,
-    this.iotJobId,
-    this.isLatestForTarget,
-    this.parentTargetArn,
-    this.revisionId,
-    this.tags,
-    this.targetArn,
-  });
-
-  factory GetDeploymentResponse.fromJson(Map<String, dynamic> json) {
-    return GetDeploymentResponse(
-      components: (json['components'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(
-              k,
-              ComponentDeploymentSpecification.fromJson(
-                  e as Map<String, dynamic>))),
-      creationTimestamp: timeStampFromJson(json['creationTimestamp']),
-      deploymentId: json['deploymentId'] as String?,
-      deploymentName: json['deploymentName'] as String?,
-      deploymentPolicies: json['deploymentPolicies'] != null
-          ? DeploymentPolicies.fromJson(
-              json['deploymentPolicies'] as Map<String, dynamic>)
-          : null,
-      deploymentStatus: (json['deploymentStatus'] as String?)
-          ?.let(DeploymentStatus.fromString),
-      iotJobArn: json['iotJobArn'] as String?,
-      iotJobConfiguration: json['iotJobConfiguration'] != null
-          ? DeploymentIoTJobConfiguration.fromJson(
-              json['iotJobConfiguration'] as Map<String, dynamic>)
-          : null,
-      iotJobId: json['iotJobId'] as String?,
-      isLatestForTarget: json['isLatestForTarget'] as bool?,
-      parentTargetArn: json['parentTargetArn'] as String?,
-      revisionId: json['revisionId'] as String?,
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      targetArn: json['targetArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final components = this.components;
-    final creationTimestamp = this.creationTimestamp;
-    final deploymentId = this.deploymentId;
-    final deploymentName = this.deploymentName;
-    final deploymentPolicies = this.deploymentPolicies;
-    final deploymentStatus = this.deploymentStatus;
-    final iotJobArn = this.iotJobArn;
-    final iotJobConfiguration = this.iotJobConfiguration;
-    final iotJobId = this.iotJobId;
-    final isLatestForTarget = this.isLatestForTarget;
-    final parentTargetArn = this.parentTargetArn;
-    final revisionId = this.revisionId;
-    final tags = this.tags;
-    final targetArn = this.targetArn;
-    return {
-      if (components != null) 'components': components,
-      if (creationTimestamp != null)
-        'creationTimestamp': unixTimestampToJson(creationTimestamp),
-      if (deploymentId != null) 'deploymentId': deploymentId,
-      if (deploymentName != null) 'deploymentName': deploymentName,
-      if (deploymentPolicies != null) 'deploymentPolicies': deploymentPolicies,
-      if (deploymentStatus != null) 'deploymentStatus': deploymentStatus.value,
-      if (iotJobArn != null) 'iotJobArn': iotJobArn,
-      if (iotJobConfiguration != null)
-        'iotJobConfiguration': iotJobConfiguration,
-      if (iotJobId != null) 'iotJobId': iotJobId,
-      if (isLatestForTarget != null) 'isLatestForTarget': isLatestForTarget,
-      if (parentTargetArn != null) 'parentTargetArn': parentTargetArn,
-      if (revisionId != null) 'revisionId': revisionId,
-      if (tags != null) 'tags': tags,
-      if (targetArn != null) 'targetArn': targetArn,
-    };
-  }
-}
-
-class GetServiceRoleForAccountResponse {
-  /// The time when the service role was associated with IoT Greengrass for your
-  /// Amazon Web Services account in this Amazon Web Services Region.
-  final String? associatedAt;
-
-  /// The ARN of the service role that is associated with IoT Greengrass for your
-  /// Amazon Web Services account in this Amazon Web Services Region.
-  final String? roleArn;
-
-  GetServiceRoleForAccountResponse({
-    this.associatedAt,
-    this.roleArn,
-  });
-
-  factory GetServiceRoleForAccountResponse.fromJson(Map<String, dynamic> json) {
-    return GetServiceRoleForAccountResponse(
-      associatedAt: json['AssociatedAt'] as String?,
-      roleArn: json['RoleArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final associatedAt = this.associatedAt;
-    final roleArn = this.roleArn;
-    return {
-      if (associatedAt != null) 'AssociatedAt': associatedAt,
-      if (roleArn != null) 'RoleArn': roleArn,
-    };
-  }
-}
-
-/// Contains information about a component on a Greengrass core device.
-class InstalledComponent {
   /// The name of the component.
   final String? componentName;
 
   /// The version of the component.
   final String? componentVersion;
 
-  /// Whether or not the component is a root component.
-  final bool? isRoot;
-
-  /// The most recent deployment source that brought the component to the
-  /// Greengrass core device. For a thing group deployment or thing deployment,
-  /// the source will be the ID of the last deployment that contained the
-  /// component. For local deployments it will be <code>LOCAL</code>.
-  /// <note>
-  /// Any deployment will attempt to reinstall currently broken components on the
-  /// device, which will update the last installation source.
-  /// </note>
-  final String? lastInstallationSource;
-
-  /// The last time the Greengrass core device sent a message containing a
-  /// component's state to the Amazon Web Services Cloud.
-  ///
-  /// A component does not need to see a state change for this field to update.
-  final DateTime? lastReportedTimestamp;
-
-  /// The status of how current the data is.
-  ///
-  /// This response is based off of component state changes. The status reflects
-  /// component disruptions and deployments. If a component only sees a
-  /// configuration update during a deployment, it might not undergo a state
-  /// change and this status would not be updated.
-  final DateTime? lastStatusChangeTimestamp;
-
-  /// The lifecycle state of the component.
-  final InstalledComponentLifecycleState? lifecycleState;
-
-  /// A detailed response about the lifecycle state of the component that explains
-  /// the reason why a component has an error or is broken.
-  final String? lifecycleStateDetails;
-
-  /// The status codes that indicate the reason for failure whenever the
-  /// <code>lifecycleState</code> has an error or is in a broken state.
-  /// <note>
-  /// Greengrass nucleus v2.8.0 or later is required to get an accurate
-  /// <code>lifecycleStatusCodes</code> response. This response can be inaccurate
-  /// in earlier Greengrass nucleus versions.
-  /// </note>
-  final List<String>? lifecycleStatusCodes;
-
-  InstalledComponent({
+  ComponentVersionListItem({
+    this.arn,
     this.componentName,
     this.componentVersion,
-    this.isRoot,
-    this.lastInstallationSource,
-    this.lastReportedTimestamp,
-    this.lastStatusChangeTimestamp,
-    this.lifecycleState,
-    this.lifecycleStateDetails,
-    this.lifecycleStatusCodes,
   });
 
-  factory InstalledComponent.fromJson(Map<String, dynamic> json) {
-    return InstalledComponent(
+  factory ComponentVersionListItem.fromJson(Map<String, dynamic> json) {
+    return ComponentVersionListItem(
+      arn: json['arn'] as String?,
       componentName: json['componentName'] as String?,
       componentVersion: json['componentVersion'] as String?,
-      isRoot: json['isRoot'] as bool?,
-      lastInstallationSource: json['lastInstallationSource'] as String?,
-      lastReportedTimestamp: timeStampFromJson(json['lastReportedTimestamp']),
-      lastStatusChangeTimestamp:
-          timeStampFromJson(json['lastStatusChangeTimestamp']),
-      lifecycleState: (json['lifecycleState'] as String?)
-          ?.let(InstalledComponentLifecycleState.fromString),
-      lifecycleStateDetails: json['lifecycleStateDetails'] as String?,
-      lifecycleStatusCodes: (json['lifecycleStatusCodes'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final arn = this.arn;
     final componentName = this.componentName;
     final componentVersion = this.componentVersion;
-    final isRoot = this.isRoot;
-    final lastInstallationSource = this.lastInstallationSource;
-    final lastReportedTimestamp = this.lastReportedTimestamp;
-    final lastStatusChangeTimestamp = this.lastStatusChangeTimestamp;
-    final lifecycleState = this.lifecycleState;
-    final lifecycleStateDetails = this.lifecycleStateDetails;
-    final lifecycleStatusCodes = this.lifecycleStatusCodes;
     return {
+      if (arn != null) 'arn': arn,
       if (componentName != null) 'componentName': componentName,
       if (componentVersion != null) 'componentVersion': componentVersion,
-      if (isRoot != null) 'isRoot': isRoot,
-      if (lastInstallationSource != null)
-        'lastInstallationSource': lastInstallationSource,
-      if (lastReportedTimestamp != null)
-        'lastReportedTimestamp': unixTimestampToJson(lastReportedTimestamp),
-      if (lastStatusChangeTimestamp != null)
-        'lastStatusChangeTimestamp':
-            unixTimestampToJson(lastStatusChangeTimestamp),
-      if (lifecycleState != null) 'lifecycleState': lifecycleState.value,
-      if (lifecycleStateDetails != null)
-        'lifecycleStateDetails': lifecycleStateDetails,
-      if (lifecycleStatusCodes != null)
-        'lifecycleStatusCodes': lifecycleStatusCodes,
     };
   }
 }
 
-class InstalledComponentLifecycleState {
-  static const $new = InstalledComponentLifecycleState._('NEW');
-  static const installed = InstalledComponentLifecycleState._('INSTALLED');
-  static const starting = InstalledComponentLifecycleState._('STARTING');
-  static const running = InstalledComponentLifecycleState._('RUNNING');
-  static const stopping = InstalledComponentLifecycleState._('STOPPING');
-  static const errored = InstalledComponentLifecycleState._('ERRORED');
-  static const broken = InstalledComponentLifecycleState._('BROKEN');
-  static const finished = InstalledComponentLifecycleState._('FINISHED');
+/// Contains information about a component.
+class Component {
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
+  /// of the component version.
+  final String? arn;
+
+  /// The name of the component.
+  final String? componentName;
+
+  /// The latest version of the component and its details.
+  final ComponentLatestVersion? latestVersion;
+
+  Component({
+    this.arn,
+    this.componentName,
+    this.latestVersion,
+  });
+
+  factory Component.fromJson(Map<String, dynamic> json) {
+    return Component(
+      arn: json['arn'] as String?,
+      componentName: json['componentName'] as String?,
+      latestVersion: json['latestVersion'] != null
+          ? ComponentLatestVersion.fromJson(
+              json['latestVersion'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final componentName = this.componentName;
+    final latestVersion = this.latestVersion;
+    return {
+      if (arn != null) 'arn': arn,
+      if (componentName != null) 'componentName': componentName,
+      if (latestVersion != null) 'latestVersion': latestVersion,
+    };
+  }
+}
+
+/// Contains information about the latest version of a component.
+class ComponentLatestVersion {
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
+  /// of the component version.
+  final String? arn;
+
+  /// The version of the component.
+  final String? componentVersion;
+
+  /// The time at which the component was created, expressed in ISO 8601 format.
+  final DateTime? creationTimestamp;
+
+  /// The description of the component version.
+  final String? description;
+
+  /// The platforms that the component version supports.
+  final List<ComponentPlatform>? platforms;
+
+  /// The publisher of the component version.
+  final String? publisher;
+
+  ComponentLatestVersion({
+    this.arn,
+    this.componentVersion,
+    this.creationTimestamp,
+    this.description,
+    this.platforms,
+    this.publisher,
+  });
+
+  factory ComponentLatestVersion.fromJson(Map<String, dynamic> json) {
+    return ComponentLatestVersion(
+      arn: json['arn'] as String?,
+      componentVersion: json['componentVersion'] as String?,
+      creationTimestamp: timeStampFromJson(json['creationTimestamp']),
+      description: json['description'] as String?,
+      platforms: (json['platforms'] as List?)
+          ?.nonNulls
+          .map((e) => ComponentPlatform.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      publisher: json['publisher'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final componentVersion = this.componentVersion;
+    final creationTimestamp = this.creationTimestamp;
+    final description = this.description;
+    final platforms = this.platforms;
+    final publisher = this.publisher;
+    return {
+      if (arn != null) 'arn': arn,
+      if (componentVersion != null) 'componentVersion': componentVersion,
+      if (creationTimestamp != null)
+        'creationTimestamp': unixTimestampToJson(creationTimestamp),
+      if (description != null) 'description': description,
+      if (platforms != null) 'platforms': platforms,
+      if (publisher != null) 'publisher': publisher,
+    };
+  }
+}
+
+class ComponentVisibilityScope {
+  static const private = ComponentVisibilityScope._('PRIVATE');
+  static const public = ComponentVisibilityScope._('PUBLIC');
 
   final String value;
 
-  const InstalledComponentLifecycleState._(this.value);
+  const ComponentVisibilityScope._(this.value);
 
-  static const values = [
-    $new,
-    installed,
-    starting,
-    running,
-    stopping,
-    errored,
-    broken,
-    finished
-  ];
+  static const values = [private, public];
 
-  static InstalledComponentLifecycleState fromString(String value) =>
+  static ComponentVisibilityScope fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => InstalledComponentLifecycleState._(value));
+          orElse: () => ComponentVisibilityScope._(value));
 
   @override
   bool operator ==(other) =>
-      other is InstalledComponentLifecycleState && other.value == value;
+      other is ComponentVisibilityScope && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -3687,52 +3483,178 @@ class InstalledComponentLifecycleState {
   String toString() => value;
 }
 
-class InstalledComponentTopologyFilter {
-  static const all = InstalledComponentTopologyFilter._('ALL');
-  static const root = InstalledComponentTopologyFilter._('ROOT');
+/// Contains information about a client device that is associated to a core
+/// device for cloud discovery.
+class AssociatedClientDevice {
+  /// The time that the client device was associated, expressed in ISO 8601
+  /// format.
+  final DateTime? associationTimestamp;
 
-  final String value;
+  /// The name of the IoT thing that represents the associated client device.
+  final String? thingName;
 
-  const InstalledComponentTopologyFilter._(this.value);
+  AssociatedClientDevice({
+    this.associationTimestamp,
+    this.thingName,
+  });
 
-  static const values = [all, root];
+  factory AssociatedClientDevice.fromJson(Map<String, dynamic> json) {
+    return AssociatedClientDevice(
+      associationTimestamp: timeStampFromJson(json['associationTimestamp']),
+      thingName: json['thingName'] as String?,
+    );
+  }
 
-  static InstalledComponentTopologyFilter fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => InstalledComponentTopologyFilter._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is InstalledComponentTopologyFilter && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final associationTimestamp = this.associationTimestamp;
+    final thingName = this.thingName;
+    return {
+      if (associationTimestamp != null)
+        'associationTimestamp': unixTimestampToJson(associationTimestamp),
+      if (thingName != null) 'thingName': thingName,
+    };
+  }
 }
 
-class IoTJobAbortAction {
-  static const cancel = IoTJobAbortAction._('CANCEL');
+/// Contains information about policies that define how a deployment updates
+/// components and handles failure.
+class DeploymentPolicies {
+  /// The component update policy for the configuration deployment. This policy
+  /// defines when it's safe to deploy the configuration to devices.
+  final DeploymentComponentUpdatePolicy? componentUpdatePolicy;
 
-  final String value;
+  /// The configuration validation policy for the configuration deployment. This
+  /// policy defines how long each component has to validate its configure
+  /// updates.
+  final DeploymentConfigurationValidationPolicy? configurationValidationPolicy;
 
-  const IoTJobAbortAction._(this.value);
+  /// The failure handling policy for the configuration deployment. This policy
+  /// defines what to do if the deployment fails.
+  ///
+  /// Default: <code>ROLLBACK</code>
+  final DeploymentFailureHandlingPolicy? failureHandlingPolicy;
 
-  static const values = [cancel];
+  DeploymentPolicies({
+    this.componentUpdatePolicy,
+    this.configurationValidationPolicy,
+    this.failureHandlingPolicy,
+  });
 
-  static IoTJobAbortAction fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => IoTJobAbortAction._(value));
+  factory DeploymentPolicies.fromJson(Map<String, dynamic> json) {
+    return DeploymentPolicies(
+      componentUpdatePolicy: json['componentUpdatePolicy'] != null
+          ? DeploymentComponentUpdatePolicy.fromJson(
+              json['componentUpdatePolicy'] as Map<String, dynamic>)
+          : null,
+      configurationValidationPolicy:
+          json['configurationValidationPolicy'] != null
+              ? DeploymentConfigurationValidationPolicy.fromJson(
+                  json['configurationValidationPolicy'] as Map<String, dynamic>)
+              : null,
+      failureHandlingPolicy: (json['failureHandlingPolicy'] as String?)
+          ?.let(DeploymentFailureHandlingPolicy.fromString),
+    );
+  }
 
-  @override
-  bool operator ==(other) => other is IoTJobAbortAction && other.value == value;
+  Map<String, dynamic> toJson() {
+    final componentUpdatePolicy = this.componentUpdatePolicy;
+    final configurationValidationPolicy = this.configurationValidationPolicy;
+    final failureHandlingPolicy = this.failureHandlingPolicy;
+    return {
+      if (componentUpdatePolicy != null)
+        'componentUpdatePolicy': componentUpdatePolicy,
+      if (configurationValidationPolicy != null)
+        'configurationValidationPolicy': configurationValidationPolicy,
+      if (failureHandlingPolicy != null)
+        'failureHandlingPolicy': failureHandlingPolicy.value,
+    };
+  }
+}
 
-  @override
-  int get hashCode => value.hashCode;
+/// Contains information about an IoT job configuration.
+class DeploymentIoTJobConfiguration {
+  /// The stop configuration for the job. This configuration defines when and how
+  /// to stop a job rollout.
+  final IoTJobAbortConfig? abortConfig;
 
-  @override
-  String toString() => value;
+  /// The rollout configuration for the job. This configuration defines the rate
+  /// at which the job rolls out to the fleet of target devices.
+  final IoTJobExecutionsRolloutConfig? jobExecutionsRolloutConfig;
+
+  /// The timeout configuration for the job. This configuration defines the amount
+  /// of time each device has to complete the job.
+  final IoTJobTimeoutConfig? timeoutConfig;
+
+  DeploymentIoTJobConfiguration({
+    this.abortConfig,
+    this.jobExecutionsRolloutConfig,
+    this.timeoutConfig,
+  });
+
+  factory DeploymentIoTJobConfiguration.fromJson(Map<String, dynamic> json) {
+    return DeploymentIoTJobConfiguration(
+      abortConfig: json['abortConfig'] != null
+          ? IoTJobAbortConfig.fromJson(
+              json['abortConfig'] as Map<String, dynamic>)
+          : null,
+      jobExecutionsRolloutConfig: json['jobExecutionsRolloutConfig'] != null
+          ? IoTJobExecutionsRolloutConfig.fromJson(
+              json['jobExecutionsRolloutConfig'] as Map<String, dynamic>)
+          : null,
+      timeoutConfig: json['timeoutConfig'] != null
+          ? IoTJobTimeoutConfig.fromJson(
+              json['timeoutConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final abortConfig = this.abortConfig;
+    final jobExecutionsRolloutConfig = this.jobExecutionsRolloutConfig;
+    final timeoutConfig = this.timeoutConfig;
+    return {
+      if (abortConfig != null) 'abortConfig': abortConfig,
+      if (jobExecutionsRolloutConfig != null)
+        'jobExecutionsRolloutConfig': jobExecutionsRolloutConfig,
+      if (timeoutConfig != null) 'timeoutConfig': timeoutConfig,
+    };
+  }
+}
+
+/// Contains information about the rollout configuration for a job. This
+/// configuration defines the rate at which the job deploys a configuration to a
+/// fleet of target devices.
+class IoTJobExecutionsRolloutConfig {
+  /// The exponential rate to increase the job rollout rate.
+  final IoTJobExponentialRolloutRate? exponentialRate;
+
+  /// The maximum number of devices that receive a pending job notification, per
+  /// minute.
+  final int? maximumPerMinute;
+
+  IoTJobExecutionsRolloutConfig({
+    this.exponentialRate,
+    this.maximumPerMinute,
+  });
+
+  factory IoTJobExecutionsRolloutConfig.fromJson(Map<String, dynamic> json) {
+    return IoTJobExecutionsRolloutConfig(
+      exponentialRate: json['exponentialRate'] != null
+          ? IoTJobExponentialRolloutRate.fromJson(
+              json['exponentialRate'] as Map<String, dynamic>)
+          : null,
+      maximumPerMinute: json['maximumPerMinute'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final exponentialRate = this.exponentialRate;
+    final maximumPerMinute = this.maximumPerMinute;
+    return {
+      if (exponentialRate != null) 'exponentialRate': exponentialRate,
+      if (maximumPerMinute != null) 'maximumPerMinute': maximumPerMinute,
+    };
+  }
 }
 
 /// Contains a list of criteria that define when and how to cancel a
@@ -3759,6 +3681,35 @@ class IoTJobAbortConfig {
     final criteriaList = this.criteriaList;
     return {
       'criteriaList': criteriaList,
+    };
+  }
+}
+
+/// Contains information about the timeout configuration for a job.
+class IoTJobTimeoutConfig {
+  /// The amount of time, in minutes, that devices have to complete the job. The
+  /// timer starts when the job status is set to <code>IN_PROGRESS</code>. If the
+  /// job status doesn't change to a terminal state before the time expires, then
+  /// the job status is set to <code>TIMED_OUT</code>.
+  ///
+  /// The timeout interval must be between 1 minute and 7 days (10080 minutes).
+  final int? inProgressTimeoutInMinutes;
+
+  IoTJobTimeoutConfig({
+    this.inProgressTimeoutInMinutes,
+  });
+
+  factory IoTJobTimeoutConfig.fromJson(Map<String, dynamic> json) {
+    return IoTJobTimeoutConfig(
+      inProgressTimeoutInMinutes: json['inProgressTimeoutInMinutes'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inProgressTimeoutInMinutes = this.inProgressTimeoutInMinutes;
+    return {
+      if (inProgressTimeoutInMinutes != null)
+        'inProgressTimeoutInMinutes': inProgressTimeoutInMinutes,
     };
   }
 }
@@ -3853,40 +3804,27 @@ class IoTJobExecutionFailureType {
   String toString() => value;
 }
 
-/// Contains information about the rollout configuration for a job. This
-/// configuration defines the rate at which the job deploys a configuration to a
-/// fleet of target devices.
-class IoTJobExecutionsRolloutConfig {
-  /// The exponential rate to increase the job rollout rate.
-  final IoTJobExponentialRolloutRate? exponentialRate;
+class IoTJobAbortAction {
+  static const cancel = IoTJobAbortAction._('CANCEL');
 
-  /// The maximum number of devices that receive a pending job notification, per
-  /// minute.
-  final int? maximumPerMinute;
+  final String value;
 
-  IoTJobExecutionsRolloutConfig({
-    this.exponentialRate,
-    this.maximumPerMinute,
-  });
+  const IoTJobAbortAction._(this.value);
 
-  factory IoTJobExecutionsRolloutConfig.fromJson(Map<String, dynamic> json) {
-    return IoTJobExecutionsRolloutConfig(
-      exponentialRate: json['exponentialRate'] != null
-          ? IoTJobExponentialRolloutRate.fromJson(
-              json['exponentialRate'] as Map<String, dynamic>)
-          : null,
-      maximumPerMinute: json['maximumPerMinute'] as int?,
-    );
-  }
+  static const values = [cancel];
 
-  Map<String, dynamic> toJson() {
-    final exponentialRate = this.exponentialRate;
-    final maximumPerMinute = this.maximumPerMinute;
-    return {
-      if (exponentialRate != null) 'exponentialRate': exponentialRate,
-      if (maximumPerMinute != null) 'maximumPerMinute': maximumPerMinute,
-    };
-  }
+  static IoTJobAbortAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IoTJobAbortAction._(value));
+
+  @override
+  bool operator ==(other) => other is IoTJobAbortAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about an exponential rollout rate for a configuration
@@ -3970,33 +3908,402 @@ class IoTJobRateIncreaseCriteria {
   }
 }
 
-/// Contains information about the timeout configuration for a job.
-class IoTJobTimeoutConfig {
-  /// The amount of time, in minutes, that devices have to complete the job. The
-  /// timer starts when the job status is set to <code>IN_PROGRESS</code>. If the
-  /// job status doesn't change to a terminal state before the time expires, then
-  /// the job status is set to <code>TIMED_OUT</code>.
-  ///
-  /// The timeout interval must be between 1 minute and 7 days (10080 minutes).
-  final int? inProgressTimeoutInMinutes;
+class DeploymentFailureHandlingPolicy {
+  static const rollback = DeploymentFailureHandlingPolicy._('ROLLBACK');
+  static const doNothing = DeploymentFailureHandlingPolicy._('DO_NOTHING');
 
-  IoTJobTimeoutConfig({
-    this.inProgressTimeoutInMinutes,
+  final String value;
+
+  const DeploymentFailureHandlingPolicy._(this.value);
+
+  static const values = [rollback, doNothing];
+
+  static DeploymentFailureHandlingPolicy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeploymentFailureHandlingPolicy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeploymentFailureHandlingPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about a deployment's policy that defines when
+/// components are safe to update.
+///
+/// Each component on a device can report whether or not it's ready to update.
+/// After a component and its dependencies are ready, they can apply the update
+/// in the deployment. You can configure whether or not the deployment notifies
+/// components of an update and waits for a response. You specify the amount of
+/// time each component has to respond to the update notification.
+class DeploymentComponentUpdatePolicy {
+  /// Whether or not to notify components and wait for components to become safe
+  /// to update. Choose from the following options:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>NOTIFY_COMPONENTS</code> – The deployment notifies each component
+  /// before it stops and updates that component. Components can use the <a
+  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/interprocess-communication.html#ipc-operation-subscribetocomponentupdates">SubscribeToComponentUpdates</a>
+  /// IPC operation to receive these notifications. Then, components can respond
+  /// with the <a
+  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/interprocess-communication.html#ipc-operation-defercomponentupdate">DeferComponentUpdate</a>
+  /// IPC operation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/create-deployments.html">Create
+  /// deployments</a> in the <i>IoT Greengrass V2 Developer Guide</i>.
+  /// </li>
+  /// <li>
+  /// <code>SKIP_NOTIFY_COMPONENTS</code> – The deployment doesn't notify
+  /// components or wait for them to be safe to update.
+  /// </li>
+  /// </ul>
+  /// Default: <code>NOTIFY_COMPONENTS</code>
+  final DeploymentComponentUpdatePolicyAction? action;
+
+  /// The amount of time in seconds that each component on a device has to report
+  /// that it's safe to update. If the component waits for longer than this
+  /// timeout, then the deployment proceeds on the device.
+  ///
+  /// Default: <code>60</code>
+  final int? timeoutInSeconds;
+
+  DeploymentComponentUpdatePolicy({
+    this.action,
+    this.timeoutInSeconds,
   });
 
-  factory IoTJobTimeoutConfig.fromJson(Map<String, dynamic> json) {
-    return IoTJobTimeoutConfig(
-      inProgressTimeoutInMinutes: json['inProgressTimeoutInMinutes'] as int?,
+  factory DeploymentComponentUpdatePolicy.fromJson(Map<String, dynamic> json) {
+    return DeploymentComponentUpdatePolicy(
+      action: (json['action'] as String?)
+          ?.let(DeploymentComponentUpdatePolicyAction.fromString),
+      timeoutInSeconds: json['timeoutInSeconds'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final inProgressTimeoutInMinutes = this.inProgressTimeoutInMinutes;
+    final action = this.action;
+    final timeoutInSeconds = this.timeoutInSeconds;
     return {
-      if (inProgressTimeoutInMinutes != null)
-        'inProgressTimeoutInMinutes': inProgressTimeoutInMinutes,
+      if (action != null) 'action': action.value,
+      if (timeoutInSeconds != null) 'timeoutInSeconds': timeoutInSeconds,
     };
   }
+}
+
+/// Contains information about how long a component on a core device can
+/// validate its configuration updates before it times out. Components can use
+/// the <a
+/// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/interprocess-communication.html#ipc-operation-subscribetovalidateconfigurationupdates">SubscribeToValidateConfigurationUpdates</a>
+/// IPC operation to receive notifications when a deployment specifies a
+/// configuration update. Then, components can respond with the <a
+/// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/interprocess-communication.html#ipc-operation-sendconfigurationvalidityreport">SendConfigurationValidityReport</a>
+/// IPC operation. For more information, see <a
+/// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/create-deployments.html">Create
+/// deployments</a> in the <i>IoT Greengrass V2 Developer Guide</i>.
+class DeploymentConfigurationValidationPolicy {
+  /// The amount of time in seconds that a component can validate its
+  /// configuration updates. If the validation time exceeds this timeout, then the
+  /// deployment proceeds for the device.
+  ///
+  /// Default: <code>30</code>
+  final int? timeoutInSeconds;
+
+  DeploymentConfigurationValidationPolicy({
+    this.timeoutInSeconds,
+  });
+
+  factory DeploymentConfigurationValidationPolicy.fromJson(
+      Map<String, dynamic> json) {
+    return DeploymentConfigurationValidationPolicy(
+      timeoutInSeconds: json['timeoutInSeconds'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timeoutInSeconds = this.timeoutInSeconds;
+    return {
+      if (timeoutInSeconds != null) 'timeoutInSeconds': timeoutInSeconds,
+    };
+  }
+}
+
+class DeploymentComponentUpdatePolicyAction {
+  static const notifyComponents =
+      DeploymentComponentUpdatePolicyAction._('NOTIFY_COMPONENTS');
+  static const skipNotifyComponents =
+      DeploymentComponentUpdatePolicyAction._('SKIP_NOTIFY_COMPONENTS');
+
+  final String value;
+
+  const DeploymentComponentUpdatePolicyAction._(this.value);
+
+  static const values = [notifyComponents, skipNotifyComponents];
+
+  static DeploymentComponentUpdatePolicyAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeploymentComponentUpdatePolicyAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeploymentComponentUpdatePolicyAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about a component to deploy.
+class ComponentDeploymentSpecification {
+  /// The version of the component.
+  final String componentVersion;
+
+  /// The configuration updates to deploy for the component. You can define
+  /// <i>reset</i> updates and <i>merge</i> updates. A reset updates the keys that
+  /// you specify to the default configuration for the component. A merge updates
+  /// the core device's component configuration with the keys and values that you
+  /// specify. The IoT Greengrass Core software applies reset updates before it
+  /// applies merge updates. For more information, see <a
+  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/update-component-configurations.html">Update
+  /// component configurations</a> in the <i>IoT Greengrass V2 Developer
+  /// Guide</i>.
+  final ComponentConfigurationUpdate? configurationUpdate;
+
+  /// The system user and group that the IoT Greengrass Core software uses to run
+  /// component processes on the core device. If you omit this parameter, the IoT
+  /// Greengrass Core software uses the system user and group that you configure
+  /// for the core device. For more information, see <a
+  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/configure-greengrass-core-v2.html#configure-component-user">Configure
+  /// the user and group that run components</a> in the <i>IoT Greengrass V2
+  /// Developer Guide</i>.
+  final ComponentRunWith? runWith;
+
+  ComponentDeploymentSpecification({
+    required this.componentVersion,
+    this.configurationUpdate,
+    this.runWith,
+  });
+
+  factory ComponentDeploymentSpecification.fromJson(Map<String, dynamic> json) {
+    return ComponentDeploymentSpecification(
+      componentVersion: (json['componentVersion'] as String?) ?? '',
+      configurationUpdate: json['configurationUpdate'] != null
+          ? ComponentConfigurationUpdate.fromJson(
+              json['configurationUpdate'] as Map<String, dynamic>)
+          : null,
+      runWith: json['runWith'] != null
+          ? ComponentRunWith.fromJson(json['runWith'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final componentVersion = this.componentVersion;
+    final configurationUpdate = this.configurationUpdate;
+    final runWith = this.runWith;
+    return {
+      'componentVersion': componentVersion,
+      if (configurationUpdate != null)
+        'configurationUpdate': configurationUpdate,
+      if (runWith != null) 'runWith': runWith,
+    };
+  }
+}
+
+/// Contains information about a deployment's update to a component's
+/// configuration on Greengrass core devices. For more information, see <a
+/// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/update-component-configurations.html">Update
+/// component configurations</a> in the <i>IoT Greengrass V2 Developer
+/// Guide</i>.
+class ComponentConfigurationUpdate {
+  /// A serialized JSON string that contains the configuration object to merge to
+  /// target devices. The core device merges this configuration with the
+  /// component's existing configuration. If this is the first time a component
+  /// deploys on a device, the core device merges this configuration with the
+  /// component's default configuration. This means that the core device keeps
+  /// it's existing configuration for keys and values that you don't specify in
+  /// this object. For more information, see <a
+  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/update-component-configurations.html#merge-configuration-update">Merge
+  /// configuration updates</a> in the <i>IoT Greengrass V2 Developer Guide</i>.
+  final String? merge;
+
+  /// The list of configuration nodes to reset to default values on target
+  /// devices. Use JSON pointers to specify each node to reset. JSON pointers
+  /// start with a forward slash (<code>/</code>) and use forward slashes to
+  /// separate the key for each level in the object. For more information, see the
+  /// <a href="https://tools.ietf.org/html/rfc6901">JSON pointer specification</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/update-component-configurations.html#reset-configuration-update">Reset
+  /// configuration updates</a> in the <i>IoT Greengrass V2 Developer Guide</i>.
+  final List<String>? reset;
+
+  ComponentConfigurationUpdate({
+    this.merge,
+    this.reset,
+  });
+
+  factory ComponentConfigurationUpdate.fromJson(Map<String, dynamic> json) {
+    return ComponentConfigurationUpdate(
+      merge: json['merge'] as String?,
+      reset:
+          (json['reset'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final merge = this.merge;
+    final reset = this.reset;
+    return {
+      if (merge != null) 'merge': merge,
+      if (reset != null) 'reset': reset,
+    };
+  }
+}
+
+/// Contains information system user and group that the IoT Greengrass Core
+/// software uses to run component processes on the core device. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/configure-greengrass-core-v2.html#configure-component-user">Configure
+/// the user and group that run components</a> in the <i>IoT Greengrass V2
+/// Developer Guide</i>.
+class ComponentRunWith {
+  /// The POSIX system user and, optionally, group to use to run this component on
+  /// Linux core devices. The user, and group if specified, must exist on each
+  /// Linux core device. Specify the user and group separated by a colon
+  /// (<code>:</code>) in the following format: <code>user:group</code>. The group
+  /// is optional. If you don't specify a group, the IoT Greengrass Core software
+  /// uses the primary user for the group.
+  ///
+  /// If you omit this parameter, the IoT Greengrass Core software uses the
+  /// default system user and group that you configure on the Greengrass nucleus
+  /// component. For more information, see <a
+  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/configure-greengrass-core-v2.html#configure-component-user">Configure
+  /// the user and group that run components</a>.
+  final String? posixUser;
+
+  /// The system resource limits to apply to this component's process on the core
+  /// device. IoT Greengrass currently supports this feature on only Linux core
+  /// devices.
+  ///
+  /// If you omit this parameter, the IoT Greengrass Core software uses the
+  /// default system resource limits that you configure on the Greengrass nucleus
+  /// component. For more information, see <a
+  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/configure-greengrass-core-v2.html#configure-component-system-resource-limits">Configure
+  /// system resource limits for components</a>.
+  final SystemResourceLimits? systemResourceLimits;
+
+  /// The Windows user to use to run this component on Windows core devices. The
+  /// user must exist on each Windows core device, and its name and password must
+  /// be in the LocalSystem account's Credentials Manager instance.
+  ///
+  /// If you omit this parameter, the IoT Greengrass Core software uses the
+  /// default Windows user that you configure on the Greengrass nucleus component.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/configure-greengrass-core-v2.html#configure-component-user">Configure
+  /// the user and group that run components</a>.
+  final String? windowsUser;
+
+  ComponentRunWith({
+    this.posixUser,
+    this.systemResourceLimits,
+    this.windowsUser,
+  });
+
+  factory ComponentRunWith.fromJson(Map<String, dynamic> json) {
+    return ComponentRunWith(
+      posixUser: json['posixUser'] as String?,
+      systemResourceLimits: json['systemResourceLimits'] != null
+          ? SystemResourceLimits.fromJson(
+              json['systemResourceLimits'] as Map<String, dynamic>)
+          : null,
+      windowsUser: json['windowsUser'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final posixUser = this.posixUser;
+    final systemResourceLimits = this.systemResourceLimits;
+    final windowsUser = this.windowsUser;
+    return {
+      if (posixUser != null) 'posixUser': posixUser,
+      if (systemResourceLimits != null)
+        'systemResourceLimits': systemResourceLimits,
+      if (windowsUser != null) 'windowsUser': windowsUser,
+    };
+  }
+}
+
+/// Contains information about system resource limits that the IoT Greengrass
+/// Core software applies to a component's processes. For more information, see
+/// <a
+/// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/configure-greengrass-core-v2.html#configure-component-system-resource-limits">Configure
+/// system resource limits for components</a>.
+class SystemResourceLimits {
+  /// The maximum amount of CPU time that a component's processes can use on the
+  /// core device. A core device's total CPU time is equivalent to the device's
+  /// number of CPU cores. For example, on a core device with 4 CPU cores, you can
+  /// set this value to <code>2</code> to limit the component's processes to 50
+  /// percent usage of each CPU core. On a device with 1 CPU core, you can set
+  /// this value to <code>0.25</code> to limit the component's processes to 25
+  /// percent usage of the CPU. If you set this value to a number greater than the
+  /// number of CPU cores, the IoT Greengrass Core software doesn't limit the
+  /// component's CPU usage.
+  final double? cpus;
+
+  /// The maximum amount of RAM, expressed in kilobytes, that a component's
+  /// processes can use on the core device.
+  final int? memory;
+
+  SystemResourceLimits({
+    this.cpus,
+    this.memory,
+  });
+
+  factory SystemResourceLimits.fromJson(Map<String, dynamic> json) {
+    return SystemResourceLimits(
+      cpus: json['cpus'] as double?,
+      memory: json['memory'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cpus = this.cpus;
+    final memory = this.memory;
+    return {
+      if (cpus != null) 'cpus': cpus,
+      if (memory != null) 'memory': memory,
+    };
+  }
+}
+
+class S3EndpointType {
+  static const regional = S3EndpointType._('REGIONAL');
+  static const global = S3EndpointType._('GLOBAL');
+
+  final String value;
+
+  const S3EndpointType._(this.value);
+
+  static const values = [regional, global];
+
+  static S3EndpointType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => S3EndpointType._(value));
+
+  @override
+  bool operator ==(other) => other is S3EndpointType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class IotEndpointType {
@@ -4023,143 +4330,197 @@ class IotEndpointType {
   String toString() => value;
 }
 
-/// Contains information about a container in which Lambda functions run on
-/// Greengrass core devices.
-class LambdaContainerParams {
-  /// The list of system devices that the container can access.
-  final List<LambdaDeviceMount>? devices;
-
-  /// The memory size of the container, expressed in kilobytes.
-  ///
-  /// Default: <code>16384</code> (16 MB)
-  final int? memorySizeInKB;
-
-  /// Whether or not the container can read information from the device's
-  /// <code>/sys</code> folder.
-  ///
-  /// Default: <code>false</code>
-  final bool? mountROSysfs;
-
-  /// The list of volumes that the container can access.
-  final List<LambdaVolumeMount>? volumes;
-
-  LambdaContainerParams({
-    this.devices,
-    this.memorySizeInKB,
-    this.mountROSysfs,
-    this.volumes,
-  });
-
-  Map<String, dynamic> toJson() {
-    final devices = this.devices;
-    final memorySizeInKB = this.memorySizeInKB;
-    final mountROSysfs = this.mountROSysfs;
-    final volumes = this.volumes;
-    return {
-      if (devices != null) 'devices': devices,
-      if (memorySizeInKB != null) 'memorySizeInKB': memorySizeInKB,
-      if (mountROSysfs != null) 'mountROSysfs': mountROSysfs,
-      if (volumes != null) 'volumes': volumes,
-    };
-  }
-}
-
-/// Contains information about a device that Linux processes in a container can
-/// access.
-class LambdaDeviceMount {
-  /// The mount path for the device in the file system.
-  final String path;
-
-  /// Whether or not to add the component's system user as an owner of the device.
-  ///
-  /// Default: <code>false</code>
-  final bool? addGroupOwner;
-
-  /// The permission to access the device: read/only (<code>ro</code>) or
-  /// read/write (<code>rw</code>).
-  ///
-  /// Default: <code>ro</code>
-  final LambdaFilesystemPermission? permission;
-
-  LambdaDeviceMount({
-    required this.path,
-    this.addGroupOwner,
-    this.permission,
-  });
-
-  Map<String, dynamic> toJson() {
-    final path = this.path;
-    final addGroupOwner = this.addGroupOwner;
-    final permission = this.permission;
-    return {
-      'path': path,
-      if (addGroupOwner != null) 'addGroupOwner': addGroupOwner,
-      if (permission != null) 'permission': permission.value,
-    };
-  }
-}
-
-/// Contains information about an event source for an Lambda function. The event
-/// source defines the topics on which this Lambda function subscribes to
-/// receive messages that run the function.
-class LambdaEventSource {
-  /// The topic to which to subscribe to receive event messages.
-  final String topic;
-
-  /// The type of event source. Choose from the following options:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>PUB_SUB</code> – Subscribe to local publish/subscribe messages. This
-  /// event source type doesn't support MQTT wildcards (<code>+</code> and
-  /// <code>#</code>) in the event source topic.
-  /// </li>
-  /// <li>
-  /// <code>IOT_CORE</code> – Subscribe to Amazon Web Services IoT Core MQTT
-  /// messages. This event source type supports MQTT wildcards (<code>+</code> and
-  /// <code>#</code>) in the event source topic.
-  /// </li>
-  /// </ul>
-  final LambdaEventSourceType type;
-
-  LambdaEventSource({
-    required this.topic,
-    required this.type,
-  });
-
-  Map<String, dynamic> toJson() {
-    final topic = this.topic;
-    final type = this.type;
-    return {
-      'topic': topic,
-      'type': type.value,
-    };
-  }
-}
-
-class LambdaEventSourceType {
-  static const pubSub = LambdaEventSourceType._('PUB_SUB');
-  static const iotCore = LambdaEventSourceType._('IOT_CORE');
+class RecipeOutputFormat {
+  static const json = RecipeOutputFormat._('JSON');
+  static const yaml = RecipeOutputFormat._('YAML');
 
   final String value;
 
-  const LambdaEventSourceType._(this.value);
+  const RecipeOutputFormat._(this.value);
 
-  static const values = [pubSub, iotCore];
+  static const values = [json, yaml];
 
-  static LambdaEventSourceType fromString(String value) =>
+  static RecipeOutputFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => LambdaEventSourceType._(value));
+          orElse: () => RecipeOutputFormat._(value));
 
   @override
   bool operator ==(other) =>
-      other is LambdaEventSourceType && other.value == value;
+      other is RecipeOutputFormat && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
+}
+
+/// Contains the status of a component version in the IoT Greengrass service.
+class CloudComponentStatus {
+  /// The state of the component version.
+  final CloudComponentState? componentState;
+
+  /// A dictionary of errors that communicate why the component version is in an
+  /// error state. For example, if IoT Greengrass can't access an artifact for the
+  /// component version, then <code>errors</code> contains the artifact's URI as a
+  /// key, and the error message as the value for that key.
+  final Map<String, String>? errors;
+
+  /// A message that communicates details, such as errors, about the status of the
+  /// component version.
+  final String? message;
+
+  /// The vendor guidance state for the component version. This state indicates
+  /// whether the component version has any issues that you should consider before
+  /// you deploy it. The vendor guidance state can be:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code> – This component version is available and recommended
+  /// for use.
+  /// </li>
+  /// <li>
+  /// <code>DISCONTINUED</code> – This component version has been discontinued by
+  /// its publisher. You can deploy this component version, but we recommend that
+  /// you use a different version of this component.
+  /// </li>
+  /// <li>
+  /// <code>DELETED</code> – This component version has been deleted by its
+  /// publisher, so you can't deploy it. If you have any existing deployments that
+  /// specify this component version, those deployments will fail.
+  /// </li>
+  /// </ul>
+  final VendorGuidance? vendorGuidance;
+
+  /// A message that communicates details about the vendor guidance state of the
+  /// component version. This message communicates why a component version is
+  /// discontinued or deleted.
+  final String? vendorGuidanceMessage;
+
+  CloudComponentStatus({
+    this.componentState,
+    this.errors,
+    this.message,
+    this.vendorGuidance,
+    this.vendorGuidanceMessage,
+  });
+
+  factory CloudComponentStatus.fromJson(Map<String, dynamic> json) {
+    return CloudComponentStatus(
+      componentState: (json['componentState'] as String?)
+          ?.let(CloudComponentState.fromString),
+      errors: (json['errors'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      message: json['message'] as String?,
+      vendorGuidance:
+          (json['vendorGuidance'] as String?)?.let(VendorGuidance.fromString),
+      vendorGuidanceMessage: json['vendorGuidanceMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final componentState = this.componentState;
+    final errors = this.errors;
+    final message = this.message;
+    final vendorGuidance = this.vendorGuidance;
+    final vendorGuidanceMessage = this.vendorGuidanceMessage;
+    return {
+      if (componentState != null) 'componentState': componentState.value,
+      if (errors != null) 'errors': errors,
+      if (message != null) 'message': message,
+      if (vendorGuidance != null) 'vendorGuidance': vendorGuidance.value,
+      if (vendorGuidanceMessage != null)
+        'vendorGuidanceMessage': vendorGuidanceMessage,
+    };
+  }
+}
+
+class CloudComponentState {
+  static const requested = CloudComponentState._('REQUESTED');
+  static const initiated = CloudComponentState._('INITIATED');
+  static const deployable = CloudComponentState._('DEPLOYABLE');
+  static const failed = CloudComponentState._('FAILED');
+  static const deprecated = CloudComponentState._('DEPRECATED');
+
+  final String value;
+
+  const CloudComponentState._(this.value);
+
+  static const values = [requested, initiated, deployable, failed, deprecated];
+
+  static CloudComponentState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CloudComponentState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CloudComponentState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about an Lambda function to import to create a
+/// component.
+class LambdaFunctionRecipeSource {
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
+  /// of the Lambda function. The ARN must include the version of the function to
+  /// import. You can't use version aliases like <code>$LATEST</code>.
+  final String lambdaArn;
+
+  /// The component versions on which this Lambda function component depends.
+  final Map<String, ComponentDependencyRequirement>? componentDependencies;
+
+  /// The system and runtime parameters for the Lambda function as it runs on the
+  /// Greengrass core device.
+  final LambdaExecutionParameters? componentLambdaParameters;
+
+  /// The name of the component.
+  ///
+  /// Defaults to the name of the Lambda function.
+  final String? componentName;
+
+  /// The platforms that the component version supports.
+  final List<ComponentPlatform>? componentPlatforms;
+
+  /// The version of the component.
+  ///
+  /// Defaults to the version of the Lambda function as a semantic version. For
+  /// example, if your function version is <code>3</code>, the component version
+  /// becomes <code>3.0.0</code>.
+  final String? componentVersion;
+
+  LambdaFunctionRecipeSource({
+    required this.lambdaArn,
+    this.componentDependencies,
+    this.componentLambdaParameters,
+    this.componentName,
+    this.componentPlatforms,
+    this.componentVersion,
+  });
+
+  Map<String, dynamic> toJson() {
+    final lambdaArn = this.lambdaArn;
+    final componentDependencies = this.componentDependencies;
+    final componentLambdaParameters = this.componentLambdaParameters;
+    final componentName = this.componentName;
+    final componentPlatforms = this.componentPlatforms;
+    final componentVersion = this.componentVersion;
+    return {
+      'lambdaArn': lambdaArn,
+      if (componentDependencies != null)
+        'componentDependencies': componentDependencies,
+      if (componentLambdaParameters != null)
+        'componentLambdaParameters': componentLambdaParameters,
+      if (componentName != null) 'componentName': componentName,
+      if (componentPlatforms != null) 'componentPlatforms': componentPlatforms,
+      if (componentVersion != null) 'componentVersion': componentVersion,
+    };
+  }
 }
 
 /// Contains parameters for a Lambda function that runs on IoT Greengrass.
@@ -4269,91 +4630,6 @@ class LambdaExecutionParameters {
   }
 }
 
-class LambdaFilesystemPermission {
-  static const ro = LambdaFilesystemPermission._('ro');
-  static const rw = LambdaFilesystemPermission._('rw');
-
-  final String value;
-
-  const LambdaFilesystemPermission._(this.value);
-
-  static const values = [ro, rw];
-
-  static LambdaFilesystemPermission fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LambdaFilesystemPermission._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is LambdaFilesystemPermission && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains information about an Lambda function to import to create a
-/// component.
-class LambdaFunctionRecipeSource {
-  /// The <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
-  /// of the Lambda function. The ARN must include the version of the function to
-  /// import. You can't use version aliases like <code>$LATEST</code>.
-  final String lambdaArn;
-
-  /// The component versions on which this Lambda function component depends.
-  final Map<String, ComponentDependencyRequirement>? componentDependencies;
-
-  /// The system and runtime parameters for the Lambda function as it runs on the
-  /// Greengrass core device.
-  final LambdaExecutionParameters? componentLambdaParameters;
-
-  /// The name of the component.
-  ///
-  /// Defaults to the name of the Lambda function.
-  final String? componentName;
-
-  /// The platforms that the component version supports.
-  final List<ComponentPlatform>? componentPlatforms;
-
-  /// The version of the component.
-  ///
-  /// Defaults to the version of the Lambda function as a semantic version. For
-  /// example, if your function version is <code>3</code>, the component version
-  /// becomes <code>3.0.0</code>.
-  final String? componentVersion;
-
-  LambdaFunctionRecipeSource({
-    required this.lambdaArn,
-    this.componentDependencies,
-    this.componentLambdaParameters,
-    this.componentName,
-    this.componentPlatforms,
-    this.componentVersion,
-  });
-
-  Map<String, dynamic> toJson() {
-    final lambdaArn = this.lambdaArn;
-    final componentDependencies = this.componentDependencies;
-    final componentLambdaParameters = this.componentLambdaParameters;
-    final componentName = this.componentName;
-    final componentPlatforms = this.componentPlatforms;
-    final componentVersion = this.componentVersion;
-    return {
-      'lambdaArn': lambdaArn,
-      if (componentDependencies != null)
-        'componentDependencies': componentDependencies,
-      if (componentLambdaParameters != null)
-        'componentLambdaParameters': componentLambdaParameters,
-      if (componentName != null) 'componentName': componentName,
-      if (componentPlatforms != null) 'componentPlatforms': componentPlatforms,
-      if (componentVersion != null) 'componentVersion': componentVersion,
-    };
-  }
-}
-
 class LambdaInputPayloadEncodingType {
   static const json = LambdaInputPayloadEncodingType._('json');
   static const binary = LambdaInputPayloadEncodingType._('binary');
@@ -4371,32 +4647,6 @@ class LambdaInputPayloadEncodingType {
   @override
   bool operator ==(other) =>
       other is LambdaInputPayloadEncodingType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class LambdaIsolationMode {
-  static const greengrassContainer =
-      LambdaIsolationMode._('GreengrassContainer');
-  static const noContainer = LambdaIsolationMode._('NoContainer');
-
-  final String value;
-
-  const LambdaIsolationMode._(this.value);
-
-  static const values = [greengrassContainer, noContainer];
-
-  static LambdaIsolationMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LambdaIsolationMode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is LambdaIsolationMode && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -4430,6 +4680,133 @@ class LambdaLinuxProcessParams {
       if (isolationMode != null) 'isolationMode': isolationMode.value,
     };
   }
+}
+
+class LambdaIsolationMode {
+  static const greengrassContainer =
+      LambdaIsolationMode._('GreengrassContainer');
+  static const noContainer = LambdaIsolationMode._('NoContainer');
+
+  final String value;
+
+  const LambdaIsolationMode._(this.value);
+
+  static const values = [greengrassContainer, noContainer];
+
+  static LambdaIsolationMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LambdaIsolationMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LambdaIsolationMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about a container in which Lambda functions run on
+/// Greengrass core devices.
+class LambdaContainerParams {
+  /// The list of system devices that the container can access.
+  final List<LambdaDeviceMount>? devices;
+
+  /// The memory size of the container, expressed in kilobytes.
+  ///
+  /// Default: <code>16384</code> (16 MB)
+  final int? memorySizeInKB;
+
+  /// Whether or not the container can read information from the device's
+  /// <code>/sys</code> folder.
+  ///
+  /// Default: <code>false</code>
+  final bool? mountROSysfs;
+
+  /// The list of volumes that the container can access.
+  final List<LambdaVolumeMount>? volumes;
+
+  LambdaContainerParams({
+    this.devices,
+    this.memorySizeInKB,
+    this.mountROSysfs,
+    this.volumes,
+  });
+
+  Map<String, dynamic> toJson() {
+    final devices = this.devices;
+    final memorySizeInKB = this.memorySizeInKB;
+    final mountROSysfs = this.mountROSysfs;
+    final volumes = this.volumes;
+    return {
+      if (devices != null) 'devices': devices,
+      if (memorySizeInKB != null) 'memorySizeInKB': memorySizeInKB,
+      if (mountROSysfs != null) 'mountROSysfs': mountROSysfs,
+      if (volumes != null) 'volumes': volumes,
+    };
+  }
+}
+
+/// Contains information about a device that Linux processes in a container can
+/// access.
+class LambdaDeviceMount {
+  /// The mount path for the device in the file system.
+  final String path;
+
+  /// Whether or not to add the component's system user as an owner of the device.
+  ///
+  /// Default: <code>false</code>
+  final bool? addGroupOwner;
+
+  /// The permission to access the device: read/only (<code>ro</code>) or
+  /// read/write (<code>rw</code>).
+  ///
+  /// Default: <code>ro</code>
+  final LambdaFilesystemPermission? permission;
+
+  LambdaDeviceMount({
+    required this.path,
+    this.addGroupOwner,
+    this.permission,
+  });
+
+  Map<String, dynamic> toJson() {
+    final path = this.path;
+    final addGroupOwner = this.addGroupOwner;
+    final permission = this.permission;
+    return {
+      'path': path,
+      if (addGroupOwner != null) 'addGroupOwner': addGroupOwner,
+      if (permission != null) 'permission': permission.value,
+    };
+  }
+}
+
+class LambdaFilesystemPermission {
+  static const ro = LambdaFilesystemPermission._('ro');
+  static const rw = LambdaFilesystemPermission._('rw');
+
+  final String value;
+
+  const LambdaFilesystemPermission._(this.value);
+
+  static const values = [ro, rw];
+
+  static LambdaFilesystemPermission fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LambdaFilesystemPermission._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LambdaFilesystemPermission && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about a volume that Linux processes in a container can
@@ -4475,434 +4852,61 @@ class LambdaVolumeMount {
   }
 }
 
-class ListClientDevicesAssociatedWithCoreDeviceResponse {
-  /// A list that describes the client devices that are associated with the core
-  /// device.
-  final List<AssociatedClientDevice>? associatedClientDevices;
+/// Contains information about an event source for an Lambda function. The event
+/// source defines the topics on which this Lambda function subscribes to
+/// receive messages that run the function.
+class LambdaEventSource {
+  /// The topic to which to subscribe to receive event messages.
+  final String topic;
 
-  /// The token for the next set of results, or null if there are no additional
-  /// results.
-  final String? nextToken;
-
-  ListClientDevicesAssociatedWithCoreDeviceResponse({
-    this.associatedClientDevices,
-    this.nextToken,
-  });
-
-  factory ListClientDevicesAssociatedWithCoreDeviceResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListClientDevicesAssociatedWithCoreDeviceResponse(
-      associatedClientDevices: (json['associatedClientDevices'] as List?)
-          ?.nonNulls
-          .map(
-              (e) => AssociatedClientDevice.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final associatedClientDevices = this.associatedClientDevices;
-    final nextToken = this.nextToken;
-    return {
-      if (associatedClientDevices != null)
-        'associatedClientDevices': associatedClientDevices,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListComponentVersionsResponse {
-  /// A list of versions that exist for the component.
-  final List<ComponentVersionListItem>? componentVersions;
-
-  /// The token for the next set of results, or null if there are no additional
-  /// results.
-  final String? nextToken;
-
-  ListComponentVersionsResponse({
-    this.componentVersions,
-    this.nextToken,
-  });
-
-  factory ListComponentVersionsResponse.fromJson(Map<String, dynamic> json) {
-    return ListComponentVersionsResponse(
-      componentVersions: (json['componentVersions'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              ComponentVersionListItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final componentVersions = this.componentVersions;
-    final nextToken = this.nextToken;
-    return {
-      if (componentVersions != null) 'componentVersions': componentVersions,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListComponentsResponse {
-  /// A list that summarizes each component.
-  final List<Component>? components;
-
-  /// The token for the next set of results, or null if there are no additional
-  /// results.
-  final String? nextToken;
-
-  ListComponentsResponse({
-    this.components,
-    this.nextToken,
-  });
-
-  factory ListComponentsResponse.fromJson(Map<String, dynamic> json) {
-    return ListComponentsResponse(
-      components: (json['components'] as List?)
-          ?.nonNulls
-          .map((e) => Component.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final components = this.components;
-    final nextToken = this.nextToken;
-    return {
-      if (components != null) 'components': components,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListCoreDevicesResponse {
-  /// A list that summarizes each core device.
-  final List<CoreDevice>? coreDevices;
-
-  /// The token for the next set of results, or null if there are no additional
-  /// results.
-  final String? nextToken;
-
-  ListCoreDevicesResponse({
-    this.coreDevices,
-    this.nextToken,
-  });
-
-  factory ListCoreDevicesResponse.fromJson(Map<String, dynamic> json) {
-    return ListCoreDevicesResponse(
-      coreDevices: (json['coreDevices'] as List?)
-          ?.nonNulls
-          .map((e) => CoreDevice.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final coreDevices = this.coreDevices;
-    final nextToken = this.nextToken;
-    return {
-      if (coreDevices != null) 'coreDevices': coreDevices,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListDeploymentsResponse {
-  /// A list that summarizes each deployment.
-  final List<Deployment>? deployments;
-
-  /// The token for the next set of results, or null if there are no additional
-  /// results.
-  final String? nextToken;
-
-  ListDeploymentsResponse({
-    this.deployments,
-    this.nextToken,
-  });
-
-  factory ListDeploymentsResponse.fromJson(Map<String, dynamic> json) {
-    return ListDeploymentsResponse(
-      deployments: (json['deployments'] as List?)
-          ?.nonNulls
-          .map((e) => Deployment.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deployments = this.deployments;
-    final nextToken = this.nextToken;
-    return {
-      if (deployments != null) 'deployments': deployments,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListEffectiveDeploymentsResponse {
-  /// A list that summarizes each deployment on the core device.
-  final List<EffectiveDeployment>? effectiveDeployments;
-
-  /// The token for the next set of results, or null if there are no additional
-  /// results.
-  final String? nextToken;
-
-  ListEffectiveDeploymentsResponse({
-    this.effectiveDeployments,
-    this.nextToken,
-  });
-
-  factory ListEffectiveDeploymentsResponse.fromJson(Map<String, dynamic> json) {
-    return ListEffectiveDeploymentsResponse(
-      effectiveDeployments: (json['effectiveDeployments'] as List?)
-          ?.nonNulls
-          .map((e) => EffectiveDeployment.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final effectiveDeployments = this.effectiveDeployments;
-    final nextToken = this.nextToken;
-    return {
-      if (effectiveDeployments != null)
-        'effectiveDeployments': effectiveDeployments,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListInstalledComponentsResponse {
-  /// A list that summarizes each component on the core device.
-  /// <note>
-  /// Greengrass nucleus v2.7.0 or later is required to get an accurate
-  /// <code>lastStatusChangeTimestamp</code> response. This response can be
-  /// inaccurate in earlier Greengrass nucleus versions.
-  /// </note> <note>
-  /// Greengrass nucleus v2.8.0 or later is required to get an accurate
-  /// <code>lastInstallationSource</code> and <code>lastReportedTimestamp</code>
-  /// response. This response can be inaccurate or null in earlier Greengrass
-  /// nucleus versions.
-  /// </note>
-  final List<InstalledComponent>? installedComponents;
-
-  /// The token for the next set of results, or null if there are no additional
-  /// results.
-  final String? nextToken;
-
-  ListInstalledComponentsResponse({
-    this.installedComponents,
-    this.nextToken,
-  });
-
-  factory ListInstalledComponentsResponse.fromJson(Map<String, dynamic> json) {
-    return ListInstalledComponentsResponse(
-      installedComponents: (json['installedComponents'] as List?)
-          ?.nonNulls
-          .map((e) => InstalledComponent.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final installedComponents = this.installedComponents;
-    final nextToken = this.nextToken;
-    return {
-      if (installedComponents != null)
-        'installedComponents': installedComponents,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListTagsForResourceResponse {
-  /// A list of key-value pairs that contain metadata for the resource. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/tag-resources.html">Tag
-  /// your resources</a> in the <i>IoT Greengrass V2 Developer Guide</i>.
-  final Map<String, String>? tags;
-
-  ListTagsForResourceResponse({
-    this.tags,
-  });
-
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
-    return ListTagsForResourceResponse(
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tags = this.tags;
-    return {
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-class RecipeOutputFormat {
-  static const json = RecipeOutputFormat._('JSON');
-  static const yaml = RecipeOutputFormat._('YAML');
-
-  final String value;
-
-  const RecipeOutputFormat._(this.value);
-
-  static const values = [json, yaml];
-
-  static RecipeOutputFormat fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RecipeOutputFormat._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is RecipeOutputFormat && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ResolveComponentCandidatesResponse {
-  /// A list of components that meet the requirements that you specify in the
-  /// request. This list includes each component's recipe that you can use to
-  /// install the component.
-  final List<ResolvedComponentVersion>? resolvedComponentVersions;
-
-  ResolveComponentCandidatesResponse({
-    this.resolvedComponentVersions,
-  });
-
-  factory ResolveComponentCandidatesResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ResolveComponentCandidatesResponse(
-      resolvedComponentVersions: (json['resolvedComponentVersions'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              ResolvedComponentVersion.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resolvedComponentVersions = this.resolvedComponentVersions;
-    return {
-      if (resolvedComponentVersions != null)
-        'resolvedComponentVersions': resolvedComponentVersions,
-    };
-  }
-}
-
-/// Contains information about a component version that is compatible to run on
-/// a Greengrass core device.
-class ResolvedComponentVersion {
-  /// The <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
-  /// of the component version.
-  final String? arn;
-
-  /// The name of the component.
-  final String? componentName;
-
-  /// The version of the component.
-  final String? componentVersion;
-
-  /// A message that communicates details about the vendor guidance state of the
-  /// component version. This message communicates why a component version is
-  /// discontinued or deleted.
-  final String? message;
-
-  /// The recipe of the component version.
-  final Uint8List? recipe;
-
-  /// The vendor guidance state for the component version. This state indicates
-  /// whether the component version has any issues that you should consider before
-  /// you deploy it. The vendor guidance state can be:
+  /// The type of event source. Choose from the following options:
   ///
   /// <ul>
   /// <li>
-  /// <code>ACTIVE</code> – This component version is available and recommended
-  /// for use.
+  /// <code>PUB_SUB</code> – Subscribe to local publish/subscribe messages. This
+  /// event source type doesn't support MQTT wildcards (<code>+</code> and
+  /// <code>#</code>) in the event source topic.
   /// </li>
   /// <li>
-  /// <code>DISCONTINUED</code> – This component version has been discontinued by
-  /// its publisher. You can deploy this component version, but we recommend that
-  /// you use a different version of this component.
-  /// </li>
-  /// <li>
-  /// <code>DELETED</code> – This component version has been deleted by its
-  /// publisher, so you can't deploy it. If you have any existing deployments that
-  /// specify this component version, those deployments will fail.
+  /// <code>IOT_CORE</code> – Subscribe to Amazon Web Services IoT Core MQTT
+  /// messages. This event source type supports MQTT wildcards (<code>+</code> and
+  /// <code>#</code>) in the event source topic.
   /// </li>
   /// </ul>
-  final VendorGuidance? vendorGuidance;
+  final LambdaEventSourceType type;
 
-  ResolvedComponentVersion({
-    this.arn,
-    this.componentName,
-    this.componentVersion,
-    this.message,
-    this.recipe,
-    this.vendorGuidance,
+  LambdaEventSource({
+    required this.topic,
+    required this.type,
   });
 
-  factory ResolvedComponentVersion.fromJson(Map<String, dynamic> json) {
-    return ResolvedComponentVersion(
-      arn: json['arn'] as String?,
-      componentName: json['componentName'] as String?,
-      componentVersion: json['componentVersion'] as String?,
-      message: json['message'] as String?,
-      recipe: _s.decodeNullableUint8List(json['recipe'] as String?),
-      vendorGuidance:
-          (json['vendorGuidance'] as String?)?.let(VendorGuidance.fromString),
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final componentName = this.componentName;
-    final componentVersion = this.componentVersion;
-    final message = this.message;
-    final recipe = this.recipe;
-    final vendorGuidance = this.vendorGuidance;
+    final topic = this.topic;
+    final type = this.type;
     return {
-      if (arn != null) 'arn': arn,
-      if (componentName != null) 'componentName': componentName,
-      if (componentVersion != null) 'componentVersion': componentVersion,
-      if (message != null) 'message': message,
-      if (recipe != null) 'recipe': base64Encode(recipe),
-      if (vendorGuidance != null) 'vendorGuidance': vendorGuidance.value,
+      'topic': topic,
+      'type': type.value,
     };
   }
 }
 
-class S3EndpointType {
-  static const regional = S3EndpointType._('REGIONAL');
-  static const global = S3EndpointType._('GLOBAL');
+class LambdaEventSourceType {
+  static const pubSub = LambdaEventSourceType._('PUB_SUB');
+  static const iotCore = LambdaEventSourceType._('IOT_CORE');
 
   final String value;
 
-  const S3EndpointType._(this.value);
+  const LambdaEventSourceType._(this.value);
 
-  static const values = [regional, global];
+  static const values = [pubSub, iotCore];
 
-  static S3EndpointType fromString(String value) =>
+  static LambdaEventSourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => S3EndpointType._(value));
+          orElse: () => LambdaEventSourceType._(value));
 
   @override
-  bool operator ==(other) => other is S3EndpointType && other.value == value;
+  bool operator ==(other) =>
+      other is LambdaEventSourceType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -4911,125 +4915,188 @@ class S3EndpointType {
   String toString() => value;
 }
 
-/// Contains information about system resource limits that the IoT Greengrass
-/// Core software applies to a component's processes. For more information, see
-/// <a
-/// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/configure-greengrass-core-v2.html#configure-component-system-resource-limits">Configure
-/// system resource limits for components</a>.
-class SystemResourceLimits {
-  /// The maximum amount of CPU time that a component's processes can use on the
-  /// core device. A core device's total CPU time is equivalent to the device's
-  /// number of CPU cores. For example, on a core device with 4 CPU cores, you can
-  /// set this value to <code>2</code> to limit the component's processes to 50
-  /// percent usage of each CPU core. On a device with 1 CPU core, you can set
-  /// this value to <code>0.25</code> to limit the component's processes to 25
-  /// percent usage of the CPU. If you set this value to a number greater than the
-  /// number of CPU cores, the IoT Greengrass Core software doesn't limit the
-  /// component's CPU usage.
-  final double? cpus;
+/// Contains information about a component dependency for a Lambda function
+/// component.
+class ComponentDependencyRequirement {
+  /// The type of this dependency. Choose from the following options:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>SOFT</code> – The component doesn't restart if the dependency changes
+  /// state.
+  /// </li>
+  /// <li>
+  /// <code>HARD</code> – The component restarts if the dependency changes state.
+  /// </li>
+  /// </ul>
+  /// Default: <code>HARD</code>
+  final ComponentDependencyType? dependencyType;
 
-  /// The maximum amount of RAM, expressed in kilobytes, that a component's
-  /// processes can use on the core device.
-  final int? memory;
+  /// The component version requirement for the component dependency.
+  ///
+  /// IoT Greengrass V2 uses semantic version constraints. For more information,
+  /// see <a href="https://semver.org/">Semantic Versioning</a>.
+  final String? versionRequirement;
 
-  SystemResourceLimits({
-    this.cpus,
-    this.memory,
+  ComponentDependencyRequirement({
+    this.dependencyType,
+    this.versionRequirement,
   });
 
-  factory SystemResourceLimits.fromJson(Map<String, dynamic> json) {
-    return SystemResourceLimits(
-      cpus: json['cpus'] as double?,
-      memory: json['memory'] as int?,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final cpus = this.cpus;
-    final memory = this.memory;
+    final dependencyType = this.dependencyType;
+    final versionRequirement = this.versionRequirement;
     return {
-      if (cpus != null) 'cpus': cpus,
-      if (memory != null) 'memory': memory,
+      if (dependencyType != null) 'dependencyType': dependencyType.value,
+      if (versionRequirement != null) 'versionRequirement': versionRequirement,
     };
   }
 }
 
-class TagResourceResponse {
-  TagResourceResponse();
+class ComponentDependencyType {
+  static const hard = ComponentDependencyType._('HARD');
+  static const soft = ComponentDependencyType._('SOFT');
 
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
+  final String value;
 
-  Map<String, dynamic> toJson() {
-    return {};
-  }
+  const ComponentDependencyType._(this.value);
+
+  static const values = [hard, soft];
+
+  static ComponentDependencyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ComponentDependencyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ComponentDependencyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-class UntagResourceResponse {
-  UntagResourceResponse();
+/// Contains an error that occurs from a request to disassociate a client device
+/// from a core device. The <a
+/// href="https://docs.aws.amazon.com/greengrass/v2/APIReference/API_BatchDisassociateClientDeviceWithCoreDevice.html">BatchDisassociateClientDeviceWithCoreDevice</a>
+/// operation returns a list of these errors.
+class DisassociateClientDeviceFromCoreDeviceErrorEntry {
+  /// The error code for the request.
+  final String? code;
 
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateConnectivityInfoResponse {
-  /// A message about the connectivity information update request.
+  /// A message that provides additional information about the error.
   final String? message;
 
-  /// The new version of the connectivity information for the core device.
-  final String? version;
+  /// The name of the IoT thing whose disassociate request failed.
+  final String? thingName;
 
-  UpdateConnectivityInfoResponse({
+  DisassociateClientDeviceFromCoreDeviceErrorEntry({
+    this.code,
     this.message,
-    this.version,
+    this.thingName,
   });
 
-  factory UpdateConnectivityInfoResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateConnectivityInfoResponse(
-      message: json['Message'] as String?,
-      version: json['Version'] as String?,
+  factory DisassociateClientDeviceFromCoreDeviceErrorEntry.fromJson(
+      Map<String, dynamic> json) {
+    return DisassociateClientDeviceFromCoreDeviceErrorEntry(
+      code: json['code'] as String?,
+      message: json['message'] as String?,
+      thingName: json['thingName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final code = this.code;
     final message = this.message;
-    final version = this.version;
+    final thingName = this.thingName;
     return {
-      if (message != null) 'Message': message,
-      if (version != null) 'Version': version,
+      if (code != null) 'code': code,
+      if (message != null) 'message': message,
+      if (thingName != null) 'thingName': thingName,
     };
   }
 }
 
-class VendorGuidance {
-  static const active = VendorGuidance._('ACTIVE');
-  static const discontinued = VendorGuidance._('DISCONTINUED');
-  static const deleted = VendorGuidance._('DELETED');
+/// Contains a request to disassociate a client device from a core device. The
+/// <a
+/// href="https://docs.aws.amazon.com/greengrass/v2/APIReference/API_BatchDisassociateClientDeviceWithCoreDevice.html">BatchDisassociateClientDeviceWithCoreDevice</a>
+/// operation consumes a list of these requests.
+class DisassociateClientDeviceFromCoreDeviceEntry {
+  /// The name of the IoT thing that represents the client device to disassociate.
+  final String thingName;
 
-  final String value;
+  DisassociateClientDeviceFromCoreDeviceEntry({
+    required this.thingName,
+  });
 
-  const VendorGuidance._(this.value);
+  Map<String, dynamic> toJson() {
+    final thingName = this.thingName;
+    return {
+      'thingName': thingName,
+    };
+  }
+}
 
-  static const values = [active, discontinued, deleted];
+/// Contains an error that occurs from a request to associate a client device
+/// with a core device. The <a
+/// href="https://docs.aws.amazon.com/greengrass/v2/APIReference/API_BatchAssociateClientDeviceWithCoreDevice.html">BatchAssociateClientDeviceWithCoreDevice</a>
+/// operation returns a list of these errors.
+class AssociateClientDeviceWithCoreDeviceErrorEntry {
+  /// The error code for the request.
+  final String? code;
 
-  static VendorGuidance fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => VendorGuidance._(value));
+  /// A message that provides additional information about the error.
+  final String? message;
 
-  @override
-  bool operator ==(other) => other is VendorGuidance && other.value == value;
+  /// The name of the IoT thing whose associate request failed.
+  final String? thingName;
 
-  @override
-  int get hashCode => value.hashCode;
+  AssociateClientDeviceWithCoreDeviceErrorEntry({
+    this.code,
+    this.message,
+    this.thingName,
+  });
 
-  @override
-  String toString() => value;
+  factory AssociateClientDeviceWithCoreDeviceErrorEntry.fromJson(
+      Map<String, dynamic> json) {
+    return AssociateClientDeviceWithCoreDeviceErrorEntry(
+      code: json['code'] as String?,
+      message: json['message'] as String?,
+      thingName: json['thingName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    final thingName = this.thingName;
+    return {
+      if (code != null) 'code': code,
+      if (message != null) 'message': message,
+      if (thingName != null) 'thingName': thingName,
+    };
+  }
+}
+
+/// Contains a request to associate a client device with a core device. The <a
+/// href="https://docs.aws.amazon.com/greengrass/v2/APIReference/API_BatchAssociateClientDeviceWithCoreDevice.html">BatchAssociateClientDeviceWithCoreDevice</a>
+/// operation consumes a list of these requests.
+class AssociateClientDeviceWithCoreDeviceEntry {
+  /// The name of the IoT thing that represents the client device to associate.
+  final String thingName;
+
+  AssociateClientDeviceWithCoreDeviceEntry({
+    required this.thingName,
+  });
+
+  Map<String, dynamic> toJson() {
+    final thingName = this.thingName;
+    return {
+      'thingName': thingName,
+    };
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

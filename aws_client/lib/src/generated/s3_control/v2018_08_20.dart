@@ -90,13 +90,7 @@ class S3Control {
       headers: headers,
       payload: AssociateAccessGrantsIdentityCenterRequest(
               accountId: accountId, identityCenterArn: identityCenterArn)
-          .toXml(
-        'AssociateAccessGrantsIdentityCenterRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'http://awss3control.amazonaws.com/doc/2018-08-20/'),
-        ],
-      ),
+          .toXml('AssociateAccessGrantsIdentityCenterRequest'),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -209,13 +203,7 @@ class S3Control {
               applicationArn: applicationArn,
               s3PrefixType: s3PrefixType,
               tags: tags)
-          .toXml(
-        'CreateAccessGrantRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'http://awss3control.amazonaws.com/doc/2018-08-20/'),
-        ],
-      ),
+          .toXml('CreateAccessGrantRequest'),
       exceptionFnMap: _exceptionFns,
     );
     return CreateAccessGrantResult.fromXml($result.body);
@@ -269,13 +257,7 @@ class S3Control {
               accountId: accountId,
               identityCenterArn: identityCenterArn,
               tags: tags)
-          .toXml(
-        'CreateAccessGrantsInstanceRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'http://awss3control.amazonaws.com/doc/2018-08-20/'),
-        ],
-      ),
+          .toXml('CreateAccessGrantsInstanceRequest'),
       exceptionFnMap: _exceptionFns,
     );
     return CreateAccessGrantsInstanceResult.fromXml($result.body);
@@ -290,10 +272,10 @@ class S3Control {
   /// The default S3 location <code>s3://</code>
   /// </li>
   /// <li>
-  /// A bucket - <code>S3://&lt;bucket-name&gt;</code>
+  /// A bucket - <code>S3://<bucket-name></code>
   /// </li>
   /// <li>
-  /// A bucket and prefix - <code>S3://&lt;bucket-name&gt;/&lt;prefix&gt;</code>
+  /// A bucket and prefix - <code>S3://<bucket-name>/<prefix></code>
   /// </li>
   /// </ul>
   /// When you register a location, you must include the IAM role that has
@@ -322,13 +304,12 @@ class S3Control {
   /// Parameter [locationScope] :
   /// The S3 path to the location that you are registering. The location scope
   /// can be the default S3 location <code>s3://</code>, the S3 path to a bucket
-  /// <code>s3://&lt;bucket&gt;</code>, or the S3 path to a bucket and prefix
-  /// <code>s3://&lt;bucket&gt;/&lt;prefix&gt;</code>. A prefix in S3 is a
-  /// string of characters at the beginning of an object key name used to
-  /// organize the objects that you store in your S3 buckets. For example,
-  /// object key names that start with the <code>engineering/</code> prefix or
-  /// object key names that start with the <code>marketing/campaigns/</code>
-  /// prefix.
+  /// <code>s3://<bucket></code>, or the S3 path to a bucket and prefix
+  /// <code>s3://<bucket>/<prefix></code>. A prefix in S3 is a string of
+  /// characters at the beginning of an object key name used to organize the
+  /// objects that you store in your S3 buckets. For example, object key names
+  /// that start with the <code>engineering/</code> prefix or object key names
+  /// that start with the <code>marketing/campaigns/</code> prefix.
   ///
   /// Parameter [tags] :
   /// The Amazon Web Services resource tags that you are adding to the S3 Access
@@ -353,27 +334,27 @@ class S3Control {
               iAMRoleArn: iAMRoleArn,
               locationScope: locationScope,
               tags: tags)
-          .toXml(
-        'CreateAccessGrantsLocationRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'http://awss3control.amazonaws.com/doc/2018-08-20/'),
-        ],
-      ),
+          .toXml('CreateAccessGrantsLocationRequest'),
       exceptionFnMap: _exceptionFns,
     );
     return CreateAccessGrantsLocationResult.fromXml($result.body);
   }
 
-  /// <note>
-  /// This operation is not supported by directory buckets.
-  /// </note>
-  /// Creates an access point and associates it with the specified bucket. For
-  /// more information, see <a
+  /// Creates an access point and associates it to a specified bucket. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html">Managing
-  /// Data Access with Amazon S3 Access Points</a> in the <i>Amazon S3 User
-  /// Guide</i>.
-  /// <p/> <note>
+  /// access to shared datasets with access points</a> or <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-directory-buckets.html">Managing
+  /// access to shared datasets in directory buckets with access points</a> in
+  /// the <i>Amazon S3 User Guide</i>.
+  ///
+  /// To create an access point and attach it to a volume on an Amazon FSx file
+  /// system, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/APIReference/API_CreateAndAttachS3AccessPoint.html">CreateAndAttachS3AccessPoint</a>
+  /// in the <i>Amazon FSx API Reference</i>.
+  ///
+  ///
+  /// <note>
   /// S3 on Outposts only supports VPC-style access points.
   ///
   /// For more information, see <a
@@ -390,7 +371,9 @@ class S3Control {
   /// access point ARN, see the <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateAccessPoint.html#API_control_CreateAccessPoint_Examples">Examples</a>
   /// section.
-  /// <p/>
+  ///
+  ///
+  ///
   /// The following actions are related to <code>CreateAccessPoint</code>:
   ///
   /// <ul>
@@ -406,6 +389,10 @@ class S3Control {
   /// <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListAccessPoints.html">ListAccessPoints</a>
   /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListAccessPointsForDirectoryBuckets.html">ListAccessPointsForDirectoryBuckets</a>
+  /// </li>
   /// </ul>
   ///
   /// Parameter [accountId] :
@@ -420,7 +407,7 @@ class S3Control {
   ///
   /// For using this parameter with S3 on Outposts with the Amazon Web Services
   /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
-  /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
+  /// <code>arn:aws:s3-outposts:<Region>:<account-id>:outpost/<outpost-id>/bucket/<my-bucket-name></code>.
   /// For example, to access the bucket <code>reports</code> through Outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
   /// Region <code>us-west-2</code>, use the URL encoding of
@@ -429,6 +416,14 @@ class S3Control {
   ///
   /// Parameter [name] :
   /// The name you want to assign to this access point.
+  ///
+  /// For directory buckets, the access point name must consist of a base name
+  /// that you provide and suffix that includes the <code>ZoneID</code> (Amazon
+  /// Web Services Availability Zone or Local Zone) of your bucket location,
+  /// followed by <code>--xa-s3</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-directory-buckets.html">Managing
+  /// access to shared datasets in directory buckets with access points</a> in
+  /// the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [bucketAccountId] :
   /// The Amazon Web Services account ID associated with the S3 bucket
@@ -443,6 +438,26 @@ class S3Control {
   /// The <code>PublicAccessBlock</code> configuration that you want to apply to
   /// the access point.
   ///
+  /// Parameter [scope] :
+  /// For directory buckets, you can filter access control to specific prefixes,
+  /// API operations, or a combination of both. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-directory-buckets.html">Managing
+  /// access to shared datasets in directory buckets with access points</a> in
+  /// the <i>Amazon S3 User Guide</i>.
+  /// <note>
+  /// Scope is only supported for access points attached to directory buckets.
+  /// </note>
+  ///
+  /// Parameter [tags] :
+  /// An array of tags that you can apply to an access point. Tags are key-value
+  /// pairs of metadata used to control access to your access points. For more
+  /// information about tags, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/tagging.html">Using
+  /// tags with Amazon S3</a>. For information about tagging access points, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/tagging.html#using-tags-for-abac">Using
+  /// tags for attribute-based access control (ABAC)</a>.
+  ///
   /// Parameter [vpcConfiguration] :
   /// If you include this field, Amazon S3 restricts access to this access point
   /// to requests from the specified virtual private cloud (VPC).
@@ -456,6 +471,8 @@ class S3Control {
     required String name,
     String? bucketAccountId,
     PublicAccessBlockConfiguration? publicAccessBlockConfiguration,
+    Scope? scope,
+    List<Tag>? tags,
     VpcConfiguration? vpcConfiguration,
   }) async {
     final headers = <String, String>{
@@ -471,14 +488,10 @@ class S3Control {
               name: name,
               bucketAccountId: bucketAccountId,
               publicAccessBlockConfiguration: publicAccessBlockConfiguration,
+              scope: scope,
+              tags: tags,
               vpcConfiguration: vpcConfiguration)
-          .toXml(
-        'CreateAccessPointRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'http://awss3control.amazonaws.com/doc/2018-08-20/'),
-        ],
-      ),
+          .toXml('CreateAccessPointRequest'),
       exceptionFnMap: _exceptionFns,
     );
     return CreateAccessPointResult.fromXml($result.body);
@@ -535,13 +548,7 @@ class S3Control {
       headers: headers,
       payload: CreateAccessPointForObjectLambdaRequest(
               accountId: accountId, configuration: configuration, name: name)
-          .toXml(
-        'CreateAccessPointForObjectLambdaRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'http://awss3control.amazonaws.com/doc/2018-08-20/'),
-        ],
-      ),
+          .toXml('CreateAccessPointForObjectLambdaRequest'),
       exceptionFnMap: _exceptionFns,
     );
     return CreateAccessPointForObjectLambdaResult.fromXml($result.body);
@@ -725,7 +732,9 @@ class S3Control {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/batch-ops-iam-role-policies.html">Granting
   /// permissions for S3 Batch Operations</a> in the <i>Amazon S3 User
   /// Guide</i>.
-  /// </dd> </dl> <p/>
+  /// </dd> </dl>
+  ///
+  ///
   /// Related actions include:
   ///
   /// <ul>
@@ -751,10 +760,10 @@ class S3Control {
   /// </li>
   /// </ul>
   ///
-  /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
   /// May throw [IdempotencyException].
   /// May throw [InternalServiceException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [accountId] :
   /// The Amazon Web Services account ID that creates the job.
@@ -762,7 +771,7 @@ class S3Control {
   /// Parameter [operation] :
   /// The action that you want this job to perform on every object listed in the
   /// manifest. For more information about the available actions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-actions.html">Operations</a>
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-operations.html">Operations</a>
   /// in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [priority] :
@@ -841,13 +850,7 @@ class S3Control {
               manifest: manifest,
               manifestGenerator: manifestGenerator,
               tags: tags)
-          .toXml(
-        'CreateJobRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'http://awss3control.amazonaws.com/doc/2018-08-20/'),
-        ],
-      ),
+          .toXml('CreateJobRequest'),
       exceptionFnMap: _exceptionFns,
     );
     return CreateJobResult.fromXml($result.body);
@@ -923,13 +926,7 @@ class S3Control {
       headers: headers,
       payload: CreateMultiRegionAccessPointRequest(
               accountId: accountId, details: details, clientToken: clientToken)
-          .toXml(
-        'CreateMultiRegionAccessPointRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'http://awss3control.amazonaws.com/doc/2018-08-20/'),
-        ],
-      ),
+          .toXml('CreateMultiRegionAccessPointRequest'),
       exceptionFnMap: _exceptionFns,
     );
     return CreateMultiRegionAccessPointResult.fromXml($result.body);
@@ -983,13 +980,7 @@ class S3Control {
               accountId: accountId,
               storageLensGroup: storageLensGroup,
               tags: tags)
-          .toXml(
-        'CreateStorageLensGroupRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'http://awss3control.amazonaws.com/doc/2018-08-20/'),
-        ],
-      ),
+          .toXml('CreateStorageLensGroupRequest'),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1120,9 +1111,6 @@ class S3Control {
     );
   }
 
-  /// <note>
-  /// This operation is not supported by directory buckets.
-  /// </note>
   /// Deletes the specified access point.
   ///
   /// All Amazon S3 on Outposts REST API requests for this action require an
@@ -1165,7 +1153,7 @@ class S3Control {
   /// For using this parameter with S3 on Outposts with the Amazon Web Services
   /// SDK and CLI, you must specify the ARN of the access point accessed in the
   /// format
-  /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/accesspoint/&lt;my-accesspoint-name&gt;</code>.
+  /// <code>arn:aws:s3-outposts:<Region>:<account-id>:outpost/<outpost-id>/accesspoint/<my-accesspoint-name></code>.
   /// For example, to access the access point <code>reports-ap</code> through
   /// Outpost <code>my-outpost</code> owned by account <code>123456789012</code>
   /// in Region <code>us-west-2</code>, use the URL encoding of
@@ -1231,11 +1219,10 @@ class S3Control {
     );
   }
 
-  /// <note>
-  /// This operation is not supported by directory buckets.
-  /// </note>
   /// Deletes the access point policy for the specified access point.
-  /// <p/>
+  ///
+  ///
+  ///
   /// All Amazon S3 on Outposts REST API requests for this action require an
   /// additional parameter of <code>x-amz-outpost-id</code> to be passed with
   /// the request. In addition, you must use an S3 on Outposts endpoint hostname
@@ -1271,7 +1258,7 @@ class S3Control {
   /// For using this parameter with S3 on Outposts with the Amazon Web Services
   /// SDK and CLI, you must specify the ARN of the access point accessed in the
   /// format
-  /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/accesspoint/&lt;my-accesspoint-name&gt;</code>.
+  /// <code>arn:aws:s3-outposts:<Region>:<account-id>:outpost/<outpost-id>/accesspoint/<my-accesspoint-name></code>.
   /// For example, to access the access point <code>reports-ap</code> through
   /// Outpost <code>my-outpost</code> owned by account <code>123456789012</code>
   /// in Region <code>us-west-2</code>, use the URL encoding of
@@ -1334,6 +1321,39 @@ class S3Control {
     );
   }
 
+  /// Deletes an existing access point scope for a directory bucket.
+  /// <note>
+  /// When you delete the scope of an access point, all prefixes and permissions
+  /// are deleted.
+  /// </note>
+  /// To use this operation, you must have the permission to perform the
+  /// <code>s3express:DeleteAccessPointScope</code> action.
+  ///
+  /// For information about REST API errors, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#RESTErrorResponses">REST
+  /// error responses</a>.
+  ///
+  /// Parameter [accountId] :
+  /// The Amazon Web Services account ID that owns the access point with the
+  /// scope that you want to delete.
+  ///
+  /// Parameter [name] :
+  /// The name of the access point with the scope that you want to delete.
+  Future<void> deleteAccessPointScope({
+    required String accountId,
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
+    await _protocol.send(
+      method: 'DELETE',
+      requestUri: '/v20180820/accesspoint/${Uri.encodeComponent(name)}/scope',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// <note>
   /// This action deletes an Amazon S3 on Outposts bucket. To delete an S3
   /// bucket, see <a
@@ -1383,7 +1403,7 @@ class S3Control {
   ///
   /// For using this parameter with S3 on Outposts with the Amazon Web Services
   /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
-  /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
+  /// <code>arn:aws:s3-outposts:<Region>:<account-id>:outpost/<outpost-id>/bucket/<my-bucket-name></code>.
   /// For example, to access the bucket <code>reports</code> through Outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
   /// Region <code>us-west-2</code>, use the URL encoding of
@@ -1462,7 +1482,7 @@ class S3Control {
   ///
   /// For using this parameter with S3 on Outposts with the Amazon Web Services
   /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
-  /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
+  /// <code>arn:aws:s3-outposts:<Region>:<account-id>:outpost/<outpost-id>/bucket/<my-bucket-name></code>.
   /// For example, to access the bucket <code>reports</code> through Outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
   /// Region <code>us-west-2</code>, use the URL encoding of
@@ -1548,7 +1568,7 @@ class S3Control {
   ///
   /// For using this parameter with S3 on Outposts with the Amazon Web Services
   /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
-  /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
+  /// <code>arn:aws:s3-outposts:<Region>:<account-id>:outpost/<outpost-id>/bucket/<my-bucket-name></code>.
   /// For example, to access the bucket <code>reports</code> through Outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
   /// Region <code>us-west-2</code>, use the URL encoding of
@@ -1636,7 +1656,7 @@ class S3Control {
   ///
   /// For using this parameter with S3 on Outposts with the Amazon Web Services
   /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
-  /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
+  /// <code>arn:aws:s3-outposts:<Region>:<account-id>:outpost/<outpost-id>/bucket/<my-bucket-name></code>.
   /// For example, to access the bucket <code>reports</code> through Outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
   /// Region <code>us-west-2</code>, use the URL encoding of
@@ -1707,7 +1727,7 @@ class S3Control {
   ///
   /// For using this parameter with S3 on Outposts with the Amazon Web Services
   /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
-  /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
+  /// <code>arn:aws:s3-outposts:<Region>:<account-id>:outpost/<outpost-id>/bucket/<my-bucket-name></code>.
   /// For example, to access the bucket <code>reports</code> through Outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
   /// Region <code>us-west-2</code>, use the URL encoding of
@@ -1755,8 +1775,8 @@ class S3Control {
   /// </ul>
   ///
   /// May throw [InternalServiceException].
-  /// May throw [TooManyRequestsException].
   /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [accountId] :
   /// The Amazon Web Services account ID associated with the S3 Batch Operations
@@ -1846,13 +1866,7 @@ class S3Control {
       headers: headers,
       payload: DeleteMultiRegionAccessPointRequest(
               accountId: accountId, details: details, clientToken: clientToken)
-          .toXml(
-        'DeleteMultiRegionAccessPointRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'http://awss3control.amazonaws.com/doc/2018-08-20/'),
-        ],
-      ),
+          .toXml('DeleteMultiRegionAccessPointRequest'),
       exceptionFnMap: _exceptionFns,
     );
     return DeleteMultiRegionAccessPointResult.fromXml($result.body);
@@ -1862,7 +1876,12 @@ class S3Control {
   /// This operation is not supported by directory buckets.
   /// </note>
   /// Removes the <code>PublicAccessBlock</code> configuration for an Amazon Web
-  /// Services account. For more information, see <a
+  /// Services account. This operation might be restricted when the account is
+  /// managed by organization-level Block Public Access policies. You’ll get an
+  /// Access Denied (403) error when the account is managed by
+  /// organization-level Block Public Access policies. Organization-level
+  /// policies override account-level settings, preventing direct account-level
+  /// modifications. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html">
   /// Using Amazon S3 block public access</a>.
   ///
@@ -2034,9 +2053,9 @@ class S3Control {
   /// </ul>
   ///
   /// May throw [BadRequestException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [NotFoundException].
   /// May throw [InternalServiceException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [accountId] :
   /// The Amazon Web Services account ID associated with the S3 Batch Operations
@@ -2293,11 +2312,10 @@ class S3Control {
     return GetAccessGrantsLocationResult.fromXml($result.body);
   }
 
-  /// <note>
-  /// This operation is not supported by directory buckets.
-  /// </note>
   /// Returns configuration information about the specified access point.
-  /// <p/>
+  ///
+  ///
+  ///
   /// All Amazon S3 on Outposts REST API requests for this action require an
   /// additional parameter of <code>x-amz-outpost-id</code> to be passed with
   /// the request. In addition, you must use an S3 on Outposts endpoint hostname
@@ -2339,7 +2357,7 @@ class S3Control {
   /// For using this parameter with S3 on Outposts with the Amazon Web Services
   /// SDK and CLI, you must specify the ARN of the access point accessed in the
   /// format
-  /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/accesspoint/&lt;my-accesspoint-name&gt;</code>.
+  /// <code>arn:aws:s3-outposts:<Region>:<account-id>:outpost/<outpost-id>/accesspoint/<my-accesspoint-name></code>.
   /// For example, to access the access point <code>reports-ap</code> through
   /// Outpost <code>my-outpost</code> owned by account <code>123456789012</code>
   /// in Region <code>us-west-2</code>, use the URL encoding of
@@ -2449,9 +2467,6 @@ class S3Control {
     return GetAccessPointForObjectLambdaResult.fromXml($result.body);
   }
 
-  /// <note>
-  /// This operation is not supported by directory buckets.
-  /// </note>
   /// Returns the access point policy associated with the specified access
   /// point.
   ///
@@ -2480,7 +2495,7 @@ class S3Control {
   /// For using this parameter with S3 on Outposts with the Amazon Web Services
   /// SDK and CLI, you must specify the ARN of the access point accessed in the
   /// format
-  /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/accesspoint/&lt;my-accesspoint-name&gt;</code>.
+  /// <code>arn:aws:s3-outposts:<Region>:<account-id>:outpost/<outpost-id>/accesspoint/<my-accesspoint-name></code>.
   /// For example, to access the access point <code>reports-ap</code> through
   /// Outpost <code>my-outpost</code> owned by account <code>123456789012</code>
   /// in Region <code>us-west-2</code>, use the URL encoding of
@@ -2608,6 +2623,37 @@ class S3Control {
         $result.body);
   }
 
+  /// Returns the access point scope for a directory bucket.
+  ///
+  /// To use this operation, you must have the permission to perform the
+  /// <code>s3express:GetAccessPointScope</code> action.
+  ///
+  /// For information about REST API errors, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#RESTErrorResponses">REST
+  /// error responses</a>.
+  ///
+  /// Parameter [accountId] :
+  /// The Amazon Web Services account ID that owns the access point with the
+  /// scope that you want to retrieve.
+  ///
+  /// Parameter [name] :
+  /// The name of the access point with the scope you want to retrieve.
+  Future<GetAccessPointScopeResult> getAccessPointScope({
+    required String accountId,
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
+    final $result = await _protocol.send(
+      method: 'GET',
+      requestUri: '/v20180820/accesspoint/${Uri.encodeComponent(name)}/scope',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetAccessPointScopeResult.fromXml($result.body);
+  }
+
   /// Gets an Amazon S3 on Outposts bucket. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">
   /// Using Amazon S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
@@ -2662,7 +2708,7 @@ class S3Control {
   ///
   /// For using this parameter with S3 on Outposts with the Amazon Web Services
   /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
-  /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
+  /// <code>arn:aws:s3-outposts:<Region>:<account-id>:outpost/<outpost-id>/bucket/<my-bucket-name></code>.
   /// For example, to access the bucket <code>reports</code> through Outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
   /// Region <code>us-west-2</code>, use the URL encoding of
@@ -2761,7 +2807,7 @@ class S3Control {
   ///
   /// For using this parameter with S3 on Outposts with the Amazon Web Services
   /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
-  /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
+  /// <code>arn:aws:s3-outposts:<Region>:<account-id>:outpost/<outpost-id>/bucket/<my-bucket-name></code>.
   /// For example, to access the bucket <code>reports</code> through Outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
   /// Region <code>us-west-2</code>, use the URL encoding of
@@ -2853,7 +2899,7 @@ class S3Control {
   ///
   /// For using this parameter with S3 on Outposts with the Amazon Web Services
   /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
-  /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
+  /// <code>arn:aws:s3-outposts:<Region>:<account-id>:outpost/<outpost-id>/bucket/<my-bucket-name></code>.
   /// For example, to access the bucket <code>reports</code> through Outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
   /// Region <code>us-west-2</code>, use the URL encoding of
@@ -2949,7 +2995,7 @@ class S3Control {
   ///
   /// For using this parameter with S3 on Outposts with the Amazon Web Services
   /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
-  /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
+  /// <code>arn:aws:s3-outposts:<Region>:<account-id>:outpost/<outpost-id>/bucket/<my-bucket-name></code>.
   /// For example, to access the bucket <code>reports</code> through Outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
   /// Region <code>us-west-2</code>, use the URL encoding of
@@ -3033,7 +3079,7 @@ class S3Control {
   ///
   /// For using this parameter with S3 on Outposts with the Amazon Web Services
   /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
-  /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
+  /// <code>arn:aws:s3-outposts:<Region>:<account-id>:outpost/<outpost-id>/bucket/<my-bucket-name></code>.
   /// For example, to access the bucket <code>reports</code> through Outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
   /// Region <code>us-west-2</code>, use the URL encoding of
@@ -3162,6 +3208,11 @@ class S3Control {
   /// credentials. If the requesting account has an access grant for this data,
   /// S3 Access Grants vends temporary access credentials in the response.
   ///
+  /// Parameter [auditContext] :
+  /// The context to identify the job or query associated with the credential
+  /// request. This information will be displayed in CloudTrail log in your
+  /// account.
+  ///
   /// Parameter [durationSeconds] :
   /// The session duration, in seconds, of the temporary access credential that
   /// S3 Access Grants vends to the grantee or client application. The default
@@ -3194,6 +3245,7 @@ class S3Control {
     required String accountId,
     required Permission permission,
     required String target,
+    String? auditContext,
     int? durationSeconds,
     Privilege? privilege,
     S3PrefixType? targetType,
@@ -3210,6 +3262,7 @@ class S3Control {
     final $query = <String, List<String>>{
       'permission': [permission.value],
       'target': [target],
+      if (auditContext != null) 'auditContext': [auditContext],
       if (durationSeconds != null)
         'durationSeconds': [durationSeconds.toString()],
       if (privilege != null) 'privilege': [privilege.value],
@@ -3252,8 +3305,8 @@ class S3Control {
   /// </ul>
   ///
   /// May throw [InternalServiceException].
-  /// May throw [TooManyRequestsException].
   /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [accountId] :
   /// The Amazon Web Services account ID associated with the S3 Batch Operations
@@ -3511,7 +3564,9 @@ class S3Control {
   /// This operation is not supported by directory buckets.
   /// </note>
   /// Retrieves the <code>PublicAccessBlock</code> configuration for an Amazon
-  /// Web Services account. For more information, see <a
+  /// Web Services account. This operation returns the effective account-level
+  /// configuration, which may inherit from organization-level policies. For
+  /// more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html">
   /// Using Amazon S3 block public access</a>.
   ///
@@ -3849,13 +3904,12 @@ class S3Control {
   /// Parameter [locationScope] :
   /// The S3 path to the location that you are registering. The location scope
   /// can be the default S3 location <code>s3://</code>, the S3 path to a bucket
-  /// <code>s3://&lt;bucket&gt;</code>, or the S3 path to a bucket and prefix
-  /// <code>s3://&lt;bucket&gt;/&lt;prefix&gt;</code>. A prefix in S3 is a
-  /// string of characters at the beginning of an object key name used to
-  /// organize the objects that you store in your S3 buckets. For example,
-  /// object key names that start with the <code>engineering/</code> prefix or
-  /// object key names that start with the <code>marketing/campaigns/</code>
-  /// prefix.
+  /// <code>s3://<bucket></code>, or the S3 path to a bucket and prefix
+  /// <code>s3://<bucket>/<prefix></code>. A prefix in S3 is a string of
+  /// characters at the beginning of an object key name used to organize the
+  /// objects that you store in your S3 buckets. For example, object key names
+  /// that start with the <code>engineering/</code> prefix or object key names
+  /// that start with the <code>marketing/campaigns/</code> prefix.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of access grants that you would like returned in the
@@ -3900,13 +3954,17 @@ class S3Control {
   /// <note>
   /// This operation is not supported by directory buckets.
   /// </note>
-  /// Returns a list of the access points that are owned by the current account
-  /// that's associated with the specified bucket. You can retrieve up to 1000
-  /// access points per call. If the specified bucket has more than 1,000 access
-  /// points (or the number specified in <code>maxResults</code>, whichever is
-  /// less), the response will include a continuation token that you can use to
-  /// list the additional access points.
-  /// <p/>
+  /// Returns a list of the access points. You can retrieve up to 1,000 access
+  /// points per call. If the call returns more than 1,000 access points (or the
+  /// number specified in <code>maxResults</code>, whichever is less), the
+  /// response will include a continuation token that you can use to list the
+  /// additional access points.
+  ///
+  /// Returns only access points attached to S3 buckets by default. To return
+  /// all access points specify <code>DataSourceType</code> as <code>ALL</code>.
+  ///
+  ///
+  ///
   /// All Amazon S3 on Outposts REST API requests for this action require an
   /// additional parameter of <code>x-amz-outpost-id</code> to be passed with
   /// the request. In addition, you must use an S3 on Outposts endpoint hostname
@@ -3946,12 +4004,20 @@ class S3Control {
   ///
   /// For using this parameter with S3 on Outposts with the Amazon Web Services
   /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
-  /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
+  /// <code>arn:aws:s3-outposts:<Region>:<account-id>:outpost/<outpost-id>/bucket/<my-bucket-name></code>.
   /// For example, to access the bucket <code>reports</code> through Outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
   /// Region <code>us-west-2</code>, use the URL encoding of
   /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports</code>.
   /// The value must be URL encoded.
+  ///
+  /// Parameter [dataSourceId] :
+  /// The unique identifier for the data source of the access point.
+  ///
+  /// Parameter [dataSourceType] :
+  /// The type of the data source that the access point is attached to. Returns
+  /// only access points attached to S3 buckets by default. To return all access
+  /// points specify <code>DataSourceType</code> as <code>ALL</code>.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of access points that you want to include in the list.
@@ -3968,6 +4034,8 @@ class S3Control {
   Future<ListAccessPointsResult> listAccessPoints({
     required String accountId,
     String? bucket,
+    String? dataSourceId,
+    String? dataSourceType,
     int? maxResults,
     String? nextToken,
   }) async {
@@ -3982,6 +4050,8 @@ class S3Control {
     };
     final $query = <String, List<String>>{
       if (bucket != null) 'bucket': [bucket],
+      if (dataSourceId != null) 'dataSourceId': [dataSourceId],
+      if (dataSourceType != null) 'dataSourceType': [dataSourceType],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -3993,6 +4063,73 @@ class S3Control {
       exceptionFnMap: _exceptionFns,
     );
     return ListAccessPointsResult.fromXml($result.body);
+  }
+
+  /// Returns a list of the access points that are owned by the Amazon Web
+  /// Services account and that are associated with the specified directory
+  /// bucket.
+  ///
+  /// To list access points for general purpose buckets, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListAccessPoints.html">ListAccesspoints</a>.
+  ///
+  /// To use this operation, you must have the permission to perform the
+  /// <code>s3express:ListAccessPointsForDirectoryBuckets</code> action.
+  ///
+  /// For information about REST API errors, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#RESTErrorResponses">REST
+  /// error responses</a>.
+  ///
+  /// Parameter [accountId] :
+  /// The Amazon Web Services account ID that owns the access points.
+  ///
+  /// Parameter [directoryBucket] :
+  /// The name of the directory bucket associated with the access points you
+  /// want to list.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of access points that you would like returned in the
+  /// <code>ListAccessPointsForDirectoryBuckets</code> response. If the
+  /// directory bucket is associated with more than this number of access
+  /// points, the results include the pagination token <code>NextToken</code>.
+  /// Make another call using the <code>NextToken</code> to retrieve more
+  /// results.
+  ///
+  /// Parameter [nextToken] :
+  /// If <code>NextToken</code> is returned, there are more access points
+  /// available than requested in the <code>maxResults</code> value. The value
+  /// of <code>NextToken</code> is a unique pagination token for each page. Make
+  /// the call again using the returned token to retrieve the next page. Keep
+  /// all other arguments unchanged. Each pagination token expires after 24
+  /// hours.
+  Future<ListAccessPointsForDirectoryBucketsResult>
+      listAccessPointsForDirectoryBuckets({
+    required String accountId,
+    String? directoryBucket,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      1000,
+    );
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
+    final $query = <String, List<String>>{
+      if (directoryBucket != null) 'directoryBucket': [directoryBucket],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final $result = await _protocol.send(
+      method: 'GET',
+      requestUri: '/v20180820/accesspointfordirectory',
+      queryParams: $query,
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListAccessPointsForDirectoryBucketsResult.fromXml($result.body);
   }
 
   /// <note>
@@ -4065,9 +4202,20 @@ class S3Control {
     return ListAccessPointsForObjectLambdaResult.fromXml($result.body);
   }
 
-  /// Returns a list of the access grants that were given to the caller using S3
-  /// Access Grants and that allow the caller to access the S3 data of the
-  /// Amazon Web Services account specified in the request.
+  /// Use this API to list the access grants that grant the caller access to
+  /// Amazon S3 data through S3 Access Grants. The caller (grantee) can be an
+  /// Identity and Access Management (IAM) identity or Amazon Web Services
+  /// Identity Center corporate directory identity. You must pass the Amazon Web
+  /// Services account of the S3 data owner (grantor) in the request. You can,
+  /// optionally, narrow the results by <code>GrantScope</code>, using a
+  /// fragment of the data's S3 path, and S3 Access Grants will return only the
+  /// grants with a path that contains the path fragment. You can also pass the
+  /// <code>AllowedByApplication</code> filter in the request, which returns
+  /// only the grants authorized for applications, whether the application is
+  /// the caller's Identity Center application or any other application
+  /// (<code>ALL</code>). For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-list-grants.html">List
+  /// the caller's access grants</a> in the <i>Amazon S3 User Guide</i>.
   /// <dl> <dt>Permissions</dt> <dd>
   /// You must have the <code>s3:ListCallerAccessGrants</code> permission to use
   /// this operation.
@@ -4141,7 +4289,9 @@ class S3Control {
   /// perform the <code>s3:ListJobs</code> action.
   /// </dd> </dl>
   /// Related actions include:
-  /// <p/>
+  ///
+  ///
+  ///
   /// <ul>
   /// <li>
   /// <a
@@ -4161,9 +4311,9 @@ class S3Control {
   /// </li>
   /// </ul>
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalServiceException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [accountId] :
   /// The Amazon Web Services account ID associated with the S3 Batch Operations
@@ -4307,10 +4457,10 @@ class S3Control {
   /// The Amazon Web Services account ID of the Outposts bucket.
   ///
   /// Parameter [maxResults] :
-  /// <p/>
+  ///
   ///
   /// Parameter [nextToken] :
-  /// <p/>
+  ///
   ///
   /// Parameter [outpostId] :
   /// The ID of the Outposts resource.
@@ -4427,26 +4577,59 @@ class S3Control {
     return ListStorageLensGroupsResult.fromXml($result.body);
   }
 
-  /// This operation allows you to list all the Amazon Web Services resource
-  /// tags for a specified resource. Each tag is a label consisting of a
-  /// user-defined key and value. Tags can help you manage, identify, organize,
-  /// search for, and filter resources.
-  /// <dl> <dt>Permissions</dt> <dd>
-  /// You must have the <code>s3:ListTagsForResource</code> permission to use
-  /// this operation.
-  /// </dd> </dl> <note>
-  /// This operation is only supported for <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-lens-groups.html">S3
-  /// Storage Lens groups</a> and for <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-tagging.html">S3
-  /// Access Grants</a>. The tagged resource can be an S3 Storage Lens group or
-  /// S3 Access Grants instance, registered location, or grant.
-  /// </note>
-  /// For more information about the required Storage Lens Groups permissions,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions">Setting
-  /// account permissions to use S3 Storage Lens groups</a>.
+  /// This operation allows you to list all of the tags for a specified
+  /// resource. Each tag is a label consisting of a key and value. Tags can help
+  /// you organize, track costs for, and control access to resources.
+  /// <note>
+  /// This operation is only supported for the following Amazon S3 resources:
   ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/buckets-tagging.html">General
+  /// purpose buckets</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-db-tagging.html">Access
+  /// Points for directory buckets</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-tagging.html">Access
+  /// Points for general purpose buckets</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-tagging.html">Directory
+  /// buckets</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-lens-groups.html">S3
+  /// Storage Lens groups</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-tagging.html">S3
+  /// Access Grants instances, registered locations, and grants</a>.
+  /// </li>
+  /// </ul> </note> <dl> <dt>Permissions</dt> <dd>
+  /// For general purpose buckets, access points for general purpose buckets,
+  /// Storage Lens groups, and S3 Access Grants, you must have the
+  /// <code>s3:ListTagsForResource</code> permission to use this operation.
+  /// </dd> <dt>Directory bucket permissions</dt> <dd>
+  /// For directory buckets, you must have the
+  /// <code>s3express:ListTagsForResource</code> permission to use this
+  /// operation. For more information about directory buckets policies and
+  /// permissions, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-permissions.html">Identity
+  /// and Access Management (IAM) for S3 Express One Zone</a> in the <i>Amazon
+  /// S3 User Guide</i>.
+  /// </dd> <dt>HTTP Host header syntax</dt> <dd>
+  /// <b>Directory buckets </b> - The HTTP Host header syntax is
+  /// <code>s3express-control.<i>region</i>.amazonaws.com</code>.
+  /// </dd> </dl>
   /// For information about S3 Tagging errors, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3TaggingErrorCodeList">List
   /// of Amazon S3 Tagging error codes</a>.
@@ -4456,8 +4639,8 @@ class S3Control {
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the S3 resource that you want to list
-  /// the tags for. The tagged resource can be an S3 Storage Lens group or S3
-  /// Access Grants instance, registered location, or grant.
+  /// tags for. The tagged resource can be a directory bucket, S3 Storage Lens
+  /// group or S3 Access Grants instance, registered location, or grant.
   Future<ListTagsForResourceResult> listTagsForResource({
     required String accountId,
     required String resourceArn,
@@ -4505,13 +4688,7 @@ class S3Control {
       headers: headers,
       payload: PutAccessGrantsInstanceResourcePolicyRequest(
               accountId: accountId, policy: policy, organization: organization)
-          .toXml(
-        'PutAccessGrantsInstanceResourcePolicyRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'http://awss3control.amazonaws.com/doc/2018-08-20/'),
-        ],
-      ),
+          .toXml('PutAccessGrantsInstanceResourcePolicyRequest'),
       exceptionFnMap: _exceptionFns,
     );
     return PutAccessGrantsInstanceResourcePolicyResult.fromXml($result.body);
@@ -4556,24 +4733,17 @@ class S3Control {
       headers: headers,
       payload: PutAccessPointConfigurationForObjectLambdaRequest(
               accountId: accountId, configuration: configuration, name: name)
-          .toXml(
-        'PutAccessPointConfigurationForObjectLambdaRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'http://awss3control.amazonaws.com/doc/2018-08-20/'),
-        ],
-      ),
+          .toXml('PutAccessPointConfigurationForObjectLambdaRequest'),
       exceptionFnMap: _exceptionFns,
     );
   }
 
-  /// <note>
-  /// This operation is not supported by directory buckets.
-  /// </note>
   /// Associates an access policy with the specified access point. Each access
   /// point can have only one policy, so a request made to this API replaces any
   /// existing policy associated with the specified access point.
-  /// <p/>
+  ///
+  ///
+  ///
   /// All Amazon S3 on Outposts REST API requests for this action require an
   /// additional parameter of <code>x-amz-outpost-id</code> to be passed with
   /// the request. In addition, you must use an S3 on Outposts endpoint hostname
@@ -4611,7 +4781,7 @@ class S3Control {
   /// For using this parameter with S3 on Outposts with the Amazon Web Services
   /// SDK and CLI, you must specify the ARN of the access point accessed in the
   /// format
-  /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/accesspoint/&lt;my-accesspoint-name&gt;</code>.
+  /// <code>arn:aws:s3-outposts:<Region>:<account-id>:outpost/<outpost-id>/accesspoint/<my-accesspoint-name></code>.
   /// For example, to access the access point <code>reports-ap</code> through
   /// Outpost <code>my-outpost</code> owned by account <code>123456789012</code>
   /// in Region <code>us-west-2</code>, use the URL encoding of
@@ -4622,8 +4792,10 @@ class S3Control {
   /// The policy that you want to apply to the specified access point. For more
   /// information about access point policies, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html">Managing
-  /// data access with Amazon S3 access points</a> in the <i>Amazon S3 User
-  /// Guide</i>.
+  /// data access with Amazon S3 access points</a> or <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-directory-buckets.html">Managing
+  /// access to shared datasets in directory buckets with access points</a> in
+  /// the <i>Amazon S3 User Guide</i>.
   Future<void> putAccessPointPolicy({
     required String accountId,
     required String name,
@@ -4638,13 +4810,7 @@ class S3Control {
       headers: headers,
       payload: PutAccessPointPolicyRequest(
               accountId: accountId, name: name, policy: policy)
-          .toXml(
-        'PutAccessPointPolicyRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'http://awss3control.amazonaws.com/doc/2018-08-20/'),
-        ],
-      ),
+          .toXml('PutAccessPointPolicyRequest'),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4695,13 +4861,50 @@ class S3Control {
       headers: headers,
       payload: PutAccessPointPolicyForObjectLambdaRequest(
               accountId: accountId, name: name, policy: policy)
-          .toXml(
-        'PutAccessPointPolicyForObjectLambdaRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'http://awss3control.amazonaws.com/doc/2018-08-20/'),
-        ],
-      ),
+          .toXml('PutAccessPointPolicyForObjectLambdaRequest'),
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Creates or replaces the access point scope for a directory bucket. You can
+  /// use the access point scope to restrict access to specific prefixes, API
+  /// operations, or a combination of both.
+  /// <note>
+  /// You can specify any amount of prefixes, but the total length of characters
+  /// of all prefixes must be less than 256 bytes in size.
+  /// </note>
+  /// To use this operation, you must have the permission to perform the
+  /// <code>s3express:PutAccessPointScope</code> action.
+  ///
+  /// For information about REST API errors, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#RESTErrorResponses">REST
+  /// error responses</a>.
+  ///
+  /// Parameter [accountId] :
+  /// The Amazon Web Services account ID that owns the access point with scope
+  /// that you want to create or replace.
+  ///
+  /// Parameter [name] :
+  /// The name of the access point with the scope that you want to create or
+  /// replace.
+  ///
+  /// Parameter [scope] :
+  /// Object prefixes, API operations, or a combination of both.
+  Future<void> putAccessPointScope({
+    required String accountId,
+    required String name,
+    required Scope scope,
+  }) async {
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
+    await _protocol.send(
+      method: 'PUT',
+      requestUri: '/v20180820/accesspoint/${Uri.encodeComponent(name)}/scope',
+      headers: headers,
+      payload: PutAccessPointScopeRequest(
+              accountId: accountId, name: name, scope: scope)
+          .toXml('PutAccessPointScopeRequest'),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4716,7 +4919,9 @@ class S3Control {
   /// replaces an existing lifecycle configuration. Outposts buckets only
   /// support lifecycle configurations that delete/expire objects after a
   /// certain period of time and abort incomplete multipart uploads.
-  /// <p/>
+  ///
+  ///
+  ///
   /// All Amazon S3 on Outposts REST API requests for this action require an
   /// additional parameter of <code>x-amz-outpost-id</code> to be passed with
   /// the request. In addition, you must use an S3 on Outposts endpoint hostname
@@ -4832,7 +5037,7 @@ class S3Control {
   ///
   /// For using this parameter with S3 on Outposts with the Amazon Web Services
   /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
-  /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
+  /// <code>arn:aws:s3-outposts:<Region>:<account-id>:outpost/<outpost-id>/bucket/<my-bucket-name></code>.
   /// For example, to access the bucket <code>reports</code> through Outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
   /// Region <code>us-west-2</code>, use the URL encoding of
@@ -4869,13 +5074,7 @@ class S3Control {
               bucket: bucket,
               policy: policy,
               confirmRemoveSelfBucketAccess: confirmRemoveSelfBucketAccess)
-          .toXml(
-        'PutBucketPolicyRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'http://awss3control.amazonaws.com/doc/2018-08-20/'),
-        ],
-      ),
+          .toXml('PutBucketPolicyRequest'),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4996,7 +5195,7 @@ class S3Control {
   ///
   /// For using this parameter with S3 on Outposts with the Amazon Web Services
   /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
-  /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
+  /// <code>arn:aws:s3-outposts:<Region>:<account-id>:outpost/<outpost-id>/bucket/<my-bucket-name></code>.
   /// For example, to access the bucket <code>reports</code> through Outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
   /// Region <code>us-west-2</code>, use the URL encoding of
@@ -5004,7 +5203,7 @@ class S3Control {
   /// The value must be URL encoded.
   ///
   /// Parameter [replicationConfiguration] :
-  /// <p/>
+  ///
   Future<void> putBucketReplication({
     required String accountId,
     required String bucket,
@@ -5136,7 +5335,7 @@ class S3Control {
   ///
   /// For using this parameter with S3 on Outposts with the Amazon Web Services
   /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
-  /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
+  /// <code>arn:aws:s3-outposts:<Region>:<account-id>:outpost/<outpost-id>/bucket/<my-bucket-name></code>.
   /// For example, to access the bucket <code>reports</code> through Outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in
   /// Region <code>us-west-2</code>, use the URL encoding of
@@ -5144,7 +5343,7 @@ class S3Control {
   /// The value must be URL encoded.
   ///
   /// Parameter [tagging] :
-  /// <p/>
+  ///
   Future<void> putBucketTagging({
     required String accountId,
     required String bucket,
@@ -5340,8 +5539,8 @@ class S3Control {
   /// </ul>
   ///
   /// May throw [InternalServiceException].
-  /// May throw [TooManyRequestsException].
   /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   /// May throw [TooManyTagsException].
   ///
   /// Parameter [accountId] :
@@ -5367,13 +5566,7 @@ class S3Control {
       headers: headers,
       payload:
           PutJobTaggingRequest(accountId: accountId, jobId: jobId, tags: tags)
-              .toXml(
-        'PutJobTaggingRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'http://awss3control.amazonaws.com/doc/2018-08-20/'),
-        ],
-      ),
+              .toXml('PutJobTaggingRequest'),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5434,13 +5627,7 @@ class S3Control {
       headers: headers,
       payload: PutMultiRegionAccessPointPolicyRequest(
               accountId: accountId, details: details, clientToken: clientToken)
-          .toXml(
-        'PutMultiRegionAccessPointPolicyRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'http://awss3control.amazonaws.com/doc/2018-08-20/'),
-        ],
-      ),
+          .toXml('PutMultiRegionAccessPointPolicyRequest'),
       exceptionFnMap: _exceptionFns,
     );
     return PutMultiRegionAccessPointPolicyResult.fromXml($result.body);
@@ -5450,7 +5637,12 @@ class S3Control {
   /// This operation is not supported by directory buckets.
   /// </note>
   /// Creates or modifies the <code>PublicAccessBlock</code> configuration for
-  /// an Amazon Web Services account. For this operation, users must have the
+  /// an Amazon Web Services account. This operation may be restricted when the
+  /// account is managed by organization-level Block Public Access policies. You
+  /// might get an Access Denied (403) error when the account is managed by
+  /// organization-level Block Public Access policies. Organization-level
+  /// policies override account-level settings, preventing direct account-level
+  /// modifications. For this operation, users must have the
   /// <code>s3:PutAccountPublicAccessBlock</code> permission. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html">
@@ -5544,13 +5736,7 @@ class S3Control {
               configId: configId,
               storageLensConfiguration: storageLensConfiguration,
               tags: tags)
-          .toXml(
-        'PutStorageLensConfigurationRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'http://awss3control.amazonaws.com/doc/2018-08-20/'),
-        ],
-      ),
+          .toXml('PutStorageLensConfigurationRequest'),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5598,13 +5784,7 @@ class S3Control {
       headers: headers,
       payload: PutStorageLensConfigurationTaggingRequest(
               accountId: accountId, configId: configId, tags: tags)
-          .toXml(
-        'PutStorageLensConfigurationTaggingRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'http://awss3control.amazonaws.com/doc/2018-08-20/'),
-        ],
-      ),
+          .toXml('PutStorageLensConfigurationTaggingRequest'),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5677,38 +5857,65 @@ class S3Control {
       headers: headers,
       payload: SubmitMultiRegionAccessPointRoutesRequest(
               accountId: accountId, mrap: mrap, routeUpdates: routeUpdates)
-          .toXml(
-        'SubmitMultiRegionAccessPointRoutesRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'http://awss3control.amazonaws.com/doc/2018-08-20/'),
-        ],
-      ),
+          .toXml('SubmitMultiRegionAccessPointRoutesRequest'),
       exceptionFnMap: _exceptionFns,
     );
   }
 
-  /// Creates a new Amazon Web Services resource tag or updates an existing
-  /// resource tag. Each tag is a label consisting of a user-defined key and
-  /// value. Tags can help you manage, identify, organize, search for, and
-  /// filter resources. You can add up to 50 Amazon Web Services resource tags
-  /// for each S3 resource.
+  /// Creates a new user-defined tag or updates an existing tag. Each tag is a
+  /// label consisting of a key and value that is applied to your resource. Tags
+  /// can help you organize, track costs for, and control access to your
+  /// resources. You can add up to 50 Amazon Web Services resource tags for each
+  /// S3 resource.
   /// <note>
-  /// This operation is only supported for <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-lens-groups.html">S3
-  /// Storage Lens groups</a> and for <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-tagging.html">S3
-  /// Access Grants</a>. The tagged resource can be an S3 Storage Lens group or
-  /// S3 Access Grants instance, registered location, or grant.
-  /// </note> <dl> <dt>Permissions</dt> <dd>
-  /// You must have the <code>s3:TagResource</code> permission to use this
-  /// operation.
-  /// </dd> </dl>
-  /// For more information about the required Storage Lens Groups permissions,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions">Setting
-  /// account permissions to use S3 Storage Lens groups</a>.
+  /// This operation is only supported for the following Amazon S3 resource:
   ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/buckets-tagging.html">General
+  /// purpose buckets</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-db-tagging.html">Access
+  /// Points for directory buckets</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-tagging.html">Access
+  /// Points for general purpose buckets</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-tagging.html">Directory
+  /// buckets</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-lens-groups.html">S3
+  /// Storage Lens groups</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-tagging.html">S3
+  /// Access Grants instances, registered locations, or grants</a>.
+  /// </li>
+  /// </ul> </note> <dl> <dt>Permissions</dt> <dd>
+  /// For general purpose buckets, access points for general purpose buckets,
+  /// Storage Lens groups, and S3 Access Grants, you must have the
+  /// <code>s3:TagResource</code> permission to use this operation.
+  /// </dd> <dt>Directory bucket permissions</dt> <dd>
+  /// For directory buckets, you must have the
+  /// <code>s3express:TagResource</code> permission to use this operation. For
+  /// more information about directory buckets policies and permissions, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-permissions.html">Identity
+  /// and Access Management (IAM) for S3 Express One Zone</a> in the <i>Amazon
+  /// S3 User Guide</i>.
+  /// </dd> <dt>HTTP Host header syntax</dt> <dd>
+  /// <b>Directory buckets </b> - The HTTP Host header syntax is
+  /// <code>s3express-control.<i>region</i>.amazonaws.com</code>.
+  /// </dd> </dl>
   /// For information about S3 Tagging errors, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3TaggingErrorCodeList">List
   /// of Amazon S3 Tagging error codes</a>.
@@ -5718,9 +5925,9 @@ class S3Control {
   /// you're trying to add tags to or the requester's account ID.
   ///
   /// Parameter [resourceArn] :
-  /// The Amazon Resource Name (ARN) of the S3 resource that you're trying to
-  /// add tags to. The tagged resource can be an S3 Storage Lens group or S3
-  /// Access Grants instance, registered location, or grant.
+  /// The Amazon Resource Name (ARN) of the S3 resource that you're applying
+  /// tags to. The tagged resource can be a directory bucket, S3 Storage Lens
+  /// group or S3 Access Grants instance, registered location, or grant.
   ///
   /// Parameter [tags] :
   /// The Amazon Web Services resource tags that you want to add to the
@@ -5740,37 +5947,62 @@ class S3Control {
       headers: headers,
       payload: TagResourceRequest(
               accountId: accountId, resourceArn: resourceArn, tags: tags)
-          .toXml(
-        'TagResourceRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'http://awss3control.amazonaws.com/doc/2018-08-20/'),
-        ],
-      ),
+          .toXml('TagResourceRequest'),
       exceptionFnMap: _exceptionFns,
     );
   }
 
-  /// This operation removes the specified Amazon Web Services resource tags
-  /// from an S3 resource. Each tag is a label consisting of a user-defined key
-  /// and value. Tags can help you manage, identify, organize, search for, and
-  /// filter resources.
+  /// This operation removes the specified user-defined tags from an S3
+  /// resource. You can pass one or more tag keys.
   /// <note>
-  /// This operation is only supported for <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-lens-groups.html">S3
-  /// Storage Lens groups</a> and for <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-tagging.html">S3
-  /// Access Grants</a>. The tagged resource can be an S3 Storage Lens group or
-  /// S3 Access Grants instance, registered location, or grant.
-  /// </note> <dl> <dt>Permissions</dt> <dd>
-  /// You must have the <code>s3:UntagResource</code> permission to use this
-  /// operation.
-  /// </dd> </dl>
-  /// For more information about the required Storage Lens Groups permissions,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions">Setting
-  /// account permissions to use S3 Storage Lens groups</a>.
+  /// This operation is only supported for the following Amazon S3 resources:
   ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/buckets-tagging.html">General
+  /// purpose buckets</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-db-tagging.html">Access
+  /// Points for directory buckets</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-tagging.html">Access
+  /// Points for general purpose buckets</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-tagging.html">Directory
+  /// buckets</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-lens-groups.html">S3
+  /// Storage Lens groups</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-tagging.html">S3
+  /// Access Grants instances, registered locations, and grants</a>.
+  /// </li>
+  /// </ul> </note> <dl> <dt>Permissions</dt> <dd>
+  /// For general purpose buckets, access points for general purpose buckets,
+  /// Storage Lens groups, and S3 Access Grants, you must have the
+  /// <code>s3:UntagResource</code> permission to use this operation.
+  /// </dd> <dt>Directory bucket permissions</dt> <dd>
+  /// For directory buckets, you must have the
+  /// <code>s3express:UntagResource</code> permission to use this operation. For
+  /// more information about directory buckets policies and permissions, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-permissions.html">Identity
+  /// and Access Management (IAM) for S3 Express One Zone</a> in the <i>Amazon
+  /// S3 User Guide</i>.
+  /// </dd> <dt>HTTP Host header syntax</dt> <dd>
+  /// <b>Directory buckets </b> - The HTTP Host header syntax is
+  /// <code>s3express-control.<i>region</i>.amazonaws.com</code>.
+  /// </dd> </dl>
   /// For information about S3 Tagging errors, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3TaggingErrorCodeList">List
   /// of Amazon S3 Tagging error codes</a>.
@@ -5780,8 +6012,9 @@ class S3Control {
   /// trying to remove the tags from.
   ///
   /// Parameter [resourceArn] :
-  /// The Amazon Resource Name (ARN) of the S3 resource that you're trying to
-  /// remove the tags from.
+  /// The Amazon Resource Name (ARN) of the S3 resource that you're removing
+  /// tags from. The tagged resource can be a directory bucket, S3 Storage Lens
+  /// group or S3 Access Grants instance, registered location, or grant.
   ///
   /// Parameter [tagKeys] :
   /// The array of tag key-value pairs that you're trying to remove from of the
@@ -5856,13 +6089,7 @@ class S3Control {
               accessGrantsLocationId: accessGrantsLocationId,
               accountId: accountId,
               iAMRoleArn: iAMRoleArn)
-          .toXml(
-        'UpdateAccessGrantsLocationRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'http://awss3control.amazonaws.com/doc/2018-08-20/'),
-        ],
-      ),
+          .toXml('UpdateAccessGrantsLocationRequest'),
       exceptionFnMap: _exceptionFns,
     );
     return UpdateAccessGrantsLocationResult.fromXml($result.body);
@@ -5898,9 +6125,9 @@ class S3Control {
   /// </ul>
   ///
   /// May throw [BadRequestException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [NotFoundException].
   /// May throw [InternalServiceException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [accountId] :
   /// The Amazon Web Services account ID associated with the S3 Batch Operations
@@ -5970,10 +6197,10 @@ class S3Control {
   /// </ul>
   ///
   /// May throw [BadRequestException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [NotFoundException].
-  /// May throw [JobStatusException].
   /// May throw [InternalServiceException].
+  /// May throw [JobStatusException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [accountId] :
   /// The Amazon Web Services account ID associated with the S3 Batch Operations
@@ -6048,486 +6275,8 @@ class S3Control {
               accountId: accountId,
               name: name,
               storageLensGroup: storageLensGroup)
-          .toXml(
-        'UpdateStorageLensGroupRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'http://awss3control.amazonaws.com/doc/2018-08-20/'),
-        ],
-      ),
+          .toXml('UpdateStorageLensGroupRequest'),
       exceptionFnMap: _exceptionFns,
-    );
-  }
-}
-
-/// The container for abort incomplete multipart upload
-class AbortIncompleteMultipartUpload {
-  /// Specifies the number of days after which Amazon S3 aborts an incomplete
-  /// multipart upload to the Outposts bucket.
-  final int? daysAfterInitiation;
-
-  AbortIncompleteMultipartUpload({
-    this.daysAfterInitiation,
-  });
-  factory AbortIncompleteMultipartUpload.fromXml(_s.XmlElement elem) {
-    return AbortIncompleteMultipartUpload(
-      daysAfterInitiation: _s.extractXmlIntValue(elem, 'DaysAfterInitiation'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final daysAfterInitiation = this.daysAfterInitiation;
-    return {
-      if (daysAfterInitiation != null)
-        'DaysAfterInitiation': daysAfterInitiation,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final daysAfterInitiation = this.daysAfterInitiation;
-    final $children = <_s.XmlNode>[
-      if (daysAfterInitiation != null)
-        _s.encodeXmlIntValue('DaysAfterInitiation', daysAfterInitiation),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// A container for information about access control for replicas.
-/// <note>
-/// This is not supported by Amazon S3 on Outposts buckets.
-/// </note>
-class AccessControlTranslation {
-  /// Specifies the replica ownership.
-  final OwnerOverride owner;
-
-  AccessControlTranslation({
-    required this.owner,
-  });
-  factory AccessControlTranslation.fromXml(_s.XmlElement elem) {
-    return AccessControlTranslation(
-      owner: _s
-          .extractXmlStringValue(elem, 'Owner')!
-          .let(OwnerOverride.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final owner = this.owner;
-    return {
-      'Owner': owner.value,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final owner = this.owner;
-    final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Owner', owner.value),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// The configuration options of the S3 Access Grants location. It contains the
-/// <code>S3SubPrefix</code> field. The grant scope, the data to which you are
-/// granting access, is the result of appending the <code>Subprefix</code> field
-/// to the scope of the registered location.
-class AccessGrantsLocationConfiguration {
-  /// The <code>S3SubPrefix</code> is appended to the location scope creating the
-  /// grant scope. Use this field to narrow the scope of the grant to a subset of
-  /// the location scope. This field is required if the location scope is the
-  /// default location <code>s3://</code> because you cannot create a grant for
-  /// all of your S3 data in the Region and must narrow the scope. For example, if
-  /// the location scope is the default location <code>s3://</code>, the
-  /// <code>S3SubPrefx</code> can be a &lt;bucket-name&gt;/*, so the full grant
-  /// scope path would be <code>s3://&lt;bucket-name&gt;/*</code>. Or the
-  /// <code>S3SubPrefx</code> can be
-  /// <code>&lt;bucket-name&gt;/&lt;prefix-name&gt;*</code>, so the full grant
-  /// scope path would be or
-  /// <code>s3://&lt;bucket-name&gt;/&lt;prefix-name&gt;*</code>.
-  ///
-  /// If the <code>S3SubPrefix</code> includes a prefix, append the wildcard
-  /// character <code>*</code> after the prefix to indicate that you want to
-  /// include all object key names in the bucket that start with that prefix.
-  final String? s3SubPrefix;
-
-  AccessGrantsLocationConfiguration({
-    this.s3SubPrefix,
-  });
-  factory AccessGrantsLocationConfiguration.fromXml(_s.XmlElement elem) {
-    return AccessGrantsLocationConfiguration(
-      s3SubPrefix: _s.extractXmlStringValue(elem, 'S3SubPrefix'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final s3SubPrefix = this.s3SubPrefix;
-    return {
-      if (s3SubPrefix != null) 'S3SubPrefix': s3SubPrefix,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final s3SubPrefix = this.s3SubPrefix;
-    final $children = <_s.XmlNode>[
-      if (s3SubPrefix != null)
-        _s.encodeXmlStringValue('S3SubPrefix', s3SubPrefix),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// An access point used to access a bucket.
-class AccessPoint {
-  /// The name of the bucket associated with this access point.
-  final String bucket;
-
-  /// The name of this access point.
-  final String name;
-
-  /// Indicates whether this access point allows access from the public internet.
-  /// If <code>VpcConfiguration</code> is specified for this access point, then
-  /// <code>NetworkOrigin</code> is <code>VPC</code>, and the access point doesn't
-  /// allow access from the public internet. Otherwise, <code>NetworkOrigin</code>
-  /// is <code>Internet</code>, and the access point allows access from the public
-  /// internet, subject to the access point and bucket access policies.
-  final NetworkOrigin networkOrigin;
-
-  /// The ARN for the access point.
-  final String? accessPointArn;
-
-  /// The name or alias of the access point.
-  final String? alias;
-
-  /// The Amazon Web Services account ID associated with the S3 bucket associated
-  /// with this access point.
-  final String? bucketAccountId;
-
-  /// The virtual private cloud (VPC) configuration for this access point, if one
-  /// exists.
-  /// <note>
-  /// This element is empty if this access point is an Amazon S3 on Outposts
-  /// access point that is used by other Amazon Web Servicesservices.
-  /// </note>
-  final VpcConfiguration? vpcConfiguration;
-
-  AccessPoint({
-    required this.bucket,
-    required this.name,
-    required this.networkOrigin,
-    this.accessPointArn,
-    this.alias,
-    this.bucketAccountId,
-    this.vpcConfiguration,
-  });
-  factory AccessPoint.fromXml(_s.XmlElement elem) {
-    return AccessPoint(
-      bucket: _s.extractXmlStringValue(elem, 'Bucket')!,
-      name: _s.extractXmlStringValue(elem, 'Name')!,
-      networkOrigin: _s
-          .extractXmlStringValue(elem, 'NetworkOrigin')!
-          .let(NetworkOrigin.fromString),
-      accessPointArn: _s.extractXmlStringValue(elem, 'AccessPointArn'),
-      alias: _s.extractXmlStringValue(elem, 'Alias'),
-      bucketAccountId: _s.extractXmlStringValue(elem, 'BucketAccountId'),
-      vpcConfiguration: _s
-          .extractXmlChild(elem, 'VpcConfiguration')
-          ?.let(VpcConfiguration.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucket = this.bucket;
-    final name = this.name;
-    final networkOrigin = this.networkOrigin;
-    final accessPointArn = this.accessPointArn;
-    final alias = this.alias;
-    final bucketAccountId = this.bucketAccountId;
-    final vpcConfiguration = this.vpcConfiguration;
-    return {
-      'Bucket': bucket,
-      'Name': name,
-      'NetworkOrigin': networkOrigin.value,
-      if (accessPointArn != null) 'AccessPointArn': accessPointArn,
-      if (alias != null) 'Alias': alias,
-      if (bucketAccountId != null) 'BucketAccountId': bucketAccountId,
-      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
-    };
-  }
-}
-
-/// A container element for the account-level Amazon S3 Storage Lens
-/// configuration.
-///
-/// For more information about S3 Storage Lens, see <a
-/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html">Assessing
-/// your storage activity and usage with S3 Storage Lens</a> in the <i>Amazon S3
-/// User Guide</i>. For a complete list of S3 Storage Lens metrics, see <a
-/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html">S3
-/// Storage Lens metrics glossary</a> in the <i>Amazon S3 User Guide</i>.
-class AccountLevel {
-  /// A container element for the S3 Storage Lens bucket-level configuration.
-  final BucketLevel bucketLevel;
-
-  /// A container element for S3 Storage Lens activity metrics.
-  final ActivityMetrics? activityMetrics;
-
-  /// A container element for S3 Storage Lens advanced cost-optimization metrics.
-  final AdvancedCostOptimizationMetrics? advancedCostOptimizationMetrics;
-
-  /// A container element for S3 Storage Lens advanced data-protection metrics.
-  final AdvancedDataProtectionMetrics? advancedDataProtectionMetrics;
-
-  /// A container element for detailed status code metrics.
-  final DetailedStatusCodesMetrics? detailedStatusCodesMetrics;
-
-  /// A container element for S3 Storage Lens groups metrics.
-  final StorageLensGroupLevel? storageLensGroupLevel;
-
-  AccountLevel({
-    required this.bucketLevel,
-    this.activityMetrics,
-    this.advancedCostOptimizationMetrics,
-    this.advancedDataProtectionMetrics,
-    this.detailedStatusCodesMetrics,
-    this.storageLensGroupLevel,
-  });
-  factory AccountLevel.fromXml(_s.XmlElement elem) {
-    return AccountLevel(
-      bucketLevel:
-          BucketLevel.fromXml(_s.extractXmlChild(elem, 'BucketLevel')!),
-      activityMetrics: _s
-          .extractXmlChild(elem, 'ActivityMetrics')
-          ?.let(ActivityMetrics.fromXml),
-      advancedCostOptimizationMetrics: _s
-          .extractXmlChild(elem, 'AdvancedCostOptimizationMetrics')
-          ?.let(AdvancedCostOptimizationMetrics.fromXml),
-      advancedDataProtectionMetrics: _s
-          .extractXmlChild(elem, 'AdvancedDataProtectionMetrics')
-          ?.let(AdvancedDataProtectionMetrics.fromXml),
-      detailedStatusCodesMetrics: _s
-          .extractXmlChild(elem, 'DetailedStatusCodesMetrics')
-          ?.let(DetailedStatusCodesMetrics.fromXml),
-      storageLensGroupLevel: _s
-          .extractXmlChild(elem, 'StorageLensGroupLevel')
-          ?.let(StorageLensGroupLevel.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucketLevel = this.bucketLevel;
-    final activityMetrics = this.activityMetrics;
-    final advancedCostOptimizationMetrics =
-        this.advancedCostOptimizationMetrics;
-    final advancedDataProtectionMetrics = this.advancedDataProtectionMetrics;
-    final detailedStatusCodesMetrics = this.detailedStatusCodesMetrics;
-    final storageLensGroupLevel = this.storageLensGroupLevel;
-    return {
-      'BucketLevel': bucketLevel,
-      if (activityMetrics != null) 'ActivityMetrics': activityMetrics,
-      if (advancedCostOptimizationMetrics != null)
-        'AdvancedCostOptimizationMetrics': advancedCostOptimizationMetrics,
-      if (advancedDataProtectionMetrics != null)
-        'AdvancedDataProtectionMetrics': advancedDataProtectionMetrics,
-      if (detailedStatusCodesMetrics != null)
-        'DetailedStatusCodesMetrics': detailedStatusCodesMetrics,
-      if (storageLensGroupLevel != null)
-        'StorageLensGroupLevel': storageLensGroupLevel,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final bucketLevel = this.bucketLevel;
-    final activityMetrics = this.activityMetrics;
-    final advancedCostOptimizationMetrics =
-        this.advancedCostOptimizationMetrics;
-    final advancedDataProtectionMetrics = this.advancedDataProtectionMetrics;
-    final detailedStatusCodesMetrics = this.detailedStatusCodesMetrics;
-    final storageLensGroupLevel = this.storageLensGroupLevel;
-    final $children = <_s.XmlNode>[
-      if (activityMetrics != null) activityMetrics.toXml('ActivityMetrics'),
-      bucketLevel.toXml('BucketLevel'),
-      if (advancedCostOptimizationMetrics != null)
-        advancedCostOptimizationMetrics
-            .toXml('AdvancedCostOptimizationMetrics'),
-      if (advancedDataProtectionMetrics != null)
-        advancedDataProtectionMetrics.toXml('AdvancedDataProtectionMetrics'),
-      if (detailedStatusCodesMetrics != null)
-        detailedStatusCodesMetrics.toXml('DetailedStatusCodesMetrics'),
-      if (storageLensGroupLevel != null)
-        storageLensGroupLevel.toXml('StorageLensGroupLevel'),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// The container element for Amazon S3 Storage Lens activity metrics. Activity
-/// metrics show details about how your storage is requested, such as requests
-/// (for example, All requests, Get requests, Put requests), bytes uploaded or
-/// downloaded, and errors.
-///
-/// For more information about S3 Storage Lens, see <a
-/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html">Assessing
-/// your storage activity and usage with S3 Storage Lens</a> in the <i>Amazon S3
-/// User Guide</i>. For a complete list of S3 Storage Lens metrics, see <a
-/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html">S3
-/// Storage Lens metrics glossary</a> in the <i>Amazon S3 User Guide</i>.
-class ActivityMetrics {
-  /// A container that indicates whether activity metrics are enabled.
-  final bool? isEnabled;
-
-  ActivityMetrics({
-    this.isEnabled,
-  });
-  factory ActivityMetrics.fromXml(_s.XmlElement elem) {
-    return ActivityMetrics(
-      isEnabled: _s.extractXmlBoolValue(elem, 'IsEnabled'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final isEnabled = this.isEnabled;
-    return {
-      if (isEnabled != null) 'IsEnabled': isEnabled,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final isEnabled = this.isEnabled;
-    final $children = <_s.XmlNode>[
-      if (isEnabled != null) _s.encodeXmlBoolValue('IsEnabled', isEnabled),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// The container element for Amazon S3 Storage Lens advanced cost-optimization
-/// metrics. Advanced cost-optimization metrics provide insights that you can
-/// use to manage and optimize your storage costs, for example, lifecycle rule
-/// counts for transitions, expirations, and incomplete multipart uploads.
-///
-/// For more information about S3 Storage Lens, see <a
-/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html">Assessing
-/// your storage activity and usage with S3 Storage Lens</a> in the <i>Amazon S3
-/// User Guide</i>. For a complete list of S3 Storage Lens metrics, see <a
-/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html">S3
-/// Storage Lens metrics glossary</a> in the <i>Amazon S3 User Guide</i>.
-class AdvancedCostOptimizationMetrics {
-  /// A container that indicates whether advanced cost-optimization metrics are
-  /// enabled.
-  final bool? isEnabled;
-
-  AdvancedCostOptimizationMetrics({
-    this.isEnabled,
-  });
-  factory AdvancedCostOptimizationMetrics.fromXml(_s.XmlElement elem) {
-    return AdvancedCostOptimizationMetrics(
-      isEnabled: _s.extractXmlBoolValue(elem, 'IsEnabled'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final isEnabled = this.isEnabled;
-    return {
-      if (isEnabled != null) 'IsEnabled': isEnabled,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final isEnabled = this.isEnabled;
-    final $children = <_s.XmlNode>[
-      if (isEnabled != null) _s.encodeXmlBoolValue('IsEnabled', isEnabled),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// The container element for Amazon S3 Storage Lens advanced data-protection
-/// metrics. Advanced data-protection metrics provide insights that you can use
-/// to perform audits and protect your data, for example replication rule counts
-/// within and across Regions.
-///
-/// For more information about S3 Storage Lens, see <a
-/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html">Assessing
-/// your storage activity and usage with S3 Storage Lens</a> in the <i>Amazon S3
-/// User Guide</i>. For a complete list of S3 Storage Lens metrics, see <a
-/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html">S3
-/// Storage Lens metrics glossary</a> in the <i>Amazon S3 User Guide</i>.
-class AdvancedDataProtectionMetrics {
-  /// A container that indicates whether advanced data-protection metrics are
-  /// enabled.
-  final bool? isEnabled;
-
-  AdvancedDataProtectionMetrics({
-    this.isEnabled,
-  });
-  factory AdvancedDataProtectionMetrics.fromXml(_s.XmlElement elem) {
-    return AdvancedDataProtectionMetrics(
-      isEnabled: _s.extractXmlBoolValue(elem, 'IsEnabled'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final isEnabled = this.isEnabled;
-    return {
-      if (isEnabled != null) 'IsEnabled': isEnabled,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final isEnabled = this.isEnabled;
-    final $children = <_s.XmlNode>[
-      if (isEnabled != null) _s.encodeXmlBoolValue('IsEnabled', isEnabled),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
     );
   }
 }
@@ -6563,535 +6312,6 @@ class AssociateAccessGrantsIdentityCenterRequest {
     final identityCenterArn = this.identityCenterArn;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('IdentityCenterArn', identityCenterArn),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// Error details for the failed asynchronous operation.
-class AsyncErrorDetails {
-  /// A string that uniquely identifies the error condition.
-  final String? code;
-
-  /// A generic description of the error condition in English.
-  final String? message;
-
-  /// The ID of the request associated with the error.
-  final String? requestId;
-
-  /// The identifier of the resource associated with the error.
-  final String? resource;
-
-  AsyncErrorDetails({
-    this.code,
-    this.message,
-    this.requestId,
-    this.resource,
-  });
-  factory AsyncErrorDetails.fromXml(_s.XmlElement elem) {
-    return AsyncErrorDetails(
-      code: _s.extractXmlStringValue(elem, 'Code'),
-      message: _s.extractXmlStringValue(elem, 'Message'),
-      requestId: _s.extractXmlStringValue(elem, 'RequestId'),
-      resource: _s.extractXmlStringValue(elem, 'Resource'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final message = this.message;
-    final requestId = this.requestId;
-    final resource = this.resource;
-    return {
-      if (code != null) 'Code': code,
-      if (message != null) 'Message': message,
-      if (requestId != null) 'RequestId': requestId,
-      if (resource != null) 'Resource': resource,
-    };
-  }
-}
-
-/// A container for the information about an asynchronous operation.
-class AsyncOperation {
-  /// The time that the request was sent to the service.
-  final DateTime? creationTime;
-
-  /// The specific operation for the asynchronous request.
-  final AsyncOperationName? operation;
-
-  /// The parameters associated with the request.
-  final AsyncRequestParameters? requestParameters;
-
-  /// The current status of the request.
-  final String? requestStatus;
-
-  /// The request token associated with the request.
-  final String? requestTokenARN;
-
-  /// The details of the response.
-  final AsyncResponseDetails? responseDetails;
-
-  AsyncOperation({
-    this.creationTime,
-    this.operation,
-    this.requestParameters,
-    this.requestStatus,
-    this.requestTokenARN,
-    this.responseDetails,
-  });
-  factory AsyncOperation.fromXml(_s.XmlElement elem) {
-    return AsyncOperation(
-      creationTime: _s.extractXmlDateTimeValue(elem, 'CreationTime'),
-      operation: _s
-          .extractXmlStringValue(elem, 'Operation')
-          ?.let(AsyncOperationName.fromString),
-      requestParameters: _s
-          .extractXmlChild(elem, 'RequestParameters')
-          ?.let(AsyncRequestParameters.fromXml),
-      requestStatus: _s.extractXmlStringValue(elem, 'RequestStatus'),
-      requestTokenARN: _s.extractXmlStringValue(elem, 'RequestTokenARN'),
-      responseDetails: _s
-          .extractXmlChild(elem, 'ResponseDetails')
-          ?.let(AsyncResponseDetails.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationTime = this.creationTime;
-    final operation = this.operation;
-    final requestParameters = this.requestParameters;
-    final requestStatus = this.requestStatus;
-    final requestTokenARN = this.requestTokenARN;
-    final responseDetails = this.responseDetails;
-    return {
-      if (creationTime != null) 'CreationTime': iso8601ToJson(creationTime),
-      if (operation != null) 'Operation': operation.value,
-      if (requestParameters != null) 'RequestParameters': requestParameters,
-      if (requestStatus != null) 'RequestStatus': requestStatus,
-      if (requestTokenARN != null) 'RequestTokenARN': requestTokenARN,
-      if (responseDetails != null) 'ResponseDetails': responseDetails,
-    };
-  }
-}
-
-class AsyncOperationName {
-  static const createMultiRegionAccessPoint =
-      AsyncOperationName._('CreateMultiRegionAccessPoint');
-  static const deleteMultiRegionAccessPoint =
-      AsyncOperationName._('DeleteMultiRegionAccessPoint');
-  static const putMultiRegionAccessPointPolicy =
-      AsyncOperationName._('PutMultiRegionAccessPointPolicy');
-
-  final String value;
-
-  const AsyncOperationName._(this.value);
-
-  static const values = [
-    createMultiRegionAccessPoint,
-    deleteMultiRegionAccessPoint,
-    putMultiRegionAccessPointPolicy
-  ];
-
-  static AsyncOperationName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AsyncOperationName._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AsyncOperationName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A container for the request parameters associated with an asynchronous
-/// request.
-class AsyncRequestParameters {
-  /// A container of the parameters for a <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateMultiRegionAccessPoint.html">CreateMultiRegionAccessPoint</a>
-  /// request.
-  final CreateMultiRegionAccessPointInput? createMultiRegionAccessPointRequest;
-
-  /// A container of the parameters for a <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteMultiRegionAccessPoint.html">DeleteMultiRegionAccessPoint</a>
-  /// request.
-  final DeleteMultiRegionAccessPointInput? deleteMultiRegionAccessPointRequest;
-
-  /// A container of the parameters for a <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutMultiRegionAccessPoint.html">PutMultiRegionAccessPoint</a>
-  /// request.
-  final PutMultiRegionAccessPointPolicyInput?
-      putMultiRegionAccessPointPolicyRequest;
-
-  AsyncRequestParameters({
-    this.createMultiRegionAccessPointRequest,
-    this.deleteMultiRegionAccessPointRequest,
-    this.putMultiRegionAccessPointPolicyRequest,
-  });
-  factory AsyncRequestParameters.fromXml(_s.XmlElement elem) {
-    return AsyncRequestParameters(
-      createMultiRegionAccessPointRequest: _s
-          .extractXmlChild(elem, 'CreateMultiRegionAccessPointRequest')
-          ?.let(CreateMultiRegionAccessPointInput.fromXml),
-      deleteMultiRegionAccessPointRequest: _s
-          .extractXmlChild(elem, 'DeleteMultiRegionAccessPointRequest')
-          ?.let(DeleteMultiRegionAccessPointInput.fromXml),
-      putMultiRegionAccessPointPolicyRequest: _s
-          .extractXmlChild(elem, 'PutMultiRegionAccessPointPolicyRequest')
-          ?.let(PutMultiRegionAccessPointPolicyInput.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createMultiRegionAccessPointRequest =
-        this.createMultiRegionAccessPointRequest;
-    final deleteMultiRegionAccessPointRequest =
-        this.deleteMultiRegionAccessPointRequest;
-    final putMultiRegionAccessPointPolicyRequest =
-        this.putMultiRegionAccessPointPolicyRequest;
-    return {
-      if (createMultiRegionAccessPointRequest != null)
-        'CreateMultiRegionAccessPointRequest':
-            createMultiRegionAccessPointRequest,
-      if (deleteMultiRegionAccessPointRequest != null)
-        'DeleteMultiRegionAccessPointRequest':
-            deleteMultiRegionAccessPointRequest,
-      if (putMultiRegionAccessPointPolicyRequest != null)
-        'PutMultiRegionAccessPointPolicyRequest':
-            putMultiRegionAccessPointPolicyRequest,
-    };
-  }
-}
-
-/// A container for the response details that are returned when querying about
-/// an asynchronous request.
-class AsyncResponseDetails {
-  /// Error details for an asynchronous request.
-  final AsyncErrorDetails? errorDetails;
-
-  /// The details for the Multi-Region Access Point.
-  final MultiRegionAccessPointsAsyncResponse? multiRegionAccessPointDetails;
-
-  AsyncResponseDetails({
-    this.errorDetails,
-    this.multiRegionAccessPointDetails,
-  });
-  factory AsyncResponseDetails.fromXml(_s.XmlElement elem) {
-    return AsyncResponseDetails(
-      errorDetails: _s
-          .extractXmlChild(elem, 'ErrorDetails')
-          ?.let(AsyncErrorDetails.fromXml),
-      multiRegionAccessPointDetails: _s
-          .extractXmlChild(elem, 'MultiRegionAccessPointDetails')
-          ?.let(MultiRegionAccessPointsAsyncResponse.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorDetails = this.errorDetails;
-    final multiRegionAccessPointDetails = this.multiRegionAccessPointDetails;
-    return {
-      if (errorDetails != null) 'ErrorDetails': errorDetails,
-      if (multiRegionAccessPointDetails != null)
-        'MultiRegionAccessPointDetails': multiRegionAccessPointDetails,
-    };
-  }
-}
-
-/// Lambda function used to transform objects through an Object Lambda Access
-/// Point.
-class AwsLambdaTransformation {
-  /// The Amazon Resource Name (ARN) of the Lambda function.
-  final String functionArn;
-
-  /// Additional JSON that provides supplemental data to the Lambda function used
-  /// to transform objects.
-  final String? functionPayload;
-
-  AwsLambdaTransformation({
-    required this.functionArn,
-    this.functionPayload,
-  });
-  factory AwsLambdaTransformation.fromXml(_s.XmlElement elem) {
-    return AwsLambdaTransformation(
-      functionArn: _s.extractXmlStringValue(elem, 'FunctionArn')!,
-      functionPayload: _s.extractXmlStringValue(elem, 'FunctionPayload'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final functionArn = this.functionArn;
-    final functionPayload = this.functionPayload;
-    return {
-      'FunctionArn': functionArn,
-      if (functionPayload != null) 'FunctionPayload': functionPayload,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final functionArn = this.functionArn;
-    final functionPayload = this.functionPayload;
-    final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('FunctionArn', functionArn),
-      if (functionPayload != null)
-        _s.encodeXmlStringValue('FunctionPayload', functionPayload),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-class BucketCannedACL {
-  static const private = BucketCannedACL._('private');
-  static const publicRead = BucketCannedACL._('public-read');
-  static const publicReadWrite = BucketCannedACL._('public-read-write');
-  static const authenticatedRead = BucketCannedACL._('authenticated-read');
-
-  final String value;
-
-  const BucketCannedACL._(this.value);
-
-  static const values = [
-    private,
-    publicRead,
-    publicReadWrite,
-    authenticatedRead
-  ];
-
-  static BucketCannedACL fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => BucketCannedACL._(value));
-
-  @override
-  bool operator ==(other) => other is BucketCannedACL && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A container for the bucket-level configuration for Amazon S3 Storage Lens.
-///
-/// For more information about S3 Storage Lens, see <a
-/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html">Assessing
-/// your storage activity and usage with S3 Storage Lens</a> in the <i>Amazon S3
-/// User Guide</i>.
-class BucketLevel {
-  /// A container for the bucket-level activity metrics for S3 Storage Lens.
-  final ActivityMetrics? activityMetrics;
-
-  /// A container for bucket-level advanced cost-optimization metrics for S3
-  /// Storage Lens.
-  final AdvancedCostOptimizationMetrics? advancedCostOptimizationMetrics;
-
-  /// A container for bucket-level advanced data-protection metrics for S3 Storage
-  /// Lens.
-  final AdvancedDataProtectionMetrics? advancedDataProtectionMetrics;
-
-  /// A container for bucket-level detailed status code metrics for S3 Storage
-  /// Lens.
-  final DetailedStatusCodesMetrics? detailedStatusCodesMetrics;
-
-  /// A container for the prefix-level metrics for S3 Storage Lens.
-  final PrefixLevel? prefixLevel;
-
-  BucketLevel({
-    this.activityMetrics,
-    this.advancedCostOptimizationMetrics,
-    this.advancedDataProtectionMetrics,
-    this.detailedStatusCodesMetrics,
-    this.prefixLevel,
-  });
-  factory BucketLevel.fromXml(_s.XmlElement elem) {
-    return BucketLevel(
-      activityMetrics: _s
-          .extractXmlChild(elem, 'ActivityMetrics')
-          ?.let(ActivityMetrics.fromXml),
-      advancedCostOptimizationMetrics: _s
-          .extractXmlChild(elem, 'AdvancedCostOptimizationMetrics')
-          ?.let(AdvancedCostOptimizationMetrics.fromXml),
-      advancedDataProtectionMetrics: _s
-          .extractXmlChild(elem, 'AdvancedDataProtectionMetrics')
-          ?.let(AdvancedDataProtectionMetrics.fromXml),
-      detailedStatusCodesMetrics: _s
-          .extractXmlChild(elem, 'DetailedStatusCodesMetrics')
-          ?.let(DetailedStatusCodesMetrics.fromXml),
-      prefixLevel:
-          _s.extractXmlChild(elem, 'PrefixLevel')?.let(PrefixLevel.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final activityMetrics = this.activityMetrics;
-    final advancedCostOptimizationMetrics =
-        this.advancedCostOptimizationMetrics;
-    final advancedDataProtectionMetrics = this.advancedDataProtectionMetrics;
-    final detailedStatusCodesMetrics = this.detailedStatusCodesMetrics;
-    final prefixLevel = this.prefixLevel;
-    return {
-      if (activityMetrics != null) 'ActivityMetrics': activityMetrics,
-      if (advancedCostOptimizationMetrics != null)
-        'AdvancedCostOptimizationMetrics': advancedCostOptimizationMetrics,
-      if (advancedDataProtectionMetrics != null)
-        'AdvancedDataProtectionMetrics': advancedDataProtectionMetrics,
-      if (detailedStatusCodesMetrics != null)
-        'DetailedStatusCodesMetrics': detailedStatusCodesMetrics,
-      if (prefixLevel != null) 'PrefixLevel': prefixLevel,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final activityMetrics = this.activityMetrics;
-    final advancedCostOptimizationMetrics =
-        this.advancedCostOptimizationMetrics;
-    final advancedDataProtectionMetrics = this.advancedDataProtectionMetrics;
-    final detailedStatusCodesMetrics = this.detailedStatusCodesMetrics;
-    final prefixLevel = this.prefixLevel;
-    final $children = <_s.XmlNode>[
-      if (activityMetrics != null) activityMetrics.toXml('ActivityMetrics'),
-      if (prefixLevel != null) prefixLevel.toXml('PrefixLevel'),
-      if (advancedCostOptimizationMetrics != null)
-        advancedCostOptimizationMetrics
-            .toXml('AdvancedCostOptimizationMetrics'),
-      if (advancedDataProtectionMetrics != null)
-        advancedDataProtectionMetrics.toXml('AdvancedDataProtectionMetrics'),
-      if (detailedStatusCodesMetrics != null)
-        detailedStatusCodesMetrics.toXml('DetailedStatusCodesMetrics'),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-class BucketLocationConstraint {
-  static const eu = BucketLocationConstraint._('EU');
-  static const euWest_1 = BucketLocationConstraint._('eu-west-1');
-  static const usWest_1 = BucketLocationConstraint._('us-west-1');
-  static const usWest_2 = BucketLocationConstraint._('us-west-2');
-  static const apSouth_1 = BucketLocationConstraint._('ap-south-1');
-  static const apSoutheast_1 = BucketLocationConstraint._('ap-southeast-1');
-  static const apSoutheast_2 = BucketLocationConstraint._('ap-southeast-2');
-  static const apNortheast_1 = BucketLocationConstraint._('ap-northeast-1');
-  static const saEast_1 = BucketLocationConstraint._('sa-east-1');
-  static const cnNorth_1 = BucketLocationConstraint._('cn-north-1');
-  static const euCentral_1 = BucketLocationConstraint._('eu-central-1');
-
-  final String value;
-
-  const BucketLocationConstraint._(this.value);
-
-  static const values = [
-    eu,
-    euWest_1,
-    usWest_1,
-    usWest_2,
-    apSouth_1,
-    apSoutheast_1,
-    apSoutheast_2,
-    apNortheast_1,
-    saEast_1,
-    cnNorth_1,
-    euCentral_1
-  ];
-
-  static BucketLocationConstraint fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => BucketLocationConstraint._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is BucketLocationConstraint && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class BucketVersioningStatus {
-  static const enabled = BucketVersioningStatus._('Enabled');
-  static const suspended = BucketVersioningStatus._('Suspended');
-
-  final String value;
-
-  const BucketVersioningStatus._(this.value);
-
-  static const values = [enabled, suspended];
-
-  static BucketVersioningStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => BucketVersioningStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is BucketVersioningStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A container for enabling Amazon CloudWatch publishing for S3 Storage Lens
-/// metrics.
-///
-/// For more information about publishing S3 Storage Lens metrics to CloudWatch,
-/// see <a
-/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_view_metrics_cloudwatch.html">Monitor
-/// S3 Storage Lens metrics in CloudWatch</a> in the <i>Amazon S3 User
-/// Guide</i>.
-class CloudWatchMetrics {
-  /// A container that indicates whether CloudWatch publishing for S3 Storage Lens
-  /// metrics is enabled. A value of <code>true</code> indicates that CloudWatch
-  /// publishing for S3 Storage Lens metrics is enabled.
-  final bool isEnabled;
-
-  CloudWatchMetrics({
-    required this.isEnabled,
-  });
-  factory CloudWatchMetrics.fromXml(_s.XmlElement elem) {
-    return CloudWatchMetrics(
-      isEnabled: _s.extractXmlBoolValue(elem, 'IsEnabled')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final isEnabled = this.isEnabled;
-    return {
-      'IsEnabled': isEnabled,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final isEnabled = this.isEnabled;
-    final $children = <_s.XmlNode>[
-      _s.encodeXmlBoolValue('IsEnabled', isEnabled),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -7501,9 +6721,9 @@ class CreateAccessGrantsLocationRequest {
 
   /// The S3 path to the location that you are registering. The location scope can
   /// be the default S3 location <code>s3://</code>, the S3 path to a bucket
-  /// <code>s3://&lt;bucket&gt;</code>, or the S3 path to a bucket and prefix
-  /// <code>s3://&lt;bucket&gt;/&lt;prefix&gt;</code>. A prefix in S3 is a string
-  /// of characters at the beginning of an object key name used to organize the
+  /// <code>s3://<bucket></code>, or the S3 path to a bucket and prefix
+  /// <code>s3://<bucket>/<prefix></code>. A prefix in S3 is a string of
+  /// characters at the beginning of an object key name used to organize the
   /// objects that you store in your S3 buckets. For example, object key names
   /// that start with the <code>engineering/</code> prefix or object key names
   /// that start with the <code>marketing/campaigns/</code> prefix.
@@ -7622,6 +6842,171 @@ class CreateAccessGrantsLocationResult {
   }
 }
 
+class CreateAccessPointRequest {
+  /// The Amazon Web Services account ID for the account that owns the specified
+  /// access point.
+  final String accountId;
+
+  /// The name of the bucket that you want to associate this access point with.
+  ///
+  /// For using this parameter with Amazon S3 on Outposts with the REST API, you
+  /// must specify the name and the x-amz-outpost-id as well.
+  ///
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
+  /// <code>arn:aws:s3-outposts:<Region>:<account-id>:outpost/<outpost-id>/bucket/<my-bucket-name></code>.
+  /// For example, to access the bucket <code>reports</code> through Outpost
+  /// <code>my-outpost</code> owned by account <code>123456789012</code> in Region
+  /// <code>us-west-2</code>, use the URL encoding of
+  /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports</code>.
+  /// The value must be URL encoded.
+  final String bucket;
+
+  /// The name you want to assign to this access point.
+  ///
+  /// For directory buckets, the access point name must consist of a base name
+  /// that you provide and suffix that includes the <code>ZoneID</code> (Amazon
+  /// Web Services Availability Zone or Local Zone) of your bucket location,
+  /// followed by <code>--xa-s3</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-directory-buckets.html">Managing
+  /// access to shared datasets in directory buckets with access points</a> in the
+  /// <i>Amazon S3 User Guide</i>.
+  final String name;
+
+  /// The Amazon Web Services account ID associated with the S3 bucket associated
+  /// with this access point.
+  ///
+  /// For same account access point when your bucket and access point belong to
+  /// the same account owner, the <code>BucketAccountId</code> is not required.
+  /// For cross-account access point when your bucket and access point are not in
+  /// the same account, the <code>BucketAccountId</code> is required.
+  final String? bucketAccountId;
+
+  /// The <code>PublicAccessBlock</code> configuration that you want to apply to
+  /// the access point.
+  final PublicAccessBlockConfiguration? publicAccessBlockConfiguration;
+
+  /// For directory buckets, you can filter access control to specific prefixes,
+  /// API operations, or a combination of both. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-directory-buckets.html">Managing
+  /// access to shared datasets in directory buckets with access points</a> in the
+  /// <i>Amazon S3 User Guide</i>.
+  /// <note>
+  /// Scope is only supported for access points attached to directory buckets.
+  /// </note>
+  final Scope? scope;
+
+  /// An array of tags that you can apply to an access point. Tags are key-value
+  /// pairs of metadata used to control access to your access points. For more
+  /// information about tags, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/tagging.html">Using
+  /// tags with Amazon S3</a>. For information about tagging access points, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/tagging.html#using-tags-for-abac">Using
+  /// tags for attribute-based access control (ABAC)</a>.
+  final List<Tag>? tags;
+
+  /// If you include this field, Amazon S3 restricts access to this access point
+  /// to requests from the specified virtual private cloud (VPC).
+  /// <note>
+  /// This is required for creating an access point for Amazon S3 on Outposts
+  /// buckets.
+  /// </note>
+  final VpcConfiguration? vpcConfiguration;
+
+  CreateAccessPointRequest({
+    required this.accountId,
+    required this.bucket,
+    required this.name,
+    this.bucketAccountId,
+    this.publicAccessBlockConfiguration,
+    this.scope,
+    this.tags,
+    this.vpcConfiguration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final bucket = this.bucket;
+    final name = this.name;
+    final bucketAccountId = this.bucketAccountId;
+    final publicAccessBlockConfiguration = this.publicAccessBlockConfiguration;
+    final scope = this.scope;
+    final tags = this.tags;
+    final vpcConfiguration = this.vpcConfiguration;
+    return {
+      'Bucket': bucket,
+      if (bucketAccountId != null) 'BucketAccountId': bucketAccountId,
+      if (publicAccessBlockConfiguration != null)
+        'PublicAccessBlockConfiguration': publicAccessBlockConfiguration,
+      if (scope != null) 'Scope': scope,
+      if (tags != null) 'Tags': tags,
+      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final accountId = this.accountId;
+    final bucket = this.bucket;
+    final name = this.name;
+    final bucketAccountId = this.bucketAccountId;
+    final publicAccessBlockConfiguration = this.publicAccessBlockConfiguration;
+    final scope = this.scope;
+    final tags = this.tags;
+    final vpcConfiguration = this.vpcConfiguration;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Bucket', bucket),
+      if (vpcConfiguration != null) vpcConfiguration.toXml('VpcConfiguration'),
+      if (publicAccessBlockConfiguration != null)
+        publicAccessBlockConfiguration.toXml('PublicAccessBlockConfiguration'),
+      if (bucketAccountId != null)
+        _s.encodeXmlStringValue('BucketAccountId', bucketAccountId),
+      if (scope != null) scope.toXml('Scope'),
+      if (tags != null)
+        _s.XmlElement(
+            _s.XmlName.parts('Tags'), [], tags.map((e) => e.toXml('Tag'))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class CreateAccessPointResult {
+  /// The ARN of the access point.
+  /// <note>
+  /// This is only supported by Amazon S3 on Outposts.
+  /// </note>
+  final String? accessPointArn;
+
+  /// The name or alias of the access point.
+  final String? alias;
+
+  CreateAccessPointResult({
+    this.accessPointArn,
+    this.alias,
+  });
+  factory CreateAccessPointResult.fromXml(_s.XmlElement elem) {
+    return CreateAccessPointResult(
+      accessPointArn: _s.extractXmlStringValue(elem, 'AccessPointArn'),
+      alias: _s.extractXmlStringValue(elem, 'Alias'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessPointArn = this.accessPointArn;
+    final alias = this.alias;
+    return {
+      if (accessPointArn != null) 'AccessPointArn': accessPointArn,
+      if (alias != null) 'Alias': alias,
+    };
+  }
+}
+
 class CreateAccessPointForObjectLambdaRequest {
   /// The Amazon Web Services account ID for owner of the specified Object Lambda
   /// Access Point.
@@ -7698,174 +7083,6 @@ class CreateAccessPointForObjectLambdaResult {
   }
 }
 
-class CreateAccessPointRequest {
-  /// The Amazon Web Services account ID for the account that owns the specified
-  /// access point.
-  final String accountId;
-
-  /// The name of the bucket that you want to associate this access point with.
-  ///
-  /// For using this parameter with Amazon S3 on Outposts with the REST API, you
-  /// must specify the name and the x-amz-outpost-id as well.
-  ///
-  /// For using this parameter with S3 on Outposts with the Amazon Web Services
-  /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
-  /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
-  /// For example, to access the bucket <code>reports</code> through Outpost
-  /// <code>my-outpost</code> owned by account <code>123456789012</code> in Region
-  /// <code>us-west-2</code>, use the URL encoding of
-  /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports</code>.
-  /// The value must be URL encoded.
-  final String bucket;
-
-  /// The name you want to assign to this access point.
-  final String name;
-
-  /// The Amazon Web Services account ID associated with the S3 bucket associated
-  /// with this access point.
-  ///
-  /// For same account access point when your bucket and access point belong to
-  /// the same account owner, the <code>BucketAccountId</code> is not required.
-  /// For cross-account access point when your bucket and access point are not in
-  /// the same account, the <code>BucketAccountId</code> is required.
-  final String? bucketAccountId;
-
-  /// The <code>PublicAccessBlock</code> configuration that you want to apply to
-  /// the access point.
-  final PublicAccessBlockConfiguration? publicAccessBlockConfiguration;
-
-  /// If you include this field, Amazon S3 restricts access to this access point
-  /// to requests from the specified virtual private cloud (VPC).
-  /// <note>
-  /// This is required for creating an access point for Amazon S3 on Outposts
-  /// buckets.
-  /// </note>
-  final VpcConfiguration? vpcConfiguration;
-
-  CreateAccessPointRequest({
-    required this.accountId,
-    required this.bucket,
-    required this.name,
-    this.bucketAccountId,
-    this.publicAccessBlockConfiguration,
-    this.vpcConfiguration,
-  });
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final bucket = this.bucket;
-    final name = this.name;
-    final bucketAccountId = this.bucketAccountId;
-    final publicAccessBlockConfiguration = this.publicAccessBlockConfiguration;
-    final vpcConfiguration = this.vpcConfiguration;
-    return {
-      'Bucket': bucket,
-      if (bucketAccountId != null) 'BucketAccountId': bucketAccountId,
-      if (publicAccessBlockConfiguration != null)
-        'PublicAccessBlockConfiguration': publicAccessBlockConfiguration,
-      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final accountId = this.accountId;
-    final bucket = this.bucket;
-    final name = this.name;
-    final bucketAccountId = this.bucketAccountId;
-    final publicAccessBlockConfiguration = this.publicAccessBlockConfiguration;
-    final vpcConfiguration = this.vpcConfiguration;
-    final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Bucket', bucket),
-      if (vpcConfiguration != null) vpcConfiguration.toXml('VpcConfiguration'),
-      if (publicAccessBlockConfiguration != null)
-        publicAccessBlockConfiguration.toXml('PublicAccessBlockConfiguration'),
-      if (bucketAccountId != null)
-        _s.encodeXmlStringValue('BucketAccountId', bucketAccountId),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-class CreateAccessPointResult {
-  /// The ARN of the access point.
-  /// <note>
-  /// This is only supported by Amazon S3 on Outposts.
-  /// </note>
-  final String? accessPointArn;
-
-  /// The name or alias of the access point.
-  final String? alias;
-
-  CreateAccessPointResult({
-    this.accessPointArn,
-    this.alias,
-  });
-  factory CreateAccessPointResult.fromXml(_s.XmlElement elem) {
-    return CreateAccessPointResult(
-      accessPointArn: _s.extractXmlStringValue(elem, 'AccessPointArn'),
-      alias: _s.extractXmlStringValue(elem, 'Alias'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accessPointArn = this.accessPointArn;
-    final alias = this.alias;
-    return {
-      if (accessPointArn != null) 'AccessPointArn': accessPointArn,
-      if (alias != null) 'Alias': alias,
-    };
-  }
-}
-
-/// The container for the bucket configuration.
-/// <note>
-/// This is not supported by Amazon S3 on Outposts buckets.
-/// </note>
-class CreateBucketConfiguration {
-  /// Specifies the Region where the bucket will be created. If you are creating a
-  /// bucket on the US East (N. Virginia) Region (us-east-1), you do not need to
-  /// specify the location.
-  /// <note>
-  /// This is not supported by Amazon S3 on Outposts buckets.
-  /// </note>
-  final BucketLocationConstraint? locationConstraint;
-
-  CreateBucketConfiguration({
-    this.locationConstraint,
-  });
-
-  Map<String, dynamic> toJson() {
-    final locationConstraint = this.locationConstraint;
-    return {
-      if (locationConstraint != null)
-        'LocationConstraint': locationConstraint.value,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final locationConstraint = this.locationConstraint;
-    final $children = <_s.XmlNode>[
-      if (locationConstraint != null)
-        _s.encodeXmlStringValue('LocationConstraint', locationConstraint.value),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
 class CreateBucketResult {
   /// The Amazon Resource Name (ARN) of the bucket.
   ///
@@ -7874,7 +7091,7 @@ class CreateBucketResult {
   ///
   /// For using this parameter with S3 on Outposts with the Amazon Web Services
   /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
-  /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
+  /// <code>arn:aws:s3-outposts:<Region>:<account-id>:outpost/<outpost-id>/bucket/<my-bucket-name></code>.
   /// For example, to access the bucket <code>reports</code> through Outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in Region
   /// <code>us-west-2</code>, use the URL encoding of
@@ -7905,7 +7122,7 @@ class CreateJobRequest {
 
   /// The action that you want this job to perform on every object listed in the
   /// manifest. For more information about the available actions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-actions.html">Operations</a>
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-operations.html">Operations</a>
   /// in the <i>Amazon S3 User Guide</i>.
   final JobOperation operation;
 
@@ -8050,70 +7267,6 @@ class CreateJobResult {
   }
 }
 
-/// A container for the information associated with a <a
-/// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateMultiRegionAccessPoint.html">CreateMultiRegionAccessPoint</a>
-/// request.
-class CreateMultiRegionAccessPointInput {
-  /// The name of the Multi-Region Access Point associated with this request.
-  final String name;
-
-  /// The buckets in different Regions that are associated with the Multi-Region
-  /// Access Point.
-  final List<Region> regions;
-  final PublicAccessBlockConfiguration? publicAccessBlock;
-
-  CreateMultiRegionAccessPointInput({
-    required this.name,
-    required this.regions,
-    this.publicAccessBlock,
-  });
-  factory CreateMultiRegionAccessPointInput.fromXml(_s.XmlElement elem) {
-    return CreateMultiRegionAccessPointInput(
-      name: _s.extractXmlStringValue(elem, 'Name')!,
-      regions: _s
-          .extractXmlChild(elem, 'Regions')!
-          .findElements('Region')
-          .map(Region.fromXml)
-          .toList(),
-      publicAccessBlock: _s
-          .extractXmlChild(elem, 'PublicAccessBlock')
-          ?.let(PublicAccessBlockConfiguration.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final regions = this.regions;
-    final publicAccessBlock = this.publicAccessBlock;
-    return {
-      'Name': name,
-      'Regions': regions,
-      if (publicAccessBlock != null) 'PublicAccessBlock': publicAccessBlock,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final name = this.name;
-    final regions = this.regions;
-    final publicAccessBlock = this.publicAccessBlock;
-    final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Name', name),
-      if (publicAccessBlock != null)
-        publicAccessBlock.toXml('PublicAccessBlock'),
-      _s.XmlElement(_s.XmlName.parts('Regions'), [],
-          regions.map((e) => e.toXml('Region'))),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
 class CreateMultiRegionAccessPointRequest {
   /// The Amazon Web Services account ID for the owner of the Multi-Region Access
   /// Point. The owner of the Multi-Region Access Point also must own the
@@ -8236,54 +7389,6 @@ class CreateStorageLensGroupRequest {
   }
 }
 
-/// The Amazon Web Services Security Token Service temporary credential that S3
-/// Access Grants vends to grantees and client applications.
-class Credentials {
-  /// The unique access key ID of the Amazon Web Services STS temporary credential
-  /// that S3 Access Grants vends to grantees and client applications.
-  final String? accessKeyId;
-
-  /// The expiration date and time of the temporary credential that S3 Access
-  /// Grants vends to grantees and client applications.
-  final DateTime? expiration;
-
-  /// The secret access key of the Amazon Web Services STS temporary credential
-  /// that S3 Access Grants vends to grantees and client applications.
-  final String? secretAccessKey;
-
-  /// The Amazon Web Services STS temporary credential that S3 Access Grants vends
-  /// to grantees and client applications.
-  final String? sessionToken;
-
-  Credentials({
-    this.accessKeyId,
-    this.expiration,
-    this.secretAccessKey,
-    this.sessionToken,
-  });
-  factory Credentials.fromXml(_s.XmlElement elem) {
-    return Credentials(
-      accessKeyId: _s.extractXmlStringValue(elem, 'AccessKeyId'),
-      expiration: _s.extractXmlDateTimeValue(elem, 'Expiration'),
-      secretAccessKey: _s.extractXmlStringValue(elem, 'SecretAccessKey'),
-      sessionToken: _s.extractXmlStringValue(elem, 'SessionToken'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accessKeyId = this.accessKeyId;
-    final expiration = this.expiration;
-    final secretAccessKey = this.secretAccessKey;
-    final sessionToken = this.sessionToken;
-    return {
-      if (accessKeyId != null) 'AccessKeyId': accessKeyId,
-      if (expiration != null) 'Expiration': iso8601ToJson(expiration),
-      if (secretAccessKey != null) 'SecretAccessKey': secretAccessKey,
-      if (sessionToken != null) 'SessionToken': sessionToken,
-    };
-  }
-}
-
 class DeleteJobTaggingResult {
   DeleteJobTaggingResult();
   factory DeleteJobTaggingResult.fromXml(
@@ -8294,119 +7399,6 @@ class DeleteJobTaggingResult {
 
   Map<String, dynamic> toJson() {
     return {};
-  }
-}
-
-/// Specifies whether S3 on Outposts replicates delete markers. If you specify a
-/// <code>Filter</code> element in your replication configuration, you must also
-/// include a <code>DeleteMarkerReplication</code> element. If your
-/// <code>Filter</code> includes a <code>Tag</code> element, the
-/// <code>DeleteMarkerReplication</code> element's <code>Status</code> child
-/// element must be set to <code>Disabled</code>, because S3 on Outposts does
-/// not support replicating delete markers for tag-based rules.
-///
-/// For more information about delete marker replication, see <a
-/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3OutpostsReplication.html#outposts-replication-what-is-replicated">How
-/// delete operations affect replication</a> in the <i>Amazon S3 User Guide</i>.
-class DeleteMarkerReplication {
-  /// Indicates whether to replicate delete markers.
-  final DeleteMarkerReplicationStatus status;
-
-  DeleteMarkerReplication({
-    required this.status,
-  });
-  factory DeleteMarkerReplication.fromXml(_s.XmlElement elem) {
-    return DeleteMarkerReplication(
-      status: _s
-          .extractXmlStringValue(elem, 'Status')!
-          .let(DeleteMarkerReplicationStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final status = this.status;
-    return {
-      'Status': status.value,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final status = this.status;
-    final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Status', status.value),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-class DeleteMarkerReplicationStatus {
-  static const enabled = DeleteMarkerReplicationStatus._('Enabled');
-  static const disabled = DeleteMarkerReplicationStatus._('Disabled');
-
-  final String value;
-
-  const DeleteMarkerReplicationStatus._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static DeleteMarkerReplicationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DeleteMarkerReplicationStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DeleteMarkerReplicationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A container for the information associated with a <a
-/// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteMultiRegionAccessPoint.html">DeleteMultiRegionAccessPoint</a>
-/// request.
-class DeleteMultiRegionAccessPointInput {
-  /// The name of the Multi-Region Access Point associated with this request.
-  final String name;
-
-  DeleteMultiRegionAccessPointInput({
-    required this.name,
-  });
-  factory DeleteMultiRegionAccessPointInput.fromXml(_s.XmlElement elem) {
-    return DeleteMultiRegionAccessPointInput(
-      name: _s.extractXmlStringValue(elem, 'Name')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    return {
-      'Name': name,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final name = this.name;
-    final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Name', name),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
   }
 }
 
@@ -8541,506 +7533,6 @@ class DescribeMultiRegionAccessPointOperationResult {
   }
 }
 
-/// Specifies information about the replication destination bucket and its
-/// settings for an S3 on Outposts replication configuration.
-class Destination {
-  /// The Amazon Resource Name (ARN) of the access point for the destination
-  /// bucket where you want S3 on Outposts to store the replication results.
-  final String bucket;
-
-  /// Specify this property only in a cross-account scenario (where the source and
-  /// destination bucket owners are not the same), and you want to change replica
-  /// ownership to the Amazon Web Services account that owns the destination
-  /// bucket. If this property is not specified in the replication configuration,
-  /// the replicas are owned by same Amazon Web Services account that owns the
-  /// source object.
-  /// <note>
-  /// This is not supported by Amazon S3 on Outposts buckets.
-  /// </note>
-  final AccessControlTranslation? accessControlTranslation;
-
-  /// The destination bucket owner's account ID.
-  final String? account;
-
-  /// A container that provides information about encryption. If
-  /// <code>SourceSelectionCriteria</code> is specified, you must specify this
-  /// element.
-  /// <note>
-  /// This is not supported by Amazon S3 on Outposts buckets.
-  /// </note>
-  final EncryptionConfiguration? encryptionConfiguration;
-
-  /// A container that specifies replication metrics-related settings.
-  final Metrics? metrics;
-
-  /// A container that specifies S3 Replication Time Control (S3 RTC) settings,
-  /// including whether S3 RTC is enabled and the time when all objects and
-  /// operations on objects must be replicated. Must be specified together with a
-  /// <code>Metrics</code> block.
-  /// <note>
-  /// This is not supported by Amazon S3 on Outposts buckets.
-  /// </note>
-  final ReplicationTime? replicationTime;
-
-  /// The storage class to use when replicating objects. All objects stored on S3
-  /// on Outposts are stored in the <code>OUTPOSTS</code> storage class. S3 on
-  /// Outposts uses the <code>OUTPOSTS</code> storage class to create the object
-  /// replicas.
-  /// <note>
-  /// Values other than <code>OUTPOSTS</code> aren't supported by Amazon S3 on
-  /// Outposts.
-  /// </note>
-  final ReplicationStorageClass? storageClass;
-
-  Destination({
-    required this.bucket,
-    this.accessControlTranslation,
-    this.account,
-    this.encryptionConfiguration,
-    this.metrics,
-    this.replicationTime,
-    this.storageClass,
-  });
-  factory Destination.fromXml(_s.XmlElement elem) {
-    return Destination(
-      bucket: _s.extractXmlStringValue(elem, 'Bucket')!,
-      accessControlTranslation: _s
-          .extractXmlChild(elem, 'AccessControlTranslation')
-          ?.let(AccessControlTranslation.fromXml),
-      account: _s.extractXmlStringValue(elem, 'Account'),
-      encryptionConfiguration: _s
-          .extractXmlChild(elem, 'EncryptionConfiguration')
-          ?.let(EncryptionConfiguration.fromXml),
-      metrics: _s.extractXmlChild(elem, 'Metrics')?.let(Metrics.fromXml),
-      replicationTime: _s
-          .extractXmlChild(elem, 'ReplicationTime')
-          ?.let(ReplicationTime.fromXml),
-      storageClass: _s
-          .extractXmlStringValue(elem, 'StorageClass')
-          ?.let(ReplicationStorageClass.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucket = this.bucket;
-    final accessControlTranslation = this.accessControlTranslation;
-    final account = this.account;
-    final encryptionConfiguration = this.encryptionConfiguration;
-    final metrics = this.metrics;
-    final replicationTime = this.replicationTime;
-    final storageClass = this.storageClass;
-    return {
-      'Bucket': bucket,
-      if (accessControlTranslation != null)
-        'AccessControlTranslation': accessControlTranslation,
-      if (account != null) 'Account': account,
-      if (encryptionConfiguration != null)
-        'EncryptionConfiguration': encryptionConfiguration,
-      if (metrics != null) 'Metrics': metrics,
-      if (replicationTime != null) 'ReplicationTime': replicationTime,
-      if (storageClass != null) 'StorageClass': storageClass.value,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final bucket = this.bucket;
-    final accessControlTranslation = this.accessControlTranslation;
-    final account = this.account;
-    final encryptionConfiguration = this.encryptionConfiguration;
-    final metrics = this.metrics;
-    final replicationTime = this.replicationTime;
-    final storageClass = this.storageClass;
-    final $children = <_s.XmlNode>[
-      if (account != null) _s.encodeXmlStringValue('Account', account),
-      _s.encodeXmlStringValue('Bucket', bucket),
-      if (replicationTime != null) replicationTime.toXml('ReplicationTime'),
-      if (accessControlTranslation != null)
-        accessControlTranslation.toXml('AccessControlTranslation'),
-      if (encryptionConfiguration != null)
-        encryptionConfiguration.toXml('EncryptionConfiguration'),
-      if (metrics != null) metrics.toXml('Metrics'),
-      if (storageClass != null)
-        _s.encodeXmlStringValue('StorageClass', storageClass.value),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// The container element for Amazon S3 Storage Lens detailed status code
-/// metrics. Detailed status code metrics generate metrics for HTTP status
-/// codes, such as <code>200 OK</code>, <code>403 Forbidden</code>, <code>503
-/// Service Unavailable</code> and others.
-///
-/// For more information about S3 Storage Lens, see <a
-/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html">Assessing
-/// your storage activity and usage with S3 Storage Lens</a> in the <i>Amazon S3
-/// User Guide</i>. For a complete list of S3 Storage Lens metrics, see <a
-/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html">S3
-/// Storage Lens metrics glossary</a> in the <i>Amazon S3 User Guide</i>.
-class DetailedStatusCodesMetrics {
-  /// A container that indicates whether detailed status code metrics are enabled.
-  final bool? isEnabled;
-
-  DetailedStatusCodesMetrics({
-    this.isEnabled,
-  });
-  factory DetailedStatusCodesMetrics.fromXml(_s.XmlElement elem) {
-    return DetailedStatusCodesMetrics(
-      isEnabled: _s.extractXmlBoolValue(elem, 'IsEnabled'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final isEnabled = this.isEnabled;
-    return {
-      if (isEnabled != null) 'IsEnabled': isEnabled,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final isEnabled = this.isEnabled;
-    final $children = <_s.XmlNode>[
-      if (isEnabled != null) _s.encodeXmlBoolValue('IsEnabled', isEnabled),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// Specifies encryption-related information for an Amazon S3 bucket that is a
-/// destination for replicated objects. If you're specifying a customer managed
-/// KMS key, we recommend using a fully qualified KMS key ARN. If you use a KMS
-/// key alias instead, then KMS resolves the key within the requester’s account.
-/// This behavior can result in data that's encrypted with a KMS key that
-/// belongs to the requester, and not the bucket owner.
-/// <note>
-/// This is not supported by Amazon S3 on Outposts buckets.
-/// </note>
-class EncryptionConfiguration {
-  /// Specifies the ID of the customer managed KMS key that's stored in Key
-  /// Management Service (KMS) for the destination bucket. This ID is either the
-  /// Amazon Resource Name (ARN) for the KMS key or the alias ARN for the KMS key.
-  /// Amazon S3 uses this KMS key to encrypt replica objects. Amazon S3 supports
-  /// only symmetric encryption KMS keys. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#symmetric-cmks">Symmetric
-  /// encryption KMS keys</a> in the <i>Amazon Web Services Key Management Service
-  /// Developer Guide</i>.
-  final String? replicaKmsKeyID;
-
-  EncryptionConfiguration({
-    this.replicaKmsKeyID,
-  });
-  factory EncryptionConfiguration.fromXml(_s.XmlElement elem) {
-    return EncryptionConfiguration(
-      replicaKmsKeyID: _s.extractXmlStringValue(elem, 'ReplicaKmsKeyID'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final replicaKmsKeyID = this.replicaKmsKeyID;
-    return {
-      if (replicaKmsKeyID != null) 'ReplicaKmsKeyID': replicaKmsKeyID,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final replicaKmsKeyID = this.replicaKmsKeyID;
-    final $children = <_s.XmlNode>[
-      if (replicaKmsKeyID != null)
-        _s.encodeXmlStringValue('ReplicaKmsKeyID', replicaKmsKeyID),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// The last established access control policy for a Multi-Region Access Point.
-///
-/// When you update the policy, the update is first listed as the proposed
-/// policy. After the update is finished and all Regions have been updated, the
-/// proposed policy is listed as the established policy. If both policies have
-/// the same version number, the proposed policy is the established policy.
-class EstablishedMultiRegionAccessPointPolicy {
-  /// The details of the last established policy.
-  final String? policy;
-
-  EstablishedMultiRegionAccessPointPolicy({
-    this.policy,
-  });
-  factory EstablishedMultiRegionAccessPointPolicy.fromXml(_s.XmlElement elem) {
-    return EstablishedMultiRegionAccessPointPolicy(
-      policy: _s.extractXmlStringValue(elem, 'Policy'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final policy = this.policy;
-    return {
-      if (policy != null) 'Policy': policy,
-    };
-  }
-}
-
-/// A container for what Amazon S3 Storage Lens will exclude.
-class Exclude {
-  /// A container for the S3 Storage Lens bucket excludes.
-  final List<String>? buckets;
-
-  /// A container for the S3 Storage Lens Region excludes.
-  final List<String>? regions;
-
-  Exclude({
-    this.buckets,
-    this.regions,
-  });
-  factory Exclude.fromXml(_s.XmlElement elem) {
-    return Exclude(
-      buckets: _s
-          .extractXmlChild(elem, 'Buckets')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Arn')),
-      regions: _s
-          .extractXmlChild(elem, 'Regions')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Region')),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final buckets = this.buckets;
-    final regions = this.regions;
-    return {
-      if (buckets != null) 'Buckets': buckets,
-      if (regions != null) 'Regions': regions,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final buckets = this.buckets;
-    final regions = this.regions;
-    final $children = <_s.XmlNode>[
-      if (buckets != null)
-        _s.XmlElement(_s.XmlName.parts('Buckets'), [],
-            buckets.map((e) => _s.encodeXmlStringValue('Arn', e))),
-      if (regions != null)
-        _s.XmlElement(_s.XmlName.parts('Regions'), [],
-            regions.map((e) => _s.encodeXmlStringValue('Region', e))),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// An optional configuration to replicate existing source bucket objects.
-/// <note>
-/// This is not supported by Amazon S3 on Outposts buckets.
-/// </note>
-class ExistingObjectReplication {
-  /// Specifies whether Amazon S3 replicates existing source bucket objects.
-  final ExistingObjectReplicationStatus status;
-
-  ExistingObjectReplication({
-    required this.status,
-  });
-  factory ExistingObjectReplication.fromXml(_s.XmlElement elem) {
-    return ExistingObjectReplication(
-      status: _s
-          .extractXmlStringValue(elem, 'Status')!
-          .let(ExistingObjectReplicationStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final status = this.status;
-    return {
-      'Status': status.value,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final status = this.status;
-    final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Status', status.value),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-class ExistingObjectReplicationStatus {
-  static const enabled = ExistingObjectReplicationStatus._('Enabled');
-  static const disabled = ExistingObjectReplicationStatus._('Disabled');
-
-  final String value;
-
-  const ExistingObjectReplicationStatus._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static ExistingObjectReplicationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ExistingObjectReplicationStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ExistingObjectReplicationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ExpirationStatus {
-  static const enabled = ExpirationStatus._('Enabled');
-  static const disabled = ExpirationStatus._('Disabled');
-
-  final String value;
-
-  const ExpirationStatus._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static ExpirationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ExpirationStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ExpirationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class Format {
-  static const csv = Format._('CSV');
-  static const parquet = Format._('Parquet');
-
-  final String value;
-
-  const Format._(this.value);
-
-  static const values = [csv, parquet];
-
-  static Format fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Format._(value));
-
-  @override
-  bool operator ==(other) => other is Format && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The encryption configuration to use when storing the generated manifest.
-class GeneratedManifestEncryption {
-  /// Configuration details on how SSE-KMS is used to encrypt generated manifest
-  /// objects.
-  final SSEKMSEncryption? ssekms;
-
-  /// Specifies the use of SSE-S3 to encrypt generated manifest objects.
-  final SSES3Encryption? sses3;
-
-  GeneratedManifestEncryption({
-    this.ssekms,
-    this.sses3,
-  });
-  factory GeneratedManifestEncryption.fromXml(_s.XmlElement elem) {
-    return GeneratedManifestEncryption(
-      ssekms:
-          _s.extractXmlChild(elem, 'SSE-KMS')?.let(SSEKMSEncryption.fromXml),
-      sses3: _s.extractXmlChild(elem, 'SSE-S3')?.let(SSES3Encryption.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final ssekms = this.ssekms;
-    final sses3 = this.sses3;
-    return {
-      if (ssekms != null) 'SSE-KMS': ssekms,
-      if (sses3 != null) 'SSE-S3': sses3,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final ssekms = this.ssekms;
-    final sses3 = this.sses3;
-    final $children = <_s.XmlNode>[
-      if (sses3 != null) sses3.toXml('SSE-S3'),
-      if (ssekms != null) ssekms.toXml('SSE-KMS'),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-class GeneratedManifestFormat {
-  static const s3InventoryReportCsv_20211130 =
-      GeneratedManifestFormat._('S3InventoryReport_CSV_20211130');
-
-  final String value;
-
-  const GeneratedManifestFormat._(this.value);
-
-  static const values = [s3InventoryReportCsv_20211130];
-
-  static GeneratedManifestFormat fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => GeneratedManifestFormat._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is GeneratedManifestFormat && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class GetAccessGrantResult {
   /// The Amazon Resource Name (ARN) of the access grant.
   final String? accessGrantArn;
@@ -9153,76 +7645,6 @@ class GetAccessGrantResult {
   }
 }
 
-class GetAccessGrantsInstanceForPrefixResult {
-  /// The Amazon Resource Name (ARN) of the S3 Access Grants instance.
-  final String? accessGrantsInstanceArn;
-
-  /// The ID of the S3 Access Grants instance. The ID is <code>default</code>. You
-  /// can have one S3 Access Grants instance per Region per account.
-  final String? accessGrantsInstanceId;
-
-  GetAccessGrantsInstanceForPrefixResult({
-    this.accessGrantsInstanceArn,
-    this.accessGrantsInstanceId,
-  });
-  factory GetAccessGrantsInstanceForPrefixResult.fromXml(_s.XmlElement elem) {
-    return GetAccessGrantsInstanceForPrefixResult(
-      accessGrantsInstanceArn:
-          _s.extractXmlStringValue(elem, 'AccessGrantsInstanceArn'),
-      accessGrantsInstanceId:
-          _s.extractXmlStringValue(elem, 'AccessGrantsInstanceId'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accessGrantsInstanceArn = this.accessGrantsInstanceArn;
-    final accessGrantsInstanceId = this.accessGrantsInstanceId;
-    return {
-      if (accessGrantsInstanceArn != null)
-        'AccessGrantsInstanceArn': accessGrantsInstanceArn,
-      if (accessGrantsInstanceId != null)
-        'AccessGrantsInstanceId': accessGrantsInstanceId,
-    };
-  }
-}
-
-class GetAccessGrantsInstanceResourcePolicyResult {
-  /// The date and time when you created the S3 Access Grants instance resource
-  /// policy.
-  final DateTime? createdAt;
-
-  /// The Organization of the resource policy of the S3 Access Grants instance.
-  final String? organization;
-
-  /// The resource policy of the S3 Access Grants instance.
-  final String? policy;
-
-  GetAccessGrantsInstanceResourcePolicyResult({
-    this.createdAt,
-    this.organization,
-    this.policy,
-  });
-  factory GetAccessGrantsInstanceResourcePolicyResult.fromXml(
-      _s.XmlElement elem) {
-    return GetAccessGrantsInstanceResourcePolicyResult(
-      createdAt: _s.extractXmlDateTimeValue(elem, 'CreatedAt'),
-      organization: _s.extractXmlStringValue(elem, 'Organization'),
-      policy: _s.extractXmlStringValue(elem, 'Policy'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final organization = this.organization;
-    final policy = this.policy;
-    return {
-      if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
-      if (organization != null) 'Organization': organization,
-      if (policy != null) 'Policy': policy,
-    };
-  }
-}
-
 class GetAccessGrantsInstanceResult {
   /// The Amazon Resource Name (ARN) of the S3 Access Grants instance.
   final String? accessGrantsInstanceArn;
@@ -9302,6 +7724,76 @@ class GetAccessGrantsInstanceResult {
   }
 }
 
+class GetAccessGrantsInstanceForPrefixResult {
+  /// The Amazon Resource Name (ARN) of the S3 Access Grants instance.
+  final String? accessGrantsInstanceArn;
+
+  /// The ID of the S3 Access Grants instance. The ID is <code>default</code>. You
+  /// can have one S3 Access Grants instance per Region per account.
+  final String? accessGrantsInstanceId;
+
+  GetAccessGrantsInstanceForPrefixResult({
+    this.accessGrantsInstanceArn,
+    this.accessGrantsInstanceId,
+  });
+  factory GetAccessGrantsInstanceForPrefixResult.fromXml(_s.XmlElement elem) {
+    return GetAccessGrantsInstanceForPrefixResult(
+      accessGrantsInstanceArn:
+          _s.extractXmlStringValue(elem, 'AccessGrantsInstanceArn'),
+      accessGrantsInstanceId:
+          _s.extractXmlStringValue(elem, 'AccessGrantsInstanceId'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessGrantsInstanceArn = this.accessGrantsInstanceArn;
+    final accessGrantsInstanceId = this.accessGrantsInstanceId;
+    return {
+      if (accessGrantsInstanceArn != null)
+        'AccessGrantsInstanceArn': accessGrantsInstanceArn,
+      if (accessGrantsInstanceId != null)
+        'AccessGrantsInstanceId': accessGrantsInstanceId,
+    };
+  }
+}
+
+class GetAccessGrantsInstanceResourcePolicyResult {
+  /// The date and time when you created the S3 Access Grants instance resource
+  /// policy.
+  final DateTime? createdAt;
+
+  /// The Organization of the resource policy of the S3 Access Grants instance.
+  final String? organization;
+
+  /// The resource policy of the S3 Access Grants instance.
+  final String? policy;
+
+  GetAccessGrantsInstanceResourcePolicyResult({
+    this.createdAt,
+    this.organization,
+    this.policy,
+  });
+  factory GetAccessGrantsInstanceResourcePolicyResult.fromXml(
+      _s.XmlElement elem) {
+    return GetAccessGrantsInstanceResourcePolicyResult(
+      createdAt: _s.extractXmlDateTimeValue(elem, 'CreatedAt'),
+      organization: _s.extractXmlStringValue(elem, 'Organization'),
+      policy: _s.extractXmlStringValue(elem, 'Policy'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final organization = this.organization;
+    final policy = this.policy;
+    return {
+      if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
+      if (organization != null) 'Organization': organization,
+      if (policy != null) 'Policy': policy,
+    };
+  }
+}
+
 class GetAccessGrantsLocationResult {
   /// The Amazon Resource Name (ARN) of the registered location.
   final String? accessGrantsLocationArn;
@@ -9363,6 +7855,130 @@ class GetAccessGrantsLocationResult {
       if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
       if (iAMRoleArn != null) 'IAMRoleArn': iAMRoleArn,
       if (locationScope != null) 'LocationScope': locationScope,
+    };
+  }
+}
+
+class GetAccessPointResult {
+  /// The ARN of the access point.
+  final String? accessPointArn;
+
+  /// The name or alias of the access point.
+  final String? alias;
+
+  /// The name of the bucket associated with the specified access point.
+  final String? bucket;
+
+  /// The Amazon Web Services account ID associated with the S3 bucket associated
+  /// with this access point.
+  final String? bucketAccountId;
+
+  /// The date and time when the specified access point was created.
+  final DateTime? creationDate;
+
+  /// The unique identifier for the data source of the access point.
+  final String? dataSourceId;
+
+  /// The type of the data source that the access point is attached to.
+  final String? dataSourceType;
+
+  /// The VPC endpoint for the access point.
+  final Map<String, String>? endpoints;
+
+  /// The name of the specified access point.
+  final String? name;
+
+  /// Indicates whether this access point allows access from the public internet.
+  /// If <code>VpcConfiguration</code> is specified for this access point, then
+  /// <code>NetworkOrigin</code> is <code>VPC</code>, and the access point doesn't
+  /// allow access from the public internet. Otherwise, <code>NetworkOrigin</code>
+  /// is <code>Internet</code>, and the access point allows access from the public
+  /// internet, subject to the access point and bucket access policies.
+  ///
+  /// This will always be true for an Amazon S3 on Outposts access point
+  final NetworkOrigin? networkOrigin;
+  final PublicAccessBlockConfiguration? publicAccessBlockConfiguration;
+
+  /// Contains the virtual private cloud (VPC) configuration for the specified
+  /// access point.
+  /// <note>
+  /// This element is empty if this access point is an Amazon S3 on Outposts
+  /// access point that is used by other Amazon Web Services services.
+  /// </note>
+  final VpcConfiguration? vpcConfiguration;
+
+  GetAccessPointResult({
+    this.accessPointArn,
+    this.alias,
+    this.bucket,
+    this.bucketAccountId,
+    this.creationDate,
+    this.dataSourceId,
+    this.dataSourceType,
+    this.endpoints,
+    this.name,
+    this.networkOrigin,
+    this.publicAccessBlockConfiguration,
+    this.vpcConfiguration,
+  });
+  factory GetAccessPointResult.fromXml(_s.XmlElement elem) {
+    return GetAccessPointResult(
+      accessPointArn: _s.extractXmlStringValue(elem, 'AccessPointArn'),
+      alias: _s.extractXmlStringValue(elem, 'Alias'),
+      bucket: _s.extractXmlStringValue(elem, 'Bucket'),
+      bucketAccountId: _s.extractXmlStringValue(elem, 'BucketAccountId'),
+      creationDate: _s.extractXmlDateTimeValue(elem, 'CreationDate'),
+      dataSourceId: _s.extractXmlStringValue(elem, 'DataSourceId'),
+      dataSourceType: _s.extractXmlStringValue(elem, 'DataSourceType'),
+      endpoints: Map.fromEntries(
+        elem.getElement('Endpoints')?.findElements('entry').map(
+                  (c) => MapEntry(
+                    _s.extractXmlStringValue(c, 'key')!,
+                    _s.extractXmlStringValue(c, 'value')!,
+                  ),
+                ) ??
+            {},
+      ),
+      name: _s.extractXmlStringValue(elem, 'Name'),
+      networkOrigin: _s
+          .extractXmlStringValue(elem, 'NetworkOrigin')
+          ?.let(NetworkOrigin.fromString),
+      publicAccessBlockConfiguration: _s
+          .extractXmlChild(elem, 'PublicAccessBlockConfiguration')
+          ?.let(PublicAccessBlockConfiguration.fromXml),
+      vpcConfiguration: _s
+          .extractXmlChild(elem, 'VpcConfiguration')
+          ?.let(VpcConfiguration.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessPointArn = this.accessPointArn;
+    final alias = this.alias;
+    final bucket = this.bucket;
+    final bucketAccountId = this.bucketAccountId;
+    final creationDate = this.creationDate;
+    final dataSourceId = this.dataSourceId;
+    final dataSourceType = this.dataSourceType;
+    final endpoints = this.endpoints;
+    final name = this.name;
+    final networkOrigin = this.networkOrigin;
+    final publicAccessBlockConfiguration = this.publicAccessBlockConfiguration;
+    final vpcConfiguration = this.vpcConfiguration;
+    return {
+      if (accessPointArn != null) 'AccessPointArn': accessPointArn,
+      if (alias != null) 'Alias': alias,
+      if (bucket != null) 'Bucket': bucket,
+      if (bucketAccountId != null) 'BucketAccountId': bucketAccountId,
+      if (creationDate != null) 'CreationDate': iso8601ToJson(creationDate),
+      if (dataSourceId != null) 'DataSourceId': dataSourceId,
+      if (dataSourceType != null) 'DataSourceType': dataSourceType,
+      if (endpoints != null) 'Endpoints': endpoints,
+      if (name != null) 'Name': name,
+      if (networkOrigin != null) 'NetworkOrigin': networkOrigin.value,
+      if (publicAccessBlockConfiguration != null)
+        'PublicAccessBlockConfiguration': publicAccessBlockConfiguration,
+      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
     };
   }
 }
@@ -9439,28 +8055,6 @@ class GetAccessPointForObjectLambdaResult {
   }
 }
 
-class GetAccessPointPolicyForObjectLambdaResult {
-  /// Object Lambda Access Point resource policy document.
-  final String? policy;
-
-  GetAccessPointPolicyForObjectLambdaResult({
-    this.policy,
-  });
-  factory GetAccessPointPolicyForObjectLambdaResult.fromXml(
-      _s.XmlElement elem) {
-    return GetAccessPointPolicyForObjectLambdaResult(
-      policy: _s.extractXmlStringValue(elem, 'Policy'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final policy = this.policy;
-    return {
-      if (policy != null) 'Policy': policy,
-    };
-  }
-}
-
 class GetAccessPointPolicyResult {
   /// The access point policy associated with the specified access point.
   final String? policy;
@@ -9482,24 +8076,24 @@ class GetAccessPointPolicyResult {
   }
 }
 
-class GetAccessPointPolicyStatusForObjectLambdaResult {
-  final PolicyStatus? policyStatus;
+class GetAccessPointPolicyForObjectLambdaResult {
+  /// Object Lambda Access Point resource policy document.
+  final String? policy;
 
-  GetAccessPointPolicyStatusForObjectLambdaResult({
-    this.policyStatus,
+  GetAccessPointPolicyForObjectLambdaResult({
+    this.policy,
   });
-  factory GetAccessPointPolicyStatusForObjectLambdaResult.fromXml(
+  factory GetAccessPointPolicyForObjectLambdaResult.fromXml(
       _s.XmlElement elem) {
-    return GetAccessPointPolicyStatusForObjectLambdaResult(
-      policyStatus:
-          _s.extractXmlChild(elem, 'PolicyStatus')?.let(PolicyStatus.fromXml),
+    return GetAccessPointPolicyForObjectLambdaResult(
+      policy: _s.extractXmlStringValue(elem, 'Policy'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final policyStatus = this.policyStatus;
+    final policy = this.policy;
     return {
-      if (policyStatus != null) 'PolicyStatus': policyStatus,
+      if (policy != null) 'Policy': policy,
     };
   }
 }
@@ -9526,112 +8120,82 @@ class GetAccessPointPolicyStatusResult {
   }
 }
 
-class GetAccessPointResult {
-  /// The ARN of the access point.
-  final String? accessPointArn;
+class GetAccessPointPolicyStatusForObjectLambdaResult {
+  final PolicyStatus? policyStatus;
 
-  /// The name or alias of the access point.
-  final String? alias;
-
-  /// The name of the bucket associated with the specified access point.
-  final String? bucket;
-
-  /// The Amazon Web Services account ID associated with the S3 bucket associated
-  /// with this access point.
-  final String? bucketAccountId;
-
-  /// The date and time when the specified access point was created.
-  final DateTime? creationDate;
-
-  /// The VPC endpoint for the access point.
-  final Map<String, String>? endpoints;
-
-  /// The name of the specified access point.
-  final String? name;
-
-  /// Indicates whether this access point allows access from the public internet.
-  /// If <code>VpcConfiguration</code> is specified for this access point, then
-  /// <code>NetworkOrigin</code> is <code>VPC</code>, and the access point doesn't
-  /// allow access from the public internet. Otherwise, <code>NetworkOrigin</code>
-  /// is <code>Internet</code>, and the access point allows access from the public
-  /// internet, subject to the access point and bucket access policies.
-  ///
-  /// This will always be true for an Amazon S3 on Outposts access point
-  final NetworkOrigin? networkOrigin;
-  final PublicAccessBlockConfiguration? publicAccessBlockConfiguration;
-
-  /// Contains the virtual private cloud (VPC) configuration for the specified
-  /// access point.
-  /// <note>
-  /// This element is empty if this access point is an Amazon S3 on Outposts
-  /// access point that is used by other Amazon Web Servicesservices.
-  /// </note>
-  final VpcConfiguration? vpcConfiguration;
-
-  GetAccessPointResult({
-    this.accessPointArn,
-    this.alias,
-    this.bucket,
-    this.bucketAccountId,
-    this.creationDate,
-    this.endpoints,
-    this.name,
-    this.networkOrigin,
-    this.publicAccessBlockConfiguration,
-    this.vpcConfiguration,
+  GetAccessPointPolicyStatusForObjectLambdaResult({
+    this.policyStatus,
   });
-  factory GetAccessPointResult.fromXml(_s.XmlElement elem) {
-    return GetAccessPointResult(
-      accessPointArn: _s.extractXmlStringValue(elem, 'AccessPointArn'),
-      alias: _s.extractXmlStringValue(elem, 'Alias'),
-      bucket: _s.extractXmlStringValue(elem, 'Bucket'),
-      bucketAccountId: _s.extractXmlStringValue(elem, 'BucketAccountId'),
-      creationDate: _s.extractXmlDateTimeValue(elem, 'CreationDate'),
-      endpoints: Map.fromEntries(
-        elem.getElement('Endpoints')?.findElements('entry').map(
-                  (c) => MapEntry(
-                    _s.extractXmlStringValue(c, 'key')!,
-                    _s.extractXmlStringValue(c, 'value')!,
-                  ),
-                ) ??
-            {},
-      ),
-      name: _s.extractXmlStringValue(elem, 'Name'),
-      networkOrigin: _s
-          .extractXmlStringValue(elem, 'NetworkOrigin')
-          ?.let(NetworkOrigin.fromString),
-      publicAccessBlockConfiguration: _s
-          .extractXmlChild(elem, 'PublicAccessBlockConfiguration')
-          ?.let(PublicAccessBlockConfiguration.fromXml),
-      vpcConfiguration: _s
-          .extractXmlChild(elem, 'VpcConfiguration')
-          ?.let(VpcConfiguration.fromXml),
+  factory GetAccessPointPolicyStatusForObjectLambdaResult.fromXml(
+      _s.XmlElement elem) {
+    return GetAccessPointPolicyStatusForObjectLambdaResult(
+      policyStatus:
+          _s.extractXmlChild(elem, 'PolicyStatus')?.let(PolicyStatus.fromXml),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final accessPointArn = this.accessPointArn;
-    final alias = this.alias;
-    final bucket = this.bucket;
-    final bucketAccountId = this.bucketAccountId;
-    final creationDate = this.creationDate;
-    final endpoints = this.endpoints;
-    final name = this.name;
-    final networkOrigin = this.networkOrigin;
-    final publicAccessBlockConfiguration = this.publicAccessBlockConfiguration;
-    final vpcConfiguration = this.vpcConfiguration;
+    final policyStatus = this.policyStatus;
     return {
-      if (accessPointArn != null) 'AccessPointArn': accessPointArn,
-      if (alias != null) 'Alias': alias,
+      if (policyStatus != null) 'PolicyStatus': policyStatus,
+    };
+  }
+}
+
+class GetAccessPointScopeResult {
+  /// The contents of the access point scope.
+  final Scope? scope;
+
+  GetAccessPointScopeResult({
+    this.scope,
+  });
+  factory GetAccessPointScopeResult.fromXml(_s.XmlElement elem) {
+    return GetAccessPointScopeResult(
+      scope: _s.extractXmlChild(elem, 'Scope')?.let(Scope.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scope = this.scope;
+    return {
+      if (scope != null) 'Scope': scope,
+    };
+  }
+}
+
+class GetBucketResult {
+  /// The Outposts bucket requested.
+  final String? bucket;
+
+  /// The creation date of the Outposts bucket.
+  final DateTime? creationDate;
+
+  ///
+  final bool? publicAccessBlockEnabled;
+
+  GetBucketResult({
+    this.bucket,
+    this.creationDate,
+    this.publicAccessBlockEnabled,
+  });
+  factory GetBucketResult.fromXml(_s.XmlElement elem) {
+    return GetBucketResult(
+      bucket: _s.extractXmlStringValue(elem, 'Bucket'),
+      creationDate: _s.extractXmlDateTimeValue(elem, 'CreationDate'),
+      publicAccessBlockEnabled:
+          _s.extractXmlBoolValue(elem, 'PublicAccessBlockEnabled'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final creationDate = this.creationDate;
+    final publicAccessBlockEnabled = this.publicAccessBlockEnabled;
+    return {
       if (bucket != null) 'Bucket': bucket,
-      if (bucketAccountId != null) 'BucketAccountId': bucketAccountId,
       if (creationDate != null) 'CreationDate': iso8601ToJson(creationDate),
-      if (endpoints != null) 'Endpoints': endpoints,
-      if (name != null) 'Name': name,
-      if (networkOrigin != null) 'NetworkOrigin': networkOrigin.value,
-      if (publicAccessBlockConfiguration != null)
-        'PublicAccessBlockConfiguration': publicAccessBlockConfiguration,
-      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
+      if (publicAccessBlockEnabled != null)
+        'PublicAccessBlockEnabled': publicAccessBlockEnabled,
     };
   }
 }
@@ -9705,43 +8269,6 @@ class GetBucketReplicationResult {
   }
 }
 
-class GetBucketResult {
-  /// The Outposts bucket requested.
-  final String? bucket;
-
-  /// The creation date of the Outposts bucket.
-  final DateTime? creationDate;
-
-  /// <p/>
-  final bool? publicAccessBlockEnabled;
-
-  GetBucketResult({
-    this.bucket,
-    this.creationDate,
-    this.publicAccessBlockEnabled,
-  });
-  factory GetBucketResult.fromXml(_s.XmlElement elem) {
-    return GetBucketResult(
-      bucket: _s.extractXmlStringValue(elem, 'Bucket'),
-      creationDate: _s.extractXmlDateTimeValue(elem, 'CreationDate'),
-      publicAccessBlockEnabled:
-          _s.extractXmlBoolValue(elem, 'PublicAccessBlockEnabled'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucket = this.bucket;
-    final creationDate = this.creationDate;
-    final publicAccessBlockEnabled = this.publicAccessBlockEnabled;
-    return {
-      if (bucket != null) 'Bucket': bucket,
-      if (creationDate != null) 'CreationDate': iso8601ToJson(creationDate),
-      if (publicAccessBlockEnabled != null)
-        'PublicAccessBlockEnabled': publicAccessBlockEnabled,
-    };
-  }
-}
-
 class GetBucketTaggingResult {
   /// The tags set of the Outposts bucket.
   final List<S3Tag> tagSet;
@@ -9806,27 +8333,39 @@ class GetDataAccessResult {
   /// The temporary credential token that S3 Access Grants vends.
   final Credentials? credentials;
 
+  /// The user, group, or role that was granted access to the S3 location scope.
+  /// For directory identities, this API also returns the grants of the IAM role
+  /// used for the identity-aware request. For more information on identity-aware
+  /// sessions, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_sts-setcontext.html">Granting
+  /// permissions to use identity-aware console sessions</a>.
+  final Grantee? grantee;
+
   /// The S3 URI path of the data to which you are being granted temporary access
   /// credentials.
   final String? matchedGrantTarget;
 
   GetDataAccessResult({
     this.credentials,
+    this.grantee,
     this.matchedGrantTarget,
   });
   factory GetDataAccessResult.fromXml(_s.XmlElement elem) {
     return GetDataAccessResult(
       credentials:
           _s.extractXmlChild(elem, 'Credentials')?.let(Credentials.fromXml),
+      grantee: _s.extractXmlChild(elem, 'Grantee')?.let(Grantee.fromXml),
       matchedGrantTarget: _s.extractXmlStringValue(elem, 'MatchedGrantTarget'),
     );
   }
 
   Map<String, dynamic> toJson() {
     final credentials = this.credentials;
+    final grantee = this.grantee;
     final matchedGrantTarget = this.matchedGrantTarget;
     return {
       if (credentials != null) 'Credentials': credentials,
+      if (grantee != null) 'Grantee': grantee,
       if (matchedGrantTarget != null) 'MatchedGrantTarget': matchedGrantTarget,
     };
   }
@@ -9850,6 +8389,30 @@ class GetJobTaggingResult {
     final tags = this.tags;
     return {
       if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+class GetMultiRegionAccessPointResult {
+  /// A container element containing the details of the requested Multi-Region
+  /// Access Point.
+  final MultiRegionAccessPointReport? accessPoint;
+
+  GetMultiRegionAccessPointResult({
+    this.accessPoint,
+  });
+  factory GetMultiRegionAccessPointResult.fromXml(_s.XmlElement elem) {
+    return GetMultiRegionAccessPointResult(
+      accessPoint: _s
+          .extractXmlChild(elem, 'AccessPoint')
+          ?.let(MultiRegionAccessPointReport.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessPoint = this.accessPoint;
+    return {
+      if (accessPoint != null) 'AccessPoint': accessPoint,
     };
   }
 }
@@ -9895,30 +8458,6 @@ class GetMultiRegionAccessPointPolicyStatusResult {
     final established = this.established;
     return {
       if (established != null) 'Established': established,
-    };
-  }
-}
-
-class GetMultiRegionAccessPointResult {
-  /// A container element containing the details of the requested Multi-Region
-  /// Access Point.
-  final MultiRegionAccessPointReport? accessPoint;
-
-  GetMultiRegionAccessPointResult({
-    this.accessPoint,
-  });
-  factory GetMultiRegionAccessPointResult.fromXml(_s.XmlElement elem) {
-    return GetMultiRegionAccessPointResult(
-      accessPoint: _s
-          .extractXmlChild(elem, 'AccessPoint')
-          ?.let(MultiRegionAccessPointReport.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accessPoint = this.accessPoint;
-    return {
-      if (accessPoint != null) 'AccessPoint': accessPoint,
     };
   }
 }
@@ -10030,2054 +8569,36 @@ class GetStorageLensGroupResult {
   }
 }
 
-/// The user, group, or role to which you are granting access. You can grant
-/// access to an IAM user or role. If you have added your corporate directory to
-/// Amazon Web Services IAM Identity Center and associated your Identity Center
-/// instance with your S3 Access Grants instance, the grantee can also be a
-/// corporate directory user or group.
-class Grantee {
-  /// The unique identifier of the <code>Grantee</code>. If the grantee type is
-  /// <code>IAM</code>, the identifier is the IAM Amazon Resource Name (ARN) of
-  /// the user or role. If the grantee type is a directory user or group, the
-  /// identifier is 128-bit universally unique identifier (UUID) in the format
-  /// <code>a1b2c3d4-5678-90ab-cdef-EXAMPLE11111</code>. You can obtain this UUID
-  /// from your Amazon Web Services IAM Identity Center instance.
-  final String? granteeIdentifier;
+class ListAccessGrantsResult {
+  /// A container for a list of grants in an S3 Access Grants instance.
+  final List<ListAccessGrantEntry>? accessGrantsList;
 
-  /// The type of the grantee to which access has been granted. It can be one of
-  /// the following values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>IAM</code> - An IAM user or role.
-  /// </li>
-  /// <li>
-  /// <code>DIRECTORY_USER</code> - Your corporate directory user. You can use
-  /// this option if you have added your corporate identity directory to IAM
-  /// Identity Center and associated the IAM Identity Center instance with your S3
-  /// Access Grants instance.
-  /// </li>
-  /// <li>
-  /// <code>DIRECTORY_GROUP</code> - Your corporate directory group. You can use
-  /// this option if you have added your corporate identity directory to IAM
-  /// Identity Center and associated the IAM Identity Center instance with your S3
-  /// Access Grants instance.
-  /// </li>
-  /// </ul>
-  final GranteeType? granteeType;
+  /// A pagination token to request the next page of results. Pass this value into
+  /// a subsequent <code>List Access Grants</code> request in order to retrieve
+  /// the next page of results.
+  final String? nextToken;
 
-  Grantee({
-    this.granteeIdentifier,
-    this.granteeType,
+  ListAccessGrantsResult({
+    this.accessGrantsList,
+    this.nextToken,
   });
-  factory Grantee.fromXml(_s.XmlElement elem) {
-    return Grantee(
-      granteeIdentifier: _s.extractXmlStringValue(elem, 'GranteeIdentifier'),
-      granteeType: _s
-          .extractXmlStringValue(elem, 'GranteeType')
-          ?.let(GranteeType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final granteeIdentifier = this.granteeIdentifier;
-    final granteeType = this.granteeType;
-    return {
-      if (granteeIdentifier != null) 'GranteeIdentifier': granteeIdentifier,
-      if (granteeType != null) 'GranteeType': granteeType.value,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final granteeIdentifier = this.granteeIdentifier;
-    final granteeType = this.granteeType;
-    final $children = <_s.XmlNode>[
-      if (granteeType != null)
-        _s.encodeXmlStringValue('GranteeType', granteeType.value),
-      if (granteeIdentifier != null)
-        _s.encodeXmlStringValue('GranteeIdentifier', granteeIdentifier),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-class GranteeType {
-  static const directoryUser = GranteeType._('DIRECTORY_USER');
-  static const directoryGroup = GranteeType._('DIRECTORY_GROUP');
-  static const iam = GranteeType._('IAM');
-
-  final String value;
-
-  const GranteeType._(this.value);
-
-  static const values = [directoryUser, directoryGroup, iam];
-
-  static GranteeType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => GranteeType._(value));
-
-  @override
-  bool operator ==(other) => other is GranteeType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A container for what Amazon S3 Storage Lens configuration includes.
-class Include {
-  /// A container for the S3 Storage Lens bucket includes.
-  final List<String>? buckets;
-
-  /// A container for the S3 Storage Lens Region includes.
-  final List<String>? regions;
-
-  Include({
-    this.buckets,
-    this.regions,
-  });
-  factory Include.fromXml(_s.XmlElement elem) {
-    return Include(
-      buckets: _s
-          .extractXmlChild(elem, 'Buckets')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Arn')),
-      regions: _s
-          .extractXmlChild(elem, 'Regions')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Region')),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final buckets = this.buckets;
-    final regions = this.regions;
-    return {
-      if (buckets != null) 'Buckets': buckets,
-      if (regions != null) 'Regions': regions,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final buckets = this.buckets;
-    final regions = this.regions;
-    final $children = <_s.XmlNode>[
-      if (buckets != null)
-        _s.XmlElement(_s.XmlName.parts('Buckets'), [],
-            buckets.map((e) => _s.encodeXmlStringValue('Arn', e))),
-      if (regions != null)
-        _s.XmlElement(_s.XmlName.parts('Regions'), [],
-            regions.map((e) => _s.encodeXmlStringValue('Region', e))),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// A container element for the job configuration and status information
-/// returned by a <code>Describe Job</code> request.
-class JobDescriptor {
-  /// Indicates whether confirmation is required before Amazon S3 begins running
-  /// the specified job. Confirmation is required only for jobs created through
-  /// the Amazon S3 console.
-  final bool? confirmationRequired;
-
-  /// A timestamp indicating when this job was created.
-  final DateTime? creationTime;
-
-  /// The description for this job, if one was provided in this job's <code>Create
-  /// Job</code> request.
-  final String? description;
-
-  /// If the specified job failed, this field contains information describing the
-  /// failure.
-  final List<JobFailure>? failureReasons;
-
-  /// The attribute of the JobDescriptor containing details about the job's
-  /// generated manifest.
-  final S3GeneratedManifestDescriptor? generatedManifestDescriptor;
-
-  /// The Amazon Resource Name (ARN) for this job.
-  final String? jobArn;
-
-  /// The ID for the specified job.
-  final String? jobId;
-
-  /// The configuration information for the specified job's manifest object.
-  final JobManifest? manifest;
-
-  /// The manifest generator that was used to generate a job manifest for this
-  /// job.
-  final JobManifestGenerator? manifestGenerator;
-
-  /// The operation that the specified job is configured to run on the objects
-  /// listed in the manifest.
-  final JobOperation? operation;
-
-  /// The priority of the specified job.
-  final int? priority;
-
-  /// Describes the total number of tasks that the specified job has run, the
-  /// number of tasks that succeeded, and the number of tasks that failed.
-  final JobProgressSummary? progressSummary;
-
-  /// Contains the configuration information for the job-completion report if you
-  /// requested one in the <code>Create Job</code> request.
-  final JobReport? report;
-
-  /// The Amazon Resource Name (ARN) for the Identity and Access Management (IAM)
-  /// role assigned to run the tasks for this job.
-  final String? roleArn;
-
-  /// The current status of the specified job.
-  final JobStatus? status;
-
-  /// The reason for updating the job.
-  final String? statusUpdateReason;
-
-  /// The reason why the specified job was suspended. A job is only suspended if
-  /// you create it through the Amazon S3 console. When you create the job, it
-  /// enters the <code>Suspended</code> state to await confirmation before
-  /// running. After you confirm the job, it automatically exits the
-  /// <code>Suspended</code> state.
-  final String? suspendedCause;
-
-  /// The timestamp when this job was suspended, if it has been suspended.
-  final DateTime? suspendedDate;
-
-  /// A timestamp indicating when this job terminated. A job's termination date is
-  /// the date and time when it succeeded, failed, or was canceled.
-  final DateTime? terminationDate;
-
-  JobDescriptor({
-    this.confirmationRequired,
-    this.creationTime,
-    this.description,
-    this.failureReasons,
-    this.generatedManifestDescriptor,
-    this.jobArn,
-    this.jobId,
-    this.manifest,
-    this.manifestGenerator,
-    this.operation,
-    this.priority,
-    this.progressSummary,
-    this.report,
-    this.roleArn,
-    this.status,
-    this.statusUpdateReason,
-    this.suspendedCause,
-    this.suspendedDate,
-    this.terminationDate,
-  });
-  factory JobDescriptor.fromXml(_s.XmlElement elem) {
-    return JobDescriptor(
-      confirmationRequired:
-          _s.extractXmlBoolValue(elem, 'ConfirmationRequired'),
-      creationTime: _s.extractXmlDateTimeValue(elem, 'CreationTime'),
-      description: _s.extractXmlStringValue(elem, 'Description'),
-      failureReasons: _s.extractXmlChild(elem, 'FailureReasons')?.let((elem) =>
-          elem.findElements('member').map(JobFailure.fromXml).toList()),
-      generatedManifestDescriptor: _s
-          .extractXmlChild(elem, 'GeneratedManifestDescriptor')
-          ?.let(S3GeneratedManifestDescriptor.fromXml),
-      jobArn: _s.extractXmlStringValue(elem, 'JobArn'),
-      jobId: _s.extractXmlStringValue(elem, 'JobId'),
-      manifest: _s.extractXmlChild(elem, 'Manifest')?.let(JobManifest.fromXml),
-      manifestGenerator: _s
-          .extractXmlChild(elem, 'ManifestGenerator')
-          ?.let(JobManifestGenerator.fromXml),
-      operation:
-          _s.extractXmlChild(elem, 'Operation')?.let(JobOperation.fromXml),
-      priority: _s.extractXmlIntValue(elem, 'Priority'),
-      progressSummary: _s
-          .extractXmlChild(elem, 'ProgressSummary')
-          ?.let(JobProgressSummary.fromXml),
-      report: _s.extractXmlChild(elem, 'Report')?.let(JobReport.fromXml),
-      roleArn: _s.extractXmlStringValue(elem, 'RoleArn'),
-      status:
-          _s.extractXmlStringValue(elem, 'Status')?.let(JobStatus.fromString),
-      statusUpdateReason: _s.extractXmlStringValue(elem, 'StatusUpdateReason'),
-      suspendedCause: _s.extractXmlStringValue(elem, 'SuspendedCause'),
-      suspendedDate: _s.extractXmlDateTimeValue(elem, 'SuspendedDate'),
-      terminationDate: _s.extractXmlDateTimeValue(elem, 'TerminationDate'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final confirmationRequired = this.confirmationRequired;
-    final creationTime = this.creationTime;
-    final description = this.description;
-    final failureReasons = this.failureReasons;
-    final generatedManifestDescriptor = this.generatedManifestDescriptor;
-    final jobArn = this.jobArn;
-    final jobId = this.jobId;
-    final manifest = this.manifest;
-    final manifestGenerator = this.manifestGenerator;
-    final operation = this.operation;
-    final priority = this.priority;
-    final progressSummary = this.progressSummary;
-    final report = this.report;
-    final roleArn = this.roleArn;
-    final status = this.status;
-    final statusUpdateReason = this.statusUpdateReason;
-    final suspendedCause = this.suspendedCause;
-    final suspendedDate = this.suspendedDate;
-    final terminationDate = this.terminationDate;
-    return {
-      if (confirmationRequired != null)
-        'ConfirmationRequired': confirmationRequired,
-      if (creationTime != null) 'CreationTime': iso8601ToJson(creationTime),
-      if (description != null) 'Description': description,
-      if (failureReasons != null) 'FailureReasons': failureReasons,
-      if (generatedManifestDescriptor != null)
-        'GeneratedManifestDescriptor': generatedManifestDescriptor,
-      if (jobArn != null) 'JobArn': jobArn,
-      if (jobId != null) 'JobId': jobId,
-      if (manifest != null) 'Manifest': manifest,
-      if (manifestGenerator != null) 'ManifestGenerator': manifestGenerator,
-      if (operation != null) 'Operation': operation,
-      if (priority != null) 'Priority': priority,
-      if (progressSummary != null) 'ProgressSummary': progressSummary,
-      if (report != null) 'Report': report,
-      if (roleArn != null) 'RoleArn': roleArn,
-      if (status != null) 'Status': status.value,
-      if (statusUpdateReason != null) 'StatusUpdateReason': statusUpdateReason,
-      if (suspendedCause != null) 'SuspendedCause': suspendedCause,
-      if (suspendedDate != null) 'SuspendedDate': iso8601ToJson(suspendedDate),
-      if (terminationDate != null)
-        'TerminationDate': iso8601ToJson(terminationDate),
-    };
-  }
-}
-
-/// If this job failed, this element indicates why the job failed.
-class JobFailure {
-  /// The failure code, if any, for the specified job.
-  final String? failureCode;
-
-  /// The failure reason, if any, for the specified job.
-  final String? failureReason;
-
-  JobFailure({
-    this.failureCode,
-    this.failureReason,
-  });
-  factory JobFailure.fromXml(_s.XmlElement elem) {
-    return JobFailure(
-      failureCode: _s.extractXmlStringValue(elem, 'FailureCode'),
-      failureReason: _s.extractXmlStringValue(elem, 'FailureReason'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final failureCode = this.failureCode;
-    final failureReason = this.failureReason;
-    return {
-      if (failureCode != null) 'FailureCode': failureCode,
-      if (failureReason != null) 'FailureReason': failureReason,
-    };
-  }
-}
-
-/// Contains the configuration and status information for a single job retrieved
-/// as part of a job list.
-class JobListDescriptor {
-  /// A timestamp indicating when the specified job was created.
-  final DateTime? creationTime;
-
-  /// The user-specified description that was included in the specified job's
-  /// <code>Create Job</code> request.
-  final String? description;
-
-  /// The ID for the specified job.
-  final String? jobId;
-
-  /// The operation that the specified job is configured to run on every object
-  /// listed in the manifest.
-  final OperationName? operation;
-
-  /// The current priority for the specified job.
-  final int? priority;
-
-  /// Describes the total number of tasks that the specified job has run, the
-  /// number of tasks that succeeded, and the number of tasks that failed.
-  final JobProgressSummary? progressSummary;
-
-  /// The specified job's current status.
-  final JobStatus? status;
-
-  /// A timestamp indicating when the specified job terminated. A job's
-  /// termination date is the date and time when it succeeded, failed, or was
-  /// canceled.
-  final DateTime? terminationDate;
-
-  JobListDescriptor({
-    this.creationTime,
-    this.description,
-    this.jobId,
-    this.operation,
-    this.priority,
-    this.progressSummary,
-    this.status,
-    this.terminationDate,
-  });
-  factory JobListDescriptor.fromXml(_s.XmlElement elem) {
-    return JobListDescriptor(
-      creationTime: _s.extractXmlDateTimeValue(elem, 'CreationTime'),
-      description: _s.extractXmlStringValue(elem, 'Description'),
-      jobId: _s.extractXmlStringValue(elem, 'JobId'),
-      operation: _s
-          .extractXmlStringValue(elem, 'Operation')
-          ?.let(OperationName.fromString),
-      priority: _s.extractXmlIntValue(elem, 'Priority'),
-      progressSummary: _s
-          .extractXmlChild(elem, 'ProgressSummary')
-          ?.let(JobProgressSummary.fromXml),
-      status:
-          _s.extractXmlStringValue(elem, 'Status')?.let(JobStatus.fromString),
-      terminationDate: _s.extractXmlDateTimeValue(elem, 'TerminationDate'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationTime = this.creationTime;
-    final description = this.description;
-    final jobId = this.jobId;
-    final operation = this.operation;
-    final priority = this.priority;
-    final progressSummary = this.progressSummary;
-    final status = this.status;
-    final terminationDate = this.terminationDate;
-    return {
-      if (creationTime != null) 'CreationTime': iso8601ToJson(creationTime),
-      if (description != null) 'Description': description,
-      if (jobId != null) 'JobId': jobId,
-      if (operation != null) 'Operation': operation.value,
-      if (priority != null) 'Priority': priority,
-      if (progressSummary != null) 'ProgressSummary': progressSummary,
-      if (status != null) 'Status': status.value,
-      if (terminationDate != null)
-        'TerminationDate': iso8601ToJson(terminationDate),
-    };
-  }
-}
-
-/// Contains the configuration information for a job's manifest.
-class JobManifest {
-  /// Contains the information required to locate the specified job's manifest.
-  /// Manifests can't be imported from directory buckets. For more information,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-overview.html">Directory
-  /// buckets</a>.
-  final JobManifestLocation location;
-
-  /// Describes the format of the specified job's manifest. If the manifest is in
-  /// CSV format, also describes the columns contained within the manifest.
-  final JobManifestSpec spec;
-
-  JobManifest({
-    required this.location,
-    required this.spec,
-  });
-  factory JobManifest.fromXml(_s.XmlElement elem) {
-    return JobManifest(
-      location:
-          JobManifestLocation.fromXml(_s.extractXmlChild(elem, 'Location')!),
-      spec: JobManifestSpec.fromXml(_s.extractXmlChild(elem, 'Spec')!),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final location = this.location;
-    final spec = this.spec;
-    return {
-      'Location': location,
-      'Spec': spec,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final location = this.location;
-    final spec = this.spec;
-    final $children = <_s.XmlNode>[
-      spec.toXml('Spec'),
-      location.toXml('Location'),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-class JobManifestFieldName {
-  static const ignore = JobManifestFieldName._('Ignore');
-  static const bucket = JobManifestFieldName._('Bucket');
-  static const key = JobManifestFieldName._('Key');
-  static const versionId = JobManifestFieldName._('VersionId');
-
-  final String value;
-
-  const JobManifestFieldName._(this.value);
-
-  static const values = [ignore, bucket, key, versionId];
-
-  static JobManifestFieldName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => JobManifestFieldName._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is JobManifestFieldName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class JobManifestFormat {
-  static const s3BatchOperationsCsv_20180820 =
-      JobManifestFormat._('S3BatchOperations_CSV_20180820');
-  static const s3InventoryReportCsv_20161130 =
-      JobManifestFormat._('S3InventoryReport_CSV_20161130');
-
-  final String value;
-
-  const JobManifestFormat._(this.value);
-
-  static const values = [
-    s3BatchOperationsCsv_20180820,
-    s3InventoryReportCsv_20161130
-  ];
-
-  static JobManifestFormat fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => JobManifestFormat._(value));
-
-  @override
-  bool operator ==(other) => other is JobManifestFormat && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Configures the type of the job's ManifestGenerator.
-class JobManifestGenerator {
-  /// The S3 job ManifestGenerator's configuration details.
-  final S3JobManifestGenerator? s3JobManifestGenerator;
-
-  JobManifestGenerator({
-    this.s3JobManifestGenerator,
-  });
-  factory JobManifestGenerator.fromXml(_s.XmlElement elem) {
-    return JobManifestGenerator(
-      s3JobManifestGenerator: _s
-          .extractXmlChild(elem, 'S3JobManifestGenerator')
-          ?.let(S3JobManifestGenerator.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final s3JobManifestGenerator = this.s3JobManifestGenerator;
-    return {
-      if (s3JobManifestGenerator != null)
-        'S3JobManifestGenerator': s3JobManifestGenerator,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final s3JobManifestGenerator = this.s3JobManifestGenerator;
-    final $children = <_s.XmlNode>[
-      if (s3JobManifestGenerator != null)
-        s3JobManifestGenerator.toXml('S3JobManifestGenerator'),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// The filter used to describe a set of objects for the job's manifest.
-class JobManifestGeneratorFilter {
-  /// If provided, the generated manifest includes only source bucket objects that
-  /// were created after this time.
-  final DateTime? createdAfter;
-
-  /// If provided, the generated manifest includes only source bucket objects that
-  /// were created before this time.
-  final DateTime? createdBefore;
-
-  /// Include objects in the generated manifest only if they are eligible for
-  /// replication according to the Replication configuration on the source bucket.
-  final bool? eligibleForReplication;
-
-  /// If provided, the generated manifest includes only source bucket objects
-  /// whose object keys match the string constraints specified for
-  /// <code>MatchAnyPrefix</code>, <code>MatchAnySuffix</code>, and
-  /// <code>MatchAnySubstring</code>.
-  final KeyNameConstraint? keyNameConstraint;
-
-  /// If provided, the generated manifest includes only source bucket objects that
-  /// are stored with the specified storage class.
-  final List<S3StorageClass>? matchAnyStorageClass;
-
-  /// If provided, the generated manifest includes only source bucket objects that
-  /// have one of the specified Replication statuses.
-  final List<ReplicationStatus>? objectReplicationStatuses;
-
-  /// If provided, the generated manifest includes only source bucket objects
-  /// whose file size is greater than the specified number of bytes.
-  final int? objectSizeGreaterThanBytes;
-
-  /// If provided, the generated manifest includes only source bucket objects
-  /// whose file size is less than the specified number of bytes.
-  final int? objectSizeLessThanBytes;
-
-  JobManifestGeneratorFilter({
-    this.createdAfter,
-    this.createdBefore,
-    this.eligibleForReplication,
-    this.keyNameConstraint,
-    this.matchAnyStorageClass,
-    this.objectReplicationStatuses,
-    this.objectSizeGreaterThanBytes,
-    this.objectSizeLessThanBytes,
-  });
-  factory JobManifestGeneratorFilter.fromXml(_s.XmlElement elem) {
-    return JobManifestGeneratorFilter(
-      createdAfter: _s.extractXmlDateTimeValue(elem, 'CreatedAfter'),
-      createdBefore: _s.extractXmlDateTimeValue(elem, 'CreatedBefore'),
-      eligibleForReplication:
-          _s.extractXmlBoolValue(elem, 'EligibleForReplication'),
-      keyNameConstraint: _s
-          .extractXmlChild(elem, 'KeyNameConstraint')
-          ?.let(KeyNameConstraint.fromXml),
-      matchAnyStorageClass: _s
-          .extractXmlChild(elem, 'MatchAnyStorageClass')
-          ?.let((elem) => _s
-              .extractXmlStringListValues(elem, 'member')
-              .map(S3StorageClass.fromString)
+  factory ListAccessGrantsResult.fromXml(_s.XmlElement elem) {
+    return ListAccessGrantsResult(
+      accessGrantsList: _s.extractXmlChild(elem, 'AccessGrantsList')?.let(
+          (elem) => elem
+              .findElements('AccessGrant')
+              .map(ListAccessGrantEntry.fromXml)
               .toList()),
-      objectReplicationStatuses: _s
-          .extractXmlChild(elem, 'ObjectReplicationStatuses')
-          ?.let((elem) => _s
-              .extractXmlStringListValues(elem, 'member')
-              .map(ReplicationStatus.fromString)
-              .toList()),
-      objectSizeGreaterThanBytes:
-          _s.extractXmlIntValue(elem, 'ObjectSizeGreaterThanBytes'),
-      objectSizeLessThanBytes:
-          _s.extractXmlIntValue(elem, 'ObjectSizeLessThanBytes'),
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final createdAfter = this.createdAfter;
-    final createdBefore = this.createdBefore;
-    final eligibleForReplication = this.eligibleForReplication;
-    final keyNameConstraint = this.keyNameConstraint;
-    final matchAnyStorageClass = this.matchAnyStorageClass;
-    final objectReplicationStatuses = this.objectReplicationStatuses;
-    final objectSizeGreaterThanBytes = this.objectSizeGreaterThanBytes;
-    final objectSizeLessThanBytes = this.objectSizeLessThanBytes;
+    final accessGrantsList = this.accessGrantsList;
+    final nextToken = this.nextToken;
     return {
-      if (createdAfter != null) 'CreatedAfter': iso8601ToJson(createdAfter),
-      if (createdBefore != null) 'CreatedBefore': iso8601ToJson(createdBefore),
-      if (eligibleForReplication != null)
-        'EligibleForReplication': eligibleForReplication,
-      if (keyNameConstraint != null) 'KeyNameConstraint': keyNameConstraint,
-      if (matchAnyStorageClass != null)
-        'MatchAnyStorageClass':
-            matchAnyStorageClass.map((e) => e.value).toList(),
-      if (objectReplicationStatuses != null)
-        'ObjectReplicationStatuses':
-            objectReplicationStatuses.map((e) => e.value).toList(),
-      if (objectSizeGreaterThanBytes != null)
-        'ObjectSizeGreaterThanBytes': objectSizeGreaterThanBytes,
-      if (objectSizeLessThanBytes != null)
-        'ObjectSizeLessThanBytes': objectSizeLessThanBytes,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final createdAfter = this.createdAfter;
-    final createdBefore = this.createdBefore;
-    final eligibleForReplication = this.eligibleForReplication;
-    final keyNameConstraint = this.keyNameConstraint;
-    final matchAnyStorageClass = this.matchAnyStorageClass;
-    final objectReplicationStatuses = this.objectReplicationStatuses;
-    final objectSizeGreaterThanBytes = this.objectSizeGreaterThanBytes;
-    final objectSizeLessThanBytes = this.objectSizeLessThanBytes;
-    final $children = <_s.XmlNode>[
-      if (eligibleForReplication != null)
-        _s.encodeXmlBoolValue('EligibleForReplication', eligibleForReplication),
-      if (createdAfter != null)
-        _s.encodeXmlDateTimeValue('CreatedAfter', createdAfter),
-      if (createdBefore != null)
-        _s.encodeXmlDateTimeValue('CreatedBefore', createdBefore),
-      if (objectReplicationStatuses != null)
-        _s.XmlElement(
-            _s.XmlName.parts('ObjectReplicationStatuses'),
-            [],
-            objectReplicationStatuses
-                .map((e) => _s.encodeXmlStringValue('member', e.value))),
-      if (keyNameConstraint != null)
-        keyNameConstraint.toXml('KeyNameConstraint'),
-      if (objectSizeGreaterThanBytes != null)
-        _s.encodeXmlIntValue(
-            'ObjectSizeGreaterThanBytes', objectSizeGreaterThanBytes),
-      if (objectSizeLessThanBytes != null)
-        _s.encodeXmlIntValue(
-            'ObjectSizeLessThanBytes', objectSizeLessThanBytes),
-      if (matchAnyStorageClass != null)
-        _s.XmlElement(
-            _s.XmlName.parts('MatchAnyStorageClass'),
-            [],
-            matchAnyStorageClass
-                .map((e) => _s.encodeXmlStringValue('member', e.value))),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// Contains the information required to locate a manifest object. Manifests
-/// can't be imported from directory buckets. For more information, see <a
-/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-overview.html">Directory
-/// buckets</a>.
-class JobManifestLocation {
-  /// The ETag for the specified manifest object.
-  final String eTag;
-
-  /// The Amazon Resource Name (ARN) for a manifest object.
-  /// <important>
-  /// When you're using XML requests, you must replace special characters (such as
-  /// carriage returns) in object keys with their equivalent XML entity codes. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints">
-  /// XML-related object key constraints</a> in the <i>Amazon S3 User Guide</i>.
-  /// </important>
-  final String objectArn;
-
-  /// The optional version ID to identify a specific version of the manifest
-  /// object.
-  final String? objectVersionId;
-
-  JobManifestLocation({
-    required this.eTag,
-    required this.objectArn,
-    this.objectVersionId,
-  });
-  factory JobManifestLocation.fromXml(_s.XmlElement elem) {
-    return JobManifestLocation(
-      eTag: _s.extractXmlStringValue(elem, 'ETag')!,
-      objectArn: _s.extractXmlStringValue(elem, 'ObjectArn')!,
-      objectVersionId: _s.extractXmlStringValue(elem, 'ObjectVersionId'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eTag = this.eTag;
-    final objectArn = this.objectArn;
-    final objectVersionId = this.objectVersionId;
-    return {
-      'ETag': eTag,
-      'ObjectArn': objectArn,
-      if (objectVersionId != null) 'ObjectVersionId': objectVersionId,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final eTag = this.eTag;
-    final objectArn = this.objectArn;
-    final objectVersionId = this.objectVersionId;
-    final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('ObjectArn', objectArn),
-      if (objectVersionId != null)
-        _s.encodeXmlStringValue('ObjectVersionId', objectVersionId),
-      _s.encodeXmlStringValue('ETag', eTag),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// Describes the format of a manifest. If the manifest is in CSV format, also
-/// describes the columns contained within the manifest.
-class JobManifestSpec {
-  /// Indicates which of the available formats the specified manifest uses.
-  final JobManifestFormat format;
-
-  /// If the specified manifest object is in the
-  /// <code>S3BatchOperations_CSV_20180820</code> format, this element describes
-  /// which columns contain the required data.
-  final List<JobManifestFieldName>? fields;
-
-  JobManifestSpec({
-    required this.format,
-    this.fields,
-  });
-  factory JobManifestSpec.fromXml(_s.XmlElement elem) {
-    return JobManifestSpec(
-      format: _s
-          .extractXmlStringValue(elem, 'Format')!
-          .let(JobManifestFormat.fromString),
-      fields: _s.extractXmlChild(elem, 'Fields')?.let((elem) => _s
-          .extractXmlStringListValues(elem, 'member')
-          .map(JobManifestFieldName.fromString)
-          .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final format = this.format;
-    final fields = this.fields;
-    return {
-      'Format': format.value,
-      if (fields != null) 'Fields': fields.map((e) => e.value).toList(),
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final format = this.format;
-    final fields = this.fields;
-    final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Format', format.value),
-      if (fields != null)
-        _s.XmlElement(_s.XmlName.parts('Fields'), [],
-            fields.map((e) => _s.encodeXmlStringValue('member', e.value))),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// The operation that you want this job to perform on every object listed in
-/// the manifest. For more information about the available operations, see <a
-/// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-operations.html">Operations</a>
-/// in the <i>Amazon S3 User Guide</i>.
-class JobOperation {
-  /// Directs the specified job to invoke an Lambda function on every object in
-  /// the manifest.
-  final LambdaInvokeOperation? lambdaInvoke;
-
-  /// Directs the specified job to execute a DELETE Object tagging call on every
-  /// object in the manifest.
-  /// <note>
-  /// This functionality is not supported by directory buckets.
-  /// </note>
-  final S3DeleteObjectTaggingOperation? s3DeleteObjectTagging;
-
-  /// Directs the specified job to initiate restore requests for every archived
-  /// object in the manifest.
-  /// <note>
-  /// This functionality is not supported by directory buckets.
-  /// </note>
-  final S3InitiateRestoreObjectOperation? s3InitiateRestoreObject;
-
-  /// Directs the specified job to run a <code>PutObjectAcl</code> call on every
-  /// object in the manifest.
-  /// <note>
-  /// This functionality is not supported by directory buckets.
-  /// </note>
-  final S3SetObjectAclOperation? s3PutObjectAcl;
-
-  /// Directs the specified job to run a PUT Copy object call on every object in
-  /// the manifest.
-  final S3CopyObjectOperation? s3PutObjectCopy;
-  final S3SetObjectLegalHoldOperation? s3PutObjectLegalHold;
-  final S3SetObjectRetentionOperation? s3PutObjectRetention;
-
-  /// Directs the specified job to run a PUT Object tagging call on every object
-  /// in the manifest.
-  /// <note>
-  /// This functionality is not supported by directory buckets.
-  /// </note>
-  final S3SetObjectTaggingOperation? s3PutObjectTagging;
-
-  /// Directs the specified job to invoke <code>ReplicateObject</code> on every
-  /// object in the job's manifest.
-  /// <note>
-  /// This functionality is not supported by directory buckets.
-  /// </note>
-  final S3ReplicateObjectOperation? s3ReplicateObject;
-
-  JobOperation({
-    this.lambdaInvoke,
-    this.s3DeleteObjectTagging,
-    this.s3InitiateRestoreObject,
-    this.s3PutObjectAcl,
-    this.s3PutObjectCopy,
-    this.s3PutObjectLegalHold,
-    this.s3PutObjectRetention,
-    this.s3PutObjectTagging,
-    this.s3ReplicateObject,
-  });
-  factory JobOperation.fromXml(_s.XmlElement elem) {
-    return JobOperation(
-      lambdaInvoke: _s
-          .extractXmlChild(elem, 'LambdaInvoke')
-          ?.let(LambdaInvokeOperation.fromXml),
-      s3DeleteObjectTagging: _s
-          .extractXmlChild(elem, 'S3DeleteObjectTagging')
-          ?.let(S3DeleteObjectTaggingOperation.fromXml),
-      s3InitiateRestoreObject: _s
-          .extractXmlChild(elem, 'S3InitiateRestoreObject')
-          ?.let(S3InitiateRestoreObjectOperation.fromXml),
-      s3PutObjectAcl: _s
-          .extractXmlChild(elem, 'S3PutObjectAcl')
-          ?.let(S3SetObjectAclOperation.fromXml),
-      s3PutObjectCopy: _s
-          .extractXmlChild(elem, 'S3PutObjectCopy')
-          ?.let(S3CopyObjectOperation.fromXml),
-      s3PutObjectLegalHold: _s
-          .extractXmlChild(elem, 'S3PutObjectLegalHold')
-          ?.let(S3SetObjectLegalHoldOperation.fromXml),
-      s3PutObjectRetention: _s
-          .extractXmlChild(elem, 'S3PutObjectRetention')
-          ?.let(S3SetObjectRetentionOperation.fromXml),
-      s3PutObjectTagging: _s
-          .extractXmlChild(elem, 'S3PutObjectTagging')
-          ?.let(S3SetObjectTaggingOperation.fromXml),
-      s3ReplicateObject: _s
-          .extractXmlChild(elem, 'S3ReplicateObject')
-          ?.let(S3ReplicateObjectOperation.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lambdaInvoke = this.lambdaInvoke;
-    final s3DeleteObjectTagging = this.s3DeleteObjectTagging;
-    final s3InitiateRestoreObject = this.s3InitiateRestoreObject;
-    final s3PutObjectAcl = this.s3PutObjectAcl;
-    final s3PutObjectCopy = this.s3PutObjectCopy;
-    final s3PutObjectLegalHold = this.s3PutObjectLegalHold;
-    final s3PutObjectRetention = this.s3PutObjectRetention;
-    final s3PutObjectTagging = this.s3PutObjectTagging;
-    final s3ReplicateObject = this.s3ReplicateObject;
-    return {
-      if (lambdaInvoke != null) 'LambdaInvoke': lambdaInvoke,
-      if (s3DeleteObjectTagging != null)
-        'S3DeleteObjectTagging': s3DeleteObjectTagging,
-      if (s3InitiateRestoreObject != null)
-        'S3InitiateRestoreObject': s3InitiateRestoreObject,
-      if (s3PutObjectAcl != null) 'S3PutObjectAcl': s3PutObjectAcl,
-      if (s3PutObjectCopy != null) 'S3PutObjectCopy': s3PutObjectCopy,
-      if (s3PutObjectLegalHold != null)
-        'S3PutObjectLegalHold': s3PutObjectLegalHold,
-      if (s3PutObjectRetention != null)
-        'S3PutObjectRetention': s3PutObjectRetention,
-      if (s3PutObjectTagging != null) 'S3PutObjectTagging': s3PutObjectTagging,
-      if (s3ReplicateObject != null) 'S3ReplicateObject': s3ReplicateObject,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final lambdaInvoke = this.lambdaInvoke;
-    final s3DeleteObjectTagging = this.s3DeleteObjectTagging;
-    final s3InitiateRestoreObject = this.s3InitiateRestoreObject;
-    final s3PutObjectAcl = this.s3PutObjectAcl;
-    final s3PutObjectCopy = this.s3PutObjectCopy;
-    final s3PutObjectLegalHold = this.s3PutObjectLegalHold;
-    final s3PutObjectRetention = this.s3PutObjectRetention;
-    final s3PutObjectTagging = this.s3PutObjectTagging;
-    final s3ReplicateObject = this.s3ReplicateObject;
-    final $children = <_s.XmlNode>[
-      if (lambdaInvoke != null) lambdaInvoke.toXml('LambdaInvoke'),
-      if (s3PutObjectCopy != null) s3PutObjectCopy.toXml('S3PutObjectCopy'),
-      if (s3PutObjectAcl != null) s3PutObjectAcl.toXml('S3PutObjectAcl'),
-      if (s3PutObjectTagging != null)
-        s3PutObjectTagging.toXml('S3PutObjectTagging'),
-      if (s3DeleteObjectTagging != null)
-        s3DeleteObjectTagging.toXml('S3DeleteObjectTagging'),
-      if (s3InitiateRestoreObject != null)
-        s3InitiateRestoreObject.toXml('S3InitiateRestoreObject'),
-      if (s3PutObjectLegalHold != null)
-        s3PutObjectLegalHold.toXml('S3PutObjectLegalHold'),
-      if (s3PutObjectRetention != null)
-        s3PutObjectRetention.toXml('S3PutObjectRetention'),
-      if (s3ReplicateObject != null)
-        s3ReplicateObject.toXml('S3ReplicateObject'),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// Describes the total number of tasks that the specified job has started, the
-/// number of tasks that succeeded, and the number of tasks that failed.
-class JobProgressSummary {
-  /// <p/>
-  final int? numberOfTasksFailed;
-
-  /// <p/>
-  final int? numberOfTasksSucceeded;
-
-  /// The JobTimers attribute of a job's progress summary.
-  final JobTimers? timers;
-
-  /// <p/>
-  final int? totalNumberOfTasks;
-
-  JobProgressSummary({
-    this.numberOfTasksFailed,
-    this.numberOfTasksSucceeded,
-    this.timers,
-    this.totalNumberOfTasks,
-  });
-  factory JobProgressSummary.fromXml(_s.XmlElement elem) {
-    return JobProgressSummary(
-      numberOfTasksFailed: _s.extractXmlIntValue(elem, 'NumberOfTasksFailed'),
-      numberOfTasksSucceeded:
-          _s.extractXmlIntValue(elem, 'NumberOfTasksSucceeded'),
-      timers: _s.extractXmlChild(elem, 'Timers')?.let(JobTimers.fromXml),
-      totalNumberOfTasks: _s.extractXmlIntValue(elem, 'TotalNumberOfTasks'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final numberOfTasksFailed = this.numberOfTasksFailed;
-    final numberOfTasksSucceeded = this.numberOfTasksSucceeded;
-    final timers = this.timers;
-    final totalNumberOfTasks = this.totalNumberOfTasks;
-    return {
-      if (numberOfTasksFailed != null)
-        'NumberOfTasksFailed': numberOfTasksFailed,
-      if (numberOfTasksSucceeded != null)
-        'NumberOfTasksSucceeded': numberOfTasksSucceeded,
-      if (timers != null) 'Timers': timers,
-      if (totalNumberOfTasks != null) 'TotalNumberOfTasks': totalNumberOfTasks,
-    };
-  }
-}
-
-/// Contains the configuration parameters for a job-completion report.
-class JobReport {
-  /// Indicates whether the specified job will generate a job-completion report.
-  final bool enabled;
-
-  /// The Amazon Resource Name (ARN) for the bucket where specified job-completion
-  /// report will be stored.
-  /// <note>
-  /// <b>Directory buckets</b> - Directory buckets aren't supported as a location
-  /// for Batch Operations to store job completion reports.
-  /// </note>
-  final String? bucket;
-
-  /// The format of the specified job-completion report.
-  final JobReportFormat? format;
-
-  /// An optional prefix to describe where in the specified bucket the
-  /// job-completion report will be stored. Amazon S3 stores the job-completion
-  /// report at <code>&lt;prefix&gt;/job-&lt;job-id&gt;/report.json</code>.
-  final String? prefix;
-
-  /// Indicates whether the job-completion report will include details of all
-  /// tasks or only failed tasks.
-  final JobReportScope? reportScope;
-
-  JobReport({
-    required this.enabled,
-    this.bucket,
-    this.format,
-    this.prefix,
-    this.reportScope,
-  });
-  factory JobReport.fromXml(_s.XmlElement elem) {
-    return JobReport(
-      enabled: _s.extractXmlBoolValue(elem, 'Enabled')!,
-      bucket: _s.extractXmlStringValue(elem, 'Bucket'),
-      format: _s
-          .extractXmlStringValue(elem, 'Format')
-          ?.let(JobReportFormat.fromString),
-      prefix: _s.extractXmlStringValue(elem, 'Prefix'),
-      reportScope: _s
-          .extractXmlStringValue(elem, 'ReportScope')
-          ?.let(JobReportScope.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final enabled = this.enabled;
-    final bucket = this.bucket;
-    final format = this.format;
-    final prefix = this.prefix;
-    final reportScope = this.reportScope;
-    return {
-      'Enabled': enabled,
-      if (bucket != null) 'Bucket': bucket,
-      if (format != null) 'Format': format.value,
-      if (prefix != null) 'Prefix': prefix,
-      if (reportScope != null) 'ReportScope': reportScope.value,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final enabled = this.enabled;
-    final bucket = this.bucket;
-    final format = this.format;
-    final prefix = this.prefix;
-    final reportScope = this.reportScope;
-    final $children = <_s.XmlNode>[
-      if (bucket != null) _s.encodeXmlStringValue('Bucket', bucket),
-      if (format != null) _s.encodeXmlStringValue('Format', format.value),
-      _s.encodeXmlBoolValue('Enabled', enabled),
-      if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
-      if (reportScope != null)
-        _s.encodeXmlStringValue('ReportScope', reportScope.value),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-class JobReportFormat {
-  static const reportCsv_20180820 = JobReportFormat._('Report_CSV_20180820');
-
-  final String value;
-
-  const JobReportFormat._(this.value);
-
-  static const values = [reportCsv_20180820];
-
-  static JobReportFormat fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => JobReportFormat._(value));
-
-  @override
-  bool operator ==(other) => other is JobReportFormat && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class JobReportScope {
-  static const allTasks = JobReportScope._('AllTasks');
-  static const failedTasksOnly = JobReportScope._('FailedTasksOnly');
-
-  final String value;
-
-  const JobReportScope._(this.value);
-
-  static const values = [allTasks, failedTasksOnly];
-
-  static JobReportScope fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => JobReportScope._(value));
-
-  @override
-  bool operator ==(other) => other is JobReportScope && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class JobStatus {
-  static const active = JobStatus._('Active');
-  static const cancelled = JobStatus._('Cancelled');
-  static const cancelling = JobStatus._('Cancelling');
-  static const complete = JobStatus._('Complete');
-  static const completing = JobStatus._('Completing');
-  static const failed = JobStatus._('Failed');
-  static const failing = JobStatus._('Failing');
-  static const $new = JobStatus._('New');
-  static const paused = JobStatus._('Paused');
-  static const pausing = JobStatus._('Pausing');
-  static const preparing = JobStatus._('Preparing');
-  static const ready = JobStatus._('Ready');
-  static const suspended = JobStatus._('Suspended');
-
-  final String value;
-
-  const JobStatus._(this.value);
-
-  static const values = [
-    active,
-    cancelled,
-    cancelling,
-    complete,
-    completing,
-    failed,
-    failing,
-    $new,
-    paused,
-    pausing,
-    preparing,
-    ready,
-    suspended
-  ];
-
-  static JobStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => JobStatus._(value));
-
-  @override
-  bool operator ==(other) => other is JobStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides timing details for the job.
-class JobTimers {
-  /// Indicates the elapsed time in seconds the job has been in the Active job
-  /// state.
-  final int? elapsedTimeInActiveSeconds;
-
-  JobTimers({
-    this.elapsedTimeInActiveSeconds,
-  });
-  factory JobTimers.fromXml(_s.XmlElement elem) {
-    return JobTimers(
-      elapsedTimeInActiveSeconds:
-          _s.extractXmlIntValue(elem, 'ElapsedTimeInActiveSeconds'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final elapsedTimeInActiveSeconds = this.elapsedTimeInActiveSeconds;
-    return {
-      if (elapsedTimeInActiveSeconds != null)
-        'ElapsedTimeInActiveSeconds': elapsedTimeInActiveSeconds,
-    };
-  }
-}
-
-/// If provided, the generated manifest includes only source bucket objects
-/// whose object keys match the string constraints specified for
-/// <code>MatchAnyPrefix</code>, <code>MatchAnySuffix</code>, and
-/// <code>MatchAnySubstring</code>.
-class KeyNameConstraint {
-  /// If provided, the generated manifest includes objects where the specified
-  /// string appears at the start of the object key string. Each KeyNameConstraint
-  /// filter accepts an array of strings with a length of 1 string.
-  final List<String>? matchAnyPrefix;
-
-  /// If provided, the generated manifest includes objects where the specified
-  /// string appears anywhere within the object key string. Each KeyNameConstraint
-  /// filter accepts an array of strings with a length of 1 string.
-  final List<String>? matchAnySubstring;
-
-  /// If provided, the generated manifest includes objects where the specified
-  /// string appears at the end of the object key string. Each KeyNameConstraint
-  /// filter accepts an array of strings with a length of 1 string.
-  final List<String>? matchAnySuffix;
-
-  KeyNameConstraint({
-    this.matchAnyPrefix,
-    this.matchAnySubstring,
-    this.matchAnySuffix,
-  });
-  factory KeyNameConstraint.fromXml(_s.XmlElement elem) {
-    return KeyNameConstraint(
-      matchAnyPrefix: _s
-          .extractXmlChild(elem, 'MatchAnyPrefix')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      matchAnySubstring: _s
-          .extractXmlChild(elem, 'MatchAnySubstring')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      matchAnySuffix: _s
-          .extractXmlChild(elem, 'MatchAnySuffix')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final matchAnyPrefix = this.matchAnyPrefix;
-    final matchAnySubstring = this.matchAnySubstring;
-    final matchAnySuffix = this.matchAnySuffix;
-    return {
-      if (matchAnyPrefix != null) 'MatchAnyPrefix': matchAnyPrefix,
-      if (matchAnySubstring != null) 'MatchAnySubstring': matchAnySubstring,
-      if (matchAnySuffix != null) 'MatchAnySuffix': matchAnySuffix,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final matchAnyPrefix = this.matchAnyPrefix;
-    final matchAnySubstring = this.matchAnySubstring;
-    final matchAnySuffix = this.matchAnySuffix;
-    final $children = <_s.XmlNode>[
-      if (matchAnyPrefix != null)
-        _s.XmlElement(_s.XmlName.parts('MatchAnyPrefix'), [],
-            matchAnyPrefix.map((e) => _s.encodeXmlStringValue('member', e))),
-      if (matchAnySuffix != null)
-        _s.XmlElement(_s.XmlName.parts('MatchAnySuffix'), [],
-            matchAnySuffix.map((e) => _s.encodeXmlStringValue('member', e))),
-      if (matchAnySubstring != null)
-        _s.XmlElement(_s.XmlName.parts('MatchAnySubstring'), [],
-            matchAnySubstring.map((e) => _s.encodeXmlStringValue('member', e))),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// Contains the configuration parameters for a <code>Lambda Invoke</code>
-/// operation.
-class LambdaInvokeOperation {
-  /// The Amazon Resource Name (ARN) for the Lambda function that the specified
-  /// job will invoke on every object in the manifest.
-  final String? functionArn;
-
-  /// Specifies the schema version for the payload that Batch Operations sends
-  /// when invoking an Lambda function. Version <code>1.0</code> is the default.
-  /// Version <code>2.0</code> is required when you use Batch Operations to invoke
-  /// Lambda functions that act on directory buckets, or if you need to specify
-  /// <code>UserArguments</code>. For more information, see <a
-  /// href="https://aws.amazon.com/blogs/storage/automate-object-processing-in-amazon-s3-directory-buckets-with-s3-batch-operations-and-aws-lambda/">Automate
-  /// object processing in Amazon S3 directory buckets with S3 Batch Operations
-  /// and Lambda</a> in the <i>Amazon Web Services Storage Blog</i>.
-  /// <important>
-  /// Ensure that your Lambda function code expects
-  /// <code>InvocationSchemaVersion</code> <b>2.0</b> and uses bucket name rather
-  /// than bucket ARN. If the <code>InvocationSchemaVersion</code> does not match
-  /// what your Lambda function expects, your function might not work as expected.
-  /// </important> <note>
-  /// <b>Directory buckets</b> - To initiate Amazon Web Services Lambda function
-  /// to perform custom actions on objects in directory buckets, you must specify
-  /// <code>2.0</code>.
-  /// </note>
-  final String? invocationSchemaVersion;
-
-  /// Key-value pairs that are passed in the payload that Batch Operations sends
-  /// when invoking an Lambda function. You must specify
-  /// <code>InvocationSchemaVersion</code> <b>2.0</b> for
-  /// <code>LambdaInvoke</code> operations that include
-  /// <code>UserArguments</code>. For more information, see <a
-  /// href="https://aws.amazon.com/blogs/storage/automate-object-processing-in-amazon-s3-directory-buckets-with-s3-batch-operations-and-aws-lambda/">Automate
-  /// object processing in Amazon S3 directory buckets with S3 Batch Operations
-  /// and Lambda</a> in the <i>Amazon Web Services Storage Blog</i>.
-  final Map<String, String>? userArguments;
-
-  LambdaInvokeOperation({
-    this.functionArn,
-    this.invocationSchemaVersion,
-    this.userArguments,
-  });
-  factory LambdaInvokeOperation.fromXml(_s.XmlElement elem) {
-    return LambdaInvokeOperation(
-      functionArn: _s.extractXmlStringValue(elem, 'FunctionArn'),
-      invocationSchemaVersion:
-          _s.extractXmlStringValue(elem, 'InvocationSchemaVersion'),
-      userArguments: Map.fromEntries(
-        elem.getElement('UserArguments')?.findElements('entry').map(
-                  (c) => MapEntry(
-                    _s.extractXmlStringValue(c, 'key')!,
-                    _s.extractXmlStringValue(c, 'value')!,
-                  ),
-                ) ??
-            {},
-      ),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final functionArn = this.functionArn;
-    final invocationSchemaVersion = this.invocationSchemaVersion;
-    final userArguments = this.userArguments;
-    return {
-      if (functionArn != null) 'FunctionArn': functionArn,
-      if (invocationSchemaVersion != null)
-        'InvocationSchemaVersion': invocationSchemaVersion,
-      if (userArguments != null) 'UserArguments': userArguments,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final functionArn = this.functionArn;
-    final invocationSchemaVersion = this.invocationSchemaVersion;
-    final userArguments = this.userArguments;
-    final $children = <_s.XmlNode>[
-      if (functionArn != null)
-        _s.encodeXmlStringValue('FunctionArn', functionArn),
-      if (invocationSchemaVersion != null)
-        _s.encodeXmlStringValue(
-            'InvocationSchemaVersion', invocationSchemaVersion),
-      if (userArguments != null)
-        _s.XmlElement(
-            _s.XmlName.parts('UserArguments'),
-            [],
-            userArguments.entries.map((e) => _s.XmlElement(
-                    _s.XmlName.parts('entry'), [], <_s.XmlNode>[
-                  _s.encodeXmlStringValue('key', e.key),
-                  _s.encodeXmlStringValue('value', e.value)
-                ]))),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// The container for the Outposts bucket lifecycle configuration.
-class LifecycleConfiguration {
-  /// A lifecycle rule for individual objects in an Outposts bucket.
-  final List<LifecycleRule>? rules;
-
-  LifecycleConfiguration({
-    this.rules,
-  });
-
-  Map<String, dynamic> toJson() {
-    final rules = this.rules;
-    return {
-      if (rules != null) 'Rules': rules,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final rules = this.rules;
-    final $children = <_s.XmlNode>[
-      if (rules != null)
-        _s.XmlElement(
-            _s.XmlName.parts('Rules'), [], rules.map((e) => e.toXml('Rule'))),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// The container of the Outposts bucket lifecycle expiration.
-class LifecycleExpiration {
-  /// Indicates at what date the object is to be deleted. Should be in GMT ISO
-  /// 8601 format.
-  final DateTime? date;
-
-  /// Indicates the lifetime, in days, of the objects that are subject to the
-  /// rule. The value must be a non-zero positive integer.
-  final int? days;
-
-  /// Indicates whether Amazon S3 will remove a delete marker with no noncurrent
-  /// versions. If set to true, the delete marker will be expired. If set to
-  /// false, the policy takes no action. This cannot be specified with Days or
-  /// Date in a Lifecycle Expiration Policy.
-  final bool? expiredObjectDeleteMarker;
-
-  LifecycleExpiration({
-    this.date,
-    this.days,
-    this.expiredObjectDeleteMarker,
-  });
-  factory LifecycleExpiration.fromXml(_s.XmlElement elem) {
-    return LifecycleExpiration(
-      date: _s.extractXmlDateTimeValue(elem, 'Date'),
-      days: _s.extractXmlIntValue(elem, 'Days'),
-      expiredObjectDeleteMarker:
-          _s.extractXmlBoolValue(elem, 'ExpiredObjectDeleteMarker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final date = this.date;
-    final days = this.days;
-    final expiredObjectDeleteMarker = this.expiredObjectDeleteMarker;
-    return {
-      if (date != null) 'Date': iso8601ToJson(date),
-      if (days != null) 'Days': days,
-      if (expiredObjectDeleteMarker != null)
-        'ExpiredObjectDeleteMarker': expiredObjectDeleteMarker,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final date = this.date;
-    final days = this.days;
-    final expiredObjectDeleteMarker = this.expiredObjectDeleteMarker;
-    final $children = <_s.XmlNode>[
-      if (date != null) _s.encodeXmlDateTimeValue('Date', date),
-      if (days != null) _s.encodeXmlIntValue('Days', days),
-      if (expiredObjectDeleteMarker != null)
-        _s.encodeXmlBoolValue(
-            'ExpiredObjectDeleteMarker', expiredObjectDeleteMarker),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// The container for the Outposts bucket lifecycle rule.
-class LifecycleRule {
-  /// If 'Enabled', the rule is currently being applied. If 'Disabled', the rule
-  /// is not currently being applied.
-  final ExpirationStatus status;
-
-  /// Specifies the days since the initiation of an incomplete multipart upload
-  /// that Amazon S3 waits before permanently removing all parts of the upload.
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html#mpu-abort-incomplete-mpu-lifecycle-config">
-  /// Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle
-  /// Configuration</a> in the <i>Amazon S3 User Guide</i>.
-  final AbortIncompleteMultipartUpload? abortIncompleteMultipartUpload;
-
-  /// Specifies the expiration for the lifecycle of the object in the form of
-  /// date, days and, whether the object has a delete marker.
-  final LifecycleExpiration? expiration;
-
-  /// The container for the filter of lifecycle rule.
-  final LifecycleRuleFilter? filter;
-
-  /// Unique identifier for the rule. The value cannot be longer than 255
-  /// characters.
-  final String? id;
-
-  /// The noncurrent version expiration of the lifecycle rule.
-  final NoncurrentVersionExpiration? noncurrentVersionExpiration;
-
-  /// Specifies the transition rule for the lifecycle rule that describes when
-  /// noncurrent objects transition to a specific storage class. If your bucket is
-  /// versioning-enabled (or versioning is suspended), you can set this action to
-  /// request that Amazon S3 transition noncurrent object versions to a specific
-  /// storage class at a set period in the object's lifetime.
-  /// <note>
-  /// This is not supported by Amazon S3 on Outposts buckets.
-  /// </note>
-  final List<NoncurrentVersionTransition>? noncurrentVersionTransitions;
-
-  /// Specifies when an Amazon S3 object transitions to a specified storage class.
-  /// <note>
-  /// This is not supported by Amazon S3 on Outposts buckets.
-  /// </note>
-  final List<Transition>? transitions;
-
-  LifecycleRule({
-    required this.status,
-    this.abortIncompleteMultipartUpload,
-    this.expiration,
-    this.filter,
-    this.id,
-    this.noncurrentVersionExpiration,
-    this.noncurrentVersionTransitions,
-    this.transitions,
-  });
-  factory LifecycleRule.fromXml(_s.XmlElement elem) {
-    return LifecycleRule(
-      status: _s
-          .extractXmlStringValue(elem, 'Status')!
-          .let(ExpirationStatus.fromString),
-      abortIncompleteMultipartUpload: _s
-          .extractXmlChild(elem, 'AbortIncompleteMultipartUpload')
-          ?.let(AbortIncompleteMultipartUpload.fromXml),
-      expiration: _s
-          .extractXmlChild(elem, 'Expiration')
-          ?.let(LifecycleExpiration.fromXml),
-      filter:
-          _s.extractXmlChild(elem, 'Filter')?.let(LifecycleRuleFilter.fromXml),
-      id: _s.extractXmlStringValue(elem, 'ID'),
-      noncurrentVersionExpiration: _s
-          .extractXmlChild(elem, 'NoncurrentVersionExpiration')
-          ?.let(NoncurrentVersionExpiration.fromXml),
-      noncurrentVersionTransitions: _s
-          .extractXmlChild(elem, 'NoncurrentVersionTransitions')
-          ?.let((elem) => elem
-              .findElements('NoncurrentVersionTransition')
-              .map(NoncurrentVersionTransition.fromXml)
-              .toList()),
-      transitions: _s.extractXmlChild(elem, 'Transitions')?.let((elem) =>
-          elem.findElements('Transition').map(Transition.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final status = this.status;
-    final abortIncompleteMultipartUpload = this.abortIncompleteMultipartUpload;
-    final expiration = this.expiration;
-    final filter = this.filter;
-    final id = this.id;
-    final noncurrentVersionExpiration = this.noncurrentVersionExpiration;
-    final noncurrentVersionTransitions = this.noncurrentVersionTransitions;
-    final transitions = this.transitions;
-    return {
-      'Status': status.value,
-      if (abortIncompleteMultipartUpload != null)
-        'AbortIncompleteMultipartUpload': abortIncompleteMultipartUpload,
-      if (expiration != null) 'Expiration': expiration,
-      if (filter != null) 'Filter': filter,
-      if (id != null) 'ID': id,
-      if (noncurrentVersionExpiration != null)
-        'NoncurrentVersionExpiration': noncurrentVersionExpiration,
-      if (noncurrentVersionTransitions != null)
-        'NoncurrentVersionTransitions': noncurrentVersionTransitions,
-      if (transitions != null) 'Transitions': transitions,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final status = this.status;
-    final abortIncompleteMultipartUpload = this.abortIncompleteMultipartUpload;
-    final expiration = this.expiration;
-    final filter = this.filter;
-    final id = this.id;
-    final noncurrentVersionExpiration = this.noncurrentVersionExpiration;
-    final noncurrentVersionTransitions = this.noncurrentVersionTransitions;
-    final transitions = this.transitions;
-    final $children = <_s.XmlNode>[
-      if (expiration != null) expiration.toXml('Expiration'),
-      if (id != null) _s.encodeXmlStringValue('ID', id),
-      if (filter != null) filter.toXml('Filter'),
-      _s.encodeXmlStringValue('Status', status.value),
-      if (transitions != null)
-        _s.XmlElement(_s.XmlName.parts('Transitions'), [],
-            transitions.map((e) => e.toXml('Transition'))),
-      if (noncurrentVersionTransitions != null)
-        _s.XmlElement(
-            _s.XmlName.parts('NoncurrentVersionTransitions'),
-            [],
-            noncurrentVersionTransitions
-                .map((e) => e.toXml('NoncurrentVersionTransition'))),
-      if (noncurrentVersionExpiration != null)
-        noncurrentVersionExpiration.toXml('NoncurrentVersionExpiration'),
-      if (abortIncompleteMultipartUpload != null)
-        abortIncompleteMultipartUpload.toXml('AbortIncompleteMultipartUpload'),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// The container for the Outposts bucket lifecycle rule and operator.
-class LifecycleRuleAndOperator {
-  /// The non-inclusive minimum object size for the lifecycle rule. Setting this
-  /// property to 7 means the rule applies to objects with a size that is greater
-  /// than 7.
-  final int? objectSizeGreaterThan;
-
-  /// The non-inclusive maximum object size for the lifecycle rule. Setting this
-  /// property to 77 means the rule applies to objects with a size that is less
-  /// than 77.
-  final int? objectSizeLessThan;
-
-  /// Prefix identifying one or more objects to which the rule applies.
-  final String? prefix;
-
-  /// All of these tags must exist in the object's tag set in order for the rule
-  /// to apply.
-  final List<S3Tag>? tags;
-
-  LifecycleRuleAndOperator({
-    this.objectSizeGreaterThan,
-    this.objectSizeLessThan,
-    this.prefix,
-    this.tags,
-  });
-  factory LifecycleRuleAndOperator.fromXml(_s.XmlElement elem) {
-    return LifecycleRuleAndOperator(
-      objectSizeGreaterThan:
-          _s.extractXmlIntValue(elem, 'ObjectSizeGreaterThan'),
-      objectSizeLessThan: _s.extractXmlIntValue(elem, 'ObjectSizeLessThan'),
-      prefix: _s.extractXmlStringValue(elem, 'Prefix'),
-      tags: _s.extractXmlChild(elem, 'Tags')?.let(
-          (elem) => elem.findElements('member').map(S3Tag.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final objectSizeGreaterThan = this.objectSizeGreaterThan;
-    final objectSizeLessThan = this.objectSizeLessThan;
-    final prefix = this.prefix;
-    final tags = this.tags;
-    return {
-      if (objectSizeGreaterThan != null)
-        'ObjectSizeGreaterThan': objectSizeGreaterThan,
-      if (objectSizeLessThan != null) 'ObjectSizeLessThan': objectSizeLessThan,
-      if (prefix != null) 'Prefix': prefix,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final objectSizeGreaterThan = this.objectSizeGreaterThan;
-    final objectSizeLessThan = this.objectSizeLessThan;
-    final prefix = this.prefix;
-    final tags = this.tags;
-    final $children = <_s.XmlNode>[
-      if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
-      if (tags != null)
-        _s.XmlElement(
-            _s.XmlName.parts('Tags'), [], tags.map((e) => e.toXml('member'))),
-      if (objectSizeGreaterThan != null)
-        _s.encodeXmlIntValue('ObjectSizeGreaterThan', objectSizeGreaterThan),
-      if (objectSizeLessThan != null)
-        _s.encodeXmlIntValue('ObjectSizeLessThan', objectSizeLessThan),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// The container for the filter of the lifecycle rule.
-class LifecycleRuleFilter {
-  /// The container for the <code>AND</code> condition for the lifecycle rule.
-  final LifecycleRuleAndOperator? and;
-
-  /// Minimum object size to which the rule applies.
-  final int? objectSizeGreaterThan;
-
-  /// Maximum object size to which the rule applies.
-  final int? objectSizeLessThan;
-
-  /// Prefix identifying one or more objects to which the rule applies.
-  /// <important>
-  /// When you're using XML requests, you must replace special characters (such as
-  /// carriage returns) in object keys with their equivalent XML entity codes. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints">
-  /// XML-related object key constraints</a> in the <i>Amazon S3 User Guide</i>.
-  /// </important>
-  final String? prefix;
-  final S3Tag? tag;
-
-  LifecycleRuleFilter({
-    this.and,
-    this.objectSizeGreaterThan,
-    this.objectSizeLessThan,
-    this.prefix,
-    this.tag,
-  });
-  factory LifecycleRuleFilter.fromXml(_s.XmlElement elem) {
-    return LifecycleRuleFilter(
-      and: _s
-          .extractXmlChild(elem, 'And')
-          ?.let(LifecycleRuleAndOperator.fromXml),
-      objectSizeGreaterThan:
-          _s.extractXmlIntValue(elem, 'ObjectSizeGreaterThan'),
-      objectSizeLessThan: _s.extractXmlIntValue(elem, 'ObjectSizeLessThan'),
-      prefix: _s.extractXmlStringValue(elem, 'Prefix'),
-      tag: _s.extractXmlChild(elem, 'Tag')?.let(S3Tag.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final and = this.and;
-    final objectSizeGreaterThan = this.objectSizeGreaterThan;
-    final objectSizeLessThan = this.objectSizeLessThan;
-    final prefix = this.prefix;
-    final tag = this.tag;
-    return {
-      if (and != null) 'And': and,
-      if (objectSizeGreaterThan != null)
-        'ObjectSizeGreaterThan': objectSizeGreaterThan,
-      if (objectSizeLessThan != null) 'ObjectSizeLessThan': objectSizeLessThan,
-      if (prefix != null) 'Prefix': prefix,
-      if (tag != null) 'Tag': tag,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final and = this.and;
-    final objectSizeGreaterThan = this.objectSizeGreaterThan;
-    final objectSizeLessThan = this.objectSizeLessThan;
-    final prefix = this.prefix;
-    final tag = this.tag;
-    final $children = <_s.XmlNode>[
-      if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
-      if (tag != null) tag.toXml('Tag'),
-      if (and != null) and.toXml('And'),
-      if (objectSizeGreaterThan != null)
-        _s.encodeXmlIntValue('ObjectSizeGreaterThan', objectSizeGreaterThan),
-      if (objectSizeLessThan != null)
-        _s.encodeXmlIntValue('ObjectSizeLessThan', objectSizeLessThan),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// Information about the access grant.
-class ListAccessGrantEntry {
-  /// The Amazon Resource Name (ARN) of the access grant.
-  final String? accessGrantArn;
-
-  /// The ID of the access grant. S3 Access Grants auto-generates this ID when you
-  /// create the access grant.
-  final String? accessGrantId;
-
-  /// The configuration options of the grant location. The grant location is the
-  /// S3 path to the data to which you are granting access.
-  final AccessGrantsLocationConfiguration? accessGrantsLocationConfiguration;
-
-  /// The ID of the registered location to which you are granting access. S3
-  /// Access Grants assigns this ID when you register the location. S3 Access
-  /// Grants assigns the ID <code>default</code> to the default location
-  /// <code>s3://</code> and assigns an auto-generated ID to other locations that
-  /// you register.
-  final String? accessGrantsLocationId;
-
-  /// The Amazon Resource Name (ARN) of an Amazon Web Services IAM Identity Center
-  /// application associated with your Identity Center instance. If the grant
-  /// includes an application ARN, the grantee can only access the S3 data through
-  /// this application.
-  final String? applicationArn;
-
-  /// The date and time when you created the S3 Access Grants instance.
-  final DateTime? createdAt;
-
-  /// The S3 path of the data to which you are granting access. It is the result
-  /// of appending the <code>Subprefix</code> to the location scope.
-  final String? grantScope;
-
-  /// The user, group, or role to which you are granting access. You can grant
-  /// access to an IAM user or role. If you have added your corporate directory to
-  /// Amazon Web Services IAM Identity Center and associated your Identity Center
-  /// instance with your S3 Access Grants instance, the grantee can also be a
-  /// corporate directory user or group.
-  final Grantee? grantee;
-
-  /// The type of access granted to your S3 data, which can be set to one of the
-  /// following values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>READ</code> – Grant read-only access to the S3 data.
-  /// </li>
-  /// <li>
-  /// <code>WRITE</code> – Grant write-only access to the S3 data.
-  /// </li>
-  /// <li>
-  /// <code>READWRITE</code> – Grant both read and write access to the S3 data.
-  /// </li>
-  /// </ul>
-  final Permission? permission;
-
-  ListAccessGrantEntry({
-    this.accessGrantArn,
-    this.accessGrantId,
-    this.accessGrantsLocationConfiguration,
-    this.accessGrantsLocationId,
-    this.applicationArn,
-    this.createdAt,
-    this.grantScope,
-    this.grantee,
-    this.permission,
-  });
-  factory ListAccessGrantEntry.fromXml(_s.XmlElement elem) {
-    return ListAccessGrantEntry(
-      accessGrantArn: _s.extractXmlStringValue(elem, 'AccessGrantArn'),
-      accessGrantId: _s.extractXmlStringValue(elem, 'AccessGrantId'),
-      accessGrantsLocationConfiguration: _s
-          .extractXmlChild(elem, 'AccessGrantsLocationConfiguration')
-          ?.let(AccessGrantsLocationConfiguration.fromXml),
-      accessGrantsLocationId:
-          _s.extractXmlStringValue(elem, 'AccessGrantsLocationId'),
-      applicationArn: _s.extractXmlStringValue(elem, 'ApplicationArn'),
-      createdAt: _s.extractXmlDateTimeValue(elem, 'CreatedAt'),
-      grantScope: _s.extractXmlStringValue(elem, 'GrantScope'),
-      grantee: _s.extractXmlChild(elem, 'Grantee')?.let(Grantee.fromXml),
-      permission: _s
-          .extractXmlStringValue(elem, 'Permission')
-          ?.let(Permission.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accessGrantArn = this.accessGrantArn;
-    final accessGrantId = this.accessGrantId;
-    final accessGrantsLocationConfiguration =
-        this.accessGrantsLocationConfiguration;
-    final accessGrantsLocationId = this.accessGrantsLocationId;
-    final applicationArn = this.applicationArn;
-    final createdAt = this.createdAt;
-    final grantScope = this.grantScope;
-    final grantee = this.grantee;
-    final permission = this.permission;
-    return {
-      if (accessGrantArn != null) 'AccessGrantArn': accessGrantArn,
-      if (accessGrantId != null) 'AccessGrantId': accessGrantId,
-      if (accessGrantsLocationConfiguration != null)
-        'AccessGrantsLocationConfiguration': accessGrantsLocationConfiguration,
-      if (accessGrantsLocationId != null)
-        'AccessGrantsLocationId': accessGrantsLocationId,
-      if (applicationArn != null) 'ApplicationArn': applicationArn,
-      if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
-      if (grantScope != null) 'GrantScope': grantScope,
-      if (grantee != null) 'Grantee': grantee,
-      if (permission != null) 'Permission': permission.value,
-    };
-  }
-}
-
-/// Information about the S3 Access Grants instance.
-class ListAccessGrantsInstanceEntry {
-  /// The Amazon Resource Name (ARN) of the S3 Access Grants instance.
-  final String? accessGrantsInstanceArn;
-
-  /// The ID of the S3 Access Grants instance. The ID is <code>default</code>. You
-  /// can have one S3 Access Grants instance per Region per account.
-  final String? accessGrantsInstanceId;
-
-  /// The date and time when you created the S3 Access Grants instance.
-  final DateTime? createdAt;
-
-  /// If you associated your S3 Access Grants instance with an Amazon Web Services
-  /// IAM Identity Center instance, this field returns the Amazon Resource Name
-  /// (ARN) of the IAM Identity Center instance application; a subresource of the
-  /// original Identity Center instance. S3 Access Grants creates this Identity
-  /// Center application for the specific S3 Access Grants instance.
-  final String? identityCenterApplicationArn;
-
-  /// If you associated your S3 Access Grants instance with an Amazon Web Services
-  /// IAM Identity Center instance, this field returns the Amazon Resource Name
-  /// (ARN) of the IAM Identity Center instance application; a subresource of the
-  /// original Identity Center instance. S3 Access Grants creates this Identity
-  /// Center application for the specific S3 Access Grants instance.
-  final String? identityCenterArn;
-
-  /// The Amazon Resource Name (ARN) of the Amazon Web Services IAM Identity
-  /// Center instance that you are associating with your S3 Access Grants
-  /// instance. An IAM Identity Center instance is your corporate identity
-  /// directory that you added to the IAM Identity Center. You can use the <a
-  /// href="https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_ListInstances.html">ListInstances</a>
-  /// API operation to retrieve a list of your Identity Center instances and their
-  /// ARNs.
-  final String? identityCenterInstanceArn;
-
-  ListAccessGrantsInstanceEntry({
-    this.accessGrantsInstanceArn,
-    this.accessGrantsInstanceId,
-    this.createdAt,
-    this.identityCenterApplicationArn,
-    this.identityCenterArn,
-    this.identityCenterInstanceArn,
-  });
-  factory ListAccessGrantsInstanceEntry.fromXml(_s.XmlElement elem) {
-    return ListAccessGrantsInstanceEntry(
-      accessGrantsInstanceArn:
-          _s.extractXmlStringValue(elem, 'AccessGrantsInstanceArn'),
-      accessGrantsInstanceId:
-          _s.extractXmlStringValue(elem, 'AccessGrantsInstanceId'),
-      createdAt: _s.extractXmlDateTimeValue(elem, 'CreatedAt'),
-      identityCenterApplicationArn:
-          _s.extractXmlStringValue(elem, 'IdentityCenterApplicationArn'),
-      identityCenterArn: _s.extractXmlStringValue(elem, 'IdentityCenterArn'),
-      identityCenterInstanceArn:
-          _s.extractXmlStringValue(elem, 'IdentityCenterInstanceArn'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accessGrantsInstanceArn = this.accessGrantsInstanceArn;
-    final accessGrantsInstanceId = this.accessGrantsInstanceId;
-    final createdAt = this.createdAt;
-    final identityCenterApplicationArn = this.identityCenterApplicationArn;
-    final identityCenterArn = this.identityCenterArn;
-    final identityCenterInstanceArn = this.identityCenterInstanceArn;
-    return {
-      if (accessGrantsInstanceArn != null)
-        'AccessGrantsInstanceArn': accessGrantsInstanceArn,
-      if (accessGrantsInstanceId != null)
-        'AccessGrantsInstanceId': accessGrantsInstanceId,
-      if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
-      if (identityCenterApplicationArn != null)
-        'IdentityCenterApplicationArn': identityCenterApplicationArn,
-      if (identityCenterArn != null) 'IdentityCenterArn': identityCenterArn,
-      if (identityCenterInstanceArn != null)
-        'IdentityCenterInstanceArn': identityCenterInstanceArn,
+      if (accessGrantsList != null) 'AccessGrantsList': accessGrantsList,
+      if (nextToken != null) 'NextToken': nextToken,
     };
   }
 }
@@ -12114,73 +8635,6 @@ class ListAccessGrantsInstancesResult {
       if (accessGrantsInstancesList != null)
         'AccessGrantsInstancesList': accessGrantsInstancesList,
       if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-/// A container for information about the registered location.
-class ListAccessGrantsLocationsEntry {
-  /// The Amazon Resource Name (ARN) of the registered location.
-  final String? accessGrantsLocationArn;
-
-  /// The ID of the registered location to which you are granting access. S3
-  /// Access Grants assigns this ID when you register the location. S3 Access
-  /// Grants assigns the ID <code>default</code> to the default location
-  /// <code>s3://</code> and assigns an auto-generated ID to other locations that
-  /// you register.
-  final String? accessGrantsLocationId;
-
-  /// The date and time when you registered the location.
-  final DateTime? createdAt;
-
-  /// The Amazon Resource Name (ARN) of the IAM role for the registered location.
-  /// S3 Access Grants assumes this role to manage access to the registered
-  /// location.
-  final String? iAMRoleArn;
-
-  /// The S3 path to the location that you are registering. The location scope can
-  /// be the default S3 location <code>s3://</code>, the S3 path to a bucket
-  /// <code>s3://&lt;bucket&gt;</code>, or the S3 path to a bucket and prefix
-  /// <code>s3://&lt;bucket&gt;/&lt;prefix&gt;</code>. A prefix in S3 is a string
-  /// of characters at the beginning of an object key name used to organize the
-  /// objects that you store in your S3 buckets. For example, object key names
-  /// that start with the <code>engineering/</code> prefix or object key names
-  /// that start with the <code>marketing/campaigns/</code> prefix.
-  final String? locationScope;
-
-  ListAccessGrantsLocationsEntry({
-    this.accessGrantsLocationArn,
-    this.accessGrantsLocationId,
-    this.createdAt,
-    this.iAMRoleArn,
-    this.locationScope,
-  });
-  factory ListAccessGrantsLocationsEntry.fromXml(_s.XmlElement elem) {
-    return ListAccessGrantsLocationsEntry(
-      accessGrantsLocationArn:
-          _s.extractXmlStringValue(elem, 'AccessGrantsLocationArn'),
-      accessGrantsLocationId:
-          _s.extractXmlStringValue(elem, 'AccessGrantsLocationId'),
-      createdAt: _s.extractXmlDateTimeValue(elem, 'CreatedAt'),
-      iAMRoleArn: _s.extractXmlStringValue(elem, 'IAMRoleArn'),
-      locationScope: _s.extractXmlStringValue(elem, 'LocationScope'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accessGrantsLocationArn = this.accessGrantsLocationArn;
-    final accessGrantsLocationId = this.accessGrantsLocationId;
-    final createdAt = this.createdAt;
-    final iAMRoleArn = this.iAMRoleArn;
-    final locationScope = this.locationScope;
-    return {
-      if (accessGrantsLocationArn != null)
-        'AccessGrantsLocationArn': accessGrantsLocationArn,
-      if (accessGrantsLocationId != null)
-        'AccessGrantsLocationId': accessGrantsLocationId,
-      if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
-      if (iAMRoleArn != null) 'IAMRoleArn': iAMRoleArn,
-      if (locationScope != null) 'LocationScope': locationScope,
     };
   }
 }
@@ -12222,35 +8676,75 @@ class ListAccessGrantsLocationsResult {
   }
 }
 
-class ListAccessGrantsResult {
-  /// A container for a list of grants in an S3 Access Grants instance.
-  final List<ListAccessGrantEntry>? accessGrantsList;
+class ListAccessPointsResult {
+  /// Contains identification and configuration information for one or more access
+  /// points associated with the specified bucket.
+  final List<AccessPoint>? accessPointList;
 
-  /// A pagination token to request the next page of results. Pass this value into
-  /// a subsequent <code>List Access Grants</code> request in order to retrieve
-  /// the next page of results.
+  /// If the specified bucket has more access points than can be returned in one
+  /// call to this API, this field contains a continuation token that you can
+  /// provide in subsequent calls to this API to retrieve additional access
+  /// points.
   final String? nextToken;
 
-  ListAccessGrantsResult({
-    this.accessGrantsList,
+  ListAccessPointsResult({
+    this.accessPointList,
     this.nextToken,
   });
-  factory ListAccessGrantsResult.fromXml(_s.XmlElement elem) {
-    return ListAccessGrantsResult(
-      accessGrantsList: _s.extractXmlChild(elem, 'AccessGrantsList')?.let(
+  factory ListAccessPointsResult.fromXml(_s.XmlElement elem) {
+    return ListAccessPointsResult(
+      accessPointList: _s.extractXmlChild(elem, 'AccessPointList')?.let(
           (elem) => elem
-              .findElements('AccessGrant')
-              .map(ListAccessGrantEntry.fromXml)
+              .findElements('AccessPoint')
+              .map(AccessPoint.fromXml)
               .toList()),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final accessGrantsList = this.accessGrantsList;
+    final accessPointList = this.accessPointList;
     final nextToken = this.nextToken;
     return {
-      if (accessGrantsList != null) 'AccessGrantsList': accessGrantsList,
+      if (accessPointList != null) 'AccessPointList': accessPointList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListAccessPointsForDirectoryBucketsResult {
+  /// Contains identification and configuration information for one or more access
+  /// points associated with the directory bucket.
+  final List<AccessPoint>? accessPointList;
+
+  /// If <code>NextToken</code> is returned, there are more access points
+  /// available than requested in the <code>maxResults</code> value. The value of
+  /// <code>NextToken</code> is a unique pagination token for each page. Make the
+  /// call again using the returned token to retrieve the next page. Keep all
+  /// other arguments unchanged. Each pagination token expires after 24 hours.
+  final String? nextToken;
+
+  ListAccessPointsForDirectoryBucketsResult({
+    this.accessPointList,
+    this.nextToken,
+  });
+  factory ListAccessPointsForDirectoryBucketsResult.fromXml(
+      _s.XmlElement elem) {
+    return ListAccessPointsForDirectoryBucketsResult(
+      accessPointList: _s.extractXmlChild(elem, 'AccessPointList')?.let(
+          (elem) => elem
+              .findElements('AccessPoint')
+              .map(AccessPoint.fromXml)
+              .toList()),
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessPointList = this.accessPointList;
+    final nextToken = this.nextToken;
+    return {
+      if (accessPointList != null) 'AccessPointList': accessPointList,
       if (nextToken != null) 'NextToken': nextToken,
     };
   }
@@ -12288,98 +8782,6 @@ class ListAccessPointsForObjectLambdaResult {
       if (nextToken != null) 'NextToken': nextToken,
       if (objectLambdaAccessPointList != null)
         'ObjectLambdaAccessPointList': objectLambdaAccessPointList,
-    };
-  }
-}
-
-class ListAccessPointsResult {
-  /// Contains identification and configuration information for one or more access
-  /// points associated with the specified bucket.
-  final List<AccessPoint>? accessPointList;
-
-  /// If the specified bucket has more access points than can be returned in one
-  /// call to this API, this field contains a continuation token that you can
-  /// provide in subsequent calls to this API to retrieve additional access
-  /// points.
-  final String? nextToken;
-
-  ListAccessPointsResult({
-    this.accessPointList,
-    this.nextToken,
-  });
-  factory ListAccessPointsResult.fromXml(_s.XmlElement elem) {
-    return ListAccessPointsResult(
-      accessPointList: _s.extractXmlChild(elem, 'AccessPointList')?.let(
-          (elem) => elem
-              .findElements('AccessPoint')
-              .map(AccessPoint.fromXml)
-              .toList()),
-      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accessPointList = this.accessPointList;
-    final nextToken = this.nextToken;
-    return {
-      if (accessPointList != null) 'AccessPointList': accessPointList,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-/// Part of <code>ListCallerAccessGrantsResult</code>. Each entry includes the
-/// permission level (READ, WRITE, or READWRITE) and the grant scope of the
-/// access grant. If the grant also includes an application ARN, the grantee can
-/// only access the S3 data through this application.
-class ListCallerAccessGrantsEntry {
-  /// The Amazon Resource Name (ARN) of an Amazon Web Services IAM Identity Center
-  /// application associated with your Identity Center instance. If the grant
-  /// includes an application ARN, the grantee can only access the S3 data through
-  /// this application.
-  final String? applicationArn;
-
-  /// The S3 path of the data to which you have been granted access.
-  final String? grantScope;
-
-  /// The type of permission granted, which can be one of the following values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>READ</code> - Grants read-only access to the S3 data.
-  /// </li>
-  /// <li>
-  /// <code>WRITE</code> - Grants write-only access to the S3 data.
-  /// </li>
-  /// <li>
-  /// <code>READWRITE</code> - Grants both read and write access to the S3 data.
-  /// </li>
-  /// </ul>
-  final Permission? permission;
-
-  ListCallerAccessGrantsEntry({
-    this.applicationArn,
-    this.grantScope,
-    this.permission,
-  });
-  factory ListCallerAccessGrantsEntry.fromXml(_s.XmlElement elem) {
-    return ListCallerAccessGrantsEntry(
-      applicationArn: _s.extractXmlStringValue(elem, 'ApplicationArn'),
-      grantScope: _s.extractXmlStringValue(elem, 'GrantScope'),
-      permission: _s
-          .extractXmlStringValue(elem, 'Permission')
-          ?.let(Permission.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final applicationArn = this.applicationArn;
-    final grantScope = this.grantScope;
-    final permission = this.permission;
-    return {
-      if (applicationArn != null) 'ApplicationArn': applicationArn,
-      if (grantScope != null) 'GrantScope': grantScope,
-      if (permission != null) 'Permission': permission.value,
     };
   }
 }
@@ -12494,7 +8896,7 @@ class ListRegionalBucketsResult {
   /// <code>NextToken</code> is obfuscated and is not a real key.
   final String? nextToken;
 
-  /// <p/>
+  ///
   final List<RegionalBucket>? regionalBucketList;
 
   ListRegionalBucketsResult({
@@ -12518,53 +8920,6 @@ class ListRegionalBucketsResult {
     return {
       if (nextToken != null) 'NextToken': nextToken,
       if (regionalBucketList != null) 'RegionalBucketList': regionalBucketList,
-    };
-  }
-}
-
-/// Part of <code>ListStorageLensConfigurationResult</code>. Each entry includes
-/// the description of the S3 Storage Lens configuration, its home Region,
-/// whether it is enabled, its Amazon Resource Name (ARN), and config ID.
-class ListStorageLensConfigurationEntry {
-  /// A container for the S3 Storage Lens home Region. Your metrics data is stored
-  /// and retained in your designated S3 Storage Lens home Region.
-  final String homeRegion;
-
-  /// A container for the S3 Storage Lens configuration ID.
-  final String id;
-
-  /// The ARN of the S3 Storage Lens configuration. This property is read-only.
-  final String storageLensArn;
-
-  /// A container for whether the S3 Storage Lens configuration is enabled. This
-  /// property is required.
-  final bool? isEnabled;
-
-  ListStorageLensConfigurationEntry({
-    required this.homeRegion,
-    required this.id,
-    required this.storageLensArn,
-    this.isEnabled,
-  });
-  factory ListStorageLensConfigurationEntry.fromXml(_s.XmlElement elem) {
-    return ListStorageLensConfigurationEntry(
-      homeRegion: _s.extractXmlStringValue(elem, 'HomeRegion')!,
-      id: _s.extractXmlStringValue(elem, 'Id')!,
-      storageLensArn: _s.extractXmlStringValue(elem, 'StorageLensArn')!,
-      isEnabled: _s.extractXmlBoolValue(elem, 'IsEnabled'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final homeRegion = this.homeRegion;
-    final id = this.id;
-    final storageLensArn = this.storageLensArn;
-    final isEnabled = this.isEnabled;
-    return {
-      'HomeRegion': homeRegion,
-      'Id': id,
-      'StorageLensArn': storageLensArn,
-      if (isEnabled != null) 'IsEnabled': isEnabled,
     };
   }
 }
@@ -12598,48 +8953,7 @@ class ListStorageLensConfigurationsResult {
     return {
       if (nextToken != null) 'NextToken': nextToken,
       if (storageLensConfigurationList != null)
-        'StorageLensConfigurationList': storageLensConfigurationList,
-    };
-  }
-}
-
-/// Each entry contains a Storage Lens group that exists in the specified home
-/// Region.
-class ListStorageLensGroupEntry {
-  /// Contains the Amazon Web Services Region where the Storage Lens group was
-  /// created.
-  final String homeRegion;
-
-  /// Contains the name of the Storage Lens group that exists in the specified
-  /// home Region.
-  final String name;
-
-  /// Contains the Amazon Resource Name (ARN) of the Storage Lens group. This
-  /// property is read-only.
-  final String storageLensGroupArn;
-
-  ListStorageLensGroupEntry({
-    required this.homeRegion,
-    required this.name,
-    required this.storageLensGroupArn,
-  });
-  factory ListStorageLensGroupEntry.fromXml(_s.XmlElement elem) {
-    return ListStorageLensGroupEntry(
-      homeRegion: _s.extractXmlStringValue(elem, 'HomeRegion')!,
-      name: _s.extractXmlStringValue(elem, 'Name')!,
-      storageLensGroupArn:
-          _s.extractXmlStringValue(elem, 'StorageLensGroupArn')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final homeRegion = this.homeRegion;
-    final name = this.name;
-    final storageLensGroupArn = this.storageLensGroupArn;
-    return {
-      'HomeRegion': homeRegion,
-      'Name': name,
-      'StorageLensGroupArn': storageLensGroupArn,
+        'StorageLensConfiguration': storageLensConfigurationList,
     };
   }
 }
@@ -12675,7 +8989,7 @@ class ListStorageLensGroupsResult {
     return {
       if (nextToken != null) 'NextToken': nextToken,
       if (storageLensGroupList != null)
-        'StorageLensGroupList': storageLensGroupList,
+        'StorageLensGroup': storageLensGroupList,
     };
   }
 }
@@ -12700,1416 +9014,6 @@ class ListTagsForResourceResult {
     return {
       if (tags != null) 'Tags': tags,
     };
-  }
-}
-
-class MFADelete {
-  static const enabled = MFADelete._('Enabled');
-  static const disabled = MFADelete._('Disabled');
-
-  final String value;
-
-  const MFADelete._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static MFADelete fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => MFADelete._(value));
-
-  @override
-  bool operator ==(other) => other is MFADelete && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class MFADeleteStatus {
-  static const enabled = MFADeleteStatus._('Enabled');
-  static const disabled = MFADeleteStatus._('Disabled');
-
-  final String value;
-
-  const MFADeleteStatus._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static MFADeleteStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MFADeleteStatus._(value));
-
-  @override
-  bool operator ==(other) => other is MFADeleteStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A filter condition that specifies the object age range of included objects
-/// in days. Only integers are supported.
-class MatchObjectAge {
-  /// Specifies the maximum object age in days. Must be a positive whole number,
-  /// greater than the minimum object age and less than or equal to 2,147,483,647.
-  final int? daysGreaterThan;
-
-  /// Specifies the minimum object age in days. The value must be a positive whole
-  /// number, greater than 0 and less than or equal to 2,147,483,647.
-  final int? daysLessThan;
-
-  MatchObjectAge({
-    this.daysGreaterThan,
-    this.daysLessThan,
-  });
-  factory MatchObjectAge.fromXml(_s.XmlElement elem) {
-    return MatchObjectAge(
-      daysGreaterThan: _s.extractXmlIntValue(elem, 'DaysGreaterThan'),
-      daysLessThan: _s.extractXmlIntValue(elem, 'DaysLessThan'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final daysGreaterThan = this.daysGreaterThan;
-    final daysLessThan = this.daysLessThan;
-    return {
-      if (daysGreaterThan != null) 'DaysGreaterThan': daysGreaterThan,
-      if (daysLessThan != null) 'DaysLessThan': daysLessThan,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final daysGreaterThan = this.daysGreaterThan;
-    final daysLessThan = this.daysLessThan;
-    final $children = <_s.XmlNode>[
-      if (daysGreaterThan != null)
-        _s.encodeXmlIntValue('DaysGreaterThan', daysGreaterThan),
-      if (daysLessThan != null)
-        _s.encodeXmlIntValue('DaysLessThan', daysLessThan),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// A filter condition that specifies the object size range of included objects
-/// in bytes. Only integers are supported.
-class MatchObjectSize {
-  /// Specifies the minimum object size in Bytes. The value must be a positive
-  /// number, greater than 0 and less than 5 TB.
-  final int? bytesGreaterThan;
-
-  /// Specifies the maximum object size in Bytes. The value must be a positive
-  /// number, greater than the minimum object size and less than 5 TB.
-  final int? bytesLessThan;
-
-  MatchObjectSize({
-    this.bytesGreaterThan,
-    this.bytesLessThan,
-  });
-  factory MatchObjectSize.fromXml(_s.XmlElement elem) {
-    return MatchObjectSize(
-      bytesGreaterThan: _s.extractXmlIntValue(elem, 'BytesGreaterThan'),
-      bytesLessThan: _s.extractXmlIntValue(elem, 'BytesLessThan'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bytesGreaterThan = this.bytesGreaterThan;
-    final bytesLessThan = this.bytesLessThan;
-    return {
-      if (bytesGreaterThan != null) 'BytesGreaterThan': bytesGreaterThan,
-      if (bytesLessThan != null) 'BytesLessThan': bytesLessThan,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final bytesGreaterThan = this.bytesGreaterThan;
-    final bytesLessThan = this.bytesLessThan;
-    final $children = <_s.XmlNode>[
-      if (bytesGreaterThan != null)
-        _s.encodeXmlIntValue('BytesGreaterThan', bytesGreaterThan),
-      if (bytesLessThan != null)
-        _s.encodeXmlIntValue('BytesLessThan', bytesLessThan),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// A container that specifies replication metrics-related settings.
-class Metrics {
-  /// Specifies whether replication metrics are enabled.
-  final MetricsStatus status;
-
-  /// A container that specifies the time threshold for emitting the
-  /// <code>s3:Replication:OperationMissedThreshold</code> event.
-  /// <note>
-  /// This is not supported by Amazon S3 on Outposts buckets.
-  /// </note>
-  final ReplicationTimeValue? eventThreshold;
-
-  Metrics({
-    required this.status,
-    this.eventThreshold,
-  });
-  factory Metrics.fromXml(_s.XmlElement elem) {
-    return Metrics(
-      status: _s
-          .extractXmlStringValue(elem, 'Status')!
-          .let(MetricsStatus.fromString),
-      eventThreshold: _s
-          .extractXmlChild(elem, 'EventThreshold')
-          ?.let(ReplicationTimeValue.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final status = this.status;
-    final eventThreshold = this.eventThreshold;
-    return {
-      'Status': status.value,
-      if (eventThreshold != null) 'EventThreshold': eventThreshold,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final status = this.status;
-    final eventThreshold = this.eventThreshold;
-    final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Status', status.value),
-      if (eventThreshold != null) eventThreshold.toXml('EventThreshold'),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-class MetricsStatus {
-  static const enabled = MetricsStatus._('Enabled');
-  static const disabled = MetricsStatus._('Disabled');
-
-  final String value;
-
-  const MetricsStatus._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static MetricsStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MetricsStatus._(value));
-
-  @override
-  bool operator ==(other) => other is MetricsStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The Multi-Region Access Point access control policy.
-///
-/// When you update the policy, the update is first listed as the proposed
-/// policy. After the update is finished and all Regions have been updated, the
-/// proposed policy is listed as the established policy. If both policies have
-/// the same version number, the proposed policy is the established policy.
-class MultiRegionAccessPointPolicyDocument {
-  /// The last established policy for the Multi-Region Access Point.
-  final EstablishedMultiRegionAccessPointPolicy? established;
-
-  /// The proposed policy for the Multi-Region Access Point.
-  final ProposedMultiRegionAccessPointPolicy? proposed;
-
-  MultiRegionAccessPointPolicyDocument({
-    this.established,
-    this.proposed,
-  });
-  factory MultiRegionAccessPointPolicyDocument.fromXml(_s.XmlElement elem) {
-    return MultiRegionAccessPointPolicyDocument(
-      established: _s
-          .extractXmlChild(elem, 'Established')
-          ?.let(EstablishedMultiRegionAccessPointPolicy.fromXml),
-      proposed: _s
-          .extractXmlChild(elem, 'Proposed')
-          ?.let(ProposedMultiRegionAccessPointPolicy.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final established = this.established;
-    final proposed = this.proposed;
-    return {
-      if (established != null) 'Established': established,
-      if (proposed != null) 'Proposed': proposed,
-    };
-  }
-}
-
-/// Status information for a single Multi-Region Access Point Region.
-class MultiRegionAccessPointRegionalResponse {
-  /// The name of the Region in the Multi-Region Access Point.
-  final String? name;
-
-  /// The current status of the Multi-Region Access Point in this Region.
-  final String? requestStatus;
-
-  MultiRegionAccessPointRegionalResponse({
-    this.name,
-    this.requestStatus,
-  });
-  factory MultiRegionAccessPointRegionalResponse.fromXml(_s.XmlElement elem) {
-    return MultiRegionAccessPointRegionalResponse(
-      name: _s.extractXmlStringValue(elem, 'Name'),
-      requestStatus: _s.extractXmlStringValue(elem, 'RequestStatus'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final requestStatus = this.requestStatus;
-    return {
-      if (name != null) 'Name': name,
-      if (requestStatus != null) 'RequestStatus': requestStatus,
-    };
-  }
-}
-
-/// A collection of statuses for a Multi-Region Access Point in the various
-/// Regions it supports.
-class MultiRegionAccessPointReport {
-  /// The alias for the Multi-Region Access Point. For more information about the
-  /// distinction between the name and the alias of an Multi-Region Access Point,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/CreatingMultiRegionAccessPoints.html#multi-region-access-point-naming">Rules
-  /// for naming Amazon S3 Multi-Region Access Points</a>.
-  final String? alias;
-
-  /// When the Multi-Region Access Point create request was received.
-  final DateTime? createdAt;
-
-  /// The name of the Multi-Region Access Point.
-  final String? name;
-  final PublicAccessBlockConfiguration? publicAccessBlock;
-
-  /// A collection of the Regions and buckets associated with the Multi-Region
-  /// Access Point.
-  final List<RegionReport>? regions;
-
-  /// The current status of the Multi-Region Access Point.
-  ///
-  /// <code>CREATING</code> and <code>DELETING</code> are temporary states that
-  /// exist while the request is propagating and being completed. If a
-  /// Multi-Region Access Point has a status of <code>PARTIALLY_CREATED</code>,
-  /// you can retry creation or send a request to delete the Multi-Region Access
-  /// Point. If a Multi-Region Access Point has a status of
-  /// <code>PARTIALLY_DELETED</code>, you can retry a delete request to finish the
-  /// deletion of the Multi-Region Access Point.
-  final MultiRegionAccessPointStatus? status;
-
-  MultiRegionAccessPointReport({
-    this.alias,
-    this.createdAt,
-    this.name,
-    this.publicAccessBlock,
-    this.regions,
-    this.status,
-  });
-  factory MultiRegionAccessPointReport.fromXml(_s.XmlElement elem) {
-    return MultiRegionAccessPointReport(
-      alias: _s.extractXmlStringValue(elem, 'Alias'),
-      createdAt: _s.extractXmlDateTimeValue(elem, 'CreatedAt'),
-      name: _s.extractXmlStringValue(elem, 'Name'),
-      publicAccessBlock: _s
-          .extractXmlChild(elem, 'PublicAccessBlock')
-          ?.let(PublicAccessBlockConfiguration.fromXml),
-      regions: _s.extractXmlChild(elem, 'Regions')?.let((elem) =>
-          elem.findElements('Region').map(RegionReport.fromXml).toList()),
-      status: _s
-          .extractXmlStringValue(elem, 'Status')
-          ?.let(MultiRegionAccessPointStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final alias = this.alias;
-    final createdAt = this.createdAt;
-    final name = this.name;
-    final publicAccessBlock = this.publicAccessBlock;
-    final regions = this.regions;
-    final status = this.status;
-    return {
-      if (alias != null) 'Alias': alias,
-      if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
-      if (name != null) 'Name': name,
-      if (publicAccessBlock != null) 'PublicAccessBlock': publicAccessBlock,
-      if (regions != null) 'Regions': regions,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-/// A structure for a Multi-Region Access Point that indicates where Amazon S3
-/// traffic can be routed. Routes can be either active or passive. Active routes
-/// can process Amazon S3 requests through the Multi-Region Access Point, but
-/// passive routes are not eligible to process Amazon S3 requests.
-///
-/// Each route contains the Amazon S3 bucket name and the Amazon Web Services
-/// Region that the bucket is located in. The route also includes the
-/// <code>TrafficDialPercentage</code> value, which shows whether the bucket and
-/// Region are active (indicated by a value of <code>100</code>) or passive
-/// (indicated by a value of <code>0</code>).
-class MultiRegionAccessPointRoute {
-  /// The traffic state for the specified bucket or Amazon Web Services Region.
-  ///
-  /// A value of <code>0</code> indicates a passive state, which means that no new
-  /// traffic will be routed to the Region.
-  ///
-  /// A value of <code>100</code> indicates an active state, which means that
-  /// traffic will be routed to the specified Region.
-  ///
-  /// When the routing configuration for a Region is changed from active to
-  /// passive, any in-progress operations (uploads, copies, deletes, and so on) to
-  /// the formerly active Region will continue to run to until a final success or
-  /// failure status is reached.
-  ///
-  /// If all Regions in the routing configuration are designated as passive,
-  /// you'll receive an <code>InvalidRequest</code> error.
-  final int trafficDialPercentage;
-
-  /// The name of the Amazon S3 bucket for which you'll submit a routing
-  /// configuration change. Either the <code>Bucket</code> or the
-  /// <code>Region</code> value must be provided. If both are provided, the bucket
-  /// must be in the specified Region.
-  final String? bucket;
-
-  /// The Amazon Web Services Region to which you'll be submitting a routing
-  /// configuration change. Either the <code>Bucket</code> or the
-  /// <code>Region</code> value must be provided. If both are provided, the bucket
-  /// must be in the specified Region.
-  final String? region;
-
-  MultiRegionAccessPointRoute({
-    required this.trafficDialPercentage,
-    this.bucket,
-    this.region,
-  });
-  factory MultiRegionAccessPointRoute.fromXml(_s.XmlElement elem) {
-    return MultiRegionAccessPointRoute(
-      trafficDialPercentage:
-          _s.extractXmlIntValue(elem, 'TrafficDialPercentage')!,
-      bucket: _s.extractXmlStringValue(elem, 'Bucket'),
-      region: _s.extractXmlStringValue(elem, 'Region'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final trafficDialPercentage = this.trafficDialPercentage;
-    final bucket = this.bucket;
-    final region = this.region;
-    return {
-      'TrafficDialPercentage': trafficDialPercentage,
-      if (bucket != null) 'Bucket': bucket,
-      if (region != null) 'Region': region,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final trafficDialPercentage = this.trafficDialPercentage;
-    final bucket = this.bucket;
-    final region = this.region;
-    final $children = <_s.XmlNode>[
-      if (bucket != null) _s.encodeXmlStringValue('Bucket', bucket),
-      if (region != null) _s.encodeXmlStringValue('Region', region),
-      _s.encodeXmlIntValue('TrafficDialPercentage', trafficDialPercentage),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-class MultiRegionAccessPointStatus {
-  static const ready = MultiRegionAccessPointStatus._('READY');
-  static const inconsistentAcrossRegions =
-      MultiRegionAccessPointStatus._('INCONSISTENT_ACROSS_REGIONS');
-  static const creating = MultiRegionAccessPointStatus._('CREATING');
-  static const partiallyCreated =
-      MultiRegionAccessPointStatus._('PARTIALLY_CREATED');
-  static const partiallyDeleted =
-      MultiRegionAccessPointStatus._('PARTIALLY_DELETED');
-  static const deleting = MultiRegionAccessPointStatus._('DELETING');
-
-  final String value;
-
-  const MultiRegionAccessPointStatus._(this.value);
-
-  static const values = [
-    ready,
-    inconsistentAcrossRegions,
-    creating,
-    partiallyCreated,
-    partiallyDeleted,
-    deleting
-  ];
-
-  static MultiRegionAccessPointStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MultiRegionAccessPointStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is MultiRegionAccessPointStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The Multi-Region Access Point details that are returned when querying about
-/// an asynchronous request.
-class MultiRegionAccessPointsAsyncResponse {
-  /// A collection of status information for the different Regions that a
-  /// Multi-Region Access Point supports.
-  final List<MultiRegionAccessPointRegionalResponse>? regions;
-
-  MultiRegionAccessPointsAsyncResponse({
-    this.regions,
-  });
-  factory MultiRegionAccessPointsAsyncResponse.fromXml(_s.XmlElement elem) {
-    return MultiRegionAccessPointsAsyncResponse(
-      regions: _s.extractXmlChild(elem, 'Regions')?.let((elem) => elem
-          .findElements('Region')
-          .map(MultiRegionAccessPointRegionalResponse.fromXml)
-          .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final regions = this.regions;
-    return {
-      if (regions != null) 'Regions': regions,
-    };
-  }
-}
-
-class NetworkOrigin {
-  static const internet = NetworkOrigin._('Internet');
-  static const vpc = NetworkOrigin._('VPC');
-
-  final String value;
-
-  const NetworkOrigin._(this.value);
-
-  static const values = [internet, vpc];
-
-  static NetworkOrigin fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => NetworkOrigin._(value));
-
-  @override
-  bool operator ==(other) => other is NetworkOrigin && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The container of the noncurrent version expiration.
-class NoncurrentVersionExpiration {
-  /// Specifies how many noncurrent versions S3 on Outposts will retain. If there
-  /// are this many more recent noncurrent versions, S3 on Outposts will take the
-  /// associated action. For more information about noncurrent versions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/intro-lifecycle-rules.html">Lifecycle
-  /// configuration elements</a> in the <i>Amazon S3 User Guide</i>.
-  final int? newerNoncurrentVersions;
-
-  /// Specifies the number of days an object is noncurrent before Amazon S3 can
-  /// perform the associated action. For information about the noncurrent days
-  /// calculations, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html#non-current-days-calculations">How
-  /// Amazon S3 Calculates When an Object Became Noncurrent</a> in the <i>Amazon
-  /// S3 User Guide</i>.
-  final int? noncurrentDays;
-
-  NoncurrentVersionExpiration({
-    this.newerNoncurrentVersions,
-    this.noncurrentDays,
-  });
-  factory NoncurrentVersionExpiration.fromXml(_s.XmlElement elem) {
-    return NoncurrentVersionExpiration(
-      newerNoncurrentVersions:
-          _s.extractXmlIntValue(elem, 'NewerNoncurrentVersions'),
-      noncurrentDays: _s.extractXmlIntValue(elem, 'NoncurrentDays'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final newerNoncurrentVersions = this.newerNoncurrentVersions;
-    final noncurrentDays = this.noncurrentDays;
-    return {
-      if (newerNoncurrentVersions != null)
-        'NewerNoncurrentVersions': newerNoncurrentVersions,
-      if (noncurrentDays != null) 'NoncurrentDays': noncurrentDays,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final newerNoncurrentVersions = this.newerNoncurrentVersions;
-    final noncurrentDays = this.noncurrentDays;
-    final $children = <_s.XmlNode>[
-      if (noncurrentDays != null)
-        _s.encodeXmlIntValue('NoncurrentDays', noncurrentDays),
-      if (newerNoncurrentVersions != null)
-        _s.encodeXmlIntValue(
-            'NewerNoncurrentVersions', newerNoncurrentVersions),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// The container for the noncurrent version transition.
-class NoncurrentVersionTransition {
-  /// Specifies the number of days an object is noncurrent before Amazon S3 can
-  /// perform the associated action. For information about the noncurrent days
-  /// calculations, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html#non-current-days-calculations">
-  /// How Amazon S3 Calculates How Long an Object Has Been Noncurrent</a> in the
-  /// <i>Amazon S3 User Guide</i>.
-  final int? noncurrentDays;
-
-  /// The class of storage used to store the object.
-  final TransitionStorageClass? storageClass;
-
-  NoncurrentVersionTransition({
-    this.noncurrentDays,
-    this.storageClass,
-  });
-  factory NoncurrentVersionTransition.fromXml(_s.XmlElement elem) {
-    return NoncurrentVersionTransition(
-      noncurrentDays: _s.extractXmlIntValue(elem, 'NoncurrentDays'),
-      storageClass: _s
-          .extractXmlStringValue(elem, 'StorageClass')
-          ?.let(TransitionStorageClass.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final noncurrentDays = this.noncurrentDays;
-    final storageClass = this.storageClass;
-    return {
-      if (noncurrentDays != null) 'NoncurrentDays': noncurrentDays,
-      if (storageClass != null) 'StorageClass': storageClass.value,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final noncurrentDays = this.noncurrentDays;
-    final storageClass = this.storageClass;
-    final $children = <_s.XmlNode>[
-      if (noncurrentDays != null)
-        _s.encodeXmlIntValue('NoncurrentDays', noncurrentDays),
-      if (storageClass != null)
-        _s.encodeXmlStringValue('StorageClass', storageClass.value),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// An access point with an attached Lambda function used to access transformed
-/// data from an Amazon S3 bucket.
-class ObjectLambdaAccessPoint {
-  /// The name of the Object Lambda Access Point.
-  final String name;
-
-  /// The alias of the Object Lambda Access Point.
-  final ObjectLambdaAccessPointAlias? alias;
-
-  /// Specifies the ARN for the Object Lambda Access Point.
-  final String? objectLambdaAccessPointArn;
-
-  ObjectLambdaAccessPoint({
-    required this.name,
-    this.alias,
-    this.objectLambdaAccessPointArn,
-  });
-  factory ObjectLambdaAccessPoint.fromXml(_s.XmlElement elem) {
-    return ObjectLambdaAccessPoint(
-      name: _s.extractXmlStringValue(elem, 'Name')!,
-      alias: _s
-          .extractXmlChild(elem, 'Alias')
-          ?.let(ObjectLambdaAccessPointAlias.fromXml),
-      objectLambdaAccessPointArn:
-          _s.extractXmlStringValue(elem, 'ObjectLambdaAccessPointArn'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final alias = this.alias;
-    final objectLambdaAccessPointArn = this.objectLambdaAccessPointArn;
-    return {
-      'Name': name,
-      if (alias != null) 'Alias': alias,
-      if (objectLambdaAccessPointArn != null)
-        'ObjectLambdaAccessPointArn': objectLambdaAccessPointArn,
-    };
-  }
-}
-
-/// The alias of an Object Lambda Access Point. For more information, see <a
-/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/olap-use.html#ol-access-points-alias">How
-/// to use a bucket-style alias for your S3 bucket Object Lambda Access
-/// Point</a>.
-class ObjectLambdaAccessPointAlias {
-  /// The status of the Object Lambda Access Point alias. If the status is
-  /// <code>PROVISIONING</code>, the Object Lambda Access Point is provisioning
-  /// the alias and the alias is not ready for use yet. If the status is
-  /// <code>READY</code>, the Object Lambda Access Point alias is successfully
-  /// provisioned and ready for use.
-  final ObjectLambdaAccessPointAliasStatus? status;
-
-  /// The alias value of the Object Lambda Access Point.
-  final String? value;
-
-  ObjectLambdaAccessPointAlias({
-    this.status,
-    this.value,
-  });
-  factory ObjectLambdaAccessPointAlias.fromXml(_s.XmlElement elem) {
-    return ObjectLambdaAccessPointAlias(
-      status: _s
-          .extractXmlStringValue(elem, 'Status')
-          ?.let(ObjectLambdaAccessPointAliasStatus.fromString),
-      value: _s.extractXmlStringValue(elem, 'Value'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final status = this.status;
-    final value = this.value;
-    return {
-      if (status != null) 'Status': status.value,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-class ObjectLambdaAccessPointAliasStatus {
-  static const provisioning =
-      ObjectLambdaAccessPointAliasStatus._('PROVISIONING');
-  static const ready = ObjectLambdaAccessPointAliasStatus._('READY');
-
-  final String value;
-
-  const ObjectLambdaAccessPointAliasStatus._(this.value);
-
-  static const values = [provisioning, ready];
-
-  static ObjectLambdaAccessPointAliasStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ObjectLambdaAccessPointAliasStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ObjectLambdaAccessPointAliasStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ObjectLambdaAllowedFeature {
-  static const getObjectRange = ObjectLambdaAllowedFeature._('GetObject-Range');
-  static const getObjectPartNumber =
-      ObjectLambdaAllowedFeature._('GetObject-PartNumber');
-  static const headObjectRange =
-      ObjectLambdaAllowedFeature._('HeadObject-Range');
-  static const headObjectPartNumber =
-      ObjectLambdaAllowedFeature._('HeadObject-PartNumber');
-
-  final String value;
-
-  const ObjectLambdaAllowedFeature._(this.value);
-
-  static const values = [
-    getObjectRange,
-    getObjectPartNumber,
-    headObjectRange,
-    headObjectPartNumber
-  ];
-
-  static ObjectLambdaAllowedFeature fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ObjectLambdaAllowedFeature._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ObjectLambdaAllowedFeature && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A configuration used when creating an Object Lambda Access Point.
-class ObjectLambdaConfiguration {
-  /// Standard access point associated with the Object Lambda Access Point.
-  final String supportingAccessPoint;
-
-  /// A container for transformation configurations for an Object Lambda Access
-  /// Point.
-  final List<ObjectLambdaTransformationConfiguration>
-      transformationConfigurations;
-
-  /// A container for allowed features. Valid inputs are
-  /// <code>GetObject-Range</code>, <code>GetObject-PartNumber</code>,
-  /// <code>HeadObject-Range</code>, and <code>HeadObject-PartNumber</code>.
-  final List<ObjectLambdaAllowedFeature>? allowedFeatures;
-
-  /// A container for whether the CloudWatch metrics configuration is enabled.
-  final bool? cloudWatchMetricsEnabled;
-
-  ObjectLambdaConfiguration({
-    required this.supportingAccessPoint,
-    required this.transformationConfigurations,
-    this.allowedFeatures,
-    this.cloudWatchMetricsEnabled,
-  });
-  factory ObjectLambdaConfiguration.fromXml(_s.XmlElement elem) {
-    return ObjectLambdaConfiguration(
-      supportingAccessPoint:
-          _s.extractXmlStringValue(elem, 'SupportingAccessPoint')!,
-      transformationConfigurations: _s
-          .extractXmlChild(elem, 'TransformationConfigurations')!
-          .findElements('TransformationConfiguration')
-          .map(ObjectLambdaTransformationConfiguration.fromXml)
-          .toList(),
-      allowedFeatures: _s.extractXmlChild(elem, 'AllowedFeatures')?.let(
-          (elem) => _s
-              .extractXmlStringListValues(elem, 'AllowedFeature')
-              .map(ObjectLambdaAllowedFeature.fromString)
-              .toList()),
-      cloudWatchMetricsEnabled:
-          _s.extractXmlBoolValue(elem, 'CloudWatchMetricsEnabled'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final supportingAccessPoint = this.supportingAccessPoint;
-    final transformationConfigurations = this.transformationConfigurations;
-    final allowedFeatures = this.allowedFeatures;
-    final cloudWatchMetricsEnabled = this.cloudWatchMetricsEnabled;
-    return {
-      'SupportingAccessPoint': supportingAccessPoint,
-      'TransformationConfigurations': transformationConfigurations,
-      if (allowedFeatures != null)
-        'AllowedFeatures': allowedFeatures.map((e) => e.value).toList(),
-      if (cloudWatchMetricsEnabled != null)
-        'CloudWatchMetricsEnabled': cloudWatchMetricsEnabled,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final supportingAccessPoint = this.supportingAccessPoint;
-    final transformationConfigurations = this.transformationConfigurations;
-    final allowedFeatures = this.allowedFeatures;
-    final cloudWatchMetricsEnabled = this.cloudWatchMetricsEnabled;
-    final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('SupportingAccessPoint', supportingAccessPoint),
-      if (cloudWatchMetricsEnabled != null)
-        _s.encodeXmlBoolValue(
-            'CloudWatchMetricsEnabled', cloudWatchMetricsEnabled),
-      if (allowedFeatures != null)
-        _s.XmlElement(
-            _s.XmlName.parts('AllowedFeatures'),
-            [],
-            allowedFeatures.map(
-                (e) => _s.encodeXmlStringValue('AllowedFeature', e.value))),
-      _s.XmlElement(
-          _s.XmlName.parts('TransformationConfigurations'),
-          [],
-          transformationConfigurations
-              .map((e) => e.toXml('TransformationConfiguration'))),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// A container for AwsLambdaTransformation.
-class ObjectLambdaContentTransformation {
-  /// A container for an Lambda function.
-  final AwsLambdaTransformation? awsLambda;
-
-  ObjectLambdaContentTransformation({
-    this.awsLambda,
-  });
-  factory ObjectLambdaContentTransformation.fromXml(_s.XmlElement elem) {
-    return ObjectLambdaContentTransformation(
-      awsLambda: _s
-          .extractXmlChild(elem, 'AwsLambda')
-          ?.let(AwsLambdaTransformation.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final awsLambda = this.awsLambda;
-    return {
-      if (awsLambda != null) 'AwsLambda': awsLambda,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final awsLambda = this.awsLambda;
-    final $children = <_s.XmlNode>[
-      if (awsLambda != null) awsLambda.toXml('AwsLambda'),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// A configuration used when creating an Object Lambda Access Point
-/// transformation.
-class ObjectLambdaTransformationConfiguration {
-  /// A container for the action of an Object Lambda Access Point configuration.
-  /// Valid inputs are <code>GetObject</code>, <code>ListObjects</code>,
-  /// <code>HeadObject</code>, and <code>ListObjectsV2</code>.
-  final List<ObjectLambdaTransformationConfigurationAction> actions;
-
-  /// A container for the content transformation of an Object Lambda Access Point
-  /// configuration.
-  final ObjectLambdaContentTransformation contentTransformation;
-
-  ObjectLambdaTransformationConfiguration({
-    required this.actions,
-    required this.contentTransformation,
-  });
-  factory ObjectLambdaTransformationConfiguration.fromXml(_s.XmlElement elem) {
-    return ObjectLambdaTransformationConfiguration(
-      actions: _s
-          .extractXmlStringListValues(
-              _s.extractXmlChild(elem, 'Actions')!, 'Action')
-          .map(ObjectLambdaTransformationConfigurationAction.fromString)
-          .toList(),
-      contentTransformation: ObjectLambdaContentTransformation.fromXml(
-          _s.extractXmlChild(elem, 'ContentTransformation')!),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final actions = this.actions;
-    final contentTransformation = this.contentTransformation;
-    return {
-      'Actions': actions.map((e) => e.value).toList(),
-      'ContentTransformation': contentTransformation,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final actions = this.actions;
-    final contentTransformation = this.contentTransformation;
-    final $children = <_s.XmlNode>[
-      _s.XmlElement(_s.XmlName.parts('Actions'), [],
-          actions.map((e) => _s.encodeXmlStringValue('Action', e.value))),
-      contentTransformation.toXml('ContentTransformation'),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-class ObjectLambdaTransformationConfigurationAction {
-  static const getObject =
-      ObjectLambdaTransformationConfigurationAction._('GetObject');
-  static const headObject =
-      ObjectLambdaTransformationConfigurationAction._('HeadObject');
-  static const listObjects =
-      ObjectLambdaTransformationConfigurationAction._('ListObjects');
-  static const listObjectsV2 =
-      ObjectLambdaTransformationConfigurationAction._('ListObjectsV2');
-
-  final String value;
-
-  const ObjectLambdaTransformationConfigurationAction._(this.value);
-
-  static const values = [getObject, headObject, listObjects, listObjectsV2];
-
-  static ObjectLambdaTransformationConfigurationAction fromString(
-          String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ObjectLambdaTransformationConfigurationAction._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ObjectLambdaTransformationConfigurationAction &&
-      other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class OperationName {
-  static const lambdaInvoke = OperationName._('LambdaInvoke');
-  static const s3PutObjectCopy = OperationName._('S3PutObjectCopy');
-  static const s3PutObjectAcl = OperationName._('S3PutObjectAcl');
-  static const s3PutObjectTagging = OperationName._('S3PutObjectTagging');
-  static const s3DeleteObjectTagging = OperationName._('S3DeleteObjectTagging');
-  static const s3InitiateRestoreObject =
-      OperationName._('S3InitiateRestoreObject');
-  static const s3PutObjectLegalHold = OperationName._('S3PutObjectLegalHold');
-  static const s3PutObjectRetention = OperationName._('S3PutObjectRetention');
-  static const s3ReplicateObject = OperationName._('S3ReplicateObject');
-
-  final String value;
-
-  const OperationName._(this.value);
-
-  static const values = [
-    lambdaInvoke,
-    s3PutObjectCopy,
-    s3PutObjectAcl,
-    s3PutObjectTagging,
-    s3DeleteObjectTagging,
-    s3InitiateRestoreObject,
-    s3PutObjectLegalHold,
-    s3PutObjectRetention,
-    s3ReplicateObject
-  ];
-
-  static OperationName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => OperationName._(value));
-
-  @override
-  bool operator ==(other) => other is OperationName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class OutputSchemaVersion {
-  static const v_1 = OutputSchemaVersion._('V_1');
-
-  final String value;
-
-  const OutputSchemaVersion._(this.value);
-
-  static const values = [v_1];
-
-  static OutputSchemaVersion fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => OutputSchemaVersion._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is OutputSchemaVersion && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class OwnerOverride {
-  static const destination = OwnerOverride._('Destination');
-
-  final String value;
-
-  const OwnerOverride._(this.value);
-
-  static const values = [destination];
-
-  static OwnerOverride fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => OwnerOverride._(value));
-
-  @override
-  bool operator ==(other) => other is OwnerOverride && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class Permission {
-  static const read = Permission._('READ');
-  static const write = Permission._('WRITE');
-  static const readwrite = Permission._('READWRITE');
-
-  final String value;
-
-  const Permission._(this.value);
-
-  static const values = [read, write, readwrite];
-
-  static Permission fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Permission._(value));
-
-  @override
-  bool operator ==(other) => other is Permission && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Indicates whether this access point policy is public. For more information
-/// about how Amazon S3 evaluates policies to determine whether they are public,
-/// see <a
-/// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status">The
-/// Meaning of "Public"</a> in the <i>Amazon S3 User Guide</i>.
-class PolicyStatus {
-  /// <p/>
-  final bool? isPublic;
-
-  PolicyStatus({
-    this.isPublic,
-  });
-  factory PolicyStatus.fromXml(_s.XmlElement elem) {
-    return PolicyStatus(
-      isPublic: _s.extractXmlBoolValue(elem, 'IsPublic'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final isPublic = this.isPublic;
-    return {
-      if (isPublic != null) 'IsPublic': isPublic,
-    };
-  }
-}
-
-/// A container for the prefix-level configuration.
-class PrefixLevel {
-  /// A container for the prefix-level storage metrics for S3 Storage Lens.
-  final PrefixLevelStorageMetrics storageMetrics;
-
-  PrefixLevel({
-    required this.storageMetrics,
-  });
-  factory PrefixLevel.fromXml(_s.XmlElement elem) {
-    return PrefixLevel(
-      storageMetrics: PrefixLevelStorageMetrics.fromXml(
-          _s.extractXmlChild(elem, 'StorageMetrics')!),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final storageMetrics = this.storageMetrics;
-    return {
-      'StorageMetrics': storageMetrics,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final storageMetrics = this.storageMetrics;
-    final $children = <_s.XmlNode>[
-      storageMetrics.toXml('StorageMetrics'),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// A container for the prefix-level storage metrics for S3 Storage Lens.
-class PrefixLevelStorageMetrics {
-  /// A container for whether prefix-level storage metrics are enabled.
-  final bool? isEnabled;
-  final SelectionCriteria? selectionCriteria;
-
-  PrefixLevelStorageMetrics({
-    this.isEnabled,
-    this.selectionCriteria,
-  });
-  factory PrefixLevelStorageMetrics.fromXml(_s.XmlElement elem) {
-    return PrefixLevelStorageMetrics(
-      isEnabled: _s.extractXmlBoolValue(elem, 'IsEnabled'),
-      selectionCriteria: _s
-          .extractXmlChild(elem, 'SelectionCriteria')
-          ?.let(SelectionCriteria.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final isEnabled = this.isEnabled;
-    final selectionCriteria = this.selectionCriteria;
-    return {
-      if (isEnabled != null) 'IsEnabled': isEnabled,
-      if (selectionCriteria != null) 'SelectionCriteria': selectionCriteria,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final isEnabled = this.isEnabled;
-    final selectionCriteria = this.selectionCriteria;
-    final $children = <_s.XmlNode>[
-      if (isEnabled != null) _s.encodeXmlBoolValue('IsEnabled', isEnabled),
-      if (selectionCriteria != null)
-        selectionCriteria.toXml('SelectionCriteria'),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-class Privilege {
-  static const minimal = Privilege._('Minimal');
-  static const $default = Privilege._('Default');
-
-  final String value;
-
-  const Privilege._(this.value);
-
-  static const values = [minimal, $default];
-
-  static Privilege fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Privilege._(value));
-
-  @override
-  bool operator ==(other) => other is Privilege && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The proposed access control policy for the Multi-Region Access Point.
-///
-/// When you update the policy, the update is first listed as the proposed
-/// policy. After the update is finished and all Regions have been updated, the
-/// proposed policy is listed as the established policy. If both policies have
-/// the same version number, the proposed policy is the established policy.
-class ProposedMultiRegionAccessPointPolicy {
-  /// The details of the proposed policy.
-  final String? policy;
-
-  ProposedMultiRegionAccessPointPolicy({
-    this.policy,
-  });
-  factory ProposedMultiRegionAccessPointPolicy.fromXml(_s.XmlElement elem) {
-    return ProposedMultiRegionAccessPointPolicy(
-      policy: _s.extractXmlStringValue(elem, 'Policy'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final policy = this.policy;
-    return {
-      if (policy != null) 'Policy': policy,
-    };
-  }
-}
-
-/// The <code>PublicAccessBlock</code> configuration that you want to apply to
-/// this Amazon S3 account. You can enable the configuration options in any
-/// combination. For more information about when Amazon S3 considers a bucket or
-/// object public, see <a
-/// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status">The
-/// Meaning of "Public"</a> in the <i>Amazon S3 User Guide</i>.
-///
-/// This data type is not supported for Amazon S3 on Outposts.
-class PublicAccessBlockConfiguration {
-  /// Specifies whether Amazon S3 should block public access control lists (ACLs)
-  /// for buckets in this account. Setting this element to <code>TRUE</code>
-  /// causes the following behavior:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>PutBucketAcl</code> and <code>PutObjectAcl</code> calls fail if the
-  /// specified ACL is public.
-  /// </li>
-  /// <li>
-  /// PUT Object calls fail if the request includes a public ACL.
-  /// </li>
-  /// <li>
-  /// PUT Bucket calls fail if the request includes a public ACL.
-  /// </li>
-  /// </ul>
-  /// Enabling this setting doesn't affect existing policies or ACLs.
-  ///
-  /// This property is not supported for Amazon S3 on Outposts.
-  final bool? blockPublicAcls;
-
-  /// Specifies whether Amazon S3 should block public bucket policies for buckets
-  /// in this account. Setting this element to <code>TRUE</code> causes Amazon S3
-  /// to reject calls to PUT Bucket policy if the specified bucket policy allows
-  /// public access.
-  ///
-  /// Enabling this setting doesn't affect existing bucket policies.
-  ///
-  /// This property is not supported for Amazon S3 on Outposts.
-  final bool? blockPublicPolicy;
-
-  /// Specifies whether Amazon S3 should ignore public ACLs for buckets in this
-  /// account. Setting this element to <code>TRUE</code> causes Amazon S3 to
-  /// ignore all public ACLs on buckets in this account and any objects that they
-  /// contain.
-  ///
-  /// Enabling this setting doesn't affect the persistence of any existing ACLs
-  /// and doesn't prevent new public ACLs from being set.
-  ///
-  /// This property is not supported for Amazon S3 on Outposts.
-  final bool? ignorePublicAcls;
-
-  /// Specifies whether Amazon S3 should restrict public bucket policies for
-  /// buckets in this account. Setting this element to <code>TRUE</code> restricts
-  /// access to buckets with public policies to only Amazon Web Servicesservice
-  /// principals and authorized users within this account.
-  ///
-  /// Enabling this setting doesn't affect previously stored bucket policies,
-  /// except that public and cross-account access within any public bucket policy,
-  /// including non-public delegation to specific accounts, is blocked.
-  ///
-  /// This property is not supported for Amazon S3 on Outposts.
-  final bool? restrictPublicBuckets;
-
-  PublicAccessBlockConfiguration({
-    this.blockPublicAcls,
-    this.blockPublicPolicy,
-    this.ignorePublicAcls,
-    this.restrictPublicBuckets,
-  });
-  factory PublicAccessBlockConfiguration.fromXml(_s.XmlElement elem) {
-    return PublicAccessBlockConfiguration(
-      blockPublicAcls: _s.extractXmlBoolValue(elem, 'BlockPublicAcls'),
-      blockPublicPolicy: _s.extractXmlBoolValue(elem, 'BlockPublicPolicy'),
-      ignorePublicAcls: _s.extractXmlBoolValue(elem, 'IgnorePublicAcls'),
-      restrictPublicBuckets:
-          _s.extractXmlBoolValue(elem, 'RestrictPublicBuckets'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final blockPublicAcls = this.blockPublicAcls;
-    final blockPublicPolicy = this.blockPublicPolicy;
-    final ignorePublicAcls = this.ignorePublicAcls;
-    final restrictPublicBuckets = this.restrictPublicBuckets;
-    return {
-      if (blockPublicAcls != null) 'BlockPublicAcls': blockPublicAcls,
-      if (blockPublicPolicy != null) 'BlockPublicPolicy': blockPublicPolicy,
-      if (ignorePublicAcls != null) 'IgnorePublicAcls': ignorePublicAcls,
-      if (restrictPublicBuckets != null)
-        'RestrictPublicBuckets': restrictPublicBuckets,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final blockPublicAcls = this.blockPublicAcls;
-    final blockPublicPolicy = this.blockPublicPolicy;
-    final ignorePublicAcls = this.ignorePublicAcls;
-    final restrictPublicBuckets = this.restrictPublicBuckets;
-    final $children = <_s.XmlNode>[
-      if (blockPublicAcls != null)
-        _s.encodeXmlBoolValue('BlockPublicAcls', blockPublicAcls),
-      if (ignorePublicAcls != null)
-        _s.encodeXmlBoolValue('IgnorePublicAcls', ignorePublicAcls),
-      if (blockPublicPolicy != null)
-        _s.encodeXmlBoolValue('BlockPublicPolicy', blockPublicPolicy),
-      if (restrictPublicBuckets != null)
-        _s.encodeXmlBoolValue('RestrictPublicBuckets', restrictPublicBuckets),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
   }
 }
 
@@ -14240,6 +9144,70 @@ class PutAccessPointConfigurationForObjectLambdaRequest {
   }
 }
 
+class PutAccessPointPolicyRequest {
+  /// The Amazon Web Services account ID for owner of the bucket associated with
+  /// the specified access point.
+  final String accountId;
+
+  /// The name of the access point that you want to associate with the specified
+  /// policy.
+  ///
+  /// For using this parameter with Amazon S3 on Outposts with the REST API, you
+  /// must specify the name and the x-amz-outpost-id as well.
+  ///
+  /// For using this parameter with S3 on Outposts with the Amazon Web Services
+  /// SDK and CLI, you must specify the ARN of the access point accessed in the
+  /// format
+  /// <code>arn:aws:s3-outposts:<Region>:<account-id>:outpost/<outpost-id>/accesspoint/<my-accesspoint-name></code>.
+  /// For example, to access the access point <code>reports-ap</code> through
+  /// Outpost <code>my-outpost</code> owned by account <code>123456789012</code>
+  /// in Region <code>us-west-2</code>, use the URL encoding of
+  /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap</code>.
+  /// The value must be URL encoded.
+  final String name;
+
+  /// The policy that you want to apply to the specified access point. For more
+  /// information about access point policies, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html">Managing
+  /// data access with Amazon S3 access points</a> or <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-directory-buckets.html">Managing
+  /// access to shared datasets in directory buckets with access points</a> in the
+  /// <i>Amazon S3 User Guide</i>.
+  final String policy;
+
+  PutAccessPointPolicyRequest({
+    required this.accountId,
+    required this.name,
+    required this.policy,
+  });
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final name = this.name;
+    final policy = this.policy;
+    return {
+      'Policy': policy,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final accountId = this.accountId;
+    final name = this.name;
+    final policy = this.policy;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Policy', policy),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
 class PutAccessPointPolicyForObjectLambdaRequest {
   /// The account ID for the account that owns the specified Object Lambda Access
   /// Point.
@@ -14284,56 +9252,39 @@ class PutAccessPointPolicyForObjectLambdaRequest {
   }
 }
 
-class PutAccessPointPolicyRequest {
-  /// The Amazon Web Services account ID for owner of the bucket associated with
-  /// the specified access point.
+class PutAccessPointScopeRequest {
+  /// The Amazon Web Services account ID that owns the access point with scope
+  /// that you want to create or replace.
   final String accountId;
 
-  /// The name of the access point that you want to associate with the specified
-  /// policy.
-  ///
-  /// For using this parameter with Amazon S3 on Outposts with the REST API, you
-  /// must specify the name and the x-amz-outpost-id as well.
-  ///
-  /// For using this parameter with S3 on Outposts with the Amazon Web Services
-  /// SDK and CLI, you must specify the ARN of the access point accessed in the
-  /// format
-  /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/accesspoint/&lt;my-accesspoint-name&gt;</code>.
-  /// For example, to access the access point <code>reports-ap</code> through
-  /// Outpost <code>my-outpost</code> owned by account <code>123456789012</code>
-  /// in Region <code>us-west-2</code>, use the URL encoding of
-  /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap</code>.
-  /// The value must be URL encoded.
+  /// The name of the access point with the scope that you want to create or
+  /// replace.
   final String name;
 
-  /// The policy that you want to apply to the specified access point. For more
-  /// information about access point policies, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html">Managing
-  /// data access with Amazon S3 access points</a> in the <i>Amazon S3 User
-  /// Guide</i>.
-  final String policy;
+  /// Object prefixes, API operations, or a combination of both.
+  final Scope scope;
 
-  PutAccessPointPolicyRequest({
+  PutAccessPointScopeRequest({
     required this.accountId,
     required this.name,
-    required this.policy,
+    required this.scope,
   });
 
   Map<String, dynamic> toJson() {
     final accountId = this.accountId;
     final name = this.name;
-    final policy = this.policy;
+    final scope = this.scope;
     return {
-      'Policy': policy,
+      'Scope': scope,
     };
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
     final accountId = this.accountId;
     final name = this.name;
-    final policy = this.policy;
+    final scope = this.scope;
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Policy', policy),
+      scope.toXml('Scope'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -14357,7 +9308,7 @@ class PutBucketPolicyRequest {
   ///
   /// For using this parameter with S3 on Outposts with the Amazon Web Services
   /// SDK and CLI, you must specify the ARN of the bucket accessed in the format
-  /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt;</code>.
+  /// <code>arn:aws:s3-outposts:<Region>:<account-id>:outpost/<outpost-id>/bucket/<my-bucket-name></code>.
   /// For example, to access the bucket <code>reports</code> through Outpost
   /// <code>my-outpost</code> owned by account <code>123456789012</code> in Region
   /// <code>us-west-2</code>, use the URL encoding of
@@ -14466,54 +9417,6 @@ class PutJobTaggingResult {
 
   Map<String, dynamic> toJson() {
     return {};
-  }
-}
-
-/// A container for the information associated with a <a
-/// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutMultiRegionAccessPoint.html">PutMultiRegionAccessPoint</a>
-/// request.
-class PutMultiRegionAccessPointPolicyInput {
-  /// The name of the Multi-Region Access Point associated with the request.
-  final String name;
-
-  /// The policy details for the <code>PutMultiRegionAccessPoint</code> request.
-  final String policy;
-
-  PutMultiRegionAccessPointPolicyInput({
-    required this.name,
-    required this.policy,
-  });
-  factory PutMultiRegionAccessPointPolicyInput.fromXml(_s.XmlElement elem) {
-    return PutMultiRegionAccessPointPolicyInput(
-      name: _s.extractXmlStringValue(elem, 'Name')!,
-      policy: _s.extractXmlStringValue(elem, 'Policy')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final policy = this.policy;
-    return {
-      'Name': name,
-      'Policy': policy,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final name = this.name;
-    final policy = this.policy;
-    final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Name', name),
-      _s.encodeXmlStringValue('Policy', policy),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
   }
 }
 
@@ -14706,43 +9609,41 @@ class PutStorageLensConfigurationTaggingResult {
   }
 }
 
-/// A Region that supports a Multi-Region Access Point as well as the associated
-/// bucket for the Region.
-class Region {
-  /// The name of the associated bucket for the Region.
-  final String bucket;
+class SubmitMultiRegionAccessPointRoutesRequest {
+  /// The Amazon Web Services account ID for the owner of the Multi-Region Access
+  /// Point.
+  final String accountId;
 
-  /// The Amazon Web Services account ID that owns the Amazon S3 bucket that's
-  /// associated with this Multi-Region Access Point.
-  final String? bucketAccountId;
+  /// The Multi-Region Access Point ARN.
+  final String mrap;
 
-  Region({
-    required this.bucket,
-    this.bucketAccountId,
+  /// The different routes that make up the new route configuration. Active routes
+  /// return a value of <code>100</code>, and passive routes return a value of
+  /// <code>0</code>.
+  final List<MultiRegionAccessPointRoute> routeUpdates;
+
+  SubmitMultiRegionAccessPointRoutesRequest({
+    required this.accountId,
+    required this.mrap,
+    required this.routeUpdates,
   });
-  factory Region.fromXml(_s.XmlElement elem) {
-    return Region(
-      bucket: _s.extractXmlStringValue(elem, 'Bucket')!,
-      bucketAccountId: _s.extractXmlStringValue(elem, 'BucketAccountId'),
-    );
-  }
 
   Map<String, dynamic> toJson() {
-    final bucket = this.bucket;
-    final bucketAccountId = this.bucketAccountId;
+    final accountId = this.accountId;
+    final mrap = this.mrap;
+    final routeUpdates = this.routeUpdates;
     return {
-      'Bucket': bucket,
-      if (bucketAccountId != null) 'BucketAccountId': bucketAccountId,
+      'RouteUpdates': routeUpdates,
     };
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final bucket = this.bucket;
-    final bucketAccountId = this.bucketAccountId;
+    final accountId = this.accountId;
+    final mrap = this.mrap;
+    final routeUpdates = this.routeUpdates;
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Bucket', bucket),
-      if (bucketAccountId != null)
-        _s.encodeXmlStringValue('BucketAccountId', bucketAccountId),
+      _s.XmlElement(_s.XmlName.parts('RouteUpdates'), [],
+          routeUpdates.map((e) => e.toXml('Route'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -14755,138 +9656,55 @@ class Region {
   }
 }
 
-/// A combination of a bucket and Region that's part of a Multi-Region Access
-/// Point.
-class RegionReport {
-  /// The name of the bucket.
-  final String? bucket;
-
-  /// The Amazon Web Services account ID that owns the Amazon S3 bucket that's
-  /// associated with this Multi-Region Access Point.
-  final String? bucketAccountId;
-
-  /// The name of the Region.
-  final String? region;
-
-  RegionReport({
-    this.bucket,
-    this.bucketAccountId,
-    this.region,
-  });
-  factory RegionReport.fromXml(_s.XmlElement elem) {
-    return RegionReport(
-      bucket: _s.extractXmlStringValue(elem, 'Bucket'),
-      bucketAccountId: _s.extractXmlStringValue(elem, 'BucketAccountId'),
-      region: _s.extractXmlStringValue(elem, 'Region'),
-    );
+class SubmitMultiRegionAccessPointRoutesResult {
+  SubmitMultiRegionAccessPointRoutesResult();
+  factory SubmitMultiRegionAccessPointRoutesResult.fromXml(
+      // ignore: avoid_unused_constructor_parameters
+      _s.XmlElement elem) {
+    return SubmitMultiRegionAccessPointRoutesResult();
   }
 
   Map<String, dynamic> toJson() {
-    final bucket = this.bucket;
-    final bucketAccountId = this.bucketAccountId;
-    final region = this.region;
-    return {
-      if (bucket != null) 'Bucket': bucket,
-      if (bucketAccountId != null) 'BucketAccountId': bucketAccountId,
-      if (region != null) 'Region': region,
-    };
+    return {};
   }
 }
 
-/// The container for the regional bucket.
-class RegionalBucket {
-  /// <p/>
-  final String bucket;
+class TagResourceRequest {
+  /// The Amazon Web Services account ID that created the S3 resource that you're
+  /// trying to add tags to or the requester's account ID.
+  final String accountId;
 
-  /// The creation date of the regional bucket
-  final DateTime creationDate;
+  /// The Amazon Resource Name (ARN) of the S3 resource that you're applying tags
+  /// to. The tagged resource can be a directory bucket, S3 Storage Lens group or
+  /// S3 Access Grants instance, registered location, or grant.
+  final String resourceArn;
 
-  /// <p/>
-  final bool publicAccessBlockEnabled;
+  /// The Amazon Web Services resource tags that you want to add to the specified
+  /// S3 resource.
+  final List<Tag> tags;
 
-  /// The Amazon Resource Name (ARN) for the regional bucket.
-  final String? bucketArn;
-
-  /// The Outposts ID of the regional bucket.
-  final String? outpostId;
-
-  RegionalBucket({
-    required this.bucket,
-    required this.creationDate,
-    required this.publicAccessBlockEnabled,
-    this.bucketArn,
-    this.outpostId,
+  TagResourceRequest({
+    required this.accountId,
+    required this.resourceArn,
+    required this.tags,
   });
-  factory RegionalBucket.fromXml(_s.XmlElement elem) {
-    return RegionalBucket(
-      bucket: _s.extractXmlStringValue(elem, 'Bucket')!,
-      creationDate: _s.extractXmlDateTimeValue(elem, 'CreationDate')!,
-      publicAccessBlockEnabled:
-          _s.extractXmlBoolValue(elem, 'PublicAccessBlockEnabled')!,
-      bucketArn: _s.extractXmlStringValue(elem, 'BucketArn'),
-      outpostId: _s.extractXmlStringValue(elem, 'OutpostId'),
-    );
-  }
 
   Map<String, dynamic> toJson() {
-    final bucket = this.bucket;
-    final creationDate = this.creationDate;
-    final publicAccessBlockEnabled = this.publicAccessBlockEnabled;
-    final bucketArn = this.bucketArn;
-    final outpostId = this.outpostId;
+    final accountId = this.accountId;
+    final resourceArn = this.resourceArn;
+    final tags = this.tags;
     return {
-      'Bucket': bucket,
-      'CreationDate': iso8601ToJson(creationDate),
-      'PublicAccessBlockEnabled': publicAccessBlockEnabled,
-      if (bucketArn != null) 'BucketArn': bucketArn,
-      if (outpostId != null) 'OutpostId': outpostId,
-    };
-  }
-}
-
-/// A filter that you can use to specify whether replica modification sync is
-/// enabled. S3 on Outposts replica modification sync can help you keep object
-/// metadata synchronized between replicas and source objects. By default, S3 on
-/// Outposts replicates metadata from the source objects to the replicas only.
-/// When replica modification sync is enabled, S3 on Outposts replicates
-/// metadata changes made to the replica copies back to the source object,
-/// making the replication bidirectional.
-///
-/// To replicate object metadata modifications on replicas, you can specify this
-/// element and set the <code>Status</code> of this element to
-/// <code>Enabled</code>.
-/// <note>
-/// You must enable replica modification sync on the source and destination
-/// buckets to replicate replica metadata changes between the source and the
-/// replicas.
-/// </note>
-class ReplicaModifications {
-  /// Specifies whether S3 on Outposts replicates modifications to object metadata
-  /// on replicas.
-  final ReplicaModificationsStatus status;
-
-  ReplicaModifications({
-    required this.status,
-  });
-  factory ReplicaModifications.fromXml(_s.XmlElement elem) {
-    return ReplicaModifications(
-      status: _s
-          .extractXmlStringValue(elem, 'Status')!
-          .let(ReplicaModificationsStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final status = this.status;
-    return {
-      'Status': status.value,
+      'Tags': tags,
     };
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final status = this.status;
+    final accountId = this.accountId;
+    final resourceArn = this.resourceArn;
+    final tags = this.tags;
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Status', status.value),
+      _s.XmlElement(
+          _s.XmlName.parts('Tags'), [], tags.map((e) => e.toXml('Tag'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -14899,29 +9717,2856 @@ class ReplicaModifications {
   }
 }
 
-class ReplicaModificationsStatus {
-  static const enabled = ReplicaModificationsStatus._('Enabled');
-  static const disabled = ReplicaModificationsStatus._('Disabled');
+class TagResourceResult {
+  TagResourceResult();
+  factory TagResourceResult.fromXml(
+      // ignore: avoid_unused_constructor_parameters
+      _s.XmlElement elem) {
+    return TagResourceResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResult {
+  UntagResourceResult();
+  factory UntagResourceResult.fromXml(
+      // ignore: avoid_unused_constructor_parameters
+      _s.XmlElement elem) {
+    return UntagResourceResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateAccessGrantsLocationRequest {
+  /// The ID of the registered location that you are updating. S3 Access Grants
+  /// assigns this ID when you register the location. S3 Access Grants assigns the
+  /// ID <code>default</code> to the default location <code>s3://</code> and
+  /// assigns an auto-generated ID to other locations that you register.
+  ///
+  /// The ID of the registered location to which you are granting access. S3
+  /// Access Grants assigned this ID when you registered the location. S3 Access
+  /// Grants assigns the ID <code>default</code> to the default location
+  /// <code>s3://</code> and assigns an auto-generated ID to other locations that
+  /// you register.
+  ///
+  /// If you are passing the <code>default</code> location, you cannot create an
+  /// access grant for the entire default location. You must also specify a bucket
+  /// or a bucket and prefix in the <code>Subprefix</code> field.
+  final String accessGrantsLocationId;
+
+  /// The Amazon Web Services account ID of the S3 Access Grants instance.
+  final String accountId;
+
+  /// The Amazon Resource Name (ARN) of the IAM role for the registered location.
+  /// S3 Access Grants assumes this role to manage access to the registered
+  /// location.
+  final String iAMRoleArn;
+
+  UpdateAccessGrantsLocationRequest({
+    required this.accessGrantsLocationId,
+    required this.accountId,
+    required this.iAMRoleArn,
+  });
+
+  Map<String, dynamic> toJson() {
+    final accessGrantsLocationId = this.accessGrantsLocationId;
+    final accountId = this.accountId;
+    final iAMRoleArn = this.iAMRoleArn;
+    return {
+      'IAMRoleArn': iAMRoleArn,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final accessGrantsLocationId = this.accessGrantsLocationId;
+    final accountId = this.accountId;
+    final iAMRoleArn = this.iAMRoleArn;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('IAMRoleArn', iAMRoleArn),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class UpdateAccessGrantsLocationResult {
+  /// The Amazon Resource Name (ARN) of the registered location that you are
+  /// updating.
+  final String? accessGrantsLocationArn;
+
+  /// The ID of the registered location to which you are granting access. S3
+  /// Access Grants assigned this ID when you registered the location. S3 Access
+  /// Grants assigns the ID <code>default</code> to the default location
+  /// <code>s3://</code> and assigns an auto-generated ID to other locations that
+  /// you register.
+  final String? accessGrantsLocationId;
+
+  /// The date and time when you registered the location.
+  final DateTime? createdAt;
+
+  /// The Amazon Resource Name (ARN) of the IAM role of the registered location.
+  /// S3 Access Grants assumes this role to manage access to the registered
+  /// location.
+  final String? iAMRoleArn;
+
+  /// The S3 URI path of the location that you are updating. You cannot update the
+  /// scope of the registered location. The location scope can be the default S3
+  /// location <code>s3://</code>, the S3 path to a bucket
+  /// <code>s3://<bucket></code>, or the S3 path to a bucket and prefix
+  /// <code>s3://<bucket>/<prefix></code>.
+  final String? locationScope;
+
+  UpdateAccessGrantsLocationResult({
+    this.accessGrantsLocationArn,
+    this.accessGrantsLocationId,
+    this.createdAt,
+    this.iAMRoleArn,
+    this.locationScope,
+  });
+  factory UpdateAccessGrantsLocationResult.fromXml(_s.XmlElement elem) {
+    return UpdateAccessGrantsLocationResult(
+      accessGrantsLocationArn:
+          _s.extractXmlStringValue(elem, 'AccessGrantsLocationArn'),
+      accessGrantsLocationId:
+          _s.extractXmlStringValue(elem, 'AccessGrantsLocationId'),
+      createdAt: _s.extractXmlDateTimeValue(elem, 'CreatedAt'),
+      iAMRoleArn: _s.extractXmlStringValue(elem, 'IAMRoleArn'),
+      locationScope: _s.extractXmlStringValue(elem, 'LocationScope'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessGrantsLocationArn = this.accessGrantsLocationArn;
+    final accessGrantsLocationId = this.accessGrantsLocationId;
+    final createdAt = this.createdAt;
+    final iAMRoleArn = this.iAMRoleArn;
+    final locationScope = this.locationScope;
+    return {
+      if (accessGrantsLocationArn != null)
+        'AccessGrantsLocationArn': accessGrantsLocationArn,
+      if (accessGrantsLocationId != null)
+        'AccessGrantsLocationId': accessGrantsLocationId,
+      if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
+      if (iAMRoleArn != null) 'IAMRoleArn': iAMRoleArn,
+      if (locationScope != null) 'LocationScope': locationScope,
+    };
+  }
+}
+
+class UpdateJobPriorityResult {
+  /// The ID for the job whose priority Amazon S3 updated.
+  final String jobId;
+
+  /// The new priority assigned to the specified job.
+  final int priority;
+
+  UpdateJobPriorityResult({
+    required this.jobId,
+    required this.priority,
+  });
+  factory UpdateJobPriorityResult.fromXml(_s.XmlElement elem) {
+    return UpdateJobPriorityResult(
+      jobId: _s.extractXmlStringValue(elem, 'JobId')!,
+      priority: _s.extractXmlIntValue(elem, 'Priority')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    final priority = this.priority;
+    return {
+      'JobId': jobId,
+      'Priority': priority,
+    };
+  }
+}
+
+class UpdateJobStatusResult {
+  /// The ID for the job whose status was updated.
+  final String? jobId;
+
+  /// The current status for the specified job.
+  final JobStatus? status;
+
+  /// The reason that the specified job's status was updated.
+  final String? statusUpdateReason;
+
+  UpdateJobStatusResult({
+    this.jobId,
+    this.status,
+    this.statusUpdateReason,
+  });
+  factory UpdateJobStatusResult.fromXml(_s.XmlElement elem) {
+    return UpdateJobStatusResult(
+      jobId: _s.extractXmlStringValue(elem, 'JobId'),
+      status:
+          _s.extractXmlStringValue(elem, 'Status')?.let(JobStatus.fromString),
+      statusUpdateReason: _s.extractXmlStringValue(elem, 'StatusUpdateReason'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    final status = this.status;
+    final statusUpdateReason = this.statusUpdateReason;
+    return {
+      if (jobId != null) 'JobId': jobId,
+      if (status != null) 'Status': status.value,
+      if (statusUpdateReason != null) 'StatusUpdateReason': statusUpdateReason,
+    };
+  }
+}
+
+class UpdateStorageLensGroupRequest {
+  /// The Amazon Web Services account ID of the Storage Lens group owner.
+  final String accountId;
+
+  /// The name of the Storage Lens group that you want to update.
+  final String name;
+
+  /// The JSON file that contains the Storage Lens group configuration.
+  final StorageLensGroup storageLensGroup;
+
+  UpdateStorageLensGroupRequest({
+    required this.accountId,
+    required this.name,
+    required this.storageLensGroup,
+  });
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final name = this.name;
+    final storageLensGroup = this.storageLensGroup;
+    return {
+      'StorageLensGroup': storageLensGroup,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final accountId = this.accountId;
+    final name = this.name;
+    final storageLensGroup = this.storageLensGroup;
+    final $children = <_s.XmlNode>[
+      storageLensGroup.toXml('StorageLensGroup'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A custom grouping of objects that include filters for prefixes, suffixes,
+/// object tags, object size, or object age. You can create an S3 Storage Lens
+/// group that includes a single filter or multiple filter conditions. To
+/// specify multiple filter conditions, you use <code>AND</code> or
+/// <code>OR</code> logical operators.
+class StorageLensGroup {
+  /// Sets the criteria for the Storage Lens group data that is displayed. For
+  /// multiple filter conditions, the <code>AND</code> or <code>OR</code> logical
+  /// operator is used.
+  final StorageLensGroupFilter filter;
+
+  /// Contains the name of the Storage Lens group.
+  final String name;
+
+  /// Contains the Amazon Resource Name (ARN) of the Storage Lens group. This
+  /// property is read-only.
+  final String? storageLensGroupArn;
+
+  StorageLensGroup({
+    required this.filter,
+    required this.name,
+    this.storageLensGroupArn,
+  });
+  factory StorageLensGroup.fromXml(_s.XmlElement elem) {
+    return StorageLensGroup(
+      filter:
+          StorageLensGroupFilter.fromXml(_s.extractXmlChild(elem, 'Filter')!),
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      storageLensGroupArn:
+          _s.extractXmlStringValue(elem, 'StorageLensGroupArn'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filter = this.filter;
+    final name = this.name;
+    final storageLensGroupArn = this.storageLensGroupArn;
+    return {
+      'Filter': filter,
+      'Name': name,
+      if (storageLensGroupArn != null)
+        'StorageLensGroupArn': storageLensGroupArn,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final filter = this.filter;
+    final name = this.name;
+    final storageLensGroupArn = this.storageLensGroupArn;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Name', name),
+      filter.toXml('Filter'),
+      if (storageLensGroupArn != null)
+        _s.encodeXmlStringValue('StorageLensGroupArn', storageLensGroupArn),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// The filter element sets the criteria for the Storage Lens group data that is
+/// displayed. For multiple filter conditions, the <code>AND</code> or
+/// <code>OR</code> logical operator is used.
+class StorageLensGroupFilter {
+  /// A logical operator that allows multiple filter conditions to be joined for
+  /// more complex comparisons of Storage Lens group data. Objects must match all
+  /// of the listed filter conditions that are joined by the <code>And</code>
+  /// logical operator. Only one of each filter condition is allowed.
+  final StorageLensGroupAndOperator? and;
+
+  /// Contains a list of prefixes. At least one prefix must be specified. Up to 10
+  /// prefixes are allowed.
+  final List<String>? matchAnyPrefix;
+
+  /// Contains a list of suffixes. At least one suffix must be specified. Up to 10
+  /// suffixes are allowed.
+  final List<String>? matchAnySuffix;
+
+  /// Contains the list of S3 object tags. At least one object tag must be
+  /// specified. Up to 10 object tags are allowed.
+  final List<S3Tag>? matchAnyTag;
+
+  /// Contains <code>DaysGreaterThan</code> and <code>DaysLessThan</code> to
+  /// define the object age range (minimum and maximum number of days).
+  final MatchObjectAge? matchObjectAge;
+
+  /// Contains <code>BytesGreaterThan</code> and <code>BytesLessThan</code> to
+  /// define the object size range (minimum and maximum number of Bytes).
+  final MatchObjectSize? matchObjectSize;
+
+  /// A single logical operator that allows multiple filter conditions to be
+  /// joined. Objects can match any of the listed filter conditions, which are
+  /// joined by the <code>Or</code> logical operator. Only one of each filter
+  /// condition is allowed.
+  final StorageLensGroupOrOperator? or;
+
+  StorageLensGroupFilter({
+    this.and,
+    this.matchAnyPrefix,
+    this.matchAnySuffix,
+    this.matchAnyTag,
+    this.matchObjectAge,
+    this.matchObjectSize,
+    this.or,
+  });
+  factory StorageLensGroupFilter.fromXml(_s.XmlElement elem) {
+    return StorageLensGroupFilter(
+      and: _s
+          .extractXmlChild(elem, 'And')
+          ?.let(StorageLensGroupAndOperator.fromXml),
+      matchAnyPrefix: _s
+          .extractXmlChild(elem, 'MatchAnyPrefix')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Prefix')),
+      matchAnySuffix: _s
+          .extractXmlChild(elem, 'MatchAnySuffix')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Suffix')),
+      matchAnyTag: _s
+          .extractXmlChild(elem, 'MatchAnyTag')
+          ?.let((elem) => elem.findElements('Tag').map(S3Tag.fromXml).toList()),
+      matchObjectAge: _s
+          .extractXmlChild(elem, 'MatchObjectAge')
+          ?.let(MatchObjectAge.fromXml),
+      matchObjectSize: _s
+          .extractXmlChild(elem, 'MatchObjectSize')
+          ?.let(MatchObjectSize.fromXml),
+      or: _s
+          .extractXmlChild(elem, 'Or')
+          ?.let(StorageLensGroupOrOperator.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final and = this.and;
+    final matchAnyPrefix = this.matchAnyPrefix;
+    final matchAnySuffix = this.matchAnySuffix;
+    final matchAnyTag = this.matchAnyTag;
+    final matchObjectAge = this.matchObjectAge;
+    final matchObjectSize = this.matchObjectSize;
+    final or = this.or;
+    return {
+      if (and != null) 'And': and,
+      if (matchAnyPrefix != null) 'MatchAnyPrefix': matchAnyPrefix,
+      if (matchAnySuffix != null) 'MatchAnySuffix': matchAnySuffix,
+      if (matchAnyTag != null) 'MatchAnyTag': matchAnyTag,
+      if (matchObjectAge != null) 'MatchObjectAge': matchObjectAge,
+      if (matchObjectSize != null) 'MatchObjectSize': matchObjectSize,
+      if (or != null) 'Or': or,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final and = this.and;
+    final matchAnyPrefix = this.matchAnyPrefix;
+    final matchAnySuffix = this.matchAnySuffix;
+    final matchAnyTag = this.matchAnyTag;
+    final matchObjectAge = this.matchObjectAge;
+    final matchObjectSize = this.matchObjectSize;
+    final or = this.or;
+    final $children = <_s.XmlNode>[
+      if (matchAnyPrefix != null)
+        _s.XmlElement(_s.XmlName.parts('MatchAnyPrefix'), [],
+            matchAnyPrefix.map((e) => _s.encodeXmlStringValue('Prefix', e))),
+      if (matchAnySuffix != null)
+        _s.XmlElement(_s.XmlName.parts('MatchAnySuffix'), [],
+            matchAnySuffix.map((e) => _s.encodeXmlStringValue('Suffix', e))),
+      if (matchAnyTag != null)
+        _s.XmlElement(_s.XmlName.parts('MatchAnyTag'), [],
+            matchAnyTag.map((e) => e.toXml('Tag'))),
+      if (matchObjectAge != null) matchObjectAge.toXml('MatchObjectAge'),
+      if (matchObjectSize != null) matchObjectSize.toXml('MatchObjectSize'),
+      if (and != null) and.toXml('And'),
+      if (or != null) or.toXml('Or'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A filter condition that specifies the object age range of included objects
+/// in days. Only integers are supported.
+class MatchObjectAge {
+  /// Specifies the maximum object age in days. Must be a positive whole number,
+  /// greater than the minimum object age and less than or equal to 2,147,483,647.
+  final int? daysGreaterThan;
+
+  /// Specifies the minimum object age in days. The value must be a positive whole
+  /// number, greater than 0 and less than or equal to 2,147,483,647.
+  final int? daysLessThan;
+
+  MatchObjectAge({
+    this.daysGreaterThan,
+    this.daysLessThan,
+  });
+  factory MatchObjectAge.fromXml(_s.XmlElement elem) {
+    return MatchObjectAge(
+      daysGreaterThan: _s.extractXmlIntValue(elem, 'DaysGreaterThan'),
+      daysLessThan: _s.extractXmlIntValue(elem, 'DaysLessThan'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final daysGreaterThan = this.daysGreaterThan;
+    final daysLessThan = this.daysLessThan;
+    return {
+      if (daysGreaterThan != null) 'DaysGreaterThan': daysGreaterThan,
+      if (daysLessThan != null) 'DaysLessThan': daysLessThan,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final daysGreaterThan = this.daysGreaterThan;
+    final daysLessThan = this.daysLessThan;
+    final $children = <_s.XmlNode>[
+      if (daysGreaterThan != null)
+        _s.encodeXmlIntValue('DaysGreaterThan', daysGreaterThan),
+      if (daysLessThan != null)
+        _s.encodeXmlIntValue('DaysLessThan', daysLessThan),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A filter condition that specifies the object size range of included objects
+/// in bytes. Only integers are supported.
+class MatchObjectSize {
+  /// Specifies the minimum object size in Bytes. The value must be a positive
+  /// number, greater than 0 and less than 50 TB.
+  final int? bytesGreaterThan;
+
+  /// Specifies the maximum object size in Bytes. The value must be a positive
+  /// number, greater than the minimum object size and less than 50 TB.
+  final int? bytesLessThan;
+
+  MatchObjectSize({
+    this.bytesGreaterThan,
+    this.bytesLessThan,
+  });
+  factory MatchObjectSize.fromXml(_s.XmlElement elem) {
+    return MatchObjectSize(
+      bytesGreaterThan: _s.extractXmlIntValue(elem, 'BytesGreaterThan'),
+      bytesLessThan: _s.extractXmlIntValue(elem, 'BytesLessThan'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bytesGreaterThan = this.bytesGreaterThan;
+    final bytesLessThan = this.bytesLessThan;
+    return {
+      if (bytesGreaterThan != null) 'BytesGreaterThan': bytesGreaterThan,
+      if (bytesLessThan != null) 'BytesLessThan': bytesLessThan,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final bytesGreaterThan = this.bytesGreaterThan;
+    final bytesLessThan = this.bytesLessThan;
+    final $children = <_s.XmlNode>[
+      if (bytesGreaterThan != null)
+        _s.encodeXmlIntValue('BytesGreaterThan', bytesGreaterThan),
+      if (bytesLessThan != null)
+        _s.encodeXmlIntValue('BytesLessThan', bytesLessThan),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A logical operator that allows multiple filter conditions to be joined for
+/// more complex comparisons of Storage Lens group data.
+class StorageLensGroupAndOperator {
+  /// Contains a list of prefixes. At least one prefix must be specified. Up to 10
+  /// prefixes are allowed.
+  final List<String>? matchAnyPrefix;
+
+  /// Contains a list of suffixes. At least one suffix must be specified. Up to 10
+  /// suffixes are allowed.
+  final List<String>? matchAnySuffix;
+
+  /// Contains the list of object tags. At least one object tag must be specified.
+  /// Up to 10 object tags are allowed.
+  final List<S3Tag>? matchAnyTag;
+
+  /// Contains <code>DaysGreaterThan</code> and <code>DaysLessThan</code> to
+  /// define the object age range (minimum and maximum number of days).
+  final MatchObjectAge? matchObjectAge;
+
+  /// Contains <code>BytesGreaterThan</code> and <code>BytesLessThan</code> to
+  /// define the object size range (minimum and maximum number of Bytes).
+  final MatchObjectSize? matchObjectSize;
+
+  StorageLensGroupAndOperator({
+    this.matchAnyPrefix,
+    this.matchAnySuffix,
+    this.matchAnyTag,
+    this.matchObjectAge,
+    this.matchObjectSize,
+  });
+  factory StorageLensGroupAndOperator.fromXml(_s.XmlElement elem) {
+    return StorageLensGroupAndOperator(
+      matchAnyPrefix: _s
+          .extractXmlChild(elem, 'MatchAnyPrefix')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Prefix')),
+      matchAnySuffix: _s
+          .extractXmlChild(elem, 'MatchAnySuffix')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Suffix')),
+      matchAnyTag: _s
+          .extractXmlChild(elem, 'MatchAnyTag')
+          ?.let((elem) => elem.findElements('Tag').map(S3Tag.fromXml).toList()),
+      matchObjectAge: _s
+          .extractXmlChild(elem, 'MatchObjectAge')
+          ?.let(MatchObjectAge.fromXml),
+      matchObjectSize: _s
+          .extractXmlChild(elem, 'MatchObjectSize')
+          ?.let(MatchObjectSize.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final matchAnyPrefix = this.matchAnyPrefix;
+    final matchAnySuffix = this.matchAnySuffix;
+    final matchAnyTag = this.matchAnyTag;
+    final matchObjectAge = this.matchObjectAge;
+    final matchObjectSize = this.matchObjectSize;
+    return {
+      if (matchAnyPrefix != null) 'MatchAnyPrefix': matchAnyPrefix,
+      if (matchAnySuffix != null) 'MatchAnySuffix': matchAnySuffix,
+      if (matchAnyTag != null) 'MatchAnyTag': matchAnyTag,
+      if (matchObjectAge != null) 'MatchObjectAge': matchObjectAge,
+      if (matchObjectSize != null) 'MatchObjectSize': matchObjectSize,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final matchAnyPrefix = this.matchAnyPrefix;
+    final matchAnySuffix = this.matchAnySuffix;
+    final matchAnyTag = this.matchAnyTag;
+    final matchObjectAge = this.matchObjectAge;
+    final matchObjectSize = this.matchObjectSize;
+    final $children = <_s.XmlNode>[
+      if (matchAnyPrefix != null)
+        _s.XmlElement(_s.XmlName.parts('MatchAnyPrefix'), [],
+            matchAnyPrefix.map((e) => _s.encodeXmlStringValue('Prefix', e))),
+      if (matchAnySuffix != null)
+        _s.XmlElement(_s.XmlName.parts('MatchAnySuffix'), [],
+            matchAnySuffix.map((e) => _s.encodeXmlStringValue('Suffix', e))),
+      if (matchAnyTag != null)
+        _s.XmlElement(_s.XmlName.parts('MatchAnyTag'), [],
+            matchAnyTag.map((e) => e.toXml('Tag'))),
+      if (matchObjectAge != null) matchObjectAge.toXml('MatchObjectAge'),
+      if (matchObjectSize != null) matchObjectSize.toXml('MatchObjectSize'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A container element for specifying <code>Or</code> rule conditions. The rule
+/// conditions determine the subset of objects to which the <code>Or</code> rule
+/// applies. Objects can match any of the listed filter conditions, which are
+/// joined by the <code>Or</code> logical operator. Only one of each filter
+/// condition is allowed.
+class StorageLensGroupOrOperator {
+  /// Filters objects that match any of the specified prefixes.
+  final List<String>? matchAnyPrefix;
+
+  /// Filters objects that match any of the specified suffixes.
+  final List<String>? matchAnySuffix;
+
+  /// Filters objects that match any of the specified S3 object tags.
+  final List<S3Tag>? matchAnyTag;
+
+  /// Filters objects that match the specified object age range.
+  final MatchObjectAge? matchObjectAge;
+
+  /// Filters objects that match the specified object size range.
+  final MatchObjectSize? matchObjectSize;
+
+  StorageLensGroupOrOperator({
+    this.matchAnyPrefix,
+    this.matchAnySuffix,
+    this.matchAnyTag,
+    this.matchObjectAge,
+    this.matchObjectSize,
+  });
+  factory StorageLensGroupOrOperator.fromXml(_s.XmlElement elem) {
+    return StorageLensGroupOrOperator(
+      matchAnyPrefix: _s
+          .extractXmlChild(elem, 'MatchAnyPrefix')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Prefix')),
+      matchAnySuffix: _s
+          .extractXmlChild(elem, 'MatchAnySuffix')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Suffix')),
+      matchAnyTag: _s
+          .extractXmlChild(elem, 'MatchAnyTag')
+          ?.let((elem) => elem.findElements('Tag').map(S3Tag.fromXml).toList()),
+      matchObjectAge: _s
+          .extractXmlChild(elem, 'MatchObjectAge')
+          ?.let(MatchObjectAge.fromXml),
+      matchObjectSize: _s
+          .extractXmlChild(elem, 'MatchObjectSize')
+          ?.let(MatchObjectSize.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final matchAnyPrefix = this.matchAnyPrefix;
+    final matchAnySuffix = this.matchAnySuffix;
+    final matchAnyTag = this.matchAnyTag;
+    final matchObjectAge = this.matchObjectAge;
+    final matchObjectSize = this.matchObjectSize;
+    return {
+      if (matchAnyPrefix != null) 'MatchAnyPrefix': matchAnyPrefix,
+      if (matchAnySuffix != null) 'MatchAnySuffix': matchAnySuffix,
+      if (matchAnyTag != null) 'MatchAnyTag': matchAnyTag,
+      if (matchObjectAge != null) 'MatchObjectAge': matchObjectAge,
+      if (matchObjectSize != null) 'MatchObjectSize': matchObjectSize,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final matchAnyPrefix = this.matchAnyPrefix;
+    final matchAnySuffix = this.matchAnySuffix;
+    final matchAnyTag = this.matchAnyTag;
+    final matchObjectAge = this.matchObjectAge;
+    final matchObjectSize = this.matchObjectSize;
+    final $children = <_s.XmlNode>[
+      if (matchAnyPrefix != null)
+        _s.XmlElement(_s.XmlName.parts('MatchAnyPrefix'), [],
+            matchAnyPrefix.map((e) => _s.encodeXmlStringValue('Prefix', e))),
+      if (matchAnySuffix != null)
+        _s.XmlElement(_s.XmlName.parts('MatchAnySuffix'), [],
+            matchAnySuffix.map((e) => _s.encodeXmlStringValue('Suffix', e))),
+      if (matchAnyTag != null)
+        _s.XmlElement(_s.XmlName.parts('MatchAnyTag'), [],
+            matchAnyTag.map((e) => e.toXml('Tag'))),
+      if (matchObjectAge != null) matchObjectAge.toXml('MatchObjectAge'),
+      if (matchObjectSize != null) matchObjectSize.toXml('MatchObjectSize'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A container for a key-value name pair.
+class S3Tag {
+  /// Key of the tag
+  final String key;
+
+  /// Value of the tag
+  final String value;
+
+  S3Tag({
+    required this.key,
+    required this.value,
+  });
+  factory S3Tag.fromXml(_s.XmlElement elem) {
+    return S3Tag(
+      key: _s.extractXmlStringValue(elem, 'Key')!,
+      value: _s.extractXmlStringValue(elem, 'Value')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final key = this.key;
+    final value = this.value;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Key', key),
+      _s.encodeXmlStringValue('Value', value),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class JobStatus {
+  static const active = JobStatus._('Active');
+  static const cancelled = JobStatus._('Cancelled');
+  static const cancelling = JobStatus._('Cancelling');
+  static const complete = JobStatus._('Complete');
+  static const completing = JobStatus._('Completing');
+  static const failed = JobStatus._('Failed');
+  static const failing = JobStatus._('Failing');
+  static const $new = JobStatus._('New');
+  static const paused = JobStatus._('Paused');
+  static const pausing = JobStatus._('Pausing');
+  static const preparing = JobStatus._('Preparing');
+  static const ready = JobStatus._('Ready');
+  static const suspended = JobStatus._('Suspended');
 
   final String value;
 
-  const ReplicaModificationsStatus._(this.value);
+  const JobStatus._(this.value);
 
-  static const values = [enabled, disabled];
+  static const values = [
+    active,
+    cancelled,
+    cancelling,
+    complete,
+    completing,
+    failed,
+    failing,
+    $new,
+    paused,
+    pausing,
+    preparing,
+    ready,
+    suspended
+  ];
 
-  static ReplicaModificationsStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ReplicaModificationsStatus._(value));
+  static JobStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobStatus._(value));
 
   @override
-  bool operator ==(other) =>
-      other is ReplicaModificationsStatus && other.value == value;
+  bool operator ==(other) => other is JobStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
+}
+
+class RequestedJobStatus {
+  static const cancelled = RequestedJobStatus._('Cancelled');
+  static const ready = RequestedJobStatus._('Ready');
+
+  final String value;
+
+  const RequestedJobStatus._(this.value);
+
+  static const values = [cancelled, ready];
+
+  static RequestedJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RequestedJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RequestedJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A key-value pair that you use to label your resources. You can add tags to
+/// new resources when you create them, or you can add tags to existing
+/// resources. Tags can help you organize, track costs for, and control access
+/// to resources.
+class Tag {
+  /// The key of the key-value pair of a tag added to your Amazon Web Services
+  /// resource. A tag key can be up to 128 Unicode characters in length and is
+  /// case-sensitive. System created tags that begin with <code>aws:</code> aren’t
+  /// supported.
+  final String key;
+
+  /// The value of the key-value pair of a tag added to your Amazon Web Services
+  /// resource. A tag value can be up to 256 Unicode characters in length and is
+  /// case-sensitive.
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+  factory Tag.fromXml(_s.XmlElement elem) {
+    return Tag(
+      key: _s.extractXmlStringValue(elem, 'Key')!,
+      value: _s.extractXmlStringValue(elem, 'Value')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final key = this.key;
+    final value = this.value;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Key', key),
+      _s.encodeXmlStringValue('Value', value),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A structure for a Multi-Region Access Point that indicates where Amazon S3
+/// traffic can be routed. Routes can be either active or passive. Active routes
+/// can process Amazon S3 requests through the Multi-Region Access Point, but
+/// passive routes are not eligible to process Amazon S3 requests.
+///
+/// Each route contains the Amazon S3 bucket name and the Amazon Web Services
+/// Region that the bucket is located in. The route also includes the
+/// <code>TrafficDialPercentage</code> value, which shows whether the bucket and
+/// Region are active (indicated by a value of <code>100</code>) or passive
+/// (indicated by a value of <code>0</code>).
+class MultiRegionAccessPointRoute {
+  /// The traffic state for the specified bucket or Amazon Web Services Region.
+  ///
+  /// A value of <code>0</code> indicates a passive state, which means that no new
+  /// traffic will be routed to the Region.
+  ///
+  /// A value of <code>100</code> indicates an active state, which means that
+  /// traffic will be routed to the specified Region.
+  ///
+  /// When the routing configuration for a Region is changed from active to
+  /// passive, any in-progress operations (uploads, copies, deletes, and so on) to
+  /// the formerly active Region will continue to run to until a final success or
+  /// failure status is reached.
+  ///
+  /// If all Regions in the routing configuration are designated as passive,
+  /// you'll receive an <code>InvalidRequest</code> error.
+  final int trafficDialPercentage;
+
+  /// The name of the Amazon S3 bucket for which you'll submit a routing
+  /// configuration change. Either the <code>Bucket</code> or the
+  /// <code>Region</code> value must be provided. If both are provided, the bucket
+  /// must be in the specified Region.
+  final String? bucket;
+
+  /// The Amazon Web Services Region to which you'll be submitting a routing
+  /// configuration change. Either the <code>Bucket</code> or the
+  /// <code>Region</code> value must be provided. If both are provided, the bucket
+  /// must be in the specified Region.
+  final String? region;
+
+  MultiRegionAccessPointRoute({
+    required this.trafficDialPercentage,
+    this.bucket,
+    this.region,
+  });
+  factory MultiRegionAccessPointRoute.fromXml(_s.XmlElement elem) {
+    return MultiRegionAccessPointRoute(
+      trafficDialPercentage:
+          _s.extractXmlIntValue(elem, 'TrafficDialPercentage')!,
+      bucket: _s.extractXmlStringValue(elem, 'Bucket'),
+      region: _s.extractXmlStringValue(elem, 'Region'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final trafficDialPercentage = this.trafficDialPercentage;
+    final bucket = this.bucket;
+    final region = this.region;
+    return {
+      'TrafficDialPercentage': trafficDialPercentage,
+      if (bucket != null) 'Bucket': bucket,
+      if (region != null) 'Region': region,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final trafficDialPercentage = this.trafficDialPercentage;
+    final bucket = this.bucket;
+    final region = this.region;
+    final $children = <_s.XmlNode>[
+      if (bucket != null) _s.encodeXmlStringValue('Bucket', bucket),
+      if (region != null) _s.encodeXmlStringValue('Region', region),
+      _s.encodeXmlIntValue('TrafficDialPercentage', trafficDialPercentage),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+///
+class StorageLensTag {
+  ///
+  final String key;
+
+  ///
+  final String value;
+
+  StorageLensTag({
+    required this.key,
+    required this.value,
+  });
+  factory StorageLensTag.fromXml(_s.XmlElement elem) {
+    return StorageLensTag(
+      key: _s.extractXmlStringValue(elem, 'Key')!,
+      value: _s.extractXmlStringValue(elem, 'Value')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final key = this.key;
+    final value = this.value;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Key', key),
+      _s.encodeXmlStringValue('Value', value),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A container for the Amazon S3 Storage Lens configuration.
+class StorageLensConfiguration {
+  /// A container for all the account-level configurations of your S3 Storage Lens
+  /// configuration.
+  final AccountLevel accountLevel;
+
+  /// A container for the Amazon S3 Storage Lens configuration ID.
+  final String id;
+
+  /// A container for whether the S3 Storage Lens configuration is enabled.
+  final bool isEnabled;
+
+  /// A container for the Amazon Web Services organization for this S3 Storage
+  /// Lens configuration.
+  final StorageLensAwsOrg? awsOrg;
+
+  /// A container to specify the properties of your S3 Storage Lens metrics export
+  /// including, the destination, schema and format.
+  final StorageLensDataExport? dataExport;
+
+  /// A container for what is excluded in this configuration. This container can
+  /// only be valid if there is no <code>Include</code> container submitted, and
+  /// it's not empty.
+  final Exclude? exclude;
+
+  /// A container that configures your S3 Storage Lens expanded prefixes metrics
+  /// report.
+  final StorageLensExpandedPrefixesDataExport? expandedPrefixesDataExport;
+
+  /// A container for what is included in this configuration. This container can
+  /// only be valid if there is no <code>Exclude</code> container submitted, and
+  /// it's not empty.
+  final Include? include;
+
+  /// A container for all prefix delimiters that are used for object keys in this
+  /// S3 Storage Lens configuration. The prefix delimiters determine how S3
+  /// Storage Lens counts prefix depth, by separating the hierarchical levels in
+  /// object keys.
+  /// <note>
+  /// <ul>
+  /// <li>
+  /// If either a prefix delimiter or existing delimiter is undefined, Amazon S3
+  /// uses the delimiter that’s defined.
+  /// </li>
+  /// <li>
+  /// If both the prefix delimiter and existing delimiter are undefined, S3 uses
+  /// <code>/</code> as the default delimiter.
+  /// </li>
+  /// <li>
+  /// When custom delimiters are used, both the prefix delimiter and existing
+  /// delimiter must specify the same special character. Otherwise, your request
+  /// results in an error.
+  /// </li>
+  /// </ul> </note>
+  final String? prefixDelimiter;
+
+  /// The Amazon Resource Name (ARN) of the S3 Storage Lens configuration. This
+  /// property is read-only and follows the following format: <code>
+  /// arn:aws:s3:<i>us-east-1</i>:<i>example-account-id</i>:storage-lens/<i>your-dashboard-name</i>
+  /// </code>
+  final String? storageLensArn;
+
+  StorageLensConfiguration({
+    required this.accountLevel,
+    required this.id,
+    required this.isEnabled,
+    this.awsOrg,
+    this.dataExport,
+    this.exclude,
+    this.expandedPrefixesDataExport,
+    this.include,
+    this.prefixDelimiter,
+    this.storageLensArn,
+  });
+  factory StorageLensConfiguration.fromXml(_s.XmlElement elem) {
+    return StorageLensConfiguration(
+      accountLevel:
+          AccountLevel.fromXml(_s.extractXmlChild(elem, 'AccountLevel')!),
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      isEnabled: _s.extractXmlBoolValue(elem, 'IsEnabled')!,
+      awsOrg:
+          _s.extractXmlChild(elem, 'AwsOrg')?.let(StorageLensAwsOrg.fromXml),
+      dataExport: _s
+          .extractXmlChild(elem, 'DataExport')
+          ?.let(StorageLensDataExport.fromXml),
+      exclude: _s.extractXmlChild(elem, 'Exclude')?.let(Exclude.fromXml),
+      expandedPrefixesDataExport: _s
+          .extractXmlChild(elem, 'ExpandedPrefixesDataExport')
+          ?.let(StorageLensExpandedPrefixesDataExport.fromXml),
+      include: _s.extractXmlChild(elem, 'Include')?.let(Include.fromXml),
+      prefixDelimiter: _s.extractXmlStringValue(elem, 'PrefixDelimiter'),
+      storageLensArn: _s.extractXmlStringValue(elem, 'StorageLensArn'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountLevel = this.accountLevel;
+    final id = this.id;
+    final isEnabled = this.isEnabled;
+    final awsOrg = this.awsOrg;
+    final dataExport = this.dataExport;
+    final exclude = this.exclude;
+    final expandedPrefixesDataExport = this.expandedPrefixesDataExport;
+    final include = this.include;
+    final prefixDelimiter = this.prefixDelimiter;
+    final storageLensArn = this.storageLensArn;
+    return {
+      'AccountLevel': accountLevel,
+      'Id': id,
+      'IsEnabled': isEnabled,
+      if (awsOrg != null) 'AwsOrg': awsOrg,
+      if (dataExport != null) 'DataExport': dataExport,
+      if (exclude != null) 'Exclude': exclude,
+      if (expandedPrefixesDataExport != null)
+        'ExpandedPrefixesDataExport': expandedPrefixesDataExport,
+      if (include != null) 'Include': include,
+      if (prefixDelimiter != null) 'PrefixDelimiter': prefixDelimiter,
+      if (storageLensArn != null) 'StorageLensArn': storageLensArn,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final accountLevel = this.accountLevel;
+    final id = this.id;
+    final isEnabled = this.isEnabled;
+    final awsOrg = this.awsOrg;
+    final dataExport = this.dataExport;
+    final exclude = this.exclude;
+    final expandedPrefixesDataExport = this.expandedPrefixesDataExport;
+    final include = this.include;
+    final prefixDelimiter = this.prefixDelimiter;
+    final storageLensArn = this.storageLensArn;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Id', id),
+      accountLevel.toXml('AccountLevel'),
+      if (include != null) include.toXml('Include'),
+      if (exclude != null) exclude.toXml('Exclude'),
+      if (dataExport != null) dataExport.toXml('DataExport'),
+      if (expandedPrefixesDataExport != null)
+        expandedPrefixesDataExport.toXml('ExpandedPrefixesDataExport'),
+      _s.encodeXmlBoolValue('IsEnabled', isEnabled),
+      if (awsOrg != null) awsOrg.toXml('AwsOrg'),
+      if (storageLensArn != null)
+        _s.encodeXmlStringValue('StorageLensArn', storageLensArn),
+      if (prefixDelimiter != null)
+        _s.encodeXmlStringValue('PrefixDelimiter', prefixDelimiter),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A container element for the account-level Amazon S3 Storage Lens
+/// configuration.
+/// <note>
+/// You must enable Storage Lens metrics consistently at both the account level
+/// and bucket level, or your request will fail.
+/// </note>
+/// For more information about S3 Storage Lens, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html">Assessing
+/// your storage activity and usage with S3 Storage Lens</a> in the <i>Amazon S3
+/// User Guide</i>. For a complete list of S3 Storage Lens metrics, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html">S3
+/// Storage Lens metrics glossary</a> in the <i>Amazon S3 User Guide</i>.
+class AccountLevel {
+  /// A container element for the S3 Storage Lens bucket-level configuration.
+  final BucketLevel bucketLevel;
+
+  /// A container element for S3 Storage Lens activity metrics.
+  final ActivityMetrics? activityMetrics;
+
+  /// A container element for S3 Storage Lens advanced cost-optimization metrics.
+  final AdvancedCostOptimizationMetrics? advancedCostOptimizationMetrics;
+
+  /// A container element for S3 Storage Lens advanced data-protection metrics.
+  final AdvancedDataProtectionMetrics? advancedDataProtectionMetrics;
+
+  /// A container element for S3 Storage Lens advanced performance metrics.
+  final AdvancedPerformanceMetrics? advancedPerformanceMetrics;
+
+  /// A container element for detailed status code metrics.
+  final DetailedStatusCodesMetrics? detailedStatusCodesMetrics;
+
+  /// A container element for S3 Storage Lens groups metrics.
+  final StorageLensGroupLevel? storageLensGroupLevel;
+
+  AccountLevel({
+    required this.bucketLevel,
+    this.activityMetrics,
+    this.advancedCostOptimizationMetrics,
+    this.advancedDataProtectionMetrics,
+    this.advancedPerformanceMetrics,
+    this.detailedStatusCodesMetrics,
+    this.storageLensGroupLevel,
+  });
+  factory AccountLevel.fromXml(_s.XmlElement elem) {
+    return AccountLevel(
+      bucketLevel:
+          BucketLevel.fromXml(_s.extractXmlChild(elem, 'BucketLevel')!),
+      activityMetrics: _s
+          .extractXmlChild(elem, 'ActivityMetrics')
+          ?.let(ActivityMetrics.fromXml),
+      advancedCostOptimizationMetrics: _s
+          .extractXmlChild(elem, 'AdvancedCostOptimizationMetrics')
+          ?.let(AdvancedCostOptimizationMetrics.fromXml),
+      advancedDataProtectionMetrics: _s
+          .extractXmlChild(elem, 'AdvancedDataProtectionMetrics')
+          ?.let(AdvancedDataProtectionMetrics.fromXml),
+      advancedPerformanceMetrics: _s
+          .extractXmlChild(elem, 'AdvancedPerformanceMetrics')
+          ?.let(AdvancedPerformanceMetrics.fromXml),
+      detailedStatusCodesMetrics: _s
+          .extractXmlChild(elem, 'DetailedStatusCodesMetrics')
+          ?.let(DetailedStatusCodesMetrics.fromXml),
+      storageLensGroupLevel: _s
+          .extractXmlChild(elem, 'StorageLensGroupLevel')
+          ?.let(StorageLensGroupLevel.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketLevel = this.bucketLevel;
+    final activityMetrics = this.activityMetrics;
+    final advancedCostOptimizationMetrics =
+        this.advancedCostOptimizationMetrics;
+    final advancedDataProtectionMetrics = this.advancedDataProtectionMetrics;
+    final advancedPerformanceMetrics = this.advancedPerformanceMetrics;
+    final detailedStatusCodesMetrics = this.detailedStatusCodesMetrics;
+    final storageLensGroupLevel = this.storageLensGroupLevel;
+    return {
+      'BucketLevel': bucketLevel,
+      if (activityMetrics != null) 'ActivityMetrics': activityMetrics,
+      if (advancedCostOptimizationMetrics != null)
+        'AdvancedCostOptimizationMetrics': advancedCostOptimizationMetrics,
+      if (advancedDataProtectionMetrics != null)
+        'AdvancedDataProtectionMetrics': advancedDataProtectionMetrics,
+      if (advancedPerformanceMetrics != null)
+        'AdvancedPerformanceMetrics': advancedPerformanceMetrics,
+      if (detailedStatusCodesMetrics != null)
+        'DetailedStatusCodesMetrics': detailedStatusCodesMetrics,
+      if (storageLensGroupLevel != null)
+        'StorageLensGroupLevel': storageLensGroupLevel,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final bucketLevel = this.bucketLevel;
+    final activityMetrics = this.activityMetrics;
+    final advancedCostOptimizationMetrics =
+        this.advancedCostOptimizationMetrics;
+    final advancedDataProtectionMetrics = this.advancedDataProtectionMetrics;
+    final advancedPerformanceMetrics = this.advancedPerformanceMetrics;
+    final detailedStatusCodesMetrics = this.detailedStatusCodesMetrics;
+    final storageLensGroupLevel = this.storageLensGroupLevel;
+    final $children = <_s.XmlNode>[
+      if (activityMetrics != null) activityMetrics.toXml('ActivityMetrics'),
+      bucketLevel.toXml('BucketLevel'),
+      if (advancedCostOptimizationMetrics != null)
+        advancedCostOptimizationMetrics
+            .toXml('AdvancedCostOptimizationMetrics'),
+      if (advancedDataProtectionMetrics != null)
+        advancedDataProtectionMetrics.toXml('AdvancedDataProtectionMetrics'),
+      if (detailedStatusCodesMetrics != null)
+        detailedStatusCodesMetrics.toXml('DetailedStatusCodesMetrics'),
+      if (advancedPerformanceMetrics != null)
+        advancedPerformanceMetrics.toXml('AdvancedPerformanceMetrics'),
+      if (storageLensGroupLevel != null)
+        storageLensGroupLevel.toXml('StorageLensGroupLevel'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A container for what Amazon S3 Storage Lens configuration includes.
+class Include {
+  /// A container for the S3 Storage Lens bucket includes.
+  final List<String>? buckets;
+
+  /// A container for the S3 Storage Lens Region includes.
+  final List<String>? regions;
+
+  Include({
+    this.buckets,
+    this.regions,
+  });
+  factory Include.fromXml(_s.XmlElement elem) {
+    return Include(
+      buckets: _s
+          .extractXmlChild(elem, 'Buckets')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Arn')),
+      regions: _s
+          .extractXmlChild(elem, 'Regions')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Region')),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final buckets = this.buckets;
+    final regions = this.regions;
+    return {
+      if (buckets != null) 'Buckets': buckets,
+      if (regions != null) 'Regions': regions,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final buckets = this.buckets;
+    final regions = this.regions;
+    final $children = <_s.XmlNode>[
+      if (buckets != null)
+        _s.XmlElement(_s.XmlName.parts('Buckets'), [],
+            buckets.map((e) => _s.encodeXmlStringValue('Arn', e))),
+      if (regions != null)
+        _s.XmlElement(_s.XmlName.parts('Regions'), [],
+            regions.map((e) => _s.encodeXmlStringValue('Region', e))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A container for what Amazon S3 Storage Lens will exclude.
+class Exclude {
+  /// A container for the S3 Storage Lens bucket excludes.
+  final List<String>? buckets;
+
+  /// A container for the S3 Storage Lens Region excludes.
+  final List<String>? regions;
+
+  Exclude({
+    this.buckets,
+    this.regions,
+  });
+  factory Exclude.fromXml(_s.XmlElement elem) {
+    return Exclude(
+      buckets: _s
+          .extractXmlChild(elem, 'Buckets')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Arn')),
+      regions: _s
+          .extractXmlChild(elem, 'Regions')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Region')),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final buckets = this.buckets;
+    final regions = this.regions;
+    return {
+      if (buckets != null) 'Buckets': buckets,
+      if (regions != null) 'Regions': regions,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final buckets = this.buckets;
+    final regions = this.regions;
+    final $children = <_s.XmlNode>[
+      if (buckets != null)
+        _s.XmlElement(_s.XmlName.parts('Buckets'), [],
+            buckets.map((e) => _s.encodeXmlStringValue('Arn', e))),
+      if (regions != null)
+        _s.XmlElement(_s.XmlName.parts('Regions'), [],
+            regions.map((e) => _s.encodeXmlStringValue('Region', e))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A container to specify the properties of your S3 Storage Lens metrics
+/// export, including the destination, schema, and format.
+class StorageLensDataExport {
+  /// A container for enabling Amazon CloudWatch publishing for S3 Storage Lens
+  /// metrics.
+  final CloudWatchMetrics? cloudWatchMetrics;
+
+  /// A container for the bucket where the S3 Storage Lens metrics export will be
+  /// located.
+  /// <note>
+  /// This bucket must be located in the same Region as the storage lens
+  /// configuration.
+  /// </note>
+  final S3BucketDestination? s3BucketDestination;
+
+  /// A container for configuring S3 Storage Lens data exports to read-only S3
+  /// table buckets.
+  final StorageLensTableDestination? storageLensTableDestination;
+
+  StorageLensDataExport({
+    this.cloudWatchMetrics,
+    this.s3BucketDestination,
+    this.storageLensTableDestination,
+  });
+  factory StorageLensDataExport.fromXml(_s.XmlElement elem) {
+    return StorageLensDataExport(
+      cloudWatchMetrics: _s
+          .extractXmlChild(elem, 'CloudWatchMetrics')
+          ?.let(CloudWatchMetrics.fromXml),
+      s3BucketDestination: _s
+          .extractXmlChild(elem, 'S3BucketDestination')
+          ?.let(S3BucketDestination.fromXml),
+      storageLensTableDestination: _s
+          .extractXmlChild(elem, 'StorageLensTableDestination')
+          ?.let(StorageLensTableDestination.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchMetrics = this.cloudWatchMetrics;
+    final s3BucketDestination = this.s3BucketDestination;
+    final storageLensTableDestination = this.storageLensTableDestination;
+    return {
+      if (cloudWatchMetrics != null) 'CloudWatchMetrics': cloudWatchMetrics,
+      if (s3BucketDestination != null)
+        'S3BucketDestination': s3BucketDestination,
+      if (storageLensTableDestination != null)
+        'StorageLensTableDestination': storageLensTableDestination,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final cloudWatchMetrics = this.cloudWatchMetrics;
+    final s3BucketDestination = this.s3BucketDestination;
+    final storageLensTableDestination = this.storageLensTableDestination;
+    final $children = <_s.XmlNode>[
+      if (s3BucketDestination != null)
+        s3BucketDestination.toXml('S3BucketDestination'),
+      if (cloudWatchMetrics != null)
+        cloudWatchMetrics.toXml('CloudWatchMetrics'),
+      if (storageLensTableDestination != null)
+        storageLensTableDestination.toXml('StorageLensTableDestination'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A container for your S3 Storage Lens expanded prefix metrics report
+/// configuration. Unlike the default Storage Lens metrics report, the enhanced
+/// prefix metrics report includes all S3 Storage Lens storage and activity data
+/// related to the full list of prefixes in your Storage Lens configuration.
+class StorageLensExpandedPrefixesDataExport {
+  final S3BucketDestination? s3BucketDestination;
+
+  /// A container for the bucket where the S3 Storage Lens metric export files are
+  /// located. At least one export destination must be specified.
+  final StorageLensTableDestination? storageLensTableDestination;
+
+  StorageLensExpandedPrefixesDataExport({
+    this.s3BucketDestination,
+    this.storageLensTableDestination,
+  });
+  factory StorageLensExpandedPrefixesDataExport.fromXml(_s.XmlElement elem) {
+    return StorageLensExpandedPrefixesDataExport(
+      s3BucketDestination: _s
+          .extractXmlChild(elem, 'S3BucketDestination')
+          ?.let(S3BucketDestination.fromXml),
+      storageLensTableDestination: _s
+          .extractXmlChild(elem, 'StorageLensTableDestination')
+          ?.let(StorageLensTableDestination.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3BucketDestination = this.s3BucketDestination;
+    final storageLensTableDestination = this.storageLensTableDestination;
+    return {
+      if (s3BucketDestination != null)
+        'S3BucketDestination': s3BucketDestination,
+      if (storageLensTableDestination != null)
+        'StorageLensTableDestination': storageLensTableDestination,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final s3BucketDestination = this.s3BucketDestination;
+    final storageLensTableDestination = this.storageLensTableDestination;
+    final $children = <_s.XmlNode>[
+      if (s3BucketDestination != null)
+        s3BucketDestination.toXml('S3BucketDestination'),
+      if (storageLensTableDestination != null)
+        storageLensTableDestination.toXml('StorageLensTableDestination'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// The Amazon Web Services organization for your S3 Storage Lens.
+class StorageLensAwsOrg {
+  /// A container for the Amazon Resource Name (ARN) of the Amazon Web Services
+  /// organization. This property is read-only and follows the following format:
+  /// <code>
+  /// arn:aws:organizations:<i>us-east-1</i>:<i>example-account-id</i>:organization/<i>o-ex2l495dck</i>
+  /// </code>
+  final String arn;
+
+  StorageLensAwsOrg({
+    required this.arn,
+  });
+  factory StorageLensAwsOrg.fromXml(_s.XmlElement elem) {
+    return StorageLensAwsOrg(
+      arn: _s.extractXmlStringValue(elem, 'Arn')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
+      'Arn': arn,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final arn = this.arn;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Arn', arn),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A container for the bucket where the Amazon S3 Storage Lens metrics export
+/// files are located.
+class S3BucketDestination {
+  /// The account ID of the owner of the S3 Storage Lens metrics export bucket.
+  final String accountId;
+
+  /// The Amazon Resource Name (ARN) of the bucket. This property is read-only and
+  /// follows the following format: <code>
+  /// arn:aws:s3:<i>us-east-1</i>:<i>example-account-id</i>:bucket/<i>your-destination-bucket-name</i>
+  /// </code>
+  final String arn;
+
+  ///
+  final Format format;
+
+  /// The schema version of the export file.
+  final OutputSchemaVersion outputSchemaVersion;
+
+  /// The container for the type encryption of the metrics exports in this bucket.
+  final StorageLensDataExportEncryption? encryption;
+
+  /// The prefix of the destination bucket where the metrics export will be
+  /// delivered.
+  final String? prefix;
+
+  S3BucketDestination({
+    required this.accountId,
+    required this.arn,
+    required this.format,
+    required this.outputSchemaVersion,
+    this.encryption,
+    this.prefix,
+  });
+  factory S3BucketDestination.fromXml(_s.XmlElement elem) {
+    return S3BucketDestination(
+      accountId: _s.extractXmlStringValue(elem, 'AccountId')!,
+      arn: _s.extractXmlStringValue(elem, 'Arn')!,
+      format: _s.extractXmlStringValue(elem, 'Format')!.let(Format.fromString),
+      outputSchemaVersion: _s
+          .extractXmlStringValue(elem, 'OutputSchemaVersion')!
+          .let(OutputSchemaVersion.fromString),
+      encryption: _s
+          .extractXmlChild(elem, 'Encryption')
+          ?.let(StorageLensDataExportEncryption.fromXml),
+      prefix: _s.extractXmlStringValue(elem, 'Prefix'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final arn = this.arn;
+    final format = this.format;
+    final outputSchemaVersion = this.outputSchemaVersion;
+    final encryption = this.encryption;
+    final prefix = this.prefix;
+    return {
+      'AccountId': accountId,
+      'Arn': arn,
+      'Format': format.value,
+      'OutputSchemaVersion': outputSchemaVersion.value,
+      if (encryption != null) 'Encryption': encryption,
+      if (prefix != null) 'Prefix': prefix,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final accountId = this.accountId;
+    final arn = this.arn;
+    final format = this.format;
+    final outputSchemaVersion = this.outputSchemaVersion;
+    final encryption = this.encryption;
+    final prefix = this.prefix;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Format', format.value),
+      _s.encodeXmlStringValue('OutputSchemaVersion', outputSchemaVersion.value),
+      _s.encodeXmlStringValue('AccountId', accountId),
+      _s.encodeXmlStringValue('Arn', arn),
+      if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
+      if (encryption != null) encryption.toXml('Encryption'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A container for configuring your S3 Storage Lens reports to export to
+/// read-only S3 table buckets. This parameter enables you to store your Storage
+/// Lens metrics in a structured, queryable table format in Apache Iceberg.
+///
+/// For more information about S3 Storage Lens, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html">Assessing
+/// your storage activity and usage with S3 Storage Lens</a> in the <i>Amazon S3
+/// User Guide</i>.
+class StorageLensTableDestination {
+  /// A container that indicates whether the export to read-only S3 table buckets
+  /// is enabled for your S3 Storage Lens configuration. When set to true, Storage
+  /// Lens reports are automatically exported to tables in addition to other
+  /// configured destinations.
+  final bool isEnabled;
+  final StorageLensDataExportEncryption? encryption;
+
+  StorageLensTableDestination({
+    required this.isEnabled,
+    this.encryption,
+  });
+  factory StorageLensTableDestination.fromXml(_s.XmlElement elem) {
+    return StorageLensTableDestination(
+      isEnabled: _s.extractXmlBoolValue(elem, 'IsEnabled')!,
+      encryption: _s
+          .extractXmlChild(elem, 'Encryption')
+          ?.let(StorageLensDataExportEncryption.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isEnabled = this.isEnabled;
+    final encryption = this.encryption;
+    return {
+      'IsEnabled': isEnabled,
+      if (encryption != null) 'Encryption': encryption,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final isEnabled = this.isEnabled;
+    final encryption = this.encryption;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlBoolValue('IsEnabled', isEnabled),
+      if (encryption != null) encryption.toXml('Encryption'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A container for the encryption of the S3 Storage Lens metrics exports.
+class StorageLensDataExportEncryption {
+  ///
+  final SSEKMS? ssekms;
+
+  ///
+  final SSES3? sses3;
+
+  StorageLensDataExportEncryption({
+    this.ssekms,
+    this.sses3,
+  });
+  factory StorageLensDataExportEncryption.fromXml(_s.XmlElement elem) {
+    return StorageLensDataExportEncryption(
+      ssekms: _s.extractXmlChild(elem, 'SSE-KMS')?.let(SSEKMS.fromXml),
+      sses3: _s.extractXmlChild(elem, 'SSE-S3')?.let(SSES3.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ssekms = this.ssekms;
+    final sses3 = this.sses3;
+    return {
+      if (ssekms != null) 'SSE-KMS': ssekms,
+      if (sses3 != null) 'SSE-S3': sses3,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final ssekms = this.ssekms;
+    final sses3 = this.sses3;
+    final $children = <_s.XmlNode>[
+      if (sses3 != null) sses3.toXml('SSE-S3'),
+      if (ssekms != null) ssekms.toXml('SSE-KMS'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+///
+class SSES3 {
+  SSES3();
+  factory SSES3.fromXml(
+      // ignore: avoid_unused_constructor_parameters
+      _s.XmlElement elem) {
+    return SSES3();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final $children = <_s.XmlNode>[];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+///
+class SSEKMS {
+  /// A container for the ARN of the SSE-KMS encryption. This property is
+  /// read-only and follows the following format: <code>
+  /// arn:aws:kms:<i>us-east-1</i>:<i>example-account-id</i>:key/<i>example-9a73-4afc-8d29-8f5900cef44e</i>
+  /// </code>
+  final String keyId;
+
+  SSEKMS({
+    required this.keyId,
+  });
+  factory SSEKMS.fromXml(_s.XmlElement elem) {
+    return SSEKMS(
+      keyId: _s.extractXmlStringValue(elem, 'KeyId')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final keyId = this.keyId;
+    return {
+      'KeyId': keyId,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final keyId = this.keyId;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('KeyId', keyId),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class Format {
+  static const csv = Format._('CSV');
+  static const parquet = Format._('Parquet');
+
+  final String value;
+
+  const Format._(this.value);
+
+  static const values = [csv, parquet];
+
+  static Format fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Format._(value));
+
+  @override
+  bool operator ==(other) => other is Format && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class OutputSchemaVersion {
+  static const v_1 = OutputSchemaVersion._('V_1');
+
+  final String value;
+
+  const OutputSchemaVersion._(this.value);
+
+  static const values = [v_1];
+
+  static OutputSchemaVersion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OutputSchemaVersion._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OutputSchemaVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A container for enabling Amazon CloudWatch publishing for S3 Storage Lens
+/// metrics.
+///
+/// For more information about publishing S3 Storage Lens metrics to CloudWatch,
+/// see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_view_metrics_cloudwatch.html">Monitor
+/// S3 Storage Lens metrics in CloudWatch</a> in the <i>Amazon S3 User
+/// Guide</i>.
+class CloudWatchMetrics {
+  /// A container that indicates whether CloudWatch publishing for S3 Storage Lens
+  /// metrics is enabled. A value of <code>true</code> indicates that CloudWatch
+  /// publishing for S3 Storage Lens metrics is enabled.
+  final bool isEnabled;
+
+  CloudWatchMetrics({
+    required this.isEnabled,
+  });
+  factory CloudWatchMetrics.fromXml(_s.XmlElement elem) {
+    return CloudWatchMetrics(
+      isEnabled: _s.extractXmlBoolValue(elem, 'IsEnabled')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isEnabled = this.isEnabled;
+    return {
+      'IsEnabled': isEnabled,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final isEnabled = this.isEnabled;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlBoolValue('IsEnabled', isEnabled),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// The container element for Amazon S3 Storage Lens activity metrics. Activity
+/// metrics show details about how your storage is requested, such as requests
+/// (for example, All requests, Get requests, Put requests), bytes uploaded or
+/// downloaded, and errors.
+///
+/// For more information about S3 Storage Lens, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html">Assessing
+/// your storage activity and usage with S3 Storage Lens</a> in the <i>Amazon S3
+/// User Guide</i>. For a complete list of S3 Storage Lens metrics, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html">S3
+/// Storage Lens metrics glossary</a> in the <i>Amazon S3 User Guide</i>.
+class ActivityMetrics {
+  /// A container that indicates whether activity metrics are enabled.
+  final bool? isEnabled;
+
+  ActivityMetrics({
+    this.isEnabled,
+  });
+  factory ActivityMetrics.fromXml(_s.XmlElement elem) {
+    return ActivityMetrics(
+      isEnabled: _s.extractXmlBoolValue(elem, 'IsEnabled'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isEnabled = this.isEnabled;
+    return {
+      if (isEnabled != null) 'IsEnabled': isEnabled,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final isEnabled = this.isEnabled;
+    final $children = <_s.XmlNode>[
+      if (isEnabled != null) _s.encodeXmlBoolValue('IsEnabled', isEnabled),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A container for the bucket-level configuration for Amazon S3 Storage Lens.
+///
+/// For more information about S3 Storage Lens, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html">Assessing
+/// your storage activity and usage with S3 Storage Lens</a> in the <i>Amazon S3
+/// User Guide</i>.
+class BucketLevel {
+  /// A container for the bucket-level activity metrics for S3 Storage Lens.
+  final ActivityMetrics? activityMetrics;
+
+  /// A container for bucket-level advanced cost-optimization metrics for S3
+  /// Storage Lens.
+  final AdvancedCostOptimizationMetrics? advancedCostOptimizationMetrics;
+
+  /// A container for bucket-level advanced data-protection metrics for S3 Storage
+  /// Lens.
+  final AdvancedDataProtectionMetrics? advancedDataProtectionMetrics;
+
+  /// A container for bucket-level advanced performance metrics for S3 Storage
+  /// Lens.
+  final AdvancedPerformanceMetrics? advancedPerformanceMetrics;
+
+  /// A container for bucket-level detailed status code metrics for S3 Storage
+  /// Lens.
+  final DetailedStatusCodesMetrics? detailedStatusCodesMetrics;
+
+  /// A container for the prefix-level metrics for S3 Storage Lens.
+  final PrefixLevel? prefixLevel;
+
+  BucketLevel({
+    this.activityMetrics,
+    this.advancedCostOptimizationMetrics,
+    this.advancedDataProtectionMetrics,
+    this.advancedPerformanceMetrics,
+    this.detailedStatusCodesMetrics,
+    this.prefixLevel,
+  });
+  factory BucketLevel.fromXml(_s.XmlElement elem) {
+    return BucketLevel(
+      activityMetrics: _s
+          .extractXmlChild(elem, 'ActivityMetrics')
+          ?.let(ActivityMetrics.fromXml),
+      advancedCostOptimizationMetrics: _s
+          .extractXmlChild(elem, 'AdvancedCostOptimizationMetrics')
+          ?.let(AdvancedCostOptimizationMetrics.fromXml),
+      advancedDataProtectionMetrics: _s
+          .extractXmlChild(elem, 'AdvancedDataProtectionMetrics')
+          ?.let(AdvancedDataProtectionMetrics.fromXml),
+      advancedPerformanceMetrics: _s
+          .extractXmlChild(elem, 'AdvancedPerformanceMetrics')
+          ?.let(AdvancedPerformanceMetrics.fromXml),
+      detailedStatusCodesMetrics: _s
+          .extractXmlChild(elem, 'DetailedStatusCodesMetrics')
+          ?.let(DetailedStatusCodesMetrics.fromXml),
+      prefixLevel:
+          _s.extractXmlChild(elem, 'PrefixLevel')?.let(PrefixLevel.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activityMetrics = this.activityMetrics;
+    final advancedCostOptimizationMetrics =
+        this.advancedCostOptimizationMetrics;
+    final advancedDataProtectionMetrics = this.advancedDataProtectionMetrics;
+    final advancedPerformanceMetrics = this.advancedPerformanceMetrics;
+    final detailedStatusCodesMetrics = this.detailedStatusCodesMetrics;
+    final prefixLevel = this.prefixLevel;
+    return {
+      if (activityMetrics != null) 'ActivityMetrics': activityMetrics,
+      if (advancedCostOptimizationMetrics != null)
+        'AdvancedCostOptimizationMetrics': advancedCostOptimizationMetrics,
+      if (advancedDataProtectionMetrics != null)
+        'AdvancedDataProtectionMetrics': advancedDataProtectionMetrics,
+      if (advancedPerformanceMetrics != null)
+        'AdvancedPerformanceMetrics': advancedPerformanceMetrics,
+      if (detailedStatusCodesMetrics != null)
+        'DetailedStatusCodesMetrics': detailedStatusCodesMetrics,
+      if (prefixLevel != null) 'PrefixLevel': prefixLevel,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final activityMetrics = this.activityMetrics;
+    final advancedCostOptimizationMetrics =
+        this.advancedCostOptimizationMetrics;
+    final advancedDataProtectionMetrics = this.advancedDataProtectionMetrics;
+    final advancedPerformanceMetrics = this.advancedPerformanceMetrics;
+    final detailedStatusCodesMetrics = this.detailedStatusCodesMetrics;
+    final prefixLevel = this.prefixLevel;
+    final $children = <_s.XmlNode>[
+      if (activityMetrics != null) activityMetrics.toXml('ActivityMetrics'),
+      if (prefixLevel != null) prefixLevel.toXml('PrefixLevel'),
+      if (advancedCostOptimizationMetrics != null)
+        advancedCostOptimizationMetrics
+            .toXml('AdvancedCostOptimizationMetrics'),
+      if (advancedDataProtectionMetrics != null)
+        advancedDataProtectionMetrics.toXml('AdvancedDataProtectionMetrics'),
+      if (detailedStatusCodesMetrics != null)
+        detailedStatusCodesMetrics.toXml('DetailedStatusCodesMetrics'),
+      if (advancedPerformanceMetrics != null)
+        advancedPerformanceMetrics.toXml('AdvancedPerformanceMetrics'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// The container element for Amazon S3 Storage Lens advanced cost-optimization
+/// metrics. Advanced cost-optimization metrics provide insights that you can
+/// use to manage and optimize your storage costs, for example, lifecycle rule
+/// counts for transitions, expirations, and incomplete multipart uploads.
+///
+/// For more information about S3 Storage Lens, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html">Assessing
+/// your storage activity and usage with S3 Storage Lens</a> in the <i>Amazon S3
+/// User Guide</i>. For a complete list of S3 Storage Lens metrics, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html">S3
+/// Storage Lens metrics glossary</a> in the <i>Amazon S3 User Guide</i>.
+class AdvancedCostOptimizationMetrics {
+  /// A container that indicates whether advanced cost-optimization metrics are
+  /// enabled.
+  final bool? isEnabled;
+
+  AdvancedCostOptimizationMetrics({
+    this.isEnabled,
+  });
+  factory AdvancedCostOptimizationMetrics.fromXml(_s.XmlElement elem) {
+    return AdvancedCostOptimizationMetrics(
+      isEnabled: _s.extractXmlBoolValue(elem, 'IsEnabled'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isEnabled = this.isEnabled;
+    return {
+      if (isEnabled != null) 'IsEnabled': isEnabled,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final isEnabled = this.isEnabled;
+    final $children = <_s.XmlNode>[
+      if (isEnabled != null) _s.encodeXmlBoolValue('IsEnabled', isEnabled),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// The container element for Amazon S3 Storage Lens advanced data-protection
+/// metrics. Advanced data-protection metrics provide insights that you can use
+/// to perform audits and protect your data, for example replication rule counts
+/// within and across Regions.
+///
+/// For more information about S3 Storage Lens, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html">Assessing
+/// your storage activity and usage with S3 Storage Lens</a> in the <i>Amazon S3
+/// User Guide</i>. For a complete list of S3 Storage Lens metrics, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html">S3
+/// Storage Lens metrics glossary</a> in the <i>Amazon S3 User Guide</i>.
+class AdvancedDataProtectionMetrics {
+  /// A container that indicates whether advanced data-protection metrics are
+  /// enabled.
+  final bool? isEnabled;
+
+  AdvancedDataProtectionMetrics({
+    this.isEnabled,
+  });
+  factory AdvancedDataProtectionMetrics.fromXml(_s.XmlElement elem) {
+    return AdvancedDataProtectionMetrics(
+      isEnabled: _s.extractXmlBoolValue(elem, 'IsEnabled'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isEnabled = this.isEnabled;
+    return {
+      if (isEnabled != null) 'IsEnabled': isEnabled,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final isEnabled = this.isEnabled;
+    final $children = <_s.XmlNode>[
+      if (isEnabled != null) _s.encodeXmlBoolValue('IsEnabled', isEnabled),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// The container element for Amazon S3 Storage Lens detailed status code
+/// metrics. Detailed status code metrics generate metrics for HTTP status
+/// codes, such as <code>200 OK</code>, <code>403 Forbidden</code>, <code>503
+/// Service Unavailable</code> and others.
+///
+/// For more information about S3 Storage Lens, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html">Assessing
+/// your storage activity and usage with S3 Storage Lens</a> in the <i>Amazon S3
+/// User Guide</i>. For a complete list of S3 Storage Lens metrics, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html">S3
+/// Storage Lens metrics glossary</a> in the <i>Amazon S3 User Guide</i>.
+class DetailedStatusCodesMetrics {
+  /// A container that indicates whether detailed status code metrics are enabled.
+  final bool? isEnabled;
+
+  DetailedStatusCodesMetrics({
+    this.isEnabled,
+  });
+  factory DetailedStatusCodesMetrics.fromXml(_s.XmlElement elem) {
+    return DetailedStatusCodesMetrics(
+      isEnabled: _s.extractXmlBoolValue(elem, 'IsEnabled'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isEnabled = this.isEnabled;
+    return {
+      if (isEnabled != null) 'IsEnabled': isEnabled,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final isEnabled = this.isEnabled;
+    final $children = <_s.XmlNode>[
+      if (isEnabled != null) _s.encodeXmlBoolValue('IsEnabled', isEnabled),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// The container element for S3 Storage Lens advanced performance metrics.
+/// Advanced performance metrics provide insights into application performance,
+/// such as request efficiency and access patterns. These metrics help you
+/// optimize your S3 storage for both cost and performance by providing detailed
+/// analytics on how your applications interact with S3 resources.
+///
+/// For more information about S3 Storage Lens, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html">Assessing
+/// your storage activity and usage with S3 Storage Lens</a> in the <i>Amazon S3
+/// User Guide</i>. For a complete list of S3 Storage Lens metrics, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html">S3
+/// Storage Lens metrics glossary</a> in the <i>Amazon S3 User Guide</i>.
+class AdvancedPerformanceMetrics {
+  /// A container that indicates whether S3 Storage Lens advanced performance
+  /// metrics are enabled.
+  final bool? isEnabled;
+
+  AdvancedPerformanceMetrics({
+    this.isEnabled,
+  });
+  factory AdvancedPerformanceMetrics.fromXml(_s.XmlElement elem) {
+    return AdvancedPerformanceMetrics(
+      isEnabled: _s.extractXmlBoolValue(elem, 'IsEnabled'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isEnabled = this.isEnabled;
+    return {
+      if (isEnabled != null) 'IsEnabled': isEnabled,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final isEnabled = this.isEnabled;
+    final $children = <_s.XmlNode>[
+      if (isEnabled != null) _s.encodeXmlBoolValue('IsEnabled', isEnabled),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Specifies the Storage Lens groups to include in the Storage Lens group
+/// aggregation.
+class StorageLensGroupLevel {
+  /// Indicates which Storage Lens group ARNs to include or exclude in the Storage
+  /// Lens group aggregation. If this value is left null, then all Storage Lens
+  /// groups are selected.
+  final StorageLensGroupLevelSelectionCriteria? selectionCriteria;
+
+  StorageLensGroupLevel({
+    this.selectionCriteria,
+  });
+  factory StorageLensGroupLevel.fromXml(_s.XmlElement elem) {
+    return StorageLensGroupLevel(
+      selectionCriteria: _s
+          .extractXmlChild(elem, 'SelectionCriteria')
+          ?.let(StorageLensGroupLevelSelectionCriteria.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final selectionCriteria = this.selectionCriteria;
+    return {
+      if (selectionCriteria != null) 'SelectionCriteria': selectionCriteria,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final selectionCriteria = this.selectionCriteria;
+    final $children = <_s.XmlNode>[
+      if (selectionCriteria != null)
+        selectionCriteria.toXml('SelectionCriteria'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Indicates which Storage Lens group ARNs to include or exclude in the Storage
+/// Lens group aggregation. You can only attach Storage Lens groups to your
+/// Storage Lens dashboard if they're included in your Storage Lens group
+/// aggregation. If this value is left null, then all Storage Lens groups are
+/// selected.
+class StorageLensGroupLevelSelectionCriteria {
+  /// Indicates which Storage Lens group ARNs to exclude from the Storage Lens
+  /// group aggregation.
+  final List<String>? exclude;
+
+  /// Indicates which Storage Lens group ARNs to include in the Storage Lens group
+  /// aggregation.
+  final List<String>? include;
+
+  StorageLensGroupLevelSelectionCriteria({
+    this.exclude,
+    this.include,
+  });
+  factory StorageLensGroupLevelSelectionCriteria.fromXml(_s.XmlElement elem) {
+    return StorageLensGroupLevelSelectionCriteria(
+      exclude: _s
+          .extractXmlChild(elem, 'Exclude')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Arn')),
+      include: _s
+          .extractXmlChild(elem, 'Include')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Arn')),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final exclude = this.exclude;
+    final include = this.include;
+    return {
+      if (exclude != null) 'Exclude': exclude,
+      if (include != null) 'Include': include,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final exclude = this.exclude;
+    final include = this.include;
+    final $children = <_s.XmlNode>[
+      if (include != null)
+        _s.XmlElement(_s.XmlName.parts('Include'), [],
+            include.map((e) => _s.encodeXmlStringValue('Arn', e))),
+      if (exclude != null)
+        _s.XmlElement(_s.XmlName.parts('Exclude'), [],
+            exclude.map((e) => _s.encodeXmlStringValue('Arn', e))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A container for the prefix-level configuration.
+class PrefixLevel {
+  /// A container for the prefix-level storage metrics for S3 Storage Lens.
+  final PrefixLevelStorageMetrics storageMetrics;
+
+  PrefixLevel({
+    required this.storageMetrics,
+  });
+  factory PrefixLevel.fromXml(_s.XmlElement elem) {
+    return PrefixLevel(
+      storageMetrics: PrefixLevelStorageMetrics.fromXml(
+          _s.extractXmlChild(elem, 'StorageMetrics')!),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final storageMetrics = this.storageMetrics;
+    return {
+      'StorageMetrics': storageMetrics,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final storageMetrics = this.storageMetrics;
+    final $children = <_s.XmlNode>[
+      storageMetrics.toXml('StorageMetrics'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A container for the prefix-level storage metrics for S3 Storage Lens.
+class PrefixLevelStorageMetrics {
+  /// A container for whether prefix-level storage metrics are enabled.
+  final bool? isEnabled;
+  final SelectionCriteria? selectionCriteria;
+
+  PrefixLevelStorageMetrics({
+    this.isEnabled,
+    this.selectionCriteria,
+  });
+  factory PrefixLevelStorageMetrics.fromXml(_s.XmlElement elem) {
+    return PrefixLevelStorageMetrics(
+      isEnabled: _s.extractXmlBoolValue(elem, 'IsEnabled'),
+      selectionCriteria: _s
+          .extractXmlChild(elem, 'SelectionCriteria')
+          ?.let(SelectionCriteria.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isEnabled = this.isEnabled;
+    final selectionCriteria = this.selectionCriteria;
+    return {
+      if (isEnabled != null) 'IsEnabled': isEnabled,
+      if (selectionCriteria != null) 'SelectionCriteria': selectionCriteria,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final isEnabled = this.isEnabled;
+    final selectionCriteria = this.selectionCriteria;
+    final $children = <_s.XmlNode>[
+      if (isEnabled != null) _s.encodeXmlBoolValue('IsEnabled', isEnabled),
+      if (selectionCriteria != null)
+        selectionCriteria.toXml('SelectionCriteria'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+///
+class SelectionCriteria {
+  /// A container for the delimiter of the selection criteria being used.
+  final String? delimiter;
+
+  /// The max depth of the selection criteria
+  final int? maxDepth;
+
+  /// The minimum number of storage bytes percentage whose metrics will be
+  /// selected.
+  /// <note>
+  /// You must choose a value greater than or equal to <code>1.0</code>.
+  /// </note>
+  final double? minStorageBytesPercentage;
+
+  SelectionCriteria({
+    this.delimiter,
+    this.maxDepth,
+    this.minStorageBytesPercentage,
+  });
+  factory SelectionCriteria.fromXml(_s.XmlElement elem) {
+    return SelectionCriteria(
+      delimiter: _s.extractXmlStringValue(elem, 'Delimiter'),
+      maxDepth: _s.extractXmlIntValue(elem, 'MaxDepth'),
+      minStorageBytesPercentage:
+          _s.extractXmlDoubleValue(elem, 'MinStorageBytesPercentage'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final delimiter = this.delimiter;
+    final maxDepth = this.maxDepth;
+    final minStorageBytesPercentage = this.minStorageBytesPercentage;
+    return {
+      if (delimiter != null) 'Delimiter': delimiter,
+      if (maxDepth != null) 'MaxDepth': maxDepth,
+      if (minStorageBytesPercentage != null)
+        'MinStorageBytesPercentage': minStorageBytesPercentage,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final delimiter = this.delimiter;
+    final maxDepth = this.maxDepth;
+    final minStorageBytesPercentage = this.minStorageBytesPercentage;
+    final $children = <_s.XmlNode>[
+      if (delimiter != null) _s.encodeXmlStringValue('Delimiter', delimiter),
+      if (maxDepth != null) _s.encodeXmlIntValue('MaxDepth', maxDepth),
+      if (minStorageBytesPercentage != null)
+        _s.encodeXmlDoubleValue(
+            'MinStorageBytesPercentage', minStorageBytesPercentage),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// The <code>PublicAccessBlock</code> configuration that you want to apply to
+/// this Amazon S3 account. You can enable the configuration options in any
+/// combination. For more information about when Amazon S3 considers a bucket or
+/// object public, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status">The
+/// Meaning of "Public"</a> in the <i>Amazon S3 User Guide</i>.
+///
+/// This data type is not supported for Amazon S3 on Outposts.
+class PublicAccessBlockConfiguration {
+  /// Specifies whether Amazon S3 should block public access control lists (ACLs)
+  /// for buckets in this account. Setting this element to <code>TRUE</code>
+  /// causes the following behavior:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PutBucketAcl</code> and <code>PutObjectAcl</code> calls fail if the
+  /// specified ACL is public.
+  /// </li>
+  /// <li>
+  /// PUT Object calls fail if the request includes a public ACL.
+  /// </li>
+  /// <li>
+  /// PUT Bucket calls fail if the request includes a public ACL.
+  /// </li>
+  /// </ul>
+  /// Enabling this setting doesn't affect existing policies or ACLs.
+  ///
+  /// This property is not supported for Amazon S3 on Outposts.
+  final bool? blockPublicAcls;
+
+  /// Specifies whether Amazon S3 should block public bucket policies for buckets
+  /// in this account. Setting this element to <code>TRUE</code> causes Amazon S3
+  /// to reject calls to PUT Bucket policy if the specified bucket policy allows
+  /// public access.
+  ///
+  /// Enabling this setting doesn't affect existing bucket policies.
+  ///
+  /// This property is not supported for Amazon S3 on Outposts.
+  final bool? blockPublicPolicy;
+
+  /// Specifies whether Amazon S3 should ignore public ACLs for buckets in this
+  /// account. Setting this element to <code>TRUE</code> causes Amazon S3 to
+  /// ignore all public ACLs on buckets in this account and any objects that they
+  /// contain.
+  ///
+  /// Enabling this setting doesn't affect the persistence of any existing ACLs
+  /// and doesn't prevent new public ACLs from being set.
+  ///
+  /// This property is not supported for Amazon S3 on Outposts.
+  final bool? ignorePublicAcls;
+
+  /// Specifies whether Amazon S3 should restrict public bucket policies for
+  /// buckets in this account. Setting this element to <code>TRUE</code> restricts
+  /// access to buckets with public policies to only Amazon Web Services service
+  /// principals and authorized users within this account.
+  ///
+  /// Enabling this setting doesn't affect previously stored bucket policies,
+  /// except that public and cross-account access within any public bucket policy,
+  /// including non-public delegation to specific accounts, is blocked.
+  ///
+  /// This property is not supported for Amazon S3 on Outposts.
+  final bool? restrictPublicBuckets;
+
+  PublicAccessBlockConfiguration({
+    this.blockPublicAcls,
+    this.blockPublicPolicy,
+    this.ignorePublicAcls,
+    this.restrictPublicBuckets,
+  });
+  factory PublicAccessBlockConfiguration.fromXml(_s.XmlElement elem) {
+    return PublicAccessBlockConfiguration(
+      blockPublicAcls: _s.extractXmlBoolValue(elem, 'BlockPublicAcls'),
+      blockPublicPolicy: _s.extractXmlBoolValue(elem, 'BlockPublicPolicy'),
+      ignorePublicAcls: _s.extractXmlBoolValue(elem, 'IgnorePublicAcls'),
+      restrictPublicBuckets:
+          _s.extractXmlBoolValue(elem, 'RestrictPublicBuckets'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blockPublicAcls = this.blockPublicAcls;
+    final blockPublicPolicy = this.blockPublicPolicy;
+    final ignorePublicAcls = this.ignorePublicAcls;
+    final restrictPublicBuckets = this.restrictPublicBuckets;
+    return {
+      if (blockPublicAcls != null) 'BlockPublicAcls': blockPublicAcls,
+      if (blockPublicPolicy != null) 'BlockPublicPolicy': blockPublicPolicy,
+      if (ignorePublicAcls != null) 'IgnorePublicAcls': ignorePublicAcls,
+      if (restrictPublicBuckets != null)
+        'RestrictPublicBuckets': restrictPublicBuckets,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final blockPublicAcls = this.blockPublicAcls;
+    final blockPublicPolicy = this.blockPublicPolicy;
+    final ignorePublicAcls = this.ignorePublicAcls;
+    final restrictPublicBuckets = this.restrictPublicBuckets;
+    final $children = <_s.XmlNode>[
+      if (blockPublicAcls != null)
+        _s.encodeXmlBoolValue('BlockPublicAcls', blockPublicAcls),
+      if (ignorePublicAcls != null)
+        _s.encodeXmlBoolValue('IgnorePublicAcls', ignorePublicAcls),
+      if (blockPublicPolicy != null)
+        _s.encodeXmlBoolValue('BlockPublicPolicy', blockPublicPolicy),
+      if (restrictPublicBuckets != null)
+        _s.encodeXmlBoolValue('RestrictPublicBuckets', restrictPublicBuckets),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A container for the information associated with a <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutMultiRegionAccessPoint.html">PutMultiRegionAccessPoint</a>
+/// request.
+class PutMultiRegionAccessPointPolicyInput {
+  /// The name of the Multi-Region Access Point associated with the request.
+  final String name;
+
+  /// The policy details for the <code>PutMultiRegionAccessPoint</code> request.
+  final String policy;
+
+  PutMultiRegionAccessPointPolicyInput({
+    required this.name,
+    required this.policy,
+  });
+  factory PutMultiRegionAccessPointPolicyInput.fromXml(_s.XmlElement elem) {
+    return PutMultiRegionAccessPointPolicyInput(
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      policy: _s.extractXmlStringValue(elem, 'Policy')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final policy = this.policy;
+    return {
+      'Name': name,
+      'Policy': policy,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final name = this.name;
+    final policy = this.policy;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Name', name),
+      _s.encodeXmlStringValue('Policy', policy),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Describes the versioning state of an Amazon S3 on Outposts bucket. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketVersioning.html">PutBucketVersioning</a>.
+class VersioningConfiguration {
+  /// Specifies whether MFA delete is enabled or disabled in the bucket versioning
+  /// configuration for the S3 on Outposts bucket.
+  final MFADelete? mFADelete;
+
+  /// Sets the versioning state of the S3 on Outposts bucket.
+  final BucketVersioningStatus? status;
+
+  VersioningConfiguration({
+    this.mFADelete,
+    this.status,
+  });
+
+  Map<String, dynamic> toJson() {
+    final mFADelete = this.mFADelete;
+    final status = this.status;
+    return {
+      if (mFADelete != null) 'MfaDelete': mFADelete.value,
+      if (status != null) 'Status': status.value,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final mFADelete = this.mFADelete;
+    final status = this.status;
+    final $children = <_s.XmlNode>[
+      if (mFADelete != null)
+        _s.encodeXmlStringValue('MfaDelete', mFADelete.value),
+      if (status != null) _s.encodeXmlStringValue('Status', status.value),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class MFADelete {
+  static const enabled = MFADelete._('Enabled');
+  static const disabled = MFADelete._('Disabled');
+
+  final String value;
+
+  const MFADelete._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static MFADelete fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MFADelete._(value));
+
+  @override
+  bool operator ==(other) => other is MFADelete && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class BucketVersioningStatus {
+  static const enabled = BucketVersioningStatus._('Enabled');
+  static const suspended = BucketVersioningStatus._('Suspended');
+
+  final String value;
+
+  const BucketVersioningStatus._(this.value);
+
+  static const values = [enabled, suspended];
+
+  static BucketVersioningStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BucketVersioningStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BucketVersioningStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+///
+class Tagging {
+  /// A collection for a set of tags.
+  final List<S3Tag> tagSet;
+
+  Tagging({
+    required this.tagSet,
+  });
+
+  Map<String, dynamic> toJson() {
+    final tagSet = this.tagSet;
+    return {
+      'TagSet': tagSet,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final tagSet = this.tagSet;
+    final $children = <_s.XmlNode>[
+      _s.XmlElement(
+          _s.XmlName.parts('TagSet'), [], tagSet.map((e) => e.toXml('member'))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
 }
 
 /// A container for one or more replication rules. A replication configuration
@@ -15156,71 +12801,6 @@ class ReplicationRule {
   }
 }
 
-/// A container for specifying rule filters. The filters determine the subset of
-/// objects to which the rule applies. This element is required only if you
-/// specify more than one filter.
-///
-/// For example:
-///
-/// <ul>
-/// <li>
-/// If you specify both a <code>Prefix</code> and a <code>Tag</code> filter,
-/// wrap these filters in an <code>And</code> element.
-/// </li>
-/// <li>
-/// If you specify a filter based on multiple tags, wrap the <code>Tag</code>
-/// elements in an <code>And</code> element.
-/// </li>
-/// </ul>
-class ReplicationRuleAndOperator {
-  /// An object key name prefix that identifies the subset of objects that the
-  /// rule applies to.
-  final String? prefix;
-
-  /// An array of tags that contain key and value pairs.
-  final List<S3Tag>? tags;
-
-  ReplicationRuleAndOperator({
-    this.prefix,
-    this.tags,
-  });
-  factory ReplicationRuleAndOperator.fromXml(_s.XmlElement elem) {
-    return ReplicationRuleAndOperator(
-      prefix: _s.extractXmlStringValue(elem, 'Prefix'),
-      tags: _s.extractXmlChild(elem, 'Tags')?.let(
-          (elem) => elem.findElements('member').map(S3Tag.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final prefix = this.prefix;
-    final tags = this.tags;
-    return {
-      if (prefix != null) 'Prefix': prefix,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final prefix = this.prefix;
-    final tags = this.tags;
-    final $children = <_s.XmlNode>[
-      if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
-      if (tags != null)
-        _s.XmlElement(
-            _s.XmlName.parts('Tags'), [], tags.map((e) => e.toXml('member'))),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
 /// A filter that identifies the subset of objects to which the replication rule
 /// applies. A <code>Filter</code> element must specify exactly one
 /// <code>Prefix</code>, <code>Tag</code>, or <code>And</code> child element.
@@ -15324,68 +12904,323 @@ class ReplicationRuleStatus {
   String toString() => value;
 }
 
-class ReplicationStatus {
-  static const completed = ReplicationStatus._('COMPLETED');
-  static const failed = ReplicationStatus._('FAILED');
-  static const replica = ReplicationStatus._('REPLICA');
-  static const none = ReplicationStatus._('NONE');
+/// A container that describes additional filters for identifying the source
+/// objects that you want to replicate. You can choose to enable or disable the
+/// replication of these objects.
+class SourceSelectionCriteria {
+  /// A filter that you can use to specify whether replica modification sync is
+  /// enabled. S3 on Outposts replica modification sync can help you keep object
+  /// metadata synchronized between replicas and source objects. By default, S3 on
+  /// Outposts replicates metadata from the source objects to the replicas only.
+  /// When replica modification sync is enabled, S3 on Outposts replicates
+  /// metadata changes made to the replica copies back to the source object,
+  /// making the replication bidirectional.
+  ///
+  /// To replicate object metadata modifications on replicas, you can specify this
+  /// element and set the <code>Status</code> of this element to
+  /// <code>Enabled</code>.
+  /// <note>
+  /// You must enable replica modification sync on the source and destination
+  /// buckets to replicate replica metadata changes between the source and the
+  /// replicas.
+  /// </note>
+  final ReplicaModifications? replicaModifications;
 
-  final String value;
+  /// A filter that you can use to select Amazon S3 objects that are encrypted
+  /// with server-side encryption by using Key Management Service (KMS) keys. If
+  /// you include <code>SourceSelectionCriteria</code> in the replication
+  /// configuration, this element is required.
+  /// <note>
+  /// This is not supported by Amazon S3 on Outposts buckets.
+  /// </note>
+  final SseKmsEncryptedObjects? sseKmsEncryptedObjects;
 
-  const ReplicationStatus._(this.value);
+  SourceSelectionCriteria({
+    this.replicaModifications,
+    this.sseKmsEncryptedObjects,
+  });
+  factory SourceSelectionCriteria.fromXml(_s.XmlElement elem) {
+    return SourceSelectionCriteria(
+      replicaModifications: _s
+          .extractXmlChild(elem, 'ReplicaModifications')
+          ?.let(ReplicaModifications.fromXml),
+      sseKmsEncryptedObjects: _s
+          .extractXmlChild(elem, 'SseKmsEncryptedObjects')
+          ?.let(SseKmsEncryptedObjects.fromXml),
+    );
+  }
 
-  static const values = [completed, failed, replica, none];
+  Map<String, dynamic> toJson() {
+    final replicaModifications = this.replicaModifications;
+    final sseKmsEncryptedObjects = this.sseKmsEncryptedObjects;
+    return {
+      if (replicaModifications != null)
+        'ReplicaModifications': replicaModifications,
+      if (sseKmsEncryptedObjects != null)
+        'SseKmsEncryptedObjects': sseKmsEncryptedObjects,
+    };
+  }
 
-  static ReplicationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ReplicationStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ReplicationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final replicaModifications = this.replicaModifications;
+    final sseKmsEncryptedObjects = this.sseKmsEncryptedObjects;
+    final $children = <_s.XmlNode>[
+      if (sseKmsEncryptedObjects != null)
+        sseKmsEncryptedObjects.toXml('SseKmsEncryptedObjects'),
+      if (replicaModifications != null)
+        replicaModifications.toXml('ReplicaModifications'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
 }
 
-class ReplicationStorageClass {
-  static const standard = ReplicationStorageClass._('STANDARD');
-  static const reducedRedundancy =
-      ReplicationStorageClass._('REDUCED_REDUNDANCY');
-  static const standardIa = ReplicationStorageClass._('STANDARD_IA');
-  static const onezoneIa = ReplicationStorageClass._('ONEZONE_IA');
-  static const intelligentTiering =
-      ReplicationStorageClass._('INTELLIGENT_TIERING');
-  static const glacier = ReplicationStorageClass._('GLACIER');
-  static const deepArchive = ReplicationStorageClass._('DEEP_ARCHIVE');
-  static const outposts = ReplicationStorageClass._('OUTPOSTS');
-  static const glacierIr = ReplicationStorageClass._('GLACIER_IR');
+/// An optional configuration to replicate existing source bucket objects.
+/// <note>
+/// This is not supported by Amazon S3 on Outposts buckets.
+/// </note>
+class ExistingObjectReplication {
+  /// Specifies whether Amazon S3 replicates existing source bucket objects.
+  final ExistingObjectReplicationStatus status;
+
+  ExistingObjectReplication({
+    required this.status,
+  });
+  factory ExistingObjectReplication.fromXml(_s.XmlElement elem) {
+    return ExistingObjectReplication(
+      status: _s
+          .extractXmlStringValue(elem, 'Status')!
+          .let(ExistingObjectReplicationStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      'Status': status.value,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final status = this.status;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Status', status.value),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Specifies information about the replication destination bucket and its
+/// settings for an S3 on Outposts replication configuration.
+class Destination {
+  /// The Amazon Resource Name (ARN) of the access point for the destination
+  /// bucket where you want S3 on Outposts to store the replication results.
+  final String bucket;
+
+  /// Specify this property only in a cross-account scenario (where the source and
+  /// destination bucket owners are not the same), and you want to change replica
+  /// ownership to the Amazon Web Services account that owns the destination
+  /// bucket. If this property is not specified in the replication configuration,
+  /// the replicas are owned by same Amazon Web Services account that owns the
+  /// source object.
+  /// <note>
+  /// This is not supported by Amazon S3 on Outposts buckets.
+  /// </note>
+  final AccessControlTranslation? accessControlTranslation;
+
+  /// The destination bucket owner's account ID.
+  final String? account;
+
+  /// A container that provides information about encryption. If
+  /// <code>SourceSelectionCriteria</code> is specified, you must specify this
+  /// element.
+  /// <note>
+  /// This is not supported by Amazon S3 on Outposts buckets.
+  /// </note>
+  final EncryptionConfiguration? encryptionConfiguration;
+
+  /// A container that specifies replication metrics-related settings.
+  final Metrics? metrics;
+
+  /// A container that specifies S3 Replication Time Control (S3 RTC) settings,
+  /// including whether S3 RTC is enabled and the time when all objects and
+  /// operations on objects must be replicated. Must be specified together with a
+  /// <code>Metrics</code> block.
+  /// <note>
+  /// This is not supported by Amazon S3 on Outposts buckets.
+  /// </note>
+  final ReplicationTime? replicationTime;
+
+  /// The storage class to use when replicating objects. All objects stored on S3
+  /// on Outposts are stored in the <code>OUTPOSTS</code> storage class. S3 on
+  /// Outposts uses the <code>OUTPOSTS</code> storage class to create the object
+  /// replicas.
+  /// <note>
+  /// Values other than <code>OUTPOSTS</code> aren't supported by Amazon S3 on
+  /// Outposts.
+  /// </note>
+  final ReplicationStorageClass? storageClass;
+
+  Destination({
+    required this.bucket,
+    this.accessControlTranslation,
+    this.account,
+    this.encryptionConfiguration,
+    this.metrics,
+    this.replicationTime,
+    this.storageClass,
+  });
+  factory Destination.fromXml(_s.XmlElement elem) {
+    return Destination(
+      bucket: _s.extractXmlStringValue(elem, 'Bucket')!,
+      accessControlTranslation: _s
+          .extractXmlChild(elem, 'AccessControlTranslation')
+          ?.let(AccessControlTranslation.fromXml),
+      account: _s.extractXmlStringValue(elem, 'Account'),
+      encryptionConfiguration: _s
+          .extractXmlChild(elem, 'EncryptionConfiguration')
+          ?.let(EncryptionConfiguration.fromXml),
+      metrics: _s.extractXmlChild(elem, 'Metrics')?.let(Metrics.fromXml),
+      replicationTime: _s
+          .extractXmlChild(elem, 'ReplicationTime')
+          ?.let(ReplicationTime.fromXml),
+      storageClass: _s
+          .extractXmlStringValue(elem, 'StorageClass')
+          ?.let(ReplicationStorageClass.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final accessControlTranslation = this.accessControlTranslation;
+    final account = this.account;
+    final encryptionConfiguration = this.encryptionConfiguration;
+    final metrics = this.metrics;
+    final replicationTime = this.replicationTime;
+    final storageClass = this.storageClass;
+    return {
+      'Bucket': bucket,
+      if (accessControlTranslation != null)
+        'AccessControlTranslation': accessControlTranslation,
+      if (account != null) 'Account': account,
+      if (encryptionConfiguration != null)
+        'EncryptionConfiguration': encryptionConfiguration,
+      if (metrics != null) 'Metrics': metrics,
+      if (replicationTime != null) 'ReplicationTime': replicationTime,
+      if (storageClass != null) 'StorageClass': storageClass.value,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final bucket = this.bucket;
+    final accessControlTranslation = this.accessControlTranslation;
+    final account = this.account;
+    final encryptionConfiguration = this.encryptionConfiguration;
+    final metrics = this.metrics;
+    final replicationTime = this.replicationTime;
+    final storageClass = this.storageClass;
+    final $children = <_s.XmlNode>[
+      if (account != null) _s.encodeXmlStringValue('Account', account),
+      _s.encodeXmlStringValue('Bucket', bucket),
+      if (replicationTime != null) replicationTime.toXml('ReplicationTime'),
+      if (accessControlTranslation != null)
+        accessControlTranslation.toXml('AccessControlTranslation'),
+      if (encryptionConfiguration != null)
+        encryptionConfiguration.toXml('EncryptionConfiguration'),
+      if (metrics != null) metrics.toXml('Metrics'),
+      if (storageClass != null)
+        _s.encodeXmlStringValue('StorageClass', storageClass.value),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Specifies whether S3 on Outposts replicates delete markers. If you specify a
+/// <code>Filter</code> element in your replication configuration, you must also
+/// include a <code>DeleteMarkerReplication</code> element. If your
+/// <code>Filter</code> includes a <code>Tag</code> element, the
+/// <code>DeleteMarkerReplication</code> element's <code>Status</code> child
+/// element must be set to <code>Disabled</code>, because S3 on Outposts does
+/// not support replicating delete markers for tag-based rules.
+///
+/// For more information about delete marker replication, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3OutpostsReplication.html#outposts-replication-what-is-replicated">How
+/// delete operations affect replication</a> in the <i>Amazon S3 User Guide</i>.
+class DeleteMarkerReplication {
+  /// Indicates whether to replicate delete markers.
+  final DeleteMarkerReplicationStatus status;
+
+  DeleteMarkerReplication({
+    required this.status,
+  });
+  factory DeleteMarkerReplication.fromXml(_s.XmlElement elem) {
+    return DeleteMarkerReplication(
+      status: _s
+          .extractXmlStringValue(elem, 'Status')!
+          .let(DeleteMarkerReplicationStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      'Status': status.value,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final status = this.status;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Status', status.value),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class DeleteMarkerReplicationStatus {
+  static const enabled = DeleteMarkerReplicationStatus._('Enabled');
+  static const disabled = DeleteMarkerReplicationStatus._('Disabled');
 
   final String value;
 
-  const ReplicationStorageClass._(this.value);
+  const DeleteMarkerReplicationStatus._(this.value);
 
-  static const values = [
-    standard,
-    reducedRedundancy,
-    standardIa,
-    onezoneIa,
-    intelligentTiering,
-    glacier,
-    deepArchive,
-    outposts,
-    glacierIr
-  ];
+  static const values = [enabled, disabled];
 
-  static ReplicationStorageClass fromString(String value) =>
+  static DeleteMarkerReplicationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => ReplicationStorageClass._(value));
+          orElse: () => DeleteMarkerReplicationStatus._(value));
 
   @override
   bool operator ==(other) =>
-      other is ReplicationStorageClass && other.value == value;
+      other is DeleteMarkerReplicationStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -15448,23 +13283,215 @@ class ReplicationTime {
   }
 }
 
-class ReplicationTimeStatus {
-  static const enabled = ReplicationTimeStatus._('Enabled');
-  static const disabled = ReplicationTimeStatus._('Disabled');
+/// A container for information about access control for replicas.
+/// <note>
+/// This is not supported by Amazon S3 on Outposts buckets.
+/// </note>
+class AccessControlTranslation {
+  /// Specifies the replica ownership.
+  final OwnerOverride owner;
+
+  AccessControlTranslation({
+    required this.owner,
+  });
+  factory AccessControlTranslation.fromXml(_s.XmlElement elem) {
+    return AccessControlTranslation(
+      owner: _s
+          .extractXmlStringValue(elem, 'Owner')!
+          .let(OwnerOverride.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final owner = this.owner;
+    return {
+      'Owner': owner.value,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final owner = this.owner;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Owner', owner.value),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Specifies encryption-related information for an Amazon S3 bucket that is a
+/// destination for replicated objects. If you're specifying a customer managed
+/// KMS key, we recommend using a fully qualified KMS key ARN. If you use a KMS
+/// key alias instead, then KMS resolves the key within the requester’s account.
+/// This behavior can result in data that's encrypted with a KMS key that
+/// belongs to the requester, and not the bucket owner.
+/// <note>
+/// This is not supported by Amazon S3 on Outposts buckets.
+/// </note>
+class EncryptionConfiguration {
+  /// Specifies the ID of the customer managed KMS key that's stored in Key
+  /// Management Service (KMS) for the destination bucket. This ID is either the
+  /// Amazon Resource Name (ARN) for the KMS key or the alias ARN for the KMS key.
+  /// Amazon S3 uses this KMS key to encrypt replica objects. Amazon S3 supports
+  /// only symmetric encryption KMS keys. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#symmetric-cmks">Symmetric
+  /// encryption KMS keys</a> in the <i>Amazon Web Services Key Management Service
+  /// Developer Guide</i>.
+  final String? replicaKmsKeyID;
+
+  EncryptionConfiguration({
+    this.replicaKmsKeyID,
+  });
+  factory EncryptionConfiguration.fromXml(_s.XmlElement elem) {
+    return EncryptionConfiguration(
+      replicaKmsKeyID: _s.extractXmlStringValue(elem, 'ReplicaKmsKeyID'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicaKmsKeyID = this.replicaKmsKeyID;
+    return {
+      if (replicaKmsKeyID != null) 'ReplicaKmsKeyID': replicaKmsKeyID,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final replicaKmsKeyID = this.replicaKmsKeyID;
+    final $children = <_s.XmlNode>[
+      if (replicaKmsKeyID != null)
+        _s.encodeXmlStringValue('ReplicaKmsKeyID', replicaKmsKeyID),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A container that specifies replication metrics-related settings.
+class Metrics {
+  /// Specifies whether replication metrics are enabled.
+  final MetricsStatus status;
+
+  /// A container that specifies the time threshold for emitting the
+  /// <code>s3:Replication:OperationMissedThreshold</code> event.
+  /// <note>
+  /// This is not supported by Amazon S3 on Outposts buckets.
+  /// </note>
+  final ReplicationTimeValue? eventThreshold;
+
+  Metrics({
+    required this.status,
+    this.eventThreshold,
+  });
+  factory Metrics.fromXml(_s.XmlElement elem) {
+    return Metrics(
+      status: _s
+          .extractXmlStringValue(elem, 'Status')!
+          .let(MetricsStatus.fromString),
+      eventThreshold: _s
+          .extractXmlChild(elem, 'EventThreshold')
+          ?.let(ReplicationTimeValue.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final eventThreshold = this.eventThreshold;
+    return {
+      'Status': status.value,
+      if (eventThreshold != null) 'EventThreshold': eventThreshold,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final status = this.status;
+    final eventThreshold = this.eventThreshold;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Status', status.value),
+      if (eventThreshold != null) eventThreshold.toXml('EventThreshold'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class ReplicationStorageClass {
+  static const standard = ReplicationStorageClass._('STANDARD');
+  static const reducedRedundancy =
+      ReplicationStorageClass._('REDUCED_REDUNDANCY');
+  static const standardIa = ReplicationStorageClass._('STANDARD_IA');
+  static const onezoneIa = ReplicationStorageClass._('ONEZONE_IA');
+  static const intelligentTiering =
+      ReplicationStorageClass._('INTELLIGENT_TIERING');
+  static const glacier = ReplicationStorageClass._('GLACIER');
+  static const deepArchive = ReplicationStorageClass._('DEEP_ARCHIVE');
+  static const outposts = ReplicationStorageClass._('OUTPOSTS');
+  static const glacierIr = ReplicationStorageClass._('GLACIER_IR');
 
   final String value;
 
-  const ReplicationTimeStatus._(this.value);
+  const ReplicationStorageClass._(this.value);
 
-  static const values = [enabled, disabled];
+  static const values = [
+    standard,
+    reducedRedundancy,
+    standardIa,
+    onezoneIa,
+    intelligentTiering,
+    glacier,
+    deepArchive,
+    outposts,
+    glacierIr
+  ];
 
-  static ReplicationTimeStatus fromString(String value) =>
+  static ReplicationStorageClass fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => ReplicationTimeStatus._(value));
+          orElse: () => ReplicationStorageClass._(value));
 
   @override
   bool operator ==(other) =>
-      other is ReplicationTimeStatus && other.value == value;
+      other is ReplicationStorageClass && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class MetricsStatus {
+  static const enabled = MetricsStatus._('Enabled');
+  static const disabled = MetricsStatus._('Disabled');
+
+  final String value;
+
+  const MetricsStatus._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static MetricsStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MetricsStatus._(value));
+
+  @override
+  bool operator ==(other) => other is MetricsStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -15517,23 +13544,21 @@ class ReplicationTimeValue {
   }
 }
 
-class RequestedJobStatus {
-  static const cancelled = RequestedJobStatus._('Cancelled');
-  static const ready = RequestedJobStatus._('Ready');
+class OwnerOverride {
+  static const destination = OwnerOverride._('Destination');
 
   final String value;
 
-  const RequestedJobStatus._(this.value);
+  const OwnerOverride._(this.value);
 
-  static const values = [cancelled, ready];
+  static const values = [destination];
 
-  static RequestedJobStatus fromString(String value) =>
+  static OwnerOverride fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => RequestedJobStatus._(value));
+          orElse: () => OwnerOverride._(value));
 
   @override
-  bool operator ==(other) =>
-      other is RequestedJobStatus && other.value == value;
+  bool operator ==(other) => other is OwnerOverride && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -15542,43 +13567,88 @@ class RequestedJobStatus {
   String toString() => value;
 }
 
-/// <p/>
-class S3AccessControlList {
-  /// <p/>
-  final S3ObjectOwner owner;
+class ReplicationTimeStatus {
+  static const enabled = ReplicationTimeStatus._('Enabled');
+  static const disabled = ReplicationTimeStatus._('Disabled');
 
-  /// <p/>
-  final List<S3Grant>? grants;
+  final String value;
 
-  S3AccessControlList({
-    required this.owner,
-    this.grants,
+  const ReplicationTimeStatus._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static ReplicationTimeStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReplicationTimeStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReplicationTimeStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ExistingObjectReplicationStatus {
+  static const enabled = ExistingObjectReplicationStatus._('Enabled');
+  static const disabled = ExistingObjectReplicationStatus._('Disabled');
+
+  final String value;
+
+  const ExistingObjectReplicationStatus._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static ExistingObjectReplicationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExistingObjectReplicationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExistingObjectReplicationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A container for filter information that you can use to select S3 objects
+/// that are encrypted with Key Management Service (KMS).
+/// <note>
+/// This is not supported by Amazon S3 on Outposts buckets.
+/// </note>
+class SseKmsEncryptedObjects {
+  /// Specifies whether Amazon S3 replicates objects that are created with
+  /// server-side encryption by using an KMS key stored in Key Management Service.
+  final SseKmsEncryptedObjectsStatus status;
+
+  SseKmsEncryptedObjects({
+    required this.status,
   });
-  factory S3AccessControlList.fromXml(_s.XmlElement elem) {
-    return S3AccessControlList(
-      owner: S3ObjectOwner.fromXml(_s.extractXmlChild(elem, 'Owner')!),
-      grants: _s.extractXmlChild(elem, 'Grants')?.let(
-          (elem) => elem.findElements('member').map(S3Grant.fromXml).toList()),
+  factory SseKmsEncryptedObjects.fromXml(_s.XmlElement elem) {
+    return SseKmsEncryptedObjects(
+      status: _s
+          .extractXmlStringValue(elem, 'Status')!
+          .let(SseKmsEncryptedObjectsStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final owner = this.owner;
-    final grants = this.grants;
+    final status = this.status;
     return {
-      'Owner': owner,
-      if (grants != null) 'Grants': grants,
+      'Status': status.value,
     };
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final owner = this.owner;
-    final grants = this.grants;
+    final status = this.status;
     final $children = <_s.XmlNode>[
-      owner.toXml('Owner'),
-      if (grants != null)
-        _s.XmlElement(_s.XmlName.parts('Grants'), [],
-            grants.map((e) => e.toXml('member'))),
+      _s.encodeXmlStringValue('Status', status.value),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -15591,48 +13661,49 @@ class S3AccessControlList {
   }
 }
 
-/// <p/>
-class S3AccessControlPolicy {
-  /// <p/>
-  final S3AccessControlList? accessControlList;
+/// A filter that you can use to specify whether replica modification sync is
+/// enabled. S3 on Outposts replica modification sync can help you keep object
+/// metadata synchronized between replicas and source objects. By default, S3 on
+/// Outposts replicates metadata from the source objects to the replicas only.
+/// When replica modification sync is enabled, S3 on Outposts replicates
+/// metadata changes made to the replica copies back to the source object,
+/// making the replication bidirectional.
+///
+/// To replicate object metadata modifications on replicas, you can specify this
+/// element and set the <code>Status</code> of this element to
+/// <code>Enabled</code>.
+/// <note>
+/// You must enable replica modification sync on the source and destination
+/// buckets to replicate replica metadata changes between the source and the
+/// replicas.
+/// </note>
+class ReplicaModifications {
+  /// Specifies whether S3 on Outposts replicates modifications to object metadata
+  /// on replicas.
+  final ReplicaModificationsStatus status;
 
-  /// <p/>
-  final S3CannedAccessControlList? cannedAccessControlList;
-
-  S3AccessControlPolicy({
-    this.accessControlList,
-    this.cannedAccessControlList,
+  ReplicaModifications({
+    required this.status,
   });
-  factory S3AccessControlPolicy.fromXml(_s.XmlElement elem) {
-    return S3AccessControlPolicy(
-      accessControlList: _s
-          .extractXmlChild(elem, 'AccessControlList')
-          ?.let(S3AccessControlList.fromXml),
-      cannedAccessControlList: _s
-          .extractXmlStringValue(elem, 'CannedAccessControlList')
-          ?.let(S3CannedAccessControlList.fromString),
+  factory ReplicaModifications.fromXml(_s.XmlElement elem) {
+    return ReplicaModifications(
+      status: _s
+          .extractXmlStringValue(elem, 'Status')!
+          .let(ReplicaModificationsStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final accessControlList = this.accessControlList;
-    final cannedAccessControlList = this.cannedAccessControlList;
+    final status = this.status;
     return {
-      if (accessControlList != null) 'AccessControlList': accessControlList,
-      if (cannedAccessControlList != null)
-        'CannedAccessControlList': cannedAccessControlList.value,
+      'Status': status.value,
     };
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final accessControlList = this.accessControlList;
-    final cannedAccessControlList = this.cannedAccessControlList;
+    final status = this.status;
     final $children = <_s.XmlNode>[
-      if (accessControlList != null)
-        accessControlList.toXml('AccessControlList'),
-      if (cannedAccessControlList != null)
-        _s.encodeXmlStringValue(
-            'CannedAccessControlList', cannedAccessControlList.value),
+      _s.encodeXmlStringValue('Status', status.value),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -15645,85 +13716,109 @@ class S3AccessControlPolicy {
   }
 }
 
-/// A container for the bucket where the Amazon S3 Storage Lens metrics export
-/// files are located.
-class S3BucketDestination {
-  /// The account ID of the owner of the S3 Storage Lens metrics export bucket.
-  final String accountId;
+class ReplicaModificationsStatus {
+  static const enabled = ReplicaModificationsStatus._('Enabled');
+  static const disabled = ReplicaModificationsStatus._('Disabled');
 
-  /// The Amazon Resource Name (ARN) of the bucket. This property is read-only and
-  /// follows the following format: <code>
-  /// arn:aws:s3:<i>us-east-1</i>:<i>example-account-id</i>:bucket/<i>your-destination-bucket-name</i>
-  /// </code>
-  final String arn;
+  final String value;
 
-  /// <p/>
-  final Format format;
+  const ReplicaModificationsStatus._(this.value);
 
-  /// The schema version of the export file.
-  final OutputSchemaVersion outputSchemaVersion;
+  static const values = [enabled, disabled];
 
-  /// The container for the type encryption of the metrics exports in this bucket.
-  final StorageLensDataExportEncryption? encryption;
+  static ReplicaModificationsStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReplicaModificationsStatus._(value));
 
-  /// The prefix of the destination bucket where the metrics export will be
-  /// delivered.
+  @override
+  bool operator ==(other) =>
+      other is ReplicaModificationsStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SseKmsEncryptedObjectsStatus {
+  static const enabled = SseKmsEncryptedObjectsStatus._('Enabled');
+  static const disabled = SseKmsEncryptedObjectsStatus._('Disabled');
+
+  final String value;
+
+  const SseKmsEncryptedObjectsStatus._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static SseKmsEncryptedObjectsStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SseKmsEncryptedObjectsStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SseKmsEncryptedObjectsStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A container for specifying rule filters. The filters determine the subset of
+/// objects to which the rule applies. This element is required only if you
+/// specify more than one filter.
+///
+/// For example:
+///
+/// <ul>
+/// <li>
+/// If you specify both a <code>Prefix</code> and a <code>Tag</code> filter,
+/// wrap these filters in an <code>And</code> element.
+/// </li>
+/// <li>
+/// If you specify a filter based on multiple tags, wrap the <code>Tag</code>
+/// elements in an <code>And</code> element.
+/// </li>
+/// </ul>
+class ReplicationRuleAndOperator {
+  /// An object key name prefix that identifies the subset of objects that the
+  /// rule applies to.
   final String? prefix;
 
-  S3BucketDestination({
-    required this.accountId,
-    required this.arn,
-    required this.format,
-    required this.outputSchemaVersion,
-    this.encryption,
+  /// An array of tags that contain key and value pairs.
+  final List<S3Tag>? tags;
+
+  ReplicationRuleAndOperator({
     this.prefix,
+    this.tags,
   });
-  factory S3BucketDestination.fromXml(_s.XmlElement elem) {
-    return S3BucketDestination(
-      accountId: _s.extractXmlStringValue(elem, 'AccountId')!,
-      arn: _s.extractXmlStringValue(elem, 'Arn')!,
-      format: _s.extractXmlStringValue(elem, 'Format')!.let(Format.fromString),
-      outputSchemaVersion: _s
-          .extractXmlStringValue(elem, 'OutputSchemaVersion')!
-          .let(OutputSchemaVersion.fromString),
-      encryption: _s
-          .extractXmlChild(elem, 'Encryption')
-          ?.let(StorageLensDataExportEncryption.fromXml),
+  factory ReplicationRuleAndOperator.fromXml(_s.XmlElement elem) {
+    return ReplicationRuleAndOperator(
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
+      tags: _s.extractXmlChild(elem, 'Tags')?.let(
+          (elem) => elem.findElements('member').map(S3Tag.fromXml).toList()),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final arn = this.arn;
-    final format = this.format;
-    final outputSchemaVersion = this.outputSchemaVersion;
-    final encryption = this.encryption;
     final prefix = this.prefix;
+    final tags = this.tags;
     return {
-      'AccountId': accountId,
-      'Arn': arn,
-      'Format': format.value,
-      'OutputSchemaVersion': outputSchemaVersion.value,
-      if (encryption != null) 'Encryption': encryption,
       if (prefix != null) 'Prefix': prefix,
+      if (tags != null) 'Tags': tags,
     };
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final accountId = this.accountId;
-    final arn = this.arn;
-    final format = this.format;
-    final outputSchemaVersion = this.outputSchemaVersion;
-    final encryption = this.encryption;
     final prefix = this.prefix;
+    final tags = this.tags;
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Format', format.value),
-      _s.encodeXmlStringValue('OutputSchemaVersion', outputSchemaVersion.value),
-      _s.encodeXmlStringValue('AccountId', accountId),
-      _s.encodeXmlStringValue('Arn', arn),
       if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
-      if (encryption != null) encryption.toXml('Encryption'),
+      if (tags != null)
+        _s.XmlElement(
+            _s.XmlName.parts('Tags'), [], tags.map((e) => e.toXml('member'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -15736,40 +13831,542 @@ class S3BucketDestination {
   }
 }
 
-class S3CannedAccessControlList {
-  static const private = S3CannedAccessControlList._('private');
-  static const publicRead = S3CannedAccessControlList._('public-read');
-  static const publicReadWrite =
-      S3CannedAccessControlList._('public-read-write');
-  static const awsExecRead = S3CannedAccessControlList._('aws-exec-read');
-  static const authenticatedRead =
-      S3CannedAccessControlList._('authenticated-read');
-  static const bucketOwnerRead =
-      S3CannedAccessControlList._('bucket-owner-read');
-  static const bucketOwnerFullControl =
-      S3CannedAccessControlList._('bucket-owner-full-control');
+/// The container for the Outposts bucket lifecycle configuration.
+class LifecycleConfiguration {
+  /// A lifecycle rule for individual objects in an Outposts bucket.
+  final List<LifecycleRule>? rules;
+
+  LifecycleConfiguration({
+    this.rules,
+  });
+
+  Map<String, dynamic> toJson() {
+    final rules = this.rules;
+    return {
+      if (rules != null) 'Rules': rules,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final rules = this.rules;
+    final $children = <_s.XmlNode>[
+      if (rules != null)
+        _s.XmlElement(
+            _s.XmlName.parts('Rules'), [], rules.map((e) => e.toXml('Rule'))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// The container for the Outposts bucket lifecycle rule.
+class LifecycleRule {
+  /// If 'Enabled', the rule is currently being applied. If 'Disabled', the rule
+  /// is not currently being applied.
+  final ExpirationStatus status;
+
+  /// Specifies the days since the initiation of an incomplete multipart upload
+  /// that Amazon S3 waits before permanently removing all parts of the upload.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html#mpu-abort-incomplete-mpu-lifecycle-config">
+  /// Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle
+  /// Configuration</a> in the <i>Amazon S3 User Guide</i>.
+  final AbortIncompleteMultipartUpload? abortIncompleteMultipartUpload;
+
+  /// Specifies the expiration for the lifecycle of the object in the form of
+  /// date, days and, whether the object has a delete marker.
+  final LifecycleExpiration? expiration;
+
+  /// The container for the filter of lifecycle rule.
+  final LifecycleRuleFilter? filter;
+
+  /// Unique identifier for the rule. The value cannot be longer than 255
+  /// characters.
+  final String? id;
+
+  /// The noncurrent version expiration of the lifecycle rule.
+  final NoncurrentVersionExpiration? noncurrentVersionExpiration;
+
+  /// Specifies the transition rule for the lifecycle rule that describes when
+  /// noncurrent objects transition to a specific storage class. If your bucket is
+  /// versioning-enabled (or versioning is suspended), you can set this action to
+  /// request that Amazon S3 transition noncurrent object versions to a specific
+  /// storage class at a set period in the object's lifetime.
+  /// <note>
+  /// This is not supported by Amazon S3 on Outposts buckets.
+  /// </note>
+  final List<NoncurrentVersionTransition>? noncurrentVersionTransitions;
+
+  /// Specifies when an Amazon S3 object transitions to a specified storage class.
+  /// <note>
+  /// This is not supported by Amazon S3 on Outposts buckets.
+  /// </note>
+  final List<Transition>? transitions;
+
+  LifecycleRule({
+    required this.status,
+    this.abortIncompleteMultipartUpload,
+    this.expiration,
+    this.filter,
+    this.id,
+    this.noncurrentVersionExpiration,
+    this.noncurrentVersionTransitions,
+    this.transitions,
+  });
+  factory LifecycleRule.fromXml(_s.XmlElement elem) {
+    return LifecycleRule(
+      status: _s
+          .extractXmlStringValue(elem, 'Status')!
+          .let(ExpirationStatus.fromString),
+      abortIncompleteMultipartUpload: _s
+          .extractXmlChild(elem, 'AbortIncompleteMultipartUpload')
+          ?.let(AbortIncompleteMultipartUpload.fromXml),
+      expiration: _s
+          .extractXmlChild(elem, 'Expiration')
+          ?.let(LifecycleExpiration.fromXml),
+      filter:
+          _s.extractXmlChild(elem, 'Filter')?.let(LifecycleRuleFilter.fromXml),
+      id: _s.extractXmlStringValue(elem, 'ID'),
+      noncurrentVersionExpiration: _s
+          .extractXmlChild(elem, 'NoncurrentVersionExpiration')
+          ?.let(NoncurrentVersionExpiration.fromXml),
+      noncurrentVersionTransitions: _s
+          .extractXmlChild(elem, 'NoncurrentVersionTransitions')
+          ?.let((elem) => elem
+              .findElements('NoncurrentVersionTransition')
+              .map(NoncurrentVersionTransition.fromXml)
+              .toList()),
+      transitions: _s.extractXmlChild(elem, 'Transitions')?.let((elem) =>
+          elem.findElements('Transition').map(Transition.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final abortIncompleteMultipartUpload = this.abortIncompleteMultipartUpload;
+    final expiration = this.expiration;
+    final filter = this.filter;
+    final id = this.id;
+    final noncurrentVersionExpiration = this.noncurrentVersionExpiration;
+    final noncurrentVersionTransitions = this.noncurrentVersionTransitions;
+    final transitions = this.transitions;
+    return {
+      'Status': status.value,
+      if (abortIncompleteMultipartUpload != null)
+        'AbortIncompleteMultipartUpload': abortIncompleteMultipartUpload,
+      if (expiration != null) 'Expiration': expiration,
+      if (filter != null) 'Filter': filter,
+      if (id != null) 'ID': id,
+      if (noncurrentVersionExpiration != null)
+        'NoncurrentVersionExpiration': noncurrentVersionExpiration,
+      if (noncurrentVersionTransitions != null)
+        'NoncurrentVersionTransitions': noncurrentVersionTransitions,
+      if (transitions != null) 'Transitions': transitions,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final status = this.status;
+    final abortIncompleteMultipartUpload = this.abortIncompleteMultipartUpload;
+    final expiration = this.expiration;
+    final filter = this.filter;
+    final id = this.id;
+    final noncurrentVersionExpiration = this.noncurrentVersionExpiration;
+    final noncurrentVersionTransitions = this.noncurrentVersionTransitions;
+    final transitions = this.transitions;
+    final $children = <_s.XmlNode>[
+      if (expiration != null) expiration.toXml('Expiration'),
+      if (id != null) _s.encodeXmlStringValue('ID', id),
+      if (filter != null) filter.toXml('Filter'),
+      _s.encodeXmlStringValue('Status', status.value),
+      if (transitions != null)
+        _s.XmlElement(_s.XmlName.parts('Transitions'), [],
+            transitions.map((e) => e.toXml('Transition'))),
+      if (noncurrentVersionTransitions != null)
+        _s.XmlElement(
+            _s.XmlName.parts('NoncurrentVersionTransitions'),
+            [],
+            noncurrentVersionTransitions
+                .map((e) => e.toXml('NoncurrentVersionTransition'))),
+      if (noncurrentVersionExpiration != null)
+        noncurrentVersionExpiration.toXml('NoncurrentVersionExpiration'),
+      if (abortIncompleteMultipartUpload != null)
+        abortIncompleteMultipartUpload.toXml('AbortIncompleteMultipartUpload'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// The container of the Outposts bucket lifecycle expiration.
+class LifecycleExpiration {
+  /// Indicates at what date the object is to be deleted. Should be in GMT ISO
+  /// 8601 format.
+  final DateTime? date;
+
+  /// Indicates the lifetime, in days, of the objects that are subject to the
+  /// rule. The value must be a non-zero positive integer.
+  final int? days;
+
+  /// Indicates whether Amazon S3 will remove a delete marker with no noncurrent
+  /// versions. If set to true, the delete marker will be expired. If set to
+  /// false, the policy takes no action. This cannot be specified with Days or
+  /// Date in a Lifecycle Expiration Policy. To learn more about delete markers,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/DeleteMarker.html">Working
+  /// with delete markers</a>.
+  final bool? expiredObjectDeleteMarker;
+
+  LifecycleExpiration({
+    this.date,
+    this.days,
+    this.expiredObjectDeleteMarker,
+  });
+  factory LifecycleExpiration.fromXml(_s.XmlElement elem) {
+    return LifecycleExpiration(
+      date: _s.extractXmlDateTimeValue(elem, 'Date'),
+      days: _s.extractXmlIntValue(elem, 'Days'),
+      expiredObjectDeleteMarker:
+          _s.extractXmlBoolValue(elem, 'ExpiredObjectDeleteMarker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final date = this.date;
+    final days = this.days;
+    final expiredObjectDeleteMarker = this.expiredObjectDeleteMarker;
+    return {
+      if (date != null) 'Date': iso8601ToJson(date),
+      if (days != null) 'Days': days,
+      if (expiredObjectDeleteMarker != null)
+        'ExpiredObjectDeleteMarker': expiredObjectDeleteMarker,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final date = this.date;
+    final days = this.days;
+    final expiredObjectDeleteMarker = this.expiredObjectDeleteMarker;
+    final $children = <_s.XmlNode>[
+      if (date != null) _s.encodeXmlDateTimeValue('Date', date),
+      if (days != null) _s.encodeXmlIntValue('Days', days),
+      if (expiredObjectDeleteMarker != null)
+        _s.encodeXmlBoolValue(
+            'ExpiredObjectDeleteMarker', expiredObjectDeleteMarker),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// The container for the filter of the lifecycle rule.
+class LifecycleRuleFilter {
+  /// The container for the <code>AND</code> condition for the lifecycle rule.
+  final LifecycleRuleAndOperator? and;
+
+  /// Minimum object size to which the rule applies.
+  final int? objectSizeGreaterThan;
+
+  /// Maximum object size to which the rule applies.
+  final int? objectSizeLessThan;
+
+  /// Prefix identifying one or more objects to which the rule applies.
+  /// <important>
+  /// When you're using XML requests, you must replace special characters (such as
+  /// carriage returns) in object keys with their equivalent XML entity codes. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints">
+  /// XML-related object key constraints</a> in the <i>Amazon S3 User Guide</i>.
+  /// </important>
+  final String? prefix;
+  final S3Tag? tag;
+
+  LifecycleRuleFilter({
+    this.and,
+    this.objectSizeGreaterThan,
+    this.objectSizeLessThan,
+    this.prefix,
+    this.tag,
+  });
+  factory LifecycleRuleFilter.fromXml(_s.XmlElement elem) {
+    return LifecycleRuleFilter(
+      and: _s
+          .extractXmlChild(elem, 'And')
+          ?.let(LifecycleRuleAndOperator.fromXml),
+      objectSizeGreaterThan:
+          _s.extractXmlIntValue(elem, 'ObjectSizeGreaterThan'),
+      objectSizeLessThan: _s.extractXmlIntValue(elem, 'ObjectSizeLessThan'),
+      prefix: _s.extractXmlStringValue(elem, 'Prefix'),
+      tag: _s.extractXmlChild(elem, 'Tag')?.let(S3Tag.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final and = this.and;
+    final objectSizeGreaterThan = this.objectSizeGreaterThan;
+    final objectSizeLessThan = this.objectSizeLessThan;
+    final prefix = this.prefix;
+    final tag = this.tag;
+    return {
+      if (and != null) 'And': and,
+      if (objectSizeGreaterThan != null)
+        'ObjectSizeGreaterThan': objectSizeGreaterThan,
+      if (objectSizeLessThan != null) 'ObjectSizeLessThan': objectSizeLessThan,
+      if (prefix != null) 'Prefix': prefix,
+      if (tag != null) 'Tag': tag,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final and = this.and;
+    final objectSizeGreaterThan = this.objectSizeGreaterThan;
+    final objectSizeLessThan = this.objectSizeLessThan;
+    final prefix = this.prefix;
+    final tag = this.tag;
+    final $children = <_s.XmlNode>[
+      if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
+      if (tag != null) tag.toXml('Tag'),
+      if (and != null) and.toXml('And'),
+      if (objectSizeGreaterThan != null)
+        _s.encodeXmlIntValue('ObjectSizeGreaterThan', objectSizeGreaterThan),
+      if (objectSizeLessThan != null)
+        _s.encodeXmlIntValue('ObjectSizeLessThan', objectSizeLessThan),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class ExpirationStatus {
+  static const enabled = ExpirationStatus._('Enabled');
+  static const disabled = ExpirationStatus._('Disabled');
 
   final String value;
 
-  const S3CannedAccessControlList._(this.value);
+  const ExpirationStatus._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static ExpirationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExpirationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ExpirationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The container of the noncurrent version expiration.
+class NoncurrentVersionExpiration {
+  /// Specifies how many noncurrent versions S3 on Outposts will retain. If there
+  /// are this many more recent noncurrent versions, S3 on Outposts will take the
+  /// associated action. For more information about noncurrent versions, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/intro-lifecycle-rules.html">Lifecycle
+  /// configuration elements</a> in the <i>Amazon S3 User Guide</i>.
+  final int? newerNoncurrentVersions;
+
+  /// Specifies the number of days an object is noncurrent before Amazon S3 can
+  /// perform the associated action. For information about the noncurrent days
+  /// calculations, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html#non-current-days-calculations">How
+  /// Amazon S3 Calculates When an Object Became Noncurrent</a> in the <i>Amazon
+  /// S3 User Guide</i>.
+  final int? noncurrentDays;
+
+  NoncurrentVersionExpiration({
+    this.newerNoncurrentVersions,
+    this.noncurrentDays,
+  });
+  factory NoncurrentVersionExpiration.fromXml(_s.XmlElement elem) {
+    return NoncurrentVersionExpiration(
+      newerNoncurrentVersions:
+          _s.extractXmlIntValue(elem, 'NewerNoncurrentVersions'),
+      noncurrentDays: _s.extractXmlIntValue(elem, 'NoncurrentDays'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final newerNoncurrentVersions = this.newerNoncurrentVersions;
+    final noncurrentDays = this.noncurrentDays;
+    return {
+      if (newerNoncurrentVersions != null)
+        'NewerNoncurrentVersions': newerNoncurrentVersions,
+      if (noncurrentDays != null) 'NoncurrentDays': noncurrentDays,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final newerNoncurrentVersions = this.newerNoncurrentVersions;
+    final noncurrentDays = this.noncurrentDays;
+    final $children = <_s.XmlNode>[
+      if (noncurrentDays != null)
+        _s.encodeXmlIntValue('NoncurrentDays', noncurrentDays),
+      if (newerNoncurrentVersions != null)
+        _s.encodeXmlIntValue(
+            'NewerNoncurrentVersions', newerNoncurrentVersions),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// The container for abort incomplete multipart upload
+class AbortIncompleteMultipartUpload {
+  /// Specifies the number of days after which Amazon S3 aborts an incomplete
+  /// multipart upload to the Outposts bucket.
+  final int? daysAfterInitiation;
+
+  AbortIncompleteMultipartUpload({
+    this.daysAfterInitiation,
+  });
+  factory AbortIncompleteMultipartUpload.fromXml(_s.XmlElement elem) {
+    return AbortIncompleteMultipartUpload(
+      daysAfterInitiation: _s.extractXmlIntValue(elem, 'DaysAfterInitiation'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final daysAfterInitiation = this.daysAfterInitiation;
+    return {
+      if (daysAfterInitiation != null)
+        'DaysAfterInitiation': daysAfterInitiation,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final daysAfterInitiation = this.daysAfterInitiation;
+    final $children = <_s.XmlNode>[
+      if (daysAfterInitiation != null)
+        _s.encodeXmlIntValue('DaysAfterInitiation', daysAfterInitiation),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// The container for the noncurrent version transition.
+class NoncurrentVersionTransition {
+  /// Specifies the number of days an object is noncurrent before Amazon S3 can
+  /// perform the associated action. For information about the noncurrent days
+  /// calculations, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html#non-current-days-calculations">
+  /// How Amazon S3 Calculates How Long an Object Has Been Noncurrent</a> in the
+  /// <i>Amazon S3 User Guide</i>.
+  final int? noncurrentDays;
+
+  /// The class of storage used to store the object.
+  final TransitionStorageClass? storageClass;
+
+  NoncurrentVersionTransition({
+    this.noncurrentDays,
+    this.storageClass,
+  });
+  factory NoncurrentVersionTransition.fromXml(_s.XmlElement elem) {
+    return NoncurrentVersionTransition(
+      noncurrentDays: _s.extractXmlIntValue(elem, 'NoncurrentDays'),
+      storageClass: _s
+          .extractXmlStringValue(elem, 'StorageClass')
+          ?.let(TransitionStorageClass.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final noncurrentDays = this.noncurrentDays;
+    final storageClass = this.storageClass;
+    return {
+      if (noncurrentDays != null) 'NoncurrentDays': noncurrentDays,
+      if (storageClass != null) 'StorageClass': storageClass.value,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final noncurrentDays = this.noncurrentDays;
+    final storageClass = this.storageClass;
+    final $children = <_s.XmlNode>[
+      if (noncurrentDays != null)
+        _s.encodeXmlIntValue('NoncurrentDays', noncurrentDays),
+      if (storageClass != null)
+        _s.encodeXmlStringValue('StorageClass', storageClass.value),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class TransitionStorageClass {
+  static const glacier = TransitionStorageClass._('GLACIER');
+  static const standardIa = TransitionStorageClass._('STANDARD_IA');
+  static const onezoneIa = TransitionStorageClass._('ONEZONE_IA');
+  static const intelligentTiering =
+      TransitionStorageClass._('INTELLIGENT_TIERING');
+  static const deepArchive = TransitionStorageClass._('DEEP_ARCHIVE');
+
+  final String value;
+
+  const TransitionStorageClass._(this.value);
 
   static const values = [
-    private,
-    publicRead,
-    publicReadWrite,
-    awsExecRead,
-    authenticatedRead,
-    bucketOwnerRead,
-    bucketOwnerFullControl
+    glacier,
+    standardIa,
+    onezoneIa,
+    intelligentTiering,
+    deepArchive
   ];
 
-  static S3CannedAccessControlList fromString(String value) =>
+  static TransitionStorageClass fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => S3CannedAccessControlList._(value));
+          orElse: () => TransitionStorageClass._(value));
 
   @override
   bool operator ==(other) =>
-      other is S3CannedAccessControlList && other.value == value;
+      other is TransitionStorageClass && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -15778,25 +14375,244 @@ class S3CannedAccessControlList {
   String toString() => value;
 }
 
-class S3ChecksumAlgorithm {
-  static const crc32 = S3ChecksumAlgorithm._('CRC32');
-  static const crc32c = S3ChecksumAlgorithm._('CRC32C');
-  static const sha1 = S3ChecksumAlgorithm._('SHA1');
-  static const sha256 = S3ChecksumAlgorithm._('SHA256');
+/// Specifies when an object transitions to a specified storage class. For more
+/// information about Amazon S3 Lifecycle configuration rules, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/lifecycle-transition-general-considerations.html">
+/// Transitioning objects using Amazon S3 Lifecycle</a> in the <i>Amazon S3 User
+/// Guide</i>.
+class Transition {
+  /// Indicates when objects are transitioned to the specified storage class. The
+  /// date value must be in ISO 8601 format. The time is always midnight UTC.
+  final DateTime? date;
+
+  /// Indicates the number of days after creation when objects are transitioned to
+  /// the specified storage class. The value must be a positive integer.
+  final int? days;
+
+  /// The storage class to which you want the object to transition.
+  final TransitionStorageClass? storageClass;
+
+  Transition({
+    this.date,
+    this.days,
+    this.storageClass,
+  });
+  factory Transition.fromXml(_s.XmlElement elem) {
+    return Transition(
+      date: _s.extractXmlDateTimeValue(elem, 'Date'),
+      days: _s.extractXmlIntValue(elem, 'Days'),
+      storageClass: _s
+          .extractXmlStringValue(elem, 'StorageClass')
+          ?.let(TransitionStorageClass.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final date = this.date;
+    final days = this.days;
+    final storageClass = this.storageClass;
+    return {
+      if (date != null) 'Date': iso8601ToJson(date),
+      if (days != null) 'Days': days,
+      if (storageClass != null) 'StorageClass': storageClass.value,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final date = this.date;
+    final days = this.days;
+    final storageClass = this.storageClass;
+    final $children = <_s.XmlNode>[
+      if (date != null) _s.encodeXmlDateTimeValue('Date', date),
+      if (days != null) _s.encodeXmlIntValue('Days', days),
+      if (storageClass != null)
+        _s.encodeXmlStringValue('StorageClass', storageClass.value),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// The container for the Outposts bucket lifecycle rule and operator.
+class LifecycleRuleAndOperator {
+  /// The non-inclusive minimum object size for the lifecycle rule. Setting this
+  /// property to 7 means the rule applies to objects with a size that is greater
+  /// than 7.
+  final int? objectSizeGreaterThan;
+
+  /// The non-inclusive maximum object size for the lifecycle rule. Setting this
+  /// property to 77 means the rule applies to objects with a size that is less
+  /// than 77.
+  final int? objectSizeLessThan;
+
+  /// Prefix identifying one or more objects to which the rule applies.
+  final String? prefix;
+
+  /// All of these tags must exist in the object's tag set in order for the rule
+  /// to apply.
+  final List<S3Tag>? tags;
+
+  LifecycleRuleAndOperator({
+    this.objectSizeGreaterThan,
+    this.objectSizeLessThan,
+    this.prefix,
+    this.tags,
+  });
+  factory LifecycleRuleAndOperator.fromXml(_s.XmlElement elem) {
+    return LifecycleRuleAndOperator(
+      objectSizeGreaterThan:
+          _s.extractXmlIntValue(elem, 'ObjectSizeGreaterThan'),
+      objectSizeLessThan: _s.extractXmlIntValue(elem, 'ObjectSizeLessThan'),
+      prefix: _s.extractXmlStringValue(elem, 'Prefix'),
+      tags: _s.extractXmlChild(elem, 'Tags')?.let(
+          (elem) => elem.findElements('member').map(S3Tag.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final objectSizeGreaterThan = this.objectSizeGreaterThan;
+    final objectSizeLessThan = this.objectSizeLessThan;
+    final prefix = this.prefix;
+    final tags = this.tags;
+    return {
+      if (objectSizeGreaterThan != null)
+        'ObjectSizeGreaterThan': objectSizeGreaterThan,
+      if (objectSizeLessThan != null) 'ObjectSizeLessThan': objectSizeLessThan,
+      if (prefix != null) 'Prefix': prefix,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final objectSizeGreaterThan = this.objectSizeGreaterThan;
+    final objectSizeLessThan = this.objectSizeLessThan;
+    final prefix = this.prefix;
+    final tags = this.tags;
+    final $children = <_s.XmlNode>[
+      if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
+      if (tags != null)
+        _s.XmlElement(
+            _s.XmlName.parts('Tags'), [], tags.map((e) => e.toXml('member'))),
+      if (objectSizeGreaterThan != null)
+        _s.encodeXmlIntValue('ObjectSizeGreaterThan', objectSizeGreaterThan),
+      if (objectSizeLessThan != null)
+        _s.encodeXmlIntValue('ObjectSizeLessThan', objectSizeLessThan),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// You can use the access point scope to restrict access to specific prefixes,
+/// API operations, or a combination of both.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-directory-buckets-manage-scope.html">Manage
+/// the scope of your access points for directory buckets</a>.
+class Scope {
+  /// You can include one or more API operations as permissions.
+  final List<ScopePermission>? permissions;
+
+  /// You can specify any amount of prefixes, but the total length of characters
+  /// of all prefixes must be less than 256 bytes in size.
+  final List<String>? prefixes;
+
+  Scope({
+    this.permissions,
+    this.prefixes,
+  });
+  factory Scope.fromXml(_s.XmlElement elem) {
+    return Scope(
+      permissions: _s.extractXmlChild(elem, 'Permissions')?.let((elem) => _s
+          .extractXmlStringListValues(elem, 'Permission')
+          .map(ScopePermission.fromString)
+          .toList()),
+      prefixes: _s
+          .extractXmlChild(elem, 'Prefixes')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Prefix')),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final permissions = this.permissions;
+    final prefixes = this.prefixes;
+    return {
+      if (permissions != null)
+        'Permissions': permissions.map((e) => e.value).toList(),
+      if (prefixes != null) 'Prefixes': prefixes,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final permissions = this.permissions;
+    final prefixes = this.prefixes;
+    final $children = <_s.XmlNode>[
+      if (prefixes != null)
+        _s.XmlElement(_s.XmlName.parts('Prefixes'), [],
+            prefixes.map((e) => _s.encodeXmlStringValue('Prefix', e))),
+      if (permissions != null)
+        _s.XmlElement(
+            _s.XmlName.parts('Permissions'),
+            [],
+            permissions
+                .map((e) => _s.encodeXmlStringValue('Permission', e.value))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class ScopePermission {
+  static const getObject = ScopePermission._('GetObject');
+  static const getObjectAttributes = ScopePermission._('GetObjectAttributes');
+  static const listMultipartUploadParts =
+      ScopePermission._('ListMultipartUploadParts');
+  static const listBucket = ScopePermission._('ListBucket');
+  static const listBucketMultipartUploads =
+      ScopePermission._('ListBucketMultipartUploads');
+  static const putObject = ScopePermission._('PutObject');
+  static const deleteObject = ScopePermission._('DeleteObject');
+  static const abortMultipartUpload = ScopePermission._('AbortMultipartUpload');
 
   final String value;
 
-  const S3ChecksumAlgorithm._(this.value);
+  const ScopePermission._(this.value);
 
-  static const values = [crc32, crc32c, sha1, sha256];
+  static const values = [
+    getObject,
+    getObjectAttributes,
+    listMultipartUploadParts,
+    listBucket,
+    listBucketMultipartUploads,
+    putObject,
+    deleteObject,
+    abortMultipartUpload
+  ];
 
-  static S3ChecksumAlgorithm fromString(String value) =>
+  static ScopePermission fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => S3ChecksumAlgorithm._(value));
+          orElse: () => ScopePermission._(value));
 
   @override
-  bool operator ==(other) =>
-      other is S3ChecksumAlgorithm && other.value == value;
+  bool operator ==(other) => other is ScopePermission && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -15805,312 +14621,1130 @@ class S3ChecksumAlgorithm {
   String toString() => value;
 }
 
-/// Contains the configuration parameters for a PUT Copy object operation. S3
-/// Batch Operations passes every object to the underlying
-/// <code>CopyObject</code> API operation. For more information about the
-/// parameters for this operation, see <a
-/// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectCOPY.html">CopyObject</a>.
-class S3CopyObjectOperation {
-  /// <p/> <note>
-  /// This functionality is not supported by directory buckets.
-  /// </note>
-  final List<S3Grant>? accessControlGrants;
+/// A configuration used when creating an Object Lambda Access Point.
+class ObjectLambdaConfiguration {
+  /// Standard access point associated with the Object Lambda Access Point.
+  final String supportingAccessPoint;
 
-  /// Specifies whether Amazon S3 should use an S3 Bucket Key for object
-  /// encryption with server-side encryption using Amazon Web Services KMS
-  /// (SSE-KMS). Setting this header to <code>true</code> causes Amazon S3 to use
-  /// an S3 Bucket Key for object encryption with SSE-KMS.
+  /// A container for transformation configurations for an Object Lambda Access
+  /// Point.
+  final List<ObjectLambdaTransformationConfiguration>
+      transformationConfigurations;
+
+  /// A container for allowed features. Valid inputs are
+  /// <code>GetObject-Range</code>, <code>GetObject-PartNumber</code>,
+  /// <code>HeadObject-Range</code>, and <code>HeadObject-PartNumber</code>.
+  final List<ObjectLambdaAllowedFeature>? allowedFeatures;
+
+  /// A container for whether the CloudWatch metrics configuration is enabled.
+  final bool? cloudWatchMetricsEnabled;
+
+  ObjectLambdaConfiguration({
+    required this.supportingAccessPoint,
+    required this.transformationConfigurations,
+    this.allowedFeatures,
+    this.cloudWatchMetricsEnabled,
+  });
+  factory ObjectLambdaConfiguration.fromXml(_s.XmlElement elem) {
+    return ObjectLambdaConfiguration(
+      supportingAccessPoint:
+          _s.extractXmlStringValue(elem, 'SupportingAccessPoint')!,
+      transformationConfigurations: _s
+          .extractXmlChild(elem, 'TransformationConfigurations')!
+          .findElements('TransformationConfiguration')
+          .map(ObjectLambdaTransformationConfiguration.fromXml)
+          .toList(),
+      allowedFeatures: _s.extractXmlChild(elem, 'AllowedFeatures')?.let(
+          (elem) => _s
+              .extractXmlStringListValues(elem, 'AllowedFeature')
+              .map(ObjectLambdaAllowedFeature.fromString)
+              .toList()),
+      cloudWatchMetricsEnabled:
+          _s.extractXmlBoolValue(elem, 'CloudWatchMetricsEnabled'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final supportingAccessPoint = this.supportingAccessPoint;
+    final transformationConfigurations = this.transformationConfigurations;
+    final allowedFeatures = this.allowedFeatures;
+    final cloudWatchMetricsEnabled = this.cloudWatchMetricsEnabled;
+    return {
+      'SupportingAccessPoint': supportingAccessPoint,
+      'TransformationConfigurations': transformationConfigurations,
+      if (allowedFeatures != null)
+        'AllowedFeatures': allowedFeatures.map((e) => e.value).toList(),
+      if (cloudWatchMetricsEnabled != null)
+        'CloudWatchMetricsEnabled': cloudWatchMetricsEnabled,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final supportingAccessPoint = this.supportingAccessPoint;
+    final transformationConfigurations = this.transformationConfigurations;
+    final allowedFeatures = this.allowedFeatures;
+    final cloudWatchMetricsEnabled = this.cloudWatchMetricsEnabled;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('SupportingAccessPoint', supportingAccessPoint),
+      if (cloudWatchMetricsEnabled != null)
+        _s.encodeXmlBoolValue(
+            'CloudWatchMetricsEnabled', cloudWatchMetricsEnabled),
+      if (allowedFeatures != null)
+        _s.XmlElement(
+            _s.XmlName.parts('AllowedFeatures'),
+            [],
+            allowedFeatures.map(
+                (e) => _s.encodeXmlStringValue('AllowedFeature', e.value))),
+      _s.XmlElement(
+          _s.XmlName.parts('TransformationConfigurations'),
+          [],
+          transformationConfigurations
+              .map((e) => e.toXml('TransformationConfiguration'))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A configuration used when creating an Object Lambda Access Point
+/// transformation.
+class ObjectLambdaTransformationConfiguration {
+  /// A container for the action of an Object Lambda Access Point configuration.
+  /// Valid inputs are <code>GetObject</code>, <code>ListObjects</code>,
+  /// <code>HeadObject</code>, and <code>ListObjectsV2</code>.
+  final List<ObjectLambdaTransformationConfigurationAction> actions;
+
+  /// A container for the content transformation of an Object Lambda Access Point
+  /// configuration.
+  final ObjectLambdaContentTransformation contentTransformation;
+
+  ObjectLambdaTransformationConfiguration({
+    required this.actions,
+    required this.contentTransformation,
+  });
+  factory ObjectLambdaTransformationConfiguration.fromXml(_s.XmlElement elem) {
+    return ObjectLambdaTransformationConfiguration(
+      actions: _s
+          .extractXmlStringListValues(
+              _s.extractXmlChild(elem, 'Actions')!, 'Action')
+          .map(ObjectLambdaTransformationConfigurationAction.fromString)
+          .toList(),
+      contentTransformation: ObjectLambdaContentTransformation.fromXml(
+          _s.extractXmlChild(elem, 'ContentTransformation')!),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actions = this.actions;
+    final contentTransformation = this.contentTransformation;
+    return {
+      'Actions': actions.map((e) => e.value).toList(),
+      'ContentTransformation': contentTransformation,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final actions = this.actions;
+    final contentTransformation = this.contentTransformation;
+    final $children = <_s.XmlNode>[
+      _s.XmlElement(_s.XmlName.parts('Actions'), [],
+          actions.map((e) => _s.encodeXmlStringValue('Action', e.value))),
+      contentTransformation.toXml('ContentTransformation'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A container for AwsLambdaTransformation.
+class ObjectLambdaContentTransformation {
+  /// A container for an Lambda function.
+  final AwsLambdaTransformation? awsLambda;
+
+  ObjectLambdaContentTransformation({
+    this.awsLambda,
+  });
+  factory ObjectLambdaContentTransformation.fromXml(_s.XmlElement elem) {
+    return ObjectLambdaContentTransformation(
+      awsLambda: _s
+          .extractXmlChild(elem, 'AwsLambda')
+          ?.let(AwsLambdaTransformation.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsLambda = this.awsLambda;
+    return {
+      if (awsLambda != null) 'AwsLambda': awsLambda,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final awsLambda = this.awsLambda;
+    final $children = <_s.XmlNode>[
+      if (awsLambda != null) awsLambda.toXml('AwsLambda'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Lambda function used to transform objects through an Object Lambda Access
+/// Point.
+class AwsLambdaTransformation {
+  /// The Amazon Resource Name (ARN) of the Lambda function.
+  final String functionArn;
+
+  /// Additional JSON that provides supplemental data to the Lambda function used
+  /// to transform objects.
+  final String? functionPayload;
+
+  AwsLambdaTransformation({
+    required this.functionArn,
+    this.functionPayload,
+  });
+  factory AwsLambdaTransformation.fromXml(_s.XmlElement elem) {
+    return AwsLambdaTransformation(
+      functionArn: _s.extractXmlStringValue(elem, 'FunctionArn')!,
+      functionPayload: _s.extractXmlStringValue(elem, 'FunctionPayload'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final functionArn = this.functionArn;
+    final functionPayload = this.functionPayload;
+    return {
+      'FunctionArn': functionArn,
+      if (functionPayload != null) 'FunctionPayload': functionPayload,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final functionArn = this.functionArn;
+    final functionPayload = this.functionPayload;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('FunctionArn', functionArn),
+      if (functionPayload != null)
+        _s.encodeXmlStringValue('FunctionPayload', functionPayload),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class ObjectLambdaTransformationConfigurationAction {
+  static const getObject =
+      ObjectLambdaTransformationConfigurationAction._('GetObject');
+  static const headObject =
+      ObjectLambdaTransformationConfigurationAction._('HeadObject');
+  static const listObjects =
+      ObjectLambdaTransformationConfigurationAction._('ListObjects');
+  static const listObjectsV2 =
+      ObjectLambdaTransformationConfigurationAction._('ListObjectsV2');
+
+  final String value;
+
+  const ObjectLambdaTransformationConfigurationAction._(this.value);
+
+  static const values = [getObject, headObject, listObjects, listObjectsV2];
+
+  static ObjectLambdaTransformationConfigurationAction fromString(
+          String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ObjectLambdaTransformationConfigurationAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ObjectLambdaTransformationConfigurationAction &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ObjectLambdaAllowedFeature {
+  static const getObjectRange = ObjectLambdaAllowedFeature._('GetObject-Range');
+  static const getObjectPartNumber =
+      ObjectLambdaAllowedFeature._('GetObject-PartNumber');
+  static const headObjectRange =
+      ObjectLambdaAllowedFeature._('HeadObject-Range');
+  static const headObjectPartNumber =
+      ObjectLambdaAllowedFeature._('HeadObject-PartNumber');
+
+  final String value;
+
+  const ObjectLambdaAllowedFeature._(this.value);
+
+  static const values = [
+    getObjectRange,
+    getObjectPartNumber,
+    headObjectRange,
+    headObjectPartNumber
+  ];
+
+  static ObjectLambdaAllowedFeature fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ObjectLambdaAllowedFeature._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ObjectLambdaAllowedFeature && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Each entry contains a Storage Lens group that exists in the specified home
+/// Region.
+class ListStorageLensGroupEntry {
+  /// Contains the Amazon Web Services Region where the Storage Lens group was
+  /// created.
+  final String homeRegion;
+
+  /// Contains the name of the Storage Lens group that exists in the specified
+  /// home Region.
+  final String name;
+
+  /// Contains the Amazon Resource Name (ARN) of the Storage Lens group. This
+  /// property is read-only.
+  final String storageLensGroupArn;
+
+  ListStorageLensGroupEntry({
+    required this.homeRegion,
+    required this.name,
+    required this.storageLensGroupArn,
+  });
+  factory ListStorageLensGroupEntry.fromXml(_s.XmlElement elem) {
+    return ListStorageLensGroupEntry(
+      homeRegion: _s.extractXmlStringValue(elem, 'HomeRegion')!,
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      storageLensGroupArn:
+          _s.extractXmlStringValue(elem, 'StorageLensGroupArn')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final homeRegion = this.homeRegion;
+    final name = this.name;
+    final storageLensGroupArn = this.storageLensGroupArn;
+    return {
+      'HomeRegion': homeRegion,
+      'Name': name,
+      'StorageLensGroupArn': storageLensGroupArn,
+    };
+  }
+}
+
+/// Part of <code>ListStorageLensConfigurationResult</code>. Each entry includes
+/// the description of the S3 Storage Lens configuration, its home Region,
+/// whether it is enabled, its Amazon Resource Name (ARN), and config ID.
+class ListStorageLensConfigurationEntry {
+  /// A container for the S3 Storage Lens home Region. Your metrics data is stored
+  /// and retained in your designated S3 Storage Lens home Region.
+  final String homeRegion;
+
+  /// A container for the S3 Storage Lens configuration ID.
+  final String id;
+
+  /// The ARN of the S3 Storage Lens configuration. This property is read-only.
+  final String storageLensArn;
+
+  /// A container for whether the S3 Storage Lens configuration is enabled. This
+  /// property is required.
+  final bool? isEnabled;
+
+  ListStorageLensConfigurationEntry({
+    required this.homeRegion,
+    required this.id,
+    required this.storageLensArn,
+    this.isEnabled,
+  });
+  factory ListStorageLensConfigurationEntry.fromXml(_s.XmlElement elem) {
+    return ListStorageLensConfigurationEntry(
+      homeRegion: _s.extractXmlStringValue(elem, 'HomeRegion')!,
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      storageLensArn: _s.extractXmlStringValue(elem, 'StorageLensArn')!,
+      isEnabled: _s.extractXmlBoolValue(elem, 'IsEnabled'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final homeRegion = this.homeRegion;
+    final id = this.id;
+    final storageLensArn = this.storageLensArn;
+    final isEnabled = this.isEnabled;
+    return {
+      'HomeRegion': homeRegion,
+      'Id': id,
+      'StorageLensArn': storageLensArn,
+      if (isEnabled != null) 'IsEnabled': isEnabled,
+    };
+  }
+}
+
+/// The container for the regional bucket.
+class RegionalBucket {
   ///
-  /// Specifying this header with an <i>object</i> action doesn’t affect
-  /// <i>bucket-level</i> settings for S3 Bucket Key.
-  /// <note>
-  /// This functionality is not supported by directory buckets.
-  /// </note>
-  final bool? bucketKeyEnabled;
+  final String bucket;
 
-  /// <p/> <note>
-  /// This functionality is not supported by directory buckets.
-  /// </note>
-  final S3CannedAccessControlList? cannedAccessControlList;
+  /// The creation date of the regional bucket
+  final DateTime creationDate;
 
-  /// Indicates the algorithm that you want Amazon S3 to use to create the
-  /// checksum. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">
-  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
-  final S3ChecksumAlgorithm? checksumAlgorithm;
+  ///
+  final bool publicAccessBlockEnabled;
 
-  /// <p/>
-  final S3MetadataDirective? metadataDirective;
+  /// The Amazon Resource Name (ARN) for the regional bucket.
+  final String? bucketArn;
 
-  /// <p/>
-  final DateTime? modifiedSinceConstraint;
+  /// The Outposts ID of the regional bucket.
+  final String? outpostId;
 
-  /// If you don't provide this parameter, Amazon S3 copies all the metadata from
-  /// the original objects. If you specify an empty set, the new objects will have
-  /// no tags. Otherwise, Amazon S3 assigns the supplied tags to the new objects.
-  final S3ObjectMetadata? newObjectMetadata;
+  RegionalBucket({
+    required this.bucket,
+    required this.creationDate,
+    required this.publicAccessBlockEnabled,
+    this.bucketArn,
+    this.outpostId,
+  });
+  factory RegionalBucket.fromXml(_s.XmlElement elem) {
+    return RegionalBucket(
+      bucket: _s.extractXmlStringValue(elem, 'Bucket')!,
+      creationDate: _s.extractXmlDateTimeValue(elem, 'CreationDate')!,
+      publicAccessBlockEnabled:
+          _s.extractXmlBoolValue(elem, 'PublicAccessBlockEnabled')!,
+      bucketArn: _s.extractXmlStringValue(elem, 'BucketArn'),
+      outpostId: _s.extractXmlStringValue(elem, 'OutpostId'),
+    );
+  }
 
-  /// Specifies a list of tags to add to the destination objects after they are
-  /// copied. If <code>NewObjectTagging</code> is not specified, the tags of the
-  /// source objects are copied to destination objects by default.
-  /// <note>
-  /// <b>Directory buckets</b> - Tags aren't supported by directory buckets. If
-  /// your source objects have tags and your destination bucket is a directory
-  /// bucket, specify an empty tag set in the <code>NewObjectTagging</code> field
-  /// to prevent copying the source object tags to the directory bucket.
-  /// </note>
-  final List<S3Tag>? newObjectTagging;
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final creationDate = this.creationDate;
+    final publicAccessBlockEnabled = this.publicAccessBlockEnabled;
+    final bucketArn = this.bucketArn;
+    final outpostId = this.outpostId;
+    return {
+      'Bucket': bucket,
+      'CreationDate': iso8601ToJson(creationDate),
+      'PublicAccessBlockEnabled': publicAccessBlockEnabled,
+      if (bucketArn != null) 'BucketArn': bucketArn,
+      if (outpostId != null) 'OutpostId': outpostId,
+    };
+  }
+}
 
-  /// The legal hold status to be applied to all objects in the Batch Operations
-  /// job.
-  /// <note>
-  /// This functionality is not supported by directory buckets.
-  /// </note>
-  final S3ObjectLockLegalHoldStatus? objectLockLegalHoldStatus;
+/// A collection of statuses for a Multi-Region Access Point in the various
+/// Regions it supports.
+class MultiRegionAccessPointReport {
+  /// The alias for the Multi-Region Access Point. For more information about the
+  /// distinction between the name and the alias of an Multi-Region Access Point,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/CreatingMultiRegionAccessPoints.html#multi-region-access-point-naming">Rules
+  /// for naming Amazon S3 Multi-Region Access Points</a>.
+  final String? alias;
 
-  /// The retention mode to be applied to all objects in the Batch Operations job.
-  /// <note>
-  /// This functionality is not supported by directory buckets.
-  /// </note>
-  final S3ObjectLockMode? objectLockMode;
+  /// When the Multi-Region Access Point create request was received.
+  final DateTime? createdAt;
 
-  /// The date when the applied object retention configuration expires on all
-  /// objects in the Batch Operations job.
-  /// <note>
-  /// This functionality is not supported by directory buckets.
-  /// </note>
-  final DateTime? objectLockRetainUntilDate;
+  /// The name of the Multi-Region Access Point.
+  final String? name;
+  final PublicAccessBlockConfiguration? publicAccessBlock;
 
-  /// If the destination bucket is configured as a website, specifies an optional
-  /// metadata property for website redirects,
-  /// <code>x-amz-website-redirect-location</code>. Allows webpage redirects if
-  /// the object copy is accessed through a website endpoint.
-  /// <note>
-  /// This functionality is not supported by directory buckets.
-  /// </note>
-  final String? redirectLocation;
+  /// A collection of the Regions and buckets associated with the Multi-Region
+  /// Access Point.
+  final List<RegionReport>? regions;
 
-  /// <p/> <note>
-  /// This functionality is not supported by directory buckets.
-  /// </note>
-  final bool? requesterPays;
+  /// The current status of the Multi-Region Access Point.
+  ///
+  /// <code>CREATING</code> and <code>DELETING</code> are temporary states that
+  /// exist while the request is propagating and being completed. If a
+  /// Multi-Region Access Point has a status of <code>PARTIALLY_CREATED</code>,
+  /// you can retry creation or send a request to delete the Multi-Region Access
+  /// Point. If a Multi-Region Access Point has a status of
+  /// <code>PARTIALLY_DELETED</code>, you can retry a delete request to finish the
+  /// deletion of the Multi-Region Access Point.
+  final MultiRegionAccessPointStatus? status;
 
-  /// <p/> <note>
-  /// This functionality is not supported by directory buckets.
-  /// </note>
-  final String? sSEAwsKmsKeyId;
+  MultiRegionAccessPointReport({
+    this.alias,
+    this.createdAt,
+    this.name,
+    this.publicAccessBlock,
+    this.regions,
+    this.status,
+  });
+  factory MultiRegionAccessPointReport.fromXml(_s.XmlElement elem) {
+    return MultiRegionAccessPointReport(
+      alias: _s.extractXmlStringValue(elem, 'Alias'),
+      createdAt: _s.extractXmlDateTimeValue(elem, 'CreatedAt'),
+      name: _s.extractXmlStringValue(elem, 'Name'),
+      publicAccessBlock: _s
+          .extractXmlChild(elem, 'PublicAccessBlock')
+          ?.let(PublicAccessBlockConfiguration.fromXml),
+      regions: _s.extractXmlChild(elem, 'Regions')?.let((elem) =>
+          elem.findElements('Region').map(RegionReport.fromXml).toList()),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(MultiRegionAccessPointStatus.fromString),
+    );
+  }
 
-  /// Specify the storage class for the destination objects in a <code>Copy</code>
-  /// operation.
-  /// <note>
-  /// <b>Directory buckets </b> - This functionality is not supported by directory
-  /// buckets.
-  /// </note>
-  final S3StorageClass? storageClass;
+  Map<String, dynamic> toJson() {
+    final alias = this.alias;
+    final createdAt = this.createdAt;
+    final name = this.name;
+    final publicAccessBlock = this.publicAccessBlock;
+    final regions = this.regions;
+    final status = this.status;
+    return {
+      if (alias != null) 'Alias': alias,
+      if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
+      if (name != null) 'Name': name,
+      if (publicAccessBlock != null) 'PublicAccessBlock': publicAccessBlock,
+      if (regions != null) 'Regions': regions,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
 
-  /// Specifies the folder prefix that you want the objects to be copied into. For
-  /// example, to copy objects into a folder named <code>Folder1</code> in the
-  /// destination bucket, set the <code>TargetKeyPrefix</code> property to
-  /// <code>Folder1</code>.
-  final String? targetKeyPrefix;
+class MultiRegionAccessPointStatus {
+  static const ready = MultiRegionAccessPointStatus._('READY');
+  static const inconsistentAcrossRegions =
+      MultiRegionAccessPointStatus._('INCONSISTENT_ACROSS_REGIONS');
+  static const creating = MultiRegionAccessPointStatus._('CREATING');
+  static const partiallyCreated =
+      MultiRegionAccessPointStatus._('PARTIALLY_CREATED');
+  static const partiallyDeleted =
+      MultiRegionAccessPointStatus._('PARTIALLY_DELETED');
+  static const deleting = MultiRegionAccessPointStatus._('DELETING');
 
-  /// Specifies the destination bucket Amazon Resource Name (ARN) for the batch
-  /// copy operation.
+  final String value;
+
+  const MultiRegionAccessPointStatus._(this.value);
+
+  static const values = [
+    ready,
+    inconsistentAcrossRegions,
+    creating,
+    partiallyCreated,
+    partiallyDeleted,
+    deleting
+  ];
+
+  static MultiRegionAccessPointStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MultiRegionAccessPointStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MultiRegionAccessPointStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A combination of a bucket and Region that's part of a Multi-Region Access
+/// Point.
+class RegionReport {
+  /// The name of the bucket.
+  final String? bucket;
+
+  /// The Amazon Web Services account ID that owns the Amazon S3 bucket that's
+  /// associated with this Multi-Region Access Point.
+  final String? bucketAccountId;
+
+  /// The name of the Region.
+  final String? region;
+
+  RegionReport({
+    this.bucket,
+    this.bucketAccountId,
+    this.region,
+  });
+  factory RegionReport.fromXml(_s.XmlElement elem) {
+    return RegionReport(
+      bucket: _s.extractXmlStringValue(elem, 'Bucket'),
+      bucketAccountId: _s.extractXmlStringValue(elem, 'BucketAccountId'),
+      region: _s.extractXmlStringValue(elem, 'Region'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final bucketAccountId = this.bucketAccountId;
+    final region = this.region;
+    return {
+      if (bucket != null) 'Bucket': bucket,
+      if (bucketAccountId != null) 'BucketAccountId': bucketAccountId,
+      if (region != null) 'Region': region,
+    };
+  }
+}
+
+/// Contains the configuration and status information for a single job retrieved
+/// as part of a job list.
+class JobListDescriptor {
+  /// A timestamp indicating when the specified job was created.
+  final DateTime? creationTime;
+
+  /// The user-specified description that was included in the specified job's
+  /// <code>Create Job</code> request.
+  final String? description;
+
+  /// The ID for the specified job.
+  final String? jobId;
+
+  /// The operation that the specified job is configured to run on every object
+  /// listed in the manifest.
+  final OperationName? operation;
+
+  /// The current priority for the specified job.
+  final int? priority;
+
+  /// Describes the total number of tasks that the specified job has run, the
+  /// number of tasks that succeeded, and the number of tasks that failed.
+  final JobProgressSummary? progressSummary;
+
+  /// The specified job's current status.
+  final JobStatus? status;
+
+  /// A timestamp indicating when the specified job terminated. A job's
+  /// termination date is the date and time when it succeeded, failed, or was
+  /// canceled.
+  final DateTime? terminationDate;
+
+  JobListDescriptor({
+    this.creationTime,
+    this.description,
+    this.jobId,
+    this.operation,
+    this.priority,
+    this.progressSummary,
+    this.status,
+    this.terminationDate,
+  });
+  factory JobListDescriptor.fromXml(_s.XmlElement elem) {
+    return JobListDescriptor(
+      creationTime: _s.extractXmlDateTimeValue(elem, 'CreationTime'),
+      description: _s.extractXmlStringValue(elem, 'Description'),
+      jobId: _s.extractXmlStringValue(elem, 'JobId'),
+      operation: _s
+          .extractXmlStringValue(elem, 'Operation')
+          ?.let(OperationName.fromString),
+      priority: _s.extractXmlIntValue(elem, 'Priority'),
+      progressSummary: _s
+          .extractXmlChild(elem, 'ProgressSummary')
+          ?.let(JobProgressSummary.fromXml),
+      status:
+          _s.extractXmlStringValue(elem, 'Status')?.let(JobStatus.fromString),
+      terminationDate: _s.extractXmlDateTimeValue(elem, 'TerminationDate'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final description = this.description;
+    final jobId = this.jobId;
+    final operation = this.operation;
+    final priority = this.priority;
+    final progressSummary = this.progressSummary;
+    final status = this.status;
+    final terminationDate = this.terminationDate;
+    return {
+      if (creationTime != null) 'CreationTime': iso8601ToJson(creationTime),
+      if (description != null) 'Description': description,
+      if (jobId != null) 'JobId': jobId,
+      if (operation != null) 'Operation': operation.value,
+      if (priority != null) 'Priority': priority,
+      if (progressSummary != null) 'ProgressSummary': progressSummary,
+      if (status != null) 'Status': status.value,
+      if (terminationDate != null)
+        'TerminationDate': iso8601ToJson(terminationDate),
+    };
+  }
+}
+
+class OperationName {
+  static const lambdaInvoke = OperationName._('LambdaInvoke');
+  static const s3PutObjectCopy = OperationName._('S3PutObjectCopy');
+  static const s3PutObjectAcl = OperationName._('S3PutObjectAcl');
+  static const s3PutObjectTagging = OperationName._('S3PutObjectTagging');
+  static const s3DeleteObjectTagging = OperationName._('S3DeleteObjectTagging');
+  static const s3InitiateRestoreObject =
+      OperationName._('S3InitiateRestoreObject');
+  static const s3PutObjectLegalHold = OperationName._('S3PutObjectLegalHold');
+  static const s3PutObjectRetention = OperationName._('S3PutObjectRetention');
+  static const s3ReplicateObject = OperationName._('S3ReplicateObject');
+  static const s3ComputeObjectChecksum =
+      OperationName._('S3ComputeObjectChecksum');
+  static const s3UpdateObjectEncryption =
+      OperationName._('S3UpdateObjectEncryption');
+
+  final String value;
+
+  const OperationName._(this.value);
+
+  static const values = [
+    lambdaInvoke,
+    s3PutObjectCopy,
+    s3PutObjectAcl,
+    s3PutObjectTagging,
+    s3DeleteObjectTagging,
+    s3InitiateRestoreObject,
+    s3PutObjectLegalHold,
+    s3PutObjectRetention,
+    s3ReplicateObject,
+    s3ComputeObjectChecksum,
+    s3UpdateObjectEncryption
+  ];
+
+  static OperationName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OperationName._(value));
+
+  @override
+  bool operator ==(other) => other is OperationName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the total number of tasks that the specified job has started, the
+/// number of tasks that succeeded, and the number of tasks that failed.
+class JobProgressSummary {
+  ///
+  final int? numberOfTasksFailed;
+
+  ///
+  final int? numberOfTasksSucceeded;
+
+  /// The JobTimers attribute of a job's progress summary.
+  final JobTimers? timers;
+
+  ///
+  final int? totalNumberOfTasks;
+
+  JobProgressSummary({
+    this.numberOfTasksFailed,
+    this.numberOfTasksSucceeded,
+    this.timers,
+    this.totalNumberOfTasks,
+  });
+  factory JobProgressSummary.fromXml(_s.XmlElement elem) {
+    return JobProgressSummary(
+      numberOfTasksFailed: _s.extractXmlIntValue(elem, 'NumberOfTasksFailed'),
+      numberOfTasksSucceeded:
+          _s.extractXmlIntValue(elem, 'NumberOfTasksSucceeded'),
+      timers: _s.extractXmlChild(elem, 'Timers')?.let(JobTimers.fromXml),
+      totalNumberOfTasks: _s.extractXmlIntValue(elem, 'TotalNumberOfTasks'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final numberOfTasksFailed = this.numberOfTasksFailed;
+    final numberOfTasksSucceeded = this.numberOfTasksSucceeded;
+    final timers = this.timers;
+    final totalNumberOfTasks = this.totalNumberOfTasks;
+    return {
+      if (numberOfTasksFailed != null)
+        'NumberOfTasksFailed': numberOfTasksFailed,
+      if (numberOfTasksSucceeded != null)
+        'NumberOfTasksSucceeded': numberOfTasksSucceeded,
+      if (timers != null) 'Timers': timers,
+      if (totalNumberOfTasks != null) 'TotalNumberOfTasks': totalNumberOfTasks,
+    };
+  }
+}
+
+/// Provides timing details for the job.
+class JobTimers {
+  /// Indicates the elapsed time in seconds the job has been in the Active job
+  /// state.
+  final int? elapsedTimeInActiveSeconds;
+
+  JobTimers({
+    this.elapsedTimeInActiveSeconds,
+  });
+  factory JobTimers.fromXml(_s.XmlElement elem) {
+    return JobTimers(
+      elapsedTimeInActiveSeconds:
+          _s.extractXmlIntValue(elem, 'ElapsedTimeInActiveSeconds'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final elapsedTimeInActiveSeconds = this.elapsedTimeInActiveSeconds;
+    return {
+      if (elapsedTimeInActiveSeconds != null)
+        'ElapsedTimeInActiveSeconds': elapsedTimeInActiveSeconds,
+    };
+  }
+}
+
+/// Part of <code>ListCallerAccessGrantsResult</code>. Each entry includes the
+/// permission level (READ, WRITE, or READWRITE) and the grant scope of the
+/// access grant. If the grant also includes an application ARN, the grantee can
+/// only access the S3 data through this application.
+class ListCallerAccessGrantsEntry {
+  /// The Amazon Resource Name (ARN) of an Amazon Web Services IAM Identity Center
+  /// application associated with your Identity Center instance. If the grant
+  /// includes an application ARN, the grantee can only access the S3 data through
+  /// this application.
+  final String? applicationArn;
+
+  /// The S3 path of the data to which you have been granted access.
+  final String? grantScope;
+
+  /// The type of permission granted, which can be one of the following values:
   ///
   /// <ul>
   /// <li>
-  /// <b>General purpose buckets</b> - For example, to copy objects to a general
-  /// purpose bucket named <code>destinationBucket</code>, set the
-  /// <code>TargetResource</code> property to
-  /// <code>arn:aws:s3:::destinationBucket</code>.
+  /// <code>READ</code> - Grants read-only access to the S3 data.
   /// </li>
   /// <li>
-  /// <b>Directory buckets</b> - For example, to copy objects to a directory
-  /// bucket named <code>destinationBucket</code> in the Availability Zone;
-  /// identified by the AZ ID <code>usw2-az1</code>, set the
-  /// <code>TargetResource</code> property to
-  /// <code>arn:aws:s3express:<i>region</i>:<i>account_id</i>:/bucket/<i>destination_bucket_base_name</i>--<i>usw2-az1</i>--x-s3</code>.
+  /// <code>WRITE</code> - Grants write-only access to the S3 data.
+  /// </li>
+  /// <li>
+  /// <code>READWRITE</code> - Grants both read and write access to the S3 data.
   /// </li>
   /// </ul>
-  final String? targetResource;
+  final Permission? permission;
 
-  /// <p/>
-  final DateTime? unModifiedSinceConstraint;
-
-  S3CopyObjectOperation({
-    this.accessControlGrants,
-    this.bucketKeyEnabled,
-    this.cannedAccessControlList,
-    this.checksumAlgorithm,
-    this.metadataDirective,
-    this.modifiedSinceConstraint,
-    this.newObjectMetadata,
-    this.newObjectTagging,
-    this.objectLockLegalHoldStatus,
-    this.objectLockMode,
-    this.objectLockRetainUntilDate,
-    this.redirectLocation,
-    this.requesterPays,
-    this.sSEAwsKmsKeyId,
-    this.storageClass,
-    this.targetKeyPrefix,
-    this.targetResource,
-    this.unModifiedSinceConstraint,
+  ListCallerAccessGrantsEntry({
+    this.applicationArn,
+    this.grantScope,
+    this.permission,
   });
-  factory S3CopyObjectOperation.fromXml(_s.XmlElement elem) {
-    return S3CopyObjectOperation(
-      accessControlGrants: _s.extractXmlChild(elem, 'AccessControlGrants')?.let(
-          (elem) => elem.findElements('member').map(S3Grant.fromXml).toList()),
-      bucketKeyEnabled: _s.extractXmlBoolValue(elem, 'BucketKeyEnabled'),
-      cannedAccessControlList: _s
-          .extractXmlStringValue(elem, 'CannedAccessControlList')
-          ?.let(S3CannedAccessControlList.fromString),
-      checksumAlgorithm: _s
-          .extractXmlStringValue(elem, 'ChecksumAlgorithm')
-          ?.let(S3ChecksumAlgorithm.fromString),
-      metadataDirective: _s
-          .extractXmlStringValue(elem, 'MetadataDirective')
-          ?.let(S3MetadataDirective.fromString),
-      modifiedSinceConstraint:
-          _s.extractXmlDateTimeValue(elem, 'ModifiedSinceConstraint'),
-      newObjectMetadata: _s
-          .extractXmlChild(elem, 'NewObjectMetadata')
-          ?.let(S3ObjectMetadata.fromXml),
-      newObjectTagging: _s.extractXmlChild(elem, 'NewObjectTagging')?.let(
-          (elem) => elem.findElements('member').map(S3Tag.fromXml).toList()),
-      objectLockLegalHoldStatus: _s
-          .extractXmlStringValue(elem, 'ObjectLockLegalHoldStatus')
-          ?.let(S3ObjectLockLegalHoldStatus.fromString),
-      objectLockMode: _s
-          .extractXmlStringValue(elem, 'ObjectLockMode')
-          ?.let(S3ObjectLockMode.fromString),
-      objectLockRetainUntilDate:
-          _s.extractXmlDateTimeValue(elem, 'ObjectLockRetainUntilDate'),
-      redirectLocation: _s.extractXmlStringValue(elem, 'RedirectLocation'),
-      requesterPays: _s.extractXmlBoolValue(elem, 'RequesterPays'),
-      sSEAwsKmsKeyId: _s.extractXmlStringValue(elem, 'SSEAwsKmsKeyId'),
-      storageClass: _s
-          .extractXmlStringValue(elem, 'StorageClass')
-          ?.let(S3StorageClass.fromString),
-      targetKeyPrefix: _s.extractXmlStringValue(elem, 'TargetKeyPrefix'),
-      targetResource: _s.extractXmlStringValue(elem, 'TargetResource'),
-      unModifiedSinceConstraint:
-          _s.extractXmlDateTimeValue(elem, 'UnModifiedSinceConstraint'),
+  factory ListCallerAccessGrantsEntry.fromXml(_s.XmlElement elem) {
+    return ListCallerAccessGrantsEntry(
+      applicationArn: _s.extractXmlStringValue(elem, 'ApplicationArn'),
+      grantScope: _s.extractXmlStringValue(elem, 'GrantScope'),
+      permission: _s
+          .extractXmlStringValue(elem, 'Permission')
+          ?.let(Permission.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final accessControlGrants = this.accessControlGrants;
-    final bucketKeyEnabled = this.bucketKeyEnabled;
-    final cannedAccessControlList = this.cannedAccessControlList;
-    final checksumAlgorithm = this.checksumAlgorithm;
-    final metadataDirective = this.metadataDirective;
-    final modifiedSinceConstraint = this.modifiedSinceConstraint;
-    final newObjectMetadata = this.newObjectMetadata;
-    final newObjectTagging = this.newObjectTagging;
-    final objectLockLegalHoldStatus = this.objectLockLegalHoldStatus;
-    final objectLockMode = this.objectLockMode;
-    final objectLockRetainUntilDate = this.objectLockRetainUntilDate;
-    final redirectLocation = this.redirectLocation;
-    final requesterPays = this.requesterPays;
-    final sSEAwsKmsKeyId = this.sSEAwsKmsKeyId;
-    final storageClass = this.storageClass;
-    final targetKeyPrefix = this.targetKeyPrefix;
-    final targetResource = this.targetResource;
-    final unModifiedSinceConstraint = this.unModifiedSinceConstraint;
+    final applicationArn = this.applicationArn;
+    final grantScope = this.grantScope;
+    final permission = this.permission;
     return {
-      if (accessControlGrants != null)
-        'AccessControlGrants': accessControlGrants,
-      if (bucketKeyEnabled != null) 'BucketKeyEnabled': bucketKeyEnabled,
-      if (cannedAccessControlList != null)
-        'CannedAccessControlList': cannedAccessControlList.value,
-      if (checksumAlgorithm != null)
-        'ChecksumAlgorithm': checksumAlgorithm.value,
-      if (metadataDirective != null)
-        'MetadataDirective': metadataDirective.value,
-      if (modifiedSinceConstraint != null)
-        'ModifiedSinceConstraint': iso8601ToJson(modifiedSinceConstraint),
-      if (newObjectMetadata != null) 'NewObjectMetadata': newObjectMetadata,
-      if (newObjectTagging != null) 'NewObjectTagging': newObjectTagging,
-      if (objectLockLegalHoldStatus != null)
-        'ObjectLockLegalHoldStatus': objectLockLegalHoldStatus.value,
-      if (objectLockMode != null) 'ObjectLockMode': objectLockMode.value,
-      if (objectLockRetainUntilDate != null)
-        'ObjectLockRetainUntilDate': iso8601ToJson(objectLockRetainUntilDate),
-      if (redirectLocation != null) 'RedirectLocation': redirectLocation,
-      if (requesterPays != null) 'RequesterPays': requesterPays,
-      if (sSEAwsKmsKeyId != null) 'SSEAwsKmsKeyId': sSEAwsKmsKeyId,
-      if (storageClass != null) 'StorageClass': storageClass.value,
-      if (targetKeyPrefix != null) 'TargetKeyPrefix': targetKeyPrefix,
-      if (targetResource != null) 'TargetResource': targetResource,
-      if (unModifiedSinceConstraint != null)
-        'UnModifiedSinceConstraint': iso8601ToJson(unModifiedSinceConstraint),
+      if (applicationArn != null) 'ApplicationArn': applicationArn,
+      if (grantScope != null) 'GrantScope': grantScope,
+      if (permission != null) 'Permission': permission.value,
+    };
+  }
+}
+
+class Permission {
+  static const read = Permission._('READ');
+  static const write = Permission._('WRITE');
+  static const readwrite = Permission._('READWRITE');
+
+  final String value;
+
+  const Permission._(this.value);
+
+  static const values = [read, write, readwrite];
+
+  static Permission fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Permission._(value));
+
+  @override
+  bool operator ==(other) => other is Permission && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An access point with an attached Lambda function used to access transformed
+/// data from an Amazon S3 bucket.
+class ObjectLambdaAccessPoint {
+  /// The name of the Object Lambda Access Point.
+  final String name;
+
+  /// The alias of the Object Lambda Access Point.
+  final ObjectLambdaAccessPointAlias? alias;
+
+  /// Specifies the ARN for the Object Lambda Access Point.
+  final String? objectLambdaAccessPointArn;
+
+  ObjectLambdaAccessPoint({
+    required this.name,
+    this.alias,
+    this.objectLambdaAccessPointArn,
+  });
+  factory ObjectLambdaAccessPoint.fromXml(_s.XmlElement elem) {
+    return ObjectLambdaAccessPoint(
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      alias: _s
+          .extractXmlChild(elem, 'Alias')
+          ?.let(ObjectLambdaAccessPointAlias.fromXml),
+      objectLambdaAccessPointArn:
+          _s.extractXmlStringValue(elem, 'ObjectLambdaAccessPointArn'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final alias = this.alias;
+    final objectLambdaAccessPointArn = this.objectLambdaAccessPointArn;
+    return {
+      'Name': name,
+      if (alias != null) 'Alias': alias,
+      if (objectLambdaAccessPointArn != null)
+        'ObjectLambdaAccessPointArn': objectLambdaAccessPointArn,
+    };
+  }
+}
+
+/// The alias of an Object Lambda Access Point. For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/olap-use.html#ol-access-points-alias">How
+/// to use a bucket-style alias for your S3 bucket Object Lambda Access
+/// Point</a>.
+class ObjectLambdaAccessPointAlias {
+  /// The status of the Object Lambda Access Point alias. If the status is
+  /// <code>PROVISIONING</code>, the Object Lambda Access Point is provisioning
+  /// the alias and the alias is not ready for use yet. If the status is
+  /// <code>READY</code>, the Object Lambda Access Point alias is successfully
+  /// provisioned and ready for use.
+  final ObjectLambdaAccessPointAliasStatus? status;
+
+  /// The alias value of the Object Lambda Access Point.
+  final String? value;
+
+  ObjectLambdaAccessPointAlias({
+    this.status,
+    this.value,
+  });
+  factory ObjectLambdaAccessPointAlias.fromXml(_s.XmlElement elem) {
+    return ObjectLambdaAccessPointAlias(
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(ObjectLambdaAccessPointAliasStatus.fromString),
+      value: _s.extractXmlStringValue(elem, 'Value'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final value = this.value;
+    return {
+      if (status != null) 'Status': status.value,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+class ObjectLambdaAccessPointAliasStatus {
+  static const provisioning =
+      ObjectLambdaAccessPointAliasStatus._('PROVISIONING');
+  static const ready = ObjectLambdaAccessPointAliasStatus._('READY');
+
+  final String value;
+
+  const ObjectLambdaAccessPointAliasStatus._(this.value);
+
+  static const values = [provisioning, ready];
+
+  static ObjectLambdaAccessPointAliasStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ObjectLambdaAccessPointAliasStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ObjectLambdaAccessPointAliasStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An access point used to access a bucket.
+class AccessPoint {
+  /// The name of the bucket associated with this access point.
+  final String bucket;
+
+  /// The name of this access point.
+  final String name;
+
+  /// Indicates whether this access point allows access from the public internet.
+  /// If <code>VpcConfiguration</code> is specified for this access point, then
+  /// <code>NetworkOrigin</code> is <code>VPC</code>, and the access point doesn't
+  /// allow access from the public internet. Otherwise, <code>NetworkOrigin</code>
+  /// is <code>Internet</code>, and the access point allows access from the public
+  /// internet, subject to the access point and bucket access policies.
+  final NetworkOrigin networkOrigin;
+
+  /// The ARN for the access point.
+  final String? accessPointArn;
+
+  /// The name or alias of the access point.
+  final String? alias;
+
+  /// The Amazon Web Services account ID associated with the S3 bucket associated
+  /// with this access point.
+  final String? bucketAccountId;
+
+  /// A unique identifier for the data source of the access point.
+  final String? dataSourceId;
+
+  /// The type of the data source that the access point is attached to.
+  final String? dataSourceType;
+
+  /// The virtual private cloud (VPC) configuration for this access point, if one
+  /// exists.
+  /// <note>
+  /// This element is empty if this access point is an Amazon S3 on Outposts
+  /// access point that is used by other Amazon Web Services services.
+  /// </note>
+  final VpcConfiguration? vpcConfiguration;
+
+  AccessPoint({
+    required this.bucket,
+    required this.name,
+    required this.networkOrigin,
+    this.accessPointArn,
+    this.alias,
+    this.bucketAccountId,
+    this.dataSourceId,
+    this.dataSourceType,
+    this.vpcConfiguration,
+  });
+  factory AccessPoint.fromXml(_s.XmlElement elem) {
+    return AccessPoint(
+      bucket: _s.extractXmlStringValue(elem, 'Bucket')!,
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      networkOrigin: _s
+          .extractXmlStringValue(elem, 'NetworkOrigin')!
+          .let(NetworkOrigin.fromString),
+      accessPointArn: _s.extractXmlStringValue(elem, 'AccessPointArn'),
+      alias: _s.extractXmlStringValue(elem, 'Alias'),
+      bucketAccountId: _s.extractXmlStringValue(elem, 'BucketAccountId'),
+      dataSourceId: _s.extractXmlStringValue(elem, 'DataSourceId'),
+      dataSourceType: _s.extractXmlStringValue(elem, 'DataSourceType'),
+      vpcConfiguration: _s
+          .extractXmlChild(elem, 'VpcConfiguration')
+          ?.let(VpcConfiguration.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final name = this.name;
+    final networkOrigin = this.networkOrigin;
+    final accessPointArn = this.accessPointArn;
+    final alias = this.alias;
+    final bucketAccountId = this.bucketAccountId;
+    final dataSourceId = this.dataSourceId;
+    final dataSourceType = this.dataSourceType;
+    final vpcConfiguration = this.vpcConfiguration;
+    return {
+      'Bucket': bucket,
+      'Name': name,
+      'NetworkOrigin': networkOrigin.value,
+      if (accessPointArn != null) 'AccessPointArn': accessPointArn,
+      if (alias != null) 'Alias': alias,
+      if (bucketAccountId != null) 'BucketAccountId': bucketAccountId,
+      if (dataSourceId != null) 'DataSourceId': dataSourceId,
+      if (dataSourceType != null) 'DataSourceType': dataSourceType,
+      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
+    };
+  }
+}
+
+class NetworkOrigin {
+  static const internet = NetworkOrigin._('Internet');
+  static const vpc = NetworkOrigin._('VPC');
+
+  final String value;
+
+  const NetworkOrigin._(this.value);
+
+  static const values = [internet, vpc];
+
+  static NetworkOrigin fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NetworkOrigin._(value));
+
+  @override
+  bool operator ==(other) => other is NetworkOrigin && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The virtual private cloud (VPC) configuration for an access point.
+class VpcConfiguration {
+  /// If this field is specified, this access point will only allow connections
+  /// from the specified VPC ID.
+  final String vpcId;
+
+  VpcConfiguration({
+    required this.vpcId,
+  });
+  factory VpcConfiguration.fromXml(_s.XmlElement elem) {
+    return VpcConfiguration(
+      vpcId: _s.extractXmlStringValue(elem, 'VpcId')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final vpcId = this.vpcId;
+    return {
+      'VpcId': vpcId,
     };
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final accessControlGrants = this.accessControlGrants;
-    final bucketKeyEnabled = this.bucketKeyEnabled;
-    final cannedAccessControlList = this.cannedAccessControlList;
-    final checksumAlgorithm = this.checksumAlgorithm;
-    final metadataDirective = this.metadataDirective;
-    final modifiedSinceConstraint = this.modifiedSinceConstraint;
-    final newObjectMetadata = this.newObjectMetadata;
-    final newObjectTagging = this.newObjectTagging;
-    final objectLockLegalHoldStatus = this.objectLockLegalHoldStatus;
-    final objectLockMode = this.objectLockMode;
-    final objectLockRetainUntilDate = this.objectLockRetainUntilDate;
-    final redirectLocation = this.redirectLocation;
-    final requesterPays = this.requesterPays;
-    final sSEAwsKmsKeyId = this.sSEAwsKmsKeyId;
-    final storageClass = this.storageClass;
-    final targetKeyPrefix = this.targetKeyPrefix;
-    final targetResource = this.targetResource;
-    final unModifiedSinceConstraint = this.unModifiedSinceConstraint;
+    final vpcId = this.vpcId;
     final $children = <_s.XmlNode>[
-      if (targetResource != null)
-        _s.encodeXmlStringValue('TargetResource', targetResource),
-      if (cannedAccessControlList != null)
-        _s.encodeXmlStringValue(
-            'CannedAccessControlList', cannedAccessControlList.value),
-      if (accessControlGrants != null)
-        _s.XmlElement(_s.XmlName.parts('AccessControlGrants'), [],
-            accessControlGrants.map((e) => e.toXml('member'))),
-      if (metadataDirective != null)
-        _s.encodeXmlStringValue('MetadataDirective', metadataDirective.value),
-      if (modifiedSinceConstraint != null)
-        _s.encodeXmlDateTimeValue(
-            'ModifiedSinceConstraint', modifiedSinceConstraint),
-      if (newObjectMetadata != null)
-        newObjectMetadata.toXml('NewObjectMetadata'),
-      if (newObjectTagging != null)
-        _s.XmlElement(_s.XmlName.parts('NewObjectTagging'), [],
-            newObjectTagging.map((e) => e.toXml('member'))),
-      if (redirectLocation != null)
-        _s.encodeXmlStringValue('RedirectLocation', redirectLocation),
-      if (requesterPays != null)
-        _s.encodeXmlBoolValue('RequesterPays', requesterPays),
-      if (storageClass != null)
-        _s.encodeXmlStringValue('StorageClass', storageClass.value),
-      if (unModifiedSinceConstraint != null)
-        _s.encodeXmlDateTimeValue(
-            'UnModifiedSinceConstraint', unModifiedSinceConstraint),
-      if (sSEAwsKmsKeyId != null)
-        _s.encodeXmlStringValue('SSEAwsKmsKeyId', sSEAwsKmsKeyId),
-      if (targetKeyPrefix != null)
-        _s.encodeXmlStringValue('TargetKeyPrefix', targetKeyPrefix),
-      if (objectLockLegalHoldStatus != null)
-        _s.encodeXmlStringValue(
-            'ObjectLockLegalHoldStatus', objectLockLegalHoldStatus.value),
-      if (objectLockMode != null)
-        _s.encodeXmlStringValue('ObjectLockMode', objectLockMode.value),
-      if (objectLockRetainUntilDate != null)
-        _s.encodeXmlDateTimeValue(
-            'ObjectLockRetainUntilDate', objectLockRetainUntilDate),
-      if (bucketKeyEnabled != null)
-        _s.encodeXmlBoolValue('BucketKeyEnabled', bucketKeyEnabled),
-      if (checksumAlgorithm != null)
-        _s.encodeXmlStringValue('ChecksumAlgorithm', checksumAlgorithm.value),
+      _s.encodeXmlStringValue('VpcId', vpcId),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -16123,23 +15757,1649 @@ class S3CopyObjectOperation {
   }
 }
 
-/// Contains no configuration parameters because the DELETE Object tagging
-/// (<code>DeleteObjectTagging</code>) API operation accepts only the bucket
-/// name and key name as parameters, which are defined in the job's manifest.
-class S3DeleteObjectTaggingOperation {
-  S3DeleteObjectTaggingOperation();
-  factory S3DeleteObjectTaggingOperation.fromXml(
-      // ignore: avoid_unused_constructor_parameters
-      _s.XmlElement elem) {
-    return S3DeleteObjectTaggingOperation();
+/// A container for information about the registered location.
+class ListAccessGrantsLocationsEntry {
+  /// The Amazon Resource Name (ARN) of the registered location.
+  final String? accessGrantsLocationArn;
+
+  /// The ID of the registered location to which you are granting access. S3
+  /// Access Grants assigns this ID when you register the location. S3 Access
+  /// Grants assigns the ID <code>default</code> to the default location
+  /// <code>s3://</code> and assigns an auto-generated ID to other locations that
+  /// you register.
+  final String? accessGrantsLocationId;
+
+  /// The date and time when you registered the location.
+  final DateTime? createdAt;
+
+  /// The Amazon Resource Name (ARN) of the IAM role for the registered location.
+  /// S3 Access Grants assumes this role to manage access to the registered
+  /// location.
+  final String? iAMRoleArn;
+
+  /// The S3 path to the location that you are registering. The location scope can
+  /// be the default S3 location <code>s3://</code>, the S3 path to a bucket
+  /// <code>s3://<bucket></code>, or the S3 path to a bucket and prefix
+  /// <code>s3://<bucket>/<prefix></code>. A prefix in S3 is a string of
+  /// characters at the beginning of an object key name used to organize the
+  /// objects that you store in your S3 buckets. For example, object key names
+  /// that start with the <code>engineering/</code> prefix or object key names
+  /// that start with the <code>marketing/campaigns/</code> prefix.
+  final String? locationScope;
+
+  ListAccessGrantsLocationsEntry({
+    this.accessGrantsLocationArn,
+    this.accessGrantsLocationId,
+    this.createdAt,
+    this.iAMRoleArn,
+    this.locationScope,
+  });
+  factory ListAccessGrantsLocationsEntry.fromXml(_s.XmlElement elem) {
+    return ListAccessGrantsLocationsEntry(
+      accessGrantsLocationArn:
+          _s.extractXmlStringValue(elem, 'AccessGrantsLocationArn'),
+      accessGrantsLocationId:
+          _s.extractXmlStringValue(elem, 'AccessGrantsLocationId'),
+      createdAt: _s.extractXmlDateTimeValue(elem, 'CreatedAt'),
+      iAMRoleArn: _s.extractXmlStringValue(elem, 'IAMRoleArn'),
+      locationScope: _s.extractXmlStringValue(elem, 'LocationScope'),
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final accessGrantsLocationArn = this.accessGrantsLocationArn;
+    final accessGrantsLocationId = this.accessGrantsLocationId;
+    final createdAt = this.createdAt;
+    final iAMRoleArn = this.iAMRoleArn;
+    final locationScope = this.locationScope;
+    return {
+      if (accessGrantsLocationArn != null)
+        'AccessGrantsLocationArn': accessGrantsLocationArn,
+      if (accessGrantsLocationId != null)
+        'AccessGrantsLocationId': accessGrantsLocationId,
+      if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
+      if (iAMRoleArn != null) 'IAMRoleArn': iAMRoleArn,
+      if (locationScope != null) 'LocationScope': locationScope,
+    };
+  }
+}
+
+/// Information about the S3 Access Grants instance.
+class ListAccessGrantsInstanceEntry {
+  /// The Amazon Resource Name (ARN) of the S3 Access Grants instance.
+  final String? accessGrantsInstanceArn;
+
+  /// The ID of the S3 Access Grants instance. The ID is <code>default</code>. You
+  /// can have one S3 Access Grants instance per Region per account.
+  final String? accessGrantsInstanceId;
+
+  /// The date and time when you created the S3 Access Grants instance.
+  final DateTime? createdAt;
+
+  /// If you associated your S3 Access Grants instance with an Amazon Web Services
+  /// IAM Identity Center instance, this field returns the Amazon Resource Name
+  /// (ARN) of the IAM Identity Center instance application; a subresource of the
+  /// original Identity Center instance. S3 Access Grants creates this Identity
+  /// Center application for the specific S3 Access Grants instance.
+  final String? identityCenterApplicationArn;
+
+  /// If you associated your S3 Access Grants instance with an Amazon Web Services
+  /// IAM Identity Center instance, this field returns the Amazon Resource Name
+  /// (ARN) of the IAM Identity Center instance application; a subresource of the
+  /// original Identity Center instance. S3 Access Grants creates this Identity
+  /// Center application for the specific S3 Access Grants instance.
+  final String? identityCenterArn;
+
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services IAM Identity
+  /// Center instance that you are associating with your S3 Access Grants
+  /// instance. An IAM Identity Center instance is your corporate identity
+  /// directory that you added to the IAM Identity Center. You can use the <a
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_ListInstances.html">ListInstances</a>
+  /// API operation to retrieve a list of your Identity Center instances and their
+  /// ARNs.
+  final String? identityCenterInstanceArn;
+
+  ListAccessGrantsInstanceEntry({
+    this.accessGrantsInstanceArn,
+    this.accessGrantsInstanceId,
+    this.createdAt,
+    this.identityCenterApplicationArn,
+    this.identityCenterArn,
+    this.identityCenterInstanceArn,
+  });
+  factory ListAccessGrantsInstanceEntry.fromXml(_s.XmlElement elem) {
+    return ListAccessGrantsInstanceEntry(
+      accessGrantsInstanceArn:
+          _s.extractXmlStringValue(elem, 'AccessGrantsInstanceArn'),
+      accessGrantsInstanceId:
+          _s.extractXmlStringValue(elem, 'AccessGrantsInstanceId'),
+      createdAt: _s.extractXmlDateTimeValue(elem, 'CreatedAt'),
+      identityCenterApplicationArn:
+          _s.extractXmlStringValue(elem, 'IdentityCenterApplicationArn'),
+      identityCenterArn: _s.extractXmlStringValue(elem, 'IdentityCenterArn'),
+      identityCenterInstanceArn:
+          _s.extractXmlStringValue(elem, 'IdentityCenterInstanceArn'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessGrantsInstanceArn = this.accessGrantsInstanceArn;
+    final accessGrantsInstanceId = this.accessGrantsInstanceId;
+    final createdAt = this.createdAt;
+    final identityCenterApplicationArn = this.identityCenterApplicationArn;
+    final identityCenterArn = this.identityCenterArn;
+    final identityCenterInstanceArn = this.identityCenterInstanceArn;
+    return {
+      if (accessGrantsInstanceArn != null)
+        'AccessGrantsInstanceArn': accessGrantsInstanceArn,
+      if (accessGrantsInstanceId != null)
+        'AccessGrantsInstanceId': accessGrantsInstanceId,
+      if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
+      if (identityCenterApplicationArn != null)
+        'IdentityCenterApplicationArn': identityCenterApplicationArn,
+      if (identityCenterArn != null) 'IdentityCenterArn': identityCenterArn,
+      if (identityCenterInstanceArn != null)
+        'IdentityCenterInstanceArn': identityCenterInstanceArn,
+    };
+  }
+}
+
+/// Information about the access grant.
+class ListAccessGrantEntry {
+  /// The Amazon Resource Name (ARN) of the access grant.
+  final String? accessGrantArn;
+
+  /// The ID of the access grant. S3 Access Grants auto-generates this ID when you
+  /// create the access grant.
+  final String? accessGrantId;
+
+  /// The configuration options of the grant location. The grant location is the
+  /// S3 path to the data to which you are granting access.
+  final AccessGrantsLocationConfiguration? accessGrantsLocationConfiguration;
+
+  /// The ID of the registered location to which you are granting access. S3
+  /// Access Grants assigns this ID when you register the location. S3 Access
+  /// Grants assigns the ID <code>default</code> to the default location
+  /// <code>s3://</code> and assigns an auto-generated ID to other locations that
+  /// you register.
+  final String? accessGrantsLocationId;
+
+  /// The Amazon Resource Name (ARN) of an Amazon Web Services IAM Identity Center
+  /// application associated with your Identity Center instance. If the grant
+  /// includes an application ARN, the grantee can only access the S3 data through
+  /// this application.
+  final String? applicationArn;
+
+  /// The date and time when you created the S3 Access Grants instance.
+  final DateTime? createdAt;
+
+  /// The S3 path of the data to which you are granting access. It is the result
+  /// of appending the <code>Subprefix</code> to the location scope.
+  final String? grantScope;
+
+  /// The user, group, or role to which you are granting access. You can grant
+  /// access to an IAM user or role. If you have added your corporate directory to
+  /// Amazon Web Services IAM Identity Center and associated your Identity Center
+  /// instance with your S3 Access Grants instance, the grantee can also be a
+  /// corporate directory user or group.
+  final Grantee? grantee;
+
+  /// The type of access granted to your S3 data, which can be set to one of the
+  /// following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>READ</code> – Grant read-only access to the S3 data.
+  /// </li>
+  /// <li>
+  /// <code>WRITE</code> – Grant write-only access to the S3 data.
+  /// </li>
+  /// <li>
+  /// <code>READWRITE</code> – Grant both read and write access to the S3 data.
+  /// </li>
+  /// </ul>
+  final Permission? permission;
+
+  ListAccessGrantEntry({
+    this.accessGrantArn,
+    this.accessGrantId,
+    this.accessGrantsLocationConfiguration,
+    this.accessGrantsLocationId,
+    this.applicationArn,
+    this.createdAt,
+    this.grantScope,
+    this.grantee,
+    this.permission,
+  });
+  factory ListAccessGrantEntry.fromXml(_s.XmlElement elem) {
+    return ListAccessGrantEntry(
+      accessGrantArn: _s.extractXmlStringValue(elem, 'AccessGrantArn'),
+      accessGrantId: _s.extractXmlStringValue(elem, 'AccessGrantId'),
+      accessGrantsLocationConfiguration: _s
+          .extractXmlChild(elem, 'AccessGrantsLocationConfiguration')
+          ?.let(AccessGrantsLocationConfiguration.fromXml),
+      accessGrantsLocationId:
+          _s.extractXmlStringValue(elem, 'AccessGrantsLocationId'),
+      applicationArn: _s.extractXmlStringValue(elem, 'ApplicationArn'),
+      createdAt: _s.extractXmlDateTimeValue(elem, 'CreatedAt'),
+      grantScope: _s.extractXmlStringValue(elem, 'GrantScope'),
+      grantee: _s.extractXmlChild(elem, 'Grantee')?.let(Grantee.fromXml),
+      permission: _s
+          .extractXmlStringValue(elem, 'Permission')
+          ?.let(Permission.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessGrantArn = this.accessGrantArn;
+    final accessGrantId = this.accessGrantId;
+    final accessGrantsLocationConfiguration =
+        this.accessGrantsLocationConfiguration;
+    final accessGrantsLocationId = this.accessGrantsLocationId;
+    final applicationArn = this.applicationArn;
+    final createdAt = this.createdAt;
+    final grantScope = this.grantScope;
+    final grantee = this.grantee;
+    final permission = this.permission;
+    return {
+      if (accessGrantArn != null) 'AccessGrantArn': accessGrantArn,
+      if (accessGrantId != null) 'AccessGrantId': accessGrantId,
+      if (accessGrantsLocationConfiguration != null)
+        'AccessGrantsLocationConfiguration': accessGrantsLocationConfiguration,
+      if (accessGrantsLocationId != null)
+        'AccessGrantsLocationId': accessGrantsLocationId,
+      if (applicationArn != null) 'ApplicationArn': applicationArn,
+      if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
+      if (grantScope != null) 'GrantScope': grantScope,
+      if (grantee != null) 'Grantee': grantee,
+      if (permission != null) 'Permission': permission.value,
+    };
+  }
+}
+
+/// The user, group, or role to which you are granting access. You can grant
+/// access to an IAM user or role. If you have added your corporate directory to
+/// Amazon Web Services IAM Identity Center and associated your Identity Center
+/// instance with your S3 Access Grants instance, the grantee can also be a
+/// corporate directory user or group.
+class Grantee {
+  /// The unique identifier of the <code>Grantee</code>. If the grantee type is
+  /// <code>IAM</code>, the identifier is the IAM Amazon Resource Name (ARN) of
+  /// the user or role. If the grantee type is a directory user or group, the
+  /// identifier is 128-bit universally unique identifier (UUID) in the format
+  /// <code>a1b2c3d4-5678-90ab-cdef-EXAMPLE11111</code>. You can obtain this UUID
+  /// from your Amazon Web Services IAM Identity Center instance.
+  final String? granteeIdentifier;
+
+  /// The type of the grantee to which access has been granted. It can be one of
+  /// the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>IAM</code> - An IAM user or role.
+  /// </li>
+  /// <li>
+  /// <code>DIRECTORY_USER</code> - Your corporate directory user. You can use
+  /// this option if you have added your corporate identity directory to IAM
+  /// Identity Center and associated the IAM Identity Center instance with your S3
+  /// Access Grants instance.
+  /// </li>
+  /// <li>
+  /// <code>DIRECTORY_GROUP</code> - Your corporate directory group. You can use
+  /// this option if you have added your corporate identity directory to IAM
+  /// Identity Center and associated the IAM Identity Center instance with your S3
+  /// Access Grants instance.
+  /// </li>
+  /// </ul>
+  final GranteeType? granteeType;
+
+  Grantee({
+    this.granteeIdentifier,
+    this.granteeType,
+  });
+  factory Grantee.fromXml(_s.XmlElement elem) {
+    return Grantee(
+      granteeIdentifier: _s.extractXmlStringValue(elem, 'GranteeIdentifier'),
+      granteeType: _s
+          .extractXmlStringValue(elem, 'GranteeType')
+          ?.let(GranteeType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final granteeIdentifier = this.granteeIdentifier;
+    final granteeType = this.granteeType;
+    return {
+      if (granteeIdentifier != null) 'GranteeIdentifier': granteeIdentifier,
+      if (granteeType != null) 'GranteeType': granteeType.value,
+    };
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final $children = <_s.XmlNode>[];
+    final granteeIdentifier = this.granteeIdentifier;
+    final granteeType = this.granteeType;
+    final $children = <_s.XmlNode>[
+      if (granteeType != null)
+        _s.encodeXmlStringValue('GranteeType', granteeType.value),
+      if (granteeIdentifier != null)
+        _s.encodeXmlStringValue('GranteeIdentifier', granteeIdentifier),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// The configuration options of the S3 Access Grants location. It contains the
+/// <code>S3SubPrefix</code> field. The grant scope, the data to which you are
+/// granting access, is the result of appending the <code>Subprefix</code> field
+/// to the scope of the registered location.
+class AccessGrantsLocationConfiguration {
+  /// The <code>S3SubPrefix</code> is appended to the location scope creating the
+  /// grant scope. Use this field to narrow the scope of the grant to a subset of
+  /// the location scope. This field is required if the location scope is the
+  /// default location <code>s3://</code> because you cannot create a grant for
+  /// all of your S3 data in the Region and must narrow the scope. For example, if
+  /// the location scope is the default location <code>s3://</code>, the
+  /// <code>S3SubPrefx</code> can be a <bucket-name>/*, so the full grant scope
+  /// path would be <code>s3://<bucket-name>/*</code>. Or the
+  /// <code>S3SubPrefx</code> can be <code><bucket-name>/<prefix-name>*</code>, so
+  /// the full grant scope path would be or
+  /// <code>s3://<bucket-name>/<prefix-name>*</code>.
+  ///
+  /// If the <code>S3SubPrefix</code> includes a prefix, append the wildcard
+  /// character <code>*</code> after the prefix to indicate that you want to
+  /// include all object key names in the bucket that start with that prefix.
+  final String? s3SubPrefix;
+
+  AccessGrantsLocationConfiguration({
+    this.s3SubPrefix,
+  });
+  factory AccessGrantsLocationConfiguration.fromXml(_s.XmlElement elem) {
+    return AccessGrantsLocationConfiguration(
+      s3SubPrefix: _s.extractXmlStringValue(elem, 'S3SubPrefix'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3SubPrefix = this.s3SubPrefix;
+    return {
+      if (s3SubPrefix != null) 'S3SubPrefix': s3SubPrefix,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final s3SubPrefix = this.s3SubPrefix;
+    final $children = <_s.XmlNode>[
+      if (s3SubPrefix != null)
+        _s.encodeXmlStringValue('S3SubPrefix', s3SubPrefix),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class GranteeType {
+  static const directoryUser = GranteeType._('DIRECTORY_USER');
+  static const directoryGroup = GranteeType._('DIRECTORY_GROUP');
+  static const iam = GranteeType._('IAM');
+
+  final String value;
+
+  const GranteeType._(this.value);
+
+  static const values = [directoryUser, directoryGroup, iam];
+
+  static GranteeType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => GranteeType._(value));
+
+  @override
+  bool operator ==(other) => other is GranteeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Indicates whether this access point policy is public. For more information
+/// about how Amazon S3 evaluates policies to determine whether they are public,
+/// see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status">The
+/// Meaning of "Public"</a> in the <i>Amazon S3 User Guide</i>.
+class PolicyStatus {
+  ///
+  final bool? isPublic;
+
+  PolicyStatus({
+    this.isPublic,
+  });
+  factory PolicyStatus.fromXml(_s.XmlElement elem) {
+    return PolicyStatus(
+      isPublic: _s.extractXmlBoolValue(elem, 'IsPublic'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isPublic = this.isPublic;
+    return {
+      if (isPublic != null) 'IsPublic': isPublic,
+    };
+  }
+}
+
+/// The Multi-Region Access Point access control policy.
+///
+/// When you update the policy, the update is first listed as the proposed
+/// policy. After the update is finished and all Regions have been updated, the
+/// proposed policy is listed as the established policy. If both policies have
+/// the same version number, the proposed policy is the established policy.
+class MultiRegionAccessPointPolicyDocument {
+  /// The last established policy for the Multi-Region Access Point.
+  final EstablishedMultiRegionAccessPointPolicy? established;
+
+  /// The proposed policy for the Multi-Region Access Point.
+  final ProposedMultiRegionAccessPointPolicy? proposed;
+
+  MultiRegionAccessPointPolicyDocument({
+    this.established,
+    this.proposed,
+  });
+  factory MultiRegionAccessPointPolicyDocument.fromXml(_s.XmlElement elem) {
+    return MultiRegionAccessPointPolicyDocument(
+      established: _s
+          .extractXmlChild(elem, 'Established')
+          ?.let(EstablishedMultiRegionAccessPointPolicy.fromXml),
+      proposed: _s
+          .extractXmlChild(elem, 'Proposed')
+          ?.let(ProposedMultiRegionAccessPointPolicy.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final established = this.established;
+    final proposed = this.proposed;
+    return {
+      if (established != null) 'Established': established,
+      if (proposed != null) 'Proposed': proposed,
+    };
+  }
+}
+
+/// The last established access control policy for a Multi-Region Access Point.
+///
+/// When you update the policy, the update is first listed as the proposed
+/// policy. After the update is finished and all Regions have been updated, the
+/// proposed policy is listed as the established policy. If both policies have
+/// the same version number, the proposed policy is the established policy.
+class EstablishedMultiRegionAccessPointPolicy {
+  /// The details of the last established policy.
+  final String? policy;
+
+  EstablishedMultiRegionAccessPointPolicy({
+    this.policy,
+  });
+  factory EstablishedMultiRegionAccessPointPolicy.fromXml(_s.XmlElement elem) {
+    return EstablishedMultiRegionAccessPointPolicy(
+      policy: _s.extractXmlStringValue(elem, 'Policy'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policy = this.policy;
+    return {
+      if (policy != null) 'Policy': policy,
+    };
+  }
+}
+
+/// The proposed access control policy for the Multi-Region Access Point.
+///
+/// When you update the policy, the update is first listed as the proposed
+/// policy. After the update is finished and all Regions have been updated, the
+/// proposed policy is listed as the established policy. If both policies have
+/// the same version number, the proposed policy is the established policy.
+class ProposedMultiRegionAccessPointPolicy {
+  /// The details of the proposed policy.
+  final String? policy;
+
+  ProposedMultiRegionAccessPointPolicy({
+    this.policy,
+  });
+  factory ProposedMultiRegionAccessPointPolicy.fromXml(_s.XmlElement elem) {
+    return ProposedMultiRegionAccessPointPolicy(
+      policy: _s.extractXmlStringValue(elem, 'Policy'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policy = this.policy;
+    return {
+      if (policy != null) 'Policy': policy,
+    };
+  }
+}
+
+/// The Amazon Web Services Security Token Service temporary credential that S3
+/// Access Grants vends to grantees and client applications.
+class Credentials {
+  /// The unique access key ID of the Amazon Web Services STS temporary credential
+  /// that S3 Access Grants vends to grantees and client applications.
+  final String? accessKeyId;
+
+  /// The expiration date and time of the temporary credential that S3 Access
+  /// Grants vends to grantees and client applications.
+  final DateTime? expiration;
+
+  /// The secret access key of the Amazon Web Services STS temporary credential
+  /// that S3 Access Grants vends to grantees and client applications.
+  final String? secretAccessKey;
+
+  /// The Amazon Web Services STS temporary credential that S3 Access Grants vends
+  /// to grantees and client applications.
+  final String? sessionToken;
+
+  Credentials({
+    this.accessKeyId,
+    this.expiration,
+    this.secretAccessKey,
+    this.sessionToken,
+  });
+  factory Credentials.fromXml(_s.XmlElement elem) {
+    return Credentials(
+      accessKeyId: _s.extractXmlStringValue(elem, 'AccessKeyId'),
+      expiration: _s.extractXmlDateTimeValue(elem, 'Expiration'),
+      secretAccessKey: _s.extractXmlStringValue(elem, 'SecretAccessKey'),
+      sessionToken: _s.extractXmlStringValue(elem, 'SessionToken'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessKeyId = this.accessKeyId;
+    final expiration = this.expiration;
+    final secretAccessKey = this.secretAccessKey;
+    final sessionToken = this.sessionToken;
+    return {
+      if (accessKeyId != null) 'AccessKeyId': accessKeyId,
+      if (expiration != null) 'Expiration': iso8601ToJson(expiration),
+      if (secretAccessKey != null) 'SecretAccessKey': secretAccessKey,
+      if (sessionToken != null) 'SessionToken': sessionToken,
+    };
+  }
+}
+
+class Privilege {
+  static const minimal = Privilege._('Minimal');
+  static const $default = Privilege._('Default');
+
+  final String value;
+
+  const Privilege._(this.value);
+
+  static const values = [minimal, $default];
+
+  static Privilege fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Privilege._(value));
+
+  @override
+  bool operator ==(other) => other is Privilege && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class S3PrefixType {
+  static const object = S3PrefixType._('Object');
+
+  final String value;
+
+  const S3PrefixType._(this.value);
+
+  static const values = [object];
+
+  static S3PrefixType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => S3PrefixType._(value));
+
+  @override
+  bool operator ==(other) => other is S3PrefixType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class MFADeleteStatus {
+  static const enabled = MFADeleteStatus._('Enabled');
+  static const disabled = MFADeleteStatus._('Disabled');
+
+  final String value;
+
+  const MFADeleteStatus._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static MFADeleteStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MFADeleteStatus._(value));
+
+  @override
+  bool operator ==(other) => other is MFADeleteStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A container for the information about an asynchronous operation.
+class AsyncOperation {
+  /// The time that the request was sent to the service.
+  final DateTime? creationTime;
+
+  /// The specific operation for the asynchronous request.
+  final AsyncOperationName? operation;
+
+  /// The parameters associated with the request.
+  final AsyncRequestParameters? requestParameters;
+
+  /// The current status of the request.
+  final String? requestStatus;
+
+  /// The request token associated with the request.
+  final String? requestTokenARN;
+
+  /// The details of the response.
+  final AsyncResponseDetails? responseDetails;
+
+  AsyncOperation({
+    this.creationTime,
+    this.operation,
+    this.requestParameters,
+    this.requestStatus,
+    this.requestTokenARN,
+    this.responseDetails,
+  });
+  factory AsyncOperation.fromXml(_s.XmlElement elem) {
+    return AsyncOperation(
+      creationTime: _s.extractXmlDateTimeValue(elem, 'CreationTime'),
+      operation: _s
+          .extractXmlStringValue(elem, 'Operation')
+          ?.let(AsyncOperationName.fromString),
+      requestParameters: _s
+          .extractXmlChild(elem, 'RequestParameters')
+          ?.let(AsyncRequestParameters.fromXml),
+      requestStatus: _s.extractXmlStringValue(elem, 'RequestStatus'),
+      requestTokenARN: _s.extractXmlStringValue(elem, 'RequestTokenARN'),
+      responseDetails: _s
+          .extractXmlChild(elem, 'ResponseDetails')
+          ?.let(AsyncResponseDetails.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final operation = this.operation;
+    final requestParameters = this.requestParameters;
+    final requestStatus = this.requestStatus;
+    final requestTokenARN = this.requestTokenARN;
+    final responseDetails = this.responseDetails;
+    return {
+      if (creationTime != null) 'CreationTime': iso8601ToJson(creationTime),
+      if (operation != null) 'Operation': operation.value,
+      if (requestParameters != null) 'RequestParameters': requestParameters,
+      if (requestStatus != null) 'RequestStatus': requestStatus,
+      if (requestTokenARN != null) 'RequestTokenARN': requestTokenARN,
+      if (responseDetails != null) 'ResponseDetails': responseDetails,
+    };
+  }
+}
+
+class AsyncOperationName {
+  static const createMultiRegionAccessPoint =
+      AsyncOperationName._('CreateMultiRegionAccessPoint');
+  static const deleteMultiRegionAccessPoint =
+      AsyncOperationName._('DeleteMultiRegionAccessPoint');
+  static const putMultiRegionAccessPointPolicy =
+      AsyncOperationName._('PutMultiRegionAccessPointPolicy');
+
+  final String value;
+
+  const AsyncOperationName._(this.value);
+
+  static const values = [
+    createMultiRegionAccessPoint,
+    deleteMultiRegionAccessPoint,
+    putMultiRegionAccessPointPolicy
+  ];
+
+  static AsyncOperationName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AsyncOperationName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AsyncOperationName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A container for the request parameters associated with an asynchronous
+/// request.
+class AsyncRequestParameters {
+  /// A container of the parameters for a <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateMultiRegionAccessPoint.html">CreateMultiRegionAccessPoint</a>
+  /// request.
+  final CreateMultiRegionAccessPointInput? createMultiRegionAccessPointRequest;
+
+  /// A container of the parameters for a <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteMultiRegionAccessPoint.html">DeleteMultiRegionAccessPoint</a>
+  /// request.
+  final DeleteMultiRegionAccessPointInput? deleteMultiRegionAccessPointRequest;
+
+  /// A container of the parameters for a <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutMultiRegionAccessPoint.html">PutMultiRegionAccessPoint</a>
+  /// request.
+  final PutMultiRegionAccessPointPolicyInput?
+      putMultiRegionAccessPointPolicyRequest;
+
+  AsyncRequestParameters({
+    this.createMultiRegionAccessPointRequest,
+    this.deleteMultiRegionAccessPointRequest,
+    this.putMultiRegionAccessPointPolicyRequest,
+  });
+  factory AsyncRequestParameters.fromXml(_s.XmlElement elem) {
+    return AsyncRequestParameters(
+      createMultiRegionAccessPointRequest: _s
+          .extractXmlChild(elem, 'CreateMultiRegionAccessPointRequest')
+          ?.let(CreateMultiRegionAccessPointInput.fromXml),
+      deleteMultiRegionAccessPointRequest: _s
+          .extractXmlChild(elem, 'DeleteMultiRegionAccessPointRequest')
+          ?.let(DeleteMultiRegionAccessPointInput.fromXml),
+      putMultiRegionAccessPointPolicyRequest: _s
+          .extractXmlChild(elem, 'PutMultiRegionAccessPointPolicyRequest')
+          ?.let(PutMultiRegionAccessPointPolicyInput.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createMultiRegionAccessPointRequest =
+        this.createMultiRegionAccessPointRequest;
+    final deleteMultiRegionAccessPointRequest =
+        this.deleteMultiRegionAccessPointRequest;
+    final putMultiRegionAccessPointPolicyRequest =
+        this.putMultiRegionAccessPointPolicyRequest;
+    return {
+      if (createMultiRegionAccessPointRequest != null)
+        'CreateMultiRegionAccessPointRequest':
+            createMultiRegionAccessPointRequest,
+      if (deleteMultiRegionAccessPointRequest != null)
+        'DeleteMultiRegionAccessPointRequest':
+            deleteMultiRegionAccessPointRequest,
+      if (putMultiRegionAccessPointPolicyRequest != null)
+        'PutMultiRegionAccessPointPolicyRequest':
+            putMultiRegionAccessPointPolicyRequest,
+    };
+  }
+}
+
+/// A container for the response details that are returned when querying about
+/// an asynchronous request.
+class AsyncResponseDetails {
+  /// Error details for an asynchronous request.
+  final AsyncErrorDetails? errorDetails;
+
+  /// The details for the Multi-Region Access Point.
+  final MultiRegionAccessPointsAsyncResponse? multiRegionAccessPointDetails;
+
+  AsyncResponseDetails({
+    this.errorDetails,
+    this.multiRegionAccessPointDetails,
+  });
+  factory AsyncResponseDetails.fromXml(_s.XmlElement elem) {
+    return AsyncResponseDetails(
+      errorDetails: _s
+          .extractXmlChild(elem, 'ErrorDetails')
+          ?.let(AsyncErrorDetails.fromXml),
+      multiRegionAccessPointDetails: _s
+          .extractXmlChild(elem, 'MultiRegionAccessPointDetails')
+          ?.let(MultiRegionAccessPointsAsyncResponse.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorDetails = this.errorDetails;
+    final multiRegionAccessPointDetails = this.multiRegionAccessPointDetails;
+    return {
+      if (errorDetails != null) 'ErrorDetails': errorDetails,
+      if (multiRegionAccessPointDetails != null)
+        'MultiRegionAccessPointDetails': multiRegionAccessPointDetails,
+    };
+  }
+}
+
+/// The Multi-Region Access Point details that are returned when querying about
+/// an asynchronous request.
+class MultiRegionAccessPointsAsyncResponse {
+  /// A collection of status information for the different Regions that a
+  /// Multi-Region Access Point supports.
+  final List<MultiRegionAccessPointRegionalResponse>? regions;
+
+  MultiRegionAccessPointsAsyncResponse({
+    this.regions,
+  });
+  factory MultiRegionAccessPointsAsyncResponse.fromXml(_s.XmlElement elem) {
+    return MultiRegionAccessPointsAsyncResponse(
+      regions: _s.extractXmlChild(elem, 'Regions')?.let((elem) => elem
+          .findElements('Region')
+          .map(MultiRegionAccessPointRegionalResponse.fromXml)
+          .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final regions = this.regions;
+    return {
+      if (regions != null) 'Regions': regions,
+    };
+  }
+}
+
+/// Error details for the failed asynchronous operation.
+class AsyncErrorDetails {
+  /// A string that uniquely identifies the error condition.
+  final String? code;
+
+  /// A generic description of the error condition in English.
+  final String? message;
+
+  /// The ID of the request associated with the error.
+  final String? requestId;
+
+  /// The identifier of the resource associated with the error.
+  final String? resource;
+
+  AsyncErrorDetails({
+    this.code,
+    this.message,
+    this.requestId,
+    this.resource,
+  });
+  factory AsyncErrorDetails.fromXml(_s.XmlElement elem) {
+    return AsyncErrorDetails(
+      code: _s.extractXmlStringValue(elem, 'Code'),
+      message: _s.extractXmlStringValue(elem, 'Message'),
+      requestId: _s.extractXmlStringValue(elem, 'RequestId'),
+      resource: _s.extractXmlStringValue(elem, 'Resource'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    final requestId = this.requestId;
+    final resource = this.resource;
+    return {
+      if (code != null) 'Code': code,
+      if (message != null) 'Message': message,
+      if (requestId != null) 'RequestId': requestId,
+      if (resource != null) 'Resource': resource,
+    };
+  }
+}
+
+/// Status information for a single Multi-Region Access Point Region.
+class MultiRegionAccessPointRegionalResponse {
+  /// The name of the Region in the Multi-Region Access Point.
+  final String? name;
+
+  /// The current status of the Multi-Region Access Point in this Region.
+  final String? requestStatus;
+
+  MultiRegionAccessPointRegionalResponse({
+    this.name,
+    this.requestStatus,
+  });
+  factory MultiRegionAccessPointRegionalResponse.fromXml(_s.XmlElement elem) {
+    return MultiRegionAccessPointRegionalResponse(
+      name: _s.extractXmlStringValue(elem, 'Name'),
+      requestStatus: _s.extractXmlStringValue(elem, 'RequestStatus'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final requestStatus = this.requestStatus;
+    return {
+      if (name != null) 'Name': name,
+      if (requestStatus != null) 'RequestStatus': requestStatus,
+    };
+  }
+}
+
+/// A container for the information associated with a <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateMultiRegionAccessPoint.html">CreateMultiRegionAccessPoint</a>
+/// request.
+class CreateMultiRegionAccessPointInput {
+  /// The name of the Multi-Region Access Point associated with this request.
+  final String name;
+
+  /// The buckets in different Regions that are associated with the Multi-Region
+  /// Access Point.
+  final List<Region> regions;
+  final PublicAccessBlockConfiguration? publicAccessBlock;
+
+  CreateMultiRegionAccessPointInput({
+    required this.name,
+    required this.regions,
+    this.publicAccessBlock,
+  });
+  factory CreateMultiRegionAccessPointInput.fromXml(_s.XmlElement elem) {
+    return CreateMultiRegionAccessPointInput(
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      regions: _s
+          .extractXmlChild(elem, 'Regions')!
+          .findElements('Region')
+          .map(Region.fromXml)
+          .toList(),
+      publicAccessBlock: _s
+          .extractXmlChild(elem, 'PublicAccessBlock')
+          ?.let(PublicAccessBlockConfiguration.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final regions = this.regions;
+    final publicAccessBlock = this.publicAccessBlock;
+    return {
+      'Name': name,
+      'Regions': regions,
+      if (publicAccessBlock != null) 'PublicAccessBlock': publicAccessBlock,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final name = this.name;
+    final regions = this.regions;
+    final publicAccessBlock = this.publicAccessBlock;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Name', name),
+      if (publicAccessBlock != null)
+        publicAccessBlock.toXml('PublicAccessBlock'),
+      _s.XmlElement(_s.XmlName.parts('Regions'), [],
+          regions.map((e) => e.toXml('Region'))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A container for the information associated with a <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteMultiRegionAccessPoint.html">DeleteMultiRegionAccessPoint</a>
+/// request.
+class DeleteMultiRegionAccessPointInput {
+  /// The name of the Multi-Region Access Point associated with this request.
+  final String name;
+
+  DeleteMultiRegionAccessPointInput({
+    required this.name,
+  });
+  factory DeleteMultiRegionAccessPointInput.fromXml(_s.XmlElement elem) {
+    return DeleteMultiRegionAccessPointInput(
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      'Name': name,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final name = this.name;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Name', name),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A Region that supports a Multi-Region Access Point as well as the associated
+/// bucket for the Region.
+class Region {
+  /// The name of the associated bucket for the Region.
+  final String bucket;
+
+  /// The Amazon Web Services account ID that owns the Amazon S3 bucket that's
+  /// associated with this Multi-Region Access Point.
+  final String? bucketAccountId;
+
+  Region({
+    required this.bucket,
+    this.bucketAccountId,
+  });
+  factory Region.fromXml(_s.XmlElement elem) {
+    return Region(
+      bucket: _s.extractXmlStringValue(elem, 'Bucket')!,
+      bucketAccountId: _s.extractXmlStringValue(elem, 'BucketAccountId'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final bucketAccountId = this.bucketAccountId;
+    return {
+      'Bucket': bucket,
+      if (bucketAccountId != null) 'BucketAccountId': bucketAccountId,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final bucket = this.bucket;
+    final bucketAccountId = this.bucketAccountId;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Bucket', bucket),
+      if (bucketAccountId != null)
+        _s.encodeXmlStringValue('BucketAccountId', bucketAccountId),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A container element for the job configuration and status information
+/// returned by a <code>Describe Job</code> request.
+class JobDescriptor {
+  /// Indicates whether confirmation is required before Amazon S3 begins running
+  /// the specified job. Confirmation is required only for jobs created through
+  /// the Amazon S3 console.
+  final bool? confirmationRequired;
+
+  /// A timestamp indicating when this job was created.
+  final DateTime? creationTime;
+
+  /// The description for this job, if one was provided in this job's <code>Create
+  /// Job</code> request.
+  final String? description;
+
+  /// If the specified job failed, this field contains information describing the
+  /// failure.
+  final List<JobFailure>? failureReasons;
+
+  /// The attribute of the JobDescriptor containing details about the job's
+  /// generated manifest.
+  final S3GeneratedManifestDescriptor? generatedManifestDescriptor;
+
+  /// The Amazon Resource Name (ARN) for this job.
+  final String? jobArn;
+
+  /// The ID for the specified job.
+  final String? jobId;
+
+  /// The configuration information for the specified job's manifest object.
+  final JobManifest? manifest;
+
+  /// The manifest generator that was used to generate a job manifest for this
+  /// job.
+  final JobManifestGenerator? manifestGenerator;
+
+  /// The operation that the specified job is configured to run on the objects
+  /// listed in the manifest.
+  final JobOperation? operation;
+
+  /// The priority of the specified job.
+  final int? priority;
+
+  /// Describes the total number of tasks that the specified job has run, the
+  /// number of tasks that succeeded, and the number of tasks that failed.
+  final JobProgressSummary? progressSummary;
+
+  /// Contains the configuration information for the job-completion report if you
+  /// requested one in the <code>Create Job</code> request.
+  final JobReport? report;
+
+  /// The Amazon Resource Name (ARN) for the Identity and Access Management (IAM)
+  /// role assigned to run the tasks for this job.
+  final String? roleArn;
+
+  /// The current status of the specified job.
+  final JobStatus? status;
+
+  /// The reason for updating the job.
+  final String? statusUpdateReason;
+
+  /// The reason why the specified job was suspended. A job is only suspended if
+  /// you create it through the Amazon S3 console. When you create the job, it
+  /// enters the <code>Suspended</code> state to await confirmation before
+  /// running. After you confirm the job, it automatically exits the
+  /// <code>Suspended</code> state.
+  final String? suspendedCause;
+
+  /// The timestamp when this job was suspended, if it has been suspended.
+  final DateTime? suspendedDate;
+
+  /// A timestamp indicating when this job terminated. A job's termination date is
+  /// the date and time when it succeeded, failed, or was canceled.
+  final DateTime? terminationDate;
+
+  JobDescriptor({
+    this.confirmationRequired,
+    this.creationTime,
+    this.description,
+    this.failureReasons,
+    this.generatedManifestDescriptor,
+    this.jobArn,
+    this.jobId,
+    this.manifest,
+    this.manifestGenerator,
+    this.operation,
+    this.priority,
+    this.progressSummary,
+    this.report,
+    this.roleArn,
+    this.status,
+    this.statusUpdateReason,
+    this.suspendedCause,
+    this.suspendedDate,
+    this.terminationDate,
+  });
+  factory JobDescriptor.fromXml(_s.XmlElement elem) {
+    return JobDescriptor(
+      confirmationRequired:
+          _s.extractXmlBoolValue(elem, 'ConfirmationRequired'),
+      creationTime: _s.extractXmlDateTimeValue(elem, 'CreationTime'),
+      description: _s.extractXmlStringValue(elem, 'Description'),
+      failureReasons: _s.extractXmlChild(elem, 'FailureReasons')?.let((elem) =>
+          elem.findElements('member').map(JobFailure.fromXml).toList()),
+      generatedManifestDescriptor: _s
+          .extractXmlChild(elem, 'GeneratedManifestDescriptor')
+          ?.let(S3GeneratedManifestDescriptor.fromXml),
+      jobArn: _s.extractXmlStringValue(elem, 'JobArn'),
+      jobId: _s.extractXmlStringValue(elem, 'JobId'),
+      manifest: _s.extractXmlChild(elem, 'Manifest')?.let(JobManifest.fromXml),
+      manifestGenerator: _s
+          .extractXmlChild(elem, 'ManifestGenerator')
+          ?.let(JobManifestGenerator.fromXml),
+      operation:
+          _s.extractXmlChild(elem, 'Operation')?.let(JobOperation.fromXml),
+      priority: _s.extractXmlIntValue(elem, 'Priority'),
+      progressSummary: _s
+          .extractXmlChild(elem, 'ProgressSummary')
+          ?.let(JobProgressSummary.fromXml),
+      report: _s.extractXmlChild(elem, 'Report')?.let(JobReport.fromXml),
+      roleArn: _s.extractXmlStringValue(elem, 'RoleArn'),
+      status:
+          _s.extractXmlStringValue(elem, 'Status')?.let(JobStatus.fromString),
+      statusUpdateReason: _s.extractXmlStringValue(elem, 'StatusUpdateReason'),
+      suspendedCause: _s.extractXmlStringValue(elem, 'SuspendedCause'),
+      suspendedDate: _s.extractXmlDateTimeValue(elem, 'SuspendedDate'),
+      terminationDate: _s.extractXmlDateTimeValue(elem, 'TerminationDate'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final confirmationRequired = this.confirmationRequired;
+    final creationTime = this.creationTime;
+    final description = this.description;
+    final failureReasons = this.failureReasons;
+    final generatedManifestDescriptor = this.generatedManifestDescriptor;
+    final jobArn = this.jobArn;
+    final jobId = this.jobId;
+    final manifest = this.manifest;
+    final manifestGenerator = this.manifestGenerator;
+    final operation = this.operation;
+    final priority = this.priority;
+    final progressSummary = this.progressSummary;
+    final report = this.report;
+    final roleArn = this.roleArn;
+    final status = this.status;
+    final statusUpdateReason = this.statusUpdateReason;
+    final suspendedCause = this.suspendedCause;
+    final suspendedDate = this.suspendedDate;
+    final terminationDate = this.terminationDate;
+    return {
+      if (confirmationRequired != null)
+        'ConfirmationRequired': confirmationRequired,
+      if (creationTime != null) 'CreationTime': iso8601ToJson(creationTime),
+      if (description != null) 'Description': description,
+      if (failureReasons != null) 'FailureReasons': failureReasons,
+      if (generatedManifestDescriptor != null)
+        'GeneratedManifestDescriptor': generatedManifestDescriptor,
+      if (jobArn != null) 'JobArn': jobArn,
+      if (jobId != null) 'JobId': jobId,
+      if (manifest != null) 'Manifest': manifest,
+      if (manifestGenerator != null) 'ManifestGenerator': manifestGenerator,
+      if (operation != null) 'Operation': operation,
+      if (priority != null) 'Priority': priority,
+      if (progressSummary != null) 'ProgressSummary': progressSummary,
+      if (report != null) 'Report': report,
+      if (roleArn != null) 'RoleArn': roleArn,
+      if (status != null) 'Status': status.value,
+      if (statusUpdateReason != null) 'StatusUpdateReason': statusUpdateReason,
+      if (suspendedCause != null) 'SuspendedCause': suspendedCause,
+      if (suspendedDate != null) 'SuspendedDate': iso8601ToJson(suspendedDate),
+      if (terminationDate != null)
+        'TerminationDate': iso8601ToJson(terminationDate),
+    };
+  }
+}
+
+/// Contains the configuration information for a job's manifest.
+class JobManifest {
+  /// Contains the information required to locate the specified job's manifest.
+  /// Manifests can't be imported from directory buckets. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-overview.html">Directory
+  /// buckets</a>.
+  final JobManifestLocation location;
+
+  /// Describes the format of the specified job's manifest. If the manifest is in
+  /// CSV format, also describes the columns contained within the manifest.
+  final JobManifestSpec spec;
+
+  JobManifest({
+    required this.location,
+    required this.spec,
+  });
+  factory JobManifest.fromXml(_s.XmlElement elem) {
+    return JobManifest(
+      location:
+          JobManifestLocation.fromXml(_s.extractXmlChild(elem, 'Location')!),
+      spec: JobManifestSpec.fromXml(_s.extractXmlChild(elem, 'Spec')!),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final location = this.location;
+    final spec = this.spec;
+    return {
+      'Location': location,
+      'Spec': spec,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final location = this.location;
+    final spec = this.spec;
+    final $children = <_s.XmlNode>[
+      spec.toXml('Spec'),
+      location.toXml('Location'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// The operation that you want this job to perform on every object listed in
+/// the manifest. For more information about the available operations, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-operations.html">Operations</a>
+/// in the <i>Amazon S3 User Guide</i>.
+class JobOperation {
+  /// Directs the specified job to invoke an Lambda function on every object in
+  /// the manifest.
+  final LambdaInvokeOperation? lambdaInvoke;
+
+  /// Directs the specified job to compute checksum values for every object in the
+  /// manifest.
+  final S3ComputeObjectChecksumOperation? s3ComputeObjectChecksum;
+
+  /// Directs the specified job to execute a DELETE Object tagging call on every
+  /// object in the manifest.
+  /// <note>
+  /// This functionality is not supported by directory buckets.
+  /// </note>
+  final S3DeleteObjectTaggingOperation? s3DeleteObjectTagging;
+
+  /// Directs the specified job to initiate restore requests for every archived
+  /// object in the manifest.
+  /// <note>
+  /// This functionality is not supported by directory buckets.
+  /// </note>
+  final S3InitiateRestoreObjectOperation? s3InitiateRestoreObject;
+
+  /// Directs the specified job to run a <code>PutObjectAcl</code> call on every
+  /// object in the manifest.
+  /// <note>
+  /// This functionality is not supported by directory buckets.
+  /// </note>
+  final S3SetObjectAclOperation? s3PutObjectAcl;
+
+  /// Directs the specified job to run a PUT Copy object call on every object in
+  /// the manifest.
+  final S3CopyObjectOperation? s3PutObjectCopy;
+  final S3SetObjectLegalHoldOperation? s3PutObjectLegalHold;
+  final S3SetObjectRetentionOperation? s3PutObjectRetention;
+
+  /// Directs the specified job to run a PUT Object tagging call on every object
+  /// in the manifest.
+  /// <note>
+  /// This functionality is not supported by directory buckets.
+  /// </note>
+  final S3SetObjectTaggingOperation? s3PutObjectTagging;
+
+  /// Directs the specified job to invoke <code>ReplicateObject</code> on every
+  /// object in the job's manifest.
+  /// <note>
+  /// This functionality is not supported by directory buckets.
+  /// </note>
+  final S3ReplicateObjectOperation? s3ReplicateObject;
+
+  /// Updates the server-side encryption type of an existing encrypted object in a
+  /// general purpose bucket. You can use the <code>UpdateObjectEncryption</code>
+  /// operation to change encrypted objects from server-side encryption with
+  /// Amazon S3 managed keys (SSE-S3) to server-side encryption with Key
+  /// Management Service (KMS) keys (SSE-KMS), or to apply S3 Bucket Keys. You can
+  /// also use the <code>UpdateObjectEncryption</code> operation to change the
+  /// customer-managed KMS key used to encrypt your data so that you can comply
+  /// with custom key-rotation standards.
+  final S3UpdateObjectEncryptionOperation? s3UpdateObjectEncryption;
+
+  JobOperation({
+    this.lambdaInvoke,
+    this.s3ComputeObjectChecksum,
+    this.s3DeleteObjectTagging,
+    this.s3InitiateRestoreObject,
+    this.s3PutObjectAcl,
+    this.s3PutObjectCopy,
+    this.s3PutObjectLegalHold,
+    this.s3PutObjectRetention,
+    this.s3PutObjectTagging,
+    this.s3ReplicateObject,
+    this.s3UpdateObjectEncryption,
+  });
+  factory JobOperation.fromXml(_s.XmlElement elem) {
+    return JobOperation(
+      lambdaInvoke: _s
+          .extractXmlChild(elem, 'LambdaInvoke')
+          ?.let(LambdaInvokeOperation.fromXml),
+      s3ComputeObjectChecksum: _s
+          .extractXmlChild(elem, 'S3ComputeObjectChecksum')
+          ?.let(S3ComputeObjectChecksumOperation.fromXml),
+      s3DeleteObjectTagging: _s
+          .extractXmlChild(elem, 'S3DeleteObjectTagging')
+          ?.let(S3DeleteObjectTaggingOperation.fromXml),
+      s3InitiateRestoreObject: _s
+          .extractXmlChild(elem, 'S3InitiateRestoreObject')
+          ?.let(S3InitiateRestoreObjectOperation.fromXml),
+      s3PutObjectAcl: _s
+          .extractXmlChild(elem, 'S3PutObjectAcl')
+          ?.let(S3SetObjectAclOperation.fromXml),
+      s3PutObjectCopy: _s
+          .extractXmlChild(elem, 'S3PutObjectCopy')
+          ?.let(S3CopyObjectOperation.fromXml),
+      s3PutObjectLegalHold: _s
+          .extractXmlChild(elem, 'S3PutObjectLegalHold')
+          ?.let(S3SetObjectLegalHoldOperation.fromXml),
+      s3PutObjectRetention: _s
+          .extractXmlChild(elem, 'S3PutObjectRetention')
+          ?.let(S3SetObjectRetentionOperation.fromXml),
+      s3PutObjectTagging: _s
+          .extractXmlChild(elem, 'S3PutObjectTagging')
+          ?.let(S3SetObjectTaggingOperation.fromXml),
+      s3ReplicateObject: _s
+          .extractXmlChild(elem, 'S3ReplicateObject')
+          ?.let(S3ReplicateObjectOperation.fromXml),
+      s3UpdateObjectEncryption: _s
+          .extractXmlChild(elem, 'S3UpdateObjectEncryption')
+          ?.let(S3UpdateObjectEncryptionOperation.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lambdaInvoke = this.lambdaInvoke;
+    final s3ComputeObjectChecksum = this.s3ComputeObjectChecksum;
+    final s3DeleteObjectTagging = this.s3DeleteObjectTagging;
+    final s3InitiateRestoreObject = this.s3InitiateRestoreObject;
+    final s3PutObjectAcl = this.s3PutObjectAcl;
+    final s3PutObjectCopy = this.s3PutObjectCopy;
+    final s3PutObjectLegalHold = this.s3PutObjectLegalHold;
+    final s3PutObjectRetention = this.s3PutObjectRetention;
+    final s3PutObjectTagging = this.s3PutObjectTagging;
+    final s3ReplicateObject = this.s3ReplicateObject;
+    final s3UpdateObjectEncryption = this.s3UpdateObjectEncryption;
+    return {
+      if (lambdaInvoke != null) 'LambdaInvoke': lambdaInvoke,
+      if (s3ComputeObjectChecksum != null)
+        'S3ComputeObjectChecksum': s3ComputeObjectChecksum,
+      if (s3DeleteObjectTagging != null)
+        'S3DeleteObjectTagging': s3DeleteObjectTagging,
+      if (s3InitiateRestoreObject != null)
+        'S3InitiateRestoreObject': s3InitiateRestoreObject,
+      if (s3PutObjectAcl != null) 'S3PutObjectAcl': s3PutObjectAcl,
+      if (s3PutObjectCopy != null) 'S3PutObjectCopy': s3PutObjectCopy,
+      if (s3PutObjectLegalHold != null)
+        'S3PutObjectLegalHold': s3PutObjectLegalHold,
+      if (s3PutObjectRetention != null)
+        'S3PutObjectRetention': s3PutObjectRetention,
+      if (s3PutObjectTagging != null) 'S3PutObjectTagging': s3PutObjectTagging,
+      if (s3ReplicateObject != null) 'S3ReplicateObject': s3ReplicateObject,
+      if (s3UpdateObjectEncryption != null)
+        'S3UpdateObjectEncryption': s3UpdateObjectEncryption,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final lambdaInvoke = this.lambdaInvoke;
+    final s3ComputeObjectChecksum = this.s3ComputeObjectChecksum;
+    final s3DeleteObjectTagging = this.s3DeleteObjectTagging;
+    final s3InitiateRestoreObject = this.s3InitiateRestoreObject;
+    final s3PutObjectAcl = this.s3PutObjectAcl;
+    final s3PutObjectCopy = this.s3PutObjectCopy;
+    final s3PutObjectLegalHold = this.s3PutObjectLegalHold;
+    final s3PutObjectRetention = this.s3PutObjectRetention;
+    final s3PutObjectTagging = this.s3PutObjectTagging;
+    final s3ReplicateObject = this.s3ReplicateObject;
+    final s3UpdateObjectEncryption = this.s3UpdateObjectEncryption;
+    final $children = <_s.XmlNode>[
+      if (lambdaInvoke != null) lambdaInvoke.toXml('LambdaInvoke'),
+      if (s3PutObjectCopy != null) s3PutObjectCopy.toXml('S3PutObjectCopy'),
+      if (s3PutObjectAcl != null) s3PutObjectAcl.toXml('S3PutObjectAcl'),
+      if (s3PutObjectTagging != null)
+        s3PutObjectTagging.toXml('S3PutObjectTagging'),
+      if (s3DeleteObjectTagging != null)
+        s3DeleteObjectTagging.toXml('S3DeleteObjectTagging'),
+      if (s3InitiateRestoreObject != null)
+        s3InitiateRestoreObject.toXml('S3InitiateRestoreObject'),
+      if (s3PutObjectLegalHold != null)
+        s3PutObjectLegalHold.toXml('S3PutObjectLegalHold'),
+      if (s3PutObjectRetention != null)
+        s3PutObjectRetention.toXml('S3PutObjectRetention'),
+      if (s3ReplicateObject != null)
+        s3ReplicateObject.toXml('S3ReplicateObject'),
+      if (s3ComputeObjectChecksum != null)
+        s3ComputeObjectChecksum.toXml('S3ComputeObjectChecksum'),
+      if (s3UpdateObjectEncryption != null)
+        s3UpdateObjectEncryption.toXml('S3UpdateObjectEncryption'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Contains the configuration parameters for a job-completion report.
+class JobReport {
+  /// Indicates whether the specified job will generate a job-completion report.
+  final bool enabled;
+
+  /// The Amazon Resource Name (ARN) for the bucket where specified job-completion
+  /// report will be stored.
+  /// <note>
+  /// <b>Directory buckets</b> - Directory buckets aren't supported as a location
+  /// for Batch Operations to store job completion reports.
+  /// </note>
+  final String? bucket;
+
+  /// Lists the Amazon Web Services account ID that owns the target bucket, where
+  /// the completion report is received.
+  final String? expectedBucketOwner;
+
+  /// The format of the specified job-completion report.
+  final JobReportFormat? format;
+
+  /// An optional prefix to describe where in the specified bucket the
+  /// job-completion report will be stored. Amazon S3 stores the job-completion
+  /// report at <code><prefix>/job-<job-id>/report.json</code>.
+  final String? prefix;
+
+  /// Indicates whether the job-completion report will include details of all
+  /// tasks or only failed tasks.
+  final JobReportScope? reportScope;
+
+  JobReport({
+    required this.enabled,
+    this.bucket,
+    this.expectedBucketOwner,
+    this.format,
+    this.prefix,
+    this.reportScope,
+  });
+  factory JobReport.fromXml(_s.XmlElement elem) {
+    return JobReport(
+      enabled: _s.extractXmlBoolValue(elem, 'Enabled')!,
+      bucket: _s.extractXmlStringValue(elem, 'Bucket'),
+      expectedBucketOwner:
+          _s.extractXmlStringValue(elem, 'ExpectedBucketOwner'),
+      format: _s
+          .extractXmlStringValue(elem, 'Format')
+          ?.let(JobReportFormat.fromString),
+      prefix: _s.extractXmlStringValue(elem, 'Prefix'),
+      reportScope: _s
+          .extractXmlStringValue(elem, 'ReportScope')
+          ?.let(JobReportScope.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final bucket = this.bucket;
+    final expectedBucketOwner = this.expectedBucketOwner;
+    final format = this.format;
+    final prefix = this.prefix;
+    final reportScope = this.reportScope;
+    return {
+      'Enabled': enabled,
+      if (bucket != null) 'Bucket': bucket,
+      if (expectedBucketOwner != null)
+        'ExpectedBucketOwner': expectedBucketOwner,
+      if (format != null) 'Format': format.value,
+      if (prefix != null) 'Prefix': prefix,
+      if (reportScope != null) 'ReportScope': reportScope.value,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final enabled = this.enabled;
+    final bucket = this.bucket;
+    final expectedBucketOwner = this.expectedBucketOwner;
+    final format = this.format;
+    final prefix = this.prefix;
+    final reportScope = this.reportScope;
+    final $children = <_s.XmlNode>[
+      if (bucket != null) _s.encodeXmlStringValue('Bucket', bucket),
+      if (format != null) _s.encodeXmlStringValue('Format', format.value),
+      _s.encodeXmlBoolValue('Enabled', enabled),
+      if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
+      if (reportScope != null)
+        _s.encodeXmlStringValue('ReportScope', reportScope.value),
+      if (expectedBucketOwner != null)
+        _s.encodeXmlStringValue('ExpectedBucketOwner', expectedBucketOwner),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Configures the type of the job's ManifestGenerator.
+class JobManifestGenerator {
+  /// The S3 job ManifestGenerator's configuration details.
+  final S3JobManifestGenerator? s3JobManifestGenerator;
+
+  JobManifestGenerator({
+    this.s3JobManifestGenerator,
+  });
+  factory JobManifestGenerator.fromXml(_s.XmlElement elem) {
+    return JobManifestGenerator(
+      s3JobManifestGenerator: _s
+          .extractXmlChild(elem, 'S3JobManifestGenerator')
+          ?.let(S3JobManifestGenerator.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3JobManifestGenerator = this.s3JobManifestGenerator;
+    return {
+      if (s3JobManifestGenerator != null)
+        'S3JobManifestGenerator': s3JobManifestGenerator,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final s3JobManifestGenerator = this.s3JobManifestGenerator;
+    final $children = <_s.XmlNode>[
+      if (s3JobManifestGenerator != null)
+        s3JobManifestGenerator.toXml('S3JobManifestGenerator'),
+    ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
@@ -16184,156 +17444,23 @@ class S3GeneratedManifestDescriptor {
   }
 }
 
-class S3GlacierJobTier {
-  static const bulk = S3GlacierJobTier._('BULK');
-  static const standard = S3GlacierJobTier._('STANDARD');
+class GeneratedManifestFormat {
+  static const s3InventoryReportCsv_20211130 =
+      GeneratedManifestFormat._('S3InventoryReport_CSV_20211130');
 
   final String value;
 
-  const S3GlacierJobTier._(this.value);
+  const GeneratedManifestFormat._(this.value);
 
-  static const values = [bulk, standard];
+  static const values = [s3InventoryReportCsv_20211130];
 
-  static S3GlacierJobTier fromString(String value) =>
+  static GeneratedManifestFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => S3GlacierJobTier._(value));
-
-  @override
-  bool operator ==(other) => other is S3GlacierJobTier && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// <p/>
-class S3Grant {
-  /// <p/>
-  final S3Grantee? grantee;
-
-  /// <p/>
-  final S3Permission? permission;
-
-  S3Grant({
-    this.grantee,
-    this.permission,
-  });
-  factory S3Grant.fromXml(_s.XmlElement elem) {
-    return S3Grant(
-      grantee: _s.extractXmlChild(elem, 'Grantee')?.let(S3Grantee.fromXml),
-      permission: _s
-          .extractXmlStringValue(elem, 'Permission')
-          ?.let(S3Permission.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final grantee = this.grantee;
-    final permission = this.permission;
-    return {
-      if (grantee != null) 'Grantee': grantee,
-      if (permission != null) 'Permission': permission.value,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final grantee = this.grantee;
-    final permission = this.permission;
-    final $children = <_s.XmlNode>[
-      if (grantee != null) grantee.toXml('Grantee'),
-      if (permission != null)
-        _s.encodeXmlStringValue('Permission', permission.value),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// <p/>
-class S3Grantee {
-  /// <p/>
-  final String? displayName;
-
-  /// <p/>
-  final String? identifier;
-
-  /// <p/>
-  final S3GranteeTypeIdentifier? typeIdentifier;
-
-  S3Grantee({
-    this.displayName,
-    this.identifier,
-    this.typeIdentifier,
-  });
-  factory S3Grantee.fromXml(_s.XmlElement elem) {
-    return S3Grantee(
-      displayName: _s.extractXmlStringValue(elem, 'DisplayName'),
-      identifier: _s.extractXmlStringValue(elem, 'Identifier'),
-      typeIdentifier: _s
-          .extractXmlStringValue(elem, 'TypeIdentifier')
-          ?.let(S3GranteeTypeIdentifier.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final displayName = this.displayName;
-    final identifier = this.identifier;
-    final typeIdentifier = this.typeIdentifier;
-    return {
-      if (displayName != null) 'DisplayName': displayName,
-      if (identifier != null) 'Identifier': identifier,
-      if (typeIdentifier != null) 'TypeIdentifier': typeIdentifier.value,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final displayName = this.displayName;
-    final identifier = this.identifier;
-    final typeIdentifier = this.typeIdentifier;
-    final $children = <_s.XmlNode>[
-      if (typeIdentifier != null)
-        _s.encodeXmlStringValue('TypeIdentifier', typeIdentifier.value),
-      if (identifier != null) _s.encodeXmlStringValue('Identifier', identifier),
-      if (displayName != null)
-        _s.encodeXmlStringValue('DisplayName', displayName),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-class S3GranteeTypeIdentifier {
-  static const id = S3GranteeTypeIdentifier._('id');
-  static const emailAddress = S3GranteeTypeIdentifier._('emailAddress');
-  static const uri = S3GranteeTypeIdentifier._('uri');
-
-  final String value;
-
-  const S3GranteeTypeIdentifier._(this.value);
-
-  static const values = [id, emailAddress, uri];
-
-  static S3GranteeTypeIdentifier fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => S3GranteeTypeIdentifier._(value));
+          orElse: () => GeneratedManifestFormat._(value));
 
   @override
   bool operator ==(other) =>
-      other is S3GranteeTypeIdentifier && other.value == value;
+      other is GeneratedManifestFormat && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -16342,65 +17469,61 @@ class S3GranteeTypeIdentifier {
   String toString() => value;
 }
 
-/// Contains the configuration parameters for a POST Object restore job. S3
-/// Batch Operations passes every object to the underlying
-/// <code>RestoreObject</code> API operation. For more information about the
-/// parameters for this operation, see <a
-/// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPOSTrestore.html#RESTObjectPOSTrestore-restore-request">RestoreObject</a>.
-class S3InitiateRestoreObjectOperation {
-  /// This argument specifies how long the S3 Glacier or S3 Glacier Deep Archive
-  /// object remains available in Amazon S3. S3 Initiate Restore Object jobs that
-  /// target S3 Glacier and S3 Glacier Deep Archive objects require
-  /// <code>ExpirationInDays</code> set to 1 or greater.
-  ///
-  /// Conversely, do <i>not</i> set <code>ExpirationInDays</code> when creating S3
-  /// Initiate Restore Object jobs that target S3 Intelligent-Tiering Archive
-  /// Access and Deep Archive Access tier objects. Objects in S3
-  /// Intelligent-Tiering archive access tiers are not subject to restore expiry,
-  /// so specifying <code>ExpirationInDays</code> results in restore request
-  /// failure.
-  ///
-  /// S3 Batch Operations jobs can operate either on S3 Glacier and S3 Glacier
-  /// Deep Archive storage class objects or on S3 Intelligent-Tiering Archive
-  /// Access and Deep Archive Access storage tier objects, but not both types in
-  /// the same job. If you need to restore objects of both types you <i>must</i>
-  /// create separate Batch Operations jobs.
-  final int? expirationInDays;
+/// Contains the information required to locate a manifest object. Manifests
+/// can't be imported from directory buckets. For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-overview.html">Directory
+/// buckets</a>.
+class JobManifestLocation {
+  /// The ETag for the specified manifest object.
+  final String eTag;
 
-  /// S3 Batch Operations supports <code>STANDARD</code> and <code>BULK</code>
-  /// retrieval tiers, but not the <code>EXPEDITED</code> retrieval tier.
-  final S3GlacierJobTier? glacierJobTier;
+  /// The Amazon Resource Name (ARN) for a manifest object.
+  /// <important>
+  /// When you're using XML requests, you must replace special characters (such as
+  /// carriage returns) in object keys with their equivalent XML entity codes. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints">
+  /// XML-related object key constraints</a> in the <i>Amazon S3 User Guide</i>.
+  /// </important>
+  final String objectArn;
 
-  S3InitiateRestoreObjectOperation({
-    this.expirationInDays,
-    this.glacierJobTier,
+  /// The optional version ID to identify a specific version of the manifest
+  /// object.
+  final String? objectVersionId;
+
+  JobManifestLocation({
+    required this.eTag,
+    required this.objectArn,
+    this.objectVersionId,
   });
-  factory S3InitiateRestoreObjectOperation.fromXml(_s.XmlElement elem) {
-    return S3InitiateRestoreObjectOperation(
-      expirationInDays: _s.extractXmlIntValue(elem, 'ExpirationInDays'),
-      glacierJobTier: _s
-          .extractXmlStringValue(elem, 'GlacierJobTier')
-          ?.let(S3GlacierJobTier.fromString),
+  factory JobManifestLocation.fromXml(_s.XmlElement elem) {
+    return JobManifestLocation(
+      eTag: _s.extractXmlStringValue(elem, 'ETag')!,
+      objectArn: _s.extractXmlStringValue(elem, 'ObjectArn')!,
+      objectVersionId: _s.extractXmlStringValue(elem, 'ObjectVersionId'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final expirationInDays = this.expirationInDays;
-    final glacierJobTier = this.glacierJobTier;
+    final eTag = this.eTag;
+    final objectArn = this.objectArn;
+    final objectVersionId = this.objectVersionId;
     return {
-      if (expirationInDays != null) 'ExpirationInDays': expirationInDays,
-      if (glacierJobTier != null) 'GlacierJobTier': glacierJobTier.value,
+      'ETag': eTag,
+      'ObjectArn': objectArn,
+      if (objectVersionId != null) 'ObjectVersionId': objectVersionId,
     };
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final expirationInDays = this.expirationInDays;
-    final glacierJobTier = this.glacierJobTier;
+    final eTag = this.eTag;
+    final objectArn = this.objectArn;
+    final objectVersionId = this.objectVersionId;
     final $children = <_s.XmlNode>[
-      if (expirationInDays != null)
-        _s.encodeXmlIntValue('ExpirationInDays', expirationInDays),
-      if (glacierJobTier != null)
-        _s.encodeXmlStringValue('GlacierJobTier', glacierJobTier.value),
+      _s.encodeXmlStringValue('ObjectArn', objectArn),
+      if (objectVersionId != null)
+        _s.encodeXmlStringValue('ObjectVersionId', objectVersionId),
+      _s.encodeXmlStringValue('ETag', eTag),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -16596,295 +17719,163 @@ class S3ManifestOutputLocation {
   }
 }
 
-class S3MetadataDirective {
-  static const copy = S3MetadataDirective._('COPY');
-  static const replace = S3MetadataDirective._('REPLACE');
+/// The filter used to describe a set of objects for the job's manifest.
+class JobManifestGeneratorFilter {
+  /// If provided, the generated manifest includes only source bucket objects that
+  /// were created after this time.
+  final DateTime? createdAfter;
 
-  final String value;
+  /// If provided, the generated manifest includes only source bucket objects that
+  /// were created before this time.
+  final DateTime? createdBefore;
 
-  const S3MetadataDirective._(this.value);
+  /// Include objects in the generated manifest only if they are eligible for
+  /// replication according to the Replication configuration on the source bucket.
+  final bool? eligibleForReplication;
 
-  static const values = [copy, replace];
+  /// If provided, the generated manifest includes only source bucket objects
+  /// whose object keys match the string constraints specified for
+  /// <code>MatchAnyPrefix</code>, <code>MatchAnySuffix</code>, and
+  /// <code>MatchAnySubstring</code>.
+  final KeyNameConstraint? keyNameConstraint;
 
-  static S3MetadataDirective fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => S3MetadataDirective._(value));
+  /// If provided, the generated object list includes only source bucket objects
+  /// with the indicated server-side encryption type (SSE-S3, SSE-KMS, DSSE-KMS,
+  /// SSE-C, or NOT-SSE).
+  final List<ObjectEncryptionFilter>? matchAnyObjectEncryption;
 
-  @override
-  bool operator ==(other) =>
-      other is S3MetadataDirective && other.value == value;
+  /// If provided, the generated manifest includes only source bucket objects that
+  /// are stored with the specified storage class.
+  final List<S3StorageClass>? matchAnyStorageClass;
 
-  @override
-  int get hashCode => value.hashCode;
+  /// If provided, the generated manifest includes only source bucket objects that
+  /// have one of the specified Replication statuses.
+  final List<ReplicationStatus>? objectReplicationStatuses;
 
-  @override
-  String toString() => value;
-}
+  /// If provided, the generated manifest includes only source bucket objects
+  /// whose file size is greater than the specified number of bytes.
+  final int? objectSizeGreaterThanBytes;
 
-/// Whether S3 Object Lock legal hold will be applied to objects in an S3 Batch
-/// Operations job.
-class S3ObjectLockLegalHold {
-  /// The Object Lock legal hold status to be applied to all objects in the Batch
-  /// Operations job.
-  final S3ObjectLockLegalHoldStatus status;
+  /// If provided, the generated manifest includes only source bucket objects
+  /// whose file size is less than the specified number of bytes.
+  final int? objectSizeLessThanBytes;
 
-  S3ObjectLockLegalHold({
-    required this.status,
+  JobManifestGeneratorFilter({
+    this.createdAfter,
+    this.createdBefore,
+    this.eligibleForReplication,
+    this.keyNameConstraint,
+    this.matchAnyObjectEncryption,
+    this.matchAnyStorageClass,
+    this.objectReplicationStatuses,
+    this.objectSizeGreaterThanBytes,
+    this.objectSizeLessThanBytes,
   });
-  factory S3ObjectLockLegalHold.fromXml(_s.XmlElement elem) {
-    return S3ObjectLockLegalHold(
-      status: _s
-          .extractXmlStringValue(elem, 'Status')!
-          .let(S3ObjectLockLegalHoldStatus.fromString),
+  factory JobManifestGeneratorFilter.fromXml(_s.XmlElement elem) {
+    return JobManifestGeneratorFilter(
+      createdAfter: _s.extractXmlDateTimeValue(elem, 'CreatedAfter'),
+      createdBefore: _s.extractXmlDateTimeValue(elem, 'CreatedBefore'),
+      eligibleForReplication:
+          _s.extractXmlBoolValue(elem, 'EligibleForReplication'),
+      keyNameConstraint: _s
+          .extractXmlChild(elem, 'KeyNameConstraint')
+          ?.let(KeyNameConstraint.fromXml),
+      matchAnyObjectEncryption: _s
+          .extractXmlChild(elem, 'MatchAnyObjectEncryption')
+          ?.let((elem) => elem
+              .findElements('ObjectEncryption')
+              .map(ObjectEncryptionFilter.fromXml)
+              .toList()),
+      matchAnyStorageClass: _s
+          .extractXmlChild(elem, 'MatchAnyStorageClass')
+          ?.let((elem) => _s
+              .extractXmlStringListValues(elem, 'member')
+              .map(S3StorageClass.fromString)
+              .toList()),
+      objectReplicationStatuses: _s
+          .extractXmlChild(elem, 'ObjectReplicationStatuses')
+          ?.let((elem) => _s
+              .extractXmlStringListValues(elem, 'member')
+              .map(ReplicationStatus.fromString)
+              .toList()),
+      objectSizeGreaterThanBytes:
+          _s.extractXmlIntValue(elem, 'ObjectSizeGreaterThanBytes'),
+      objectSizeLessThanBytes:
+          _s.extractXmlIntValue(elem, 'ObjectSizeLessThanBytes'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final status = this.status;
+    final createdAfter = this.createdAfter;
+    final createdBefore = this.createdBefore;
+    final eligibleForReplication = this.eligibleForReplication;
+    final keyNameConstraint = this.keyNameConstraint;
+    final matchAnyObjectEncryption = this.matchAnyObjectEncryption;
+    final matchAnyStorageClass = this.matchAnyStorageClass;
+    final objectReplicationStatuses = this.objectReplicationStatuses;
+    final objectSizeGreaterThanBytes = this.objectSizeGreaterThanBytes;
+    final objectSizeLessThanBytes = this.objectSizeLessThanBytes;
     return {
-      'Status': status.value,
+      if (createdAfter != null) 'CreatedAfter': iso8601ToJson(createdAfter),
+      if (createdBefore != null) 'CreatedBefore': iso8601ToJson(createdBefore),
+      if (eligibleForReplication != null)
+        'EligibleForReplication': eligibleForReplication,
+      if (keyNameConstraint != null) 'KeyNameConstraint': keyNameConstraint,
+      if (matchAnyObjectEncryption != null)
+        'MatchAnyObjectEncryption': matchAnyObjectEncryption,
+      if (matchAnyStorageClass != null)
+        'MatchAnyStorageClass':
+            matchAnyStorageClass.map((e) => e.value).toList(),
+      if (objectReplicationStatuses != null)
+        'ObjectReplicationStatuses':
+            objectReplicationStatuses.map((e) => e.value).toList(),
+      if (objectSizeGreaterThanBytes != null)
+        'ObjectSizeGreaterThanBytes': objectSizeGreaterThanBytes,
+      if (objectSizeLessThanBytes != null)
+        'ObjectSizeLessThanBytes': objectSizeLessThanBytes,
     };
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final status = this.status;
+    final createdAfter = this.createdAfter;
+    final createdBefore = this.createdBefore;
+    final eligibleForReplication = this.eligibleForReplication;
+    final keyNameConstraint = this.keyNameConstraint;
+    final matchAnyObjectEncryption = this.matchAnyObjectEncryption;
+    final matchAnyStorageClass = this.matchAnyStorageClass;
+    final objectReplicationStatuses = this.objectReplicationStatuses;
+    final objectSizeGreaterThanBytes = this.objectSizeGreaterThanBytes;
+    final objectSizeLessThanBytes = this.objectSizeLessThanBytes;
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Status', status.value),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-class S3ObjectLockLegalHoldStatus {
-  static const off = S3ObjectLockLegalHoldStatus._('OFF');
-  static const on = S3ObjectLockLegalHoldStatus._('ON');
-
-  final String value;
-
-  const S3ObjectLockLegalHoldStatus._(this.value);
-
-  static const values = [off, on];
-
-  static S3ObjectLockLegalHoldStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => S3ObjectLockLegalHoldStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is S3ObjectLockLegalHoldStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class S3ObjectLockMode {
-  static const compliance = S3ObjectLockMode._('COMPLIANCE');
-  static const governance = S3ObjectLockMode._('GOVERNANCE');
-
-  final String value;
-
-  const S3ObjectLockMode._(this.value);
-
-  static const values = [compliance, governance];
-
-  static S3ObjectLockMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => S3ObjectLockMode._(value));
-
-  @override
-  bool operator ==(other) => other is S3ObjectLockMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class S3ObjectLockRetentionMode {
-  static const compliance = S3ObjectLockRetentionMode._('COMPLIANCE');
-  static const governance = S3ObjectLockRetentionMode._('GOVERNANCE');
-
-  final String value;
-
-  const S3ObjectLockRetentionMode._(this.value);
-
-  static const values = [compliance, governance];
-
-  static S3ObjectLockRetentionMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => S3ObjectLockRetentionMode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is S3ObjectLockRetentionMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// <p/>
-class S3ObjectMetadata {
-  /// <p/>
-  final String? cacheControl;
-
-  /// <p/>
-  final String? contentDisposition;
-
-  /// <p/>
-  final String? contentEncoding;
-
-  /// <p/>
-  final String? contentLanguage;
-
-  /// <i>This member has been deprecated.</i>
-  /// <p/>
-  final int? contentLength;
-
-  /// <i>This member has been deprecated.</i>
-  /// <p/>
-  final String? contentMD5;
-
-  /// <p/>
-  final String? contentType;
-
-  /// <p/>
-  final DateTime? httpExpiresDate;
-
-  /// <i>This member has been deprecated.</i>
-  /// <p/>
-  final bool? requesterCharged;
-
-  /// <p/> <note>
-  /// For directory buckets, only the server-side encryption with Amazon S3
-  /// managed keys (SSE-S3) (<code>AES256</code>) is supported.
-  /// </note>
-  final S3SSEAlgorithm? sSEAlgorithm;
-
-  /// <p/>
-  final Map<String, String>? userMetadata;
-
-  S3ObjectMetadata({
-    this.cacheControl,
-    this.contentDisposition,
-    this.contentEncoding,
-    this.contentLanguage,
-    this.contentLength,
-    this.contentMD5,
-    this.contentType,
-    this.httpExpiresDate,
-    this.requesterCharged,
-    this.sSEAlgorithm,
-    this.userMetadata,
-  });
-  factory S3ObjectMetadata.fromXml(_s.XmlElement elem) {
-    return S3ObjectMetadata(
-      cacheControl: _s.extractXmlStringValue(elem, 'CacheControl'),
-      contentDisposition: _s.extractXmlStringValue(elem, 'ContentDisposition'),
-      contentEncoding: _s.extractXmlStringValue(elem, 'ContentEncoding'),
-      contentLanguage: _s.extractXmlStringValue(elem, 'ContentLanguage'),
-      contentLength: _s.extractXmlIntValue(elem, 'ContentLength'),
-      contentMD5: _s.extractXmlStringValue(elem, 'ContentMD5'),
-      contentType: _s.extractXmlStringValue(elem, 'ContentType'),
-      httpExpiresDate: _s.extractXmlDateTimeValue(elem, 'HttpExpiresDate'),
-      requesterCharged: _s.extractXmlBoolValue(elem, 'RequesterCharged'),
-      sSEAlgorithm: _s
-          .extractXmlStringValue(elem, 'SSEAlgorithm')
-          ?.let(S3SSEAlgorithm.fromString),
-      userMetadata: Map.fromEntries(
-        elem.getElement('UserMetadata')?.findElements('entry').map(
-                  (c) => MapEntry(
-                    _s.extractXmlStringValue(c, 'key')!,
-                    _s.extractXmlStringValue(c, 'value')!,
-                  ),
-                ) ??
-            {},
-      ),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cacheControl = this.cacheControl;
-    final contentDisposition = this.contentDisposition;
-    final contentEncoding = this.contentEncoding;
-    final contentLanguage = this.contentLanguage;
-    final contentLength = this.contentLength;
-    final contentMD5 = this.contentMD5;
-    final contentType = this.contentType;
-    final httpExpiresDate = this.httpExpiresDate;
-    final requesterCharged = this.requesterCharged;
-    final sSEAlgorithm = this.sSEAlgorithm;
-    final userMetadata = this.userMetadata;
-    return {
-      if (cacheControl != null) 'CacheControl': cacheControl,
-      if (contentDisposition != null) 'ContentDisposition': contentDisposition,
-      if (contentEncoding != null) 'ContentEncoding': contentEncoding,
-      if (contentLanguage != null) 'ContentLanguage': contentLanguage,
-      if (contentLength != null) 'ContentLength': contentLength,
-      if (contentMD5 != null) 'ContentMD5': contentMD5,
-      if (contentType != null) 'ContentType': contentType,
-      if (httpExpiresDate != null)
-        'HttpExpiresDate': iso8601ToJson(httpExpiresDate),
-      if (requesterCharged != null) 'RequesterCharged': requesterCharged,
-      if (sSEAlgorithm != null) 'SSEAlgorithm': sSEAlgorithm.value,
-      if (userMetadata != null) 'UserMetadata': userMetadata,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final cacheControl = this.cacheControl;
-    final contentDisposition = this.contentDisposition;
-    final contentEncoding = this.contentEncoding;
-    final contentLanguage = this.contentLanguage;
-    final contentLength = this.contentLength;
-    final contentMD5 = this.contentMD5;
-    final contentType = this.contentType;
-    final httpExpiresDate = this.httpExpiresDate;
-    final requesterCharged = this.requesterCharged;
-    final sSEAlgorithm = this.sSEAlgorithm;
-    final userMetadata = this.userMetadata;
-    final $children = <_s.XmlNode>[
-      if (cacheControl != null)
-        _s.encodeXmlStringValue('CacheControl', cacheControl),
-      if (contentDisposition != null)
-        _s.encodeXmlStringValue('ContentDisposition', contentDisposition),
-      if (contentEncoding != null)
-        _s.encodeXmlStringValue('ContentEncoding', contentEncoding),
-      if (contentLanguage != null)
-        _s.encodeXmlStringValue('ContentLanguage', contentLanguage),
-      if (userMetadata != null)
+      if (eligibleForReplication != null)
+        _s.encodeXmlBoolValue('EligibleForReplication', eligibleForReplication),
+      if (createdAfter != null)
+        _s.encodeXmlDateTimeValue('CreatedAfter', createdAfter),
+      if (createdBefore != null)
+        _s.encodeXmlDateTimeValue('CreatedBefore', createdBefore),
+      if (objectReplicationStatuses != null)
         _s.XmlElement(
-            _s.XmlName.parts('UserMetadata'),
+            _s.XmlName.parts('ObjectReplicationStatuses'),
             [],
-            userMetadata.entries.map((e) => _s.XmlElement(
-                    _s.XmlName.parts('entry'), [], <_s.XmlNode>[
-                  _s.encodeXmlStringValue('key', e.key),
-                  _s.encodeXmlStringValue('value', e.value)
-                ]))),
-      if (contentLength != null)
-        _s.encodeXmlIntValue('ContentLength', contentLength),
-      if (contentMD5 != null) _s.encodeXmlStringValue('ContentMD5', contentMD5),
-      if (contentType != null)
-        _s.encodeXmlStringValue('ContentType', contentType),
-      if (httpExpiresDate != null)
-        _s.encodeXmlDateTimeValue('HttpExpiresDate', httpExpiresDate),
-      if (requesterCharged != null)
-        _s.encodeXmlBoolValue('RequesterCharged', requesterCharged),
-      if (sSEAlgorithm != null)
-        _s.encodeXmlStringValue('SSEAlgorithm', sSEAlgorithm.value),
+            objectReplicationStatuses
+                .map((e) => _s.encodeXmlStringValue('member', e.value))),
+      if (keyNameConstraint != null)
+        keyNameConstraint.toXml('KeyNameConstraint'),
+      if (objectSizeGreaterThanBytes != null)
+        _s.encodeXmlIntValue(
+            'ObjectSizeGreaterThanBytes', objectSizeGreaterThanBytes),
+      if (objectSizeLessThanBytes != null)
+        _s.encodeXmlIntValue(
+            'ObjectSizeLessThanBytes', objectSizeLessThanBytes),
+      if (matchAnyStorageClass != null)
+        _s.XmlElement(
+            _s.XmlName.parts('MatchAnyStorageClass'),
+            [],
+            matchAnyStorageClass
+                .map((e) => _s.encodeXmlStringValue('member', e.value))),
+      if (matchAnyObjectEncryption != null)
+        _s.XmlElement(_s.XmlName.parts('MatchAnyObjectEncryption'), [],
+            matchAnyObjectEncryption.map((e) => e.toXml('ObjectEncryption'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -16897,41 +17888,70 @@ class S3ObjectMetadata {
   }
 }
 
-/// <p/>
-class S3ObjectOwner {
-  /// <p/>
-  final String? displayName;
+/// If provided, the generated manifest includes only source bucket objects
+/// whose object keys match the string constraints specified for
+/// <code>MatchAnyPrefix</code>, <code>MatchAnySuffix</code>, and
+/// <code>MatchAnySubstring</code>.
+class KeyNameConstraint {
+  /// If provided, the generated manifest includes objects where the specified
+  /// string appears at the start of the object key string. Each KeyNameConstraint
+  /// filter accepts an array of strings with a length of 1 string.
+  final List<String>? matchAnyPrefix;
 
-  /// <p/>
-  final String? id;
+  /// If provided, the generated manifest includes objects where the specified
+  /// string appears anywhere within the object key string. Each KeyNameConstraint
+  /// filter accepts an array of strings with a length of 1 string.
+  final List<String>? matchAnySubstring;
 
-  S3ObjectOwner({
-    this.displayName,
-    this.id,
+  /// If provided, the generated manifest includes objects where the specified
+  /// string appears at the end of the object key string. Each KeyNameConstraint
+  /// filter accepts an array of strings with a length of 1 string.
+  final List<String>? matchAnySuffix;
+
+  KeyNameConstraint({
+    this.matchAnyPrefix,
+    this.matchAnySubstring,
+    this.matchAnySuffix,
   });
-  factory S3ObjectOwner.fromXml(_s.XmlElement elem) {
-    return S3ObjectOwner(
-      displayName: _s.extractXmlStringValue(elem, 'DisplayName'),
-      id: _s.extractXmlStringValue(elem, 'ID'),
+  factory KeyNameConstraint.fromXml(_s.XmlElement elem) {
+    return KeyNameConstraint(
+      matchAnyPrefix: _s
+          .extractXmlChild(elem, 'MatchAnyPrefix')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      matchAnySubstring: _s
+          .extractXmlChild(elem, 'MatchAnySubstring')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      matchAnySuffix: _s
+          .extractXmlChild(elem, 'MatchAnySuffix')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final displayName = this.displayName;
-    final id = this.id;
+    final matchAnyPrefix = this.matchAnyPrefix;
+    final matchAnySubstring = this.matchAnySubstring;
+    final matchAnySuffix = this.matchAnySuffix;
     return {
-      if (displayName != null) 'DisplayName': displayName,
-      if (id != null) 'ID': id,
+      if (matchAnyPrefix != null) 'MatchAnyPrefix': matchAnyPrefix,
+      if (matchAnySubstring != null) 'MatchAnySubstring': matchAnySubstring,
+      if (matchAnySuffix != null) 'MatchAnySuffix': matchAnySuffix,
     };
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final displayName = this.displayName;
-    final id = this.id;
+    final matchAnyPrefix = this.matchAnyPrefix;
+    final matchAnySubstring = this.matchAnySubstring;
+    final matchAnySuffix = this.matchAnySuffix;
     final $children = <_s.XmlNode>[
-      if (id != null) _s.encodeXmlStringValue('ID', id),
-      if (displayName != null)
-        _s.encodeXmlStringValue('DisplayName', displayName),
+      if (matchAnyPrefix != null)
+        _s.XmlElement(_s.XmlName.parts('MatchAnyPrefix'), [],
+            matchAnyPrefix.map((e) => _s.encodeXmlStringValue('member', e))),
+      if (matchAnySuffix != null)
+        _s.XmlElement(_s.XmlName.parts('MatchAnySuffix'), [],
+            matchAnySuffix.map((e) => _s.encodeXmlStringValue('member', e))),
+      if (matchAnySubstring != null)
+        _s.XmlElement(_s.XmlName.parts('MatchAnySubstring'), [],
+            matchAnySubstring.map((e) => _s.encodeXmlStringValue('member', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -16944,62 +17964,92 @@ class S3ObjectOwner {
   }
 }
 
-class S3Permission {
-  static const fullControl = S3Permission._('FULL_CONTROL');
-  static const read = S3Permission._('READ');
-  static const write = S3Permission._('WRITE');
-  static const readAcp = S3Permission._('READ_ACP');
-  static const writeAcp = S3Permission._('WRITE_ACP');
+/// An optional filter for the S3JobManifestGenerator that identifies the subset
+/// of objects by encryption type.
+class ObjectEncryptionFilter {
+  /// Filters for objects that are encrypted by dual-layer server-side encryption
+  /// with Amazon Web Services Key Management Service (KMS) keys (DSSE-KMS).
+  final DSSEKMSFilter? dssekms;
 
-  final String value;
+  /// Filters for objects that are not encrypted by server-side encryption.
+  final NotSSEFilter? notsse;
 
-  const S3Permission._(this.value);
+  /// Filters for objects that are encrypted by server-side encryption with
+  /// customer-provided keys (SSE-C).
+  final SSECFilter? ssec;
 
-  static const values = [fullControl, read, write, readAcp, writeAcp];
+  /// Filters for objects that are encrypted by server-side encryption with Amazon
+  /// Web Services Key Management Service (KMS) keys (SSE-KMS).
+  final SSEKMSFilter? ssekms;
 
-  static S3Permission fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => S3Permission._(value));
+  /// Filters for objects that are encrypted by server-side encryption with Amazon
+  /// S3 managed keys (SSE-S3).
+  final SSES3Filter? sses3;
 
-  @override
-  bool operator ==(other) => other is S3Permission && other.value == value;
+  ObjectEncryptionFilter({
+    this.dssekms,
+    this.notsse,
+    this.ssec,
+    this.ssekms,
+    this.sses3,
+  });
+  factory ObjectEncryptionFilter.fromXml(_s.XmlElement elem) {
+    return ObjectEncryptionFilter(
+      dssekms: _s.extractXmlChild(elem, 'DSSE-KMS')?.let(DSSEKMSFilter.fromXml),
+      notsse: _s.extractXmlChild(elem, 'NOT-SSE')?.let(NotSSEFilter.fromXml),
+      ssec: _s.extractXmlChild(elem, 'SSE-C')?.let(SSECFilter.fromXml),
+      ssekms: _s.extractXmlChild(elem, 'SSE-KMS')?.let(SSEKMSFilter.fromXml),
+      sses3: _s.extractXmlChild(elem, 'SSE-S3')?.let(SSES3Filter.fromXml),
+    );
+  }
 
-  @override
-  int get hashCode => value.hashCode;
+  Map<String, dynamic> toJson() {
+    final dssekms = this.dssekms;
+    final notsse = this.notsse;
+    final ssec = this.ssec;
+    final ssekms = this.ssekms;
+    final sses3 = this.sses3;
+    return {
+      if (dssekms != null) 'DSSE-KMS': dssekms,
+      if (notsse != null) 'NOT-SSE': notsse,
+      if (ssec != null) 'SSE-C': ssec,
+      if (ssekms != null) 'SSE-KMS': ssekms,
+      if (sses3 != null) 'SSE-S3': sses3,
+    };
+  }
 
-  @override
-  String toString() => value;
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final dssekms = this.dssekms;
+    final notsse = this.notsse;
+    final ssec = this.ssec;
+    final ssekms = this.ssekms;
+    final sses3 = this.sses3;
+    final $children = <_s.XmlNode>[
+      if (sses3 != null) sses3.toXml('SSE-S3'),
+      if (ssekms != null) ssekms.toXml('SSE-KMS'),
+      if (dssekms != null) dssekms.toXml('DSSE-KMS'),
+      if (ssec != null) ssec.toXml('SSE-C'),
+      if (notsse != null) notsse.toXml('NOT-SSE'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
 }
 
-class S3PrefixType {
-  static const object = S3PrefixType._('Object');
-
-  final String value;
-
-  const S3PrefixType._(this.value);
-
-  static const values = [object];
-
-  static S3PrefixType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => S3PrefixType._(value));
-
-  @override
-  bool operator ==(other) => other is S3PrefixType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Directs the specified job to invoke <code>ReplicateObject</code> on every
-/// object in the job's manifest.
-class S3ReplicateObjectOperation {
-  S3ReplicateObjectOperation();
-  factory S3ReplicateObjectOperation.fromXml(
+/// A filter that returns objects that are encrypted by server-side encryption
+/// with Amazon S3 managed keys (SSE-S3).
+class SSES3Filter {
+  SSES3Filter();
+  factory SSES3Filter.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
-    return S3ReplicateObjectOperation();
+    return SSES3Filter();
   }
 
   Map<String, dynamic> toJson() {
@@ -17019,52 +18069,48 @@ class S3ReplicateObjectOperation {
   }
 }
 
-/// Contains the S3 Object Lock retention mode to be applied to all objects in
-/// the S3 Batch Operations job. If you don't provide <code>Mode</code> and
-/// <code>RetainUntilDate</code> data types in your operation, you will remove
-/// the retention from your objects. For more information, see <a
-/// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-retention-date.html">Using
-/// S3 Object Lock retention with S3 Batch Operations</a> in the <i>Amazon S3
-/// User Guide</i>.
-class S3Retention {
-  /// The Object Lock retention mode to be applied to all objects in the Batch
-  /// Operations job.
-  final S3ObjectLockRetentionMode? mode;
+/// A filter that returns objects that are encrypted by server-side encryption
+/// with Amazon Web Services KMS (SSE-KMS).
+class SSEKMSFilter {
+  /// Specifies whether Amazon S3 should use an S3 Bucket Key for object
+  /// encryption with server-side encryption using Amazon Web Services Key
+  /// Management Service (Amazon Web Services KMS) keys (SSE-KMS). If specified,
+  /// will filter SSE-KMS encrypted objects by S3 Bucket Key status.
+  final bool? bucketKeyEnabled;
 
-  /// The date when the applied Object Lock retention will expire on all objects
-  /// set by the Batch Operations job.
-  final DateTime? retainUntilDate;
+  /// The Amazon Resource Name (ARN) of the customer managed KMS key to use for
+  /// the filter to return objects that are encrypted by the specified key. For
+  /// best performance, use keys in the same Region as the S3 Batch Operations
+  /// job.
+  final String? kmsKeyArn;
 
-  S3Retention({
-    this.mode,
-    this.retainUntilDate,
+  SSEKMSFilter({
+    this.bucketKeyEnabled,
+    this.kmsKeyArn,
   });
-  factory S3Retention.fromXml(_s.XmlElement elem) {
-    return S3Retention(
-      mode: _s
-          .extractXmlStringValue(elem, 'Mode')
-          ?.let(S3ObjectLockRetentionMode.fromString),
-      retainUntilDate: _s.extractXmlDateTimeValue(elem, 'RetainUntilDate'),
+  factory SSEKMSFilter.fromXml(_s.XmlElement elem) {
+    return SSEKMSFilter(
+      bucketKeyEnabled: _s.extractXmlBoolValue(elem, 'BucketKeyEnabled'),
+      kmsKeyArn: _s.extractXmlStringValue(elem, 'KmsKeyArn'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final mode = this.mode;
-    final retainUntilDate = this.retainUntilDate;
+    final bucketKeyEnabled = this.bucketKeyEnabled;
+    final kmsKeyArn = this.kmsKeyArn;
     return {
-      if (mode != null) 'Mode': mode.value,
-      if (retainUntilDate != null)
-        'RetainUntilDate': iso8601ToJson(retainUntilDate),
+      if (bucketKeyEnabled != null) 'BucketKeyEnabled': bucketKeyEnabled,
+      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
     };
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final mode = this.mode;
-    final retainUntilDate = this.retainUntilDate;
+    final bucketKeyEnabled = this.bucketKeyEnabled;
+    final kmsKeyArn = this.kmsKeyArn;
     final $children = <_s.XmlNode>[
-      if (retainUntilDate != null)
-        _s.encodeXmlDateTimeValue('RetainUntilDate', retainUntilDate),
-      if (mode != null) _s.encodeXmlStringValue('Mode', mode.value),
+      if (kmsKeyArn != null) _s.encodeXmlStringValue('KmsKeyArn', kmsKeyArn),
+      if (bucketKeyEnabled != null)
+        _s.encodeXmlBoolValue('BucketKeyEnabled', bucketKeyEnabled),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -17077,22 +18123,131 @@ class S3Retention {
   }
 }
 
-class S3SSEAlgorithm {
-  static const aes256 = S3SSEAlgorithm._('AES256');
-  static const kms = S3SSEAlgorithm._('KMS');
+/// A filter that returns objects that are encrypted by dual-layer server-side
+/// encryption with Amazon Web Services Key Management Service (KMS) keys
+/// (DSSE-KMS). You can further refine your filtering by optionally providing a
+/// KMS Key ARN to filter objects encrypted by a specific key.
+class DSSEKMSFilter {
+  /// The Amazon Resource Name (ARN) of the customer managed KMS key to use for
+  /// the filter to return objects that are encrypted by the specified key. For
+  /// best performance, use keys in the same Region as the S3 Batch Operations
+  /// job.
+  final String? kmsKeyArn;
+
+  DSSEKMSFilter({
+    this.kmsKeyArn,
+  });
+  factory DSSEKMSFilter.fromXml(_s.XmlElement elem) {
+    return DSSEKMSFilter(
+      kmsKeyArn: _s.extractXmlStringValue(elem, 'KmsKeyArn'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kmsKeyArn = this.kmsKeyArn;
+    return {
+      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final kmsKeyArn = this.kmsKeyArn;
+    final $children = <_s.XmlNode>[
+      if (kmsKeyArn != null) _s.encodeXmlStringValue('KmsKeyArn', kmsKeyArn),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A filter that returns objects that are encrypted by server-side encryption
+/// with customer-provided keys (SSE-C).
+class SSECFilter {
+  SSECFilter();
+  factory SSECFilter.fromXml(
+      // ignore: avoid_unused_constructor_parameters
+      _s.XmlElement elem) {
+    return SSECFilter();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final $children = <_s.XmlNode>[];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A filter that returns objects that aren't server-side encrypted.
+class NotSSEFilter {
+  NotSSEFilter();
+  factory NotSSEFilter.fromXml(
+      // ignore: avoid_unused_constructor_parameters
+      _s.XmlElement elem) {
+    return NotSSEFilter();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final $children = <_s.XmlNode>[];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class S3StorageClass {
+  static const standard = S3StorageClass._('STANDARD');
+  static const standardIa = S3StorageClass._('STANDARD_IA');
+  static const onezoneIa = S3StorageClass._('ONEZONE_IA');
+  static const glacier = S3StorageClass._('GLACIER');
+  static const intelligentTiering = S3StorageClass._('INTELLIGENT_TIERING');
+  static const deepArchive = S3StorageClass._('DEEP_ARCHIVE');
+  static const glacierIr = S3StorageClass._('GLACIER_IR');
 
   final String value;
 
-  const S3SSEAlgorithm._(this.value);
+  const S3StorageClass._(this.value);
 
-  static const values = [aes256, kms];
+  static const values = [
+    standard,
+    standardIa,
+    onezoneIa,
+    glacier,
+    intelligentTiering,
+    deepArchive,
+    glacierIr
+  ];
 
-  static S3SSEAlgorithm fromString(String value) =>
+  static S3StorageClass fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => S3SSEAlgorithm._(value));
+          orElse: () => S3StorageClass._(value));
 
   @override
-  bool operator ==(other) => other is S3SSEAlgorithm && other.value == value;
+  bool operator ==(other) => other is S3StorageClass && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -17101,13 +18256,688 @@ class S3SSEAlgorithm {
   String toString() => value;
 }
 
+class ReplicationStatus {
+  static const completed = ReplicationStatus._('COMPLETED');
+  static const failed = ReplicationStatus._('FAILED');
+  static const replica = ReplicationStatus._('REPLICA');
+  static const none = ReplicationStatus._('NONE');
+
+  final String value;
+
+  const ReplicationStatus._(this.value);
+
+  static const values = [completed, failed, replica, none];
+
+  static ReplicationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReplicationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ReplicationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The encryption configuration to use when storing the generated manifest.
+class GeneratedManifestEncryption {
+  /// Configuration details on how SSE-KMS is used to encrypt generated manifest
+  /// objects.
+  final SSEKMSEncryption? ssekms;
+
+  /// Specifies the use of SSE-S3 to encrypt generated manifest objects.
+  final SSES3Encryption? sses3;
+
+  GeneratedManifestEncryption({
+    this.ssekms,
+    this.sses3,
+  });
+  factory GeneratedManifestEncryption.fromXml(_s.XmlElement elem) {
+    return GeneratedManifestEncryption(
+      ssekms:
+          _s.extractXmlChild(elem, 'SSE-KMS')?.let(SSEKMSEncryption.fromXml),
+      sses3: _s.extractXmlChild(elem, 'SSE-S3')?.let(SSES3Encryption.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ssekms = this.ssekms;
+    final sses3 = this.sses3;
+    return {
+      if (ssekms != null) 'SSE-KMS': ssekms,
+      if (sses3 != null) 'SSE-S3': sses3,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final ssekms = this.ssekms;
+    final sses3 = this.sses3;
+    final $children = <_s.XmlNode>[
+      if (sses3 != null) sses3.toXml('SSE-S3'),
+      if (ssekms != null) ssekms.toXml('SSE-KMS'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Configuration for the use of SSE-S3 to encrypt generated manifest objects.
+class SSES3Encryption {
+  SSES3Encryption();
+  factory SSES3Encryption.fromXml(
+      // ignore: avoid_unused_constructor_parameters
+      _s.XmlElement elem) {
+    return SSES3Encryption();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final $children = <_s.XmlNode>[];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Configuration for the use of SSE-KMS to encrypt generated manifest objects.
+class SSEKMSEncryption {
+  /// Specifies the ID of the Amazon Web Services Key Management Service (Amazon
+  /// Web Services KMS) symmetric encryption customer managed key to use for
+  /// encrypting generated manifest objects.
+  final String keyId;
+
+  SSEKMSEncryption({
+    required this.keyId,
+  });
+  factory SSEKMSEncryption.fromXml(_s.XmlElement elem) {
+    return SSEKMSEncryption(
+      keyId: _s.extractXmlStringValue(elem, 'KeyId')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final keyId = this.keyId;
+    return {
+      'KeyId': keyId,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final keyId = this.keyId;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('KeyId', keyId),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class JobReportFormat {
+  static const reportCsv_20180820 = JobReportFormat._('Report_CSV_20180820');
+
+  final String value;
+
+  const JobReportFormat._(this.value);
+
+  static const values = [reportCsv_20180820];
+
+  static JobReportFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => JobReportFormat._(value));
+
+  @override
+  bool operator ==(other) => other is JobReportFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class JobReportScope {
+  static const allTasks = JobReportScope._('AllTasks');
+  static const failedTasksOnly = JobReportScope._('FailedTasksOnly');
+
+  final String value;
+
+  const JobReportScope._(this.value);
+
+  static const values = [allTasks, failedTasksOnly];
+
+  static JobReportScope fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => JobReportScope._(value));
+
+  @override
+  bool operator ==(other) => other is JobReportScope && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// If this job failed, this element indicates why the job failed.
+class JobFailure {
+  /// The failure code, if any, for the specified job.
+  final String? failureCode;
+
+  /// The failure reason, if any, for the specified job.
+  final String? failureReason;
+
+  JobFailure({
+    this.failureCode,
+    this.failureReason,
+  });
+  factory JobFailure.fromXml(_s.XmlElement elem) {
+    return JobFailure(
+      failureCode: _s.extractXmlStringValue(elem, 'FailureCode'),
+      failureReason: _s.extractXmlStringValue(elem, 'FailureReason'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failureCode = this.failureCode;
+    final failureReason = this.failureReason;
+    return {
+      if (failureCode != null) 'FailureCode': failureCode,
+      if (failureReason != null) 'FailureReason': failureReason,
+    };
+  }
+}
+
+/// Contains the configuration parameters for a <code>Lambda Invoke</code>
+/// operation.
+class LambdaInvokeOperation {
+  /// The Amazon Resource Name (ARN) for the Lambda function that the specified
+  /// job will invoke on every object in the manifest.
+  final String? functionArn;
+
+  /// Specifies the schema version for the payload that Batch Operations sends
+  /// when invoking an Lambda function. Version <code>1.0</code> is the default.
+  /// Version <code>2.0</code> is required when you use Batch Operations to invoke
+  /// Lambda functions that act on directory buckets, or if you need to specify
+  /// <code>UserArguments</code>. For more information, see <a
+  /// href="https://aws.amazon.com/blogs/storage/automate-object-processing-in-amazon-s3-directory-buckets-with-s3-batch-operations-and-aws-lambda/">Automate
+  /// object processing in Amazon S3 directory buckets with S3 Batch Operations
+  /// and Lambda</a> in the <i>Amazon Web Services Storage Blog</i>.
+  /// <important>
+  /// Ensure that your Lambda function code expects
+  /// <code>InvocationSchemaVersion</code> <b>2.0</b> and uses bucket name rather
+  /// than bucket ARN. If the <code>InvocationSchemaVersion</code> does not match
+  /// what your Lambda function expects, your function might not work as expected.
+  /// </important> <note>
+  /// <b>Directory buckets</b> - To initiate Amazon Web Services Lambda function
+  /// to perform custom actions on objects in directory buckets, you must specify
+  /// <code>2.0</code>.
+  /// </note>
+  final String? invocationSchemaVersion;
+
+  /// Key-value pairs that are passed in the payload that Batch Operations sends
+  /// when invoking an Lambda function. You must specify
+  /// <code>InvocationSchemaVersion</code> <b>2.0</b> for
+  /// <code>LambdaInvoke</code> operations that include
+  /// <code>UserArguments</code>. For more information, see <a
+  /// href="https://aws.amazon.com/blogs/storage/automate-object-processing-in-amazon-s3-directory-buckets-with-s3-batch-operations-and-aws-lambda/">Automate
+  /// object processing in Amazon S3 directory buckets with S3 Batch Operations
+  /// and Lambda</a> in the <i>Amazon Web Services Storage Blog</i>.
+  final Map<String, String>? userArguments;
+
+  LambdaInvokeOperation({
+    this.functionArn,
+    this.invocationSchemaVersion,
+    this.userArguments,
+  });
+  factory LambdaInvokeOperation.fromXml(_s.XmlElement elem) {
+    return LambdaInvokeOperation(
+      functionArn: _s.extractXmlStringValue(elem, 'FunctionArn'),
+      invocationSchemaVersion:
+          _s.extractXmlStringValue(elem, 'InvocationSchemaVersion'),
+      userArguments: Map.fromEntries(
+        elem.getElement('UserArguments')?.findElements('entry').map(
+                  (c) => MapEntry(
+                    _s.extractXmlStringValue(c, 'key')!,
+                    _s.extractXmlStringValue(c, 'value')!,
+                  ),
+                ) ??
+            {},
+      ),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final functionArn = this.functionArn;
+    final invocationSchemaVersion = this.invocationSchemaVersion;
+    final userArguments = this.userArguments;
+    return {
+      if (functionArn != null) 'FunctionArn': functionArn,
+      if (invocationSchemaVersion != null)
+        'InvocationSchemaVersion': invocationSchemaVersion,
+      if (userArguments != null) 'UserArguments': userArguments,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final functionArn = this.functionArn;
+    final invocationSchemaVersion = this.invocationSchemaVersion;
+    final userArguments = this.userArguments;
+    final $children = <_s.XmlNode>[
+      if (functionArn != null)
+        _s.encodeXmlStringValue('FunctionArn', functionArn),
+      if (invocationSchemaVersion != null)
+        _s.encodeXmlStringValue(
+            'InvocationSchemaVersion', invocationSchemaVersion),
+      if (userArguments != null)
+        _s.XmlElement(
+            _s.XmlName.parts('UserArguments'),
+            [],
+            userArguments.entries.map((e) => _s.XmlElement(
+                    _s.XmlName.parts('entry'), [], <_s.XmlNode>[
+                  _s.encodeXmlStringValue('key', e.key),
+                  _s.encodeXmlStringValue('value', e.value)
+                ]))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Contains the configuration parameters for a PUT Copy object operation. S3
+/// Batch Operations passes every object to the underlying
+/// <code>CopyObject</code> API operation. For more information about the
+/// parameters for this operation, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectCOPY.html">CopyObject</a>.
+class S3CopyObjectOperation {
+  ///
+  /// <note>
+  /// This functionality is not supported by directory buckets.
+  /// </note>
+  final List<S3Grant>? accessControlGrants;
+
+  /// Specifies whether Amazon S3 should use an S3 Bucket Key for object
+  /// encryption with server-side encryption using Amazon Web Services KMS
+  /// (SSE-KMS). Setting this header to <code>true</code> causes Amazon S3 to use
+  /// an S3 Bucket Key for object encryption with SSE-KMS.
+  ///
+  /// Specifying this header with an <i>Copy</i> action doesn’t affect
+  /// <i>bucket-level</i> settings for S3 Bucket Key.
+  /// <note>
+  /// <b>Directory buckets</b> - S3 Bucket Keys aren't supported, when you copy
+  /// SSE-KMS encrypted objects from general purpose buckets to directory buckets,
+  /// from directory buckets to general purpose buckets, or between directory
+  /// buckets, through <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-objects-Batch-Ops">the
+  /// Copy operation in Batch Operations</a>. In this case, Amazon S3 makes a call
+  /// to KMS every time a copy request is made for a KMS-encrypted object.
+  /// </note>
+  final bool? bucketKeyEnabled;
+
+  ///
+  /// <note>
+  /// This functionality is not supported by directory buckets.
+  /// </note>
+  final S3CannedAccessControlList? cannedAccessControlList;
+
+  /// Indicates the algorithm that you want Amazon S3 to use to create the
+  /// checksum. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final S3ChecksumAlgorithm? checksumAlgorithm;
+
+  ///
+  final S3MetadataDirective? metadataDirective;
+
+  ///
+  final DateTime? modifiedSinceConstraint;
+
+  /// If you don't provide this parameter, Amazon S3 copies all the metadata from
+  /// the original objects. If you specify an empty set, the new objects will have
+  /// no tags. Otherwise, Amazon S3 assigns the supplied tags to the new objects.
+  final S3ObjectMetadata? newObjectMetadata;
+
+  /// Specifies a list of tags to add to the destination objects after they are
+  /// copied. If <code>NewObjectTagging</code> is not specified, the tags of the
+  /// source objects are copied to destination objects by default.
+  /// <note>
+  /// <b>Directory buckets</b> - Tags aren't supported by directory buckets. If
+  /// your source objects have tags and your destination bucket is a directory
+  /// bucket, specify an empty tag set in the <code>NewObjectTagging</code> field
+  /// to prevent copying the source object tags to the directory bucket.
+  /// </note>
+  final List<S3Tag>? newObjectTagging;
+
+  /// The legal hold status to be applied to all objects in the Batch Operations
+  /// job.
+  /// <note>
+  /// This functionality is not supported by directory buckets.
+  /// </note>
+  final S3ObjectLockLegalHoldStatus? objectLockLegalHoldStatus;
+
+  /// The retention mode to be applied to all objects in the Batch Operations job.
+  /// <note>
+  /// This functionality is not supported by directory buckets.
+  /// </note>
+  final S3ObjectLockMode? objectLockMode;
+
+  /// The date when the applied object retention configuration expires on all
+  /// objects in the Batch Operations job.
+  /// <note>
+  /// This functionality is not supported by directory buckets.
+  /// </note>
+  final DateTime? objectLockRetainUntilDate;
+
+  /// If the destination bucket is configured as a website, specifies an optional
+  /// metadata property for website redirects,
+  /// <code>x-amz-website-redirect-location</code>. Allows webpage redirects if
+  /// the object copy is accessed through a website endpoint.
+  /// <note>
+  /// This functionality is not supported by directory buckets.
+  /// </note>
+  final String? redirectLocation;
+
+  ///
+  /// <note>
+  /// This functionality is not supported by directory buckets.
+  /// </note>
+  final bool? requesterPays;
+
+  /// Specifies the KMS key ID (Key ID, Key ARN, or Key Alias) to use for object
+  /// encryption. If the KMS key doesn't exist in the same account that's issuing
+  /// the command, you must use the full Key ARN not the Key ID.
+  /// <note>
+  /// <b>Directory buckets</b> - If you specify <code>SSEAlgorithm</code> with
+  /// <code>KMS</code>, you must specify the <code> SSEAwsKmsKeyId</code>
+  /// parameter with the ID (Key ID or Key ARN) of the KMS symmetric encryption
+  /// customer managed key to use. Otherwise, you get an HTTP <code>400 Bad
+  /// Request</code> error. The key alias format of the KMS key isn't supported.
+  /// To encrypt new object copies in a directory bucket with SSE-KMS, you must
+  /// specify SSE-KMS as the directory bucket's default encryption configuration
+  /// with a KMS key (specifically, a <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk">customer
+  /// managed key</a>). The <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk">Amazon
+  /// Web Services managed key</a> (<code>aws/s3</code>) isn't supported. Your
+  /// SSE-KMS configuration can only support 1 <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk">customer
+  /// managed key</a> per directory bucket for the lifetime of the bucket. After
+  /// you specify a customer managed key for SSE-KMS as the bucket default
+  /// encryption, you can't override the customer managed key for the bucket's
+  /// SSE-KMS configuration. Then, when you specify server-side encryption
+  /// settings for new object copies with SSE-KMS, you must make sure the
+  /// encryption key is the same customer managed key that you specified for the
+  /// directory bucket's default encryption configuration.
+  /// </note>
+  final String? sSEAwsKmsKeyId;
+
+  /// Specify the storage class for the destination objects in a <code>Copy</code>
+  /// operation.
+  /// <note>
+  /// <b>Directory buckets </b> - This functionality is not supported by directory
+  /// buckets.
+  /// </note>
+  final S3StorageClass? storageClass;
+
+  /// Specifies the folder prefix that you want the objects to be copied into. For
+  /// example, to copy objects into a folder named <code>Folder1</code> in the
+  /// destination bucket, set the <code>TargetKeyPrefix</code> property to
+  /// <code>Folder1</code>.
+  final String? targetKeyPrefix;
+
+  /// Specifies the destination bucket Amazon Resource Name (ARN) for the batch
+  /// copy operation.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>General purpose buckets</b> - For example, to copy objects to a general
+  /// purpose bucket named <code>destinationBucket</code>, set the
+  /// <code>TargetResource</code> property to
+  /// <code>arn:aws:s3:::destinationBucket</code>.
+  /// </li>
+  /// <li>
+  /// <b>Directory buckets</b> - For example, to copy objects to a directory
+  /// bucket named <code>destinationBucket</code> in the Availability Zone
+  /// identified by the AZ ID <code>usw2-az1</code>, set the
+  /// <code>TargetResource</code> property to
+  /// <code>arn:aws:s3express:<i>region</i>:<i>account_id</i>:/bucket/<i>destination_bucket_base_name</i>--<i>usw2-az1</i>--x-s3</code>.
+  /// A directory bucket as a destination bucket can be in Availability Zone or
+  /// Local Zone.
+  /// <note>
+  /// Copying objects across different Amazon Web Services Regions isn't supported
+  /// when the source or destination bucket is in Amazon Web Services Local Zones.
+  /// The source and destination buckets must have the same parent Amazon Web
+  /// Services Region. Otherwise, you get an HTTP <code>400 Bad Request</code>
+  /// error with the error code <code>InvalidRequest</code>.
+  /// </note> </li>
+  /// </ul>
+  final String? targetResource;
+
+  ///
+  final DateTime? unModifiedSinceConstraint;
+
+  S3CopyObjectOperation({
+    this.accessControlGrants,
+    this.bucketKeyEnabled,
+    this.cannedAccessControlList,
+    this.checksumAlgorithm,
+    this.metadataDirective,
+    this.modifiedSinceConstraint,
+    this.newObjectMetadata,
+    this.newObjectTagging,
+    this.objectLockLegalHoldStatus,
+    this.objectLockMode,
+    this.objectLockRetainUntilDate,
+    this.redirectLocation,
+    this.requesterPays,
+    this.sSEAwsKmsKeyId,
+    this.storageClass,
+    this.targetKeyPrefix,
+    this.targetResource,
+    this.unModifiedSinceConstraint,
+  });
+  factory S3CopyObjectOperation.fromXml(_s.XmlElement elem) {
+    return S3CopyObjectOperation(
+      accessControlGrants: _s.extractXmlChild(elem, 'AccessControlGrants')?.let(
+          (elem) => elem.findElements('member').map(S3Grant.fromXml).toList()),
+      bucketKeyEnabled: _s.extractXmlBoolValue(elem, 'BucketKeyEnabled'),
+      cannedAccessControlList: _s
+          .extractXmlStringValue(elem, 'CannedAccessControlList')
+          ?.let(S3CannedAccessControlList.fromString),
+      checksumAlgorithm: _s
+          .extractXmlStringValue(elem, 'ChecksumAlgorithm')
+          ?.let(S3ChecksumAlgorithm.fromString),
+      metadataDirective: _s
+          .extractXmlStringValue(elem, 'MetadataDirective')
+          ?.let(S3MetadataDirective.fromString),
+      modifiedSinceConstraint:
+          _s.extractXmlDateTimeValue(elem, 'ModifiedSinceConstraint'),
+      newObjectMetadata: _s
+          .extractXmlChild(elem, 'NewObjectMetadata')
+          ?.let(S3ObjectMetadata.fromXml),
+      newObjectTagging: _s.extractXmlChild(elem, 'NewObjectTagging')?.let(
+          (elem) => elem.findElements('member').map(S3Tag.fromXml).toList()),
+      objectLockLegalHoldStatus: _s
+          .extractXmlStringValue(elem, 'ObjectLockLegalHoldStatus')
+          ?.let(S3ObjectLockLegalHoldStatus.fromString),
+      objectLockMode: _s
+          .extractXmlStringValue(elem, 'ObjectLockMode')
+          ?.let(S3ObjectLockMode.fromString),
+      objectLockRetainUntilDate:
+          _s.extractXmlDateTimeValue(elem, 'ObjectLockRetainUntilDate'),
+      redirectLocation: _s.extractXmlStringValue(elem, 'RedirectLocation'),
+      requesterPays: _s.extractXmlBoolValue(elem, 'RequesterPays'),
+      sSEAwsKmsKeyId: _s.extractXmlStringValue(elem, 'SSEAwsKmsKeyId'),
+      storageClass: _s
+          .extractXmlStringValue(elem, 'StorageClass')
+          ?.let(S3StorageClass.fromString),
+      targetKeyPrefix: _s.extractXmlStringValue(elem, 'TargetKeyPrefix'),
+      targetResource: _s.extractXmlStringValue(elem, 'TargetResource'),
+      unModifiedSinceConstraint:
+          _s.extractXmlDateTimeValue(elem, 'UnModifiedSinceConstraint'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessControlGrants = this.accessControlGrants;
+    final bucketKeyEnabled = this.bucketKeyEnabled;
+    final cannedAccessControlList = this.cannedAccessControlList;
+    final checksumAlgorithm = this.checksumAlgorithm;
+    final metadataDirective = this.metadataDirective;
+    final modifiedSinceConstraint = this.modifiedSinceConstraint;
+    final newObjectMetadata = this.newObjectMetadata;
+    final newObjectTagging = this.newObjectTagging;
+    final objectLockLegalHoldStatus = this.objectLockLegalHoldStatus;
+    final objectLockMode = this.objectLockMode;
+    final objectLockRetainUntilDate = this.objectLockRetainUntilDate;
+    final redirectLocation = this.redirectLocation;
+    final requesterPays = this.requesterPays;
+    final sSEAwsKmsKeyId = this.sSEAwsKmsKeyId;
+    final storageClass = this.storageClass;
+    final targetKeyPrefix = this.targetKeyPrefix;
+    final targetResource = this.targetResource;
+    final unModifiedSinceConstraint = this.unModifiedSinceConstraint;
+    return {
+      if (accessControlGrants != null)
+        'AccessControlGrants': accessControlGrants,
+      if (bucketKeyEnabled != null) 'BucketKeyEnabled': bucketKeyEnabled,
+      if (cannedAccessControlList != null)
+        'CannedAccessControlList': cannedAccessControlList.value,
+      if (checksumAlgorithm != null)
+        'ChecksumAlgorithm': checksumAlgorithm.value,
+      if (metadataDirective != null)
+        'MetadataDirective': metadataDirective.value,
+      if (modifiedSinceConstraint != null)
+        'ModifiedSinceConstraint': iso8601ToJson(modifiedSinceConstraint),
+      if (newObjectMetadata != null) 'NewObjectMetadata': newObjectMetadata,
+      if (newObjectTagging != null) 'NewObjectTagging': newObjectTagging,
+      if (objectLockLegalHoldStatus != null)
+        'ObjectLockLegalHoldStatus': objectLockLegalHoldStatus.value,
+      if (objectLockMode != null) 'ObjectLockMode': objectLockMode.value,
+      if (objectLockRetainUntilDate != null)
+        'ObjectLockRetainUntilDate': iso8601ToJson(objectLockRetainUntilDate),
+      if (redirectLocation != null) 'RedirectLocation': redirectLocation,
+      if (requesterPays != null) 'RequesterPays': requesterPays,
+      if (sSEAwsKmsKeyId != null) 'SSEAwsKmsKeyId': sSEAwsKmsKeyId,
+      if (storageClass != null) 'StorageClass': storageClass.value,
+      if (targetKeyPrefix != null) 'TargetKeyPrefix': targetKeyPrefix,
+      if (targetResource != null) 'TargetResource': targetResource,
+      if (unModifiedSinceConstraint != null)
+        'UnModifiedSinceConstraint': iso8601ToJson(unModifiedSinceConstraint),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final accessControlGrants = this.accessControlGrants;
+    final bucketKeyEnabled = this.bucketKeyEnabled;
+    final cannedAccessControlList = this.cannedAccessControlList;
+    final checksumAlgorithm = this.checksumAlgorithm;
+    final metadataDirective = this.metadataDirective;
+    final modifiedSinceConstraint = this.modifiedSinceConstraint;
+    final newObjectMetadata = this.newObjectMetadata;
+    final newObjectTagging = this.newObjectTagging;
+    final objectLockLegalHoldStatus = this.objectLockLegalHoldStatus;
+    final objectLockMode = this.objectLockMode;
+    final objectLockRetainUntilDate = this.objectLockRetainUntilDate;
+    final redirectLocation = this.redirectLocation;
+    final requesterPays = this.requesterPays;
+    final sSEAwsKmsKeyId = this.sSEAwsKmsKeyId;
+    final storageClass = this.storageClass;
+    final targetKeyPrefix = this.targetKeyPrefix;
+    final targetResource = this.targetResource;
+    final unModifiedSinceConstraint = this.unModifiedSinceConstraint;
+    final $children = <_s.XmlNode>[
+      if (targetResource != null)
+        _s.encodeXmlStringValue('TargetResource', targetResource),
+      if (cannedAccessControlList != null)
+        _s.encodeXmlStringValue(
+            'CannedAccessControlList', cannedAccessControlList.value),
+      if (accessControlGrants != null)
+        _s.XmlElement(_s.XmlName.parts('AccessControlGrants'), [],
+            accessControlGrants.map((e) => e.toXml('member'))),
+      if (metadataDirective != null)
+        _s.encodeXmlStringValue('MetadataDirective', metadataDirective.value),
+      if (modifiedSinceConstraint != null)
+        _s.encodeXmlDateTimeValue(
+            'ModifiedSinceConstraint', modifiedSinceConstraint),
+      if (newObjectMetadata != null)
+        newObjectMetadata.toXml('NewObjectMetadata'),
+      if (newObjectTagging != null)
+        _s.XmlElement(_s.XmlName.parts('NewObjectTagging'), [],
+            newObjectTagging.map((e) => e.toXml('member'))),
+      if (redirectLocation != null)
+        _s.encodeXmlStringValue('RedirectLocation', redirectLocation),
+      if (requesterPays != null)
+        _s.encodeXmlBoolValue('RequesterPays', requesterPays),
+      if (storageClass != null)
+        _s.encodeXmlStringValue('StorageClass', storageClass.value),
+      if (unModifiedSinceConstraint != null)
+        _s.encodeXmlDateTimeValue(
+            'UnModifiedSinceConstraint', unModifiedSinceConstraint),
+      if (sSEAwsKmsKeyId != null)
+        _s.encodeXmlStringValue('SSEAwsKmsKeyId', sSEAwsKmsKeyId),
+      if (targetKeyPrefix != null)
+        _s.encodeXmlStringValue('TargetKeyPrefix', targetKeyPrefix),
+      if (objectLockLegalHoldStatus != null)
+        _s.encodeXmlStringValue(
+            'ObjectLockLegalHoldStatus', objectLockLegalHoldStatus.value),
+      if (objectLockMode != null)
+        _s.encodeXmlStringValue('ObjectLockMode', objectLockMode.value),
+      if (objectLockRetainUntilDate != null)
+        _s.encodeXmlDateTimeValue(
+            'ObjectLockRetainUntilDate', objectLockRetainUntilDate),
+      if (bucketKeyEnabled != null)
+        _s.encodeXmlBoolValue('BucketKeyEnabled', bucketKeyEnabled),
+      if (checksumAlgorithm != null)
+        _s.encodeXmlStringValue('ChecksumAlgorithm', checksumAlgorithm.value),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
 /// Contains the configuration parameters for a PUT Object ACL operation. S3
 /// Batch Operations passes every object to the underlying
 /// <code>PutObjectAcl</code> API operation. For more information about the
 /// parameters for this operation, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUTacl.html">PutObjectAcl</a>.
 class S3SetObjectAclOperation {
-  /// <p/>
+  ///
   final S3AccessControlPolicy? accessControlPolicy;
 
   S3SetObjectAclOperation({
@@ -17134,6 +18964,149 @@ class S3SetObjectAclOperation {
     final $children = <_s.XmlNode>[
       if (accessControlPolicy != null)
         accessControlPolicy.toXml('AccessControlPolicy'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Contains the configuration parameters for a PUT Object Tagging operation. S3
+/// Batch Operations passes every object to the underlying
+/// <code>PutObjectTagging</code> API operation. For more information about the
+/// parameters for this operation, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUTtagging.html">PutObjectTagging</a>.
+class S3SetObjectTaggingOperation {
+  ///
+  final List<S3Tag>? tagSet;
+
+  S3SetObjectTaggingOperation({
+    this.tagSet,
+  });
+  factory S3SetObjectTaggingOperation.fromXml(_s.XmlElement elem) {
+    return S3SetObjectTaggingOperation(
+      tagSet: _s.extractXmlChild(elem, 'TagSet')?.let(
+          (elem) => elem.findElements('member').map(S3Tag.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tagSet = this.tagSet;
+    return {
+      if (tagSet != null) 'TagSet': tagSet,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final tagSet = this.tagSet;
+    final $children = <_s.XmlNode>[
+      if (tagSet != null)
+        _s.XmlElement(_s.XmlName.parts('TagSet'), [],
+            tagSet.map((e) => e.toXml('member'))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Contains no configuration parameters because the DELETE Object tagging
+/// (<code>DeleteObjectTagging</code>) API operation accepts only the bucket
+/// name and key name as parameters, which are defined in the job's manifest.
+class S3DeleteObjectTaggingOperation {
+  S3DeleteObjectTaggingOperation();
+  factory S3DeleteObjectTaggingOperation.fromXml(
+      // ignore: avoid_unused_constructor_parameters
+      _s.XmlElement elem) {
+    return S3DeleteObjectTaggingOperation();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final $children = <_s.XmlNode>[];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Contains the configuration parameters for a POST Object restore job. S3
+/// Batch Operations passes every object to the underlying
+/// <code>RestoreObject</code> API operation. For more information about the
+/// parameters for this operation, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPOSTrestore.html#RESTObjectPOSTrestore-restore-request">RestoreObject</a>.
+class S3InitiateRestoreObjectOperation {
+  /// This argument specifies how long the S3 Glacier or S3 Glacier Deep Archive
+  /// object remains available in Amazon S3. S3 Initiate Restore Object jobs that
+  /// target S3 Glacier and S3 Glacier Deep Archive objects require
+  /// <code>ExpirationInDays</code> set to 1 or greater.
+  ///
+  /// Conversely, do <i>not</i> set <code>ExpirationInDays</code> when creating S3
+  /// Initiate Restore Object jobs that target S3 Intelligent-Tiering Archive
+  /// Access and Deep Archive Access tier objects. Objects in S3
+  /// Intelligent-Tiering archive access tiers are not subject to restore expiry,
+  /// so specifying <code>ExpirationInDays</code> results in restore request
+  /// failure.
+  ///
+  /// S3 Batch Operations jobs can operate either on S3 Glacier and S3 Glacier
+  /// Deep Archive storage class objects or on S3 Intelligent-Tiering Archive
+  /// Access and Deep Archive Access storage tier objects, but not both types in
+  /// the same job. If you need to restore objects of both types you <i>must</i>
+  /// create separate Batch Operations jobs.
+  final int? expirationInDays;
+
+  /// S3 Batch Operations supports <code>STANDARD</code> and <code>BULK</code>
+  /// retrieval tiers, but not the <code>EXPEDITED</code> retrieval tier.
+  final S3GlacierJobTier? glacierJobTier;
+
+  S3InitiateRestoreObjectOperation({
+    this.expirationInDays,
+    this.glacierJobTier,
+  });
+  factory S3InitiateRestoreObjectOperation.fromXml(_s.XmlElement elem) {
+    return S3InitiateRestoreObjectOperation(
+      expirationInDays: _s.extractXmlIntValue(elem, 'ExpirationInDays'),
+      glacierJobTier: _s
+          .extractXmlStringValue(elem, 'GlacierJobTier')
+          ?.let(S3GlacierJobTier.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final expirationInDays = this.expirationInDays;
+    final glacierJobTier = this.glacierJobTier;
+    return {
+      if (expirationInDays != null) 'ExpirationInDays': expirationInDays,
+      if (glacierJobTier != null) 'GlacierJobTier': glacierJobTier.value,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final expirationInDays = this.expirationInDays;
+    final glacierJobTier = this.glacierJobTier;
+    final $children = <_s.XmlNode>[
+      if (expirationInDays != null)
+        _s.encodeXmlIntValue('ExpirationInDays', expirationInDays),
+      if (glacierJobTier != null)
+        _s.encodeXmlStringValue('GlacierJobTier', glacierJobTier.value),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -17257,38 +19230,81 @@ class S3SetObjectRetentionOperation {
   }
 }
 
-/// Contains the configuration parameters for a PUT Object Tagging operation. S3
-/// Batch Operations passes every object to the underlying
-/// <code>PutObjectTagging</code> API operation. For more information about the
-/// parameters for this operation, see <a
-/// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUTtagging.html">PutObjectTagging</a>.
-class S3SetObjectTaggingOperation {
-  /// <p/>
-  final List<S3Tag>? tagSet;
+/// Directs the specified job to invoke <code>ReplicateObject</code> on every
+/// object in the job's manifest.
+class S3ReplicateObjectOperation {
+  S3ReplicateObjectOperation();
+  factory S3ReplicateObjectOperation.fromXml(
+      // ignore: avoid_unused_constructor_parameters
+      _s.XmlElement elem) {
+    return S3ReplicateObjectOperation();
+  }
 
-  S3SetObjectTaggingOperation({
-    this.tagSet,
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final $children = <_s.XmlNode>[];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Directs the specified job to invoke the ComputeObjectChecksum operation on
+/// every object listed in the job's manifest.
+class S3ComputeObjectChecksumOperation {
+  /// Indicates the algorithm that you want Amazon S3 to use to create the
+  /// checksum. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the Amazon S3 User Guide.
+  final ComputeObjectChecksumAlgorithm? checksumAlgorithm;
+
+  /// Indicates the checksum type that you want Amazon S3 to use to calculate the
+  /// object's checksum value. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the Amazon S3 User Guide.
+  final ComputeObjectChecksumType? checksumType;
+
+  S3ComputeObjectChecksumOperation({
+    this.checksumAlgorithm,
+    this.checksumType,
   });
-  factory S3SetObjectTaggingOperation.fromXml(_s.XmlElement elem) {
-    return S3SetObjectTaggingOperation(
-      tagSet: _s.extractXmlChild(elem, 'TagSet')?.let(
-          (elem) => elem.findElements('member').map(S3Tag.fromXml).toList()),
+  factory S3ComputeObjectChecksumOperation.fromXml(_s.XmlElement elem) {
+    return S3ComputeObjectChecksumOperation(
+      checksumAlgorithm: _s
+          .extractXmlStringValue(elem, 'ChecksumAlgorithm')
+          ?.let(ComputeObjectChecksumAlgorithm.fromString),
+      checksumType: _s
+          .extractXmlStringValue(elem, 'ChecksumType')
+          ?.let(ComputeObjectChecksumType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final tagSet = this.tagSet;
+    final checksumAlgorithm = this.checksumAlgorithm;
+    final checksumType = this.checksumType;
     return {
-      if (tagSet != null) 'TagSet': tagSet,
+      if (checksumAlgorithm != null)
+        'ChecksumAlgorithm': checksumAlgorithm.value,
+      if (checksumType != null) 'ChecksumType': checksumType.value,
     };
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final tagSet = this.tagSet;
+    final checksumAlgorithm = this.checksumAlgorithm;
+    final checksumType = this.checksumType;
     final $children = <_s.XmlNode>[
-      if (tagSet != null)
-        _s.XmlElement(_s.XmlName.parts('TagSet'), [],
-            tagSet.map((e) => e.toXml('member'))),
+      if (checksumAlgorithm != null)
+        _s.encodeXmlStringValue('ChecksumAlgorithm', checksumAlgorithm.value),
+      if (checksumType != null)
+        _s.encodeXmlStringValue('ChecksumType', checksumType.value),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -17301,35 +19317,185 @@ class S3SetObjectTaggingOperation {
   }
 }
 
-class S3StorageClass {
-  static const standard = S3StorageClass._('STANDARD');
-  static const standardIa = S3StorageClass._('STANDARD_IA');
-  static const onezoneIa = S3StorageClass._('ONEZONE_IA');
-  static const glacier = S3StorageClass._('GLACIER');
-  static const intelligentTiering = S3StorageClass._('INTELLIGENT_TIERING');
-  static const deepArchive = S3StorageClass._('DEEP_ARCHIVE');
-  static const glacierIr = S3StorageClass._('GLACIER_IR');
+/// With the <code>UpdateObjectEncryption</code> operation, you can atomically
+/// update the server-side encryption type of an existing object in a general
+/// purpose bucket without any data movement.
+class S3UpdateObjectEncryptionOperation {
+  /// The updated server-side encryption type for this S3 object. The
+  /// <code>UpdateObjectEncryption</code> operation supports the SSE-KMS
+  /// encryption type.
+  final ObjectEncryption? objectEncryption;
+
+  S3UpdateObjectEncryptionOperation({
+    this.objectEncryption,
+  });
+  factory S3UpdateObjectEncryptionOperation.fromXml(_s.XmlElement elem) {
+    return S3UpdateObjectEncryptionOperation(
+      objectEncryption: _s
+          .extractXmlChild(elem, 'ObjectEncryption')
+          ?.let(ObjectEncryption.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final objectEncryption = this.objectEncryption;
+    return {
+      if (objectEncryption != null) 'ObjectEncryption': objectEncryption,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final objectEncryption = this.objectEncryption;
+    final $children = <_s.XmlNode>[
+      if (objectEncryption != null) objectEncryption.toXml('ObjectEncryption'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// The updated server-side encryption type for this object. The
+/// <code>UpdateObjectEncryption</code> operation supports the SSE-KMS
+/// encryption type.
+///
+/// Valid Values: <code>SSEKMS</code>
+class ObjectEncryption {
+  /// Specifies to update the object encryption type to server-side encryption
+  /// with Key Management Service (KMS) keys (SSE-KMS).
+  final S3UpdateObjectEncryptionSSEKMS? ssekms;
+
+  ObjectEncryption({
+    this.ssekms,
+  });
+  factory ObjectEncryption.fromXml(_s.XmlElement elem) {
+    return ObjectEncryption(
+      ssekms: _s
+          .extractXmlChild(elem, 'SSE-KMS')
+          ?.let(S3UpdateObjectEncryptionSSEKMS.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ssekms = this.ssekms;
+    return {
+      if (ssekms != null) 'SSE-KMS': ssekms,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final ssekms = this.ssekms;
+    final $children = <_s.XmlNode>[
+      if (ssekms != null) ssekms.toXml('SSE-KMS'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// If <code>SSEKMS</code> is specified for <code>UpdateObjectEncryption</code>,
+/// this data type specifies the Amazon Web Services KMS key Amazon Resource
+/// Name (ARN) to use and whether to use an S3 Bucket Key for server-side
+/// encryption using Key Management Service (KMS) keys (SSE-KMS).
+class S3UpdateObjectEncryptionSSEKMS {
+  /// Specifies the Amazon Web Services KMS key Amazon Resource Name (ARN) to use
+  /// for the updated server-side encryption type. Required if
+  /// <code>UpdateObjectEncryption</code> specifies <code>SSEKMS</code>.
+  final String kMSKeyArn;
+
+  /// Specifies whether Amazon S3 should use an S3 Bucket Key for object
+  /// encryption with server-side encryption using Key Management Service (KMS)
+  /// keys (SSE-KMS). If this value isn't specified, it defaults to
+  /// <code>false</code>. Setting this value to <code>true</code> causes Amazon S3
+  /// to use an S3 Bucket Key for update object encryption with SSE-KMS.
+  final bool? bucketKeyEnabled;
+
+  S3UpdateObjectEncryptionSSEKMS({
+    required this.kMSKeyArn,
+    this.bucketKeyEnabled,
+  });
+  factory S3UpdateObjectEncryptionSSEKMS.fromXml(_s.XmlElement elem) {
+    return S3UpdateObjectEncryptionSSEKMS(
+      kMSKeyArn: _s.extractXmlStringValue(elem, 'KMSKeyArn')!,
+      bucketKeyEnabled: _s.extractXmlBoolValue(elem, 'BucketKeyEnabled'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kMSKeyArn = this.kMSKeyArn;
+    final bucketKeyEnabled = this.bucketKeyEnabled;
+    return {
+      'KMSKeyArn': kMSKeyArn,
+      if (bucketKeyEnabled != null) 'BucketKeyEnabled': bucketKeyEnabled,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final kMSKeyArn = this.kMSKeyArn;
+    final bucketKeyEnabled = this.bucketKeyEnabled;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('KMSKeyArn', kMSKeyArn),
+      if (bucketKeyEnabled != null)
+        _s.encodeXmlBoolValue('BucketKeyEnabled', bucketKeyEnabled),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class ComputeObjectChecksumAlgorithm {
+  static const crc32 = ComputeObjectChecksumAlgorithm._('CRC32');
+  static const crc32c = ComputeObjectChecksumAlgorithm._('CRC32C');
+  static const crc64nvme = ComputeObjectChecksumAlgorithm._('CRC64NVME');
+  static const md5 = ComputeObjectChecksumAlgorithm._('MD5');
+  static const sha1 = ComputeObjectChecksumAlgorithm._('SHA1');
+  static const sha256 = ComputeObjectChecksumAlgorithm._('SHA256');
+  static const sha512 = ComputeObjectChecksumAlgorithm._('SHA512');
+  static const xxhash64 = ComputeObjectChecksumAlgorithm._('XXHASH64');
+  static const xxhash3 = ComputeObjectChecksumAlgorithm._('XXHASH3');
+  static const xxhash128 = ComputeObjectChecksumAlgorithm._('XXHASH128');
 
   final String value;
 
-  const S3StorageClass._(this.value);
+  const ComputeObjectChecksumAlgorithm._(this.value);
 
   static const values = [
-    standard,
-    standardIa,
-    onezoneIa,
-    glacier,
-    intelligentTiering,
-    deepArchive,
-    glacierIr
+    crc32,
+    crc32c,
+    crc64nvme,
+    md5,
+    sha1,
+    sha256,
+    sha512,
+    xxhash64,
+    xxhash3,
+    xxhash128
   ];
 
-  static S3StorageClass fromString(String value) =>
+  static ComputeObjectChecksumAlgorithm fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => S3StorageClass._(value));
+          orElse: () => ComputeObjectChecksumAlgorithm._(value));
 
   @override
-  bool operator ==(other) => other is S3StorageClass && other.value == value;
+  bool operator ==(other) =>
+      other is ComputeObjectChecksumAlgorithm && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -17338,40 +19504,77 @@ class S3StorageClass {
   String toString() => value;
 }
 
-/// A container for a key-value name pair.
-class S3Tag {
-  /// Key of the tag
-  final String key;
+class ComputeObjectChecksumType {
+  static const fullObject = ComputeObjectChecksumType._('FULL_OBJECT');
+  static const composite = ComputeObjectChecksumType._('COMPOSITE');
 
-  /// Value of the tag
   final String value;
 
-  S3Tag({
-    required this.key,
-    required this.value,
+  const ComputeObjectChecksumType._(this.value);
+
+  static const values = [fullObject, composite];
+
+  static ComputeObjectChecksumType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ComputeObjectChecksumType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ComputeObjectChecksumType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains the S3 Object Lock retention mode to be applied to all objects in
+/// the S3 Batch Operations job. If you don't provide <code>Mode</code> and
+/// <code>RetainUntilDate</code> data types in your operation, you will remove
+/// the retention from your objects. For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-retention-date.html">Using
+/// S3 Object Lock retention with S3 Batch Operations</a> in the <i>Amazon S3
+/// User Guide</i>.
+class S3Retention {
+  /// The Object Lock retention mode to be applied to all objects in the Batch
+  /// Operations job.
+  final S3ObjectLockRetentionMode? mode;
+
+  /// The date when the applied Object Lock retention will expire on all objects
+  /// set by the Batch Operations job.
+  final DateTime? retainUntilDate;
+
+  S3Retention({
+    this.mode,
+    this.retainUntilDate,
   });
-  factory S3Tag.fromXml(_s.XmlElement elem) {
-    return S3Tag(
-      key: _s.extractXmlStringValue(elem, 'Key')!,
-      value: _s.extractXmlStringValue(elem, 'Value')!,
+  factory S3Retention.fromXml(_s.XmlElement elem) {
+    return S3Retention(
+      mode: _s
+          .extractXmlStringValue(elem, 'Mode')
+          ?.let(S3ObjectLockRetentionMode.fromString),
+      retainUntilDate: _s.extractXmlDateTimeValue(elem, 'RetainUntilDate'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
+    final mode = this.mode;
+    final retainUntilDate = this.retainUntilDate;
     return {
-      'Key': key,
-      'Value': value,
+      if (mode != null) 'Mode': mode.value,
+      if (retainUntilDate != null)
+        'RetainUntilDate': iso8601ToJson(retainUntilDate),
     };
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final key = this.key;
-    final value = this.value;
+    final mode = this.mode;
+    final retainUntilDate = this.retainUntilDate;
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Key', key),
-      _s.encodeXmlStringValue('Value', value),
+      if (retainUntilDate != null)
+        _s.encodeXmlDateTimeValue('RetainUntilDate', retainUntilDate),
+      if (mode != null) _s.encodeXmlStringValue('Mode', mode.value),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -17384,295 +19587,46 @@ class S3Tag {
   }
 }
 
-/// <p/>
-class SSEKMS {
-  /// A container for the ARN of the SSE-KMS encryption. This property is
-  /// read-only and follows the following format: <code>
-  /// arn:aws:kms:<i>us-east-1</i>:<i>example-account-id</i>:key/<i>example-9a73-4afc-8d29-8f5900cef44e</i>
-  /// </code>
-  final String keyId;
+class S3ObjectLockRetentionMode {
+  static const compliance = S3ObjectLockRetentionMode._('COMPLIANCE');
+  static const governance = S3ObjectLockRetentionMode._('GOVERNANCE');
 
-  SSEKMS({
-    required this.keyId,
-  });
-  factory SSEKMS.fromXml(_s.XmlElement elem) {
-    return SSEKMS(
-      keyId: _s.extractXmlStringValue(elem, 'KeyId')!,
-    );
-  }
+  final String value;
 
-  Map<String, dynamic> toJson() {
-    final keyId = this.keyId;
-    return {
-      'KeyId': keyId,
-    };
-  }
+  const S3ObjectLockRetentionMode._(this.value);
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final keyId = this.keyId;
-    final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('KeyId', keyId),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
+  static const values = [compliance, governance];
+
+  static S3ObjectLockRetentionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => S3ObjectLockRetentionMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is S3ObjectLockRetentionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-/// Configuration for the use of SSE-KMS to encrypt generated manifest objects.
-class SSEKMSEncryption {
-  /// Specifies the ID of the Amazon Web Services Key Management Service (Amazon
-  /// Web Services KMS) symmetric encryption customer managed key to use for
-  /// encrypting generated manifest objects.
-  final String keyId;
+/// Whether S3 Object Lock legal hold will be applied to objects in an S3 Batch
+/// Operations job.
+class S3ObjectLockLegalHold {
+  /// The Object Lock legal hold status to be applied to all objects in the Batch
+  /// Operations job.
+  final S3ObjectLockLegalHoldStatus status;
 
-  SSEKMSEncryption({
-    required this.keyId,
-  });
-  factory SSEKMSEncryption.fromXml(_s.XmlElement elem) {
-    return SSEKMSEncryption(
-      keyId: _s.extractXmlStringValue(elem, 'KeyId')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final keyId = this.keyId;
-    return {
-      'KeyId': keyId,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final keyId = this.keyId;
-    final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('KeyId', keyId),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// <p/>
-class SSES3 {
-  SSES3();
-  factory SSES3.fromXml(
-      // ignore: avoid_unused_constructor_parameters
-      _s.XmlElement elem) {
-    return SSES3();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final $children = <_s.XmlNode>[];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// Configuration for the use of SSE-S3 to encrypt generated manifest objects.
-class SSES3Encryption {
-  SSES3Encryption();
-  factory SSES3Encryption.fromXml(
-      // ignore: avoid_unused_constructor_parameters
-      _s.XmlElement elem) {
-    return SSES3Encryption();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final $children = <_s.XmlNode>[];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// <p/>
-class SelectionCriteria {
-  /// A container for the delimiter of the selection criteria being used.
-  final String? delimiter;
-
-  /// The max depth of the selection criteria
-  final int? maxDepth;
-
-  /// The minimum number of storage bytes percentage whose metrics will be
-  /// selected.
-  /// <note>
-  /// You must choose a value greater than or equal to <code>1.0</code>.
-  /// </note>
-  final double? minStorageBytesPercentage;
-
-  SelectionCriteria({
-    this.delimiter,
-    this.maxDepth,
-    this.minStorageBytesPercentage,
-  });
-  factory SelectionCriteria.fromXml(_s.XmlElement elem) {
-    return SelectionCriteria(
-      delimiter: _s.extractXmlStringValue(elem, 'Delimiter'),
-      maxDepth: _s.extractXmlIntValue(elem, 'MaxDepth'),
-      minStorageBytesPercentage:
-          _s.extractXmlDoubleValue(elem, 'MinStorageBytesPercentage'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final delimiter = this.delimiter;
-    final maxDepth = this.maxDepth;
-    final minStorageBytesPercentage = this.minStorageBytesPercentage;
-    return {
-      if (delimiter != null) 'Delimiter': delimiter,
-      if (maxDepth != null) 'MaxDepth': maxDepth,
-      if (minStorageBytesPercentage != null)
-        'MinStorageBytesPercentage': minStorageBytesPercentage,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final delimiter = this.delimiter;
-    final maxDepth = this.maxDepth;
-    final minStorageBytesPercentage = this.minStorageBytesPercentage;
-    final $children = <_s.XmlNode>[
-      if (delimiter != null) _s.encodeXmlStringValue('Delimiter', delimiter),
-      if (maxDepth != null) _s.encodeXmlIntValue('MaxDepth', maxDepth),
-      if (minStorageBytesPercentage != null)
-        _s.encodeXmlDoubleValue(
-            'MinStorageBytesPercentage', minStorageBytesPercentage),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// A container that describes additional filters for identifying the source
-/// objects that you want to replicate. You can choose to enable or disable the
-/// replication of these objects.
-class SourceSelectionCriteria {
-  /// A filter that you can use to specify whether replica modification sync is
-  /// enabled. S3 on Outposts replica modification sync can help you keep object
-  /// metadata synchronized between replicas and source objects. By default, S3 on
-  /// Outposts replicates metadata from the source objects to the replicas only.
-  /// When replica modification sync is enabled, S3 on Outposts replicates
-  /// metadata changes made to the replica copies back to the source object,
-  /// making the replication bidirectional.
-  ///
-  /// To replicate object metadata modifications on replicas, you can specify this
-  /// element and set the <code>Status</code> of this element to
-  /// <code>Enabled</code>.
-  /// <note>
-  /// You must enable replica modification sync on the source and destination
-  /// buckets to replicate replica metadata changes between the source and the
-  /// replicas.
-  /// </note>
-  final ReplicaModifications? replicaModifications;
-
-  /// A filter that you can use to select Amazon S3 objects that are encrypted
-  /// with server-side encryption by using Key Management Service (KMS) keys. If
-  /// you include <code>SourceSelectionCriteria</code> in the replication
-  /// configuration, this element is required.
-  /// <note>
-  /// This is not supported by Amazon S3 on Outposts buckets.
-  /// </note>
-  final SseKmsEncryptedObjects? sseKmsEncryptedObjects;
-
-  SourceSelectionCriteria({
-    this.replicaModifications,
-    this.sseKmsEncryptedObjects,
-  });
-  factory SourceSelectionCriteria.fromXml(_s.XmlElement elem) {
-    return SourceSelectionCriteria(
-      replicaModifications: _s
-          .extractXmlChild(elem, 'ReplicaModifications')
-          ?.let(ReplicaModifications.fromXml),
-      sseKmsEncryptedObjects: _s
-          .extractXmlChild(elem, 'SseKmsEncryptedObjects')
-          ?.let(SseKmsEncryptedObjects.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final replicaModifications = this.replicaModifications;
-    final sseKmsEncryptedObjects = this.sseKmsEncryptedObjects;
-    return {
-      if (replicaModifications != null)
-        'ReplicaModifications': replicaModifications,
-      if (sseKmsEncryptedObjects != null)
-        'SseKmsEncryptedObjects': sseKmsEncryptedObjects,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final replicaModifications = this.replicaModifications;
-    final sseKmsEncryptedObjects = this.sseKmsEncryptedObjects;
-    final $children = <_s.XmlNode>[
-      if (sseKmsEncryptedObjects != null)
-        sseKmsEncryptedObjects.toXml('SseKmsEncryptedObjects'),
-      if (replicaModifications != null)
-        replicaModifications.toXml('ReplicaModifications'),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// A container for filter information that you can use to select S3 objects
-/// that are encrypted with Key Management Service (KMS).
-/// <note>
-/// This is not supported by Amazon S3 on Outposts buckets.
-/// </note>
-class SseKmsEncryptedObjects {
-  /// Specifies whether Amazon S3 replicates objects that are created with
-  /// server-side encryption by using an KMS key stored in Key Management Service.
-  final SseKmsEncryptedObjectsStatus status;
-
-  SseKmsEncryptedObjects({
+  S3ObjectLockLegalHold({
     required this.status,
   });
-  factory SseKmsEncryptedObjects.fromXml(_s.XmlElement elem) {
-    return SseKmsEncryptedObjects(
+  factory S3ObjectLockLegalHold.fromXml(_s.XmlElement elem) {
+    return S3ObjectLockLegalHold(
       status: _s
           .extractXmlStringValue(elem, 'Status')!
-          .let(SseKmsEncryptedObjectsStatus.fromString),
+          .let(S3ObjectLockLegalHoldStatus.fromString),
     );
   }
 
@@ -17699,23 +19653,23 @@ class SseKmsEncryptedObjects {
   }
 }
 
-class SseKmsEncryptedObjectsStatus {
-  static const enabled = SseKmsEncryptedObjectsStatus._('Enabled');
-  static const disabled = SseKmsEncryptedObjectsStatus._('Disabled');
+class S3ObjectLockLegalHoldStatus {
+  static const off = S3ObjectLockLegalHoldStatus._('OFF');
+  static const on = S3ObjectLockLegalHoldStatus._('ON');
 
   final String value;
 
-  const SseKmsEncryptedObjectsStatus._(this.value);
+  const S3ObjectLockLegalHoldStatus._(this.value);
 
-  static const values = [enabled, disabled];
+  static const values = [off, on];
 
-  static SseKmsEncryptedObjectsStatus fromString(String value) =>
+  static S3ObjectLockLegalHoldStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => SseKmsEncryptedObjectsStatus._(value));
+          orElse: () => S3ObjectLockLegalHoldStatus._(value));
 
   @override
   bool operator ==(other) =>
-      other is SseKmsEncryptedObjectsStatus && other.value == value;
+      other is S3ObjectLockLegalHoldStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -17724,1101 +19678,167 @@ class SseKmsEncryptedObjectsStatus {
   String toString() => value;
 }
 
-/// The Amazon Web Services organization for your S3 Storage Lens.
-class StorageLensAwsOrg {
-  /// A container for the Amazon Resource Name (ARN) of the Amazon Web Services
-  /// organization. This property is read-only and follows the following format:
-  /// <code>
-  /// arn:aws:organizations:<i>us-east-1</i>:<i>example-account-id</i>:organization/<i>o-ex2l495dck</i>
-  /// </code>
-  final String arn;
-
-  StorageLensAwsOrg({
-    required this.arn,
-  });
-  factory StorageLensAwsOrg.fromXml(_s.XmlElement elem) {
-    return StorageLensAwsOrg(
-      arn: _s.extractXmlStringValue(elem, 'Arn')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    return {
-      'Arn': arn,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final arn = this.arn;
-    final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Arn', arn),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// A container for the Amazon S3 Storage Lens configuration.
-class StorageLensConfiguration {
-  /// A container for all the account-level configurations of your S3 Storage Lens
-  /// configuration.
-  final AccountLevel accountLevel;
-
-  /// A container for the Amazon S3 Storage Lens configuration ID.
-  final String id;
-
-  /// A container for whether the S3 Storage Lens configuration is enabled.
-  final bool isEnabled;
-
-  /// A container for the Amazon Web Services organization for this S3 Storage
-  /// Lens configuration.
-  final StorageLensAwsOrg? awsOrg;
-
-  /// A container to specify the properties of your S3 Storage Lens metrics export
-  /// including, the destination, schema and format.
-  final StorageLensDataExport? dataExport;
-
-  /// A container for what is excluded in this configuration. This container can
-  /// only be valid if there is no <code>Include</code> container submitted, and
-  /// it's not empty.
-  final Exclude? exclude;
-
-  /// A container for what is included in this configuration. This container can
-  /// only be valid if there is no <code>Exclude</code> container submitted, and
-  /// it's not empty.
-  final Include? include;
-
-  /// The Amazon Resource Name (ARN) of the S3 Storage Lens configuration. This
-  /// property is read-only and follows the following format: <code>
-  /// arn:aws:s3:<i>us-east-1</i>:<i>example-account-id</i>:storage-lens/<i>your-dashboard-name</i>
-  /// </code>
-  final String? storageLensArn;
-
-  StorageLensConfiguration({
-    required this.accountLevel,
-    required this.id,
-    required this.isEnabled,
-    this.awsOrg,
-    this.dataExport,
-    this.exclude,
-    this.include,
-    this.storageLensArn,
-  });
-  factory StorageLensConfiguration.fromXml(_s.XmlElement elem) {
-    return StorageLensConfiguration(
-      accountLevel:
-          AccountLevel.fromXml(_s.extractXmlChild(elem, 'AccountLevel')!),
-      id: _s.extractXmlStringValue(elem, 'Id')!,
-      isEnabled: _s.extractXmlBoolValue(elem, 'IsEnabled')!,
-      awsOrg:
-          _s.extractXmlChild(elem, 'AwsOrg')?.let(StorageLensAwsOrg.fromXml),
-      dataExport: _s
-          .extractXmlChild(elem, 'DataExport')
-          ?.let(StorageLensDataExport.fromXml),
-      exclude: _s.extractXmlChild(elem, 'Exclude')?.let(Exclude.fromXml),
-      include: _s.extractXmlChild(elem, 'Include')?.let(Include.fromXml),
-      storageLensArn: _s.extractXmlStringValue(elem, 'StorageLensArn'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountLevel = this.accountLevel;
-    final id = this.id;
-    final isEnabled = this.isEnabled;
-    final awsOrg = this.awsOrg;
-    final dataExport = this.dataExport;
-    final exclude = this.exclude;
-    final include = this.include;
-    final storageLensArn = this.storageLensArn;
-    return {
-      'AccountLevel': accountLevel,
-      'Id': id,
-      'IsEnabled': isEnabled,
-      if (awsOrg != null) 'AwsOrg': awsOrg,
-      if (dataExport != null) 'DataExport': dataExport,
-      if (exclude != null) 'Exclude': exclude,
-      if (include != null) 'Include': include,
-      if (storageLensArn != null) 'StorageLensArn': storageLensArn,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final accountLevel = this.accountLevel;
-    final id = this.id;
-    final isEnabled = this.isEnabled;
-    final awsOrg = this.awsOrg;
-    final dataExport = this.dataExport;
-    final exclude = this.exclude;
-    final include = this.include;
-    final storageLensArn = this.storageLensArn;
-    final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Id', id),
-      accountLevel.toXml('AccountLevel'),
-      if (include != null) include.toXml('Include'),
-      if (exclude != null) exclude.toXml('Exclude'),
-      if (dataExport != null) dataExport.toXml('DataExport'),
-      _s.encodeXmlBoolValue('IsEnabled', isEnabled),
-      if (awsOrg != null) awsOrg.toXml('AwsOrg'),
-      if (storageLensArn != null)
-        _s.encodeXmlStringValue('StorageLensArn', storageLensArn),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// A container to specify the properties of your S3 Storage Lens metrics
-/// export, including the destination, schema, and format.
-class StorageLensDataExport {
-  /// A container for enabling Amazon CloudWatch publishing for S3 Storage Lens
-  /// metrics.
-  final CloudWatchMetrics? cloudWatchMetrics;
-
-  /// A container for the bucket where the S3 Storage Lens metrics export will be
-  /// located.
-  /// <note>
-  /// This bucket must be located in the same Region as the storage lens
-  /// configuration.
-  /// </note>
-  final S3BucketDestination? s3BucketDestination;
-
-  StorageLensDataExport({
-    this.cloudWatchMetrics,
-    this.s3BucketDestination,
-  });
-  factory StorageLensDataExport.fromXml(_s.XmlElement elem) {
-    return StorageLensDataExport(
-      cloudWatchMetrics: _s
-          .extractXmlChild(elem, 'CloudWatchMetrics')
-          ?.let(CloudWatchMetrics.fromXml),
-      s3BucketDestination: _s
-          .extractXmlChild(elem, 'S3BucketDestination')
-          ?.let(S3BucketDestination.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cloudWatchMetrics = this.cloudWatchMetrics;
-    final s3BucketDestination = this.s3BucketDestination;
-    return {
-      if (cloudWatchMetrics != null) 'CloudWatchMetrics': cloudWatchMetrics,
-      if (s3BucketDestination != null)
-        'S3BucketDestination': s3BucketDestination,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final cloudWatchMetrics = this.cloudWatchMetrics;
-    final s3BucketDestination = this.s3BucketDestination;
-    final $children = <_s.XmlNode>[
-      if (s3BucketDestination != null)
-        s3BucketDestination.toXml('S3BucketDestination'),
-      if (cloudWatchMetrics != null)
-        cloudWatchMetrics.toXml('CloudWatchMetrics'),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// A container for the encryption of the S3 Storage Lens metrics exports.
-class StorageLensDataExportEncryption {
-  /// <p/>
-  final SSEKMS? ssekms;
-
-  /// <p/>
-  final SSES3? sses3;
-
-  StorageLensDataExportEncryption({
-    this.ssekms,
-    this.sses3,
-  });
-  factory StorageLensDataExportEncryption.fromXml(_s.XmlElement elem) {
-    return StorageLensDataExportEncryption(
-      ssekms: _s.extractXmlChild(elem, 'SSE-KMS')?.let(SSEKMS.fromXml),
-      sses3: _s.extractXmlChild(elem, 'SSE-S3')?.let(SSES3.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final ssekms = this.ssekms;
-    final sses3 = this.sses3;
-    return {
-      if (ssekms != null) 'SSE-KMS': ssekms,
-      if (sses3 != null) 'SSE-S3': sses3,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final ssekms = this.ssekms;
-    final sses3 = this.sses3;
-    final $children = <_s.XmlNode>[
-      if (sses3 != null) sses3.toXml('SSE-S3'),
-      if (ssekms != null) ssekms.toXml('SSE-KMS'),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// A custom grouping of objects that include filters for prefixes, suffixes,
-/// object tags, object size, or object age. You can create an S3 Storage Lens
-/// group that includes a single filter or multiple filter conditions. To
-/// specify multiple filter conditions, you use <code>AND</code> or
-/// <code>OR</code> logical operators.
-class StorageLensGroup {
-  /// Sets the criteria for the Storage Lens group data that is displayed. For
-  /// multiple filter conditions, the <code>AND</code> or <code>OR</code> logical
-  /// operator is used.
-  final StorageLensGroupFilter filter;
-
-  /// Contains the name of the Storage Lens group.
-  final String name;
-
-  /// Contains the Amazon Resource Name (ARN) of the Storage Lens group. This
-  /// property is read-only.
-  final String? storageLensGroupArn;
-
-  StorageLensGroup({
-    required this.filter,
-    required this.name,
-    this.storageLensGroupArn,
-  });
-  factory StorageLensGroup.fromXml(_s.XmlElement elem) {
-    return StorageLensGroup(
-      filter:
-          StorageLensGroupFilter.fromXml(_s.extractXmlChild(elem, 'Filter')!),
-      name: _s.extractXmlStringValue(elem, 'Name')!,
-      storageLensGroupArn:
-          _s.extractXmlStringValue(elem, 'StorageLensGroupArn'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final filter = this.filter;
-    final name = this.name;
-    final storageLensGroupArn = this.storageLensGroupArn;
-    return {
-      'Filter': filter,
-      'Name': name,
-      if (storageLensGroupArn != null)
-        'StorageLensGroupArn': storageLensGroupArn,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final filter = this.filter;
-    final name = this.name;
-    final storageLensGroupArn = this.storageLensGroupArn;
-    final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Name', name),
-      filter.toXml('Filter'),
-      if (storageLensGroupArn != null)
-        _s.encodeXmlStringValue('StorageLensGroupArn', storageLensGroupArn),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// A logical operator that allows multiple filter conditions to be joined for
-/// more complex comparisons of Storage Lens group data.
-class StorageLensGroupAndOperator {
-  /// Contains a list of prefixes. At least one prefix must be specified. Up to 10
-  /// prefixes are allowed.
-  final List<String>? matchAnyPrefix;
-
-  /// Contains a list of suffixes. At least one suffix must be specified. Up to 10
-  /// suffixes are allowed.
-  final List<String>? matchAnySuffix;
-
-  /// Contains the list of object tags. At least one object tag must be specified.
-  /// Up to 10 object tags are allowed.
-  final List<S3Tag>? matchAnyTag;
-
-  /// Contains <code>DaysGreaterThan</code> and <code>DaysLessThan</code> to
-  /// define the object age range (minimum and maximum number of days).
-  final MatchObjectAge? matchObjectAge;
-
-  /// Contains <code>BytesGreaterThan</code> and <code>BytesLessThan</code> to
-  /// define the object size range (minimum and maximum number of Bytes).
-  final MatchObjectSize? matchObjectSize;
-
-  StorageLensGroupAndOperator({
-    this.matchAnyPrefix,
-    this.matchAnySuffix,
-    this.matchAnyTag,
-    this.matchObjectAge,
-    this.matchObjectSize,
-  });
-  factory StorageLensGroupAndOperator.fromXml(_s.XmlElement elem) {
-    return StorageLensGroupAndOperator(
-      matchAnyPrefix: _s
-          .extractXmlChild(elem, 'MatchAnyPrefix')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Prefix')),
-      matchAnySuffix: _s
-          .extractXmlChild(elem, 'MatchAnySuffix')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Suffix')),
-      matchAnyTag: _s
-          .extractXmlChild(elem, 'MatchAnyTag')
-          ?.let((elem) => elem.findElements('Tag').map(S3Tag.fromXml).toList()),
-      matchObjectAge: _s
-          .extractXmlChild(elem, 'MatchObjectAge')
-          ?.let(MatchObjectAge.fromXml),
-      matchObjectSize: _s
-          .extractXmlChild(elem, 'MatchObjectSize')
-          ?.let(MatchObjectSize.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final matchAnyPrefix = this.matchAnyPrefix;
-    final matchAnySuffix = this.matchAnySuffix;
-    final matchAnyTag = this.matchAnyTag;
-    final matchObjectAge = this.matchObjectAge;
-    final matchObjectSize = this.matchObjectSize;
-    return {
-      if (matchAnyPrefix != null) 'MatchAnyPrefix': matchAnyPrefix,
-      if (matchAnySuffix != null) 'MatchAnySuffix': matchAnySuffix,
-      if (matchAnyTag != null) 'MatchAnyTag': matchAnyTag,
-      if (matchObjectAge != null) 'MatchObjectAge': matchObjectAge,
-      if (matchObjectSize != null) 'MatchObjectSize': matchObjectSize,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final matchAnyPrefix = this.matchAnyPrefix;
-    final matchAnySuffix = this.matchAnySuffix;
-    final matchAnyTag = this.matchAnyTag;
-    final matchObjectAge = this.matchObjectAge;
-    final matchObjectSize = this.matchObjectSize;
-    final $children = <_s.XmlNode>[
-      if (matchAnyPrefix != null)
-        _s.XmlElement(_s.XmlName.parts('MatchAnyPrefix'), [],
-            matchAnyPrefix.map((e) => _s.encodeXmlStringValue('Prefix', e))),
-      if (matchAnySuffix != null)
-        _s.XmlElement(_s.XmlName.parts('MatchAnySuffix'), [],
-            matchAnySuffix.map((e) => _s.encodeXmlStringValue('Suffix', e))),
-      if (matchAnyTag != null)
-        _s.XmlElement(_s.XmlName.parts('MatchAnyTag'), [],
-            matchAnyTag.map((e) => e.toXml('Tag'))),
-      if (matchObjectAge != null) matchObjectAge.toXml('MatchObjectAge'),
-      if (matchObjectSize != null) matchObjectSize.toXml('MatchObjectSize'),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// The filter element sets the criteria for the Storage Lens group data that is
-/// displayed. For multiple filter conditions, the <code>AND</code> or
-/// <code>OR</code> logical operator is used.
-class StorageLensGroupFilter {
-  /// A logical operator that allows multiple filter conditions to be joined for
-  /// more complex comparisons of Storage Lens group data. Objects must match all
-  /// of the listed filter conditions that are joined by the <code>And</code>
-  /// logical operator. Only one of each filter condition is allowed.
-  final StorageLensGroupAndOperator? and;
-
-  /// Contains a list of prefixes. At least one prefix must be specified. Up to 10
-  /// prefixes are allowed.
-  final List<String>? matchAnyPrefix;
-
-  /// Contains a list of suffixes. At least one suffix must be specified. Up to 10
-  /// suffixes are allowed.
-  final List<String>? matchAnySuffix;
-
-  /// Contains the list of S3 object tags. At least one object tag must be
-  /// specified. Up to 10 object tags are allowed.
-  final List<S3Tag>? matchAnyTag;
-
-  /// Contains <code>DaysGreaterThan</code> and <code>DaysLessThan</code> to
-  /// define the object age range (minimum and maximum number of days).
-  final MatchObjectAge? matchObjectAge;
-
-  /// Contains <code>BytesGreaterThan</code> and <code>BytesLessThan</code> to
-  /// define the object size range (minimum and maximum number of Bytes).
-  final MatchObjectSize? matchObjectSize;
-
-  /// A single logical operator that allows multiple filter conditions to be
-  /// joined. Objects can match any of the listed filter conditions, which are
-  /// joined by the <code>Or</code> logical operator. Only one of each filter
-  /// condition is allowed.
-  final StorageLensGroupOrOperator? or;
-
-  StorageLensGroupFilter({
-    this.and,
-    this.matchAnyPrefix,
-    this.matchAnySuffix,
-    this.matchAnyTag,
-    this.matchObjectAge,
-    this.matchObjectSize,
-    this.or,
-  });
-  factory StorageLensGroupFilter.fromXml(_s.XmlElement elem) {
-    return StorageLensGroupFilter(
-      and: _s
-          .extractXmlChild(elem, 'And')
-          ?.let(StorageLensGroupAndOperator.fromXml),
-      matchAnyPrefix: _s
-          .extractXmlChild(elem, 'MatchAnyPrefix')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Prefix')),
-      matchAnySuffix: _s
-          .extractXmlChild(elem, 'MatchAnySuffix')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Suffix')),
-      matchAnyTag: _s
-          .extractXmlChild(elem, 'MatchAnyTag')
-          ?.let((elem) => elem.findElements('Tag').map(S3Tag.fromXml).toList()),
-      matchObjectAge: _s
-          .extractXmlChild(elem, 'MatchObjectAge')
-          ?.let(MatchObjectAge.fromXml),
-      matchObjectSize: _s
-          .extractXmlChild(elem, 'MatchObjectSize')
-          ?.let(MatchObjectSize.fromXml),
-      or: _s
-          .extractXmlChild(elem, 'Or')
-          ?.let(StorageLensGroupOrOperator.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final and = this.and;
-    final matchAnyPrefix = this.matchAnyPrefix;
-    final matchAnySuffix = this.matchAnySuffix;
-    final matchAnyTag = this.matchAnyTag;
-    final matchObjectAge = this.matchObjectAge;
-    final matchObjectSize = this.matchObjectSize;
-    final or = this.or;
-    return {
-      if (and != null) 'And': and,
-      if (matchAnyPrefix != null) 'MatchAnyPrefix': matchAnyPrefix,
-      if (matchAnySuffix != null) 'MatchAnySuffix': matchAnySuffix,
-      if (matchAnyTag != null) 'MatchAnyTag': matchAnyTag,
-      if (matchObjectAge != null) 'MatchObjectAge': matchObjectAge,
-      if (matchObjectSize != null) 'MatchObjectSize': matchObjectSize,
-      if (or != null) 'Or': or,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final and = this.and;
-    final matchAnyPrefix = this.matchAnyPrefix;
-    final matchAnySuffix = this.matchAnySuffix;
-    final matchAnyTag = this.matchAnyTag;
-    final matchObjectAge = this.matchObjectAge;
-    final matchObjectSize = this.matchObjectSize;
-    final or = this.or;
-    final $children = <_s.XmlNode>[
-      if (matchAnyPrefix != null)
-        _s.XmlElement(_s.XmlName.parts('MatchAnyPrefix'), [],
-            matchAnyPrefix.map((e) => _s.encodeXmlStringValue('Prefix', e))),
-      if (matchAnySuffix != null)
-        _s.XmlElement(_s.XmlName.parts('MatchAnySuffix'), [],
-            matchAnySuffix.map((e) => _s.encodeXmlStringValue('Suffix', e))),
-      if (matchAnyTag != null)
-        _s.XmlElement(_s.XmlName.parts('MatchAnyTag'), [],
-            matchAnyTag.map((e) => e.toXml('Tag'))),
-      if (matchObjectAge != null) matchObjectAge.toXml('MatchObjectAge'),
-      if (matchObjectSize != null) matchObjectSize.toXml('MatchObjectSize'),
-      if (and != null) and.toXml('And'),
-      if (or != null) or.toXml('Or'),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// Specifies the Storage Lens groups to include in the Storage Lens group
-/// aggregation.
-class StorageLensGroupLevel {
-  /// Indicates which Storage Lens group ARNs to include or exclude in the Storage
-  /// Lens group aggregation. If this value is left null, then all Storage Lens
-  /// groups are selected.
-  final StorageLensGroupLevelSelectionCriteria? selectionCriteria;
-
-  StorageLensGroupLevel({
-    this.selectionCriteria,
-  });
-  factory StorageLensGroupLevel.fromXml(_s.XmlElement elem) {
-    return StorageLensGroupLevel(
-      selectionCriteria: _s
-          .extractXmlChild(elem, 'SelectionCriteria')
-          ?.let(StorageLensGroupLevelSelectionCriteria.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final selectionCriteria = this.selectionCriteria;
-    return {
-      if (selectionCriteria != null) 'SelectionCriteria': selectionCriteria,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final selectionCriteria = this.selectionCriteria;
-    final $children = <_s.XmlNode>[
-      if (selectionCriteria != null)
-        selectionCriteria.toXml('SelectionCriteria'),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// Indicates which Storage Lens group ARNs to include or exclude in the Storage
-/// Lens group aggregation. You can only attach Storage Lens groups to your
-/// Storage Lens dashboard if they're included in your Storage Lens group
-/// aggregation. If this value is left null, then all Storage Lens groups are
-/// selected.
-class StorageLensGroupLevelSelectionCriteria {
-  /// Indicates which Storage Lens group ARNs to exclude from the Storage Lens
-  /// group aggregation.
-  final List<String>? exclude;
-
-  /// Indicates which Storage Lens group ARNs to include in the Storage Lens group
-  /// aggregation.
-  final List<String>? include;
-
-  StorageLensGroupLevelSelectionCriteria({
-    this.exclude,
-    this.include,
-  });
-  factory StorageLensGroupLevelSelectionCriteria.fromXml(_s.XmlElement elem) {
-    return StorageLensGroupLevelSelectionCriteria(
-      exclude: _s
-          .extractXmlChild(elem, 'Exclude')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Arn')),
-      include: _s
-          .extractXmlChild(elem, 'Include')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Arn')),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final exclude = this.exclude;
-    final include = this.include;
-    return {
-      if (exclude != null) 'Exclude': exclude,
-      if (include != null) 'Include': include,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final exclude = this.exclude;
-    final include = this.include;
-    final $children = <_s.XmlNode>[
-      if (include != null)
-        _s.XmlElement(_s.XmlName.parts('Include'), [],
-            include.map((e) => _s.encodeXmlStringValue('Arn', e))),
-      if (exclude != null)
-        _s.XmlElement(_s.XmlName.parts('Exclude'), [],
-            exclude.map((e) => _s.encodeXmlStringValue('Arn', e))),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// A container element for specifying <code>Or</code> rule conditions. The rule
-/// conditions determine the subset of objects to which the <code>Or</code> rule
-/// applies. Objects can match any of the listed filter conditions, which are
-/// joined by the <code>Or</code> logical operator. Only one of each filter
-/// condition is allowed.
-class StorageLensGroupOrOperator {
-  /// Filters objects that match any of the specified prefixes.
-  final List<String>? matchAnyPrefix;
-
-  /// Filters objects that match any of the specified suffixes.
-  final List<String>? matchAnySuffix;
-
-  /// Filters objects that match any of the specified S3 object tags.
-  final List<S3Tag>? matchAnyTag;
-
-  /// Filters objects that match the specified object age range.
-  final MatchObjectAge? matchObjectAge;
-
-  /// Filters objects that match the specified object size range.
-  final MatchObjectSize? matchObjectSize;
-
-  StorageLensGroupOrOperator({
-    this.matchAnyPrefix,
-    this.matchAnySuffix,
-    this.matchAnyTag,
-    this.matchObjectAge,
-    this.matchObjectSize,
-  });
-  factory StorageLensGroupOrOperator.fromXml(_s.XmlElement elem) {
-    return StorageLensGroupOrOperator(
-      matchAnyPrefix: _s
-          .extractXmlChild(elem, 'MatchAnyPrefix')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Prefix')),
-      matchAnySuffix: _s
-          .extractXmlChild(elem, 'MatchAnySuffix')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Suffix')),
-      matchAnyTag: _s
-          .extractXmlChild(elem, 'MatchAnyTag')
-          ?.let((elem) => elem.findElements('Tag').map(S3Tag.fromXml).toList()),
-      matchObjectAge: _s
-          .extractXmlChild(elem, 'MatchObjectAge')
-          ?.let(MatchObjectAge.fromXml),
-      matchObjectSize: _s
-          .extractXmlChild(elem, 'MatchObjectSize')
-          ?.let(MatchObjectSize.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final matchAnyPrefix = this.matchAnyPrefix;
-    final matchAnySuffix = this.matchAnySuffix;
-    final matchAnyTag = this.matchAnyTag;
-    final matchObjectAge = this.matchObjectAge;
-    final matchObjectSize = this.matchObjectSize;
-    return {
-      if (matchAnyPrefix != null) 'MatchAnyPrefix': matchAnyPrefix,
-      if (matchAnySuffix != null) 'MatchAnySuffix': matchAnySuffix,
-      if (matchAnyTag != null) 'MatchAnyTag': matchAnyTag,
-      if (matchObjectAge != null) 'MatchObjectAge': matchObjectAge,
-      if (matchObjectSize != null) 'MatchObjectSize': matchObjectSize,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final matchAnyPrefix = this.matchAnyPrefix;
-    final matchAnySuffix = this.matchAnySuffix;
-    final matchAnyTag = this.matchAnyTag;
-    final matchObjectAge = this.matchObjectAge;
-    final matchObjectSize = this.matchObjectSize;
-    final $children = <_s.XmlNode>[
-      if (matchAnyPrefix != null)
-        _s.XmlElement(_s.XmlName.parts('MatchAnyPrefix'), [],
-            matchAnyPrefix.map((e) => _s.encodeXmlStringValue('Prefix', e))),
-      if (matchAnySuffix != null)
-        _s.XmlElement(_s.XmlName.parts('MatchAnySuffix'), [],
-            matchAnySuffix.map((e) => _s.encodeXmlStringValue('Suffix', e))),
-      if (matchAnyTag != null)
-        _s.XmlElement(_s.XmlName.parts('MatchAnyTag'), [],
-            matchAnyTag.map((e) => e.toXml('Tag'))),
-      if (matchObjectAge != null) matchObjectAge.toXml('MatchObjectAge'),
-      if (matchObjectSize != null) matchObjectSize.toXml('MatchObjectSize'),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// <p/>
-class StorageLensTag {
-  /// <p/>
-  final String key;
-
-  /// <p/>
-  final String value;
-
-  StorageLensTag({
-    required this.key,
-    required this.value,
-  });
-  factory StorageLensTag.fromXml(_s.XmlElement elem) {
-    return StorageLensTag(
-      key: _s.extractXmlStringValue(elem, 'Key')!,
-      value: _s.extractXmlStringValue(elem, 'Value')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'Key': key,
-      'Value': value,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final key = this.key;
-    final value = this.value;
-    final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Key', key),
-      _s.encodeXmlStringValue('Value', value),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-class SubmitMultiRegionAccessPointRoutesRequest {
-  /// The Amazon Web Services account ID for the owner of the Multi-Region Access
-  /// Point.
-  final String accountId;
-
-  /// The Multi-Region Access Point ARN.
-  final String mrap;
-
-  /// The different routes that make up the new route configuration. Active routes
-  /// return a value of <code>100</code>, and passive routes return a value of
-  /// <code>0</code>.
-  final List<MultiRegionAccessPointRoute> routeUpdates;
-
-  SubmitMultiRegionAccessPointRoutesRequest({
-    required this.accountId,
-    required this.mrap,
-    required this.routeUpdates,
-  });
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final mrap = this.mrap;
-    final routeUpdates = this.routeUpdates;
-    return {
-      'RouteUpdates': routeUpdates,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final accountId = this.accountId;
-    final mrap = this.mrap;
-    final routeUpdates = this.routeUpdates;
-    final $children = <_s.XmlNode>[
-      _s.XmlElement(_s.XmlName.parts('RouteUpdates'), [],
-          routeUpdates.map((e) => e.toXml('Route'))),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-class SubmitMultiRegionAccessPointRoutesResult {
-  SubmitMultiRegionAccessPointRoutesResult();
-  factory SubmitMultiRegionAccessPointRoutesResult.fromXml(
-      // ignore: avoid_unused_constructor_parameters
-      _s.XmlElement elem) {
-    return SubmitMultiRegionAccessPointRoutesResult();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// An Amazon Web Services resource tag that's associated with your S3 resource.
-/// You can add tags to new objects when you upload them, or you can add object
-/// tags to existing objects.
-/// <note>
-/// This operation is only supported for <a
-/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-lens-groups.html">S3
-/// Storage Lens groups</a> and for <a
-/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-tagging.html">S3
-/// Access Grants</a>. The tagged resource can be an S3 Storage Lens group or S3
-/// Access Grants instance, registered location, or grant.
-/// </note>
-class Tag {
-  /// The key of the key-value pair of a tag added to your Amazon Web Services
-  /// resource. A tag key can be up to 128 Unicode characters in length and is
-  /// case-sensitive. System created tags that begin with <code>aws:</code> aren’t
-  /// supported.
-  final String key;
-
-  /// The value of the key-value pair of a tag added to your Amazon Web Services
-  /// resource. A tag value can be up to 256 Unicode characters in length and is
-  /// case-sensitive.
-  final String value;
-
-  Tag({
-    required this.key,
-    required this.value,
-  });
-  factory Tag.fromXml(_s.XmlElement elem) {
-    return Tag(
-      key: _s.extractXmlStringValue(elem, 'Key')!,
-      value: _s.extractXmlStringValue(elem, 'Value')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'Key': key,
-      'Value': value,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final key = this.key;
-    final value = this.value;
-    final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Key', key),
-      _s.encodeXmlStringValue('Value', value),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-class TagResourceRequest {
-  /// The Amazon Web Services account ID that created the S3 resource that you're
-  /// trying to add tags to or the requester's account ID.
-  final String accountId;
-
-  /// The Amazon Resource Name (ARN) of the S3 resource that you're trying to add
-  /// tags to. The tagged resource can be an S3 Storage Lens group or S3 Access
-  /// Grants instance, registered location, or grant.
-  final String resourceArn;
-
-  /// The Amazon Web Services resource tags that you want to add to the specified
-  /// S3 resource.
-  final List<Tag> tags;
-
-  TagResourceRequest({
-    required this.accountId,
-    required this.resourceArn,
-    required this.tags,
-  });
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final resourceArn = this.resourceArn;
-    final tags = this.tags;
-    return {
-      'Tags': tags,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final accountId = this.accountId;
-    final resourceArn = this.resourceArn;
-    final tags = this.tags;
-    final $children = <_s.XmlNode>[
-      _s.XmlElement(
-          _s.XmlName.parts('Tags'), [], tags.map((e) => e.toXml('Tag'))),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-class TagResourceResult {
-  TagResourceResult();
-  factory TagResourceResult.fromXml(
-      // ignore: avoid_unused_constructor_parameters
-      _s.XmlElement elem) {
-    return TagResourceResult();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// <p/>
-class Tagging {
-  /// A collection for a set of tags.
-  final List<S3Tag> tagSet;
-
-  Tagging({
-    required this.tagSet,
-  });
-
-  Map<String, dynamic> toJson() {
-    final tagSet = this.tagSet;
-    return {
-      'TagSet': tagSet,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final tagSet = this.tagSet;
-    final $children = <_s.XmlNode>[
-      _s.XmlElement(
-          _s.XmlName.parts('TagSet'), [], tagSet.map((e) => e.toXml('member'))),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// Specifies when an object transitions to a specified storage class. For more
-/// information about Amazon S3 Lifecycle configuration rules, see <a
-/// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/lifecycle-transition-general-considerations.html">
-/// Transitioning objects using Amazon S3 Lifecycle</a> in the <i>Amazon S3 User
-/// Guide</i>.
-class Transition {
-  /// Indicates when objects are transitioned to the specified storage class. The
-  /// date value must be in ISO 8601 format. The time is always midnight UTC.
-  final DateTime? date;
-
-  /// Indicates the number of days after creation when objects are transitioned to
-  /// the specified storage class. The value must be a positive integer.
-  final int? days;
-
-  /// The storage class to which you want the object to transition.
-  final TransitionStorageClass? storageClass;
-
-  Transition({
-    this.date,
-    this.days,
-    this.storageClass,
-  });
-  factory Transition.fromXml(_s.XmlElement elem) {
-    return Transition(
-      date: _s.extractXmlDateTimeValue(elem, 'Date'),
-      days: _s.extractXmlIntValue(elem, 'Days'),
-      storageClass: _s
-          .extractXmlStringValue(elem, 'StorageClass')
-          ?.let(TransitionStorageClass.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final date = this.date;
-    final days = this.days;
-    final storageClass = this.storageClass;
-    return {
-      if (date != null) 'Date': iso8601ToJson(date),
-      if (days != null) 'Days': days,
-      if (storageClass != null) 'StorageClass': storageClass.value,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final date = this.date;
-    final days = this.days;
-    final storageClass = this.storageClass;
-    final $children = <_s.XmlNode>[
-      if (date != null) _s.encodeXmlDateTimeValue('Date', date),
-      if (days != null) _s.encodeXmlIntValue('Days', days),
-      if (storageClass != null)
-        _s.encodeXmlStringValue('StorageClass', storageClass.value),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-class TransitionStorageClass {
-  static const glacier = TransitionStorageClass._('GLACIER');
-  static const standardIa = TransitionStorageClass._('STANDARD_IA');
-  static const onezoneIa = TransitionStorageClass._('ONEZONE_IA');
-  static const intelligentTiering =
-      TransitionStorageClass._('INTELLIGENT_TIERING');
-  static const deepArchive = TransitionStorageClass._('DEEP_ARCHIVE');
+class S3GlacierJobTier {
+  static const bulk = S3GlacierJobTier._('BULK');
+  static const standard = S3GlacierJobTier._('STANDARD');
 
   final String value;
 
-  const TransitionStorageClass._(this.value);
+  const S3GlacierJobTier._(this.value);
+
+  static const values = [bulk, standard];
+
+  static S3GlacierJobTier fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => S3GlacierJobTier._(value));
+
+  @override
+  bool operator ==(other) => other is S3GlacierJobTier && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+///
+class S3AccessControlPolicy {
+  ///
+  final S3AccessControlList? accessControlList;
+
+  ///
+  final S3CannedAccessControlList? cannedAccessControlList;
+
+  S3AccessControlPolicy({
+    this.accessControlList,
+    this.cannedAccessControlList,
+  });
+  factory S3AccessControlPolicy.fromXml(_s.XmlElement elem) {
+    return S3AccessControlPolicy(
+      accessControlList: _s
+          .extractXmlChild(elem, 'AccessControlList')
+          ?.let(S3AccessControlList.fromXml),
+      cannedAccessControlList: _s
+          .extractXmlStringValue(elem, 'CannedAccessControlList')
+          ?.let(S3CannedAccessControlList.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessControlList = this.accessControlList;
+    final cannedAccessControlList = this.cannedAccessControlList;
+    return {
+      if (accessControlList != null) 'AccessControlList': accessControlList,
+      if (cannedAccessControlList != null)
+        'CannedAccessControlList': cannedAccessControlList.value,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final accessControlList = this.accessControlList;
+    final cannedAccessControlList = this.cannedAccessControlList;
+    final $children = <_s.XmlNode>[
+      if (accessControlList != null)
+        accessControlList.toXml('AccessControlList'),
+      if (cannedAccessControlList != null)
+        _s.encodeXmlStringValue(
+            'CannedAccessControlList', cannedAccessControlList.value),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+///
+class S3AccessControlList {
+  ///
+  final S3ObjectOwner owner;
+
+  ///
+  final List<S3Grant>? grants;
+
+  S3AccessControlList({
+    required this.owner,
+    this.grants,
+  });
+  factory S3AccessControlList.fromXml(_s.XmlElement elem) {
+    return S3AccessControlList(
+      owner: S3ObjectOwner.fromXml(_s.extractXmlChild(elem, 'Owner')!),
+      grants: _s.extractXmlChild(elem, 'Grants')?.let(
+          (elem) => elem.findElements('member').map(S3Grant.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final owner = this.owner;
+    final grants = this.grants;
+    return {
+      'Owner': owner,
+      if (grants != null) 'Grants': grants,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final owner = this.owner;
+    final grants = this.grants;
+    final $children = <_s.XmlNode>[
+      owner.toXml('Owner'),
+      if (grants != null)
+        _s.XmlElement(_s.XmlName.parts('Grants'), [],
+            grants.map((e) => e.toXml('member'))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class S3CannedAccessControlList {
+  static const private = S3CannedAccessControlList._('private');
+  static const publicRead = S3CannedAccessControlList._('public-read');
+  static const publicReadWrite =
+      S3CannedAccessControlList._('public-read-write');
+  static const awsExecRead = S3CannedAccessControlList._('aws-exec-read');
+  static const authenticatedRead =
+      S3CannedAccessControlList._('authenticated-read');
+  static const bucketOwnerRead =
+      S3CannedAccessControlList._('bucket-owner-read');
+  static const bucketOwnerFullControl =
+      S3CannedAccessControlList._('bucket-owner-full-control');
+
+  final String value;
+
+  const S3CannedAccessControlList._(this.value);
 
   static const values = [
-    glacier,
-    standardIa,
-    onezoneIa,
-    intelligentTiering,
-    deepArchive
+    private,
+    publicRead,
+    publicReadWrite,
+    awsExecRead,
+    authenticatedRead,
+    bucketOwnerRead,
+    bucketOwnerFullControl
   ];
 
-  static TransitionStorageClass fromString(String value) =>
+  static S3CannedAccessControlList fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => TransitionStorageClass._(value));
+          orElse: () => S3CannedAccessControlList._(value));
 
   @override
   bool operator ==(other) =>
-      other is TransitionStorageClass && other.value == value;
+      other is S3CannedAccessControlList && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -18827,65 +19847,41 @@ class TransitionStorageClass {
   String toString() => value;
 }
 
-class UntagResourceResult {
-  UntagResourceResult();
-  factory UntagResourceResult.fromXml(
-      // ignore: avoid_unused_constructor_parameters
-      _s.XmlElement elem) {
-    return UntagResourceResult();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateAccessGrantsLocationRequest {
-  /// The ID of the registered location that you are updating. S3 Access Grants
-  /// assigns this ID when you register the location. S3 Access Grants assigns the
-  /// ID <code>default</code> to the default location <code>s3://</code> and
-  /// assigns an auto-generated ID to other locations that you register.
+///
+class S3ObjectOwner {
   ///
-  /// The ID of the registered location to which you are granting access. S3
-  /// Access Grants assigned this ID when you registered the location. S3 Access
-  /// Grants assigns the ID <code>default</code> to the default location
-  /// <code>s3://</code> and assigns an auto-generated ID to other locations that
-  /// you register.
+  final String? displayName;
+
   ///
-  /// If you are passing the <code>default</code> location, you cannot create an
-  /// access grant for the entire default location. You must also specify a bucket
-  /// or a bucket and prefix in the <code>Subprefix</code> field.
-  final String accessGrantsLocationId;
+  final String? id;
 
-  /// The Amazon Web Services account ID of the S3 Access Grants instance.
-  final String accountId;
-
-  /// The Amazon Resource Name (ARN) of the IAM role for the registered location.
-  /// S3 Access Grants assumes this role to manage access to the registered
-  /// location.
-  final String iAMRoleArn;
-
-  UpdateAccessGrantsLocationRequest({
-    required this.accessGrantsLocationId,
-    required this.accountId,
-    required this.iAMRoleArn,
+  S3ObjectOwner({
+    this.displayName,
+    this.id,
   });
+  factory S3ObjectOwner.fromXml(_s.XmlElement elem) {
+    return S3ObjectOwner(
+      displayName: _s.extractXmlStringValue(elem, 'DisplayName'),
+      id: _s.extractXmlStringValue(elem, 'ID'),
+    );
+  }
 
   Map<String, dynamic> toJson() {
-    final accessGrantsLocationId = this.accessGrantsLocationId;
-    final accountId = this.accountId;
-    final iAMRoleArn = this.iAMRoleArn;
+    final displayName = this.displayName;
+    final id = this.id;
     return {
-      'IAMRoleArn': iAMRoleArn,
+      if (displayName != null) 'DisplayName': displayName,
+      if (id != null) 'ID': id,
     };
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final accessGrantsLocationId = this.accessGrantsLocationId;
-    final accountId = this.accountId;
-    final iAMRoleArn = this.iAMRoleArn;
+    final displayName = this.displayName;
+    final id = this.id;
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('IAMRoleArn', iAMRoleArn),
+      if (id != null) _s.encodeXmlStringValue('ID', id),
+      if (displayName != null)
+        _s.encodeXmlStringValue('DisplayName', displayName),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -18898,165 +19894,43 @@ class UpdateAccessGrantsLocationRequest {
   }
 }
 
-class UpdateAccessGrantsLocationResult {
-  /// The Amazon Resource Name (ARN) of the registered location that you are
-  /// updating.
-  final String? accessGrantsLocationArn;
+///
+class S3Grant {
+  ///
+  final S3Grantee? grantee;
 
-  /// The ID of the registered location to which you are granting access. S3
-  /// Access Grants assigned this ID when you registered the location. S3 Access
-  /// Grants assigns the ID <code>default</code> to the default location
-  /// <code>s3://</code> and assigns an auto-generated ID to other locations that
-  /// you register.
-  final String? accessGrantsLocationId;
+  ///
+  final S3Permission? permission;
 
-  /// The date and time when you registered the location.
-  final DateTime? createdAt;
-
-  /// The Amazon Resource Name (ARN) of the IAM role of the registered location.
-  /// S3 Access Grants assumes this role to manage access to the registered
-  /// location.
-  final String? iAMRoleArn;
-
-  /// The S3 URI path of the location that you are updating. You cannot update the
-  /// scope of the registered location. The location scope can be the default S3
-  /// location <code>s3://</code>, the S3 path to a bucket
-  /// <code>s3://&lt;bucket&gt;</code>, or the S3 path to a bucket and prefix
-  /// <code>s3://&lt;bucket&gt;/&lt;prefix&gt;</code>.
-  final String? locationScope;
-
-  UpdateAccessGrantsLocationResult({
-    this.accessGrantsLocationArn,
-    this.accessGrantsLocationId,
-    this.createdAt,
-    this.iAMRoleArn,
-    this.locationScope,
+  S3Grant({
+    this.grantee,
+    this.permission,
   });
-  factory UpdateAccessGrantsLocationResult.fromXml(_s.XmlElement elem) {
-    return UpdateAccessGrantsLocationResult(
-      accessGrantsLocationArn:
-          _s.extractXmlStringValue(elem, 'AccessGrantsLocationArn'),
-      accessGrantsLocationId:
-          _s.extractXmlStringValue(elem, 'AccessGrantsLocationId'),
-      createdAt: _s.extractXmlDateTimeValue(elem, 'CreatedAt'),
-      iAMRoleArn: _s.extractXmlStringValue(elem, 'IAMRoleArn'),
-      locationScope: _s.extractXmlStringValue(elem, 'LocationScope'),
+  factory S3Grant.fromXml(_s.XmlElement elem) {
+    return S3Grant(
+      grantee: _s.extractXmlChild(elem, 'Grantee')?.let(S3Grantee.fromXml),
+      permission: _s
+          .extractXmlStringValue(elem, 'Permission')
+          ?.let(S3Permission.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final accessGrantsLocationArn = this.accessGrantsLocationArn;
-    final accessGrantsLocationId = this.accessGrantsLocationId;
-    final createdAt = this.createdAt;
-    final iAMRoleArn = this.iAMRoleArn;
-    final locationScope = this.locationScope;
+    final grantee = this.grantee;
+    final permission = this.permission;
     return {
-      if (accessGrantsLocationArn != null)
-        'AccessGrantsLocationArn': accessGrantsLocationArn,
-      if (accessGrantsLocationId != null)
-        'AccessGrantsLocationId': accessGrantsLocationId,
-      if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
-      if (iAMRoleArn != null) 'IAMRoleArn': iAMRoleArn,
-      if (locationScope != null) 'LocationScope': locationScope,
-    };
-  }
-}
-
-class UpdateJobPriorityResult {
-  /// The ID for the job whose priority Amazon S3 updated.
-  final String jobId;
-
-  /// The new priority assigned to the specified job.
-  final int priority;
-
-  UpdateJobPriorityResult({
-    required this.jobId,
-    required this.priority,
-  });
-  factory UpdateJobPriorityResult.fromXml(_s.XmlElement elem) {
-    return UpdateJobPriorityResult(
-      jobId: _s.extractXmlStringValue(elem, 'JobId')!,
-      priority: _s.extractXmlIntValue(elem, 'Priority')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final jobId = this.jobId;
-    final priority = this.priority;
-    return {
-      'JobId': jobId,
-      'Priority': priority,
-    };
-  }
-}
-
-class UpdateJobStatusResult {
-  /// The ID for the job whose status was updated.
-  final String? jobId;
-
-  /// The current status for the specified job.
-  final JobStatus? status;
-
-  /// The reason that the specified job's status was updated.
-  final String? statusUpdateReason;
-
-  UpdateJobStatusResult({
-    this.jobId,
-    this.status,
-    this.statusUpdateReason,
-  });
-  factory UpdateJobStatusResult.fromXml(_s.XmlElement elem) {
-    return UpdateJobStatusResult(
-      jobId: _s.extractXmlStringValue(elem, 'JobId'),
-      status:
-          _s.extractXmlStringValue(elem, 'Status')?.let(JobStatus.fromString),
-      statusUpdateReason: _s.extractXmlStringValue(elem, 'StatusUpdateReason'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final jobId = this.jobId;
-    final status = this.status;
-    final statusUpdateReason = this.statusUpdateReason;
-    return {
-      if (jobId != null) 'JobId': jobId,
-      if (status != null) 'Status': status.value,
-      if (statusUpdateReason != null) 'StatusUpdateReason': statusUpdateReason,
-    };
-  }
-}
-
-class UpdateStorageLensGroupRequest {
-  /// The Amazon Web Services account ID of the Storage Lens group owner.
-  final String accountId;
-
-  /// The name of the Storage Lens group that you want to update.
-  final String name;
-
-  /// The JSON file that contains the Storage Lens group configuration.
-  final StorageLensGroup storageLensGroup;
-
-  UpdateStorageLensGroupRequest({
-    required this.accountId,
-    required this.name,
-    required this.storageLensGroup,
-  });
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final name = this.name;
-    final storageLensGroup = this.storageLensGroup;
-    return {
-      'StorageLensGroup': storageLensGroup,
+      if (grantee != null) 'Grantee': grantee,
+      if (permission != null) 'Permission': permission.value,
     };
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final accountId = this.accountId;
-    final name = this.name;
-    final storageLensGroup = this.storageLensGroup;
+    final grantee = this.grantee;
+    final permission = this.permission;
     final $children = <_s.XmlNode>[
-      storageLensGroup.toXml('StorageLensGroup'),
+      if (grantee != null) grantee.toXml('Grantee'),
+      if (permission != null)
+        _s.encodeXmlStringValue('Permission', permission.value),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -19069,38 +19943,53 @@ class UpdateStorageLensGroupRequest {
   }
 }
 
-/// Describes the versioning state of an Amazon S3 on Outposts bucket. For more
-/// information, see <a
-/// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketVersioning.html">PutBucketVersioning</a>.
-class VersioningConfiguration {
-  /// Specifies whether MFA delete is enabled or disabled in the bucket versioning
-  /// configuration for the S3 on Outposts bucket.
-  final MFADelete? mFADelete;
+///
+class S3Grantee {
+  ///
+  final String? displayName;
 
-  /// Sets the versioning state of the S3 on Outposts bucket.
-  final BucketVersioningStatus? status;
+  ///
+  final String? identifier;
 
-  VersioningConfiguration({
-    this.mFADelete,
-    this.status,
+  ///
+  final S3GranteeTypeIdentifier? typeIdentifier;
+
+  S3Grantee({
+    this.displayName,
+    this.identifier,
+    this.typeIdentifier,
   });
+  factory S3Grantee.fromXml(_s.XmlElement elem) {
+    return S3Grantee(
+      displayName: _s.extractXmlStringValue(elem, 'DisplayName'),
+      identifier: _s.extractXmlStringValue(elem, 'Identifier'),
+      typeIdentifier: _s
+          .extractXmlStringValue(elem, 'TypeIdentifier')
+          ?.let(S3GranteeTypeIdentifier.fromString),
+    );
+  }
 
   Map<String, dynamic> toJson() {
-    final mFADelete = this.mFADelete;
-    final status = this.status;
+    final displayName = this.displayName;
+    final identifier = this.identifier;
+    final typeIdentifier = this.typeIdentifier;
     return {
-      if (mFADelete != null) 'MfaDelete': mFADelete.value,
-      if (status != null) 'Status': status.value,
+      if (displayName != null) 'DisplayName': displayName,
+      if (identifier != null) 'Identifier': identifier,
+      if (typeIdentifier != null) 'TypeIdentifier': typeIdentifier.value,
     };
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final mFADelete = this.mFADelete;
-    final status = this.status;
+    final displayName = this.displayName;
+    final identifier = this.identifier;
+    final typeIdentifier = this.typeIdentifier;
     final $children = <_s.XmlNode>[
-      if (mFADelete != null)
-        _s.encodeXmlStringValue('MfaDelete', mFADelete.value),
-      if (status != null) _s.encodeXmlStringValue('Status', status.value),
+      if (typeIdentifier != null)
+        _s.encodeXmlStringValue('TypeIdentifier', typeIdentifier.value),
+      if (identifier != null) _s.encodeXmlStringValue('Identifier', identifier),
+      if (displayName != null)
+        _s.encodeXmlStringValue('DisplayName', displayName),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -19113,32 +20002,244 @@ class VersioningConfiguration {
   }
 }
 
-/// The virtual private cloud (VPC) configuration for an access point.
-class VpcConfiguration {
-  /// If this field is specified, this access point will only allow connections
-  /// from the specified VPC ID.
-  final String vpcId;
+class S3Permission {
+  static const fullControl = S3Permission._('FULL_CONTROL');
+  static const read = S3Permission._('READ');
+  static const write = S3Permission._('WRITE');
+  static const readAcp = S3Permission._('READ_ACP');
+  static const writeAcp = S3Permission._('WRITE_ACP');
 
-  VpcConfiguration({
-    required this.vpcId,
+  final String value;
+
+  const S3Permission._(this.value);
+
+  static const values = [fullControl, read, write, readAcp, writeAcp];
+
+  static S3Permission fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => S3Permission._(value));
+
+  @override
+  bool operator ==(other) => other is S3Permission && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class S3GranteeTypeIdentifier {
+  static const id = S3GranteeTypeIdentifier._('id');
+  static const emailAddress = S3GranteeTypeIdentifier._('emailAddress');
+  static const uri = S3GranteeTypeIdentifier._('uri');
+
+  final String value;
+
+  const S3GranteeTypeIdentifier._(this.value);
+
+  static const values = [id, emailAddress, uri];
+
+  static S3GranteeTypeIdentifier fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => S3GranteeTypeIdentifier._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is S3GranteeTypeIdentifier && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class S3MetadataDirective {
+  static const copy = S3MetadataDirective._('COPY');
+  static const replace = S3MetadataDirective._('REPLACE');
+
+  final String value;
+
+  const S3MetadataDirective._(this.value);
+
+  static const values = [copy, replace];
+
+  static S3MetadataDirective fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => S3MetadataDirective._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is S3MetadataDirective && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+///
+class S3ObjectMetadata {
+  ///
+  final String? cacheControl;
+
+  ///
+  final String? contentDisposition;
+
+  ///
+  final String? contentEncoding;
+
+  ///
+  final String? contentLanguage;
+
+  /// <i>This member has been deprecated.</i>
+  ///
+  ///
+  final int? contentLength;
+
+  /// <i>This member has been deprecated.</i>
+  ///
+  ///
+  final String? contentMD5;
+
+  ///
+  final String? contentType;
+
+  ///
+  final DateTime? httpExpiresDate;
+
+  /// <i>This member has been deprecated.</i>
+  ///
+  ///
+  final bool? requesterCharged;
+
+  /// The server-side encryption algorithm used when storing objects in Amazon S3.
+  ///
+  /// <b>Directory buckets </b> - For directory buckets, there are only two
+  /// supported options for server-side encryption: server-side encryption with
+  /// Amazon S3 managed keys (SSE-S3) (<code>AES256</code>) and server-side
+  /// encryption with KMS keys (SSE-KMS) (<code>KMS</code>). For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-serv-side-encryption.html">Protecting
+  /// data with server-side encryption</a> in the <i>Amazon S3 User Guide</i>. For
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-objects-Batch-Ops">the
+  /// Copy operation in Batch Operations</a>, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_S3CopyObjectOperation.html">S3CopyObjectOperation</a>.
+  final S3SSEAlgorithm? sSEAlgorithm;
+
+  ///
+  final Map<String, String>? userMetadata;
+
+  S3ObjectMetadata({
+    this.cacheControl,
+    this.contentDisposition,
+    this.contentEncoding,
+    this.contentLanguage,
+    this.contentLength,
+    this.contentMD5,
+    this.contentType,
+    this.httpExpiresDate,
+    this.requesterCharged,
+    this.sSEAlgorithm,
+    this.userMetadata,
   });
-  factory VpcConfiguration.fromXml(_s.XmlElement elem) {
-    return VpcConfiguration(
-      vpcId: _s.extractXmlStringValue(elem, 'VpcId')!,
+  factory S3ObjectMetadata.fromXml(_s.XmlElement elem) {
+    return S3ObjectMetadata(
+      cacheControl: _s.extractXmlStringValue(elem, 'CacheControl'),
+      contentDisposition: _s.extractXmlStringValue(elem, 'ContentDisposition'),
+      contentEncoding: _s.extractXmlStringValue(elem, 'ContentEncoding'),
+      contentLanguage: _s.extractXmlStringValue(elem, 'ContentLanguage'),
+      contentLength: _s.extractXmlIntValue(elem, 'ContentLength'),
+      contentMD5: _s.extractXmlStringValue(elem, 'ContentMD5'),
+      contentType: _s.extractXmlStringValue(elem, 'ContentType'),
+      httpExpiresDate: _s.extractXmlDateTimeValue(elem, 'HttpExpiresDate'),
+      requesterCharged: _s.extractXmlBoolValue(elem, 'RequesterCharged'),
+      sSEAlgorithm: _s
+          .extractXmlStringValue(elem, 'SSEAlgorithm')
+          ?.let(S3SSEAlgorithm.fromString),
+      userMetadata: Map.fromEntries(
+        elem.getElement('UserMetadata')?.findElements('entry').map(
+                  (c) => MapEntry(
+                    _s.extractXmlStringValue(c, 'key')!,
+                    _s.extractXmlStringValue(c, 'value')!,
+                  ),
+                ) ??
+            {},
+      ),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final vpcId = this.vpcId;
+    final cacheControl = this.cacheControl;
+    final contentDisposition = this.contentDisposition;
+    final contentEncoding = this.contentEncoding;
+    final contentLanguage = this.contentLanguage;
+    final contentLength = this.contentLength;
+    final contentMD5 = this.contentMD5;
+    final contentType = this.contentType;
+    final httpExpiresDate = this.httpExpiresDate;
+    final requesterCharged = this.requesterCharged;
+    final sSEAlgorithm = this.sSEAlgorithm;
+    final userMetadata = this.userMetadata;
     return {
-      'VpcId': vpcId,
+      if (cacheControl != null) 'CacheControl': cacheControl,
+      if (contentDisposition != null) 'ContentDisposition': contentDisposition,
+      if (contentEncoding != null) 'ContentEncoding': contentEncoding,
+      if (contentLanguage != null) 'ContentLanguage': contentLanguage,
+      if (contentLength != null) 'ContentLength': contentLength,
+      if (contentMD5 != null) 'ContentMD5': contentMD5,
+      if (contentType != null) 'ContentType': contentType,
+      if (httpExpiresDate != null)
+        'HttpExpiresDate': iso8601ToJson(httpExpiresDate),
+      if (requesterCharged != null) 'RequesterCharged': requesterCharged,
+      if (sSEAlgorithm != null) 'SSEAlgorithm': sSEAlgorithm.value,
+      if (userMetadata != null) 'UserMetadata': userMetadata,
     };
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final vpcId = this.vpcId;
+    final cacheControl = this.cacheControl;
+    final contentDisposition = this.contentDisposition;
+    final contentEncoding = this.contentEncoding;
+    final contentLanguage = this.contentLanguage;
+    final contentLength = this.contentLength;
+    final contentMD5 = this.contentMD5;
+    final contentType = this.contentType;
+    final httpExpiresDate = this.httpExpiresDate;
+    final requesterCharged = this.requesterCharged;
+    final sSEAlgorithm = this.sSEAlgorithm;
+    final userMetadata = this.userMetadata;
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('VpcId', vpcId),
+      if (cacheControl != null)
+        _s.encodeXmlStringValue('CacheControl', cacheControl),
+      if (contentDisposition != null)
+        _s.encodeXmlStringValue('ContentDisposition', contentDisposition),
+      if (contentEncoding != null)
+        _s.encodeXmlStringValue('ContentEncoding', contentEncoding),
+      if (contentLanguage != null)
+        _s.encodeXmlStringValue('ContentLanguage', contentLanguage),
+      if (userMetadata != null)
+        _s.XmlElement(
+            _s.XmlName.parts('UserMetadata'),
+            [],
+            userMetadata.entries.map((e) => _s.XmlElement(
+                    _s.XmlName.parts('entry'), [], <_s.XmlNode>[
+                  _s.encodeXmlStringValue('key', e.key),
+                  _s.encodeXmlStringValue('value', e.value)
+                ]))),
+      if (contentLength != null)
+        _s.encodeXmlIntValue('ContentLength', contentLength),
+      if (contentMD5 != null) _s.encodeXmlStringValue('ContentMD5', contentMD5),
+      if (contentType != null)
+        _s.encodeXmlStringValue('ContentType', contentType),
+      if (httpExpiresDate != null)
+        _s.encodeXmlDateTimeValue('HttpExpiresDate', httpExpiresDate),
+      if (requesterCharged != null)
+        _s.encodeXmlBoolValue('RequesterCharged', requesterCharged),
+      if (sSEAlgorithm != null)
+        _s.encodeXmlStringValue('SSEAlgorithm', sSEAlgorithm.value),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -19149,6 +20250,329 @@ class VpcConfiguration {
       $children,
     );
   }
+}
+
+class S3ObjectLockMode {
+  static const compliance = S3ObjectLockMode._('COMPLIANCE');
+  static const governance = S3ObjectLockMode._('GOVERNANCE');
+
+  final String value;
+
+  const S3ObjectLockMode._(this.value);
+
+  static const values = [compliance, governance];
+
+  static S3ObjectLockMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => S3ObjectLockMode._(value));
+
+  @override
+  bool operator ==(other) => other is S3ObjectLockMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class S3ChecksumAlgorithm {
+  static const crc32 = S3ChecksumAlgorithm._('CRC32');
+  static const crc32c = S3ChecksumAlgorithm._('CRC32C');
+  static const sha1 = S3ChecksumAlgorithm._('SHA1');
+  static const sha256 = S3ChecksumAlgorithm._('SHA256');
+  static const crc64nvme = S3ChecksumAlgorithm._('CRC64NVME');
+  static const sha512 = S3ChecksumAlgorithm._('SHA512');
+  static const md5 = S3ChecksumAlgorithm._('MD5');
+  static const xxhash64 = S3ChecksumAlgorithm._('XXHASH64');
+  static const xxhash3 = S3ChecksumAlgorithm._('XXHASH3');
+  static const xxhash128 = S3ChecksumAlgorithm._('XXHASH128');
+
+  final String value;
+
+  const S3ChecksumAlgorithm._(this.value);
+
+  static const values = [
+    crc32,
+    crc32c,
+    sha1,
+    sha256,
+    crc64nvme,
+    sha512,
+    md5,
+    xxhash64,
+    xxhash3,
+    xxhash128
+  ];
+
+  static S3ChecksumAlgorithm fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => S3ChecksumAlgorithm._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is S3ChecksumAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class S3SSEAlgorithm {
+  static const aes256 = S3SSEAlgorithm._('AES256');
+  static const kms = S3SSEAlgorithm._('KMS');
+
+  final String value;
+
+  const S3SSEAlgorithm._(this.value);
+
+  static const values = [aes256, kms];
+
+  static S3SSEAlgorithm fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => S3SSEAlgorithm._(value));
+
+  @override
+  bool operator ==(other) => other is S3SSEAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the format of a manifest. If the manifest is in CSV format, also
+/// describes the columns contained within the manifest.
+class JobManifestSpec {
+  /// Indicates which of the available formats the specified manifest uses.
+  final JobManifestFormat format;
+
+  /// If the specified manifest object is in the
+  /// <code>S3BatchOperations_CSV_20180820</code> format, this element describes
+  /// which columns contain the required data.
+  final List<JobManifestFieldName>? fields;
+
+  JobManifestSpec({
+    required this.format,
+    this.fields,
+  });
+  factory JobManifestSpec.fromXml(_s.XmlElement elem) {
+    return JobManifestSpec(
+      format: _s
+          .extractXmlStringValue(elem, 'Format')!
+          .let(JobManifestFormat.fromString),
+      fields: _s.extractXmlChild(elem, 'Fields')?.let((elem) => _s
+          .extractXmlStringListValues(elem, 'member')
+          .map(JobManifestFieldName.fromString)
+          .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final format = this.format;
+    final fields = this.fields;
+    return {
+      'Format': format.value,
+      if (fields != null) 'Fields': fields.map((e) => e.value).toList(),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final format = this.format;
+    final fields = this.fields;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Format', format.value),
+      if (fields != null)
+        _s.XmlElement(_s.XmlName.parts('Fields'), [],
+            fields.map((e) => _s.encodeXmlStringValue('member', e.value))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class JobManifestFormat {
+  static const s3BatchOperationsCsv_20180820 =
+      JobManifestFormat._('S3BatchOperations_CSV_20180820');
+  static const s3InventoryReportCsv_20161130 =
+      JobManifestFormat._('S3InventoryReport_CSV_20161130');
+
+  final String value;
+
+  const JobManifestFormat._(this.value);
+
+  static const values = [
+    s3BatchOperationsCsv_20180820,
+    s3InventoryReportCsv_20161130
+  ];
+
+  static JobManifestFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => JobManifestFormat._(value));
+
+  @override
+  bool operator ==(other) => other is JobManifestFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class JobManifestFieldName {
+  static const ignore = JobManifestFieldName._('Ignore');
+  static const bucket = JobManifestFieldName._('Bucket');
+  static const key = JobManifestFieldName._('Key');
+  static const versionId = JobManifestFieldName._('VersionId');
+
+  final String value;
+
+  const JobManifestFieldName._(this.value);
+
+  static const values = [ignore, bucket, key, versionId];
+
+  static JobManifestFieldName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => JobManifestFieldName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is JobManifestFieldName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class BucketCannedACL {
+  static const private = BucketCannedACL._('private');
+  static const publicRead = BucketCannedACL._('public-read');
+  static const publicReadWrite = BucketCannedACL._('public-read-write');
+  static const authenticatedRead = BucketCannedACL._('authenticated-read');
+
+  final String value;
+
+  const BucketCannedACL._(this.value);
+
+  static const values = [
+    private,
+    publicRead,
+    publicReadWrite,
+    authenticatedRead
+  ];
+
+  static BucketCannedACL fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BucketCannedACL._(value));
+
+  @override
+  bool operator ==(other) => other is BucketCannedACL && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The container for the bucket configuration.
+/// <note>
+/// This is not supported by Amazon S3 on Outposts buckets.
+/// </note>
+class CreateBucketConfiguration {
+  /// Specifies the Region where the bucket will be created. If you are creating a
+  /// bucket on the US East (N. Virginia) Region (us-east-1), you do not need to
+  /// specify the location.
+  /// <note>
+  /// This is not supported by Amazon S3 on Outposts buckets.
+  /// </note>
+  final BucketLocationConstraint? locationConstraint;
+
+  CreateBucketConfiguration({
+    this.locationConstraint,
+  });
+
+  Map<String, dynamic> toJson() {
+    final locationConstraint = this.locationConstraint;
+    return {
+      if (locationConstraint != null)
+        'LocationConstraint': locationConstraint.value,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final locationConstraint = this.locationConstraint;
+    final $children = <_s.XmlNode>[
+      if (locationConstraint != null)
+        _s.encodeXmlStringValue('LocationConstraint', locationConstraint.value),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class BucketLocationConstraint {
+  static const eu = BucketLocationConstraint._('EU');
+  static const euWest_1 = BucketLocationConstraint._('eu-west-1');
+  static const usWest_1 = BucketLocationConstraint._('us-west-1');
+  static const usWest_2 = BucketLocationConstraint._('us-west-2');
+  static const apSouth_1 = BucketLocationConstraint._('ap-south-1');
+  static const apSoutheast_1 = BucketLocationConstraint._('ap-southeast-1');
+  static const apSoutheast_2 = BucketLocationConstraint._('ap-southeast-2');
+  static const apNortheast_1 = BucketLocationConstraint._('ap-northeast-1');
+  static const saEast_1 = BucketLocationConstraint._('sa-east-1');
+  static const cnNorth_1 = BucketLocationConstraint._('cn-north-1');
+  static const euCentral_1 = BucketLocationConstraint._('eu-central-1');
+
+  final String value;
+
+  const BucketLocationConstraint._(this.value);
+
+  static const values = [
+    eu,
+    euWest_1,
+    usWest_1,
+    usWest_2,
+    apSouth_1,
+    apSoutheast_1,
+    apSoutheast_2,
+    apNortheast_1,
+    saEast_1,
+    cnNorth_1,
+    euCentral_1
+  ];
+
+  static BucketLocationConstraint fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BucketLocationConstraint._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BucketLocationConstraint && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class BadRequestException extends _s.GenericAwsException {

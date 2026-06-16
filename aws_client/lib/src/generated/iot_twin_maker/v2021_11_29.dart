@@ -38,7 +38,6 @@ class IoTTwinMaker {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'iottwinmaker',
-            signingName: 'iottwinmaker',
           ),
           region: region,
           credentials: credentials,
@@ -87,12 +86,12 @@ class IoTTwinMaker {
 
   /// Cancels the metadata transfer job.
   ///
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [metadataTransferJobId] :
   /// The metadata transfer job Id.
@@ -111,12 +110,12 @@ class IoTTwinMaker {
 
   /// Creates a component type.
   ///
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [componentTypeId] :
   /// The ID of the component type.
@@ -194,12 +193,12 @@ class IoTTwinMaker {
 
   /// Creates an entity.
   ///
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [entityName] :
   /// The name of the entity.
@@ -258,13 +257,13 @@ class IoTTwinMaker {
 
   /// Creates a new metadata transfer job.
   ///
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [destination] :
   /// The metadata transfer job destination.
@@ -301,12 +300,12 @@ class IoTTwinMaker {
 
   /// Creates a scene.
   ///
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [contentLocation] :
   /// The relative path that specifies the location of the content definition
@@ -357,12 +356,12 @@ class IoTTwinMaker {
 
   /// This action creates a SyncJob.
   ///
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [syncRole] :
   /// The SyncJob IAM role. This IAM role is used by the SyncJob to read from
@@ -401,12 +400,12 @@ class IoTTwinMaker {
 
   /// Creates a workplace.
   ///
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [workspaceId] :
   /// The ID of the workspace.
@@ -447,8 +446,8 @@ class IoTTwinMaker {
 
   /// Deletes a component type.
   ///
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
@@ -476,9 +475,9 @@ class IoTTwinMaker {
   ///
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [entityId] :
   /// The ID of the entity to delete.
@@ -510,8 +509,8 @@ class IoTTwinMaker {
 
   /// Deletes a scene.
   ///
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
@@ -536,12 +535,12 @@ class IoTTwinMaker {
 
   /// Delete the SyncJob.
   ///
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [syncSource] :
   /// The sync source.
@@ -567,8 +566,8 @@ class IoTTwinMaker {
 
   /// Deletes a workspace.
   ///
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
@@ -596,12 +595,12 @@ class IoTTwinMaker {
   /// Services Java SDK version &lt; 2.x.
   /// </note>
   ///
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [QueryTimeoutException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [queryStatement] :
   /// The query statement.
@@ -643,8 +642,8 @@ class IoTTwinMaker {
 
   /// Retrieves information about a component type.
   ///
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
@@ -672,9 +671,9 @@ class IoTTwinMaker {
   ///
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [entityId] :
   /// The ID of the entity.
@@ -697,8 +696,8 @@ class IoTTwinMaker {
 
   /// Gets a nmetadata transfer job.
   ///
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
@@ -720,8 +719,8 @@ class IoTTwinMaker {
 
   /// Gets the pricing plan.
   ///
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   Future<GetPricingPlanResponse> getPricingPlan() async {
@@ -741,13 +740,13 @@ class IoTTwinMaker {
   /// <code>componentTypeId</code>, <code>entityId</code>, or
   /// <code>workspaceId</code>.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ConnectorFailureException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConnectorFailureException].
+  /// May throw [ConnectorTimeoutException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConnectorTimeoutException].
   ///
   /// Parameter [selectedProperties] :
   /// The properties whose values the operation returns.
@@ -828,13 +827,13 @@ class IoTTwinMaker {
   /// <code>entityId</code>. For cross-entity quries, specify a value for
   /// <code>componentTypeId</code>.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ConnectorFailureException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConnectorFailureException].
+  /// May throw [ConnectorTimeoutException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConnectorTimeoutException].
   ///
   /// Parameter [selectedProperties] :
   /// A list of properties whose value histories the request retrieves.
@@ -944,8 +943,8 @@ class IoTTwinMaker {
 
   /// Retrieves information about a scene.
   ///
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
@@ -971,12 +970,12 @@ class IoTTwinMaker {
 
   /// Gets the SyncJob.
   ///
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [syncSource] :
   /// The sync source.
@@ -1007,9 +1006,9 @@ class IoTTwinMaker {
   ///
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [workspaceId] :
   /// The ID of the workspace.
@@ -1025,57 +1024,10 @@ class IoTTwinMaker {
     return GetWorkspaceResponse.fromJson(response);
   }
 
-  /// Lists all component types in a workspace.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  ///
-  /// Parameter [workspaceId] :
-  /// The ID of the workspace.
-  ///
-  /// Parameter [filters] :
-  /// A list of objects that filter the request.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of results to return at one time. The default is 25.
-  ///
-  /// Valid Range: Minimum value of 1. Maximum value of 250.
-  ///
-  /// Parameter [nextToken] :
-  /// The string that specifies the next page of results.
-  Future<ListComponentTypesResponse> listComponentTypes({
-    required String workspaceId,
-    List<ListComponentTypesFilter>? filters,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      0,
-      200,
-    );
-    final $payload = <String, dynamic>{
-      if (filters != null) 'filters': filters,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri:
-          '/workspaces/${Uri.encodeComponent(workspaceId)}/component-types-list',
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListComponentTypesResponse.fromJson(response);
-  }
-
   /// This API lists the components of an entity.
   ///
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
@@ -1124,12 +1076,59 @@ class IoTTwinMaker {
     return ListComponentsResponse.fromJson(response);
   }
 
-  /// Lists all entities in a workspace.
+  /// Lists all component types in a workspace.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
+  ///
+  /// Parameter [workspaceId] :
+  /// The ID of the workspace.
+  ///
+  /// Parameter [filters] :
+  /// A list of objects that filter the request.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return at one time. The default is 25.
+  ///
+  /// Valid Range: Minimum value of 1. Maximum value of 250.
+  ///
+  /// Parameter [nextToken] :
+  /// The string that specifies the next page of results.
+  Future<ListComponentTypesResponse> listComponentTypes({
+    required String workspaceId,
+    List<ListComponentTypesFilter>? filters,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      200,
+    );
+    final $payload = <String, dynamic>{
+      if (filters != null) 'filters': filters,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/workspaces/${Uri.encodeComponent(workspaceId)}/component-types-list',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListComponentTypesResponse.fromJson(response);
+  }
+
+  /// Lists all entities in a workspace.
+  ///
+  /// May throw [InternalServerException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [workspaceId] :
   /// The ID of the workspace.
@@ -1176,8 +1175,8 @@ class IoTTwinMaker {
 
   /// Lists the metadata transfer jobs.
   ///
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
@@ -1226,8 +1225,8 @@ class IoTTwinMaker {
 
   /// This API lists the properties of a component.
   ///
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
@@ -1284,8 +1283,8 @@ class IoTTwinMaker {
 
   /// Lists all scenes in a workspace.
   ///
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
@@ -1323,11 +1322,11 @@ class IoTTwinMaker {
 
   /// List all SyncJobs.
   ///
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [workspaceId] :
   /// The ID of the workspace that contains the sync job.
@@ -1366,11 +1365,11 @@ class IoTTwinMaker {
 
   /// Lists the sync resources.
   ///
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [syncSource] :
   /// The sync source.
@@ -1476,9 +1475,9 @@ class IoTTwinMaker {
   /// Retrieves information about workspaces in the current account.
   ///
   /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return at one time. The default is 25.
@@ -1512,9 +1511,9 @@ class IoTTwinMaker {
 
   /// Adds tags to a resource.
   ///
-  /// May throw [TooManyTagsException].
   /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyTagsException].
   ///
   /// Parameter [resourceARN] :
   /// The ARN of the resource.
@@ -1567,12 +1566,12 @@ class IoTTwinMaker {
 
   /// Updates information in a component type.
   ///
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [componentTypeId] :
   /// The ID of the component type.
@@ -1645,13 +1644,13 @@ class IoTTwinMaker {
 
   /// Updates an entity.
   ///
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [entityId] :
   /// The ID of the entity.
@@ -1705,8 +1704,8 @@ class IoTTwinMaker {
 
   /// Update the pricing plan.
   ///
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
@@ -1734,8 +1733,8 @@ class IoTTwinMaker {
 
   /// Updates a scene.
   ///
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
@@ -1784,12 +1783,12 @@ class IoTTwinMaker {
 
   /// Updates a workspace.
   ///
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [workspaceId] :
   /// The ID of the workspace.
@@ -1824,74 +1823,6 @@ class IoTTwinMaker {
   }
 }
 
-/// An error returned by the <code>BatchPutProperty</code> action.
-class BatchPutPropertyError {
-  /// An object that contains information about errors returned by the
-  /// <code>BatchPutProperty</code> action.
-  final PropertyValueEntry entry;
-
-  /// The error code.
-  final String errorCode;
-
-  /// The error message.
-  final String errorMessage;
-
-  BatchPutPropertyError({
-    required this.entry,
-    required this.errorCode,
-    required this.errorMessage,
-  });
-
-  factory BatchPutPropertyError.fromJson(Map<String, dynamic> json) {
-    return BatchPutPropertyError(
-      entry: PropertyValueEntry.fromJson(
-          (json['entry'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      errorCode: (json['errorCode'] as String?) ?? '',
-      errorMessage: (json['errorMessage'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final entry = this.entry;
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    return {
-      'entry': entry,
-      'errorCode': errorCode,
-      'errorMessage': errorMessage,
-    };
-  }
-}
-
-/// An object that contains information about errors returned by the
-/// <code>BatchPutProperty</code> action.
-class BatchPutPropertyErrorEntry {
-  /// A list of objects that contain information about errors returned by the
-  /// <code>BatchPutProperty</code> action.
-  final List<BatchPutPropertyError> errors;
-
-  BatchPutPropertyErrorEntry({
-    required this.errors,
-  });
-
-  factory BatchPutPropertyErrorEntry.fromJson(Map<String, dynamic> json) {
-    return BatchPutPropertyErrorEntry(
-      errors: ((json['errors'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => BatchPutPropertyError.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errors = this.errors;
-    return {
-      'errors': errors,
-    };
-  }
-}
-
 class BatchPutPropertyValuesResponse {
   /// Entries that caused errors in the batch put operation.
   final List<BatchPutPropertyErrorEntry> errorEntries;
@@ -1914,40 +1845,6 @@ class BatchPutPropertyValuesResponse {
     final errorEntries = this.errorEntries;
     return {
       'errorEntries': errorEntries,
-    };
-  }
-}
-
-/// Information about the pricing bundle.
-class BundleInformation {
-  /// The bundle names.
-  final List<String> bundleNames;
-
-  /// The pricing tier.
-  final PricingTier? pricingTier;
-
-  BundleInformation({
-    required this.bundleNames,
-    this.pricingTier,
-  });
-
-  factory BundleInformation.fromJson(Map<String, dynamic> json) {
-    return BundleInformation(
-      bundleNames: ((json['bundleNames'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      pricingTier:
-          (json['pricingTier'] as String?)?.let(PricingTier.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bundleNames = this.bundleNames;
-    final pricingTier = this.pricingTier;
-    return {
-      'bundleNames': bundleNames,
-      if (pricingTier != null) 'pricingTier': pricingTier.value,
     };
   }
 }
@@ -2004,617 +1901,6 @@ class CancelMetadataTransferJobResponse {
       'status': status,
       'updateDateTime': unixTimestampToJson(updateDateTime),
       if (progress != null) 'progress': progress,
-    };
-  }
-}
-
-/// A description of the column in the query results.
-class ColumnDescription {
-  /// The name of the column description.
-  final String? name;
-
-  /// The type of the column description.
-  final ColumnType? type;
-
-  ColumnDescription({
-    this.name,
-    this.type,
-  });
-
-  factory ColumnDescription.fromJson(Map<String, dynamic> json) {
-    return ColumnDescription(
-      name: json['name'] as String?,
-      type: (json['type'] as String?)?.let(ColumnType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final type = this.type;
-    return {
-      if (name != null) 'name': name,
-      if (type != null) 'type': type.value,
-    };
-  }
-}
-
-class ColumnType {
-  static const node = ColumnType._('NODE');
-  static const edge = ColumnType._('EDGE');
-  static const $value = ColumnType._('VALUE');
-
-  final String value;
-
-  const ColumnType._(this.value);
-
-  static const values = [node, edge, $value];
-
-  static ColumnType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ColumnType._(value));
-
-  @override
-  bool operator ==(other) => other is ColumnType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The component property group request.
-class ComponentPropertyGroupRequest {
-  /// The group type.
-  final GroupType? groupType;
-
-  /// The property names.
-  final List<String>? propertyNames;
-
-  /// The update type.
-  final PropertyGroupUpdateType? updateType;
-
-  ComponentPropertyGroupRequest({
-    this.groupType,
-    this.propertyNames,
-    this.updateType,
-  });
-
-  Map<String, dynamic> toJson() {
-    final groupType = this.groupType;
-    final propertyNames = this.propertyNames;
-    final updateType = this.updateType;
-    return {
-      if (groupType != null) 'groupType': groupType.value,
-      if (propertyNames != null) 'propertyNames': propertyNames,
-      if (updateType != null) 'updateType': updateType.value,
-    };
-  }
-}
-
-/// The component property group response.
-class ComponentPropertyGroupResponse {
-  /// The group type.
-  final GroupType groupType;
-
-  /// A Boolean value that specifies whether the property group is inherited from
-  /// a parent entity
-  final bool isInherited;
-
-  /// The names of properties
-  final List<String> propertyNames;
-
-  ComponentPropertyGroupResponse({
-    required this.groupType,
-    required this.isInherited,
-    required this.propertyNames,
-  });
-
-  factory ComponentPropertyGroupResponse.fromJson(Map<String, dynamic> json) {
-    return ComponentPropertyGroupResponse(
-      groupType: GroupType.fromString((json['groupType'] as String?) ?? ''),
-      isInherited: (json['isInherited'] as bool?) ?? false,
-      propertyNames: ((json['propertyNames'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final groupType = this.groupType;
-    final isInherited = this.isInherited;
-    final propertyNames = this.propertyNames;
-    return {
-      'groupType': groupType.value,
-      'isInherited': isInherited,
-      'propertyNames': propertyNames,
-    };
-  }
-}
-
-/// An object that sets information about a component type create or update
-/// request.
-class ComponentRequest {
-  /// The ID of the component type.
-  final String? componentTypeId;
-
-  /// The description of the component request.
-  final String? description;
-
-  /// An object that maps strings to the properties to set in the component type.
-  /// Each string in the mapping must be unique to this object.
-  final Map<String, PropertyRequest>? properties;
-
-  /// The property groups.
-  final Map<String, ComponentPropertyGroupRequest>? propertyGroups;
-
-  ComponentRequest({
-    this.componentTypeId,
-    this.description,
-    this.properties,
-    this.propertyGroups,
-  });
-
-  Map<String, dynamic> toJson() {
-    final componentTypeId = this.componentTypeId;
-    final description = this.description;
-    final properties = this.properties;
-    final propertyGroups = this.propertyGroups;
-    return {
-      if (componentTypeId != null) 'componentTypeId': componentTypeId,
-      if (description != null) 'description': description,
-      if (properties != null) 'properties': properties,
-      if (propertyGroups != null) 'propertyGroups': propertyGroups,
-    };
-  }
-}
-
-/// An object that returns information about a component type create or update
-/// request.
-class ComponentResponse {
-  /// This flag notes whether all <code>compositeComponents</code> are returned in
-  /// the API response.
-  final bool? areAllCompositeComponentsReturned;
-
-  /// This flag notes whether all properties of the component are returned in the
-  /// API response. The maximum number of properties returned is 800.
-  final bool? areAllPropertiesReturned;
-
-  /// The name of the component.
-  final String? componentName;
-
-  /// The ID of the component type.
-  final String? componentTypeId;
-
-  /// This lists objects that contain information about the
-  /// <code>compositeComponents</code>.
-  final Map<String, ComponentSummary>? compositeComponents;
-
-  /// The name of the property definition set in the request.
-  final String? definedIn;
-
-  /// The description of the component type.
-  final String? description;
-
-  /// An object that maps strings to the properties to set in the component type.
-  /// Each string in the mapping must be unique to this object.
-  final Map<String, PropertyResponse>? properties;
-
-  /// The property groups.
-  final Map<String, ComponentPropertyGroupResponse>? propertyGroups;
-
-  /// The status of the component type.
-  final Status? status;
-
-  /// The syncSource of the sync job, if this entity was created by a sync job.
-  final String? syncSource;
-
-  ComponentResponse({
-    this.areAllCompositeComponentsReturned,
-    this.areAllPropertiesReturned,
-    this.componentName,
-    this.componentTypeId,
-    this.compositeComponents,
-    this.definedIn,
-    this.description,
-    this.properties,
-    this.propertyGroups,
-    this.status,
-    this.syncSource,
-  });
-
-  factory ComponentResponse.fromJson(Map<String, dynamic> json) {
-    return ComponentResponse(
-      areAllCompositeComponentsReturned:
-          json['areAllCompositeComponentsReturned'] as bool?,
-      areAllPropertiesReturned: json['areAllPropertiesReturned'] as bool?,
-      componentName: json['componentName'] as String?,
-      componentTypeId: json['componentTypeId'] as String?,
-      compositeComponents:
-          (json['compositeComponents'] as Map<String, dynamic>?)?.map((k, e) =>
-              MapEntry(
-                  k, ComponentSummary.fromJson(e as Map<String, dynamic>))),
-      definedIn: json['definedIn'] as String?,
-      description: json['description'] as String?,
-      properties: (json['properties'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(k, PropertyResponse.fromJson(e as Map<String, dynamic>))),
-      propertyGroups: (json['propertyGroups'] as Map<String, dynamic>?)?.map(
-          (k, e) => MapEntry(
-              k,
-              ComponentPropertyGroupResponse.fromJson(
-                  e as Map<String, dynamic>))),
-      status: json['status'] != null
-          ? Status.fromJson(json['status'] as Map<String, dynamic>)
-          : null,
-      syncSource: json['syncSource'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final areAllCompositeComponentsReturned =
-        this.areAllCompositeComponentsReturned;
-    final areAllPropertiesReturned = this.areAllPropertiesReturned;
-    final componentName = this.componentName;
-    final componentTypeId = this.componentTypeId;
-    final compositeComponents = this.compositeComponents;
-    final definedIn = this.definedIn;
-    final description = this.description;
-    final properties = this.properties;
-    final propertyGroups = this.propertyGroups;
-    final status = this.status;
-    final syncSource = this.syncSource;
-    return {
-      if (areAllCompositeComponentsReturned != null)
-        'areAllCompositeComponentsReturned': areAllCompositeComponentsReturned,
-      if (areAllPropertiesReturned != null)
-        'areAllPropertiesReturned': areAllPropertiesReturned,
-      if (componentName != null) 'componentName': componentName,
-      if (componentTypeId != null) 'componentTypeId': componentTypeId,
-      if (compositeComponents != null)
-        'compositeComponents': compositeComponents,
-      if (definedIn != null) 'definedIn': definedIn,
-      if (description != null) 'description': description,
-      if (properties != null) 'properties': properties,
-      if (propertyGroups != null) 'propertyGroups': propertyGroups,
-      if (status != null) 'status': status,
-      if (syncSource != null) 'syncSource': syncSource,
-    };
-  }
-}
-
-/// An object that returns information about a component summary.
-class ComponentSummary {
-  /// The name of the component.
-  final String componentName;
-
-  /// The ID of the component type.
-  final String componentTypeId;
-
-  /// The status of the component type.
-  final Status status;
-
-  /// This string specifies the path to the composite component, starting from the
-  /// top-level component.
-  final String? componentPath;
-
-  /// The name of the property definition set in the request.
-  final String? definedIn;
-
-  /// The description of the component request.
-  final String? description;
-
-  /// The property groups.
-  final Map<String, ComponentPropertyGroupResponse>? propertyGroups;
-
-  /// The <code>syncSource</code> of the sync job, if this entity was created by a
-  /// sync job.
-  final String? syncSource;
-
-  ComponentSummary({
-    required this.componentName,
-    required this.componentTypeId,
-    required this.status,
-    this.componentPath,
-    this.definedIn,
-    this.description,
-    this.propertyGroups,
-    this.syncSource,
-  });
-
-  factory ComponentSummary.fromJson(Map<String, dynamic> json) {
-    return ComponentSummary(
-      componentName: (json['componentName'] as String?) ?? '',
-      componentTypeId: (json['componentTypeId'] as String?) ?? '',
-      status: Status.fromJson((json['status'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-      componentPath: json['componentPath'] as String?,
-      definedIn: json['definedIn'] as String?,
-      description: json['description'] as String?,
-      propertyGroups: (json['propertyGroups'] as Map<String, dynamic>?)?.map(
-          (k, e) => MapEntry(
-              k,
-              ComponentPropertyGroupResponse.fromJson(
-                  e as Map<String, dynamic>))),
-      syncSource: json['syncSource'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final componentName = this.componentName;
-    final componentTypeId = this.componentTypeId;
-    final status = this.status;
-    final componentPath = this.componentPath;
-    final definedIn = this.definedIn;
-    final description = this.description;
-    final propertyGroups = this.propertyGroups;
-    final syncSource = this.syncSource;
-    return {
-      'componentName': componentName,
-      'componentTypeId': componentTypeId,
-      'status': status,
-      if (componentPath != null) 'componentPath': componentPath,
-      if (definedIn != null) 'definedIn': definedIn,
-      if (description != null) 'description': description,
-      if (propertyGroups != null) 'propertyGroups': propertyGroups,
-      if (syncSource != null) 'syncSource': syncSource,
-    };
-  }
-}
-
-/// An object that contains information about a component type.
-class ComponentTypeSummary {
-  /// The ARN of the component type.
-  final String arn;
-
-  /// The ID of the component type.
-  final String componentTypeId;
-
-  /// The date and time when the component type was created.
-  final DateTime creationDateTime;
-
-  /// The date and time when the component type was last updated.
-  final DateTime updateDateTime;
-
-  /// The component type name.
-  final String? componentTypeName;
-
-  /// The description of the component type.
-  final String? description;
-
-  /// The current status of the component type.
-  final Status? status;
-
-  ComponentTypeSummary({
-    required this.arn,
-    required this.componentTypeId,
-    required this.creationDateTime,
-    required this.updateDateTime,
-    this.componentTypeName,
-    this.description,
-    this.status,
-  });
-
-  factory ComponentTypeSummary.fromJson(Map<String, dynamic> json) {
-    return ComponentTypeSummary(
-      arn: (json['arn'] as String?) ?? '',
-      componentTypeId: (json['componentTypeId'] as String?) ?? '',
-      creationDateTime:
-          nonNullableTimeStampFromJson(json['creationDateTime'] ?? 0),
-      updateDateTime: nonNullableTimeStampFromJson(json['updateDateTime'] ?? 0),
-      componentTypeName: json['componentTypeName'] as String?,
-      description: json['description'] as String?,
-      status: json['status'] != null
-          ? Status.fromJson(json['status'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final componentTypeId = this.componentTypeId;
-    final creationDateTime = this.creationDateTime;
-    final updateDateTime = this.updateDateTime;
-    final componentTypeName = this.componentTypeName;
-    final description = this.description;
-    final status = this.status;
-    return {
-      'arn': arn,
-      'componentTypeId': componentTypeId,
-      'creationDateTime': unixTimestampToJson(creationDateTime),
-      'updateDateTime': unixTimestampToJson(updateDateTime),
-      if (componentTypeName != null) 'componentTypeName': componentTypeName,
-      if (description != null) 'description': description,
-      if (status != null) 'status': status,
-    };
-  }
-}
-
-/// The component update request.
-class ComponentUpdateRequest {
-  /// The ID of the component type.
-  final String? componentTypeId;
-
-  /// The description of the component type.
-  final String? description;
-
-  /// The property group updates.
-  final Map<String, ComponentPropertyGroupRequest>? propertyGroupUpdates;
-
-  /// An object that maps strings to the properties to set in the component type
-  /// update. Each string in the mapping must be unique to this object.
-  final Map<String, PropertyRequest>? propertyUpdates;
-
-  /// The update type of the component update request.
-  final ComponentUpdateType? updateType;
-
-  ComponentUpdateRequest({
-    this.componentTypeId,
-    this.description,
-    this.propertyGroupUpdates,
-    this.propertyUpdates,
-    this.updateType,
-  });
-
-  Map<String, dynamic> toJson() {
-    final componentTypeId = this.componentTypeId;
-    final description = this.description;
-    final propertyGroupUpdates = this.propertyGroupUpdates;
-    final propertyUpdates = this.propertyUpdates;
-    final updateType = this.updateType;
-    return {
-      if (componentTypeId != null) 'componentTypeId': componentTypeId,
-      if (description != null) 'description': description,
-      if (propertyGroupUpdates != null)
-        'propertyGroupUpdates': propertyGroupUpdates,
-      if (propertyUpdates != null) 'propertyUpdates': propertyUpdates,
-      if (updateType != null) 'updateType': updateType.value,
-    };
-  }
-}
-
-class ComponentUpdateType {
-  static const create = ComponentUpdateType._('CREATE');
-  static const update = ComponentUpdateType._('UPDATE');
-  static const delete = ComponentUpdateType._('DELETE');
-
-  final String value;
-
-  const ComponentUpdateType._(this.value);
-
-  static const values = [create, update, delete];
-
-  static ComponentUpdateType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ComponentUpdateType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ComponentUpdateType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object that sets information about the composite component update
-/// request.
-class CompositeComponentRequest {
-  /// The description of the component type.
-  final String? description;
-
-  /// This is an object that maps strings to the properties to set in the
-  /// component type. Each string in the mapping must be unique to this object.
-  final Map<String, PropertyRequest>? properties;
-
-  /// The property groups.
-  final Map<String, ComponentPropertyGroupRequest>? propertyGroups;
-
-  CompositeComponentRequest({
-    this.description,
-    this.properties,
-    this.propertyGroups,
-  });
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final properties = this.properties;
-    final propertyGroups = this.propertyGroups;
-    return {
-      if (description != null) 'description': description,
-      if (properties != null) 'properties': properties,
-      if (propertyGroups != null) 'propertyGroups': propertyGroups,
-    };
-  }
-}
-
-/// An object that sets information about the composite component types of a
-/// component type.
-class CompositeComponentTypeRequest {
-  /// This is the <code>componentTypeId</code> that the
-  /// <code>compositeComponentType</code> refers to.
-  final String? componentTypeId;
-
-  CompositeComponentTypeRequest({
-    this.componentTypeId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final componentTypeId = this.componentTypeId;
-    return {
-      if (componentTypeId != null) 'componentTypeId': componentTypeId,
-    };
-  }
-}
-
-/// An object that returns information about the composite component types of a
-/// component type.
-class CompositeComponentTypeResponse {
-  /// This is the <code>componentTypeId</code> that this
-  /// <code>compositeComponentType</code> refers to.
-  final String? componentTypeId;
-
-  /// This boolean indicates whether this <code>compositeComponentType</code> is
-  /// inherited from its parent.
-  final bool? isInherited;
-
-  CompositeComponentTypeResponse({
-    this.componentTypeId,
-    this.isInherited,
-  });
-
-  factory CompositeComponentTypeResponse.fromJson(Map<String, dynamic> json) {
-    return CompositeComponentTypeResponse(
-      componentTypeId: json['componentTypeId'] as String?,
-      isInherited: json['isInherited'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final componentTypeId = this.componentTypeId;
-    final isInherited = this.isInherited;
-    return {
-      if (componentTypeId != null) 'componentTypeId': componentTypeId,
-      if (isInherited != null) 'isInherited': isInherited,
-    };
-  }
-}
-
-/// An object that sets information about the composite component update
-/// request.
-class CompositeComponentUpdateRequest {
-  /// The description of the component type.
-  final String? description;
-
-  /// The property group updates.
-  final Map<String, ComponentPropertyGroupRequest>? propertyGroupUpdates;
-
-  /// An object that maps strings to the properties to set in the component type
-  /// update. Each string in the mapping must be unique to this object.
-  final Map<String, PropertyRequest>? propertyUpdates;
-
-  /// The update type of the component update request.
-  final ComponentUpdateType? updateType;
-
-  CompositeComponentUpdateRequest({
-    this.description,
-    this.propertyGroupUpdates,
-    this.propertyUpdates,
-    this.updateType,
-  });
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final propertyGroupUpdates = this.propertyGroupUpdates;
-    final propertyUpdates = this.propertyUpdates;
-    final updateType = this.updateType;
-    return {
-      if (description != null) 'description': description,
-      if (propertyGroupUpdates != null)
-        'propertyGroupUpdates': propertyGroupUpdates,
-      if (propertyUpdates != null) 'propertyUpdates': propertyUpdates,
-      if (updateType != null) 'updateType': updateType.value,
     };
   }
 }
@@ -2844,183 +2130,6 @@ class CreateWorkspaceResponse {
   }
 }
 
-/// The data connector.
-class DataConnector {
-  /// A Boolean value that specifies whether the data connector is native to IoT
-  /// TwinMaker.
-  final bool? isNative;
-
-  /// The Lambda function associated with this data connector.
-  final LambdaFunction? lambda;
-
-  DataConnector({
-    this.isNative,
-    this.lambda,
-  });
-
-  factory DataConnector.fromJson(Map<String, dynamic> json) {
-    return DataConnector(
-      isNative: json['isNative'] as bool?,
-      lambda: json['lambda'] != null
-          ? LambdaFunction.fromJson(json['lambda'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final isNative = this.isNative;
-    final lambda = this.lambda;
-    return {
-      if (isNative != null) 'isNative': isNative,
-      if (lambda != null) 'lambda': lambda,
-    };
-  }
-}
-
-/// An object that specifies the data type of a property.
-class DataType {
-  /// The underlying type of the data type.
-  final Type type;
-
-  /// The allowed values for this data type.
-  final List<DataValue>? allowedValues;
-
-  /// The nested type in the data type.
-  final DataType? nestedType;
-
-  /// A relationship that associates a component with another component.
-  final Relationship? relationship;
-
-  /// The unit of measure used in this data type.
-  final String? unitOfMeasure;
-
-  DataType({
-    required this.type,
-    this.allowedValues,
-    this.nestedType,
-    this.relationship,
-    this.unitOfMeasure,
-  });
-
-  factory DataType.fromJson(Map<String, dynamic> json) {
-    return DataType(
-      type: Type.fromString((json['type'] as String?) ?? ''),
-      allowedValues: (json['allowedValues'] as List?)
-          ?.nonNulls
-          .map((e) => DataValue.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nestedType: json['nestedType'] != null
-          ? DataType.fromJson(json['nestedType'] as Map<String, dynamic>)
-          : null,
-      relationship: json['relationship'] != null
-          ? Relationship.fromJson(json['relationship'] as Map<String, dynamic>)
-          : null,
-      unitOfMeasure: json['unitOfMeasure'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final type = this.type;
-    final allowedValues = this.allowedValues;
-    final nestedType = this.nestedType;
-    final relationship = this.relationship;
-    final unitOfMeasure = this.unitOfMeasure;
-    return {
-      'type': type.value,
-      if (allowedValues != null) 'allowedValues': allowedValues,
-      if (nestedType != null) 'nestedType': nestedType,
-      if (relationship != null) 'relationship': relationship,
-      if (unitOfMeasure != null) 'unitOfMeasure': unitOfMeasure,
-    };
-  }
-}
-
-/// An object that specifies a value for a property.
-class DataValue {
-  /// A Boolean value.
-  final bool? booleanValue;
-
-  /// A double value.
-  final double? doubleValue;
-
-  /// An expression that produces the value.
-  final String? expression;
-
-  /// An integer value.
-  final int? integerValue;
-
-  /// A list of multiple values.
-  final List<DataValue>? listValue;
-
-  /// A long value.
-  final int? longValue;
-
-  /// An object that maps strings to multiple <code>DataValue</code> objects.
-  final Map<String, DataValue>? mapValue;
-
-  /// A value that relates a component to another component.
-  final RelationshipValue? relationshipValue;
-
-  /// A string value.
-  final String? stringValue;
-
-  DataValue({
-    this.booleanValue,
-    this.doubleValue,
-    this.expression,
-    this.integerValue,
-    this.listValue,
-    this.longValue,
-    this.mapValue,
-    this.relationshipValue,
-    this.stringValue,
-  });
-
-  factory DataValue.fromJson(Map<String, dynamic> json) {
-    return DataValue(
-      booleanValue: json['booleanValue'] as bool?,
-      doubleValue: json['doubleValue'] as double?,
-      expression: json['expression'] as String?,
-      integerValue: json['integerValue'] as int?,
-      listValue: (json['listValue'] as List?)
-          ?.nonNulls
-          .map((e) => DataValue.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      longValue: json['longValue'] as int?,
-      mapValue: (json['mapValue'] as Map<String, dynamic>?)?.map(
-          (k, e) => MapEntry(k, DataValue.fromJson(e as Map<String, dynamic>))),
-      relationshipValue: json['relationshipValue'] != null
-          ? RelationshipValue.fromJson(
-              json['relationshipValue'] as Map<String, dynamic>)
-          : null,
-      stringValue: json['stringValue'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final booleanValue = this.booleanValue;
-    final doubleValue = this.doubleValue;
-    final expression = this.expression;
-    final integerValue = this.integerValue;
-    final listValue = this.listValue;
-    final longValue = this.longValue;
-    final mapValue = this.mapValue;
-    final relationshipValue = this.relationshipValue;
-    final stringValue = this.stringValue;
-    return {
-      if (booleanValue != null) 'booleanValue': booleanValue,
-      if (doubleValue != null) 'doubleValue': doubleValue,
-      if (expression != null) 'expression': expression,
-      if (integerValue != null) 'integerValue': integerValue,
-      if (listValue != null) 'listValue': listValue,
-      if (longValue != null) 'longValue': longValue,
-      if (mapValue != null) 'mapValue': mapValue,
-      if (relationshipValue != null) 'relationshipValue': relationshipValue,
-      if (stringValue != null) 'stringValue': stringValue,
-    };
-  }
-}
-
 class DeleteComponentTypeResponse {
   /// The current state of the component type to be deleted.
   final State state;
@@ -3121,280 +2230,6 @@ class DeleteWorkspaceResponse {
   }
 }
 
-/// The [link to action] metadata transfer job destination configuration.
-class DestinationConfiguration {
-  /// The destination type.
-  final DestinationType type;
-
-  /// The metadata transfer job Amazon Web Services IoT TwinMaker configuration.
-  final IotTwinMakerDestinationConfiguration? iotTwinMakerConfiguration;
-
-  /// The metadata transfer job S3 configuration. [need to add S3 entity]
-  final S3DestinationConfiguration? s3Configuration;
-
-  DestinationConfiguration({
-    required this.type,
-    this.iotTwinMakerConfiguration,
-    this.s3Configuration,
-  });
-
-  factory DestinationConfiguration.fromJson(Map<String, dynamic> json) {
-    return DestinationConfiguration(
-      type: DestinationType.fromString((json['type'] as String?) ?? ''),
-      iotTwinMakerConfiguration: json['iotTwinMakerConfiguration'] != null
-          ? IotTwinMakerDestinationConfiguration.fromJson(
-              json['iotTwinMakerConfiguration'] as Map<String, dynamic>)
-          : null,
-      s3Configuration: json['s3Configuration'] != null
-          ? S3DestinationConfiguration.fromJson(
-              json['s3Configuration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final type = this.type;
-    final iotTwinMakerConfiguration = this.iotTwinMakerConfiguration;
-    final s3Configuration = this.s3Configuration;
-    return {
-      'type': type.value,
-      if (iotTwinMakerConfiguration != null)
-        'iotTwinMakerConfiguration': iotTwinMakerConfiguration,
-      if (s3Configuration != null) 's3Configuration': s3Configuration,
-    };
-  }
-}
-
-class DestinationType {
-  static const s3 = DestinationType._('s3');
-  static const iotsitewise = DestinationType._('iotsitewise');
-  static const iottwinmaker = DestinationType._('iottwinmaker');
-
-  final String value;
-
-  const DestinationType._(this.value);
-
-  static const values = [s3, iotsitewise, iottwinmaker];
-
-  static DestinationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DestinationType._(value));
-
-  @override
-  bool operator ==(other) => other is DestinationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object that uniquely identifies an entity property.
-class EntityPropertyReference {
-  /// The name of the property.
-  final String propertyName;
-
-  /// The name of the component.
-  final String? componentName;
-
-  /// This string specifies the path to the composite component, starting from the
-  /// top-level component.
-  final String? componentPath;
-
-  /// The ID of the entity.
-  final String? entityId;
-
-  /// A mapping of external IDs to property names. External IDs uniquely identify
-  /// properties from external data stores.
-  final Map<String, String>? externalIdProperty;
-
-  EntityPropertyReference({
-    required this.propertyName,
-    this.componentName,
-    this.componentPath,
-    this.entityId,
-    this.externalIdProperty,
-  });
-
-  factory EntityPropertyReference.fromJson(Map<String, dynamic> json) {
-    return EntityPropertyReference(
-      propertyName: (json['propertyName'] as String?) ?? '',
-      componentName: json['componentName'] as String?,
-      componentPath: json['componentPath'] as String?,
-      entityId: json['entityId'] as String?,
-      externalIdProperty: (json['externalIdProperty'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final propertyName = this.propertyName;
-    final componentName = this.componentName;
-    final componentPath = this.componentPath;
-    final entityId = this.entityId;
-    final externalIdProperty = this.externalIdProperty;
-    return {
-      'propertyName': propertyName,
-      if (componentName != null) 'componentName': componentName,
-      if (componentPath != null) 'componentPath': componentPath,
-      if (entityId != null) 'entityId': entityId,
-      if (externalIdProperty != null) 'externalIdProperty': externalIdProperty,
-    };
-  }
-}
-
-/// An object that contains information about an entity.
-class EntitySummary {
-  /// The ARN of the entity.
-  final String arn;
-
-  /// The date and time when the entity was created.
-  final DateTime creationDateTime;
-
-  /// The ID of the entity.
-  final String entityId;
-
-  /// The name of the entity.
-  final String entityName;
-
-  /// The current status of the entity.
-  final Status status;
-
-  /// The last date and time when the entity was updated.
-  final DateTime updateDateTime;
-
-  /// The description of the entity.
-  final String? description;
-
-  /// An <b>eventual</b> Boolean value that specifies whether the entity has child
-  /// entities or not.
-  final bool? hasChildEntities;
-
-  /// The ID of the parent entity.
-  final String? parentEntityId;
-
-  EntitySummary({
-    required this.arn,
-    required this.creationDateTime,
-    required this.entityId,
-    required this.entityName,
-    required this.status,
-    required this.updateDateTime,
-    this.description,
-    this.hasChildEntities,
-    this.parentEntityId,
-  });
-
-  factory EntitySummary.fromJson(Map<String, dynamic> json) {
-    return EntitySummary(
-      arn: (json['arn'] as String?) ?? '',
-      creationDateTime:
-          nonNullableTimeStampFromJson(json['creationDateTime'] ?? 0),
-      entityId: (json['entityId'] as String?) ?? '',
-      entityName: (json['entityName'] as String?) ?? '',
-      status: Status.fromJson((json['status'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-      updateDateTime: nonNullableTimeStampFromJson(json['updateDateTime'] ?? 0),
-      description: json['description'] as String?,
-      hasChildEntities: json['hasChildEntities'] as bool?,
-      parentEntityId: json['parentEntityId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final creationDateTime = this.creationDateTime;
-    final entityId = this.entityId;
-    final entityName = this.entityName;
-    final status = this.status;
-    final updateDateTime = this.updateDateTime;
-    final description = this.description;
-    final hasChildEntities = this.hasChildEntities;
-    final parentEntityId = this.parentEntityId;
-    return {
-      'arn': arn,
-      'creationDateTime': unixTimestampToJson(creationDateTime),
-      'entityId': entityId,
-      'entityName': entityName,
-      'status': status,
-      'updateDateTime': unixTimestampToJson(updateDateTime),
-      if (description != null) 'description': description,
-      if (hasChildEntities != null) 'hasChildEntities': hasChildEntities,
-      if (parentEntityId != null) 'parentEntityId': parentEntityId,
-    };
-  }
-}
-
-class ErrorCode {
-  static const validationError = ErrorCode._('VALIDATION_ERROR');
-  static const internalFailure = ErrorCode._('INTERNAL_FAILURE');
-  static const syncInitializingError = ErrorCode._('SYNC_INITIALIZING_ERROR');
-  static const syncCreatingError = ErrorCode._('SYNC_CREATING_ERROR');
-  static const syncProcessingError = ErrorCode._('SYNC_PROCESSING_ERROR');
-  static const syncDeletingError = ErrorCode._('SYNC_DELETING_ERROR');
-  static const processingError = ErrorCode._('PROCESSING_ERROR');
-  static const compositeComponentFailure =
-      ErrorCode._('COMPOSITE_COMPONENT_FAILURE');
-
-  final String value;
-
-  const ErrorCode._(this.value);
-
-  static const values = [
-    validationError,
-    internalFailure,
-    syncInitializingError,
-    syncCreatingError,
-    syncProcessingError,
-    syncDeletingError,
-    processingError,
-    compositeComponentFailure
-  ];
-
-  static ErrorCode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ErrorCode._(value));
-
-  @override
-  bool operator ==(other) => other is ErrorCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The error details.
-class ErrorDetails {
-  /// The error code.
-  final ErrorCode? code;
-
-  /// The error message.
-  final String? message;
-
-  ErrorDetails({
-    this.code,
-    this.message,
-  });
-
-  factory ErrorDetails.fromJson(Map<String, dynamic> json) {
-    return ErrorDetails(
-      code: (json['code'] as String?)?.let(ErrorCode.fromString),
-      message: json['message'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final message = this.message;
-    return {
-      if (code != null) 'code': code.value,
-      if (message != null) 'message': message,
-    };
-  }
-}
-
 class ExecuteQueryResponse {
   /// A list of ColumnDescription objects.
   final List<ColumnDescription>? columnDescriptions;
@@ -3433,220 +2268,6 @@ class ExecuteQueryResponse {
       if (columnDescriptions != null) 'columnDescriptions': columnDescriptions,
       if (nextToken != null) 'nextToken': nextToken,
       if (rows != null) 'rows': rows,
-    };
-  }
-}
-
-/// Filter by asset. [TwinMaker asset]
-class FilterByAsset {
-  /// The external-Id property of an asset.
-  final String? assetExternalId;
-
-  /// Filter by asset Id.
-  final String? assetId;
-
-  /// Boolean to include the asset model.
-  final bool? includeAssetModel;
-
-  /// Includes sub-assets.[need description hekp for this]
-  final bool? includeOffspring;
-
-  FilterByAsset({
-    this.assetExternalId,
-    this.assetId,
-    this.includeAssetModel,
-    this.includeOffspring,
-  });
-
-  factory FilterByAsset.fromJson(Map<String, dynamic> json) {
-    return FilterByAsset(
-      assetExternalId: json['assetExternalId'] as String?,
-      assetId: json['assetId'] as String?,
-      includeAssetModel: json['includeAssetModel'] as bool?,
-      includeOffspring: json['includeOffspring'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assetExternalId = this.assetExternalId;
-    final assetId = this.assetId;
-    final includeAssetModel = this.includeAssetModel;
-    final includeOffspring = this.includeOffspring;
-    return {
-      if (assetExternalId != null) 'assetExternalId': assetExternalId,
-      if (assetId != null) 'assetId': assetId,
-      if (includeAssetModel != null) 'includeAssetModel': includeAssetModel,
-      if (includeOffspring != null) 'includeOffspring': includeOffspring,
-    };
-  }
-}
-
-/// Filter by asset model.
-class FilterByAssetModel {
-  /// The external-Id property of an asset model.
-  final String? assetModelExternalId;
-
-  /// The asset model Id.
-  final String? assetModelId;
-
-  /// Bolean to include assets.
-  final bool? includeAssets;
-
-  /// Include asset offspring. [need desc.]
-  final bool? includeOffspring;
-
-  FilterByAssetModel({
-    this.assetModelExternalId,
-    this.assetModelId,
-    this.includeAssets,
-    this.includeOffspring,
-  });
-
-  factory FilterByAssetModel.fromJson(Map<String, dynamic> json) {
-    return FilterByAssetModel(
-      assetModelExternalId: json['assetModelExternalId'] as String?,
-      assetModelId: json['assetModelId'] as String?,
-      includeAssets: json['includeAssets'] as bool?,
-      includeOffspring: json['includeOffspring'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assetModelExternalId = this.assetModelExternalId;
-    final assetModelId = this.assetModelId;
-    final includeAssets = this.includeAssets;
-    final includeOffspring = this.includeOffspring;
-    return {
-      if (assetModelExternalId != null)
-        'assetModelExternalId': assetModelExternalId,
-      if (assetModelId != null) 'assetModelId': assetModelId,
-      if (includeAssets != null) 'includeAssets': includeAssets,
-      if (includeOffspring != null) 'includeOffspring': includeOffspring,
-    };
-  }
-}
-
-/// Filter by component type.
-class FilterByComponentType {
-  /// The component type Id.
-  final String componentTypeId;
-
-  FilterByComponentType({
-    required this.componentTypeId,
-  });
-
-  factory FilterByComponentType.fromJson(Map<String, dynamic> json) {
-    return FilterByComponentType(
-      componentTypeId: (json['componentTypeId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final componentTypeId = this.componentTypeId;
-    return {
-      'componentTypeId': componentTypeId,
-    };
-  }
-}
-
-/// Vilter by entity.
-class FilterByEntity {
-  /// The entity Id.
-  final String entityId;
-
-  FilterByEntity({
-    required this.entityId,
-  });
-
-  factory FilterByEntity.fromJson(Map<String, dynamic> json) {
-    return FilterByEntity(
-      entityId: (json['entityId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final entityId = this.entityId;
-    return {
-      'entityId': entityId,
-    };
-  }
-}
-
-/// The function request body.
-class FunctionRequest {
-  /// The data connector.
-  final DataConnector? implementedBy;
-
-  /// The required properties of the function.
-  final List<String>? requiredProperties;
-
-  /// The scope of the function.
-  final Scope? scope;
-
-  FunctionRequest({
-    this.implementedBy,
-    this.requiredProperties,
-    this.scope,
-  });
-
-  Map<String, dynamic> toJson() {
-    final implementedBy = this.implementedBy;
-    final requiredProperties = this.requiredProperties;
-    final scope = this.scope;
-    return {
-      if (implementedBy != null) 'implementedBy': implementedBy,
-      if (requiredProperties != null) 'requiredProperties': requiredProperties,
-      if (scope != null) 'scope': scope.value,
-    };
-  }
-}
-
-/// The function response.
-class FunctionResponse {
-  /// The data connector.
-  final DataConnector? implementedBy;
-
-  /// Indicates whether this function is inherited.
-  final bool? isInherited;
-
-  /// The required properties of the function.
-  final List<String>? requiredProperties;
-
-  /// The scope of the function.
-  final Scope? scope;
-
-  FunctionResponse({
-    this.implementedBy,
-    this.isInherited,
-    this.requiredProperties,
-    this.scope,
-  });
-
-  factory FunctionResponse.fromJson(Map<String, dynamic> json) {
-    return FunctionResponse(
-      implementedBy: json['implementedBy'] != null
-          ? DataConnector.fromJson(
-              json['implementedBy'] as Map<String, dynamic>)
-          : null,
-      isInherited: json['isInherited'] as bool?,
-      requiredProperties: (json['requiredProperties'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      scope: (json['scope'] as String?)?.let(Scope.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final implementedBy = this.implementedBy;
-    final isInherited = this.isInherited;
-    final requiredProperties = this.requiredProperties;
-    final scope = this.scope;
-    return {
-      if (implementedBy != null) 'implementedBy': implementedBy,
-      if (isInherited != null) 'isInherited': isInherited,
-      if (requiredProperties != null) 'requiredProperties': requiredProperties,
-      if (scope != null) 'scope': scope.value,
     };
   }
 }
@@ -4064,39 +2685,6 @@ class GetPricingPlanResponse {
   }
 }
 
-class GetPropertyValueHistoryResponse {
-  /// An object that maps strings to the property definitions in the component
-  /// type. Each string in the mapping must be unique to this object.
-  final List<PropertyValueHistory> propertyValues;
-
-  /// The string that specifies the next page of results.
-  final String? nextToken;
-
-  GetPropertyValueHistoryResponse({
-    required this.propertyValues,
-    this.nextToken,
-  });
-
-  factory GetPropertyValueHistoryResponse.fromJson(Map<String, dynamic> json) {
-    return GetPropertyValueHistoryResponse(
-      propertyValues: ((json['propertyValues'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => PropertyValueHistory.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final propertyValues = this.propertyValues;
-    final nextToken = this.nextToken;
-    return {
-      'propertyValues': propertyValues,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
 class GetPropertyValueResponse {
   /// The string that specifies the next page of results.
   final String? nextToken;
@@ -4140,6 +2728,39 @@ class GetPropertyValueResponse {
       if (propertyValues != null) 'propertyValues': propertyValues,
       if (tabularPropertyValues != null)
         'tabularPropertyValues': tabularPropertyValues,
+    };
+  }
+}
+
+class GetPropertyValueHistoryResponse {
+  /// An object that maps strings to the property definitions in the component
+  /// type. Each string in the mapping must be unique to this object.
+  final List<PropertyValueHistory> propertyValues;
+
+  /// The string that specifies the next page of results.
+  final String? nextToken;
+
+  GetPropertyValueHistoryResponse({
+    required this.propertyValues,
+    this.nextToken,
+  });
+
+  factory GetPropertyValueHistoryResponse.fromJson(Map<String, dynamic> json) {
+    return GetPropertyValueHistoryResponse(
+      propertyValues: ((json['propertyValues'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => PropertyValueHistory.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final propertyValues = this.propertyValues;
+    final nextToken = this.nextToken;
+    return {
+      'propertyValues': propertyValues,
+      if (nextToken != null) 'nextToken': nextToken,
     };
   }
 }
@@ -4393,287 +3014,34 @@ class GetWorkspaceResponse {
   }
 }
 
-class GroupType {
-  static const tabular = GroupType._('TABULAR');
+class ListComponentsResponse {
+  /// A list of objects that contain information about the components.
+  final List<ComponentSummary> componentSummaries;
 
-  final String value;
+  /// The string that specifies the next page of component results.
+  final String? nextToken;
 
-  const GroupType._(this.value);
-
-  static const values = [tabular];
-
-  static GroupType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => GroupType._(value));
-
-  @override
-  bool operator ==(other) => other is GroupType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object that specifies how to interpolate data in a list.
-class InterpolationParameters {
-  /// The interpolation type.
-  final InterpolationType? interpolationType;
-
-  /// The interpolation time interval in seconds.
-  final int? intervalInSeconds;
-
-  InterpolationParameters({
-    this.interpolationType,
-    this.intervalInSeconds,
+  ListComponentsResponse({
+    required this.componentSummaries,
+    this.nextToken,
   });
 
-  Map<String, dynamic> toJson() {
-    final interpolationType = this.interpolationType;
-    final intervalInSeconds = this.intervalInSeconds;
-    return {
-      if (interpolationType != null)
-        'interpolationType': interpolationType.value,
-      if (intervalInSeconds != null) 'intervalInSeconds': intervalInSeconds,
-    };
-  }
-}
-
-class InterpolationType {
-  static const linear = InterpolationType._('LINEAR');
-
-  final String value;
-
-  const InterpolationType._(this.value);
-
-  static const values = [linear];
-
-  static InterpolationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => InterpolationType._(value));
-
-  @override
-  bool operator ==(other) => other is InterpolationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The metadata transfer job AWS IoT SiteWise source configuration.
-class IotSiteWiseSourceConfiguration {
-  /// The AWS IoT SiteWise soucre configuration filters.
-  final List<IotSiteWiseSourceConfigurationFilter>? filters;
-
-  IotSiteWiseSourceConfiguration({
-    this.filters,
-  });
-
-  factory IotSiteWiseSourceConfiguration.fromJson(Map<String, dynamic> json) {
-    return IotSiteWiseSourceConfiguration(
-      filters: (json['filters'] as List?)
-          ?.nonNulls
-          .map((e) => IotSiteWiseSourceConfigurationFilter.fromJson(
-              e as Map<String, dynamic>))
+  factory ListComponentsResponse.fromJson(Map<String, dynamic> json) {
+    return ListComponentsResponse(
+      componentSummaries: ((json['componentSummaries'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => ComponentSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
+      nextToken: json['nextToken'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final filters = this.filters;
+    final componentSummaries = this.componentSummaries;
+    final nextToken = this.nextToken;
     return {
-      if (filters != null) 'filters': filters,
-    };
-  }
-}
-
-/// The AWS IoT SiteWise soucre configuration filter.[need held with desc here]
-class IotSiteWiseSourceConfigurationFilter {
-  /// Filter by asset.
-  final FilterByAsset? filterByAsset;
-
-  /// Filter by asset model.
-  final FilterByAssetModel? filterByAssetModel;
-
-  IotSiteWiseSourceConfigurationFilter({
-    this.filterByAsset,
-    this.filterByAssetModel,
-  });
-
-  factory IotSiteWiseSourceConfigurationFilter.fromJson(
-      Map<String, dynamic> json) {
-    return IotSiteWiseSourceConfigurationFilter(
-      filterByAsset: json['filterByAsset'] != null
-          ? FilterByAsset.fromJson(
-              json['filterByAsset'] as Map<String, dynamic>)
-          : null,
-      filterByAssetModel: json['filterByAssetModel'] != null
-          ? FilterByAssetModel.fromJson(
-              json['filterByAssetModel'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final filterByAsset = this.filterByAsset;
-    final filterByAssetModel = this.filterByAssetModel;
-    return {
-      if (filterByAsset != null) 'filterByAsset': filterByAsset,
-      if (filterByAssetModel != null) 'filterByAssetModel': filterByAssetModel,
-    };
-  }
-}
-
-/// The metadata transfer job AWS IoT TwinMaker destination configuration.
-class IotTwinMakerDestinationConfiguration {
-  /// The IoT TwinMaker workspace.
-  final String workspace;
-
-  IotTwinMakerDestinationConfiguration({
-    required this.workspace,
-  });
-
-  factory IotTwinMakerDestinationConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return IotTwinMakerDestinationConfiguration(
-      workspace: (json['workspace'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final workspace = this.workspace;
-    return {
-      'workspace': workspace,
-    };
-  }
-}
-
-/// The metadata transfer job AWS IoT TwinMaker source configuration.
-class IotTwinMakerSourceConfiguration {
-  /// The IoT TwinMaker workspace.
-  final String workspace;
-
-  /// The metadata transfer job AWS IoT TwinMaker source configuration filters.
-  final List<IotTwinMakerSourceConfigurationFilter>? filters;
-
-  IotTwinMakerSourceConfiguration({
-    required this.workspace,
-    this.filters,
-  });
-
-  factory IotTwinMakerSourceConfiguration.fromJson(Map<String, dynamic> json) {
-    return IotTwinMakerSourceConfiguration(
-      workspace: (json['workspace'] as String?) ?? '',
-      filters: (json['filters'] as List?)
-          ?.nonNulls
-          .map((e) => IotTwinMakerSourceConfigurationFilter.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final workspace = this.workspace;
-    final filters = this.filters;
-    return {
-      'workspace': workspace,
-      if (filters != null) 'filters': filters,
-    };
-  }
-}
-
-/// The metadata transfer job AWS IoT TwinMaker source configuration filter.
-class IotTwinMakerSourceConfigurationFilter {
-  /// Filter by component type.
-  final FilterByComponentType? filterByComponentType;
-
-  /// Filter by entity.
-  final FilterByEntity? filterByEntity;
-
-  IotTwinMakerSourceConfigurationFilter({
-    this.filterByComponentType,
-    this.filterByEntity,
-  });
-
-  factory IotTwinMakerSourceConfigurationFilter.fromJson(
-      Map<String, dynamic> json) {
-    return IotTwinMakerSourceConfigurationFilter(
-      filterByComponentType: json['filterByComponentType'] != null
-          ? FilterByComponentType.fromJson(
-              json['filterByComponentType'] as Map<String, dynamic>)
-          : null,
-      filterByEntity: json['filterByEntity'] != null
-          ? FilterByEntity.fromJson(
-              json['filterByEntity'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final filterByComponentType = this.filterByComponentType;
-    final filterByEntity = this.filterByEntity;
-    return {
-      if (filterByComponentType != null)
-        'filterByComponentType': filterByComponentType,
-      if (filterByEntity != null) 'filterByEntity': filterByEntity,
-    };
-  }
-}
-
-/// The Lambda function.
-class LambdaFunction {
-  /// The ARN of the Lambda function.
-  final String arn;
-
-  LambdaFunction({
-    required this.arn,
-  });
-
-  factory LambdaFunction.fromJson(Map<String, dynamic> json) {
-    return LambdaFunction(
-      arn: (json['arn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    return {
-      'arn': arn,
-    };
-  }
-}
-
-/// An object that filters items in a list of component types.
-/// <note>
-/// Only one object is accepted as a valid input.
-/// </note>
-class ListComponentTypesFilter {
-  /// The component type that the component types in the list extend.
-  final String? extendsFrom;
-
-  /// A Boolean value that specifies whether the component types in the list are
-  /// abstract.
-  final bool? isAbstract;
-
-  /// The namespace to which the component types in the list belong.
-  final String? namespace;
-
-  ListComponentTypesFilter({
-    this.extendsFrom,
-    this.isAbstract,
-    this.namespace,
-  });
-
-  Map<String, dynamic> toJson() {
-    final extendsFrom = this.extendsFrom;
-    final isAbstract = this.isAbstract;
-    final namespace = this.namespace;
-    return {
-      if (extendsFrom != null) 'extendsFrom': extendsFrom,
-      if (isAbstract != null) 'isAbstract': isAbstract,
-      if (namespace != null) 'namespace': namespace,
+      'componentSummaries': componentSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
     };
   }
 }
@@ -4725,68 +3093,6 @@ class ListComponentTypesResponse {
   }
 }
 
-class ListComponentsResponse {
-  /// A list of objects that contain information about the components.
-  final List<ComponentSummary> componentSummaries;
-
-  /// The string that specifies the next page of component results.
-  final String? nextToken;
-
-  ListComponentsResponse({
-    required this.componentSummaries,
-    this.nextToken,
-  });
-
-  factory ListComponentsResponse.fromJson(Map<String, dynamic> json) {
-    return ListComponentsResponse(
-      componentSummaries: ((json['componentSummaries'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => ComponentSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final componentSummaries = this.componentSummaries;
-    final nextToken = this.nextToken;
-    return {
-      'componentSummaries': componentSummaries,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-/// An object that filters items in a list of entities.
-class ListEntitiesFilter {
-  /// The ID of the component type in the entities in the list.
-  final String? componentTypeId;
-
-  /// The external-Id property of a component. The external-Id property is the
-  /// primary key of an external storage system.
-  final String? externalId;
-
-  /// The parent of the entities in the list.
-  final String? parentEntityId;
-
-  ListEntitiesFilter({
-    this.componentTypeId,
-    this.externalId,
-    this.parentEntityId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final componentTypeId = this.componentTypeId;
-    final externalId = this.externalId;
-    final parentEntityId = this.parentEntityId;
-    return {
-      if (componentTypeId != null) 'componentTypeId': componentTypeId,
-      if (externalId != null) 'externalId': externalId,
-      if (parentEntityId != null) 'parentEntityId': parentEntityId,
-    };
-  }
-}
-
 class ListEntitiesResponse {
   /// A list of objects that contain information about the entities.
   final List<EntitySummary>? entitySummaries;
@@ -4815,29 +3121,6 @@ class ListEntitiesResponse {
     return {
       if (entitySummaries != null) 'entitySummaries': entitySummaries,
       if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-/// The ListMetadataTransferJobs filter.
-class ListMetadataTransferJobsFilter {
-  /// The filter state.
-  final MetadataTransferJobState? state;
-
-  /// The workspace Id.
-  final String? workspaceId;
-
-  ListMetadataTransferJobsFilter({
-    this.state,
-    this.workspaceId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final state = this.state;
-    final workspaceId = this.workspaceId;
-    return {
-      if (state != null) 'state': state.value,
-      if (workspaceId != null) 'workspaceId': workspaceId,
     };
   }
 }
@@ -5067,1786 +3350,6 @@ class ListWorkspacesResponse {
   }
 }
 
-/// The metadata transfer job's progress.
-class MetadataTransferJobProgress {
-  /// The failed count.
-  final int? failedCount;
-
-  /// The skipped count.
-  final int? skippedCount;
-
-  /// The succeeded count.
-  final int? succeededCount;
-
-  /// The total count. [of what]
-  final int? totalCount;
-
-  MetadataTransferJobProgress({
-    this.failedCount,
-    this.skippedCount,
-    this.succeededCount,
-    this.totalCount,
-  });
-
-  factory MetadataTransferJobProgress.fromJson(Map<String, dynamic> json) {
-    return MetadataTransferJobProgress(
-      failedCount: json['failedCount'] as int?,
-      skippedCount: json['skippedCount'] as int?,
-      succeededCount: json['succeededCount'] as int?,
-      totalCount: json['totalCount'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final failedCount = this.failedCount;
-    final skippedCount = this.skippedCount;
-    final succeededCount = this.succeededCount;
-    final totalCount = this.totalCount;
-    return {
-      if (failedCount != null) 'failedCount': failedCount,
-      if (skippedCount != null) 'skippedCount': skippedCount,
-      if (succeededCount != null) 'succeededCount': succeededCount,
-      if (totalCount != null) 'totalCount': totalCount,
-    };
-  }
-}
-
-class MetadataTransferJobState {
-  static const validating = MetadataTransferJobState._('VALIDATING');
-  static const pending = MetadataTransferJobState._('PENDING');
-  static const running = MetadataTransferJobState._('RUNNING');
-  static const cancelling = MetadataTransferJobState._('CANCELLING');
-  static const error = MetadataTransferJobState._('ERROR');
-  static const completed = MetadataTransferJobState._('COMPLETED');
-  static const cancelled = MetadataTransferJobState._('CANCELLED');
-
-  final String value;
-
-  const MetadataTransferJobState._(this.value);
-
-  static const values = [
-    validating,
-    pending,
-    running,
-    cancelling,
-    error,
-    completed,
-    cancelled
-  ];
-
-  static MetadataTransferJobState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MetadataTransferJobState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is MetadataTransferJobState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The metadata transfer job status.
-class MetadataTransferJobStatus {
-  /// The metadata transfer job error.
-  final ErrorDetails? error;
-
-  /// The queued position.
-  final int? queuedPosition;
-
-  /// The metadata transfer job state.
-  final MetadataTransferJobState? state;
-
-  MetadataTransferJobStatus({
-    this.error,
-    this.queuedPosition,
-    this.state,
-  });
-
-  factory MetadataTransferJobStatus.fromJson(Map<String, dynamic> json) {
-    return MetadataTransferJobStatus(
-      error: json['error'] != null
-          ? ErrorDetails.fromJson(json['error'] as Map<String, dynamic>)
-          : null,
-      queuedPosition: json['queuedPosition'] as int?,
-      state:
-          (json['state'] as String?)?.let(MetadataTransferJobState.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final error = this.error;
-    final queuedPosition = this.queuedPosition;
-    final state = this.state;
-    return {
-      if (error != null) 'error': error,
-      if (queuedPosition != null) 'queuedPosition': queuedPosition,
-      if (state != null) 'state': state.value,
-    };
-  }
-}
-
-/// The metadata transfer job summary.
-class MetadataTransferJobSummary {
-  /// The metadata transfer job summary ARN.
-  final String arn;
-
-  /// The metadata transfer job summary creation DateTime object.
-  final DateTime creationDateTime;
-
-  /// The metadata transfer job summary Id.
-  final String metadataTransferJobId;
-
-  /// The metadata transfer job summary status.
-  final MetadataTransferJobStatus status;
-
-  /// The metadata transfer job summary update DateTime object
-  final DateTime updateDateTime;
-
-  /// The metadata transfer job summary progess.
-  final MetadataTransferJobProgress? progress;
-
-  MetadataTransferJobSummary({
-    required this.arn,
-    required this.creationDateTime,
-    required this.metadataTransferJobId,
-    required this.status,
-    required this.updateDateTime,
-    this.progress,
-  });
-
-  factory MetadataTransferJobSummary.fromJson(Map<String, dynamic> json) {
-    return MetadataTransferJobSummary(
-      arn: (json['arn'] as String?) ?? '',
-      creationDateTime:
-          nonNullableTimeStampFromJson(json['creationDateTime'] ?? 0),
-      metadataTransferJobId: (json['metadataTransferJobId'] as String?) ?? '',
-      status: MetadataTransferJobStatus.fromJson(
-          (json['status'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      updateDateTime: nonNullableTimeStampFromJson(json['updateDateTime'] ?? 0),
-      progress: json['progress'] != null
-          ? MetadataTransferJobProgress.fromJson(
-              json['progress'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final creationDateTime = this.creationDateTime;
-    final metadataTransferJobId = this.metadataTransferJobId;
-    final status = this.status;
-    final updateDateTime = this.updateDateTime;
-    final progress = this.progress;
-    return {
-      'arn': arn,
-      'creationDateTime': unixTimestampToJson(creationDateTime),
-      'metadataTransferJobId': metadataTransferJobId,
-      'status': status,
-      'updateDateTime': unixTimestampToJson(updateDateTime),
-      if (progress != null) 'progress': progress,
-    };
-  }
-}
-
-class Order {
-  static const ascending = Order._('ASCENDING');
-  static const descending = Order._('DESCENDING');
-
-  final String value;
-
-  const Order._(this.value);
-
-  static const values = [ascending, descending];
-
-  static Order fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Order._(value));
-
-  @override
-  bool operator ==(other) => other is Order && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Filter criteria that orders the return output. It can be sorted in ascending
-/// or descending order.
-class OrderBy {
-  /// The property name.
-  final String propertyName;
-
-  /// The set order that filters results.
-  final Order? order;
-
-  OrderBy({
-    required this.propertyName,
-    this.order,
-  });
-
-  Map<String, dynamic> toJson() {
-    final propertyName = this.propertyName;
-    final order = this.order;
-    return {
-      'propertyName': propertyName,
-      if (order != null) 'order': order.value,
-    };
-  }
-}
-
-class OrderByTime {
-  static const ascending = OrderByTime._('ASCENDING');
-  static const descending = OrderByTime._('DESCENDING');
-
-  final String value;
-
-  const OrderByTime._(this.value);
-
-  static const values = [ascending, descending];
-
-  static OrderByTime fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => OrderByTime._(value));
-
-  @override
-  bool operator ==(other) => other is OrderByTime && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The parent entity update request.
-class ParentEntityUpdateRequest {
-  /// The type of the update.
-  final ParentEntityUpdateType updateType;
-
-  /// The ID of the parent entity.
-  final String? parentEntityId;
-
-  ParentEntityUpdateRequest({
-    required this.updateType,
-    this.parentEntityId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final updateType = this.updateType;
-    final parentEntityId = this.parentEntityId;
-    return {
-      'updateType': updateType.value,
-      if (parentEntityId != null) 'parentEntityId': parentEntityId,
-    };
-  }
-}
-
-class ParentEntityUpdateType {
-  static const update = ParentEntityUpdateType._('UPDATE');
-  static const delete = ParentEntityUpdateType._('DELETE');
-
-  final String value;
-
-  const ParentEntityUpdateType._(this.value);
-
-  static const values = [update, delete];
-
-  static ParentEntityUpdateType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ParentEntityUpdateType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ParentEntityUpdateType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class PricingMode {
-  static const basic = PricingMode._('BASIC');
-  static const standard = PricingMode._('STANDARD');
-  static const tieredBundle = PricingMode._('TIERED_BUNDLE');
-
-  final String value;
-
-  const PricingMode._(this.value);
-
-  static const values = [basic, standard, tieredBundle];
-
-  static PricingMode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => PricingMode._(value));
-
-  @override
-  bool operator ==(other) => other is PricingMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The pricing plan.
-class PricingPlan {
-  /// The effective date and time of the pricing plan.
-  final DateTime effectiveDateTime;
-
-  /// The pricing mode.
-  final PricingMode pricingMode;
-
-  /// The set date and time for updating a pricing plan.
-  final DateTime updateDateTime;
-
-  /// The update reason for changing a pricing plan.
-  final UpdateReason updateReason;
-
-  /// The billable entity count.
-  final int? billableEntityCount;
-
-  /// The pricing plan's bundle information.
-  final BundleInformation? bundleInformation;
-
-  PricingPlan({
-    required this.effectiveDateTime,
-    required this.pricingMode,
-    required this.updateDateTime,
-    required this.updateReason,
-    this.billableEntityCount,
-    this.bundleInformation,
-  });
-
-  factory PricingPlan.fromJson(Map<String, dynamic> json) {
-    return PricingPlan(
-      effectiveDateTime:
-          nonNullableTimeStampFromJson(json['effectiveDateTime'] ?? 0),
-      pricingMode:
-          PricingMode.fromString((json['pricingMode'] as String?) ?? ''),
-      updateDateTime: nonNullableTimeStampFromJson(json['updateDateTime'] ?? 0),
-      updateReason:
-          UpdateReason.fromString((json['updateReason'] as String?) ?? ''),
-      billableEntityCount: json['billableEntityCount'] as int?,
-      bundleInformation: json['bundleInformation'] != null
-          ? BundleInformation.fromJson(
-              json['bundleInformation'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final effectiveDateTime = this.effectiveDateTime;
-    final pricingMode = this.pricingMode;
-    final updateDateTime = this.updateDateTime;
-    final updateReason = this.updateReason;
-    final billableEntityCount = this.billableEntityCount;
-    final bundleInformation = this.bundleInformation;
-    return {
-      'effectiveDateTime': unixTimestampToJson(effectiveDateTime),
-      'pricingMode': pricingMode.value,
-      'updateDateTime': unixTimestampToJson(updateDateTime),
-      'updateReason': updateReason.value,
-      if (billableEntityCount != null)
-        'billableEntityCount': billableEntityCount,
-      if (bundleInformation != null) 'bundleInformation': bundleInformation,
-    };
-  }
-}
-
-class PricingTier {
-  static const tier_1 = PricingTier._('TIER_1');
-  static const tier_2 = PricingTier._('TIER_2');
-  static const tier_3 = PricingTier._('TIER_3');
-  static const tier_4 = PricingTier._('TIER_4');
-
-  final String value;
-
-  const PricingTier._(this.value);
-
-  static const values = [tier_1, tier_2, tier_3, tier_4];
-
-  static PricingTier fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => PricingTier._(value));
-
-  @override
-  bool operator ==(other) => other is PricingTier && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object that sets information about a property.
-class PropertyDefinitionRequest {
-  /// A mapping that specifies configuration information about the property. Use
-  /// this field to specify information that you read from and write to an
-  /// external source.
-  final Map<String, String>? configuration;
-
-  /// An object that contains information about the data type.
-  final DataType? dataType;
-
-  /// An object that contains the default value.
-  final DataValue? defaultValue;
-
-  /// A friendly name for the property.
-  final String? displayName;
-
-  /// A Boolean value that specifies whether the property ID comes from an
-  /// external data store.
-  final bool? isExternalId;
-
-  /// A Boolean value that specifies whether the property is required.
-  final bool? isRequiredInEntity;
-
-  /// A Boolean value that specifies whether the property is stored externally.
-  final bool? isStoredExternally;
-
-  /// A Boolean value that specifies whether the property consists of time series
-  /// data.
-  final bool? isTimeSeries;
-
-  PropertyDefinitionRequest({
-    this.configuration,
-    this.dataType,
-    this.defaultValue,
-    this.displayName,
-    this.isExternalId,
-    this.isRequiredInEntity,
-    this.isStoredExternally,
-    this.isTimeSeries,
-  });
-
-  Map<String, dynamic> toJson() {
-    final configuration = this.configuration;
-    final dataType = this.dataType;
-    final defaultValue = this.defaultValue;
-    final displayName = this.displayName;
-    final isExternalId = this.isExternalId;
-    final isRequiredInEntity = this.isRequiredInEntity;
-    final isStoredExternally = this.isStoredExternally;
-    final isTimeSeries = this.isTimeSeries;
-    return {
-      if (configuration != null) 'configuration': configuration,
-      if (dataType != null) 'dataType': dataType,
-      if (defaultValue != null) 'defaultValue': defaultValue,
-      if (displayName != null) 'displayName': displayName,
-      if (isExternalId != null) 'isExternalId': isExternalId,
-      if (isRequiredInEntity != null) 'isRequiredInEntity': isRequiredInEntity,
-      if (isStoredExternally != null) 'isStoredExternally': isStoredExternally,
-      if (isTimeSeries != null) 'isTimeSeries': isTimeSeries,
-    };
-  }
-}
-
-/// An object that contains response data from a property definition request.
-class PropertyDefinitionResponse {
-  /// An object that contains information about the data type.
-  final DataType dataType;
-
-  /// A Boolean value that specifies whether the property ID comes from an
-  /// external data store.
-  final bool isExternalId;
-
-  /// A Boolean value that specifies whether the property definition can be
-  /// updated.
-  final bool isFinal;
-
-  /// A Boolean value that specifies whether the property definition is imported
-  /// from an external data store.
-  final bool isImported;
-
-  /// A Boolean value that specifies whether the property definition is inherited
-  /// from a parent entity.
-  final bool isInherited;
-
-  /// A Boolean value that specifies whether the property is required in an
-  /// entity.
-  final bool isRequiredInEntity;
-
-  /// A Boolean value that specifies whether the property is stored externally.
-  final bool isStoredExternally;
-
-  /// A Boolean value that specifies whether the property consists of time series
-  /// data.
-  final bool isTimeSeries;
-
-  /// A mapping that specifies configuration information about the property.
-  final Map<String, String>? configuration;
-
-  /// An object that contains the default value.
-  final DataValue? defaultValue;
-
-  /// A friendly name for the property.
-  final String? displayName;
-
-  PropertyDefinitionResponse({
-    required this.dataType,
-    required this.isExternalId,
-    required this.isFinal,
-    required this.isImported,
-    required this.isInherited,
-    required this.isRequiredInEntity,
-    required this.isStoredExternally,
-    required this.isTimeSeries,
-    this.configuration,
-    this.defaultValue,
-    this.displayName,
-  });
-
-  factory PropertyDefinitionResponse.fromJson(Map<String, dynamic> json) {
-    return PropertyDefinitionResponse(
-      dataType: DataType.fromJson((json['dataType'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-      isExternalId: (json['isExternalId'] as bool?) ?? false,
-      isFinal: (json['isFinal'] as bool?) ?? false,
-      isImported: (json['isImported'] as bool?) ?? false,
-      isInherited: (json['isInherited'] as bool?) ?? false,
-      isRequiredInEntity: (json['isRequiredInEntity'] as bool?) ?? false,
-      isStoredExternally: (json['isStoredExternally'] as bool?) ?? false,
-      isTimeSeries: (json['isTimeSeries'] as bool?) ?? false,
-      configuration: (json['configuration'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      defaultValue: json['defaultValue'] != null
-          ? DataValue.fromJson(json['defaultValue'] as Map<String, dynamic>)
-          : null,
-      displayName: json['displayName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataType = this.dataType;
-    final isExternalId = this.isExternalId;
-    final isFinal = this.isFinal;
-    final isImported = this.isImported;
-    final isInherited = this.isInherited;
-    final isRequiredInEntity = this.isRequiredInEntity;
-    final isStoredExternally = this.isStoredExternally;
-    final isTimeSeries = this.isTimeSeries;
-    final configuration = this.configuration;
-    final defaultValue = this.defaultValue;
-    final displayName = this.displayName;
-    return {
-      'dataType': dataType,
-      'isExternalId': isExternalId,
-      'isFinal': isFinal,
-      'isImported': isImported,
-      'isInherited': isInherited,
-      'isRequiredInEntity': isRequiredInEntity,
-      'isStoredExternally': isStoredExternally,
-      'isTimeSeries': isTimeSeries,
-      if (configuration != null) 'configuration': configuration,
-      if (defaultValue != null) 'defaultValue': defaultValue,
-      if (displayName != null) 'displayName': displayName,
-    };
-  }
-}
-
-/// An object that filters items returned by a property request.
-class PropertyFilter {
-  /// The operator associated with this property filter.
-  final String? operator;
-
-  /// The property name associated with this property filter.
-  final String? propertyName;
-
-  /// The value associated with this property filter.
-  final DataValue? value;
-
-  PropertyFilter({
-    this.operator,
-    this.propertyName,
-    this.value,
-  });
-
-  Map<String, dynamic> toJson() {
-    final operator = this.operator;
-    final propertyName = this.propertyName;
-    final value = this.value;
-    return {
-      if (operator != null) 'operator': operator,
-      if (propertyName != null) 'propertyName': propertyName,
-      if (value != null) 'value': value,
-    };
-  }
-}
-
-/// <p/>
-class PropertyGroupRequest {
-  /// The group type.
-  final GroupType? groupType;
-
-  /// The names of properties.
-  final List<String>? propertyNames;
-
-  PropertyGroupRequest({
-    this.groupType,
-    this.propertyNames,
-  });
-
-  Map<String, dynamic> toJson() {
-    final groupType = this.groupType;
-    final propertyNames = this.propertyNames;
-    return {
-      if (groupType != null) 'groupType': groupType.value,
-      if (propertyNames != null) 'propertyNames': propertyNames,
-    };
-  }
-}
-
-/// The property group response
-class PropertyGroupResponse {
-  /// The group types.
-  final GroupType groupType;
-
-  /// A Boolean value that specifies whether the property group is inherited from
-  /// a parent entity
-  final bool isInherited;
-
-  /// The names of properties.
-  final List<String> propertyNames;
-
-  PropertyGroupResponse({
-    required this.groupType,
-    required this.isInherited,
-    required this.propertyNames,
-  });
-
-  factory PropertyGroupResponse.fromJson(Map<String, dynamic> json) {
-    return PropertyGroupResponse(
-      groupType: GroupType.fromString((json['groupType'] as String?) ?? ''),
-      isInherited: (json['isInherited'] as bool?) ?? false,
-      propertyNames: ((json['propertyNames'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final groupType = this.groupType;
-    final isInherited = this.isInherited;
-    final propertyNames = this.propertyNames;
-    return {
-      'groupType': groupType.value,
-      'isInherited': isInherited,
-      'propertyNames': propertyNames,
-    };
-  }
-}
-
-class PropertyGroupUpdateType {
-  static const update = PropertyGroupUpdateType._('UPDATE');
-  static const delete = PropertyGroupUpdateType._('DELETE');
-  static const create = PropertyGroupUpdateType._('CREATE');
-
-  final String value;
-
-  const PropertyGroupUpdateType._(this.value);
-
-  static const values = [update, delete, create];
-
-  static PropertyGroupUpdateType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PropertyGroupUpdateType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PropertyGroupUpdateType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The latest value of the property.
-class PropertyLatestValue {
-  /// An object that specifies information about a property.
-  final EntityPropertyReference propertyReference;
-
-  /// The value of the property.
-  final DataValue? propertyValue;
-
-  PropertyLatestValue({
-    required this.propertyReference,
-    this.propertyValue,
-  });
-
-  factory PropertyLatestValue.fromJson(Map<String, dynamic> json) {
-    return PropertyLatestValue(
-      propertyReference: EntityPropertyReference.fromJson(
-          (json['propertyReference'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      propertyValue: json['propertyValue'] != null
-          ? DataValue.fromJson(json['propertyValue'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final propertyReference = this.propertyReference;
-    final propertyValue = this.propertyValue;
-    return {
-      'propertyReference': propertyReference,
-      if (propertyValue != null) 'propertyValue': propertyValue,
-    };
-  }
-}
-
-/// An object that sets information about a property.
-class PropertyRequest {
-  /// An object that specifies information about a property.
-  final PropertyDefinitionRequest? definition;
-
-  /// The update type of the update property request.
-  final PropertyUpdateType? updateType;
-
-  /// The value of the property.
-  final DataValue? value;
-
-  PropertyRequest({
-    this.definition,
-    this.updateType,
-    this.value,
-  });
-
-  Map<String, dynamic> toJson() {
-    final definition = this.definition;
-    final updateType = this.updateType;
-    final value = this.value;
-    return {
-      if (definition != null) 'definition': definition,
-      if (updateType != null) 'updateType': updateType.value,
-      if (value != null) 'value': value,
-    };
-  }
-}
-
-/// An object that contains information about a property response.
-class PropertyResponse {
-  /// This flag notes whether all values of a list or map type property are
-  /// returned in the API response. The maximum number of values per property
-  /// returned is 50.
-  final bool? areAllPropertyValuesReturned;
-
-  /// An object that specifies information about a property.
-  final PropertyDefinitionResponse? definition;
-
-  /// The value of the property.
-  final DataValue? value;
-
-  PropertyResponse({
-    this.areAllPropertyValuesReturned,
-    this.definition,
-    this.value,
-  });
-
-  factory PropertyResponse.fromJson(Map<String, dynamic> json) {
-    return PropertyResponse(
-      areAllPropertyValuesReturned:
-          json['areAllPropertyValuesReturned'] as bool?,
-      definition: json['definition'] != null
-          ? PropertyDefinitionResponse.fromJson(
-              json['definition'] as Map<String, dynamic>)
-          : null,
-      value: json['value'] != null
-          ? DataValue.fromJson(json['value'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final areAllPropertyValuesReturned = this.areAllPropertyValuesReturned;
-    final definition = this.definition;
-    final value = this.value;
-    return {
-      if (areAllPropertyValuesReturned != null)
-        'areAllPropertyValuesReturned': areAllPropertyValuesReturned,
-      if (definition != null) 'definition': definition,
-      if (value != null) 'value': value,
-    };
-  }
-}
-
-/// This is an object that contains the information of a property.
-class PropertySummary {
-  /// This is the name of the property.
-  final String propertyName;
-
-  /// This flag notes whether all values of a list or map type property are
-  /// returned in the API response. The maximum number of values per property
-  /// returned is 50.
-  final bool? areAllPropertyValuesReturned;
-
-  /// This is the schema for the property.
-  final PropertyDefinitionResponse? definition;
-
-  /// This is the value for the property.
-  final DataValue? value;
-
-  PropertySummary({
-    required this.propertyName,
-    this.areAllPropertyValuesReturned,
-    this.definition,
-    this.value,
-  });
-
-  factory PropertySummary.fromJson(Map<String, dynamic> json) {
-    return PropertySummary(
-      propertyName: (json['propertyName'] as String?) ?? '',
-      areAllPropertyValuesReturned:
-          json['areAllPropertyValuesReturned'] as bool?,
-      definition: json['definition'] != null
-          ? PropertyDefinitionResponse.fromJson(
-              json['definition'] as Map<String, dynamic>)
-          : null,
-      value: json['value'] != null
-          ? DataValue.fromJson(json['value'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final propertyName = this.propertyName;
-    final areAllPropertyValuesReturned = this.areAllPropertyValuesReturned;
-    final definition = this.definition;
-    final value = this.value;
-    return {
-      'propertyName': propertyName,
-      if (areAllPropertyValuesReturned != null)
-        'areAllPropertyValuesReturned': areAllPropertyValuesReturned,
-      if (definition != null) 'definition': definition,
-      if (value != null) 'value': value,
-    };
-  }
-}
-
-class PropertyUpdateType {
-  static const update = PropertyUpdateType._('UPDATE');
-  static const delete = PropertyUpdateType._('DELETE');
-  static const create = PropertyUpdateType._('CREATE');
-  static const resetValue = PropertyUpdateType._('RESET_VALUE');
-
-  final String value;
-
-  const PropertyUpdateType._(this.value);
-
-  static const values = [update, delete, create, resetValue];
-
-  static PropertyUpdateType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PropertyUpdateType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PropertyUpdateType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object that contains information about a value for a time series
-/// property.
-class PropertyValue {
-  /// An object that specifies a value for a time series property.
-  final DataValue value;
-
-  /// ISO8601 DateTime of a value for a time series property.
-  ///
-  /// The time for when the property value was recorded in ISO 8601 format:
-  /// <i>YYYY-MM-DDThh:mm:ss[.SSSSSSSSS][Z/±HH:mm]</i>.
-  ///
-  /// <ul>
-  /// <li>
-  /// <i>[YYYY]</i>: year
-  /// </li>
-  /// <li>
-  /// <i>[MM]</i>: month
-  /// </li>
-  /// <li>
-  /// <i>[DD]</i>: day
-  /// </li>
-  /// <li>
-  /// <i>[hh]</i>: hour
-  /// </li>
-  /// <li>
-  /// <i>[mm]</i>: minute
-  /// </li>
-  /// <li>
-  /// <i>[ss]</i>: seconds
-  /// </li>
-  /// <li>
-  /// <i>[.SSSSSSSSS]</i>: additional precision, where precedence is maintained.
-  /// For example: [.573123] is equal to 573123000 nanoseconds.
-  /// </li>
-  /// <li>
-  /// <i>Z</i>: default timezone UTC
-  /// </li>
-  /// <li>
-  /// <i>± HH:mm</i>: time zone offset in Hours and Minutes.
-  /// </li>
-  /// </ul>
-  /// <i>Required sub-fields</i>: YYYY-MM-DDThh:mm:ss and [Z/±HH:mm]
-  final String? time;
-
-  /// The timestamp of a value for a time series property.
-  final DateTime? timestamp;
-
-  PropertyValue({
-    required this.value,
-    this.time,
-    this.timestamp,
-  });
-
-  factory PropertyValue.fromJson(Map<String, dynamic> json) {
-    return PropertyValue(
-      value: DataValue.fromJson((json['value'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-      time: json['time'] as String?,
-      timestamp: timeStampFromJson(json['timestamp']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final value = this.value;
-    final time = this.time;
-    final timestamp = this.timestamp;
-    return {
-      'value': value,
-      if (time != null) 'time': time,
-      if (timestamp != null) 'timestamp': unixTimestampToJson(timestamp),
-    };
-  }
-}
-
-/// An object that specifies information about time series property values. This
-/// object is used and consumed by the <a
-/// href="https://docs.aws.amazon.com/iot-twinmaker/latest/apireference/API_BatchPutPropertyValues.html">BatchPutPropertyValues</a>
-/// action.
-class PropertyValueEntry {
-  /// An object that contains information about the entity that has the property.
-  final EntityPropertyReference entityPropertyReference;
-
-  /// A list of objects that specify time series property values.
-  final List<PropertyValue>? propertyValues;
-
-  PropertyValueEntry({
-    required this.entityPropertyReference,
-    this.propertyValues,
-  });
-
-  factory PropertyValueEntry.fromJson(Map<String, dynamic> json) {
-    return PropertyValueEntry(
-      entityPropertyReference: EntityPropertyReference.fromJson(
-          (json['entityPropertyReference'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      propertyValues: (json['propertyValues'] as List?)
-          ?.nonNulls
-          .map((e) => PropertyValue.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final entityPropertyReference = this.entityPropertyReference;
-    final propertyValues = this.propertyValues;
-    return {
-      'entityPropertyReference': entityPropertyReference,
-      if (propertyValues != null) 'propertyValues': propertyValues,
-    };
-  }
-}
-
-/// The history of values for a time series property.
-class PropertyValueHistory {
-  /// An object that uniquely identifies an entity property.
-  final EntityPropertyReference entityPropertyReference;
-
-  /// A list of objects that contain information about the values in the history
-  /// of a time series property.
-  final List<PropertyValue>? values;
-
-  PropertyValueHistory({
-    required this.entityPropertyReference,
-    this.values,
-  });
-
-  factory PropertyValueHistory.fromJson(Map<String, dynamic> json) {
-    return PropertyValueHistory(
-      entityPropertyReference: EntityPropertyReference.fromJson(
-          (json['entityPropertyReference'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      values: (json['values'] as List?)
-          ?.nonNulls
-          .map((e) => PropertyValue.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final entityPropertyReference = this.entityPropertyReference;
-    final values = this.values;
-    return {
-      'entityPropertyReference': entityPropertyReference,
-      if (values != null) 'values': values,
-    };
-  }
-}
-
-class QueryResultValue {
-  QueryResultValue();
-
-  factory QueryResultValue.fromJson(Map<String, dynamic> _) {
-    return QueryResultValue();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// An object that specifies a relationship with another component type.
-class Relationship {
-  /// The type of the relationship.
-  final String? relationshipType;
-
-  /// The ID of the target component type associated with this relationship.
-  final String? targetComponentTypeId;
-
-  Relationship({
-    this.relationshipType,
-    this.targetComponentTypeId,
-  });
-
-  factory Relationship.fromJson(Map<String, dynamic> json) {
-    return Relationship(
-      relationshipType: json['relationshipType'] as String?,
-      targetComponentTypeId: json['targetComponentTypeId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final relationshipType = this.relationshipType;
-    final targetComponentTypeId = this.targetComponentTypeId;
-    return {
-      if (relationshipType != null) 'relationshipType': relationshipType,
-      if (targetComponentTypeId != null)
-        'targetComponentTypeId': targetComponentTypeId,
-    };
-  }
-}
-
-/// A value that associates a component and an entity.
-class RelationshipValue {
-  /// The name of the target component associated with the relationship value.
-  final String? targetComponentName;
-
-  /// The ID of the target entity associated with this relationship value.
-  final String? targetEntityId;
-
-  RelationshipValue({
-    this.targetComponentName,
-    this.targetEntityId,
-  });
-
-  factory RelationshipValue.fromJson(Map<String, dynamic> json) {
-    return RelationshipValue(
-      targetComponentName: json['targetComponentName'] as String?,
-      targetEntityId: json['targetEntityId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final targetComponentName = this.targetComponentName;
-    final targetEntityId = this.targetEntityId;
-    return {
-      if (targetComponentName != null)
-        'targetComponentName': targetComponentName,
-      if (targetEntityId != null) 'targetEntityId': targetEntityId,
-    };
-  }
-}
-
-/// Represents a single row in the query results.
-class Row {
-  /// The data in a row of query results.
-  final List<QueryResultValue>? rowData;
-
-  Row({
-    this.rowData,
-  });
-
-  factory Row.fromJson(Map<String, dynamic> json) {
-    return Row(
-      rowData: (json['rowData'] as List?)
-          ?.nonNulls
-          .map((e) => QueryResultValue.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final rowData = this.rowData;
-    return {
-      if (rowData != null) 'rowData': rowData,
-    };
-  }
-}
-
-/// The S3 destination configuration.
-class S3DestinationConfiguration {
-  /// The S3 destination configuration location.
-  final String location;
-
-  S3DestinationConfiguration({
-    required this.location,
-  });
-
-  factory S3DestinationConfiguration.fromJson(Map<String, dynamic> json) {
-    return S3DestinationConfiguration(
-      location: (json['location'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final location = this.location;
-    return {
-      'location': location,
-    };
-  }
-}
-
-/// The S3 destination source configuration.
-class S3SourceConfiguration {
-  /// The S3 destination source configuration location.
-  final String location;
-
-  S3SourceConfiguration({
-    required this.location,
-  });
-
-  factory S3SourceConfiguration.fromJson(Map<String, dynamic> json) {
-    return S3SourceConfiguration(
-      location: (json['location'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final location = this.location;
-    return {
-      'location': location,
-    };
-  }
-}
-
-/// The scene error.
-class SceneError {
-  /// The SceneError code.
-  final SceneErrorCode? code;
-
-  /// The SceneError message.
-  final String? message;
-
-  SceneError({
-    this.code,
-    this.message,
-  });
-
-  factory SceneError.fromJson(Map<String, dynamic> json) {
-    return SceneError(
-      code: (json['code'] as String?)?.let(SceneErrorCode.fromString),
-      message: json['message'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final message = this.message;
-    return {
-      if (code != null) 'code': code.value,
-      if (message != null) 'message': message,
-    };
-  }
-}
-
-class SceneErrorCode {
-  static const matterportError = SceneErrorCode._('MATTERPORT_ERROR');
-
-  final String value;
-
-  const SceneErrorCode._(this.value);
-
-  static const values = [matterportError];
-
-  static SceneErrorCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SceneErrorCode._(value));
-
-  @override
-  bool operator ==(other) => other is SceneErrorCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object that contains information about a scene.
-class SceneSummary {
-  /// The ARN of the scene.
-  final String arn;
-
-  /// The relative path that specifies the location of the content definition
-  /// file.
-  final String contentLocation;
-
-  /// The date and time when the scene was created.
-  final DateTime creationDateTime;
-
-  /// The ID of the scene.
-  final String sceneId;
-
-  /// The date and time when the scene was last updated.
-  final DateTime updateDateTime;
-
-  /// The scene description.
-  final String? description;
-
-  SceneSummary({
-    required this.arn,
-    required this.contentLocation,
-    required this.creationDateTime,
-    required this.sceneId,
-    required this.updateDateTime,
-    this.description,
-  });
-
-  factory SceneSummary.fromJson(Map<String, dynamic> json) {
-    return SceneSummary(
-      arn: (json['arn'] as String?) ?? '',
-      contentLocation: (json['contentLocation'] as String?) ?? '',
-      creationDateTime:
-          nonNullableTimeStampFromJson(json['creationDateTime'] ?? 0),
-      sceneId: (json['sceneId'] as String?) ?? '',
-      updateDateTime: nonNullableTimeStampFromJson(json['updateDateTime'] ?? 0),
-      description: json['description'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final contentLocation = this.contentLocation;
-    final creationDateTime = this.creationDateTime;
-    final sceneId = this.sceneId;
-    final updateDateTime = this.updateDateTime;
-    final description = this.description;
-    return {
-      'arn': arn,
-      'contentLocation': contentLocation,
-      'creationDateTime': unixTimestampToJson(creationDateTime),
-      'sceneId': sceneId,
-      'updateDateTime': unixTimestampToJson(updateDateTime),
-      if (description != null) 'description': description,
-    };
-  }
-}
-
-class Scope {
-  static const entity = Scope._('ENTITY');
-  static const workspace = Scope._('WORKSPACE');
-
-  final String value;
-
-  const Scope._(this.value);
-
-  static const values = [entity, workspace];
-
-  static Scope fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Scope._(value));
-
-  @override
-  bool operator ==(other) => other is Scope && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The source configuration.
-class SourceConfiguration {
-  /// The source configuration type.
-  final SourceType type;
-
-  /// The source configuration IoT SiteWise configuration.
-  final IotSiteWiseSourceConfiguration? iotSiteWiseConfiguration;
-
-  /// The source configuration IoT TwinMaker configuration.
-  final IotTwinMakerSourceConfiguration? iotTwinMakerConfiguration;
-
-  /// The source configuration S3 configuration.
-  final S3SourceConfiguration? s3Configuration;
-
-  SourceConfiguration({
-    required this.type,
-    this.iotSiteWiseConfiguration,
-    this.iotTwinMakerConfiguration,
-    this.s3Configuration,
-  });
-
-  factory SourceConfiguration.fromJson(Map<String, dynamic> json) {
-    return SourceConfiguration(
-      type: SourceType.fromString((json['type'] as String?) ?? ''),
-      iotSiteWiseConfiguration: json['iotSiteWiseConfiguration'] != null
-          ? IotSiteWiseSourceConfiguration.fromJson(
-              json['iotSiteWiseConfiguration'] as Map<String, dynamic>)
-          : null,
-      iotTwinMakerConfiguration: json['iotTwinMakerConfiguration'] != null
-          ? IotTwinMakerSourceConfiguration.fromJson(
-              json['iotTwinMakerConfiguration'] as Map<String, dynamic>)
-          : null,
-      s3Configuration: json['s3Configuration'] != null
-          ? S3SourceConfiguration.fromJson(
-              json['s3Configuration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final type = this.type;
-    final iotSiteWiseConfiguration = this.iotSiteWiseConfiguration;
-    final iotTwinMakerConfiguration = this.iotTwinMakerConfiguration;
-    final s3Configuration = this.s3Configuration;
-    return {
-      'type': type.value,
-      if (iotSiteWiseConfiguration != null)
-        'iotSiteWiseConfiguration': iotSiteWiseConfiguration,
-      if (iotTwinMakerConfiguration != null)
-        'iotTwinMakerConfiguration': iotTwinMakerConfiguration,
-      if (s3Configuration != null) 's3Configuration': s3Configuration,
-    };
-  }
-}
-
-class SourceType {
-  static const s3 = SourceType._('s3');
-  static const iotsitewise = SourceType._('iotsitewise');
-  static const iottwinmaker = SourceType._('iottwinmaker');
-
-  final String value;
-
-  const SourceType._(this.value);
-
-  static const values = [s3, iotsitewise, iottwinmaker];
-
-  static SourceType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SourceType._(value));
-
-  @override
-  bool operator ==(other) => other is SourceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class State {
-  static const creating = State._('CREATING');
-  static const updating = State._('UPDATING');
-  static const deleting = State._('DELETING');
-  static const active = State._('ACTIVE');
-  static const error = State._('ERROR');
-
-  final String value;
-
-  const State._(this.value);
-
-  static const values = [creating, updating, deleting, active, error];
-
-  static State fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => State._(value));
-
-  @override
-  bool operator ==(other) => other is State && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object that represents the status of an entity, component, component
-/// type, or workspace.
-class Status {
-  /// The error message.
-  final ErrorDetails? error;
-
-  /// The current state of the entity, component, component type, or workspace.
-  final State? state;
-
-  Status({
-    this.error,
-    this.state,
-  });
-
-  factory Status.fromJson(Map<String, dynamic> json) {
-    return Status(
-      error: json['error'] != null
-          ? ErrorDetails.fromJson(json['error'] as Map<String, dynamic>)
-          : null,
-      state: (json['state'] as String?)?.let(State.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final error = this.error;
-    final state = this.state;
-    return {
-      if (error != null) 'error': error,
-      if (state != null) 'state': state.value,
-    };
-  }
-}
-
-class SyncJobState {
-  static const creating = SyncJobState._('CREATING');
-  static const initializing = SyncJobState._('INITIALIZING');
-  static const active = SyncJobState._('ACTIVE');
-  static const deleting = SyncJobState._('DELETING');
-  static const error = SyncJobState._('ERROR');
-
-  final String value;
-
-  const SyncJobState._(this.value);
-
-  static const values = [creating, initializing, active, deleting, error];
-
-  static SyncJobState fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SyncJobState._(value));
-
-  @override
-  bool operator ==(other) => other is SyncJobState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The SyncJob status.
-class SyncJobStatus {
-  /// The SyncJob error.
-  final ErrorDetails? error;
-
-  /// The SyncJob status state.
-  final SyncJobState? state;
-
-  SyncJobStatus({
-    this.error,
-    this.state,
-  });
-
-  factory SyncJobStatus.fromJson(Map<String, dynamic> json) {
-    return SyncJobStatus(
-      error: json['error'] != null
-          ? ErrorDetails.fromJson(json['error'] as Map<String, dynamic>)
-          : null,
-      state: (json['state'] as String?)?.let(SyncJobState.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final error = this.error;
-    final state = this.state;
-    return {
-      if (error != null) 'error': error,
-      if (state != null) 'state': state.value,
-    };
-  }
-}
-
-/// The SyncJob summary.
-class SyncJobSummary {
-  /// The SyncJob summary ARN.
-  final String? arn;
-
-  /// The creation date and time.
-  final DateTime? creationDateTime;
-
-  /// The SyncJob summaries status.
-  final SyncJobStatus? status;
-
-  /// The sync source.
-  final String? syncSource;
-
-  /// The update date and time.
-  final DateTime? updateDateTime;
-
-  /// The ID of the workspace that contains the sync job.
-  final String? workspaceId;
-
-  SyncJobSummary({
-    this.arn,
-    this.creationDateTime,
-    this.status,
-    this.syncSource,
-    this.updateDateTime,
-    this.workspaceId,
-  });
-
-  factory SyncJobSummary.fromJson(Map<String, dynamic> json) {
-    return SyncJobSummary(
-      arn: json['arn'] as String?,
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      status: json['status'] != null
-          ? SyncJobStatus.fromJson(json['status'] as Map<String, dynamic>)
-          : null,
-      syncSource: json['syncSource'] as String?,
-      updateDateTime: timeStampFromJson(json['updateDateTime']),
-      workspaceId: json['workspaceId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final creationDateTime = this.creationDateTime;
-    final status = this.status;
-    final syncSource = this.syncSource;
-    final updateDateTime = this.updateDateTime;
-    final workspaceId = this.workspaceId;
-    return {
-      if (arn != null) 'arn': arn,
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (status != null) 'status': status,
-      if (syncSource != null) 'syncSource': syncSource,
-      if (updateDateTime != null)
-        'updateDateTime': unixTimestampToJson(updateDateTime),
-      if (workspaceId != null) 'workspaceId': workspaceId,
-    };
-  }
-}
-
-/// The sync resource filter.
-class SyncResourceFilter {
-  /// The external ID.
-  final String? externalId;
-
-  /// The sync resource filter resource ID.
-  final String? resourceId;
-
-  /// The sync resource filter resource type
-  final SyncResourceType? resourceType;
-
-  /// The sync resource filter's state.
-  final SyncResourceState? state;
-
-  SyncResourceFilter({
-    this.externalId,
-    this.resourceId,
-    this.resourceType,
-    this.state,
-  });
-
-  Map<String, dynamic> toJson() {
-    final externalId = this.externalId;
-    final resourceId = this.resourceId;
-    final resourceType = this.resourceType;
-    final state = this.state;
-    return {
-      if (externalId != null) 'externalId': externalId,
-      if (resourceId != null) 'resourceId': resourceId,
-      if (resourceType != null) 'resourceType': resourceType.value,
-      if (state != null) 'state': state.value,
-    };
-  }
-}
-
-class SyncResourceState {
-  static const initializing = SyncResourceState._('INITIALIZING');
-  static const processing = SyncResourceState._('PROCESSING');
-  static const deleted = SyncResourceState._('DELETED');
-  static const inSync = SyncResourceState._('IN_SYNC');
-  static const error = SyncResourceState._('ERROR');
-
-  final String value;
-
-  const SyncResourceState._(this.value);
-
-  static const values = [initializing, processing, deleted, inSync, error];
-
-  static SyncResourceState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SyncResourceState._(value));
-
-  @override
-  bool operator ==(other) => other is SyncResourceState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The sync resource status.
-class SyncResourceStatus {
-  /// The status error.
-  final ErrorDetails? error;
-
-  /// The sync resource status state.
-  final SyncResourceState? state;
-
-  SyncResourceStatus({
-    this.error,
-    this.state,
-  });
-
-  factory SyncResourceStatus.fromJson(Map<String, dynamic> json) {
-    return SyncResourceStatus(
-      error: json['error'] != null
-          ? ErrorDetails.fromJson(json['error'] as Map<String, dynamic>)
-          : null,
-      state: (json['state'] as String?)?.let(SyncResourceState.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final error = this.error;
-    final state = this.state;
-    return {
-      if (error != null) 'error': error,
-      if (state != null) 'state': state.value,
-    };
-  }
-}
-
-/// The sync resource summary.
-class SyncResourceSummary {
-  /// The external ID.
-  final String? externalId;
-
-  /// The resource ID.
-  final String? resourceId;
-
-  /// The resource type.
-  final SyncResourceType? resourceType;
-
-  /// The sync resource summary status.
-  final SyncResourceStatus? status;
-
-  /// The update date and time.
-  final DateTime? updateDateTime;
-
-  SyncResourceSummary({
-    this.externalId,
-    this.resourceId,
-    this.resourceType,
-    this.status,
-    this.updateDateTime,
-  });
-
-  factory SyncResourceSummary.fromJson(Map<String, dynamic> json) {
-    return SyncResourceSummary(
-      externalId: json['externalId'] as String?,
-      resourceId: json['resourceId'] as String?,
-      resourceType:
-          (json['resourceType'] as String?)?.let(SyncResourceType.fromString),
-      status: json['status'] != null
-          ? SyncResourceStatus.fromJson(json['status'] as Map<String, dynamic>)
-          : null,
-      updateDateTime: timeStampFromJson(json['updateDateTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final externalId = this.externalId;
-    final resourceId = this.resourceId;
-    final resourceType = this.resourceType;
-    final status = this.status;
-    final updateDateTime = this.updateDateTime;
-    return {
-      if (externalId != null) 'externalId': externalId,
-      if (resourceId != null) 'resourceId': resourceId,
-      if (resourceType != null) 'resourceType': resourceType.value,
-      if (status != null) 'status': status,
-      if (updateDateTime != null)
-        'updateDateTime': unixTimestampToJson(updateDateTime),
-    };
-  }
-}
-
-class SyncResourceType {
-  static const entity = SyncResourceType._('ENTITY');
-  static const componentType = SyncResourceType._('COMPONENT_TYPE');
-
-  final String value;
-
-  const SyncResourceType._(this.value);
-
-  static const values = [entity, componentType];
-
-  static SyncResourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SyncResourceType._(value));
-
-  @override
-  bool operator ==(other) => other is SyncResourceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The tabular conditions.
-class TabularConditions {
-  /// Filter criteria that orders the output. It can be sorted in ascending or
-  /// descending order.
-  final List<OrderBy>? orderBy;
-
-  /// You can filter the request using various logical operators and a key-value
-  /// format. For example:
-  ///
-  /// <code>{"key": "serverType", "value": "webServer"}</code>
-  final List<PropertyFilter>? propertyFilters;
-
-  TabularConditions({
-    this.orderBy,
-    this.propertyFilters,
-  });
-
-  Map<String, dynamic> toJson() {
-    final orderBy = this.orderBy;
-    final propertyFilters = this.propertyFilters;
-    return {
-      if (orderBy != null) 'orderBy': orderBy,
-      if (propertyFilters != null) 'propertyFilters': propertyFilters,
-    };
-  }
-}
-
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -6857,44 +3360,6 @@ class TagResourceResponse {
   Map<String, dynamic> toJson() {
     return {};
   }
-}
-
-class Type {
-  static const relationship = Type._('RELATIONSHIP');
-  static const string = Type._('STRING');
-  static const long = Type._('LONG');
-  static const boolean = Type._('BOOLEAN');
-  static const integer = Type._('INTEGER');
-  static const $double = Type._('DOUBLE');
-  static const list = Type._('LIST');
-  static const map = Type._('MAP');
-
-  final String value;
-
-  const Type._(this.value);
-
-  static const values = [
-    relationship,
-    string,
-    long,
-    boolean,
-    integer,
-    $double,
-    list,
-    map
-  ];
-
-  static Type fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Type._(value));
-
-  @override
-  bool operator ==(other) => other is Type && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class UntagResourceResponse {
@@ -7015,38 +3480,6 @@ class UpdatePricingPlanResponse {
   }
 }
 
-class UpdateReason {
-  static const $default = UpdateReason._('DEFAULT');
-  static const pricingTierUpdate = UpdateReason._('PRICING_TIER_UPDATE');
-  static const entityCountUpdate = UpdateReason._('ENTITY_COUNT_UPDATE');
-  static const pricingModeUpdate = UpdateReason._('PRICING_MODE_UPDATE');
-  static const overwritten = UpdateReason._('OVERWRITTEN');
-
-  final String value;
-
-  const UpdateReason._(this.value);
-
-  static const values = [
-    $default,
-    pricingTierUpdate,
-    entityCountUpdate,
-    pricingModeUpdate,
-    overwritten
-  ];
-
-  static UpdateReason fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => UpdateReason._(value));
-
-  @override
-  bool operator ==(other) => other is UpdateReason && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class UpdateSceneResponse {
   /// The date and time when the scene was last updated.
   final DateTime updateDateTime;
@@ -7087,6 +3520,957 @@ class UpdateWorkspaceResponse {
     final updateDateTime = this.updateDateTime;
     return {
       'updateDateTime': unixTimestampToJson(updateDateTime),
+    };
+  }
+}
+
+/// The pricing plan.
+class PricingPlan {
+  /// The effective date and time of the pricing plan.
+  final DateTime effectiveDateTime;
+
+  /// The pricing mode.
+  final PricingMode pricingMode;
+
+  /// The set date and time for updating a pricing plan.
+  final DateTime updateDateTime;
+
+  /// The update reason for changing a pricing plan.
+  final UpdateReason updateReason;
+
+  /// The billable entity count.
+  final int? billableEntityCount;
+
+  /// The pricing plan's bundle information.
+  final BundleInformation? bundleInformation;
+
+  PricingPlan({
+    required this.effectiveDateTime,
+    required this.pricingMode,
+    required this.updateDateTime,
+    required this.updateReason,
+    this.billableEntityCount,
+    this.bundleInformation,
+  });
+
+  factory PricingPlan.fromJson(Map<String, dynamic> json) {
+    return PricingPlan(
+      effectiveDateTime:
+          nonNullableTimeStampFromJson(json['effectiveDateTime'] ?? 0),
+      pricingMode:
+          PricingMode.fromString((json['pricingMode'] as String?) ?? ''),
+      updateDateTime: nonNullableTimeStampFromJson(json['updateDateTime'] ?? 0),
+      updateReason:
+          UpdateReason.fromString((json['updateReason'] as String?) ?? ''),
+      billableEntityCount: json['billableEntityCount'] as int?,
+      bundleInformation: json['bundleInformation'] != null
+          ? BundleInformation.fromJson(
+              json['bundleInformation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final effectiveDateTime = this.effectiveDateTime;
+    final pricingMode = this.pricingMode;
+    final updateDateTime = this.updateDateTime;
+    final updateReason = this.updateReason;
+    final billableEntityCount = this.billableEntityCount;
+    final bundleInformation = this.bundleInformation;
+    return {
+      'effectiveDateTime': unixTimestampToJson(effectiveDateTime),
+      'pricingMode': pricingMode.value,
+      'updateDateTime': unixTimestampToJson(updateDateTime),
+      'updateReason': updateReason.value,
+      if (billableEntityCount != null)
+        'billableEntityCount': billableEntityCount,
+      if (bundleInformation != null) 'bundleInformation': bundleInformation,
+    };
+  }
+}
+
+/// Information about the pricing bundle.
+class BundleInformation {
+  /// The bundle names.
+  final List<String> bundleNames;
+
+  /// The pricing tier.
+  final PricingTier? pricingTier;
+
+  BundleInformation({
+    required this.bundleNames,
+    this.pricingTier,
+  });
+
+  factory BundleInformation.fromJson(Map<String, dynamic> json) {
+    return BundleInformation(
+      bundleNames: ((json['bundleNames'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      pricingTier:
+          (json['pricingTier'] as String?)?.let(PricingTier.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bundleNames = this.bundleNames;
+    final pricingTier = this.pricingTier;
+    return {
+      'bundleNames': bundleNames,
+      if (pricingTier != null) 'pricingTier': pricingTier.value,
+    };
+  }
+}
+
+class PricingMode {
+  static const basic = PricingMode._('BASIC');
+  static const standard = PricingMode._('STANDARD');
+  static const tieredBundle = PricingMode._('TIERED_BUNDLE');
+
+  final String value;
+
+  const PricingMode._(this.value);
+
+  static const values = [basic, standard, tieredBundle];
+
+  static PricingMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PricingMode._(value));
+
+  @override
+  bool operator ==(other) => other is PricingMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class UpdateReason {
+  static const $default = UpdateReason._('DEFAULT');
+  static const pricingTierUpdate = UpdateReason._('PRICING_TIER_UPDATE');
+  static const entityCountUpdate = UpdateReason._('ENTITY_COUNT_UPDATE');
+  static const pricingModeUpdate = UpdateReason._('PRICING_MODE_UPDATE');
+  static const overwritten = UpdateReason._('OVERWRITTEN');
+
+  final String value;
+
+  const UpdateReason._(this.value);
+
+  static const values = [
+    $default,
+    pricingTierUpdate,
+    entityCountUpdate,
+    pricingModeUpdate,
+    overwritten
+  ];
+
+  static UpdateReason fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UpdateReason._(value));
+
+  @override
+  bool operator ==(other) => other is UpdateReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class PricingTier {
+  static const tier_1 = PricingTier._('TIER_1');
+  static const tier_2 = PricingTier._('TIER_2');
+  static const tier_3 = PricingTier._('TIER_3');
+  static const tier_4 = PricingTier._('TIER_4');
+
+  final String value;
+
+  const PricingTier._(this.value);
+
+  static const values = [tier_1, tier_2, tier_3, tier_4];
+
+  static PricingTier fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PricingTier._(value));
+
+  @override
+  bool operator ==(other) => other is PricingTier && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class State {
+  static const creating = State._('CREATING');
+  static const updating = State._('UPDATING');
+  static const deleting = State._('DELETING');
+  static const active = State._('ACTIVE');
+  static const error = State._('ERROR');
+
+  final String value;
+
+  const State._(this.value);
+
+  static const values = [creating, updating, deleting, active, error];
+
+  static State fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => State._(value));
+
+  @override
+  bool operator ==(other) => other is State && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The parent entity update request.
+class ParentEntityUpdateRequest {
+  /// The type of the update.
+  final ParentEntityUpdateType updateType;
+
+  /// The ID of the parent entity.
+  final String? parentEntityId;
+
+  ParentEntityUpdateRequest({
+    required this.updateType,
+    this.parentEntityId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final updateType = this.updateType;
+    final parentEntityId = this.parentEntityId;
+    return {
+      'updateType': updateType.value,
+      if (parentEntityId != null) 'parentEntityId': parentEntityId,
+    };
+  }
+}
+
+class ParentEntityUpdateType {
+  static const update = ParentEntityUpdateType._('UPDATE');
+  static const delete = ParentEntityUpdateType._('DELETE');
+
+  final String value;
+
+  const ParentEntityUpdateType._(this.value);
+
+  static const values = [update, delete];
+
+  static ParentEntityUpdateType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ParentEntityUpdateType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ParentEntityUpdateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object that sets information about the composite component update
+/// request.
+class CompositeComponentUpdateRequest {
+  /// The description of the component type.
+  final String? description;
+
+  /// The property group updates.
+  final Map<String, ComponentPropertyGroupRequest>? propertyGroupUpdates;
+
+  /// An object that maps strings to the properties to set in the component type
+  /// update. Each string in the mapping must be unique to this object.
+  final Map<String, PropertyRequest>? propertyUpdates;
+
+  /// The update type of the component update request.
+  final ComponentUpdateType? updateType;
+
+  CompositeComponentUpdateRequest({
+    this.description,
+    this.propertyGroupUpdates,
+    this.propertyUpdates,
+    this.updateType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final propertyGroupUpdates = this.propertyGroupUpdates;
+    final propertyUpdates = this.propertyUpdates;
+    final updateType = this.updateType;
+    return {
+      if (description != null) 'description': description,
+      if (propertyGroupUpdates != null)
+        'propertyGroupUpdates': propertyGroupUpdates,
+      if (propertyUpdates != null) 'propertyUpdates': propertyUpdates,
+      if (updateType != null) 'updateType': updateType.value,
+    };
+  }
+}
+
+class ComponentUpdateType {
+  static const create = ComponentUpdateType._('CREATE');
+  static const update = ComponentUpdateType._('UPDATE');
+  static const delete = ComponentUpdateType._('DELETE');
+
+  final String value;
+
+  const ComponentUpdateType._(this.value);
+
+  static const values = [create, update, delete];
+
+  static ComponentUpdateType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ComponentUpdateType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ComponentUpdateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The component property group request.
+class ComponentPropertyGroupRequest {
+  /// The group type.
+  final GroupType? groupType;
+
+  /// The property names.
+  final List<String>? propertyNames;
+
+  /// The update type.
+  final PropertyGroupUpdateType? updateType;
+
+  ComponentPropertyGroupRequest({
+    this.groupType,
+    this.propertyNames,
+    this.updateType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final groupType = this.groupType;
+    final propertyNames = this.propertyNames;
+    final updateType = this.updateType;
+    return {
+      if (groupType != null) 'groupType': groupType.value,
+      if (propertyNames != null) 'propertyNames': propertyNames,
+      if (updateType != null) 'updateType': updateType.value,
+    };
+  }
+}
+
+class GroupType {
+  static const tabular = GroupType._('TABULAR');
+
+  final String value;
+
+  const GroupType._(this.value);
+
+  static const values = [tabular];
+
+  static GroupType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => GroupType._(value));
+
+  @override
+  bool operator ==(other) => other is GroupType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class PropertyGroupUpdateType {
+  static const update = PropertyGroupUpdateType._('UPDATE');
+  static const delete = PropertyGroupUpdateType._('DELETE');
+  static const create = PropertyGroupUpdateType._('CREATE');
+
+  final String value;
+
+  const PropertyGroupUpdateType._(this.value);
+
+  static const values = [update, delete, create];
+
+  static PropertyGroupUpdateType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PropertyGroupUpdateType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PropertyGroupUpdateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object that sets information about a property.
+class PropertyRequest {
+  /// An object that specifies information about a property.
+  final PropertyDefinitionRequest? definition;
+
+  /// The update type of the update property request.
+  final PropertyUpdateType? updateType;
+
+  /// The value of the property.
+  final DataValue? value;
+
+  PropertyRequest({
+    this.definition,
+    this.updateType,
+    this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final definition = this.definition;
+    final updateType = this.updateType;
+    final value = this.value;
+    return {
+      if (definition != null) 'definition': definition,
+      if (updateType != null) 'updateType': updateType.value,
+      if (value != null) 'value': value,
+    };
+  }
+}
+
+/// An object that sets information about a property.
+class PropertyDefinitionRequest {
+  /// A mapping that specifies configuration information about the property. Use
+  /// this field to specify information that you read from and write to an
+  /// external source.
+  final Map<String, String>? configuration;
+
+  /// An object that contains information about the data type.
+  final DataType? dataType;
+
+  /// An object that contains the default value.
+  final DataValue? defaultValue;
+
+  /// A friendly name for the property.
+  final String? displayName;
+
+  /// A Boolean value that specifies whether the property ID comes from an
+  /// external data store.
+  final bool? isExternalId;
+
+  /// A Boolean value that specifies whether the property is required.
+  final bool? isRequiredInEntity;
+
+  /// A Boolean value that specifies whether the property is stored externally.
+  final bool? isStoredExternally;
+
+  /// A Boolean value that specifies whether the property consists of time series
+  /// data.
+  final bool? isTimeSeries;
+
+  PropertyDefinitionRequest({
+    this.configuration,
+    this.dataType,
+    this.defaultValue,
+    this.displayName,
+    this.isExternalId,
+    this.isRequiredInEntity,
+    this.isStoredExternally,
+    this.isTimeSeries,
+  });
+
+  Map<String, dynamic> toJson() {
+    final configuration = this.configuration;
+    final dataType = this.dataType;
+    final defaultValue = this.defaultValue;
+    final displayName = this.displayName;
+    final isExternalId = this.isExternalId;
+    final isRequiredInEntity = this.isRequiredInEntity;
+    final isStoredExternally = this.isStoredExternally;
+    final isTimeSeries = this.isTimeSeries;
+    return {
+      if (configuration != null) 'configuration': configuration,
+      if (dataType != null) 'dataType': dataType,
+      if (defaultValue != null) 'defaultValue': defaultValue,
+      if (displayName != null) 'displayName': displayName,
+      if (isExternalId != null) 'isExternalId': isExternalId,
+      if (isRequiredInEntity != null) 'isRequiredInEntity': isRequiredInEntity,
+      if (isStoredExternally != null) 'isStoredExternally': isStoredExternally,
+      if (isTimeSeries != null) 'isTimeSeries': isTimeSeries,
+    };
+  }
+}
+
+/// An object that specifies a value for a property.
+class DataValue {
+  /// A Boolean value.
+  final bool? booleanValue;
+
+  /// A double value.
+  final double? doubleValue;
+
+  /// An expression that produces the value.
+  final String? expression;
+
+  /// An integer value.
+  final int? integerValue;
+
+  /// A list of multiple values.
+  final List<DataValue>? listValue;
+
+  /// A long value.
+  final int? longValue;
+
+  /// An object that maps strings to multiple <code>DataValue</code> objects.
+  final Map<String, DataValue>? mapValue;
+
+  /// A value that relates a component to another component.
+  final RelationshipValue? relationshipValue;
+
+  /// A string value.
+  final String? stringValue;
+
+  DataValue({
+    this.booleanValue,
+    this.doubleValue,
+    this.expression,
+    this.integerValue,
+    this.listValue,
+    this.longValue,
+    this.mapValue,
+    this.relationshipValue,
+    this.stringValue,
+  });
+
+  factory DataValue.fromJson(Map<String, dynamic> json) {
+    return DataValue(
+      booleanValue: json['booleanValue'] as bool?,
+      doubleValue: json['doubleValue'] as double?,
+      expression: json['expression'] as String?,
+      integerValue: json['integerValue'] as int?,
+      listValue: (json['listValue'] as List?)
+          ?.nonNulls
+          .map((e) => DataValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      longValue: json['longValue'] as int?,
+      mapValue: (json['mapValue'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(k, DataValue.fromJson(e as Map<String, dynamic>))),
+      relationshipValue: json['relationshipValue'] != null
+          ? RelationshipValue.fromJson(
+              json['relationshipValue'] as Map<String, dynamic>)
+          : null,
+      stringValue: json['stringValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final booleanValue = this.booleanValue;
+    final doubleValue = this.doubleValue;
+    final expression = this.expression;
+    final integerValue = this.integerValue;
+    final listValue = this.listValue;
+    final longValue = this.longValue;
+    final mapValue = this.mapValue;
+    final relationshipValue = this.relationshipValue;
+    final stringValue = this.stringValue;
+    return {
+      if (booleanValue != null) 'booleanValue': booleanValue,
+      if (doubleValue != null) 'doubleValue': doubleValue,
+      if (expression != null) 'expression': expression,
+      if (integerValue != null) 'integerValue': integerValue,
+      if (listValue != null) 'listValue': listValue,
+      if (longValue != null) 'longValue': longValue,
+      if (mapValue != null) 'mapValue': mapValue,
+      if (relationshipValue != null) 'relationshipValue': relationshipValue,
+      if (stringValue != null) 'stringValue': stringValue,
+    };
+  }
+}
+
+class PropertyUpdateType {
+  static const update = PropertyUpdateType._('UPDATE');
+  static const delete = PropertyUpdateType._('DELETE');
+  static const create = PropertyUpdateType._('CREATE');
+  static const resetValue = PropertyUpdateType._('RESET_VALUE');
+
+  final String value;
+
+  const PropertyUpdateType._(this.value);
+
+  static const values = [update, delete, create, resetValue];
+
+  static PropertyUpdateType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PropertyUpdateType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PropertyUpdateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A value that associates a component and an entity.
+class RelationshipValue {
+  /// The name of the target component associated with the relationship value.
+  final String? targetComponentName;
+
+  /// The ID of the target entity associated with this relationship value.
+  final String? targetEntityId;
+
+  RelationshipValue({
+    this.targetComponentName,
+    this.targetEntityId,
+  });
+
+  factory RelationshipValue.fromJson(Map<String, dynamic> json) {
+    return RelationshipValue(
+      targetComponentName: json['targetComponentName'] as String?,
+      targetEntityId: json['targetEntityId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final targetComponentName = this.targetComponentName;
+    final targetEntityId = this.targetEntityId;
+    return {
+      if (targetComponentName != null)
+        'targetComponentName': targetComponentName,
+      if (targetEntityId != null) 'targetEntityId': targetEntityId,
+    };
+  }
+}
+
+/// An object that specifies the data type of a property.
+class DataType {
+  /// The underlying type of the data type.
+  final Type type;
+
+  /// The allowed values for this data type.
+  final List<DataValue>? allowedValues;
+
+  /// The nested type in the data type.
+  final DataType? nestedType;
+
+  /// A relationship that associates a component with another component.
+  final Relationship? relationship;
+
+  /// The unit of measure used in this data type.
+  final String? unitOfMeasure;
+
+  DataType({
+    required this.type,
+    this.allowedValues,
+    this.nestedType,
+    this.relationship,
+    this.unitOfMeasure,
+  });
+
+  factory DataType.fromJson(Map<String, dynamic> json) {
+    return DataType(
+      type: Type.fromString((json['type'] as String?) ?? ''),
+      allowedValues: (json['allowedValues'] as List?)
+          ?.nonNulls
+          .map((e) => DataValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nestedType: json['nestedType'] != null
+          ? DataType.fromJson(json['nestedType'] as Map<String, dynamic>)
+          : null,
+      relationship: json['relationship'] != null
+          ? Relationship.fromJson(json['relationship'] as Map<String, dynamic>)
+          : null,
+      unitOfMeasure: json['unitOfMeasure'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final allowedValues = this.allowedValues;
+    final nestedType = this.nestedType;
+    final relationship = this.relationship;
+    final unitOfMeasure = this.unitOfMeasure;
+    return {
+      'type': type.value,
+      if (allowedValues != null) 'allowedValues': allowedValues,
+      if (nestedType != null) 'nestedType': nestedType,
+      if (relationship != null) 'relationship': relationship,
+      if (unitOfMeasure != null) 'unitOfMeasure': unitOfMeasure,
+    };
+  }
+}
+
+class Type {
+  static const relationship = Type._('RELATIONSHIP');
+  static const string = Type._('STRING');
+  static const long = Type._('LONG');
+  static const boolean = Type._('BOOLEAN');
+  static const integer = Type._('INTEGER');
+  static const $double = Type._('DOUBLE');
+  static const list = Type._('LIST');
+  static const map = Type._('MAP');
+
+  final String value;
+
+  const Type._(this.value);
+
+  static const values = [
+    relationship,
+    string,
+    long,
+    boolean,
+    integer,
+    $double,
+    list,
+    map
+  ];
+
+  static Type fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Type._(value));
+
+  @override
+  bool operator ==(other) => other is Type && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object that specifies a relationship with another component type.
+class Relationship {
+  /// The type of the relationship.
+  final String? relationshipType;
+
+  /// The ID of the target component type associated with this relationship.
+  final String? targetComponentTypeId;
+
+  Relationship({
+    this.relationshipType,
+    this.targetComponentTypeId,
+  });
+
+  factory Relationship.fromJson(Map<String, dynamic> json) {
+    return Relationship(
+      relationshipType: json['relationshipType'] as String?,
+      targetComponentTypeId: json['targetComponentTypeId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final relationshipType = this.relationshipType;
+    final targetComponentTypeId = this.targetComponentTypeId;
+    return {
+      if (relationshipType != null) 'relationshipType': relationshipType,
+      if (targetComponentTypeId != null)
+        'targetComponentTypeId': targetComponentTypeId,
+    };
+  }
+}
+
+/// The component update request.
+class ComponentUpdateRequest {
+  /// The ID of the component type.
+  final String? componentTypeId;
+
+  /// The description of the component type.
+  final String? description;
+
+  /// The property group updates.
+  final Map<String, ComponentPropertyGroupRequest>? propertyGroupUpdates;
+
+  /// An object that maps strings to the properties to set in the component type
+  /// update. Each string in the mapping must be unique to this object.
+  final Map<String, PropertyRequest>? propertyUpdates;
+
+  /// The update type of the component update request.
+  final ComponentUpdateType? updateType;
+
+  ComponentUpdateRequest({
+    this.componentTypeId,
+    this.description,
+    this.propertyGroupUpdates,
+    this.propertyUpdates,
+    this.updateType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final componentTypeId = this.componentTypeId;
+    final description = this.description;
+    final propertyGroupUpdates = this.propertyGroupUpdates;
+    final propertyUpdates = this.propertyUpdates;
+    final updateType = this.updateType;
+    return {
+      if (componentTypeId != null) 'componentTypeId': componentTypeId,
+      if (description != null) 'description': description,
+      if (propertyGroupUpdates != null)
+        'propertyGroupUpdates': propertyGroupUpdates,
+      if (propertyUpdates != null) 'propertyUpdates': propertyUpdates,
+      if (updateType != null) 'updateType': updateType.value,
+    };
+  }
+}
+
+/// An object that sets information about the composite component types of a
+/// component type.
+class CompositeComponentTypeRequest {
+  /// This is the <code>componentTypeId</code> that the
+  /// <code>compositeComponentType</code> refers to.
+  final String? componentTypeId;
+
+  CompositeComponentTypeRequest({
+    this.componentTypeId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final componentTypeId = this.componentTypeId;
+    return {
+      if (componentTypeId != null) 'componentTypeId': componentTypeId,
+    };
+  }
+}
+
+/// <p/>
+class PropertyGroupRequest {
+  /// The group type.
+  final GroupType? groupType;
+
+  /// The names of properties.
+  final List<String>? propertyNames;
+
+  PropertyGroupRequest({
+    this.groupType,
+    this.propertyNames,
+  });
+
+  Map<String, dynamic> toJson() {
+    final groupType = this.groupType;
+    final propertyNames = this.propertyNames;
+    return {
+      if (groupType != null) 'groupType': groupType.value,
+      if (propertyNames != null) 'propertyNames': propertyNames,
+    };
+  }
+}
+
+/// The function request body.
+class FunctionRequest {
+  /// The data connector.
+  final DataConnector? implementedBy;
+
+  /// The required properties of the function.
+  final List<String>? requiredProperties;
+
+  /// The scope of the function.
+  final Scope? scope;
+
+  FunctionRequest({
+    this.implementedBy,
+    this.requiredProperties,
+    this.scope,
+  });
+
+  Map<String, dynamic> toJson() {
+    final implementedBy = this.implementedBy;
+    final requiredProperties = this.requiredProperties;
+    final scope = this.scope;
+    return {
+      if (implementedBy != null) 'implementedBy': implementedBy,
+      if (requiredProperties != null) 'requiredProperties': requiredProperties,
+      if (scope != null) 'scope': scope.value,
+    };
+  }
+}
+
+class Scope {
+  static const entity = Scope._('ENTITY');
+  static const workspace = Scope._('WORKSPACE');
+
+  final String value;
+
+  const Scope._(this.value);
+
+  static const values = [entity, workspace];
+
+  static Scope fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Scope._(value));
+
+  @override
+  bool operator ==(other) => other is Scope && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The data connector.
+class DataConnector {
+  /// A Boolean value that specifies whether the data connector is native to IoT
+  /// TwinMaker.
+  final bool? isNative;
+
+  /// The Lambda function associated with this data connector.
+  final LambdaFunction? lambda;
+
+  DataConnector({
+    this.isNative,
+    this.lambda,
+  });
+
+  factory DataConnector.fromJson(Map<String, dynamic> json) {
+    return DataConnector(
+      isNative: json['isNative'] as bool?,
+      lambda: json['lambda'] != null
+          ? LambdaFunction.fromJson(json['lambda'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isNative = this.isNative;
+    final lambda = this.lambda;
+    return {
+      if (isNative != null) 'isNative': isNative,
+      if (lambda != null) 'lambda': lambda,
+    };
+  }
+}
+
+/// The Lambda function.
+class LambdaFunction {
+  /// The ARN of the Lambda function.
+  final String arn;
+
+  LambdaFunction({
+    required this.arn,
+  });
+
+  factory LambdaFunction.fromJson(Map<String, dynamic> json) {
+    return LambdaFunction(
+      arn: (json['arn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
+      'arn': arn,
     };
   }
 }
@@ -7149,6 +4533,2606 @@ class WorkspaceSummary {
       'workspaceId': workspaceId,
       if (description != null) 'description': description,
       if (linkedServices != null) 'linkedServices': linkedServices,
+    };
+  }
+}
+
+/// The sync resource summary.
+class SyncResourceSummary {
+  /// The external ID.
+  final String? externalId;
+
+  /// The resource ID.
+  final String? resourceId;
+
+  /// The resource type.
+  final SyncResourceType? resourceType;
+
+  /// The sync resource summary status.
+  final SyncResourceStatus? status;
+
+  /// The update date and time.
+  final DateTime? updateDateTime;
+
+  SyncResourceSummary({
+    this.externalId,
+    this.resourceId,
+    this.resourceType,
+    this.status,
+    this.updateDateTime,
+  });
+
+  factory SyncResourceSummary.fromJson(Map<String, dynamic> json) {
+    return SyncResourceSummary(
+      externalId: json['externalId'] as String?,
+      resourceId: json['resourceId'] as String?,
+      resourceType:
+          (json['resourceType'] as String?)?.let(SyncResourceType.fromString),
+      status: json['status'] != null
+          ? SyncResourceStatus.fromJson(json['status'] as Map<String, dynamic>)
+          : null,
+      updateDateTime: timeStampFromJson(json['updateDateTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final externalId = this.externalId;
+    final resourceId = this.resourceId;
+    final resourceType = this.resourceType;
+    final status = this.status;
+    final updateDateTime = this.updateDateTime;
+    return {
+      if (externalId != null) 'externalId': externalId,
+      if (resourceId != null) 'resourceId': resourceId,
+      if (resourceType != null) 'resourceType': resourceType.value,
+      if (status != null) 'status': status,
+      if (updateDateTime != null)
+        'updateDateTime': unixTimestampToJson(updateDateTime),
+    };
+  }
+}
+
+class SyncResourceType {
+  static const entity = SyncResourceType._('ENTITY');
+  static const componentType = SyncResourceType._('COMPONENT_TYPE');
+
+  final String value;
+
+  const SyncResourceType._(this.value);
+
+  static const values = [entity, componentType];
+
+  static SyncResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SyncResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is SyncResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The sync resource status.
+class SyncResourceStatus {
+  /// The status error.
+  final ErrorDetails? error;
+
+  /// The sync resource status state.
+  final SyncResourceState? state;
+
+  SyncResourceStatus({
+    this.error,
+    this.state,
+  });
+
+  factory SyncResourceStatus.fromJson(Map<String, dynamic> json) {
+    return SyncResourceStatus(
+      error: json['error'] != null
+          ? ErrorDetails.fromJson(json['error'] as Map<String, dynamic>)
+          : null,
+      state: (json['state'] as String?)?.let(SyncResourceState.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final error = this.error;
+    final state = this.state;
+    return {
+      if (error != null) 'error': error,
+      if (state != null) 'state': state.value,
+    };
+  }
+}
+
+class SyncResourceState {
+  static const initializing = SyncResourceState._('INITIALIZING');
+  static const processing = SyncResourceState._('PROCESSING');
+  static const deleted = SyncResourceState._('DELETED');
+  static const inSync = SyncResourceState._('IN_SYNC');
+  static const error = SyncResourceState._('ERROR');
+
+  final String value;
+
+  const SyncResourceState._(this.value);
+
+  static const values = [initializing, processing, deleted, inSync, error];
+
+  static SyncResourceState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SyncResourceState._(value));
+
+  @override
+  bool operator ==(other) => other is SyncResourceState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The error details.
+class ErrorDetails {
+  /// The error code.
+  final ErrorCode? code;
+
+  /// The error message.
+  final String? message;
+
+  ErrorDetails({
+    this.code,
+    this.message,
+  });
+
+  factory ErrorDetails.fromJson(Map<String, dynamic> json) {
+    return ErrorDetails(
+      code: (json['code'] as String?)?.let(ErrorCode.fromString),
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      if (code != null) 'code': code.value,
+      if (message != null) 'message': message,
+    };
+  }
+}
+
+class ErrorCode {
+  static const validationError = ErrorCode._('VALIDATION_ERROR');
+  static const internalFailure = ErrorCode._('INTERNAL_FAILURE');
+  static const syncInitializingError = ErrorCode._('SYNC_INITIALIZING_ERROR');
+  static const syncCreatingError = ErrorCode._('SYNC_CREATING_ERROR');
+  static const syncProcessingError = ErrorCode._('SYNC_PROCESSING_ERROR');
+  static const syncDeletingError = ErrorCode._('SYNC_DELETING_ERROR');
+  static const processingError = ErrorCode._('PROCESSING_ERROR');
+  static const compositeComponentFailure =
+      ErrorCode._('COMPOSITE_COMPONENT_FAILURE');
+
+  final String value;
+
+  const ErrorCode._(this.value);
+
+  static const values = [
+    validationError,
+    internalFailure,
+    syncInitializingError,
+    syncCreatingError,
+    syncProcessingError,
+    syncDeletingError,
+    processingError,
+    compositeComponentFailure
+  ];
+
+  static ErrorCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is ErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The sync resource filter.
+class SyncResourceFilter {
+  /// The external ID.
+  final String? externalId;
+
+  /// The sync resource filter resource ID.
+  final String? resourceId;
+
+  /// The sync resource filter resource type
+  final SyncResourceType? resourceType;
+
+  /// The sync resource filter's state.
+  final SyncResourceState? state;
+
+  SyncResourceFilter({
+    this.externalId,
+    this.resourceId,
+    this.resourceType,
+    this.state,
+  });
+
+  Map<String, dynamic> toJson() {
+    final externalId = this.externalId;
+    final resourceId = this.resourceId;
+    final resourceType = this.resourceType;
+    final state = this.state;
+    return {
+      if (externalId != null) 'externalId': externalId,
+      if (resourceId != null) 'resourceId': resourceId,
+      if (resourceType != null) 'resourceType': resourceType.value,
+      if (state != null) 'state': state.value,
+    };
+  }
+}
+
+/// The SyncJob summary.
+class SyncJobSummary {
+  /// The SyncJob summary ARN.
+  final String? arn;
+
+  /// The creation date and time.
+  final DateTime? creationDateTime;
+
+  /// The SyncJob summaries status.
+  final SyncJobStatus? status;
+
+  /// The sync source.
+  final String? syncSource;
+
+  /// The update date and time.
+  final DateTime? updateDateTime;
+
+  /// The ID of the workspace that contains the sync job.
+  final String? workspaceId;
+
+  SyncJobSummary({
+    this.arn,
+    this.creationDateTime,
+    this.status,
+    this.syncSource,
+    this.updateDateTime,
+    this.workspaceId,
+  });
+
+  factory SyncJobSummary.fromJson(Map<String, dynamic> json) {
+    return SyncJobSummary(
+      arn: json['arn'] as String?,
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      status: json['status'] != null
+          ? SyncJobStatus.fromJson(json['status'] as Map<String, dynamic>)
+          : null,
+      syncSource: json['syncSource'] as String?,
+      updateDateTime: timeStampFromJson(json['updateDateTime']),
+      workspaceId: json['workspaceId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationDateTime = this.creationDateTime;
+    final status = this.status;
+    final syncSource = this.syncSource;
+    final updateDateTime = this.updateDateTime;
+    final workspaceId = this.workspaceId;
+    return {
+      if (arn != null) 'arn': arn,
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (status != null) 'status': status,
+      if (syncSource != null) 'syncSource': syncSource,
+      if (updateDateTime != null)
+        'updateDateTime': unixTimestampToJson(updateDateTime),
+      if (workspaceId != null) 'workspaceId': workspaceId,
+    };
+  }
+}
+
+/// The SyncJob status.
+class SyncJobStatus {
+  /// The SyncJob error.
+  final ErrorDetails? error;
+
+  /// The SyncJob status state.
+  final SyncJobState? state;
+
+  SyncJobStatus({
+    this.error,
+    this.state,
+  });
+
+  factory SyncJobStatus.fromJson(Map<String, dynamic> json) {
+    return SyncJobStatus(
+      error: json['error'] != null
+          ? ErrorDetails.fromJson(json['error'] as Map<String, dynamic>)
+          : null,
+      state: (json['state'] as String?)?.let(SyncJobState.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final error = this.error;
+    final state = this.state;
+    return {
+      if (error != null) 'error': error,
+      if (state != null) 'state': state.value,
+    };
+  }
+}
+
+class SyncJobState {
+  static const creating = SyncJobState._('CREATING');
+  static const initializing = SyncJobState._('INITIALIZING');
+  static const active = SyncJobState._('ACTIVE');
+  static const deleting = SyncJobState._('DELETING');
+  static const error = SyncJobState._('ERROR');
+
+  final String value;
+
+  const SyncJobState._(this.value);
+
+  static const values = [creating, initializing, active, deleting, error];
+
+  static SyncJobState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SyncJobState._(value));
+
+  @override
+  bool operator ==(other) => other is SyncJobState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object that contains information about a scene.
+class SceneSummary {
+  /// The ARN of the scene.
+  final String arn;
+
+  /// The relative path that specifies the location of the content definition
+  /// file.
+  final String contentLocation;
+
+  /// The date and time when the scene was created.
+  final DateTime creationDateTime;
+
+  /// The ID of the scene.
+  final String sceneId;
+
+  /// The date and time when the scene was last updated.
+  final DateTime updateDateTime;
+
+  /// The scene description.
+  final String? description;
+
+  SceneSummary({
+    required this.arn,
+    required this.contentLocation,
+    required this.creationDateTime,
+    required this.sceneId,
+    required this.updateDateTime,
+    this.description,
+  });
+
+  factory SceneSummary.fromJson(Map<String, dynamic> json) {
+    return SceneSummary(
+      arn: (json['arn'] as String?) ?? '',
+      contentLocation: (json['contentLocation'] as String?) ?? '',
+      creationDateTime:
+          nonNullableTimeStampFromJson(json['creationDateTime'] ?? 0),
+      sceneId: (json['sceneId'] as String?) ?? '',
+      updateDateTime: nonNullableTimeStampFromJson(json['updateDateTime'] ?? 0),
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final contentLocation = this.contentLocation;
+    final creationDateTime = this.creationDateTime;
+    final sceneId = this.sceneId;
+    final updateDateTime = this.updateDateTime;
+    final description = this.description;
+    return {
+      'arn': arn,
+      'contentLocation': contentLocation,
+      'creationDateTime': unixTimestampToJson(creationDateTime),
+      'sceneId': sceneId,
+      'updateDateTime': unixTimestampToJson(updateDateTime),
+      if (description != null) 'description': description,
+    };
+  }
+}
+
+/// This is an object that contains the information of a property.
+class PropertySummary {
+  /// This is the name of the property.
+  final String propertyName;
+
+  /// This flag notes whether all values of a list or map type property are
+  /// returned in the API response. The maximum number of values per property
+  /// returned is 50.
+  final bool? areAllPropertyValuesReturned;
+
+  /// This is the schema for the property.
+  final PropertyDefinitionResponse? definition;
+
+  /// This is the value for the property.
+  final DataValue? value;
+
+  PropertySummary({
+    required this.propertyName,
+    this.areAllPropertyValuesReturned,
+    this.definition,
+    this.value,
+  });
+
+  factory PropertySummary.fromJson(Map<String, dynamic> json) {
+    return PropertySummary(
+      propertyName: (json['propertyName'] as String?) ?? '',
+      areAllPropertyValuesReturned:
+          json['areAllPropertyValuesReturned'] as bool?,
+      definition: json['definition'] != null
+          ? PropertyDefinitionResponse.fromJson(
+              json['definition'] as Map<String, dynamic>)
+          : null,
+      value: json['value'] != null
+          ? DataValue.fromJson(json['value'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final propertyName = this.propertyName;
+    final areAllPropertyValuesReturned = this.areAllPropertyValuesReturned;
+    final definition = this.definition;
+    final value = this.value;
+    return {
+      'propertyName': propertyName,
+      if (areAllPropertyValuesReturned != null)
+        'areAllPropertyValuesReturned': areAllPropertyValuesReturned,
+      if (definition != null) 'definition': definition,
+      if (value != null) 'value': value,
+    };
+  }
+}
+
+/// An object that contains response data from a property definition request.
+class PropertyDefinitionResponse {
+  /// An object that contains information about the data type.
+  final DataType dataType;
+
+  /// A Boolean value that specifies whether the property ID comes from an
+  /// external data store.
+  final bool isExternalId;
+
+  /// A Boolean value that specifies whether the property definition can be
+  /// updated.
+  final bool isFinal;
+
+  /// A Boolean value that specifies whether the property definition is imported
+  /// from an external data store.
+  final bool isImported;
+
+  /// A Boolean value that specifies whether the property definition is inherited
+  /// from a parent entity.
+  final bool isInherited;
+
+  /// A Boolean value that specifies whether the property is required in an
+  /// entity.
+  final bool isRequiredInEntity;
+
+  /// A Boolean value that specifies whether the property is stored externally.
+  final bool isStoredExternally;
+
+  /// A Boolean value that specifies whether the property consists of time series
+  /// data.
+  final bool isTimeSeries;
+
+  /// A mapping that specifies configuration information about the property.
+  final Map<String, String>? configuration;
+
+  /// An object that contains the default value.
+  final DataValue? defaultValue;
+
+  /// A friendly name for the property.
+  final String? displayName;
+
+  PropertyDefinitionResponse({
+    required this.dataType,
+    required this.isExternalId,
+    required this.isFinal,
+    required this.isImported,
+    required this.isInherited,
+    required this.isRequiredInEntity,
+    required this.isStoredExternally,
+    required this.isTimeSeries,
+    this.configuration,
+    this.defaultValue,
+    this.displayName,
+  });
+
+  factory PropertyDefinitionResponse.fromJson(Map<String, dynamic> json) {
+    return PropertyDefinitionResponse(
+      dataType: DataType.fromJson((json['dataType'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      isExternalId: (json['isExternalId'] as bool?) ?? false,
+      isFinal: (json['isFinal'] as bool?) ?? false,
+      isImported: (json['isImported'] as bool?) ?? false,
+      isInherited: (json['isInherited'] as bool?) ?? false,
+      isRequiredInEntity: (json['isRequiredInEntity'] as bool?) ?? false,
+      isStoredExternally: (json['isStoredExternally'] as bool?) ?? false,
+      isTimeSeries: (json['isTimeSeries'] as bool?) ?? false,
+      configuration: (json['configuration'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      defaultValue: json['defaultValue'] != null
+          ? DataValue.fromJson(json['defaultValue'] as Map<String, dynamic>)
+          : null,
+      displayName: json['displayName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataType = this.dataType;
+    final isExternalId = this.isExternalId;
+    final isFinal = this.isFinal;
+    final isImported = this.isImported;
+    final isInherited = this.isInherited;
+    final isRequiredInEntity = this.isRequiredInEntity;
+    final isStoredExternally = this.isStoredExternally;
+    final isTimeSeries = this.isTimeSeries;
+    final configuration = this.configuration;
+    final defaultValue = this.defaultValue;
+    final displayName = this.displayName;
+    return {
+      'dataType': dataType,
+      'isExternalId': isExternalId,
+      'isFinal': isFinal,
+      'isImported': isImported,
+      'isInherited': isInherited,
+      'isRequiredInEntity': isRequiredInEntity,
+      'isStoredExternally': isStoredExternally,
+      'isTimeSeries': isTimeSeries,
+      if (configuration != null) 'configuration': configuration,
+      if (defaultValue != null) 'defaultValue': defaultValue,
+      if (displayName != null) 'displayName': displayName,
+    };
+  }
+}
+
+/// The metadata transfer job summary.
+class MetadataTransferJobSummary {
+  /// The metadata transfer job summary ARN.
+  final String arn;
+
+  /// The metadata transfer job summary creation DateTime object.
+  final DateTime creationDateTime;
+
+  /// The metadata transfer job summary Id.
+  final String metadataTransferJobId;
+
+  /// The metadata transfer job summary status.
+  final MetadataTransferJobStatus status;
+
+  /// The metadata transfer job summary update DateTime object
+  final DateTime updateDateTime;
+
+  /// The metadata transfer job summary progess.
+  final MetadataTransferJobProgress? progress;
+
+  MetadataTransferJobSummary({
+    required this.arn,
+    required this.creationDateTime,
+    required this.metadataTransferJobId,
+    required this.status,
+    required this.updateDateTime,
+    this.progress,
+  });
+
+  factory MetadataTransferJobSummary.fromJson(Map<String, dynamic> json) {
+    return MetadataTransferJobSummary(
+      arn: (json['arn'] as String?) ?? '',
+      creationDateTime:
+          nonNullableTimeStampFromJson(json['creationDateTime'] ?? 0),
+      metadataTransferJobId: (json['metadataTransferJobId'] as String?) ?? '',
+      status: MetadataTransferJobStatus.fromJson(
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      updateDateTime: nonNullableTimeStampFromJson(json['updateDateTime'] ?? 0),
+      progress: json['progress'] != null
+          ? MetadataTransferJobProgress.fromJson(
+              json['progress'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationDateTime = this.creationDateTime;
+    final metadataTransferJobId = this.metadataTransferJobId;
+    final status = this.status;
+    final updateDateTime = this.updateDateTime;
+    final progress = this.progress;
+    return {
+      'arn': arn,
+      'creationDateTime': unixTimestampToJson(creationDateTime),
+      'metadataTransferJobId': metadataTransferJobId,
+      'status': status,
+      'updateDateTime': unixTimestampToJson(updateDateTime),
+      if (progress != null) 'progress': progress,
+    };
+  }
+}
+
+/// The metadata transfer job status.
+class MetadataTransferJobStatus {
+  /// The metadata transfer job error.
+  final ErrorDetails? error;
+
+  /// The queued position.
+  final int? queuedPosition;
+
+  /// The metadata transfer job state.
+  final MetadataTransferJobState? state;
+
+  MetadataTransferJobStatus({
+    this.error,
+    this.queuedPosition,
+    this.state,
+  });
+
+  factory MetadataTransferJobStatus.fromJson(Map<String, dynamic> json) {
+    return MetadataTransferJobStatus(
+      error: json['error'] != null
+          ? ErrorDetails.fromJson(json['error'] as Map<String, dynamic>)
+          : null,
+      queuedPosition: json['queuedPosition'] as int?,
+      state:
+          (json['state'] as String?)?.let(MetadataTransferJobState.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final error = this.error;
+    final queuedPosition = this.queuedPosition;
+    final state = this.state;
+    return {
+      if (error != null) 'error': error,
+      if (queuedPosition != null) 'queuedPosition': queuedPosition,
+      if (state != null) 'state': state.value,
+    };
+  }
+}
+
+/// The metadata transfer job's progress.
+class MetadataTransferJobProgress {
+  /// The failed count.
+  final int? failedCount;
+
+  /// The skipped count.
+  final int? skippedCount;
+
+  /// The succeeded count.
+  final int? succeededCount;
+
+  /// The total count. [of what]
+  final int? totalCount;
+
+  MetadataTransferJobProgress({
+    this.failedCount,
+    this.skippedCount,
+    this.succeededCount,
+    this.totalCount,
+  });
+
+  factory MetadataTransferJobProgress.fromJson(Map<String, dynamic> json) {
+    return MetadataTransferJobProgress(
+      failedCount: json['failedCount'] as int?,
+      skippedCount: json['skippedCount'] as int?,
+      succeededCount: json['succeededCount'] as int?,
+      totalCount: json['totalCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failedCount = this.failedCount;
+    final skippedCount = this.skippedCount;
+    final succeededCount = this.succeededCount;
+    final totalCount = this.totalCount;
+    return {
+      if (failedCount != null) 'failedCount': failedCount,
+      if (skippedCount != null) 'skippedCount': skippedCount,
+      if (succeededCount != null) 'succeededCount': succeededCount,
+      if (totalCount != null) 'totalCount': totalCount,
+    };
+  }
+}
+
+class MetadataTransferJobState {
+  static const validating = MetadataTransferJobState._('VALIDATING');
+  static const pending = MetadataTransferJobState._('PENDING');
+  static const running = MetadataTransferJobState._('RUNNING');
+  static const cancelling = MetadataTransferJobState._('CANCELLING');
+  static const error = MetadataTransferJobState._('ERROR');
+  static const completed = MetadataTransferJobState._('COMPLETED');
+  static const cancelled = MetadataTransferJobState._('CANCELLED');
+
+  final String value;
+
+  const MetadataTransferJobState._(this.value);
+
+  static const values = [
+    validating,
+    pending,
+    running,
+    cancelling,
+    error,
+    completed,
+    cancelled
+  ];
+
+  static MetadataTransferJobState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MetadataTransferJobState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MetadataTransferJobState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SourceType {
+  static const s3 = SourceType._('s3');
+  static const iotsitewise = SourceType._('iotsitewise');
+  static const iottwinmaker = SourceType._('iottwinmaker');
+
+  final String value;
+
+  const SourceType._(this.value);
+
+  static const values = [s3, iotsitewise, iottwinmaker];
+
+  static SourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SourceType._(value));
+
+  @override
+  bool operator ==(other) => other is SourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DestinationType {
+  static const s3 = DestinationType._('s3');
+  static const iotsitewise = DestinationType._('iotsitewise');
+  static const iottwinmaker = DestinationType._('iottwinmaker');
+
+  final String value;
+
+  const DestinationType._(this.value);
+
+  static const values = [s3, iotsitewise, iottwinmaker];
+
+  static DestinationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DestinationType._(value));
+
+  @override
+  bool operator ==(other) => other is DestinationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The ListMetadataTransferJobs filter.
+class ListMetadataTransferJobsFilter {
+  /// The filter state.
+  final MetadataTransferJobState? state;
+
+  /// The workspace Id.
+  final String? workspaceId;
+
+  ListMetadataTransferJobsFilter({
+    this.state,
+    this.workspaceId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final state = this.state;
+    final workspaceId = this.workspaceId;
+    return {
+      if (state != null) 'state': state.value,
+      if (workspaceId != null) 'workspaceId': workspaceId,
+    };
+  }
+}
+
+/// An object that contains information about an entity.
+class EntitySummary {
+  /// The ARN of the entity.
+  final String arn;
+
+  /// The date and time when the entity was created.
+  final DateTime creationDateTime;
+
+  /// The ID of the entity.
+  final String entityId;
+
+  /// The name of the entity.
+  final String entityName;
+
+  /// The current status of the entity.
+  final Status status;
+
+  /// The last date and time when the entity was updated.
+  final DateTime updateDateTime;
+
+  /// The description of the entity.
+  final String? description;
+
+  /// An <b>eventual</b> Boolean value that specifies whether the entity has child
+  /// entities or not.
+  final bool? hasChildEntities;
+
+  /// The ID of the parent entity.
+  final String? parentEntityId;
+
+  EntitySummary({
+    required this.arn,
+    required this.creationDateTime,
+    required this.entityId,
+    required this.entityName,
+    required this.status,
+    required this.updateDateTime,
+    this.description,
+    this.hasChildEntities,
+    this.parentEntityId,
+  });
+
+  factory EntitySummary.fromJson(Map<String, dynamic> json) {
+    return EntitySummary(
+      arn: (json['arn'] as String?) ?? '',
+      creationDateTime:
+          nonNullableTimeStampFromJson(json['creationDateTime'] ?? 0),
+      entityId: (json['entityId'] as String?) ?? '',
+      entityName: (json['entityName'] as String?) ?? '',
+      status: Status.fromJson((json['status'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      updateDateTime: nonNullableTimeStampFromJson(json['updateDateTime'] ?? 0),
+      description: json['description'] as String?,
+      hasChildEntities: json['hasChildEntities'] as bool?,
+      parentEntityId: json['parentEntityId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationDateTime = this.creationDateTime;
+    final entityId = this.entityId;
+    final entityName = this.entityName;
+    final status = this.status;
+    final updateDateTime = this.updateDateTime;
+    final description = this.description;
+    final hasChildEntities = this.hasChildEntities;
+    final parentEntityId = this.parentEntityId;
+    return {
+      'arn': arn,
+      'creationDateTime': unixTimestampToJson(creationDateTime),
+      'entityId': entityId,
+      'entityName': entityName,
+      'status': status,
+      'updateDateTime': unixTimestampToJson(updateDateTime),
+      if (description != null) 'description': description,
+      if (hasChildEntities != null) 'hasChildEntities': hasChildEntities,
+      if (parentEntityId != null) 'parentEntityId': parentEntityId,
+    };
+  }
+}
+
+/// An object that represents the status of an entity, component, component
+/// type, or workspace.
+class Status {
+  /// The error message.
+  final ErrorDetails? error;
+
+  /// The current state of the entity, component, component type, or workspace.
+  final State? state;
+
+  Status({
+    this.error,
+    this.state,
+  });
+
+  factory Status.fromJson(Map<String, dynamic> json) {
+    return Status(
+      error: json['error'] != null
+          ? ErrorDetails.fromJson(json['error'] as Map<String, dynamic>)
+          : null,
+      state: (json['state'] as String?)?.let(State.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final error = this.error;
+    final state = this.state;
+    return {
+      if (error != null) 'error': error,
+      if (state != null) 'state': state.value,
+    };
+  }
+}
+
+/// An object that filters items in a list of entities.
+class ListEntitiesFilter {
+  /// The ID of the component type in the entities in the list.
+  final String? componentTypeId;
+
+  /// The external-Id property of a component. The external-Id property is the
+  /// primary key of an external storage system.
+  final String? externalId;
+
+  /// The parent of the entities in the list.
+  final String? parentEntityId;
+
+  ListEntitiesFilter({
+    this.componentTypeId,
+    this.externalId,
+    this.parentEntityId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final componentTypeId = this.componentTypeId;
+    final externalId = this.externalId;
+    final parentEntityId = this.parentEntityId;
+    return {
+      if (componentTypeId != null) 'componentTypeId': componentTypeId,
+      if (externalId != null) 'externalId': externalId,
+      if (parentEntityId != null) 'parentEntityId': parentEntityId,
+    };
+  }
+}
+
+/// An object that contains information about a component type.
+class ComponentTypeSummary {
+  /// The ARN of the component type.
+  final String arn;
+
+  /// The ID of the component type.
+  final String componentTypeId;
+
+  /// The date and time when the component type was created.
+  final DateTime creationDateTime;
+
+  /// The date and time when the component type was last updated.
+  final DateTime updateDateTime;
+
+  /// The component type name.
+  final String? componentTypeName;
+
+  /// The description of the component type.
+  final String? description;
+
+  /// The current status of the component type.
+  final Status? status;
+
+  ComponentTypeSummary({
+    required this.arn,
+    required this.componentTypeId,
+    required this.creationDateTime,
+    required this.updateDateTime,
+    this.componentTypeName,
+    this.description,
+    this.status,
+  });
+
+  factory ComponentTypeSummary.fromJson(Map<String, dynamic> json) {
+    return ComponentTypeSummary(
+      arn: (json['arn'] as String?) ?? '',
+      componentTypeId: (json['componentTypeId'] as String?) ?? '',
+      creationDateTime:
+          nonNullableTimeStampFromJson(json['creationDateTime'] ?? 0),
+      updateDateTime: nonNullableTimeStampFromJson(json['updateDateTime'] ?? 0),
+      componentTypeName: json['componentTypeName'] as String?,
+      description: json['description'] as String?,
+      status: json['status'] != null
+          ? Status.fromJson(json['status'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final componentTypeId = this.componentTypeId;
+    final creationDateTime = this.creationDateTime;
+    final updateDateTime = this.updateDateTime;
+    final componentTypeName = this.componentTypeName;
+    final description = this.description;
+    final status = this.status;
+    return {
+      'arn': arn,
+      'componentTypeId': componentTypeId,
+      'creationDateTime': unixTimestampToJson(creationDateTime),
+      'updateDateTime': unixTimestampToJson(updateDateTime),
+      if (componentTypeName != null) 'componentTypeName': componentTypeName,
+      if (description != null) 'description': description,
+      if (status != null) 'status': status,
+    };
+  }
+}
+
+/// An object that filters items in a list of component types.
+/// <note>
+/// Only one object is accepted as a valid input.
+/// </note>
+class ListComponentTypesFilter {
+  /// The component type that the component types in the list extend.
+  final String? extendsFrom;
+
+  /// A Boolean value that specifies whether the component types in the list are
+  /// abstract.
+  final bool? isAbstract;
+
+  /// The namespace to which the component types in the list belong.
+  final String? namespace;
+
+  ListComponentTypesFilter({
+    this.extendsFrom,
+    this.isAbstract,
+    this.namespace,
+  });
+
+  Map<String, dynamic> toJson() {
+    final extendsFrom = this.extendsFrom;
+    final isAbstract = this.isAbstract;
+    final namespace = this.namespace;
+    return {
+      if (extendsFrom != null) 'extendsFrom': extendsFrom,
+      if (isAbstract != null) 'isAbstract': isAbstract,
+      if (namespace != null) 'namespace': namespace,
+    };
+  }
+}
+
+/// An object that returns information about a component summary.
+class ComponentSummary {
+  /// The name of the component.
+  final String componentName;
+
+  /// The ID of the component type.
+  final String componentTypeId;
+
+  /// The status of the component type.
+  final Status status;
+
+  /// This string specifies the path to the composite component, starting from the
+  /// top-level component.
+  final String? componentPath;
+
+  /// The name of the property definition set in the request.
+  final String? definedIn;
+
+  /// The description of the component request.
+  final String? description;
+
+  /// The property groups.
+  final Map<String, ComponentPropertyGroupResponse>? propertyGroups;
+
+  /// The <code>syncSource</code> of the sync job, if this entity was created by a
+  /// sync job.
+  final String? syncSource;
+
+  ComponentSummary({
+    required this.componentName,
+    required this.componentTypeId,
+    required this.status,
+    this.componentPath,
+    this.definedIn,
+    this.description,
+    this.propertyGroups,
+    this.syncSource,
+  });
+
+  factory ComponentSummary.fromJson(Map<String, dynamic> json) {
+    return ComponentSummary(
+      componentName: (json['componentName'] as String?) ?? '',
+      componentTypeId: (json['componentTypeId'] as String?) ?? '',
+      status: Status.fromJson((json['status'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      componentPath: json['componentPath'] as String?,
+      definedIn: json['definedIn'] as String?,
+      description: json['description'] as String?,
+      propertyGroups: (json['propertyGroups'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(
+              k,
+              ComponentPropertyGroupResponse.fromJson(
+                  e as Map<String, dynamic>))),
+      syncSource: json['syncSource'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final componentName = this.componentName;
+    final componentTypeId = this.componentTypeId;
+    final status = this.status;
+    final componentPath = this.componentPath;
+    final definedIn = this.definedIn;
+    final description = this.description;
+    final propertyGroups = this.propertyGroups;
+    final syncSource = this.syncSource;
+    return {
+      'componentName': componentName,
+      'componentTypeId': componentTypeId,
+      'status': status,
+      if (componentPath != null) 'componentPath': componentPath,
+      if (definedIn != null) 'definedIn': definedIn,
+      if (description != null) 'description': description,
+      if (propertyGroups != null) 'propertyGroups': propertyGroups,
+      if (syncSource != null) 'syncSource': syncSource,
+    };
+  }
+}
+
+/// The component property group response.
+class ComponentPropertyGroupResponse {
+  /// The group type.
+  final GroupType groupType;
+
+  /// A Boolean value that specifies whether the property group is inherited from
+  /// a parent entity
+  final bool isInherited;
+
+  /// The names of properties
+  final List<String> propertyNames;
+
+  ComponentPropertyGroupResponse({
+    required this.groupType,
+    required this.isInherited,
+    required this.propertyNames,
+  });
+
+  factory ComponentPropertyGroupResponse.fromJson(Map<String, dynamic> json) {
+    return ComponentPropertyGroupResponse(
+      groupType: GroupType.fromString((json['groupType'] as String?) ?? ''),
+      isInherited: (json['isInherited'] as bool?) ?? false,
+      propertyNames: ((json['propertyNames'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupType = this.groupType;
+    final isInherited = this.isInherited;
+    final propertyNames = this.propertyNames;
+    return {
+      'groupType': groupType.value,
+      'isInherited': isInherited,
+      'propertyNames': propertyNames,
+    };
+  }
+}
+
+/// The scene error.
+class SceneError {
+  /// The SceneError code.
+  final SceneErrorCode? code;
+
+  /// The SceneError message.
+  final String? message;
+
+  SceneError({
+    this.code,
+    this.message,
+  });
+
+  factory SceneError.fromJson(Map<String, dynamic> json) {
+    return SceneError(
+      code: (json['code'] as String?)?.let(SceneErrorCode.fromString),
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      if (code != null) 'code': code.value,
+      if (message != null) 'message': message,
+    };
+  }
+}
+
+class SceneErrorCode {
+  static const matterportError = SceneErrorCode._('MATTERPORT_ERROR');
+
+  final String value;
+
+  const SceneErrorCode._(this.value);
+
+  static const values = [matterportError];
+
+  static SceneErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SceneErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is SceneErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The history of values for a time series property.
+class PropertyValueHistory {
+  /// An object that uniquely identifies an entity property.
+  final EntityPropertyReference entityPropertyReference;
+
+  /// A list of objects that contain information about the values in the history
+  /// of a time series property.
+  final List<PropertyValue>? values;
+
+  PropertyValueHistory({
+    required this.entityPropertyReference,
+    this.values,
+  });
+
+  factory PropertyValueHistory.fromJson(Map<String, dynamic> json) {
+    return PropertyValueHistory(
+      entityPropertyReference: EntityPropertyReference.fromJson(
+          (json['entityPropertyReference'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      values: (json['values'] as List?)
+          ?.nonNulls
+          .map((e) => PropertyValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entityPropertyReference = this.entityPropertyReference;
+    final values = this.values;
+    return {
+      'entityPropertyReference': entityPropertyReference,
+      if (values != null) 'values': values,
+    };
+  }
+}
+
+/// An object that uniquely identifies an entity property.
+class EntityPropertyReference {
+  /// The name of the property.
+  final String propertyName;
+
+  /// The name of the component.
+  final String? componentName;
+
+  /// This string specifies the path to the composite component, starting from the
+  /// top-level component.
+  final String? componentPath;
+
+  /// The ID of the entity.
+  final String? entityId;
+
+  /// A mapping of external IDs to property names. External IDs uniquely identify
+  /// properties from external data stores.
+  final Map<String, String>? externalIdProperty;
+
+  EntityPropertyReference({
+    required this.propertyName,
+    this.componentName,
+    this.componentPath,
+    this.entityId,
+    this.externalIdProperty,
+  });
+
+  factory EntityPropertyReference.fromJson(Map<String, dynamic> json) {
+    return EntityPropertyReference(
+      propertyName: (json['propertyName'] as String?) ?? '',
+      componentName: json['componentName'] as String?,
+      componentPath: json['componentPath'] as String?,
+      entityId: json['entityId'] as String?,
+      externalIdProperty: (json['externalIdProperty'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final propertyName = this.propertyName;
+    final componentName = this.componentName;
+    final componentPath = this.componentPath;
+    final entityId = this.entityId;
+    final externalIdProperty = this.externalIdProperty;
+    return {
+      'propertyName': propertyName,
+      if (componentName != null) 'componentName': componentName,
+      if (componentPath != null) 'componentPath': componentPath,
+      if (entityId != null) 'entityId': entityId,
+      if (externalIdProperty != null) 'externalIdProperty': externalIdProperty,
+    };
+  }
+}
+
+/// An object that contains information about a value for a time series
+/// property.
+class PropertyValue {
+  /// An object that specifies a value for a time series property.
+  final DataValue value;
+
+  /// ISO8601 DateTime of a value for a time series property.
+  ///
+  /// The time for when the property value was recorded in ISO 8601 format:
+  /// <i>YYYY-MM-DDThh:mm:ss[.SSSSSSSSS][Z/±HH:mm]</i>.
+  ///
+  /// <ul>
+  /// <li>
+  /// <i>[YYYY]</i>: year
+  /// </li>
+  /// <li>
+  /// <i>[MM]</i>: month
+  /// </li>
+  /// <li>
+  /// <i>[DD]</i>: day
+  /// </li>
+  /// <li>
+  /// <i>[hh]</i>: hour
+  /// </li>
+  /// <li>
+  /// <i>[mm]</i>: minute
+  /// </li>
+  /// <li>
+  /// <i>[ss]</i>: seconds
+  /// </li>
+  /// <li>
+  /// <i>[.SSSSSSSSS]</i>: additional precision, where precedence is maintained.
+  /// For example: [.573123] is equal to 573123000 nanoseconds.
+  /// </li>
+  /// <li>
+  /// <i>Z</i>: default timezone UTC
+  /// </li>
+  /// <li>
+  /// <i>± HH:mm</i>: time zone offset in Hours and Minutes.
+  /// </li>
+  /// </ul>
+  /// <i>Required sub-fields</i>: YYYY-MM-DDThh:mm:ss and [Z/±HH:mm]
+  final String? time;
+
+  /// The timestamp of a value for a time series property.
+  final DateTime? timestamp;
+
+  PropertyValue({
+    required this.value,
+    this.time,
+    this.timestamp,
+  });
+
+  factory PropertyValue.fromJson(Map<String, dynamic> json) {
+    return PropertyValue(
+      value: DataValue.fromJson((json['value'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      time: json['time'] as String?,
+      timestamp: timeStampFromJson(json['timestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final value = this.value;
+    final time = this.time;
+    final timestamp = this.timestamp;
+    return {
+      'value': value,
+      if (time != null) 'time': time,
+      if (timestamp != null) 'timestamp': unixTimestampToJson(timestamp),
+    };
+  }
+}
+
+/// An object that specifies how to interpolate data in a list.
+class InterpolationParameters {
+  /// The interpolation type.
+  final InterpolationType? interpolationType;
+
+  /// The interpolation time interval in seconds.
+  final int? intervalInSeconds;
+
+  InterpolationParameters({
+    this.interpolationType,
+    this.intervalInSeconds,
+  });
+
+  Map<String, dynamic> toJson() {
+    final interpolationType = this.interpolationType;
+    final intervalInSeconds = this.intervalInSeconds;
+    return {
+      if (interpolationType != null)
+        'interpolationType': interpolationType.value,
+      if (intervalInSeconds != null) 'intervalInSeconds': intervalInSeconds,
+    };
+  }
+}
+
+class OrderByTime {
+  static const ascending = OrderByTime._('ASCENDING');
+  static const descending = OrderByTime._('DESCENDING');
+
+  final String value;
+
+  const OrderByTime._(this.value);
+
+  static const values = [ascending, descending];
+
+  static OrderByTime fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OrderByTime._(value));
+
+  @override
+  bool operator ==(other) => other is OrderByTime && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class InterpolationType {
+  static const linear = InterpolationType._('LINEAR');
+
+  final String value;
+
+  const InterpolationType._(this.value);
+
+  static const values = [linear];
+
+  static InterpolationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InterpolationType._(value));
+
+  @override
+  bool operator ==(other) => other is InterpolationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object that filters items returned by a property request.
+class PropertyFilter {
+  /// The operator associated with this property filter.
+  final String? operator;
+
+  /// The property name associated with this property filter.
+  final String? propertyName;
+
+  /// The value associated with this property filter.
+  final DataValue? value;
+
+  PropertyFilter({
+    this.operator,
+    this.propertyName,
+    this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final operator = this.operator;
+    final propertyName = this.propertyName;
+    final value = this.value;
+    return {
+      if (operator != null) 'operator': operator,
+      if (propertyName != null) 'propertyName': propertyName,
+      if (value != null) 'value': value,
+    };
+  }
+}
+
+/// The latest value of the property.
+class PropertyLatestValue {
+  /// An object that specifies information about a property.
+  final EntityPropertyReference propertyReference;
+
+  /// The value of the property.
+  final DataValue? propertyValue;
+
+  PropertyLatestValue({
+    required this.propertyReference,
+    this.propertyValue,
+  });
+
+  factory PropertyLatestValue.fromJson(Map<String, dynamic> json) {
+    return PropertyLatestValue(
+      propertyReference: EntityPropertyReference.fromJson(
+          (json['propertyReference'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      propertyValue: json['propertyValue'] != null
+          ? DataValue.fromJson(json['propertyValue'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final propertyReference = this.propertyReference;
+    final propertyValue = this.propertyValue;
+    return {
+      'propertyReference': propertyReference,
+      if (propertyValue != null) 'propertyValue': propertyValue,
+    };
+  }
+}
+
+/// The tabular conditions.
+class TabularConditions {
+  /// Filter criteria that orders the output. It can be sorted in ascending or
+  /// descending order.
+  final List<OrderBy>? orderBy;
+
+  /// You can filter the request using various logical operators and a key-value
+  /// format. For example:
+  ///
+  /// <code>{"key": "serverType", "value": "webServer"}</code>
+  final List<PropertyFilter>? propertyFilters;
+
+  TabularConditions({
+    this.orderBy,
+    this.propertyFilters,
+  });
+
+  Map<String, dynamic> toJson() {
+    final orderBy = this.orderBy;
+    final propertyFilters = this.propertyFilters;
+    return {
+      if (orderBy != null) 'orderBy': orderBy,
+      if (propertyFilters != null) 'propertyFilters': propertyFilters,
+    };
+  }
+}
+
+/// Filter criteria that orders the return output. It can be sorted in ascending
+/// or descending order.
+class OrderBy {
+  /// The property name.
+  final String propertyName;
+
+  /// The set order that filters results.
+  final Order? order;
+
+  OrderBy({
+    required this.propertyName,
+    this.order,
+  });
+
+  Map<String, dynamic> toJson() {
+    final propertyName = this.propertyName;
+    final order = this.order;
+    return {
+      'propertyName': propertyName,
+      if (order != null) 'order': order.value,
+    };
+  }
+}
+
+class Order {
+  static const ascending = Order._('ASCENDING');
+  static const descending = Order._('DESCENDING');
+
+  final String value;
+
+  const Order._(this.value);
+
+  static const values = [ascending, descending];
+
+  static Order fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Order._(value));
+
+  @override
+  bool operator ==(other) => other is Order && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The [link to action] metadata transfer job destination configuration.
+class DestinationConfiguration {
+  /// The destination type.
+  final DestinationType type;
+
+  /// The metadata transfer job Amazon Web Services IoT TwinMaker configuration.
+  final IotTwinMakerDestinationConfiguration? iotTwinMakerConfiguration;
+
+  /// The metadata transfer job S3 configuration. [need to add S3 entity]
+  final S3DestinationConfiguration? s3Configuration;
+
+  DestinationConfiguration({
+    required this.type,
+    this.iotTwinMakerConfiguration,
+    this.s3Configuration,
+  });
+
+  factory DestinationConfiguration.fromJson(Map<String, dynamic> json) {
+    return DestinationConfiguration(
+      type: DestinationType.fromString((json['type'] as String?) ?? ''),
+      iotTwinMakerConfiguration: json['iotTwinMakerConfiguration'] != null
+          ? IotTwinMakerDestinationConfiguration.fromJson(
+              json['iotTwinMakerConfiguration'] as Map<String, dynamic>)
+          : null,
+      s3Configuration: json['s3Configuration'] != null
+          ? S3DestinationConfiguration.fromJson(
+              json['s3Configuration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final iotTwinMakerConfiguration = this.iotTwinMakerConfiguration;
+    final s3Configuration = this.s3Configuration;
+    return {
+      'type': type.value,
+      if (iotTwinMakerConfiguration != null)
+        'iotTwinMakerConfiguration': iotTwinMakerConfiguration,
+      if (s3Configuration != null) 's3Configuration': s3Configuration,
+    };
+  }
+}
+
+/// The S3 destination configuration.
+class S3DestinationConfiguration {
+  /// The S3 destination configuration location.
+  final String location;
+
+  S3DestinationConfiguration({
+    required this.location,
+  });
+
+  factory S3DestinationConfiguration.fromJson(Map<String, dynamic> json) {
+    return S3DestinationConfiguration(
+      location: (json['location'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final location = this.location;
+    return {
+      'location': location,
+    };
+  }
+}
+
+/// The metadata transfer job AWS IoT TwinMaker destination configuration.
+class IotTwinMakerDestinationConfiguration {
+  /// The IoT TwinMaker workspace.
+  final String workspace;
+
+  IotTwinMakerDestinationConfiguration({
+    required this.workspace,
+  });
+
+  factory IotTwinMakerDestinationConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return IotTwinMakerDestinationConfiguration(
+      workspace: (json['workspace'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final workspace = this.workspace;
+    return {
+      'workspace': workspace,
+    };
+  }
+}
+
+/// The source configuration.
+class SourceConfiguration {
+  /// The source configuration type.
+  final SourceType type;
+
+  /// The source configuration IoT SiteWise configuration.
+  final IotSiteWiseSourceConfiguration? iotSiteWiseConfiguration;
+
+  /// The source configuration IoT TwinMaker configuration.
+  final IotTwinMakerSourceConfiguration? iotTwinMakerConfiguration;
+
+  /// The source configuration S3 configuration.
+  final S3SourceConfiguration? s3Configuration;
+
+  SourceConfiguration({
+    required this.type,
+    this.iotSiteWiseConfiguration,
+    this.iotTwinMakerConfiguration,
+    this.s3Configuration,
+  });
+
+  factory SourceConfiguration.fromJson(Map<String, dynamic> json) {
+    return SourceConfiguration(
+      type: SourceType.fromString((json['type'] as String?) ?? ''),
+      iotSiteWiseConfiguration: json['iotSiteWiseConfiguration'] != null
+          ? IotSiteWiseSourceConfiguration.fromJson(
+              json['iotSiteWiseConfiguration'] as Map<String, dynamic>)
+          : null,
+      iotTwinMakerConfiguration: json['iotTwinMakerConfiguration'] != null
+          ? IotTwinMakerSourceConfiguration.fromJson(
+              json['iotTwinMakerConfiguration'] as Map<String, dynamic>)
+          : null,
+      s3Configuration: json['s3Configuration'] != null
+          ? S3SourceConfiguration.fromJson(
+              json['s3Configuration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final iotSiteWiseConfiguration = this.iotSiteWiseConfiguration;
+    final iotTwinMakerConfiguration = this.iotTwinMakerConfiguration;
+    final s3Configuration = this.s3Configuration;
+    return {
+      'type': type.value,
+      if (iotSiteWiseConfiguration != null)
+        'iotSiteWiseConfiguration': iotSiteWiseConfiguration,
+      if (iotTwinMakerConfiguration != null)
+        'iotTwinMakerConfiguration': iotTwinMakerConfiguration,
+      if (s3Configuration != null) 's3Configuration': s3Configuration,
+    };
+  }
+}
+
+/// The S3 destination source configuration.
+class S3SourceConfiguration {
+  /// The S3 destination source configuration location.
+  final String location;
+
+  S3SourceConfiguration({
+    required this.location,
+  });
+
+  factory S3SourceConfiguration.fromJson(Map<String, dynamic> json) {
+    return S3SourceConfiguration(
+      location: (json['location'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final location = this.location;
+    return {
+      'location': location,
+    };
+  }
+}
+
+/// The metadata transfer job AWS IoT SiteWise source configuration.
+class IotSiteWiseSourceConfiguration {
+  /// The AWS IoT SiteWise soucre configuration filters.
+  final List<IotSiteWiseSourceConfigurationFilter>? filters;
+
+  IotSiteWiseSourceConfiguration({
+    this.filters,
+  });
+
+  factory IotSiteWiseSourceConfiguration.fromJson(Map<String, dynamic> json) {
+    return IotSiteWiseSourceConfiguration(
+      filters: (json['filters'] as List?)
+          ?.nonNulls
+          .map((e) => IotSiteWiseSourceConfigurationFilter.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filters = this.filters;
+    return {
+      if (filters != null) 'filters': filters,
+    };
+  }
+}
+
+/// The metadata transfer job AWS IoT TwinMaker source configuration.
+class IotTwinMakerSourceConfiguration {
+  /// The IoT TwinMaker workspace.
+  final String workspace;
+
+  /// The metadata transfer job AWS IoT TwinMaker source configuration filters.
+  final List<IotTwinMakerSourceConfigurationFilter>? filters;
+
+  IotTwinMakerSourceConfiguration({
+    required this.workspace,
+    this.filters,
+  });
+
+  factory IotTwinMakerSourceConfiguration.fromJson(Map<String, dynamic> json) {
+    return IotTwinMakerSourceConfiguration(
+      workspace: (json['workspace'] as String?) ?? '',
+      filters: (json['filters'] as List?)
+          ?.nonNulls
+          .map((e) => IotTwinMakerSourceConfigurationFilter.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final workspace = this.workspace;
+    final filters = this.filters;
+    return {
+      'workspace': workspace,
+      if (filters != null) 'filters': filters,
+    };
+  }
+}
+
+/// The metadata transfer job AWS IoT TwinMaker source configuration filter.
+class IotTwinMakerSourceConfigurationFilter {
+  /// Filter by component type.
+  final FilterByComponentType? filterByComponentType;
+
+  /// Filter by entity.
+  final FilterByEntity? filterByEntity;
+
+  IotTwinMakerSourceConfigurationFilter({
+    this.filterByComponentType,
+    this.filterByEntity,
+  });
+
+  factory IotTwinMakerSourceConfigurationFilter.fromJson(
+      Map<String, dynamic> json) {
+    return IotTwinMakerSourceConfigurationFilter(
+      filterByComponentType: json['filterByComponentType'] != null
+          ? FilterByComponentType.fromJson(
+              json['filterByComponentType'] as Map<String, dynamic>)
+          : null,
+      filterByEntity: json['filterByEntity'] != null
+          ? FilterByEntity.fromJson(
+              json['filterByEntity'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filterByComponentType = this.filterByComponentType;
+    final filterByEntity = this.filterByEntity;
+    return {
+      if (filterByComponentType != null)
+        'filterByComponentType': filterByComponentType,
+      if (filterByEntity != null) 'filterByEntity': filterByEntity,
+    };
+  }
+}
+
+/// Filter by component type.
+class FilterByComponentType {
+  /// The component type Id.
+  final String componentTypeId;
+
+  FilterByComponentType({
+    required this.componentTypeId,
+  });
+
+  factory FilterByComponentType.fromJson(Map<String, dynamic> json) {
+    return FilterByComponentType(
+      componentTypeId: (json['componentTypeId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final componentTypeId = this.componentTypeId;
+    return {
+      'componentTypeId': componentTypeId,
+    };
+  }
+}
+
+/// Vilter by entity.
+class FilterByEntity {
+  /// The entity Id.
+  final String entityId;
+
+  FilterByEntity({
+    required this.entityId,
+  });
+
+  factory FilterByEntity.fromJson(Map<String, dynamic> json) {
+    return FilterByEntity(
+      entityId: (json['entityId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entityId = this.entityId;
+    return {
+      'entityId': entityId,
+    };
+  }
+}
+
+/// The AWS IoT SiteWise soucre configuration filter.[need held with desc here]
+class IotSiteWiseSourceConfigurationFilter {
+  /// Filter by asset.
+  final FilterByAsset? filterByAsset;
+
+  /// Filter by asset model.
+  final FilterByAssetModel? filterByAssetModel;
+
+  IotSiteWiseSourceConfigurationFilter({
+    this.filterByAsset,
+    this.filterByAssetModel,
+  });
+
+  factory IotSiteWiseSourceConfigurationFilter.fromJson(
+      Map<String, dynamic> json) {
+    return IotSiteWiseSourceConfigurationFilter(
+      filterByAsset: json['filterByAsset'] != null
+          ? FilterByAsset.fromJson(
+              json['filterByAsset'] as Map<String, dynamic>)
+          : null,
+      filterByAssetModel: json['filterByAssetModel'] != null
+          ? FilterByAssetModel.fromJson(
+              json['filterByAssetModel'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filterByAsset = this.filterByAsset;
+    final filterByAssetModel = this.filterByAssetModel;
+    return {
+      if (filterByAsset != null) 'filterByAsset': filterByAsset,
+      if (filterByAssetModel != null) 'filterByAssetModel': filterByAssetModel,
+    };
+  }
+}
+
+/// Filter by asset model.
+class FilterByAssetModel {
+  /// The external-Id property of an asset model.
+  final String? assetModelExternalId;
+
+  /// The asset model Id.
+  final String? assetModelId;
+
+  /// Bolean to include assets.
+  final bool? includeAssets;
+
+  /// Include asset offspring. [need desc.]
+  final bool? includeOffspring;
+
+  FilterByAssetModel({
+    this.assetModelExternalId,
+    this.assetModelId,
+    this.includeAssets,
+    this.includeOffspring,
+  });
+
+  factory FilterByAssetModel.fromJson(Map<String, dynamic> json) {
+    return FilterByAssetModel(
+      assetModelExternalId: json['assetModelExternalId'] as String?,
+      assetModelId: json['assetModelId'] as String?,
+      includeAssets: json['includeAssets'] as bool?,
+      includeOffspring: json['includeOffspring'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetModelExternalId = this.assetModelExternalId;
+    final assetModelId = this.assetModelId;
+    final includeAssets = this.includeAssets;
+    final includeOffspring = this.includeOffspring;
+    return {
+      if (assetModelExternalId != null)
+        'assetModelExternalId': assetModelExternalId,
+      if (assetModelId != null) 'assetModelId': assetModelId,
+      if (includeAssets != null) 'includeAssets': includeAssets,
+      if (includeOffspring != null) 'includeOffspring': includeOffspring,
+    };
+  }
+}
+
+/// Filter by asset. [TwinMaker asset]
+class FilterByAsset {
+  /// The external-Id property of an asset.
+  final String? assetExternalId;
+
+  /// Filter by asset Id.
+  final String? assetId;
+
+  /// Boolean to include the asset model.
+  final bool? includeAssetModel;
+
+  /// Includes sub-assets.[need description hekp for this]
+  final bool? includeOffspring;
+
+  FilterByAsset({
+    this.assetExternalId,
+    this.assetId,
+    this.includeAssetModel,
+    this.includeOffspring,
+  });
+
+  factory FilterByAsset.fromJson(Map<String, dynamic> json) {
+    return FilterByAsset(
+      assetExternalId: json['assetExternalId'] as String?,
+      assetId: json['assetId'] as String?,
+      includeAssetModel: json['includeAssetModel'] as bool?,
+      includeOffspring: json['includeOffspring'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetExternalId = this.assetExternalId;
+    final assetId = this.assetId;
+    final includeAssetModel = this.includeAssetModel;
+    final includeOffspring = this.includeOffspring;
+    return {
+      if (assetExternalId != null) 'assetExternalId': assetExternalId,
+      if (assetId != null) 'assetId': assetId,
+      if (includeAssetModel != null) 'includeAssetModel': includeAssetModel,
+      if (includeOffspring != null) 'includeOffspring': includeOffspring,
+    };
+  }
+}
+
+/// An object that returns information about a component type create or update
+/// request.
+class ComponentResponse {
+  /// This flag notes whether all <code>compositeComponents</code> are returned in
+  /// the API response.
+  final bool? areAllCompositeComponentsReturned;
+
+  /// This flag notes whether all properties of the component are returned in the
+  /// API response. The maximum number of properties returned is 800.
+  final bool? areAllPropertiesReturned;
+
+  /// The name of the component.
+  final String? componentName;
+
+  /// The ID of the component type.
+  final String? componentTypeId;
+
+  /// This lists objects that contain information about the
+  /// <code>compositeComponents</code>.
+  final Map<String, ComponentSummary>? compositeComponents;
+
+  /// The name of the property definition set in the request.
+  final String? definedIn;
+
+  /// The description of the component type.
+  final String? description;
+
+  /// An object that maps strings to the properties to set in the component type.
+  /// Each string in the mapping must be unique to this object.
+  final Map<String, PropertyResponse>? properties;
+
+  /// The property groups.
+  final Map<String, ComponentPropertyGroupResponse>? propertyGroups;
+
+  /// The status of the component type.
+  final Status? status;
+
+  /// The syncSource of the sync job, if this entity was created by a sync job.
+  final String? syncSource;
+
+  ComponentResponse({
+    this.areAllCompositeComponentsReturned,
+    this.areAllPropertiesReturned,
+    this.componentName,
+    this.componentTypeId,
+    this.compositeComponents,
+    this.definedIn,
+    this.description,
+    this.properties,
+    this.propertyGroups,
+    this.status,
+    this.syncSource,
+  });
+
+  factory ComponentResponse.fromJson(Map<String, dynamic> json) {
+    return ComponentResponse(
+      areAllCompositeComponentsReturned:
+          json['areAllCompositeComponentsReturned'] as bool?,
+      areAllPropertiesReturned: json['areAllPropertiesReturned'] as bool?,
+      componentName: json['componentName'] as String?,
+      componentTypeId: json['componentTypeId'] as String?,
+      compositeComponents:
+          (json['compositeComponents'] as Map<String, dynamic>?)?.map((k, e) =>
+              MapEntry(
+                  k, ComponentSummary.fromJson(e as Map<String, dynamic>))),
+      definedIn: json['definedIn'] as String?,
+      description: json['description'] as String?,
+      properties: (json['properties'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, PropertyResponse.fromJson(e as Map<String, dynamic>))),
+      propertyGroups: (json['propertyGroups'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(
+              k,
+              ComponentPropertyGroupResponse.fromJson(
+                  e as Map<String, dynamic>))),
+      status: json['status'] != null
+          ? Status.fromJson(json['status'] as Map<String, dynamic>)
+          : null,
+      syncSource: json['syncSource'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final areAllCompositeComponentsReturned =
+        this.areAllCompositeComponentsReturned;
+    final areAllPropertiesReturned = this.areAllPropertiesReturned;
+    final componentName = this.componentName;
+    final componentTypeId = this.componentTypeId;
+    final compositeComponents = this.compositeComponents;
+    final definedIn = this.definedIn;
+    final description = this.description;
+    final properties = this.properties;
+    final propertyGroups = this.propertyGroups;
+    final status = this.status;
+    final syncSource = this.syncSource;
+    return {
+      if (areAllCompositeComponentsReturned != null)
+        'areAllCompositeComponentsReturned': areAllCompositeComponentsReturned,
+      if (areAllPropertiesReturned != null)
+        'areAllPropertiesReturned': areAllPropertiesReturned,
+      if (componentName != null) 'componentName': componentName,
+      if (componentTypeId != null) 'componentTypeId': componentTypeId,
+      if (compositeComponents != null)
+        'compositeComponents': compositeComponents,
+      if (definedIn != null) 'definedIn': definedIn,
+      if (description != null) 'description': description,
+      if (properties != null) 'properties': properties,
+      if (propertyGroups != null) 'propertyGroups': propertyGroups,
+      if (status != null) 'status': status,
+      if (syncSource != null) 'syncSource': syncSource,
+    };
+  }
+}
+
+/// An object that contains information about a property response.
+class PropertyResponse {
+  /// This flag notes whether all values of a list or map type property are
+  /// returned in the API response. The maximum number of values per property
+  /// returned is 50.
+  final bool? areAllPropertyValuesReturned;
+
+  /// An object that specifies information about a property.
+  final PropertyDefinitionResponse? definition;
+
+  /// The value of the property.
+  final DataValue? value;
+
+  PropertyResponse({
+    this.areAllPropertyValuesReturned,
+    this.definition,
+    this.value,
+  });
+
+  factory PropertyResponse.fromJson(Map<String, dynamic> json) {
+    return PropertyResponse(
+      areAllPropertyValuesReturned:
+          json['areAllPropertyValuesReturned'] as bool?,
+      definition: json['definition'] != null
+          ? PropertyDefinitionResponse.fromJson(
+              json['definition'] as Map<String, dynamic>)
+          : null,
+      value: json['value'] != null
+          ? DataValue.fromJson(json['value'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final areAllPropertyValuesReturned = this.areAllPropertyValuesReturned;
+    final definition = this.definition;
+    final value = this.value;
+    return {
+      if (areAllPropertyValuesReturned != null)
+        'areAllPropertyValuesReturned': areAllPropertyValuesReturned,
+      if (definition != null) 'definition': definition,
+      if (value != null) 'value': value,
+    };
+  }
+}
+
+/// An object that returns information about the composite component types of a
+/// component type.
+class CompositeComponentTypeResponse {
+  /// This is the <code>componentTypeId</code> that this
+  /// <code>compositeComponentType</code> refers to.
+  final String? componentTypeId;
+
+  /// This boolean indicates whether this <code>compositeComponentType</code> is
+  /// inherited from its parent.
+  final bool? isInherited;
+
+  CompositeComponentTypeResponse({
+    this.componentTypeId,
+    this.isInherited,
+  });
+
+  factory CompositeComponentTypeResponse.fromJson(Map<String, dynamic> json) {
+    return CompositeComponentTypeResponse(
+      componentTypeId: json['componentTypeId'] as String?,
+      isInherited: json['isInherited'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final componentTypeId = this.componentTypeId;
+    final isInherited = this.isInherited;
+    return {
+      if (componentTypeId != null) 'componentTypeId': componentTypeId,
+      if (isInherited != null) 'isInherited': isInherited,
+    };
+  }
+}
+
+/// The property group response
+class PropertyGroupResponse {
+  /// The group types.
+  final GroupType groupType;
+
+  /// A Boolean value that specifies whether the property group is inherited from
+  /// a parent entity
+  final bool isInherited;
+
+  /// The names of properties.
+  final List<String> propertyNames;
+
+  PropertyGroupResponse({
+    required this.groupType,
+    required this.isInherited,
+    required this.propertyNames,
+  });
+
+  factory PropertyGroupResponse.fromJson(Map<String, dynamic> json) {
+    return PropertyGroupResponse(
+      groupType: GroupType.fromString((json['groupType'] as String?) ?? ''),
+      isInherited: (json['isInherited'] as bool?) ?? false,
+      propertyNames: ((json['propertyNames'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupType = this.groupType;
+    final isInherited = this.isInherited;
+    final propertyNames = this.propertyNames;
+    return {
+      'groupType': groupType.value,
+      'isInherited': isInherited,
+      'propertyNames': propertyNames,
+    };
+  }
+}
+
+/// The function response.
+class FunctionResponse {
+  /// The data connector.
+  final DataConnector? implementedBy;
+
+  /// Indicates whether this function is inherited.
+  final bool? isInherited;
+
+  /// The required properties of the function.
+  final List<String>? requiredProperties;
+
+  /// The scope of the function.
+  final Scope? scope;
+
+  FunctionResponse({
+    this.implementedBy,
+    this.isInherited,
+    this.requiredProperties,
+    this.scope,
+  });
+
+  factory FunctionResponse.fromJson(Map<String, dynamic> json) {
+    return FunctionResponse(
+      implementedBy: json['implementedBy'] != null
+          ? DataConnector.fromJson(
+              json['implementedBy'] as Map<String, dynamic>)
+          : null,
+      isInherited: json['isInherited'] as bool?,
+      requiredProperties: (json['requiredProperties'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      scope: (json['scope'] as String?)?.let(Scope.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final implementedBy = this.implementedBy;
+    final isInherited = this.isInherited;
+    final requiredProperties = this.requiredProperties;
+    final scope = this.scope;
+    return {
+      if (implementedBy != null) 'implementedBy': implementedBy,
+      if (isInherited != null) 'isInherited': isInherited,
+      if (requiredProperties != null) 'requiredProperties': requiredProperties,
+      if (scope != null) 'scope': scope.value,
+    };
+  }
+}
+
+/// Represents a single row in the query results.
+class Row {
+  /// The data in a row of query results.
+  final List<Object>? rowData;
+
+  Row({
+    this.rowData,
+  });
+
+  factory Row.fromJson(Map<String, dynamic> json) {
+    return Row(
+      rowData: (json['rowData'] as List?)?.nonNulls.toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rowData = this.rowData;
+    return {
+      if (rowData != null) 'rowData': rowData,
+    };
+  }
+}
+
+/// A description of the column in the query results.
+class ColumnDescription {
+  /// The name of the column description.
+  final String? name;
+
+  /// The type of the column description.
+  final ColumnType? type;
+
+  ColumnDescription({
+    this.name,
+    this.type,
+  });
+
+  factory ColumnDescription.fromJson(Map<String, dynamic> json) {
+    return ColumnDescription(
+      name: json['name'] as String?,
+      type: (json['type'] as String?)?.let(ColumnType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final type = this.type;
+    return {
+      if (name != null) 'name': name,
+      if (type != null) 'type': type.value,
+    };
+  }
+}
+
+class ColumnType {
+  static const node = ColumnType._('NODE');
+  static const edge = ColumnType._('EDGE');
+  static const $value = ColumnType._('VALUE');
+
+  final String value;
+
+  const ColumnType._(this.value);
+
+  static const values = [node, edge, $value];
+
+  static ColumnType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ColumnType._(value));
+
+  @override
+  bool operator ==(other) => other is ColumnType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object that sets information about the composite component update
+/// request.
+class CompositeComponentRequest {
+  /// The description of the component type.
+  final String? description;
+
+  /// This is an object that maps strings to the properties to set in the
+  /// component type. Each string in the mapping must be unique to this object.
+  final Map<String, PropertyRequest>? properties;
+
+  /// The property groups.
+  final Map<String, ComponentPropertyGroupRequest>? propertyGroups;
+
+  CompositeComponentRequest({
+    this.description,
+    this.properties,
+    this.propertyGroups,
+  });
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final properties = this.properties;
+    final propertyGroups = this.propertyGroups;
+    return {
+      if (description != null) 'description': description,
+      if (properties != null) 'properties': properties,
+      if (propertyGroups != null) 'propertyGroups': propertyGroups,
+    };
+  }
+}
+
+/// An object that sets information about a component type create or update
+/// request.
+class ComponentRequest {
+  /// The ID of the component type.
+  final String? componentTypeId;
+
+  /// The description of the component request.
+  final String? description;
+
+  /// An object that maps strings to the properties to set in the component type.
+  /// Each string in the mapping must be unique to this object.
+  final Map<String, PropertyRequest>? properties;
+
+  /// The property groups.
+  final Map<String, ComponentPropertyGroupRequest>? propertyGroups;
+
+  ComponentRequest({
+    this.componentTypeId,
+    this.description,
+    this.properties,
+    this.propertyGroups,
+  });
+
+  Map<String, dynamic> toJson() {
+    final componentTypeId = this.componentTypeId;
+    final description = this.description;
+    final properties = this.properties;
+    final propertyGroups = this.propertyGroups;
+    return {
+      if (componentTypeId != null) 'componentTypeId': componentTypeId,
+      if (description != null) 'description': description,
+      if (properties != null) 'properties': properties,
+      if (propertyGroups != null) 'propertyGroups': propertyGroups,
+    };
+  }
+}
+
+/// An object that contains information about errors returned by the
+/// <code>BatchPutProperty</code> action.
+class BatchPutPropertyErrorEntry {
+  /// A list of objects that contain information about errors returned by the
+  /// <code>BatchPutProperty</code> action.
+  final List<BatchPutPropertyError> errors;
+
+  BatchPutPropertyErrorEntry({
+    required this.errors,
+  });
+
+  factory BatchPutPropertyErrorEntry.fromJson(Map<String, dynamic> json) {
+    return BatchPutPropertyErrorEntry(
+      errors: ((json['errors'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => BatchPutPropertyError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errors = this.errors;
+    return {
+      'errors': errors,
+    };
+  }
+}
+
+/// An error returned by the <code>BatchPutProperty</code> action.
+class BatchPutPropertyError {
+  /// An object that contains information about errors returned by the
+  /// <code>BatchPutProperty</code> action.
+  final PropertyValueEntry entry;
+
+  /// The error code.
+  final String errorCode;
+
+  /// The error message.
+  final String errorMessage;
+
+  BatchPutPropertyError({
+    required this.entry,
+    required this.errorCode,
+    required this.errorMessage,
+  });
+
+  factory BatchPutPropertyError.fromJson(Map<String, dynamic> json) {
+    return BatchPutPropertyError(
+      entry: PropertyValueEntry.fromJson(
+          (json['entry'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      errorCode: (json['errorCode'] as String?) ?? '',
+      errorMessage: (json['errorMessage'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entry = this.entry;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    return {
+      'entry': entry,
+      'errorCode': errorCode,
+      'errorMessage': errorMessage,
+    };
+  }
+}
+
+/// An object that specifies information about time series property values. This
+/// object is used and consumed by the <a
+/// href="https://docs.aws.amazon.com/iot-twinmaker/latest/apireference/API_BatchPutPropertyValues.html">BatchPutPropertyValues</a>
+/// action.
+class PropertyValueEntry {
+  /// An object that contains information about the entity that has the property.
+  final EntityPropertyReference entityPropertyReference;
+
+  /// A list of objects that specify time series property values.
+  final List<PropertyValue>? propertyValues;
+
+  PropertyValueEntry({
+    required this.entityPropertyReference,
+    this.propertyValues,
+  });
+
+  factory PropertyValueEntry.fromJson(Map<String, dynamic> json) {
+    return PropertyValueEntry(
+      entityPropertyReference: EntityPropertyReference.fromJson(
+          (json['entityPropertyReference'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      propertyValues: (json['propertyValues'] as List?)
+          ?.nonNulls
+          .map((e) => PropertyValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entityPropertyReference = this.entityPropertyReference;
+    final propertyValues = this.propertyValues;
+    return {
+      'entityPropertyReference': entityPropertyReference,
+      if (propertyValues != null) 'propertyValues': propertyValues,
     };
   }
 }

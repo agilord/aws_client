@@ -34,7 +34,6 @@ class LicenseManagerLinuxSubscriptions {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'license-manager-linux-subscriptions',
-            signingName: 'license-manager-linux-subscriptions',
           ),
           region: region,
           credentials: credentials,
@@ -289,12 +288,6 @@ class LicenseManagerLinuxSubscriptions {
     String? nextToken,
     List<SubscriptionProviderSource>? subscriptionProviderSources,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
     final $payload = <String, dynamic>{
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
@@ -480,37 +473,6 @@ class DeregisterSubscriptionProviderResponse {
   }
 }
 
-/// A filter object that is used to return more specific results from a describe
-/// operation. Filters can be used to match a set of resources by specific
-/// criteria.
-class Filter {
-  /// The type of name to filter by.
-  final String? name;
-
-  /// An operator for filtering results.
-  final Operator? operator;
-
-  /// One or more values for the name to filter by.
-  final List<String>? values;
-
-  Filter({
-    this.name,
-    this.operator,
-    this.values,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final operator = this.operator;
-    final values = this.values;
-    return {
-      if (name != null) 'Name': name,
-      if (operator != null) 'Operator': operator.value,
-      if (values != null) 'Values': values,
-    };
-  }
-}
-
 class GetRegisteredSubscriptionProviderResponse {
   /// The timestamp from the last time License Manager retrieved subscription
   /// details from your registered third-party Linux subscription provider.
@@ -657,6 +619,621 @@ class GetServiceSettingsResponse {
   }
 }
 
+class ListLinuxSubscriptionInstancesResponse {
+  /// An array that contains instance objects.
+  final List<Instance>? instances;
+
+  /// The next token used for paginated responses. When this field isn't empty,
+  /// there are additional elements that the service hasn't included in this
+  /// request. Use this token with the next request to retrieve additional
+  /// objects.
+  final String? nextToken;
+
+  ListLinuxSubscriptionInstancesResponse({
+    this.instances,
+    this.nextToken,
+  });
+
+  factory ListLinuxSubscriptionInstancesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListLinuxSubscriptionInstancesResponse(
+      instances: (json['Instances'] as List?)
+          ?.nonNulls
+          .map((e) => Instance.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instances = this.instances;
+    final nextToken = this.nextToken;
+    return {
+      if (instances != null) 'Instances': instances,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListLinuxSubscriptionsResponse {
+  /// The next token used for paginated responses. When this field isn't empty,
+  /// there are additional elements that the service hasn't included in this
+  /// request. Use this token with the next request to retrieve additional
+  /// objects.
+  final String? nextToken;
+
+  /// An array that contains subscription objects.
+  final List<Subscription>? subscriptions;
+
+  ListLinuxSubscriptionsResponse({
+    this.nextToken,
+    this.subscriptions,
+  });
+
+  factory ListLinuxSubscriptionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListLinuxSubscriptionsResponse(
+      nextToken: json['NextToken'] as String?,
+      subscriptions: (json['Subscriptions'] as List?)
+          ?.nonNulls
+          .map((e) => Subscription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final subscriptions = this.subscriptions;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (subscriptions != null) 'Subscriptions': subscriptions,
+    };
+  }
+}
+
+class ListRegisteredSubscriptionProvidersResponse {
+  /// The next token used for paginated responses. When this field isn't empty,
+  /// there are additional elements that the service hasn't included in this
+  /// request. Use this token with the next request to retrieve additional
+  /// objects.
+  final String? nextToken;
+
+  /// The list of BYOL registration resources that fit the criteria you specified
+  /// in the request.
+  final List<RegisteredSubscriptionProvider>? registeredSubscriptionProviders;
+
+  ListRegisteredSubscriptionProvidersResponse({
+    this.nextToken,
+    this.registeredSubscriptionProviders,
+  });
+
+  factory ListRegisteredSubscriptionProvidersResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListRegisteredSubscriptionProvidersResponse(
+      nextToken: json['NextToken'] as String?,
+      registeredSubscriptionProviders:
+          (json['RegisteredSubscriptionProviders'] as List?)
+              ?.nonNulls
+              .map((e) => RegisteredSubscriptionProvider.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final registeredSubscriptionProviders =
+        this.registeredSubscriptionProviders;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (registeredSubscriptionProviders != null)
+        'RegisteredSubscriptionProviders': registeredSubscriptionProviders,
+    };
+  }
+}
+
+class ListTagsForResourceResponse {
+  /// The metadata tags for the requested resource.
+  final Map<String, String>? tags;
+
+  ListTagsForResourceResponse({
+    this.tags,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+class RegisterSubscriptionProviderResponse {
+  /// The Amazon Resource Name (ARN) of the Linux subscription provider resource
+  /// that you registered.
+  final String? subscriptionProviderArn;
+
+  /// The Linux subscription provider that you registered.
+  final SubscriptionProviderSource? subscriptionProviderSource;
+
+  /// Indicates the status of the registration action for the Linux subscription
+  /// provider that you requested.
+  final SubscriptionProviderStatus? subscriptionProviderStatus;
+
+  RegisterSubscriptionProviderResponse({
+    this.subscriptionProviderArn,
+    this.subscriptionProviderSource,
+    this.subscriptionProviderStatus,
+  });
+
+  factory RegisterSubscriptionProviderResponse.fromJson(
+      Map<String, dynamic> json) {
+    return RegisterSubscriptionProviderResponse(
+      subscriptionProviderArn: json['SubscriptionProviderArn'] as String?,
+      subscriptionProviderSource:
+          (json['SubscriptionProviderSource'] as String?)
+              ?.let(SubscriptionProviderSource.fromString),
+      subscriptionProviderStatus:
+          (json['SubscriptionProviderStatus'] as String?)
+              ?.let(SubscriptionProviderStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final subscriptionProviderArn = this.subscriptionProviderArn;
+    final subscriptionProviderSource = this.subscriptionProviderSource;
+    final subscriptionProviderStatus = this.subscriptionProviderStatus;
+    return {
+      if (subscriptionProviderArn != null)
+        'SubscriptionProviderArn': subscriptionProviderArn,
+      if (subscriptionProviderSource != null)
+        'SubscriptionProviderSource': subscriptionProviderSource.value,
+      if (subscriptionProviderStatus != null)
+        'SubscriptionProviderStatus': subscriptionProviderStatus.value,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateServiceSettingsResponse {
+  /// The Region in which License Manager displays the aggregated data for Linux
+  /// subscriptions.
+  final List<String>? homeRegions;
+
+  /// Lists if discovery has been enabled for Linux subscriptions.
+  final LinuxSubscriptionsDiscovery? linuxSubscriptionsDiscovery;
+
+  /// The settings defined for Linux subscriptions discovery. The settings include
+  /// if Organizations integration has been enabled, and which Regions data will
+  /// be aggregated from.
+  final LinuxSubscriptionsDiscoverySettings?
+      linuxSubscriptionsDiscoverySettings;
+
+  /// Indicates the status of Linux subscriptions settings being applied.
+  final Status? status;
+
+  /// A message which details the Linux subscriptions service settings current
+  /// status.
+  final Map<String, String>? statusMessage;
+
+  UpdateServiceSettingsResponse({
+    this.homeRegions,
+    this.linuxSubscriptionsDiscovery,
+    this.linuxSubscriptionsDiscoverySettings,
+    this.status,
+    this.statusMessage,
+  });
+
+  factory UpdateServiceSettingsResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateServiceSettingsResponse(
+      homeRegions: (json['HomeRegions'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      linuxSubscriptionsDiscovery:
+          (json['LinuxSubscriptionsDiscovery'] as String?)
+              ?.let(LinuxSubscriptionsDiscovery.fromString),
+      linuxSubscriptionsDiscoverySettings:
+          json['LinuxSubscriptionsDiscoverySettings'] != null
+              ? LinuxSubscriptionsDiscoverySettings.fromJson(
+                  json['LinuxSubscriptionsDiscoverySettings']
+                      as Map<String, dynamic>)
+              : null,
+      status: (json['Status'] as String?)?.let(Status.fromString),
+      statusMessage: (json['StatusMessage'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final homeRegions = this.homeRegions;
+    final linuxSubscriptionsDiscovery = this.linuxSubscriptionsDiscovery;
+    final linuxSubscriptionsDiscoverySettings =
+        this.linuxSubscriptionsDiscoverySettings;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    return {
+      if (homeRegions != null) 'HomeRegions': homeRegions,
+      if (linuxSubscriptionsDiscovery != null)
+        'LinuxSubscriptionsDiscovery': linuxSubscriptionsDiscovery.value,
+      if (linuxSubscriptionsDiscoverySettings != null)
+        'LinuxSubscriptionsDiscoverySettings':
+            linuxSubscriptionsDiscoverySettings,
+      if (status != null) 'Status': status.value,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+    };
+  }
+}
+
+class LinuxSubscriptionsDiscovery {
+  static const enabled = LinuxSubscriptionsDiscovery._('Enabled');
+  static const disabled = LinuxSubscriptionsDiscovery._('Disabled');
+
+  final String value;
+
+  const LinuxSubscriptionsDiscovery._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static LinuxSubscriptionsDiscovery fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LinuxSubscriptionsDiscovery._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LinuxSubscriptionsDiscovery && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Lists the settings defined for discovering Linux subscriptions.
+class LinuxSubscriptionsDiscoverySettings {
+  /// Details if you have enabled resource discovery across your accounts in
+  /// Organizations.
+  final OrganizationIntegration organizationIntegration;
+
+  /// The Regions in which to discover data for Linux subscriptions.
+  final List<String> sourceRegions;
+
+  LinuxSubscriptionsDiscoverySettings({
+    required this.organizationIntegration,
+    required this.sourceRegions,
+  });
+
+  factory LinuxSubscriptionsDiscoverySettings.fromJson(
+      Map<String, dynamic> json) {
+    return LinuxSubscriptionsDiscoverySettings(
+      organizationIntegration: OrganizationIntegration.fromString(
+          (json['OrganizationIntegration'] as String?) ?? ''),
+      sourceRegions: ((json['SourceRegions'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final organizationIntegration = this.organizationIntegration;
+    final sourceRegions = this.sourceRegions;
+    return {
+      'OrganizationIntegration': organizationIntegration.value,
+      'SourceRegions': sourceRegions,
+    };
+  }
+}
+
+class Status {
+  static const inProgress = Status._('InProgress');
+  static const completed = Status._('Completed');
+  static const successful = Status._('Successful');
+  static const failed = Status._('Failed');
+
+  final String value;
+
+  const Status._(this.value);
+
+  static const values = [inProgress, completed, successful, failed];
+
+  static Status fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+
+  @override
+  bool operator ==(other) => other is Status && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class OrganizationIntegration {
+  static const enabled = OrganizationIntegration._('Enabled');
+  static const disabled = OrganizationIntegration._('Disabled');
+
+  final String value;
+
+  const OrganizationIntegration._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static OrganizationIntegration fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OrganizationIntegration._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OrganizationIntegration && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SubscriptionProviderSource {
+  static const redHat = SubscriptionProviderSource._('RedHat');
+
+  final String value;
+
+  const SubscriptionProviderSource._(this.value);
+
+  static const values = [redHat];
+
+  static SubscriptionProviderSource fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SubscriptionProviderSource._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SubscriptionProviderSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SubscriptionProviderStatus {
+  static const active = SubscriptionProviderStatus._('ACTIVE');
+  static const invalid = SubscriptionProviderStatus._('INVALID');
+  static const pending = SubscriptionProviderStatus._('PENDING');
+
+  final String value;
+
+  const SubscriptionProviderStatus._(this.value);
+
+  static const values = [active, invalid, pending];
+
+  static SubscriptionProviderStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SubscriptionProviderStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SubscriptionProviderStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A third-party provider for operating system (OS) platform software and
+/// license subscriptions, such as Red Hat. When you register a third-party
+/// Linux subscription provider, License Manager can get subscription data from
+/// the registered provider.
+class RegisteredSubscriptionProvider {
+  /// The timestamp from the last time that License Manager accessed third-party
+  /// subscription data for your account from your registered Linux subscription
+  /// provider.
+  final String? lastSuccessfulDataRetrievalTime;
+
+  /// The Amazon Resource Name (ARN) of the Secrets Manager secret that stores
+  /// your registered Linux subscription provider access token. For RHEL account
+  /// subscriptions, this is the offline token.
+  final String? secretArn;
+
+  /// The Amazon Resource Name (ARN) of the Linux subscription provider resource
+  /// that you registered.
+  final String? subscriptionProviderArn;
+
+  /// A supported third-party Linux subscription provider. License Manager
+  /// currently supports Red Hat subscriptions.
+  final SubscriptionProviderSource? subscriptionProviderSource;
+
+  /// Indicates the status of your registered Linux subscription provider access
+  /// token from the last time License Manager retrieved subscription data. For
+  /// RHEL account subscriptions, this is the status of the offline token.
+  final SubscriptionProviderStatus? subscriptionProviderStatus;
+
+  /// A detailed message that's associated with your BYOL subscription provider
+  /// token status.
+  final String? subscriptionProviderStatusMessage;
+
+  RegisteredSubscriptionProvider({
+    this.lastSuccessfulDataRetrievalTime,
+    this.secretArn,
+    this.subscriptionProviderArn,
+    this.subscriptionProviderSource,
+    this.subscriptionProviderStatus,
+    this.subscriptionProviderStatusMessage,
+  });
+
+  factory RegisteredSubscriptionProvider.fromJson(Map<String, dynamic> json) {
+    return RegisteredSubscriptionProvider(
+      lastSuccessfulDataRetrievalTime:
+          json['LastSuccessfulDataRetrievalTime'] as String?,
+      secretArn: json['SecretArn'] as String?,
+      subscriptionProviderArn: json['SubscriptionProviderArn'] as String?,
+      subscriptionProviderSource:
+          (json['SubscriptionProviderSource'] as String?)
+              ?.let(SubscriptionProviderSource.fromString),
+      subscriptionProviderStatus:
+          (json['SubscriptionProviderStatus'] as String?)
+              ?.let(SubscriptionProviderStatus.fromString),
+      subscriptionProviderStatusMessage:
+          json['SubscriptionProviderStatusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastSuccessfulDataRetrievalTime =
+        this.lastSuccessfulDataRetrievalTime;
+    final secretArn = this.secretArn;
+    final subscriptionProviderArn = this.subscriptionProviderArn;
+    final subscriptionProviderSource = this.subscriptionProviderSource;
+    final subscriptionProviderStatus = this.subscriptionProviderStatus;
+    final subscriptionProviderStatusMessage =
+        this.subscriptionProviderStatusMessage;
+    return {
+      if (lastSuccessfulDataRetrievalTime != null)
+        'LastSuccessfulDataRetrievalTime': lastSuccessfulDataRetrievalTime,
+      if (secretArn != null) 'SecretArn': secretArn,
+      if (subscriptionProviderArn != null)
+        'SubscriptionProviderArn': subscriptionProviderArn,
+      if (subscriptionProviderSource != null)
+        'SubscriptionProviderSource': subscriptionProviderSource.value,
+      if (subscriptionProviderStatus != null)
+        'SubscriptionProviderStatus': subscriptionProviderStatus.value,
+      if (subscriptionProviderStatusMessage != null)
+        'SubscriptionProviderStatusMessage': subscriptionProviderStatusMessage,
+    };
+  }
+}
+
+/// An object which details a discovered Linux subscription.
+class Subscription {
+  /// The total amount of running instances using this subscription.
+  final int? instanceCount;
+
+  /// The name of the subscription.
+  final String? name;
+
+  /// The type of subscription. The type can be subscription-included with Amazon
+  /// EC2, Bring Your Own Subscription model (BYOS), or from the Amazon Web
+  /// Services Marketplace. Certain subscriptions may use licensing from the
+  /// Amazon Web Services Marketplace as well as OS licensing from Amazon EC2 or
+  /// BYOS.
+  final String? type;
+
+  Subscription({
+    this.instanceCount,
+    this.name,
+    this.type,
+  });
+
+  factory Subscription.fromJson(Map<String, dynamic> json) {
+    return Subscription(
+      instanceCount: json['InstanceCount'] as int?,
+      name: json['Name'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceCount = this.instanceCount;
+    final name = this.name;
+    final type = this.type;
+    return {
+      if (instanceCount != null) 'InstanceCount': instanceCount,
+      if (name != null) 'Name': name,
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+/// A filter object that is used to return more specific results from a describe
+/// operation. Filters can be used to match a set of resources by specific
+/// criteria.
+class Filter {
+  /// The type of name to filter by.
+  final String? name;
+
+  /// An operator for filtering results.
+  final Operator? operator;
+
+  /// One or more values for the name to filter by.
+  final List<String>? values;
+
+  Filter({
+    this.name,
+    this.operator,
+    this.values,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final operator = this.operator;
+    final values = this.values;
+    return {
+      if (name != null) 'Name': name,
+      if (operator != null) 'Operator': operator.value,
+      if (values != null) 'Values': values,
+    };
+  }
+}
+
+class Operator {
+  static const equal = Operator._('Equal');
+  static const notEqual = Operator._('NotEqual');
+  static const contains = Operator._('Contains');
+
+  final String value;
+
+  const Operator._(this.value);
+
+  static const values = [equal, notEqual, contains];
+
+  static Operator fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Operator._(value));
+
+  @override
+  bool operator ==(other) => other is Operator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Details discovered information about a running instance using Linux
 /// subscriptions.
 class Instance {
@@ -796,590 +1373,6 @@ class Instance {
       if (subscriptionProviderUpdateTime != null)
         'SubscriptionProviderUpdateTime': subscriptionProviderUpdateTime,
       if (usageOperation != null) 'UsageOperation': usageOperation,
-    };
-  }
-}
-
-class LinuxSubscriptionsDiscovery {
-  static const enabled = LinuxSubscriptionsDiscovery._('Enabled');
-  static const disabled = LinuxSubscriptionsDiscovery._('Disabled');
-
-  final String value;
-
-  const LinuxSubscriptionsDiscovery._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static LinuxSubscriptionsDiscovery fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LinuxSubscriptionsDiscovery._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is LinuxSubscriptionsDiscovery && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Lists the settings defined for discovering Linux subscriptions.
-class LinuxSubscriptionsDiscoverySettings {
-  /// Details if you have enabled resource discovery across your accounts in
-  /// Organizations.
-  final OrganizationIntegration organizationIntegration;
-
-  /// The Regions in which to discover data for Linux subscriptions.
-  final List<String> sourceRegions;
-
-  LinuxSubscriptionsDiscoverySettings({
-    required this.organizationIntegration,
-    required this.sourceRegions,
-  });
-
-  factory LinuxSubscriptionsDiscoverySettings.fromJson(
-      Map<String, dynamic> json) {
-    return LinuxSubscriptionsDiscoverySettings(
-      organizationIntegration: OrganizationIntegration.fromString(
-          (json['OrganizationIntegration'] as String?) ?? ''),
-      sourceRegions: ((json['SourceRegions'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final organizationIntegration = this.organizationIntegration;
-    final sourceRegions = this.sourceRegions;
-    return {
-      'OrganizationIntegration': organizationIntegration.value,
-      'SourceRegions': sourceRegions,
-    };
-  }
-}
-
-class ListLinuxSubscriptionInstancesResponse {
-  /// An array that contains instance objects.
-  final List<Instance>? instances;
-
-  /// The next token used for paginated responses. When this field isn't empty,
-  /// there are additional elements that the service hasn't included in this
-  /// request. Use this token with the next request to retrieve additional
-  /// objects.
-  final String? nextToken;
-
-  ListLinuxSubscriptionInstancesResponse({
-    this.instances,
-    this.nextToken,
-  });
-
-  factory ListLinuxSubscriptionInstancesResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListLinuxSubscriptionInstancesResponse(
-      instances: (json['Instances'] as List?)
-          ?.nonNulls
-          .map((e) => Instance.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final instances = this.instances;
-    final nextToken = this.nextToken;
-    return {
-      if (instances != null) 'Instances': instances,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListLinuxSubscriptionsResponse {
-  /// The next token used for paginated responses. When this field isn't empty,
-  /// there are additional elements that the service hasn't included in this
-  /// request. Use this token with the next request to retrieve additional
-  /// objects.
-  final String? nextToken;
-
-  /// An array that contains subscription objects.
-  final List<Subscription>? subscriptions;
-
-  ListLinuxSubscriptionsResponse({
-    this.nextToken,
-    this.subscriptions,
-  });
-
-  factory ListLinuxSubscriptionsResponse.fromJson(Map<String, dynamic> json) {
-    return ListLinuxSubscriptionsResponse(
-      nextToken: json['NextToken'] as String?,
-      subscriptions: (json['Subscriptions'] as List?)
-          ?.nonNulls
-          .map((e) => Subscription.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final subscriptions = this.subscriptions;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (subscriptions != null) 'Subscriptions': subscriptions,
-    };
-  }
-}
-
-class ListRegisteredSubscriptionProvidersResponse {
-  /// The next token used for paginated responses. When this field isn't empty,
-  /// there are additional elements that the service hasn't included in this
-  /// request. Use this token with the next request to retrieve additional
-  /// objects.
-  final String? nextToken;
-
-  /// The list of BYOL registration resources that fit the criteria you specified
-  /// in the request.
-  final List<RegisteredSubscriptionProvider>? registeredSubscriptionProviders;
-
-  ListRegisteredSubscriptionProvidersResponse({
-    this.nextToken,
-    this.registeredSubscriptionProviders,
-  });
-
-  factory ListRegisteredSubscriptionProvidersResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListRegisteredSubscriptionProvidersResponse(
-      nextToken: json['NextToken'] as String?,
-      registeredSubscriptionProviders:
-          (json['RegisteredSubscriptionProviders'] as List?)
-              ?.nonNulls
-              .map((e) => RegisteredSubscriptionProvider.fromJson(
-                  e as Map<String, dynamic>))
-              .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final registeredSubscriptionProviders =
-        this.registeredSubscriptionProviders;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (registeredSubscriptionProviders != null)
-        'RegisteredSubscriptionProviders': registeredSubscriptionProviders,
-    };
-  }
-}
-
-class ListTagsForResourceResponse {
-  /// The metadata tags for the requested resource.
-  final Map<String, String>? tags;
-
-  ListTagsForResourceResponse({
-    this.tags,
-  });
-
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
-    return ListTagsForResourceResponse(
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tags = this.tags;
-    return {
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-class Operator {
-  static const equal = Operator._('Equal');
-  static const notEqual = Operator._('NotEqual');
-  static const contains = Operator._('Contains');
-
-  final String value;
-
-  const Operator._(this.value);
-
-  static const values = [equal, notEqual, contains];
-
-  static Operator fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Operator._(value));
-
-  @override
-  bool operator ==(other) => other is Operator && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class OrganizationIntegration {
-  static const enabled = OrganizationIntegration._('Enabled');
-  static const disabled = OrganizationIntegration._('Disabled');
-
-  final String value;
-
-  const OrganizationIntegration._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static OrganizationIntegration fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => OrganizationIntegration._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is OrganizationIntegration && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class RegisterSubscriptionProviderResponse {
-  /// The Amazon Resource Name (ARN) of the Linux subscription provider resource
-  /// that you registered.
-  final String? subscriptionProviderArn;
-
-  /// The Linux subscription provider that you registered.
-  final SubscriptionProviderSource? subscriptionProviderSource;
-
-  /// Indicates the status of the registration action for the Linux subscription
-  /// provider that you requested.
-  final SubscriptionProviderStatus? subscriptionProviderStatus;
-
-  RegisterSubscriptionProviderResponse({
-    this.subscriptionProviderArn,
-    this.subscriptionProviderSource,
-    this.subscriptionProviderStatus,
-  });
-
-  factory RegisterSubscriptionProviderResponse.fromJson(
-      Map<String, dynamic> json) {
-    return RegisterSubscriptionProviderResponse(
-      subscriptionProviderArn: json['SubscriptionProviderArn'] as String?,
-      subscriptionProviderSource:
-          (json['SubscriptionProviderSource'] as String?)
-              ?.let(SubscriptionProviderSource.fromString),
-      subscriptionProviderStatus:
-          (json['SubscriptionProviderStatus'] as String?)
-              ?.let(SubscriptionProviderStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final subscriptionProviderArn = this.subscriptionProviderArn;
-    final subscriptionProviderSource = this.subscriptionProviderSource;
-    final subscriptionProviderStatus = this.subscriptionProviderStatus;
-    return {
-      if (subscriptionProviderArn != null)
-        'SubscriptionProviderArn': subscriptionProviderArn,
-      if (subscriptionProviderSource != null)
-        'SubscriptionProviderSource': subscriptionProviderSource.value,
-      if (subscriptionProviderStatus != null)
-        'SubscriptionProviderStatus': subscriptionProviderStatus.value,
-    };
-  }
-}
-
-/// A third-party provider for operating system (OS) platform software and
-/// license subscriptions, such as Red Hat. When you register a third-party
-/// Linux subscription provider, License Manager can get subscription data from
-/// the registered provider.
-class RegisteredSubscriptionProvider {
-  /// The timestamp from the last time that License Manager accessed third-party
-  /// subscription data for your account from your registered Linux subscription
-  /// provider.
-  final String? lastSuccessfulDataRetrievalTime;
-
-  /// The Amazon Resource Name (ARN) of the Secrets Manager secret that stores
-  /// your registered Linux subscription provider access token. For RHEL account
-  /// subscriptions, this is the offline token.
-  final String? secretArn;
-
-  /// The Amazon Resource Name (ARN) of the Linux subscription provider resource
-  /// that you registered.
-  final String? subscriptionProviderArn;
-
-  /// A supported third-party Linux subscription provider. License Manager
-  /// currently supports Red Hat subscriptions.
-  final SubscriptionProviderSource? subscriptionProviderSource;
-
-  /// Indicates the status of your registered Linux subscription provider access
-  /// token from the last time License Manager retrieved subscription data. For
-  /// RHEL account subscriptions, this is the status of the offline token.
-  final SubscriptionProviderStatus? subscriptionProviderStatus;
-
-  /// A detailed message that's associated with your BYOL subscription provider
-  /// token status.
-  final String? subscriptionProviderStatusMessage;
-
-  RegisteredSubscriptionProvider({
-    this.lastSuccessfulDataRetrievalTime,
-    this.secretArn,
-    this.subscriptionProviderArn,
-    this.subscriptionProviderSource,
-    this.subscriptionProviderStatus,
-    this.subscriptionProviderStatusMessage,
-  });
-
-  factory RegisteredSubscriptionProvider.fromJson(Map<String, dynamic> json) {
-    return RegisteredSubscriptionProvider(
-      lastSuccessfulDataRetrievalTime:
-          json['LastSuccessfulDataRetrievalTime'] as String?,
-      secretArn: json['SecretArn'] as String?,
-      subscriptionProviderArn: json['SubscriptionProviderArn'] as String?,
-      subscriptionProviderSource:
-          (json['SubscriptionProviderSource'] as String?)
-              ?.let(SubscriptionProviderSource.fromString),
-      subscriptionProviderStatus:
-          (json['SubscriptionProviderStatus'] as String?)
-              ?.let(SubscriptionProviderStatus.fromString),
-      subscriptionProviderStatusMessage:
-          json['SubscriptionProviderStatusMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lastSuccessfulDataRetrievalTime =
-        this.lastSuccessfulDataRetrievalTime;
-    final secretArn = this.secretArn;
-    final subscriptionProviderArn = this.subscriptionProviderArn;
-    final subscriptionProviderSource = this.subscriptionProviderSource;
-    final subscriptionProviderStatus = this.subscriptionProviderStatus;
-    final subscriptionProviderStatusMessage =
-        this.subscriptionProviderStatusMessage;
-    return {
-      if (lastSuccessfulDataRetrievalTime != null)
-        'LastSuccessfulDataRetrievalTime': lastSuccessfulDataRetrievalTime,
-      if (secretArn != null) 'SecretArn': secretArn,
-      if (subscriptionProviderArn != null)
-        'SubscriptionProviderArn': subscriptionProviderArn,
-      if (subscriptionProviderSource != null)
-        'SubscriptionProviderSource': subscriptionProviderSource.value,
-      if (subscriptionProviderStatus != null)
-        'SubscriptionProviderStatus': subscriptionProviderStatus.value,
-      if (subscriptionProviderStatusMessage != null)
-        'SubscriptionProviderStatusMessage': subscriptionProviderStatusMessage,
-    };
-  }
-}
-
-class Status {
-  static const inProgress = Status._('InProgress');
-  static const completed = Status._('Completed');
-  static const successful = Status._('Successful');
-  static const failed = Status._('Failed');
-
-  final String value;
-
-  const Status._(this.value);
-
-  static const values = [inProgress, completed, successful, failed];
-
-  static Status fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
-
-  @override
-  bool operator ==(other) => other is Status && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object which details a discovered Linux subscription.
-class Subscription {
-  /// The total amount of running instances using this subscription.
-  final int? instanceCount;
-
-  /// The name of the subscription.
-  final String? name;
-
-  /// The type of subscription. The type can be subscription-included with Amazon
-  /// EC2, Bring Your Own Subscription model (BYOS), or from the Amazon Web
-  /// Services Marketplace. Certain subscriptions may use licensing from the
-  /// Amazon Web Services Marketplace as well as OS licensing from Amazon EC2 or
-  /// BYOS.
-  final String? type;
-
-  Subscription({
-    this.instanceCount,
-    this.name,
-    this.type,
-  });
-
-  factory Subscription.fromJson(Map<String, dynamic> json) {
-    return Subscription(
-      instanceCount: json['InstanceCount'] as int?,
-      name: json['Name'] as String?,
-      type: json['Type'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final instanceCount = this.instanceCount;
-    final name = this.name;
-    final type = this.type;
-    return {
-      if (instanceCount != null) 'InstanceCount': instanceCount,
-      if (name != null) 'Name': name,
-      if (type != null) 'Type': type,
-    };
-  }
-}
-
-class SubscriptionProviderSource {
-  static const redHat = SubscriptionProviderSource._('RedHat');
-
-  final String value;
-
-  const SubscriptionProviderSource._(this.value);
-
-  static const values = [redHat];
-
-  static SubscriptionProviderSource fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SubscriptionProviderSource._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SubscriptionProviderSource && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class SubscriptionProviderStatus {
-  static const active = SubscriptionProviderStatus._('ACTIVE');
-  static const invalid = SubscriptionProviderStatus._('INVALID');
-  static const pending = SubscriptionProviderStatus._('PENDING');
-
-  final String value;
-
-  const SubscriptionProviderStatus._(this.value);
-
-  static const values = [active, invalid, pending];
-
-  static SubscriptionProviderStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SubscriptionProviderStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SubscriptionProviderStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class TagResourceResponse {
-  TagResourceResponse();
-
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UntagResourceResponse {
-  UntagResourceResponse();
-
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateServiceSettingsResponse {
-  /// The Region in which License Manager displays the aggregated data for Linux
-  /// subscriptions.
-  final List<String>? homeRegions;
-
-  /// Lists if discovery has been enabled for Linux subscriptions.
-  final LinuxSubscriptionsDiscovery? linuxSubscriptionsDiscovery;
-
-  /// The settings defined for Linux subscriptions discovery. The settings include
-  /// if Organizations integration has been enabled, and which Regions data will
-  /// be aggregated from.
-  final LinuxSubscriptionsDiscoverySettings?
-      linuxSubscriptionsDiscoverySettings;
-
-  /// Indicates the status of Linux subscriptions settings being applied.
-  final Status? status;
-
-  /// A message which details the Linux subscriptions service settings current
-  /// status.
-  final Map<String, String>? statusMessage;
-
-  UpdateServiceSettingsResponse({
-    this.homeRegions,
-    this.linuxSubscriptionsDiscovery,
-    this.linuxSubscriptionsDiscoverySettings,
-    this.status,
-    this.statusMessage,
-  });
-
-  factory UpdateServiceSettingsResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateServiceSettingsResponse(
-      homeRegions: (json['HomeRegions'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      linuxSubscriptionsDiscovery:
-          (json['LinuxSubscriptionsDiscovery'] as String?)
-              ?.let(LinuxSubscriptionsDiscovery.fromString),
-      linuxSubscriptionsDiscoverySettings:
-          json['LinuxSubscriptionsDiscoverySettings'] != null
-              ? LinuxSubscriptionsDiscoverySettings.fromJson(
-                  json['LinuxSubscriptionsDiscoverySettings']
-                      as Map<String, dynamic>)
-              : null,
-      status: (json['Status'] as String?)?.let(Status.fromString),
-      statusMessage: (json['StatusMessage'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final homeRegions = this.homeRegions;
-    final linuxSubscriptionsDiscovery = this.linuxSubscriptionsDiscovery;
-    final linuxSubscriptionsDiscoverySettings =
-        this.linuxSubscriptionsDiscoverySettings;
-    final status = this.status;
-    final statusMessage = this.statusMessage;
-    return {
-      if (homeRegions != null) 'HomeRegions': homeRegions,
-      if (linuxSubscriptionsDiscovery != null)
-        'LinuxSubscriptionsDiscovery': linuxSubscriptionsDiscovery.value,
-      if (linuxSubscriptionsDiscoverySettings != null)
-        'LinuxSubscriptionsDiscoverySettings':
-            linuxSubscriptionsDiscoverySettings,
-      if (status != null) 'Status': status.value,
-      if (statusMessage != null) 'StatusMessage': statusMessage,
     };
   }
 }

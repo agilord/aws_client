@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:aws_client/kms_2014_11_01.dart';
+import 'package:aws_client/kms.dart';
 import 'package:test/test.dart';
 
 import 'harness.dart';

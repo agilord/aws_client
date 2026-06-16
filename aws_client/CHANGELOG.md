@@ -2,7 +2,9 @@
 
 ## 0.9.0
 
+- **Breaking:** refreshed the service catalogue (some discontinued services dropped, many new ones added) along with a handful of API surface changes.
 - **Breaking:** generated enums are now const classes instead of Dart `enum`s, so unknown values from the server no longer throw.
+- Added version-less imports: `package:aws_client/<service>.dart` re-exports the latest API version (e.g. `package:aws_client/s3.dart`) alongside the existing version-pinned import.
 
 ## 0.8.0
 

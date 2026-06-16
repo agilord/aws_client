@@ -34,7 +34,6 @@ class Finspace {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'finspace',
-            signingName: 'finspace',
           ),
           region: region,
           credentials: credentials,
@@ -53,12 +52,12 @@ class Finspace {
 
   /// Create a new FinSpace environment.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [ServiceQuotaExceededException].
+  /// May throw [InternalServerException].
   /// May throw [LimitExceededException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [name] :
   /// The name of the FinSpace environment to be created.
@@ -108,7 +107,6 @@ class Finspace {
   ///
   /// Parameter [tags] :
   /// Add tags to your FinSpace environment.
-  @Deprecated('This method will be discontinued.')
   Future<CreateEnvironmentResponse> createEnvironment({
     required String name,
     List<String>? dataBundles,
@@ -143,13 +141,13 @@ class Finspace {
   /// Creates a changeset for a kdb database. A changeset allows you to add and
   /// delete existing files by using an ordered list of change requests.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [changeRequests] :
   /// A list of change request objects that are run in order. A change request
@@ -239,14 +237,13 @@ class Finspace {
 
   /// Creates a new kdb cluster.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [LimitExceededException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [azMode] :
   /// The number of availability zones you want to assign per cluster. This can
@@ -444,14 +441,14 @@ class Finspace {
 
   /// Creates a new kdb database in the environment.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [LimitExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [databaseName] :
   /// The name of the kdb database.
@@ -496,14 +493,14 @@ class Finspace {
   /// available for clusters running on a scaling group. They are not supported
   /// on dedicated clusters.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [LimitExceededException].
   /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [azMode] :
   /// The number of availability zones you want to assign per volume. Currently,
@@ -540,7 +537,7 @@ class Finspace {
   /// Parameter [readWrite] :
   /// The option to specify whether you want to make the dataview writable to
   /// perform database maintenance. The following are some considerations
-  /// related to writable dataviews.&#x2028;&#x2028;
+  /// related to writable dataviews.
   ///
   /// <ul>
   /// <li>
@@ -613,13 +610,13 @@ class Finspace {
 
   /// Creates a managed kdb environment for the account.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [LimitExceededException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [LimitExceededException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [kmsKeyId] :
   /// The KMS key ID to encrypt your data in the FinSpace environment.
@@ -661,14 +658,13 @@ class Finspace {
 
   /// Creates a new scaling group.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [LimitExceededException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [availabilityZoneId] :
   /// The identifier of the availability zones.
@@ -758,14 +754,14 @@ class Finspace {
 
   /// Creates a user in FinSpace kdb environment with an associated IAM role.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
-  /// May throw [ResourceAlreadyExistsException].
-  /// May throw [LimitExceededException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [environmentId] :
   /// A unique identifier for the kdb environment where you want to create a
@@ -809,15 +805,14 @@ class Finspace {
   /// Creates a new volume with a specific amount of throughput and storage
   /// capacity.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [LimitExceededException].
   /// May throw [ConflictException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceAlreadyExistsException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [availabilityZoneIds] :
   /// The identifier of the availability zones.
@@ -886,15 +881,14 @@ class Finspace {
 
   /// Delete an FinSpace environment.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [environmentId] :
   /// The identifier for the FinSpace environment.
-  @Deprecated('This method will be discontinued.')
   Future<void> deleteEnvironment({
     required String environmentId,
   }) async {
@@ -908,13 +902,13 @@ class Finspace {
 
   /// Deletes a kdb cluster.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [LimitExceededException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [clusterName] :
   /// The name of the cluster that you want to delete.
@@ -944,11 +938,11 @@ class Finspace {
 
   /// Deletes the specified nodes from a cluster.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [clusterName] :
   /// The name of the cluster, for which you want to delete the nodes.
@@ -976,12 +970,12 @@ class Finspace {
   /// is irreversible. You must copy any data out of the database before
   /// deleting it if the data is to be retained.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [databaseName] :
   /// The name of the kdb database that you want to delete.
@@ -1012,12 +1006,12 @@ class Finspace {
   /// Deletes the specified dataview. Before deleting a dataview, make sure that
   /// it is not in use by any cluster.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [databaseName] :
   /// The name of the database whose dataview you want to delete.
@@ -1054,12 +1048,12 @@ class Finspace {
   /// environment will remove all the associated data and any services running
   /// in it.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [environmentId] :
   /// A unique identifier for the kdb environment.
@@ -1086,13 +1080,13 @@ class Finspace {
   /// cannot delete a scaling group until all the clusters running on it have
   /// been deleted.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [LimitExceededException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [environmentId] :
   /// A unique identifier for the kdb environment, from where you want to delete
@@ -1123,12 +1117,12 @@ class Finspace {
 
   /// Deletes a user in the specified kdb environment.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [environmentId] :
   /// A unique identifier for the kdb environment.
@@ -1160,13 +1154,13 @@ class Finspace {
   /// cluster or a dataview. When a volume is deleted, any data on the volume is
   /// lost. This action is irreversible.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [LimitExceededException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [environmentId] :
   /// A unique identifier for the kdb environment, whose clusters can attach to
@@ -1197,14 +1191,13 @@ class Finspace {
 
   /// Returns the FinSpace environment object.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [environmentId] :
   /// The identifier of the FinSpace environment.
-  @Deprecated('This method will be discontinued.')
   Future<GetEnvironmentResponse> getEnvironment({
     required String environmentId,
   }) async {
@@ -1219,11 +1212,11 @@ class Finspace {
 
   /// Returns information about a kdb changeset.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [changesetId] :
   /// A unique identifier of the changeset for which you want to retrieve data.
@@ -1250,13 +1243,13 @@ class Finspace {
 
   /// Retrieves information about a kdb cluster.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [LimitExceededException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [clusterName] :
   /// The name of the cluster that you want to retrieve.
@@ -1281,10 +1274,10 @@ class Finspace {
   /// must call this API using the same role that you have defined while
   /// creating a user.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [clusterName] :
@@ -1320,11 +1313,11 @@ class Finspace {
 
   /// Returns database information for the specified environment ID.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [databaseName] :
   /// The name of the kdb database.
@@ -1347,11 +1340,11 @@ class Finspace {
 
   /// Retrieves details of the dataview.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [databaseName] :
   /// The name of the database where you created the dataview.
@@ -1379,11 +1372,11 @@ class Finspace {
 
   /// Retrieves all the information for the specified kdb environment.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [environmentId] :
   /// A unique identifier for the kdb environment.
@@ -1401,13 +1394,13 @@ class Finspace {
 
   /// Retrieves details of a scaling group.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [LimitExceededException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [environmentId] :
   /// A unique identifier for the kdb environment.
@@ -1430,10 +1423,10 @@ class Finspace {
 
   /// Retrieves information about the specified kdb user.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [environmentId] :
@@ -1457,13 +1450,13 @@ class Finspace {
 
   /// Retrieves the information about the volume.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [LimitExceededException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [environmentId] :
   /// A unique identifier for the kdb environment, whose clusters can attach to
@@ -1487,9 +1480,9 @@ class Finspace {
 
   /// A list of all of your FinSpace environments.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return in this request.
@@ -1499,7 +1492,6 @@ class Finspace {
   /// if a previous request was truncated. To get the next set of pages, pass in
   /// the <code>nextToken</code>nextToken value from the response object of the
   /// previous page call.
-  @Deprecated('This method will be discontinued.')
   Future<ListEnvironmentsResponse> listEnvironments({
     int? maxResults,
     String? nextToken,
@@ -1526,11 +1518,11 @@ class Finspace {
 
   /// Returns a list of all the changesets for a database.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [databaseName] :
   /// The name of the kdb database.
@@ -1572,12 +1564,12 @@ class Finspace {
 
   /// Lists all the nodes in a kdb cluster.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [LimitExceededException].
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [clusterName] :
   /// A unique name for the cluster.
@@ -1619,13 +1611,13 @@ class Finspace {
 
   /// Returns a list of clusters.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [LimitExceededException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [environmentId] :
   /// A unique identifier for the kdb environment.
@@ -1706,11 +1698,11 @@ class Finspace {
 
   /// Returns a list of all the databases in the kdb environment.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [environmentId] :
   /// A unique identifier for the kdb environment.
@@ -1748,11 +1740,11 @@ class Finspace {
 
   /// Returns a list of all the dataviews in the database.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [databaseName] :
   /// The name of the database where the dataviews were created.
@@ -1795,8 +1787,8 @@ class Finspace {
 
   /// Returns a list of kdb environments created in an account.
   ///
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
@@ -1824,13 +1816,13 @@ class Finspace {
 
   /// Returns a list of scaling groups in a kdb environment.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [LimitExceededException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [environmentId] :
   /// A unique identifier for the kdb environment, for which you want to
@@ -1869,10 +1861,10 @@ class Finspace {
 
   /// Lists all the users in a kdb environment.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [environmentId] :
@@ -1911,13 +1903,13 @@ class Finspace {
 
   /// Lists all the volumes in a kdb environment.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [LimitExceededException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [environmentId] :
   /// A unique identifier for the kdb environment, whose clusters can attach to
@@ -2036,9 +2028,9 @@ class Finspace {
 
   /// Update your FinSpace environment.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
@@ -2064,7 +2056,6 @@ class Finspace {
   ///
   /// Parameter [name] :
   /// The name of the environment.
-  @Deprecated('This method will be discontinued.')
   Future<UpdateEnvironmentResponse> updateEnvironment({
     required String environmentId,
     String? description,
@@ -2093,13 +2084,13 @@ class Finspace {
   /// command line arguments for a specific cluster. The configuration that you
   /// want to update will override any existing configurations on the cluster.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [LimitExceededException].
-  /// May throw [ValidationException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [clusterName] :
   /// The name of the cluster.
@@ -2162,13 +2153,13 @@ class Finspace {
   /// Using this API you can point a cluster to a different changeset and modify
   /// a list of partitions being cached.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [LimitExceededException].
-  /// May throw [ValidationException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [clusterName] :
   /// A unique name for the cluster that you want to modify.
@@ -2209,12 +2200,12 @@ class Finspace {
 
   /// Updates information for the given kdb database.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [databaseName] :
   /// The name of the kdb database.
@@ -2251,13 +2242,13 @@ class Finspace {
   /// when any new changesets are ingested. Each update of the dataview creates
   /// a new version, including changeset details and cache configurations
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [databaseName] :
   /// The name of the database.
@@ -2312,12 +2303,12 @@ class Finspace {
 
   /// Updates information for the given kdb environment.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [environmentId] :
   /// A unique identifier for the kdb environment.
@@ -2359,12 +2350,12 @@ class Finspace {
   /// Network update might require termination of any clusters that are running
   /// in the existing network.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [environmentId] :
   /// A unique identifier for the kdb environment.
@@ -2405,13 +2396,13 @@ class Finspace {
   /// Updates the user details. You can only update the IAM role associated with
   /// a user.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [environmentId] :
   /// A unique identifier for the kdb environment.
@@ -2448,13 +2439,13 @@ class Finspace {
   /// the filesystem might be unavailable for a few minutes. You can retry any
   /// operations after the update is complete.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [LimitExceededException].
-  /// May throw [ValidationException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [environmentId] :
   /// A unique identifier for the kdb environment where you created the storage
@@ -2492,305 +2483,6 @@ class Finspace {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateKxVolumeResponse.fromJson(response);
-  }
-}
-
-/// The configuration based on which FinSpace will scale in or scale out nodes
-/// in your cluster.
-class AutoScalingConfiguration {
-  /// The metric your cluster will track in order to scale in and out. For
-  /// example, <code>CPU_UTILIZATION_PERCENTAGE</code> is the average CPU usage
-  /// across all the nodes in a cluster.
-  final AutoScalingMetric? autoScalingMetric;
-
-  /// The highest number of nodes to scale. This value cannot be greater than 5.
-  final int? maxNodeCount;
-
-  /// The desired value of the chosen <code>autoScalingMetric</code>. When the
-  /// metric drops below this value, the cluster will scale in. When the metric
-  /// goes above this value, the cluster will scale out. You can set the target
-  /// value between 1 and 100 percent.
-  final double? metricTarget;
-
-  /// The lowest number of nodes to scale. This value must be at least 1 and less
-  /// than the <code>maxNodeCount</code>. If the nodes in a cluster belong to
-  /// multiple availability zones, then <code>minNodeCount</code> must be at least
-  /// 3.
-  final int? minNodeCount;
-
-  /// The duration in seconds that FinSpace will wait after a scale in event
-  /// before initiating another scaling event.
-  final double? scaleInCooldownSeconds;
-
-  /// The duration in seconds that FinSpace will wait after a scale out event
-  /// before initiating another scaling event.
-  final double? scaleOutCooldownSeconds;
-
-  AutoScalingConfiguration({
-    this.autoScalingMetric,
-    this.maxNodeCount,
-    this.metricTarget,
-    this.minNodeCount,
-    this.scaleInCooldownSeconds,
-    this.scaleOutCooldownSeconds,
-  });
-
-  factory AutoScalingConfiguration.fromJson(Map<String, dynamic> json) {
-    return AutoScalingConfiguration(
-      autoScalingMetric: (json['autoScalingMetric'] as String?)
-          ?.let(AutoScalingMetric.fromString),
-      maxNodeCount: json['maxNodeCount'] as int?,
-      metricTarget: json['metricTarget'] as double?,
-      minNodeCount: json['minNodeCount'] as int?,
-      scaleInCooldownSeconds: json['scaleInCooldownSeconds'] as double?,
-      scaleOutCooldownSeconds: json['scaleOutCooldownSeconds'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final autoScalingMetric = this.autoScalingMetric;
-    final maxNodeCount = this.maxNodeCount;
-    final metricTarget = this.metricTarget;
-    final minNodeCount = this.minNodeCount;
-    final scaleInCooldownSeconds = this.scaleInCooldownSeconds;
-    final scaleOutCooldownSeconds = this.scaleOutCooldownSeconds;
-    return {
-      if (autoScalingMetric != null)
-        'autoScalingMetric': autoScalingMetric.value,
-      if (maxNodeCount != null) 'maxNodeCount': maxNodeCount,
-      if (metricTarget != null) 'metricTarget': metricTarget,
-      if (minNodeCount != null) 'minNodeCount': minNodeCount,
-      if (scaleInCooldownSeconds != null)
-        'scaleInCooldownSeconds': scaleInCooldownSeconds,
-      if (scaleOutCooldownSeconds != null)
-        'scaleOutCooldownSeconds': scaleOutCooldownSeconds,
-    };
-  }
-}
-
-class AutoScalingMetric {
-  static const cpuUtilizationPercentage =
-      AutoScalingMetric._('CPU_UTILIZATION_PERCENTAGE');
-
-  final String value;
-
-  const AutoScalingMetric._(this.value);
-
-  static const values = [cpuUtilizationPercentage];
-
-  static AutoScalingMetric fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AutoScalingMetric._(value));
-
-  @override
-  bool operator ==(other) => other is AutoScalingMetric && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A structure for the metadata of a cluster. It includes information like the
-/// CPUs needed, memory of instances, and number of instances.
-class CapacityConfiguration {
-  /// The number of instances running in a cluster.
-  final int? nodeCount;
-
-  /// The type that determines the hardware of the host computer used for your
-  /// cluster instance. Each node type offers different memory and storage
-  /// capabilities. Choose a node type based on the requirements of the
-  /// application or software that you plan to run on your instance.
-  ///
-  /// You can only specify one of the following values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>kx.s.large</code> – The node type with a configuration of 12 GiB
-  /// memory and 2 vCPUs.
-  /// </li>
-  /// <li>
-  /// <code>kx.s.xlarge</code> – The node type with a configuration of 27 GiB
-  /// memory and 4 vCPUs.
-  /// </li>
-  /// <li>
-  /// <code>kx.s.2xlarge</code> – The node type with a configuration of 54 GiB
-  /// memory and 8 vCPUs.
-  /// </li>
-  /// <li>
-  /// <code>kx.s.4xlarge</code> – The node type with a configuration of 108 GiB
-  /// memory and 16 vCPUs.
-  /// </li>
-  /// <li>
-  /// <code>kx.s.8xlarge</code> – The node type with a configuration of 216 GiB
-  /// memory and 32 vCPUs.
-  /// </li>
-  /// <li>
-  /// <code>kx.s.16xlarge</code> – The node type with a configuration of 432 GiB
-  /// memory and 64 vCPUs.
-  /// </li>
-  /// <li>
-  /// <code>kx.s.32xlarge</code> – The node type with a configuration of 864 GiB
-  /// memory and 128 vCPUs.
-  /// </li>
-  /// </ul>
-  final String? nodeType;
-
-  CapacityConfiguration({
-    this.nodeCount,
-    this.nodeType,
-  });
-
-  factory CapacityConfiguration.fromJson(Map<String, dynamic> json) {
-    return CapacityConfiguration(
-      nodeCount: json['nodeCount'] as int?,
-      nodeType: json['nodeType'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nodeCount = this.nodeCount;
-    final nodeType = this.nodeType;
-    return {
-      if (nodeCount != null) 'nodeCount': nodeCount,
-      if (nodeType != null) 'nodeType': nodeType,
-    };
-  }
-}
-
-/// A list of change request objects.
-class ChangeRequest {
-  /// Defines the type of change request. A <code>changeType</code> can have the
-  /// following values:
-  ///
-  /// <ul>
-  /// <li>
-  /// PUT – Adds or updates files in a database.
-  /// </li>
-  /// <li>
-  /// DELETE – Deletes files in a database.
-  /// </li>
-  /// </ul>
-  final ChangeType changeType;
-
-  /// Defines the path within the database directory.
-  final String dbPath;
-
-  /// Defines the S3 path of the source file that is required to add or update
-  /// files in a database.
-  final String? s3Path;
-
-  ChangeRequest({
-    required this.changeType,
-    required this.dbPath,
-    this.s3Path,
-  });
-
-  factory ChangeRequest.fromJson(Map<String, dynamic> json) {
-    return ChangeRequest(
-      changeType: ChangeType.fromString((json['changeType'] as String?) ?? ''),
-      dbPath: (json['dbPath'] as String?) ?? '',
-      s3Path: json['s3Path'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final changeType = this.changeType;
-    final dbPath = this.dbPath;
-    final s3Path = this.s3Path;
-    return {
-      'changeType': changeType.value,
-      'dbPath': dbPath,
-      if (s3Path != null) 's3Path': s3Path,
-    };
-  }
-}
-
-class ChangeType {
-  static const put = ChangeType._('PUT');
-  static const delete = ChangeType._('DELETE');
-
-  final String value;
-
-  const ChangeType._(this.value);
-
-  static const values = [put, delete];
-
-  static ChangeType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ChangeType._(value));
-
-  @override
-  bool operator ==(other) => other is ChangeType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ChangesetStatus {
-  static const pending = ChangesetStatus._('PENDING');
-  static const processing = ChangesetStatus._('PROCESSING');
-  static const failed = ChangesetStatus._('FAILED');
-  static const completed = ChangesetStatus._('COMPLETED');
-
-  final String value;
-
-  const ChangesetStatus._(this.value);
-
-  static const values = [pending, processing, failed, completed];
-
-  static ChangesetStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ChangesetStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ChangesetStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The structure of the customer code available within the running cluster.
-class CodeConfiguration {
-  /// A unique name for the S3 bucket.
-  final String? s3Bucket;
-
-  /// The full S3 path (excluding bucket) to the .zip file. This file contains the
-  /// code that is loaded onto the cluster when it's started.
-  final String? s3Key;
-
-  /// The version of an S3 object.
-  final String? s3ObjectVersion;
-
-  CodeConfiguration({
-    this.s3Bucket,
-    this.s3Key,
-    this.s3ObjectVersion,
-  });
-
-  factory CodeConfiguration.fromJson(Map<String, dynamic> json) {
-    return CodeConfiguration(
-      s3Bucket: json['s3Bucket'] as String?,
-      s3Key: json['s3Key'] as String?,
-      s3ObjectVersion: json['s3ObjectVersion'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final s3Bucket = this.s3Bucket;
-    final s3Key = this.s3Key;
-    final s3ObjectVersion = this.s3ObjectVersion;
-    return {
-      if (s3Bucket != null) 's3Bucket': s3Bucket,
-      if (s3Key != null) 's3Key': s3Key,
-      if (s3ObjectVersion != null) 's3ObjectVersion': s3ObjectVersion,
-    };
   }
 }
 
@@ -3797,37 +3489,6 @@ class CreateKxVolumeResponse {
   }
 }
 
-/// A list of DNS server name and server IP. This is used to set up Route-53
-/// outbound resolvers.
-class CustomDNSServer {
-  /// The IP address of the DNS server.
-  final String customDNSServerIP;
-
-  /// The name of the DNS server.
-  final String customDNSServerName;
-
-  CustomDNSServer({
-    required this.customDNSServerIP,
-    required this.customDNSServerName,
-  });
-
-  factory CustomDNSServer.fromJson(Map<String, dynamic> json) {
-    return CustomDNSServer(
-      customDNSServerIP: (json['customDNSServerIP'] as String?) ?? '',
-      customDNSServerName: (json['customDNSServerName'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final customDNSServerIP = this.customDNSServerIP;
-    final customDNSServerName = this.customDNSServerName;
-    return {
-      'customDNSServerIP': customDNSServerIP,
-      'customDNSServerName': customDNSServerName,
-    };
-  }
-}
-
 class DeleteEnvironmentResponse {
   DeleteEnvironmentResponse();
 
@@ -3840,11 +3501,11 @@ class DeleteEnvironmentResponse {
   }
 }
 
-class DeleteKxClusterNodeResponse {
-  DeleteKxClusterNodeResponse();
+class DeleteKxClusterResponse {
+  DeleteKxClusterResponse();
 
-  factory DeleteKxClusterNodeResponse.fromJson(Map<String, dynamic> _) {
-    return DeleteKxClusterNodeResponse();
+  factory DeleteKxClusterResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteKxClusterResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -3852,11 +3513,11 @@ class DeleteKxClusterNodeResponse {
   }
 }
 
-class DeleteKxClusterResponse {
-  DeleteKxClusterResponse();
+class DeleteKxClusterNodeResponse {
+  DeleteKxClusterNodeResponse();
 
-  factory DeleteKxClusterResponse.fromJson(Map<String, dynamic> _) {
-    return DeleteKxClusterResponse();
+  factory DeleteKxClusterNodeResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteKxClusterNodeResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -3933,337 +3594,6 @@ class DeleteKxVolumeResponse {
 
   Map<String, dynamic> toJson() {
     return {};
-  }
-}
-
-/// Represents an FinSpace environment.
-class Environment {
-  /// The ID of the AWS account in which the FinSpace environment is created.
-  final String? awsAccountId;
-
-  /// The AWS account ID of the dedicated service account associated with your
-  /// FinSpace environment.
-  final String? dedicatedServiceAccountId;
-
-  /// The description of the FinSpace environment.
-  final String? description;
-
-  /// The Amazon Resource Name (ARN) of your FinSpace environment.
-  final String? environmentArn;
-
-  /// The identifier of the FinSpace environment.
-  final String? environmentId;
-
-  /// The sign-in URL for the web application of your FinSpace environment.
-  final String? environmentUrl;
-
-  /// The authentication mode for the environment.
-  final FederationMode? federationMode;
-
-  /// Configuration information when authentication mode is FEDERATED.
-  final FederationParameters? federationParameters;
-
-  /// The KMS key id used to encrypt in the FinSpace environment.
-  final String? kmsKeyId;
-
-  /// The name of the FinSpace environment.
-  final String? name;
-
-  /// The URL of the integrated FinSpace notebook environment in your web
-  /// application.
-  final String? sageMakerStudioDomainUrl;
-
-  /// The current status of creation of the FinSpace environment.
-  final EnvironmentStatus? status;
-
-  Environment({
-    this.awsAccountId,
-    this.dedicatedServiceAccountId,
-    this.description,
-    this.environmentArn,
-    this.environmentId,
-    this.environmentUrl,
-    this.federationMode,
-    this.federationParameters,
-    this.kmsKeyId,
-    this.name,
-    this.sageMakerStudioDomainUrl,
-    this.status,
-  });
-
-  factory Environment.fromJson(Map<String, dynamic> json) {
-    return Environment(
-      awsAccountId: json['awsAccountId'] as String?,
-      dedicatedServiceAccountId: json['dedicatedServiceAccountId'] as String?,
-      description: json['description'] as String?,
-      environmentArn: json['environmentArn'] as String?,
-      environmentId: json['environmentId'] as String?,
-      environmentUrl: json['environmentUrl'] as String?,
-      federationMode:
-          (json['federationMode'] as String?)?.let(FederationMode.fromString),
-      federationParameters: json['federationParameters'] != null
-          ? FederationParameters.fromJson(
-              json['federationParameters'] as Map<String, dynamic>)
-          : null,
-      kmsKeyId: json['kmsKeyId'] as String?,
-      name: json['name'] as String?,
-      sageMakerStudioDomainUrl: json['sageMakerStudioDomainUrl'] as String?,
-      status: (json['status'] as String?)?.let(EnvironmentStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final awsAccountId = this.awsAccountId;
-    final dedicatedServiceAccountId = this.dedicatedServiceAccountId;
-    final description = this.description;
-    final environmentArn = this.environmentArn;
-    final environmentId = this.environmentId;
-    final environmentUrl = this.environmentUrl;
-    final federationMode = this.federationMode;
-    final federationParameters = this.federationParameters;
-    final kmsKeyId = this.kmsKeyId;
-    final name = this.name;
-    final sageMakerStudioDomainUrl = this.sageMakerStudioDomainUrl;
-    final status = this.status;
-    return {
-      if (awsAccountId != null) 'awsAccountId': awsAccountId,
-      if (dedicatedServiceAccountId != null)
-        'dedicatedServiceAccountId': dedicatedServiceAccountId,
-      if (description != null) 'description': description,
-      if (environmentArn != null) 'environmentArn': environmentArn,
-      if (environmentId != null) 'environmentId': environmentId,
-      if (environmentUrl != null) 'environmentUrl': environmentUrl,
-      if (federationMode != null) 'federationMode': federationMode.value,
-      if (federationParameters != null)
-        'federationParameters': federationParameters,
-      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
-      if (name != null) 'name': name,
-      if (sageMakerStudioDomainUrl != null)
-        'sageMakerStudioDomainUrl': sageMakerStudioDomainUrl,
-      if (status != null) 'status': status.value,
-    };
-  }
-}
-
-class EnvironmentStatus {
-  static const createRequested = EnvironmentStatus._('CREATE_REQUESTED');
-  static const creating = EnvironmentStatus._('CREATING');
-  static const created = EnvironmentStatus._('CREATED');
-  static const deleteRequested = EnvironmentStatus._('DELETE_REQUESTED');
-  static const deleting = EnvironmentStatus._('DELETING');
-  static const deleted = EnvironmentStatus._('DELETED');
-  static const failedCreation = EnvironmentStatus._('FAILED_CREATION');
-  static const retryDeletion = EnvironmentStatus._('RETRY_DELETION');
-  static const failedDeletion = EnvironmentStatus._('FAILED_DELETION');
-  static const updateNetworkRequested =
-      EnvironmentStatus._('UPDATE_NETWORK_REQUESTED');
-  static const updatingNetwork = EnvironmentStatus._('UPDATING_NETWORK');
-  static const failedUpdatingNetwork =
-      EnvironmentStatus._('FAILED_UPDATING_NETWORK');
-  static const suspended = EnvironmentStatus._('SUSPENDED');
-
-  final String value;
-
-  const EnvironmentStatus._(this.value);
-
-  static const values = [
-    createRequested,
-    creating,
-    created,
-    deleteRequested,
-    deleting,
-    deleted,
-    failedCreation,
-    retryDeletion,
-    failedDeletion,
-    updateNetworkRequested,
-    updatingNetwork,
-    failedUpdatingNetwork,
-    suspended
-  ];
-
-  static EnvironmentStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EnvironmentStatus._(value));
-
-  @override
-  bool operator ==(other) => other is EnvironmentStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ErrorDetails {
-  static const theInputsToThisRequestAreInvalid =
-      ErrorDetails._('The inputs to this request are invalid.');
-  static const serviceLimitsHaveBeenExceeded =
-      ErrorDetails._('Service limits have been exceeded.');
-  static const missingRequiredPermissionToPerformThisRequest =
-      ErrorDetails._('Missing required permission to perform this request.');
-  static const oneOrMoreInputsToThisRequestWereNotFound =
-      ErrorDetails._('One or more inputs to this request were not found.');
-  static const theSystemTemporarilyLacksSufficientResourcesToProcessTheRequest =
-      ErrorDetails._(
-          'The system temporarily lacks sufficient resources to process the request.');
-  static const anInternalErrorHasOccurred =
-      ErrorDetails._('An internal error has occurred.');
-  static const cancelled = ErrorDetails._('Cancelled');
-  static const aUserRecoverableErrorHasOccurred =
-      ErrorDetails._('A user recoverable error has occurred');
-
-  final String value;
-
-  const ErrorDetails._(this.value);
-
-  static const values = [
-    theInputsToThisRequestAreInvalid,
-    serviceLimitsHaveBeenExceeded,
-    missingRequiredPermissionToPerformThisRequest,
-    oneOrMoreInputsToThisRequestWereNotFound,
-    theSystemTemporarilyLacksSufficientResourcesToProcessTheRequest,
-    anInternalErrorHasOccurred,
-    cancelled,
-    aUserRecoverableErrorHasOccurred
-  ];
-
-  static ErrorDetails fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ErrorDetails._(value));
-
-  @override
-  bool operator ==(other) => other is ErrorDetails && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides details in the event of a failed flow, including the error type and
-/// the related error message.
-class ErrorInfo {
-  /// Specifies the error message that appears if a flow fails.
-  final String? errorMessage;
-
-  /// Specifies the type of error.
-  final ErrorDetails? errorType;
-
-  ErrorInfo({
-    this.errorMessage,
-    this.errorType,
-  });
-
-  factory ErrorInfo.fromJson(Map<String, dynamic> json) {
-    return ErrorInfo(
-      errorMessage: json['errorMessage'] as String?,
-      errorType: (json['errorType'] as String?)?.let(ErrorDetails.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorMessage = this.errorMessage;
-    final errorType = this.errorType;
-    return {
-      if (errorMessage != null) 'errorMessage': errorMessage,
-      if (errorType != null) 'errorType': errorType.value,
-    };
-  }
-}
-
-class FederationMode {
-  static const federated = FederationMode._('FEDERATED');
-  static const local = FederationMode._('LOCAL');
-
-  final String value;
-
-  const FederationMode._(this.value);
-
-  static const values = [federated, local];
-
-  static FederationMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FederationMode._(value));
-
-  @override
-  bool operator ==(other) => other is FederationMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Configuration information when authentication mode is FEDERATED.
-class FederationParameters {
-  /// The redirect or sign-in URL that should be entered into the SAML 2.0
-  /// compliant identity provider configuration (IdP).
-  final String? applicationCallBackURL;
-
-  /// SAML attribute name and value. The name must always be <code>Email</code>
-  /// and the value should be set to the attribute definition in which user email
-  /// is set. For example, name would be <code>Email</code> and value
-  /// <code>http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress</code>.
-  /// Please check your SAML 2.0 compliant identity provider (IdP) documentation
-  /// for details.
-  final Map<String, String>? attributeMap;
-
-  /// Name of the identity provider (IdP).
-  final String? federationProviderName;
-
-  /// The Uniform Resource Name (URN). Also referred as Service Provider URN or
-  /// Audience URI or Service Provider Entity ID.
-  final String? federationURN;
-
-  /// SAML 2.0 Metadata document from identity provider (IdP).
-  final String? samlMetadataDocument;
-
-  /// Provide the metadata URL from your SAML 2.0 compliant identity provider
-  /// (IdP).
-  final String? samlMetadataURL;
-
-  FederationParameters({
-    this.applicationCallBackURL,
-    this.attributeMap,
-    this.federationProviderName,
-    this.federationURN,
-    this.samlMetadataDocument,
-    this.samlMetadataURL,
-  });
-
-  factory FederationParameters.fromJson(Map<String, dynamic> json) {
-    return FederationParameters(
-      applicationCallBackURL: json['applicationCallBackURL'] as String?,
-      attributeMap: (json['attributeMap'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      federationProviderName: json['federationProviderName'] as String?,
-      federationURN: json['federationURN'] as String?,
-      samlMetadataDocument: json['samlMetadataDocument'] as String?,
-      samlMetadataURL: json['samlMetadataURL'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final applicationCallBackURL = this.applicationCallBackURL;
-    final attributeMap = this.attributeMap;
-    final federationProviderName = this.federationProviderName;
-    final federationURN = this.federationURN;
-    final samlMetadataDocument = this.samlMetadataDocument;
-    final samlMetadataURL = this.samlMetadataURL;
-    return {
-      if (applicationCallBackURL != null)
-        'applicationCallBackURL': applicationCallBackURL,
-      if (attributeMap != null) 'attributeMap': attributeMap,
-      if (federationProviderName != null)
-        'federationProviderName': federationProviderName,
-      if (federationURN != null) 'federationURN': federationURN,
-      if (samlMetadataDocument != null)
-        'samlMetadataDocument': samlMetadataDocument,
-      if (samlMetadataURL != null) 'samlMetadataURL': samlMetadataURL,
-    };
   }
 }
 
@@ -5493,2037 +4823,6 @@ class GetKxVolumeResponse {
   }
 }
 
-class IPAddressType {
-  static const ipV4 = IPAddressType._('IP_V4');
-
-  final String value;
-
-  const IPAddressType._(this.value);
-
-  static const values = [ipV4];
-
-  static IPAddressType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => IPAddressType._(value));
-
-  @override
-  bool operator ==(other) => other is IPAddressType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Defines the ICMP protocol that consists of the ICMP type and code.
-class IcmpTypeCode {
-  /// The ICMP code. A value of <i>-1</i> means all codes for the specified ICMP
-  /// type.
-  final int code;
-
-  /// The ICMP type. A value of <i>-1</i> means all types.
-  final int type;
-
-  IcmpTypeCode({
-    required this.code,
-    required this.type,
-  });
-
-  factory IcmpTypeCode.fromJson(Map<String, dynamic> json) {
-    return IcmpTypeCode(
-      code: (json['code'] as int?) ?? 0,
-      type: (json['type'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final type = this.type;
-    return {
-      'code': code,
-      'type': type,
-    };
-  }
-}
-
-/// The structure containing the metadata of the attached clusters.
-class KxAttachedCluster {
-  /// A unique name for the attached cluster.
-  final String? clusterName;
-
-  /// The status of the attached cluster.
-  ///
-  /// <ul>
-  /// <li>
-  /// PENDING – The cluster is pending creation.
-  /// </li>
-  /// <li>
-  /// CREATING – The cluster creation process is in progress.
-  /// </li>
-  /// <li>
-  /// CREATE_FAILED – The cluster creation process has failed.
-  /// </li>
-  /// <li>
-  /// RUNNING – The cluster creation process is running.
-  /// </li>
-  /// <li>
-  /// UPDATING – The cluster is in the process of being updated.
-  /// </li>
-  /// <li>
-  /// DELETING – The cluster is in the process of being deleted.
-  /// </li>
-  /// <li>
-  /// DELETED – The cluster has been deleted.
-  /// </li>
-  /// <li>
-  /// DELETE_FAILED – The cluster failed to delete.
-  /// </li>
-  /// </ul>
-  final KxClusterStatus? clusterStatus;
-
-  /// Specifies the type of cluster. The volume for TP and RDB cluster types will
-  /// be used for TP logs.
-  final KxClusterType? clusterType;
-
-  KxAttachedCluster({
-    this.clusterName,
-    this.clusterStatus,
-    this.clusterType,
-  });
-
-  factory KxAttachedCluster.fromJson(Map<String, dynamic> json) {
-    return KxAttachedCluster(
-      clusterName: json['clusterName'] as String?,
-      clusterStatus:
-          (json['clusterStatus'] as String?)?.let(KxClusterStatus.fromString),
-      clusterType:
-          (json['clusterType'] as String?)?.let(KxClusterType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clusterName = this.clusterName;
-    final clusterStatus = this.clusterStatus;
-    final clusterType = this.clusterType;
-    return {
-      if (clusterName != null) 'clusterName': clusterName,
-      if (clusterStatus != null) 'clusterStatus': clusterStatus.value,
-      if (clusterType != null) 'clusterType': clusterType.value,
-    };
-  }
-}
-
-class KxAzMode {
-  static const single = KxAzMode._('SINGLE');
-  static const multi = KxAzMode._('MULTI');
-
-  final String value;
-
-  const KxAzMode._(this.value);
-
-  static const values = [single, multi];
-
-  static KxAzMode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => KxAzMode._(value));
-
-  @override
-  bool operator ==(other) => other is KxAzMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The configuration for read only disk cache associated with a cluster.
-class KxCacheStorageConfiguration {
-  /// The size of cache in Gigabytes.
-  final int size;
-
-  /// The type of cache storage. The valid values are:
-  ///
-  /// <ul>
-  /// <li>
-  /// CACHE_1000 – This type provides at least 1000 MB/s disk access throughput.
-  /// </li>
-  /// <li>
-  /// CACHE_250 – This type provides at least 250 MB/s disk access throughput.
-  /// </li>
-  /// <li>
-  /// CACHE_12 – This type provides at least 12 MB/s disk access throughput.
-  /// </li>
-  /// </ul>
-  /// For cache type <code>CACHE_1000</code> and <code>CACHE_250</code> you can
-  /// select cache size as 1200 GB or increments of 2400 GB. For cache type
-  /// <code>CACHE_12</code> you can select the cache size in increments of 6000
-  /// GB.
-  final String type;
-
-  KxCacheStorageConfiguration({
-    required this.size,
-    required this.type,
-  });
-
-  factory KxCacheStorageConfiguration.fromJson(Map<String, dynamic> json) {
-    return KxCacheStorageConfiguration(
-      size: (json['size'] as int?) ?? 0,
-      type: (json['type'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final size = this.size;
-    final type = this.type;
-    return {
-      'size': size,
-      'type': type,
-    };
-  }
-}
-
-/// Details of changeset.
-class KxChangesetListEntry {
-  /// Beginning time from which the changeset is active. The value is determined
-  /// as epoch time in milliseconds. For example, the value for Monday, November
-  /// 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-  final DateTime? activeFromTimestamp;
-
-  /// A unique identifier for the changeset.
-  final String? changesetId;
-
-  /// The timestamp at which the changeset was created in FinSpace. The value is
-  /// determined as epoch time in milliseconds. For example, the value for Monday,
-  /// November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-  final DateTime? createdTimestamp;
-
-  /// The timestamp at which the changeset was modified. The value is determined
-  /// as epoch time in milliseconds. For example, the value for Monday, November
-  /// 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-  final DateTime? lastModifiedTimestamp;
-
-  /// Status of the changeset.
-  ///
-  /// <ul>
-  /// <li>
-  /// Pending – Changeset creation is pending.
-  /// </li>
-  /// <li>
-  /// Processing – Changeset creation is running.
-  /// </li>
-  /// <li>
-  /// Failed – Changeset creation has failed.
-  /// </li>
-  /// <li>
-  /// Complete – Changeset creation has succeeded.
-  /// </li>
-  /// </ul>
-  final ChangesetStatus? status;
-
-  KxChangesetListEntry({
-    this.activeFromTimestamp,
-    this.changesetId,
-    this.createdTimestamp,
-    this.lastModifiedTimestamp,
-    this.status,
-  });
-
-  factory KxChangesetListEntry.fromJson(Map<String, dynamic> json) {
-    return KxChangesetListEntry(
-      activeFromTimestamp: timeStampFromJson(json['activeFromTimestamp']),
-      changesetId: json['changesetId'] as String?,
-      createdTimestamp: timeStampFromJson(json['createdTimestamp']),
-      lastModifiedTimestamp: timeStampFromJson(json['lastModifiedTimestamp']),
-      status: (json['status'] as String?)?.let(ChangesetStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final activeFromTimestamp = this.activeFromTimestamp;
-    final changesetId = this.changesetId;
-    final createdTimestamp = this.createdTimestamp;
-    final lastModifiedTimestamp = this.lastModifiedTimestamp;
-    final status = this.status;
-    return {
-      if (activeFromTimestamp != null)
-        'activeFromTimestamp': unixTimestampToJson(activeFromTimestamp),
-      if (changesetId != null) 'changesetId': changesetId,
-      if (createdTimestamp != null)
-        'createdTimestamp': unixTimestampToJson(createdTimestamp),
-      if (lastModifiedTimestamp != null)
-        'lastModifiedTimestamp': unixTimestampToJson(lastModifiedTimestamp),
-      if (status != null) 'status': status.value,
-    };
-  }
-}
-
-/// The details of a kdb cluster.
-class KxCluster {
-  /// The availability zone identifiers for the requested regions.
-  final String? availabilityZoneId;
-
-  /// The number of availability zones assigned per cluster. This can be one of
-  /// the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>SINGLE</code> – Assigns one availability zone per cluster.
-  /// </li>
-  /// <li>
-  /// <code>MULTI</code> – Assigns all the availability zones per cluster.
-  /// </li>
-  /// </ul>
-  final KxAzMode? azMode;
-
-  /// A description of the cluster.
-  final String? clusterDescription;
-
-  /// A unique name for the cluster.
-  final String? clusterName;
-
-  /// Specifies the type of KDB database that is being created. The following
-  /// types are available:
-  ///
-  /// <ul>
-  /// <li>
-  /// HDB – A Historical Database. The data is only accessible with read-only
-  /// permissions from one of the FinSpace managed kdb databases mounted to the
-  /// cluster.
-  /// </li>
-  /// <li>
-  /// RDB – A Realtime Database. This type of database captures all the data from
-  /// a ticker plant and stores it in memory until the end of day, after which it
-  /// writes all of its data to a disk and reloads the HDB. This cluster type
-  /// requires local storage for temporary storage of data during the savedown
-  /// process. If you specify this field in your request, you must provide the
-  /// <code>savedownStorageConfiguration</code> parameter.
-  /// </li>
-  /// <li>
-  /// GATEWAY – A gateway cluster allows you to access data across processes in
-  /// kdb systems. It allows you to create your own routing logic using the
-  /// initialization scripts and custom code. This type of cluster does not
-  /// require a writable local storage.
-  /// </li>
-  /// <li>
-  /// GP – A general purpose cluster allows you to quickly iterate on code during
-  /// development by granting greater access to system commands and enabling a
-  /// fast reload of custom code. This cluster type can optionally mount databases
-  /// including cache and savedown storage. For this cluster type, the node count
-  /// is fixed at 1. It does not support autoscaling and supports only
-  /// <code>SINGLE</code> AZ mode.
-  /// </li>
-  /// <li>
-  /// Tickerplant – A tickerplant cluster allows you to subscribe to feed handlers
-  /// based on IAM permissions. It can publish to RDBs, other Tickerplants, and
-  /// real-time subscribers (RTS). Tickerplants can persist messages to log, which
-  /// is readable by any RDB environment. It supports only single-node that is
-  /// only one kdb process.
-  /// </li>
-  /// </ul>
-  final KxClusterType? clusterType;
-
-  /// The timestamp at which the cluster was created in FinSpace. The value is
-  /// determined as epoch time in milliseconds. For example, the value for Monday,
-  /// November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-  final DateTime? createdTimestamp;
-
-  /// An IAM role that defines a set of permissions associated with a cluster.
-  /// These permissions are assumed when a cluster attempts to access another
-  /// cluster.
-  final String? executionRole;
-
-  /// Specifies a Q program that will be run at launch of a cluster. It is a
-  /// relative path within <i>.zip</i> file that contains the custom code, which
-  /// will be loaded on the cluster. It must include the file name itself. For
-  /// example, <code>somedir/init.q</code>.
-  final String? initializationScript;
-
-  /// The last time that the cluster was modified. The value is determined as
-  /// epoch time in milliseconds. For example, the value for Monday, November 1,
-  /// 2021 12:00:00 PM UTC is specified as 1635768000000.
-  final DateTime? lastModifiedTimestamp;
-
-  /// A version of the FinSpace managed kdb to run.
-  final String? releaseLabel;
-
-  /// The status of a cluster.
-  ///
-  /// <ul>
-  /// <li>
-  /// PENDING – The cluster is pending creation.
-  /// </li>
-  /// <li>
-  /// CREATING –The cluster creation process is in progress.
-  /// </li>
-  /// <li>
-  /// CREATE_FAILED– The cluster creation process has failed.
-  /// </li>
-  /// <li>
-  /// RUNNING – The cluster creation process is running.
-  /// </li>
-  /// <li>
-  /// UPDATING – The cluster is in the process of being updated.
-  /// </li>
-  /// <li>
-  /// DELETING – The cluster is in the process of being deleted.
-  /// </li>
-  /// <li>
-  /// DELETED – The cluster has been deleted.
-  /// </li>
-  /// <li>
-  /// DELETE_FAILED – The cluster failed to delete.
-  /// </li>
-  /// </ul>
-  final KxClusterStatus? status;
-
-  /// The error message when a failed state occurs.
-  final String? statusReason;
-
-  /// A list of volumes attached to the cluster.
-  final List<Volume>? volumes;
-
-  KxCluster({
-    this.availabilityZoneId,
-    this.azMode,
-    this.clusterDescription,
-    this.clusterName,
-    this.clusterType,
-    this.createdTimestamp,
-    this.executionRole,
-    this.initializationScript,
-    this.lastModifiedTimestamp,
-    this.releaseLabel,
-    this.status,
-    this.statusReason,
-    this.volumes,
-  });
-
-  factory KxCluster.fromJson(Map<String, dynamic> json) {
-    return KxCluster(
-      availabilityZoneId: json['availabilityZoneId'] as String?,
-      azMode: (json['azMode'] as String?)?.let(KxAzMode.fromString),
-      clusterDescription: json['clusterDescription'] as String?,
-      clusterName: json['clusterName'] as String?,
-      clusterType:
-          (json['clusterType'] as String?)?.let(KxClusterType.fromString),
-      createdTimestamp: timeStampFromJson(json['createdTimestamp']),
-      executionRole: json['executionRole'] as String?,
-      initializationScript: json['initializationScript'] as String?,
-      lastModifiedTimestamp: timeStampFromJson(json['lastModifiedTimestamp']),
-      releaseLabel: json['releaseLabel'] as String?,
-      status: (json['status'] as String?)?.let(KxClusterStatus.fromString),
-      statusReason: json['statusReason'] as String?,
-      volumes: (json['volumes'] as List?)
-          ?.nonNulls
-          .map((e) => Volume.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final availabilityZoneId = this.availabilityZoneId;
-    final azMode = this.azMode;
-    final clusterDescription = this.clusterDescription;
-    final clusterName = this.clusterName;
-    final clusterType = this.clusterType;
-    final createdTimestamp = this.createdTimestamp;
-    final executionRole = this.executionRole;
-    final initializationScript = this.initializationScript;
-    final lastModifiedTimestamp = this.lastModifiedTimestamp;
-    final releaseLabel = this.releaseLabel;
-    final status = this.status;
-    final statusReason = this.statusReason;
-    final volumes = this.volumes;
-    return {
-      if (availabilityZoneId != null) 'availabilityZoneId': availabilityZoneId,
-      if (azMode != null) 'azMode': azMode.value,
-      if (clusterDescription != null) 'clusterDescription': clusterDescription,
-      if (clusterName != null) 'clusterName': clusterName,
-      if (clusterType != null) 'clusterType': clusterType.value,
-      if (createdTimestamp != null)
-        'createdTimestamp': unixTimestampToJson(createdTimestamp),
-      if (executionRole != null) 'executionRole': executionRole,
-      if (initializationScript != null)
-        'initializationScript': initializationScript,
-      if (lastModifiedTimestamp != null)
-        'lastModifiedTimestamp': unixTimestampToJson(lastModifiedTimestamp),
-      if (releaseLabel != null) 'releaseLabel': releaseLabel,
-      if (status != null) 'status': status.value,
-      if (statusReason != null) 'statusReason': statusReason,
-      if (volumes != null) 'volumes': volumes,
-    };
-  }
-}
-
-/// The configuration that allows you to choose how you want to update code on a
-/// cluster. Depending on the option you choose, you can reduce the time it
-/// takes to update the cluster.
-class KxClusterCodeDeploymentConfiguration {
-  /// The type of deployment that you want on a cluster.
-  ///
-  /// <ul>
-  /// <li>
-  /// ROLLING – This options updates the cluster by stopping the exiting q process
-  /// and starting a new q process with updated configuration.
-  /// </li>
-  /// <li>
-  /// NO_RESTART – This option updates the cluster without stopping the running q
-  /// process. It is only available for <code>GP</code> type cluster. This option
-  /// is quicker as it reduces the turn around time to update configuration on a
-  /// cluster.
-  ///
-  /// With this deployment mode, you cannot update the
-  /// <code>initializationScript</code> and <code>commandLineArguments</code>
-  /// parameters.
-  /// </li>
-  /// <li>
-  /// FORCE – This option updates the cluster by immediately stopping all the
-  /// running processes before starting up new ones with the updated
-  /// configuration.
-  /// </li>
-  /// </ul>
-  final KxClusterCodeDeploymentStrategy deploymentStrategy;
-
-  KxClusterCodeDeploymentConfiguration({
-    required this.deploymentStrategy,
-  });
-
-  Map<String, dynamic> toJson() {
-    final deploymentStrategy = this.deploymentStrategy;
-    return {
-      'deploymentStrategy': deploymentStrategy.value,
-    };
-  }
-}
-
-class KxClusterCodeDeploymentStrategy {
-  static const noRestart = KxClusterCodeDeploymentStrategy._('NO_RESTART');
-  static const rolling = KxClusterCodeDeploymentStrategy._('ROLLING');
-  static const force = KxClusterCodeDeploymentStrategy._('FORCE');
-
-  final String value;
-
-  const KxClusterCodeDeploymentStrategy._(this.value);
-
-  static const values = [noRestart, rolling, force];
-
-  static KxClusterCodeDeploymentStrategy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => KxClusterCodeDeploymentStrategy._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is KxClusterCodeDeploymentStrategy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class KxClusterStatus {
-  static const pending = KxClusterStatus._('PENDING');
-  static const creating = KxClusterStatus._('CREATING');
-  static const createFailed = KxClusterStatus._('CREATE_FAILED');
-  static const running = KxClusterStatus._('RUNNING');
-  static const updating = KxClusterStatus._('UPDATING');
-  static const deleting = KxClusterStatus._('DELETING');
-  static const deleted = KxClusterStatus._('DELETED');
-  static const deleteFailed = KxClusterStatus._('DELETE_FAILED');
-
-  final String value;
-
-  const KxClusterStatus._(this.value);
-
-  static const values = [
-    pending,
-    creating,
-    createFailed,
-    running,
-    updating,
-    deleting,
-    deleted,
-    deleteFailed
-  ];
-
-  static KxClusterStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => KxClusterStatus._(value));
-
-  @override
-  bool operator ==(other) => other is KxClusterStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class KxClusterType {
-  static const hdb = KxClusterType._('HDB');
-  static const rdb = KxClusterType._('RDB');
-  static const gateway = KxClusterType._('GATEWAY');
-  static const gp = KxClusterType._('GP');
-  static const tickerplant = KxClusterType._('TICKERPLANT');
-
-  final String value;
-
-  const KxClusterType._(this.value);
-
-  static const values = [hdb, rdb, gateway, gp, tickerplant];
-
-  static KxClusterType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => KxClusterType._(value));
-
-  @override
-  bool operator ==(other) => other is KxClusterType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Defines the key-value pairs to make them available inside the cluster.
-class KxCommandLineArgument {
-  /// The name of the key.
-  final String? key;
-
-  /// The value of the key.
-  final String? value;
-
-  KxCommandLineArgument({
-    this.key,
-    this.value,
-  });
-
-  factory KxCommandLineArgument.fromJson(Map<String, dynamic> json) {
-    return KxCommandLineArgument(
-      key: json['key'] as String?,
-      value: json['value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      if (key != null) 'key': key,
-      if (value != null) 'value': value,
-    };
-  }
-}
-
-/// The structure of database cache configuration that is used for mapping
-/// database paths to cache types in clusters.
-class KxDatabaseCacheConfiguration {
-  /// The type of disk cache. This parameter is used to map the database path to
-  /// cache storage. The valid values are:
-  ///
-  /// <ul>
-  /// <li>
-  /// CACHE_1000 – This type provides at least 1000 MB/s disk access throughput.
-  /// </li>
-  /// </ul>
-  final String cacheType;
-
-  /// Specifies the portions of database that will be loaded into the cache for
-  /// access.
-  final List<String> dbPaths;
-
-  /// The name of the dataview to be used for caching historical data on disk.
-  final String? dataviewName;
-
-  KxDatabaseCacheConfiguration({
-    required this.cacheType,
-    required this.dbPaths,
-    this.dataviewName,
-  });
-
-  factory KxDatabaseCacheConfiguration.fromJson(Map<String, dynamic> json) {
-    return KxDatabaseCacheConfiguration(
-      cacheType: (json['cacheType'] as String?) ?? '',
-      dbPaths: ((json['dbPaths'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      dataviewName: json['dataviewName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cacheType = this.cacheType;
-    final dbPaths = this.dbPaths;
-    final dataviewName = this.dataviewName;
-    return {
-      'cacheType': cacheType,
-      'dbPaths': dbPaths,
-      if (dataviewName != null) 'dataviewName': dataviewName,
-    };
-  }
-}
-
-/// The configuration of data that is available for querying from this database.
-class KxDatabaseConfiguration {
-  /// The name of the kdb database. When this parameter is specified in the
-  /// structure, S3 with the whole database is included by default.
-  final String databaseName;
-
-  /// Configuration details for the disk cache used to increase performance
-  /// reading from a kdb database mounted to the cluster.
-  final List<KxDatabaseCacheConfiguration>? cacheConfigurations;
-
-  /// A unique identifier of the changeset that is associated with the cluster.
-  final String? changesetId;
-
-  /// The configuration of the dataview to be used with specified cluster.
-  final KxDataviewConfiguration? dataviewConfiguration;
-
-  /// The name of the dataview to be used for caching historical data on disk.
-  final String? dataviewName;
-
-  KxDatabaseConfiguration({
-    required this.databaseName,
-    this.cacheConfigurations,
-    this.changesetId,
-    this.dataviewConfiguration,
-    this.dataviewName,
-  });
-
-  factory KxDatabaseConfiguration.fromJson(Map<String, dynamic> json) {
-    return KxDatabaseConfiguration(
-      databaseName: (json['databaseName'] as String?) ?? '',
-      cacheConfigurations: (json['cacheConfigurations'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              KxDatabaseCacheConfiguration.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      changesetId: json['changesetId'] as String?,
-      dataviewConfiguration: json['dataviewConfiguration'] != null
-          ? KxDataviewConfiguration.fromJson(
-              json['dataviewConfiguration'] as Map<String, dynamic>)
-          : null,
-      dataviewName: json['dataviewName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final databaseName = this.databaseName;
-    final cacheConfigurations = this.cacheConfigurations;
-    final changesetId = this.changesetId;
-    final dataviewConfiguration = this.dataviewConfiguration;
-    final dataviewName = this.dataviewName;
-    return {
-      'databaseName': databaseName,
-      if (cacheConfigurations != null)
-        'cacheConfigurations': cacheConfigurations,
-      if (changesetId != null) 'changesetId': changesetId,
-      if (dataviewConfiguration != null)
-        'dataviewConfiguration': dataviewConfiguration,
-      if (dataviewName != null) 'dataviewName': dataviewName,
-    };
-  }
-}
-
-/// Details about a FinSpace managed kdb database
-class KxDatabaseListEntry {
-  /// The timestamp at which the database was created in FinSpace. The value is
-  /// determined as epoch time in milliseconds. For example, the value for Monday,
-  /// November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-  final DateTime? createdTimestamp;
-
-  /// The name of the kdb database.
-  final String? databaseName;
-
-  /// The last time that the database was modified. The value is determined as
-  /// epoch time in milliseconds. For example, the value for Monday, November 1,
-  /// 2021 12:00:00 PM UTC is specified as 1635768000000.
-  final DateTime? lastModifiedTimestamp;
-
-  KxDatabaseListEntry({
-    this.createdTimestamp,
-    this.databaseName,
-    this.lastModifiedTimestamp,
-  });
-
-  factory KxDatabaseListEntry.fromJson(Map<String, dynamic> json) {
-    return KxDatabaseListEntry(
-      createdTimestamp: timeStampFromJson(json['createdTimestamp']),
-      databaseName: json['databaseName'] as String?,
-      lastModifiedTimestamp: timeStampFromJson(json['lastModifiedTimestamp']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdTimestamp = this.createdTimestamp;
-    final databaseName = this.databaseName;
-    final lastModifiedTimestamp = this.lastModifiedTimestamp;
-    return {
-      if (createdTimestamp != null)
-        'createdTimestamp': unixTimestampToJson(createdTimestamp),
-      if (databaseName != null) 'databaseName': databaseName,
-      if (lastModifiedTimestamp != null)
-        'lastModifiedTimestamp': unixTimestampToJson(lastModifiedTimestamp),
-    };
-  }
-}
-
-/// The active version of the dataview that is currently in use by this cluster.
-class KxDataviewActiveVersion {
-  /// The list of clusters that are currently using this dataview.
-  final List<String>? attachedClusters;
-
-  /// A unique identifier for the changeset.
-  final String? changesetId;
-
-  /// The timestamp at which the dataview version was active. The value is
-  /// determined as epoch time in milliseconds. For example, the value for Monday,
-  /// November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-  final DateTime? createdTimestamp;
-
-  /// The configuration that contains the database path of the data that you want
-  /// to place on each selected volume. Each segment must have a unique database
-  /// path for each volume. If you do not explicitly specify any database path for
-  /// a volume, they are accessible from the cluster through the default S3/object
-  /// store segment.
-  final List<KxDataviewSegmentConfiguration>? segmentConfigurations;
-
-  /// A unique identifier of the active version.
-  final String? versionId;
-
-  KxDataviewActiveVersion({
-    this.attachedClusters,
-    this.changesetId,
-    this.createdTimestamp,
-    this.segmentConfigurations,
-    this.versionId,
-  });
-
-  factory KxDataviewActiveVersion.fromJson(Map<String, dynamic> json) {
-    return KxDataviewActiveVersion(
-      attachedClusters: (json['attachedClusters'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      changesetId: json['changesetId'] as String?,
-      createdTimestamp: timeStampFromJson(json['createdTimestamp']),
-      segmentConfigurations: (json['segmentConfigurations'] as List?)
-          ?.nonNulls
-          .map((e) => KxDataviewSegmentConfiguration.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-      versionId: json['versionId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attachedClusters = this.attachedClusters;
-    final changesetId = this.changesetId;
-    final createdTimestamp = this.createdTimestamp;
-    final segmentConfigurations = this.segmentConfigurations;
-    final versionId = this.versionId;
-    return {
-      if (attachedClusters != null) 'attachedClusters': attachedClusters,
-      if (changesetId != null) 'changesetId': changesetId,
-      if (createdTimestamp != null)
-        'createdTimestamp': unixTimestampToJson(createdTimestamp),
-      if (segmentConfigurations != null)
-        'segmentConfigurations': segmentConfigurations,
-      if (versionId != null) 'versionId': versionId,
-    };
-  }
-}
-
-/// The structure that stores the configuration details of a dataview.
-class KxDataviewConfiguration {
-  /// A unique identifier for the changeset.
-  final String? changesetId;
-
-  /// The unique identifier of the dataview.
-  final String? dataviewName;
-
-  /// The version of the dataview corresponding to a given changeset.
-  final String? dataviewVersionId;
-
-  /// The db path and volume configuration for the segmented database.
-  final List<KxDataviewSegmentConfiguration>? segmentConfigurations;
-
-  KxDataviewConfiguration({
-    this.changesetId,
-    this.dataviewName,
-    this.dataviewVersionId,
-    this.segmentConfigurations,
-  });
-
-  factory KxDataviewConfiguration.fromJson(Map<String, dynamic> json) {
-    return KxDataviewConfiguration(
-      changesetId: json['changesetId'] as String?,
-      dataviewName: json['dataviewName'] as String?,
-      dataviewVersionId: json['dataviewVersionId'] as String?,
-      segmentConfigurations: (json['segmentConfigurations'] as List?)
-          ?.nonNulls
-          .map((e) => KxDataviewSegmentConfiguration.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final changesetId = this.changesetId;
-    final dataviewName = this.dataviewName;
-    final dataviewVersionId = this.dataviewVersionId;
-    final segmentConfigurations = this.segmentConfigurations;
-    return {
-      if (changesetId != null) 'changesetId': changesetId,
-      if (dataviewName != null) 'dataviewName': dataviewName,
-      if (dataviewVersionId != null) 'dataviewVersionId': dataviewVersionId,
-      if (segmentConfigurations != null)
-        'segmentConfigurations': segmentConfigurations,
-    };
-  }
-}
-
-/// A collection of kdb dataview entries.
-class KxDataviewListEntry {
-  /// The active changeset versions for the given dataview entry.
-  final List<KxDataviewActiveVersion>? activeVersions;
-
-  /// The option to specify whether you want to apply all the future additions and
-  /// corrections automatically to the dataview when you ingest new changesets.
-  /// The default value is false.
-  final bool? autoUpdate;
-
-  /// The identifier of the availability zones.
-  final String? availabilityZoneId;
-
-  /// The number of availability zones you want to assign per volume. Currently,
-  /// FinSpace only supports <code>SINGLE</code> for volumes. This places dataview
-  /// in a single AZ.
-  final KxAzMode? azMode;
-
-  /// A unique identifier for the changeset.
-  final String? changesetId;
-
-  /// The timestamp at which the dataview list entry was created in FinSpace. The
-  /// value is determined as epoch time in milliseconds. For example, the value
-  /// for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-  final DateTime? createdTimestamp;
-
-  /// A unique identifier of the database.
-  final String? databaseName;
-
-  /// A unique identifier of the dataview.
-  final String? dataviewName;
-
-  /// A description for the dataview list entry.
-  final String? description;
-
-  /// A unique identifier for the kdb environment.
-  final String? environmentId;
-
-  /// The last time that the dataview list was updated in FinSpace. The value is
-  /// determined as epoch time in milliseconds. For example, the value for Monday,
-  /// November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-  final DateTime? lastModifiedTimestamp;
-
-  /// Returns True if the dataview is created as writeable and False otherwise.
-  final bool? readWrite;
-
-  /// The configuration that contains the database path of the data that you want
-  /// to place on each selected volume. Each segment must have a unique database
-  /// path for each volume. If you do not explicitly specify any database path for
-  /// a volume, they are accessible from the cluster through the default S3/object
-  /// store segment.
-  final List<KxDataviewSegmentConfiguration>? segmentConfigurations;
-
-  /// The status of a given dataview entry.
-  final KxDataviewStatus? status;
-
-  /// The error message when a failed state occurs.
-  final String? statusReason;
-
-  KxDataviewListEntry({
-    this.activeVersions,
-    this.autoUpdate,
-    this.availabilityZoneId,
-    this.azMode,
-    this.changesetId,
-    this.createdTimestamp,
-    this.databaseName,
-    this.dataviewName,
-    this.description,
-    this.environmentId,
-    this.lastModifiedTimestamp,
-    this.readWrite,
-    this.segmentConfigurations,
-    this.status,
-    this.statusReason,
-  });
-
-  factory KxDataviewListEntry.fromJson(Map<String, dynamic> json) {
-    return KxDataviewListEntry(
-      activeVersions: (json['activeVersions'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              KxDataviewActiveVersion.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      autoUpdate: json['autoUpdate'] as bool?,
-      availabilityZoneId: json['availabilityZoneId'] as String?,
-      azMode: (json['azMode'] as String?)?.let(KxAzMode.fromString),
-      changesetId: json['changesetId'] as String?,
-      createdTimestamp: timeStampFromJson(json['createdTimestamp']),
-      databaseName: json['databaseName'] as String?,
-      dataviewName: json['dataviewName'] as String?,
-      description: json['description'] as String?,
-      environmentId: json['environmentId'] as String?,
-      lastModifiedTimestamp: timeStampFromJson(json['lastModifiedTimestamp']),
-      readWrite: json['readWrite'] as bool?,
-      segmentConfigurations: (json['segmentConfigurations'] as List?)
-          ?.nonNulls
-          .map((e) => KxDataviewSegmentConfiguration.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-      status: (json['status'] as String?)?.let(KxDataviewStatus.fromString),
-      statusReason: json['statusReason'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final activeVersions = this.activeVersions;
-    final autoUpdate = this.autoUpdate;
-    final availabilityZoneId = this.availabilityZoneId;
-    final azMode = this.azMode;
-    final changesetId = this.changesetId;
-    final createdTimestamp = this.createdTimestamp;
-    final databaseName = this.databaseName;
-    final dataviewName = this.dataviewName;
-    final description = this.description;
-    final environmentId = this.environmentId;
-    final lastModifiedTimestamp = this.lastModifiedTimestamp;
-    final readWrite = this.readWrite;
-    final segmentConfigurations = this.segmentConfigurations;
-    final status = this.status;
-    final statusReason = this.statusReason;
-    return {
-      if (activeVersions != null) 'activeVersions': activeVersions,
-      if (autoUpdate != null) 'autoUpdate': autoUpdate,
-      if (availabilityZoneId != null) 'availabilityZoneId': availabilityZoneId,
-      if (azMode != null) 'azMode': azMode.value,
-      if (changesetId != null) 'changesetId': changesetId,
-      if (createdTimestamp != null)
-        'createdTimestamp': unixTimestampToJson(createdTimestamp),
-      if (databaseName != null) 'databaseName': databaseName,
-      if (dataviewName != null) 'dataviewName': dataviewName,
-      if (description != null) 'description': description,
-      if (environmentId != null) 'environmentId': environmentId,
-      if (lastModifiedTimestamp != null)
-        'lastModifiedTimestamp': unixTimestampToJson(lastModifiedTimestamp),
-      if (readWrite != null) 'readWrite': readWrite,
-      if (segmentConfigurations != null)
-        'segmentConfigurations': segmentConfigurations,
-      if (status != null) 'status': status.value,
-      if (statusReason != null) 'statusReason': statusReason,
-    };
-  }
-}
-
-/// The configuration that contains the database path of the data that you want
-/// to place on each selected volume. Each segment must have a unique database
-/// path for each volume. If you do not explicitly specify any database path for
-/// a volume, they are accessible from the cluster through the default S3/object
-/// store segment.
-class KxDataviewSegmentConfiguration {
-  /// The database path of the data that you want to place on each selected volume
-  /// for the segment. Each segment must have a unique database path for each
-  /// volume.
-  final List<String> dbPaths;
-
-  /// The name of the volume where you want to add data.
-  final String volumeName;
-
-  /// Enables on-demand caching on the selected database path when a particular
-  /// file or a column of the database is accessed. When on demand caching is
-  /// <b>True</b>, dataviews perform minimal loading of files on the filesystem as
-  /// needed. When it is set to <b>False</b>, everything is cached. The default
-  /// value is <b>False</b>.
-  final bool? onDemand;
-
-  KxDataviewSegmentConfiguration({
-    required this.dbPaths,
-    required this.volumeName,
-    this.onDemand,
-  });
-
-  factory KxDataviewSegmentConfiguration.fromJson(Map<String, dynamic> json) {
-    return KxDataviewSegmentConfiguration(
-      dbPaths: ((json['dbPaths'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      volumeName: (json['volumeName'] as String?) ?? '',
-      onDemand: json['onDemand'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dbPaths = this.dbPaths;
-    final volumeName = this.volumeName;
-    final onDemand = this.onDemand;
-    return {
-      'dbPaths': dbPaths,
-      'volumeName': volumeName,
-      if (onDemand != null) 'onDemand': onDemand,
-    };
-  }
-}
-
-class KxDataviewStatus {
-  static const creating = KxDataviewStatus._('CREATING');
-  static const active = KxDataviewStatus._('ACTIVE');
-  static const updating = KxDataviewStatus._('UPDATING');
-  static const failed = KxDataviewStatus._('FAILED');
-  static const deleting = KxDataviewStatus._('DELETING');
-
-  final String value;
-
-  const KxDataviewStatus._(this.value);
-
-  static const values = [creating, active, updating, failed, deleting];
-
-  static KxDataviewStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => KxDataviewStatus._(value));
-
-  @override
-  bool operator ==(other) => other is KxDataviewStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The configuration that allows you to choose how you want to update the
-/// databases on a cluster. Depending on the option you choose, you can reduce
-/// the time it takes to update the cluster.
-class KxDeploymentConfiguration {
-  /// The type of deployment that you want on a cluster.
-  ///
-  /// <ul>
-  /// <li>
-  /// ROLLING – This options updates the cluster by stopping the exiting q process
-  /// and starting a new q process with updated configuration.
-  /// </li>
-  /// <li>
-  /// NO_RESTART – This option updates the cluster without stopping the running q
-  /// process. It is only available for <code>HDB</code> type cluster. This option
-  /// is quicker as it reduces the turn around time to update configuration on a
-  /// cluster.
-  ///
-  /// With this deployment mode, you cannot update the
-  /// <code>initializationScript</code> and <code>commandLineArguments</code>
-  /// parameters.
-  /// </li>
-  /// </ul>
-  final KxDeploymentStrategy deploymentStrategy;
-
-  KxDeploymentConfiguration({
-    required this.deploymentStrategy,
-  });
-
-  Map<String, dynamic> toJson() {
-    final deploymentStrategy = this.deploymentStrategy;
-    return {
-      'deploymentStrategy': deploymentStrategy.value,
-    };
-  }
-}
-
-class KxDeploymentStrategy {
-  static const noRestart = KxDeploymentStrategy._('NO_RESTART');
-  static const rolling = KxDeploymentStrategy._('ROLLING');
-
-  final String value;
-
-  const KxDeploymentStrategy._(this.value);
-
-  static const values = [noRestart, rolling];
-
-  static KxDeploymentStrategy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => KxDeploymentStrategy._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is KxDeploymentStrategy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The details of a kdb environment.
-class KxEnvironment {
-  /// The identifier of the availability zones where subnets for the environment
-  /// are created.
-  final List<String>? availabilityZoneIds;
-
-  /// The unique identifier of the AWS account in which you create the kdb
-  /// environment.
-  final String? awsAccountId;
-
-  /// The Amazon Resource Name (ARN) of the certificate authority:
-  final String? certificateAuthorityArn;
-
-  /// The timestamp at which the kdb environment was created in FinSpace. The
-  /// value is determined as epoch time in milliseconds. For example, the value
-  /// for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-  final DateTime? creationTimestamp;
-
-  /// A list of DNS server name and server IP. This is used to set up Route-53
-  /// outbound resolvers.
-  final List<CustomDNSServer>? customDNSConfiguration;
-
-  /// A unique identifier for the AWS environment infrastructure account.
-  final String? dedicatedServiceAccountId;
-
-  /// A description of the kdb environment.
-  final String? description;
-
-  /// The status of DNS configuration.
-  final DnsStatus? dnsStatus;
-
-  /// The Amazon Resource Name (ARN) of your kdb environment.
-  final String? environmentArn;
-
-  /// A unique identifier for the kdb environment.
-  final String? environmentId;
-
-  /// Specifies the error message that appears if a flow fails.
-  final String? errorMessage;
-
-  /// The unique identifier of the KMS key.
-  final String? kmsKeyId;
-
-  /// The name of the kdb environment.
-  final String? name;
-
-  /// The status of the environment creation.
-  ///
-  /// <ul>
-  /// <li>
-  /// CREATE_REQUESTED – Environment creation has been requested.
-  /// </li>
-  /// <li>
-  /// CREATING – Environment is in the process of being created.
-  /// </li>
-  /// <li>
-  /// FAILED_CREATION – Environment creation has failed.
-  /// </li>
-  /// <li>
-  /// CREATED – Environment is successfully created and is currently active.
-  /// </li>
-  /// <li>
-  /// DELETE REQUESTED – Environment deletion has been requested.
-  /// </li>
-  /// <li>
-  /// DELETING – Environment is in the process of being deleted.
-  /// </li>
-  /// <li>
-  /// RETRY_DELETION – Initial environment deletion failed, system is reattempting
-  /// delete.
-  /// </li>
-  /// <li>
-  /// DELETED – Environment has been deleted.
-  /// </li>
-  /// <li>
-  /// FAILED_DELETION – Environment deletion has failed.
-  /// </li>
-  /// </ul>
-  final EnvironmentStatus? status;
-
-  /// The status of the network configuration.
-  final TgwStatus? tgwStatus;
-
-  /// Specifies the transit gateway and network configuration to connect the kdb
-  /// environment to an internal network.
-  final TransitGatewayConfiguration? transitGatewayConfiguration;
-
-  /// The timestamp at which the kdb environment was modified in FinSpace. The
-  /// value is determined as epoch time in milliseconds. For example, the value
-  /// for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-  final DateTime? updateTimestamp;
-
-  KxEnvironment({
-    this.availabilityZoneIds,
-    this.awsAccountId,
-    this.certificateAuthorityArn,
-    this.creationTimestamp,
-    this.customDNSConfiguration,
-    this.dedicatedServiceAccountId,
-    this.description,
-    this.dnsStatus,
-    this.environmentArn,
-    this.environmentId,
-    this.errorMessage,
-    this.kmsKeyId,
-    this.name,
-    this.status,
-    this.tgwStatus,
-    this.transitGatewayConfiguration,
-    this.updateTimestamp,
-  });
-
-  factory KxEnvironment.fromJson(Map<String, dynamic> json) {
-    return KxEnvironment(
-      availabilityZoneIds: (json['availabilityZoneIds'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      awsAccountId: json['awsAccountId'] as String?,
-      certificateAuthorityArn: json['certificateAuthorityArn'] as String?,
-      creationTimestamp: timeStampFromJson(json['creationTimestamp']),
-      customDNSConfiguration: (json['customDNSConfiguration'] as List?)
-          ?.nonNulls
-          .map((e) => CustomDNSServer.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      dedicatedServiceAccountId: json['dedicatedServiceAccountId'] as String?,
-      description: json['description'] as String?,
-      dnsStatus: (json['dnsStatus'] as String?)?.let(DnsStatus.fromString),
-      environmentArn: json['environmentArn'] as String?,
-      environmentId: json['environmentId'] as String?,
-      errorMessage: json['errorMessage'] as String?,
-      kmsKeyId: json['kmsKeyId'] as String?,
-      name: json['name'] as String?,
-      status: (json['status'] as String?)?.let(EnvironmentStatus.fromString),
-      tgwStatus: (json['tgwStatus'] as String?)?.let(TgwStatus.fromString),
-      transitGatewayConfiguration: json['transitGatewayConfiguration'] != null
-          ? TransitGatewayConfiguration.fromJson(
-              json['transitGatewayConfiguration'] as Map<String, dynamic>)
-          : null,
-      updateTimestamp: timeStampFromJson(json['updateTimestamp']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final availabilityZoneIds = this.availabilityZoneIds;
-    final awsAccountId = this.awsAccountId;
-    final certificateAuthorityArn = this.certificateAuthorityArn;
-    final creationTimestamp = this.creationTimestamp;
-    final customDNSConfiguration = this.customDNSConfiguration;
-    final dedicatedServiceAccountId = this.dedicatedServiceAccountId;
-    final description = this.description;
-    final dnsStatus = this.dnsStatus;
-    final environmentArn = this.environmentArn;
-    final environmentId = this.environmentId;
-    final errorMessage = this.errorMessage;
-    final kmsKeyId = this.kmsKeyId;
-    final name = this.name;
-    final status = this.status;
-    final tgwStatus = this.tgwStatus;
-    final transitGatewayConfiguration = this.transitGatewayConfiguration;
-    final updateTimestamp = this.updateTimestamp;
-    return {
-      if (availabilityZoneIds != null)
-        'availabilityZoneIds': availabilityZoneIds,
-      if (awsAccountId != null) 'awsAccountId': awsAccountId,
-      if (certificateAuthorityArn != null)
-        'certificateAuthorityArn': certificateAuthorityArn,
-      if (creationTimestamp != null)
-        'creationTimestamp': unixTimestampToJson(creationTimestamp),
-      if (customDNSConfiguration != null)
-        'customDNSConfiguration': customDNSConfiguration,
-      if (dedicatedServiceAccountId != null)
-        'dedicatedServiceAccountId': dedicatedServiceAccountId,
-      if (description != null) 'description': description,
-      if (dnsStatus != null) 'dnsStatus': dnsStatus.value,
-      if (environmentArn != null) 'environmentArn': environmentArn,
-      if (environmentId != null) 'environmentId': environmentId,
-      if (errorMessage != null) 'errorMessage': errorMessage,
-      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
-      if (name != null) 'name': name,
-      if (status != null) 'status': status.value,
-      if (tgwStatus != null) 'tgwStatus': tgwStatus.value,
-      if (transitGatewayConfiguration != null)
-        'transitGatewayConfiguration': transitGatewayConfiguration,
-      if (updateTimestamp != null)
-        'updateTimestamp': unixTimestampToJson(updateTimestamp),
-    };
-  }
-}
-
-/// The structure containing the size and type of the network attached storage
-/// (NAS_1) file system volume.
-class KxNAS1Configuration {
-  /// The size of the network attached storage. For storage type
-  /// <code>SSD_1000</code> and <code>SSD_250</code> you can select the minimum
-  /// size as 1200 GB or increments of 2400 GB. For storage type
-  /// <code>HDD_12</code> you can select the minimum size as 6000 GB or increments
-  /// of 6000 GB.
-  final int? size;
-
-  /// The type of the network attached storage.
-  final KxNAS1Type? type;
-
-  KxNAS1Configuration({
-    this.size,
-    this.type,
-  });
-
-  factory KxNAS1Configuration.fromJson(Map<String, dynamic> json) {
-    return KxNAS1Configuration(
-      size: json['size'] as int?,
-      type: (json['type'] as String?)?.let(KxNAS1Type.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final size = this.size;
-    final type = this.type;
-    return {
-      if (size != null) 'size': size,
-      if (type != null) 'type': type.value,
-    };
-  }
-}
-
-class KxNAS1Type {
-  static const ssd_1000 = KxNAS1Type._('SSD_1000');
-  static const ssd_250 = KxNAS1Type._('SSD_250');
-  static const hdd_12 = KxNAS1Type._('HDD_12');
-
-  final String value;
-
-  const KxNAS1Type._(this.value);
-
-  static const values = [ssd_1000, ssd_250, hdd_12];
-
-  static KxNAS1Type fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => KxNAS1Type._(value));
-
-  @override
-  bool operator ==(other) => other is KxNAS1Type && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A structure that stores metadata for a kdb node.
-class KxNode {
-  /// The identifier of the availability zones where subnets for the environment
-  /// are created.
-  final String? availabilityZoneId;
-
-  /// The time when a particular node is started. The value is determined as epoch
-  /// time in milliseconds. For example, the value for Monday, November 1, 2021
-  /// 12:00:00 PM UTC is specified as 1635768000000.
-  final DateTime? launchTime;
-
-  /// A unique identifier for the node.
-  final String? nodeId;
-
-  /// Specifies the status of the cluster nodes.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>RUNNING</code> – The node is actively serving.
-  /// </li>
-  /// <li>
-  /// <code>PROVISIONING</code> – The node is being prepared.
-  /// </li>
-  /// </ul>
-  final KxNodeStatus? status;
-
-  KxNode({
-    this.availabilityZoneId,
-    this.launchTime,
-    this.nodeId,
-    this.status,
-  });
-
-  factory KxNode.fromJson(Map<String, dynamic> json) {
-    return KxNode(
-      availabilityZoneId: json['availabilityZoneId'] as String?,
-      launchTime: timeStampFromJson(json['launchTime']),
-      nodeId: json['nodeId'] as String?,
-      status: (json['status'] as String?)?.let(KxNodeStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final availabilityZoneId = this.availabilityZoneId;
-    final launchTime = this.launchTime;
-    final nodeId = this.nodeId;
-    final status = this.status;
-    return {
-      if (availabilityZoneId != null) 'availabilityZoneId': availabilityZoneId,
-      if (launchTime != null) 'launchTime': unixTimestampToJson(launchTime),
-      if (nodeId != null) 'nodeId': nodeId,
-      if (status != null) 'status': status.value,
-    };
-  }
-}
-
-class KxNodeStatus {
-  static const running = KxNodeStatus._('RUNNING');
-  static const provisioning = KxNodeStatus._('PROVISIONING');
-
-  final String value;
-
-  const KxNodeStatus._(this.value);
-
-  static const values = [running, provisioning];
-
-  static KxNodeStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => KxNodeStatus._(value));
-
-  @override
-  bool operator ==(other) => other is KxNodeStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The size and type of temporary storage that is used to hold data during the
-/// savedown process. All the data written to this storage space is lost when
-/// the cluster node is restarted.
-class KxSavedownStorageConfiguration {
-  /// The size of temporary storage in gibibytes.
-  final int? size;
-
-  /// The type of writeable storage space for temporarily storing your savedown
-  /// data. The valid values are:
-  ///
-  /// <ul>
-  /// <li>
-  /// SDS01 – This type represents 3000 IOPS and io2 ebs volume type.
-  /// </li>
-  /// </ul>
-  final KxSavedownStorageType? type;
-
-  /// The name of the kdb volume that you want to use as writeable save-down
-  /// storage for clusters.
-  final String? volumeName;
-
-  KxSavedownStorageConfiguration({
-    this.size,
-    this.type,
-    this.volumeName,
-  });
-
-  factory KxSavedownStorageConfiguration.fromJson(Map<String, dynamic> json) {
-    return KxSavedownStorageConfiguration(
-      size: json['size'] as int?,
-      type: (json['type'] as String?)?.let(KxSavedownStorageType.fromString),
-      volumeName: json['volumeName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final size = this.size;
-    final type = this.type;
-    final volumeName = this.volumeName;
-    return {
-      if (size != null) 'size': size,
-      if (type != null) 'type': type.value,
-      if (volumeName != null) 'volumeName': volumeName,
-    };
-  }
-}
-
-class KxSavedownStorageType {
-  static const sds01 = KxSavedownStorageType._('SDS01');
-
-  final String value;
-
-  const KxSavedownStorageType._(this.value);
-
-  static const values = [sds01];
-
-  static KxSavedownStorageType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => KxSavedownStorageType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is KxSavedownStorageType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A structure for storing metadata of scaling group.
-class KxScalingGroup {
-  /// The identifier of the availability zones.
-  final String? availabilityZoneId;
-
-  /// The list of clusters currently active in a given scaling group.
-  final List<String>? clusters;
-
-  /// The timestamp at which the scaling group was created in FinSpace. The value
-  /// is determined as epoch time in milliseconds. For example, the value for
-  /// Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-  final DateTime? createdTimestamp;
-
-  /// The memory and CPU capabilities of the scaling group host on which FinSpace
-  /// Managed kdb clusters will be placed.
-  ///
-  /// You can add one of the following values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>kx.sg.large</code> – The host type with a configuration of 16 GiB
-  /// memory and 2 vCPUs.
-  /// </li>
-  /// <li>
-  /// <code>kx.sg.xlarge</code> – The host type with a configuration of 32 GiB
-  /// memory and 4 vCPUs.
-  /// </li>
-  /// <li>
-  /// <code>kx.sg.2xlarge</code> – The host type with a configuration of 64 GiB
-  /// memory and 8 vCPUs.
-  /// </li>
-  /// <li>
-  /// <code>kx.sg.4xlarge</code> – The host type with a configuration of 108 GiB
-  /// memory and 16 vCPUs.
-  /// </li>
-  /// <li>
-  /// <code>kx.sg.8xlarge</code> – The host type with a configuration of 216 GiB
-  /// memory and 32 vCPUs.
-  /// </li>
-  /// <li>
-  /// <code>kx.sg.16xlarge</code> – The host type with a configuration of 432 GiB
-  /// memory and 64 vCPUs.
-  /// </li>
-  /// <li>
-  /// <code>kx.sg.32xlarge</code> – The host type with a configuration of 864 GiB
-  /// memory and 128 vCPUs.
-  /// </li>
-  /// <li>
-  /// <code>kx.sg1.16xlarge</code> – The host type with a configuration of 1949
-  /// GiB memory and 64 vCPUs.
-  /// </li>
-  /// <li>
-  /// <code>kx.sg1.24xlarge</code> – The host type with a configuration of 2948
-  /// GiB memory and 96 vCPUs.
-  /// </li>
-  /// </ul>
-  final String? hostType;
-
-  /// The last time that the scaling group was updated in FinSpace. The value is
-  /// determined as epoch time in milliseconds. For example, the value for Monday,
-  /// November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-  final DateTime? lastModifiedTimestamp;
-
-  /// A unique identifier for the kdb scaling group.
-  final String? scalingGroupName;
-
-  /// The status of scaling groups.
-  final KxScalingGroupStatus? status;
-
-  /// The error message when a failed state occurs.
-  final String? statusReason;
-
-  KxScalingGroup({
-    this.availabilityZoneId,
-    this.clusters,
-    this.createdTimestamp,
-    this.hostType,
-    this.lastModifiedTimestamp,
-    this.scalingGroupName,
-    this.status,
-    this.statusReason,
-  });
-
-  factory KxScalingGroup.fromJson(Map<String, dynamic> json) {
-    return KxScalingGroup(
-      availabilityZoneId: json['availabilityZoneId'] as String?,
-      clusters: (json['clusters'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      createdTimestamp: timeStampFromJson(json['createdTimestamp']),
-      hostType: json['hostType'] as String?,
-      lastModifiedTimestamp: timeStampFromJson(json['lastModifiedTimestamp']),
-      scalingGroupName: json['scalingGroupName'] as String?,
-      status: (json['status'] as String?)?.let(KxScalingGroupStatus.fromString),
-      statusReason: json['statusReason'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final availabilityZoneId = this.availabilityZoneId;
-    final clusters = this.clusters;
-    final createdTimestamp = this.createdTimestamp;
-    final hostType = this.hostType;
-    final lastModifiedTimestamp = this.lastModifiedTimestamp;
-    final scalingGroupName = this.scalingGroupName;
-    final status = this.status;
-    final statusReason = this.statusReason;
-    return {
-      if (availabilityZoneId != null) 'availabilityZoneId': availabilityZoneId,
-      if (clusters != null) 'clusters': clusters,
-      if (createdTimestamp != null)
-        'createdTimestamp': unixTimestampToJson(createdTimestamp),
-      if (hostType != null) 'hostType': hostType,
-      if (lastModifiedTimestamp != null)
-        'lastModifiedTimestamp': unixTimestampToJson(lastModifiedTimestamp),
-      if (scalingGroupName != null) 'scalingGroupName': scalingGroupName,
-      if (status != null) 'status': status.value,
-      if (statusReason != null) 'statusReason': statusReason,
-    };
-  }
-}
-
-/// The structure that stores the capacity configuration details of a scaling
-/// group.
-class KxScalingGroupConfiguration {
-  /// A reservation of the minimum amount of memory that should be available on
-  /// the scaling group for a kdb cluster to be successfully placed in a scaling
-  /// group.
-  final int memoryReservation;
-
-  /// The number of kdb cluster nodes.
-  final int nodeCount;
-
-  /// A unique identifier for the kdb scaling group.
-  final String scalingGroupName;
-
-  /// The number of vCPUs that you want to reserve for each node of this kdb
-  /// cluster on the scaling group host.
-  final double? cpu;
-
-  /// An optional hard limit on the amount of memory a kdb cluster can use.
-  final int? memoryLimit;
-
-  KxScalingGroupConfiguration({
-    required this.memoryReservation,
-    required this.nodeCount,
-    required this.scalingGroupName,
-    this.cpu,
-    this.memoryLimit,
-  });
-
-  factory KxScalingGroupConfiguration.fromJson(Map<String, dynamic> json) {
-    return KxScalingGroupConfiguration(
-      memoryReservation: (json['memoryReservation'] as int?) ?? 0,
-      nodeCount: (json['nodeCount'] as int?) ?? 0,
-      scalingGroupName: (json['scalingGroupName'] as String?) ?? '',
-      cpu: json['cpu'] as double?,
-      memoryLimit: json['memoryLimit'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final memoryReservation = this.memoryReservation;
-    final nodeCount = this.nodeCount;
-    final scalingGroupName = this.scalingGroupName;
-    final cpu = this.cpu;
-    final memoryLimit = this.memoryLimit;
-    return {
-      'memoryReservation': memoryReservation,
-      'nodeCount': nodeCount,
-      'scalingGroupName': scalingGroupName,
-      if (cpu != null) 'cpu': cpu,
-      if (memoryLimit != null) 'memoryLimit': memoryLimit,
-    };
-  }
-}
-
-class KxScalingGroupStatus {
-  static const creating = KxScalingGroupStatus._('CREATING');
-  static const createFailed = KxScalingGroupStatus._('CREATE_FAILED');
-  static const active = KxScalingGroupStatus._('ACTIVE');
-  static const deleting = KxScalingGroupStatus._('DELETING');
-  static const deleted = KxScalingGroupStatus._('DELETED');
-  static const deleteFailed = KxScalingGroupStatus._('DELETE_FAILED');
-
-  final String value;
-
-  const KxScalingGroupStatus._(this.value);
-
-  static const values = [
-    creating,
-    createFailed,
-    active,
-    deleting,
-    deleted,
-    deleteFailed
-  ];
-
-  static KxScalingGroupStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => KxScalingGroupStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is KxScalingGroupStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A structure that stores metadata for a kdb user.
-class KxUser {
-  /// The timestamp at which the kdb user was created.
-  final DateTime? createTimestamp;
-
-  /// The IAM role ARN that is associated with the user.
-  final String? iamRole;
-
-  /// The timestamp at which the kdb user was updated.
-  final DateTime? updateTimestamp;
-
-  /// The Amazon Resource Name (ARN) that identifies the user. For more
-  /// information about ARNs and how to use ARNs in policies, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html">IAM
-  /// Identifiers</a> in the <i>IAM User Guide</i>.
-  final String? userArn;
-
-  /// A unique identifier for the user.
-  final String? userName;
-
-  KxUser({
-    this.createTimestamp,
-    this.iamRole,
-    this.updateTimestamp,
-    this.userArn,
-    this.userName,
-  });
-
-  factory KxUser.fromJson(Map<String, dynamic> json) {
-    return KxUser(
-      createTimestamp: timeStampFromJson(json['createTimestamp']),
-      iamRole: json['iamRole'] as String?,
-      updateTimestamp: timeStampFromJson(json['updateTimestamp']),
-      userArn: json['userArn'] as String?,
-      userName: json['userName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createTimestamp = this.createTimestamp;
-    final iamRole = this.iamRole;
-    final updateTimestamp = this.updateTimestamp;
-    final userArn = this.userArn;
-    final userName = this.userName;
-    return {
-      if (createTimestamp != null)
-        'createTimestamp': unixTimestampToJson(createTimestamp),
-      if (iamRole != null) 'iamRole': iamRole,
-      if (updateTimestamp != null)
-        'updateTimestamp': unixTimestampToJson(updateTimestamp),
-      if (userArn != null) 'userArn': userArn,
-      if (userName != null) 'userName': userName,
-    };
-  }
-}
-
-/// The structure that contains the metadata of the volume.
-class KxVolume {
-  /// The identifier of the availability zones.
-  final List<String>? availabilityZoneIds;
-
-  /// The number of availability zones you want to assign per volume. Currently,
-  /// FinSpace only supports <code>SINGLE</code> for volumes. This places dataview
-  /// in a single AZ.
-  final KxAzMode? azMode;
-
-  /// The timestamp at which the volume was created in FinSpace. The value is
-  /// determined as epoch time in milliseconds. For example, the value for Monday,
-  /// November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-  final DateTime? createdTimestamp;
-
-  /// A description of the volume.
-  final String? description;
-
-  /// The last time that the volume was updated in FinSpace. The value is
-  /// determined as epoch time in milliseconds. For example, the value for Monday,
-  /// November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-  final DateTime? lastModifiedTimestamp;
-
-  /// The status of volume.
-  ///
-  /// <ul>
-  /// <li>
-  /// CREATING – The volume creation is in progress.
-  /// </li>
-  /// <li>
-  /// CREATE_FAILED – The volume creation has failed.
-  /// </li>
-  /// <li>
-  /// ACTIVE – The volume is active.
-  /// </li>
-  /// <li>
-  /// UPDATING – The volume is in the process of being updated.
-  /// </li>
-  /// <li>
-  /// UPDATE_FAILED – The update action failed.
-  /// </li>
-  /// <li>
-  /// UPDATED – The volume is successfully updated.
-  /// </li>
-  /// <li>
-  /// DELETING – The volume is in the process of being deleted.
-  /// </li>
-  /// <li>
-  /// DELETE_FAILED – The system failed to delete the volume.
-  /// </li>
-  /// <li>
-  /// DELETED – The volume is successfully deleted.
-  /// </li>
-  /// </ul>
-  final KxVolumeStatus? status;
-
-  /// The error message when a failed state occurs.
-  final String? statusReason;
-
-  /// A unique identifier for the volume.
-  final String? volumeName;
-
-  /// The type of file system volume. Currently, FinSpace only supports
-  /// <code>NAS_1</code> volume type.
-  final KxVolumeType? volumeType;
-
-  KxVolume({
-    this.availabilityZoneIds,
-    this.azMode,
-    this.createdTimestamp,
-    this.description,
-    this.lastModifiedTimestamp,
-    this.status,
-    this.statusReason,
-    this.volumeName,
-    this.volumeType,
-  });
-
-  factory KxVolume.fromJson(Map<String, dynamic> json) {
-    return KxVolume(
-      availabilityZoneIds: (json['availabilityZoneIds'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      azMode: (json['azMode'] as String?)?.let(KxAzMode.fromString),
-      createdTimestamp: timeStampFromJson(json['createdTimestamp']),
-      description: json['description'] as String?,
-      lastModifiedTimestamp: timeStampFromJson(json['lastModifiedTimestamp']),
-      status: (json['status'] as String?)?.let(KxVolumeStatus.fromString),
-      statusReason: json['statusReason'] as String?,
-      volumeName: json['volumeName'] as String?,
-      volumeType: (json['volumeType'] as String?)?.let(KxVolumeType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final availabilityZoneIds = this.availabilityZoneIds;
-    final azMode = this.azMode;
-    final createdTimestamp = this.createdTimestamp;
-    final description = this.description;
-    final lastModifiedTimestamp = this.lastModifiedTimestamp;
-    final status = this.status;
-    final statusReason = this.statusReason;
-    final volumeName = this.volumeName;
-    final volumeType = this.volumeType;
-    return {
-      if (availabilityZoneIds != null)
-        'availabilityZoneIds': availabilityZoneIds,
-      if (azMode != null) 'azMode': azMode.value,
-      if (createdTimestamp != null)
-        'createdTimestamp': unixTimestampToJson(createdTimestamp),
-      if (description != null) 'description': description,
-      if (lastModifiedTimestamp != null)
-        'lastModifiedTimestamp': unixTimestampToJson(lastModifiedTimestamp),
-      if (status != null) 'status': status.value,
-      if (statusReason != null) 'statusReason': statusReason,
-      if (volumeName != null) 'volumeName': volumeName,
-      if (volumeType != null) 'volumeType': volumeType.value,
-    };
-  }
-}
-
-class KxVolumeStatus {
-  static const creating = KxVolumeStatus._('CREATING');
-  static const createFailed = KxVolumeStatus._('CREATE_FAILED');
-  static const active = KxVolumeStatus._('ACTIVE');
-  static const updating = KxVolumeStatus._('UPDATING');
-  static const updated = KxVolumeStatus._('UPDATED');
-  static const updateFailed = KxVolumeStatus._('UPDATE_FAILED');
-  static const deleting = KxVolumeStatus._('DELETING');
-  static const deleted = KxVolumeStatus._('DELETED');
-  static const deleteFailed = KxVolumeStatus._('DELETE_FAILED');
-
-  final String value;
-
-  const KxVolumeStatus._(this.value);
-
-  static const values = [
-    creating,
-    createFailed,
-    active,
-    updating,
-    updated,
-    updateFailed,
-    deleting,
-    deleted,
-    deleteFailed
-  ];
-
-  static KxVolumeStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => KxVolumeStatus._(value));
-
-  @override
-  bool operator ==(other) => other is KxVolumeStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class KxVolumeType {
-  static const nas_1 = KxVolumeType._('NAS_1');
-
-  final String value;
-
-  const KxVolumeType._(this.value);
-
-  static const values = [nas_1];
-
-  static KxVolumeType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => KxVolumeType._(value));
-
-  @override
-  bool operator ==(other) => other is KxVolumeType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class ListEnvironmentsResponse {
   /// A list of all of your FinSpace environments.
   final List<Environment>? environments;
@@ -7868,159 +5167,6 @@ class ListTagsForResourceResponse {
   }
 }
 
-/// The network access control list (ACL) is an optional layer of security for
-/// your VPC that acts as a firewall for controlling traffic in and out of one
-/// or more subnets. The entry is a set of numbered ingress and egress rules
-/// that determine whether a packet should be allowed in or out of a subnet
-/// associated with the ACL. We process the entries in the ACL according to the
-/// rule numbers, in ascending order.
-class NetworkACLEntry {
-  /// The IPv4 network range to allow or deny, in CIDR notation. For example,
-  /// <code>172.16.0.0/24</code>. We modify the specified CIDR block to its
-  /// canonical form. For example, if you specify <code>100.68.0.18/18</code>, we
-  /// modify it to <code>100.68.0.0/18</code>.
-  final String cidrBlock;
-
-  /// The protocol number. A value of <i>-1</i> means all the protocols.
-  final String protocol;
-
-  /// Indicates whether to allow or deny the traffic that matches the rule.
-  final RuleAction ruleAction;
-
-  /// The rule number for the entry. For example <i>100</i>. All the network ACL
-  /// entries are processed in ascending order by rule number.
-  final int ruleNumber;
-
-  /// Defines the ICMP protocol that consists of the ICMP type and code.
-  final IcmpTypeCode? icmpTypeCode;
-
-  /// The range of ports the rule applies to.
-  final PortRange? portRange;
-
-  NetworkACLEntry({
-    required this.cidrBlock,
-    required this.protocol,
-    required this.ruleAction,
-    required this.ruleNumber,
-    this.icmpTypeCode,
-    this.portRange,
-  });
-
-  factory NetworkACLEntry.fromJson(Map<String, dynamic> json) {
-    return NetworkACLEntry(
-      cidrBlock: (json['cidrBlock'] as String?) ?? '',
-      protocol: (json['protocol'] as String?) ?? '',
-      ruleAction: RuleAction.fromString((json['ruleAction'] as String?) ?? ''),
-      ruleNumber: (json['ruleNumber'] as int?) ?? 0,
-      icmpTypeCode: json['icmpTypeCode'] != null
-          ? IcmpTypeCode.fromJson(json['icmpTypeCode'] as Map<String, dynamic>)
-          : null,
-      portRange: json['portRange'] != null
-          ? PortRange.fromJson(json['portRange'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cidrBlock = this.cidrBlock;
-    final protocol = this.protocol;
-    final ruleAction = this.ruleAction;
-    final ruleNumber = this.ruleNumber;
-    final icmpTypeCode = this.icmpTypeCode;
-    final portRange = this.portRange;
-    return {
-      'cidrBlock': cidrBlock,
-      'protocol': protocol,
-      'ruleAction': ruleAction.value,
-      'ruleNumber': ruleNumber,
-      if (icmpTypeCode != null) 'icmpTypeCode': icmpTypeCode,
-      if (portRange != null) 'portRange': portRange,
-    };
-  }
-}
-
-/// The range of ports the rule applies to.
-class PortRange {
-  /// The first port in the range.
-  final int from;
-
-  /// The last port in the range.
-  final int to;
-
-  PortRange({
-    required this.from,
-    required this.to,
-  });
-
-  factory PortRange.fromJson(Map<String, dynamic> json) {
-    return PortRange(
-      from: (json['from'] as int?) ?? 0,
-      to: (json['to'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final from = this.from;
-    final to = this.to;
-    return {
-      'from': from,
-      'to': to,
-    };
-  }
-}
-
-class RuleAction {
-  static const allow = RuleAction._('allow');
-  static const deny = RuleAction._('deny');
-
-  final String value;
-
-  const RuleAction._(this.value);
-
-  static const values = [allow, deny];
-
-  static RuleAction fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => RuleAction._(value));
-
-  @override
-  bool operator ==(other) => other is RuleAction && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Configuration information for the superuser.
-class SuperuserParameters {
-  /// The email address of the superuser.
-  final String emailAddress;
-
-  /// The first name of the superuser.
-  final String firstName;
-
-  /// The last name of the superuser.
-  final String lastName;
-
-  SuperuserParameters({
-    required this.emailAddress,
-    required this.firstName,
-    required this.lastName,
-  });
-
-  Map<String, dynamic> toJson() {
-    final emailAddress = this.emailAddress;
-    final firstName = this.firstName;
-    final lastName = this.lastName;
-    return {
-      'emailAddress': emailAddress,
-      'firstName': firstName,
-      'lastName': lastName,
-    };
-  }
-}
-
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -8030,85 +5176,6 @@ class TagResourceResponse {
 
   Map<String, dynamic> toJson() {
     return {};
-  }
-}
-
-/// A configuration to store the Tickerplant logs. It consists of a list of
-/// volumes that will be mounted to your cluster. For the cluster type
-/// <code>Tickerplant</code>, the location of the TP volume on the cluster will
-/// be available by using the global variable <code>.aws.tp_log_path</code>.
-class TickerplantLogConfiguration {
-  /// The name of the volumes for tickerplant logs.
-  final List<String>? tickerplantLogVolumes;
-
-  TickerplantLogConfiguration({
-    this.tickerplantLogVolumes,
-  });
-
-  factory TickerplantLogConfiguration.fromJson(Map<String, dynamic> json) {
-    return TickerplantLogConfiguration(
-      tickerplantLogVolumes: (json['tickerplantLogVolumes'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tickerplantLogVolumes = this.tickerplantLogVolumes;
-    return {
-      if (tickerplantLogVolumes != null)
-        'tickerplantLogVolumes': tickerplantLogVolumes,
-    };
-  }
-}
-
-/// The structure of the transit gateway and network configuration that is used
-/// to connect the kdb environment to an internal network.
-class TransitGatewayConfiguration {
-  /// The routing CIDR on behalf of kdb environment. It could be any "/26 range in
-  /// the 100.64.0.0 CIDR space. After providing, it will be added to the
-  /// customer's transit gateway routing table so that the traffics could be
-  /// routed to kdb network.
-  final String routableCIDRSpace;
-
-  /// The identifier of the transit gateway created by the customer to connect
-  /// outbound traffics from kdb network to your internal network.
-  final String transitGatewayID;
-
-  /// The rules that define how you manage the outbound traffic from kdb network
-  /// to your internal network.
-  final List<NetworkACLEntry>? attachmentNetworkAclConfiguration;
-
-  TransitGatewayConfiguration({
-    required this.routableCIDRSpace,
-    required this.transitGatewayID,
-    this.attachmentNetworkAclConfiguration,
-  });
-
-  factory TransitGatewayConfiguration.fromJson(Map<String, dynamic> json) {
-    return TransitGatewayConfiguration(
-      routableCIDRSpace: (json['routableCIDRSpace'] as String?) ?? '',
-      transitGatewayID: (json['transitGatewayID'] as String?) ?? '',
-      attachmentNetworkAclConfiguration:
-          (json['attachmentNetworkAclConfiguration'] as List?)
-              ?.nonNulls
-              .map((e) => NetworkACLEntry.fromJson(e as Map<String, dynamic>))
-              .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final routableCIDRSpace = this.routableCIDRSpace;
-    final transitGatewayID = this.transitGatewayID;
-    final attachmentNetworkAclConfiguration =
-        this.attachmentNetworkAclConfiguration;
-    return {
-      'routableCIDRSpace': routableCIDRSpace,
-      'transitGatewayID': transitGatewayID,
-      if (attachmentNetworkAclConfiguration != null)
-        'attachmentNetworkAclConfiguration': attachmentNetworkAclConfiguration,
-    };
   }
 }
 
@@ -8368,7 +5435,7 @@ class UpdateKxDataviewResponse {
   }
 }
 
-class UpdateKxEnvironmentNetworkResponse {
+class UpdateKxEnvironmentResponse {
   /// The identifier of the availability zones where subnets for the environment
   /// are created.
   final List<String>? availabilityZoneIds;
@@ -8418,7 +5485,7 @@ class UpdateKxEnvironmentNetworkResponse {
   /// The timestamp at which the kdb environment was updated.
   final DateTime? updateTimestamp;
 
-  UpdateKxEnvironmentNetworkResponse({
+  UpdateKxEnvironmentResponse({
     this.availabilityZoneIds,
     this.awsAccountId,
     this.creationTimestamp,
@@ -8437,9 +5504,8 @@ class UpdateKxEnvironmentNetworkResponse {
     this.updateTimestamp,
   });
 
-  factory UpdateKxEnvironmentNetworkResponse.fromJson(
-      Map<String, dynamic> json) {
-    return UpdateKxEnvironmentNetworkResponse(
+  factory UpdateKxEnvironmentResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateKxEnvironmentResponse(
       availabilityZoneIds: (json['availabilityZoneIds'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -8512,7 +5578,7 @@ class UpdateKxEnvironmentNetworkResponse {
   }
 }
 
-class UpdateKxEnvironmentResponse {
+class UpdateKxEnvironmentNetworkResponse {
   /// The identifier of the availability zones where subnets for the environment
   /// are created.
   final List<String>? availabilityZoneIds;
@@ -8562,7 +5628,7 @@ class UpdateKxEnvironmentResponse {
   /// The timestamp at which the kdb environment was updated.
   final DateTime? updateTimestamp;
 
-  UpdateKxEnvironmentResponse({
+  UpdateKxEnvironmentNetworkResponse({
     this.availabilityZoneIds,
     this.awsAccountId,
     this.creationTimestamp,
@@ -8581,8 +5647,9 @@ class UpdateKxEnvironmentResponse {
     this.updateTimestamp,
   });
 
-  factory UpdateKxEnvironmentResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateKxEnvironmentResponse(
+  factory UpdateKxEnvironmentNetworkResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateKxEnvironmentNetworkResponse(
       availabilityZoneIds: (json['availabilityZoneIds'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -8858,6 +5925,2248 @@ class UpdateKxVolumeResponse {
   }
 }
 
+class KxVolumeType {
+  static const nas_1 = KxVolumeType._('NAS_1');
+
+  final String value;
+
+  const KxVolumeType._(this.value);
+
+  static const values = [nas_1];
+
+  static KxVolumeType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => KxVolumeType._(value));
+
+  @override
+  bool operator ==(other) => other is KxVolumeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The structure containing the size and type of the network attached storage
+/// (NAS_1) file system volume.
+class KxNAS1Configuration {
+  /// The size of the network attached storage. For storage type
+  /// <code>SSD_1000</code> and <code>SSD_250</code> you can select the minimum
+  /// size as 1200 GB or increments of 2400 GB. For storage type
+  /// <code>HDD_12</code> you can select the minimum size as 6000 GB or increments
+  /// of 6000 GB.
+  final int? size;
+
+  /// The type of the network attached storage.
+  final KxNAS1Type? type;
+
+  KxNAS1Configuration({
+    this.size,
+    this.type,
+  });
+
+  factory KxNAS1Configuration.fromJson(Map<String, dynamic> json) {
+    return KxNAS1Configuration(
+      size: json['size'] as int?,
+      type: (json['type'] as String?)?.let(KxNAS1Type.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final size = this.size;
+    final type = this.type;
+    return {
+      if (size != null) 'size': size,
+      if (type != null) 'type': type.value,
+    };
+  }
+}
+
+class KxVolumeStatus {
+  static const creating = KxVolumeStatus._('CREATING');
+  static const createFailed = KxVolumeStatus._('CREATE_FAILED');
+  static const active = KxVolumeStatus._('ACTIVE');
+  static const updating = KxVolumeStatus._('UPDATING');
+  static const updated = KxVolumeStatus._('UPDATED');
+  static const updateFailed = KxVolumeStatus._('UPDATE_FAILED');
+  static const deleting = KxVolumeStatus._('DELETING');
+  static const deleted = KxVolumeStatus._('DELETED');
+  static const deleteFailed = KxVolumeStatus._('DELETE_FAILED');
+
+  final String value;
+
+  const KxVolumeStatus._(this.value);
+
+  static const values = [
+    creating,
+    createFailed,
+    active,
+    updating,
+    updated,
+    updateFailed,
+    deleting,
+    deleted,
+    deleteFailed
+  ];
+
+  static KxVolumeStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => KxVolumeStatus._(value));
+
+  @override
+  bool operator ==(other) => other is KxVolumeStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class KxAzMode {
+  static const single = KxAzMode._('SINGLE');
+  static const multi = KxAzMode._('MULTI');
+
+  final String value;
+
+  const KxAzMode._(this.value);
+
+  static const values = [single, multi];
+
+  static KxAzMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => KxAzMode._(value));
+
+  @override
+  bool operator ==(other) => other is KxAzMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The structure containing the metadata of the attached clusters.
+class KxAttachedCluster {
+  /// A unique name for the attached cluster.
+  final String? clusterName;
+
+  /// The status of the attached cluster.
+  ///
+  /// <ul>
+  /// <li>
+  /// PENDING – The cluster is pending creation.
+  /// </li>
+  /// <li>
+  /// CREATING – The cluster creation process is in progress.
+  /// </li>
+  /// <li>
+  /// CREATE_FAILED – The cluster creation process has failed.
+  /// </li>
+  /// <li>
+  /// RUNNING – The cluster creation process is running.
+  /// </li>
+  /// <li>
+  /// UPDATING – The cluster is in the process of being updated.
+  /// </li>
+  /// <li>
+  /// DELETING – The cluster is in the process of being deleted.
+  /// </li>
+  /// <li>
+  /// DELETED – The cluster has been deleted.
+  /// </li>
+  /// <li>
+  /// DELETE_FAILED – The cluster failed to delete.
+  /// </li>
+  /// </ul>
+  final KxClusterStatus? clusterStatus;
+
+  /// Specifies the type of cluster. The volume for TP and RDB cluster types will
+  /// be used for TP logs.
+  final KxClusterType? clusterType;
+
+  KxAttachedCluster({
+    this.clusterName,
+    this.clusterStatus,
+    this.clusterType,
+  });
+
+  factory KxAttachedCluster.fromJson(Map<String, dynamic> json) {
+    return KxAttachedCluster(
+      clusterName: json['clusterName'] as String?,
+      clusterStatus:
+          (json['clusterStatus'] as String?)?.let(KxClusterStatus.fromString),
+      clusterType:
+          (json['clusterType'] as String?)?.let(KxClusterType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterName = this.clusterName;
+    final clusterStatus = this.clusterStatus;
+    final clusterType = this.clusterType;
+    return {
+      if (clusterName != null) 'clusterName': clusterName,
+      if (clusterStatus != null) 'clusterStatus': clusterStatus.value,
+      if (clusterType != null) 'clusterType': clusterType.value,
+    };
+  }
+}
+
+class KxClusterType {
+  static const hdb = KxClusterType._('HDB');
+  static const rdb = KxClusterType._('RDB');
+  static const gateway = KxClusterType._('GATEWAY');
+  static const gp = KxClusterType._('GP');
+  static const tickerplant = KxClusterType._('TICKERPLANT');
+
+  final String value;
+
+  const KxClusterType._(this.value);
+
+  static const values = [hdb, rdb, gateway, gp, tickerplant];
+
+  static KxClusterType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => KxClusterType._(value));
+
+  @override
+  bool operator ==(other) => other is KxClusterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class KxClusterStatus {
+  static const pending = KxClusterStatus._('PENDING');
+  static const creating = KxClusterStatus._('CREATING');
+  static const createFailed = KxClusterStatus._('CREATE_FAILED');
+  static const running = KxClusterStatus._('RUNNING');
+  static const updating = KxClusterStatus._('UPDATING');
+  static const deleting = KxClusterStatus._('DELETING');
+  static const deleted = KxClusterStatus._('DELETED');
+  static const deleteFailed = KxClusterStatus._('DELETE_FAILED');
+
+  final String value;
+
+  const KxClusterStatus._(this.value);
+
+  static const values = [
+    pending,
+    creating,
+    createFailed,
+    running,
+    updating,
+    deleting,
+    deleted,
+    deleteFailed
+  ];
+
+  static KxClusterStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => KxClusterStatus._(value));
+
+  @override
+  bool operator ==(other) => other is KxClusterStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class KxNAS1Type {
+  static const ssd_1000 = KxNAS1Type._('SSD_1000');
+  static const ssd_250 = KxNAS1Type._('SSD_250');
+  static const hdd_12 = KxNAS1Type._('HDD_12');
+
+  final String value;
+
+  const KxNAS1Type._(this.value);
+
+  static const values = [ssd_1000, ssd_250, hdd_12];
+
+  static KxNAS1Type fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => KxNAS1Type._(value));
+
+  @override
+  bool operator ==(other) => other is KxNAS1Type && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class EnvironmentStatus {
+  static const createRequested = EnvironmentStatus._('CREATE_REQUESTED');
+  static const creating = EnvironmentStatus._('CREATING');
+  static const created = EnvironmentStatus._('CREATED');
+  static const deleteRequested = EnvironmentStatus._('DELETE_REQUESTED');
+  static const deleting = EnvironmentStatus._('DELETING');
+  static const deleted = EnvironmentStatus._('DELETED');
+  static const failedCreation = EnvironmentStatus._('FAILED_CREATION');
+  static const retryDeletion = EnvironmentStatus._('RETRY_DELETION');
+  static const failedDeletion = EnvironmentStatus._('FAILED_DELETION');
+  static const updateNetworkRequested =
+      EnvironmentStatus._('UPDATE_NETWORK_REQUESTED');
+  static const updatingNetwork = EnvironmentStatus._('UPDATING_NETWORK');
+  static const failedUpdatingNetwork =
+      EnvironmentStatus._('FAILED_UPDATING_NETWORK');
+  static const suspended = EnvironmentStatus._('SUSPENDED');
+
+  final String value;
+
+  const EnvironmentStatus._(this.value);
+
+  static const values = [
+    createRequested,
+    creating,
+    created,
+    deleteRequested,
+    deleting,
+    deleted,
+    failedCreation,
+    retryDeletion,
+    failedDeletion,
+    updateNetworkRequested,
+    updatingNetwork,
+    failedUpdatingNetwork,
+    suspended
+  ];
+
+  static EnvironmentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EnvironmentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is EnvironmentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TgwStatus {
+  static const none = TgwStatus._('NONE');
+  static const updateRequested = TgwStatus._('UPDATE_REQUESTED');
+  static const updating = TgwStatus._('UPDATING');
+  static const failedUpdate = TgwStatus._('FAILED_UPDATE');
+  static const successfullyUpdated = TgwStatus._('SUCCESSFULLY_UPDATED');
+
+  final String value;
+
+  const TgwStatus._(this.value);
+
+  static const values = [
+    none,
+    updateRequested,
+    updating,
+    failedUpdate,
+    successfullyUpdated
+  ];
+
+  static TgwStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TgwStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TgwStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DnsStatus {
+  static const none = DnsStatus._('NONE');
+  static const updateRequested = DnsStatus._('UPDATE_REQUESTED');
+  static const updating = DnsStatus._('UPDATING');
+  static const failedUpdate = DnsStatus._('FAILED_UPDATE');
+  static const successfullyUpdated = DnsStatus._('SUCCESSFULLY_UPDATED');
+
+  final String value;
+
+  const DnsStatus._(this.value);
+
+  static const values = [
+    none,
+    updateRequested,
+    updating,
+    failedUpdate,
+    successfullyUpdated
+  ];
+
+  static DnsStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DnsStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DnsStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The structure of the transit gateway and network configuration that is used
+/// to connect the kdb environment to an internal network.
+class TransitGatewayConfiguration {
+  /// The routing CIDR on behalf of kdb environment. It could be any "/26 range in
+  /// the 100.64.0.0 CIDR space. After providing, it will be added to the
+  /// customer's transit gateway routing table so that the traffics could be
+  /// routed to kdb network.
+  final String routableCIDRSpace;
+
+  /// The identifier of the transit gateway created by the customer to connect
+  /// outbound traffics from kdb network to your internal network.
+  final String transitGatewayID;
+
+  /// The rules that define how you manage the outbound traffic from kdb network
+  /// to your internal network.
+  final List<NetworkACLEntry>? attachmentNetworkAclConfiguration;
+
+  TransitGatewayConfiguration({
+    required this.routableCIDRSpace,
+    required this.transitGatewayID,
+    this.attachmentNetworkAclConfiguration,
+  });
+
+  factory TransitGatewayConfiguration.fromJson(Map<String, dynamic> json) {
+    return TransitGatewayConfiguration(
+      routableCIDRSpace: (json['routableCIDRSpace'] as String?) ?? '',
+      transitGatewayID: (json['transitGatewayID'] as String?) ?? '',
+      attachmentNetworkAclConfiguration:
+          (json['attachmentNetworkAclConfiguration'] as List?)
+              ?.nonNulls
+              .map((e) => NetworkACLEntry.fromJson(e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final routableCIDRSpace = this.routableCIDRSpace;
+    final transitGatewayID = this.transitGatewayID;
+    final attachmentNetworkAclConfiguration =
+        this.attachmentNetworkAclConfiguration;
+    return {
+      'routableCIDRSpace': routableCIDRSpace,
+      'transitGatewayID': transitGatewayID,
+      if (attachmentNetworkAclConfiguration != null)
+        'attachmentNetworkAclConfiguration': attachmentNetworkAclConfiguration,
+    };
+  }
+}
+
+/// A list of DNS server name and server IP. This is used to set up Route-53
+/// outbound resolvers.
+class CustomDNSServer {
+  /// The IP address of the DNS server.
+  final String customDNSServerIP;
+
+  /// The name of the DNS server.
+  final String customDNSServerName;
+
+  CustomDNSServer({
+    required this.customDNSServerIP,
+    required this.customDNSServerName,
+  });
+
+  factory CustomDNSServer.fromJson(Map<String, dynamic> json) {
+    return CustomDNSServer(
+      customDNSServerIP: (json['customDNSServerIP'] as String?) ?? '',
+      customDNSServerName: (json['customDNSServerName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customDNSServerIP = this.customDNSServerIP;
+    final customDNSServerName = this.customDNSServerName;
+    return {
+      'customDNSServerIP': customDNSServerIP,
+      'customDNSServerName': customDNSServerName,
+    };
+  }
+}
+
+/// The network access control list (ACL) is an optional layer of security for
+/// your VPC that acts as a firewall for controlling traffic in and out of one
+/// or more subnets. The entry is a set of numbered ingress and egress rules
+/// that determine whether a packet should be allowed in or out of a subnet
+/// associated with the ACL. We process the entries in the ACL according to the
+/// rule numbers, in ascending order.
+class NetworkACLEntry {
+  /// The IPv4 network range to allow or deny, in CIDR notation. For example,
+  /// <code>172.16.0.0/24</code>. We modify the specified CIDR block to its
+  /// canonical form. For example, if you specify <code>100.68.0.18/18</code>, we
+  /// modify it to <code>100.68.0.0/18</code>.
+  final String cidrBlock;
+
+  /// The protocol number. A value of <i>-1</i> means all the protocols.
+  final String protocol;
+
+  /// Indicates whether to allow or deny the traffic that matches the rule.
+  final RuleAction ruleAction;
+
+  /// The rule number for the entry. For example <i>100</i>. All the network ACL
+  /// entries are processed in ascending order by rule number.
+  final int ruleNumber;
+
+  /// Defines the ICMP protocol that consists of the ICMP type and code.
+  final IcmpTypeCode? icmpTypeCode;
+
+  /// The range of ports the rule applies to.
+  final PortRange? portRange;
+
+  NetworkACLEntry({
+    required this.cidrBlock,
+    required this.protocol,
+    required this.ruleAction,
+    required this.ruleNumber,
+    this.icmpTypeCode,
+    this.portRange,
+  });
+
+  factory NetworkACLEntry.fromJson(Map<String, dynamic> json) {
+    return NetworkACLEntry(
+      cidrBlock: (json['cidrBlock'] as String?) ?? '',
+      protocol: (json['protocol'] as String?) ?? '',
+      ruleAction: RuleAction.fromString((json['ruleAction'] as String?) ?? ''),
+      ruleNumber: (json['ruleNumber'] as int?) ?? 0,
+      icmpTypeCode: json['icmpTypeCode'] != null
+          ? IcmpTypeCode.fromJson(json['icmpTypeCode'] as Map<String, dynamic>)
+          : null,
+      portRange: json['portRange'] != null
+          ? PortRange.fromJson(json['portRange'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cidrBlock = this.cidrBlock;
+    final protocol = this.protocol;
+    final ruleAction = this.ruleAction;
+    final ruleNumber = this.ruleNumber;
+    final icmpTypeCode = this.icmpTypeCode;
+    final portRange = this.portRange;
+    return {
+      'cidrBlock': cidrBlock,
+      'protocol': protocol,
+      'ruleAction': ruleAction.value,
+      'ruleNumber': ruleNumber,
+      if (icmpTypeCode != null) 'icmpTypeCode': icmpTypeCode,
+      if (portRange != null) 'portRange': portRange,
+    };
+  }
+}
+
+class RuleAction {
+  static const allow = RuleAction._('allow');
+  static const deny = RuleAction._('deny');
+
+  final String value;
+
+  const RuleAction._(this.value);
+
+  static const values = [allow, deny];
+
+  static RuleAction fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RuleAction._(value));
+
+  @override
+  bool operator ==(other) => other is RuleAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The range of ports the rule applies to.
+class PortRange {
+  /// The first port in the range.
+  final int from;
+
+  /// The last port in the range.
+  final int to;
+
+  PortRange({
+    required this.from,
+    required this.to,
+  });
+
+  factory PortRange.fromJson(Map<String, dynamic> json) {
+    return PortRange(
+      from: (json['from'] as int?) ?? 0,
+      to: (json['to'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final from = this.from;
+    final to = this.to;
+    return {
+      'from': from,
+      'to': to,
+    };
+  }
+}
+
+/// Defines the ICMP protocol that consists of the ICMP type and code.
+class IcmpTypeCode {
+  /// The ICMP code. A value of <i>-1</i> means all codes for the specified ICMP
+  /// type.
+  final int code;
+
+  /// The ICMP type. A value of <i>-1</i> means all types.
+  final int type;
+
+  IcmpTypeCode({
+    required this.code,
+    required this.type,
+  });
+
+  factory IcmpTypeCode.fromJson(Map<String, dynamic> json) {
+    return IcmpTypeCode(
+      code: (json['code'] as int?) ?? 0,
+      type: (json['type'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final type = this.type;
+    return {
+      'code': code,
+      'type': type,
+    };
+  }
+}
+
+class KxDataviewStatus {
+  static const creating = KxDataviewStatus._('CREATING');
+  static const active = KxDataviewStatus._('ACTIVE');
+  static const updating = KxDataviewStatus._('UPDATING');
+  static const failed = KxDataviewStatus._('FAILED');
+  static const deleting = KxDataviewStatus._('DELETING');
+
+  final String value;
+
+  const KxDataviewStatus._(this.value);
+
+  static const values = [creating, active, updating, failed, deleting];
+
+  static KxDataviewStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => KxDataviewStatus._(value));
+
+  @override
+  bool operator ==(other) => other is KxDataviewStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The active version of the dataview that is currently in use by this cluster.
+class KxDataviewActiveVersion {
+  /// The list of clusters that are currently using this dataview.
+  final List<String>? attachedClusters;
+
+  /// A unique identifier for the changeset.
+  final String? changesetId;
+
+  /// The timestamp at which the dataview version was active. The value is
+  /// determined as epoch time in milliseconds. For example, the value for Monday,
+  /// November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+  final DateTime? createdTimestamp;
+
+  /// The configuration that contains the database path of the data that you want
+  /// to place on each selected volume. Each segment must have a unique database
+  /// path for each volume. If you do not explicitly specify any database path for
+  /// a volume, they are accessible from the cluster through the default S3/object
+  /// store segment.
+  final List<KxDataviewSegmentConfiguration>? segmentConfigurations;
+
+  /// A unique identifier of the active version.
+  final String? versionId;
+
+  KxDataviewActiveVersion({
+    this.attachedClusters,
+    this.changesetId,
+    this.createdTimestamp,
+    this.segmentConfigurations,
+    this.versionId,
+  });
+
+  factory KxDataviewActiveVersion.fromJson(Map<String, dynamic> json) {
+    return KxDataviewActiveVersion(
+      attachedClusters: (json['attachedClusters'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      changesetId: json['changesetId'] as String?,
+      createdTimestamp: timeStampFromJson(json['createdTimestamp']),
+      segmentConfigurations: (json['segmentConfigurations'] as List?)
+          ?.nonNulls
+          .map((e) => KxDataviewSegmentConfiguration.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      versionId: json['versionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachedClusters = this.attachedClusters;
+    final changesetId = this.changesetId;
+    final createdTimestamp = this.createdTimestamp;
+    final segmentConfigurations = this.segmentConfigurations;
+    final versionId = this.versionId;
+    return {
+      if (attachedClusters != null) 'attachedClusters': attachedClusters,
+      if (changesetId != null) 'changesetId': changesetId,
+      if (createdTimestamp != null)
+        'createdTimestamp': unixTimestampToJson(createdTimestamp),
+      if (segmentConfigurations != null)
+        'segmentConfigurations': segmentConfigurations,
+      if (versionId != null) 'versionId': versionId,
+    };
+  }
+}
+
+/// The configuration that contains the database path of the data that you want
+/// to place on each selected volume. Each segment must have a unique database
+/// path for each volume. If you do not explicitly specify any database path for
+/// a volume, they are accessible from the cluster through the default S3/object
+/// store segment.
+class KxDataviewSegmentConfiguration {
+  /// The database path of the data that you want to place on each selected volume
+  /// for the segment. Each segment must have a unique database path for each
+  /// volume.
+  final List<String> dbPaths;
+
+  /// The name of the volume where you want to add data.
+  final String volumeName;
+
+  /// Enables on-demand caching on the selected database path when a particular
+  /// file or a column of the database is accessed. When on demand caching is
+  /// <b>True</b>, dataviews perform minimal loading of files on the filesystem as
+  /// needed. When it is set to <b>False</b>, everything is cached. The default
+  /// value is <b>False</b>.
+  final bool? onDemand;
+
+  KxDataviewSegmentConfiguration({
+    required this.dbPaths,
+    required this.volumeName,
+    this.onDemand,
+  });
+
+  factory KxDataviewSegmentConfiguration.fromJson(Map<String, dynamic> json) {
+    return KxDataviewSegmentConfiguration(
+      dbPaths: ((json['dbPaths'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      volumeName: (json['volumeName'] as String?) ?? '',
+      onDemand: json['onDemand'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dbPaths = this.dbPaths;
+    final volumeName = this.volumeName;
+    final onDemand = this.onDemand;
+    return {
+      'dbPaths': dbPaths,
+      'volumeName': volumeName,
+      if (onDemand != null) 'onDemand': onDemand,
+    };
+  }
+}
+
+/// The configuration that allows you to choose how you want to update the
+/// databases on a cluster. Depending on the option you choose, you can reduce
+/// the time it takes to update the cluster.
+class KxDeploymentConfiguration {
+  /// The type of deployment that you want on a cluster.
+  ///
+  /// <ul>
+  /// <li>
+  /// ROLLING – This options updates the cluster by stopping the exiting q process
+  /// and starting a new q process with updated configuration.
+  /// </li>
+  /// <li>
+  /// NO_RESTART – This option updates the cluster without stopping the running q
+  /// process. It is only available for <code>HDB</code> type cluster. This option
+  /// is quicker as it reduces the turn around time to update configuration on a
+  /// cluster.
+  ///
+  /// With this deployment mode, you cannot update the
+  /// <code>initializationScript</code> and <code>commandLineArguments</code>
+  /// parameters.
+  /// </li>
+  /// </ul>
+  final KxDeploymentStrategy deploymentStrategy;
+
+  KxDeploymentConfiguration({
+    required this.deploymentStrategy,
+  });
+
+  Map<String, dynamic> toJson() {
+    final deploymentStrategy = this.deploymentStrategy;
+    return {
+      'deploymentStrategy': deploymentStrategy.value,
+    };
+  }
+}
+
+class KxDeploymentStrategy {
+  static const noRestart = KxDeploymentStrategy._('NO_RESTART');
+  static const rolling = KxDeploymentStrategy._('ROLLING');
+
+  final String value;
+
+  const KxDeploymentStrategy._(this.value);
+
+  static const values = [noRestart, rolling];
+
+  static KxDeploymentStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => KxDeploymentStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is KxDeploymentStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The configuration of data that is available for querying from this database.
+class KxDatabaseConfiguration {
+  /// The name of the kdb database. When this parameter is specified in the
+  /// structure, S3 with the whole database is included by default.
+  final String databaseName;
+
+  /// Configuration details for the disk cache used to increase performance
+  /// reading from a kdb database mounted to the cluster.
+  final List<KxDatabaseCacheConfiguration>? cacheConfigurations;
+
+  /// A unique identifier of the changeset that is associated with the cluster.
+  final String? changesetId;
+
+  /// The configuration of the dataview to be used with specified cluster.
+  final KxDataviewConfiguration? dataviewConfiguration;
+
+  /// The name of the dataview to be used for caching historical data on disk.
+  final String? dataviewName;
+
+  KxDatabaseConfiguration({
+    required this.databaseName,
+    this.cacheConfigurations,
+    this.changesetId,
+    this.dataviewConfiguration,
+    this.dataviewName,
+  });
+
+  factory KxDatabaseConfiguration.fromJson(Map<String, dynamic> json) {
+    return KxDatabaseConfiguration(
+      databaseName: (json['databaseName'] as String?) ?? '',
+      cacheConfigurations: (json['cacheConfigurations'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              KxDatabaseCacheConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      changesetId: json['changesetId'] as String?,
+      dataviewConfiguration: json['dataviewConfiguration'] != null
+          ? KxDataviewConfiguration.fromJson(
+              json['dataviewConfiguration'] as Map<String, dynamic>)
+          : null,
+      dataviewName: json['dataviewName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databaseName = this.databaseName;
+    final cacheConfigurations = this.cacheConfigurations;
+    final changesetId = this.changesetId;
+    final dataviewConfiguration = this.dataviewConfiguration;
+    final dataviewName = this.dataviewName;
+    return {
+      'databaseName': databaseName,
+      if (cacheConfigurations != null)
+        'cacheConfigurations': cacheConfigurations,
+      if (changesetId != null) 'changesetId': changesetId,
+      if (dataviewConfiguration != null)
+        'dataviewConfiguration': dataviewConfiguration,
+      if (dataviewName != null) 'dataviewName': dataviewName,
+    };
+  }
+}
+
+/// The structure that stores the configuration details of a dataview.
+class KxDataviewConfiguration {
+  /// A unique identifier for the changeset.
+  final String? changesetId;
+
+  /// The unique identifier of the dataview.
+  final String? dataviewName;
+
+  /// The version of the dataview corresponding to a given changeset.
+  final String? dataviewVersionId;
+
+  /// The db path and volume configuration for the segmented database.
+  final List<KxDataviewSegmentConfiguration>? segmentConfigurations;
+
+  KxDataviewConfiguration({
+    this.changesetId,
+    this.dataviewName,
+    this.dataviewVersionId,
+    this.segmentConfigurations,
+  });
+
+  factory KxDataviewConfiguration.fromJson(Map<String, dynamic> json) {
+    return KxDataviewConfiguration(
+      changesetId: json['changesetId'] as String?,
+      dataviewName: json['dataviewName'] as String?,
+      dataviewVersionId: json['dataviewVersionId'] as String?,
+      segmentConfigurations: (json['segmentConfigurations'] as List?)
+          ?.nonNulls
+          .map((e) => KxDataviewSegmentConfiguration.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changesetId = this.changesetId;
+    final dataviewName = this.dataviewName;
+    final dataviewVersionId = this.dataviewVersionId;
+    final segmentConfigurations = this.segmentConfigurations;
+    return {
+      if (changesetId != null) 'changesetId': changesetId,
+      if (dataviewName != null) 'dataviewName': dataviewName,
+      if (dataviewVersionId != null) 'dataviewVersionId': dataviewVersionId,
+      if (segmentConfigurations != null)
+        'segmentConfigurations': segmentConfigurations,
+    };
+  }
+}
+
+/// The structure of database cache configuration that is used for mapping
+/// database paths to cache types in clusters.
+class KxDatabaseCacheConfiguration {
+  /// The type of disk cache. This parameter is used to map the database path to
+  /// cache storage. The valid values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// CACHE_1000 – This type provides at least 1000 MB/s disk access throughput.
+  /// </li>
+  /// </ul>
+  final String cacheType;
+
+  /// Specifies the portions of database that will be loaded into the cache for
+  /// access.
+  final List<String> dbPaths;
+
+  /// The name of the dataview to be used for caching historical data on disk.
+  final String? dataviewName;
+
+  KxDatabaseCacheConfiguration({
+    required this.cacheType,
+    required this.dbPaths,
+    this.dataviewName,
+  });
+
+  factory KxDatabaseCacheConfiguration.fromJson(Map<String, dynamic> json) {
+    return KxDatabaseCacheConfiguration(
+      cacheType: (json['cacheType'] as String?) ?? '',
+      dbPaths: ((json['dbPaths'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      dataviewName: json['dataviewName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cacheType = this.cacheType;
+    final dbPaths = this.dbPaths;
+    final dataviewName = this.dataviewName;
+    return {
+      'cacheType': cacheType,
+      'dbPaths': dbPaths,
+      if (dataviewName != null) 'dataviewName': dataviewName,
+    };
+  }
+}
+
+/// The structure of the customer code available within the running cluster.
+class CodeConfiguration {
+  /// A unique name for the S3 bucket.
+  final String? s3Bucket;
+
+  /// The full S3 path (excluding bucket) to the .zip file. This file contains the
+  /// code that is loaded onto the cluster when it's started.
+  final String? s3Key;
+
+  /// The version of an S3 object.
+  final String? s3ObjectVersion;
+
+  CodeConfiguration({
+    this.s3Bucket,
+    this.s3Key,
+    this.s3ObjectVersion,
+  });
+
+  factory CodeConfiguration.fromJson(Map<String, dynamic> json) {
+    return CodeConfiguration(
+      s3Bucket: json['s3Bucket'] as String?,
+      s3Key: json['s3Key'] as String?,
+      s3ObjectVersion: json['s3ObjectVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Bucket = this.s3Bucket;
+    final s3Key = this.s3Key;
+    final s3ObjectVersion = this.s3ObjectVersion;
+    return {
+      if (s3Bucket != null) 's3Bucket': s3Bucket,
+      if (s3Key != null) 's3Key': s3Key,
+      if (s3ObjectVersion != null) 's3ObjectVersion': s3ObjectVersion,
+    };
+  }
+}
+
+/// The configuration that allows you to choose how you want to update code on a
+/// cluster. Depending on the option you choose, you can reduce the time it
+/// takes to update the cluster.
+class KxClusterCodeDeploymentConfiguration {
+  /// The type of deployment that you want on a cluster.
+  ///
+  /// <ul>
+  /// <li>
+  /// ROLLING – This options updates the cluster by stopping the exiting q process
+  /// and starting a new q process with updated configuration.
+  /// </li>
+  /// <li>
+  /// NO_RESTART – This option updates the cluster without stopping the running q
+  /// process. It is only available for <code>GP</code> type cluster. This option
+  /// is quicker as it reduces the turn around time to update configuration on a
+  /// cluster.
+  ///
+  /// With this deployment mode, you cannot update the
+  /// <code>initializationScript</code> and <code>commandLineArguments</code>
+  /// parameters.
+  /// </li>
+  /// <li>
+  /// FORCE – This option updates the cluster by immediately stopping all the
+  /// running processes before starting up new ones with the updated
+  /// configuration.
+  /// </li>
+  /// </ul>
+  final KxClusterCodeDeploymentStrategy deploymentStrategy;
+
+  KxClusterCodeDeploymentConfiguration({
+    required this.deploymentStrategy,
+  });
+
+  Map<String, dynamic> toJson() {
+    final deploymentStrategy = this.deploymentStrategy;
+    return {
+      'deploymentStrategy': deploymentStrategy.value,
+    };
+  }
+}
+
+class KxClusterCodeDeploymentStrategy {
+  static const noRestart = KxClusterCodeDeploymentStrategy._('NO_RESTART');
+  static const rolling = KxClusterCodeDeploymentStrategy._('ROLLING');
+  static const force = KxClusterCodeDeploymentStrategy._('FORCE');
+
+  final String value;
+
+  const KxClusterCodeDeploymentStrategy._(this.value);
+
+  static const values = [noRestart, rolling, force];
+
+  static KxClusterCodeDeploymentStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => KxClusterCodeDeploymentStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is KxClusterCodeDeploymentStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Defines the key-value pairs to make them available inside the cluster.
+class KxCommandLineArgument {
+  /// The name of the key.
+  final String? key;
+
+  /// The value of the key.
+  final String? value;
+
+  KxCommandLineArgument({
+    this.key,
+    this.value,
+  });
+
+  factory KxCommandLineArgument.fromJson(Map<String, dynamic> json) {
+    return KxCommandLineArgument(
+      key: json['key'] as String?,
+      value: json['value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'key': key,
+      if (value != null) 'value': value,
+    };
+  }
+}
+
+/// Represents an FinSpace environment.
+class Environment {
+  /// The ID of the AWS account in which the FinSpace environment is created.
+  final String? awsAccountId;
+
+  /// The AWS account ID of the dedicated service account associated with your
+  /// FinSpace environment.
+  final String? dedicatedServiceAccountId;
+
+  /// The description of the FinSpace environment.
+  final String? description;
+
+  /// The Amazon Resource Name (ARN) of your FinSpace environment.
+  final String? environmentArn;
+
+  /// The identifier of the FinSpace environment.
+  final String? environmentId;
+
+  /// The sign-in URL for the web application of your FinSpace environment.
+  final String? environmentUrl;
+
+  /// The authentication mode for the environment.
+  final FederationMode? federationMode;
+
+  /// Configuration information when authentication mode is FEDERATED.
+  final FederationParameters? federationParameters;
+
+  /// The KMS key id used to encrypt in the FinSpace environment.
+  final String? kmsKeyId;
+
+  /// The name of the FinSpace environment.
+  final String? name;
+
+  /// The URL of the integrated FinSpace notebook environment in your web
+  /// application.
+  final String? sageMakerStudioDomainUrl;
+
+  /// The current status of creation of the FinSpace environment.
+  final EnvironmentStatus? status;
+
+  Environment({
+    this.awsAccountId,
+    this.dedicatedServiceAccountId,
+    this.description,
+    this.environmentArn,
+    this.environmentId,
+    this.environmentUrl,
+    this.federationMode,
+    this.federationParameters,
+    this.kmsKeyId,
+    this.name,
+    this.sageMakerStudioDomainUrl,
+    this.status,
+  });
+
+  factory Environment.fromJson(Map<String, dynamic> json) {
+    return Environment(
+      awsAccountId: json['awsAccountId'] as String?,
+      dedicatedServiceAccountId: json['dedicatedServiceAccountId'] as String?,
+      description: json['description'] as String?,
+      environmentArn: json['environmentArn'] as String?,
+      environmentId: json['environmentId'] as String?,
+      environmentUrl: json['environmentUrl'] as String?,
+      federationMode:
+          (json['federationMode'] as String?)?.let(FederationMode.fromString),
+      federationParameters: json['federationParameters'] != null
+          ? FederationParameters.fromJson(
+              json['federationParameters'] as Map<String, dynamic>)
+          : null,
+      kmsKeyId: json['kmsKeyId'] as String?,
+      name: json['name'] as String?,
+      sageMakerStudioDomainUrl: json['sageMakerStudioDomainUrl'] as String?,
+      status: (json['status'] as String?)?.let(EnvironmentStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsAccountId = this.awsAccountId;
+    final dedicatedServiceAccountId = this.dedicatedServiceAccountId;
+    final description = this.description;
+    final environmentArn = this.environmentArn;
+    final environmentId = this.environmentId;
+    final environmentUrl = this.environmentUrl;
+    final federationMode = this.federationMode;
+    final federationParameters = this.federationParameters;
+    final kmsKeyId = this.kmsKeyId;
+    final name = this.name;
+    final sageMakerStudioDomainUrl = this.sageMakerStudioDomainUrl;
+    final status = this.status;
+    return {
+      if (awsAccountId != null) 'awsAccountId': awsAccountId,
+      if (dedicatedServiceAccountId != null)
+        'dedicatedServiceAccountId': dedicatedServiceAccountId,
+      if (description != null) 'description': description,
+      if (environmentArn != null) 'environmentArn': environmentArn,
+      if (environmentId != null) 'environmentId': environmentId,
+      if (environmentUrl != null) 'environmentUrl': environmentUrl,
+      if (federationMode != null) 'federationMode': federationMode.value,
+      if (federationParameters != null)
+        'federationParameters': federationParameters,
+      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+      if (name != null) 'name': name,
+      if (sageMakerStudioDomainUrl != null)
+        'sageMakerStudioDomainUrl': sageMakerStudioDomainUrl,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+class FederationMode {
+  static const federated = FederationMode._('FEDERATED');
+  static const local = FederationMode._('LOCAL');
+
+  final String value;
+
+  const FederationMode._(this.value);
+
+  static const values = [federated, local];
+
+  static FederationMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FederationMode._(value));
+
+  @override
+  bool operator ==(other) => other is FederationMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Configuration information when authentication mode is FEDERATED.
+class FederationParameters {
+  /// The redirect or sign-in URL that should be entered into the SAML 2.0
+  /// compliant identity provider configuration (IdP).
+  final String? applicationCallBackURL;
+
+  /// SAML attribute name and value. The name must always be <code>Email</code>
+  /// and the value should be set to the attribute definition in which user email
+  /// is set. For example, name would be <code>Email</code> and value
+  /// <code>http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress</code>.
+  /// Please check your SAML 2.0 compliant identity provider (IdP) documentation
+  /// for details.
+  final Map<String, String>? attributeMap;
+
+  /// Name of the identity provider (IdP).
+  final String? federationProviderName;
+
+  /// The Uniform Resource Name (URN). Also referred as Service Provider URN or
+  /// Audience URI or Service Provider Entity ID.
+  final String? federationURN;
+
+  /// SAML 2.0 Metadata document from identity provider (IdP).
+  final String? samlMetadataDocument;
+
+  /// Provide the metadata URL from your SAML 2.0 compliant identity provider
+  /// (IdP).
+  final String? samlMetadataURL;
+
+  FederationParameters({
+    this.applicationCallBackURL,
+    this.attributeMap,
+    this.federationProviderName,
+    this.federationURN,
+    this.samlMetadataDocument,
+    this.samlMetadataURL,
+  });
+
+  factory FederationParameters.fromJson(Map<String, dynamic> json) {
+    return FederationParameters(
+      applicationCallBackURL: json['applicationCallBackURL'] as String?,
+      attributeMap: (json['attributeMap'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      federationProviderName: json['federationProviderName'] as String?,
+      federationURN: json['federationURN'] as String?,
+      samlMetadataDocument: json['samlMetadataDocument'] as String?,
+      samlMetadataURL: json['samlMetadataURL'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationCallBackURL = this.applicationCallBackURL;
+    final attributeMap = this.attributeMap;
+    final federationProviderName = this.federationProviderName;
+    final federationURN = this.federationURN;
+    final samlMetadataDocument = this.samlMetadataDocument;
+    final samlMetadataURL = this.samlMetadataURL;
+    return {
+      if (applicationCallBackURL != null)
+        'applicationCallBackURL': applicationCallBackURL,
+      if (attributeMap != null) 'attributeMap': attributeMap,
+      if (federationProviderName != null)
+        'federationProviderName': federationProviderName,
+      if (federationURN != null) 'federationURN': federationURN,
+      if (samlMetadataDocument != null)
+        'samlMetadataDocument': samlMetadataDocument,
+      if (samlMetadataURL != null) 'samlMetadataURL': samlMetadataURL,
+    };
+  }
+}
+
+/// The structure that contains the metadata of the volume.
+class KxVolume {
+  /// The identifier of the availability zones.
+  final List<String>? availabilityZoneIds;
+
+  /// The number of availability zones you want to assign per volume. Currently,
+  /// FinSpace only supports <code>SINGLE</code> for volumes. This places dataview
+  /// in a single AZ.
+  final KxAzMode? azMode;
+
+  /// The timestamp at which the volume was created in FinSpace. The value is
+  /// determined as epoch time in milliseconds. For example, the value for Monday,
+  /// November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+  final DateTime? createdTimestamp;
+
+  /// A description of the volume.
+  final String? description;
+
+  /// The last time that the volume was updated in FinSpace. The value is
+  /// determined as epoch time in milliseconds. For example, the value for Monday,
+  /// November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+  final DateTime? lastModifiedTimestamp;
+
+  /// The status of volume.
+  ///
+  /// <ul>
+  /// <li>
+  /// CREATING – The volume creation is in progress.
+  /// </li>
+  /// <li>
+  /// CREATE_FAILED – The volume creation has failed.
+  /// </li>
+  /// <li>
+  /// ACTIVE – The volume is active.
+  /// </li>
+  /// <li>
+  /// UPDATING – The volume is in the process of being updated.
+  /// </li>
+  /// <li>
+  /// UPDATE_FAILED – The update action failed.
+  /// </li>
+  /// <li>
+  /// UPDATED – The volume is successfully updated.
+  /// </li>
+  /// <li>
+  /// DELETING – The volume is in the process of being deleted.
+  /// </li>
+  /// <li>
+  /// DELETE_FAILED – The system failed to delete the volume.
+  /// </li>
+  /// <li>
+  /// DELETED – The volume is successfully deleted.
+  /// </li>
+  /// </ul>
+  final KxVolumeStatus? status;
+
+  /// The error message when a failed state occurs.
+  final String? statusReason;
+
+  /// A unique identifier for the volume.
+  final String? volumeName;
+
+  /// The type of file system volume. Currently, FinSpace only supports
+  /// <code>NAS_1</code> volume type.
+  final KxVolumeType? volumeType;
+
+  KxVolume({
+    this.availabilityZoneIds,
+    this.azMode,
+    this.createdTimestamp,
+    this.description,
+    this.lastModifiedTimestamp,
+    this.status,
+    this.statusReason,
+    this.volumeName,
+    this.volumeType,
+  });
+
+  factory KxVolume.fromJson(Map<String, dynamic> json) {
+    return KxVolume(
+      availabilityZoneIds: (json['availabilityZoneIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      azMode: (json['azMode'] as String?)?.let(KxAzMode.fromString),
+      createdTimestamp: timeStampFromJson(json['createdTimestamp']),
+      description: json['description'] as String?,
+      lastModifiedTimestamp: timeStampFromJson(json['lastModifiedTimestamp']),
+      status: (json['status'] as String?)?.let(KxVolumeStatus.fromString),
+      statusReason: json['statusReason'] as String?,
+      volumeName: json['volumeName'] as String?,
+      volumeType: (json['volumeType'] as String?)?.let(KxVolumeType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZoneIds = this.availabilityZoneIds;
+    final azMode = this.azMode;
+    final createdTimestamp = this.createdTimestamp;
+    final description = this.description;
+    final lastModifiedTimestamp = this.lastModifiedTimestamp;
+    final status = this.status;
+    final statusReason = this.statusReason;
+    final volumeName = this.volumeName;
+    final volumeType = this.volumeType;
+    return {
+      if (availabilityZoneIds != null)
+        'availabilityZoneIds': availabilityZoneIds,
+      if (azMode != null) 'azMode': azMode.value,
+      if (createdTimestamp != null)
+        'createdTimestamp': unixTimestampToJson(createdTimestamp),
+      if (description != null) 'description': description,
+      if (lastModifiedTimestamp != null)
+        'lastModifiedTimestamp': unixTimestampToJson(lastModifiedTimestamp),
+      if (status != null) 'status': status.value,
+      if (statusReason != null) 'statusReason': statusReason,
+      if (volumeName != null) 'volumeName': volumeName,
+      if (volumeType != null) 'volumeType': volumeType.value,
+    };
+  }
+}
+
+/// A structure that stores metadata for a kdb user.
+class KxUser {
+  /// The timestamp at which the kdb user was created.
+  final DateTime? createTimestamp;
+
+  /// The IAM role ARN that is associated with the user.
+  final String? iamRole;
+
+  /// The timestamp at which the kdb user was updated.
+  final DateTime? updateTimestamp;
+
+  /// The Amazon Resource Name (ARN) that identifies the user. For more
+  /// information about ARNs and how to use ARNs in policies, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html">IAM
+  /// Identifiers</a> in the <i>IAM User Guide</i>.
+  final String? userArn;
+
+  /// A unique identifier for the user.
+  final String? userName;
+
+  KxUser({
+    this.createTimestamp,
+    this.iamRole,
+    this.updateTimestamp,
+    this.userArn,
+    this.userName,
+  });
+
+  factory KxUser.fromJson(Map<String, dynamic> json) {
+    return KxUser(
+      createTimestamp: timeStampFromJson(json['createTimestamp']),
+      iamRole: json['iamRole'] as String?,
+      updateTimestamp: timeStampFromJson(json['updateTimestamp']),
+      userArn: json['userArn'] as String?,
+      userName: json['userName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createTimestamp = this.createTimestamp;
+    final iamRole = this.iamRole;
+    final updateTimestamp = this.updateTimestamp;
+    final userArn = this.userArn;
+    final userName = this.userName;
+    return {
+      if (createTimestamp != null)
+        'createTimestamp': unixTimestampToJson(createTimestamp),
+      if (iamRole != null) 'iamRole': iamRole,
+      if (updateTimestamp != null)
+        'updateTimestamp': unixTimestampToJson(updateTimestamp),
+      if (userArn != null) 'userArn': userArn,
+      if (userName != null) 'userName': userName,
+    };
+  }
+}
+
+/// A structure for storing metadata of scaling group.
+class KxScalingGroup {
+  /// The identifier of the availability zones.
+  final String? availabilityZoneId;
+
+  /// The list of clusters currently active in a given scaling group.
+  final List<String>? clusters;
+
+  /// The timestamp at which the scaling group was created in FinSpace. The value
+  /// is determined as epoch time in milliseconds. For example, the value for
+  /// Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+  final DateTime? createdTimestamp;
+
+  /// The memory and CPU capabilities of the scaling group host on which FinSpace
+  /// Managed kdb clusters will be placed.
+  ///
+  /// You can add one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>kx.sg.large</code> – The host type with a configuration of 16 GiB
+  /// memory and 2 vCPUs.
+  /// </li>
+  /// <li>
+  /// <code>kx.sg.xlarge</code> – The host type with a configuration of 32 GiB
+  /// memory and 4 vCPUs.
+  /// </li>
+  /// <li>
+  /// <code>kx.sg.2xlarge</code> – The host type with a configuration of 64 GiB
+  /// memory and 8 vCPUs.
+  /// </li>
+  /// <li>
+  /// <code>kx.sg.4xlarge</code> – The host type with a configuration of 108 GiB
+  /// memory and 16 vCPUs.
+  /// </li>
+  /// <li>
+  /// <code>kx.sg.8xlarge</code> – The host type with a configuration of 216 GiB
+  /// memory and 32 vCPUs.
+  /// </li>
+  /// <li>
+  /// <code>kx.sg.16xlarge</code> – The host type with a configuration of 432 GiB
+  /// memory and 64 vCPUs.
+  /// </li>
+  /// <li>
+  /// <code>kx.sg.32xlarge</code> – The host type with a configuration of 864 GiB
+  /// memory and 128 vCPUs.
+  /// </li>
+  /// <li>
+  /// <code>kx.sg1.16xlarge</code> – The host type with a configuration of 1949
+  /// GiB memory and 64 vCPUs.
+  /// </li>
+  /// <li>
+  /// <code>kx.sg1.24xlarge</code> – The host type with a configuration of 2948
+  /// GiB memory and 96 vCPUs.
+  /// </li>
+  /// </ul>
+  final String? hostType;
+
+  /// The last time that the scaling group was updated in FinSpace. The value is
+  /// determined as epoch time in milliseconds. For example, the value for Monday,
+  /// November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+  final DateTime? lastModifiedTimestamp;
+
+  /// A unique identifier for the kdb scaling group.
+  final String? scalingGroupName;
+
+  /// The status of scaling groups.
+  final KxScalingGroupStatus? status;
+
+  /// The error message when a failed state occurs.
+  final String? statusReason;
+
+  KxScalingGroup({
+    this.availabilityZoneId,
+    this.clusters,
+    this.createdTimestamp,
+    this.hostType,
+    this.lastModifiedTimestamp,
+    this.scalingGroupName,
+    this.status,
+    this.statusReason,
+  });
+
+  factory KxScalingGroup.fromJson(Map<String, dynamic> json) {
+    return KxScalingGroup(
+      availabilityZoneId: json['availabilityZoneId'] as String?,
+      clusters: (json['clusters'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      createdTimestamp: timeStampFromJson(json['createdTimestamp']),
+      hostType: json['hostType'] as String?,
+      lastModifiedTimestamp: timeStampFromJson(json['lastModifiedTimestamp']),
+      scalingGroupName: json['scalingGroupName'] as String?,
+      status: (json['status'] as String?)?.let(KxScalingGroupStatus.fromString),
+      statusReason: json['statusReason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZoneId = this.availabilityZoneId;
+    final clusters = this.clusters;
+    final createdTimestamp = this.createdTimestamp;
+    final hostType = this.hostType;
+    final lastModifiedTimestamp = this.lastModifiedTimestamp;
+    final scalingGroupName = this.scalingGroupName;
+    final status = this.status;
+    final statusReason = this.statusReason;
+    return {
+      if (availabilityZoneId != null) 'availabilityZoneId': availabilityZoneId,
+      if (clusters != null) 'clusters': clusters,
+      if (createdTimestamp != null)
+        'createdTimestamp': unixTimestampToJson(createdTimestamp),
+      if (hostType != null) 'hostType': hostType,
+      if (lastModifiedTimestamp != null)
+        'lastModifiedTimestamp': unixTimestampToJson(lastModifiedTimestamp),
+      if (scalingGroupName != null) 'scalingGroupName': scalingGroupName,
+      if (status != null) 'status': status.value,
+      if (statusReason != null) 'statusReason': statusReason,
+    };
+  }
+}
+
+class KxScalingGroupStatus {
+  static const creating = KxScalingGroupStatus._('CREATING');
+  static const createFailed = KxScalingGroupStatus._('CREATE_FAILED');
+  static const active = KxScalingGroupStatus._('ACTIVE');
+  static const deleting = KxScalingGroupStatus._('DELETING');
+  static const deleted = KxScalingGroupStatus._('DELETED');
+  static const deleteFailed = KxScalingGroupStatus._('DELETE_FAILED');
+
+  final String value;
+
+  const KxScalingGroupStatus._(this.value);
+
+  static const values = [
+    creating,
+    createFailed,
+    active,
+    deleting,
+    deleted,
+    deleteFailed
+  ];
+
+  static KxScalingGroupStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => KxScalingGroupStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is KxScalingGroupStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The details of a kdb environment.
+class KxEnvironment {
+  /// The identifier of the availability zones where subnets for the environment
+  /// are created.
+  final List<String>? availabilityZoneIds;
+
+  /// The unique identifier of the AWS account in which you create the kdb
+  /// environment.
+  final String? awsAccountId;
+
+  /// The Amazon Resource Name (ARN) of the certificate authority:
+  final String? certificateAuthorityArn;
+
+  /// The timestamp at which the kdb environment was created in FinSpace. The
+  /// value is determined as epoch time in milliseconds. For example, the value
+  /// for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+  final DateTime? creationTimestamp;
+
+  /// A list of DNS server name and server IP. This is used to set up Route-53
+  /// outbound resolvers.
+  final List<CustomDNSServer>? customDNSConfiguration;
+
+  /// A unique identifier for the AWS environment infrastructure account.
+  final String? dedicatedServiceAccountId;
+
+  /// A description of the kdb environment.
+  final String? description;
+
+  /// The status of DNS configuration.
+  final DnsStatus? dnsStatus;
+
+  /// The Amazon Resource Name (ARN) of your kdb environment.
+  final String? environmentArn;
+
+  /// A unique identifier for the kdb environment.
+  final String? environmentId;
+
+  /// Specifies the error message that appears if a flow fails.
+  final String? errorMessage;
+
+  /// The unique identifier of the KMS key.
+  final String? kmsKeyId;
+
+  /// The name of the kdb environment.
+  final String? name;
+
+  /// The status of the environment creation.
+  ///
+  /// <ul>
+  /// <li>
+  /// CREATE_REQUESTED – Environment creation has been requested.
+  /// </li>
+  /// <li>
+  /// CREATING – Environment is in the process of being created.
+  /// </li>
+  /// <li>
+  /// FAILED_CREATION – Environment creation has failed.
+  /// </li>
+  /// <li>
+  /// CREATED – Environment is successfully created and is currently active.
+  /// </li>
+  /// <li>
+  /// DELETE REQUESTED – Environment deletion has been requested.
+  /// </li>
+  /// <li>
+  /// DELETING – Environment is in the process of being deleted.
+  /// </li>
+  /// <li>
+  /// RETRY_DELETION – Initial environment deletion failed, system is reattempting
+  /// delete.
+  /// </li>
+  /// <li>
+  /// DELETED – Environment has been deleted.
+  /// </li>
+  /// <li>
+  /// FAILED_DELETION – Environment deletion has failed.
+  /// </li>
+  /// </ul>
+  final EnvironmentStatus? status;
+
+  /// The status of the network configuration.
+  final TgwStatus? tgwStatus;
+
+  /// Specifies the transit gateway and network configuration to connect the kdb
+  /// environment to an internal network.
+  final TransitGatewayConfiguration? transitGatewayConfiguration;
+
+  /// The timestamp at which the kdb environment was modified in FinSpace. The
+  /// value is determined as epoch time in milliseconds. For example, the value
+  /// for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+  final DateTime? updateTimestamp;
+
+  KxEnvironment({
+    this.availabilityZoneIds,
+    this.awsAccountId,
+    this.certificateAuthorityArn,
+    this.creationTimestamp,
+    this.customDNSConfiguration,
+    this.dedicatedServiceAccountId,
+    this.description,
+    this.dnsStatus,
+    this.environmentArn,
+    this.environmentId,
+    this.errorMessage,
+    this.kmsKeyId,
+    this.name,
+    this.status,
+    this.tgwStatus,
+    this.transitGatewayConfiguration,
+    this.updateTimestamp,
+  });
+
+  factory KxEnvironment.fromJson(Map<String, dynamic> json) {
+    return KxEnvironment(
+      availabilityZoneIds: (json['availabilityZoneIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      awsAccountId: json['awsAccountId'] as String?,
+      certificateAuthorityArn: json['certificateAuthorityArn'] as String?,
+      creationTimestamp: timeStampFromJson(json['creationTimestamp']),
+      customDNSConfiguration: (json['customDNSConfiguration'] as List?)
+          ?.nonNulls
+          .map((e) => CustomDNSServer.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      dedicatedServiceAccountId: json['dedicatedServiceAccountId'] as String?,
+      description: json['description'] as String?,
+      dnsStatus: (json['dnsStatus'] as String?)?.let(DnsStatus.fromString),
+      environmentArn: json['environmentArn'] as String?,
+      environmentId: json['environmentId'] as String?,
+      errorMessage: json['errorMessage'] as String?,
+      kmsKeyId: json['kmsKeyId'] as String?,
+      name: json['name'] as String?,
+      status: (json['status'] as String?)?.let(EnvironmentStatus.fromString),
+      tgwStatus: (json['tgwStatus'] as String?)?.let(TgwStatus.fromString),
+      transitGatewayConfiguration: json['transitGatewayConfiguration'] != null
+          ? TransitGatewayConfiguration.fromJson(
+              json['transitGatewayConfiguration'] as Map<String, dynamic>)
+          : null,
+      updateTimestamp: timeStampFromJson(json['updateTimestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZoneIds = this.availabilityZoneIds;
+    final awsAccountId = this.awsAccountId;
+    final certificateAuthorityArn = this.certificateAuthorityArn;
+    final creationTimestamp = this.creationTimestamp;
+    final customDNSConfiguration = this.customDNSConfiguration;
+    final dedicatedServiceAccountId = this.dedicatedServiceAccountId;
+    final description = this.description;
+    final dnsStatus = this.dnsStatus;
+    final environmentArn = this.environmentArn;
+    final environmentId = this.environmentId;
+    final errorMessage = this.errorMessage;
+    final kmsKeyId = this.kmsKeyId;
+    final name = this.name;
+    final status = this.status;
+    final tgwStatus = this.tgwStatus;
+    final transitGatewayConfiguration = this.transitGatewayConfiguration;
+    final updateTimestamp = this.updateTimestamp;
+    return {
+      if (availabilityZoneIds != null)
+        'availabilityZoneIds': availabilityZoneIds,
+      if (awsAccountId != null) 'awsAccountId': awsAccountId,
+      if (certificateAuthorityArn != null)
+        'certificateAuthorityArn': certificateAuthorityArn,
+      if (creationTimestamp != null)
+        'creationTimestamp': unixTimestampToJson(creationTimestamp),
+      if (customDNSConfiguration != null)
+        'customDNSConfiguration': customDNSConfiguration,
+      if (dedicatedServiceAccountId != null)
+        'dedicatedServiceAccountId': dedicatedServiceAccountId,
+      if (description != null) 'description': description,
+      if (dnsStatus != null) 'dnsStatus': dnsStatus.value,
+      if (environmentArn != null) 'environmentArn': environmentArn,
+      if (environmentId != null) 'environmentId': environmentId,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+      if (name != null) 'name': name,
+      if (status != null) 'status': status.value,
+      if (tgwStatus != null) 'tgwStatus': tgwStatus.value,
+      if (transitGatewayConfiguration != null)
+        'transitGatewayConfiguration': transitGatewayConfiguration,
+      if (updateTimestamp != null)
+        'updateTimestamp': unixTimestampToJson(updateTimestamp),
+    };
+  }
+}
+
+/// A collection of kdb dataview entries.
+class KxDataviewListEntry {
+  /// The active changeset versions for the given dataview entry.
+  final List<KxDataviewActiveVersion>? activeVersions;
+
+  /// The option to specify whether you want to apply all the future additions and
+  /// corrections automatically to the dataview when you ingest new changesets.
+  /// The default value is false.
+  final bool? autoUpdate;
+
+  /// The identifier of the availability zones.
+  final String? availabilityZoneId;
+
+  /// The number of availability zones you want to assign per volume. Currently,
+  /// FinSpace only supports <code>SINGLE</code> for volumes. This places dataview
+  /// in a single AZ.
+  final KxAzMode? azMode;
+
+  /// A unique identifier for the changeset.
+  final String? changesetId;
+
+  /// The timestamp at which the dataview list entry was created in FinSpace. The
+  /// value is determined as epoch time in milliseconds. For example, the value
+  /// for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+  final DateTime? createdTimestamp;
+
+  /// A unique identifier of the database.
+  final String? databaseName;
+
+  /// A unique identifier of the dataview.
+  final String? dataviewName;
+
+  /// A description for the dataview list entry.
+  final String? description;
+
+  /// A unique identifier for the kdb environment.
+  final String? environmentId;
+
+  /// The last time that the dataview list was updated in FinSpace. The value is
+  /// determined as epoch time in milliseconds. For example, the value for Monday,
+  /// November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+  final DateTime? lastModifiedTimestamp;
+
+  /// Returns True if the dataview is created as writeable and False otherwise.
+  final bool? readWrite;
+
+  /// The configuration that contains the database path of the data that you want
+  /// to place on each selected volume. Each segment must have a unique database
+  /// path for each volume. If you do not explicitly specify any database path for
+  /// a volume, they are accessible from the cluster through the default S3/object
+  /// store segment.
+  final List<KxDataviewSegmentConfiguration>? segmentConfigurations;
+
+  /// The status of a given dataview entry.
+  final KxDataviewStatus? status;
+
+  /// The error message when a failed state occurs.
+  final String? statusReason;
+
+  KxDataviewListEntry({
+    this.activeVersions,
+    this.autoUpdate,
+    this.availabilityZoneId,
+    this.azMode,
+    this.changesetId,
+    this.createdTimestamp,
+    this.databaseName,
+    this.dataviewName,
+    this.description,
+    this.environmentId,
+    this.lastModifiedTimestamp,
+    this.readWrite,
+    this.segmentConfigurations,
+    this.status,
+    this.statusReason,
+  });
+
+  factory KxDataviewListEntry.fromJson(Map<String, dynamic> json) {
+    return KxDataviewListEntry(
+      activeVersions: (json['activeVersions'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              KxDataviewActiveVersion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      autoUpdate: json['autoUpdate'] as bool?,
+      availabilityZoneId: json['availabilityZoneId'] as String?,
+      azMode: (json['azMode'] as String?)?.let(KxAzMode.fromString),
+      changesetId: json['changesetId'] as String?,
+      createdTimestamp: timeStampFromJson(json['createdTimestamp']),
+      databaseName: json['databaseName'] as String?,
+      dataviewName: json['dataviewName'] as String?,
+      description: json['description'] as String?,
+      environmentId: json['environmentId'] as String?,
+      lastModifiedTimestamp: timeStampFromJson(json['lastModifiedTimestamp']),
+      readWrite: json['readWrite'] as bool?,
+      segmentConfigurations: (json['segmentConfigurations'] as List?)
+          ?.nonNulls
+          .map((e) => KxDataviewSegmentConfiguration.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      status: (json['status'] as String?)?.let(KxDataviewStatus.fromString),
+      statusReason: json['statusReason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activeVersions = this.activeVersions;
+    final autoUpdate = this.autoUpdate;
+    final availabilityZoneId = this.availabilityZoneId;
+    final azMode = this.azMode;
+    final changesetId = this.changesetId;
+    final createdTimestamp = this.createdTimestamp;
+    final databaseName = this.databaseName;
+    final dataviewName = this.dataviewName;
+    final description = this.description;
+    final environmentId = this.environmentId;
+    final lastModifiedTimestamp = this.lastModifiedTimestamp;
+    final readWrite = this.readWrite;
+    final segmentConfigurations = this.segmentConfigurations;
+    final status = this.status;
+    final statusReason = this.statusReason;
+    return {
+      if (activeVersions != null) 'activeVersions': activeVersions,
+      if (autoUpdate != null) 'autoUpdate': autoUpdate,
+      if (availabilityZoneId != null) 'availabilityZoneId': availabilityZoneId,
+      if (azMode != null) 'azMode': azMode.value,
+      if (changesetId != null) 'changesetId': changesetId,
+      if (createdTimestamp != null)
+        'createdTimestamp': unixTimestampToJson(createdTimestamp),
+      if (databaseName != null) 'databaseName': databaseName,
+      if (dataviewName != null) 'dataviewName': dataviewName,
+      if (description != null) 'description': description,
+      if (environmentId != null) 'environmentId': environmentId,
+      if (lastModifiedTimestamp != null)
+        'lastModifiedTimestamp': unixTimestampToJson(lastModifiedTimestamp),
+      if (readWrite != null) 'readWrite': readWrite,
+      if (segmentConfigurations != null)
+        'segmentConfigurations': segmentConfigurations,
+      if (status != null) 'status': status.value,
+      if (statusReason != null) 'statusReason': statusReason,
+    };
+  }
+}
+
+/// Details about a FinSpace managed kdb database
+class KxDatabaseListEntry {
+  /// The timestamp at which the database was created in FinSpace. The value is
+  /// determined as epoch time in milliseconds. For example, the value for Monday,
+  /// November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+  final DateTime? createdTimestamp;
+
+  /// The name of the kdb database.
+  final String? databaseName;
+
+  /// The last time that the database was modified. The value is determined as
+  /// epoch time in milliseconds. For example, the value for Monday, November 1,
+  /// 2021 12:00:00 PM UTC is specified as 1635768000000.
+  final DateTime? lastModifiedTimestamp;
+
+  KxDatabaseListEntry({
+    this.createdTimestamp,
+    this.databaseName,
+    this.lastModifiedTimestamp,
+  });
+
+  factory KxDatabaseListEntry.fromJson(Map<String, dynamic> json) {
+    return KxDatabaseListEntry(
+      createdTimestamp: timeStampFromJson(json['createdTimestamp']),
+      databaseName: json['databaseName'] as String?,
+      lastModifiedTimestamp: timeStampFromJson(json['lastModifiedTimestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTimestamp = this.createdTimestamp;
+    final databaseName = this.databaseName;
+    final lastModifiedTimestamp = this.lastModifiedTimestamp;
+    return {
+      if (createdTimestamp != null)
+        'createdTimestamp': unixTimestampToJson(createdTimestamp),
+      if (databaseName != null) 'databaseName': databaseName,
+      if (lastModifiedTimestamp != null)
+        'lastModifiedTimestamp': unixTimestampToJson(lastModifiedTimestamp),
+    };
+  }
+}
+
+/// The details of a kdb cluster.
+class KxCluster {
+  /// The availability zone identifiers for the requested regions.
+  final String? availabilityZoneId;
+
+  /// The number of availability zones assigned per cluster. This can be one of
+  /// the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>SINGLE</code> – Assigns one availability zone per cluster.
+  /// </li>
+  /// <li>
+  /// <code>MULTI</code> – Assigns all the availability zones per cluster.
+  /// </li>
+  /// </ul>
+  final KxAzMode? azMode;
+
+  /// A description of the cluster.
+  final String? clusterDescription;
+
+  /// A unique name for the cluster.
+  final String? clusterName;
+
+  /// Specifies the type of KDB database that is being created. The following
+  /// types are available:
+  ///
+  /// <ul>
+  /// <li>
+  /// HDB – A Historical Database. The data is only accessible with read-only
+  /// permissions from one of the FinSpace managed kdb databases mounted to the
+  /// cluster.
+  /// </li>
+  /// <li>
+  /// RDB – A Realtime Database. This type of database captures all the data from
+  /// a ticker plant and stores it in memory until the end of day, after which it
+  /// writes all of its data to a disk and reloads the HDB. This cluster type
+  /// requires local storage for temporary storage of data during the savedown
+  /// process. If you specify this field in your request, you must provide the
+  /// <code>savedownStorageConfiguration</code> parameter.
+  /// </li>
+  /// <li>
+  /// GATEWAY – A gateway cluster allows you to access data across processes in
+  /// kdb systems. It allows you to create your own routing logic using the
+  /// initialization scripts and custom code. This type of cluster does not
+  /// require a writable local storage.
+  /// </li>
+  /// <li>
+  /// GP – A general purpose cluster allows you to quickly iterate on code during
+  /// development by granting greater access to system commands and enabling a
+  /// fast reload of custom code. This cluster type can optionally mount databases
+  /// including cache and savedown storage. For this cluster type, the node count
+  /// is fixed at 1. It does not support autoscaling and supports only
+  /// <code>SINGLE</code> AZ mode.
+  /// </li>
+  /// <li>
+  /// Tickerplant – A tickerplant cluster allows you to subscribe to feed handlers
+  /// based on IAM permissions. It can publish to RDBs, other Tickerplants, and
+  /// real-time subscribers (RTS). Tickerplants can persist messages to log, which
+  /// is readable by any RDB environment. It supports only single-node that is
+  /// only one kdb process.
+  /// </li>
+  /// </ul>
+  final KxClusterType? clusterType;
+
+  /// The timestamp at which the cluster was created in FinSpace. The value is
+  /// determined as epoch time in milliseconds. For example, the value for Monday,
+  /// November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+  final DateTime? createdTimestamp;
+
+  /// An IAM role that defines a set of permissions associated with a cluster.
+  /// These permissions are assumed when a cluster attempts to access another
+  /// cluster.
+  final String? executionRole;
+
+  /// Specifies a Q program that will be run at launch of a cluster. It is a
+  /// relative path within <i>.zip</i> file that contains the custom code, which
+  /// will be loaded on the cluster. It must include the file name itself. For
+  /// example, <code>somedir/init.q</code>.
+  final String? initializationScript;
+
+  /// The last time that the cluster was modified. The value is determined as
+  /// epoch time in milliseconds. For example, the value for Monday, November 1,
+  /// 2021 12:00:00 PM UTC is specified as 1635768000000.
+  final DateTime? lastModifiedTimestamp;
+
+  /// A version of the FinSpace managed kdb to run.
+  final String? releaseLabel;
+
+  /// The status of a cluster.
+  ///
+  /// <ul>
+  /// <li>
+  /// PENDING – The cluster is pending creation.
+  /// </li>
+  /// <li>
+  /// CREATING –The cluster creation process is in progress.
+  /// </li>
+  /// <li>
+  /// CREATE_FAILED– The cluster creation process has failed.
+  /// </li>
+  /// <li>
+  /// RUNNING – The cluster creation process is running.
+  /// </li>
+  /// <li>
+  /// UPDATING – The cluster is in the process of being updated.
+  /// </li>
+  /// <li>
+  /// DELETING – The cluster is in the process of being deleted.
+  /// </li>
+  /// <li>
+  /// DELETED – The cluster has been deleted.
+  /// </li>
+  /// <li>
+  /// DELETE_FAILED – The cluster failed to delete.
+  /// </li>
+  /// </ul>
+  final KxClusterStatus? status;
+
+  /// The error message when a failed state occurs.
+  final String? statusReason;
+
+  /// A list of volumes attached to the cluster.
+  final List<Volume>? volumes;
+
+  KxCluster({
+    this.availabilityZoneId,
+    this.azMode,
+    this.clusterDescription,
+    this.clusterName,
+    this.clusterType,
+    this.createdTimestamp,
+    this.executionRole,
+    this.initializationScript,
+    this.lastModifiedTimestamp,
+    this.releaseLabel,
+    this.status,
+    this.statusReason,
+    this.volumes,
+  });
+
+  factory KxCluster.fromJson(Map<String, dynamic> json) {
+    return KxCluster(
+      availabilityZoneId: json['availabilityZoneId'] as String?,
+      azMode: (json['azMode'] as String?)?.let(KxAzMode.fromString),
+      clusterDescription: json['clusterDescription'] as String?,
+      clusterName: json['clusterName'] as String?,
+      clusterType:
+          (json['clusterType'] as String?)?.let(KxClusterType.fromString),
+      createdTimestamp: timeStampFromJson(json['createdTimestamp']),
+      executionRole: json['executionRole'] as String?,
+      initializationScript: json['initializationScript'] as String?,
+      lastModifiedTimestamp: timeStampFromJson(json['lastModifiedTimestamp']),
+      releaseLabel: json['releaseLabel'] as String?,
+      status: (json['status'] as String?)?.let(KxClusterStatus.fromString),
+      statusReason: json['statusReason'] as String?,
+      volumes: (json['volumes'] as List?)
+          ?.nonNulls
+          .map((e) => Volume.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZoneId = this.availabilityZoneId;
+    final azMode = this.azMode;
+    final clusterDescription = this.clusterDescription;
+    final clusterName = this.clusterName;
+    final clusterType = this.clusterType;
+    final createdTimestamp = this.createdTimestamp;
+    final executionRole = this.executionRole;
+    final initializationScript = this.initializationScript;
+    final lastModifiedTimestamp = this.lastModifiedTimestamp;
+    final releaseLabel = this.releaseLabel;
+    final status = this.status;
+    final statusReason = this.statusReason;
+    final volumes = this.volumes;
+    return {
+      if (availabilityZoneId != null) 'availabilityZoneId': availabilityZoneId,
+      if (azMode != null) 'azMode': azMode.value,
+      if (clusterDescription != null) 'clusterDescription': clusterDescription,
+      if (clusterName != null) 'clusterName': clusterName,
+      if (clusterType != null) 'clusterType': clusterType.value,
+      if (createdTimestamp != null)
+        'createdTimestamp': unixTimestampToJson(createdTimestamp),
+      if (executionRole != null) 'executionRole': executionRole,
+      if (initializationScript != null)
+        'initializationScript': initializationScript,
+      if (lastModifiedTimestamp != null)
+        'lastModifiedTimestamp': unixTimestampToJson(lastModifiedTimestamp),
+      if (releaseLabel != null) 'releaseLabel': releaseLabel,
+      if (status != null) 'status': status.value,
+      if (statusReason != null) 'statusReason': statusReason,
+      if (volumes != null) 'volumes': volumes,
+    };
+  }
+}
+
 /// The structure that consists of name and type of volume.
 class Volume {
   /// A unique identifier for the volume.
@@ -8909,6 +8218,356 @@ class VolumeType {
 
   @override
   String toString() => value;
+}
+
+/// A structure that stores metadata for a kdb node.
+class KxNode {
+  /// The identifier of the availability zones where subnets for the environment
+  /// are created.
+  final String? availabilityZoneId;
+
+  /// The time when a particular node is started. The value is determined as epoch
+  /// time in milliseconds. For example, the value for Monday, November 1, 2021
+  /// 12:00:00 PM UTC is specified as 1635768000000.
+  final DateTime? launchTime;
+
+  /// A unique identifier for the node.
+  final String? nodeId;
+
+  /// Specifies the status of the cluster nodes.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>RUNNING</code> – The node is actively serving.
+  /// </li>
+  /// <li>
+  /// <code>PROVISIONING</code> – The node is being prepared.
+  /// </li>
+  /// </ul>
+  final KxNodeStatus? status;
+
+  KxNode({
+    this.availabilityZoneId,
+    this.launchTime,
+    this.nodeId,
+    this.status,
+  });
+
+  factory KxNode.fromJson(Map<String, dynamic> json) {
+    return KxNode(
+      availabilityZoneId: json['availabilityZoneId'] as String?,
+      launchTime: timeStampFromJson(json['launchTime']),
+      nodeId: json['nodeId'] as String?,
+      status: (json['status'] as String?)?.let(KxNodeStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZoneId = this.availabilityZoneId;
+    final launchTime = this.launchTime;
+    final nodeId = this.nodeId;
+    final status = this.status;
+    return {
+      if (availabilityZoneId != null) 'availabilityZoneId': availabilityZoneId,
+      if (launchTime != null) 'launchTime': unixTimestampToJson(launchTime),
+      if (nodeId != null) 'nodeId': nodeId,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+class KxNodeStatus {
+  static const running = KxNodeStatus._('RUNNING');
+  static const provisioning = KxNodeStatus._('PROVISIONING');
+
+  final String value;
+
+  const KxNodeStatus._(this.value);
+
+  static const values = [running, provisioning];
+
+  static KxNodeStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => KxNodeStatus._(value));
+
+  @override
+  bool operator ==(other) => other is KxNodeStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Details of changeset.
+class KxChangesetListEntry {
+  /// Beginning time from which the changeset is active. The value is determined
+  /// as epoch time in milliseconds. For example, the value for Monday, November
+  /// 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+  final DateTime? activeFromTimestamp;
+
+  /// A unique identifier for the changeset.
+  final String? changesetId;
+
+  /// The timestamp at which the changeset was created in FinSpace. The value is
+  /// determined as epoch time in milliseconds. For example, the value for Monday,
+  /// November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+  final DateTime? createdTimestamp;
+
+  /// The timestamp at which the changeset was modified. The value is determined
+  /// as epoch time in milliseconds. For example, the value for Monday, November
+  /// 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+  final DateTime? lastModifiedTimestamp;
+
+  /// Status of the changeset.
+  ///
+  /// <ul>
+  /// <li>
+  /// Pending – Changeset creation is pending.
+  /// </li>
+  /// <li>
+  /// Processing – Changeset creation is running.
+  /// </li>
+  /// <li>
+  /// Failed – Changeset creation has failed.
+  /// </li>
+  /// <li>
+  /// Complete – Changeset creation has succeeded.
+  /// </li>
+  /// </ul>
+  final ChangesetStatus? status;
+
+  KxChangesetListEntry({
+    this.activeFromTimestamp,
+    this.changesetId,
+    this.createdTimestamp,
+    this.lastModifiedTimestamp,
+    this.status,
+  });
+
+  factory KxChangesetListEntry.fromJson(Map<String, dynamic> json) {
+    return KxChangesetListEntry(
+      activeFromTimestamp: timeStampFromJson(json['activeFromTimestamp']),
+      changesetId: json['changesetId'] as String?,
+      createdTimestamp: timeStampFromJson(json['createdTimestamp']),
+      lastModifiedTimestamp: timeStampFromJson(json['lastModifiedTimestamp']),
+      status: (json['status'] as String?)?.let(ChangesetStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activeFromTimestamp = this.activeFromTimestamp;
+    final changesetId = this.changesetId;
+    final createdTimestamp = this.createdTimestamp;
+    final lastModifiedTimestamp = this.lastModifiedTimestamp;
+    final status = this.status;
+    return {
+      if (activeFromTimestamp != null)
+        'activeFromTimestamp': unixTimestampToJson(activeFromTimestamp),
+      if (changesetId != null) 'changesetId': changesetId,
+      if (createdTimestamp != null)
+        'createdTimestamp': unixTimestampToJson(createdTimestamp),
+      if (lastModifiedTimestamp != null)
+        'lastModifiedTimestamp': unixTimestampToJson(lastModifiedTimestamp),
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+class ChangesetStatus {
+  static const pending = ChangesetStatus._('PENDING');
+  static const processing = ChangesetStatus._('PROCESSING');
+  static const failed = ChangesetStatus._('FAILED');
+  static const completed = ChangesetStatus._('COMPLETED');
+
+  final String value;
+
+  const ChangesetStatus._(this.value);
+
+  static const values = [pending, processing, failed, completed];
+
+  static ChangesetStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ChangesetStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ChangesetStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A configuration to store the Tickerplant logs. It consists of a list of
+/// volumes that will be mounted to your cluster. For the cluster type
+/// <code>Tickerplant</code>, the location of the TP volume on the cluster will
+/// be available by using the global variable <code>.aws.tp_log_path</code>.
+class TickerplantLogConfiguration {
+  /// The name of the volumes for tickerplant logs.
+  final List<String>? tickerplantLogVolumes;
+
+  TickerplantLogConfiguration({
+    this.tickerplantLogVolumes,
+  });
+
+  factory TickerplantLogConfiguration.fromJson(Map<String, dynamic> json) {
+    return TickerplantLogConfiguration(
+      tickerplantLogVolumes: (json['tickerplantLogVolumes'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tickerplantLogVolumes = this.tickerplantLogVolumes;
+    return {
+      if (tickerplantLogVolumes != null)
+        'tickerplantLogVolumes': tickerplantLogVolumes,
+    };
+  }
+}
+
+/// The configuration based on which FinSpace will scale in or scale out nodes
+/// in your cluster.
+class AutoScalingConfiguration {
+  /// The metric your cluster will track in order to scale in and out. For
+  /// example, <code>CPU_UTILIZATION_PERCENTAGE</code> is the average CPU usage
+  /// across all the nodes in a cluster.
+  final AutoScalingMetric? autoScalingMetric;
+
+  /// The highest number of nodes to scale. This value cannot be greater than 5.
+  final int? maxNodeCount;
+
+  /// The desired value of the chosen <code>autoScalingMetric</code>. When the
+  /// metric drops below this value, the cluster will scale in. When the metric
+  /// goes above this value, the cluster will scale out. You can set the target
+  /// value between 1 and 100 percent.
+  final double? metricTarget;
+
+  /// The lowest number of nodes to scale. This value must be at least 1 and less
+  /// than the <code>maxNodeCount</code>. If the nodes in a cluster belong to
+  /// multiple availability zones, then <code>minNodeCount</code> must be at least
+  /// 3.
+  final int? minNodeCount;
+
+  /// The duration in seconds that FinSpace will wait after a scale in event
+  /// before initiating another scaling event.
+  final double? scaleInCooldownSeconds;
+
+  /// The duration in seconds that FinSpace will wait after a scale out event
+  /// before initiating another scaling event.
+  final double? scaleOutCooldownSeconds;
+
+  AutoScalingConfiguration({
+    this.autoScalingMetric,
+    this.maxNodeCount,
+    this.metricTarget,
+    this.minNodeCount,
+    this.scaleInCooldownSeconds,
+    this.scaleOutCooldownSeconds,
+  });
+
+  factory AutoScalingConfiguration.fromJson(Map<String, dynamic> json) {
+    return AutoScalingConfiguration(
+      autoScalingMetric: (json['autoScalingMetric'] as String?)
+          ?.let(AutoScalingMetric.fromString),
+      maxNodeCount: json['maxNodeCount'] as int?,
+      metricTarget: json['metricTarget'] as double?,
+      minNodeCount: json['minNodeCount'] as int?,
+      scaleInCooldownSeconds: json['scaleInCooldownSeconds'] as double?,
+      scaleOutCooldownSeconds: json['scaleOutCooldownSeconds'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoScalingMetric = this.autoScalingMetric;
+    final maxNodeCount = this.maxNodeCount;
+    final metricTarget = this.metricTarget;
+    final minNodeCount = this.minNodeCount;
+    final scaleInCooldownSeconds = this.scaleInCooldownSeconds;
+    final scaleOutCooldownSeconds = this.scaleOutCooldownSeconds;
+    return {
+      if (autoScalingMetric != null)
+        'autoScalingMetric': autoScalingMetric.value,
+      if (maxNodeCount != null) 'maxNodeCount': maxNodeCount,
+      if (metricTarget != null) 'metricTarget': metricTarget,
+      if (minNodeCount != null) 'minNodeCount': minNodeCount,
+      if (scaleInCooldownSeconds != null)
+        'scaleInCooldownSeconds': scaleInCooldownSeconds,
+      if (scaleOutCooldownSeconds != null)
+        'scaleOutCooldownSeconds': scaleOutCooldownSeconds,
+    };
+  }
+}
+
+/// A structure for the metadata of a cluster. It includes information like the
+/// CPUs needed, memory of instances, and number of instances.
+class CapacityConfiguration {
+  /// The number of instances running in a cluster.
+  final int? nodeCount;
+
+  /// The type that determines the hardware of the host computer used for your
+  /// cluster instance. Each node type offers different memory and storage
+  /// capabilities. Choose a node type based on the requirements of the
+  /// application or software that you plan to run on your instance.
+  ///
+  /// You can only specify one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>kx.s.large</code> – The node type with a configuration of 12 GiB
+  /// memory and 2 vCPUs.
+  /// </li>
+  /// <li>
+  /// <code>kx.s.xlarge</code> – The node type with a configuration of 27 GiB
+  /// memory and 4 vCPUs.
+  /// </li>
+  /// <li>
+  /// <code>kx.s.2xlarge</code> – The node type with a configuration of 54 GiB
+  /// memory and 8 vCPUs.
+  /// </li>
+  /// <li>
+  /// <code>kx.s.4xlarge</code> – The node type with a configuration of 108 GiB
+  /// memory and 16 vCPUs.
+  /// </li>
+  /// <li>
+  /// <code>kx.s.8xlarge</code> – The node type with a configuration of 216 GiB
+  /// memory and 32 vCPUs.
+  /// </li>
+  /// <li>
+  /// <code>kx.s.16xlarge</code> – The node type with a configuration of 432 GiB
+  /// memory and 64 vCPUs.
+  /// </li>
+  /// <li>
+  /// <code>kx.s.32xlarge</code> – The node type with a configuration of 864 GiB
+  /// memory and 128 vCPUs.
+  /// </li>
+  /// </ul>
+  final String? nodeType;
+
+  CapacityConfiguration({
+    this.nodeCount,
+    this.nodeType,
+  });
+
+  factory CapacityConfiguration.fromJson(Map<String, dynamic> json) {
+    return CapacityConfiguration(
+      nodeCount: json['nodeCount'] as int?,
+      nodeType: json['nodeType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nodeCount = this.nodeCount;
+    final nodeType = this.nodeType;
+    return {
+      if (nodeCount != null) 'nodeCount': nodeCount,
+      if (nodeType != null) 'nodeType': nodeType,
+    };
+  }
 }
 
 /// Configuration details about the network where the Privatelink endpoint of
@@ -8972,30 +8631,124 @@ class VpcConfiguration {
   }
 }
 
-class DnsStatus {
-  static const none = DnsStatus._('NONE');
-  static const updateRequested = DnsStatus._('UPDATE_REQUESTED');
-  static const updating = DnsStatus._('UPDATING');
-  static const failedUpdate = DnsStatus._('FAILED_UPDATE');
-  static const successfullyUpdated = DnsStatus._('SUCCESSFULLY_UPDATED');
+/// The size and type of temporary storage that is used to hold data during the
+/// savedown process. All the data written to this storage space is lost when
+/// the cluster node is restarted.
+class KxSavedownStorageConfiguration {
+  /// The size of temporary storage in gibibytes.
+  final int? size;
+
+  /// The type of writeable storage space for temporarily storing your savedown
+  /// data. The valid values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// SDS01 – This type represents 3000 IOPS and io2 ebs volume type.
+  /// </li>
+  /// </ul>
+  final KxSavedownStorageType? type;
+
+  /// The name of the kdb volume that you want to use as writeable save-down
+  /// storage for clusters.
+  final String? volumeName;
+
+  KxSavedownStorageConfiguration({
+    this.size,
+    this.type,
+    this.volumeName,
+  });
+
+  factory KxSavedownStorageConfiguration.fromJson(Map<String, dynamic> json) {
+    return KxSavedownStorageConfiguration(
+      size: json['size'] as int?,
+      type: (json['type'] as String?)?.let(KxSavedownStorageType.fromString),
+      volumeName: json['volumeName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final size = this.size;
+    final type = this.type;
+    final volumeName = this.volumeName;
+    return {
+      if (size != null) 'size': size,
+      if (type != null) 'type': type.value,
+      if (volumeName != null) 'volumeName': volumeName,
+    };
+  }
+}
+
+/// The structure that stores the capacity configuration details of a scaling
+/// group.
+class KxScalingGroupConfiguration {
+  /// A reservation of the minimum amount of memory that should be available on
+  /// the scaling group for a kdb cluster to be successfully placed in a scaling
+  /// group.
+  final int memoryReservation;
+
+  /// The number of kdb cluster nodes.
+  final int nodeCount;
+
+  /// A unique identifier for the kdb scaling group.
+  final String scalingGroupName;
+
+  /// The number of vCPUs that you want to reserve for each node of this kdb
+  /// cluster on the scaling group host.
+  final double? cpu;
+
+  /// An optional hard limit on the amount of memory a kdb cluster can use.
+  final int? memoryLimit;
+
+  KxScalingGroupConfiguration({
+    required this.memoryReservation,
+    required this.nodeCount,
+    required this.scalingGroupName,
+    this.cpu,
+    this.memoryLimit,
+  });
+
+  factory KxScalingGroupConfiguration.fromJson(Map<String, dynamic> json) {
+    return KxScalingGroupConfiguration(
+      memoryReservation: (json['memoryReservation'] as int?) ?? 0,
+      nodeCount: (json['nodeCount'] as int?) ?? 0,
+      scalingGroupName: (json['scalingGroupName'] as String?) ?? '',
+      cpu: json['cpu'] as double?,
+      memoryLimit: json['memoryLimit'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final memoryReservation = this.memoryReservation;
+    final nodeCount = this.nodeCount;
+    final scalingGroupName = this.scalingGroupName;
+    final cpu = this.cpu;
+    final memoryLimit = this.memoryLimit;
+    return {
+      'memoryReservation': memoryReservation,
+      'nodeCount': nodeCount,
+      'scalingGroupName': scalingGroupName,
+      if (cpu != null) 'cpu': cpu,
+      if (memoryLimit != null) 'memoryLimit': memoryLimit,
+    };
+  }
+}
+
+class KxSavedownStorageType {
+  static const sds01 = KxSavedownStorageType._('SDS01');
 
   final String value;
 
-  const DnsStatus._(this.value);
+  const KxSavedownStorageType._(this.value);
 
-  static const values = [
-    none,
-    updateRequested,
-    updating,
-    failedUpdate,
-    successfullyUpdated
-  ];
+  static const values = [sds01];
 
-  static DnsStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => DnsStatus._(value));
+  static KxSavedownStorageType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => KxSavedownStorageType._(value));
 
   @override
-  bool operator ==(other) => other is DnsStatus && other.value == value;
+  bool operator ==(other) =>
+      other is KxSavedownStorageType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -9004,36 +8757,274 @@ class DnsStatus {
   String toString() => value;
 }
 
-class TgwStatus {
-  static const none = TgwStatus._('NONE');
-  static const updateRequested = TgwStatus._('UPDATE_REQUESTED');
-  static const updating = TgwStatus._('UPDATING');
-  static const failedUpdate = TgwStatus._('FAILED_UPDATE');
-  static const successfullyUpdated = TgwStatus._('SUCCESSFULLY_UPDATED');
+class IPAddressType {
+  static const ipV4 = IPAddressType._('IP_V4');
 
   final String value;
 
-  const TgwStatus._(this.value);
+  const IPAddressType._(this.value);
 
-  static const values = [
-    none,
-    updateRequested,
-    updating,
-    failedUpdate,
-    successfullyUpdated
-  ];
+  static const values = [ipV4];
 
-  static TgwStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => TgwStatus._(value));
+  static IPAddressType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IPAddressType._(value));
 
   @override
-  bool operator ==(other) => other is TgwStatus && other.value == value;
+  bool operator ==(other) => other is IPAddressType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
+}
+
+class AutoScalingMetric {
+  static const cpuUtilizationPercentage =
+      AutoScalingMetric._('CPU_UTILIZATION_PERCENTAGE');
+
+  final String value;
+
+  const AutoScalingMetric._(this.value);
+
+  static const values = [cpuUtilizationPercentage];
+
+  static AutoScalingMetric fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AutoScalingMetric._(value));
+
+  @override
+  bool operator ==(other) => other is AutoScalingMetric && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The configuration for read only disk cache associated with a cluster.
+class KxCacheStorageConfiguration {
+  /// The size of cache in Gigabytes.
+  final int size;
+
+  /// The type of cache storage. The valid values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// CACHE_1000 – This type provides at least 1000 MB/s disk access throughput.
+  /// </li>
+  /// <li>
+  /// CACHE_250 – This type provides at least 250 MB/s disk access throughput.
+  /// </li>
+  /// <li>
+  /// CACHE_12 – This type provides at least 12 MB/s disk access throughput.
+  /// </li>
+  /// </ul>
+  /// For cache type <code>CACHE_1000</code> and <code>CACHE_250</code> you can
+  /// select cache size as 1200 GB or increments of 2400 GB. For cache type
+  /// <code>CACHE_12</code> you can select the cache size in increments of 6000
+  /// GB.
+  final String type;
+
+  KxCacheStorageConfiguration({
+    required this.size,
+    required this.type,
+  });
+
+  factory KxCacheStorageConfiguration.fromJson(Map<String, dynamic> json) {
+    return KxCacheStorageConfiguration(
+      size: (json['size'] as int?) ?? 0,
+      type: (json['type'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final size = this.size;
+    final type = this.type;
+    return {
+      'size': size,
+      'type': type,
+    };
+  }
+}
+
+/// Provides details in the event of a failed flow, including the error type and
+/// the related error message.
+class ErrorInfo {
+  /// Specifies the error message that appears if a flow fails.
+  final String? errorMessage;
+
+  /// Specifies the type of error.
+  final ErrorDetails? errorType;
+
+  ErrorInfo({
+    this.errorMessage,
+    this.errorType,
+  });
+
+  factory ErrorInfo.fromJson(Map<String, dynamic> json) {
+    return ErrorInfo(
+      errorMessage: json['errorMessage'] as String?,
+      errorType: (json['errorType'] as String?)?.let(ErrorDetails.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorMessage = this.errorMessage;
+    final errorType = this.errorType;
+    return {
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (errorType != null) 'errorType': errorType.value,
+    };
+  }
+}
+
+class ErrorDetails {
+  static const theInputsToThisRequestAreInvalid =
+      ErrorDetails._('The inputs to this request are invalid.');
+  static const serviceLimitsHaveBeenExceeded =
+      ErrorDetails._('Service limits have been exceeded.');
+  static const missingRequiredPermissionToPerformThisRequest =
+      ErrorDetails._('Missing required permission to perform this request.');
+  static const oneOrMoreInputsToThisRequestWereNotFound =
+      ErrorDetails._('One or more inputs to this request were not found.');
+  static const theSystemTemporarilyLacksSufficientResourcesToProcessTheRequest =
+      ErrorDetails._(
+          'The system temporarily lacks sufficient resources to process the request.');
+  static const anInternalErrorHasOccurred =
+      ErrorDetails._('An internal error has occurred.');
+  static const cancelled = ErrorDetails._('Cancelled');
+  static const aUserRecoverableErrorHasOccurred =
+      ErrorDetails._('A user recoverable error has occurred');
+
+  final String value;
+
+  const ErrorDetails._(this.value);
+
+  static const values = [
+    theInputsToThisRequestAreInvalid,
+    serviceLimitsHaveBeenExceeded,
+    missingRequiredPermissionToPerformThisRequest,
+    oneOrMoreInputsToThisRequestWereNotFound,
+    theSystemTemporarilyLacksSufficientResourcesToProcessTheRequest,
+    anInternalErrorHasOccurred,
+    cancelled,
+    aUserRecoverableErrorHasOccurred
+  ];
+
+  static ErrorDetails fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ErrorDetails._(value));
+
+  @override
+  bool operator ==(other) => other is ErrorDetails && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A list of change request objects.
+class ChangeRequest {
+  /// Defines the type of change request. A <code>changeType</code> can have the
+  /// following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// PUT – Adds or updates files in a database.
+  /// </li>
+  /// <li>
+  /// DELETE – Deletes files in a database.
+  /// </li>
+  /// </ul>
+  final ChangeType changeType;
+
+  /// Defines the path within the database directory.
+  final String dbPath;
+
+  /// Defines the S3 path of the source file that is required to add or update
+  /// files in a database.
+  final String? s3Path;
+
+  ChangeRequest({
+    required this.changeType,
+    required this.dbPath,
+    this.s3Path,
+  });
+
+  factory ChangeRequest.fromJson(Map<String, dynamic> json) {
+    return ChangeRequest(
+      changeType: ChangeType.fromString((json['changeType'] as String?) ?? ''),
+      dbPath: (json['dbPath'] as String?) ?? '',
+      s3Path: json['s3Path'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeType = this.changeType;
+    final dbPath = this.dbPath;
+    final s3Path = this.s3Path;
+    return {
+      'changeType': changeType.value,
+      'dbPath': dbPath,
+      if (s3Path != null) 's3Path': s3Path,
+    };
+  }
+}
+
+class ChangeType {
+  static const put = ChangeType._('PUT');
+  static const delete = ChangeType._('DELETE');
+
+  final String value;
+
+  const ChangeType._(this.value);
+
+  static const values = [put, delete];
+
+  static ChangeType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChangeType._(value));
+
+  @override
+  bool operator ==(other) => other is ChangeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Configuration information for the superuser.
+class SuperuserParameters {
+  /// The email address of the superuser.
+  final String emailAddress;
+
+  /// The first name of the superuser.
+  final String firstName;
+
+  /// The last name of the superuser.
+  final String lastName;
+
+  SuperuserParameters({
+    required this.emailAddress,
+    required this.firstName,
+    required this.lastName,
+  });
+
+  Map<String, dynamic> toJson() {
+    final emailAddress = this.emailAddress;
+    final firstName = this.firstName;
+    final lastName = this.lastName;
+    return {
+      'emailAddress': emailAddress,
+      'firstName': firstName,
+      'lastName': lastName,
+    };
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

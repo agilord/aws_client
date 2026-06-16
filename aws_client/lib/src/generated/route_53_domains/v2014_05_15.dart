@@ -69,9 +69,9 @@ class Route53Domains {
   /// provides additional information, for example, <code>Domain Transfer from
   /// Aws Account 111122223333 has been cancelled</code>.
   ///
+  /// May throw [DomainLimitExceeded].
   /// May throw [InvalidInput].
   /// May throw [OperationLimitExceeded].
-  /// May throw [DomainLimitExceeded].
   /// May throw [UnsupportedTLD].
   ///
   /// Parameter [domainName] :
@@ -118,14 +118,14 @@ class Route53Domains {
   /// the internet if the steps are completed in the wrong order, or with
   /// incorrect timing. For more information about DNSSEC signing, see <a
   /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-configuring-dnssec.html">Configuring
-  /// DNSSEC signing</a> in the <i>Route 53 developer guide</i>.
+  /// DNSSEC signing</a> in the <i>Route 53 developer guide</i>.
   ///
+  /// May throw [DnssecLimitExceeded].
   /// May throw [DuplicateRequest].
   /// May throw [InvalidInput].
   /// May throw [OperationLimitExceeded].
   /// May throw [TLDRulesViolation].
   /// May throw [UnsupportedTLD].
-  /// May throw [DnssecLimitExceeded].
   ///
   /// Parameter [domainName] :
   /// The name of the domain.
@@ -213,6 +213,7 @@ class Route53Domains {
   /// request to determine the availability of the domain name.
   ///
   /// May throw [InvalidInput].
+  /// May throw [TLDInMaintenance].
   /// May throw [UnsupportedTLD].
   ///
   /// Parameter [domainName] :
@@ -277,6 +278,7 @@ class Route53Domains {
   /// Checks whether a domain name can be transferred to Amazon Route 53.
   ///
   /// May throw [InvalidInput].
+  /// May throw [TLDInMaintenance].
   /// May throw [UnsupportedTLD].
   ///
   /// Parameter [domainName] :
@@ -353,11 +355,12 @@ class Route53Domains {
   /// When the registration has been deleted, we'll send you a confirmation to
   /// the registrant contact. The email will come from
   /// <code>noreply@domainnameverification.net</code> or
-  /// <code>noreply@registrar.amazon.com</code>.
+  /// <code>noreply@emailverification.info</code> or
+  /// <code>noreply@registrar.amazon</code>.
   /// </li> </ol>
   ///
-  /// May throw [InvalidInput].
   /// May throw [DuplicateRequest].
+  /// May throw [InvalidInput].
   /// May throw [TLDRulesViolation].
   /// May throw [UnsupportedTLD].
   ///
@@ -454,10 +457,10 @@ class Route53Domains {
   /// completion of the action. If the request is not completed successfully,
   /// the domain registrant will be notified by email.
   ///
-  /// May throw [InvalidInput].
   /// May throw [DuplicateRequest].
-  /// May throw [TLDRulesViolation].
+  /// May throw [InvalidInput].
   /// May throw [OperationLimitExceeded].
+  /// May throw [TLDRulesViolation].
   /// May throw [UnsupportedTLD].
   ///
   /// Parameter [domainName] :
@@ -538,8 +541,8 @@ class Route53Domains {
   /// the renewal period so we can complete processing before the deadline.
   ///
   /// May throw [InvalidInput].
-  /// May throw [UnsupportedTLD].
   /// May throw [TLDRulesViolation].
+  /// May throw [UnsupportedTLD].
   ///
   /// Parameter [domainName] :
   /// The name of the domain that you want to enable automatic renewal for.
@@ -568,10 +571,10 @@ class Route53Domains {
   /// the progress and completion of the action. If the request is not completed
   /// successfully, the domain registrant will be notified by email.
   ///
-  /// May throw [InvalidInput].
   /// May throw [DuplicateRequest].
-  /// May throw [TLDRulesViolation].
+  /// May throw [InvalidInput].
   /// May throw [OperationLimitExceeded].
+  /// May throw [TLDRulesViolation].
   /// May throw [UnsupportedTLD].
   ///
   /// Parameter [domainName] :
@@ -667,6 +670,7 @@ class Route53Domains {
   /// names.
   ///
   /// May throw [InvalidInput].
+  /// May throw [TLDInMaintenance].
   /// May throw [UnsupportedTLD].
   ///
   /// Parameter [domainName] :
@@ -710,7 +714,8 @@ class Route53Domains {
   ///
   /// Parameter [suggestionCount] :
   /// The number of suggested domain names that you want Route 53 to return.
-  /// Specify a value between 1 and 50.
+  /// Specify a value between 1 and 50. Note that fewer than the requested
+  /// number might be returned.
   Future<GetDomainSuggestionsResponse> getDomainSuggestions({
     required String domainName,
     required bool onlyAvailable,
@@ -907,7 +912,7 @@ class Route53Domains {
     return ListOperationsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Lists the following prices for either all the TLDs supported by Route 53,
+  /// Lists the following prices for either all the TLDs supported by Route 53,
   /// or the specified TLD:
   ///
   /// <ul>
@@ -953,7 +958,7 @@ class Route53Domains {
   /// example. <code>.net</code>.
   ///
   /// If a <code>Tld</code> value is not provided, a list of prices for all TLDs
-  /// supported by Route 53 is returned.
+  /// supported by Route 53 is returned.
   Future<ListPricesResponse> listPrices({
     String? marker,
     int? maxItems,
@@ -1031,6 +1036,7 @@ class Route53Domains {
   ///
   /// May throw [InvalidInput].
   /// May throw [OperationLimitExceeded].
+  /// May throw [TLDInMaintenance].
   /// May throw [UnsupportedTLD].
   ///
   /// Parameter [domainName] :
@@ -1078,7 +1084,7 @@ class Route53Domains {
   /// <li>
   /// Optionally enables privacy protection, so WHOIS queries return contact for
   /// the registrar or the phrase "REDACTED FOR PRIVACY", or "On behalf of
-  /// &lt;domain name&gt; owner." If you don't enable privacy protection, WHOIS
+  /// <domain name> owner." If you don't enable privacy protection, WHOIS
   /// queries return the information that you entered for the administrative,
   /// registrant, and technical contacts.
   /// <note>
@@ -1097,12 +1103,12 @@ class Route53Domains {
   /// </li>
   /// </ul>
   ///
-  /// May throw [InvalidInput].
-  /// May throw [UnsupportedTLD].
-  /// May throw [DuplicateRequest].
-  /// May throw [TLDRulesViolation].
   /// May throw [DomainLimitExceeded].
+  /// May throw [DuplicateRequest].
+  /// May throw [InvalidInput].
   /// May throw [OperationLimitExceeded].
+  /// May throw [TLDRulesViolation].
+  /// May throw [UnsupportedTLD].
   ///
   /// Parameter [adminContact] :
   /// Provides detailed contact information. For information about the values
@@ -1337,11 +1343,11 @@ class Route53Domains {
   /// Registration for a Domain</a> in the <i>Amazon Route 53 Developer
   /// Guide</i>.
   ///
-  /// May throw [InvalidInput].
-  /// May throw [UnsupportedTLD].
   /// May throw [DuplicateRequest].
-  /// May throw [TLDRulesViolation].
+  /// May throw [InvalidInput].
   /// May throw [OperationLimitExceeded].
+  /// May throw [TLDRulesViolation].
+  /// May throw [UnsupportedTLD].
   ///
   /// Parameter [currentExpiryYear] :
   /// The year when the registration for the domain is set to expire. This value
@@ -1397,6 +1403,7 @@ class Route53Domains {
   ///
   /// May throw [InvalidInput].
   /// May throw [OperationLimitExceeded].
+  /// May throw [TLDInMaintenance].
   /// May throw [UnsupportedTLD].
   ///
   /// Parameter [domainName] :
@@ -1427,6 +1434,7 @@ class Route53Domains {
   /// Resend the form of authorization email for this operation.
   ///
   /// May throw [InvalidInput].
+  /// May throw [TLDInMaintenance].
   ///
   /// Parameter [operationId] :
   /// Operation ID.
@@ -1454,6 +1462,7 @@ class Route53Domains {
   /// registrar.
   ///
   /// May throw [InvalidInput].
+  /// May throw [TLDInMaintenance].
   /// May throw [UnsupportedTLD].
   ///
   /// Parameter [domainName] :
@@ -1529,12 +1538,12 @@ class Route53Domains {
   /// transfer doesn't complete successfully, the domain registrant will be
   /// notified by email.
   ///
-  /// May throw [InvalidInput].
-  /// May throw [UnsupportedTLD].
-  /// May throw [DuplicateRequest].
-  /// May throw [TLDRulesViolation].
   /// May throw [DomainLimitExceeded].
+  /// May throw [DuplicateRequest].
+  /// May throw [InvalidInput].
   /// May throw [OperationLimitExceeded].
+  /// May throw [TLDRulesViolation].
+  /// May throw [UnsupportedTLD].
   ///
   /// Parameter [adminContact] :
   /// Provides detailed contact information.
@@ -1565,13 +1574,6 @@ class Route53Domains {
   /// </li>
   /// </ul>
   ///
-  /// Parameter [durationInYears] :
-  /// The number of years that you want to register the domain for. Domains are
-  /// registered for a minimum of one year. The maximum period depends on the
-  /// top-level domain.
-  ///
-  /// Default: 1
-  ///
   /// Parameter [registrantContact] :
   /// Provides detailed contact information.
   ///
@@ -1591,6 +1593,17 @@ class Route53Domains {
   /// Parameter [billingContact] :
   /// Provides detailed contact information.
   ///
+  /// Parameter [durationInYears] :
+  /// Reserved for future use.
+  ///
+  /// Currently, the effect of a domain transfer on the registration period
+  /// varies by TLD. For information about how transferring a domain affects the
+  /// expiration date, see the Transfer Term column in the pricing information
+  /// at <a href="http://aws.amazon.com/route53/pricing/">Amazon Route 53
+  /// Pricing</a>.
+  ///
+  /// Default: 1
+  ///
   /// Parameter [idnLangCode] :
   /// Reserved for future use.
   ///
@@ -1601,7 +1614,7 @@ class Route53Domains {
   /// Whether you want to conceal contact information from WHOIS queries. If you
   /// specify <code>true</code>, WHOIS ("who is") queries return contact
   /// information for the registrar, the phrase "REDACTED FOR PRIVACY", or "On
-  /// behalf of &lt;domain name&gt; owner.".
+  /// behalf of <domain name> owner.".
   /// <note>
   /// While some domains may allow different privacy settings per contact, we
   /// recommend specifying the same privacy setting for all contacts.
@@ -1645,12 +1658,12 @@ class Route53Domains {
   Future<TransferDomainResponse> transferDomain({
     required ContactDetail adminContact,
     required String domainName,
-    required int durationInYears,
     required ContactDetail registrantContact,
     required ContactDetail techContact,
     String? authCode,
     bool? autoRenew,
     ContactDetail? billingContact,
+    int? durationInYears,
     String? idnLangCode,
     List<Nameserver>? nameservers,
     bool? privacyProtectAdminContact,
@@ -1663,7 +1676,6 @@ class Route53Domains {
       durationInYears,
       1,
       10,
-      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1678,12 +1690,12 @@ class Route53Domains {
       payload: {
         'AdminContact': adminContact,
         'DomainName': domainName,
-        'DurationInYears': durationInYears,
         'RegistrantContact': registrantContact,
         'TechContact': techContact,
         if (authCode != null) 'AuthCode': authCode,
         if (autoRenew != null) 'AutoRenew': autoRenew,
         if (billingContact != null) 'BillingContact': billingContact,
+        if (durationInYears != null) 'DurationInYears': durationInYears,
         if (idnLangCode != null) 'IdnLangCode': idnLangCode,
         if (nameservers != null) 'Nameservers': nameservers,
         if (privacyProtectAdminContact != null)
@@ -1738,9 +1750,9 @@ class Route53Domains {
   /// provides additional information, for example, <code>Domain Transfer from
   /// Aws Account 111122223333 has been cancelled</code>.
   ///
+  /// May throw [DuplicateRequest].
   /// May throw [InvalidInput].
   /// May throw [OperationLimitExceeded].
-  /// May throw [DuplicateRequest].
   /// May throw [UnsupportedTLD].
   ///
   /// Parameter [accountId] :
@@ -1785,10 +1797,10 @@ class Route53Domains {
   /// request is not completed successfully, the domain registrant will be
   /// notified by email.
   ///
-  /// May throw [InvalidInput].
   /// May throw [DuplicateRequest].
-  /// May throw [TLDRulesViolation].
+  /// May throw [InvalidInput].
   /// May throw [OperationLimitExceeded].
+  /// May throw [TLDRulesViolation].
   /// May throw [UnsupportedTLD].
   ///
   /// Parameter [domainName] :
@@ -1843,7 +1855,7 @@ class Route53Domains {
   /// This operation updates the specified domain contact's privacy setting.
   /// When privacy protection is enabled, your contact information is replaced
   /// with contact information for the registrar or with the phrase "REDACTED
-  /// FOR PRIVACY", or "On behalf of &lt;domain name&gt; owner."
+  /// FOR PRIVACY", or "On behalf of <domain name> owner."
   /// <note>
   /// While some domains may allow different privacy settings per contact, we
   /// recommend specifying the same privacy setting for all contacts.
@@ -1867,10 +1879,10 @@ class Route53Domains {
   /// href="https://aws.amazon.com/privacy/">https://aws.amazon.com/privacy/</a>.
   /// </important>
   ///
-  /// May throw [InvalidInput].
   /// May throw [DuplicateRequest].
-  /// May throw [TLDRulesViolation].
+  /// May throw [InvalidInput].
   /// May throw [OperationLimitExceeded].
+  /// May throw [TLDRulesViolation].
   /// May throw [UnsupportedTLD].
   ///
   /// Parameter [domainName] :
@@ -1957,10 +1969,10 @@ class Route53Domains {
   /// track the progress and completion of the action. If the request is not
   /// completed successfully, the domain registrant will be notified by email.
   ///
-  /// May throw [InvalidInput].
   /// May throw [DuplicateRequest].
-  /// May throw [TLDRulesViolation].
+  /// May throw [InvalidInput].
   /// May throw [OperationLimitExceeded].
+  /// May throw [TLDRulesViolation].
   /// May throw [UnsupportedTLD].
   ///
   /// Parameter [domainName] :
@@ -2151,64 +2163,6 @@ class AssociateDelegationSignerToDomainResponse {
   }
 }
 
-/// Information for one billing record.
-class BillingRecord {
-  /// The date that the operation was billed, in Unix format.
-  final DateTime? billDate;
-
-  /// The name of the domain that the billing record applies to. If the domain
-  /// name contains characters other than a-z, 0-9, and - (hyphen), such as an
-  /// internationalized domain name, then this value is in Punycode. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DomainNameFormat.html">DNS
-  /// Domain Name Format</a> in the <i>Amazon Route 53 Developer Guide</i>.
-  final String? domainName;
-
-  /// The ID of the invoice that is associated with the billing record.
-  final String? invoiceId;
-
-  /// The operation that you were charged for.
-  final OperationType? operation;
-
-  /// The price that you were charged for the operation, in US dollars.
-  ///
-  /// Example value: 12.0
-  final double? price;
-
-  BillingRecord({
-    this.billDate,
-    this.domainName,
-    this.invoiceId,
-    this.operation,
-    this.price,
-  });
-
-  factory BillingRecord.fromJson(Map<String, dynamic> json) {
-    return BillingRecord(
-      billDate: timeStampFromJson(json['BillDate']),
-      domainName: json['DomainName'] as String?,
-      invoiceId: json['InvoiceId'] as String?,
-      operation: (json['Operation'] as String?)?.let(OperationType.fromString),
-      price: json['Price'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final billDate = this.billDate;
-    final domainName = this.domainName;
-    final invoiceId = this.invoiceId;
-    final operation = this.operation;
-    final price = this.price;
-    return {
-      if (billDate != null) 'BillDate': unixTimestampToJson(billDate),
-      if (domainName != null) 'DomainName': domainName,
-      if (invoiceId != null) 'InvoiceId': invoiceId,
-      if (operation != null) 'Operation': operation.value,
-      if (price != null) 'Price': price,
-    };
-  }
-}
-
 /// The <code>CancelDomainTransferToAnotherAwsAccount</code> response includes
 /// the following element.
 class CancelDomainTransferToAnotherAwsAccountResponse {
@@ -2327,25 +2281,1207 @@ class CheckDomainTransferabilityResponse {
   }
 }
 
-/// Customer's consent for the owner change request.
-class Consent {
-  /// Currency for the <code>MaxPrice</code>.
-  final String currency;
+class DeleteDomainResponse {
+  /// Identifier for tracking the progress of the request. To query the operation
+  /// status, use <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>.
+  final String? operationId;
 
-  /// Maximum amount the customer agreed to accept.
-  final double maxPrice;
-
-  Consent({
-    required this.currency,
-    required this.maxPrice,
+  DeleteDomainResponse({
+    this.operationId,
   });
 
+  factory DeleteDomainResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteDomainResponse(
+      operationId: json['OperationId'] as String?,
+    );
+  }
+
   Map<String, dynamic> toJson() {
-    final currency = this.currency;
-    final maxPrice = this.maxPrice;
+    final operationId = this.operationId;
     return {
-      'Currency': currency,
-      'MaxPrice': maxPrice,
+      if (operationId != null) 'OperationId': operationId,
+    };
+  }
+}
+
+class DeleteTagsForDomainResponse {
+  DeleteTagsForDomainResponse();
+
+  factory DeleteTagsForDomainResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteTagsForDomainResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DisableDomainAutoRenewResponse {
+  DisableDomainAutoRenewResponse();
+
+  factory DisableDomainAutoRenewResponse.fromJson(Map<String, dynamic> _) {
+    return DisableDomainAutoRenewResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The DisableDomainTransferLock response includes the following element.
+class DisableDomainTransferLockResponse {
+  /// Identifier for tracking the progress of the request. To query the operation
+  /// status, use <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>.
+  final String? operationId;
+
+  DisableDomainTransferLockResponse({
+    this.operationId,
+  });
+
+  factory DisableDomainTransferLockResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DisableDomainTransferLockResponse(
+      operationId: json['OperationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationId = this.operationId;
+    return {
+      if (operationId != null) 'OperationId': operationId,
+    };
+  }
+}
+
+class DisassociateDelegationSignerFromDomainResponse {
+  /// Identifier for tracking the progress of the request. To query the operation
+  /// status, use <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>.
+  final String? operationId;
+
+  DisassociateDelegationSignerFromDomainResponse({
+    this.operationId,
+  });
+
+  factory DisassociateDelegationSignerFromDomainResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DisassociateDelegationSignerFromDomainResponse(
+      operationId: json['OperationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationId = this.operationId;
+    return {
+      if (operationId != null) 'OperationId': operationId,
+    };
+  }
+}
+
+class EnableDomainAutoRenewResponse {
+  EnableDomainAutoRenewResponse();
+
+  factory EnableDomainAutoRenewResponse.fromJson(Map<String, dynamic> _) {
+    return EnableDomainAutoRenewResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The EnableDomainTransferLock response includes the following elements.
+class EnableDomainTransferLockResponse {
+  /// Identifier for tracking the progress of the request. To use this ID to query
+  /// the operation status, use GetOperationDetail.
+  final String? operationId;
+
+  EnableDomainTransferLockResponse({
+    this.operationId,
+  });
+
+  factory EnableDomainTransferLockResponse.fromJson(Map<String, dynamic> json) {
+    return EnableDomainTransferLockResponse(
+      operationId: json['OperationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationId = this.operationId;
+    return {
+      if (operationId != null) 'OperationId': operationId,
+    };
+  }
+}
+
+class GetContactReachabilityStatusResponse {
+  /// The domain name for which you requested the reachability status.
+  final String? domainName;
+
+  /// Whether the registrant contact has responded. Values include the following:
+  /// <dl> <dt>PENDING</dt> <dd>
+  /// We sent the confirmation email and haven't received a response yet.
+  /// </dd> <dt>DONE</dt> <dd>
+  /// We sent the email and got confirmation from the registrant contact.
+  /// </dd> <dt>EXPIRED</dt> <dd>
+  /// The time limit expired before the registrant contact responded.
+  /// </dd> </dl>
+  final ReachabilityStatus? status;
+
+  GetContactReachabilityStatusResponse({
+    this.domainName,
+    this.status,
+  });
+
+  factory GetContactReachabilityStatusResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetContactReachabilityStatusResponse(
+      domainName: json['domainName'] as String?,
+      status: (json['status'] as String?)?.let(ReachabilityStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainName = this.domainName;
+    final status = this.status;
+    return {
+      if (domainName != null) 'domainName': domainName,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+/// The GetDomainDetail response includes the following elements.
+class GetDomainDetailResponse {
+  /// Email address to contact to report incorrect contact information for a
+  /// domain, to report that the domain is being used to send spam, to report that
+  /// someone is cybersquatting on a domain name, or report some other type of
+  /// abuse.
+  final String? abuseContactEmail;
+
+  /// Phone number for reporting abuse.
+  final String? abuseContactPhone;
+
+  /// Provides details about the domain administrative contact.
+  final ContactDetail? adminContact;
+
+  /// Specifies whether contact information is concealed from WHOIS queries. If
+  /// the value is <code>true</code>, WHOIS ("who is") queries return contact
+  /// information either for Amazon Registrar or for our registrar associate,
+  /// Gandi. If the value is <code>false</code>, WHOIS queries return the
+  /// information that you entered for the admin contact.
+  final bool? adminPrivacy;
+
+  /// Specifies whether the domain registration is set to renew automatically.
+  final bool? autoRenew;
+
+  /// Provides details about the domain billing contact.
+  final ContactDetail? billingContact;
+
+  /// Specifies whether contact information is concealed from WHOIS queries. If
+  /// the value is <code>true</code>, WHOIS ("who is") queries return contact
+  /// information either for Amazon Registrar or for our registrar associate,
+  /// Gandi. If the value is <code>false</code>, WHOIS queries return the
+  /// information that you entered for the billing contact.
+  final bool? billingPrivacy;
+
+  /// The date when the domain was created as found in the response to a WHOIS
+  /// query. The date and time is in Unix time format and Coordinated Universal
+  /// time (UTC).
+  final DateTime? creationDate;
+
+  /// Deprecated.
+  final String? dnsSec;
+
+  /// A complex type that contains information about the DNSSEC configuration.
+  final List<DnssecKey>? dnssecKeys;
+
+  /// The name of a domain.
+  final String? domainName;
+
+  /// The date when the registration for the domain is set to expire. The date and
+  /// time is in Unix time format and Coordinated Universal time (UTC).
+  final DateTime? expirationDate;
+
+  /// The name servers of the domain.
+  final List<Nameserver>? nameservers;
+
+  /// Provides details about the domain registrant.
+  final ContactDetail? registrantContact;
+
+  /// Specifies whether contact information is concealed from WHOIS queries. If
+  /// the value is <code>true</code>, WHOIS ("who is") queries return contact
+  /// information either for Amazon Registrar or for our registrar associate,
+  /// Gandi. If the value is <code>false</code>, WHOIS queries return the
+  /// information that you entered for the registrant contact (domain owner).
+  final bool? registrantPrivacy;
+
+  /// Name of the registrar of the domain as identified in the registry.
+  final String? registrarName;
+
+  /// Web address of the registrar.
+  final String? registrarUrl;
+
+  /// Reserved for future use.
+  final String? registryDomainId;
+
+  /// Reserved for future use.
+  final String? reseller;
+
+  /// An array of domain name status codes, also known as Extensible Provisioning
+  /// Protocol (EPP) status codes.
+  ///
+  /// ICANN, the organization that maintains a central database of domain names,
+  /// has developed a set of domain name status codes that tell you the status of
+  /// a variety of operations on a domain name, for example, registering a domain
+  /// name, transferring a domain name to another registrar, renewing the
+  /// registration for a domain name, and so on. All registrars use this same set
+  /// of status codes.
+  ///
+  /// For a current list of domain name status codes and an explanation of what
+  /// each code means, go to the <a href="https://www.icann.org/">ICANN
+  /// website</a> and search for <code>epp status codes</code>. (Search on the
+  /// ICANN website; web searches sometimes return an old version of the
+  /// document.)
+  final List<String>? statusList;
+
+  /// Provides details about the domain technical contact.
+  final ContactDetail? techContact;
+
+  /// Specifies whether contact information is concealed from WHOIS queries. If
+  /// the value is <code>true</code>, WHOIS ("who is") queries return contact
+  /// information either for Amazon Registrar or for our registrar associate,
+  /// Gandi. If the value is <code>false</code>, WHOIS queries return the
+  /// information that you entered for the technical contact.
+  final bool? techPrivacy;
+
+  /// The last updated date of the domain as found in the response to a WHOIS
+  /// query. The date and time is in Unix time format and Coordinated Universal
+  /// time (UTC).
+  final DateTime? updatedDate;
+
+  /// The fully qualified name of the WHOIS server that can answer the WHOIS query
+  /// for the domain.
+  final String? whoIsServer;
+
+  GetDomainDetailResponse({
+    this.abuseContactEmail,
+    this.abuseContactPhone,
+    this.adminContact,
+    this.adminPrivacy,
+    this.autoRenew,
+    this.billingContact,
+    this.billingPrivacy,
+    this.creationDate,
+    this.dnsSec,
+    this.dnssecKeys,
+    this.domainName,
+    this.expirationDate,
+    this.nameservers,
+    this.registrantContact,
+    this.registrantPrivacy,
+    this.registrarName,
+    this.registrarUrl,
+    this.registryDomainId,
+    this.reseller,
+    this.statusList,
+    this.techContact,
+    this.techPrivacy,
+    this.updatedDate,
+    this.whoIsServer,
+  });
+
+  factory GetDomainDetailResponse.fromJson(Map<String, dynamic> json) {
+    return GetDomainDetailResponse(
+      abuseContactEmail: json['AbuseContactEmail'] as String?,
+      abuseContactPhone: json['AbuseContactPhone'] as String?,
+      adminContact: json['AdminContact'] != null
+          ? ContactDetail.fromJson(json['AdminContact'] as Map<String, dynamic>)
+          : null,
+      adminPrivacy: json['AdminPrivacy'] as bool?,
+      autoRenew: json['AutoRenew'] as bool?,
+      billingContact: json['BillingContact'] != null
+          ? ContactDetail.fromJson(
+              json['BillingContact'] as Map<String, dynamic>)
+          : null,
+      billingPrivacy: json['BillingPrivacy'] as bool?,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      dnsSec: json['DnsSec'] as String?,
+      dnssecKeys: (json['DnssecKeys'] as List?)
+          ?.nonNulls
+          .map((e) => DnssecKey.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      domainName: json['DomainName'] as String?,
+      expirationDate: timeStampFromJson(json['ExpirationDate']),
+      nameservers: (json['Nameservers'] as List?)
+          ?.nonNulls
+          .map((e) => Nameserver.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      registrantContact: json['RegistrantContact'] != null
+          ? ContactDetail.fromJson(
+              json['RegistrantContact'] as Map<String, dynamic>)
+          : null,
+      registrantPrivacy: json['RegistrantPrivacy'] as bool?,
+      registrarName: json['RegistrarName'] as String?,
+      registrarUrl: json['RegistrarUrl'] as String?,
+      registryDomainId: json['RegistryDomainId'] as String?,
+      reseller: json['Reseller'] as String?,
+      statusList: (json['StatusList'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      techContact: json['TechContact'] != null
+          ? ContactDetail.fromJson(json['TechContact'] as Map<String, dynamic>)
+          : null,
+      techPrivacy: json['TechPrivacy'] as bool?,
+      updatedDate: timeStampFromJson(json['UpdatedDate']),
+      whoIsServer: json['WhoIsServer'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final abuseContactEmail = this.abuseContactEmail;
+    final abuseContactPhone = this.abuseContactPhone;
+    final adminContact = this.adminContact;
+    final adminPrivacy = this.adminPrivacy;
+    final autoRenew = this.autoRenew;
+    final billingContact = this.billingContact;
+    final billingPrivacy = this.billingPrivacy;
+    final creationDate = this.creationDate;
+    final dnsSec = this.dnsSec;
+    final dnssecKeys = this.dnssecKeys;
+    final domainName = this.domainName;
+    final expirationDate = this.expirationDate;
+    final nameservers = this.nameservers;
+    final registrantContact = this.registrantContact;
+    final registrantPrivacy = this.registrantPrivacy;
+    final registrarName = this.registrarName;
+    final registrarUrl = this.registrarUrl;
+    final registryDomainId = this.registryDomainId;
+    final reseller = this.reseller;
+    final statusList = this.statusList;
+    final techContact = this.techContact;
+    final techPrivacy = this.techPrivacy;
+    final updatedDate = this.updatedDate;
+    final whoIsServer = this.whoIsServer;
+    return {
+      if (abuseContactEmail != null) 'AbuseContactEmail': abuseContactEmail,
+      if (abuseContactPhone != null) 'AbuseContactPhone': abuseContactPhone,
+      if (adminContact != null) 'AdminContact': adminContact,
+      if (adminPrivacy != null) 'AdminPrivacy': adminPrivacy,
+      if (autoRenew != null) 'AutoRenew': autoRenew,
+      if (billingContact != null) 'BillingContact': billingContact,
+      if (billingPrivacy != null) 'BillingPrivacy': billingPrivacy,
+      if (creationDate != null)
+        'CreationDate': unixTimestampToJson(creationDate),
+      if (dnsSec != null) 'DnsSec': dnsSec,
+      if (dnssecKeys != null) 'DnssecKeys': dnssecKeys,
+      if (domainName != null) 'DomainName': domainName,
+      if (expirationDate != null)
+        'ExpirationDate': unixTimestampToJson(expirationDate),
+      if (nameservers != null) 'Nameservers': nameservers,
+      if (registrantContact != null) 'RegistrantContact': registrantContact,
+      if (registrantPrivacy != null) 'RegistrantPrivacy': registrantPrivacy,
+      if (registrarName != null) 'RegistrarName': registrarName,
+      if (registrarUrl != null) 'RegistrarUrl': registrarUrl,
+      if (registryDomainId != null) 'RegistryDomainId': registryDomainId,
+      if (reseller != null) 'Reseller': reseller,
+      if (statusList != null) 'StatusList': statusList,
+      if (techContact != null) 'TechContact': techContact,
+      if (techPrivacy != null) 'TechPrivacy': techPrivacy,
+      if (updatedDate != null) 'UpdatedDate': unixTimestampToJson(updatedDate),
+      if (whoIsServer != null) 'WhoIsServer': whoIsServer,
+    };
+  }
+}
+
+class GetDomainSuggestionsResponse {
+  /// A list of possible domain names. If you specified <code>true</code> for
+  /// <code>OnlyAvailable</code> in the request, the list contains only domains
+  /// that are available for registration.
+  final List<DomainSuggestion>? suggestionsList;
+
+  GetDomainSuggestionsResponse({
+    this.suggestionsList,
+  });
+
+  factory GetDomainSuggestionsResponse.fromJson(Map<String, dynamic> json) {
+    return GetDomainSuggestionsResponse(
+      suggestionsList: (json['SuggestionsList'] as List?)
+          ?.nonNulls
+          .map((e) => DomainSuggestion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final suggestionsList = this.suggestionsList;
+    return {
+      if (suggestionsList != null) 'SuggestionsList': suggestionsList,
+    };
+  }
+}
+
+/// The GetOperationDetail response includes the following elements.
+class GetOperationDetailResponse {
+  /// The name of a domain.
+  final String? domainName;
+
+  /// The date when the operation was last updated.
+  final DateTime? lastUpdatedDate;
+
+  /// Detailed information on the status including possible errors.
+  final String? message;
+
+  /// The identifier for the operation.
+  final String? operationId;
+
+  /// The current status of the requested operation in the system.
+  final OperationStatus? status;
+
+  /// Lists any outstanding operations that require customer action. Valid values
+  /// are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PENDING_ACCEPTANCE</code>: The operation is waiting for acceptance
+  /// from the account that is receiving the domain.
+  /// </li>
+  /// <li>
+  /// <code>PENDING_CUSTOMER_ACTION</code>: The operation is waiting for customer
+  /// action, for example, returning an email.
+  /// </li>
+  /// <li>
+  /// <code>PENDING_AUTHORIZATION</code>: The operation is waiting for the form of
+  /// authorization. For more information, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ResendOperationAuthorization.html">ResendOperationAuthorization</a>.
+  /// </li>
+  /// <li>
+  /// <code>PENDING_PAYMENT_VERIFICATION</code>: The operation is waiting for the
+  /// payment method to validate.
+  /// </li>
+  /// <li>
+  /// <code>PENDING_SUPPORT_CASE</code>: The operation includes a support case and
+  /// is waiting for its resolution.
+  /// </li>
+  /// </ul>
+  final StatusFlag? statusFlag;
+
+  /// The date when the request was submitted.
+  final DateTime? submittedDate;
+
+  /// The type of operation that was requested.
+  final OperationType? type;
+
+  GetOperationDetailResponse({
+    this.domainName,
+    this.lastUpdatedDate,
+    this.message,
+    this.operationId,
+    this.status,
+    this.statusFlag,
+    this.submittedDate,
+    this.type,
+  });
+
+  factory GetOperationDetailResponse.fromJson(Map<String, dynamic> json) {
+    return GetOperationDetailResponse(
+      domainName: json['DomainName'] as String?,
+      lastUpdatedDate: timeStampFromJson(json['LastUpdatedDate']),
+      message: json['Message'] as String?,
+      operationId: json['OperationId'] as String?,
+      status: (json['Status'] as String?)?.let(OperationStatus.fromString),
+      statusFlag: (json['StatusFlag'] as String?)?.let(StatusFlag.fromString),
+      submittedDate: timeStampFromJson(json['SubmittedDate']),
+      type: (json['Type'] as String?)?.let(OperationType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainName = this.domainName;
+    final lastUpdatedDate = this.lastUpdatedDate;
+    final message = this.message;
+    final operationId = this.operationId;
+    final status = this.status;
+    final statusFlag = this.statusFlag;
+    final submittedDate = this.submittedDate;
+    final type = this.type;
+    return {
+      if (domainName != null) 'DomainName': domainName,
+      if (lastUpdatedDate != null)
+        'LastUpdatedDate': unixTimestampToJson(lastUpdatedDate),
+      if (message != null) 'Message': message,
+      if (operationId != null) 'OperationId': operationId,
+      if (status != null) 'Status': status.value,
+      if (statusFlag != null) 'StatusFlag': statusFlag.value,
+      if (submittedDate != null)
+        'SubmittedDate': unixTimestampToJson(submittedDate),
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+/// The ListDomains response includes the following elements.
+class ListDomainsResponse {
+  /// A list of domains.
+  final List<DomainSummary>? domains;
+
+  /// If there are more domains than you specified for <code>MaxItems</code> in
+  /// the request, submit another request and include the value of
+  /// <code>NextPageMarker</code> in the value of <code>Marker</code>.
+  final String? nextPageMarker;
+
+  ListDomainsResponse({
+    this.domains,
+    this.nextPageMarker,
+  });
+
+  factory ListDomainsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDomainsResponse(
+      domains: (json['Domains'] as List?)
+          ?.nonNulls
+          .map((e) => DomainSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextPageMarker: json['NextPageMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domains = this.domains;
+    final nextPageMarker = this.nextPageMarker;
+    return {
+      if (domains != null) 'Domains': domains,
+      if (nextPageMarker != null) 'NextPageMarker': nextPageMarker,
+    };
+  }
+}
+
+/// The ListOperations response includes the following elements.
+class ListOperationsResponse {
+  /// If there are more operations than you specified for <code>MaxItems</code> in
+  /// the request, submit another request and include the value of
+  /// <code>NextPageMarker</code> in the value of <code>Marker</code>.
+  final String? nextPageMarker;
+
+  /// Lists summaries of the operations.
+  final List<OperationSummary>? operations;
+
+  ListOperationsResponse({
+    this.nextPageMarker,
+    this.operations,
+  });
+
+  factory ListOperationsResponse.fromJson(Map<String, dynamic> json) {
+    return ListOperationsResponse(
+      nextPageMarker: json['NextPageMarker'] as String?,
+      operations: (json['Operations'] as List?)
+          ?.nonNulls
+          .map((e) => OperationSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextPageMarker = this.nextPageMarker;
+    final operations = this.operations;
+    return {
+      if (nextPageMarker != null) 'NextPageMarker': nextPageMarker,
+      if (operations != null) 'Operations': operations,
+    };
+  }
+}
+
+class ListPricesResponse {
+  /// If there are more prices than you specified for <code>MaxItems</code> in the
+  /// request, submit another request and include the value of
+  /// <code>NextPageMarker</code> in the value of <code>Marker</code>.
+  ///
+  /// Used only for all TLDs. If you specify a TLD, don't specify a
+  /// <code>NextPageMarker</code>.
+  final String? nextPageMarker;
+
+  /// A complex type that includes all the pricing information. If you specify a
+  /// TLD, this array contains only the pricing for that TLD.
+  final List<DomainPrice>? prices;
+
+  ListPricesResponse({
+    this.nextPageMarker,
+    this.prices,
+  });
+
+  factory ListPricesResponse.fromJson(Map<String, dynamic> json) {
+    return ListPricesResponse(
+      nextPageMarker: json['NextPageMarker'] as String?,
+      prices: (json['Prices'] as List?)
+          ?.nonNulls
+          .map((e) => DomainPrice.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextPageMarker = this.nextPageMarker;
+    final prices = this.prices;
+    return {
+      if (nextPageMarker != null) 'NextPageMarker': nextPageMarker,
+      if (prices != null) 'Prices': prices,
+    };
+  }
+}
+
+/// The ListTagsForDomain response includes the following elements.
+class ListTagsForDomainResponse {
+  /// A list of the tags that are associated with the specified domain.
+  final List<Tag>? tagList;
+
+  ListTagsForDomainResponse({
+    this.tagList,
+  });
+
+  factory ListTagsForDomainResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForDomainResponse(
+      tagList: (json['TagList'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tagList = this.tagList;
+    return {
+      if (tagList != null) 'TagList': tagList,
+    };
+  }
+}
+
+/// The RegisterDomain response includes the following element.
+class RegisterDomainResponse {
+  /// Identifier for tracking the progress of the request. To query the operation
+  /// status, use <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>.
+  final String? operationId;
+
+  RegisterDomainResponse({
+    this.operationId,
+  });
+
+  factory RegisterDomainResponse.fromJson(Map<String, dynamic> json) {
+    return RegisterDomainResponse(
+      operationId: json['OperationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationId = this.operationId;
+    return {
+      if (operationId != null) 'OperationId': operationId,
+    };
+  }
+}
+
+/// The RejectDomainTransferFromAnotherAwsAccount response includes the
+/// following element.
+class RejectDomainTransferFromAnotherAwsAccountResponse {
+  /// The identifier that <code>TransferDomainToAnotherAwsAccount</code> returned
+  /// to track the progress of the request. Because the transfer request was
+  /// rejected, the value is no longer valid, and you can't use
+  /// <code>GetOperationDetail</code> to query the operation status.
+  final String? operationId;
+
+  RejectDomainTransferFromAnotherAwsAccountResponse({
+    this.operationId,
+  });
+
+  factory RejectDomainTransferFromAnotherAwsAccountResponse.fromJson(
+      Map<String, dynamic> json) {
+    return RejectDomainTransferFromAnotherAwsAccountResponse(
+      operationId: json['OperationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationId = this.operationId;
+    return {
+      if (operationId != null) 'OperationId': operationId,
+    };
+  }
+}
+
+class RenewDomainResponse {
+  /// Identifier for tracking the progress of the request. To query the operation
+  /// status, use <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>.
+  final String? operationId;
+
+  RenewDomainResponse({
+    this.operationId,
+  });
+
+  factory RenewDomainResponse.fromJson(Map<String, dynamic> json) {
+    return RenewDomainResponse(
+      operationId: json['OperationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationId = this.operationId;
+    return {
+      if (operationId != null) 'OperationId': operationId,
+    };
+  }
+}
+
+class ResendContactReachabilityEmailResponse {
+  /// The domain name for which you requested a confirmation email.
+  final String? domainName;
+
+  /// The email address for the registrant contact at the time that we sent the
+  /// verification email.
+  final String? emailAddress;
+
+  /// <code>True</code> if the email address for the registrant contact has
+  /// already been verified, and <code>false</code> otherwise. If the email
+  /// address has already been verified, we don't send another confirmation email.
+  final bool? isAlreadyVerified;
+
+  ResendContactReachabilityEmailResponse({
+    this.domainName,
+    this.emailAddress,
+    this.isAlreadyVerified,
+  });
+
+  factory ResendContactReachabilityEmailResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ResendContactReachabilityEmailResponse(
+      domainName: json['domainName'] as String?,
+      emailAddress: json['emailAddress'] as String?,
+      isAlreadyVerified: json['isAlreadyVerified'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainName = this.domainName;
+    final emailAddress = this.emailAddress;
+    final isAlreadyVerified = this.isAlreadyVerified;
+    return {
+      if (domainName != null) 'domainName': domainName,
+      if (emailAddress != null) 'emailAddress': emailAddress,
+      if (isAlreadyVerified != null) 'isAlreadyVerified': isAlreadyVerified,
+    };
+  }
+}
+
+/// The RetrieveDomainAuthCode response includes the following element.
+class RetrieveDomainAuthCodeResponse {
+  /// The authorization code for the domain.
+  final String? authCode;
+
+  RetrieveDomainAuthCodeResponse({
+    this.authCode,
+  });
+
+  factory RetrieveDomainAuthCodeResponse.fromJson(Map<String, dynamic> json) {
+    return RetrieveDomainAuthCodeResponse(
+      authCode: json['AuthCode'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authCode = this.authCode;
+    return {
+      if (authCode != null) 'AuthCode': authCode,
+    };
+  }
+}
+
+/// The TransferDomain response includes the following element.
+class TransferDomainResponse {
+  /// Identifier for tracking the progress of the request. To query the operation
+  /// status, use <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>.
+  final String? operationId;
+
+  TransferDomainResponse({
+    this.operationId,
+  });
+
+  factory TransferDomainResponse.fromJson(Map<String, dynamic> json) {
+    return TransferDomainResponse(
+      operationId: json['OperationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationId = this.operationId;
+    return {
+      if (operationId != null) 'OperationId': operationId,
+    };
+  }
+}
+
+/// The <code>TransferDomainToAnotherAwsAccount</code> response includes the
+/// following elements.
+class TransferDomainToAnotherAwsAccountResponse {
+  /// Identifier for tracking the progress of the request. To query the operation
+  /// status, use <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>.
+  final String? operationId;
+
+  /// To finish transferring a domain to another Amazon Web Services account, the
+  /// account that the domain is being transferred to must submit an <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_AcceptDomainTransferFromAnotherAwsAccount.html">AcceptDomainTransferFromAnotherAwsAccount</a>
+  /// request. The request must include the value of the <code>Password</code>
+  /// element that was returned in the
+  /// <code>TransferDomainToAnotherAwsAccount</code> response.
+  final String? password;
+
+  TransferDomainToAnotherAwsAccountResponse({
+    this.operationId,
+    this.password,
+  });
+
+  factory TransferDomainToAnotherAwsAccountResponse.fromJson(
+      Map<String, dynamic> json) {
+    return TransferDomainToAnotherAwsAccountResponse(
+      operationId: json['OperationId'] as String?,
+      password: json['Password'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationId = this.operationId;
+    final password = this.password;
+    return {
+      if (operationId != null) 'OperationId': operationId,
+      if (password != null) 'Password': password,
+    };
+  }
+}
+
+/// The UpdateDomainContact response includes the following element.
+class UpdateDomainContactResponse {
+  /// Identifier for tracking the progress of the request. To query the operation
+  /// status, use <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>.
+  final String? operationId;
+
+  UpdateDomainContactResponse({
+    this.operationId,
+  });
+
+  factory UpdateDomainContactResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateDomainContactResponse(
+      operationId: json['OperationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationId = this.operationId;
+    return {
+      if (operationId != null) 'OperationId': operationId,
+    };
+  }
+}
+
+/// The UpdateDomainContactPrivacy response includes the following element.
+class UpdateDomainContactPrivacyResponse {
+  /// Identifier for tracking the progress of the request. To use this ID to query
+  /// the operation status, use GetOperationDetail.
+  final String? operationId;
+
+  UpdateDomainContactPrivacyResponse({
+    this.operationId,
+  });
+
+  factory UpdateDomainContactPrivacyResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateDomainContactPrivacyResponse(
+      operationId: json['OperationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationId = this.operationId;
+    return {
+      if (operationId != null) 'OperationId': operationId,
+    };
+  }
+}
+
+/// The UpdateDomainNameservers response includes the following element.
+class UpdateDomainNameserversResponse {
+  /// Identifier for tracking the progress of the request. To query the operation
+  /// status, use <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>.
+  final String? operationId;
+
+  UpdateDomainNameserversResponse({
+    this.operationId,
+  });
+
+  factory UpdateDomainNameserversResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateDomainNameserversResponse(
+      operationId: json['OperationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationId = this.operationId;
+    return {
+      if (operationId != null) 'OperationId': operationId,
+    };
+  }
+}
+
+class UpdateTagsForDomainResponse {
+  UpdateTagsForDomainResponse();
+
+  factory UpdateTagsForDomainResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateTagsForDomainResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The ViewBilling response includes the following elements.
+class ViewBillingResponse {
+  /// A summary of billing records.
+  final List<BillingRecord>? billingRecords;
+
+  /// If there are more billing records than you specified for
+  /// <code>MaxItems</code> in the request, submit another request and include the
+  /// value of <code>NextPageMarker</code> in the value of <code>Marker</code>.
+  final String? nextPageMarker;
+
+  ViewBillingResponse({
+    this.billingRecords,
+    this.nextPageMarker,
+  });
+
+  factory ViewBillingResponse.fromJson(Map<String, dynamic> json) {
+    return ViewBillingResponse(
+      billingRecords: (json['BillingRecords'] as List?)
+          ?.nonNulls
+          .map((e) => BillingRecord.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextPageMarker: json['NextPageMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final billingRecords = this.billingRecords;
+    final nextPageMarker = this.nextPageMarker;
+    return {
+      if (billingRecords != null) 'BillingRecords': billingRecords,
+      if (nextPageMarker != null) 'NextPageMarker': nextPageMarker,
+    };
+  }
+}
+
+/// Information for one billing record.
+class BillingRecord {
+  /// The date that the operation was billed, in Unix format.
+  final DateTime? billDate;
+
+  /// The name of the domain that the billing record applies to. If the domain
+  /// name contains characters other than a-z, 0-9, and - (hyphen), such as an
+  /// internationalized domain name, then this value is in Punycode. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DomainNameFormat.html">DNS
+  /// Domain Name Format</a> in the <i>Amazon Route 53 Developer Guide</i>.
+  final String? domainName;
+
+  /// Deprecated property. This field is retained in report structure for
+  /// backwards compatibility, but will appear blank.
+  final String? invoiceId;
+
+  /// The operation that you were charged for.
+  final OperationType? operation;
+
+  /// The price that you were charged for the operation, in US dollars.
+  ///
+  /// Example value: 12.0
+  final double? price;
+
+  BillingRecord({
+    this.billDate,
+    this.domainName,
+    this.invoiceId,
+    this.operation,
+    this.price,
+  });
+
+  factory BillingRecord.fromJson(Map<String, dynamic> json) {
+    return BillingRecord(
+      billDate: timeStampFromJson(json['BillDate']),
+      domainName: json['DomainName'] as String?,
+      invoiceId: json['InvoiceId'] as String?,
+      operation: (json['Operation'] as String?)?.let(OperationType.fromString),
+      price: json['Price'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final billDate = this.billDate;
+    final domainName = this.domainName;
+    final invoiceId = this.invoiceId;
+    final operation = this.operation;
+    final price = this.price;
+    return {
+      if (billDate != null) 'BillDate': unixTimestampToJson(billDate),
+      if (domainName != null) 'DomainName': domainName,
+      if (invoiceId != null) 'InvoiceId': invoiceId,
+      if (operation != null) 'Operation': operation.value,
+      if (price != null) 'Price': price,
+    };
+  }
+}
+
+class OperationType {
+  static const registerDomain = OperationType._('REGISTER_DOMAIN');
+  static const deleteDomain = OperationType._('DELETE_DOMAIN');
+  static const transferInDomain = OperationType._('TRANSFER_IN_DOMAIN');
+  static const updateDomainContact = OperationType._('UPDATE_DOMAIN_CONTACT');
+  static const updateNameserver = OperationType._('UPDATE_NAMESERVER');
+  static const changePrivacyProtection =
+      OperationType._('CHANGE_PRIVACY_PROTECTION');
+  static const domainLock = OperationType._('DOMAIN_LOCK');
+  static const enableAutorenew = OperationType._('ENABLE_AUTORENEW');
+  static const disableAutorenew = OperationType._('DISABLE_AUTORENEW');
+  static const addDnssec = OperationType._('ADD_DNSSEC');
+  static const removeDnssec = OperationType._('REMOVE_DNSSEC');
+  static const expireDomain = OperationType._('EXPIRE_DOMAIN');
+  static const transferOutDomain = OperationType._('TRANSFER_OUT_DOMAIN');
+  static const changeDomainOwner = OperationType._('CHANGE_DOMAIN_OWNER');
+  static const renewDomain = OperationType._('RENEW_DOMAIN');
+  static const pushDomain = OperationType._('PUSH_DOMAIN');
+  static const internalTransferOutDomain =
+      OperationType._('INTERNAL_TRANSFER_OUT_DOMAIN');
+  static const internalTransferInDomain =
+      OperationType._('INTERNAL_TRANSFER_IN_DOMAIN');
+  static const releaseToGandi = OperationType._('RELEASE_TO_GANDI');
+  static const transferOnRenew = OperationType._('TRANSFER_ON_RENEW');
+  static const restoreDomain = OperationType._('RESTORE_DOMAIN');
+
+  final String value;
+
+  const OperationType._(this.value);
+
+  static const values = [
+    registerDomain,
+    deleteDomain,
+    transferInDomain,
+    updateDomainContact,
+    updateNameserver,
+    changePrivacyProtection,
+    domainLock,
+    enableAutorenew,
+    disableAutorenew,
+    addDnssec,
+    removeDnssec,
+    expireDomain,
+    transferOutDomain,
+    changeDomainOwner,
+    renewDomain,
+    pushDomain,
+    internalTransferOutDomain,
+    internalTransferInDomain,
+    releaseToGandi,
+    transferOnRenew,
+    restoreDomain
+  ];
+
+  static OperationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OperationType._(value));
+
+  @override
+  bool operator ==(other) => other is OperationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Each tag includes the following elements.
+class Tag {
+  /// The key (name) of a tag.
+  ///
+  /// Valid values: A-Z, a-z, 0-9, space, ".:/=+\-@"
+  ///
+  /// Constraints: Each key can be 1-128 characters long.
+  final String? key;
+
+  /// The value of a tag.
+  ///
+  /// Valid values: A-Z, a-z, 0-9, space, ".:/=+\-@"
+  ///
+  /// Constraints: Each value can be 0-256 characters long.
+  final String? value;
+
+  Tag({
+    this.key,
+    this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Name server includes the following elements.
+class Nameserver {
+  /// The fully qualified host name of the name server.
+  ///
+  /// Constraint: Maximum 255 characters
+  final String name;
+
+  /// Glue IP address of a name server entry. Glue IP addresses are required only
+  /// when the name of the name server is a subdomain of the domain. For example,
+  /// if your domain is example.com and the name server for the domain is
+  /// ns.example.com, you need to specify the IP address for ns.example.com.
+  ///
+  /// Constraints: The list can contain only one IPv4 and one IPv6 address.
+  final List<String>? glueIps;
+
+  Nameserver({
+    required this.name,
+    this.glueIps,
+  });
+
+  factory Nameserver.fromJson(Map<String, dynamic> json) {
+    return Nameserver(
+      name: (json['Name'] as String?) ?? '',
+      glueIps:
+          (json['GlueIps'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final glueIps = this.glueIps;
+    return {
+      'Name': name,
+      if (glueIps != null) 'GlueIps': glueIps,
     };
   }
 }
@@ -2413,7 +3549,7 @@ class ContactDetail {
   /// The phone number of the contact.
   ///
   /// Constraints: Phone number must be specified in the format "+[country dialing
-  /// code].[number including any area code&gt;]". For example, a US phone number
+  /// code].[number including any area code>]". For example, a US phone number
   /// might appear as <code>"+1.1234567890"</code>.
   final String? phoneNumber;
 
@@ -2494,6 +3630,29 @@ class ContactDetail {
       if (phoneNumber != null) 'PhoneNumber': phoneNumber,
       if (state != null) 'State': state,
       if (zipCode != null) 'ZipCode': zipCode,
+    };
+  }
+}
+
+/// Customer's consent for the owner change request.
+class Consent {
+  /// Currency for the <code>MaxPrice</code>.
+  final String currency;
+
+  /// Maximum amount the customer agreed to accept.
+  final double maxPrice;
+
+  Consent({
+    required this.currency,
+    required this.maxPrice,
+  });
+
+  Map<String, dynamic> toJson() {
+    final currency = this.currency;
+    final maxPrice = this.maxPrice;
+    return {
+      'Currency': currency,
+      'MaxPrice': maxPrice,
     };
   }
 }
@@ -3048,529 +4207,16 @@ class CountryCode {
   String toString() => value;
 }
 
-class DeleteDomainResponse {
-  /// Identifier for tracking the progress of the request. To query the operation
-  /// status, use <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>.
-  final String? operationId;
-
-  DeleteDomainResponse({
-    this.operationId,
-  });
-
-  factory DeleteDomainResponse.fromJson(Map<String, dynamic> json) {
-    return DeleteDomainResponse(
-      operationId: json['OperationId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final operationId = this.operationId;
-    return {
-      if (operationId != null) 'OperationId': operationId,
-    };
-  }
-}
-
-class DeleteTagsForDomainResponse {
-  DeleteTagsForDomainResponse();
-
-  factory DeleteTagsForDomainResponse.fromJson(Map<String, dynamic> _) {
-    return DeleteTagsForDomainResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class DisableDomainAutoRenewResponse {
-  DisableDomainAutoRenewResponse();
-
-  factory DisableDomainAutoRenewResponse.fromJson(Map<String, dynamic> _) {
-    return DisableDomainAutoRenewResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// The DisableDomainTransferLock response includes the following element.
-class DisableDomainTransferLockResponse {
-  /// Identifier for tracking the progress of the request. To query the operation
-  /// status, use <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>.
-  final String? operationId;
-
-  DisableDomainTransferLockResponse({
-    this.operationId,
-  });
-
-  factory DisableDomainTransferLockResponse.fromJson(
-      Map<String, dynamic> json) {
-    return DisableDomainTransferLockResponse(
-      operationId: json['OperationId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final operationId = this.operationId;
-    return {
-      if (operationId != null) 'OperationId': operationId,
-    };
-  }
-}
-
-class DisassociateDelegationSignerFromDomainResponse {
-  /// Identifier for tracking the progress of the request. To query the operation
-  /// status, use <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>.
-  final String? operationId;
-
-  DisassociateDelegationSignerFromDomainResponse({
-    this.operationId,
-  });
-
-  factory DisassociateDelegationSignerFromDomainResponse.fromJson(
-      Map<String, dynamic> json) {
-    return DisassociateDelegationSignerFromDomainResponse(
-      operationId: json['OperationId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final operationId = this.operationId;
-    return {
-      if (operationId != null) 'OperationId': operationId,
-    };
-  }
-}
-
-/// Information about the DNSSEC key.
-///
-/// You get this from your DNS provider and then give it to Route 53 (by using
-/// <a
-/// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_AssociateDelegationSignerToDomain.html">AssociateDelegationSignerToDomain</a>)
-/// to pass it to the registry to establish the chain of trust.
-class DnssecKey {
-  /// The number of the public key’s cryptographic algorithm according to an <a
-  /// href="https://www.iana.org/assignments/dns-sec-alg-numbers/dns-sec-alg-numbers.xml">IANA</a>
-  /// assignment.
-  ///
-  /// If Route 53 is your DNS service, set this to 13.
-  ///
-  /// For more information about enabling DNSSEC signing, see <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-configuring-dnssec-enable-signing.html">Enabling
-  /// DNSSEC signing and establishing a chain of trust</a>.
-  final int? algorithm;
-
-  /// The delegation signer digest.
-  ///
-  /// Digest is calculated from the public key provided using specified digest
-  /// algorithm and this digest is the actual value returned from the registry
-  /// nameservers as the value of DS records.
-  final String? digest;
-
-  /// The number of the DS digest algorithm according to an IANA assignment.
-  ///
-  /// For more information, see <a
-  /// href="https://www.iana.org/assignments/ds-rr-types/ds-rr-types.xhtml">IANA</a>
-  /// for DNSSEC Delegation Signer (DS) Resource Record (RR) Type Digest
-  /// Algorithms.
-  final int? digestType;
-
-  /// Defines the type of key. It can be either a KSK (key-signing-key, value 257)
-  /// or ZSK (zone-signing-key, value 256). Using KSK is always encouraged. Only
-  /// use ZSK if your DNS provider isn't Route 53 and you don’t have KSK
-  /// available.
-  ///
-  /// If you have KSK and ZSK keys, always use KSK to create a delegations signer
-  /// (DS) record. If you have ZSK keys only – use ZSK to create a DS record.
-  final int? flags;
-
-  /// An ID assigned to each DS record created by <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_AssociateDelegationSignerToDomain.html">AssociateDelegationSignerToDomain</a>.
-  final String? id;
-
-  /// A numeric identification of the DNSKEY record referred to by this DS record.
-  final int? keyTag;
-
-  /// The base64-encoded public key part of the key pair that is passed to the
-  /// registry .
-  final String? publicKey;
-
-  DnssecKey({
-    this.algorithm,
-    this.digest,
-    this.digestType,
-    this.flags,
-    this.id,
-    this.keyTag,
-    this.publicKey,
-  });
-
-  factory DnssecKey.fromJson(Map<String, dynamic> json) {
-    return DnssecKey(
-      algorithm: json['Algorithm'] as int?,
-      digest: json['Digest'] as String?,
-      digestType: json['DigestType'] as int?,
-      flags: json['Flags'] as int?,
-      id: json['Id'] as String?,
-      keyTag: json['KeyTag'] as int?,
-      publicKey: json['PublicKey'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final algorithm = this.algorithm;
-    final digest = this.digest;
-    final digestType = this.digestType;
-    final flags = this.flags;
-    final id = this.id;
-    final keyTag = this.keyTag;
-    final publicKey = this.publicKey;
-    return {
-      if (algorithm != null) 'Algorithm': algorithm,
-      if (digest != null) 'Digest': digest,
-      if (digestType != null) 'DigestType': digestType,
-      if (flags != null) 'Flags': flags,
-      if (id != null) 'Id': id,
-      if (keyTag != null) 'KeyTag': keyTag,
-      if (publicKey != null) 'PublicKey': publicKey,
-    };
-  }
-}
-
-/// Information about a delegation signer (DS) record that was created in the
-/// registry by <a
-/// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_AssociateDelegationSignerToDomain.html">AssociateDelegationSignerToDomain</a>.
-class DnssecSigningAttributes {
-  /// Algorithm which was used to generate the digest from the public key.
-  final int? algorithm;
-
-  /// Defines the type of key. It can be either a KSK (key-signing-key, value 257)
-  /// or ZSK (zone-signing-key, value 256). Using KSK is always encouraged. Only
-  /// use ZSK if your DNS provider isn't Route 53 and you don’t have KSK
-  /// available.
-  ///
-  /// If you have KSK and ZSK keys, always use KSK to create a delegations signer
-  /// (DS) record. If you have ZSK keys only – use ZSK to create a DS record.
-  final int? flags;
-
-  /// The base64-encoded public key part of the key pair that is passed to the
-  /// registry.
-  final String? publicKey;
-
-  DnssecSigningAttributes({
-    this.algorithm,
-    this.flags,
-    this.publicKey,
-  });
-
-  Map<String, dynamic> toJson() {
-    final algorithm = this.algorithm;
-    final flags = this.flags;
-    final publicKey = this.publicKey;
-    return {
-      if (algorithm != null) 'Algorithm': algorithm,
-      if (flags != null) 'Flags': flags,
-      if (publicKey != null) 'PublicKey': publicKey,
-    };
-  }
-}
-
-class DomainAvailability {
-  static const available = DomainAvailability._('AVAILABLE');
-  static const availableReserved = DomainAvailability._('AVAILABLE_RESERVED');
-  static const availablePreorder = DomainAvailability._('AVAILABLE_PREORDER');
-  static const unavailable = DomainAvailability._('UNAVAILABLE');
-  static const unavailablePremium = DomainAvailability._('UNAVAILABLE_PREMIUM');
-  static const unavailableRestricted =
-      DomainAvailability._('UNAVAILABLE_RESTRICTED');
-  static const reserved = DomainAvailability._('RESERVED');
-  static const dontKnow = DomainAvailability._('DONT_KNOW');
-  static const invalidNameForTld = DomainAvailability._('INVALID_NAME_FOR_TLD');
-  static const pending = DomainAvailability._('PENDING');
-
-  final String value;
-
-  const DomainAvailability._(this.value);
-
-  static const values = [
-    available,
-    availableReserved,
-    availablePreorder,
-    unavailable,
-    unavailablePremium,
-    unavailableRestricted,
-    reserved,
-    dontKnow,
-    invalidNameForTld,
-    pending
-  ];
-
-  static DomainAvailability fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DomainAvailability._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DomainAvailability && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about the domain price associated with a TLD.
-class DomainPrice {
-  /// The price for changing domain ownership.
-  final PriceWithCurrency? changeOwnershipPrice;
-
-  /// The name of the TLD for which the prices apply.
-  final String? name;
-
-  /// The price for domain registration with Route 53.
-  final PriceWithCurrency? registrationPrice;
-
-  /// The price for renewing domain registration with Route 53.
-  final PriceWithCurrency? renewalPrice;
-
-  /// The price for restoring the domain with Route 53.
-  final PriceWithCurrency? restorationPrice;
-
-  /// The price for transferring the domain registration to Route 53.
-  final PriceWithCurrency? transferPrice;
-
-  DomainPrice({
-    this.changeOwnershipPrice,
-    this.name,
-    this.registrationPrice,
-    this.renewalPrice,
-    this.restorationPrice,
-    this.transferPrice,
-  });
-
-  factory DomainPrice.fromJson(Map<String, dynamic> json) {
-    return DomainPrice(
-      changeOwnershipPrice: json['ChangeOwnershipPrice'] != null
-          ? PriceWithCurrency.fromJson(
-              json['ChangeOwnershipPrice'] as Map<String, dynamic>)
-          : null,
-      name: json['Name'] as String?,
-      registrationPrice: json['RegistrationPrice'] != null
-          ? PriceWithCurrency.fromJson(
-              json['RegistrationPrice'] as Map<String, dynamic>)
-          : null,
-      renewalPrice: json['RenewalPrice'] != null
-          ? PriceWithCurrency.fromJson(
-              json['RenewalPrice'] as Map<String, dynamic>)
-          : null,
-      restorationPrice: json['RestorationPrice'] != null
-          ? PriceWithCurrency.fromJson(
-              json['RestorationPrice'] as Map<String, dynamic>)
-          : null,
-      transferPrice: json['TransferPrice'] != null
-          ? PriceWithCurrency.fromJson(
-              json['TransferPrice'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final changeOwnershipPrice = this.changeOwnershipPrice;
-    final name = this.name;
-    final registrationPrice = this.registrationPrice;
-    final renewalPrice = this.renewalPrice;
-    final restorationPrice = this.restorationPrice;
-    final transferPrice = this.transferPrice;
-    return {
-      if (changeOwnershipPrice != null)
-        'ChangeOwnershipPrice': changeOwnershipPrice,
-      if (name != null) 'Name': name,
-      if (registrationPrice != null) 'RegistrationPrice': registrationPrice,
-      if (renewalPrice != null) 'RenewalPrice': renewalPrice,
-      if (restorationPrice != null) 'RestorationPrice': restorationPrice,
-      if (transferPrice != null) 'TransferPrice': transferPrice,
-    };
-  }
-}
-
-/// Information about one suggested domain name.
-class DomainSuggestion {
-  /// Whether the domain name is available for registering.
-  /// <note>
-  /// You can register only the domains that are designated as
-  /// <code>AVAILABLE</code>.
-  /// </note>
-  /// Valid values:
-  /// <dl> <dt>AVAILABLE</dt> <dd>
-  /// The domain name is available.
-  /// </dd> <dt>AVAILABLE_RESERVED</dt> <dd>
-  /// The domain name is reserved under specific conditions.
-  /// </dd> <dt>AVAILABLE_PREORDER</dt> <dd>
-  /// The domain name is available and can be preordered.
-  /// </dd> <dt>DONT_KNOW</dt> <dd>
-  /// The TLD registry didn't reply with a definitive answer about whether the
-  /// domain name is available. Route 53 can return this response for a variety of
-  /// reasons, for example, the registry is performing maintenance. Try again
-  /// later.
-  /// </dd> <dt>PENDING</dt> <dd>
-  /// The TLD registry didn't return a response in the expected amount of time.
-  /// When the response is delayed, it usually takes just a few extra seconds. You
-  /// can resubmit the request immediately.
-  /// </dd> <dt>RESERVED</dt> <dd>
-  /// The domain name has been reserved for another person or organization.
-  /// </dd> <dt>UNAVAILABLE</dt> <dd>
-  /// The domain name is not available.
-  /// </dd> <dt>UNAVAILABLE_PREMIUM</dt> <dd>
-  /// The domain name is not available.
-  /// </dd> <dt>UNAVAILABLE_RESTRICTED</dt> <dd>
-  /// The domain name is forbidden.
-  /// </dd> </dl>
-  final String? availability;
-
-  /// A suggested domain name.
-  final String? domainName;
-
-  DomainSuggestion({
-    this.availability,
-    this.domainName,
-  });
-
-  factory DomainSuggestion.fromJson(Map<String, dynamic> json) {
-    return DomainSuggestion(
-      availability: json['Availability'] as String?,
-      domainName: json['DomainName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final availability = this.availability;
-    final domainName = this.domainName;
-    return {
-      if (availability != null) 'Availability': availability,
-      if (domainName != null) 'DomainName': domainName,
-    };
-  }
-}
-
-/// Summary information about one domain.
-class DomainSummary {
-  /// Indicates whether the domain is automatically renewed upon expiration.
-  final bool? autoRenew;
-
-  /// The name of the domain that the summary information applies to.
-  final String? domainName;
-
-  /// Expiration date of the domain in Unix time format and Coordinated Universal
-  /// Time (UTC).
-  final DateTime? expiry;
-
-  /// Indicates whether a domain is locked from unauthorized transfer to another
-  /// party.
-  final bool? transferLock;
-
-  DomainSummary({
-    this.autoRenew,
-    this.domainName,
-    this.expiry,
-    this.transferLock,
-  });
-
-  factory DomainSummary.fromJson(Map<String, dynamic> json) {
-    return DomainSummary(
-      autoRenew: json['AutoRenew'] as bool?,
-      domainName: json['DomainName'] as String?,
-      expiry: timeStampFromJson(json['Expiry']),
-      transferLock: json['TransferLock'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final autoRenew = this.autoRenew;
-    final domainName = this.domainName;
-    final expiry = this.expiry;
-    final transferLock = this.transferLock;
-    return {
-      if (autoRenew != null) 'AutoRenew': autoRenew,
-      if (domainName != null) 'DomainName': domainName,
-      if (expiry != null) 'Expiry': unixTimestampToJson(expiry),
-      if (transferLock != null) 'TransferLock': transferLock,
-    };
-  }
-}
-
-/// A complex type that contains information about whether the specified domain
-/// can be transferred to Route 53.
-class DomainTransferability {
-  final Transferable? transferable;
-
-  DomainTransferability({
-    this.transferable,
-  });
-
-  factory DomainTransferability.fromJson(Map<String, dynamic> json) {
-    return DomainTransferability(
-      transferable:
-          (json['Transferable'] as String?)?.let(Transferable.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final transferable = this.transferable;
-    return {
-      if (transferable != null) 'Transferable': transferable.value,
-    };
-  }
-}
-
-class EnableDomainAutoRenewResponse {
-  EnableDomainAutoRenewResponse();
-
-  factory EnableDomainAutoRenewResponse.fromJson(Map<String, dynamic> _) {
-    return EnableDomainAutoRenewResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// The EnableDomainTransferLock response includes the following elements.
-class EnableDomainTransferLockResponse {
-  /// Identifier for tracking the progress of the request. To use this ID to query
-  /// the operation status, use GetOperationDetail.
-  final String? operationId;
-
-  EnableDomainTransferLockResponse({
-    this.operationId,
-  });
-
-  factory EnableDomainTransferLockResponse.fromJson(Map<String, dynamic> json) {
-    return EnableDomainTransferLockResponse(
-      operationId: json['OperationId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final operationId = this.operationId;
-    return {
-      if (operationId != null) 'OperationId': operationId,
-    };
-  }
-}
-
 /// ExtraParam includes the following elements.
 class ExtraParam {
   /// The name of an additional parameter that is required by a top-level domain.
   /// Here are the top-level domains that require additional parameters and the
   /// names of the parameters that they require:
-  /// <dl> <dt>.com.au and .net.au</dt> <dd>
+  /// <dl> <dt>.au, .com.au, and .net.au</dt> <dd>
   /// <ul>
+  /// <li>
+  /// <code>AU_REGISTRANT_NAME</code>
+  /// </li>
   /// <li>
   /// <code>AU_ID_NUMBER</code>
   /// </li>
@@ -3588,6 +4234,155 @@ class ExtraParam {
   /// </li>
   /// <li>
   /// <code>TM</code> (Trademark number)
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>AU_ELIGIBILITY_TYPE</code>
+  ///
+  /// Valid values include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// CHARITABLE_TRUST (Charitable trust)
+  /// </li>
+  /// <li>
+  /// CHARITY (Charity)
+  /// </li>
+  /// <li>
+  /// CHILD_CARE_CENTRE (Child care centre)
+  /// </li>
+  /// <li>
+  /// CLUB (Club)
+  /// </li>
+  /// <li>
+  /// COMMERCIAL_STATUTORY_BODY (Commercial statutory body)
+  /// </li>
+  /// <li>
+  /// COMMONWEALTH_ENTITY (Commonwealth entity)
+  /// </li>
+  /// <li>
+  /// COMPANY (Company)
+  /// </li>
+  /// <li>
+  /// COMPANY_LIMITED_BY_GUARANTEE (Company limited by guarantee)
+  /// </li>
+  /// <li>
+  /// EDUCATIONAL_INSTITUTION (Educational institution)
+  /// </li>
+  /// <li>
+  /// GOVERNMENT_SCHOOL (Government school)
+  /// </li>
+  /// <li>
+  /// HIGHER_EDUCATION_INSTITUTION (Higher education institution)
+  /// </li>
+  /// <li>
+  /// INCORPORATED_ASSOCIATION (Incorporated association)
+  /// </li>
+  /// <li>
+  /// INDIGENOUS_CORPORATION (Indigenous corporation)
+  /// </li>
+  /// <li>
+  /// INDUSTRY_BODY (Industry body)
+  /// </li>
+  /// <li>
+  /// INDUSTRY_ORGANISATION (Industry association)
+  /// </li>
+  /// <li>
+  /// NATIONAL_BODY (National body)
+  /// </li>
+  /// <li>
+  /// NON_DISTRIBUTING_COOPERATIVE (Non-distributing cooperative)
+  /// </li>
+  /// <li>
+  /// NON_GOVERNMENT_SCHOOL (Non-government school)
+  /// </li>
+  /// <li>
+  /// NON_PROFIT_ORGANISATION (Non-profit organisation)
+  /// </li>
+  /// <li>
+  /// NON_TRADING_COOPERATIVE (Non-trading cooperative)
+  /// </li>
+  /// <li>
+  /// NOT_FOR_PROFIT_COMMUNITY_GROUP (Not-for-profit community group)
+  /// </li>
+  /// <li>
+  /// PARTNERSHIP (Partnership)
+  /// </li>
+  /// <li>
+  /// PEAK_STATE_TERRITORY_BODY (Peak state/territory body)
+  /// </li>
+  /// <li>
+  /// PENDING_TM_OWNER (Pending TM owner)
+  /// </li>
+  /// <li>
+  /// POLITICAL_PARTY (Political party)
+  /// </li>
+  /// <li>
+  /// PRESCHOOL (Pre-school)
+  /// </li>
+  /// <li>
+  /// PUBLIC_PRIVATE_ANCILLARY_FUND (Public/private ancillary fund)
+  /// </li>
+  /// <li>
+  /// REGISTERED_BUSINESS (Registered business)
+  /// </li>
+  /// <li>
+  /// REGISTERED_ORGANISATION (Registered organisation)
+  /// </li>
+  /// <li>
+  /// REGISTRABLE_BODY (Registrable body)
+  /// </li>
+  /// <li>
+  /// RESEARCH_ORGANISATION (Research organisation)
+  /// </li>
+  /// <li>
+  /// STATUTORY_BODY (Statutory body)
+  /// </li>
+  /// <li>
+  /// TRADE_UNION (Trade union)
+  /// </li>
+  /// <li>
+  /// TRADEMARK_OWNER (Trademark owner)
+  /// </li>
+  /// <li>
+  /// TRADING_COOPERATIVE (Trading cooperative)
+  /// </li>
+  /// <li>
+  /// TRAINING_ORGANISATION (Training organisation)
+  /// </li>
+  /// <li>
+  /// TRUST (Trust)
+  /// </li>
+  /// <li>
+  /// UNINCORPORATED_ASSOCIATION (Unincorporated association)
+  /// </li>
+  /// <li>
+  /// EDUCATION_AND_CARE_SERVICES_CHILDCARE (Education and care services (child
+  /// care))
+  /// </li>
+  /// <li>
+  /// GOVERNMENT_BODY (Government body)
+  /// </li>
+  /// <li>
+  /// PROVIDER_OF_NON_ACCREDITED_TRAINING (Provider of non-accredited training)
+  /// </li>
+  /// <li>
+  /// RELIGIOUS_CHURCH_GROUP (Religious/church group)
+  /// </li>
+  /// <li>
+  /// SOLE_TRADER (Sole trader)
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>AU_POLICY_REASON</code>
+  ///
+  /// Valid values include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>POLICY_REASON_1</code>
+  ///
+  /// <code>POLICY_REASON_2</code>
   /// </li>
   /// </ul> </li>
   /// </ul> </dd> <dt>.ca</dt> <dd>
@@ -4187,6 +4982,9 @@ class ExtraParamName {
   static const euCountryOfCitizenship =
       ExtraParamName._('EU_COUNTRY_OF_CITIZENSHIP');
   static const auPriorityToken = ExtraParamName._('AU_PRIORITY_TOKEN');
+  static const auEligibilityType = ExtraParamName._('AU_ELIGIBILITY_TYPE');
+  static const auPolicyReason = ExtraParamName._('AU_POLICY_REASON');
+  static const auRegistrantName = ExtraParamName._('AU_REGISTRANT_NAME');
 
   final String value;
 
@@ -4223,7 +5021,10 @@ class ExtraParamName {
     ukContactType,
     ukCompanyNumber,
     euCountryOfCitizenship,
-    auPriorityToken
+    auPriorityToken,
+    auEligibilityType,
+    auPolicyReason,
+    auRegistrantName
   ];
 
   static ExtraParamName fromString(String value) =>
@@ -4240,704 +5041,108 @@ class ExtraParamName {
   String toString() => value;
 }
 
-/// Information for the filtering of a list of domains returned by <a
-/// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains__ListDomains.html">ListDomains</a>.
-class FilterCondition {
-  /// Name of the field which should be used for filtering the list of domains.
-  final ListDomainsAttributeName name;
+/// Information about the domain price associated with a TLD.
+class DomainPrice {
+  /// The price for changing domain ownership.
+  final PriceWithCurrency? changeOwnershipPrice;
 
-  /// The operator values for filtering domain names. The values can be:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>LE</code>: Less than, or equal to
-  /// </li>
-  /// <li>
-  /// <code>GE</code>: Greater than, or equal to
-  /// </li>
-  /// <li>
-  /// <code>BEGINS_WITH</code>: Begins with
-  /// </li>
-  /// </ul>
-  final Operator operator;
+  /// The name of the TLD for which the prices apply.
+  final String? name;
 
-  /// An array of strings presenting values to compare. Only 1 item in the list is
-  /// currently supported.
-  final List<String> values;
+  /// The price for domain registration with Route 53.
+  final PriceWithCurrency? registrationPrice;
 
-  FilterCondition({
-    required this.name,
-    required this.operator,
-    required this.values,
+  /// The price for renewing domain registration with Route 53.
+  final PriceWithCurrency? renewalPrice;
+
+  /// The price for restoring the domain with Route 53.
+  final PriceWithCurrency? restorationPrice;
+
+  /// The price for transferring the domain registration to Route 53.
+  final PriceWithCurrency? transferPrice;
+
+  DomainPrice({
+    this.changeOwnershipPrice,
+    this.name,
+    this.registrationPrice,
+    this.renewalPrice,
+    this.restorationPrice,
+    this.transferPrice,
   });
 
+  factory DomainPrice.fromJson(Map<String, dynamic> json) {
+    return DomainPrice(
+      changeOwnershipPrice: json['ChangeOwnershipPrice'] != null
+          ? PriceWithCurrency.fromJson(
+              json['ChangeOwnershipPrice'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+      registrationPrice: json['RegistrationPrice'] != null
+          ? PriceWithCurrency.fromJson(
+              json['RegistrationPrice'] as Map<String, dynamic>)
+          : null,
+      renewalPrice: json['RenewalPrice'] != null
+          ? PriceWithCurrency.fromJson(
+              json['RenewalPrice'] as Map<String, dynamic>)
+          : null,
+      restorationPrice: json['RestorationPrice'] != null
+          ? PriceWithCurrency.fromJson(
+              json['RestorationPrice'] as Map<String, dynamic>)
+          : null,
+      transferPrice: json['TransferPrice'] != null
+          ? PriceWithCurrency.fromJson(
+              json['TransferPrice'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   Map<String, dynamic> toJson() {
+    final changeOwnershipPrice = this.changeOwnershipPrice;
     final name = this.name;
-    final operator = this.operator;
-    final values = this.values;
+    final registrationPrice = this.registrationPrice;
+    final renewalPrice = this.renewalPrice;
+    final restorationPrice = this.restorationPrice;
+    final transferPrice = this.transferPrice;
     return {
-      'Name': name.value,
-      'Operator': operator.value,
-      'Values': values,
+      if (changeOwnershipPrice != null)
+        'ChangeOwnershipPrice': changeOwnershipPrice,
+      if (name != null) 'Name': name,
+      if (registrationPrice != null) 'RegistrationPrice': registrationPrice,
+      if (renewalPrice != null) 'RenewalPrice': renewalPrice,
+      if (restorationPrice != null) 'RestorationPrice': restorationPrice,
+      if (transferPrice != null) 'TransferPrice': transferPrice,
     };
   }
 }
 
-class GetContactReachabilityStatusResponse {
-  /// The domain name for which you requested the reachability status.
-  final String? domainName;
+/// Currency-specific price information.
+class PriceWithCurrency {
+  /// The currency specifier.
+  final String currency;
 
-  /// Whether the registrant contact has responded. Values include the following:
-  /// <dl> <dt>PENDING</dt> <dd>
-  /// We sent the confirmation email and haven't received a response yet.
-  /// </dd> <dt>DONE</dt> <dd>
-  /// We sent the email and got confirmation from the registrant contact.
-  /// </dd> <dt>EXPIRED</dt> <dd>
-  /// The time limit expired before the registrant contact responded.
-  /// </dd> </dl>
-  final ReachabilityStatus? status;
+  /// The price of a domain, in a specific currency.
+  final double price;
 
-  GetContactReachabilityStatusResponse({
-    this.domainName,
-    this.status,
+  PriceWithCurrency({
+    required this.currency,
+    required this.price,
   });
 
-  factory GetContactReachabilityStatusResponse.fromJson(
-      Map<String, dynamic> json) {
-    return GetContactReachabilityStatusResponse(
-      domainName: json['domainName'] as String?,
-      status: (json['status'] as String?)?.let(ReachabilityStatus.fromString),
+  factory PriceWithCurrency.fromJson(Map<String, dynamic> json) {
+    return PriceWithCurrency(
+      currency: (json['Currency'] as String?) ?? '',
+      price: (json['Price'] as double?) ?? 0,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final domainName = this.domainName;
-    final status = this.status;
+    final currency = this.currency;
+    final price = this.price;
     return {
-      if (domainName != null) 'domainName': domainName,
-      if (status != null) 'status': status.value,
+      'Currency': currency,
+      'Price': price,
     };
   }
-}
-
-/// The GetDomainDetail response includes the following elements.
-class GetDomainDetailResponse {
-  /// Email address to contact to report incorrect contact information for a
-  /// domain, to report that the domain is being used to send spam, to report that
-  /// someone is cybersquatting on a domain name, or report some other type of
-  /// abuse.
-  final String? abuseContactEmail;
-
-  /// Phone number for reporting abuse.
-  final String? abuseContactPhone;
-
-  /// Provides details about the domain administrative contact.
-  final ContactDetail? adminContact;
-
-  /// Specifies whether contact information is concealed from WHOIS queries. If
-  /// the value is <code>true</code>, WHOIS ("who is") queries return contact
-  /// information either for Amazon Registrar or for our registrar associate,
-  /// Gandi. If the value is <code>false</code>, WHOIS queries return the
-  /// information that you entered for the admin contact.
-  final bool? adminPrivacy;
-
-  /// Specifies whether the domain registration is set to renew automatically.
-  final bool? autoRenew;
-
-  /// Provides details about the domain billing contact.
-  final ContactDetail? billingContact;
-
-  /// Specifies whether contact information is concealed from WHOIS queries. If
-  /// the value is <code>true</code>, WHOIS ("who is") queries return contact
-  /// information either for Amazon Registrar or for our registrar associate,
-  /// Gandi. If the value is <code>false</code>, WHOIS queries return the
-  /// information that you entered for the billing contact.
-  final bool? billingPrivacy;
-
-  /// The date when the domain was created as found in the response to a WHOIS
-  /// query. The date and time is in Unix time format and Coordinated Universal
-  /// time (UTC).
-  final DateTime? creationDate;
-
-  /// Deprecated.
-  final String? dnsSec;
-
-  /// A complex type that contains information about the DNSSEC configuration.
-  final List<DnssecKey>? dnssecKeys;
-
-  /// The name of a domain.
-  final String? domainName;
-
-  /// The date when the registration for the domain is set to expire. The date and
-  /// time is in Unix time format and Coordinated Universal time (UTC).
-  final DateTime? expirationDate;
-
-  /// The name servers of the domain.
-  final List<Nameserver>? nameservers;
-
-  /// Provides details about the domain registrant.
-  final ContactDetail? registrantContact;
-
-  /// Specifies whether contact information is concealed from WHOIS queries. If
-  /// the value is <code>true</code>, WHOIS ("who is") queries return contact
-  /// information either for Amazon Registrar or for our registrar associate,
-  /// Gandi. If the value is <code>false</code>, WHOIS queries return the
-  /// information that you entered for the registrant contact (domain owner).
-  final bool? registrantPrivacy;
-
-  /// Name of the registrar of the domain as identified in the registry.
-  final String? registrarName;
-
-  /// Web address of the registrar.
-  final String? registrarUrl;
-
-  /// Reserved for future use.
-  final String? registryDomainId;
-
-  /// Reseller of the domain. Domains registered or transferred using Route 53
-  /// domains will have <code>"Amazon"</code> as the reseller.
-  final String? reseller;
-
-  /// An array of domain name status codes, also known as Extensible Provisioning
-  /// Protocol (EPP) status codes.
-  ///
-  /// ICANN, the organization that maintains a central database of domain names,
-  /// has developed a set of domain name status codes that tell you the status of
-  /// a variety of operations on a domain name, for example, registering a domain
-  /// name, transferring a domain name to another registrar, renewing the
-  /// registration for a domain name, and so on. All registrars use this same set
-  /// of status codes.
-  ///
-  /// For a current list of domain name status codes and an explanation of what
-  /// each code means, go to the <a href="https://www.icann.org/">ICANN
-  /// website</a> and search for <code>epp status codes</code>. (Search on the
-  /// ICANN website; web searches sometimes return an old version of the
-  /// document.)
-  final List<String>? statusList;
-
-  /// Provides details about the domain technical contact.
-  final ContactDetail? techContact;
-
-  /// Specifies whether contact information is concealed from WHOIS queries. If
-  /// the value is <code>true</code>, WHOIS ("who is") queries return contact
-  /// information either for Amazon Registrar or for our registrar associate,
-  /// Gandi. If the value is <code>false</code>, WHOIS queries return the
-  /// information that you entered for the technical contact.
-  final bool? techPrivacy;
-
-  /// The last updated date of the domain as found in the response to a WHOIS
-  /// query. The date and time is in Unix time format and Coordinated Universal
-  /// time (UTC).
-  final DateTime? updatedDate;
-
-  /// The fully qualified name of the WHOIS server that can answer the WHOIS query
-  /// for the domain.
-  final String? whoIsServer;
-
-  GetDomainDetailResponse({
-    this.abuseContactEmail,
-    this.abuseContactPhone,
-    this.adminContact,
-    this.adminPrivacy,
-    this.autoRenew,
-    this.billingContact,
-    this.billingPrivacy,
-    this.creationDate,
-    this.dnsSec,
-    this.dnssecKeys,
-    this.domainName,
-    this.expirationDate,
-    this.nameservers,
-    this.registrantContact,
-    this.registrantPrivacy,
-    this.registrarName,
-    this.registrarUrl,
-    this.registryDomainId,
-    this.reseller,
-    this.statusList,
-    this.techContact,
-    this.techPrivacy,
-    this.updatedDate,
-    this.whoIsServer,
-  });
-
-  factory GetDomainDetailResponse.fromJson(Map<String, dynamic> json) {
-    return GetDomainDetailResponse(
-      abuseContactEmail: json['AbuseContactEmail'] as String?,
-      abuseContactPhone: json['AbuseContactPhone'] as String?,
-      adminContact: json['AdminContact'] != null
-          ? ContactDetail.fromJson(json['AdminContact'] as Map<String, dynamic>)
-          : null,
-      adminPrivacy: json['AdminPrivacy'] as bool?,
-      autoRenew: json['AutoRenew'] as bool?,
-      billingContact: json['BillingContact'] != null
-          ? ContactDetail.fromJson(
-              json['BillingContact'] as Map<String, dynamic>)
-          : null,
-      billingPrivacy: json['BillingPrivacy'] as bool?,
-      creationDate: timeStampFromJson(json['CreationDate']),
-      dnsSec: json['DnsSec'] as String?,
-      dnssecKeys: (json['DnssecKeys'] as List?)
-          ?.nonNulls
-          .map((e) => DnssecKey.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      domainName: json['DomainName'] as String?,
-      expirationDate: timeStampFromJson(json['ExpirationDate']),
-      nameservers: (json['Nameservers'] as List?)
-          ?.nonNulls
-          .map((e) => Nameserver.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      registrantContact: json['RegistrantContact'] != null
-          ? ContactDetail.fromJson(
-              json['RegistrantContact'] as Map<String, dynamic>)
-          : null,
-      registrantPrivacy: json['RegistrantPrivacy'] as bool?,
-      registrarName: json['RegistrarName'] as String?,
-      registrarUrl: json['RegistrarUrl'] as String?,
-      registryDomainId: json['RegistryDomainId'] as String?,
-      reseller: json['Reseller'] as String?,
-      statusList: (json['StatusList'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      techContact: json['TechContact'] != null
-          ? ContactDetail.fromJson(json['TechContact'] as Map<String, dynamic>)
-          : null,
-      techPrivacy: json['TechPrivacy'] as bool?,
-      updatedDate: timeStampFromJson(json['UpdatedDate']),
-      whoIsServer: json['WhoIsServer'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final abuseContactEmail = this.abuseContactEmail;
-    final abuseContactPhone = this.abuseContactPhone;
-    final adminContact = this.adminContact;
-    final adminPrivacy = this.adminPrivacy;
-    final autoRenew = this.autoRenew;
-    final billingContact = this.billingContact;
-    final billingPrivacy = this.billingPrivacy;
-    final creationDate = this.creationDate;
-    final dnsSec = this.dnsSec;
-    final dnssecKeys = this.dnssecKeys;
-    final domainName = this.domainName;
-    final expirationDate = this.expirationDate;
-    final nameservers = this.nameservers;
-    final registrantContact = this.registrantContact;
-    final registrantPrivacy = this.registrantPrivacy;
-    final registrarName = this.registrarName;
-    final registrarUrl = this.registrarUrl;
-    final registryDomainId = this.registryDomainId;
-    final reseller = this.reseller;
-    final statusList = this.statusList;
-    final techContact = this.techContact;
-    final techPrivacy = this.techPrivacy;
-    final updatedDate = this.updatedDate;
-    final whoIsServer = this.whoIsServer;
-    return {
-      if (abuseContactEmail != null) 'AbuseContactEmail': abuseContactEmail,
-      if (abuseContactPhone != null) 'AbuseContactPhone': abuseContactPhone,
-      if (adminContact != null) 'AdminContact': adminContact,
-      if (adminPrivacy != null) 'AdminPrivacy': adminPrivacy,
-      if (autoRenew != null) 'AutoRenew': autoRenew,
-      if (billingContact != null) 'BillingContact': billingContact,
-      if (billingPrivacy != null) 'BillingPrivacy': billingPrivacy,
-      if (creationDate != null)
-        'CreationDate': unixTimestampToJson(creationDate),
-      if (dnsSec != null) 'DnsSec': dnsSec,
-      if (dnssecKeys != null) 'DnssecKeys': dnssecKeys,
-      if (domainName != null) 'DomainName': domainName,
-      if (expirationDate != null)
-        'ExpirationDate': unixTimestampToJson(expirationDate),
-      if (nameservers != null) 'Nameservers': nameservers,
-      if (registrantContact != null) 'RegistrantContact': registrantContact,
-      if (registrantPrivacy != null) 'RegistrantPrivacy': registrantPrivacy,
-      if (registrarName != null) 'RegistrarName': registrarName,
-      if (registrarUrl != null) 'RegistrarUrl': registrarUrl,
-      if (registryDomainId != null) 'RegistryDomainId': registryDomainId,
-      if (reseller != null) 'Reseller': reseller,
-      if (statusList != null) 'StatusList': statusList,
-      if (techContact != null) 'TechContact': techContact,
-      if (techPrivacy != null) 'TechPrivacy': techPrivacy,
-      if (updatedDate != null) 'UpdatedDate': unixTimestampToJson(updatedDate),
-      if (whoIsServer != null) 'WhoIsServer': whoIsServer,
-    };
-  }
-}
-
-class GetDomainSuggestionsResponse {
-  /// A list of possible domain names. If you specified <code>true</code> for
-  /// <code>OnlyAvailable</code> in the request, the list contains only domains
-  /// that are available for registration.
-  final List<DomainSuggestion>? suggestionsList;
-
-  GetDomainSuggestionsResponse({
-    this.suggestionsList,
-  });
-
-  factory GetDomainSuggestionsResponse.fromJson(Map<String, dynamic> json) {
-    return GetDomainSuggestionsResponse(
-      suggestionsList: (json['SuggestionsList'] as List?)
-          ?.nonNulls
-          .map((e) => DomainSuggestion.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final suggestionsList = this.suggestionsList;
-    return {
-      if (suggestionsList != null) 'SuggestionsList': suggestionsList,
-    };
-  }
-}
-
-/// The GetOperationDetail response includes the following elements.
-class GetOperationDetailResponse {
-  /// The name of a domain.
-  final String? domainName;
-
-  /// The date when the operation was last updated.
-  final DateTime? lastUpdatedDate;
-
-  /// Detailed information on the status including possible errors.
-  final String? message;
-
-  /// The identifier for the operation.
-  final String? operationId;
-
-  /// The current status of the requested operation in the system.
-  final OperationStatus? status;
-
-  /// Lists any outstanding operations that require customer action. Valid values
-  /// are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>PENDING_ACCEPTANCE</code>: The operation is waiting for acceptance
-  /// from the account that is receiving the domain.
-  /// </li>
-  /// <li>
-  /// <code>PENDING_CUSTOMER_ACTION</code>: The operation is waiting for customer
-  /// action, for example, returning an email.
-  /// </li>
-  /// <li>
-  /// <code>PENDING_AUTHORIZATION</code>: The operation is waiting for the form of
-  /// authorization. For more information, see <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ResendOperationAuthorization.html">ResendOperationAuthorization</a>.
-  /// </li>
-  /// <li>
-  /// <code>PENDING_PAYMENT_VERIFICATION</code>: The operation is waiting for the
-  /// payment method to validate.
-  /// </li>
-  /// <li>
-  /// <code>PENDING_SUPPORT_CASE</code>: The operation includes a support case and
-  /// is waiting for its resolution.
-  /// </li>
-  /// </ul>
-  final StatusFlag? statusFlag;
-
-  /// The date when the request was submitted.
-  final DateTime? submittedDate;
-
-  /// The type of operation that was requested.
-  final OperationType? type;
-
-  GetOperationDetailResponse({
-    this.domainName,
-    this.lastUpdatedDate,
-    this.message,
-    this.operationId,
-    this.status,
-    this.statusFlag,
-    this.submittedDate,
-    this.type,
-  });
-
-  factory GetOperationDetailResponse.fromJson(Map<String, dynamic> json) {
-    return GetOperationDetailResponse(
-      domainName: json['DomainName'] as String?,
-      lastUpdatedDate: timeStampFromJson(json['LastUpdatedDate']),
-      message: json['Message'] as String?,
-      operationId: json['OperationId'] as String?,
-      status: (json['Status'] as String?)?.let(OperationStatus.fromString),
-      statusFlag: (json['StatusFlag'] as String?)?.let(StatusFlag.fromString),
-      submittedDate: timeStampFromJson(json['SubmittedDate']),
-      type: (json['Type'] as String?)?.let(OperationType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final domainName = this.domainName;
-    final lastUpdatedDate = this.lastUpdatedDate;
-    final message = this.message;
-    final operationId = this.operationId;
-    final status = this.status;
-    final statusFlag = this.statusFlag;
-    final submittedDate = this.submittedDate;
-    final type = this.type;
-    return {
-      if (domainName != null) 'DomainName': domainName,
-      if (lastUpdatedDate != null)
-        'LastUpdatedDate': unixTimestampToJson(lastUpdatedDate),
-      if (message != null) 'Message': message,
-      if (operationId != null) 'OperationId': operationId,
-      if (status != null) 'Status': status.value,
-      if (statusFlag != null) 'StatusFlag': statusFlag.value,
-      if (submittedDate != null)
-        'SubmittedDate': unixTimestampToJson(submittedDate),
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class ListDomainsAttributeName {
-  static const domainName = ListDomainsAttributeName._('DomainName');
-  static const expiry = ListDomainsAttributeName._('Expiry');
-
-  final String value;
-
-  const ListDomainsAttributeName._(this.value);
-
-  static const values = [domainName, expiry];
-
-  static ListDomainsAttributeName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ListDomainsAttributeName._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ListDomainsAttributeName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The ListDomains response includes the following elements.
-class ListDomainsResponse {
-  /// A list of domains.
-  final List<DomainSummary>? domains;
-
-  /// If there are more domains than you specified for <code>MaxItems</code> in
-  /// the request, submit another request and include the value of
-  /// <code>NextPageMarker</code> in the value of <code>Marker</code>.
-  final String? nextPageMarker;
-
-  ListDomainsResponse({
-    this.domains,
-    this.nextPageMarker,
-  });
-
-  factory ListDomainsResponse.fromJson(Map<String, dynamic> json) {
-    return ListDomainsResponse(
-      domains: (json['Domains'] as List?)
-          ?.nonNulls
-          .map((e) => DomainSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextPageMarker: json['NextPageMarker'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final domains = this.domains;
-    final nextPageMarker = this.nextPageMarker;
-    return {
-      if (domains != null) 'Domains': domains,
-      if (nextPageMarker != null) 'NextPageMarker': nextPageMarker,
-    };
-  }
-}
-
-/// The ListOperations response includes the following elements.
-class ListOperationsResponse {
-  /// If there are more operations than you specified for <code>MaxItems</code> in
-  /// the request, submit another request and include the value of
-  /// <code>NextPageMarker</code> in the value of <code>Marker</code>.
-  final String? nextPageMarker;
-
-  /// Lists summaries of the operations.
-  final List<OperationSummary>? operations;
-
-  ListOperationsResponse({
-    this.nextPageMarker,
-    this.operations,
-  });
-
-  factory ListOperationsResponse.fromJson(Map<String, dynamic> json) {
-    return ListOperationsResponse(
-      nextPageMarker: json['NextPageMarker'] as String?,
-      operations: (json['Operations'] as List?)
-          ?.nonNulls
-          .map((e) => OperationSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextPageMarker = this.nextPageMarker;
-    final operations = this.operations;
-    return {
-      if (nextPageMarker != null) 'NextPageMarker': nextPageMarker,
-      if (operations != null) 'Operations': operations,
-    };
-  }
-}
-
-class ListOperationsSortAttributeName {
-  static const submittedDate =
-      ListOperationsSortAttributeName._('SubmittedDate');
-
-  final String value;
-
-  const ListOperationsSortAttributeName._(this.value);
-
-  static const values = [submittedDate];
-
-  static ListOperationsSortAttributeName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ListOperationsSortAttributeName._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ListOperationsSortAttributeName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ListPricesResponse {
-  /// If there are more prices than you specified for <code>MaxItems</code> in the
-  /// request, submit another request and include the value of
-  /// <code>NextPageMarker</code> in the value of <code>Marker</code>.
-  ///
-  /// Used only for all TLDs. If you specify a TLD, don't specify a
-  /// <code>NextPageMarker</code>.
-  final String? nextPageMarker;
-
-  /// A complex type that includes all the pricing information. If you specify a
-  /// TLD, this array contains only the pricing for that TLD.
-  final List<DomainPrice>? prices;
-
-  ListPricesResponse({
-    this.nextPageMarker,
-    this.prices,
-  });
-
-  factory ListPricesResponse.fromJson(Map<String, dynamic> json) {
-    return ListPricesResponse(
-      nextPageMarker: json['NextPageMarker'] as String?,
-      prices: (json['Prices'] as List?)
-          ?.nonNulls
-          .map((e) => DomainPrice.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextPageMarker = this.nextPageMarker;
-    final prices = this.prices;
-    return {
-      if (nextPageMarker != null) 'NextPageMarker': nextPageMarker,
-      if (prices != null) 'Prices': prices,
-    };
-  }
-}
-
-/// The ListTagsForDomain response includes the following elements.
-class ListTagsForDomainResponse {
-  /// A list of the tags that are associated with the specified domain.
-  final List<Tag>? tagList;
-
-  ListTagsForDomainResponse({
-    this.tagList,
-  });
-
-  factory ListTagsForDomainResponse.fromJson(Map<String, dynamic> json) {
-    return ListTagsForDomainResponse(
-      tagList: (json['TagList'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tagList = this.tagList;
-    return {
-      if (tagList != null) 'TagList': tagList,
-    };
-  }
-}
-
-/// Name server includes the following elements.
-class Nameserver {
-  /// The fully qualified host name of the name server.
-  ///
-  /// Constraint: Maximum 255 characters
-  final String name;
-
-  /// Glue IP address of a name server entry. Glue IP addresses are required only
-  /// when the name of the name server is a subdomain of the domain. For example,
-  /// if your domain is example.com and the name server for the domain is
-  /// ns.example.com, you need to specify the IP address for ns.example.com.
-  ///
-  /// Constraints: The list can contain only one IPv4 and one IPv6 address.
-  final List<String>? glueIps;
-
-  Nameserver({
-    required this.name,
-    this.glueIps,
-  });
-
-  factory Nameserver.fromJson(Map<String, dynamic> json) {
-    return Nameserver(
-      name: (json['Name'] as String?) ?? '',
-      glueIps:
-          (json['GlueIps'] as List?)?.nonNulls.map((e) => e as String).toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final glueIps = this.glueIps;
-    return {
-      'Name': name,
-      if (glueIps != null) 'GlueIps': glueIps,
-    };
-  }
-}
-
-class OperationStatus {
-  static const submitted = OperationStatus._('SUBMITTED');
-  static const inProgress = OperationStatus._('IN_PROGRESS');
-  static const error = OperationStatus._('ERROR');
-  static const successful = OperationStatus._('SUCCESSFUL');
-  static const failed = OperationStatus._('FAILED');
-
-  final String value;
-
-  const OperationStatus._(this.value);
-
-  static const values = [submitted, inProgress, error, successful, failed];
-
-  static OperationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => OperationStatus._(value));
-
-  @override
-  bool operator ==(other) => other is OperationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// OperationSummary includes the following elements.
@@ -5042,336 +5247,25 @@ class OperationSummary {
   }
 }
 
-class OperationType {
-  static const registerDomain = OperationType._('REGISTER_DOMAIN');
-  static const deleteDomain = OperationType._('DELETE_DOMAIN');
-  static const transferInDomain = OperationType._('TRANSFER_IN_DOMAIN');
-  static const updateDomainContact = OperationType._('UPDATE_DOMAIN_CONTACT');
-  static const updateNameserver = OperationType._('UPDATE_NAMESERVER');
-  static const changePrivacyProtection =
-      OperationType._('CHANGE_PRIVACY_PROTECTION');
-  static const domainLock = OperationType._('DOMAIN_LOCK');
-  static const enableAutorenew = OperationType._('ENABLE_AUTORENEW');
-  static const disableAutorenew = OperationType._('DISABLE_AUTORENEW');
-  static const addDnssec = OperationType._('ADD_DNSSEC');
-  static const removeDnssec = OperationType._('REMOVE_DNSSEC');
-  static const expireDomain = OperationType._('EXPIRE_DOMAIN');
-  static const transferOutDomain = OperationType._('TRANSFER_OUT_DOMAIN');
-  static const changeDomainOwner = OperationType._('CHANGE_DOMAIN_OWNER');
-  static const renewDomain = OperationType._('RENEW_DOMAIN');
-  static const pushDomain = OperationType._('PUSH_DOMAIN');
-  static const internalTransferOutDomain =
-      OperationType._('INTERNAL_TRANSFER_OUT_DOMAIN');
-  static const internalTransferInDomain =
-      OperationType._('INTERNAL_TRANSFER_IN_DOMAIN');
-  static const releaseToGandi = OperationType._('RELEASE_TO_GANDI');
-  static const transferOnRenew = OperationType._('TRANSFER_ON_RENEW');
+class OperationStatus {
+  static const submitted = OperationStatus._('SUBMITTED');
+  static const inProgress = OperationStatus._('IN_PROGRESS');
+  static const error = OperationStatus._('ERROR');
+  static const successful = OperationStatus._('SUCCESSFUL');
+  static const failed = OperationStatus._('FAILED');
 
   final String value;
 
-  const OperationType._(this.value);
+  const OperationStatus._(this.value);
 
-  static const values = [
-    registerDomain,
-    deleteDomain,
-    transferInDomain,
-    updateDomainContact,
-    updateNameserver,
-    changePrivacyProtection,
-    domainLock,
-    enableAutorenew,
-    disableAutorenew,
-    addDnssec,
-    removeDnssec,
-    expireDomain,
-    transferOutDomain,
-    changeDomainOwner,
-    renewDomain,
-    pushDomain,
-    internalTransferOutDomain,
-    internalTransferInDomain,
-    releaseToGandi,
-    transferOnRenew
-  ];
+  static const values = [submitted, inProgress, error, successful, failed];
 
-  static OperationType fromString(String value) =>
+  static OperationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => OperationType._(value));
+          orElse: () => OperationStatus._(value));
 
   @override
-  bool operator ==(other) => other is OperationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class Operator {
-  static const le = Operator._('LE');
-  static const ge = Operator._('GE');
-  static const beginsWith = Operator._('BEGINS_WITH');
-
-  final String value;
-
-  const Operator._(this.value);
-
-  static const values = [le, ge, beginsWith];
-
-  static Operator fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Operator._(value));
-
-  @override
-  bool operator ==(other) => other is Operator && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Currency-specific price information.
-class PriceWithCurrency {
-  /// The currency specifier.
-  final String currency;
-
-  /// The price of a domain, in a specific currency.
-  final double price;
-
-  PriceWithCurrency({
-    required this.currency,
-    required this.price,
-  });
-
-  factory PriceWithCurrency.fromJson(Map<String, dynamic> json) {
-    return PriceWithCurrency(
-      currency: (json['Currency'] as String?) ?? '',
-      price: (json['Price'] as double?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final currency = this.currency;
-    final price = this.price;
-    return {
-      'Currency': currency,
-      'Price': price,
-    };
-  }
-}
-
-class ReachabilityStatus {
-  static const pending = ReachabilityStatus._('PENDING');
-  static const done = ReachabilityStatus._('DONE');
-  static const expired = ReachabilityStatus._('EXPIRED');
-
-  final String value;
-
-  const ReachabilityStatus._(this.value);
-
-  static const values = [pending, done, expired];
-
-  static ReachabilityStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ReachabilityStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ReachabilityStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The RegisterDomain response includes the following element.
-class RegisterDomainResponse {
-  /// Identifier for tracking the progress of the request. To query the operation
-  /// status, use <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>.
-  final String? operationId;
-
-  RegisterDomainResponse({
-    this.operationId,
-  });
-
-  factory RegisterDomainResponse.fromJson(Map<String, dynamic> json) {
-    return RegisterDomainResponse(
-      operationId: json['OperationId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final operationId = this.operationId;
-    return {
-      if (operationId != null) 'OperationId': operationId,
-    };
-  }
-}
-
-/// The RejectDomainTransferFromAnotherAwsAccount response includes the
-/// following element.
-class RejectDomainTransferFromAnotherAwsAccountResponse {
-  /// The identifier that <code>TransferDomainToAnotherAwsAccount</code> returned
-  /// to track the progress of the request. Because the transfer request was
-  /// rejected, the value is no longer valid, and you can't use
-  /// <code>GetOperationDetail</code> to query the operation status.
-  final String? operationId;
-
-  RejectDomainTransferFromAnotherAwsAccountResponse({
-    this.operationId,
-  });
-
-  factory RejectDomainTransferFromAnotherAwsAccountResponse.fromJson(
-      Map<String, dynamic> json) {
-    return RejectDomainTransferFromAnotherAwsAccountResponse(
-      operationId: json['OperationId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final operationId = this.operationId;
-    return {
-      if (operationId != null) 'OperationId': operationId,
-    };
-  }
-}
-
-class RenewDomainResponse {
-  /// Identifier for tracking the progress of the request. To query the operation
-  /// status, use <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>.
-  final String? operationId;
-
-  RenewDomainResponse({
-    this.operationId,
-  });
-
-  factory RenewDomainResponse.fromJson(Map<String, dynamic> json) {
-    return RenewDomainResponse(
-      operationId: json['OperationId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final operationId = this.operationId;
-    return {
-      if (operationId != null) 'OperationId': operationId,
-    };
-  }
-}
-
-class ResendContactReachabilityEmailResponse {
-  /// The domain name for which you requested a confirmation email.
-  final String? domainName;
-
-  /// The email address for the registrant contact at the time that we sent the
-  /// verification email.
-  final String? emailAddress;
-
-  /// <code>True</code> if the email address for the registrant contact has
-  /// already been verified, and <code>false</code> otherwise. If the email
-  /// address has already been verified, we don't send another confirmation email.
-  final bool? isAlreadyVerified;
-
-  ResendContactReachabilityEmailResponse({
-    this.domainName,
-    this.emailAddress,
-    this.isAlreadyVerified,
-  });
-
-  factory ResendContactReachabilityEmailResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ResendContactReachabilityEmailResponse(
-      domainName: json['domainName'] as String?,
-      emailAddress: json['emailAddress'] as String?,
-      isAlreadyVerified: json['isAlreadyVerified'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final domainName = this.domainName;
-    final emailAddress = this.emailAddress;
-    final isAlreadyVerified = this.isAlreadyVerified;
-    return {
-      if (domainName != null) 'domainName': domainName,
-      if (emailAddress != null) 'emailAddress': emailAddress,
-      if (isAlreadyVerified != null) 'isAlreadyVerified': isAlreadyVerified,
-    };
-  }
-}
-
-/// The RetrieveDomainAuthCode response includes the following element.
-class RetrieveDomainAuthCodeResponse {
-  /// The authorization code for the domain.
-  final String? authCode;
-
-  RetrieveDomainAuthCodeResponse({
-    this.authCode,
-  });
-
-  factory RetrieveDomainAuthCodeResponse.fromJson(Map<String, dynamic> json) {
-    return RetrieveDomainAuthCodeResponse(
-      authCode: json['AuthCode'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final authCode = this.authCode;
-    return {
-      if (authCode != null) 'AuthCode': authCode,
-    };
-  }
-}
-
-/// Information for sorting a list of domains.
-class SortCondition {
-  /// Field to be used for sorting the list of domains. It can be either the name
-  /// or the expiration for a domain. Note that if <code>filterCondition</code> is
-  /// used in the same <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains__ListDomains.html">ListDomains</a>
-  /// call, the field used for sorting has to be the same as the field used for
-  /// filtering.
-  final ListDomainsAttributeName name;
-
-  /// The sort order for a list of domains. Either ascending (ASC) or descending
-  /// (DES).
-  final SortOrder sortOrder;
-
-  SortCondition({
-    required this.name,
-    required this.sortOrder,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final sortOrder = this.sortOrder;
-    return {
-      'Name': name.value,
-      'SortOrder': sortOrder.value,
-    };
-  }
-}
-
-class SortOrder {
-  static const asc = SortOrder._('ASC');
-  static const desc = SortOrder._('DESC');
-
-  final String value;
-
-  const SortOrder._(this.value);
-
-  static const values = [asc, desc];
-
-  static SortOrder fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
-
-  @override
-  bool operator ==(other) => other is SortOrder && other.value == value;
+  bool operator ==(other) => other is OperationStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -5413,104 +5307,421 @@ class StatusFlag {
   String toString() => value;
 }
 
-/// Each tag includes the following elements.
-class Tag {
-  /// The key (name) of a tag.
-  ///
-  /// Valid values: A-Z, a-z, 0-9, space, ".:/=+\-@"
-  ///
-  /// Constraints: Each key can be 1-128 characters long.
-  final String? key;
+class ListOperationsSortAttributeName {
+  static const submittedDate =
+      ListOperationsSortAttributeName._('SubmittedDate');
 
-  /// The value of a tag.
-  ///
-  /// Valid values: A-Z, a-z, 0-9, space, ".:/=+\-@"
-  ///
-  /// Constraints: Each value can be 0-256 characters long.
-  final String? value;
+  final String value;
 
-  Tag({
-    this.key,
-    this.value,
+  const ListOperationsSortAttributeName._(this.value);
+
+  static const values = [submittedDate];
+
+  static ListOperationsSortAttributeName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ListOperationsSortAttributeName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ListOperationsSortAttributeName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SortOrder {
+  static const asc = SortOrder._('ASC');
+  static const desc = SortOrder._('DESC');
+
+  final String value;
+
+  const SortOrder._(this.value);
+
+  static const values = [asc, desc];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Summary information about one domain.
+class DomainSummary {
+  /// Indicates whether the domain is automatically renewed upon expiration.
+  final bool? autoRenew;
+
+  /// The name of the domain that the summary information applies to.
+  final String? domainName;
+
+  /// Expiration date of the domain in Unix time format and Coordinated Universal
+  /// Time (UTC).
+  final DateTime? expiry;
+
+  /// Indicates whether a domain is locked from unauthorized transfer to another
+  /// party.
+  final bool? transferLock;
+
+  DomainSummary({
+    this.autoRenew,
+    this.domainName,
+    this.expiry,
+    this.transferLock,
   });
 
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: json['Key'] as String?,
-      value: json['Value'] as String?,
+  factory DomainSummary.fromJson(Map<String, dynamic> json) {
+    return DomainSummary(
+      autoRenew: json['AutoRenew'] as bool?,
+      domainName: json['DomainName'] as String?,
+      expiry: timeStampFromJson(json['Expiry']),
+      transferLock: json['TransferLock'] as bool?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
+    final autoRenew = this.autoRenew;
+    final domainName = this.domainName;
+    final expiry = this.expiry;
+    final transferLock = this.transferLock;
     return {
-      if (key != null) 'Key': key,
-      if (value != null) 'Value': value,
+      if (autoRenew != null) 'AutoRenew': autoRenew,
+      if (domainName != null) 'DomainName': domainName,
+      if (expiry != null) 'Expiry': unixTimestampToJson(expiry),
+      if (transferLock != null) 'TransferLock': transferLock,
     };
   }
 }
 
-/// The TransferDomain response includes the following element.
-class TransferDomainResponse {
-  /// Identifier for tracking the progress of the request. To query the operation
-  /// status, use <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>.
-  final String? operationId;
+/// Information for sorting a list of domains.
+class SortCondition {
+  /// Field to be used for sorting the list of domains. It can be either the name
+  /// or the expiration for a domain. Note that if <code>filterCondition</code> is
+  /// used in the same <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains__ListDomains.html">ListDomains</a>
+  /// call, the field used for sorting has to be the same as the field used for
+  /// filtering.
+  final ListDomainsAttributeName name;
 
-  TransferDomainResponse({
-    this.operationId,
+  /// The sort order for a list of domains. Either ascending (ASC) or descending
+  /// (DES).
+  final SortOrder sortOrder;
+
+  SortCondition({
+    required this.name,
+    required this.sortOrder,
   });
 
-  factory TransferDomainResponse.fromJson(Map<String, dynamic> json) {
-    return TransferDomainResponse(
-      operationId: json['OperationId'] as String?,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final operationId = this.operationId;
+    final name = this.name;
+    final sortOrder = this.sortOrder;
     return {
-      if (operationId != null) 'OperationId': operationId,
+      'Name': name.value,
+      'SortOrder': sortOrder.value,
     };
   }
 }
 
-/// The <code>TransferDomainToAnotherAwsAccount</code> response includes the
-/// following elements.
-class TransferDomainToAnotherAwsAccountResponse {
-  /// Identifier for tracking the progress of the request. To query the operation
-  /// status, use <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>.
-  final String? operationId;
+class ListDomainsAttributeName {
+  static const domainName = ListDomainsAttributeName._('DomainName');
+  static const expiry = ListDomainsAttributeName._('Expiry');
 
-  /// To finish transferring a domain to another Amazon Web Services account, the
-  /// account that the domain is being transferred to must submit an <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_AcceptDomainTransferFromAnotherAwsAccount.html">AcceptDomainTransferFromAnotherAwsAccount</a>
-  /// request. The request must include the value of the <code>Password</code>
-  /// element that was returned in the
-  /// <code>TransferDomainToAnotherAwsAccount</code> response.
-  final String? password;
+  final String value;
 
-  TransferDomainToAnotherAwsAccountResponse({
-    this.operationId,
-    this.password,
+  const ListDomainsAttributeName._(this.value);
+
+  static const values = [domainName, expiry];
+
+  static ListDomainsAttributeName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ListDomainsAttributeName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ListDomainsAttributeName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information for the filtering of a list of domains returned by <a
+/// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains__ListDomains.html">ListDomains</a>.
+class FilterCondition {
+  /// Name of the field which should be used for filtering the list of domains.
+  final ListDomainsAttributeName name;
+
+  /// The operator values for filtering domain names. The values can be:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>LE</code>: Less than, or equal to
+  /// </li>
+  /// <li>
+  /// <code>GE</code>: Greater than, or equal to
+  /// </li>
+  /// <li>
+  /// <code>BEGINS_WITH</code>: Begins with
+  /// </li>
+  /// </ul>
+  final Operator operator;
+
+  /// An array of strings presenting values to compare. Only 1 item in the list is
+  /// currently supported.
+  final List<String> values;
+
+  FilterCondition({
+    required this.name,
+    required this.operator,
+    required this.values,
   });
 
-  factory TransferDomainToAnotherAwsAccountResponse.fromJson(
-      Map<String, dynamic> json) {
-    return TransferDomainToAnotherAwsAccountResponse(
-      operationId: json['OperationId'] as String?,
-      password: json['Password'] as String?,
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final operator = this.operator;
+    final values = this.values;
+    return {
+      'Name': name.value,
+      'Operator': operator.value,
+      'Values': values,
+    };
+  }
+}
+
+class Operator {
+  static const le = Operator._('LE');
+  static const ge = Operator._('GE');
+  static const beginsWith = Operator._('BEGINS_WITH');
+
+  final String value;
+
+  const Operator._(this.value);
+
+  static const values = [le, ge, beginsWith];
+
+  static Operator fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Operator._(value));
+
+  @override
+  bool operator ==(other) => other is Operator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about one suggested domain name.
+class DomainSuggestion {
+  /// Whether the domain name is available for registering.
+  /// <note>
+  /// You can register only the domains that are designated as
+  /// <code>AVAILABLE</code>.
+  /// </note>
+  /// Valid values:
+  /// <dl> <dt>AVAILABLE</dt> <dd>
+  /// The domain name is available.
+  /// </dd> <dt>AVAILABLE_RESERVED</dt> <dd>
+  /// The domain name is reserved under specific conditions.
+  /// </dd> <dt>AVAILABLE_PREORDER</dt> <dd>
+  /// The domain name is available and can be preordered.
+  /// </dd> <dt>DONT_KNOW</dt> <dd>
+  /// The TLD registry didn't reply with a definitive answer about whether the
+  /// domain name is available. Route 53 can return this response for a variety of
+  /// reasons, for example, the registry is performing maintenance. Try again
+  /// later.
+  /// </dd> <dt>PENDING</dt> <dd>
+  /// The TLD registry didn't return a response in the expected amount of time.
+  /// When the response is delayed, it usually takes just a few extra seconds. You
+  /// can resubmit the request immediately.
+  /// </dd> <dt>RESERVED</dt> <dd>
+  /// The domain name has been reserved for another person or organization.
+  /// </dd> <dt>UNAVAILABLE</dt> <dd>
+  /// The domain name is not available.
+  /// </dd> <dt>UNAVAILABLE_PREMIUM</dt> <dd>
+  /// The domain name is not available.
+  /// </dd> <dt>UNAVAILABLE_RESTRICTED</dt> <dd>
+  /// The domain name is forbidden.
+  /// </dd> </dl>
+  final String? availability;
+
+  /// A suggested domain name.
+  final String? domainName;
+
+  DomainSuggestion({
+    this.availability,
+    this.domainName,
+  });
+
+  factory DomainSuggestion.fromJson(Map<String, dynamic> json) {
+    return DomainSuggestion(
+      availability: json['Availability'] as String?,
+      domainName: json['DomainName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final operationId = this.operationId;
-    final password = this.password;
+    final availability = this.availability;
+    final domainName = this.domainName;
     return {
-      if (operationId != null) 'OperationId': operationId,
-      if (password != null) 'Password': password,
+      if (availability != null) 'Availability': availability,
+      if (domainName != null) 'DomainName': domainName,
+    };
+  }
+}
+
+/// Information about the DNSSEC key.
+///
+/// You get this from your DNS provider and then give it to Route 53 (by using
+/// <a
+/// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_AssociateDelegationSignerToDomain.html">AssociateDelegationSignerToDomain</a>)
+/// to pass it to the registry to establish the chain of trust.
+class DnssecKey {
+  /// The number of the public key’s cryptographic algorithm according to an <a
+  /// href="https://www.iana.org/assignments/dns-sec-alg-numbers/dns-sec-alg-numbers.xml">IANA</a>
+  /// assignment.
+  ///
+  /// If Route 53 is your DNS service, set this to 13.
+  ///
+  /// For more information about enabling DNSSEC signing, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-configuring-dnssec-enable-signing.html">Enabling
+  /// DNSSEC signing and establishing a chain of trust</a>.
+  final int? algorithm;
+
+  /// The delegation signer digest.
+  ///
+  /// Digest is calculated from the public key provided using specified digest
+  /// algorithm and this digest is the actual value returned from the registry
+  /// nameservers as the value of DS records.
+  final String? digest;
+
+  /// The number of the DS digest algorithm according to an IANA assignment.
+  ///
+  /// For more information, see <a
+  /// href="https://www.iana.org/assignments/ds-rr-types/ds-rr-types.xhtml">IANA</a>
+  /// for DNSSEC Delegation Signer (DS) Resource Record (RR) Type Digest
+  /// Algorithms.
+  final int? digestType;
+
+  /// Defines the type of key. It can be either a KSK (key-signing-key, value 257)
+  /// or ZSK (zone-signing-key, value 256). Using KSK is always encouraged. Only
+  /// use ZSK if your DNS provider isn't Route 53 and you don’t have KSK
+  /// available.
+  ///
+  /// If you have KSK and ZSK keys, always use KSK to create a delegations signer
+  /// (DS) record. If you have ZSK keys only – use ZSK to create a DS record.
+  final int? flags;
+
+  /// An ID assigned to each DS record created by <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_AssociateDelegationSignerToDomain.html">AssociateDelegationSignerToDomain</a>.
+  final String? id;
+
+  /// A numeric identification of the DNSKEY record referred to by this DS record.
+  final int? keyTag;
+
+  /// The base64-encoded public key part of the key pair that is passed to the
+  /// registry .
+  final String? publicKey;
+
+  DnssecKey({
+    this.algorithm,
+    this.digest,
+    this.digestType,
+    this.flags,
+    this.id,
+    this.keyTag,
+    this.publicKey,
+  });
+
+  factory DnssecKey.fromJson(Map<String, dynamic> json) {
+    return DnssecKey(
+      algorithm: json['Algorithm'] as int?,
+      digest: json['Digest'] as String?,
+      digestType: json['DigestType'] as int?,
+      flags: json['Flags'] as int?,
+      id: json['Id'] as String?,
+      keyTag: json['KeyTag'] as int?,
+      publicKey: json['PublicKey'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final algorithm = this.algorithm;
+    final digest = this.digest;
+    final digestType = this.digestType;
+    final flags = this.flags;
+    final id = this.id;
+    final keyTag = this.keyTag;
+    final publicKey = this.publicKey;
+    return {
+      if (algorithm != null) 'Algorithm': algorithm,
+      if (digest != null) 'Digest': digest,
+      if (digestType != null) 'DigestType': digestType,
+      if (flags != null) 'Flags': flags,
+      if (id != null) 'Id': id,
+      if (keyTag != null) 'KeyTag': keyTag,
+      if (publicKey != null) 'PublicKey': publicKey,
+    };
+  }
+}
+
+class ReachabilityStatus {
+  static const pending = ReachabilityStatus._('PENDING');
+  static const done = ReachabilityStatus._('DONE');
+  static const expired = ReachabilityStatus._('EXPIRED');
+
+  final String value;
+
+  const ReachabilityStatus._(this.value);
+
+  static const values = [pending, done, expired];
+
+  static ReachabilityStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReachabilityStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReachabilityStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A complex type that contains information about whether the specified domain
+/// can be transferred to Route 53.
+class DomainTransferability {
+  final Transferable? transferable;
+
+  DomainTransferability({
+    this.transferable,
+  });
+
+  factory DomainTransferability.fromJson(Map<String, dynamic> json) {
+    return DomainTransferability(
+      transferable:
+          (json['Transferable'] as String?)?.let(Transferable.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final transferable = this.transferable;
+    return {
+      if (transferable != null) 'Transferable': transferable.value,
     };
   }
 }
@@ -5526,7 +5737,9 @@ class TransferDomainToAnotherAwsAccountResponse {
 /// </dd> <dt>UNTRANSFERRABLE</dt> <dd>
 /// The domain name can't be transferred to Route 53.
 /// </dd> <dt>DONT_KNOW</dt> <dd>
-/// Reserved for future use.
+/// The TLD registry didn't respond in time or didn't provide a definitive
+/// answer about domain transferability, which can occur due to registry
+/// maintenance or temporary delays.
 /// </dd> <dt>DOMAIN_IN_OWN_ACCOUNT</dt> <dd>
 /// The domain already exists in the current Amazon Web Services account.
 /// </dd> <dt>DOMAIN_IN_ANOTHER_ACCOUNT</dt> <dd>
@@ -5569,124 +5782,85 @@ class Transferable {
   String toString() => value;
 }
 
-/// The UpdateDomainContactPrivacy response includes the following element.
-class UpdateDomainContactPrivacyResponse {
-  /// Identifier for tracking the progress of the request. To use this ID to query
-  /// the operation status, use GetOperationDetail.
-  final String? operationId;
+class DomainAvailability {
+  static const available = DomainAvailability._('AVAILABLE');
+  static const availableReserved = DomainAvailability._('AVAILABLE_RESERVED');
+  static const availablePreorder = DomainAvailability._('AVAILABLE_PREORDER');
+  static const unavailable = DomainAvailability._('UNAVAILABLE');
+  static const unavailablePremium = DomainAvailability._('UNAVAILABLE_PREMIUM');
+  static const unavailableRestricted =
+      DomainAvailability._('UNAVAILABLE_RESTRICTED');
+  static const reserved = DomainAvailability._('RESERVED');
+  static const dontKnow = DomainAvailability._('DONT_KNOW');
+  static const invalidNameForTld = DomainAvailability._('INVALID_NAME_FOR_TLD');
+  static const pending = DomainAvailability._('PENDING');
 
-  UpdateDomainContactPrivacyResponse({
-    this.operationId,
-  });
+  final String value;
 
-  factory UpdateDomainContactPrivacyResponse.fromJson(
-      Map<String, dynamic> json) {
-    return UpdateDomainContactPrivacyResponse(
-      operationId: json['OperationId'] as String?,
-    );
-  }
+  const DomainAvailability._(this.value);
 
-  Map<String, dynamic> toJson() {
-    final operationId = this.operationId;
-    return {
-      if (operationId != null) 'OperationId': operationId,
-    };
-  }
+  static const values = [
+    available,
+    availableReserved,
+    availablePreorder,
+    unavailable,
+    unavailablePremium,
+    unavailableRestricted,
+    reserved,
+    dontKnow,
+    invalidNameForTld,
+    pending
+  ];
+
+  static DomainAvailability fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DomainAvailability._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DomainAvailability && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-/// The UpdateDomainContact response includes the following element.
-class UpdateDomainContactResponse {
-  /// Identifier for tracking the progress of the request. To query the operation
-  /// status, use <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>.
-  final String? operationId;
+/// Information about a delegation signer (DS) record that was created in the
+/// registry by <a
+/// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_AssociateDelegationSignerToDomain.html">AssociateDelegationSignerToDomain</a>.
+class DnssecSigningAttributes {
+  /// Algorithm which was used to generate the digest from the public key.
+  final int? algorithm;
 
-  UpdateDomainContactResponse({
-    this.operationId,
+  /// Defines the type of key. It can be either a KSK (key-signing-key, value 257)
+  /// or ZSK (zone-signing-key, value 256). Using KSK is always encouraged. Only
+  /// use ZSK if your DNS provider isn't Route 53 and you don’t have KSK
+  /// available.
+  ///
+  /// If you have KSK and ZSK keys, always use KSK to create a delegations signer
+  /// (DS) record. If you have ZSK keys only – use ZSK to create a DS record.
+  final int? flags;
+
+  /// The base64-encoded public key part of the key pair that is passed to the
+  /// registry.
+  final String? publicKey;
+
+  DnssecSigningAttributes({
+    this.algorithm,
+    this.flags,
+    this.publicKey,
   });
 
-  factory UpdateDomainContactResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateDomainContactResponse(
-      operationId: json['OperationId'] as String?,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final operationId = this.operationId;
+    final algorithm = this.algorithm;
+    final flags = this.flags;
+    final publicKey = this.publicKey;
     return {
-      if (operationId != null) 'OperationId': operationId,
-    };
-  }
-}
-
-/// The UpdateDomainNameservers response includes the following element.
-class UpdateDomainNameserversResponse {
-  /// Identifier for tracking the progress of the request. To query the operation
-  /// status, use <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>.
-  final String? operationId;
-
-  UpdateDomainNameserversResponse({
-    this.operationId,
-  });
-
-  factory UpdateDomainNameserversResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateDomainNameserversResponse(
-      operationId: json['OperationId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final operationId = this.operationId;
-    return {
-      if (operationId != null) 'OperationId': operationId,
-    };
-  }
-}
-
-class UpdateTagsForDomainResponse {
-  UpdateTagsForDomainResponse();
-
-  factory UpdateTagsForDomainResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateTagsForDomainResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// The ViewBilling response includes the following elements.
-class ViewBillingResponse {
-  /// A summary of billing records.
-  final List<BillingRecord>? billingRecords;
-
-  /// If there are more billing records than you specified for
-  /// <code>MaxItems</code> in the request, submit another request and include the
-  /// value of <code>NextPageMarker</code> in the value of <code>Marker</code>.
-  final String? nextPageMarker;
-
-  ViewBillingResponse({
-    this.billingRecords,
-    this.nextPageMarker,
-  });
-
-  factory ViewBillingResponse.fromJson(Map<String, dynamic> json) {
-    return ViewBillingResponse(
-      billingRecords: (json['BillingRecords'] as List?)
-          ?.nonNulls
-          .map((e) => BillingRecord.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextPageMarker: json['NextPageMarker'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final billingRecords = this.billingRecords;
-    final nextPageMarker = this.nextPageMarker;
-    return {
-      if (billingRecords != null) 'BillingRecords': billingRecords,
-      if (nextPageMarker != null) 'NextPageMarker': nextPageMarker,
+      if (algorithm != null) 'Algorithm': algorithm,
+      if (flags != null) 'Flags': flags,
+      if (publicKey != null) 'PublicKey': publicKey,
     };
   }
 }
@@ -5716,6 +5890,11 @@ class OperationLimitExceeded extends _s.GenericAwsException {
       : super(type: type, code: 'OperationLimitExceeded', message: message);
 }
 
+class TLDInMaintenance extends _s.GenericAwsException {
+  TLDInMaintenance({String? type, String? message})
+      : super(type: type, code: 'TLDInMaintenance', message: message);
+}
+
 class TLDRulesViolation extends _s.GenericAwsException {
   TLDRulesViolation({String? type, String? message})
       : super(type: type, code: 'TLDRulesViolation', message: message);
@@ -5736,6 +5915,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
   'InvalidInput': (type, message) => InvalidInput(type: type, message: message),
   'OperationLimitExceeded': (type, message) =>
       OperationLimitExceeded(type: type, message: message),
+  'TLDInMaintenance': (type, message) =>
+      TLDInMaintenance(type: type, message: message),
   'TLDRulesViolation': (type, message) =>
       TLDRulesViolation(type: type, message: message),
   'UnsupportedTLD': (type, message) =>

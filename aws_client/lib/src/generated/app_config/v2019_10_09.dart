@@ -31,7 +31,7 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// limits, logging verbosity, and perform other operational tuning to quickly
 /// respond to issues in production environments.
 /// <note>
-/// AppConfig is a capability of Amazon Web Services Systems Manager.
+/// AppConfig is a tool in Amazon Web Services Systems Manager.
 /// </note>
 /// Despite the fact that application configuration content can vary greatly
 /// from application to application, AppConfig supports the following use cases,
@@ -178,7 +178,6 @@ class AppConfig {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'appconfig',
-            signingName: 'appconfig',
           ),
           region: region,
           credentials: credentials,
@@ -202,8 +201,8 @@ class AppConfig {
   /// configuration data for a mobile application installed by your users.
   ///
   /// May throw [BadRequestException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [name] :
   /// A name for the application.
@@ -283,8 +282,8 @@ class AppConfig {
   /// Guide</i>.
   ///
   /// May throw [BadRequestException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [applicationId] :
@@ -301,25 +300,25 @@ class AppConfig {
   /// <li>
   /// For an Amazon Web Services Systems Manager Parameter Store parameter,
   /// specify either the parameter name in the format
-  /// <code>ssm-parameter://&lt;parameter name&gt;</code> or the ARN.
+  /// <code>ssm-parameter://<parameter name></code> or the ARN.
   /// </li>
   /// <li>
   /// For an Amazon Web Services CodePipeline pipeline, specify the URI in the
-  /// following format: <code>codepipeline</code>://&lt;pipeline name&gt;.
+  /// following format: <code>codepipeline</code>://<pipeline name>.
   /// </li>
   /// <li>
   /// For an Secrets Manager secret, specify the URI in the following format:
-  /// <code>secretsmanager</code>://&lt;secret name&gt;.
+  /// <code>secretsmanager</code>://<secret name>.
   /// </li>
   /// <li>
   /// For an Amazon S3 object, specify the URI in the following format:
-  /// <code>s3://&lt;bucket&gt;/&lt;objectKey&gt; </code>. Here is an example:
-  /// <code>s3://my-bucket/my-app/us-east-1/my-config.json</code>
+  /// <code>s3://<bucket>/<objectKey> </code>. Here is an example:
+  /// <code>s3://amzn-s3-demo-bucket/my-app/us-east-1/my-config.json</code>
   /// </li>
   /// <li>
   /// For an SSM document, specify either the document name in the format
-  /// <code>ssm-document://&lt;document name&gt;</code> or the Amazon Resource
-  /// Name (ARN).
+  /// <code>ssm-document://<document name></code> or the Amazon Resource Name
+  /// (ARN).
   /// </li>
   /// </ul>
   ///
@@ -342,9 +341,9 @@ class AppConfig {
   /// The ARN of an IAM role with permission to access the configuration at the
   /// specified <code>LocationUri</code>.
   /// <important>
-  /// A retrieval role ARN is not required for configurations stored in the
-  /// AppConfig hosted configuration store. It is required for all other sources
-  /// that store your configuration.
+  /// A retrieval role ARN is not required for configurations stored in
+  /// CodePipeline or the AppConfig hosted configuration store. It is required
+  /// for all other sources that store your configuration.
   /// </important>
   ///
   /// Parameter [tags] :
@@ -403,9 +402,9 @@ class AppConfig {
   /// the deployment during each interval, an algorithm that defines how
   /// percentage grows, and bake time.
   ///
+  /// May throw [BadRequestException].
   /// May throw [InternalServerException].
   /// May throw [ServiceQuotaExceededException].
-  /// May throw [BadRequestException].
   ///
   /// Parameter [deploymentDurationInMinutes] :
   /// Total amount of time for a deployment to last.
@@ -487,8 +486,8 @@ class AppConfig {
     _s.validateNumRange(
       'growthFactor',
       growthFactor,
-      1,
-      100,
+      1.0,
+      100.0,
       isRequired: true,
     );
     _s.validateNumRange(
@@ -527,9 +526,9 @@ class AppConfig {
   /// during a configuration deployment. If an alarm is triggered, the system
   /// rolls back the configuration.
   ///
+  /// May throw [BadRequestException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [BadRequestException].
   /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [applicationId] :
@@ -603,8 +602,8 @@ class AppConfig {
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [actions] :
   /// The actions defined in the extension.
@@ -676,8 +675,8 @@ class AppConfig {
   /// workflows</a> in the <i>AppConfig User Guide</i>.
   ///
   /// May throw [BadRequestException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [extensionIdentifier] :
@@ -731,11 +730,11 @@ class AppConfig {
   /// Guide</i>.
   ///
   /// May throw [BadRequestException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [PayloadTooLargeException].
   /// May throw [InternalServerException].
+  /// May throw [PayloadTooLargeException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [applicationId] :
   /// The application ID.
@@ -812,9 +811,9 @@ class AppConfig {
 
   /// Deletes an application.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [BadRequestException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [applicationId] :
   /// The ID of the application to delete.
@@ -836,10 +835,10 @@ class AppConfig {
   /// href="https://docs.aws.amazon.com/appconfig/latest/userguide/deletion-protection.html">deletion
   /// protection</a>.
   ///
-  /// May throw [ResourceNotFoundException].
+  /// May throw [BadRequestException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [applicationId] :
   /// The application ID that includes the configuration profile you want to
@@ -849,9 +848,9 @@ class AppConfig {
   /// The ID of the configuration profile you want to delete.
   ///
   /// Parameter [deletionProtectionCheck] :
-  /// A parameter to configure deletion protection. If enabled, deletion
-  /// protection prevents a user from deleting a configuration profile if your
-  /// application has called either <a
+  /// A parameter to configure deletion protection. Deletion protection prevents
+  /// a user from deleting a configuration profile if your application has
+  /// called either <a
   /// href="https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html">GetLatestConfiguration</a>
   /// or for the configuration profile during the specified interval.
   ///
@@ -897,9 +896,9 @@ class AppConfig {
 
   /// Deletes a deployment strategy.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [BadRequestException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [deploymentStrategyId] :
   /// The ID of the deployment strategy you want to delete.
@@ -922,10 +921,10 @@ class AppConfig {
   /// href="https://docs.aws.amazon.com/appconfig/latest/userguide/deletion-protection.html">deletion
   /// protection</a>.
   ///
-  /// May throw [ResourceNotFoundException].
+  /// May throw [BadRequestException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [applicationId] :
   /// The application ID that includes the environment that you want to delete.
@@ -934,9 +933,8 @@ class AppConfig {
   /// The ID of the environment that you want to delete.
   ///
   /// Parameter [deletionProtectionCheck] :
-  /// A parameter to configure deletion protection. If enabled, deletion
-  /// protection prevents a user from deleting an environment if your
-  /// application called either <a
+  /// A parameter to configure deletion protection. Deletion protection prevents
+  /// a user from deleting an environment if your application called either <a
   /// href="https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html">GetLatestConfiguration</a>
   /// or in the environment during the specified interval.
   ///
@@ -983,9 +981,9 @@ class AppConfig {
   /// Deletes an AppConfig extension. You must delete all associations to an
   /// extension before you delete the extension.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [BadRequestException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [extensionIdentifier] :
   /// The name, ID, or Amazon Resource Name (ARN) of the extension you want to
@@ -1014,8 +1012,8 @@ class AppConfig {
   /// defined in the association.
   ///
   /// May throw [BadRequestException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [extensionAssociationId] :
   /// The ID of the extension association to delete.
@@ -1035,8 +1033,8 @@ class AppConfig {
   /// configuration store.
   ///
   /// May throw [BadRequestException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [applicationId] :
   /// The application ID.
@@ -1063,8 +1061,8 @@ class AppConfig {
   /// Returns information about the status of the
   /// <code>DeletionProtection</code> parameter.
   ///
-  /// May throw [InternalServerException].
   /// May throw [BadRequestException].
+  /// May throw [InternalServerException].
   Future<AccountSettings> getAccountSettings() async {
     final response = await _protocol.send(
       payload: null,
@@ -1077,9 +1075,9 @@ class AppConfig {
 
   /// Retrieves information about an application.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [BadRequestException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [applicationId] :
   /// The ID of the application you want to get.
@@ -1114,9 +1112,9 @@ class AppConfig {
   /// </li>
   /// </ul> </important>
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [BadRequestException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [application] :
   /// The application to get. Specify either the application name or the
@@ -1160,10 +1158,9 @@ class AppConfig {
   /// saved for subsequent calls to <a>GetConfiguration</a>.
   /// </important>
   /// For more information about working with configurations, see <a
-  /// href="http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-retrieving-the-configuration.html">Retrieving
-  /// the Configuration</a> in the <i>AppConfig User Guide</i>.
-  @Deprecated(
-      'This API has been deprecated in favor of the GetLatestConfiguration API used in conjunction with StartConfigurationSession.')
+  /// href="http://docs.aws.amazon.com/appconfig/latest/userguide/retrieving-feature-flags.html">Retrieving
+  /// feature flags and configuration data in AppConfig</a> in the <i>AppConfig
+  /// User Guide</i>.
   Future<Configuration> getConfiguration({
     required String application,
     required String clientId,
@@ -1195,9 +1192,9 @@ class AppConfig {
 
   /// Retrieves information about a configuration profile.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [BadRequestException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [applicationId] :
   /// The ID of the application that includes the configuration profile you want
@@ -1221,9 +1218,9 @@ class AppConfig {
 
   /// Retrieves information about a configuration deployment.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [BadRequestException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [applicationId] :
   /// The ID of the application that includes the deployment you want to get.
@@ -1254,9 +1251,9 @@ class AppConfig {
   /// required, a percentage of targets to receive the deployment during each
   /// interval, an algorithm that defines how percentage grows, and bake time.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [BadRequestException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [deploymentStrategyId] :
   /// The ID of the deployment strategy to get.
@@ -1281,9 +1278,9 @@ class AppConfig {
   /// alarm is triggered during a deployment, AppConfig roles back the
   /// configuration.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [BadRequestException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [applicationId] :
   /// The ID of the application that includes the environment you want to get.
@@ -1306,9 +1303,9 @@ class AppConfig {
 
   /// Returns information about an AppConfig extension.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [BadRequestException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [extensionIdentifier] :
   /// The name, the ID, or the Amazon Resource Name (ARN) of the extension.
@@ -1339,8 +1336,8 @@ class AppConfig {
   /// workflows</a> in the <i>AppConfig User Guide</i>.
   ///
   /// May throw [BadRequestException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [extensionAssociationId] :
   /// The extension association ID to get.
@@ -1360,8 +1357,8 @@ class AppConfig {
   /// Retrieves information about a specific configuration version.
   ///
   /// May throw [BadRequestException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [applicationId] :
   /// The application ID.
@@ -1402,8 +1399,8 @@ class AppConfig {
 
   /// Lists all applications in your Amazon Web Services account.
   ///
-  /// May throw [InternalServerException].
   /// May throw [BadRequestException].
+  /// May throw [InternalServerException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of items to return for this call. The call also returns
@@ -1442,9 +1439,9 @@ class AppConfig {
 
   /// Lists the configuration profiles for an application.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [BadRequestException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [applicationId] :
   /// The application ID.
@@ -1489,48 +1486,12 @@ class AppConfig {
     return ConfigurationProfiles.fromJson(response);
   }
 
-  /// Lists deployment strategies.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [BadRequestException].
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of items to return for this call. The call also returns
-  /// a token that you can specify in a subsequent call to get the next set of
-  /// results.
-  ///
-  /// Parameter [nextToken] :
-  /// A token to start the list. Use this token to get the next set of results.
-  Future<DeploymentStrategies> listDeploymentStrategies({
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
-    final $query = <String, List<String>>{
-      if (maxResults != null) 'max_results': [maxResults.toString()],
-      if (nextToken != null) 'next_token': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/deploymentstrategies',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return DeploymentStrategies.fromJson(response);
-  }
-
   /// Lists the deployments for an environment in descending deployment number
   /// order.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [BadRequestException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [applicationId] :
   /// The application ID.
@@ -1575,11 +1536,47 @@ class AppConfig {
     return Deployments.fromJson(response);
   }
 
+  /// Lists deployment strategies.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return for this call. The call also returns
+  /// a token that you can specify in a subsequent call to get the next set of
+  /// results.
+  ///
+  /// Parameter [nextToken] :
+  /// A token to start the list. Use this token to get the next set of results.
+  Future<DeploymentStrategies> listDeploymentStrategies({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max_results': [maxResults.toString()],
+      if (nextToken != null) 'next_token': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/deploymentstrategies',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeploymentStrategies.fromJson(response);
+  }
+
   /// Lists the environments for an application.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [BadRequestException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [applicationId] :
   /// The application ID.
@@ -1622,8 +1619,8 @@ class AppConfig {
   /// href="https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html">Extending
   /// workflows</a> in the <i>AppConfig User Guide</i>.
   ///
-  /// May throw [InternalServerException].
   /// May throw [BadRequestException].
+  /// May throw [InternalServerException].
   ///
   /// Parameter [extensionIdentifier] :
   /// The name, the ID, or the Amazon Resource Name (ARN) of the extension.
@@ -1680,8 +1677,8 @@ class AppConfig {
   /// href="https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html">Extending
   /// workflows</a> in the <i>AppConfig User Guide</i>.
   ///
-  /// May throw [InternalServerException].
   /// May throw [BadRequestException].
+  /// May throw [InternalServerException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of items to return for this call. The call also returns
@@ -1723,8 +1720,8 @@ class AppConfig {
   /// version.
   ///
   /// May throw [BadRequestException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [applicationId] :
   /// The application ID.
@@ -1733,9 +1730,10 @@ class AppConfig {
   /// The configuration profile ID.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of items to return for this call. The call also returns
-  /// a token that you can specify in a subsequent call to get the next set of
-  /// results.
+  /// The maximum number of items to return for this call. If
+  /// <code>MaxResults</code> is not provided in the call, AppConfig returns the
+  /// maximum of 50. The call also returns a token that you can specify in a
+  /// subsequent call to get the next set of results.
   ///
   /// Parameter [nextToken] :
   /// A token to start the list. Use this token to get the next set of results.
@@ -1776,9 +1774,9 @@ class AppConfig {
 
   /// Retrieves the list of key-value tags assigned to the resource.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [BadRequestException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The resource ARN.
@@ -1797,9 +1795,9 @@ class AppConfig {
   /// Starts a deployment.
   ///
   /// May throw [BadRequestException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [applicationId] :
   /// The application ID.
@@ -1866,12 +1864,16 @@ class AppConfig {
   }
 
   /// Stops a deployment. This API action works only on deployments that have a
-  /// status of <code>DEPLOYING</code>. This action moves the deployment to a
-  /// status of <code>ROLLED_BACK</code>.
+  /// status of <code>DEPLOYING</code>, unless an <code>AllowRevert</code>
+  /// parameter is supplied. If the <code>AllowRevert</code> parameter is
+  /// supplied, the status of an in-progress deployment will be
+  /// <code>ROLLED_BACK</code>. The status of a completed deployment will be
+  /// <code>REVERTED</code>. AppConfig only allows a revert within 72 hours of
+  /// deployment completion.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [BadRequestException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [applicationId] :
   /// The application ID.
@@ -1881,16 +1883,26 @@ class AppConfig {
   ///
   /// Parameter [environmentId] :
   /// The environment ID.
+  ///
+  /// Parameter [allowRevert] :
+  /// A Boolean that enables AppConfig to rollback a <code>COMPLETED</code>
+  /// deployment to the previous configuration version. This action moves the
+  /// deployment to a status of <code>REVERTED</code>.
   Future<Deployment> stopDeployment({
     required String applicationId,
     required int deploymentNumber,
     required String environmentId,
+    bool? allowRevert,
   }) async {
+    final headers = <String, String>{
+      if (allowRevert != null) 'Allow-Revert': allowRevert.toString(),
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
       requestUri:
           '/applications/${Uri.encodeComponent(applicationId)}/environments/${Uri.encodeComponent(environmentId)}/deployments/${Uri.encodeComponent(deploymentNumber.toString())}',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return Deployment.fromJson(response);
@@ -1901,9 +1913,9 @@ class AppConfig {
   /// optional value, both of which you define. You can specify a maximum of 50
   /// tags for a resource.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [BadRequestException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The ARN of the resource for which to retrieve tags.
@@ -1929,9 +1941,9 @@ class AppConfig {
 
   /// Deletes a tag key and value from an AppConfig resource.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [BadRequestException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The ARN of the resource for which to remove tags.
@@ -1960,13 +1972,13 @@ class AppConfig {
   /// May throw [InternalServerException].
   ///
   /// Parameter [deletionProtection] :
-  /// A parameter to configure deletion protection. If enabled, deletion
-  /// protection prevents a user from deleting a configuration profile or an
-  /// environment if AppConfig has called either <a
+  /// A parameter to configure deletion protection. Deletion protection prevents
+  /// a user from deleting a configuration profile or an environment if
+  /// AppConfig has called either <a
   /// href="https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html">GetLatestConfiguration</a>
   /// or for the configuration profile or from the environment during the
-  /// specified interval. Deletion protection is disabled by default. The
-  /// default interval for <code>ProtectionPeriodInMinutes</code> is 60.
+  /// specified interval. The default interval for
+  /// <code>ProtectionPeriodInMinutes</code> is 60.
   Future<AccountSettings> updateAccountSettings({
     DeletionProtectionSettings? deletionProtection,
   }) async {
@@ -1985,8 +1997,8 @@ class AppConfig {
   /// Updates an application.
   ///
   /// May throw [BadRequestException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [applicationId] :
   /// The application ID.
@@ -2017,8 +2029,8 @@ class AppConfig {
   /// Updates a configuration profile.
   ///
   /// May throw [BadRequestException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [applicationId] :
   /// The application ID.
@@ -2044,6 +2056,11 @@ class AppConfig {
   /// Parameter [retrievalRoleArn] :
   /// The ARN of an IAM role with permission to access the configuration at the
   /// specified <code>LocationUri</code>.
+  /// <important>
+  /// A retrieval role ARN is not required for configurations stored in
+  /// CodePipeline or the AppConfig hosted configuration store. It is required
+  /// for all other sources that store your configuration.
+  /// </important>
   ///
   /// Parameter [validators] :
   /// A list of methods for validating the configuration.
@@ -2076,8 +2093,8 @@ class AppConfig {
   /// Updates a deployment strategy.
   ///
   /// May throw [BadRequestException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [deploymentStrategyId] :
   /// The deployment strategy ID.
@@ -2148,8 +2165,8 @@ class AppConfig {
     _s.validateNumRange(
       'growthFactor',
       growthFactor,
-      1,
-      100,
+      1.0,
+      100.0,
     );
     final $payload = <String, dynamic>{
       if (deploymentDurationInMinutes != null)
@@ -2173,8 +2190,8 @@ class AppConfig {
   /// Updates an environment.
   ///
   /// May throw [BadRequestException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [applicationId] :
   /// The application ID.
@@ -2218,9 +2235,9 @@ class AppConfig {
   /// workflows</a> in the <i>AppConfig User Guide</i>.
   ///
   /// May throw [BadRequestException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [extensionIdentifier] :
   /// The name, the ID, or the Amazon Resource Name (ARN) of the extension.
@@ -2265,8 +2282,8 @@ class AppConfig {
   /// workflows</a> in the <i>AppConfig User Guide</i>.
   ///
   /// May throw [BadRequestException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [extensionAssociationId] :
   /// The system-generated ID for the association.
@@ -2294,8 +2311,8 @@ class AppConfig {
   /// configuration.
   ///
   /// May throw [BadRequestException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [applicationId] :
   /// The application ID.
@@ -2322,226 +2339,6 @@ class AppConfig {
       exceptionFnMap: _exceptionFns,
     );
   }
-}
-
-class AccountSettings {
-  /// A parameter to configure deletion protection. If enabled, deletion
-  /// protection prevents a user from deleting a configuration profile or an
-  /// environment if AppConfig has called either <a
-  /// href="https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html">GetLatestConfiguration</a>
-  /// or for the configuration profile or from the environment during the
-  /// specified interval. Deletion protection is disabled by default. The default
-  /// interval for <code>ProtectionPeriodInMinutes</code> is 60.
-  final DeletionProtectionSettings? deletionProtection;
-
-  AccountSettings({
-    this.deletionProtection,
-  });
-
-  factory AccountSettings.fromJson(Map<String, dynamic> json) {
-    return AccountSettings(
-      deletionProtection: json['DeletionProtection'] != null
-          ? DeletionProtectionSettings.fromJson(
-              json['DeletionProtection'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deletionProtection = this.deletionProtection;
-    return {
-      if (deletionProtection != null) 'DeletionProtection': deletionProtection,
-    };
-  }
-}
-
-/// An action defines the tasks that the extension performs during the AppConfig
-/// workflow. Each action includes an action point such as
-/// <code>ON_CREATE_HOSTED_CONFIGURATION</code>, <code>PRE_DEPLOYMENT</code>, or
-/// <code>ON_DEPLOYMENT</code>. Each action also includes a name, a URI to an
-/// Lambda function, and an Amazon Resource Name (ARN) for an Identity and
-/// Access Management assume role. You specify the name, URI, and ARN for each
-/// <i>action point</i> defined in the extension. You can specify the following
-/// actions for an extension:
-///
-/// <ul>
-/// <li>
-/// <code>PRE_CREATE_HOSTED_CONFIGURATION_VERSION</code>
-/// </li>
-/// <li>
-/// <code>PRE_START_DEPLOYMENT</code>
-/// </li>
-/// <li>
-/// <code>ON_DEPLOYMENT_START</code>
-/// </li>
-/// <li>
-/// <code>ON_DEPLOYMENT_STEP</code>
-/// </li>
-/// <li>
-/// <code>ON_DEPLOYMENT_BAKING</code>
-/// </li>
-/// <li>
-/// <code>ON_DEPLOYMENT_COMPLETE</code>
-/// </li>
-/// <li>
-/// <code>ON_DEPLOYMENT_ROLLED_BACK</code>
-/// </li>
-/// </ul>
-class Action {
-  /// Information about the action.
-  final String? description;
-
-  /// The action name.
-  final String? name;
-
-  /// An Amazon Resource Name (ARN) for an Identity and Access Management assume
-  /// role.
-  final String? roleArn;
-
-  /// The extension URI associated to the action point in the extension
-  /// definition. The URI can be an Amazon Resource Name (ARN) for one of the
-  /// following: an Lambda function, an Amazon Simple Queue Service queue, an
-  /// Amazon Simple Notification Service topic, or the Amazon EventBridge default
-  /// event bus.
-  final String? uri;
-
-  Action({
-    this.description,
-    this.name,
-    this.roleArn,
-    this.uri,
-  });
-
-  factory Action.fromJson(Map<String, dynamic> json) {
-    return Action(
-      description: json['Description'] as String?,
-      name: json['Name'] as String?,
-      roleArn: json['RoleArn'] as String?,
-      uri: json['Uri'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final name = this.name;
-    final roleArn = this.roleArn;
-    final uri = this.uri;
-    return {
-      if (description != null) 'Description': description,
-      if (name != null) 'Name': name,
-      if (roleArn != null) 'RoleArn': roleArn,
-      if (uri != null) 'Uri': uri,
-    };
-  }
-}
-
-/// An extension that was invoked as part of a deployment event.
-class ActionInvocation {
-  /// The name of the action.
-  final String? actionName;
-
-  /// The error code when an extension invocation fails.
-  final String? errorCode;
-
-  /// The error message when an extension invocation fails.
-  final String? errorMessage;
-
-  /// The name, the ID, or the Amazon Resource Name (ARN) of the extension.
-  final String? extensionIdentifier;
-
-  /// A system-generated ID for this invocation.
-  final String? invocationId;
-
-  /// An Amazon Resource Name (ARN) for an Identity and Access Management assume
-  /// role.
-  final String? roleArn;
-
-  /// The extension URI associated to the action point in the extension
-  /// definition. The URI can be an Amazon Resource Name (ARN) for one of the
-  /// following: an Lambda function, an Amazon Simple Queue Service queue, an
-  /// Amazon Simple Notification Service topic, or the Amazon EventBridge default
-  /// event bus.
-  final String? uri;
-
-  ActionInvocation({
-    this.actionName,
-    this.errorCode,
-    this.errorMessage,
-    this.extensionIdentifier,
-    this.invocationId,
-    this.roleArn,
-    this.uri,
-  });
-
-  factory ActionInvocation.fromJson(Map<String, dynamic> json) {
-    return ActionInvocation(
-      actionName: json['ActionName'] as String?,
-      errorCode: json['ErrorCode'] as String?,
-      errorMessage: json['ErrorMessage'] as String?,
-      extensionIdentifier: json['ExtensionIdentifier'] as String?,
-      invocationId: json['InvocationId'] as String?,
-      roleArn: json['RoleArn'] as String?,
-      uri: json['Uri'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final actionName = this.actionName;
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    final extensionIdentifier = this.extensionIdentifier;
-    final invocationId = this.invocationId;
-    final roleArn = this.roleArn;
-    final uri = this.uri;
-    return {
-      if (actionName != null) 'ActionName': actionName,
-      if (errorCode != null) 'ErrorCode': errorCode,
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-      if (extensionIdentifier != null)
-        'ExtensionIdentifier': extensionIdentifier,
-      if (invocationId != null) 'InvocationId': invocationId,
-      if (roleArn != null) 'RoleArn': roleArn,
-      if (uri != null) 'Uri': uri,
-    };
-  }
-}
-
-class ActionPoint {
-  static const preCreateHostedConfigurationVersion =
-      ActionPoint._('PRE_CREATE_HOSTED_CONFIGURATION_VERSION');
-  static const preStartDeployment = ActionPoint._('PRE_START_DEPLOYMENT');
-  static const onDeploymentStart = ActionPoint._('ON_DEPLOYMENT_START');
-  static const onDeploymentStep = ActionPoint._('ON_DEPLOYMENT_STEP');
-  static const onDeploymentBaking = ActionPoint._('ON_DEPLOYMENT_BAKING');
-  static const onDeploymentComplete = ActionPoint._('ON_DEPLOYMENT_COMPLETE');
-  static const onDeploymentRolledBack =
-      ActionPoint._('ON_DEPLOYMENT_ROLLED_BACK');
-
-  final String value;
-
-  const ActionPoint._(this.value);
-
-  static const values = [
-    preCreateHostedConfigurationVersion,
-    preStartDeployment,
-    onDeploymentStart,
-    onDeploymentStep,
-    onDeploymentBaking,
-    onDeploymentComplete,
-    onDeploymentRolledBack
-  ];
-
-  static ActionPoint fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ActionPoint._(value));
-
-  @override
-  bool operator ==(other) => other is ActionPoint && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class Application {
@@ -2576,120 +2373,6 @@ class Application {
       if (description != null) 'Description': description,
       if (id != null) 'Id': id,
       if (name != null) 'Name': name,
-    };
-  }
-}
-
-class Applications {
-  /// The elements from this collection.
-  final List<Application>? items;
-
-  /// The token for the next set of items to return. Use this token to get the
-  /// next set of results.
-  final String? nextToken;
-
-  Applications({
-    this.items,
-    this.nextToken,
-  });
-
-  factory Applications.fromJson(Map<String, dynamic> json) {
-    return Applications(
-      items: (json['Items'] as List?)
-          ?.nonNulls
-          .map((e) => Application.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final items = this.items;
-    final nextToken = this.nextToken;
-    return {
-      if (items != null) 'Items': items,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-/// An extension that was invoked during a deployment.
-class AppliedExtension {
-  /// The system-generated ID for the association.
-  final String? extensionAssociationId;
-
-  /// The system-generated ID of the extension.
-  final String? extensionId;
-
-  /// One or more parameters for the actions called by the extension.
-  final Map<String, String>? parameters;
-
-  /// The extension version number.
-  final int? versionNumber;
-
-  AppliedExtension({
-    this.extensionAssociationId,
-    this.extensionId,
-    this.parameters,
-    this.versionNumber,
-  });
-
-  factory AppliedExtension.fromJson(Map<String, dynamic> json) {
-    return AppliedExtension(
-      extensionAssociationId: json['ExtensionAssociationId'] as String?,
-      extensionId: json['ExtensionId'] as String?,
-      parameters: (json['Parameters'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      versionNumber: json['VersionNumber'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final extensionAssociationId = this.extensionAssociationId;
-    final extensionId = this.extensionId;
-    final parameters = this.parameters;
-    final versionNumber = this.versionNumber;
-    return {
-      if (extensionAssociationId != null)
-        'ExtensionAssociationId': extensionAssociationId,
-      if (extensionId != null) 'ExtensionId': extensionId,
-      if (parameters != null) 'Parameters': parameters,
-      if (versionNumber != null) 'VersionNumber': versionNumber,
-    };
-  }
-}
-
-class Configuration {
-  /// The configuration version.
-  final String? configurationVersion;
-
-  /// The content of the configuration or the configuration data.
-  /// <important>
-  /// The <code>Content</code> attribute only contains data if the system finds
-  /// new or updated configuration data. If there is no new or updated data and
-  /// <code>ClientConfigurationVersion</code> matches the version of the current
-  /// configuration, AppConfig returns a <code>204 No Content</code> HTTP response
-  /// code and the <code>Content</code> value will be empty.
-  /// </important>
-  final Uint8List? content;
-
-  /// A standard MIME type describing the format of the configuration content. For
-  /// more information, see <a
-  /// href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17">Content-Type</a>.
-  final String? contentType;
-
-  Configuration({
-    this.configurationVersion,
-    this.content,
-    this.contentType,
-  });
-
-  Map<String, dynamic> toJson() {
-    final configurationVersion = this.configurationVersion;
-    final content = this.content;
-    final contentType = this.contentType;
-    return {
-      if (content != null) 'Content': base64Encode(content),
     };
   }
 }
@@ -2797,191 +2480,396 @@ class ConfigurationProfile {
   }
 }
 
-/// A summary of a configuration profile.
-class ConfigurationProfileSummary {
+class DeploymentStrategy {
+  /// Total amount of time the deployment lasted.
+  final int? deploymentDurationInMinutes;
+
+  /// The description of the deployment strategy.
+  final String? description;
+
+  /// The amount of time that AppConfig monitored for alarms before considering
+  /// the deployment to be complete and no longer eligible for automatic rollback.
+  final int? finalBakeTimeInMinutes;
+
+  /// The percentage of targets that received a deployed configuration during each
+  /// interval.
+  final double? growthFactor;
+
+  /// The algorithm used to define how percentage grew over time.
+  final GrowthType? growthType;
+
+  /// The deployment strategy ID.
+  final String? id;
+
+  /// The name of the deployment strategy.
+  final String? name;
+
+  /// Save the deployment strategy to a Systems Manager (SSM) document.
+  final ReplicateTo? replicateTo;
+
+  DeploymentStrategy({
+    this.deploymentDurationInMinutes,
+    this.description,
+    this.finalBakeTimeInMinutes,
+    this.growthFactor,
+    this.growthType,
+    this.id,
+    this.name,
+    this.replicateTo,
+  });
+
+  factory DeploymentStrategy.fromJson(Map<String, dynamic> json) {
+    return DeploymentStrategy(
+      deploymentDurationInMinutes: json['DeploymentDurationInMinutes'] as int?,
+      description: json['Description'] as String?,
+      finalBakeTimeInMinutes: json['FinalBakeTimeInMinutes'] as int?,
+      growthFactor: json['GrowthFactor'] as double?,
+      growthType: (json['GrowthType'] as String?)?.let(GrowthType.fromString),
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      replicateTo:
+          (json['ReplicateTo'] as String?)?.let(ReplicateTo.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentDurationInMinutes = this.deploymentDurationInMinutes;
+    final description = this.description;
+    final finalBakeTimeInMinutes = this.finalBakeTimeInMinutes;
+    final growthFactor = this.growthFactor;
+    final growthType = this.growthType;
+    final id = this.id;
+    final name = this.name;
+    final replicateTo = this.replicateTo;
+    return {
+      if (deploymentDurationInMinutes != null)
+        'DeploymentDurationInMinutes': deploymentDurationInMinutes,
+      if (description != null) 'Description': description,
+      if (finalBakeTimeInMinutes != null)
+        'FinalBakeTimeInMinutes': finalBakeTimeInMinutes,
+      if (growthFactor != null) 'GrowthFactor': growthFactor,
+      if (growthType != null) 'GrowthType': growthType.value,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (replicateTo != null) 'ReplicateTo': replicateTo.value,
+    };
+  }
+}
+
+class Environment {
   /// The application ID.
   final String? applicationId;
 
-  /// The ID of the configuration profile.
+  /// The description of the environment.
+  final String? description;
+
+  /// The environment ID.
   final String? id;
 
-  /// The URI location of the configuration.
-  final String? locationUri;
+  /// Amazon CloudWatch alarms monitored during the deployment.
+  final List<Monitor>? monitors;
 
-  /// The name of the configuration profile.
+  /// The name of the environment.
   final String? name;
 
-  /// The type of configurations contained in the profile. AppConfig supports
-  /// <code>feature flags</code> and <code>freeform</code> configurations. We
-  /// recommend you create feature flag configurations to enable or disable new
-  /// features and freeform configurations to distribute configurations to an
-  /// application. When calling this API, enter one of the following values for
-  /// <code>Type</code>:
-  ///
-  /// <code>AWS.AppConfig.FeatureFlags</code>
-  ///
-  /// <code>AWS.Freeform</code>
-  final String? type;
+  /// The state of the environment. An environment can be in one of the following
+  /// states: <code>READY_FOR_DEPLOYMENT</code>, <code>DEPLOYING</code>,
+  /// <code>ROLLING_BACK</code>, or <code>ROLLED_BACK</code>
+  final EnvironmentState? state;
 
-  /// The types of validators in the configuration profile.
-  final List<ValidatorType>? validatorTypes;
-
-  ConfigurationProfileSummary({
+  Environment({
     this.applicationId,
+    this.description,
     this.id,
-    this.locationUri,
+    this.monitors,
     this.name,
-    this.type,
-    this.validatorTypes,
+    this.state,
   });
 
-  factory ConfigurationProfileSummary.fromJson(Map<String, dynamic> json) {
-    return ConfigurationProfileSummary(
+  factory Environment.fromJson(Map<String, dynamic> json) {
+    return Environment(
       applicationId: json['ApplicationId'] as String?,
+      description: json['Description'] as String?,
       id: json['Id'] as String?,
-      locationUri: json['LocationUri'] as String?,
-      name: json['Name'] as String?,
-      type: json['Type'] as String?,
-      validatorTypes: (json['ValidatorTypes'] as List?)
+      monitors: (json['Monitors'] as List?)
           ?.nonNulls
-          .map((e) => ValidatorType.fromString((e as String)))
+          .map((e) => Monitor.fromJson(e as Map<String, dynamic>))
           .toList(),
+      name: json['Name'] as String?,
+      state: (json['State'] as String?)?.let(EnvironmentState.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final applicationId = this.applicationId;
+    final description = this.description;
     final id = this.id;
-    final locationUri = this.locationUri;
+    final monitors = this.monitors;
     final name = this.name;
-    final type = this.type;
-    final validatorTypes = this.validatorTypes;
+    final state = this.state;
     return {
       if (applicationId != null) 'ApplicationId': applicationId,
+      if (description != null) 'Description': description,
       if (id != null) 'Id': id,
-      if (locationUri != null) 'LocationUri': locationUri,
+      if (monitors != null) 'Monitors': monitors,
       if (name != null) 'Name': name,
-      if (type != null) 'Type': type,
-      if (validatorTypes != null)
-        'ValidatorTypes': validatorTypes.map((e) => e.value).toList(),
+      if (state != null) 'State': state.value,
     };
   }
 }
 
-class ConfigurationProfiles {
-  /// The elements from this collection.
-  final List<ConfigurationProfileSummary>? items;
+class Extension {
+  /// The actions defined in the extension.
+  final Map<ActionPoint, List<Action>>? actions;
 
-  /// The token for the next set of items to return. Use this token to get the
-  /// next set of results.
-  final String? nextToken;
+  /// The system-generated Amazon Resource Name (ARN) for the extension.
+  final String? arn;
 
-  ConfigurationProfiles({
-    this.items,
-    this.nextToken,
+  /// Information about the extension.
+  final String? description;
+
+  /// The system-generated ID of the extension.
+  final String? id;
+
+  /// The extension name.
+  final String? name;
+
+  /// The parameters accepted by the extension. You specify parameter values when
+  /// you associate the extension to an AppConfig resource by using the
+  /// <code>CreateExtensionAssociation</code> API action. For Lambda extension
+  /// actions, these parameters are included in the Lambda request object.
+  final Map<String, Parameter>? parameters;
+
+  /// The extension version number.
+  final int? versionNumber;
+
+  Extension({
+    this.actions,
+    this.arn,
+    this.description,
+    this.id,
+    this.name,
+    this.parameters,
+    this.versionNumber,
   });
 
-  factory ConfigurationProfiles.fromJson(Map<String, dynamic> json) {
-    return ConfigurationProfiles(
-      items: (json['Items'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              ConfigurationProfileSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
+  factory Extension.fromJson(Map<String, dynamic> json) {
+    return Extension(
+      actions: (json['Actions'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(
+              ActionPoint.fromString(k),
+              (e as List)
+                  .nonNulls
+                  .map((e) => Action.fromJson(e as Map<String, dynamic>))
+                  .toList())),
+      arn: json['Arn'] as String?,
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      parameters: (json['Parameters'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(k, Parameter.fromJson(e as Map<String, dynamic>))),
+      versionNumber: json['VersionNumber'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final items = this.items;
-    final nextToken = this.nextToken;
+    final actions = this.actions;
+    final arn = this.arn;
+    final description = this.description;
+    final id = this.id;
+    final name = this.name;
+    final parameters = this.parameters;
+    final versionNumber = this.versionNumber;
     return {
-      if (items != null) 'Items': items,
-      if (nextToken != null) 'NextToken': nextToken,
+      if (actions != null)
+        'Actions': actions.map((k, e) => MapEntry(k.value, e)),
+      if (arn != null) 'Arn': arn,
+      if (description != null) 'Description': description,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (parameters != null) 'Parameters': parameters,
+      if (versionNumber != null) 'VersionNumber': versionNumber,
     };
   }
 }
 
-class DeletionProtectionCheck {
-  static const accountDefault = DeletionProtectionCheck._('ACCOUNT_DEFAULT');
-  static const apply = DeletionProtectionCheck._('APPLY');
-  static const bypass = DeletionProtectionCheck._('BYPASS');
+class ExtensionAssociation {
+  /// The system-generated Amazon Resource Name (ARN) for the extension.
+  final String? arn;
 
-  final String value;
+  /// The ARN of the extension defined in the association.
+  final String? extensionArn;
 
-  const DeletionProtectionCheck._(this.value);
+  /// The version number for the extension defined in the association.
+  final int? extensionVersionNumber;
 
-  static const values = [accountDefault, apply, bypass];
+  /// The system-generated ID for the association.
+  final String? id;
 
-  static DeletionProtectionCheck fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DeletionProtectionCheck._(value));
+  /// The parameter names and values defined in the association.
+  final Map<String, String>? parameters;
 
-  @override
-  bool operator ==(other) =>
-      other is DeletionProtectionCheck && other.value == value;
+  /// The ARNs of applications, configuration profiles, or environments defined in
+  /// the association.
+  final String? resourceArn;
 
-  @override
-  int get hashCode => value.hashCode;
+  ExtensionAssociation({
+    this.arn,
+    this.extensionArn,
+    this.extensionVersionNumber,
+    this.id,
+    this.parameters,
+    this.resourceArn,
+  });
 
-  @override
-  String toString() => value;
+  factory ExtensionAssociation.fromJson(Map<String, dynamic> json) {
+    return ExtensionAssociation(
+      arn: json['Arn'] as String?,
+      extensionArn: json['ExtensionArn'] as String?,
+      extensionVersionNumber: json['ExtensionVersionNumber'] as int?,
+      id: json['Id'] as String?,
+      parameters: (json['Parameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      resourceArn: json['ResourceArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final extensionArn = this.extensionArn;
+    final extensionVersionNumber = this.extensionVersionNumber;
+    final id = this.id;
+    final parameters = this.parameters;
+    final resourceArn = this.resourceArn;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (extensionArn != null) 'ExtensionArn': extensionArn,
+      if (extensionVersionNumber != null)
+        'ExtensionVersionNumber': extensionVersionNumber,
+      if (id != null) 'Id': id,
+      if (parameters != null) 'Parameters': parameters,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+    };
+  }
 }
 
-/// A parameter to configure deletion protection. If enabled, deletion
-/// protection prevents a user from deleting a configuration profile or an
-/// environment if AppConfig has called either <a
-/// href="https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html">GetLatestConfiguration</a>
-/// or for the configuration profile or from the environment during the
-/// specified interval.
-///
-/// This setting uses the following default values:
-///
-/// <ul>
-/// <li>
-/// Deletion protection is disabled by default.
-/// </li>
-/// <li>
-/// The default interval specified by <code>ProtectionPeriodInMinutes</code> is
-/// 60.
-/// </li>
-/// <li>
-/// <code>DeletionProtectionCheck</code> skips configuration profiles and
-/// environments that were created in the past hour.
-/// </li>
-/// </ul>
-class DeletionProtectionSettings {
-  /// A parameter that indicates if deletion protection is enabled or not.
-  final bool? enabled;
+class HostedConfigurationVersion {
+  /// The application ID.
+  final String? applicationId;
 
-  /// The time interval during which AppConfig monitors for calls to <a
+  /// The configuration profile ID.
+  final String? configurationProfileId;
+
+  /// The content of the configuration or the configuration data.
+  final Uint8List? content;
+
+  /// A standard MIME type describing the format of the configuration content. For
+  /// more information, see <a
+  /// href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17">Content-Type</a>.
+  final String? contentType;
+
+  /// A description of the configuration.
+  final String? description;
+
+  /// The Amazon Resource Name of the Key Management Service key that was used to
+  /// encrypt this specific version of the configuration data in the AppConfig
+  /// hosted configuration store.
+  final String? kmsKeyArn;
+
+  /// A user-defined label for an AppConfig hosted configuration version.
+  final String? versionLabel;
+
+  /// The configuration version.
+  final int? versionNumber;
+
+  HostedConfigurationVersion({
+    this.applicationId,
+    this.configurationProfileId,
+    this.content,
+    this.contentType,
+    this.description,
+    this.kmsKeyArn,
+    this.versionLabel,
+    this.versionNumber,
+  });
+
+  Map<String, dynamic> toJson() {
+    final applicationId = this.applicationId;
+    final configurationProfileId = this.configurationProfileId;
+    final content = this.content;
+    final contentType = this.contentType;
+    final description = this.description;
+    final kmsKeyArn = this.kmsKeyArn;
+    final versionLabel = this.versionLabel;
+    final versionNumber = this.versionNumber;
+    return {
+      if (content != null) 'Content': base64Encode(content),
+    };
+  }
+}
+
+class AccountSettings {
+  /// A parameter to configure deletion protection. Deletion protection prevents a
+  /// user from deleting a configuration profile or an environment if AppConfig
+  /// has called either <a
   /// href="https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html">GetLatestConfiguration</a>
-  /// or for a configuration profile or from an environment. AppConfig returns an
-  /// error if a user calls or for the designated configuration profile or
-  /// environment. To bypass the error and delete a configuration profile or an
-  /// environment, specify <code>BYPASS</code> for the
-  /// <code>DeletionProtectionCheck</code> parameter for either or .
-  final int? protectionPeriodInMinutes;
+  /// or for the configuration profile or from the environment during the
+  /// specified interval. The default interval for
+  /// <code>ProtectionPeriodInMinutes</code> is 60.
+  final DeletionProtectionSettings? deletionProtection;
 
-  DeletionProtectionSettings({
-    this.enabled,
-    this.protectionPeriodInMinutes,
+  AccountSettings({
+    this.deletionProtection,
   });
 
-  factory DeletionProtectionSettings.fromJson(Map<String, dynamic> json) {
-    return DeletionProtectionSettings(
-      enabled: json['Enabled'] as bool?,
-      protectionPeriodInMinutes: json['ProtectionPeriodInMinutes'] as int?,
+  factory AccountSettings.fromJson(Map<String, dynamic> json) {
+    return AccountSettings(
+      deletionProtection: json['DeletionProtection'] != null
+          ? DeletionProtectionSettings.fromJson(
+              json['DeletionProtection'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final enabled = this.enabled;
-    final protectionPeriodInMinutes = this.protectionPeriodInMinutes;
+    final deletionProtection = this.deletionProtection;
     return {
-      if (enabled != null) 'Enabled': enabled,
-      if (protectionPeriodInMinutes != null)
-        'ProtectionPeriodInMinutes': protectionPeriodInMinutes,
+      if (deletionProtection != null) 'DeletionProtection': deletionProtection,
+    };
+  }
+}
+
+class Configuration {
+  /// The configuration version.
+  final String? configurationVersion;
+
+  /// The content of the configuration or the configuration data.
+  /// <important>
+  /// The <code>Content</code> attribute only contains data if the system finds
+  /// new or updated configuration data. If there is no new or updated data and
+  /// <code>ClientConfigurationVersion</code> matches the version of the current
+  /// configuration, AppConfig returns a <code>204 No Content</code> HTTP response
+  /// code and the <code>Content</code> value will be empty.
+  /// </important>
+  final Uint8List? content;
+
+  /// A standard MIME type describing the format of the configuration content. For
+  /// more information, see <a
+  /// href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17">Content-Type</a>.
+  final String? contentType;
+
+  Configuration({
+    this.configurationVersion,
+    this.content,
+    this.contentType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final configurationVersion = this.configurationVersion;
+    final content = this.content;
+    final contentType = this.contentType;
+    return {
+      if (content != null) 'Content': base64Encode(content),
     };
   }
 }
@@ -3178,150 +3066,104 @@ class Deployment {
   }
 }
 
-/// An object that describes a deployment event.
-class DeploymentEvent {
-  /// The list of extensions that were invoked as part of the deployment.
-  final List<ActionInvocation>? actionInvocations;
+class Applications {
+  /// The elements from this collection.
+  final List<Application>? items;
 
-  /// A description of the deployment event. Descriptions include, but are not
-  /// limited to, the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// The Amazon Web Services account or the Amazon CloudWatch alarm ARN that
-  /// initiated a rollback.
-  /// </li>
-  /// <li>
-  /// The percentage of hosts that received the deployment.
-  /// </li>
-  /// <li>
-  /// A recommendation to attempt a new deployment (in the case of an internal
-  /// error).
-  /// </li>
-  /// </ul>
-  final String? description;
+  /// The token for the next set of items to return. Use this token to get the
+  /// next set of results.
+  final String? nextToken;
 
-  /// The type of deployment event. Deployment event types include the start,
-  /// stop, or completion of a deployment; a percentage update; the start or stop
-  /// of a bake period; and the start or completion of a rollback.
-  final DeploymentEventType? eventType;
-
-  /// The date and time the event occurred.
-  final DateTime? occurredAt;
-
-  /// The entity that triggered the deployment event. Events can be triggered by a
-  /// user, AppConfig, an Amazon CloudWatch alarm, or an internal error.
-  final TriggeredBy? triggeredBy;
-
-  DeploymentEvent({
-    this.actionInvocations,
-    this.description,
-    this.eventType,
-    this.occurredAt,
-    this.triggeredBy,
+  Applications({
+    this.items,
+    this.nextToken,
   });
 
-  factory DeploymentEvent.fromJson(Map<String, dynamic> json) {
-    return DeploymentEvent(
-      actionInvocations: (json['ActionInvocations'] as List?)
+  factory Applications.fromJson(Map<String, dynamic> json) {
+    return Applications(
+      items: (json['Items'] as List?)
           ?.nonNulls
-          .map((e) => ActionInvocation.fromJson(e as Map<String, dynamic>))
+          .map((e) => Application.fromJson(e as Map<String, dynamic>))
           .toList(),
-      description: json['Description'] as String?,
-      eventType:
-          (json['EventType'] as String?)?.let(DeploymentEventType.fromString),
-      occurredAt: timeStampFromJson(json['OccurredAt']),
-      triggeredBy:
-          (json['TriggeredBy'] as String?)?.let(TriggeredBy.fromString),
+      nextToken: json['NextToken'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final actionInvocations = this.actionInvocations;
-    final description = this.description;
-    final eventType = this.eventType;
-    final occurredAt = this.occurredAt;
-    final triggeredBy = this.triggeredBy;
+    final items = this.items;
+    final nextToken = this.nextToken;
     return {
-      if (actionInvocations != null) 'ActionInvocations': actionInvocations,
-      if (description != null) 'Description': description,
-      if (eventType != null) 'EventType': eventType.value,
-      if (occurredAt != null) 'OccurredAt': iso8601ToJson(occurredAt),
-      if (triggeredBy != null) 'TriggeredBy': triggeredBy.value,
+      if (items != null) 'Items': items,
+      if (nextToken != null) 'NextToken': nextToken,
     };
   }
 }
 
-class DeploymentEventType {
-  static const percentageUpdated = DeploymentEventType._('PERCENTAGE_UPDATED');
-  static const rollbackStarted = DeploymentEventType._('ROLLBACK_STARTED');
-  static const rollbackCompleted = DeploymentEventType._('ROLLBACK_COMPLETED');
-  static const bakeTimeStarted = DeploymentEventType._('BAKE_TIME_STARTED');
-  static const deploymentStarted = DeploymentEventType._('DEPLOYMENT_STARTED');
-  static const deploymentCompleted =
-      DeploymentEventType._('DEPLOYMENT_COMPLETED');
+class ConfigurationProfiles {
+  /// The elements from this collection.
+  final List<ConfigurationProfileSummary>? items;
 
-  final String value;
+  /// The token for the next set of items to return. Use this token to get the
+  /// next set of results.
+  final String? nextToken;
 
-  const DeploymentEventType._(this.value);
+  ConfigurationProfiles({
+    this.items,
+    this.nextToken,
+  });
 
-  static const values = [
-    percentageUpdated,
-    rollbackStarted,
-    rollbackCompleted,
-    bakeTimeStarted,
-    deploymentStarted,
-    deploymentCompleted
-  ];
+  factory ConfigurationProfiles.fromJson(Map<String, dynamic> json) {
+    return ConfigurationProfiles(
+      items: (json['Items'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ConfigurationProfileSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 
-  static DeploymentEventType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DeploymentEventType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DeploymentEventType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      if (items != null) 'Items': items,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-class DeploymentState {
-  static const baking = DeploymentState._('BAKING');
-  static const validating = DeploymentState._('VALIDATING');
-  static const deploying = DeploymentState._('DEPLOYING');
-  static const complete = DeploymentState._('COMPLETE');
-  static const rollingBack = DeploymentState._('ROLLING_BACK');
-  static const rolledBack = DeploymentState._('ROLLED_BACK');
+class Deployments {
+  /// The elements from this collection.
+  final List<DeploymentSummary>? items;
 
-  final String value;
+  /// The token for the next set of items to return. Use this token to get the
+  /// next set of results.
+  final String? nextToken;
 
-  const DeploymentState._(this.value);
+  Deployments({
+    this.items,
+    this.nextToken,
+  });
 
-  static const values = [
-    baking,
-    validating,
-    deploying,
-    complete,
-    rollingBack,
-    rolledBack
-  ];
+  factory Deployments.fromJson(Map<String, dynamic> json) {
+    return Deployments(
+      items: (json['Items'] as List?)
+          ?.nonNulls
+          .map((e) => DeploymentSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 
-  static DeploymentState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DeploymentState._(value));
-
-  @override
-  bool operator ==(other) => other is DeploymentState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      if (items != null) 'Items': items,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
 class DeploymentStrategies {
@@ -3357,78 +3199,659 @@ class DeploymentStrategies {
   }
 }
 
-class DeploymentStrategy {
-  /// Total amount of time the deployment lasted.
-  final int? deploymentDurationInMinutes;
+class Environments {
+  /// The elements from this collection.
+  final List<Environment>? items;
 
-  /// The description of the deployment strategy.
-  final String? description;
+  /// The token for the next set of items to return. Use this token to get the
+  /// next set of results.
+  final String? nextToken;
 
-  /// The amount of time that AppConfig monitored for alarms before considering
-  /// the deployment to be complete and no longer eligible for automatic rollback.
-  final int? finalBakeTimeInMinutes;
-
-  /// The percentage of targets that received a deployed configuration during each
-  /// interval.
-  final double? growthFactor;
-
-  /// The algorithm used to define how percentage grew over time.
-  final GrowthType? growthType;
-
-  /// The deployment strategy ID.
-  final String? id;
-
-  /// The name of the deployment strategy.
-  final String? name;
-
-  /// Save the deployment strategy to a Systems Manager (SSM) document.
-  final ReplicateTo? replicateTo;
-
-  DeploymentStrategy({
-    this.deploymentDurationInMinutes,
-    this.description,
-    this.finalBakeTimeInMinutes,
-    this.growthFactor,
-    this.growthType,
-    this.id,
-    this.name,
-    this.replicateTo,
+  Environments({
+    this.items,
+    this.nextToken,
   });
 
-  factory DeploymentStrategy.fromJson(Map<String, dynamic> json) {
-    return DeploymentStrategy(
-      deploymentDurationInMinutes: json['DeploymentDurationInMinutes'] as int?,
-      description: json['Description'] as String?,
-      finalBakeTimeInMinutes: json['FinalBakeTimeInMinutes'] as int?,
-      growthFactor: json['GrowthFactor'] as double?,
-      growthType: (json['GrowthType'] as String?)?.let(GrowthType.fromString),
-      id: json['Id'] as String?,
-      name: json['Name'] as String?,
-      replicateTo:
-          (json['ReplicateTo'] as String?)?.let(ReplicateTo.fromString),
+  factory Environments.fromJson(Map<String, dynamic> json) {
+    return Environments(
+      items: (json['Items'] as List?)
+          ?.nonNulls
+          .map((e) => Environment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final deploymentDurationInMinutes = this.deploymentDurationInMinutes;
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      if (items != null) 'Items': items,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ExtensionAssociations {
+  /// The list of extension associations. Each item represents an extension
+  /// association to an application, environment, or configuration profile.
+  final List<ExtensionAssociationSummary>? items;
+
+  /// The token for the next set of items to return. Use this token to get the
+  /// next set of results.
+  final String? nextToken;
+
+  ExtensionAssociations({
+    this.items,
+    this.nextToken,
+  });
+
+  factory ExtensionAssociations.fromJson(Map<String, dynamic> json) {
+    return ExtensionAssociations(
+      items: (json['Items'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ExtensionAssociationSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      if (items != null) 'Items': items,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class Extensions {
+  /// The list of available extensions. The list includes Amazon Web Services
+  /// authored and user-created extensions.
+  final List<ExtensionSummary>? items;
+
+  /// The token for the next set of items to return. Use this token to get the
+  /// next set of results.
+  final String? nextToken;
+
+  Extensions({
+    this.items,
+    this.nextToken,
+  });
+
+  factory Extensions.fromJson(Map<String, dynamic> json) {
+    return Extensions(
+      items: (json['Items'] as List?)
+          ?.nonNulls
+          .map((e) => ExtensionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      if (items != null) 'Items': items,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class HostedConfigurationVersions {
+  /// The elements from this collection.
+  final List<HostedConfigurationVersionSummary>? items;
+
+  /// The token for the next set of items to return. Use this token to get the
+  /// next set of results.
+  final String? nextToken;
+
+  HostedConfigurationVersions({
+    this.items,
+    this.nextToken,
+  });
+
+  factory HostedConfigurationVersions.fromJson(Map<String, dynamic> json) {
+    return HostedConfigurationVersions(
+      items: (json['Items'] as List?)
+          ?.nonNulls
+          .map((e) => HostedConfigurationVersionSummary.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      if (items != null) 'Items': items,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ResourceTags {
+  /// Metadata to assign to AppConfig resources. Tags help organize and categorize
+  /// your AppConfig resources. Each tag consists of a key and an optional value,
+  /// both of which you define.
+  final Map<String, String>? tags;
+
+  ResourceTags({
+    this.tags,
+  });
+
+  factory ResourceTags.fromJson(Map<String, dynamic> json) {
+    return ResourceTags(
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// A value such as an Amazon Resource Name (ARN) or an Amazon Simple
+/// Notification Service topic entered in an extension when invoked. Parameter
+/// values are specified in an extension association. For more information about
+/// extensions, see <a
+/// href="https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html">Extending
+/// workflows</a> in the <i>AppConfig User Guide</i>.
+class Parameter {
+  /// Information about the parameter.
+  final String? description;
+
+  /// Indicates whether this parameter's value can be supplied at the extension's
+  /// action point instead of during extension association. Dynamic parameters
+  /// can't be marked <code>Required</code>.
+  final bool? dynamicValue;
+
+  /// A parameter value must be specified in the extension association.
+  final bool? required;
+
+  Parameter({
+    this.description,
+    this.dynamicValue,
+    this.required,
+  });
+
+  factory Parameter.fromJson(Map<String, dynamic> json) {
+    return Parameter(
+      description: json['Description'] as String?,
+      dynamicValue: json['Dynamic'] as bool?,
+      required: json['Required'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
     final description = this.description;
-    final finalBakeTimeInMinutes = this.finalBakeTimeInMinutes;
-    final growthFactor = this.growthFactor;
-    final growthType = this.growthType;
+    final dynamicValue = this.dynamicValue;
+    final required = this.required;
+    return {
+      if (description != null) 'Description': description,
+      if (dynamicValue != null) 'Dynamic': dynamicValue,
+      if (required != null) 'Required': required,
+    };
+  }
+}
+
+class ActionPoint {
+  static const preCreateHostedConfigurationVersion =
+      ActionPoint._('PRE_CREATE_HOSTED_CONFIGURATION_VERSION');
+  static const preStartDeployment = ActionPoint._('PRE_START_DEPLOYMENT');
+  static const atDeploymentTick = ActionPoint._('AT_DEPLOYMENT_TICK');
+  static const onDeploymentStart = ActionPoint._('ON_DEPLOYMENT_START');
+  static const onDeploymentStep = ActionPoint._('ON_DEPLOYMENT_STEP');
+  static const onDeploymentBaking = ActionPoint._('ON_DEPLOYMENT_BAKING');
+  static const onDeploymentComplete = ActionPoint._('ON_DEPLOYMENT_COMPLETE');
+  static const onDeploymentRolledBack =
+      ActionPoint._('ON_DEPLOYMENT_ROLLED_BACK');
+
+  final String value;
+
+  const ActionPoint._(this.value);
+
+  static const values = [
+    preCreateHostedConfigurationVersion,
+    preStartDeployment,
+    atDeploymentTick,
+    onDeploymentStart,
+    onDeploymentStep,
+    onDeploymentBaking,
+    onDeploymentComplete,
+    onDeploymentRolledBack
+  ];
+
+  static ActionPoint fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ActionPoint._(value));
+
+  @override
+  bool operator ==(other) => other is ActionPoint && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An action defines the tasks that the extension performs during the AppConfig
+/// workflow. Each action includes an action point, as shown in the following
+/// list:
+///
+/// <ul>
+/// <li>
+/// <code>PRE_CREATE_HOSTED_CONFIGURATION_VERSION</code>
+/// </li>
+/// <li>
+/// <code>PRE_START_DEPLOYMENT</code>
+/// </li>
+/// <li>
+/// <code>AT_DEPLOYMENT_TICK</code>
+/// </li>
+/// <li>
+/// <code>ON_DEPLOYMENT_START</code>
+/// </li>
+/// <li>
+/// <code>ON_DEPLOYMENT_STEP</code>
+/// </li>
+/// <li>
+/// <code>ON_DEPLOYMENT_BAKING</code>
+/// </li>
+/// <li>
+/// <code>ON_DEPLOYMENT_COMPLETE</code>
+/// </li>
+/// <li>
+/// <code>ON_DEPLOYMENT_ROLLED_BACK</code>
+/// </li>
+/// </ul>
+/// Each action also includes a name, a URI to an Lambda function, and an Amazon
+/// Resource Name (ARN) for an Identity and Access Management assume role. You
+/// specify the name, URI, and ARN for each <i>action point</i> defined in the
+/// extension.
+class Action {
+  /// Information about the action.
+  final String? description;
+
+  /// The action name.
+  final String? name;
+
+  /// An Amazon Resource Name (ARN) for an Identity and Access Management assume
+  /// role.
+  final String? roleArn;
+
+  /// The extension URI associated to the action point in the extension
+  /// definition. The URI can be an Amazon Resource Name (ARN) for one of the
+  /// following: an Lambda function, an Amazon Simple Queue Service queue, an
+  /// Amazon Simple Notification Service topic, or the Amazon EventBridge default
+  /// event bus.
+  final String? uri;
+
+  Action({
+    this.description,
+    this.name,
+    this.roleArn,
+    this.uri,
+  });
+
+  factory Action.fromJson(Map<String, dynamic> json) {
+    return Action(
+      description: json['Description'] as String?,
+      name: json['Name'] as String?,
+      roleArn: json['RoleArn'] as String?,
+      uri: json['Uri'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final name = this.name;
+    final roleArn = this.roleArn;
+    final uri = this.uri;
+    return {
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
+      if (roleArn != null) 'RoleArn': roleArn,
+      if (uri != null) 'Uri': uri,
+    };
+  }
+}
+
+/// Amazon CloudWatch alarms to monitor during the deployment process.
+class Monitor {
+  /// Amazon Resource Name (ARN) of the Amazon CloudWatch alarm.
+  final String alarmArn;
+
+  /// ARN of an Identity and Access Management (IAM) role for AppConfig to monitor
+  /// <code>AlarmArn</code>.
+  final String? alarmRoleArn;
+
+  Monitor({
+    required this.alarmArn,
+    this.alarmRoleArn,
+  });
+
+  factory Monitor.fromJson(Map<String, dynamic> json) {
+    return Monitor(
+      alarmArn: (json['AlarmArn'] as String?) ?? '',
+      alarmRoleArn: json['AlarmRoleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final alarmArn = this.alarmArn;
+    final alarmRoleArn = this.alarmRoleArn;
+    return {
+      'AlarmArn': alarmArn,
+      if (alarmRoleArn != null) 'AlarmRoleArn': alarmRoleArn,
+    };
+  }
+}
+
+class GrowthType {
+  static const linear = GrowthType._('LINEAR');
+  static const exponential = GrowthType._('EXPONENTIAL');
+
+  final String value;
+
+  const GrowthType._(this.value);
+
+  static const values = [linear, exponential];
+
+  static GrowthType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => GrowthType._(value));
+
+  @override
+  bool operator ==(other) => other is GrowthType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A validator provides a syntactic or semantic check to ensure the
+/// configuration that you want to deploy functions as intended. To validate
+/// your application configuration data, you provide a schema or an Amazon Web
+/// Services Lambda function that runs against the configuration. The
+/// configuration deployment or update can only proceed when the configuration
+/// data is valid. For more information, see <a
+/// href="https://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-creating-configuration-profile.html#appconfig-creating-configuration-and-profile-validators">About
+/// validators</a> in the <i>AppConfig User Guide</i>.
+class Validator {
+  /// Either the JSON Schema content or the Amazon Resource Name (ARN) of an
+  /// Lambda function.
+  final String content;
+
+  /// AppConfig supports validators of type <code>JSON_SCHEMA</code> and
+  /// <code>LAMBDA</code>
+  final ValidatorType type;
+
+  Validator({
+    required this.content,
+    required this.type,
+  });
+
+  factory Validator.fromJson(Map<String, dynamic> json) {
+    return Validator(
+      content: (json['Content'] as String?) ?? '',
+      type: ValidatorType.fromString((json['Type'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final type = this.type;
+    return {
+      'Content': content,
+      'Type': type.value,
+    };
+  }
+}
+
+class ValidatorType {
+  static const jsonSchema = ValidatorType._('JSON_SCHEMA');
+  static const lambda = ValidatorType._('LAMBDA');
+
+  final String value;
+
+  const ValidatorType._(this.value);
+
+  static const values = [jsonSchema, lambda];
+
+  static ValidatorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ValidatorType._(value));
+
+  @override
+  bool operator ==(other) => other is ValidatorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A parameter to configure deletion protection. Deletion protection prevents a
+/// user from deleting a configuration profile or an environment if AppConfig
+/// has called either <a
+/// href="https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html">GetLatestConfiguration</a>
+/// or for the configuration profile or from the environment during the
+/// specified interval.
+///
+/// The default interval specified by <code>ProtectionPeriodInMinutes</code> is
+/// 60. <code>DeletionProtectionCheck</code> skips configuration profiles and
+/// environments that were created in the past hour.
+class DeletionProtectionSettings {
+  /// A parameter that indicates if deletion protection is enabled or not.
+  final bool? enabled;
+
+  /// The time interval during which AppConfig monitors for calls to <a
+  /// href="https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html">GetLatestConfiguration</a>
+  /// or for a configuration profile or from an environment. AppConfig returns an
+  /// error if a user calls or for the designated configuration profile or
+  /// environment. To bypass the error and delete a configuration profile or an
+  /// environment, specify <code>BYPASS</code> for the
+  /// <code>DeletionProtectionCheck</code> parameter for either or .
+  final int? protectionPeriodInMinutes;
+
+  DeletionProtectionSettings({
+    this.enabled,
+    this.protectionPeriodInMinutes,
+  });
+
+  factory DeletionProtectionSettings.fromJson(Map<String, dynamic> json) {
+    return DeletionProtectionSettings(
+      enabled: json['Enabled'] as bool?,
+      protectionPeriodInMinutes: json['ProtectionPeriodInMinutes'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final protectionPeriodInMinutes = this.protectionPeriodInMinutes;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+      if (protectionPeriodInMinutes != null)
+        'ProtectionPeriodInMinutes': protectionPeriodInMinutes,
+    };
+  }
+}
+
+/// Information about the configuration.
+class HostedConfigurationVersionSummary {
+  /// The application ID.
+  final String? applicationId;
+
+  /// The configuration profile ID.
+  final String? configurationProfileId;
+
+  /// A standard MIME type describing the format of the configuration content. For
+  /// more information, see <a
+  /// href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17">Content-Type</a>.
+  final String? contentType;
+
+  /// A description of the configuration.
+  final String? description;
+
+  /// The Amazon Resource Name of the Key Management Service key that was used to
+  /// encrypt this specific version of the configuration data in the AppConfig
+  /// hosted configuration store.
+  final String? kmsKeyArn;
+
+  /// A user-defined label for an AppConfig hosted configuration version.
+  final String? versionLabel;
+
+  /// The configuration version.
+  final int? versionNumber;
+
+  HostedConfigurationVersionSummary({
+    this.applicationId,
+    this.configurationProfileId,
+    this.contentType,
+    this.description,
+    this.kmsKeyArn,
+    this.versionLabel,
+    this.versionNumber,
+  });
+
+  factory HostedConfigurationVersionSummary.fromJson(
+      Map<String, dynamic> json) {
+    return HostedConfigurationVersionSummary(
+      applicationId: json['ApplicationId'] as String?,
+      configurationProfileId: json['ConfigurationProfileId'] as String?,
+      contentType: json['ContentType'] as String?,
+      description: json['Description'] as String?,
+      kmsKeyArn: json['KmsKeyArn'] as String?,
+      versionLabel: json['VersionLabel'] as String?,
+      versionNumber: json['VersionNumber'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationId = this.applicationId;
+    final configurationProfileId = this.configurationProfileId;
+    final contentType = this.contentType;
+    final description = this.description;
+    final kmsKeyArn = this.kmsKeyArn;
+    final versionLabel = this.versionLabel;
+    final versionNumber = this.versionNumber;
+    return {
+      if (applicationId != null) 'ApplicationId': applicationId,
+      if (configurationProfileId != null)
+        'ConfigurationProfileId': configurationProfileId,
+      if (contentType != null) 'ContentType': contentType,
+      if (description != null) 'Description': description,
+      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
+      if (versionLabel != null) 'VersionLabel': versionLabel,
+      if (versionNumber != null) 'VersionNumber': versionNumber,
+    };
+  }
+}
+
+/// Information about an extension. Call <code>GetExtension</code> to get more
+/// information about an extension.
+class ExtensionSummary {
+  /// The system-generated Amazon Resource Name (ARN) for the extension.
+  final String? arn;
+
+  /// Information about the extension.
+  final String? description;
+
+  /// The system-generated ID of the extension.
+  final String? id;
+
+  /// The extension name.
+  final String? name;
+
+  /// The extension version number.
+  final int? versionNumber;
+
+  ExtensionSummary({
+    this.arn,
+    this.description,
+    this.id,
+    this.name,
+    this.versionNumber,
+  });
+
+  factory ExtensionSummary.fromJson(Map<String, dynamic> json) {
+    return ExtensionSummary(
+      arn: json['Arn'] as String?,
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      versionNumber: json['VersionNumber'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final description = this.description;
     final id = this.id;
     final name = this.name;
-    final replicateTo = this.replicateTo;
+    final versionNumber = this.versionNumber;
     return {
-      if (deploymentDurationInMinutes != null)
-        'DeploymentDurationInMinutes': deploymentDurationInMinutes,
+      if (arn != null) 'Arn': arn,
       if (description != null) 'Description': description,
-      if (finalBakeTimeInMinutes != null)
-        'FinalBakeTimeInMinutes': finalBakeTimeInMinutes,
-      if (growthFactor != null) 'GrowthFactor': growthFactor,
-      if (growthType != null) 'GrowthType': growthType.value,
       if (id != null) 'Id': id,
       if (name != null) 'Name': name,
-      if (replicateTo != null) 'ReplicateTo': replicateTo.value,
+      if (versionNumber != null) 'VersionNumber': versionNumber,
+    };
+  }
+}
+
+/// Information about an association between an extension and an AppConfig
+/// resource such as an application, environment, or configuration profile. Call
+/// <code>GetExtensionAssociation</code> to get more information about an
+/// association.
+class ExtensionAssociationSummary {
+  /// The system-generated Amazon Resource Name (ARN) for the extension.
+  final String? extensionArn;
+
+  /// The extension association ID. This ID is used to call other
+  /// <code>ExtensionAssociation</code> API actions such as
+  /// <code>GetExtensionAssociation</code> or
+  /// <code>DeleteExtensionAssociation</code>.
+  final String? id;
+
+  /// The ARNs of applications, configuration profiles, or environments defined in
+  /// the association.
+  final String? resourceArn;
+
+  ExtensionAssociationSummary({
+    this.extensionArn,
+    this.id,
+    this.resourceArn,
+  });
+
+  factory ExtensionAssociationSummary.fromJson(Map<String, dynamic> json) {
+    return ExtensionAssociationSummary(
+      extensionArn: json['ExtensionArn'] as String?,
+      id: json['Id'] as String?,
+      resourceArn: json['ResourceArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final extensionArn = this.extensionArn;
+    final id = this.id;
+    final resourceArn = this.resourceArn;
+    return {
+      if (extensionArn != null) 'ExtensionArn': extensionArn,
+      if (id != null) 'Id': id,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
     };
   }
 }
@@ -3538,480 +3961,35 @@ class DeploymentSummary {
   }
 }
 
-class Deployments {
-  /// The elements from this collection.
-  final List<DeploymentSummary>? items;
-
-  /// The token for the next set of items to return. Use this token to get the
-  /// next set of results.
-  final String? nextToken;
-
-  Deployments({
-    this.items,
-    this.nextToken,
-  });
-
-  factory Deployments.fromJson(Map<String, dynamic> json) {
-    return Deployments(
-      items: (json['Items'] as List?)
-          ?.nonNulls
-          .map((e) => DeploymentSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final items = this.items;
-    final nextToken = this.nextToken;
-    return {
-      if (items != null) 'Items': items,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class Environment {
-  /// The application ID.
-  final String? applicationId;
-
-  /// The description of the environment.
-  final String? description;
-
-  /// The environment ID.
-  final String? id;
-
-  /// Amazon CloudWatch alarms monitored during the deployment.
-  final List<Monitor>? monitors;
-
-  /// The name of the environment.
-  final String? name;
-
-  /// The state of the environment. An environment can be in one of the following
-  /// states: <code>READY_FOR_DEPLOYMENT</code>, <code>DEPLOYING</code>,
-  /// <code>ROLLING_BACK</code>, or <code>ROLLED_BACK</code>
-  final EnvironmentState? state;
-
-  Environment({
-    this.applicationId,
-    this.description,
-    this.id,
-    this.monitors,
-    this.name,
-    this.state,
-  });
-
-  factory Environment.fromJson(Map<String, dynamic> json) {
-    return Environment(
-      applicationId: json['ApplicationId'] as String?,
-      description: json['Description'] as String?,
-      id: json['Id'] as String?,
-      monitors: (json['Monitors'] as List?)
-          ?.nonNulls
-          .map((e) => Monitor.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      name: json['Name'] as String?,
-      state: (json['State'] as String?)?.let(EnvironmentState.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final applicationId = this.applicationId;
-    final description = this.description;
-    final id = this.id;
-    final monitors = this.monitors;
-    final name = this.name;
-    final state = this.state;
-    return {
-      if (applicationId != null) 'ApplicationId': applicationId,
-      if (description != null) 'Description': description,
-      if (id != null) 'Id': id,
-      if (monitors != null) 'Monitors': monitors,
-      if (name != null) 'Name': name,
-      if (state != null) 'State': state.value,
-    };
-  }
-}
-
-class EnvironmentState {
-  static const readyForDeployment = EnvironmentState._('READY_FOR_DEPLOYMENT');
-  static const deploying = EnvironmentState._('DEPLOYING');
-  static const rollingBack = EnvironmentState._('ROLLING_BACK');
-  static const rolledBack = EnvironmentState._('ROLLED_BACK');
+class DeploymentState {
+  static const baking = DeploymentState._('BAKING');
+  static const validating = DeploymentState._('VALIDATING');
+  static const deploying = DeploymentState._('DEPLOYING');
+  static const complete = DeploymentState._('COMPLETE');
+  static const rollingBack = DeploymentState._('ROLLING_BACK');
+  static const rolledBack = DeploymentState._('ROLLED_BACK');
+  static const reverted = DeploymentState._('REVERTED');
 
   final String value;
 
-  const EnvironmentState._(this.value);
+  const DeploymentState._(this.value);
 
   static const values = [
-    readyForDeployment,
+    baking,
+    validating,
     deploying,
+    complete,
     rollingBack,
-    rolledBack
+    rolledBack,
+    reverted
   ];
 
-  static EnvironmentState fromString(String value) =>
+  static DeploymentState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => EnvironmentState._(value));
+          orElse: () => DeploymentState._(value));
 
   @override
-  bool operator ==(other) => other is EnvironmentState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class Environments {
-  /// The elements from this collection.
-  final List<Environment>? items;
-
-  /// The token for the next set of items to return. Use this token to get the
-  /// next set of results.
-  final String? nextToken;
-
-  Environments({
-    this.items,
-    this.nextToken,
-  });
-
-  factory Environments.fromJson(Map<String, dynamic> json) {
-    return Environments(
-      items: (json['Items'] as List?)
-          ?.nonNulls
-          .map((e) => Environment.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final items = this.items;
-    final nextToken = this.nextToken;
-    return {
-      if (items != null) 'Items': items,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class Extension {
-  /// The actions defined in the extension.
-  final Map<ActionPoint, List<Action>>? actions;
-
-  /// The system-generated Amazon Resource Name (ARN) for the extension.
-  final String? arn;
-
-  /// Information about the extension.
-  final String? description;
-
-  /// The system-generated ID of the extension.
-  final String? id;
-
-  /// The extension name.
-  final String? name;
-
-  /// The parameters accepted by the extension. You specify parameter values when
-  /// you associate the extension to an AppConfig resource by using the
-  /// <code>CreateExtensionAssociation</code> API action. For Lambda extension
-  /// actions, these parameters are included in the Lambda request object.
-  final Map<String, Parameter>? parameters;
-
-  /// The extension version number.
-  final int? versionNumber;
-
-  Extension({
-    this.actions,
-    this.arn,
-    this.description,
-    this.id,
-    this.name,
-    this.parameters,
-    this.versionNumber,
-  });
-
-  factory Extension.fromJson(Map<String, dynamic> json) {
-    return Extension(
-      actions: (json['Actions'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(
-              ActionPoint.fromString(k),
-              (e as List)
-                  .nonNulls
-                  .map((e) => Action.fromJson(e as Map<String, dynamic>))
-                  .toList())),
-      arn: json['Arn'] as String?,
-      description: json['Description'] as String?,
-      id: json['Id'] as String?,
-      name: json['Name'] as String?,
-      parameters: (json['Parameters'] as Map<String, dynamic>?)?.map(
-          (k, e) => MapEntry(k, Parameter.fromJson(e as Map<String, dynamic>))),
-      versionNumber: json['VersionNumber'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final actions = this.actions;
-    final arn = this.arn;
-    final description = this.description;
-    final id = this.id;
-    final name = this.name;
-    final parameters = this.parameters;
-    final versionNumber = this.versionNumber;
-    return {
-      if (actions != null)
-        'Actions': actions.map((k, e) => MapEntry(k.value, e)),
-      if (arn != null) 'Arn': arn,
-      if (description != null) 'Description': description,
-      if (id != null) 'Id': id,
-      if (name != null) 'Name': name,
-      if (parameters != null) 'Parameters': parameters,
-      if (versionNumber != null) 'VersionNumber': versionNumber,
-    };
-  }
-}
-
-class ExtensionAssociation {
-  /// The system-generated Amazon Resource Name (ARN) for the extension.
-  final String? arn;
-
-  /// The ARN of the extension defined in the association.
-  final String? extensionArn;
-
-  /// The version number for the extension defined in the association.
-  final int? extensionVersionNumber;
-
-  /// The system-generated ID for the association.
-  final String? id;
-
-  /// The parameter names and values defined in the association.
-  final Map<String, String>? parameters;
-
-  /// The ARNs of applications, configuration profiles, or environments defined in
-  /// the association.
-  final String? resourceArn;
-
-  ExtensionAssociation({
-    this.arn,
-    this.extensionArn,
-    this.extensionVersionNumber,
-    this.id,
-    this.parameters,
-    this.resourceArn,
-  });
-
-  factory ExtensionAssociation.fromJson(Map<String, dynamic> json) {
-    return ExtensionAssociation(
-      arn: json['Arn'] as String?,
-      extensionArn: json['ExtensionArn'] as String?,
-      extensionVersionNumber: json['ExtensionVersionNumber'] as int?,
-      id: json['Id'] as String?,
-      parameters: (json['Parameters'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      resourceArn: json['ResourceArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final extensionArn = this.extensionArn;
-    final extensionVersionNumber = this.extensionVersionNumber;
-    final id = this.id;
-    final parameters = this.parameters;
-    final resourceArn = this.resourceArn;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (extensionArn != null) 'ExtensionArn': extensionArn,
-      if (extensionVersionNumber != null)
-        'ExtensionVersionNumber': extensionVersionNumber,
-      if (id != null) 'Id': id,
-      if (parameters != null) 'Parameters': parameters,
-      if (resourceArn != null) 'ResourceArn': resourceArn,
-    };
-  }
-}
-
-/// Information about an association between an extension and an AppConfig
-/// resource such as an application, environment, or configuration profile. Call
-/// <code>GetExtensionAssociation</code> to get more information about an
-/// association.
-class ExtensionAssociationSummary {
-  /// The system-generated Amazon Resource Name (ARN) for the extension.
-  final String? extensionArn;
-
-  /// The extension association ID. This ID is used to call other
-  /// <code>ExtensionAssociation</code> API actions such as
-  /// <code>GetExtensionAssociation</code> or
-  /// <code>DeleteExtensionAssociation</code>.
-  final String? id;
-
-  /// The ARNs of applications, configuration profiles, or environments defined in
-  /// the association.
-  final String? resourceArn;
-
-  ExtensionAssociationSummary({
-    this.extensionArn,
-    this.id,
-    this.resourceArn,
-  });
-
-  factory ExtensionAssociationSummary.fromJson(Map<String, dynamic> json) {
-    return ExtensionAssociationSummary(
-      extensionArn: json['ExtensionArn'] as String?,
-      id: json['Id'] as String?,
-      resourceArn: json['ResourceArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final extensionArn = this.extensionArn;
-    final id = this.id;
-    final resourceArn = this.resourceArn;
-    return {
-      if (extensionArn != null) 'ExtensionArn': extensionArn,
-      if (id != null) 'Id': id,
-      if (resourceArn != null) 'ResourceArn': resourceArn,
-    };
-  }
-}
-
-class ExtensionAssociations {
-  /// The list of extension associations. Each item represents an extension
-  /// association to an application, environment, or configuration profile.
-  final List<ExtensionAssociationSummary>? items;
-
-  /// The token for the next set of items to return. Use this token to get the
-  /// next set of results.
-  final String? nextToken;
-
-  ExtensionAssociations({
-    this.items,
-    this.nextToken,
-  });
-
-  factory ExtensionAssociations.fromJson(Map<String, dynamic> json) {
-    return ExtensionAssociations(
-      items: (json['Items'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              ExtensionAssociationSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final items = this.items;
-    final nextToken = this.nextToken;
-    return {
-      if (items != null) 'Items': items,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-/// Information about an extension. Call <code>GetExtension</code> to get more
-/// information about an extension.
-class ExtensionSummary {
-  /// The system-generated Amazon Resource Name (ARN) for the extension.
-  final String? arn;
-
-  /// Information about the extension.
-  final String? description;
-
-  /// The system-generated ID of the extension.
-  final String? id;
-
-  /// The extension name.
-  final String? name;
-
-  /// The extension version number.
-  final int? versionNumber;
-
-  ExtensionSummary({
-    this.arn,
-    this.description,
-    this.id,
-    this.name,
-    this.versionNumber,
-  });
-
-  factory ExtensionSummary.fromJson(Map<String, dynamic> json) {
-    return ExtensionSummary(
-      arn: json['Arn'] as String?,
-      description: json['Description'] as String?,
-      id: json['Id'] as String?,
-      name: json['Name'] as String?,
-      versionNumber: json['VersionNumber'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final description = this.description;
-    final id = this.id;
-    final name = this.name;
-    final versionNumber = this.versionNumber;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (description != null) 'Description': description,
-      if (id != null) 'Id': id,
-      if (name != null) 'Name': name,
-      if (versionNumber != null) 'VersionNumber': versionNumber,
-    };
-  }
-}
-
-class Extensions {
-  /// The list of available extensions. The list includes Amazon Web Services
-  /// authored and user-created extensions.
-  final List<ExtensionSummary>? items;
-
-  /// The token for the next set of items to return. Use this token to get the
-  /// next set of results.
-  final String? nextToken;
-
-  Extensions({
-    this.items,
-    this.nextToken,
-  });
-
-  factory Extensions.fromJson(Map<String, dynamic> json) {
-    return Extensions(
-      items: (json['Items'] as List?)
-          ?.nonNulls
-          .map((e) => ExtensionSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final items = this.items;
-    final nextToken = this.nextToken;
-    return {
-      if (items != null) 'Items': items,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class GrowthType {
-  static const linear = GrowthType._('LINEAR');
-  static const exponential = GrowthType._('EXPONENTIAL');
-
-  final String value;
-
-  const GrowthType._(this.value);
-
-  static const values = [linear, exponential];
-
-  static GrowthType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => GrowthType._(value));
-
-  @override
-  bool operator ==(other) => other is GrowthType && other.value == value;
+  bool operator ==(other) => other is DeploymentState && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -4020,287 +3998,234 @@ class GrowthType {
   String toString() => value;
 }
 
-class HostedConfigurationVersion {
+/// A summary of a configuration profile.
+class ConfigurationProfileSummary {
   /// The application ID.
   final String? applicationId;
 
-  /// The configuration profile ID.
-  final String? configurationProfileId;
+  /// The ID of the configuration profile.
+  final String? id;
 
-  /// The content of the configuration or the configuration data.
-  final Uint8List? content;
+  /// The URI location of the configuration.
+  final String? locationUri;
 
-  /// A standard MIME type describing the format of the configuration content. For
-  /// more information, see <a
-  /// href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17">Content-Type</a>.
-  final String? contentType;
+  /// The name of the configuration profile.
+  final String? name;
 
-  /// A description of the configuration.
-  final String? description;
+  /// The type of configurations contained in the profile. AppConfig supports
+  /// <code>feature flags</code> and <code>freeform</code> configurations. We
+  /// recommend you create feature flag configurations to enable or disable new
+  /// features and freeform configurations to distribute configurations to an
+  /// application. When calling this API, enter one of the following values for
+  /// <code>Type</code>:
+  ///
+  /// <code>AWS.AppConfig.FeatureFlags</code>
+  ///
+  /// <code>AWS.Freeform</code>
+  final String? type;
 
-  /// The Amazon Resource Name of the Key Management Service key that was used to
-  /// encrypt this specific version of the configuration data in the AppConfig
-  /// hosted configuration store.
-  final String? kmsKeyArn;
+  /// The types of validators in the configuration profile.
+  final List<ValidatorType>? validatorTypes;
 
-  /// A user-defined label for an AppConfig hosted configuration version.
-  final String? versionLabel;
-
-  /// The configuration version.
-  final int? versionNumber;
-
-  HostedConfigurationVersion({
+  ConfigurationProfileSummary({
     this.applicationId,
-    this.configurationProfileId,
-    this.content,
-    this.contentType,
-    this.description,
-    this.kmsKeyArn,
-    this.versionLabel,
-    this.versionNumber,
+    this.id,
+    this.locationUri,
+    this.name,
+    this.type,
+    this.validatorTypes,
   });
 
-  Map<String, dynamic> toJson() {
-    final applicationId = this.applicationId;
-    final configurationProfileId = this.configurationProfileId;
-    final content = this.content;
-    final contentType = this.contentType;
-    final description = this.description;
-    final kmsKeyArn = this.kmsKeyArn;
-    final versionLabel = this.versionLabel;
-    final versionNumber = this.versionNumber;
-    return {
-      if (content != null) 'Content': base64Encode(content),
-    };
-  }
-}
-
-/// Information about the configuration.
-class HostedConfigurationVersionSummary {
-  /// The application ID.
-  final String? applicationId;
-
-  /// The configuration profile ID.
-  final String? configurationProfileId;
-
-  /// A standard MIME type describing the format of the configuration content. For
-  /// more information, see <a
-  /// href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17">Content-Type</a>.
-  final String? contentType;
-
-  /// A description of the configuration.
-  final String? description;
-
-  /// The Amazon Resource Name of the Key Management Service key that was used to
-  /// encrypt this specific version of the configuration data in the AppConfig
-  /// hosted configuration store.
-  final String? kmsKeyArn;
-
-  /// A user-defined label for an AppConfig hosted configuration version.
-  final String? versionLabel;
-
-  /// The configuration version.
-  final int? versionNumber;
-
-  HostedConfigurationVersionSummary({
-    this.applicationId,
-    this.configurationProfileId,
-    this.contentType,
-    this.description,
-    this.kmsKeyArn,
-    this.versionLabel,
-    this.versionNumber,
-  });
-
-  factory HostedConfigurationVersionSummary.fromJson(
-      Map<String, dynamic> json) {
-    return HostedConfigurationVersionSummary(
+  factory ConfigurationProfileSummary.fromJson(Map<String, dynamic> json) {
+    return ConfigurationProfileSummary(
       applicationId: json['ApplicationId'] as String?,
-      configurationProfileId: json['ConfigurationProfileId'] as String?,
-      contentType: json['ContentType'] as String?,
-      description: json['Description'] as String?,
-      kmsKeyArn: json['KmsKeyArn'] as String?,
-      versionLabel: json['VersionLabel'] as String?,
-      versionNumber: json['VersionNumber'] as int?,
+      id: json['Id'] as String?,
+      locationUri: json['LocationUri'] as String?,
+      name: json['Name'] as String?,
+      type: json['Type'] as String?,
+      validatorTypes: (json['ValidatorTypes'] as List?)
+          ?.nonNulls
+          .map((e) => ValidatorType.fromString((e as String)))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final applicationId = this.applicationId;
-    final configurationProfileId = this.configurationProfileId;
-    final contentType = this.contentType;
-    final description = this.description;
-    final kmsKeyArn = this.kmsKeyArn;
-    final versionLabel = this.versionLabel;
-    final versionNumber = this.versionNumber;
+    final id = this.id;
+    final locationUri = this.locationUri;
+    final name = this.name;
+    final type = this.type;
+    final validatorTypes = this.validatorTypes;
     return {
       if (applicationId != null) 'ApplicationId': applicationId,
-      if (configurationProfileId != null)
-        'ConfigurationProfileId': configurationProfileId,
-      if (contentType != null) 'ContentType': contentType,
-      if (description != null) 'Description': description,
-      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
-      if (versionLabel != null) 'VersionLabel': versionLabel,
+      if (id != null) 'Id': id,
+      if (locationUri != null) 'LocationUri': locationUri,
+      if (name != null) 'Name': name,
+      if (type != null) 'Type': type,
+      if (validatorTypes != null)
+        'ValidatorTypes': validatorTypes.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// An extension that was invoked during a deployment.
+class AppliedExtension {
+  /// The system-generated ID for the association.
+  final String? extensionAssociationId;
+
+  /// The system-generated ID of the extension.
+  final String? extensionId;
+
+  /// One or more parameters for the actions called by the extension.
+  final Map<String, String>? parameters;
+
+  /// The extension version number.
+  final int? versionNumber;
+
+  AppliedExtension({
+    this.extensionAssociationId,
+    this.extensionId,
+    this.parameters,
+    this.versionNumber,
+  });
+
+  factory AppliedExtension.fromJson(Map<String, dynamic> json) {
+    return AppliedExtension(
+      extensionAssociationId: json['ExtensionAssociationId'] as String?,
+      extensionId: json['ExtensionId'] as String?,
+      parameters: (json['Parameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      versionNumber: json['VersionNumber'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final extensionAssociationId = this.extensionAssociationId;
+    final extensionId = this.extensionId;
+    final parameters = this.parameters;
+    final versionNumber = this.versionNumber;
+    return {
+      if (extensionAssociationId != null)
+        'ExtensionAssociationId': extensionAssociationId,
+      if (extensionId != null) 'ExtensionId': extensionId,
+      if (parameters != null) 'Parameters': parameters,
       if (versionNumber != null) 'VersionNumber': versionNumber,
     };
   }
 }
 
-class HostedConfigurationVersions {
-  /// The elements from this collection.
-  final List<HostedConfigurationVersionSummary>? items;
+/// An object that describes a deployment event.
+class DeploymentEvent {
+  /// The list of extensions that were invoked as part of the deployment.
+  final List<ActionInvocation>? actionInvocations;
 
-  /// The token for the next set of items to return. Use this token to get the
-  /// next set of results.
-  final String? nextToken;
-
-  HostedConfigurationVersions({
-    this.items,
-    this.nextToken,
-  });
-
-  factory HostedConfigurationVersions.fromJson(Map<String, dynamic> json) {
-    return HostedConfigurationVersions(
-      items: (json['Items'] as List?)
-          ?.nonNulls
-          .map((e) => HostedConfigurationVersionSummary.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final items = this.items;
-    final nextToken = this.nextToken;
-    return {
-      if (items != null) 'Items': items,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-/// Amazon CloudWatch alarms to monitor during the deployment process.
-class Monitor {
-  /// Amazon Resource Name (ARN) of the Amazon CloudWatch alarm.
-  final String alarmArn;
-
-  /// ARN of an Identity and Access Management (IAM) role for AppConfig to monitor
-  /// <code>AlarmArn</code>.
-  final String? alarmRoleArn;
-
-  Monitor({
-    required this.alarmArn,
-    this.alarmRoleArn,
-  });
-
-  factory Monitor.fromJson(Map<String, dynamic> json) {
-    return Monitor(
-      alarmArn: (json['AlarmArn'] as String?) ?? '',
-      alarmRoleArn: json['AlarmRoleArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final alarmArn = this.alarmArn;
-    final alarmRoleArn = this.alarmRoleArn;
-    return {
-      'AlarmArn': alarmArn,
-      if (alarmRoleArn != null) 'AlarmRoleArn': alarmRoleArn,
-    };
-  }
-}
-
-/// A value such as an Amazon Resource Name (ARN) or an Amazon Simple
-/// Notification Service topic entered in an extension when invoked. Parameter
-/// values are specified in an extension association. For more information about
-/// extensions, see <a
-/// href="https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html">Extending
-/// workflows</a> in the <i>AppConfig User Guide</i>.
-class Parameter {
-  /// Information about the parameter.
+  /// A description of the deployment event. Descriptions include, but are not
+  /// limited to, the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// The Amazon Web Services account or the Amazon CloudWatch alarm ARN that
+  /// initiated a rollback.
+  /// </li>
+  /// <li>
+  /// The percentage of hosts that received the deployment.
+  /// </li>
+  /// <li>
+  /// A recommendation to attempt a new deployment (in the case of an internal
+  /// error).
+  /// </li>
+  /// </ul>
   final String? description;
 
-  /// Indicates whether this parameter's value can be supplied at the extension's
-  /// action point instead of during extension association. Dynamic parameters
-  /// can't be marked <code>Required</code>.
-  final bool? dynamicValue;
+  /// The type of deployment event. Deployment event types include the start,
+  /// stop, or completion of a deployment; a percentage update; the start or stop
+  /// of a bake period; and the start or completion of a rollback.
+  final DeploymentEventType? eventType;
 
-  /// A parameter value must be specified in the extension association.
-  final bool? required;
+  /// The date and time the event occurred.
+  final DateTime? occurredAt;
 
-  Parameter({
+  /// The entity that triggered the deployment event. Events can be triggered by a
+  /// user, AppConfig, an Amazon CloudWatch alarm, or an internal error.
+  final TriggeredBy? triggeredBy;
+
+  DeploymentEvent({
+    this.actionInvocations,
     this.description,
-    this.dynamicValue,
-    this.required,
+    this.eventType,
+    this.occurredAt,
+    this.triggeredBy,
   });
 
-  factory Parameter.fromJson(Map<String, dynamic> json) {
-    return Parameter(
+  factory DeploymentEvent.fromJson(Map<String, dynamic> json) {
+    return DeploymentEvent(
+      actionInvocations: (json['ActionInvocations'] as List?)
+          ?.nonNulls
+          .map((e) => ActionInvocation.fromJson(e as Map<String, dynamic>))
+          .toList(),
       description: json['Description'] as String?,
-      dynamicValue: json['Dynamic'] as bool?,
-      required: json['Required'] as bool?,
+      eventType:
+          (json['EventType'] as String?)?.let(DeploymentEventType.fromString),
+      occurredAt: timeStampFromJson(json['OccurredAt']),
+      triggeredBy:
+          (json['TriggeredBy'] as String?)?.let(TriggeredBy.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final actionInvocations = this.actionInvocations;
     final description = this.description;
-    final dynamicValue = this.dynamicValue;
-    final required = this.required;
+    final eventType = this.eventType;
+    final occurredAt = this.occurredAt;
+    final triggeredBy = this.triggeredBy;
     return {
+      if (actionInvocations != null) 'ActionInvocations': actionInvocations,
       if (description != null) 'Description': description,
-      if (dynamicValue != null) 'Dynamic': dynamicValue,
-      if (required != null) 'Required': required,
+      if (eventType != null) 'EventType': eventType.value,
+      if (occurredAt != null) 'OccurredAt': iso8601ToJson(occurredAt),
+      if (triggeredBy != null) 'TriggeredBy': triggeredBy.value,
     };
   }
 }
 
-class ReplicateTo {
-  static const none = ReplicateTo._('NONE');
-  static const ssmDocument = ReplicateTo._('SSM_DOCUMENT');
+class DeploymentEventType {
+  static const percentageUpdated = DeploymentEventType._('PERCENTAGE_UPDATED');
+  static const rollbackStarted = DeploymentEventType._('ROLLBACK_STARTED');
+  static const rollbackCompleted = DeploymentEventType._('ROLLBACK_COMPLETED');
+  static const bakeTimeStarted = DeploymentEventType._('BAKE_TIME_STARTED');
+  static const deploymentStarted = DeploymentEventType._('DEPLOYMENT_STARTED');
+  static const deploymentCompleted =
+      DeploymentEventType._('DEPLOYMENT_COMPLETED');
+  static const revertCompleted = DeploymentEventType._('REVERT_COMPLETED');
 
   final String value;
 
-  const ReplicateTo._(this.value);
+  const DeploymentEventType._(this.value);
 
-  static const values = [none, ssmDocument];
+  static const values = [
+    percentageUpdated,
+    rollbackStarted,
+    rollbackCompleted,
+    bakeTimeStarted,
+    deploymentStarted,
+    deploymentCompleted,
+    revertCompleted
+  ];
 
-  static ReplicateTo fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ReplicateTo._(value));
+  static DeploymentEventType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeploymentEventType._(value));
 
   @override
-  bool operator ==(other) => other is ReplicateTo && other.value == value;
+  bool operator ==(other) =>
+      other is DeploymentEventType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
-}
-
-class ResourceTags {
-  /// Metadata to assign to AppConfig resources. Tags help organize and categorize
-  /// your AppConfig resources. Each tag consists of a key and an optional value,
-  /// both of which you define.
-  final Map<String, String>? tags;
-
-  ResourceTags({
-    this.tags,
-  });
-
-  factory ResourceTags.fromJson(Map<String, dynamic> json) {
-    return ResourceTags(
-      tags: (json['Tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tags = this.tags;
-    return {
-      if (tags != null) 'Tags': tags,
-    };
-  }
 }
 
 class TriggeredBy {
@@ -4328,61 +4253,151 @@ class TriggeredBy {
   String toString() => value;
 }
 
-/// A validator provides a syntactic or semantic check to ensure the
-/// configuration that you want to deploy functions as intended. To validate
-/// your application configuration data, you provide a schema or an Amazon Web
-/// Services Lambda function that runs against the configuration. The
-/// configuration deployment or update can only proceed when the configuration
-/// data is valid. For more information, see <a
-/// href="https://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-creating-configuration-profile.html#appconfig-creating-configuration-and-profile-validators">About
-/// validators</a> in the <i>AppConfig User Guide</i>.
-class Validator {
-  /// Either the JSON Schema content or the Amazon Resource Name (ARN) of an
-  /// Lambda function.
-  final String content;
+/// An extension that was invoked as part of a deployment event.
+class ActionInvocation {
+  /// The name of the action.
+  final String? actionName;
 
-  /// AppConfig supports validators of type <code>JSON_SCHEMA</code> and
-  /// <code>LAMBDA</code>
-  final ValidatorType type;
+  /// The error code when an extension invocation fails.
+  final String? errorCode;
 
-  Validator({
-    required this.content,
-    required this.type,
+  /// The error message when an extension invocation fails.
+  final String? errorMessage;
+
+  /// The name, the ID, or the Amazon Resource Name (ARN) of the extension.
+  final String? extensionIdentifier;
+
+  /// A system-generated ID for this invocation.
+  final String? invocationId;
+
+  /// An Amazon Resource Name (ARN) for an Identity and Access Management assume
+  /// role.
+  final String? roleArn;
+
+  /// The extension URI associated to the action point in the extension
+  /// definition. The URI can be an Amazon Resource Name (ARN) for one of the
+  /// following: an Lambda function, an Amazon Simple Queue Service queue, an
+  /// Amazon Simple Notification Service topic, or the Amazon EventBridge default
+  /// event bus.
+  final String? uri;
+
+  ActionInvocation({
+    this.actionName,
+    this.errorCode,
+    this.errorMessage,
+    this.extensionIdentifier,
+    this.invocationId,
+    this.roleArn,
+    this.uri,
   });
 
-  factory Validator.fromJson(Map<String, dynamic> json) {
-    return Validator(
-      content: (json['Content'] as String?) ?? '',
-      type: ValidatorType.fromString((json['Type'] as String?) ?? ''),
+  factory ActionInvocation.fromJson(Map<String, dynamic> json) {
+    return ActionInvocation(
+      actionName: json['ActionName'] as String?,
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      extensionIdentifier: json['ExtensionIdentifier'] as String?,
+      invocationId: json['InvocationId'] as String?,
+      roleArn: json['RoleArn'] as String?,
+      uri: json['Uri'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final content = this.content;
-    final type = this.type;
+    final actionName = this.actionName;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final extensionIdentifier = this.extensionIdentifier;
+    final invocationId = this.invocationId;
+    final roleArn = this.roleArn;
+    final uri = this.uri;
     return {
-      'Content': content,
-      'Type': type.value,
+      if (actionName != null) 'ActionName': actionName,
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (extensionIdentifier != null)
+        'ExtensionIdentifier': extensionIdentifier,
+      if (invocationId != null) 'InvocationId': invocationId,
+      if (roleArn != null) 'RoleArn': roleArn,
+      if (uri != null) 'Uri': uri,
     };
   }
 }
 
-class ValidatorType {
-  static const jsonSchema = ValidatorType._('JSON_SCHEMA');
-  static const lambda = ValidatorType._('LAMBDA');
+class DeletionProtectionCheck {
+  static const accountDefault = DeletionProtectionCheck._('ACCOUNT_DEFAULT');
+  static const apply = DeletionProtectionCheck._('APPLY');
+  static const bypass = DeletionProtectionCheck._('BYPASS');
 
   final String value;
 
-  const ValidatorType._(this.value);
+  const DeletionProtectionCheck._(this.value);
 
-  static const values = [jsonSchema, lambda];
+  static const values = [accountDefault, apply, bypass];
 
-  static ValidatorType fromString(String value) =>
+  static DeletionProtectionCheck fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => ValidatorType._(value));
+          orElse: () => DeletionProtectionCheck._(value));
 
   @override
-  bool operator ==(other) => other is ValidatorType && other.value == value;
+  bool operator ==(other) =>
+      other is DeletionProtectionCheck && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class EnvironmentState {
+  static const readyForDeployment = EnvironmentState._('READY_FOR_DEPLOYMENT');
+  static const deploying = EnvironmentState._('DEPLOYING');
+  static const rollingBack = EnvironmentState._('ROLLING_BACK');
+  static const rolledBack = EnvironmentState._('ROLLED_BACK');
+  static const reverted = EnvironmentState._('REVERTED');
+
+  final String value;
+
+  const EnvironmentState._(this.value);
+
+  static const values = [
+    readyForDeployment,
+    deploying,
+    rollingBack,
+    rolledBack,
+    reverted
+  ];
+
+  static EnvironmentState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EnvironmentState._(value));
+
+  @override
+  bool operator ==(other) => other is EnvironmentState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ReplicateTo {
+  static const none = ReplicateTo._('NONE');
+  static const ssmDocument = ReplicateTo._('SSM_DOCUMENT');
+
+  final String value;
+
+  const ReplicateTo._(this.value);
+
+  static const values = [none, ssmDocument];
+
+  static ReplicateTo fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ReplicateTo._(value));
+
+  @override
+  bool operator ==(other) => other is ReplicateTo && other.value == value;
 
   @override
   int get hashCode => value.hashCode;

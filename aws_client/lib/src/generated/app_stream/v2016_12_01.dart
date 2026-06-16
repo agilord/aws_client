@@ -20,21 +20,23 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// This is the <i>Amazon AppStream 2.0 API Reference</i>. This documentation
-/// provides descriptions and syntax for each of the actions and data types in
-/// AppStream 2.0. AppStream 2.0 is a fully managed, secure application
-/// streaming service that lets you stream desktop applications to users without
-/// rewriting applications. AppStream 2.0 manages the AWS resources that are
-/// required to host and run your applications, scales automatically, and
-/// provides access to your users on demand.
+/// This is the <i>Amazon WorkSpaces Applications API Reference</i>. This
+/// documentation provides descriptions and syntax for each of the actions and
+/// data types in WorkSpaces Applications. WorkSpaces Applications is a fully
+/// managed, secure application streaming service that lets you stream desktop
+/// applications to users without rewriting applications. WorkSpaces
+/// Applications manages the AWS resources that are required to host and run
+/// your applications, scales automatically, and provides access to your users
+/// on demand.
 /// <note>
-/// You can call the AppStream 2.0 API operations by using an interface VPC
-/// endpoint (interface endpoint). For more information, see <a
+/// You can call the WorkSpaces Applications API operations by using an
+/// interface VPC endpoint (interface endpoint). For more information, see <a
 /// href="https://docs.aws.amazon.com/appstream2/latest/developerguide/access-api-cli-through-interface-vpc-endpoint.html">Access
-/// AppStream 2.0 API Operations and CLI Commands Through an Interface VPC
-/// Endpoint</a> in the <i>Amazon AppStream 2.0 Administration Guide</i>.
+/// WorkSpaces Applications API Operations and CLI Commands Through an Interface
+/// VPC Endpoint</a> in the <i>Amazon WorkSpaces Applications Administration
+/// Guide</i>.
 /// </note>
-/// To learn more about AppStream 2.0, see the following resources:
+/// To learn more about WorkSpaces Applications, see the following resources:
 class AppStream {
   final _s.JsonProtocol _protocol;
   AppStream({
@@ -67,10 +69,10 @@ class AppStream {
   /// Associates the specified app block builder with the specified app block.
   ///
   /// May throw [ConcurrentModificationException].
-  /// May throw [LimitExceededException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [LimitExceededException].
   /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [appBlockArn] :
   /// The ARN of the app block.
@@ -105,10 +107,10 @@ class AppStream {
   /// only supported for Elastic fleets.
   ///
   /// May throw [ConcurrentModificationException].
-  /// May throw [LimitExceededException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [LimitExceededException].
   /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [applicationArn] :
   /// The ARN of the application.
@@ -140,11 +142,10 @@ class AppStream {
 
   /// Associates an application to entitle.
   ///
-  /// May throw [OperationNotPermittedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [EntitlementNotFoundException].
   /// May throw [LimitExceededException].
   /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [applicationIdentifier] :
   /// The identifier of the application.
@@ -180,12 +181,12 @@ class AppStream {
 
   /// Associates the specified fleet with the specified stack.
   ///
-  /// May throw [LimitExceededException].
-  /// May throw [InvalidAccountStatusException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConcurrentModificationException].
   /// May throw [IncompatibleImageException].
+  /// May throw [InvalidAccountStatusException].
+  /// May throw [LimitExceededException].
   /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [fleetName] :
   /// The name of the fleet.
@@ -213,12 +214,125 @@ class AppStream {
     );
   }
 
+  /// Associates license included application(s) with an existing image builder
+  /// instance.
+  ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [IncompatibleImageException].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [imageBuilderName] :
+  /// The name of the target image builder instance.
+  ///
+  /// Parameter [softwareNames] :
+  /// The list of license included applications to associate with the image
+  /// builder.
+  ///
+  /// Possible values include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// Microsoft_Office_2021_LTSC_Professional_Plus_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Office_2021_LTSC_Professional_Plus_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Office_2024_LTSC_Professional_Plus_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Office_2024_LTSC_Professional_Plus_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2021_LTSC_Professional_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2021_LTSC_Professional_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2024_LTSC_Professional_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2024_LTSC_Professional_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2021_Professional_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2021_Professional_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2024_Professional_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2024_Professional_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Office_2021_LTSC_Standard_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Office_2021_LTSC_Standard_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Office_2024_LTSC_Standard_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Office_2024_LTSC_Standard_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2021_LTSC_Standard_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2021_LTSC_Standard_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2024_LTSC_Standard_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2024_LTSC_Standard_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2021_Standard_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2021_Standard_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2024_Standard_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2024_Standard_64Bit
+  /// </li>
+  /// </ul>
+  Future<void> associateSoftwareToImageBuilder({
+    required String imageBuilderName,
+    required List<String> softwareNames,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'PhotonAdminProxyService.AssociateSoftwareToImageBuilder'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ImageBuilderName': imageBuilderName,
+        'SoftwareNames': softwareNames,
+      },
+    );
+  }
+
   /// Associates the specified users with the specified stacks. Users in a user
   /// pool cannot be assigned to stacks with fleets that are joined to an Active
   /// Directory domain.
   ///
-  /// May throw [OperationNotPermittedException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [OperationNotPermittedException].
   ///
   /// Parameter [userStackAssociations] :
   /// The list of UserStackAssociation objects.
@@ -245,8 +359,8 @@ class AppStream {
 
   /// Disassociates the specified users from the specified stacks.
   ///
-  /// May throw [OperationNotPermittedException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [OperationNotPermittedException].
   ///
   /// Parameter [userStackAssociations] :
   /// The list of UserStackAssociation objects.
@@ -274,12 +388,12 @@ class AppStream {
   /// Copies the image within the same region or to a new region within the same
   /// AWS account. Note that any tags you added to the image will not be copied.
   ///
-  /// May throw [ResourceAlreadyExistsException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceNotAvailableException].
-  /// May throw [LimitExceededException].
-  /// May throw [InvalidAccountStatusException].
   /// May throw [IncompatibleImageException].
+  /// May throw [InvalidAccountStatusException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceNotAvailableException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [destinationImageName] :
   /// The name that the image will have when it is copied to the destination.
@@ -324,7 +438,7 @@ class AppStream {
 
   /// Creates an app block.
   ///
-  /// App blocks are an Amazon AppStream 2.0 resource that stores the details
+  /// App blocks are a WorkSpaces Applications resource that stores the details
   /// about the virtual hard disk in an S3 bucket. It also stores the setup
   /// script with details about how to mount the virtual hard disk. The virtual
   /// hard disk includes the application binaries and other files necessary to
@@ -402,16 +516,16 @@ class AppStream {
 
   /// Creates an app block builder.
   ///
-  /// May throw [LimitExceededException].
-  /// May throw [RequestLimitExceededException].
-  /// May throw [InvalidAccountStatusException].
-  /// May throw [InvalidRoleException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidAccountStatusException].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidRoleException].
+  /// May throw [LimitExceededException].
   /// May throw [OperationNotPermittedException].
+  /// May throw [RequestLimitExceededException].
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [ResourceNotAvailableException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidParameterCombinationException].
   ///
   /// Parameter [instanceType] :
   /// The instance type to use when launching the app block builder. The
@@ -457,6 +571,10 @@ class AppStream {
   /// Parameter [description] :
   /// The description of the app block builder.
   ///
+  /// Parameter [disableIMDSV1] :
+  /// Set to true to disable Instance Metadata Service Version 1 (IMDSv1) and
+  /// enforce IMDSv2. Set to false to enable both IMDSv1 and IMDSv2.
+  ///
   /// Parameter [displayName] :
   /// The display name of the app block builder.
   ///
@@ -468,14 +586,15 @@ class AppStream {
   /// builder. To assume a role, the app block builder calls the AWS Security
   /// Token Service (STS) <code>AssumeRole</code> API operation and passes the
   /// ARN of the role to use. The operation creates a new session with temporary
-  /// credentials. AppStream 2.0 retrieves the temporary credentials and creates
-  /// the <b>appstream_machine_role</b> credential profile on the instance.
+  /// credentials. WorkSpaces Applications retrieves the temporary credentials
+  /// and creates the <b>appstream_machine_role</b> credential profile on the
+  /// instance.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html">Using
   /// an IAM Role to Grant Permissions to Applications and Scripts Running on
-  /// AppStream 2.0 Streaming Instances</a> in the <i>Amazon AppStream 2.0
-  /// Administration Guide</i>.
+  /// WorkSpaces Applications Streaming Instances</a> in the <i>Amazon
+  /// WorkSpaces Applications Administration Guide</i>.
   ///
   /// Parameter [tags] :
   /// The tags to associate with the app block builder. A tag is a key-value
@@ -491,7 +610,7 @@ class AppStream {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html">Tagging
-  /// Your Resources</a> in the <i>Amazon AppStream 2.0 Administration
+  /// Your Resources</a> in the <i>Amazon WorkSpaces Applications Administration
   /// Guide</i>.
   Future<CreateAppBlockBuilderResult> createAppBlockBuilder({
     required String instanceType,
@@ -500,6 +619,7 @@ class AppStream {
     required VpcConfig vpcConfig,
     List<AccessEndpoint>? accessEndpoints,
     String? description,
+    bool? disableIMDSV1,
     String? displayName,
     bool? enableDefaultInternetAccess,
     String? iamRoleArn,
@@ -522,6 +642,7 @@ class AppStream {
         'VpcConfig': vpcConfig,
         if (accessEndpoints != null) 'AccessEndpoints': accessEndpoints,
         if (description != null) 'Description': description,
+        if (disableIMDSV1 != null) 'DisableIMDSV1': disableIMDSV1,
         if (displayName != null) 'DisplayName': displayName,
         if (enableDefaultInternetAccess != null)
           'EnableDefaultInternetAccess': enableDefaultInternetAccess,
@@ -535,8 +656,8 @@ class AppStream {
 
   /// Creates a URL to start a create app block builder streaming session.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [appBlockBuilderName] :
   /// The name of the app block builder.
@@ -571,19 +692,19 @@ class AppStream {
 
   /// Creates an application.
   ///
-  /// Applications are an Amazon AppStream 2.0 resource that stores the details
-  /// about how to launch applications on Elastic fleet streaming instances. An
-  /// application consists of the launch details, icon, and display name.
-  /// Applications are associated with an app block that contains the
-  /// application binaries and other files. The applications assigned to an
+  /// Applications are a WorkSpaces Applications resource that stores the
+  /// details about how to launch applications on Elastic fleet streaming
+  /// instances. An application consists of the launch details, icon, and
+  /// display name. Applications are associated with an app block that contains
+  /// the application binaries and other files. The applications assigned to an
   /// Elastic fleet are the applications users can launch.
   ///
   /// This is only supported for Elastic fleets.
   ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [LimitExceededException].
   /// May throw [OperationNotPermittedException].
   /// May throw [ResourceAlreadyExistsException].
-  /// May throw [LimitExceededException].
-  /// May throw [ConcurrentModificationException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [appBlockArn] :
@@ -604,8 +725,8 @@ class AppStream {
   /// name is not specified.
   ///
   /// Parameter [platforms] :
-  /// The platforms the application supports. WINDOWS_SERVER_2019 and
-  /// AMAZON_LINUX2 are supported for Elastic fleets.
+  /// The platforms the application supports. WINDOWS_SERVER_2019, AMAZON_LINUX2
+  /// and UBUNTU_PRO_2404 are supported for Elastic fleets.
   ///
   /// Parameter [description] :
   /// The description of the application.
@@ -663,16 +784,16 @@ class AppStream {
     return CreateApplicationResult.fromJson(jsonResponse.body);
   }
 
-  /// Creates a Directory Config object in AppStream 2.0. This object includes
-  /// the configuration information required to join fleets and image builders
-  /// to Microsoft Active Directory domains.
+  /// Creates a Directory Config object in WorkSpaces Applications. This object
+  /// includes the configuration information required to join fleets and image
+  /// builders to Microsoft Active Directory domains.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceAlreadyExistsException].
-  /// May throw [LimitExceededException].
   /// May throw [InvalidAccountStatusException].
-  /// May throw [OperationNotPermittedException].
   /// May throw [InvalidRoleException].
+  /// May throw [LimitExceededException].
+  /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [directoryName] :
   /// The fully qualified name of the directory (for example, corp.example.com).
@@ -727,16 +848,16 @@ class AppStream {
 
   /// Creates a new entitlement. Entitlements control access to specific
   /// applications within a stack, based on user attributes. Entitlements apply
-  /// to SAML 2.0 federated user identities. Amazon AppStream 2.0 user pool and
-  /// streaming URL users are entitled to all applications in a stack.
+  /// to SAML 2.0 federated user identities. WorkSpaces Applications user pool
+  /// and streaming URL users are entitled to all applications in a stack.
   /// Entitlements don't apply to the desktop stream view application, or to
   /// applications managed by a dynamic app provider using the Dynamic
   /// Application Framework.
   ///
+  /// May throw [EntitlementAlreadyExistsException].
+  /// May throw [LimitExceededException].
   /// May throw [OperationNotPermittedException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [EntitlementAlreadyExistsException].
   ///
   /// Parameter [appVisibility] :
   /// Specifies whether all or selected apps are entitled.
@@ -781,20 +902,82 @@ class AppStream {
     return CreateEntitlementResult.fromJson(jsonResponse.body);
   }
 
+  /// Creates a task to export a WorkSpaces Applications image to an EC2 AMI.
+  /// This allows you to use your customized WorkSpaces Applications images with
+  /// other AWS services or for backup purposes.
+  ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidAccountStatusException].
+  /// May throw [InvalidRoleException].
+  /// May throw [LimitExceededException].
+  /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceNotAvailableException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [amiName] :
+  /// The name for the exported EC2 AMI. This is a required field that must be
+  /// unique within your account and region.
+  ///
+  /// Parameter [iamRoleArn] :
+  /// The ARN of the IAM role that allows WorkSpaces Applications to create the
+  /// AMI. The role must have permissions to copy images, describe images, and
+  /// create tags, with a trust relationship allowing appstream.amazonaws.com to
+  /// assume the role.
+  ///
+  /// Parameter [imageName] :
+  /// The name of the WorkSpaces Applications image to export. The image must be
+  /// in an available state and owned by your account.
+  ///
+  /// Parameter [amiDescription] :
+  /// An optional description for the exported AMI. This description will be
+  /// applied to the resulting EC2 AMI.
+  ///
+  /// Parameter [tagSpecifications] :
+  /// The tags to apply to the exported AMI. These tags help you organize and
+  /// manage your EC2 AMIs.
+  Future<CreateExportImageTaskResult> createExportImageTask({
+    required String amiName,
+    required String iamRoleArn,
+    required String imageName,
+    String? amiDescription,
+    Map<String, String>? tagSpecifications,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'PhotonAdminProxyService.CreateExportImageTask'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AmiName': amiName,
+        'IamRoleArn': iamRoleArn,
+        'ImageName': imageName,
+        if (amiDescription != null) 'AmiDescription': amiDescription,
+        if (tagSpecifications != null) 'TagSpecifications': tagSpecifications,
+      },
+    );
+
+    return CreateExportImageTaskResult.fromJson(jsonResponse.body);
+  }
+
   /// Creates a fleet. A fleet consists of streaming instances that your users
   /// access for their applications and desktops.
   ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [IncompatibleImageException].
+  /// May throw [InvalidAccountStatusException].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidRoleException].
+  /// May throw [LimitExceededException].
+  /// May throw [OperationNotPermittedException].
+  /// May throw [RequestLimitExceededException].
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [ResourceNotAvailableException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [RequestLimitExceededException].
-  /// May throw [InvalidAccountStatusException].
-  /// May throw [InvalidRoleException].
-  /// May throw [ConcurrentModificationException].
-  /// May throw [InvalidParameterCombinationException].
-  /// May throw [IncompatibleImageException].
-  /// May throw [OperationNotPermittedException].
   ///
   /// Parameter [instanceType] :
   /// The instance type to use when launching fleet instances. The following
@@ -865,21 +1048,6 @@ class AppStream {
   /// stream.memory.z1d.12xlarge
   /// </li>
   /// <li>
-  /// stream.graphics-design.large
-  /// </li>
-  /// <li>
-  /// stream.graphics-design.xlarge
-  /// </li>
-  /// <li>
-  /// stream.graphics-design.2xlarge
-  /// </li>
-  /// <li>
-  /// stream.graphics-design.4xlarge
-  /// </li>
-  /// <li>
-  /// stream.graphics-desktop.2xlarge
-  /// </li>
-  /// <li>
   /// stream.graphics.g4dn.xlarge
   /// </li>
   /// <li>
@@ -919,13 +1087,46 @@ class AppStream {
   /// stream.graphics.g5.24xlarge
   /// </li>
   /// <li>
-  /// stream.graphics-pro.4xlarge
+  /// stream.graphics.g6.xlarge
   /// </li>
   /// <li>
-  /// stream.graphics-pro.8xlarge
+  /// stream.graphics.g6.2xlarge
   /// </li>
   /// <li>
-  /// stream.graphics-pro.16xlarge
+  /// stream.graphics.g6.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6.8xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6.16xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6.12xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6.24xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.gr6.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.gr6.8xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6f.large
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6f.xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6f.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6f.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.gr6f.4xlarge
   /// </li>
   /// </ul>
   /// The following instance types are available for Elastic fleets:
@@ -957,6 +1158,15 @@ class AppStream {
   ///
   /// Parameter [description] :
   /// The description to display.
+  ///
+  /// Parameter [disableIMDSV1] :
+  /// Set to true to disable Instance Metadata Service Version 1 (IMDSv1) and
+  /// enforce IMDSv2. Set to false to enable both IMDSv1 and IMDSv2.
+  /// <note>
+  /// Before disabling IMDSv1, ensure your WorkSpaces Applications images are
+  /// running the agent version or managed image update released on or after
+  /// January 16, 2024 to support IMDSv2 enforcement.
+  /// </note>
   ///
   /// Parameter [disconnectTimeoutInSeconds] :
   /// The amount of time that a streaming session remains active after users
@@ -995,14 +1205,14 @@ class AppStream {
   /// assume a role, a fleet instance calls the AWS Security Token Service (STS)
   /// <code>AssumeRole</code> API operation and passes the ARN of the role to
   /// use. The operation creates a new session with temporary credentials.
-  /// AppStream 2.0 retrieves the temporary credentials and creates the
-  /// <b>appstream_machine_role</b> credential profile on the instance.
+  /// WorkSpaces Applications retrieves the temporary credentials and creates
+  /// the <b>appstream_machine_role</b> credential profile on the instance.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html">Using
   /// an IAM Role to Grant Permissions to Applications and Scripts Running on
-  /// AppStream 2.0 Streaming Instances</a> in the <i>Amazon AppStream 2.0
-  /// Administration Guide</i>.
+  /// WorkSpaces Applications Streaming Instances</a> in the <i>Amazon
+  /// WorkSpaces Applications Administration Guide</i>.
   ///
   /// Parameter [idleDisconnectTimeoutInSeconds] :
   /// The amount of time that users can be idle (inactive) before they are
@@ -1056,19 +1266,24 @@ class AppStream {
   /// Specify a value between 600 and 432000.
   ///
   /// Parameter [platform] :
-  /// The fleet platform. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are supported
-  /// for Elastic fleets.
+  /// The fleet platform. WINDOWS_SERVER_2019, AMAZON_LINUX2 and UBUNTU_PRO_2404
+  /// are supported for Elastic fleets.
+  ///
+  /// Parameter [rootVolumeConfig] :
+  /// The configuration for the root volume of fleet instances. Use this to
+  /// customize storage capacity from 200 GB up to 500 GB based on your
+  /// application requirements.
   ///
   /// Parameter [sessionScriptS3Location] :
   /// The S3 location of the session scripts configuration zip file. This only
   /// applies to Elastic fleets.
   ///
   /// Parameter [streamView] :
-  /// The AppStream 2.0 view that is displayed to your users when they stream
-  /// from the fleet. When <code>APP</code> is specified, only the windows of
-  /// applications opened by users display. When <code>DESKTOP</code> is
-  /// specified, the standard desktop that is provided by the operating system
-  /// displays.
+  /// The WorkSpaces Applications view that is displayed to your users when they
+  /// stream from the fleet. When <code>APP</code> is specified, only the
+  /// windows of applications opened by users display. When <code>DESKTOP</code>
+  /// is specified, the standard desktop that is provided by the operating
+  /// system displays.
   ///
   /// The default value is <code>APP</code>.
   ///
@@ -1086,7 +1301,7 @@ class AppStream {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html">Tagging
-  /// Your Resources</a> in the <i>Amazon AppStream 2.0 Administration
+  /// Your Resources</a> in the <i>Amazon WorkSpaces Applications Administration
   /// Guide</i>.
   ///
   /// Parameter [usbDeviceFilterStrings] :
@@ -1103,6 +1318,7 @@ class AppStream {
     required String name,
     ComputeCapacity? computeCapacity,
     String? description,
+    bool? disableIMDSV1,
     int? disconnectTimeoutInSeconds,
     String? displayName,
     DomainJoinInfo? domainJoinInfo,
@@ -1116,6 +1332,7 @@ class AppStream {
     int? maxSessionsPerInstance,
     int? maxUserDurationInSeconds,
     PlatformType? platform,
+    VolumeConfig? rootVolumeConfig,
     S3Location? sessionScriptS3Location,
     StreamView? streamView,
     Map<String, String>? tags,
@@ -1137,6 +1354,7 @@ class AppStream {
         'Name': name,
         if (computeCapacity != null) 'ComputeCapacity': computeCapacity,
         if (description != null) 'Description': description,
+        if (disableIMDSV1 != null) 'DisableIMDSV1': disableIMDSV1,
         if (disconnectTimeoutInSeconds != null)
           'DisconnectTimeoutInSeconds': disconnectTimeoutInSeconds,
         if (displayName != null) 'DisplayName': displayName,
@@ -1156,6 +1374,7 @@ class AppStream {
         if (maxUserDurationInSeconds != null)
           'MaxUserDurationInSeconds': maxUserDurationInSeconds,
         if (platform != null) 'Platform': platform.value,
+        if (rootVolumeConfig != null) 'RootVolumeConfig': rootVolumeConfig,
         if (sessionScriptS3Location != null)
           'SessionScriptS3Location': sessionScriptS3Location,
         if (streamView != null) 'StreamView': streamView.value,
@@ -1175,17 +1394,17 @@ class AppStream {
   /// The initial state of the builder is <code>PENDING</code>. When it is
   /// ready, the state is <code>RUNNING</code>.
   ///
-  /// May throw [LimitExceededException].
-  /// May throw [RequestLimitExceededException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [IncompatibleImageException].
   /// May throw [InvalidAccountStatusException].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidRoleException].
+  /// May throw [LimitExceededException].
+  /// May throw [OperationNotPermittedException].
+  /// May throw [RequestLimitExceededException].
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [ResourceNotAvailableException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidRoleException].
-  /// May throw [ConcurrentModificationException].
-  /// May throw [InvalidParameterCombinationException].
-  /// May throw [IncompatibleImageException].
-  /// May throw [OperationNotPermittedException].
   ///
   /// Parameter [instanceType] :
   /// The instance type to use when launching the image builder. The following
@@ -1250,21 +1469,6 @@ class AppStream {
   /// stream.memory.z1d.12xlarge
   /// </li>
   /// <li>
-  /// stream.graphics-design.large
-  /// </li>
-  /// <li>
-  /// stream.graphics-design.xlarge
-  /// </li>
-  /// <li>
-  /// stream.graphics-design.2xlarge
-  /// </li>
-  /// <li>
-  /// stream.graphics-design.4xlarge
-  /// </li>
-  /// <li>
-  /// stream.graphics-desktop.2xlarge
-  /// </li>
-  /// <li>
   /// stream.graphics.g4dn.xlarge
   /// </li>
   /// <li>
@@ -1283,13 +1487,67 @@ class AppStream {
   /// stream.graphics.g4dn.16xlarge
   /// </li>
   /// <li>
-  /// stream.graphics-pro.4xlarge
+  /// stream.graphics.g5.xlarge
   /// </li>
   /// <li>
-  /// stream.graphics-pro.8xlarge
+  /// stream.graphics.g5.2xlarge
   /// </li>
   /// <li>
-  /// stream.graphics-pro.16xlarge
+  /// stream.graphics.g5.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g5.8xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g5.16xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g5.12xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g5.24xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6.xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6.8xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6.16xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6.12xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6.24xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.gr6.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.gr6.8xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6f.large
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6f.xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6f.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6f.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.gr6f.4xlarge
   /// </li>
   /// </ul>
   ///
@@ -1302,11 +1560,21 @@ class AppStream {
   /// endpoints.
   ///
   /// Parameter [appstreamAgentVersion] :
-  /// The version of the AppStream 2.0 agent to use for this image builder. To
-  /// use the latest version of the AppStream 2.0 agent, specify [LATEST].
+  /// The version of the WorkSpaces Applications agent to use for this image
+  /// builder. To use the latest version of the WorkSpaces Applications agent,
+  /// specify [LATEST].
   ///
   /// Parameter [description] :
   /// The description to display.
+  ///
+  /// Parameter [disableIMDSV1] :
+  /// Set to true to disable Instance Metadata Service Version 1 (IMDSv1) and
+  /// enforce IMDSv2. Set to false to enable both IMDSv1 and IMDSv2.
+  /// <note>
+  /// Before disabling IMDSv1, ensure your WorkSpaces Applications images are
+  /// running the agent version or managed image update released on or after
+  /// January 16, 2024 to support IMDSv2 enforcement.
+  /// </note>
   ///
   /// Parameter [displayName] :
   /// The image builder name to display.
@@ -1323,20 +1591,188 @@ class AppStream {
   /// builder. To assume a role, the image builder calls the AWS Security Token
   /// Service (STS) <code>AssumeRole</code> API operation and passes the ARN of
   /// the role to use. The operation creates a new session with temporary
-  /// credentials. AppStream 2.0 retrieves the temporary credentials and creates
-  /// the <b>appstream_machine_role</b> credential profile on the instance.
+  /// credentials. WorkSpaces Applications retrieves the temporary credentials
+  /// and creates the <b>appstream_machine_role</b> credential profile on the
+  /// instance.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html">Using
   /// an IAM Role to Grant Permissions to Applications and Scripts Running on
-  /// AppStream 2.0 Streaming Instances</a> in the <i>Amazon AppStream 2.0
-  /// Administration Guide</i>.
+  /// WorkSpaces Applications Streaming Instances</a> in the <i>Amazon
+  /// WorkSpaces Applications Administration Guide</i>.
   ///
   /// Parameter [imageArn] :
   /// The ARN of the public, private, or shared image to use.
   ///
   /// Parameter [imageName] :
   /// The name of the image used to create the image builder.
+  ///
+  /// Parameter [rootVolumeConfig] :
+  /// The configuration for the root volume of the image builder. Use this to
+  /// customize storage capacity from 200 GB up to 500 GB based on your
+  /// application installation requirements.
+  ///
+  /// Parameter [softwaresToInstall] :
+  /// The list of license included applications to install on the image builder
+  /// during creation.
+  ///
+  /// Possible values include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// Microsoft_Office_2021_LTSC_Professional_Plus_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Office_2021_LTSC_Professional_Plus_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Office_2024_LTSC_Professional_Plus_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Office_2024_LTSC_Professional_Plus_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2021_LTSC_Professional_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2021_LTSC_Professional_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2024_LTSC_Professional_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2024_LTSC_Professional_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2021_Professional_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2021_Professional_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2024_Professional_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2024_Professional_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Office_2021_LTSC_Standard_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Office_2021_LTSC_Standard_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Office_2024_LTSC_Standard_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Office_2024_LTSC_Standard_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2021_LTSC_Standard_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2021_LTSC_Standard_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2024_LTSC_Standard_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2024_LTSC_Standard_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2021_Standard_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2021_Standard_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2024_Standard_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2024_Standard_64Bit
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [softwaresToUninstall] :
+  /// The list of license included applications to uninstall from the image
+  /// builder during creation.
+  ///
+  /// Possible values include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// Microsoft_Office_2021_LTSC_Professional_Plus_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Office_2021_LTSC_Professional_Plus_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Office_2024_LTSC_Professional_Plus_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Office_2024_LTSC_Professional_Plus_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2021_LTSC_Professional_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2021_LTSC_Professional_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2024_LTSC_Professional_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2024_LTSC_Professional_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2021_Professional_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2021_Professional_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2024_Professional_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2024_Professional_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Office_2021_LTSC_Standard_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Office_2021_LTSC_Standard_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Office_2024_LTSC_Standard_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Office_2024_LTSC_Standard_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2021_LTSC_Standard_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2021_LTSC_Standard_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2024_LTSC_Standard_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2024_LTSC_Standard_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2021_Standard_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2021_Standard_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2024_Standard_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2024_Standard_64Bit
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [tags] :
   /// The tags to associate with the image builder. A tag is a key-value pair,
@@ -1352,7 +1788,7 @@ class AppStream {
   ///
   /// For more information about tags, see <a
   /// href="https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html">Tagging
-  /// Your Resources</a> in the <i>Amazon AppStream 2.0 Administration
+  /// Your Resources</a> in the <i>Amazon WorkSpaces Applications Administration
   /// Guide</i>.
   ///
   /// Parameter [vpcConfig] :
@@ -1364,12 +1800,16 @@ class AppStream {
     List<AccessEndpoint>? accessEndpoints,
     String? appstreamAgentVersion,
     String? description,
+    bool? disableIMDSV1,
     String? displayName,
     DomainJoinInfo? domainJoinInfo,
     bool? enableDefaultInternetAccess,
     String? iamRoleArn,
     String? imageArn,
     String? imageName,
+    VolumeConfig? rootVolumeConfig,
+    List<String>? softwaresToInstall,
+    List<String>? softwaresToUninstall,
     Map<String, String>? tags,
     VpcConfig? vpcConfig,
   }) async {
@@ -1390,6 +1830,7 @@ class AppStream {
         if (appstreamAgentVersion != null)
           'AppstreamAgentVersion': appstreamAgentVersion,
         if (description != null) 'Description': description,
+        if (disableIMDSV1 != null) 'DisableIMDSV1': disableIMDSV1,
         if (displayName != null) 'DisplayName': displayName,
         if (domainJoinInfo != null) 'DomainJoinInfo': domainJoinInfo,
         if (enableDefaultInternetAccess != null)
@@ -1397,6 +1838,11 @@ class AppStream {
         if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
         if (imageArn != null) 'ImageArn': imageArn,
         if (imageName != null) 'ImageName': imageName,
+        if (rootVolumeConfig != null) 'RootVolumeConfig': rootVolumeConfig,
+        if (softwaresToInstall != null)
+          'SoftwaresToInstall': softwaresToInstall,
+        if (softwaresToUninstall != null)
+          'SoftwaresToUninstall': softwaresToUninstall,
         if (tags != null) 'Tags': tags,
         if (vpcConfig != null) 'VpcConfig': vpcConfig,
       },
@@ -1439,25 +1885,137 @@ class AppStream {
     return CreateImageBuilderStreamingURLResult.fromJson(jsonResponse.body);
   }
 
+  /// Creates a custom WorkSpaces Applications image by importing an EC2 AMI.
+  /// This allows you to use your own customized AMI to create WorkSpaces
+  /// Applications images that support additional instance types beyond the
+  /// standard stream.* instances.
+  ///
+  /// May throw [DryRunOperationException].
+  /// May throw [IncompatibleImageException].
+  /// May throw [InvalidAccountStatusException].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidRoleException].
+  /// May throw [LimitExceededException].
+  /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [name] :
+  /// A unique name for the imported image. The name must be between 1 and 100
+  /// characters and can contain letters, numbers, underscores, periods, and
+  /// hyphens.
+  ///
+  /// Parameter [agentSoftwareVersion] :
+  /// The version of the WorkSpaces Applications agent to use for the imported
+  /// image. Choose CURRENT_LATEST to use the agent version available at the
+  /// time of import, or ALWAYS_LATEST to automatically update to the latest
+  /// agent version when new versions are released.
+  ///
+  /// Parameter [appCatalogConfig] :
+  /// Configuration for the application catalog of the imported image. This
+  /// allows you to specify applications available for streaming, including
+  /// their paths, icons, and launch parameters. This field contains sensitive
+  /// data.
+  ///
+  /// Parameter [description] :
+  /// An optional description for the imported image. The description must match
+  /// approved regex patterns and can be up to 256 characters.
+  ///
+  /// Parameter [displayName] :
+  /// An optional display name for the imported image. The display name must
+  /// match approved regex patterns and can be up to 100 characters.
+  ///
+  /// Parameter [dryRun] :
+  /// When set to true, performs validation checks without actually creating the
+  /// imported image. Use this to verify your configuration before executing the
+  /// actual import operation.
+  ///
+  /// Parameter [iamRoleArn] :
+  /// The ARN of the IAM role that allows WorkSpaces Applications to access your
+  /// AMI. The role must have permissions to modify image attributes and
+  /// describe images, with a trust relationship allowing
+  /// appstream.amazonaws.com to assume the role.
+  ///
+  /// Parameter [runtimeValidationConfig] :
+  /// Configuration for runtime validation of the imported image. When
+  /// specified, WorkSpaces Applications provisions an instance to test
+  /// streaming functionality, which helps ensure the image is suitable for use.
+  ///
+  /// Parameter [sourceAmiId] :
+  /// The ID of the EC2 AMI to import.
+  ///
+  /// Parameter [tags] :
+  /// The tags to apply to the imported image. Tags help you organize and manage
+  /// your WorkSpaces Applications resources.
+  ///
+  /// Parameter [workspaceImageId] :
+  /// The ID of the Workspaces Image to import.
+  Future<CreateImportedImageResult> createImportedImage({
+    required String name,
+    AgentSoftwareVersion? agentSoftwareVersion,
+    List<ApplicationConfig>? appCatalogConfig,
+    String? description,
+    String? displayName,
+    bool? dryRun,
+    String? iamRoleArn,
+    RuntimeValidationConfig? runtimeValidationConfig,
+    String? sourceAmiId,
+    Map<String, String>? tags,
+    String? workspaceImageId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'PhotonAdminProxyService.CreateImportedImage'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+        if (agentSoftwareVersion != null)
+          'AgentSoftwareVersion': agentSoftwareVersion.value,
+        if (appCatalogConfig != null) 'AppCatalogConfig': appCatalogConfig,
+        if (description != null) 'Description': description,
+        if (displayName != null) 'DisplayName': displayName,
+        if (dryRun != null) 'DryRun': dryRun,
+        if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
+        if (runtimeValidationConfig != null)
+          'RuntimeValidationConfig': runtimeValidationConfig,
+        if (sourceAmiId != null) 'SourceAmiId': sourceAmiId,
+        if (tags != null) 'Tags': tags,
+        if (workspaceImageId != null) 'WorkspaceImageId': workspaceImageId,
+      },
+    );
+
+    return CreateImportedImageResult.fromJson(jsonResponse.body);
+  }
+
   /// Creates a stack to start streaming applications to users. A stack consists
   /// of an associated fleet, user access policies, and storage configurations.
   ///
-  /// May throw [LimitExceededException].
-  /// May throw [InvalidAccountStatusException].
-  /// May throw [ResourceAlreadyExistsException].
   /// May throw [ConcurrentModificationException].
-  /// May throw [InvalidRoleException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidAccountStatusException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidRoleException].
+  /// May throw [LimitExceededException].
   /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [name] :
   /// The name of the stack.
   ///
   /// Parameter [accessEndpoints] :
   /// The list of interface VPC endpoint (interface endpoint) objects. Users of
-  /// the stack can connect to AppStream 2.0 only through the specified
-  /// endpoints.
+  /// the stack can connect to WorkSpaces Applications only through the
+  /// specified endpoints.
+  ///
+  /// Parameter [agentAccessConfig] :
+  /// The configuration for agent access on the stack. If specified, agent
+  /// access is enabled for the stack.
   ///
   /// Parameter [applicationSettings] :
   /// The persistent application settings for users of a stack. When these
@@ -1472,9 +2030,9 @@ class AppStream {
   /// The stack name to display.
   ///
   /// Parameter [embedHostDomains] :
-  /// The domains where AppStream 2.0 streaming sessions can be embedded in an
-  /// iframe. You must approve the domains that you want to host embedded
-  /// AppStream 2.0 streaming sessions.
+  /// The domains where WorkSpaces Applications streaming sessions can be
+  /// embedded in an iframe. You must approve the domains that you want to host
+  /// embedded WorkSpaces Applications streaming sessions.
   ///
   /// Parameter [feedbackURL] :
   /// The URL that users are redirected to after they click the Send Feedback
@@ -1504,7 +2062,7 @@ class AppStream {
   ///
   /// For more information about tags, see <a
   /// href="https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html">Tagging
-  /// Your Resources</a> in the <i>Amazon AppStream 2.0 Administration
+  /// Your Resources</a> in the <i>Amazon WorkSpaces Applications Administration
   /// Guide</i>.
   ///
   /// Parameter [userSettings] :
@@ -1513,7 +2071,9 @@ class AppStream {
   Future<CreateStackResult> createStack({
     required String name,
     List<AccessEndpoint>? accessEndpoints,
+    AgentAccessConfig? agentAccessConfig,
     ApplicationSettings? applicationSettings,
+    ContentRedirection? contentRedirection,
     String? description,
     String? displayName,
     List<String>? embedHostDomains,
@@ -1537,8 +2097,11 @@ class AppStream {
       payload: {
         'Name': name,
         if (accessEndpoints != null) 'AccessEndpoints': accessEndpoints,
+        if (agentAccessConfig != null) 'AgentAccessConfig': agentAccessConfig,
         if (applicationSettings != null)
           'ApplicationSettings': applicationSettings,
+        if (contentRedirection != null)
+          'ContentRedirection': contentRedirection,
         if (description != null) 'Description': description,
         if (displayName != null) 'DisplayName': displayName,
         if (embedHostDomains != null) 'EmbedHostDomains': embedHostDomains,
@@ -1555,14 +2118,14 @@ class AppStream {
     return CreateStackResult.fromJson(jsonResponse.body);
   }
 
-  /// Creates a temporary URL to start an AppStream 2.0 streaming session for
-  /// the specified user. A streaming URL enables application streaming to be
-  /// tested without user setup.
+  /// Creates a temporary URL to start an WorkSpaces Applications streaming
+  /// session for the specified user. A streaming URL enables application
+  /// streaming to be tested without user setup.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceNotAvailableException].
-  /// May throw [OperationNotPermittedException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceNotAvailableException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [fleetName] :
   /// The name of the fleet.
@@ -1583,7 +2146,8 @@ class AppStream {
   /// Parameter [sessionContext] :
   /// The session context. For more information, see <a
   /// href="https://docs.aws.amazon.com/appstream2/latest/developerguide/managing-stacks-fleets.html#managing-stacks-fleets-parameters">Session
-  /// Context</a> in the <i>Amazon AppStream 2.0 Administration Guide</i>.
+  /// Context</a> in the <i>Amazon WorkSpaces Applications Administration
+  /// Guide</i>.
   ///
   /// Parameter [validity] :
   /// The time that the streaming URL will be valid, in seconds. Specify a value
@@ -1623,11 +2187,11 @@ class AppStream {
   /// application catalog page.
   ///
   /// May throw [ConcurrentModificationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceAlreadyExistsException].
-  /// May throw [LimitExceededException].
   /// May throw [InvalidAccountStatusException].
+  /// May throw [LimitExceededException].
   /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [faviconS3Location] :
   /// The S3 location of the favicon. The favicon enables users to recognize
@@ -1687,21 +2251,21 @@ class AppStream {
   }
 
   /// Creates a new image with the latest Windows operating system updates,
-  /// driver updates, and AppStream 2.0 agent software.
+  /// driver updates, and WorkSpaces Applications agent software.
   ///
-  /// For more information, see the "Update an Image by Using Managed AppStream
-  /// 2.0 Image Updates" section in <a
+  /// For more information, see the "Update an Image by Using Managed WorkSpaces
+  /// Applications Image Updates" section in <a
   /// href="https://docs.aws.amazon.com/appstream2/latest/developerguide/administer-images.html">Administer
-  /// Your AppStream 2.0 Images</a>, in the <i>Amazon AppStream 2.0
-  /// Administration Guide</i>.
+  /// Your WorkSpaces Applications Images</a>, in the <i>Amazon WorkSpaces
+  /// Applications Administration Guide</i>.
   ///
-  /// May throw [LimitExceededException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [IncompatibleImageException].
   /// May throw [InvalidAccountStatusException].
+  /// May throw [LimitExceededException].
   /// May throw [OperationNotPermittedException].
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConcurrentModificationException].
-  /// May throw [IncompatibleImageException].
   ///
   /// Parameter [existingImageName] :
   /// The name of the image to update.
@@ -1712,11 +2276,12 @@ class AppStream {
   ///
   /// Parameter [dryRun] :
   /// Indicates whether to display the status of image update availability
-  /// before AppStream 2.0 initiates the process of creating a new updated
-  /// image. If this value is set to <code>true</code>, AppStream 2.0 displays
-  /// whether image updates are available. If this value is set to
-  /// <code>false</code>, AppStream 2.0 initiates the process of creating a new
-  /// updated image without displaying whether image updates are available.
+  /// before WorkSpaces Applications initiates the process of creating a new
+  /// updated image. If this value is set to <code>true</code>, WorkSpaces
+  /// Applications displays whether image updates are available. If this value
+  /// is set to <code>false</code>, WorkSpaces Applications initiates the
+  /// process of creating a new updated image without displaying whether image
+  /// updates are available.
   ///
   /// Parameter [newImageDescription] :
   /// The description to display for the new image.
@@ -1738,7 +2303,7 @@ class AppStream {
   ///
   /// For more information about tags, see <a
   /// href="https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html">Tagging
-  /// Your Resources</a> in the <i>Amazon AppStream 2.0 Administration
+  /// Your Resources</a> in the <i>Amazon WorkSpaces Applications Administration
   /// Guide</i>.
   Future<CreateUpdatedImageResult> createUpdatedImage({
     required String existingImageName,
@@ -1775,8 +2340,8 @@ class AppStream {
 
   /// Creates a usage report subscription. Usage reports are generated daily.
   ///
-  /// May throw [InvalidRoleException].
   /// May throw [InvalidAccountStatusException].
+  /// May throw [InvalidRoleException].
   /// May throw [LimitExceededException].
   Future<CreateUsageReportSubscriptionResult>
       createUsageReportSubscription() async {
@@ -1797,11 +2362,11 @@ class AppStream {
 
   /// Creates a new user in the user pool.
   ///
-  /// May throw [ResourceAlreadyExistsException].
   /// May throw [InvalidAccountStatusException].
   /// May throw [InvalidParameterCombinationException].
   /// May throw [LimitExceededException].
   /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceAlreadyExistsException].
   ///
   /// Parameter [authenticationType] :
   /// The authentication type for the user. You must specify USERPOOL.
@@ -1890,8 +2455,8 @@ class AppStream {
   /// An app block builder can only be deleted when it has no association with
   /// an app block.
   ///
-  /// May throw [OperationNotPermittedException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [OperationNotPermittedException].
   /// May throw [ResourceInUseException].
   /// May throw [ResourceNotFoundException].
   ///
@@ -1918,10 +2483,10 @@ class AppStream {
 
   /// Deletes an application.
   ///
+  /// May throw [ConcurrentModificationException].
   /// May throw [OperationNotPermittedException].
   /// May throw [ResourceInUseException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConcurrentModificationException].
   ///
   /// Parameter [name] :
   /// The name of the application.
@@ -1944,9 +2509,9 @@ class AppStream {
     );
   }
 
-  /// Deletes the specified Directory Config object from AppStream 2.0. This
-  /// object includes the information required to join streaming instances to an
-  /// Active Directory domain.
+  /// Deletes the specified Directory Config object from WorkSpaces
+  /// Applications. This object includes the information required to join
+  /// streaming instances to an Active Directory domain.
   ///
   /// May throw [ResourceInUseException].
   /// May throw [ResourceNotFoundException].
@@ -1974,11 +2539,10 @@ class AppStream {
 
   /// Deletes the specified entitlement.
   ///
-  /// May throw [OperationNotPermittedException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [ConcurrentModificationException].
   /// May throw [EntitlementNotFoundException].
   /// May throw [OperationNotPermittedException].
-  /// May throw [ConcurrentModificationException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [name] :
   /// The name of the entitlement.
@@ -2008,9 +2572,9 @@ class AppStream {
 
   /// Deletes the specified fleet.
   ///
+  /// May throw [ConcurrentModificationException].
   /// May throw [ResourceInUseException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConcurrentModificationException].
   ///
   /// Parameter [name] :
   /// The name of the fleet.
@@ -2037,10 +2601,10 @@ class AppStream {
   /// After you delete an image, you cannot provision new capacity using the
   /// image.
   ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [OperationNotPermittedException].
   /// May throw [ResourceInUseException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [OperationNotPermittedException].
-  /// May throw [ConcurrentModificationException].
   ///
   /// Parameter [name] :
   /// The name of the image.
@@ -2067,9 +2631,9 @@ class AppStream {
 
   /// Deletes the specified image builder and releases the capacity.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [OperationNotPermittedException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [name] :
   /// The name of the image builder.
@@ -2133,10 +2697,10 @@ class AppStream {
   /// users. Also, any reservations made for application streaming sessions for
   /// the stack are released.
   ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [OperationNotPermittedException].
   /// May throw [ResourceInUseException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [OperationNotPermittedException].
-  /// May throw [ConcurrentModificationException].
   ///
   /// Parameter [name] :
   /// The name of the stack.
@@ -2163,8 +2727,8 @@ class AppStream {
   /// application catalog page.
   ///
   /// May throw [ConcurrentModificationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [stackName] :
   /// The name of the stack for the theme.
@@ -2452,11 +3016,53 @@ class AppStream {
     return DescribeApplicationsResult.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves license included application usage information.
+  ///
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [billingPeriod] :
+  /// Billing period for the usage record.
+  ///
+  /// Specify the value in <i>yyyy-mm</i> format. For example, for August 2025,
+  /// use <i>2025-08</i>.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return.
+  ///
+  /// Parameter [nextToken] :
+  /// Token for pagination of results.
+  Future<DescribeAppLicenseUsageResult> describeAppLicenseUsage({
+    required String billingPeriod,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'PhotonAdminProxyService.DescribeAppLicenseUsage'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'BillingPeriod': billingPeriod,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return DescribeAppLicenseUsageResult.fromJson(jsonResponse.body);
+  }
+
   /// Retrieves a list that describes one or more specified Directory Config
-  /// objects for AppStream 2.0, if the names for these objects are provided.
-  /// Otherwise, all Directory Config objects in the account are described.
-  /// These objects include the configuration information required to join
-  /// fleets and image builders to Microsoft Active Directory domains.
+  /// objects for WorkSpaces Applications, if the names for these objects are
+  /// provided. Otherwise, all Directory Config objects in the account are
+  /// described. These objects include the configuration information required to
+  /// join fleets and image builders to Microsoft Active Directory domains.
   ///
   /// Although the response syntax in this topic includes the account password,
   /// this password is not returned in the actual response.
@@ -2499,9 +3105,9 @@ class AppStream {
 
   /// Retrieves a list that describes one of more entitlements.
   ///
+  /// May throw [EntitlementNotFoundException].
   /// May throw [OperationNotPermittedException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [EntitlementNotFoundException].
   ///
   /// Parameter [stackName] :
   /// The name of the stack with which the entitlement is associated.
@@ -2794,6 +3400,47 @@ class AppStream {
     return DescribeSessionsResult.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves license included application associations for a specified
+  /// resource.
+  ///
+  /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [associatedResource] :
+  /// The ARN of the resource to describe software associations. Possible
+  /// resources are Image and ImageBuilder.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token to use to retrieve the next page of results for this
+  /// operation.
+  Future<DescribeSoftwareAssociationsResult> describeSoftwareAssociations({
+    required String associatedResource,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'PhotonAdminProxyService.DescribeSoftwareAssociations'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AssociatedResource': associatedResource,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return DescribeSoftwareAssociationsResult.fromJson(jsonResponse.body);
+  }
+
   /// Retrieves a list that describes one or more specified stacks, if the stack
   /// names are provided. Otherwise, all stacks in the account are described.
   ///
@@ -2832,8 +3479,8 @@ class AppStream {
   /// is custom branding that customizes the appearance of the streaming
   /// application catalog page.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [stackName] :
   /// The name of the stack for the theme.
@@ -2860,8 +3507,8 @@ class AppStream {
 
   /// Retrieves a list that describes one or more usage report subscriptions.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidAccountStatusException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [maxResults] :
   /// The maximum size of each page of results.
@@ -2891,6 +3538,48 @@ class AppStream {
     );
 
     return DescribeUsageReportSubscriptionsResult.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves a list that describes one or more specified users in the user
+  /// pool.
+  ///
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [authenticationType] :
+  /// The authentication type for the users in the user pool to describe. You
+  /// must specify USERPOOL.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum size of each page of results.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token to use to retrieve the next page of results for this
+  /// operation. If this value is null, it retrieves the first page.
+  Future<DescribeUsersResult> describeUsers({
+    required AuthenticationType authenticationType,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'PhotonAdminProxyService.DescribeUsers'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AuthenticationType': authenticationType.value,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return DescribeUsersResult.fromJson(jsonResponse.body);
   }
 
   /// Retrieves a list that describes the UserStackAssociation objects. You must
@@ -2964,51 +3653,9 @@ class AppStream {
     return DescribeUserStackAssociationsResult.fromJson(jsonResponse.body);
   }
 
-  /// Retrieves a list that describes one or more specified users in the user
-  /// pool.
-  ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidParameterCombinationException].
-  /// May throw [OperationNotPermittedException].
-  ///
-  /// Parameter [authenticationType] :
-  /// The authentication type for the users in the user pool to describe. You
-  /// must specify USERPOOL.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum size of each page of results.
-  ///
-  /// Parameter [nextToken] :
-  /// The pagination token to use to retrieve the next page of results for this
-  /// operation. If this value is null, it retrieves the first page.
-  Future<DescribeUsersResult> describeUsers({
-    required AuthenticationType authenticationType,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'PhotonAdminProxyService.DescribeUsers'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'AuthenticationType': authenticationType.value,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
-    );
-
-    return DescribeUsersResult.fromJson(jsonResponse.body);
-  }
-
   /// Disables the specified user in the user pool. Users can't sign in to
-  /// AppStream 2.0 until they are re-enabled. This action does not delete the
-  /// user.
+  /// WorkSpaces Applications until they are re-enabled. This action does not
+  /// delete the user.
   ///
   /// May throw [ResourceNotFoundException].
   ///
@@ -3109,10 +3756,9 @@ class AppStream {
 
   /// Deletes the specified application from the specified entitlement.
   ///
-  /// May throw [OperationNotPermittedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [EntitlementNotFoundException].
   /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [applicationIdentifier] :
   /// The identifier of the application to remove from the entitlement.
@@ -3148,10 +3794,10 @@ class AppStream {
 
   /// Disassociates the specified fleet from the specified stack.
   ///
-  /// May throw [ResourceInUseException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConcurrentModificationException].
   /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [fleetName] :
   /// The name of the fleet.
@@ -3179,12 +3825,155 @@ class AppStream {
     );
   }
 
-  /// Enables a user in the user pool. After being enabled, users can sign in to
-  /// AppStream 2.0 and open applications from the stacks to which they are
-  /// assigned.
+  /// Removes license included application(s) association(s) from an image
+  /// builder instance.
   ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [OperationNotPermittedException].
   /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [imageBuilderName] :
+  /// The name of the target image builder instance.
+  ///
+  /// Parameter [softwareNames] :
+  /// The list of license included applications to disassociate from the image
+  /// builder.
+  ///
+  /// Possible values include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// Microsoft_Office_2021_LTSC_Professional_Plus_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Office_2021_LTSC_Professional_Plus_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Office_2024_LTSC_Professional_Plus_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Office_2024_LTSC_Professional_Plus_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2021_LTSC_Professional_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2021_LTSC_Professional_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2024_LTSC_Professional_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2024_LTSC_Professional_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2021_Professional_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2021_Professional_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2024_Professional_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2024_Professional_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Office_2021_LTSC_Standard_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Office_2021_LTSC_Standard_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Office_2024_LTSC_Standard_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Office_2024_LTSC_Standard_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2021_LTSC_Standard_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2021_LTSC_Standard_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2024_LTSC_Standard_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2024_LTSC_Standard_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2021_Standard_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2021_Standard_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2024_Standard_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2024_Standard_64Bit
+  /// </li>
+  /// </ul>
+  Future<void> disassociateSoftwareFromImageBuilder({
+    required String imageBuilderName,
+    required List<String> softwareNames,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'PhotonAdminProxyService.DisassociateSoftwareFromImageBuilder'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ImageBuilderName': imageBuilderName,
+        'SoftwareNames': softwareNames,
+      },
+    );
+  }
+
+  /// Drains the instance hosting the specified streaming session. The instance
+  /// stops accepting new sessions while existing sessions continue
+  /// uninterrupted. Once all sessions end, the instance is reclaimed and
+  /// replaced. This only applies to multi-session fleets.
+  ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [sessionId] :
+  /// The identifier of the streaming session.
+  Future<void> drainSessionInstance({
+    required String sessionId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'PhotonAdminProxyService.DrainSessionInstance'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'SessionId': sessionId,
+      },
+    );
+  }
+
+  /// Enables a user in the user pool. After being enabled, users can sign in to
+  /// WorkSpaces Applications and open applications from the stacks to which
+  /// they are assigned.
+  ///
   /// May throw [InvalidAccountStatusException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [authenticationType] :
   /// The authentication type for the user. You must specify USERPOOL.
@@ -3239,6 +4028,36 @@ class AppStream {
         'SessionId': sessionId,
       },
     );
+  }
+
+  /// Retrieves information about an export image task, including its current
+  /// state, progress, and any error details.
+  ///
+  /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [taskId] :
+  /// The unique identifier of the export image task to retrieve information
+  /// about.
+  Future<GetExportImageTaskResult> getExportImageTask({
+    String? taskId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'PhotonAdminProxyService.GetExportImageTask'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (taskId != null) 'TaskId': taskId,
+      },
+    );
+
+    return GetExportImageTaskResult.fromJson(jsonResponse.body);
   }
 
   /// Retrieves the name of the fleet that is associated with the specified
@@ -3307,9 +4126,9 @@ class AppStream {
 
   /// Retrieves a list of entitled applications.
   ///
+  /// May throw [EntitlementNotFoundException].
   /// May throw [OperationNotPermittedException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [EntitlementNotFoundException].
   ///
   /// Parameter [entitlementName] :
   /// The name of the entitlement.
@@ -3350,12 +4169,60 @@ class AppStream {
     return ListEntitledApplicationsResult.fromJson(jsonResponse.body);
   }
 
-  /// Retrieves a list of all tags for the specified AppStream 2.0 resource. You
-  /// can tag AppStream 2.0 image builders, images, fleets, and stacks.
+  /// Lists export image tasks, with optional filtering and pagination. Use this
+  /// operation to monitor the status of multiple export operations.
+  ///
+  /// May throw [OperationNotPermittedException].
+  ///
+  /// Parameter [filters] :
+  /// Optional filters to apply when listing export image tasks. Filters help
+  /// you narrow down the results based on specific criteria.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of export image tasks to return in a single request.
+  /// The valid range is 1-500, with a default of 50.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token from a previous request. Use this to retrieve the
+  /// next page of results when there are more tasks than the MaxResults limit.
+  Future<ListExportImageTasksResult> listExportImageTasks({
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      500,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'PhotonAdminProxyService.ListExportImageTasks'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListExportImageTasksResult.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves a list of all tags for the specified WorkSpaces Applications
+  /// resource. You can tag WorkSpaces Applications image builders, images,
+  /// fleets, and stacks.
   ///
   /// For more information about tags, see <a
   /// href="https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html">Tagging
-  /// Your Resources</a> in the <i>Amazon AppStream 2.0 Administration
+  /// Your Resources</a> in the <i>Amazon WorkSpaces Applications Administration
   /// Guide</i>.
   ///
   /// May throw [ResourceNotFoundException].
@@ -3425,14 +4292,14 @@ class AppStream {
 
   /// Starts the specified fleet.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [OperationNotPermittedException].
-  /// May throw [LimitExceededException].
-  /// May throw [RequestLimitExceededException].
-  /// May throw [InvalidAccountStatusException].
   /// May throw [ConcurrentModificationException].
-  /// May throw [ResourceNotAvailableException].
+  /// May throw [InvalidAccountStatusException].
   /// May throw [InvalidRoleException].
+  /// May throw [LimitExceededException].
+  /// May throw [OperationNotPermittedException].
+  /// May throw [RequestLimitExceededException].
+  /// May throw [ResourceNotAvailableException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [name] :
   /// The name of the fleet.
@@ -3457,18 +4324,19 @@ class AppStream {
 
   /// Starts the specified image builder.
   ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [IncompatibleImageException].
+  /// May throw [InvalidAccountStatusException].
   /// May throw [ResourceNotAvailableException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConcurrentModificationException].
-  /// May throw [InvalidAccountStatusException].
-  /// May throw [IncompatibleImageException].
   ///
   /// Parameter [name] :
   /// The name of the image builder.
   ///
   /// Parameter [appstreamAgentVersion] :
-  /// The version of the AppStream 2.0 agent to use for this image builder. To
-  /// use the latest version of the AppStream 2.0 agent, specify [LATEST].
+  /// The version of the WorkSpaces Applications agent to use for this image
+  /// builder. To use the latest version of the WorkSpaces Applications agent,
+  /// specify [LATEST].
   Future<StartImageBuilderResult> startImageBuilder({
     required String name,
     String? appstreamAgentVersion,
@@ -3491,6 +4359,42 @@ class AppStream {
     );
 
     return StartImageBuilderResult.fromJson(jsonResponse.body);
+  }
+
+  /// Initiates license included applications deployment to an image builder
+  /// instance.
+  ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [imageBuilderName] :
+  /// The name of the target image builder instance.
+  ///
+  /// Parameter [retryFailedDeployments] :
+  /// Whether to retry previously failed license included application
+  /// deployments.
+  Future<void> startSoftwareDeploymentToImageBuilder({
+    required String imageBuilderName,
+    bool? retryFailedDeployments,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'PhotonAdminProxyService.StartSoftwareDeploymentToImageBuilder'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ImageBuilderName': imageBuilderName,
+        if (retryFailedDeployments != null)
+          'RetryFailedDeployments': retryFailedDeployments,
+      },
+    );
   }
 
   /// Stops an app block builder.
@@ -3527,8 +4431,8 @@ class AppStream {
 
   /// Stops the specified fleet.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [name] :
   /// The name of the fleet.
@@ -3553,9 +4457,9 @@ class AppStream {
 
   /// Stops the specified image builder.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [OperationNotPermittedException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [name] :
   /// The name of the image builder.
@@ -3580,9 +4484,9 @@ class AppStream {
     return StopImageBuilderResult.fromJson(jsonResponse.body);
   }
 
-  /// Adds or overwrites one or more tags for the specified AppStream 2.0
-  /// resource. You can tag AppStream 2.0 image builders, images, fleets, and
-  /// stacks.
+  /// Adds or overwrites one or more tags for the specified WorkSpaces
+  /// Applications resource. You can tag WorkSpaces Applications image builders,
+  /// images, fleets, and stacks.
   ///
   /// Each tag consists of a key and an optional value. If a resource already
   /// has a tag with the same key, this operation updates its value.
@@ -3593,11 +4497,11 @@ class AppStream {
   ///
   /// For more information about tags, see <a
   /// href="https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html">Tagging
-  /// Your Resources</a> in the <i>Amazon AppStream 2.0 Administration
+  /// Your Resources</a> in the <i>Amazon WorkSpaces Applications Administration
   /// Guide</i>.
   ///
-  /// May throw [LimitExceededException].
   /// May throw [InvalidAccountStatusException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceArn] :
@@ -3635,15 +4539,15 @@ class AppStream {
     );
   }
 
-  /// Disassociates one or more specified tags from the specified AppStream 2.0
-  /// resource.
+  /// Disassociates one or more specified tags from the specified WorkSpaces
+  /// Applications resource.
   ///
   /// To list the current tags for your resources, use
   /// <a>ListTagsForResource</a>.
   ///
   /// For more information about tags, see <a
   /// href="https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html">Tagging
-  /// Your Resources</a> in the <i>Amazon AppStream 2.0 Administration
+  /// Your Resources</a> in the <i>Amazon WorkSpaces Applications Administration
   /// Guide</i>.
   ///
   /// May throw [ResourceNotFoundException].
@@ -3707,6 +4611,10 @@ class AppStream {
   /// Parameter [description] :
   /// The description of the app block builder.
   ///
+  /// Parameter [disableIMDSV1] :
+  /// Set to true to disable Instance Metadata Service Version 1 (IMDSv1) and
+  /// enforce IMDSv2. Set to false to enable both IMDSv1 and IMDSv2.
+  ///
   /// Parameter [displayName] :
   /// The display name of the app block builder.
   ///
@@ -3718,14 +4626,15 @@ class AppStream {
   /// builder. To assume a role, the app block builder calls the AWS Security
   /// Token Service (STS) <code>AssumeRole</code> API operation and passes the
   /// ARN of the role to use. The operation creates a new session with temporary
-  /// credentials. AppStream 2.0 retrieves the temporary credentials and creates
-  /// the <b>appstream_machine_role</b> credential profile on the instance.
+  /// credentials. WorkSpaces Applications retrieves the temporary credentials
+  /// and creates the <b>appstream_machine_role</b> credential profile on the
+  /// instance.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html">Using
   /// an IAM Role to Grant Permissions to Applications and Scripts Running on
-  /// AppStream 2.0 Streaming Instances</a> in the <i>Amazon AppStream 2.0
-  /// Administration Guide</i>.
+  /// WorkSpaces Applications Streaming Instances</a> in the <i>Amazon
+  /// WorkSpaces Applications Administration Guide</i>.
   ///
   /// Parameter [instanceType] :
   /// The instance type to use when launching the app block builder. The
@@ -3764,6 +4673,7 @@ class AppStream {
     List<AccessEndpoint>? accessEndpoints,
     List<AppBlockBuilderAttribute>? attributesToDelete,
     String? description,
+    bool? disableIMDSV1,
     String? displayName,
     bool? enableDefaultInternetAccess,
     String? iamRoleArn,
@@ -3787,6 +4697,7 @@ class AppStream {
         if (attributesToDelete != null)
           'AttributesToDelete': attributesToDelete.map((e) => e.value).toList(),
         if (description != null) 'Description': description,
+        if (disableIMDSV1 != null) 'DisableIMDSV1': disableIMDSV1,
         if (displayName != null) 'DisplayName': displayName,
         if (enableDefaultInternetAccess != null)
           'EnableDefaultInternetAccess': enableDefaultInternetAccess,
@@ -3802,8 +4713,8 @@ class AppStream {
 
   /// Updates the specified application.
   ///
-  /// May throw [OperationNotPermittedException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [OperationNotPermittedException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [name] :
@@ -3872,15 +4783,16 @@ class AppStream {
     return UpdateApplicationResult.fromJson(jsonResponse.body);
   }
 
-  /// Updates the specified Directory Config object in AppStream 2.0. This
-  /// object includes the configuration information required to join fleets and
-  /// image builders to Microsoft Active Directory domains.
+  /// Updates the specified Directory Config object in WorkSpaces Applications.
+  /// This object includes the configuration information required to join fleets
+  /// and image builders to Microsoft Active Directory domains.
   ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [IncompatibleImageException].
+  /// May throw [InvalidRoleException].
+  /// May throw [OperationNotPermittedException].
   /// May throw [ResourceInUseException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConcurrentModificationException].
-  /// May throw [OperationNotPermittedException].
-  /// May throw [InvalidRoleException].
   ///
   /// Parameter [directoryName] :
   /// The name of the Directory Config object.
@@ -3936,10 +4848,10 @@ class AppStream {
 
   /// Updates the specified entitlement.
   ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [EntitlementNotFoundException].
   /// May throw [OperationNotPermittedException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [EntitlementNotFoundException].
-  /// May throw [ConcurrentModificationException].
   ///
   /// Parameter [name] :
   /// The name of the entitlement.
@@ -4014,17 +4926,17 @@ class AppStream {
   /// If the fleet is in the <code>STARTING</code> or <code>STOPPED</code>
   /// state, you can't update it.
   ///
-  /// May throw [ResourceInUseException].
-  /// May throw [LimitExceededException].
-  /// May throw [RequestLimitExceededException].
-  /// May throw [InvalidAccountStatusException].
-  /// May throw [InvalidRoleException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceNotAvailableException].
-  /// May throw [InvalidParameterCombinationException].
   /// May throw [ConcurrentModificationException].
   /// May throw [IncompatibleImageException].
+  /// May throw [InvalidAccountStatusException].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidRoleException].
+  /// May throw [LimitExceededException].
   /// May throw [OperationNotPermittedException].
+  /// May throw [RequestLimitExceededException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotAvailableException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [attributesToDelete] :
   /// The fleet attributes to delete.
@@ -4038,6 +4950,15 @@ class AppStream {
   ///
   /// Parameter [description] :
   /// The description to display.
+  ///
+  /// Parameter [disableIMDSV1] :
+  /// Set to true to disable Instance Metadata Service Version 1 (IMDSv1) and
+  /// enforce IMDSv2. Set to false to enable both IMDSv1 and IMDSv2.
+  /// <note>
+  /// Before disabling IMDSv1, ensure your WorkSpaces Applications images are
+  /// running the agent version or managed image update released on or after
+  /// January 16, 2024 to support IMDSv2 enforcement.
+  /// </note>
   ///
   /// Parameter [disconnectTimeoutInSeconds] :
   /// The amount of time that a streaming session remains active after users
@@ -4063,14 +4984,14 @@ class AppStream {
   /// assume a role, a fleet instance calls the AWS Security Token Service (STS)
   /// <code>AssumeRole</code> API operation and passes the ARN of the role to
   /// use. The operation creates a new session with temporary credentials.
-  /// AppStream 2.0 retrieves the temporary credentials and creates the
-  /// <b>appstream_machine_role</b> credential profile on the instance.
+  /// WorkSpaces Applications retrieves the temporary credentials and creates
+  /// the <b>appstream_machine_role</b> credential profile on the instance.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html">Using
   /// an IAM Role to Grant Permissions to Applications and Scripts Running on
-  /// AppStream 2.0 Streaming Instances</a> in the <i>Amazon AppStream 2.0
-  /// Administration Guide</i>.
+  /// WorkSpaces Applications Streaming Instances</a> in the <i>Amazon
+  /// WorkSpaces Applications Administration Guide</i>.
   ///
   /// Parameter [idleDisconnectTimeoutInSeconds] :
   /// The amount of time that users can be idle (inactive) before they are
@@ -4175,21 +5096,6 @@ class AppStream {
   /// stream.memory.z1d.12xlarge
   /// </li>
   /// <li>
-  /// stream.graphics-design.large
-  /// </li>
-  /// <li>
-  /// stream.graphics-design.xlarge
-  /// </li>
-  /// <li>
-  /// stream.graphics-design.2xlarge
-  /// </li>
-  /// <li>
-  /// stream.graphics-design.4xlarge
-  /// </li>
-  /// <li>
-  /// stream.graphics-desktop.2xlarge
-  /// </li>
-  /// <li>
   /// stream.graphics.g4dn.xlarge
   /// </li>
   /// <li>
@@ -4208,13 +5114,67 @@ class AppStream {
   /// stream.graphics.g4dn.16xlarge
   /// </li>
   /// <li>
-  /// stream.graphics-pro.4xlarge
+  /// stream.graphics.g5.xlarge
   /// </li>
   /// <li>
-  /// stream.graphics-pro.8xlarge
+  /// stream.graphics.g5.2xlarge
   /// </li>
   /// <li>
-  /// stream.graphics-pro.16xlarge
+  /// stream.graphics.g5.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g5.8xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g5.16xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g5.12xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g5.24xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6.xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6.8xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6.16xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6.12xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6.24xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.gr6.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.gr6.8xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6f.large
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6f.xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6f.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6f.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.gr6f.4xlarge
   /// </li>
   /// </ul>
   /// The following instance types are available for Elastic fleets:
@@ -4257,19 +5217,23 @@ class AppStream {
   /// A unique name for the fleet.
   ///
   /// Parameter [platform] :
-  /// The platform of the fleet. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are
-  /// supported for Elastic fleets.
+  /// The platform of the fleet. WINDOWS_SERVER_2019, AMAZON_LINUX2 and
+  /// UBUNTU_PRO_2404 are supported for Elastic fleets.
+  ///
+  /// Parameter [rootVolumeConfig] :
+  /// The updated configuration for the root volume of fleet instances. Note
+  /// that volume size cannot be decreased below the image volume size.
   ///
   /// Parameter [sessionScriptS3Location] :
   /// The S3 location of the session scripts configuration zip file. This only
   /// applies to Elastic fleets.
   ///
   /// Parameter [streamView] :
-  /// The AppStream 2.0 view that is displayed to your users when they stream
-  /// from the fleet. When <code>APP</code> is specified, only the windows of
-  /// applications opened by users display. When <code>DESKTOP</code> is
-  /// specified, the standard desktop that is provided by the operating system
-  /// displays.
+  /// The WorkSpaces Applications view that is displayed to your users when they
+  /// stream from the fleet. When <code>APP</code> is specified, only the
+  /// windows of applications opened by users display. When <code>DESKTOP</code>
+  /// is specified, the standard desktop that is provided by the operating
+  /// system displays.
   ///
   /// The default value is <code>APP</code>.
   ///
@@ -4287,6 +5251,7 @@ class AppStream {
     ComputeCapacity? computeCapacity,
     bool? deleteVpcConfig,
     String? description,
+    bool? disableIMDSV1,
     int? disconnectTimeoutInSeconds,
     String? displayName,
     DomainJoinInfo? domainJoinInfo,
@@ -4301,6 +5266,7 @@ class AppStream {
     int? maxUserDurationInSeconds,
     String? name,
     PlatformType? platform,
+    VolumeConfig? rootVolumeConfig,
     S3Location? sessionScriptS3Location,
     StreamView? streamView,
     List<String>? usbDeviceFilterStrings,
@@ -4322,6 +5288,7 @@ class AppStream {
         if (computeCapacity != null) 'ComputeCapacity': computeCapacity,
         if (deleteVpcConfig != null) 'DeleteVpcConfig': deleteVpcConfig,
         if (description != null) 'Description': description,
+        if (disableIMDSV1 != null) 'DisableIMDSV1': disableIMDSV1,
         if (disconnectTimeoutInSeconds != null)
           'DisconnectTimeoutInSeconds': disconnectTimeoutInSeconds,
         if (displayName != null) 'DisplayName': displayName,
@@ -4342,6 +5309,7 @@ class AppStream {
           'MaxUserDurationInSeconds': maxUserDurationInSeconds,
         if (name != null) 'Name': name,
         if (platform != null) 'Platform': platform.value,
+        if (rootVolumeConfig != null) 'RootVolumeConfig': rootVolumeConfig,
         if (sessionScriptS3Location != null)
           'SessionScriptS3Location': sessionScriptS3Location,
         if (streamView != null) 'StreamView': streamView.value,
@@ -4356,9 +5324,9 @@ class AppStream {
 
   /// Adds or updates permissions for the specified private image.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceNotAvailableException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceNotAvailableException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [imagePermissions] :
   /// The permissions for the image.
@@ -4394,23 +5362,28 @@ class AppStream {
 
   /// Updates the specified fields for the specified stack.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
-  /// May throw [InvalidRoleException].
-  /// May throw [InvalidParameterCombinationException].
-  /// May throw [LimitExceededException].
-  /// May throw [InvalidAccountStatusException].
-  /// May throw [IncompatibleImageException].
-  /// May throw [OperationNotPermittedException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [IncompatibleImageException].
+  /// May throw [InvalidAccountStatusException].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidRoleException].
+  /// May throw [LimitExceededException].
+  /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [name] :
   /// The name of the stack.
   ///
   /// Parameter [accessEndpoints] :
   /// The list of interface VPC endpoint (interface endpoint) objects. Users of
-  /// the stack can connect to AppStream 2.0 only through the specified
-  /// endpoints.
+  /// the stack can connect to WorkSpaces Applications only through the
+  /// specified endpoints.
+  ///
+  /// Parameter [agentAccessConfig] :
+  /// The configuration for agent access on the stack. Specify this to update
+  /// agent access settings. To remove agent access, use AttributesToDelete with
+  /// the AGENT_ACCESS_CONFIG value.
   ///
   /// Parameter [applicationSettings] :
   /// The persistent application settings for users of a stack. When these
@@ -4431,9 +5404,9 @@ class AppStream {
   /// The stack name to display.
   ///
   /// Parameter [embedHostDomains] :
-  /// The domains where AppStream 2.0 streaming sessions can be embedded in an
-  /// iframe. You must approve the domains that you want to host embedded
-  /// AppStream 2.0 streaming sessions.
+  /// The domains where WorkSpaces Applications streaming sessions can be
+  /// embedded in an iframe. You must approve the domains that you want to host
+  /// embedded WorkSpaces Applications streaming sessions.
   ///
   /// Parameter [feedbackURL] :
   /// The URL that users are redirected to after they choose the Send Feedback
@@ -4455,8 +5428,10 @@ class AppStream {
   Future<UpdateStackResult> updateStack({
     required String name,
     List<AccessEndpoint>? accessEndpoints,
+    AgentAccessConfigForUpdate? agentAccessConfig,
     ApplicationSettings? applicationSettings,
     List<StackAttribute>? attributesToDelete,
+    ContentRedirection? contentRedirection,
     bool? deleteStorageConnectors,
     String? description,
     String? displayName,
@@ -4480,10 +5455,13 @@ class AppStream {
       payload: {
         'Name': name,
         if (accessEndpoints != null) 'AccessEndpoints': accessEndpoints,
+        if (agentAccessConfig != null) 'AgentAccessConfig': agentAccessConfig,
         if (applicationSettings != null)
           'ApplicationSettings': applicationSettings,
         if (attributesToDelete != null)
           'AttributesToDelete': attributesToDelete.map((e) => e.value).toList(),
+        if (contentRedirection != null)
+          'ContentRedirection': contentRedirection,
         if (deleteStorageConnectors != null)
           'DeleteStorageConnectors': deleteStorageConnectors,
         if (description != null) 'Description': description,
@@ -4505,11 +5483,11 @@ class AppStream {
   /// application catalog page.
   ///
   /// May throw [ConcurrentModificationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [LimitExceededException].
   /// May throw [InvalidAccountStatusException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [LimitExceededException].
   /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [stackName] :
   /// The name of the stack for the theme.
@@ -4579,837 +5557,6 @@ class AppStream {
     );
 
     return UpdateThemeForStackResult.fromJson(jsonResponse.body);
-  }
-}
-
-/// Describes an interface VPC endpoint (interface endpoint) that lets you
-/// create a private connection between the virtual private cloud (VPC) that you
-/// specify and AppStream 2.0. When you specify an interface endpoint for a
-/// stack, users of the stack can connect to AppStream 2.0 only through that
-/// endpoint. When you specify an interface endpoint for an image builder,
-/// administrators can connect to the image builder only through that endpoint.
-class AccessEndpoint {
-  /// The type of interface endpoint.
-  final AccessEndpointType endpointType;
-
-  /// The identifier (ID) of the VPC in which the interface endpoint is used.
-  final String? vpceId;
-
-  AccessEndpoint({
-    required this.endpointType,
-    this.vpceId,
-  });
-
-  factory AccessEndpoint.fromJson(Map<String, dynamic> json) {
-    return AccessEndpoint(
-      endpointType: AccessEndpointType.fromString(
-          (json['EndpointType'] as String?) ?? ''),
-      vpceId: json['VpceId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final endpointType = this.endpointType;
-    final vpceId = this.vpceId;
-    return {
-      'EndpointType': endpointType.value,
-      if (vpceId != null) 'VpceId': vpceId,
-    };
-  }
-}
-
-class AccessEndpointType {
-  static const streaming = AccessEndpointType._('STREAMING');
-
-  final String value;
-
-  const AccessEndpointType._(this.value);
-
-  static const values = [streaming];
-
-  static AccessEndpointType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AccessEndpointType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AccessEndpointType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class Action {
-  static const clipboardCopyFromLocalDevice =
-      Action._('CLIPBOARD_COPY_FROM_LOCAL_DEVICE');
-  static const clipboardCopyToLocalDevice =
-      Action._('CLIPBOARD_COPY_TO_LOCAL_DEVICE');
-  static const fileUpload = Action._('FILE_UPLOAD');
-  static const fileDownload = Action._('FILE_DOWNLOAD');
-  static const printingToLocalDevice = Action._('PRINTING_TO_LOCAL_DEVICE');
-  static const domainPasswordSignin = Action._('DOMAIN_PASSWORD_SIGNIN');
-  static const domainSmartCardSignin = Action._('DOMAIN_SMART_CARD_SIGNIN');
-
-  final String value;
-
-  const Action._(this.value);
-
-  static const values = [
-    clipboardCopyFromLocalDevice,
-    clipboardCopyToLocalDevice,
-    fileUpload,
-    fileDownload,
-    printingToLocalDevice,
-    domainPasswordSignin,
-    domainSmartCardSignin
-  ];
-
-  static Action fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Action._(value));
-
-  @override
-  bool operator ==(other) => other is Action && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes an app block.
-///
-/// App blocks are an Amazon AppStream 2.0 resource that stores the details
-/// about the virtual hard disk in an S3 bucket. It also stores the setup script
-/// with details about how to mount the virtual hard disk. The virtual hard disk
-/// includes the application binaries and other files necessary to launch your
-/// applications. Multiple applications can be assigned to a single app block.
-///
-/// This is only supported for Elastic fleets.
-class AppBlock {
-  /// The ARN of the app block.
-  final String arn;
-
-  /// The name of the app block.
-  final String name;
-
-  /// The errors of the app block.
-  final List<ErrorDetails>? appBlockErrors;
-
-  /// The created time of the app block.
-  final DateTime? createdTime;
-
-  /// The description of the app block.
-  final String? description;
-
-  /// The display name of the app block.
-  final String? displayName;
-
-  /// The packaging type of the app block.
-  final PackagingType? packagingType;
-
-  /// The post setup script details of the app block.
-  ///
-  /// This only applies to app blocks with PackagingType <code>APPSTREAM2</code>.
-  final ScriptDetails? postSetupScriptDetails;
-
-  /// The setup script details of the app block.
-  ///
-  /// This only applies to app blocks with PackagingType <code>CUSTOM</code>.
-  final ScriptDetails? setupScriptDetails;
-
-  /// The source S3 location of the app block.
-  final S3Location? sourceS3Location;
-
-  /// The state of the app block.
-  ///
-  /// An app block with AppStream 2.0 packaging will be in the
-  /// <code>INACTIVE</code> state if no application package (VHD) is assigned to
-  /// it. After an application package (VHD) is created by an app block builder
-  /// for an app block, it becomes <code>ACTIVE</code>.
-  ///
-  /// Custom app blocks are always in the <code>ACTIVE</code> state and no action
-  /// is required to use them.
-  final AppBlockState? state;
-
-  AppBlock({
-    required this.arn,
-    required this.name,
-    this.appBlockErrors,
-    this.createdTime,
-    this.description,
-    this.displayName,
-    this.packagingType,
-    this.postSetupScriptDetails,
-    this.setupScriptDetails,
-    this.sourceS3Location,
-    this.state,
-  });
-
-  factory AppBlock.fromJson(Map<String, dynamic> json) {
-    return AppBlock(
-      arn: (json['Arn'] as String?) ?? '',
-      name: (json['Name'] as String?) ?? '',
-      appBlockErrors: (json['AppBlockErrors'] as List?)
-          ?.nonNulls
-          .map((e) => ErrorDetails.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      createdTime: timeStampFromJson(json['CreatedTime']),
-      description: json['Description'] as String?,
-      displayName: json['DisplayName'] as String?,
-      packagingType:
-          (json['PackagingType'] as String?)?.let(PackagingType.fromString),
-      postSetupScriptDetails: json['PostSetupScriptDetails'] != null
-          ? ScriptDetails.fromJson(
-              json['PostSetupScriptDetails'] as Map<String, dynamic>)
-          : null,
-      setupScriptDetails: json['SetupScriptDetails'] != null
-          ? ScriptDetails.fromJson(
-              json['SetupScriptDetails'] as Map<String, dynamic>)
-          : null,
-      sourceS3Location: json['SourceS3Location'] != null
-          ? S3Location.fromJson(
-              json['SourceS3Location'] as Map<String, dynamic>)
-          : null,
-      state: (json['State'] as String?)?.let(AppBlockState.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final name = this.name;
-    final appBlockErrors = this.appBlockErrors;
-    final createdTime = this.createdTime;
-    final description = this.description;
-    final displayName = this.displayName;
-    final packagingType = this.packagingType;
-    final postSetupScriptDetails = this.postSetupScriptDetails;
-    final setupScriptDetails = this.setupScriptDetails;
-    final sourceS3Location = this.sourceS3Location;
-    final state = this.state;
-    return {
-      'Arn': arn,
-      'Name': name,
-      if (appBlockErrors != null) 'AppBlockErrors': appBlockErrors,
-      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
-      if (description != null) 'Description': description,
-      if (displayName != null) 'DisplayName': displayName,
-      if (packagingType != null) 'PackagingType': packagingType.value,
-      if (postSetupScriptDetails != null)
-        'PostSetupScriptDetails': postSetupScriptDetails,
-      if (setupScriptDetails != null) 'SetupScriptDetails': setupScriptDetails,
-      if (sourceS3Location != null) 'SourceS3Location': sourceS3Location,
-      if (state != null) 'State': state.value,
-    };
-  }
-}
-
-/// Describes an app block builder.
-class AppBlockBuilder {
-  /// The ARN of the app block builder.
-  final String arn;
-
-  /// The instance type of the app block builder.
-  final String instanceType;
-
-  /// The name of the app block builder.
-  final String name;
-
-  /// The platform of the app block builder.
-  ///
-  /// <code>WINDOWS_SERVER_2019</code> is the only valid value.
-  final AppBlockBuilderPlatformType platform;
-
-  /// The state of the app block builder.
-  final AppBlockBuilderState state;
-
-  /// The VPC configuration for the app block builder.
-  final VpcConfig vpcConfig;
-
-  /// The list of interface VPC endpoint (interface endpoint) objects.
-  /// Administrators can connect to the app block builder only through the
-  /// specified endpoints.
-  final List<AccessEndpoint>? accessEndpoints;
-
-  /// The app block builder errors.
-  final List<ResourceError>? appBlockBuilderErrors;
-
-  /// The creation time of the app block builder.
-  final DateTime? createdTime;
-
-  /// The description of the app block builder.
-  final String? description;
-
-  /// The display name of the app block builder.
-  final String? displayName;
-
-  /// Indicates whether default internet access is enabled for the app block
-  /// builder.
-  final bool? enableDefaultInternetAccess;
-
-  /// The ARN of the IAM role that is applied to the app block builder.
-  final String? iamRoleArn;
-
-  /// The state change reason.
-  final AppBlockBuilderStateChangeReason? stateChangeReason;
-
-  AppBlockBuilder({
-    required this.arn,
-    required this.instanceType,
-    required this.name,
-    required this.platform,
-    required this.state,
-    required this.vpcConfig,
-    this.accessEndpoints,
-    this.appBlockBuilderErrors,
-    this.createdTime,
-    this.description,
-    this.displayName,
-    this.enableDefaultInternetAccess,
-    this.iamRoleArn,
-    this.stateChangeReason,
-  });
-
-  factory AppBlockBuilder.fromJson(Map<String, dynamic> json) {
-    return AppBlockBuilder(
-      arn: (json['Arn'] as String?) ?? '',
-      instanceType: (json['InstanceType'] as String?) ?? '',
-      name: (json['Name'] as String?) ?? '',
-      platform: AppBlockBuilderPlatformType.fromString(
-          (json['Platform'] as String?) ?? ''),
-      state: AppBlockBuilderState.fromString((json['State'] as String?) ?? ''),
-      vpcConfig: VpcConfig.fromJson(
-          (json['VpcConfig'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      accessEndpoints: (json['AccessEndpoints'] as List?)
-          ?.nonNulls
-          .map((e) => AccessEndpoint.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      appBlockBuilderErrors: (json['AppBlockBuilderErrors'] as List?)
-          ?.nonNulls
-          .map((e) => ResourceError.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      createdTime: timeStampFromJson(json['CreatedTime']),
-      description: json['Description'] as String?,
-      displayName: json['DisplayName'] as String?,
-      enableDefaultInternetAccess: json['EnableDefaultInternetAccess'] as bool?,
-      iamRoleArn: json['IamRoleArn'] as String?,
-      stateChangeReason: json['StateChangeReason'] != null
-          ? AppBlockBuilderStateChangeReason.fromJson(
-              json['StateChangeReason'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final instanceType = this.instanceType;
-    final name = this.name;
-    final platform = this.platform;
-    final state = this.state;
-    final vpcConfig = this.vpcConfig;
-    final accessEndpoints = this.accessEndpoints;
-    final appBlockBuilderErrors = this.appBlockBuilderErrors;
-    final createdTime = this.createdTime;
-    final description = this.description;
-    final displayName = this.displayName;
-    final enableDefaultInternetAccess = this.enableDefaultInternetAccess;
-    final iamRoleArn = this.iamRoleArn;
-    final stateChangeReason = this.stateChangeReason;
-    return {
-      'Arn': arn,
-      'InstanceType': instanceType,
-      'Name': name,
-      'Platform': platform.value,
-      'State': state.value,
-      'VpcConfig': vpcConfig,
-      if (accessEndpoints != null) 'AccessEndpoints': accessEndpoints,
-      if (appBlockBuilderErrors != null)
-        'AppBlockBuilderErrors': appBlockBuilderErrors,
-      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
-      if (description != null) 'Description': description,
-      if (displayName != null) 'DisplayName': displayName,
-      if (enableDefaultInternetAccess != null)
-        'EnableDefaultInternetAccess': enableDefaultInternetAccess,
-      if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
-      if (stateChangeReason != null) 'StateChangeReason': stateChangeReason,
-    };
-  }
-}
-
-/// Describes an association between an app block builder and app block.
-class AppBlockBuilderAppBlockAssociation {
-  /// The ARN of the app block.
-  final String appBlockArn;
-
-  /// The name of the app block builder.
-  final String appBlockBuilderName;
-
-  AppBlockBuilderAppBlockAssociation({
-    required this.appBlockArn,
-    required this.appBlockBuilderName,
-  });
-
-  factory AppBlockBuilderAppBlockAssociation.fromJson(
-      Map<String, dynamic> json) {
-    return AppBlockBuilderAppBlockAssociation(
-      appBlockArn: (json['AppBlockArn'] as String?) ?? '',
-      appBlockBuilderName: (json['AppBlockBuilderName'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final appBlockArn = this.appBlockArn;
-    final appBlockBuilderName = this.appBlockBuilderName;
-    return {
-      'AppBlockArn': appBlockArn,
-      'AppBlockBuilderName': appBlockBuilderName,
-    };
-  }
-}
-
-class AppBlockBuilderAttribute {
-  static const iamRoleArn = AppBlockBuilderAttribute._('IAM_ROLE_ARN');
-  static const accessEndpoints = AppBlockBuilderAttribute._('ACCESS_ENDPOINTS');
-  static const vpcConfigurationSecurityGroupIds =
-      AppBlockBuilderAttribute._('VPC_CONFIGURATION_SECURITY_GROUP_IDS');
-
-  final String value;
-
-  const AppBlockBuilderAttribute._(this.value);
-
-  static const values = [
-    iamRoleArn,
-    accessEndpoints,
-    vpcConfigurationSecurityGroupIds
-  ];
-
-  static AppBlockBuilderAttribute fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AppBlockBuilderAttribute._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AppBlockBuilderAttribute && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class AppBlockBuilderPlatformType {
-  static const windowsServer_2019 =
-      AppBlockBuilderPlatformType._('WINDOWS_SERVER_2019');
-
-  final String value;
-
-  const AppBlockBuilderPlatformType._(this.value);
-
-  static const values = [windowsServer_2019];
-
-  static AppBlockBuilderPlatformType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AppBlockBuilderPlatformType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AppBlockBuilderPlatformType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class AppBlockBuilderState {
-  static const starting = AppBlockBuilderState._('STARTING');
-  static const running = AppBlockBuilderState._('RUNNING');
-  static const stopping = AppBlockBuilderState._('STOPPING');
-  static const stopped = AppBlockBuilderState._('STOPPED');
-
-  final String value;
-
-  const AppBlockBuilderState._(this.value);
-
-  static const values = [starting, running, stopping, stopped];
-
-  static AppBlockBuilderState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AppBlockBuilderState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AppBlockBuilderState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes the reason why the last app block builder state change occurred.
-class AppBlockBuilderStateChangeReason {
-  /// The state change reason code.
-  final AppBlockBuilderStateChangeReasonCode? code;
-
-  /// The state change reason message.
-  final String? message;
-
-  AppBlockBuilderStateChangeReason({
-    this.code,
-    this.message,
-  });
-
-  factory AppBlockBuilderStateChangeReason.fromJson(Map<String, dynamic> json) {
-    return AppBlockBuilderStateChangeReason(
-      code: (json['Code'] as String?)
-          ?.let(AppBlockBuilderStateChangeReasonCode.fromString),
-      message: json['Message'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final message = this.message;
-    return {
-      if (code != null) 'Code': code.value,
-      if (message != null) 'Message': message,
-    };
-  }
-}
-
-class AppBlockBuilderStateChangeReasonCode {
-  static const internalError =
-      AppBlockBuilderStateChangeReasonCode._('INTERNAL_ERROR');
-
-  final String value;
-
-  const AppBlockBuilderStateChangeReasonCode._(this.value);
-
-  static const values = [internalError];
-
-  static AppBlockBuilderStateChangeReasonCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AppBlockBuilderStateChangeReasonCode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AppBlockBuilderStateChangeReasonCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class AppBlockState {
-  static const inactive = AppBlockState._('INACTIVE');
-  static const active = AppBlockState._('ACTIVE');
-
-  final String value;
-
-  const AppBlockState._(this.value);
-
-  static const values = [inactive, active];
-
-  static AppBlockState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AppBlockState._(value));
-
-  @override
-  bool operator ==(other) => other is AppBlockState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class AppVisibility {
-  static const all = AppVisibility._('ALL');
-  static const associated = AppVisibility._('ASSOCIATED');
-
-  final String value;
-
-  const AppVisibility._(this.value);
-
-  static const values = [all, associated];
-
-  static AppVisibility fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AppVisibility._(value));
-
-  @override
-  bool operator ==(other) => other is AppVisibility && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes an application in the application catalog.
-class Application {
-  /// The app block ARN of the application.
-  final String? appBlockArn;
-
-  /// The ARN of the application.
-  final String? arn;
-
-  /// The time at which the application was created within the app block.
-  final DateTime? createdTime;
-
-  /// The description of the application.
-  final String? description;
-
-  /// The application name to display.
-  final String? displayName;
-
-  /// If there is a problem, the application can be disabled after image creation.
-  final bool? enabled;
-
-  /// The S3 location of the application icon.
-  final S3Location? iconS3Location;
-
-  /// The URL for the application icon. This URL might be time-limited.
-  final String? iconURL;
-
-  /// The instance families for the application.
-  final List<String>? instanceFamilies;
-
-  /// The arguments that are passed to the application at launch.
-  final String? launchParameters;
-
-  /// The path to the application executable in the instance.
-  final String? launchPath;
-
-  /// Additional attributes that describe the application.
-  final Map<String, String>? metadata;
-
-  /// The name of the application.
-  final String? name;
-
-  /// The platforms on which the application can run.
-  final List<PlatformType>? platforms;
-
-  /// The working directory for the application.
-  final String? workingDirectory;
-
-  Application({
-    this.appBlockArn,
-    this.arn,
-    this.createdTime,
-    this.description,
-    this.displayName,
-    this.enabled,
-    this.iconS3Location,
-    this.iconURL,
-    this.instanceFamilies,
-    this.launchParameters,
-    this.launchPath,
-    this.metadata,
-    this.name,
-    this.platforms,
-    this.workingDirectory,
-  });
-
-  factory Application.fromJson(Map<String, dynamic> json) {
-    return Application(
-      appBlockArn: json['AppBlockArn'] as String?,
-      arn: json['Arn'] as String?,
-      createdTime: timeStampFromJson(json['CreatedTime']),
-      description: json['Description'] as String?,
-      displayName: json['DisplayName'] as String?,
-      enabled: json['Enabled'] as bool?,
-      iconS3Location: json['IconS3Location'] != null
-          ? S3Location.fromJson(json['IconS3Location'] as Map<String, dynamic>)
-          : null,
-      iconURL: json['IconURL'] as String?,
-      instanceFamilies: (json['InstanceFamilies'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      launchParameters: json['LaunchParameters'] as String?,
-      launchPath: json['LaunchPath'] as String?,
-      metadata: (json['Metadata'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      name: json['Name'] as String?,
-      platforms: (json['Platforms'] as List?)
-          ?.nonNulls
-          .map((e) => PlatformType.fromString((e as String)))
-          .toList(),
-      workingDirectory: json['WorkingDirectory'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final appBlockArn = this.appBlockArn;
-    final arn = this.arn;
-    final createdTime = this.createdTime;
-    final description = this.description;
-    final displayName = this.displayName;
-    final enabled = this.enabled;
-    final iconS3Location = this.iconS3Location;
-    final iconURL = this.iconURL;
-    final instanceFamilies = this.instanceFamilies;
-    final launchParameters = this.launchParameters;
-    final launchPath = this.launchPath;
-    final metadata = this.metadata;
-    final name = this.name;
-    final platforms = this.platforms;
-    final workingDirectory = this.workingDirectory;
-    return {
-      if (appBlockArn != null) 'AppBlockArn': appBlockArn,
-      if (arn != null) 'Arn': arn,
-      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
-      if (description != null) 'Description': description,
-      if (displayName != null) 'DisplayName': displayName,
-      if (enabled != null) 'Enabled': enabled,
-      if (iconS3Location != null) 'IconS3Location': iconS3Location,
-      if (iconURL != null) 'IconURL': iconURL,
-      if (instanceFamilies != null) 'InstanceFamilies': instanceFamilies,
-      if (launchParameters != null) 'LaunchParameters': launchParameters,
-      if (launchPath != null) 'LaunchPath': launchPath,
-      if (metadata != null) 'Metadata': metadata,
-      if (name != null) 'Name': name,
-      if (platforms != null)
-        'Platforms': platforms.map((e) => e.value).toList(),
-      if (workingDirectory != null) 'WorkingDirectory': workingDirectory,
-    };
-  }
-}
-
-class ApplicationAttribute {
-  static const launchParameters = ApplicationAttribute._('LAUNCH_PARAMETERS');
-  static const workingDirectory = ApplicationAttribute._('WORKING_DIRECTORY');
-
-  final String value;
-
-  const ApplicationAttribute._(this.value);
-
-  static const values = [launchParameters, workingDirectory];
-
-  static ApplicationAttribute fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ApplicationAttribute._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ApplicationAttribute && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes the application fleet association.
-class ApplicationFleetAssociation {
-  /// The ARN of the application associated with the fleet.
-  final String applicationArn;
-
-  /// The name of the fleet associated with the application.
-  final String fleetName;
-
-  ApplicationFleetAssociation({
-    required this.applicationArn,
-    required this.fleetName,
-  });
-
-  factory ApplicationFleetAssociation.fromJson(Map<String, dynamic> json) {
-    return ApplicationFleetAssociation(
-      applicationArn: (json['ApplicationArn'] as String?) ?? '',
-      fleetName: (json['FleetName'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final applicationArn = this.applicationArn;
-    final fleetName = this.fleetName;
-    return {
-      'ApplicationArn': applicationArn,
-      'FleetName': fleetName,
-    };
-  }
-}
-
-/// The persistent application settings for users of a stack.
-class ApplicationSettings {
-  /// Enables or disables persistent application settings for users during their
-  /// streaming sessions.
-  final bool enabled;
-
-  /// The path prefix for the S3 bucket where users’ persistent application
-  /// settings are stored. You can allow the same persistent application settings
-  /// to be used across multiple stacks by specifying the same settings group for
-  /// each stack.
-  final String? settingsGroup;
-
-  ApplicationSettings({
-    required this.enabled,
-    this.settingsGroup,
-  });
-
-  Map<String, dynamic> toJson() {
-    final enabled = this.enabled;
-    final settingsGroup = this.settingsGroup;
-    return {
-      'Enabled': enabled,
-      if (settingsGroup != null) 'SettingsGroup': settingsGroup,
-    };
-  }
-}
-
-/// Describes the persistent application settings for users of a stack.
-class ApplicationSettingsResponse {
-  /// Specifies whether persistent application settings are enabled for users
-  /// during their streaming sessions.
-  final bool? enabled;
-
-  /// The S3 bucket where users’ persistent application settings are stored. When
-  /// persistent application settings are enabled for the first time for an
-  /// account in an AWS Region, an S3 bucket is created. The bucket is unique to
-  /// the AWS account and the Region.
-  final String? s3BucketName;
-
-  /// The path prefix for the S3 bucket where users’ persistent application
-  /// settings are stored.
-  final String? settingsGroup;
-
-  ApplicationSettingsResponse({
-    this.enabled,
-    this.s3BucketName,
-    this.settingsGroup,
-  });
-
-  factory ApplicationSettingsResponse.fromJson(Map<String, dynamic> json) {
-    return ApplicationSettingsResponse(
-      enabled: json['Enabled'] as bool?,
-      s3BucketName: json['S3BucketName'] as String?,
-      settingsGroup: json['SettingsGroup'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final enabled = this.enabled;
-    final s3BucketName = this.s3BucketName;
-    final settingsGroup = this.settingsGroup;
-    return {
-      if (enabled != null) 'Enabled': enabled,
-      if (s3BucketName != null) 'S3BucketName': s3BucketName,
-      if (settingsGroup != null) 'SettingsGroup': settingsGroup,
-    };
   }
 }
 
@@ -5497,31 +5644,17 @@ class AssociateFleetResult {
   }
 }
 
-class AuthenticationType {
-  static const api = AuthenticationType._('API');
-  static const saml = AuthenticationType._('SAML');
-  static const userpool = AuthenticationType._('USERPOOL');
-  static const awsAd = AuthenticationType._('AWS_AD');
+class AssociateSoftwareToImageBuilderResult {
+  AssociateSoftwareToImageBuilderResult();
 
-  final String value;
+  factory AssociateSoftwareToImageBuilderResult.fromJson(
+      Map<String, dynamic> _) {
+    return AssociateSoftwareToImageBuilderResult();
+  }
 
-  const AuthenticationType._(this.value);
-
-  static const values = [api, saml, userpool, awsAd];
-
-  static AuthenticationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AuthenticationType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AuthenticationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 class BatchAssociateUserStackResult {
@@ -5576,195 +5709,6 @@ class BatchDisassociateUserStackResult {
   }
 }
 
-/// The certificate-based authentication properties used to authenticate SAML
-/// 2.0 Identity Provider (IdP) user identities to Active Directory
-/// domain-joined streaming instances. Fallback is turned on by default when
-/// certificate-based authentication is <b>Enabled</b> . Fallback allows users
-/// to log in using their AD domain password if certificate-based authentication
-/// is unsuccessful, or to unlock a desktop lock screen.
-/// <b>Enabled_no_directory_login_fallback</b> enables certificate-based
-/// authentication, but does not allow users to log in using their AD domain
-/// password. Users will be disconnected to re-authenticate using certificates.
-class CertificateBasedAuthProperties {
-  /// The ARN of the AWS Certificate Manager Private CA resource.
-  final String? certificateAuthorityArn;
-
-  /// The status of the certificate-based authentication properties.
-  final CertificateBasedAuthStatus? status;
-
-  CertificateBasedAuthProperties({
-    this.certificateAuthorityArn,
-    this.status,
-  });
-
-  factory CertificateBasedAuthProperties.fromJson(Map<String, dynamic> json) {
-    return CertificateBasedAuthProperties(
-      certificateAuthorityArn: json['CertificateAuthorityArn'] as String?,
-      status: (json['Status'] as String?)
-          ?.let(CertificateBasedAuthStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final certificateAuthorityArn = this.certificateAuthorityArn;
-    final status = this.status;
-    return {
-      if (certificateAuthorityArn != null)
-        'CertificateAuthorityArn': certificateAuthorityArn,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-class CertificateBasedAuthStatus {
-  static const disabled = CertificateBasedAuthStatus._('DISABLED');
-  static const enabled = CertificateBasedAuthStatus._('ENABLED');
-  static const enabledNoDirectoryLoginFallback =
-      CertificateBasedAuthStatus._('ENABLED_NO_DIRECTORY_LOGIN_FALLBACK');
-
-  final String value;
-
-  const CertificateBasedAuthStatus._(this.value);
-
-  static const values = [disabled, enabled, enabledNoDirectoryLoginFallback];
-
-  static CertificateBasedAuthStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CertificateBasedAuthStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CertificateBasedAuthStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes the capacity for a fleet.
-class ComputeCapacity {
-  /// The desired number of streaming instances.
-  final int? desiredInstances;
-
-  /// The desired number of user sessions for a multi-session fleet. This is not
-  /// allowed for single-session fleets.
-  ///
-  /// When you create a fleet, you must set either the DesiredSessions or
-  /// DesiredInstances attribute, based on the type of fleet you create. You can’t
-  /// define both attributes or leave both attributes blank.
-  final int? desiredSessions;
-
-  ComputeCapacity({
-    this.desiredInstances,
-    this.desiredSessions,
-  });
-
-  Map<String, dynamic> toJson() {
-    final desiredInstances = this.desiredInstances;
-    final desiredSessions = this.desiredSessions;
-    return {
-      if (desiredInstances != null) 'DesiredInstances': desiredInstances,
-      if (desiredSessions != null) 'DesiredSessions': desiredSessions,
-    };
-  }
-}
-
-/// Describes the capacity status for a fleet.
-class ComputeCapacityStatus {
-  /// The desired number of streaming instances.
-  final int desired;
-
-  /// The number of user sessions currently being used for streaming sessions.
-  /// This only applies to multi-session fleets.
-  final int? activeUserSessions;
-
-  /// The total number of session slots that are available for streaming or are
-  /// currently streaming.
-  ///
-  /// ActualUserSessionCapacity = AvailableUserSessionCapacity +
-  /// ActiveUserSessions
-  ///
-  /// This only applies to multi-session fleets.
-  final int? actualUserSessions;
-
-  /// The number of currently available instances that can be used to stream
-  /// sessions.
-  final int? available;
-
-  /// The number of idle session slots currently available for user sessions.
-  ///
-  /// AvailableUserSessionCapacity = ActualUserSessionCapacity -
-  /// ActiveUserSessions
-  ///
-  /// This only applies to multi-session fleets.
-  final int? availableUserSessions;
-
-  /// The total number of sessions slots that are either running or pending. This
-  /// represents the total number of concurrent streaming sessions your fleet can
-  /// support in a steady state.
-  ///
-  /// DesiredUserSessionCapacity = ActualUserSessionCapacity +
-  /// PendingUserSessionCapacity
-  ///
-  /// This only applies to multi-session fleets.
-  final int? desiredUserSessions;
-
-  /// The number of instances in use for streaming.
-  final int? inUse;
-
-  /// The total number of simultaneous streaming instances that are running.
-  final int? running;
-
-  ComputeCapacityStatus({
-    required this.desired,
-    this.activeUserSessions,
-    this.actualUserSessions,
-    this.available,
-    this.availableUserSessions,
-    this.desiredUserSessions,
-    this.inUse,
-    this.running,
-  });
-
-  factory ComputeCapacityStatus.fromJson(Map<String, dynamic> json) {
-    return ComputeCapacityStatus(
-      desired: (json['Desired'] as int?) ?? 0,
-      activeUserSessions: json['ActiveUserSessions'] as int?,
-      actualUserSessions: json['ActualUserSessions'] as int?,
-      available: json['Available'] as int?,
-      availableUserSessions: json['AvailableUserSessions'] as int?,
-      desiredUserSessions: json['DesiredUserSessions'] as int?,
-      inUse: json['InUse'] as int?,
-      running: json['Running'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final desired = this.desired;
-    final activeUserSessions = this.activeUserSessions;
-    final actualUserSessions = this.actualUserSessions;
-    final available = this.available;
-    final availableUserSessions = this.availableUserSessions;
-    final desiredUserSessions = this.desiredUserSessions;
-    final inUse = this.inUse;
-    final running = this.running;
-    return {
-      'Desired': desired,
-      if (activeUserSessions != null) 'ActiveUserSessions': activeUserSessions,
-      if (actualUserSessions != null) 'ActualUserSessions': actualUserSessions,
-      if (available != null) 'Available': available,
-      if (availableUserSessions != null)
-        'AvailableUserSessions': availableUserSessions,
-      if (desiredUserSessions != null)
-        'DesiredUserSessions': desiredUserSessions,
-      if (inUse != null) 'InUse': inUse,
-      if (running != null) 'Running': running,
-    };
-  }
-}
-
 class CopyImageResponse {
   /// The name of the destination image.
   final String? destinationImageName;
@@ -5784,6 +5728,30 @@ class CopyImageResponse {
     return {
       if (destinationImageName != null)
         'DestinationImageName': destinationImageName,
+    };
+  }
+}
+
+class CreateAppBlockResult {
+  /// The app block.
+  final AppBlock? appBlock;
+
+  CreateAppBlockResult({
+    this.appBlock,
+  });
+
+  factory CreateAppBlockResult.fromJson(Map<String, dynamic> json) {
+    return CreateAppBlockResult(
+      appBlock: json['AppBlock'] != null
+          ? AppBlock.fromJson(json['AppBlock'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appBlock = this.appBlock;
+    return {
+      if (appBlock != null) 'AppBlock': appBlock,
     };
   }
 }
@@ -5838,30 +5806,6 @@ class CreateAppBlockBuilderStreamingURLResult {
     return {
       if (expires != null) 'Expires': unixTimestampToJson(expires),
       if (streamingURL != null) 'StreamingURL': streamingURL,
-    };
-  }
-}
-
-class CreateAppBlockResult {
-  /// The app block.
-  final AppBlock? appBlock;
-
-  CreateAppBlockResult({
-    this.appBlock,
-  });
-
-  factory CreateAppBlockResult.fromJson(Map<String, dynamic> json) {
-    return CreateAppBlockResult(
-      appBlock: json['AppBlock'] != null
-          ? AppBlock.fromJson(json['AppBlock'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final appBlock = this.appBlock;
-    return {
-      if (appBlock != null) 'AppBlock': appBlock,
     };
   }
 }
@@ -5938,6 +5882,32 @@ class CreateEntitlementResult {
   }
 }
 
+class CreateExportImageTaskResult {
+  /// Information about the export image task that was created, including the task
+  /// ID and initial state.
+  final ExportImageTask? exportImageTask;
+
+  CreateExportImageTaskResult({
+    this.exportImageTask,
+  });
+
+  factory CreateExportImageTaskResult.fromJson(Map<String, dynamic> json) {
+    return CreateExportImageTaskResult(
+      exportImageTask: json['ExportImageTask'] != null
+          ? ExportImageTask.fromJson(
+              json['ExportImageTask'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final exportImageTask = this.exportImageTask;
+    return {
+      if (exportImageTask != null) 'ExportImageTask': exportImageTask,
+    };
+  }
+}
+
 class CreateFleetResult {
   /// Information about the fleet.
   final Fleet? fleet;
@@ -5990,7 +5960,7 @@ class CreateImageBuilderStreamingURLResult {
   /// The elapsed time, in seconds after the Unix epoch, when this URL expires.
   final DateTime? expires;
 
-  /// The URL to start the AppStream 2.0 streaming session.
+  /// The URL to start the WorkSpaces Applications streaming session.
   final String? streamingURL;
 
   CreateImageBuilderStreamingURLResult({
@@ -6012,6 +5982,29 @@ class CreateImageBuilderStreamingURLResult {
     return {
       if (expires != null) 'Expires': unixTimestampToJson(expires),
       if (streamingURL != null) 'StreamingURL': streamingURL,
+    };
+  }
+}
+
+class CreateImportedImageResult {
+  final Image? image;
+
+  CreateImportedImageResult({
+    this.image,
+  });
+
+  factory CreateImportedImageResult.fromJson(Map<String, dynamic> json) {
+    return CreateImportedImageResult(
+      image: json['Image'] != null
+          ? Image.fromJson(json['Image'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final image = this.image;
+    return {
+      if (image != null) 'Image': image,
     };
   }
 }
@@ -6044,7 +6037,7 @@ class CreateStreamingURLResult {
   /// The elapsed time, in seconds after the Unix epoch, when this URL expires.
   final DateTime? expires;
 
-  /// The URL to start the AppStream 2.0 streaming session.
+  /// The URL to start the WorkSpaces Applications streaming session.
   final String? streamingURL;
 
   CreateStreamingURLResult({
@@ -6126,12 +6119,12 @@ class CreateUsageReportSubscriptionResult {
   /// The Amazon S3 bucket where generated reports are stored.
   ///
   /// If you enabled on-instance session scripts and Amazon S3 logging for your
-  /// session script configuration, AppStream 2.0 created an S3 bucket to store
-  /// the script output. The bucket is unique to your account and Region. When you
-  /// enable usage reporting in this case, AppStream 2.0 uses the same bucket to
-  /// store your usage reports. If you haven't already enabled on-instance session
-  /// scripts, when you enable usage reports, AppStream 2.0 creates a new S3
-  /// bucket.
+  /// session script configuration, WorkSpaces Applications created an S3 bucket
+  /// to store the script output. The bucket is unique to your account and Region.
+  /// When you enable usage reporting in this case, WorkSpaces Applications uses
+  /// the same bucket to store your usage reports. If you haven't already enabled
+  /// on-instance session scripts, when you enable usage reports, WorkSpaces
+  /// Applications creates a new S3 bucket.
   final String? s3BucketName;
 
   /// The schedule for generating usage reports.
@@ -6173,11 +6166,11 @@ class CreateUserResult {
   }
 }
 
-class DeleteAppBlockBuilderResult {
-  DeleteAppBlockBuilderResult();
+class DeleteAppBlockResult {
+  DeleteAppBlockResult();
 
-  factory DeleteAppBlockBuilderResult.fromJson(Map<String, dynamic> _) {
-    return DeleteAppBlockBuilderResult();
+  factory DeleteAppBlockResult.fromJson(Map<String, dynamic> _) {
+    return DeleteAppBlockResult();
   }
 
   Map<String, dynamic> toJson() {
@@ -6185,11 +6178,11 @@ class DeleteAppBlockBuilderResult {
   }
 }
 
-class DeleteAppBlockResult {
-  DeleteAppBlockResult();
+class DeleteAppBlockBuilderResult {
+  DeleteAppBlockBuilderResult();
 
-  factory DeleteAppBlockResult.fromJson(Map<String, dynamic> _) {
-    return DeleteAppBlockResult();
+  factory DeleteAppBlockBuilderResult.fromJson(Map<String, dynamic> _) {
+    return DeleteAppBlockBuilderResult();
   }
 
   Map<String, dynamic> toJson() {
@@ -6245,6 +6238,30 @@ class DeleteFleetResult {
   }
 }
 
+class DeleteImageResult {
+  /// Information about the image.
+  final Image? image;
+
+  DeleteImageResult({
+    this.image,
+  });
+
+  factory DeleteImageResult.fromJson(Map<String, dynamic> json) {
+    return DeleteImageResult(
+      image: json['Image'] != null
+          ? Image.fromJson(json['Image'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final image = this.image;
+    return {
+      if (image != null) 'Image': image,
+    };
+  }
+}
+
 class DeleteImageBuilderResult {
   /// Information about the image builder.
   final ImageBuilder? imageBuilder;
@@ -6278,30 +6295,6 @@ class DeleteImagePermissionsResult {
 
   Map<String, dynamic> toJson() {
     return {};
-  }
-}
-
-class DeleteImageResult {
-  /// Information about the image.
-  final Image? image;
-
-  DeleteImageResult({
-    this.image,
-  });
-
-  factory DeleteImageResult.fromJson(Map<String, dynamic> json) {
-    return DeleteImageResult(
-      image: json['Image'] != null
-          ? Image.fromJson(json['Image'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final image = this.image;
-    return {
-      if (image != null) 'Image': image,
-    };
   }
 }
 
@@ -6524,6 +6517,39 @@ class DescribeApplicationsResult {
     final nextToken = this.nextToken;
     return {
       if (applications != null) 'Applications': applications,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class DescribeAppLicenseUsageResult {
+  /// Collection of license usage records.
+  final List<AdminAppLicenseUsageRecord>? appLicenseUsages;
+
+  /// Token for pagination of results.
+  final String? nextToken;
+
+  DescribeAppLicenseUsageResult({
+    this.appLicenseUsages,
+    this.nextToken,
+  });
+
+  factory DescribeAppLicenseUsageResult.fromJson(Map<String, dynamic> json) {
+    return DescribeAppLicenseUsageResult(
+      appLicenseUsages: (json['AppLicenseUsages'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              AdminAppLicenseUsageRecord.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appLicenseUsages = this.appLicenseUsages;
+    final nextToken = this.nextToken;
+    return {
+      if (appLicenseUsages != null) 'AppLicenseUsages': appLicenseUsages,
       if (nextToken != null) 'NextToken': nextToken,
     };
   }
@@ -6771,6 +6797,63 @@ class DescribeSessionsResult {
   }
 }
 
+class DescribeSoftwareAssociationsResult {
+  /// The ARN of the resource to describe software associations.
+  final String? associatedResource;
+
+  /// The pagination token to use to retrieve the next page of results for this
+  /// operation.
+  final String? nextToken;
+
+  /// Collection of license included applications association details including:
+  ///
+  /// <ul>
+  /// <li>
+  /// License included application name and version information
+  /// </li>
+  /// <li>
+  /// Deployment status (SoftwareDeploymentStatus enum)
+  /// </li>
+  /// <li>
+  /// Error details for failed deployments
+  /// </li>
+  /// <li>
+  /// Association timestamps
+  /// </li>
+  /// </ul>
+  final List<SoftwareAssociations>? softwareAssociations;
+
+  DescribeSoftwareAssociationsResult({
+    this.associatedResource,
+    this.nextToken,
+    this.softwareAssociations,
+  });
+
+  factory DescribeSoftwareAssociationsResult.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeSoftwareAssociationsResult(
+      associatedResource: json['AssociatedResource'] as String?,
+      nextToken: json['NextToken'] as String?,
+      softwareAssociations: (json['SoftwareAssociations'] as List?)
+          ?.nonNulls
+          .map((e) => SoftwareAssociations.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associatedResource = this.associatedResource;
+    final nextToken = this.nextToken;
+    final softwareAssociations = this.softwareAssociations;
+    return {
+      if (associatedResource != null) 'AssociatedResource': associatedResource,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (softwareAssociations != null)
+        'SoftwareAssociations': softwareAssociations,
+    };
+  }
+}
+
 class DescribeStacksResult {
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If there are no more pages, this value is null.
@@ -6864,41 +6947,6 @@ class DescribeUsageReportSubscriptionsResult {
   }
 }
 
-class DescribeUserStackAssociationsResult {
-  /// The pagination token to use to retrieve the next page of results for this
-  /// operation. If there are no more pages, this value is null.
-  final String? nextToken;
-
-  /// The UserStackAssociation objects.
-  final List<UserStackAssociation>? userStackAssociations;
-
-  DescribeUserStackAssociationsResult({
-    this.nextToken,
-    this.userStackAssociations,
-  });
-
-  factory DescribeUserStackAssociationsResult.fromJson(
-      Map<String, dynamic> json) {
-    return DescribeUserStackAssociationsResult(
-      nextToken: json['NextToken'] as String?,
-      userStackAssociations: (json['UserStackAssociations'] as List?)
-          ?.nonNulls
-          .map((e) => UserStackAssociation.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final userStackAssociations = this.userStackAssociations;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (userStackAssociations != null)
-        'UserStackAssociations': userStackAssociations,
-    };
-  }
-}
-
 class DescribeUsersResult {
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If there are no more pages, this value is null.
@@ -6932,79 +6980,37 @@ class DescribeUsersResult {
   }
 }
 
-/// Describes the configuration information required to join fleets and image
-/// builders to Microsoft Active Directory domains.
-class DirectoryConfig {
-  /// The fully qualified name of the directory (for example, corp.example.com).
-  final String directoryName;
+class DescribeUserStackAssociationsResult {
+  /// The pagination token to use to retrieve the next page of results for this
+  /// operation. If there are no more pages, this value is null.
+  final String? nextToken;
 
-  /// The certificate-based authentication properties used to authenticate SAML
-  /// 2.0 Identity Provider (IdP) user identities to Active Directory
-  /// domain-joined streaming instances. Fallback is turned on by default when
-  /// certificate-based authentication is <b>Enabled</b> . Fallback allows users
-  /// to log in using their AD domain password if certificate-based authentication
-  /// is unsuccessful, or to unlock a desktop lock screen.
-  /// <b>Enabled_no_directory_login_fallback</b> enables certificate-based
-  /// authentication, but does not allow users to log in using their AD domain
-  /// password. Users will be disconnected to re-authenticate using certificates.
-  final CertificateBasedAuthProperties? certificateBasedAuthProperties;
+  /// The UserStackAssociation objects.
+  final List<UserStackAssociation>? userStackAssociations;
 
-  /// The time the directory configuration was created.
-  final DateTime? createdTime;
-
-  /// The distinguished names of the organizational units for computer accounts.
-  final List<String>? organizationalUnitDistinguishedNames;
-
-  /// The credentials for the service account used by the fleet or image builder
-  /// to connect to the directory.
-  final ServiceAccountCredentials? serviceAccountCredentials;
-
-  DirectoryConfig({
-    required this.directoryName,
-    this.certificateBasedAuthProperties,
-    this.createdTime,
-    this.organizationalUnitDistinguishedNames,
-    this.serviceAccountCredentials,
+  DescribeUserStackAssociationsResult({
+    this.nextToken,
+    this.userStackAssociations,
   });
 
-  factory DirectoryConfig.fromJson(Map<String, dynamic> json) {
-    return DirectoryConfig(
-      directoryName: (json['DirectoryName'] as String?) ?? '',
-      certificateBasedAuthProperties: json['CertificateBasedAuthProperties'] !=
-              null
-          ? CertificateBasedAuthProperties.fromJson(
-              json['CertificateBasedAuthProperties'] as Map<String, dynamic>)
-          : null,
-      createdTime: timeStampFromJson(json['CreatedTime']),
-      organizationalUnitDistinguishedNames:
-          (json['OrganizationalUnitDistinguishedNames'] as List?)
-              ?.nonNulls
-              .map((e) => e as String)
-              .toList(),
-      serviceAccountCredentials: json['ServiceAccountCredentials'] != null
-          ? ServiceAccountCredentials.fromJson(
-              json['ServiceAccountCredentials'] as Map<String, dynamic>)
-          : null,
+  factory DescribeUserStackAssociationsResult.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeUserStackAssociationsResult(
+      nextToken: json['NextToken'] as String?,
+      userStackAssociations: (json['UserStackAssociations'] as List?)
+          ?.nonNulls
+          .map((e) => UserStackAssociation.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final directoryName = this.directoryName;
-    final certificateBasedAuthProperties = this.certificateBasedAuthProperties;
-    final createdTime = this.createdTime;
-    final organizationalUnitDistinguishedNames =
-        this.organizationalUnitDistinguishedNames;
-    final serviceAccountCredentials = this.serviceAccountCredentials;
+    final nextToken = this.nextToken;
+    final userStackAssociations = this.userStackAssociations;
     return {
-      'DirectoryName': directoryName,
-      if (certificateBasedAuthProperties != null)
-        'CertificateBasedAuthProperties': certificateBasedAuthProperties,
-      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
-      if (organizationalUnitDistinguishedNames != null)
-        'OrganizationalUnitDistinguishedNames':
-            organizationalUnitDistinguishedNames,
-      if (serviceAccountCredentials != null)
-        'ServiceAccountCredentials': serviceAccountCredentials,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (userStackAssociations != null)
+        'UserStackAssociations': userStackAssociations,
     };
   }
 }
@@ -7071,64 +7077,29 @@ class DisassociateFleetResult {
   }
 }
 
-/// Describes the configuration information required to join fleets and image
-/// builders to Microsoft Active Directory domains.
-class DomainJoinInfo {
-  /// The fully qualified name of the directory (for example, corp.example.com).
-  final String? directoryName;
+class DisassociateSoftwareFromImageBuilderResult {
+  DisassociateSoftwareFromImageBuilderResult();
 
-  /// The distinguished name of the organizational unit for computer accounts.
-  final String? organizationalUnitDistinguishedName;
-
-  DomainJoinInfo({
-    this.directoryName,
-    this.organizationalUnitDistinguishedName,
-  });
-
-  factory DomainJoinInfo.fromJson(Map<String, dynamic> json) {
-    return DomainJoinInfo(
-      directoryName: json['DirectoryName'] as String?,
-      organizationalUnitDistinguishedName:
-          json['OrganizationalUnitDistinguishedName'] as String?,
-    );
+  factory DisassociateSoftwareFromImageBuilderResult.fromJson(
+      Map<String, dynamic> _) {
+    return DisassociateSoftwareFromImageBuilderResult();
   }
 
   Map<String, dynamic> toJson() {
-    final directoryName = this.directoryName;
-    final organizationalUnitDistinguishedName =
-        this.organizationalUnitDistinguishedName;
-    return {
-      if (directoryName != null) 'DirectoryName': directoryName,
-      if (organizationalUnitDistinguishedName != null)
-        'OrganizationalUnitDistinguishedName':
-            organizationalUnitDistinguishedName,
-    };
+    return {};
   }
 }
 
-class DynamicAppProvidersEnabled {
-  static const enabled = DynamicAppProvidersEnabled._('ENABLED');
-  static const disabled = DynamicAppProvidersEnabled._('DISABLED');
+class DrainSessionInstanceResult {
+  DrainSessionInstanceResult();
 
-  final String value;
+  factory DrainSessionInstanceResult.fromJson(Map<String, dynamic> _) {
+    return DrainSessionInstanceResult();
+  }
 
-  const DynamicAppProvidersEnabled._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static DynamicAppProvidersEnabled fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DynamicAppProvidersEnabled._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DynamicAppProvidersEnabled && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 class EnableUserResult {
@@ -7140,198 +7111,6 @@ class EnableUserResult {
 
   Map<String, dynamic> toJson() {
     return {};
-  }
-}
-
-/// The application associated to an entitlement. Access is controlled based on
-/// user attributes.
-class EntitledApplication {
-  /// The identifier of the application.
-  final String applicationIdentifier;
-
-  EntitledApplication({
-    required this.applicationIdentifier,
-  });
-
-  factory EntitledApplication.fromJson(Map<String, dynamic> json) {
-    return EntitledApplication(
-      applicationIdentifier: (json['ApplicationIdentifier'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final applicationIdentifier = this.applicationIdentifier;
-    return {
-      'ApplicationIdentifier': applicationIdentifier,
-    };
-  }
-}
-
-/// Specifies an entitlement. Entitlements control access to specific
-/// applications within a stack, based on user attributes. Entitlements apply to
-/// SAML 2.0 federated user identities. Amazon AppStream 2.0 user pool and
-/// streaming URL users are entitled to all applications in a stack.
-/// Entitlements don't apply to the desktop stream view application, or to
-/// applications managed by a dynamic app provider using the Dynamic Application
-/// Framework.
-class Entitlement {
-  /// Specifies whether all or selected apps are entitled.
-  final AppVisibility appVisibility;
-
-  /// The attributes of the entitlement.
-  final List<EntitlementAttribute> attributes;
-
-  /// The name of the entitlement.
-  final String name;
-
-  /// The name of the stack with which the entitlement is associated.
-  final String stackName;
-
-  /// The time when the entitlement was created.
-  final DateTime? createdTime;
-
-  /// The description of the entitlement.
-  final String? description;
-
-  /// The time when the entitlement was last modified.
-  final DateTime? lastModifiedTime;
-
-  Entitlement({
-    required this.appVisibility,
-    required this.attributes,
-    required this.name,
-    required this.stackName,
-    this.createdTime,
-    this.description,
-    this.lastModifiedTime,
-  });
-
-  factory Entitlement.fromJson(Map<String, dynamic> json) {
-    return Entitlement(
-      appVisibility:
-          AppVisibility.fromString((json['AppVisibility'] as String?) ?? ''),
-      attributes: ((json['Attributes'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => EntitlementAttribute.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      name: (json['Name'] as String?) ?? '',
-      stackName: (json['StackName'] as String?) ?? '',
-      createdTime: timeStampFromJson(json['CreatedTime']),
-      description: json['Description'] as String?,
-      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final appVisibility = this.appVisibility;
-    final attributes = this.attributes;
-    final name = this.name;
-    final stackName = this.stackName;
-    final createdTime = this.createdTime;
-    final description = this.description;
-    final lastModifiedTime = this.lastModifiedTime;
-    return {
-      'AppVisibility': appVisibility.value,
-      'Attributes': attributes,
-      'Name': name,
-      'StackName': stackName,
-      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
-      if (description != null) 'Description': description,
-      if (lastModifiedTime != null)
-        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
-    };
-  }
-}
-
-/// An attribute associated with an entitlement. Application entitlements work
-/// by matching a supported SAML 2.0 attribute name to a value when a user
-/// identity federates to an Amazon AppStream 2.0 SAML application.
-class EntitlementAttribute {
-  /// A supported AWS IAM SAML <code>PrincipalTag</code> attribute that is matched
-  /// to the associated value when a user identity federates into an Amazon
-  /// AppStream 2.0 SAML application.
-  ///
-  /// The following are valid values:
-  ///
-  /// <ul>
-  /// <li>
-  /// roles
-  /// </li>
-  /// <li>
-  /// department
-  /// </li>
-  /// <li>
-  /// organization
-  /// </li>
-  /// <li>
-  /// groups
-  /// </li>
-  /// <li>
-  /// title
-  /// </li>
-  /// <li>
-  /// costCenter
-  /// </li>
-  /// <li>
-  /// userType
-  /// </li>
-  /// </ul>
-  ///
-  final String name;
-
-  /// A value that is matched to a supported SAML attribute name when a user
-  /// identity federates into an Amazon AppStream 2.0 SAML application.
-  final String value;
-
-  EntitlementAttribute({
-    required this.name,
-    required this.value,
-  });
-
-  factory EntitlementAttribute.fromJson(Map<String, dynamic> json) {
-    return EntitlementAttribute(
-      name: (json['Name'] as String?) ?? '',
-      value: (json['Value'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final value = this.value;
-    return {
-      'Name': name,
-      'Value': value,
-    };
-  }
-}
-
-/// The error details.
-class ErrorDetails {
-  /// The error code.
-  final String? errorCode;
-
-  /// The error message.
-  final String? errorMessage;
-
-  ErrorDetails({
-    this.errorCode,
-    this.errorMessage,
-  });
-
-  factory ErrorDetails.fromJson(Map<String, dynamic> json) {
-    return ErrorDetails(
-      errorCode: json['ErrorCode'] as String?,
-      errorMessage: json['ErrorMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    return {
-      if (errorCode != null) 'ErrorCode': errorCode,
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-    };
   }
 }
 
@@ -7347,1452 +7126,30 @@ class ExpireSessionResult {
   }
 }
 
-/// Describes a fleet.
-class Fleet {
-  /// The Amazon Resource Name (ARN) for the fleet.
-  final String arn;
+class GetExportImageTaskResult {
+  /// Information about the export image task, including its current state,
+  /// created date, and any error details.
+  final ExportImageTask? exportImageTask;
 
-  /// The capacity status for the fleet.
-  final ComputeCapacityStatus computeCapacityStatus;
-
-  /// The instance type to use when launching fleet instances. The following
-  /// instance types are available:
-  ///
-  /// <ul>
-  /// <li>
-  /// stream.standard.small
-  /// </li>
-  /// <li>
-  /// stream.standard.medium
-  /// </li>
-  /// <li>
-  /// stream.standard.large
-  /// </li>
-  /// <li>
-  /// stream.compute.large
-  /// </li>
-  /// <li>
-  /// stream.compute.xlarge
-  /// </li>
-  /// <li>
-  /// stream.compute.2xlarge
-  /// </li>
-  /// <li>
-  /// stream.compute.4xlarge
-  /// </li>
-  /// <li>
-  /// stream.compute.8xlarge
-  /// </li>
-  /// <li>
-  /// stream.memory.large
-  /// </li>
-  /// <li>
-  /// stream.memory.xlarge
-  /// </li>
-  /// <li>
-  /// stream.memory.2xlarge
-  /// </li>
-  /// <li>
-  /// stream.memory.4xlarge
-  /// </li>
-  /// <li>
-  /// stream.memory.8xlarge
-  /// </li>
-  /// <li>
-  /// stream.memory.z1d.large
-  /// </li>
-  /// <li>
-  /// stream.memory.z1d.xlarge
-  /// </li>
-  /// <li>
-  /// stream.memory.z1d.2xlarge
-  /// </li>
-  /// <li>
-  /// stream.memory.z1d.3xlarge
-  /// </li>
-  /// <li>
-  /// stream.memory.z1d.6xlarge
-  /// </li>
-  /// <li>
-  /// stream.memory.z1d.12xlarge
-  /// </li>
-  /// <li>
-  /// stream.graphics-design.large
-  /// </li>
-  /// <li>
-  /// stream.graphics-design.xlarge
-  /// </li>
-  /// <li>
-  /// stream.graphics-design.2xlarge
-  /// </li>
-  /// <li>
-  /// stream.graphics-design.4xlarge
-  /// </li>
-  /// <li>
-  /// stream.graphics-desktop.2xlarge
-  /// </li>
-  /// <li>
-  /// stream.graphics.g4dn.xlarge
-  /// </li>
-  /// <li>
-  /// stream.graphics.g4dn.2xlarge
-  /// </li>
-  /// <li>
-  /// stream.graphics.g4dn.4xlarge
-  /// </li>
-  /// <li>
-  /// stream.graphics.g4dn.8xlarge
-  /// </li>
-  /// <li>
-  /// stream.graphics.g4dn.12xlarge
-  /// </li>
-  /// <li>
-  /// stream.graphics.g4dn.16xlarge
-  /// </li>
-  /// <li>
-  /// stream.graphics-pro.4xlarge
-  /// </li>
-  /// <li>
-  /// stream.graphics-pro.8xlarge
-  /// </li>
-  /// <li>
-  /// stream.graphics-pro.16xlarge
-  /// </li>
-  /// </ul>
-  final String instanceType;
-
-  /// The name of the fleet.
-  final String name;
-
-  /// The current state for the fleet.
-  final FleetState state;
-
-  /// The time the fleet was created.
-  final DateTime? createdTime;
-
-  /// The description to display.
-  final String? description;
-
-  /// The amount of time that a streaming session remains active after users
-  /// disconnect. If they try to reconnect to the streaming session after a
-  /// disconnection or network interruption within this time interval, they are
-  /// connected to their previous session. Otherwise, they are connected to a new
-  /// session with a new streaming instance.
-  ///
-  /// Specify a value between 60 and 36000.
-  final int? disconnectTimeoutInSeconds;
-
-  /// The fleet name to display.
-  final String? displayName;
-
-  /// The name of the directory and organizational unit (OU) to use to join the
-  /// fleet to a Microsoft Active Directory domain.
-  final DomainJoinInfo? domainJoinInfo;
-
-  /// Indicates whether default internet access is enabled for the fleet.
-  final bool? enableDefaultInternetAccess;
-
-  /// The fleet errors.
-  final List<FleetError>? fleetErrors;
-
-  /// The fleet type.
-  /// <dl> <dt>ALWAYS_ON</dt> <dd>
-  /// Provides users with instant-on access to their apps. You are charged for all
-  /// running instances in your fleet, even if no users are streaming apps.
-  /// </dd> <dt>ON_DEMAND</dt> <dd>
-  /// Provide users with access to applications after they connect, which takes
-  /// one to two minutes. You are charged for instance streaming when users are
-  /// connected and a small hourly fee for instances that are not streaming apps.
-  /// </dd> </dl>
-  final FleetType? fleetType;
-
-  /// The ARN of the IAM role that is applied to the fleet. To assume a role, the
-  /// fleet instance calls the AWS Security Token Service (STS)
-  /// <code>AssumeRole</code> API operation and passes the ARN of the role to use.
-  /// The operation creates a new session with temporary credentials. AppStream
-  /// 2.0 retrieves the temporary credentials and creates the
-  /// <b>appstream_machine_role</b> credential profile on the instance.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html">Using
-  /// an IAM Role to Grant Permissions to Applications and Scripts Running on
-  /// AppStream 2.0 Streaming Instances</a> in the <i>Amazon AppStream 2.0
-  /// Administration Guide</i>.
-  final String? iamRoleArn;
-
-  /// The amount of time that users can be idle (inactive) before they are
-  /// disconnected from their streaming session and the
-  /// <code>DisconnectTimeoutInSeconds</code> time interval begins. Users are
-  /// notified before they are disconnected due to inactivity. If users try to
-  /// reconnect to the streaming session before the time interval specified in
-  /// <code>DisconnectTimeoutInSeconds</code> elapses, they are connected to their
-  /// previous session. Users are considered idle when they stop providing
-  /// keyboard or mouse input during their streaming session. File uploads and
-  /// downloads, audio in, audio out, and pixels changing do not qualify as user
-  /// activity. If users continue to be idle after the time interval in
-  /// <code>IdleDisconnectTimeoutInSeconds</code> elapses, they are disconnected.
-  ///
-  /// To prevent users from being disconnected due to inactivity, specify a value
-  /// of 0. Otherwise, specify a value between 60 and 36000. The default value is
-  /// 0.
-  /// <note>
-  /// If you enable this feature, we recommend that you specify a value that
-  /// corresponds exactly to a whole number of minutes (for example, 60, 120, and
-  /// 180). If you don't do this, the value is rounded to the nearest minute. For
-  /// example, if you specify a value of 70, users are disconnected after 1 minute
-  /// of inactivity. If you specify a value that is at the midpoint between two
-  /// different minutes, the value is rounded up. For example, if you specify a
-  /// value of 90, users are disconnected after 2 minutes of inactivity.
-  /// </note>
-  final int? idleDisconnectTimeoutInSeconds;
-
-  /// The ARN for the public, private, or shared image.
-  final String? imageArn;
-
-  /// The name of the image used to create the fleet.
-  final String? imageName;
-
-  /// The maximum number of concurrent sessions for the fleet.
-  final int? maxConcurrentSessions;
-
-  /// The maximum number of user sessions on an instance. This only applies to
-  /// multi-session fleets.
-  final int? maxSessionsPerInstance;
-
-  /// The maximum amount of time that a streaming session can remain active, in
-  /// seconds. If users are still connected to a streaming instance five minutes
-  /// before this limit is reached, they are prompted to save any open documents
-  /// before being disconnected. After this time elapses, the instance is
-  /// terminated and replaced by a new instance.
-  ///
-  /// Specify a value between 600 and 360000.
-  final int? maxUserDurationInSeconds;
-
-  /// The platform of the fleet.
-  final PlatformType? platform;
-
-  /// The S3 location of the session scripts configuration zip file. This only
-  /// applies to Elastic fleets.
-  final S3Location? sessionScriptS3Location;
-
-  /// The AppStream 2.0 view that is displayed to your users when they stream from
-  /// the fleet. When <code>APP</code> is specified, only the windows of
-  /// applications opened by users display. When <code>DESKTOP</code> is
-  /// specified, the standard desktop that is provided by the operating system
-  /// displays.
-  ///
-  /// The default value is <code>APP</code>.
-  final StreamView? streamView;
-
-  /// The USB device filter strings associated with the fleet.
-  final List<String>? usbDeviceFilterStrings;
-
-  /// The VPC configuration for the fleet.
-  final VpcConfig? vpcConfig;
-
-  Fleet({
-    required this.arn,
-    required this.computeCapacityStatus,
-    required this.instanceType,
-    required this.name,
-    required this.state,
-    this.createdTime,
-    this.description,
-    this.disconnectTimeoutInSeconds,
-    this.displayName,
-    this.domainJoinInfo,
-    this.enableDefaultInternetAccess,
-    this.fleetErrors,
-    this.fleetType,
-    this.iamRoleArn,
-    this.idleDisconnectTimeoutInSeconds,
-    this.imageArn,
-    this.imageName,
-    this.maxConcurrentSessions,
-    this.maxSessionsPerInstance,
-    this.maxUserDurationInSeconds,
-    this.platform,
-    this.sessionScriptS3Location,
-    this.streamView,
-    this.usbDeviceFilterStrings,
-    this.vpcConfig,
+  GetExportImageTaskResult({
+    this.exportImageTask,
   });
 
-  factory Fleet.fromJson(Map<String, dynamic> json) {
-    return Fleet(
-      arn: (json['Arn'] as String?) ?? '',
-      computeCapacityStatus: ComputeCapacityStatus.fromJson(
-          (json['ComputeCapacityStatus'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      instanceType: (json['InstanceType'] as String?) ?? '',
-      name: (json['Name'] as String?) ?? '',
-      state: FleetState.fromString((json['State'] as String?) ?? ''),
-      createdTime: timeStampFromJson(json['CreatedTime']),
-      description: json['Description'] as String?,
-      disconnectTimeoutInSeconds: json['DisconnectTimeoutInSeconds'] as int?,
-      displayName: json['DisplayName'] as String?,
-      domainJoinInfo: json['DomainJoinInfo'] != null
-          ? DomainJoinInfo.fromJson(
-              json['DomainJoinInfo'] as Map<String, dynamic>)
-          : null,
-      enableDefaultInternetAccess: json['EnableDefaultInternetAccess'] as bool?,
-      fleetErrors: (json['FleetErrors'] as List?)
-          ?.nonNulls
-          .map((e) => FleetError.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      fleetType: (json['FleetType'] as String?)?.let(FleetType.fromString),
-      iamRoleArn: json['IamRoleArn'] as String?,
-      idleDisconnectTimeoutInSeconds:
-          json['IdleDisconnectTimeoutInSeconds'] as int?,
-      imageArn: json['ImageArn'] as String?,
-      imageName: json['ImageName'] as String?,
-      maxConcurrentSessions: json['MaxConcurrentSessions'] as int?,
-      maxSessionsPerInstance: json['MaxSessionsPerInstance'] as int?,
-      maxUserDurationInSeconds: json['MaxUserDurationInSeconds'] as int?,
-      platform: (json['Platform'] as String?)?.let(PlatformType.fromString),
-      sessionScriptS3Location: json['SessionScriptS3Location'] != null
-          ? S3Location.fromJson(
-              json['SessionScriptS3Location'] as Map<String, dynamic>)
-          : null,
-      streamView: (json['StreamView'] as String?)?.let(StreamView.fromString),
-      usbDeviceFilterStrings: (json['UsbDeviceFilterStrings'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      vpcConfig: json['VpcConfig'] != null
-          ? VpcConfig.fromJson(json['VpcConfig'] as Map<String, dynamic>)
+  factory GetExportImageTaskResult.fromJson(Map<String, dynamic> json) {
+    return GetExportImageTaskResult(
+      exportImageTask: json['ExportImageTask'] != null
+          ? ExportImageTask.fromJson(
+              json['ExportImageTask'] as Map<String, dynamic>)
           : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final computeCapacityStatus = this.computeCapacityStatus;
-    final instanceType = this.instanceType;
-    final name = this.name;
-    final state = this.state;
-    final createdTime = this.createdTime;
-    final description = this.description;
-    final disconnectTimeoutInSeconds = this.disconnectTimeoutInSeconds;
-    final displayName = this.displayName;
-    final domainJoinInfo = this.domainJoinInfo;
-    final enableDefaultInternetAccess = this.enableDefaultInternetAccess;
-    final fleetErrors = this.fleetErrors;
-    final fleetType = this.fleetType;
-    final iamRoleArn = this.iamRoleArn;
-    final idleDisconnectTimeoutInSeconds = this.idleDisconnectTimeoutInSeconds;
-    final imageArn = this.imageArn;
-    final imageName = this.imageName;
-    final maxConcurrentSessions = this.maxConcurrentSessions;
-    final maxSessionsPerInstance = this.maxSessionsPerInstance;
-    final maxUserDurationInSeconds = this.maxUserDurationInSeconds;
-    final platform = this.platform;
-    final sessionScriptS3Location = this.sessionScriptS3Location;
-    final streamView = this.streamView;
-    final usbDeviceFilterStrings = this.usbDeviceFilterStrings;
-    final vpcConfig = this.vpcConfig;
+    final exportImageTask = this.exportImageTask;
     return {
-      'Arn': arn,
-      'ComputeCapacityStatus': computeCapacityStatus,
-      'InstanceType': instanceType,
-      'Name': name,
-      'State': state.value,
-      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
-      if (description != null) 'Description': description,
-      if (disconnectTimeoutInSeconds != null)
-        'DisconnectTimeoutInSeconds': disconnectTimeoutInSeconds,
-      if (displayName != null) 'DisplayName': displayName,
-      if (domainJoinInfo != null) 'DomainJoinInfo': domainJoinInfo,
-      if (enableDefaultInternetAccess != null)
-        'EnableDefaultInternetAccess': enableDefaultInternetAccess,
-      if (fleetErrors != null) 'FleetErrors': fleetErrors,
-      if (fleetType != null) 'FleetType': fleetType.value,
-      if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
-      if (idleDisconnectTimeoutInSeconds != null)
-        'IdleDisconnectTimeoutInSeconds': idleDisconnectTimeoutInSeconds,
-      if (imageArn != null) 'ImageArn': imageArn,
-      if (imageName != null) 'ImageName': imageName,
-      if (maxConcurrentSessions != null)
-        'MaxConcurrentSessions': maxConcurrentSessions,
-      if (maxSessionsPerInstance != null)
-        'MaxSessionsPerInstance': maxSessionsPerInstance,
-      if (maxUserDurationInSeconds != null)
-        'MaxUserDurationInSeconds': maxUserDurationInSeconds,
-      if (platform != null) 'Platform': platform.value,
-      if (sessionScriptS3Location != null)
-        'SessionScriptS3Location': sessionScriptS3Location,
-      if (streamView != null) 'StreamView': streamView.value,
-      if (usbDeviceFilterStrings != null)
-        'UsbDeviceFilterStrings': usbDeviceFilterStrings,
-      if (vpcConfig != null) 'VpcConfig': vpcConfig,
+      if (exportImageTask != null) 'ExportImageTask': exportImageTask,
     };
   }
-}
-
-/// The fleet attribute.
-class FleetAttribute {
-  static const vpcConfiguration = FleetAttribute._('VPC_CONFIGURATION');
-  static const vpcConfigurationSecurityGroupIds =
-      FleetAttribute._('VPC_CONFIGURATION_SECURITY_GROUP_IDS');
-  static const domainJoinInfo = FleetAttribute._('DOMAIN_JOIN_INFO');
-  static const iamRoleArn = FleetAttribute._('IAM_ROLE_ARN');
-  static const usbDeviceFilterStrings =
-      FleetAttribute._('USB_DEVICE_FILTER_STRINGS');
-  static const sessionScriptS3Location =
-      FleetAttribute._('SESSION_SCRIPT_S3_LOCATION');
-  static const maxSessionsPerInstance =
-      FleetAttribute._('MAX_SESSIONS_PER_INSTANCE');
-
-  final String value;
-
-  const FleetAttribute._(this.value);
-
-  static const values = [
-    vpcConfiguration,
-    vpcConfigurationSecurityGroupIds,
-    domainJoinInfo,
-    iamRoleArn,
-    usbDeviceFilterStrings,
-    sessionScriptS3Location,
-    maxSessionsPerInstance
-  ];
-
-  static FleetAttribute fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FleetAttribute._(value));
-
-  @override
-  bool operator ==(other) => other is FleetAttribute && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes a fleet error.
-class FleetError {
-  /// The error code.
-  final FleetErrorCode? errorCode;
-
-  /// The error message.
-  final String? errorMessage;
-
-  FleetError({
-    this.errorCode,
-    this.errorMessage,
-  });
-
-  factory FleetError.fromJson(Map<String, dynamic> json) {
-    return FleetError(
-      errorCode: (json['ErrorCode'] as String?)?.let(FleetErrorCode.fromString),
-      errorMessage: json['ErrorMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    return {
-      if (errorCode != null) 'ErrorCode': errorCode.value,
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-    };
-  }
-}
-
-class FleetErrorCode {
-  static const iamServiceRoleMissingEniDescribeAction =
-      FleetErrorCode._('IAM_SERVICE_ROLE_MISSING_ENI_DESCRIBE_ACTION');
-  static const iamServiceRoleMissingEniCreateAction =
-      FleetErrorCode._('IAM_SERVICE_ROLE_MISSING_ENI_CREATE_ACTION');
-  static const iamServiceRoleMissingEniDeleteAction =
-      FleetErrorCode._('IAM_SERVICE_ROLE_MISSING_ENI_DELETE_ACTION');
-  static const networkInterfaceLimitExceeded =
-      FleetErrorCode._('NETWORK_INTERFACE_LIMIT_EXCEEDED');
-  static const internalServiceError =
-      FleetErrorCode._('INTERNAL_SERVICE_ERROR');
-  static const iamServiceRoleIsMissing =
-      FleetErrorCode._('IAM_SERVICE_ROLE_IS_MISSING');
-  static const machineRoleIsMissing =
-      FleetErrorCode._('MACHINE_ROLE_IS_MISSING');
-  static const stsDisabledInRegion = FleetErrorCode._('STS_DISABLED_IN_REGION');
-  static const subnetHasInsufficientIpAddresses =
-      FleetErrorCode._('SUBNET_HAS_INSUFFICIENT_IP_ADDRESSES');
-  static const iamServiceRoleMissingDescribeSubnetAction =
-      FleetErrorCode._('IAM_SERVICE_ROLE_MISSING_DESCRIBE_SUBNET_ACTION');
-  static const subnetNotFound = FleetErrorCode._('SUBNET_NOT_FOUND');
-  static const imageNotFound = FleetErrorCode._('IMAGE_NOT_FOUND');
-  static const invalidSubnetConfiguration =
-      FleetErrorCode._('INVALID_SUBNET_CONFIGURATION');
-  static const securityGroupsNotFound =
-      FleetErrorCode._('SECURITY_GROUPS_NOT_FOUND');
-  static const igwNotAttached = FleetErrorCode._('IGW_NOT_ATTACHED');
-  static const iamServiceRoleMissingDescribeSecurityGroupsAction =
-      FleetErrorCode._(
-          'IAM_SERVICE_ROLE_MISSING_DESCRIBE_SECURITY_GROUPS_ACTION');
-  static const fleetStopped = FleetErrorCode._('FLEET_STOPPED');
-  static const fleetInstanceProvisioningFailure =
-      FleetErrorCode._('FLEET_INSTANCE_PROVISIONING_FAILURE');
-  static const domainJoinErrorFileNotFound =
-      FleetErrorCode._('DOMAIN_JOIN_ERROR_FILE_NOT_FOUND');
-  static const domainJoinErrorAccessDenied =
-      FleetErrorCode._('DOMAIN_JOIN_ERROR_ACCESS_DENIED');
-  static const domainJoinErrorLogonFailure =
-      FleetErrorCode._('DOMAIN_JOIN_ERROR_LOGON_FAILURE');
-  static const domainJoinErrorInvalidParameter =
-      FleetErrorCode._('DOMAIN_JOIN_ERROR_INVALID_PARAMETER');
-  static const domainJoinErrorMoreData =
-      FleetErrorCode._('DOMAIN_JOIN_ERROR_MORE_DATA');
-  static const domainJoinErrorNoSuchDomain =
-      FleetErrorCode._('DOMAIN_JOIN_ERROR_NO_SUCH_DOMAIN');
-  static const domainJoinErrorNotSupported =
-      FleetErrorCode._('DOMAIN_JOIN_ERROR_NOT_SUPPORTED');
-  static const domainJoinNerrInvalidWorkgroupName =
-      FleetErrorCode._('DOMAIN_JOIN_NERR_INVALID_WORKGROUP_NAME');
-  static const domainJoinNerrWorkstationNotStarted =
-      FleetErrorCode._('DOMAIN_JOIN_NERR_WORKSTATION_NOT_STARTED');
-  static const domainJoinErrorDsMachineAccountQuotaExceeded =
-      FleetErrorCode._('DOMAIN_JOIN_ERROR_DS_MACHINE_ACCOUNT_QUOTA_EXCEEDED');
-  static const domainJoinNerrPasswordExpired =
-      FleetErrorCode._('DOMAIN_JOIN_NERR_PASSWORD_EXPIRED');
-  static const domainJoinInternalServiceError =
-      FleetErrorCode._('DOMAIN_JOIN_INTERNAL_SERVICE_ERROR');
-
-  final String value;
-
-  const FleetErrorCode._(this.value);
-
-  static const values = [
-    iamServiceRoleMissingEniDescribeAction,
-    iamServiceRoleMissingEniCreateAction,
-    iamServiceRoleMissingEniDeleteAction,
-    networkInterfaceLimitExceeded,
-    internalServiceError,
-    iamServiceRoleIsMissing,
-    machineRoleIsMissing,
-    stsDisabledInRegion,
-    subnetHasInsufficientIpAddresses,
-    iamServiceRoleMissingDescribeSubnetAction,
-    subnetNotFound,
-    imageNotFound,
-    invalidSubnetConfiguration,
-    securityGroupsNotFound,
-    igwNotAttached,
-    iamServiceRoleMissingDescribeSecurityGroupsAction,
-    fleetStopped,
-    fleetInstanceProvisioningFailure,
-    domainJoinErrorFileNotFound,
-    domainJoinErrorAccessDenied,
-    domainJoinErrorLogonFailure,
-    domainJoinErrorInvalidParameter,
-    domainJoinErrorMoreData,
-    domainJoinErrorNoSuchDomain,
-    domainJoinErrorNotSupported,
-    domainJoinNerrInvalidWorkgroupName,
-    domainJoinNerrWorkstationNotStarted,
-    domainJoinErrorDsMachineAccountQuotaExceeded,
-    domainJoinNerrPasswordExpired,
-    domainJoinInternalServiceError
-  ];
-
-  static FleetErrorCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FleetErrorCode._(value));
-
-  @override
-  bool operator ==(other) => other is FleetErrorCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class FleetState {
-  static const starting = FleetState._('STARTING');
-  static const running = FleetState._('RUNNING');
-  static const stopping = FleetState._('STOPPING');
-  static const stopped = FleetState._('STOPPED');
-
-  final String value;
-
-  const FleetState._(this.value);
-
-  static const values = [starting, running, stopping, stopped];
-
-  static FleetState fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => FleetState._(value));
-
-  @override
-  bool operator ==(other) => other is FleetState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class FleetType {
-  static const alwaysOn = FleetType._('ALWAYS_ON');
-  static const onDemand = FleetType._('ON_DEMAND');
-  static const elastic = FleetType._('ELASTIC');
-
-  final String value;
-
-  const FleetType._(this.value);
-
-  static const values = [alwaysOn, onDemand, elastic];
-
-  static FleetType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => FleetType._(value));
-
-  @override
-  bool operator ==(other) => other is FleetType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes an image.
-class Image {
-  /// The name of the image.
-  final String name;
-
-  /// The applications associated with the image.
-  final List<Application>? applications;
-
-  /// The version of the AppStream 2.0 agent to use for instances that are
-  /// launched from this image.
-  final String? appstreamAgentVersion;
-
-  /// The ARN of the image.
-  final String? arn;
-
-  /// The ARN of the image from which this image was created.
-  final String? baseImageArn;
-
-  /// The time the image was created.
-  final DateTime? createdTime;
-
-  /// The description to display.
-  final String? description;
-
-  /// The image name to display.
-  final String? displayName;
-
-  /// Indicates whether dynamic app providers are enabled within an AppStream 2.0
-  /// image or not.
-  final DynamicAppProvidersEnabled? dynamicAppProvidersEnabled;
-
-  /// The name of the image builder that was used to create the private image. If
-  /// the image is shared, this value is null.
-  final String? imageBuilderName;
-
-  /// Indicates whether an image builder can be launched from this image.
-  final bool? imageBuilderSupported;
-
-  /// Describes the errors that are returned when a new image can't be created.
-  final List<ResourceError>? imageErrors;
-
-  /// The permissions to provide to the destination AWS account for the specified
-  /// image.
-  final ImagePermissions? imagePermissions;
-
-  /// Indicates whether the image is shared with another account ID.
-  final ImageSharedWithOthers? imageSharedWithOthers;
-
-  /// Indicates whether the image is using the latest AppStream 2.0 agent version
-  /// or not.
-  final LatestAppstreamAgentVersion? latestAppstreamAgentVersion;
-
-  /// The operating system platform of the image.
-  final PlatformType? platform;
-
-  /// The release date of the public base image. For private images, this date is
-  /// the release date of the base image from which the image was created.
-  final DateTime? publicBaseImageReleasedDate;
-
-  /// The image starts in the <code>PENDING</code> state. If image creation
-  /// succeeds, the state is <code>AVAILABLE</code>. If image creation fails, the
-  /// state is <code>FAILED</code>.
-  final ImageState? state;
-
-  /// The reason why the last state change occurred.
-  final ImageStateChangeReason? stateChangeReason;
-
-  /// The supported instances families that determine which image a customer can
-  /// use when the customer launches a fleet or image builder. The following
-  /// instances families are supported:
-  ///
-  /// <ul>
-  /// <li>
-  /// General Purpose
-  /// </li>
-  /// <li>
-  /// Compute Optimized
-  /// </li>
-  /// <li>
-  /// Memory Optimized
-  /// </li>
-  /// <li>
-  /// Graphics
-  /// </li>
-  /// <li>
-  /// Graphics Design
-  /// </li>
-  /// <li>
-  /// Graphics Pro
-  /// </li>
-  /// <li>
-  /// Graphics G4
-  /// </li>
-  /// <li>
-  /// Graphics G5
-  /// </li>
-  /// </ul>
-  final List<String>? supportedInstanceFamilies;
-
-  /// Indicates whether the image is public or private.
-  final VisibilityType? visibility;
-
-  Image({
-    required this.name,
-    this.applications,
-    this.appstreamAgentVersion,
-    this.arn,
-    this.baseImageArn,
-    this.createdTime,
-    this.description,
-    this.displayName,
-    this.dynamicAppProvidersEnabled,
-    this.imageBuilderName,
-    this.imageBuilderSupported,
-    this.imageErrors,
-    this.imagePermissions,
-    this.imageSharedWithOthers,
-    this.latestAppstreamAgentVersion,
-    this.platform,
-    this.publicBaseImageReleasedDate,
-    this.state,
-    this.stateChangeReason,
-    this.supportedInstanceFamilies,
-    this.visibility,
-  });
-
-  factory Image.fromJson(Map<String, dynamic> json) {
-    return Image(
-      name: (json['Name'] as String?) ?? '',
-      applications: (json['Applications'] as List?)
-          ?.nonNulls
-          .map((e) => Application.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      appstreamAgentVersion: json['AppstreamAgentVersion'] as String?,
-      arn: json['Arn'] as String?,
-      baseImageArn: json['BaseImageArn'] as String?,
-      createdTime: timeStampFromJson(json['CreatedTime']),
-      description: json['Description'] as String?,
-      displayName: json['DisplayName'] as String?,
-      dynamicAppProvidersEnabled:
-          (json['DynamicAppProvidersEnabled'] as String?)
-              ?.let(DynamicAppProvidersEnabled.fromString),
-      imageBuilderName: json['ImageBuilderName'] as String?,
-      imageBuilderSupported: json['ImageBuilderSupported'] as bool?,
-      imageErrors: (json['ImageErrors'] as List?)
-          ?.nonNulls
-          .map((e) => ResourceError.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      imagePermissions: json['ImagePermissions'] != null
-          ? ImagePermissions.fromJson(
-              json['ImagePermissions'] as Map<String, dynamic>)
-          : null,
-      imageSharedWithOthers: (json['ImageSharedWithOthers'] as String?)
-          ?.let(ImageSharedWithOthers.fromString),
-      latestAppstreamAgentVersion:
-          (json['LatestAppstreamAgentVersion'] as String?)
-              ?.let(LatestAppstreamAgentVersion.fromString),
-      platform: (json['Platform'] as String?)?.let(PlatformType.fromString),
-      publicBaseImageReleasedDate:
-          timeStampFromJson(json['PublicBaseImageReleasedDate']),
-      state: (json['State'] as String?)?.let(ImageState.fromString),
-      stateChangeReason: json['StateChangeReason'] != null
-          ? ImageStateChangeReason.fromJson(
-              json['StateChangeReason'] as Map<String, dynamic>)
-          : null,
-      supportedInstanceFamilies: (json['SupportedInstanceFamilies'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      visibility:
-          (json['Visibility'] as String?)?.let(VisibilityType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final applications = this.applications;
-    final appstreamAgentVersion = this.appstreamAgentVersion;
-    final arn = this.arn;
-    final baseImageArn = this.baseImageArn;
-    final createdTime = this.createdTime;
-    final description = this.description;
-    final displayName = this.displayName;
-    final dynamicAppProvidersEnabled = this.dynamicAppProvidersEnabled;
-    final imageBuilderName = this.imageBuilderName;
-    final imageBuilderSupported = this.imageBuilderSupported;
-    final imageErrors = this.imageErrors;
-    final imagePermissions = this.imagePermissions;
-    final imageSharedWithOthers = this.imageSharedWithOthers;
-    final latestAppstreamAgentVersion = this.latestAppstreamAgentVersion;
-    final platform = this.platform;
-    final publicBaseImageReleasedDate = this.publicBaseImageReleasedDate;
-    final state = this.state;
-    final stateChangeReason = this.stateChangeReason;
-    final supportedInstanceFamilies = this.supportedInstanceFamilies;
-    final visibility = this.visibility;
-    return {
-      'Name': name,
-      if (applications != null) 'Applications': applications,
-      if (appstreamAgentVersion != null)
-        'AppstreamAgentVersion': appstreamAgentVersion,
-      if (arn != null) 'Arn': arn,
-      if (baseImageArn != null) 'BaseImageArn': baseImageArn,
-      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
-      if (description != null) 'Description': description,
-      if (displayName != null) 'DisplayName': displayName,
-      if (dynamicAppProvidersEnabled != null)
-        'DynamicAppProvidersEnabled': dynamicAppProvidersEnabled.value,
-      if (imageBuilderName != null) 'ImageBuilderName': imageBuilderName,
-      if (imageBuilderSupported != null)
-        'ImageBuilderSupported': imageBuilderSupported,
-      if (imageErrors != null) 'ImageErrors': imageErrors,
-      if (imagePermissions != null) 'ImagePermissions': imagePermissions,
-      if (imageSharedWithOthers != null)
-        'ImageSharedWithOthers': imageSharedWithOthers.value,
-      if (latestAppstreamAgentVersion != null)
-        'LatestAppstreamAgentVersion': latestAppstreamAgentVersion.value,
-      if (platform != null) 'Platform': platform.value,
-      if (publicBaseImageReleasedDate != null)
-        'PublicBaseImageReleasedDate':
-            unixTimestampToJson(publicBaseImageReleasedDate),
-      if (state != null) 'State': state.value,
-      if (stateChangeReason != null) 'StateChangeReason': stateChangeReason,
-      if (supportedInstanceFamilies != null)
-        'SupportedInstanceFamilies': supportedInstanceFamilies,
-      if (visibility != null) 'Visibility': visibility.value,
-    };
-  }
-}
-
-/// Describes a virtual machine that is used to create an image.
-class ImageBuilder {
-  /// The name of the image builder.
-  final String name;
-
-  /// The list of virtual private cloud (VPC) interface endpoint objects.
-  /// Administrators can connect to the image builder only through the specified
-  /// endpoints.
-  final List<AccessEndpoint>? accessEndpoints;
-
-  /// The version of the AppStream 2.0 agent that is currently being used by the
-  /// image builder.
-  final String? appstreamAgentVersion;
-
-  /// The ARN for the image builder.
-  final String? arn;
-
-  /// The time stamp when the image builder was created.
-  final DateTime? createdTime;
-
-  /// The description to display.
-  final String? description;
-
-  /// The image builder name to display.
-  final String? displayName;
-
-  /// The name of the directory and organizational unit (OU) to use to join the
-  /// image builder to a Microsoft Active Directory domain.
-  final DomainJoinInfo? domainJoinInfo;
-
-  /// Enables or disables default internet access for the image builder.
-  final bool? enableDefaultInternetAccess;
-
-  /// The ARN of the IAM role that is applied to the image builder. To assume a
-  /// role, the image builder calls the AWS Security Token Service (STS)
-  /// <code>AssumeRole</code> API operation and passes the ARN of the role to use.
-  /// The operation creates a new session with temporary credentials. AppStream
-  /// 2.0 retrieves the temporary credentials and creates the
-  /// <b>appstream_machine_role</b> credential profile on the instance.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html">Using
-  /// an IAM Role to Grant Permissions to Applications and Scripts Running on
-  /// AppStream 2.0 Streaming Instances</a> in the <i>Amazon AppStream 2.0
-  /// Administration Guide</i>.
-  final String? iamRoleArn;
-
-  /// The ARN of the image from which this builder was created.
-  final String? imageArn;
-
-  /// The image builder errors.
-  final List<ResourceError>? imageBuilderErrors;
-
-  /// The instance type for the image builder. The following instance types are
-  /// available:
-  ///
-  /// <ul>
-  /// <li>
-  /// stream.standard.small
-  /// </li>
-  /// <li>
-  /// stream.standard.medium
-  /// </li>
-  /// <li>
-  /// stream.standard.large
-  /// </li>
-  /// <li>
-  /// stream.compute.large
-  /// </li>
-  /// <li>
-  /// stream.compute.xlarge
-  /// </li>
-  /// <li>
-  /// stream.compute.2xlarge
-  /// </li>
-  /// <li>
-  /// stream.compute.4xlarge
-  /// </li>
-  /// <li>
-  /// stream.compute.8xlarge
-  /// </li>
-  /// <li>
-  /// stream.memory.large
-  /// </li>
-  /// <li>
-  /// stream.memory.xlarge
-  /// </li>
-  /// <li>
-  /// stream.memory.2xlarge
-  /// </li>
-  /// <li>
-  /// stream.memory.4xlarge
-  /// </li>
-  /// <li>
-  /// stream.memory.8xlarge
-  /// </li>
-  /// <li>
-  /// stream.memory.z1d.large
-  /// </li>
-  /// <li>
-  /// stream.memory.z1d.xlarge
-  /// </li>
-  /// <li>
-  /// stream.memory.z1d.2xlarge
-  /// </li>
-  /// <li>
-  /// stream.memory.z1d.3xlarge
-  /// </li>
-  /// <li>
-  /// stream.memory.z1d.6xlarge
-  /// </li>
-  /// <li>
-  /// stream.memory.z1d.12xlarge
-  /// </li>
-  /// <li>
-  /// stream.graphics-design.large
-  /// </li>
-  /// <li>
-  /// stream.graphics-design.xlarge
-  /// </li>
-  /// <li>
-  /// stream.graphics-design.2xlarge
-  /// </li>
-  /// <li>
-  /// stream.graphics-design.4xlarge
-  /// </li>
-  /// <li>
-  /// stream.graphics-desktop.2xlarge
-  /// </li>
-  /// <li>
-  /// stream.graphics.g4dn.xlarge
-  /// </li>
-  /// <li>
-  /// stream.graphics.g4dn.2xlarge
-  /// </li>
-  /// <li>
-  /// stream.graphics.g4dn.4xlarge
-  /// </li>
-  /// <li>
-  /// stream.graphics.g4dn.8xlarge
-  /// </li>
-  /// <li>
-  /// stream.graphics.g4dn.12xlarge
-  /// </li>
-  /// <li>
-  /// stream.graphics.g4dn.16xlarge
-  /// </li>
-  /// <li>
-  /// stream.graphics-pro.4xlarge
-  /// </li>
-  /// <li>
-  /// stream.graphics-pro.8xlarge
-  /// </li>
-  /// <li>
-  /// stream.graphics-pro.16xlarge
-  /// </li>
-  /// </ul>
-  final String? instanceType;
-
-  /// Indicates whether the image builder is using the latest AppStream 2.0 agent
-  /// version or not.
-  final LatestAppstreamAgentVersion? latestAppstreamAgentVersion;
-  final NetworkAccessConfiguration? networkAccessConfiguration;
-
-  /// The operating system platform of the image builder.
-  final PlatformType? platform;
-
-  /// The state of the image builder.
-  final ImageBuilderState? state;
-
-  /// The reason why the last state change occurred.
-  final ImageBuilderStateChangeReason? stateChangeReason;
-
-  /// The VPC configuration of the image builder.
-  final VpcConfig? vpcConfig;
-
-  ImageBuilder({
-    required this.name,
-    this.accessEndpoints,
-    this.appstreamAgentVersion,
-    this.arn,
-    this.createdTime,
-    this.description,
-    this.displayName,
-    this.domainJoinInfo,
-    this.enableDefaultInternetAccess,
-    this.iamRoleArn,
-    this.imageArn,
-    this.imageBuilderErrors,
-    this.instanceType,
-    this.latestAppstreamAgentVersion,
-    this.networkAccessConfiguration,
-    this.platform,
-    this.state,
-    this.stateChangeReason,
-    this.vpcConfig,
-  });
-
-  factory ImageBuilder.fromJson(Map<String, dynamic> json) {
-    return ImageBuilder(
-      name: (json['Name'] as String?) ?? '',
-      accessEndpoints: (json['AccessEndpoints'] as List?)
-          ?.nonNulls
-          .map((e) => AccessEndpoint.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      appstreamAgentVersion: json['AppstreamAgentVersion'] as String?,
-      arn: json['Arn'] as String?,
-      createdTime: timeStampFromJson(json['CreatedTime']),
-      description: json['Description'] as String?,
-      displayName: json['DisplayName'] as String?,
-      domainJoinInfo: json['DomainJoinInfo'] != null
-          ? DomainJoinInfo.fromJson(
-              json['DomainJoinInfo'] as Map<String, dynamic>)
-          : null,
-      enableDefaultInternetAccess: json['EnableDefaultInternetAccess'] as bool?,
-      iamRoleArn: json['IamRoleArn'] as String?,
-      imageArn: json['ImageArn'] as String?,
-      imageBuilderErrors: (json['ImageBuilderErrors'] as List?)
-          ?.nonNulls
-          .map((e) => ResourceError.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      instanceType: json['InstanceType'] as String?,
-      latestAppstreamAgentVersion:
-          (json['LatestAppstreamAgentVersion'] as String?)
-              ?.let(LatestAppstreamAgentVersion.fromString),
-      networkAccessConfiguration: json['NetworkAccessConfiguration'] != null
-          ? NetworkAccessConfiguration.fromJson(
-              json['NetworkAccessConfiguration'] as Map<String, dynamic>)
-          : null,
-      platform: (json['Platform'] as String?)?.let(PlatformType.fromString),
-      state: (json['State'] as String?)?.let(ImageBuilderState.fromString),
-      stateChangeReason: json['StateChangeReason'] != null
-          ? ImageBuilderStateChangeReason.fromJson(
-              json['StateChangeReason'] as Map<String, dynamic>)
-          : null,
-      vpcConfig: json['VpcConfig'] != null
-          ? VpcConfig.fromJson(json['VpcConfig'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final accessEndpoints = this.accessEndpoints;
-    final appstreamAgentVersion = this.appstreamAgentVersion;
-    final arn = this.arn;
-    final createdTime = this.createdTime;
-    final description = this.description;
-    final displayName = this.displayName;
-    final domainJoinInfo = this.domainJoinInfo;
-    final enableDefaultInternetAccess = this.enableDefaultInternetAccess;
-    final iamRoleArn = this.iamRoleArn;
-    final imageArn = this.imageArn;
-    final imageBuilderErrors = this.imageBuilderErrors;
-    final instanceType = this.instanceType;
-    final latestAppstreamAgentVersion = this.latestAppstreamAgentVersion;
-    final networkAccessConfiguration = this.networkAccessConfiguration;
-    final platform = this.platform;
-    final state = this.state;
-    final stateChangeReason = this.stateChangeReason;
-    final vpcConfig = this.vpcConfig;
-    return {
-      'Name': name,
-      if (accessEndpoints != null) 'AccessEndpoints': accessEndpoints,
-      if (appstreamAgentVersion != null)
-        'AppstreamAgentVersion': appstreamAgentVersion,
-      if (arn != null) 'Arn': arn,
-      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
-      if (description != null) 'Description': description,
-      if (displayName != null) 'DisplayName': displayName,
-      if (domainJoinInfo != null) 'DomainJoinInfo': domainJoinInfo,
-      if (enableDefaultInternetAccess != null)
-        'EnableDefaultInternetAccess': enableDefaultInternetAccess,
-      if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
-      if (imageArn != null) 'ImageArn': imageArn,
-      if (imageBuilderErrors != null) 'ImageBuilderErrors': imageBuilderErrors,
-      if (instanceType != null) 'InstanceType': instanceType,
-      if (latestAppstreamAgentVersion != null)
-        'LatestAppstreamAgentVersion': latestAppstreamAgentVersion.value,
-      if (networkAccessConfiguration != null)
-        'NetworkAccessConfiguration': networkAccessConfiguration,
-      if (platform != null) 'Platform': platform.value,
-      if (state != null) 'State': state.value,
-      if (stateChangeReason != null) 'StateChangeReason': stateChangeReason,
-      if (vpcConfig != null) 'VpcConfig': vpcConfig,
-    };
-  }
-}
-
-class ImageBuilderState {
-  static const pending = ImageBuilderState._('PENDING');
-  static const updatingAgent = ImageBuilderState._('UPDATING_AGENT');
-  static const running = ImageBuilderState._('RUNNING');
-  static const stopping = ImageBuilderState._('STOPPING');
-  static const stopped = ImageBuilderState._('STOPPED');
-  static const rebooting = ImageBuilderState._('REBOOTING');
-  static const snapshotting = ImageBuilderState._('SNAPSHOTTING');
-  static const deleting = ImageBuilderState._('DELETING');
-  static const failed = ImageBuilderState._('FAILED');
-  static const updating = ImageBuilderState._('UPDATING');
-  static const pendingQualification =
-      ImageBuilderState._('PENDING_QUALIFICATION');
-
-  final String value;
-
-  const ImageBuilderState._(this.value);
-
-  static const values = [
-    pending,
-    updatingAgent,
-    running,
-    stopping,
-    stopped,
-    rebooting,
-    snapshotting,
-    deleting,
-    failed,
-    updating,
-    pendingQualification
-  ];
-
-  static ImageBuilderState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ImageBuilderState._(value));
-
-  @override
-  bool operator ==(other) => other is ImageBuilderState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes the reason why the last image builder state change occurred.
-class ImageBuilderStateChangeReason {
-  /// The state change reason code.
-  final ImageBuilderStateChangeReasonCode? code;
-
-  /// The state change reason message.
-  final String? message;
-
-  ImageBuilderStateChangeReason({
-    this.code,
-    this.message,
-  });
-
-  factory ImageBuilderStateChangeReason.fromJson(Map<String, dynamic> json) {
-    return ImageBuilderStateChangeReason(
-      code: (json['Code'] as String?)
-          ?.let(ImageBuilderStateChangeReasonCode.fromString),
-      message: json['Message'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final message = this.message;
-    return {
-      if (code != null) 'Code': code.value,
-      if (message != null) 'Message': message,
-    };
-  }
-}
-
-class ImageBuilderStateChangeReasonCode {
-  static const internalError =
-      ImageBuilderStateChangeReasonCode._('INTERNAL_ERROR');
-  static const imageUnavailable =
-      ImageBuilderStateChangeReasonCode._('IMAGE_UNAVAILABLE');
-
-  final String value;
-
-  const ImageBuilderStateChangeReasonCode._(this.value);
-
-  static const values = [internalError, imageUnavailable];
-
-  static ImageBuilderStateChangeReasonCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ImageBuilderStateChangeReasonCode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ImageBuilderStateChangeReasonCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes the permissions for an image.
-class ImagePermissions {
-  /// Indicates whether the image can be used for a fleet.
-  final bool? allowFleet;
-
-  /// Indicates whether the image can be used for an image builder.
-  final bool? allowImageBuilder;
-
-  ImagePermissions({
-    this.allowFleet,
-    this.allowImageBuilder,
-  });
-
-  factory ImagePermissions.fromJson(Map<String, dynamic> json) {
-    return ImagePermissions(
-      allowFleet: json['allowFleet'] as bool?,
-      allowImageBuilder: json['allowImageBuilder'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final allowFleet = this.allowFleet;
-    final allowImageBuilder = this.allowImageBuilder;
-    return {
-      if (allowFleet != null) 'allowFleet': allowFleet,
-      if (allowImageBuilder != null) 'allowImageBuilder': allowImageBuilder,
-    };
-  }
-}
-
-class ImageSharedWithOthers {
-  static const $true = ImageSharedWithOthers._('TRUE');
-  static const $false = ImageSharedWithOthers._('FALSE');
-
-  final String value;
-
-  const ImageSharedWithOthers._(this.value);
-
-  static const values = [$true, $false];
-
-  static ImageSharedWithOthers fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ImageSharedWithOthers._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ImageSharedWithOthers && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ImageState {
-  static const pending = ImageState._('PENDING');
-  static const available = ImageState._('AVAILABLE');
-  static const failed = ImageState._('FAILED');
-  static const copying = ImageState._('COPYING');
-  static const deleting = ImageState._('DELETING');
-  static const creating = ImageState._('CREATING');
-  static const importing = ImageState._('IMPORTING');
-
-  final String value;
-
-  const ImageState._(this.value);
-
-  static const values = [
-    pending,
-    available,
-    failed,
-    copying,
-    deleting,
-    creating,
-    importing
-  ];
-
-  static ImageState fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ImageState._(value));
-
-  @override
-  bool operator ==(other) => other is ImageState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes the reason why the last image state change occurred.
-class ImageStateChangeReason {
-  /// The state change reason code.
-  final ImageStateChangeReasonCode? code;
-
-  /// The state change reason message.
-  final String? message;
-
-  ImageStateChangeReason({
-    this.code,
-    this.message,
-  });
-
-  factory ImageStateChangeReason.fromJson(Map<String, dynamic> json) {
-    return ImageStateChangeReason(
-      code:
-          (json['Code'] as String?)?.let(ImageStateChangeReasonCode.fromString),
-      message: json['Message'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final message = this.message;
-    return {
-      if (code != null) 'Code': code.value,
-      if (message != null) 'Message': message,
-    };
-  }
-}
-
-class ImageStateChangeReasonCode {
-  static const internalError = ImageStateChangeReasonCode._('INTERNAL_ERROR');
-  static const imageBuilderNotAvailable =
-      ImageStateChangeReasonCode._('IMAGE_BUILDER_NOT_AVAILABLE');
-  static const imageCopyFailure =
-      ImageStateChangeReasonCode._('IMAGE_COPY_FAILURE');
-
-  final String value;
-
-  const ImageStateChangeReasonCode._(this.value);
-
-  static const values = [
-    internalError,
-    imageBuilderNotAvailable,
-    imageCopyFailure
-  ];
-
-  static ImageStateChangeReasonCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ImageStateChangeReasonCode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ImageStateChangeReasonCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes the error that is returned when a usage report can't be generated.
-class LastReportGenerationExecutionError {
-  /// The error code for the error that is returned when a usage report can't be
-  /// generated.
-  final UsageReportExecutionErrorCode? errorCode;
-
-  /// The error message for the error that is returned when a usage report can't
-  /// be generated.
-  final String? errorMessage;
-
-  LastReportGenerationExecutionError({
-    this.errorCode,
-    this.errorMessage,
-  });
-
-  factory LastReportGenerationExecutionError.fromJson(
-      Map<String, dynamic> json) {
-    return LastReportGenerationExecutionError(
-      errorCode: (json['ErrorCode'] as String?)
-          ?.let(UsageReportExecutionErrorCode.fromString),
-      errorMessage: json['ErrorMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    return {
-      if (errorCode != null) 'ErrorCode': errorCode.value,
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-    };
-  }
-}
-
-class LatestAppstreamAgentVersion {
-  static const $true = LatestAppstreamAgentVersion._('TRUE');
-  static const $false = LatestAppstreamAgentVersion._('FALSE');
-
-  final String value;
-
-  const LatestAppstreamAgentVersion._(this.value);
-
-  static const values = [$true, $false];
-
-  static LatestAppstreamAgentVersion fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LatestAppstreamAgentVersion._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is LatestAppstreamAgentVersion && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class ListAssociatedFleetsResult {
@@ -8891,6 +7248,39 @@ class ListEntitledApplicationsResult {
   }
 }
 
+class ListExportImageTasksResult {
+  /// The list of export image tasks that match the specified criteria.
+  final List<ExportImageTask>? exportImageTasks;
+
+  /// The pagination token to use for retrieving the next page of results. This
+  /// field is only present when there are more results available.
+  final String? nextToken;
+
+  ListExportImageTasksResult({
+    this.exportImageTasks,
+    this.nextToken,
+  });
+
+  factory ListExportImageTasksResult.fromJson(Map<String, dynamic> json) {
+    return ListExportImageTasksResult(
+      exportImageTasks: (json['ExportImageTasks'] as List?)
+          ?.nonNulls
+          .map((e) => ExportImageTask.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final exportImageTasks = this.exportImageTasks;
+    final nextToken = this.nextToken;
+    return {
+      if (exportImageTasks != null) 'ExportImageTasks': exportImageTasks,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 class ListTagsForResourceResponse {
   /// The information about the tags.
   final Map<String, String>? tags;
@@ -8912,786 +7302,6 @@ class ListTagsForResourceResponse {
       if (tags != null) 'Tags': tags,
     };
   }
-}
-
-class MessageAction {
-  static const suppress = MessageAction._('SUPPRESS');
-  static const resend = MessageAction._('RESEND');
-
-  final String value;
-
-  const MessageAction._(this.value);
-
-  static const values = [suppress, resend];
-
-  static MessageAction fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MessageAction._(value));
-
-  @override
-  bool operator ==(other) => other is MessageAction && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes the network details of the fleet or image builder instance.
-class NetworkAccessConfiguration {
-  /// The resource identifier of the elastic network interface that is attached to
-  /// instances in your VPC. All network interfaces have the eni-xxxxxxxx resource
-  /// identifier.
-  final String? eniId;
-
-  /// The private IP address of the elastic network interface that is attached to
-  /// instances in your VPC.
-  final String? eniPrivateIpAddress;
-
-  NetworkAccessConfiguration({
-    this.eniId,
-    this.eniPrivateIpAddress,
-  });
-
-  factory NetworkAccessConfiguration.fromJson(Map<String, dynamic> json) {
-    return NetworkAccessConfiguration(
-      eniId: json['EniId'] as String?,
-      eniPrivateIpAddress: json['EniPrivateIpAddress'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eniId = this.eniId;
-    final eniPrivateIpAddress = this.eniPrivateIpAddress;
-    return {
-      if (eniId != null) 'EniId': eniId,
-      if (eniPrivateIpAddress != null)
-        'EniPrivateIpAddress': eniPrivateIpAddress,
-    };
-  }
-}
-
-class PackagingType {
-  static const custom = PackagingType._('CUSTOM');
-  static const appstream2 = PackagingType._('APPSTREAM2');
-
-  final String value;
-
-  const PackagingType._(this.value);
-
-  static const values = [custom, appstream2];
-
-  static PackagingType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PackagingType._(value));
-
-  @override
-  bool operator ==(other) => other is PackagingType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class Permission {
-  static const enabled = Permission._('ENABLED');
-  static const disabled = Permission._('DISABLED');
-
-  final String value;
-
-  const Permission._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static Permission fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Permission._(value));
-
-  @override
-  bool operator ==(other) => other is Permission && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class PlatformType {
-  static const windows = PlatformType._('WINDOWS');
-  static const windowsServer_2016 = PlatformType._('WINDOWS_SERVER_2016');
-  static const windowsServer_2019 = PlatformType._('WINDOWS_SERVER_2019');
-  static const windowsServer_2022 = PlatformType._('WINDOWS_SERVER_2022');
-  static const amazonLinux2 = PlatformType._('AMAZON_LINUX2');
-  static const rhel8 = PlatformType._('RHEL8');
-
-  final String value;
-
-  const PlatformType._(this.value);
-
-  static const values = [
-    windows,
-    windowsServer_2016,
-    windowsServer_2019,
-    windowsServer_2022,
-    amazonLinux2,
-    rhel8
-  ];
-
-  static PlatformType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => PlatformType._(value));
-
-  @override
-  bool operator ==(other) => other is PlatformType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class PreferredProtocol {
-  static const tcp = PreferredProtocol._('TCP');
-  static const udp = PreferredProtocol._('UDP');
-
-  final String value;
-
-  const PreferredProtocol._(this.value);
-
-  static const values = [tcp, udp];
-
-  static PreferredProtocol fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PreferredProtocol._(value));
-
-  @override
-  bool operator ==(other) => other is PreferredProtocol && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes a resource error.
-class ResourceError {
-  /// The error code.
-  final FleetErrorCode? errorCode;
-
-  /// The error message.
-  final String? errorMessage;
-
-  /// The time the error occurred.
-  final DateTime? errorTimestamp;
-
-  ResourceError({
-    this.errorCode,
-    this.errorMessage,
-    this.errorTimestamp,
-  });
-
-  factory ResourceError.fromJson(Map<String, dynamic> json) {
-    return ResourceError(
-      errorCode: (json['ErrorCode'] as String?)?.let(FleetErrorCode.fromString),
-      errorMessage: json['ErrorMessage'] as String?,
-      errorTimestamp: timeStampFromJson(json['ErrorTimestamp']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    final errorTimestamp = this.errorTimestamp;
-    return {
-      if (errorCode != null) 'ErrorCode': errorCode.value,
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-      if (errorTimestamp != null)
-        'ErrorTimestamp': unixTimestampToJson(errorTimestamp),
-    };
-  }
-}
-
-/// Describes the S3 location.
-class S3Location {
-  /// The S3 bucket of the S3 object.
-  final String s3Bucket;
-
-  /// The S3 key of the S3 object.
-  ///
-  /// This is required when used for the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// IconS3Location (Actions: CreateApplication and UpdateApplication)
-  /// </li>
-  /// <li>
-  /// SessionScriptS3Location (Actions: CreateFleet and UpdateFleet)
-  /// </li>
-  /// <li>
-  /// ScriptDetails (Actions: CreateAppBlock)
-  /// </li>
-  /// <li>
-  /// SourceS3Location when creating an app block with <code>CUSTOM</code>
-  /// PackagingType (Actions: CreateAppBlock)
-  /// </li>
-  /// <li>
-  /// SourceS3Location when creating an app block with <code>APPSTREAM2</code>
-  /// PackagingType, and using an existing application package (VHD file). In this
-  /// case, <code>S3Key</code> refers to the VHD file. If a new application
-  /// package is required, then <code>S3Key</code> is not required. (Actions:
-  /// CreateAppBlock)
-  /// </li>
-  /// </ul>
-  final String? s3Key;
-
-  S3Location({
-    required this.s3Bucket,
-    this.s3Key,
-  });
-
-  factory S3Location.fromJson(Map<String, dynamic> json) {
-    return S3Location(
-      s3Bucket: (json['S3Bucket'] as String?) ?? '',
-      s3Key: json['S3Key'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final s3Bucket = this.s3Bucket;
-    final s3Key = this.s3Key;
-    return {
-      'S3Bucket': s3Bucket,
-      if (s3Key != null) 'S3Key': s3Key,
-    };
-  }
-}
-
-/// Describes the details of the script.
-class ScriptDetails {
-  /// The run path for the script.
-  final String executablePath;
-
-  /// The S3 object location for the script.
-  final S3Location scriptS3Location;
-
-  /// The run timeout, in seconds, for the script.
-  final int timeoutInSeconds;
-
-  /// The runtime parameters passed to the run path for the script.
-  final String? executableParameters;
-
-  ScriptDetails({
-    required this.executablePath,
-    required this.scriptS3Location,
-    required this.timeoutInSeconds,
-    this.executableParameters,
-  });
-
-  factory ScriptDetails.fromJson(Map<String, dynamic> json) {
-    return ScriptDetails(
-      executablePath: (json['ExecutablePath'] as String?) ?? '',
-      scriptS3Location: S3Location.fromJson(
-          (json['ScriptS3Location'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      timeoutInSeconds: (json['TimeoutInSeconds'] as int?) ?? 0,
-      executableParameters: json['ExecutableParameters'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final executablePath = this.executablePath;
-    final scriptS3Location = this.scriptS3Location;
-    final timeoutInSeconds = this.timeoutInSeconds;
-    final executableParameters = this.executableParameters;
-    return {
-      'ExecutablePath': executablePath,
-      'ScriptS3Location': scriptS3Location,
-      'TimeoutInSeconds': timeoutInSeconds,
-      if (executableParameters != null)
-        'ExecutableParameters': executableParameters,
-    };
-  }
-}
-
-/// Describes the credentials for the service account used by the fleet or image
-/// builder to connect to the directory.
-class ServiceAccountCredentials {
-  /// The user name of the account. This account must have the following
-  /// privileges: create computer objects, join computers to the domain, and
-  /// change/reset the password on descendant computer objects for the
-  /// organizational units specified.
-  final String accountName;
-
-  /// The password for the account.
-  final String accountPassword;
-
-  ServiceAccountCredentials({
-    required this.accountName,
-    required this.accountPassword,
-  });
-
-  factory ServiceAccountCredentials.fromJson(Map<String, dynamic> json) {
-    return ServiceAccountCredentials(
-      accountName: (json['AccountName'] as String?) ?? '',
-      accountPassword: (json['AccountPassword'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountName = this.accountName;
-    final accountPassword = this.accountPassword;
-    return {
-      'AccountName': accountName,
-      'AccountPassword': accountPassword,
-    };
-  }
-}
-
-/// Describes a streaming session.
-class Session {
-  /// The name of the fleet for the streaming session.
-  final String fleetName;
-
-  /// The identifier of the streaming session.
-  final String id;
-
-  /// The name of the stack for the streaming session.
-  final String stackName;
-
-  /// The current state of the streaming session.
-  final SessionState state;
-
-  /// The identifier of the user for whom the session was created.
-  final String userId;
-
-  /// The authentication method. The user is authenticated using a streaming URL
-  /// (<code>API</code>) or SAML 2.0 federation (<code>SAML</code>).
-  final AuthenticationType? authenticationType;
-
-  /// Specifies whether a user is connected to the streaming session.
-  final SessionConnectionState? connectionState;
-
-  /// The identifier for the instance hosting the session.
-  final String? instanceId;
-
-  /// The time when the streaming session is set to expire. This time is based on
-  /// the <code>MaxUserDurationinSeconds</code> value, which determines the
-  /// maximum length of time that a streaming session can run. A streaming session
-  /// might end earlier than the time specified in
-  /// <code>SessionMaxExpirationTime</code>, when the
-  /// <code>DisconnectTimeOutInSeconds</code> elapses or the user chooses to end
-  /// his or her session. If the <code>DisconnectTimeOutInSeconds</code> elapses,
-  /// or the user chooses to end his or her session, the streaming instance is
-  /// terminated and the streaming session ends.
-  final DateTime? maxExpirationTime;
-
-  /// The network details for the streaming session.
-  final NetworkAccessConfiguration? networkAccessConfiguration;
-
-  /// The time when a streaming instance is dedicated for the user.
-  final DateTime? startTime;
-
-  Session({
-    required this.fleetName,
-    required this.id,
-    required this.stackName,
-    required this.state,
-    required this.userId,
-    this.authenticationType,
-    this.connectionState,
-    this.instanceId,
-    this.maxExpirationTime,
-    this.networkAccessConfiguration,
-    this.startTime,
-  });
-
-  factory Session.fromJson(Map<String, dynamic> json) {
-    return Session(
-      fleetName: (json['FleetName'] as String?) ?? '',
-      id: (json['Id'] as String?) ?? '',
-      stackName: (json['StackName'] as String?) ?? '',
-      state: SessionState.fromString((json['State'] as String?) ?? ''),
-      userId: (json['UserId'] as String?) ?? '',
-      authenticationType: (json['AuthenticationType'] as String?)
-          ?.let(AuthenticationType.fromString),
-      connectionState: (json['ConnectionState'] as String?)
-          ?.let(SessionConnectionState.fromString),
-      instanceId: json['InstanceId'] as String?,
-      maxExpirationTime: timeStampFromJson(json['MaxExpirationTime']),
-      networkAccessConfiguration: json['NetworkAccessConfiguration'] != null
-          ? NetworkAccessConfiguration.fromJson(
-              json['NetworkAccessConfiguration'] as Map<String, dynamic>)
-          : null,
-      startTime: timeStampFromJson(json['StartTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final fleetName = this.fleetName;
-    final id = this.id;
-    final stackName = this.stackName;
-    final state = this.state;
-    final userId = this.userId;
-    final authenticationType = this.authenticationType;
-    final connectionState = this.connectionState;
-    final instanceId = this.instanceId;
-    final maxExpirationTime = this.maxExpirationTime;
-    final networkAccessConfiguration = this.networkAccessConfiguration;
-    final startTime = this.startTime;
-    return {
-      'FleetName': fleetName,
-      'Id': id,
-      'StackName': stackName,
-      'State': state.value,
-      'UserId': userId,
-      if (authenticationType != null)
-        'AuthenticationType': authenticationType.value,
-      if (connectionState != null) 'ConnectionState': connectionState.value,
-      if (instanceId != null) 'InstanceId': instanceId,
-      if (maxExpirationTime != null)
-        'MaxExpirationTime': unixTimestampToJson(maxExpirationTime),
-      if (networkAccessConfiguration != null)
-        'NetworkAccessConfiguration': networkAccessConfiguration,
-      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-    };
-  }
-}
-
-class SessionConnectionState {
-  static const connected = SessionConnectionState._('CONNECTED');
-  static const notConnected = SessionConnectionState._('NOT_CONNECTED');
-
-  final String value;
-
-  const SessionConnectionState._(this.value);
-
-  static const values = [connected, notConnected];
-
-  static SessionConnectionState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SessionConnectionState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SessionConnectionState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Possible values for the state of a streaming session.
-class SessionState {
-  static const active = SessionState._('ACTIVE');
-  static const pending = SessionState._('PENDING');
-  static const expired = SessionState._('EXPIRED');
-
-  final String value;
-
-  const SessionState._(this.value);
-
-  static const values = [active, pending, expired];
-
-  static SessionState fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SessionState._(value));
-
-  @override
-  bool operator ==(other) => other is SessionState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes the permissions that are available to the specified AWS account
-/// for a shared image.
-class SharedImagePermissions {
-  /// Describes the permissions for a shared image.
-  final ImagePermissions imagePermissions;
-
-  /// The 12-digit identifier of the AWS account with which the image is shared.
-  final String sharedAccountId;
-
-  SharedImagePermissions({
-    required this.imagePermissions,
-    required this.sharedAccountId,
-  });
-
-  factory SharedImagePermissions.fromJson(Map<String, dynamic> json) {
-    return SharedImagePermissions(
-      imagePermissions: ImagePermissions.fromJson(
-          (json['imagePermissions'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      sharedAccountId: (json['sharedAccountId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final imagePermissions = this.imagePermissions;
-    final sharedAccountId = this.sharedAccountId;
-    return {
-      'imagePermissions': imagePermissions,
-      'sharedAccountId': sharedAccountId,
-    };
-  }
-}
-
-/// Describes a stack.
-class Stack {
-  /// The name of the stack.
-  final String name;
-
-  /// The list of virtual private cloud (VPC) interface endpoint objects. Users of
-  /// the stack can connect to AppStream 2.0 only through the specified endpoints.
-  final List<AccessEndpoint>? accessEndpoints;
-
-  /// The persistent application settings for users of the stack.
-  final ApplicationSettingsResponse? applicationSettings;
-
-  /// The ARN of the stack.
-  final String? arn;
-
-  /// The time the stack was created.
-  final DateTime? createdTime;
-
-  /// The description to display.
-  final String? description;
-
-  /// The stack name to display.
-  final String? displayName;
-
-  /// The domains where AppStream 2.0 streaming sessions can be embedded in an
-  /// iframe. You must approve the domains that you want to host embedded
-  /// AppStream 2.0 streaming sessions.
-  final List<String>? embedHostDomains;
-
-  /// The URL that users are redirected to after they click the Send Feedback
-  /// link. If no URL is specified, no Send Feedback link is displayed.
-  final String? feedbackURL;
-
-  /// The URL that users are redirected to after their streaming session ends.
-  final String? redirectURL;
-
-  /// The errors for the stack.
-  final List<StackError>? stackErrors;
-
-  /// The storage connectors to enable.
-  final List<StorageConnector>? storageConnectors;
-
-  /// The streaming protocol you want your stack to prefer. This can be UDP or
-  /// TCP. Currently, UDP is only supported in the Windows native client.
-  final StreamingExperienceSettings? streamingExperienceSettings;
-
-  /// The actions that are enabled or disabled for users during their streaming
-  /// sessions. By default these actions are enabled.
-  final List<UserSetting>? userSettings;
-
-  Stack({
-    required this.name,
-    this.accessEndpoints,
-    this.applicationSettings,
-    this.arn,
-    this.createdTime,
-    this.description,
-    this.displayName,
-    this.embedHostDomains,
-    this.feedbackURL,
-    this.redirectURL,
-    this.stackErrors,
-    this.storageConnectors,
-    this.streamingExperienceSettings,
-    this.userSettings,
-  });
-
-  factory Stack.fromJson(Map<String, dynamic> json) {
-    return Stack(
-      name: (json['Name'] as String?) ?? '',
-      accessEndpoints: (json['AccessEndpoints'] as List?)
-          ?.nonNulls
-          .map((e) => AccessEndpoint.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      applicationSettings: json['ApplicationSettings'] != null
-          ? ApplicationSettingsResponse.fromJson(
-              json['ApplicationSettings'] as Map<String, dynamic>)
-          : null,
-      arn: json['Arn'] as String?,
-      createdTime: timeStampFromJson(json['CreatedTime']),
-      description: json['Description'] as String?,
-      displayName: json['DisplayName'] as String?,
-      embedHostDomains: (json['EmbedHostDomains'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      feedbackURL: json['FeedbackURL'] as String?,
-      redirectURL: json['RedirectURL'] as String?,
-      stackErrors: (json['StackErrors'] as List?)
-          ?.nonNulls
-          .map((e) => StackError.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      storageConnectors: (json['StorageConnectors'] as List?)
-          ?.nonNulls
-          .map((e) => StorageConnector.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      streamingExperienceSettings: json['StreamingExperienceSettings'] != null
-          ? StreamingExperienceSettings.fromJson(
-              json['StreamingExperienceSettings'] as Map<String, dynamic>)
-          : null,
-      userSettings: (json['UserSettings'] as List?)
-          ?.nonNulls
-          .map((e) => UserSetting.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final accessEndpoints = this.accessEndpoints;
-    final applicationSettings = this.applicationSettings;
-    final arn = this.arn;
-    final createdTime = this.createdTime;
-    final description = this.description;
-    final displayName = this.displayName;
-    final embedHostDomains = this.embedHostDomains;
-    final feedbackURL = this.feedbackURL;
-    final redirectURL = this.redirectURL;
-    final stackErrors = this.stackErrors;
-    final storageConnectors = this.storageConnectors;
-    final streamingExperienceSettings = this.streamingExperienceSettings;
-    final userSettings = this.userSettings;
-    return {
-      'Name': name,
-      if (accessEndpoints != null) 'AccessEndpoints': accessEndpoints,
-      if (applicationSettings != null)
-        'ApplicationSettings': applicationSettings,
-      if (arn != null) 'Arn': arn,
-      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
-      if (description != null) 'Description': description,
-      if (displayName != null) 'DisplayName': displayName,
-      if (embedHostDomains != null) 'EmbedHostDomains': embedHostDomains,
-      if (feedbackURL != null) 'FeedbackURL': feedbackURL,
-      if (redirectURL != null) 'RedirectURL': redirectURL,
-      if (stackErrors != null) 'StackErrors': stackErrors,
-      if (storageConnectors != null) 'StorageConnectors': storageConnectors,
-      if (streamingExperienceSettings != null)
-        'StreamingExperienceSettings': streamingExperienceSettings,
-      if (userSettings != null) 'UserSettings': userSettings,
-    };
-  }
-}
-
-class StackAttribute {
-  static const storageConnectors = StackAttribute._('STORAGE_CONNECTORS');
-  static const storageConnectorHomefolders =
-      StackAttribute._('STORAGE_CONNECTOR_HOMEFOLDERS');
-  static const storageConnectorGoogleDrive =
-      StackAttribute._('STORAGE_CONNECTOR_GOOGLE_DRIVE');
-  static const storageConnectorOneDrive =
-      StackAttribute._('STORAGE_CONNECTOR_ONE_DRIVE');
-  static const redirectUrl = StackAttribute._('REDIRECT_URL');
-  static const feedbackUrl = StackAttribute._('FEEDBACK_URL');
-  static const themeName = StackAttribute._('THEME_NAME');
-  static const userSettings = StackAttribute._('USER_SETTINGS');
-  static const embedHostDomains = StackAttribute._('EMBED_HOST_DOMAINS');
-  static const iamRoleArn = StackAttribute._('IAM_ROLE_ARN');
-  static const accessEndpoints = StackAttribute._('ACCESS_ENDPOINTS');
-  static const streamingExperienceSettings =
-      StackAttribute._('STREAMING_EXPERIENCE_SETTINGS');
-
-  final String value;
-
-  const StackAttribute._(this.value);
-
-  static const values = [
-    storageConnectors,
-    storageConnectorHomefolders,
-    storageConnectorGoogleDrive,
-    storageConnectorOneDrive,
-    redirectUrl,
-    feedbackUrl,
-    themeName,
-    userSettings,
-    embedHostDomains,
-    iamRoleArn,
-    accessEndpoints,
-    streamingExperienceSettings
-  ];
-
-  static StackAttribute fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => StackAttribute._(value));
-
-  @override
-  bool operator ==(other) => other is StackAttribute && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes a stack error.
-class StackError {
-  /// The error code.
-  final StackErrorCode? errorCode;
-
-  /// The error message.
-  final String? errorMessage;
-
-  StackError({
-    this.errorCode,
-    this.errorMessage,
-  });
-
-  factory StackError.fromJson(Map<String, dynamic> json) {
-    return StackError(
-      errorCode: (json['ErrorCode'] as String?)?.let(StackErrorCode.fromString),
-      errorMessage: json['ErrorMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    return {
-      if (errorCode != null) 'ErrorCode': errorCode.value,
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-    };
-  }
-}
-
-class StackErrorCode {
-  static const storageConnectorError =
-      StackErrorCode._('STORAGE_CONNECTOR_ERROR');
-  static const internalServiceError =
-      StackErrorCode._('INTERNAL_SERVICE_ERROR');
-
-  final String value;
-
-  const StackErrorCode._(this.value);
-
-  static const values = [storageConnectorError, internalServiceError];
-
-  static StackErrorCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => StackErrorCode._(value));
-
-  @override
-  bool operator ==(other) => other is StackErrorCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class StartAppBlockBuilderResult {
@@ -9751,6 +7361,19 @@ class StartImageBuilderResult {
     return {
       if (imageBuilder != null) 'ImageBuilder': imageBuilder,
     };
+  }
+}
+
+class StartSoftwareDeploymentToImageBuilderResult {
+  StartSoftwareDeploymentToImageBuilderResult();
+
+  factory StartSoftwareDeploymentToImageBuilderResult.fromJson(
+      Map<String, dynamic> _) {
+    return StartSoftwareDeploymentToImageBuilderResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -9814,122 +7437,6 @@ class StopImageBuilderResult {
   }
 }
 
-/// Describes a connector that enables persistent storage for users.
-class StorageConnector {
-  /// The type of storage connector.
-  final StorageConnectorType connectorType;
-
-  /// The names of the domains for the account.
-  final List<String>? domains;
-
-  /// The ARN of the storage connector.
-  final String? resourceIdentifier;
-
-  StorageConnector({
-    required this.connectorType,
-    this.domains,
-    this.resourceIdentifier,
-  });
-
-  factory StorageConnector.fromJson(Map<String, dynamic> json) {
-    return StorageConnector(
-      connectorType: StorageConnectorType.fromString(
-          (json['ConnectorType'] as String?) ?? ''),
-      domains:
-          (json['Domains'] as List?)?.nonNulls.map((e) => e as String).toList(),
-      resourceIdentifier: json['ResourceIdentifier'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connectorType = this.connectorType;
-    final domains = this.domains;
-    final resourceIdentifier = this.resourceIdentifier;
-    return {
-      'ConnectorType': connectorType.value,
-      if (domains != null) 'Domains': domains,
-      if (resourceIdentifier != null) 'ResourceIdentifier': resourceIdentifier,
-    };
-  }
-}
-
-/// The type of storage connector.
-class StorageConnectorType {
-  static const homefolders = StorageConnectorType._('HOMEFOLDERS');
-  static const googleDrive = StorageConnectorType._('GOOGLE_DRIVE');
-  static const oneDrive = StorageConnectorType._('ONE_DRIVE');
-
-  final String value;
-
-  const StorageConnectorType._(this.value);
-
-  static const values = [homefolders, googleDrive, oneDrive];
-
-  static StorageConnectorType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => StorageConnectorType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is StorageConnectorType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class StreamView {
-  static const app = StreamView._('APP');
-  static const desktop = StreamView._('DESKTOP');
-
-  final String value;
-
-  const StreamView._(this.value);
-
-  static const values = [app, desktop];
-
-  static StreamView fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => StreamView._(value));
-
-  @override
-  bool operator ==(other) => other is StreamView && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The streaming protocol you want your stack to prefer. This can be UDP or
-/// TCP. Currently, UDP is only supported in the Windows native client.
-class StreamingExperienceSettings {
-  /// The preferred protocol that you want to use while streaming your
-  /// application.
-  final PreferredProtocol? preferredProtocol;
-
-  StreamingExperienceSettings({
-    this.preferredProtocol,
-  });
-
-  factory StreamingExperienceSettings.fromJson(Map<String, dynamic> json) {
-    return StreamingExperienceSettings(
-      preferredProtocol: (json['PreferredProtocol'] as String?)
-          ?.let(PreferredProtocol.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final preferredProtocol = this.preferredProtocol;
-    return {
-      if (preferredProtocol != null)
-        'PreferredProtocol': preferredProtocol.value,
-    };
-  }
-}
-
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -9940,187 +7447,6 @@ class TagResourceResponse {
   Map<String, dynamic> toJson() {
     return {};
   }
-}
-
-/// The custom branding theme, which might include a custom logo, website links,
-/// and other branding to display to users.
-class Theme {
-  /// The time the theme was created.
-  final DateTime? createdTime;
-
-  /// The stack that has the custom branding theme.
-  final String? stackName;
-
-  /// The state of the theme.
-  final ThemeState? state;
-
-  /// The URL of the icon that displays at the top of a user's browser tab during
-  /// streaming sessions.
-  final String? themeFaviconURL;
-
-  /// The website links that display in the catalog page footer.
-  final List<ThemeFooterLink>? themeFooterLinks;
-
-  /// The URL of the logo that displays in the catalog page header.
-  final String? themeOrganizationLogoURL;
-
-  /// The color that is used for the website links, text, buttons, and catalog
-  /// page background.
-  final ThemeStyling? themeStyling;
-
-  /// The browser tab page title.
-  final String? themeTitleText;
-
-  Theme({
-    this.createdTime,
-    this.stackName,
-    this.state,
-    this.themeFaviconURL,
-    this.themeFooterLinks,
-    this.themeOrganizationLogoURL,
-    this.themeStyling,
-    this.themeTitleText,
-  });
-
-  factory Theme.fromJson(Map<String, dynamic> json) {
-    return Theme(
-      createdTime: timeStampFromJson(json['CreatedTime']),
-      stackName: json['StackName'] as String?,
-      state: (json['State'] as String?)?.let(ThemeState.fromString),
-      themeFaviconURL: json['ThemeFaviconURL'] as String?,
-      themeFooterLinks: (json['ThemeFooterLinks'] as List?)
-          ?.nonNulls
-          .map((e) => ThemeFooterLink.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      themeOrganizationLogoURL: json['ThemeOrganizationLogoURL'] as String?,
-      themeStyling:
-          (json['ThemeStyling'] as String?)?.let(ThemeStyling.fromString),
-      themeTitleText: json['ThemeTitleText'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdTime = this.createdTime;
-    final stackName = this.stackName;
-    final state = this.state;
-    final themeFaviconURL = this.themeFaviconURL;
-    final themeFooterLinks = this.themeFooterLinks;
-    final themeOrganizationLogoURL = this.themeOrganizationLogoURL;
-    final themeStyling = this.themeStyling;
-    final themeTitleText = this.themeTitleText;
-    return {
-      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
-      if (stackName != null) 'StackName': stackName,
-      if (state != null) 'State': state.value,
-      if (themeFaviconURL != null) 'ThemeFaviconURL': themeFaviconURL,
-      if (themeFooterLinks != null) 'ThemeFooterLinks': themeFooterLinks,
-      if (themeOrganizationLogoURL != null)
-        'ThemeOrganizationLogoURL': themeOrganizationLogoURL,
-      if (themeStyling != null) 'ThemeStyling': themeStyling.value,
-      if (themeTitleText != null) 'ThemeTitleText': themeTitleText,
-    };
-  }
-}
-
-class ThemeAttribute {
-  static const footerLinks = ThemeAttribute._('FOOTER_LINKS');
-
-  final String value;
-
-  const ThemeAttribute._(this.value);
-
-  static const values = [footerLinks];
-
-  static ThemeAttribute fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ThemeAttribute._(value));
-
-  @override
-  bool operator ==(other) => other is ThemeAttribute && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The website links that display in the catalog page footer.
-class ThemeFooterLink {
-  /// The name of the websites that display in the catalog page footer.
-  final String? displayName;
-
-  /// The URL of the websites that display in the catalog page footer.
-  final String? footerLinkURL;
-
-  ThemeFooterLink({
-    this.displayName,
-    this.footerLinkURL,
-  });
-
-  factory ThemeFooterLink.fromJson(Map<String, dynamic> json) {
-    return ThemeFooterLink(
-      displayName: json['DisplayName'] as String?,
-      footerLinkURL: json['FooterLinkURL'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final displayName = this.displayName;
-    final footerLinkURL = this.footerLinkURL;
-    return {
-      if (displayName != null) 'DisplayName': displayName,
-      if (footerLinkURL != null) 'FooterLinkURL': footerLinkURL,
-    };
-  }
-}
-
-class ThemeState {
-  static const enabled = ThemeState._('ENABLED');
-  static const disabled = ThemeState._('DISABLED');
-
-  final String value;
-
-  const ThemeState._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static ThemeState fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ThemeState._(value));
-
-  @override
-  bool operator ==(other) => other is ThemeState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ThemeStyling {
-  static const lightBlue = ThemeStyling._('LIGHT_BLUE');
-  static const blue = ThemeStyling._('BLUE');
-  static const pink = ThemeStyling._('PINK');
-  static const red = ThemeStyling._('RED');
-
-  final String value;
-
-  const ThemeStyling._(this.value);
-
-  static const values = [lightBlue, blue, pink, red];
-
-  static ThemeStyling fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ThemeStyling._(value));
-
-  @override
-  bool operator ==(other) => other is ThemeStyling && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class UntagResourceResponse {
@@ -10315,113 +7641,3878 @@ class UpdateThemeForStackResult {
   }
 }
 
-class UsageReportExecutionErrorCode {
-  static const resourceNotFound =
-      UsageReportExecutionErrorCode._('RESOURCE_NOT_FOUND');
-  static const accessDenied = UsageReportExecutionErrorCode._('ACCESS_DENIED');
-  static const internalServiceError =
-      UsageReportExecutionErrorCode._('INTERNAL_SERVICE_ERROR');
+/// The custom branding theme, which might include a custom logo, website links,
+/// and other branding to display to users.
+class Theme {
+  /// The time the theme was created.
+  final DateTime? createdTime;
 
-  final String value;
+  /// The stack that has the custom branding theme.
+  final String? stackName;
 
-  const UsageReportExecutionErrorCode._(this.value);
+  /// The state of the theme.
+  final ThemeState? state;
 
-  static const values = [resourceNotFound, accessDenied, internalServiceError];
+  /// The URL of the icon that displays at the top of a user's browser tab during
+  /// streaming sessions.
+  final String? themeFaviconURL;
 
-  static UsageReportExecutionErrorCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => UsageReportExecutionErrorCode._(value));
+  /// The website links that display in the catalog page footer.
+  final List<ThemeFooterLink>? themeFooterLinks;
 
-  @override
-  bool operator ==(other) =>
-      other is UsageReportExecutionErrorCode && other.value == value;
+  /// The URL of the logo that displays in the catalog page header.
+  final String? themeOrganizationLogoURL;
 
-  @override
-  int get hashCode => value.hashCode;
+  /// The color that is used for the website links, text, buttons, and catalog
+  /// page background.
+  final ThemeStyling? themeStyling;
 
-  @override
-  String toString() => value;
-}
+  /// The browser tab page title.
+  final String? themeTitleText;
 
-class UsageReportSchedule {
-  static const daily = UsageReportSchedule._('DAILY');
-
-  final String value;
-
-  const UsageReportSchedule._(this.value);
-
-  static const values = [daily];
-
-  static UsageReportSchedule fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => UsageReportSchedule._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is UsageReportSchedule && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes information about the usage report subscription.
-class UsageReportSubscription {
-  /// The time when the last usage report was generated.
-  final DateTime? lastGeneratedReportDate;
-
-  /// The Amazon S3 bucket where generated reports are stored.
-  ///
-  /// If you enabled on-instance session scripts and Amazon S3 logging for your
-  /// session script configuration, AppStream 2.0 created an S3 bucket to store
-  /// the script output. The bucket is unique to your account and Region. When you
-  /// enable usage reporting in this case, AppStream 2.0 uses the same bucket to
-  /// store your usage reports. If you haven't already enabled on-instance session
-  /// scripts, when you enable usage reports, AppStream 2.0 creates a new S3
-  /// bucket.
-  final String? s3BucketName;
-
-  /// The schedule for generating usage reports.
-  final UsageReportSchedule? schedule;
-
-  /// The errors that were returned if usage reports couldn't be generated.
-  final List<LastReportGenerationExecutionError>? subscriptionErrors;
-
-  UsageReportSubscription({
-    this.lastGeneratedReportDate,
-    this.s3BucketName,
-    this.schedule,
-    this.subscriptionErrors,
+  Theme({
+    this.createdTime,
+    this.stackName,
+    this.state,
+    this.themeFaviconURL,
+    this.themeFooterLinks,
+    this.themeOrganizationLogoURL,
+    this.themeStyling,
+    this.themeTitleText,
   });
 
-  factory UsageReportSubscription.fromJson(Map<String, dynamic> json) {
-    return UsageReportSubscription(
-      lastGeneratedReportDate:
-          timeStampFromJson(json['LastGeneratedReportDate']),
-      s3BucketName: json['S3BucketName'] as String?,
-      schedule:
-          (json['Schedule'] as String?)?.let(UsageReportSchedule.fromString),
-      subscriptionErrors: (json['SubscriptionErrors'] as List?)
+  factory Theme.fromJson(Map<String, dynamic> json) {
+    return Theme(
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      stackName: json['StackName'] as String?,
+      state: (json['State'] as String?)?.let(ThemeState.fromString),
+      themeFaviconURL: json['ThemeFaviconURL'] as String?,
+      themeFooterLinks: (json['ThemeFooterLinks'] as List?)
           ?.nonNulls
-          .map((e) => LastReportGenerationExecutionError.fromJson(
-              e as Map<String, dynamic>))
+          .map((e) => ThemeFooterLink.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      themeOrganizationLogoURL: json['ThemeOrganizationLogoURL'] as String?,
+      themeStyling:
+          (json['ThemeStyling'] as String?)?.let(ThemeStyling.fromString),
+      themeTitleText: json['ThemeTitleText'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTime = this.createdTime;
+    final stackName = this.stackName;
+    final state = this.state;
+    final themeFaviconURL = this.themeFaviconURL;
+    final themeFooterLinks = this.themeFooterLinks;
+    final themeOrganizationLogoURL = this.themeOrganizationLogoURL;
+    final themeStyling = this.themeStyling;
+    final themeTitleText = this.themeTitleText;
+    return {
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (stackName != null) 'StackName': stackName,
+      if (state != null) 'State': state.value,
+      if (themeFaviconURL != null) 'ThemeFaviconURL': themeFaviconURL,
+      if (themeFooterLinks != null) 'ThemeFooterLinks': themeFooterLinks,
+      if (themeOrganizationLogoURL != null)
+        'ThemeOrganizationLogoURL': themeOrganizationLogoURL,
+      if (themeStyling != null) 'ThemeStyling': themeStyling.value,
+      if (themeTitleText != null) 'ThemeTitleText': themeTitleText,
+    };
+  }
+}
+
+class ThemeState {
+  static const enabled = ThemeState._('ENABLED');
+  static const disabled = ThemeState._('DISABLED');
+
+  final String value;
+
+  const ThemeState._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static ThemeState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ThemeState._(value));
+
+  @override
+  bool operator ==(other) => other is ThemeState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ThemeStyling {
+  static const lightBlue = ThemeStyling._('LIGHT_BLUE');
+  static const blue = ThemeStyling._('BLUE');
+  static const pink = ThemeStyling._('PINK');
+  static const red = ThemeStyling._('RED');
+
+  final String value;
+
+  const ThemeStyling._(this.value);
+
+  static const values = [lightBlue, blue, pink, red];
+
+  static ThemeStyling fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ThemeStyling._(value));
+
+  @override
+  bool operator ==(other) => other is ThemeStyling && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The website links that display in the catalog page footer.
+class ThemeFooterLink {
+  /// The name of the websites that display in the catalog page footer.
+  final String? displayName;
+
+  /// The URL of the websites that display in the catalog page footer.
+  final String? footerLinkURL;
+
+  ThemeFooterLink({
+    this.displayName,
+    this.footerLinkURL,
+  });
+
+  factory ThemeFooterLink.fromJson(Map<String, dynamic> json) {
+    return ThemeFooterLink(
+      displayName: json['DisplayName'] as String?,
+      footerLinkURL: json['FooterLinkURL'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final displayName = this.displayName;
+    final footerLinkURL = this.footerLinkURL;
+    return {
+      if (displayName != null) 'DisplayName': displayName,
+      if (footerLinkURL != null) 'FooterLinkURL': footerLinkURL,
+    };
+  }
+}
+
+/// Describes the S3 location.
+class S3Location {
+  /// The S3 bucket of the S3 object.
+  final String s3Bucket;
+
+  /// The S3 key of the S3 object.
+  ///
+  /// This is required when used for the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// IconS3Location (Actions: CreateApplication and UpdateApplication)
+  /// </li>
+  /// <li>
+  /// SessionScriptS3Location (Actions: CreateFleet and UpdateFleet)
+  /// </li>
+  /// <li>
+  /// ScriptDetails (Actions: CreateAppBlock)
+  /// </li>
+  /// <li>
+  /// SourceS3Location when creating an app block with <code>CUSTOM</code>
+  /// PackagingType (Actions: CreateAppBlock)
+  /// </li>
+  /// <li>
+  /// SourceS3Location when creating an app block with <code>APPSTREAM2</code>
+  /// PackagingType, and using an existing application package (VHD file). In this
+  /// case, <code>S3Key</code> refers to the VHD file. If a new application
+  /// package is required, then <code>S3Key</code> is not required. (Actions:
+  /// CreateAppBlock)
+  /// </li>
+  /// </ul>
+  final String? s3Key;
+
+  S3Location({
+    required this.s3Bucket,
+    this.s3Key,
+  });
+
+  factory S3Location.fromJson(Map<String, dynamic> json) {
+    return S3Location(
+      s3Bucket: (json['S3Bucket'] as String?) ?? '',
+      s3Key: json['S3Key'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Bucket = this.s3Bucket;
+    final s3Key = this.s3Key;
+    return {
+      'S3Bucket': s3Bucket,
+      if (s3Key != null) 'S3Key': s3Key,
+    };
+  }
+}
+
+class ThemeAttribute {
+  static const footerLinks = ThemeAttribute._('FOOTER_LINKS');
+
+  final String value;
+
+  const ThemeAttribute._(this.value);
+
+  static const values = [footerLinks];
+
+  static ThemeAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ThemeAttribute._(value));
+
+  @override
+  bool operator ==(other) => other is ThemeAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a stack.
+class Stack {
+  /// The name of the stack.
+  final String name;
+
+  /// The list of virtual private cloud (VPC) interface endpoint objects. Users of
+  /// the stack can connect to WorkSpaces Applications only through the specified
+  /// endpoints.
+  final List<AccessEndpoint>? accessEndpoints;
+
+  /// The agent access configuration of the stack, if agent access is enabled.
+  final AgentAccessConfig? agentAccessConfig;
+
+  /// The persistent application settings for users of the stack.
+  final ApplicationSettingsResponse? applicationSettings;
+
+  /// The ARN of the stack.
+  final String? arn;
+
+  /// Configuration for bidirectional URL redirection between the streaming
+  /// session and the local client. Use HostToClient to redirect URLs from the
+  /// remote desktop to the local browser.
+  final ContentRedirection? contentRedirection;
+
+  /// The time the stack was created.
+  final DateTime? createdTime;
+
+  /// The description to display.
+  final String? description;
+
+  /// The stack name to display.
+  final String? displayName;
+
+  /// The domains where WorkSpaces Applications streaming sessions can be embedded
+  /// in an iframe. You must approve the domains that you want to host embedded
+  /// WorkSpaces Applications streaming sessions.
+  final List<String>? embedHostDomains;
+
+  /// The URL that users are redirected to after they click the Send Feedback
+  /// link. If no URL is specified, no Send Feedback link is displayed.
+  final String? feedbackURL;
+
+  /// The URL that users are redirected to after their streaming session ends.
+  final String? redirectURL;
+
+  /// The errors for the stack.
+  final List<StackError>? stackErrors;
+
+  /// The storage connectors to enable.
+  final List<StorageConnector>? storageConnectors;
+
+  /// The streaming protocol you want your stack to prefer. This can be UDP or
+  /// TCP. Currently, UDP is only supported in the Windows native client.
+  final StreamingExperienceSettings? streamingExperienceSettings;
+
+  /// The actions that are enabled or disabled for users during their streaming
+  /// sessions. By default these actions are enabled.
+  final List<UserSetting>? userSettings;
+
+  Stack({
+    required this.name,
+    this.accessEndpoints,
+    this.agentAccessConfig,
+    this.applicationSettings,
+    this.arn,
+    this.contentRedirection,
+    this.createdTime,
+    this.description,
+    this.displayName,
+    this.embedHostDomains,
+    this.feedbackURL,
+    this.redirectURL,
+    this.stackErrors,
+    this.storageConnectors,
+    this.streamingExperienceSettings,
+    this.userSettings,
+  });
+
+  factory Stack.fromJson(Map<String, dynamic> json) {
+    return Stack(
+      name: (json['Name'] as String?) ?? '',
+      accessEndpoints: (json['AccessEndpoints'] as List?)
+          ?.nonNulls
+          .map((e) => AccessEndpoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      agentAccessConfig: json['AgentAccessConfig'] != null
+          ? AgentAccessConfig.fromJson(
+              json['AgentAccessConfig'] as Map<String, dynamic>)
+          : null,
+      applicationSettings: json['ApplicationSettings'] != null
+          ? ApplicationSettingsResponse.fromJson(
+              json['ApplicationSettings'] as Map<String, dynamic>)
+          : null,
+      arn: json['Arn'] as String?,
+      contentRedirection: json['ContentRedirection'] != null
+          ? ContentRedirection.fromJson(
+              json['ContentRedirection'] as Map<String, dynamic>)
+          : null,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      description: json['Description'] as String?,
+      displayName: json['DisplayName'] as String?,
+      embedHostDomains: (json['EmbedHostDomains'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      feedbackURL: json['FeedbackURL'] as String?,
+      redirectURL: json['RedirectURL'] as String?,
+      stackErrors: (json['StackErrors'] as List?)
+          ?.nonNulls
+          .map((e) => StackError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      storageConnectors: (json['StorageConnectors'] as List?)
+          ?.nonNulls
+          .map((e) => StorageConnector.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      streamingExperienceSettings: json['StreamingExperienceSettings'] != null
+          ? StreamingExperienceSettings.fromJson(
+              json['StreamingExperienceSettings'] as Map<String, dynamic>)
+          : null,
+      userSettings: (json['UserSettings'] as List?)
+          ?.nonNulls
+          .map((e) => UserSetting.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final lastGeneratedReportDate = this.lastGeneratedReportDate;
-    final s3BucketName = this.s3BucketName;
-    final schedule = this.schedule;
-    final subscriptionErrors = this.subscriptionErrors;
+    final name = this.name;
+    final accessEndpoints = this.accessEndpoints;
+    final agentAccessConfig = this.agentAccessConfig;
+    final applicationSettings = this.applicationSettings;
+    final arn = this.arn;
+    final contentRedirection = this.contentRedirection;
+    final createdTime = this.createdTime;
+    final description = this.description;
+    final displayName = this.displayName;
+    final embedHostDomains = this.embedHostDomains;
+    final feedbackURL = this.feedbackURL;
+    final redirectURL = this.redirectURL;
+    final stackErrors = this.stackErrors;
+    final storageConnectors = this.storageConnectors;
+    final streamingExperienceSettings = this.streamingExperienceSettings;
+    final userSettings = this.userSettings;
     return {
-      if (lastGeneratedReportDate != null)
-        'LastGeneratedReportDate': unixTimestampToJson(lastGeneratedReportDate),
+      'Name': name,
+      if (accessEndpoints != null) 'AccessEndpoints': accessEndpoints,
+      if (agentAccessConfig != null) 'AgentAccessConfig': agentAccessConfig,
+      if (applicationSettings != null)
+        'ApplicationSettings': applicationSettings,
+      if (arn != null) 'Arn': arn,
+      if (contentRedirection != null) 'ContentRedirection': contentRedirection,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (description != null) 'Description': description,
+      if (displayName != null) 'DisplayName': displayName,
+      if (embedHostDomains != null) 'EmbedHostDomains': embedHostDomains,
+      if (feedbackURL != null) 'FeedbackURL': feedbackURL,
+      if (redirectURL != null) 'RedirectURL': redirectURL,
+      if (stackErrors != null) 'StackErrors': stackErrors,
+      if (storageConnectors != null) 'StorageConnectors': storageConnectors,
+      if (streamingExperienceSettings != null)
+        'StreamingExperienceSettings': streamingExperienceSettings,
+      if (userSettings != null) 'UserSettings': userSettings,
+    };
+  }
+}
+
+/// Describes the persistent application settings for users of a stack.
+class ApplicationSettingsResponse {
+  /// Specifies whether persistent application settings are enabled for users
+  /// during their streaming sessions.
+  final bool? enabled;
+
+  /// The S3 bucket where users’ persistent application settings are stored. When
+  /// persistent application settings are enabled for the first time for an
+  /// account in an AWS Region, an S3 bucket is created. The bucket is unique to
+  /// the AWS account and the Region.
+  final String? s3BucketName;
+
+  /// The path prefix for the S3 bucket where users’ persistent application
+  /// settings are stored.
+  final String? settingsGroup;
+
+  ApplicationSettingsResponse({
+    this.enabled,
+    this.s3BucketName,
+    this.settingsGroup,
+  });
+
+  factory ApplicationSettingsResponse.fromJson(Map<String, dynamic> json) {
+    return ApplicationSettingsResponse(
+      enabled: json['Enabled'] as bool?,
+      s3BucketName: json['S3BucketName'] as String?,
+      settingsGroup: json['SettingsGroup'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final s3BucketName = this.s3BucketName;
+    final settingsGroup = this.settingsGroup;
+    return {
+      if (enabled != null) 'Enabled': enabled,
       if (s3BucketName != null) 'S3BucketName': s3BucketName,
-      if (schedule != null) 'Schedule': schedule.value,
-      if (subscriptionErrors != null) 'SubscriptionErrors': subscriptionErrors,
+      if (settingsGroup != null) 'SettingsGroup': settingsGroup,
+    };
+  }
+}
+
+/// The streaming protocol you want your stack to prefer. This can be UDP or
+/// TCP. Currently, UDP is only supported in the Windows native client.
+class StreamingExperienceSettings {
+  /// The preferred protocol that you want to use while streaming your
+  /// application.
+  final PreferredProtocol? preferredProtocol;
+
+  StreamingExperienceSettings({
+    this.preferredProtocol,
+  });
+
+  factory StreamingExperienceSettings.fromJson(Map<String, dynamic> json) {
+    return StreamingExperienceSettings(
+      preferredProtocol: (json['PreferredProtocol'] as String?)
+          ?.let(PreferredProtocol.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final preferredProtocol = this.preferredProtocol;
+    return {
+      if (preferredProtocol != null)
+        'PreferredProtocol': preferredProtocol.value,
+    };
+  }
+}
+
+/// Configuration for bidirectional URL redirection between the streaming
+/// session and the local client. Use HostToClient to redirect URLs from the
+/// remote desktop to the local browser.
+class ContentRedirection {
+  /// Configuration for redirecting URLs from the remote desktop to the local
+  /// client browser.
+  final UrlRedirectionConfig? hostToClient;
+
+  ContentRedirection({
+    this.hostToClient,
+  });
+
+  factory ContentRedirection.fromJson(Map<String, dynamic> json) {
+    return ContentRedirection(
+      hostToClient: json['HostToClient'] != null
+          ? UrlRedirectionConfig.fromJson(
+              json['HostToClient'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostToClient = this.hostToClient;
+    return {
+      if (hostToClient != null) 'HostToClient': hostToClient,
+    };
+  }
+}
+
+/// The configuration for agent access on a stack. Agent access enables AI
+/// agents to interact with desktop applications during streaming sessions.
+class AgentAccessConfig {
+  /// The image format for agent screen captures.
+  final ScreenImageFormat screenImageFormat;
+
+  /// The screen resolution for the agent streaming environment.
+  final ScreenResolution screenResolution;
+
+  /// The list of agent access settings that define permissions for each agent
+  /// action. You must specify at least one setting.
+  final List<AgentAccessSetting> settings;
+
+  /// The Amazon Resource Name (ARN) of the Amazon S3 bucket where agent
+  /// screenshots are stored. Required when ScreenshotsUploadEnabled is true.
+  final String? s3BucketArn;
+
+  /// Indicates whether screenshot uploads to Amazon S3 are enabled for agent
+  /// sessions.
+  final bool? screenshotsUploadEnabled;
+
+  AgentAccessConfig({
+    required this.screenImageFormat,
+    required this.screenResolution,
+    required this.settings,
+    this.s3BucketArn,
+    this.screenshotsUploadEnabled,
+  });
+
+  factory AgentAccessConfig.fromJson(Map<String, dynamic> json) {
+    return AgentAccessConfig(
+      screenImageFormat: ScreenImageFormat.fromString(
+          (json['ScreenImageFormat'] as String?) ?? ''),
+      screenResolution: ScreenResolution.fromString(
+          (json['ScreenResolution'] as String?) ?? ''),
+      settings: ((json['Settings'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => AgentAccessSetting.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      s3BucketArn: json['S3BucketArn'] as String?,
+      screenshotsUploadEnabled: json['ScreenshotsUploadEnabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final screenImageFormat = this.screenImageFormat;
+    final screenResolution = this.screenResolution;
+    final settings = this.settings;
+    final s3BucketArn = this.s3BucketArn;
+    final screenshotsUploadEnabled = this.screenshotsUploadEnabled;
+    return {
+      'ScreenImageFormat': screenImageFormat.value,
+      'ScreenResolution': screenResolution.value,
+      'Settings': settings,
+      if (s3BucketArn != null) 'S3BucketArn': s3BucketArn,
+      if (screenshotsUploadEnabled != null)
+        'ScreenshotsUploadEnabled': screenshotsUploadEnabled,
+    };
+  }
+}
+
+/// The screen resolution for the agent streaming environment.
+///
+/// <ul>
+/// <li>
+/// W_1280xH_720 - 1280 x 720 pixels.
+/// </li>
+/// </ul>
+class ScreenResolution {
+  static const w_1280xH_720 = ScreenResolution._('W_1280xH_720');
+
+  final String value;
+
+  const ScreenResolution._(this.value);
+
+  static const values = [w_1280xH_720];
+
+  static ScreenResolution fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ScreenResolution._(value));
+
+  @override
+  bool operator ==(other) => other is ScreenResolution && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The image format for agent screen captures.
+///
+/// <ul>
+/// <li>
+/// PNG - PNG format.
+/// </li>
+/// <li>
+/// JPEG - JPEG format.
+/// </li>
+/// </ul>
+class ScreenImageFormat {
+  static const png = ScreenImageFormat._('PNG');
+  static const jpeg = ScreenImageFormat._('JPEG');
+
+  final String value;
+
+  const ScreenImageFormat._(this.value);
+
+  static const values = [png, jpeg];
+
+  static ScreenImageFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ScreenImageFormat._(value));
+
+  @override
+  bool operator ==(other) => other is ScreenImageFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A permission setting for an agent action. Each setting specifies an agent
+/// action and whether it is enabled or disabled.
+class AgentAccessSetting {
+  /// The agent action to configure. Valid values are COMPUTER_VISION and
+  /// COMPUTER_INPUT. If you enable COMPUTER_INPUT, you must also enable
+  /// COMPUTER_VISION.
+  final AgentAction agentAction;
+
+  /// Whether the agent action is enabled or disabled.
+  final Permission permission;
+
+  AgentAccessSetting({
+    required this.agentAction,
+    required this.permission,
+  });
+
+  factory AgentAccessSetting.fromJson(Map<String, dynamic> json) {
+    return AgentAccessSetting(
+      agentAction:
+          AgentAction.fromString((json['AgentAction'] as String?) ?? ''),
+      permission: Permission.fromString((json['Permission'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agentAction = this.agentAction;
+    final permission = this.permission;
+    return {
+      'AgentAction': agentAction.value,
+      'Permission': permission.value,
+    };
+  }
+}
+
+/// The type of agent action.
+///
+/// <ul>
+/// <li>
+/// COMPUTER_VISION - Allows agents to take screenshots of the desktop.
+/// </li>
+/// <li>
+/// COMPUTER_INPUT - Allows agents to click, type, and scroll on the desktop.
+/// Requires COMPUTER_VISION to also be enabled.
+/// </li>
+/// </ul>
+class AgentAction {
+  static const computerVision = AgentAction._('COMPUTER_VISION');
+  static const computerInput = AgentAction._('COMPUTER_INPUT');
+
+  final String value;
+
+  const AgentAction._(this.value);
+
+  static const values = [computerVision, computerInput];
+
+  static AgentAction fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AgentAction._(value));
+
+  @override
+  bool operator ==(other) => other is AgentAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class Permission {
+  static const enabled = Permission._('ENABLED');
+  static const disabled = Permission._('DISABLED');
+
+  final String value;
+
+  const Permission._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static Permission fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Permission._(value));
+
+  @override
+  bool operator ==(other) => other is Permission && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Configuration for URL redirection in a specific direction (host-to-client or
+/// client-to-host). When enabled, URLs matching the allowed or denied patterns
+/// are redirected accordingly. The denied list takes precedence over the
+/// allowed list.
+class UrlRedirectionConfig {
+  /// Whether URL redirection is enabled for this direction.
+  final bool enabled;
+
+  /// List of URL patterns that are allowed to be redirected. URLs matching these
+  /// patterns will be redirected unless they also match a pattern in the denied
+  /// list.
+  final List<String>? allowedUrls;
+
+  /// List of URL patterns that are denied from redirection. This list takes
+  /// precedence over the allowed list.
+  final List<String>? deniedUrls;
+
+  UrlRedirectionConfig({
+    required this.enabled,
+    this.allowedUrls,
+    this.deniedUrls,
+  });
+
+  factory UrlRedirectionConfig.fromJson(Map<String, dynamic> json) {
+    return UrlRedirectionConfig(
+      enabled: (json['Enabled'] as bool?) ?? false,
+      allowedUrls: (json['AllowedUrls'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      deniedUrls: (json['DeniedUrls'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final allowedUrls = this.allowedUrls;
+    final deniedUrls = this.deniedUrls;
+    return {
+      'Enabled': enabled,
+      if (allowedUrls != null) 'AllowedUrls': allowedUrls,
+      if (deniedUrls != null) 'DeniedUrls': deniedUrls,
+    };
+  }
+}
+
+class PreferredProtocol {
+  static const tcp = PreferredProtocol._('TCP');
+  static const udp = PreferredProtocol._('UDP');
+
+  final String value;
+
+  const PreferredProtocol._(this.value);
+
+  static const values = [tcp, udp];
+
+  static PreferredProtocol fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PreferredProtocol._(value));
+
+  @override
+  bool operator ==(other) => other is PreferredProtocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes an interface VPC endpoint (interface endpoint) that lets you
+/// create a private connection between the virtual private cloud (VPC) that you
+/// specify and WorkSpaces Applications. When you specify an interface endpoint
+/// for a stack, users of the stack can connect to WorkSpaces Applications only
+/// through that endpoint. When you specify an interface endpoint for an image
+/// builder, administrators can connect to the image builder only through that
+/// endpoint.
+class AccessEndpoint {
+  /// The type of interface endpoint.
+  final AccessEndpointType endpointType;
+
+  /// The identifier (ID) of the VPC in which the interface endpoint is used.
+  final String? vpceId;
+
+  AccessEndpoint({
+    required this.endpointType,
+    this.vpceId,
+  });
+
+  factory AccessEndpoint.fromJson(Map<String, dynamic> json) {
+    return AccessEndpoint(
+      endpointType: AccessEndpointType.fromString(
+          (json['EndpointType'] as String?) ?? ''),
+      vpceId: json['VpceId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpointType = this.endpointType;
+    final vpceId = this.vpceId;
+    return {
+      'EndpointType': endpointType.value,
+      if (vpceId != null) 'VpceId': vpceId,
+    };
+  }
+}
+
+class AccessEndpointType {
+  static const streaming = AccessEndpointType._('STREAMING');
+
+  final String value;
+
+  const AccessEndpointType._(this.value);
+
+  static const values = [streaming];
+
+  static AccessEndpointType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AccessEndpointType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AccessEndpointType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes an action and whether the action is enabled or disabled for users
+/// during their streaming sessions.
+class UserSetting {
+  /// The action that is enabled or disabled.
+  final Action action;
+
+  /// Indicates whether the action is enabled or disabled.
+  final Permission permission;
+
+  /// Specifies the number of characters that can be copied by end users from the
+  /// local device to the remote session, and to the local device from the remote
+  /// session.
+  ///
+  /// This can be specified only for the
+  /// <code>CLIPBOARD_COPY_FROM_LOCAL_DEVICE</code> and
+  /// <code>CLIPBOARD_COPY_TO_LOCAL_DEVICE</code> actions.
+  ///
+  /// This defaults to 20,971,520 (20 MB) when unspecified and the permission is
+  /// <code>ENABLED</code>. This can't be specified when the permission is
+  /// <code>DISABLED</code>.
+  ///
+  /// The value can be between 1 and 20,971,520 (20 MB).
+  final int? maximumLength;
+
+  UserSetting({
+    required this.action,
+    required this.permission,
+    this.maximumLength,
+  });
+
+  factory UserSetting.fromJson(Map<String, dynamic> json) {
+    return UserSetting(
+      action: Action.fromString((json['Action'] as String?) ?? ''),
+      permission: Permission.fromString((json['Permission'] as String?) ?? ''),
+      maximumLength: json['MaximumLength'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final permission = this.permission;
+    final maximumLength = this.maximumLength;
+    return {
+      'Action': action.value,
+      'Permission': permission.value,
+      if (maximumLength != null) 'MaximumLength': maximumLength,
+    };
+  }
+}
+
+class Action {
+  static const clipboardCopyFromLocalDevice =
+      Action._('CLIPBOARD_COPY_FROM_LOCAL_DEVICE');
+  static const clipboardCopyToLocalDevice =
+      Action._('CLIPBOARD_COPY_TO_LOCAL_DEVICE');
+  static const fileUpload = Action._('FILE_UPLOAD');
+  static const fileDownload = Action._('FILE_DOWNLOAD');
+  static const printingToLocalDevice = Action._('PRINTING_TO_LOCAL_DEVICE');
+  static const domainPasswordSignin = Action._('DOMAIN_PASSWORD_SIGNIN');
+  static const domainSmartCardSignin = Action._('DOMAIN_SMART_CARD_SIGNIN');
+  static const autoTimeZoneRedirection = Action._('AUTO_TIME_ZONE_REDIRECTION');
+
+  final String value;
+
+  const Action._(this.value);
+
+  static const values = [
+    clipboardCopyFromLocalDevice,
+    clipboardCopyToLocalDevice,
+    fileUpload,
+    fileDownload,
+    printingToLocalDevice,
+    domainPasswordSignin,
+    domainSmartCardSignin,
+    autoTimeZoneRedirection
+  ];
+
+  static Action fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Action._(value));
+
+  @override
+  bool operator ==(other) => other is Action && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a stack error.
+class StackError {
+  /// The error code.
+  final StackErrorCode? errorCode;
+
+  /// The error message.
+  final String? errorMessage;
+
+  StackError({
+    this.errorCode,
+    this.errorMessage,
+  });
+
+  factory StackError.fromJson(Map<String, dynamic> json) {
+    return StackError(
+      errorCode: (json['ErrorCode'] as String?)?.let(StackErrorCode.fromString),
+      errorMessage: json['ErrorMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode.value,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+    };
+  }
+}
+
+class StackErrorCode {
+  static const storageConnectorError =
+      StackErrorCode._('STORAGE_CONNECTOR_ERROR');
+  static const internalServiceError =
+      StackErrorCode._('INTERNAL_SERVICE_ERROR');
+
+  final String value;
+
+  const StackErrorCode._(this.value);
+
+  static const values = [storageConnectorError, internalServiceError];
+
+  static StackErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StackErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is StackErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a connector that enables persistent storage for users.
+class StorageConnector {
+  /// The type of storage connector.
+  final StorageConnectorType connectorType;
+
+  /// The names of the domains for the account.
+  final List<String>? domains;
+
+  /// The OneDrive for Business domains where you require admin consent when users
+  /// try to link their OneDrive account to WorkSpaces Applications. The attribute
+  /// can only be specified when ConnectorType=ONE_DRIVE.
+  final List<String>? domainsRequireAdminConsent;
+
+  /// The ARN of the storage connector.
+  final String? resourceIdentifier;
+
+  StorageConnector({
+    required this.connectorType,
+    this.domains,
+    this.domainsRequireAdminConsent,
+    this.resourceIdentifier,
+  });
+
+  factory StorageConnector.fromJson(Map<String, dynamic> json) {
+    return StorageConnector(
+      connectorType: StorageConnectorType.fromString(
+          (json['ConnectorType'] as String?) ?? ''),
+      domains:
+          (json['Domains'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      domainsRequireAdminConsent: (json['DomainsRequireAdminConsent'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      resourceIdentifier: json['ResourceIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorType = this.connectorType;
+    final domains = this.domains;
+    final domainsRequireAdminConsent = this.domainsRequireAdminConsent;
+    final resourceIdentifier = this.resourceIdentifier;
+    return {
+      'ConnectorType': connectorType.value,
+      if (domains != null) 'Domains': domains,
+      if (domainsRequireAdminConsent != null)
+        'DomainsRequireAdminConsent': domainsRequireAdminConsent,
+      if (resourceIdentifier != null) 'ResourceIdentifier': resourceIdentifier,
+    };
+  }
+}
+
+/// The type of storage connector.
+class StorageConnectorType {
+  static const homefolders = StorageConnectorType._('HOMEFOLDERS');
+  static const googleDrive = StorageConnectorType._('GOOGLE_DRIVE');
+  static const oneDrive = StorageConnectorType._('ONE_DRIVE');
+
+  final String value;
+
+  const StorageConnectorType._(this.value);
+
+  static const values = [homefolders, googleDrive, oneDrive];
+
+  static StorageConnectorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StorageConnectorType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StorageConnectorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The persistent application settings for users of a stack.
+class ApplicationSettings {
+  /// Enables or disables persistent application settings for users during their
+  /// streaming sessions.
+  final bool enabled;
+
+  /// The path prefix for the S3 bucket where users’ persistent application
+  /// settings are stored. You can allow the same persistent application settings
+  /// to be used across multiple stacks by specifying the same settings group for
+  /// each stack.
+  final String? settingsGroup;
+
+  ApplicationSettings({
+    required this.enabled,
+    this.settingsGroup,
+  });
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final settingsGroup = this.settingsGroup;
+    return {
+      'Enabled': enabled,
+      if (settingsGroup != null) 'SettingsGroup': settingsGroup,
+    };
+  }
+}
+
+/// The configuration for updating agent access on a stack. This type supports
+/// partial updates, so you only need to specify the fields you want to change.
+class AgentAccessConfigForUpdate {
+  /// The Amazon Resource Name (ARN) of the Amazon S3 bucket where agent
+  /// screenshots are stored.
+  final String? s3BucketArn;
+
+  /// The image format for agent screen captures.
+  final ScreenImageFormat? screenImageFormat;
+
+  /// The screen resolution for the agent streaming environment.
+  final ScreenResolution? screenResolution;
+
+  /// Indicates whether screenshot uploads to Amazon S3 are enabled for agent
+  /// sessions.
+  final bool? screenshotsUploadEnabled;
+
+  /// The list of agent access settings that define permissions for each agent
+  /// action.
+  final List<AgentAccessSetting>? settings;
+
+  AgentAccessConfigForUpdate({
+    this.s3BucketArn,
+    this.screenImageFormat,
+    this.screenResolution,
+    this.screenshotsUploadEnabled,
+    this.settings,
+  });
+
+  Map<String, dynamic> toJson() {
+    final s3BucketArn = this.s3BucketArn;
+    final screenImageFormat = this.screenImageFormat;
+    final screenResolution = this.screenResolution;
+    final screenshotsUploadEnabled = this.screenshotsUploadEnabled;
+    final settings = this.settings;
+    return {
+      if (s3BucketArn != null) 'S3BucketArn': s3BucketArn,
+      if (screenImageFormat != null)
+        'ScreenImageFormat': screenImageFormat.value,
+      if (screenResolution != null) 'ScreenResolution': screenResolution.value,
+      if (screenshotsUploadEnabled != null)
+        'ScreenshotsUploadEnabled': screenshotsUploadEnabled,
+      if (settings != null) 'Settings': settings,
+    };
+  }
+}
+
+/// The stack attributes to delete.
+///
+/// <ul>
+/// <li>
+/// STORAGE_CONNECTORS
+/// </li>
+/// <li>
+/// STORAGE_CONNECTOR_HOMEFOLDERS
+/// </li>
+/// <li>
+/// STORAGE_CONNECTOR_GOOGLE_DRIVE
+/// </li>
+/// <li>
+/// STORAGE_CONNECTOR_ONE_DRIVE
+/// </li>
+/// <li>
+/// REDIRECT_URL
+/// </li>
+/// <li>
+/// FEEDBACK_URL
+/// </li>
+/// <li>
+/// THEME_NAME
+/// </li>
+/// <li>
+/// USER_SETTINGS
+/// </li>
+/// <li>
+/// EMBED_HOST_DOMAINS
+/// </li>
+/// <li>
+/// IAM_ROLE_ARN
+/// </li>
+/// <li>
+/// ACCESS_ENDPOINTS
+/// </li>
+/// <li>
+/// STREAMING_EXPERIENCE_SETTINGS
+/// </li>
+/// <li>
+/// AGENT_ACCESS_CONFIG
+/// </li>
+/// </ul>
+class StackAttribute {
+  static const storageConnectors = StackAttribute._('STORAGE_CONNECTORS');
+  static const storageConnectorHomefolders =
+      StackAttribute._('STORAGE_CONNECTOR_HOMEFOLDERS');
+  static const storageConnectorGoogleDrive =
+      StackAttribute._('STORAGE_CONNECTOR_GOOGLE_DRIVE');
+  static const storageConnectorOneDrive =
+      StackAttribute._('STORAGE_CONNECTOR_ONE_DRIVE');
+  static const redirectUrl = StackAttribute._('REDIRECT_URL');
+  static const feedbackUrl = StackAttribute._('FEEDBACK_URL');
+  static const themeName = StackAttribute._('THEME_NAME');
+  static const userSettings = StackAttribute._('USER_SETTINGS');
+  static const embedHostDomains = StackAttribute._('EMBED_HOST_DOMAINS');
+  static const iamRoleArn = StackAttribute._('IAM_ROLE_ARN');
+  static const accessEndpoints = StackAttribute._('ACCESS_ENDPOINTS');
+  static const streamingExperienceSettings =
+      StackAttribute._('STREAMING_EXPERIENCE_SETTINGS');
+  static const contentRedirection = StackAttribute._('CONTENT_REDIRECTION');
+  static const agentAccessConfig = StackAttribute._('AGENT_ACCESS_CONFIG');
+
+  final String value;
+
+  const StackAttribute._(this.value);
+
+  static const values = [
+    storageConnectors,
+    storageConnectorHomefolders,
+    storageConnectorGoogleDrive,
+    storageConnectorOneDrive,
+    redirectUrl,
+    feedbackUrl,
+    themeName,
+    userSettings,
+    embedHostDomains,
+    iamRoleArn,
+    accessEndpoints,
+    streamingExperienceSettings,
+    contentRedirection,
+    agentAccessConfig
+  ];
+
+  static StackAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StackAttribute._(value));
+
+  @override
+  bool operator ==(other) => other is StackAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the permissions for an image.
+class ImagePermissions {
+  /// Indicates whether the image can be used for a fleet.
+  final bool? allowFleet;
+
+  /// Indicates whether the image can be used for an image builder.
+  final bool? allowImageBuilder;
+
+  ImagePermissions({
+    this.allowFleet,
+    this.allowImageBuilder,
+  });
+
+  factory ImagePermissions.fromJson(Map<String, dynamic> json) {
+    return ImagePermissions(
+      allowFleet: json['allowFleet'] as bool?,
+      allowImageBuilder: json['allowImageBuilder'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowFleet = this.allowFleet;
+    final allowImageBuilder = this.allowImageBuilder;
+    return {
+      if (allowFleet != null) 'allowFleet': allowFleet,
+      if (allowImageBuilder != null) 'allowImageBuilder': allowImageBuilder,
+    };
+  }
+}
+
+/// Describes a fleet.
+class Fleet {
+  /// The Amazon Resource Name (ARN) for the fleet.
+  final String arn;
+
+  /// The capacity status for the fleet.
+  final ComputeCapacityStatus computeCapacityStatus;
+
+  /// The instance type to use when launching fleet instances. The following
+  /// instance types are available:
+  ///
+  /// <ul>
+  /// <li>
+  /// stream.standard.small
+  /// </li>
+  /// <li>
+  /// stream.standard.medium
+  /// </li>
+  /// <li>
+  /// stream.standard.large
+  /// </li>
+  /// <li>
+  /// stream.compute.large
+  /// </li>
+  /// <li>
+  /// stream.compute.xlarge
+  /// </li>
+  /// <li>
+  /// stream.compute.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.compute.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.compute.8xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.large
+  /// </li>
+  /// <li>
+  /// stream.memory.xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.8xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.z1d.large
+  /// </li>
+  /// <li>
+  /// stream.memory.z1d.xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.z1d.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.z1d.3xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.z1d.6xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.z1d.12xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.8xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.12xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.16xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g5.xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g5.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g5.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g5.8xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g5.16xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g5.12xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g5.24xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6.xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6.8xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6.16xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6.12xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6.24xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.gr6.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.gr6.8xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6f.large
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6f.xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6f.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6f.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.gr6f.4xlarge
+  /// </li>
+  /// </ul>
+  final String instanceType;
+
+  /// The name of the fleet.
+  final String name;
+
+  /// The current state for the fleet.
+  final FleetState state;
+
+  /// The time the fleet was created.
+  final DateTime? createdTime;
+
+  /// The description to display.
+  final String? description;
+
+  /// Indicates whether Instance Metadata Service Version 1 (IMDSv1) is disabled
+  /// for the fleet.
+  final bool? disableIMDSV1;
+
+  /// The amount of time that a streaming session remains active after users
+  /// disconnect. If they try to reconnect to the streaming session after a
+  /// disconnection or network interruption within this time interval, they are
+  /// connected to their previous session. Otherwise, they are connected to a new
+  /// session with a new streaming instance.
+  ///
+  /// Specify a value between 60 and 36000.
+  final int? disconnectTimeoutInSeconds;
+
+  /// The fleet name to display.
+  final String? displayName;
+
+  /// The name of the directory and organizational unit (OU) to use to join the
+  /// fleet to a Microsoft Active Directory domain.
+  final DomainJoinInfo? domainJoinInfo;
+
+  /// Indicates whether default internet access is enabled for the fleet.
+  final bool? enableDefaultInternetAccess;
+
+  /// The fleet errors.
+  final List<FleetError>? fleetErrors;
+
+  /// The fleet type.
+  /// <dl> <dt>ALWAYS_ON</dt> <dd>
+  /// Provides users with instant-on access to their apps. You are charged for all
+  /// running instances in your fleet, even if no users are streaming apps.
+  /// </dd> <dt>ON_DEMAND</dt> <dd>
+  /// Provide users with access to applications after they connect, which takes
+  /// one to two minutes. You are charged for instance streaming when users are
+  /// connected and a small hourly fee for instances that are not streaming apps.
+  /// </dd> </dl>
+  final FleetType? fleetType;
+
+  /// The ARN of the IAM role that is applied to the fleet. To assume a role, the
+  /// fleet instance calls the AWS Security Token Service (STS)
+  /// <code>AssumeRole</code> API operation and passes the ARN of the role to use.
+  /// The operation creates a new session with temporary credentials. WorkSpaces
+  /// Applications retrieves the temporary credentials and creates the
+  /// <b>appstream_machine_role</b> credential profile on the instance.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html">Using
+  /// an IAM Role to Grant Permissions to Applications and Scripts Running on
+  /// WorkSpaces Applications Streaming Instances</a> in the <i>Amazon WorkSpaces
+  /// Applications Administration Guide</i>.
+  final String? iamRoleArn;
+
+  /// The amount of time that users can be idle (inactive) before they are
+  /// disconnected from their streaming session and the
+  /// <code>DisconnectTimeoutInSeconds</code> time interval begins. Users are
+  /// notified before they are disconnected due to inactivity. If users try to
+  /// reconnect to the streaming session before the time interval specified in
+  /// <code>DisconnectTimeoutInSeconds</code> elapses, they are connected to their
+  /// previous session. Users are considered idle when they stop providing
+  /// keyboard or mouse input during their streaming session. File uploads and
+  /// downloads, audio in, audio out, and pixels changing do not qualify as user
+  /// activity. If users continue to be idle after the time interval in
+  /// <code>IdleDisconnectTimeoutInSeconds</code> elapses, they are disconnected.
+  ///
+  /// To prevent users from being disconnected due to inactivity, specify a value
+  /// of 0. Otherwise, specify a value between 60 and 36000. The default value is
+  /// 0.
+  /// <note>
+  /// If you enable this feature, we recommend that you specify a value that
+  /// corresponds exactly to a whole number of minutes (for example, 60, 120, and
+  /// 180). If you don't do this, the value is rounded to the nearest minute. For
+  /// example, if you specify a value of 70, users are disconnected after 1 minute
+  /// of inactivity. If you specify a value that is at the midpoint between two
+  /// different minutes, the value is rounded up. For example, if you specify a
+  /// value of 90, users are disconnected after 2 minutes of inactivity.
+  /// </note>
+  final int? idleDisconnectTimeoutInSeconds;
+
+  /// The ARN for the public, private, or shared image.
+  final String? imageArn;
+
+  /// The name of the image used to create the fleet.
+  final String? imageName;
+
+  /// The maximum number of concurrent sessions for the fleet.
+  final int? maxConcurrentSessions;
+
+  /// The maximum number of user sessions on an instance. This only applies to
+  /// multi-session fleets.
+  final int? maxSessionsPerInstance;
+
+  /// The maximum amount of time that a streaming session can remain active, in
+  /// seconds. If users are still connected to a streaming instance five minutes
+  /// before this limit is reached, they are prompted to save any open documents
+  /// before being disconnected. After this time elapses, the instance is
+  /// terminated and replaced by a new instance.
+  ///
+  /// Specify a value between 600 and 360000.
+  final int? maxUserDurationInSeconds;
+
+  /// The platform of the fleet.
+  final PlatformType? platform;
+
+  /// The current configuration of the root volume for fleet instances, including
+  /// the storage size in GB.
+  final VolumeConfig? rootVolumeConfig;
+
+  /// The S3 location of the session scripts configuration zip file. This only
+  /// applies to Elastic fleets.
+  final S3Location? sessionScriptS3Location;
+
+  /// The WorkSpaces Applications view that is displayed to your users when they
+  /// stream from the fleet. When <code>APP</code> is specified, only the windows
+  /// of applications opened by users display. When <code>DESKTOP</code> is
+  /// specified, the standard desktop that is provided by the operating system
+  /// displays.
+  ///
+  /// The default value is <code>APP</code>.
+  final StreamView? streamView;
+
+  /// The USB device filter strings associated with the fleet.
+  final List<String>? usbDeviceFilterStrings;
+
+  /// The VPC configuration for the fleet.
+  final VpcConfig? vpcConfig;
+
+  Fleet({
+    required this.arn,
+    required this.computeCapacityStatus,
+    required this.instanceType,
+    required this.name,
+    required this.state,
+    this.createdTime,
+    this.description,
+    this.disableIMDSV1,
+    this.disconnectTimeoutInSeconds,
+    this.displayName,
+    this.domainJoinInfo,
+    this.enableDefaultInternetAccess,
+    this.fleetErrors,
+    this.fleetType,
+    this.iamRoleArn,
+    this.idleDisconnectTimeoutInSeconds,
+    this.imageArn,
+    this.imageName,
+    this.maxConcurrentSessions,
+    this.maxSessionsPerInstance,
+    this.maxUserDurationInSeconds,
+    this.platform,
+    this.rootVolumeConfig,
+    this.sessionScriptS3Location,
+    this.streamView,
+    this.usbDeviceFilterStrings,
+    this.vpcConfig,
+  });
+
+  factory Fleet.fromJson(Map<String, dynamic> json) {
+    return Fleet(
+      arn: (json['Arn'] as String?) ?? '',
+      computeCapacityStatus: ComputeCapacityStatus.fromJson(
+          (json['ComputeCapacityStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      instanceType: (json['InstanceType'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      state: FleetState.fromString((json['State'] as String?) ?? ''),
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      description: json['Description'] as String?,
+      disableIMDSV1: json['DisableIMDSV1'] as bool?,
+      disconnectTimeoutInSeconds: json['DisconnectTimeoutInSeconds'] as int?,
+      displayName: json['DisplayName'] as String?,
+      domainJoinInfo: json['DomainJoinInfo'] != null
+          ? DomainJoinInfo.fromJson(
+              json['DomainJoinInfo'] as Map<String, dynamic>)
+          : null,
+      enableDefaultInternetAccess: json['EnableDefaultInternetAccess'] as bool?,
+      fleetErrors: (json['FleetErrors'] as List?)
+          ?.nonNulls
+          .map((e) => FleetError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      fleetType: (json['FleetType'] as String?)?.let(FleetType.fromString),
+      iamRoleArn: json['IamRoleArn'] as String?,
+      idleDisconnectTimeoutInSeconds:
+          json['IdleDisconnectTimeoutInSeconds'] as int?,
+      imageArn: json['ImageArn'] as String?,
+      imageName: json['ImageName'] as String?,
+      maxConcurrentSessions: json['MaxConcurrentSessions'] as int?,
+      maxSessionsPerInstance: json['MaxSessionsPerInstance'] as int?,
+      maxUserDurationInSeconds: json['MaxUserDurationInSeconds'] as int?,
+      platform: (json['Platform'] as String?)?.let(PlatformType.fromString),
+      rootVolumeConfig: json['RootVolumeConfig'] != null
+          ? VolumeConfig.fromJson(
+              json['RootVolumeConfig'] as Map<String, dynamic>)
+          : null,
+      sessionScriptS3Location: json['SessionScriptS3Location'] != null
+          ? S3Location.fromJson(
+              json['SessionScriptS3Location'] as Map<String, dynamic>)
+          : null,
+      streamView: (json['StreamView'] as String?)?.let(StreamView.fromString),
+      usbDeviceFilterStrings: (json['UsbDeviceFilterStrings'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      vpcConfig: json['VpcConfig'] != null
+          ? VpcConfig.fromJson(json['VpcConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final computeCapacityStatus = this.computeCapacityStatus;
+    final instanceType = this.instanceType;
+    final name = this.name;
+    final state = this.state;
+    final createdTime = this.createdTime;
+    final description = this.description;
+    final disableIMDSV1 = this.disableIMDSV1;
+    final disconnectTimeoutInSeconds = this.disconnectTimeoutInSeconds;
+    final displayName = this.displayName;
+    final domainJoinInfo = this.domainJoinInfo;
+    final enableDefaultInternetAccess = this.enableDefaultInternetAccess;
+    final fleetErrors = this.fleetErrors;
+    final fleetType = this.fleetType;
+    final iamRoleArn = this.iamRoleArn;
+    final idleDisconnectTimeoutInSeconds = this.idleDisconnectTimeoutInSeconds;
+    final imageArn = this.imageArn;
+    final imageName = this.imageName;
+    final maxConcurrentSessions = this.maxConcurrentSessions;
+    final maxSessionsPerInstance = this.maxSessionsPerInstance;
+    final maxUserDurationInSeconds = this.maxUserDurationInSeconds;
+    final platform = this.platform;
+    final rootVolumeConfig = this.rootVolumeConfig;
+    final sessionScriptS3Location = this.sessionScriptS3Location;
+    final streamView = this.streamView;
+    final usbDeviceFilterStrings = this.usbDeviceFilterStrings;
+    final vpcConfig = this.vpcConfig;
+    return {
+      'Arn': arn,
+      'ComputeCapacityStatus': computeCapacityStatus,
+      'InstanceType': instanceType,
+      'Name': name,
+      'State': state.value,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (description != null) 'Description': description,
+      if (disableIMDSV1 != null) 'DisableIMDSV1': disableIMDSV1,
+      if (disconnectTimeoutInSeconds != null)
+        'DisconnectTimeoutInSeconds': disconnectTimeoutInSeconds,
+      if (displayName != null) 'DisplayName': displayName,
+      if (domainJoinInfo != null) 'DomainJoinInfo': domainJoinInfo,
+      if (enableDefaultInternetAccess != null)
+        'EnableDefaultInternetAccess': enableDefaultInternetAccess,
+      if (fleetErrors != null) 'FleetErrors': fleetErrors,
+      if (fleetType != null) 'FleetType': fleetType.value,
+      if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
+      if (idleDisconnectTimeoutInSeconds != null)
+        'IdleDisconnectTimeoutInSeconds': idleDisconnectTimeoutInSeconds,
+      if (imageArn != null) 'ImageArn': imageArn,
+      if (imageName != null) 'ImageName': imageName,
+      if (maxConcurrentSessions != null)
+        'MaxConcurrentSessions': maxConcurrentSessions,
+      if (maxSessionsPerInstance != null)
+        'MaxSessionsPerInstance': maxSessionsPerInstance,
+      if (maxUserDurationInSeconds != null)
+        'MaxUserDurationInSeconds': maxUserDurationInSeconds,
+      if (platform != null) 'Platform': platform.value,
+      if (rootVolumeConfig != null) 'RootVolumeConfig': rootVolumeConfig,
+      if (sessionScriptS3Location != null)
+        'SessionScriptS3Location': sessionScriptS3Location,
+      if (streamView != null) 'StreamView': streamView.value,
+      if (usbDeviceFilterStrings != null)
+        'UsbDeviceFilterStrings': usbDeviceFilterStrings,
+      if (vpcConfig != null) 'VpcConfig': vpcConfig,
+    };
+  }
+}
+
+class FleetType {
+  static const alwaysOn = FleetType._('ALWAYS_ON');
+  static const onDemand = FleetType._('ON_DEMAND');
+  static const elastic = FleetType._('ELASTIC');
+
+  final String value;
+
+  const FleetType._(this.value);
+
+  static const values = [alwaysOn, onDemand, elastic];
+
+  static FleetType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FleetType._(value));
+
+  @override
+  bool operator ==(other) => other is FleetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the capacity status for a fleet.
+class ComputeCapacityStatus {
+  /// The desired number of streaming instances.
+  final int desired;
+
+  /// The number of user sessions currently being used for streaming sessions.
+  /// This only applies to multi-session fleets.
+  final int? activeUserSessions;
+
+  /// The total number of session slots that are available for streaming or are
+  /// currently streaming.
+  ///
+  /// ActualUserSessionCapacity = AvailableUserSessionCapacity +
+  /// ActiveUserSessions
+  ///
+  /// This only applies to multi-session fleets.
+  final int? actualUserSessions;
+
+  /// The number of currently available instances that can be used to stream
+  /// sessions.
+  final int? available;
+
+  /// The number of idle session slots currently available for user sessions.
+  ///
+  /// AvailableUserSessionCapacity = ActualUserSessionCapacity -
+  /// ActiveUserSessions
+  ///
+  /// This only applies to multi-session fleets.
+  final int? availableUserSessions;
+
+  /// The total number of sessions slots that are either running or pending. This
+  /// represents the total number of concurrent streaming sessions your fleet can
+  /// support in a steady state.
+  ///
+  /// DesiredUserSessionCapacity = ActualUserSessionCapacity +
+  /// PendingUserSessionCapacity
+  ///
+  /// This only applies to multi-session fleets.
+  final int? desiredUserSessions;
+
+  /// The number of active user sessions on instances in drain mode. This only
+  /// applies to multi-session fleets.
+  final int? drainModeActiveUserSessions;
+
+  /// The number of unused session slots on instances in drain mode that cannot be
+  /// used for user session provisioning. This only applies to multi-session
+  /// fleets.
+  final int? drainModeUnusedUserSessions;
+
+  /// The number of instances in drain mode. This only applies to multi-session
+  /// fleets.
+  final int? draining;
+
+  /// The number of instances in use for streaming.
+  final int? inUse;
+
+  /// The total number of simultaneous streaming instances that are running.
+  final int? running;
+
+  ComputeCapacityStatus({
+    required this.desired,
+    this.activeUserSessions,
+    this.actualUserSessions,
+    this.available,
+    this.availableUserSessions,
+    this.desiredUserSessions,
+    this.drainModeActiveUserSessions,
+    this.drainModeUnusedUserSessions,
+    this.draining,
+    this.inUse,
+    this.running,
+  });
+
+  factory ComputeCapacityStatus.fromJson(Map<String, dynamic> json) {
+    return ComputeCapacityStatus(
+      desired: (json['Desired'] as int?) ?? 0,
+      activeUserSessions: json['ActiveUserSessions'] as int?,
+      actualUserSessions: json['ActualUserSessions'] as int?,
+      available: json['Available'] as int?,
+      availableUserSessions: json['AvailableUserSessions'] as int?,
+      desiredUserSessions: json['DesiredUserSessions'] as int?,
+      drainModeActiveUserSessions: json['DrainModeActiveUserSessions'] as int?,
+      drainModeUnusedUserSessions: json['DrainModeUnusedUserSessions'] as int?,
+      draining: json['Draining'] as int?,
+      inUse: json['InUse'] as int?,
+      running: json['Running'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final desired = this.desired;
+    final activeUserSessions = this.activeUserSessions;
+    final actualUserSessions = this.actualUserSessions;
+    final available = this.available;
+    final availableUserSessions = this.availableUserSessions;
+    final desiredUserSessions = this.desiredUserSessions;
+    final drainModeActiveUserSessions = this.drainModeActiveUserSessions;
+    final drainModeUnusedUserSessions = this.drainModeUnusedUserSessions;
+    final draining = this.draining;
+    final inUse = this.inUse;
+    final running = this.running;
+    return {
+      'Desired': desired,
+      if (activeUserSessions != null) 'ActiveUserSessions': activeUserSessions,
+      if (actualUserSessions != null) 'ActualUserSessions': actualUserSessions,
+      if (available != null) 'Available': available,
+      if (availableUserSessions != null)
+        'AvailableUserSessions': availableUserSessions,
+      if (desiredUserSessions != null)
+        'DesiredUserSessions': desiredUserSessions,
+      if (drainModeActiveUserSessions != null)
+        'DrainModeActiveUserSessions': drainModeActiveUserSessions,
+      if (drainModeUnusedUserSessions != null)
+        'DrainModeUnusedUserSessions': drainModeUnusedUserSessions,
+      if (draining != null) 'Draining': draining,
+      if (inUse != null) 'InUse': inUse,
+      if (running != null) 'Running': running,
+    };
+  }
+}
+
+class FleetState {
+  static const starting = FleetState._('STARTING');
+  static const running = FleetState._('RUNNING');
+  static const stopping = FleetState._('STOPPING');
+  static const stopped = FleetState._('STOPPED');
+
+  final String value;
+
+  const FleetState._(this.value);
+
+  static const values = [starting, running, stopping, stopped];
+
+  static FleetState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FleetState._(value));
+
+  @override
+  bool operator ==(other) => other is FleetState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes VPC configuration information for fleets and image builders.
+class VpcConfig {
+  /// The identifiers of the security groups for the fleet or image builder.
+  final List<String>? securityGroupIds;
+
+  /// The identifiers of the subnets to which a network interface is attached from
+  /// the fleet instance or image builder instance. Fleet instances use one or
+  /// more subnets. Image builder instances use one subnet.
+  final List<String>? subnetIds;
+
+  VpcConfig({
+    this.securityGroupIds,
+    this.subnetIds,
+  });
+
+  factory VpcConfig.fromJson(Map<String, dynamic> json) {
+    return VpcConfig(
+      securityGroupIds: (json['SecurityGroupIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      subnetIds: (json['SubnetIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final securityGroupIds = this.securityGroupIds;
+    final subnetIds = this.subnetIds;
+    return {
+      if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
+      if (subnetIds != null) 'SubnetIds': subnetIds,
+    };
+  }
+}
+
+/// Describes the configuration information required to join fleets and image
+/// builders to Microsoft Active Directory domains.
+class DomainJoinInfo {
+  /// The fully qualified name of the directory (for example, corp.example.com).
+  final String? directoryName;
+
+  /// The distinguished name of the organizational unit for computer accounts.
+  final String? organizationalUnitDistinguishedName;
+
+  DomainJoinInfo({
+    this.directoryName,
+    this.organizationalUnitDistinguishedName,
+  });
+
+  factory DomainJoinInfo.fromJson(Map<String, dynamic> json) {
+    return DomainJoinInfo(
+      directoryName: json['DirectoryName'] as String?,
+      organizationalUnitDistinguishedName:
+          json['OrganizationalUnitDistinguishedName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final directoryName = this.directoryName;
+    final organizationalUnitDistinguishedName =
+        this.organizationalUnitDistinguishedName;
+    return {
+      if (directoryName != null) 'DirectoryName': directoryName,
+      if (organizationalUnitDistinguishedName != null)
+        'OrganizationalUnitDistinguishedName':
+            organizationalUnitDistinguishedName,
+    };
+  }
+}
+
+class StreamView {
+  static const app = StreamView._('APP');
+  static const desktop = StreamView._('DESKTOP');
+
+  final String value;
+
+  const StreamView._(this.value);
+
+  static const values = [app, desktop];
+
+  static StreamView fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StreamView._(value));
+
+  @override
+  bool operator ==(other) => other is StreamView && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class PlatformType {
+  static const windows = PlatformType._('WINDOWS');
+  static const windowsServer_2016 = PlatformType._('WINDOWS_SERVER_2016');
+  static const windowsServer_2019 = PlatformType._('WINDOWS_SERVER_2019');
+  static const windowsServer_2022 = PlatformType._('WINDOWS_SERVER_2022');
+  static const windowsServer_2025 = PlatformType._('WINDOWS_SERVER_2025');
+  static const amazonLinux2 = PlatformType._('AMAZON_LINUX2');
+  static const rhel8 = PlatformType._('RHEL8');
+  static const rockyLinux8 = PlatformType._('ROCKY_LINUX8');
+  static const ubuntuPro_2404 = PlatformType._('UBUNTU_PRO_2404');
+
+  final String value;
+
+  const PlatformType._(this.value);
+
+  static const values = [
+    windows,
+    windowsServer_2016,
+    windowsServer_2019,
+    windowsServer_2022,
+    windowsServer_2025,
+    amazonLinux2,
+    rhel8,
+    rockyLinux8,
+    ubuntuPro_2404
+  ];
+
+  static PlatformType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PlatformType._(value));
+
+  @override
+  bool operator ==(other) => other is PlatformType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Configuration for the root volume of fleet instances and image builders.
+/// This allows you to customize the storage capacity beyond the default 200 GB.
+class VolumeConfig {
+  /// The size of the root volume in GB. Valid range is 200-500 GB. The default is
+  /// 200 GB, which is included in the hourly instance rate. Additional storage
+  /// beyond 200 GB incurs extra charges and applies to instances regardless of
+  /// their running state.
+  final int? volumeSizeInGb;
+
+  VolumeConfig({
+    this.volumeSizeInGb,
+  });
+
+  factory VolumeConfig.fromJson(Map<String, dynamic> json) {
+    return VolumeConfig(
+      volumeSizeInGb: json['VolumeSizeInGb'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final volumeSizeInGb = this.volumeSizeInGb;
+    return {
+      if (volumeSizeInGb != null) 'VolumeSizeInGb': volumeSizeInGb,
+    };
+  }
+}
+
+/// Describes a fleet error.
+class FleetError {
+  /// The error code.
+  final FleetErrorCode? errorCode;
+
+  /// The error message.
+  final String? errorMessage;
+
+  FleetError({
+    this.errorCode,
+    this.errorMessage,
+  });
+
+  factory FleetError.fromJson(Map<String, dynamic> json) {
+    return FleetError(
+      errorCode: (json['ErrorCode'] as String?)?.let(FleetErrorCode.fromString),
+      errorMessage: json['ErrorMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode.value,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+    };
+  }
+}
+
+class FleetErrorCode {
+  static const iamServiceRoleMissingEniDescribeAction =
+      FleetErrorCode._('IAM_SERVICE_ROLE_MISSING_ENI_DESCRIBE_ACTION');
+  static const iamServiceRoleMissingEniCreateAction =
+      FleetErrorCode._('IAM_SERVICE_ROLE_MISSING_ENI_CREATE_ACTION');
+  static const iamServiceRoleMissingEniDeleteAction =
+      FleetErrorCode._('IAM_SERVICE_ROLE_MISSING_ENI_DELETE_ACTION');
+  static const networkInterfaceLimitExceeded =
+      FleetErrorCode._('NETWORK_INTERFACE_LIMIT_EXCEEDED');
+  static const internalServiceError =
+      FleetErrorCode._('INTERNAL_SERVICE_ERROR');
+  static const iamServiceRoleIsMissing =
+      FleetErrorCode._('IAM_SERVICE_ROLE_IS_MISSING');
+  static const machineRoleIsMissing =
+      FleetErrorCode._('MACHINE_ROLE_IS_MISSING');
+  static const stsDisabledInRegion = FleetErrorCode._('STS_DISABLED_IN_REGION');
+  static const subnetHasInsufficientIpAddresses =
+      FleetErrorCode._('SUBNET_HAS_INSUFFICIENT_IP_ADDRESSES');
+  static const iamServiceRoleMissingDescribeSubnetAction =
+      FleetErrorCode._('IAM_SERVICE_ROLE_MISSING_DESCRIBE_SUBNET_ACTION');
+  static const subnetNotFound = FleetErrorCode._('SUBNET_NOT_FOUND');
+  static const imageNotFound = FleetErrorCode._('IMAGE_NOT_FOUND');
+  static const invalidSubnetConfiguration =
+      FleetErrorCode._('INVALID_SUBNET_CONFIGURATION');
+  static const securityGroupsNotFound =
+      FleetErrorCode._('SECURITY_GROUPS_NOT_FOUND');
+  static const igwNotAttached = FleetErrorCode._('IGW_NOT_ATTACHED');
+  static const iamServiceRoleMissingDescribeSecurityGroupsAction =
+      FleetErrorCode._(
+          'IAM_SERVICE_ROLE_MISSING_DESCRIBE_SECURITY_GROUPS_ACTION');
+  static const fleetStopped = FleetErrorCode._('FLEET_STOPPED');
+  static const fleetInstanceProvisioningFailure =
+      FleetErrorCode._('FLEET_INSTANCE_PROVISIONING_FAILURE');
+  static const domainJoinErrorFileNotFound =
+      FleetErrorCode._('DOMAIN_JOIN_ERROR_FILE_NOT_FOUND');
+  static const domainJoinErrorAccessDenied =
+      FleetErrorCode._('DOMAIN_JOIN_ERROR_ACCESS_DENIED');
+  static const domainJoinErrorLogonFailure =
+      FleetErrorCode._('DOMAIN_JOIN_ERROR_LOGON_FAILURE');
+  static const domainJoinErrorInvalidParameter =
+      FleetErrorCode._('DOMAIN_JOIN_ERROR_INVALID_PARAMETER');
+  static const domainJoinErrorMoreData =
+      FleetErrorCode._('DOMAIN_JOIN_ERROR_MORE_DATA');
+  static const domainJoinErrorNoSuchDomain =
+      FleetErrorCode._('DOMAIN_JOIN_ERROR_NO_SUCH_DOMAIN');
+  static const domainJoinErrorNotSupported =
+      FleetErrorCode._('DOMAIN_JOIN_ERROR_NOT_SUPPORTED');
+  static const domainJoinNerrInvalidWorkgroupName =
+      FleetErrorCode._('DOMAIN_JOIN_NERR_INVALID_WORKGROUP_NAME');
+  static const domainJoinNerrWorkstationNotStarted =
+      FleetErrorCode._('DOMAIN_JOIN_NERR_WORKSTATION_NOT_STARTED');
+  static const domainJoinErrorDsMachineAccountQuotaExceeded =
+      FleetErrorCode._('DOMAIN_JOIN_ERROR_DS_MACHINE_ACCOUNT_QUOTA_EXCEEDED');
+  static const domainJoinNerrPasswordExpired =
+      FleetErrorCode._('DOMAIN_JOIN_NERR_PASSWORD_EXPIRED');
+  static const domainJoinInternalServiceError =
+      FleetErrorCode._('DOMAIN_JOIN_INTERNAL_SERVICE_ERROR');
+  static const validationError = FleetErrorCode._('VALIDATION_ERROR');
+
+  final String value;
+
+  const FleetErrorCode._(this.value);
+
+  static const values = [
+    iamServiceRoleMissingEniDescribeAction,
+    iamServiceRoleMissingEniCreateAction,
+    iamServiceRoleMissingEniDeleteAction,
+    networkInterfaceLimitExceeded,
+    internalServiceError,
+    iamServiceRoleIsMissing,
+    machineRoleIsMissing,
+    stsDisabledInRegion,
+    subnetHasInsufficientIpAddresses,
+    iamServiceRoleMissingDescribeSubnetAction,
+    subnetNotFound,
+    imageNotFound,
+    invalidSubnetConfiguration,
+    securityGroupsNotFound,
+    igwNotAttached,
+    iamServiceRoleMissingDescribeSecurityGroupsAction,
+    fleetStopped,
+    fleetInstanceProvisioningFailure,
+    domainJoinErrorFileNotFound,
+    domainJoinErrorAccessDenied,
+    domainJoinErrorLogonFailure,
+    domainJoinErrorInvalidParameter,
+    domainJoinErrorMoreData,
+    domainJoinErrorNoSuchDomain,
+    domainJoinErrorNotSupported,
+    domainJoinNerrInvalidWorkgroupName,
+    domainJoinNerrWorkstationNotStarted,
+    domainJoinErrorDsMachineAccountQuotaExceeded,
+    domainJoinNerrPasswordExpired,
+    domainJoinInternalServiceError,
+    validationError
+  ];
+
+  static FleetErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FleetErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is FleetErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the capacity for a fleet.
+class ComputeCapacity {
+  /// The desired number of streaming instances.
+  final int? desiredInstances;
+
+  /// The desired number of user sessions for a multi-session fleet. This is not
+  /// allowed for single-session fleets.
+  ///
+  /// When you create a fleet, you must set either the DesiredSessions or
+  /// DesiredInstances attribute, based on the type of fleet you create. You can’t
+  /// define both attributes or leave both attributes blank.
+  final int? desiredSessions;
+
+  ComputeCapacity({
+    this.desiredInstances,
+    this.desiredSessions,
+  });
+
+  Map<String, dynamic> toJson() {
+    final desiredInstances = this.desiredInstances;
+    final desiredSessions = this.desiredSessions;
+    return {
+      if (desiredInstances != null) 'DesiredInstances': desiredInstances,
+      if (desiredSessions != null) 'DesiredSessions': desiredSessions,
+    };
+  }
+}
+
+/// The fleet attribute.
+class FleetAttribute {
+  static const vpcConfiguration = FleetAttribute._('VPC_CONFIGURATION');
+  static const vpcConfigurationSecurityGroupIds =
+      FleetAttribute._('VPC_CONFIGURATION_SECURITY_GROUP_IDS');
+  static const domainJoinInfo = FleetAttribute._('DOMAIN_JOIN_INFO');
+  static const iamRoleArn = FleetAttribute._('IAM_ROLE_ARN');
+  static const usbDeviceFilterStrings =
+      FleetAttribute._('USB_DEVICE_FILTER_STRINGS');
+  static const sessionScriptS3Location =
+      FleetAttribute._('SESSION_SCRIPT_S3_LOCATION');
+  static const maxSessionsPerInstance =
+      FleetAttribute._('MAX_SESSIONS_PER_INSTANCE');
+  static const volumeConfiguration = FleetAttribute._('VOLUME_CONFIGURATION');
+
+  final String value;
+
+  const FleetAttribute._(this.value);
+
+  static const values = [
+    vpcConfiguration,
+    vpcConfigurationSecurityGroupIds,
+    domainJoinInfo,
+    iamRoleArn,
+    usbDeviceFilterStrings,
+    sessionScriptS3Location,
+    maxSessionsPerInstance,
+    volumeConfiguration
+  ];
+
+  static FleetAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FleetAttribute._(value));
+
+  @override
+  bool operator ==(other) => other is FleetAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Specifies an entitlement. Entitlements control access to specific
+/// applications within a stack, based on user attributes. Entitlements apply to
+/// SAML 2.0 federated user identities. WorkSpaces Applications user pool and
+/// streaming URL users are entitled to all applications in a stack.
+/// Entitlements don't apply to the desktop stream view application, or to
+/// applications managed by a dynamic app provider using the Dynamic Application
+/// Framework.
+class Entitlement {
+  /// Specifies whether all or selected apps are entitled.
+  final AppVisibility appVisibility;
+
+  /// The attributes of the entitlement.
+  final List<EntitlementAttribute> attributes;
+
+  /// The name of the entitlement.
+  final String name;
+
+  /// The name of the stack with which the entitlement is associated.
+  final String stackName;
+
+  /// The time when the entitlement was created.
+  final DateTime? createdTime;
+
+  /// The description of the entitlement.
+  final String? description;
+
+  /// The time when the entitlement was last modified.
+  final DateTime? lastModifiedTime;
+
+  Entitlement({
+    required this.appVisibility,
+    required this.attributes,
+    required this.name,
+    required this.stackName,
+    this.createdTime,
+    this.description,
+    this.lastModifiedTime,
+  });
+
+  factory Entitlement.fromJson(Map<String, dynamic> json) {
+    return Entitlement(
+      appVisibility:
+          AppVisibility.fromString((json['AppVisibility'] as String?) ?? ''),
+      attributes: ((json['Attributes'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => EntitlementAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      name: (json['Name'] as String?) ?? '',
+      stackName: (json['StackName'] as String?) ?? '',
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      description: json['Description'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appVisibility = this.appVisibility;
+    final attributes = this.attributes;
+    final name = this.name;
+    final stackName = this.stackName;
+    final createdTime = this.createdTime;
+    final description = this.description;
+    final lastModifiedTime = this.lastModifiedTime;
+    return {
+      'AppVisibility': appVisibility.value,
+      'Attributes': attributes,
+      'Name': name,
+      'StackName': stackName,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (description != null) 'Description': description,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+    };
+  }
+}
+
+class AppVisibility {
+  static const all = AppVisibility._('ALL');
+  static const associated = AppVisibility._('ASSOCIATED');
+
+  final String value;
+
+  const AppVisibility._(this.value);
+
+  static const values = [all, associated];
+
+  static AppVisibility fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AppVisibility._(value));
+
+  @override
+  bool operator ==(other) => other is AppVisibility && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An attribute associated with an entitlement. Application entitlements work
+/// by matching a supported SAML 2.0 attribute name to a value when a user
+/// identity federates to a WorkSpaces Applications SAML application.
+class EntitlementAttribute {
+  /// A supported AWS IAM SAML <code>PrincipalTag</code> attribute that is matched
+  /// to the associated value when a user identity federates into a WorkSpaces
+  /// Applications SAML application.
+  ///
+  /// The following are valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// roles
+  /// </li>
+  /// <li>
+  /// department
+  /// </li>
+  /// <li>
+  /// organization
+  /// </li>
+  /// <li>
+  /// groups
+  /// </li>
+  /// <li>
+  /// title
+  /// </li>
+  /// <li>
+  /// costCenter
+  /// </li>
+  /// <li>
+  /// userType
+  /// </li>
+  /// </ul>
+  ///
+  final String name;
+
+  /// A value that is matched to a supported SAML attribute name when a user
+  /// identity federates into a WorkSpaces Applications SAML application.
+  final String value;
+
+  EntitlementAttribute({
+    required this.name,
+    required this.value,
+  });
+
+  factory EntitlementAttribute.fromJson(Map<String, dynamic> json) {
+    return EntitlementAttribute(
+      name: (json['Name'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name,
+      'Value': value,
+    };
+  }
+}
+
+/// Describes the configuration information required to join fleets and image
+/// builders to Microsoft Active Directory domains.
+class DirectoryConfig {
+  /// The fully qualified name of the directory (for example, corp.example.com).
+  final String directoryName;
+
+  /// The certificate-based authentication properties used to authenticate SAML
+  /// 2.0 Identity Provider (IdP) user identities to Active Directory
+  /// domain-joined streaming instances. Fallback is turned on by default when
+  /// certificate-based authentication is <b>Enabled</b> . Fallback allows users
+  /// to log in using their AD domain password if certificate-based authentication
+  /// is unsuccessful, or to unlock a desktop lock screen.
+  /// <b>Enabled_no_directory_login_fallback</b> enables certificate-based
+  /// authentication, but does not allow users to log in using their AD domain
+  /// password. Users will be disconnected to re-authenticate using certificates.
+  final CertificateBasedAuthProperties? certificateBasedAuthProperties;
+
+  /// The time the directory configuration was created.
+  final DateTime? createdTime;
+
+  /// The distinguished names of the organizational units for computer accounts.
+  final List<String>? organizationalUnitDistinguishedNames;
+
+  /// The credentials for the service account used by the fleet or image builder
+  /// to connect to the directory.
+  final ServiceAccountCredentials? serviceAccountCredentials;
+
+  DirectoryConfig({
+    required this.directoryName,
+    this.certificateBasedAuthProperties,
+    this.createdTime,
+    this.organizationalUnitDistinguishedNames,
+    this.serviceAccountCredentials,
+  });
+
+  factory DirectoryConfig.fromJson(Map<String, dynamic> json) {
+    return DirectoryConfig(
+      directoryName: (json['DirectoryName'] as String?) ?? '',
+      certificateBasedAuthProperties: json['CertificateBasedAuthProperties'] !=
+              null
+          ? CertificateBasedAuthProperties.fromJson(
+              json['CertificateBasedAuthProperties'] as Map<String, dynamic>)
+          : null,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      organizationalUnitDistinguishedNames:
+          (json['OrganizationalUnitDistinguishedNames'] as List?)
+              ?.nonNulls
+              .map((e) => e as String)
+              .toList(),
+      serviceAccountCredentials: json['ServiceAccountCredentials'] != null
+          ? ServiceAccountCredentials.fromJson(
+              json['ServiceAccountCredentials'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final directoryName = this.directoryName;
+    final certificateBasedAuthProperties = this.certificateBasedAuthProperties;
+    final createdTime = this.createdTime;
+    final organizationalUnitDistinguishedNames =
+        this.organizationalUnitDistinguishedNames;
+    final serviceAccountCredentials = this.serviceAccountCredentials;
+    return {
+      'DirectoryName': directoryName,
+      if (certificateBasedAuthProperties != null)
+        'CertificateBasedAuthProperties': certificateBasedAuthProperties,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (organizationalUnitDistinguishedNames != null)
+        'OrganizationalUnitDistinguishedNames':
+            organizationalUnitDistinguishedNames,
+      if (serviceAccountCredentials != null)
+        'ServiceAccountCredentials': serviceAccountCredentials,
+    };
+  }
+}
+
+/// Describes the credentials for the service account used by the fleet or image
+/// builder to connect to the directory.
+class ServiceAccountCredentials {
+  /// The user name of the account. This account must have the following
+  /// privileges: create computer objects, join computers to the domain, and
+  /// change/reset the password on descendant computer objects for the
+  /// organizational units specified.
+  final String accountName;
+
+  /// The password for the account.
+  final String accountPassword;
+
+  ServiceAccountCredentials({
+    required this.accountName,
+    required this.accountPassword,
+  });
+
+  factory ServiceAccountCredentials.fromJson(Map<String, dynamic> json) {
+    return ServiceAccountCredentials(
+      accountName: (json['AccountName'] as String?) ?? '',
+      accountPassword: (json['AccountPassword'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountName = this.accountName;
+    final accountPassword = this.accountPassword;
+    return {
+      'AccountName': accountName,
+      'AccountPassword': accountPassword,
+    };
+  }
+}
+
+/// The certificate-based authentication properties used to authenticate SAML
+/// 2.0 Identity Provider (IdP) user identities to Active Directory
+/// domain-joined streaming instances. Fallback is turned on by default when
+/// certificate-based authentication is <b>Enabled</b> . Fallback allows users
+/// to log in using their AD domain password if certificate-based authentication
+/// is unsuccessful, or to unlock a desktop lock screen.
+/// <b>Enabled_no_directory_login_fallback</b> enables certificate-based
+/// authentication, but does not allow users to log in using their AD domain
+/// password. Users will be disconnected to re-authenticate using certificates.
+class CertificateBasedAuthProperties {
+  /// The ARN of the AWS Certificate Manager Private CA resource.
+  final String? certificateAuthorityArn;
+
+  /// The status of the certificate-based authentication properties.
+  final CertificateBasedAuthStatus? status;
+
+  CertificateBasedAuthProperties({
+    this.certificateAuthorityArn,
+    this.status,
+  });
+
+  factory CertificateBasedAuthProperties.fromJson(Map<String, dynamic> json) {
+    return CertificateBasedAuthProperties(
+      certificateAuthorityArn: json['CertificateAuthorityArn'] as String?,
+      status: (json['Status'] as String?)
+          ?.let(CertificateBasedAuthStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateAuthorityArn = this.certificateAuthorityArn;
+    final status = this.status;
+    return {
+      if (certificateAuthorityArn != null)
+        'CertificateAuthorityArn': certificateAuthorityArn,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class CertificateBasedAuthStatus {
+  static const disabled = CertificateBasedAuthStatus._('DISABLED');
+  static const enabled = CertificateBasedAuthStatus._('ENABLED');
+  static const enabledNoDirectoryLoginFallback =
+      CertificateBasedAuthStatus._('ENABLED_NO_DIRECTORY_LOGIN_FALLBACK');
+
+  final String value;
+
+  const CertificateBasedAuthStatus._(this.value);
+
+  static const values = [disabled, enabled, enabledNoDirectoryLoginFallback];
+
+  static CertificateBasedAuthStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CertificateBasedAuthStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CertificateBasedAuthStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes an application in the application catalog.
+class Application {
+  /// The app block ARN of the application.
+  final String? appBlockArn;
+
+  /// The ARN of the application.
+  final String? arn;
+
+  /// The time at which the application was created within the app block.
+  final DateTime? createdTime;
+
+  /// The description of the application.
+  final String? description;
+
+  /// The application name to display.
+  final String? displayName;
+
+  /// If there is a problem, the application can be disabled after image creation.
+  final bool? enabled;
+
+  /// The S3 location of the application icon.
+  final S3Location? iconS3Location;
+
+  /// The URL for the application icon. This URL might be time-limited.
+  final String? iconURL;
+
+  /// The instance families for the application.
+  final List<String>? instanceFamilies;
+
+  /// The arguments that are passed to the application at launch.
+  final String? launchParameters;
+
+  /// The path to the application executable in the instance.
+  final String? launchPath;
+
+  /// Additional attributes that describe the application.
+  final Map<String, String>? metadata;
+
+  /// The name of the application.
+  final String? name;
+
+  /// The platforms on which the application can run.
+  final List<PlatformType>? platforms;
+
+  /// The working directory for the application.
+  final String? workingDirectory;
+
+  Application({
+    this.appBlockArn,
+    this.arn,
+    this.createdTime,
+    this.description,
+    this.displayName,
+    this.enabled,
+    this.iconS3Location,
+    this.iconURL,
+    this.instanceFamilies,
+    this.launchParameters,
+    this.launchPath,
+    this.metadata,
+    this.name,
+    this.platforms,
+    this.workingDirectory,
+  });
+
+  factory Application.fromJson(Map<String, dynamic> json) {
+    return Application(
+      appBlockArn: json['AppBlockArn'] as String?,
+      arn: json['Arn'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      description: json['Description'] as String?,
+      displayName: json['DisplayName'] as String?,
+      enabled: json['Enabled'] as bool?,
+      iconS3Location: json['IconS3Location'] != null
+          ? S3Location.fromJson(json['IconS3Location'] as Map<String, dynamic>)
+          : null,
+      iconURL: json['IconURL'] as String?,
+      instanceFamilies: (json['InstanceFamilies'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      launchParameters: json['LaunchParameters'] as String?,
+      launchPath: json['LaunchPath'] as String?,
+      metadata: (json['Metadata'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      name: json['Name'] as String?,
+      platforms: (json['Platforms'] as List?)
+          ?.nonNulls
+          .map((e) => PlatformType.fromString((e as String)))
+          .toList(),
+      workingDirectory: json['WorkingDirectory'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appBlockArn = this.appBlockArn;
+    final arn = this.arn;
+    final createdTime = this.createdTime;
+    final description = this.description;
+    final displayName = this.displayName;
+    final enabled = this.enabled;
+    final iconS3Location = this.iconS3Location;
+    final iconURL = this.iconURL;
+    final instanceFamilies = this.instanceFamilies;
+    final launchParameters = this.launchParameters;
+    final launchPath = this.launchPath;
+    final metadata = this.metadata;
+    final name = this.name;
+    final platforms = this.platforms;
+    final workingDirectory = this.workingDirectory;
+    return {
+      if (appBlockArn != null) 'AppBlockArn': appBlockArn,
+      if (arn != null) 'Arn': arn,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (description != null) 'Description': description,
+      if (displayName != null) 'DisplayName': displayName,
+      if (enabled != null) 'Enabled': enabled,
+      if (iconS3Location != null) 'IconS3Location': iconS3Location,
+      if (iconURL != null) 'IconURL': iconURL,
+      if (instanceFamilies != null) 'InstanceFamilies': instanceFamilies,
+      if (launchParameters != null) 'LaunchParameters': launchParameters,
+      if (launchPath != null) 'LaunchPath': launchPath,
+      if (metadata != null) 'Metadata': metadata,
+      if (name != null) 'Name': name,
+      if (platforms != null)
+        'Platforms': platforms.map((e) => e.value).toList(),
+      if (workingDirectory != null) 'WorkingDirectory': workingDirectory,
+    };
+  }
+}
+
+class ApplicationAttribute {
+  static const launchParameters = ApplicationAttribute._('LAUNCH_PARAMETERS');
+  static const workingDirectory = ApplicationAttribute._('WORKING_DIRECTORY');
+
+  final String value;
+
+  const ApplicationAttribute._(this.value);
+
+  static const values = [launchParameters, workingDirectory];
+
+  static ApplicationAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ApplicationAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ApplicationAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes an app block builder.
+class AppBlockBuilder {
+  /// The ARN of the app block builder.
+  final String arn;
+
+  /// The instance type of the app block builder.
+  final String instanceType;
+
+  /// The name of the app block builder.
+  final String name;
+
+  /// The platform of the app block builder.
+  ///
+  /// <code>WINDOWS_SERVER_2019</code> is the only valid value.
+  final AppBlockBuilderPlatformType platform;
+
+  /// The state of the app block builder.
+  final AppBlockBuilderState state;
+
+  /// The VPC configuration for the app block builder.
+  final VpcConfig vpcConfig;
+
+  /// The list of interface VPC endpoint (interface endpoint) objects.
+  /// Administrators can connect to the app block builder only through the
+  /// specified endpoints.
+  final List<AccessEndpoint>? accessEndpoints;
+
+  /// The app block builder errors.
+  final List<ResourceError>? appBlockBuilderErrors;
+
+  /// The creation time of the app block builder.
+  final DateTime? createdTime;
+
+  /// The description of the app block builder.
+  final String? description;
+
+  /// Indicates whether Instance Metadata Service Version 1 (IMDSv1) is disabled
+  /// for the app block builder.
+  final bool? disableIMDSV1;
+
+  /// The display name of the app block builder.
+  final String? displayName;
+
+  /// Indicates whether default internet access is enabled for the app block
+  /// builder.
+  final bool? enableDefaultInternetAccess;
+
+  /// The ARN of the IAM role that is applied to the app block builder.
+  final String? iamRoleArn;
+
+  /// The state change reason.
+  final AppBlockBuilderStateChangeReason? stateChangeReason;
+
+  AppBlockBuilder({
+    required this.arn,
+    required this.instanceType,
+    required this.name,
+    required this.platform,
+    required this.state,
+    required this.vpcConfig,
+    this.accessEndpoints,
+    this.appBlockBuilderErrors,
+    this.createdTime,
+    this.description,
+    this.disableIMDSV1,
+    this.displayName,
+    this.enableDefaultInternetAccess,
+    this.iamRoleArn,
+    this.stateChangeReason,
+  });
+
+  factory AppBlockBuilder.fromJson(Map<String, dynamic> json) {
+    return AppBlockBuilder(
+      arn: (json['Arn'] as String?) ?? '',
+      instanceType: (json['InstanceType'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      platform: AppBlockBuilderPlatformType.fromString(
+          (json['Platform'] as String?) ?? ''),
+      state: AppBlockBuilderState.fromString((json['State'] as String?) ?? ''),
+      vpcConfig: VpcConfig.fromJson(
+          (json['VpcConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      accessEndpoints: (json['AccessEndpoints'] as List?)
+          ?.nonNulls
+          .map((e) => AccessEndpoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      appBlockBuilderErrors: (json['AppBlockBuilderErrors'] as List?)
+          ?.nonNulls
+          .map((e) => ResourceError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      description: json['Description'] as String?,
+      disableIMDSV1: json['DisableIMDSV1'] as bool?,
+      displayName: json['DisplayName'] as String?,
+      enableDefaultInternetAccess: json['EnableDefaultInternetAccess'] as bool?,
+      iamRoleArn: json['IamRoleArn'] as String?,
+      stateChangeReason: json['StateChangeReason'] != null
+          ? AppBlockBuilderStateChangeReason.fromJson(
+              json['StateChangeReason'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final instanceType = this.instanceType;
+    final name = this.name;
+    final platform = this.platform;
+    final state = this.state;
+    final vpcConfig = this.vpcConfig;
+    final accessEndpoints = this.accessEndpoints;
+    final appBlockBuilderErrors = this.appBlockBuilderErrors;
+    final createdTime = this.createdTime;
+    final description = this.description;
+    final disableIMDSV1 = this.disableIMDSV1;
+    final displayName = this.displayName;
+    final enableDefaultInternetAccess = this.enableDefaultInternetAccess;
+    final iamRoleArn = this.iamRoleArn;
+    final stateChangeReason = this.stateChangeReason;
+    return {
+      'Arn': arn,
+      'InstanceType': instanceType,
+      'Name': name,
+      'Platform': platform.value,
+      'State': state.value,
+      'VpcConfig': vpcConfig,
+      if (accessEndpoints != null) 'AccessEndpoints': accessEndpoints,
+      if (appBlockBuilderErrors != null)
+        'AppBlockBuilderErrors': appBlockBuilderErrors,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (description != null) 'Description': description,
+      if (disableIMDSV1 != null) 'DisableIMDSV1': disableIMDSV1,
+      if (displayName != null) 'DisplayName': displayName,
+      if (enableDefaultInternetAccess != null)
+        'EnableDefaultInternetAccess': enableDefaultInternetAccess,
+      if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
+      if (stateChangeReason != null) 'StateChangeReason': stateChangeReason,
+    };
+  }
+}
+
+class AppBlockBuilderPlatformType {
+  static const windowsServer_2019 =
+      AppBlockBuilderPlatformType._('WINDOWS_SERVER_2019');
+
+  final String value;
+
+  const AppBlockBuilderPlatformType._(this.value);
+
+  static const values = [windowsServer_2019];
+
+  static AppBlockBuilderPlatformType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AppBlockBuilderPlatformType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AppBlockBuilderPlatformType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AppBlockBuilderState {
+  static const starting = AppBlockBuilderState._('STARTING');
+  static const running = AppBlockBuilderState._('RUNNING');
+  static const stopping = AppBlockBuilderState._('STOPPING');
+  static const stopped = AppBlockBuilderState._('STOPPED');
+
+  final String value;
+
+  const AppBlockBuilderState._(this.value);
+
+  static const values = [starting, running, stopping, stopped];
+
+  static AppBlockBuilderState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AppBlockBuilderState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AppBlockBuilderState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the reason why the last app block builder state change occurred.
+class AppBlockBuilderStateChangeReason {
+  /// The state change reason code.
+  final AppBlockBuilderStateChangeReasonCode? code;
+
+  /// The state change reason message.
+  final String? message;
+
+  AppBlockBuilderStateChangeReason({
+    this.code,
+    this.message,
+  });
+
+  factory AppBlockBuilderStateChangeReason.fromJson(Map<String, dynamic> json) {
+    return AppBlockBuilderStateChangeReason(
+      code: (json['Code'] as String?)
+          ?.let(AppBlockBuilderStateChangeReasonCode.fromString),
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      if (code != null) 'Code': code.value,
+      if (message != null) 'Message': message,
+    };
+  }
+}
+
+class AppBlockBuilderStateChangeReasonCode {
+  static const internalError =
+      AppBlockBuilderStateChangeReasonCode._('INTERNAL_ERROR');
+
+  final String value;
+
+  const AppBlockBuilderStateChangeReasonCode._(this.value);
+
+  static const values = [internalError];
+
+  static AppBlockBuilderStateChangeReasonCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AppBlockBuilderStateChangeReasonCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AppBlockBuilderStateChangeReasonCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a resource error.
+class ResourceError {
+  /// The error code.
+  final FleetErrorCode? errorCode;
+
+  /// The error message.
+  final String? errorMessage;
+
+  /// The time the error occurred.
+  final DateTime? errorTimestamp;
+
+  ResourceError({
+    this.errorCode,
+    this.errorMessage,
+    this.errorTimestamp,
+  });
+
+  factory ResourceError.fromJson(Map<String, dynamic> json) {
+    return ResourceError(
+      errorCode: (json['ErrorCode'] as String?)?.let(FleetErrorCode.fromString),
+      errorMessage: json['ErrorMessage'] as String?,
+      errorTimestamp: timeStampFromJson(json['ErrorTimestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final errorTimestamp = this.errorTimestamp;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode.value,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (errorTimestamp != null)
+        'ErrorTimestamp': unixTimestampToJson(errorTimestamp),
+    };
+  }
+}
+
+class AppBlockBuilderAttribute {
+  static const iamRoleArn = AppBlockBuilderAttribute._('IAM_ROLE_ARN');
+  static const accessEndpoints = AppBlockBuilderAttribute._('ACCESS_ENDPOINTS');
+  static const vpcConfigurationSecurityGroupIds =
+      AppBlockBuilderAttribute._('VPC_CONFIGURATION_SECURITY_GROUP_IDS');
+
+  final String value;
+
+  const AppBlockBuilderAttribute._(this.value);
+
+  static const values = [
+    iamRoleArn,
+    accessEndpoints,
+    vpcConfigurationSecurityGroupIds
+  ];
+
+  static AppBlockBuilderAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AppBlockBuilderAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AppBlockBuilderAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a virtual machine that is used to create an image.
+class ImageBuilder {
+  /// The name of the image builder.
+  final String name;
+
+  /// The list of virtual private cloud (VPC) interface endpoint objects.
+  /// Administrators can connect to the image builder only through the specified
+  /// endpoints.
+  final List<AccessEndpoint>? accessEndpoints;
+
+  /// The version of the WorkSpaces Applications agent that is currently being
+  /// used by the image builder.
+  final String? appstreamAgentVersion;
+
+  /// The ARN for the image builder.
+  final String? arn;
+
+  /// The time stamp when the image builder was created.
+  final DateTime? createdTime;
+
+  /// The description to display.
+  final String? description;
+
+  /// Indicates whether Instance Metadata Service Version 1 (IMDSv1) is disabled
+  /// for the image builder.
+  final bool? disableIMDSV1;
+
+  /// The image builder name to display.
+  final String? displayName;
+
+  /// The name of the directory and organizational unit (OU) to use to join the
+  /// image builder to a Microsoft Active Directory domain.
+  final DomainJoinInfo? domainJoinInfo;
+
+  /// Enables or disables default internet access for the image builder.
+  final bool? enableDefaultInternetAccess;
+
+  /// The ARN of the IAM role that is applied to the image builder. To assume a
+  /// role, the image builder calls the AWS Security Token Service (STS)
+  /// <code>AssumeRole</code> API operation and passes the ARN of the role to use.
+  /// The operation creates a new session with temporary credentials. WorkSpaces
+  /// Applications retrieves the temporary credentials and creates the
+  /// <b>appstream_machine_role</b> credential profile on the instance.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html">Using
+  /// an IAM Role to Grant Permissions to Applications and Scripts Running on
+  /// WorkSpaces Applications Streaming Instances</a> in the <i>Amazon WorkSpaces
+  /// Applications Administration Guide</i>.
+  final String? iamRoleArn;
+
+  /// The ARN of the image from which this builder was created.
+  final String? imageArn;
+
+  /// The image builder errors.
+  final List<ResourceError>? imageBuilderErrors;
+
+  /// The instance type for the image builder. The following instance types are
+  /// available:
+  ///
+  /// <ul>
+  /// <li>
+  /// stream.standard.small
+  /// </li>
+  /// <li>
+  /// stream.standard.medium
+  /// </li>
+  /// <li>
+  /// stream.standard.large
+  /// </li>
+  /// <li>
+  /// stream.compute.large
+  /// </li>
+  /// <li>
+  /// stream.compute.xlarge
+  /// </li>
+  /// <li>
+  /// stream.compute.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.compute.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.compute.8xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.large
+  /// </li>
+  /// <li>
+  /// stream.memory.xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.8xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.z1d.large
+  /// </li>
+  /// <li>
+  /// stream.memory.z1d.xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.z1d.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.z1d.3xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.z1d.6xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.z1d.12xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.8xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.12xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.16xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g5.xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g5.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g5.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g5.8xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g5.16xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g5.12xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g5.24xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6.xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6.8xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6.16xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6.12xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6.24xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.gr6.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.gr6.8xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6f.large
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6f.xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6f.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g6f.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.gr6f.4xlarge
+  /// </li>
+  /// </ul>
+  final String? instanceType;
+
+  /// Indicates whether the image builder is using the latest WorkSpaces
+  /// Applications agent version or not.
+  final LatestAppstreamAgentVersion? latestAppstreamAgentVersion;
+  final NetworkAccessConfiguration? networkAccessConfiguration;
+
+  /// The operating system platform of the image builder.
+  final PlatformType? platform;
+
+  /// The current configuration of the root volume for the image builder,
+  /// including the storage size in GB.
+  final VolumeConfig? rootVolumeConfig;
+
+  /// The state of the image builder.
+  final ImageBuilderState? state;
+
+  /// The reason why the last state change occurred.
+  final ImageBuilderStateChangeReason? stateChangeReason;
+
+  /// The VPC configuration of the image builder.
+  final VpcConfig? vpcConfig;
+
+  ImageBuilder({
+    required this.name,
+    this.accessEndpoints,
+    this.appstreamAgentVersion,
+    this.arn,
+    this.createdTime,
+    this.description,
+    this.disableIMDSV1,
+    this.displayName,
+    this.domainJoinInfo,
+    this.enableDefaultInternetAccess,
+    this.iamRoleArn,
+    this.imageArn,
+    this.imageBuilderErrors,
+    this.instanceType,
+    this.latestAppstreamAgentVersion,
+    this.networkAccessConfiguration,
+    this.platform,
+    this.rootVolumeConfig,
+    this.state,
+    this.stateChangeReason,
+    this.vpcConfig,
+  });
+
+  factory ImageBuilder.fromJson(Map<String, dynamic> json) {
+    return ImageBuilder(
+      name: (json['Name'] as String?) ?? '',
+      accessEndpoints: (json['AccessEndpoints'] as List?)
+          ?.nonNulls
+          .map((e) => AccessEndpoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      appstreamAgentVersion: json['AppstreamAgentVersion'] as String?,
+      arn: json['Arn'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      description: json['Description'] as String?,
+      disableIMDSV1: json['DisableIMDSV1'] as bool?,
+      displayName: json['DisplayName'] as String?,
+      domainJoinInfo: json['DomainJoinInfo'] != null
+          ? DomainJoinInfo.fromJson(
+              json['DomainJoinInfo'] as Map<String, dynamic>)
+          : null,
+      enableDefaultInternetAccess: json['EnableDefaultInternetAccess'] as bool?,
+      iamRoleArn: json['IamRoleArn'] as String?,
+      imageArn: json['ImageArn'] as String?,
+      imageBuilderErrors: (json['ImageBuilderErrors'] as List?)
+          ?.nonNulls
+          .map((e) => ResourceError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      instanceType: json['InstanceType'] as String?,
+      latestAppstreamAgentVersion:
+          (json['LatestAppstreamAgentVersion'] as String?)
+              ?.let(LatestAppstreamAgentVersion.fromString),
+      networkAccessConfiguration: json['NetworkAccessConfiguration'] != null
+          ? NetworkAccessConfiguration.fromJson(
+              json['NetworkAccessConfiguration'] as Map<String, dynamic>)
+          : null,
+      platform: (json['Platform'] as String?)?.let(PlatformType.fromString),
+      rootVolumeConfig: json['RootVolumeConfig'] != null
+          ? VolumeConfig.fromJson(
+              json['RootVolumeConfig'] as Map<String, dynamic>)
+          : null,
+      state: (json['State'] as String?)?.let(ImageBuilderState.fromString),
+      stateChangeReason: json['StateChangeReason'] != null
+          ? ImageBuilderStateChangeReason.fromJson(
+              json['StateChangeReason'] as Map<String, dynamic>)
+          : null,
+      vpcConfig: json['VpcConfig'] != null
+          ? VpcConfig.fromJson(json['VpcConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final accessEndpoints = this.accessEndpoints;
+    final appstreamAgentVersion = this.appstreamAgentVersion;
+    final arn = this.arn;
+    final createdTime = this.createdTime;
+    final description = this.description;
+    final disableIMDSV1 = this.disableIMDSV1;
+    final displayName = this.displayName;
+    final domainJoinInfo = this.domainJoinInfo;
+    final enableDefaultInternetAccess = this.enableDefaultInternetAccess;
+    final iamRoleArn = this.iamRoleArn;
+    final imageArn = this.imageArn;
+    final imageBuilderErrors = this.imageBuilderErrors;
+    final instanceType = this.instanceType;
+    final latestAppstreamAgentVersion = this.latestAppstreamAgentVersion;
+    final networkAccessConfiguration = this.networkAccessConfiguration;
+    final platform = this.platform;
+    final rootVolumeConfig = this.rootVolumeConfig;
+    final state = this.state;
+    final stateChangeReason = this.stateChangeReason;
+    final vpcConfig = this.vpcConfig;
+    return {
+      'Name': name,
+      if (accessEndpoints != null) 'AccessEndpoints': accessEndpoints,
+      if (appstreamAgentVersion != null)
+        'AppstreamAgentVersion': appstreamAgentVersion,
+      if (arn != null) 'Arn': arn,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (description != null) 'Description': description,
+      if (disableIMDSV1 != null) 'DisableIMDSV1': disableIMDSV1,
+      if (displayName != null) 'DisplayName': displayName,
+      if (domainJoinInfo != null) 'DomainJoinInfo': domainJoinInfo,
+      if (enableDefaultInternetAccess != null)
+        'EnableDefaultInternetAccess': enableDefaultInternetAccess,
+      if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
+      if (imageArn != null) 'ImageArn': imageArn,
+      if (imageBuilderErrors != null) 'ImageBuilderErrors': imageBuilderErrors,
+      if (instanceType != null) 'InstanceType': instanceType,
+      if (latestAppstreamAgentVersion != null)
+        'LatestAppstreamAgentVersion': latestAppstreamAgentVersion.value,
+      if (networkAccessConfiguration != null)
+        'NetworkAccessConfiguration': networkAccessConfiguration,
+      if (platform != null) 'Platform': platform.value,
+      if (rootVolumeConfig != null) 'RootVolumeConfig': rootVolumeConfig,
+      if (state != null) 'State': state.value,
+      if (stateChangeReason != null) 'StateChangeReason': stateChangeReason,
+      if (vpcConfig != null) 'VpcConfig': vpcConfig,
+    };
+  }
+}
+
+class ImageBuilderState {
+  static const pending = ImageBuilderState._('PENDING');
+  static const updatingAgent = ImageBuilderState._('UPDATING_AGENT');
+  static const running = ImageBuilderState._('RUNNING');
+  static const stopping = ImageBuilderState._('STOPPING');
+  static const stopped = ImageBuilderState._('STOPPED');
+  static const rebooting = ImageBuilderState._('REBOOTING');
+  static const snapshotting = ImageBuilderState._('SNAPSHOTTING');
+  static const deleting = ImageBuilderState._('DELETING');
+  static const failed = ImageBuilderState._('FAILED');
+  static const updating = ImageBuilderState._('UPDATING');
+  static const pendingQualification =
+      ImageBuilderState._('PENDING_QUALIFICATION');
+  static const pendingSyncingApps = ImageBuilderState._('PENDING_SYNCING_APPS');
+  static const syncingApps = ImageBuilderState._('SYNCING_APPS');
+  static const pendingImageImport = ImageBuilderState._('PENDING_IMAGE_IMPORT');
+
+  final String value;
+
+  const ImageBuilderState._(this.value);
+
+  static const values = [
+    pending,
+    updatingAgent,
+    running,
+    stopping,
+    stopped,
+    rebooting,
+    snapshotting,
+    deleting,
+    failed,
+    updating,
+    pendingQualification,
+    pendingSyncingApps,
+    syncingApps,
+    pendingImageImport
+  ];
+
+  static ImageBuilderState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ImageBuilderState._(value));
+
+  @override
+  bool operator ==(other) => other is ImageBuilderState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the reason why the last image builder state change occurred.
+class ImageBuilderStateChangeReason {
+  /// The state change reason code.
+  final ImageBuilderStateChangeReasonCode? code;
+
+  /// The state change reason message.
+  final String? message;
+
+  ImageBuilderStateChangeReason({
+    this.code,
+    this.message,
+  });
+
+  factory ImageBuilderStateChangeReason.fromJson(Map<String, dynamic> json) {
+    return ImageBuilderStateChangeReason(
+      code: (json['Code'] as String?)
+          ?.let(ImageBuilderStateChangeReasonCode.fromString),
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      if (code != null) 'Code': code.value,
+      if (message != null) 'Message': message,
+    };
+  }
+}
+
+/// Describes the network details of the fleet or image builder instance.
+class NetworkAccessConfiguration {
+  /// The resource identifier of the elastic network interface that is attached to
+  /// instances in your VPC. All network interfaces have the eni-xxxxxxxx resource
+  /// identifier.
+  final String? eniId;
+
+  /// The IPv6 addresses assigned to the elastic network interface. This field
+  /// supports IPv6 connectivity for WorkSpaces Applications instances.
+  final List<String>? eniIpv6Addresses;
+
+  /// The private IP address of the elastic network interface that is attached to
+  /// instances in your VPC.
+  final String? eniPrivateIpAddress;
+
+  NetworkAccessConfiguration({
+    this.eniId,
+    this.eniIpv6Addresses,
+    this.eniPrivateIpAddress,
+  });
+
+  factory NetworkAccessConfiguration.fromJson(Map<String, dynamic> json) {
+    return NetworkAccessConfiguration(
+      eniId: json['EniId'] as String?,
+      eniIpv6Addresses: (json['EniIpv6Addresses'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      eniPrivateIpAddress: json['EniPrivateIpAddress'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eniId = this.eniId;
+    final eniIpv6Addresses = this.eniIpv6Addresses;
+    final eniPrivateIpAddress = this.eniPrivateIpAddress;
+    return {
+      if (eniId != null) 'EniId': eniId,
+      if (eniIpv6Addresses != null) 'EniIpv6Addresses': eniIpv6Addresses,
+      if (eniPrivateIpAddress != null)
+        'EniPrivateIpAddress': eniPrivateIpAddress,
+    };
+  }
+}
+
+class LatestAppstreamAgentVersion {
+  static const $true = LatestAppstreamAgentVersion._('TRUE');
+  static const $false = LatestAppstreamAgentVersion._('FALSE');
+
+  final String value;
+
+  const LatestAppstreamAgentVersion._(this.value);
+
+  static const values = [$true, $false];
+
+  static LatestAppstreamAgentVersion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LatestAppstreamAgentVersion._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LatestAppstreamAgentVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ImageBuilderStateChangeReasonCode {
+  static const internalError =
+      ImageBuilderStateChangeReasonCode._('INTERNAL_ERROR');
+  static const imageUnavailable =
+      ImageBuilderStateChangeReasonCode._('IMAGE_UNAVAILABLE');
+
+  final String value;
+
+  const ImageBuilderStateChangeReasonCode._(this.value);
+
+  static const values = [internalError, imageUnavailable];
+
+  static ImageBuilderStateChangeReasonCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ImageBuilderStateChangeReasonCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ImageBuilderStateChangeReasonCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about an export image task, including its current state,
+/// timestamps, and any error details.
+class ExportImageTask {
+  /// The name of the EC2 AMI that will be created by this export task.
+  final String amiName;
+
+  /// The date and time when the export image task was created.
+  final DateTime createdDate;
+
+  /// The ARN of the WorkSpaces Applications image being exported.
+  final String imageArn;
+
+  /// The unique identifier for the export image task. Use this ID to track the
+  /// task's progress and retrieve its details.
+  final String taskId;
+
+  /// The description that will be applied to the exported EC2 AMI.
+  final String? amiDescription;
+
+  /// The ID of the EC2 AMI that was created by this export task. This field is
+  /// only populated when the task completes successfully.
+  final String? amiId;
+
+  /// Details about any errors that occurred during the export process. This field
+  /// is only populated when the task fails.
+  final List<ErrorDetails>? errorDetails;
+
+  /// The current state of the export image task, such as PENDING, RUNNING,
+  /// COMPLETED, or FAILED.
+  final ExportImageTaskState? state;
+
+  /// The tags that will be applied to the exported EC2 AMI.
+  final Map<String, String>? tagSpecifications;
+
+  ExportImageTask({
+    required this.amiName,
+    required this.createdDate,
+    required this.imageArn,
+    required this.taskId,
+    this.amiDescription,
+    this.amiId,
+    this.errorDetails,
+    this.state,
+    this.tagSpecifications,
+  });
+
+  factory ExportImageTask.fromJson(Map<String, dynamic> json) {
+    return ExportImageTask(
+      amiName: (json['AmiName'] as String?) ?? '',
+      createdDate: nonNullableTimeStampFromJson(json['CreatedDate'] ?? 0),
+      imageArn: (json['ImageArn'] as String?) ?? '',
+      taskId: (json['TaskId'] as String?) ?? '',
+      amiDescription: json['AmiDescription'] as String?,
+      amiId: json['AmiId'] as String?,
+      errorDetails: (json['ErrorDetails'] as List?)
+          ?.nonNulls
+          .map((e) => ErrorDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      state: (json['State'] as String?)?.let(ExportImageTaskState.fromString),
+      tagSpecifications: (json['TagSpecifications'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final amiName = this.amiName;
+    final createdDate = this.createdDate;
+    final imageArn = this.imageArn;
+    final taskId = this.taskId;
+    final amiDescription = this.amiDescription;
+    final amiId = this.amiId;
+    final errorDetails = this.errorDetails;
+    final state = this.state;
+    final tagSpecifications = this.tagSpecifications;
+    return {
+      'AmiName': amiName,
+      'CreatedDate': unixTimestampToJson(createdDate),
+      'ImageArn': imageArn,
+      'TaskId': taskId,
+      if (amiDescription != null) 'AmiDescription': amiDescription,
+      if (amiId != null) 'AmiId': amiId,
+      if (errorDetails != null) 'ErrorDetails': errorDetails,
+      if (state != null) 'State': state.value,
+      if (tagSpecifications != null) 'TagSpecifications': tagSpecifications,
+    };
+  }
+}
+
+class ExportImageTaskState {
+  static const exporting = ExportImageTaskState._('EXPORTING');
+  static const completed = ExportImageTaskState._('COMPLETED');
+  static const failed = ExportImageTaskState._('FAILED');
+  static const timedOut = ExportImageTaskState._('TIMED_OUT');
+
+  final String value;
+
+  const ExportImageTaskState._(this.value);
+
+  static const values = [exporting, completed, failed, timedOut];
+
+  static ExportImageTaskState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExportImageTaskState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExportImageTaskState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The error details.
+class ErrorDetails {
+  /// The error code.
+  final String? errorCode;
+
+  /// The error message.
+  final String? errorMessage;
+
+  ErrorDetails({
+    this.errorCode,
+    this.errorMessage,
+  });
+
+  factory ErrorDetails.fromJson(Map<String, dynamic> json) {
+    return ErrorDetails(
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+    };
+  }
+}
+
+/// A filter for narrowing down the results when listing export image tasks.
+/// Filters allow you to specify criteria such as task state or creation date.
+class Filter {
+  /// The name of the filter. Valid filter names depend on the operation being
+  /// performed.
+  final String name;
+
+  /// The values for the filter. Multiple values can be specified for a single
+  /// filter name.
+  final List<String> values;
+
+  Filter({
+    required this.name,
+    required this.values,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      'Name': name,
+      'Values': values,
+    };
+  }
+}
+
+/// The application associated to an entitlement. Access is controlled based on
+/// user attributes.
+class EntitledApplication {
+  /// The identifier of the application.
+  final String applicationIdentifier;
+
+  EntitledApplication({
+    required this.applicationIdentifier,
+  });
+
+  factory EntitledApplication.fromJson(Map<String, dynamic> json) {
+    return EntitledApplication(
+      applicationIdentifier: (json['ApplicationIdentifier'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationIdentifier = this.applicationIdentifier;
+    return {
+      'ApplicationIdentifier': applicationIdentifier,
+    };
+  }
+}
+
+class AuthenticationType {
+  static const api = AuthenticationType._('API');
+  static const saml = AuthenticationType._('SAML');
+  static const userpool = AuthenticationType._('USERPOOL');
+  static const awsAd = AuthenticationType._('AWS_AD');
+
+  final String value;
+
+  const AuthenticationType._(this.value);
+
+  static const values = [api, saml, userpool, awsAd];
+
+  static AuthenticationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AuthenticationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AuthenticationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a user in the user pool and the associated stack.
+class UserStackAssociation {
+  /// The authentication type for the user.
+  final AuthenticationType authenticationType;
+
+  /// The name of the stack that is associated with the user.
+  final String stackName;
+
+  /// The email address of the user who is associated with the stack.
+  /// <note>
+  /// Users' email addresses are case-sensitive.
+  /// </note>
+  final String userName;
+
+  /// Specifies whether a welcome email is sent to a user after the user is
+  /// created in the user pool.
+  final bool? sendEmailNotification;
+
+  UserStackAssociation({
+    required this.authenticationType,
+    required this.stackName,
+    required this.userName,
+    this.sendEmailNotification,
+  });
+
+  factory UserStackAssociation.fromJson(Map<String, dynamic> json) {
+    return UserStackAssociation(
+      authenticationType: AuthenticationType.fromString(
+          (json['AuthenticationType'] as String?) ?? ''),
+      stackName: (json['StackName'] as String?) ?? '',
+      userName: (json['UserName'] as String?) ?? '',
+      sendEmailNotification: json['SendEmailNotification'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authenticationType = this.authenticationType;
+    final stackName = this.stackName;
+    final userName = this.userName;
+    final sendEmailNotification = this.sendEmailNotification;
+    return {
+      'AuthenticationType': authenticationType.value,
+      'StackName': stackName,
+      'UserName': userName,
+      if (sendEmailNotification != null)
+        'SendEmailNotification': sendEmailNotification,
     };
   }
 }
@@ -10521,102 +11612,1487 @@ class User {
   }
 }
 
-/// Describes an action and whether the action is enabled or disabled for users
-/// during their streaming sessions.
-class UserSetting {
-  /// The action that is enabled or disabled.
-  final Action action;
+/// Describes information about the usage report subscription.
+class UsageReportSubscription {
+  /// The time when the last usage report was generated.
+  final DateTime? lastGeneratedReportDate;
 
-  /// Indicates whether the action is enabled or disabled.
-  final Permission permission;
+  /// The Amazon S3 bucket where generated reports are stored.
+  ///
+  /// If you enabled on-instance session scripts and Amazon S3 logging for your
+  /// session script configuration, WorkSpaces Applications created an S3 bucket
+  /// to store the script output. The bucket is unique to your account and Region.
+  /// When you enable usage reporting in this case, WorkSpaces Applications uses
+  /// the same bucket to store your usage reports. If you haven't already enabled
+  /// on-instance session scripts, when you enable usage reports, WorkSpaces
+  /// Applications creates a new S3 bucket.
+  final String? s3BucketName;
 
-  /// Specifies the number of characters that can be copied by end users from the
-  /// local device to the remote session, and to the local device from the remote
-  /// session.
-  ///
-  /// This can be specified only for the
-  /// <code>CLIPBOARD_COPY_FROM_LOCAL_DEVICE</code> and
-  /// <code>CLIPBOARD_COPY_TO_LOCAL_DEVICE</code> actions.
-  ///
-  /// This defaults to 20,971,520 (20 MB) when unspecified and the permission is
-  /// <code>ENABLED</code>. This can't be specified when the permission is
-  /// <code>DISABLED</code>.
-  ///
-  /// The value can be between 1 and 20,971,520 (20 MB).
-  final int? maximumLength;
+  /// The schedule for generating usage reports.
+  final UsageReportSchedule? schedule;
 
-  UserSetting({
-    required this.action,
-    required this.permission,
-    this.maximumLength,
+  /// The errors that were returned if usage reports couldn't be generated.
+  final List<LastReportGenerationExecutionError>? subscriptionErrors;
+
+  UsageReportSubscription({
+    this.lastGeneratedReportDate,
+    this.s3BucketName,
+    this.schedule,
+    this.subscriptionErrors,
   });
 
-  factory UserSetting.fromJson(Map<String, dynamic> json) {
-    return UserSetting(
-      action: Action.fromString((json['Action'] as String?) ?? ''),
-      permission: Permission.fromString((json['Permission'] as String?) ?? ''),
-      maximumLength: json['MaximumLength'] as int?,
+  factory UsageReportSubscription.fromJson(Map<String, dynamic> json) {
+    return UsageReportSubscription(
+      lastGeneratedReportDate:
+          timeStampFromJson(json['LastGeneratedReportDate']),
+      s3BucketName: json['S3BucketName'] as String?,
+      schedule:
+          (json['Schedule'] as String?)?.let(UsageReportSchedule.fromString),
+      subscriptionErrors: (json['SubscriptionErrors'] as List?)
+          ?.nonNulls
+          .map((e) => LastReportGenerationExecutionError.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final action = this.action;
-    final permission = this.permission;
-    final maximumLength = this.maximumLength;
+    final lastGeneratedReportDate = this.lastGeneratedReportDate;
+    final s3BucketName = this.s3BucketName;
+    final schedule = this.schedule;
+    final subscriptionErrors = this.subscriptionErrors;
     return {
-      'Action': action.value,
-      'Permission': permission.value,
-      if (maximumLength != null) 'MaximumLength': maximumLength,
+      if (lastGeneratedReportDate != null)
+        'LastGeneratedReportDate': unixTimestampToJson(lastGeneratedReportDate),
+      if (s3BucketName != null) 'S3BucketName': s3BucketName,
+      if (schedule != null) 'Schedule': schedule.value,
+      if (subscriptionErrors != null) 'SubscriptionErrors': subscriptionErrors,
     };
   }
 }
 
-/// Describes a user in the user pool and the associated stack.
-class UserStackAssociation {
-  /// The authentication type for the user.
-  final AuthenticationType authenticationType;
+class UsageReportSchedule {
+  static const daily = UsageReportSchedule._('DAILY');
 
-  /// The name of the stack that is associated with the user.
-  final String stackName;
+  final String value;
 
-  /// The email address of the user who is associated with the stack.
-  /// <note>
-  /// Users' email addresses are case-sensitive.
-  /// </note>
-  final String userName;
+  const UsageReportSchedule._(this.value);
 
-  /// Specifies whether a welcome email is sent to a user after the user is
-  /// created in the user pool.
-  final bool? sendEmailNotification;
+  static const values = [daily];
 
-  UserStackAssociation({
-    required this.authenticationType,
-    required this.stackName,
-    required this.userName,
-    this.sendEmailNotification,
+  static UsageReportSchedule fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UsageReportSchedule._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UsageReportSchedule && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the error that is returned when a usage report can't be generated.
+class LastReportGenerationExecutionError {
+  /// The error code for the error that is returned when a usage report can't be
+  /// generated.
+  final UsageReportExecutionErrorCode? errorCode;
+
+  /// The error message for the error that is returned when a usage report can't
+  /// be generated.
+  final String? errorMessage;
+
+  LastReportGenerationExecutionError({
+    this.errorCode,
+    this.errorMessage,
   });
 
-  factory UserStackAssociation.fromJson(Map<String, dynamic> json) {
-    return UserStackAssociation(
-      authenticationType: AuthenticationType.fromString(
-          (json['AuthenticationType'] as String?) ?? ''),
-      stackName: (json['StackName'] as String?) ?? '',
-      userName: (json['UserName'] as String?) ?? '',
-      sendEmailNotification: json['SendEmailNotification'] as bool?,
+  factory LastReportGenerationExecutionError.fromJson(
+      Map<String, dynamic> json) {
+    return LastReportGenerationExecutionError(
+      errorCode: (json['ErrorCode'] as String?)
+          ?.let(UsageReportExecutionErrorCode.fromString),
+      errorMessage: json['ErrorMessage'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final authenticationType = this.authenticationType;
-    final stackName = this.stackName;
-    final userName = this.userName;
-    final sendEmailNotification = this.sendEmailNotification;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
     return {
-      'AuthenticationType': authenticationType.value,
+      if (errorCode != null) 'ErrorCode': errorCode.value,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+    };
+  }
+}
+
+class UsageReportExecutionErrorCode {
+  static const resourceNotFound =
+      UsageReportExecutionErrorCode._('RESOURCE_NOT_FOUND');
+  static const accessDenied = UsageReportExecutionErrorCode._('ACCESS_DENIED');
+  static const internalServiceError =
+      UsageReportExecutionErrorCode._('INTERNAL_SERVICE_ERROR');
+
+  final String value;
+
+  const UsageReportExecutionErrorCode._(this.value);
+
+  static const values = [resourceNotFound, accessDenied, internalServiceError];
+
+  static UsageReportExecutionErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UsageReportExecutionErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UsageReportExecutionErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The association between a license-included application and a resource.
+class SoftwareAssociations {
+  /// The error details for failed deployments of the license-included
+  /// application.
+  final List<ErrorDetails>? deploymentError;
+
+  /// The name of the license-included application.
+  ///
+  /// Possible values include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// Microsoft_Office_2021_LTSC_Professional_Plus_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Office_2021_LTSC_Professional_Plus_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Office_2024_LTSC_Professional_Plus_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Office_2024_LTSC_Professional_Plus_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2021_LTSC_Professional_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2021_LTSC_Professional_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2024_LTSC_Professional_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2024_LTSC_Professional_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2021_Professional_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2021_Professional_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2024_Professional_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2024_Professional_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Office_2021_LTSC_Standard_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Office_2021_LTSC_Standard_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Office_2024_LTSC_Standard_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Office_2024_LTSC_Standard_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2021_LTSC_Standard_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2021_LTSC_Standard_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2024_LTSC_Standard_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Visio_2024_LTSC_Standard_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2021_Standard_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2021_Standard_64Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2024_Standard_32Bit
+  /// </li>
+  /// <li>
+  /// Microsoft_Project_2024_Standard_64Bit
+  /// </li>
+  /// </ul>
+  final String? softwareName;
+
+  /// The deployment status of the license-included application.
+  final SoftwareDeploymentStatus? status;
+
+  SoftwareAssociations({
+    this.deploymentError,
+    this.softwareName,
+    this.status,
+  });
+
+  factory SoftwareAssociations.fromJson(Map<String, dynamic> json) {
+    return SoftwareAssociations(
+      deploymentError: (json['DeploymentError'] as List?)
+          ?.nonNulls
+          .map((e) => ErrorDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      softwareName: json['SoftwareName'] as String?,
+      status:
+          (json['Status'] as String?)?.let(SoftwareDeploymentStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentError = this.deploymentError;
+    final softwareName = this.softwareName;
+    final status = this.status;
+    return {
+      if (deploymentError != null) 'DeploymentError': deploymentError,
+      if (softwareName != null) 'SoftwareName': softwareName,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class SoftwareDeploymentStatus {
+  static const stagedForInstallation =
+      SoftwareDeploymentStatus._('STAGED_FOR_INSTALLATION');
+  static const pendingInstallation =
+      SoftwareDeploymentStatus._('PENDING_INSTALLATION');
+  static const installed = SoftwareDeploymentStatus._('INSTALLED');
+  static const stagedForUninstallation =
+      SoftwareDeploymentStatus._('STAGED_FOR_UNINSTALLATION');
+  static const pendingUninstallation =
+      SoftwareDeploymentStatus._('PENDING_UNINSTALLATION');
+  static const failedToInstall =
+      SoftwareDeploymentStatus._('FAILED_TO_INSTALL');
+  static const failedToUninstall =
+      SoftwareDeploymentStatus._('FAILED_TO_UNINSTALL');
+
+  final String value;
+
+  const SoftwareDeploymentStatus._(this.value);
+
+  static const values = [
+    stagedForInstallation,
+    pendingInstallation,
+    installed,
+    stagedForUninstallation,
+    pendingUninstallation,
+    failedToInstall,
+    failedToUninstall
+  ];
+
+  static SoftwareDeploymentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SoftwareDeploymentStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SoftwareDeploymentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a streaming session.
+class Session {
+  /// The name of the fleet for the streaming session.
+  final String fleetName;
+
+  /// The identifier of the streaming session.
+  final String id;
+
+  /// The name of the stack for the streaming session.
+  final String stackName;
+
+  /// The current state of the streaming session.
+  final SessionState state;
+
+  /// The identifier of the user for whom the session was created.
+  final String userId;
+
+  /// The authentication method. The user is authenticated using a streaming URL
+  /// (<code>API</code>) or SAML 2.0 federation (<code>SAML</code>).
+  final AuthenticationType? authenticationType;
+
+  /// Specifies whether a user is connected to the streaming session.
+  final SessionConnectionState? connectionState;
+
+  /// The drain status of the instance hosting the streaming session. This only
+  /// applies to multi-session fleets.
+  final InstanceDrainStatus? instanceDrainStatus;
+
+  /// The identifier for the instance hosting the session.
+  final String? instanceId;
+
+  /// The time when the streaming session is set to expire. This time is based on
+  /// the <code>MaxUserDurationinSeconds</code> value, which determines the
+  /// maximum length of time that a streaming session can run. A streaming session
+  /// might end earlier than the time specified in
+  /// <code>SessionMaxExpirationTime</code>, when the
+  /// <code>DisconnectTimeOutInSeconds</code> elapses or the user chooses to end
+  /// his or her session. If the <code>DisconnectTimeOutInSeconds</code> elapses,
+  /// or the user chooses to end his or her session, the streaming instance is
+  /// terminated and the streaming session ends.
+  final DateTime? maxExpirationTime;
+
+  /// The network details for the streaming session.
+  final NetworkAccessConfiguration? networkAccessConfiguration;
+
+  /// The time when a streaming instance is dedicated for the user.
+  final DateTime? startTime;
+
+  Session({
+    required this.fleetName,
+    required this.id,
+    required this.stackName,
+    required this.state,
+    required this.userId,
+    this.authenticationType,
+    this.connectionState,
+    this.instanceDrainStatus,
+    this.instanceId,
+    this.maxExpirationTime,
+    this.networkAccessConfiguration,
+    this.startTime,
+  });
+
+  factory Session.fromJson(Map<String, dynamic> json) {
+    return Session(
+      fleetName: (json['FleetName'] as String?) ?? '',
+      id: (json['Id'] as String?) ?? '',
+      stackName: (json['StackName'] as String?) ?? '',
+      state: SessionState.fromString((json['State'] as String?) ?? ''),
+      userId: (json['UserId'] as String?) ?? '',
+      authenticationType: (json['AuthenticationType'] as String?)
+          ?.let(AuthenticationType.fromString),
+      connectionState: (json['ConnectionState'] as String?)
+          ?.let(SessionConnectionState.fromString),
+      instanceDrainStatus: (json['InstanceDrainStatus'] as String?)
+          ?.let(InstanceDrainStatus.fromString),
+      instanceId: json['InstanceId'] as String?,
+      maxExpirationTime: timeStampFromJson(json['MaxExpirationTime']),
+      networkAccessConfiguration: json['NetworkAccessConfiguration'] != null
+          ? NetworkAccessConfiguration.fromJson(
+              json['NetworkAccessConfiguration'] as Map<String, dynamic>)
+          : null,
+      startTime: timeStampFromJson(json['StartTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fleetName = this.fleetName;
+    final id = this.id;
+    final stackName = this.stackName;
+    final state = this.state;
+    final userId = this.userId;
+    final authenticationType = this.authenticationType;
+    final connectionState = this.connectionState;
+    final instanceDrainStatus = this.instanceDrainStatus;
+    final instanceId = this.instanceId;
+    final maxExpirationTime = this.maxExpirationTime;
+    final networkAccessConfiguration = this.networkAccessConfiguration;
+    final startTime = this.startTime;
+    return {
+      'FleetName': fleetName,
+      'Id': id,
       'StackName': stackName,
-      'UserName': userName,
-      if (sendEmailNotification != null)
-        'SendEmailNotification': sendEmailNotification,
+      'State': state.value,
+      'UserId': userId,
+      if (authenticationType != null)
+        'AuthenticationType': authenticationType.value,
+      if (connectionState != null) 'ConnectionState': connectionState.value,
+      if (instanceDrainStatus != null)
+        'InstanceDrainStatus': instanceDrainStatus.value,
+      if (instanceId != null) 'InstanceId': instanceId,
+      if (maxExpirationTime != null)
+        'MaxExpirationTime': unixTimestampToJson(maxExpirationTime),
+      if (networkAccessConfiguration != null)
+        'NetworkAccessConfiguration': networkAccessConfiguration,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+    };
+  }
+}
+
+/// Possible values for the state of a streaming session.
+class SessionState {
+  static const active = SessionState._('ACTIVE');
+  static const pending = SessionState._('PENDING');
+  static const expired = SessionState._('EXPIRED');
+
+  final String value;
+
+  const SessionState._(this.value);
+
+  static const values = [active, pending, expired];
+
+  static SessionState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SessionState._(value));
+
+  @override
+  bool operator ==(other) => other is SessionState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SessionConnectionState {
+  static const connected = SessionConnectionState._('CONNECTED');
+  static const notConnected = SessionConnectionState._('NOT_CONNECTED');
+
+  final String value;
+
+  const SessionConnectionState._(this.value);
+
+  static const values = [connected, notConnected];
+
+  static SessionConnectionState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SessionConnectionState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SessionConnectionState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Possible values for the drain status of a streaming instance.
+class InstanceDrainStatus {
+  static const active = InstanceDrainStatus._('ACTIVE');
+  static const draining = InstanceDrainStatus._('DRAINING');
+  static const notApplicable = InstanceDrainStatus._('NOT_APPLICABLE');
+
+  final String value;
+
+  const InstanceDrainStatus._(this.value);
+
+  static const values = [active, draining, notApplicable];
+
+  static InstanceDrainStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InstanceDrainStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceDrainStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes an image.
+class Image {
+  /// The name of the image.
+  final String name;
+
+  /// The applications associated with the image.
+  final List<Application>? applications;
+
+  /// The version of the WorkSpaces Applications agent to use for instances that
+  /// are launched from this image.
+  final String? appstreamAgentVersion;
+
+  /// The ARN of the image.
+  final String? arn;
+
+  /// The ARN of the image from which this image was created.
+  final String? baseImageArn;
+
+  /// The time the image was created.
+  final DateTime? createdTime;
+
+  /// The description to display.
+  final String? description;
+
+  /// The image name to display.
+  final String? displayName;
+
+  /// Indicates whether dynamic app providers are enabled within an WorkSpaces
+  /// Applications image or not.
+  final DynamicAppProvidersEnabled? dynamicAppProvidersEnabled;
+
+  /// The name of the image builder that was used to create the private image. If
+  /// the image is shared, copied, or updated by using Managed Image Updates, this
+  /// value is null.
+  final String? imageBuilderName;
+
+  /// Indicates whether an image builder can be launched from this image.
+  final bool? imageBuilderSupported;
+
+  /// Describes the errors that are returned when a new image can't be created.
+  final List<ResourceError>? imageErrors;
+
+  /// The permissions to provide to the destination AWS account for the specified
+  /// image.
+  final ImagePermissions? imagePermissions;
+
+  /// Indicates whether the image is shared with another account ID.
+  final ImageSharedWithOthers? imageSharedWithOthers;
+
+  /// The type of the image. Images created through AMI import have type "custom",
+  /// while WorkSpaces Applications provided images have type "native". Custom
+  /// images support additional instance types including GeneralPurpose,
+  /// MemoryOptimized, ComputeOptimized, and Accelerated instance families.
+  final ImageType? imageType;
+
+  /// Indicates whether the image is using the latest WorkSpaces Applications
+  /// agent version or not.
+  final LatestAppstreamAgentVersion? latestAppstreamAgentVersion;
+
+  /// Indicates whether the image includes license-included applications.
+  final bool? managedSoftwareIncluded;
+
+  /// The operating system platform of the image.
+  final PlatformType? platform;
+
+  /// The release date of the public base image. For private images, this date is
+  /// the release date of the base image from which the image was created.
+  final DateTime? publicBaseImageReleasedDate;
+
+  /// The image starts in the <code>PENDING</code> state. If image creation
+  /// succeeds, the state is <code>AVAILABLE</code>. If image creation fails, the
+  /// state is <code>FAILED</code>.
+  final ImageState? state;
+
+  /// The reason why the last state change occurred.
+  final ImageStateChangeReason? stateChangeReason;
+
+  /// The supported instances families that determine which image a customer can
+  /// use when the customer launches a fleet or image builder. The following
+  /// instances families are supported:
+  ///
+  /// <ul>
+  /// <li>
+  /// General Purpose
+  /// </li>
+  /// <li>
+  /// Compute Optimized
+  /// </li>
+  /// <li>
+  /// Memory Optimized
+  /// </li>
+  /// <li>
+  /// Graphics G4
+  /// </li>
+  /// <li>
+  /// Graphics G5
+  /// </li>
+  /// <li>
+  /// Graphics G6
+  /// </li>
+  /// </ul>
+  final List<String>? supportedInstanceFamilies;
+
+  /// Indicates whether the image is public or private.
+  final VisibilityType? visibility;
+
+  Image({
+    required this.name,
+    this.applications,
+    this.appstreamAgentVersion,
+    this.arn,
+    this.baseImageArn,
+    this.createdTime,
+    this.description,
+    this.displayName,
+    this.dynamicAppProvidersEnabled,
+    this.imageBuilderName,
+    this.imageBuilderSupported,
+    this.imageErrors,
+    this.imagePermissions,
+    this.imageSharedWithOthers,
+    this.imageType,
+    this.latestAppstreamAgentVersion,
+    this.managedSoftwareIncluded,
+    this.platform,
+    this.publicBaseImageReleasedDate,
+    this.state,
+    this.stateChangeReason,
+    this.supportedInstanceFamilies,
+    this.visibility,
+  });
+
+  factory Image.fromJson(Map<String, dynamic> json) {
+    return Image(
+      name: (json['Name'] as String?) ?? '',
+      applications: (json['Applications'] as List?)
+          ?.nonNulls
+          .map((e) => Application.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      appstreamAgentVersion: json['AppstreamAgentVersion'] as String?,
+      arn: json['Arn'] as String?,
+      baseImageArn: json['BaseImageArn'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      description: json['Description'] as String?,
+      displayName: json['DisplayName'] as String?,
+      dynamicAppProvidersEnabled:
+          (json['DynamicAppProvidersEnabled'] as String?)
+              ?.let(DynamicAppProvidersEnabled.fromString),
+      imageBuilderName: json['ImageBuilderName'] as String?,
+      imageBuilderSupported: json['ImageBuilderSupported'] as bool?,
+      imageErrors: (json['ImageErrors'] as List?)
+          ?.nonNulls
+          .map((e) => ResourceError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      imagePermissions: json['ImagePermissions'] != null
+          ? ImagePermissions.fromJson(
+              json['ImagePermissions'] as Map<String, dynamic>)
+          : null,
+      imageSharedWithOthers: (json['ImageSharedWithOthers'] as String?)
+          ?.let(ImageSharedWithOthers.fromString),
+      imageType: (json['ImageType'] as String?)?.let(ImageType.fromString),
+      latestAppstreamAgentVersion:
+          (json['LatestAppstreamAgentVersion'] as String?)
+              ?.let(LatestAppstreamAgentVersion.fromString),
+      managedSoftwareIncluded: json['ManagedSoftwareIncluded'] as bool?,
+      platform: (json['Platform'] as String?)?.let(PlatformType.fromString),
+      publicBaseImageReleasedDate:
+          timeStampFromJson(json['PublicBaseImageReleasedDate']),
+      state: (json['State'] as String?)?.let(ImageState.fromString),
+      stateChangeReason: json['StateChangeReason'] != null
+          ? ImageStateChangeReason.fromJson(
+              json['StateChangeReason'] as Map<String, dynamic>)
+          : null,
+      supportedInstanceFamilies: (json['SupportedInstanceFamilies'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      visibility:
+          (json['Visibility'] as String?)?.let(VisibilityType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final applications = this.applications;
+    final appstreamAgentVersion = this.appstreamAgentVersion;
+    final arn = this.arn;
+    final baseImageArn = this.baseImageArn;
+    final createdTime = this.createdTime;
+    final description = this.description;
+    final displayName = this.displayName;
+    final dynamicAppProvidersEnabled = this.dynamicAppProvidersEnabled;
+    final imageBuilderName = this.imageBuilderName;
+    final imageBuilderSupported = this.imageBuilderSupported;
+    final imageErrors = this.imageErrors;
+    final imagePermissions = this.imagePermissions;
+    final imageSharedWithOthers = this.imageSharedWithOthers;
+    final imageType = this.imageType;
+    final latestAppstreamAgentVersion = this.latestAppstreamAgentVersion;
+    final managedSoftwareIncluded = this.managedSoftwareIncluded;
+    final platform = this.platform;
+    final publicBaseImageReleasedDate = this.publicBaseImageReleasedDate;
+    final state = this.state;
+    final stateChangeReason = this.stateChangeReason;
+    final supportedInstanceFamilies = this.supportedInstanceFamilies;
+    final visibility = this.visibility;
+    return {
+      'Name': name,
+      if (applications != null) 'Applications': applications,
+      if (appstreamAgentVersion != null)
+        'AppstreamAgentVersion': appstreamAgentVersion,
+      if (arn != null) 'Arn': arn,
+      if (baseImageArn != null) 'BaseImageArn': baseImageArn,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (description != null) 'Description': description,
+      if (displayName != null) 'DisplayName': displayName,
+      if (dynamicAppProvidersEnabled != null)
+        'DynamicAppProvidersEnabled': dynamicAppProvidersEnabled.value,
+      if (imageBuilderName != null) 'ImageBuilderName': imageBuilderName,
+      if (imageBuilderSupported != null)
+        'ImageBuilderSupported': imageBuilderSupported,
+      if (imageErrors != null) 'ImageErrors': imageErrors,
+      if (imagePermissions != null) 'ImagePermissions': imagePermissions,
+      if (imageSharedWithOthers != null)
+        'ImageSharedWithOthers': imageSharedWithOthers.value,
+      if (imageType != null) 'ImageType': imageType.value,
+      if (latestAppstreamAgentVersion != null)
+        'LatestAppstreamAgentVersion': latestAppstreamAgentVersion.value,
+      if (managedSoftwareIncluded != null)
+        'ManagedSoftwareIncluded': managedSoftwareIncluded,
+      if (platform != null) 'Platform': platform.value,
+      if (publicBaseImageReleasedDate != null)
+        'PublicBaseImageReleasedDate':
+            unixTimestampToJson(publicBaseImageReleasedDate),
+      if (state != null) 'State': state.value,
+      if (stateChangeReason != null) 'StateChangeReason': stateChangeReason,
+      if (supportedInstanceFamilies != null)
+        'SupportedInstanceFamilies': supportedInstanceFamilies,
+      if (visibility != null) 'Visibility': visibility.value,
+    };
+  }
+}
+
+class ImageState {
+  static const pending = ImageState._('PENDING');
+  static const available = ImageState._('AVAILABLE');
+  static const failed = ImageState._('FAILED');
+  static const copying = ImageState._('COPYING');
+  static const deleting = ImageState._('DELETING');
+  static const creating = ImageState._('CREATING');
+  static const importing = ImageState._('IMPORTING');
+  static const validating = ImageState._('VALIDATING');
+
+  final String value;
+
+  const ImageState._(this.value);
+
+  static const values = [
+    pending,
+    available,
+    failed,
+    copying,
+    deleting,
+    creating,
+    importing,
+    validating
+  ];
+
+  static ImageState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ImageState._(value));
+
+  @override
+  bool operator ==(other) => other is ImageState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class VisibilityType {
+  static const public = VisibilityType._('PUBLIC');
+  static const private = VisibilityType._('PRIVATE');
+  static const shared = VisibilityType._('SHARED');
+
+  final String value;
+
+  const VisibilityType._(this.value);
+
+  static const values = [public, private, shared];
+
+  static VisibilityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VisibilityType._(value));
+
+  @override
+  bool operator ==(other) => other is VisibilityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the reason why the last image state change occurred.
+class ImageStateChangeReason {
+  /// The state change reason code.
+  final ImageStateChangeReasonCode? code;
+
+  /// The state change reason message.
+  final String? message;
+
+  ImageStateChangeReason({
+    this.code,
+    this.message,
+  });
+
+  factory ImageStateChangeReason.fromJson(Map<String, dynamic> json) {
+    return ImageStateChangeReason(
+      code:
+          (json['Code'] as String?)?.let(ImageStateChangeReasonCode.fromString),
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      if (code != null) 'Code': code.value,
+      if (message != null) 'Message': message,
+    };
+  }
+}
+
+class DynamicAppProvidersEnabled {
+  static const enabled = DynamicAppProvidersEnabled._('ENABLED');
+  static const disabled = DynamicAppProvidersEnabled._('DISABLED');
+
+  final String value;
+
+  const DynamicAppProvidersEnabled._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static DynamicAppProvidersEnabled fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DynamicAppProvidersEnabled._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DynamicAppProvidersEnabled && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ImageSharedWithOthers {
+  static const $true = ImageSharedWithOthers._('TRUE');
+  static const $false = ImageSharedWithOthers._('FALSE');
+
+  final String value;
+
+  const ImageSharedWithOthers._(this.value);
+
+  static const values = [$true, $false];
+
+  static ImageSharedWithOthers fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ImageSharedWithOthers._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ImageSharedWithOthers && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The image type is the type of AppStream image resource.
+class ImageType {
+  static const custom = ImageType._('CUSTOM');
+  static const native = ImageType._('NATIVE');
+  static const byol = ImageType._('BYOL');
+
+  final String value;
+
+  const ImageType._(this.value);
+
+  static const values = [custom, native, byol];
+
+  static ImageType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ImageType._(value));
+
+  @override
+  bool operator ==(other) => other is ImageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ImageStateChangeReasonCode {
+  static const internalError = ImageStateChangeReasonCode._('INTERNAL_ERROR');
+  static const imageBuilderNotAvailable =
+      ImageStateChangeReasonCode._('IMAGE_BUILDER_NOT_AVAILABLE');
+  static const imageCopyFailure =
+      ImageStateChangeReasonCode._('IMAGE_COPY_FAILURE');
+  static const imageUpdateFailure =
+      ImageStateChangeReasonCode._('IMAGE_UPDATE_FAILURE');
+  static const imageImportFailure =
+      ImageStateChangeReasonCode._('IMAGE_IMPORT_FAILURE');
+
+  final String value;
+
+  const ImageStateChangeReasonCode._(this.value);
+
+  static const values = [
+    internalError,
+    imageBuilderNotAvailable,
+    imageCopyFailure,
+    imageUpdateFailure,
+    imageImportFailure
+  ];
+
+  static ImageStateChangeReasonCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ImageStateChangeReasonCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ImageStateChangeReasonCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the permissions that are available to the specified AWS account
+/// for a shared image.
+class SharedImagePermissions {
+  /// Describes the permissions for a shared image.
+  final ImagePermissions imagePermissions;
+
+  /// The 12-digit identifier of the AWS account with which the image is shared.
+  final String sharedAccountId;
+
+  SharedImagePermissions({
+    required this.imagePermissions,
+    required this.sharedAccountId,
+  });
+
+  factory SharedImagePermissions.fromJson(Map<String, dynamic> json) {
+    return SharedImagePermissions(
+      imagePermissions: ImagePermissions.fromJson(
+          (json['imagePermissions'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      sharedAccountId: (json['sharedAccountId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final imagePermissions = this.imagePermissions;
+    final sharedAccountId = this.sharedAccountId;
+    return {
+      'imagePermissions': imagePermissions,
+      'sharedAccountId': sharedAccountId,
+    };
+  }
+}
+
+/// The collection of license usage records.
+class AdminAppLicenseUsageRecord {
+  /// The billing period for the license usage record.
+  final String billingPeriod;
+
+  /// The type of license (for example, Microsoft Office).
+  final String licenseType;
+
+  /// The account ID of the owner of the license.
+  final String ownerAWSAccountId;
+
+  /// The date and time when the license was first used.
+  final DateTime subscriptionFirstUsedDate;
+
+  /// The date and time when the license was last used.
+  final DateTime subscriptionLastUsedDate;
+
+  /// The ARN of the user who used the license-included application.
+  final String userArn;
+
+  /// The ID of the user who used the license-included application.
+  final String userId;
+
+  AdminAppLicenseUsageRecord({
+    required this.billingPeriod,
+    required this.licenseType,
+    required this.ownerAWSAccountId,
+    required this.subscriptionFirstUsedDate,
+    required this.subscriptionLastUsedDate,
+    required this.userArn,
+    required this.userId,
+  });
+
+  factory AdminAppLicenseUsageRecord.fromJson(Map<String, dynamic> json) {
+    return AdminAppLicenseUsageRecord(
+      billingPeriod: (json['BillingPeriod'] as String?) ?? '',
+      licenseType: (json['LicenseType'] as String?) ?? '',
+      ownerAWSAccountId: (json['OwnerAWSAccountId'] as String?) ?? '',
+      subscriptionFirstUsedDate:
+          nonNullableTimeStampFromJson(json['SubscriptionFirstUsedDate'] ?? 0),
+      subscriptionLastUsedDate:
+          nonNullableTimeStampFromJson(json['SubscriptionLastUsedDate'] ?? 0),
+      userArn: (json['UserArn'] as String?) ?? '',
+      userId: (json['UserId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final billingPeriod = this.billingPeriod;
+    final licenseType = this.licenseType;
+    final ownerAWSAccountId = this.ownerAWSAccountId;
+    final subscriptionFirstUsedDate = this.subscriptionFirstUsedDate;
+    final subscriptionLastUsedDate = this.subscriptionLastUsedDate;
+    final userArn = this.userArn;
+    final userId = this.userId;
+    return {
+      'BillingPeriod': billingPeriod,
+      'LicenseType': licenseType,
+      'OwnerAWSAccountId': ownerAWSAccountId,
+      'SubscriptionFirstUsedDate':
+          unixTimestampToJson(subscriptionFirstUsedDate),
+      'SubscriptionLastUsedDate': unixTimestampToJson(subscriptionLastUsedDate),
+      'UserArn': userArn,
+      'UserId': userId,
+    };
+  }
+}
+
+/// Describes the application fleet association.
+class ApplicationFleetAssociation {
+  /// The ARN of the application associated with the fleet.
+  final String applicationArn;
+
+  /// The name of the fleet associated with the application.
+  final String fleetName;
+
+  ApplicationFleetAssociation({
+    required this.applicationArn,
+    required this.fleetName,
+  });
+
+  factory ApplicationFleetAssociation.fromJson(Map<String, dynamic> json) {
+    return ApplicationFleetAssociation(
+      applicationArn: (json['ApplicationArn'] as String?) ?? '',
+      fleetName: (json['FleetName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationArn = this.applicationArn;
+    final fleetName = this.fleetName;
+    return {
+      'ApplicationArn': applicationArn,
+      'FleetName': fleetName,
+    };
+  }
+}
+
+/// Describes an app block.
+///
+/// App blocks are a WorkSpaces Applications resource that stores the details
+/// about the virtual hard disk in an S3 bucket. It also stores the setup script
+/// with details about how to mount the virtual hard disk. The virtual hard disk
+/// includes the application binaries and other files necessary to launch your
+/// applications. Multiple applications can be assigned to a single app block.
+///
+/// This is only supported for Elastic fleets.
+class AppBlock {
+  /// The ARN of the app block.
+  final String arn;
+
+  /// The name of the app block.
+  final String name;
+
+  /// The errors of the app block.
+  final List<ErrorDetails>? appBlockErrors;
+
+  /// The created time of the app block.
+  final DateTime? createdTime;
+
+  /// The description of the app block.
+  final String? description;
+
+  /// The display name of the app block.
+  final String? displayName;
+
+  /// The packaging type of the app block.
+  final PackagingType? packagingType;
+
+  /// The post setup script details of the app block.
+  ///
+  /// This only applies to app blocks with PackagingType <code>APPSTREAM2</code>.
+  final ScriptDetails? postSetupScriptDetails;
+
+  /// The setup script details of the app block.
+  ///
+  /// This only applies to app blocks with PackagingType <code>CUSTOM</code>.
+  final ScriptDetails? setupScriptDetails;
+
+  /// The source S3 location of the app block.
+  final S3Location? sourceS3Location;
+
+  /// The state of the app block.
+  ///
+  /// An app block with WorkSpaces Applications packaging will be in the
+  /// <code>INACTIVE</code> state if no application package (VHD) is assigned to
+  /// it. After an application package (VHD) is created by an app block builder
+  /// for an app block, it becomes <code>ACTIVE</code>.
+  ///
+  /// Custom app blocks are always in the <code>ACTIVE</code> state and no action
+  /// is required to use them.
+  final AppBlockState? state;
+
+  AppBlock({
+    required this.arn,
+    required this.name,
+    this.appBlockErrors,
+    this.createdTime,
+    this.description,
+    this.displayName,
+    this.packagingType,
+    this.postSetupScriptDetails,
+    this.setupScriptDetails,
+    this.sourceS3Location,
+    this.state,
+  });
+
+  factory AppBlock.fromJson(Map<String, dynamic> json) {
+    return AppBlock(
+      arn: (json['Arn'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      appBlockErrors: (json['AppBlockErrors'] as List?)
+          ?.nonNulls
+          .map((e) => ErrorDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      description: json['Description'] as String?,
+      displayName: json['DisplayName'] as String?,
+      packagingType:
+          (json['PackagingType'] as String?)?.let(PackagingType.fromString),
+      postSetupScriptDetails: json['PostSetupScriptDetails'] != null
+          ? ScriptDetails.fromJson(
+              json['PostSetupScriptDetails'] as Map<String, dynamic>)
+          : null,
+      setupScriptDetails: json['SetupScriptDetails'] != null
+          ? ScriptDetails.fromJson(
+              json['SetupScriptDetails'] as Map<String, dynamic>)
+          : null,
+      sourceS3Location: json['SourceS3Location'] != null
+          ? S3Location.fromJson(
+              json['SourceS3Location'] as Map<String, dynamic>)
+          : null,
+      state: (json['State'] as String?)?.let(AppBlockState.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    final appBlockErrors = this.appBlockErrors;
+    final createdTime = this.createdTime;
+    final description = this.description;
+    final displayName = this.displayName;
+    final packagingType = this.packagingType;
+    final postSetupScriptDetails = this.postSetupScriptDetails;
+    final setupScriptDetails = this.setupScriptDetails;
+    final sourceS3Location = this.sourceS3Location;
+    final state = this.state;
+    return {
+      'Arn': arn,
+      'Name': name,
+      if (appBlockErrors != null) 'AppBlockErrors': appBlockErrors,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (description != null) 'Description': description,
+      if (displayName != null) 'DisplayName': displayName,
+      if (packagingType != null) 'PackagingType': packagingType.value,
+      if (postSetupScriptDetails != null)
+        'PostSetupScriptDetails': postSetupScriptDetails,
+      if (setupScriptDetails != null) 'SetupScriptDetails': setupScriptDetails,
+      if (sourceS3Location != null) 'SourceS3Location': sourceS3Location,
+      if (state != null) 'State': state.value,
+    };
+  }
+}
+
+/// Describes the details of the script.
+class ScriptDetails {
+  /// The run path for the script.
+  final String executablePath;
+
+  /// The S3 object location for the script.
+  final S3Location scriptS3Location;
+
+  /// The run timeout, in seconds, for the script.
+  final int timeoutInSeconds;
+
+  /// The runtime parameters passed to the run path for the script.
+  final String? executableParameters;
+
+  ScriptDetails({
+    required this.executablePath,
+    required this.scriptS3Location,
+    required this.timeoutInSeconds,
+    this.executableParameters,
+  });
+
+  factory ScriptDetails.fromJson(Map<String, dynamic> json) {
+    return ScriptDetails(
+      executablePath: (json['ExecutablePath'] as String?) ?? '',
+      scriptS3Location: S3Location.fromJson(
+          (json['ScriptS3Location'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      timeoutInSeconds: (json['TimeoutInSeconds'] as int?) ?? 0,
+      executableParameters: json['ExecutableParameters'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executablePath = this.executablePath;
+    final scriptS3Location = this.scriptS3Location;
+    final timeoutInSeconds = this.timeoutInSeconds;
+    final executableParameters = this.executableParameters;
+    return {
+      'ExecutablePath': executablePath,
+      'ScriptS3Location': scriptS3Location,
+      'TimeoutInSeconds': timeoutInSeconds,
+      if (executableParameters != null)
+        'ExecutableParameters': executableParameters,
+    };
+  }
+}
+
+class PackagingType {
+  static const custom = PackagingType._('CUSTOM');
+  static const appstream2 = PackagingType._('APPSTREAM2');
+
+  final String value;
+
+  const PackagingType._(this.value);
+
+  static const values = [custom, appstream2];
+
+  static PackagingType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PackagingType._(value));
+
+  @override
+  bool operator ==(other) => other is PackagingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AppBlockState {
+  static const inactive = AppBlockState._('INACTIVE');
+  static const active = AppBlockState._('ACTIVE');
+
+  final String value;
+
+  const AppBlockState._(this.value);
+
+  static const values = [inactive, active];
+
+  static AppBlockState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AppBlockState._(value));
+
+  @override
+  bool operator ==(other) => other is AppBlockState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes an association between an app block builder and app block.
+class AppBlockBuilderAppBlockAssociation {
+  /// The ARN of the app block.
+  final String appBlockArn;
+
+  /// The name of the app block builder.
+  final String appBlockBuilderName;
+
+  AppBlockBuilderAppBlockAssociation({
+    required this.appBlockArn,
+    required this.appBlockBuilderName,
+  });
+
+  factory AppBlockBuilderAppBlockAssociation.fromJson(
+      Map<String, dynamic> json) {
+    return AppBlockBuilderAppBlockAssociation(
+      appBlockArn: (json['AppBlockArn'] as String?) ?? '',
+      appBlockBuilderName: (json['AppBlockBuilderName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appBlockArn = this.appBlockArn;
+    final appBlockBuilderName = this.appBlockBuilderName;
+    return {
+      'AppBlockArn': appBlockArn,
+      'AppBlockBuilderName': appBlockBuilderName,
+    };
+  }
+}
+
+class MessageAction {
+  static const suppress = MessageAction._('SUPPRESS');
+  static const resend = MessageAction._('RESEND');
+
+  final String value;
+
+  const MessageAction._(this.value);
+
+  static const values = [suppress, resend];
+
+  static MessageAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MessageAction._(value));
+
+  @override
+  bool operator ==(other) => other is MessageAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Configuration for runtime validation of imported images. This structure
+/// specifies the instance type to use for testing the imported image's
+/// streaming capabilities.
+class RuntimeValidationConfig {
+  /// The instance type to use for runtime validation testing. It's recommended to
+  /// use the same instance type you plan to use for your fleet to ensure accurate
+  /// validation results.
+  final String? intendedInstanceType;
+
+  RuntimeValidationConfig({
+    this.intendedInstanceType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final intendedInstanceType = this.intendedInstanceType;
+    return {
+      if (intendedInstanceType != null)
+        'IntendedInstanceType': intendedInstanceType,
+    };
+  }
+}
+
+/// The image type is the type of AppStream image resource.
+class AgentSoftwareVersion {
+  static const currentLatest = AgentSoftwareVersion._('CURRENT_LATEST');
+  static const alwaysLatest = AgentSoftwareVersion._('ALWAYS_LATEST');
+
+  final String value;
+
+  const AgentSoftwareVersion._(this.value);
+
+  static const values = [currentLatest, alwaysLatest];
+
+  static AgentSoftwareVersion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AgentSoftwareVersion._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AgentSoftwareVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Configuration for an application in the imported image's application
+/// catalog. This structure defines how applications appear and launch for
+/// users.
+class ApplicationConfig {
+  /// The absolute path to the executable file that launches the application. This
+  /// is a required field that can be 1-32767 characters to support Windows
+  /// extended file paths. Use escaped file path strings like
+  /// "C:\\\\Windows\\\\System32\\\\notepad.exe".
+  final String absoluteAppPath;
+
+  /// The name of the application. This is a required field that must be unique
+  /// within the application catalog and between 1-100 characters, matching the
+  /// pattern ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,99}$.
+  final String name;
+
+  /// The absolute path to the icon file for the application. This field is
+  /// optional and can be 1-32767 characters. If not provided, the icon is derived
+  /// from the executable. Use PNG images with proper transparency for the best
+  /// user experience.
+  final String? absoluteIconPath;
+
+  /// The absolute path to the prewarm manifest file for this application. This
+  /// field is optional and only applicable when using application-specific
+  /// manifests. The path can be 1-32767 characters and should point to a text
+  /// file containing file paths to prewarm.
+  final String? absoluteManifestPath;
+
+  /// The display name shown to users for this application. This field is optional
+  /// and can be 0-100 characters, matching the pattern ^[a-zA-Z0-9][a-zA-Z0-9_.
+  /// -]{0,99}$.
+  final String? displayName;
+
+  /// The launch parameters to pass to the application executable. This field is
+  /// optional and can be 0-1024 characters. Use escaped strings with the full
+  /// list of required parameters, such as PowerShell script paths or command-line
+  /// arguments.
+  final String? launchParameters;
+
+  /// The working directory to use when launching the application. This field is
+  /// optional and can be 0-32767 characters. Use escaped file path strings like
+  /// "C:\\\\Path\\\\To\\\\Working\\\\Directory".
+  final String? workingDirectory;
+
+  ApplicationConfig({
+    required this.absoluteAppPath,
+    required this.name,
+    this.absoluteIconPath,
+    this.absoluteManifestPath,
+    this.displayName,
+    this.launchParameters,
+    this.workingDirectory,
+  });
+
+  Map<String, dynamic> toJson() {
+    final absoluteAppPath = this.absoluteAppPath;
+    final name = this.name;
+    final absoluteIconPath = this.absoluteIconPath;
+    final absoluteManifestPath = this.absoluteManifestPath;
+    final displayName = this.displayName;
+    final launchParameters = this.launchParameters;
+    final workingDirectory = this.workingDirectory;
+    return {
+      'AbsoluteAppPath': absoluteAppPath,
+      'Name': name,
+      if (absoluteIconPath != null) 'AbsoluteIconPath': absoluteIconPath,
+      if (absoluteManifestPath != null)
+        'AbsoluteManifestPath': absoluteManifestPath,
+      if (displayName != null) 'DisplayName': displayName,
+      if (launchParameters != null) 'LaunchParameters': launchParameters,
+      if (workingDirectory != null) 'WorkingDirectory': workingDirectory,
     };
   }
 }
@@ -10702,75 +13178,17 @@ class UserStackAssociationErrorCode {
   String toString() => value;
 }
 
-class VisibilityType {
-  static const public = VisibilityType._('PUBLIC');
-  static const private = VisibilityType._('PRIVATE');
-  static const shared = VisibilityType._('SHARED');
-
-  final String value;
-
-  const VisibilityType._(this.value);
-
-  static const values = [public, private, shared];
-
-  static VisibilityType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => VisibilityType._(value));
-
-  @override
-  bool operator ==(other) => other is VisibilityType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes VPC configuration information for fleets and image builders.
-class VpcConfig {
-  /// The identifiers of the security groups for the fleet or image builder.
-  final List<String>? securityGroupIds;
-
-  /// The identifiers of the subnets to which a network interface is attached from
-  /// the fleet instance or image builder instance. Fleet instances use one or
-  /// more subnets. Image builder instances use one subnet.
-  final List<String>? subnetIds;
-
-  VpcConfig({
-    this.securityGroupIds,
-    this.subnetIds,
-  });
-
-  factory VpcConfig.fromJson(Map<String, dynamic> json) {
-    return VpcConfig(
-      securityGroupIds: (json['SecurityGroupIds'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      subnetIds: (json['SubnetIds'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final securityGroupIds = this.securityGroupIds;
-    final subnetIds = this.subnetIds;
-    return {
-      if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
-      if (subnetIds != null) 'SubnetIds': subnetIds,
-    };
-  }
-}
-
 class ConcurrentModificationException extends _s.GenericAwsException {
   ConcurrentModificationException({String? type, String? message})
       : super(
             type: type,
             code: 'ConcurrentModificationException',
             message: message);
+}
+
+class DryRunOperationException extends _s.GenericAwsException {
+  DryRunOperationException({String? type, String? message})
+      : super(type: type, code: 'DryRunOperationException', message: message);
 }
 
 class EntitlementAlreadyExistsException extends _s.GenericAwsException {
@@ -10863,6 +13281,8 @@ class ResourceNotFoundException extends _s.GenericAwsException {
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'ConcurrentModificationException': (type, message) =>
       ConcurrentModificationException(type: type, message: message),
+  'DryRunOperationException': (type, message) =>
+      DryRunOperationException(type: type, message: message),
   'EntitlementAlreadyExistsException': (type, message) =>
       EntitlementAlreadyExistsException(type: type, message: message),
   'EntitlementNotFoundException': (type, message) =>

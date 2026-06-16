@@ -27,9 +27,9 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// recovery time objective (RTO) and recovery point objective (RPO) targets for
 /// your applications are met, and resolve issues before they are released into
 /// production.
-class ResilienceHub {
+class Resiliencehub {
   final _s.RestJsonProtocol _protocol;
-  ResilienceHub({
+  Resiliencehub({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
@@ -39,7 +39,6 @@ class ResilienceHub {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'resiliencehub',
-            signingName: 'resiliencehub',
           ),
           region: region,
           credentials: credentials,
@@ -59,11 +58,11 @@ class ResilienceHub {
   /// Accepts the resource grouping recommendations suggested by Resilience Hub
   /// for your application.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appArn] :
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
@@ -75,8 +74,8 @@ class ResilienceHub {
   /// Reference</i> guide.
   ///
   /// Parameter [entries] :
-  /// Indicates the list of resource grouping recommendations you want to
-  /// include in your application.
+  /// List of resource grouping recommendations you want to include in your
+  /// application.
   Future<AcceptResourceGroupingRecommendationsResponse>
       acceptResourceGroupingRecommendations({
     required String appArn,
@@ -103,13 +102,13 @@ class ResilienceHub {
   /// href="https://docs.aws.amazon.com/resilience-hub/latest/userguide/how-app-manage.html">Step
   /// 2: How is your application managed?</a> in the Resilience Hub User Guide.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appArn] :
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
@@ -147,11 +146,11 @@ class ResilienceHub {
 
   /// Enables you to include or exclude one or more operational recommendations.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appArn] :
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
@@ -203,19 +202,26 @@ class ResilienceHub {
   /// goals for recovery time objective (RTO) and recovery point objective
   /// (RPO).
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [name] :
   /// Name of the application.
   ///
   /// Parameter [assessmentSchedule] :
   /// Assessment execution schedule with 'Daily' or 'Disabled' values.
+  ///
+  /// Parameter [awsApplicationArn] :
+  /// Amazon Resource Name (ARN) of Resource Groups group that is integrated
+  /// with an AppRegistry application. For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
+  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i> guide.
   ///
   /// Parameter [clientToken] :
   /// Used for an idempotency token. A client token is a unique, case-sensitive
@@ -250,6 +256,7 @@ class ResilienceHub {
   Future<CreateAppResponse> createApp({
     required String name,
     AppAssessmentScheduleType? assessmentSchedule,
+    String? awsApplicationArn,
     String? clientToken,
     String? description,
     List<EventSubscription>? eventSubscriptions,
@@ -261,6 +268,7 @@ class ResilienceHub {
       'name': name,
       if (assessmentSchedule != null)
         'assessmentSchedule': assessmentSchedule.value,
+      if (awsApplicationArn != null) 'awsApplicationArn': awsApplicationArn,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (description != null) 'description': description,
       if (eventSubscriptions != null) 'eventSubscriptions': eventSubscriptions,
@@ -284,13 +292,13 @@ class ResilienceHub {
   /// Resilience Hub application using the <code>PublishAppVersion</code> API.
   /// </note>
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appArn] :
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
@@ -366,13 +374,13 @@ class ResilienceHub {
   /// </li>
   /// </ul> </note>
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appArn] :
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
@@ -448,13 +456,13 @@ class ResilienceHub {
 
   /// Creates a new recommendation template for the Resilience Hub application.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [assessmentArn] :
   /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
@@ -544,19 +552,19 @@ class ResilienceHub {
   /// breached</b>.
   /// </note>
   ///
-  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [policy] :
   /// The type of resiliency policy to be created, including the recovery time
   /// objective (RTO) and recovery point objective (RPO) in seconds.
   ///
   /// Parameter [policyName] :
-  /// The name of the policy
+  /// Name of the resiliency policy.
   ///
   /// Parameter [tier] :
   /// The tier for this resiliency policy, ranging from the highest severity
@@ -572,7 +580,7 @@ class ResilienceHub {
   /// resilience policy data can be stored.
   ///
   /// Parameter [policyDescription] :
-  /// The description for the policy.
+  /// Description of the resiliency policy.
   ///
   /// Parameter [tags] :
   /// Tags assigned to the resource. A tag is a label that you assign to an
@@ -608,9 +616,9 @@ class ResilienceHub {
   /// Deletes an Resilience Hub application. This is a destructive action that
   /// can't be undone.
   ///
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
@@ -652,12 +660,12 @@ class ResilienceHub {
   /// Deletes an Resilience Hub application assessment. This is a destructive
   /// action that can't be undone.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [assessmentArn] :
   /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
@@ -691,12 +699,12 @@ class ResilienceHub {
   /// Deletes the input source and all of its imported resources from the
   /// Resilience Hub application.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appArn] :
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
@@ -765,12 +773,12 @@ class ResilienceHub {
   /// </li>
   /// </ul> </note>
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appArn] :
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
@@ -824,12 +832,12 @@ class ResilienceHub {
   /// </li>
   /// </ul> </note>
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appArn] :
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
@@ -889,11 +897,11 @@ class ResilienceHub {
   /// Deletes a recommendation template. This is a destructive action that can't
   /// be undone.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [recommendationTemplateArn] :
   /// The Amazon Resource Name (ARN) for a recommendation template.
@@ -922,12 +930,12 @@ class ResilienceHub {
   /// Deletes a resiliency policy. This is a destructive action that can't be
   /// undone.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [policyArn] :
   /// Amazon Resource Name (ARN) of the resiliency policy. The format for this
@@ -961,11 +969,11 @@ class ResilienceHub {
 
   /// Describes an Resilience Hub application.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appArn] :
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
@@ -992,11 +1000,11 @@ class ResilienceHub {
 
   /// Describes an assessment for an Resilience Hub application.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [assessmentArn] :
   /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
@@ -1022,11 +1030,11 @@ class ResilienceHub {
 
   /// Describes the Resilience Hub application version.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appArn] :
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
@@ -1058,12 +1066,12 @@ class ResilienceHub {
 
   /// Describes an Application Component in the Resilience Hub application.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appArn] :
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
@@ -1118,12 +1126,12 @@ class ResilienceHub {
   /// </li>
   /// </ul> </note>
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appArn] :
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
@@ -1182,11 +1190,11 @@ class ResilienceHub {
   /// an application version. If <code>resolutionId</code> is not specified, the
   /// current resolution status is returned.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appArn] :
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
@@ -1225,11 +1233,11 @@ class ResilienceHub {
 
   /// Describes details about an Resilience Hub application.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appArn] :
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
@@ -1269,11 +1277,11 @@ class ResilienceHub {
   /// status.
   /// </note>
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appArn] :
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
@@ -1300,16 +1308,41 @@ class ResilienceHub {
         response);
   }
 
+  /// Describes the metrics of the application configuration being exported.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [metricsExportId] :
+  /// Identifier of the metrics export task.
+  Future<DescribeMetricsExportResponse> describeMetricsExport({
+    required String metricsExportId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'metricsExportId': metricsExportId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/describe-metrics-export',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeMetricsExportResponse.fromJson(response);
+  }
+
   /// Describes a specified resiliency policy for an Resilience Hub application.
   /// The returned policy object includes creation time, data location
   /// constraints, the Amazon Resource Name (ARN) for the policy, tags, tier,
   /// and more.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [policyArn] :
   /// Amazon Resource Name (ARN) of the resiliency policy. The format for this
@@ -1337,11 +1370,11 @@ class ResilienceHub {
   /// Describes the resource grouping recommendation tasks run by Resilience Hub
   /// for your application.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appArn] :
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
@@ -1353,7 +1386,7 @@ class ResilienceHub {
   /// Reference</i> guide.
   ///
   /// Parameter [groupingId] :
-  /// Indicates the identifier of the grouping recommendation task.
+  /// Identifier of the grouping recommendation task.
   Future<DescribeResourceGroupingRecommendationTaskResponse>
       describeResourceGroupingRecommendationTask({
     required String appArn,
@@ -1379,13 +1412,13 @@ class ResilienceHub {
   /// href="https://docs.aws.amazon.com/resilience-hub/latest/userguide/discover-structure.html">Discover
   /// the structure and describe your Resilience Hub application</a>.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appArn] :
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
@@ -1435,11 +1468,11 @@ class ResilienceHub {
 
   /// Lists the alarm recommendations for an Resilience Hub application.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [assessmentArn] :
   /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
@@ -1483,10 +1516,10 @@ class ResilienceHub {
 
   /// List of compliance drifts that were detected while running an assessment.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [assessmentArn] :
   /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
@@ -1497,7 +1530,7 @@ class ResilienceHub {
   /// Reference</i> guide.
   ///
   /// Parameter [maxResults] :
-  /// Indicates the maximum number of compliance drifts requested.
+  /// Maximum number of compliance drifts requested.
   ///
   /// Parameter [nextToken] :
   /// Null, or the token from a previous call to get the next set of results.
@@ -1527,13 +1560,12 @@ class ResilienceHub {
     return ListAppAssessmentComplianceDriftsResponse.fromJson(response);
   }
 
-  /// Indicates the list of resource drifts that were detected while running an
-  /// assessment.
+  /// List of resource drifts that were detected while running an assessment.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [assessmentArn] :
   /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
@@ -1544,10 +1576,9 @@ class ResilienceHub {
   /// Reference</i> guide.
   ///
   /// Parameter [maxResults] :
-  /// Indicates the maximum number of drift results to include in the response.
-  /// If more results exist than the specified <code>MaxResults</code> value, a
-  /// token is included in the response so that the remaining results can be
-  /// retrieved.
+  /// Maximum number of drift results to include in the response. If more
+  /// results exist than the specified <code>MaxResults</code> value, a token is
+  /// included in the response so that the remaining results can be retrieved.
   ///
   /// Parameter [nextToken] :
   /// Null, or the token from a previous call to get the next set of results.
@@ -1580,11 +1611,11 @@ class ResilienceHub {
   /// Lists the assessments for an Resilience Hub application. You can use
   /// request parameters to refine the results for the response object.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appArn] :
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
@@ -1659,11 +1690,11 @@ class ResilienceHub {
 
   /// Lists the compliances for an Resilience Hub Application Component.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [assessmentArn] :
   /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
@@ -1707,11 +1738,11 @@ class ResilienceHub {
 
   /// Lists the recommendations for an Resilience Hub Application Component.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [assessmentArn] :
   /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
@@ -1759,11 +1790,11 @@ class ResilienceHub {
   /// href="https://docs.aws.amazon.com/resilience-hub/latest/userguide/discover-structure.html">Discover
   /// the structure and describe your Resilience Hub application</a>.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appArn] :
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
@@ -1810,14 +1841,111 @@ class ResilienceHub {
     return ListAppInputSourcesResponse.fromJson(response);
   }
 
-  /// Lists all the Application Components in the Resilience Hub application.
+  /// Lists your Resilience Hub applications.
+  /// <note>
+  /// You can filter applications using only one filter at a time or without
+  /// using any filter. If you try to filter applications using multiple
+  /// filters, you will get the following error:
   ///
+  /// <code>An error occurred (ValidationException) when calling the ListApps
+  /// operation: Only one filter is supported for this operation.</code>
+  /// </note>
+  ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
+  ///
+  /// Parameter [appArn] :
+  /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
+  /// for this ARN is:
+  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app/<code>app-id</code>.
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
+  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i> guide.
+  ///
+  /// Parameter [awsApplicationArn] :
+  /// Amazon Resource Name (ARN) of Resource Groups group that is integrated
+  /// with an AppRegistry application. For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
+  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i> guide.
+  ///
+  /// Parameter [fromLastAssessmentTime] :
+  /// Lower limit of the range that is used to filter applications based on
+  /// their last assessment times.
+  ///
+  /// Parameter [maxResults] :
+  /// Maximum number of results to include in the response. If more results
+  /// exist than the specified <code>MaxResults</code> value, a token is
+  /// included in the response so that the remaining results can be retrieved.
+  ///
+  /// Parameter [name] :
+  /// The name for the one of the listed applications.
+  ///
+  /// Parameter [nextToken] :
+  /// Null, or the token from a previous call to get the next set of results.
+  ///
+  /// Parameter [reverseOrder] :
+  /// The application list is sorted based on the values of
+  /// <code>lastAppComplianceEvaluationTime</code> field. By default,
+  /// application list is sorted in ascending order. To sort the application
+  /// list in descending order, set this field to <code>True</code>.
+  ///
+  /// Parameter [toLastAssessmentTime] :
+  /// Upper limit of the range that is used to filter the applications based on
+  /// their last assessment times.
+  Future<ListAppsResponse> listApps({
+    String? appArn,
+    String? awsApplicationArn,
+    DateTime? fromLastAssessmentTime,
+    int? maxResults,
+    String? name,
+    String? nextToken,
+    bool? reverseOrder,
+    DateTime? toLastAssessmentTime,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (appArn != null) 'appArn': [appArn],
+      if (awsApplicationArn != null) 'awsApplicationArn': [awsApplicationArn],
+      if (fromLastAssessmentTime != null)
+        'fromLastAssessmentTime': [
+          _s.iso8601ToJson(fromLastAssessmentTime).toString()
+        ],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (name != null) 'name': [name],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (reverseOrder != null) 'reverseOrder': [reverseOrder.toString()],
+      if (toLastAssessmentTime != null)
+        'toLastAssessmentTime': [
+          _s.iso8601ToJson(toLastAssessmentTime).toString()
+        ],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/list-apps',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListAppsResponse.fromJson(response);
+  }
+
+  /// Lists all the Application Components in the Resilience Hub application.
+  ///
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [appArn] :
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
@@ -1868,11 +1996,11 @@ class ResilienceHub {
   /// Mappings can be physical resource identifiers, CloudFormation stacks,
   /// resource-groups, or an application registry app.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appArn] :
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
@@ -1923,12 +2051,12 @@ class ResilienceHub {
 
   /// Lists all the resources in an Resilience Hub application.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appArn] :
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
@@ -1983,10 +2111,10 @@ class ResilienceHub {
 
   /// Lists the different versions for the Resilience Hub applications.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appArn] :
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
@@ -2039,62 +2167,40 @@ class ResilienceHub {
     return ListAppVersionsResponse.fromJson(response);
   }
 
-  /// Lists your Resilience Hub applications.
-  /// <note>
-  /// You can filter applications using only one filter at a time or without
-  /// using any filter. If you try to filter applications using multiple
-  /// filters, you will get the following error:
+  /// Lists the metrics that can be exported.
   ///
-  /// <code>An error occurred (ValidationException) when calling the ListApps
-  /// operation: Only one filter is supported for this operation.</code>
-  /// </note>
-  ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
-  /// Parameter [appArn] :
-  /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
-  /// for this ARN is:
-  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app/<code>app-id</code>.
-  /// For more information about ARNs, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
-  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
-  /// Reference</i> guide.
+  /// Parameter [conditions] :
+  /// Indicates the list of all the conditions that were applied on the metrics.
   ///
-  /// Parameter [fromLastAssessmentTime] :
-  /// Indicates the lower limit of the range that is used to filter applications
-  /// based on their last assessment times.
+  /// Parameter [dataSource] :
+  /// Indicates the data source of the metrics.
+  ///
+  /// Parameter [fields] :
+  /// Indicates the list of fields in the data source.
   ///
   /// Parameter [maxResults] :
   /// Maximum number of results to include in the response. If more results
   /// exist than the specified <code>MaxResults</code> value, a token is
   /// included in the response so that the remaining results can be retrieved.
   ///
-  /// Parameter [name] :
-  /// The name for the one of the listed applications.
-  ///
   /// Parameter [nextToken] :
   /// Null, or the token from a previous call to get the next set of results.
   ///
-  /// Parameter [reverseOrder] :
-  /// The application list is sorted based on the values of
-  /// <code>lastAppComplianceEvaluationTime</code> field. By default,
-  /// application list is sorted in ascending order. To sort the application
-  /// list in descending order, set this field to <code>True</code>.
-  ///
-  /// Parameter [toLastAssessmentTime] :
-  /// Indicates the upper limit of the range that is used to filter the
-  /// applications based on their last assessment times.
-  Future<ListAppsResponse> listApps({
-    String? appArn,
-    DateTime? fromLastAssessmentTime,
+  /// Parameter [sorts] :
+  /// (Optional) Indicates the order in which you want to sort the fields in the
+  /// metrics. By default, the fields are sorted in the ascending order.
+  Future<ListMetricsResponse> listMetrics({
+    List<Condition>? conditions,
+    String? dataSource,
+    List<Field>? fields,
     int? maxResults,
-    String? name,
     String? nextToken,
-    bool? reverseOrder,
-    DateTime? toLastAssessmentTime,
+    List<Sort>? sorts,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2102,37 +2208,29 @@ class ResilienceHub {
       1,
       100,
     );
-    final $query = <String, List<String>>{
-      if (appArn != null) 'appArn': [appArn],
-      if (fromLastAssessmentTime != null)
-        'fromLastAssessmentTime': [
-          _s.iso8601ToJson(fromLastAssessmentTime).toString()
-        ],
-      if (maxResults != null) 'maxResults': [maxResults.toString()],
-      if (name != null) 'name': [name],
-      if (nextToken != null) 'nextToken': [nextToken],
-      if (reverseOrder != null) 'reverseOrder': [reverseOrder.toString()],
-      if (toLastAssessmentTime != null)
-        'toLastAssessmentTime': [
-          _s.iso8601ToJson(toLastAssessmentTime).toString()
-        ],
+    final $payload = <String, dynamic>{
+      if (conditions != null) 'conditions': conditions,
+      if (dataSource != null) 'dataSource': dataSource,
+      if (fields != null) 'fields': fields,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (sorts != null) 'sorts': sorts,
     };
     final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/list-apps',
-      queryParams: $query,
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/list-metrics',
       exceptionFnMap: _exceptionFns,
     );
-    return ListAppsResponse.fromJson(response);
+    return ListMetricsResponse.fromJson(response);
   }
 
   /// Lists the recommendation templates for the Resilience Hub applications.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [assessmentArn] :
   /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
@@ -2199,11 +2297,11 @@ class ResilienceHub {
 
   /// Lists the resiliency policies for the Resilience Hub applications.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [maxResults] :
   /// Maximum number of results to include in the response. If more results
@@ -2214,7 +2312,7 @@ class ResilienceHub {
   /// Null, or the token from a previous call to get the next set of results.
   ///
   /// Parameter [policyName] :
-  /// The name of the policy
+  /// Name of the resiliency policy.
   Future<ListResiliencyPoliciesResponse> listResiliencyPolicies({
     int? maxResults,
     String? nextToken,
@@ -2244,11 +2342,11 @@ class ResilienceHub {
   /// Lists the resource grouping recommendations suggested by Resilience Hub
   /// for your application.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appArn] :
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
@@ -2295,12 +2393,12 @@ class ResilienceHub {
   /// Lists the standard operating procedure (SOP) recommendations for the
   /// Resilience Hub applications.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [assessmentArn] :
   /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
@@ -2345,11 +2443,11 @@ class ResilienceHub {
   /// Lists the suggested resiliency policies for the Resilience Hub
   /// applications.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [maxResults] :
   /// Maximum number of results to include in the response. If more results
@@ -2385,11 +2483,11 @@ class ResilienceHub {
 
   /// Lists the tags for your resources in your Resilience Hub applications.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) for a specific resource in your Resilience
@@ -2408,12 +2506,12 @@ class ResilienceHub {
 
   /// Lists the test recommendations for the Resilience Hub application.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [assessmentArn] :
   /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
@@ -2459,12 +2557,12 @@ class ResilienceHub {
   /// unsupported resource is a resource that exists in the object that was used
   /// to create an app, but is not supported by Resilience Hub.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appArn] :
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
@@ -2520,12 +2618,12 @@ class ResilienceHub {
 
   /// Publishes a new version of a specific Resilience Hub application.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appArn] :
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
@@ -2558,12 +2656,12 @@ class ResilienceHub {
   /// Adds or updates the app template for an Resilience Hub application draft
   /// version.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appArn] :
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
@@ -2853,11 +2951,11 @@ class ResilienceHub {
 
   /// Rejects resource grouping recommendations.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appArn] :
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
@@ -2869,8 +2967,8 @@ class ResilienceHub {
   /// Reference</i> guide.
   ///
   /// Parameter [entries] :
-  /// Indicates the list of resource grouping recommendations you have selected
-  /// to exclude from your application.
+  /// List of resource grouping recommendations you have selected to exclude
+  /// from your application.
   Future<RejectResourceGroupingRecommendationsResponse>
       rejectResourceGroupingRecommendations({
     required String appArn,
@@ -2891,12 +2989,12 @@ class ResilienceHub {
 
   /// Removes resource mappings from a draft application version.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appArn] :
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
@@ -2964,12 +3062,12 @@ class ResilienceHub {
 
   /// Resolves the resources for an application version.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appArn] :
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
@@ -3001,13 +3099,13 @@ class ResilienceHub {
 
   /// Creates a new application assessment for an application.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appArn] :
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
@@ -3055,14 +3153,48 @@ class ResilienceHub {
     return StartAppAssessmentResponse.fromJson(response);
   }
 
-  /// Starts grouping recommendation task.
+  /// Initiates the export task of metrics.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
+  ///
+  /// Parameter [bucketName] :
+  /// (Optional) Specifies the name of the Amazon Simple Storage Service bucket
+  /// where the exported metrics will be stored.
+  ///
+  /// Parameter [clientToken] :
+  /// Used for an idempotency token. A client token is a unique, case-sensitive
+  /// string of up to 64 ASCII characters. You should not reuse the same client
+  /// token for other API requests.
+  Future<StartMetricsExportResponse> startMetricsExport({
+    String? bucketName,
+    String? clientToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (bucketName != null) 'bucketName': bucketName,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/start-metrics-export',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartMetricsExportResponse.fromJson(response);
+  }
+
+  /// Starts grouping recommendation task.
+  ///
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [appArn] :
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
@@ -3090,11 +3222,11 @@ class ResilienceHub {
 
   /// Applies one or more tags to a resource.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [resourceArn] :
   /// Amazon Resource Name (ARN) of the resource.
@@ -3118,11 +3250,11 @@ class ResilienceHub {
 
   /// Removes one or more tags from a resource.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [resourceArn] :
   /// Amazon Resource Name (ARN) of the resource.
@@ -3147,12 +3279,12 @@ class ResilienceHub {
 
   /// Updates an application.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appArn] :
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
@@ -3226,12 +3358,12 @@ class ResilienceHub {
   /// Resilience Hub application using the <code>PublishAppVersion</code> API.
   /// </note>
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appArn] :
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
@@ -3282,12 +3414,12 @@ class ResilienceHub {
   /// Resilience Hub application using the <code>PublishAppVersion</code> API.
   /// </note>
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appArn] :
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
@@ -3353,13 +3485,13 @@ class ResilienceHub {
   /// </li>
   /// </ul> </note>
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appArn] :
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
@@ -3447,12 +3579,12 @@ class ResilienceHub {
   /// breached</b>.
   /// </note>
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [policyArn] :
   /// Amazon Resource Name (ARN) of the resiliency policy. The format for this
@@ -3468,14 +3600,14 @@ class ResilienceHub {
   /// resilience policy data can be stored.
   ///
   /// Parameter [policy] :
-  /// The type of resiliency policy to be created, including the recovery time
-  /// objective (RTO) and recovery point objective (RPO) in seconds.
+  /// Resiliency policy to be created, including the recovery time objective
+  /// (RTO) and recovery point objective (RPO) in seconds.
   ///
   /// Parameter [policyDescription] :
-  /// The description for the policy.
+  /// Description of the resiliency policy.
   ///
   /// Parameter [policyName] :
-  /// The name of the policy
+  /// Name of the resiliency policy.
   ///
   /// Parameter [tier] :
   /// The tier for this resiliency policy, ranging from the highest severity
@@ -3507,24 +3639,6 @@ class ResilienceHub {
   }
 }
 
-/// Indicates the grouping recommendation you have accepted to include in your
-/// application.
-class AcceptGroupingRecommendationEntry {
-  /// Indicates the identifier of the grouping recommendation.
-  final String groupingRecommendationId;
-
-  AcceptGroupingRecommendationEntry({
-    required this.groupingRecommendationId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final groupingRecommendationId = this.groupingRecommendationId;
-    return {
-      'groupingRecommendationId': groupingRecommendationId,
-    };
-  }
-}
-
 class AcceptResourceGroupingRecommendationsResponse {
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
   /// this ARN is:
@@ -3535,8 +3649,8 @@ class AcceptResourceGroupingRecommendationsResponse {
   /// Reference</i> guide.
   final String appArn;
 
-  /// Indicates the list of resource grouping recommendations that could not be
-  /// included in your application.
+  /// List of resource grouping recommendations that could not be included in your
+  /// application.
   final List<FailedGroupingRecommendationEntry> failedEntries;
 
   AcceptResourceGroupingRecommendationsResponse({
@@ -3614,1289 +3728,6 @@ class AddDraftAppVersionResourceMappingsResponse {
   }
 }
 
-/// Defines a recommendation for a CloudWatch alarm.
-class AlarmRecommendation {
-  /// Name of the alarm recommendation.
-  final String name;
-
-  /// Identifier of the alarm recommendation.
-  final String recommendationId;
-
-  /// Reference identifier of the alarm recommendation.
-  final String referenceId;
-
-  /// Type of alarm recommendation.
-  final AlarmType type;
-
-  /// Application Component name for the CloudWatch alarm recommendation. This
-  /// name is saved as the first item in the <code>appComponentNames</code> list.
-  final String? appComponentName;
-
-  /// List of Application Component names for the CloudWatch alarm recommendation.
-  final List<String>? appComponentNames;
-
-  /// Description of the alarm recommendation.
-  final String? description;
-
-  /// List of CloudWatch alarm recommendations.
-  final List<RecommendationItem>? items;
-
-  /// The prerequisite for the alarm recommendation.
-  final String? prerequisite;
-
-  /// Status of the recommended Amazon CloudWatch alarm.
-  final RecommendationStatus? recommendationStatus;
-
-  AlarmRecommendation({
-    required this.name,
-    required this.recommendationId,
-    required this.referenceId,
-    required this.type,
-    this.appComponentName,
-    this.appComponentNames,
-    this.description,
-    this.items,
-    this.prerequisite,
-    this.recommendationStatus,
-  });
-
-  factory AlarmRecommendation.fromJson(Map<String, dynamic> json) {
-    return AlarmRecommendation(
-      name: (json['name'] as String?) ?? '',
-      recommendationId: (json['recommendationId'] as String?) ?? '',
-      referenceId: (json['referenceId'] as String?) ?? '',
-      type: AlarmType.fromString((json['type'] as String?) ?? ''),
-      appComponentName: json['appComponentName'] as String?,
-      appComponentNames: (json['appComponentNames'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      description: json['description'] as String?,
-      items: (json['items'] as List?)
-          ?.nonNulls
-          .map((e) => RecommendationItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      prerequisite: json['prerequisite'] as String?,
-      recommendationStatus: (json['recommendationStatus'] as String?)
-          ?.let(RecommendationStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final recommendationId = this.recommendationId;
-    final referenceId = this.referenceId;
-    final type = this.type;
-    final appComponentName = this.appComponentName;
-    final appComponentNames = this.appComponentNames;
-    final description = this.description;
-    final items = this.items;
-    final prerequisite = this.prerequisite;
-    final recommendationStatus = this.recommendationStatus;
-    return {
-      'name': name,
-      'recommendationId': recommendationId,
-      'referenceId': referenceId,
-      'type': type.value,
-      if (appComponentName != null) 'appComponentName': appComponentName,
-      if (appComponentNames != null) 'appComponentNames': appComponentNames,
-      if (description != null) 'description': description,
-      if (items != null) 'items': items,
-      if (prerequisite != null) 'prerequisite': prerequisite,
-      if (recommendationStatus != null)
-        'recommendationStatus': recommendationStatus.value,
-    };
-  }
-}
-
-class AlarmType {
-  static const metric = AlarmType._('Metric');
-  static const composite = AlarmType._('Composite');
-  static const canary = AlarmType._('Canary');
-  static const logs = AlarmType._('Logs');
-  static const event = AlarmType._('Event');
-
-  final String value;
-
-  const AlarmType._(this.value);
-
-  static const values = [metric, composite, canary, logs, event];
-
-  static AlarmType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => AlarmType._(value));
-
-  @override
-  bool operator ==(other) => other is AlarmType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Defines an Resilience Hub application.
-class App {
-  /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  /// this ARN is:
-  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app/<code>app-id</code>.
-  /// For more information about ARNs, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
-  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
-  /// Reference</i> guide.
-  final String appArn;
-
-  /// Date and time when the app was created.
-  final DateTime creationTime;
-
-  /// Name for the application.
-  final String name;
-
-  /// Assessment execution schedule with 'Daily' or 'Disabled' values.
-  final AppAssessmentScheduleType? assessmentSchedule;
-
-  /// Current status of compliance for the resiliency policy.
-  final AppComplianceStatusType? complianceStatus;
-
-  /// Optional description for an application.
-  final String? description;
-
-  /// Indicates if compliance drifts (deviations) were detected while running an
-  /// assessment for your application.
-  final AppDriftStatusType? driftStatus;
-
-  /// The list of events you would like to subscribe and get notification for.
-  /// Currently, Resilience Hub supports notifications only for <b>Drift
-  /// detected</b> and <b>Scheduled assessment failure</b> events.
-  final List<EventSubscription>? eventSubscriptions;
-
-  /// Date and time the most recent compliance evaluation.
-  final DateTime? lastAppComplianceEvaluationTime;
-
-  /// Indicates the last time that a drift was evaluated.
-  final DateTime? lastDriftEvaluationTime;
-
-  /// Date and time the most recent resiliency score evaluation.
-  final DateTime? lastResiliencyScoreEvaluationTime;
-
-  /// Defines the roles and credentials that Resilience Hub would use while
-  /// creating the application, importing its resources, and running an
-  /// assessment.
-  final PermissionModel? permissionModel;
-
-  /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN
-  /// is:
-  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:resiliency-policy/<code>policy-id</code>.
-  /// For more information about ARNs, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
-  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
-  /// Reference</i> guide.
-  final String? policyArn;
-
-  /// Current resiliency score for the application.
-  final double? resiliencyScore;
-
-  /// Recovery Point Objective (RPO) in seconds.
-  final int? rpoInSecs;
-
-  /// Recovery Time Objective (RTO) in seconds.
-  final int? rtoInSecs;
-
-  /// Status of the application.
-  final AppStatusType? status;
-
-  /// Tags assigned to the resource. A tag is a label that you assign to an Amazon
-  /// Web Services resource. Each tag consists of a key/value pair.
-  final Map<String, String>? tags;
-
-  App({
-    required this.appArn,
-    required this.creationTime,
-    required this.name,
-    this.assessmentSchedule,
-    this.complianceStatus,
-    this.description,
-    this.driftStatus,
-    this.eventSubscriptions,
-    this.lastAppComplianceEvaluationTime,
-    this.lastDriftEvaluationTime,
-    this.lastResiliencyScoreEvaluationTime,
-    this.permissionModel,
-    this.policyArn,
-    this.resiliencyScore,
-    this.rpoInSecs,
-    this.rtoInSecs,
-    this.status,
-    this.tags,
-  });
-
-  factory App.fromJson(Map<String, dynamic> json) {
-    return App(
-      appArn: (json['appArn'] as String?) ?? '',
-      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
-      name: (json['name'] as String?) ?? '',
-      assessmentSchedule: (json['assessmentSchedule'] as String?)
-          ?.let(AppAssessmentScheduleType.fromString),
-      complianceStatus: (json['complianceStatus'] as String?)
-          ?.let(AppComplianceStatusType.fromString),
-      description: json['description'] as String?,
-      driftStatus:
-          (json['driftStatus'] as String?)?.let(AppDriftStatusType.fromString),
-      eventSubscriptions: (json['eventSubscriptions'] as List?)
-          ?.nonNulls
-          .map((e) => EventSubscription.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      lastAppComplianceEvaluationTime:
-          timeStampFromJson(json['lastAppComplianceEvaluationTime']),
-      lastDriftEvaluationTime:
-          timeStampFromJson(json['lastDriftEvaluationTime']),
-      lastResiliencyScoreEvaluationTime:
-          timeStampFromJson(json['lastResiliencyScoreEvaluationTime']),
-      permissionModel: json['permissionModel'] != null
-          ? PermissionModel.fromJson(
-              json['permissionModel'] as Map<String, dynamic>)
-          : null,
-      policyArn: json['policyArn'] as String?,
-      resiliencyScore: json['resiliencyScore'] as double?,
-      rpoInSecs: json['rpoInSecs'] as int?,
-      rtoInSecs: json['rtoInSecs'] as int?,
-      status: (json['status'] as String?)?.let(AppStatusType.fromString),
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final appArn = this.appArn;
-    final creationTime = this.creationTime;
-    final name = this.name;
-    final assessmentSchedule = this.assessmentSchedule;
-    final complianceStatus = this.complianceStatus;
-    final description = this.description;
-    final driftStatus = this.driftStatus;
-    final eventSubscriptions = this.eventSubscriptions;
-    final lastAppComplianceEvaluationTime =
-        this.lastAppComplianceEvaluationTime;
-    final lastDriftEvaluationTime = this.lastDriftEvaluationTime;
-    final lastResiliencyScoreEvaluationTime =
-        this.lastResiliencyScoreEvaluationTime;
-    final permissionModel = this.permissionModel;
-    final policyArn = this.policyArn;
-    final resiliencyScore = this.resiliencyScore;
-    final rpoInSecs = this.rpoInSecs;
-    final rtoInSecs = this.rtoInSecs;
-    final status = this.status;
-    final tags = this.tags;
-    return {
-      'appArn': appArn,
-      'creationTime': unixTimestampToJson(creationTime),
-      'name': name,
-      if (assessmentSchedule != null)
-        'assessmentSchedule': assessmentSchedule.value,
-      if (complianceStatus != null) 'complianceStatus': complianceStatus.value,
-      if (description != null) 'description': description,
-      if (driftStatus != null) 'driftStatus': driftStatus.value,
-      if (eventSubscriptions != null) 'eventSubscriptions': eventSubscriptions,
-      if (lastAppComplianceEvaluationTime != null)
-        'lastAppComplianceEvaluationTime':
-            unixTimestampToJson(lastAppComplianceEvaluationTime),
-      if (lastDriftEvaluationTime != null)
-        'lastDriftEvaluationTime': unixTimestampToJson(lastDriftEvaluationTime),
-      if (lastResiliencyScoreEvaluationTime != null)
-        'lastResiliencyScoreEvaluationTime':
-            unixTimestampToJson(lastResiliencyScoreEvaluationTime),
-      if (permissionModel != null) 'permissionModel': permissionModel,
-      if (policyArn != null) 'policyArn': policyArn,
-      if (resiliencyScore != null) 'resiliencyScore': resiliencyScore,
-      if (rpoInSecs != null) 'rpoInSecs': rpoInSecs,
-      if (rtoInSecs != null) 'rtoInSecs': rtoInSecs,
-      if (status != null) 'status': status.value,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-/// Defines an application assessment.
-class AppAssessment {
-  /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
-  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app-assessment/<code>app-id</code>.
-  /// For more information about ARNs, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
-  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
-  /// Reference</i> guide.
-  final String assessmentArn;
-
-  /// Current status of the assessment for the resiliency policy.
-  final AssessmentStatus assessmentStatus;
-
-  /// The entity that invoked the assessment.
-  final AssessmentInvoker invoker;
-
-  /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  /// this ARN is:
-  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app/<code>app-id</code>.
-  /// For more information about ARNs, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
-  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
-  /// Reference</i> guide.
-  final String? appArn;
-
-  /// Version of an application.
-  final String? appVersion;
-
-  /// Name of the assessment.
-  final String? assessmentName;
-
-  /// Application compliance against the resiliency policy.
-  final Map<DisruptionType, DisruptionCompliance>? compliance;
-
-  /// Current status of the compliance for the resiliency policy.
-  final ComplianceStatus? complianceStatus;
-
-  /// Cost for the application.
-  final Cost? cost;
-
-  /// Indicates if compliance drifts (deviations) were detected while running an
-  /// assessment for your application.
-  final DriftStatus? driftStatus;
-
-  /// End time for the action.
-  final DateTime? endTime;
-
-  /// Error or warning message from the assessment execution
-  final String? message;
-
-  /// Resiliency policy of an application.
-  final ResiliencyPolicy? policy;
-
-  /// Current resiliency score for an application.
-  final ResiliencyScore? resiliencyScore;
-
-  /// A resource error object containing a list of errors retrieving an
-  /// application's resources.
-  final ResourceErrorsDetails? resourceErrorsDetails;
-
-  /// Starting time for the action.
-  final DateTime? startTime;
-
-  /// Indicates a concise summary that provides an overview of the Resilience Hub
-  /// assessment.
-  final AssessmentSummary? summary;
-
-  /// Tags assigned to the resource. A tag is a label that you assign to an Amazon
-  /// Web Services resource. Each tag consists of a key/value pair.
-  final Map<String, String>? tags;
-
-  /// Version name of the published application.
-  final String? versionName;
-
-  AppAssessment({
-    required this.assessmentArn,
-    required this.assessmentStatus,
-    required this.invoker,
-    this.appArn,
-    this.appVersion,
-    this.assessmentName,
-    this.compliance,
-    this.complianceStatus,
-    this.cost,
-    this.driftStatus,
-    this.endTime,
-    this.message,
-    this.policy,
-    this.resiliencyScore,
-    this.resourceErrorsDetails,
-    this.startTime,
-    this.summary,
-    this.tags,
-    this.versionName,
-  });
-
-  factory AppAssessment.fromJson(Map<String, dynamic> json) {
-    return AppAssessment(
-      assessmentArn: (json['assessmentArn'] as String?) ?? '',
-      assessmentStatus: AssessmentStatus.fromString(
-          (json['assessmentStatus'] as String?) ?? ''),
-      invoker: AssessmentInvoker.fromString((json['invoker'] as String?) ?? ''),
-      appArn: json['appArn'] as String?,
-      appVersion: json['appVersion'] as String?,
-      assessmentName: json['assessmentName'] as String?,
-      compliance: (json['compliance'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(DisruptionType.fromString(k),
-              DisruptionCompliance.fromJson(e as Map<String, dynamic>))),
-      complianceStatus: (json['complianceStatus'] as String?)
-          ?.let(ComplianceStatus.fromString),
-      cost: json['cost'] != null
-          ? Cost.fromJson(json['cost'] as Map<String, dynamic>)
-          : null,
-      driftStatus:
-          (json['driftStatus'] as String?)?.let(DriftStatus.fromString),
-      endTime: timeStampFromJson(json['endTime']),
-      message: json['message'] as String?,
-      policy: json['policy'] != null
-          ? ResiliencyPolicy.fromJson(json['policy'] as Map<String, dynamic>)
-          : null,
-      resiliencyScore: json['resiliencyScore'] != null
-          ? ResiliencyScore.fromJson(
-              json['resiliencyScore'] as Map<String, dynamic>)
-          : null,
-      resourceErrorsDetails: json['resourceErrorsDetails'] != null
-          ? ResourceErrorsDetails.fromJson(
-              json['resourceErrorsDetails'] as Map<String, dynamic>)
-          : null,
-      startTime: timeStampFromJson(json['startTime']),
-      summary: json['summary'] != null
-          ? AssessmentSummary.fromJson(json['summary'] as Map<String, dynamic>)
-          : null,
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      versionName: json['versionName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assessmentArn = this.assessmentArn;
-    final assessmentStatus = this.assessmentStatus;
-    final invoker = this.invoker;
-    final appArn = this.appArn;
-    final appVersion = this.appVersion;
-    final assessmentName = this.assessmentName;
-    final compliance = this.compliance;
-    final complianceStatus = this.complianceStatus;
-    final cost = this.cost;
-    final driftStatus = this.driftStatus;
-    final endTime = this.endTime;
-    final message = this.message;
-    final policy = this.policy;
-    final resiliencyScore = this.resiliencyScore;
-    final resourceErrorsDetails = this.resourceErrorsDetails;
-    final startTime = this.startTime;
-    final summary = this.summary;
-    final tags = this.tags;
-    final versionName = this.versionName;
-    return {
-      'assessmentArn': assessmentArn,
-      'assessmentStatus': assessmentStatus.value,
-      'invoker': invoker.value,
-      if (appArn != null) 'appArn': appArn,
-      if (appVersion != null) 'appVersion': appVersion,
-      if (assessmentName != null) 'assessmentName': assessmentName,
-      if (compliance != null)
-        'compliance': compliance.map((k, e) => MapEntry(k.value, e)),
-      if (complianceStatus != null) 'complianceStatus': complianceStatus.value,
-      if (cost != null) 'cost': cost,
-      if (driftStatus != null) 'driftStatus': driftStatus.value,
-      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
-      if (message != null) 'message': message,
-      if (policy != null) 'policy': policy,
-      if (resiliencyScore != null) 'resiliencyScore': resiliencyScore,
-      if (resourceErrorsDetails != null)
-        'resourceErrorsDetails': resourceErrorsDetails,
-      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
-      if (summary != null) 'summary': summary,
-      if (tags != null) 'tags': tags,
-      if (versionName != null) 'versionName': versionName,
-    };
-  }
-}
-
-class AppAssessmentScheduleType {
-  static const disabled = AppAssessmentScheduleType._('Disabled');
-  static const daily = AppAssessmentScheduleType._('Daily');
-
-  final String value;
-
-  const AppAssessmentScheduleType._(this.value);
-
-  static const values = [disabled, daily];
-
-  static AppAssessmentScheduleType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AppAssessmentScheduleType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AppAssessmentScheduleType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Defines an application assessment summary.
-class AppAssessmentSummary {
-  /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
-  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app-assessment/<code>app-id</code>.
-  /// For more information about ARNs, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
-  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
-  /// Reference</i> guide.
-  final String assessmentArn;
-
-  /// Current status of the assessment for the resiliency policy.
-  final AssessmentStatus assessmentStatus;
-
-  /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  /// this ARN is:
-  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app/<code>app-id</code>.
-  /// For more information about ARNs, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
-  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
-  /// Reference</i> guide.
-  final String? appArn;
-
-  /// Version of an application.
-  final String? appVersion;
-
-  /// Name of the assessment.
-  final String? assessmentName;
-
-  /// Current status of compliance for the resiliency policy.
-  final ComplianceStatus? complianceStatus;
-
-  /// Cost for an application.
-  final Cost? cost;
-
-  /// Indicates if compliance drifts (deviations) were detected while running an
-  /// assessment for your application.
-  final DriftStatus? driftStatus;
-
-  /// End time for the action.
-  final DateTime? endTime;
-
-  /// Entity that invoked the assessment.
-  final AssessmentInvoker? invoker;
-
-  /// Message from the assessment run.
-  final String? message;
-
-  /// Current resiliency score for the application.
-  final double? resiliencyScore;
-
-  /// Starting time for the action.
-  final DateTime? startTime;
-
-  /// Name of an application version.
-  final String? versionName;
-
-  AppAssessmentSummary({
-    required this.assessmentArn,
-    required this.assessmentStatus,
-    this.appArn,
-    this.appVersion,
-    this.assessmentName,
-    this.complianceStatus,
-    this.cost,
-    this.driftStatus,
-    this.endTime,
-    this.invoker,
-    this.message,
-    this.resiliencyScore,
-    this.startTime,
-    this.versionName,
-  });
-
-  factory AppAssessmentSummary.fromJson(Map<String, dynamic> json) {
-    return AppAssessmentSummary(
-      assessmentArn: (json['assessmentArn'] as String?) ?? '',
-      assessmentStatus: AssessmentStatus.fromString(
-          (json['assessmentStatus'] as String?) ?? ''),
-      appArn: json['appArn'] as String?,
-      appVersion: json['appVersion'] as String?,
-      assessmentName: json['assessmentName'] as String?,
-      complianceStatus: (json['complianceStatus'] as String?)
-          ?.let(ComplianceStatus.fromString),
-      cost: json['cost'] != null
-          ? Cost.fromJson(json['cost'] as Map<String, dynamic>)
-          : null,
-      driftStatus:
-          (json['driftStatus'] as String?)?.let(DriftStatus.fromString),
-      endTime: timeStampFromJson(json['endTime']),
-      invoker: (json['invoker'] as String?)?.let(AssessmentInvoker.fromString),
-      message: json['message'] as String?,
-      resiliencyScore: json['resiliencyScore'] as double?,
-      startTime: timeStampFromJson(json['startTime']),
-      versionName: json['versionName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assessmentArn = this.assessmentArn;
-    final assessmentStatus = this.assessmentStatus;
-    final appArn = this.appArn;
-    final appVersion = this.appVersion;
-    final assessmentName = this.assessmentName;
-    final complianceStatus = this.complianceStatus;
-    final cost = this.cost;
-    final driftStatus = this.driftStatus;
-    final endTime = this.endTime;
-    final invoker = this.invoker;
-    final message = this.message;
-    final resiliencyScore = this.resiliencyScore;
-    final startTime = this.startTime;
-    final versionName = this.versionName;
-    return {
-      'assessmentArn': assessmentArn,
-      'assessmentStatus': assessmentStatus.value,
-      if (appArn != null) 'appArn': appArn,
-      if (appVersion != null) 'appVersion': appVersion,
-      if (assessmentName != null) 'assessmentName': assessmentName,
-      if (complianceStatus != null) 'complianceStatus': complianceStatus.value,
-      if (cost != null) 'cost': cost,
-      if (driftStatus != null) 'driftStatus': driftStatus.value,
-      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
-      if (invoker != null) 'invoker': invoker.value,
-      if (message != null) 'message': message,
-      if (resiliencyScore != null) 'resiliencyScore': resiliencyScore,
-      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
-      if (versionName != null) 'versionName': versionName,
-    };
-  }
-}
-
-class AppComplianceStatusType {
-  static const policyBreached = AppComplianceStatusType._('PolicyBreached');
-  static const policyMet = AppComplianceStatusType._('PolicyMet');
-  static const notAssessed = AppComplianceStatusType._('NotAssessed');
-  static const changesDetected = AppComplianceStatusType._('ChangesDetected');
-  static const notApplicable = AppComplianceStatusType._('NotApplicable');
-  static const missingPolicy = AppComplianceStatusType._('MissingPolicy');
-
-  final String value;
-
-  const AppComplianceStatusType._(this.value);
-
-  static const values = [
-    policyBreached,
-    policyMet,
-    notAssessed,
-    changesDetected,
-    notApplicable,
-    missingPolicy
-  ];
-
-  static AppComplianceStatusType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AppComplianceStatusType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AppComplianceStatusType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Defines an Application Component.
-class AppComponent {
-  /// Name of the Application Component.
-  final String name;
-
-  /// The type of Application Component.
-  final String type;
-
-  /// Additional configuration parameters for an Resilience Hub application. If
-  /// you want to implement <code>additionalInfo</code> through the Resilience Hub
-  /// console rather than using an API call, see <a
-  /// href="https://docs.aws.amazon.com/resilience-hub/latest/userguide/app-config-param.html">Configure
-  /// the application configuration parameters</a>.
-  /// <note>
-  /// Currently, this parameter accepts a key-value mapping (in a string format)
-  /// of only one failover region and one associated account.
-  ///
-  /// Key: <code>"failover-regions"</code>
-  ///
-  /// Value: <code>"[{"region":"&lt;REGION&gt;",
-  /// "accounts":[{"id":"&lt;ACCOUNT_ID&gt;"}]}]"</code>
-  /// </note>
-  final Map<String, List<String>>? additionalInfo;
-
-  /// Identifier of the Application Component.
-  final String? id;
-
-  AppComponent({
-    required this.name,
-    required this.type,
-    this.additionalInfo,
-    this.id,
-  });
-
-  factory AppComponent.fromJson(Map<String, dynamic> json) {
-    return AppComponent(
-      name: (json['name'] as String?) ?? '',
-      type: (json['type'] as String?) ?? '',
-      additionalInfo: (json['additionalInfo'] as Map<String, dynamic>?)?.map((k,
-              e) =>
-          MapEntry(k, (e as List).nonNulls.map((e) => e as String).toList())),
-      id: json['id'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final type = this.type;
-    final additionalInfo = this.additionalInfo;
-    final id = this.id;
-    return {
-      'name': name,
-      'type': type,
-      if (additionalInfo != null) 'additionalInfo': additionalInfo,
-      if (id != null) 'id': id,
-    };
-  }
-}
-
-/// Defines the compliance of an Application Component against the resiliency
-/// policy.
-class AppComponentCompliance {
-  /// Name of the Application Component.
-  final String? appComponentName;
-
-  /// The compliance of the Application Component against the resiliency policy.
-  final Map<DisruptionType, DisruptionCompliance>? compliance;
-
-  /// The cost for the application.
-  final Cost? cost;
-
-  /// The compliance message.
-  final String? message;
-
-  /// The current resiliency score for the application.
-  final ResiliencyScore? resiliencyScore;
-
-  /// Status of the action.
-  final ComplianceStatus? status;
-
-  AppComponentCompliance({
-    this.appComponentName,
-    this.compliance,
-    this.cost,
-    this.message,
-    this.resiliencyScore,
-    this.status,
-  });
-
-  factory AppComponentCompliance.fromJson(Map<String, dynamic> json) {
-    return AppComponentCompliance(
-      appComponentName: json['appComponentName'] as String?,
-      compliance: (json['compliance'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(DisruptionType.fromString(k),
-              DisruptionCompliance.fromJson(e as Map<String, dynamic>))),
-      cost: json['cost'] != null
-          ? Cost.fromJson(json['cost'] as Map<String, dynamic>)
-          : null,
-      message: json['message'] as String?,
-      resiliencyScore: json['resiliencyScore'] != null
-          ? ResiliencyScore.fromJson(
-              json['resiliencyScore'] as Map<String, dynamic>)
-          : null,
-      status: (json['status'] as String?)?.let(ComplianceStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final appComponentName = this.appComponentName;
-    final compliance = this.compliance;
-    final cost = this.cost;
-    final message = this.message;
-    final resiliencyScore = this.resiliencyScore;
-    final status = this.status;
-    return {
-      if (appComponentName != null) 'appComponentName': appComponentName,
-      if (compliance != null)
-        'compliance': compliance.map((k, e) => MapEntry(k.value, e)),
-      if (cost != null) 'cost': cost,
-      if (message != null) 'message': message,
-      if (resiliencyScore != null) 'resiliencyScore': resiliencyScore,
-      if (status != null) 'status': status.value,
-    };
-  }
-}
-
-class AppDriftStatusType {
-  static const notChecked = AppDriftStatusType._('NotChecked');
-  static const notDetected = AppDriftStatusType._('NotDetected');
-  static const detected = AppDriftStatusType._('Detected');
-
-  final String value;
-
-  const AppDriftStatusType._(this.value);
-
-  static const values = [notChecked, notDetected, detected];
-
-  static AppDriftStatusType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AppDriftStatusType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AppDriftStatusType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The list of Resilience Hub application input sources.
-class AppInputSource {
-  /// The resource type of the input source.
-  final ResourceMappingType importType;
-
-  /// The namespace on your Amazon Elastic Kubernetes Service cluster.
-  final EksSourceClusterNamespace? eksSourceClusterNamespace;
-
-  /// The number of resources.
-  final int? resourceCount;
-
-  /// The Amazon Resource Name (ARN) of the input source. For more information
-  /// about ARNs, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
-  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
-  /// Reference</i> guide.
-  final String? sourceArn;
-
-  /// The name of the input source.
-  final String? sourceName;
-
-  /// The name of the Terraform s3 state ﬁle.
-  final TerraformSource? terraformSource;
-
-  AppInputSource({
-    required this.importType,
-    this.eksSourceClusterNamespace,
-    this.resourceCount,
-    this.sourceArn,
-    this.sourceName,
-    this.terraformSource,
-  });
-
-  factory AppInputSource.fromJson(Map<String, dynamic> json) {
-    return AppInputSource(
-      importType:
-          ResourceMappingType.fromString((json['importType'] as String?) ?? ''),
-      eksSourceClusterNamespace: json['eksSourceClusterNamespace'] != null
-          ? EksSourceClusterNamespace.fromJson(
-              json['eksSourceClusterNamespace'] as Map<String, dynamic>)
-          : null,
-      resourceCount: json['resourceCount'] as int?,
-      sourceArn: json['sourceArn'] as String?,
-      sourceName: json['sourceName'] as String?,
-      terraformSource: json['terraformSource'] != null
-          ? TerraformSource.fromJson(
-              json['terraformSource'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final importType = this.importType;
-    final eksSourceClusterNamespace = this.eksSourceClusterNamespace;
-    final resourceCount = this.resourceCount;
-    final sourceArn = this.sourceArn;
-    final sourceName = this.sourceName;
-    final terraformSource = this.terraformSource;
-    return {
-      'importType': importType.value,
-      if (eksSourceClusterNamespace != null)
-        'eksSourceClusterNamespace': eksSourceClusterNamespace,
-      if (resourceCount != null) 'resourceCount': resourceCount,
-      if (sourceArn != null) 'sourceArn': sourceArn,
-      if (sourceName != null) 'sourceName': sourceName,
-      if (terraformSource != null) 'terraformSource': terraformSource,
-    };
-  }
-}
-
-class AppStatusType {
-  static const active = AppStatusType._('Active');
-  static const deleting = AppStatusType._('Deleting');
-
-  final String value;
-
-  const AppStatusType._(this.value);
-
-  static const values = [active, deleting];
-
-  static AppStatusType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AppStatusType._(value));
-
-  @override
-  bool operator ==(other) => other is AppStatusType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Defines an application summary.
-class AppSummary {
-  /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  /// this ARN is:
-  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app/<code>app-id</code>.
-  /// For more information about ARNs, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
-  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
-  /// Reference</i> guide.
-  final String appArn;
-
-  /// Date and time when the app was created.
-  final DateTime creationTime;
-
-  /// The name of the application.
-  final String name;
-
-  /// Assessment execution schedule with 'Daily' or 'Disabled' values.
-  final AppAssessmentScheduleType? assessmentSchedule;
-
-  /// The current status of compliance for the resiliency policy.
-  final AppComplianceStatusType? complianceStatus;
-
-  /// The optional description for an app.
-  final String? description;
-
-  /// Indicates if compliance drifts (deviations) were detected while running an
-  /// assessment for your application.
-  final AppDriftStatusType? driftStatus;
-
-  /// Date and time of the most recent compliance evaluation.
-  final DateTime? lastAppComplianceEvaluationTime;
-
-  /// The current resiliency score for the application.
-  final double? resiliencyScore;
-
-  /// Recovery Point Objective (RPO) in seconds.
-  final int? rpoInSecs;
-
-  /// Recovery Time Objective (RTO) in seconds.
-  final int? rtoInSecs;
-
-  /// Status of the application.
-  final AppStatusType? status;
-
-  AppSummary({
-    required this.appArn,
-    required this.creationTime,
-    required this.name,
-    this.assessmentSchedule,
-    this.complianceStatus,
-    this.description,
-    this.driftStatus,
-    this.lastAppComplianceEvaluationTime,
-    this.resiliencyScore,
-    this.rpoInSecs,
-    this.rtoInSecs,
-    this.status,
-  });
-
-  factory AppSummary.fromJson(Map<String, dynamic> json) {
-    return AppSummary(
-      appArn: (json['appArn'] as String?) ?? '',
-      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
-      name: (json['name'] as String?) ?? '',
-      assessmentSchedule: (json['assessmentSchedule'] as String?)
-          ?.let(AppAssessmentScheduleType.fromString),
-      complianceStatus: (json['complianceStatus'] as String?)
-          ?.let(AppComplianceStatusType.fromString),
-      description: json['description'] as String?,
-      driftStatus:
-          (json['driftStatus'] as String?)?.let(AppDriftStatusType.fromString),
-      lastAppComplianceEvaluationTime:
-          timeStampFromJson(json['lastAppComplianceEvaluationTime']),
-      resiliencyScore: json['resiliencyScore'] as double?,
-      rpoInSecs: json['rpoInSecs'] as int?,
-      rtoInSecs: json['rtoInSecs'] as int?,
-      status: (json['status'] as String?)?.let(AppStatusType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final appArn = this.appArn;
-    final creationTime = this.creationTime;
-    final name = this.name;
-    final assessmentSchedule = this.assessmentSchedule;
-    final complianceStatus = this.complianceStatus;
-    final description = this.description;
-    final driftStatus = this.driftStatus;
-    final lastAppComplianceEvaluationTime =
-        this.lastAppComplianceEvaluationTime;
-    final resiliencyScore = this.resiliencyScore;
-    final rpoInSecs = this.rpoInSecs;
-    final rtoInSecs = this.rtoInSecs;
-    final status = this.status;
-    return {
-      'appArn': appArn,
-      'creationTime': unixTimestampToJson(creationTime),
-      'name': name,
-      if (assessmentSchedule != null)
-        'assessmentSchedule': assessmentSchedule.value,
-      if (complianceStatus != null) 'complianceStatus': complianceStatus.value,
-      if (description != null) 'description': description,
-      if (driftStatus != null) 'driftStatus': driftStatus.value,
-      if (lastAppComplianceEvaluationTime != null)
-        'lastAppComplianceEvaluationTime':
-            unixTimestampToJson(lastAppComplianceEvaluationTime),
-      if (resiliencyScore != null) 'resiliencyScore': resiliencyScore,
-      if (rpoInSecs != null) 'rpoInSecs': rpoInSecs,
-      if (rtoInSecs != null) 'rtoInSecs': rtoInSecs,
-      if (status != null) 'status': status.value,
-    };
-  }
-}
-
-/// Version of an application.
-class AppVersionSummary {
-  /// Version of an application.
-  final String appVersion;
-
-  /// Creation time of the application version.
-  final DateTime? creationTime;
-
-  /// Identifier of the application version.
-  final int? identifier;
-
-  /// Name of the application version.
-  final String? versionName;
-
-  AppVersionSummary({
-    required this.appVersion,
-    this.creationTime,
-    this.identifier,
-    this.versionName,
-  });
-
-  factory AppVersionSummary.fromJson(Map<String, dynamic> json) {
-    return AppVersionSummary(
-      appVersion: (json['appVersion'] as String?) ?? '',
-      creationTime: timeStampFromJson(json['creationTime']),
-      identifier: json['identifier'] as int?,
-      versionName: json['versionName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final appVersion = this.appVersion;
-    final creationTime = this.creationTime;
-    final identifier = this.identifier;
-    final versionName = this.versionName;
-    return {
-      'appVersion': appVersion,
-      if (creationTime != null)
-        'creationTime': unixTimestampToJson(creationTime),
-      if (identifier != null) 'identifier': identifier,
-      if (versionName != null) 'versionName': versionName,
-    };
-  }
-}
-
-class AssessmentInvoker {
-  static const user = AssessmentInvoker._('User');
-  static const system = AssessmentInvoker._('System');
-
-  final String value;
-
-  const AssessmentInvoker._(this.value);
-
-  static const values = [user, system];
-
-  static AssessmentInvoker fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AssessmentInvoker._(value));
-
-  @override
-  bool operator ==(other) => other is AssessmentInvoker && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Indicates a specific risk identified in the Resilience Hub assessment and
-/// the corresponding recommendation provided to address that risk.
-/// <note>
-/// The assessment summary generated by large language models (LLMs) on Amazon
-/// Bedrock are only suggestions. The current level of generative AI technology
-/// is not perfect and LLMs are not infallible. Bias and incorrect answers,
-/// although rare, should be expected. Review each recommendation in the
-/// assessment summary before you use the output from an LLM.
-/// </note> <note>
-/// This property is available only in the US East (N. Virginia) Region.
-/// </note>
-class AssessmentRiskRecommendation {
-  /// Indicates the Application Components (AppComponents) that were assessed as
-  /// part of the assessnent and are associated with the identified risk and
-  /// recommendation.
-  /// <note>
-  /// This property is available only in the US East (N. Virginia) Region.
-  /// </note>
-  final List<String>? appComponents;
-
-  /// Indicates the recommendation provided by the Resilience Hub to address the
-  /// identified risks in the application.
-  /// <note>
-  /// This property is available only in the US East (N. Virginia) Region.
-  /// </note>
-  final String? recommendation;
-
-  /// Indicates the description of the potential risk identified in the
-  /// application as part of the Resilience Hub assessment.
-  /// <note>
-  /// This property is available only in the US East (N. Virginia) Region.
-  /// </note>
-  final String? risk;
-
-  AssessmentRiskRecommendation({
-    this.appComponents,
-    this.recommendation,
-    this.risk,
-  });
-
-  factory AssessmentRiskRecommendation.fromJson(Map<String, dynamic> json) {
-    return AssessmentRiskRecommendation(
-      appComponents: (json['appComponents'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      recommendation: json['recommendation'] as String?,
-      risk: json['risk'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final appComponents = this.appComponents;
-    final recommendation = this.recommendation;
-    final risk = this.risk;
-    return {
-      if (appComponents != null) 'appComponents': appComponents,
-      if (recommendation != null) 'recommendation': recommendation,
-      if (risk != null) 'risk': risk,
-    };
-  }
-}
-
-class AssessmentStatus {
-  static const pending = AssessmentStatus._('Pending');
-  static const inProgress = AssessmentStatus._('InProgress');
-  static const failed = AssessmentStatus._('Failed');
-  static const success = AssessmentStatus._('Success');
-
-  final String value;
-
-  const AssessmentStatus._(this.value);
-
-  static const values = [pending, inProgress, failed, success];
-
-  static AssessmentStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AssessmentStatus._(value));
-
-  @override
-  bool operator ==(other) => other is AssessmentStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Indicates the AI-generated summary for the Resilience Hub assessment,
-/// providing a concise overview that highlights the top risks and
-/// recommendations.
-/// <note>
-/// This property is available only in the US East (N. Virginia) Region.
-/// </note>
-class AssessmentSummary {
-  /// Indicates the top risks and recommendations identified by the Resilience Hub
-  /// assessment, each representing a specific risk and the corresponding
-  /// recommendation to address it.
-  /// <note>
-  /// This property is available only in the US East (N. Virginia) Region.
-  /// </note>
-  final List<AssessmentRiskRecommendation>? riskRecommendations;
-
-  /// Indicates a concise summary that provides an overview of the Resilience Hub
-  /// assessment.
-  /// <note>
-  /// This property is available only in the US East (N. Virginia) Region.
-  /// </note>
-  final String? summary;
-
-  AssessmentSummary({
-    this.riskRecommendations,
-    this.summary,
-  });
-
-  factory AssessmentSummary.fromJson(Map<String, dynamic> json) {
-    return AssessmentSummary(
-      riskRecommendations: (json['riskRecommendations'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              AssessmentRiskRecommendation.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      summary: json['summary'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final riskRecommendations = this.riskRecommendations;
-    final summary = this.summary;
-    return {
-      if (riskRecommendations != null)
-        'riskRecommendations': riskRecommendations,
-      if (summary != null) 'summary': summary,
-    };
-  }
-}
-
-/// List of operational recommendations that did not get included or excluded.
-class BatchUpdateRecommendationStatusFailedEntry {
-  /// An identifier of an entry in this batch that is used to communicate the
-  /// result.
-  /// <note>
-  /// The <code>entryId</code>s of a batch request need to be unique within a
-  /// request.
-  /// </note>
-  final String entryId;
-
-  /// Indicates the error that occurred while excluding an operational
-  /// recommendation.
-  final String errorMessage;
-
-  BatchUpdateRecommendationStatusFailedEntry({
-    required this.entryId,
-    required this.errorMessage,
-  });
-
-  factory BatchUpdateRecommendationStatusFailedEntry.fromJson(
-      Map<String, dynamic> json) {
-    return BatchUpdateRecommendationStatusFailedEntry(
-      entryId: (json['entryId'] as String?) ?? '',
-      errorMessage: (json['errorMessage'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final entryId = this.entryId;
-    final errorMessage = this.errorMessage;
-    return {
-      'entryId': entryId,
-      'errorMessage': errorMessage,
-    };
-  }
-}
-
 class BatchUpdateRecommendationStatusResponse {
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
   /// this ARN is:
@@ -4947,454 +3778,6 @@ class BatchUpdateRecommendationStatusResponse {
       'successfulEntries': successfulEntries,
     };
   }
-}
-
-/// List of operational recommendations that were successfully included or
-/// excluded.
-class BatchUpdateRecommendationStatusSuccessfulEntry {
-  /// An identifier for an entry in this batch that is used to communicate the
-  /// result.
-  /// <note>
-  /// The <code>entryId</code>s of a batch request need to be unique within a
-  /// request.
-  /// </note>
-  final String entryId;
-
-  /// Indicates if the operational recommendation was successfully excluded.
-  final bool excluded;
-
-  /// The operational recommendation item.
-  final UpdateRecommendationStatusItem item;
-
-  /// Reference identifier of the operational recommendation.
-  final String referenceId;
-
-  /// Indicates the reason for excluding an operational recommendation.
-  final ExcludeRecommendationReason? excludeReason;
-
-  BatchUpdateRecommendationStatusSuccessfulEntry({
-    required this.entryId,
-    required this.excluded,
-    required this.item,
-    required this.referenceId,
-    this.excludeReason,
-  });
-
-  factory BatchUpdateRecommendationStatusSuccessfulEntry.fromJson(
-      Map<String, dynamic> json) {
-    return BatchUpdateRecommendationStatusSuccessfulEntry(
-      entryId: (json['entryId'] as String?) ?? '',
-      excluded: (json['excluded'] as bool?) ?? false,
-      item: UpdateRecommendationStatusItem.fromJson(
-          (json['item'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
-      referenceId: (json['referenceId'] as String?) ?? '',
-      excludeReason: (json['excludeReason'] as String?)
-          ?.let(ExcludeRecommendationReason.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final entryId = this.entryId;
-    final excluded = this.excluded;
-    final item = this.item;
-    final referenceId = this.referenceId;
-    final excludeReason = this.excludeReason;
-    return {
-      'entryId': entryId,
-      'excluded': excluded,
-      'item': item,
-      'referenceId': referenceId,
-      if (excludeReason != null) 'excludeReason': excludeReason.value,
-    };
-  }
-}
-
-/// Indicates the compliance drifts (recovery time objective (RTO) and recovery
-/// point objective (RPO)) that were detected for an assessed entity.
-class ComplianceDrift {
-  /// Assessment identifier that is associated with this drift item.
-  final String? actualReferenceId;
-
-  /// Actual compliance value of the entity.
-  final Map<DisruptionType, DisruptionCompliance>? actualValue;
-
-  /// Identifier of your application.
-  final String? appId;
-
-  /// Published version of your application on which drift was detected.
-  final String? appVersion;
-
-  /// Difference type between actual and expected recovery point objective (RPO)
-  /// and recovery time objective (RTO) values. Currently, Resilience Hub supports
-  /// only <code>NotEqual</code> difference type.
-  final DifferenceType? diffType;
-
-  /// The type of drift detected. Currently, Resilience Hub supports only
-  /// <b>ApplicationCompliance</b> drift type.
-  final DriftType? driftType;
-
-  /// Identifier of an entity in which drift was detected. For compliance drift,
-  /// the entity ID can be either application ID or the AppComponent ID.
-  final String? entityId;
-
-  /// The type of entity in which drift was detected. For compliance drifts,
-  /// Resilience Hub supports <code>AWS::ResilienceHub::AppComponent</code> and
-  /// <code>AWS::ResilienceHub::Application</code>.
-  final String? entityType;
-
-  /// Assessment identifier of a previous assessment of the same application
-  /// version. Resilience Hub uses the previous assessment (associated with the
-  /// reference identifier) to compare the compliance with the current assessment
-  /// to identify drifts.
-  final String? expectedReferenceId;
-
-  /// The expected compliance value of an entity.
-  final Map<DisruptionType, DisruptionCompliance>? expectedValue;
-
-  ComplianceDrift({
-    this.actualReferenceId,
-    this.actualValue,
-    this.appId,
-    this.appVersion,
-    this.diffType,
-    this.driftType,
-    this.entityId,
-    this.entityType,
-    this.expectedReferenceId,
-    this.expectedValue,
-  });
-
-  factory ComplianceDrift.fromJson(Map<String, dynamic> json) {
-    return ComplianceDrift(
-      actualReferenceId: json['actualReferenceId'] as String?,
-      actualValue: (json['actualValue'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(DisruptionType.fromString(k),
-              DisruptionCompliance.fromJson(e as Map<String, dynamic>))),
-      appId: json['appId'] as String?,
-      appVersion: json['appVersion'] as String?,
-      diffType: (json['diffType'] as String?)?.let(DifferenceType.fromString),
-      driftType: (json['driftType'] as String?)?.let(DriftType.fromString),
-      entityId: json['entityId'] as String?,
-      entityType: json['entityType'] as String?,
-      expectedReferenceId: json['expectedReferenceId'] as String?,
-      expectedValue: (json['expectedValue'] as Map<String, dynamic>?)?.map(
-          (k, e) => MapEntry(DisruptionType.fromString(k),
-              DisruptionCompliance.fromJson(e as Map<String, dynamic>))),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final actualReferenceId = this.actualReferenceId;
-    final actualValue = this.actualValue;
-    final appId = this.appId;
-    final appVersion = this.appVersion;
-    final diffType = this.diffType;
-    final driftType = this.driftType;
-    final entityId = this.entityId;
-    final entityType = this.entityType;
-    final expectedReferenceId = this.expectedReferenceId;
-    final expectedValue = this.expectedValue;
-    return {
-      if (actualReferenceId != null) 'actualReferenceId': actualReferenceId,
-      if (actualValue != null)
-        'actualValue': actualValue.map((k, e) => MapEntry(k.value, e)),
-      if (appId != null) 'appId': appId,
-      if (appVersion != null) 'appVersion': appVersion,
-      if (diffType != null) 'diffType': diffType.value,
-      if (driftType != null) 'driftType': driftType.value,
-      if (entityId != null) 'entityId': entityId,
-      if (entityType != null) 'entityType': entityType,
-      if (expectedReferenceId != null)
-        'expectedReferenceId': expectedReferenceId,
-      if (expectedValue != null)
-        'expectedValue': expectedValue.map((k, e) => MapEntry(k.value, e)),
-    };
-  }
-}
-
-class ComplianceStatus {
-  static const policyBreached = ComplianceStatus._('PolicyBreached');
-  static const policyMet = ComplianceStatus._('PolicyMet');
-  static const notApplicable = ComplianceStatus._('NotApplicable');
-  static const missingPolicy = ComplianceStatus._('MissingPolicy');
-
-  final String value;
-
-  const ComplianceStatus._(this.value);
-
-  static const values = [
-    policyBreached,
-    policyMet,
-    notApplicable,
-    missingPolicy
-  ];
-
-  static ComplianceStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ComplianceStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ComplianceStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Defines recommendations for an Resilience Hub Application Component,
-/// returned as an object. This object contains component names, configuration
-/// recommendations, and recommendation statuses.
-class ComponentRecommendation {
-  /// Name of the Application Component.
-  final String appComponentName;
-
-  /// List of recommendations.
-  final List<ConfigRecommendation> configRecommendations;
-
-  /// Status of the recommendation.
-  final RecommendationComplianceStatus recommendationStatus;
-
-  ComponentRecommendation({
-    required this.appComponentName,
-    required this.configRecommendations,
-    required this.recommendationStatus,
-  });
-
-  factory ComponentRecommendation.fromJson(Map<String, dynamic> json) {
-    return ComponentRecommendation(
-      appComponentName: (json['appComponentName'] as String?) ?? '',
-      configRecommendations: ((json['configRecommendations'] as List?) ??
-              const [])
-          .nonNulls
-          .map((e) => ConfigRecommendation.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      recommendationStatus: RecommendationComplianceStatus.fromString(
-          (json['recommendationStatus'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final appComponentName = this.appComponentName;
-    final configRecommendations = this.configRecommendations;
-    final recommendationStatus = this.recommendationStatus;
-    return {
-      'appComponentName': appComponentName,
-      'configRecommendations': configRecommendations,
-      'recommendationStatus': recommendationStatus.value,
-    };
-  }
-}
-
-/// Defines a recommendation configuration.
-class ConfigRecommendation {
-  /// The name of the recommendation configuration.
-  final String name;
-
-  /// The type of optimization.
-  final ConfigRecommendationOptimizationType optimizationType;
-
-  /// Reference identifier for the recommendation configuration.
-  final String referenceId;
-
-  /// Name of the Application Component.
-  final String? appComponentName;
-
-  /// The current compliance against the resiliency policy before applying the
-  /// configuration change.
-  final Map<DisruptionType, DisruptionCompliance>? compliance;
-
-  /// The cost for the application.
-  final Cost? cost;
-
-  /// The optional description for an app.
-  final String? description;
-
-  /// The architecture type.
-  final HaArchitecture? haArchitecture;
-
-  /// The expected compliance against the resiliency policy after applying the
-  /// configuration change.
-  final Map<DisruptionType, RecommendationDisruptionCompliance>?
-      recommendationCompliance;
-
-  /// List of the suggested configuration changes.
-  final List<String>? suggestedChanges;
-
-  ConfigRecommendation({
-    required this.name,
-    required this.optimizationType,
-    required this.referenceId,
-    this.appComponentName,
-    this.compliance,
-    this.cost,
-    this.description,
-    this.haArchitecture,
-    this.recommendationCompliance,
-    this.suggestedChanges,
-  });
-
-  factory ConfigRecommendation.fromJson(Map<String, dynamic> json) {
-    return ConfigRecommendation(
-      name: (json['name'] as String?) ?? '',
-      optimizationType: ConfigRecommendationOptimizationType.fromString(
-          (json['optimizationType'] as String?) ?? ''),
-      referenceId: (json['referenceId'] as String?) ?? '',
-      appComponentName: json['appComponentName'] as String?,
-      compliance: (json['compliance'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(DisruptionType.fromString(k),
-              DisruptionCompliance.fromJson(e as Map<String, dynamic>))),
-      cost: json['cost'] != null
-          ? Cost.fromJson(json['cost'] as Map<String, dynamic>)
-          : null,
-      description: json['description'] as String?,
-      haArchitecture:
-          (json['haArchitecture'] as String?)?.let(HaArchitecture.fromString),
-      recommendationCompliance:
-          (json['recommendationCompliance'] as Map<String, dynamic>?)?.map(
-              (k, e) => MapEntry(
-                  DisruptionType.fromString(k),
-                  RecommendationDisruptionCompliance.fromJson(
-                      e as Map<String, dynamic>))),
-      suggestedChanges: (json['suggestedChanges'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final optimizationType = this.optimizationType;
-    final referenceId = this.referenceId;
-    final appComponentName = this.appComponentName;
-    final compliance = this.compliance;
-    final cost = this.cost;
-    final description = this.description;
-    final haArchitecture = this.haArchitecture;
-    final recommendationCompliance = this.recommendationCompliance;
-    final suggestedChanges = this.suggestedChanges;
-    return {
-      'name': name,
-      'optimizationType': optimizationType.value,
-      'referenceId': referenceId,
-      if (appComponentName != null) 'appComponentName': appComponentName,
-      if (compliance != null)
-        'compliance': compliance.map((k, e) => MapEntry(k.value, e)),
-      if (cost != null) 'cost': cost,
-      if (description != null) 'description': description,
-      if (haArchitecture != null) 'haArchitecture': haArchitecture.value,
-      if (recommendationCompliance != null)
-        'recommendationCompliance':
-            recommendationCompliance.map((k, e) => MapEntry(k.value, e)),
-      if (suggestedChanges != null) 'suggestedChanges': suggestedChanges,
-    };
-  }
-}
-
-class ConfigRecommendationOptimizationType {
-  static const leastCost = ConfigRecommendationOptimizationType._('LeastCost');
-  static const leastChange =
-      ConfigRecommendationOptimizationType._('LeastChange');
-  static const bestAZRecovery =
-      ConfigRecommendationOptimizationType._('BestAZRecovery');
-  static const leastErrors =
-      ConfigRecommendationOptimizationType._('LeastErrors');
-  static const bestAttainable =
-      ConfigRecommendationOptimizationType._('BestAttainable');
-  static const bestRegionRecovery =
-      ConfigRecommendationOptimizationType._('BestRegionRecovery');
-
-  final String value;
-
-  const ConfigRecommendationOptimizationType._(this.value);
-
-  static const values = [
-    leastCost,
-    leastChange,
-    bestAZRecovery,
-    leastErrors,
-    bestAttainable,
-    bestRegionRecovery
-  ];
-
-  static ConfigRecommendationOptimizationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConfigRecommendationOptimizationType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ConfigRecommendationOptimizationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Defines a cost object.
-class Cost {
-  /// The cost amount.
-  final double amount;
-
-  /// The cost currency, for example <code>USD</code>.
-  final String currency;
-
-  /// The cost frequency.
-  final CostFrequency frequency;
-
-  Cost({
-    required this.amount,
-    required this.currency,
-    required this.frequency,
-  });
-
-  factory Cost.fromJson(Map<String, dynamic> json) {
-    return Cost(
-      amount: (json['amount'] as double?) ?? 0,
-      currency: (json['currency'] as String?) ?? '',
-      frequency: CostFrequency.fromString((json['frequency'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final amount = this.amount;
-    final currency = this.currency;
-    final frequency = this.frequency;
-    return {
-      'amount': amount,
-      'currency': currency,
-      'frequency': frequency.value,
-    };
-  }
-}
-
-class CostFrequency {
-  static const hourly = CostFrequency._('Hourly');
-  static const daily = CostFrequency._('Daily');
-  static const monthly = CostFrequency._('Monthly');
-  static const yearly = CostFrequency._('Yearly');
-
-  final String value;
-
-  const CostFrequency._(this.value);
-
-  static const values = [hourly, daily, monthly, yearly];
-
-  static CostFrequency fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CostFrequency._(value));
-
-  @override
-  bool operator ==(other) => other is CostFrequency && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class CreateAppResponse {
@@ -5567,30 +3950,32 @@ class CreateResiliencyPolicyResponse {
   }
 }
 
-class DataLocationConstraint {
-  static const anyLocation = DataLocationConstraint._('AnyLocation');
-  static const sameContinent = DataLocationConstraint._('SameContinent');
-  static const sameCountry = DataLocationConstraint._('SameCountry');
+class DeleteAppResponse {
+  /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
+  /// this ARN is:
+  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app/<code>app-id</code>.
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
+  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i> guide.
+  final String appArn;
 
-  final String value;
+  DeleteAppResponse({
+    required this.appArn,
+  });
 
-  const DataLocationConstraint._(this.value);
+  factory DeleteAppResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteAppResponse(
+      appArn: (json['appArn'] as String?) ?? '',
+    );
+  }
 
-  static const values = [anyLocation, sameContinent, sameCountry];
-
-  static DataLocationConstraint fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DataLocationConstraint._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DataLocationConstraint && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final appArn = this.appArn;
+    return {
+      'appArn': appArn,
+    };
+  }
 }
 
 class DeleteAppAssessmentResponse {
@@ -5663,34 +4048,6 @@ class DeleteAppInputSourceResponse {
     return {
       if (appArn != null) 'appArn': appArn,
       if (appInputSource != null) 'appInputSource': appInputSource,
-    };
-  }
-}
-
-class DeleteAppResponse {
-  /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  /// this ARN is:
-  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app/<code>app-id</code>.
-  /// For more information about ARNs, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
-  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
-  /// Reference</i> guide.
-  final String appArn;
-
-  DeleteAppResponse({
-    required this.appArn,
-  });
-
-  factory DeleteAppResponse.fromJson(Map<String, dynamic> json) {
-    return DeleteAppResponse(
-      appArn: (json['appArn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final appArn = this.appArn;
-    return {
-      'appArn': appArn,
     };
   }
 }
@@ -5847,6 +4204,30 @@ class DeleteResiliencyPolicyResponse {
   }
 }
 
+class DescribeAppResponse {
+  /// The specified application, returned as an object with details including
+  /// compliance status, creation time, description, resiliency score, and more.
+  final App app;
+
+  DescribeAppResponse({
+    required this.app,
+  });
+
+  factory DescribeAppResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeAppResponse(
+      app: App.fromJson(
+          (json['app'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final app = this.app;
+    return {
+      'app': app,
+    };
+  }
+}
+
 class DescribeAppAssessmentResponse {
   /// The assessment for an Resilience Hub application, returned as an object.
   /// This object includes Amazon Resource Names (ARNs), compliance information,
@@ -5873,26 +4254,53 @@ class DescribeAppAssessmentResponse {
   }
 }
 
-class DescribeAppResponse {
-  /// The specified application, returned as an object with details including
-  /// compliance status, creation time, description, resiliency score, and more.
-  final App app;
+class DescribeAppVersionResponse {
+  /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
+  /// this ARN is:
+  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app/<code>app-id</code>.
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
+  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i> guide.
+  final String appArn;
 
-  DescribeAppResponse({
-    required this.app,
+  /// Resilience Hub application version.
+  final String appVersion;
+
+  /// Additional configuration parameters for an Resilience Hub application. If
+  /// you want to implement <code>additionalInfo</code> through the Resilience Hub
+  /// console rather than using an API call, see <a
+  /// href="https://docs.aws.amazon.com/resilience-hub/latest/userguide/app-config-param.html">Configure
+  /// the application configuration parameters</a>.
+  /// <note>
+  /// Currently, this parameter supports only failover region and account.
+  /// </note>
+  final Map<String, List<String>>? additionalInfo;
+
+  DescribeAppVersionResponse({
+    required this.appArn,
+    required this.appVersion,
+    this.additionalInfo,
   });
 
-  factory DescribeAppResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeAppResponse(
-      app: App.fromJson(
-          (json['app'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+  factory DescribeAppVersionResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeAppVersionResponse(
+      appArn: (json['appArn'] as String?) ?? '',
+      appVersion: (json['appVersion'] as String?) ?? '',
+      additionalInfo: (json['additionalInfo'] as Map<String, dynamic>?)?.map((k,
+              e) =>
+          MapEntry(k, (e as List).nonNulls.map((e) => e as String).toList())),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final app = this.app;
+    final appArn = this.appArn;
+    final appVersion = this.appVersion;
+    final additionalInfo = this.additionalInfo;
     return {
-      'app': app,
+      'appArn': appArn,
+      'appVersion': appVersion,
+      if (additionalInfo != null) 'additionalInfo': additionalInfo,
     };
   }
 }
@@ -6044,57 +4452,6 @@ class DescribeAppVersionResourcesResolutionStatusResponse {
       'resolutionId': resolutionId,
       'status': status.value,
       if (errorMessage != null) 'errorMessage': errorMessage,
-    };
-  }
-}
-
-class DescribeAppVersionResponse {
-  /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  /// this ARN is:
-  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app/<code>app-id</code>.
-  /// For more information about ARNs, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
-  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
-  /// Reference</i> guide.
-  final String appArn;
-
-  /// Resilience Hub application version.
-  final String appVersion;
-
-  /// Additional configuration parameters for an Resilience Hub application. If
-  /// you want to implement <code>additionalInfo</code> through the Resilience Hub
-  /// console rather than using an API call, see <a
-  /// href="https://docs.aws.amazon.com/resilience-hub/latest/userguide/app-config-param.html">Configure
-  /// the application configuration parameters</a>.
-  /// <note>
-  /// Currently, this parameter supports only failover region and account.
-  /// </note>
-  final Map<String, List<String>>? additionalInfo;
-
-  DescribeAppVersionResponse({
-    required this.appArn,
-    required this.appVersion,
-    this.additionalInfo,
-  });
-
-  factory DescribeAppVersionResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeAppVersionResponse(
-      appArn: (json['appArn'] as String?) ?? '',
-      appVersion: (json['appVersion'] as String?) ?? '',
-      additionalInfo: (json['additionalInfo'] as Map<String, dynamic>?)?.map((k,
-              e) =>
-          MapEntry(k, (e as List).nonNulls.map((e) => e as String).toList())),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final appArn = this.appArn;
-    final appVersion = this.appVersion;
-    final additionalInfo = this.additionalInfo;
-    return {
-      'appArn': appArn,
-      'appVersion': appVersion,
-      if (additionalInfo != null) 'additionalInfo': additionalInfo,
     };
   }
 }
@@ -6419,7 +4776,10 @@ class DescribeDraftAppVersionResourcesImportStatusResponse {
   /// The time when the status last changed.
   final DateTime statusChangeTime;
 
-  /// The returned error message for the request.
+  /// List of errors that were encountered while importing resources.
+  final List<ErrorDetail>? errorDetails;
+
+  /// The error message returned for the resource request.
   final String? errorMessage;
 
   DescribeDraftAppVersionResourcesImportStatusResponse({
@@ -6427,6 +4787,7 @@ class DescribeDraftAppVersionResourcesImportStatusResponse {
     required this.appVersion,
     required this.status,
     required this.statusChangeTime,
+    this.errorDetails,
     this.errorMessage,
   });
 
@@ -6439,6 +4800,10 @@ class DescribeDraftAppVersionResourcesImportStatusResponse {
           (json['status'] as String?) ?? ''),
       statusChangeTime:
           nonNullableTimeStampFromJson(json['statusChangeTime'] ?? 0),
+      errorDetails: (json['errorDetails'] as List?)
+          ?.nonNulls
+          .map((e) => ErrorDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
       errorMessage: json['errorMessage'] as String?,
     );
   }
@@ -6448,13 +4813,62 @@ class DescribeDraftAppVersionResourcesImportStatusResponse {
     final appVersion = this.appVersion;
     final status = this.status;
     final statusChangeTime = this.statusChangeTime;
+    final errorDetails = this.errorDetails;
     final errorMessage = this.errorMessage;
     return {
       'appArn': appArn,
       'appVersion': appVersion,
       'status': status.value,
       'statusChangeTime': unixTimestampToJson(statusChangeTime),
+      if (errorDetails != null) 'errorDetails': errorDetails,
       if (errorMessage != null) 'errorMessage': errorMessage,
+    };
+  }
+}
+
+class DescribeMetricsExportResponse {
+  /// Identifier for the metrics export task.
+  final String metricsExportId;
+
+  /// Indicates the status of the metrics export task.
+  final MetricsExportStatusType status;
+
+  /// Explains the error that occurred while exporting the metrics.
+  final String? errorMessage;
+
+  /// Specifies the name of the Amazon S3 bucket where the exported metrics is
+  /// stored.
+  final S3Location? exportLocation;
+
+  DescribeMetricsExportResponse({
+    required this.metricsExportId,
+    required this.status,
+    this.errorMessage,
+    this.exportLocation,
+  });
+
+  factory DescribeMetricsExportResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeMetricsExportResponse(
+      metricsExportId: (json['metricsExportId'] as String?) ?? '',
+      status:
+          MetricsExportStatusType.fromString((json['status'] as String?) ?? ''),
+      errorMessage: json['errorMessage'] as String?,
+      exportLocation: json['exportLocation'] != null
+          ? S3Location.fromJson(json['exportLocation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricsExportId = this.metricsExportId;
+    final status = this.status;
+    final errorMessage = this.errorMessage;
+    final exportLocation = this.exportLocation;
+    return {
+      'metricsExportId': metricsExportId,
+      'status': status.value,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (exportLocation != null) 'exportLocation': exportLocation,
     };
   }
 }
@@ -6487,14 +4901,13 @@ class DescribeResiliencyPolicyResponse {
 }
 
 class DescribeResourceGroupingRecommendationTaskResponse {
-  /// Indicates the identifier of the grouping recommendation task.
+  /// Identifier of the grouping recommendation task.
   final String groupingId;
 
   /// Status of the action.
   final ResourcesGroupingRecGenStatusType status;
 
-  /// Indicates the error that occurred while generating a grouping
-  /// recommendation.
+  /// Error that occurred while generating a grouping recommendation.
   final String? errorMessage;
 
   DescribeResourceGroupingRecommendationTaskResponse({
@@ -6523,780 +4936,6 @@ class DescribeResourceGroupingRecommendationTaskResponse {
       if (errorMessage != null) 'errorMessage': errorMessage,
     };
   }
-}
-
-class DifferenceType {
-  static const notEqual = DifferenceType._('NotEqual');
-  static const added = DifferenceType._('Added');
-  static const removed = DifferenceType._('Removed');
-
-  final String value;
-
-  const DifferenceType._(this.value);
-
-  static const values = [notEqual, added, removed];
-
-  static DifferenceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DifferenceType._(value));
-
-  @override
-  bool operator ==(other) => other is DifferenceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Defines the compliance against the resiliency policy for a disruption.
-class DisruptionCompliance {
-  /// The current status of compliance for the resiliency policy.
-  final ComplianceStatus complianceStatus;
-
-  /// The Recovery Point Objective (RPO) that is achievable, in seconds.
-  final int? achievableRpoInSecs;
-
-  /// The Recovery Time Objective (RTO) that is achievable, in seconds
-  final int? achievableRtoInSecs;
-
-  /// The current RPO, in seconds.
-  final int? currentRpoInSecs;
-
-  /// The current RTO, in seconds.
-  final int? currentRtoInSecs;
-
-  /// The disruption compliance message.
-  final String? message;
-
-  /// The RPO description.
-  final String? rpoDescription;
-
-  /// Reference identifier of the RPO .
-  final String? rpoReferenceId;
-
-  /// The RTO description.
-  final String? rtoDescription;
-
-  /// Reference identifier of the RTO.
-  final String? rtoReferenceId;
-
-  DisruptionCompliance({
-    required this.complianceStatus,
-    this.achievableRpoInSecs,
-    this.achievableRtoInSecs,
-    this.currentRpoInSecs,
-    this.currentRtoInSecs,
-    this.message,
-    this.rpoDescription,
-    this.rpoReferenceId,
-    this.rtoDescription,
-    this.rtoReferenceId,
-  });
-
-  factory DisruptionCompliance.fromJson(Map<String, dynamic> json) {
-    return DisruptionCompliance(
-      complianceStatus: ComplianceStatus.fromString(
-          (json['complianceStatus'] as String?) ?? ''),
-      achievableRpoInSecs: json['achievableRpoInSecs'] as int?,
-      achievableRtoInSecs: json['achievableRtoInSecs'] as int?,
-      currentRpoInSecs: json['currentRpoInSecs'] as int?,
-      currentRtoInSecs: json['currentRtoInSecs'] as int?,
-      message: json['message'] as String?,
-      rpoDescription: json['rpoDescription'] as String?,
-      rpoReferenceId: json['rpoReferenceId'] as String?,
-      rtoDescription: json['rtoDescription'] as String?,
-      rtoReferenceId: json['rtoReferenceId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final complianceStatus = this.complianceStatus;
-    final achievableRpoInSecs = this.achievableRpoInSecs;
-    final achievableRtoInSecs = this.achievableRtoInSecs;
-    final currentRpoInSecs = this.currentRpoInSecs;
-    final currentRtoInSecs = this.currentRtoInSecs;
-    final message = this.message;
-    final rpoDescription = this.rpoDescription;
-    final rpoReferenceId = this.rpoReferenceId;
-    final rtoDescription = this.rtoDescription;
-    final rtoReferenceId = this.rtoReferenceId;
-    return {
-      'complianceStatus': complianceStatus.value,
-      if (achievableRpoInSecs != null)
-        'achievableRpoInSecs': achievableRpoInSecs,
-      if (achievableRtoInSecs != null)
-        'achievableRtoInSecs': achievableRtoInSecs,
-      if (currentRpoInSecs != null) 'currentRpoInSecs': currentRpoInSecs,
-      if (currentRtoInSecs != null) 'currentRtoInSecs': currentRtoInSecs,
-      if (message != null) 'message': message,
-      if (rpoDescription != null) 'rpoDescription': rpoDescription,
-      if (rpoReferenceId != null) 'rpoReferenceId': rpoReferenceId,
-      if (rtoDescription != null) 'rtoDescription': rtoDescription,
-      if (rtoReferenceId != null) 'rtoReferenceId': rtoReferenceId,
-    };
-  }
-}
-
-class DisruptionType {
-  static const software = DisruptionType._('Software');
-  static const hardware = DisruptionType._('Hardware');
-  static const az = DisruptionType._('AZ');
-  static const region = DisruptionType._('Region');
-
-  final String value;
-
-  const DisruptionType._(this.value);
-
-  static const values = [software, hardware, az, region];
-
-  static DisruptionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DisruptionType._(value));
-
-  @override
-  bool operator ==(other) => other is DisruptionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DriftStatus {
-  static const notChecked = DriftStatus._('NotChecked');
-  static const notDetected = DriftStatus._('NotDetected');
-  static const detected = DriftStatus._('Detected');
-
-  final String value;
-
-  const DriftStatus._(this.value);
-
-  static const values = [notChecked, notDetected, detected];
-
-  static DriftStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => DriftStatus._(value));
-
-  @override
-  bool operator ==(other) => other is DriftStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DriftType {
-  static const applicationCompliance = DriftType._('ApplicationCompliance');
-  static const appComponentResiliencyComplianceStatus =
-      DriftType._('AppComponentResiliencyComplianceStatus');
-
-  final String value;
-
-  const DriftType._(this.value);
-
-  static const values = [
-    applicationCompliance,
-    appComponentResiliencyComplianceStatus
-  ];
-
-  static DriftType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => DriftType._(value));
-
-  @override
-  bool operator ==(other) => other is DriftType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The input source of the Amazon Elastic Kubernetes Service cluster.
-class EksSource {
-  /// Amazon Resource Name (ARN) of the Amazon Elastic Kubernetes Service cluster.
-  /// The format for this ARN is:
-  /// arn:<code>aws</code>:eks:<code>region</code>:<code>account-id</code>:cluster/<code>cluster-name</code>.
-  /// For more information about ARNs, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
-  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
-  /// Reference</i> guide.
-  final String eksClusterArn;
-
-  /// The list of namespaces located on your Amazon Elastic Kubernetes Service
-  /// cluster.
-  final List<String> namespaces;
-
-  EksSource({
-    required this.eksClusterArn,
-    required this.namespaces,
-  });
-
-  factory EksSource.fromJson(Map<String, dynamic> json) {
-    return EksSource(
-      eksClusterArn: (json['eksClusterArn'] as String?) ?? '',
-      namespaces: ((json['namespaces'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eksClusterArn = this.eksClusterArn;
-    final namespaces = this.namespaces;
-    return {
-      'eksClusterArn': eksClusterArn,
-      'namespaces': namespaces,
-    };
-  }
-}
-
-/// The input source of the namespace that is located on your Amazon Elastic
-/// Kubernetes Service cluster.
-class EksSourceClusterNamespace {
-  /// Amazon Resource Name (ARN) of the Amazon Elastic Kubernetes Service cluster.
-  /// The format for this ARN is:
-  /// arn:<code>aws</code>:eks:<code>region</code>:<code>account-id</code>:cluster/<code>cluster-name</code>.
-  /// For more information about ARNs, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
-  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
-  /// Reference</i> guide.
-  final String eksClusterArn;
-
-  /// Name of the namespace that is located on your Amazon Elastic Kubernetes
-  /// Service cluster.
-  final String namespace;
-
-  EksSourceClusterNamespace({
-    required this.eksClusterArn,
-    required this.namespace,
-  });
-
-  factory EksSourceClusterNamespace.fromJson(Map<String, dynamic> json) {
-    return EksSourceClusterNamespace(
-      eksClusterArn: (json['eksClusterArn'] as String?) ?? '',
-      namespace: (json['namespace'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eksClusterArn = this.eksClusterArn;
-    final namespace = this.namespace;
-    return {
-      'eksClusterArn': eksClusterArn,
-      'namespace': namespace,
-    };
-  }
-}
-
-class EstimatedCostTier {
-  static const l1 = EstimatedCostTier._('L1');
-  static const l2 = EstimatedCostTier._('L2');
-  static const l3 = EstimatedCostTier._('L3');
-  static const l4 = EstimatedCostTier._('L4');
-
-  final String value;
-
-  const EstimatedCostTier._(this.value);
-
-  static const values = [l1, l2, l3, l4];
-
-  static EstimatedCostTier fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EstimatedCostTier._(value));
-
-  @override
-  bool operator ==(other) => other is EstimatedCostTier && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Indicates an event you would like to subscribe and get notification for.
-/// Currently, Resilience Hub supports notifications only for <b>Drift
-/// detected</b> and <b>Scheduled assessment failure</b> events.
-class EventSubscription {
-  /// The type of event you would like to subscribe and get notification for.
-  /// Currently, Resilience Hub supports notifications only for <b>Drift
-  /// detected</b> (<code>DriftDetected</code>) and <b>Scheduled assessment
-  /// failure</b> (<code>ScheduledAssessmentFailure</code>) events.
-  final EventType eventType;
-
-  /// Unique name to identify an event subscription.
-  final String name;
-
-  /// Amazon Resource Name (ARN) of the Amazon Simple Notification Service topic.
-  /// The format for this ARN is:
-  /// <code>arn:partition:sns:region:account:topic-name</code>. For more
-  /// information about ARNs, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
-  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
-  /// Reference</i> guide.
-  final String? snsTopicArn;
-
-  EventSubscription({
-    required this.eventType,
-    required this.name,
-    this.snsTopicArn,
-  });
-
-  factory EventSubscription.fromJson(Map<String, dynamic> json) {
-    return EventSubscription(
-      eventType: EventType.fromString((json['eventType'] as String?) ?? ''),
-      name: (json['name'] as String?) ?? '',
-      snsTopicArn: json['snsTopicArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eventType = this.eventType;
-    final name = this.name;
-    final snsTopicArn = this.snsTopicArn;
-    return {
-      'eventType': eventType.value,
-      'name': name,
-      if (snsTopicArn != null) 'snsTopicArn': snsTopicArn,
-    };
-  }
-}
-
-class EventType {
-  static const scheduledAssessmentFailure =
-      EventType._('ScheduledAssessmentFailure');
-  static const driftDetected = EventType._('DriftDetected');
-
-  final String value;
-
-  const EventType._(this.value);
-
-  static const values = [scheduledAssessmentFailure, driftDetected];
-
-  static EventType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => EventType._(value));
-
-  @override
-  bool operator ==(other) => other is EventType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ExcludeRecommendationReason {
-  static const alreadyImplemented =
-      ExcludeRecommendationReason._('AlreadyImplemented');
-  static const notRelevant = ExcludeRecommendationReason._('NotRelevant');
-  static const complexityOfImplementation =
-      ExcludeRecommendationReason._('ComplexityOfImplementation');
-
-  final String value;
-
-  const ExcludeRecommendationReason._(this.value);
-
-  static const values = [
-    alreadyImplemented,
-    notRelevant,
-    complexityOfImplementation
-  ];
-
-  static ExcludeRecommendationReason fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ExcludeRecommendationReason._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ExcludeRecommendationReason && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Indicates the accepted grouping recommendation whose implementation failed.
-class FailedGroupingRecommendationEntry {
-  /// Indicates the error that occurred while implementing a grouping
-  /// recommendation.
-  final String errorMessage;
-
-  /// Indicates the identifier of the grouping recommendation.
-  final String groupingRecommendationId;
-
-  FailedGroupingRecommendationEntry({
-    required this.errorMessage,
-    required this.groupingRecommendationId,
-  });
-
-  factory FailedGroupingRecommendationEntry.fromJson(
-      Map<String, dynamic> json) {
-    return FailedGroupingRecommendationEntry(
-      errorMessage: (json['errorMessage'] as String?) ?? '',
-      groupingRecommendationId:
-          (json['groupingRecommendationId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorMessage = this.errorMessage;
-    final groupingRecommendationId = this.groupingRecommendationId;
-    return {
-      'errorMessage': errorMessage,
-      'groupingRecommendationId': groupingRecommendationId,
-    };
-  }
-}
-
-/// Defines a failure policy.
-class FailurePolicy {
-  /// Recovery Point Objective (RPO) in seconds.
-  final int rpoInSecs;
-
-  /// Recovery Time Objective (RTO) in seconds.
-  final int rtoInSecs;
-
-  FailurePolicy({
-    required this.rpoInSecs,
-    required this.rtoInSecs,
-  });
-
-  factory FailurePolicy.fromJson(Map<String, dynamic> json) {
-    return FailurePolicy(
-      rpoInSecs: (json['rpoInSecs'] as int?) ?? 0,
-      rtoInSecs: (json['rtoInSecs'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final rpoInSecs = this.rpoInSecs;
-    final rtoInSecs = this.rtoInSecs;
-    return {
-      'rpoInSecs': rpoInSecs,
-      'rtoInSecs': rtoInSecs,
-    };
-  }
-}
-
-/// Creates a new recommended Application Component (AppComponent).
-class GroupingAppComponent {
-  /// Indicates the identifier of an AppComponent.
-  final String appComponentId;
-
-  /// Indicates the name of an AppComponent.
-  final String appComponentName;
-
-  /// Indicates the type of an AppComponent.
-  final String appComponentType;
-
-  GroupingAppComponent({
-    required this.appComponentId,
-    required this.appComponentName,
-    required this.appComponentType,
-  });
-
-  factory GroupingAppComponent.fromJson(Map<String, dynamic> json) {
-    return GroupingAppComponent(
-      appComponentId: (json['appComponentId'] as String?) ?? '',
-      appComponentName: (json['appComponentName'] as String?) ?? '',
-      appComponentType: (json['appComponentType'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final appComponentId = this.appComponentId;
-    final appComponentName = this.appComponentName;
-    final appComponentType = this.appComponentType;
-    return {
-      'appComponentId': appComponentId,
-      'appComponentName': appComponentName,
-      'appComponentType': appComponentType,
-    };
-  }
-}
-
-/// Creates a new grouping recommendation.
-class GroupingRecommendation {
-  /// Indicates the confidence level of Resilience Hub on the grouping
-  /// recommendation.
-  final GroupingRecommendationConfidenceLevel confidenceLevel;
-
-  /// Indicates the creation time of the grouping recommendation.
-  final DateTime creationTime;
-
-  /// Indicates the name of the recommended Application Component (AppComponent).
-  final GroupingAppComponent groupingAppComponent;
-
-  /// Indicates all the reasons available for rejecting a grouping recommendation.
-  final String groupingRecommendationId;
-
-  /// Indicates all the reasons available for rejecting a grouping recommendation.
-  final List<String> recommendationReasons;
-
-  /// Indicates the resources that are grouped in a recommended AppComponent.
-  final List<GroupingResource> resources;
-
-  /// Indicates the confidence level of the grouping recommendation.
-  final double score;
-
-  /// Indicates the status of grouping resources into AppComponents.
-  final GroupingRecommendationStatusType status;
-
-  /// Indicates the reason you had selected while rejecting a grouping
-  /// recommendation.
-  final GroupingRecommendationRejectionReason? rejectionReason;
-
-  GroupingRecommendation({
-    required this.confidenceLevel,
-    required this.creationTime,
-    required this.groupingAppComponent,
-    required this.groupingRecommendationId,
-    required this.recommendationReasons,
-    required this.resources,
-    required this.score,
-    required this.status,
-    this.rejectionReason,
-  });
-
-  factory GroupingRecommendation.fromJson(Map<String, dynamic> json) {
-    return GroupingRecommendation(
-      confidenceLevel: GroupingRecommendationConfidenceLevel.fromString(
-          (json['confidenceLevel'] as String?) ?? ''),
-      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
-      groupingAppComponent: GroupingAppComponent.fromJson(
-          (json['groupingAppComponent'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      groupingRecommendationId:
-          (json['groupingRecommendationId'] as String?) ?? '',
-      recommendationReasons:
-          ((json['recommendationReasons'] as List?) ?? const [])
-              .nonNulls
-              .map((e) => e as String)
-              .toList(),
-      resources: ((json['resources'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => GroupingResource.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      score: (json['score'] as double?) ?? 0,
-      status: GroupingRecommendationStatusType.fromString(
-          (json['status'] as String?) ?? ''),
-      rejectionReason: (json['rejectionReason'] as String?)
-          ?.let(GroupingRecommendationRejectionReason.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final confidenceLevel = this.confidenceLevel;
-    final creationTime = this.creationTime;
-    final groupingAppComponent = this.groupingAppComponent;
-    final groupingRecommendationId = this.groupingRecommendationId;
-    final recommendationReasons = this.recommendationReasons;
-    final resources = this.resources;
-    final score = this.score;
-    final status = this.status;
-    final rejectionReason = this.rejectionReason;
-    return {
-      'confidenceLevel': confidenceLevel.value,
-      'creationTime': unixTimestampToJson(creationTime),
-      'groupingAppComponent': groupingAppComponent,
-      'groupingRecommendationId': groupingRecommendationId,
-      'recommendationReasons': recommendationReasons,
-      'resources': resources,
-      'score': score,
-      'status': status.value,
-      if (rejectionReason != null) 'rejectionReason': rejectionReason.value,
-    };
-  }
-}
-
-class GroupingRecommendationConfidenceLevel {
-  static const high = GroupingRecommendationConfidenceLevel._('High');
-  static const medium = GroupingRecommendationConfidenceLevel._('Medium');
-
-  final String value;
-
-  const GroupingRecommendationConfidenceLevel._(this.value);
-
-  static const values = [high, medium];
-
-  static GroupingRecommendationConfidenceLevel fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => GroupingRecommendationConfidenceLevel._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is GroupingRecommendationConfidenceLevel && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class GroupingRecommendationRejectionReason {
-  static const distinctBusinessPurpose =
-      GroupingRecommendationRejectionReason._('DistinctBusinessPurpose');
-  static const separateDataConcern =
-      GroupingRecommendationRejectionReason._('SeparateDataConcern');
-  static const distinctUserGroupHandling =
-      GroupingRecommendationRejectionReason._('DistinctUserGroupHandling');
-  static const other = GroupingRecommendationRejectionReason._('Other');
-
-  final String value;
-
-  const GroupingRecommendationRejectionReason._(this.value);
-
-  static const values = [
-    distinctBusinessPurpose,
-    separateDataConcern,
-    distinctUserGroupHandling,
-    other
-  ];
-
-  static GroupingRecommendationRejectionReason fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => GroupingRecommendationRejectionReason._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is GroupingRecommendationRejectionReason && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class GroupingRecommendationStatusType {
-  static const accepted = GroupingRecommendationStatusType._('Accepted');
-  static const rejected = GroupingRecommendationStatusType._('Rejected');
-  static const pendingDecision =
-      GroupingRecommendationStatusType._('PendingDecision');
-
-  final String value;
-
-  const GroupingRecommendationStatusType._(this.value);
-
-  static const values = [accepted, rejected, pendingDecision];
-
-  static GroupingRecommendationStatusType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => GroupingRecommendationStatusType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is GroupingRecommendationStatusType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Indicates the resource that will be grouped in the recommended Application
-/// Component (AppComponent).
-class GroupingResource {
-  /// Indicates the logical identifier of the resource.
-  final LogicalResourceId logicalResourceId;
-
-  /// Indicates the physical identifier of the resource.
-  final PhysicalResourceId physicalResourceId;
-
-  /// Indicates the resource name.
-  final String resourceName;
-
-  /// Indicates the resource type.
-  final String resourceType;
-
-  /// Indicates the identifier of the source AppComponents in which the resources
-  /// were previously grouped into.
-  final List<String> sourceAppComponentIds;
-
-  GroupingResource({
-    required this.logicalResourceId,
-    required this.physicalResourceId,
-    required this.resourceName,
-    required this.resourceType,
-    required this.sourceAppComponentIds,
-  });
-
-  factory GroupingResource.fromJson(Map<String, dynamic> json) {
-    return GroupingResource(
-      logicalResourceId: LogicalResourceId.fromJson(
-          (json['logicalResourceId'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      physicalResourceId: PhysicalResourceId.fromJson(
-          (json['physicalResourceId'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      resourceName: (json['resourceName'] as String?) ?? '',
-      resourceType: (json['resourceType'] as String?) ?? '',
-      sourceAppComponentIds:
-          ((json['sourceAppComponentIds'] as List?) ?? const [])
-              .nonNulls
-              .map((e) => e as String)
-              .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final logicalResourceId = this.logicalResourceId;
-    final physicalResourceId = this.physicalResourceId;
-    final resourceName = this.resourceName;
-    final resourceType = this.resourceType;
-    final sourceAppComponentIds = this.sourceAppComponentIds;
-    return {
-      'logicalResourceId': logicalResourceId,
-      'physicalResourceId': physicalResourceId,
-      'resourceName': resourceName,
-      'resourceType': resourceType,
-      'sourceAppComponentIds': sourceAppComponentIds,
-    };
-  }
-}
-
-class HaArchitecture {
-  static const multiSite = HaArchitecture._('MultiSite');
-  static const warmStandby = HaArchitecture._('WarmStandby');
-  static const pilotLight = HaArchitecture._('PilotLight');
-  static const backupAndRestore = HaArchitecture._('BackupAndRestore');
-  static const noRecoveryPlan = HaArchitecture._('NoRecoveryPlan');
-
-  final String value;
-
-  const HaArchitecture._(this.value);
-
-  static const values = [
-    multiSite,
-    warmStandby,
-    pilotLight,
-    backupAndRestore,
-    noRecoveryPlan
-  ];
-
-  static HaArchitecture fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => HaArchitecture._(value));
-
-  @override
-  bool operator ==(other) => other is HaArchitecture && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class ImportResourcesToDraftAppVersionResponse {
@@ -7617,6 +5256,38 @@ class ListAppInputSourcesResponse {
   }
 }
 
+class ListAppsResponse {
+  /// Summaries for the Resilience Hub application.
+  final List<AppSummary> appSummaries;
+
+  /// Token for the next set of results, or null if there are no more results.
+  final String? nextToken;
+
+  ListAppsResponse({
+    required this.appSummaries,
+    this.nextToken,
+  });
+
+  factory ListAppsResponse.fromJson(Map<String, dynamic> json) {
+    return ListAppsResponse(
+      appSummaries: ((json['appSummaries'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => AppSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appSummaries = this.appSummaries;
+    final nextToken = this.nextToken;
+    return {
+      'appSummaries': appSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 class ListAppVersionAppComponentsResponse {
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
   /// this ARN is:
@@ -7779,33 +5450,33 @@ class ListAppVersionsResponse {
   }
 }
 
-class ListAppsResponse {
-  /// Summaries for the Resilience Hub application.
-  final List<AppSummary> appSummaries;
+class ListMetricsResponse {
+  /// Specifies all the list of metric values for each row of metrics.
+  final List<List<String>> rows;
 
   /// Token for the next set of results, or null if there are no more results.
   final String? nextToken;
 
-  ListAppsResponse({
-    required this.appSummaries,
+  ListMetricsResponse({
+    required this.rows,
     this.nextToken,
   });
 
-  factory ListAppsResponse.fromJson(Map<String, dynamic> json) {
-    return ListAppsResponse(
-      appSummaries: ((json['appSummaries'] as List?) ?? const [])
+  factory ListMetricsResponse.fromJson(Map<String, dynamic> json) {
+    return ListMetricsResponse(
+      rows: ((json['rows'] as List?) ?? const [])
           .nonNulls
-          .map((e) => AppSummary.fromJson(e as Map<String, dynamic>))
+          .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
           .toList(),
       nextToken: json['nextToken'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final appSummaries = this.appSummaries;
+    final rows = this.rows;
     final nextToken = this.nextToken;
     return {
-      'appSummaries': appSummaries,
+      'rows': rows,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
@@ -8076,152 +5747,663 @@ class ListUnsupportedAppVersionResourcesResponse {
   }
 }
 
-/// Defines a logical resource identifier.
-class LogicalResourceId {
-  /// Identifier of the resource.
-  final String identifier;
+class PublishAppVersionResponse {
+  /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
+  /// this ARN is:
+  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app/<code>app-id</code>.
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
+  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i> guide.
+  final String appArn;
 
-  /// Name of the Amazon Elastic Kubernetes Service cluster and namespace this
-  /// resource belongs to.
-  /// <note>
-  /// This parameter accepts values in "eks-cluster/namespace" format.
-  /// </note>
-  final String? eksSourceName;
+  /// The version of the application.
+  final String? appVersion;
 
-  /// The name of the CloudFormation stack this resource belongs to.
-  final String? logicalStackName;
+  /// Identifier of the application version.
+  final int? identifier;
 
-  /// The name of the resource group that this resource belongs to.
-  final String? resourceGroupName;
+  /// Name of the application version.
+  final String? versionName;
 
-  /// The name of the Terraform S3 state file this resource belongs to.
-  final String? terraformSourceName;
-
-  LogicalResourceId({
-    required this.identifier,
-    this.eksSourceName,
-    this.logicalStackName,
-    this.resourceGroupName,
-    this.terraformSourceName,
+  PublishAppVersionResponse({
+    required this.appArn,
+    this.appVersion,
+    this.identifier,
+    this.versionName,
   });
 
-  factory LogicalResourceId.fromJson(Map<String, dynamic> json) {
-    return LogicalResourceId(
-      identifier: (json['identifier'] as String?) ?? '',
-      eksSourceName: json['eksSourceName'] as String?,
-      logicalStackName: json['logicalStackName'] as String?,
-      resourceGroupName: json['resourceGroupName'] as String?,
-      terraformSourceName: json['terraformSourceName'] as String?,
+  factory PublishAppVersionResponse.fromJson(Map<String, dynamic> json) {
+    return PublishAppVersionResponse(
+      appArn: (json['appArn'] as String?) ?? '',
+      appVersion: json['appVersion'] as String?,
+      identifier: json['identifier'] as int?,
+      versionName: json['versionName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final appArn = this.appArn;
+    final appVersion = this.appVersion;
     final identifier = this.identifier;
-    final eksSourceName = this.eksSourceName;
-    final logicalStackName = this.logicalStackName;
-    final resourceGroupName = this.resourceGroupName;
-    final terraformSourceName = this.terraformSourceName;
+    final versionName = this.versionName;
     return {
-      'identifier': identifier,
-      if (eksSourceName != null) 'eksSourceName': eksSourceName,
-      if (logicalStackName != null) 'logicalStackName': logicalStackName,
-      if (resourceGroupName != null) 'resourceGroupName': resourceGroupName,
-      if (terraformSourceName != null)
-        'terraformSourceName': terraformSourceName,
+      'appArn': appArn,
+      if (appVersion != null) 'appVersion': appVersion,
+      if (identifier != null) 'identifier': identifier,
+      if (versionName != null) 'versionName': versionName,
     };
   }
 }
 
-/// Defines the roles and credentials that Resilience Hub would use while
-/// creating the application, importing its resources, and running an
-/// assessment.
-class PermissionModel {
-  /// Defines how Resilience Hub scans your resources. It can scan for the
-  /// resources by using a pre-existing role in your Amazon Web Services account,
-  /// or by using the credentials of the current IAM user.
-  final PermissionModelType type;
+class PutDraftAppVersionTemplateResponse {
+  /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
+  /// this ARN is:
+  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app/<code>app-id</code>.
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
+  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i> guide.
+  final String? appArn;
 
-  /// Defines a list of role Amazon Resource Names (ARNs) to be used in other
-  /// accounts. These ARNs are used for querying purposes while importing
-  /// resources and assessing your application.
-  /// <note>
-  /// <ul>
-  /// <li>
-  /// These ARNs are required only when your resources are in other accounts and
-  /// you have different role name in these accounts. Else, the invoker role name
-  /// will be used in the other accounts.
-  /// </li>
-  /// <li>
-  /// These roles must have a trust policy with <code>iam:AssumeRole</code>
-  /// permission to the invoker role in the primary account.
-  /// </li>
-  /// </ul> </note>
-  final List<String>? crossAccountRoleArns;
+  /// The version of the application.
+  final String? appVersion;
 
-  /// Existing Amazon Web Services IAM role name in the primary Amazon Web
-  /// Services account that will be assumed by Resilience Hub Service Principle to
-  /// obtain a read-only access to your application resources while running an
-  /// assessment.
-  /// <note>
-  /// <ul>
-  /// <li>
-  /// You must have <code>iam:passRole</code> permission for this role while
-  /// creating or updating the application.
-  /// </li>
-  /// <li>
-  /// Currently, <code>invokerRoleName</code> accepts only
-  /// <code>[A-Za-z0-9_+=,.@-]</code> characters.
-  /// </li>
-  /// </ul> </note>
-  final String? invokerRoleName;
-
-  PermissionModel({
-    required this.type,
-    this.crossAccountRoleArns,
-    this.invokerRoleName,
+  PutDraftAppVersionTemplateResponse({
+    this.appArn,
+    this.appVersion,
   });
 
-  factory PermissionModel.fromJson(Map<String, dynamic> json) {
-    return PermissionModel(
-      type: PermissionModelType.fromString((json['type'] as String?) ?? ''),
-      crossAccountRoleArns: (json['crossAccountRoleArns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      invokerRoleName: json['invokerRoleName'] as String?,
+  factory PutDraftAppVersionTemplateResponse.fromJson(
+      Map<String, dynamic> json) {
+    return PutDraftAppVersionTemplateResponse(
+      appArn: json['appArn'] as String?,
+      appVersion: json['appVersion'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final type = this.type;
-    final crossAccountRoleArns = this.crossAccountRoleArns;
-    final invokerRoleName = this.invokerRoleName;
+    final appArn = this.appArn;
+    final appVersion = this.appVersion;
     return {
-      'type': type.value,
-      if (crossAccountRoleArns != null)
-        'crossAccountRoleArns': crossAccountRoleArns,
-      if (invokerRoleName != null) 'invokerRoleName': invokerRoleName,
+      if (appArn != null) 'appArn': appArn,
+      if (appVersion != null) 'appVersion': appVersion,
     };
   }
 }
 
-class PermissionModelType {
-  static const legacyIAMUser = PermissionModelType._('LegacyIAMUser');
-  static const roleBased = PermissionModelType._('RoleBased');
+class RejectResourceGroupingRecommendationsResponse {
+  /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
+  /// this ARN is:
+  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app/<code>app-id</code>.
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
+  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i> guide.
+  final String appArn;
+
+  /// List of resource grouping recommendations that failed to get excluded in
+  /// your application.
+  final List<FailedGroupingRecommendationEntry> failedEntries;
+
+  RejectResourceGroupingRecommendationsResponse({
+    required this.appArn,
+    required this.failedEntries,
+  });
+
+  factory RejectResourceGroupingRecommendationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return RejectResourceGroupingRecommendationsResponse(
+      appArn: (json['appArn'] as String?) ?? '',
+      failedEntries: ((json['failedEntries'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => FailedGroupingRecommendationEntry.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appArn = this.appArn;
+    final failedEntries = this.failedEntries;
+    return {
+      'appArn': appArn,
+      'failedEntries': failedEntries,
+    };
+  }
+}
+
+class RemoveDraftAppVersionResourceMappingsResponse {
+  /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
+  /// this ARN is:
+  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app/<code>app-id</code>.
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
+  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i> guide.
+  final String? appArn;
+
+  /// The version of the application.
+  final String? appVersion;
+
+  RemoveDraftAppVersionResourceMappingsResponse({
+    this.appArn,
+    this.appVersion,
+  });
+
+  factory RemoveDraftAppVersionResourceMappingsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return RemoveDraftAppVersionResourceMappingsResponse(
+      appArn: json['appArn'] as String?,
+      appVersion: json['appVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appArn = this.appArn;
+    final appVersion = this.appVersion;
+    return {
+      if (appArn != null) 'appArn': appArn,
+      if (appVersion != null) 'appVersion': appVersion,
+    };
+  }
+}
+
+class ResolveAppVersionResourcesResponse {
+  /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
+  /// this ARN is:
+  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app/<code>app-id</code>.
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
+  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i> guide.
+  final String appArn;
+
+  /// The version of the application.
+  final String appVersion;
+
+  /// The identifier for a specific resolution.
+  final String resolutionId;
+
+  /// Status of the action.
+  final ResourceResolutionStatusType status;
+
+  ResolveAppVersionResourcesResponse({
+    required this.appArn,
+    required this.appVersion,
+    required this.resolutionId,
+    required this.status,
+  });
+
+  factory ResolveAppVersionResourcesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ResolveAppVersionResourcesResponse(
+      appArn: (json['appArn'] as String?) ?? '',
+      appVersion: (json['appVersion'] as String?) ?? '',
+      resolutionId: (json['resolutionId'] as String?) ?? '',
+      status: ResourceResolutionStatusType.fromString(
+          (json['status'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appArn = this.appArn;
+    final appVersion = this.appVersion;
+    final resolutionId = this.resolutionId;
+    final status = this.status;
+    return {
+      'appArn': appArn,
+      'appVersion': appVersion,
+      'resolutionId': resolutionId,
+      'status': status.value,
+    };
+  }
+}
+
+class StartAppAssessmentResponse {
+  /// The assessment created.
+  final AppAssessment assessment;
+
+  StartAppAssessmentResponse({
+    required this.assessment,
+  });
+
+  factory StartAppAssessmentResponse.fromJson(Map<String, dynamic> json) {
+    return StartAppAssessmentResponse(
+      assessment: AppAssessment.fromJson(
+          (json['assessment'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assessment = this.assessment;
+    return {
+      'assessment': assessment,
+    };
+  }
+}
+
+class StartMetricsExportResponse {
+  /// Identifier of the metrics export task.
+  final String metricsExportId;
+
+  /// Indicates the status of the metrics export task.
+  final MetricsExportStatusType status;
+
+  StartMetricsExportResponse({
+    required this.metricsExportId,
+    required this.status,
+  });
+
+  factory StartMetricsExportResponse.fromJson(Map<String, dynamic> json) {
+    return StartMetricsExportResponse(
+      metricsExportId: (json['metricsExportId'] as String?) ?? '',
+      status:
+          MetricsExportStatusType.fromString((json['status'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricsExportId = this.metricsExportId;
+    final status = this.status;
+    return {
+      'metricsExportId': metricsExportId,
+      'status': status.value,
+    };
+  }
+}
+
+class StartResourceGroupingRecommendationTaskResponse {
+  /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
+  /// this ARN is:
+  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app/<code>app-id</code>.
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
+  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i> guide.
+  final String appArn;
+
+  /// Identifier of the grouping recommendation task.
+  final String groupingId;
+
+  /// Status of the action.
+  final ResourcesGroupingRecGenStatusType status;
+
+  /// Error that occurred while executing a grouping recommendation task.
+  final String? errorMessage;
+
+  StartResourceGroupingRecommendationTaskResponse({
+    required this.appArn,
+    required this.groupingId,
+    required this.status,
+    this.errorMessage,
+  });
+
+  factory StartResourceGroupingRecommendationTaskResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartResourceGroupingRecommendationTaskResponse(
+      appArn: (json['appArn'] as String?) ?? '',
+      groupingId: (json['groupingId'] as String?) ?? '',
+      status: ResourcesGroupingRecGenStatusType.fromString(
+          (json['status'] as String?) ?? ''),
+      errorMessage: json['errorMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appArn = this.appArn;
+    final groupingId = this.groupingId;
+    final status = this.status;
+    final errorMessage = this.errorMessage;
+    return {
+      'appArn': appArn,
+      'groupingId': groupingId,
+      'status': status.value,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateAppResponse {
+  /// The specified application, returned as an object with details including
+  /// compliance status, creation time, description, resiliency score, and more.
+  final App app;
+
+  UpdateAppResponse({
+    required this.app,
+  });
+
+  factory UpdateAppResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateAppResponse(
+      app: App.fromJson(
+          (json['app'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final app = this.app;
+    return {
+      'app': app,
+    };
+  }
+}
+
+class UpdateAppVersionResponse {
+  /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
+  /// this ARN is:
+  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app/<code>app-id</code>.
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
+  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i> guide.
+  final String appArn;
+
+  /// Resilience Hub application version.
+  final String appVersion;
+
+  /// Additional configuration parameters for an Resilience Hub application. If
+  /// you want to implement <code>additionalInfo</code> through the Resilience Hub
+  /// console rather than using an API call, see <a
+  /// href="https://docs.aws.amazon.com/resilience-hub/latest/userguide/app-config-param.html">Configure
+  /// the application configuration parameters</a>.
+  /// <note>
+  /// Currently, this parameter supports only failover region and account.
+  /// </note>
+  final Map<String, List<String>>? additionalInfo;
+
+  UpdateAppVersionResponse({
+    required this.appArn,
+    required this.appVersion,
+    this.additionalInfo,
+  });
+
+  factory UpdateAppVersionResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateAppVersionResponse(
+      appArn: (json['appArn'] as String?) ?? '',
+      appVersion: (json['appVersion'] as String?) ?? '',
+      additionalInfo: (json['additionalInfo'] as Map<String, dynamic>?)?.map((k,
+              e) =>
+          MapEntry(k, (e as List).nonNulls.map((e) => e as String).toList())),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appArn = this.appArn;
+    final appVersion = this.appVersion;
+    final additionalInfo = this.additionalInfo;
+    return {
+      'appArn': appArn,
+      'appVersion': appVersion,
+      if (additionalInfo != null) 'additionalInfo': additionalInfo,
+    };
+  }
+}
+
+class UpdateAppVersionAppComponentResponse {
+  /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
+  /// this ARN is:
+  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app/<code>app-id</code>.
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
+  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i> guide.
+  final String appArn;
+
+  /// Resilience Hub application version.
+  final String appVersion;
+
+  /// List of Application Components that belong to this resource.
+  final AppComponent? appComponent;
+
+  UpdateAppVersionAppComponentResponse({
+    required this.appArn,
+    required this.appVersion,
+    this.appComponent,
+  });
+
+  factory UpdateAppVersionAppComponentResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateAppVersionAppComponentResponse(
+      appArn: (json['appArn'] as String?) ?? '',
+      appVersion: (json['appVersion'] as String?) ?? '',
+      appComponent: json['appComponent'] != null
+          ? AppComponent.fromJson(json['appComponent'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appArn = this.appArn;
+    final appVersion = this.appVersion;
+    final appComponent = this.appComponent;
+    return {
+      'appArn': appArn,
+      'appVersion': appVersion,
+      if (appComponent != null) 'appComponent': appComponent,
+    };
+  }
+}
+
+class UpdateAppVersionResourceResponse {
+  /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
+  /// this ARN is:
+  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app/<code>app-id</code>.
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
+  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i> guide.
+  final String appArn;
+
+  /// Resilience Hub application version.
+  final String appVersion;
+
+  /// Defines a physical resource. A physical resource is a resource that exists
+  /// in your account. It can be identified using an Amazon Resource Name (ARN) or
+  /// a Resilience Hub-native identifier.
+  final PhysicalResource? physicalResource;
+
+  UpdateAppVersionResourceResponse({
+    required this.appArn,
+    required this.appVersion,
+    this.physicalResource,
+  });
+
+  factory UpdateAppVersionResourceResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateAppVersionResourceResponse(
+      appArn: (json['appArn'] as String?) ?? '',
+      appVersion: (json['appVersion'] as String?) ?? '',
+      physicalResource: json['physicalResource'] != null
+          ? PhysicalResource.fromJson(
+              json['physicalResource'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appArn = this.appArn;
+    final appVersion = this.appVersion;
+    final physicalResource = this.physicalResource;
+    return {
+      'appArn': appArn,
+      'appVersion': appVersion,
+      if (physicalResource != null) 'physicalResource': physicalResource,
+    };
+  }
+}
+
+class UpdateResiliencyPolicyResponse {
+  /// The resiliency policy that was updated, including the recovery time
+  /// objective (RTO) and recovery point objective (RPO) in seconds.
+  final ResiliencyPolicy policy;
+
+  UpdateResiliencyPolicyResponse({
+    required this.policy,
+  });
+
+  factory UpdateResiliencyPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateResiliencyPolicyResponse(
+      policy: ResiliencyPolicy.fromJson(
+          (json['policy'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policy = this.policy;
+    return {
+      'policy': policy,
+    };
+  }
+}
+
+/// Defines a resiliency policy.
+/// <note>
+/// Resilience Hub allows you to provide a value of zero for
+/// <code>rtoInSecs</code> and <code>rpoInSecs</code> of your resiliency policy.
+/// But, while assessing your application, the lowest possible assessment result
+/// is near zero. Hence, if you provide value zero for <code>rtoInSecs</code>
+/// and <code>rpoInSecs</code>, the estimated workload RTO and estimated
+/// workload RPO result will be near zero and the <b>Compliance status</b> for
+/// your application will be set to <b>Policy breached</b>.
+/// </note>
+class ResiliencyPolicy {
+  /// Date and time when the resiliency policy was created.
+  final DateTime? creationTime;
+
+  /// Specifies a high-level geographical location constraint for where your
+  /// resilience policy data can be stored.
+  final DataLocationConstraint? dataLocationConstraint;
+
+  /// Specifies the estimated cost tier of the resiliency policy.
+  final EstimatedCostTier? estimatedCostTier;
+
+  /// The resiliency policy.
+  final Map<DisruptionType, FailurePolicy>? policy;
+
+  /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN
+  /// is:
+  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:resiliency-policy/<code>policy-id</code>.
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
+  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i> guide.
+  final String? policyArn;
+
+  /// Description of the resiliency policy.
+  final String? policyDescription;
+
+  /// The name of the policy
+  final String? policyName;
+
+  /// Tags assigned to the resource. A tag is a label that you assign to an Amazon
+  /// Web Services resource. Each tag consists of a key/value pair.
+  final Map<String, String>? tags;
+
+  /// The tier for this resiliency policy, ranging from the highest severity
+  /// (<code>MissionCritical</code>) to lowest (<code>NonCritical</code>).
+  final ResiliencyPolicyTier? tier;
+
+  ResiliencyPolicy({
+    this.creationTime,
+    this.dataLocationConstraint,
+    this.estimatedCostTier,
+    this.policy,
+    this.policyArn,
+    this.policyDescription,
+    this.policyName,
+    this.tags,
+    this.tier,
+  });
+
+  factory ResiliencyPolicy.fromJson(Map<String, dynamic> json) {
+    return ResiliencyPolicy(
+      creationTime: timeStampFromJson(json['creationTime']),
+      dataLocationConstraint: (json['dataLocationConstraint'] as String?)
+          ?.let(DataLocationConstraint.fromString),
+      estimatedCostTier: (json['estimatedCostTier'] as String?)
+          ?.let(EstimatedCostTier.fromString),
+      policy: (json['policy'] as Map<String, dynamic>?)?.map((k, e) => MapEntry(
+          DisruptionType.fromString(k),
+          FailurePolicy.fromJson(e as Map<String, dynamic>))),
+      policyArn: json['policyArn'] as String?,
+      policyDescription: json['policyDescription'] as String?,
+      policyName: json['policyName'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      tier: (json['tier'] as String?)?.let(ResiliencyPolicyTier.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final dataLocationConstraint = this.dataLocationConstraint;
+    final estimatedCostTier = this.estimatedCostTier;
+    final policy = this.policy;
+    final policyArn = this.policyArn;
+    final policyDescription = this.policyDescription;
+    final policyName = this.policyName;
+    final tags = this.tags;
+    final tier = this.tier;
+    return {
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (dataLocationConstraint != null)
+        'dataLocationConstraint': dataLocationConstraint.value,
+      if (estimatedCostTier != null)
+        'estimatedCostTier': estimatedCostTier.value,
+      if (policy != null) 'policy': policy.map((k, e) => MapEntry(k.value, e)),
+      if (policyArn != null) 'policyArn': policyArn,
+      if (policyDescription != null) 'policyDescription': policyDescription,
+      if (policyName != null) 'policyName': policyName,
+      if (tags != null) 'tags': tags,
+      if (tier != null) 'tier': tier.value,
+    };
+  }
+}
+
+class DataLocationConstraint {
+  static const anyLocation = DataLocationConstraint._('AnyLocation');
+  static const sameContinent = DataLocationConstraint._('SameContinent');
+  static const sameCountry = DataLocationConstraint._('SameCountry');
 
   final String value;
 
-  const PermissionModelType._(this.value);
+  const DataLocationConstraint._(this.value);
 
-  static const values = [legacyIAMUser, roleBased];
+  static const values = [anyLocation, sameContinent, sameCountry];
 
-  static PermissionModelType fromString(String value) =>
+  static DataLocationConstraint fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => PermissionModelType._(value));
+          orElse: () => DataLocationConstraint._(value));
 
   @override
   bool operator ==(other) =>
-      other is PermissionModelType && other.value == value;
+      other is DataLocationConstraint && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -8230,29 +6412,122 @@ class PermissionModelType {
   String toString() => value;
 }
 
-class PhysicalIdentifierType {
-  static const arn = PhysicalIdentifierType._('Arn');
-  static const native = PhysicalIdentifierType._('Native');
+class ResiliencyPolicyTier {
+  static const missionCritical = ResiliencyPolicyTier._('MissionCritical');
+  static const critical = ResiliencyPolicyTier._('Critical');
+  static const important = ResiliencyPolicyTier._('Important');
+  static const coreServices = ResiliencyPolicyTier._('CoreServices');
+  static const nonCritical = ResiliencyPolicyTier._('NonCritical');
+  static const notApplicable = ResiliencyPolicyTier._('NotApplicable');
 
   final String value;
 
-  const PhysicalIdentifierType._(this.value);
+  const ResiliencyPolicyTier._(this.value);
 
-  static const values = [arn, native];
+  static const values = [
+    missionCritical,
+    critical,
+    important,
+    coreServices,
+    nonCritical,
+    notApplicable
+  ];
 
-  static PhysicalIdentifierType fromString(String value) =>
+  static ResiliencyPolicyTier fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => PhysicalIdentifierType._(value));
+          orElse: () => ResiliencyPolicyTier._(value));
 
   @override
   bool operator ==(other) =>
-      other is PhysicalIdentifierType && other.value == value;
+      other is ResiliencyPolicyTier && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
+}
+
+class EstimatedCostTier {
+  static const l1 = EstimatedCostTier._('L1');
+  static const l2 = EstimatedCostTier._('L2');
+  static const l3 = EstimatedCostTier._('L3');
+  static const l4 = EstimatedCostTier._('L4');
+
+  final String value;
+
+  const EstimatedCostTier._(this.value);
+
+  static const values = [l1, l2, l3, l4];
+
+  static EstimatedCostTier fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EstimatedCostTier._(value));
+
+  @override
+  bool operator ==(other) => other is EstimatedCostTier && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DisruptionType {
+  static const software = DisruptionType._('Software');
+  static const hardware = DisruptionType._('Hardware');
+  static const az = DisruptionType._('AZ');
+  static const region = DisruptionType._('Region');
+
+  final String value;
+
+  const DisruptionType._(this.value);
+
+  static const values = [software, hardware, az, region];
+
+  static DisruptionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DisruptionType._(value));
+
+  @override
+  bool operator ==(other) => other is DisruptionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Defines a failure policy.
+class FailurePolicy {
+  /// Recovery Point Objective (RPO) in seconds.
+  final int rpoInSecs;
+
+  /// Recovery Time Objective (RTO) in seconds.
+  final int rtoInSecs;
+
+  FailurePolicy({
+    required this.rpoInSecs,
+    required this.rtoInSecs,
+  });
+
+  factory FailurePolicy.fromJson(Map<String, dynamic> json) {
+    return FailurePolicy(
+      rpoInSecs: (json['rpoInSecs'] as int?) ?? 0,
+      rtoInSecs: (json['rtoInSecs'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rpoInSecs = this.rpoInSecs;
+    final rtoInSecs = this.rtoInSecs;
+    return {
+      'rpoInSecs': rpoInSecs,
+      'rtoInSecs': rtoInSecs,
+    };
+  }
 }
 
 /// Defines a physical resource. A physical resource is a resource that exists
@@ -8355,6 +6630,62 @@ class PhysicalResource {
       if (parentResourceName != null) 'parentResourceName': parentResourceName,
       if (resourceName != null) 'resourceName': resourceName,
       if (sourceType != null) 'sourceType': sourceType.value,
+    };
+  }
+}
+
+/// Defines a logical resource identifier.
+class LogicalResourceId {
+  /// Identifier of the resource.
+  final String identifier;
+
+  /// Name of the Amazon Elastic Kubernetes Service cluster and namespace this
+  /// resource belongs to.
+  /// <note>
+  /// This parameter accepts values in "eks-cluster/namespace" format.
+  /// </note>
+  final String? eksSourceName;
+
+  /// The name of the CloudFormation stack this resource belongs to.
+  final String? logicalStackName;
+
+  /// The name of the resource group that this resource belongs to.
+  final String? resourceGroupName;
+
+  /// The name of the Terraform S3 state file this resource belongs to.
+  final String? terraformSourceName;
+
+  LogicalResourceId({
+    required this.identifier,
+    this.eksSourceName,
+    this.logicalStackName,
+    this.resourceGroupName,
+    this.terraformSourceName,
+  });
+
+  factory LogicalResourceId.fromJson(Map<String, dynamic> json) {
+    return LogicalResourceId(
+      identifier: (json['identifier'] as String?) ?? '',
+      eksSourceName: json['eksSourceName'] as String?,
+      logicalStackName: json['logicalStackName'] as String?,
+      resourceGroupName: json['resourceGroupName'] as String?,
+      terraformSourceName: json['terraformSourceName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final identifier = this.identifier;
+    final eksSourceName = this.eksSourceName;
+    final logicalStackName = this.logicalStackName;
+    final resourceGroupName = this.resourceGroupName;
+    final terraformSourceName = this.terraformSourceName;
+    return {
+      'identifier': identifier,
+      if (eksSourceName != null) 'eksSourceName': eksSourceName,
+      if (logicalStackName != null) 'logicalStackName': logicalStackName,
+      if (resourceGroupName != null) 'resourceGroupName': resourceGroupName,
+      if (terraformSourceName != null)
+        'terraformSourceName': terraformSourceName,
     };
   }
 }
@@ -8486,7 +6817,117 @@ class PhysicalResourceId {
   }
 }
 
-class PublishAppVersionResponse {
+class ResourceSourceType {
+  static const appTemplate = ResourceSourceType._('AppTemplate');
+  static const discovered = ResourceSourceType._('Discovered');
+
+  final String value;
+
+  const ResourceSourceType._(this.value);
+
+  static const values = [appTemplate, discovered];
+
+  static ResourceSourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceSourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceSourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Defines an Application Component.
+class AppComponent {
+  /// Name of the Application Component.
+  final String name;
+
+  /// The type of Application Component.
+  final String type;
+
+  /// Additional configuration parameters for an Resilience Hub application. If
+  /// you want to implement <code>additionalInfo</code> through the Resilience Hub
+  /// console rather than using an API call, see <a
+  /// href="https://docs.aws.amazon.com/resilience-hub/latest/userguide/app-config-param.html">Configure
+  /// the application configuration parameters</a>.
+  /// <note>
+  /// Currently, this parameter accepts a key-value mapping (in a string format)
+  /// of only one failover region and one associated account.
+  ///
+  /// Key: <code>"failover-regions"</code>
+  ///
+  /// Value: <code>"[{"region":"&lt;REGION&gt;",
+  /// "accounts":[{"id":"&lt;ACCOUNT_ID&gt;"}]}]"</code>
+  /// </note>
+  final Map<String, List<String>>? additionalInfo;
+
+  /// Identifier of the Application Component.
+  final String? id;
+
+  AppComponent({
+    required this.name,
+    required this.type,
+    this.additionalInfo,
+    this.id,
+  });
+
+  factory AppComponent.fromJson(Map<String, dynamic> json) {
+    return AppComponent(
+      name: (json['name'] as String?) ?? '',
+      type: (json['type'] as String?) ?? '',
+      additionalInfo: (json['additionalInfo'] as Map<String, dynamic>?)?.map((k,
+              e) =>
+          MapEntry(k, (e as List).nonNulls.map((e) => e as String).toList())),
+      id: json['id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final type = this.type;
+    final additionalInfo = this.additionalInfo;
+    final id = this.id;
+    return {
+      'name': name,
+      'type': type,
+      if (additionalInfo != null) 'additionalInfo': additionalInfo,
+      if (id != null) 'id': id,
+    };
+  }
+}
+
+class PhysicalIdentifierType {
+  static const arn = PhysicalIdentifierType._('Arn');
+  static const native = PhysicalIdentifierType._('Native');
+
+  final String value;
+
+  const PhysicalIdentifierType._(this.value);
+
+  static const values = [arn, native];
+
+  static PhysicalIdentifierType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PhysicalIdentifierType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PhysicalIdentifierType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Defines an Resilience Hub application.
+class App {
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
   /// this ARN is:
   /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app/<code>app-id</code>.
@@ -8496,46 +6937,543 @@ class PublishAppVersionResponse {
   /// Reference</i> guide.
   final String appArn;
 
-  /// The version of the application.
-  final String? appVersion;
+  /// Date and time when the application was created.
+  final DateTime creationTime;
 
-  /// Identifier of the application version.
-  final int? identifier;
+  /// Name for the application.
+  final String name;
 
-  /// Name of the application version.
-  final String? versionName;
+  /// Assessment execution schedule with 'Daily' or 'Disabled' values.
+  final AppAssessmentScheduleType? assessmentSchedule;
 
-  PublishAppVersionResponse({
+  /// Amazon Resource Name (ARN) of Resource Groups group that is integrated with
+  /// an AppRegistry application. For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
+  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i> guide.
+  final String? awsApplicationArn;
+
+  /// Current status of compliance for the resiliency policy.
+  final AppComplianceStatusType? complianceStatus;
+
+  /// Optional description for an application.
+  final String? description;
+
+  /// Indicates if compliance drifts (deviations) were detected while running an
+  /// assessment for your application.
+  final AppDriftStatusType? driftStatus;
+
+  /// The list of events you would like to subscribe and get notification for.
+  /// Currently, Resilience Hub supports notifications only for <b>Drift
+  /// detected</b> and <b>Scheduled assessment failure</b> events.
+  final List<EventSubscription>? eventSubscriptions;
+
+  /// Date and time the most recent compliance evaluation.
+  final DateTime? lastAppComplianceEvaluationTime;
+
+  /// Indicates the last time that a drift was evaluated.
+  final DateTime? lastDriftEvaluationTime;
+
+  /// Date and time the most recent resiliency score evaluation.
+  final DateTime? lastResiliencyScoreEvaluationTime;
+
+  /// Defines the roles and credentials that Resilience Hub would use while
+  /// creating the application, importing its resources, and running an
+  /// assessment.
+  final PermissionModel? permissionModel;
+
+  /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN
+  /// is:
+  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:resiliency-policy/<code>policy-id</code>.
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
+  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i> guide.
+  final String? policyArn;
+
+  /// Current resiliency score for the application.
+  final double? resiliencyScore;
+
+  /// Recovery Point Objective (RPO) in seconds.
+  final int? rpoInSecs;
+
+  /// Recovery Time Objective (RTO) in seconds.
+  final int? rtoInSecs;
+
+  /// Status of the application.
+  final AppStatusType? status;
+
+  /// Tags assigned to the resource. A tag is a label that you assign to an Amazon
+  /// Web Services resource. Each tag consists of a key/value pair.
+  final Map<String, String>? tags;
+
+  App({
     required this.appArn,
-    this.appVersion,
-    this.identifier,
-    this.versionName,
+    required this.creationTime,
+    required this.name,
+    this.assessmentSchedule,
+    this.awsApplicationArn,
+    this.complianceStatus,
+    this.description,
+    this.driftStatus,
+    this.eventSubscriptions,
+    this.lastAppComplianceEvaluationTime,
+    this.lastDriftEvaluationTime,
+    this.lastResiliencyScoreEvaluationTime,
+    this.permissionModel,
+    this.policyArn,
+    this.resiliencyScore,
+    this.rpoInSecs,
+    this.rtoInSecs,
+    this.status,
+    this.tags,
   });
 
-  factory PublishAppVersionResponse.fromJson(Map<String, dynamic> json) {
-    return PublishAppVersionResponse(
+  factory App.fromJson(Map<String, dynamic> json) {
+    return App(
       appArn: (json['appArn'] as String?) ?? '',
-      appVersion: json['appVersion'] as String?,
-      identifier: json['identifier'] as int?,
-      versionName: json['versionName'] as String?,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      assessmentSchedule: (json['assessmentSchedule'] as String?)
+          ?.let(AppAssessmentScheduleType.fromString),
+      awsApplicationArn: json['awsApplicationArn'] as String?,
+      complianceStatus: (json['complianceStatus'] as String?)
+          ?.let(AppComplianceStatusType.fromString),
+      description: json['description'] as String?,
+      driftStatus:
+          (json['driftStatus'] as String?)?.let(AppDriftStatusType.fromString),
+      eventSubscriptions: (json['eventSubscriptions'] as List?)
+          ?.nonNulls
+          .map((e) => EventSubscription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      lastAppComplianceEvaluationTime:
+          timeStampFromJson(json['lastAppComplianceEvaluationTime']),
+      lastDriftEvaluationTime:
+          timeStampFromJson(json['lastDriftEvaluationTime']),
+      lastResiliencyScoreEvaluationTime:
+          timeStampFromJson(json['lastResiliencyScoreEvaluationTime']),
+      permissionModel: json['permissionModel'] != null
+          ? PermissionModel.fromJson(
+              json['permissionModel'] as Map<String, dynamic>)
+          : null,
+      policyArn: json['policyArn'] as String?,
+      resiliencyScore: json['resiliencyScore'] as double?,
+      rpoInSecs: json['rpoInSecs'] as int?,
+      rtoInSecs: json['rtoInSecs'] as int?,
+      status: (json['status'] as String?)?.let(AppStatusType.fromString),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final appArn = this.appArn;
-    final appVersion = this.appVersion;
-    final identifier = this.identifier;
-    final versionName = this.versionName;
+    final creationTime = this.creationTime;
+    final name = this.name;
+    final assessmentSchedule = this.assessmentSchedule;
+    final awsApplicationArn = this.awsApplicationArn;
+    final complianceStatus = this.complianceStatus;
+    final description = this.description;
+    final driftStatus = this.driftStatus;
+    final eventSubscriptions = this.eventSubscriptions;
+    final lastAppComplianceEvaluationTime =
+        this.lastAppComplianceEvaluationTime;
+    final lastDriftEvaluationTime = this.lastDriftEvaluationTime;
+    final lastResiliencyScoreEvaluationTime =
+        this.lastResiliencyScoreEvaluationTime;
+    final permissionModel = this.permissionModel;
+    final policyArn = this.policyArn;
+    final resiliencyScore = this.resiliencyScore;
+    final rpoInSecs = this.rpoInSecs;
+    final rtoInSecs = this.rtoInSecs;
+    final status = this.status;
+    final tags = this.tags;
     return {
       'appArn': appArn,
-      if (appVersion != null) 'appVersion': appVersion,
-      if (identifier != null) 'identifier': identifier,
-      if (versionName != null) 'versionName': versionName,
+      'creationTime': unixTimestampToJson(creationTime),
+      'name': name,
+      if (assessmentSchedule != null)
+        'assessmentSchedule': assessmentSchedule.value,
+      if (awsApplicationArn != null) 'awsApplicationArn': awsApplicationArn,
+      if (complianceStatus != null) 'complianceStatus': complianceStatus.value,
+      if (description != null) 'description': description,
+      if (driftStatus != null) 'driftStatus': driftStatus.value,
+      if (eventSubscriptions != null) 'eventSubscriptions': eventSubscriptions,
+      if (lastAppComplianceEvaluationTime != null)
+        'lastAppComplianceEvaluationTime':
+            unixTimestampToJson(lastAppComplianceEvaluationTime),
+      if (lastDriftEvaluationTime != null)
+        'lastDriftEvaluationTime': unixTimestampToJson(lastDriftEvaluationTime),
+      if (lastResiliencyScoreEvaluationTime != null)
+        'lastResiliencyScoreEvaluationTime':
+            unixTimestampToJson(lastResiliencyScoreEvaluationTime),
+      if (permissionModel != null) 'permissionModel': permissionModel,
+      if (policyArn != null) 'policyArn': policyArn,
+      if (resiliencyScore != null) 'resiliencyScore': resiliencyScore,
+      if (rpoInSecs != null) 'rpoInSecs': rpoInSecs,
+      if (rtoInSecs != null) 'rtoInSecs': rtoInSecs,
+      if (status != null) 'status': status.value,
+      if (tags != null) 'tags': tags,
     };
   }
 }
 
-class PutDraftAppVersionTemplateResponse {
+class AppStatusType {
+  static const active = AppStatusType._('Active');
+  static const deleting = AppStatusType._('Deleting');
+
+  final String value;
+
+  const AppStatusType._(this.value);
+
+  static const values = [active, deleting];
+
+  static AppStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AppStatusType._(value));
+
+  @override
+  bool operator ==(other) => other is AppStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AppComplianceStatusType {
+  static const policyBreached = AppComplianceStatusType._('PolicyBreached');
+  static const policyMet = AppComplianceStatusType._('PolicyMet');
+  static const notAssessed = AppComplianceStatusType._('NotAssessed');
+  static const changesDetected = AppComplianceStatusType._('ChangesDetected');
+  static const notApplicable = AppComplianceStatusType._('NotApplicable');
+  static const missingPolicy = AppComplianceStatusType._('MissingPolicy');
+
+  final String value;
+
+  const AppComplianceStatusType._(this.value);
+
+  static const values = [
+    policyBreached,
+    policyMet,
+    notAssessed,
+    changesDetected,
+    notApplicable,
+    missingPolicy
+  ];
+
+  static AppComplianceStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AppComplianceStatusType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AppComplianceStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AppAssessmentScheduleType {
+  static const disabled = AppAssessmentScheduleType._('Disabled');
+  static const daily = AppAssessmentScheduleType._('Daily');
+
+  final String value;
+
+  const AppAssessmentScheduleType._(this.value);
+
+  static const values = [disabled, daily];
+
+  static AppAssessmentScheduleType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AppAssessmentScheduleType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AppAssessmentScheduleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Defines the roles and credentials that Resilience Hub would use while
+/// creating the application, importing its resources, and running an
+/// assessment.
+class PermissionModel {
+  /// Defines how Resilience Hub scans your resources. It can scan for the
+  /// resources by using a pre-existing role in your Amazon Web Services account,
+  /// or by using the credentials of the current IAM user.
+  final PermissionModelType type;
+
+  /// Defines a list of role Amazon Resource Names (ARNs) to be used in other
+  /// accounts. These ARNs are used for querying purposes while importing
+  /// resources and assessing your application.
+  /// <note>
+  /// <ul>
+  /// <li>
+  /// These ARNs are required only when your resources are in other accounts and
+  /// you have different role name in these accounts. Else, the invoker role name
+  /// will be used in the other accounts.
+  /// </li>
+  /// <li>
+  /// These roles must have a trust policy with <code>iam:AssumeRole</code>
+  /// permission to the invoker role in the primary account.
+  /// </li>
+  /// </ul> </note>
+  final List<String>? crossAccountRoleArns;
+
+  /// Existing Amazon Web Services IAM role name in the primary Amazon Web
+  /// Services account that will be assumed by Resilience Hub Service Principle to
+  /// obtain a read-only access to your application resources while running an
+  /// assessment.
+  ///
+  /// If your IAM role includes a path, you must include the path in the
+  /// <code>invokerRoleName</code> parameter. For example, if your IAM role's ARN
+  /// is <code>arn:aws:iam:123456789012:role/my-path/role-name</code>, you should
+  /// pass <code>my-path/role-name</code>.
+  /// <note>
+  /// <ul>
+  /// <li>
+  /// You must have <code>iam:passRole</code> permission for this role while
+  /// creating or updating the application.
+  /// </li>
+  /// <li>
+  /// Currently, <code>invokerRoleName</code> accepts only
+  /// <code>[A-Za-z0-9_+=,.@-]</code> characters.
+  /// </li>
+  /// </ul> </note>
+  final String? invokerRoleName;
+
+  PermissionModel({
+    required this.type,
+    this.crossAccountRoleArns,
+    this.invokerRoleName,
+  });
+
+  factory PermissionModel.fromJson(Map<String, dynamic> json) {
+    return PermissionModel(
+      type: PermissionModelType.fromString((json['type'] as String?) ?? ''),
+      crossAccountRoleArns: (json['crossAccountRoleArns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      invokerRoleName: json['invokerRoleName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final crossAccountRoleArns = this.crossAccountRoleArns;
+    final invokerRoleName = this.invokerRoleName;
+    return {
+      'type': type.value,
+      if (crossAccountRoleArns != null)
+        'crossAccountRoleArns': crossAccountRoleArns,
+      if (invokerRoleName != null) 'invokerRoleName': invokerRoleName,
+    };
+  }
+}
+
+class AppDriftStatusType {
+  static const notChecked = AppDriftStatusType._('NotChecked');
+  static const notDetected = AppDriftStatusType._('NotDetected');
+  static const detected = AppDriftStatusType._('Detected');
+
+  final String value;
+
+  const AppDriftStatusType._(this.value);
+
+  static const values = [notChecked, notDetected, detected];
+
+  static AppDriftStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AppDriftStatusType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AppDriftStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Indicates an event you would like to subscribe and get notification for.
+/// Currently, Resilience Hub supports notifications only for <b>Drift
+/// detected</b> and <b>Scheduled assessment failure</b> events.
+class EventSubscription {
+  /// The type of event you would like to subscribe and get notification for.
+  /// Currently, Resilience Hub supports notifications only for <b>Drift
+  /// detected</b> (<code>DriftDetected</code>) and <b>Scheduled assessment
+  /// failure</b> (<code>ScheduledAssessmentFailure</code>) events.
+  final EventType eventType;
+
+  /// Unique name to identify an event subscription.
+  final String name;
+
+  /// Amazon Resource Name (ARN) of the Amazon Simple Notification Service topic.
+  /// The format for this ARN is:
+  /// <code>arn:partition:sns:region:account:topic-name</code>. For more
+  /// information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
+  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i> guide.
+  final String? snsTopicArn;
+
+  EventSubscription({
+    required this.eventType,
+    required this.name,
+    this.snsTopicArn,
+  });
+
+  factory EventSubscription.fromJson(Map<String, dynamic> json) {
+    return EventSubscription(
+      eventType: EventType.fromString((json['eventType'] as String?) ?? ''),
+      name: (json['name'] as String?) ?? '',
+      snsTopicArn: json['snsTopicArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventType = this.eventType;
+    final name = this.name;
+    final snsTopicArn = this.snsTopicArn;
+    return {
+      'eventType': eventType.value,
+      'name': name,
+      if (snsTopicArn != null) 'snsTopicArn': snsTopicArn,
+    };
+  }
+}
+
+class EventType {
+  static const scheduledAssessmentFailure =
+      EventType._('ScheduledAssessmentFailure');
+  static const driftDetected = EventType._('DriftDetected');
+
+  final String value;
+
+  const EventType._(this.value);
+
+  static const values = [scheduledAssessmentFailure, driftDetected];
+
+  static EventType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EventType._(value));
+
+  @override
+  bool operator ==(other) => other is EventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class PermissionModelType {
+  static const legacyIAMUser = PermissionModelType._('LegacyIAMUser');
+  static const roleBased = PermissionModelType._('RoleBased');
+
+  final String value;
+
+  const PermissionModelType._(this.value);
+
+  static const values = [legacyIAMUser, roleBased];
+
+  static PermissionModelType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PermissionModelType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PermissionModelType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ResourcesGroupingRecGenStatusType {
+  static const pending = ResourcesGroupingRecGenStatusType._('Pending');
+  static const inProgress = ResourcesGroupingRecGenStatusType._('InProgress');
+  static const failed = ResourcesGroupingRecGenStatusType._('Failed');
+  static const success = ResourcesGroupingRecGenStatusType._('Success');
+
+  final String value;
+
+  const ResourcesGroupingRecGenStatusType._(this.value);
+
+  static const values = [pending, inProgress, failed, success];
+
+  static ResourcesGroupingRecGenStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourcesGroupingRecGenStatusType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourcesGroupingRecGenStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class MetricsExportStatusType {
+  static const pending = MetricsExportStatusType._('Pending');
+  static const inProgress = MetricsExportStatusType._('InProgress');
+  static const failed = MetricsExportStatusType._('Failed');
+  static const success = MetricsExportStatusType._('Success');
+
+  final String value;
+
+  const MetricsExportStatusType._(this.value);
+
+  static const values = [pending, inProgress, failed, success];
+
+  static MetricsExportStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MetricsExportStatusType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MetricsExportStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Defines an application assessment.
+class AppAssessment {
+  /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
+  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app-assessment/<code>app-id</code>.
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
+  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i> guide.
+  final String assessmentArn;
+
+  /// Current status of the assessment for the resiliency policy.
+  final AssessmentStatus assessmentStatus;
+
+  /// The entity that invoked the assessment.
+  final AssessmentInvoker invoker;
+
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
   /// this ARN is:
   /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app/<code>app-id</code>.
@@ -8545,60 +7483,185 @@ class PutDraftAppVersionTemplateResponse {
   /// Reference</i> guide.
   final String? appArn;
 
-  /// The version of the application.
+  /// Version of an application.
   final String? appVersion;
 
-  PutDraftAppVersionTemplateResponse({
+  /// Name of the assessment.
+  final String? assessmentName;
+
+  /// Application compliance against the resiliency policy.
+  final Map<DisruptionType, DisruptionCompliance>? compliance;
+
+  /// Current status of the compliance for the resiliency policy.
+  final ComplianceStatus? complianceStatus;
+
+  /// Cost for the application.
+  final Cost? cost;
+
+  /// Indicates if compliance drifts (deviations) were detected while running an
+  /// assessment for your application.
+  final DriftStatus? driftStatus;
+
+  /// End time for the action.
+  final DateTime? endTime;
+
+  /// Error or warning message from the assessment execution
+  final String? message;
+
+  /// Resiliency policy of an application.
+  final ResiliencyPolicy? policy;
+
+  /// Current resiliency score for an application.
+  final ResiliencyScore? resiliencyScore;
+
+  /// A resource error object containing a list of errors retrieving an
+  /// application's resources.
+  final ResourceErrorsDetails? resourceErrorsDetails;
+
+  /// Starting time for the action.
+  final DateTime? startTime;
+
+  /// Indicates the AI-generated summary for the Resilience Hub assessment,
+  /// providing a concise overview that highlights the top risks and
+  /// recommendations.
+  /// <note>
+  /// This property is available only in the US East (N. Virginia) Region.
+  /// </note>
+  final AssessmentSummary? summary;
+
+  /// Tags assigned to the resource. A tag is a label that you assign to an Amazon
+  /// Web Services resource. Each tag consists of a key/value pair.
+  final Map<String, String>? tags;
+
+  /// Version name of the published application.
+  final String? versionName;
+
+  AppAssessment({
+    required this.assessmentArn,
+    required this.assessmentStatus,
+    required this.invoker,
     this.appArn,
     this.appVersion,
+    this.assessmentName,
+    this.compliance,
+    this.complianceStatus,
+    this.cost,
+    this.driftStatus,
+    this.endTime,
+    this.message,
+    this.policy,
+    this.resiliencyScore,
+    this.resourceErrorsDetails,
+    this.startTime,
+    this.summary,
+    this.tags,
+    this.versionName,
   });
 
-  factory PutDraftAppVersionTemplateResponse.fromJson(
-      Map<String, dynamic> json) {
-    return PutDraftAppVersionTemplateResponse(
+  factory AppAssessment.fromJson(Map<String, dynamic> json) {
+    return AppAssessment(
+      assessmentArn: (json['assessmentArn'] as String?) ?? '',
+      assessmentStatus: AssessmentStatus.fromString(
+          (json['assessmentStatus'] as String?) ?? ''),
+      invoker: AssessmentInvoker.fromString((json['invoker'] as String?) ?? ''),
       appArn: json['appArn'] as String?,
       appVersion: json['appVersion'] as String?,
+      assessmentName: json['assessmentName'] as String?,
+      compliance: (json['compliance'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(DisruptionType.fromString(k),
+              DisruptionCompliance.fromJson(e as Map<String, dynamic>))),
+      complianceStatus: (json['complianceStatus'] as String?)
+          ?.let(ComplianceStatus.fromString),
+      cost: json['cost'] != null
+          ? Cost.fromJson(json['cost'] as Map<String, dynamic>)
+          : null,
+      driftStatus:
+          (json['driftStatus'] as String?)?.let(DriftStatus.fromString),
+      endTime: timeStampFromJson(json['endTime']),
+      message: json['message'] as String?,
+      policy: json['policy'] != null
+          ? ResiliencyPolicy.fromJson(json['policy'] as Map<String, dynamic>)
+          : null,
+      resiliencyScore: json['resiliencyScore'] != null
+          ? ResiliencyScore.fromJson(
+              json['resiliencyScore'] as Map<String, dynamic>)
+          : null,
+      resourceErrorsDetails: json['resourceErrorsDetails'] != null
+          ? ResourceErrorsDetails.fromJson(
+              json['resourceErrorsDetails'] as Map<String, dynamic>)
+          : null,
+      startTime: timeStampFromJson(json['startTime']),
+      summary: json['summary'] != null
+          ? AssessmentSummary.fromJson(json['summary'] as Map<String, dynamic>)
+          : null,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      versionName: json['versionName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final assessmentArn = this.assessmentArn;
+    final assessmentStatus = this.assessmentStatus;
+    final invoker = this.invoker;
     final appArn = this.appArn;
     final appVersion = this.appVersion;
+    final assessmentName = this.assessmentName;
+    final compliance = this.compliance;
+    final complianceStatus = this.complianceStatus;
+    final cost = this.cost;
+    final driftStatus = this.driftStatus;
+    final endTime = this.endTime;
+    final message = this.message;
+    final policy = this.policy;
+    final resiliencyScore = this.resiliencyScore;
+    final resourceErrorsDetails = this.resourceErrorsDetails;
+    final startTime = this.startTime;
+    final summary = this.summary;
+    final tags = this.tags;
+    final versionName = this.versionName;
     return {
+      'assessmentArn': assessmentArn,
+      'assessmentStatus': assessmentStatus.value,
+      'invoker': invoker.value,
       if (appArn != null) 'appArn': appArn,
       if (appVersion != null) 'appVersion': appVersion,
+      if (assessmentName != null) 'assessmentName': assessmentName,
+      if (compliance != null)
+        'compliance': compliance.map((k, e) => MapEntry(k.value, e)),
+      if (complianceStatus != null) 'complianceStatus': complianceStatus.value,
+      if (cost != null) 'cost': cost,
+      if (driftStatus != null) 'driftStatus': driftStatus.value,
+      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
+      if (message != null) 'message': message,
+      if (policy != null) 'policy': policy,
+      if (resiliencyScore != null) 'resiliencyScore': resiliencyScore,
+      if (resourceErrorsDetails != null)
+        'resourceErrorsDetails': resourceErrorsDetails,
+      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
+      if (summary != null) 'summary': summary,
+      if (tags != null) 'tags': tags,
+      if (versionName != null) 'versionName': versionName,
     };
   }
 }
 
-class RecommendationComplianceStatus {
-  static const breachedUnattainable =
-      RecommendationComplianceStatus._('BreachedUnattainable');
-  static const breachedCanMeet =
-      RecommendationComplianceStatus._('BreachedCanMeet');
-  static const metCanImprove =
-      RecommendationComplianceStatus._('MetCanImprove');
-  static const missingPolicy =
-      RecommendationComplianceStatus._('MissingPolicy');
+class AssessmentInvoker {
+  static const user = AssessmentInvoker._('User');
+  static const system = AssessmentInvoker._('System');
 
   final String value;
 
-  const RecommendationComplianceStatus._(this.value);
+  const AssessmentInvoker._(this.value);
 
-  static const values = [
-    breachedUnattainable,
-    breachedCanMeet,
-    metCanImprove,
-    missingPolicy
-  ];
+  static const values = [user, system];
 
-  static RecommendationComplianceStatus fromString(String value) =>
+  static AssessmentInvoker fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => RecommendationComplianceStatus._(value));
+          orElse: () => AssessmentInvoker._(value));
 
   @override
-  bool operator ==(other) =>
-      other is RecommendationComplianceStatus && other.value == value;
+  bool operator ==(other) => other is AssessmentInvoker && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -8607,121 +7670,896 @@ class RecommendationComplianceStatus {
   String toString() => value;
 }
 
-/// Defines a disruption compliance recommendation.
-class RecommendationDisruptionCompliance {
-  /// The expected compliance status after applying the recommended configuration
-  /// change.
-  final ComplianceStatus expectedComplianceStatus;
+/// Defines a cost object.
+class Cost {
+  /// The cost amount.
+  final double amount;
 
-  /// The expected Recovery Point Objective (RPO) description after applying the
-  /// recommended configuration change.
-  final String? expectedRpoDescription;
+  /// The cost currency, for example <code>USD</code>.
+  final String currency;
 
-  /// The expected RPO after applying the recommended configuration change.
-  final int? expectedRpoInSecs;
+  /// The cost frequency.
+  final CostFrequency frequency;
 
-  /// The expected Recovery Time Objective (RTO) description after applying the
-  /// recommended configuration change.
-  final String? expectedRtoDescription;
-
-  /// The expected RTO after applying the recommended configuration change.
-  final int? expectedRtoInSecs;
-
-  RecommendationDisruptionCompliance({
-    required this.expectedComplianceStatus,
-    this.expectedRpoDescription,
-    this.expectedRpoInSecs,
-    this.expectedRtoDescription,
-    this.expectedRtoInSecs,
+  Cost({
+    required this.amount,
+    required this.currency,
+    required this.frequency,
   });
 
-  factory RecommendationDisruptionCompliance.fromJson(
-      Map<String, dynamic> json) {
-    return RecommendationDisruptionCompliance(
-      expectedComplianceStatus: ComplianceStatus.fromString(
-          (json['expectedComplianceStatus'] as String?) ?? ''),
-      expectedRpoDescription: json['expectedRpoDescription'] as String?,
-      expectedRpoInSecs: json['expectedRpoInSecs'] as int?,
-      expectedRtoDescription: json['expectedRtoDescription'] as String?,
-      expectedRtoInSecs: json['expectedRtoInSecs'] as int?,
+  factory Cost.fromJson(Map<String, dynamic> json) {
+    return Cost(
+      amount: (json['amount'] as double?) ?? 0,
+      currency: (json['currency'] as String?) ?? '',
+      frequency: CostFrequency.fromString((json['frequency'] as String?) ?? ''),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final expectedComplianceStatus = this.expectedComplianceStatus;
-    final expectedRpoDescription = this.expectedRpoDescription;
-    final expectedRpoInSecs = this.expectedRpoInSecs;
-    final expectedRtoDescription = this.expectedRtoDescription;
-    final expectedRtoInSecs = this.expectedRtoInSecs;
+    final amount = this.amount;
+    final currency = this.currency;
+    final frequency = this.frequency;
     return {
-      'expectedComplianceStatus': expectedComplianceStatus.value,
-      if (expectedRpoDescription != null)
-        'expectedRpoDescription': expectedRpoDescription,
-      if (expectedRpoInSecs != null) 'expectedRpoInSecs': expectedRpoInSecs,
-      if (expectedRtoDescription != null)
-        'expectedRtoDescription': expectedRtoDescription,
-      if (expectedRtoInSecs != null) 'expectedRtoInSecs': expectedRtoInSecs,
+      'amount': amount,
+      'currency': currency,
+      'frequency': frequency.value,
     };
   }
 }
 
-/// Defines a recommendation.
-class RecommendationItem {
-  /// Specifies if the recommendation has already been implemented.
-  final bool? alreadyImplemented;
+/// The overall resiliency score, returned as an object that includes the
+/// disruption score and outage score.
+class ResiliencyScore {
+  /// The disruption score for a valid key.
+  final Map<DisruptionType, double> disruptionScore;
 
-  /// Indicates the reason for excluding an operational recommendation.
-  final ExcludeRecommendationReason? excludeReason;
+  /// The outage score for a valid key.
+  final double score;
 
-  /// Indicates if an operational recommendation item is excluded.
-  final bool? excluded;
+  /// The score generated by Resilience Hub for the scoring component after
+  /// running an assessment.
+  ///
+  /// For example, if the <code>score</code> is 25 points, it indicates the
+  /// overall score of your application generated by Resilience Hub after running
+  /// an assessment.
+  final Map<ResiliencyScoreType, ScoringComponentResiliencyScore>?
+      componentScore;
 
-  /// Identifier of the resource.
-  final String? resourceId;
-
-  /// Identifier of the target account.
-  final String? targetAccountId;
-
-  /// The target region.
-  final String? targetRegion;
-
-  RecommendationItem({
-    this.alreadyImplemented,
-    this.excludeReason,
-    this.excluded,
-    this.resourceId,
-    this.targetAccountId,
-    this.targetRegion,
+  ResiliencyScore({
+    required this.disruptionScore,
+    required this.score,
+    this.componentScore,
   });
 
-  factory RecommendationItem.fromJson(Map<String, dynamic> json) {
-    return RecommendationItem(
-      alreadyImplemented: json['alreadyImplemented'] as bool?,
-      excludeReason: (json['excludeReason'] as String?)
-          ?.let(ExcludeRecommendationReason.fromString),
-      excluded: json['excluded'] as bool?,
-      resourceId: json['resourceId'] as String?,
-      targetAccountId: json['targetAccountId'] as String?,
-      targetRegion: json['targetRegion'] as String?,
+  factory ResiliencyScore.fromJson(Map<String, dynamic> json) {
+    return ResiliencyScore(
+      disruptionScore: ((json['disruptionScore'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) => MapEntry(DisruptionType.fromString(k), e as double)),
+      score: (json['score'] as double?) ?? 0,
+      componentScore: (json['componentScore'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(
+              ResiliencyScoreType.fromString(k),
+              ScoringComponentResiliencyScore.fromJson(
+                  e as Map<String, dynamic>))),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final alreadyImplemented = this.alreadyImplemented;
-    final excludeReason = this.excludeReason;
-    final excluded = this.excluded;
-    final resourceId = this.resourceId;
-    final targetAccountId = this.targetAccountId;
-    final targetRegion = this.targetRegion;
+    final disruptionScore = this.disruptionScore;
+    final score = this.score;
+    final componentScore = this.componentScore;
     return {
-      if (alreadyImplemented != null) 'alreadyImplemented': alreadyImplemented,
-      if (excludeReason != null) 'excludeReason': excludeReason.value,
-      if (excluded != null) 'excluded': excluded,
-      if (resourceId != null) 'resourceId': resourceId,
-      if (targetAccountId != null) 'targetAccountId': targetAccountId,
-      if (targetRegion != null) 'targetRegion': targetRegion,
+      'disruptionScore': disruptionScore.map((k, e) => MapEntry(k.value, e)),
+      'score': score,
+      if (componentScore != null)
+        'componentScore': componentScore.map((k, e) => MapEntry(k.value, e)),
     };
   }
+}
+
+class ComplianceStatus {
+  static const policyBreached = ComplianceStatus._('PolicyBreached');
+  static const policyMet = ComplianceStatus._('PolicyMet');
+  static const notApplicable = ComplianceStatus._('NotApplicable');
+  static const missingPolicy = ComplianceStatus._('MissingPolicy');
+
+  final String value;
+
+  const ComplianceStatus._(this.value);
+
+  static const values = [
+    policyBreached,
+    policyMet,
+    notApplicable,
+    missingPolicy
+  ];
+
+  static ComplianceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ComplianceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ComplianceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AssessmentStatus {
+  static const pending = AssessmentStatus._('Pending');
+  static const inProgress = AssessmentStatus._('InProgress');
+  static const failed = AssessmentStatus._('Failed');
+  static const success = AssessmentStatus._('Success');
+
+  final String value;
+
+  const AssessmentStatus._(this.value);
+
+  static const values = [pending, inProgress, failed, success];
+
+  static AssessmentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AssessmentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AssessmentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A list of errors retrieving an application's resources.
+class ResourceErrorsDetails {
+  /// This indicates if there are more errors not listed in the
+  /// <code>resourceErrors</code> list.
+  final bool? hasMoreErrors;
+
+  /// A list of errors retrieving an application's resources.
+  final List<ResourceError>? resourceErrors;
+
+  ResourceErrorsDetails({
+    this.hasMoreErrors,
+    this.resourceErrors,
+  });
+
+  factory ResourceErrorsDetails.fromJson(Map<String, dynamic> json) {
+    return ResourceErrorsDetails(
+      hasMoreErrors: json['hasMoreErrors'] as bool?,
+      resourceErrors: (json['resourceErrors'] as List?)
+          ?.nonNulls
+          .map((e) => ResourceError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hasMoreErrors = this.hasMoreErrors;
+    final resourceErrors = this.resourceErrors;
+    return {
+      if (hasMoreErrors != null) 'hasMoreErrors': hasMoreErrors,
+      if (resourceErrors != null) 'resourceErrors': resourceErrors,
+    };
+  }
+}
+
+class DriftStatus {
+  static const notChecked = DriftStatus._('NotChecked');
+  static const notDetected = DriftStatus._('NotDetected');
+  static const detected = DriftStatus._('Detected');
+
+  final String value;
+
+  const DriftStatus._(this.value);
+
+  static const values = [notChecked, notDetected, detected];
+
+  static DriftStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DriftStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DriftStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Indicates the AI-generated summary for the Resilience Hub assessment,
+/// providing a concise overview that highlights the top risks and
+/// recommendations.
+/// <note>
+/// This property is available only in the US East (N. Virginia) Region.
+/// </note>
+class AssessmentSummary {
+  /// Indicates the top risks and recommendations identified by the Resilience Hub
+  /// assessment, each representing a specific risk and the corresponding
+  /// recommendation to address it.
+  /// <note>
+  /// This property is available only in the US East (N. Virginia) Region.
+  /// </note>
+  final List<AssessmentRiskRecommendation>? riskRecommendations;
+
+  /// Indicates a concise summary that provides an overview of the Resilience Hub
+  /// assessment.
+  /// <note>
+  /// This property is available only in the US East (N. Virginia) Region.
+  /// </note>
+  final String? summary;
+
+  AssessmentSummary({
+    this.riskRecommendations,
+    this.summary,
+  });
+
+  factory AssessmentSummary.fromJson(Map<String, dynamic> json) {
+    return AssessmentSummary(
+      riskRecommendations: (json['riskRecommendations'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              AssessmentRiskRecommendation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      summary: json['summary'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final riskRecommendations = this.riskRecommendations;
+    final summary = this.summary;
+    return {
+      if (riskRecommendations != null)
+        'riskRecommendations': riskRecommendations,
+      if (summary != null) 'summary': summary,
+    };
+  }
+}
+
+/// Indicates a specific risk identified in the Resilience Hub assessment and
+/// the corresponding recommendation provided to address that risk.
+/// <note>
+/// The assessment summary generated by large language models (LLMs) on Amazon
+/// Bedrock are only suggestions. The current level of generative AI technology
+/// is not perfect and LLMs are not infallible. Bias and incorrect answers,
+/// although rare, should be expected. Review each recommendation in the
+/// assessment summary before you use the output from an LLM.
+/// </note> <note>
+/// This property is available only in the US East (N. Virginia) Region.
+/// </note>
+class AssessmentRiskRecommendation {
+  /// Indicates the Application Components (AppComponents) that were assessed as
+  /// part of the assessment and are associated with the identified risk and
+  /// recommendation.
+  /// <note>
+  /// This property is available only in the US East (N. Virginia) Region.
+  /// </note>
+  final List<String>? appComponents;
+
+  /// Indicates the recommendation provided by the Resilience Hub to address the
+  /// identified risks in the application.
+  /// <note>
+  /// This property is available only in the US East (N. Virginia) Region.
+  /// </note>
+  final String? recommendation;
+
+  /// Indicates the description of the potential risk identified in the
+  /// application as part of the Resilience Hub assessment.
+  /// <note>
+  /// This property is available only in the US East (N. Virginia) Region.
+  /// </note>
+  final String? risk;
+
+  AssessmentRiskRecommendation({
+    this.appComponents,
+    this.recommendation,
+    this.risk,
+  });
+
+  factory AssessmentRiskRecommendation.fromJson(Map<String, dynamic> json) {
+    return AssessmentRiskRecommendation(
+      appComponents: (json['appComponents'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      recommendation: json['recommendation'] as String?,
+      risk: json['risk'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appComponents = this.appComponents;
+    final recommendation = this.recommendation;
+    final risk = this.risk;
+    return {
+      if (appComponents != null) 'appComponents': appComponents,
+      if (recommendation != null) 'recommendation': recommendation,
+      if (risk != null) 'risk': risk,
+    };
+  }
+}
+
+/// Defines application resource errors.
+class ResourceError {
+  /// Identifier of the logical resource.
+  final String? logicalResourceId;
+
+  /// Identifier of the physical resource.
+  final String? physicalResourceId;
+
+  /// This is the error message.
+  final String? reason;
+
+  ResourceError({
+    this.logicalResourceId,
+    this.physicalResourceId,
+    this.reason,
+  });
+
+  factory ResourceError.fromJson(Map<String, dynamic> json) {
+    return ResourceError(
+      logicalResourceId: json['logicalResourceId'] as String?,
+      physicalResourceId: json['physicalResourceId'] as String?,
+      reason: json['reason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logicalResourceId = this.logicalResourceId;
+    final physicalResourceId = this.physicalResourceId;
+    final reason = this.reason;
+    return {
+      if (logicalResourceId != null) 'logicalResourceId': logicalResourceId,
+      if (physicalResourceId != null) 'physicalResourceId': physicalResourceId,
+      if (reason != null) 'reason': reason,
+    };
+  }
+}
+
+/// Defines the compliance against the resiliency policy for a disruption.
+class DisruptionCompliance {
+  /// The current status of compliance for the resiliency policy.
+  final ComplianceStatus complianceStatus;
+
+  /// The Recovery Point Objective (RPO) that is achievable, in seconds.
+  final int? achievableRpoInSecs;
+
+  /// The Recovery Time Objective (RTO) that is achievable, in seconds
+  final int? achievableRtoInSecs;
+
+  /// The current RPO, in seconds.
+  final int? currentRpoInSecs;
+
+  /// The current RTO, in seconds.
+  final int? currentRtoInSecs;
+
+  /// The disruption compliance message.
+  final String? message;
+
+  /// The RPO description.
+  final String? rpoDescription;
+
+  /// Reference identifier of the RPO .
+  final String? rpoReferenceId;
+
+  /// The RTO description.
+  final String? rtoDescription;
+
+  /// Reference identifier of the RTO.
+  final String? rtoReferenceId;
+
+  DisruptionCompliance({
+    required this.complianceStatus,
+    this.achievableRpoInSecs,
+    this.achievableRtoInSecs,
+    this.currentRpoInSecs,
+    this.currentRtoInSecs,
+    this.message,
+    this.rpoDescription,
+    this.rpoReferenceId,
+    this.rtoDescription,
+    this.rtoReferenceId,
+  });
+
+  factory DisruptionCompliance.fromJson(Map<String, dynamic> json) {
+    return DisruptionCompliance(
+      complianceStatus: ComplianceStatus.fromString(
+          (json['complianceStatus'] as String?) ?? ''),
+      achievableRpoInSecs: json['achievableRpoInSecs'] as int?,
+      achievableRtoInSecs: json['achievableRtoInSecs'] as int?,
+      currentRpoInSecs: json['currentRpoInSecs'] as int?,
+      currentRtoInSecs: json['currentRtoInSecs'] as int?,
+      message: json['message'] as String?,
+      rpoDescription: json['rpoDescription'] as String?,
+      rpoReferenceId: json['rpoReferenceId'] as String?,
+      rtoDescription: json['rtoDescription'] as String?,
+      rtoReferenceId: json['rtoReferenceId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final complianceStatus = this.complianceStatus;
+    final achievableRpoInSecs = this.achievableRpoInSecs;
+    final achievableRtoInSecs = this.achievableRtoInSecs;
+    final currentRpoInSecs = this.currentRpoInSecs;
+    final currentRtoInSecs = this.currentRtoInSecs;
+    final message = this.message;
+    final rpoDescription = this.rpoDescription;
+    final rpoReferenceId = this.rpoReferenceId;
+    final rtoDescription = this.rtoDescription;
+    final rtoReferenceId = this.rtoReferenceId;
+    return {
+      'complianceStatus': complianceStatus.value,
+      if (achievableRpoInSecs != null)
+        'achievableRpoInSecs': achievableRpoInSecs,
+      if (achievableRtoInSecs != null)
+        'achievableRtoInSecs': achievableRtoInSecs,
+      if (currentRpoInSecs != null) 'currentRpoInSecs': currentRpoInSecs,
+      if (currentRtoInSecs != null) 'currentRtoInSecs': currentRtoInSecs,
+      if (message != null) 'message': message,
+      if (rpoDescription != null) 'rpoDescription': rpoDescription,
+      if (rpoReferenceId != null) 'rpoReferenceId': rpoReferenceId,
+      if (rtoDescription != null) 'rtoDescription': rtoDescription,
+      if (rtoReferenceId != null) 'rtoReferenceId': rtoReferenceId,
+    };
+  }
+}
+
+class ResiliencyScoreType {
+  static const compliance = ResiliencyScoreType._('Compliance');
+  static const test = ResiliencyScoreType._('Test');
+  static const alarm = ResiliencyScoreType._('Alarm');
+  static const sop = ResiliencyScoreType._('Sop');
+
+  final String value;
+
+  const ResiliencyScoreType._(this.value);
+
+  static const values = [compliance, test, alarm, sop];
+
+  static ResiliencyScoreType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResiliencyScoreType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResiliencyScoreType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Resiliency score of each scoring component. For more information about
+/// scoring component, see <a
+/// href="https://docs.aws.amazon.com/resilience-hub/latest/userguide/calculate-score.html">Calculating
+/// resiliency score</a>.
+class ScoringComponentResiliencyScore {
+  /// Number of recommendations that were excluded from the assessment.
+  ///
+  /// For example, if the <code>excludedCount</code> for Alarms coverage scoring
+  /// component is 7, it indicates that 7 Amazon CloudWatch alarms are excluded
+  /// from the assessment.
+  final int? excludedCount;
+
+  /// Number of recommendations that must be implemented to obtain the maximum
+  /// possible score for the scoring component. For SOPs, alarms, and tests, these
+  /// are the number of recommendations that must be implemented. For compliance,
+  /// these are the number of Application Components that have breached the
+  /// resiliency policy.
+  ///
+  /// For example, if the <code>outstandingCount</code> for Alarms coverage
+  /// scoring component is 5, it indicates that 5 Amazon CloudWatch alarms need to
+  /// be implemented to achieve the maximum possible score.
+  final int? outstandingCount;
+
+  /// Maximum possible score that can be obtained for the scoring component.
+  ///
+  /// For example, if the <code>possibleScore</code> is 20 points, it indicates
+  /// the maximum possible score you can achieve for the scoring component when
+  /// you run a new assessment after implementing all the Resilience Hub
+  /// recommendations.
+  final double? possibleScore;
+
+  /// Resiliency score points given for the scoring component. The score is always
+  /// less than or equal to the <code>possibleScore</code>.
+  final double? score;
+
+  ScoringComponentResiliencyScore({
+    this.excludedCount,
+    this.outstandingCount,
+    this.possibleScore,
+    this.score,
+  });
+
+  factory ScoringComponentResiliencyScore.fromJson(Map<String, dynamic> json) {
+    return ScoringComponentResiliencyScore(
+      excludedCount: json['excludedCount'] as int?,
+      outstandingCount: json['outstandingCount'] as int?,
+      possibleScore: json['possibleScore'] as double?,
+      score: json['score'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final excludedCount = this.excludedCount;
+    final outstandingCount = this.outstandingCount;
+    final possibleScore = this.possibleScore;
+    final score = this.score;
+    return {
+      if (excludedCount != null) 'excludedCount': excludedCount,
+      if (outstandingCount != null) 'outstandingCount': outstandingCount,
+      if (possibleScore != null) 'possibleScore': possibleScore,
+      if (score != null) 'score': score,
+    };
+  }
+}
+
+class CostFrequency {
+  static const hourly = CostFrequency._('Hourly');
+  static const daily = CostFrequency._('Daily');
+  static const monthly = CostFrequency._('Monthly');
+  static const yearly = CostFrequency._('Yearly');
+
+  final String value;
+
+  const CostFrequency._(this.value);
+
+  static const values = [hourly, daily, monthly, yearly];
+
+  static CostFrequency fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CostFrequency._(value));
+
+  @override
+  bool operator ==(other) => other is CostFrequency && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ResourceResolutionStatusType {
+  static const pending = ResourceResolutionStatusType._('Pending');
+  static const inProgress = ResourceResolutionStatusType._('InProgress');
+  static const failed = ResourceResolutionStatusType._('Failed');
+  static const success = ResourceResolutionStatusType._('Success');
+
+  final String value;
+
+  const ResourceResolutionStatusType._(this.value);
+
+  static const values = [pending, inProgress, failed, success];
+
+  static ResourceResolutionStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceResolutionStatusType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceResolutionStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Indicates the accepted grouping recommendation whose implementation failed.
+class FailedGroupingRecommendationEntry {
+  /// Indicates the error that occurred while implementing a grouping
+  /// recommendation.
+  final String errorMessage;
+
+  /// Indicates the identifier of the grouping recommendation.
+  final String groupingRecommendationId;
+
+  FailedGroupingRecommendationEntry({
+    required this.errorMessage,
+    required this.groupingRecommendationId,
+  });
+
+  factory FailedGroupingRecommendationEntry.fromJson(
+      Map<String, dynamic> json) {
+    return FailedGroupingRecommendationEntry(
+      errorMessage: (json['errorMessage'] as String?) ?? '',
+      groupingRecommendationId:
+          (json['groupingRecommendationId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorMessage = this.errorMessage;
+    final groupingRecommendationId = this.groupingRecommendationId;
+    return {
+      'errorMessage': errorMessage,
+      'groupingRecommendationId': groupingRecommendationId,
+    };
+  }
+}
+
+/// Indicates the rejected grouping recommendation.
+class RejectGroupingRecommendationEntry {
+  /// Indicates the identifier of the grouping recommendation.
+  final String groupingRecommendationId;
+
+  /// Indicates the reason you had selected while rejecting a grouping
+  /// recommendation.
+  final GroupingRecommendationRejectionReason? rejectionReason;
+
+  RejectGroupingRecommendationEntry({
+    required this.groupingRecommendationId,
+    this.rejectionReason,
+  });
+
+  Map<String, dynamic> toJson() {
+    final groupingRecommendationId = this.groupingRecommendationId;
+    final rejectionReason = this.rejectionReason;
+    return {
+      'groupingRecommendationId': groupingRecommendationId,
+      if (rejectionReason != null) 'rejectionReason': rejectionReason.value,
+    };
+  }
+}
+
+class GroupingRecommendationRejectionReason {
+  static const distinctBusinessPurpose =
+      GroupingRecommendationRejectionReason._('DistinctBusinessPurpose');
+  static const separateDataConcern =
+      GroupingRecommendationRejectionReason._('SeparateDataConcern');
+  static const distinctUserGroupHandling =
+      GroupingRecommendationRejectionReason._('DistinctUserGroupHandling');
+  static const other = GroupingRecommendationRejectionReason._('Other');
+
+  final String value;
+
+  const GroupingRecommendationRejectionReason._(this.value);
+
+  static const values = [
+    distinctBusinessPurpose,
+    separateDataConcern,
+    distinctUserGroupHandling,
+    other
+  ];
+
+  static GroupingRecommendationRejectionReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GroupingRecommendationRejectionReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GroupingRecommendationRejectionReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Defines a resource that is not supported by Resilience Hub.
+class UnsupportedResource {
+  /// Logical resource identifier for the unsupported resource.
+  final LogicalResourceId logicalResourceId;
+
+  /// Physical resource identifier for the unsupported resource.
+  final PhysicalResourceId physicalResourceId;
+
+  /// The type of resource.
+  final String resourceType;
+
+  /// The status of the unsupported resource.
+  final String? unsupportedResourceStatus;
+
+  UnsupportedResource({
+    required this.logicalResourceId,
+    required this.physicalResourceId,
+    required this.resourceType,
+    this.unsupportedResourceStatus,
+  });
+
+  factory UnsupportedResource.fromJson(Map<String, dynamic> json) {
+    return UnsupportedResource(
+      logicalResourceId: LogicalResourceId.fromJson(
+          (json['logicalResourceId'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      physicalResourceId: PhysicalResourceId.fromJson(
+          (json['physicalResourceId'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      resourceType: (json['resourceType'] as String?) ?? '',
+      unsupportedResourceStatus: json['unsupportedResourceStatus'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logicalResourceId = this.logicalResourceId;
+    final physicalResourceId = this.physicalResourceId;
+    final resourceType = this.resourceType;
+    final unsupportedResourceStatus = this.unsupportedResourceStatus;
+    return {
+      'logicalResourceId': logicalResourceId,
+      'physicalResourceId': physicalResourceId,
+      'resourceType': resourceType,
+      if (unsupportedResourceStatus != null)
+        'unsupportedResourceStatus': unsupportedResourceStatus,
+    };
+  }
+}
+
+/// Defines a test recommendation.
+class TestRecommendation {
+  /// Reference identifier for the test recommendation.
+  final String referenceId;
+
+  /// Indicates the identifier of the AppComponent.
+  final String? appComponentId;
+
+  /// Name of the Application Component.
+  final String? appComponentName;
+
+  /// A list of recommended alarms that are used in the test and must be exported
+  /// before or with the test.
+  final List<String>? dependsOnAlarms;
+
+  /// Description for the test recommendation.
+  final String? description;
+
+  /// Intent of the test recommendation.
+  final String? intent;
+
+  /// The test recommendation items.
+  final List<RecommendationItem>? items;
+
+  /// Name of the test recommendation.
+  final String? name;
+
+  /// Prerequisite of the test recommendation.
+  final String? prerequisite;
+
+  /// Identifier for the test recommendation.
+  final String? recommendationId;
+
+  /// Status of the recommended test.
+  final RecommendationStatus? recommendationStatus;
+
+  /// Level of risk for this test recommendation.
+  final TestRisk? risk;
+
+  /// Type of test recommendation.
+  final TestType? type;
+
+  TestRecommendation({
+    required this.referenceId,
+    this.appComponentId,
+    this.appComponentName,
+    this.dependsOnAlarms,
+    this.description,
+    this.intent,
+    this.items,
+    this.name,
+    this.prerequisite,
+    this.recommendationId,
+    this.recommendationStatus,
+    this.risk,
+    this.type,
+  });
+
+  factory TestRecommendation.fromJson(Map<String, dynamic> json) {
+    return TestRecommendation(
+      referenceId: (json['referenceId'] as String?) ?? '',
+      appComponentId: json['appComponentId'] as String?,
+      appComponentName: json['appComponentName'] as String?,
+      dependsOnAlarms: (json['dependsOnAlarms'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      description: json['description'] as String?,
+      intent: json['intent'] as String?,
+      items: (json['items'] as List?)
+          ?.nonNulls
+          .map((e) => RecommendationItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      name: json['name'] as String?,
+      prerequisite: json['prerequisite'] as String?,
+      recommendationId: json['recommendationId'] as String?,
+      recommendationStatus: (json['recommendationStatus'] as String?)
+          ?.let(RecommendationStatus.fromString),
+      risk: (json['risk'] as String?)?.let(TestRisk.fromString),
+      type: (json['type'] as String?)?.let(TestType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final referenceId = this.referenceId;
+    final appComponentId = this.appComponentId;
+    final appComponentName = this.appComponentName;
+    final dependsOnAlarms = this.dependsOnAlarms;
+    final description = this.description;
+    final intent = this.intent;
+    final items = this.items;
+    final name = this.name;
+    final prerequisite = this.prerequisite;
+    final recommendationId = this.recommendationId;
+    final recommendationStatus = this.recommendationStatus;
+    final risk = this.risk;
+    final type = this.type;
+    return {
+      'referenceId': referenceId,
+      if (appComponentId != null) 'appComponentId': appComponentId,
+      if (appComponentName != null) 'appComponentName': appComponentName,
+      if (dependsOnAlarms != null) 'dependsOnAlarms': dependsOnAlarms,
+      if (description != null) 'description': description,
+      if (intent != null) 'intent': intent,
+      if (items != null) 'items': items,
+      if (name != null) 'name': name,
+      if (prerequisite != null) 'prerequisite': prerequisite,
+      if (recommendationId != null) 'recommendationId': recommendationId,
+      if (recommendationStatus != null)
+        'recommendationStatus': recommendationStatus.value,
+      if (risk != null) 'risk': risk.value,
+      if (type != null) 'type': type.value,
+    };
+  }
+}
+
+class TestRisk {
+  static const small = TestRisk._('Small');
+  static const medium = TestRisk._('Medium');
+  static const high = TestRisk._('High');
+
+  final String value;
+
+  const TestRisk._(this.value);
+
+  static const values = [small, medium, high];
+
+  static TestRisk fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TestRisk._(value));
+
+  @override
+  bool operator ==(other) => other is TestRisk && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TestType {
+  static const software = TestType._('Software');
+  static const hardware = TestType._('Hardware');
+  static const az = TestType._('AZ');
+  static const region = TestType._('Region');
+
+  final String value;
+
+  const TestType._(this.value);
+
+  static const values = [software, hardware, az, region];
+
+  static TestType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TestType._(value));
+
+  @override
+  bool operator ==(other) => other is TestType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class RecommendationStatus {
@@ -8749,6 +8587,535 @@ class RecommendationStatus {
 
   @override
   String toString() => value;
+}
+
+/// Defines a recommendation.
+class RecommendationItem {
+  /// Specifies if the recommendation has already been implemented.
+  final bool? alreadyImplemented;
+
+  /// Indicates the previously implemented Amazon CloudWatch alarm discovered by
+  /// Resilience Hub.
+  final Alarm? discoveredAlarm;
+
+  /// Indicates the reason for excluding an operational recommendation.
+  final ExcludeRecommendationReason? excludeReason;
+
+  /// Indicates if an operational recommendation item is excluded.
+  final bool? excluded;
+
+  /// Indicates the experiment created in FIS that was discovered by Resilience
+  /// Hub, which matches the recommendation.
+  final Experiment? latestDiscoveredExperiment;
+
+  /// Identifier of the resource.
+  final String? resourceId;
+
+  /// Identifier of the target account.
+  final String? targetAccountId;
+
+  /// The target region.
+  final String? targetRegion;
+
+  RecommendationItem({
+    this.alreadyImplemented,
+    this.discoveredAlarm,
+    this.excludeReason,
+    this.excluded,
+    this.latestDiscoveredExperiment,
+    this.resourceId,
+    this.targetAccountId,
+    this.targetRegion,
+  });
+
+  factory RecommendationItem.fromJson(Map<String, dynamic> json) {
+    return RecommendationItem(
+      alreadyImplemented: json['alreadyImplemented'] as bool?,
+      discoveredAlarm: json['discoveredAlarm'] != null
+          ? Alarm.fromJson(json['discoveredAlarm'] as Map<String, dynamic>)
+          : null,
+      excludeReason: (json['excludeReason'] as String?)
+          ?.let(ExcludeRecommendationReason.fromString),
+      excluded: json['excluded'] as bool?,
+      latestDiscoveredExperiment: json['latestDiscoveredExperiment'] != null
+          ? Experiment.fromJson(
+              json['latestDiscoveredExperiment'] as Map<String, dynamic>)
+          : null,
+      resourceId: json['resourceId'] as String?,
+      targetAccountId: json['targetAccountId'] as String?,
+      targetRegion: json['targetRegion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final alreadyImplemented = this.alreadyImplemented;
+    final discoveredAlarm = this.discoveredAlarm;
+    final excludeReason = this.excludeReason;
+    final excluded = this.excluded;
+    final latestDiscoveredExperiment = this.latestDiscoveredExperiment;
+    final resourceId = this.resourceId;
+    final targetAccountId = this.targetAccountId;
+    final targetRegion = this.targetRegion;
+    return {
+      if (alreadyImplemented != null) 'alreadyImplemented': alreadyImplemented,
+      if (discoveredAlarm != null) 'discoveredAlarm': discoveredAlarm,
+      if (excludeReason != null) 'excludeReason': excludeReason.value,
+      if (excluded != null) 'excluded': excluded,
+      if (latestDiscoveredExperiment != null)
+        'latestDiscoveredExperiment': latestDiscoveredExperiment,
+      if (resourceId != null) 'resourceId': resourceId,
+      if (targetAccountId != null) 'targetAccountId': targetAccountId,
+      if (targetRegion != null) 'targetRegion': targetRegion,
+    };
+  }
+}
+
+class ExcludeRecommendationReason {
+  static const alreadyImplemented =
+      ExcludeRecommendationReason._('AlreadyImplemented');
+  static const notRelevant = ExcludeRecommendationReason._('NotRelevant');
+  static const complexityOfImplementation =
+      ExcludeRecommendationReason._('ComplexityOfImplementation');
+
+  final String value;
+
+  const ExcludeRecommendationReason._(this.value);
+
+  static const values = [
+    alreadyImplemented,
+    notRelevant,
+    complexityOfImplementation
+  ];
+
+  static ExcludeRecommendationReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExcludeRecommendationReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExcludeRecommendationReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Indicates the FIS experiment detected while running an assessment.
+class Experiment {
+  /// Amazon Resource Name (ARN) of the FIS experiment.
+  final String? experimentArn;
+
+  /// Identifier of the FIS experiment template.
+  final String? experimentTemplateId;
+
+  Experiment({
+    this.experimentArn,
+    this.experimentTemplateId,
+  });
+
+  factory Experiment.fromJson(Map<String, dynamic> json) {
+    return Experiment(
+      experimentArn: json['experimentArn'] as String?,
+      experimentTemplateId: json['experimentTemplateId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final experimentArn = this.experimentArn;
+    final experimentTemplateId = this.experimentTemplateId;
+    return {
+      if (experimentArn != null) 'experimentArn': experimentArn,
+      if (experimentTemplateId != null)
+        'experimentTemplateId': experimentTemplateId,
+    };
+  }
+}
+
+/// Indicates the Amazon CloudWatch alarm detected while running an assessment.
+class Alarm {
+  /// Amazon Resource Name (ARN) of the Amazon CloudWatch alarm.
+  final String? alarmArn;
+
+  /// Indicates the source of the Amazon CloudWatch alarm. That is, it indicates
+  /// if the alarm was created using Resilience Hub recommendation
+  /// (<code>AwsResilienceHub</code>), or if you had created the alarm in Amazon
+  /// CloudWatch (<code>Customer</code>).
+  final String? source;
+
+  Alarm({
+    this.alarmArn,
+    this.source,
+  });
+
+  factory Alarm.fromJson(Map<String, dynamic> json) {
+    return Alarm(
+      alarmArn: json['alarmArn'] as String?,
+      source: json['source'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final alarmArn = this.alarmArn;
+    final source = this.source;
+    return {
+      if (alarmArn != null) 'alarmArn': alarmArn,
+      if (source != null) 'source': source,
+    };
+  }
+}
+
+/// Defines a standard operating procedure (SOP) recommendation.
+class SopRecommendation {
+  /// Identifier for the SOP recommendation.
+  final String recommendationId;
+
+  /// Reference identifier for the SOP recommendation.
+  final String referenceId;
+
+  /// The service type.
+  final SopServiceType serviceType;
+
+  /// Name of the Application Component.
+  final String? appComponentName;
+
+  /// Description of the SOP recommendation.
+  final String? description;
+
+  /// The recommendation items.
+  final List<RecommendationItem>? items;
+
+  /// Name of the SOP recommendation.
+  final String? name;
+
+  /// Prerequisite for the SOP recommendation.
+  final String? prerequisite;
+
+  /// Status of the recommended standard operating procedure.
+  final RecommendationStatus? recommendationStatus;
+
+  SopRecommendation({
+    required this.recommendationId,
+    required this.referenceId,
+    required this.serviceType,
+    this.appComponentName,
+    this.description,
+    this.items,
+    this.name,
+    this.prerequisite,
+    this.recommendationStatus,
+  });
+
+  factory SopRecommendation.fromJson(Map<String, dynamic> json) {
+    return SopRecommendation(
+      recommendationId: (json['recommendationId'] as String?) ?? '',
+      referenceId: (json['referenceId'] as String?) ?? '',
+      serviceType:
+          SopServiceType.fromString((json['serviceType'] as String?) ?? ''),
+      appComponentName: json['appComponentName'] as String?,
+      description: json['description'] as String?,
+      items: (json['items'] as List?)
+          ?.nonNulls
+          .map((e) => RecommendationItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      name: json['name'] as String?,
+      prerequisite: json['prerequisite'] as String?,
+      recommendationStatus: (json['recommendationStatus'] as String?)
+          ?.let(RecommendationStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recommendationId = this.recommendationId;
+    final referenceId = this.referenceId;
+    final serviceType = this.serviceType;
+    final appComponentName = this.appComponentName;
+    final description = this.description;
+    final items = this.items;
+    final name = this.name;
+    final prerequisite = this.prerequisite;
+    final recommendationStatus = this.recommendationStatus;
+    return {
+      'recommendationId': recommendationId,
+      'referenceId': referenceId,
+      'serviceType': serviceType.value,
+      if (appComponentName != null) 'appComponentName': appComponentName,
+      if (description != null) 'description': description,
+      if (items != null) 'items': items,
+      if (name != null) 'name': name,
+      if (prerequisite != null) 'prerequisite': prerequisite,
+      if (recommendationStatus != null)
+        'recommendationStatus': recommendationStatus.value,
+    };
+  }
+}
+
+class SopServiceType {
+  static const ssm = SopServiceType._('SSM');
+
+  final String value;
+
+  const SopServiceType._(this.value);
+
+  static const values = [ssm];
+
+  static SopServiceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SopServiceType._(value));
+
+  @override
+  bool operator ==(other) => other is SopServiceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Creates a new grouping recommendation.
+class GroupingRecommendation {
+  /// Indicates the confidence level of Resilience Hub on the grouping
+  /// recommendation.
+  final GroupingRecommendationConfidenceLevel confidenceLevel;
+
+  /// Indicates the creation time of the grouping recommendation.
+  final DateTime creationTime;
+
+  /// Indicates the name of the recommended Application Component (AppComponent).
+  final GroupingAppComponent groupingAppComponent;
+
+  /// Indicates all the reasons available for rejecting a grouping recommendation.
+  final String groupingRecommendationId;
+
+  /// Indicates all the reasons available for rejecting a grouping recommendation.
+  final List<String> recommendationReasons;
+
+  /// Indicates the resources that are grouped in a recommended AppComponent.
+  final List<GroupingResource> resources;
+
+  /// Indicates the confidence level of the grouping recommendation.
+  final double score;
+
+  /// Indicates the status of grouping resources into AppComponents.
+  final GroupingRecommendationStatusType status;
+
+  /// Indicates the reason you had selected while rejecting a grouping
+  /// recommendation.
+  final GroupingRecommendationRejectionReason? rejectionReason;
+
+  GroupingRecommendation({
+    required this.confidenceLevel,
+    required this.creationTime,
+    required this.groupingAppComponent,
+    required this.groupingRecommendationId,
+    required this.recommendationReasons,
+    required this.resources,
+    required this.score,
+    required this.status,
+    this.rejectionReason,
+  });
+
+  factory GroupingRecommendation.fromJson(Map<String, dynamic> json) {
+    return GroupingRecommendation(
+      confidenceLevel: GroupingRecommendationConfidenceLevel.fromString(
+          (json['confidenceLevel'] as String?) ?? ''),
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      groupingAppComponent: GroupingAppComponent.fromJson(
+          (json['groupingAppComponent'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      groupingRecommendationId:
+          (json['groupingRecommendationId'] as String?) ?? '',
+      recommendationReasons:
+          ((json['recommendationReasons'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => e as String)
+              .toList(),
+      resources: ((json['resources'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => GroupingResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      score: (json['score'] as double?) ?? 0,
+      status: GroupingRecommendationStatusType.fromString(
+          (json['status'] as String?) ?? ''),
+      rejectionReason: (json['rejectionReason'] as String?)
+          ?.let(GroupingRecommendationRejectionReason.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final confidenceLevel = this.confidenceLevel;
+    final creationTime = this.creationTime;
+    final groupingAppComponent = this.groupingAppComponent;
+    final groupingRecommendationId = this.groupingRecommendationId;
+    final recommendationReasons = this.recommendationReasons;
+    final resources = this.resources;
+    final score = this.score;
+    final status = this.status;
+    final rejectionReason = this.rejectionReason;
+    return {
+      'confidenceLevel': confidenceLevel.value,
+      'creationTime': unixTimestampToJson(creationTime),
+      'groupingAppComponent': groupingAppComponent,
+      'groupingRecommendationId': groupingRecommendationId,
+      'recommendationReasons': recommendationReasons,
+      'resources': resources,
+      'score': score,
+      'status': status.value,
+      if (rejectionReason != null) 'rejectionReason': rejectionReason.value,
+    };
+  }
+}
+
+/// Creates a new recommended Application Component (AppComponent).
+class GroupingAppComponent {
+  /// Indicates the identifier of an AppComponent.
+  final String appComponentId;
+
+  /// Indicates the name of an AppComponent.
+  final String appComponentName;
+
+  /// Indicates the type of an AppComponent.
+  final String appComponentType;
+
+  GroupingAppComponent({
+    required this.appComponentId,
+    required this.appComponentName,
+    required this.appComponentType,
+  });
+
+  factory GroupingAppComponent.fromJson(Map<String, dynamic> json) {
+    return GroupingAppComponent(
+      appComponentId: (json['appComponentId'] as String?) ?? '',
+      appComponentName: (json['appComponentName'] as String?) ?? '',
+      appComponentType: (json['appComponentType'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appComponentId = this.appComponentId;
+    final appComponentName = this.appComponentName;
+    final appComponentType = this.appComponentType;
+    return {
+      'appComponentId': appComponentId,
+      'appComponentName': appComponentName,
+      'appComponentType': appComponentType,
+    };
+  }
+}
+
+class GroupingRecommendationStatusType {
+  static const accepted = GroupingRecommendationStatusType._('Accepted');
+  static const rejected = GroupingRecommendationStatusType._('Rejected');
+  static const pendingDecision =
+      GroupingRecommendationStatusType._('PendingDecision');
+
+  final String value;
+
+  const GroupingRecommendationStatusType._(this.value);
+
+  static const values = [accepted, rejected, pendingDecision];
+
+  static GroupingRecommendationStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GroupingRecommendationStatusType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GroupingRecommendationStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class GroupingRecommendationConfidenceLevel {
+  static const high = GroupingRecommendationConfidenceLevel._('High');
+  static const medium = GroupingRecommendationConfidenceLevel._('Medium');
+
+  final String value;
+
+  const GroupingRecommendationConfidenceLevel._(this.value);
+
+  static const values = [high, medium];
+
+  static GroupingRecommendationConfidenceLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GroupingRecommendationConfidenceLevel._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GroupingRecommendationConfidenceLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Indicates the resource that will be grouped in the recommended Application
+/// Component (AppComponent).
+class GroupingResource {
+  /// Indicates the logical identifier of the resource.
+  final LogicalResourceId logicalResourceId;
+
+  /// Indicates the physical identifier of the resource.
+  final PhysicalResourceId physicalResourceId;
+
+  /// Indicates the resource name.
+  final String resourceName;
+
+  /// Indicates the resource type.
+  final String resourceType;
+
+  /// Indicates the identifier of the source AppComponents in which the resources
+  /// were previously grouped into.
+  final List<String> sourceAppComponentIds;
+
+  GroupingResource({
+    required this.logicalResourceId,
+    required this.physicalResourceId,
+    required this.resourceName,
+    required this.resourceType,
+    required this.sourceAppComponentIds,
+  });
+
+  factory GroupingResource.fromJson(Map<String, dynamic> json) {
+    return GroupingResource(
+      logicalResourceId: LogicalResourceId.fromJson(
+          (json['logicalResourceId'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      physicalResourceId: PhysicalResourceId.fromJson(
+          (json['physicalResourceId'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      resourceName: (json['resourceName'] as String?) ?? '',
+      resourceType: (json['resourceType'] as String?) ?? '',
+      sourceAppComponentIds:
+          ((json['sourceAppComponentIds'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => e as String)
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logicalResourceId = this.logicalResourceId;
+    final physicalResourceId = this.physicalResourceId;
+    final resourceName = this.resourceName;
+    final resourceType = this.resourceType;
+    final sourceAppComponentIds = this.sourceAppComponentIds;
+    return {
+      'logicalResourceId': logicalResourceId,
+      'physicalResourceId': physicalResourceId,
+      'resourceName': resourceName,
+      'resourceType': resourceType,
+      'sourceAppComponentIds': sourceAppComponentIds,
+    };
+  }
 }
 
 /// Defines a recommendation template created with the
@@ -8902,6 +9269,60 @@ class RecommendationTemplate {
   }
 }
 
+/// The location of the Amazon S3 bucket.
+class S3Location {
+  /// The name of the Amazon S3 bucket.
+  final String? bucket;
+
+  /// The prefix for the Amazon S3 bucket.
+  final String? prefix;
+
+  S3Location({
+    this.bucket,
+    this.prefix,
+  });
+
+  factory S3Location.fromJson(Map<String, dynamic> json) {
+    return S3Location(
+      bucket: json['bucket'] as String?,
+      prefix: json['prefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final prefix = this.prefix;
+    return {
+      if (bucket != null) 'bucket': bucket,
+      if (prefix != null) 'prefix': prefix,
+    };
+  }
+}
+
+class TemplateFormat {
+  static const cfnYaml = TemplateFormat._('CfnYaml');
+  static const cfnJson = TemplateFormat._('CfnJson');
+
+  final String value;
+
+  const TemplateFormat._(this.value);
+
+  static const values = [cfnYaml, cfnJson];
+
+  static TemplateFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TemplateFormat._(value));
+
+  @override
+  bool operator ==(other) => other is TemplateFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 class RecommendationTemplateStatus {
   static const pending = RecommendationTemplateStatus._('Pending');
   static const inProgress = RecommendationTemplateStatus._('InProgress');
@@ -8927,107 +9348,6 @@ class RecommendationTemplateStatus {
 
   @override
   String toString() => value;
-}
-
-/// Indicates the rejected grouping recommendation.
-class RejectGroupingRecommendationEntry {
-  /// Indicates the identifier of the grouping recommendation.
-  final String groupingRecommendationId;
-
-  /// Indicates the reason you had selected while rejecting a grouping
-  /// recommendation.
-  final GroupingRecommendationRejectionReason? rejectionReason;
-
-  RejectGroupingRecommendationEntry({
-    required this.groupingRecommendationId,
-    this.rejectionReason,
-  });
-
-  Map<String, dynamic> toJson() {
-    final groupingRecommendationId = this.groupingRecommendationId;
-    final rejectionReason = this.rejectionReason;
-    return {
-      'groupingRecommendationId': groupingRecommendationId,
-      if (rejectionReason != null) 'rejectionReason': rejectionReason.value,
-    };
-  }
-}
-
-class RejectResourceGroupingRecommendationsResponse {
-  /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  /// this ARN is:
-  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app/<code>app-id</code>.
-  /// For more information about ARNs, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
-  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
-  /// Reference</i> guide.
-  final String appArn;
-
-  /// Indicates the list of resource grouping recommendations that failed to get
-  /// excluded in your application.
-  final List<FailedGroupingRecommendationEntry> failedEntries;
-
-  RejectResourceGroupingRecommendationsResponse({
-    required this.appArn,
-    required this.failedEntries,
-  });
-
-  factory RejectResourceGroupingRecommendationsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return RejectResourceGroupingRecommendationsResponse(
-      appArn: (json['appArn'] as String?) ?? '',
-      failedEntries: ((json['failedEntries'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => FailedGroupingRecommendationEntry.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final appArn = this.appArn;
-    final failedEntries = this.failedEntries;
-    return {
-      'appArn': appArn,
-      'failedEntries': failedEntries,
-    };
-  }
-}
-
-class RemoveDraftAppVersionResourceMappingsResponse {
-  /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  /// this ARN is:
-  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app/<code>app-id</code>.
-  /// For more information about ARNs, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
-  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
-  /// Reference</i> guide.
-  final String? appArn;
-
-  /// The version of the application.
-  final String? appVersion;
-
-  RemoveDraftAppVersionResourceMappingsResponse({
-    this.appArn,
-    this.appVersion,
-  });
-
-  factory RemoveDraftAppVersionResourceMappingsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return RemoveDraftAppVersionResourceMappingsResponse(
-      appArn: json['appArn'] as String?,
-      appVersion: json['appVersion'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final appArn = this.appArn;
-    final appVersion = this.appVersion;
-    return {
-      if (appArn != null) 'appArn': appArn,
-      if (appVersion != null) 'appVersion': appVersion,
-    };
-  }
 }
 
 class RenderRecommendationType {
@@ -9056,139 +9376,90 @@ class RenderRecommendationType {
   String toString() => value;
 }
 
-/// Defines a resiliency policy.
-/// <note>
-/// Resilience Hub allows you to provide a value of zero for
-/// <code>rtoInSecs</code> and <code>rpoInSecs</code> of your resiliency policy.
-/// But, while assessing your application, the lowest possible assessment result
-/// is near zero. Hence, if you provide value zero for <code>rtoInSecs</code>
-/// and <code>rpoInSecs</code>, the estimated workload RTO and estimated
-/// workload RPO result will be near zero and the <b>Compliance status</b> for
-/// your application will be set to <b>Policy breached</b>.
-/// </note>
-class ResiliencyPolicy {
-  /// Date and time when the resiliency policy was created.
-  final DateTime? creationTime;
+/// Indicates the sorting order of the fields in the metrics.
+class Sort {
+  /// Indicates the order in which you want to sort the metrics. By default, the
+  /// list is sorted in ascending order. To sort the list in descending order, set
+  /// this field to False.
+  final String field;
 
-  /// Specifies a high-level geographical location constraint for where your
-  /// resilience policy data can be stored.
-  final DataLocationConstraint? dataLocationConstraint;
+  /// Indicates the name or identifier of the field or attribute that should be
+  /// used as the basis for sorting the metrics.
+  final bool? ascending;
 
-  /// Specifies the estimated cost tier of the resiliency policy.
-  final EstimatedCostTier? estimatedCostTier;
-
-  /// The resiliency policy.
-  final Map<DisruptionType, FailurePolicy>? policy;
-
-  /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN
-  /// is:
-  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:resiliency-policy/<code>policy-id</code>.
-  /// For more information about ARNs, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
-  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
-  /// Reference</i> guide.
-  final String? policyArn;
-
-  /// The description for the policy.
-  final String? policyDescription;
-
-  /// The name of the policy
-  final String? policyName;
-
-  /// Tags assigned to the resource. A tag is a label that you assign to an Amazon
-  /// Web Services resource. Each tag consists of a key/value pair.
-  final Map<String, String>? tags;
-
-  /// The tier for this resiliency policy, ranging from the highest severity
-  /// (<code>MissionCritical</code>) to lowest (<code>NonCritical</code>).
-  final ResiliencyPolicyTier? tier;
-
-  ResiliencyPolicy({
-    this.creationTime,
-    this.dataLocationConstraint,
-    this.estimatedCostTier,
-    this.policy,
-    this.policyArn,
-    this.policyDescription,
-    this.policyName,
-    this.tags,
-    this.tier,
+  Sort({
+    required this.field,
+    this.ascending,
   });
 
-  factory ResiliencyPolicy.fromJson(Map<String, dynamic> json) {
-    return ResiliencyPolicy(
-      creationTime: timeStampFromJson(json['creationTime']),
-      dataLocationConstraint: (json['dataLocationConstraint'] as String?)
-          ?.let(DataLocationConstraint.fromString),
-      estimatedCostTier: (json['estimatedCostTier'] as String?)
-          ?.let(EstimatedCostTier.fromString),
-      policy: (json['policy'] as Map<String, dynamic>?)?.map((k, e) => MapEntry(
-          DisruptionType.fromString(k),
-          FailurePolicy.fromJson(e as Map<String, dynamic>))),
-      policyArn: json['policyArn'] as String?,
-      policyDescription: json['policyDescription'] as String?,
-      policyName: json['policyName'] as String?,
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      tier: (json['tier'] as String?)?.let(ResiliencyPolicyTier.fromString),
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final creationTime = this.creationTime;
-    final dataLocationConstraint = this.dataLocationConstraint;
-    final estimatedCostTier = this.estimatedCostTier;
-    final policy = this.policy;
-    final policyArn = this.policyArn;
-    final policyDescription = this.policyDescription;
-    final policyName = this.policyName;
-    final tags = this.tags;
-    final tier = this.tier;
+    final field = this.field;
+    final ascending = this.ascending;
     return {
-      if (creationTime != null)
-        'creationTime': unixTimestampToJson(creationTime),
-      if (dataLocationConstraint != null)
-        'dataLocationConstraint': dataLocationConstraint.value,
-      if (estimatedCostTier != null)
-        'estimatedCostTier': estimatedCostTier.value,
-      if (policy != null) 'policy': policy.map((k, e) => MapEntry(k.value, e)),
-      if (policyArn != null) 'policyArn': policyArn,
-      if (policyDescription != null) 'policyDescription': policyDescription,
-      if (policyName != null) 'policyName': policyName,
-      if (tags != null) 'tags': tags,
-      if (tier != null) 'tier': tier.value,
+      'field': field,
+      if (ascending != null) 'ascending': ascending,
     };
   }
 }
 
-class ResiliencyPolicyTier {
-  static const missionCritical = ResiliencyPolicyTier._('MissionCritical');
-  static const critical = ResiliencyPolicyTier._('Critical');
-  static const important = ResiliencyPolicyTier._('Important');
-  static const coreServices = ResiliencyPolicyTier._('CoreServices');
-  static const nonCritical = ResiliencyPolicyTier._('NonCritical');
-  static const notApplicable = ResiliencyPolicyTier._('NotApplicable');
+/// Indicates the condition based on which you want to filter the metrics.
+class Condition {
+  /// Indicates the field in the metric.
+  final String field;
+
+  /// Indicates the type of operator or comparison to be used when evaluating a
+  /// condition against the specified field.
+  final ConditionOperatorType operator;
+
+  /// Indicates the value or data against which a condition is evaluated.
+  final String? value;
+
+  Condition({
+    required this.field,
+    required this.operator,
+    this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final field = this.field;
+    final operator = this.operator;
+    final value = this.value;
+    return {
+      'field': field,
+      'operator': operator.value,
+      if (value != null) 'value': value,
+    };
+  }
+}
+
+class ConditionOperatorType {
+  static const equals = ConditionOperatorType._('Equals');
+  static const notEquals = ConditionOperatorType._('NotEquals');
+  static const greaterThen = ConditionOperatorType._('GreaterThen');
+  static const greaterOrEquals = ConditionOperatorType._('GreaterOrEquals');
+  static const lessThen = ConditionOperatorType._('LessThen');
+  static const lessOrEquals = ConditionOperatorType._('LessOrEquals');
 
   final String value;
 
-  const ResiliencyPolicyTier._(this.value);
+  const ConditionOperatorType._(this.value);
 
   static const values = [
-    missionCritical,
-    critical,
-    important,
-    coreServices,
-    nonCritical,
-    notApplicable
+    equals,
+    notEquals,
+    greaterThen,
+    greaterOrEquals,
+    lessThen,
+    lessOrEquals
   ];
 
-  static ResiliencyPolicyTier fromString(String value) =>
+  static ConditionOperatorType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => ResiliencyPolicyTier._(value));
+          orElse: () => ConditionOperatorType._(value));
 
   @override
   bool operator ==(other) =>
-      other is ResiliencyPolicyTier && other.value == value;
+      other is ConditionOperatorType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -9197,76 +9468,52 @@ class ResiliencyPolicyTier {
   String toString() => value;
 }
 
-/// The overall resiliency score, returned as an object that includes the
-/// disruption score and outage score.
-class ResiliencyScore {
-  /// The disruption score for a valid key.
-  final Map<DisruptionType, double> disruptionScore;
+/// Indicates the field or attribute of a resource or data structure on which a
+/// condition is being applied or evaluated.
+class Field {
+  /// Name of the field.
+  final String name;
 
-  /// The outage score for a valid key.
-  final double score;
+  /// (Optional) Indicates the type of aggregation or summary operation (such as
+  /// Sum, Average, and so on) to be performed on a particular field or set of
+  /// data.
+  final FieldAggregationType? aggregation;
 
-  /// The score generated by Resilience Hub for the scoring component after
-  /// running an assessment.
-  ///
-  /// For example, if the <code>score</code> is 25 points, it indicates the
-  /// overall score of your application generated by Resilience Hub after running
-  /// an assessment.
-  final Map<ResiliencyScoreType, ScoringComponentResiliencyScore>?
-      componentScore;
-
-  ResiliencyScore({
-    required this.disruptionScore,
-    required this.score,
-    this.componentScore,
+  Field({
+    required this.name,
+    this.aggregation,
   });
 
-  factory ResiliencyScore.fromJson(Map<String, dynamic> json) {
-    return ResiliencyScore(
-      disruptionScore: ((json['disruptionScore'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{})
-          .map((k, e) => MapEntry(DisruptionType.fromString(k), e as double)),
-      score: (json['score'] as double?) ?? 0,
-      componentScore: (json['componentScore'] as Map<String, dynamic>?)?.map(
-          (k, e) => MapEntry(
-              ResiliencyScoreType.fromString(k),
-              ScoringComponentResiliencyScore.fromJson(
-                  e as Map<String, dynamic>))),
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final disruptionScore = this.disruptionScore;
-    final score = this.score;
-    final componentScore = this.componentScore;
+    final name = this.name;
+    final aggregation = this.aggregation;
     return {
-      'disruptionScore': disruptionScore.map((k, e) => MapEntry(k.value, e)),
-      'score': score,
-      if (componentScore != null)
-        'componentScore': componentScore.map((k, e) => MapEntry(k.value, e)),
+      'name': name,
+      if (aggregation != null) 'aggregation': aggregation.value,
     };
   }
 }
 
-class ResiliencyScoreType {
-  static const compliance = ResiliencyScoreType._('Compliance');
-  static const test = ResiliencyScoreType._('Test');
-  static const alarm = ResiliencyScoreType._('Alarm');
-  static const sop = ResiliencyScoreType._('Sop');
+class FieldAggregationType {
+  static const min = FieldAggregationType._('Min');
+  static const max = FieldAggregationType._('Max');
+  static const sum = FieldAggregationType._('Sum');
+  static const avg = FieldAggregationType._('Avg');
+  static const count = FieldAggregationType._('Count');
 
   final String value;
 
-  const ResiliencyScoreType._(this.value);
+  const FieldAggregationType._(this.value);
 
-  static const values = [compliance, test, alarm, sop];
+  static const values = [min, max, sum, avg, count];
 
-  static ResiliencyScoreType fromString(String value) =>
+  static FieldAggregationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => ResiliencyScoreType._(value));
+          orElse: () => FieldAggregationType._(value));
 
   @override
   bool operator ==(other) =>
-      other is ResiliencyScoreType && other.value == value;
+      other is FieldAggregationType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -9275,272 +9522,49 @@ class ResiliencyScoreType {
   String toString() => value;
 }
 
-class ResolveAppVersionResourcesResponse {
-  /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  /// this ARN is:
-  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app/<code>app-id</code>.
-  /// For more information about ARNs, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
-  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
-  /// Reference</i> guide.
-  final String appArn;
-
-  /// The version of the application.
+/// Version of an application.
+class AppVersionSummary {
+  /// Version of an application.
   final String appVersion;
 
-  /// The identifier for a specific resolution.
-  final String resolutionId;
+  /// Creation time of the application version.
+  final DateTime? creationTime;
 
-  /// Status of the action.
-  final ResourceResolutionStatusType status;
+  /// Identifier of the application version.
+  final int? identifier;
 
-  ResolveAppVersionResourcesResponse({
-    required this.appArn,
+  /// Name of the application version.
+  final String? versionName;
+
+  AppVersionSummary({
     required this.appVersion,
-    required this.resolutionId,
-    required this.status,
+    this.creationTime,
+    this.identifier,
+    this.versionName,
   });
 
-  factory ResolveAppVersionResourcesResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ResolveAppVersionResourcesResponse(
-      appArn: (json['appArn'] as String?) ?? '',
+  factory AppVersionSummary.fromJson(Map<String, dynamic> json) {
+    return AppVersionSummary(
       appVersion: (json['appVersion'] as String?) ?? '',
-      resolutionId: (json['resolutionId'] as String?) ?? '',
-      status: ResourceResolutionStatusType.fromString(
-          (json['status'] as String?) ?? ''),
+      creationTime: timeStampFromJson(json['creationTime']),
+      identifier: json['identifier'] as int?,
+      versionName: json['versionName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final appArn = this.appArn;
     final appVersion = this.appVersion;
-    final resolutionId = this.resolutionId;
-    final status = this.status;
+    final creationTime = this.creationTime;
+    final identifier = this.identifier;
+    final versionName = this.versionName;
     return {
-      'appArn': appArn,
       'appVersion': appVersion,
-      'resolutionId': resolutionId,
-      'status': status.value,
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (identifier != null) 'identifier': identifier,
+      if (versionName != null) 'versionName': versionName,
     };
   }
-}
-
-/// Indicates the resources that have drifted in the current application
-/// version.
-class ResourceDrift {
-  /// Amazon Resource Name (ARN) of the application whose resources have drifted.
-  /// The format for this ARN is:
-  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app-assessment/<code>app-id</code>.
-  /// For more information about ARNs, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
-  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
-  /// Reference</i> guide.
-  final String? appArn;
-
-  /// Version of the application whose resources have drifted.
-  final String? appVersion;
-
-  /// Indicates if the resource was added or removed.
-  final DifferenceType? diffType;
-
-  /// Reference identifier of the resource drift.
-  final String? referenceId;
-
-  /// Identifier of the drifted resource.
-  final ResourceIdentifier? resourceIdentifier;
-
-  ResourceDrift({
-    this.appArn,
-    this.appVersion,
-    this.diffType,
-    this.referenceId,
-    this.resourceIdentifier,
-  });
-
-  factory ResourceDrift.fromJson(Map<String, dynamic> json) {
-    return ResourceDrift(
-      appArn: json['appArn'] as String?,
-      appVersion: json['appVersion'] as String?,
-      diffType: (json['diffType'] as String?)?.let(DifferenceType.fromString),
-      referenceId: json['referenceId'] as String?,
-      resourceIdentifier: json['resourceIdentifier'] != null
-          ? ResourceIdentifier.fromJson(
-              json['resourceIdentifier'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final appArn = this.appArn;
-    final appVersion = this.appVersion;
-    final diffType = this.diffType;
-    final referenceId = this.referenceId;
-    final resourceIdentifier = this.resourceIdentifier;
-    return {
-      if (appArn != null) 'appArn': appArn,
-      if (appVersion != null) 'appVersion': appVersion,
-      if (diffType != null) 'diffType': diffType.value,
-      if (referenceId != null) 'referenceId': referenceId,
-      if (resourceIdentifier != null) 'resourceIdentifier': resourceIdentifier,
-    };
-  }
-}
-
-/// Defines application resource errors.
-class ResourceError {
-  /// Identifier of the logical resource.
-  final String? logicalResourceId;
-
-  /// Identifier of the physical resource.
-  final String? physicalResourceId;
-
-  /// This is the error message.
-  final String? reason;
-
-  ResourceError({
-    this.logicalResourceId,
-    this.physicalResourceId,
-    this.reason,
-  });
-
-  factory ResourceError.fromJson(Map<String, dynamic> json) {
-    return ResourceError(
-      logicalResourceId: json['logicalResourceId'] as String?,
-      physicalResourceId: json['physicalResourceId'] as String?,
-      reason: json['reason'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final logicalResourceId = this.logicalResourceId;
-    final physicalResourceId = this.physicalResourceId;
-    final reason = this.reason;
-    return {
-      if (logicalResourceId != null) 'logicalResourceId': logicalResourceId,
-      if (physicalResourceId != null) 'physicalResourceId': physicalResourceId,
-      if (reason != null) 'reason': reason,
-    };
-  }
-}
-
-/// A list of errors retrieving an application's resources.
-class ResourceErrorsDetails {
-  /// This indicates if there are more errors not listed in the
-  /// <code>resourceErrors</code> list.
-  final bool? hasMoreErrors;
-
-  /// A list of errors retrieving an application's resources.
-  final List<ResourceError>? resourceErrors;
-
-  ResourceErrorsDetails({
-    this.hasMoreErrors,
-    this.resourceErrors,
-  });
-
-  factory ResourceErrorsDetails.fromJson(Map<String, dynamic> json) {
-    return ResourceErrorsDetails(
-      hasMoreErrors: json['hasMoreErrors'] as bool?,
-      resourceErrors: (json['resourceErrors'] as List?)
-          ?.nonNulls
-          .map((e) => ResourceError.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hasMoreErrors = this.hasMoreErrors;
-    final resourceErrors = this.resourceErrors;
-    return {
-      if (hasMoreErrors != null) 'hasMoreErrors': hasMoreErrors,
-      if (resourceErrors != null) 'resourceErrors': resourceErrors,
-    };
-  }
-}
-
-/// Defines a resource identifier for the drifted resource.
-class ResourceIdentifier {
-  /// Logical identifier of the drifted resource.
-  final LogicalResourceId? logicalResourceId;
-
-  /// Type of the drifted resource.
-  final String? resourceType;
-
-  ResourceIdentifier({
-    this.logicalResourceId,
-    this.resourceType,
-  });
-
-  factory ResourceIdentifier.fromJson(Map<String, dynamic> json) {
-    return ResourceIdentifier(
-      logicalResourceId: json['logicalResourceId'] != null
-          ? LogicalResourceId.fromJson(
-              json['logicalResourceId'] as Map<String, dynamic>)
-          : null,
-      resourceType: json['resourceType'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final logicalResourceId = this.logicalResourceId;
-    final resourceType = this.resourceType;
-    return {
-      if (logicalResourceId != null) 'logicalResourceId': logicalResourceId,
-      if (resourceType != null) 'resourceType': resourceType,
-    };
-  }
-}
-
-class ResourceImportStatusType {
-  static const pending = ResourceImportStatusType._('Pending');
-  static const inProgress = ResourceImportStatusType._('InProgress');
-  static const failed = ResourceImportStatusType._('Failed');
-  static const success = ResourceImportStatusType._('Success');
-
-  final String value;
-
-  const ResourceImportStatusType._(this.value);
-
-  static const values = [pending, inProgress, failed, success];
-
-  static ResourceImportStatusType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ResourceImportStatusType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ResourceImportStatusType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ResourceImportStrategyType {
-  static const addOnly = ResourceImportStrategyType._('AddOnly');
-  static const replaceAll = ResourceImportStrategyType._('ReplaceAll');
-
-  final String value;
-
-  const ResourceImportStrategyType._(this.value);
-
-  static const values = [addOnly, replaceAll];
-
-  static ResourceImportStrategyType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ResourceImportStrategyType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ResourceImportStrategyType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// Defines a resource mapping.
@@ -9665,313 +9689,8 @@ class ResourceMappingType {
   String toString() => value;
 }
 
-class ResourceResolutionStatusType {
-  static const pending = ResourceResolutionStatusType._('Pending');
-  static const inProgress = ResourceResolutionStatusType._('InProgress');
-  static const failed = ResourceResolutionStatusType._('Failed');
-  static const success = ResourceResolutionStatusType._('Success');
-
-  final String value;
-
-  const ResourceResolutionStatusType._(this.value);
-
-  static const values = [pending, inProgress, failed, success];
-
-  static ResourceResolutionStatusType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ResourceResolutionStatusType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ResourceResolutionStatusType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ResourceSourceType {
-  static const appTemplate = ResourceSourceType._('AppTemplate');
-  static const discovered = ResourceSourceType._('Discovered');
-
-  final String value;
-
-  const ResourceSourceType._(this.value);
-
-  static const values = [appTemplate, discovered];
-
-  static ResourceSourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ResourceSourceType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ResourceSourceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ResourcesGroupingRecGenStatusType {
-  static const pending = ResourcesGroupingRecGenStatusType._('Pending');
-  static const inProgress = ResourcesGroupingRecGenStatusType._('InProgress');
-  static const failed = ResourcesGroupingRecGenStatusType._('Failed');
-  static const success = ResourcesGroupingRecGenStatusType._('Success');
-
-  final String value;
-
-  const ResourcesGroupingRecGenStatusType._(this.value);
-
-  static const values = [pending, inProgress, failed, success];
-
-  static ResourcesGroupingRecGenStatusType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ResourcesGroupingRecGenStatusType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ResourcesGroupingRecGenStatusType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The location of the Amazon S3 bucket.
-class S3Location {
-  /// The name of the Amazon S3 bucket.
-  final String? bucket;
-
-  /// The prefix for the Amazon S3 bucket.
-  final String? prefix;
-
-  S3Location({
-    this.bucket,
-    this.prefix,
-  });
-
-  factory S3Location.fromJson(Map<String, dynamic> json) {
-    return S3Location(
-      bucket: json['bucket'] as String?,
-      prefix: json['prefix'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucket = this.bucket;
-    final prefix = this.prefix;
-    return {
-      if (bucket != null) 'bucket': bucket,
-      if (prefix != null) 'prefix': prefix,
-    };
-  }
-}
-
-/// Resiliency score of each scoring component. For more information about
-/// scoring component, see <a
-/// href="https://docs.aws.amazon.com/resilience-hub/latest/userguide/calculate-score.html">Calculating
-/// resiliency score</a>.
-class ScoringComponentResiliencyScore {
-  /// Number of recommendations that were excluded from the assessment.
-  ///
-  /// For example, if the <code>excludedCount</code> for Alarms coverage scoring
-  /// component is 7, it indicates that 7 Amazon CloudWatch alarms are excluded
-  /// from the assessment.
-  final int? excludedCount;
-
-  /// Number of recommendations that must be implemented to obtain the maximum
-  /// possible score for the scoring component. For SOPs, alarms, and tests, these
-  /// are the number of recommendations that must be implemented. For compliance,
-  /// these are the number of Application Components that have breached the
-  /// resiliency policy.
-  ///
-  /// For example, if the <code>outstandingCount</code> for Alarms coverage
-  /// scoring component is 5, it indicates that 5 Amazon CloudWatch alarms need to
-  /// be implemented to achieve the maximum possible score.
-  final int? outstandingCount;
-
-  /// Maximum possible score that can be obtained for the scoring component.
-  ///
-  /// For example, if the <code>possibleScore</code> is 20 points, it indicates
-  /// the maximum possible score you can achieve for the scoring component when
-  /// you run a new assessment after implementing all the Resilience Hub
-  /// recommendations.
-  final double? possibleScore;
-
-  /// Resiliency score points given for the scoring component. The score is always
-  /// less than or equal to the <code>possibleScore</code>.
-  final double? score;
-
-  ScoringComponentResiliencyScore({
-    this.excludedCount,
-    this.outstandingCount,
-    this.possibleScore,
-    this.score,
-  });
-
-  factory ScoringComponentResiliencyScore.fromJson(Map<String, dynamic> json) {
-    return ScoringComponentResiliencyScore(
-      excludedCount: json['excludedCount'] as int?,
-      outstandingCount: json['outstandingCount'] as int?,
-      possibleScore: json['possibleScore'] as double?,
-      score: json['score'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final excludedCount = this.excludedCount;
-    final outstandingCount = this.outstandingCount;
-    final possibleScore = this.possibleScore;
-    final score = this.score;
-    return {
-      if (excludedCount != null) 'excludedCount': excludedCount,
-      if (outstandingCount != null) 'outstandingCount': outstandingCount,
-      if (possibleScore != null) 'possibleScore': possibleScore,
-      if (score != null) 'score': score,
-    };
-  }
-}
-
-/// Defines a standard operating procedure (SOP) recommendation.
-class SopRecommendation {
-  /// Identifier for the SOP recommendation.
-  final String recommendationId;
-
-  /// Reference identifier for the SOP recommendation.
-  final String referenceId;
-
-  /// The service type.
-  final SopServiceType serviceType;
-
-  /// Name of the Application Component.
-  final String? appComponentName;
-
-  /// Description of the SOP recommendation.
-  final String? description;
-
-  /// The recommendation items.
-  final List<RecommendationItem>? items;
-
-  /// Name of the SOP recommendation.
-  final String? name;
-
-  /// Prerequisite for the SOP recommendation.
-  final String? prerequisite;
-
-  /// Status of the recommended standard operating procedure.
-  final RecommendationStatus? recommendationStatus;
-
-  SopRecommendation({
-    required this.recommendationId,
-    required this.referenceId,
-    required this.serviceType,
-    this.appComponentName,
-    this.description,
-    this.items,
-    this.name,
-    this.prerequisite,
-    this.recommendationStatus,
-  });
-
-  factory SopRecommendation.fromJson(Map<String, dynamic> json) {
-    return SopRecommendation(
-      recommendationId: (json['recommendationId'] as String?) ?? '',
-      referenceId: (json['referenceId'] as String?) ?? '',
-      serviceType:
-          SopServiceType.fromString((json['serviceType'] as String?) ?? ''),
-      appComponentName: json['appComponentName'] as String?,
-      description: json['description'] as String?,
-      items: (json['items'] as List?)
-          ?.nonNulls
-          .map((e) => RecommendationItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      name: json['name'] as String?,
-      prerequisite: json['prerequisite'] as String?,
-      recommendationStatus: (json['recommendationStatus'] as String?)
-          ?.let(RecommendationStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final recommendationId = this.recommendationId;
-    final referenceId = this.referenceId;
-    final serviceType = this.serviceType;
-    final appComponentName = this.appComponentName;
-    final description = this.description;
-    final items = this.items;
-    final name = this.name;
-    final prerequisite = this.prerequisite;
-    final recommendationStatus = this.recommendationStatus;
-    return {
-      'recommendationId': recommendationId,
-      'referenceId': referenceId,
-      'serviceType': serviceType.value,
-      if (appComponentName != null) 'appComponentName': appComponentName,
-      if (description != null) 'description': description,
-      if (items != null) 'items': items,
-      if (name != null) 'name': name,
-      if (prerequisite != null) 'prerequisite': prerequisite,
-      if (recommendationStatus != null)
-        'recommendationStatus': recommendationStatus.value,
-    };
-  }
-}
-
-class SopServiceType {
-  static const ssm = SopServiceType._('SSM');
-
-  final String value;
-
-  const SopServiceType._(this.value);
-
-  static const values = [ssm];
-
-  static SopServiceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SopServiceType._(value));
-
-  @override
-  bool operator ==(other) => other is SopServiceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class StartAppAssessmentResponse {
-  /// The assessment created.
-  final AppAssessment assessment;
-
-  StartAppAssessmentResponse({
-    required this.assessment,
-  });
-
-  factory StartAppAssessmentResponse.fromJson(Map<String, dynamic> json) {
-    return StartAppAssessmentResponse(
-      assessment: AppAssessment.fromJson(
-          (json['assessment'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assessment = this.assessment;
-    return {
-      'assessment': assessment,
-    };
-  }
-}
-
-class StartResourceGroupingRecommendationTaskResponse {
+/// Defines an application summary.
+class AppSummary {
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
   /// this ARN is:
   /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app/<code>app-id</code>.
@@ -9981,82 +9700,189 @@ class StartResourceGroupingRecommendationTaskResponse {
   /// Reference</i> guide.
   final String appArn;
 
-  /// Indicates the identifier of the grouping recommendation task.
-  final String groupingId;
+  /// Date and time when the app was created.
+  final DateTime creationTime;
 
-  /// Status of the action.
-  final ResourcesGroupingRecGenStatusType status;
+  /// The name of the application.
+  final String name;
 
-  /// Indicates the error that occurred while executing a grouping recommendation
-  /// task.
-  final String? errorMessage;
+  /// Assessment execution schedule with 'Daily' or 'Disabled' values.
+  final AppAssessmentScheduleType? assessmentSchedule;
 
-  StartResourceGroupingRecommendationTaskResponse({
+  /// Amazon Resource Name (ARN) of Resource Groups group that is integrated with
+  /// an AppRegistry application. For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
+  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i> guide.
+  final String? awsApplicationArn;
+
+  /// The current status of compliance for the resiliency policy.
+  final AppComplianceStatusType? complianceStatus;
+
+  /// The optional description for an app.
+  final String? description;
+
+  /// Indicates if compliance drifts (deviations) were detected while running an
+  /// assessment for your application.
+  final AppDriftStatusType? driftStatus;
+
+  /// Date and time of the most recent compliance evaluation.
+  final DateTime? lastAppComplianceEvaluationTime;
+
+  /// The current resiliency score for the application.
+  final double? resiliencyScore;
+
+  /// Recovery Point Objective (RPO) in seconds.
+  final int? rpoInSecs;
+
+  /// Recovery Time Objective (RTO) in seconds.
+  final int? rtoInSecs;
+
+  /// Status of the application.
+  final AppStatusType? status;
+
+  AppSummary({
     required this.appArn,
-    required this.groupingId,
-    required this.status,
-    this.errorMessage,
+    required this.creationTime,
+    required this.name,
+    this.assessmentSchedule,
+    this.awsApplicationArn,
+    this.complianceStatus,
+    this.description,
+    this.driftStatus,
+    this.lastAppComplianceEvaluationTime,
+    this.resiliencyScore,
+    this.rpoInSecs,
+    this.rtoInSecs,
+    this.status,
   });
 
-  factory StartResourceGroupingRecommendationTaskResponse.fromJson(
-      Map<String, dynamic> json) {
-    return StartResourceGroupingRecommendationTaskResponse(
+  factory AppSummary.fromJson(Map<String, dynamic> json) {
+    return AppSummary(
       appArn: (json['appArn'] as String?) ?? '',
-      groupingId: (json['groupingId'] as String?) ?? '',
-      status: ResourcesGroupingRecGenStatusType.fromString(
-          (json['status'] as String?) ?? ''),
-      errorMessage: json['errorMessage'] as String?,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      assessmentSchedule: (json['assessmentSchedule'] as String?)
+          ?.let(AppAssessmentScheduleType.fromString),
+      awsApplicationArn: json['awsApplicationArn'] as String?,
+      complianceStatus: (json['complianceStatus'] as String?)
+          ?.let(AppComplianceStatusType.fromString),
+      description: json['description'] as String?,
+      driftStatus:
+          (json['driftStatus'] as String?)?.let(AppDriftStatusType.fromString),
+      lastAppComplianceEvaluationTime:
+          timeStampFromJson(json['lastAppComplianceEvaluationTime']),
+      resiliencyScore: json['resiliencyScore'] as double?,
+      rpoInSecs: json['rpoInSecs'] as int?,
+      rtoInSecs: json['rtoInSecs'] as int?,
+      status: (json['status'] as String?)?.let(AppStatusType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final appArn = this.appArn;
-    final groupingId = this.groupingId;
+    final creationTime = this.creationTime;
+    final name = this.name;
+    final assessmentSchedule = this.assessmentSchedule;
+    final awsApplicationArn = this.awsApplicationArn;
+    final complianceStatus = this.complianceStatus;
+    final description = this.description;
+    final driftStatus = this.driftStatus;
+    final lastAppComplianceEvaluationTime =
+        this.lastAppComplianceEvaluationTime;
+    final resiliencyScore = this.resiliencyScore;
+    final rpoInSecs = this.rpoInSecs;
+    final rtoInSecs = this.rtoInSecs;
     final status = this.status;
-    final errorMessage = this.errorMessage;
     return {
       'appArn': appArn,
-      'groupingId': groupingId,
-      'status': status.value,
-      if (errorMessage != null) 'errorMessage': errorMessage,
+      'creationTime': unixTimestampToJson(creationTime),
+      'name': name,
+      if (assessmentSchedule != null)
+        'assessmentSchedule': assessmentSchedule.value,
+      if (awsApplicationArn != null) 'awsApplicationArn': awsApplicationArn,
+      if (complianceStatus != null) 'complianceStatus': complianceStatus.value,
+      if (description != null) 'description': description,
+      if (driftStatus != null) 'driftStatus': driftStatus.value,
+      if (lastAppComplianceEvaluationTime != null)
+        'lastAppComplianceEvaluationTime':
+            unixTimestampToJson(lastAppComplianceEvaluationTime),
+      if (resiliencyScore != null) 'resiliencyScore': resiliencyScore,
+      if (rpoInSecs != null) 'rpoInSecs': rpoInSecs,
+      if (rtoInSecs != null) 'rtoInSecs': rtoInSecs,
+      if (status != null) 'status': status.value,
     };
   }
 }
 
-class TagResourceResponse {
-  TagResourceResponse();
+/// The list of Resilience Hub application input sources.
+class AppInputSource {
+  /// The resource type of the input source.
+  final ResourceMappingType importType;
 
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
+  /// The namespace on your Amazon Elastic Kubernetes Service cluster.
+  final EksSourceClusterNamespace? eksSourceClusterNamespace;
+
+  /// The number of resources.
+  final int? resourceCount;
+
+  /// The Amazon Resource Name (ARN) of the input source. For more information
+  /// about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
+  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i> guide.
+  final String? sourceArn;
+
+  /// The name of the input source.
+  final String? sourceName;
+
+  /// The name of the Terraform s3 state ﬁle.
+  final TerraformSource? terraformSource;
+
+  AppInputSource({
+    required this.importType,
+    this.eksSourceClusterNamespace,
+    this.resourceCount,
+    this.sourceArn,
+    this.sourceName,
+    this.terraformSource,
+  });
+
+  factory AppInputSource.fromJson(Map<String, dynamic> json) {
+    return AppInputSource(
+      importType:
+          ResourceMappingType.fromString((json['importType'] as String?) ?? ''),
+      eksSourceClusterNamespace: json['eksSourceClusterNamespace'] != null
+          ? EksSourceClusterNamespace.fromJson(
+              json['eksSourceClusterNamespace'] as Map<String, dynamic>)
+          : null,
+      resourceCount: json['resourceCount'] as int?,
+      sourceArn: json['sourceArn'] as String?,
+      sourceName: json['sourceName'] as String?,
+      terraformSource: json['terraformSource'] != null
+          ? TerraformSource.fromJson(
+              json['terraformSource'] as Map<String, dynamic>)
+          : null,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final importType = this.importType;
+    final eksSourceClusterNamespace = this.eksSourceClusterNamespace;
+    final resourceCount = this.resourceCount;
+    final sourceArn = this.sourceArn;
+    final sourceName = this.sourceName;
+    final terraformSource = this.terraformSource;
+    return {
+      'importType': importType.value,
+      if (eksSourceClusterNamespace != null)
+        'eksSourceClusterNamespace': eksSourceClusterNamespace,
+      if (resourceCount != null) 'resourceCount': resourceCount,
+      if (sourceArn != null) 'sourceArn': sourceArn,
+      if (sourceName != null) 'sourceName': sourceName,
+      if (terraformSource != null) 'terraformSource': terraformSource,
+    };
   }
-}
-
-class TemplateFormat {
-  static const cfnYaml = TemplateFormat._('CfnYaml');
-  static const cfnJson = TemplateFormat._('CfnJson');
-
-  final String value;
-
-  const TemplateFormat._(this.value);
-
-  static const values = [cfnYaml, cfnJson];
-
-  static TemplateFormat fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TemplateFormat._(value));
-
-  @override
-  bool operator ==(other) => other is TemplateFormat && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// The Terraform s3 state file you need to import.
@@ -10082,131 +9908,263 @@ class TerraformSource {
   }
 }
 
-/// Defines a test recommendation.
-class TestRecommendation {
-  /// Reference identifier for the test recommendation.
+/// The input source of the namespace that is located on your Amazon Elastic
+/// Kubernetes Service cluster.
+class EksSourceClusterNamespace {
+  /// Amazon Resource Name (ARN) of the Amazon Elastic Kubernetes Service cluster.
+  /// The format for this ARN is:
+  /// arn:<code>aws</code>:eks:<code>region</code>:<code>account-id</code>:cluster/<code>cluster-name</code>.
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
+  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i> guide.
+  final String eksClusterArn;
+
+  /// Name of the namespace that is located on your Amazon Elastic Kubernetes
+  /// Service cluster.
+  final String namespace;
+
+  EksSourceClusterNamespace({
+    required this.eksClusterArn,
+    required this.namespace,
+  });
+
+  factory EksSourceClusterNamespace.fromJson(Map<String, dynamic> json) {
+    return EksSourceClusterNamespace(
+      eksClusterArn: (json['eksClusterArn'] as String?) ?? '',
+      namespace: (json['namespace'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eksClusterArn = this.eksClusterArn;
+    final namespace = this.namespace;
+    return {
+      'eksClusterArn': eksClusterArn,
+      'namespace': namespace,
+    };
+  }
+}
+
+/// Defines recommendations for an Resilience Hub Application Component,
+/// returned as an object. This object contains component names, configuration
+/// recommendations, and recommendation statuses.
+class ComponentRecommendation {
+  /// Name of the Application Component.
+  final String appComponentName;
+
+  /// List of recommendations.
+  final List<ConfigRecommendation> configRecommendations;
+
+  /// Status of the recommendation.
+  final RecommendationComplianceStatus recommendationStatus;
+
+  ComponentRecommendation({
+    required this.appComponentName,
+    required this.configRecommendations,
+    required this.recommendationStatus,
+  });
+
+  factory ComponentRecommendation.fromJson(Map<String, dynamic> json) {
+    return ComponentRecommendation(
+      appComponentName: (json['appComponentName'] as String?) ?? '',
+      configRecommendations: ((json['configRecommendations'] as List?) ??
+              const [])
+          .nonNulls
+          .map((e) => ConfigRecommendation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      recommendationStatus: RecommendationComplianceStatus.fromString(
+          (json['recommendationStatus'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appComponentName = this.appComponentName;
+    final configRecommendations = this.configRecommendations;
+    final recommendationStatus = this.recommendationStatus;
+    return {
+      'appComponentName': appComponentName,
+      'configRecommendations': configRecommendations,
+      'recommendationStatus': recommendationStatus.value,
+    };
+  }
+}
+
+class RecommendationComplianceStatus {
+  static const breachedUnattainable =
+      RecommendationComplianceStatus._('BreachedUnattainable');
+  static const breachedCanMeet =
+      RecommendationComplianceStatus._('BreachedCanMeet');
+  static const metCanImprove =
+      RecommendationComplianceStatus._('MetCanImprove');
+  static const missingPolicy =
+      RecommendationComplianceStatus._('MissingPolicy');
+
+  final String value;
+
+  const RecommendationComplianceStatus._(this.value);
+
+  static const values = [
+    breachedUnattainable,
+    breachedCanMeet,
+    metCanImprove,
+    missingPolicy
+  ];
+
+  static RecommendationComplianceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RecommendationComplianceStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecommendationComplianceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Defines a recommendation configuration.
+class ConfigRecommendation {
+  /// The name of the recommendation configuration.
+  final String name;
+
+  /// The type of optimization.
+  final ConfigRecommendationOptimizationType optimizationType;
+
+  /// Reference identifier for the recommendation configuration.
   final String referenceId;
 
   /// Name of the Application Component.
   final String? appComponentName;
 
-  /// A list of recommended alarms that are used in the test and must be exported
-  /// before or with the test.
-  final List<String>? dependsOnAlarms;
+  /// The current compliance against the resiliency policy before applying the
+  /// configuration change.
+  final Map<DisruptionType, DisruptionCompliance>? compliance;
 
-  /// Description for the test recommendation.
+  /// The cost for the application.
+  final Cost? cost;
+
+  /// The optional description for an app.
   final String? description;
 
-  /// Intent of the test recommendation.
-  final String? intent;
+  /// The architecture type.
+  final HaArchitecture? haArchitecture;
 
-  /// The test recommendation items.
-  final List<RecommendationItem>? items;
+  /// The expected compliance against the resiliency policy after applying the
+  /// configuration change.
+  final Map<DisruptionType, RecommendationDisruptionCompliance>?
+      recommendationCompliance;
 
-  /// Name of the test recommendation.
-  final String? name;
+  /// List of the suggested configuration changes.
+  final List<String>? suggestedChanges;
 
-  /// Prerequisite of the test recommendation.
-  final String? prerequisite;
-
-  /// Identifier for the test recommendation.
-  final String? recommendationId;
-
-  /// Status of the recommended test.
-  final RecommendationStatus? recommendationStatus;
-
-  /// Level of risk for this test recommendation.
-  final TestRisk? risk;
-
-  /// Type of test recommendation.
-  final TestType? type;
-
-  TestRecommendation({
+  ConfigRecommendation({
+    required this.name,
+    required this.optimizationType,
     required this.referenceId,
     this.appComponentName,
-    this.dependsOnAlarms,
+    this.compliance,
+    this.cost,
     this.description,
-    this.intent,
-    this.items,
-    this.name,
-    this.prerequisite,
-    this.recommendationId,
-    this.recommendationStatus,
-    this.risk,
-    this.type,
+    this.haArchitecture,
+    this.recommendationCompliance,
+    this.suggestedChanges,
   });
 
-  factory TestRecommendation.fromJson(Map<String, dynamic> json) {
-    return TestRecommendation(
+  factory ConfigRecommendation.fromJson(Map<String, dynamic> json) {
+    return ConfigRecommendation(
+      name: (json['name'] as String?) ?? '',
+      optimizationType: ConfigRecommendationOptimizationType.fromString(
+          (json['optimizationType'] as String?) ?? ''),
       referenceId: (json['referenceId'] as String?) ?? '',
       appComponentName: json['appComponentName'] as String?,
-      dependsOnAlarms: (json['dependsOnAlarms'] as List?)
+      compliance: (json['compliance'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(DisruptionType.fromString(k),
+              DisruptionCompliance.fromJson(e as Map<String, dynamic>))),
+      cost: json['cost'] != null
+          ? Cost.fromJson(json['cost'] as Map<String, dynamic>)
+          : null,
+      description: json['description'] as String?,
+      haArchitecture:
+          (json['haArchitecture'] as String?)?.let(HaArchitecture.fromString),
+      recommendationCompliance:
+          (json['recommendationCompliance'] as Map<String, dynamic>?)?.map(
+              (k, e) => MapEntry(
+                  DisruptionType.fromString(k),
+                  RecommendationDisruptionCompliance.fromJson(
+                      e as Map<String, dynamic>))),
+      suggestedChanges: (json['suggestedChanges'] as List?)
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
-      description: json['description'] as String?,
-      intent: json['intent'] as String?,
-      items: (json['items'] as List?)
-          ?.nonNulls
-          .map((e) => RecommendationItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      name: json['name'] as String?,
-      prerequisite: json['prerequisite'] as String?,
-      recommendationId: json['recommendationId'] as String?,
-      recommendationStatus: (json['recommendationStatus'] as String?)
-          ?.let(RecommendationStatus.fromString),
-      risk: (json['risk'] as String?)?.let(TestRisk.fromString),
-      type: (json['type'] as String?)?.let(TestType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final name = this.name;
+    final optimizationType = this.optimizationType;
     final referenceId = this.referenceId;
     final appComponentName = this.appComponentName;
-    final dependsOnAlarms = this.dependsOnAlarms;
+    final compliance = this.compliance;
+    final cost = this.cost;
     final description = this.description;
-    final intent = this.intent;
-    final items = this.items;
-    final name = this.name;
-    final prerequisite = this.prerequisite;
-    final recommendationId = this.recommendationId;
-    final recommendationStatus = this.recommendationStatus;
-    final risk = this.risk;
-    final type = this.type;
+    final haArchitecture = this.haArchitecture;
+    final recommendationCompliance = this.recommendationCompliance;
+    final suggestedChanges = this.suggestedChanges;
     return {
+      'name': name,
+      'optimizationType': optimizationType.value,
       'referenceId': referenceId,
       if (appComponentName != null) 'appComponentName': appComponentName,
-      if (dependsOnAlarms != null) 'dependsOnAlarms': dependsOnAlarms,
+      if (compliance != null)
+        'compliance': compliance.map((k, e) => MapEntry(k.value, e)),
+      if (cost != null) 'cost': cost,
       if (description != null) 'description': description,
-      if (intent != null) 'intent': intent,
-      if (items != null) 'items': items,
-      if (name != null) 'name': name,
-      if (prerequisite != null) 'prerequisite': prerequisite,
-      if (recommendationId != null) 'recommendationId': recommendationId,
-      if (recommendationStatus != null)
-        'recommendationStatus': recommendationStatus.value,
-      if (risk != null) 'risk': risk.value,
-      if (type != null) 'type': type.value,
+      if (haArchitecture != null) 'haArchitecture': haArchitecture.value,
+      if (recommendationCompliance != null)
+        'recommendationCompliance':
+            recommendationCompliance.map((k, e) => MapEntry(k.value, e)),
+      if (suggestedChanges != null) 'suggestedChanges': suggestedChanges,
     };
   }
 }
 
-class TestRisk {
-  static const small = TestRisk._('Small');
-  static const medium = TestRisk._('Medium');
-  static const high = TestRisk._('High');
+class ConfigRecommendationOptimizationType {
+  static const leastCost = ConfigRecommendationOptimizationType._('LeastCost');
+  static const leastChange =
+      ConfigRecommendationOptimizationType._('LeastChange');
+  static const bestAZRecovery =
+      ConfigRecommendationOptimizationType._('BestAZRecovery');
+  static const leastErrors =
+      ConfigRecommendationOptimizationType._('LeastErrors');
+  static const bestAttainable =
+      ConfigRecommendationOptimizationType._('BestAttainable');
+  static const bestRegionRecovery =
+      ConfigRecommendationOptimizationType._('BestRegionRecovery');
 
   final String value;
 
-  const TestRisk._(this.value);
+  const ConfigRecommendationOptimizationType._(this.value);
 
-  static const values = [small, medium, high];
+  static const values = [
+    leastCost,
+    leastChange,
+    bestAZRecovery,
+    leastErrors,
+    bestAttainable,
+    bestRegionRecovery
+  ];
 
-  static TestRisk fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => TestRisk._(value));
+  static ConfigRecommendationOptimizationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConfigRecommendationOptimizationType._(value));
 
   @override
-  bool operator ==(other) => other is TestRisk && other.value == value;
+  bool operator ==(other) =>
+      other is ConfigRecommendationOptimizationType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -10215,23 +10173,31 @@ class TestRisk {
   String toString() => value;
 }
 
-class TestType {
-  static const software = TestType._('Software');
-  static const hardware = TestType._('Hardware');
-  static const az = TestType._('AZ');
-  static const region = TestType._('Region');
+class HaArchitecture {
+  static const multiSite = HaArchitecture._('MultiSite');
+  static const warmStandby = HaArchitecture._('WarmStandby');
+  static const pilotLight = HaArchitecture._('PilotLight');
+  static const backupAndRestore = HaArchitecture._('BackupAndRestore');
+  static const noRecoveryPlan = HaArchitecture._('NoRecoveryPlan');
 
   final String value;
 
-  const TestType._(this.value);
+  const HaArchitecture._(this.value);
 
-  static const values = [software, hardware, az, region];
+  static const values = [
+    multiSite,
+    warmStandby,
+    pilotLight,
+    backupAndRestore,
+    noRecoveryPlan
+  ];
 
-  static TestType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => TestType._(value));
+  static HaArchitecture fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HaArchitecture._(value));
 
   @override
-  bool operator ==(other) => other is TestType && other.value == value;
+  bool operator ==(other) => other is HaArchitecture && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -10240,230 +10206,849 @@ class TestType {
   String toString() => value;
 }
 
-/// Defines a resource that is not supported by Resilience Hub.
-class UnsupportedResource {
-  /// Logical resource identifier for the unsupported resource.
-  final LogicalResourceId logicalResourceId;
+/// Defines a disruption compliance recommendation.
+class RecommendationDisruptionCompliance {
+  /// The expected compliance status after applying the recommended configuration
+  /// change.
+  final ComplianceStatus expectedComplianceStatus;
 
-  /// Physical resource identifier for the unsupported resource.
-  final PhysicalResourceId physicalResourceId;
+  /// The expected Recovery Point Objective (RPO) description after applying the
+  /// recommended configuration change.
+  final String? expectedRpoDescription;
 
-  /// The type of resource.
-  final String resourceType;
+  /// The expected RPO after applying the recommended configuration change.
+  final int? expectedRpoInSecs;
 
-  /// The status of the unsupported resource.
-  final String? unsupportedResourceStatus;
+  /// The expected Recovery Time Objective (RTO) description after applying the
+  /// recommended configuration change.
+  final String? expectedRtoDescription;
 
-  UnsupportedResource({
-    required this.logicalResourceId,
-    required this.physicalResourceId,
-    required this.resourceType,
-    this.unsupportedResourceStatus,
+  /// The expected RTO after applying the recommended configuration change.
+  final int? expectedRtoInSecs;
+
+  RecommendationDisruptionCompliance({
+    required this.expectedComplianceStatus,
+    this.expectedRpoDescription,
+    this.expectedRpoInSecs,
+    this.expectedRtoDescription,
+    this.expectedRtoInSecs,
   });
 
-  factory UnsupportedResource.fromJson(Map<String, dynamic> json) {
-    return UnsupportedResource(
-      logicalResourceId: LogicalResourceId.fromJson(
-          (json['logicalResourceId'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      physicalResourceId: PhysicalResourceId.fromJson(
-          (json['physicalResourceId'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      resourceType: (json['resourceType'] as String?) ?? '',
-      unsupportedResourceStatus: json['unsupportedResourceStatus'] as String?,
+  factory RecommendationDisruptionCompliance.fromJson(
+      Map<String, dynamic> json) {
+    return RecommendationDisruptionCompliance(
+      expectedComplianceStatus: ComplianceStatus.fromString(
+          (json['expectedComplianceStatus'] as String?) ?? ''),
+      expectedRpoDescription: json['expectedRpoDescription'] as String?,
+      expectedRpoInSecs: json['expectedRpoInSecs'] as int?,
+      expectedRtoDescription: json['expectedRtoDescription'] as String?,
+      expectedRtoInSecs: json['expectedRtoInSecs'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final expectedComplianceStatus = this.expectedComplianceStatus;
+    final expectedRpoDescription = this.expectedRpoDescription;
+    final expectedRpoInSecs = this.expectedRpoInSecs;
+    final expectedRtoDescription = this.expectedRtoDescription;
+    final expectedRtoInSecs = this.expectedRtoInSecs;
+    return {
+      'expectedComplianceStatus': expectedComplianceStatus.value,
+      if (expectedRpoDescription != null)
+        'expectedRpoDescription': expectedRpoDescription,
+      if (expectedRpoInSecs != null) 'expectedRpoInSecs': expectedRpoInSecs,
+      if (expectedRtoDescription != null)
+        'expectedRtoDescription': expectedRtoDescription,
+      if (expectedRtoInSecs != null) 'expectedRtoInSecs': expectedRtoInSecs,
+    };
+  }
+}
+
+/// Defines the compliance of an Application Component against the resiliency
+/// policy.
+class AppComponentCompliance {
+  /// Name of the Application Component.
+  final String? appComponentName;
+
+  /// The compliance of the Application Component against the resiliency policy.
+  final Map<DisruptionType, DisruptionCompliance>? compliance;
+
+  /// The cost for the application.
+  final Cost? cost;
+
+  /// The compliance message.
+  final String? message;
+
+  /// The current resiliency score for the application.
+  final ResiliencyScore? resiliencyScore;
+
+  /// Status of the action.
+  final ComplianceStatus? status;
+
+  AppComponentCompliance({
+    this.appComponentName,
+    this.compliance,
+    this.cost,
+    this.message,
+    this.resiliencyScore,
+    this.status,
+  });
+
+  factory AppComponentCompliance.fromJson(Map<String, dynamic> json) {
+    return AppComponentCompliance(
+      appComponentName: json['appComponentName'] as String?,
+      compliance: (json['compliance'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(DisruptionType.fromString(k),
+              DisruptionCompliance.fromJson(e as Map<String, dynamic>))),
+      cost: json['cost'] != null
+          ? Cost.fromJson(json['cost'] as Map<String, dynamic>)
+          : null,
+      message: json['message'] as String?,
+      resiliencyScore: json['resiliencyScore'] != null
+          ? ResiliencyScore.fromJson(
+              json['resiliencyScore'] as Map<String, dynamic>)
+          : null,
+      status: (json['status'] as String?)?.let(ComplianceStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appComponentName = this.appComponentName;
+    final compliance = this.compliance;
+    final cost = this.cost;
+    final message = this.message;
+    final resiliencyScore = this.resiliencyScore;
+    final status = this.status;
+    return {
+      if (appComponentName != null) 'appComponentName': appComponentName,
+      if (compliance != null)
+        'compliance': compliance.map((k, e) => MapEntry(k.value, e)),
+      if (cost != null) 'cost': cost,
+      if (message != null) 'message': message,
+      if (resiliencyScore != null) 'resiliencyScore': resiliencyScore,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+/// Defines an application assessment summary.
+class AppAssessmentSummary {
+  /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
+  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app-assessment/<code>app-id</code>.
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
+  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i> guide.
+  final String assessmentArn;
+
+  /// Current status of the assessment for the resiliency policy.
+  final AssessmentStatus assessmentStatus;
+
+  /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
+  /// this ARN is:
+  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app/<code>app-id</code>.
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
+  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i> guide.
+  final String? appArn;
+
+  /// Version of an application.
+  final String? appVersion;
+
+  /// Name of the assessment.
+  final String? assessmentName;
+
+  /// Current status of compliance for the resiliency policy.
+  final ComplianceStatus? complianceStatus;
+
+  /// Cost for an application.
+  final Cost? cost;
+
+  /// Indicates if compliance drifts (deviations) were detected while running an
+  /// assessment for your application.
+  final DriftStatus? driftStatus;
+
+  /// End time for the action.
+  final DateTime? endTime;
+
+  /// Entity that invoked the assessment.
+  final AssessmentInvoker? invoker;
+
+  /// Message from the assessment run.
+  final String? message;
+
+  /// Current resiliency score for the application.
+  final double? resiliencyScore;
+
+  /// Starting time for the action.
+  final DateTime? startTime;
+
+  /// Name of an application version.
+  final String? versionName;
+
+  AppAssessmentSummary({
+    required this.assessmentArn,
+    required this.assessmentStatus,
+    this.appArn,
+    this.appVersion,
+    this.assessmentName,
+    this.complianceStatus,
+    this.cost,
+    this.driftStatus,
+    this.endTime,
+    this.invoker,
+    this.message,
+    this.resiliencyScore,
+    this.startTime,
+    this.versionName,
+  });
+
+  factory AppAssessmentSummary.fromJson(Map<String, dynamic> json) {
+    return AppAssessmentSummary(
+      assessmentArn: (json['assessmentArn'] as String?) ?? '',
+      assessmentStatus: AssessmentStatus.fromString(
+          (json['assessmentStatus'] as String?) ?? ''),
+      appArn: json['appArn'] as String?,
+      appVersion: json['appVersion'] as String?,
+      assessmentName: json['assessmentName'] as String?,
+      complianceStatus: (json['complianceStatus'] as String?)
+          ?.let(ComplianceStatus.fromString),
+      cost: json['cost'] != null
+          ? Cost.fromJson(json['cost'] as Map<String, dynamic>)
+          : null,
+      driftStatus:
+          (json['driftStatus'] as String?)?.let(DriftStatus.fromString),
+      endTime: timeStampFromJson(json['endTime']),
+      invoker: (json['invoker'] as String?)?.let(AssessmentInvoker.fromString),
+      message: json['message'] as String?,
+      resiliencyScore: json['resiliencyScore'] as double?,
+      startTime: timeStampFromJson(json['startTime']),
+      versionName: json['versionName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assessmentArn = this.assessmentArn;
+    final assessmentStatus = this.assessmentStatus;
+    final appArn = this.appArn;
+    final appVersion = this.appVersion;
+    final assessmentName = this.assessmentName;
+    final complianceStatus = this.complianceStatus;
+    final cost = this.cost;
+    final driftStatus = this.driftStatus;
+    final endTime = this.endTime;
+    final invoker = this.invoker;
+    final message = this.message;
+    final resiliencyScore = this.resiliencyScore;
+    final startTime = this.startTime;
+    final versionName = this.versionName;
+    return {
+      'assessmentArn': assessmentArn,
+      'assessmentStatus': assessmentStatus.value,
+      if (appArn != null) 'appArn': appArn,
+      if (appVersion != null) 'appVersion': appVersion,
+      if (assessmentName != null) 'assessmentName': assessmentName,
+      if (complianceStatus != null) 'complianceStatus': complianceStatus.value,
+      if (cost != null) 'cost': cost,
+      if (driftStatus != null) 'driftStatus': driftStatus.value,
+      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
+      if (invoker != null) 'invoker': invoker.value,
+      if (message != null) 'message': message,
+      if (resiliencyScore != null) 'resiliencyScore': resiliencyScore,
+      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
+      if (versionName != null) 'versionName': versionName,
+    };
+  }
+}
+
+/// Indicates the resources that have drifted in the current application
+/// version.
+class ResourceDrift {
+  /// Amazon Resource Name (ARN) of the application whose resources have drifted.
+  /// The format for this ARN is:
+  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app-assessment/<code>app-id</code>.
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
+  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i> guide.
+  final String? appArn;
+
+  /// Version of the application whose resources have drifted.
+  final String? appVersion;
+
+  /// Indicates if the resource was added or removed.
+  final DifferenceType? diffType;
+
+  /// Reference identifier of the resource drift.
+  final String? referenceId;
+
+  /// Identifier of the drifted resource.
+  final ResourceIdentifier? resourceIdentifier;
+
+  ResourceDrift({
+    this.appArn,
+    this.appVersion,
+    this.diffType,
+    this.referenceId,
+    this.resourceIdentifier,
+  });
+
+  factory ResourceDrift.fromJson(Map<String, dynamic> json) {
+    return ResourceDrift(
+      appArn: json['appArn'] as String?,
+      appVersion: json['appVersion'] as String?,
+      diffType: (json['diffType'] as String?)?.let(DifferenceType.fromString),
+      referenceId: json['referenceId'] as String?,
+      resourceIdentifier: json['resourceIdentifier'] != null
+          ? ResourceIdentifier.fromJson(
+              json['resourceIdentifier'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appArn = this.appArn;
+    final appVersion = this.appVersion;
+    final diffType = this.diffType;
+    final referenceId = this.referenceId;
+    final resourceIdentifier = this.resourceIdentifier;
+    return {
+      if (appArn != null) 'appArn': appArn,
+      if (appVersion != null) 'appVersion': appVersion,
+      if (diffType != null) 'diffType': diffType.value,
+      if (referenceId != null) 'referenceId': referenceId,
+      if (resourceIdentifier != null) 'resourceIdentifier': resourceIdentifier,
+    };
+  }
+}
+
+/// Defines a resource identifier for the drifted resource.
+class ResourceIdentifier {
+  /// Logical identifier of the drifted resource.
+  final LogicalResourceId? logicalResourceId;
+
+  /// Type of the drifted resource.
+  final String? resourceType;
+
+  ResourceIdentifier({
+    this.logicalResourceId,
+    this.resourceType,
+  });
+
+  factory ResourceIdentifier.fromJson(Map<String, dynamic> json) {
+    return ResourceIdentifier(
+      logicalResourceId: json['logicalResourceId'] != null
+          ? LogicalResourceId.fromJson(
+              json['logicalResourceId'] as Map<String, dynamic>)
+          : null,
+      resourceType: json['resourceType'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final logicalResourceId = this.logicalResourceId;
-    final physicalResourceId = this.physicalResourceId;
     final resourceType = this.resourceType;
-    final unsupportedResourceStatus = this.unsupportedResourceStatus;
     return {
-      'logicalResourceId': logicalResourceId,
-      'physicalResourceId': physicalResourceId,
-      'resourceType': resourceType,
-      if (unsupportedResourceStatus != null)
-        'unsupportedResourceStatus': unsupportedResourceStatus,
+      if (logicalResourceId != null) 'logicalResourceId': logicalResourceId,
+      if (resourceType != null) 'resourceType': resourceType,
     };
   }
 }
 
-class UntagResourceResponse {
-  UntagResourceResponse();
+class DifferenceType {
+  static const notEqual = DifferenceType._('NotEqual');
+  static const added = DifferenceType._('Added');
+  static const removed = DifferenceType._('Removed');
 
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
+  final String value;
 
-  Map<String, dynamic> toJson() {
-    return {};
-  }
+  const DifferenceType._(this.value);
+
+  static const values = [notEqual, added, removed];
+
+  static DifferenceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DifferenceType._(value));
+
+  @override
+  bool operator ==(other) => other is DifferenceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-class UpdateAppResponse {
-  /// The specified application, returned as an object with details including
-  /// compliance status, creation time, description, resiliency score, and more.
-  final App app;
+/// Indicates the compliance drifts (recovery time objective (RTO) and recovery
+/// point objective (RPO)) that were detected for an assessed entity.
+class ComplianceDrift {
+  /// Assessment identifier that is associated with this drift item.
+  final String? actualReferenceId;
 
-  UpdateAppResponse({
-    required this.app,
+  /// Actual compliance value of the entity.
+  final Map<DisruptionType, DisruptionCompliance>? actualValue;
+
+  /// Identifier of your application.
+  final String? appId;
+
+  /// Published version of your application on which drift was detected.
+  final String? appVersion;
+
+  /// Difference type between actual and expected recovery point objective (RPO)
+  /// and recovery time objective (RTO) values. Currently, Resilience Hub supports
+  /// only <code>NotEqual</code> difference type.
+  final DifferenceType? diffType;
+
+  /// The type of drift detected. Currently, Resilience Hub supports only
+  /// <b>ApplicationCompliance</b> drift type.
+  final DriftType? driftType;
+
+  /// Identifier of an entity in which drift was detected. For compliance drift,
+  /// the entity ID can be either application ID or the AppComponent ID.
+  final String? entityId;
+
+  /// The type of entity in which drift was detected. For compliance drifts,
+  /// Resilience Hub supports <code>AWS::ResilienceHub::AppComponent</code> and
+  /// <code>AWS::ResilienceHub::Application</code>.
+  final String? entityType;
+
+  /// Assessment identifier of a previous assessment of the same application
+  /// version. Resilience Hub uses the previous assessment (associated with the
+  /// reference identifier) to compare the compliance with the current assessment
+  /// to identify drifts.
+  final String? expectedReferenceId;
+
+  /// The expected compliance value of an entity.
+  final Map<DisruptionType, DisruptionCompliance>? expectedValue;
+
+  ComplianceDrift({
+    this.actualReferenceId,
+    this.actualValue,
+    this.appId,
+    this.appVersion,
+    this.diffType,
+    this.driftType,
+    this.entityId,
+    this.entityType,
+    this.expectedReferenceId,
+    this.expectedValue,
   });
 
-  factory UpdateAppResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateAppResponse(
-      app: App.fromJson(
-          (json['app'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+  factory ComplianceDrift.fromJson(Map<String, dynamic> json) {
+    return ComplianceDrift(
+      actualReferenceId: json['actualReferenceId'] as String?,
+      actualValue: (json['actualValue'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(DisruptionType.fromString(k),
+              DisruptionCompliance.fromJson(e as Map<String, dynamic>))),
+      appId: json['appId'] as String?,
+      appVersion: json['appVersion'] as String?,
+      diffType: (json['diffType'] as String?)?.let(DifferenceType.fromString),
+      driftType: (json['driftType'] as String?)?.let(DriftType.fromString),
+      entityId: json['entityId'] as String?,
+      entityType: json['entityType'] as String?,
+      expectedReferenceId: json['expectedReferenceId'] as String?,
+      expectedValue: (json['expectedValue'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(DisruptionType.fromString(k),
+              DisruptionCompliance.fromJson(e as Map<String, dynamic>))),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final app = this.app;
-    return {
-      'app': app,
-    };
-  }
-}
-
-class UpdateAppVersionAppComponentResponse {
-  /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  /// this ARN is:
-  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app/<code>app-id</code>.
-  /// For more information about ARNs, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
-  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
-  /// Reference</i> guide.
-  final String appArn;
-
-  /// Resilience Hub application version.
-  final String appVersion;
-
-  /// List of Application Components that belong to this resource.
-  final AppComponent? appComponent;
-
-  UpdateAppVersionAppComponentResponse({
-    required this.appArn,
-    required this.appVersion,
-    this.appComponent,
-  });
-
-  factory UpdateAppVersionAppComponentResponse.fromJson(
-      Map<String, dynamic> json) {
-    return UpdateAppVersionAppComponentResponse(
-      appArn: (json['appArn'] as String?) ?? '',
-      appVersion: (json['appVersion'] as String?) ?? '',
-      appComponent: json['appComponent'] != null
-          ? AppComponent.fromJson(json['appComponent'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final appArn = this.appArn;
+    final actualReferenceId = this.actualReferenceId;
+    final actualValue = this.actualValue;
+    final appId = this.appId;
     final appVersion = this.appVersion;
-    final appComponent = this.appComponent;
+    final diffType = this.diffType;
+    final driftType = this.driftType;
+    final entityId = this.entityId;
+    final entityType = this.entityType;
+    final expectedReferenceId = this.expectedReferenceId;
+    final expectedValue = this.expectedValue;
     return {
-      'appArn': appArn,
-      'appVersion': appVersion,
-      if (appComponent != null) 'appComponent': appComponent,
+      if (actualReferenceId != null) 'actualReferenceId': actualReferenceId,
+      if (actualValue != null)
+        'actualValue': actualValue.map((k, e) => MapEntry(k.value, e)),
+      if (appId != null) 'appId': appId,
+      if (appVersion != null) 'appVersion': appVersion,
+      if (diffType != null) 'diffType': diffType.value,
+      if (driftType != null) 'driftType': driftType.value,
+      if (entityId != null) 'entityId': entityId,
+      if (entityType != null) 'entityType': entityType,
+      if (expectedReferenceId != null)
+        'expectedReferenceId': expectedReferenceId,
+      if (expectedValue != null)
+        'expectedValue': expectedValue.map((k, e) => MapEntry(k.value, e)),
     };
   }
 }
 
-class UpdateAppVersionResourceResponse {
-  /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  /// this ARN is:
-  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app/<code>app-id</code>.
-  /// For more information about ARNs, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
-  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
-  /// Reference</i> guide.
-  final String appArn;
+class DriftType {
+  static const applicationCompliance = DriftType._('ApplicationCompliance');
+  static const appComponentResiliencyComplianceStatus =
+      DriftType._('AppComponentResiliencyComplianceStatus');
 
-  /// Resilience Hub application version.
-  final String appVersion;
+  final String value;
 
-  /// Defines a physical resource. A physical resource is a resource that exists
-  /// in your account. It can be identified using an Amazon Resource Name (ARN) or
-  /// a Resilience Hub-native identifier.
-  final PhysicalResource? physicalResource;
+  const DriftType._(this.value);
 
-  UpdateAppVersionResourceResponse({
-    required this.appArn,
-    required this.appVersion,
-    this.physicalResource,
+  static const values = [
+    applicationCompliance,
+    appComponentResiliencyComplianceStatus
+  ];
+
+  static DriftType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DriftType._(value));
+
+  @override
+  bool operator ==(other) => other is DriftType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Defines a recommendation for a CloudWatch alarm.
+class AlarmRecommendation {
+  /// Name of the alarm recommendation.
+  final String name;
+
+  /// Identifier of the alarm recommendation.
+  final String recommendationId;
+
+  /// Reference identifier of the alarm recommendation.
+  final String referenceId;
+
+  /// Type of alarm recommendation.
+  final AlarmType type;
+
+  /// Application Component name for the CloudWatch alarm recommendation. This
+  /// name is saved as the first item in the <code>appComponentNames</code> list.
+  final String? appComponentName;
+
+  /// List of Application Component names for the CloudWatch alarm recommendation.
+  final List<String>? appComponentNames;
+
+  /// Description of the alarm recommendation.
+  final String? description;
+
+  /// List of CloudWatch alarm recommendations.
+  final List<RecommendationItem>? items;
+
+  /// The prerequisite for the alarm recommendation.
+  final String? prerequisite;
+
+  /// Status of the recommended Amazon CloudWatch alarm.
+  final RecommendationStatus? recommendationStatus;
+
+  AlarmRecommendation({
+    required this.name,
+    required this.recommendationId,
+    required this.referenceId,
+    required this.type,
+    this.appComponentName,
+    this.appComponentNames,
+    this.description,
+    this.items,
+    this.prerequisite,
+    this.recommendationStatus,
   });
 
-  factory UpdateAppVersionResourceResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateAppVersionResourceResponse(
-      appArn: (json['appArn'] as String?) ?? '',
-      appVersion: (json['appVersion'] as String?) ?? '',
-      physicalResource: json['physicalResource'] != null
-          ? PhysicalResource.fromJson(
-              json['physicalResource'] as Map<String, dynamic>)
-          : null,
+  factory AlarmRecommendation.fromJson(Map<String, dynamic> json) {
+    return AlarmRecommendation(
+      name: (json['name'] as String?) ?? '',
+      recommendationId: (json['recommendationId'] as String?) ?? '',
+      referenceId: (json['referenceId'] as String?) ?? '',
+      type: AlarmType.fromString((json['type'] as String?) ?? ''),
+      appComponentName: json['appComponentName'] as String?,
+      appComponentNames: (json['appComponentNames'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      description: json['description'] as String?,
+      items: (json['items'] as List?)
+          ?.nonNulls
+          .map((e) => RecommendationItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      prerequisite: json['prerequisite'] as String?,
+      recommendationStatus: (json['recommendationStatus'] as String?)
+          ?.let(RecommendationStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final appArn = this.appArn;
-    final appVersion = this.appVersion;
-    final physicalResource = this.physicalResource;
+    final name = this.name;
+    final recommendationId = this.recommendationId;
+    final referenceId = this.referenceId;
+    final type = this.type;
+    final appComponentName = this.appComponentName;
+    final appComponentNames = this.appComponentNames;
+    final description = this.description;
+    final items = this.items;
+    final prerequisite = this.prerequisite;
+    final recommendationStatus = this.recommendationStatus;
     return {
-      'appArn': appArn,
-      'appVersion': appVersion,
-      if (physicalResource != null) 'physicalResource': physicalResource,
+      'name': name,
+      'recommendationId': recommendationId,
+      'referenceId': referenceId,
+      'type': type.value,
+      if (appComponentName != null) 'appComponentName': appComponentName,
+      if (appComponentNames != null) 'appComponentNames': appComponentNames,
+      if (description != null) 'description': description,
+      if (items != null) 'items': items,
+      if (prerequisite != null) 'prerequisite': prerequisite,
+      if (recommendationStatus != null)
+        'recommendationStatus': recommendationStatus.value,
     };
   }
 }
 
-class UpdateAppVersionResponse {
-  /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  /// this ARN is:
-  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app/<code>app-id</code>.
+class AlarmType {
+  static const metric = AlarmType._('Metric');
+  static const composite = AlarmType._('Composite');
+  static const canary = AlarmType._('Canary');
+  static const logs = AlarmType._('Logs');
+  static const event = AlarmType._('Event');
+
+  final String value;
+
+  const AlarmType._(this.value);
+
+  static const values = [metric, composite, canary, logs, event];
+
+  static AlarmType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AlarmType._(value));
+
+  @override
+  bool operator ==(other) => other is AlarmType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ResourceImportStatusType {
+  static const pending = ResourceImportStatusType._('Pending');
+  static const inProgress = ResourceImportStatusType._('InProgress');
+  static const failed = ResourceImportStatusType._('Failed');
+  static const success = ResourceImportStatusType._('Success');
+
+  final String value;
+
+  const ResourceImportStatusType._(this.value);
+
+  static const values = [pending, inProgress, failed, success];
+
+  static ResourceImportStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceImportStatusType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceImportStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The input source of the Amazon Elastic Kubernetes Service cluster.
+class EksSource {
+  /// Amazon Resource Name (ARN) of the Amazon Elastic Kubernetes Service cluster.
+  /// The format for this ARN is:
+  /// arn:<code>aws</code>:eks:<code>region</code>:<code>account-id</code>:cluster/<code>cluster-name</code>.
   /// For more information about ARNs, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
   /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
   /// Reference</i> guide.
-  final String appArn;
+  final String eksClusterArn;
 
-  /// Resilience Hub application version.
-  final String appVersion;
+  /// The list of namespaces located on your Amazon Elastic Kubernetes Service
+  /// cluster.
+  final List<String> namespaces;
 
-  /// Additional configuration parameters for an Resilience Hub application. If
-  /// you want to implement <code>additionalInfo</code> through the Resilience Hub
-  /// console rather than using an API call, see <a
-  /// href="https://docs.aws.amazon.com/resilience-hub/latest/userguide/app-config-param.html">Configure
-  /// the application configuration parameters</a>.
+  EksSource({
+    required this.eksClusterArn,
+    required this.namespaces,
+  });
+
+  factory EksSource.fromJson(Map<String, dynamic> json) {
+    return EksSource(
+      eksClusterArn: (json['eksClusterArn'] as String?) ?? '',
+      namespaces: ((json['namespaces'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eksClusterArn = this.eksClusterArn;
+    final namespaces = this.namespaces;
+    return {
+      'eksClusterArn': eksClusterArn,
+      'namespaces': namespaces,
+    };
+  }
+}
+
+class ResourceImportStrategyType {
+  static const addOnly = ResourceImportStrategyType._('AddOnly');
+  static const replaceAll = ResourceImportStrategyType._('ReplaceAll');
+
+  final String value;
+
+  const ResourceImportStrategyType._(this.value);
+
+  static const values = [addOnly, replaceAll];
+
+  static ResourceImportStrategyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceImportStrategyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceImportStrategyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Indicates the error that was encountered while importing a resource.
+class ErrorDetail {
+  /// Provides additional information about the error.
+  final String? errorMessage;
+
+  ErrorDetail({
+    this.errorMessage,
+  });
+
+  factory ErrorDetail.fromJson(Map<String, dynamic> json) {
+    return ErrorDetail(
+      errorMessage: json['errorMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorMessage = this.errorMessage;
+    return {
+      if (errorMessage != null) 'errorMessage': errorMessage,
+    };
+  }
+}
+
+/// List of operational recommendations that did not get included or excluded.
+class BatchUpdateRecommendationStatusFailedEntry {
+  /// An identifier of an entry in this batch that is used to communicate the
+  /// result.
   /// <note>
-  /// Currently, this parameter supports only failover region and account.
+  /// The <code>entryId</code>s of a batch request need to be unique within a
+  /// request.
   /// </note>
-  final Map<String, List<String>>? additionalInfo;
+  final String entryId;
 
-  UpdateAppVersionResponse({
-    required this.appArn,
-    required this.appVersion,
-    this.additionalInfo,
+  /// Indicates the error that occurred while excluding an operational
+  /// recommendation.
+  final String errorMessage;
+
+  BatchUpdateRecommendationStatusFailedEntry({
+    required this.entryId,
+    required this.errorMessage,
   });
 
-  factory UpdateAppVersionResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateAppVersionResponse(
-      appArn: (json['appArn'] as String?) ?? '',
-      appVersion: (json['appVersion'] as String?) ?? '',
-      additionalInfo: (json['additionalInfo'] as Map<String, dynamic>?)?.map((k,
-              e) =>
-          MapEntry(k, (e as List).nonNulls.map((e) => e as String).toList())),
+  factory BatchUpdateRecommendationStatusFailedEntry.fromJson(
+      Map<String, dynamic> json) {
+    return BatchUpdateRecommendationStatusFailedEntry(
+      entryId: (json['entryId'] as String?) ?? '',
+      errorMessage: (json['errorMessage'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    final appArn = this.appArn;
-    final appVersion = this.appVersion;
-    final additionalInfo = this.additionalInfo;
+    final entryId = this.entryId;
+    final errorMessage = this.errorMessage;
     return {
-      'appArn': appArn,
-      'appVersion': appVersion,
-      if (additionalInfo != null) 'additionalInfo': additionalInfo,
+      'entryId': entryId,
+      'errorMessage': errorMessage,
+    };
+  }
+}
+
+/// List of operational recommendations that were successfully included or
+/// excluded.
+class BatchUpdateRecommendationStatusSuccessfulEntry {
+  /// An identifier for an entry in this batch that is used to communicate the
+  /// result.
+  /// <note>
+  /// The <code>entryId</code>s of a batch request need to be unique within a
+  /// request.
+  /// </note>
+  final String entryId;
+
+  /// Indicates if the operational recommendation was successfully excluded.
+  final bool excluded;
+
+  /// Reference identifier of the operational recommendation.
+  final String referenceId;
+
+  /// Indicates the identifier of an AppComponent.
+  final String? appComponentId;
+
+  /// Indicates the reason for excluding an operational recommendation.
+  final ExcludeRecommendationReason? excludeReason;
+
+  /// The operational recommendation item.
+  final UpdateRecommendationStatusItem? item;
+
+  BatchUpdateRecommendationStatusSuccessfulEntry({
+    required this.entryId,
+    required this.excluded,
+    required this.referenceId,
+    this.appComponentId,
+    this.excludeReason,
+    this.item,
+  });
+
+  factory BatchUpdateRecommendationStatusSuccessfulEntry.fromJson(
+      Map<String, dynamic> json) {
+    return BatchUpdateRecommendationStatusSuccessfulEntry(
+      entryId: (json['entryId'] as String?) ?? '',
+      excluded: (json['excluded'] as bool?) ?? false,
+      referenceId: (json['referenceId'] as String?) ?? '',
+      appComponentId: json['appComponentId'] as String?,
+      excludeReason: (json['excludeReason'] as String?)
+          ?.let(ExcludeRecommendationReason.fromString),
+      item: json['item'] != null
+          ? UpdateRecommendationStatusItem.fromJson(
+              json['item'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entryId = this.entryId;
+    final excluded = this.excluded;
+    final referenceId = this.referenceId;
+    final appComponentId = this.appComponentId;
+    final excludeReason = this.excludeReason;
+    final item = this.item;
+    return {
+      'entryId': entryId,
+      'excluded': excluded,
+      'referenceId': referenceId,
+      if (appComponentId != null) 'appComponentId': appComponentId,
+      if (excludeReason != null) 'excludeReason': excludeReason.value,
+      if (item != null) 'item': item,
     };
   }
 }
@@ -10520,60 +11105,59 @@ class UpdateRecommendationStatusRequestEntry {
   /// True, the operational recommendation will be excluded.
   final bool excluded;
 
-  /// The operational recommendation item.
-  final UpdateRecommendationStatusItem item;
-
   /// Reference identifier of the operational recommendation item.
   final String referenceId;
+
+  /// Indicates the identifier of the AppComponent.
+  final String? appComponentId;
 
   /// Indicates the reason for excluding an operational recommendation.
   final ExcludeRecommendationReason? excludeReason;
 
+  /// The operational recommendation item.
+  final UpdateRecommendationStatusItem? item;
+
   UpdateRecommendationStatusRequestEntry({
     required this.entryId,
     required this.excluded,
-    required this.item,
     required this.referenceId,
+    this.appComponentId,
     this.excludeReason,
+    this.item,
   });
 
   Map<String, dynamic> toJson() {
     final entryId = this.entryId;
     final excluded = this.excluded;
-    final item = this.item;
     final referenceId = this.referenceId;
+    final appComponentId = this.appComponentId;
     final excludeReason = this.excludeReason;
+    final item = this.item;
     return {
       'entryId': entryId,
       'excluded': excluded,
-      'item': item,
       'referenceId': referenceId,
+      if (appComponentId != null) 'appComponentId': appComponentId,
       if (excludeReason != null) 'excludeReason': excludeReason.value,
+      if (item != null) 'item': item,
     };
   }
 }
 
-class UpdateResiliencyPolicyResponse {
-  /// The type of resiliency policy that was updated, including the recovery time
-  /// objective (RTO) and recovery point objective (RPO) in seconds.
-  final ResiliencyPolicy policy;
+/// Indicates the grouping recommendation you have accepted to include in your
+/// application.
+class AcceptGroupingRecommendationEntry {
+  /// Indicates the identifier of the grouping recommendation.
+  final String groupingRecommendationId;
 
-  UpdateResiliencyPolicyResponse({
-    required this.policy,
+  AcceptGroupingRecommendationEntry({
+    required this.groupingRecommendationId,
   });
 
-  factory UpdateResiliencyPolicyResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateResiliencyPolicyResponse(
-      policy: ResiliencyPolicy.fromJson(
-          (json['policy'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final policy = this.policy;
+    final groupingRecommendationId = this.groupingRecommendationId;
     return {
-      'policy': policy,
+      'groupingRecommendationId': groupingRecommendationId,
     };
   }
 }

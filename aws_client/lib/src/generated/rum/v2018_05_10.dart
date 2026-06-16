@@ -33,9 +33,9 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// messages, stack traces, and user sessions. You can also use RUM to
 /// understand the range of end-user impact including the number of users,
 /// geolocations, and browsers used.
-class CloudWatchRum {
+class Rum {
   final _s.RestJsonProtocol _protocol;
-  CloudWatchRum({
+  Rum({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
@@ -45,7 +45,6 @@ class CloudWatchRum {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'rum',
-            signingName: 'rum',
           ),
           region: region,
           credentials: credentials,
@@ -60,6 +59,336 @@ class CloudWatchRum {
   /// do so can cause the Dart process to hang.
   void close() {
     _protocol.close();
+  }
+
+  /// Displays the tags associated with a CloudWatch RUM resource.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The ARN of the resource that you want to see the tags of.
+  Future<ListTagsForResourceResponse> listTagsForResource({
+    required String resourceArn,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTagsForResourceResponse.fromJson(response);
+  }
+
+  /// Sends telemetry events about your application performance and user
+  /// behavior to CloudWatch RUM. The code snippet that RUM generates for you to
+  /// add to your application includes <code>PutRumEvents</code> operations to
+  /// send this data to RUM.
+  ///
+  /// Each <code>PutRumEvents</code> operation can send a batch of events from
+  /// one user session.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [appMonitorDetails] :
+  /// A structure that contains information about the app monitor that collected
+  /// this telemetry information.
+  ///
+  /// Parameter [batchId] :
+  /// A unique identifier for this batch of RUM event data.
+  ///
+  /// Parameter [id] :
+  /// The ID of the app monitor that is sending this data.
+  ///
+  /// Parameter [rumEvents] :
+  /// An array of structures that contain the telemetry event data.
+  ///
+  /// Parameter [userDetails] :
+  /// A structure that contains information about the user session that this
+  /// batch of events was collected from.
+  ///
+  /// Parameter [alias] :
+  /// If the app monitor uses a resource-based policy that requires
+  /// <code>PutRumEvents</code> requests to specify a certain alias, specify
+  /// that alias here. This alias will be compared to the <code>rum:alias</code>
+  /// context key in the resource-based policy. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-resource-policies.html">Using
+  /// resource-based policies with CloudWatch RUM</a>.
+  Future<void> putRumEvents({
+    required AppMonitorDetails appMonitorDetails,
+    required String batchId,
+    required String id,
+    required List<RumEvent> rumEvents,
+    required UserDetails userDetails,
+    String? alias,
+  }) async {
+    final $payload = <String, dynamic>{
+      'AppMonitorDetails': appMonitorDetails,
+      'BatchId': batchId,
+      'RumEvents': rumEvents,
+      'UserDetails': userDetails,
+      if (alias != null) 'Alias': alias,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/appmonitors/${Uri.encodeComponent(id)}/',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Assigns one or more tags (key-value pairs) to the specified CloudWatch RUM
+  /// resource. Currently, the only resources that can be tagged app monitors.
+  ///
+  /// Tags can help you organize and categorize your resources. You can also use
+  /// them to scope user permissions by granting a user permission to access or
+  /// change only resources with certain tag values.
+  ///
+  /// Tags don't have any semantic meaning to Amazon Web Services and are
+  /// interpreted strictly as strings of characters.
+  ///
+  /// You can use the <code>TagResource</code> action with a resource that
+  /// already has tags. If you specify a new tag key for the resource, this tag
+  /// is appended to the list of tags associated with the alarm. If you specify
+  /// a tag key that is already associated with the resource, the new tag value
+  /// that you specify replaces the previous value for that tag.
+  ///
+  /// You can associate as many as 50 tags with a resource.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
+  /// Amazon Web Services resources</a>.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The ARN of the CloudWatch RUM resource that you're adding tags to.
+  ///
+  /// Parameter [tags] :
+  /// The list of key-value pairs to associate with the resource.
+  Future<void> tagResource({
+    required String resourceArn,
+    required Map<String, String> tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Removes one or more tags from the specified resource.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The ARN of the CloudWatch RUM resource that you're removing tags from.
+  ///
+  /// Parameter [tagKeys] :
+  /// The list of tag keys to remove from the resource.
+  Future<void> untagResource({
+    required String resourceArn,
+    required List<String> tagKeys,
+  }) async {
+    final $query = <String, List<String>>{
+      'tagKeys': tagKeys,
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Retrieves the complete configuration information for one app monitor.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [name] :
+  /// The app monitor to retrieve information for.
+  Future<GetAppMonitorResponse> getAppMonitor({
+    required String name,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/appmonitor/${Uri.encodeComponent(name)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetAppMonitorResponse.fromJson(response);
+  }
+
+  /// Updates the configuration of an existing app monitor. When you use this
+  /// operation, only the parts of the app monitor configuration that you
+  /// specify in this operation are changed. For any parameters that you omit,
+  /// the existing values are kept.
+  ///
+  /// You can't use this operation to change the tags of an existing app
+  /// monitor. To change the tags of an existing app monitor, use <a
+  /// href="https://docs.aws.amazon.com/cloudwatchrum/latest/APIReference/API_TagResource.html">TagResource</a>.
+  ///
+  /// To create a new app monitor, use <a
+  /// href="https://docs.aws.amazon.com/cloudwatchrum/latest/APIReference/API_CreateAppMonitor.html">CreateAppMonitor</a>.
+  ///
+  /// After you update an app monitor, sign in to the CloudWatch RUM console to
+  /// get the updated JavaScript code snippet to add to your web application.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-find-code-snippet.html">How
+  /// do I find a code snippet that I've already generated?</a>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [name] :
+  /// The name of the app monitor to update.
+  ///
+  /// Parameter [appMonitorConfiguration] :
+  /// A structure that contains much of the configuration data for the app
+  /// monitor. If you are using Amazon Cognito for authorization, you must
+  /// include this structure in your request, and it must include the ID of the
+  /// Amazon Cognito identity pool to use for authorization. If you don't
+  /// include <code>AppMonitorConfiguration</code>, you must set up your own
+  /// authorization method. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-get-started-authorization.html">Authorize
+  /// your application to send data to Amazon Web Services</a>.
+  ///
+  /// Parameter [customEvents] :
+  /// Specifies whether this app monitor allows the web client to define and
+  /// send custom events. The default is for custom events to be
+  /// <code>DISABLED</code>.
+  ///
+  /// For more information about custom events, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-custom-events.html">Send
+  /// custom events</a>.
+  ///
+  /// Parameter [cwLogEnabled] :
+  /// Data collected by RUM is kept by RUM for 30 days and then deleted. This
+  /// parameter specifies whether RUM sends a copy of this telemetry data to
+  /// Amazon CloudWatch Logs in your account. This enables you to keep the
+  /// telemetry data for more than 30 days, but it does incur Amazon CloudWatch
+  /// Logs charges.
+  ///
+  /// Parameter [deobfuscationConfiguration] :
+  /// A structure that contains the configuration for how an app monitor can
+  /// deobfuscate stack traces.
+  ///
+  /// Parameter [domain] :
+  /// The top-level internet domain name for which your application has
+  /// administrative authority.
+  ///
+  /// Parameter [domainList] :
+  /// List the domain names for which your application has administrative
+  /// authority. The <code>UpdateAppMonitor</code> allows either the domain or
+  /// the domain list.
+  Future<void> updateAppMonitor({
+    required String name,
+    AppMonitorConfiguration? appMonitorConfiguration,
+    CustomEvents? customEvents,
+    bool? cwLogEnabled,
+    DeobfuscationConfiguration? deobfuscationConfiguration,
+    String? domain,
+    List<String>? domainList,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (appMonitorConfiguration != null)
+        'AppMonitorConfiguration': appMonitorConfiguration,
+      if (customEvents != null) 'CustomEvents': customEvents,
+      if (cwLogEnabled != null) 'CwLogEnabled': cwLogEnabled,
+      if (deobfuscationConfiguration != null)
+        'DeobfuscationConfiguration': deobfuscationConfiguration,
+      if (domain != null) 'Domain': domain,
+      if (domainList != null) 'DomainList': domainList,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri: '/appmonitor/${Uri.encodeComponent(name)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes an existing app monitor. This immediately stops the collection of
+  /// data.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [name] :
+  /// The name of the app monitor to delete.
+  Future<void> deleteAppMonitor({
+    required String name,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/appmonitor/${Uri.encodeComponent(name)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Returns a list of the Amazon CloudWatch RUM app monitors in the account.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in one operation. The default is
+  /// 50. The maximum that you can specify is 100.
+  ///
+  /// Parameter [nextToken] :
+  /// Use the token returned by the previous operation to request the next page
+  /// of results.
+  Future<ListAppMonitorsResponse> listAppMonitors({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri: '/appmonitors',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListAppMonitorsResponse.fromJson(response);
   }
 
   /// Specifies the extended metrics and custom metrics that you want a
@@ -121,13 +450,13 @@ class CloudWatchRum {
   /// those metric definitions fail and return errors, but all valid metric
   /// definitions in the same operation still succeed.
   ///
-  /// May throw [ConflictException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [appMonitorName] :
   /// The name of the CloudWatch RUM app monitor that is to send the metrics.
@@ -183,12 +512,12 @@ class CloudWatchRum {
   /// The maximum number of metric definitions that you can specify in one
   /// <code>BatchDeleteRumMetricDefinitions</code> operation is 200.
   ///
-  /// May throw [ConflictException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [appMonitorName] :
   /// The name of the CloudWatch RUM app monitor that is sending these metrics.
@@ -237,10 +566,10 @@ class CloudWatchRum {
   /// Retrieves the list of metrics and dimensions that a RUM app monitor is
   /// sending to a single destination.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [appMonitorName] :
   /// The name of the CloudWatch RUM app monitor that is sending the metrics.
@@ -312,17 +641,13 @@ class CloudWatchRum {
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-find-code-snippet.html">How
   /// do I find a code snippet that I've already generated?</a>
   ///
-  /// May throw [ConflictException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [domain] :
-  /// The top-level internet domain name for which your application has
-  /// administrative authority.
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [name] :
   /// A name for the app monitor.
@@ -358,6 +683,25 @@ class CloudWatchRum {
   ///
   /// If you omit this parameter, the default is <code>false</code>.
   ///
+  /// Parameter [deobfuscationConfiguration] :
+  /// A structure that contains the configuration for how an app monitor can
+  /// deobfuscate stack traces.
+  ///
+  /// Parameter [domain] :
+  /// The top-level internet domain name for which your application has
+  /// administrative authority.
+  ///
+  /// Parameter [domainList] :
+  /// List the domain names for which your application has administrative
+  /// authority. The <code>CreateAppMonitor</code> requires either the domain or
+  /// the domain list.
+  ///
+  /// Parameter [platform] :
+  /// The platform type for the app monitor. Valid values are <code>Web</code>
+  /// for web applications, <code>Android</code> for Android applications, and
+  /// <code>iOS</code> for IOS applications. If you omit this parameter, the
+  /// default is <code>Web</code>.
+  ///
   /// Parameter [tags] :
   /// Assigns one or more tags (key-value pairs) to the app monitor.
   ///
@@ -374,20 +718,27 @@ class CloudWatchRum {
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
   /// Amazon Web Services resources</a>.
   Future<CreateAppMonitorResponse> createAppMonitor({
-    required String domain,
     required String name,
     AppMonitorConfiguration? appMonitorConfiguration,
     CustomEvents? customEvents,
     bool? cwLogEnabled,
+    DeobfuscationConfiguration? deobfuscationConfiguration,
+    String? domain,
+    List<String>? domainList,
+    AppMonitorPlatform? platform,
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
-      'Domain': domain,
       'Name': name,
       if (appMonitorConfiguration != null)
         'AppMonitorConfiguration': appMonitorConfiguration,
       if (customEvents != null) 'CustomEvents': customEvents,
       if (cwLogEnabled != null) 'CwLogEnabled': cwLogEnabled,
+      if (deobfuscationConfiguration != null)
+        'DeobfuscationConfiguration': deobfuscationConfiguration,
+      if (domain != null) 'Domain': domain,
+      if (domainList != null) 'DomainList': domainList,
+      if (platform != null) 'Platform': platform.value,
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -399,38 +750,52 @@ class CloudWatchRum {
     return CreateAppMonitorResponse.fromJson(response);
   }
 
-  /// Deletes an existing app monitor. This immediately stops the collection of
-  /// data.
+  /// Removes the association of a resource-based policy from an app monitor.
   ///
-  /// May throw [ConflictException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [InvalidPolicyRevisionIdException].
+  /// May throw [PolicyNotFoundException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [name] :
-  /// The name of the app monitor to delete.
-  Future<void> deleteAppMonitor({
+  /// The app monitor that you want to remove the resource policy from.
+  ///
+  /// Parameter [policyRevisionId] :
+  /// Specifies a specific policy revision to delete. Provide a
+  /// <code>PolicyRevisionId</code> to ensure an atomic delete operation. If the
+  /// revision ID that you provide doesn't match the latest policy revision ID,
+  /// the request will be rejected with an
+  /// <code>InvalidPolicyRevisionIdException</code> error.
+  Future<DeleteResourcePolicyResponse> deleteResourcePolicy({
     required String name,
+    String? policyRevisionId,
   }) async {
+    final $query = <String, List<String>>{
+      if (policyRevisionId != null) 'policyRevisionId': [policyRevisionId],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
-      requestUri: '/appmonitor/${Uri.encodeComponent(name)}',
+      requestUri: '/appmonitor/${Uri.encodeComponent(name)}/policy',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
+    return DeleteResourcePolicyResponse.fromJson(response);
   }
 
   /// Deletes a destination for CloudWatch RUM extended metrics, so that the
   /// specified app monitor stops sending extended metrics to that destination.
   ///
-  /// May throw [ConflictException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [appMonitorName] :
   /// The name of the app monitor that is sending metrics to the destination
@@ -465,37 +830,15 @@ class CloudWatchRum {
     );
   }
 
-  /// Retrieves the complete configuration information for one app monitor.
-  ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [name] :
-  /// The app monitor to retrieve information for.
-  Future<GetAppMonitorResponse> getAppMonitor({
-    required String name,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/appmonitor/${Uri.encodeComponent(name)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetAppMonitorResponse.fromJson(response);
-  }
-
   /// Retrieves the raw performance events that RUM has collected from your web
   /// application, so that you can do your own processing or analysis of this
   /// data.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [name] :
   /// The name of the app monitor that collected the data that you want to
@@ -543,42 +886,30 @@ class CloudWatchRum {
     return GetAppMonitorDataResponse.fromJson(response);
   }
 
-  /// Returns a list of the Amazon CloudWatch RUM app monitors in the account.
+  /// Use this operation to retrieve information about a resource-based policy
+  /// that is attached to an app monitor.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [PolicyNotFoundException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
-  /// Parameter [maxResults] :
-  /// The maximum number of results to return in one operation. The default is
-  /// 50. The maximum that you can specify is 100.
-  ///
-  /// Parameter [nextToken] :
-  /// Use the token returned by the previous operation to request the next page
-  /// of results.
-  Future<ListAppMonitorsResponse> listAppMonitors({
-    int? maxResults,
-    String? nextToken,
+  /// Parameter [name] :
+  /// The name of the app monitor that is associated with the resource-based
+  /// policy that you want to view.
+  Future<GetResourcePolicyResponse> getResourcePolicy({
+    required String name,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    final $query = <String, List<String>>{
-      if (maxResults != null) 'maxResults': [maxResults.toString()],
-      if (nextToken != null) 'nextToken': [nextToken],
-    };
     final response = await _protocol.send(
       payload: null,
-      method: 'POST',
-      requestUri: '/appmonitors',
-      queryParams: $query,
+      method: 'GET',
+      requestUri: '/appmonitor/${Uri.encodeComponent(name)}/policy',
       exceptionFnMap: _exceptionFns,
     );
-    return ListAppMonitorsResponse.fromJson(response);
+    return GetResourcePolicyResponse.fromJson(response);
   }
 
   /// Returns a list of destinations that you have created to receive RUM
@@ -587,10 +918,10 @@ class CloudWatchRum {
   /// For more information about extended metrics, see <a
   /// href="https://docs.aws.amazon.com/cloudwatchrum/latest/APIReference/API_AddRumMetrcs.html">AddRumMetrics</a>.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [appMonitorName] :
   /// The name of the app monitor associated with the destinations that you want
@@ -632,75 +963,61 @@ class CloudWatchRum {
     return ListRumMetricsDestinationsResponse.fromJson(response);
   }
 
-  /// Displays the tags associated with a CloudWatch RUM resource.
+  /// Use this operation to assign a resource-based policy to a CloudWatch RUM
+  /// app monitor to control access to it. Each app monitor can have one
+  /// resource-based policy. The maximum size of the policy is 4 KB. To learn
+  /// more about using resource policies with RUM, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-resource-policies.html">Using
+  /// resource-based policies with CloudWatch RUM</a>.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  ///
-  /// Parameter [resourceArn] :
-  /// The ARN of the resource that you want to see the tags of.
-  Future<ListTagsForResourceResponse> listTagsForResource({
-    required String resourceArn,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListTagsForResourceResponse.fromJson(response);
-  }
-
-  /// Sends telemetry events about your application performance and user
-  /// behavior to CloudWatch RUM. The code snippet that RUM generates for you to
-  /// add to your application includes <code>PutRumEvents</code> operations to
-  /// send this data to RUM.
-  ///
-  /// Each <code>PutRumEvents</code> operation can send a batch of events from
-  /// one user session.
-  ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [InvalidPolicyRevisionIdException].
+  /// May throw [MalformedPolicyDocumentException].
+  /// May throw [PolicySizeLimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
-  /// Parameter [appMonitorDetails] :
-  /// A structure that contains information about the app monitor that collected
-  /// this telemetry information.
+  /// Parameter [name] :
+  /// The name of the app monitor that you want to apply this resource-based
+  /// policy to. To find the names of your app monitors, you can use the <a
+  /// href="https://docs.aws.amazon.com/cloudwatchrum/latest/APIReference/API_ListAppMonitors.html">ListAppMonitors</a>
+  /// operation.
   ///
-  /// Parameter [batchId] :
-  /// A unique identifier for this batch of RUM event data.
+  /// Parameter [policyDocument] :
+  /// The JSON to use as the resource policy. The document can be up to 4 KB in
+  /// size. For more information about the contents and syntax for this policy,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-resource-policies.html">Using
+  /// resource-based policies with CloudWatch RUM</a>.
   ///
-  /// Parameter [id] :
-  /// The ID of the app monitor that is sending this data.
+  /// Parameter [policyRevisionId] :
+  /// A string value that you can use to conditionally update your policy. You
+  /// can provide the revision ID of your existing policy to make mutating
+  /// requests against that policy.
   ///
-  /// Parameter [rumEvents] :
-  /// An array of structures that contain the telemetry event data.
-  ///
-  /// Parameter [userDetails] :
-  /// A structure that contains information about the user session that this
-  /// batch of events was collected from.
-  Future<void> putRumEvents({
-    required AppMonitorDetails appMonitorDetails,
-    required String batchId,
-    required String id,
-    required List<RumEvent> rumEvents,
-    required UserDetails userDetails,
+  /// When you assign a policy revision ID, then later requests about that
+  /// policy will be rejected with an
+  /// <code>InvalidPolicyRevisionIdException</code> error if they don't provide
+  /// the correct current revision ID.
+  Future<PutResourcePolicyResponse> putResourcePolicy({
+    required String name,
+    required String policyDocument,
+    String? policyRevisionId,
   }) async {
     final $payload = <String, dynamic>{
-      'AppMonitorDetails': appMonitorDetails,
-      'BatchId': batchId,
-      'RumEvents': rumEvents,
-      'UserDetails': userDetails,
+      'PolicyDocument': policyDocument,
+      if (policyRevisionId != null) 'PolicyRevisionId': policyRevisionId,
     };
     final response = await _protocol.send(
       payload: $payload,
-      method: 'POST',
-      requestUri: '/appmonitors/${Uri.encodeComponent(id)}/',
+      method: 'PUT',
+      requestUri: '/appmonitor/${Uri.encodeComponent(name)}/policy',
       exceptionFnMap: _exceptionFns,
     );
+    return PutResourcePolicyResponse.fromJson(response);
   }
 
   /// Creates or updates a destination to receive extended metrics from
@@ -710,12 +1027,12 @@ class CloudWatchRum {
   /// For more information about extended metrics, see <a
   /// href="https://docs.aws.amazon.com/cloudwatchrum/latest/APIReference/API_BatchCreateRumMetricDefinitions.html">BatchCreateRumMetricDefinitions</a>.
   ///
-  /// May throw [ConflictException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [appMonitorName] :
   /// The name of the CloudWatch RUM app monitor that will send the metrics.
@@ -767,169 +1084,17 @@ class CloudWatchRum {
     );
   }
 
-  /// Assigns one or more tags (key-value pairs) to the specified CloudWatch RUM
-  /// resource. Currently, the only resources that can be tagged app monitors.
-  ///
-  /// Tags can help you organize and categorize your resources. You can also use
-  /// them to scope user permissions by granting a user permission to access or
-  /// change only resources with certain tag values.
-  ///
-  /// Tags don't have any semantic meaning to Amazon Web Services and are
-  /// interpreted strictly as strings of characters.
-  ///
-  /// You can use the <code>TagResource</code> action with a resource that
-  /// already has tags. If you specify a new tag key for the resource, this tag
-  /// is appended to the list of tags associated with the alarm. If you specify
-  /// a tag key that is already associated with the resource, the new tag value
-  /// that you specify replaces the previous value for that tag.
-  ///
-  /// You can associate as many as 50 tags with a resource.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
-  /// Amazon Web Services resources</a>.
-  ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  ///
-  /// Parameter [resourceArn] :
-  /// The ARN of the CloudWatch RUM resource that you're adding tags to.
-  ///
-  /// Parameter [tags] :
-  /// The list of key-value pairs to associate with the resource.
-  Future<void> tagResource({
-    required String resourceArn,
-    required Map<String, String> tags,
-  }) async {
-    final $payload = <String, dynamic>{
-      'Tags': tags,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
-      exceptionFnMap: _exceptionFns,
-    );
-  }
-
-  /// Removes one or more tags from the specified resource.
-  ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  ///
-  /// Parameter [resourceArn] :
-  /// The ARN of the CloudWatch RUM resource that you're removing tags from.
-  ///
-  /// Parameter [tagKeys] :
-  /// The list of tag keys to remove from the resource.
-  Future<void> untagResource({
-    required String resourceArn,
-    required List<String> tagKeys,
-  }) async {
-    final $query = <String, List<String>>{
-      'tagKeys': tagKeys,
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'DELETE',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-  }
-
-  /// Updates the configuration of an existing app monitor. When you use this
-  /// operation, only the parts of the app monitor configuration that you
-  /// specify in this operation are changed. For any parameters that you omit,
-  /// the existing values are kept.
-  ///
-  /// You can't use this operation to change the tags of an existing app
-  /// monitor. To change the tags of an existing app monitor, use <a
-  /// href="https://docs.aws.amazon.com/cloudwatchrum/latest/APIReference/API_TagResource.html">TagResource</a>.
-  ///
-  /// To create a new app monitor, use <a
-  /// href="https://docs.aws.amazon.com/cloudwatchrum/latest/APIReference/API_CreateAppMonitor.html">CreateAppMonitor</a>.
-  ///
-  /// After you update an app monitor, sign in to the CloudWatch RUM console to
-  /// get the updated JavaScript code snippet to add to your web application.
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-find-code-snippet.html">How
-  /// do I find a code snippet that I've already generated?</a>
-  ///
-  /// May throw [ConflictException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [name] :
-  /// The name of the app monitor to update.
-  ///
-  /// Parameter [appMonitorConfiguration] :
-  /// A structure that contains much of the configuration data for the app
-  /// monitor. If you are using Amazon Cognito for authorization, you must
-  /// include this structure in your request, and it must include the ID of the
-  /// Amazon Cognito identity pool to use for authorization. If you don't
-  /// include <code>AppMonitorConfiguration</code>, you must set up your own
-  /// authorization method. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-get-started-authorization.html">Authorize
-  /// your application to send data to Amazon Web Services</a>.
-  ///
-  /// Parameter [customEvents] :
-  /// Specifies whether this app monitor allows the web client to define and
-  /// send custom events. The default is for custom events to be
-  /// <code>DISABLED</code>.
-  ///
-  /// For more information about custom events, see <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-custom-events.html">Send
-  /// custom events</a>.
-  ///
-  /// Parameter [cwLogEnabled] :
-  /// Data collected by RUM is kept by RUM for 30 days and then deleted. This
-  /// parameter specifies whether RUM sends a copy of this telemetry data to
-  /// Amazon CloudWatch Logs in your account. This enables you to keep the
-  /// telemetry data for more than 30 days, but it does incur Amazon CloudWatch
-  /// Logs charges.
-  ///
-  /// Parameter [domain] :
-  /// The top-level internet domain name for which your application has
-  /// administrative authority.
-  Future<void> updateAppMonitor({
-    required String name,
-    AppMonitorConfiguration? appMonitorConfiguration,
-    CustomEvents? customEvents,
-    bool? cwLogEnabled,
-    String? domain,
-  }) async {
-    final $payload = <String, dynamic>{
-      if (appMonitorConfiguration != null)
-        'AppMonitorConfiguration': appMonitorConfiguration,
-      if (customEvents != null) 'CustomEvents': customEvents,
-      if (cwLogEnabled != null) 'CwLogEnabled': cwLogEnabled,
-      if (domain != null) 'Domain': domain,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'PATCH',
-      requestUri: '/appmonitor/${Uri.encodeComponent(name)}',
-      exceptionFnMap: _exceptionFns,
-    );
-  }
-
   /// Modifies one existing metric definition for CloudWatch RUM extended
   /// metrics. For more information about extended metrics, see <a
   /// href="https://docs.aws.amazon.com/cloudwatchrum/latest/APIReference/API_BatchCreateRumMetricsDefinitions.html">BatchCreateRumMetricsDefinitions</a>.
   ///
-  /// May throw [ConflictException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [appMonitorName] :
   /// The name of the CloudWatch RUM app monitor that sends these metrics.
@@ -979,391 +1144,153 @@ class CloudWatchRum {
   }
 }
 
-/// A RUM app monitor collects telemetry data from your application and sends
-/// that data to RUM. The data includes performance and reliability information
-/// such as page load time, client-side errors, and user behavior.
-class AppMonitor {
-  /// A structure that contains much of the configuration data for the app
-  /// monitor.
-  final AppMonitorConfiguration? appMonitorConfiguration;
+class ListTagsForResourceResponse {
+  /// The ARN of the resource that you are viewing.
+  final String resourceArn;
 
-  /// The date and time that this app monitor was created.
-  final String? created;
+  /// The list of tag keys and values associated with the resource you specified.
+  final Map<String, String> tags;
 
-  /// Specifies whether this app monitor allows the web client to define and send
-  /// custom events.
-  ///
-  /// For more information about custom events, see <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-custom-events.html">Send
-  /// custom events</a>.
-  final CustomEvents? customEvents;
-
-  /// A structure that contains information about whether this app monitor stores
-  /// a copy of the telemetry data that RUM collects using CloudWatch Logs.
-  final DataStorage? dataStorage;
-
-  /// The top-level internet domain name for which your application has
-  /// administrative authority.
-  final String? domain;
-
-  /// The unique ID of this app monitor.
-  final String? id;
-
-  /// The date and time of the most recent changes to this app monitor's
-  /// configuration.
-  final String? lastModified;
-
-  /// The name of the app monitor.
-  final String? name;
-
-  /// The current state of the app monitor.
-  final StateEnum? state;
-
-  /// The list of tag keys and values associated with this app monitor.
-  final Map<String, String>? tags;
-
-  AppMonitor({
-    this.appMonitorConfiguration,
-    this.created,
-    this.customEvents,
-    this.dataStorage,
-    this.domain,
-    this.id,
-    this.lastModified,
-    this.name,
-    this.state,
-    this.tags,
+  ListTagsForResourceResponse({
+    required this.resourceArn,
+    required this.tags,
   });
 
-  factory AppMonitor.fromJson(Map<String, dynamic> json) {
-    return AppMonitor(
-      appMonitorConfiguration: json['AppMonitorConfiguration'] != null
-          ? AppMonitorConfiguration.fromJson(
-              json['AppMonitorConfiguration'] as Map<String, dynamic>)
-          : null,
-      created: json['Created'] as String?,
-      customEvents: json['CustomEvents'] != null
-          ? CustomEvents.fromJson(json['CustomEvents'] as Map<String, dynamic>)
-          : null,
-      dataStorage: json['DataStorage'] != null
-          ? DataStorage.fromJson(json['DataStorage'] as Map<String, dynamic>)
-          : null,
-      domain: json['Domain'] as String?,
-      id: json['Id'] as String?,
-      lastModified: json['LastModified'] as String?,
-      name: json['Name'] as String?,
-      state: (json['State'] as String?)?.let(StateEnum.fromString),
-      tags: (json['Tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      resourceArn: (json['ResourceArn'] as String?) ?? '',
+      tags:
+          ((json['Tags'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final appMonitorConfiguration = this.appMonitorConfiguration;
-    final created = this.created;
-    final customEvents = this.customEvents;
-    final dataStorage = this.dataStorage;
-    final domain = this.domain;
-    final id = this.id;
-    final lastModified = this.lastModified;
-    final name = this.name;
-    final state = this.state;
+    final resourceArn = this.resourceArn;
     final tags = this.tags;
     return {
-      if (appMonitorConfiguration != null)
-        'AppMonitorConfiguration': appMonitorConfiguration,
-      if (created != null) 'Created': created,
-      if (customEvents != null) 'CustomEvents': customEvents,
-      if (dataStorage != null) 'DataStorage': dataStorage,
-      if (domain != null) 'Domain': domain,
-      if (id != null) 'Id': id,
-      if (lastModified != null) 'LastModified': lastModified,
-      if (name != null) 'Name': name,
-      if (state != null) 'State': state.value,
-      if (tags != null) 'Tags': tags,
+      'ResourceArn': resourceArn,
+      'Tags': tags,
     };
   }
 }
 
-/// This structure contains much of the configuration data for the app monitor.
-class AppMonitorConfiguration {
-  /// If you set this to <code>true</code>, the RUM web client sets two cookies, a
-  /// session cookie and a user cookie. The cookies allow the RUM web client to
-  /// collect data relating to the number of users an application has and the
-  /// behavior of the application across a sequence of events. Cookies are stored
-  /// in the top-level domain of the current page.
-  final bool? allowCookies;
+class PutRumEventsResponse {
+  PutRumEventsResponse();
 
-  /// If you set this to <code>true</code>, RUM enables X-Ray tracing for the user
-  /// sessions that RUM samples. RUM adds an X-Ray trace header to allowed HTTP
-  /// requests. It also records an X-Ray segment for allowed HTTP requests. You
-  /// can see traces and segments from these user sessions in the X-Ray console
-  /// and the CloudWatch ServiceLens console. For more information, see <a
-  /// href="https://docs.aws.amazon.com/xray/latest/devguide/aws-xray.html">What
-  /// is X-Ray?</a>
-  final bool? enableXRay;
+  factory PutRumEventsResponse.fromJson(Map<String, dynamic> _) {
+    return PutRumEventsResponse();
+  }
 
-  /// A list of URLs in your website or application to exclude from RUM data
-  /// collection.
-  ///
-  /// You can't include both <code>ExcludedPages</code> and
-  /// <code>IncludedPages</code> in the same operation.
-  final List<String>? excludedPages;
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
 
-  /// A list of pages in your application that are to be displayed with a
-  /// "favorite" icon in the CloudWatch RUM console.
-  final List<String>? favoritePages;
+class TagResourceResponse {
+  TagResourceResponse();
 
-  /// The ARN of the guest IAM role that is attached to the Amazon Cognito
-  /// identity pool that is used to authorize the sending of data to RUM.
-  /// <note>
-  /// It is possible that an app monitor does not have a value for
-  /// <code>GuestRoleArn</code>. For example, this can happen when you use the
-  /// console to create an app monitor and you allow CloudWatch RUM to create a
-  /// new identity pool for Authorization. In this case, <code>GuestRoleArn</code>
-  /// is not present in the <a
-  /// href="https://docs.aws.amazon.com/cloudwatchrum/latest/APIReference/API_GetAppMonitor.html">GetAppMonitor</a>
-  /// response because it is not stored by the service.
-  ///
-  /// If this issue affects you, you can take one of the following steps:
-  ///
-  /// <ul>
-  /// <li>
-  /// Use the Cloud Development Kit (CDK) to create an identity pool and the
-  /// associated IAM role, and use that for your app monitor.
-  /// </li>
-  /// <li>
-  /// Make a separate <a
-  /// href="https://docs.aws.amazon.com/cognitoidentity/latest/APIReference/API_GetIdentityPoolRoles.html">GetIdentityPoolRoles</a>
-  /// call to Amazon Cognito to retrieve the <code>GuestRoleArn</code>.
-  /// </li>
-  /// </ul> </note>
-  final String? guestRoleArn;
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
 
-  /// The ID of the Amazon Cognito identity pool that is used to authorize the
-  /// sending of data to RUM.
-  final String? identityPoolId;
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
 
-  /// If this app monitor is to collect data from only certain pages in your
-  /// application, this structure lists those pages.
-  ///
-  /// You can't include both <code>ExcludedPages</code> and
-  /// <code>IncludedPages</code> in the same operation.
-  final List<String>? includedPages;
+class UntagResourceResponse {
+  UntagResourceResponse();
 
-  /// Specifies the portion of user sessions to use for RUM data collection.
-  /// Choosing a higher portion gives you more data but also incurs more costs.
-  ///
-  /// The range for this value is 0 to 1 inclusive. Setting this to 1 means that
-  /// 100% of user sessions are sampled, and setting it to 0.1 means that 10% of
-  /// user sessions are sampled.
-  ///
-  /// If you omit this parameter, the default of 0.1 is used, and 10% of sessions
-  /// will be sampled.
-  final double? sessionSampleRate;
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
 
-  /// An array that lists the types of telemetry data that this app monitor is to
-  /// collect.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>errors</code> indicates that RUM collects data about unhandled
-  /// JavaScript errors raised by your application.
-  /// </li>
-  /// <li>
-  /// <code>performance</code> indicates that RUM collects performance data about
-  /// how your application and its resources are loaded and rendered. This
-  /// includes Core Web Vitals.
-  /// </li>
-  /// <li>
-  /// <code>http</code> indicates that RUM collects data about HTTP errors thrown
-  /// by your application.
-  /// </li>
-  /// </ul>
-  final List<Telemetry>? telemetries;
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
 
-  AppMonitorConfiguration({
-    this.allowCookies,
-    this.enableXRay,
-    this.excludedPages,
-    this.favoritePages,
-    this.guestRoleArn,
-    this.identityPoolId,
-    this.includedPages,
-    this.sessionSampleRate,
-    this.telemetries,
+class GetAppMonitorResponse {
+  /// A structure containing all the configuration information for the app
+  /// monitor.
+  final AppMonitor? appMonitor;
+
+  GetAppMonitorResponse({
+    this.appMonitor,
   });
 
-  factory AppMonitorConfiguration.fromJson(Map<String, dynamic> json) {
-    return AppMonitorConfiguration(
-      allowCookies: json['AllowCookies'] as bool?,
-      enableXRay: json['EnableXRay'] as bool?,
-      excludedPages: (json['ExcludedPages'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      favoritePages: (json['FavoritePages'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      guestRoleArn: json['GuestRoleArn'] as String?,
-      identityPoolId: json['IdentityPoolId'] as String?,
-      includedPages: (json['IncludedPages'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      sessionSampleRate: json['SessionSampleRate'] as double?,
-      telemetries: (json['Telemetries'] as List?)
-          ?.nonNulls
-          .map((e) => Telemetry.fromString((e as String)))
-          .toList(),
+  factory GetAppMonitorResponse.fromJson(Map<String, dynamic> json) {
+    return GetAppMonitorResponse(
+      appMonitor: json['AppMonitor'] != null
+          ? AppMonitor.fromJson(json['AppMonitor'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final allowCookies = this.allowCookies;
-    final enableXRay = this.enableXRay;
-    final excludedPages = this.excludedPages;
-    final favoritePages = this.favoritePages;
-    final guestRoleArn = this.guestRoleArn;
-    final identityPoolId = this.identityPoolId;
-    final includedPages = this.includedPages;
-    final sessionSampleRate = this.sessionSampleRate;
-    final telemetries = this.telemetries;
+    final appMonitor = this.appMonitor;
     return {
-      if (allowCookies != null) 'AllowCookies': allowCookies,
-      if (enableXRay != null) 'EnableXRay': enableXRay,
-      if (excludedPages != null) 'ExcludedPages': excludedPages,
-      if (favoritePages != null) 'FavoritePages': favoritePages,
-      if (guestRoleArn != null) 'GuestRoleArn': guestRoleArn,
-      if (identityPoolId != null) 'IdentityPoolId': identityPoolId,
-      if (includedPages != null) 'IncludedPages': includedPages,
-      if (sessionSampleRate != null) 'SessionSampleRate': sessionSampleRate,
-      if (telemetries != null)
-        'Telemetries': telemetries.map((e) => e.value).toList(),
+      if (appMonitor != null) 'AppMonitor': appMonitor,
     };
   }
 }
 
-/// A structure that contains information about the RUM app monitor.
-class AppMonitorDetails {
-  /// The unique ID of the app monitor.
-  final String? id;
+class UpdateAppMonitorResponse {
+  UpdateAppMonitorResponse();
 
-  /// The name of the app monitor.
-  final String? name;
-
-  /// The version of the app monitor.
-  final String? version;
-
-  AppMonitorDetails({
-    this.id,
-    this.name,
-    this.version,
-  });
+  factory UpdateAppMonitorResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateAppMonitorResponse();
+  }
 
   Map<String, dynamic> toJson() {
-    final id = this.id;
-    final name = this.name;
-    final version = this.version;
-    return {
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-      if (version != null) 'version': version,
-    };
+    return {};
   }
 }
 
-/// A structure that includes some data about app monitors and their settings.
-class AppMonitorSummary {
-  /// The date and time that the app monitor was created.
-  final String? created;
+class DeleteAppMonitorResponse {
+  DeleteAppMonitorResponse();
 
-  /// The unique ID of this app monitor.
-  final String? id;
+  factory DeleteAppMonitorResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteAppMonitorResponse();
+  }
 
-  /// The date and time of the most recent changes to this app monitor's
-  /// configuration.
-  final String? lastModified;
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
 
-  /// The name of this app monitor.
-  final String? name;
+class ListAppMonitorsResponse {
+  /// An array of structures that contain information about the returned app
+  /// monitors.
+  final List<AppMonitorSummary>? appMonitorSummaries;
 
-  /// The current state of this app monitor.
-  final StateEnum? state;
+  /// A token that you can use in a subsequent operation to retrieve the next set
+  /// of results.
+  final String? nextToken;
 
-  AppMonitorSummary({
-    this.created,
-    this.id,
-    this.lastModified,
-    this.name,
-    this.state,
+  ListAppMonitorsResponse({
+    this.appMonitorSummaries,
+    this.nextToken,
   });
 
-  factory AppMonitorSummary.fromJson(Map<String, dynamic> json) {
-    return AppMonitorSummary(
-      created: json['Created'] as String?,
-      id: json['Id'] as String?,
-      lastModified: json['LastModified'] as String?,
-      name: json['Name'] as String?,
-      state: (json['State'] as String?)?.let(StateEnum.fromString),
+  factory ListAppMonitorsResponse.fromJson(Map<String, dynamic> json) {
+    return ListAppMonitorsResponse(
+      appMonitorSummaries: (json['AppMonitorSummaries'] as List?)
+          ?.nonNulls
+          .map((e) => AppMonitorSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final created = this.created;
-    final id = this.id;
-    final lastModified = this.lastModified;
-    final name = this.name;
-    final state = this.state;
+    final appMonitorSummaries = this.appMonitorSummaries;
+    final nextToken = this.nextToken;
     return {
-      if (created != null) 'Created': created,
-      if (id != null) 'Id': id,
-      if (lastModified != null) 'LastModified': lastModified,
-      if (name != null) 'Name': name,
-      if (state != null) 'State': state.value,
-    };
-  }
-}
-
-/// A structure that defines one error caused by a <a
-/// href="https://docs.aws.amazon.com/cloudwatchrum/latest/APIReference/API_BatchCreateRumMetricsDefinitions.html">BatchCreateRumMetricsDefinitions</a>
-/// operation.
-class BatchCreateRumMetricDefinitionsError {
-  /// The error code.
-  final String errorCode;
-
-  /// The error message for this metric definition.
-  final String errorMessage;
-
-  /// The metric definition that caused this error.
-  final MetricDefinitionRequest metricDefinition;
-
-  BatchCreateRumMetricDefinitionsError({
-    required this.errorCode,
-    required this.errorMessage,
-    required this.metricDefinition,
-  });
-
-  factory BatchCreateRumMetricDefinitionsError.fromJson(
-      Map<String, dynamic> json) {
-    return BatchCreateRumMetricDefinitionsError(
-      errorCode: (json['ErrorCode'] as String?) ?? '',
-      errorMessage: (json['ErrorMessage'] as String?) ?? '',
-      metricDefinition: MetricDefinitionRequest.fromJson(
-          (json['MetricDefinition'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    final metricDefinition = this.metricDefinition;
-    return {
-      'ErrorCode': errorCode,
-      'ErrorMessage': errorMessage,
-      'MetricDefinition': metricDefinition,
+      if (appMonitorSummaries != null)
+        'AppMonitorSummaries': appMonitorSummaries,
+      if (nextToken != null) 'NextToken': nextToken,
     };
   }
 }
@@ -1401,46 +1328,6 @@ class BatchCreateRumMetricDefinitionsResponse {
     return {
       'Errors': errors,
       if (metricDefinitions != null) 'MetricDefinitions': metricDefinitions,
-    };
-  }
-}
-
-/// A structure that defines one error caused by a <a
-/// href="https://docs.aws.amazon.com/cloudwatchrum/latest/APIReference/API_BatchDeleteRumMetricsDefinitions.html">BatchCreateRumMetricsDefinitions</a>
-/// operation.
-class BatchDeleteRumMetricDefinitionsError {
-  /// The error code.
-  final String errorCode;
-
-  /// The error message for this metric definition.
-  final String errorMessage;
-
-  /// The ID of the metric definition that caused this error.
-  final String metricDefinitionId;
-
-  BatchDeleteRumMetricDefinitionsError({
-    required this.errorCode,
-    required this.errorMessage,
-    required this.metricDefinitionId,
-  });
-
-  factory BatchDeleteRumMetricDefinitionsError.fromJson(
-      Map<String, dynamic> json) {
-    return BatchDeleteRumMetricDefinitionsError(
-      errorCode: (json['ErrorCode'] as String?) ?? '',
-      errorMessage: (json['ErrorMessage'] as String?) ?? '',
-      metricDefinitionId: (json['MetricDefinitionId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    final metricDefinitionId = this.metricDefinitionId;
-    return {
-      'ErrorCode': errorCode,
-      'ErrorMessage': errorMessage,
-      'MetricDefinitionId': metricDefinitionId,
     };
   }
 }
@@ -1540,126 +1427,25 @@ class CreateAppMonitorResponse {
   }
 }
 
-/// A structure that contains information about custom events for this app
-/// monitor.
-class CustomEvents {
-  /// Specifies whether this app monitor allows the web client to define and send
-  /// custom events. The default is for custom events to be <code>DISABLED</code>.
-  final CustomEventsStatus? status;
+class DeleteResourcePolicyResponse {
+  /// The revision ID of the policy that was removed, if it had one.
+  final String? policyRevisionId;
 
-  CustomEvents({
-    this.status,
+  DeleteResourcePolicyResponse({
+    this.policyRevisionId,
   });
 
-  factory CustomEvents.fromJson(Map<String, dynamic> json) {
-    return CustomEvents(
-      status: (json['Status'] as String?)?.let(CustomEventsStatus.fromString),
+  factory DeleteResourcePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteResourcePolicyResponse(
+      policyRevisionId: json['PolicyRevisionId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final status = this.status;
+    final policyRevisionId = this.policyRevisionId;
     return {
-      if (status != null) 'Status': status.value,
+      if (policyRevisionId != null) 'PolicyRevisionId': policyRevisionId,
     };
-  }
-}
-
-class CustomEventsStatus {
-  static const enabled = CustomEventsStatus._('ENABLED');
-  static const disabled = CustomEventsStatus._('DISABLED');
-
-  final String value;
-
-  const CustomEventsStatus._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static CustomEventsStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CustomEventsStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CustomEventsStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A structure that contains the information about whether the app monitor
-/// stores copies of the data that RUM collects in CloudWatch Logs. If it does,
-/// this structure also contains the name of the log group.
-class CwLog {
-  /// Indicated whether the app monitor stores copies of the data that RUM
-  /// collects in CloudWatch Logs.
-  final bool? cwLogEnabled;
-
-  /// The name of the log group where the copies are stored.
-  final String? cwLogGroup;
-
-  CwLog({
-    this.cwLogEnabled,
-    this.cwLogGroup,
-  });
-
-  factory CwLog.fromJson(Map<String, dynamic> json) {
-    return CwLog(
-      cwLogEnabled: json['CwLogEnabled'] as bool?,
-      cwLogGroup: json['CwLogGroup'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cwLogEnabled = this.cwLogEnabled;
-    final cwLogGroup = this.cwLogGroup;
-    return {
-      if (cwLogEnabled != null) 'CwLogEnabled': cwLogEnabled,
-      if (cwLogGroup != null) 'CwLogGroup': cwLogGroup,
-    };
-  }
-}
-
-/// A structure that contains information about whether this app monitor stores
-/// a copy of the telemetry data that RUM collects using CloudWatch Logs.
-class DataStorage {
-  /// A structure that contains the information about whether the app monitor
-  /// stores copies of the data that RUM collects in CloudWatch Logs. If it does,
-  /// this structure also contains the name of the log group.
-  final CwLog? cwLog;
-
-  DataStorage({
-    this.cwLog,
-  });
-
-  factory DataStorage.fromJson(Map<String, dynamic> json) {
-    return DataStorage(
-      cwLog: json['CwLog'] != null
-          ? CwLog.fromJson(json['CwLog'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cwLog = this.cwLog;
-    return {
-      if (cwLog != null) 'CwLog': cwLog,
-    };
-  }
-}
-
-class DeleteAppMonitorResponse {
-  DeleteAppMonitorResponse();
-
-  factory DeleteAppMonitorResponse.fromJson(Map<String, dynamic> _) {
-    return DeleteAppMonitorResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
   }
 }
 
@@ -1706,62 +1492,32 @@ class GetAppMonitorDataResponse {
   }
 }
 
-class GetAppMonitorResponse {
-  /// A structure containing all the configuration information for the app
-  /// monitor.
-  final AppMonitor? appMonitor;
+class GetResourcePolicyResponse {
+  /// The JSON policy document that you requested.
+  final String? policyDocument;
 
-  GetAppMonitorResponse({
-    this.appMonitor,
+  /// The revision ID information for this version of the policy document that you
+  /// requested.
+  final String? policyRevisionId;
+
+  GetResourcePolicyResponse({
+    this.policyDocument,
+    this.policyRevisionId,
   });
 
-  factory GetAppMonitorResponse.fromJson(Map<String, dynamic> json) {
-    return GetAppMonitorResponse(
-      appMonitor: json['AppMonitor'] != null
-          ? AppMonitor.fromJson(json['AppMonitor'] as Map<String, dynamic>)
-          : null,
+  factory GetResourcePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return GetResourcePolicyResponse(
+      policyDocument: json['PolicyDocument'] as String?,
+      policyRevisionId: json['PolicyRevisionId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final appMonitor = this.appMonitor;
+    final policyDocument = this.policyDocument;
+    final policyRevisionId = this.policyRevisionId;
     return {
-      if (appMonitor != null) 'AppMonitor': appMonitor,
-    };
-  }
-}
-
-class ListAppMonitorsResponse {
-  /// An array of structures that contain information about the returned app
-  /// monitors.
-  final List<AppMonitorSummary>? appMonitorSummaries;
-
-  /// A token that you can use in a subsequent operation to retrieve the next set
-  /// of results.
-  final String? nextToken;
-
-  ListAppMonitorsResponse({
-    this.appMonitorSummaries,
-    this.nextToken,
-  });
-
-  factory ListAppMonitorsResponse.fromJson(Map<String, dynamic> json) {
-    return ListAppMonitorsResponse(
-      appMonitorSummaries: (json['AppMonitorSummaries'] as List?)
-          ?.nonNulls
-          .map((e) => AppMonitorSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final appMonitorSummaries = this.appMonitorSummaries;
-    final nextToken = this.nextToken;
-    return {
-      if (appMonitorSummaries != null)
-        'AppMonitorSummaries': appMonitorSummaries,
-      if (nextToken != null) 'NextToken': nextToken,
+      if (policyDocument != null) 'PolicyDocument': policyDocument,
+      if (policyRevisionId != null) 'PolicyRevisionId': policyRevisionId,
     };
   }
 }
@@ -1802,118 +1558,81 @@ class ListRumMetricsDestinationsResponse {
   }
 }
 
-class ListTagsForResourceResponse {
-  /// The ARN of the resource that you are viewing.
-  final String resourceArn;
+class PutResourcePolicyResponse {
+  /// The JSON policy document that you specified.
+  final String? policyDocument;
 
-  /// The list of tag keys and values associated with the resource you specified.
-  final Map<String, String> tags;
+  /// The policy revision ID information that you specified.
+  final String? policyRevisionId;
 
-  ListTagsForResourceResponse({
-    required this.resourceArn,
-    required this.tags,
+  PutResourcePolicyResponse({
+    this.policyDocument,
+    this.policyRevisionId,
   });
 
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
-    return ListTagsForResourceResponse(
-      resourceArn: (json['ResourceArn'] as String?) ?? '',
-      tags:
-          ((json['Tags'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
-              .map((k, e) => MapEntry(k, e as String)),
+  factory PutResourcePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return PutResourcePolicyResponse(
+      policyDocument: json['PolicyDocument'] as String?,
+      policyRevisionId: json['PolicyRevisionId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final resourceArn = this.resourceArn;
-    final tags = this.tags;
+    final policyDocument = this.policyDocument;
+    final policyRevisionId = this.policyRevisionId;
     return {
-      'ResourceArn': resourceArn,
-      'Tags': tags,
+      if (policyDocument != null) 'PolicyDocument': policyDocument,
+      if (policyRevisionId != null) 'PolicyRevisionId': policyRevisionId,
     };
   }
 }
 
-/// A structure that displays the definition of one extended metric that RUM
-/// sends to CloudWatch or CloudWatch Evidently. For more information, see <a
-/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-vended-metrics.html">
-/// Additional metrics that you can send to CloudWatch and CloudWatch
-/// Evidently</a>.
-class MetricDefinition {
-  /// The ID of this metric definition.
-  final String metricDefinitionId;
+class PutRumMetricsDestinationResponse {
+  PutRumMetricsDestinationResponse();
 
-  /// The name of the metric that is defined in this structure.
-  final String name;
-
-  /// This field is a map of field paths to dimension names. It defines the
-  /// dimensions to associate with this metric in CloudWatch The value of this
-  /// field is used only if the metric destination is <code>CloudWatch</code>. If
-  /// the metric destination is <code>Evidently</code>, the value of
-  /// <code>DimensionKeys</code> is ignored.
-  final Map<String, String>? dimensionKeys;
-
-  /// The pattern that defines the metric. RUM checks events that happen in a
-  /// user's session against the pattern, and events that match the pattern are
-  /// sent to the metric destination.
-  ///
-  /// If the metrics destination is <code>CloudWatch</code> and the event also
-  /// matches a value in <code>DimensionKeys</code>, then the metric is published
-  /// with the specified dimensions.
-  final String? eventPattern;
-
-  /// If this metric definition is for a custom metric instead of an extended
-  /// metric, this field displays the metric namespace that the custom metric is
-  /// published to.
-  final String? namespace;
-
-  /// Use this field only if you are sending this metric to CloudWatch. It defines
-  /// the CloudWatch metric unit that this metric is measured in.
-  final String? unitLabel;
-
-  /// The field within the event object that the metric value is sourced from.
-  final String? valueKey;
-
-  MetricDefinition({
-    required this.metricDefinitionId,
-    required this.name,
-    this.dimensionKeys,
-    this.eventPattern,
-    this.namespace,
-    this.unitLabel,
-    this.valueKey,
-  });
-
-  factory MetricDefinition.fromJson(Map<String, dynamic> json) {
-    return MetricDefinition(
-      metricDefinitionId: (json['MetricDefinitionId'] as String?) ?? '',
-      name: (json['Name'] as String?) ?? '',
-      dimensionKeys: (json['DimensionKeys'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      eventPattern: json['EventPattern'] as String?,
-      namespace: json['Namespace'] as String?,
-      unitLabel: json['UnitLabel'] as String?,
-      valueKey: json['ValueKey'] as String?,
-    );
+  factory PutRumMetricsDestinationResponse.fromJson(Map<String, dynamic> _) {
+    return PutRumMetricsDestinationResponse();
   }
 
   Map<String, dynamic> toJson() {
-    final metricDefinitionId = this.metricDefinitionId;
-    final name = this.name;
-    final dimensionKeys = this.dimensionKeys;
-    final eventPattern = this.eventPattern;
-    final namespace = this.namespace;
-    final unitLabel = this.unitLabel;
-    final valueKey = this.valueKey;
-    return {
-      'MetricDefinitionId': metricDefinitionId,
-      'Name': name,
-      if (dimensionKeys != null) 'DimensionKeys': dimensionKeys,
-      if (eventPattern != null) 'EventPattern': eventPattern,
-      if (namespace != null) 'Namespace': namespace,
-      if (unitLabel != null) 'UnitLabel': unitLabel,
-      if (valueKey != null) 'ValueKey': valueKey,
-    };
+    return {};
   }
+}
+
+class UpdateRumMetricDefinitionResponse {
+  UpdateRumMetricDefinitionResponse();
+
+  factory UpdateRumMetricDefinitionResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateRumMetricDefinitionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class MetricDestination {
+  static const cloudWatch = MetricDestination._('CloudWatch');
+  static const evidently = MetricDestination._('Evidently');
+
+  final String value;
+
+  const MetricDestination._(this.value);
+
+  static const values = [cloudWatch, evidently];
+
+  static MetricDestination fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MetricDestination._(value));
+
+  @override
+  bool operator ==(other) => other is MetricDestination && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Use this structure to define one extended metric or custom metric that RUM
@@ -2280,30 +1999,6 @@ class MetricDefinitionRequest {
   }
 }
 
-class MetricDestination {
-  static const cloudWatch = MetricDestination._('CloudWatch');
-  static const evidently = MetricDestination._('Evidently');
-
-  final String value;
-
-  const MetricDestination._(this.value);
-
-  static const values = [cloudWatch, evidently];
-
-  static MetricDestination fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MetricDestination._(value));
-
-  @override
-  bool operator ==(other) => other is MetricDestination && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 /// A structure that displays information about one destination that CloudWatch
 /// RUM sends extended metrics to.
 class MetricDestinationSummary {
@@ -2347,27 +2042,28 @@ class MetricDestinationSummary {
   }
 }
 
-class PutRumEventsResponse {
-  PutRumEventsResponse();
+/// A structure that defines the time range that you want to retrieve results
+/// from.
+class TimeRange {
+  /// The beginning of the time range to retrieve performance events from.
+  final int after;
 
-  factory PutRumEventsResponse.fromJson(Map<String, dynamic> _) {
-    return PutRumEventsResponse();
-  }
+  /// The end of the time range to retrieve performance events from. If you omit
+  /// this, the time range extends to the time that this operation is performed.
+  final int? before;
 
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class PutRumMetricsDestinationResponse {
-  PutRumMetricsDestinationResponse();
-
-  factory PutRumMetricsDestinationResponse.fromJson(Map<String, dynamic> _) {
-    return PutRumMetricsDestinationResponse();
-  }
+  TimeRange({
+    required this.after,
+    this.before,
+  });
 
   Map<String, dynamic> toJson() {
-    return {};
+    final after = this.after;
+    final before = this.before;
+    return {
+      'After': after,
+      if (before != null) 'Before': before,
+    };
   }
 }
 
@@ -2408,6 +2104,859 @@ class QueryFilter {
     return {
       if (name != null) 'Name': name,
       if (values != null) 'Values': values,
+    };
+  }
+}
+
+/// This structure contains much of the configuration data for the app monitor.
+class AppMonitorConfiguration {
+  /// If you set this to <code>true</code>, the RUM web client sets two cookies, a
+  /// session cookie and a user cookie. The cookies allow the RUM web client to
+  /// collect data relating to the number of users an application has and the
+  /// behavior of the application across a sequence of events. Cookies are stored
+  /// in the top-level domain of the current page.
+  final bool? allowCookies;
+
+  /// If you set this to <code>true</code>, RUM enables X-Ray tracing for the user
+  /// sessions that RUM samples. RUM adds an X-Ray trace header to allowed HTTP
+  /// requests. It also records an X-Ray segment for allowed HTTP requests. You
+  /// can see traces and segments from these user sessions in the X-Ray console
+  /// and the CloudWatch ServiceLens console. For more information, see <a
+  /// href="https://docs.aws.amazon.com/xray/latest/devguide/aws-xray.html">What
+  /// is X-Ray?</a>
+  final bool? enableXRay;
+
+  /// A list of URLs in your website or application to exclude from RUM data
+  /// collection.
+  ///
+  /// You can't include both <code>ExcludedPages</code> and
+  /// <code>IncludedPages</code> in the same operation.
+  final List<String>? excludedPages;
+
+  /// A list of pages in your application that are to be displayed with a
+  /// "favorite" icon in the CloudWatch RUM console.
+  final List<String>? favoritePages;
+
+  /// The ARN of the guest IAM role that is attached to the Amazon Cognito
+  /// identity pool that is used to authorize the sending of data to RUM.
+  /// <note>
+  /// It is possible that an app monitor does not have a value for
+  /// <code>GuestRoleArn</code>. For example, this can happen when you use the
+  /// console to create an app monitor and you allow CloudWatch RUM to create a
+  /// new identity pool for Authorization. In this case, <code>GuestRoleArn</code>
+  /// is not present in the <a
+  /// href="https://docs.aws.amazon.com/cloudwatchrum/latest/APIReference/API_GetAppMonitor.html">GetAppMonitor</a>
+  /// response because it is not stored by the service.
+  ///
+  /// If this issue affects you, you can take one of the following steps:
+  ///
+  /// <ul>
+  /// <li>
+  /// Use the Cloud Development Kit (CDK) to create an identity pool and the
+  /// associated IAM role, and use that for your app monitor.
+  /// </li>
+  /// <li>
+  /// Make a separate <a
+  /// href="https://docs.aws.amazon.com/cognitoidentity/latest/APIReference/API_GetIdentityPoolRoles.html">GetIdentityPoolRoles</a>
+  /// call to Amazon Cognito to retrieve the <code>GuestRoleArn</code>.
+  /// </li>
+  /// </ul> </note>
+  final String? guestRoleArn;
+
+  /// The ID of the Amazon Cognito identity pool that is used to authorize the
+  /// sending of data to RUM.
+  final String? identityPoolId;
+
+  /// If this app monitor is to collect data from only certain pages in your
+  /// application, this structure lists those pages.
+  ///
+  /// You can't include both <code>ExcludedPages</code> and
+  /// <code>IncludedPages</code> in the same operation.
+  final List<String>? includedPages;
+
+  /// Specifies the portion of user sessions to use for RUM data collection.
+  /// Choosing a higher portion gives you more data but also incurs more costs.
+  ///
+  /// The range for this value is 0 to 1 inclusive. Setting this to 1 means that
+  /// 100% of user sessions are sampled, and setting it to 0.1 means that 10% of
+  /// user sessions are sampled.
+  ///
+  /// If you omit this parameter, the default of 0.1 is used, and 10% of sessions
+  /// will be sampled.
+  final double? sessionSampleRate;
+
+  /// An array that lists the types of telemetry data that this app monitor is to
+  /// collect.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>errors</code> indicates that RUM collects data about unhandled
+  /// JavaScript errors raised by your application.
+  /// </li>
+  /// <li>
+  /// <code>performance</code> indicates that RUM collects performance data about
+  /// how your application and its resources are loaded and rendered. This
+  /// includes Core Web Vitals.
+  /// </li>
+  /// <li>
+  /// <code>http</code> indicates that RUM collects data about HTTP errors thrown
+  /// by your application.
+  /// </li>
+  /// </ul>
+  final List<Telemetry>? telemetries;
+
+  AppMonitorConfiguration({
+    this.allowCookies,
+    this.enableXRay,
+    this.excludedPages,
+    this.favoritePages,
+    this.guestRoleArn,
+    this.identityPoolId,
+    this.includedPages,
+    this.sessionSampleRate,
+    this.telemetries,
+  });
+
+  factory AppMonitorConfiguration.fromJson(Map<String, dynamic> json) {
+    return AppMonitorConfiguration(
+      allowCookies: json['AllowCookies'] as bool?,
+      enableXRay: json['EnableXRay'] as bool?,
+      excludedPages: (json['ExcludedPages'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      favoritePages: (json['FavoritePages'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      guestRoleArn: json['GuestRoleArn'] as String?,
+      identityPoolId: json['IdentityPoolId'] as String?,
+      includedPages: (json['IncludedPages'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      sessionSampleRate: json['SessionSampleRate'] as double?,
+      telemetries: (json['Telemetries'] as List?)
+          ?.nonNulls
+          .map((e) => Telemetry.fromString((e as String)))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowCookies = this.allowCookies;
+    final enableXRay = this.enableXRay;
+    final excludedPages = this.excludedPages;
+    final favoritePages = this.favoritePages;
+    final guestRoleArn = this.guestRoleArn;
+    final identityPoolId = this.identityPoolId;
+    final includedPages = this.includedPages;
+    final sessionSampleRate = this.sessionSampleRate;
+    final telemetries = this.telemetries;
+    return {
+      if (allowCookies != null) 'AllowCookies': allowCookies,
+      if (enableXRay != null) 'EnableXRay': enableXRay,
+      if (excludedPages != null) 'ExcludedPages': excludedPages,
+      if (favoritePages != null) 'FavoritePages': favoritePages,
+      if (guestRoleArn != null) 'GuestRoleArn': guestRoleArn,
+      if (identityPoolId != null) 'IdentityPoolId': identityPoolId,
+      if (includedPages != null) 'IncludedPages': includedPages,
+      if (sessionSampleRate != null) 'SessionSampleRate': sessionSampleRate,
+      if (telemetries != null)
+        'Telemetries': telemetries.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// A structure that contains information about custom events for this app
+/// monitor.
+class CustomEvents {
+  /// Specifies whether this app monitor allows the web client to define and send
+  /// custom events. The default is for custom events to be <code>DISABLED</code>.
+  final CustomEventsStatus? status;
+
+  CustomEvents({
+    this.status,
+  });
+
+  factory CustomEvents.fromJson(Map<String, dynamic> json) {
+    return CustomEvents(
+      status: (json['Status'] as String?)?.let(CustomEventsStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+/// A structure that contains the configuration for how an app monitor can
+/// deobfuscate stack traces.
+class DeobfuscationConfiguration {
+  /// A structure that contains the configuration for how an app monitor can
+  /// unminify JavaScript error stack traces using source maps.
+  final JavaScriptSourceMaps? javaScriptSourceMaps;
+
+  DeobfuscationConfiguration({
+    this.javaScriptSourceMaps,
+  });
+
+  factory DeobfuscationConfiguration.fromJson(Map<String, dynamic> json) {
+    return DeobfuscationConfiguration(
+      javaScriptSourceMaps: json['JavaScriptSourceMaps'] != null
+          ? JavaScriptSourceMaps.fromJson(
+              json['JavaScriptSourceMaps'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final javaScriptSourceMaps = this.javaScriptSourceMaps;
+    return {
+      if (javaScriptSourceMaps != null)
+        'JavaScriptSourceMaps': javaScriptSourceMaps,
+    };
+  }
+}
+
+class AppMonitorPlatform {
+  static const web = AppMonitorPlatform._('Web');
+  static const android = AppMonitorPlatform._('Android');
+  static const ios = AppMonitorPlatform._('iOS');
+
+  final String value;
+
+  const AppMonitorPlatform._(this.value);
+
+  static const values = [web, android, ios];
+
+  static AppMonitorPlatform fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AppMonitorPlatform._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AppMonitorPlatform && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A structure that contains the configuration for how an app monitor can
+/// unminify JavaScript error stack traces using source maps.
+class JavaScriptSourceMaps {
+  /// Specifies whether JavaScript error stack traces should be unminified for
+  /// this app monitor. The default is for JavaScript error stack trace
+  /// unminification to be <code>DISABLED</code>.
+  final DeobfuscationStatus status;
+
+  /// The S3Uri of the bucket or folder that stores the source map files. It is
+  /// required if status is ENABLED.
+  final String? s3Uri;
+
+  JavaScriptSourceMaps({
+    required this.status,
+    this.s3Uri,
+  });
+
+  factory JavaScriptSourceMaps.fromJson(Map<String, dynamic> json) {
+    return JavaScriptSourceMaps(
+      status: DeobfuscationStatus.fromString((json['Status'] as String?) ?? ''),
+      s3Uri: json['S3Uri'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final s3Uri = this.s3Uri;
+    return {
+      'Status': status.value,
+      if (s3Uri != null) 'S3Uri': s3Uri,
+    };
+  }
+}
+
+class DeobfuscationStatus {
+  static const enabled = DeobfuscationStatus._('ENABLED');
+  static const disabled = DeobfuscationStatus._('DISABLED');
+
+  final String value;
+
+  const DeobfuscationStatus._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static DeobfuscationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeobfuscationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeobfuscationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class CustomEventsStatus {
+  static const enabled = CustomEventsStatus._('ENABLED');
+  static const disabled = CustomEventsStatus._('DISABLED');
+
+  final String value;
+
+  const CustomEventsStatus._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static CustomEventsStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CustomEventsStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomEventsStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class Telemetry {
+  static const errors = Telemetry._('errors');
+  static const performance = Telemetry._('performance');
+  static const http = Telemetry._('http');
+
+  final String value;
+
+  const Telemetry._(this.value);
+
+  static const values = [errors, performance, http];
+
+  static Telemetry fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Telemetry._(value));
+
+  @override
+  bool operator ==(other) => other is Telemetry && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A structure that displays the definition of one extended metric that RUM
+/// sends to CloudWatch or CloudWatch Evidently. For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-vended-metrics.html">
+/// Additional metrics that you can send to CloudWatch and CloudWatch
+/// Evidently</a>.
+class MetricDefinition {
+  /// The ID of this metric definition.
+  final String metricDefinitionId;
+
+  /// The name of the metric that is defined in this structure.
+  final String name;
+
+  /// This field is a map of field paths to dimension names. It defines the
+  /// dimensions to associate with this metric in CloudWatch The value of this
+  /// field is used only if the metric destination is <code>CloudWatch</code>. If
+  /// the metric destination is <code>Evidently</code>, the value of
+  /// <code>DimensionKeys</code> is ignored.
+  final Map<String, String>? dimensionKeys;
+
+  /// The pattern that defines the metric. RUM checks events that happen in a
+  /// user's session against the pattern, and events that match the pattern are
+  /// sent to the metric destination.
+  ///
+  /// If the metrics destination is <code>CloudWatch</code> and the event also
+  /// matches a value in <code>DimensionKeys</code>, then the metric is published
+  /// with the specified dimensions.
+  final String? eventPattern;
+
+  /// If this metric definition is for a custom metric instead of an extended
+  /// metric, this field displays the metric namespace that the custom metric is
+  /// published to.
+  final String? namespace;
+
+  /// Use this field only if you are sending this metric to CloudWatch. It defines
+  /// the CloudWatch metric unit that this metric is measured in.
+  final String? unitLabel;
+
+  /// The field within the event object that the metric value is sourced from.
+  final String? valueKey;
+
+  MetricDefinition({
+    required this.metricDefinitionId,
+    required this.name,
+    this.dimensionKeys,
+    this.eventPattern,
+    this.namespace,
+    this.unitLabel,
+    this.valueKey,
+  });
+
+  factory MetricDefinition.fromJson(Map<String, dynamic> json) {
+    return MetricDefinition(
+      metricDefinitionId: (json['MetricDefinitionId'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      dimensionKeys: (json['DimensionKeys'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      eventPattern: json['EventPattern'] as String?,
+      namespace: json['Namespace'] as String?,
+      unitLabel: json['UnitLabel'] as String?,
+      valueKey: json['ValueKey'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricDefinitionId = this.metricDefinitionId;
+    final name = this.name;
+    final dimensionKeys = this.dimensionKeys;
+    final eventPattern = this.eventPattern;
+    final namespace = this.namespace;
+    final unitLabel = this.unitLabel;
+    final valueKey = this.valueKey;
+    return {
+      'MetricDefinitionId': metricDefinitionId,
+      'Name': name,
+      if (dimensionKeys != null) 'DimensionKeys': dimensionKeys,
+      if (eventPattern != null) 'EventPattern': eventPattern,
+      if (namespace != null) 'Namespace': namespace,
+      if (unitLabel != null) 'UnitLabel': unitLabel,
+      if (valueKey != null) 'ValueKey': valueKey,
+    };
+  }
+}
+
+/// A structure that defines one error caused by a <a
+/// href="https://docs.aws.amazon.com/cloudwatchrum/latest/APIReference/API_BatchDeleteRumMetricsDefinitions.html">BatchCreateRumMetricsDefinitions</a>
+/// operation.
+class BatchDeleteRumMetricDefinitionsError {
+  /// The error code.
+  final String errorCode;
+
+  /// The error message for this metric definition.
+  final String errorMessage;
+
+  /// The ID of the metric definition that caused this error.
+  final String metricDefinitionId;
+
+  BatchDeleteRumMetricDefinitionsError({
+    required this.errorCode,
+    required this.errorMessage,
+    required this.metricDefinitionId,
+  });
+
+  factory BatchDeleteRumMetricDefinitionsError.fromJson(
+      Map<String, dynamic> json) {
+    return BatchDeleteRumMetricDefinitionsError(
+      errorCode: (json['ErrorCode'] as String?) ?? '',
+      errorMessage: (json['ErrorMessage'] as String?) ?? '',
+      metricDefinitionId: (json['MetricDefinitionId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final metricDefinitionId = this.metricDefinitionId;
+    return {
+      'ErrorCode': errorCode,
+      'ErrorMessage': errorMessage,
+      'MetricDefinitionId': metricDefinitionId,
+    };
+  }
+}
+
+/// A structure that defines one error caused by a <a
+/// href="https://docs.aws.amazon.com/cloudwatchrum/latest/APIReference/API_BatchCreateRumMetricsDefinitions.html">BatchCreateRumMetricsDefinitions</a>
+/// operation.
+class BatchCreateRumMetricDefinitionsError {
+  /// The error code.
+  final String errorCode;
+
+  /// The error message for this metric definition.
+  final String errorMessage;
+
+  /// The metric definition that caused this error.
+  final MetricDefinitionRequest metricDefinition;
+
+  BatchCreateRumMetricDefinitionsError({
+    required this.errorCode,
+    required this.errorMessage,
+    required this.metricDefinition,
+  });
+
+  factory BatchCreateRumMetricDefinitionsError.fromJson(
+      Map<String, dynamic> json) {
+    return BatchCreateRumMetricDefinitionsError(
+      errorCode: (json['ErrorCode'] as String?) ?? '',
+      errorMessage: (json['ErrorMessage'] as String?) ?? '',
+      metricDefinition: MetricDefinitionRequest.fromJson(
+          (json['MetricDefinition'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final metricDefinition = this.metricDefinition;
+    return {
+      'ErrorCode': errorCode,
+      'ErrorMessage': errorMessage,
+      'MetricDefinition': metricDefinition,
+    };
+  }
+}
+
+/// A structure that includes some data about app monitors and their settings.
+class AppMonitorSummary {
+  /// The date and time that the app monitor was created.
+  final String? created;
+
+  /// The unique ID of this app monitor.
+  final String? id;
+
+  /// The date and time of the most recent changes to this app monitor's
+  /// configuration.
+  final String? lastModified;
+
+  /// The name of this app monitor.
+  final String? name;
+
+  /// The platform type for this app monitor. Valid values are <code>Web</code>
+  /// for web applications, <code>Android</code> for Android applications, and
+  /// <code>iOS</code> for IOS applications.
+  final AppMonitorPlatform? platform;
+
+  /// The current state of this app monitor.
+  final StateEnum? state;
+
+  AppMonitorSummary({
+    this.created,
+    this.id,
+    this.lastModified,
+    this.name,
+    this.platform,
+    this.state,
+  });
+
+  factory AppMonitorSummary.fromJson(Map<String, dynamic> json) {
+    return AppMonitorSummary(
+      created: json['Created'] as String?,
+      id: json['Id'] as String?,
+      lastModified: json['LastModified'] as String?,
+      name: json['Name'] as String?,
+      platform:
+          (json['Platform'] as String?)?.let(AppMonitorPlatform.fromString),
+      state: (json['State'] as String?)?.let(StateEnum.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final created = this.created;
+    final id = this.id;
+    final lastModified = this.lastModified;
+    final name = this.name;
+    final platform = this.platform;
+    final state = this.state;
+    return {
+      if (created != null) 'Created': created,
+      if (id != null) 'Id': id,
+      if (lastModified != null) 'LastModified': lastModified,
+      if (name != null) 'Name': name,
+      if (platform != null) 'Platform': platform.value,
+      if (state != null) 'State': state.value,
+    };
+  }
+}
+
+class StateEnum {
+  static const created = StateEnum._('CREATED');
+  static const deleting = StateEnum._('DELETING');
+  static const active = StateEnum._('ACTIVE');
+
+  final String value;
+
+  const StateEnum._(this.value);
+
+  static const values = [created, deleting, active];
+
+  static StateEnum fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StateEnum._(value));
+
+  @override
+  bool operator ==(other) => other is StateEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A RUM app monitor collects telemetry data from your application and sends
+/// that data to RUM. The data includes performance and reliability information
+/// such as page load time, client-side errors, and user behavior.
+class AppMonitor {
+  /// A structure that contains much of the configuration data for the app
+  /// monitor.
+  final AppMonitorConfiguration? appMonitorConfiguration;
+
+  /// The date and time that this app monitor was created.
+  final String? created;
+
+  /// Specifies whether this app monitor allows the web client to define and send
+  /// custom events.
+  ///
+  /// For more information about custom events, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-custom-events.html">Send
+  /// custom events</a>.
+  final CustomEvents? customEvents;
+
+  /// A structure that contains information about whether this app monitor stores
+  /// a copy of the telemetry data that RUM collects using CloudWatch Logs.
+  final DataStorage? dataStorage;
+
+  /// A structure that contains the configuration for how an app monitor can
+  /// deobfuscate stack traces.
+  final DeobfuscationConfiguration? deobfuscationConfiguration;
+
+  /// The top-level internet domain name for which your application has
+  /// administrative authority.
+  final String? domain;
+
+  /// List the domain names for which your application has administrative
+  /// authority.
+  final List<String>? domainList;
+
+  /// The unique ID of this app monitor.
+  final String? id;
+
+  /// The date and time of the most recent changes to this app monitor's
+  /// configuration.
+  final String? lastModified;
+
+  /// The name of the app monitor.
+  final String? name;
+
+  /// The platform type for this app monitor. Valid values are <code>Web</code>
+  /// for web applications , <code>Android</code> for Android applications, and
+  /// <code>iOS</code> for IOS applications.
+  final AppMonitorPlatform? platform;
+
+  /// The current state of the app monitor.
+  final StateEnum? state;
+
+  /// The list of tag keys and values associated with this app monitor.
+  final Map<String, String>? tags;
+
+  AppMonitor({
+    this.appMonitorConfiguration,
+    this.created,
+    this.customEvents,
+    this.dataStorage,
+    this.deobfuscationConfiguration,
+    this.domain,
+    this.domainList,
+    this.id,
+    this.lastModified,
+    this.name,
+    this.platform,
+    this.state,
+    this.tags,
+  });
+
+  factory AppMonitor.fromJson(Map<String, dynamic> json) {
+    return AppMonitor(
+      appMonitorConfiguration: json['AppMonitorConfiguration'] != null
+          ? AppMonitorConfiguration.fromJson(
+              json['AppMonitorConfiguration'] as Map<String, dynamic>)
+          : null,
+      created: json['Created'] as String?,
+      customEvents: json['CustomEvents'] != null
+          ? CustomEvents.fromJson(json['CustomEvents'] as Map<String, dynamic>)
+          : null,
+      dataStorage: json['DataStorage'] != null
+          ? DataStorage.fromJson(json['DataStorage'] as Map<String, dynamic>)
+          : null,
+      deobfuscationConfiguration: json['DeobfuscationConfiguration'] != null
+          ? DeobfuscationConfiguration.fromJson(
+              json['DeobfuscationConfiguration'] as Map<String, dynamic>)
+          : null,
+      domain: json['Domain'] as String?,
+      domainList: (json['DomainList'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      id: json['Id'] as String?,
+      lastModified: json['LastModified'] as String?,
+      name: json['Name'] as String?,
+      platform:
+          (json['Platform'] as String?)?.let(AppMonitorPlatform.fromString),
+      state: (json['State'] as String?)?.let(StateEnum.fromString),
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appMonitorConfiguration = this.appMonitorConfiguration;
+    final created = this.created;
+    final customEvents = this.customEvents;
+    final dataStorage = this.dataStorage;
+    final deobfuscationConfiguration = this.deobfuscationConfiguration;
+    final domain = this.domain;
+    final domainList = this.domainList;
+    final id = this.id;
+    final lastModified = this.lastModified;
+    final name = this.name;
+    final platform = this.platform;
+    final state = this.state;
+    final tags = this.tags;
+    return {
+      if (appMonitorConfiguration != null)
+        'AppMonitorConfiguration': appMonitorConfiguration,
+      if (created != null) 'Created': created,
+      if (customEvents != null) 'CustomEvents': customEvents,
+      if (dataStorage != null) 'DataStorage': dataStorage,
+      if (deobfuscationConfiguration != null)
+        'DeobfuscationConfiguration': deobfuscationConfiguration,
+      if (domain != null) 'Domain': domain,
+      if (domainList != null) 'DomainList': domainList,
+      if (id != null) 'Id': id,
+      if (lastModified != null) 'LastModified': lastModified,
+      if (name != null) 'Name': name,
+      if (platform != null) 'Platform': platform.value,
+      if (state != null) 'State': state.value,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// A structure that contains information about whether this app monitor stores
+/// a copy of the telemetry data that RUM collects using CloudWatch Logs.
+class DataStorage {
+  /// A structure that contains the information about whether the app monitor
+  /// stores copies of the data that RUM collects in CloudWatch Logs. If it does,
+  /// this structure also contains the name of the log group.
+  final CwLog? cwLog;
+
+  DataStorage({
+    this.cwLog,
+  });
+
+  factory DataStorage.fromJson(Map<String, dynamic> json) {
+    return DataStorage(
+      cwLog: json['CwLog'] != null
+          ? CwLog.fromJson(json['CwLog'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cwLog = this.cwLog;
+    return {
+      if (cwLog != null) 'CwLog': cwLog,
+    };
+  }
+}
+
+/// A structure that contains the information about whether the app monitor
+/// stores copies of the data that RUM collects in CloudWatch Logs. If it does,
+/// this structure also contains the name of the log group.
+class CwLog {
+  /// Indicated whether the app monitor stores copies of the data that RUM
+  /// collects in CloudWatch Logs.
+  final bool? cwLogEnabled;
+
+  /// The name of the log group where the copies are stored.
+  final String? cwLogGroup;
+
+  CwLog({
+    this.cwLogEnabled,
+    this.cwLogGroup,
+  });
+
+  factory CwLog.fromJson(Map<String, dynamic> json) {
+    return CwLog(
+      cwLogEnabled: json['CwLogEnabled'] as bool?,
+      cwLogGroup: json['CwLogGroup'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cwLogEnabled = this.cwLogEnabled;
+    final cwLogGroup = this.cwLogGroup;
+    return {
+      if (cwLogEnabled != null) 'CwLogEnabled': cwLogEnabled,
+      if (cwLogGroup != null) 'CwLogGroup': cwLogGroup,
+    };
+  }
+}
+
+/// A structure that contains information about the RUM app monitor.
+class AppMonitorDetails {
+  /// The unique ID of the app monitor.
+  final String? id;
+
+  /// The name of the app monitor.
+  final String? name;
+
+  /// The version of the app monitor.
+  final String? version;
+
+  AppMonitorDetails({
+    this.id,
+    this.name,
+    this.version,
+  });
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    final version = this.version;
+    return {
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (version != null) 'version': version,
+    };
+  }
+}
+
+/// A structure that contains information about the user session that this batch
+/// of events was collected from.
+class UserDetails {
+  /// The session ID that the performance events are from.
+  final String? sessionId;
+
+  /// The ID of the user for this user session. This ID is generated by RUM and
+  /// does not include any personally identifiable information about the user.
+  final String? userId;
+
+  UserDetails({
+    this.sessionId,
+    this.userId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final sessionId = this.sessionId;
+    final userId = this.userId;
+    return {
+      if (sessionId != null) 'sessionId': sessionId,
+      if (userId != null) 'userId': userId,
     };
   }
 }
@@ -2458,152 +3007,6 @@ class RumEvent {
   }
 }
 
-class StateEnum {
-  static const created = StateEnum._('CREATED');
-  static const deleting = StateEnum._('DELETING');
-  static const active = StateEnum._('ACTIVE');
-
-  final String value;
-
-  const StateEnum._(this.value);
-
-  static const values = [created, deleting, active];
-
-  static StateEnum fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => StateEnum._(value));
-
-  @override
-  bool operator ==(other) => other is StateEnum && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class TagResourceResponse {
-  TagResourceResponse();
-
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class Telemetry {
-  static const errors = Telemetry._('errors');
-  static const performance = Telemetry._('performance');
-  static const http = Telemetry._('http');
-
-  final String value;
-
-  const Telemetry._(this.value);
-
-  static const values = [errors, performance, http];
-
-  static Telemetry fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Telemetry._(value));
-
-  @override
-  bool operator ==(other) => other is Telemetry && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A structure that defines the time range that you want to retrieve results
-/// from.
-class TimeRange {
-  /// The beginning of the time range to retrieve performance events from.
-  final int after;
-
-  /// The end of the time range to retrieve performance events from. If you omit
-  /// this, the time range extends to the time that this operation is performed.
-  final int? before;
-
-  TimeRange({
-    required this.after,
-    this.before,
-  });
-
-  Map<String, dynamic> toJson() {
-    final after = this.after;
-    final before = this.before;
-    return {
-      'After': after,
-      if (before != null) 'Before': before,
-    };
-  }
-}
-
-class UntagResourceResponse {
-  UntagResourceResponse();
-
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateAppMonitorResponse {
-  UpdateAppMonitorResponse();
-
-  factory UpdateAppMonitorResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateAppMonitorResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateRumMetricDefinitionResponse {
-  UpdateRumMetricDefinitionResponse();
-
-  factory UpdateRumMetricDefinitionResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateRumMetricDefinitionResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// A structure that contains information about the user session that this batch
-/// of events was collected from.
-class UserDetails {
-  /// The session ID that the performance events are from.
-  final String? sessionId;
-
-  /// The ID of the user for this user session. This ID is generated by RUM and
-  /// does not include any personally identifiable information about the user.
-  final String? userId;
-
-  UserDetails({
-    this.sessionId,
-    this.userId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final sessionId = this.sessionId;
-    final userId = this.userId;
-    return {
-      if (sessionId != null) 'sessionId': sessionId,
-      if (userId != null) 'userId': userId,
-    };
-  }
-}
-
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
@@ -2617,6 +3020,35 @@ class ConflictException extends _s.GenericAwsException {
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
+}
+
+class InvalidPolicyRevisionIdException extends _s.GenericAwsException {
+  InvalidPolicyRevisionIdException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'InvalidPolicyRevisionIdException',
+            message: message);
+}
+
+class MalformedPolicyDocumentException extends _s.GenericAwsException {
+  MalformedPolicyDocumentException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'MalformedPolicyDocumentException',
+            message: message);
+}
+
+class PolicyNotFoundException extends _s.GenericAwsException {
+  PolicyNotFoundException({String? type, String? message})
+      : super(type: type, code: 'PolicyNotFoundException', message: message);
+}
+
+class PolicySizeLimitExceededException extends _s.GenericAwsException {
+  PolicySizeLimitExceededException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'PolicySizeLimitExceededException',
+            message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
@@ -2649,6 +3081,14 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ConflictException(type: type, message: message),
   'InternalServerException': (type, message) =>
       InternalServerException(type: type, message: message),
+  'InvalidPolicyRevisionIdException': (type, message) =>
+      InvalidPolicyRevisionIdException(type: type, message: message),
+  'MalformedPolicyDocumentException': (type, message) =>
+      MalformedPolicyDocumentException(type: type, message: message),
+  'PolicyNotFoundException': (type, message) =>
+      PolicyNotFoundException(type: type, message: message),
+  'PolicySizeLimitExceededException': (type, message) =>
+      PolicySizeLimitExceededException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
       ResourceNotFoundException(type: type, message: message),
   'ServiceQuotaExceededException': (type, message) =>

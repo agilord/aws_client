@@ -106,7 +106,6 @@ class VerifiedPermissions {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'verifiedpermissions',
-            signingName: 'verifiedpermissions',
           ),
           region: region,
           credentials: credentials,
@@ -121,6 +120,435 @@ class VerifiedPermissions {
   /// do so can cause the Dart process to hang.
   void close() {
     _protocol.close();
+  }
+
+  /// Returns the tags associated with the specified Amazon Verified Permissions
+  /// resource. In Verified Permissions, policy stores can be tagged.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The ARN of the resource for which you want to view tags.
+  Future<ListTagsForResourceOutput> listTagsForResource({
+    required String resourceArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'VerifiedPermissions.ListTagsForResource'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'resourceArn': resourceArn,
+      },
+    );
+
+    return ListTagsForResourceOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Assigns one or more tags (key-value pairs) to the specified Amazon
+  /// Verified Permissions resource. Tags can help you organize and categorize
+  /// your resources. You can also use them to scope user permissions by
+  /// granting a user permission to access or change only resources with certain
+  /// tag values. In Verified Permissions, policy stores can be tagged.
+  ///
+  /// Tags don't have any semantic meaning to Amazon Web Services and are
+  /// interpreted strictly as strings of characters.
+  ///
+  /// You can use the TagResource action with a resource that already has tags.
+  /// If you specify a new tag key, this tag is appended to the list of tags
+  /// associated with the resource. If you specify a tag key that is already
+  /// associated with the resource, the new tag value that you specify replaces
+  /// the previous value for that tag.
+  ///
+  /// You can associate as many as 50 tags with a resource.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [TooManyTagsException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The ARN of the resource that you're adding tags to.
+  ///
+  /// Parameter [tags] :
+  /// The list of key-value pairs to associate with the resource.
+  Future<void> tagResource({
+    required String resourceArn,
+    required Map<String, String> tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'VerifiedPermissions.TagResource'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'resourceArn': resourceArn,
+        'tags': tags,
+      },
+    );
+  }
+
+  /// Removes one or more tags from the specified Amazon Verified Permissions
+  /// resource. In Verified Permissions, policy stores can be tagged.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The ARN of the resource from which you are removing tags.
+  ///
+  /// Parameter [tagKeys] :
+  /// The list of tag keys to remove from the resource.
+  Future<void> untagResource({
+    required String resourceArn,
+    required List<String> tagKeys,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'VerifiedPermissions.UntagResource'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'resourceArn': resourceArn,
+        'tagKeys': tagKeys,
+      },
+    );
+  }
+
+  /// Creates a policy store. A policy store is a container for policy
+  /// resources.
+  /// <note>
+  /// As of May 2026, Verified Permissions has aligned with Cedar and now
+  /// supports multiple namespaces.
+  /// </note> <note>
+  /// Verified Permissions is <i> <a
+  /// href="https://wikipedia.org/wiki/Eventual_consistency">eventually
+  /// consistent</a> </i>. It can take a few seconds for a new or changed
+  /// element to propagate through the service and be visible in the results of
+  /// other Verified Permissions operations.
+  /// </note>
+  ///
+  /// May throw [ConflictException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [validationSettings] :
+  /// Specifies the validation setting for this policy store.
+  ///
+  /// Currently, the only valid and required value is <code>Mode</code>.
+  /// <important>
+  /// We recommend that you turn on <code>STRICT</code> mode only after you
+  /// define a schema. If a schema doesn't exist, then <code>STRICT</code> mode
+  /// causes any policy to fail validation, and Verified Permissions rejects the
+  /// policy. You can turn off validation by using the <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyStore">UpdatePolicyStore</a>.
+  /// Then, when you have a schema defined, use <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyStore">UpdatePolicyStore</a>
+  /// again to turn validation back on.
+  /// </important>
+  ///
+  /// Parameter [clientToken] :
+  /// Specifies a unique, case-sensitive ID that you provide to ensure the
+  /// idempotency of the request. This lets you safely retry the request without
+  /// accidentally performing the same operation a second time. Passing the same
+  /// value to a later call to an operation requires that you also pass the same
+  /// value for all other parameters. We recommend that you use a <a
+  /// href="https://wikipedia.org/wiki/Universally_unique_identifier">UUID type
+  /// of value.</a>.
+  ///
+  /// If you don't provide this value, then Amazon Web Services generates a
+  /// random one for you.
+  ///
+  /// If you retry the operation with the same <code>ClientToken</code>, but
+  /// with different parameters, the retry fails with an
+  /// <code>ConflictException</code> error.
+  ///
+  /// Verified Permissions recognizes a <code>ClientToken</code> for eight
+  /// hours. After eight hours, the next request with the same parameters
+  /// performs the operation again regardless of the value of
+  /// <code>ClientToken</code>.
+  ///
+  /// Parameter [deletionProtection] :
+  /// Specifies whether the policy store can be deleted. If enabled, the policy
+  /// store can't be deleted.
+  ///
+  /// The default state is <code>DISABLED</code>.
+  ///
+  /// Parameter [description] :
+  /// Descriptive text that you can provide to help with identification of the
+  /// current policy store.
+  ///
+  /// Parameter [encryptionSettings] :
+  /// Specifies the encryption settings used to encrypt the policy store and
+  /// their child resources. Allows for the ability to use a customer owned KMS
+  /// key for encryption of data.
+  ///
+  /// This is an optional field to be used when providing a customer-managed KMS
+  /// key for encryption.
+  ///
+  /// Parameter [tags] :
+  /// The list of key-value pairs to associate with the policy store.
+  Future<CreatePolicyStoreOutput> createPolicyStore({
+    required ValidationSettings validationSettings,
+    String? clientToken,
+    DeletionProtection? deletionProtection,
+    String? description,
+    EncryptionSettings? encryptionSettings,
+    Map<String, String>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'VerifiedPermissions.CreatePolicyStore'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'validationSettings': validationSettings,
+        'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+        if (deletionProtection != null)
+          'deletionProtection': deletionProtection.value,
+        if (description != null) 'description': description,
+        if (encryptionSettings != null)
+          'encryptionSettings': encryptionSettings,
+        if (tags != null) 'tags': tags,
+      },
+    );
+
+    return CreatePolicyStoreOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves details about a policy store.
+  ///
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [policyStoreId] :
+  /// Specifies the policy store that you want information about.
+  ///
+  /// To specify a policy store, use its ID or alias name. When using an alias
+  /// name, prefix it with <code>policy-store-alias/</code>. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// ID: <code>PSEXAMPLEabcdefg111111</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>policy-store-alias/example-policy-store</code>
+  /// </li>
+  /// </ul>
+  /// To view aliases, use <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html">ListPolicyStoreAliases</a>.
+  ///
+  /// Parameter [tags] :
+  /// Specifies whether to return the tags that are attached to the policy
+  /// store. If this parameter is included in the API call, the tags are
+  /// returned, otherwise they are not returned.
+  /// <note>
+  /// If this parameter is included in the API call but there are no tags
+  /// attached to the policy store, the <code>tags</code> response parameter is
+  /// omitted from the response.
+  /// </note>
+  Future<GetPolicyStoreOutput> getPolicyStore({
+    required String policyStoreId,
+    bool? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'VerifiedPermissions.GetPolicyStore'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'policyStoreId': policyStoreId,
+        if (tags != null) 'tags': tags,
+      },
+    );
+
+    return GetPolicyStoreOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Modifies the validation setting for a policy store.
+  /// <note>
+  /// Verified Permissions is <i> <a
+  /// href="https://wikipedia.org/wiki/Eventual_consistency">eventually
+  /// consistent</a> </i>. It can take a few seconds for a new or changed
+  /// element to propagate through the service and be visible in the results of
+  /// other Verified Permissions operations.
+  /// </note>
+  ///
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [policyStoreId] :
+  /// Specifies the ID of the policy store that you want to update
+  ///
+  /// To specify a policy store, use its ID or alias name. When using an alias
+  /// name, prefix it with <code>policy-store-alias/</code>. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// ID: <code>PSEXAMPLEabcdefg111111</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>policy-store-alias/example-policy-store</code>
+  /// </li>
+  /// </ul>
+  /// To view aliases, use <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html">ListPolicyStoreAliases</a>.
+  ///
+  /// Parameter [validationSettings] :
+  /// A structure that defines the validation settings that want to enable for
+  /// the policy store.
+  ///
+  /// Parameter [deletionProtection] :
+  /// Specifies whether the policy store can be deleted. If enabled, the policy
+  /// store can't be deleted.
+  ///
+  /// When you call <code>UpdatePolicyStore</code>, this parameter is unchanged
+  /// unless explicitly included in the call.
+  ///
+  /// Parameter [description] :
+  /// Descriptive text that you can provide to help with identification of the
+  /// current policy store.
+  Future<UpdatePolicyStoreOutput> updatePolicyStore({
+    required String policyStoreId,
+    required ValidationSettings validationSettings,
+    DeletionProtection? deletionProtection,
+    String? description,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'VerifiedPermissions.UpdatePolicyStore'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'policyStoreId': policyStoreId,
+        'validationSettings': validationSettings,
+        if (deletionProtection != null)
+          'deletionProtection': deletionProtection.value,
+        if (description != null) 'description': description,
+      },
+    );
+
+    return UpdatePolicyStoreOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes the specified policy store.
+  ///
+  /// This operation is idempotent. If you specify a policy store that does not
+  /// exist, the request response will still return a successful HTTP 200 status
+  /// code.
+  ///
+  /// May throw [InvalidStateException].
+  ///
+  /// Parameter [policyStoreId] :
+  /// Specifies the ID of the policy store that you want to delete.
+  /// <note>
+  /// To specify a policy store, the alias name cannot be used. Only the ID can
+  /// be used.
+  /// </note>
+  Future<void> deletePolicyStore({
+    required String policyStoreId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'VerifiedPermissions.DeletePolicyStore'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'policyStoreId': policyStoreId,
+      },
+    );
+  }
+
+  /// Returns a paginated list of all policy stores in the calling Amazon Web
+  /// Services account.
+  ///
+  /// Parameter [maxResults] :
+  /// Specifies the total number of results that you want included in each
+  /// response. If additional items exist beyond the number you specify, the
+  /// <code>NextToken</code> response element is returned with a value (not
+  /// null). Include the specified value as the <code>NextToken</code> request
+  /// parameter in the next call to the operation to get the next set of
+  /// results. Note that the service might return fewer results than the maximum
+  /// even when there are more results available. You should check
+  /// <code>NextToken</code> after every operation to ensure that you receive
+  /// all of the results.
+  ///
+  /// If you do not specify this parameter, the operation defaults to 10 policy
+  /// stores per response. You can specify a maximum of 50 policy stores per
+  /// response.
+  ///
+  /// Parameter [nextToken] :
+  /// Specifies that you want to receive the next page of results. Valid only if
+  /// you received a <code>NextToken</code> response in the previous request. If
+  /// you did, it indicates that more output is available. Set this parameter to
+  /// the value provided by the previous call's <code>NextToken</code> response
+  /// to request the next page of results.
+  Future<ListPolicyStoresOutput> listPolicyStores({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1152921504606846976,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'VerifiedPermissions.ListPolicyStores'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return ListPolicyStoresOutput.fromJson(jsonResponse.body);
   }
 
   /// Makes a series of decisions about multiple authorization requests for one
@@ -150,24 +578,36 @@ class VerifiedPermissions {
   /// <code>verifiedpermissions:IsAuthorized</code> in their IAM policies.
   /// </note>
   ///
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [policyStoreId] :
   /// Specifies the ID of the policy store. Policies in this policy store will
   /// be used to make the authorization decisions for the input.
+  ///
+  /// To specify a policy store, use its ID or alias name. When using an alias
+  /// name, prefix it with <code>policy-store-alias/</code>. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// ID: <code>PSEXAMPLEabcdefg111111</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>policy-store-alias/example-policy-store</code>
+  /// </li>
+  /// </ul>
+  /// To view aliases, use <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html">ListPolicyStoreAliases</a>.
   ///
   /// Parameter [requests] :
   /// An array of up to 30 requests that you want Verified Permissions to
   /// evaluate.
   ///
   /// Parameter [entities] :
-  /// Specifies the list of resources and principals and their associated
-  /// attributes that Verified Permissions can examine when evaluating the
-  /// policies.
+  /// (Optional) Specifies the list of resources and principals and their
+  /// associated attributes that Verified Permissions can examine when
+  /// evaluating the policies. These additional entities and their attributes
+  /// can be referenced and checked by conditional elements in the policies in
+  /// the specified policy store.
   /// <note>
   /// You can include only principal and resource entities in this parameter;
   /// you can't include actions. You must specify actions in the schema.
@@ -222,15 +662,25 @@ class VerifiedPermissions {
   /// policies.
   /// </note>
   ///
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [policyStoreId] :
   /// Specifies the ID of the policy store. Policies in this policy store will
   /// be used to make an authorization decision for the input.
+  ///
+  /// To specify a policy store, use its ID or alias name. When using an alias
+  /// name, prefix it with <code>policy-store-alias/</code>. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// ID: <code>PSEXAMPLEabcdefg111111</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>policy-store-alias/example-policy-store</code>
+  /// </li>
+  /// </ul>
+  /// To view aliases, use <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html">ListPolicyStoreAliases</a>.
   ///
   /// Parameter [requests] :
   /// An array of up to 30 requests that you want Verified Permissions to
@@ -247,8 +697,10 @@ class VerifiedPermissions {
   /// <code>access</code>.
   ///
   /// Parameter [entities] :
-  /// Specifies the list of resources and their associated attributes that
-  /// Verified Permissions can examine when evaluating the policies.
+  /// (Optional) Specifies the list of resources and their associated attributes
+  /// that Verified Permissions can examine when evaluating the policies. These
+  /// additional entities and their attributes can be referenced and checked by
+  /// conditional elements in the policies in the specified policy store.
   /// <important>
   /// You can't include principals in this parameter, only resource and action
   /// entities. This parameter can't include any entities of a type that matches
@@ -304,684 +756,27 @@ class VerifiedPermissions {
     return BatchIsAuthorizedWithTokenOutput.fromJson(jsonResponse.body);
   }
 
-  /// Adds an identity source to a policy store–an Amazon Cognito user pool or
-  /// OpenID Connect (OIDC) identity provider (IdP).
-  ///
-  /// After you create an identity source, you can use the identities provided
-  /// by the IdP as proxies for the principal in authorization queries that use
-  /// the <a
-  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html">IsAuthorizedWithToken</a>
-  /// or <a
-  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_BatchIsAuthorizedWithToken.html">BatchIsAuthorizedWithToken</a>
-  /// API operations. These identities take the form of tokens that contain
-  /// claims about the user, such as IDs, attributes and group memberships.
-  /// Identity sources provide identity (ID) tokens and access tokens. Verified
-  /// Permissions derives information about your user and session from token
-  /// claims. Access tokens provide action <code>context</code> to your
-  /// policies, and ID tokens provide principal <code>Attributes</code>.
-  /// <important>
-  /// Tokens from an identity source user continue to be usable until they
-  /// expire. Token revocation and resource deletion have no effect on the
-  /// validity of a token in your policy store
-  /// </important> <note>
-  /// To reference a user from this identity source in your Cedar policies,
-  /// refer to the following syntax examples.
-  ///
-  /// <ul>
-  /// <li>
-  /// Amazon Cognito user pool: <code>Namespace::[Entity type]::[User pool
-  /// ID]|[user principal attribute]</code>, for example
-  /// <code>MyCorp::User::us-east-1_EXAMPLE|a1b2c3d4-5678-90ab-cdef-EXAMPLE11111</code>.
-  /// </li>
-  /// <li>
-  /// OpenID Connect (OIDC) provider: <code>Namespace::[Entity
-  /// type]::[principalIdClaim]|[user principal attribute]</code>, for example
-  /// <code>MyCorp::User::MyOIDCProvider|a1b2c3d4-5678-90ab-cdef-EXAMPLE22222</code>.
-  /// </li>
-  /// </ul> </note> <note>
-  /// Verified Permissions is <i> <a
-  /// href="https://wikipedia.org/wiki/Eventual_consistency">eventually
-  /// consistent</a> </i>. It can take a few seconds for a new or changed
-  /// element to propagate through the service and be visible in the results of
-  /// other Verified Permissions operations.
-  /// </note>
-  ///
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ConflictException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  ///
-  /// Parameter [configuration] :
-  /// Specifies the details required to communicate with the identity provider
-  /// (IdP) associated with this identity source.
-  ///
-  /// Parameter [policyStoreId] :
-  /// Specifies the ID of the policy store in which you want to store this
-  /// identity source. Only policies and requests made using this policy store
-  /// can reference identities from the identity provider configured in the new
-  /// identity source.
-  ///
-  /// Parameter [clientToken] :
-  /// Specifies a unique, case-sensitive ID that you provide to ensure the
-  /// idempotency of the request. This lets you safely retry the request without
-  /// accidentally performing the same operation a second time. Passing the same
-  /// value to a later call to an operation requires that you also pass the same
-  /// value for all other parameters. We recommend that you use a <a
-  /// href="https://wikipedia.org/wiki/Universally_unique_identifier">UUID type
-  /// of value.</a>.
-  ///
-  /// If you don't provide this value, then Amazon Web Services generates a
-  /// random one for you.
-  ///
-  /// If you retry the operation with the same <code>ClientToken</code>, but
-  /// with different parameters, the retry fails with an
-  /// <code>ConflictException</code> error.
-  ///
-  /// Verified Permissions recognizes a <code>ClientToken</code> for eight
-  /// hours. After eight hours, the next request with the same parameters
-  /// performs the operation again regardless of the value of
-  /// <code>ClientToken</code>.
-  ///
-  /// Parameter [principalEntityType] :
-  /// Specifies the namespace and data type of the principals generated for
-  /// identities authenticated by the new identity source.
-  Future<CreateIdentitySourceOutput> createIdentitySource({
-    required Configuration configuration,
-    required String policyStoreId,
-    String? clientToken,
-    String? principalEntityType,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'VerifiedPermissions.CreateIdentitySource'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'configuration': configuration,
-        'policyStoreId': policyStoreId,
-        'clientToken': clientToken ?? _s.generateIdempotencyToken(),
-        if (principalEntityType != null)
-          'principalEntityType': principalEntityType,
-      },
-    );
-
-    return CreateIdentitySourceOutput.fromJson(jsonResponse.body);
-  }
-
-  /// Creates a Cedar policy and saves it in the specified policy store. You can
-  /// create either a static policy or a policy linked to a policy template.
-  ///
-  /// <ul>
-  /// <li>
-  /// To create a static policy, provide the Cedar policy text in the
-  /// <code>StaticPolicy</code> section of the <code>PolicyDefinition</code>.
-  /// </li>
-  /// <li>
-  /// To create a policy that is dynamically linked to a policy template,
-  /// specify the policy template ID and the principal and resource to associate
-  /// with this policy in the <code>templateLinked</code> section of the
-  /// <code>PolicyDefinition</code>. If the policy template is ever updated, any
-  /// policies linked to the policy template automatically use the updated
-  /// template.
-  /// </li>
-  /// </ul> <note>
-  /// Creating a policy causes it to be validated against the schema in the
-  /// policy store. If the policy doesn't pass validation, the operation fails
-  /// and the policy isn't stored.
-  /// </note> <note>
-  /// Verified Permissions is <i> <a
-  /// href="https://wikipedia.org/wiki/Eventual_consistency">eventually
-  /// consistent</a> </i>. It can take a few seconds for a new or changed
-  /// element to propagate through the service and be visible in the results of
-  /// other Verified Permissions operations.
-  /// </note>
-  ///
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ConflictException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  ///
-  /// Parameter [definition] :
-  /// A structure that specifies the policy type and content to use for the new
-  /// policy. You must include either a static or a templateLinked element. The
-  /// policy content must be written in the Cedar policy language.
-  ///
-  /// Parameter [policyStoreId] :
-  /// Specifies the <code>PolicyStoreId</code> of the policy store you want to
-  /// store the policy in.
-  ///
-  /// Parameter [clientToken] :
-  /// Specifies a unique, case-sensitive ID that you provide to ensure the
-  /// idempotency of the request. This lets you safely retry the request without
-  /// accidentally performing the same operation a second time. Passing the same
-  /// value to a later call to an operation requires that you also pass the same
-  /// value for all other parameters. We recommend that you use a <a
-  /// href="https://wikipedia.org/wiki/Universally_unique_identifier">UUID type
-  /// of value.</a>.
-  ///
-  /// If you don't provide this value, then Amazon Web Services generates a
-  /// random one for you.
-  ///
-  /// If you retry the operation with the same <code>ClientToken</code>, but
-  /// with different parameters, the retry fails with an
-  /// <code>ConflictException</code> error.
-  ///
-  /// Verified Permissions recognizes a <code>ClientToken</code> for eight
-  /// hours. After eight hours, the next request with the same parameters
-  /// performs the operation again regardless of the value of
-  /// <code>ClientToken</code>.
-  Future<CreatePolicyOutput> createPolicy({
-    required PolicyDefinition definition,
-    required String policyStoreId,
-    String? clientToken,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'VerifiedPermissions.CreatePolicy'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'definition': definition,
-        'policyStoreId': policyStoreId,
-        'clientToken': clientToken ?? _s.generateIdempotencyToken(),
-      },
-    );
-
-    return CreatePolicyOutput.fromJson(jsonResponse.body);
-  }
-
-  /// Creates a policy store. A policy store is a container for policy
-  /// resources.
-  /// <note>
-  /// Although <a
-  /// href="https://docs.cedarpolicy.com/schema/schema.html#namespace">Cedar
-  /// supports multiple namespaces</a>, Verified Permissions currently supports
-  /// only one namespace per policy store.
-  /// </note> <note>
-  /// Verified Permissions is <i> <a
-  /// href="https://wikipedia.org/wiki/Eventual_consistency">eventually
-  /// consistent</a> </i>. It can take a few seconds for a new or changed
-  /// element to propagate through the service and be visible in the results of
-  /// other Verified Permissions operations.
-  /// </note>
-  ///
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ConflictException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  ///
-  /// Parameter [validationSettings] :
-  /// Specifies the validation setting for this policy store.
-  ///
-  /// Currently, the only valid and required value is <code>Mode</code>.
-  /// <important>
-  /// We recommend that you turn on <code>STRICT</code> mode only after you
-  /// define a schema. If a schema doesn't exist, then <code>STRICT</code> mode
-  /// causes any policy to fail validation, and Verified Permissions rejects the
-  /// policy. You can turn off validation by using the <a
-  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyStore">UpdatePolicyStore</a>.
-  /// Then, when you have a schema defined, use <a
-  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyStore">UpdatePolicyStore</a>
-  /// again to turn validation back on.
-  /// </important>
-  ///
-  /// Parameter [clientToken] :
-  /// Specifies a unique, case-sensitive ID that you provide to ensure the
-  /// idempotency of the request. This lets you safely retry the request without
-  /// accidentally performing the same operation a second time. Passing the same
-  /// value to a later call to an operation requires that you also pass the same
-  /// value for all other parameters. We recommend that you use a <a
-  /// href="https://wikipedia.org/wiki/Universally_unique_identifier">UUID type
-  /// of value.</a>.
-  ///
-  /// If you don't provide this value, then Amazon Web Services generates a
-  /// random one for you.
-  ///
-  /// If you retry the operation with the same <code>ClientToken</code>, but
-  /// with different parameters, the retry fails with an
-  /// <code>ConflictException</code> error.
-  ///
-  /// Verified Permissions recognizes a <code>ClientToken</code> for eight
-  /// hours. After eight hours, the next request with the same parameters
-  /// performs the operation again regardless of the value of
-  /// <code>ClientToken</code>.
-  ///
-  /// Parameter [description] :
-  /// Descriptive text that you can provide to help with identification of the
-  /// current policy store.
-  Future<CreatePolicyStoreOutput> createPolicyStore({
-    required ValidationSettings validationSettings,
-    String? clientToken,
-    String? description,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'VerifiedPermissions.CreatePolicyStore'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'validationSettings': validationSettings,
-        'clientToken': clientToken ?? _s.generateIdempotencyToken(),
-        if (description != null) 'description': description,
-      },
-    );
-
-    return CreatePolicyStoreOutput.fromJson(jsonResponse.body);
-  }
-
-  /// Creates a policy template. A template can use placeholders for the
-  /// principal and resource. A template must be instantiated into a policy by
-  /// associating it with specific principals and resources to use for the
-  /// placeholders. That instantiated policy can then be considered in
-  /// authorization decisions. The instantiated policy works identically to any
-  /// other policy, except that it is dynamically linked to the template. If the
-  /// template changes, then any policies that are linked to that template are
-  /// immediately updated as well.
-  /// <note>
-  /// Verified Permissions is <i> <a
-  /// href="https://wikipedia.org/wiki/Eventual_consistency">eventually
-  /// consistent</a> </i>. It can take a few seconds for a new or changed
-  /// element to propagate through the service and be visible in the results of
-  /// other Verified Permissions operations.
-  /// </note>
-  ///
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ConflictException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  ///
-  /// Parameter [policyStoreId] :
-  /// The ID of the policy store in which to create the policy template.
-  ///
-  /// Parameter [statement] :
-  /// Specifies the content that you want to use for the new policy template,
-  /// written in the Cedar policy language.
-  ///
-  /// Parameter [clientToken] :
-  /// Specifies a unique, case-sensitive ID that you provide to ensure the
-  /// idempotency of the request. This lets you safely retry the request without
-  /// accidentally performing the same operation a second time. Passing the same
-  /// value to a later call to an operation requires that you also pass the same
-  /// value for all other parameters. We recommend that you use a <a
-  /// href="https://wikipedia.org/wiki/Universally_unique_identifier">UUID type
-  /// of value.</a>.
-  ///
-  /// If you don't provide this value, then Amazon Web Services generates a
-  /// random one for you.
-  ///
-  /// If you retry the operation with the same <code>ClientToken</code>, but
-  /// with different parameters, the retry fails with an
-  /// <code>ConflictException</code> error.
-  ///
-  /// Verified Permissions recognizes a <code>ClientToken</code> for eight
-  /// hours. After eight hours, the next request with the same parameters
-  /// performs the operation again regardless of the value of
-  /// <code>ClientToken</code>.
-  ///
-  /// Parameter [description] :
-  /// Specifies a description for the policy template.
-  Future<CreatePolicyTemplateOutput> createPolicyTemplate({
-    required String policyStoreId,
-    required String statement,
-    String? clientToken,
-    String? description,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'VerifiedPermissions.CreatePolicyTemplate'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'policyStoreId': policyStoreId,
-        'statement': statement,
-        'clientToken': clientToken ?? _s.generateIdempotencyToken(),
-        if (description != null) 'description': description,
-      },
-    );
-
-    return CreatePolicyTemplateOutput.fromJson(jsonResponse.body);
-  }
-
-  /// Deletes an identity source that references an identity provider (IdP) such
-  /// as Amazon Cognito. After you delete the identity source, you can no longer
-  /// use tokens for identities from that identity source to represent
-  /// principals in authorization queries made using <a
-  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html">IsAuthorizedWithToken</a>.
-  /// operations.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  ///
-  /// Parameter [identitySourceId] :
-  /// Specifies the ID of the identity source that you want to delete.
-  ///
-  /// Parameter [policyStoreId] :
-  /// Specifies the ID of the policy store that contains the identity source
-  /// that you want to delete.
-  Future<void> deleteIdentitySource({
-    required String identitySourceId,
-    required String policyStoreId,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'VerifiedPermissions.DeleteIdentitySource'
-    };
-    await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'identitySourceId': identitySourceId,
-        'policyStoreId': policyStoreId,
-      },
-    );
-  }
-
-  /// Deletes the specified policy from the policy store.
-  ///
-  /// This operation is idempotent; if you specify a policy that doesn't exist,
-  /// the request response returns a successful <code>HTTP 200</code> status
-  /// code.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  ///
-  /// Parameter [policyId] :
-  /// Specifies the ID of the policy that you want to delete.
-  ///
-  /// Parameter [policyStoreId] :
-  /// Specifies the ID of the policy store that contains the policy that you
-  /// want to delete.
-  Future<void> deletePolicy({
-    required String policyId,
-    required String policyStoreId,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'VerifiedPermissions.DeletePolicy'
-    };
-    await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'policyId': policyId,
-        'policyStoreId': policyStoreId,
-      },
-    );
-  }
-
-  /// Deletes the specified policy store.
-  ///
-  /// This operation is idempotent. If you specify a policy store that does not
-  /// exist, the request response will still return a successful HTTP 200 status
-  /// code.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  ///
-  /// Parameter [policyStoreId] :
-  /// Specifies the ID of the policy store that you want to delete.
-  Future<void> deletePolicyStore({
-    required String policyStoreId,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'VerifiedPermissions.DeletePolicyStore'
-    };
-    await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'policyStoreId': policyStoreId,
-      },
-    );
-  }
-
-  /// Deletes the specified policy template from the policy store.
-  /// <important>
-  /// This operation also deletes any policies that were created from the
-  /// specified policy template. Those policies are immediately removed from all
-  /// future API responses, and are asynchronously deleted from the policy
-  /// store.
-  /// </important>
-  ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  ///
-  /// Parameter [policyStoreId] :
-  /// Specifies the ID of the policy store that contains the policy template
-  /// that you want to delete.
-  ///
-  /// Parameter [policyTemplateId] :
-  /// Specifies the ID of the policy template that you want to delete.
-  Future<void> deletePolicyTemplate({
-    required String policyStoreId,
-    required String policyTemplateId,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'VerifiedPermissions.DeletePolicyTemplate'
-    };
-    await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'policyStoreId': policyStoreId,
-        'policyTemplateId': policyTemplateId,
-      },
-    );
-  }
-
-  /// Retrieves the details about the specified identity source.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  ///
-  /// Parameter [identitySourceId] :
-  /// Specifies the ID of the identity source you want information about.
-  ///
-  /// Parameter [policyStoreId] :
-  /// Specifies the ID of the policy store that contains the identity source you
-  /// want information about.
-  Future<GetIdentitySourceOutput> getIdentitySource({
-    required String identitySourceId,
-    required String policyStoreId,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'VerifiedPermissions.GetIdentitySource'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'identitySourceId': identitySourceId,
-        'policyStoreId': policyStoreId,
-      },
-    );
-
-    return GetIdentitySourceOutput.fromJson(jsonResponse.body);
-  }
-
-  /// Retrieves information about the specified policy.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  ///
-  /// Parameter [policyId] :
-  /// Specifies the ID of the policy you want information about.
-  ///
-  /// Parameter [policyStoreId] :
-  /// Specifies the ID of the policy store that contains the policy that you
-  /// want information about.
-  Future<GetPolicyOutput> getPolicy({
-    required String policyId,
-    required String policyStoreId,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'VerifiedPermissions.GetPolicy'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'policyId': policyId,
-        'policyStoreId': policyStoreId,
-      },
-    );
-
-    return GetPolicyOutput.fromJson(jsonResponse.body);
-  }
-
-  /// Retrieves details about a policy store.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  ///
-  /// Parameter [policyStoreId] :
-  /// Specifies the ID of the policy store that you want information about.
-  Future<GetPolicyStoreOutput> getPolicyStore({
-    required String policyStoreId,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'VerifiedPermissions.GetPolicyStore'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'policyStoreId': policyStoreId,
-      },
-    );
-
-    return GetPolicyStoreOutput.fromJson(jsonResponse.body);
-  }
-
-  /// Retrieve the details for the specified policy template in the specified
-  /// policy store.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  ///
-  /// Parameter [policyStoreId] :
-  /// Specifies the ID of the policy store that contains the policy template
-  /// that you want information about.
-  ///
-  /// Parameter [policyTemplateId] :
-  /// Specifies the ID of the policy template that you want information about.
-  Future<GetPolicyTemplateOutput> getPolicyTemplate({
-    required String policyStoreId,
-    required String policyTemplateId,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'VerifiedPermissions.GetPolicyTemplate'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'policyStoreId': policyStoreId,
-        'policyTemplateId': policyTemplateId,
-      },
-    );
-
-    return GetPolicyTemplateOutput.fromJson(jsonResponse.body);
-  }
-
   /// Retrieve the details for the specified schema in the specified policy
   /// store.
   ///
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [policyStoreId] :
   /// Specifies the ID of the policy store that contains the schema.
+  ///
+  /// To specify a policy store, use its ID or alias name. When using an alias
+  /// name, prefix it with <code>policy-store-alias/</code>. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// ID: <code>PSEXAMPLEabcdefg111111</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>policy-store-alias/example-policy-store</code>
+  /// </li>
+  /// </ul>
+  /// To view aliases, use <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html">ListPolicyStoreAliases</a>.
   Future<GetSchemaOutput> getSchema({
     required String policyStoreId,
   }) async {
@@ -1011,15 +806,25 @@ class VerifiedPermissions {
   /// <code>Deny</code>, along with a list of the policies that resulted in the
   /// decision.
   ///
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [policyStoreId] :
   /// Specifies the ID of the policy store. Policies in this policy store will
   /// be used to make an authorization decision for the input.
+  ///
+  /// To specify a policy store, use its ID or alias name. When using an alias
+  /// name, prefix it with <code>policy-store-alias/</code>. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// ID: <code>PSEXAMPLEabcdefg111111</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>policy-store-alias/example-policy-store</code>
+  /// </li>
+  /// </ul>
+  /// To view aliases, use <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html">ListPolicyStoreAliases</a>.
   ///
   /// Parameter [action] :
   /// Specifies the requested action to be authorized. For example, is the
@@ -1030,9 +835,11 @@ class VerifiedPermissions {
   /// authorization decisions.
   ///
   /// Parameter [entities] :
-  /// Specifies the list of resources and principals and their associated
-  /// attributes that Verified Permissions can examine when evaluating the
-  /// policies.
+  /// (Optional) Specifies the list of resources and principals and their
+  /// associated attributes that Verified Permissions can examine when
+  /// evaluating the policies. These additional entities and their attributes
+  /// can be referenced and checked by conditional elements in the policies in
+  /// the specified policy store.
   /// <note>
   /// You can include only principal and resource entities in this parameter;
   /// you can't include actions. You must specify actions in the schema.
@@ -1085,9 +892,6 @@ class VerifiedPermissions {
   /// result of the decision is either <code>Allow</code> or <code>Deny</code>,
   /// along with a list of the policies that resulted in the decision.
   ///
-  /// At this time, Verified Permissions accepts tokens from only Amazon
-  /// Cognito.
-  ///
   /// Verified Permissions validates each token that is specified in a request
   /// by checking its expiration date and its signature.
   /// <important>
@@ -1096,15 +900,25 @@ class VerifiedPermissions {
   /// validity of a token in your policy store
   /// </important>
   ///
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [policyStoreId] :
   /// Specifies the ID of the policy store. Policies in this policy store will
   /// be used to make an authorization decision for the input.
+  ///
+  /// To specify a policy store, use its ID or alias name. When using an alias
+  /// name, prefix it with <code>policy-store-alias/</code>. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// ID: <code>PSEXAMPLEabcdefg111111</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>policy-store-alias/example-policy-store</code>
+  /// </li>
+  /// </ul>
+  /// To view aliases, use <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html">ListPolicyStoreAliases</a>.
   ///
   /// Parameter [accessToken] :
   /// Specifies an access token for the principal to be authorized. This token
@@ -1125,8 +939,10 @@ class VerifiedPermissions {
   /// authorization decisions.
   ///
   /// Parameter [entities] :
-  /// Specifies the list of resources and their associated attributes that
-  /// Verified Permissions can examine when evaluating the policies.
+  /// (Optional) Specifies the list of resources and their associated attributes
+  /// that Verified Permissions can examine when evaluating the policies. These
+  /// additional entities and their attributes can be referenced and checked by
+  /// conditional elements in the policies in the specified policy store.
   /// <important>
   /// You can't include principals in this parameter, only resource and action
   /// entities. This parameter can't include any entities of a type that matches
@@ -1189,18 +1005,411 @@ class VerifiedPermissions {
     return IsAuthorizedWithTokenOutput.fromJson(jsonResponse.body);
   }
 
+  /// Creates or updates the policy schema in the specified policy store. The
+  /// schema is used to validate any Cedar policies and policy templates
+  /// submitted to the policy store. Any changes to the schema validate only
+  /// policies and templates submitted after the schema change. Existing
+  /// policies and templates are not re-evaluated against the changed schema. If
+  /// you later update a policy, then it is evaluated against the new schema at
+  /// that time.
+  /// <note>
+  /// Verified Permissions is <i> <a
+  /// href="https://wikipedia.org/wiki/Eventual_consistency">eventually
+  /// consistent</a> </i>. It can take a few seconds for a new or changed
+  /// element to propagate through the service and be visible in the results of
+  /// other Verified Permissions operations.
+  /// </note>
+  ///
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [definition] :
+  /// Specifies the definition of the schema to be stored. The schema definition
+  /// must be written in Cedar schema JSON.
+  ///
+  /// Parameter [policyStoreId] :
+  /// Specifies the ID of the policy store in which to place the schema.
+  ///
+  /// To specify a policy store, use its ID or alias name. When using an alias
+  /// name, prefix it with <code>policy-store-alias/</code>. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// ID: <code>PSEXAMPLEabcdefg111111</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>policy-store-alias/example-policy-store</code>
+  /// </li>
+  /// </ul>
+  /// To view aliases, use <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html">ListPolicyStoreAliases</a>.
+  Future<PutSchemaOutput> putSchema({
+    required SchemaDefinition definition,
+    required String policyStoreId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'VerifiedPermissions.PutSchema'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'definition': definition,
+        'policyStoreId': policyStoreId,
+      },
+    );
+
+    return PutSchemaOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves information about a group (batch) of policies.
+  /// <note>
+  /// The <code>BatchGetPolicy</code> operation doesn't have its own IAM
+  /// permission. To authorize this operation for Amazon Web Services
+  /// principals, include the permission
+  /// <code>verifiedpermissions:GetPolicy</code> in their IAM policies.
+  /// </note>
+  ///
+  /// Parameter [requests] :
+  /// An array of up to 100 policies you want information about.
+  Future<BatchGetPolicyOutput> batchGetPolicy({
+    required List<BatchGetPolicyInputItem> requests,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'VerifiedPermissions.BatchGetPolicy'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'requests': requests,
+      },
+    );
+
+    return BatchGetPolicyOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Adds an identity source to a policy store–an Amazon Cognito user pool or
+  /// OpenID Connect (OIDC) identity provider (IdP).
+  ///
+  /// After you create an identity source, you can use the identities provided
+  /// by the IdP as proxies for the principal in authorization queries that use
+  /// the <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html">IsAuthorizedWithToken</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_BatchIsAuthorizedWithToken.html">BatchIsAuthorizedWithToken</a>
+  /// API operations. These identities take the form of tokens that contain
+  /// claims about the user, such as IDs, attributes and group memberships.
+  /// Identity sources provide identity (ID) tokens and access tokens. Verified
+  /// Permissions derives information about your user and session from token
+  /// claims. Access tokens provide action <code>context</code> to your
+  /// policies, and ID tokens provide principal <code>Attributes</code>.
+  /// <important>
+  /// Tokens from an identity source user continue to be usable until they
+  /// expire. Token revocation and resource deletion have no effect on the
+  /// validity of a token in your policy store
+  /// </important> <note>
+  /// To reference a user from this identity source in your Cedar policies,
+  /// refer to the following syntax examples.
+  ///
+  /// <ul>
+  /// <li>
+  /// Amazon Cognito user pool: <code>Namespace::[Entity type]::[User pool
+  /// ID]|[user principal attribute]</code>, for example
+  /// <code>MyCorp::User::us-east-1_EXAMPLE|a1b2c3d4-5678-90ab-cdef-EXAMPLE11111</code>.
+  /// </li>
+  /// <li>
+  /// OpenID Connect (OIDC) provider: <code>Namespace::[Entity
+  /// type]::[entityIdPrefix]|[user principal attribute]</code>, for example
+  /// <code>MyCorp::User::MyOIDCProvider|a1b2c3d4-5678-90ab-cdef-EXAMPLE22222</code>.
+  /// </li>
+  /// </ul> </note> <note>
+  /// Verified Permissions is <i> <a
+  /// href="https://wikipedia.org/wiki/Eventual_consistency">eventually
+  /// consistent</a> </i>. It can take a few seconds for a new or changed
+  /// element to propagate through the service and be visible in the results of
+  /// other Verified Permissions operations.
+  /// </note>
+  ///
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [configuration] :
+  /// Specifies the details required to communicate with the identity provider
+  /// (IdP) associated with this identity source.
+  ///
+  /// Parameter [policyStoreId] :
+  /// Specifies the ID of the policy store in which you want to store this
+  /// identity source. Only policies and requests made using this policy store
+  /// can reference identities from the identity provider configured in the new
+  /// identity source.
+  ///
+  /// To specify a policy store, use its ID or alias name. When using an alias
+  /// name, prefix it with <code>policy-store-alias/</code>. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// ID: <code>PSEXAMPLEabcdefg111111</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>policy-store-alias/example-policy-store</code>
+  /// </li>
+  /// </ul>
+  /// To view aliases, use <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html">ListPolicyStoreAliases</a>.
+  ///
+  /// Parameter [clientToken] :
+  /// Specifies a unique, case-sensitive ID that you provide to ensure the
+  /// idempotency of the request. This lets you safely retry the request without
+  /// accidentally performing the same operation a second time. Passing the same
+  /// value to a later call to an operation requires that you also pass the same
+  /// value for all other parameters. We recommend that you use a <a
+  /// href="https://wikipedia.org/wiki/Universally_unique_identifier">UUID type
+  /// of value.</a>.
+  ///
+  /// If you don't provide this value, then Amazon Web Services generates a
+  /// random one for you.
+  ///
+  /// If you retry the operation with the same <code>ClientToken</code>, but
+  /// with different parameters, the retry fails with an
+  /// <code>ConflictException</code> error.
+  ///
+  /// Verified Permissions recognizes a <code>ClientToken</code> for eight
+  /// hours. After eight hours, the next request with the same parameters
+  /// performs the operation again regardless of the value of
+  /// <code>ClientToken</code>.
+  ///
+  /// Parameter [principalEntityType] :
+  /// Specifies the namespace and data type of the principals generated for
+  /// identities authenticated by the new identity source.
+  Future<CreateIdentitySourceOutput> createIdentitySource({
+    required Configuration configuration,
+    required String policyStoreId,
+    String? clientToken,
+    String? principalEntityType,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'VerifiedPermissions.CreateIdentitySource'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'configuration': configuration,
+        'policyStoreId': policyStoreId,
+        'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+        if (principalEntityType != null)
+          'principalEntityType': principalEntityType,
+      },
+    );
+
+    return CreateIdentitySourceOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves the details about the specified identity source.
+  ///
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [identitySourceId] :
+  /// Specifies the ID of the identity source you want information about.
+  ///
+  /// Parameter [policyStoreId] :
+  /// Specifies the ID of the policy store that contains the identity source you
+  /// want information about.
+  ///
+  /// To specify a policy store, use its ID or alias name. When using an alias
+  /// name, prefix it with <code>policy-store-alias/</code>. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// ID: <code>PSEXAMPLEabcdefg111111</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>policy-store-alias/example-policy-store</code>
+  /// </li>
+  /// </ul>
+  /// To view aliases, use <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html">ListPolicyStoreAliases</a>.
+  Future<GetIdentitySourceOutput> getIdentitySource({
+    required String identitySourceId,
+    required String policyStoreId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'VerifiedPermissions.GetIdentitySource'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'identitySourceId': identitySourceId,
+        'policyStoreId': policyStoreId,
+      },
+    );
+
+    return GetIdentitySourceOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Updates the specified identity source to use a new identity provider
+  /// (IdP), or to change the mapping of identities from the IdP to a different
+  /// principal entity type.
+  /// <note>
+  /// Verified Permissions is <i> <a
+  /// href="https://wikipedia.org/wiki/Eventual_consistency">eventually
+  /// consistent</a> </i>. It can take a few seconds for a new or changed
+  /// element to propagate through the service and be visible in the results of
+  /// other Verified Permissions operations.
+  /// </note>
+  ///
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [identitySourceId] :
+  /// Specifies the ID of the identity source that you want to update.
+  ///
+  /// Parameter [policyStoreId] :
+  /// Specifies the ID of the policy store that contains the identity source
+  /// that you want to update.
+  ///
+  /// To specify a policy store, use its ID or alias name. When using an alias
+  /// name, prefix it with <code>policy-store-alias/</code>. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// ID: <code>PSEXAMPLEabcdefg111111</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>policy-store-alias/example-policy-store</code>
+  /// </li>
+  /// </ul>
+  /// To view aliases, use <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html">ListPolicyStoreAliases</a>.
+  ///
+  /// Parameter [updateConfiguration] :
+  /// Specifies the details required to communicate with the identity provider
+  /// (IdP) associated with this identity source.
+  ///
+  /// Parameter [principalEntityType] :
+  /// Specifies the data type of principals generated for identities
+  /// authenticated by the identity source.
+  Future<UpdateIdentitySourceOutput> updateIdentitySource({
+    required String identitySourceId,
+    required String policyStoreId,
+    required UpdateConfiguration updateConfiguration,
+    String? principalEntityType,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'VerifiedPermissions.UpdateIdentitySource'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'identitySourceId': identitySourceId,
+        'policyStoreId': policyStoreId,
+        'updateConfiguration': updateConfiguration,
+        if (principalEntityType != null)
+          'principalEntityType': principalEntityType,
+      },
+    );
+
+    return UpdateIdentitySourceOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes an identity source that references an identity provider (IdP) such
+  /// as Amazon Cognito. After you delete the identity source, you can no longer
+  /// use tokens for identities from that identity source to represent
+  /// principals in authorization queries made using <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html">IsAuthorizedWithToken</a>.
+  /// operations.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [identitySourceId] :
+  /// Specifies the ID of the identity source that you want to delete.
+  ///
+  /// Parameter [policyStoreId] :
+  /// Specifies the ID of the policy store that contains the identity source
+  /// that you want to delete.
+  ///
+  /// To specify a policy store, use its ID or alias name. When using an alias
+  /// name, prefix it with <code>policy-store-alias/</code>. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// ID: <code>PSEXAMPLEabcdefg111111</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>policy-store-alias/example-policy-store</code>
+  /// </li>
+  /// </ul>
+  /// To view aliases, use <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html">ListPolicyStoreAliases</a>.
+  Future<void> deleteIdentitySource({
+    required String identitySourceId,
+    required String policyStoreId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'VerifiedPermissions.DeleteIdentitySource'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'identitySourceId': identitySourceId,
+        'policyStoreId': policyStoreId,
+      },
+    );
+  }
+
   /// Returns a paginated list of all of the identity sources defined in the
   /// specified policy store.
   ///
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [policyStoreId] :
   /// Specifies the ID of the policy store that contains the identity sources
   /// that you want to list.
+  ///
+  /// To specify a policy store, use its ID or alias name. When using an alias
+  /// name, prefix it with <code>policy-store-alias/</code>. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// ID: <code>PSEXAMPLEabcdefg111111</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>policy-store-alias/example-policy-store</code>
+  /// </li>
+  /// </ul>
+  /// To view aliases, use <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html">ListPolicyStoreAliases</a>.
   ///
   /// Parameter [filters] :
   /// Specifies characteristics of an identity source that you can use to limit
@@ -1260,17 +1469,425 @@ class VerifiedPermissions {
     return ListIdentitySourcesOutput.fromJson(jsonResponse.body);
   }
 
+  /// Creates a Cedar policy and saves it in the specified policy store. You can
+  /// create either a static policy or a policy linked to a policy template.
+  ///
+  /// <ul>
+  /// <li>
+  /// To create a static policy, provide the Cedar policy text in the
+  /// <code>StaticPolicy</code> section of the <code>PolicyDefinition</code>.
+  /// </li>
+  /// <li>
+  /// To create a policy that is dynamically linked to a policy template,
+  /// specify the policy template ID and the principal and resource to associate
+  /// with this policy in the <code>templateLinked</code> section of the
+  /// <code>PolicyDefinition</code>. If the policy template is ever updated, any
+  /// policies linked to the policy template automatically use the updated
+  /// template.
+  /// </li>
+  /// </ul> <note>
+  /// Creating a policy causes it to be validated against the schema in the
+  /// policy store. If the policy doesn't pass validation, the operation fails
+  /// and the policy isn't stored.
+  /// </note> <note>
+  /// Verified Permissions is <i> <a
+  /// href="https://wikipedia.org/wiki/Eventual_consistency">eventually
+  /// consistent</a> </i>. It can take a few seconds for a new or changed
+  /// element to propagate through the service and be visible in the results of
+  /// other Verified Permissions operations.
+  /// </note>
+  ///
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [definition] :
+  /// A structure that specifies the policy type and content to use for the new
+  /// policy. You must include either a static or a templateLinked element. The
+  /// policy content must be written in the Cedar policy language.
+  ///
+  /// Parameter [policyStoreId] :
+  /// Specifies the <code>PolicyStoreId</code> of the policy store you want to
+  /// store the policy in.
+  ///
+  /// To specify a policy store, use its ID or alias name. When using an alias
+  /// name, prefix it with <code>policy-store-alias/</code>. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// ID: <code>PSEXAMPLEabcdefg111111</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>policy-store-alias/example-policy-store</code>
+  /// </li>
+  /// </ul>
+  /// To view aliases, use <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html">ListPolicyStoreAliases</a>.
+  ///
+  /// Parameter [clientToken] :
+  /// Specifies a unique, case-sensitive ID that you provide to ensure the
+  /// idempotency of the request. This lets you safely retry the request without
+  /// accidentally performing the same operation a second time. Passing the same
+  /// value to a later call to an operation requires that you also pass the same
+  /// value for all other parameters. We recommend that you use a <a
+  /// href="https://wikipedia.org/wiki/Universally_unique_identifier">UUID type
+  /// of value.</a>.
+  ///
+  /// If you don't provide this value, then Amazon Web Services generates a
+  /// random one for you.
+  ///
+  /// If you retry the operation with the same <code>ClientToken</code>, but
+  /// with different parameters, the retry fails with an
+  /// <code>ConflictException</code> error.
+  ///
+  /// Verified Permissions recognizes a <code>ClientToken</code> for eight
+  /// hours. After eight hours, the next request with the same parameters
+  /// performs the operation again regardless of the value of
+  /// <code>ClientToken</code>.
+  ///
+  /// Parameter [name] :
+  /// Specifies a name for the policy that is unique among all policies within
+  /// the policy store. You can use the name in place of the policy ID in API
+  /// operations that reference the policy. The name must be prefixed with
+  /// <code>name/</code>.
+  ///
+  /// If you specify a name that is already associated with another policy in
+  /// the policy store, you receive a <code>ConflictException</code> error.
+  Future<CreatePolicyOutput> createPolicy({
+    required PolicyDefinition definition,
+    required String policyStoreId,
+    String? clientToken,
+    String? name,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'VerifiedPermissions.CreatePolicy'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'definition': definition,
+        'policyStoreId': policyStoreId,
+        'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+        if (name != null) 'name': name,
+      },
+    );
+
+    return CreatePolicyOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves information about the specified policy.
+  ///
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [policyId] :
+  /// Specifies the ID of the policy you want information about.
+  ///
+  /// You can use the policy name in place of the policy ID. When using a name,
+  /// prefix it with <code>name/</code>. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// ID: <code>SPEXAMPLEabcdefg111111</code>
+  /// </li>
+  /// <li>
+  /// Name: <code>name/example-policy</code>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [policyStoreId] :
+  /// Specifies the ID of the policy store that contains the policy that you
+  /// want information about.
+  ///
+  /// To specify a policy store, use its ID or alias name. When using an alias
+  /// name, prefix it with <code>policy-store-alias/</code>. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// ID: <code>PSEXAMPLEabcdefg111111</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>policy-store-alias/example-policy-store</code>
+  /// </li>
+  /// </ul>
+  /// To view aliases, use <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html">ListPolicyStoreAliases</a>.
+  Future<GetPolicyOutput> getPolicy({
+    required String policyId,
+    required String policyStoreId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'VerifiedPermissions.GetPolicy'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'policyId': policyId,
+        'policyStoreId': policyStoreId,
+      },
+    );
+
+    return GetPolicyOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Modifies a Cedar static policy in the specified policy store. You can
+  /// change only certain elements of the <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyInput.html#amazonverifiedpermissions-UpdatePolicy-request-UpdatePolicyDefinition">UpdatePolicyDefinition</a>
+  /// parameter. You can directly update only static policies. To change a
+  /// template-linked policy, you must update the template instead, using <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyTemplate.html">UpdatePolicyTemplate</a>.
+  /// <note>
+  /// <ul>
+  /// <li>
+  /// If policy validation is enabled in the policy store, then updating a
+  /// static policy causes Verified Permissions to validate the policy against
+  /// the schema in the policy store. If the updated static policy doesn't pass
+  /// validation, the operation fails and the update isn't stored.
+  /// </li>
+  /// <li>
+  /// When you edit a static policy, you can change only certain elements of a
+  /// static policy:
+  ///
+  /// <ul>
+  /// <li>
+  /// The action referenced by the policy.
+  /// </li>
+  /// <li>
+  /// A condition clause, such as when and unless.
+  /// </li>
+  /// </ul>
+  /// You can't change these elements of a static policy:
+  ///
+  /// <ul>
+  /// <li>
+  /// Changing a policy from a static policy to a template-linked policy.
+  /// </li>
+  /// <li>
+  /// Changing the effect of a static policy from permit or forbid.
+  /// </li>
+  /// <li>
+  /// The principal referenced by a static policy.
+  /// </li>
+  /// <li>
+  /// The resource referenced by a static policy.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// To update a template-linked policy, you must update the template instead.
+  /// </li>
+  /// </ul> </note> <note>
+  /// Verified Permissions is <i> <a
+  /// href="https://wikipedia.org/wiki/Eventual_consistency">eventually
+  /// consistent</a> </i>. It can take a few seconds for a new or changed
+  /// element to propagate through the service and be visible in the results of
+  /// other Verified Permissions operations.
+  /// </note>
+  ///
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [policyId] :
+  /// Specifies the ID of the policy that you want to update. To find this
+  /// value, you can use <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicies.html">ListPolicies</a>.
+  ///
+  /// You can use the policy name in place of the policy ID. When using a name,
+  /// prefix it with <code>name/</code>. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// ID: <code>SPEXAMPLEabcdefg111111</code>
+  /// </li>
+  /// <li>
+  /// Name: <code>name/example-policy</code>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [policyStoreId] :
+  /// Specifies the ID of the policy store that contains the policy that you
+  /// want to update.
+  ///
+  /// To specify a policy store, use its ID or alias name. When using an alias
+  /// name, prefix it with <code>policy-store-alias/</code>. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// ID: <code>PSEXAMPLEabcdefg111111</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>policy-store-alias/example-policy-store</code>
+  /// </li>
+  /// </ul>
+  /// To view aliases, use <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html">ListPolicyStoreAliases</a>.
+  ///
+  /// Parameter [definition] :
+  /// Specifies the updated policy content that you want to replace on the
+  /// specified policy. The content must be valid Cedar policy language text.
+  ///
+  /// If you don't specify this parameter, the existing policy definition
+  /// remains unchanged.
+  ///
+  /// You can change only the following elements from the policy definition:
+  ///
+  /// <ul>
+  /// <li>
+  /// The <code>action</code> referenced by the policy.
+  /// </li>
+  /// <li>
+  /// Any conditional clauses, such as <code>when</code> or <code>unless</code>
+  /// clauses.
+  /// </li>
+  /// </ul>
+  /// You <b>can't</b> change the following elements:
+  ///
+  /// <ul>
+  /// <li>
+  /// Changing from <code>static</code> to <code>templateLinked</code>.
+  /// </li>
+  /// <li>
+  /// Changing the effect of the policy from <code>permit</code> or
+  /// <code>forbid</code>.
+  /// </li>
+  /// <li>
+  /// The <code>principal</code> referenced by the policy.
+  /// </li>
+  /// <li>
+  /// The <code>resource</code> referenced by the policy.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [name] :
+  /// Specifies a name for the policy that is unique among all policies within
+  /// the policy store. You can use the name in place of the policy ID in API
+  /// operations that reference the policy. The name must be prefixed with
+  /// <code>name/</code>.
+  /// <note>
+  /// If you don't include the name in an update request, the existing name is
+  /// unchanged. To remove a name, set it to an empty string (<code>""</code>).
+  /// </note>
+  /// If you specify a name that is already associated with another policy in
+  /// the policy store, you receive a <code>ConflictException</code> error.
+  Future<UpdatePolicyOutput> updatePolicy({
+    required String policyId,
+    required String policyStoreId,
+    UpdatePolicyDefinition? definition,
+    String? name,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'VerifiedPermissions.UpdatePolicy'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'policyId': policyId,
+        'policyStoreId': policyStoreId,
+        if (definition != null) 'definition': definition,
+        if (name != null) 'name': name,
+      },
+    );
+
+    return UpdatePolicyOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes the specified policy from the policy store.
+  ///
+  /// This operation is idempotent; if you specify a policy that doesn't exist,
+  /// the request response returns a successful <code>HTTP 200</code> status
+  /// code.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [policyId] :
+  /// Specifies the ID of the policy that you want to delete.
+  ///
+  /// You can use the policy name in place of the policy ID. When using a name,
+  /// prefix it with <code>name/</code>. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// ID: <code>SPEXAMPLEabcdefg111111</code>
+  /// </li>
+  /// <li>
+  /// Name: <code>name/example-policy</code>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [policyStoreId] :
+  /// Specifies the ID of the policy store that contains the policy that you
+  /// want to delete.
+  ///
+  /// To specify a policy store, use its ID or alias name. When using an alias
+  /// name, prefix it with <code>policy-store-alias/</code>. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// ID: <code>PSEXAMPLEabcdefg111111</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>policy-store-alias/example-policy-store</code>
+  /// </li>
+  /// </ul>
+  /// To view aliases, use <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html">ListPolicyStoreAliases</a>.
+  Future<void> deletePolicy({
+    required String policyId,
+    required String policyStoreId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'VerifiedPermissions.DeletePolicy'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'policyId': policyId,
+        'policyStoreId': policyStoreId,
+      },
+    );
+  }
+
   /// Returns a paginated list of all policies stored in the specified policy
   /// store.
   ///
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [policyStoreId] :
   /// Specifies the ID of the policy store you want to list policies from.
+  ///
+  /// To specify a policy store, use its ID or alias name. When using an alias
+  /// name, prefix it with <code>policy-store-alias/</code>. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// ID: <code>PSEXAMPLEabcdefg111111</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>policy-store-alias/example-policy-store</code>
+  /// </li>
+  /// </ul>
+  /// To view aliases, use <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html">ListPolicyStoreAliases</a>.
   ///
   /// Parameter [filter] :
   /// Specifies a filter that limits the response to only policies that match
@@ -1331,48 +1948,90 @@ class VerifiedPermissions {
     return ListPoliciesOutput.fromJson(jsonResponse.body);
   }
 
-  /// Returns a paginated list of all policy stores in the calling Amazon Web
-  /// Services account.
+  /// Creates a policy template. A template can use placeholders for the
+  /// principal and resource. A template must be instantiated into a policy by
+  /// associating it with specific principals and resources to use for the
+  /// placeholders. That instantiated policy can then be considered in
+  /// authorization decisions. The instantiated policy works identically to any
+  /// other policy, except that it is dynamically linked to the template. If the
+  /// template changes, then any policies that are linked to that template are
+  /// immediately updated as well.
+  /// <note>
+  /// Verified Permissions is <i> <a
+  /// href="https://wikipedia.org/wiki/Eventual_consistency">eventually
+  /// consistent</a> </i>. It can take a few seconds for a new or changed
+  /// element to propagate through the service and be visible in the results of
+  /// other Verified Permissions operations.
+  /// </note>
   ///
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
   ///
-  /// Parameter [maxResults] :
-  /// Specifies the total number of results that you want included in each
-  /// response. If additional items exist beyond the number you specify, the
-  /// <code>NextToken</code> response element is returned with a value (not
-  /// null). Include the specified value as the <code>NextToken</code> request
-  /// parameter in the next call to the operation to get the next set of
-  /// results. Note that the service might return fewer results than the maximum
-  /// even when there are more results available. You should check
-  /// <code>NextToken</code> after every operation to ensure that you receive
-  /// all of the results.
+  /// Parameter [policyStoreId] :
+  /// The ID of the policy store in which to create the policy template.
   ///
-  /// If you do not specify this parameter, the operation defaults to 10 policy
-  /// stores per response. You can specify a maximum of 50 policy stores per
-  /// response.
+  /// To specify a policy store, use its ID or alias name. When using an alias
+  /// name, prefix it with <code>policy-store-alias/</code>. For example:
   ///
-  /// Parameter [nextToken] :
-  /// Specifies that you want to receive the next page of results. Valid only if
-  /// you received a <code>NextToken</code> response in the previous request. If
-  /// you did, it indicates that more output is available. Set this parameter to
-  /// the value provided by the previous call's <code>NextToken</code> response
-  /// to request the next page of results.
-  Future<ListPolicyStoresOutput> listPolicyStores({
-    int? maxResults,
-    String? nextToken,
+  /// <ul>
+  /// <li>
+  /// ID: <code>PSEXAMPLEabcdefg111111</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>policy-store-alias/example-policy-store</code>
+  /// </li>
+  /// </ul>
+  /// To view aliases, use <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html">ListPolicyStoreAliases</a>.
+  ///
+  /// Parameter [statement] :
+  /// Specifies the content that you want to use for the new policy template,
+  /// written in the Cedar policy language.
+  ///
+  /// Parameter [clientToken] :
+  /// Specifies a unique, case-sensitive ID that you provide to ensure the
+  /// idempotency of the request. This lets you safely retry the request without
+  /// accidentally performing the same operation a second time. Passing the same
+  /// value to a later call to an operation requires that you also pass the same
+  /// value for all other parameters. We recommend that you use a <a
+  /// href="https://wikipedia.org/wiki/Universally_unique_identifier">UUID type
+  /// of value.</a>.
+  ///
+  /// If you don't provide this value, then Amazon Web Services generates a
+  /// random one for you.
+  ///
+  /// If you retry the operation with the same <code>ClientToken</code>, but
+  /// with different parameters, the retry fails with an
+  /// <code>ConflictException</code> error.
+  ///
+  /// Verified Permissions recognizes a <code>ClientToken</code> for eight
+  /// hours. After eight hours, the next request with the same parameters
+  /// performs the operation again regardless of the value of
+  /// <code>ClientToken</code>.
+  ///
+  /// Parameter [description] :
+  /// Specifies a description for the policy template.
+  ///
+  /// Parameter [name] :
+  /// Specifies a name for the policy template that is unique among all policy
+  /// templates within the policy store. You can use the name in place of the
+  /// policy template ID in API operations that reference the policy template.
+  /// The name must be prefixed with <code>name/</code>.
+  ///
+  /// If you specify a name that is already associated with another policy
+  /// template in the policy store, you receive a <code>ConflictException</code>
+  /// error.
+  Future<CreatePolicyTemplateOutput> createPolicyTemplate({
+    required String policyStoreId,
+    required String statement,
+    String? clientToken,
+    String? description,
+    String? name,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'VerifiedPermissions.ListPolicyStores'
+      'X-Amz-Target': 'VerifiedPermissions.CreatePolicyTemplate'
     };
     final jsonResponse = await _protocol.send(
       method: 'POST',
@@ -1381,26 +2040,289 @@ class VerifiedPermissions {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
+        'policyStoreId': policyStoreId,
+        'statement': statement,
+        'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+        if (description != null) 'description': description,
+        if (name != null) 'name': name,
       },
     );
 
-    return ListPolicyStoresOutput.fromJson(jsonResponse.body);
+    return CreatePolicyTemplateOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieve the details for the specified policy template in the specified
+  /// policy store.
+  ///
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [policyStoreId] :
+  /// Specifies the ID of the policy store that contains the policy template
+  /// that you want information about.
+  ///
+  /// To specify a policy store, use its ID or alias name. When using an alias
+  /// name, prefix it with <code>policy-store-alias/</code>. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// ID: <code>PSEXAMPLEabcdefg111111</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>policy-store-alias/example-policy-store</code>
+  /// </li>
+  /// </ul>
+  /// To view aliases, use <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html">ListPolicyStoreAliases</a>.
+  ///
+  /// Parameter [policyTemplateId] :
+  /// Specifies the ID of the policy template that you want information about.
+  ///
+  /// You can use the policy template name in place of the policy template ID.
+  /// When using a name, prefix it with <code>name/</code>. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// ID: <code>PTEXAMPLEabcdefg111111</code>
+  /// </li>
+  /// <li>
+  /// Name: <code>name/example-policy-template</code>
+  /// </li>
+  /// </ul>
+  Future<GetPolicyTemplateOutput> getPolicyTemplate({
+    required String policyStoreId,
+    required String policyTemplateId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'VerifiedPermissions.GetPolicyTemplate'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'policyStoreId': policyStoreId,
+        'policyTemplateId': policyTemplateId,
+      },
+    );
+
+    return GetPolicyTemplateOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Updates the specified policy template. You can update only the description
+  /// and the some elements of the <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyTemplate.html#amazonverifiedpermissions-UpdatePolicyTemplate-request-policyBody">policyBody</a>.
+  /// <important>
+  /// Changes you make to the policy template content are immediately (within
+  /// the constraints of eventual consistency) reflected in authorization
+  /// decisions that involve all template-linked policies instantiated from this
+  /// template.
+  /// </important> <note>
+  /// Verified Permissions is <i> <a
+  /// href="https://wikipedia.org/wiki/Eventual_consistency">eventually
+  /// consistent</a> </i>. It can take a few seconds for a new or changed
+  /// element to propagate through the service and be visible in the results of
+  /// other Verified Permissions operations.
+  /// </note>
+  ///
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [policyStoreId] :
+  /// Specifies the ID of the policy store that contains the policy template
+  /// that you want to update.
+  ///
+  /// To specify a policy store, use its ID or alias name. When using an alias
+  /// name, prefix it with <code>policy-store-alias/</code>. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// ID: <code>PSEXAMPLEabcdefg111111</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>policy-store-alias/example-policy-store</code>
+  /// </li>
+  /// </ul>
+  /// To view aliases, use <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html">ListPolicyStoreAliases</a>.
+  ///
+  /// Parameter [policyTemplateId] :
+  /// Specifies the ID of the policy template that you want to update.
+  ///
+  /// You can use the policy template name in place of the policy template ID.
+  /// When using a name, prefix it with <code>name/</code>. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// ID: <code>PTEXAMPLEabcdefg111111</code>
+  /// </li>
+  /// <li>
+  /// Name: <code>name/example-policy-template</code>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [statement] :
+  /// Specifies new statement content written in Cedar policy language to
+  /// replace the current body of the policy template.
+  ///
+  /// You can change only the following elements of the policy body:
+  ///
+  /// <ul>
+  /// <li>
+  /// The <code>action</code> referenced by the policy template.
+  /// </li>
+  /// <li>
+  /// Any conditional clauses, such as <code>when</code> or <code>unless</code>
+  /// clauses.
+  /// </li>
+  /// </ul>
+  /// You <b>can't</b> change the following elements:
+  ///
+  /// <ul>
+  /// <li>
+  /// The effect (<code>permit</code> or <code>forbid</code>) of the policy
+  /// template.
+  /// </li>
+  /// <li>
+  /// The <code>principal</code> referenced by the policy template.
+  /// </li>
+  /// <li>
+  /// The <code>resource</code> referenced by the policy template.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [description] :
+  /// Specifies a new description to apply to the policy template.
+  ///
+  /// Parameter [name] :
+  /// Specifies a name for the policy template that is unique among all policy
+  /// templates within the policy store. You can use the name in place of the
+  /// policy template ID in API operations that reference the policy template.
+  /// The name must be prefixed with <code>name/</code>.
+  /// <note>
+  /// If you don't include the name in an update request, the existing name is
+  /// unchanged. To remove a name, set it to an empty string (<code>""</code>).
+  /// </note>
+  /// If you specify a name that is already associated with another policy
+  /// template in the policy store, you receive a <code>ConflictException</code>
+  /// error.
+  Future<UpdatePolicyTemplateOutput> updatePolicyTemplate({
+    required String policyStoreId,
+    required String policyTemplateId,
+    required String statement,
+    String? description,
+    String? name,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'VerifiedPermissions.UpdatePolicyTemplate'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'policyStoreId': policyStoreId,
+        'policyTemplateId': policyTemplateId,
+        'statement': statement,
+        if (description != null) 'description': description,
+        if (name != null) 'name': name,
+      },
+    );
+
+    return UpdatePolicyTemplateOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes the specified policy template from the policy store.
+  /// <important>
+  /// This operation also deletes any policies that were created from the
+  /// specified policy template. Those policies are immediately removed from all
+  /// future API responses, and are asynchronously deleted from the policy
+  /// store.
+  /// </important>
+  ///
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [policyStoreId] :
+  /// Specifies the ID of the policy store that contains the policy template
+  /// that you want to delete.
+  ///
+  /// To specify a policy store, use its ID or alias name. When using an alias
+  /// name, prefix it with <code>policy-store-alias/</code>. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// ID: <code>PSEXAMPLEabcdefg111111</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>policy-store-alias/example-policy-store</code>
+  /// </li>
+  /// </ul>
+  /// To view aliases, use <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html">ListPolicyStoreAliases</a>.
+  ///
+  /// Parameter [policyTemplateId] :
+  /// Specifies the ID of the policy template that you want to delete.
+  ///
+  /// You can use the policy template name in place of the policy template ID.
+  /// When using a name, prefix it with <code>name/</code>. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// ID: <code>PTEXAMPLEabcdefg111111</code>
+  /// </li>
+  /// <li>
+  /// Name: <code>name/example-policy-template</code>
+  /// </li>
+  /// </ul>
+  Future<void> deletePolicyTemplate({
+    required String policyStoreId,
+    required String policyTemplateId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'VerifiedPermissions.DeletePolicyTemplate'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'policyStoreId': policyStoreId,
+        'policyTemplateId': policyTemplateId,
+      },
+    );
   }
 
   /// Returns a paginated list of all policy templates in the specified policy
   /// store.
   ///
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [policyStoreId] :
   /// Specifies the ID of the policy store that contains the policy templates
   /// you want to list.
+  ///
+  /// To specify a policy store, use its ID or alias name. When using an alias
+  /// name, prefix it with <code>policy-store-alias/</code>. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// ID: <code>PSEXAMPLEabcdefg111111</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>policy-store-alias/example-policy-store</code>
+  /// </li>
+  /// </ul>
+  /// To view aliases, use <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html">ListPolicyStoreAliases</a>.
   ///
   /// Parameter [maxResults] :
   /// Specifies the total number of results that you want included in each
@@ -1454,13 +2376,16 @@ class VerifiedPermissions {
     return ListPolicyTemplatesOutput.fromJson(jsonResponse.body);
   }
 
-  /// Creates or updates the policy schema in the specified policy store. The
-  /// schema is used to validate any Cedar policies and policy templates
-  /// submitted to the policy store. Any changes to the schema validate only
-  /// policies and templates submitted after the schema change. Existing
-  /// policies and templates are not re-evaluated against the changed schema. If
-  /// you later update a policy, then it is evaluated against the new schema at
-  /// that time.
+  /// Creates a policy store alias for the specified policy store. A policy
+  /// store alias is an alternative identifier that you can use to reference a
+  /// policy store in API operations.
+  ///
+  /// This operation is idempotent. If multiple CreatePolicyStoreAlias requests
+  /// are made where the <code>aliasName</code> and <code>policyStoreId</code>
+  /// fields are the same between the requests, subsequent requests will be
+  /// ignored. For each duplicate CreatePolicyStoreAlias request, a Success
+  /// response will be returned and a new policy store alias will not be
+  /// created.
   /// <note>
   /// Verified Permissions is <i> <a
   /// href="https://wikipedia.org/wiki/Eventual_consistency">eventually
@@ -1469,27 +2394,32 @@ class VerifiedPermissions {
   /// other Verified Permissions operations.
   /// </note>
   ///
-  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
-  /// May throw [ConflictException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
   ///
-  /// Parameter [definition] :
-  /// Specifies the definition of the schema to be stored. The schema definition
-  /// must be written in Cedar schema JSON.
+  /// Parameter [aliasName] :
+  /// Specifies the name of the policy store alias to create. The name must be
+  /// unique within your Amazon Web Services account and Amazon Web Services
+  /// Region.
+  /// <note>
+  /// The alias name must always be prefixed with
+  /// <code>policy-store-alias/</code>.
+  /// </note>
   ///
   /// Parameter [policyStoreId] :
-  /// Specifies the ID of the policy store in which to place the schema.
-  Future<PutSchemaOutput> putSchema({
-    required SchemaDefinition definition,
+  /// Specifies the ID of the policy store to associate with the alias.
+  /// <note>
+  /// The associated policy store must be specified using its ID. The alias name
+  /// cannot be used.
+  /// </note>
+  Future<CreatePolicyStoreAliasOutput> createPolicyStoreAlias({
+    required String aliasName,
     required String policyStoreId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'VerifiedPermissions.PutSchema'
+      'X-Amz-Target': 'VerifiedPermissions.CreatePolicyStoreAlias'
     };
     final jsonResponse = await _protocol.send(
       method: 'POST',
@@ -1498,62 +2428,31 @@ class VerifiedPermissions {
       // TODO queryParams
       headers: headers,
       payload: {
-        'definition': definition,
+        'aliasName': aliasName,
         'policyStoreId': policyStoreId,
       },
     );
 
-    return PutSchemaOutput.fromJson(jsonResponse.body);
+    return CreatePolicyStoreAliasOutput.fromJson(jsonResponse.body);
   }
 
-  /// Updates the specified identity source to use a new identity provider
-  /// (IdP), or to change the mapping of identities from the IdP to a different
-  /// principal entity type.
-  /// <note>
-  /// Verified Permissions is <i> <a
-  /// href="https://wikipedia.org/wiki/Eventual_consistency">eventually
-  /// consistent</a> </i>. It can take a few seconds for a new or changed
-  /// element to propagate through the service and be visible in the results of
-  /// other Verified Permissions operations.
-  /// </note>
+  /// Retrieves details about the specified policy store alias.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
   ///
-  /// Parameter [identitySourceId] :
-  /// Specifies the ID of the identity source that you want to update.
-  ///
-  /// Parameter [policyStoreId] :
-  /// Specifies the ID of the policy store that contains the identity source
-  /// that you want to update.
-  ///
-  /// Parameter [updateConfiguration] :
-  /// Specifies the details required to communicate with the identity provider
-  /// (IdP) associated with this identity source.
+  /// Parameter [aliasName] :
+  /// Specifies the name of the policy store alias that you want information
+  /// about.
   /// <note>
-  /// At this time, the only valid member of this structure is a Amazon Cognito
-  /// user pool configuration.
-  ///
-  /// You must specify a <code>userPoolArn</code>, and optionally, a
-  /// <code>ClientId</code>.
+  /// The alias name must always be prefixed with
+  /// <code>policy-store-alias/</code>.
   /// </note>
-  ///
-  /// Parameter [principalEntityType] :
-  /// Specifies the data type of principals generated for identities
-  /// authenticated by the identity source.
-  Future<UpdateIdentitySourceOutput> updateIdentitySource({
-    required String identitySourceId,
-    required String policyStoreId,
-    required UpdateConfiguration updateConfiguration,
-    String? principalEntityType,
+  Future<GetPolicyStoreAliasOutput> getPolicyStoreAlias({
+    required String aliasName,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'VerifiedPermissions.UpdateIdentitySource'
+      'X-Amz-Target': 'VerifiedPermissions.GetPolicyStoreAlias'
     };
     final jsonResponse = await _protocol.send(
       method: 'POST',
@@ -1562,266 +2461,125 @@ class VerifiedPermissions {
       // TODO queryParams
       headers: headers,
       payload: {
-        'identitySourceId': identitySourceId,
-        'policyStoreId': policyStoreId,
-        'updateConfiguration': updateConfiguration,
-        if (principalEntityType != null)
-          'principalEntityType': principalEntityType,
+        'aliasName': aliasName,
       },
     );
 
-    return UpdateIdentitySourceOutput.fromJson(jsonResponse.body);
+    return GetPolicyStoreAliasOutput.fromJson(jsonResponse.body);
   }
 
-  /// Modifies a Cedar static policy in the specified policy store. You can
-  /// change only certain elements of the <a
-  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyInput.html#amazonverifiedpermissions-UpdatePolicy-request-UpdatePolicyDefinition">UpdatePolicyDefinition</a>
-  /// parameter. You can directly update only static policies. To change a
-  /// template-linked policy, you must update the template instead, using <a
-  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyTemplate.html">UpdatePolicyTemplate</a>.
-  /// <note>
-  /// <ul>
-  /// <li>
-  /// If policy validation is enabled in the policy store, then updating a
-  /// static policy causes Verified Permissions to validate the policy against
-  /// the schema in the policy store. If the updated static policy doesn't pass
-  /// validation, the operation fails and the update isn't stored.
-  /// </li>
-  /// <li>
-  /// When you edit a static policy, you can change only certain elements of a
-  /// static policy:
+  /// Deletes the specified policy store alias.
   ///
-  /// <ul>
-  /// <li>
-  /// The action referenced by the policy.
-  /// </li>
-  /// <li>
-  /// A condition clause, such as when and unless.
-  /// </li>
-  /// </ul>
-  /// You can't change these elements of a static policy:
+  /// This operation is idempotent. If you specify a policy store alias that
+  /// does not exist, the request response will still return a successful HTTP
+  /// 200 status code.
   ///
-  /// <ul>
-  /// <li>
-  /// Changing a policy from a static policy to a template-linked policy.
-  /// </li>
-  /// <li>
-  /// Changing the effect of a static policy from permit or forbid.
-  /// </li>
-  /// <li>
-  /// The principal referenced by a static policy.
-  /// </li>
-  /// <li>
-  /// The resource referenced by a static policy.
-  /// </li>
-  /// </ul> </li>
-  /// <li>
-  /// To update a template-linked policy, you must update the template instead.
-  /// </li>
-  /// </ul> </note> <note>
-  /// Verified Permissions is <i> <a
-  /// href="https://wikipedia.org/wiki/Eventual_consistency">eventually
-  /// consistent</a> </i>. It can take a few seconds for a new or changed
-  /// element to propagate through the service and be visible in the results of
-  /// other Verified Permissions operations.
-  /// </note>
+  /// By default, when a policy store alias is deleted, it enters the
+  /// <code>PendingDeletion</code> state. When a policy store alias is in the
+  /// <code>PendingDeletion</code> state, new policy store aliases cannot be
+  /// created with the same name. If the policy store alias is used in an API
+  /// that has a <code>policyStoreId</code> field, the operation will fail with
+  /// a <code>ResourceNotFound</code> exception.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ConflictException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  ///
-  /// Parameter [definition] :
-  /// Specifies the updated policy content that you want to replace on the
-  /// specified policy. The content must be valid Cedar policy language text.
-  ///
-  /// You can change only the following elements from the policy definition:
-  ///
-  /// <ul>
-  /// <li>
-  /// The <code>action</code> referenced by the policy.
-  /// </li>
-  /// <li>
-  /// Any conditional clauses, such as <code>when</code> or <code>unless</code>
-  /// clauses.
-  /// </li>
-  /// </ul>
-  /// You <b>can't</b> change the following elements:
-  ///
-  /// <ul>
-  /// <li>
-  /// Changing from <code>static</code> to <code>templateLinked</code>.
-  /// </li>
-  /// <li>
-  /// Changing the effect of the policy from <code>permit</code> or
-  /// <code>forbid</code>.
-  /// </li>
-  /// <li>
-  /// The <code>principal</code> referenced by the policy.
-  /// </li>
-  /// <li>
-  /// The <code>resource</code> referenced by the policy.
-  /// </li>
-  /// </ul>
-  ///
-  /// Parameter [policyId] :
-  /// Specifies the ID of the policy that you want to update. To find this
-  /// value, you can use <a
-  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicies.html">ListPolicies</a>.
-  ///
-  /// Parameter [policyStoreId] :
-  /// Specifies the ID of the policy store that contains the policy that you
-  /// want to update.
-  Future<UpdatePolicyOutput> updatePolicy({
-    required UpdatePolicyDefinition definition,
-    required String policyId,
-    required String policyStoreId,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'VerifiedPermissions.UpdatePolicy'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'definition': definition,
-        'policyId': policyId,
-        'policyStoreId': policyStoreId,
-      },
-    );
-
-    return UpdatePolicyOutput.fromJson(jsonResponse.body);
-  }
-
-  /// Modifies the validation setting for a policy store.
-  /// <note>
-  /// Verified Permissions is <i> <a
-  /// href="https://wikipedia.org/wiki/Eventual_consistency">eventually
-  /// consistent</a> </i>. It can take a few seconds for a new or changed
-  /// element to propagate through the service and be visible in the results of
-  /// other Verified Permissions operations.
-  /// </note>
-  ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  ///
-  /// Parameter [policyStoreId] :
-  /// Specifies the ID of the policy store that you want to update
-  ///
-  /// Parameter [validationSettings] :
-  /// A structure that defines the validation settings that want to enable for
-  /// the policy store.
-  ///
-  /// Parameter [description] :
-  /// Descriptive text that you can provide to help with identification of the
-  /// current policy store.
-  Future<UpdatePolicyStoreOutput> updatePolicyStore({
-    required String policyStoreId,
-    required ValidationSettings validationSettings,
-    String? description,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'VerifiedPermissions.UpdatePolicyStore'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'policyStoreId': policyStoreId,
-        'validationSettings': validationSettings,
-        if (description != null) 'description': description,
-      },
-    );
-
-    return UpdatePolicyStoreOutput.fromJson(jsonResponse.body);
-  }
-
-  /// Updates the specified policy template. You can update only the description
-  /// and the some elements of the <a
-  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyTemplate.html#amazonverifiedpermissions-UpdatePolicyTemplate-request-policyBody">policyBody</a>.
+  /// To immediately delete a policy store alias and bypass the
+  /// <code>PendingDeletion</code> state, set the <code>deletionMode</code>
+  /// parameter to <code>HardDelete</code>.
   /// <important>
-  /// Changes you make to the policy template content are immediately (within
-  /// the constraints of eventual consistency) reflected in authorization
-  /// decisions that involve all template-linked policies instantiated from this
-  /// template.
-  /// </important> <note>
-  /// Verified Permissions is <i> <a
-  /// href="https://wikipedia.org/wiki/Eventual_consistency">eventually
-  /// consistent</a> </i>. It can take a few seconds for a new or changed
-  /// element to propagate through the service and be visible in the results of
-  /// other Verified Permissions operations.
+  /// Verified Permissions is eventually consistent. If you hard delete a policy
+  /// store alias and then immediately recreate it to be associated with a
+  /// different policy store, requests that reference this alias may continue to
+  /// be evaluated against the previously associated policy store for a short
+  /// period of time.
+  /// </important>
+  ///
+  /// May throw [InvalidStateException].
+  ///
+  /// Parameter [aliasName] :
+  /// Specifies the name of the policy store alias that you want to delete.
+  /// <note>
+  /// The alias name must always be prefixed with
+  /// <code>policy-store-alias/</code>.
   /// </note>
   ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  ///
-  /// Parameter [policyStoreId] :
-  /// Specifies the ID of the policy store that contains the policy template
-  /// that you want to update.
-  ///
-  /// Parameter [policyTemplateId] :
-  /// Specifies the ID of the policy template that you want to update.
-  ///
-  /// Parameter [statement] :
-  /// Specifies new statement content written in Cedar policy language to
-  /// replace the current body of the policy template.
-  ///
-  /// You can change only the following elements of the policy body:
+  /// Parameter [deletionMode] :
+  /// Specifies the deletion mode for the policy store alias. The valid values
+  /// are:
   ///
   /// <ul>
   /// <li>
-  /// The <code>action</code> referenced by the policy template.
+  /// <b>SoftDelete</b> – The policy store alias enters the
+  /// <code>PendingDeletion</code> state. This is the default behavior when no
+  /// <code>deletionMode</code> is specified.
   /// </li>
   /// <li>
-  /// Any conditional clauses, such as <code>when</code> or <code>unless</code>
-  /// clauses.
+  /// <b>HardDelete</b> – The policy store alias is immediately deleted,
+  /// bypassing the <code>PendingDeletion</code> state.
   /// </li>
   /// </ul>
-  /// You <b>can't</b> change the following elements:
-  ///
-  /// <ul>
-  /// <li>
-  /// The effect (<code>permit</code> or <code>forbid</code>) of the policy
-  /// template.
-  /// </li>
-  /// <li>
-  /// The <code>principal</code> referenced by the policy template.
-  /// </li>
-  /// <li>
-  /// The <code>resource</code> referenced by the policy template.
-  /// </li>
-  /// </ul>
-  ///
-  /// Parameter [description] :
-  /// Specifies a new description to apply to the policy template.
-  Future<UpdatePolicyTemplateOutput> updatePolicyTemplate({
-    required String policyStoreId,
-    required String policyTemplateId,
-    required String statement,
-    String? description,
+  Future<void> deletePolicyStoreAlias({
+    required String aliasName,
+    DeletionMode? deletionMode,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'VerifiedPermissions.UpdatePolicyTemplate'
+      'X-Amz-Target': 'VerifiedPermissions.DeletePolicyStoreAlias'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'aliasName': aliasName,
+        if (deletionMode != null) 'deletionMode': deletionMode.value,
+      },
+    );
+  }
+
+  /// Returns a paginated list of all policy store aliases in the calling Amazon
+  /// Web Services account.
+  ///
+  /// Parameter [filter] :
+  /// Specifies a filter to narrow the results. You can filter by
+  /// <code>policyStoreId</code> to list only the policy store aliases
+  /// associated with a specific policy store.
+  ///
+  /// Parameter [maxResults] :
+  /// Specifies the total number of results that you want included in each
+  /// response. If additional items exist beyond the number you specify, the
+  /// <code>NextToken</code> response element is returned with a value (not
+  /// null). Include the specified value as the <code>NextToken</code> request
+  /// parameter in the next call to the operation to get the next set of
+  /// results. Note that the service might return fewer results than the maximum
+  /// even when there are more results available. You should check
+  /// <code>NextToken</code> after every operation to ensure that you receive
+  /// all of the results.
+  ///
+  /// If you do not specify this parameter, the operation defaults to 5 policy
+  /// store aliases per response. You can specify a maximum of 50 policy store
+  /// aliases per response.
+  ///
+  /// Parameter [nextToken] :
+  /// Specifies that you want to receive the next page of results. Valid only if
+  /// you received a <code>NextToken</code> response in the previous request. If
+  /// you did, it indicates that more output is available. Set this parameter to
+  /// the value provided by the previous call's <code>NextToken</code> response
+  /// to request the next page of results.
+  Future<ListPolicyStoreAliasesOutput> listPolicyStoreAliases({
+    PolicyStoreAliasFilter? filter,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1152921504606846976,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'VerifiedPermissions.ListPolicyStoreAliases'
     };
     final jsonResponse = await _protocol.send(
       method: 'POST',
@@ -1830,1072 +2588,60 @@ class VerifiedPermissions {
       // TODO queryParams
       headers: headers,
       payload: {
-        'policyStoreId': policyStoreId,
-        'policyTemplateId': policyTemplateId,
-        'statement': statement,
-        if (description != null) 'description': description,
+        if (filter != null) 'filter': filter,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
-    return UpdatePolicyTemplateOutput.fromJson(jsonResponse.body);
+    return ListPolicyStoreAliasesOutput.fromJson(jsonResponse.body);
   }
 }
 
-/// Contains information about an action for a request for which an
-/// authorization decision is made.
-///
-/// This data type is used as a request parameter to the <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html">IsAuthorized</a>,
-/// <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_BatchIsAuthorized.html">BatchIsAuthorized</a>,
-/// and <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html">IsAuthorizedWithToken</a>
-/// operations.
-///
-/// Example: <code>{ "actionId": "&lt;action name&gt;", "actionType": "Action"
-/// }</code>
-class ActionIdentifier {
-  /// The ID of an action.
-  final String actionId;
+class ListTagsForResourceOutput {
+  /// The list of tags associated with the resource.
+  final Map<String, String>? tags;
 
-  /// The type of an action.
-  final String actionType;
-
-  ActionIdentifier({
-    required this.actionId,
-    required this.actionType,
+  ListTagsForResourceOutput({
+    this.tags,
   });
 
-  factory ActionIdentifier.fromJson(Map<String, dynamic> json) {
-    return ActionIdentifier(
-      actionId: (json['actionId'] as String?) ?? '',
-      actionType: (json['actionType'] as String?) ?? '',
+  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceOutput(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final actionId = this.actionId;
-    final actionType = this.actionType;
+    final tags = this.tags;
     return {
-      'actionId': actionId,
-      'actionType': actionType,
+      if (tags != null) 'tags': tags,
     };
   }
 }
 
-/// The value of an attribute.
-///
-/// Contains information about the runtime context for a request for which an
-/// authorization decision is made.
-///
-/// This data type is used as a member of the <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ContextDefinition.html">ContextDefinition</a>
-/// structure which is uses as a request parameter for the <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html">IsAuthorized</a>,
-/// <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_BatchIsAuthorized.html">BatchIsAuthorized</a>,
-/// and <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html">IsAuthorizedWithToken</a>
-/// operations.
-class AttributeValue {
-  /// An attribute value of <a
-  /// href="https://docs.cedarpolicy.com/policies/syntax-datatypes.html#boolean">Boolean</a>
-  /// type.
-  ///
-  /// Example: <code>{"boolean": true}</code>
-  final bool? boolean;
+class TagResourceOutput {
+  TagResourceOutput();
 
-  /// An attribute value of type <a
-  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_EntityIdentifier.html">EntityIdentifier</a>.
-  ///
-  /// Example: <code>"entityIdentifier": { "entityId": "&lt;id&gt;", "entityType":
-  /// "&lt;entity type&gt;"}</code>
-  final EntityIdentifier? entityIdentifier;
-
-  /// An attribute value of <a
-  /// href="https://docs.cedarpolicy.com/policies/syntax-datatypes.html#long">Long</a>
-  /// type.
-  ///
-  /// Example: <code>{"long": 0}</code>
-  final int? long;
-
-  /// An attribute value of <a
-  /// href="https://docs.cedarpolicy.com/policies/syntax-datatypes.html#record">Record</a>
-  /// type.
-  ///
-  /// Example: <code>{"record": { "keyName": {} } }</code>
-  final Map<String, AttributeValue>? record;
-
-  /// An attribute value of <a
-  /// href="https://docs.cedarpolicy.com/policies/syntax-datatypes.html#set">Set</a>
-  /// type.
-  ///
-  /// Example: <code>{"set": [ {} ] }</code>
-  final List<AttributeValue>? set;
-
-  /// An attribute value of <a
-  /// href="https://docs.cedarpolicy.com/policies/syntax-datatypes.html#string">String</a>
-  /// type.
-  ///
-  /// Example: <code>{"string": "abc"}</code>
-  final String? string;
-
-  AttributeValue({
-    this.boolean,
-    this.entityIdentifier,
-    this.long,
-    this.record,
-    this.set,
-    this.string,
-  });
-
-  factory AttributeValue.fromJson(Map<String, dynamic> json) {
-    return AttributeValue(
-      boolean: json['boolean'] as bool?,
-      entityIdentifier: json['entityIdentifier'] != null
-          ? EntityIdentifier.fromJson(
-              json['entityIdentifier'] as Map<String, dynamic>)
-          : null,
-      long: json['long'] as int?,
-      record: (json['record'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
-      set: (json['set'] as List?)
-          ?.nonNulls
-          .map((e) => AttributeValue.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      string: json['string'] as String?,
-    );
+  factory TagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return TagResourceOutput();
   }
 
   Map<String, dynamic> toJson() {
-    final boolean = this.boolean;
-    final entityIdentifier = this.entityIdentifier;
-    final long = this.long;
-    final record = this.record;
-    final set = this.set;
-    final string = this.string;
-    return {
-      if (boolean != null) 'boolean': boolean,
-      if (entityIdentifier != null) 'entityIdentifier': entityIdentifier,
-      if (long != null) 'long': long,
-      if (record != null) 'record': record,
-      if (set != null) 'set': set,
-      if (string != null) 'string': string,
-    };
+    return {};
   }
 }
 
-/// An authorization request that you include in a
-/// <code>BatchIsAuthorized</code> API request.
-class BatchIsAuthorizedInputItem {
-  /// Specifies the requested action to be authorized. For example,
-  /// <code>PhotoFlash::ReadPhoto</code>.
-  final ActionIdentifier? action;
+class UntagResourceOutput {
+  UntagResourceOutput();
 
-  /// Specifies additional context that can be used to make more granular
-  /// authorization decisions.
-  final ContextDefinition? context;
-
-  /// Specifies the principal for which the authorization decision is to be made.
-  final EntityIdentifier? principal;
-
-  /// Specifies the resource that you want an authorization decision for. For
-  /// example, <code>PhotoFlash::Photo</code>.
-  final EntityIdentifier? resource;
-
-  BatchIsAuthorizedInputItem({
-    this.action,
-    this.context,
-    this.principal,
-    this.resource,
-  });
-
-  factory BatchIsAuthorizedInputItem.fromJson(Map<String, dynamic> json) {
-    return BatchIsAuthorizedInputItem(
-      action: json['action'] != null
-          ? ActionIdentifier.fromJson(json['action'] as Map<String, dynamic>)
-          : null,
-      context: json['context'] != null
-          ? ContextDefinition.fromJson(json['context'] as Map<String, dynamic>)
-          : null,
-      principal: json['principal'] != null
-          ? EntityIdentifier.fromJson(json['principal'] as Map<String, dynamic>)
-          : null,
-      resource: json['resource'] != null
-          ? EntityIdentifier.fromJson(json['resource'] as Map<String, dynamic>)
-          : null,
-    );
+  factory UntagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return UntagResourceOutput();
   }
 
   Map<String, dynamic> toJson() {
-    final action = this.action;
-    final context = this.context;
-    final principal = this.principal;
-    final resource = this.resource;
-    return {
-      if (action != null) 'action': action,
-      if (context != null) 'context': context,
-      if (principal != null) 'principal': principal,
-      if (resource != null) 'resource': resource,
-    };
-  }
-}
-
-class BatchIsAuthorizedOutput {
-  /// A series of <code>Allow</code> or <code>Deny</code> decisions for each
-  /// request, and the policies that produced them.
-  final List<BatchIsAuthorizedOutputItem> results;
-
-  BatchIsAuthorizedOutput({
-    required this.results,
-  });
-
-  factory BatchIsAuthorizedOutput.fromJson(Map<String, dynamic> json) {
-    return BatchIsAuthorizedOutput(
-      results: ((json['results'] as List?) ?? const [])
-          .nonNulls
-          .map((e) =>
-              BatchIsAuthorizedOutputItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final results = this.results;
-    return {
-      'results': results,
-    };
-  }
-}
-
-/// The decision, based on policy evaluation, from an individual authorization
-/// request in a <code>BatchIsAuthorized</code> API request.
-class BatchIsAuthorizedOutputItem {
-  /// An authorization decision that indicates if the authorization request should
-  /// be allowed or denied.
-  final Decision decision;
-
-  /// The list of determining policies used to make the authorization decision.
-  /// For example, if there are two matching policies, where one is a forbid and
-  /// the other is a permit, then the forbid policy will be the determining
-  /// policy. In the case of multiple matching permit policies then there would be
-  /// multiple determining policies. In the case that no policies match, and hence
-  /// the response is DENY, there would be no determining policies.
-  final List<DeterminingPolicyItem> determiningPolicies;
-
-  /// Errors that occurred while making an authorization decision. For example, a
-  /// policy might reference an entity or attribute that doesn't exist in the
-  /// request.
-  final List<EvaluationErrorItem> errors;
-
-  /// The authorization request that initiated the decision.
-  final BatchIsAuthorizedInputItem request;
-
-  BatchIsAuthorizedOutputItem({
-    required this.decision,
-    required this.determiningPolicies,
-    required this.errors,
-    required this.request,
-  });
-
-  factory BatchIsAuthorizedOutputItem.fromJson(Map<String, dynamic> json) {
-    return BatchIsAuthorizedOutputItem(
-      decision: Decision.fromString((json['decision'] as String?) ?? ''),
-      determiningPolicies: ((json['determiningPolicies'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => DeterminingPolicyItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      errors: ((json['errors'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => EvaluationErrorItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      request: BatchIsAuthorizedInputItem.fromJson(
-          (json['request'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final decision = this.decision;
-    final determiningPolicies = this.determiningPolicies;
-    final errors = this.errors;
-    final request = this.request;
-    return {
-      'decision': decision.value,
-      'determiningPolicies': determiningPolicies,
-      'errors': errors,
-      'request': request,
-    };
-  }
-}
-
-/// An authorization request that you include in a
-/// <code>BatchIsAuthorizedWithToken</code> API request.
-class BatchIsAuthorizedWithTokenInputItem {
-  /// Specifies the requested action to be authorized. For example,
-  /// <code>PhotoFlash::ReadPhoto</code>.
-  final ActionIdentifier? action;
-
-  /// Specifies additional context that can be used to make more granular
-  /// authorization decisions.
-  final ContextDefinition? context;
-
-  /// Specifies the resource that you want an authorization decision for. For
-  /// example, <code>PhotoFlash::Photo</code>.
-  final EntityIdentifier? resource;
-
-  BatchIsAuthorizedWithTokenInputItem({
-    this.action,
-    this.context,
-    this.resource,
-  });
-
-  factory BatchIsAuthorizedWithTokenInputItem.fromJson(
-      Map<String, dynamic> json) {
-    return BatchIsAuthorizedWithTokenInputItem(
-      action: json['action'] != null
-          ? ActionIdentifier.fromJson(json['action'] as Map<String, dynamic>)
-          : null,
-      context: json['context'] != null
-          ? ContextDefinition.fromJson(json['context'] as Map<String, dynamic>)
-          : null,
-      resource: json['resource'] != null
-          ? EntityIdentifier.fromJson(json['resource'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final action = this.action;
-    final context = this.context;
-    final resource = this.resource;
-    return {
-      if (action != null) 'action': action,
-      if (context != null) 'context': context,
-      if (resource != null) 'resource': resource,
-    };
-  }
-}
-
-class BatchIsAuthorizedWithTokenOutput {
-  /// A series of <code>Allow</code> or <code>Deny</code> decisions for each
-  /// request, and the policies that produced them.
-  final List<BatchIsAuthorizedWithTokenOutputItem> results;
-
-  /// The identifier of the principal in the ID or access token.
-  final EntityIdentifier? principal;
-
-  BatchIsAuthorizedWithTokenOutput({
-    required this.results,
-    this.principal,
-  });
-
-  factory BatchIsAuthorizedWithTokenOutput.fromJson(Map<String, dynamic> json) {
-    return BatchIsAuthorizedWithTokenOutput(
-      results: ((json['results'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => BatchIsAuthorizedWithTokenOutputItem.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-      principal: json['principal'] != null
-          ? EntityIdentifier.fromJson(json['principal'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final results = this.results;
-    final principal = this.principal;
-    return {
-      'results': results,
-      if (principal != null) 'principal': principal,
-    };
-  }
-}
-
-/// The decision, based on policy evaluation, from an individual authorization
-/// request in a <code>BatchIsAuthorizedWithToken</code> API request.
-class BatchIsAuthorizedWithTokenOutputItem {
-  /// An authorization decision that indicates if the authorization request should
-  /// be allowed or denied.
-  final Decision decision;
-
-  /// The list of determining policies used to make the authorization decision.
-  /// For example, if there are two matching policies, where one is a forbid and
-  /// the other is a permit, then the forbid policy will be the determining
-  /// policy. In the case of multiple matching permit policies then there would be
-  /// multiple determining policies. In the case that no policies match, and hence
-  /// the response is DENY, there would be no determining policies.
-  final List<DeterminingPolicyItem> determiningPolicies;
-
-  /// Errors that occurred while making an authorization decision. For example, a
-  /// policy might reference an entity or attribute that doesn't exist in the
-  /// request.
-  final List<EvaluationErrorItem> errors;
-
-  /// The authorization request that initiated the decision.
-  final BatchIsAuthorizedWithTokenInputItem request;
-
-  BatchIsAuthorizedWithTokenOutputItem({
-    required this.decision,
-    required this.determiningPolicies,
-    required this.errors,
-    required this.request,
-  });
-
-  factory BatchIsAuthorizedWithTokenOutputItem.fromJson(
-      Map<String, dynamic> json) {
-    return BatchIsAuthorizedWithTokenOutputItem(
-      decision: Decision.fromString((json['decision'] as String?) ?? ''),
-      determiningPolicies: ((json['determiningPolicies'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => DeterminingPolicyItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      errors: ((json['errors'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => EvaluationErrorItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      request: BatchIsAuthorizedWithTokenInputItem.fromJson(
-          (json['request'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final decision = this.decision;
-    final determiningPolicies = this.determiningPolicies;
-    final errors = this.errors;
-    final request = this.request;
-    return {
-      'decision': decision.value,
-      'determiningPolicies': determiningPolicies,
-      'errors': errors,
-      'request': request,
-    };
-  }
-}
-
-/// The type of entity that a policy store maps to groups from an Amazon Cognito
-/// user pool identity source.
-///
-/// This data type is part of a <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CognitoUserPoolConfiguration.html">CognitoUserPoolConfiguration</a>
-/// structure and is a request parameter in <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html">CreateIdentitySource</a>.
-class CognitoGroupConfiguration {
-  /// The name of the schema entity type that's mapped to the user pool group.
-  /// Defaults to <code>AWS::CognitoGroup</code>.
-  final String groupEntityType;
-
-  CognitoGroupConfiguration({
-    required this.groupEntityType,
-  });
-
-  Map<String, dynamic> toJson() {
-    final groupEntityType = this.groupEntityType;
-    return {
-      'groupEntityType': groupEntityType,
-    };
-  }
-}
-
-/// The type of entity that a policy store maps to groups from an Amazon Cognito
-/// user pool identity source.
-///
-/// This data type is part of an <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CognitoUserPoolConfigurationItem.html">CognitoUserPoolConfigurationDetail</a>
-/// structure and is a response parameter to <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html">GetIdentitySource</a>.
-class CognitoGroupConfigurationDetail {
-  /// The name of the schema entity type that's mapped to the user pool group.
-  /// Defaults to <code>AWS::CognitoGroup</code>.
-  final String? groupEntityType;
-
-  CognitoGroupConfigurationDetail({
-    this.groupEntityType,
-  });
-
-  factory CognitoGroupConfigurationDetail.fromJson(Map<String, dynamic> json) {
-    return CognitoGroupConfigurationDetail(
-      groupEntityType: json['groupEntityType'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final groupEntityType = this.groupEntityType;
-    return {
-      if (groupEntityType != null) 'groupEntityType': groupEntityType,
-    };
-  }
-}
-
-/// The type of entity that a policy store maps to groups from an Amazon Cognito
-/// user pool identity source.
-///
-/// This data type is part of an <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CognitoUserPoolConfigurationDetail.html">CognitoUserPoolConfigurationItem</a>
-/// structure and is a response parameter to <a
-/// href="http://forums.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html">ListIdentitySources</a>.
-class CognitoGroupConfigurationItem {
-  /// The name of the schema entity type that's mapped to the user pool group.
-  /// Defaults to <code>AWS::CognitoGroup</code>.
-  final String? groupEntityType;
-
-  CognitoGroupConfigurationItem({
-    this.groupEntityType,
-  });
-
-  factory CognitoGroupConfigurationItem.fromJson(Map<String, dynamic> json) {
-    return CognitoGroupConfigurationItem(
-      groupEntityType: json['groupEntityType'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final groupEntityType = this.groupEntityType;
-    return {
-      if (groupEntityType != null) 'groupEntityType': groupEntityType,
-    };
-  }
-}
-
-/// The configuration for an identity source that represents a connection to an
-/// Amazon Cognito user pool used as an identity provider for Verified
-/// Permissions.
-///
-/// This data type part of a <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_Configuration.html">Configuration</a>
-/// structure that is used as a parameter to <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html">CreateIdentitySource</a>.
-///
-/// Example:<code>"CognitoUserPoolConfiguration":{"UserPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","ClientIds":
-/// ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType":
-/// "MyCorp::Group"}}</code>
-class CognitoUserPoolConfiguration {
-  /// The <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Name (ARN)</a> of the Amazon Cognito user pool that contains the
-  /// identities to be authorized.
-  ///
-  /// Example: <code>"UserPoolArn":
-  /// "arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5"</code>
-  final String userPoolArn;
-
-  /// The unique application client IDs that are associated with the specified
-  /// Amazon Cognito user pool.
-  ///
-  /// Example: <code>"ClientIds": ["&amp;ExampleCogClientId;"]</code>
-  final List<String>? clientIds;
-
-  /// The type of entity that a policy store maps to groups from an Amazon Cognito
-  /// user pool identity source.
-  final CognitoGroupConfiguration? groupConfiguration;
-
-  CognitoUserPoolConfiguration({
-    required this.userPoolArn,
-    this.clientIds,
-    this.groupConfiguration,
-  });
-
-  Map<String, dynamic> toJson() {
-    final userPoolArn = this.userPoolArn;
-    final clientIds = this.clientIds;
-    final groupConfiguration = this.groupConfiguration;
-    return {
-      'userPoolArn': userPoolArn,
-      if (clientIds != null) 'clientIds': clientIds,
-      if (groupConfiguration != null) 'groupConfiguration': groupConfiguration,
-    };
-  }
-}
-
-/// The configuration for an identity source that represents a connection to an
-/// Amazon Cognito user pool used as an identity provider for Verified
-/// Permissions.
-///
-/// This data type is used as a field that is part of an <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ConfigurationDetail.html">ConfigurationDetail</a>
-/// structure that is part of the response to <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html">GetIdentitySource</a>.
-///
-/// Example:<code>"CognitoUserPoolConfiguration":{"UserPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","ClientIds":
-/// ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType":
-/// "MyCorp::Group"}}</code>
-class CognitoUserPoolConfigurationDetail {
-  /// The unique application client IDs that are associated with the specified
-  /// Amazon Cognito user pool.
-  ///
-  /// Example: <code>"clientIds": ["&amp;ExampleCogClientId;"]</code>
-  final List<String> clientIds;
-
-  /// The OpenID Connect (OIDC) <code>issuer</code> ID of the Amazon Cognito user
-  /// pool that contains the identities to be authorized.
-  ///
-  /// Example: <code>"issuer":
-  /// "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_1a2b3c4d5"</code>
-  final String issuer;
-
-  /// The <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Name (ARN)</a> of the Amazon Cognito user pool that contains the
-  /// identities to be authorized.
-  ///
-  /// Example: <code>"userPoolArn":
-  /// "arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5"</code>
-  final String userPoolArn;
-
-  /// The type of entity that a policy store maps to groups from an Amazon Cognito
-  /// user pool identity source.
-  final CognitoGroupConfigurationDetail? groupConfiguration;
-
-  CognitoUserPoolConfigurationDetail({
-    required this.clientIds,
-    required this.issuer,
-    required this.userPoolArn,
-    this.groupConfiguration,
-  });
-
-  factory CognitoUserPoolConfigurationDetail.fromJson(
-      Map<String, dynamic> json) {
-    return CognitoUserPoolConfigurationDetail(
-      clientIds: ((json['clientIds'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      issuer: (json['issuer'] as String?) ?? '',
-      userPoolArn: (json['userPoolArn'] as String?) ?? '',
-      groupConfiguration: json['groupConfiguration'] != null
-          ? CognitoGroupConfigurationDetail.fromJson(
-              json['groupConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clientIds = this.clientIds;
-    final issuer = this.issuer;
-    final userPoolArn = this.userPoolArn;
-    final groupConfiguration = this.groupConfiguration;
-    return {
-      'clientIds': clientIds,
-      'issuer': issuer,
-      'userPoolArn': userPoolArn,
-      if (groupConfiguration != null) 'groupConfiguration': groupConfiguration,
-    };
-  }
-}
-
-/// The configuration for an identity source that represents a connection to an
-/// Amazon Cognito user pool used as an identity provider for Verified
-/// Permissions.
-///
-/// This data type is used as a field that is part of the <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ConfigurationItem.html">ConfigurationItem</a>
-/// structure that is part of the response to <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html">ListIdentitySources</a>.
-///
-/// Example:<code>"CognitoUserPoolConfiguration":{"UserPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","ClientIds":
-/// ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType":
-/// "MyCorp::Group"}}</code>
-class CognitoUserPoolConfigurationItem {
-  /// The unique application client IDs that are associated with the specified
-  /// Amazon Cognito user pool.
-  ///
-  /// Example: <code>"clientIds": ["&amp;ExampleCogClientId;"]</code>
-  final List<String> clientIds;
-
-  /// The OpenID Connect (OIDC) <code>issuer</code> ID of the Amazon Cognito user
-  /// pool that contains the identities to be authorized.
-  ///
-  /// Example: <code>"issuer":
-  /// "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_1a2b3c4d5"</code>
-  final String issuer;
-
-  /// The <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Name (ARN)</a> of the Amazon Cognito user pool that contains the
-  /// identities to be authorized.
-  ///
-  /// Example: <code>"userPoolArn":
-  /// "arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5"</code>
-  final String userPoolArn;
-
-  /// The type of entity that a policy store maps to groups from an Amazon Cognito
-  /// user pool identity source.
-  final CognitoGroupConfigurationItem? groupConfiguration;
-
-  CognitoUserPoolConfigurationItem({
-    required this.clientIds,
-    required this.issuer,
-    required this.userPoolArn,
-    this.groupConfiguration,
-  });
-
-  factory CognitoUserPoolConfigurationItem.fromJson(Map<String, dynamic> json) {
-    return CognitoUserPoolConfigurationItem(
-      clientIds: ((json['clientIds'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      issuer: (json['issuer'] as String?) ?? '',
-      userPoolArn: (json['userPoolArn'] as String?) ?? '',
-      groupConfiguration: json['groupConfiguration'] != null
-          ? CognitoGroupConfigurationItem.fromJson(
-              json['groupConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clientIds = this.clientIds;
-    final issuer = this.issuer;
-    final userPoolArn = this.userPoolArn;
-    final groupConfiguration = this.groupConfiguration;
-    return {
-      'clientIds': clientIds,
-      'issuer': issuer,
-      'userPoolArn': userPoolArn,
-      if (groupConfiguration != null) 'groupConfiguration': groupConfiguration,
-    };
-  }
-}
-
-/// Contains configuration information used when creating a new identity source.
-///
-/// This data type is used as a request parameter for the <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html">CreateIdentitySource</a>
-/// operation.
-class Configuration {
-  /// Contains configuration details of a Amazon Cognito user pool that Verified
-  /// Permissions can use as a source of authenticated identities as entities. It
-  /// specifies the <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Name (ARN)</a> of a Amazon Cognito user pool and one or more
-  /// application client IDs.
-  ///
-  /// Example:
-  /// <code>"configuration":{"cognitoUserPoolConfiguration":{"userPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","clientIds":
-  /// ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType":
-  /// "MyCorp::Group"}}}</code>
-  final CognitoUserPoolConfiguration? cognitoUserPoolConfiguration;
-
-  /// Contains configuration details of an OpenID Connect (OIDC) identity
-  /// provider, or identity source, that Verified Permissions can use to generate
-  /// entities from authenticated identities. It specifies the issuer URL, token
-  /// type that you want to use, and policy store entity details.
-  ///
-  /// Example:<code>"configuration":{"openIdConnectConfiguration":{"issuer":"https://auth.example.com","tokenSelection":{"accessTokenOnly":{"audiences":["https://myapp.example.com","https://myapp2.example.com"],"principalIdClaim":"sub"}},"entityIdPrefix":"MyOIDCProvider","groupConfiguration":{"groupClaim":"groups","groupEntityType":"MyCorp::UserGroup"}}}</code>
-  final OpenIdConnectConfiguration? openIdConnectConfiguration;
-
-  Configuration({
-    this.cognitoUserPoolConfiguration,
-    this.openIdConnectConfiguration,
-  });
-
-  Map<String, dynamic> toJson() {
-    final cognitoUserPoolConfiguration = this.cognitoUserPoolConfiguration;
-    final openIdConnectConfiguration = this.openIdConnectConfiguration;
-    return {
-      if (cognitoUserPoolConfiguration != null)
-        'cognitoUserPoolConfiguration': cognitoUserPoolConfiguration,
-      if (openIdConnectConfiguration != null)
-        'openIdConnectConfiguration': openIdConnectConfiguration,
-    };
-  }
-}
-
-/// Contains configuration information about an identity source.
-///
-/// This data type is a response parameter to the <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html">GetIdentitySource</a>
-/// operation.
-class ConfigurationDetail {
-  /// Contains configuration details of a Amazon Cognito user pool that Verified
-  /// Permissions can use as a source of authenticated identities as entities. It
-  /// specifies the <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Name (ARN)</a> of a Amazon Cognito user pool, the policy store
-  /// entity that you want to assign to user groups, and one or more application
-  /// client IDs.
-  ///
-  /// Example:
-  /// <code>"configuration":{"cognitoUserPoolConfiguration":{"userPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","clientIds":
-  /// ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType":
-  /// "MyCorp::Group"}}}</code>
-  final CognitoUserPoolConfigurationDetail? cognitoUserPoolConfiguration;
-
-  /// Contains configuration details of an OpenID Connect (OIDC) identity
-  /// provider, or identity source, that Verified Permissions can use to generate
-  /// entities from authenticated identities. It specifies the issuer URL, token
-  /// type that you want to use, and policy store entity details.
-  ///
-  /// Example:<code>"configuration":{"openIdConnectConfiguration":{"issuer":"https://auth.example.com","tokenSelection":{"accessTokenOnly":{"audiences":["https://myapp.example.com","https://myapp2.example.com"],"principalIdClaim":"sub"}},"entityIdPrefix":"MyOIDCProvider","groupConfiguration":{"groupClaim":"groups","groupEntityType":"MyCorp::UserGroup"}}}</code>
-  final OpenIdConnectConfigurationDetail? openIdConnectConfiguration;
-
-  ConfigurationDetail({
-    this.cognitoUserPoolConfiguration,
-    this.openIdConnectConfiguration,
-  });
-
-  factory ConfigurationDetail.fromJson(Map<String, dynamic> json) {
-    return ConfigurationDetail(
-      cognitoUserPoolConfiguration: json['cognitoUserPoolConfiguration'] != null
-          ? CognitoUserPoolConfigurationDetail.fromJson(
-              json['cognitoUserPoolConfiguration'] as Map<String, dynamic>)
-          : null,
-      openIdConnectConfiguration: json['openIdConnectConfiguration'] != null
-          ? OpenIdConnectConfigurationDetail.fromJson(
-              json['openIdConnectConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cognitoUserPoolConfiguration = this.cognitoUserPoolConfiguration;
-    final openIdConnectConfiguration = this.openIdConnectConfiguration;
-    return {
-      if (cognitoUserPoolConfiguration != null)
-        'cognitoUserPoolConfiguration': cognitoUserPoolConfiguration,
-      if (openIdConnectConfiguration != null)
-        'openIdConnectConfiguration': openIdConnectConfiguration,
-    };
-  }
-}
-
-/// Contains configuration information about an identity source.
-///
-/// This data type is a response parameter to the <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html">ListIdentitySources</a>
-/// operation.
-class ConfigurationItem {
-  /// Contains configuration details of a Amazon Cognito user pool that Verified
-  /// Permissions can use as a source of authenticated identities as entities. It
-  /// specifies the <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Name (ARN)</a> of a Amazon Cognito user pool, the policy store
-  /// entity that you want to assign to user groups, and one or more application
-  /// client IDs.
-  ///
-  /// Example:
-  /// <code>"configuration":{"cognitoUserPoolConfiguration":{"userPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","clientIds":
-  /// ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType":
-  /// "MyCorp::Group"}}}</code>
-  final CognitoUserPoolConfigurationItem? cognitoUserPoolConfiguration;
-
-  /// Contains configuration details of an OpenID Connect (OIDC) identity
-  /// provider, or identity source, that Verified Permissions can use to generate
-  /// entities from authenticated identities. It specifies the issuer URL, token
-  /// type that you want to use, and policy store entity details.
-  ///
-  /// Example:<code>"configuration":{"openIdConnectConfiguration":{"issuer":"https://auth.example.com","tokenSelection":{"accessTokenOnly":{"audiences":["https://myapp.example.com","https://myapp2.example.com"],"principalIdClaim":"sub"}},"entityIdPrefix":"MyOIDCProvider","groupConfiguration":{"groupClaim":"groups","groupEntityType":"MyCorp::UserGroup"}}}</code>
-  final OpenIdConnectConfigurationItem? openIdConnectConfiguration;
-
-  ConfigurationItem({
-    this.cognitoUserPoolConfiguration,
-    this.openIdConnectConfiguration,
-  });
-
-  factory ConfigurationItem.fromJson(Map<String, dynamic> json) {
-    return ConfigurationItem(
-      cognitoUserPoolConfiguration: json['cognitoUserPoolConfiguration'] != null
-          ? CognitoUserPoolConfigurationItem.fromJson(
-              json['cognitoUserPoolConfiguration'] as Map<String, dynamic>)
-          : null,
-      openIdConnectConfiguration: json['openIdConnectConfiguration'] != null
-          ? OpenIdConnectConfigurationItem.fromJson(
-              json['openIdConnectConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cognitoUserPoolConfiguration = this.cognitoUserPoolConfiguration;
-    final openIdConnectConfiguration = this.openIdConnectConfiguration;
-    return {
-      if (cognitoUserPoolConfiguration != null)
-        'cognitoUserPoolConfiguration': cognitoUserPoolConfiguration,
-      if (openIdConnectConfiguration != null)
-        'openIdConnectConfiguration': openIdConnectConfiguration,
-    };
-  }
-}
-
-/// Contains additional details about the context of the request. Verified
-/// Permissions evaluates this information in an authorization request as part
-/// of the <code>when</code> and <code>unless</code> clauses in a policy.
-///
-/// This data type is used as a request parameter for the <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html">IsAuthorized</a>,
-/// <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_BatchIsAuthorized.html">BatchIsAuthorized</a>,
-/// and <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html">IsAuthorizedWithToken</a>
-/// operations.
-///
-/// Example:
-/// <code>"context":{"contextMap":{"&lt;KeyName1&gt;":{"boolean":true},"&lt;KeyName2&gt;":{"long":1234}}}</code>
-class ContextDefinition {
-  /// An list of attributes that are needed to successfully evaluate an
-  /// authorization request. Each attribute in this array must include a map of a
-  /// data type and its value.
-  ///
-  /// Example:
-  /// <code>"contextMap":{"&lt;KeyName1&gt;":{"boolean":true},"&lt;KeyName2&gt;":{"long":1234}}</code>
-  final Map<String, AttributeValue>? contextMap;
-
-  ContextDefinition({
-    this.contextMap,
-  });
-
-  factory ContextDefinition.fromJson(Map<String, dynamic> json) {
-    return ContextDefinition(
-      contextMap: (json['contextMap'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final contextMap = this.contextMap;
-    return {
-      if (contextMap != null) 'contextMap': contextMap,
-    };
-  }
-}
-
-class CreateIdentitySourceOutput {
-  /// The date and time the identity source was originally created.
-  final DateTime createdDate;
-
-  /// The unique ID of the new identity source.
-  final String identitySourceId;
-
-  /// The date and time the identity source was most recently updated.
-  final DateTime lastUpdatedDate;
-
-  /// The ID of the policy store that contains the identity source.
-  final String policyStoreId;
-
-  CreateIdentitySourceOutput({
-    required this.createdDate,
-    required this.identitySourceId,
-    required this.lastUpdatedDate,
-    required this.policyStoreId,
-  });
-
-  factory CreateIdentitySourceOutput.fromJson(Map<String, dynamic> json) {
-    return CreateIdentitySourceOutput(
-      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
-      identitySourceId: (json['identitySourceId'] as String?) ?? '',
-      lastUpdatedDate:
-          nonNullableTimeStampFromJson(json['lastUpdatedDate'] ?? 0),
-      policyStoreId: (json['policyStoreId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdDate = this.createdDate;
-    final identitySourceId = this.identitySourceId;
-    final lastUpdatedDate = this.lastUpdatedDate;
-    final policyStoreId = this.policyStoreId;
-    return {
-      'createdDate': iso8601ToJson(createdDate),
-      'identitySourceId': identitySourceId,
-      'lastUpdatedDate': iso8601ToJson(lastUpdatedDate),
-      'policyStoreId': policyStoreId,
-    };
-  }
-}
-
-class CreatePolicyOutput {
-  /// The date and time the policy was originally created.
-  final DateTime createdDate;
-
-  /// The date and time the policy was last updated.
-  final DateTime lastUpdatedDate;
-
-  /// The unique ID of the new policy.
-  final String policyId;
-
-  /// The ID of the policy store that contains the new policy.
-  final String policyStoreId;
-
-  /// The policy type of the new policy.
-  final PolicyType policyType;
-
-  /// The action that a policy permits or forbids. For example, <code>{"actions":
-  /// [{"actionId": "ViewPhoto", "actionType": "PhotoFlash::Action"}, {"entityID":
-  /// "SharePhoto", "entityType": "PhotoFlash::Action"}]}</code>.
-  final List<ActionIdentifier>? actions;
-
-  /// The effect of the decision that a policy returns to an authorization
-  /// request. For example, <code>"effect": "Permit"</code>.
-  final PolicyEffect? effect;
-
-  /// The principal specified in the new policy's scope. This response element
-  /// isn't present when <code>principal</code> isn't specified in the policy
-  /// content.
-  final EntityIdentifier? principal;
-
-  /// The resource specified in the new policy's scope. This response element
-  /// isn't present when the <code>resource</code> isn't specified in the policy
-  /// content.
-  final EntityIdentifier? resource;
-
-  CreatePolicyOutput({
-    required this.createdDate,
-    required this.lastUpdatedDate,
-    required this.policyId,
-    required this.policyStoreId,
-    required this.policyType,
-    this.actions,
-    this.effect,
-    this.principal,
-    this.resource,
-  });
-
-  factory CreatePolicyOutput.fromJson(Map<String, dynamic> json) {
-    return CreatePolicyOutput(
-      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
-      lastUpdatedDate:
-          nonNullableTimeStampFromJson(json['lastUpdatedDate'] ?? 0),
-      policyId: (json['policyId'] as String?) ?? '',
-      policyStoreId: (json['policyStoreId'] as String?) ?? '',
-      policyType: PolicyType.fromString((json['policyType'] as String?) ?? ''),
-      actions: (json['actions'] as List?)
-          ?.nonNulls
-          .map((e) => ActionIdentifier.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      effect: (json['effect'] as String?)?.let(PolicyEffect.fromString),
-      principal: json['principal'] != null
-          ? EntityIdentifier.fromJson(json['principal'] as Map<String, dynamic>)
-          : null,
-      resource: json['resource'] != null
-          ? EntityIdentifier.fromJson(json['resource'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdDate = this.createdDate;
-    final lastUpdatedDate = this.lastUpdatedDate;
-    final policyId = this.policyId;
-    final policyStoreId = this.policyStoreId;
-    final policyType = this.policyType;
-    final actions = this.actions;
-    final effect = this.effect;
-    final principal = this.principal;
-    final resource = this.resource;
-    return {
-      'createdDate': iso8601ToJson(createdDate),
-      'lastUpdatedDate': iso8601ToJson(lastUpdatedDate),
-      'policyId': policyId,
-      'policyStoreId': policyStoreId,
-      'policyType': policyType.value,
-      if (actions != null) 'actions': actions,
-      if (effect != null) 'effect': effect.value,
-      if (principal != null) 'principal': principal,
-      if (resource != null) 'resource': resource,
-    };
+    return {};
   }
 }
 
@@ -2943,516 +2689,6 @@ class CreatePolicyStoreOutput {
   }
 }
 
-class CreatePolicyTemplateOutput {
-  /// The date and time the policy template was originally created.
-  final DateTime createdDate;
-
-  /// The date and time the policy template was most recently updated.
-  final DateTime lastUpdatedDate;
-
-  /// The ID of the policy store that contains the policy template.
-  final String policyStoreId;
-
-  /// The unique ID of the new policy template.
-  final String policyTemplateId;
-
-  CreatePolicyTemplateOutput({
-    required this.createdDate,
-    required this.lastUpdatedDate,
-    required this.policyStoreId,
-    required this.policyTemplateId,
-  });
-
-  factory CreatePolicyTemplateOutput.fromJson(Map<String, dynamic> json) {
-    return CreatePolicyTemplateOutput(
-      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
-      lastUpdatedDate:
-          nonNullableTimeStampFromJson(json['lastUpdatedDate'] ?? 0),
-      policyStoreId: (json['policyStoreId'] as String?) ?? '',
-      policyTemplateId: (json['policyTemplateId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdDate = this.createdDate;
-    final lastUpdatedDate = this.lastUpdatedDate;
-    final policyStoreId = this.policyStoreId;
-    final policyTemplateId = this.policyTemplateId;
-    return {
-      'createdDate': iso8601ToJson(createdDate),
-      'lastUpdatedDate': iso8601ToJson(lastUpdatedDate),
-      'policyStoreId': policyStoreId,
-      'policyTemplateId': policyTemplateId,
-    };
-  }
-}
-
-class Decision {
-  static const allow = Decision._('ALLOW');
-  static const deny = Decision._('DENY');
-
-  final String value;
-
-  const Decision._(this.value);
-
-  static const values = [allow, deny];
-
-  static Decision fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Decision._(value));
-
-  @override
-  bool operator ==(other) => other is Decision && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DeleteIdentitySourceOutput {
-  DeleteIdentitySourceOutput();
-
-  factory DeleteIdentitySourceOutput.fromJson(Map<String, dynamic> _) {
-    return DeleteIdentitySourceOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class DeletePolicyOutput {
-  DeletePolicyOutput();
-
-  factory DeletePolicyOutput.fromJson(Map<String, dynamic> _) {
-    return DeletePolicyOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class DeletePolicyStoreOutput {
-  DeletePolicyStoreOutput();
-
-  factory DeletePolicyStoreOutput.fromJson(Map<String, dynamic> _) {
-    return DeletePolicyStoreOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class DeletePolicyTemplateOutput {
-  DeletePolicyTemplateOutput();
-
-  factory DeletePolicyTemplateOutput.fromJson(Map<String, dynamic> _) {
-    return DeletePolicyTemplateOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Contains information about one of the policies that determined an
-/// authorization decision.
-///
-/// This data type is used as an element in a response parameter for the <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html">IsAuthorized</a>,
-/// <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_BatchIsAuthorized.html">BatchIsAuthorized</a>,
-/// and <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html">IsAuthorizedWithToken</a>
-/// operations.
-///
-/// Example:
-/// <code>"determiningPolicies":[{"policyId":"SPEXAMPLEabcdefg111111"}]</code>
-class DeterminingPolicyItem {
-  /// The Id of a policy that determined to an authorization decision.
-  ///
-  /// Example: <code>"policyId":"SPEXAMPLEabcdefg111111"</code>
-  final String policyId;
-
-  DeterminingPolicyItem({
-    required this.policyId,
-  });
-
-  factory DeterminingPolicyItem.fromJson(Map<String, dynamic> json) {
-    return DeterminingPolicyItem(
-      policyId: (json['policyId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final policyId = this.policyId;
-    return {
-      'policyId': policyId,
-    };
-  }
-}
-
-/// Contains the list of entities to be considered during an authorization
-/// request. This includes all principals, resources, and actions required to
-/// successfully evaluate the request.
-///
-/// This data type is used as a field in the response parameter for the <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html">IsAuthorized</a>
-/// and <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html">IsAuthorizedWithToken</a>
-/// operations.
-class EntitiesDefinition {
-  /// An array of entities that are needed to successfully evaluate an
-  /// authorization request. Each entity in this array must include an identifier
-  /// for the entity, the attributes of the entity, and a list of any parent
-  /// entities.
-  final List<EntityItem>? entityList;
-
-  EntitiesDefinition({
-    this.entityList,
-  });
-
-  Map<String, dynamic> toJson() {
-    final entityList = this.entityList;
-    return {
-      if (entityList != null) 'entityList': entityList,
-    };
-  }
-}
-
-/// Contains the identifier of an entity, including its ID and type.
-///
-/// This data type is used as a request parameter for <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html">IsAuthorized</a>
-/// operation, and as a response parameter for the <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreatePolicy.html">CreatePolicy</a>,
-/// <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetPolicy.html">GetPolicy</a>,
-/// and <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicy.html">UpdatePolicy</a>
-/// operations.
-///
-/// Example:
-/// <code>{"entityId":"<i>string</i>","entityType":"<i>string</i>"}</code>
-class EntityIdentifier {
-  /// The identifier of an entity.
-  ///
-  /// <code>"entityId":"<i>identifier</i>"</code>
-  final String entityId;
-
-  /// The type of an entity.
-  ///
-  /// Example: <code>"entityType":"<i>typeName</i>"</code>
-  final String entityType;
-
-  EntityIdentifier({
-    required this.entityId,
-    required this.entityType,
-  });
-
-  factory EntityIdentifier.fromJson(Map<String, dynamic> json) {
-    return EntityIdentifier(
-      entityId: (json['entityId'] as String?) ?? '',
-      entityType: (json['entityType'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final entityId = this.entityId;
-    final entityType = this.entityType;
-    return {
-      'entityId': entityId,
-      'entityType': entityType,
-    };
-  }
-}
-
-/// Contains information about an entity that can be referenced in a Cedar
-/// policy.
-///
-/// This data type is used as one of the fields in the <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_EntitiesDefinition.html">EntitiesDefinition</a>
-/// structure.
-///
-/// <code>{ "identifier": { "entityType": "Photo", "entityId":
-/// "VacationPhoto94.jpg" }, "attributes": {}, "parents": [ { "entityType":
-/// "Album", "entityId": "alice_folder" } ] }</code>
-class EntityItem {
-  /// The identifier of the entity.
-  final EntityIdentifier identifier;
-
-  /// A list of attributes for the entity.
-  final Map<String, AttributeValue>? attributes;
-
-  /// The parent entities in the hierarchy that contains the entity. A principal
-  /// or resource entity can be defined with at most 99 <i>transitive parents</i>
-  /// per authorization request.
-  ///
-  /// A transitive parent is an entity in the hierarchy of entities including all
-  /// direct parents, and parents of parents. For example, a user can be a member
-  /// of 91 groups if one of those groups is a member of eight groups, for a total
-  /// of 100: one entity, 91 entity parents, and eight parents of parents.
-  final List<EntityIdentifier>? parents;
-
-  EntityItem({
-    required this.identifier,
-    this.attributes,
-    this.parents,
-  });
-
-  Map<String, dynamic> toJson() {
-    final identifier = this.identifier;
-    final attributes = this.attributes;
-    final parents = this.parents;
-    return {
-      'identifier': identifier,
-      if (attributes != null) 'attributes': attributes,
-      if (parents != null) 'parents': parents,
-    };
-  }
-}
-
-/// Contains information about a principal or resource that can be referenced in
-/// a Cedar policy.
-///
-/// This data type is used as part of the <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_PolicyFilter.html">PolicyFilter</a>
-/// structure that is used as a request parameter for the <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicies.html">ListPolicies</a>
-/// operation..
-class EntityReference {
-  /// The identifier of the entity. It can consist of either an EntityType and
-  /// EntityId, a principal, or a resource.
-  final EntityIdentifier? identifier;
-
-  /// Used to indicate that a principal or resource is not specified. This can be
-  /// used to search for policies that are not associated with a specific
-  /// principal or resource.
-  final bool? unspecified;
-
-  EntityReference({
-    this.identifier,
-    this.unspecified,
-  });
-
-  Map<String, dynamic> toJson() {
-    final identifier = this.identifier;
-    final unspecified = this.unspecified;
-    return {
-      if (identifier != null) 'identifier': identifier,
-      if (unspecified != null) 'unspecified': unspecified,
-    };
-  }
-}
-
-/// Contains a description of an evaluation error.
-///
-/// This data type is a response parameter of the <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html">IsAuthorized</a>,
-/// <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_BatchIsAuthorized.html">BatchIsAuthorized</a>,
-/// and <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html">IsAuthorizedWithToken</a>
-/// operations.
-class EvaluationErrorItem {
-  /// The error description.
-  final String errorDescription;
-
-  EvaluationErrorItem({
-    required this.errorDescription,
-  });
-
-  factory EvaluationErrorItem.fromJson(Map<String, dynamic> json) {
-    return EvaluationErrorItem(
-      errorDescription: (json['errorDescription'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorDescription = this.errorDescription;
-    return {
-      'errorDescription': errorDescription,
-    };
-  }
-}
-
-class GetIdentitySourceOutput {
-  /// The date and time that the identity source was originally created.
-  final DateTime createdDate;
-
-  /// The ID of the identity source.
-  final String identitySourceId;
-
-  /// The date and time that the identity source was most recently updated.
-  final DateTime lastUpdatedDate;
-
-  /// The ID of the policy store that contains the identity source.
-  final String policyStoreId;
-
-  /// The data type of principals generated for identities authenticated by this
-  /// identity source.
-  final String principalEntityType;
-
-  /// Contains configuration information about an identity source.
-  final ConfigurationDetail? configuration;
-
-  /// A structure that describes the configuration of the identity source.
-  final IdentitySourceDetails? details;
-
-  GetIdentitySourceOutput({
-    required this.createdDate,
-    required this.identitySourceId,
-    required this.lastUpdatedDate,
-    required this.policyStoreId,
-    required this.principalEntityType,
-    this.configuration,
-    this.details,
-  });
-
-  factory GetIdentitySourceOutput.fromJson(Map<String, dynamic> json) {
-    return GetIdentitySourceOutput(
-      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
-      identitySourceId: (json['identitySourceId'] as String?) ?? '',
-      lastUpdatedDate:
-          nonNullableTimeStampFromJson(json['lastUpdatedDate'] ?? 0),
-      policyStoreId: (json['policyStoreId'] as String?) ?? '',
-      principalEntityType: (json['principalEntityType'] as String?) ?? '',
-      configuration: json['configuration'] != null
-          ? ConfigurationDetail.fromJson(
-              json['configuration'] as Map<String, dynamic>)
-          : null,
-      details: json['details'] != null
-          ? IdentitySourceDetails.fromJson(
-              json['details'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdDate = this.createdDate;
-    final identitySourceId = this.identitySourceId;
-    final lastUpdatedDate = this.lastUpdatedDate;
-    final policyStoreId = this.policyStoreId;
-    final principalEntityType = this.principalEntityType;
-    final configuration = this.configuration;
-    final details = this.details;
-    return {
-      'createdDate': iso8601ToJson(createdDate),
-      'identitySourceId': identitySourceId,
-      'lastUpdatedDate': iso8601ToJson(lastUpdatedDate),
-      'policyStoreId': policyStoreId,
-      'principalEntityType': principalEntityType,
-      if (configuration != null) 'configuration': configuration,
-      if (details != null) 'details': details,
-    };
-  }
-}
-
-class GetPolicyOutput {
-  /// The date and time that the policy was originally created.
-  final DateTime createdDate;
-
-  /// The definition of the requested policy.
-  final PolicyDefinitionDetail definition;
-
-  /// The date and time that the policy was last updated.
-  final DateTime lastUpdatedDate;
-
-  /// The unique ID of the policy that you want information about.
-  final String policyId;
-
-  /// The ID of the policy store that contains the policy that you want
-  /// information about.
-  final String policyStoreId;
-
-  /// The type of the policy.
-  final PolicyType policyType;
-
-  /// The action that a policy permits or forbids. For example, <code>{"actions":
-  /// [{"actionId": "ViewPhoto", "actionType": "PhotoFlash::Action"}, {"entityID":
-  /// "SharePhoto", "entityType": "PhotoFlash::Action"}]}</code>.
-  final List<ActionIdentifier>? actions;
-
-  /// The effect of the decision that a policy returns to an authorization
-  /// request. For example, <code>"effect": "Permit"</code>.
-  final PolicyEffect? effect;
-
-  /// The principal specified in the policy's scope. This element isn't included
-  /// in the response when <code>Principal</code> isn't present in the policy
-  /// content.
-  final EntityIdentifier? principal;
-
-  /// The resource specified in the policy's scope. This element isn't included in
-  /// the response when <code>Resource</code> isn't present in the policy content.
-  final EntityIdentifier? resource;
-
-  GetPolicyOutput({
-    required this.createdDate,
-    required this.definition,
-    required this.lastUpdatedDate,
-    required this.policyId,
-    required this.policyStoreId,
-    required this.policyType,
-    this.actions,
-    this.effect,
-    this.principal,
-    this.resource,
-  });
-
-  factory GetPolicyOutput.fromJson(Map<String, dynamic> json) {
-    return GetPolicyOutput(
-      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
-      definition: PolicyDefinitionDetail.fromJson(
-          (json['definition'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      lastUpdatedDate:
-          nonNullableTimeStampFromJson(json['lastUpdatedDate'] ?? 0),
-      policyId: (json['policyId'] as String?) ?? '',
-      policyStoreId: (json['policyStoreId'] as String?) ?? '',
-      policyType: PolicyType.fromString((json['policyType'] as String?) ?? ''),
-      actions: (json['actions'] as List?)
-          ?.nonNulls
-          .map((e) => ActionIdentifier.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      effect: (json['effect'] as String?)?.let(PolicyEffect.fromString),
-      principal: json['principal'] != null
-          ? EntityIdentifier.fromJson(json['principal'] as Map<String, dynamic>)
-          : null,
-      resource: json['resource'] != null
-          ? EntityIdentifier.fromJson(json['resource'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdDate = this.createdDate;
-    final definition = this.definition;
-    final lastUpdatedDate = this.lastUpdatedDate;
-    final policyId = this.policyId;
-    final policyStoreId = this.policyStoreId;
-    final policyType = this.policyType;
-    final actions = this.actions;
-    final effect = this.effect;
-    final principal = this.principal;
-    final resource = this.resource;
-    return {
-      'createdDate': iso8601ToJson(createdDate),
-      'definition': definition,
-      'lastUpdatedDate': iso8601ToJson(lastUpdatedDate),
-      'policyId': policyId,
-      'policyStoreId': policyStoreId,
-      'policyType': policyType.value,
-      if (actions != null) 'actions': actions,
-      if (effect != null) 'effect': effect.value,
-      if (principal != null) 'principal': principal,
-      if (resource != null) 'resource': resource,
-    };
-  }
-}
-
 class GetPolicyStoreOutput {
   /// The Amazon Resource Name (ARN) of the policy store.
   final String arn;
@@ -3469,9 +2705,27 @@ class GetPolicyStoreOutput {
   /// The current validation settings for the policy store.
   final ValidationSettings validationSettings;
 
+  /// The version of the Cedar language used with policies, policy templates, and
+  /// schemas in this policy store. For more information, see <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/userguide/cedar4-faq.html">Amazon
+  /// Verified Permissions upgrade to Cedar v4 FAQ</a>.
+  final CedarVersion? cedarVersion;
+
+  /// Specifies whether the policy store can be deleted. If enabled, the policy
+  /// store can't be deleted.
+  ///
+  /// The default state is <code>DISABLED</code>.
+  final DeletionProtection? deletionProtection;
+
   /// Descriptive text that you can provide to help with identification of the
   /// current policy store.
   final String? description;
+
+  /// A structure that contains the encryption configuration for the policy store.
+  final EncryptionState? encryptionState;
+
+  /// The list of tags associated with the policy store.
+  final Map<String, String>? tags;
 
   GetPolicyStoreOutput({
     required this.arn,
@@ -3479,7 +2733,11 @@ class GetPolicyStoreOutput {
     required this.lastUpdatedDate,
     required this.policyStoreId,
     required this.validationSettings,
+    this.cedarVersion,
+    this.deletionProtection,
     this.description,
+    this.encryptionState,
+    this.tags,
   });
 
   factory GetPolicyStoreOutput.fromJson(Map<String, dynamic> json) {
@@ -3492,7 +2750,17 @@ class GetPolicyStoreOutput {
       validationSettings: ValidationSettings.fromJson(
           (json['validationSettings'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
+      cedarVersion:
+          (json['cedarVersion'] as String?)?.let(CedarVersion.fromString),
+      deletionProtection: (json['deletionProtection'] as String?)
+          ?.let(DeletionProtection.fromString),
       description: json['description'] as String?,
+      encryptionState: json['encryptionState'] != null
+          ? EncryptionState.fromJson(
+              json['encryptionState'] as Map<String, dynamic>)
+          : null,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
     );
   }
 
@@ -3502,73 +2770,183 @@ class GetPolicyStoreOutput {
     final lastUpdatedDate = this.lastUpdatedDate;
     final policyStoreId = this.policyStoreId;
     final validationSettings = this.validationSettings;
+    final cedarVersion = this.cedarVersion;
+    final deletionProtection = this.deletionProtection;
     final description = this.description;
+    final encryptionState = this.encryptionState;
+    final tags = this.tags;
     return {
       'arn': arn,
       'createdDate': iso8601ToJson(createdDate),
       'lastUpdatedDate': iso8601ToJson(lastUpdatedDate),
       'policyStoreId': policyStoreId,
       'validationSettings': validationSettings,
+      if (cedarVersion != null) 'cedarVersion': cedarVersion.value,
+      if (deletionProtection != null)
+        'deletionProtection': deletionProtection.value,
       if (description != null) 'description': description,
+      if (encryptionState != null) 'encryptionState': encryptionState,
+      if (tags != null) 'tags': tags,
     };
   }
 }
 
-class GetPolicyTemplateOutput {
-  /// The date and time that the policy template was originally created.
+class UpdatePolicyStoreOutput {
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Name (ARN)</a> of the updated policy store.
+  final String arn;
+
+  /// The date and time that the policy store was originally created.
   final DateTime createdDate;
 
-  /// The date and time that the policy template was most recently updated.
+  /// The date and time that the policy store was most recently updated.
   final DateTime lastUpdatedDate;
 
-  /// The ID of the policy store that contains the policy template.
+  /// The ID of the updated policy store.
   final String policyStoreId;
 
-  /// The ID of the policy template.
-  final String policyTemplateId;
-
-  /// The content of the body of the policy template written in the Cedar policy
-  /// language.
-  final String statement;
-
-  /// The description of the policy template.
-  final String? description;
-
-  GetPolicyTemplateOutput({
+  UpdatePolicyStoreOutput({
+    required this.arn,
     required this.createdDate,
     required this.lastUpdatedDate,
     required this.policyStoreId,
-    required this.policyTemplateId,
-    required this.statement,
-    this.description,
   });
 
-  factory GetPolicyTemplateOutput.fromJson(Map<String, dynamic> json) {
-    return GetPolicyTemplateOutput(
+  factory UpdatePolicyStoreOutput.fromJson(Map<String, dynamic> json) {
+    return UpdatePolicyStoreOutput(
+      arn: (json['arn'] as String?) ?? '',
       createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
       lastUpdatedDate:
           nonNullableTimeStampFromJson(json['lastUpdatedDate'] ?? 0),
       policyStoreId: (json['policyStoreId'] as String?) ?? '',
-      policyTemplateId: (json['policyTemplateId'] as String?) ?? '',
-      statement: (json['statement'] as String?) ?? '',
-      description: json['description'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final arn = this.arn;
     final createdDate = this.createdDate;
     final lastUpdatedDate = this.lastUpdatedDate;
     final policyStoreId = this.policyStoreId;
-    final policyTemplateId = this.policyTemplateId;
-    final statement = this.statement;
-    final description = this.description;
     return {
+      'arn': arn,
       'createdDate': iso8601ToJson(createdDate),
       'lastUpdatedDate': iso8601ToJson(lastUpdatedDate),
       'policyStoreId': policyStoreId,
-      'policyTemplateId': policyTemplateId,
-      'statement': statement,
-      if (description != null) 'description': description,
+    };
+  }
+}
+
+class DeletePolicyStoreOutput {
+  DeletePolicyStoreOutput();
+
+  factory DeletePolicyStoreOutput.fromJson(Map<String, dynamic> _) {
+    return DeletePolicyStoreOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class ListPolicyStoresOutput {
+  /// The list of policy stores in the account.
+  final List<PolicyStoreItem> policyStores;
+
+  /// If present, this value indicates that more output is available than is
+  /// included in the current response. Use this value in the
+  /// <code>NextToken</code> request parameter in a subsequent call to the
+  /// operation to get the next part of the output. You should repeat this until
+  /// the <code>NextToken</code> response element comes back as <code>null</code>.
+  /// This indicates that this is the last page of results.
+  final String? nextToken;
+
+  ListPolicyStoresOutput({
+    required this.policyStores,
+    this.nextToken,
+  });
+
+  factory ListPolicyStoresOutput.fromJson(Map<String, dynamic> json) {
+    return ListPolicyStoresOutput(
+      policyStores: ((json['policyStores'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => PolicyStoreItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyStores = this.policyStores;
+    final nextToken = this.nextToken;
+    return {
+      'policyStores': policyStores,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class BatchIsAuthorizedOutput {
+  /// A series of <code>Allow</code> or <code>Deny</code> decisions for each
+  /// request, and the policies that produced them. These results are returned in
+  /// the order they were requested.
+  final List<BatchIsAuthorizedOutputItem> results;
+
+  BatchIsAuthorizedOutput({
+    required this.results,
+  });
+
+  factory BatchIsAuthorizedOutput.fromJson(Map<String, dynamic> json) {
+    return BatchIsAuthorizedOutput(
+      results: ((json['results'] as List?) ?? const [])
+          .nonNulls
+          .map((e) =>
+              BatchIsAuthorizedOutputItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final results = this.results;
+    return {
+      'results': results,
+    };
+  }
+}
+
+class BatchIsAuthorizedWithTokenOutput {
+  /// A series of <code>Allow</code> or <code>Deny</code> decisions for each
+  /// request, and the policies that produced them. These results are returned in
+  /// the order they were requested.
+  final List<BatchIsAuthorizedWithTokenOutputItem> results;
+
+  /// The identifier of the principal in the ID or access token.
+  final EntityIdentifier? principal;
+
+  BatchIsAuthorizedWithTokenOutput({
+    required this.results,
+    this.principal,
+  });
+
+  factory BatchIsAuthorizedWithTokenOutput.fromJson(Map<String, dynamic> json) {
+    return BatchIsAuthorizedWithTokenOutput(
+      results: ((json['results'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => BatchIsAuthorizedWithTokenOutputItem.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      principal: json['principal'] != null
+          ? EntityIdentifier.fromJson(json['principal'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final results = this.results;
+    final principal = this.principal;
+    return {
+      'results': results,
+      if (principal != null) 'principal': principal,
     };
   }
 }
@@ -3623,238 +3001,6 @@ class GetSchemaOutput {
       'policyStoreId': policyStoreId,
       'schema': schema,
       if (namespaces != null) 'namespaces': namespaces,
-    };
-  }
-}
-
-/// A structure that contains configuration of the identity source.
-///
-/// This data type was a response parameter for the <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html">GetIdentitySource</a>
-/// operation. Replaced by <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ConfigurationDetail.html">ConfigurationDetail</a>.
-@Deprecated('This shape has been replaced by ConfigurationDetail')
-class IdentitySourceDetails {
-  /// The application client IDs associated with the specified Amazon Cognito user
-  /// pool that are enabled for this identity source.
-  final List<String>? clientIds;
-
-  /// The well-known URL that points to this user pool's OIDC discovery endpoint.
-  /// This is a URL string in the following format. This URL replaces the
-  /// placeholders for both the Amazon Web Services Region and the user pool
-  /// identifier with those appropriate for this user pool.
-  ///
-  /// <code>https://cognito-idp.<i>&lt;region&gt;</i>.amazonaws.com/<i>&lt;user-pool-id&gt;</i>/.well-known/openid-configuration</code>
-  final String? discoveryUrl;
-
-  /// A string that identifies the type of OIDC service represented by this
-  /// identity source.
-  ///
-  /// At this time, the only valid value is <code>cognito</code>.
-  final OpenIdIssuer? openIdIssuer;
-
-  /// The <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Name (ARN)</a> of the Amazon Cognito user pool whose identities are
-  /// accessible to this Verified Permissions policy store.
-  final String? userPoolArn;
-
-  IdentitySourceDetails({
-    this.clientIds,
-    this.discoveryUrl,
-    this.openIdIssuer,
-    this.userPoolArn,
-  });
-
-  factory IdentitySourceDetails.fromJson(Map<String, dynamic> json) {
-    return IdentitySourceDetails(
-      clientIds: (json['clientIds'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      discoveryUrl: json['discoveryUrl'] as String?,
-      openIdIssuer:
-          (json['openIdIssuer'] as String?)?.let(OpenIdIssuer.fromString),
-      userPoolArn: json['userPoolArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clientIds = this.clientIds;
-    final discoveryUrl = this.discoveryUrl;
-    final openIdIssuer = this.openIdIssuer;
-    final userPoolArn = this.userPoolArn;
-    return {
-      if (clientIds != null) 'clientIds': clientIds,
-      if (discoveryUrl != null) 'discoveryUrl': discoveryUrl,
-      if (openIdIssuer != null) 'openIdIssuer': openIdIssuer.value,
-      if (userPoolArn != null) 'userPoolArn': userPoolArn,
-    };
-  }
-}
-
-/// A structure that defines characteristics of an identity source that you can
-/// use to filter.
-///
-/// This data type is a request parameter for the <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentityStores.html">ListIdentityStores</a>
-/// operation.
-class IdentitySourceFilter {
-  /// The Cedar entity type of the principals returned by the identity provider
-  /// (IdP) associated with this identity source.
-  final String? principalEntityType;
-
-  IdentitySourceFilter({
-    this.principalEntityType,
-  });
-
-  Map<String, dynamic> toJson() {
-    final principalEntityType = this.principalEntityType;
-    return {
-      if (principalEntityType != null)
-        'principalEntityType': principalEntityType,
-    };
-  }
-}
-
-/// A structure that defines an identity source.
-///
-/// This data type is a response parameter to the <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html">ListIdentitySources</a>
-/// operation.
-class IdentitySourceItem {
-  /// The date and time the identity source was originally created.
-  final DateTime createdDate;
-
-  /// The unique identifier of the identity source.
-  final String identitySourceId;
-
-  /// The date and time the identity source was most recently updated.
-  final DateTime lastUpdatedDate;
-
-  /// The identifier of the policy store that contains the identity source.
-  final String policyStoreId;
-
-  /// The Cedar entity type of the principals returned from the IdP associated
-  /// with this identity source.
-  final String principalEntityType;
-
-  /// Contains configuration information about an identity source.
-  final ConfigurationItem? configuration;
-
-  /// A structure that contains the details of the associated identity provider
-  /// (IdP).
-  final IdentitySourceItemDetails? details;
-
-  IdentitySourceItem({
-    required this.createdDate,
-    required this.identitySourceId,
-    required this.lastUpdatedDate,
-    required this.policyStoreId,
-    required this.principalEntityType,
-    this.configuration,
-    this.details,
-  });
-
-  factory IdentitySourceItem.fromJson(Map<String, dynamic> json) {
-    return IdentitySourceItem(
-      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
-      identitySourceId: (json['identitySourceId'] as String?) ?? '',
-      lastUpdatedDate:
-          nonNullableTimeStampFromJson(json['lastUpdatedDate'] ?? 0),
-      policyStoreId: (json['policyStoreId'] as String?) ?? '',
-      principalEntityType: (json['principalEntityType'] as String?) ?? '',
-      configuration: json['configuration'] != null
-          ? ConfigurationItem.fromJson(
-              json['configuration'] as Map<String, dynamic>)
-          : null,
-      details: json['details'] != null
-          ? IdentitySourceItemDetails.fromJson(
-              json['details'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdDate = this.createdDate;
-    final identitySourceId = this.identitySourceId;
-    final lastUpdatedDate = this.lastUpdatedDate;
-    final policyStoreId = this.policyStoreId;
-    final principalEntityType = this.principalEntityType;
-    final configuration = this.configuration;
-    final details = this.details;
-    return {
-      'createdDate': iso8601ToJson(createdDate),
-      'identitySourceId': identitySourceId,
-      'lastUpdatedDate': iso8601ToJson(lastUpdatedDate),
-      'policyStoreId': policyStoreId,
-      'principalEntityType': principalEntityType,
-      if (configuration != null) 'configuration': configuration,
-      if (details != null) 'details': details,
-    };
-  }
-}
-
-/// A structure that contains configuration of the identity source.
-///
-/// This data type was a response parameter for the <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html">ListIdentitySources</a>
-/// operation. Replaced by <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ConfigurationItem.html">ConfigurationItem</a>.
-@Deprecated('This shape has been replaced by ConfigurationItem')
-class IdentitySourceItemDetails {
-  /// The application client IDs associated with the specified Amazon Cognito user
-  /// pool that are enabled for this identity source.
-  final List<String>? clientIds;
-
-  /// The well-known URL that points to this user pool's OIDC discovery endpoint.
-  /// This is a URL string in the following format. This URL replaces the
-  /// placeholders for both the Amazon Web Services Region and the user pool
-  /// identifier with those appropriate for this user pool.
-  ///
-  /// <code>https://cognito-idp.<i>&lt;region&gt;</i>.amazonaws.com/<i>&lt;user-pool-id&gt;</i>/.well-known/openid-configuration</code>
-  final String? discoveryUrl;
-
-  /// A string that identifies the type of OIDC service represented by this
-  /// identity source.
-  ///
-  /// At this time, the only valid value is <code>cognito</code>.
-  final OpenIdIssuer? openIdIssuer;
-
-  /// The Amazon Cognito user pool whose identities are accessible to this
-  /// Verified Permissions policy store.
-  final String? userPoolArn;
-
-  IdentitySourceItemDetails({
-    this.clientIds,
-    this.discoveryUrl,
-    this.openIdIssuer,
-    this.userPoolArn,
-  });
-
-  factory IdentitySourceItemDetails.fromJson(Map<String, dynamic> json) {
-    return IdentitySourceItemDetails(
-      clientIds: (json['clientIds'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      discoveryUrl: json['discoveryUrl'] as String?,
-      openIdIssuer:
-          (json['openIdIssuer'] as String?)?.let(OpenIdIssuer.fromString),
-      userPoolArn: json['userPoolArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clientIds = this.clientIds;
-    final discoveryUrl = this.discoveryUrl;
-    final openIdIssuer = this.openIdIssuer;
-    final userPoolArn = this.userPoolArn;
-    return {
-      if (clientIds != null) 'clientIds': clientIds,
-      if (discoveryUrl != null) 'discoveryUrl': discoveryUrl,
-      if (openIdIssuer != null) 'openIdIssuer': openIdIssuer.value,
-      if (userPoolArn != null) 'userPoolArn': userPoolArn,
     };
   }
 }
@@ -3969,1296 +3115,6 @@ class IsAuthorizedWithTokenOutput {
   }
 }
 
-class ListIdentitySourcesOutput {
-  /// The list of identity sources stored in the specified policy store.
-  final List<IdentitySourceItem> identitySources;
-
-  /// If present, this value indicates that more output is available than is
-  /// included in the current response. Use this value in the
-  /// <code>NextToken</code> request parameter in a subsequent call to the
-  /// operation to get the next part of the output. You should repeat this until
-  /// the <code>NextToken</code> response element comes back as <code>null</code>.
-  /// This indicates that this is the last page of results.
-  final String? nextToken;
-
-  ListIdentitySourcesOutput({
-    required this.identitySources,
-    this.nextToken,
-  });
-
-  factory ListIdentitySourcesOutput.fromJson(Map<String, dynamic> json) {
-    return ListIdentitySourcesOutput(
-      identitySources: ((json['identitySources'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => IdentitySourceItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final identitySources = this.identitySources;
-    final nextToken = this.nextToken;
-    return {
-      'identitySources': identitySources,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListPoliciesOutput {
-  /// Lists all policies that are available in the specified policy store.
-  final List<PolicyItem> policies;
-
-  /// If present, this value indicates that more output is available than is
-  /// included in the current response. Use this value in the
-  /// <code>NextToken</code> request parameter in a subsequent call to the
-  /// operation to get the next part of the output. You should repeat this until
-  /// the <code>NextToken</code> response element comes back as <code>null</code>.
-  /// This indicates that this is the last page of results.
-  final String? nextToken;
-
-  ListPoliciesOutput({
-    required this.policies,
-    this.nextToken,
-  });
-
-  factory ListPoliciesOutput.fromJson(Map<String, dynamic> json) {
-    return ListPoliciesOutput(
-      policies: ((json['policies'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => PolicyItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final policies = this.policies;
-    final nextToken = this.nextToken;
-    return {
-      'policies': policies,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListPolicyStoresOutput {
-  /// The list of policy stores in the account.
-  final List<PolicyStoreItem> policyStores;
-
-  /// If present, this value indicates that more output is available than is
-  /// included in the current response. Use this value in the
-  /// <code>NextToken</code> request parameter in a subsequent call to the
-  /// operation to get the next part of the output. You should repeat this until
-  /// the <code>NextToken</code> response element comes back as <code>null</code>.
-  /// This indicates that this is the last page of results.
-  final String? nextToken;
-
-  ListPolicyStoresOutput({
-    required this.policyStores,
-    this.nextToken,
-  });
-
-  factory ListPolicyStoresOutput.fromJson(Map<String, dynamic> json) {
-    return ListPolicyStoresOutput(
-      policyStores: ((json['policyStores'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => PolicyStoreItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final policyStores = this.policyStores;
-    final nextToken = this.nextToken;
-    return {
-      'policyStores': policyStores,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListPolicyTemplatesOutput {
-  /// The list of the policy templates in the specified policy store.
-  final List<PolicyTemplateItem> policyTemplates;
-
-  /// If present, this value indicates that more output is available than is
-  /// included in the current response. Use this value in the
-  /// <code>NextToken</code> request parameter in a subsequent call to the
-  /// operation to get the next part of the output. You should repeat this until
-  /// the <code>NextToken</code> response element comes back as <code>null</code>.
-  /// This indicates that this is the last page of results.
-  final String? nextToken;
-
-  ListPolicyTemplatesOutput({
-    required this.policyTemplates,
-    this.nextToken,
-  });
-
-  factory ListPolicyTemplatesOutput.fromJson(Map<String, dynamic> json) {
-    return ListPolicyTemplatesOutput(
-      policyTemplates: ((json['policyTemplates'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => PolicyTemplateItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final policyTemplates = this.policyTemplates;
-    final nextToken = this.nextToken;
-    return {
-      'policyTemplates': policyTemplates,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-/// The configuration of an OpenID Connect (OIDC) identity source for handling
-/// access token claims. Contains the claim that you want to identify as the
-/// principal in an authorization request, and the values of the
-/// <code>aud</code> claim, or audiences, that you want to accept.
-///
-/// This data type is part of a <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectTokenSelection.html">OpenIdConnectTokenSelection</a>
-/// structure, which is a parameter of <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html">CreateIdentitySource</a>.
-class OpenIdConnectAccessTokenConfiguration {
-  /// The access token <code>aud</code> claim values that you want to accept in
-  /// your policy store. For example, <code>https://myapp.example.com,
-  /// https://myapp2.example.com</code>.
-  final List<String>? audiences;
-
-  /// The claim that determines the principal in OIDC access tokens. For example,
-  /// <code>sub</code>.
-  final String? principalIdClaim;
-
-  OpenIdConnectAccessTokenConfiguration({
-    this.audiences,
-    this.principalIdClaim,
-  });
-
-  Map<String, dynamic> toJson() {
-    final audiences = this.audiences;
-    final principalIdClaim = this.principalIdClaim;
-    return {
-      if (audiences != null) 'audiences': audiences,
-      if (principalIdClaim != null) 'principalIdClaim': principalIdClaim,
-    };
-  }
-}
-
-/// The configuration of an OpenID Connect (OIDC) identity source for handling
-/// access token claims. Contains the claim that you want to identify as the
-/// principal in an authorization request, and the values of the
-/// <code>aud</code> claim, or audiences, that you want to accept.
-///
-/// This data type is part of a <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectTokenSelectionDetail.html">OpenIdConnectTokenSelectionDetail</a>
-/// structure, which is a parameter of <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html">GetIdentitySource</a>.
-class OpenIdConnectAccessTokenConfigurationDetail {
-  /// The access token <code>aud</code> claim values that you want to accept in
-  /// your policy store. For example, <code>https://myapp.example.com,
-  /// https://myapp2.example.com</code>.
-  final List<String>? audiences;
-
-  /// The claim that determines the principal in OIDC access tokens. For example,
-  /// <code>sub</code>.
-  final String? principalIdClaim;
-
-  OpenIdConnectAccessTokenConfigurationDetail({
-    this.audiences,
-    this.principalIdClaim,
-  });
-
-  factory OpenIdConnectAccessTokenConfigurationDetail.fromJson(
-      Map<String, dynamic> json) {
-    return OpenIdConnectAccessTokenConfigurationDetail(
-      audiences: (json['audiences'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      principalIdClaim: json['principalIdClaim'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final audiences = this.audiences;
-    final principalIdClaim = this.principalIdClaim;
-    return {
-      if (audiences != null) 'audiences': audiences,
-      if (principalIdClaim != null) 'principalIdClaim': principalIdClaim,
-    };
-  }
-}
-
-/// The configuration of an OpenID Connect (OIDC) identity source for handling
-/// access token claims. Contains the claim that you want to identify as the
-/// principal in an authorization request, and the values of the
-/// <code>aud</code> claim, or audiences, that you want to accept.
-///
-/// This data type is part of a <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectTokenSelectionItem.html">OpenIdConnectTokenSelectionItem</a>
-/// structure, which is a parameter of <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html">ListIdentitySources</a>.
-class OpenIdConnectAccessTokenConfigurationItem {
-  /// The access token <code>aud</code> claim values that you want to accept in
-  /// your policy store. For example, <code>https://myapp.example.com,
-  /// https://myapp2.example.com</code>.
-  final List<String>? audiences;
-
-  /// The claim that determines the principal in OIDC access tokens. For example,
-  /// <code>sub</code>.
-  final String? principalIdClaim;
-
-  OpenIdConnectAccessTokenConfigurationItem({
-    this.audiences,
-    this.principalIdClaim,
-  });
-
-  factory OpenIdConnectAccessTokenConfigurationItem.fromJson(
-      Map<String, dynamic> json) {
-    return OpenIdConnectAccessTokenConfigurationItem(
-      audiences: (json['audiences'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      principalIdClaim: json['principalIdClaim'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final audiences = this.audiences;
-    final principalIdClaim = this.principalIdClaim;
-    return {
-      if (audiences != null) 'audiences': audiences,
-      if (principalIdClaim != null) 'principalIdClaim': principalIdClaim,
-    };
-  }
-}
-
-/// Contains configuration details of an OpenID Connect (OIDC) identity
-/// provider, or identity source, that Verified Permissions can use to generate
-/// entities from authenticated identities. It specifies the issuer URL, token
-/// type that you want to use, and policy store entity details.
-///
-/// This data type is part of a <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_Configuration.html">Configuration</a>
-/// structure, which is a parameter to <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html">CreateIdentitySource</a>.
-class OpenIdConnectConfiguration {
-  /// The issuer URL of an OIDC identity provider. This URL must have an OIDC
-  /// discovery endpoint at the path
-  /// <code>.well-known/openid-configuration</code>.
-  final String issuer;
-
-  /// The token type that you want to process from your OIDC identity provider.
-  /// Your policy store can process either identity (ID) or access tokens from a
-  /// given OIDC identity source.
-  final OpenIdConnectTokenSelection tokenSelection;
-
-  /// A descriptive string that you want to prefix to user entities from your OIDC
-  /// identity provider. For example, if you set an <code>entityIdPrefix</code> of
-  /// <code>MyOIDCProvider</code>, you can reference principals in your policies
-  /// in the format <code>MyCorp::User::MyOIDCProvider|Carlos</code>.
-  final String? entityIdPrefix;
-
-  /// The claim in OIDC identity provider tokens that indicates a user's group
-  /// membership, and the entity type that you want to map it to. For example,
-  /// this object can map the contents of a <code>groups</code> claim to
-  /// <code>MyCorp::UserGroup</code>.
-  final OpenIdConnectGroupConfiguration? groupConfiguration;
-
-  OpenIdConnectConfiguration({
-    required this.issuer,
-    required this.tokenSelection,
-    this.entityIdPrefix,
-    this.groupConfiguration,
-  });
-
-  Map<String, dynamic> toJson() {
-    final issuer = this.issuer;
-    final tokenSelection = this.tokenSelection;
-    final entityIdPrefix = this.entityIdPrefix;
-    final groupConfiguration = this.groupConfiguration;
-    return {
-      'issuer': issuer,
-      'tokenSelection': tokenSelection,
-      if (entityIdPrefix != null) 'entityIdPrefix': entityIdPrefix,
-      if (groupConfiguration != null) 'groupConfiguration': groupConfiguration,
-    };
-  }
-}
-
-/// Contains configuration details of an OpenID Connect (OIDC) identity
-/// provider, or identity source, that Verified Permissions can use to generate
-/// entities from authenticated identities. It specifies the issuer URL, token
-/// type that you want to use, and policy store entity details.
-///
-/// This data type is part of a <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ConfigurationDetail.html">ConfigurationDetail</a>
-/// structure, which is a parameter to <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html">GetIdentitySource</a>.
-class OpenIdConnectConfigurationDetail {
-  /// The issuer URL of an OIDC identity provider. This URL must have an OIDC
-  /// discovery endpoint at the path
-  /// <code>.well-known/openid-configuration</code>.
-  final String issuer;
-
-  /// The token type that you want to process from your OIDC identity provider.
-  /// Your policy store can process either identity (ID) or access tokens from a
-  /// given OIDC identity source.
-  final OpenIdConnectTokenSelectionDetail tokenSelection;
-
-  /// A descriptive string that you want to prefix to user entities from your OIDC
-  /// identity provider. For example, if you set an <code>entityIdPrefix</code> of
-  /// <code>MyOIDCProvider</code>, you can reference principals in your policies
-  /// in the format <code>MyCorp::User::MyOIDCProvider|Carlos</code>.
-  final String? entityIdPrefix;
-
-  /// The claim in OIDC identity provider tokens that indicates a user's group
-  /// membership, and the entity type that you want to map it to. For example,
-  /// this object can map the contents of a <code>groups</code> claim to
-  /// <code>MyCorp::UserGroup</code>.
-  final OpenIdConnectGroupConfigurationDetail? groupConfiguration;
-
-  OpenIdConnectConfigurationDetail({
-    required this.issuer,
-    required this.tokenSelection,
-    this.entityIdPrefix,
-    this.groupConfiguration,
-  });
-
-  factory OpenIdConnectConfigurationDetail.fromJson(Map<String, dynamic> json) {
-    return OpenIdConnectConfigurationDetail(
-      issuer: (json['issuer'] as String?) ?? '',
-      tokenSelection: OpenIdConnectTokenSelectionDetail.fromJson(
-          (json['tokenSelection'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      entityIdPrefix: json['entityIdPrefix'] as String?,
-      groupConfiguration: json['groupConfiguration'] != null
-          ? OpenIdConnectGroupConfigurationDetail.fromJson(
-              json['groupConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final issuer = this.issuer;
-    final tokenSelection = this.tokenSelection;
-    final entityIdPrefix = this.entityIdPrefix;
-    final groupConfiguration = this.groupConfiguration;
-    return {
-      'issuer': issuer,
-      'tokenSelection': tokenSelection,
-      if (entityIdPrefix != null) 'entityIdPrefix': entityIdPrefix,
-      if (groupConfiguration != null) 'groupConfiguration': groupConfiguration,
-    };
-  }
-}
-
-/// Contains configuration details of an OpenID Connect (OIDC) identity
-/// provider, or identity source, that Verified Permissions can use to generate
-/// entities from authenticated identities. It specifies the issuer URL, token
-/// type that you want to use, and policy store entity details.
-///
-/// This data type is part of a <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ConfigurationDetail.html">ConfigurationItem</a>
-/// structure, which is a parameter to <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html">ListIdentitySources</a>.
-class OpenIdConnectConfigurationItem {
-  /// The issuer URL of an OIDC identity provider. This URL must have an OIDC
-  /// discovery endpoint at the path
-  /// <code>.well-known/openid-configuration</code>.
-  final String issuer;
-
-  /// The token type that you want to process from your OIDC identity provider.
-  /// Your policy store can process either identity (ID) or access tokens from a
-  /// given OIDC identity source.
-  final OpenIdConnectTokenSelectionItem tokenSelection;
-
-  /// A descriptive string that you want to prefix to user entities from your OIDC
-  /// identity provider. For example, if you set an <code>entityIdPrefix</code> of
-  /// <code>MyOIDCProvider</code>, you can reference principals in your policies
-  /// in the format <code>MyCorp::User::MyOIDCProvider|Carlos</code>.
-  final String? entityIdPrefix;
-
-  /// The claim in OIDC identity provider tokens that indicates a user's group
-  /// membership, and the entity type that you want to map it to. For example,
-  /// this object can map the contents of a <code>groups</code> claim to
-  /// <code>MyCorp::UserGroup</code>.
-  final OpenIdConnectGroupConfigurationItem? groupConfiguration;
-
-  OpenIdConnectConfigurationItem({
-    required this.issuer,
-    required this.tokenSelection,
-    this.entityIdPrefix,
-    this.groupConfiguration,
-  });
-
-  factory OpenIdConnectConfigurationItem.fromJson(Map<String, dynamic> json) {
-    return OpenIdConnectConfigurationItem(
-      issuer: (json['issuer'] as String?) ?? '',
-      tokenSelection: OpenIdConnectTokenSelectionItem.fromJson(
-          (json['tokenSelection'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      entityIdPrefix: json['entityIdPrefix'] as String?,
-      groupConfiguration: json['groupConfiguration'] != null
-          ? OpenIdConnectGroupConfigurationItem.fromJson(
-              json['groupConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final issuer = this.issuer;
-    final tokenSelection = this.tokenSelection;
-    final entityIdPrefix = this.entityIdPrefix;
-    final groupConfiguration = this.groupConfiguration;
-    return {
-      'issuer': issuer,
-      'tokenSelection': tokenSelection,
-      if (entityIdPrefix != null) 'entityIdPrefix': entityIdPrefix,
-      if (groupConfiguration != null) 'groupConfiguration': groupConfiguration,
-    };
-  }
-}
-
-/// The claim in OIDC identity provider tokens that indicates a user's group
-/// membership, and the entity type that you want to map it to. For example,
-/// this object can map the contents of a <code>groups</code> claim to
-/// <code>MyCorp::UserGroup</code>.
-///
-/// This data type is part of a <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectConfiguration.html">OpenIdConnectConfiguration</a>
-/// structure, which is a parameter of <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html">CreateIdentitySource</a>.
-class OpenIdConnectGroupConfiguration {
-  /// The token claim that you want Verified Permissions to interpret as group
-  /// membership. For example, <code>groups</code>.
-  final String groupClaim;
-
-  /// The policy store entity type that you want to map your users' group claim
-  /// to. For example, <code>MyCorp::UserGroup</code>. A group entity type is an
-  /// entity that can have a user entity type as a member.
-  final String groupEntityType;
-
-  OpenIdConnectGroupConfiguration({
-    required this.groupClaim,
-    required this.groupEntityType,
-  });
-
-  Map<String, dynamic> toJson() {
-    final groupClaim = this.groupClaim;
-    final groupEntityType = this.groupEntityType;
-    return {
-      'groupClaim': groupClaim,
-      'groupEntityType': groupEntityType,
-    };
-  }
-}
-
-/// The claim in OIDC identity provider tokens that indicates a user's group
-/// membership, and the entity type that you want to map it to. For example,
-/// this object can map the contents of a <code>groups</code> claim to
-/// <code>MyCorp::UserGroup</code>.
-///
-/// This data type is part of a <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectConfigurationDetail.html">OpenIdConnectConfigurationDetail</a>
-/// structure, which is a parameter of <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html">GetIdentitySource</a>.
-class OpenIdConnectGroupConfigurationDetail {
-  /// The token claim that you want Verified Permissions to interpret as group
-  /// membership. For example, <code>groups</code>.
-  final String groupClaim;
-
-  /// The policy store entity type that you want to map your users' group claim
-  /// to. For example, <code>MyCorp::UserGroup</code>. A group entity type is an
-  /// entity that can have a user entity type as a member.
-  final String groupEntityType;
-
-  OpenIdConnectGroupConfigurationDetail({
-    required this.groupClaim,
-    required this.groupEntityType,
-  });
-
-  factory OpenIdConnectGroupConfigurationDetail.fromJson(
-      Map<String, dynamic> json) {
-    return OpenIdConnectGroupConfigurationDetail(
-      groupClaim: (json['groupClaim'] as String?) ?? '',
-      groupEntityType: (json['groupEntityType'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final groupClaim = this.groupClaim;
-    final groupEntityType = this.groupEntityType;
-    return {
-      'groupClaim': groupClaim,
-      'groupEntityType': groupEntityType,
-    };
-  }
-}
-
-/// The claim in OIDC identity provider tokens that indicates a user's group
-/// membership, and the entity type that you want to map it to. For example,
-/// this object can map the contents of a <code>groups</code> claim to
-/// <code>MyCorp::UserGroup</code>.
-///
-/// This data type is part of a <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectConfigurationItem.html">OpenIdConnectConfigurationItem</a>
-/// structure, which is a parameter of <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html">ListIdentitySourcea</a>.
-class OpenIdConnectGroupConfigurationItem {
-  /// The token claim that you want Verified Permissions to interpret as group
-  /// membership. For example, <code>groups</code>.
-  final String groupClaim;
-
-  /// The policy store entity type that you want to map your users' group claim
-  /// to. For example, <code>MyCorp::UserGroup</code>. A group entity type is an
-  /// entity that can have a user entity type as a member.
-  final String groupEntityType;
-
-  OpenIdConnectGroupConfigurationItem({
-    required this.groupClaim,
-    required this.groupEntityType,
-  });
-
-  factory OpenIdConnectGroupConfigurationItem.fromJson(
-      Map<String, dynamic> json) {
-    return OpenIdConnectGroupConfigurationItem(
-      groupClaim: (json['groupClaim'] as String?) ?? '',
-      groupEntityType: (json['groupEntityType'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final groupClaim = this.groupClaim;
-    final groupEntityType = this.groupEntityType;
-    return {
-      'groupClaim': groupClaim,
-      'groupEntityType': groupEntityType,
-    };
-  }
-}
-
-/// The configuration of an OpenID Connect (OIDC) identity source for handling
-/// identity (ID) token claims. Contains the claim that you want to identify as
-/// the principal in an authorization request, and the values of the
-/// <code>aud</code> claim, or audiences, that you want to accept.
-///
-/// This data type is part of a <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectTokenSelection.html">OpenIdConnectTokenSelection</a>
-/// structure, which is a parameter of <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html">CreateIdentitySource</a>.
-class OpenIdConnectIdentityTokenConfiguration {
-  /// The ID token audience, or client ID, claim values that you want to accept in
-  /// your policy store from an OIDC identity provider. For example,
-  /// <code>1example23456789, 2example10111213</code>.
-  final List<String>? clientIds;
-
-  /// The claim that determines the principal in OIDC access tokens. For example,
-  /// <code>sub</code>.
-  final String? principalIdClaim;
-
-  OpenIdConnectIdentityTokenConfiguration({
-    this.clientIds,
-    this.principalIdClaim,
-  });
-
-  Map<String, dynamic> toJson() {
-    final clientIds = this.clientIds;
-    final principalIdClaim = this.principalIdClaim;
-    return {
-      if (clientIds != null) 'clientIds': clientIds,
-      if (principalIdClaim != null) 'principalIdClaim': principalIdClaim,
-    };
-  }
-}
-
-/// The configuration of an OpenID Connect (OIDC) identity source for handling
-/// identity (ID) token claims. Contains the claim that you want to identify as
-/// the principal in an authorization request, and the values of the
-/// <code>aud</code> claim, or audiences, that you want to accept.
-///
-/// This data type is part of a <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectTokenSelectionDetail.html">OpenIdConnectTokenSelectionDetail</a>
-/// structure, which is a parameter of <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html">GetIdentitySource</a>.
-class OpenIdConnectIdentityTokenConfigurationDetail {
-  /// The ID token audience, or client ID, claim values that you want to accept in
-  /// your policy store from an OIDC identity provider. For example,
-  /// <code>1example23456789, 2example10111213</code>.
-  final List<String>? clientIds;
-
-  /// The claim that determines the principal in OIDC access tokens. For example,
-  /// <code>sub</code>.
-  final String? principalIdClaim;
-
-  OpenIdConnectIdentityTokenConfigurationDetail({
-    this.clientIds,
-    this.principalIdClaim,
-  });
-
-  factory OpenIdConnectIdentityTokenConfigurationDetail.fromJson(
-      Map<String, dynamic> json) {
-    return OpenIdConnectIdentityTokenConfigurationDetail(
-      clientIds: (json['clientIds'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      principalIdClaim: json['principalIdClaim'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clientIds = this.clientIds;
-    final principalIdClaim = this.principalIdClaim;
-    return {
-      if (clientIds != null) 'clientIds': clientIds,
-      if (principalIdClaim != null) 'principalIdClaim': principalIdClaim,
-    };
-  }
-}
-
-/// The configuration of an OpenID Connect (OIDC) identity source for handling
-/// identity (ID) token claims. Contains the claim that you want to identify as
-/// the principal in an authorization request, and the values of the
-/// <code>aud</code> claim, or audiences, that you want to accept.
-///
-/// This data type is part of a <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectTokenSelectionItem.html">OpenIdConnectTokenSelectionItem</a>
-/// structure, which is a parameter of <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html">ListIdentitySources</a>.
-class OpenIdConnectIdentityTokenConfigurationItem {
-  /// The ID token audience, or client ID, claim values that you want to accept in
-  /// your policy store from an OIDC identity provider. For example,
-  /// <code>1example23456789, 2example10111213</code>.
-  final List<String>? clientIds;
-
-  /// The claim that determines the principal in OIDC access tokens. For example,
-  /// <code>sub</code>.
-  final String? principalIdClaim;
-
-  OpenIdConnectIdentityTokenConfigurationItem({
-    this.clientIds,
-    this.principalIdClaim,
-  });
-
-  factory OpenIdConnectIdentityTokenConfigurationItem.fromJson(
-      Map<String, dynamic> json) {
-    return OpenIdConnectIdentityTokenConfigurationItem(
-      clientIds: (json['clientIds'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      principalIdClaim: json['principalIdClaim'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clientIds = this.clientIds;
-    final principalIdClaim = this.principalIdClaim;
-    return {
-      if (clientIds != null) 'clientIds': clientIds,
-      if (principalIdClaim != null) 'principalIdClaim': principalIdClaim,
-    };
-  }
-}
-
-/// The token type that you want to process from your OIDC identity provider.
-/// Your policy store can process either identity (ID) or access tokens from a
-/// given OIDC identity source.
-///
-/// This data type is part of a <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectConfiguration.html">OpenIdConnectConfiguration</a>
-/// structure, which is a parameter of <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html">CreateIdentitySource</a>.
-class OpenIdConnectTokenSelection {
-  /// The OIDC configuration for processing access tokens. Contains allowed
-  /// audience claims, for example <code>https://auth.example.com</code>, and the
-  /// claim that you want to map to the principal, for example <code>sub</code>.
-  final OpenIdConnectAccessTokenConfiguration? accessTokenOnly;
-
-  /// The OIDC configuration for processing identity (ID) tokens. Contains allowed
-  /// client ID claims, for example <code>1example23456789</code>, and the claim
-  /// that you want to map to the principal, for example <code>sub</code>.
-  final OpenIdConnectIdentityTokenConfiguration? identityTokenOnly;
-
-  OpenIdConnectTokenSelection({
-    this.accessTokenOnly,
-    this.identityTokenOnly,
-  });
-
-  Map<String, dynamic> toJson() {
-    final accessTokenOnly = this.accessTokenOnly;
-    final identityTokenOnly = this.identityTokenOnly;
-    return {
-      if (accessTokenOnly != null) 'accessTokenOnly': accessTokenOnly,
-      if (identityTokenOnly != null) 'identityTokenOnly': identityTokenOnly,
-    };
-  }
-}
-
-/// The token type that you want to process from your OIDC identity provider.
-/// Your policy store can process either identity (ID) or access tokens from a
-/// given OIDC identity source.
-///
-/// This data type is part of a <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectConfigurationDetail.html">OpenIdConnectConfigurationDetail</a>
-/// structure, which is a parameter of <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html">GetIdentitySource</a>.
-class OpenIdConnectTokenSelectionDetail {
-  /// The OIDC configuration for processing access tokens. Contains allowed
-  /// audience claims, for example <code>https://auth.example.com</code>, and the
-  /// claim that you want to map to the principal, for example <code>sub</code>.
-  final OpenIdConnectAccessTokenConfigurationDetail? accessTokenOnly;
-
-  /// The OIDC configuration for processing identity (ID) tokens. Contains allowed
-  /// client ID claims, for example <code>1example23456789</code>, and the claim
-  /// that you want to map to the principal, for example <code>sub</code>.
-  final OpenIdConnectIdentityTokenConfigurationDetail? identityTokenOnly;
-
-  OpenIdConnectTokenSelectionDetail({
-    this.accessTokenOnly,
-    this.identityTokenOnly,
-  });
-
-  factory OpenIdConnectTokenSelectionDetail.fromJson(
-      Map<String, dynamic> json) {
-    return OpenIdConnectTokenSelectionDetail(
-      accessTokenOnly: json['accessTokenOnly'] != null
-          ? OpenIdConnectAccessTokenConfigurationDetail.fromJson(
-              json['accessTokenOnly'] as Map<String, dynamic>)
-          : null,
-      identityTokenOnly: json['identityTokenOnly'] != null
-          ? OpenIdConnectIdentityTokenConfigurationDetail.fromJson(
-              json['identityTokenOnly'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accessTokenOnly = this.accessTokenOnly;
-    final identityTokenOnly = this.identityTokenOnly;
-    return {
-      if (accessTokenOnly != null) 'accessTokenOnly': accessTokenOnly,
-      if (identityTokenOnly != null) 'identityTokenOnly': identityTokenOnly,
-    };
-  }
-}
-
-/// The token type that you want to process from your OIDC identity provider.
-/// Your policy store can process either identity (ID) or access tokens from a
-/// given OIDC identity source.
-///
-/// This data type is part of a <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectConfigurationItem.html">OpenIdConnectConfigurationItem</a>
-/// structure, which is a parameter of <a
-/// href="http://amazonaws.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html">ListIdentitySources</a>.
-class OpenIdConnectTokenSelectionItem {
-  /// The OIDC configuration for processing access tokens. Contains allowed
-  /// audience claims, for example <code>https://auth.example.com</code>, and the
-  /// claim that you want to map to the principal, for example <code>sub</code>.
-  final OpenIdConnectAccessTokenConfigurationItem? accessTokenOnly;
-
-  /// The OIDC configuration for processing identity (ID) tokens. Contains allowed
-  /// client ID claims, for example <code>1example23456789</code>, and the claim
-  /// that you want to map to the principal, for example <code>sub</code>.
-  final OpenIdConnectIdentityTokenConfigurationItem? identityTokenOnly;
-
-  OpenIdConnectTokenSelectionItem({
-    this.accessTokenOnly,
-    this.identityTokenOnly,
-  });
-
-  factory OpenIdConnectTokenSelectionItem.fromJson(Map<String, dynamic> json) {
-    return OpenIdConnectTokenSelectionItem(
-      accessTokenOnly: json['accessTokenOnly'] != null
-          ? OpenIdConnectAccessTokenConfigurationItem.fromJson(
-              json['accessTokenOnly'] as Map<String, dynamic>)
-          : null,
-      identityTokenOnly: json['identityTokenOnly'] != null
-          ? OpenIdConnectIdentityTokenConfigurationItem.fromJson(
-              json['identityTokenOnly'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accessTokenOnly = this.accessTokenOnly;
-    final identityTokenOnly = this.identityTokenOnly;
-    return {
-      if (accessTokenOnly != null) 'accessTokenOnly': accessTokenOnly,
-      if (identityTokenOnly != null) 'identityTokenOnly': identityTokenOnly,
-    };
-  }
-}
-
-class OpenIdIssuer {
-  static const cognito = OpenIdIssuer._('COGNITO');
-
-  final String value;
-
-  const OpenIdIssuer._(this.value);
-
-  static const values = [cognito];
-
-  static OpenIdIssuer fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => OpenIdIssuer._(value));
-
-  @override
-  bool operator ==(other) => other is OpenIdIssuer && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A structure that contains the details for a Cedar policy definition. It
-/// includes the policy type, a description, and a policy body. This is a top
-/// level data type used to create a policy.
-///
-/// This data type is used as a request parameter for the <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreatePolicy.html">CreatePolicy</a>
-/// operation. This structure must always have either an <code>static</code> or
-/// a <code>templateLinked</code> element.
-class PolicyDefinition {
-  /// A structure that describes a static policy. An static policy doesn't use a
-  /// template or allow placeholders for entities.
-  final StaticPolicyDefinition? static;
-
-  /// A structure that describes a policy that was instantiated from a template.
-  /// The template can specify placeholders for <code>principal</code> and
-  /// <code>resource</code>. When you use <a
-  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreatePolicy.html">CreatePolicy</a>
-  /// to create a policy from a template, you specify the exact principal and
-  /// resource to use for the instantiated policy.
-  final TemplateLinkedPolicyDefinition? templateLinked;
-
-  PolicyDefinition({
-    this.static,
-    this.templateLinked,
-  });
-
-  Map<String, dynamic> toJson() {
-    final static = this.static;
-    final templateLinked = this.templateLinked;
-    return {
-      if (static != null) 'static': static,
-      if (templateLinked != null) 'templateLinked': templateLinked,
-    };
-  }
-}
-
-/// A structure that describes a policy definition. It must always have either
-/// an <code>static</code> or a <code>templateLinked</code> element.
-///
-/// This data type is used as a response parameter for the <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetPolicy.html">GetPolicy</a>
-/// operation.
-class PolicyDefinitionDetail {
-  /// Information about a static policy that wasn't created with a policy
-  /// template.
-  final StaticPolicyDefinitionDetail? static;
-
-  /// Information about a template-linked policy that was created by instantiating
-  /// a policy template.
-  final TemplateLinkedPolicyDefinitionDetail? templateLinked;
-
-  PolicyDefinitionDetail({
-    this.static,
-    this.templateLinked,
-  });
-
-  factory PolicyDefinitionDetail.fromJson(Map<String, dynamic> json) {
-    return PolicyDefinitionDetail(
-      static: json['static'] != null
-          ? StaticPolicyDefinitionDetail.fromJson(
-              json['static'] as Map<String, dynamic>)
-          : null,
-      templateLinked: json['templateLinked'] != null
-          ? TemplateLinkedPolicyDefinitionDetail.fromJson(
-              json['templateLinked'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final static = this.static;
-    final templateLinked = this.templateLinked;
-    return {
-      if (static != null) 'static': static,
-      if (templateLinked != null) 'templateLinked': templateLinked,
-    };
-  }
-}
-
-/// A structure that describes a <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_PolicyDefinintion.html">PolicyDefinintion</a>.
-/// It will always have either an <code>StaticPolicy</code> or a
-/// <code>TemplateLinkedPolicy</code> element.
-///
-/// This data type is used as a response parameter for the <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreatePolicy.html">CreatePolicy</a>
-/// and <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicies.html">ListPolicies</a>
-/// operations.
-class PolicyDefinitionItem {
-  /// Information about a static policy that wasn't created with a policy
-  /// template.
-  final StaticPolicyDefinitionItem? static;
-
-  /// Information about a template-linked policy that was created by instantiating
-  /// a policy template.
-  final TemplateLinkedPolicyDefinitionItem? templateLinked;
-
-  PolicyDefinitionItem({
-    this.static,
-    this.templateLinked,
-  });
-
-  factory PolicyDefinitionItem.fromJson(Map<String, dynamic> json) {
-    return PolicyDefinitionItem(
-      static: json['static'] != null
-          ? StaticPolicyDefinitionItem.fromJson(
-              json['static'] as Map<String, dynamic>)
-          : null,
-      templateLinked: json['templateLinked'] != null
-          ? TemplateLinkedPolicyDefinitionItem.fromJson(
-              json['templateLinked'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final static = this.static;
-    final templateLinked = this.templateLinked;
-    return {
-      if (static != null) 'static': static,
-      if (templateLinked != null) 'templateLinked': templateLinked,
-    };
-  }
-}
-
-class PolicyEffect {
-  static const permit = PolicyEffect._('Permit');
-  static const forbid = PolicyEffect._('Forbid');
-
-  final String value;
-
-  const PolicyEffect._(this.value);
-
-  static const values = [permit, forbid];
-
-  static PolicyEffect fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => PolicyEffect._(value));
-
-  @override
-  bool operator ==(other) => other is PolicyEffect && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains information about a filter to refine policies returned in a query.
-///
-/// This data type is used as a response parameter for the <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicies.html">ListPolicies</a>
-/// operation.
-class PolicyFilter {
-  /// Filters the output to only template-linked policies that were instantiated
-  /// from the specified policy template.
-  final String? policyTemplateId;
-
-  /// Filters the output to only policies of the specified type.
-  final PolicyType? policyType;
-
-  /// Filters the output to only policies that reference the specified principal.
-  final EntityReference? principal;
-
-  /// Filters the output to only policies that reference the specified resource.
-  final EntityReference? resource;
-
-  PolicyFilter({
-    this.policyTemplateId,
-    this.policyType,
-    this.principal,
-    this.resource,
-  });
-
-  Map<String, dynamic> toJson() {
-    final policyTemplateId = this.policyTemplateId;
-    final policyType = this.policyType;
-    final principal = this.principal;
-    final resource = this.resource;
-    return {
-      if (policyTemplateId != null) 'policyTemplateId': policyTemplateId,
-      if (policyType != null) 'policyType': policyType.value,
-      if (principal != null) 'principal': principal,
-      if (resource != null) 'resource': resource,
-    };
-  }
-}
-
-/// Contains information about a policy.
-///
-/// This data type is used as a response parameter for the <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicies.html">ListPolicies</a>
-/// operation.
-class PolicyItem {
-  /// The date and time the policy was created.
-  final DateTime createdDate;
-
-  /// The policy definition of an item in the list of policies returned.
-  final PolicyDefinitionItem definition;
-
-  /// The date and time the policy was most recently updated.
-  final DateTime lastUpdatedDate;
-
-  /// The identifier of the policy you want information about.
-  final String policyId;
-
-  /// The identifier of the PolicyStore where the policy you want information
-  /// about is stored.
-  final String policyStoreId;
-
-  /// The type of the policy. This is one of the following values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>static</code>
-  /// </li>
-  /// <li>
-  /// <code>templateLinked</code>
-  /// </li>
-  /// </ul>
-  final PolicyType policyType;
-
-  /// The action that a policy permits or forbids. For example, <code>{"actions":
-  /// [{"actionId": "ViewPhoto", "actionType": "PhotoFlash::Action"}, {"entityID":
-  /// "SharePhoto", "entityType": "PhotoFlash::Action"}]}</code>.
-  final List<ActionIdentifier>? actions;
-
-  /// The effect of the decision that a policy returns to an authorization
-  /// request. For example, <code>"effect": "Permit"</code>.
-  final PolicyEffect? effect;
-
-  /// The principal associated with the policy.
-  final EntityIdentifier? principal;
-
-  /// The resource associated with the policy.
-  final EntityIdentifier? resource;
-
-  PolicyItem({
-    required this.createdDate,
-    required this.definition,
-    required this.lastUpdatedDate,
-    required this.policyId,
-    required this.policyStoreId,
-    required this.policyType,
-    this.actions,
-    this.effect,
-    this.principal,
-    this.resource,
-  });
-
-  factory PolicyItem.fromJson(Map<String, dynamic> json) {
-    return PolicyItem(
-      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
-      definition: PolicyDefinitionItem.fromJson(
-          (json['definition'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      lastUpdatedDate:
-          nonNullableTimeStampFromJson(json['lastUpdatedDate'] ?? 0),
-      policyId: (json['policyId'] as String?) ?? '',
-      policyStoreId: (json['policyStoreId'] as String?) ?? '',
-      policyType: PolicyType.fromString((json['policyType'] as String?) ?? ''),
-      actions: (json['actions'] as List?)
-          ?.nonNulls
-          .map((e) => ActionIdentifier.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      effect: (json['effect'] as String?)?.let(PolicyEffect.fromString),
-      principal: json['principal'] != null
-          ? EntityIdentifier.fromJson(json['principal'] as Map<String, dynamic>)
-          : null,
-      resource: json['resource'] != null
-          ? EntityIdentifier.fromJson(json['resource'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdDate = this.createdDate;
-    final definition = this.definition;
-    final lastUpdatedDate = this.lastUpdatedDate;
-    final policyId = this.policyId;
-    final policyStoreId = this.policyStoreId;
-    final policyType = this.policyType;
-    final actions = this.actions;
-    final effect = this.effect;
-    final principal = this.principal;
-    final resource = this.resource;
-    return {
-      'createdDate': iso8601ToJson(createdDate),
-      'definition': definition,
-      'lastUpdatedDate': iso8601ToJson(lastUpdatedDate),
-      'policyId': policyId,
-      'policyStoreId': policyStoreId,
-      'policyType': policyType.value,
-      if (actions != null) 'actions': actions,
-      if (effect != null) 'effect': effect.value,
-      if (principal != null) 'principal': principal,
-      if (resource != null) 'resource': resource,
-    };
-  }
-}
-
-/// Contains information about a policy store.
-///
-/// This data type is used as a response parameter for the <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStores.html">ListPolicyStores</a>
-/// operation.
-class PolicyStoreItem {
-  /// The Amazon Resource Name (ARN) of the policy store.
-  final String arn;
-
-  /// The date and time the policy was created.
-  final DateTime createdDate;
-
-  /// The unique identifier of the policy store.
-  final String policyStoreId;
-
-  /// Descriptive text that you can provide to help with identification of the
-  /// current policy store.
-  final String? description;
-
-  /// The date and time the policy store was most recently updated.
-  final DateTime? lastUpdatedDate;
-
-  PolicyStoreItem({
-    required this.arn,
-    required this.createdDate,
-    required this.policyStoreId,
-    this.description,
-    this.lastUpdatedDate,
-  });
-
-  factory PolicyStoreItem.fromJson(Map<String, dynamic> json) {
-    return PolicyStoreItem(
-      arn: (json['arn'] as String?) ?? '',
-      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
-      policyStoreId: (json['policyStoreId'] as String?) ?? '',
-      description: json['description'] as String?,
-      lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final createdDate = this.createdDate;
-    final policyStoreId = this.policyStoreId;
-    final description = this.description;
-    final lastUpdatedDate = this.lastUpdatedDate;
-    return {
-      'arn': arn,
-      'createdDate': iso8601ToJson(createdDate),
-      'policyStoreId': policyStoreId,
-      if (description != null) 'description': description,
-      if (lastUpdatedDate != null)
-        'lastUpdatedDate': iso8601ToJson(lastUpdatedDate),
-    };
-  }
-}
-
-/// Contains details about a policy template
-///
-/// This data type is used as a response parameter for the <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyTemplates.html">ListPolicyTemplates</a>
-/// operation.
-class PolicyTemplateItem {
-  /// The date and time that the policy template was created.
-  final DateTime createdDate;
-
-  /// The date and time that the policy template was most recently updated.
-  final DateTime lastUpdatedDate;
-
-  /// The unique identifier of the policy store that contains the template.
-  final String policyStoreId;
-
-  /// The unique identifier of the policy template.
-  final String policyTemplateId;
-
-  /// The description attached to the policy template.
-  final String? description;
-
-  PolicyTemplateItem({
-    required this.createdDate,
-    required this.lastUpdatedDate,
-    required this.policyStoreId,
-    required this.policyTemplateId,
-    this.description,
-  });
-
-  factory PolicyTemplateItem.fromJson(Map<String, dynamic> json) {
-    return PolicyTemplateItem(
-      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
-      lastUpdatedDate:
-          nonNullableTimeStampFromJson(json['lastUpdatedDate'] ?? 0),
-      policyStoreId: (json['policyStoreId'] as String?) ?? '',
-      policyTemplateId: (json['policyTemplateId'] as String?) ?? '',
-      description: json['description'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdDate = this.createdDate;
-    final lastUpdatedDate = this.lastUpdatedDate;
-    final policyStoreId = this.policyStoreId;
-    final policyTemplateId = this.policyTemplateId;
-    final description = this.description;
-    return {
-      'createdDate': iso8601ToJson(createdDate),
-      'lastUpdatedDate': iso8601ToJson(lastUpdatedDate),
-      'policyStoreId': policyStoreId,
-      'policyTemplateId': policyTemplateId,
-      if (description != null) 'description': description,
-    };
-  }
-}
-
-class PolicyType {
-  static const static = PolicyType._('STATIC');
-  static const templateLinked = PolicyType._('TEMPLATE_LINKED');
-
-  final String value;
-
-  const PolicyType._(this.value);
-
-  static const values = [static, templateLinked];
-
-  static PolicyType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => PolicyType._(value));
-
-  @override
-  bool operator ==(other) => other is PolicyType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class PutSchemaOutput {
   /// The date and time that the schema was originally created.
   final DateTime createdDate;
@@ -5306,339 +3162,157 @@ class PutSchemaOutput {
   }
 }
 
-/// Contains a list of principal types, resource types, and actions that can be
-/// specified in policies stored in the same policy store. If the validation
-/// mode for the policy store is set to <code>STRICT</code>, then policies that
-/// can't be validated by this schema are rejected by Verified Permissions and
-/// can't be stored in the policy store.
-class SchemaDefinition {
-  /// A JSON string representation of the schema supported by applications that
-  /// use this policy store. For more information, see <a
-  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/userguide/schema.html">Policy
-  /// store schema</a> in the <i>Amazon Verified Permissions User Guide</i>.
-  final String? cedarJson;
+class BatchGetPolicyOutput {
+  /// Information about the policies from the request that resulted in an error.
+  /// These results are returned in the order they were requested.
+  final List<BatchGetPolicyErrorItem> errors;
 
-  SchemaDefinition({
-    this.cedarJson,
+  /// Information about the policies listed in the request that were successfully
+  /// returned. These results are returned in the order they were requested.
+  final List<BatchGetPolicyOutputItem> results;
+
+  BatchGetPolicyOutput({
+    required this.errors,
+    required this.results,
   });
 
-  Map<String, dynamic> toJson() {
-    final cedarJson = this.cedarJson;
-    return {
-      if (cedarJson != null) 'cedarJson': cedarJson,
-    };
-  }
-}
-
-/// Contains information about a static policy.
-///
-/// This data type is used as a field that is part of the <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_PolicyDefinitionDetail.html">PolicyDefinitionDetail</a>
-/// type.
-class StaticPolicyDefinition {
-  /// The policy content of the static policy, written in the Cedar policy
-  /// language.
-  final String statement;
-
-  /// The description of the static policy.
-  final String? description;
-
-  StaticPolicyDefinition({
-    required this.statement,
-    this.description,
-  });
-
-  Map<String, dynamic> toJson() {
-    final statement = this.statement;
-    final description = this.description;
-    return {
-      'statement': statement,
-      if (description != null) 'description': description,
-    };
-  }
-}
-
-/// A structure that contains details about a static policy. It includes the
-/// description and policy body.
-///
-/// This data type is used within a <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_PolicyDefinition.html">PolicyDefinition</a>
-/// structure as part of a request parameter for the <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreatePolicy.html">CreatePolicy</a>
-/// operation.
-class StaticPolicyDefinitionDetail {
-  /// The content of the static policy written in the Cedar policy language.
-  final String statement;
-
-  /// A description of the static policy.
-  final String? description;
-
-  StaticPolicyDefinitionDetail({
-    required this.statement,
-    this.description,
-  });
-
-  factory StaticPolicyDefinitionDetail.fromJson(Map<String, dynamic> json) {
-    return StaticPolicyDefinitionDetail(
-      statement: (json['statement'] as String?) ?? '',
-      description: json['description'] as String?,
+  factory BatchGetPolicyOutput.fromJson(Map<String, dynamic> json) {
+    return BatchGetPolicyOutput(
+      errors: ((json['errors'] as List?) ?? const [])
+          .nonNulls
+          .map((e) =>
+              BatchGetPolicyErrorItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      results: ((json['results'] as List?) ?? const [])
+          .nonNulls
+          .map((e) =>
+              BatchGetPolicyOutputItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final statement = this.statement;
-    final description = this.description;
+    final errors = this.errors;
+    final results = this.results;
     return {
-      'statement': statement,
-      if (description != null) 'description': description,
+      'errors': errors,
+      'results': results,
     };
   }
 }
 
-/// A structure that contains details about a static policy. It includes the
-/// description and policy statement.
-///
-/// This data type is used within a <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_PolicyDefinition.html">PolicyDefinition</a>
-/// structure as part of a request parameter for the <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreatePolicy.html">CreatePolicy</a>
-/// operation.
-class StaticPolicyDefinitionItem {
-  /// A description of the static policy.
-  final String? description;
+class CreateIdentitySourceOutput {
+  /// The date and time the identity source was originally created.
+  final DateTime createdDate;
 
-  StaticPolicyDefinitionItem({
-    this.description,
+  /// The unique ID of the new identity source.
+  final String identitySourceId;
+
+  /// The date and time the identity source was most recently updated.
+  final DateTime lastUpdatedDate;
+
+  /// The ID of the policy store that contains the identity source.
+  final String policyStoreId;
+
+  CreateIdentitySourceOutput({
+    required this.createdDate,
+    required this.identitySourceId,
+    required this.lastUpdatedDate,
+    required this.policyStoreId,
   });
 
-  factory StaticPolicyDefinitionItem.fromJson(Map<String, dynamic> json) {
-    return StaticPolicyDefinitionItem(
-      description: json['description'] as String?,
+  factory CreateIdentitySourceOutput.fromJson(Map<String, dynamic> json) {
+    return CreateIdentitySourceOutput(
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
+      identitySourceId: (json['identitySourceId'] as String?) ?? '',
+      lastUpdatedDate:
+          nonNullableTimeStampFromJson(json['lastUpdatedDate'] ?? 0),
+      policyStoreId: (json['policyStoreId'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    final description = this.description;
+    final createdDate = this.createdDate;
+    final identitySourceId = this.identitySourceId;
+    final lastUpdatedDate = this.lastUpdatedDate;
+    final policyStoreId = this.policyStoreId;
     return {
-      if (description != null) 'description': description,
+      'createdDate': iso8601ToJson(createdDate),
+      'identitySourceId': identitySourceId,
+      'lastUpdatedDate': iso8601ToJson(lastUpdatedDate),
+      'policyStoreId': policyStoreId,
     };
   }
 }
 
-/// Contains information about a policy created by instantiating a policy
-/// template.
-class TemplateLinkedPolicyDefinition {
-  /// The unique identifier of the policy template used to create this policy.
-  final String policyTemplateId;
+class GetIdentitySourceOutput {
+  /// The date and time that the identity source was originally created.
+  final DateTime createdDate;
 
-  /// The principal associated with this template-linked policy. Verified
-  /// Permissions substitutes this principal for the <code>?principal</code>
-  /// placeholder in the policy template when it evaluates an authorization
-  /// request.
-  final EntityIdentifier? principal;
+  /// The ID of the identity source.
+  final String identitySourceId;
 
-  /// The resource associated with this template-linked policy. Verified
-  /// Permissions substitutes this resource for the <code>?resource</code>
-  /// placeholder in the policy template when it evaluates an authorization
-  /// request.
-  final EntityIdentifier? resource;
+  /// The date and time that the identity source was most recently updated.
+  final DateTime lastUpdatedDate;
 
-  TemplateLinkedPolicyDefinition({
-    required this.policyTemplateId,
-    this.principal,
-    this.resource,
-  });
+  /// The ID of the policy store that contains the identity source.
+  final String policyStoreId;
 
-  Map<String, dynamic> toJson() {
-    final policyTemplateId = this.policyTemplateId;
-    final principal = this.principal;
-    final resource = this.resource;
-    return {
-      'policyTemplateId': policyTemplateId,
-      if (principal != null) 'principal': principal,
-      if (resource != null) 'resource': resource,
-    };
-  }
-}
-
-/// Contains information about a policy that was created by instantiating a
-/// policy template.
-class TemplateLinkedPolicyDefinitionDetail {
-  /// The unique identifier of the policy template used to create this policy.
-  final String policyTemplateId;
-
-  /// The principal associated with this template-linked policy. Verified
-  /// Permissions substitutes this principal for the <code>?principal</code>
-  /// placeholder in the policy template when it evaluates an authorization
-  /// request.
-  final EntityIdentifier? principal;
-
-  /// The resource associated with this template-linked policy. Verified
-  /// Permissions substitutes this resource for the <code>?resource</code>
-  /// placeholder in the policy template when it evaluates an authorization
-  /// request.
-  final EntityIdentifier? resource;
-
-  TemplateLinkedPolicyDefinitionDetail({
-    required this.policyTemplateId,
-    this.principal,
-    this.resource,
-  });
-
-  factory TemplateLinkedPolicyDefinitionDetail.fromJson(
-      Map<String, dynamic> json) {
-    return TemplateLinkedPolicyDefinitionDetail(
-      policyTemplateId: (json['policyTemplateId'] as String?) ?? '',
-      principal: json['principal'] != null
-          ? EntityIdentifier.fromJson(json['principal'] as Map<String, dynamic>)
-          : null,
-      resource: json['resource'] != null
-          ? EntityIdentifier.fromJson(json['resource'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final policyTemplateId = this.policyTemplateId;
-    final principal = this.principal;
-    final resource = this.resource;
-    return {
-      'policyTemplateId': policyTemplateId,
-      if (principal != null) 'principal': principal,
-      if (resource != null) 'resource': resource,
-    };
-  }
-}
-
-/// Contains information about a policy created by instantiating a policy
-/// template.
-///
-/// This
-class TemplateLinkedPolicyDefinitionItem {
-  /// The unique identifier of the policy template used to create this policy.
-  final String policyTemplateId;
-
-  /// The principal associated with this template-linked policy. Verified
-  /// Permissions substitutes this principal for the <code>?principal</code>
-  /// placeholder in the policy template when it evaluates an authorization
-  /// request.
-  final EntityIdentifier? principal;
-
-  /// The resource associated with this template-linked policy. Verified
-  /// Permissions substitutes this resource for the <code>?resource</code>
-  /// placeholder in the policy template when it evaluates an authorization
-  /// request.
-  final EntityIdentifier? resource;
-
-  TemplateLinkedPolicyDefinitionItem({
-    required this.policyTemplateId,
-    this.principal,
-    this.resource,
-  });
-
-  factory TemplateLinkedPolicyDefinitionItem.fromJson(
-      Map<String, dynamic> json) {
-    return TemplateLinkedPolicyDefinitionItem(
-      policyTemplateId: (json['policyTemplateId'] as String?) ?? '',
-      principal: json['principal'] != null
-          ? EntityIdentifier.fromJson(json['principal'] as Map<String, dynamic>)
-          : null,
-      resource: json['resource'] != null
-          ? EntityIdentifier.fromJson(json['resource'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final policyTemplateId = this.policyTemplateId;
-    final principal = this.principal;
-    final resource = this.resource;
-    return {
-      'policyTemplateId': policyTemplateId,
-      if (principal != null) 'principal': principal,
-      if (resource != null) 'resource': resource,
-    };
-  }
-}
-
-/// The user group entities from an Amazon Cognito user pool identity source.
-class UpdateCognitoGroupConfiguration {
-  /// The name of the schema entity type that's mapped to the user pool group.
-  /// Defaults to <code>AWS::CognitoGroup</code>.
-  final String groupEntityType;
-
-  UpdateCognitoGroupConfiguration({
-    required this.groupEntityType,
-  });
-
-  Map<String, dynamic> toJson() {
-    final groupEntityType = this.groupEntityType;
-    return {
-      'groupEntityType': groupEntityType,
-    };
-  }
-}
-
-/// Contains configuration details of a Amazon Cognito user pool for use with an
-/// identity source.
-class UpdateCognitoUserPoolConfiguration {
-  /// The <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Name (ARN)</a> of the Amazon Cognito user pool associated with this
+  /// The data type of principals generated for identities authenticated by this
   /// identity source.
-  final String userPoolArn;
+  final String principalEntityType;
 
-  /// The client ID of an app client that is configured for the specified Amazon
-  /// Cognito user pool.
-  final List<String>? clientIds;
+  /// Contains configuration information about an identity source.
+  final ConfigurationDetail? configuration;
 
-  /// The configuration of the user groups from an Amazon Cognito user pool
-  /// identity source.
-  final UpdateCognitoGroupConfiguration? groupConfiguration;
+  /// A structure that describes the configuration of the identity source.
+  final IdentitySourceDetails? details;
 
-  UpdateCognitoUserPoolConfiguration({
-    required this.userPoolArn,
-    this.clientIds,
-    this.groupConfiguration,
+  GetIdentitySourceOutput({
+    required this.createdDate,
+    required this.identitySourceId,
+    required this.lastUpdatedDate,
+    required this.policyStoreId,
+    required this.principalEntityType,
+    this.configuration,
+    this.details,
   });
 
-  Map<String, dynamic> toJson() {
-    final userPoolArn = this.userPoolArn;
-    final clientIds = this.clientIds;
-    final groupConfiguration = this.groupConfiguration;
-    return {
-      'userPoolArn': userPoolArn,
-      if (clientIds != null) 'clientIds': clientIds,
-      if (groupConfiguration != null) 'groupConfiguration': groupConfiguration,
-    };
+  factory GetIdentitySourceOutput.fromJson(Map<String, dynamic> json) {
+    return GetIdentitySourceOutput(
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
+      identitySourceId: (json['identitySourceId'] as String?) ?? '',
+      lastUpdatedDate:
+          nonNullableTimeStampFromJson(json['lastUpdatedDate'] ?? 0),
+      policyStoreId: (json['policyStoreId'] as String?) ?? '',
+      principalEntityType: (json['principalEntityType'] as String?) ?? '',
+      configuration: json['configuration'] != null
+          ? ConfigurationDetail.fromJson(
+              json['configuration'] as Map<String, dynamic>)
+          : null,
+      details: json['details'] != null
+          ? IdentitySourceDetails.fromJson(
+              json['details'] as Map<String, dynamic>)
+          : null,
+    );
   }
-}
-
-/// Contains an update to replace the configuration in an existing identity
-/// source.
-class UpdateConfiguration {
-  /// Contains configuration details of a Amazon Cognito user pool.
-  final UpdateCognitoUserPoolConfiguration? cognitoUserPoolConfiguration;
-
-  /// Contains configuration details of an OpenID Connect (OIDC) identity
-  /// provider, or identity source, that Verified Permissions can use to generate
-  /// entities from authenticated identities. It specifies the issuer URL, token
-  /// type that you want to use, and policy store entity details.
-  final UpdateOpenIdConnectConfiguration? openIdConnectConfiguration;
-
-  UpdateConfiguration({
-    this.cognitoUserPoolConfiguration,
-    this.openIdConnectConfiguration,
-  });
 
   Map<String, dynamic> toJson() {
-    final cognitoUserPoolConfiguration = this.cognitoUserPoolConfiguration;
-    final openIdConnectConfiguration = this.openIdConnectConfiguration;
+    final createdDate = this.createdDate;
+    final identitySourceId = this.identitySourceId;
+    final lastUpdatedDate = this.lastUpdatedDate;
+    final policyStoreId = this.policyStoreId;
+    final principalEntityType = this.principalEntityType;
+    final configuration = this.configuration;
+    final details = this.details;
     return {
-      if (cognitoUserPoolConfiguration != null)
-        'cognitoUserPoolConfiguration': cognitoUserPoolConfiguration,
-      if (openIdConnectConfiguration != null)
-        'openIdConnectConfiguration': openIdConnectConfiguration,
+      'createdDate': iso8601ToJson(createdDate),
+      'identitySourceId': identitySourceId,
+      'lastUpdatedDate': iso8601ToJson(lastUpdatedDate),
+      'policyStoreId': policyStoreId,
+      'principalEntityType': principalEntityType,
+      if (configuration != null) 'configuration': configuration,
+      if (details != null) 'details': details,
     };
   }
 }
@@ -5687,212 +3361,254 @@ class UpdateIdentitySourceOutput {
   }
 }
 
-/// The configuration of an OpenID Connect (OIDC) identity source for handling
-/// access token claims. Contains the claim that you want to identify as the
-/// principal in an authorization request, and the values of the
-/// <code>aud</code> claim, or audiences, that you want to accept.
-///
-/// This data type is part of a <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateOpenIdConnectTokenSelection.html">UpdateOpenIdConnectTokenSelection</a>
-/// structure, which is a parameter to <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateIdentitySource.html">UpdateIdentitySource</a>.
-class UpdateOpenIdConnectAccessTokenConfiguration {
-  /// The access token <code>aud</code> claim values that you want to accept in
-  /// your policy store. For example, <code>https://myapp.example.com,
-  /// https://myapp2.example.com</code>.
-  final List<String>? audiences;
+class DeleteIdentitySourceOutput {
+  DeleteIdentitySourceOutput();
 
-  /// The claim that determines the principal in OIDC access tokens. For example,
-  /// <code>sub</code>.
-  final String? principalIdClaim;
-
-  UpdateOpenIdConnectAccessTokenConfiguration({
-    this.audiences,
-    this.principalIdClaim,
-  });
+  factory DeleteIdentitySourceOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteIdentitySourceOutput();
+  }
 
   Map<String, dynamic> toJson() {
-    final audiences = this.audiences;
-    final principalIdClaim = this.principalIdClaim;
+    return {};
+  }
+}
+
+class ListIdentitySourcesOutput {
+  /// The list of identity sources stored in the specified policy store.
+  final List<IdentitySourceItem> identitySources;
+
+  /// If present, this value indicates that more output is available than is
+  /// included in the current response. Use this value in the
+  /// <code>NextToken</code> request parameter in a subsequent call to the
+  /// operation to get the next part of the output. You should repeat this until
+  /// the <code>NextToken</code> response element comes back as <code>null</code>.
+  /// This indicates that this is the last page of results.
+  final String? nextToken;
+
+  ListIdentitySourcesOutput({
+    required this.identitySources,
+    this.nextToken,
+  });
+
+  factory ListIdentitySourcesOutput.fromJson(Map<String, dynamic> json) {
+    return ListIdentitySourcesOutput(
+      identitySources: ((json['identitySources'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => IdentitySourceItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final identitySources = this.identitySources;
+    final nextToken = this.nextToken;
     return {
-      if (audiences != null) 'audiences': audiences,
-      if (principalIdClaim != null) 'principalIdClaim': principalIdClaim,
+      'identitySources': identitySources,
+      if (nextToken != null) 'nextToken': nextToken,
     };
   }
 }
 
-/// Contains configuration details of an OpenID Connect (OIDC) identity
-/// provider, or identity source, that Verified Permissions can use to generate
-/// entities from authenticated identities. It specifies the issuer URL, token
-/// type that you want to use, and policy store entity details.
-///
-/// This data type is part of a <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateConfiguration.html">UpdateConfiguration</a>
-/// structure, which is a parameter to <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateIdentitySource.html">UpdateIdentitySource</a>.
-class UpdateOpenIdConnectConfiguration {
-  /// The issuer URL of an OIDC identity provider. This URL must have an OIDC
-  /// discovery endpoint at the path
-  /// <code>.well-known/openid-configuration</code>.
-  final String issuer;
+class CreatePolicyOutput {
+  /// The date and time the policy was originally created.
+  final DateTime createdDate;
 
-  /// The token type that you want to process from your OIDC identity provider.
-  /// Your policy store can process either identity (ID) or access tokens from a
-  /// given OIDC identity source.
-  final UpdateOpenIdConnectTokenSelection tokenSelection;
+  /// The date and time the policy was last updated.
+  final DateTime lastUpdatedDate;
 
-  /// A descriptive string that you want to prefix to user entities from your OIDC
-  /// identity provider. For example, if you set an <code>entityIdPrefix</code> of
-  /// <code>MyOIDCProvider</code>, you can reference principals in your policies
-  /// in the format <code>MyCorp::User::MyOIDCProvider|Carlos</code>.
-  final String? entityIdPrefix;
+  /// The unique ID of the new policy.
+  final String policyId;
 
-  /// The claim in OIDC identity provider tokens that indicates a user's group
-  /// membership, and the entity type that you want to map it to. For example,
-  /// this object can map the contents of a <code>groups</code> claim to
-  /// <code>MyCorp::UserGroup</code>.
-  final UpdateOpenIdConnectGroupConfiguration? groupConfiguration;
+  /// The ID of the policy store that contains the new policy.
+  final String policyStoreId;
 
-  UpdateOpenIdConnectConfiguration({
-    required this.issuer,
-    required this.tokenSelection,
-    this.entityIdPrefix,
-    this.groupConfiguration,
+  /// The policy type of the new policy.
+  final PolicyType policyType;
+
+  /// The action that a policy permits or forbids. For example, <code>{"actions":
+  /// [{"actionId": "ViewPhoto", "actionType": "PhotoFlash::Action"}, {"entityID":
+  /// "SharePhoto", "entityType": "PhotoFlash::Action"}]}</code>.
+  final List<ActionIdentifier>? actions;
+
+  /// The effect of the decision that a policy returns to an authorization
+  /// request. For example, <code>"effect": "Permit"</code>.
+  final PolicyEffect? effect;
+
+  /// The principal specified in the new policy's scope. This response element
+  /// isn't present when <code>principal</code> isn't specified in the policy
+  /// content.
+  final EntityIdentifier? principal;
+
+  /// The resource specified in the new policy's scope. This response element
+  /// isn't present when the <code>resource</code> isn't specified in the policy
+  /// content.
+  final EntityIdentifier? resource;
+
+  CreatePolicyOutput({
+    required this.createdDate,
+    required this.lastUpdatedDate,
+    required this.policyId,
+    required this.policyStoreId,
+    required this.policyType,
+    this.actions,
+    this.effect,
+    this.principal,
+    this.resource,
   });
 
+  factory CreatePolicyOutput.fromJson(Map<String, dynamic> json) {
+    return CreatePolicyOutput(
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
+      lastUpdatedDate:
+          nonNullableTimeStampFromJson(json['lastUpdatedDate'] ?? 0),
+      policyId: (json['policyId'] as String?) ?? '',
+      policyStoreId: (json['policyStoreId'] as String?) ?? '',
+      policyType: PolicyType.fromString((json['policyType'] as String?) ?? ''),
+      actions: (json['actions'] as List?)
+          ?.nonNulls
+          .map((e) => ActionIdentifier.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      effect: (json['effect'] as String?)?.let(PolicyEffect.fromString),
+      principal: json['principal'] != null
+          ? EntityIdentifier.fromJson(json['principal'] as Map<String, dynamic>)
+          : null,
+      resource: json['resource'] != null
+          ? EntityIdentifier.fromJson(json['resource'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   Map<String, dynamic> toJson() {
-    final issuer = this.issuer;
-    final tokenSelection = this.tokenSelection;
-    final entityIdPrefix = this.entityIdPrefix;
-    final groupConfiguration = this.groupConfiguration;
+    final createdDate = this.createdDate;
+    final lastUpdatedDate = this.lastUpdatedDate;
+    final policyId = this.policyId;
+    final policyStoreId = this.policyStoreId;
+    final policyType = this.policyType;
+    final actions = this.actions;
+    final effect = this.effect;
+    final principal = this.principal;
+    final resource = this.resource;
     return {
-      'issuer': issuer,
-      'tokenSelection': tokenSelection,
-      if (entityIdPrefix != null) 'entityIdPrefix': entityIdPrefix,
-      if (groupConfiguration != null) 'groupConfiguration': groupConfiguration,
+      'createdDate': iso8601ToJson(createdDate),
+      'lastUpdatedDate': iso8601ToJson(lastUpdatedDate),
+      'policyId': policyId,
+      'policyStoreId': policyStoreId,
+      'policyType': policyType.value,
+      if (actions != null) 'actions': actions,
+      if (effect != null) 'effect': effect.value,
+      if (principal != null) 'principal': principal,
+      if (resource != null) 'resource': resource,
     };
   }
 }
 
-/// The claim in OIDC identity provider tokens that indicates a user's group
-/// membership, and the entity type that you want to map it to. For example,
-/// this object can map the contents of a <code>groups</code> claim to
-/// <code>MyCorp::UserGroup</code>.
-///
-/// This data type is part of a <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateOpenIdConnectConfiguration.html">UpdateOpenIdConnectConfiguration</a>
-/// structure, which is a parameter to <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateIdentitySource.html">UpdateIdentitySource</a>.
-class UpdateOpenIdConnectGroupConfiguration {
-  /// The token claim that you want Verified Permissions to interpret as group
-  /// membership. For example, <code>groups</code>.
-  final String groupClaim;
+class GetPolicyOutput {
+  /// The date and time that the policy was originally created.
+  final DateTime createdDate;
 
-  /// The policy store entity type that you want to map your users' group claim
-  /// to. For example, <code>MyCorp::UserGroup</code>. A group entity type is an
-  /// entity that can have a user entity type as a member.
-  final String groupEntityType;
+  /// The definition of the requested policy.
+  final PolicyDefinitionDetail definition;
 
-  UpdateOpenIdConnectGroupConfiguration({
-    required this.groupClaim,
-    required this.groupEntityType,
+  /// The date and time that the policy was last updated.
+  final DateTime lastUpdatedDate;
+
+  /// The unique ID of the policy that you want information about.
+  final String policyId;
+
+  /// The ID of the policy store that contains the policy that you want
+  /// information about.
+  final String policyStoreId;
+
+  /// The type of the policy.
+  final PolicyType policyType;
+
+  /// The action that a policy permits or forbids. For example, <code>{"actions":
+  /// [{"actionId": "ViewPhoto", "actionType": "PhotoFlash::Action"}, {"entityID":
+  /// "SharePhoto", "entityType": "PhotoFlash::Action"}]}</code>.
+  final List<ActionIdentifier>? actions;
+
+  /// The effect of the decision that a policy returns to an authorization
+  /// request. For example, <code>"effect": "Permit"</code>.
+  final PolicyEffect? effect;
+
+  /// The name of the policy, if one was assigned when the policy was created or
+  /// last updated.
+  final String? name;
+
+  /// The principal specified in the policy's scope. This element isn't included
+  /// in the response when <code>Principal</code> isn't present in the policy
+  /// content.
+  final EntityIdentifier? principal;
+
+  /// The resource specified in the policy's scope. This element isn't included in
+  /// the response when <code>Resource</code> isn't present in the policy content.
+  final EntityIdentifier? resource;
+
+  GetPolicyOutput({
+    required this.createdDate,
+    required this.definition,
+    required this.lastUpdatedDate,
+    required this.policyId,
+    required this.policyStoreId,
+    required this.policyType,
+    this.actions,
+    this.effect,
+    this.name,
+    this.principal,
+    this.resource,
   });
 
-  Map<String, dynamic> toJson() {
-    final groupClaim = this.groupClaim;
-    final groupEntityType = this.groupEntityType;
-    return {
-      'groupClaim': groupClaim,
-      'groupEntityType': groupEntityType,
-    };
+  factory GetPolicyOutput.fromJson(Map<String, dynamic> json) {
+    return GetPolicyOutput(
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
+      definition: PolicyDefinitionDetail.fromJson(
+          (json['definition'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      lastUpdatedDate:
+          nonNullableTimeStampFromJson(json['lastUpdatedDate'] ?? 0),
+      policyId: (json['policyId'] as String?) ?? '',
+      policyStoreId: (json['policyStoreId'] as String?) ?? '',
+      policyType: PolicyType.fromString((json['policyType'] as String?) ?? ''),
+      actions: (json['actions'] as List?)
+          ?.nonNulls
+          .map((e) => ActionIdentifier.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      effect: (json['effect'] as String?)?.let(PolicyEffect.fromString),
+      name: json['name'] as String?,
+      principal: json['principal'] != null
+          ? EntityIdentifier.fromJson(json['principal'] as Map<String, dynamic>)
+          : null,
+      resource: json['resource'] != null
+          ? EntityIdentifier.fromJson(json['resource'] as Map<String, dynamic>)
+          : null,
+    );
   }
-}
-
-/// The configuration of an OpenID Connect (OIDC) identity source for handling
-/// identity (ID) token claims. Contains the claim that you want to identify as
-/// the principal in an authorization request, and the values of the
-/// <code>aud</code> claim, or audiences, that you want to accept.
-///
-/// This data type is part of a <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateOpenIdConnectTokenSelection.html">UpdateOpenIdConnectTokenSelection</a>
-/// structure, which is a parameter to <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateIdentitySource.html">UpdateIdentitySource</a>.
-class UpdateOpenIdConnectIdentityTokenConfiguration {
-  /// The ID token audience, or client ID, claim values that you want to accept in
-  /// your policy store from an OIDC identity provider. For example,
-  /// <code>1example23456789, 2example10111213</code>.
-  final List<String>? clientIds;
-
-  /// The claim that determines the principal in OIDC access tokens. For example,
-  /// <code>sub</code>.
-  final String? principalIdClaim;
-
-  UpdateOpenIdConnectIdentityTokenConfiguration({
-    this.clientIds,
-    this.principalIdClaim,
-  });
 
   Map<String, dynamic> toJson() {
-    final clientIds = this.clientIds;
-    final principalIdClaim = this.principalIdClaim;
+    final createdDate = this.createdDate;
+    final definition = this.definition;
+    final lastUpdatedDate = this.lastUpdatedDate;
+    final policyId = this.policyId;
+    final policyStoreId = this.policyStoreId;
+    final policyType = this.policyType;
+    final actions = this.actions;
+    final effect = this.effect;
+    final name = this.name;
+    final principal = this.principal;
+    final resource = this.resource;
     return {
-      if (clientIds != null) 'clientIds': clientIds,
-      if (principalIdClaim != null) 'principalIdClaim': principalIdClaim,
-    };
-  }
-}
-
-/// The token type that you want to process from your OIDC identity provider.
-/// Your policy store can process either identity (ID) or access tokens from a
-/// given OIDC identity source.
-///
-/// This data type is part of a <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateOpenIdConnectConfiguration.html">UpdateOpenIdConnectConfiguration</a>
-/// structure, which is a parameter to <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateIdentitySource.html">UpdateIdentitySource</a>.
-class UpdateOpenIdConnectTokenSelection {
-  /// The OIDC configuration for processing access tokens. Contains allowed
-  /// audience claims, for example <code>https://auth.example.com</code>, and the
-  /// claim that you want to map to the principal, for example <code>sub</code>.
-  final UpdateOpenIdConnectAccessTokenConfiguration? accessTokenOnly;
-
-  /// The OIDC configuration for processing identity (ID) tokens. Contains allowed
-  /// client ID claims, for example <code>1example23456789</code>, and the claim
-  /// that you want to map to the principal, for example <code>sub</code>.
-  final UpdateOpenIdConnectIdentityTokenConfiguration? identityTokenOnly;
-
-  UpdateOpenIdConnectTokenSelection({
-    this.accessTokenOnly,
-    this.identityTokenOnly,
-  });
-
-  Map<String, dynamic> toJson() {
-    final accessTokenOnly = this.accessTokenOnly;
-    final identityTokenOnly = this.identityTokenOnly;
-    return {
-      if (accessTokenOnly != null) 'accessTokenOnly': accessTokenOnly,
-      if (identityTokenOnly != null) 'identityTokenOnly': identityTokenOnly,
-    };
-  }
-}
-
-/// Contains information about updates to be applied to a policy.
-///
-/// This data type is used as a request parameter in the <a
-/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicy.html">UpdatePolicy</a>
-/// operation.
-class UpdatePolicyDefinition {
-  /// Contains details about the updates to be applied to a static policy.
-  final UpdateStaticPolicyDefinition? static;
-
-  UpdatePolicyDefinition({
-    this.static,
-  });
-
-  Map<String, dynamic> toJson() {
-    final static = this.static;
-    return {
-      if (static != null) 'static': static,
+      'createdDate': iso8601ToJson(createdDate),
+      'definition': definition,
+      'lastUpdatedDate': iso8601ToJson(lastUpdatedDate),
+      'policyId': policyId,
+      'policyStoreId': policyStoreId,
+      'policyType': policyType.value,
+      if (actions != null) 'actions': actions,
+      if (effect != null) 'effect': effect.value,
+      if (name != null) 'name': name,
+      if (principal != null) 'principal': principal,
+      if (resource != null) 'resource': resource,
     };
   }
 }
@@ -5989,48 +3705,162 @@ class UpdatePolicyOutput {
   }
 }
 
-class UpdatePolicyStoreOutput {
-  /// The <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Name (ARN)</a> of the updated policy store.
-  final String arn;
+class DeletePolicyOutput {
+  DeletePolicyOutput();
 
-  /// The date and time that the policy store was originally created.
-  final DateTime createdDate;
+  factory DeletePolicyOutput.fromJson(Map<String, dynamic> _) {
+    return DeletePolicyOutput();
+  }
 
-  /// The date and time that the policy store was most recently updated.
-  final DateTime lastUpdatedDate;
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
 
-  /// The ID of the updated policy store.
-  final String policyStoreId;
+class ListPoliciesOutput {
+  /// Lists all policies that are available in the specified policy store.
+  final List<PolicyItem> policies;
 
-  UpdatePolicyStoreOutput({
-    required this.arn,
-    required this.createdDate,
-    required this.lastUpdatedDate,
-    required this.policyStoreId,
+  /// If present, this value indicates that more output is available than is
+  /// included in the current response. Use this value in the
+  /// <code>NextToken</code> request parameter in a subsequent call to the
+  /// operation to get the next part of the output. You should repeat this until
+  /// the <code>NextToken</code> response element comes back as <code>null</code>.
+  /// This indicates that this is the last page of results.
+  final String? nextToken;
+
+  ListPoliciesOutput({
+    required this.policies,
+    this.nextToken,
   });
 
-  factory UpdatePolicyStoreOutput.fromJson(Map<String, dynamic> json) {
-    return UpdatePolicyStoreOutput(
-      arn: (json['arn'] as String?) ?? '',
-      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
-      lastUpdatedDate:
-          nonNullableTimeStampFromJson(json['lastUpdatedDate'] ?? 0),
-      policyStoreId: (json['policyStoreId'] as String?) ?? '',
+  factory ListPoliciesOutput.fromJson(Map<String, dynamic> json) {
+    return ListPoliciesOutput(
+      policies: ((json['policies'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => PolicyItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final arn = this.arn;
+    final policies = this.policies;
+    final nextToken = this.nextToken;
+    return {
+      'policies': policies,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class CreatePolicyTemplateOutput {
+  /// The date and time the policy template was originally created.
+  final DateTime createdDate;
+
+  /// The date and time the policy template was most recently updated.
+  final DateTime lastUpdatedDate;
+
+  /// The ID of the policy store that contains the policy template.
+  final String policyStoreId;
+
+  /// The unique ID of the new policy template.
+  final String policyTemplateId;
+
+  CreatePolicyTemplateOutput({
+    required this.createdDate,
+    required this.lastUpdatedDate,
+    required this.policyStoreId,
+    required this.policyTemplateId,
+  });
+
+  factory CreatePolicyTemplateOutput.fromJson(Map<String, dynamic> json) {
+    return CreatePolicyTemplateOutput(
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
+      lastUpdatedDate:
+          nonNullableTimeStampFromJson(json['lastUpdatedDate'] ?? 0),
+      policyStoreId: (json['policyStoreId'] as String?) ?? '',
+      policyTemplateId: (json['policyTemplateId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
     final createdDate = this.createdDate;
     final lastUpdatedDate = this.lastUpdatedDate;
     final policyStoreId = this.policyStoreId;
+    final policyTemplateId = this.policyTemplateId;
     return {
-      'arn': arn,
       'createdDate': iso8601ToJson(createdDate),
       'lastUpdatedDate': iso8601ToJson(lastUpdatedDate),
       'policyStoreId': policyStoreId,
+      'policyTemplateId': policyTemplateId,
+    };
+  }
+}
+
+class GetPolicyTemplateOutput {
+  /// The date and time that the policy template was originally created.
+  final DateTime createdDate;
+
+  /// The date and time that the policy template was most recently updated.
+  final DateTime lastUpdatedDate;
+
+  /// The ID of the policy store that contains the policy template.
+  final String policyStoreId;
+
+  /// The ID of the policy template.
+  final String policyTemplateId;
+
+  /// The content of the body of the policy template written in the Cedar policy
+  /// language.
+  final String statement;
+
+  /// The description of the policy template.
+  final String? description;
+
+  /// The name of the policy template, if one was assigned when the policy
+  /// template was created or last updated.
+  final String? name;
+
+  GetPolicyTemplateOutput({
+    required this.createdDate,
+    required this.lastUpdatedDate,
+    required this.policyStoreId,
+    required this.policyTemplateId,
+    required this.statement,
+    this.description,
+    this.name,
+  });
+
+  factory GetPolicyTemplateOutput.fromJson(Map<String, dynamic> json) {
+    return GetPolicyTemplateOutput(
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
+      lastUpdatedDate:
+          nonNullableTimeStampFromJson(json['lastUpdatedDate'] ?? 0),
+      policyStoreId: (json['policyStoreId'] as String?) ?? '',
+      policyTemplateId: (json['policyTemplateId'] as String?) ?? '',
+      statement: (json['statement'] as String?) ?? '',
+      description: json['description'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdDate = this.createdDate;
+    final lastUpdatedDate = this.lastUpdatedDate;
+    final policyStoreId = this.policyStoreId;
+    final policyTemplateId = this.policyTemplateId;
+    final statement = this.statement;
+    final description = this.description;
+    final name = this.name;
+    return {
+      'createdDate': iso8601ToJson(createdDate),
+      'lastUpdatedDate': iso8601ToJson(lastUpdatedDate),
+      'policyStoreId': policyStoreId,
+      'policyTemplateId': policyTemplateId,
+      'statement': statement,
+      if (description != null) 'description': description,
+      if (name != null) 'name': name,
     };
   }
 }
@@ -6075,6 +3905,876 @@ class UpdatePolicyTemplateOutput {
       'lastUpdatedDate': iso8601ToJson(lastUpdatedDate),
       'policyStoreId': policyStoreId,
       'policyTemplateId': policyTemplateId,
+    };
+  }
+}
+
+class DeletePolicyTemplateOutput {
+  DeletePolicyTemplateOutput();
+
+  factory DeletePolicyTemplateOutput.fromJson(Map<String, dynamic> _) {
+    return DeletePolicyTemplateOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class ListPolicyTemplatesOutput {
+  /// The list of the policy templates in the specified policy store.
+  final List<PolicyTemplateItem> policyTemplates;
+
+  /// If present, this value indicates that more output is available than is
+  /// included in the current response. Use this value in the
+  /// <code>NextToken</code> request parameter in a subsequent call to the
+  /// operation to get the next part of the output. You should repeat this until
+  /// the <code>NextToken</code> response element comes back as <code>null</code>.
+  /// This indicates that this is the last page of results.
+  final String? nextToken;
+
+  ListPolicyTemplatesOutput({
+    required this.policyTemplates,
+    this.nextToken,
+  });
+
+  factory ListPolicyTemplatesOutput.fromJson(Map<String, dynamic> json) {
+    return ListPolicyTemplatesOutput(
+      policyTemplates: ((json['policyTemplates'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => PolicyTemplateItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyTemplates = this.policyTemplates;
+    final nextToken = this.nextToken;
+    return {
+      'policyTemplates': policyTemplates,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class CreatePolicyStoreAliasOutput {
+  /// The Amazon Resource Name (ARN) of the policy store alias.
+  final String aliasArn;
+
+  /// The name of the policy store alias.
+  final String aliasName;
+
+  /// The date and time the policy store alias was created.
+  final DateTime createdAt;
+
+  /// The ID of the policy store associated with the alias.
+  final String policyStoreId;
+
+  CreatePolicyStoreAliasOutput({
+    required this.aliasArn,
+    required this.aliasName,
+    required this.createdAt,
+    required this.policyStoreId,
+  });
+
+  factory CreatePolicyStoreAliasOutput.fromJson(Map<String, dynamic> json) {
+    return CreatePolicyStoreAliasOutput(
+      aliasArn: (json['aliasArn'] as String?) ?? '',
+      aliasName: (json['aliasName'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      policyStoreId: (json['policyStoreId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aliasArn = this.aliasArn;
+    final aliasName = this.aliasName;
+    final createdAt = this.createdAt;
+    final policyStoreId = this.policyStoreId;
+    return {
+      'aliasArn': aliasArn,
+      'aliasName': aliasName,
+      'createdAt': iso8601ToJson(createdAt),
+      'policyStoreId': policyStoreId,
+    };
+  }
+}
+
+class GetPolicyStoreAliasOutput {
+  /// The Amazon Resource Name (ARN) of the policy store alias.
+  final String aliasArn;
+
+  /// The name of the policy store alias.
+  final String aliasName;
+
+  /// The date and time the policy store alias was created.
+  final DateTime createdAt;
+
+  /// The ID of the policy store associated with the alias.
+  final String policyStoreId;
+
+  /// The state of the policy store alias. Policy Store Aliases in the Active
+  /// state can be used normally. When a policy store alias is deleted, it enters
+  /// the PendingDeletion state. Policy Store Aliases in the PendingDeletion
+  /// cannot be used, and creating a policy store alias with the same alias name
+  /// will fail.
+  final AliasState state;
+
+  GetPolicyStoreAliasOutput({
+    required this.aliasArn,
+    required this.aliasName,
+    required this.createdAt,
+    required this.policyStoreId,
+    required this.state,
+  });
+
+  factory GetPolicyStoreAliasOutput.fromJson(Map<String, dynamic> json) {
+    return GetPolicyStoreAliasOutput(
+      aliasArn: (json['aliasArn'] as String?) ?? '',
+      aliasName: (json['aliasName'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      policyStoreId: (json['policyStoreId'] as String?) ?? '',
+      state: AliasState.fromString((json['state'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aliasArn = this.aliasArn;
+    final aliasName = this.aliasName;
+    final createdAt = this.createdAt;
+    final policyStoreId = this.policyStoreId;
+    final state = this.state;
+    return {
+      'aliasArn': aliasArn,
+      'aliasName': aliasName,
+      'createdAt': iso8601ToJson(createdAt),
+      'policyStoreId': policyStoreId,
+      'state': state.value,
+    };
+  }
+}
+
+class DeletePolicyStoreAliasOutput {
+  DeletePolicyStoreAliasOutput();
+
+  factory DeletePolicyStoreAliasOutput.fromJson(Map<String, dynamic> _) {
+    return DeletePolicyStoreAliasOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class ListPolicyStoreAliasesOutput {
+  /// The list of policy store aliases in the account.
+  final List<PolicyStoreAliasItem> policyStoreAliases;
+
+  /// If present, this value indicates that more output is available than is
+  /// included in the current response. Use this value in the
+  /// <code>NextToken</code> request parameter in a subsequent call to the
+  /// operation to get the next part of the output. You should repeat this until
+  /// the <code>NextToken</code> response element comes back as <code>null</code>.
+  /// This indicates that this is the last page of results.
+  final String? nextToken;
+
+  ListPolicyStoreAliasesOutput({
+    required this.policyStoreAliases,
+    this.nextToken,
+  });
+
+  factory ListPolicyStoreAliasesOutput.fromJson(Map<String, dynamic> json) {
+    return ListPolicyStoreAliasesOutput(
+      policyStoreAliases: ((json['policyStoreAliases'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => PolicyStoreAliasItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyStoreAliases = this.policyStoreAliases;
+    final nextToken = this.nextToken;
+    return {
+      'policyStoreAliases': policyStoreAliases,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// Contains information about a policy store alias.
+///
+/// This data type is used as a response parameter for the <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html">ListPolicyStoreAliases</a>
+/// operation.
+class PolicyStoreAliasItem {
+  /// The Amazon Resource Name (ARN) of the policy store alias.
+  final String aliasArn;
+
+  /// The name of the policy store alias.
+  final String aliasName;
+
+  /// The date and time the policy store alias was created.
+  final DateTime createdAt;
+
+  /// The ID of the policy store associated with the alias.
+  final String policyStoreId;
+
+  /// The state of the policy store alias. Policy Store Aliases in the Active
+  /// state can be used normally. When a policy store alias is deleted, it enters
+  /// the PendingDeletion state. Policy Store Aliases in the PendingDeletion state
+  /// cannot be used, and creating a policy store alias with the same alias name
+  /// will fail.
+  final AliasState state;
+
+  PolicyStoreAliasItem({
+    required this.aliasArn,
+    required this.aliasName,
+    required this.createdAt,
+    required this.policyStoreId,
+    required this.state,
+  });
+
+  factory PolicyStoreAliasItem.fromJson(Map<String, dynamic> json) {
+    return PolicyStoreAliasItem(
+      aliasArn: (json['aliasArn'] as String?) ?? '',
+      aliasName: (json['aliasName'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      policyStoreId: (json['policyStoreId'] as String?) ?? '',
+      state: AliasState.fromString((json['state'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aliasArn = this.aliasArn;
+    final aliasName = this.aliasName;
+    final createdAt = this.createdAt;
+    final policyStoreId = this.policyStoreId;
+    final state = this.state;
+    return {
+      'aliasArn': aliasArn,
+      'aliasName': aliasName,
+      'createdAt': iso8601ToJson(createdAt),
+      'policyStoreId': policyStoreId,
+      'state': state.value,
+    };
+  }
+}
+
+class AliasState {
+  static const active = AliasState._('Active');
+  static const pendingDeletion = AliasState._('PendingDeletion');
+
+  final String value;
+
+  const AliasState._(this.value);
+
+  static const values = [active, pendingDeletion];
+
+  static AliasState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AliasState._(value));
+
+  @override
+  bool operator ==(other) => other is AliasState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains filters for the <code>ListPolicyStoreAliases</code> operation.
+class PolicyStoreAliasFilter {
+  /// The ID of the policy store to filter by. Only policy store aliases
+  /// associated with this policy store are returned.
+  final String? policyStoreId;
+
+  PolicyStoreAliasFilter({
+    this.policyStoreId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final policyStoreId = this.policyStoreId;
+    return {
+      if (policyStoreId != null) 'policyStoreId': policyStoreId,
+    };
+  }
+}
+
+/// The deletion mode for a resource. The valid values are:
+///
+/// <ul>
+/// <li>
+/// <b>SoftDelete</b> – The resource enters the <code>PendingDeletion</code>
+/// state. This is the default behavior.
+/// </li>
+/// <li>
+/// <b>HardDelete</b> – The resource is immediately deleted, bypassing the
+/// <code>PendingDeletion</code> state.
+/// </li>
+/// </ul>
+class DeletionMode {
+  static const softDelete = DeletionMode._('SoftDelete');
+  static const hardDelete = DeletionMode._('HardDelete');
+
+  final String value;
+
+  const DeletionMode._(this.value);
+
+  static const values = [softDelete, hardDelete];
+
+  static DeletionMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DeletionMode._(value));
+
+  @override
+  bool operator ==(other) => other is DeletionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains details about a policy template
+///
+/// This data type is used as a response parameter for the <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyTemplates.html">ListPolicyTemplates</a>
+/// operation.
+class PolicyTemplateItem {
+  /// The date and time that the policy template was created.
+  final DateTime createdDate;
+
+  /// The date and time that the policy template was most recently updated.
+  final DateTime lastUpdatedDate;
+
+  /// The unique identifier of the policy store that contains the template.
+  final String policyStoreId;
+
+  /// The unique identifier of the policy template.
+  final String policyTemplateId;
+
+  /// The description attached to the policy template.
+  final String? description;
+
+  /// The name of the policy template, if one was assigned when the policy
+  /// template was created or last updated.
+  final String? name;
+
+  PolicyTemplateItem({
+    required this.createdDate,
+    required this.lastUpdatedDate,
+    required this.policyStoreId,
+    required this.policyTemplateId,
+    this.description,
+    this.name,
+  });
+
+  factory PolicyTemplateItem.fromJson(Map<String, dynamic> json) {
+    return PolicyTemplateItem(
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
+      lastUpdatedDate:
+          nonNullableTimeStampFromJson(json['lastUpdatedDate'] ?? 0),
+      policyStoreId: (json['policyStoreId'] as String?) ?? '',
+      policyTemplateId: (json['policyTemplateId'] as String?) ?? '',
+      description: json['description'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdDate = this.createdDate;
+    final lastUpdatedDate = this.lastUpdatedDate;
+    final policyStoreId = this.policyStoreId;
+    final policyTemplateId = this.policyTemplateId;
+    final description = this.description;
+    final name = this.name;
+    return {
+      'createdDate': iso8601ToJson(createdDate),
+      'lastUpdatedDate': iso8601ToJson(lastUpdatedDate),
+      'policyStoreId': policyStoreId,
+      'policyTemplateId': policyTemplateId,
+      if (description != null) 'description': description,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// Contains information about a policy.
+///
+/// This data type is used as a response parameter for the <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicies.html">ListPolicies</a>
+/// operation.
+class PolicyItem {
+  /// The date and time the policy was created.
+  final DateTime createdDate;
+
+  /// The policy definition of an item in the list of policies returned.
+  final PolicyDefinitionItem definition;
+
+  /// The date and time the policy was most recently updated.
+  final DateTime lastUpdatedDate;
+
+  /// The identifier of the policy you want information about.
+  final String policyId;
+
+  /// The identifier of the policy store where the policy you want information
+  /// about is stored.
+  final String policyStoreId;
+
+  /// The type of the policy. This is one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>STATIC</code>
+  /// </li>
+  /// <li>
+  /// <code>TEMPLATE_LINKED</code>
+  /// </li>
+  /// </ul>
+  final PolicyType policyType;
+
+  /// The action that a policy permits or forbids. For example, <code>{"actions":
+  /// [{"actionId": "ViewPhoto", "actionType": "PhotoFlash::Action"}, {"entityID":
+  /// "SharePhoto", "entityType": "PhotoFlash::Action"}]}</code>.
+  final List<ActionIdentifier>? actions;
+
+  /// The effect of the decision that a policy returns to an authorization
+  /// request. For example, <code>"effect": "Permit"</code>.
+  final PolicyEffect? effect;
+
+  /// The name of the policy, if one was assigned when the policy was created or
+  /// last updated.
+  final String? name;
+
+  /// The principal associated with the policy.
+  final EntityIdentifier? principal;
+
+  /// The resource associated with the policy.
+  final EntityIdentifier? resource;
+
+  PolicyItem({
+    required this.createdDate,
+    required this.definition,
+    required this.lastUpdatedDate,
+    required this.policyId,
+    required this.policyStoreId,
+    required this.policyType,
+    this.actions,
+    this.effect,
+    this.name,
+    this.principal,
+    this.resource,
+  });
+
+  factory PolicyItem.fromJson(Map<String, dynamic> json) {
+    return PolicyItem(
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
+      definition: PolicyDefinitionItem.fromJson(
+          (json['definition'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      lastUpdatedDate:
+          nonNullableTimeStampFromJson(json['lastUpdatedDate'] ?? 0),
+      policyId: (json['policyId'] as String?) ?? '',
+      policyStoreId: (json['policyStoreId'] as String?) ?? '',
+      policyType: PolicyType.fromString((json['policyType'] as String?) ?? ''),
+      actions: (json['actions'] as List?)
+          ?.nonNulls
+          .map((e) => ActionIdentifier.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      effect: (json['effect'] as String?)?.let(PolicyEffect.fromString),
+      name: json['name'] as String?,
+      principal: json['principal'] != null
+          ? EntityIdentifier.fromJson(json['principal'] as Map<String, dynamic>)
+          : null,
+      resource: json['resource'] != null
+          ? EntityIdentifier.fromJson(json['resource'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdDate = this.createdDate;
+    final definition = this.definition;
+    final lastUpdatedDate = this.lastUpdatedDate;
+    final policyId = this.policyId;
+    final policyStoreId = this.policyStoreId;
+    final policyType = this.policyType;
+    final actions = this.actions;
+    final effect = this.effect;
+    final name = this.name;
+    final principal = this.principal;
+    final resource = this.resource;
+    return {
+      'createdDate': iso8601ToJson(createdDate),
+      'definition': definition,
+      'lastUpdatedDate': iso8601ToJson(lastUpdatedDate),
+      'policyId': policyId,
+      'policyStoreId': policyStoreId,
+      'policyType': policyType.value,
+      if (actions != null) 'actions': actions,
+      if (effect != null) 'effect': effect.value,
+      if (name != null) 'name': name,
+      if (principal != null) 'principal': principal,
+      if (resource != null) 'resource': resource,
+    };
+  }
+}
+
+class PolicyType {
+  static const static = PolicyType._('STATIC');
+  static const templateLinked = PolicyType._('TEMPLATE_LINKED');
+
+  final String value;
+
+  const PolicyType._(this.value);
+
+  static const values = [static, templateLinked];
+
+  static PolicyType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PolicyType._(value));
+
+  @override
+  bool operator ==(other) => other is PolicyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains the identifier of an entity, including its ID and type.
+///
+/// This data type is used as a request parameter for <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html">IsAuthorized</a>
+/// operation, and as a response parameter for the <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreatePolicy.html">CreatePolicy</a>,
+/// <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetPolicy.html">GetPolicy</a>,
+/// and <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicy.html">UpdatePolicy</a>
+/// operations.
+///
+/// Example:
+/// <code>{"entityId":"<i>string</i>","entityType":"<i>string</i>"}</code>
+class EntityIdentifier {
+  /// The identifier of an entity.
+  ///
+  /// <code>"entityId":"<i>identifier</i>"</code>
+  final String entityId;
+
+  /// The type of an entity.
+  ///
+  /// Example: <code>"entityType":"<i>typeName</i>"</code>
+  final String entityType;
+
+  EntityIdentifier({
+    required this.entityId,
+    required this.entityType,
+  });
+
+  factory EntityIdentifier.fromJson(Map<String, dynamic> json) {
+    return EntityIdentifier(
+      entityId: (json['entityId'] as String?) ?? '',
+      entityType: (json['entityType'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entityId = this.entityId;
+    final entityType = this.entityType;
+    return {
+      'entityId': entityId,
+      'entityType': entityType,
+    };
+  }
+}
+
+/// A structure that describes a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_PolicyDefinintion.html">PolicyDefinintion</a>.
+/// It will always have either an <code>StaticPolicy</code> or a
+/// <code>TemplateLinkedPolicy</code> element.
+///
+/// This data type is used as a response parameter for the <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreatePolicy.html">CreatePolicy</a>
+/// and <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicies.html">ListPolicies</a>
+/// operations.
+class PolicyDefinitionItem {
+  /// Information about a static policy that wasn't created with a policy
+  /// template.
+  final StaticPolicyDefinitionItem? static;
+
+  /// Information about a template-linked policy that was created by instantiating
+  /// a policy template.
+  final TemplateLinkedPolicyDefinitionItem? templateLinked;
+
+  PolicyDefinitionItem({
+    this.static,
+    this.templateLinked,
+  });
+
+  factory PolicyDefinitionItem.fromJson(Map<String, dynamic> json) {
+    return PolicyDefinitionItem(
+      static: json['static'] != null
+          ? StaticPolicyDefinitionItem.fromJson(
+              json['static'] as Map<String, dynamic>)
+          : null,
+      templateLinked: json['templateLinked'] != null
+          ? TemplateLinkedPolicyDefinitionItem.fromJson(
+              json['templateLinked'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final static = this.static;
+    final templateLinked = this.templateLinked;
+    return {
+      if (static != null) 'static': static,
+      if (templateLinked != null) 'templateLinked': templateLinked,
+    };
+  }
+}
+
+class PolicyEffect {
+  static const permit = PolicyEffect._('Permit');
+  static const forbid = PolicyEffect._('Forbid');
+
+  final String value;
+
+  const PolicyEffect._(this.value);
+
+  static const values = [permit, forbid];
+
+  static PolicyEffect fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PolicyEffect._(value));
+
+  @override
+  bool operator ==(other) => other is PolicyEffect && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A structure that contains details about a static policy. It includes the
+/// description and policy statement.
+///
+/// This data type is used within a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_PolicyDefinition.html">PolicyDefinition</a>
+/// structure as part of a request parameter for the <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreatePolicy.html">CreatePolicy</a>
+/// operation.
+class StaticPolicyDefinitionItem {
+  /// A description of the static policy.
+  final String? description;
+
+  StaticPolicyDefinitionItem({
+    this.description,
+  });
+
+  factory StaticPolicyDefinitionItem.fromJson(Map<String, dynamic> json) {
+    return StaticPolicyDefinitionItem(
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    return {
+      if (description != null) 'description': description,
+    };
+  }
+}
+
+/// Contains information about a policy created by instantiating a policy
+/// template.
+class TemplateLinkedPolicyDefinitionItem {
+  /// The unique identifier of the policy template used to create this policy.
+  final String policyTemplateId;
+
+  /// The principal associated with this template-linked policy. Verified
+  /// Permissions substitutes this principal for the <code>?principal</code>
+  /// placeholder in the policy template when it evaluates an authorization
+  /// request.
+  final EntityIdentifier? principal;
+
+  /// The resource associated with this template-linked policy. Verified
+  /// Permissions substitutes this resource for the <code>?resource</code>
+  /// placeholder in the policy template when it evaluates an authorization
+  /// request.
+  final EntityIdentifier? resource;
+
+  TemplateLinkedPolicyDefinitionItem({
+    required this.policyTemplateId,
+    this.principal,
+    this.resource,
+  });
+
+  factory TemplateLinkedPolicyDefinitionItem.fromJson(
+      Map<String, dynamic> json) {
+    return TemplateLinkedPolicyDefinitionItem(
+      policyTemplateId: (json['policyTemplateId'] as String?) ?? '',
+      principal: json['principal'] != null
+          ? EntityIdentifier.fromJson(json['principal'] as Map<String, dynamic>)
+          : null,
+      resource: json['resource'] != null
+          ? EntityIdentifier.fromJson(json['resource'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyTemplateId = this.policyTemplateId;
+    final principal = this.principal;
+    final resource = this.resource;
+    return {
+      'policyTemplateId': policyTemplateId,
+      if (principal != null) 'principal': principal,
+      if (resource != null) 'resource': resource,
+    };
+  }
+}
+
+/// Contains information about an action for a request for which an
+/// authorization decision is made.
+///
+/// This data type is used as a request parameter to the <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html">IsAuthorized</a>,
+/// <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_BatchIsAuthorized.html">BatchIsAuthorized</a>,
+/// and <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html">IsAuthorizedWithToken</a>
+/// operations.
+///
+/// Example: <code>{ "actionId": "&lt;action name&gt;", "actionType": "Action"
+/// }</code>
+class ActionIdentifier {
+  /// The ID of an action.
+  final String actionId;
+
+  /// The type of an action.
+  final String actionType;
+
+  ActionIdentifier({
+    required this.actionId,
+    required this.actionType,
+  });
+
+  factory ActionIdentifier.fromJson(Map<String, dynamic> json) {
+    return ActionIdentifier(
+      actionId: (json['actionId'] as String?) ?? '',
+      actionType: (json['actionType'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionId = this.actionId;
+    final actionType = this.actionType;
+    return {
+      'actionId': actionId,
+      'actionType': actionType,
+    };
+  }
+}
+
+/// Contains information about a filter to refine policies returned in a query.
+///
+/// This data type is used as a response parameter for the <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicies.html">ListPolicies</a>
+/// operation.
+class PolicyFilter {
+  /// Filters the output to only template-linked policies that were instantiated
+  /// from the specified policy template.
+  final String? policyTemplateId;
+
+  /// Filters the output to only policies of the specified type.
+  final PolicyType? policyType;
+
+  /// Filters the output to only policies that reference the specified principal.
+  final EntityReference? principal;
+
+  /// Filters the output to only policies that reference the specified resource.
+  final EntityReference? resource;
+
+  PolicyFilter({
+    this.policyTemplateId,
+    this.policyType,
+    this.principal,
+    this.resource,
+  });
+
+  Map<String, dynamic> toJson() {
+    final policyTemplateId = this.policyTemplateId;
+    final policyType = this.policyType;
+    final principal = this.principal;
+    final resource = this.resource;
+    return {
+      if (policyTemplateId != null) 'policyTemplateId': policyTemplateId,
+      if (policyType != null) 'policyType': policyType.value,
+      if (principal != null) 'principal': principal,
+      if (resource != null) 'resource': resource,
+    };
+  }
+}
+
+/// Contains information about a principal or resource that can be referenced in
+/// a Cedar policy.
+///
+/// This data type is used as part of the <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_PolicyFilter.html">PolicyFilter</a>
+/// structure that is used as a request parameter for the <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicies.html">ListPolicies</a>
+/// operation..
+class EntityReference {
+  /// The identifier of the entity. It can consist of either an EntityType and
+  /// EntityId, a principal, or a resource.
+  final EntityIdentifier? identifier;
+
+  /// Used to indicate that a principal or resource is not specified. This can be
+  /// used to search for policies that are not associated with a specific
+  /// principal or resource.
+  final bool? unspecified;
+
+  EntityReference({
+    this.identifier,
+    this.unspecified,
+  });
+
+  Map<String, dynamic> toJson() {
+    final identifier = this.identifier;
+    final unspecified = this.unspecified;
+    return {
+      if (identifier != null) 'identifier': identifier,
+      if (unspecified != null) 'unspecified': unspecified,
+    };
+  }
+}
+
+/// Contains information about updates to be applied to a policy.
+///
+/// This data type is used as a request parameter in the <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicy.html">UpdatePolicy</a>
+/// operation.
+class UpdatePolicyDefinition {
+  /// Contains details about the updates to be applied to a static policy.
+  final UpdateStaticPolicyDefinition? static;
+
+  UpdatePolicyDefinition({
+    this.static,
+  });
+
+  Map<String, dynamic> toJson() {
+    final static = this.static;
+    return {
+      if (static != null) 'static': static,
     };
   }
 }
@@ -6132,28 +4832,2899 @@ class UpdateStaticPolicyDefinition {
   }
 }
 
-class ValidationMode {
-  static const off = ValidationMode._('OFF');
-  static const strict = ValidationMode._('STRICT');
+/// A structure that describes a policy definition. It must always have either
+/// an <code>static</code> or a <code>templateLinked</code> element.
+///
+/// This data type is used as a response parameter for the <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetPolicy.html">GetPolicy</a>
+/// operation.
+class PolicyDefinitionDetail {
+  /// Information about a static policy that wasn't created with a policy
+  /// template.
+  final StaticPolicyDefinitionDetail? static;
+
+  /// Information about a template-linked policy that was created by instantiating
+  /// a policy template.
+  final TemplateLinkedPolicyDefinitionDetail? templateLinked;
+
+  PolicyDefinitionDetail({
+    this.static,
+    this.templateLinked,
+  });
+
+  factory PolicyDefinitionDetail.fromJson(Map<String, dynamic> json) {
+    return PolicyDefinitionDetail(
+      static: json['static'] != null
+          ? StaticPolicyDefinitionDetail.fromJson(
+              json['static'] as Map<String, dynamic>)
+          : null,
+      templateLinked: json['templateLinked'] != null
+          ? TemplateLinkedPolicyDefinitionDetail.fromJson(
+              json['templateLinked'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final static = this.static;
+    final templateLinked = this.templateLinked;
+    return {
+      if (static != null) 'static': static,
+      if (templateLinked != null) 'templateLinked': templateLinked,
+    };
+  }
+}
+
+/// A structure that contains details about a static policy. It includes the
+/// description and policy body.
+///
+/// This data type is used within a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_PolicyDefinition.html">PolicyDefinition</a>
+/// structure as part of a request parameter for the <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreatePolicy.html">CreatePolicy</a>
+/// operation.
+class StaticPolicyDefinitionDetail {
+  /// The content of the static policy written in the Cedar policy language.
+  final String statement;
+
+  /// A description of the static policy.
+  final String? description;
+
+  StaticPolicyDefinitionDetail({
+    required this.statement,
+    this.description,
+  });
+
+  factory StaticPolicyDefinitionDetail.fromJson(Map<String, dynamic> json) {
+    return StaticPolicyDefinitionDetail(
+      statement: (json['statement'] as String?) ?? '',
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final statement = this.statement;
+    final description = this.description;
+    return {
+      'statement': statement,
+      if (description != null) 'description': description,
+    };
+  }
+}
+
+/// Contains information about a policy that was created by instantiating a
+/// policy template.
+class TemplateLinkedPolicyDefinitionDetail {
+  /// The unique identifier of the policy template used to create this policy.
+  final String policyTemplateId;
+
+  /// The principal associated with this template-linked policy. Verified
+  /// Permissions substitutes this principal for the <code>?principal</code>
+  /// placeholder in the policy template when it evaluates an authorization
+  /// request.
+  final EntityIdentifier? principal;
+
+  /// The resource associated with this template-linked policy. Verified
+  /// Permissions substitutes this resource for the <code>?resource</code>
+  /// placeholder in the policy template when it evaluates an authorization
+  /// request.
+  final EntityIdentifier? resource;
+
+  TemplateLinkedPolicyDefinitionDetail({
+    required this.policyTemplateId,
+    this.principal,
+    this.resource,
+  });
+
+  factory TemplateLinkedPolicyDefinitionDetail.fromJson(
+      Map<String, dynamic> json) {
+    return TemplateLinkedPolicyDefinitionDetail(
+      policyTemplateId: (json['policyTemplateId'] as String?) ?? '',
+      principal: json['principal'] != null
+          ? EntityIdentifier.fromJson(json['principal'] as Map<String, dynamic>)
+          : null,
+      resource: json['resource'] != null
+          ? EntityIdentifier.fromJson(json['resource'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyTemplateId = this.policyTemplateId;
+    final principal = this.principal;
+    final resource = this.resource;
+    return {
+      'policyTemplateId': policyTemplateId,
+      if (principal != null) 'principal': principal,
+      if (resource != null) 'resource': resource,
+    };
+  }
+}
+
+/// A structure that contains the details for a Cedar policy definition. It
+/// includes the policy type, a description, and a policy body. This is a top
+/// level data type used to create a policy.
+///
+/// This data type is used as a request parameter for the <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreatePolicy.html">CreatePolicy</a>
+/// operation. This structure must always have either an <code>static</code> or
+/// a <code>templateLinked</code> element.
+class PolicyDefinition {
+  /// A structure that describes a static policy. An static policy doesn't use a
+  /// template or allow placeholders for entities.
+  final StaticPolicyDefinition? static;
+
+  /// A structure that describes a policy that was instantiated from a template.
+  /// The template can specify placeholders for <code>principal</code> and
+  /// <code>resource</code>. When you use <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreatePolicy.html">CreatePolicy</a>
+  /// to create a policy from a template, you specify the exact principal and
+  /// resource to use for the instantiated policy.
+  final TemplateLinkedPolicyDefinition? templateLinked;
+
+  PolicyDefinition({
+    this.static,
+    this.templateLinked,
+  });
+
+  Map<String, dynamic> toJson() {
+    final static = this.static;
+    final templateLinked = this.templateLinked;
+    return {
+      if (static != null) 'static': static,
+      if (templateLinked != null) 'templateLinked': templateLinked,
+    };
+  }
+}
+
+/// Contains information about a static policy.
+///
+/// This data type is used as a field that is part of the <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_PolicyDefinitionDetail.html">PolicyDefinitionDetail</a>
+/// type.
+class StaticPolicyDefinition {
+  /// The policy content of the static policy, written in the Cedar policy
+  /// language.
+  final String statement;
+
+  /// The description of the static policy.
+  final String? description;
+
+  StaticPolicyDefinition({
+    required this.statement,
+    this.description,
+  });
+
+  Map<String, dynamic> toJson() {
+    final statement = this.statement;
+    final description = this.description;
+    return {
+      'statement': statement,
+      if (description != null) 'description': description,
+    };
+  }
+}
+
+/// Contains information about a policy created by instantiating a policy
+/// template.
+class TemplateLinkedPolicyDefinition {
+  /// The unique identifier of the policy template used to create this policy.
+  final String policyTemplateId;
+
+  /// The principal associated with this template-linked policy. Verified
+  /// Permissions substitutes this principal for the <code>?principal</code>
+  /// placeholder in the policy template when it evaluates an authorization
+  /// request.
+  final EntityIdentifier? principal;
+
+  /// The resource associated with this template-linked policy. Verified
+  /// Permissions substitutes this resource for the <code>?resource</code>
+  /// placeholder in the policy template when it evaluates an authorization
+  /// request.
+  final EntityIdentifier? resource;
+
+  TemplateLinkedPolicyDefinition({
+    required this.policyTemplateId,
+    this.principal,
+    this.resource,
+  });
+
+  Map<String, dynamic> toJson() {
+    final policyTemplateId = this.policyTemplateId;
+    final principal = this.principal;
+    final resource = this.resource;
+    return {
+      'policyTemplateId': policyTemplateId,
+      if (principal != null) 'principal': principal,
+      if (resource != null) 'resource': resource,
+    };
+  }
+}
+
+/// A structure that defines an identity source.
+///
+/// This data type is a response parameter to the <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html">ListIdentitySources</a>
+/// operation.
+class IdentitySourceItem {
+  /// The date and time the identity source was originally created.
+  final DateTime createdDate;
+
+  /// The unique identifier of the identity source.
+  final String identitySourceId;
+
+  /// The date and time the identity source was most recently updated.
+  final DateTime lastUpdatedDate;
+
+  /// The identifier of the policy store that contains the identity source.
+  final String policyStoreId;
+
+  /// The Cedar entity type of the principals returned from the IdP associated
+  /// with this identity source.
+  final String principalEntityType;
+
+  /// Contains configuration information about an identity source.
+  final ConfigurationItem? configuration;
+
+  /// A structure that contains the details of the associated identity provider
+  /// (IdP).
+  final IdentitySourceItemDetails? details;
+
+  IdentitySourceItem({
+    required this.createdDate,
+    required this.identitySourceId,
+    required this.lastUpdatedDate,
+    required this.policyStoreId,
+    required this.principalEntityType,
+    this.configuration,
+    this.details,
+  });
+
+  factory IdentitySourceItem.fromJson(Map<String, dynamic> json) {
+    return IdentitySourceItem(
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
+      identitySourceId: (json['identitySourceId'] as String?) ?? '',
+      lastUpdatedDate:
+          nonNullableTimeStampFromJson(json['lastUpdatedDate'] ?? 0),
+      policyStoreId: (json['policyStoreId'] as String?) ?? '',
+      principalEntityType: (json['principalEntityType'] as String?) ?? '',
+      configuration: json['configuration'] != null
+          ? ConfigurationItem.fromJson(
+              json['configuration'] as Map<String, dynamic>)
+          : null,
+      details: json['details'] != null
+          ? IdentitySourceItemDetails.fromJson(
+              json['details'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdDate = this.createdDate;
+    final identitySourceId = this.identitySourceId;
+    final lastUpdatedDate = this.lastUpdatedDate;
+    final policyStoreId = this.policyStoreId;
+    final principalEntityType = this.principalEntityType;
+    final configuration = this.configuration;
+    final details = this.details;
+    return {
+      'createdDate': iso8601ToJson(createdDate),
+      'identitySourceId': identitySourceId,
+      'lastUpdatedDate': iso8601ToJson(lastUpdatedDate),
+      'policyStoreId': policyStoreId,
+      'principalEntityType': principalEntityType,
+      if (configuration != null) 'configuration': configuration,
+      if (details != null) 'details': details,
+    };
+  }
+}
+
+/// A structure that contains configuration of the identity source.
+///
+/// This data type was a response parameter for the <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html">ListIdentitySources</a>
+/// operation. Replaced by <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ConfigurationItem.html">ConfigurationItem</a>.
+class IdentitySourceItemDetails {
+  /// The application client IDs associated with the specified Amazon Cognito user
+  /// pool that are enabled for this identity source.
+  final List<String>? clientIds;
+
+  /// The well-known URL that points to this user pool's OIDC discovery endpoint.
+  /// This is a URL string in the following format. This URL replaces the
+  /// placeholders for both the Amazon Web Services Region and the user pool
+  /// identifier with those appropriate for this user pool.
+  ///
+  /// <code>https://cognito-idp.<i>&lt;region&gt;</i>.amazonaws.com/<i>&lt;user-pool-id&gt;</i>/.well-known/openid-configuration</code>
+  final String? discoveryUrl;
+
+  /// A string that identifies the type of OIDC service represented by this
+  /// identity source.
+  ///
+  /// At this time, the only valid value is <code>cognito</code>.
+  final OpenIdIssuer? openIdIssuer;
+
+  /// The Amazon Cognito user pool whose identities are accessible to this
+  /// Verified Permissions policy store.
+  final String? userPoolArn;
+
+  IdentitySourceItemDetails({
+    this.clientIds,
+    this.discoveryUrl,
+    this.openIdIssuer,
+    this.userPoolArn,
+  });
+
+  factory IdentitySourceItemDetails.fromJson(Map<String, dynamic> json) {
+    return IdentitySourceItemDetails(
+      clientIds: (json['clientIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      discoveryUrl: json['discoveryUrl'] as String?,
+      openIdIssuer:
+          (json['openIdIssuer'] as String?)?.let(OpenIdIssuer.fromString),
+      userPoolArn: json['userPoolArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clientIds = this.clientIds;
+    final discoveryUrl = this.discoveryUrl;
+    final openIdIssuer = this.openIdIssuer;
+    final userPoolArn = this.userPoolArn;
+    return {
+      if (clientIds != null) 'clientIds': clientIds,
+      if (discoveryUrl != null) 'discoveryUrl': discoveryUrl,
+      if (openIdIssuer != null) 'openIdIssuer': openIdIssuer.value,
+      if (userPoolArn != null) 'userPoolArn': userPoolArn,
+    };
+  }
+}
+
+/// Contains configuration information about an identity source.
+///
+/// This data type is a response parameter to the <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html">ListIdentitySources</a>
+/// operation.
+class ConfigurationItem {
+  /// Contains configuration details of a Amazon Cognito user pool that Verified
+  /// Permissions can use as a source of authenticated identities as entities. It
+  /// specifies the <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Name (ARN)</a> of a Amazon Cognito user pool, the policy store
+  /// entity that you want to assign to user groups, and one or more application
+  /// client IDs.
+  ///
+  /// Example:
+  /// <code>"configuration":{"cognitoUserPoolConfiguration":{"userPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","clientIds":
+  /// ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType":
+  /// "MyCorp::Group"}}}</code>
+  final CognitoUserPoolConfigurationItem? cognitoUserPoolConfiguration;
+
+  /// Contains configuration details of an OpenID Connect (OIDC) identity
+  /// provider, or identity source, that Verified Permissions can use to generate
+  /// entities from authenticated identities. It specifies the issuer URL, token
+  /// type that you want to use, and policy store entity details.
+  ///
+  /// Example:<code>"configuration":{"openIdConnectConfiguration":{"issuer":"https://auth.example.com","tokenSelection":{"accessTokenOnly":{"audiences":["https://myapp.example.com","https://myapp2.example.com"],"principalIdClaim":"sub"}},"entityIdPrefix":"MyOIDCProvider","groupConfiguration":{"groupClaim":"groups","groupEntityType":"MyCorp::UserGroup"}}}</code>
+  final OpenIdConnectConfigurationItem? openIdConnectConfiguration;
+
+  ConfigurationItem({
+    this.cognitoUserPoolConfiguration,
+    this.openIdConnectConfiguration,
+  });
+
+  factory ConfigurationItem.fromJson(Map<String, dynamic> json) {
+    return ConfigurationItem(
+      cognitoUserPoolConfiguration: json['cognitoUserPoolConfiguration'] != null
+          ? CognitoUserPoolConfigurationItem.fromJson(
+              json['cognitoUserPoolConfiguration'] as Map<String, dynamic>)
+          : null,
+      openIdConnectConfiguration: json['openIdConnectConfiguration'] != null
+          ? OpenIdConnectConfigurationItem.fromJson(
+              json['openIdConnectConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cognitoUserPoolConfiguration = this.cognitoUserPoolConfiguration;
+    final openIdConnectConfiguration = this.openIdConnectConfiguration;
+    return {
+      if (cognitoUserPoolConfiguration != null)
+        'cognitoUserPoolConfiguration': cognitoUserPoolConfiguration,
+      if (openIdConnectConfiguration != null)
+        'openIdConnectConfiguration': openIdConnectConfiguration,
+    };
+  }
+}
+
+/// The configuration for an identity source that represents a connection to an
+/// Amazon Cognito user pool used as an identity provider for Verified
+/// Permissions.
+///
+/// This data type is used as a field that is part of the <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ConfigurationItem.html">ConfigurationItem</a>
+/// structure that is part of the response to <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html">ListIdentitySources</a>.
+///
+/// Example:<code>"CognitoUserPoolConfiguration":{"UserPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","ClientIds":
+/// ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType":
+/// "MyCorp::Group"}}</code>
+class CognitoUserPoolConfigurationItem {
+  /// The unique application client IDs that are associated with the specified
+  /// Amazon Cognito user pool.
+  ///
+  /// Example: <code>"clientIds": ["&amp;ExampleCogClientId;"]</code>
+  final List<String> clientIds;
+
+  /// The OpenID Connect (OIDC) <code>issuer</code> ID of the Amazon Cognito user
+  /// pool that contains the identities to be authorized.
+  ///
+  /// Example: <code>"issuer":
+  /// "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_1a2b3c4d5"</code>
+  final String issuer;
+
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Name (ARN)</a> of the Amazon Cognito user pool that contains the
+  /// identities to be authorized.
+  ///
+  /// Example: <code>"userPoolArn":
+  /// "arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5"</code>
+  final String userPoolArn;
+
+  /// The type of entity that a policy store maps to groups from an Amazon Cognito
+  /// user pool identity source.
+  final CognitoGroupConfigurationItem? groupConfiguration;
+
+  CognitoUserPoolConfigurationItem({
+    required this.clientIds,
+    required this.issuer,
+    required this.userPoolArn,
+    this.groupConfiguration,
+  });
+
+  factory CognitoUserPoolConfigurationItem.fromJson(Map<String, dynamic> json) {
+    return CognitoUserPoolConfigurationItem(
+      clientIds: ((json['clientIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      issuer: (json['issuer'] as String?) ?? '',
+      userPoolArn: (json['userPoolArn'] as String?) ?? '',
+      groupConfiguration: json['groupConfiguration'] != null
+          ? CognitoGroupConfigurationItem.fromJson(
+              json['groupConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clientIds = this.clientIds;
+    final issuer = this.issuer;
+    final userPoolArn = this.userPoolArn;
+    final groupConfiguration = this.groupConfiguration;
+    return {
+      'clientIds': clientIds,
+      'issuer': issuer,
+      'userPoolArn': userPoolArn,
+      if (groupConfiguration != null) 'groupConfiguration': groupConfiguration,
+    };
+  }
+}
+
+/// Contains configuration details of an OpenID Connect (OIDC) identity
+/// provider, or identity source, that Verified Permissions can use to generate
+/// entities from authenticated identities. It specifies the issuer URL, token
+/// type that you want to use, and policy store entity details.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ConfigurationDetail.html">ConfigurationItem</a>
+/// structure, which is a parameter to <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html">ListIdentitySources</a>.
+class OpenIdConnectConfigurationItem {
+  /// The issuer URL of an OIDC identity provider. This URL must have an OIDC
+  /// discovery endpoint at the path
+  /// <code>.well-known/openid-configuration</code>.
+  final String issuer;
+
+  /// The token type that you want to process from your OIDC identity provider.
+  /// Your policy store can process either identity (ID) or access tokens from a
+  /// given OIDC identity source.
+  final OpenIdConnectTokenSelectionItem tokenSelection;
+
+  /// A descriptive string that you want to prefix to user entities from your OIDC
+  /// identity provider. For example, if you set an <code>entityIdPrefix</code> of
+  /// <code>MyOIDCProvider</code>, you can reference principals in your policies
+  /// in the format <code>MyCorp::User::MyOIDCProvider|Carlos</code>.
+  final String? entityIdPrefix;
+
+  /// The claim in OIDC identity provider tokens that indicates a user's group
+  /// membership, and the entity type that you want to map it to. For example,
+  /// this object can map the contents of a <code>groups</code> claim to
+  /// <code>MyCorp::UserGroup</code>.
+  final OpenIdConnectGroupConfigurationItem? groupConfiguration;
+
+  OpenIdConnectConfigurationItem({
+    required this.issuer,
+    required this.tokenSelection,
+    this.entityIdPrefix,
+    this.groupConfiguration,
+  });
+
+  factory OpenIdConnectConfigurationItem.fromJson(Map<String, dynamic> json) {
+    return OpenIdConnectConfigurationItem(
+      issuer: (json['issuer'] as String?) ?? '',
+      tokenSelection: OpenIdConnectTokenSelectionItem.fromJson(
+          (json['tokenSelection'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      entityIdPrefix: json['entityIdPrefix'] as String?,
+      groupConfiguration: json['groupConfiguration'] != null
+          ? OpenIdConnectGroupConfigurationItem.fromJson(
+              json['groupConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final issuer = this.issuer;
+    final tokenSelection = this.tokenSelection;
+    final entityIdPrefix = this.entityIdPrefix;
+    final groupConfiguration = this.groupConfiguration;
+    return {
+      'issuer': issuer,
+      'tokenSelection': tokenSelection,
+      if (entityIdPrefix != null) 'entityIdPrefix': entityIdPrefix,
+      if (groupConfiguration != null) 'groupConfiguration': groupConfiguration,
+    };
+  }
+}
+
+/// The claim in OIDC identity provider tokens that indicates a user's group
+/// membership, and the entity type that you want to map it to. For example,
+/// this object can map the contents of a <code>groups</code> claim to
+/// <code>MyCorp::UserGroup</code>.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectConfigurationItem.html">OpenIdConnectConfigurationItem</a>
+/// structure, which is a parameter of <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html">ListIdentitySourcea</a>.
+class OpenIdConnectGroupConfigurationItem {
+  /// The token claim that you want Verified Permissions to interpret as group
+  /// membership. For example, <code>groups</code>.
+  final String groupClaim;
+
+  /// The policy store entity type that you want to map your users' group claim
+  /// to. For example, <code>MyCorp::UserGroup</code>. A group entity type is an
+  /// entity that can have a user entity type as a member.
+  final String groupEntityType;
+
+  OpenIdConnectGroupConfigurationItem({
+    required this.groupClaim,
+    required this.groupEntityType,
+  });
+
+  factory OpenIdConnectGroupConfigurationItem.fromJson(
+      Map<String, dynamic> json) {
+    return OpenIdConnectGroupConfigurationItem(
+      groupClaim: (json['groupClaim'] as String?) ?? '',
+      groupEntityType: (json['groupEntityType'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupClaim = this.groupClaim;
+    final groupEntityType = this.groupEntityType;
+    return {
+      'groupClaim': groupClaim,
+      'groupEntityType': groupEntityType,
+    };
+  }
+}
+
+/// The token type that you want to process from your OIDC identity provider.
+/// Your policy store can process either identity (ID) or access tokens from a
+/// given OIDC identity source.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectConfigurationItem.html">OpenIdConnectConfigurationItem</a>
+/// structure, which is a parameter of <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html">ListIdentitySources</a>.
+class OpenIdConnectTokenSelectionItem {
+  /// The OIDC configuration for processing access tokens. Contains allowed
+  /// audience claims, for example <code>https://auth.example.com</code>, and the
+  /// claim that you want to map to the principal, for example <code>sub</code>.
+  final OpenIdConnectAccessTokenConfigurationItem? accessTokenOnly;
+
+  /// The OIDC configuration for processing identity (ID) tokens. Contains allowed
+  /// client ID claims, for example <code>1example23456789</code>, and the claim
+  /// that you want to map to the principal, for example <code>sub</code>.
+  final OpenIdConnectIdentityTokenConfigurationItem? identityTokenOnly;
+
+  OpenIdConnectTokenSelectionItem({
+    this.accessTokenOnly,
+    this.identityTokenOnly,
+  });
+
+  factory OpenIdConnectTokenSelectionItem.fromJson(Map<String, dynamic> json) {
+    return OpenIdConnectTokenSelectionItem(
+      accessTokenOnly: json['accessTokenOnly'] != null
+          ? OpenIdConnectAccessTokenConfigurationItem.fromJson(
+              json['accessTokenOnly'] as Map<String, dynamic>)
+          : null,
+      identityTokenOnly: json['identityTokenOnly'] != null
+          ? OpenIdConnectIdentityTokenConfigurationItem.fromJson(
+              json['identityTokenOnly'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessTokenOnly = this.accessTokenOnly;
+    final identityTokenOnly = this.identityTokenOnly;
+    return {
+      if (accessTokenOnly != null) 'accessTokenOnly': accessTokenOnly,
+      if (identityTokenOnly != null) 'identityTokenOnly': identityTokenOnly,
+    };
+  }
+}
+
+/// The configuration of an OpenID Connect (OIDC) identity source for handling
+/// access token claims. Contains the claim that you want to identify as the
+/// principal in an authorization request, and the values of the
+/// <code>aud</code> claim, or audiences, that you want to accept.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectTokenSelectionItem.html">OpenIdConnectTokenSelectionItem</a>
+/// structure, which is a parameter of <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html">ListIdentitySources</a>.
+class OpenIdConnectAccessTokenConfigurationItem {
+  /// The access token <code>aud</code> claim values that you want to accept in
+  /// your policy store. For example, <code>https://myapp.example.com,
+  /// https://myapp2.example.com</code>.
+  final List<String>? audiences;
+
+  /// The claim that determines the principal in OIDC access tokens. For example,
+  /// <code>sub</code>.
+  final String? principalIdClaim;
+
+  OpenIdConnectAccessTokenConfigurationItem({
+    this.audiences,
+    this.principalIdClaim,
+  });
+
+  factory OpenIdConnectAccessTokenConfigurationItem.fromJson(
+      Map<String, dynamic> json) {
+    return OpenIdConnectAccessTokenConfigurationItem(
+      audiences: (json['audiences'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      principalIdClaim: json['principalIdClaim'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final audiences = this.audiences;
+    final principalIdClaim = this.principalIdClaim;
+    return {
+      if (audiences != null) 'audiences': audiences,
+      if (principalIdClaim != null) 'principalIdClaim': principalIdClaim,
+    };
+  }
+}
+
+/// The configuration of an OpenID Connect (OIDC) identity source for handling
+/// identity (ID) token claims. Contains the claim that you want to identify as
+/// the principal in an authorization request, and the values of the
+/// <code>aud</code> claim, or audiences, that you want to accept.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectTokenSelectionItem.html">OpenIdConnectTokenSelectionItem</a>
+/// structure, which is a parameter of <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html">ListIdentitySources</a>.
+class OpenIdConnectIdentityTokenConfigurationItem {
+  /// The ID token audience, or client ID, claim values that you want to accept in
+  /// your policy store from an OIDC identity provider. For example,
+  /// <code>1example23456789, 2example10111213</code>.
+  final List<String>? clientIds;
+
+  /// The claim that determines the principal in OIDC access tokens. For example,
+  /// <code>sub</code>.
+  final String? principalIdClaim;
+
+  OpenIdConnectIdentityTokenConfigurationItem({
+    this.clientIds,
+    this.principalIdClaim,
+  });
+
+  factory OpenIdConnectIdentityTokenConfigurationItem.fromJson(
+      Map<String, dynamic> json) {
+    return OpenIdConnectIdentityTokenConfigurationItem(
+      clientIds: (json['clientIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      principalIdClaim: json['principalIdClaim'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clientIds = this.clientIds;
+    final principalIdClaim = this.principalIdClaim;
+    return {
+      if (clientIds != null) 'clientIds': clientIds,
+      if (principalIdClaim != null) 'principalIdClaim': principalIdClaim,
+    };
+  }
+}
+
+/// The type of entity that a policy store maps to groups from an Amazon Cognito
+/// user pool identity source.
+///
+/// This data type is part of an <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CognitoUserPoolConfigurationDetail.html">CognitoUserPoolConfigurationItem</a>
+/// structure and is a response parameter to <a
+/// href="http://forums.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html">ListIdentitySources</a>.
+class CognitoGroupConfigurationItem {
+  /// The name of the schema entity type that's mapped to the user pool group.
+  /// Defaults to <code>AWS::CognitoGroup</code>.
+  final String? groupEntityType;
+
+  CognitoGroupConfigurationItem({
+    this.groupEntityType,
+  });
+
+  factory CognitoGroupConfigurationItem.fromJson(Map<String, dynamic> json) {
+    return CognitoGroupConfigurationItem(
+      groupEntityType: json['groupEntityType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupEntityType = this.groupEntityType;
+    return {
+      if (groupEntityType != null) 'groupEntityType': groupEntityType,
+    };
+  }
+}
+
+class OpenIdIssuer {
+  static const cognito = OpenIdIssuer._('COGNITO');
 
   final String value;
 
-  const ValidationMode._(this.value);
+  const OpenIdIssuer._(this.value);
 
-  static const values = [off, strict];
+  static const values = [cognito];
 
-  static ValidationMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ValidationMode._(value));
+  static OpenIdIssuer fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OpenIdIssuer._(value));
 
   @override
-  bool operator ==(other) => other is ValidationMode && other.value == value;
+  bool operator ==(other) => other is OpenIdIssuer && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
+}
+
+/// A structure that defines characteristics of an identity source that you can
+/// use to filter.
+///
+/// This data type is a request parameter for the <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentityStores.html">ListIdentityStores</a>
+/// operation.
+class IdentitySourceFilter {
+  /// The Cedar entity type of the principals returned by the identity provider
+  /// (IdP) associated with this identity source.
+  final String? principalEntityType;
+
+  IdentitySourceFilter({
+    this.principalEntityType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final principalEntityType = this.principalEntityType;
+    return {
+      if (principalEntityType != null)
+        'principalEntityType': principalEntityType,
+    };
+  }
+}
+
+/// Contains an update to replace the configuration in an existing identity
+/// source.
+class UpdateConfiguration {
+  /// Contains configuration details of a Amazon Cognito user pool.
+  final UpdateCognitoUserPoolConfiguration? cognitoUserPoolConfiguration;
+
+  /// Contains configuration details of an OpenID Connect (OIDC) identity
+  /// provider, or identity source, that Verified Permissions can use to generate
+  /// entities from authenticated identities. It specifies the issuer URL, token
+  /// type that you want to use, and policy store entity details.
+  final UpdateOpenIdConnectConfiguration? openIdConnectConfiguration;
+
+  UpdateConfiguration({
+    this.cognitoUserPoolConfiguration,
+    this.openIdConnectConfiguration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final cognitoUserPoolConfiguration = this.cognitoUserPoolConfiguration;
+    final openIdConnectConfiguration = this.openIdConnectConfiguration;
+    return {
+      if (cognitoUserPoolConfiguration != null)
+        'cognitoUserPoolConfiguration': cognitoUserPoolConfiguration,
+      if (openIdConnectConfiguration != null)
+        'openIdConnectConfiguration': openIdConnectConfiguration,
+    };
+  }
+}
+
+/// Contains configuration details of a Amazon Cognito user pool for use with an
+/// identity source.
+class UpdateCognitoUserPoolConfiguration {
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Name (ARN)</a> of the Amazon Cognito user pool associated with this
+  /// identity source.
+  final String userPoolArn;
+
+  /// The client ID of an app client that is configured for the specified Amazon
+  /// Cognito user pool.
+  final List<String>? clientIds;
+
+  /// The configuration of the user groups from an Amazon Cognito user pool
+  /// identity source.
+  final UpdateCognitoGroupConfiguration? groupConfiguration;
+
+  UpdateCognitoUserPoolConfiguration({
+    required this.userPoolArn,
+    this.clientIds,
+    this.groupConfiguration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final userPoolArn = this.userPoolArn;
+    final clientIds = this.clientIds;
+    final groupConfiguration = this.groupConfiguration;
+    return {
+      'userPoolArn': userPoolArn,
+      if (clientIds != null) 'clientIds': clientIds,
+      if (groupConfiguration != null) 'groupConfiguration': groupConfiguration,
+    };
+  }
+}
+
+/// Contains configuration details of an OpenID Connect (OIDC) identity
+/// provider, or identity source, that Verified Permissions can use to generate
+/// entities from authenticated identities. It specifies the issuer URL, token
+/// type that you want to use, and policy store entity details.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateConfiguration.html">UpdateConfiguration</a>
+/// structure, which is a parameter to <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateIdentitySource.html">UpdateIdentitySource</a>.
+class UpdateOpenIdConnectConfiguration {
+  /// The issuer URL of an OIDC identity provider. This URL must have an OIDC
+  /// discovery endpoint at the path
+  /// <code>.well-known/openid-configuration</code>.
+  final String issuer;
+
+  /// The token type that you want to process from your OIDC identity provider.
+  /// Your policy store can process either identity (ID) or access tokens from a
+  /// given OIDC identity source.
+  final UpdateOpenIdConnectTokenSelection tokenSelection;
+
+  /// A descriptive string that you want to prefix to user entities from your OIDC
+  /// identity provider. For example, if you set an <code>entityIdPrefix</code> of
+  /// <code>MyOIDCProvider</code>, you can reference principals in your policies
+  /// in the format <code>MyCorp::User::MyOIDCProvider|Carlos</code>.
+  final String? entityIdPrefix;
+
+  /// The claim in OIDC identity provider tokens that indicates a user's group
+  /// membership, and the entity type that you want to map it to. For example,
+  /// this object can map the contents of a <code>groups</code> claim to
+  /// <code>MyCorp::UserGroup</code>.
+  final UpdateOpenIdConnectGroupConfiguration? groupConfiguration;
+
+  UpdateOpenIdConnectConfiguration({
+    required this.issuer,
+    required this.tokenSelection,
+    this.entityIdPrefix,
+    this.groupConfiguration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final issuer = this.issuer;
+    final tokenSelection = this.tokenSelection;
+    final entityIdPrefix = this.entityIdPrefix;
+    final groupConfiguration = this.groupConfiguration;
+    return {
+      'issuer': issuer,
+      'tokenSelection': tokenSelection,
+      if (entityIdPrefix != null) 'entityIdPrefix': entityIdPrefix,
+      if (groupConfiguration != null) 'groupConfiguration': groupConfiguration,
+    };
+  }
+}
+
+/// The claim in OIDC identity provider tokens that indicates a user's group
+/// membership, and the entity type that you want to map it to. For example,
+/// this object can map the contents of a <code>groups</code> claim to
+/// <code>MyCorp::UserGroup</code>.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateOpenIdConnectConfiguration.html">UpdateOpenIdConnectConfiguration</a>
+/// structure, which is a parameter to <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateIdentitySource.html">UpdateIdentitySource</a>.
+class UpdateOpenIdConnectGroupConfiguration {
+  /// The token claim that you want Verified Permissions to interpret as group
+  /// membership. For example, <code>groups</code>.
+  final String groupClaim;
+
+  /// The policy store entity type that you want to map your users' group claim
+  /// to. For example, <code>MyCorp::UserGroup</code>. A group entity type is an
+  /// entity that can have a user entity type as a member.
+  final String groupEntityType;
+
+  UpdateOpenIdConnectGroupConfiguration({
+    required this.groupClaim,
+    required this.groupEntityType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final groupClaim = this.groupClaim;
+    final groupEntityType = this.groupEntityType;
+    return {
+      'groupClaim': groupClaim,
+      'groupEntityType': groupEntityType,
+    };
+  }
+}
+
+/// The token type that you want to process from your OIDC identity provider.
+/// Your policy store can process either identity (ID) or access tokens from a
+/// given OIDC identity source.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateOpenIdConnectConfiguration.html">UpdateOpenIdConnectConfiguration</a>
+/// structure, which is a parameter to <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateIdentitySource.html">UpdateIdentitySource</a>.
+class UpdateOpenIdConnectTokenSelection {
+  /// The OIDC configuration for processing access tokens. Contains allowed
+  /// audience claims, for example <code>https://auth.example.com</code>, and the
+  /// claim that you want to map to the principal, for example <code>sub</code>.
+  final UpdateOpenIdConnectAccessTokenConfiguration? accessTokenOnly;
+
+  /// The OIDC configuration for processing identity (ID) tokens. Contains allowed
+  /// client ID claims, for example <code>1example23456789</code>, and the claim
+  /// that you want to map to the principal, for example <code>sub</code>.
+  final UpdateOpenIdConnectIdentityTokenConfiguration? identityTokenOnly;
+
+  UpdateOpenIdConnectTokenSelection({
+    this.accessTokenOnly,
+    this.identityTokenOnly,
+  });
+
+  Map<String, dynamic> toJson() {
+    final accessTokenOnly = this.accessTokenOnly;
+    final identityTokenOnly = this.identityTokenOnly;
+    return {
+      if (accessTokenOnly != null) 'accessTokenOnly': accessTokenOnly,
+      if (identityTokenOnly != null) 'identityTokenOnly': identityTokenOnly,
+    };
+  }
+}
+
+/// The configuration of an OpenID Connect (OIDC) identity source for handling
+/// access token claims. Contains the claim that you want to identify as the
+/// principal in an authorization request, and the values of the
+/// <code>aud</code> claim, or audiences, that you want to accept.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateOpenIdConnectTokenSelection.html">UpdateOpenIdConnectTokenSelection</a>
+/// structure, which is a parameter to <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateIdentitySource.html">UpdateIdentitySource</a>.
+class UpdateOpenIdConnectAccessTokenConfiguration {
+  /// The access token <code>aud</code> claim values that you want to accept in
+  /// your policy store. For example, <code>https://myapp.example.com,
+  /// https://myapp2.example.com</code>.
+  final List<String>? audiences;
+
+  /// The claim that determines the principal in OIDC access tokens. For example,
+  /// <code>sub</code>.
+  final String? principalIdClaim;
+
+  UpdateOpenIdConnectAccessTokenConfiguration({
+    this.audiences,
+    this.principalIdClaim,
+  });
+
+  Map<String, dynamic> toJson() {
+    final audiences = this.audiences;
+    final principalIdClaim = this.principalIdClaim;
+    return {
+      if (audiences != null) 'audiences': audiences,
+      if (principalIdClaim != null) 'principalIdClaim': principalIdClaim,
+    };
+  }
+}
+
+/// The configuration of an OpenID Connect (OIDC) identity source for handling
+/// identity (ID) token claims. Contains the claim that you want to identify as
+/// the principal in an authorization request, and the values of the
+/// <code>aud</code> claim, or audiences, that you want to accept.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateOpenIdConnectTokenSelection.html">UpdateOpenIdConnectTokenSelection</a>
+/// structure, which is a parameter to <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateIdentitySource.html">UpdateIdentitySource</a>.
+class UpdateOpenIdConnectIdentityTokenConfiguration {
+  /// The ID token audience, or client ID, claim values that you want to accept in
+  /// your policy store from an OIDC identity provider. For example,
+  /// <code>1example23456789, 2example10111213</code>.
+  final List<String>? clientIds;
+
+  /// The claim that determines the principal in OIDC access tokens. For example,
+  /// <code>sub</code>.
+  final String? principalIdClaim;
+
+  UpdateOpenIdConnectIdentityTokenConfiguration({
+    this.clientIds,
+    this.principalIdClaim,
+  });
+
+  Map<String, dynamic> toJson() {
+    final clientIds = this.clientIds;
+    final principalIdClaim = this.principalIdClaim;
+    return {
+      if (clientIds != null) 'clientIds': clientIds,
+      if (principalIdClaim != null) 'principalIdClaim': principalIdClaim,
+    };
+  }
+}
+
+/// The user group entities from an Amazon Cognito user pool identity source.
+class UpdateCognitoGroupConfiguration {
+  /// The name of the schema entity type that's mapped to the user pool group.
+  /// Defaults to <code>AWS::CognitoGroup</code>.
+  final String groupEntityType;
+
+  UpdateCognitoGroupConfiguration({
+    required this.groupEntityType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final groupEntityType = this.groupEntityType;
+    return {
+      'groupEntityType': groupEntityType,
+    };
+  }
+}
+
+/// A structure that contains configuration of the identity source.
+///
+/// This data type was a response parameter for the <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html">GetIdentitySource</a>
+/// operation. Replaced by <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ConfigurationDetail.html">ConfigurationDetail</a>.
+class IdentitySourceDetails {
+  /// The application client IDs associated with the specified Amazon Cognito user
+  /// pool that are enabled for this identity source.
+  final List<String>? clientIds;
+
+  /// The well-known URL that points to this user pool's OIDC discovery endpoint.
+  /// This is a URL string in the following format. This URL replaces the
+  /// placeholders for both the Amazon Web Services Region and the user pool
+  /// identifier with those appropriate for this user pool.
+  ///
+  /// <code>https://cognito-idp.<i>&lt;region&gt;</i>.amazonaws.com/<i>&lt;user-pool-id&gt;</i>/.well-known/openid-configuration</code>
+  final String? discoveryUrl;
+
+  /// A string that identifies the type of OIDC service represented by this
+  /// identity source.
+  ///
+  /// At this time, the only valid value is <code>cognito</code>.
+  final OpenIdIssuer? openIdIssuer;
+
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Name (ARN)</a> of the Amazon Cognito user pool whose identities are
+  /// accessible to this Verified Permissions policy store.
+  final String? userPoolArn;
+
+  IdentitySourceDetails({
+    this.clientIds,
+    this.discoveryUrl,
+    this.openIdIssuer,
+    this.userPoolArn,
+  });
+
+  factory IdentitySourceDetails.fromJson(Map<String, dynamic> json) {
+    return IdentitySourceDetails(
+      clientIds: (json['clientIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      discoveryUrl: json['discoveryUrl'] as String?,
+      openIdIssuer:
+          (json['openIdIssuer'] as String?)?.let(OpenIdIssuer.fromString),
+      userPoolArn: json['userPoolArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clientIds = this.clientIds;
+    final discoveryUrl = this.discoveryUrl;
+    final openIdIssuer = this.openIdIssuer;
+    final userPoolArn = this.userPoolArn;
+    return {
+      if (clientIds != null) 'clientIds': clientIds,
+      if (discoveryUrl != null) 'discoveryUrl': discoveryUrl,
+      if (openIdIssuer != null) 'openIdIssuer': openIdIssuer.value,
+      if (userPoolArn != null) 'userPoolArn': userPoolArn,
+    };
+  }
+}
+
+/// Contains configuration information about an identity source.
+///
+/// This data type is a response parameter to the <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html">GetIdentitySource</a>
+/// operation.
+class ConfigurationDetail {
+  /// Contains configuration details of a Amazon Cognito user pool that Verified
+  /// Permissions can use as a source of authenticated identities as entities. It
+  /// specifies the <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Name (ARN)</a> of a Amazon Cognito user pool, the policy store
+  /// entity that you want to assign to user groups, and one or more application
+  /// client IDs.
+  ///
+  /// Example:
+  /// <code>"configuration":{"cognitoUserPoolConfiguration":{"userPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","clientIds":
+  /// ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType":
+  /// "MyCorp::Group"}}}</code>
+  final CognitoUserPoolConfigurationDetail? cognitoUserPoolConfiguration;
+
+  /// Contains configuration details of an OpenID Connect (OIDC) identity
+  /// provider, or identity source, that Verified Permissions can use to generate
+  /// entities from authenticated identities. It specifies the issuer URL, token
+  /// type that you want to use, and policy store entity details.
+  ///
+  /// Example:<code>"configuration":{"openIdConnectConfiguration":{"issuer":"https://auth.example.com","tokenSelection":{"accessTokenOnly":{"audiences":["https://myapp.example.com","https://myapp2.example.com"],"principalIdClaim":"sub"}},"entityIdPrefix":"MyOIDCProvider","groupConfiguration":{"groupClaim":"groups","groupEntityType":"MyCorp::UserGroup"}}}</code>
+  final OpenIdConnectConfigurationDetail? openIdConnectConfiguration;
+
+  ConfigurationDetail({
+    this.cognitoUserPoolConfiguration,
+    this.openIdConnectConfiguration,
+  });
+
+  factory ConfigurationDetail.fromJson(Map<String, dynamic> json) {
+    return ConfigurationDetail(
+      cognitoUserPoolConfiguration: json['cognitoUserPoolConfiguration'] != null
+          ? CognitoUserPoolConfigurationDetail.fromJson(
+              json['cognitoUserPoolConfiguration'] as Map<String, dynamic>)
+          : null,
+      openIdConnectConfiguration: json['openIdConnectConfiguration'] != null
+          ? OpenIdConnectConfigurationDetail.fromJson(
+              json['openIdConnectConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cognitoUserPoolConfiguration = this.cognitoUserPoolConfiguration;
+    final openIdConnectConfiguration = this.openIdConnectConfiguration;
+    return {
+      if (cognitoUserPoolConfiguration != null)
+        'cognitoUserPoolConfiguration': cognitoUserPoolConfiguration,
+      if (openIdConnectConfiguration != null)
+        'openIdConnectConfiguration': openIdConnectConfiguration,
+    };
+  }
+}
+
+/// The configuration for an identity source that represents a connection to an
+/// Amazon Cognito user pool used as an identity provider for Verified
+/// Permissions.
+///
+/// This data type is used as a field that is part of an <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ConfigurationDetail.html">ConfigurationDetail</a>
+/// structure that is part of the response to <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html">GetIdentitySource</a>.
+///
+/// Example:<code>"CognitoUserPoolConfiguration":{"UserPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","ClientIds":
+/// ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType":
+/// "MyCorp::Group"}}</code>
+class CognitoUserPoolConfigurationDetail {
+  /// The unique application client IDs that are associated with the specified
+  /// Amazon Cognito user pool.
+  ///
+  /// Example: <code>"clientIds": ["&amp;ExampleCogClientId;"]</code>
+  final List<String> clientIds;
+
+  /// The OpenID Connect (OIDC) <code>issuer</code> ID of the Amazon Cognito user
+  /// pool that contains the identities to be authorized.
+  ///
+  /// Example: <code>"issuer":
+  /// "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_1a2b3c4d5"</code>
+  final String issuer;
+
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Name (ARN)</a> of the Amazon Cognito user pool that contains the
+  /// identities to be authorized.
+  ///
+  /// Example: <code>"userPoolArn":
+  /// "arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5"</code>
+  final String userPoolArn;
+
+  /// The type of entity that a policy store maps to groups from an Amazon Cognito
+  /// user pool identity source.
+  final CognitoGroupConfigurationDetail? groupConfiguration;
+
+  CognitoUserPoolConfigurationDetail({
+    required this.clientIds,
+    required this.issuer,
+    required this.userPoolArn,
+    this.groupConfiguration,
+  });
+
+  factory CognitoUserPoolConfigurationDetail.fromJson(
+      Map<String, dynamic> json) {
+    return CognitoUserPoolConfigurationDetail(
+      clientIds: ((json['clientIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      issuer: (json['issuer'] as String?) ?? '',
+      userPoolArn: (json['userPoolArn'] as String?) ?? '',
+      groupConfiguration: json['groupConfiguration'] != null
+          ? CognitoGroupConfigurationDetail.fromJson(
+              json['groupConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clientIds = this.clientIds;
+    final issuer = this.issuer;
+    final userPoolArn = this.userPoolArn;
+    final groupConfiguration = this.groupConfiguration;
+    return {
+      'clientIds': clientIds,
+      'issuer': issuer,
+      'userPoolArn': userPoolArn,
+      if (groupConfiguration != null) 'groupConfiguration': groupConfiguration,
+    };
+  }
+}
+
+/// Contains configuration details of an OpenID Connect (OIDC) identity
+/// provider, or identity source, that Verified Permissions can use to generate
+/// entities from authenticated identities. It specifies the issuer URL, token
+/// type that you want to use, and policy store entity details.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ConfigurationDetail.html">ConfigurationDetail</a>
+/// structure, which is a parameter to <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html">GetIdentitySource</a>.
+class OpenIdConnectConfigurationDetail {
+  /// The issuer URL of an OIDC identity provider. This URL must have an OIDC
+  /// discovery endpoint at the path
+  /// <code>.well-known/openid-configuration</code>.
+  final String issuer;
+
+  /// The token type that you want to process from your OIDC identity provider.
+  /// Your policy store can process either identity (ID) or access tokens from a
+  /// given OIDC identity source.
+  final OpenIdConnectTokenSelectionDetail tokenSelection;
+
+  /// A descriptive string that you want to prefix to user entities from your OIDC
+  /// identity provider. For example, if you set an <code>entityIdPrefix</code> of
+  /// <code>MyOIDCProvider</code>, you can reference principals in your policies
+  /// in the format <code>MyCorp::User::MyOIDCProvider|Carlos</code>.
+  final String? entityIdPrefix;
+
+  /// The claim in OIDC identity provider tokens that indicates a user's group
+  /// membership, and the entity type that you want to map it to. For example,
+  /// this object can map the contents of a <code>groups</code> claim to
+  /// <code>MyCorp::UserGroup</code>.
+  final OpenIdConnectGroupConfigurationDetail? groupConfiguration;
+
+  OpenIdConnectConfigurationDetail({
+    required this.issuer,
+    required this.tokenSelection,
+    this.entityIdPrefix,
+    this.groupConfiguration,
+  });
+
+  factory OpenIdConnectConfigurationDetail.fromJson(Map<String, dynamic> json) {
+    return OpenIdConnectConfigurationDetail(
+      issuer: (json['issuer'] as String?) ?? '',
+      tokenSelection: OpenIdConnectTokenSelectionDetail.fromJson(
+          (json['tokenSelection'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      entityIdPrefix: json['entityIdPrefix'] as String?,
+      groupConfiguration: json['groupConfiguration'] != null
+          ? OpenIdConnectGroupConfigurationDetail.fromJson(
+              json['groupConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final issuer = this.issuer;
+    final tokenSelection = this.tokenSelection;
+    final entityIdPrefix = this.entityIdPrefix;
+    final groupConfiguration = this.groupConfiguration;
+    return {
+      'issuer': issuer,
+      'tokenSelection': tokenSelection,
+      if (entityIdPrefix != null) 'entityIdPrefix': entityIdPrefix,
+      if (groupConfiguration != null) 'groupConfiguration': groupConfiguration,
+    };
+  }
+}
+
+/// The claim in OIDC identity provider tokens that indicates a user's group
+/// membership, and the entity type that you want to map it to. For example,
+/// this object can map the contents of a <code>groups</code> claim to
+/// <code>MyCorp::UserGroup</code>.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectConfigurationDetail.html">OpenIdConnectConfigurationDetail</a>
+/// structure, which is a parameter of <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html">GetIdentitySource</a>.
+class OpenIdConnectGroupConfigurationDetail {
+  /// The token claim that you want Verified Permissions to interpret as group
+  /// membership. For example, <code>groups</code>.
+  final String groupClaim;
+
+  /// The policy store entity type that you want to map your users' group claim
+  /// to. For example, <code>MyCorp::UserGroup</code>. A group entity type is an
+  /// entity that can have a user entity type as a member.
+  final String groupEntityType;
+
+  OpenIdConnectGroupConfigurationDetail({
+    required this.groupClaim,
+    required this.groupEntityType,
+  });
+
+  factory OpenIdConnectGroupConfigurationDetail.fromJson(
+      Map<String, dynamic> json) {
+    return OpenIdConnectGroupConfigurationDetail(
+      groupClaim: (json['groupClaim'] as String?) ?? '',
+      groupEntityType: (json['groupEntityType'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupClaim = this.groupClaim;
+    final groupEntityType = this.groupEntityType;
+    return {
+      'groupClaim': groupClaim,
+      'groupEntityType': groupEntityType,
+    };
+  }
+}
+
+/// The token type that you want to process from your OIDC identity provider.
+/// Your policy store can process either identity (ID) or access tokens from a
+/// given OIDC identity source.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectConfigurationDetail.html">OpenIdConnectConfigurationDetail</a>
+/// structure, which is a parameter of <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html">GetIdentitySource</a>.
+class OpenIdConnectTokenSelectionDetail {
+  /// The OIDC configuration for processing access tokens. Contains allowed
+  /// audience claims, for example <code>https://auth.example.com</code>, and the
+  /// claim that you want to map to the principal, for example <code>sub</code>.
+  final OpenIdConnectAccessTokenConfigurationDetail? accessTokenOnly;
+
+  /// The OIDC configuration for processing identity (ID) tokens. Contains allowed
+  /// client ID claims, for example <code>1example23456789</code>, and the claim
+  /// that you want to map to the principal, for example <code>sub</code>.
+  final OpenIdConnectIdentityTokenConfigurationDetail? identityTokenOnly;
+
+  OpenIdConnectTokenSelectionDetail({
+    this.accessTokenOnly,
+    this.identityTokenOnly,
+  });
+
+  factory OpenIdConnectTokenSelectionDetail.fromJson(
+      Map<String, dynamic> json) {
+    return OpenIdConnectTokenSelectionDetail(
+      accessTokenOnly: json['accessTokenOnly'] != null
+          ? OpenIdConnectAccessTokenConfigurationDetail.fromJson(
+              json['accessTokenOnly'] as Map<String, dynamic>)
+          : null,
+      identityTokenOnly: json['identityTokenOnly'] != null
+          ? OpenIdConnectIdentityTokenConfigurationDetail.fromJson(
+              json['identityTokenOnly'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessTokenOnly = this.accessTokenOnly;
+    final identityTokenOnly = this.identityTokenOnly;
+    return {
+      if (accessTokenOnly != null) 'accessTokenOnly': accessTokenOnly,
+      if (identityTokenOnly != null) 'identityTokenOnly': identityTokenOnly,
+    };
+  }
+}
+
+/// The configuration of an OpenID Connect (OIDC) identity source for handling
+/// access token claims. Contains the claim that you want to identify as the
+/// principal in an authorization request, and the values of the
+/// <code>aud</code> claim, or audiences, that you want to accept.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectTokenSelectionDetail.html">OpenIdConnectTokenSelectionDetail</a>
+/// structure, which is a parameter of <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html">GetIdentitySource</a>.
+class OpenIdConnectAccessTokenConfigurationDetail {
+  /// The access token <code>aud</code> claim values that you want to accept in
+  /// your policy store. For example, <code>https://myapp.example.com,
+  /// https://myapp2.example.com</code>.
+  final List<String>? audiences;
+
+  /// The claim that determines the principal in OIDC access tokens. For example,
+  /// <code>sub</code>.
+  final String? principalIdClaim;
+
+  OpenIdConnectAccessTokenConfigurationDetail({
+    this.audiences,
+    this.principalIdClaim,
+  });
+
+  factory OpenIdConnectAccessTokenConfigurationDetail.fromJson(
+      Map<String, dynamic> json) {
+    return OpenIdConnectAccessTokenConfigurationDetail(
+      audiences: (json['audiences'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      principalIdClaim: json['principalIdClaim'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final audiences = this.audiences;
+    final principalIdClaim = this.principalIdClaim;
+    return {
+      if (audiences != null) 'audiences': audiences,
+      if (principalIdClaim != null) 'principalIdClaim': principalIdClaim,
+    };
+  }
+}
+
+/// The configuration of an OpenID Connect (OIDC) identity source for handling
+/// identity (ID) token claims. Contains the claim that you want to identify as
+/// the principal in an authorization request, and the values of the
+/// <code>aud</code> claim, or audiences, that you want to accept.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectTokenSelectionDetail.html">OpenIdConnectTokenSelectionDetail</a>
+/// structure, which is a parameter of <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html">GetIdentitySource</a>.
+class OpenIdConnectIdentityTokenConfigurationDetail {
+  /// The ID token audience, or client ID, claim values that you want to accept in
+  /// your policy store from an OIDC identity provider. For example,
+  /// <code>1example23456789, 2example10111213</code>.
+  final List<String>? clientIds;
+
+  /// The claim that determines the principal in OIDC access tokens. For example,
+  /// <code>sub</code>.
+  final String? principalIdClaim;
+
+  OpenIdConnectIdentityTokenConfigurationDetail({
+    this.clientIds,
+    this.principalIdClaim,
+  });
+
+  factory OpenIdConnectIdentityTokenConfigurationDetail.fromJson(
+      Map<String, dynamic> json) {
+    return OpenIdConnectIdentityTokenConfigurationDetail(
+      clientIds: (json['clientIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      principalIdClaim: json['principalIdClaim'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clientIds = this.clientIds;
+    final principalIdClaim = this.principalIdClaim;
+    return {
+      if (clientIds != null) 'clientIds': clientIds,
+      if (principalIdClaim != null) 'principalIdClaim': principalIdClaim,
+    };
+  }
+}
+
+/// The type of entity that a policy store maps to groups from an Amazon Cognito
+/// user pool identity source.
+///
+/// This data type is part of an <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CognitoUserPoolConfigurationItem.html">CognitoUserPoolConfigurationDetail</a>
+/// structure and is a response parameter to <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html">GetIdentitySource</a>.
+class CognitoGroupConfigurationDetail {
+  /// The name of the schema entity type that's mapped to the user pool group.
+  /// Defaults to <code>AWS::CognitoGroup</code>.
+  final String? groupEntityType;
+
+  CognitoGroupConfigurationDetail({
+    this.groupEntityType,
+  });
+
+  factory CognitoGroupConfigurationDetail.fromJson(Map<String, dynamic> json) {
+    return CognitoGroupConfigurationDetail(
+      groupEntityType: json['groupEntityType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupEntityType = this.groupEntityType;
+    return {
+      if (groupEntityType != null) 'groupEntityType': groupEntityType,
+    };
+  }
+}
+
+/// Contains configuration information used when creating a new identity source.
+///
+/// This data type is used as a request parameter for the <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html">CreateIdentitySource</a>
+/// operation.
+class Configuration {
+  /// Contains configuration details of a Amazon Cognito user pool that Verified
+  /// Permissions can use as a source of authenticated identities as entities. It
+  /// specifies the <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Name (ARN)</a> of a Amazon Cognito user pool and one or more
+  /// application client IDs.
+  ///
+  /// Example:
+  /// <code>"configuration":{"cognitoUserPoolConfiguration":{"userPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","clientIds":
+  /// ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType":
+  /// "MyCorp::Group"}}}</code>
+  final CognitoUserPoolConfiguration? cognitoUserPoolConfiguration;
+
+  /// Contains configuration details of an OpenID Connect (OIDC) identity
+  /// provider, or identity source, that Verified Permissions can use to generate
+  /// entities from authenticated identities. It specifies the issuer URL, token
+  /// type that you want to use, and policy store entity details.
+  ///
+  /// Example:<code>"configuration":{"openIdConnectConfiguration":{"issuer":"https://auth.example.com","tokenSelection":{"accessTokenOnly":{"audiences":["https://myapp.example.com","https://myapp2.example.com"],"principalIdClaim":"sub"}},"entityIdPrefix":"MyOIDCProvider","groupConfiguration":{"groupClaim":"groups","groupEntityType":"MyCorp::UserGroup"}}}</code>
+  final OpenIdConnectConfiguration? openIdConnectConfiguration;
+
+  Configuration({
+    this.cognitoUserPoolConfiguration,
+    this.openIdConnectConfiguration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final cognitoUserPoolConfiguration = this.cognitoUserPoolConfiguration;
+    final openIdConnectConfiguration = this.openIdConnectConfiguration;
+    return {
+      if (cognitoUserPoolConfiguration != null)
+        'cognitoUserPoolConfiguration': cognitoUserPoolConfiguration,
+      if (openIdConnectConfiguration != null)
+        'openIdConnectConfiguration': openIdConnectConfiguration,
+    };
+  }
+}
+
+/// The configuration for an identity source that represents a connection to an
+/// Amazon Cognito user pool used as an identity provider for Verified
+/// Permissions.
+///
+/// This data type part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_Configuration.html">Configuration</a>
+/// structure that is used as a parameter to <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html">CreateIdentitySource</a>.
+///
+/// Example:<code>"CognitoUserPoolConfiguration":{"UserPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","ClientIds":
+/// ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType":
+/// "MyCorp::Group"}}</code>
+class CognitoUserPoolConfiguration {
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Name (ARN)</a> of the Amazon Cognito user pool that contains the
+  /// identities to be authorized.
+  ///
+  /// Example: <code>"UserPoolArn":
+  /// "arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5"</code>
+  final String userPoolArn;
+
+  /// The unique application client IDs that are associated with the specified
+  /// Amazon Cognito user pool.
+  ///
+  /// Example: <code>"ClientIds": ["&amp;ExampleCogClientId;"]</code>
+  final List<String>? clientIds;
+
+  /// The type of entity that a policy store maps to groups from an Amazon Cognito
+  /// user pool identity source.
+  final CognitoGroupConfiguration? groupConfiguration;
+
+  CognitoUserPoolConfiguration({
+    required this.userPoolArn,
+    this.clientIds,
+    this.groupConfiguration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final userPoolArn = this.userPoolArn;
+    final clientIds = this.clientIds;
+    final groupConfiguration = this.groupConfiguration;
+    return {
+      'userPoolArn': userPoolArn,
+      if (clientIds != null) 'clientIds': clientIds,
+      if (groupConfiguration != null) 'groupConfiguration': groupConfiguration,
+    };
+  }
+}
+
+/// Contains configuration details of an OpenID Connect (OIDC) identity
+/// provider, or identity source, that Verified Permissions can use to generate
+/// entities from authenticated identities. It specifies the issuer URL, token
+/// type that you want to use, and policy store entity details.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_Configuration.html">Configuration</a>
+/// structure, which is a parameter to <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html">CreateIdentitySource</a>.
+class OpenIdConnectConfiguration {
+  /// The issuer URL of an OIDC identity provider. This URL must have an OIDC
+  /// discovery endpoint at the path
+  /// <code>.well-known/openid-configuration</code>.
+  final String issuer;
+
+  /// The token type that you want to process from your OIDC identity provider.
+  /// Your policy store can process either identity (ID) or access tokens from a
+  /// given OIDC identity source.
+  final OpenIdConnectTokenSelection tokenSelection;
+
+  /// A descriptive string that you want to prefix to user entities from your OIDC
+  /// identity provider. For example, if you set an <code>entityIdPrefix</code> of
+  /// <code>MyOIDCProvider</code>, you can reference principals in your policies
+  /// in the format <code>MyCorp::User::MyOIDCProvider|Carlos</code>.
+  final String? entityIdPrefix;
+
+  /// The claim in OIDC identity provider tokens that indicates a user's group
+  /// membership, and the entity type that you want to map it to. For example,
+  /// this object can map the contents of a <code>groups</code> claim to
+  /// <code>MyCorp::UserGroup</code>.
+  final OpenIdConnectGroupConfiguration? groupConfiguration;
+
+  OpenIdConnectConfiguration({
+    required this.issuer,
+    required this.tokenSelection,
+    this.entityIdPrefix,
+    this.groupConfiguration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final issuer = this.issuer;
+    final tokenSelection = this.tokenSelection;
+    final entityIdPrefix = this.entityIdPrefix;
+    final groupConfiguration = this.groupConfiguration;
+    return {
+      'issuer': issuer,
+      'tokenSelection': tokenSelection,
+      if (entityIdPrefix != null) 'entityIdPrefix': entityIdPrefix,
+      if (groupConfiguration != null) 'groupConfiguration': groupConfiguration,
+    };
+  }
+}
+
+/// The claim in OIDC identity provider tokens that indicates a user's group
+/// membership, and the entity type that you want to map it to. For example,
+/// this object can map the contents of a <code>groups</code> claim to
+/// <code>MyCorp::UserGroup</code>.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectConfiguration.html">OpenIdConnectConfiguration</a>
+/// structure, which is a parameter of <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html">CreateIdentitySource</a>.
+class OpenIdConnectGroupConfiguration {
+  /// The token claim that you want Verified Permissions to interpret as group
+  /// membership. For example, <code>groups</code>.
+  final String groupClaim;
+
+  /// The policy store entity type that you want to map your users' group claim
+  /// to. For example, <code>MyCorp::UserGroup</code>. A group entity type is an
+  /// entity that can have a user entity type as a member.
+  final String groupEntityType;
+
+  OpenIdConnectGroupConfiguration({
+    required this.groupClaim,
+    required this.groupEntityType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final groupClaim = this.groupClaim;
+    final groupEntityType = this.groupEntityType;
+    return {
+      'groupClaim': groupClaim,
+      'groupEntityType': groupEntityType,
+    };
+  }
+}
+
+/// The token type that you want to process from your OIDC identity provider.
+/// Your policy store can process either identity (ID) or access tokens from a
+/// given OIDC identity source.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectConfiguration.html">OpenIdConnectConfiguration</a>
+/// structure, which is a parameter of <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html">CreateIdentitySource</a>.
+class OpenIdConnectTokenSelection {
+  /// The OIDC configuration for processing access tokens. Contains allowed
+  /// audience claims, for example <code>https://auth.example.com</code>, and the
+  /// claim that you want to map to the principal, for example <code>sub</code>.
+  final OpenIdConnectAccessTokenConfiguration? accessTokenOnly;
+
+  /// The OIDC configuration for processing identity (ID) tokens. Contains allowed
+  /// client ID claims, for example <code>1example23456789</code>, and the claim
+  /// that you want to map to the principal, for example <code>sub</code>.
+  final OpenIdConnectIdentityTokenConfiguration? identityTokenOnly;
+
+  OpenIdConnectTokenSelection({
+    this.accessTokenOnly,
+    this.identityTokenOnly,
+  });
+
+  Map<String, dynamic> toJson() {
+    final accessTokenOnly = this.accessTokenOnly;
+    final identityTokenOnly = this.identityTokenOnly;
+    return {
+      if (accessTokenOnly != null) 'accessTokenOnly': accessTokenOnly,
+      if (identityTokenOnly != null) 'identityTokenOnly': identityTokenOnly,
+    };
+  }
+}
+
+/// The configuration of an OpenID Connect (OIDC) identity source for handling
+/// access token claims. Contains the claim that you want to identify as the
+/// principal in an authorization request, and the values of the
+/// <code>aud</code> claim, or audiences, that you want to accept.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectTokenSelection.html">OpenIdConnectTokenSelection</a>
+/// structure, which is a parameter of <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html">CreateIdentitySource</a>.
+class OpenIdConnectAccessTokenConfiguration {
+  /// The access token <code>aud</code> claim values that you want to accept in
+  /// your policy store. For example, <code>https://myapp.example.com,
+  /// https://myapp2.example.com</code>.
+  final List<String>? audiences;
+
+  /// The claim that determines the principal in OIDC access tokens. For example,
+  /// <code>sub</code>.
+  final String? principalIdClaim;
+
+  OpenIdConnectAccessTokenConfiguration({
+    this.audiences,
+    this.principalIdClaim,
+  });
+
+  Map<String, dynamic> toJson() {
+    final audiences = this.audiences;
+    final principalIdClaim = this.principalIdClaim;
+    return {
+      if (audiences != null) 'audiences': audiences,
+      if (principalIdClaim != null) 'principalIdClaim': principalIdClaim,
+    };
+  }
+}
+
+/// The configuration of an OpenID Connect (OIDC) identity source for handling
+/// identity (ID) token claims. Contains the claim that you want to identify as
+/// the principal in an authorization request, and the values of the
+/// <code>aud</code> claim, or audiences, that you want to accept.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectTokenSelection.html">OpenIdConnectTokenSelection</a>
+/// structure, which is a parameter of <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html">CreateIdentitySource</a>.
+class OpenIdConnectIdentityTokenConfiguration {
+  /// The ID token audience, or client ID, claim values that you want to accept in
+  /// your policy store from an OIDC identity provider. For example,
+  /// <code>1example23456789, 2example10111213</code>.
+  final List<String>? clientIds;
+
+  /// The claim that determines the principal in OIDC access tokens. For example,
+  /// <code>sub</code>.
+  final String? principalIdClaim;
+
+  OpenIdConnectIdentityTokenConfiguration({
+    this.clientIds,
+    this.principalIdClaim,
+  });
+
+  Map<String, dynamic> toJson() {
+    final clientIds = this.clientIds;
+    final principalIdClaim = this.principalIdClaim;
+    return {
+      if (clientIds != null) 'clientIds': clientIds,
+      if (principalIdClaim != null) 'principalIdClaim': principalIdClaim,
+    };
+  }
+}
+
+/// The type of entity that a policy store maps to groups from an Amazon Cognito
+/// user pool identity source.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CognitoUserPoolConfiguration.html">CognitoUserPoolConfiguration</a>
+/// structure and is a request parameter in <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html">CreateIdentitySource</a>.
+class CognitoGroupConfiguration {
+  /// The name of the schema entity type that's mapped to the user pool group.
+  /// Defaults to <code>AWS::CognitoGroup</code>.
+  final String groupEntityType;
+
+  CognitoGroupConfiguration({
+    required this.groupEntityType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final groupEntityType = this.groupEntityType;
+    return {
+      'groupEntityType': groupEntityType,
+    };
+  }
+}
+
+/// Contains the information about an error resulting from a
+/// <code>BatchGetPolicy</code> API call.
+class BatchGetPolicyErrorItem {
+  /// The error code that was returned.
+  final BatchGetPolicyErrorCode code;
+
+  /// A detailed error message.
+  final String message;
+
+  /// The identifier of the policy associated with the failed request.
+  final String policyId;
+
+  /// The identifier of the policy store associated with the failed request.
+  final String policyStoreId;
+
+  BatchGetPolicyErrorItem({
+    required this.code,
+    required this.message,
+    required this.policyId,
+    required this.policyStoreId,
+  });
+
+  factory BatchGetPolicyErrorItem.fromJson(Map<String, dynamic> json) {
+    return BatchGetPolicyErrorItem(
+      code: BatchGetPolicyErrorCode.fromString((json['code'] as String?) ?? ''),
+      message: (json['message'] as String?) ?? '',
+      policyId: (json['policyId'] as String?) ?? '',
+      policyStoreId: (json['policyStoreId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    final policyId = this.policyId;
+    final policyStoreId = this.policyStoreId;
+    return {
+      'code': code.value,
+      'message': message,
+      'policyId': policyId,
+      'policyStoreId': policyStoreId,
+    };
+  }
+}
+
+class BatchGetPolicyErrorCode {
+  static const policyStoreNotFound =
+      BatchGetPolicyErrorCode._('POLICY_STORE_NOT_FOUND');
+  static const policyNotFound = BatchGetPolicyErrorCode._('POLICY_NOT_FOUND');
+  static const policyStoreAliasNotFound =
+      BatchGetPolicyErrorCode._('POLICY_STORE_ALIAS_NOT_FOUND');
+
+  final String value;
+
+  const BatchGetPolicyErrorCode._(this.value);
+
+  static const values = [
+    policyStoreNotFound,
+    policyNotFound,
+    policyStoreAliasNotFound
+  ];
+
+  static BatchGetPolicyErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BatchGetPolicyErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BatchGetPolicyErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about a policy returned from a
+/// <code>BatchGetPolicy</code> API request.
+class BatchGetPolicyOutputItem {
+  /// The date and time the policy was created.
+  final DateTime createdDate;
+
+  /// The policy definition of an item in the list of policies returned.
+  final PolicyDefinitionDetail definition;
+
+  /// The date and time the policy was most recently updated.
+  final DateTime lastUpdatedDate;
+
+  /// The identifier of the policy you want information about.
+  final String policyId;
+
+  /// The identifier of the policy store where the policy you want information
+  /// about is stored.
+  final String policyStoreId;
+
+  /// The type of the policy. This is one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>STATIC</code>
+  /// </li>
+  /// <li>
+  /// <code>TEMPLATE_LINKED</code>
+  /// </li>
+  /// </ul>
+  final PolicyType policyType;
+
+  /// The name of the policy, if one was assigned when the policy was created or
+  /// last updated.
+  final String? name;
+
+  BatchGetPolicyOutputItem({
+    required this.createdDate,
+    required this.definition,
+    required this.lastUpdatedDate,
+    required this.policyId,
+    required this.policyStoreId,
+    required this.policyType,
+    this.name,
+  });
+
+  factory BatchGetPolicyOutputItem.fromJson(Map<String, dynamic> json) {
+    return BatchGetPolicyOutputItem(
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
+      definition: PolicyDefinitionDetail.fromJson(
+          (json['definition'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      lastUpdatedDate:
+          nonNullableTimeStampFromJson(json['lastUpdatedDate'] ?? 0),
+      policyId: (json['policyId'] as String?) ?? '',
+      policyStoreId: (json['policyStoreId'] as String?) ?? '',
+      policyType: PolicyType.fromString((json['policyType'] as String?) ?? ''),
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdDate = this.createdDate;
+    final definition = this.definition;
+    final lastUpdatedDate = this.lastUpdatedDate;
+    final policyId = this.policyId;
+    final policyStoreId = this.policyStoreId;
+    final policyType = this.policyType;
+    final name = this.name;
+    return {
+      'createdDate': iso8601ToJson(createdDate),
+      'definition': definition,
+      'lastUpdatedDate': iso8601ToJson(lastUpdatedDate),
+      'policyId': policyId,
+      'policyStoreId': policyStoreId,
+      'policyType': policyType.value,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// Information about a policy that you include in a <code>BatchGetPolicy</code>
+/// API request.
+class BatchGetPolicyInputItem {
+  /// The identifier of the policy you want information about.
+  ///
+  /// You can use the policy name in place of the policy ID. When using a name,
+  /// prefix it with <code>name/</code>. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// ID: <code>SPEXAMPLEabcdefg111111</code>
+  /// </li>
+  /// <li>
+  /// Name: <code>name/example-policy</code>
+  /// </li>
+  /// </ul>
+  final String policyId;
+
+  /// The identifier of the policy store where the policy you want information
+  /// about is stored.
+  final String policyStoreId;
+
+  BatchGetPolicyInputItem({
+    required this.policyId,
+    required this.policyStoreId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final policyId = this.policyId;
+    final policyStoreId = this.policyStoreId;
+    return {
+      'policyId': policyId,
+      'policyStoreId': policyStoreId,
+    };
+  }
+}
+
+/// Contains a list of principal types, resource types, and actions that can be
+/// specified in policies stored in the same policy store. If the validation
+/// mode for the policy store is set to <code>STRICT</code>, then policies that
+/// can't be validated by this schema are rejected by Verified Permissions and
+/// can't be stored in the policy store.
+class SchemaDefinition {
+  /// A JSON string representation of the schema supported by applications that
+  /// use this policy store. To delete the schema, run <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_PutSchema.html">PutSchema</a>
+  /// with <code>{}</code> for this parameter. For more information, see <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/userguide/schema.html">Policy
+  /// store schema</a> in the <i>Amazon Verified Permissions User Guide</i>.
+  final String? cedarJson;
+
+  SchemaDefinition({
+    this.cedarJson,
+  });
+
+  Map<String, dynamic> toJson() {
+    final cedarJson = this.cedarJson;
+    return {
+      if (cedarJson != null) 'cedarJson': cedarJson,
+    };
+  }
+}
+
+class Decision {
+  static const allow = Decision._('ALLOW');
+  static const deny = Decision._('DENY');
+
+  final String value;
+
+  const Decision._(this.value);
+
+  static const values = [allow, deny];
+
+  static Decision fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Decision._(value));
+
+  @override
+  bool operator ==(other) => other is Decision && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains a description of an evaluation error.
+///
+/// This data type is a response parameter of the <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html">IsAuthorized</a>,
+/// <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_BatchIsAuthorized.html">BatchIsAuthorized</a>,
+/// and <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html">IsAuthorizedWithToken</a>
+/// operations.
+class EvaluationErrorItem {
+  /// The error description.
+  final String errorDescription;
+
+  EvaluationErrorItem({
+    required this.errorDescription,
+  });
+
+  factory EvaluationErrorItem.fromJson(Map<String, dynamic> json) {
+    return EvaluationErrorItem(
+      errorDescription: (json['errorDescription'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorDescription = this.errorDescription;
+    return {
+      'errorDescription': errorDescription,
+    };
+  }
+}
+
+/// Contains information about one of the policies that determined an
+/// authorization decision.
+///
+/// This data type is used as an element in a response parameter for the <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html">IsAuthorized</a>,
+/// <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_BatchIsAuthorized.html">BatchIsAuthorized</a>,
+/// and <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html">IsAuthorizedWithToken</a>
+/// operations.
+///
+/// Example:
+/// <code>"determiningPolicies":[{"policyId":"SPEXAMPLEabcdefg111111"}]</code>
+class DeterminingPolicyItem {
+  /// The Id of a policy that determined to an authorization decision.
+  ///
+  /// Example: <code>"policyId":"SPEXAMPLEabcdefg111111"</code>
+  final String policyId;
+
+  DeterminingPolicyItem({
+    required this.policyId,
+  });
+
+  factory DeterminingPolicyItem.fromJson(Map<String, dynamic> json) {
+    return DeterminingPolicyItem(
+      policyId: (json['policyId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyId = this.policyId;
+    return {
+      'policyId': policyId,
+    };
+  }
+}
+
+/// Contains additional details about the context of the request. Verified
+/// Permissions evaluates this information in an authorization request as part
+/// of the <code>when</code> and <code>unless</code> clauses in a policy.
+///
+/// This data type is used as a request parameter for the <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html">IsAuthorized</a>,
+/// <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_BatchIsAuthorized.html">BatchIsAuthorized</a>,
+/// and <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html">IsAuthorizedWithToken</a>
+/// operations.
+///
+/// If you're passing context as part of the request, exactly one instance of
+/// <code>context</code> must be passed. If you don't want to pass context, omit
+/// the <code>context</code> parameter from your request rather than sending
+/// <code>context {}</code>.
+///
+/// Example:
+/// <code>"context":{"contextMap":{"&lt;KeyName1&gt;":{"boolean":true},"&lt;KeyName2&gt;":{"long":1234}}}</code>
+class ContextDefinition {
+  /// A Cedar JSON string representation of the context needed to successfully
+  /// evaluate an authorization request.
+  ///
+  /// Example: <code>{"cedarJson":"{\"&lt;KeyName1&gt;\": true,
+  /// \"&lt;KeyName2&gt;\": 1234}" }</code>
+  final String? cedarJson;
+
+  /// An list of attributes that are needed to successfully evaluate an
+  /// authorization request. Each attribute in this array must include a map of a
+  /// data type and its value.
+  ///
+  /// Example:
+  /// <code>"contextMap":{"&lt;KeyName1&gt;":{"boolean":true},"&lt;KeyName2&gt;":{"long":1234}}</code>
+  final Map<String, AttributeValue>? contextMap;
+
+  ContextDefinition({
+    this.cedarJson,
+    this.contextMap,
+  });
+
+  factory ContextDefinition.fromJson(Map<String, dynamic> json) {
+    return ContextDefinition(
+      cedarJson: json['cedarJson'] as String?,
+      contextMap: (json['contextMap'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cedarJson = this.cedarJson;
+    final contextMap = this.contextMap;
+    return {
+      if (cedarJson != null) 'cedarJson': cedarJson,
+      if (contextMap != null) 'contextMap': contextMap,
+    };
+  }
+}
+
+/// Contains the list of entities to be considered during an authorization
+/// request. This includes all principals, resources, and actions required to
+/// successfully evaluate the request.
+///
+/// This data type is used as a field in the response parameter for the <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html">IsAuthorized</a>
+/// and <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html">IsAuthorizedWithToken</a>
+/// operations.
+class EntitiesDefinition {
+  /// A Cedar JSON string representation of the entities needed to successfully
+  /// evaluate an authorization request.
+  ///
+  /// Example: <code>{"cedarJson":
+  /// "[{\"uid\":{\"type\":\"Photo\",\"id\":\"VacationPhoto94.jpg\"},\"attrs\":{\"accessLevel\":\"public\"},\"parents\":[]}]"}</code>
+  final String? cedarJson;
+
+  /// An array of entities that are needed to successfully evaluate an
+  /// authorization request. Each entity in this array must include an identifier
+  /// for the entity, the attributes of the entity, and a list of any parent
+  /// entities.
+  /// <note>
+  /// If you include multiple entities with the same <code>identifier</code>, only
+  /// the last one is processed in the request.
+  /// </note>
+  final List<EntityItem>? entityList;
+
+  EntitiesDefinition({
+    this.cedarJson,
+    this.entityList,
+  });
+
+  Map<String, dynamic> toJson() {
+    final cedarJson = this.cedarJson;
+    final entityList = this.entityList;
+    return {
+      if (cedarJson != null) 'cedarJson': cedarJson,
+      if (entityList != null) 'entityList': entityList,
+    };
+  }
+}
+
+/// Contains information about an entity that can be referenced in a Cedar
+/// policy.
+///
+/// This data type is used as one of the fields in the <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_EntitiesDefinition.html">EntitiesDefinition</a>
+/// structure.
+///
+/// <code>{ "identifier": { "entityType": "Photo", "entityId":
+/// "VacationPhoto94.jpg" }, "attributes": {}, "parents": [ { "entityType":
+/// "Album", "entityId": "alice_folder" } ] }</code>
+class EntityItem {
+  /// The identifier of the entity.
+  final EntityIdentifier identifier;
+
+  /// A list of attributes for the entity.
+  final Map<String, AttributeValue>? attributes;
+
+  /// The parent entities in the hierarchy that contains the entity. A principal
+  /// or resource entity can be defined with at most 99 <i>transitive parents</i>
+  /// per authorization request.
+  ///
+  /// A transitive parent is an entity in the hierarchy of entities including all
+  /// direct parents, and parents of parents. For example, a user can be a member
+  /// of 91 groups if one of those groups is a member of eight groups, for a total
+  /// of 100: one entity, 91 entity parents, and eight parents of parents.
+  final List<EntityIdentifier>? parents;
+
+  /// A list of cedar tags for the entity.
+  final Map<String, CedarTagValue>? tags;
+
+  EntityItem({
+    required this.identifier,
+    this.attributes,
+    this.parents,
+    this.tags,
+  });
+
+  Map<String, dynamic> toJson() {
+    final identifier = this.identifier;
+    final attributes = this.attributes;
+    final parents = this.parents;
+    final tags = this.tags;
+    return {
+      'identifier': identifier,
+      if (attributes != null) 'attributes': attributes,
+      if (parents != null) 'parents': parents,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// The value of an entity's Cedar tag.
+///
+/// This data type is used as a member of the <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_EntityItem.html">EntityItem</a>
+/// structure that forms the body of the <code>Entities</code> request parameter
+/// for the <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html">IsAuthorized</a>,
+/// <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_BatchIsAuthorized.html">BatchIsAuthorized</a>,
+/// <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html">IsAuthorizedWithToken</a>,
+/// and <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_BatchIsAuthorizedWithToken.html">BatchIsAuthorizedWithToken</a>
+/// operations.
+class CedarTagValue {
+  /// A Cedar tag value of <a
+  /// href="https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-bool">Boolean</a>
+  /// type.
+  ///
+  /// Example: <code>{"boolean": false}</code>
+  final bool? boolean;
+
+  /// A Cedar tag value of <a
+  /// href="https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-datetime">datetime</a>
+  /// type.
+  ///
+  /// Example: <code>{"datetime": "2025-11-04T11:35:00.000+0100"}</code>
+  final String? datetime;
+
+  /// A Cedar tag value of <a
+  /// href="https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-decimal">decimal</a>
+  /// type.
+  ///
+  /// Example: <code>{"decimal": "-2.0"}</code>
+  final String? decimal;
+
+  /// A Cedar tag value of <a
+  /// href="https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-duration">duration</a>
+  /// type.
+  ///
+  /// Example: <code>{"duration": "-1d12h"}</code>
+  final String? duration;
+
+  /// A Cedar tag value of type <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_EntityIdentifier.html">EntityIdentifier</a>.
+  ///
+  /// Example: <code>{"entityIdentifier": { "entityId": "alice", "entityType":
+  /// "User"} }</code>
+  final EntityIdentifier? entityIdentifier;
+
+  /// A Cedar tag value of <a
+  /// href="https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-ipaddr">ipaddr</a>
+  /// type.
+  ///
+  /// Example: <code>{"ip": "10.50.0.0/24"}</code>
+  final String? ipaddr;
+
+  /// A Cedar tag value of <a
+  /// href="https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-long">Long</a>
+  /// type.
+  ///
+  /// Example: <code>{"long": 0}</code>
+  final int? long;
+
+  /// A Cedar tag value of <a
+  /// href="https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-record">Record</a>
+  /// type.
+  ///
+  /// Example: <code>{"record": { "keyName": {} } }</code>
+  final Map<String, CedarTagValue>? record;
+
+  /// A Cedar tag value of <a
+  /// href="https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-set">Set</a>
+  /// type.
+  ///
+  /// Example: <code>{"set": [ { "string": "abc" } ] }</code>
+  final List<CedarTagValue>? set;
+
+  /// A Cedar tag value of <a
+  /// href="https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-string">String</a>
+  /// type.
+  ///
+  /// Example: <code>{"string": "abc"}</code>
+  final String? string;
+
+  CedarTagValue({
+    this.boolean,
+    this.datetime,
+    this.decimal,
+    this.duration,
+    this.entityIdentifier,
+    this.ipaddr,
+    this.long,
+    this.record,
+    this.set,
+    this.string,
+  });
+
+  Map<String, dynamic> toJson() {
+    final boolean = this.boolean;
+    final datetime = this.datetime;
+    final decimal = this.decimal;
+    final duration = this.duration;
+    final entityIdentifier = this.entityIdentifier;
+    final ipaddr = this.ipaddr;
+    final long = this.long;
+    final record = this.record;
+    final set = this.set;
+    final string = this.string;
+    return {
+      if (boolean != null) 'boolean': boolean,
+      if (datetime != null) 'datetime': datetime,
+      if (decimal != null) 'decimal': decimal,
+      if (duration != null) 'duration': duration,
+      if (entityIdentifier != null) 'entityIdentifier': entityIdentifier,
+      if (ipaddr != null) 'ipaddr': ipaddr,
+      if (long != null) 'long': long,
+      if (record != null) 'record': record,
+      if (set != null) 'set': set,
+      if (string != null) 'string': string,
+    };
+  }
+}
+
+/// The value of an attribute.
+///
+/// Contains information about the runtime context for a request for which an
+/// authorization decision is made.
+///
+/// This data type is used as a member of the <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ContextDefinition.html">ContextDefinition</a>
+/// structure which is used as a request parameter for the <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html">IsAuthorized</a>,
+/// <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_BatchIsAuthorized.html">BatchIsAuthorized</a>,
+/// and <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html">IsAuthorizedWithToken</a>
+/// operations.
+class AttributeValue {
+  /// An attribute value of <a
+  /// href="https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-bool">Boolean</a>
+  /// type.
+  ///
+  /// Example: <code>{"boolean": true}</code>
+  final bool? boolean;
+
+  /// An attribute value of <a
+  /// href="https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-datetime">datetime</a>
+  /// type.
+  ///
+  /// Example: <code>{"datetime": "2024-10-15T11:35:00Z"}</code>
+  final String? datetime;
+
+  /// An attribute value of <a
+  /// href="https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-decimal">decimal</a>
+  /// type.
+  ///
+  /// Example: <code>{"decimal": "1.1"}</code>
+  final String? decimal;
+
+  /// An attribute value of <a
+  /// href="https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-duration">duration</a>
+  /// type.
+  ///
+  /// Example: <code>{"duration": "1h30m"}</code>
+  final String? duration;
+
+  /// An attribute value of type <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_EntityIdentifier.html">EntityIdentifier</a>.
+  ///
+  /// Example: <code>{"entityIdentifier": { "entityId": "alice", "entityType":
+  /// "User"} }</code>
+  final EntityIdentifier? entityIdentifier;
+
+  /// An attribute value of <a
+  /// href="https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-ipaddr">ipaddr</a>
+  /// type.
+  ///
+  /// Example: <code>{"ip": "192.168.1.100"}</code>
+  final String? ipaddr;
+
+  /// An attribute value of <a
+  /// href="https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-long">Long</a>
+  /// type.
+  ///
+  /// Example: <code>{"long": 0}</code>
+  final int? long;
+
+  /// An attribute value of <a
+  /// href="https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-record">Record</a>
+  /// type.
+  ///
+  /// Example: <code>{"record": { "keyName": {} } }</code>
+  final Map<String, AttributeValue>? record;
+
+  /// An attribute value of <a
+  /// href="https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-set">Set</a>
+  /// type.
+  ///
+  /// Example: <code>{"set": [ {} ] }</code>
+  final List<AttributeValue>? set;
+
+  /// An attribute value of <a
+  /// href="https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-string">String</a>
+  /// type.
+  ///
+  /// Example: <code>{"string": "abc"}</code>
+  final String? string;
+
+  AttributeValue({
+    this.boolean,
+    this.datetime,
+    this.decimal,
+    this.duration,
+    this.entityIdentifier,
+    this.ipaddr,
+    this.long,
+    this.record,
+    this.set,
+    this.string,
+  });
+
+  factory AttributeValue.fromJson(Map<String, dynamic> json) {
+    return AttributeValue(
+      boolean: json['boolean'] as bool?,
+      datetime: json['datetime'] as String?,
+      decimal: json['decimal'] as String?,
+      duration: json['duration'] as String?,
+      entityIdentifier: json['entityIdentifier'] != null
+          ? EntityIdentifier.fromJson(
+              json['entityIdentifier'] as Map<String, dynamic>)
+          : null,
+      ipaddr: json['ipaddr'] as String?,
+      long: json['long'] as int?,
+      record: (json['record'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      set: (json['set'] as List?)
+          ?.nonNulls
+          .map((e) => AttributeValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      string: json['string'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final boolean = this.boolean;
+    final datetime = this.datetime;
+    final decimal = this.decimal;
+    final duration = this.duration;
+    final entityIdentifier = this.entityIdentifier;
+    final ipaddr = this.ipaddr;
+    final long = this.long;
+    final record = this.record;
+    final set = this.set;
+    final string = this.string;
+    return {
+      if (boolean != null) 'boolean': boolean,
+      if (datetime != null) 'datetime': datetime,
+      if (decimal != null) 'decimal': decimal,
+      if (duration != null) 'duration': duration,
+      if (entityIdentifier != null) 'entityIdentifier': entityIdentifier,
+      if (ipaddr != null) 'ipaddr': ipaddr,
+      if (long != null) 'long': long,
+      if (record != null) 'record': record,
+      if (set != null) 'set': set,
+      if (string != null) 'string': string,
+    };
+  }
+}
+
+/// The decision, based on policy evaluation, from an individual authorization
+/// request in a <code>BatchIsAuthorizedWithToken</code> API request.
+class BatchIsAuthorizedWithTokenOutputItem {
+  /// An authorization decision that indicates if the authorization request should
+  /// be allowed or denied.
+  final Decision decision;
+
+  /// The list of determining policies used to make the authorization decision.
+  /// For example, if there are two matching policies, where one is a forbid and
+  /// the other is a permit, then the forbid policy will be the determining
+  /// policy. In the case of multiple matching permit policies then there would be
+  /// multiple determining policies. In the case that no policies match, and hence
+  /// the response is DENY, there would be no determining policies.
+  final List<DeterminingPolicyItem> determiningPolicies;
+
+  /// Errors that occurred while making an authorization decision. For example, a
+  /// policy might reference an entity or attribute that doesn't exist in the
+  /// request.
+  final List<EvaluationErrorItem> errors;
+
+  /// The authorization request that initiated the decision.
+  final BatchIsAuthorizedWithTokenInputItem request;
+
+  BatchIsAuthorizedWithTokenOutputItem({
+    required this.decision,
+    required this.determiningPolicies,
+    required this.errors,
+    required this.request,
+  });
+
+  factory BatchIsAuthorizedWithTokenOutputItem.fromJson(
+      Map<String, dynamic> json) {
+    return BatchIsAuthorizedWithTokenOutputItem(
+      decision: Decision.fromString((json['decision'] as String?) ?? ''),
+      determiningPolicies: ((json['determiningPolicies'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => DeterminingPolicyItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      errors: ((json['errors'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => EvaluationErrorItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      request: BatchIsAuthorizedWithTokenInputItem.fromJson(
+          (json['request'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final decision = this.decision;
+    final determiningPolicies = this.determiningPolicies;
+    final errors = this.errors;
+    final request = this.request;
+    return {
+      'decision': decision.value,
+      'determiningPolicies': determiningPolicies,
+      'errors': errors,
+      'request': request,
+    };
+  }
+}
+
+/// An authorization request that you include in a
+/// <code>BatchIsAuthorizedWithToken</code> API request.
+class BatchIsAuthorizedWithTokenInputItem {
+  /// Specifies the requested action to be authorized. For example,
+  /// <code>PhotoFlash::ReadPhoto</code>.
+  final ActionIdentifier? action;
+
+  /// Specifies additional context that can be used to make more granular
+  /// authorization decisions.
+  final ContextDefinition? context;
+
+  /// Specifies the resource that you want an authorization decision for. For
+  /// example, <code>PhotoFlash::Photo</code>.
+  final EntityIdentifier? resource;
+
+  BatchIsAuthorizedWithTokenInputItem({
+    this.action,
+    this.context,
+    this.resource,
+  });
+
+  factory BatchIsAuthorizedWithTokenInputItem.fromJson(
+      Map<String, dynamic> json) {
+    return BatchIsAuthorizedWithTokenInputItem(
+      action: json['action'] != null
+          ? ActionIdentifier.fromJson(json['action'] as Map<String, dynamic>)
+          : null,
+      context: json['context'] != null
+          ? ContextDefinition.fromJson(json['context'] as Map<String, dynamic>)
+          : null,
+      resource: json['resource'] != null
+          ? EntityIdentifier.fromJson(json['resource'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final context = this.context;
+    final resource = this.resource;
+    return {
+      if (action != null) 'action': action,
+      if (context != null) 'context': context,
+      if (resource != null) 'resource': resource,
+    };
+  }
+}
+
+/// The decision, based on policy evaluation, from an individual authorization
+/// request in a <code>BatchIsAuthorized</code> API request.
+class BatchIsAuthorizedOutputItem {
+  /// An authorization decision that indicates if the authorization request should
+  /// be allowed or denied.
+  final Decision decision;
+
+  /// The list of determining policies used to make the authorization decision.
+  /// For example, if there are two matching policies, where one is a forbid and
+  /// the other is a permit, then the forbid policy will be the determining
+  /// policy. In the case of multiple matching permit policies then there would be
+  /// multiple determining policies. In the case that no policies match, and hence
+  /// the response is DENY, there would be no determining policies.
+  final List<DeterminingPolicyItem> determiningPolicies;
+
+  /// Errors that occurred while making an authorization decision. For example, a
+  /// policy might reference an entity or attribute that doesn't exist in the
+  /// request.
+  final List<EvaluationErrorItem> errors;
+
+  /// The authorization request that initiated the decision.
+  final BatchIsAuthorizedInputItem request;
+
+  BatchIsAuthorizedOutputItem({
+    required this.decision,
+    required this.determiningPolicies,
+    required this.errors,
+    required this.request,
+  });
+
+  factory BatchIsAuthorizedOutputItem.fromJson(Map<String, dynamic> json) {
+    return BatchIsAuthorizedOutputItem(
+      decision: Decision.fromString((json['decision'] as String?) ?? ''),
+      determiningPolicies: ((json['determiningPolicies'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => DeterminingPolicyItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      errors: ((json['errors'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => EvaluationErrorItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      request: BatchIsAuthorizedInputItem.fromJson(
+          (json['request'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final decision = this.decision;
+    final determiningPolicies = this.determiningPolicies;
+    final errors = this.errors;
+    final request = this.request;
+    return {
+      'decision': decision.value,
+      'determiningPolicies': determiningPolicies,
+      'errors': errors,
+      'request': request,
+    };
+  }
+}
+
+/// An authorization request that you include in a
+/// <code>BatchIsAuthorized</code> API request.
+class BatchIsAuthorizedInputItem {
+  /// Specifies the requested action to be authorized. For example,
+  /// <code>PhotoFlash::ReadPhoto</code>.
+  final ActionIdentifier? action;
+
+  /// Specifies additional context that can be used to make more granular
+  /// authorization decisions.
+  final ContextDefinition? context;
+
+  /// Specifies the principal for which the authorization decision is to be made.
+  final EntityIdentifier? principal;
+
+  /// Specifies the resource that you want an authorization decision for. For
+  /// example, <code>PhotoFlash::Photo</code>.
+  final EntityIdentifier? resource;
+
+  BatchIsAuthorizedInputItem({
+    this.action,
+    this.context,
+    this.principal,
+    this.resource,
+  });
+
+  factory BatchIsAuthorizedInputItem.fromJson(Map<String, dynamic> json) {
+    return BatchIsAuthorizedInputItem(
+      action: json['action'] != null
+          ? ActionIdentifier.fromJson(json['action'] as Map<String, dynamic>)
+          : null,
+      context: json['context'] != null
+          ? ContextDefinition.fromJson(json['context'] as Map<String, dynamic>)
+          : null,
+      principal: json['principal'] != null
+          ? EntityIdentifier.fromJson(json['principal'] as Map<String, dynamic>)
+          : null,
+      resource: json['resource'] != null
+          ? EntityIdentifier.fromJson(json['resource'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final context = this.context;
+    final principal = this.principal;
+    final resource = this.resource;
+    return {
+      if (action != null) 'action': action,
+      if (context != null) 'context': context,
+      if (principal != null) 'principal': principal,
+      if (resource != null) 'resource': resource,
+    };
+  }
+}
+
+/// Contains information about a policy store.
+///
+/// This data type is used as a response parameter for the <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStores.html">ListPolicyStores</a>
+/// operation.
+class PolicyStoreItem {
+  /// The Amazon Resource Name (ARN) of the policy store.
+  final String arn;
+
+  /// The date and time the policy was created.
+  final DateTime createdDate;
+
+  /// The unique identifier of the policy store.
+  final String policyStoreId;
+
+  /// Descriptive text that you can provide to help with identification of the
+  /// current policy store.
+  final String? description;
+
+  /// The date and time the policy store was most recently updated.
+  final DateTime? lastUpdatedDate;
+
+  PolicyStoreItem({
+    required this.arn,
+    required this.createdDate,
+    required this.policyStoreId,
+    this.description,
+    this.lastUpdatedDate,
+  });
+
+  factory PolicyStoreItem.fromJson(Map<String, dynamic> json) {
+    return PolicyStoreItem(
+      arn: (json['arn'] as String?) ?? '',
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
+      policyStoreId: (json['policyStoreId'] as String?) ?? '',
+      description: json['description'] as String?,
+      lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdDate = this.createdDate;
+    final policyStoreId = this.policyStoreId;
+    final description = this.description;
+    final lastUpdatedDate = this.lastUpdatedDate;
+    return {
+      'arn': arn,
+      'createdDate': iso8601ToJson(createdDate),
+      'policyStoreId': policyStoreId,
+      if (description != null) 'description': description,
+      if (lastUpdatedDate != null)
+        'lastUpdatedDate': iso8601ToJson(lastUpdatedDate),
+    };
+  }
 }
 
 /// A structure that contains Cedar policy validation settings for the policy
@@ -6209,6 +7780,243 @@ class ValidationSettings {
   }
 }
 
+class DeletionProtection {
+  static const enabled = DeletionProtection._('ENABLED');
+  static const disabled = DeletionProtection._('DISABLED');
+
+  final String value;
+
+  const DeletionProtection._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static DeletionProtection fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeletionProtection._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeletionProtection && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ValidationMode {
+  static const off = ValidationMode._('OFF');
+  static const strict = ValidationMode._('STRICT');
+
+  final String value;
+
+  const ValidationMode._(this.value);
+
+  static const values = [off, strict];
+
+  static ValidationMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ValidationMode._(value));
+
+  @override
+  bool operator ==(other) => other is ValidationMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A structure that contains the encryption configuration for the policy store
+/// and child resources.
+///
+/// This data type is used as a response parameter field for the <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetPolicyStore.html">GetPolicyStore</a>
+/// operation.
+class EncryptionState {
+  /// This is the default encryption state. The policy store is encrypted using an
+  /// Amazon Web Services owned key.
+  final Unit? defaultValue;
+
+  /// The KMS encryption settings currently configured for this policy store to
+  /// encrypt data with. It contains the customer-managed KMS key, and a
+  /// user-defined encryption context.
+  final KmsEncryptionState? kmsEncryptionState;
+
+  EncryptionState({
+    this.defaultValue,
+    this.kmsEncryptionState,
+  });
+
+  factory EncryptionState.fromJson(Map<String, dynamic> json) {
+    return EncryptionState(
+      defaultValue: json['default'] != null
+          ? Unit.fromJson(json['default'] as Map<String, dynamic>)
+          : null,
+      kmsEncryptionState: json['kmsEncryptionState'] != null
+          ? KmsEncryptionState.fromJson(
+              json['kmsEncryptionState'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultValue = this.defaultValue;
+    final kmsEncryptionState = this.kmsEncryptionState;
+    return {
+      if (defaultValue != null) 'default': defaultValue,
+      if (kmsEncryptionState != null) 'kmsEncryptionState': kmsEncryptionState,
+    };
+  }
+}
+
+class CedarVersion {
+  static const cedar_2 = CedarVersion._('CEDAR_2');
+  static const cedar_4 = CedarVersion._('CEDAR_4');
+
+  final String value;
+
+  const CedarVersion._(this.value);
+
+  static const values = [cedar_2, cedar_4];
+
+  static CedarVersion fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CedarVersion._(value));
+
+  @override
+  bool operator ==(other) => other is CedarVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A structure that contains the KMS encryption configuration for the policy
+/// store. The encryption state shows what customer-managed KMS key is being
+/// used to encrypt all resources within the policy store, and any user-defined
+/// context key-value pairs added during encryption processes.
+///
+/// This data type is used as a field that is part of the <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_EncryptionState.html">EncryptionState</a>
+/// type.
+class KmsEncryptionState {
+  /// User-defined, additional context added to encryption processes.
+  final Map<String, String> encryptionContext;
+
+  /// The customer-managed KMS key <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Name (ARN)</a> being used for encryption processes.
+  final String key;
+
+  KmsEncryptionState({
+    required this.encryptionContext,
+    required this.key,
+  });
+
+  factory KmsEncryptionState.fromJson(Map<String, dynamic> json) {
+    return KmsEncryptionState(
+      encryptionContext:
+          ((json['encryptionContext'] as Map<String, dynamic>?) ??
+                  const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
+      key: (json['key'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final encryptionContext = this.encryptionContext;
+    final key = this.key;
+    return {
+      'encryptionContext': encryptionContext,
+      'key': key,
+    };
+  }
+}
+
+/// A structure that contains the encryption configuration for the policy store
+/// and child resources.
+///
+/// This data type is used as a request parameter in the <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreatePolicyStore.html">CreatePolicyStore</a>
+/// operation.
+class EncryptionSettings {
+  /// This is the default encryption setting. The policy store uses an Amazon Web
+  /// Services owned key for encrypting data.
+  final Unit? defaultValue;
+
+  /// The KMS encryption settings for this policy store to encrypt data with. It
+  /// will contain the customer-managed KMS key, and a user-defined encryption
+  /// context.
+  final KmsEncryptionSettings? kmsEncryptionSettings;
+
+  EncryptionSettings({
+    this.defaultValue,
+    this.kmsEncryptionSettings,
+  });
+
+  Map<String, dynamic> toJson() {
+    final defaultValue = this.defaultValue;
+    final kmsEncryptionSettings = this.kmsEncryptionSettings;
+    return {
+      if (defaultValue != null) 'default': defaultValue,
+      if (kmsEncryptionSettings != null)
+        'kmsEncryptionSettings': kmsEncryptionSettings,
+    };
+  }
+}
+
+/// A structure that contains the KMS encryption configuration for the policy
+/// store. The encryption settings determine what customer-managed KMS key will
+/// be used to encrypt all resources within the policy store, and any
+/// user-defined context key-value pairs to append during encryption processes.
+///
+/// This data type is used as a field that is part of the <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_EncryptionSettings.html">EncryptionSettings</a>
+/// type.
+class KmsEncryptionSettings {
+  /// The customer-managed KMS key <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Name (ARN)</a>, alias or ID to be used for encryption processes.
+  ///
+  /// Users can provide the full KMS key ARN, a KMS key alias, or a KMS key ID,
+  /// but it will be mapped to the full KMS key ARN after policy store creation,
+  /// and referenced when encrypting child resources.
+  final String key;
+
+  /// User-defined, additional context to be added to encryption processes.
+  final Map<String, String>? encryptionContext;
+
+  KmsEncryptionSettings({
+    required this.key,
+    this.encryptionContext,
+  });
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final encryptionContext = this.encryptionContext;
+    return {
+      'key': key,
+      if (encryptionContext != null) 'encryptionContext': encryptionContext,
+    };
+  }
+}
+
+class Unit {
+  Unit();
+
+  factory Unit.fromJson(Map<String, dynamic> _) {
+    return Unit();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
@@ -6222,6 +8030,11 @@ class ConflictException extends _s.GenericAwsException {
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
+}
+
+class InvalidStateException extends _s.GenericAwsException {
+  InvalidStateException({String? type, String? message})
+      : super(type: type, code: 'InvalidStateException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
@@ -6242,9 +8055,9 @@ class ThrottlingException extends _s.GenericAwsException {
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
-class ValidationException extends _s.GenericAwsException {
-  ValidationException({String? type, String? message})
-      : super(type: type, code: 'ValidationException', message: message);
+class TooManyTagsException extends _s.GenericAwsException {
+  TooManyTagsException({String? type, String? message})
+      : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
@@ -6254,12 +8067,14 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ConflictException(type: type, message: message),
   'InternalServerException': (type, message) =>
       InternalServerException(type: type, message: message),
+  'InvalidStateException': (type, message) =>
+      InvalidStateException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
       ResourceNotFoundException(type: type, message: message),
   'ServiceQuotaExceededException': (type, message) =>
       ServiceQuotaExceededException(type: type, message: message),
   'ThrottlingException': (type, message) =>
       ThrottlingException(type: type, message: message),
-  'ValidationException': (type, message) =>
-      ValidationException(type: type, message: message),
+  'TooManyTagsException': (type, message) =>
+      TooManyTagsException(type: type, message: message),
 };

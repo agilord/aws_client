@@ -70,8 +70,8 @@ class DynamoDBStreams {
   /// and <code>EndingSequenceNumber</code> are present, then that shard is
   /// closed and can no longer receive more data.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerError].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [streamArn] :
   /// The Amazon Resource Name (ARN) for the stream.
@@ -83,10 +83,15 @@ class DynamoDBStreams {
   ///
   /// Parameter [limit] :
   /// The maximum number of shard objects to return. The upper limit is 100.
+  ///
+  /// Parameter [shardFilter] :
+  /// This optional field contains the filter definition for the
+  /// <code>DescribeStream</code> API.
   Future<DescribeStreamOutput> describeStream({
     required String streamArn,
     String? exclusiveStartShardId,
     int? limit,
+    ShardFilter? shardFilter,
   }) async {
     _s.validateNumRange(
       'limit',
@@ -109,6 +114,7 @@ class DynamoDBStreams {
         if (exclusiveStartShardId != null)
           'ExclusiveStartShardId': exclusiveStartShardId,
         if (limit != null) 'Limit': limit,
+        if (shardFilter != null) 'ShardFilter': shardFilter,
       },
     );
 
@@ -129,10 +135,10 @@ class DynamoDBStreams {
   /// stream records, whichever comes first.
   /// </note>
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalServerError].
   /// May throw [ExpiredIteratorException].
+  /// May throw [InternalServerError].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TrimmedDataAccessException].
   ///
   /// Parameter [shardIterator] :
@@ -180,8 +186,8 @@ class DynamoDBStreams {
   /// A shard iterator expires 15 minutes after it is returned to the requester.
   /// </note>
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerError].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TrimmedDataAccessException].
   ///
   /// Parameter [shardId] :
@@ -255,8 +261,8 @@ class DynamoDBStreams {
   /// second.
   /// </note>
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerError].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [exclusiveStartStreamArn] :
   /// The ARN (Amazon Resource Name) of the first item that this operation will
@@ -300,6 +306,508 @@ class DynamoDBStreams {
 
     return ListStreamsOutput.fromJson(jsonResponse.body);
   }
+}
+
+/// Represents the output of a <code>DescribeStream</code> operation.
+class DescribeStreamOutput {
+  /// A complete description of the stream, including its creation date and time,
+  /// the DynamoDB table associated with the stream, the shard IDs within the
+  /// stream, and the beginning and ending sequence numbers of stream records
+  /// within the shards.
+  final StreamDescription? streamDescription;
+
+  DescribeStreamOutput({
+    this.streamDescription,
+  });
+
+  factory DescribeStreamOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeStreamOutput(
+      streamDescription: json['StreamDescription'] != null
+          ? StreamDescription.fromJson(
+              json['StreamDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final streamDescription = this.streamDescription;
+    return {
+      if (streamDescription != null) 'StreamDescription': streamDescription,
+    };
+  }
+}
+
+/// Represents the output of a <code>GetRecords</code> operation.
+class GetRecordsOutput {
+  /// The next position in the shard from which to start sequentially reading
+  /// stream records. If set to <code>null</code>, the shard has been closed and
+  /// the requested iterator will not return any more data.
+  final String? nextShardIterator;
+
+  /// The stream records from the shard, which were retrieved using the shard
+  /// iterator.
+  final List<Record>? records;
+
+  GetRecordsOutput({
+    this.nextShardIterator,
+    this.records,
+  });
+
+  factory GetRecordsOutput.fromJson(Map<String, dynamic> json) {
+    return GetRecordsOutput(
+      nextShardIterator: json['NextShardIterator'] as String?,
+      records: (json['Records'] as List?)
+          ?.nonNulls
+          .map((e) => Record.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextShardIterator = this.nextShardIterator;
+    final records = this.records;
+    return {
+      if (nextShardIterator != null) 'NextShardIterator': nextShardIterator,
+      if (records != null) 'Records': records,
+    };
+  }
+}
+
+/// Represents the output of a <code>GetShardIterator</code> operation.
+class GetShardIteratorOutput {
+  /// The position in the shard from which to start reading stream records
+  /// sequentially. A shard iterator specifies this position using the sequence
+  /// number of a stream record in a shard.
+  final String? shardIterator;
+
+  GetShardIteratorOutput({
+    this.shardIterator,
+  });
+
+  factory GetShardIteratorOutput.fromJson(Map<String, dynamic> json) {
+    return GetShardIteratorOutput(
+      shardIterator: json['ShardIterator'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final shardIterator = this.shardIterator;
+    return {
+      if (shardIterator != null) 'ShardIterator': shardIterator,
+    };
+  }
+}
+
+/// Represents the output of a <code>ListStreams</code> operation.
+class ListStreamsOutput {
+  /// The stream ARN of the item where the operation stopped, inclusive of the
+  /// previous result set. Use this value to start a new operation, excluding this
+  /// value in the new request.
+  ///
+  /// If <code>LastEvaluatedStreamArn</code> is empty, then the "last page" of
+  /// results has been processed and there is no more data to be retrieved.
+  ///
+  /// If <code>LastEvaluatedStreamArn</code> is not empty, it does not necessarily
+  /// mean that there is more data in the result set. The only way to know when
+  /// you have reached the end of the result set is when
+  /// <code>LastEvaluatedStreamArn</code> is empty.
+  final String? lastEvaluatedStreamArn;
+
+  /// A list of stream descriptors associated with the current account and
+  /// endpoint.
+  final List<Stream>? streams;
+
+  ListStreamsOutput({
+    this.lastEvaluatedStreamArn,
+    this.streams,
+  });
+
+  factory ListStreamsOutput.fromJson(Map<String, dynamic> json) {
+    return ListStreamsOutput(
+      lastEvaluatedStreamArn: json['LastEvaluatedStreamArn'] as String?,
+      streams: (json['Streams'] as List?)
+          ?.nonNulls
+          .map((e) => Stream.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastEvaluatedStreamArn = this.lastEvaluatedStreamArn;
+    final streams = this.streams;
+    return {
+      if (lastEvaluatedStreamArn != null)
+        'LastEvaluatedStreamArn': lastEvaluatedStreamArn,
+      if (streams != null) 'Streams': streams,
+    };
+  }
+}
+
+/// Represents all of the data describing a particular stream.
+class Stream {
+  /// The Amazon Resource Name (ARN) for the stream.
+  final String? streamArn;
+
+  /// A timestamp, in ISO 8601 format, for this stream.
+  ///
+  /// Note that <code>LatestStreamLabel</code> is not a unique identifier for the
+  /// stream, because it is possible that a stream from another table might have
+  /// the same timestamp. However, the combination of the following three elements
+  /// is guaranteed to be unique:
+  ///
+  /// <ul>
+  /// <li>
+  /// the Amazon Web Services customer ID.
+  /// </li>
+  /// <li>
+  /// the table name
+  /// </li>
+  /// <li>
+  /// the <code>StreamLabel</code>
+  /// </li>
+  /// </ul>
+  final String? streamLabel;
+
+  /// The DynamoDB table with which the stream is associated.
+  final String? tableName;
+
+  Stream({
+    this.streamArn,
+    this.streamLabel,
+    this.tableName,
+  });
+
+  factory Stream.fromJson(Map<String, dynamic> json) {
+    return Stream(
+      streamArn: json['StreamArn'] as String?,
+      streamLabel: json['StreamLabel'] as String?,
+      tableName: json['TableName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final streamArn = this.streamArn;
+    final streamLabel = this.streamLabel;
+    final tableName = this.tableName;
+    return {
+      if (streamArn != null) 'StreamArn': streamArn,
+      if (streamLabel != null) 'StreamLabel': streamLabel,
+      if (tableName != null) 'TableName': tableName,
+    };
+  }
+}
+
+class ShardIteratorType {
+  static const trimHorizon = ShardIteratorType._('TRIM_HORIZON');
+  static const latest = ShardIteratorType._('LATEST');
+  static const atSequenceNumber = ShardIteratorType._('AT_SEQUENCE_NUMBER');
+  static const afterSequenceNumber =
+      ShardIteratorType._('AFTER_SEQUENCE_NUMBER');
+
+  final String value;
+
+  const ShardIteratorType._(this.value);
+
+  static const values = [
+    trimHorizon,
+    latest,
+    atSequenceNumber,
+    afterSequenceNumber
+  ];
+
+  static ShardIteratorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ShardIteratorType._(value));
+
+  @override
+  bool operator ==(other) => other is ShardIteratorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A description of a unique event within a stream.
+class Record {
+  /// The region in which the <code>GetRecords</code> request was received.
+  final String? awsRegion;
+
+  /// The main body of the stream record, containing all of the DynamoDB-specific
+  /// fields.
+  final StreamRecord? dynamodb;
+
+  /// A globally unique identifier for the event that was recorded in this stream
+  /// record.
+  final String? eventID;
+
+  /// The type of data modification that was performed on the DynamoDB table:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>INSERT</code> - a new item was added to the table.
+  /// </li>
+  /// <li>
+  /// <code>MODIFY</code> - one or more of an existing item's attributes were
+  /// modified.
+  /// </li>
+  /// <li>
+  /// <code>REMOVE</code> - the item was deleted from the table
+  /// </li>
+  /// </ul>
+  final OperationType? eventName;
+
+  /// The Amazon Web Services service from which the stream record originated. For
+  /// DynamoDB Streams, this is <code>aws:dynamodb</code>.
+  final String? eventSource;
+
+  /// The version number of the stream record format. This number is updated
+  /// whenever the structure of <code>Record</code> is modified.
+  ///
+  /// Client applications must not assume that <code>eventVersion</code> will
+  /// remain at a particular value, as this number is subject to change at any
+  /// time. In general, <code>eventVersion</code> will only increase as the
+  /// low-level DynamoDB Streams API evolves.
+  final String? eventVersion;
+
+  /// Items that are deleted by the Time to Live process after expiration have the
+  /// following fields:
+  ///
+  /// <ul>
+  /// <li>
+  /// Records[].userIdentity.type
+  ///
+  /// "Service"
+  /// </li>
+  /// <li>
+  /// Records[].userIdentity.principalId
+  ///
+  /// "dynamodb.amazonaws.com"
+  /// </li>
+  /// </ul>
+  final Identity? userIdentity;
+
+  Record({
+    this.awsRegion,
+    this.dynamodb,
+    this.eventID,
+    this.eventName,
+    this.eventSource,
+    this.eventVersion,
+    this.userIdentity,
+  });
+
+  factory Record.fromJson(Map<String, dynamic> json) {
+    return Record(
+      awsRegion: json['awsRegion'] as String?,
+      dynamodb: json['dynamodb'] != null
+          ? StreamRecord.fromJson(json['dynamodb'] as Map<String, dynamic>)
+          : null,
+      eventID: json['eventID'] as String?,
+      eventName: (json['eventName'] as String?)?.let(OperationType.fromString),
+      eventSource: json['eventSource'] as String?,
+      eventVersion: json['eventVersion'] as String?,
+      userIdentity: json['userIdentity'] != null
+          ? Identity.fromJson(json['userIdentity'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsRegion = this.awsRegion;
+    final dynamodb = this.dynamodb;
+    final eventID = this.eventID;
+    final eventName = this.eventName;
+    final eventSource = this.eventSource;
+    final eventVersion = this.eventVersion;
+    final userIdentity = this.userIdentity;
+    return {
+      if (awsRegion != null) 'awsRegion': awsRegion,
+      if (dynamodb != null) 'dynamodb': dynamodb,
+      if (eventID != null) 'eventID': eventID,
+      if (eventName != null) 'eventName': eventName.value,
+      if (eventSource != null) 'eventSource': eventSource,
+      if (eventVersion != null) 'eventVersion': eventVersion,
+      if (userIdentity != null) 'userIdentity': userIdentity,
+    };
+  }
+}
+
+class OperationType {
+  static const insert = OperationType._('INSERT');
+  static const modify = OperationType._('MODIFY');
+  static const remove = OperationType._('REMOVE');
+
+  final String value;
+
+  const OperationType._(this.value);
+
+  static const values = [insert, modify, remove];
+
+  static OperationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OperationType._(value));
+
+  @override
+  bool operator ==(other) => other is OperationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A description of a single data modification that was performed on an item in
+/// a DynamoDB table.
+class StreamRecord {
+  /// The approximate date and time when the stream record was created, in <a
+  /// href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a>
+  /// format and rounded down to the closest second.
+  final DateTime? approximateCreationDateTime;
+
+  /// The primary key attribute(s) for the DynamoDB item that was modified.
+  final Map<String, AttributeValue>? keys;
+
+  /// The item in the DynamoDB table as it appeared after it was modified.
+  final Map<String, AttributeValue>? newImage;
+
+  /// The item in the DynamoDB table as it appeared before it was modified.
+  final Map<String, AttributeValue>? oldImage;
+
+  /// The sequence number of the stream record.
+  final String? sequenceNumber;
+
+  /// The size of the stream record, in bytes.
+  final int? sizeBytes;
+
+  /// The type of data from the modified DynamoDB item that was captured in this
+  /// stream record:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>KEYS_ONLY</code> - only the key attributes of the modified item.
+  /// </li>
+  /// <li>
+  /// <code>NEW_IMAGE</code> - the entire item, as it appeared after it was
+  /// modified.
+  /// </li>
+  /// <li>
+  /// <code>OLD_IMAGE</code> - the entire item, as it appeared before it was
+  /// modified.
+  /// </li>
+  /// <li>
+  /// <code>NEW_AND_OLD_IMAGES</code> - both the new and the old item images of
+  /// the item.
+  /// </li>
+  /// </ul>
+  final StreamViewType? streamViewType;
+
+  StreamRecord({
+    this.approximateCreationDateTime,
+    this.keys,
+    this.newImage,
+    this.oldImage,
+    this.sequenceNumber,
+    this.sizeBytes,
+    this.streamViewType,
+  });
+
+  factory StreamRecord.fromJson(Map<String, dynamic> json) {
+    return StreamRecord(
+      approximateCreationDateTime:
+          timeStampFromJson(json['ApproximateCreationDateTime']),
+      keys: (json['Keys'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      newImage: (json['NewImage'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      oldImage: (json['OldImage'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      sequenceNumber: json['SequenceNumber'] as String?,
+      sizeBytes: json['SizeBytes'] as int?,
+      streamViewType:
+          (json['StreamViewType'] as String?)?.let(StreamViewType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approximateCreationDateTime = this.approximateCreationDateTime;
+    final keys = this.keys;
+    final newImage = this.newImage;
+    final oldImage = this.oldImage;
+    final sequenceNumber = this.sequenceNumber;
+    final sizeBytes = this.sizeBytes;
+    final streamViewType = this.streamViewType;
+    return {
+      if (approximateCreationDateTime != null)
+        'ApproximateCreationDateTime':
+            unixTimestampToJson(approximateCreationDateTime),
+      if (keys != null) 'Keys': keys,
+      if (newImage != null) 'NewImage': newImage,
+      if (oldImage != null) 'OldImage': oldImage,
+      if (sequenceNumber != null) 'SequenceNumber': sequenceNumber,
+      if (sizeBytes != null) 'SizeBytes': sizeBytes,
+      if (streamViewType != null) 'StreamViewType': streamViewType.value,
+    };
+  }
+}
+
+/// Contains details about the type of identity that made the request.
+class Identity {
+  /// A unique identifier for the entity that made the call. For Time To Live, the
+  /// principalId is "dynamodb.amazonaws.com".
+  final String? principalId;
+
+  /// The type of the identity. For Time To Live, the type is "Service".
+  final String? type;
+
+  Identity({
+    this.principalId,
+    this.type,
+  });
+
+  factory Identity.fromJson(Map<String, dynamic> json) {
+    return Identity(
+      principalId: json['PrincipalId'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final principalId = this.principalId;
+    final type = this.type;
+    return {
+      if (principalId != null) 'PrincipalId': principalId,
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+class StreamViewType {
+  static const newImage = StreamViewType._('NEW_IMAGE');
+  static const oldImage = StreamViewType._('OLD_IMAGE');
+  static const newAndOldImages = StreamViewType._('NEW_AND_OLD_IMAGES');
+  static const keysOnly = StreamViewType._('KEYS_ONLY');
+
+  final String value;
+
+  const StreamViewType._(this.value);
+
+  static const values = [newImage, oldImage, newAndOldImages, keysOnly];
+
+  static StreamViewType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StreamViewType._(value));
+
+  @override
+  bool operator ==(other) => other is StreamViewType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the data for an attribute.
@@ -426,548 +934,6 @@ class AttributeValue {
       if (nullValue != null) 'NULL': nullValue,
       if (s != null) 'S': s,
       if (ss != null) 'SS': ss,
-    };
-  }
-}
-
-/// Represents the output of a <code>DescribeStream</code> operation.
-class DescribeStreamOutput {
-  /// A complete description of the stream, including its creation date and time,
-  /// the DynamoDB table associated with the stream, the shard IDs within the
-  /// stream, and the beginning and ending sequence numbers of stream records
-  /// within the shards.
-  final StreamDescription? streamDescription;
-
-  DescribeStreamOutput({
-    this.streamDescription,
-  });
-
-  factory DescribeStreamOutput.fromJson(Map<String, dynamic> json) {
-    return DescribeStreamOutput(
-      streamDescription: json['StreamDescription'] != null
-          ? StreamDescription.fromJson(
-              json['StreamDescription'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final streamDescription = this.streamDescription;
-    return {
-      if (streamDescription != null) 'StreamDescription': streamDescription,
-    };
-  }
-}
-
-/// Represents the output of a <code>GetRecords</code> operation.
-class GetRecordsOutput {
-  /// The next position in the shard from which to start sequentially reading
-  /// stream records. If set to <code>null</code>, the shard has been closed and
-  /// the requested iterator will not return any more data.
-  final String? nextShardIterator;
-
-  /// The stream records from the shard, which were retrieved using the shard
-  /// iterator.
-  final List<Record>? records;
-
-  GetRecordsOutput({
-    this.nextShardIterator,
-    this.records,
-  });
-
-  factory GetRecordsOutput.fromJson(Map<String, dynamic> json) {
-    return GetRecordsOutput(
-      nextShardIterator: json['NextShardIterator'] as String?,
-      records: (json['Records'] as List?)
-          ?.nonNulls
-          .map((e) => Record.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextShardIterator = this.nextShardIterator;
-    final records = this.records;
-    return {
-      if (nextShardIterator != null) 'NextShardIterator': nextShardIterator,
-      if (records != null) 'Records': records,
-    };
-  }
-}
-
-/// Represents the output of a <code>GetShardIterator</code> operation.
-class GetShardIteratorOutput {
-  /// The position in the shard from which to start reading stream records
-  /// sequentially. A shard iterator specifies this position using the sequence
-  /// number of a stream record in a shard.
-  final String? shardIterator;
-
-  GetShardIteratorOutput({
-    this.shardIterator,
-  });
-
-  factory GetShardIteratorOutput.fromJson(Map<String, dynamic> json) {
-    return GetShardIteratorOutput(
-      shardIterator: json['ShardIterator'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final shardIterator = this.shardIterator;
-    return {
-      if (shardIterator != null) 'ShardIterator': shardIterator,
-    };
-  }
-}
-
-/// Contains details about the type of identity that made the request.
-class Identity {
-  /// A unique identifier for the entity that made the call. For Time To Live, the
-  /// principalId is "dynamodb.amazonaws.com".
-  final String? principalId;
-
-  /// The type of the identity. For Time To Live, the type is "Service".
-  final String? type;
-
-  Identity({
-    this.principalId,
-    this.type,
-  });
-
-  factory Identity.fromJson(Map<String, dynamic> json) {
-    return Identity(
-      principalId: json['PrincipalId'] as String?,
-      type: json['Type'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final principalId = this.principalId;
-    final type = this.type;
-    return {
-      if (principalId != null) 'PrincipalId': principalId,
-      if (type != null) 'Type': type,
-    };
-  }
-}
-
-/// Represents <i>a single element</i> of a key schema. A key schema specifies
-/// the attributes that make up the primary key of a table, or the key
-/// attributes of an index.
-///
-/// A <code>KeySchemaElement</code> represents exactly one attribute of the
-/// primary key. For example, a simple primary key would be represented by one
-/// <code>KeySchemaElement</code> (for the partition key). A composite primary
-/// key would require one <code>KeySchemaElement</code> for the partition key,
-/// and another <code>KeySchemaElement</code> for the sort key.
-///
-/// A <code>KeySchemaElement</code> must be a scalar, top-level attribute (not a
-/// nested attribute). The data type must be one of String, Number, or Binary.
-/// The attribute cannot be nested within a List or a Map.
-class KeySchemaElement {
-  /// The name of a key attribute.
-  final String attributeName;
-
-  /// The role that this key attribute will assume:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>HASH</code> - partition key
-  /// </li>
-  /// <li>
-  /// <code>RANGE</code> - sort key
-  /// </li>
-  /// </ul> <note>
-  /// The partition key of an item is also known as its <i>hash attribute</i>. The
-  /// term "hash attribute" derives from DynamoDB's usage of an internal hash
-  /// function to evenly distribute data items across partitions, based on their
-  /// partition key values.
-  ///
-  /// The sort key of an item is also known as its <i>range attribute</i>. The
-  /// term "range attribute" derives from the way DynamoDB stores items with the
-  /// same partition key physically close together, in sorted order by the sort
-  /// key value.
-  /// </note>
-  final KeyType keyType;
-
-  KeySchemaElement({
-    required this.attributeName,
-    required this.keyType,
-  });
-
-  factory KeySchemaElement.fromJson(Map<String, dynamic> json) {
-    return KeySchemaElement(
-      attributeName: (json['AttributeName'] as String?) ?? '',
-      keyType: KeyType.fromString((json['KeyType'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attributeName = this.attributeName;
-    final keyType = this.keyType;
-    return {
-      'AttributeName': attributeName,
-      'KeyType': keyType.value,
-    };
-  }
-}
-
-class KeyType {
-  static const hash = KeyType._('HASH');
-  static const range = KeyType._('RANGE');
-
-  final String value;
-
-  const KeyType._(this.value);
-
-  static const values = [hash, range];
-
-  static KeyType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => KeyType._(value));
-
-  @override
-  bool operator ==(other) => other is KeyType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents the output of a <code>ListStreams</code> operation.
-class ListStreamsOutput {
-  /// The stream ARN of the item where the operation stopped, inclusive of the
-  /// previous result set. Use this value to start a new operation, excluding this
-  /// value in the new request.
-  ///
-  /// If <code>LastEvaluatedStreamArn</code> is empty, then the "last page" of
-  /// results has been processed and there is no more data to be retrieved.
-  ///
-  /// If <code>LastEvaluatedStreamArn</code> is not empty, it does not necessarily
-  /// mean that there is more data in the result set. The only way to know when
-  /// you have reached the end of the result set is when
-  /// <code>LastEvaluatedStreamArn</code> is empty.
-  final String? lastEvaluatedStreamArn;
-
-  /// A list of stream descriptors associated with the current account and
-  /// endpoint.
-  final List<Stream>? streams;
-
-  ListStreamsOutput({
-    this.lastEvaluatedStreamArn,
-    this.streams,
-  });
-
-  factory ListStreamsOutput.fromJson(Map<String, dynamic> json) {
-    return ListStreamsOutput(
-      lastEvaluatedStreamArn: json['LastEvaluatedStreamArn'] as String?,
-      streams: (json['Streams'] as List?)
-          ?.nonNulls
-          .map((e) => Stream.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lastEvaluatedStreamArn = this.lastEvaluatedStreamArn;
-    final streams = this.streams;
-    return {
-      if (lastEvaluatedStreamArn != null)
-        'LastEvaluatedStreamArn': lastEvaluatedStreamArn,
-      if (streams != null) 'Streams': streams,
-    };
-  }
-}
-
-class OperationType {
-  static const insert = OperationType._('INSERT');
-  static const modify = OperationType._('MODIFY');
-  static const remove = OperationType._('REMOVE');
-
-  final String value;
-
-  const OperationType._(this.value);
-
-  static const values = [insert, modify, remove];
-
-  static OperationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => OperationType._(value));
-
-  @override
-  bool operator ==(other) => other is OperationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A description of a unique event within a stream.
-class Record {
-  /// The region in which the <code>GetRecords</code> request was received.
-  final String? awsRegion;
-
-  /// The main body of the stream record, containing all of the DynamoDB-specific
-  /// fields.
-  final StreamRecord? dynamodb;
-
-  /// A globally unique identifier for the event that was recorded in this stream
-  /// record.
-  final String? eventID;
-
-  /// The type of data modification that was performed on the DynamoDB table:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>INSERT</code> - a new item was added to the table.
-  /// </li>
-  /// <li>
-  /// <code>MODIFY</code> - one or more of an existing item's attributes were
-  /// modified.
-  /// </li>
-  /// <li>
-  /// <code>REMOVE</code> - the item was deleted from the table
-  /// </li>
-  /// </ul>
-  final OperationType? eventName;
-
-  /// The Amazon Web Services service from which the stream record originated. For
-  /// DynamoDB Streams, this is <code>aws:dynamodb</code>.
-  final String? eventSource;
-
-  /// The version number of the stream record format. This number is updated
-  /// whenever the structure of <code>Record</code> is modified.
-  ///
-  /// Client applications must not assume that <code>eventVersion</code> will
-  /// remain at a particular value, as this number is subject to change at any
-  /// time. In general, <code>eventVersion</code> will only increase as the
-  /// low-level DynamoDB Streams API evolves.
-  final String? eventVersion;
-
-  /// Items that are deleted by the Time to Live process after expiration have the
-  /// following fields:
-  ///
-  /// <ul>
-  /// <li>
-  /// Records[].userIdentity.type
-  ///
-  /// "Service"
-  /// </li>
-  /// <li>
-  /// Records[].userIdentity.principalId
-  ///
-  /// "dynamodb.amazonaws.com"
-  /// </li>
-  /// </ul>
-  final Identity? userIdentity;
-
-  Record({
-    this.awsRegion,
-    this.dynamodb,
-    this.eventID,
-    this.eventName,
-    this.eventSource,
-    this.eventVersion,
-    this.userIdentity,
-  });
-
-  factory Record.fromJson(Map<String, dynamic> json) {
-    return Record(
-      awsRegion: json['awsRegion'] as String?,
-      dynamodb: json['dynamodb'] != null
-          ? StreamRecord.fromJson(json['dynamodb'] as Map<String, dynamic>)
-          : null,
-      eventID: json['eventID'] as String?,
-      eventName: (json['eventName'] as String?)?.let(OperationType.fromString),
-      eventSource: json['eventSource'] as String?,
-      eventVersion: json['eventVersion'] as String?,
-      userIdentity: json['userIdentity'] != null
-          ? Identity.fromJson(json['userIdentity'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final awsRegion = this.awsRegion;
-    final dynamodb = this.dynamodb;
-    final eventID = this.eventID;
-    final eventName = this.eventName;
-    final eventSource = this.eventSource;
-    final eventVersion = this.eventVersion;
-    final userIdentity = this.userIdentity;
-    return {
-      if (awsRegion != null) 'awsRegion': awsRegion,
-      if (dynamodb != null) 'dynamodb': dynamodb,
-      if (eventID != null) 'eventID': eventID,
-      if (eventName != null) 'eventName': eventName.value,
-      if (eventSource != null) 'eventSource': eventSource,
-      if (eventVersion != null) 'eventVersion': eventVersion,
-      if (userIdentity != null) 'userIdentity': userIdentity,
-    };
-  }
-}
-
-/// The beginning and ending sequence numbers for the stream records contained
-/// within a shard.
-class SequenceNumberRange {
-  /// The last sequence number for the stream records contained within a shard.
-  /// String contains numeric characters only.
-  final String? endingSequenceNumber;
-
-  /// The first sequence number for the stream records contained within a shard.
-  /// String contains numeric characters only.
-  final String? startingSequenceNumber;
-
-  SequenceNumberRange({
-    this.endingSequenceNumber,
-    this.startingSequenceNumber,
-  });
-
-  factory SequenceNumberRange.fromJson(Map<String, dynamic> json) {
-    return SequenceNumberRange(
-      endingSequenceNumber: json['EndingSequenceNumber'] as String?,
-      startingSequenceNumber: json['StartingSequenceNumber'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final endingSequenceNumber = this.endingSequenceNumber;
-    final startingSequenceNumber = this.startingSequenceNumber;
-    return {
-      if (endingSequenceNumber != null)
-        'EndingSequenceNumber': endingSequenceNumber,
-      if (startingSequenceNumber != null)
-        'StartingSequenceNumber': startingSequenceNumber,
-    };
-  }
-}
-
-/// A uniquely identified group of stream records within a stream.
-class Shard {
-  /// The shard ID of the current shard's parent.
-  final String? parentShardId;
-
-  /// The range of possible sequence numbers for the shard.
-  final SequenceNumberRange? sequenceNumberRange;
-
-  /// The system-generated identifier for this shard.
-  final String? shardId;
-
-  Shard({
-    this.parentShardId,
-    this.sequenceNumberRange,
-    this.shardId,
-  });
-
-  factory Shard.fromJson(Map<String, dynamic> json) {
-    return Shard(
-      parentShardId: json['ParentShardId'] as String?,
-      sequenceNumberRange: json['SequenceNumberRange'] != null
-          ? SequenceNumberRange.fromJson(
-              json['SequenceNumberRange'] as Map<String, dynamic>)
-          : null,
-      shardId: json['ShardId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final parentShardId = this.parentShardId;
-    final sequenceNumberRange = this.sequenceNumberRange;
-    final shardId = this.shardId;
-    return {
-      if (parentShardId != null) 'ParentShardId': parentShardId,
-      if (sequenceNumberRange != null)
-        'SequenceNumberRange': sequenceNumberRange,
-      if (shardId != null) 'ShardId': shardId,
-    };
-  }
-}
-
-class ShardIteratorType {
-  static const trimHorizon = ShardIteratorType._('TRIM_HORIZON');
-  static const latest = ShardIteratorType._('LATEST');
-  static const atSequenceNumber = ShardIteratorType._('AT_SEQUENCE_NUMBER');
-  static const afterSequenceNumber =
-      ShardIteratorType._('AFTER_SEQUENCE_NUMBER');
-
-  final String value;
-
-  const ShardIteratorType._(this.value);
-
-  static const values = [
-    trimHorizon,
-    latest,
-    atSequenceNumber,
-    afterSequenceNumber
-  ];
-
-  static ShardIteratorType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ShardIteratorType._(value));
-
-  @override
-  bool operator ==(other) => other is ShardIteratorType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents all of the data describing a particular stream.
-class Stream {
-  /// The Amazon Resource Name (ARN) for the stream.
-  final String? streamArn;
-
-  /// A timestamp, in ISO 8601 format, for this stream.
-  ///
-  /// Note that <code>LatestStreamLabel</code> is not a unique identifier for the
-  /// stream, because it is possible that a stream from another table might have
-  /// the same timestamp. However, the combination of the following three elements
-  /// is guaranteed to be unique:
-  ///
-  /// <ul>
-  /// <li>
-  /// the Amazon Web Services customer ID.
-  /// </li>
-  /// <li>
-  /// the table name
-  /// </li>
-  /// <li>
-  /// the <code>StreamLabel</code>
-  /// </li>
-  /// </ul>
-  final String? streamLabel;
-
-  /// The DynamoDB table with which the stream is associated.
-  final String? tableName;
-
-  Stream({
-    this.streamArn,
-    this.streamLabel,
-    this.tableName,
-  });
-
-  factory Stream.fromJson(Map<String, dynamic> json) {
-    return Stream(
-      streamArn: json['StreamArn'] as String?,
-      streamLabel: json['StreamLabel'] as String?,
-      tableName: json['TableName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final streamArn = this.streamArn;
-    final streamLabel = this.streamLabel;
-    final tableName = this.tableName;
-    return {
-      if (streamArn != null) 'StreamArn': streamArn,
-      if (streamLabel != null) 'StreamLabel': streamLabel,
-      if (tableName != null) 'TableName': tableName,
     };
   }
 }
@@ -1126,100 +1092,6 @@ class StreamDescription {
   }
 }
 
-/// A description of a single data modification that was performed on an item in
-/// a DynamoDB table.
-class StreamRecord {
-  /// The approximate date and time when the stream record was created, in <a
-  /// href="http://www.epochconverter.com/">UNIX epoch time</a> format and rounded
-  /// down to the closest second.
-  final DateTime? approximateCreationDateTime;
-
-  /// The primary key attribute(s) for the DynamoDB item that was modified.
-  final Map<String, AttributeValue>? keys;
-
-  /// The item in the DynamoDB table as it appeared after it was modified.
-  final Map<String, AttributeValue>? newImage;
-
-  /// The item in the DynamoDB table as it appeared before it was modified.
-  final Map<String, AttributeValue>? oldImage;
-
-  /// The sequence number of the stream record.
-  final String? sequenceNumber;
-
-  /// The size of the stream record, in bytes.
-  final int? sizeBytes;
-
-  /// The type of data from the modified DynamoDB item that was captured in this
-  /// stream record:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>KEYS_ONLY</code> - only the key attributes of the modified item.
-  /// </li>
-  /// <li>
-  /// <code>NEW_IMAGE</code> - the entire item, as it appeared after it was
-  /// modified.
-  /// </li>
-  /// <li>
-  /// <code>OLD_IMAGE</code> - the entire item, as it appeared before it was
-  /// modified.
-  /// </li>
-  /// <li>
-  /// <code>NEW_AND_OLD_IMAGES</code> - both the new and the old item images of
-  /// the item.
-  /// </li>
-  /// </ul>
-  final StreamViewType? streamViewType;
-
-  StreamRecord({
-    this.approximateCreationDateTime,
-    this.keys,
-    this.newImage,
-    this.oldImage,
-    this.sequenceNumber,
-    this.sizeBytes,
-    this.streamViewType,
-  });
-
-  factory StreamRecord.fromJson(Map<String, dynamic> json) {
-    return StreamRecord(
-      approximateCreationDateTime:
-          timeStampFromJson(json['ApproximateCreationDateTime']),
-      keys: (json['Keys'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
-      newImage: (json['NewImage'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
-      oldImage: (json['OldImage'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
-      sequenceNumber: json['SequenceNumber'] as String?,
-      sizeBytes: json['SizeBytes'] as int?,
-      streamViewType:
-          (json['StreamViewType'] as String?)?.let(StreamViewType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final approximateCreationDateTime = this.approximateCreationDateTime;
-    final keys = this.keys;
-    final newImage = this.newImage;
-    final oldImage = this.oldImage;
-    final sequenceNumber = this.sequenceNumber;
-    final sizeBytes = this.sizeBytes;
-    final streamViewType = this.streamViewType;
-    return {
-      if (approximateCreationDateTime != null)
-        'ApproximateCreationDateTime':
-            unixTimestampToJson(approximateCreationDateTime),
-      if (keys != null) 'Keys': keys,
-      if (newImage != null) 'NewImage': newImage,
-      if (oldImage != null) 'OldImage': oldImage,
-      if (sequenceNumber != null) 'SequenceNumber': sequenceNumber,
-      if (sizeBytes != null) 'SizeBytes': sizeBytes,
-      if (streamViewType != null) 'StreamViewType': streamViewType.value,
-    };
-  }
-}
-
 class StreamStatus {
   static const enabling = StreamStatus._('ENABLING');
   static const enabled = StreamStatus._('ENABLED');
@@ -1245,24 +1117,210 @@ class StreamStatus {
   String toString() => value;
 }
 
-class StreamViewType {
-  static const newImage = StreamViewType._('NEW_IMAGE');
-  static const oldImage = StreamViewType._('OLD_IMAGE');
-  static const newAndOldImages = StreamViewType._('NEW_AND_OLD_IMAGES');
-  static const keysOnly = StreamViewType._('KEYS_ONLY');
+/// A uniquely identified group of stream records within a stream.
+class Shard {
+  /// The shard ID of the current shard's parent.
+  final String? parentShardId;
+
+  /// The range of possible sequence numbers for the shard.
+  final SequenceNumberRange? sequenceNumberRange;
+
+  /// The system-generated identifier for this shard.
+  final String? shardId;
+
+  Shard({
+    this.parentShardId,
+    this.sequenceNumberRange,
+    this.shardId,
+  });
+
+  factory Shard.fromJson(Map<String, dynamic> json) {
+    return Shard(
+      parentShardId: json['ParentShardId'] as String?,
+      sequenceNumberRange: json['SequenceNumberRange'] != null
+          ? SequenceNumberRange.fromJson(
+              json['SequenceNumberRange'] as Map<String, dynamic>)
+          : null,
+      shardId: json['ShardId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final parentShardId = this.parentShardId;
+    final sequenceNumberRange = this.sequenceNumberRange;
+    final shardId = this.shardId;
+    return {
+      if (parentShardId != null) 'ParentShardId': parentShardId,
+      if (sequenceNumberRange != null)
+        'SequenceNumberRange': sequenceNumberRange,
+      if (shardId != null) 'ShardId': shardId,
+    };
+  }
+}
+
+/// The beginning and ending sequence numbers for the stream records contained
+/// within a shard.
+class SequenceNumberRange {
+  /// The last sequence number for the stream records contained within a shard.
+  /// String contains numeric characters only.
+  final String? endingSequenceNumber;
+
+  /// The first sequence number for the stream records contained within a shard.
+  /// String contains numeric characters only.
+  final String? startingSequenceNumber;
+
+  SequenceNumberRange({
+    this.endingSequenceNumber,
+    this.startingSequenceNumber,
+  });
+
+  factory SequenceNumberRange.fromJson(Map<String, dynamic> json) {
+    return SequenceNumberRange(
+      endingSequenceNumber: json['EndingSequenceNumber'] as String?,
+      startingSequenceNumber: json['StartingSequenceNumber'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endingSequenceNumber = this.endingSequenceNumber;
+    final startingSequenceNumber = this.startingSequenceNumber;
+    return {
+      if (endingSequenceNumber != null)
+        'EndingSequenceNumber': endingSequenceNumber,
+      if (startingSequenceNumber != null)
+        'StartingSequenceNumber': startingSequenceNumber,
+    };
+  }
+}
+
+/// Represents <i>a single element</i> of a key schema. A key schema specifies
+/// the attributes that make up the primary key of a table, or the key
+/// attributes of an index.
+///
+/// A <code>KeySchemaElement</code> represents exactly one attribute of the
+/// primary key. For example, a simple primary key would be represented by one
+/// <code>KeySchemaElement</code> (for the partition key). A composite primary
+/// key would require one <code>KeySchemaElement</code> for the partition key,
+/// and another <code>KeySchemaElement</code> for the sort key.
+///
+/// A <code>KeySchemaElement</code> must be a scalar, top-level attribute (not a
+/// nested attribute). The data type must be one of String, Number, or Binary.
+/// The attribute cannot be nested within a List or a Map.
+class KeySchemaElement {
+  /// The name of a key attribute.
+  final String attributeName;
+
+  /// The role that this key attribute will assume:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>HASH</code> - partition key
+  /// </li>
+  /// <li>
+  /// <code>RANGE</code> - sort key
+  /// </li>
+  /// </ul> <note>
+  /// The partition key of an item is also known as its <i>hash attribute</i>. The
+  /// term "hash attribute" derives from DynamoDB's usage of an internal hash
+  /// function to evenly distribute data items across partitions, based on their
+  /// partition key values.
+  ///
+  /// The sort key of an item is also known as its <i>range attribute</i>. The
+  /// term "range attribute" derives from the way DynamoDB stores items with the
+  /// same partition key physically close together, in sorted order by the sort
+  /// key value.
+  /// </note>
+  final KeyType keyType;
+
+  KeySchemaElement({
+    required this.attributeName,
+    required this.keyType,
+  });
+
+  factory KeySchemaElement.fromJson(Map<String, dynamic> json) {
+    return KeySchemaElement(
+      attributeName: (json['AttributeName'] as String?) ?? '',
+      keyType: KeyType.fromString((json['KeyType'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeName = this.attributeName;
+    final keyType = this.keyType;
+    return {
+      'AttributeName': attributeName,
+      'KeyType': keyType.value,
+    };
+  }
+}
+
+class KeyType {
+  static const hash = KeyType._('HASH');
+  static const range = KeyType._('RANGE');
 
   final String value;
 
-  const StreamViewType._(this.value);
+  const KeyType._(this.value);
 
-  static const values = [newImage, oldImage, newAndOldImages, keysOnly];
+  static const values = [hash, range];
 
-  static StreamViewType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => StreamViewType._(value));
+  static KeyType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => KeyType._(value));
 
   @override
-  bool operator ==(other) => other is StreamViewType && other.value == value;
+  bool operator ==(other) => other is KeyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// This optional field contains the filter definition for the
+/// <code>DescribeStream</code> API.
+class ShardFilter {
+  /// Contains the <code>shardId</code> of the parent shard for which you are
+  /// requesting child shards.
+  ///
+  /// <i>Sample request:</i>
+  final String? shardId;
+
+  /// Contains the type of filter to be applied on the <code>DescribeStream</code>
+  /// API. Currently, the only value this parameter accepts is
+  /// <code>CHILD_SHARDS</code>.
+  final ShardFilterType? type;
+
+  ShardFilter({
+    this.shardId,
+    this.type,
+  });
+
+  Map<String, dynamic> toJson() {
+    final shardId = this.shardId;
+    final type = this.type;
+    return {
+      if (shardId != null) 'ShardId': shardId,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class ShardFilterType {
+  static const childShards = ShardFilterType._('CHILD_SHARDS');
+
+  final String value;
+
+  const ShardFilterType._(this.value);
+
+  static const values = [childShards];
+
+  static ShardFilterType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ShardFilterType._(value));
+
+  @override
+  bool operator ==(other) => other is ShardFilterType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;

@@ -25,9 +25,9 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// inquiry, and machine learning. It supports the Gremlin and openCypher query
 /// languages, and is available in all SDK languages. It automatically signs API
 /// requests and greatly simplifies integrating Neptune into your applications.
-class NeptuneData {
+class Neptunedata {
   final _s.RestJsonProtocol _protocol;
-  NeptuneData({
+  Neptunedata({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
@@ -37,7 +37,6 @@ class NeptuneData {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'neptune-db',
-            signingName: 'neptune-db',
           ),
           region: region,
           credentials: credentials,
@@ -65,19 +64,19 @@ class NeptuneData {
   /// IAM action in that cluster.
   ///
   /// May throw [BadRequestException].
-  /// May throw [InvalidParameterException].
   /// May throw [ClientTimeoutException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ConstraintViolationException].
+  /// May throw [FailureByQueryException].
   /// May throw [IllegalArgumentException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingParameterException].
+  /// May throw [ParsingException].
+  /// May throw [PreconditionsFailedException].
+  /// May throw [TimeLimitExceededException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnsupportedOperationException].
-  /// May throw [FailureByQueryException].
-  /// May throw [PreconditionsFailedException].
-  /// May throw [ParsingException].
-  /// May throw [ConstraintViolationException].
-  /// May throw [TimeLimitExceededException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [ConcurrentModificationException].
-  /// May throw [MissingParameterException].
   ///
   /// Parameter [queryId] :
   /// The unique identifier that identifies the query to be canceled.
@@ -105,18 +104,18 @@ class NeptuneData {
   /// IAM action in that cluster..
   ///
   /// May throw [BadRequestException].
-  /// May throw [InvalidParameterException].
   /// May throw [BulkLoadIdNotFoundException].
   /// May throw [ClientTimeoutException].
-  /// May throw [LoadUrlAccessDeniedException].
+  /// May throw [ConstraintViolationException].
   /// May throw [IllegalArgumentException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidParameterException].
+  /// May throw [LoadUrlAccessDeniedException].
+  /// May throw [MissingParameterException].
+  /// May throw [PreconditionsFailedException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnsupportedOperationException].
-  /// May throw [InternalFailureException].
-  /// May throw [PreconditionsFailedException].
-  /// May throw [ConstraintViolationException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [MissingParameterException].
   ///
   /// Parameter [loadId] :
   /// The ID of the load job to be deleted.
@@ -142,17 +141,17 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#cancelmldataprocessingjob">neptune-db:CancelMLDataProcessingJob</a>
   /// IAM action in that cluster.
   ///
-  /// May throw [UnsupportedOperationException].
   /// May throw [BadRequestException].
-  /// May throw [MLResourceNotFoundException].
-  /// May throw [InvalidParameterException].
   /// May throw [ClientTimeoutException].
-  /// May throw [PreconditionsFailedException].
   /// May throw [ConstraintViolationException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [MissingParameterException].
   /// May throw [IllegalArgumentException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingParameterException].
+  /// May throw [MLResourceNotFoundException].
+  /// May throw [PreconditionsFailedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [id] :
   /// The unique identifier of the data-processing job.
@@ -195,17 +194,17 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#cancelmlmodeltrainingjob">neptune-db:CancelMLModelTrainingJob</a>
   /// IAM action in that cluster.
   ///
-  /// May throw [UnsupportedOperationException].
   /// May throw [BadRequestException].
-  /// May throw [MLResourceNotFoundException].
-  /// May throw [InvalidParameterException].
   /// May throw [ClientTimeoutException].
-  /// May throw [PreconditionsFailedException].
   /// May throw [ConstraintViolationException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [MissingParameterException].
   /// May throw [IllegalArgumentException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingParameterException].
+  /// May throw [MLResourceNotFoundException].
+  /// May throw [PreconditionsFailedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [id] :
   /// The unique identifier of the model-training job to be canceled.
@@ -248,17 +247,17 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#cancelmlmodeltransformjob">neptune-db:CancelMLModelTransformJob</a>
   /// IAM action in that cluster.
   ///
-  /// May throw [UnsupportedOperationException].
   /// May throw [BadRequestException].
-  /// May throw [MLResourceNotFoundException].
-  /// May throw [InvalidParameterException].
   /// May throw [ClientTimeoutException].
-  /// May throw [PreconditionsFailedException].
   /// May throw [ConstraintViolationException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [MissingParameterException].
   /// May throw [IllegalArgumentException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingParameterException].
+  /// May throw [MLResourceNotFoundException].
+  /// May throw [PreconditionsFailedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [id] :
   /// The unique ID of the model transform job to be canceled.
@@ -301,21 +300,21 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#cancelquery">neptune-db:CancelQuery</a>
   /// IAM action in that cluster.
   ///
-  /// May throw [InvalidNumericDataException].
   /// May throw [BadRequestException].
-  /// May throw [InvalidParameterException].
   /// May throw [ClientTimeoutException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ConstraintViolationException].
+  /// May throw [FailureByQueryException].
   /// May throw [IllegalArgumentException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidNumericDataException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingParameterException].
+  /// May throw [ParsingException].
+  /// May throw [PreconditionsFailedException].
+  /// May throw [TimeLimitExceededException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnsupportedOperationException].
-  /// May throw [FailureByQueryException].
-  /// May throw [PreconditionsFailedException].
-  /// May throw [ParsingException].
-  /// May throw [ConstraintViolationException].
-  /// May throw [TimeLimitExceededException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [ConcurrentModificationException].
-  /// May throw [MissingParameterException].
   ///
   /// Parameter [queryId] :
   /// The unique ID of the openCypher query to cancel.
@@ -351,17 +350,17 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#createmlendpoint">neptune-db:CreateMLEndpoint</a>
   /// IAM action in that cluster.
   ///
-  /// May throw [UnsupportedOperationException].
   /// May throw [BadRequestException].
-  /// May throw [MLResourceNotFoundException].
-  /// May throw [InvalidParameterException].
   /// May throw [ClientTimeoutException].
-  /// May throw [PreconditionsFailedException].
   /// May throw [ConstraintViolationException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [MissingParameterException].
   /// May throw [IllegalArgumentException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingParameterException].
+  /// May throw [MLResourceNotFoundException].
+  /// May throw [PreconditionsFailedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [id] :
   /// A unique identifier for the new inference endpoint. The default is an
@@ -455,17 +454,17 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#deletemlendpoint">neptune-db:DeleteMLEndpoint</a>
   /// IAM action in that cluster.
   ///
-  /// May throw [UnsupportedOperationException].
   /// May throw [BadRequestException].
-  /// May throw [MLResourceNotFoundException].
-  /// May throw [InvalidParameterException].
   /// May throw [ClientTimeoutException].
-  /// May throw [PreconditionsFailedException].
   /// May throw [ConstraintViolationException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [MissingParameterException].
   /// May throw [IllegalArgumentException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingParameterException].
+  /// May throw [MLResourceNotFoundException].
+  /// May throw [PreconditionsFailedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [id] :
   /// The unique identifier of the inference endpoint.
@@ -506,19 +505,19 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#deletestatistics">neptune-db:DeleteStatistics</a>
   /// IAM action in that cluster.
   ///
-  /// May throw [BadRequestException].
-  /// May throw [InvalidParameterException].
-  /// May throw [StatisticsNotAvailableException].
-  /// May throw [ClientTimeoutException].
   /// May throw [AccessDeniedException].
+  /// May throw [BadRequestException].
+  /// May throw [ClientTimeoutException].
+  /// May throw [ConstraintViolationException].
   /// May throw [IllegalArgumentException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [UnsupportedOperationException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingParameterException].
   /// May throw [PreconditionsFailedException].
   /// May throw [ReadOnlyViolationException].
-  /// May throw [ConstraintViolationException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [MissingParameterException].
+  /// May throw [StatisticsNotAvailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedOperationException].
   Future<DeletePropertygraphStatisticsOutput>
       deletePropertygraphStatistics() async {
     final response = await _protocol.send(
@@ -538,19 +537,19 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#deletestatistics">neptune-db:DeleteStatistics</a>
   /// IAM action in that cluster.
   ///
-  /// May throw [BadRequestException].
-  /// May throw [InvalidParameterException].
-  /// May throw [StatisticsNotAvailableException].
-  /// May throw [ClientTimeoutException].
   /// May throw [AccessDeniedException].
+  /// May throw [BadRequestException].
+  /// May throw [ClientTimeoutException].
+  /// May throw [ConstraintViolationException].
   /// May throw [IllegalArgumentException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [UnsupportedOperationException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingParameterException].
   /// May throw [PreconditionsFailedException].
   /// May throw [ReadOnlyViolationException].
-  /// May throw [ConstraintViolationException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [MissingParameterException].
+  /// May throw [StatisticsNotAvailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedOperationException].
   Future<DeleteSparqlStatisticsOutput> deleteSparqlStatistics() async {
     final response = await _protocol.send(
       payload: null,
@@ -578,32 +577,32 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#resetdatabase">neptune-db:ResetDatabase</a>
   /// IAM action in that cluster.
   ///
-  /// May throw [InvalidParameterException].
-  /// May throw [ClientTimeoutException].
   /// May throw [AccessDeniedException].
+  /// May throw [ClientTimeoutException].
+  /// May throw [ConstraintViolationException].
   /// May throw [IllegalArgumentException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MethodNotAllowedException].
+  /// May throw [MissingParameterException].
+  /// May throw [PreconditionsFailedException].
+  /// May throw [ReadOnlyViolationException].
+  /// May throw [ServerShutdownException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnsupportedOperationException].
-  /// May throw [ServerShutdownException].
-  /// May throw [PreconditionsFailedException].
-  /// May throw [MethodNotAllowedException].
-  /// May throw [ReadOnlyViolationException].
-  /// May throw [ConstraintViolationException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [MissingParameterException].
   ///
   /// Parameter [action] :
   /// The fast reset action. One of the following values:
   ///
   /// <ul>
   /// <li>
-  /// <b> <code>initiateDatabaseReset</code> </b>   –   This action generates a
+  /// <b> <code>initiateDatabaseReset</code> </b> - This action generates a
   /// unique token needed to actually perform the fast reset.
   /// </li>
   /// <li>
-  /// <b> <code>performDatabaseReset</code> </b>   –   This action uses the
-  /// token generated by the <code>initiateDatabaseReset</code> action to
-  /// actually perform the fast reset.
+  /// <b> <code>performDatabaseReset</code> </b> - This action uses the token
+  /// generated by the <code>initiateDatabaseReset</code> action to actually
+  /// perform the fast reset.
   /// <p/> </li>
   /// </ul>
   ///
@@ -668,26 +667,26 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html">Condition
   /// keys available in Neptune IAM data-access policy statements</a>).
   ///
-  /// May throw [QueryTooLargeException].
   /// May throw [BadRequestException].
-  /// May throw [QueryLimitExceededException].
-  /// May throw [InvalidParameterException].
-  /// May throw [QueryLimitException].
-  /// May throw [ClientTimeoutException].
   /// May throw [CancelledByUserException].
+  /// May throw [ClientTimeoutException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ConstraintViolationException].
+  /// May throw [FailureByQueryException].
   /// May throw [IllegalArgumentException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MalformedQueryException].
+  /// May throw [MemoryLimitExceededException].
+  /// May throw [MissingParameterException].
+  /// May throw [ParsingException].
+  /// May throw [PreconditionsFailedException].
+  /// May throw [QueryLimitExceededException].
+  /// May throw [QueryLimitException].
+  /// May throw [QueryTooLargeException].
+  /// May throw [TimeLimitExceededException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnsupportedOperationException].
-  /// May throw [FailureByQueryException].
-  /// May throw [MemoryLimitExceededException].
-  /// May throw [PreconditionsFailedException].
-  /// May throw [MalformedQueryException].
-  /// May throw [ParsingException].
-  /// May throw [ConstraintViolationException].
-  /// May throw [TimeLimitExceededException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [ConcurrentModificationException].
-  /// May throw [MissingParameterException].
   ///
   /// Parameter [gremlinQuery] :
   /// The Gremlin explain query string.
@@ -727,26 +726,26 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html">Condition
   /// keys available in Neptune IAM data-access policy statements</a>).
   ///
-  /// May throw [QueryTooLargeException].
   /// May throw [BadRequestException].
-  /// May throw [QueryLimitExceededException].
-  /// May throw [InvalidParameterException].
-  /// May throw [QueryLimitException].
-  /// May throw [ClientTimeoutException].
   /// May throw [CancelledByUserException].
+  /// May throw [ClientTimeoutException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ConstraintViolationException].
+  /// May throw [FailureByQueryException].
   /// May throw [IllegalArgumentException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MalformedQueryException].
+  /// May throw [MemoryLimitExceededException].
+  /// May throw [MissingParameterException].
+  /// May throw [ParsingException].
+  /// May throw [PreconditionsFailedException].
+  /// May throw [QueryLimitExceededException].
+  /// May throw [QueryLimitException].
+  /// May throw [QueryTooLargeException].
+  /// May throw [TimeLimitExceededException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnsupportedOperationException].
-  /// May throw [FailureByQueryException].
-  /// May throw [MemoryLimitExceededException].
-  /// May throw [PreconditionsFailedException].
-  /// May throw [MalformedQueryException].
-  /// May throw [ParsingException].
-  /// May throw [ConstraintViolationException].
-  /// May throw [TimeLimitExceededException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [ConcurrentModificationException].
-  /// May throw [MissingParameterException].
   ///
   /// Parameter [gremlinQuery] :
   /// The Gremlin query string to profile.
@@ -830,26 +829,26 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html">Condition
   /// keys available in Neptune IAM data-access policy statements</a>).
   ///
-  /// May throw [QueryTooLargeException].
   /// May throw [BadRequestException].
-  /// May throw [QueryLimitExceededException].
-  /// May throw [InvalidParameterException].
-  /// May throw [QueryLimitException].
-  /// May throw [ClientTimeoutException].
   /// May throw [CancelledByUserException].
+  /// May throw [ClientTimeoutException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ConstraintViolationException].
+  /// May throw [FailureByQueryException].
   /// May throw [IllegalArgumentException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MalformedQueryException].
+  /// May throw [MemoryLimitExceededException].
+  /// May throw [MissingParameterException].
+  /// May throw [ParsingException].
+  /// May throw [PreconditionsFailedException].
+  /// May throw [QueryLimitExceededException].
+  /// May throw [QueryLimitException].
+  /// May throw [QueryTooLargeException].
+  /// May throw [TimeLimitExceededException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnsupportedOperationException].
-  /// May throw [FailureByQueryException].
-  /// May throw [MemoryLimitExceededException].
-  /// May throw [PreconditionsFailedException].
-  /// May throw [MalformedQueryException].
-  /// May throw [ParsingException].
-  /// May throw [ConstraintViolationException].
-  /// May throw [TimeLimitExceededException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [ConcurrentModificationException].
-  /// May throw [MissingParameterException].
   ///
   /// Parameter [gremlinQuery] :
   /// Using this API, you can run Gremlin queries in string format much as you
@@ -902,27 +901,27 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html">Condition
   /// keys available in Neptune IAM data-access policy statements</a>).
   ///
-  /// May throw [QueryTooLargeException].
-  /// May throw [InvalidNumericDataException].
   /// May throw [BadRequestException].
-  /// May throw [QueryLimitExceededException].
-  /// May throw [InvalidParameterException].
-  /// May throw [QueryLimitException].
-  /// May throw [ClientTimeoutException].
   /// May throw [CancelledByUserException].
+  /// May throw [ClientTimeoutException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ConstraintViolationException].
+  /// May throw [FailureByQueryException].
   /// May throw [IllegalArgumentException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidNumericDataException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MalformedQueryException].
+  /// May throw [MemoryLimitExceededException].
+  /// May throw [MissingParameterException].
+  /// May throw [ParsingException].
+  /// May throw [PreconditionsFailedException].
+  /// May throw [QueryLimitExceededException].
+  /// May throw [QueryLimitException].
+  /// May throw [QueryTooLargeException].
+  /// May throw [TimeLimitExceededException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnsupportedOperationException].
-  /// May throw [FailureByQueryException].
-  /// May throw [MemoryLimitExceededException].
-  /// May throw [PreconditionsFailedException].
-  /// May throw [MalformedQueryException].
-  /// May throw [ParsingException].
-  /// May throw [ConstraintViolationException].
-  /// May throw [TimeLimitExceededException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [ConcurrentModificationException].
-  /// May throw [MissingParameterException].
   ///
   /// Parameter [explainMode] :
   /// The openCypher <code>explain</code> mode. Can be one of:
@@ -995,27 +994,27 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html">Condition
   /// keys available in Neptune IAM data-access policy statements</a>).
   ///
-  /// May throw [QueryTooLargeException].
-  /// May throw [InvalidNumericDataException].
   /// May throw [BadRequestException].
-  /// May throw [QueryLimitExceededException].
-  /// May throw [InvalidParameterException].
-  /// May throw [QueryLimitException].
-  /// May throw [ClientTimeoutException].
   /// May throw [CancelledByUserException].
+  /// May throw [ClientTimeoutException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ConstraintViolationException].
+  /// May throw [FailureByQueryException].
   /// May throw [IllegalArgumentException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidNumericDataException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MalformedQueryException].
+  /// May throw [MemoryLimitExceededException].
+  /// May throw [MissingParameterException].
+  /// May throw [ParsingException].
+  /// May throw [PreconditionsFailedException].
+  /// May throw [QueryLimitExceededException].
+  /// May throw [QueryLimitException].
+  /// May throw [QueryTooLargeException].
+  /// May throw [TimeLimitExceededException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnsupportedOperationException].
-  /// May throw [FailureByQueryException].
-  /// May throw [MemoryLimitExceededException].
-  /// May throw [PreconditionsFailedException].
-  /// May throw [MalformedQueryException].
-  /// May throw [ParsingException].
-  /// May throw [ConstraintViolationException].
-  /// May throw [TimeLimitExceededException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [ConcurrentModificationException].
-  /// May throw [MissingParameterException].
   ///
   /// Parameter [openCypherQuery] :
   /// The openCypher query string to be executed.
@@ -1049,14 +1048,14 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getenginestatus">neptune-db:GetEngineStatus</a>
   /// IAM action in that cluster.
   ///
-  /// May throw [UnsupportedOperationException].
-  /// May throw [InternalFailureException].
   /// May throw [ClientTimeoutException].
-  /// May throw [PreconditionsFailedException].
   /// May throw [ConstraintViolationException].
-  /// May throw [InvalidArgumentException].
   /// May throw [IllegalArgumentException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [PreconditionsFailedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedOperationException].
   Future<GetEngineStatusOutput> getEngineStatus() async {
     final response = await _protocol.send(
       payload: null,
@@ -1082,22 +1081,22 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html">Condition
   /// keys available in Neptune IAM data-access policy statements</a>).
   ///
-  /// May throw [BadRequestException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ClientTimeoutException].
   /// May throw [AccessDeniedException].
+  /// May throw [BadRequestException].
+  /// May throw [ClientTimeoutException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ConstraintViolationException].
+  /// May throw [FailureByQueryException].
   /// May throw [IllegalArgumentException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingParameterException].
+  /// May throw [ParsingException].
+  /// May throw [PreconditionsFailedException].
+  /// May throw [ReadOnlyViolationException].
+  /// May throw [TimeLimitExceededException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnsupportedOperationException].
-  /// May throw [FailureByQueryException].
-  /// May throw [PreconditionsFailedException].
-  /// May throw [ParsingException].
-  /// May throw [ReadOnlyViolationException].
-  /// May throw [ConstraintViolationException].
-  /// May throw [TimeLimitExceededException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [ConcurrentModificationException].
-  /// May throw [MissingParameterException].
   ///
   /// Parameter [queryId] :
   /// The unique identifier that identifies the Gremlin query.
@@ -1128,18 +1127,18 @@ class NeptuneData {
   /// IAM action in that cluster..
   ///
   /// May throw [BadRequestException].
-  /// May throw [InvalidParameterException].
   /// May throw [BulkLoadIdNotFoundException].
   /// May throw [ClientTimeoutException].
-  /// May throw [LoadUrlAccessDeniedException].
+  /// May throw [ConstraintViolationException].
   /// May throw [IllegalArgumentException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidParameterException].
+  /// May throw [LoadUrlAccessDeniedException].
+  /// May throw [MissingParameterException].
+  /// May throw [PreconditionsFailedException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnsupportedOperationException].
-  /// May throw [InternalFailureException].
-  /// May throw [PreconditionsFailedException].
-  /// May throw [ConstraintViolationException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [MissingParameterException].
   ///
   /// Parameter [loadId] :
   /// The load ID of the load job to get the status of.
@@ -1212,17 +1211,17 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getmldataprocessingjobstatus">neptune-db:neptune-db:GetMLDataProcessingJobStatus</a>
   /// IAM action in that cluster.
   ///
-  /// May throw [UnsupportedOperationException].
   /// May throw [BadRequestException].
-  /// May throw [MLResourceNotFoundException].
-  /// May throw [InvalidParameterException].
   /// May throw [ClientTimeoutException].
-  /// May throw [PreconditionsFailedException].
   /// May throw [ConstraintViolationException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [MissingParameterException].
   /// May throw [IllegalArgumentException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingParameterException].
+  /// May throw [MLResourceNotFoundException].
+  /// May throw [PreconditionsFailedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [id] :
   /// The unique identifier of the data-processing job to be retrieved.
@@ -1258,17 +1257,17 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getmlendpointstatus">neptune-db:GetMLEndpointStatus</a>
   /// IAM action in that cluster.
   ///
-  /// May throw [UnsupportedOperationException].
   /// May throw [BadRequestException].
-  /// May throw [MLResourceNotFoundException].
-  /// May throw [InvalidParameterException].
   /// May throw [ClientTimeoutException].
-  /// May throw [PreconditionsFailedException].
   /// May throw [ConstraintViolationException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [MissingParameterException].
   /// May throw [IllegalArgumentException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingParameterException].
+  /// May throw [MLResourceNotFoundException].
+  /// May throw [PreconditionsFailedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [id] :
   /// The unique identifier of the inference endpoint.
@@ -1304,17 +1303,17 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getmlmodeltrainingjobstatus">neptune-db:GetMLModelTrainingJobStatus</a>
   /// IAM action in that cluster.
   ///
-  /// May throw [UnsupportedOperationException].
   /// May throw [BadRequestException].
-  /// May throw [MLResourceNotFoundException].
-  /// May throw [InvalidParameterException].
   /// May throw [ClientTimeoutException].
-  /// May throw [PreconditionsFailedException].
   /// May throw [ConstraintViolationException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [MissingParameterException].
   /// May throw [IllegalArgumentException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingParameterException].
+  /// May throw [MLResourceNotFoundException].
+  /// May throw [PreconditionsFailedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [id] :
   /// The unique identifier of the model-training job to retrieve.
@@ -1350,17 +1349,17 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getmlmodeltransformjobstatus">neptune-db:GetMLModelTransformJobStatus</a>
   /// IAM action in that cluster.
   ///
-  /// May throw [UnsupportedOperationException].
   /// May throw [BadRequestException].
-  /// May throw [MLResourceNotFoundException].
-  /// May throw [InvalidParameterException].
   /// May throw [ClientTimeoutException].
-  /// May throw [PreconditionsFailedException].
   /// May throw [ConstraintViolationException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [MissingParameterException].
   /// May throw [IllegalArgumentException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingParameterException].
+  /// May throw [MLResourceNotFoundException].
+  /// May throw [PreconditionsFailedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [id] :
   /// The unique identifier of the model-transform job to be reetrieved.
@@ -1401,23 +1400,23 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html">Condition
   /// keys available in Neptune IAM data-access policy statements</a>).
   ///
-  /// May throw [InvalidNumericDataException].
-  /// May throw [BadRequestException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ClientTimeoutException].
   /// May throw [AccessDeniedException].
+  /// May throw [BadRequestException].
+  /// May throw [ClientTimeoutException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ConstraintViolationException].
+  /// May throw [FailureByQueryException].
   /// May throw [IllegalArgumentException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidNumericDataException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingParameterException].
+  /// May throw [ParsingException].
+  /// May throw [PreconditionsFailedException].
+  /// May throw [ReadOnlyViolationException].
+  /// May throw [TimeLimitExceededException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnsupportedOperationException].
-  /// May throw [FailureByQueryException].
-  /// May throw [PreconditionsFailedException].
-  /// May throw [ParsingException].
-  /// May throw [ReadOnlyViolationException].
-  /// May throw [ConstraintViolationException].
-  /// May throw [TimeLimitExceededException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [ConcurrentModificationException].
-  /// May throw [MissingParameterException].
   ///
   /// Parameter [queryId] :
   /// The unique ID of the openCypher query for which to retrieve the query
@@ -1442,19 +1441,19 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getstatisticsstatus">neptune-db:GetStatisticsStatus</a>
   /// IAM action in that cluster.
   ///
-  /// May throw [BadRequestException].
-  /// May throw [InvalidParameterException].
-  /// May throw [StatisticsNotAvailableException].
-  /// May throw [ClientTimeoutException].
   /// May throw [AccessDeniedException].
+  /// May throw [BadRequestException].
+  /// May throw [ClientTimeoutException].
+  /// May throw [ConstraintViolationException].
   /// May throw [IllegalArgumentException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [UnsupportedOperationException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingParameterException].
   /// May throw [PreconditionsFailedException].
   /// May throw [ReadOnlyViolationException].
-  /// May throw [ConstraintViolationException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [MissingParameterException].
+  /// May throw [StatisticsNotAvailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedOperationException].
   Future<GetPropertygraphStatisticsOutput> getPropertygraphStatistics() async {
     final response = await _protocol.send(
       payload: null,
@@ -1509,18 +1508,18 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html">Condition
   /// keys available in Neptune IAM data-access policy statements</a>).
   ///
-  /// May throw [UnsupportedOperationException].
+  /// May throw [ClientTimeoutException].
+  /// May throw [ConstraintViolationException].
   /// May throw [ExpiredStreamException].
+  /// May throw [IllegalArgumentException].
+  /// May throw [InvalidArgumentException].
   /// May throw [InvalidParameterException].
   /// May throw [MemoryLimitExceededException].
-  /// May throw [StreamRecordsNotFoundException].
-  /// May throw [ClientTimeoutException].
   /// May throw [PreconditionsFailedException].
+  /// May throw [StreamRecordsNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [ConstraintViolationException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [IllegalArgumentException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [commitNum] :
   /// The commit number of the starting record to read from the change-log
@@ -1537,22 +1536,22 @@ class NeptuneData {
   ///
   /// <ul>
   /// <li>
-  /// <code>AT_SEQUENCE_NUMBER</code>   –   Indicates that reading should start
-  /// from the event sequence number specified jointly by the
+  /// <code>AT_SEQUENCE_NUMBER</code> - Indicates that reading should start from
+  /// the event sequence number specified jointly by the <code>commitNum</code>
+  /// and <code>opNum</code> parameters.
+  /// </li>
+  /// <li>
+  /// <code>AFTER_SEQUENCE_NUMBER</code> - Indicates that reading should start
+  /// right after the event sequence number specified jointly by the
   /// <code>commitNum</code> and <code>opNum</code> parameters.
   /// </li>
   /// <li>
-  /// <code>AFTER_SEQUENCE_NUMBER</code>   –   Indicates that reading should
-  /// start right after the event sequence number specified jointly by the
-  /// <code>commitNum</code> and <code>opNum</code> parameters.
-  /// </li>
-  /// <li>
-  /// <code>TRIM_HORIZON</code>   –   Indicates that reading should start at the
+  /// <code>TRIM_HORIZON</code> - Indicates that reading should start at the
   /// last untrimmed record in the system, which is the oldest unexpired (not
   /// yet deleted) record in the change-log stream.
   /// </li>
   /// <li>
-  /// <code>LATEST</code>   –   Indicates that reading should start at the most
+  /// <code>LATEST</code> - Indicates that reading should start at the most
   /// recent record in the system, which is the latest unexpired (not yet
   /// deleted) record in the change-log stream.
   /// </li>
@@ -1577,12 +1576,6 @@ class NeptuneData {
     int? limit,
     int? opNum,
   }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      100000,
-    );
     final headers = <String, String>{
       if (encoding != null) 'Accept-Encoding': encoding.value,
     };
@@ -1611,19 +1604,19 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getgraphsummary">neptune-db:GetGraphSummary</a>
   /// IAM action in that cluster.
   ///
-  /// May throw [BadRequestException].
-  /// May throw [InvalidParameterException].
-  /// May throw [StatisticsNotAvailableException].
-  /// May throw [ClientTimeoutException].
   /// May throw [AccessDeniedException].
+  /// May throw [BadRequestException].
+  /// May throw [ClientTimeoutException].
+  /// May throw [ConstraintViolationException].
   /// May throw [IllegalArgumentException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [UnsupportedOperationException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingParameterException].
   /// May throw [PreconditionsFailedException].
   /// May throw [ReadOnlyViolationException].
-  /// May throw [ConstraintViolationException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [MissingParameterException].
+  /// May throw [StatisticsNotAvailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [mode] :
   /// Mode can take one of two values: <code>BASIC</code> (the default), and
@@ -1652,19 +1645,19 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getgraphsummary">neptune-db:GetGraphSummary</a>
   /// IAM action in that cluster.
   ///
-  /// May throw [BadRequestException].
-  /// May throw [InvalidParameterException].
-  /// May throw [StatisticsNotAvailableException].
-  /// May throw [ClientTimeoutException].
   /// May throw [AccessDeniedException].
+  /// May throw [BadRequestException].
+  /// May throw [ClientTimeoutException].
+  /// May throw [ConstraintViolationException].
   /// May throw [IllegalArgumentException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [UnsupportedOperationException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingParameterException].
   /// May throw [PreconditionsFailedException].
   /// May throw [ReadOnlyViolationException].
-  /// May throw [ConstraintViolationException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [MissingParameterException].
+  /// May throw [StatisticsNotAvailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [mode] :
   /// Mode can take one of two values: <code>BASIC</code> (the default), and
@@ -1687,19 +1680,19 @@ class NeptuneData {
 
   /// Gets RDF statistics (SPARQL).
   ///
-  /// May throw [BadRequestException].
-  /// May throw [InvalidParameterException].
-  /// May throw [StatisticsNotAvailableException].
-  /// May throw [ClientTimeoutException].
   /// May throw [AccessDeniedException].
+  /// May throw [BadRequestException].
+  /// May throw [ClientTimeoutException].
+  /// May throw [ConstraintViolationException].
   /// May throw [IllegalArgumentException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [UnsupportedOperationException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingParameterException].
   /// May throw [PreconditionsFailedException].
   /// May throw [ReadOnlyViolationException].
-  /// May throw [ConstraintViolationException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [MissingParameterException].
+  /// May throw [StatisticsNotAvailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedOperationException].
   Future<GetSparqlStatisticsOutput> getSparqlStatistics() async {
     final response = await _protocol.send(
       payload: null,
@@ -1739,18 +1732,18 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html">Condition
   /// keys available in Neptune IAM data-access policy statements</a>).
   ///
-  /// May throw [UnsupportedOperationException].
+  /// May throw [ClientTimeoutException].
+  /// May throw [ConstraintViolationException].
   /// May throw [ExpiredStreamException].
+  /// May throw [IllegalArgumentException].
+  /// May throw [InvalidArgumentException].
   /// May throw [InvalidParameterException].
   /// May throw [MemoryLimitExceededException].
-  /// May throw [StreamRecordsNotFoundException].
-  /// May throw [ClientTimeoutException].
   /// May throw [PreconditionsFailedException].
+  /// May throw [StreamRecordsNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [ConstraintViolationException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [IllegalArgumentException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [commitNum] :
   /// The commit number of the starting record to read from the change-log
@@ -1767,22 +1760,22 @@ class NeptuneData {
   ///
   /// <ul>
   /// <li>
-  /// <code>AT_SEQUENCE_NUMBER</code>   –   Indicates that reading should start
-  /// from the event sequence number specified jointly by the
+  /// <code>AT_SEQUENCE_NUMBER</code> - Indicates that reading should start from
+  /// the event sequence number specified jointly by the <code>commitNum</code>
+  /// and <code>opNum</code> parameters.
+  /// </li>
+  /// <li>
+  /// <code>AFTER_SEQUENCE_NUMBER</code> - Indicates that reading should start
+  /// right after the event sequence number specified jointly by the
   /// <code>commitNum</code> and <code>opNum</code> parameters.
   /// </li>
   /// <li>
-  /// <code>AFTER_SEQUENCE_NUMBER</code>   –   Indicates that reading should
-  /// start right after the event sequence number specified jointly by the
-  /// <code>commitNum</code> and <code>opNum</code> parameters.
-  /// </li>
-  /// <li>
-  /// <code>TRIM_HORIZON</code>   –   Indicates that reading should start at the
+  /// <code>TRIM_HORIZON</code> - Indicates that reading should start at the
   /// last untrimmed record in the system, which is the oldest unexpired (not
   /// yet deleted) record in the change-log stream.
   /// </li>
   /// <li>
-  /// <code>LATEST</code>   –   Indicates that reading should start at the most
+  /// <code>LATEST</code> - Indicates that reading should start at the most
   /// recent record in the system, which is the latest unexpired (not yet
   /// deleted) record in the change-log stream.
   /// </li>
@@ -1807,12 +1800,6 @@ class NeptuneData {
     int? limit,
     int? opNum,
   }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      1,
-      100000,
-    );
     final headers = <String, String>{
       if (encoding != null) 'Accept-Encoding': encoding.value,
     };
@@ -1850,22 +1837,22 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html">Condition
   /// keys available in Neptune IAM data-access policy statements</a>).
   ///
-  /// May throw [BadRequestException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ClientTimeoutException].
   /// May throw [AccessDeniedException].
+  /// May throw [BadRequestException].
+  /// May throw [ClientTimeoutException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ConstraintViolationException].
+  /// May throw [FailureByQueryException].
   /// May throw [IllegalArgumentException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingParameterException].
+  /// May throw [ParsingException].
+  /// May throw [PreconditionsFailedException].
+  /// May throw [ReadOnlyViolationException].
+  /// May throw [TimeLimitExceededException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnsupportedOperationException].
-  /// May throw [FailureByQueryException].
-  /// May throw [PreconditionsFailedException].
-  /// May throw [ParsingException].
-  /// May throw [ReadOnlyViolationException].
-  /// May throw [ConstraintViolationException].
-  /// May throw [TimeLimitExceededException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [ConcurrentModificationException].
-  /// May throw [MissingParameterException].
   ///
   /// Parameter [includeWaiting] :
   /// If set to <code>TRUE</code>, the list returned includes waiting queries.
@@ -1894,18 +1881,18 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#listloaderjobs">neptune-db:ListLoaderJobs</a>
   /// IAM action in that cluster..
   ///
-  /// May throw [UnsupportedOperationException].
   /// May throw [BadRequestException].
-  /// May throw [InvalidParameterException].
   /// May throw [BulkLoadIdNotFoundException].
-  /// May throw [InternalFailureException].
   /// May throw [ClientTimeoutException].
-  /// May throw [PreconditionsFailedException].
   /// May throw [ConstraintViolationException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [LoadUrlAccessDeniedException].
   /// May throw [IllegalArgumentException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidParameterException].
+  /// May throw [LoadUrlAccessDeniedException].
+  /// May throw [PreconditionsFailedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [includeQueuedLoads] :
   /// An optional parameter that can be used to exclude the load IDs of queued
@@ -1923,7 +1910,7 @@ class NeptuneData {
       'limit',
       limit,
       1,
-      100,
+      1152921504606846976,
     );
     final $query = <String, List<String>>{
       if (includeQueuedLoads != null)
@@ -1951,17 +1938,17 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#listmldataprocessingjobs">neptune-db:ListMLDataProcessingJobs</a>
   /// IAM action in that cluster.
   ///
-  /// May throw [UnsupportedOperationException].
   /// May throw [BadRequestException].
-  /// May throw [MLResourceNotFoundException].
-  /// May throw [InvalidParameterException].
   /// May throw [ClientTimeoutException].
-  /// May throw [PreconditionsFailedException].
   /// May throw [ConstraintViolationException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [MissingParameterException].
   /// May throw [IllegalArgumentException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingParameterException].
+  /// May throw [MLResourceNotFoundException].
+  /// May throw [PreconditionsFailedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [maxItems] :
   /// The maximum number of items to return (from 1 to 1024; the default is 10).
@@ -1978,7 +1965,7 @@ class NeptuneData {
       'maxItems',
       maxItems,
       1,
-      1024,
+      1152921504606846976,
     );
     final $query = <String, List<String>>{
       if (maxItems != null) 'maxItems': [maxItems.toString()],
@@ -2004,17 +1991,17 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#listmlendpoints">neptune-db:ListMLEndpoints</a>
   /// IAM action in that cluster.
   ///
-  /// May throw [UnsupportedOperationException].
   /// May throw [BadRequestException].
-  /// May throw [MLResourceNotFoundException].
-  /// May throw [InvalidParameterException].
   /// May throw [ClientTimeoutException].
-  /// May throw [PreconditionsFailedException].
   /// May throw [ConstraintViolationException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [MissingParameterException].
   /// May throw [IllegalArgumentException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingParameterException].
+  /// May throw [MLResourceNotFoundException].
+  /// May throw [PreconditionsFailedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [maxItems] :
   /// The maximum number of items to return (from 1 to 1024; the default is 10.
@@ -2031,7 +2018,7 @@ class NeptuneData {
       'maxItems',
       maxItems,
       1,
-      1024,
+      1152921504606846976,
     );
     final $query = <String, List<String>>{
       if (maxItems != null) 'maxItems': [maxItems.toString()],
@@ -2057,17 +2044,17 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#neptune-db:listmlmodeltrainingjobs">neptune-db:neptune-db:ListMLModelTrainingJobs</a>
   /// IAM action in that cluster.
   ///
-  /// May throw [UnsupportedOperationException].
   /// May throw [BadRequestException].
-  /// May throw [MLResourceNotFoundException].
-  /// May throw [InvalidParameterException].
   /// May throw [ClientTimeoutException].
-  /// May throw [PreconditionsFailedException].
   /// May throw [ConstraintViolationException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [MissingParameterException].
   /// May throw [IllegalArgumentException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingParameterException].
+  /// May throw [MLResourceNotFoundException].
+  /// May throw [PreconditionsFailedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [maxItems] :
   /// The maximum number of items to return (from 1 to 1024; the default is 10).
@@ -2084,7 +2071,7 @@ class NeptuneData {
       'maxItems',
       maxItems,
       1,
-      1024,
+      1152921504606846976,
     );
     final $query = <String, List<String>>{
       if (maxItems != null) 'maxItems': [maxItems.toString()],
@@ -2110,17 +2097,17 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#listmlmodeltransformjobs">neptune-db:ListMLModelTransformJobs</a>
   /// IAM action in that cluster.
   ///
-  /// May throw [UnsupportedOperationException].
   /// May throw [BadRequestException].
-  /// May throw [MLResourceNotFoundException].
-  /// May throw [InvalidParameterException].
   /// May throw [ClientTimeoutException].
-  /// May throw [PreconditionsFailedException].
   /// May throw [ConstraintViolationException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [MissingParameterException].
   /// May throw [IllegalArgumentException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingParameterException].
+  /// May throw [MLResourceNotFoundException].
+  /// May throw [PreconditionsFailedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [maxItems] :
   /// The maximum number of items to return (from 1 to 1024; the default is 10).
@@ -2137,7 +2124,7 @@ class NeptuneData {
       'maxItems',
       maxItems,
       1,
-      1024,
+      1152921504606846976,
     );
     final $query = <String, List<String>>{
       if (maxItems != null) 'maxItems': [maxItems.toString()],
@@ -2170,23 +2157,23 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html">Condition
   /// keys available in Neptune IAM data-access policy statements</a>).
   ///
-  /// May throw [InvalidNumericDataException].
-  /// May throw [BadRequestException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ClientTimeoutException].
   /// May throw [AccessDeniedException].
+  /// May throw [BadRequestException].
+  /// May throw [ClientTimeoutException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ConstraintViolationException].
+  /// May throw [FailureByQueryException].
   /// May throw [IllegalArgumentException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidNumericDataException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingParameterException].
+  /// May throw [ParsingException].
+  /// May throw [PreconditionsFailedException].
+  /// May throw [ReadOnlyViolationException].
+  /// May throw [TimeLimitExceededException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnsupportedOperationException].
-  /// May throw [FailureByQueryException].
-  /// May throw [PreconditionsFailedException].
-  /// May throw [ParsingException].
-  /// May throw [ReadOnlyViolationException].
-  /// May throw [ConstraintViolationException].
-  /// May throw [TimeLimitExceededException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [ConcurrentModificationException].
-  /// May throw [MissingParameterException].
   ///
   /// Parameter [includeWaiting] :
   /// When set to <code>TRUE</code> and other parameters are not present, causes
@@ -2216,19 +2203,19 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#managestatistics">neptune-db:ManageStatistics</a>
   /// IAM action in that cluster.
   ///
-  /// May throw [BadRequestException].
-  /// May throw [InvalidParameterException].
-  /// May throw [StatisticsNotAvailableException].
-  /// May throw [ClientTimeoutException].
   /// May throw [AccessDeniedException].
+  /// May throw [BadRequestException].
+  /// May throw [ClientTimeoutException].
+  /// May throw [ConstraintViolationException].
   /// May throw [IllegalArgumentException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [UnsupportedOperationException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingParameterException].
   /// May throw [PreconditionsFailedException].
   /// May throw [ReadOnlyViolationException].
-  /// May throw [ConstraintViolationException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [MissingParameterException].
+  /// May throw [StatisticsNotAvailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [mode] :
   /// The statistics generation mode. One of: <code>DISABLE_AUTOCOMPUTE</code>,
@@ -2257,19 +2244,19 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#managestatistics">neptune-db:ManageStatistics</a>
   /// IAM action in that cluster.
   ///
-  /// May throw [BadRequestException].
-  /// May throw [InvalidParameterException].
-  /// May throw [StatisticsNotAvailableException].
-  /// May throw [ClientTimeoutException].
   /// May throw [AccessDeniedException].
+  /// May throw [BadRequestException].
+  /// May throw [ClientTimeoutException].
+  /// May throw [ConstraintViolationException].
   /// May throw [IllegalArgumentException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [UnsupportedOperationException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingParameterException].
   /// May throw [PreconditionsFailedException].
   /// May throw [ReadOnlyViolationException].
-  /// May throw [ConstraintViolationException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [MissingParameterException].
+  /// May throw [StatisticsNotAvailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [mode] :
   /// The statistics generation mode. One of: <code>DISABLE_AUTOCOMPUTE</code>,
@@ -2302,19 +2289,19 @@ class NeptuneData {
   /// IAM action in that cluster.
   ///
   /// May throw [BadRequestException].
-  /// May throw [InvalidParameterException].
   /// May throw [BulkLoadIdNotFoundException].
   /// May throw [ClientTimeoutException].
-  /// May throw [LoadUrlAccessDeniedException].
+  /// May throw [ConstraintViolationException].
   /// May throw [IllegalArgumentException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidParameterException].
+  /// May throw [LoadUrlAccessDeniedException].
+  /// May throw [MissingParameterException].
+  /// May throw [PreconditionsFailedException].
+  /// May throw [S3Exception].
   /// May throw [TooManyRequestsException].
   /// May throw [UnsupportedOperationException].
-  /// May throw [InternalFailureException].
-  /// May throw [S3Exception].
-  /// May throw [PreconditionsFailedException].
-  /// May throw [ConstraintViolationException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [MissingParameterException].
   ///
   /// Parameter [format] :
   /// The format of the data. For more information about data formats for the
@@ -2428,9 +2415,23 @@ class NeptuneData {
   /// failure of one job will cause all requests that are directly or indirectly
   /// dependent on it to be cancelled.
   ///
+  /// Parameter [edgeOnlyLoad] :
+  /// <b> <code>edgeOnlyLoad</code> </b> - A flag that controls file processing
+  /// order during bulk loading.
+  ///
+  /// <i>Allowed values</i>: <code>"TRUE"</code>, <code>"FALSE"</code>.
+  ///
+  /// <i>Default value</i>: <code>"FALSE"</code>.
+  ///
+  /// When this parameter is set to "FALSE", the loader automatically loads
+  /// vertex files first, then edge files afterwards. It does this by first
+  /// scanning all files to determine their contents (vertices or edges). When
+  /// this parameter is set to "TRUE", the loader skips the initial scanning
+  /// phase and immediately loads all files in the order they appear.
+  ///
   /// Parameter [failOnError] :
-  /// <b> <code>failOnError</code> </b>   –   A flag to toggle a complete stop
-  /// on an error.
+  /// <b> <code>failOnError</code> </b> - A flag to toggle a complete stop on an
+  /// error.
   ///
   /// <i>Allowed values</i>: <code>"TRUE"</code>, <code>"FALSE"</code>.
   ///
@@ -2454,8 +2455,8 @@ class NeptuneData {
   ///
   /// <ul>
   /// <li>
-  /// <code>RESUME</code>   –   In RESUME mode, the loader looks for a previous
-  /// load from this source, and if it finds one, resumes that load job. If no
+  /// <code>RESUME</code> - In RESUME mode, the loader looks for a previous load
+  /// from this source, and if it finds one, resumes that load job. If no
   /// previous load job is found, the loader stops.
   ///
   /// The loader avoids reloading files that were successfully loaded in a
@@ -2466,15 +2467,15 @@ class NeptuneData {
   /// success.
   /// </li>
   /// <li>
-  /// <code>NEW</code>   –   In NEW mode, the creates a new load request
-  /// regardless of any previous loads. You can use this mode to reload all the
-  /// data from a source after dropping previously loaded data from your Neptune
-  /// cluster, or to load new data available at the same source.
+  /// <code>NEW</code> - In NEW mode, the creates a new load request regardless
+  /// of any previous loads. You can use this mode to reload all the data from a
+  /// source after dropping previously loaded data from your Neptune cluster, or
+  /// to load new data available at the same source.
   /// </li>
   /// <li>
-  /// <code>AUTO</code>   –   In AUTO mode, the loader looks for a previous load
-  /// job from the same source, and if it finds one, resumes that job, just as
-  /// in <code>RESUME</code> mode.
+  /// <code>AUTO</code> - In AUTO mode, the loader looks for a previous load job
+  /// from the same source, and if it finds one, resumes that job, just as in
+  /// <code>RESUME</code> mode.
   ///
   /// If the loader doesn't find a previous load job from the same source, it
   /// loads all data from the source, just as in <code>NEW</code> mode.
@@ -2489,19 +2490,19 @@ class NeptuneData {
   ///
   /// <ul>
   /// <li>
-  /// <code>LOW</code> –   The number of threads used is the number of available
+  /// <code>LOW</code> – The number of threads used is the number of available
   /// vCPUs divided by 8.
   /// </li>
   /// <li>
-  /// <code>MEDIUM</code> –   The number of threads used is the number of
+  /// <code>MEDIUM</code> – The number of threads used is the number of
   /// available vCPUs divided by 2.
   /// </li>
   /// <li>
-  /// <code>HIGH</code> –   The number of threads used is the same as the number
+  /// <code>HIGH</code> – The number of threads used is the same as the number
   /// of available vCPUs.
   /// </li>
   /// <li>
-  /// <code>OVERSUBSCRIBE</code> –   The number of threads used is the number of
+  /// <code>OVERSUBSCRIBE</code> – The number of threads used is the number of
   /// available vCPUs multiplied by 2. If this value is used, the bulk loader
   /// takes up all available resources.
   ///
@@ -2519,14 +2520,14 @@ class NeptuneData {
   /// retrying the load command.
   ///
   /// Parameter [parserConfiguration] :
-  /// <b> <code>parserConfiguration</code> </b>   –   An optional object with
+  /// <b> <code>parserConfiguration</code> </b> – An optional object with
   /// additional parser configuration values. Each of the child parameters is
   /// also optional:
   /// <p class="title"> <b/>
   ///
   /// <ul>
   /// <li>
-  /// <b> <code>namedGraphUri</code> </b>   –   The default graph for all RDF
+  /// <b> <code>namedGraphUri</code> </b> - The default graph for all RDF
   /// formats when no graph is specified (for non-quads formats and NQUAD
   /// entries with no graph).
   ///
@@ -2534,17 +2535,16 @@ class NeptuneData {
   /// <code>https://aws.amazon.com/neptune/vocab/v01/DefaultNamedGraph</code>.
   /// </li>
   /// <li>
-  /// <b> <code>baseUri</code> </b>   –   The base URI for RDF/XML and Turtle
+  /// <b> <code>baseUri</code> </b> - The base URI for RDF/XML and Turtle
   /// formats.
   ///
   /// The default is <code>https://aws.amazon.com/neptune/default</code>.
   /// </li>
   /// <li>
-  /// <b> <code>allowEmptyStrings</code> </b>   –   Gremlin users need to be
-  /// able to pass empty string values("") as node and edge properties when
-  /// loading CSV data. If <code>allowEmptyStrings</code> is set to
-  /// <code>false</code> (the default), such empty strings are treated as nulls
-  /// and are not loaded.
+  /// <b> <code>allowEmptyStrings</code> </b> - Gremlin users need to be able to
+  /// pass empty string values("") as node and edge properties when loading CSV
+  /// data. If <code>allowEmptyStrings</code> is set to <code>false</code> (the
+  /// default), such empty strings are treated as nulls and are not loaded.
   ///
   /// If <code>allowEmptyStrings</code> is set to <code>true</code>, the loader
   /// treats empty strings as valid property values and loads them accordingly.
@@ -2618,6 +2618,7 @@ class NeptuneData {
     required S3BucketRegion s3BucketRegion,
     required String source,
     List<String>? dependencies,
+    bool? edgeOnlyLoad,
     bool? failOnError,
     Mode? mode,
     Parallelism? parallelism,
@@ -2632,6 +2633,7 @@ class NeptuneData {
       'region': s3BucketRegion.value,
       'source': source,
       if (dependencies != null) 'dependencies': dependencies,
+      if (edgeOnlyLoad != null) 'edgeOnlyLoad': edgeOnlyLoad,
       if (failOnError != null) 'failOnError': failOnError,
       if (mode != null) 'mode': mode.value,
       if (parallelism != null) 'parallelism': parallelism.value,
@@ -2663,17 +2665,17 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#startmlmodeldataprocessingjob">neptune-db:StartMLModelDataProcessingJob</a>
   /// IAM action in that cluster.
   ///
-  /// May throw [UnsupportedOperationException].
   /// May throw [BadRequestException].
-  /// May throw [MLResourceNotFoundException].
-  /// May throw [InvalidParameterException].
   /// May throw [ClientTimeoutException].
-  /// May throw [PreconditionsFailedException].
   /// May throw [ConstraintViolationException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [MissingParameterException].
   /// May throw [IllegalArgumentException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingParameterException].
+  /// May throw [MLResourceNotFoundException].
+  /// May throw [PreconditionsFailedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [inputDataS3Location] :
   /// The URI of the Amazon S3 location where you want SageMaker to download the
@@ -2801,17 +2803,17 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#startmlmodeltrainingjob">neptune-db:StartMLModelTrainingJob</a>
   /// IAM action in that cluster.
   ///
-  /// May throw [UnsupportedOperationException].
   /// May throw [BadRequestException].
-  /// May throw [MLResourceNotFoundException].
-  /// May throw [InvalidParameterException].
   /// May throw [ClientTimeoutException].
-  /// May throw [PreconditionsFailedException].
   /// May throw [ConstraintViolationException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [MissingParameterException].
   /// May throw [IllegalArgumentException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingParameterException].
+  /// May throw [MLResourceNotFoundException].
+  /// May throw [PreconditionsFailedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [dataProcessingJobId] :
   /// The job ID of the completed data-processing job that has created the data
@@ -2962,17 +2964,17 @@ class NeptuneData {
   /// href="https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#startmlmodeltransformjob">neptune-db:StartMLModelTransformJob</a>
   /// IAM action in that cluster.
   ///
-  /// May throw [UnsupportedOperationException].
   /// May throw [BadRequestException].
-  /// May throw [MLResourceNotFoundException].
-  /// May throw [InvalidParameterException].
   /// May throw [ClientTimeoutException].
-  /// May throw [PreconditionsFailedException].
   /// May throw [ConstraintViolationException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [MissingParameterException].
   /// May throw [IllegalArgumentException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingParameterException].
+  /// May throw [MLResourceNotFoundException].
+  /// May throw [PreconditionsFailedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [modelTransformOutputS3Location] :
   /// The location in Amazon S3 where the model artifacts are to be stored.
@@ -3085,29 +3087,6 @@ class NeptuneData {
     );
     return StartMLModelTransformJobOutput.fromJson(response);
   }
-}
-
-class Action {
-  static const initiateDatabaseReset = Action._('initiateDatabaseReset');
-  static const performDatabaseReset = Action._('performDatabaseReset');
-
-  final String value;
-
-  const Action._(this.value);
-
-  static const values = [initiateDatabaseReset, performDatabaseReset];
-
-  static Action fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Action._(value));
-
-  @override
-  bool operator ==(other) => other is Action && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class CancelGremlinQueryOutput {
@@ -3286,81 +3265,6 @@ class CreateMLEndpointOutput {
   }
 }
 
-/// Contains custom model training parameters. See <a
-/// href="https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-custom-models.html">Custom
-/// models in Neptune ML</a>.
-class CustomModelTrainingParameters {
-  /// The path to the Amazon S3 location where the Python module implementing your
-  /// model is located. This must point to a valid existing Amazon S3 location
-  /// that contains, at a minimum, a training script, a transform script, and a
-  /// <code>model-hpo-configuration.json</code> file.
-  final String sourceS3DirectoryPath;
-
-  /// The name of the entry point in your module of a script that performs model
-  /// training and takes hyperparameters as command-line arguments, including
-  /// fixed hyperparameters. The default is <code>training.py</code>.
-  final String? trainingEntryPointScript;
-
-  /// The name of the entry point in your module of a script that should be run
-  /// after the best model from the hyperparameter search has been identified, to
-  /// compute the model artifacts necessary for model deployment. It should be
-  /// able to run with no command-line arguments.The default is
-  /// <code>transform.py</code>.
-  final String? transformEntryPointScript;
-
-  CustomModelTrainingParameters({
-    required this.sourceS3DirectoryPath,
-    this.trainingEntryPointScript,
-    this.transformEntryPointScript,
-  });
-
-  Map<String, dynamic> toJson() {
-    final sourceS3DirectoryPath = this.sourceS3DirectoryPath;
-    final trainingEntryPointScript = this.trainingEntryPointScript;
-    final transformEntryPointScript = this.transformEntryPointScript;
-    return {
-      'sourceS3DirectoryPath': sourceS3DirectoryPath,
-      if (trainingEntryPointScript != null)
-        'trainingEntryPointScript': trainingEntryPointScript,
-      if (transformEntryPointScript != null)
-        'transformEntryPointScript': transformEntryPointScript,
-    };
-  }
-}
-
-/// Contains custom model transform parameters. See <a
-/// href="https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-model-transform.html">Use
-/// a trained model to generate new model artifacts</a>.
-class CustomModelTransformParameters {
-  /// The path to the Amazon S3 location where the Python module implementing your
-  /// model is located. This must point to a valid existing Amazon S3 location
-  /// that contains, at a minimum, a training script, a transform script, and a
-  /// <code>model-hpo-configuration.json</code> file.
-  final String sourceS3DirectoryPath;
-
-  /// The name of the entry point in your module of a script that should be run
-  /// after the best model from the hyperparameter search has been identified, to
-  /// compute the model artifacts necessary for model deployment. It should be
-  /// able to run with no command-line arguments. The default is
-  /// <code>transform.py</code>.
-  final String? transformEntryPointScript;
-
-  CustomModelTransformParameters({
-    required this.sourceS3DirectoryPath,
-    this.transformEntryPointScript,
-  });
-
-  Map<String, dynamic> toJson() {
-    final sourceS3DirectoryPath = this.sourceS3DirectoryPath;
-    final transformEntryPointScript = this.transformEntryPointScript;
-    return {
-      'sourceS3DirectoryPath': sourceS3DirectoryPath,
-      if (transformEntryPointScript != null)
-        'transformEntryPointScript': transformEntryPointScript,
-    };
-  }
-}
-
 class DeleteMLEndpointOutput {
   /// The status of the cancellation.
   final String? status;
@@ -3460,103 +3364,6 @@ class DeleteSparqlStatisticsOutput {
       if (status != null) 'status': status,
     };
   }
-}
-
-/// The payload for DeleteStatistics.
-class DeleteStatisticsValueMap {
-  /// The current status of the statistics.
-  final bool? active;
-
-  /// The ID of the statistics generation run that is currently occurring.
-  final String? statisticsId;
-
-  DeleteStatisticsValueMap({
-    this.active,
-    this.statisticsId,
-  });
-
-  factory DeleteStatisticsValueMap.fromJson(Map<String, dynamic> json) {
-    return DeleteStatisticsValueMap(
-      active: json['active'] as bool?,
-      statisticsId: json['statisticsId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final active = this.active;
-    final statisticsId = this.statisticsId;
-    return {
-      if (active != null) 'active': active,
-      if (statisticsId != null) 'statisticsId': statisticsId,
-    };
-  }
-}
-
-class Document {
-  Document();
-
-  factory Document.fromJson(Map<String, dynamic> _) {
-    return Document();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// An edge structure.
-class EdgeStructure {
-  /// The number of edges that have this specific structure.
-  final int? count;
-
-  /// A list of edge properties present in this specific structure.
-  final List<String>? edgeProperties;
-
-  EdgeStructure({
-    this.count,
-    this.edgeProperties,
-  });
-
-  factory EdgeStructure.fromJson(Map<String, dynamic> json) {
-    return EdgeStructure(
-      count: json['count'] as int?,
-      edgeProperties: (json['edgeProperties'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final count = this.count;
-    final edgeProperties = this.edgeProperties;
-    return {
-      if (count != null) 'count': count,
-      if (edgeProperties != null) 'edgeProperties': edgeProperties,
-    };
-  }
-}
-
-class Encoding {
-  static const gzip = Encoding._('gzip');
-
-  final String value;
-
-  const Encoding._(this.value);
-
-  static const values = [gzip];
-
-  static Encoding fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Encoding._(value));
-
-  @override
-  bool operator ==(other) => other is Encoding && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class ExecuteFastResetOutput {
@@ -3718,58 +3525,6 @@ class ExecuteOpenCypherQueryOutput {
       'results': results,
     };
   }
-}
-
-/// A structure containing the fast reset token used to initiate a fast reset.
-class FastResetToken {
-  /// A UUID generated by the database in the <code>initiateDatabaseReset</code>
-  /// action, and then consumed by the <code>performDatabaseReset</code> to reset
-  /// the database.
-  final String? token;
-
-  FastResetToken({
-    this.token,
-  });
-
-  factory FastResetToken.fromJson(Map<String, dynamic> json) {
-    return FastResetToken(
-      token: json['token'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final token = this.token;
-    return {
-      if (token != null) 'token': token,
-    };
-  }
-}
-
-class Format {
-  static const csv = Format._('csv');
-  static const opencypher = Format._('opencypher');
-  static const ntriples = Format._('ntriples');
-  static const nquads = Format._('nquads');
-  static const rdfxml = Format._('rdfxml');
-  static const turtle = Format._('turtle');
-
-  final String value;
-
-  const Format._(this.value);
-
-  static const values = [csv, opencypher, ntriples, nquads, rdfxml, turtle];
-
-  static Format fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Format._(value));
-
-  @override
-  bool operator ==(other) => other is Format && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class GetEngineStatusOutput {
@@ -4497,141 +4252,6 @@ class GetSparqlStreamOutput {
   }
 }
 
-class GraphSummaryType {
-  static const basic = GraphSummaryType._('basic');
-  static const detailed = GraphSummaryType._('detailed');
-
-  final String value;
-
-  const GraphSummaryType._(this.value);
-
-  static const values = [basic, detailed];
-
-  static GraphSummaryType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => GraphSummaryType._(value));
-
-  @override
-  bool operator ==(other) => other is GraphSummaryType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Captures the status of a Gremlin query (see the <a
-/// href="https://docs.aws.amazon.com/neptune/latest/userguide/gremlin-api-status.html">Gremlin
-/// query status API</a> page).
-class GremlinQueryStatus {
-  /// The query statistics of the Gremlin query.
-  final QueryEvalStats? queryEvalStats;
-
-  /// The ID of the Gremlin query.
-  final String? queryId;
-
-  /// The query string of the Gremlin query.
-  final String? queryString;
-
-  GremlinQueryStatus({
-    this.queryEvalStats,
-    this.queryId,
-    this.queryString,
-  });
-
-  factory GremlinQueryStatus.fromJson(Map<String, dynamic> json) {
-    return GremlinQueryStatus(
-      queryEvalStats: json['queryEvalStats'] != null
-          ? QueryEvalStats.fromJson(
-              json['queryEvalStats'] as Map<String, dynamic>)
-          : null,
-      queryId: json['queryId'] as String?,
-      queryString: json['queryString'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final queryEvalStats = this.queryEvalStats;
-    final queryId = this.queryId;
-    final queryString = this.queryString;
-    return {
-      if (queryEvalStats != null) 'queryEvalStats': queryEvalStats,
-      if (queryId != null) 'queryId': queryId,
-      if (queryString != null) 'queryString': queryString,
-    };
-  }
-}
-
-/// Contains status components of a Gremlin query.
-class GremlinQueryStatusAttributes {
-  /// Attributes of the Gremlin query status.
-  final Document? attributes;
-
-  /// The HTTP response code returned fro the Gremlin query request..
-  final int? code;
-
-  /// The status message.
-  final String? message;
-
-  GremlinQueryStatusAttributes({
-    this.attributes,
-    this.code,
-    this.message,
-  });
-
-  factory GremlinQueryStatusAttributes.fromJson(Map<String, dynamic> json) {
-    return GremlinQueryStatusAttributes(
-      attributes: json['attributes'] != null
-          ? Document.fromJson(json['attributes'] as Map<String, dynamic>)
-          : null,
-      code: json['code'] as int?,
-      message: json['message'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attributes = this.attributes;
-    final code = this.code;
-    final message = this.message;
-    return {
-      if (attributes != null) 'attributes': attributes,
-      if (code != null) 'code': code,
-      if (message != null) 'message': message,
-    };
-  }
-}
-
-class IteratorType {
-  static const atSequenceNumber = IteratorType._('AT_SEQUENCE_NUMBER');
-  static const afterSequenceNumber = IteratorType._('AFTER_SEQUENCE_NUMBER');
-  static const trimHorizon = IteratorType._('TRIM_HORIZON');
-  static const latest = IteratorType._('LATEST');
-
-  final String value;
-
-  const IteratorType._(this.value);
-
-  static const values = [
-    atSequenceNumber,
-    afterSequenceNumber,
-    trimHorizon,
-    latest
-  ];
-
-  static IteratorType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => IteratorType._(value));
-
-  @override
-  bool operator ==(other) => other is IteratorType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class ListGremlinQueriesOutput {
   /// The number of queries that have been accepted but not yet completed,
   /// including queries in the queue.
@@ -4831,30 +4451,6 @@ class ListOpenCypherQueriesOutput {
   }
 }
 
-/// Contains a list of load IDs.
-class LoaderIdResult {
-  /// A list of load IDs.
-  final List<String>? loadIds;
-
-  LoaderIdResult({
-    this.loadIds,
-  });
-
-  factory LoaderIdResult.fromJson(Map<String, dynamic> json) {
-    return LoaderIdResult(
-      loadIds:
-          (json['loadIds'] as List?)?.nonNulls.map((e) => e as String).toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final loadIds = this.loadIds;
-    return {
-      if (loadIds != null) 'loadIds': loadIds,
-    };
-  }
-}
-
 class ManagePropertygraphStatisticsOutput {
   /// The HTTP return code of the request. If the request succeeded, the code is
   /// 200.
@@ -4918,911 +4514,6 @@ class ManageSparqlStatisticsOutput {
     return {
       'status': status,
       if (payload != null) 'payload': payload,
-    };
-  }
-}
-
-/// Contains a Neptune ML configuration.
-class MlConfigDefinition {
-  /// The ARN for the configuration.
-  final String? arn;
-
-  /// The configuration name.
-  final String? name;
-
-  MlConfigDefinition({
-    this.arn,
-    this.name,
-  });
-
-  factory MlConfigDefinition.fromJson(Map<String, dynamic> json) {
-    return MlConfigDefinition(
-      arn: json['arn'] as String?,
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final name = this.name;
-    return {
-      if (arn != null) 'arn': arn,
-      if (name != null) 'name': name,
-    };
-  }
-}
-
-/// Defines a Neptune ML resource.
-class MlResourceDefinition {
-  /// The resource ARN.
-  final String? arn;
-
-  /// The CloudWatch log URL for the resource.
-  final String? cloudwatchLogUrl;
-
-  /// The failure reason, in case of a failure.
-  final String? failureReason;
-
-  /// The resource name.
-  final String? name;
-
-  /// The output location.
-  final String? outputLocation;
-
-  /// The resource status.
-  final String? status;
-
-  MlResourceDefinition({
-    this.arn,
-    this.cloudwatchLogUrl,
-    this.failureReason,
-    this.name,
-    this.outputLocation,
-    this.status,
-  });
-
-  factory MlResourceDefinition.fromJson(Map<String, dynamic> json) {
-    return MlResourceDefinition(
-      arn: json['arn'] as String?,
-      cloudwatchLogUrl: json['cloudwatchLogUrl'] as String?,
-      failureReason: json['failureReason'] as String?,
-      name: json['name'] as String?,
-      outputLocation: json['outputLocation'] as String?,
-      status: json['status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final cloudwatchLogUrl = this.cloudwatchLogUrl;
-    final failureReason = this.failureReason;
-    final name = this.name;
-    final outputLocation = this.outputLocation;
-    final status = this.status;
-    return {
-      if (arn != null) 'arn': arn,
-      if (cloudwatchLogUrl != null) 'cloudwatchLogUrl': cloudwatchLogUrl,
-      if (failureReason != null) 'failureReason': failureReason,
-      if (name != null) 'name': name,
-      if (outputLocation != null) 'outputLocation': outputLocation,
-      if (status != null) 'status': status,
-    };
-  }
-}
-
-class Mode {
-  static const resume = Mode._('RESUME');
-  static const $new = Mode._('NEW');
-  static const auto = Mode._('AUTO');
-
-  final String value;
-
-  const Mode._(this.value);
-
-  static const values = [resume, $new, auto];
-
-  static Mode fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Mode._(value));
-
-  @override
-  bool operator ==(other) => other is Mode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A node structure.
-class NodeStructure {
-  /// Number of nodes that have this specific structure.
-  final int? count;
-
-  /// A list of distinct outgoing edge labels present in this specific structure.
-  final List<String>? distinctOutgoingEdgeLabels;
-
-  /// A list of the node properties present in this specific structure.
-  final List<String>? nodeProperties;
-
-  NodeStructure({
-    this.count,
-    this.distinctOutgoingEdgeLabels,
-    this.nodeProperties,
-  });
-
-  factory NodeStructure.fromJson(Map<String, dynamic> json) {
-    return NodeStructure(
-      count: json['count'] as int?,
-      distinctOutgoingEdgeLabels: (json['distinctOutgoingEdgeLabels'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      nodeProperties: (json['nodeProperties'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final count = this.count;
-    final distinctOutgoingEdgeLabels = this.distinctOutgoingEdgeLabels;
-    final nodeProperties = this.nodeProperties;
-    return {
-      if (count != null) 'count': count,
-      if (distinctOutgoingEdgeLabels != null)
-        'distinctOutgoingEdgeLabels': distinctOutgoingEdgeLabels,
-      if (nodeProperties != null) 'nodeProperties': nodeProperties,
-    };
-  }
-}
-
-class OpenCypherExplainMode {
-  static const static = OpenCypherExplainMode._('static');
-  static const $dynamic = OpenCypherExplainMode._('dynamic');
-  static const details = OpenCypherExplainMode._('details');
-
-  final String value;
-
-  const OpenCypherExplainMode._(this.value);
-
-  static const values = [static, $dynamic, details];
-
-  static OpenCypherExplainMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => OpenCypherExplainMode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is OpenCypherExplainMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class Parallelism {
-  static const low = Parallelism._('LOW');
-  static const medium = Parallelism._('MEDIUM');
-  static const high = Parallelism._('HIGH');
-  static const oversubscribe = Parallelism._('OVERSUBSCRIBE');
-
-  final String value;
-
-  const Parallelism._(this.value);
-
-  static const values = [low, medium, high, oversubscribe];
-
-  static Parallelism fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Parallelism._(value));
-
-  @override
-  bool operator ==(other) => other is Parallelism && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A Gremlin or openCypher change record.
-class PropertygraphData {
-  /// The ID of the Gremlin or openCypher element.
-  final String id;
-
-  /// The property name. For element labels, this is <code>label</code>.
-  final String key;
-
-  /// The type of this Gremlin or openCypher element. Must be one of:
-  ///
-  /// <ul>
-  /// <li>
-  /// <b> <code>v1</code> </b>   -   Vertex label for Gremlin, or node label for
-  /// openCypher.
-  /// </li>
-  /// <li>
-  /// <b> <code>vp</code> </b>   -   Vertex properties for Gremlin, or node
-  /// properties for openCypher.
-  /// </li>
-  /// <li>
-  /// <b> <code>e</code> </b>   -   Edge and edge label for Gremlin, or
-  /// relationship and relationship type for openCypher.
-  /// </li>
-  /// <li>
-  /// <b> <code>ep</code> </b>   -   Edge properties for Gremlin, or relationship
-  /// properties for openCypher.
-  /// </li>
-  /// </ul>
-  final String type;
-
-  /// This is a JSON object that contains a value field for the value itself, and
-  /// a datatype field for the JSON data type of that value:
-  final Document value;
-
-  /// If this is an edge (type = <code>e</code>), the ID of the corresponding
-  /// <code>from</code> vertex or source node.
-  final String? from;
-
-  /// If this is an edge (type = <code>e</code>), the ID of the corresponding
-  /// <code>to</code> vertex or target node.
-  final String? to;
-
-  PropertygraphData({
-    required this.id,
-    required this.key,
-    required this.type,
-    required this.value,
-    this.from,
-    this.to,
-  });
-
-  factory PropertygraphData.fromJson(Map<String, dynamic> json) {
-    return PropertygraphData(
-      id: (json['id'] as String?) ?? '',
-      key: (json['key'] as String?) ?? '',
-      type: (json['type'] as String?) ?? '',
-      value: Document.fromJson((json['value'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-      from: json['from'] as String?,
-      to: json['to'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final key = this.key;
-    final type = this.type;
-    final value = this.value;
-    final from = this.from;
-    final to = this.to;
-    return {
-      'id': id,
-      'key': key,
-      'type': type,
-      'value': value,
-      if (from != null) 'from': from,
-      if (to != null) 'to': to,
-    };
-  }
-}
-
-/// Structure of a property graph record.
-class PropertygraphRecord {
-  /// The time at which the commit for the transaction was requested, in
-  /// milliseconds from the Unix epoch.
-  final int commitTimestampInMillis;
-
-  /// The serialized Gremlin or openCypher change record.
-  final PropertygraphData data;
-
-  /// The sequence identifier of the stream change record.
-  final Map<String, String> eventId;
-
-  /// The operation that created the change.
-  final String op;
-
-  /// Only present if this operation is the last one in its transaction. If
-  /// present, it is set to true. It is useful for ensuring that an entire
-  /// transaction is consumed.
-  final bool? isLastOp;
-
-  PropertygraphRecord({
-    required this.commitTimestampInMillis,
-    required this.data,
-    required this.eventId,
-    required this.op,
-    this.isLastOp,
-  });
-
-  factory PropertygraphRecord.fromJson(Map<String, dynamic> json) {
-    return PropertygraphRecord(
-      commitTimestampInMillis: (json['commitTimestamp'] as int?) ?? 0,
-      data: PropertygraphData.fromJson(
-          (json['data'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
-      eventId: ((json['eventId'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{})
-          .map((k, e) => MapEntry(k, e as String)),
-      op: (json['op'] as String?) ?? '',
-      isLastOp: json['isLastOp'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final commitTimestampInMillis = this.commitTimestampInMillis;
-    final data = this.data;
-    final eventId = this.eventId;
-    final op = this.op;
-    final isLastOp = this.isLastOp;
-    return {
-      'commitTimestamp': commitTimestampInMillis,
-      'data': data,
-      'eventId': eventId,
-      'op': op,
-      if (isLastOp != null) 'isLastOp': isLastOp,
-    };
-  }
-}
-
-/// The graph summary API returns a read-only list of node and edge labels and
-/// property keys, along with counts of nodes, edges, and properties. See <a
-/// href="https://docs.aws.amazon.com/neptune/latest/userguide/neptune-graph-summary.html#neptune-graph-summary-pg-response">Graph
-/// summary response for a property graph (PG)</a>.
-class PropertygraphSummary {
-  /// A list of the distinct edge labels in the graph.
-  final List<String>? edgeLabels;
-
-  /// A list of the distinct edge properties in the graph, along with the count of
-  /// edges where each property is used.
-  final List<Map<String, int>>? edgeProperties;
-
-  /// This field is only present when the requested mode is <code>DETAILED</code>.
-  /// It contains a list of edge structures.
-  final List<EdgeStructure>? edgeStructures;
-
-  /// A list of the distinct node labels in the graph.
-  final List<String>? nodeLabels;
-
-  /// The number of distinct node properties in the graph.
-  final List<Map<String, int>>? nodeProperties;
-
-  /// This field is only present when the requested mode is <code>DETAILED</code>.
-  /// It contains a list of node structures.
-  final List<NodeStructure>? nodeStructures;
-
-  /// The number of distinct edge labels in the graph.
-  final int? numEdgeLabels;
-
-  /// The number of distinct edge properties in the graph.
-  final int? numEdgeProperties;
-
-  /// The number of edges in the graph.
-  final int? numEdges;
-
-  /// The number of distinct node labels in the graph.
-  final int? numNodeLabels;
-
-  /// A list of the distinct node properties in the graph, along with the count of
-  /// nodes where each property is used.
-  final int? numNodeProperties;
-
-  /// The number of nodes in the graph.
-  final int? numNodes;
-
-  /// The total number of usages of all edge properties.
-  final int? totalEdgePropertyValues;
-
-  /// The total number of usages of all node properties.
-  final int? totalNodePropertyValues;
-
-  PropertygraphSummary({
-    this.edgeLabels,
-    this.edgeProperties,
-    this.edgeStructures,
-    this.nodeLabels,
-    this.nodeProperties,
-    this.nodeStructures,
-    this.numEdgeLabels,
-    this.numEdgeProperties,
-    this.numEdges,
-    this.numNodeLabels,
-    this.numNodeProperties,
-    this.numNodes,
-    this.totalEdgePropertyValues,
-    this.totalNodePropertyValues,
-  });
-
-  factory PropertygraphSummary.fromJson(Map<String, dynamic> json) {
-    return PropertygraphSummary(
-      edgeLabels: (json['edgeLabels'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      edgeProperties: (json['edgeProperties'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              (e as Map<String, dynamic>).map((k, e) => MapEntry(k, e as int)))
-          .toList(),
-      edgeStructures: (json['edgeStructures'] as List?)
-          ?.nonNulls
-          .map((e) => EdgeStructure.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nodeLabels: (json['nodeLabels'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      nodeProperties: (json['nodeProperties'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              (e as Map<String, dynamic>).map((k, e) => MapEntry(k, e as int)))
-          .toList(),
-      nodeStructures: (json['nodeStructures'] as List?)
-          ?.nonNulls
-          .map((e) => NodeStructure.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      numEdgeLabels: json['numEdgeLabels'] as int?,
-      numEdgeProperties: json['numEdgeProperties'] as int?,
-      numEdges: json['numEdges'] as int?,
-      numNodeLabels: json['numNodeLabels'] as int?,
-      numNodeProperties: json['numNodeProperties'] as int?,
-      numNodes: json['numNodes'] as int?,
-      totalEdgePropertyValues: json['totalEdgePropertyValues'] as int?,
-      totalNodePropertyValues: json['totalNodePropertyValues'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final edgeLabels = this.edgeLabels;
-    final edgeProperties = this.edgeProperties;
-    final edgeStructures = this.edgeStructures;
-    final nodeLabels = this.nodeLabels;
-    final nodeProperties = this.nodeProperties;
-    final nodeStructures = this.nodeStructures;
-    final numEdgeLabels = this.numEdgeLabels;
-    final numEdgeProperties = this.numEdgeProperties;
-    final numEdges = this.numEdges;
-    final numNodeLabels = this.numNodeLabels;
-    final numNodeProperties = this.numNodeProperties;
-    final numNodes = this.numNodes;
-    final totalEdgePropertyValues = this.totalEdgePropertyValues;
-    final totalNodePropertyValues = this.totalNodePropertyValues;
-    return {
-      if (edgeLabels != null) 'edgeLabels': edgeLabels,
-      if (edgeProperties != null) 'edgeProperties': edgeProperties,
-      if (edgeStructures != null) 'edgeStructures': edgeStructures,
-      if (nodeLabels != null) 'nodeLabels': nodeLabels,
-      if (nodeProperties != null) 'nodeProperties': nodeProperties,
-      if (nodeStructures != null) 'nodeStructures': nodeStructures,
-      if (numEdgeLabels != null) 'numEdgeLabels': numEdgeLabels,
-      if (numEdgeProperties != null) 'numEdgeProperties': numEdgeProperties,
-      if (numEdges != null) 'numEdges': numEdges,
-      if (numNodeLabels != null) 'numNodeLabels': numNodeLabels,
-      if (numNodeProperties != null) 'numNodeProperties': numNodeProperties,
-      if (numNodes != null) 'numNodes': numNodes,
-      if (totalEdgePropertyValues != null)
-        'totalEdgePropertyValues': totalEdgePropertyValues,
-      if (totalNodePropertyValues != null)
-        'totalNodePropertyValues': totalNodePropertyValues,
-    };
-  }
-}
-
-/// Payload for the property graph summary response.
-class PropertygraphSummaryValueMap {
-  /// The graph summary.
-  final PropertygraphSummary? graphSummary;
-
-  /// The timestamp, in ISO 8601 format, of the time at which Neptune last
-  /// computed statistics.
-  final DateTime? lastStatisticsComputationTime;
-
-  /// The version of this graph summary response.
-  final String? version;
-
-  PropertygraphSummaryValueMap({
-    this.graphSummary,
-    this.lastStatisticsComputationTime,
-    this.version,
-  });
-
-  factory PropertygraphSummaryValueMap.fromJson(Map<String, dynamic> json) {
-    return PropertygraphSummaryValueMap(
-      graphSummary: json['graphSummary'] != null
-          ? PropertygraphSummary.fromJson(
-              json['graphSummary'] as Map<String, dynamic>)
-          : null,
-      lastStatisticsComputationTime:
-          timeStampFromJson(json['lastStatisticsComputationTime']),
-      version: json['version'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final graphSummary = this.graphSummary;
-    final lastStatisticsComputationTime = this.lastStatisticsComputationTime;
-    final version = this.version;
-    return {
-      if (graphSummary != null) 'graphSummary': graphSummary,
-      if (lastStatisticsComputationTime != null)
-        'lastStatisticsComputationTime':
-            iso8601ToJson(lastStatisticsComputationTime),
-      if (version != null) 'version': version,
-    };
-  }
-}
-
-/// Structure to capture query statistics such as how many queries are running,
-/// accepted or waiting and their details.
-class QueryEvalStats {
-  /// Set to <code>TRUE</code> if the query was cancelled, or FALSE otherwise.
-  final bool? cancelled;
-
-  /// The number of milliseconds the query has been running so far.
-  final int? elapsed;
-
-  /// The number of subqueries in this query.
-  final Document? subqueries;
-
-  /// Indicates how long the query waited, in milliseconds.
-  final int? waited;
-
-  QueryEvalStats({
-    this.cancelled,
-    this.elapsed,
-    this.subqueries,
-    this.waited,
-  });
-
-  factory QueryEvalStats.fromJson(Map<String, dynamic> json) {
-    return QueryEvalStats(
-      cancelled: json['cancelled'] as bool?,
-      elapsed: json['elapsed'] as int?,
-      subqueries: json['subqueries'] != null
-          ? Document.fromJson(json['subqueries'] as Map<String, dynamic>)
-          : null,
-      waited: json['waited'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cancelled = this.cancelled;
-    final elapsed = this.elapsed;
-    final subqueries = this.subqueries;
-    final waited = this.waited;
-    return {
-      if (cancelled != null) 'cancelled': cancelled,
-      if (elapsed != null) 'elapsed': elapsed,
-      if (subqueries != null) 'subqueries': subqueries,
-      if (waited != null) 'waited': waited,
-    };
-  }
-}
-
-/// Structure for expressing the query language version.
-class QueryLanguageVersion {
-  /// The version of the query language.
-  final String version;
-
-  QueryLanguageVersion({
-    required this.version,
-  });
-
-  factory QueryLanguageVersion.fromJson(Map<String, dynamic> json) {
-    return QueryLanguageVersion(
-      version: (json['version'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final version = this.version;
-    return {
-      'version': version,
-    };
-  }
-}
-
-/// The RDF graph summary API returns a read-only list of classes and predicate
-/// keys, along with counts of quads, subjects, and predicates.
-class RDFGraphSummary {
-  /// A list of the classes in the graph.
-  final List<String>? classes;
-
-  /// The number of classes in the graph.
-  final int? numClasses;
-
-  /// The number of distinct predicates in the graph.
-  final int? numDistinctPredicates;
-
-  /// The number of distinct subjects in the graph.
-  final int? numDistinctSubjects;
-
-  /// The number of quads in the graph.
-  final int? numQuads;
-
-  /// "A list of predicates in the graph, along with the predicate counts.
-  final List<Map<String, int>>? predicates;
-
-  /// This field is only present when the request mode is <code>DETAILED</code>.
-  /// It contains a list of subject structures.
-  final List<SubjectStructure>? subjectStructures;
-
-  RDFGraphSummary({
-    this.classes,
-    this.numClasses,
-    this.numDistinctPredicates,
-    this.numDistinctSubjects,
-    this.numQuads,
-    this.predicates,
-    this.subjectStructures,
-  });
-
-  factory RDFGraphSummary.fromJson(Map<String, dynamic> json) {
-    return RDFGraphSummary(
-      classes:
-          (json['classes'] as List?)?.nonNulls.map((e) => e as String).toList(),
-      numClasses: json['numClasses'] as int?,
-      numDistinctPredicates: json['numDistinctPredicates'] as int?,
-      numDistinctSubjects: json['numDistinctSubjects'] as int?,
-      numQuads: json['numQuads'] as int?,
-      predicates: (json['predicates'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              (e as Map<String, dynamic>).map((k, e) => MapEntry(k, e as int)))
-          .toList(),
-      subjectStructures: (json['subjectStructures'] as List?)
-          ?.nonNulls
-          .map((e) => SubjectStructure.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final classes = this.classes;
-    final numClasses = this.numClasses;
-    final numDistinctPredicates = this.numDistinctPredicates;
-    final numDistinctSubjects = this.numDistinctSubjects;
-    final numQuads = this.numQuads;
-    final predicates = this.predicates;
-    final subjectStructures = this.subjectStructures;
-    return {
-      if (classes != null) 'classes': classes,
-      if (numClasses != null) 'numClasses': numClasses,
-      if (numDistinctPredicates != null)
-        'numDistinctPredicates': numDistinctPredicates,
-      if (numDistinctSubjects != null)
-        'numDistinctSubjects': numDistinctSubjects,
-      if (numQuads != null) 'numQuads': numQuads,
-      if (predicates != null) 'predicates': predicates,
-      if (subjectStructures != null) 'subjectStructures': subjectStructures,
-    };
-  }
-}
-
-/// Payload for an RDF graph summary response.
-class RDFGraphSummaryValueMap {
-  /// The graph summary of an RDF graph. See <a
-  /// href="https://docs.aws.amazon.com/neptune/latest/userguide/neptune-graph-summary.html#neptune-graph-summary-rdf-response">Graph
-  /// summary response for an RDF graph</a>.
-  final RDFGraphSummary? graphSummary;
-
-  /// The timestamp, in ISO 8601 format, of the time at which Neptune last
-  /// computed statistics.
-  final DateTime? lastStatisticsComputationTime;
-
-  /// The version of this graph summary response.
-  final String? version;
-
-  RDFGraphSummaryValueMap({
-    this.graphSummary,
-    this.lastStatisticsComputationTime,
-    this.version,
-  });
-
-  factory RDFGraphSummaryValueMap.fromJson(Map<String, dynamic> json) {
-    return RDFGraphSummaryValueMap(
-      graphSummary: json['graphSummary'] != null
-          ? RDFGraphSummary.fromJson(
-              json['graphSummary'] as Map<String, dynamic>)
-          : null,
-      lastStatisticsComputationTime:
-          timeStampFromJson(json['lastStatisticsComputationTime']),
-      version: json['version'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final graphSummary = this.graphSummary;
-    final lastStatisticsComputationTime = this.lastStatisticsComputationTime;
-    final version = this.version;
-    return {
-      if (graphSummary != null) 'graphSummary': graphSummary,
-      if (lastStatisticsComputationTime != null)
-        'lastStatisticsComputationTime':
-            iso8601ToJson(lastStatisticsComputationTime),
-      if (version != null) 'version': version,
-    };
-  }
-}
-
-/// Statistics for <code>REFRESH</code> mode.
-class RefreshStatisticsIdMap {
-  /// The ID of the statistics generation run that is currently occurring.
-  final String? statisticsId;
-
-  RefreshStatisticsIdMap({
-    this.statisticsId,
-  });
-
-  factory RefreshStatisticsIdMap.fromJson(Map<String, dynamic> json) {
-    return RefreshStatisticsIdMap(
-      statisticsId: json['statisticsId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final statisticsId = this.statisticsId;
-    return {
-      if (statisticsId != null) 'statisticsId': statisticsId,
-    };
-  }
-}
-
-class S3BucketRegion {
-  static const usEast_1 = S3BucketRegion._('us-east-1');
-  static const usEast_2 = S3BucketRegion._('us-east-2');
-  static const usWest_1 = S3BucketRegion._('us-west-1');
-  static const usWest_2 = S3BucketRegion._('us-west-2');
-  static const caCentral_1 = S3BucketRegion._('ca-central-1');
-  static const saEast_1 = S3BucketRegion._('sa-east-1');
-  static const euNorth_1 = S3BucketRegion._('eu-north-1');
-  static const euWest_1 = S3BucketRegion._('eu-west-1');
-  static const euWest_2 = S3BucketRegion._('eu-west-2');
-  static const euWest_3 = S3BucketRegion._('eu-west-3');
-  static const euCentral_1 = S3BucketRegion._('eu-central-1');
-  static const meSouth_1 = S3BucketRegion._('me-south-1');
-  static const afSouth_1 = S3BucketRegion._('af-south-1');
-  static const apEast_1 = S3BucketRegion._('ap-east-1');
-  static const apNortheast_1 = S3BucketRegion._('ap-northeast-1');
-  static const apNortheast_2 = S3BucketRegion._('ap-northeast-2');
-  static const apSoutheast_1 = S3BucketRegion._('ap-southeast-1');
-  static const apSoutheast_2 = S3BucketRegion._('ap-southeast-2');
-  static const apSouth_1 = S3BucketRegion._('ap-south-1');
-  static const cnNorth_1 = S3BucketRegion._('cn-north-1');
-  static const cnNorthwest_1 = S3BucketRegion._('cn-northwest-1');
-  static const usGovWest_1 = S3BucketRegion._('us-gov-west-1');
-  static const usGovEast_1 = S3BucketRegion._('us-gov-east-1');
-
-  final String value;
-
-  const S3BucketRegion._(this.value);
-
-  static const values = [
-    usEast_1,
-    usEast_2,
-    usWest_1,
-    usWest_2,
-    caCentral_1,
-    saEast_1,
-    euNorth_1,
-    euWest_1,
-    euWest_2,
-    euWest_3,
-    euCentral_1,
-    meSouth_1,
-    afSouth_1,
-    apEast_1,
-    apNortheast_1,
-    apNortheast_2,
-    apSoutheast_1,
-    apSoutheast_2,
-    apSouth_1,
-    cnNorth_1,
-    cnNorthwest_1,
-    usGovWest_1,
-    usGovEast_1
-  ];
-
-  static S3BucketRegion fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => S3BucketRegion._(value));
-
-  @override
-  bool operator ==(other) => other is S3BucketRegion && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Neptune logs are converted to SPARQL quads in the graph using the Resource
-/// Description Framework (RDF) <a
-/// href="https://www.w3.org/TR/n-quads/">N-QUADS</a> language defined in the
-/// W3C RDF 1.1 N-Quads specification
-class SparqlData {
-  /// Holds an <a href="https://www.w3.org/TR/n-quads/">N-QUADS</a> statement
-  /// expressing the changed quad.
-  final String stmt;
-
-  SparqlData({
-    required this.stmt,
-  });
-
-  factory SparqlData.fromJson(Map<String, dynamic> json) {
-    return SparqlData(
-      stmt: (json['stmt'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final stmt = this.stmt;
-    return {
-      'stmt': stmt,
-    };
-  }
-}
-
-/// A serialized SPARQL stream record capturing a change-log entry for the RDF
-/// graph.
-class SparqlRecord {
-  /// The time at which the commit for the transaction was requested, in
-  /// milliseconds from the Unix epoch.
-  final int commitTimestampInMillis;
-
-  /// The serialized SPARQL change record. The serialization formats of each
-  /// record are described in more detail in <a
-  /// href="https://docs.aws.amazon.com/neptune/latest/userguide/streams-change-formats.html">Serialization
-  /// Formats in Neptune Streams</a>.
-  final SparqlData data;
-
-  /// The sequence identifier of the stream change record.
-  final Map<String, String> eventId;
-
-  /// The operation that created the change.
-  final String op;
-
-  /// Only present if this operation is the last one in its transaction. If
-  /// present, it is set to true. It is useful for ensuring that an entire
-  /// transaction is consumed.
-  final bool? isLastOp;
-
-  SparqlRecord({
-    required this.commitTimestampInMillis,
-    required this.data,
-    required this.eventId,
-    required this.op,
-    this.isLastOp,
-  });
-
-  factory SparqlRecord.fromJson(Map<String, dynamic> json) {
-    return SparqlRecord(
-      commitTimestampInMillis: (json['commitTimestamp'] as int?) ?? 0,
-      data: SparqlData.fromJson(
-          (json['data'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
-      eventId: ((json['eventId'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{})
-          .map((k, e) => MapEntry(k, e as String)),
-      op: (json['op'] as String?) ?? '',
-      isLastOp: json['isLastOp'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final commitTimestampInMillis = this.commitTimestampInMillis;
-    final data = this.data;
-    final eventId = this.eventId;
-    final op = this.op;
-    final isLastOp = this.isLastOp;
-    return {
-      'commitTimestamp': commitTimestampInMillis,
-      'data': data,
-      'eventId': eventId,
-      'op': op,
-      if (isLastOp != null) 'isLastOp': isLastOp,
     };
   }
 }
@@ -5970,6 +4661,556 @@ class StartMLModelTransformJobOutput {
   }
 }
 
+/// Contains custom model transform parameters. See <a
+/// href="https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-model-transform.html">Use
+/// a trained model to generate new model artifacts</a>.
+class CustomModelTransformParameters {
+  /// The path to the Amazon S3 location where the Python module implementing your
+  /// model is located. This must point to a valid existing Amazon S3 location
+  /// that contains, at a minimum, a training script, a transform script, and a
+  /// <code>model-hpo-configuration.json</code> file.
+  final String sourceS3DirectoryPath;
+
+  /// The name of the entry point in your module of a script that should be run
+  /// after the best model from the hyperparameter search has been identified, to
+  /// compute the model artifacts necessary for model deployment. It should be
+  /// able to run with no command-line arguments. The default is
+  /// <code>transform.py</code>.
+  final String? transformEntryPointScript;
+
+  CustomModelTransformParameters({
+    required this.sourceS3DirectoryPath,
+    this.transformEntryPointScript,
+  });
+
+  Map<String, dynamic> toJson() {
+    final sourceS3DirectoryPath = this.sourceS3DirectoryPath;
+    final transformEntryPointScript = this.transformEntryPointScript;
+    return {
+      'sourceS3DirectoryPath': sourceS3DirectoryPath,
+      if (transformEntryPointScript != null)
+        'transformEntryPointScript': transformEntryPointScript,
+    };
+  }
+}
+
+/// Contains custom model training parameters. See <a
+/// href="https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-custom-models.html">Custom
+/// models in Neptune ML</a>.
+class CustomModelTrainingParameters {
+  /// The path to the Amazon S3 location where the Python module implementing your
+  /// model is located. This must point to a valid existing Amazon S3 location
+  /// that contains, at a minimum, a training script, a transform script, and a
+  /// <code>model-hpo-configuration.json</code> file.
+  final String sourceS3DirectoryPath;
+
+  /// The name of the entry point in your module of a script that performs model
+  /// training and takes hyperparameters as command-line arguments, including
+  /// fixed hyperparameters. The default is <code>training.py</code>.
+  final String? trainingEntryPointScript;
+
+  /// The name of the entry point in your module of a script that should be run
+  /// after the best model from the hyperparameter search has been identified, to
+  /// compute the model artifacts necessary for model deployment. It should be
+  /// able to run with no command-line arguments.The default is
+  /// <code>transform.py</code>.
+  final String? transformEntryPointScript;
+
+  CustomModelTrainingParameters({
+    required this.sourceS3DirectoryPath,
+    this.trainingEntryPointScript,
+    this.transformEntryPointScript,
+  });
+
+  Map<String, dynamic> toJson() {
+    final sourceS3DirectoryPath = this.sourceS3DirectoryPath;
+    final trainingEntryPointScript = this.trainingEntryPointScript;
+    final transformEntryPointScript = this.transformEntryPointScript;
+    return {
+      'sourceS3DirectoryPath': sourceS3DirectoryPath,
+      if (trainingEntryPointScript != null)
+        'trainingEntryPointScript': trainingEntryPointScript,
+      if (transformEntryPointScript != null)
+        'transformEntryPointScript': transformEntryPointScript,
+    };
+  }
+}
+
+class Format {
+  static const csv = Format._('csv');
+  static const opencypher = Format._('opencypher');
+  static const ntriples = Format._('ntriples');
+  static const nquads = Format._('nquads');
+  static const rdfxml = Format._('rdfxml');
+  static const turtle = Format._('turtle');
+
+  final String value;
+
+  const Format._(this.value);
+
+  static const values = [csv, opencypher, ntriples, nquads, rdfxml, turtle];
+
+  static Format fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Format._(value));
+
+  @override
+  bool operator ==(other) => other is Format && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class S3BucketRegion {
+  static const usEast_1 = S3BucketRegion._('us-east-1');
+  static const usEast_2 = S3BucketRegion._('us-east-2');
+  static const usWest_1 = S3BucketRegion._('us-west-1');
+  static const usWest_2 = S3BucketRegion._('us-west-2');
+  static const caCentral_1 = S3BucketRegion._('ca-central-1');
+  static const saEast_1 = S3BucketRegion._('sa-east-1');
+  static const euNorth_1 = S3BucketRegion._('eu-north-1');
+  static const euWest_1 = S3BucketRegion._('eu-west-1');
+  static const euWest_2 = S3BucketRegion._('eu-west-2');
+  static const euWest_3 = S3BucketRegion._('eu-west-3');
+  static const euCentral_1 = S3BucketRegion._('eu-central-1');
+  static const meSouth_1 = S3BucketRegion._('me-south-1');
+  static const afSouth_1 = S3BucketRegion._('af-south-1');
+  static const apEast_1 = S3BucketRegion._('ap-east-1');
+  static const apNortheast_1 = S3BucketRegion._('ap-northeast-1');
+  static const apNortheast_2 = S3BucketRegion._('ap-northeast-2');
+  static const apSoutheast_1 = S3BucketRegion._('ap-southeast-1');
+  static const apSoutheast_2 = S3BucketRegion._('ap-southeast-2');
+  static const apSouth_1 = S3BucketRegion._('ap-south-1');
+  static const cnNorth_1 = S3BucketRegion._('cn-north-1');
+  static const cnNorthwest_1 = S3BucketRegion._('cn-northwest-1');
+  static const usGovWest_1 = S3BucketRegion._('us-gov-west-1');
+  static const usGovEast_1 = S3BucketRegion._('us-gov-east-1');
+  static const caWest_1 = S3BucketRegion._('ca-west-1');
+  static const euSouth_2 = S3BucketRegion._('eu-south-2');
+  static const ilCentral_1 = S3BucketRegion._('il-central-1');
+  static const meCentral_1 = S3BucketRegion._('me-central-1');
+  static const apNortheast_3 = S3BucketRegion._('ap-northeast-3');
+  static const apSoutheast_3 = S3BucketRegion._('ap-southeast-3');
+  static const apSoutheast_4 = S3BucketRegion._('ap-southeast-4');
+  static const apSoutheast_5 = S3BucketRegion._('ap-southeast-5');
+  static const apSoutheast_7 = S3BucketRegion._('ap-southeast-7');
+  static const mxCentral_1 = S3BucketRegion._('mx-central-1');
+  static const apEast_2 = S3BucketRegion._('ap-east-2');
+  static const apSouth_2 = S3BucketRegion._('ap-south-2');
+  static const euCentral_2 = S3BucketRegion._('eu-central-2');
+
+  final String value;
+
+  const S3BucketRegion._(this.value);
+
+  static const values = [
+    usEast_1,
+    usEast_2,
+    usWest_1,
+    usWest_2,
+    caCentral_1,
+    saEast_1,
+    euNorth_1,
+    euWest_1,
+    euWest_2,
+    euWest_3,
+    euCentral_1,
+    meSouth_1,
+    afSouth_1,
+    apEast_1,
+    apNortheast_1,
+    apNortheast_2,
+    apSoutheast_1,
+    apSoutheast_2,
+    apSouth_1,
+    cnNorth_1,
+    cnNorthwest_1,
+    usGovWest_1,
+    usGovEast_1,
+    caWest_1,
+    euSouth_2,
+    ilCentral_1,
+    meCentral_1,
+    apNortheast_3,
+    apSoutheast_3,
+    apSoutheast_4,
+    apSoutheast_5,
+    apSoutheast_7,
+    mxCentral_1,
+    apEast_2,
+    apSouth_2,
+    euCentral_2
+  ];
+
+  static S3BucketRegion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => S3BucketRegion._(value));
+
+  @override
+  bool operator ==(other) => other is S3BucketRegion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class Mode {
+  static const resume = Mode._('RESUME');
+  static const $new = Mode._('NEW');
+  static const auto = Mode._('AUTO');
+
+  final String value;
+
+  const Mode._(this.value);
+
+  static const values = [resume, $new, auto];
+
+  static Mode fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Mode._(value));
+
+  @override
+  bool operator ==(other) => other is Mode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class Parallelism {
+  static const low = Parallelism._('LOW');
+  static const medium = Parallelism._('MEDIUM');
+  static const high = Parallelism._('HIGH');
+  static const oversubscribe = Parallelism._('OVERSUBSCRIBE');
+
+  final String value;
+
+  const Parallelism._(this.value);
+
+  static const values = [low, medium, high, oversubscribe];
+
+  static Parallelism fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Parallelism._(value));
+
+  @override
+  bool operator ==(other) => other is Parallelism && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Statistics for <code>REFRESH</code> mode.
+class RefreshStatisticsIdMap {
+  /// The ID of the statistics generation run that is currently occurring.
+  final String? statisticsId;
+
+  RefreshStatisticsIdMap({
+    this.statisticsId,
+  });
+
+  factory RefreshStatisticsIdMap.fromJson(Map<String, dynamic> json) {
+    return RefreshStatisticsIdMap(
+      statisticsId: json['statisticsId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final statisticsId = this.statisticsId;
+    return {
+      if (statisticsId != null) 'statisticsId': statisticsId,
+    };
+  }
+}
+
+class StatisticsAutoGenerationMode {
+  static const disableAutoCompute =
+      StatisticsAutoGenerationMode._('disableAutoCompute');
+  static const enableAutoCompute =
+      StatisticsAutoGenerationMode._('enableAutoCompute');
+  static const refresh = StatisticsAutoGenerationMode._('refresh');
+
+  final String value;
+
+  const StatisticsAutoGenerationMode._(this.value);
+
+  static const values = [disableAutoCompute, enableAutoCompute, refresh];
+
+  static StatisticsAutoGenerationMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StatisticsAutoGenerationMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StatisticsAutoGenerationMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Captures the status of a Gremlin query (see the <a
+/// href="https://docs.aws.amazon.com/neptune/latest/userguide/gremlin-api-status.html">Gremlin
+/// query status API</a> page).
+class GremlinQueryStatus {
+  /// The query statistics of the Gremlin query.
+  final QueryEvalStats? queryEvalStats;
+
+  /// The ID of the Gremlin query.
+  final String? queryId;
+
+  /// The query string of the Gremlin query.
+  final String? queryString;
+
+  GremlinQueryStatus({
+    this.queryEvalStats,
+    this.queryId,
+    this.queryString,
+  });
+
+  factory GremlinQueryStatus.fromJson(Map<String, dynamic> json) {
+    return GremlinQueryStatus(
+      queryEvalStats: json['queryEvalStats'] != null
+          ? QueryEvalStats.fromJson(
+              json['queryEvalStats'] as Map<String, dynamic>)
+          : null,
+      queryId: json['queryId'] as String?,
+      queryString: json['queryString'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final queryEvalStats = this.queryEvalStats;
+    final queryId = this.queryId;
+    final queryString = this.queryString;
+    return {
+      if (queryEvalStats != null) 'queryEvalStats': queryEvalStats,
+      if (queryId != null) 'queryId': queryId,
+      if (queryString != null) 'queryString': queryString,
+    };
+  }
+}
+
+/// Structure to capture query statistics such as how many queries are running,
+/// accepted or waiting and their details.
+class QueryEvalStats {
+  /// Set to <code>TRUE</code> if the query was cancelled, or FALSE otherwise.
+  final bool? cancelled;
+
+  /// The number of milliseconds the query has been running so far.
+  final int? elapsed;
+
+  /// The number of subqueries in this query.
+  final Document? subqueries;
+
+  /// Indicates how long the query waited, in milliseconds.
+  final int? waited;
+
+  QueryEvalStats({
+    this.cancelled,
+    this.elapsed,
+    this.subqueries,
+    this.waited,
+  });
+
+  factory QueryEvalStats.fromJson(Map<String, dynamic> json) {
+    return QueryEvalStats(
+      cancelled: json['cancelled'] as bool?,
+      elapsed: json['elapsed'] as int?,
+      subqueries: json['subqueries'] != null
+          ? Document.fromJson(json['subqueries'] as Map<String, dynamic>)
+          : null,
+      waited: json['waited'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cancelled = this.cancelled;
+    final elapsed = this.elapsed;
+    final subqueries = this.subqueries;
+    final waited = this.waited;
+    return {
+      if (cancelled != null) 'cancelled': cancelled,
+      if (elapsed != null) 'elapsed': elapsed,
+      if (subqueries != null) 'subqueries': subqueries,
+      if (waited != null) 'waited': waited,
+    };
+  }
+}
+
+/// Contains a list of load IDs.
+class LoaderIdResult {
+  /// A list of load IDs.
+  final List<String>? loadIds;
+
+  LoaderIdResult({
+    this.loadIds,
+  });
+
+  factory LoaderIdResult.fromJson(Map<String, dynamic> json) {
+    return LoaderIdResult(
+      loadIds:
+          (json['loadIds'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final loadIds = this.loadIds;
+    return {
+      if (loadIds != null) 'loadIds': loadIds,
+    };
+  }
+}
+
+/// A serialized SPARQL stream record capturing a change-log entry for the RDF
+/// graph.
+class SparqlRecord {
+  /// The time at which the commit for the transaction was requested, in
+  /// milliseconds from the Unix epoch.
+  final int commitTimestampInMillis;
+
+  /// The serialized SPARQL change record. The serialization formats of each
+  /// record are described in more detail in <a
+  /// href="https://docs.aws.amazon.com/neptune/latest/userguide/streams-change-formats.html">Serialization
+  /// Formats in Neptune Streams</a>.
+  final SparqlData data;
+
+  /// The sequence identifier of the stream change record.
+  final Map<String, String> eventId;
+
+  /// The operation that created the change.
+  final String op;
+
+  /// Only present if this operation is the last one in its transaction. If
+  /// present, it is set to true. It is useful for ensuring that an entire
+  /// transaction is consumed.
+  final bool? isLastOp;
+
+  SparqlRecord({
+    required this.commitTimestampInMillis,
+    required this.data,
+    required this.eventId,
+    required this.op,
+    this.isLastOp,
+  });
+
+  factory SparqlRecord.fromJson(Map<String, dynamic> json) {
+    return SparqlRecord(
+      commitTimestampInMillis: (json['commitTimestamp'] as int?) ?? 0,
+      data: SparqlData.fromJson(
+          (json['data'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+      eventId: ((json['eventId'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) => MapEntry(k, e as String)),
+      op: (json['op'] as String?) ?? '',
+      isLastOp: json['isLastOp'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final commitTimestampInMillis = this.commitTimestampInMillis;
+    final data = this.data;
+    final eventId = this.eventId;
+    final op = this.op;
+    final isLastOp = this.isLastOp;
+    return {
+      'commitTimestamp': commitTimestampInMillis,
+      'data': data,
+      'eventId': eventId,
+      'op': op,
+      if (isLastOp != null) 'isLastOp': isLastOp,
+    };
+  }
+}
+
+/// Neptune logs are converted to SPARQL quads in the graph using the Resource
+/// Description Framework (RDF) <a
+/// href="https://www.w3.org/TR/n-quads/">N-QUADS</a> language defined in the
+/// W3C RDF 1.1 N-Quads specification
+class SparqlData {
+  /// Holds an <a href="https://www.w3.org/TR/n-quads/">N-QUADS</a> statement
+  /// expressing the changed quad.
+  final String stmt;
+
+  SparqlData({
+    required this.stmt,
+  });
+
+  factory SparqlData.fromJson(Map<String, dynamic> json) {
+    return SparqlData(
+      stmt: (json['stmt'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final stmt = this.stmt;
+    return {
+      'stmt': stmt,
+    };
+  }
+}
+
+class IteratorType {
+  static const atSequenceNumber = IteratorType._('AT_SEQUENCE_NUMBER');
+  static const afterSequenceNumber = IteratorType._('AFTER_SEQUENCE_NUMBER');
+  static const trimHorizon = IteratorType._('TRIM_HORIZON');
+  static const latest = IteratorType._('LATEST');
+
+  final String value;
+
+  const IteratorType._(this.value);
+
+  static const values = [
+    atSequenceNumber,
+    afterSequenceNumber,
+    trimHorizon,
+    latest
+  ];
+
+  static IteratorType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IteratorType._(value));
+
+  @override
+  bool operator ==(other) => other is IteratorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class Encoding {
+  static const gzip = Encoding._('gzip');
+
+  final String value;
+
+  const Encoding._(this.value);
+
+  static const values = [gzip];
+
+  static Encoding fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Encoding._(value));
+
+  @override
+  bool operator ==(other) => other is Encoding && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Contains statistics information. The DFE engine uses information about the
 /// data in your Neptune graph to make effective trade-offs when planning query
 /// execution. This information takes the form of statistics that include
@@ -6052,34 +5293,6 @@ class Statistics {
   }
 }
 
-class StatisticsAutoGenerationMode {
-  static const disableAutoCompute =
-      StatisticsAutoGenerationMode._('disableAutoCompute');
-  static const enableAutoCompute =
-      StatisticsAutoGenerationMode._('enableAutoCompute');
-  static const refresh = StatisticsAutoGenerationMode._('refresh');
-
-  final String value;
-
-  const StatisticsAutoGenerationMode._(this.value);
-
-  static const values = [disableAutoCompute, enableAutoCompute, refresh];
-
-  static StatisticsAutoGenerationMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => StatisticsAutoGenerationMode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is StatisticsAutoGenerationMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 /// Information about the characteristic sets generated in the statistics.
 class StatisticsSummary {
   /// The total number of characteristic-set instances.
@@ -6117,6 +5330,129 @@ class StatisticsSummary {
   }
 }
 
+/// Payload for an RDF graph summary response.
+class RDFGraphSummaryValueMap {
+  /// The graph summary of an RDF graph. See <a
+  /// href="https://docs.aws.amazon.com/neptune/latest/userguide/neptune-graph-summary.html#neptune-graph-summary-rdf-response">Graph
+  /// summary response for an RDF graph</a>.
+  final RDFGraphSummary? graphSummary;
+
+  /// The timestamp, in ISO 8601 format, of the time at which Neptune last
+  /// computed statistics.
+  final DateTime? lastStatisticsComputationTime;
+
+  /// The version of this graph summary response.
+  final String? version;
+
+  RDFGraphSummaryValueMap({
+    this.graphSummary,
+    this.lastStatisticsComputationTime,
+    this.version,
+  });
+
+  factory RDFGraphSummaryValueMap.fromJson(Map<String, dynamic> json) {
+    return RDFGraphSummaryValueMap(
+      graphSummary: json['graphSummary'] != null
+          ? RDFGraphSummary.fromJson(
+              json['graphSummary'] as Map<String, dynamic>)
+          : null,
+      lastStatisticsComputationTime:
+          timeStampFromJson(json['lastStatisticsComputationTime']),
+      version: json['version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final graphSummary = this.graphSummary;
+    final lastStatisticsComputationTime = this.lastStatisticsComputationTime;
+    final version = this.version;
+    return {
+      if (graphSummary != null) 'graphSummary': graphSummary,
+      if (lastStatisticsComputationTime != null)
+        'lastStatisticsComputationTime':
+            iso8601ToJson(lastStatisticsComputationTime),
+      if (version != null) 'version': version,
+    };
+  }
+}
+
+/// The RDF graph summary API returns a read-only list of classes and predicate
+/// keys, along with counts of quads, subjects, and predicates.
+class RDFGraphSummary {
+  /// A list of the classes in the graph.
+  final List<String>? classes;
+
+  /// The number of classes in the graph.
+  final int? numClasses;
+
+  /// The number of distinct predicates in the graph.
+  final int? numDistinctPredicates;
+
+  /// The number of distinct subjects in the graph.
+  final int? numDistinctSubjects;
+
+  /// The number of quads in the graph.
+  final int? numQuads;
+
+  /// "A list of predicates in the graph, along with the predicate counts.
+  final List<Map<String, int>>? predicates;
+
+  /// This field is only present when the request mode is <code>DETAILED</code>.
+  /// It contains a list of subject structures.
+  final List<SubjectStructure>? subjectStructures;
+
+  RDFGraphSummary({
+    this.classes,
+    this.numClasses,
+    this.numDistinctPredicates,
+    this.numDistinctSubjects,
+    this.numQuads,
+    this.predicates,
+    this.subjectStructures,
+  });
+
+  factory RDFGraphSummary.fromJson(Map<String, dynamic> json) {
+    return RDFGraphSummary(
+      classes:
+          (json['classes'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      numClasses: json['numClasses'] as int?,
+      numDistinctPredicates: json['numDistinctPredicates'] as int?,
+      numDistinctSubjects: json['numDistinctSubjects'] as int?,
+      numQuads: json['numQuads'] as int?,
+      predicates: (json['predicates'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              (e as Map<String, dynamic>).map((k, e) => MapEntry(k, e as int)))
+          .toList(),
+      subjectStructures: (json['subjectStructures'] as List?)
+          ?.nonNulls
+          .map((e) => SubjectStructure.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final classes = this.classes;
+    final numClasses = this.numClasses;
+    final numDistinctPredicates = this.numDistinctPredicates;
+    final numDistinctSubjects = this.numDistinctSubjects;
+    final numQuads = this.numQuads;
+    final predicates = this.predicates;
+    final subjectStructures = this.subjectStructures;
+    return {
+      if (classes != null) 'classes': classes,
+      if (numClasses != null) 'numClasses': numClasses,
+      if (numDistinctPredicates != null)
+        'numDistinctPredicates': numDistinctPredicates,
+      if (numDistinctSubjects != null)
+        'numDistinctSubjects': numDistinctSubjects,
+      if (numQuads != null) 'numQuads': numQuads,
+      if (predicates != null) 'predicates': predicates,
+      if (subjectStructures != null) 'subjectStructures': subjectStructures,
+    };
+  }
+}
+
 /// A subject structure.
 class SubjectStructure {
   /// Number of occurrences of this specific structure.
@@ -6147,6 +5483,698 @@ class SubjectStructure {
       if (count != null) 'count': count,
       if (predicates != null) 'predicates': predicates,
     };
+  }
+}
+
+class GraphSummaryType {
+  static const basic = GraphSummaryType._('basic');
+  static const detailed = GraphSummaryType._('detailed');
+
+  final String value;
+
+  const GraphSummaryType._(this.value);
+
+  static const values = [basic, detailed];
+
+  static GraphSummaryType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GraphSummaryType._(value));
+
+  @override
+  bool operator ==(other) => other is GraphSummaryType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Payload for the property graph summary response.
+class PropertygraphSummaryValueMap {
+  /// The graph summary.
+  final PropertygraphSummary? graphSummary;
+
+  /// The timestamp, in ISO 8601 format, of the time at which Neptune last
+  /// computed statistics.
+  final DateTime? lastStatisticsComputationTime;
+
+  /// The version of this graph summary response.
+  final String? version;
+
+  PropertygraphSummaryValueMap({
+    this.graphSummary,
+    this.lastStatisticsComputationTime,
+    this.version,
+  });
+
+  factory PropertygraphSummaryValueMap.fromJson(Map<String, dynamic> json) {
+    return PropertygraphSummaryValueMap(
+      graphSummary: json['graphSummary'] != null
+          ? PropertygraphSummary.fromJson(
+              json['graphSummary'] as Map<String, dynamic>)
+          : null,
+      lastStatisticsComputationTime:
+          timeStampFromJson(json['lastStatisticsComputationTime']),
+      version: json['version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final graphSummary = this.graphSummary;
+    final lastStatisticsComputationTime = this.lastStatisticsComputationTime;
+    final version = this.version;
+    return {
+      if (graphSummary != null) 'graphSummary': graphSummary,
+      if (lastStatisticsComputationTime != null)
+        'lastStatisticsComputationTime':
+            iso8601ToJson(lastStatisticsComputationTime),
+      if (version != null) 'version': version,
+    };
+  }
+}
+
+/// The graph summary API returns a read-only list of node and edge labels and
+/// property keys, along with counts of nodes, edges, and properties. See <a
+/// href="https://docs.aws.amazon.com/neptune/latest/userguide/neptune-graph-summary.html#neptune-graph-summary-pg-response">Graph
+/// summary response for a property graph (PG)</a>.
+class PropertygraphSummary {
+  /// A list of the distinct edge labels in the graph.
+  final List<String>? edgeLabels;
+
+  /// A list of the distinct edge properties in the graph, along with the count of
+  /// edges where each property is used.
+  final List<Map<String, int>>? edgeProperties;
+
+  /// This field is only present when the requested mode is <code>DETAILED</code>.
+  /// It contains a list of edge structures.
+  final List<EdgeStructure>? edgeStructures;
+
+  /// A list of the distinct node labels in the graph.
+  final List<String>? nodeLabels;
+
+  /// The number of distinct node properties in the graph.
+  final List<Map<String, int>>? nodeProperties;
+
+  /// This field is only present when the requested mode is <code>DETAILED</code>.
+  /// It contains a list of node structures.
+  final List<NodeStructure>? nodeStructures;
+
+  /// The number of distinct edge labels in the graph.
+  final int? numEdgeLabels;
+
+  /// The number of distinct edge properties in the graph.
+  final int? numEdgeProperties;
+
+  /// The number of edges in the graph.
+  final int? numEdges;
+
+  /// The number of distinct node labels in the graph.
+  final int? numNodeLabels;
+
+  /// A list of the distinct node properties in the graph, along with the count of
+  /// nodes where each property is used.
+  final int? numNodeProperties;
+
+  /// The number of nodes in the graph.
+  final int? numNodes;
+
+  /// The total number of usages of all edge properties.
+  final int? totalEdgePropertyValues;
+
+  /// The total number of usages of all node properties.
+  final int? totalNodePropertyValues;
+
+  PropertygraphSummary({
+    this.edgeLabels,
+    this.edgeProperties,
+    this.edgeStructures,
+    this.nodeLabels,
+    this.nodeProperties,
+    this.nodeStructures,
+    this.numEdgeLabels,
+    this.numEdgeProperties,
+    this.numEdges,
+    this.numNodeLabels,
+    this.numNodeProperties,
+    this.numNodes,
+    this.totalEdgePropertyValues,
+    this.totalNodePropertyValues,
+  });
+
+  factory PropertygraphSummary.fromJson(Map<String, dynamic> json) {
+    return PropertygraphSummary(
+      edgeLabels: (json['edgeLabels'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      edgeProperties: (json['edgeProperties'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              (e as Map<String, dynamic>).map((k, e) => MapEntry(k, e as int)))
+          .toList(),
+      edgeStructures: (json['edgeStructures'] as List?)
+          ?.nonNulls
+          .map((e) => EdgeStructure.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nodeLabels: (json['nodeLabels'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      nodeProperties: (json['nodeProperties'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              (e as Map<String, dynamic>).map((k, e) => MapEntry(k, e as int)))
+          .toList(),
+      nodeStructures: (json['nodeStructures'] as List?)
+          ?.nonNulls
+          .map((e) => NodeStructure.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      numEdgeLabels: json['numEdgeLabels'] as int?,
+      numEdgeProperties: json['numEdgeProperties'] as int?,
+      numEdges: json['numEdges'] as int?,
+      numNodeLabels: json['numNodeLabels'] as int?,
+      numNodeProperties: json['numNodeProperties'] as int?,
+      numNodes: json['numNodes'] as int?,
+      totalEdgePropertyValues: json['totalEdgePropertyValues'] as int?,
+      totalNodePropertyValues: json['totalNodePropertyValues'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final edgeLabels = this.edgeLabels;
+    final edgeProperties = this.edgeProperties;
+    final edgeStructures = this.edgeStructures;
+    final nodeLabels = this.nodeLabels;
+    final nodeProperties = this.nodeProperties;
+    final nodeStructures = this.nodeStructures;
+    final numEdgeLabels = this.numEdgeLabels;
+    final numEdgeProperties = this.numEdgeProperties;
+    final numEdges = this.numEdges;
+    final numNodeLabels = this.numNodeLabels;
+    final numNodeProperties = this.numNodeProperties;
+    final numNodes = this.numNodes;
+    final totalEdgePropertyValues = this.totalEdgePropertyValues;
+    final totalNodePropertyValues = this.totalNodePropertyValues;
+    return {
+      if (edgeLabels != null) 'edgeLabels': edgeLabels,
+      if (edgeProperties != null) 'edgeProperties': edgeProperties,
+      if (edgeStructures != null) 'edgeStructures': edgeStructures,
+      if (nodeLabels != null) 'nodeLabels': nodeLabels,
+      if (nodeProperties != null) 'nodeProperties': nodeProperties,
+      if (nodeStructures != null) 'nodeStructures': nodeStructures,
+      if (numEdgeLabels != null) 'numEdgeLabels': numEdgeLabels,
+      if (numEdgeProperties != null) 'numEdgeProperties': numEdgeProperties,
+      if (numEdges != null) 'numEdges': numEdges,
+      if (numNodeLabels != null) 'numNodeLabels': numNodeLabels,
+      if (numNodeProperties != null) 'numNodeProperties': numNodeProperties,
+      if (numNodes != null) 'numNodes': numNodes,
+      if (totalEdgePropertyValues != null)
+        'totalEdgePropertyValues': totalEdgePropertyValues,
+      if (totalNodePropertyValues != null)
+        'totalNodePropertyValues': totalNodePropertyValues,
+    };
+  }
+}
+
+/// An edge structure.
+class EdgeStructure {
+  /// The number of edges that have this specific structure.
+  final int? count;
+
+  /// A list of edge properties present in this specific structure.
+  final List<String>? edgeProperties;
+
+  EdgeStructure({
+    this.count,
+    this.edgeProperties,
+  });
+
+  factory EdgeStructure.fromJson(Map<String, dynamic> json) {
+    return EdgeStructure(
+      count: json['count'] as int?,
+      edgeProperties: (json['edgeProperties'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final count = this.count;
+    final edgeProperties = this.edgeProperties;
+    return {
+      if (count != null) 'count': count,
+      if (edgeProperties != null) 'edgeProperties': edgeProperties,
+    };
+  }
+}
+
+/// A node structure.
+class NodeStructure {
+  /// Number of nodes that have this specific structure.
+  final int? count;
+
+  /// A list of distinct outgoing edge labels present in this specific structure.
+  final List<String>? distinctOutgoingEdgeLabels;
+
+  /// A list of the node properties present in this specific structure.
+  final List<String>? nodeProperties;
+
+  NodeStructure({
+    this.count,
+    this.distinctOutgoingEdgeLabels,
+    this.nodeProperties,
+  });
+
+  factory NodeStructure.fromJson(Map<String, dynamic> json) {
+    return NodeStructure(
+      count: json['count'] as int?,
+      distinctOutgoingEdgeLabels: (json['distinctOutgoingEdgeLabels'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      nodeProperties: (json['nodeProperties'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final count = this.count;
+    final distinctOutgoingEdgeLabels = this.distinctOutgoingEdgeLabels;
+    final nodeProperties = this.nodeProperties;
+    return {
+      if (count != null) 'count': count,
+      if (distinctOutgoingEdgeLabels != null)
+        'distinctOutgoingEdgeLabels': distinctOutgoingEdgeLabels,
+      if (nodeProperties != null) 'nodeProperties': nodeProperties,
+    };
+  }
+}
+
+/// Structure of a property graph record.
+class PropertygraphRecord {
+  /// The time at which the commit for the transaction was requested, in
+  /// milliseconds from the Unix epoch.
+  final int commitTimestampInMillis;
+
+  /// The serialized Gremlin or openCypher change record.
+  final PropertygraphData data;
+
+  /// The sequence identifier of the stream change record.
+  final Map<String, String> eventId;
+
+  /// The operation that created the change.
+  final String op;
+
+  /// Only present if this operation is the last one in its transaction. If
+  /// present, it is set to true. It is useful for ensuring that an entire
+  /// transaction is consumed.
+  final bool? isLastOp;
+
+  PropertygraphRecord({
+    required this.commitTimestampInMillis,
+    required this.data,
+    required this.eventId,
+    required this.op,
+    this.isLastOp,
+  });
+
+  factory PropertygraphRecord.fromJson(Map<String, dynamic> json) {
+    return PropertygraphRecord(
+      commitTimestampInMillis: (json['commitTimestamp'] as int?) ?? 0,
+      data: PropertygraphData.fromJson(
+          (json['data'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+      eventId: ((json['eventId'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) => MapEntry(k, e as String)),
+      op: (json['op'] as String?) ?? '',
+      isLastOp: json['isLastOp'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final commitTimestampInMillis = this.commitTimestampInMillis;
+    final data = this.data;
+    final eventId = this.eventId;
+    final op = this.op;
+    final isLastOp = this.isLastOp;
+    return {
+      'commitTimestamp': commitTimestampInMillis,
+      'data': data,
+      'eventId': eventId,
+      'op': op,
+      if (isLastOp != null) 'isLastOp': isLastOp,
+    };
+  }
+}
+
+/// A Gremlin or openCypher change record.
+class PropertygraphData {
+  /// The ID of the Gremlin or openCypher element.
+  final String id;
+
+  /// The property name. For element labels, this is <code>label</code>.
+  final String key;
+
+  /// The type of this Gremlin or openCypher element. Must be one of:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b> <code>v1</code> </b> - Vertex label for Gremlin, or node label for
+  /// openCypher.
+  /// </li>
+  /// <li>
+  /// <b> <code>vp</code> </b> - Vertex properties for Gremlin, or node properties
+  /// for openCypher.
+  /// </li>
+  /// <li>
+  /// <b> <code>e</code> </b> - Edge and edge label for Gremlin, or relationship
+  /// and relationship type for openCypher.
+  /// </li>
+  /// <li>
+  /// <b> <code>ep</code> </b> - Edge properties for Gremlin, or relationship
+  /// properties for openCypher.
+  /// </li>
+  /// </ul>
+  final String type;
+
+  /// This is a JSON object that contains a value field for the value itself, and
+  /// a datatype field for the JSON data type of that value:
+  final Document value;
+
+  /// If this is an edge (type = <code>e</code>), the ID of the corresponding
+  /// <code>from</code> vertex or source node.
+  final String? from;
+
+  /// If this is an edge (type = <code>e</code>), the ID of the corresponding
+  /// <code>to</code> vertex or target node.
+  final String? to;
+
+  PropertygraphData({
+    required this.id,
+    required this.key,
+    required this.type,
+    required this.value,
+    this.from,
+    this.to,
+  });
+
+  factory PropertygraphData.fromJson(Map<String, dynamic> json) {
+    return PropertygraphData(
+      id: (json['id'] as String?) ?? '',
+      key: (json['key'] as String?) ?? '',
+      type: (json['type'] as String?) ?? '',
+      value: Document.fromJson((json['value'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      from: json['from'] as String?,
+      to: json['to'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final key = this.key;
+    final type = this.type;
+    final value = this.value;
+    final from = this.from;
+    final to = this.to;
+    return {
+      'id': id,
+      'key': key,
+      'type': type,
+      'value': value,
+      if (from != null) 'from': from,
+      if (to != null) 'to': to,
+    };
+  }
+}
+
+/// Defines a Neptune ML resource.
+class MlResourceDefinition {
+  /// The resource ARN.
+  final String? arn;
+
+  /// The CloudWatch log URL for the resource.
+  final String? cloudwatchLogUrl;
+
+  /// The failure reason, in case of a failure.
+  final String? failureReason;
+
+  /// The resource name.
+  final String? name;
+
+  /// The output location.
+  final String? outputLocation;
+
+  /// The resource status.
+  final String? status;
+
+  MlResourceDefinition({
+    this.arn,
+    this.cloudwatchLogUrl,
+    this.failureReason,
+    this.name,
+    this.outputLocation,
+    this.status,
+  });
+
+  factory MlResourceDefinition.fromJson(Map<String, dynamic> json) {
+    return MlResourceDefinition(
+      arn: json['arn'] as String?,
+      cloudwatchLogUrl: json['cloudwatchLogUrl'] as String?,
+      failureReason: json['failureReason'] as String?,
+      name: json['name'] as String?,
+      outputLocation: json['outputLocation'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final cloudwatchLogUrl = this.cloudwatchLogUrl;
+    final failureReason = this.failureReason;
+    final name = this.name;
+    final outputLocation = this.outputLocation;
+    final status = this.status;
+    return {
+      if (arn != null) 'arn': arn,
+      if (cloudwatchLogUrl != null) 'cloudwatchLogUrl': cloudwatchLogUrl,
+      if (failureReason != null) 'failureReason': failureReason,
+      if (name != null) 'name': name,
+      if (outputLocation != null) 'outputLocation': outputLocation,
+      if (status != null) 'status': status,
+    };
+  }
+}
+
+/// Contains a Neptune ML configuration.
+class MlConfigDefinition {
+  /// The ARN for the configuration.
+  final String? arn;
+
+  /// The configuration name.
+  final String? name;
+
+  MlConfigDefinition({
+    this.arn,
+    this.name,
+  });
+
+  factory MlConfigDefinition.fromJson(Map<String, dynamic> json) {
+    return MlConfigDefinition(
+      arn: json['arn'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    return {
+      if (arn != null) 'arn': arn,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// Structure for expressing the query language version.
+class QueryLanguageVersion {
+  /// The version of the query language.
+  final String version;
+
+  QueryLanguageVersion({
+    required this.version,
+  });
+
+  factory QueryLanguageVersion.fromJson(Map<String, dynamic> json) {
+    return QueryLanguageVersion(
+      version: (json['version'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final version = this.version;
+    return {
+      'version': version,
+    };
+  }
+}
+
+class OpenCypherExplainMode {
+  static const static = OpenCypherExplainMode._('static');
+  static const $dynamic = OpenCypherExplainMode._('dynamic');
+  static const details = OpenCypherExplainMode._('details');
+
+  final String value;
+
+  const OpenCypherExplainMode._(this.value);
+
+  static const values = [static, $dynamic, details];
+
+  static OpenCypherExplainMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OpenCypherExplainMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OpenCypherExplainMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains status components of a Gremlin query.
+class GremlinQueryStatusAttributes {
+  /// Attributes of the Gremlin query status.
+  final Document? attributes;
+
+  /// The HTTP response code returned fro the Gremlin query request..
+  final int? code;
+
+  /// The status message.
+  final String? message;
+
+  GremlinQueryStatusAttributes({
+    this.attributes,
+    this.code,
+    this.message,
+  });
+
+  factory GremlinQueryStatusAttributes.fromJson(Map<String, dynamic> json) {
+    return GremlinQueryStatusAttributes(
+      attributes: json['attributes'] != null
+          ? Document.fromJson(json['attributes'] as Map<String, dynamic>)
+          : null,
+      code: json['code'] as int?,
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final code = this.code;
+    final message = this.message;
+    return {
+      if (attributes != null) 'attributes': attributes,
+      if (code != null) 'code': code,
+      if (message != null) 'message': message,
+    };
+  }
+}
+
+/// A structure containing the fast reset token used to initiate a fast reset.
+class FastResetToken {
+  /// A UUID generated by the database in the <code>initiateDatabaseReset</code>
+  /// action, and then consumed by the <code>performDatabaseReset</code> to reset
+  /// the database.
+  final String? token;
+
+  FastResetToken({
+    this.token,
+  });
+
+  factory FastResetToken.fromJson(Map<String, dynamic> json) {
+    return FastResetToken(
+      token: json['token'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final token = this.token;
+    return {
+      if (token != null) 'token': token,
+    };
+  }
+}
+
+class Action {
+  static const initiateDatabaseReset = Action._('initiateDatabaseReset');
+  static const performDatabaseReset = Action._('performDatabaseReset');
+
+  final String value;
+
+  const Action._(this.value);
+
+  static const values = [initiateDatabaseReset, performDatabaseReset];
+
+  static Action fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Action._(value));
+
+  @override
+  bool operator ==(other) => other is Action && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The payload for DeleteStatistics.
+class DeleteStatisticsValueMap {
+  /// The current status of the statistics.
+  final bool? active;
+
+  /// The ID of the statistics generation run that is currently occurring.
+  final String? statisticsId;
+
+  DeleteStatisticsValueMap({
+    this.active,
+    this.statisticsId,
+  });
+
+  factory DeleteStatisticsValueMap.fromJson(Map<String, dynamic> json) {
+    return DeleteStatisticsValueMap(
+      active: json['active'] as bool?,
+      statisticsId: json['statisticsId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final active = this.active;
+    final statisticsId = this.statisticsId;
+    return {
+      if (active != null) 'active': active,
+      if (statisticsId != null) 'statisticsId': statisticsId,
+    };
+  }
+}
+
+class Document {
+  Document();
+
+  factory Document.fromJson(Map<String, dynamic> _) {
+    return Document();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 

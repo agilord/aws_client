@@ -57,12 +57,12 @@ class LookoutEquipment {
   /// data source, the data schema, and other information. A dataset also
   /// contains any tags associated with the ingested data.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [datasetName] :
   /// The name of the dataset being created.
@@ -118,13 +118,13 @@ class LookoutEquipment {
   /// offset delay if desired, and set the frequency of inferencing. You must
   /// also provide an S3 bucket location for the output data.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [dataInputConfiguration] :
   /// Specifies configuration information for the input data for the inference
@@ -231,13 +231,13 @@ class LookoutEquipment {
 
   /// Creates a label for an event.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [endTime] :
   /// The end time of the labeled event.
@@ -313,12 +313,12 @@ class LookoutEquipment {
 
   /// Creates a group of labels.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [labelGroupName] :
   /// Names a group of labels.
@@ -383,13 +383,13 @@ class LookoutEquipment {
   /// that lead to equipment failure. Another portion of the data is used to
   /// evaluate the model's accuracy.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [datasetName] :
   /// The name of the dataset for the machine learning model being created.
@@ -517,12 +517,12 @@ class LookoutEquipment {
 
   /// Creates a retraining scheduler on the specified model.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [lookbackWindow] :
   /// The number of past days of data that will be used for retraining.
@@ -606,11 +606,11 @@ class LookoutEquipment {
   /// models that used this dataset for training and evaluation, but does
   /// prevent it from being used in the future.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [datasetName] :
@@ -637,12 +637,12 @@ class LookoutEquipment {
   /// Deletes an inference scheduler that has been set up. Prior inference
   /// results will not be deleted.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [inferenceSchedulerName] :
   /// The name of the inference scheduler to be deleted.
@@ -668,11 +668,11 @@ class LookoutEquipment {
 
   /// Deletes a label.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [labelGroupName] :
@@ -705,11 +705,11 @@ class LookoutEquipment {
 
   /// Deletes a group of labels.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [labelGroupName] :
@@ -739,11 +739,11 @@ class LookoutEquipment {
   /// for Equipment. This will prevent it from being used with an inference
   /// scheduler, even one that is already set up.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
-  /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
   ///
   /// Parameter [modelName] :
@@ -769,11 +769,11 @@ class LookoutEquipment {
 
   /// Deletes the resource policy attached to the resource.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
@@ -801,12 +801,12 @@ class LookoutEquipment {
   /// Deletes a retraining scheduler from a model. The retraining scheduler must
   /// be in the <code>STOPPED</code> status.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [modelName] :
   /// The name of the model whose retraining scheduler you want to delete.
@@ -833,11 +833,11 @@ class LookoutEquipment {
   /// Provides information on a specific data ingestion job such as creation
   /// time, dataset ARN, and status.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [jobId] :
   /// The job ID of the data ingestion job.
@@ -866,11 +866,11 @@ class LookoutEquipment {
   /// Provides a JSON description of the data in each time series dataset,
   /// including names, column names, and data types.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [datasetName] :
   /// The name of the dataset to be described.
@@ -898,11 +898,11 @@ class LookoutEquipment {
   /// Specifies information about the inference scheduler being used, including
   /// name, model, status, and associated metadata
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [inferenceSchedulerName] :
   /// The name of the inference scheduler being described.
@@ -930,11 +930,11 @@ class LookoutEquipment {
 
   /// Returns the name of the label.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [labelGroupName] :
   /// Returns the name of the group containing the label.
@@ -966,11 +966,11 @@ class LookoutEquipment {
 
   /// Returns information about the label group.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [labelGroupName] :
   /// Returns the name of the label group.
@@ -999,11 +999,11 @@ class LookoutEquipment {
   /// machine learning model, including model name and ARN, dataset, training
   /// and evaluation information, status, and so on.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [modelName] :
   /// The name of the machine learning model to be described.
@@ -1030,11 +1030,11 @@ class LookoutEquipment {
 
   /// Retrieves information about a specific machine learning model version.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [modelName] :
   /// The name of the machine learning model that this version belongs to.
@@ -1073,11 +1073,11 @@ class LookoutEquipment {
 
   /// Provides the details of a resource policy attached to a resource.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource that is associated with the
@@ -1107,11 +1107,11 @@ class LookoutEquipment {
   /// Provides a description of the retraining scheduler, including information
   /// such as the model name and retraining parameters.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [modelName] :
   /// The name of the model that the retraining scheduler is attached to.
@@ -1139,13 +1139,13 @@ class LookoutEquipment {
 
   /// Imports a dataset.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [sourceDatasetArn] :
   /// The Amazon Resource Name (ARN) of the dataset to import.
@@ -1198,13 +1198,13 @@ class LookoutEquipment {
 
   /// Imports a model that has been trained successfully.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [datasetName] :
   /// The name of the dataset for the machine learning model being imported.
@@ -1292,10 +1292,10 @@ class LookoutEquipment {
   /// Provides a list of all data ingestion jobs, including dataset name and
   /// ARN, S3 location of the input data, status, and so on.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [datasetName] :
   /// The name of the dataset being used for the data ingestion job.
@@ -1345,10 +1345,10 @@ class LookoutEquipment {
   /// Lists all datasets currently available in your account, filtering on the
   /// dataset name.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [datasetNameBeginsWith] :
   /// The beginning of the name of the datasets to be listed.
@@ -1394,11 +1394,11 @@ class LookoutEquipment {
   /// Lists all inference events that have been found for the specified
   /// inference scheduler.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [inferenceSchedulerName] :
   /// The name of the inference scheduler for the inference events listed.
@@ -1455,11 +1455,11 @@ class LookoutEquipment {
   /// Lists all inference executions that have been performed by the specified
   /// inference scheduler.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [inferenceSchedulerName] :
   /// The name of the inference scheduler for the inference execution listed.
@@ -1524,10 +1524,10 @@ class LookoutEquipment {
   /// Retrieves a list of all inference schedulers currently available for your
   /// account.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [inferenceSchedulerNameBeginsWith] :
   /// The beginning of the name of the inference schedulers to be listed.
@@ -1584,10 +1584,10 @@ class LookoutEquipment {
 
   /// Returns a list of the label groups.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [labelGroupNameBeginsWith] :
   /// The beginning of the name of the label groups to be listed.
@@ -1632,10 +1632,10 @@ class LookoutEquipment {
 
   /// Provides a list of labels.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [labelGroupName] :
   /// Returns the name of the label group.
@@ -1700,16 +1700,77 @@ class LookoutEquipment {
     return ListLabelsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Generates a list of all models in the account, including model name and
+  /// ARN, dataset, and status.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [datasetNameBeginsWith] :
+  /// The beginning of the name of the dataset of the machine learning models to
+  /// be listed.
+  ///
+  /// Parameter [maxResults] :
+  /// Specifies the maximum number of machine learning models to list.
+  ///
+  /// Parameter [modelNameBeginsWith] :
+  /// The beginning of the name of the machine learning models being listed.
+  ///
+  /// Parameter [nextToken] :
+  /// An opaque pagination token indicating where to continue the listing of
+  /// machine learning models.
+  ///
+  /// Parameter [status] :
+  /// The status of the machine learning model.
+  Future<ListModelsResponse> listModels({
+    String? datasetNameBeginsWith,
+    int? maxResults,
+    String? modelNameBeginsWith,
+    String? nextToken,
+    ModelStatus? status,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      500,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AWSLookoutEquipmentFrontendService.ListModels'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (datasetNameBeginsWith != null)
+          'DatasetNameBeginsWith': datasetNameBeginsWith,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (modelNameBeginsWith != null)
+          'ModelNameBeginsWith': modelNameBeginsWith,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (status != null) 'Status': status.value,
+      },
+    );
+
+    return ListModelsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Generates a list of all model versions for a given model, including the
   /// model version, model version ARN, and status. To list a subset of
   /// versions, use the <code>MaxModelVersion</code> and
   /// <code>MinModelVersion</code> fields.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [modelName] :
   /// Then name of the machine learning model for which the model versions are
@@ -1799,74 +1860,13 @@ class LookoutEquipment {
     return ListModelVersionsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Generates a list of all models in the account, including model name and
-  /// ARN, dataset, and status.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
-  ///
-  /// Parameter [datasetNameBeginsWith] :
-  /// The beginning of the name of the dataset of the machine learning models to
-  /// be listed.
-  ///
-  /// Parameter [maxResults] :
-  /// Specifies the maximum number of machine learning models to list.
-  ///
-  /// Parameter [modelNameBeginsWith] :
-  /// The beginning of the name of the machine learning models being listed.
-  ///
-  /// Parameter [nextToken] :
-  /// An opaque pagination token indicating where to continue the listing of
-  /// machine learning models.
-  ///
-  /// Parameter [status] :
-  /// The status of the machine learning model.
-  Future<ListModelsResponse> listModels({
-    String? datasetNameBeginsWith,
-    int? maxResults,
-    String? modelNameBeginsWith,
-    String? nextToken,
-    ModelStatus? status,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      500,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'AWSLookoutEquipmentFrontendService.ListModels'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        if (datasetNameBeginsWith != null)
-          'DatasetNameBeginsWith': datasetNameBeginsWith,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (modelNameBeginsWith != null)
-          'ModelNameBeginsWith': modelNameBeginsWith,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (status != null) 'Status': status.value,
-      },
-    );
-
-    return ListModelsResponse.fromJson(jsonResponse.body);
-  }
-
   /// Lists all retraining schedulers in your account, filtering by model name
   /// prefix and status.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// Specifies the maximum number of retraining schedulers to list.
@@ -1922,11 +1922,11 @@ class LookoutEquipment {
   /// have been successfully ingested in the particular dataset. Can also be
   /// used to retreive Sensor Statistics for a previous ingestion job.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [datasetName] :
   /// The name of the dataset associated with the list of Sensor Statistics.
@@ -1977,11 +1977,11 @@ class LookoutEquipment {
 
   /// Lists all the tags for a specified resource, including key and value.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource (such as the dataset or
@@ -2010,13 +2010,13 @@ class LookoutEquipment {
 
   /// Creates a resource control policy for a given resource.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource for which the policy is
@@ -2061,13 +2061,13 @@ class LookoutEquipment {
   /// Starts a data ingestion job. Amazon Lookout for Equipment returns the job
   /// status.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [datasetName] :
   /// The name of the dataset being used by the data ingestion job.
@@ -2112,12 +2112,12 @@ class LookoutEquipment {
 
   /// Starts an inference scheduler.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [inferenceSchedulerName] :
   /// The name of the inference scheduler to be started.
@@ -2145,12 +2145,12 @@ class LookoutEquipment {
 
   /// Starts a retraining scheduler.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [modelName] :
   /// The name of the model whose retraining scheduler you want to start.
@@ -2178,12 +2178,12 @@ class LookoutEquipment {
 
   /// Stops an inference scheduler.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [inferenceSchedulerName] :
   /// The name of the inference scheduler to be stopped.
@@ -2211,12 +2211,12 @@ class LookoutEquipment {
 
   /// Stops a retraining scheduler.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [modelName] :
   /// The name of the model whose retraining scheduler you want to stop.
@@ -2249,12 +2249,12 @@ class LookoutEquipment {
   /// resource, either when you create it, or later. Up to 50 tags can be
   /// associated with each resource.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the specific resource to which the tag
@@ -2287,11 +2287,11 @@ class LookoutEquipment {
   /// Removes a specific tag from a given resource. The tag is specified by its
   /// key.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource to which the tag is
@@ -2322,12 +2322,12 @@ class LookoutEquipment {
 
   /// Sets the active model version for a given machine learning model.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [modelName] :
   /// The name of the machine learning model for which the active model version
@@ -2369,12 +2369,12 @@ class LookoutEquipment {
 
   /// Updates an inference scheduler.
   ///
-  /// May throw [ConflictException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [inferenceSchedulerName] :
   /// The name of the inference scheduler to be updated.
@@ -2450,12 +2450,12 @@ class LookoutEquipment {
 
   /// Updates the label group.
   ///
-  /// May throw [ConflictException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [labelGroupName] :
   /// The name of the label group to be updated.
@@ -2488,12 +2488,12 @@ class LookoutEquipment {
 
   /// Updates a model in the account.
   ///
-  /// May throw [ConflictException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [modelName] :
   /// The name of the model to update.
@@ -2535,12 +2535,12 @@ class LookoutEquipment {
 
   /// Updates a retraining scheduler.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [modelName] :
   /// The name of the model whose retraining scheduler you want to update.
@@ -2608,105 +2608,6 @@ class LookoutEquipment {
           'RetrainingStartDate': unixTimestampToJson(retrainingStartDate),
       },
     );
-  }
-}
-
-class AutoPromotionResult {
-  static const modelPromoted = AutoPromotionResult._('MODEL_PROMOTED');
-  static const modelNotPromoted = AutoPromotionResult._('MODEL_NOT_PROMOTED');
-  static const retrainingInternalError =
-      AutoPromotionResult._('RETRAINING_INTERNAL_ERROR');
-  static const retrainingCustomerError =
-      AutoPromotionResult._('RETRAINING_CUSTOMER_ERROR');
-  static const retrainingCancelled =
-      AutoPromotionResult._('RETRAINING_CANCELLED');
-
-  final String value;
-
-  const AutoPromotionResult._(this.value);
-
-  static const values = [
-    modelPromoted,
-    modelNotPromoted,
-    retrainingInternalError,
-    retrainingCustomerError,
-    retrainingCancelled
-  ];
-
-  static AutoPromotionResult fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AutoPromotionResult._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AutoPromotionResult && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Entity that comprises information on categorical values in data.
-class CategoricalValues {
-  /// Indicates whether there is a potential data issue related to categorical
-  /// values.
-  final StatisticalIssueStatus status;
-
-  /// Indicates the number of categories in the data.
-  final int? numberOfCategory;
-
-  CategoricalValues({
-    required this.status,
-    this.numberOfCategory,
-  });
-
-  factory CategoricalValues.fromJson(Map<String, dynamic> json) {
-    return CategoricalValues(
-      status:
-          StatisticalIssueStatus.fromString((json['Status'] as String?) ?? ''),
-      numberOfCategory: json['NumberOfCategory'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final status = this.status;
-    final numberOfCategory = this.numberOfCategory;
-    return {
-      'Status': status.value,
-      if (numberOfCategory != null) 'NumberOfCategory': numberOfCategory,
-    };
-  }
-}
-
-/// Entity that comprises information of count and percentage.
-class CountPercent {
-  /// Indicates the count of occurences of the given statistic.
-  final int count;
-
-  /// Indicates the percentage of occurances of the given statistic.
-  final double percentage;
-
-  CountPercent({
-    required this.count,
-    required this.percentage,
-  });
-
-  factory CountPercent.fromJson(Map<String, dynamic> json) {
-    return CountPercent(
-      count: (json['Count'] as int?) ?? 0,
-      percentage: (json['Percentage'] as double?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final count = this.count;
-    final percentage = this.percentage;
-    return {
-      'Count': count,
-      'Percentage': percentage,
-    };
   }
 }
 
@@ -2809,6 +2710,28 @@ class CreateInferenceSchedulerResponse {
   }
 }
 
+class CreateLabelResponse {
+  /// The ID of the label that you have created.
+  final String? labelId;
+
+  CreateLabelResponse({
+    this.labelId,
+  });
+
+  factory CreateLabelResponse.fromJson(Map<String, dynamic> json) {
+    return CreateLabelResponse(
+      labelId: json['LabelId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final labelId = this.labelId;
+    return {
+      if (labelId != null) 'LabelId': labelId,
+    };
+  }
+}
+
 class CreateLabelGroupResponse {
   /// The Amazon Resource Name (ARN) of the label group that you have created.
   final String? labelGroupArn;
@@ -2836,28 +2759,6 @@ class CreateLabelGroupResponse {
     return {
       if (labelGroupArn != null) 'LabelGroupArn': labelGroupArn,
       if (labelGroupName != null) 'LabelGroupName': labelGroupName,
-    };
-  }
-}
-
-class CreateLabelResponse {
-  /// The ID of the label that you have created.
-  final String? labelId;
-
-  CreateLabelResponse({
-    this.labelId,
-  });
-
-  factory CreateLabelResponse.fromJson(Map<String, dynamic> json) {
-    return CreateLabelResponse(
-      labelId: json['LabelId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final labelId = this.labelId;
-    return {
-      if (labelId != null) 'LabelId': labelId,
     };
   }
 }
@@ -2924,299 +2825,6 @@ class CreateRetrainingSchedulerResponse {
     return {
       if (modelArn != null) 'ModelArn': modelArn,
       if (modelName != null) 'ModelName': modelName,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-/// Provides information about a specified data ingestion job, including dataset
-/// information, data ingestion configuration, and status.
-class DataIngestionJobSummary {
-  /// The Amazon Resource Name (ARN) of the dataset used in the data ingestion
-  /// job.
-  final String? datasetArn;
-
-  /// The name of the dataset used for the data ingestion job.
-  final String? datasetName;
-
-  /// Specifies information for the input data for the data inference job,
-  /// including data Amazon S3 location parameters.
-  final IngestionInputConfiguration? ingestionInputConfiguration;
-
-  /// Indicates the job ID of the data ingestion job.
-  final String? jobId;
-
-  /// Indicates the status of the data ingestion job.
-  final IngestionJobStatus? status;
-
-  DataIngestionJobSummary({
-    this.datasetArn,
-    this.datasetName,
-    this.ingestionInputConfiguration,
-    this.jobId,
-    this.status,
-  });
-
-  factory DataIngestionJobSummary.fromJson(Map<String, dynamic> json) {
-    return DataIngestionJobSummary(
-      datasetArn: json['DatasetArn'] as String?,
-      datasetName: json['DatasetName'] as String?,
-      ingestionInputConfiguration: json['IngestionInputConfiguration'] != null
-          ? IngestionInputConfiguration.fromJson(
-              json['IngestionInputConfiguration'] as Map<String, dynamic>)
-          : null,
-      jobId: json['JobId'] as String?,
-      status: (json['Status'] as String?)?.let(IngestionJobStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final datasetArn = this.datasetArn;
-    final datasetName = this.datasetName;
-    final ingestionInputConfiguration = this.ingestionInputConfiguration;
-    final jobId = this.jobId;
-    final status = this.status;
-    return {
-      if (datasetArn != null) 'DatasetArn': datasetArn,
-      if (datasetName != null) 'DatasetName': datasetName,
-      if (ingestionInputConfiguration != null)
-        'IngestionInputConfiguration': ingestionInputConfiguration,
-      if (jobId != null) 'JobId': jobId,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-/// The configuration is the <code>TargetSamplingRate</code>, which is the
-/// sampling rate of the data after post processing by Amazon Lookout for
-/// Equipment. For example, if you provide data that has been collected at a 1
-/// second level and you want the system to resample the data at a 1 minute rate
-/// before training, the <code>TargetSamplingRate</code> is 1 minute.
-///
-/// When providing a value for the <code>TargetSamplingRate</code>, you must
-/// attach the prefix "PT" to the rate you want. The value for a 1 second rate
-/// is therefore <i>PT1S</i>, the value for a 15 minute rate is <i>PT15M</i>,
-/// and the value for a 1 hour rate is <i>PT1H</i>
-class DataPreProcessingConfiguration {
-  /// The sampling rate of the data after post processing by Amazon Lookout for
-  /// Equipment. For example, if you provide data that has been collected at a 1
-  /// second level and you want the system to resample the data at a 1 minute rate
-  /// before training, the <code>TargetSamplingRate</code> is 1 minute.
-  ///
-  /// When providing a value for the <code>TargetSamplingRate</code>, you must
-  /// attach the prefix "PT" to the rate you want. The value for a 1 second rate
-  /// is therefore <i>PT1S</i>, the value for a 15 minute rate is <i>PT15M</i>,
-  /// and the value for a 1 hour rate is <i>PT1H</i>
-  final TargetSamplingRate? targetSamplingRate;
-
-  DataPreProcessingConfiguration({
-    this.targetSamplingRate,
-  });
-
-  factory DataPreProcessingConfiguration.fromJson(Map<String, dynamic> json) {
-    return DataPreProcessingConfiguration(
-      targetSamplingRate: (json['TargetSamplingRate'] as String?)
-          ?.let(TargetSamplingRate.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final targetSamplingRate = this.targetSamplingRate;
-    return {
-      if (targetSamplingRate != null)
-        'TargetSamplingRate': targetSamplingRate.value,
-    };
-  }
-}
-
-/// DataQualitySummary gives aggregated statistics over all the sensors about a
-/// completed ingestion job. It primarily gives more information about
-/// statistics over different incorrect data like MissingCompleteSensorData,
-/// MissingSensorData, UnsupportedDateFormats, InsufficientSensorData,
-/// DuplicateTimeStamps.
-class DataQualitySummary {
-  /// Parameter that gives information about duplicate timestamps in the input
-  /// data.
-  final DuplicateTimestamps duplicateTimestamps;
-
-  /// Parameter that gives information about insufficient data for sensors in the
-  /// dataset. This includes information about those sensors that have complete
-  /// data missing and those with a short date range.
-  final InsufficientSensorData insufficientSensorData;
-
-  /// Parameter that gives information about data that is invalid over all the
-  /// sensors in the input data.
-  final InvalidSensorData invalidSensorData;
-
-  /// Parameter that gives information about data that is missing over all the
-  /// sensors in the input data.
-  final MissingSensorData missingSensorData;
-
-  /// Parameter that gives information about unsupported timestamps in the input
-  /// data.
-  final UnsupportedTimestamps unsupportedTimestamps;
-
-  DataQualitySummary({
-    required this.duplicateTimestamps,
-    required this.insufficientSensorData,
-    required this.invalidSensorData,
-    required this.missingSensorData,
-    required this.unsupportedTimestamps,
-  });
-
-  factory DataQualitySummary.fromJson(Map<String, dynamic> json) {
-    return DataQualitySummary(
-      duplicateTimestamps: DuplicateTimestamps.fromJson(
-          (json['DuplicateTimestamps'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      insufficientSensorData: InsufficientSensorData.fromJson(
-          (json['InsufficientSensorData'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      invalidSensorData: InvalidSensorData.fromJson(
-          (json['InvalidSensorData'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      missingSensorData: MissingSensorData.fromJson(
-          (json['MissingSensorData'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      unsupportedTimestamps: UnsupportedTimestamps.fromJson(
-          (json['UnsupportedTimestamps'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final duplicateTimestamps = this.duplicateTimestamps;
-    final insufficientSensorData = this.insufficientSensorData;
-    final invalidSensorData = this.invalidSensorData;
-    final missingSensorData = this.missingSensorData;
-    final unsupportedTimestamps = this.unsupportedTimestamps;
-    return {
-      'DuplicateTimestamps': duplicateTimestamps,
-      'InsufficientSensorData': insufficientSensorData,
-      'InvalidSensorData': invalidSensorData,
-      'MissingSensorData': missingSensorData,
-      'UnsupportedTimestamps': unsupportedTimestamps,
-    };
-  }
-}
-
-class DataUploadFrequency {
-  static const pt5m = DataUploadFrequency._('PT5M');
-  static const pt10m = DataUploadFrequency._('PT10M');
-  static const pt15m = DataUploadFrequency._('PT15M');
-  static const pt30m = DataUploadFrequency._('PT30M');
-  static const pt1h = DataUploadFrequency._('PT1H');
-
-  final String value;
-
-  const DataUploadFrequency._(this.value);
-
-  static const values = [pt5m, pt10m, pt15m, pt30m, pt1h];
-
-  static DataUploadFrequency fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DataUploadFrequency._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DataUploadFrequency && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides information about the data schema used with the given dataset.
-class DatasetSchema {
-  /// The data schema used within the given dataset.
-  final Object? inlineDataSchema;
-
-  DatasetSchema({
-    this.inlineDataSchema,
-  });
-
-  Map<String, dynamic> toJson() {
-    final inlineDataSchema = this.inlineDataSchema;
-    return {
-      if (inlineDataSchema != null)
-        'InlineDataSchema': jsonEncode(inlineDataSchema),
-    };
-  }
-}
-
-class DatasetStatus {
-  static const created = DatasetStatus._('CREATED');
-  static const ingestionInProgress = DatasetStatus._('INGESTION_IN_PROGRESS');
-  static const active = DatasetStatus._('ACTIVE');
-  static const importInProgress = DatasetStatus._('IMPORT_IN_PROGRESS');
-
-  final String value;
-
-  const DatasetStatus._(this.value);
-
-  static const values = [
-    created,
-    ingestionInProgress,
-    active,
-    importInProgress
-  ];
-
-  static DatasetStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DatasetStatus._(value));
-
-  @override
-  bool operator ==(other) => other is DatasetStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains information about the specific data set, including name, ARN, and
-/// status.
-class DatasetSummary {
-  /// The time at which the dataset was created in Amazon Lookout for Equipment.
-  final DateTime? createdAt;
-
-  /// The Amazon Resource Name (ARN) of the specified dataset.
-  final String? datasetArn;
-
-  /// The name of the dataset.
-  final String? datasetName;
-
-  /// Indicates the status of the dataset.
-  final DatasetStatus? status;
-
-  DatasetSummary({
-    this.createdAt,
-    this.datasetArn,
-    this.datasetName,
-    this.status,
-  });
-
-  factory DatasetSummary.fromJson(Map<String, dynamic> json) {
-    return DatasetSummary(
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      datasetArn: json['DatasetArn'] as String?,
-      datasetName: json['DatasetName'] as String?,
-      status: (json['Status'] as String?)?.let(DatasetStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final datasetArn = this.datasetArn;
-    final datasetName = this.datasetName;
-    final status = this.status;
-    return {
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (datasetArn != null) 'DatasetArn': datasetArn,
-      if (datasetName != null) 'DatasetName': datasetName,
       if (status != null) 'Status': status.value,
     };
   }
@@ -3644,60 +3252,6 @@ class DescribeInferenceSchedulerResponse {
   }
 }
 
-class DescribeLabelGroupResponse {
-  /// The time at which the label group was created.
-  final DateTime? createdAt;
-
-  /// Codes indicating the type of anomaly associated with the labels in the
-  /// lagbel group.
-  final List<String>? faultCodes;
-
-  /// The Amazon Resource Name (ARN) of the label group.
-  final String? labelGroupArn;
-
-  /// The name of the label group.
-  final String? labelGroupName;
-
-  /// The time at which the label group was updated.
-  final DateTime? updatedAt;
-
-  DescribeLabelGroupResponse({
-    this.createdAt,
-    this.faultCodes,
-    this.labelGroupArn,
-    this.labelGroupName,
-    this.updatedAt,
-  });
-
-  factory DescribeLabelGroupResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeLabelGroupResponse(
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      faultCodes: (json['FaultCodes'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      labelGroupArn: json['LabelGroupArn'] as String?,
-      labelGroupName: json['LabelGroupName'] as String?,
-      updatedAt: timeStampFromJson(json['UpdatedAt']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final faultCodes = this.faultCodes;
-    final labelGroupArn = this.labelGroupArn;
-    final labelGroupName = this.labelGroupName;
-    final updatedAt = this.updatedAt;
-    return {
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (faultCodes != null) 'FaultCodes': faultCodes,
-      if (labelGroupArn != null) 'LabelGroupArn': labelGroupArn,
-      if (labelGroupName != null) 'LabelGroupName': labelGroupName,
-      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
-    };
-  }
-}
-
 class DescribeLabelResponse {
   /// The time at which the label was created.
   final DateTime? createdAt;
@@ -3785,6 +3339,60 @@ class DescribeLabelResponse {
       if (notes != null) 'Notes': notes,
       if (rating != null) 'Rating': rating.value,
       if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+    };
+  }
+}
+
+class DescribeLabelGroupResponse {
+  /// The time at which the label group was created.
+  final DateTime? createdAt;
+
+  /// Codes indicating the type of anomaly associated with the labels in the
+  /// lagbel group.
+  final List<String>? faultCodes;
+
+  /// The Amazon Resource Name (ARN) of the label group.
+  final String? labelGroupArn;
+
+  /// The name of the label group.
+  final String? labelGroupName;
+
+  /// The time at which the label group was updated.
+  final DateTime? updatedAt;
+
+  DescribeLabelGroupResponse({
+    this.createdAt,
+    this.faultCodes,
+    this.labelGroupArn,
+    this.labelGroupName,
+    this.updatedAt,
+  });
+
+  factory DescribeLabelGroupResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeLabelGroupResponse(
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      faultCodes: (json['FaultCodes'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      labelGroupArn: json['LabelGroupArn'] as String?,
+      labelGroupName: json['LabelGroupName'] as String?,
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final faultCodes = this.faultCodes;
+    final labelGroupArn = this.labelGroupArn;
+    final labelGroupName = this.labelGroupName;
+    final updatedAt = this.updatedAt;
+    return {
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (faultCodes != null) 'FaultCodes': faultCodes,
+      if (labelGroupArn != null) 'LabelGroupArn': labelGroupArn,
+      if (labelGroupName != null) 'LabelGroupName': labelGroupName,
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
     };
   }
 }
@@ -4730,32 +4338,6 @@ class DescribeRetrainingSchedulerResponse {
   }
 }
 
-/// Entity that comprises information abount duplicate timestamps in the
-/// dataset.
-class DuplicateTimestamps {
-  /// Indicates the total number of duplicate timestamps.
-  final int totalNumberOfDuplicateTimestamps;
-
-  DuplicateTimestamps({
-    required this.totalNumberOfDuplicateTimestamps,
-  });
-
-  factory DuplicateTimestamps.fromJson(Map<String, dynamic> json) {
-    return DuplicateTimestamps(
-      totalNumberOfDuplicateTimestamps:
-          (json['TotalNumberOfDuplicateTimestamps'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final totalNumberOfDuplicateTimestamps =
-        this.totalNumberOfDuplicateTimestamps;
-    return {
-      'TotalNumberOfDuplicateTimestamps': totalNumberOfDuplicateTimestamps,
-    };
-  }
-}
-
 class ImportDatasetResponse {
   /// The Amazon Resource Name (ARN) of the dataset that was imported.
   final String? datasetArn;
@@ -4847,1066 +4429,6 @@ class ImportModelVersionResponse {
       if (status != null) 'Status': status.value,
     };
   }
-}
-
-class InferenceDataImportStrategy {
-  static const noImport = InferenceDataImportStrategy._('NO_IMPORT');
-  static const addWhenEmpty = InferenceDataImportStrategy._('ADD_WHEN_EMPTY');
-  static const overwrite = InferenceDataImportStrategy._('OVERWRITE');
-
-  final String value;
-
-  const InferenceDataImportStrategy._(this.value);
-
-  static const values = [noImport, addWhenEmpty, overwrite];
-
-  static InferenceDataImportStrategy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => InferenceDataImportStrategy._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is InferenceDataImportStrategy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains information about the specific inference event, including start and
-/// end time, diagnostics information, event duration and so on.
-class InferenceEventSummary {
-  /// An array which specifies the names and values of all sensors contributing to
-  /// an inference event.
-  final String? diagnostics;
-
-  /// Indicates the size of an inference event in seconds.
-  final int? eventDurationInSeconds;
-
-  /// Indicates the ending time of an inference event.
-  final DateTime? eventEndTime;
-
-  /// Indicates the starting time of an inference event.
-  final DateTime? eventStartTime;
-
-  /// The Amazon Resource Name (ARN) of the inference scheduler being used for the
-  /// inference event.
-  final String? inferenceSchedulerArn;
-
-  /// The name of the inference scheduler being used for the inference events.
-  final String? inferenceSchedulerName;
-
-  InferenceEventSummary({
-    this.diagnostics,
-    this.eventDurationInSeconds,
-    this.eventEndTime,
-    this.eventStartTime,
-    this.inferenceSchedulerArn,
-    this.inferenceSchedulerName,
-  });
-
-  factory InferenceEventSummary.fromJson(Map<String, dynamic> json) {
-    return InferenceEventSummary(
-      diagnostics: json['Diagnostics'] as String?,
-      eventDurationInSeconds: json['EventDurationInSeconds'] as int?,
-      eventEndTime: timeStampFromJson(json['EventEndTime']),
-      eventStartTime: timeStampFromJson(json['EventStartTime']),
-      inferenceSchedulerArn: json['InferenceSchedulerArn'] as String?,
-      inferenceSchedulerName: json['InferenceSchedulerName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final diagnostics = this.diagnostics;
-    final eventDurationInSeconds = this.eventDurationInSeconds;
-    final eventEndTime = this.eventEndTime;
-    final eventStartTime = this.eventStartTime;
-    final inferenceSchedulerArn = this.inferenceSchedulerArn;
-    final inferenceSchedulerName = this.inferenceSchedulerName;
-    return {
-      if (diagnostics != null) 'Diagnostics': diagnostics,
-      if (eventDurationInSeconds != null)
-        'EventDurationInSeconds': eventDurationInSeconds,
-      if (eventEndTime != null)
-        'EventEndTime': unixTimestampToJson(eventEndTime),
-      if (eventStartTime != null)
-        'EventStartTime': unixTimestampToJson(eventStartTime),
-      if (inferenceSchedulerArn != null)
-        'InferenceSchedulerArn': inferenceSchedulerArn,
-      if (inferenceSchedulerName != null)
-        'InferenceSchedulerName': inferenceSchedulerName,
-    };
-  }
-}
-
-class InferenceExecutionStatus {
-  static const inProgress = InferenceExecutionStatus._('IN_PROGRESS');
-  static const success = InferenceExecutionStatus._('SUCCESS');
-  static const failed = InferenceExecutionStatus._('FAILED');
-
-  final String value;
-
-  const InferenceExecutionStatus._(this.value);
-
-  static const values = [inProgress, success, failed];
-
-  static InferenceExecutionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => InferenceExecutionStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is InferenceExecutionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains information about the specific inference execution, including input
-/// and output data configuration, inference scheduling information, status, and
-/// so on.
-class InferenceExecutionSummary {
-  /// The S3 object that the inference execution results were uploaded to.
-  final S3Object? customerResultObject;
-
-  /// Indicates the time reference in the dataset at which the inference execution
-  /// stopped.
-  final DateTime? dataEndTime;
-
-  /// Specifies configuration information for the input data for the inference
-  /// scheduler, including delimiter, format, and dataset location.
-  final InferenceInputConfiguration? dataInputConfiguration;
-
-  /// Specifies configuration information for the output results from for the
-  /// inference execution, including the output Amazon S3 location.
-  final InferenceOutputConfiguration? dataOutputConfiguration;
-
-  /// Indicates the time reference in the dataset at which the inference execution
-  /// began.
-  final DateTime? dataStartTime;
-
-  /// Specifies the reason for failure when an inference execution has failed.
-  final String? failedReason;
-
-  /// The Amazon Resource Name (ARN) of the inference scheduler being used for the
-  /// inference execution.
-  final String? inferenceSchedulerArn;
-
-  /// The name of the inference scheduler being used for the inference execution.
-  final String? inferenceSchedulerName;
-
-  /// The Amazon Resource Name (ARN) of the machine learning model used for the
-  /// inference execution.
-  final String? modelArn;
-
-  /// The name of the machine learning model being used for the inference
-  /// execution.
-  final String? modelName;
-
-  /// The model version used for the inference execution.
-  final int? modelVersion;
-
-  /// The Amazon Resource Number (ARN) of the model version used for the inference
-  /// execution.
-  final String? modelVersionArn;
-
-  /// Indicates the start time at which the inference scheduler began the specific
-  /// inference execution.
-  final DateTime? scheduledStartTime;
-
-  /// Indicates the status of the inference execution.
-  final InferenceExecutionStatus? status;
-
-  InferenceExecutionSummary({
-    this.customerResultObject,
-    this.dataEndTime,
-    this.dataInputConfiguration,
-    this.dataOutputConfiguration,
-    this.dataStartTime,
-    this.failedReason,
-    this.inferenceSchedulerArn,
-    this.inferenceSchedulerName,
-    this.modelArn,
-    this.modelName,
-    this.modelVersion,
-    this.modelVersionArn,
-    this.scheduledStartTime,
-    this.status,
-  });
-
-  factory InferenceExecutionSummary.fromJson(Map<String, dynamic> json) {
-    return InferenceExecutionSummary(
-      customerResultObject: json['CustomerResultObject'] != null
-          ? S3Object.fromJson(
-              json['CustomerResultObject'] as Map<String, dynamic>)
-          : null,
-      dataEndTime: timeStampFromJson(json['DataEndTime']),
-      dataInputConfiguration: json['DataInputConfiguration'] != null
-          ? InferenceInputConfiguration.fromJson(
-              json['DataInputConfiguration'] as Map<String, dynamic>)
-          : null,
-      dataOutputConfiguration: json['DataOutputConfiguration'] != null
-          ? InferenceOutputConfiguration.fromJson(
-              json['DataOutputConfiguration'] as Map<String, dynamic>)
-          : null,
-      dataStartTime: timeStampFromJson(json['DataStartTime']),
-      failedReason: json['FailedReason'] as String?,
-      inferenceSchedulerArn: json['InferenceSchedulerArn'] as String?,
-      inferenceSchedulerName: json['InferenceSchedulerName'] as String?,
-      modelArn: json['ModelArn'] as String?,
-      modelName: json['ModelName'] as String?,
-      modelVersion: json['ModelVersion'] as int?,
-      modelVersionArn: json['ModelVersionArn'] as String?,
-      scheduledStartTime: timeStampFromJson(json['ScheduledStartTime']),
-      status:
-          (json['Status'] as String?)?.let(InferenceExecutionStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final customerResultObject = this.customerResultObject;
-    final dataEndTime = this.dataEndTime;
-    final dataInputConfiguration = this.dataInputConfiguration;
-    final dataOutputConfiguration = this.dataOutputConfiguration;
-    final dataStartTime = this.dataStartTime;
-    final failedReason = this.failedReason;
-    final inferenceSchedulerArn = this.inferenceSchedulerArn;
-    final inferenceSchedulerName = this.inferenceSchedulerName;
-    final modelArn = this.modelArn;
-    final modelName = this.modelName;
-    final modelVersion = this.modelVersion;
-    final modelVersionArn = this.modelVersionArn;
-    final scheduledStartTime = this.scheduledStartTime;
-    final status = this.status;
-    return {
-      if (customerResultObject != null)
-        'CustomerResultObject': customerResultObject,
-      if (dataEndTime != null) 'DataEndTime': unixTimestampToJson(dataEndTime),
-      if (dataInputConfiguration != null)
-        'DataInputConfiguration': dataInputConfiguration,
-      if (dataOutputConfiguration != null)
-        'DataOutputConfiguration': dataOutputConfiguration,
-      if (dataStartTime != null)
-        'DataStartTime': unixTimestampToJson(dataStartTime),
-      if (failedReason != null) 'FailedReason': failedReason,
-      if (inferenceSchedulerArn != null)
-        'InferenceSchedulerArn': inferenceSchedulerArn,
-      if (inferenceSchedulerName != null)
-        'InferenceSchedulerName': inferenceSchedulerName,
-      if (modelArn != null) 'ModelArn': modelArn,
-      if (modelName != null) 'ModelName': modelName,
-      if (modelVersion != null) 'ModelVersion': modelVersion,
-      if (modelVersionArn != null) 'ModelVersionArn': modelVersionArn,
-      if (scheduledStartTime != null)
-        'ScheduledStartTime': unixTimestampToJson(scheduledStartTime),
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-/// Specifies configuration information for the input data for the inference,
-/// including Amazon S3 location of input data..
-class InferenceInputConfiguration {
-  /// Specifies configuration information for the input data for the inference,
-  /// including timestamp format and delimiter.
-  final InferenceInputNameConfiguration? inferenceInputNameConfiguration;
-
-  /// Indicates the difference between your time zone and Coordinated Universal
-  /// Time (UTC).
-  final String? inputTimeZoneOffset;
-
-  /// Specifies configuration information for the input data for the inference,
-  /// including Amazon S3 location of input data.
-  final InferenceS3InputConfiguration? s3InputConfiguration;
-
-  InferenceInputConfiguration({
-    this.inferenceInputNameConfiguration,
-    this.inputTimeZoneOffset,
-    this.s3InputConfiguration,
-  });
-
-  factory InferenceInputConfiguration.fromJson(Map<String, dynamic> json) {
-    return InferenceInputConfiguration(
-      inferenceInputNameConfiguration:
-          json['InferenceInputNameConfiguration'] != null
-              ? InferenceInputNameConfiguration.fromJson(
-                  json['InferenceInputNameConfiguration']
-                      as Map<String, dynamic>)
-              : null,
-      inputTimeZoneOffset: json['InputTimeZoneOffset'] as String?,
-      s3InputConfiguration: json['S3InputConfiguration'] != null
-          ? InferenceS3InputConfiguration.fromJson(
-              json['S3InputConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final inferenceInputNameConfiguration =
-        this.inferenceInputNameConfiguration;
-    final inputTimeZoneOffset = this.inputTimeZoneOffset;
-    final s3InputConfiguration = this.s3InputConfiguration;
-    return {
-      if (inferenceInputNameConfiguration != null)
-        'InferenceInputNameConfiguration': inferenceInputNameConfiguration,
-      if (inputTimeZoneOffset != null)
-        'InputTimeZoneOffset': inputTimeZoneOffset,
-      if (s3InputConfiguration != null)
-        'S3InputConfiguration': s3InputConfiguration,
-    };
-  }
-}
-
-/// Specifies configuration information for the input data for the inference,
-/// including timestamp format and delimiter.
-class InferenceInputNameConfiguration {
-  /// Indicates the delimiter character used between items in the data.
-  final String? componentTimestampDelimiter;
-
-  /// The format of the timestamp, whether Epoch time, or standard, with or
-  /// without hyphens (-).
-  final String? timestampFormat;
-
-  InferenceInputNameConfiguration({
-    this.componentTimestampDelimiter,
-    this.timestampFormat,
-  });
-
-  factory InferenceInputNameConfiguration.fromJson(Map<String, dynamic> json) {
-    return InferenceInputNameConfiguration(
-      componentTimestampDelimiter:
-          json['ComponentTimestampDelimiter'] as String?,
-      timestampFormat: json['TimestampFormat'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final componentTimestampDelimiter = this.componentTimestampDelimiter;
-    final timestampFormat = this.timestampFormat;
-    return {
-      if (componentTimestampDelimiter != null)
-        'ComponentTimestampDelimiter': componentTimestampDelimiter,
-      if (timestampFormat != null) 'TimestampFormat': timestampFormat,
-    };
-  }
-}
-
-/// Specifies configuration information for the output results from for the
-/// inference, including KMS key ID and output S3 location.
-class InferenceOutputConfiguration {
-  /// Specifies configuration information for the output results from for the
-  /// inference, output S3 location.
-  final InferenceS3OutputConfiguration s3OutputConfiguration;
-
-  /// The ID number for the KMS key key used to encrypt the inference output.
-  final String? kmsKeyId;
-
-  InferenceOutputConfiguration({
-    required this.s3OutputConfiguration,
-    this.kmsKeyId,
-  });
-
-  factory InferenceOutputConfiguration.fromJson(Map<String, dynamic> json) {
-    return InferenceOutputConfiguration(
-      s3OutputConfiguration: InferenceS3OutputConfiguration.fromJson(
-          (json['S3OutputConfiguration'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      kmsKeyId: json['KmsKeyId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final s3OutputConfiguration = this.s3OutputConfiguration;
-    final kmsKeyId = this.kmsKeyId;
-    return {
-      'S3OutputConfiguration': s3OutputConfiguration,
-      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-    };
-  }
-}
-
-/// Specifies configuration information for the input data for the inference,
-/// including input data S3 location.
-class InferenceS3InputConfiguration {
-  /// The bucket containing the input dataset for the inference.
-  final String bucket;
-
-  /// The prefix for the S3 bucket used for the input data for the inference.
-  final String? prefix;
-
-  InferenceS3InputConfiguration({
-    required this.bucket,
-    this.prefix,
-  });
-
-  factory InferenceS3InputConfiguration.fromJson(Map<String, dynamic> json) {
-    return InferenceS3InputConfiguration(
-      bucket: (json['Bucket'] as String?) ?? '',
-      prefix: json['Prefix'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucket = this.bucket;
-    final prefix = this.prefix;
-    return {
-      'Bucket': bucket,
-      if (prefix != null) 'Prefix': prefix,
-    };
-  }
-}
-
-/// Specifies configuration information for the output results from the
-/// inference, including output S3 location.
-class InferenceS3OutputConfiguration {
-  /// The bucket containing the output results from the inference
-  final String bucket;
-
-  /// The prefix for the S3 bucket used for the output results from the inference.
-  final String? prefix;
-
-  InferenceS3OutputConfiguration({
-    required this.bucket,
-    this.prefix,
-  });
-
-  factory InferenceS3OutputConfiguration.fromJson(Map<String, dynamic> json) {
-    return InferenceS3OutputConfiguration(
-      bucket: (json['Bucket'] as String?) ?? '',
-      prefix: json['Prefix'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucket = this.bucket;
-    final prefix = this.prefix;
-    return {
-      'Bucket': bucket,
-      if (prefix != null) 'Prefix': prefix,
-    };
-  }
-}
-
-class InferenceSchedulerStatus {
-  static const pending = InferenceSchedulerStatus._('PENDING');
-  static const running = InferenceSchedulerStatus._('RUNNING');
-  static const stopping = InferenceSchedulerStatus._('STOPPING');
-  static const stopped = InferenceSchedulerStatus._('STOPPED');
-
-  final String value;
-
-  const InferenceSchedulerStatus._(this.value);
-
-  static const values = [pending, running, stopping, stopped];
-
-  static InferenceSchedulerStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => InferenceSchedulerStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is InferenceSchedulerStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains information about the specific inference scheduler, including data
-/// delay offset, model name and ARN, status, and so on.
-class InferenceSchedulerSummary {
-  /// A period of time (in minutes) by which inference on the data is delayed
-  /// after the data starts. For instance, if an offset delay time of five minutes
-  /// was selected, inference will not begin on the data until the first data
-  /// measurement after the five minute mark. For example, if five minutes is
-  /// selected, the inference scheduler will wake up at the configured frequency
-  /// with the additional five minute delay time to check the customer S3 bucket.
-  /// The customer can upload data at the same frequency and they don't need to
-  /// stop and restart the scheduler when uploading new data.
-  final int? dataDelayOffsetInMinutes;
-
-  /// How often data is uploaded to the source S3 bucket for the input data. This
-  /// value is the length of time between data uploads. For instance, if you
-  /// select 5 minutes, Amazon Lookout for Equipment will upload the real-time
-  /// data to the source bucket once every 5 minutes. This frequency also
-  /// determines how often Amazon Lookout for Equipment starts a scheduled
-  /// inference on your data. In this example, it starts once every 5 minutes.
-  final DataUploadFrequency? dataUploadFrequency;
-
-  /// The Amazon Resource Name (ARN) of the inference scheduler.
-  final String? inferenceSchedulerArn;
-
-  /// The name of the inference scheduler.
-  final String? inferenceSchedulerName;
-
-  /// Indicates whether the latest execution for the inference scheduler was
-  /// Anomalous (anomalous events found) or Normal (no anomalous events found).
-  final LatestInferenceResult? latestInferenceResult;
-
-  /// The Amazon Resource Name (ARN) of the machine learning model used by the
-  /// inference scheduler.
-  final String? modelArn;
-
-  /// The name of the machine learning model used for the inference scheduler.
-  final String? modelName;
-
-  /// Indicates the status of the inference scheduler.
-  final InferenceSchedulerStatus? status;
-
-  InferenceSchedulerSummary({
-    this.dataDelayOffsetInMinutes,
-    this.dataUploadFrequency,
-    this.inferenceSchedulerArn,
-    this.inferenceSchedulerName,
-    this.latestInferenceResult,
-    this.modelArn,
-    this.modelName,
-    this.status,
-  });
-
-  factory InferenceSchedulerSummary.fromJson(Map<String, dynamic> json) {
-    return InferenceSchedulerSummary(
-      dataDelayOffsetInMinutes: json['DataDelayOffsetInMinutes'] as int?,
-      dataUploadFrequency: (json['DataUploadFrequency'] as String?)
-          ?.let(DataUploadFrequency.fromString),
-      inferenceSchedulerArn: json['InferenceSchedulerArn'] as String?,
-      inferenceSchedulerName: json['InferenceSchedulerName'] as String?,
-      latestInferenceResult: (json['LatestInferenceResult'] as String?)
-          ?.let(LatestInferenceResult.fromString),
-      modelArn: json['ModelArn'] as String?,
-      modelName: json['ModelName'] as String?,
-      status:
-          (json['Status'] as String?)?.let(InferenceSchedulerStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataDelayOffsetInMinutes = this.dataDelayOffsetInMinutes;
-    final dataUploadFrequency = this.dataUploadFrequency;
-    final inferenceSchedulerArn = this.inferenceSchedulerArn;
-    final inferenceSchedulerName = this.inferenceSchedulerName;
-    final latestInferenceResult = this.latestInferenceResult;
-    final modelArn = this.modelArn;
-    final modelName = this.modelName;
-    final status = this.status;
-    return {
-      if (dataDelayOffsetInMinutes != null)
-        'DataDelayOffsetInMinutes': dataDelayOffsetInMinutes,
-      if (dataUploadFrequency != null)
-        'DataUploadFrequency': dataUploadFrequency.value,
-      if (inferenceSchedulerArn != null)
-        'InferenceSchedulerArn': inferenceSchedulerArn,
-      if (inferenceSchedulerName != null)
-        'InferenceSchedulerName': inferenceSchedulerName,
-      if (latestInferenceResult != null)
-        'LatestInferenceResult': latestInferenceResult.value,
-      if (modelArn != null) 'ModelArn': modelArn,
-      if (modelName != null) 'ModelName': modelName,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-/// Gives statistics about how many files have been ingested, and which files
-/// have not been ingested, for a particular ingestion job.
-class IngestedFilesSummary {
-  /// Indicates the number of files that were successfully ingested.
-  final int ingestedNumberOfFiles;
-
-  /// Indicates the total number of files that were submitted for ingestion.
-  final int totalNumberOfFiles;
-
-  /// Indicates the number of files that were discarded. A file could be discarded
-  /// because its format is invalid (for example, a jpg or pdf) or not readable.
-  final List<S3Object>? discardedFiles;
-
-  IngestedFilesSummary({
-    required this.ingestedNumberOfFiles,
-    required this.totalNumberOfFiles,
-    this.discardedFiles,
-  });
-
-  factory IngestedFilesSummary.fromJson(Map<String, dynamic> json) {
-    return IngestedFilesSummary(
-      ingestedNumberOfFiles: (json['IngestedNumberOfFiles'] as int?) ?? 0,
-      totalNumberOfFiles: (json['TotalNumberOfFiles'] as int?) ?? 0,
-      discardedFiles: (json['DiscardedFiles'] as List?)
-          ?.nonNulls
-          .map((e) => S3Object.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final ingestedNumberOfFiles = this.ingestedNumberOfFiles;
-    final totalNumberOfFiles = this.totalNumberOfFiles;
-    final discardedFiles = this.discardedFiles;
-    return {
-      'IngestedNumberOfFiles': ingestedNumberOfFiles,
-      'TotalNumberOfFiles': totalNumberOfFiles,
-      if (discardedFiles != null) 'DiscardedFiles': discardedFiles,
-    };
-  }
-}
-
-/// Specifies configuration information for the input data for the data
-/// ingestion job, including input data S3 location.
-class IngestionInputConfiguration {
-  /// The location information for the S3 bucket used for input data for the data
-  /// ingestion.
-  final IngestionS3InputConfiguration s3InputConfiguration;
-
-  IngestionInputConfiguration({
-    required this.s3InputConfiguration,
-  });
-
-  factory IngestionInputConfiguration.fromJson(Map<String, dynamic> json) {
-    return IngestionInputConfiguration(
-      s3InputConfiguration: IngestionS3InputConfiguration.fromJson(
-          (json['S3InputConfiguration'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final s3InputConfiguration = this.s3InputConfiguration;
-    return {
-      'S3InputConfiguration': s3InputConfiguration,
-    };
-  }
-}
-
-class IngestionJobStatus {
-  static const inProgress = IngestionJobStatus._('IN_PROGRESS');
-  static const success = IngestionJobStatus._('SUCCESS');
-  static const failed = IngestionJobStatus._('FAILED');
-  static const importInProgress = IngestionJobStatus._('IMPORT_IN_PROGRESS');
-
-  final String value;
-
-  const IngestionJobStatus._(this.value);
-
-  static const values = [inProgress, success, failed, importInProgress];
-
-  static IngestionJobStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => IngestionJobStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is IngestionJobStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Specifies S3 configuration information for the input data for the data
-/// ingestion job.
-class IngestionS3InputConfiguration {
-  /// The name of the S3 bucket used for the input data for the data ingestion.
-  final String bucket;
-
-  /// The pattern for matching the Amazon S3 files that will be used for
-  /// ingestion. If the schema was created previously without any KeyPattern, then
-  /// the default KeyPattern {prefix}/{component_name}/* is used to download files
-  /// from Amazon S3 according to the schema. This field is required when
-  /// ingestion is being done for the first time.
-  ///
-  /// Valid Values: {prefix}/{component_name}_* | {prefix}/{component_name}/* |
-  /// {prefix}/{component_name}[DELIMITER]* (Allowed delimiters : space, dot,
-  /// underscore, hyphen)
-  final String? keyPattern;
-
-  /// The prefix for the S3 location being used for the input data for the data
-  /// ingestion.
-  final String? prefix;
-
-  IngestionS3InputConfiguration({
-    required this.bucket,
-    this.keyPattern,
-    this.prefix,
-  });
-
-  factory IngestionS3InputConfiguration.fromJson(Map<String, dynamic> json) {
-    return IngestionS3InputConfiguration(
-      bucket: (json['Bucket'] as String?) ?? '',
-      keyPattern: json['KeyPattern'] as String?,
-      prefix: json['Prefix'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucket = this.bucket;
-    final keyPattern = this.keyPattern;
-    final prefix = this.prefix;
-    return {
-      'Bucket': bucket,
-      if (keyPattern != null) 'KeyPattern': keyPattern,
-      if (prefix != null) 'Prefix': prefix,
-    };
-  }
-}
-
-/// Entity that comprises aggregated information on sensors having insufficient
-/// data.
-class InsufficientSensorData {
-  /// Parameter that describes the total number of sensors that have data
-  /// completely missing for it.
-  final MissingCompleteSensorData missingCompleteSensorData;
-
-  /// Parameter that describes the total number of sensors that have a short date
-  /// range of less than 14 days of data overall.
-  final SensorsWithShortDateRange sensorsWithShortDateRange;
-
-  InsufficientSensorData({
-    required this.missingCompleteSensorData,
-    required this.sensorsWithShortDateRange,
-  });
-
-  factory InsufficientSensorData.fromJson(Map<String, dynamic> json) {
-    return InsufficientSensorData(
-      missingCompleteSensorData: MissingCompleteSensorData.fromJson(
-          (json['MissingCompleteSensorData'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      sensorsWithShortDateRange: SensorsWithShortDateRange.fromJson(
-          (json['SensorsWithShortDateRange'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final missingCompleteSensorData = this.missingCompleteSensorData;
-    final sensorsWithShortDateRange = this.sensorsWithShortDateRange;
-    return {
-      'MissingCompleteSensorData': missingCompleteSensorData,
-      'SensorsWithShortDateRange': sensorsWithShortDateRange,
-    };
-  }
-}
-
-/// Entity that comprises aggregated information on sensors having insufficient
-/// data.
-class InvalidSensorData {
-  /// Indicates the number of sensors that have at least some invalid values.
-  final int affectedSensorCount;
-
-  /// Indicates the total number of invalid values across all the sensors.
-  final int totalNumberOfInvalidValues;
-
-  InvalidSensorData({
-    required this.affectedSensorCount,
-    required this.totalNumberOfInvalidValues,
-  });
-
-  factory InvalidSensorData.fromJson(Map<String, dynamic> json) {
-    return InvalidSensorData(
-      affectedSensorCount: (json['AffectedSensorCount'] as int?) ?? 0,
-      totalNumberOfInvalidValues:
-          (json['TotalNumberOfInvalidValues'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final affectedSensorCount = this.affectedSensorCount;
-    final totalNumberOfInvalidValues = this.totalNumberOfInvalidValues;
-    return {
-      'AffectedSensorCount': affectedSensorCount,
-      'TotalNumberOfInvalidValues': totalNumberOfInvalidValues,
-    };
-  }
-}
-
-/// Contains information about the label group.
-class LabelGroupSummary {
-  /// The time at which the label group was created.
-  final DateTime? createdAt;
-
-  /// The Amazon Resource Name (ARN) of the label group.
-  final String? labelGroupArn;
-
-  /// The name of the label group.
-  final String? labelGroupName;
-
-  /// The time at which the label group was updated.
-  final DateTime? updatedAt;
-
-  LabelGroupSummary({
-    this.createdAt,
-    this.labelGroupArn,
-    this.labelGroupName,
-    this.updatedAt,
-  });
-
-  factory LabelGroupSummary.fromJson(Map<String, dynamic> json) {
-    return LabelGroupSummary(
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      labelGroupArn: json['LabelGroupArn'] as String?,
-      labelGroupName: json['LabelGroupName'] as String?,
-      updatedAt: timeStampFromJson(json['UpdatedAt']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final labelGroupArn = this.labelGroupArn;
-    final labelGroupName = this.labelGroupName;
-    final updatedAt = this.updatedAt;
-    return {
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (labelGroupArn != null) 'LabelGroupArn': labelGroupArn,
-      if (labelGroupName != null) 'LabelGroupName': labelGroupName,
-      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
-    };
-  }
-}
-
-class LabelRating {
-  static const anomaly = LabelRating._('ANOMALY');
-  static const noAnomaly = LabelRating._('NO_ANOMALY');
-  static const neutral = LabelRating._('NEUTRAL');
-
-  final String value;
-
-  const LabelRating._(this.value);
-
-  static const values = [anomaly, noAnomaly, neutral];
-
-  static LabelRating fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => LabelRating._(value));
-
-  @override
-  bool operator ==(other) => other is LabelRating && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about the label.
-class LabelSummary {
-  /// The time at which the label was created.
-  final DateTime? createdAt;
-
-  /// The timestamp indicating the end of the label.
-  final DateTime? endTime;
-
-  /// Indicates that a label pertains to a particular piece of equipment.
-  final String? equipment;
-
-  /// Indicates the type of anomaly associated with the label.
-  ///
-  /// Data in this field will be retained for service usage. Follow best practices
-  /// for the security of your data.
-  final String? faultCode;
-
-  /// The Amazon Resource Name (ARN) of the label group.
-  final String? labelGroupArn;
-
-  /// The name of the label group.
-  final String? labelGroupName;
-
-  /// The ID of the label.
-  final String? labelId;
-
-  /// Indicates whether a labeled event represents an anomaly.
-  final LabelRating? rating;
-
-  /// The timestamp indicating the start of the label.
-  final DateTime? startTime;
-
-  LabelSummary({
-    this.createdAt,
-    this.endTime,
-    this.equipment,
-    this.faultCode,
-    this.labelGroupArn,
-    this.labelGroupName,
-    this.labelId,
-    this.rating,
-    this.startTime,
-  });
-
-  factory LabelSummary.fromJson(Map<String, dynamic> json) {
-    return LabelSummary(
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      endTime: timeStampFromJson(json['EndTime']),
-      equipment: json['Equipment'] as String?,
-      faultCode: json['FaultCode'] as String?,
-      labelGroupArn: json['LabelGroupArn'] as String?,
-      labelGroupName: json['LabelGroupName'] as String?,
-      labelId: json['LabelId'] as String?,
-      rating: (json['Rating'] as String?)?.let(LabelRating.fromString),
-      startTime: timeStampFromJson(json['StartTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final endTime = this.endTime;
-    final equipment = this.equipment;
-    final faultCode = this.faultCode;
-    final labelGroupArn = this.labelGroupArn;
-    final labelGroupName = this.labelGroupName;
-    final labelId = this.labelId;
-    final rating = this.rating;
-    final startTime = this.startTime;
-    return {
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
-      if (equipment != null) 'Equipment': equipment,
-      if (faultCode != null) 'FaultCode': faultCode,
-      if (labelGroupArn != null) 'LabelGroupArn': labelGroupArn,
-      if (labelGroupName != null) 'LabelGroupName': labelGroupName,
-      if (labelId != null) 'LabelId': labelId,
-      if (rating != null) 'Rating': rating.value,
-      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-    };
-  }
-}
-
-/// Contains the configuration information for the S3 location being used to
-/// hold label data.
-class LabelsInputConfiguration {
-  /// The name of the label group to be used for label data.
-  final String? labelGroupName;
-
-  /// Contains location information for the S3 location being used for label data.
-  final LabelsS3InputConfiguration? s3InputConfiguration;
-
-  LabelsInputConfiguration({
-    this.labelGroupName,
-    this.s3InputConfiguration,
-  });
-
-  factory LabelsInputConfiguration.fromJson(Map<String, dynamic> json) {
-    return LabelsInputConfiguration(
-      labelGroupName: json['LabelGroupName'] as String?,
-      s3InputConfiguration: json['S3InputConfiguration'] != null
-          ? LabelsS3InputConfiguration.fromJson(
-              json['S3InputConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final labelGroupName = this.labelGroupName;
-    final s3InputConfiguration = this.s3InputConfiguration;
-    return {
-      if (labelGroupName != null) 'LabelGroupName': labelGroupName,
-      if (s3InputConfiguration != null)
-        'S3InputConfiguration': s3InputConfiguration,
-    };
-  }
-}
-
-/// The location information (prefix and bucket name) for the s3 location being
-/// used for label data.
-class LabelsS3InputConfiguration {
-  /// The name of the S3 bucket holding the label data.
-  final String bucket;
-
-  /// The prefix for the S3 bucket used for the label data.
-  final String? prefix;
-
-  LabelsS3InputConfiguration({
-    required this.bucket,
-    this.prefix,
-  });
-
-  factory LabelsS3InputConfiguration.fromJson(Map<String, dynamic> json) {
-    return LabelsS3InputConfiguration(
-      bucket: (json['Bucket'] as String?) ?? '',
-      prefix: json['Prefix'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucket = this.bucket;
-    final prefix = this.prefix;
-    return {
-      'Bucket': bucket,
-      if (prefix != null) 'Prefix': prefix,
-    };
-  }
-}
-
-/// Entity that comprises information on large gaps between consecutive
-/// timestamps in data.
-class LargeTimestampGaps {
-  /// Indicates whether there is a potential data issue related to large gaps in
-  /// timestamps.
-  final StatisticalIssueStatus status;
-
-  /// Indicates the size of the largest timestamp gap, in days.
-  final int? maxTimestampGapInDays;
-
-  /// Indicates the number of large timestamp gaps, if there are any.
-  final int? numberOfLargeTimestampGaps;
-
-  LargeTimestampGaps({
-    required this.status,
-    this.maxTimestampGapInDays,
-    this.numberOfLargeTimestampGaps,
-  });
-
-  factory LargeTimestampGaps.fromJson(Map<String, dynamic> json) {
-    return LargeTimestampGaps(
-      status:
-          StatisticalIssueStatus.fromString((json['Status'] as String?) ?? ''),
-      maxTimestampGapInDays: json['MaxTimestampGapInDays'] as int?,
-      numberOfLargeTimestampGaps: json['NumberOfLargeTimestampGaps'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final status = this.status;
-    final maxTimestampGapInDays = this.maxTimestampGapInDays;
-    final numberOfLargeTimestampGaps = this.numberOfLargeTimestampGaps;
-    return {
-      'Status': status.value,
-      if (maxTimestampGapInDays != null)
-        'MaxTimestampGapInDays': maxTimestampGapInDays,
-      if (numberOfLargeTimestampGaps != null)
-        'NumberOfLargeTimestampGaps': numberOfLargeTimestampGaps,
-    };
-  }
-}
-
-class LatestInferenceResult {
-  static const anomalous = LatestInferenceResult._('ANOMALOUS');
-  static const normal = LatestInferenceResult._('NORMAL');
-
-  final String value;
-
-  const LatestInferenceResult._(this.value);
-
-  static const values = [anomalous, normal];
-
-  static LatestInferenceResult fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LatestInferenceResult._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is LatestInferenceResult && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class ListDataIngestionJobsResponse {
@@ -6169,6 +4691,40 @@ class ListLabelsResponse {
   }
 }
 
+class ListModelsResponse {
+  /// Provides information on the specified model, including created time, model
+  /// and dataset ARNs, and status.
+  final List<ModelSummary>? modelSummaries;
+
+  /// An opaque pagination token indicating where to continue the listing of
+  /// machine learning models.
+  final String? nextToken;
+
+  ListModelsResponse({
+    this.modelSummaries,
+    this.nextToken,
+  });
+
+  factory ListModelsResponse.fromJson(Map<String, dynamic> json) {
+    return ListModelsResponse(
+      modelSummaries: (json['ModelSummaries'] as List?)
+          ?.nonNulls
+          .map((e) => ModelSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final modelSummaries = this.modelSummaries;
+    final nextToken = this.nextToken;
+    return {
+      if (modelSummaries != null) 'ModelSummaries': modelSummaries,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 class ListModelVersionsResponse {
   /// Provides information on the specified model version, including the created
   /// time, model and dataset ARNs, and status.
@@ -6208,40 +4764,6 @@ class ListModelVersionsResponse {
     return {
       if (modelVersionSummaries != null)
         'ModelVersionSummaries': modelVersionSummaries,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListModelsResponse {
-  /// Provides information on the specified model, including created time, model
-  /// and dataset ARNs, and status.
-  final List<ModelSummary>? modelSummaries;
-
-  /// An opaque pagination token indicating where to continue the listing of
-  /// machine learning models.
-  final String? nextToken;
-
-  ListModelsResponse({
-    this.modelSummaries,
-    this.nextToken,
-  });
-
-  factory ListModelsResponse.fromJson(Map<String, dynamic> json) {
-    return ListModelsResponse(
-      modelSummaries: (json['ModelSummaries'] as List?)
-          ?.nonNulls
-          .map((e) => ModelSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final modelSummaries = this.modelSummaries;
-    final nextToken = this.nextToken;
-    return {
-      if (modelSummaries != null) 'ModelSummaries': modelSummaries,
       if (nextToken != null) 'NextToken': nextToken,
     };
   }
@@ -6348,57 +4870,395 @@ class ListTagsForResourceResponse {
   }
 }
 
-/// Entity that comprises information on sensors that have sensor data
-/// completely missing.
-class MissingCompleteSensorData {
-  /// Indicates the number of sensors that have data missing completely.
-  final int affectedSensorCount;
+class PutResourcePolicyResponse {
+  /// A unique identifier for a revision of the resource policy.
+  final String? policyRevisionId;
 
-  MissingCompleteSensorData({
-    required this.affectedSensorCount,
+  /// The Amazon Resource Name (ARN) of the resource for which the policy was
+  /// created.
+  final String? resourceArn;
+
+  PutResourcePolicyResponse({
+    this.policyRevisionId,
+    this.resourceArn,
   });
 
-  factory MissingCompleteSensorData.fromJson(Map<String, dynamic> json) {
-    return MissingCompleteSensorData(
-      affectedSensorCount: (json['AffectedSensorCount'] as int?) ?? 0,
+  factory PutResourcePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return PutResourcePolicyResponse(
+      policyRevisionId: json['PolicyRevisionId'] as String?,
+      resourceArn: json['ResourceArn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final affectedSensorCount = this.affectedSensorCount;
+    final policyRevisionId = this.policyRevisionId;
+    final resourceArn = this.resourceArn;
     return {
-      'AffectedSensorCount': affectedSensorCount,
+      if (policyRevisionId != null) 'PolicyRevisionId': policyRevisionId,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
     };
   }
 }
 
-/// Entity that comprises aggregated information on sensors having missing data.
-class MissingSensorData {
-  /// Indicates the number of sensors that have atleast some data missing.
-  final int affectedSensorCount;
+class StartDataIngestionJobResponse {
+  /// Indicates the job ID of the data ingestion job.
+  final String? jobId;
 
-  /// Indicates the total number of missing values across all the sensors.
-  final int totalNumberOfMissingValues;
+  /// Indicates the status of the <code>StartDataIngestionJob</code> operation.
+  final IngestionJobStatus? status;
 
-  MissingSensorData({
-    required this.affectedSensorCount,
-    required this.totalNumberOfMissingValues,
+  StartDataIngestionJobResponse({
+    this.jobId,
+    this.status,
   });
 
-  factory MissingSensorData.fromJson(Map<String, dynamic> json) {
-    return MissingSensorData(
-      affectedSensorCount: (json['AffectedSensorCount'] as int?) ?? 0,
-      totalNumberOfMissingValues:
-          (json['TotalNumberOfMissingValues'] as int?) ?? 0,
+  factory StartDataIngestionJobResponse.fromJson(Map<String, dynamic> json) {
+    return StartDataIngestionJobResponse(
+      jobId: json['JobId'] as String?,
+      status: (json['Status'] as String?)?.let(IngestionJobStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final affectedSensorCount = this.affectedSensorCount;
-    final totalNumberOfMissingValues = this.totalNumberOfMissingValues;
+    final jobId = this.jobId;
+    final status = this.status;
     return {
-      'AffectedSensorCount': affectedSensorCount,
-      'TotalNumberOfMissingValues': totalNumberOfMissingValues,
+      if (jobId != null) 'JobId': jobId,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class StartInferenceSchedulerResponse {
+  /// The Amazon Resource Name (ARN) of the inference scheduler being started.
+  final String? inferenceSchedulerArn;
+
+  /// The name of the inference scheduler being started.
+  final String? inferenceSchedulerName;
+
+  /// The Amazon Resource Name (ARN) of the machine learning model being used by
+  /// the inference scheduler.
+  final String? modelArn;
+
+  /// The name of the machine learning model being used by the inference
+  /// scheduler.
+  final String? modelName;
+
+  /// Indicates the status of the inference scheduler.
+  final InferenceSchedulerStatus? status;
+
+  StartInferenceSchedulerResponse({
+    this.inferenceSchedulerArn,
+    this.inferenceSchedulerName,
+    this.modelArn,
+    this.modelName,
+    this.status,
+  });
+
+  factory StartInferenceSchedulerResponse.fromJson(Map<String, dynamic> json) {
+    return StartInferenceSchedulerResponse(
+      inferenceSchedulerArn: json['InferenceSchedulerArn'] as String?,
+      inferenceSchedulerName: json['InferenceSchedulerName'] as String?,
+      modelArn: json['ModelArn'] as String?,
+      modelName: json['ModelName'] as String?,
+      status:
+          (json['Status'] as String?)?.let(InferenceSchedulerStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inferenceSchedulerArn = this.inferenceSchedulerArn;
+    final inferenceSchedulerName = this.inferenceSchedulerName;
+    final modelArn = this.modelArn;
+    final modelName = this.modelName;
+    final status = this.status;
+    return {
+      if (inferenceSchedulerArn != null)
+        'InferenceSchedulerArn': inferenceSchedulerArn,
+      if (inferenceSchedulerName != null)
+        'InferenceSchedulerName': inferenceSchedulerName,
+      if (modelArn != null) 'ModelArn': modelArn,
+      if (modelName != null) 'ModelName': modelName,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class StartRetrainingSchedulerResponse {
+  /// The ARN of the model whose retraining scheduler is being started.
+  final String? modelArn;
+
+  /// The name of the model whose retraining scheduler is being started.
+  final String? modelName;
+
+  /// The status of the retraining scheduler.
+  final RetrainingSchedulerStatus? status;
+
+  StartRetrainingSchedulerResponse({
+    this.modelArn,
+    this.modelName,
+    this.status,
+  });
+
+  factory StartRetrainingSchedulerResponse.fromJson(Map<String, dynamic> json) {
+    return StartRetrainingSchedulerResponse(
+      modelArn: json['ModelArn'] as String?,
+      modelName: json['ModelName'] as String?,
+      status: (json['Status'] as String?)
+          ?.let(RetrainingSchedulerStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final modelArn = this.modelArn;
+    final modelName = this.modelName;
+    final status = this.status;
+    return {
+      if (modelArn != null) 'ModelArn': modelArn,
+      if (modelName != null) 'ModelName': modelName,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class StopInferenceSchedulerResponse {
+  /// The Amazon Resource Name (ARN) of the inference schedule being stopped.
+  final String? inferenceSchedulerArn;
+
+  /// The name of the inference scheduler being stopped.
+  final String? inferenceSchedulerName;
+
+  /// The Amazon Resource Name (ARN) of the machine learning model used by the
+  /// inference scheduler being stopped.
+  final String? modelArn;
+
+  /// The name of the machine learning model used by the inference scheduler being
+  /// stopped.
+  final String? modelName;
+
+  /// Indicates the status of the inference scheduler.
+  final InferenceSchedulerStatus? status;
+
+  StopInferenceSchedulerResponse({
+    this.inferenceSchedulerArn,
+    this.inferenceSchedulerName,
+    this.modelArn,
+    this.modelName,
+    this.status,
+  });
+
+  factory StopInferenceSchedulerResponse.fromJson(Map<String, dynamic> json) {
+    return StopInferenceSchedulerResponse(
+      inferenceSchedulerArn: json['InferenceSchedulerArn'] as String?,
+      inferenceSchedulerName: json['InferenceSchedulerName'] as String?,
+      modelArn: json['ModelArn'] as String?,
+      modelName: json['ModelName'] as String?,
+      status:
+          (json['Status'] as String?)?.let(InferenceSchedulerStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inferenceSchedulerArn = this.inferenceSchedulerArn;
+    final inferenceSchedulerName = this.inferenceSchedulerName;
+    final modelArn = this.modelArn;
+    final modelName = this.modelName;
+    final status = this.status;
+    return {
+      if (inferenceSchedulerArn != null)
+        'InferenceSchedulerArn': inferenceSchedulerArn,
+      if (inferenceSchedulerName != null)
+        'InferenceSchedulerName': inferenceSchedulerName,
+      if (modelArn != null) 'ModelArn': modelArn,
+      if (modelName != null) 'ModelName': modelName,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class StopRetrainingSchedulerResponse {
+  /// The ARN of the model whose retraining scheduler is being stopped.
+  final String? modelArn;
+
+  /// The name of the model whose retraining scheduler is being stopped.
+  final String? modelName;
+
+  /// The status of the retraining scheduler.
+  final RetrainingSchedulerStatus? status;
+
+  StopRetrainingSchedulerResponse({
+    this.modelArn,
+    this.modelName,
+    this.status,
+  });
+
+  factory StopRetrainingSchedulerResponse.fromJson(Map<String, dynamic> json) {
+    return StopRetrainingSchedulerResponse(
+      modelArn: json['ModelArn'] as String?,
+      modelName: json['ModelName'] as String?,
+      status: (json['Status'] as String?)
+          ?.let(RetrainingSchedulerStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final modelArn = this.modelArn;
+    final modelName = this.modelName;
+    final status = this.status;
+    return {
+      if (modelArn != null) 'ModelArn': modelArn,
+      if (modelName != null) 'ModelName': modelName,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateActiveModelVersionResponse {
+  /// The version that is currently active of the machine learning model for which
+  /// the active model version was set.
+  final int? currentActiveVersion;
+
+  /// The Amazon Resource Name (ARN) of the machine learning model version that is
+  /// the current active model version.
+  final String? currentActiveVersionArn;
+
+  /// The Amazon Resource Name (ARN) of the machine learning model for which the
+  /// active model version was set.
+  final String? modelArn;
+
+  /// The name of the machine learning model for which the active model version
+  /// was set.
+  final String? modelName;
+
+  /// The previous version that was active of the machine learning model for which
+  /// the active model version was set.
+  final int? previousActiveVersion;
+
+  /// The Amazon Resource Name (ARN) of the machine learning model version that
+  /// was the previous active model version.
+  final String? previousActiveVersionArn;
+
+  UpdateActiveModelVersionResponse({
+    this.currentActiveVersion,
+    this.currentActiveVersionArn,
+    this.modelArn,
+    this.modelName,
+    this.previousActiveVersion,
+    this.previousActiveVersionArn,
+  });
+
+  factory UpdateActiveModelVersionResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateActiveModelVersionResponse(
+      currentActiveVersion: json['CurrentActiveVersion'] as int?,
+      currentActiveVersionArn: json['CurrentActiveVersionArn'] as String?,
+      modelArn: json['ModelArn'] as String?,
+      modelName: json['ModelName'] as String?,
+      previousActiveVersion: json['PreviousActiveVersion'] as int?,
+      previousActiveVersionArn: json['PreviousActiveVersionArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currentActiveVersion = this.currentActiveVersion;
+    final currentActiveVersionArn = this.currentActiveVersionArn;
+    final modelArn = this.modelArn;
+    final modelName = this.modelName;
+    final previousActiveVersion = this.previousActiveVersion;
+    final previousActiveVersionArn = this.previousActiveVersionArn;
+    return {
+      if (currentActiveVersion != null)
+        'CurrentActiveVersion': currentActiveVersion,
+      if (currentActiveVersionArn != null)
+        'CurrentActiveVersionArn': currentActiveVersionArn,
+      if (modelArn != null) 'ModelArn': modelArn,
+      if (modelName != null) 'ModelName': modelName,
+      if (previousActiveVersion != null)
+        'PreviousActiveVersion': previousActiveVersion,
+      if (previousActiveVersionArn != null)
+        'PreviousActiveVersionArn': previousActiveVersionArn,
+    };
+  }
+}
+
+class ModelPromoteMode {
+  static const managed = ModelPromoteMode._('MANAGED');
+  static const manual = ModelPromoteMode._('MANUAL');
+
+  final String value;
+
+  const ModelPromoteMode._(this.value);
+
+  static const values = [managed, manual];
+
+  static ModelPromoteMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ModelPromoteMode._(value));
+
+  @override
+  bool operator ==(other) => other is ModelPromoteMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains the configuration information for the S3 location being used to
+/// hold label data.
+class LabelsInputConfiguration {
+  /// The name of the label group to be used for label data.
+  final String? labelGroupName;
+
+  /// Contains location information for the S3 location being used for label data.
+  final LabelsS3InputConfiguration? s3InputConfiguration;
+
+  LabelsInputConfiguration({
+    this.labelGroupName,
+    this.s3InputConfiguration,
+  });
+
+  factory LabelsInputConfiguration.fromJson(Map<String, dynamic> json) {
+    return LabelsInputConfiguration(
+      labelGroupName: json['LabelGroupName'] as String?,
+      s3InputConfiguration: json['S3InputConfiguration'] != null
+          ? LabelsS3InputConfiguration.fromJson(
+              json['S3InputConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final labelGroupName = this.labelGroupName;
+    final s3InputConfiguration = this.s3InputConfiguration;
+    return {
+      if (labelGroupName != null) 'LabelGroupName': labelGroupName,
+      if (s3InputConfiguration != null)
+        'S3InputConfiguration': s3InputConfiguration,
     };
   }
 }
@@ -6483,22 +5343,995 @@ class ModelDiagnosticsS3OutputConfiguration {
   }
 }
 
-class ModelPromoteMode {
-  static const managed = ModelPromoteMode._('MANAGED');
-  static const manual = ModelPromoteMode._('MANUAL');
+/// The location information (prefix and bucket name) for the s3 location being
+/// used for label data.
+class LabelsS3InputConfiguration {
+  /// The name of the S3 bucket holding the label data.
+  final String bucket;
+
+  /// The prefix for the S3 bucket used for the label data.
+  final String? prefix;
+
+  LabelsS3InputConfiguration({
+    required this.bucket,
+    this.prefix,
+  });
+
+  factory LabelsS3InputConfiguration.fromJson(Map<String, dynamic> json) {
+    return LabelsS3InputConfiguration(
+      bucket: (json['Bucket'] as String?) ?? '',
+      prefix: json['Prefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final prefix = this.prefix;
+    return {
+      'Bucket': bucket,
+      if (prefix != null) 'Prefix': prefix,
+    };
+  }
+}
+
+class DataUploadFrequency {
+  static const pt5m = DataUploadFrequency._('PT5M');
+  static const pt10m = DataUploadFrequency._('PT10M');
+  static const pt15m = DataUploadFrequency._('PT15M');
+  static const pt30m = DataUploadFrequency._('PT30M');
+  static const pt1h = DataUploadFrequency._('PT1H');
 
   final String value;
 
-  const ModelPromoteMode._(this.value);
+  const DataUploadFrequency._(this.value);
 
-  static const values = [managed, manual];
+  static const values = [pt5m, pt10m, pt15m, pt30m, pt1h];
 
-  static ModelPromoteMode fromString(String value) =>
+  static DataUploadFrequency fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => ModelPromoteMode._(value));
+          orElse: () => DataUploadFrequency._(value));
 
   @override
-  bool operator ==(other) => other is ModelPromoteMode && other.value == value;
+  bool operator ==(other) =>
+      other is DataUploadFrequency && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Specifies configuration information for the input data for the inference,
+/// including Amazon S3 location of input data..
+class InferenceInputConfiguration {
+  /// Specifies configuration information for the input data for the inference,
+  /// including timestamp format and delimiter.
+  final InferenceInputNameConfiguration? inferenceInputNameConfiguration;
+
+  /// Indicates the difference between your time zone and Coordinated Universal
+  /// Time (UTC).
+  final String? inputTimeZoneOffset;
+
+  /// Specifies configuration information for the input data for the inference,
+  /// including Amazon S3 location of input data.
+  final InferenceS3InputConfiguration? s3InputConfiguration;
+
+  InferenceInputConfiguration({
+    this.inferenceInputNameConfiguration,
+    this.inputTimeZoneOffset,
+    this.s3InputConfiguration,
+  });
+
+  factory InferenceInputConfiguration.fromJson(Map<String, dynamic> json) {
+    return InferenceInputConfiguration(
+      inferenceInputNameConfiguration:
+          json['InferenceInputNameConfiguration'] != null
+              ? InferenceInputNameConfiguration.fromJson(
+                  json['InferenceInputNameConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      inputTimeZoneOffset: json['InputTimeZoneOffset'] as String?,
+      s3InputConfiguration: json['S3InputConfiguration'] != null
+          ? InferenceS3InputConfiguration.fromJson(
+              json['S3InputConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inferenceInputNameConfiguration =
+        this.inferenceInputNameConfiguration;
+    final inputTimeZoneOffset = this.inputTimeZoneOffset;
+    final s3InputConfiguration = this.s3InputConfiguration;
+    return {
+      if (inferenceInputNameConfiguration != null)
+        'InferenceInputNameConfiguration': inferenceInputNameConfiguration,
+      if (inputTimeZoneOffset != null)
+        'InputTimeZoneOffset': inputTimeZoneOffset,
+      if (s3InputConfiguration != null)
+        'S3InputConfiguration': s3InputConfiguration,
+    };
+  }
+}
+
+/// Specifies configuration information for the output results from for the
+/// inference, including KMS key ID and output S3 location.
+class InferenceOutputConfiguration {
+  /// Specifies configuration information for the output results from for the
+  /// inference, output S3 location.
+  final InferenceS3OutputConfiguration s3OutputConfiguration;
+
+  /// The ID number for the KMS key key used to encrypt the inference output.
+  final String? kmsKeyId;
+
+  InferenceOutputConfiguration({
+    required this.s3OutputConfiguration,
+    this.kmsKeyId,
+  });
+
+  factory InferenceOutputConfiguration.fromJson(Map<String, dynamic> json) {
+    return InferenceOutputConfiguration(
+      s3OutputConfiguration: InferenceS3OutputConfiguration.fromJson(
+          (json['S3OutputConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      kmsKeyId: json['KmsKeyId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3OutputConfiguration = this.s3OutputConfiguration;
+    final kmsKeyId = this.kmsKeyId;
+    return {
+      'S3OutputConfiguration': s3OutputConfiguration,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+    };
+  }
+}
+
+/// Specifies configuration information for the output results from the
+/// inference, including output S3 location.
+class InferenceS3OutputConfiguration {
+  /// The bucket containing the output results from the inference
+  final String bucket;
+
+  /// The prefix for the S3 bucket used for the output results from the inference.
+  final String? prefix;
+
+  InferenceS3OutputConfiguration({
+    required this.bucket,
+    this.prefix,
+  });
+
+  factory InferenceS3OutputConfiguration.fromJson(Map<String, dynamic> json) {
+    return InferenceS3OutputConfiguration(
+      bucket: (json['Bucket'] as String?) ?? '',
+      prefix: json['Prefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final prefix = this.prefix;
+    return {
+      'Bucket': bucket,
+      if (prefix != null) 'Prefix': prefix,
+    };
+  }
+}
+
+/// Specifies configuration information for the input data for the inference,
+/// including input data S3 location.
+class InferenceS3InputConfiguration {
+  /// The bucket containing the input dataset for the inference.
+  final String bucket;
+
+  /// The prefix for the S3 bucket used for the input data for the inference.
+  final String? prefix;
+
+  InferenceS3InputConfiguration({
+    required this.bucket,
+    this.prefix,
+  });
+
+  factory InferenceS3InputConfiguration.fromJson(Map<String, dynamic> json) {
+    return InferenceS3InputConfiguration(
+      bucket: (json['Bucket'] as String?) ?? '',
+      prefix: json['Prefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final prefix = this.prefix;
+    return {
+      'Bucket': bucket,
+      if (prefix != null) 'Prefix': prefix,
+    };
+  }
+}
+
+/// Specifies configuration information for the input data for the inference,
+/// including timestamp format and delimiter.
+class InferenceInputNameConfiguration {
+  /// Indicates the delimiter character used between items in the data.
+  final String? componentTimestampDelimiter;
+
+  /// The format of the timestamp, whether Epoch time, or standard, with or
+  /// without hyphens (-).
+  final String? timestampFormat;
+
+  InferenceInputNameConfiguration({
+    this.componentTimestampDelimiter,
+    this.timestampFormat,
+  });
+
+  factory InferenceInputNameConfiguration.fromJson(Map<String, dynamic> json) {
+    return InferenceInputNameConfiguration(
+      componentTimestampDelimiter:
+          json['ComponentTimestampDelimiter'] as String?,
+      timestampFormat: json['TimestampFormat'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final componentTimestampDelimiter = this.componentTimestampDelimiter;
+    final timestampFormat = this.timestampFormat;
+    return {
+      if (componentTimestampDelimiter != null)
+        'ComponentTimestampDelimiter': componentTimestampDelimiter,
+      if (timestampFormat != null) 'TimestampFormat': timestampFormat,
+    };
+  }
+}
+
+/// A tag is a key-value pair that can be added to a resource as metadata.
+class Tag {
+  /// The key for the specified tag.
+  final String key;
+
+  /// The value for the specified tag.
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
+class RetrainingSchedulerStatus {
+  static const pending = RetrainingSchedulerStatus._('PENDING');
+  static const running = RetrainingSchedulerStatus._('RUNNING');
+  static const stopping = RetrainingSchedulerStatus._('STOPPING');
+  static const stopped = RetrainingSchedulerStatus._('STOPPED');
+
+  final String value;
+
+  const RetrainingSchedulerStatus._(this.value);
+
+  static const values = [pending, running, stopping, stopped];
+
+  static RetrainingSchedulerStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RetrainingSchedulerStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RetrainingSchedulerStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class InferenceSchedulerStatus {
+  static const pending = InferenceSchedulerStatus._('PENDING');
+  static const running = InferenceSchedulerStatus._('RUNNING');
+  static const stopping = InferenceSchedulerStatus._('STOPPING');
+  static const stopped = InferenceSchedulerStatus._('STOPPED');
+
+  final String value;
+
+  const InferenceSchedulerStatus._(this.value);
+
+  static const values = [pending, running, stopping, stopped];
+
+  static InferenceSchedulerStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InferenceSchedulerStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InferenceSchedulerStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class IngestionJobStatus {
+  static const inProgress = IngestionJobStatus._('IN_PROGRESS');
+  static const success = IngestionJobStatus._('SUCCESS');
+  static const failed = IngestionJobStatus._('FAILED');
+  static const importInProgress = IngestionJobStatus._('IMPORT_IN_PROGRESS');
+
+  final String value;
+
+  const IngestionJobStatus._(this.value);
+
+  static const values = [inProgress, success, failed, importInProgress];
+
+  static IngestionJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IngestionJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IngestionJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Specifies configuration information for the input data for the data
+/// ingestion job, including input data S3 location.
+class IngestionInputConfiguration {
+  /// The location information for the S3 bucket used for input data for the data
+  /// ingestion.
+  final IngestionS3InputConfiguration s3InputConfiguration;
+
+  IngestionInputConfiguration({
+    required this.s3InputConfiguration,
+  });
+
+  factory IngestionInputConfiguration.fromJson(Map<String, dynamic> json) {
+    return IngestionInputConfiguration(
+      s3InputConfiguration: IngestionS3InputConfiguration.fromJson(
+          (json['S3InputConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3InputConfiguration = this.s3InputConfiguration;
+    return {
+      'S3InputConfiguration': s3InputConfiguration,
+    };
+  }
+}
+
+/// Specifies S3 configuration information for the input data for the data
+/// ingestion job.
+class IngestionS3InputConfiguration {
+  /// The name of the S3 bucket used for the input data for the data ingestion.
+  final String bucket;
+
+  /// The pattern for matching the Amazon S3 files that will be used for
+  /// ingestion. If the schema was created previously without any KeyPattern, then
+  /// the default KeyPattern {prefix}/{component_name}/* is used to download files
+  /// from Amazon S3 according to the schema. This field is required when
+  /// ingestion is being done for the first time.
+  ///
+  /// Valid Values: {prefix}/{component_name}_* | {prefix}/{component_name}/* |
+  /// {prefix}/{component_name}[DELIMITER]* (Allowed delimiters : space, dot,
+  /// underscore, hyphen)
+  final String? keyPattern;
+
+  /// The prefix for the S3 location being used for the input data for the data
+  /// ingestion.
+  final String? prefix;
+
+  IngestionS3InputConfiguration({
+    required this.bucket,
+    this.keyPattern,
+    this.prefix,
+  });
+
+  factory IngestionS3InputConfiguration.fromJson(Map<String, dynamic> json) {
+    return IngestionS3InputConfiguration(
+      bucket: (json['Bucket'] as String?) ?? '',
+      keyPattern: json['KeyPattern'] as String?,
+      prefix: json['Prefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final keyPattern = this.keyPattern;
+    final prefix = this.prefix;
+    return {
+      'Bucket': bucket,
+      if (keyPattern != null) 'KeyPattern': keyPattern,
+      if (prefix != null) 'Prefix': prefix,
+    };
+  }
+}
+
+/// Summary of ingestion statistics like whether data exists, number of missing
+/// values, number of invalid values and so on related to the particular sensor.
+class SensorStatisticsSummary {
+  /// Parameter that describes potential risk about whether data associated with
+  /// the sensor is categorical.
+  final CategoricalValues? categoricalValues;
+
+  /// Name of the component to which the particular sensor belongs for which the
+  /// statistics belong to.
+  final String? componentName;
+
+  /// Indicates the time reference to indicate the end of valid data associated
+  /// with the sensor that the statistics belong to.
+  final DateTime? dataEndTime;
+
+  /// Parameter that indicates whether data exists for the sensor that the
+  /// statistics belong to.
+  final bool? dataExists;
+
+  /// Indicates the time reference to indicate the beginning of valid data
+  /// associated with the sensor that the statistics belong to.
+  final DateTime? dataStartTime;
+
+  /// Parameter that describes the total number of duplicate timestamp records
+  /// associated with the sensor that the statistics belong to.
+  final CountPercent? duplicateTimestamps;
+
+  /// Parameter that describes the total number of invalid date entries associated
+  /// with the sensor that the statistics belong to.
+  final CountPercent? invalidDateEntries;
+
+  /// Parameter that describes the total number of, and percentage of, values that
+  /// are invalid for the sensor that the statistics belong to.
+  final CountPercent? invalidValues;
+
+  /// Parameter that describes potential risk about whether data associated with
+  /// the sensor contains one or more large gaps between consecutive timestamps.
+  final LargeTimestampGaps? largeTimestampGaps;
+
+  /// Parameter that describes the total number of, and percentage of, values that
+  /// are missing for the sensor that the statistics belong to.
+  final CountPercent? missingValues;
+
+  /// Parameter that describes potential risk about whether data associated with
+  /// the sensor is mostly monotonic.
+  final MonotonicValues? monotonicValues;
+
+  /// Parameter that describes potential risk about whether data associated with
+  /// the sensor has more than one operating mode.
+  final MultipleOperatingModes? multipleOperatingModes;
+
+  /// Name of the sensor that the statistics belong to.
+  final String? sensorName;
+
+  SensorStatisticsSummary({
+    this.categoricalValues,
+    this.componentName,
+    this.dataEndTime,
+    this.dataExists,
+    this.dataStartTime,
+    this.duplicateTimestamps,
+    this.invalidDateEntries,
+    this.invalidValues,
+    this.largeTimestampGaps,
+    this.missingValues,
+    this.monotonicValues,
+    this.multipleOperatingModes,
+    this.sensorName,
+  });
+
+  factory SensorStatisticsSummary.fromJson(Map<String, dynamic> json) {
+    return SensorStatisticsSummary(
+      categoricalValues: json['CategoricalValues'] != null
+          ? CategoricalValues.fromJson(
+              json['CategoricalValues'] as Map<String, dynamic>)
+          : null,
+      componentName: json['ComponentName'] as String?,
+      dataEndTime: timeStampFromJson(json['DataEndTime']),
+      dataExists: json['DataExists'] as bool?,
+      dataStartTime: timeStampFromJson(json['DataStartTime']),
+      duplicateTimestamps: json['DuplicateTimestamps'] != null
+          ? CountPercent.fromJson(
+              json['DuplicateTimestamps'] as Map<String, dynamic>)
+          : null,
+      invalidDateEntries: json['InvalidDateEntries'] != null
+          ? CountPercent.fromJson(
+              json['InvalidDateEntries'] as Map<String, dynamic>)
+          : null,
+      invalidValues: json['InvalidValues'] != null
+          ? CountPercent.fromJson(json['InvalidValues'] as Map<String, dynamic>)
+          : null,
+      largeTimestampGaps: json['LargeTimestampGaps'] != null
+          ? LargeTimestampGaps.fromJson(
+              json['LargeTimestampGaps'] as Map<String, dynamic>)
+          : null,
+      missingValues: json['MissingValues'] != null
+          ? CountPercent.fromJson(json['MissingValues'] as Map<String, dynamic>)
+          : null,
+      monotonicValues: json['MonotonicValues'] != null
+          ? MonotonicValues.fromJson(
+              json['MonotonicValues'] as Map<String, dynamic>)
+          : null,
+      multipleOperatingModes: json['MultipleOperatingModes'] != null
+          ? MultipleOperatingModes.fromJson(
+              json['MultipleOperatingModes'] as Map<String, dynamic>)
+          : null,
+      sensorName: json['SensorName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final categoricalValues = this.categoricalValues;
+    final componentName = this.componentName;
+    final dataEndTime = this.dataEndTime;
+    final dataExists = this.dataExists;
+    final dataStartTime = this.dataStartTime;
+    final duplicateTimestamps = this.duplicateTimestamps;
+    final invalidDateEntries = this.invalidDateEntries;
+    final invalidValues = this.invalidValues;
+    final largeTimestampGaps = this.largeTimestampGaps;
+    final missingValues = this.missingValues;
+    final monotonicValues = this.monotonicValues;
+    final multipleOperatingModes = this.multipleOperatingModes;
+    final sensorName = this.sensorName;
+    return {
+      if (categoricalValues != null) 'CategoricalValues': categoricalValues,
+      if (componentName != null) 'ComponentName': componentName,
+      if (dataEndTime != null) 'DataEndTime': unixTimestampToJson(dataEndTime),
+      if (dataExists != null) 'DataExists': dataExists,
+      if (dataStartTime != null)
+        'DataStartTime': unixTimestampToJson(dataStartTime),
+      if (duplicateTimestamps != null)
+        'DuplicateTimestamps': duplicateTimestamps,
+      if (invalidDateEntries != null) 'InvalidDateEntries': invalidDateEntries,
+      if (invalidValues != null) 'InvalidValues': invalidValues,
+      if (largeTimestampGaps != null) 'LargeTimestampGaps': largeTimestampGaps,
+      if (missingValues != null) 'MissingValues': missingValues,
+      if (monotonicValues != null) 'MonotonicValues': monotonicValues,
+      if (multipleOperatingModes != null)
+        'MultipleOperatingModes': multipleOperatingModes,
+      if (sensorName != null) 'SensorName': sensorName,
+    };
+  }
+}
+
+/// Entity that comprises information of count and percentage.
+class CountPercent {
+  /// Indicates the count of occurences of the given statistic.
+  final int count;
+
+  /// Indicates the percentage of occurances of the given statistic.
+  final double percentage;
+
+  CountPercent({
+    required this.count,
+    required this.percentage,
+  });
+
+  factory CountPercent.fromJson(Map<String, dynamic> json) {
+    return CountPercent(
+      count: (json['Count'] as int?) ?? 0,
+      percentage: (json['Percentage'] as double?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final count = this.count;
+    final percentage = this.percentage;
+    return {
+      'Count': count,
+      'Percentage': percentage,
+    };
+  }
+}
+
+/// Entity that comprises information on categorical values in data.
+class CategoricalValues {
+  /// Indicates whether there is a potential data issue related to categorical
+  /// values.
+  final StatisticalIssueStatus status;
+
+  /// Indicates the number of categories in the data.
+  final int? numberOfCategory;
+
+  CategoricalValues({
+    required this.status,
+    this.numberOfCategory,
+  });
+
+  factory CategoricalValues.fromJson(Map<String, dynamic> json) {
+    return CategoricalValues(
+      status:
+          StatisticalIssueStatus.fromString((json['Status'] as String?) ?? ''),
+      numberOfCategory: json['NumberOfCategory'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final numberOfCategory = this.numberOfCategory;
+    return {
+      'Status': status.value,
+      if (numberOfCategory != null) 'NumberOfCategory': numberOfCategory,
+    };
+  }
+}
+
+/// Entity that comprises information on operating modes in data.
+class MultipleOperatingModes {
+  /// Indicates whether there is a potential data issue related to having multiple
+  /// operating modes.
+  final StatisticalIssueStatus status;
+
+  MultipleOperatingModes({
+    required this.status,
+  });
+
+  factory MultipleOperatingModes.fromJson(Map<String, dynamic> json) {
+    return MultipleOperatingModes(
+      status:
+          StatisticalIssueStatus.fromString((json['Status'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      'Status': status.value,
+    };
+  }
+}
+
+/// Entity that comprises information on large gaps between consecutive
+/// timestamps in data.
+class LargeTimestampGaps {
+  /// Indicates whether there is a potential data issue related to large gaps in
+  /// timestamps.
+  final StatisticalIssueStatus status;
+
+  /// Indicates the size of the largest timestamp gap, in days.
+  final int? maxTimestampGapInDays;
+
+  /// Indicates the number of large timestamp gaps, if there are any.
+  final int? numberOfLargeTimestampGaps;
+
+  LargeTimestampGaps({
+    required this.status,
+    this.maxTimestampGapInDays,
+    this.numberOfLargeTimestampGaps,
+  });
+
+  factory LargeTimestampGaps.fromJson(Map<String, dynamic> json) {
+    return LargeTimestampGaps(
+      status:
+          StatisticalIssueStatus.fromString((json['Status'] as String?) ?? ''),
+      maxTimestampGapInDays: json['MaxTimestampGapInDays'] as int?,
+      numberOfLargeTimestampGaps: json['NumberOfLargeTimestampGaps'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final maxTimestampGapInDays = this.maxTimestampGapInDays;
+    final numberOfLargeTimestampGaps = this.numberOfLargeTimestampGaps;
+    return {
+      'Status': status.value,
+      if (maxTimestampGapInDays != null)
+        'MaxTimestampGapInDays': maxTimestampGapInDays,
+      if (numberOfLargeTimestampGaps != null)
+        'NumberOfLargeTimestampGaps': numberOfLargeTimestampGaps,
+    };
+  }
+}
+
+/// Entity that comprises information on monotonic values in the data.
+class MonotonicValues {
+  /// Indicates whether there is a potential data issue related to having
+  /// monotonic values.
+  final StatisticalIssueStatus status;
+
+  /// Indicates the monotonicity of values. Can be INCREASING, DECREASING, or
+  /// STATIC.
+  final Monotonicity? monotonicity;
+
+  MonotonicValues({
+    required this.status,
+    this.monotonicity,
+  });
+
+  factory MonotonicValues.fromJson(Map<String, dynamic> json) {
+    return MonotonicValues(
+      status:
+          StatisticalIssueStatus.fromString((json['Status'] as String?) ?? ''),
+      monotonicity:
+          (json['Monotonicity'] as String?)?.let(Monotonicity.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final monotonicity = this.monotonicity;
+    return {
+      'Status': status.value,
+      if (monotonicity != null) 'Monotonicity': monotonicity.value,
+    };
+  }
+}
+
+class StatisticalIssueStatus {
+  static const potentialIssueDetected =
+      StatisticalIssueStatus._('POTENTIAL_ISSUE_DETECTED');
+  static const noIssueDetected = StatisticalIssueStatus._('NO_ISSUE_DETECTED');
+
+  final String value;
+
+  const StatisticalIssueStatus._(this.value);
+
+  static const values = [potentialIssueDetected, noIssueDetected];
+
+  static StatisticalIssueStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StatisticalIssueStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StatisticalIssueStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class Monotonicity {
+  static const decreasing = Monotonicity._('DECREASING');
+  static const increasing = Monotonicity._('INCREASING');
+  static const static = Monotonicity._('STATIC');
+
+  final String value;
+
+  const Monotonicity._(this.value);
+
+  static const values = [decreasing, increasing, static];
+
+  static Monotonicity fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Monotonicity._(value));
+
+  @override
+  bool operator ==(other) => other is Monotonicity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides information about the specified retraining scheduler, including
+/// model name, status, start date, frequency, and lookback window.
+class RetrainingSchedulerSummary {
+  /// The number of past days of data used for retraining.
+  final String? lookbackWindow;
+
+  /// The ARN of the model that the retraining scheduler is attached to.
+  final String? modelArn;
+
+  /// The name of the model that the retraining scheduler is attached to.
+  final String? modelName;
+
+  /// The frequency at which the model retraining is set. This follows the <a
+  /// href="https://en.wikipedia.org/wiki/ISO_8601#Durations">ISO 8601</a>
+  /// guidelines.
+  final String? retrainingFrequency;
+
+  /// The start date for the retraining scheduler. Lookout for Equipment truncates
+  /// the time you provide to the nearest UTC day.
+  final DateTime? retrainingStartDate;
+
+  /// The status of the retraining scheduler.
+  final RetrainingSchedulerStatus? status;
+
+  RetrainingSchedulerSummary({
+    this.lookbackWindow,
+    this.modelArn,
+    this.modelName,
+    this.retrainingFrequency,
+    this.retrainingStartDate,
+    this.status,
+  });
+
+  factory RetrainingSchedulerSummary.fromJson(Map<String, dynamic> json) {
+    return RetrainingSchedulerSummary(
+      lookbackWindow: json['LookbackWindow'] as String?,
+      modelArn: json['ModelArn'] as String?,
+      modelName: json['ModelName'] as String?,
+      retrainingFrequency: json['RetrainingFrequency'] as String?,
+      retrainingStartDate: timeStampFromJson(json['RetrainingStartDate']),
+      status: (json['Status'] as String?)
+          ?.let(RetrainingSchedulerStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lookbackWindow = this.lookbackWindow;
+    final modelArn = this.modelArn;
+    final modelName = this.modelName;
+    final retrainingFrequency = this.retrainingFrequency;
+    final retrainingStartDate = this.retrainingStartDate;
+    final status = this.status;
+    return {
+      if (lookbackWindow != null) 'LookbackWindow': lookbackWindow,
+      if (modelArn != null) 'ModelArn': modelArn,
+      if (modelName != null) 'ModelName': modelName,
+      if (retrainingFrequency != null)
+        'RetrainingFrequency': retrainingFrequency,
+      if (retrainingStartDate != null)
+        'RetrainingStartDate': unixTimestampToJson(retrainingStartDate),
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+/// Contains information about the specific model version.
+class ModelVersionSummary {
+  /// The time when this model version was created.
+  final DateTime? createdAt;
+
+  /// The Amazon Resource Name (ARN) of the model that this model version is a
+  /// version of.
+  final String? modelArn;
+
+  /// The name of the model that this model version is a version of.
+  final String? modelName;
+
+  /// Provides a quality assessment for a model that uses labels. If Lookout for
+  /// Equipment determines that the model quality is poor based on training
+  /// metrics, the value is <code>POOR_QUALITY_DETECTED</code>. Otherwise, the
+  /// value is <code>QUALITY_THRESHOLD_MET</code>.
+  ///
+  /// If the model is unlabeled, the model quality can't be assessed and the value
+  /// of <code>ModelQuality</code> is <code>CANNOT_DETERMINE_QUALITY</code>. In
+  /// this situation, you can get a model quality assessment by adding labels to
+  /// the input dataset and retraining the model.
+  ///
+  /// For information about improving the quality of a model, see <a
+  /// href="https://docs.aws.amazon.com/lookout-for-equipment/latest/ug/best-practices.html">Best
+  /// practices with Amazon Lookout for Equipment</a>.
+  final ModelQuality? modelQuality;
+
+  /// The version of the model.
+  final int? modelVersion;
+
+  /// The Amazon Resource Name (ARN) of the model version.
+  final String? modelVersionArn;
+
+  /// Indicates how this model version was generated.
+  final ModelVersionSourceType? sourceType;
+
+  /// The current status of the model version.
+  final ModelVersionStatus? status;
+
+  ModelVersionSummary({
+    this.createdAt,
+    this.modelArn,
+    this.modelName,
+    this.modelQuality,
+    this.modelVersion,
+    this.modelVersionArn,
+    this.sourceType,
+    this.status,
+  });
+
+  factory ModelVersionSummary.fromJson(Map<String, dynamic> json) {
+    return ModelVersionSummary(
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      modelArn: json['ModelArn'] as String?,
+      modelName: json['ModelName'] as String?,
+      modelQuality:
+          (json['ModelQuality'] as String?)?.let(ModelQuality.fromString),
+      modelVersion: json['ModelVersion'] as int?,
+      modelVersionArn: json['ModelVersionArn'] as String?,
+      sourceType: (json['SourceType'] as String?)
+          ?.let(ModelVersionSourceType.fromString),
+      status: (json['Status'] as String?)?.let(ModelVersionStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final modelArn = this.modelArn;
+    final modelName = this.modelName;
+    final modelQuality = this.modelQuality;
+    final modelVersion = this.modelVersion;
+    final modelVersionArn = this.modelVersionArn;
+    final sourceType = this.sourceType;
+    final status = this.status;
+    return {
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (modelArn != null) 'ModelArn': modelArn,
+      if (modelName != null) 'ModelName': modelName,
+      if (modelQuality != null) 'ModelQuality': modelQuality.value,
+      if (modelVersion != null) 'ModelVersion': modelVersion,
+      if (modelVersionArn != null) 'ModelVersionArn': modelVersionArn,
+      if (sourceType != null) 'SourceType': sourceType.value,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class ModelVersionStatus {
+  static const inProgress = ModelVersionStatus._('IN_PROGRESS');
+  static const success = ModelVersionStatus._('SUCCESS');
+  static const failed = ModelVersionStatus._('FAILED');
+  static const importInProgress = ModelVersionStatus._('IMPORT_IN_PROGRESS');
+  static const canceled = ModelVersionStatus._('CANCELED');
+
+  final String value;
+
+  const ModelVersionStatus._(this.value);
+
+  static const values = [
+    inProgress,
+    success,
+    failed,
+    importInProgress,
+    canceled
+  ];
+
+  static ModelVersionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ModelVersionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ModelVersionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ModelVersionSourceType {
+  static const training = ModelVersionSourceType._('TRAINING');
+  static const retraining = ModelVersionSourceType._('RETRAINING');
+  static const import = ModelVersionSourceType._('IMPORT');
+
+  final String value;
+
+  const ModelVersionSourceType._(this.value);
+
+  static const values = [training, retraining, import];
+
+  static ModelVersionSourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ModelVersionSourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ModelVersionSourceType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -6528,31 +6361,6 @@ class ModelQuality {
 
   @override
   bool operator ==(other) => other is ModelQuality && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ModelStatus {
-  static const inProgress = ModelStatus._('IN_PROGRESS');
-  static const success = ModelStatus._('SUCCESS');
-  static const failed = ModelStatus._('FAILED');
-  static const importInProgress = ModelStatus._('IMPORT_IN_PROGRESS');
-
-  final String value;
-
-  const ModelStatus._(this.value);
-
-  static const values = [inProgress, success, failed, importInProgress];
-
-  static ModelStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ModelStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ModelStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -6733,24 +6541,23 @@ class ModelSummary {
   }
 }
 
-class ModelVersionSourceType {
-  static const training = ModelVersionSourceType._('TRAINING');
-  static const retraining = ModelVersionSourceType._('RETRAINING');
-  static const import = ModelVersionSourceType._('IMPORT');
+class ModelStatus {
+  static const inProgress = ModelStatus._('IN_PROGRESS');
+  static const success = ModelStatus._('SUCCESS');
+  static const failed = ModelStatus._('FAILED');
+  static const importInProgress = ModelStatus._('IMPORT_IN_PROGRESS');
 
   final String value;
 
-  const ModelVersionSourceType._(this.value);
+  const ModelStatus._(this.value);
 
-  static const values = [training, retraining, import];
+  static const values = [inProgress, success, failed, importInProgress];
 
-  static ModelVersionSourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ModelVersionSourceType._(value));
+  static ModelStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ModelStatus._(value));
 
   @override
-  bool operator ==(other) =>
-      other is ModelVersionSourceType && other.value == value;
+  bool operator ==(other) => other is ModelStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -6759,259 +6566,268 @@ class ModelVersionSourceType {
   String toString() => value;
 }
 
-class ModelVersionStatus {
-  static const inProgress = ModelVersionStatus._('IN_PROGRESS');
-  static const success = ModelVersionStatus._('SUCCESS');
-  static const failed = ModelVersionStatus._('FAILED');
-  static const importInProgress = ModelVersionStatus._('IMPORT_IN_PROGRESS');
-  static const canceled = ModelVersionStatus._('CANCELED');
-
-  final String value;
-
-  const ModelVersionStatus._(this.value);
-
-  static const values = [
-    inProgress,
-    success,
-    failed,
-    importInProgress,
-    canceled
-  ];
-
-  static ModelVersionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ModelVersionStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ModelVersionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains information about the specific model version.
-class ModelVersionSummary {
-  /// The time when this model version was created.
+/// Information about the label.
+class LabelSummary {
+  /// The time at which the label was created.
   final DateTime? createdAt;
 
-  /// The Amazon Resource Name (ARN) of the model that this model version is a
-  /// version of.
-  final String? modelArn;
+  /// The timestamp indicating the end of the label.
+  final DateTime? endTime;
 
-  /// The name of the model that this model version is a version of.
-  final String? modelName;
+  /// Indicates that a label pertains to a particular piece of equipment.
+  final String? equipment;
 
-  /// Provides a quality assessment for a model that uses labels. If Lookout for
-  /// Equipment determines that the model quality is poor based on training
-  /// metrics, the value is <code>POOR_QUALITY_DETECTED</code>. Otherwise, the
-  /// value is <code>QUALITY_THRESHOLD_MET</code>.
+  /// Indicates the type of anomaly associated with the label.
   ///
-  /// If the model is unlabeled, the model quality can't be assessed and the value
-  /// of <code>ModelQuality</code> is <code>CANNOT_DETERMINE_QUALITY</code>. In
-  /// this situation, you can get a model quality assessment by adding labels to
-  /// the input dataset and retraining the model.
-  ///
-  /// For information about improving the quality of a model, see <a
-  /// href="https://docs.aws.amazon.com/lookout-for-equipment/latest/ug/best-practices.html">Best
-  /// practices with Amazon Lookout for Equipment</a>.
-  final ModelQuality? modelQuality;
+  /// Data in this field will be retained for service usage. Follow best practices
+  /// for the security of your data.
+  final String? faultCode;
 
-  /// The version of the model.
-  final int? modelVersion;
+  /// The Amazon Resource Name (ARN) of the label group.
+  final String? labelGroupArn;
 
-  /// The Amazon Resource Name (ARN) of the model version.
-  final String? modelVersionArn;
+  /// The name of the label group.
+  final String? labelGroupName;
 
-  /// Indicates how this model version was generated.
-  final ModelVersionSourceType? sourceType;
+  /// The ID of the label.
+  final String? labelId;
 
-  /// The current status of the model version.
-  final ModelVersionStatus? status;
+  /// Indicates whether a labeled event represents an anomaly.
+  final LabelRating? rating;
 
-  ModelVersionSummary({
+  /// The timestamp indicating the start of the label.
+  final DateTime? startTime;
+
+  LabelSummary({
     this.createdAt,
-    this.modelArn,
-    this.modelName,
-    this.modelQuality,
-    this.modelVersion,
-    this.modelVersionArn,
-    this.sourceType,
-    this.status,
+    this.endTime,
+    this.equipment,
+    this.faultCode,
+    this.labelGroupArn,
+    this.labelGroupName,
+    this.labelId,
+    this.rating,
+    this.startTime,
   });
 
-  factory ModelVersionSummary.fromJson(Map<String, dynamic> json) {
-    return ModelVersionSummary(
+  factory LabelSummary.fromJson(Map<String, dynamic> json) {
+    return LabelSummary(
       createdAt: timeStampFromJson(json['CreatedAt']),
-      modelArn: json['ModelArn'] as String?,
-      modelName: json['ModelName'] as String?,
-      modelQuality:
-          (json['ModelQuality'] as String?)?.let(ModelQuality.fromString),
-      modelVersion: json['ModelVersion'] as int?,
-      modelVersionArn: json['ModelVersionArn'] as String?,
-      sourceType: (json['SourceType'] as String?)
-          ?.let(ModelVersionSourceType.fromString),
-      status: (json['Status'] as String?)?.let(ModelVersionStatus.fromString),
+      endTime: timeStampFromJson(json['EndTime']),
+      equipment: json['Equipment'] as String?,
+      faultCode: json['FaultCode'] as String?,
+      labelGroupArn: json['LabelGroupArn'] as String?,
+      labelGroupName: json['LabelGroupName'] as String?,
+      labelId: json['LabelId'] as String?,
+      rating: (json['Rating'] as String?)?.let(LabelRating.fromString),
+      startTime: timeStampFromJson(json['StartTime']),
     );
   }
 
   Map<String, dynamic> toJson() {
     final createdAt = this.createdAt;
-    final modelArn = this.modelArn;
-    final modelName = this.modelName;
-    final modelQuality = this.modelQuality;
-    final modelVersion = this.modelVersion;
-    final modelVersionArn = this.modelVersionArn;
-    final sourceType = this.sourceType;
-    final status = this.status;
+    final endTime = this.endTime;
+    final equipment = this.equipment;
+    final faultCode = this.faultCode;
+    final labelGroupArn = this.labelGroupArn;
+    final labelGroupName = this.labelGroupName;
+    final labelId = this.labelId;
+    final rating = this.rating;
+    final startTime = this.startTime;
     return {
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (equipment != null) 'Equipment': equipment,
+      if (faultCode != null) 'FaultCode': faultCode,
+      if (labelGroupArn != null) 'LabelGroupArn': labelGroupArn,
+      if (labelGroupName != null) 'LabelGroupName': labelGroupName,
+      if (labelId != null) 'LabelId': labelId,
+      if (rating != null) 'Rating': rating.value,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+    };
+  }
+}
+
+class LabelRating {
+  static const anomaly = LabelRating._('ANOMALY');
+  static const noAnomaly = LabelRating._('NO_ANOMALY');
+  static const neutral = LabelRating._('NEUTRAL');
+
+  final String value;
+
+  const LabelRating._(this.value);
+
+  static const values = [anomaly, noAnomaly, neutral];
+
+  static LabelRating fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LabelRating._(value));
+
+  @override
+  bool operator ==(other) => other is LabelRating && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about the label group.
+class LabelGroupSummary {
+  /// The time at which the label group was created.
+  final DateTime? createdAt;
+
+  /// The Amazon Resource Name (ARN) of the label group.
+  final String? labelGroupArn;
+
+  /// The name of the label group.
+  final String? labelGroupName;
+
+  /// The time at which the label group was updated.
+  final DateTime? updatedAt;
+
+  LabelGroupSummary({
+    this.createdAt,
+    this.labelGroupArn,
+    this.labelGroupName,
+    this.updatedAt,
+  });
+
+  factory LabelGroupSummary.fromJson(Map<String, dynamic> json) {
+    return LabelGroupSummary(
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      labelGroupArn: json['LabelGroupArn'] as String?,
+      labelGroupName: json['LabelGroupName'] as String?,
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final labelGroupArn = this.labelGroupArn;
+    final labelGroupName = this.labelGroupName;
+    final updatedAt = this.updatedAt;
+    return {
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (labelGroupArn != null) 'LabelGroupArn': labelGroupArn,
+      if (labelGroupName != null) 'LabelGroupName': labelGroupName,
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+/// Contains information about the specific inference scheduler, including data
+/// delay offset, model name and ARN, status, and so on.
+class InferenceSchedulerSummary {
+  /// A period of time (in minutes) by which inference on the data is delayed
+  /// after the data starts. For instance, if an offset delay time of five minutes
+  /// was selected, inference will not begin on the data until the first data
+  /// measurement after the five minute mark. For example, if five minutes is
+  /// selected, the inference scheduler will wake up at the configured frequency
+  /// with the additional five minute delay time to check the customer S3 bucket.
+  /// The customer can upload data at the same frequency and they don't need to
+  /// stop and restart the scheduler when uploading new data.
+  final int? dataDelayOffsetInMinutes;
+
+  /// How often data is uploaded to the source S3 bucket for the input data. This
+  /// value is the length of time between data uploads. For instance, if you
+  /// select 5 minutes, Amazon Lookout for Equipment will upload the real-time
+  /// data to the source bucket once every 5 minutes. This frequency also
+  /// determines how often Amazon Lookout for Equipment starts a scheduled
+  /// inference on your data. In this example, it starts once every 5 minutes.
+  final DataUploadFrequency? dataUploadFrequency;
+
+  /// The Amazon Resource Name (ARN) of the inference scheduler.
+  final String? inferenceSchedulerArn;
+
+  /// The name of the inference scheduler.
+  final String? inferenceSchedulerName;
+
+  /// Indicates whether the latest execution for the inference scheduler was
+  /// Anomalous (anomalous events found) or Normal (no anomalous events found).
+  final LatestInferenceResult? latestInferenceResult;
+
+  /// The Amazon Resource Name (ARN) of the machine learning model used by the
+  /// inference scheduler.
+  final String? modelArn;
+
+  /// The name of the machine learning model used for the inference scheduler.
+  final String? modelName;
+
+  /// Indicates the status of the inference scheduler.
+  final InferenceSchedulerStatus? status;
+
+  InferenceSchedulerSummary({
+    this.dataDelayOffsetInMinutes,
+    this.dataUploadFrequency,
+    this.inferenceSchedulerArn,
+    this.inferenceSchedulerName,
+    this.latestInferenceResult,
+    this.modelArn,
+    this.modelName,
+    this.status,
+  });
+
+  factory InferenceSchedulerSummary.fromJson(Map<String, dynamic> json) {
+    return InferenceSchedulerSummary(
+      dataDelayOffsetInMinutes: json['DataDelayOffsetInMinutes'] as int?,
+      dataUploadFrequency: (json['DataUploadFrequency'] as String?)
+          ?.let(DataUploadFrequency.fromString),
+      inferenceSchedulerArn: json['InferenceSchedulerArn'] as String?,
+      inferenceSchedulerName: json['InferenceSchedulerName'] as String?,
+      latestInferenceResult: (json['LatestInferenceResult'] as String?)
+          ?.let(LatestInferenceResult.fromString),
+      modelArn: json['ModelArn'] as String?,
+      modelName: json['ModelName'] as String?,
+      status:
+          (json['Status'] as String?)?.let(InferenceSchedulerStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataDelayOffsetInMinutes = this.dataDelayOffsetInMinutes;
+    final dataUploadFrequency = this.dataUploadFrequency;
+    final inferenceSchedulerArn = this.inferenceSchedulerArn;
+    final inferenceSchedulerName = this.inferenceSchedulerName;
+    final latestInferenceResult = this.latestInferenceResult;
+    final modelArn = this.modelArn;
+    final modelName = this.modelName;
+    final status = this.status;
+    return {
+      if (dataDelayOffsetInMinutes != null)
+        'DataDelayOffsetInMinutes': dataDelayOffsetInMinutes,
+      if (dataUploadFrequency != null)
+        'DataUploadFrequency': dataUploadFrequency.value,
+      if (inferenceSchedulerArn != null)
+        'InferenceSchedulerArn': inferenceSchedulerArn,
+      if (inferenceSchedulerName != null)
+        'InferenceSchedulerName': inferenceSchedulerName,
+      if (latestInferenceResult != null)
+        'LatestInferenceResult': latestInferenceResult.value,
       if (modelArn != null) 'ModelArn': modelArn,
       if (modelName != null) 'ModelName': modelName,
-      if (modelQuality != null) 'ModelQuality': modelQuality.value,
-      if (modelVersion != null) 'ModelVersion': modelVersion,
-      if (modelVersionArn != null) 'ModelVersionArn': modelVersionArn,
-      if (sourceType != null) 'SourceType': sourceType.value,
       if (status != null) 'Status': status.value,
     };
   }
 }
 
-/// Entity that comprises information on monotonic values in the data.
-class MonotonicValues {
-  /// Indicates whether there is a potential data issue related to having
-  /// monotonic values.
-  final StatisticalIssueStatus status;
-
-  /// Indicates the monotonicity of values. Can be INCREASING, DECREASING, or
-  /// STATIC.
-  final Monotonicity? monotonicity;
-
-  MonotonicValues({
-    required this.status,
-    this.monotonicity,
-  });
-
-  factory MonotonicValues.fromJson(Map<String, dynamic> json) {
-    return MonotonicValues(
-      status:
-          StatisticalIssueStatus.fromString((json['Status'] as String?) ?? ''),
-      monotonicity:
-          (json['Monotonicity'] as String?)?.let(Monotonicity.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final status = this.status;
-    final monotonicity = this.monotonicity;
-    return {
-      'Status': status.value,
-      if (monotonicity != null) 'Monotonicity': monotonicity.value,
-    };
-  }
-}
-
-class Monotonicity {
-  static const decreasing = Monotonicity._('DECREASING');
-  static const increasing = Monotonicity._('INCREASING');
-  static const static = Monotonicity._('STATIC');
+class LatestInferenceResult {
+  static const anomalous = LatestInferenceResult._('ANOMALOUS');
+  static const normal = LatestInferenceResult._('NORMAL');
 
   final String value;
 
-  const Monotonicity._(this.value);
+  const LatestInferenceResult._(this.value);
 
-  static const values = [decreasing, increasing, static];
+  static const values = [anomalous, normal];
 
-  static Monotonicity fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Monotonicity._(value));
-
-  @override
-  bool operator ==(other) => other is Monotonicity && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Entity that comprises information on operating modes in data.
-class MultipleOperatingModes {
-  /// Indicates whether there is a potential data issue related to having multiple
-  /// operating modes.
-  final StatisticalIssueStatus status;
-
-  MultipleOperatingModes({
-    required this.status,
-  });
-
-  factory MultipleOperatingModes.fromJson(Map<String, dynamic> json) {
-    return MultipleOperatingModes(
-      status:
-          StatisticalIssueStatus.fromString((json['Status'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final status = this.status;
-    return {
-      'Status': status.value,
-    };
-  }
-}
-
-class PutResourcePolicyResponse {
-  /// A unique identifier for a revision of the resource policy.
-  final String? policyRevisionId;
-
-  /// The Amazon Resource Name (ARN) of the resource for which the policy was
-  /// created.
-  final String? resourceArn;
-
-  PutResourcePolicyResponse({
-    this.policyRevisionId,
-    this.resourceArn,
-  });
-
-  factory PutResourcePolicyResponse.fromJson(Map<String, dynamic> json) {
-    return PutResourcePolicyResponse(
-      policyRevisionId: json['PolicyRevisionId'] as String?,
-      resourceArn: json['ResourceArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final policyRevisionId = this.policyRevisionId;
-    final resourceArn = this.resourceArn;
-    return {
-      if (policyRevisionId != null) 'PolicyRevisionId': policyRevisionId,
-      if (resourceArn != null) 'ResourceArn': resourceArn,
-    };
-  }
-}
-
-class RetrainingSchedulerStatus {
-  static const pending = RetrainingSchedulerStatus._('PENDING');
-  static const running = RetrainingSchedulerStatus._('RUNNING');
-  static const stopping = RetrainingSchedulerStatus._('STOPPING');
-  static const stopped = RetrainingSchedulerStatus._('STOPPED');
-
-  final String value;
-
-  const RetrainingSchedulerStatus._(this.value);
-
-  static const values = [pending, running, stopping, stopped];
-
-  static RetrainingSchedulerStatus fromString(String value) =>
+  static LatestInferenceResult fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => RetrainingSchedulerStatus._(value));
+          orElse: () => LatestInferenceResult._(value));
 
   @override
   bool operator ==(other) =>
-      other is RetrainingSchedulerStatus && other.value == value;
+      other is LatestInferenceResult && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -7020,66 +6836,143 @@ class RetrainingSchedulerStatus {
   String toString() => value;
 }
 
-/// Provides information about the specified retraining scheduler, including
-/// model name, status, start date, frequency, and lookback window.
-class RetrainingSchedulerSummary {
-  /// The number of past days of data used for retraining.
-  final String? lookbackWindow;
+/// Contains information about the specific inference execution, including input
+/// and output data configuration, inference scheduling information, status, and
+/// so on.
+class InferenceExecutionSummary {
+  /// The S3 object that the inference execution results were uploaded to.
+  final S3Object? customerResultObject;
 
-  /// The ARN of the model that the retraining scheduler is attached to.
+  /// Indicates the time reference in the dataset at which the inference execution
+  /// stopped.
+  final DateTime? dataEndTime;
+
+  /// Specifies configuration information for the input data for the inference
+  /// scheduler, including delimiter, format, and dataset location.
+  final InferenceInputConfiguration? dataInputConfiguration;
+
+  /// Specifies configuration information for the output results from for the
+  /// inference execution, including the output Amazon S3 location.
+  final InferenceOutputConfiguration? dataOutputConfiguration;
+
+  /// Indicates the time reference in the dataset at which the inference execution
+  /// began.
+  final DateTime? dataStartTime;
+
+  /// Specifies the reason for failure when an inference execution has failed.
+  final String? failedReason;
+
+  /// The Amazon Resource Name (ARN) of the inference scheduler being used for the
+  /// inference execution.
+  final String? inferenceSchedulerArn;
+
+  /// The name of the inference scheduler being used for the inference execution.
+  final String? inferenceSchedulerName;
+
+  /// The Amazon Resource Name (ARN) of the machine learning model used for the
+  /// inference execution.
   final String? modelArn;
 
-  /// The name of the model that the retraining scheduler is attached to.
+  /// The name of the machine learning model being used for the inference
+  /// execution.
   final String? modelName;
 
-  /// The frequency at which the model retraining is set. This follows the <a
-  /// href="https://en.wikipedia.org/wiki/ISO_8601#Durations">ISO 8601</a>
-  /// guidelines.
-  final String? retrainingFrequency;
+  /// The model version used for the inference execution.
+  final int? modelVersion;
 
-  /// The start date for the retraining scheduler. Lookout for Equipment truncates
-  /// the time you provide to the nearest UTC day.
-  final DateTime? retrainingStartDate;
+  /// The Amazon Resource Number (ARN) of the model version used for the inference
+  /// execution.
+  final String? modelVersionArn;
 
-  /// The status of the retraining scheduler.
-  final RetrainingSchedulerStatus? status;
+  /// Indicates the start time at which the inference scheduler began the specific
+  /// inference execution.
+  final DateTime? scheduledStartTime;
 
-  RetrainingSchedulerSummary({
-    this.lookbackWindow,
+  /// Indicates the status of the inference execution.
+  final InferenceExecutionStatus? status;
+
+  InferenceExecutionSummary({
+    this.customerResultObject,
+    this.dataEndTime,
+    this.dataInputConfiguration,
+    this.dataOutputConfiguration,
+    this.dataStartTime,
+    this.failedReason,
+    this.inferenceSchedulerArn,
+    this.inferenceSchedulerName,
     this.modelArn,
     this.modelName,
-    this.retrainingFrequency,
-    this.retrainingStartDate,
+    this.modelVersion,
+    this.modelVersionArn,
+    this.scheduledStartTime,
     this.status,
   });
 
-  factory RetrainingSchedulerSummary.fromJson(Map<String, dynamic> json) {
-    return RetrainingSchedulerSummary(
-      lookbackWindow: json['LookbackWindow'] as String?,
+  factory InferenceExecutionSummary.fromJson(Map<String, dynamic> json) {
+    return InferenceExecutionSummary(
+      customerResultObject: json['CustomerResultObject'] != null
+          ? S3Object.fromJson(
+              json['CustomerResultObject'] as Map<String, dynamic>)
+          : null,
+      dataEndTime: timeStampFromJson(json['DataEndTime']),
+      dataInputConfiguration: json['DataInputConfiguration'] != null
+          ? InferenceInputConfiguration.fromJson(
+              json['DataInputConfiguration'] as Map<String, dynamic>)
+          : null,
+      dataOutputConfiguration: json['DataOutputConfiguration'] != null
+          ? InferenceOutputConfiguration.fromJson(
+              json['DataOutputConfiguration'] as Map<String, dynamic>)
+          : null,
+      dataStartTime: timeStampFromJson(json['DataStartTime']),
+      failedReason: json['FailedReason'] as String?,
+      inferenceSchedulerArn: json['InferenceSchedulerArn'] as String?,
+      inferenceSchedulerName: json['InferenceSchedulerName'] as String?,
       modelArn: json['ModelArn'] as String?,
       modelName: json['ModelName'] as String?,
-      retrainingFrequency: json['RetrainingFrequency'] as String?,
-      retrainingStartDate: timeStampFromJson(json['RetrainingStartDate']),
-      status: (json['Status'] as String?)
-          ?.let(RetrainingSchedulerStatus.fromString),
+      modelVersion: json['ModelVersion'] as int?,
+      modelVersionArn: json['ModelVersionArn'] as String?,
+      scheduledStartTime: timeStampFromJson(json['ScheduledStartTime']),
+      status:
+          (json['Status'] as String?)?.let(InferenceExecutionStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final lookbackWindow = this.lookbackWindow;
+    final customerResultObject = this.customerResultObject;
+    final dataEndTime = this.dataEndTime;
+    final dataInputConfiguration = this.dataInputConfiguration;
+    final dataOutputConfiguration = this.dataOutputConfiguration;
+    final dataStartTime = this.dataStartTime;
+    final failedReason = this.failedReason;
+    final inferenceSchedulerArn = this.inferenceSchedulerArn;
+    final inferenceSchedulerName = this.inferenceSchedulerName;
     final modelArn = this.modelArn;
     final modelName = this.modelName;
-    final retrainingFrequency = this.retrainingFrequency;
-    final retrainingStartDate = this.retrainingStartDate;
+    final modelVersion = this.modelVersion;
+    final modelVersionArn = this.modelVersionArn;
+    final scheduledStartTime = this.scheduledStartTime;
     final status = this.status;
     return {
-      if (lookbackWindow != null) 'LookbackWindow': lookbackWindow,
+      if (customerResultObject != null)
+        'CustomerResultObject': customerResultObject,
+      if (dataEndTime != null) 'DataEndTime': unixTimestampToJson(dataEndTime),
+      if (dataInputConfiguration != null)
+        'DataInputConfiguration': dataInputConfiguration,
+      if (dataOutputConfiguration != null)
+        'DataOutputConfiguration': dataOutputConfiguration,
+      if (dataStartTime != null)
+        'DataStartTime': unixTimestampToJson(dataStartTime),
+      if (failedReason != null) 'FailedReason': failedReason,
+      if (inferenceSchedulerArn != null)
+        'InferenceSchedulerArn': inferenceSchedulerArn,
+      if (inferenceSchedulerName != null)
+        'InferenceSchedulerName': inferenceSchedulerName,
       if (modelArn != null) 'ModelArn': modelArn,
       if (modelName != null) 'ModelName': modelName,
-      if (retrainingFrequency != null)
-        'RetrainingFrequency': retrainingFrequency,
-      if (retrainingStartDate != null)
-        'RetrainingStartDate': unixTimestampToJson(retrainingStartDate),
+      if (modelVersion != null) 'ModelVersion': modelVersion,
+      if (modelVersionArn != null) 'ModelVersionArn': modelVersionArn,
+      if (scheduledStartTime != null)
+        'ScheduledStartTime': unixTimestampToJson(scheduledStartTime),
       if (status != null) 'Status': status.value,
     };
   }
@@ -7117,313 +7010,24 @@ class S3Object {
   }
 }
 
-/// Summary of ingestion statistics like whether data exists, number of missing
-/// values, number of invalid values and so on related to the particular sensor.
-class SensorStatisticsSummary {
-  /// Parameter that describes potential risk about whether data associated with
-  /// the sensor is categorical.
-  final CategoricalValues? categoricalValues;
-
-  /// Name of the component to which the particular sensor belongs for which the
-  /// statistics belong to.
-  final String? componentName;
-
-  /// Indicates the time reference to indicate the end of valid data associated
-  /// with the sensor that the statistics belong to.
-  final DateTime? dataEndTime;
-
-  /// Parameter that indicates whether data exists for the sensor that the
-  /// statistics belong to.
-  final bool? dataExists;
-
-  /// Indicates the time reference to indicate the beginning of valid data
-  /// associated with the sensor that the statistics belong to.
-  final DateTime? dataStartTime;
-
-  /// Parameter that describes the total number of duplicate timestamp records
-  /// associated with the sensor that the statistics belong to.
-  final CountPercent? duplicateTimestamps;
-
-  /// Parameter that describes the total number of invalid date entries associated
-  /// with the sensor that the statistics belong to.
-  final CountPercent? invalidDateEntries;
-
-  /// Parameter that describes the total number of, and percentage of, values that
-  /// are invalid for the sensor that the statistics belong to.
-  final CountPercent? invalidValues;
-
-  /// Parameter that describes potential risk about whether data associated with
-  /// the sensor contains one or more large gaps between consecutive timestamps.
-  final LargeTimestampGaps? largeTimestampGaps;
-
-  /// Parameter that describes the total number of, and percentage of, values that
-  /// are missing for the sensor that the statistics belong to.
-  final CountPercent? missingValues;
-
-  /// Parameter that describes potential risk about whether data associated with
-  /// the sensor is mostly monotonic.
-  final MonotonicValues? monotonicValues;
-
-  /// Parameter that describes potential risk about whether data associated with
-  /// the sensor has more than one operating mode.
-  final MultipleOperatingModes? multipleOperatingModes;
-
-  /// Name of the sensor that the statistics belong to.
-  final String? sensorName;
-
-  SensorStatisticsSummary({
-    this.categoricalValues,
-    this.componentName,
-    this.dataEndTime,
-    this.dataExists,
-    this.dataStartTime,
-    this.duplicateTimestamps,
-    this.invalidDateEntries,
-    this.invalidValues,
-    this.largeTimestampGaps,
-    this.missingValues,
-    this.monotonicValues,
-    this.multipleOperatingModes,
-    this.sensorName,
-  });
-
-  factory SensorStatisticsSummary.fromJson(Map<String, dynamic> json) {
-    return SensorStatisticsSummary(
-      categoricalValues: json['CategoricalValues'] != null
-          ? CategoricalValues.fromJson(
-              json['CategoricalValues'] as Map<String, dynamic>)
-          : null,
-      componentName: json['ComponentName'] as String?,
-      dataEndTime: timeStampFromJson(json['DataEndTime']),
-      dataExists: json['DataExists'] as bool?,
-      dataStartTime: timeStampFromJson(json['DataStartTime']),
-      duplicateTimestamps: json['DuplicateTimestamps'] != null
-          ? CountPercent.fromJson(
-              json['DuplicateTimestamps'] as Map<String, dynamic>)
-          : null,
-      invalidDateEntries: json['InvalidDateEntries'] != null
-          ? CountPercent.fromJson(
-              json['InvalidDateEntries'] as Map<String, dynamic>)
-          : null,
-      invalidValues: json['InvalidValues'] != null
-          ? CountPercent.fromJson(json['InvalidValues'] as Map<String, dynamic>)
-          : null,
-      largeTimestampGaps: json['LargeTimestampGaps'] != null
-          ? LargeTimestampGaps.fromJson(
-              json['LargeTimestampGaps'] as Map<String, dynamic>)
-          : null,
-      missingValues: json['MissingValues'] != null
-          ? CountPercent.fromJson(json['MissingValues'] as Map<String, dynamic>)
-          : null,
-      monotonicValues: json['MonotonicValues'] != null
-          ? MonotonicValues.fromJson(
-              json['MonotonicValues'] as Map<String, dynamic>)
-          : null,
-      multipleOperatingModes: json['MultipleOperatingModes'] != null
-          ? MultipleOperatingModes.fromJson(
-              json['MultipleOperatingModes'] as Map<String, dynamic>)
-          : null,
-      sensorName: json['SensorName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final categoricalValues = this.categoricalValues;
-    final componentName = this.componentName;
-    final dataEndTime = this.dataEndTime;
-    final dataExists = this.dataExists;
-    final dataStartTime = this.dataStartTime;
-    final duplicateTimestamps = this.duplicateTimestamps;
-    final invalidDateEntries = this.invalidDateEntries;
-    final invalidValues = this.invalidValues;
-    final largeTimestampGaps = this.largeTimestampGaps;
-    final missingValues = this.missingValues;
-    final monotonicValues = this.monotonicValues;
-    final multipleOperatingModes = this.multipleOperatingModes;
-    final sensorName = this.sensorName;
-    return {
-      if (categoricalValues != null) 'CategoricalValues': categoricalValues,
-      if (componentName != null) 'ComponentName': componentName,
-      if (dataEndTime != null) 'DataEndTime': unixTimestampToJson(dataEndTime),
-      if (dataExists != null) 'DataExists': dataExists,
-      if (dataStartTime != null)
-        'DataStartTime': unixTimestampToJson(dataStartTime),
-      if (duplicateTimestamps != null)
-        'DuplicateTimestamps': duplicateTimestamps,
-      if (invalidDateEntries != null) 'InvalidDateEntries': invalidDateEntries,
-      if (invalidValues != null) 'InvalidValues': invalidValues,
-      if (largeTimestampGaps != null) 'LargeTimestampGaps': largeTimestampGaps,
-      if (missingValues != null) 'MissingValues': missingValues,
-      if (monotonicValues != null) 'MonotonicValues': monotonicValues,
-      if (multipleOperatingModes != null)
-        'MultipleOperatingModes': multipleOperatingModes,
-      if (sensorName != null) 'SensorName': sensorName,
-    };
-  }
-}
-
-/// Entity that comprises information on sensors that have shorter date range.
-class SensorsWithShortDateRange {
-  /// Indicates the number of sensors that have less than 14 days of data.
-  final int affectedSensorCount;
-
-  SensorsWithShortDateRange({
-    required this.affectedSensorCount,
-  });
-
-  factory SensorsWithShortDateRange.fromJson(Map<String, dynamic> json) {
-    return SensorsWithShortDateRange(
-      affectedSensorCount: (json['AffectedSensorCount'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final affectedSensorCount = this.affectedSensorCount;
-    return {
-      'AffectedSensorCount': affectedSensorCount,
-    };
-  }
-}
-
-class StartDataIngestionJobResponse {
-  /// Indicates the job ID of the data ingestion job.
-  final String? jobId;
-
-  /// Indicates the status of the <code>StartDataIngestionJob</code> operation.
-  final IngestionJobStatus? status;
-
-  StartDataIngestionJobResponse({
-    this.jobId,
-    this.status,
-  });
-
-  factory StartDataIngestionJobResponse.fromJson(Map<String, dynamic> json) {
-    return StartDataIngestionJobResponse(
-      jobId: json['JobId'] as String?,
-      status: (json['Status'] as String?)?.let(IngestionJobStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final jobId = this.jobId;
-    final status = this.status;
-    return {
-      if (jobId != null) 'JobId': jobId,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-class StartInferenceSchedulerResponse {
-  /// The Amazon Resource Name (ARN) of the inference scheduler being started.
-  final String? inferenceSchedulerArn;
-
-  /// The name of the inference scheduler being started.
-  final String? inferenceSchedulerName;
-
-  /// The Amazon Resource Name (ARN) of the machine learning model being used by
-  /// the inference scheduler.
-  final String? modelArn;
-
-  /// The name of the machine learning model being used by the inference
-  /// scheduler.
-  final String? modelName;
-
-  /// Indicates the status of the inference scheduler.
-  final InferenceSchedulerStatus? status;
-
-  StartInferenceSchedulerResponse({
-    this.inferenceSchedulerArn,
-    this.inferenceSchedulerName,
-    this.modelArn,
-    this.modelName,
-    this.status,
-  });
-
-  factory StartInferenceSchedulerResponse.fromJson(Map<String, dynamic> json) {
-    return StartInferenceSchedulerResponse(
-      inferenceSchedulerArn: json['InferenceSchedulerArn'] as String?,
-      inferenceSchedulerName: json['InferenceSchedulerName'] as String?,
-      modelArn: json['ModelArn'] as String?,
-      modelName: json['ModelName'] as String?,
-      status:
-          (json['Status'] as String?)?.let(InferenceSchedulerStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final inferenceSchedulerArn = this.inferenceSchedulerArn;
-    final inferenceSchedulerName = this.inferenceSchedulerName;
-    final modelArn = this.modelArn;
-    final modelName = this.modelName;
-    final status = this.status;
-    return {
-      if (inferenceSchedulerArn != null)
-        'InferenceSchedulerArn': inferenceSchedulerArn,
-      if (inferenceSchedulerName != null)
-        'InferenceSchedulerName': inferenceSchedulerName,
-      if (modelArn != null) 'ModelArn': modelArn,
-      if (modelName != null) 'ModelName': modelName,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-class StartRetrainingSchedulerResponse {
-  /// The ARN of the model whose retraining scheduler is being started.
-  final String? modelArn;
-
-  /// The name of the model whose retraining scheduler is being started.
-  final String? modelName;
-
-  /// The status of the retraining scheduler.
-  final RetrainingSchedulerStatus? status;
-
-  StartRetrainingSchedulerResponse({
-    this.modelArn,
-    this.modelName,
-    this.status,
-  });
-
-  factory StartRetrainingSchedulerResponse.fromJson(Map<String, dynamic> json) {
-    return StartRetrainingSchedulerResponse(
-      modelArn: json['ModelArn'] as String?,
-      modelName: json['ModelName'] as String?,
-      status: (json['Status'] as String?)
-          ?.let(RetrainingSchedulerStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final modelArn = this.modelArn;
-    final modelName = this.modelName;
-    final status = this.status;
-    return {
-      if (modelArn != null) 'ModelArn': modelArn,
-      if (modelName != null) 'ModelName': modelName,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-class StatisticalIssueStatus {
-  static const potentialIssueDetected =
-      StatisticalIssueStatus._('POTENTIAL_ISSUE_DETECTED');
-  static const noIssueDetected = StatisticalIssueStatus._('NO_ISSUE_DETECTED');
+class InferenceExecutionStatus {
+  static const inProgress = InferenceExecutionStatus._('IN_PROGRESS');
+  static const success = InferenceExecutionStatus._('SUCCESS');
+  static const failed = InferenceExecutionStatus._('FAILED');
 
   final String value;
 
-  const StatisticalIssueStatus._(this.value);
+  const InferenceExecutionStatus._(this.value);
 
-  static const values = [potentialIssueDetected, noIssueDetected];
+  static const values = [inProgress, success, failed];
 
-  static StatisticalIssueStatus fromString(String value) =>
+  static InferenceExecutionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => StatisticalIssueStatus._(value));
+          orElse: () => InferenceExecutionStatus._(value));
 
   @override
   bool operator ==(other) =>
-      other is StatisticalIssueStatus && other.value == value;
+      other is InferenceExecutionStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -7432,138 +7036,309 @@ class StatisticalIssueStatus {
   String toString() => value;
 }
 
-class StopInferenceSchedulerResponse {
-  /// The Amazon Resource Name (ARN) of the inference schedule being stopped.
+/// Contains information about the specific inference event, including start and
+/// end time, diagnostics information, event duration and so on.
+class InferenceEventSummary {
+  /// An array which specifies the names and values of all sensors contributing to
+  /// an inference event.
+  final String? diagnostics;
+
+  /// Indicates the size of an inference event in seconds.
+  final int? eventDurationInSeconds;
+
+  /// Indicates the ending time of an inference event.
+  final DateTime? eventEndTime;
+
+  /// Indicates the starting time of an inference event.
+  final DateTime? eventStartTime;
+
+  /// The Amazon Resource Name (ARN) of the inference scheduler being used for the
+  /// inference event.
   final String? inferenceSchedulerArn;
 
-  /// The name of the inference scheduler being stopped.
+  /// The name of the inference scheduler being used for the inference events.
   final String? inferenceSchedulerName;
 
-  /// The Amazon Resource Name (ARN) of the machine learning model used by the
-  /// inference scheduler being stopped.
-  final String? modelArn;
-
-  /// The name of the machine learning model used by the inference scheduler being
-  /// stopped.
-  final String? modelName;
-
-  /// Indicates the status of the inference scheduler.
-  final InferenceSchedulerStatus? status;
-
-  StopInferenceSchedulerResponse({
+  InferenceEventSummary({
+    this.diagnostics,
+    this.eventDurationInSeconds,
+    this.eventEndTime,
+    this.eventStartTime,
     this.inferenceSchedulerArn,
     this.inferenceSchedulerName,
-    this.modelArn,
-    this.modelName,
-    this.status,
   });
 
-  factory StopInferenceSchedulerResponse.fromJson(Map<String, dynamic> json) {
-    return StopInferenceSchedulerResponse(
+  factory InferenceEventSummary.fromJson(Map<String, dynamic> json) {
+    return InferenceEventSummary(
+      diagnostics: json['Diagnostics'] as String?,
+      eventDurationInSeconds: json['EventDurationInSeconds'] as int?,
+      eventEndTime: timeStampFromJson(json['EventEndTime']),
+      eventStartTime: timeStampFromJson(json['EventStartTime']),
       inferenceSchedulerArn: json['InferenceSchedulerArn'] as String?,
       inferenceSchedulerName: json['InferenceSchedulerName'] as String?,
-      modelArn: json['ModelArn'] as String?,
-      modelName: json['ModelName'] as String?,
-      status:
-          (json['Status'] as String?)?.let(InferenceSchedulerStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final diagnostics = this.diagnostics;
+    final eventDurationInSeconds = this.eventDurationInSeconds;
+    final eventEndTime = this.eventEndTime;
+    final eventStartTime = this.eventStartTime;
     final inferenceSchedulerArn = this.inferenceSchedulerArn;
     final inferenceSchedulerName = this.inferenceSchedulerName;
-    final modelArn = this.modelArn;
-    final modelName = this.modelName;
-    final status = this.status;
     return {
+      if (diagnostics != null) 'Diagnostics': diagnostics,
+      if (eventDurationInSeconds != null)
+        'EventDurationInSeconds': eventDurationInSeconds,
+      if (eventEndTime != null)
+        'EventEndTime': unixTimestampToJson(eventEndTime),
+      if (eventStartTime != null)
+        'EventStartTime': unixTimestampToJson(eventStartTime),
       if (inferenceSchedulerArn != null)
         'InferenceSchedulerArn': inferenceSchedulerArn,
       if (inferenceSchedulerName != null)
         'InferenceSchedulerName': inferenceSchedulerName,
-      if (modelArn != null) 'ModelArn': modelArn,
-      if (modelName != null) 'ModelName': modelName,
-      if (status != null) 'Status': status.value,
     };
   }
 }
 
-class StopRetrainingSchedulerResponse {
-  /// The ARN of the model whose retraining scheduler is being stopped.
-  final String? modelArn;
+/// Contains information about the specific data set, including name, ARN, and
+/// status.
+class DatasetSummary {
+  /// The time at which the dataset was created in Amazon Lookout for Equipment.
+  final DateTime? createdAt;
 
-  /// The name of the model whose retraining scheduler is being stopped.
-  final String? modelName;
+  /// The Amazon Resource Name (ARN) of the specified dataset.
+  final String? datasetArn;
 
-  /// The status of the retraining scheduler.
-  final RetrainingSchedulerStatus? status;
+  /// The name of the dataset.
+  final String? datasetName;
 
-  StopRetrainingSchedulerResponse({
-    this.modelArn,
-    this.modelName,
+  /// Indicates the status of the dataset.
+  final DatasetStatus? status;
+
+  DatasetSummary({
+    this.createdAt,
+    this.datasetArn,
+    this.datasetName,
     this.status,
   });
 
-  factory StopRetrainingSchedulerResponse.fromJson(Map<String, dynamic> json) {
-    return StopRetrainingSchedulerResponse(
-      modelArn: json['ModelArn'] as String?,
-      modelName: json['ModelName'] as String?,
-      status: (json['Status'] as String?)
-          ?.let(RetrainingSchedulerStatus.fromString),
+  factory DatasetSummary.fromJson(Map<String, dynamic> json) {
+    return DatasetSummary(
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      datasetArn: json['DatasetArn'] as String?,
+      datasetName: json['DatasetName'] as String?,
+      status: (json['Status'] as String?)?.let(DatasetStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final modelArn = this.modelArn;
-    final modelName = this.modelName;
+    final createdAt = this.createdAt;
+    final datasetArn = this.datasetArn;
+    final datasetName = this.datasetName;
     final status = this.status;
     return {
-      if (modelArn != null) 'ModelArn': modelArn,
-      if (modelName != null) 'ModelName': modelName,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (datasetArn != null) 'DatasetArn': datasetArn,
+      if (datasetName != null) 'DatasetName': datasetName,
       if (status != null) 'Status': status.value,
     };
   }
 }
 
-/// A tag is a key-value pair that can be added to a resource as metadata.
-class Tag {
-  /// The key for the specified tag.
-  final String key;
+class DatasetStatus {
+  static const created = DatasetStatus._('CREATED');
+  static const ingestionInProgress = DatasetStatus._('INGESTION_IN_PROGRESS');
+  static const active = DatasetStatus._('ACTIVE');
+  static const importInProgress = DatasetStatus._('IMPORT_IN_PROGRESS');
 
-  /// The value for the specified tag.
   final String value;
 
-  Tag({
-    required this.key,
-    required this.value,
+  const DatasetStatus._(this.value);
+
+  static const values = [
+    created,
+    ingestionInProgress,
+    active,
+    importInProgress
+  ];
+
+  static DatasetStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DatasetStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DatasetStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides information about a specified data ingestion job, including dataset
+/// information, data ingestion configuration, and status.
+class DataIngestionJobSummary {
+  /// The Amazon Resource Name (ARN) of the dataset used in the data ingestion
+  /// job.
+  final String? datasetArn;
+
+  /// The name of the dataset used for the data ingestion job.
+  final String? datasetName;
+
+  /// Specifies information for the input data for the data inference job,
+  /// including data Amazon S3 location parameters.
+  final IngestionInputConfiguration? ingestionInputConfiguration;
+
+  /// Indicates the job ID of the data ingestion job.
+  final String? jobId;
+
+  /// Indicates the status of the data ingestion job.
+  final IngestionJobStatus? status;
+
+  DataIngestionJobSummary({
+    this.datasetArn,
+    this.datasetName,
+    this.ingestionInputConfiguration,
+    this.jobId,
+    this.status,
   });
 
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['Key'] as String?) ?? '',
-      value: (json['Value'] as String?) ?? '',
+  factory DataIngestionJobSummary.fromJson(Map<String, dynamic> json) {
+    return DataIngestionJobSummary(
+      datasetArn: json['DatasetArn'] as String?,
+      datasetName: json['DatasetName'] as String?,
+      ingestionInputConfiguration: json['IngestionInputConfiguration'] != null
+          ? IngestionInputConfiguration.fromJson(
+              json['IngestionInputConfiguration'] as Map<String, dynamic>)
+          : null,
+      jobId: json['JobId'] as String?,
+      status: (json['Status'] as String?)?.let(IngestionJobStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
+    final datasetArn = this.datasetArn;
+    final datasetName = this.datasetName;
+    final ingestionInputConfiguration = this.ingestionInputConfiguration;
+    final jobId = this.jobId;
+    final status = this.status;
     return {
-      'Key': key,
-      'Value': value,
+      if (datasetArn != null) 'DatasetArn': datasetArn,
+      if (datasetName != null) 'DatasetName': datasetName,
+      if (ingestionInputConfiguration != null)
+        'IngestionInputConfiguration': ingestionInputConfiguration,
+      if (jobId != null) 'JobId': jobId,
+      if (status != null) 'Status': status.value,
     };
   }
 }
 
-class TagResourceResponse {
-  TagResourceResponse();
+class InferenceDataImportStrategy {
+  static const noImport = InferenceDataImportStrategy._('NO_IMPORT');
+  static const addWhenEmpty = InferenceDataImportStrategy._('ADD_WHEN_EMPTY');
+  static const overwrite = InferenceDataImportStrategy._('OVERWRITE');
 
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
+  final String value;
+
+  const InferenceDataImportStrategy._(this.value);
+
+  static const values = [noImport, addWhenEmpty, overwrite];
+
+  static InferenceDataImportStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InferenceDataImportStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InferenceDataImportStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The configuration is the <code>TargetSamplingRate</code>, which is the
+/// sampling rate of the data after post processing by Amazon Lookout for
+/// Equipment. For example, if you provide data that has been collected at a 1
+/// second level and you want the system to resample the data at a 1 minute rate
+/// before training, the <code>TargetSamplingRate</code> is 1 minute.
+///
+/// When providing a value for the <code>TargetSamplingRate</code>, you must
+/// attach the prefix "PT" to the rate you want. The value for a 1 second rate
+/// is therefore <i>PT1S</i>, the value for a 15 minute rate is <i>PT15M</i>,
+/// and the value for a 1 hour rate is <i>PT1H</i>
+class DataPreProcessingConfiguration {
+  /// The sampling rate of the data after post processing by Amazon Lookout for
+  /// Equipment. For example, if you provide data that has been collected at a 1
+  /// second level and you want the system to resample the data at a 1 minute rate
+  /// before training, the <code>TargetSamplingRate</code> is 1 minute.
+  ///
+  /// When providing a value for the <code>TargetSamplingRate</code>, you must
+  /// attach the prefix "PT" to the rate you want. The value for a 1 second rate
+  /// is therefore <i>PT1S</i>, the value for a 15 minute rate is <i>PT15M</i>,
+  /// and the value for a 1 hour rate is <i>PT1H</i>
+  final TargetSamplingRate? targetSamplingRate;
+
+  DataPreProcessingConfiguration({
+    this.targetSamplingRate,
+  });
+
+  factory DataPreProcessingConfiguration.fromJson(Map<String, dynamic> json) {
+    return DataPreProcessingConfiguration(
+      targetSamplingRate: (json['TargetSamplingRate'] as String?)
+          ?.let(TargetSamplingRate.fromString),
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final targetSamplingRate = this.targetSamplingRate;
+    return {
+      if (targetSamplingRate != null)
+        'TargetSamplingRate': targetSamplingRate.value,
+    };
   }
+}
+
+class AutoPromotionResult {
+  static const modelPromoted = AutoPromotionResult._('MODEL_PROMOTED');
+  static const modelNotPromoted = AutoPromotionResult._('MODEL_NOT_PROMOTED');
+  static const retrainingInternalError =
+      AutoPromotionResult._('RETRAINING_INTERNAL_ERROR');
+  static const retrainingCustomerError =
+      AutoPromotionResult._('RETRAINING_CUSTOMER_ERROR');
+  static const retrainingCancelled =
+      AutoPromotionResult._('RETRAINING_CANCELLED');
+
+  final String value;
+
+  const AutoPromotionResult._(this.value);
+
+  static const values = [
+    modelPromoted,
+    modelNotPromoted,
+    retrainingInternalError,
+    retrainingCustomerError,
+    retrainingCancelled
+  ];
+
+  static AutoPromotionResult fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AutoPromotionResult._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AutoPromotionResult && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class TargetSamplingRate {
@@ -7612,6 +7387,219 @@ class TargetSamplingRate {
   String toString() => value;
 }
 
+/// DataQualitySummary gives aggregated statistics over all the sensors about a
+/// completed ingestion job. It primarily gives more information about
+/// statistics over different incorrect data like MissingCompleteSensorData,
+/// MissingSensorData, UnsupportedDateFormats, InsufficientSensorData,
+/// DuplicateTimeStamps.
+class DataQualitySummary {
+  /// Parameter that gives information about duplicate timestamps in the input
+  /// data.
+  final DuplicateTimestamps duplicateTimestamps;
+
+  /// Parameter that gives information about insufficient data for sensors in the
+  /// dataset. This includes information about those sensors that have complete
+  /// data missing and those with a short date range.
+  final InsufficientSensorData insufficientSensorData;
+
+  /// Parameter that gives information about data that is invalid over all the
+  /// sensors in the input data.
+  final InvalidSensorData invalidSensorData;
+
+  /// Parameter that gives information about data that is missing over all the
+  /// sensors in the input data.
+  final MissingSensorData missingSensorData;
+
+  /// Parameter that gives information about unsupported timestamps in the input
+  /// data.
+  final UnsupportedTimestamps unsupportedTimestamps;
+
+  DataQualitySummary({
+    required this.duplicateTimestamps,
+    required this.insufficientSensorData,
+    required this.invalidSensorData,
+    required this.missingSensorData,
+    required this.unsupportedTimestamps,
+  });
+
+  factory DataQualitySummary.fromJson(Map<String, dynamic> json) {
+    return DataQualitySummary(
+      duplicateTimestamps: DuplicateTimestamps.fromJson(
+          (json['DuplicateTimestamps'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      insufficientSensorData: InsufficientSensorData.fromJson(
+          (json['InsufficientSensorData'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      invalidSensorData: InvalidSensorData.fromJson(
+          (json['InvalidSensorData'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      missingSensorData: MissingSensorData.fromJson(
+          (json['MissingSensorData'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      unsupportedTimestamps: UnsupportedTimestamps.fromJson(
+          (json['UnsupportedTimestamps'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final duplicateTimestamps = this.duplicateTimestamps;
+    final insufficientSensorData = this.insufficientSensorData;
+    final invalidSensorData = this.invalidSensorData;
+    final missingSensorData = this.missingSensorData;
+    final unsupportedTimestamps = this.unsupportedTimestamps;
+    return {
+      'DuplicateTimestamps': duplicateTimestamps,
+      'InsufficientSensorData': insufficientSensorData,
+      'InvalidSensorData': invalidSensorData,
+      'MissingSensorData': missingSensorData,
+      'UnsupportedTimestamps': unsupportedTimestamps,
+    };
+  }
+}
+
+/// Gives statistics about how many files have been ingested, and which files
+/// have not been ingested, for a particular ingestion job.
+class IngestedFilesSummary {
+  /// Indicates the number of files that were successfully ingested.
+  final int ingestedNumberOfFiles;
+
+  /// Indicates the total number of files that were submitted for ingestion.
+  final int totalNumberOfFiles;
+
+  /// Indicates the number of files that were discarded. A file could be discarded
+  /// because its format is invalid (for example, a jpg or pdf) or not readable.
+  final List<S3Object>? discardedFiles;
+
+  IngestedFilesSummary({
+    required this.ingestedNumberOfFiles,
+    required this.totalNumberOfFiles,
+    this.discardedFiles,
+  });
+
+  factory IngestedFilesSummary.fromJson(Map<String, dynamic> json) {
+    return IngestedFilesSummary(
+      ingestedNumberOfFiles: (json['IngestedNumberOfFiles'] as int?) ?? 0,
+      totalNumberOfFiles: (json['TotalNumberOfFiles'] as int?) ?? 0,
+      discardedFiles: (json['DiscardedFiles'] as List?)
+          ?.nonNulls
+          .map((e) => S3Object.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ingestedNumberOfFiles = this.ingestedNumberOfFiles;
+    final totalNumberOfFiles = this.totalNumberOfFiles;
+    final discardedFiles = this.discardedFiles;
+    return {
+      'IngestedNumberOfFiles': ingestedNumberOfFiles,
+      'TotalNumberOfFiles': totalNumberOfFiles,
+      if (discardedFiles != null) 'DiscardedFiles': discardedFiles,
+    };
+  }
+}
+
+/// Entity that comprises aggregated information on sensors having insufficient
+/// data.
+class InsufficientSensorData {
+  /// Parameter that describes the total number of sensors that have data
+  /// completely missing for it.
+  final MissingCompleteSensorData missingCompleteSensorData;
+
+  /// Parameter that describes the total number of sensors that have a short date
+  /// range of less than 14 days of data overall.
+  final SensorsWithShortDateRange sensorsWithShortDateRange;
+
+  InsufficientSensorData({
+    required this.missingCompleteSensorData,
+    required this.sensorsWithShortDateRange,
+  });
+
+  factory InsufficientSensorData.fromJson(Map<String, dynamic> json) {
+    return InsufficientSensorData(
+      missingCompleteSensorData: MissingCompleteSensorData.fromJson(
+          (json['MissingCompleteSensorData'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      sensorsWithShortDateRange: SensorsWithShortDateRange.fromJson(
+          (json['SensorsWithShortDateRange'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final missingCompleteSensorData = this.missingCompleteSensorData;
+    final sensorsWithShortDateRange = this.sensorsWithShortDateRange;
+    return {
+      'MissingCompleteSensorData': missingCompleteSensorData,
+      'SensorsWithShortDateRange': sensorsWithShortDateRange,
+    };
+  }
+}
+
+/// Entity that comprises aggregated information on sensors having missing data.
+class MissingSensorData {
+  /// Indicates the number of sensors that have atleast some data missing.
+  final int affectedSensorCount;
+
+  /// Indicates the total number of missing values across all the sensors.
+  final int totalNumberOfMissingValues;
+
+  MissingSensorData({
+    required this.affectedSensorCount,
+    required this.totalNumberOfMissingValues,
+  });
+
+  factory MissingSensorData.fromJson(Map<String, dynamic> json) {
+    return MissingSensorData(
+      affectedSensorCount: (json['AffectedSensorCount'] as int?) ?? 0,
+      totalNumberOfMissingValues:
+          (json['TotalNumberOfMissingValues'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final affectedSensorCount = this.affectedSensorCount;
+    final totalNumberOfMissingValues = this.totalNumberOfMissingValues;
+    return {
+      'AffectedSensorCount': affectedSensorCount,
+      'TotalNumberOfMissingValues': totalNumberOfMissingValues,
+    };
+  }
+}
+
+/// Entity that comprises aggregated information on sensors having insufficient
+/// data.
+class InvalidSensorData {
+  /// Indicates the number of sensors that have at least some invalid values.
+  final int affectedSensorCount;
+
+  /// Indicates the total number of invalid values across all the sensors.
+  final int totalNumberOfInvalidValues;
+
+  InvalidSensorData({
+    required this.affectedSensorCount,
+    required this.totalNumberOfInvalidValues,
+  });
+
+  factory InvalidSensorData.fromJson(Map<String, dynamic> json) {
+    return InvalidSensorData(
+      affectedSensorCount: (json['AffectedSensorCount'] as int?) ?? 0,
+      totalNumberOfInvalidValues:
+          (json['TotalNumberOfInvalidValues'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final affectedSensorCount = this.affectedSensorCount;
+    final totalNumberOfInvalidValues = this.totalNumberOfInvalidValues;
+    return {
+      'AffectedSensorCount': affectedSensorCount,
+      'TotalNumberOfInvalidValues': totalNumberOfInvalidValues,
+    };
+  }
+}
+
 /// Entity that comprises information abount unsupported timestamps in the
 /// dataset.
 class UnsupportedTimestamps {
@@ -7639,81 +7627,93 @@ class UnsupportedTimestamps {
   }
 }
 
-class UntagResourceResponse {
-  UntagResourceResponse();
+/// Entity that comprises information abount duplicate timestamps in the
+/// dataset.
+class DuplicateTimestamps {
+  /// Indicates the total number of duplicate timestamps.
+  final int totalNumberOfDuplicateTimestamps;
 
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateActiveModelVersionResponse {
-  /// The version that is currently active of the machine learning model for which
-  /// the active model version was set.
-  final int? currentActiveVersion;
-
-  /// The Amazon Resource Name (ARN) of the machine learning model version that is
-  /// the current active model version.
-  final String? currentActiveVersionArn;
-
-  /// The Amazon Resource Name (ARN) of the machine learning model for which the
-  /// active model version was set.
-  final String? modelArn;
-
-  /// The name of the machine learning model for which the active model version
-  /// was set.
-  final String? modelName;
-
-  /// The previous version that was active of the machine learning model for which
-  /// the active model version was set.
-  final int? previousActiveVersion;
-
-  /// The Amazon Resource Name (ARN) of the machine learning model version that
-  /// was the previous active model version.
-  final String? previousActiveVersionArn;
-
-  UpdateActiveModelVersionResponse({
-    this.currentActiveVersion,
-    this.currentActiveVersionArn,
-    this.modelArn,
-    this.modelName,
-    this.previousActiveVersion,
-    this.previousActiveVersionArn,
+  DuplicateTimestamps({
+    required this.totalNumberOfDuplicateTimestamps,
   });
 
-  factory UpdateActiveModelVersionResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateActiveModelVersionResponse(
-      currentActiveVersion: json['CurrentActiveVersion'] as int?,
-      currentActiveVersionArn: json['CurrentActiveVersionArn'] as String?,
-      modelArn: json['ModelArn'] as String?,
-      modelName: json['ModelName'] as String?,
-      previousActiveVersion: json['PreviousActiveVersion'] as int?,
-      previousActiveVersionArn: json['PreviousActiveVersionArn'] as String?,
+  factory DuplicateTimestamps.fromJson(Map<String, dynamic> json) {
+    return DuplicateTimestamps(
+      totalNumberOfDuplicateTimestamps:
+          (json['TotalNumberOfDuplicateTimestamps'] as int?) ?? 0,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final currentActiveVersion = this.currentActiveVersion;
-    final currentActiveVersionArn = this.currentActiveVersionArn;
-    final modelArn = this.modelArn;
-    final modelName = this.modelName;
-    final previousActiveVersion = this.previousActiveVersion;
-    final previousActiveVersionArn = this.previousActiveVersionArn;
+    final totalNumberOfDuplicateTimestamps =
+        this.totalNumberOfDuplicateTimestamps;
     return {
-      if (currentActiveVersion != null)
-        'CurrentActiveVersion': currentActiveVersion,
-      if (currentActiveVersionArn != null)
-        'CurrentActiveVersionArn': currentActiveVersionArn,
-      if (modelArn != null) 'ModelArn': modelArn,
-      if (modelName != null) 'ModelName': modelName,
-      if (previousActiveVersion != null)
-        'PreviousActiveVersion': previousActiveVersion,
-      if (previousActiveVersionArn != null)
-        'PreviousActiveVersionArn': previousActiveVersionArn,
+      'TotalNumberOfDuplicateTimestamps': totalNumberOfDuplicateTimestamps,
+    };
+  }
+}
+
+/// Entity that comprises information on sensors that have sensor data
+/// completely missing.
+class MissingCompleteSensorData {
+  /// Indicates the number of sensors that have data missing completely.
+  final int affectedSensorCount;
+
+  MissingCompleteSensorData({
+    required this.affectedSensorCount,
+  });
+
+  factory MissingCompleteSensorData.fromJson(Map<String, dynamic> json) {
+    return MissingCompleteSensorData(
+      affectedSensorCount: (json['AffectedSensorCount'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final affectedSensorCount = this.affectedSensorCount;
+    return {
+      'AffectedSensorCount': affectedSensorCount,
+    };
+  }
+}
+
+/// Entity that comprises information on sensors that have shorter date range.
+class SensorsWithShortDateRange {
+  /// Indicates the number of sensors that have less than 14 days of data.
+  final int affectedSensorCount;
+
+  SensorsWithShortDateRange({
+    required this.affectedSensorCount,
+  });
+
+  factory SensorsWithShortDateRange.fromJson(Map<String, dynamic> json) {
+    return SensorsWithShortDateRange(
+      affectedSensorCount: (json['AffectedSensorCount'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final affectedSensorCount = this.affectedSensorCount;
+    return {
+      'AffectedSensorCount': affectedSensorCount,
+    };
+  }
+}
+
+/// Provides information about the data schema used with the given dataset.
+class DatasetSchema {
+  /// The data schema used within the given dataset.
+  final Object? inlineDataSchema;
+
+  DatasetSchema({
+    this.inlineDataSchema,
+  });
+
+  Map<String, dynamic> toJson() {
+    final inlineDataSchema = this.inlineDataSchema;
+    return {
+      if (inlineDataSchema != null)
+        'InlineDataSchema': jsonEncode(inlineDataSchema),
     };
   }
 }

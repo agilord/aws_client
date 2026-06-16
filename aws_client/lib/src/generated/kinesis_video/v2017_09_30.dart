@@ -20,7 +20,7 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// <p/>
+///
 class KinesisVideo {
   final _s.RestJsonProtocol _protocol;
   KinesisVideo({
@@ -53,11 +53,11 @@ class KinesisVideo {
   ///
   /// <code>CreateSignalingChannel</code> is an asynchronous operation.
   ///
-  /// May throw [InvalidArgumentException].
-  /// May throw [ClientLimitExceededException].
-  /// May throw [AccountChannelLimitExceededException].
-  /// May throw [ResourceInUseException].
   /// May throw [AccessDeniedException].
+  /// May throw [AccountChannelLimitExceededException].
+  /// May throw [ClientLimitExceededException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ResourceInUseException].
   /// May throw [TagsPerResourceExceededLimitException].
   ///
   /// Parameter [channelName] :
@@ -70,7 +70,8 @@ class KinesisVideo {
   ///
   /// Parameter [singleMasterConfiguration] :
   /// A structure containing the configuration for the
-  /// <code>SINGLE_MASTER</code> channel type.
+  /// <code>SINGLE_MASTER</code> channel type. The default configuration for the
+  /// channel message's time to live is 60 seconds (1 minute).
   ///
   /// Parameter [tags] :
   /// A set of tags (key-value pairs) that you want to associate with this
@@ -113,11 +114,11 @@ class KinesisVideo {
   /// action.
   ///
   /// May throw [AccountStreamLimitExceededException].
-  /// May throw [DeviceStreamLimitExceededException].
-  /// May throw [ResourceInUseException].
-  /// May throw [InvalidDeviceException].
-  /// May throw [InvalidArgumentException].
   /// May throw [ClientLimitExceededException].
+  /// May throw [DeviceStreamLimitExceededException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidDeviceException].
+  /// May throw [ResourceInUseException].
   /// May throw [TagsPerResourceExceededLimitException].
   ///
   /// Parameter [streamName] :
@@ -132,6 +133,7 @@ class KinesisVideo {
   /// with the stream.
   ///
   /// The default value is 0, indicating that the stream does not persist data.
+  /// The minimum is 1 hour.
   ///
   /// When the <code>DataRetentionInHours</code> value is 0, consumers can still
   /// consume the fragments that remain in the service host buffer, which has a
@@ -141,7 +143,7 @@ class KinesisVideo {
   /// Parameter [deviceName] :
   /// The name of the device that is writing to the stream.
   /// <note>
-  /// In the current implementation, Kinesis Video Streams does not use this
+  /// In the current implementation, Kinesis Video Streams doesn't use this
   /// name.
   /// </note>
   ///
@@ -150,7 +152,7 @@ class KinesisVideo {
   /// Streams to use to encrypt stream data.
   ///
   /// If no key ID is specified, the default, Kinesis Video-managed key
-  /// (<code>Amazon Web Services/kinesisvideo</code>) is used.
+  /// (<code>aws/kinesisvideo</code>) is used.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestParameters">DescribeKey</a>.
@@ -169,6 +171,15 @@ class KinesisVideo {
   /// This parameter is optional; the default value is <code>null</code> (or
   /// empty in JSON).
   ///
+  /// Parameter [streamStorageConfiguration] :
+  /// The configuration for the stream's storage, including the default storage
+  /// tier for stream data. This configuration determines how stream data is
+  /// stored and accessed, with different tiers offering varying levels of
+  /// performance and cost optimization.
+  ///
+  /// If not specified, the stream will use the default storage configuration
+  /// with HOT tier for optimal performance.
+  ///
   /// Parameter [tags] :
   /// A list of tags to associate with the specified stream. Each tag is a
   /// key-value pair (the value is optional).
@@ -178,6 +189,7 @@ class KinesisVideo {
     String? deviceName,
     String? kmsKeyId,
     String? mediaType,
+    StreamStorageConfiguration? streamStorageConfiguration,
     Map<String, String>? tags,
   }) async {
     _s.validateNumRange(
@@ -193,6 +205,8 @@ class KinesisVideo {
       if (deviceName != null) 'DeviceName': deviceName,
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
       if (mediaType != null) 'MediaType': mediaType,
+      if (streamStorageConfiguration != null)
+        'StreamStorageConfiguration': streamStorageConfiguration,
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -250,12 +264,12 @@ class KinesisVideo {
   /// is an asynchronous operation. If you don't specify the channel's current
   /// version, the most recent version is deleted.
   ///
-  /// May throw [InvalidArgumentException].
-  /// May throw [ClientLimitExceededException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [VersionMismatchException].
+  /// May throw [ClientLimitExceededException].
+  /// May throw [InvalidArgumentException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [VersionMismatchException].
   ///
   /// Parameter [channelARN] :
   /// The Amazon Resource Name (ARN) of the signaling channel that you want to
@@ -300,10 +314,10 @@ class KinesisVideo {
   ///
   /// May throw [ClientLimitExceededException].
   /// May throw [InvalidArgumentException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [NotAuthorizedException].
-  /// May throw [VersionMismatchException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [VersionMismatchException].
   ///
   /// Parameter [streamARN] :
   /// The Amazon Resource Name (ARN) of the stream that you want to delete.
@@ -372,10 +386,10 @@ class KinesisVideo {
   /// Gets the <code>ImageGenerationConfiguration</code> for a given Kinesis
   /// video stream.
   ///
-  /// May throw [InvalidArgumentException].
-  /// May throw [ClientLimitExceededException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [ClientLimitExceededException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [streamARN] :
   /// The Amazon Resource Name (ARN) of the Kinesis video stream from which to
@@ -408,10 +422,10 @@ class KinesisVideo {
   /// <code>streamName</code> or <code>streamARN</code> should be provided in
   /// the input.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidArgumentException].
   /// May throw [AccessDeniedException].
   /// May throw [ClientLimitExceededException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return in the response.
@@ -456,10 +470,10 @@ class KinesisVideo {
   /// Returns the most current information about the channel. Specify the
   /// <code>ChannelName</code> or <code>ChannelARN</code> in the input.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidArgumentException].
   /// May throw [AccessDeniedException].
   /// May throw [ClientLimitExceededException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [channelARN] :
   /// The Amazon Resource Name (ARN) of the channel.
@@ -487,10 +501,10 @@ class KinesisVideo {
   /// Gets the <code>NotificationConfiguration</code> for a given Kinesis video
   /// stream.
   ///
-  /// May throw [InvalidArgumentException].
-  /// May throw [ClientLimitExceededException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [ClientLimitExceededException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [streamARN] :
   /// The Amazon Resource Name (ARN) of the Kinesis video stream from where you
@@ -523,10 +537,10 @@ class KinesisVideo {
   /// specify either the name or the Amazon Resource Name (ARN) of the channel
   /// that you want to describe.
   ///
-  /// May throw [InvalidArgumentException].
-  /// May throw [ClientLimitExceededException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [ClientLimitExceededException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [channelARN] :
   /// The ARN of the signaling channel that you want to describe.
@@ -553,10 +567,10 @@ class KinesisVideo {
   /// Returns the most current information about the specified stream. You must
   /// specify either the <code>StreamName</code> or the <code>StreamARN</code>.
   ///
-  /// May throw [InvalidArgumentException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ClientLimitExceededException].
+  /// May throw [InvalidArgumentException].
   /// May throw [NotAuthorizedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [streamARN] :
   /// The Amazon Resource Name (ARN) of the stream.
@@ -580,6 +594,45 @@ class KinesisVideo {
     return DescribeStreamOutput.fromJson(response);
   }
 
+  /// Retrieves the current storage configuration for the specified Kinesis
+  /// video stream.
+  ///
+  /// In the request, you must specify either the <code>StreamName</code> or the
+  /// <code>StreamARN</code>.
+  ///
+  /// You must have permissions for the
+  /// <code>KinesisVideo:DescribeStreamStorageConfiguration</code> action.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ClientLimitExceededException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [streamARN] :
+  /// The Amazon Resource Name (ARN) of the stream for which you want to
+  /// retrieve the storage configuration.
+  ///
+  /// Parameter [streamName] :
+  /// The name of the stream for which you want to retrieve the storage
+  /// configuration.
+  Future<DescribeStreamStorageConfigurationOutput>
+      describeStreamStorageConfiguration({
+    String? streamARN,
+    String? streamName,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (streamARN != null) 'StreamARN': streamARN,
+      if (streamName != null) 'StreamName': streamName,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/describeStreamStorageConfiguration',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeStreamStorageConfigurationOutput.fromJson(response);
+  }
+
   /// Gets an endpoint for a specified stream for either reading or writing. Use
   /// this endpoint in your application to read from the specified stream (using
   /// the <code>GetMedia</code> or <code>GetMediaForFragmentList</code>
@@ -591,10 +644,10 @@ class KinesisVideo {
   /// In the request, specify the stream either by <code>StreamName</code> or
   /// <code>StreamARN</code>.
   ///
-  /// May throw [InvalidArgumentException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ClientLimitExceededException].
+  /// May throw [InvalidArgumentException].
   /// May throw [NotAuthorizedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [aPIName] :
   /// The name of the API action for which to get an endpoint.
@@ -635,7 +688,10 @@ class KinesisVideo {
   /// <code>Protocols</code> is used to determine the communication mechanism.
   /// For example, if you specify <code>WSS</code> as the protocol, this API
   /// produces a secure websocket endpoint. If you specify <code>HTTPS</code> as
-  /// the protocol, this API generates an HTTPS endpoint.
+  /// the protocol, this API generates an HTTPS endpoint. If you specify
+  /// <code>WEBRTC</code> as the protocol, but the signaling channel isn't
+  /// configured for ingestion, you will receive the error
+  /// <code>InvalidArgumentException</code>.
   ///
   /// <code>Role</code> determines the messaging permissions. A
   /// <code>MASTER</code> role results in this API generating an endpoint that a
@@ -643,11 +699,11 @@ class KinesisVideo {
   /// <code>VIEWER</code> role results in this API generating an endpoint that a
   /// client can use to communicate only with a <code>MASTER</code>.
   ///
-  /// May throw [InvalidArgumentException].
-  /// May throw [ClientLimitExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
   /// May throw [AccessDeniedException].
+  /// May throw [ClientLimitExceededException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [channelARN] :
   /// The Amazon Resource Name (ARN) of the signalling channel for which you
@@ -681,9 +737,9 @@ class KinesisVideo {
   ///
   /// In the request, you must specify the Edge Agent <code>HubDeviceArn</code>.
   ///
-  /// May throw [NotAuthorizedException].
   /// May throw [ClientLimitExceededException].
   /// May throw [InvalidArgumentException].
+  /// May throw [NotAuthorizedException].
   ///
   /// Parameter [hubDeviceArn] :
   /// The "Internet of Things (IoT) Thing" Arn of the edge agent.
@@ -727,9 +783,9 @@ class KinesisVideo {
   /// satisfy a specific condition, you can specify a
   /// <code>ChannelNameCondition</code>.
   ///
-  /// May throw [InvalidArgumentException].
-  /// May throw [ClientLimitExceededException].
   /// May throw [AccessDeniedException].
+  /// May throw [ClientLimitExceededException].
+  /// May throw [InvalidArgumentException].
   ///
   /// Parameter [channelNameCondition] :
   /// Optional: Returns only the channels that satisfy a specific condition.
@@ -818,10 +874,10 @@ class KinesisVideo {
 
   /// Returns a list of tags associated with the specified signaling channel.
   ///
-  /// May throw [InvalidArgumentException].
-  /// May throw [ClientLimitExceededException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [ClientLimitExceededException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceARN] :
   /// The Amazon Resource Name (ARN) of the signaling channel for which you want
@@ -856,9 +912,9 @@ class KinesisVideo {
   ///
   /// May throw [ClientLimitExceededException].
   /// May throw [InvalidArgumentException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [NotAuthorizedException].
   /// May throw [InvalidResourceFormatException].
+  /// May throw [NotAuthorizedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [nextToken] :
   /// If you specify this parameter and the result of a
@@ -959,10 +1015,10 @@ class KinesisVideo {
   /// Cost Allocation Tags</a> in the <i>Billing and Cost Management and Cost
   /// Management User Guide</i>.
   ///
-  /// May throw [InvalidArgumentException].
-  /// May throw [ClientLimitExceededException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [ClientLimitExceededException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TagsPerResourceExceededLimitException].
   ///
   /// Parameter [resourceARN] :
@@ -1007,9 +1063,9 @@ class KinesisVideo {
   ///
   /// May throw [ClientLimitExceededException].
   /// May throw [InvalidArgumentException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [NotAuthorizedException].
   /// May throw [InvalidResourceFormatException].
+  /// May throw [NotAuthorizedException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TagsPerResourceExceededLimitException].
   ///
   /// Parameter [tags] :
@@ -1044,10 +1100,10 @@ class KinesisVideo {
   /// only a tag key or keys; don't specify the value. If you specify a tag key
   /// that does not exist, it's ignored.
   ///
-  /// May throw [InvalidArgumentException].
-  /// May throw [ClientLimitExceededException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [ClientLimitExceededException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceARN] :
   /// The Amazon Resource Name (ARN) of the signaling channel from which you
@@ -1080,9 +1136,9 @@ class KinesisVideo {
   ///
   /// May throw [ClientLimitExceededException].
   /// May throw [InvalidArgumentException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [NotAuthorizedException].
   /// May throw [InvalidResourceFormatException].
+  /// May throw [NotAuthorizedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [tagKeyList] :
   /// A list of the keys of the tags that you want to remove.
@@ -1140,9 +1196,9 @@ class KinesisVideo {
   ///
   /// May throw [ClientLimitExceededException].
   /// May throw [InvalidArgumentException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
   /// May throw [NotAuthorizedException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [VersionMismatchException].
   ///
   /// Parameter [currentVersion] :
@@ -1199,12 +1255,12 @@ class KinesisVideo {
   /// Updates the <code>StreamInfo</code> and
   /// <code>ImageProcessingConfiguration</code> fields.
   ///
-  /// May throw [InvalidArgumentException].
-  /// May throw [ClientLimitExceededException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceInUseException].
+  /// May throw [ClientLimitExceededException].
+  /// May throw [InvalidArgumentException].
   /// May throw [NoDataRetentionException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [imageGenerationConfiguration] :
   /// The structure that contains the information required for the KVS images
@@ -1260,12 +1316,12 @@ class KinesisVideo {
   /// the storage session.
   /// </important>
   ///
-  /// May throw [ResourceInUseException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [ClientLimitExceededException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [ClientLimitExceededException].
+  /// May throw [InvalidArgumentException].
   /// May throw [NoDataRetentionException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [channelARN] :
   /// The Amazon Resource Name (ARN) of the channel.
@@ -1291,12 +1347,12 @@ class KinesisVideo {
 
   /// Updates the notification information for a stream.
   ///
-  /// May throw [InvalidArgumentException].
-  /// May throw [ClientLimitExceededException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceInUseException].
+  /// May throw [ClientLimitExceededException].
+  /// May throw [InvalidArgumentException].
   /// May throw [NoDataRetentionException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [notificationConfiguration] :
   /// The structure containing the information required for notifications. If
@@ -1338,11 +1394,11 @@ class KinesisVideo {
   /// it's been updated. Existing messages are still expired as per the previous
   /// <code>MessageTtlSeconds</code> value.
   ///
-  /// May throw [InvalidArgumentException].
-  /// May throw [ClientLimitExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
   /// May throw [AccessDeniedException].
+  /// May throw [ClientLimitExceededException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [VersionMismatchException].
   ///
   /// Parameter [channelARN] :
@@ -1355,7 +1411,8 @@ class KinesisVideo {
   /// Parameter [singleMasterConfiguration] :
   /// The structure containing the configuration for the
   /// <code>SINGLE_MASTER</code> type of the signaling channel that you want to
-  /// update.
+  /// update. This parameter and the channel message's time-to-live are required
+  /// for channels with the <code>SINGLE_MASTER</code> channel type.
   Future<void> updateSignalingChannel({
     required String channelARN,
     required String currentVersion,
@@ -1391,9 +1448,9 @@ class KinesisVideo {
   ///
   /// May throw [ClientLimitExceededException].
   /// May throw [InvalidArgumentException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
   /// May throw [NotAuthorizedException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [VersionMismatchException].
   ///
   /// Parameter [currentVersion] :
@@ -1448,268 +1505,64 @@ class KinesisVideo {
       exceptionFnMap: _exceptionFns,
     );
   }
-}
 
-class APIName {
-  static const putMedia = APIName._('PUT_MEDIA');
-  static const getMedia = APIName._('GET_MEDIA');
-  static const listFragments = APIName._('LIST_FRAGMENTS');
-  static const getMediaForFragmentList =
-      APIName._('GET_MEDIA_FOR_FRAGMENT_LIST');
-  static const getHlsStreamingSessionUrl =
-      APIName._('GET_HLS_STREAMING_SESSION_URL');
-  static const getDashStreamingSessionUrl =
-      APIName._('GET_DASH_STREAMING_SESSION_URL');
-  static const getClip = APIName._('GET_CLIP');
-  static const getImages = APIName._('GET_IMAGES');
-
-  final String value;
-
-  const APIName._(this.value);
-
-  static const values = [
-    putMedia,
-    getMedia,
-    listFragments,
-    getMediaForFragmentList,
-    getHlsStreamingSessionUrl,
-    getDashStreamingSessionUrl,
-    getClip,
-    getImages
-  ];
-
-  static APIName fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => APIName._(value));
-
-  @override
-  bool operator ==(other) => other is APIName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A structure that encapsulates a signaling channel's metadata and properties.
-class ChannelInfo {
-  /// The Amazon Resource Name (ARN) of the signaling channel.
-  final String? channelARN;
-
-  /// The name of the signaling channel.
-  final String? channelName;
-
-  /// Current status of the signaling channel.
-  final Status? channelStatus;
-
-  /// The type of the signaling channel.
-  final ChannelType? channelType;
-
-  /// The time at which the signaling channel was created.
-  final DateTime? creationTime;
-
-  /// A structure that contains the configuration for the
-  /// <code>SINGLE_MASTER</code> channel type.
-  final SingleMasterConfiguration? singleMasterConfiguration;
-
-  /// The current version of the signaling channel.
-  final String? version;
-
-  ChannelInfo({
-    this.channelARN,
-    this.channelName,
-    this.channelStatus,
-    this.channelType,
-    this.creationTime,
-    this.singleMasterConfiguration,
-    this.version,
-  });
-
-  factory ChannelInfo.fromJson(Map<String, dynamic> json) {
-    return ChannelInfo(
-      channelARN: json['ChannelARN'] as String?,
-      channelName: json['ChannelName'] as String?,
-      channelStatus: (json['ChannelStatus'] as String?)?.let(Status.fromString),
-      channelType:
-          (json['ChannelType'] as String?)?.let(ChannelType.fromString),
-      creationTime: timeStampFromJson(json['CreationTime']),
-      singleMasterConfiguration: json['SingleMasterConfiguration'] != null
-          ? SingleMasterConfiguration.fromJson(
-              json['SingleMasterConfiguration'] as Map<String, dynamic>)
-          : null,
-      version: json['Version'] as String?,
+  /// Updates the storage configuration for an existing Kinesis video stream.
+  ///
+  /// This operation allows you to modify the storage tier settings for a
+  /// stream, enabling you to optimize storage costs and performance based on
+  /// your access patterns.
+  ///
+  /// <code>UpdateStreamStorageConfiguration</code> is an asynchronous
+  /// operation.
+  ///
+  /// You must have permissions for the
+  /// <code>KinesisVideo:UpdateStreamStorageConfiguration</code> action.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ClientLimitExceededException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [VersionMismatchException].
+  ///
+  /// Parameter [currentVersion] :
+  /// The version of the stream whose storage configuration you want to change.
+  /// To get the version, call either the <code>DescribeStream</code> or the
+  /// <code>ListStreams</code> API.
+  ///
+  /// Parameter [streamStorageConfiguration] :
+  /// The new storage configuration for the stream. This includes the default
+  /// storage tier that determines how stream data is stored and accessed.
+  ///
+  /// Different storage tiers offer varying levels of performance and cost
+  /// optimization to match your specific use case requirements.
+  ///
+  /// Parameter [streamARN] :
+  /// The Amazon Resource Name (ARN) of the stream for which you want to update
+  /// the storage configuration.
+  ///
+  /// Parameter [streamName] :
+  /// The name of the stream for which you want to update the storage
+  /// configuration.
+  Future<void> updateStreamStorageConfiguration({
+    required String currentVersion,
+    required StreamStorageConfiguration streamStorageConfiguration,
+    String? streamARN,
+    String? streamName,
+  }) async {
+    final $payload = <String, dynamic>{
+      'CurrentVersion': currentVersion,
+      'StreamStorageConfiguration': streamStorageConfiguration,
+      if (streamARN != null) 'StreamARN': streamARN,
+      if (streamName != null) 'StreamName': streamName,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/updateStreamStorageConfiguration',
+      exceptionFnMap: _exceptionFns,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final channelARN = this.channelARN;
-    final channelName = this.channelName;
-    final channelStatus = this.channelStatus;
-    final channelType = this.channelType;
-    final creationTime = this.creationTime;
-    final singleMasterConfiguration = this.singleMasterConfiguration;
-    final version = this.version;
-    return {
-      if (channelARN != null) 'ChannelARN': channelARN,
-      if (channelName != null) 'ChannelName': channelName,
-      if (channelStatus != null) 'ChannelStatus': channelStatus.value,
-      if (channelType != null) 'ChannelType': channelType.value,
-      if (creationTime != null)
-        'CreationTime': unixTimestampToJson(creationTime),
-      if (singleMasterConfiguration != null)
-        'SingleMasterConfiguration': singleMasterConfiguration,
-      if (version != null) 'Version': version,
-    };
-  }
-}
-
-/// An optional input parameter for the <code>ListSignalingChannels</code> API.
-/// When this parameter is specified while invoking
-/// <code>ListSignalingChannels</code>, the API returns only the channels that
-/// satisfy a condition specified in <code>ChannelNameCondition</code>.
-class ChannelNameCondition {
-  /// A comparison operator. Currently, you can only specify the
-  /// <code>BEGINS_WITH</code> operator, which finds signaling channels whose
-  /// names begin with a given prefix.
-  final ComparisonOperator? comparisonOperator;
-
-  /// A value to compare.
-  final String? comparisonValue;
-
-  ChannelNameCondition({
-    this.comparisonOperator,
-    this.comparisonValue,
-  });
-
-  Map<String, dynamic> toJson() {
-    final comparisonOperator = this.comparisonOperator;
-    final comparisonValue = this.comparisonValue;
-    return {
-      if (comparisonOperator != null)
-        'ComparisonOperator': comparisonOperator.value,
-      if (comparisonValue != null) 'ComparisonValue': comparisonValue,
-    };
-  }
-}
-
-class ChannelProtocol {
-  static const wss = ChannelProtocol._('WSS');
-  static const https = ChannelProtocol._('HTTPS');
-  static const webrtc = ChannelProtocol._('WEBRTC');
-
-  final String value;
-
-  const ChannelProtocol._(this.value);
-
-  static const values = [wss, https, webrtc];
-
-  static ChannelProtocol fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ChannelProtocol._(value));
-
-  @override
-  bool operator ==(other) => other is ChannelProtocol && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ChannelRole {
-  static const master = ChannelRole._('MASTER');
-  static const viewer = ChannelRole._('VIEWER');
-
-  final String value;
-
-  const ChannelRole._(this.value);
-
-  static const values = [master, viewer];
-
-  static ChannelRole fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ChannelRole._(value));
-
-  @override
-  bool operator ==(other) => other is ChannelRole && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ChannelType {
-  static const singleMaster = ChannelType._('SINGLE_MASTER');
-  static const fullMesh = ChannelType._('FULL_MESH');
-
-  final String value;
-
-  const ChannelType._(this.value);
-
-  static const values = [singleMaster, fullMesh];
-
-  static ChannelType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ChannelType._(value));
-
-  @override
-  bool operator ==(other) => other is ChannelType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ComparisonOperator {
-  static const beginsWith = ComparisonOperator._('BEGINS_WITH');
-
-  final String value;
-
-  const ComparisonOperator._(this.value);
-
-  static const values = [beginsWith];
-
-  static ComparisonOperator fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ComparisonOperator._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ComparisonOperator && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ConfigurationStatus {
-  static const enabled = ConfigurationStatus._('ENABLED');
-  static const disabled = ConfigurationStatus._('DISABLED');
-
-  final String value;
-
-  const ConfigurationStatus._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static ConfigurationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConfigurationStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ConfigurationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class CreateSignalingChannelOutput {
@@ -1789,60 +1642,6 @@ class DeleteStreamOutput {
 
   Map<String, dynamic> toJson() {
     return {};
-  }
-}
-
-/// The configuration details required to delete the connection of the stream
-/// from the Edge Agent.
-class DeletionConfig {
-  /// The <code>boolean</code> value used to indicate whether or not you want to
-  /// mark the media for deletion, once it has been uploaded to the Kinesis Video
-  /// Stream cloud. The media files can be deleted if any of the deletion
-  /// configuration values are set to <code>true</code>, such as when the limit
-  /// for the <code>EdgeRetentionInHours</code>, or the
-  /// <code>MaxLocalMediaSizeInMB</code>, has been reached.
-  ///
-  /// Since the default value is set to <code>true</code>, configure the uploader
-  /// schedule such that the media files are not being deleted before they are
-  /// initially uploaded to the Amazon Web Services cloud.
-  final bool? deleteAfterUpload;
-
-  /// The number of hours that you want to retain the data in the stream on the
-  /// Edge Agent. The default value of the retention time is 720 hours, which
-  /// translates to 30 days.
-  final int? edgeRetentionInHours;
-
-  /// The value of the local size required in order to delete the edge
-  /// configuration.
-  final LocalSizeConfig? localSizeConfig;
-
-  DeletionConfig({
-    this.deleteAfterUpload,
-    this.edgeRetentionInHours,
-    this.localSizeConfig,
-  });
-
-  factory DeletionConfig.fromJson(Map<String, dynamic> json) {
-    return DeletionConfig(
-      deleteAfterUpload: json['DeleteAfterUpload'] as bool?,
-      edgeRetentionInHours: json['EdgeRetentionInHours'] as int?,
-      localSizeConfig: json['LocalSizeConfig'] != null
-          ? LocalSizeConfig.fromJson(
-              json['LocalSizeConfig'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deleteAfterUpload = this.deleteAfterUpload;
-    final edgeRetentionInHours = this.edgeRetentionInHours;
-    final localSizeConfig = this.localSizeConfig;
-    return {
-      if (deleteAfterUpload != null) 'DeleteAfterUpload': deleteAfterUpload,
-      if (edgeRetentionInHours != null)
-        'EdgeRetentionInHours': edgeRetentionInHours,
-      if (localSizeConfig != null) 'LocalSizeConfig': localSizeConfig,
-    };
   }
 }
 
@@ -2103,148 +1902,46 @@ class DescribeStreamOutput {
   }
 }
 
-/// An object that contains the latest status details for an edge agent's
-/// recorder and uploader jobs. Use this information to determine the current
-/// health of an edge agent.
-class EdgeAgentStatus {
-  /// The latest status of a stream’s edge recording job.
-  final LastRecorderStatus? lastRecorderStatus;
+class DescribeStreamStorageConfigurationOutput {
+  /// The Amazon Resource Name (ARN) of the stream.
+  final String? streamARN;
 
-  /// The latest status of a stream’s edge to cloud uploader job.
-  final LastUploaderStatus? lastUploaderStatus;
+  /// The name of the stream.
+  final String? streamName;
 
-  EdgeAgentStatus({
-    this.lastRecorderStatus,
-    this.lastUploaderStatus,
+  /// The current storage configuration for the stream, including the default
+  /// storage tier and other storage-related settings.
+  final StreamStorageConfiguration? streamStorageConfiguration;
+
+  DescribeStreamStorageConfigurationOutput({
+    this.streamARN,
+    this.streamName,
+    this.streamStorageConfiguration,
   });
 
-  factory EdgeAgentStatus.fromJson(Map<String, dynamic> json) {
-    return EdgeAgentStatus(
-      lastRecorderStatus: json['LastRecorderStatus'] != null
-          ? LastRecorderStatus.fromJson(
-              json['LastRecorderStatus'] as Map<String, dynamic>)
-          : null,
-      lastUploaderStatus: json['LastUploaderStatus'] != null
-          ? LastUploaderStatus.fromJson(
-              json['LastUploaderStatus'] as Map<String, dynamic>)
+  factory DescribeStreamStorageConfigurationOutput.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeStreamStorageConfigurationOutput(
+      streamARN: json['StreamARN'] as String?,
+      streamName: json['StreamName'] as String?,
+      streamStorageConfiguration: json['StreamStorageConfiguration'] != null
+          ? StreamStorageConfiguration.fromJson(
+              json['StreamStorageConfiguration'] as Map<String, dynamic>)
           : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final lastRecorderStatus = this.lastRecorderStatus;
-    final lastUploaderStatus = this.lastUploaderStatus;
+    final streamARN = this.streamARN;
+    final streamName = this.streamName;
+    final streamStorageConfiguration = this.streamStorageConfiguration;
     return {
-      if (lastRecorderStatus != null) 'LastRecorderStatus': lastRecorderStatus,
-      if (lastUploaderStatus != null) 'LastUploaderStatus': lastUploaderStatus,
+      if (streamARN != null) 'StreamARN': streamARN,
+      if (streamName != null) 'StreamName': streamName,
+      if (streamStorageConfiguration != null)
+        'StreamStorageConfiguration': streamStorageConfiguration,
     };
   }
-}
-
-/// A description of the stream's edge configuration that will be used to sync
-/// with the Edge Agent IoT Greengrass component. The Edge Agent component will
-/// run on an IoT Hub Device setup at your premise.
-class EdgeConfig {
-  /// The "<b>Internet of Things (IoT) Thing</b>" Arn of the stream.
-  final String hubDeviceArn;
-
-  /// The recorder configuration consists of the local
-  /// <code>MediaSourceConfig</code> details, that are used as credentials to
-  /// access the local media files streamed on the camera.
-  final RecorderConfig recorderConfig;
-
-  /// The deletion configuration is made up of the retention time
-  /// (<code>EdgeRetentionInHours</code>) and local size configuration
-  /// (<code>LocalSizeConfig</code>) details that are used to make the deletion.
-  final DeletionConfig? deletionConfig;
-
-  /// The uploader configuration contains the <code>ScheduleExpression</code>
-  /// details that are used to schedule upload jobs for the recorded media files
-  /// from the Edge Agent to a Kinesis Video Stream.
-  final UploaderConfig? uploaderConfig;
-
-  EdgeConfig({
-    required this.hubDeviceArn,
-    required this.recorderConfig,
-    this.deletionConfig,
-    this.uploaderConfig,
-  });
-
-  factory EdgeConfig.fromJson(Map<String, dynamic> json) {
-    return EdgeConfig(
-      hubDeviceArn: (json['HubDeviceArn'] as String?) ?? '',
-      recorderConfig: RecorderConfig.fromJson(
-          (json['RecorderConfig'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      deletionConfig: json['DeletionConfig'] != null
-          ? DeletionConfig.fromJson(
-              json['DeletionConfig'] as Map<String, dynamic>)
-          : null,
-      uploaderConfig: json['UploaderConfig'] != null
-          ? UploaderConfig.fromJson(
-              json['UploaderConfig'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hubDeviceArn = this.hubDeviceArn;
-    final recorderConfig = this.recorderConfig;
-    final deletionConfig = this.deletionConfig;
-    final uploaderConfig = this.uploaderConfig;
-    return {
-      'HubDeviceArn': hubDeviceArn,
-      'RecorderConfig': recorderConfig,
-      if (deletionConfig != null) 'DeletionConfig': deletionConfig,
-      if (uploaderConfig != null) 'UploaderConfig': uploaderConfig,
-    };
-  }
-}
-
-class Format {
-  static const jpeg = Format._('JPEG');
-  static const png = Format._('PNG');
-
-  final String value;
-
-  const Format._(this.value);
-
-  static const values = [jpeg, png];
-
-  static Format fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Format._(value));
-
-  @override
-  bool operator ==(other) => other is Format && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class FormatConfigKey {
-  static const jPEGQuality = FormatConfigKey._('JPEGQuality');
-
-  final String value;
-
-  const FormatConfigKey._(this.value);
-
-  static const values = [jPEGQuality];
-
-  static FormatConfigKey fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FormatConfigKey._(value));
-
-  @override
-  bool operator ==(other) => other is FormatConfigKey && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class GetDataEndpointOutput {
@@ -2294,333 +1991,6 @@ class GetSignalingChannelEndpointOutput {
     return {
       if (resourceEndpointList != null)
         'ResourceEndpointList': resourceEndpointList,
-    };
-  }
-}
-
-/// The structure that contains the information required for the KVS images
-/// delivery. If null, the configuration will be deleted from the stream.
-class ImageGenerationConfiguration {
-  /// The structure that contains the information required to deliver images to a
-  /// customer.
-  final ImageGenerationDestinationConfig destinationConfig;
-
-  /// The accepted image format.
-  final Format format;
-
-  /// The origin of the Server or Producer timestamps to use to generate the
-  /// images.
-  final ImageSelectorType imageSelectorType;
-
-  /// The time interval in milliseconds (ms) at which the images need to be
-  /// generated from the stream. The minimum value that can be provided is 200 ms.
-  /// If the timestamp range is less than the sampling interval, the Image from
-  /// the <code>StartTimestamp</code> will be returned if available.
-  final int samplingInterval;
-
-  /// Indicates whether the <code>ContinuousImageGenerationConfigurations</code>
-  /// API is enabled or disabled.
-  final ConfigurationStatus status;
-
-  /// The list of a key-value pair structure that contains extra parameters that
-  /// can be applied when the image is generated. The <code>FormatConfig</code>
-  /// key is the <code>JPEGQuality</code>, which indicates the JPEG quality key to
-  /// be used to generate the image. The <code>FormatConfig</code> value accepts
-  /// ints from 1 to 100. If the value is 1, the image will be generated with less
-  /// quality and the best compression. If the value is 100, the image will be
-  /// generated with the best quality and less compression. If no value is
-  /// provided, the default value of the <code>JPEGQuality</code> key will be set
-  /// to 80.
-  final Map<FormatConfigKey, String>? formatConfig;
-
-  /// The height of the output image that is used in conjunction with the
-  /// <code>WidthPixels</code> parameter. When both <code>HeightPixels</code> and
-  /// <code>WidthPixels</code> parameters are provided, the image will be
-  /// stretched to fit the specified aspect ratio. If only the
-  /// <code>HeightPixels</code> parameter is provided, its original aspect ratio
-  /// will be used to calculate the <code>WidthPixels</code> ratio. If neither
-  /// parameter is provided, the original image size will be returned.
-  final int? heightPixels;
-
-  /// The width of the output image that is used in conjunction with the
-  /// <code>HeightPixels</code> parameter. When both <code>WidthPixels</code> and
-  /// <code>HeightPixels</code> parameters are provided, the image will be
-  /// stretched to fit the specified aspect ratio. If only the
-  /// <code>WidthPixels</code> parameter is provided, its original aspect ratio
-  /// will be used to calculate the <code>HeightPixels</code> ratio. If neither
-  /// parameter is provided, the original image size will be returned.
-  final int? widthPixels;
-
-  ImageGenerationConfiguration({
-    required this.destinationConfig,
-    required this.format,
-    required this.imageSelectorType,
-    required this.samplingInterval,
-    required this.status,
-    this.formatConfig,
-    this.heightPixels,
-    this.widthPixels,
-  });
-
-  factory ImageGenerationConfiguration.fromJson(Map<String, dynamic> json) {
-    return ImageGenerationConfiguration(
-      destinationConfig: ImageGenerationDestinationConfig.fromJson(
-          (json['DestinationConfig'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      format: Format.fromString((json['Format'] as String?) ?? ''),
-      imageSelectorType: ImageSelectorType.fromString(
-          (json['ImageSelectorType'] as String?) ?? ''),
-      samplingInterval: (json['SamplingInterval'] as int?) ?? 0,
-      status: ConfigurationStatus.fromString((json['Status'] as String?) ?? ''),
-      formatConfig: (json['FormatConfig'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(FormatConfigKey.fromString(k), e as String)),
-      heightPixels: json['HeightPixels'] as int?,
-      widthPixels: json['WidthPixels'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final destinationConfig = this.destinationConfig;
-    final format = this.format;
-    final imageSelectorType = this.imageSelectorType;
-    final samplingInterval = this.samplingInterval;
-    final status = this.status;
-    final formatConfig = this.formatConfig;
-    final heightPixels = this.heightPixels;
-    final widthPixels = this.widthPixels;
-    return {
-      'DestinationConfig': destinationConfig,
-      'Format': format.value,
-      'ImageSelectorType': imageSelectorType.value,
-      'SamplingInterval': samplingInterval,
-      'Status': status.value,
-      if (formatConfig != null)
-        'FormatConfig': formatConfig.map((k, e) => MapEntry(k.value, e)),
-      if (heightPixels != null) 'HeightPixels': heightPixels,
-      if (widthPixels != null) 'WidthPixels': widthPixels,
-    };
-  }
-}
-
-/// The structure that contains the information required to deliver images to a
-/// customer.
-class ImageGenerationDestinationConfig {
-  /// The Amazon Web Services Region of the S3 bucket where images will be
-  /// delivered. This <code>DestinationRegion</code> must match the Region where
-  /// the stream is located.
-  final String destinationRegion;
-
-  /// The Uniform Resource Identifier (URI) that identifies where the images will
-  /// be delivered.
-  final String uri;
-
-  ImageGenerationDestinationConfig({
-    required this.destinationRegion,
-    required this.uri,
-  });
-
-  factory ImageGenerationDestinationConfig.fromJson(Map<String, dynamic> json) {
-    return ImageGenerationDestinationConfig(
-      destinationRegion: (json['DestinationRegion'] as String?) ?? '',
-      uri: (json['Uri'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final destinationRegion = this.destinationRegion;
-    final uri = this.uri;
-    return {
-      'DestinationRegion': destinationRegion,
-      'Uri': uri,
-    };
-  }
-}
-
-class ImageSelectorType {
-  static const serverTimestamp = ImageSelectorType._('SERVER_TIMESTAMP');
-  static const producerTimestamp = ImageSelectorType._('PRODUCER_TIMESTAMP');
-
-  final String value;
-
-  const ImageSelectorType._(this.value);
-
-  static const values = [serverTimestamp, producerTimestamp];
-
-  static ImageSelectorType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ImageSelectorType._(value));
-
-  @override
-  bool operator ==(other) => other is ImageSelectorType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The latest status of a stream's edge recording job.
-class LastRecorderStatus {
-  /// A description of a recorder job’s latest status.
-  final String? jobStatusDetails;
-
-  /// The timestamp at which the recorder job was last executed and media stored
-  /// to local disk.
-  final DateTime? lastCollectedTime;
-
-  /// The timestamp at which the recorder status was last updated.
-  final DateTime? lastUpdatedTime;
-
-  /// The status of the latest recorder job.
-  final RecorderStatus? recorderStatus;
-
-  LastRecorderStatus({
-    this.jobStatusDetails,
-    this.lastCollectedTime,
-    this.lastUpdatedTime,
-    this.recorderStatus,
-  });
-
-  factory LastRecorderStatus.fromJson(Map<String, dynamic> json) {
-    return LastRecorderStatus(
-      jobStatusDetails: json['JobStatusDetails'] as String?,
-      lastCollectedTime: timeStampFromJson(json['LastCollectedTime']),
-      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
-      recorderStatus:
-          (json['RecorderStatus'] as String?)?.let(RecorderStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final jobStatusDetails = this.jobStatusDetails;
-    final lastCollectedTime = this.lastCollectedTime;
-    final lastUpdatedTime = this.lastUpdatedTime;
-    final recorderStatus = this.recorderStatus;
-    return {
-      if (jobStatusDetails != null) 'JobStatusDetails': jobStatusDetails,
-      if (lastCollectedTime != null)
-        'LastCollectedTime': unixTimestampToJson(lastCollectedTime),
-      if (lastUpdatedTime != null)
-        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
-      if (recorderStatus != null) 'RecorderStatus': recorderStatus.value,
-    };
-  }
-}
-
-/// The latest status of a stream’s edge to cloud uploader job.
-class LastUploaderStatus {
-  /// A description of an uploader job’s latest status.
-  final String? jobStatusDetails;
-
-  /// The timestamp at which the uploader job was last executed and media
-  /// collected to the cloud.
-  final DateTime? lastCollectedTime;
-
-  /// The timestamp at which the uploader status was last updated.
-  final DateTime? lastUpdatedTime;
-
-  /// The status of the latest uploader job.
-  final UploaderStatus? uploaderStatus;
-
-  LastUploaderStatus({
-    this.jobStatusDetails,
-    this.lastCollectedTime,
-    this.lastUpdatedTime,
-    this.uploaderStatus,
-  });
-
-  factory LastUploaderStatus.fromJson(Map<String, dynamic> json) {
-    return LastUploaderStatus(
-      jobStatusDetails: json['JobStatusDetails'] as String?,
-      lastCollectedTime: timeStampFromJson(json['LastCollectedTime']),
-      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
-      uploaderStatus:
-          (json['UploaderStatus'] as String?)?.let(UploaderStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final jobStatusDetails = this.jobStatusDetails;
-    final lastCollectedTime = this.lastCollectedTime;
-    final lastUpdatedTime = this.lastUpdatedTime;
-    final uploaderStatus = this.uploaderStatus;
-    return {
-      if (jobStatusDetails != null) 'JobStatusDetails': jobStatusDetails,
-      if (lastCollectedTime != null)
-        'LastCollectedTime': unixTimestampToJson(lastCollectedTime),
-      if (lastUpdatedTime != null)
-        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
-      if (uploaderStatus != null) 'UploaderStatus': uploaderStatus.value,
-    };
-  }
-}
-
-/// A description of a single stream's edge configuration.
-class ListEdgeAgentConfigurationsEdgeConfig {
-  /// The timestamp when the stream first created the edge config.
-  final DateTime? creationTime;
-  final EdgeConfig? edgeConfig;
-
-  /// A description of the generated failure status.
-  final String? failedStatusDetails;
-
-  /// The timestamp when the stream last updated the edge config.
-  final DateTime? lastUpdatedTime;
-
-  /// The Amazon Resource Name (ARN) of the stream.
-  final String? streamARN;
-
-  /// The name of the stream.
-  final String? streamName;
-
-  /// The current sync status of the stream's edge configuration.
-  final SyncStatus? syncStatus;
-
-  ListEdgeAgentConfigurationsEdgeConfig({
-    this.creationTime,
-    this.edgeConfig,
-    this.failedStatusDetails,
-    this.lastUpdatedTime,
-    this.streamARN,
-    this.streamName,
-    this.syncStatus,
-  });
-
-  factory ListEdgeAgentConfigurationsEdgeConfig.fromJson(
-      Map<String, dynamic> json) {
-    return ListEdgeAgentConfigurationsEdgeConfig(
-      creationTime: timeStampFromJson(json['CreationTime']),
-      edgeConfig: json['EdgeConfig'] != null
-          ? EdgeConfig.fromJson(json['EdgeConfig'] as Map<String, dynamic>)
-          : null,
-      failedStatusDetails: json['FailedStatusDetails'] as String?,
-      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
-      streamARN: json['StreamARN'] as String?,
-      streamName: json['StreamName'] as String?,
-      syncStatus: (json['SyncStatus'] as String?)?.let(SyncStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationTime = this.creationTime;
-    final edgeConfig = this.edgeConfig;
-    final failedStatusDetails = this.failedStatusDetails;
-    final lastUpdatedTime = this.lastUpdatedTime;
-    final streamARN = this.streamARN;
-    final streamName = this.streamName;
-    final syncStatus = this.syncStatus;
-    return {
-      if (creationTime != null)
-        'CreationTime': unixTimestampToJson(creationTime),
-      if (edgeConfig != null) 'EdgeConfig': edgeConfig,
-      if (failedStatusDetails != null)
-        'FailedStatusDetails': failedStatusDetails,
-      if (lastUpdatedTime != null)
-        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
-      if (streamARN != null) 'StreamARN': streamARN,
-      if (streamName != null) 'StreamName': streamName,
-      if (syncStatus != null) 'SyncStatus': syncStatus.value,
     };
   }
 }
@@ -2792,483 +2162,6 @@ class ListTagsForStreamOutput {
   }
 }
 
-/// The configuration details that include the maximum size of the media
-/// (<code>MaxLocalMediaSizeInMB</code>) that you want to store for a stream on
-/// the Edge Agent, as well as the strategy that should be used
-/// (<code>StrategyOnFullSize</code>) when a stream's maximum size has been
-/// reached.
-class LocalSizeConfig {
-  /// The overall maximum size of the media that you want to store for a stream on
-  /// the Edge Agent.
-  final int? maxLocalMediaSizeInMB;
-
-  /// The strategy to perform when a stream’s <code>MaxLocalMediaSizeInMB</code>
-  /// limit is reached.
-  final StrategyOnFullSize? strategyOnFullSize;
-
-  LocalSizeConfig({
-    this.maxLocalMediaSizeInMB,
-    this.strategyOnFullSize,
-  });
-
-  factory LocalSizeConfig.fromJson(Map<String, dynamic> json) {
-    return LocalSizeConfig(
-      maxLocalMediaSizeInMB: json['MaxLocalMediaSizeInMB'] as int?,
-      strategyOnFullSize: (json['StrategyOnFullSize'] as String?)
-          ?.let(StrategyOnFullSize.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final maxLocalMediaSizeInMB = this.maxLocalMediaSizeInMB;
-    final strategyOnFullSize = this.strategyOnFullSize;
-    return {
-      if (maxLocalMediaSizeInMB != null)
-        'MaxLocalMediaSizeInMB': maxLocalMediaSizeInMB,
-      if (strategyOnFullSize != null)
-        'StrategyOnFullSize': strategyOnFullSize.value,
-    };
-  }
-}
-
-/// A structure that encapsulates, or contains, the media storage configuration
-/// properties.
-class MappedResourceConfigurationListItem {
-  /// The Amazon Resource Name (ARN) of the Kinesis Video Stream resource,
-  /// associated with the stream.
-  final String? arn;
-
-  /// The type of the associated resource for the kinesis video stream.
-  final String? type;
-
-  MappedResourceConfigurationListItem({
-    this.arn,
-    this.type,
-  });
-
-  factory MappedResourceConfigurationListItem.fromJson(
-      Map<String, dynamic> json) {
-    return MappedResourceConfigurationListItem(
-      arn: json['ARN'] as String?,
-      type: json['Type'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final type = this.type;
-    return {
-      if (arn != null) 'ARN': arn,
-      if (type != null) 'Type': type,
-    };
-  }
-}
-
-/// The configuration details that consist of the credentials required
-/// (<code>MediaUriSecretArn</code> and <code>MediaUriType</code>) to access the
-/// media files that are streamed to the camera.
-class MediaSourceConfig {
-  /// The Amazon Web Services Secrets Manager ARN for the username and password of
-  /// the camera, or a local media file location.
-  final String mediaUriSecretArn;
-
-  /// The Uniform Resource Identifier (URI) type. The <code>FILE_URI</code> value
-  /// can be used to stream local media files.
-  /// <note>
-  /// Preview only supports the <code>RTSP_URI</code> media source URI format .
-  /// </note>
-  final MediaUriType mediaUriType;
-
-  MediaSourceConfig({
-    required this.mediaUriSecretArn,
-    required this.mediaUriType,
-  });
-
-  factory MediaSourceConfig.fromJson(Map<String, dynamic> json) {
-    return MediaSourceConfig(
-      mediaUriSecretArn: (json['MediaUriSecretArn'] as String?) ?? '',
-      mediaUriType:
-          MediaUriType.fromString((json['MediaUriType'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final mediaUriSecretArn = this.mediaUriSecretArn;
-    final mediaUriType = this.mediaUriType;
-    return {
-      'MediaUriSecretArn': mediaUriSecretArn,
-      'MediaUriType': mediaUriType.value,
-    };
-  }
-}
-
-/// A structure that encapsulates, or contains, the media storage configuration
-/// properties.
-///
-/// <ul>
-/// <li>
-/// If <code>StorageStatus</code> is enabled, the data will be stored in the
-/// <code>StreamARN</code> provided. In order for WebRTC Ingestion to work, the
-/// stream must have data retention enabled.
-/// </li>
-/// <li>
-/// If <code>StorageStatus</code> is disabled, no data will be stored, and the
-/// <code>StreamARN</code> parameter will not be needed.
-/// </li>
-/// </ul>
-class MediaStorageConfiguration {
-  /// The status of the media storage configuration.
-  final MediaStorageConfigurationStatus status;
-
-  /// The Amazon Resource Name (ARN) of the stream.
-  final String? streamARN;
-
-  MediaStorageConfiguration({
-    required this.status,
-    this.streamARN,
-  });
-
-  factory MediaStorageConfiguration.fromJson(Map<String, dynamic> json) {
-    return MediaStorageConfiguration(
-      status: MediaStorageConfigurationStatus.fromString(
-          (json['Status'] as String?) ?? ''),
-      streamARN: json['StreamARN'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final status = this.status;
-    final streamARN = this.streamARN;
-    return {
-      'Status': status.value,
-      if (streamARN != null) 'StreamARN': streamARN,
-    };
-  }
-}
-
-class MediaStorageConfigurationStatus {
-  static const enabled = MediaStorageConfigurationStatus._('ENABLED');
-  static const disabled = MediaStorageConfigurationStatus._('DISABLED');
-
-  final String value;
-
-  const MediaStorageConfigurationStatus._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static MediaStorageConfigurationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MediaStorageConfigurationStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is MediaStorageConfigurationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class MediaUriType {
-  static const rtspUri = MediaUriType._('RTSP_URI');
-  static const fileUri = MediaUriType._('FILE_URI');
-
-  final String value;
-
-  const MediaUriType._(this.value);
-
-  static const values = [rtspUri, fileUri];
-
-  static MediaUriType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => MediaUriType._(value));
-
-  @override
-  bool operator ==(other) => other is MediaUriType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The structure that contains the notification information for the KVS images
-/// delivery. If this parameter is null, the configuration will be deleted from
-/// the stream.
-class NotificationConfiguration {
-  /// The destination information required to deliver a notification to a
-  /// customer.
-  final NotificationDestinationConfig destinationConfig;
-
-  /// Indicates if a notification configuration is enabled or disabled.
-  final ConfigurationStatus status;
-
-  NotificationConfiguration({
-    required this.destinationConfig,
-    required this.status,
-  });
-
-  factory NotificationConfiguration.fromJson(Map<String, dynamic> json) {
-    return NotificationConfiguration(
-      destinationConfig: NotificationDestinationConfig.fromJson(
-          (json['DestinationConfig'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      status: ConfigurationStatus.fromString((json['Status'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final destinationConfig = this.destinationConfig;
-    final status = this.status;
-    return {
-      'DestinationConfig': destinationConfig,
-      'Status': status.value,
-    };
-  }
-}
-
-/// The structure that contains the information required to deliver a
-/// notification to a customer.
-class NotificationDestinationConfig {
-  /// The Uniform Resource Identifier (URI) that identifies where the images will
-  /// be delivered.
-  final String uri;
-
-  NotificationDestinationConfig({
-    required this.uri,
-  });
-
-  factory NotificationDestinationConfig.fromJson(Map<String, dynamic> json) {
-    return NotificationDestinationConfig(
-      uri: (json['Uri'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final uri = this.uri;
-    return {
-      'Uri': uri,
-    };
-  }
-}
-
-/// The recorder configuration consists of the local
-/// <code>MediaSourceConfig</code> details that are used as credentials to
-/// accesss the local media files streamed on the camera.
-class RecorderConfig {
-  /// The configuration details that consist of the credentials required
-  /// (<code>MediaUriSecretArn</code> and <code>MediaUriType</code>) to access the
-  /// media files streamed to the camera.
-  final MediaSourceConfig mediaSourceConfig;
-
-  /// The configuration that consists of the <code>ScheduleExpression</code> and
-  /// the <code>DurationInMinutes</code> details that specify the scheduling to
-  /// record from a camera, or local media file, onto the Edge Agent. If the
-  /// <code>ScheduleExpression</code> attribute is not provided, then the Edge
-  /// Agent will always be set to recording mode.
-  final ScheduleConfig? scheduleConfig;
-
-  RecorderConfig({
-    required this.mediaSourceConfig,
-    this.scheduleConfig,
-  });
-
-  factory RecorderConfig.fromJson(Map<String, dynamic> json) {
-    return RecorderConfig(
-      mediaSourceConfig: MediaSourceConfig.fromJson(
-          (json['MediaSourceConfig'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      scheduleConfig: json['ScheduleConfig'] != null
-          ? ScheduleConfig.fromJson(
-              json['ScheduleConfig'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final mediaSourceConfig = this.mediaSourceConfig;
-    final scheduleConfig = this.scheduleConfig;
-    return {
-      'MediaSourceConfig': mediaSourceConfig,
-      if (scheduleConfig != null) 'ScheduleConfig': scheduleConfig,
-    };
-  }
-}
-
-class RecorderStatus {
-  static const success = RecorderStatus._('SUCCESS');
-  static const userError = RecorderStatus._('USER_ERROR');
-  static const systemError = RecorderStatus._('SYSTEM_ERROR');
-
-  final String value;
-
-  const RecorderStatus._(this.value);
-
-  static const values = [success, userError, systemError];
-
-  static RecorderStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RecorderStatus._(value));
-
-  @override
-  bool operator ==(other) => other is RecorderStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object that describes the endpoint of the signaling channel returned by
-/// the <code>GetSignalingChannelEndpoint</code> API.
-///
-/// The media server endpoint will correspond to the <code>WEBRTC</code>
-/// Protocol.
-class ResourceEndpointListItem {
-  /// The protocol of the signaling channel returned by the
-  /// <code>GetSignalingChannelEndpoint</code> API.
-  final ChannelProtocol? protocol;
-
-  /// The endpoint of the signaling channel returned by the
-  /// <code>GetSignalingChannelEndpoint</code> API.
-  final String? resourceEndpoint;
-
-  ResourceEndpointListItem({
-    this.protocol,
-    this.resourceEndpoint,
-  });
-
-  factory ResourceEndpointListItem.fromJson(Map<String, dynamic> json) {
-    return ResourceEndpointListItem(
-      protocol: (json['Protocol'] as String?)?.let(ChannelProtocol.fromString),
-      resourceEndpoint: json['ResourceEndpoint'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final protocol = this.protocol;
-    final resourceEndpoint = this.resourceEndpoint;
-    return {
-      if (protocol != null) 'Protocol': protocol.value,
-      if (resourceEndpoint != null) 'ResourceEndpoint': resourceEndpoint,
-    };
-  }
-}
-
-/// This API enables you to specify the duration that the camera, or local media
-/// file, should record onto the Edge Agent. The <code>ScheduleConfig</code>
-/// consists of the <code>ScheduleExpression</code> and the
-/// <code>DurationInMinutes</code> attributes.
-///
-/// If the <code>ScheduleConfig</code> is not provided in the
-/// <code>RecorderConfig</code>, then the Edge Agent will always be set to
-/// recording mode.
-///
-/// If the <code>ScheduleConfig</code> is not provided in the
-/// <code>UploaderConfig</code>, then the Edge Agent will upload at regular
-/// intervals (every 1 hour).
-class ScheduleConfig {
-  /// The total duration to record the media. If the
-  /// <code>ScheduleExpression</code> attribute is provided, then the
-  /// <code>DurationInSeconds</code> attribute should also be specified.
-  final int durationInSeconds;
-
-  /// The Quartz cron expression that takes care of scheduling jobs to record from
-  /// the camera, or local media file, onto the Edge Agent. If the
-  /// <code>ScheduleExpression</code> is not provided for the
-  /// <code>RecorderConfig</code>, then the Edge Agent will always be set to
-  /// recording mode.
-  ///
-  /// For more information about Quartz, refer to the <a
-  /// href="http://www.quartz-scheduler.org/documentation/quartz-2.3.0/tutorials/crontrigger.html">
-  /// <i>Cron Trigger Tutorial</i> </a> page to understand the valid expressions
-  /// and its use.
-  final String scheduleExpression;
-
-  ScheduleConfig({
-    required this.durationInSeconds,
-    required this.scheduleExpression,
-  });
-
-  factory ScheduleConfig.fromJson(Map<String, dynamic> json) {
-    return ScheduleConfig(
-      durationInSeconds: (json['DurationInSeconds'] as int?) ?? 0,
-      scheduleExpression: (json['ScheduleExpression'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final durationInSeconds = this.durationInSeconds;
-    final scheduleExpression = this.scheduleExpression;
-    return {
-      'DurationInSeconds': durationInSeconds,
-      'ScheduleExpression': scheduleExpression,
-    };
-  }
-}
-
-/// An object that contains the endpoint configuration for the
-/// <code>SINGLE_MASTER</code> channel type.
-class SingleMasterChannelEndpointConfiguration {
-  /// This property is used to determine the nature of communication over this
-  /// <code>SINGLE_MASTER</code> signaling channel. If <code>WSS</code> is
-  /// specified, this API returns a websocket endpoint. If <code>HTTPS</code> is
-  /// specified, this API returns an <code>HTTPS</code> endpoint.
-  final List<ChannelProtocol>? protocols;
-
-  /// This property is used to determine messaging permissions in this
-  /// <code>SINGLE_MASTER</code> signaling channel. If <code>MASTER</code> is
-  /// specified, this API returns an endpoint that a client can use to receive
-  /// offers from and send answers to any of the viewers on this signaling
-  /// channel. If <code>VIEWER</code> is specified, this API returns an endpoint
-  /// that a client can use only to send offers to another <code>MASTER</code>
-  /// client on this signaling channel.
-  final ChannelRole? role;
-
-  SingleMasterChannelEndpointConfiguration({
-    this.protocols,
-    this.role,
-  });
-
-  Map<String, dynamic> toJson() {
-    final protocols = this.protocols;
-    final role = this.role;
-    return {
-      if (protocols != null)
-        'Protocols': protocols.map((e) => e.value).toList(),
-      if (role != null) 'Role': role.value,
-    };
-  }
-}
-
-/// A structure that contains the configuration for the
-/// <code>SINGLE_MASTER</code> channel type.
-class SingleMasterConfiguration {
-  /// The period of time a signaling channel retains undelivered messages before
-  /// they are discarded.
-  final int? messageTtlSeconds;
-
-  SingleMasterConfiguration({
-    this.messageTtlSeconds,
-  });
-
-  factory SingleMasterConfiguration.fromJson(Map<String, dynamic> json) {
-    return SingleMasterConfiguration(
-      messageTtlSeconds: json['MessageTtlSeconds'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final messageTtlSeconds = this.messageTtlSeconds;
-    return {
-      if (messageTtlSeconds != null) 'MessageTtlSeconds': messageTtlSeconds,
-    };
-  }
-}
-
 class StartEdgeConfigurationUpdateOutput {
   /// The timestamp at which a stream’s edge configuration was first created.
   final DateTime? creationTime;
@@ -3344,29 +2237,918 @@ class StartEdgeConfigurationUpdateOutput {
   }
 }
 
-class Status {
-  static const creating = Status._('CREATING');
-  static const active = Status._('ACTIVE');
-  static const updating = Status._('UPDATING');
-  static const deleting = Status._('DELETING');
+class TagResourceOutput {
+  TagResourceOutput();
+
+  factory TagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return TagResourceOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class TagStreamOutput {
+  TagStreamOutput();
+
+  factory TagStreamOutput.fromJson(Map<String, dynamic> _) {
+    return TagStreamOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceOutput {
+  UntagResourceOutput();
+
+  factory UntagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return UntagResourceOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagStreamOutput {
+  UntagStreamOutput();
+
+  factory UntagStreamOutput.fromJson(Map<String, dynamic> _) {
+    return UntagStreamOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateDataRetentionOutput {
+  UpdateDataRetentionOutput();
+
+  factory UpdateDataRetentionOutput.fromJson(Map<String, dynamic> _) {
+    return UpdateDataRetentionOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateImageGenerationConfigurationOutput {
+  UpdateImageGenerationConfigurationOutput();
+
+  factory UpdateImageGenerationConfigurationOutput.fromJson(
+      Map<String, dynamic> _) {
+    return UpdateImageGenerationConfigurationOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateMediaStorageConfigurationOutput {
+  UpdateMediaStorageConfigurationOutput();
+
+  factory UpdateMediaStorageConfigurationOutput.fromJson(
+      Map<String, dynamic> _) {
+    return UpdateMediaStorageConfigurationOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateNotificationConfigurationOutput {
+  UpdateNotificationConfigurationOutput();
+
+  factory UpdateNotificationConfigurationOutput.fromJson(
+      Map<String, dynamic> _) {
+    return UpdateNotificationConfigurationOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateSignalingChannelOutput {
+  UpdateSignalingChannelOutput();
+
+  factory UpdateSignalingChannelOutput.fromJson(Map<String, dynamic> _) {
+    return UpdateSignalingChannelOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateStreamOutput {
+  UpdateStreamOutput();
+
+  factory UpdateStreamOutput.fromJson(Map<String, dynamic> _) {
+    return UpdateStreamOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateStreamStorageConfigurationOutput {
+  UpdateStreamStorageConfigurationOutput();
+
+  factory UpdateStreamStorageConfigurationOutput.fromJson(
+      Map<String, dynamic> _) {
+    return UpdateStreamStorageConfigurationOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The configuration for stream storage, including the default storage tier for
+/// stream data. This configuration determines how stream data is stored and
+/// accessed, with different tiers offering varying levels of performance and
+/// cost optimization.
+class StreamStorageConfiguration {
+  /// The default storage tier for the stream data. This setting determines the
+  /// storage class used for stream data, affecting both performance
+  /// characteristics and storage costs.
+  ///
+  /// Available storage tiers:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>HOT</code> - Optimized for frequent access with the lowest latency and
+  /// highest performance. Ideal for real-time applications and frequently
+  /// accessed data.
+  /// </li>
+  /// <li>
+  /// <code>WARM</code> - Balanced performance and cost for moderately accessed
+  /// data. Suitable for data that is accessed regularly but not continuously.
+  /// </li>
+  /// </ul>
+  final DefaultStorageTier defaultStorageTier;
+
+  StreamStorageConfiguration({
+    required this.defaultStorageTier,
+  });
+
+  factory StreamStorageConfiguration.fromJson(Map<String, dynamic> json) {
+    return StreamStorageConfiguration(
+      defaultStorageTier: DefaultStorageTier.fromString(
+          (json['DefaultStorageTier'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultStorageTier = this.defaultStorageTier;
+    return {
+      'DefaultStorageTier': defaultStorageTier.value,
+    };
+  }
+}
+
+class DefaultStorageTier {
+  static const hot = DefaultStorageTier._('HOT');
+  static const warm = DefaultStorageTier._('WARM');
 
   final String value;
 
-  const Status._(this.value);
+  const DefaultStorageTier._(this.value);
 
-  static const values = [creating, active, updating, deleting];
+  static const values = [hot, warm];
 
-  static Status fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+  static DefaultStorageTier fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DefaultStorageTier._(value));
 
   @override
-  bool operator ==(other) => other is Status && other.value == value;
+  bool operator ==(other) =>
+      other is DefaultStorageTier && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
+}
+
+/// A structure that contains the configuration for the
+/// <code>SINGLE_MASTER</code> channel type.
+class SingleMasterConfiguration {
+  /// The period of time (in seconds) a signaling channel retains undelivered
+  /// messages before they are discarded. Use to update this value.
+  final int? messageTtlSeconds;
+
+  SingleMasterConfiguration({
+    this.messageTtlSeconds,
+  });
+
+  factory SingleMasterConfiguration.fromJson(Map<String, dynamic> json) {
+    return SingleMasterConfiguration(
+      messageTtlSeconds: json['MessageTtlSeconds'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final messageTtlSeconds = this.messageTtlSeconds;
+    return {
+      if (messageTtlSeconds != null) 'MessageTtlSeconds': messageTtlSeconds,
+    };
+  }
+}
+
+/// Use this API to configure Amazon Simple Notification Service (Amazon SNS)
+/// notifications for when fragments become available in a stream. If this
+/// parameter is null, the configuration will be deleted from the stream.
+///
+/// See <a
+/// href="https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/notifications.html">Notifications
+/// in Kinesis Video Streams</a> for more information.
+class NotificationConfiguration {
+  /// The destination information required to deliver a notification to a
+  /// customer.
+  final NotificationDestinationConfig destinationConfig;
+
+  /// Indicates if a notification configuration is enabled or disabled.
+  final ConfigurationStatus status;
+
+  NotificationConfiguration({
+    required this.destinationConfig,
+    required this.status,
+  });
+
+  factory NotificationConfiguration.fromJson(Map<String, dynamic> json) {
+    return NotificationConfiguration(
+      destinationConfig: NotificationDestinationConfig.fromJson(
+          (json['DestinationConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      status: ConfigurationStatus.fromString((json['Status'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationConfig = this.destinationConfig;
+    final status = this.status;
+    return {
+      'DestinationConfig': destinationConfig,
+      'Status': status.value,
+    };
+  }
+}
+
+class ConfigurationStatus {
+  static const enabled = ConfigurationStatus._('ENABLED');
+  static const disabled = ConfigurationStatus._('DISABLED');
+
+  final String value;
+
+  const ConfigurationStatus._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static ConfigurationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConfigurationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConfigurationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The structure that contains the information required to deliver a
+/// notification to a customer.
+class NotificationDestinationConfig {
+  /// The Uniform Resource Identifier (URI) that identifies where the images will
+  /// be delivered.
+  final String uri;
+
+  NotificationDestinationConfig({
+    required this.uri,
+  });
+
+  factory NotificationDestinationConfig.fromJson(Map<String, dynamic> json) {
+    return NotificationDestinationConfig(
+      uri: (json['Uri'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final uri = this.uri;
+    return {
+      'Uri': uri,
+    };
+  }
+}
+
+/// A structure that encapsulates, or contains, the media storage configuration
+/// properties.
+///
+/// <ul>
+/// <li>
+/// If <code>StorageStatus</code> is enabled, the data will be stored in the
+/// <code>StreamARN</code> provided. In order for WebRTC Ingestion to work, the
+/// stream must have data retention enabled.
+/// </li>
+/// <li>
+/// If <code>StorageStatus</code> is disabled, no data will be stored, and the
+/// <code>StreamARN</code> parameter will not be needed.
+/// </li>
+/// </ul>
+class MediaStorageConfiguration {
+  /// The status of the media storage configuration.
+  final MediaStorageConfigurationStatus status;
+
+  /// The Amazon Resource Name (ARN) of the stream.
+  final String? streamARN;
+
+  MediaStorageConfiguration({
+    required this.status,
+    this.streamARN,
+  });
+
+  factory MediaStorageConfiguration.fromJson(Map<String, dynamic> json) {
+    return MediaStorageConfiguration(
+      status: MediaStorageConfigurationStatus.fromString(
+          (json['Status'] as String?) ?? ''),
+      streamARN: json['StreamARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final streamARN = this.streamARN;
+    return {
+      'Status': status.value,
+      if (streamARN != null) 'StreamARN': streamARN,
+    };
+  }
+}
+
+class MediaStorageConfigurationStatus {
+  static const enabled = MediaStorageConfigurationStatus._('ENABLED');
+  static const disabled = MediaStorageConfigurationStatus._('DISABLED');
+
+  final String value;
+
+  const MediaStorageConfigurationStatus._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static MediaStorageConfigurationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MediaStorageConfigurationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MediaStorageConfigurationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The structure that contains the information required for the KVS images
+/// delivery. If null, the configuration will be deleted from the stream.
+class ImageGenerationConfiguration {
+  /// The structure that contains the information required to deliver images to a
+  /// customer.
+  final ImageGenerationDestinationConfig destinationConfig;
+
+  /// The accepted image format.
+  final Format format;
+
+  /// The origin of the Server or Producer timestamps to use to generate the
+  /// images.
+  final ImageSelectorType imageSelectorType;
+
+  /// The time interval in milliseconds (ms) at which the images need to be
+  /// generated from the stream. The minimum value that can be provided is 200 ms.
+  /// If the timestamp range is less than the sampling interval, the Image from
+  /// the <code>StartTimestamp</code> will be returned if available.
+  final int samplingInterval;
+
+  /// Indicates whether the <code>ContinuousImageGenerationConfigurations</code>
+  /// API is enabled or disabled.
+  final ConfigurationStatus status;
+
+  /// The list of a key-value pair structure that contains extra parameters that
+  /// can be applied when the image is generated. The <code>FormatConfig</code>
+  /// key is the <code>JPEGQuality</code>, which indicates the JPEG quality key to
+  /// be used to generate the image. The <code>FormatConfig</code> value accepts
+  /// ints from 1 to 100. If the value is 1, the image will be generated with less
+  /// quality and the best compression. If the value is 100, the image will be
+  /// generated with the best quality and less compression. If no value is
+  /// provided, the default value of the <code>JPEGQuality</code> key will be set
+  /// to 80.
+  final Map<FormatConfigKey, String>? formatConfig;
+
+  /// The height of the output image that is used in conjunction with the
+  /// <code>WidthPixels</code> parameter. When both <code>HeightPixels</code> and
+  /// <code>WidthPixels</code> parameters are provided, the image will be
+  /// stretched to fit the specified aspect ratio. If only the
+  /// <code>HeightPixels</code> parameter is provided, its original aspect ratio
+  /// will be used to calculate the <code>WidthPixels</code> ratio. If neither
+  /// parameter is provided, the original image size will be returned.
+  final int? heightPixels;
+
+  /// The width of the output image that is used in conjunction with the
+  /// <code>HeightPixels</code> parameter. When both <code>WidthPixels</code> and
+  /// <code>HeightPixels</code> parameters are provided, the image will be
+  /// stretched to fit the specified aspect ratio. If only the
+  /// <code>WidthPixels</code> parameter is provided, its original aspect ratio
+  /// will be used to calculate the <code>HeightPixels</code> ratio. If neither
+  /// parameter is provided, the original image size will be returned.
+  final int? widthPixels;
+
+  ImageGenerationConfiguration({
+    required this.destinationConfig,
+    required this.format,
+    required this.imageSelectorType,
+    required this.samplingInterval,
+    required this.status,
+    this.formatConfig,
+    this.heightPixels,
+    this.widthPixels,
+  });
+
+  factory ImageGenerationConfiguration.fromJson(Map<String, dynamic> json) {
+    return ImageGenerationConfiguration(
+      destinationConfig: ImageGenerationDestinationConfig.fromJson(
+          (json['DestinationConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      format: Format.fromString((json['Format'] as String?) ?? ''),
+      imageSelectorType: ImageSelectorType.fromString(
+          (json['ImageSelectorType'] as String?) ?? ''),
+      samplingInterval: (json['SamplingInterval'] as int?) ?? 0,
+      status: ConfigurationStatus.fromString((json['Status'] as String?) ?? ''),
+      formatConfig: (json['FormatConfig'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(FormatConfigKey.fromString(k), e as String)),
+      heightPixels: json['HeightPixels'] as int?,
+      widthPixels: json['WidthPixels'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationConfig = this.destinationConfig;
+    final format = this.format;
+    final imageSelectorType = this.imageSelectorType;
+    final samplingInterval = this.samplingInterval;
+    final status = this.status;
+    final formatConfig = this.formatConfig;
+    final heightPixels = this.heightPixels;
+    final widthPixels = this.widthPixels;
+    return {
+      'DestinationConfig': destinationConfig,
+      'Format': format.value,
+      'ImageSelectorType': imageSelectorType.value,
+      'SamplingInterval': samplingInterval,
+      'Status': status.value,
+      if (formatConfig != null)
+        'FormatConfig': formatConfig.map((k, e) => MapEntry(k.value, e)),
+      if (heightPixels != null) 'HeightPixels': heightPixels,
+      if (widthPixels != null) 'WidthPixels': widthPixels,
+    };
+  }
+}
+
+class ImageSelectorType {
+  static const serverTimestamp = ImageSelectorType._('SERVER_TIMESTAMP');
+  static const producerTimestamp = ImageSelectorType._('PRODUCER_TIMESTAMP');
+
+  final String value;
+
+  const ImageSelectorType._(this.value);
+
+  static const values = [serverTimestamp, producerTimestamp];
+
+  static ImageSelectorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ImageSelectorType._(value));
+
+  @override
+  bool operator ==(other) => other is ImageSelectorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The structure that contains the information required to deliver images to a
+/// customer.
+class ImageGenerationDestinationConfig {
+  /// The Amazon Web Services Region of the S3 bucket where images will be
+  /// delivered. This <code>DestinationRegion</code> must match the Region where
+  /// the stream is located.
+  final String destinationRegion;
+
+  /// The Uniform Resource Identifier (URI) that identifies where the images will
+  /// be delivered.
+  final String uri;
+
+  ImageGenerationDestinationConfig({
+    required this.destinationRegion,
+    required this.uri,
+  });
+
+  factory ImageGenerationDestinationConfig.fromJson(Map<String, dynamic> json) {
+    return ImageGenerationDestinationConfig(
+      destinationRegion: (json['DestinationRegion'] as String?) ?? '',
+      uri: (json['Uri'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationRegion = this.destinationRegion;
+    final uri = this.uri;
+    return {
+      'DestinationRegion': destinationRegion,
+      'Uri': uri,
+    };
+  }
+}
+
+class Format {
+  static const jpeg = Format._('JPEG');
+  static const png = Format._('PNG');
+
+  final String value;
+
+  const Format._(this.value);
+
+  static const values = [jpeg, png];
+
+  static Format fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Format._(value));
+
+  @override
+  bool operator ==(other) => other is Format && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class FormatConfigKey {
+  static const jPEGQuality = FormatConfigKey._('JPEGQuality');
+
+  final String value;
+
+  const FormatConfigKey._(this.value);
+
+  static const values = [jPEGQuality];
+
+  static FormatConfigKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FormatConfigKey._(value));
+
+  @override
+  bool operator ==(other) => other is FormatConfigKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class UpdateDataRetentionOperation {
+  static const increaseDataRetention =
+      UpdateDataRetentionOperation._('INCREASE_DATA_RETENTION');
+  static const decreaseDataRetention =
+      UpdateDataRetentionOperation._('DECREASE_DATA_RETENTION');
+
+  final String value;
+
+  const UpdateDataRetentionOperation._(this.value);
+
+  static const values = [increaseDataRetention, decreaseDataRetention];
+
+  static UpdateDataRetentionOperation fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UpdateDataRetentionOperation._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UpdateDataRetentionOperation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A key and value pair that is associated with the specified signaling
+/// channel.
+class Tag {
+  /// The key of the tag that is associated with the specified signaling channel.
+  final String key;
+
+  /// The value of the tag that is associated with the specified signaling
+  /// channel.
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
+class SyncStatus {
+  static const syncing = SyncStatus._('SYNCING');
+  static const acknowledged = SyncStatus._('ACKNOWLEDGED');
+  static const inSync = SyncStatus._('IN_SYNC');
+  static const syncFailed = SyncStatus._('SYNC_FAILED');
+  static const deleting = SyncStatus._('DELETING');
+  static const deleteFailed = SyncStatus._('DELETE_FAILED');
+  static const deletingAcknowledged = SyncStatus._('DELETING_ACKNOWLEDGED');
+
+  final String value;
+
+  const SyncStatus._(this.value);
+
+  static const values = [
+    syncing,
+    acknowledged,
+    inSync,
+    syncFailed,
+    deleting,
+    deleteFailed,
+    deletingAcknowledged
+  ];
+
+  static SyncStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SyncStatus._(value));
+
+  @override
+  bool operator ==(other) => other is SyncStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A description of the stream's edge configuration that will be used to sync
+/// with the Edge Agent IoT Greengrass component. The Edge Agent component will
+/// run on an IoT Hub Device setup at your premise.
+class EdgeConfig {
+  /// The "<b>Internet of Things (IoT) Thing</b>" Arn of the stream.
+  final String hubDeviceArn;
+
+  /// The recorder configuration consists of the local
+  /// <code>MediaSourceConfig</code> details, that are used as credentials to
+  /// access the local media files streamed on the camera.
+  final RecorderConfig recorderConfig;
+
+  /// The deletion configuration is made up of the retention time
+  /// (<code>EdgeRetentionInHours</code>) and local size configuration
+  /// (<code>LocalSizeConfig</code>) details that are used to make the deletion.
+  final DeletionConfig? deletionConfig;
+
+  /// The uploader configuration contains the <code>ScheduleExpression</code>
+  /// details that are used to schedule upload jobs for the recorded media files
+  /// from the Edge Agent to a Kinesis Video Stream.
+  final UploaderConfig? uploaderConfig;
+
+  EdgeConfig({
+    required this.hubDeviceArn,
+    required this.recorderConfig,
+    this.deletionConfig,
+    this.uploaderConfig,
+  });
+
+  factory EdgeConfig.fromJson(Map<String, dynamic> json) {
+    return EdgeConfig(
+      hubDeviceArn: (json['HubDeviceArn'] as String?) ?? '',
+      recorderConfig: RecorderConfig.fromJson(
+          (json['RecorderConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      deletionConfig: json['DeletionConfig'] != null
+          ? DeletionConfig.fromJson(
+              json['DeletionConfig'] as Map<String, dynamic>)
+          : null,
+      uploaderConfig: json['UploaderConfig'] != null
+          ? UploaderConfig.fromJson(
+              json['UploaderConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hubDeviceArn = this.hubDeviceArn;
+    final recorderConfig = this.recorderConfig;
+    final deletionConfig = this.deletionConfig;
+    final uploaderConfig = this.uploaderConfig;
+    return {
+      'HubDeviceArn': hubDeviceArn,
+      'RecorderConfig': recorderConfig,
+      if (deletionConfig != null) 'DeletionConfig': deletionConfig,
+      if (uploaderConfig != null) 'UploaderConfig': uploaderConfig,
+    };
+  }
+}
+
+/// The recorder configuration consists of the local
+/// <code>MediaSourceConfig</code> details that are used as credentials to
+/// access the local media files streamed on the camera.
+class RecorderConfig {
+  /// The configuration details that consist of the credentials required
+  /// (<code>MediaUriSecretArn</code> and <code>MediaUriType</code>) to access the
+  /// media files streamed to the camera.
+  final MediaSourceConfig mediaSourceConfig;
+
+  /// The configuration that consists of the <code>ScheduleExpression</code> and
+  /// the <code>DurationInMinutes</code> details that specify the scheduling to
+  /// record from a camera, or local media file, onto the Edge Agent. If the
+  /// <code>ScheduleExpression</code> attribute is not provided, then the Edge
+  /// Agent will always be set to recording mode.
+  final ScheduleConfig? scheduleConfig;
+
+  RecorderConfig({
+    required this.mediaSourceConfig,
+    this.scheduleConfig,
+  });
+
+  factory RecorderConfig.fromJson(Map<String, dynamic> json) {
+    return RecorderConfig(
+      mediaSourceConfig: MediaSourceConfig.fromJson(
+          (json['MediaSourceConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      scheduleConfig: json['ScheduleConfig'] != null
+          ? ScheduleConfig.fromJson(
+              json['ScheduleConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mediaSourceConfig = this.mediaSourceConfig;
+    final scheduleConfig = this.scheduleConfig;
+    return {
+      'MediaSourceConfig': mediaSourceConfig,
+      if (scheduleConfig != null) 'ScheduleConfig': scheduleConfig,
+    };
+  }
+}
+
+/// The configuration that consists of the <code>ScheduleExpression</code> and
+/// the <code>DurationInMinutes</code> details that specify the scheduling to
+/// record from a camera, or local media file, onto the Edge Agent. If the
+/// <code>ScheduleConfig</code> is not provided in the
+/// <code>UploaderConfig</code>, then the Edge Agent will upload at regular
+/// intervals (every 1 hour).
+class UploaderConfig {
+  /// The configuration that consists of the <code>ScheduleExpression</code> and
+  /// the <code>DurationInMinutes</code> details that specify the scheduling to
+  /// record from a camera, or local media file, onto the Edge Agent. If the
+  /// <code>ScheduleConfig</code> is not provided in this
+  /// <code>UploaderConfig</code>, then the Edge Agent will upload at regular
+  /// intervals (every 1 hour).
+  final ScheduleConfig scheduleConfig;
+
+  UploaderConfig({
+    required this.scheduleConfig,
+  });
+
+  factory UploaderConfig.fromJson(Map<String, dynamic> json) {
+    return UploaderConfig(
+      scheduleConfig: ScheduleConfig.fromJson(
+          (json['ScheduleConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scheduleConfig = this.scheduleConfig;
+    return {
+      'ScheduleConfig': scheduleConfig,
+    };
+  }
+}
+
+/// The configuration details required to delete the connection of the stream
+/// from the Edge Agent.
+class DeletionConfig {
+  /// The <code>boolean</code> value used to indicate whether or not you want to
+  /// mark the media for deletion, once it has been uploaded to the Kinesis Video
+  /// Stream cloud. The media files can be deleted if any of the deletion
+  /// configuration values are set to <code>true</code>, such as when the limit
+  /// for the <code>EdgeRetentionInHours</code>, or the
+  /// <code>MaxLocalMediaSizeInMB</code>, has been reached.
+  ///
+  /// Since the default value is set to <code>true</code>, configure the uploader
+  /// schedule such that the media files are not being deleted before they are
+  /// initially uploaded to the Amazon Web Services cloud.
+  final bool? deleteAfterUpload;
+
+  /// The number of hours that you want to retain the data in the stream on the
+  /// Edge Agent. The default value of the retention time is 720 hours, which
+  /// translates to 30 days.
+  final int? edgeRetentionInHours;
+
+  /// The value of the local size required in order to delete the edge
+  /// configuration.
+  final LocalSizeConfig? localSizeConfig;
+
+  DeletionConfig({
+    this.deleteAfterUpload,
+    this.edgeRetentionInHours,
+    this.localSizeConfig,
+  });
+
+  factory DeletionConfig.fromJson(Map<String, dynamic> json) {
+    return DeletionConfig(
+      deleteAfterUpload: json['DeleteAfterUpload'] as bool?,
+      edgeRetentionInHours: json['EdgeRetentionInHours'] as int?,
+      localSizeConfig: json['LocalSizeConfig'] != null
+          ? LocalSizeConfig.fromJson(
+              json['LocalSizeConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deleteAfterUpload = this.deleteAfterUpload;
+    final edgeRetentionInHours = this.edgeRetentionInHours;
+    final localSizeConfig = this.localSizeConfig;
+    return {
+      if (deleteAfterUpload != null) 'DeleteAfterUpload': deleteAfterUpload,
+      if (edgeRetentionInHours != null)
+        'EdgeRetentionInHours': edgeRetentionInHours,
+      if (localSizeConfig != null) 'LocalSizeConfig': localSizeConfig,
+    };
+  }
+}
+
+/// The configuration details that include the maximum size of the media
+/// (<code>MaxLocalMediaSizeInMB</code>) that you want to store for a stream on
+/// the Edge Agent, as well as the strategy that should be used
+/// (<code>StrategyOnFullSize</code>) when a stream's maximum size has been
+/// reached.
+class LocalSizeConfig {
+  /// The overall maximum size of the media that you want to store for a stream on
+  /// the Edge Agent.
+  final int? maxLocalMediaSizeInMB;
+
+  /// The strategy to perform when a stream’s <code>MaxLocalMediaSizeInMB</code>
+  /// limit is reached.
+  final StrategyOnFullSize? strategyOnFullSize;
+
+  LocalSizeConfig({
+    this.maxLocalMediaSizeInMB,
+    this.strategyOnFullSize,
+  });
+
+  factory LocalSizeConfig.fromJson(Map<String, dynamic> json) {
+    return LocalSizeConfig(
+      maxLocalMediaSizeInMB: json['MaxLocalMediaSizeInMB'] as int?,
+      strategyOnFullSize: (json['StrategyOnFullSize'] as String?)
+          ?.let(StrategyOnFullSize.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxLocalMediaSizeInMB = this.maxLocalMediaSizeInMB;
+    final strategyOnFullSize = this.strategyOnFullSize;
+    return {
+      if (maxLocalMediaSizeInMB != null)
+        'MaxLocalMediaSizeInMB': maxLocalMediaSizeInMB,
+      if (strategyOnFullSize != null)
+        'StrategyOnFullSize': strategyOnFullSize.value,
+    };
+  }
 }
 
 class StrategyOnFullSize {
@@ -3386,6 +3168,119 @@ class StrategyOnFullSize {
   @override
   bool operator ==(other) =>
       other is StrategyOnFullSize && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// This API enables you to specify the duration that the camera, or local media
+/// file, should record onto the Edge Agent. The <code>ScheduleConfig</code>
+/// consists of the <code>ScheduleExpression</code> and the
+/// <code>DurationInMinutes</code> attributes.
+///
+/// If the <code>ScheduleConfig</code> is not provided in the
+/// <code>RecorderConfig</code>, then the Edge Agent will always be set to
+/// recording mode.
+///
+/// If the <code>ScheduleConfig</code> is not provided in the
+/// <code>UploaderConfig</code>, then the Edge Agent will upload at regular
+/// intervals (every 1 hour).
+class ScheduleConfig {
+  /// The total duration to record the media. If the
+  /// <code>ScheduleExpression</code> attribute is provided, then the
+  /// <code>DurationInSeconds</code> attribute should also be specified.
+  final int durationInSeconds;
+
+  /// The Quartz cron expression that takes care of scheduling jobs to record from
+  /// the camera, or local media file, onto the Edge Agent. If the
+  /// <code>ScheduleExpression</code> is not provided for the
+  /// <code>RecorderConfig</code>, then the Edge Agent will always be set to
+  /// recording mode.
+  ///
+  /// For more information about Quartz, refer to the <a
+  /// href="https://www.quartz-scheduler.org/documentation/quartz-2.3.0/tutorials/crontrigger.html">
+  /// <i>Cron Trigger Tutorial</i> </a> page to understand the valid expressions
+  /// and its use.
+  final String scheduleExpression;
+
+  ScheduleConfig({
+    required this.durationInSeconds,
+    required this.scheduleExpression,
+  });
+
+  factory ScheduleConfig.fromJson(Map<String, dynamic> json) {
+    return ScheduleConfig(
+      durationInSeconds: (json['DurationInSeconds'] as int?) ?? 0,
+      scheduleExpression: (json['ScheduleExpression'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final durationInSeconds = this.durationInSeconds;
+    final scheduleExpression = this.scheduleExpression;
+    return {
+      'DurationInSeconds': durationInSeconds,
+      'ScheduleExpression': scheduleExpression,
+    };
+  }
+}
+
+/// The configuration details that consist of the credentials required
+/// (<code>MediaUriSecretArn</code> and <code>MediaUriType</code>) to access the
+/// media files that are streamed to the camera.
+class MediaSourceConfig {
+  /// The Amazon Web Services Secrets Manager ARN for the username and password of
+  /// the camera, or a local media file location.
+  final String mediaUriSecretArn;
+
+  /// The Uniform Resource Identifier (URI) type. The <code>FILE_URI</code> value
+  /// can be used to stream local media files.
+  /// <note>
+  /// Preview only supports the <code>RTSP_URI</code> media source URI format .
+  /// </note>
+  final MediaUriType mediaUriType;
+
+  MediaSourceConfig({
+    required this.mediaUriSecretArn,
+    required this.mediaUriType,
+  });
+
+  factory MediaSourceConfig.fromJson(Map<String, dynamic> json) {
+    return MediaSourceConfig(
+      mediaUriSecretArn: (json['MediaUriSecretArn'] as String?) ?? '',
+      mediaUriType:
+          MediaUriType.fromString((json['MediaUriType'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mediaUriSecretArn = this.mediaUriSecretArn;
+    final mediaUriType = this.mediaUriType;
+    return {
+      'MediaUriSecretArn': mediaUriSecretArn,
+      'MediaUriType': mediaUriType.value,
+    };
+  }
+}
+
+class MediaUriType {
+  static const rtspUri = MediaUriType._('RTSP_URI');
+  static const fileUri = MediaUriType._('FILE_URI');
+
+  final String value;
+
+  const MediaUriType._(this.value);
+
+  static const values = [rtspUri, fileUri];
+
+  static MediaUriType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MediaUriType._(value));
+
+  @override
+  bool operator ==(other) => other is MediaUriType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -3476,6 +3371,31 @@ class StreamInfo {
   }
 }
 
+class Status {
+  static const creating = Status._('CREATING');
+  static const active = Status._('ACTIVE');
+  static const updating = Status._('UPDATING');
+  static const deleting = Status._('DELETING');
+
+  final String value;
+
+  const Status._(this.value);
+
+  static const values = [creating, active, updating, deleting];
+
+  static Status fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+
+  @override
+  bool operator ==(other) => other is Status && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Specifies the condition that streams must satisfy to be returned when you
 /// list streams (see the <code>ListStreams</code> API). A condition has a
 /// comparison operation and a value. Currently, you can specify only the
@@ -3506,134 +3426,22 @@ class StreamNameCondition {
   }
 }
 
-class SyncStatus {
-  static const syncing = SyncStatus._('SYNCING');
-  static const acknowledged = SyncStatus._('ACKNOWLEDGED');
-  static const inSync = SyncStatus._('IN_SYNC');
-  static const syncFailed = SyncStatus._('SYNC_FAILED');
-  static const deleting = SyncStatus._('DELETING');
-  static const deleteFailed = SyncStatus._('DELETE_FAILED');
-  static const deletingAcknowledged = SyncStatus._('DELETING_ACKNOWLEDGED');
+class ComparisonOperator {
+  static const beginsWith = ComparisonOperator._('BEGINS_WITH');
 
   final String value;
 
-  const SyncStatus._(this.value);
+  const ComparisonOperator._(this.value);
 
-  static const values = [
-    syncing,
-    acknowledged,
-    inSync,
-    syncFailed,
-    deleting,
-    deleteFailed,
-    deletingAcknowledged
-  ];
+  static const values = [beginsWith];
 
-  static SyncStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SyncStatus._(value));
-
-  @override
-  bool operator ==(other) => other is SyncStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A key and value pair that is associated with the specified signaling
-/// channel.
-class Tag {
-  /// The key of the tag that is associated with the specified signaling channel.
-  final String key;
-
-  /// The value of the tag that is associated with the specified signaling
-  /// channel.
-  final String value;
-
-  Tag({
-    required this.key,
-    required this.value,
-  });
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'Key': key,
-      'Value': value,
-    };
-  }
-}
-
-class TagResourceOutput {
-  TagResourceOutput();
-
-  factory TagResourceOutput.fromJson(Map<String, dynamic> _) {
-    return TagResourceOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class TagStreamOutput {
-  TagStreamOutput();
-
-  factory TagStreamOutput.fromJson(Map<String, dynamic> _) {
-    return TagStreamOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UntagResourceOutput {
-  UntagResourceOutput();
-
-  factory UntagResourceOutput.fromJson(Map<String, dynamic> _) {
-    return UntagResourceOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UntagStreamOutput {
-  UntagStreamOutput();
-
-  factory UntagStreamOutput.fromJson(Map<String, dynamic> _) {
-    return UntagStreamOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateDataRetentionOperation {
-  static const increaseDataRetention =
-      UpdateDataRetentionOperation._('INCREASE_DATA_RETENTION');
-  static const decreaseDataRetention =
-      UpdateDataRetentionOperation._('DECREASE_DATA_RETENTION');
-
-  final String value;
-
-  const UpdateDataRetentionOperation._(this.value);
-
-  static const values = [increaseDataRetention, decreaseDataRetention];
-
-  static UpdateDataRetentionOperation fromString(String value) =>
+  static ComparisonOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => UpdateDataRetentionOperation._(value));
+          orElse: () => ComparisonOperator._(value));
 
   @override
   bool operator ==(other) =>
-      other is UpdateDataRetentionOperation && other.value == value;
+      other is ComparisonOperator && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -3642,112 +3450,521 @@ class UpdateDataRetentionOperation {
   String toString() => value;
 }
 
-class UpdateDataRetentionOutput {
-  UpdateDataRetentionOutput();
+/// A structure that encapsulates a signaling channel's metadata and properties.
+class ChannelInfo {
+  /// The Amazon Resource Name (ARN) of the signaling channel.
+  final String? channelARN;
 
-  factory UpdateDataRetentionOutput.fromJson(Map<String, dynamic> _) {
-    return UpdateDataRetentionOutput();
-  }
+  /// The name of the signaling channel.
+  final String? channelName;
 
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
+  /// Current status of the signaling channel.
+  final Status? channelStatus;
 
-class UpdateImageGenerationConfigurationOutput {
-  UpdateImageGenerationConfigurationOutput();
+  /// The type of the signaling channel.
+  final ChannelType? channelType;
 
-  factory UpdateImageGenerationConfigurationOutput.fromJson(
-      Map<String, dynamic> _) {
-    return UpdateImageGenerationConfigurationOutput();
-  }
+  /// The time at which the signaling channel was created.
+  final DateTime? creationTime;
 
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
+  /// A structure that contains the configuration for the
+  /// <code>SINGLE_MASTER</code> channel type.
+  final SingleMasterConfiguration? singleMasterConfiguration;
 
-class UpdateMediaStorageConfigurationOutput {
-  UpdateMediaStorageConfigurationOutput();
+  /// The current version of the signaling channel.
+  final String? version;
 
-  factory UpdateMediaStorageConfigurationOutput.fromJson(
-      Map<String, dynamic> _) {
-    return UpdateMediaStorageConfigurationOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateNotificationConfigurationOutput {
-  UpdateNotificationConfigurationOutput();
-
-  factory UpdateNotificationConfigurationOutput.fromJson(
-      Map<String, dynamic> _) {
-    return UpdateNotificationConfigurationOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateSignalingChannelOutput {
-  UpdateSignalingChannelOutput();
-
-  factory UpdateSignalingChannelOutput.fromJson(Map<String, dynamic> _) {
-    return UpdateSignalingChannelOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateStreamOutput {
-  UpdateStreamOutput();
-
-  factory UpdateStreamOutput.fromJson(Map<String, dynamic> _) {
-    return UpdateStreamOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// The configuration that consists of the <code>ScheduleExpression</code> and
-/// the <code>DurationInMinutes</code> details that specify the scheduling to
-/// record from a camera, or local media file, onto the Edge Agent. If the
-/// <code>ScheduleConfig</code> is not provided in the
-/// <code>UploaderConfig</code>, then the Edge Agent will upload at regular
-/// intervals (every 1 hour).
-class UploaderConfig {
-  /// The configuration that consists of the <code>ScheduleExpression</code> and
-  /// the <code>DurationInMinutes</code> details that specify the scheduling to
-  /// record from a camera, or local media file, onto the Edge Agent. If the
-  /// <code>ScheduleConfig</code> is not provided in this
-  /// <code>UploaderConfig</code>, then the Edge Agent will upload at regular
-  /// intervals (every 1 hour).
-  final ScheduleConfig scheduleConfig;
-
-  UploaderConfig({
-    required this.scheduleConfig,
+  ChannelInfo({
+    this.channelARN,
+    this.channelName,
+    this.channelStatus,
+    this.channelType,
+    this.creationTime,
+    this.singleMasterConfiguration,
+    this.version,
   });
 
-  factory UploaderConfig.fromJson(Map<String, dynamic> json) {
-    return UploaderConfig(
-      scheduleConfig: ScheduleConfig.fromJson(
-          (json['ScheduleConfig'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
+  factory ChannelInfo.fromJson(Map<String, dynamic> json) {
+    return ChannelInfo(
+      channelARN: json['ChannelARN'] as String?,
+      channelName: json['ChannelName'] as String?,
+      channelStatus: (json['ChannelStatus'] as String?)?.let(Status.fromString),
+      channelType:
+          (json['ChannelType'] as String?)?.let(ChannelType.fromString),
+      creationTime: timeStampFromJson(json['CreationTime']),
+      singleMasterConfiguration: json['SingleMasterConfiguration'] != null
+          ? SingleMasterConfiguration.fromJson(
+              json['SingleMasterConfiguration'] as Map<String, dynamic>)
+          : null,
+      version: json['Version'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final scheduleConfig = this.scheduleConfig;
+    final channelARN = this.channelARN;
+    final channelName = this.channelName;
+    final channelStatus = this.channelStatus;
+    final channelType = this.channelType;
+    final creationTime = this.creationTime;
+    final singleMasterConfiguration = this.singleMasterConfiguration;
+    final version = this.version;
     return {
-      'ScheduleConfig': scheduleConfig,
+      if (channelARN != null) 'ChannelARN': channelARN,
+      if (channelName != null) 'ChannelName': channelName,
+      if (channelStatus != null) 'ChannelStatus': channelStatus.value,
+      if (channelType != null) 'ChannelType': channelType.value,
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (singleMasterConfiguration != null)
+        'SingleMasterConfiguration': singleMasterConfiguration,
+      if (version != null) 'Version': version,
+    };
+  }
+}
+
+class ChannelType {
+  static const singleMaster = ChannelType._('SINGLE_MASTER');
+  static const fullMesh = ChannelType._('FULL_MESH');
+
+  final String value;
+
+  const ChannelType._(this.value);
+
+  static const values = [singleMaster, fullMesh];
+
+  static ChannelType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChannelType._(value));
+
+  @override
+  bool operator ==(other) => other is ChannelType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An optional input parameter for the <code>ListSignalingChannels</code> API.
+/// When this parameter is specified while invoking
+/// <code>ListSignalingChannels</code>, the API returns only the channels that
+/// satisfy a condition specified in <code>ChannelNameCondition</code>.
+class ChannelNameCondition {
+  /// A comparison operator. Currently, you can only specify the
+  /// <code>BEGINS_WITH</code> operator, which finds signaling channels whose
+  /// names begin with a given prefix.
+  final ComparisonOperator? comparisonOperator;
+
+  /// A value to compare.
+  final String? comparisonValue;
+
+  ChannelNameCondition({
+    this.comparisonOperator,
+    this.comparisonValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final comparisonOperator = this.comparisonOperator;
+    final comparisonValue = this.comparisonValue;
+    return {
+      if (comparisonOperator != null)
+        'ComparisonOperator': comparisonOperator.value,
+      if (comparisonValue != null) 'ComparisonValue': comparisonValue,
+    };
+  }
+}
+
+/// A description of a single stream's edge configuration.
+class ListEdgeAgentConfigurationsEdgeConfig {
+  /// The timestamp when the stream first created the edge config.
+  final DateTime? creationTime;
+  final EdgeConfig? edgeConfig;
+
+  /// A description of the generated failure status.
+  final String? failedStatusDetails;
+
+  /// The timestamp when the stream last updated the edge config.
+  final DateTime? lastUpdatedTime;
+
+  /// The Amazon Resource Name (ARN) of the stream.
+  final String? streamARN;
+
+  /// The name of the stream.
+  final String? streamName;
+
+  /// The current sync status of the stream's edge configuration.
+  final SyncStatus? syncStatus;
+
+  ListEdgeAgentConfigurationsEdgeConfig({
+    this.creationTime,
+    this.edgeConfig,
+    this.failedStatusDetails,
+    this.lastUpdatedTime,
+    this.streamARN,
+    this.streamName,
+    this.syncStatus,
+  });
+
+  factory ListEdgeAgentConfigurationsEdgeConfig.fromJson(
+      Map<String, dynamic> json) {
+    return ListEdgeAgentConfigurationsEdgeConfig(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      edgeConfig: json['EdgeConfig'] != null
+          ? EdgeConfig.fromJson(json['EdgeConfig'] as Map<String, dynamic>)
+          : null,
+      failedStatusDetails: json['FailedStatusDetails'] as String?,
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      streamARN: json['StreamARN'] as String?,
+      streamName: json['StreamName'] as String?,
+      syncStatus: (json['SyncStatus'] as String?)?.let(SyncStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final edgeConfig = this.edgeConfig;
+    final failedStatusDetails = this.failedStatusDetails;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final streamARN = this.streamARN;
+    final streamName = this.streamName;
+    final syncStatus = this.syncStatus;
+    return {
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (edgeConfig != null) 'EdgeConfig': edgeConfig,
+      if (failedStatusDetails != null)
+        'FailedStatusDetails': failedStatusDetails,
+      if (lastUpdatedTime != null)
+        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      if (streamARN != null) 'StreamARN': streamARN,
+      if (streamName != null) 'StreamName': streamName,
+      if (syncStatus != null) 'SyncStatus': syncStatus.value,
+    };
+  }
+}
+
+/// An object that describes the endpoint of the signaling channel returned by
+/// the <code>GetSignalingChannelEndpoint</code> API.
+///
+/// The media server endpoint will correspond to the <code>WEBRTC</code>
+/// Protocol.
+class ResourceEndpointListItem {
+  /// The protocol of the signaling channel returned by the
+  /// <code>GetSignalingChannelEndpoint</code> API.
+  final ChannelProtocol? protocol;
+
+  /// The endpoint of the signaling channel returned by the
+  /// <code>GetSignalingChannelEndpoint</code> API.
+  final String? resourceEndpoint;
+
+  ResourceEndpointListItem({
+    this.protocol,
+    this.resourceEndpoint,
+  });
+
+  factory ResourceEndpointListItem.fromJson(Map<String, dynamic> json) {
+    return ResourceEndpointListItem(
+      protocol: (json['Protocol'] as String?)?.let(ChannelProtocol.fromString),
+      resourceEndpoint: json['ResourceEndpoint'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final protocol = this.protocol;
+    final resourceEndpoint = this.resourceEndpoint;
+    return {
+      if (protocol != null) 'Protocol': protocol.value,
+      if (resourceEndpoint != null) 'ResourceEndpoint': resourceEndpoint,
+    };
+  }
+}
+
+class ChannelProtocol {
+  static const wss = ChannelProtocol._('WSS');
+  static const https = ChannelProtocol._('HTTPS');
+  static const webrtc = ChannelProtocol._('WEBRTC');
+
+  final String value;
+
+  const ChannelProtocol._(this.value);
+
+  static const values = [wss, https, webrtc];
+
+  static ChannelProtocol fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ChannelProtocol._(value));
+
+  @override
+  bool operator ==(other) => other is ChannelProtocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object that contains the endpoint configuration for the
+/// <code>SINGLE_MASTER</code> channel type.
+class SingleMasterChannelEndpointConfiguration {
+  /// This property is used to determine the nature of communication over this
+  /// <code>SINGLE_MASTER</code> signaling channel. If <code>WSS</code> is
+  /// specified, this API returns a websocket endpoint. If <code>HTTPS</code> is
+  /// specified, this API returns an <code>HTTPS</code> endpoint.
+  final List<ChannelProtocol>? protocols;
+
+  /// This property is used to determine messaging permissions in this
+  /// <code>SINGLE_MASTER</code> signaling channel. If <code>MASTER</code> is
+  /// specified, this API returns an endpoint that a client can use to receive
+  /// offers from and send answers to any of the viewers on this signaling
+  /// channel. If <code>VIEWER</code> is specified, this API returns an endpoint
+  /// that a client can use only to send offers to another <code>MASTER</code>
+  /// client on this signaling channel.
+  final ChannelRole? role;
+
+  SingleMasterChannelEndpointConfiguration({
+    this.protocols,
+    this.role,
+  });
+
+  Map<String, dynamic> toJson() {
+    final protocols = this.protocols;
+    final role = this.role;
+    return {
+      if (protocols != null)
+        'Protocols': protocols.map((e) => e.value).toList(),
+      if (role != null) 'Role': role.value,
+    };
+  }
+}
+
+class ChannelRole {
+  static const master = ChannelRole._('MASTER');
+  static const viewer = ChannelRole._('VIEWER');
+
+  final String value;
+
+  const ChannelRole._(this.value);
+
+  static const values = [master, viewer];
+
+  static ChannelRole fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChannelRole._(value));
+
+  @override
+  bool operator ==(other) => other is ChannelRole && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class APIName {
+  static const putMedia = APIName._('PUT_MEDIA');
+  static const getMedia = APIName._('GET_MEDIA');
+  static const listFragments = APIName._('LIST_FRAGMENTS');
+  static const getMediaForFragmentList =
+      APIName._('GET_MEDIA_FOR_FRAGMENT_LIST');
+  static const getHlsStreamingSessionUrl =
+      APIName._('GET_HLS_STREAMING_SESSION_URL');
+  static const getDashStreamingSessionUrl =
+      APIName._('GET_DASH_STREAMING_SESSION_URL');
+  static const getClip = APIName._('GET_CLIP');
+  static const getImages = APIName._('GET_IMAGES');
+
+  final String value;
+
+  const APIName._(this.value);
+
+  static const values = [
+    putMedia,
+    getMedia,
+    listFragments,
+    getMediaForFragmentList,
+    getHlsStreamingSessionUrl,
+    getDashStreamingSessionUrl,
+    getClip,
+    getImages
+  ];
+
+  static APIName fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => APIName._(value));
+
+  @override
+  bool operator ==(other) => other is APIName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A structure that encapsulates, or contains, the media storage configuration
+/// properties.
+class MappedResourceConfigurationListItem {
+  /// The Amazon Resource Name (ARN) of the Kinesis Video Stream resource,
+  /// associated with the stream.
+  final String? arn;
+
+  /// The type of the associated resource for the kinesis video stream.
+  final String? type;
+
+  MappedResourceConfigurationListItem({
+    this.arn,
+    this.type,
+  });
+
+  factory MappedResourceConfigurationListItem.fromJson(
+      Map<String, dynamic> json) {
+    return MappedResourceConfigurationListItem(
+      arn: json['ARN'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final type = this.type;
+    return {
+      if (arn != null) 'ARN': arn,
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+/// An object that contains the latest status details for an edge agent's
+/// recorder and uploader jobs. Use this information to determine the current
+/// health of an edge agent.
+class EdgeAgentStatus {
+  /// The latest status of a stream’s edge recording job.
+  final LastRecorderStatus? lastRecorderStatus;
+
+  /// The latest status of a stream’s edge to cloud uploader job.
+  final LastUploaderStatus? lastUploaderStatus;
+
+  EdgeAgentStatus({
+    this.lastRecorderStatus,
+    this.lastUploaderStatus,
+  });
+
+  factory EdgeAgentStatus.fromJson(Map<String, dynamic> json) {
+    return EdgeAgentStatus(
+      lastRecorderStatus: json['LastRecorderStatus'] != null
+          ? LastRecorderStatus.fromJson(
+              json['LastRecorderStatus'] as Map<String, dynamic>)
+          : null,
+      lastUploaderStatus: json['LastUploaderStatus'] != null
+          ? LastUploaderStatus.fromJson(
+              json['LastUploaderStatus'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastRecorderStatus = this.lastRecorderStatus;
+    final lastUploaderStatus = this.lastUploaderStatus;
+    return {
+      if (lastRecorderStatus != null) 'LastRecorderStatus': lastRecorderStatus,
+      if (lastUploaderStatus != null) 'LastUploaderStatus': lastUploaderStatus,
+    };
+  }
+}
+
+/// The latest status of a stream's edge recording job.
+class LastRecorderStatus {
+  /// A description of a recorder job’s latest status.
+  final String? jobStatusDetails;
+
+  /// The timestamp at which the recorder job was last executed and media stored
+  /// to local disk.
+  final DateTime? lastCollectedTime;
+
+  /// The timestamp at which the recorder status was last updated.
+  final DateTime? lastUpdatedTime;
+
+  /// The status of the latest recorder job.
+  final RecorderStatus? recorderStatus;
+
+  LastRecorderStatus({
+    this.jobStatusDetails,
+    this.lastCollectedTime,
+    this.lastUpdatedTime,
+    this.recorderStatus,
+  });
+
+  factory LastRecorderStatus.fromJson(Map<String, dynamic> json) {
+    return LastRecorderStatus(
+      jobStatusDetails: json['JobStatusDetails'] as String?,
+      lastCollectedTime: timeStampFromJson(json['LastCollectedTime']),
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      recorderStatus:
+          (json['RecorderStatus'] as String?)?.let(RecorderStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobStatusDetails = this.jobStatusDetails;
+    final lastCollectedTime = this.lastCollectedTime;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final recorderStatus = this.recorderStatus;
+    return {
+      if (jobStatusDetails != null) 'JobStatusDetails': jobStatusDetails,
+      if (lastCollectedTime != null)
+        'LastCollectedTime': unixTimestampToJson(lastCollectedTime),
+      if (lastUpdatedTime != null)
+        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      if (recorderStatus != null) 'RecorderStatus': recorderStatus.value,
+    };
+  }
+}
+
+/// The latest status of a stream’s edge to cloud uploader job.
+class LastUploaderStatus {
+  /// A description of an uploader job’s latest status.
+  final String? jobStatusDetails;
+
+  /// The timestamp at which the uploader job was last executed and media
+  /// collected to the cloud.
+  final DateTime? lastCollectedTime;
+
+  /// The timestamp at which the uploader status was last updated.
+  final DateTime? lastUpdatedTime;
+
+  /// The status of the latest uploader job.
+  final UploaderStatus? uploaderStatus;
+
+  LastUploaderStatus({
+    this.jobStatusDetails,
+    this.lastCollectedTime,
+    this.lastUpdatedTime,
+    this.uploaderStatus,
+  });
+
+  factory LastUploaderStatus.fromJson(Map<String, dynamic> json) {
+    return LastUploaderStatus(
+      jobStatusDetails: json['JobStatusDetails'] as String?,
+      lastCollectedTime: timeStampFromJson(json['LastCollectedTime']),
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      uploaderStatus:
+          (json['UploaderStatus'] as String?)?.let(UploaderStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobStatusDetails = this.jobStatusDetails;
+    final lastCollectedTime = this.lastCollectedTime;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final uploaderStatus = this.uploaderStatus;
+    return {
+      if (jobStatusDetails != null) 'JobStatusDetails': jobStatusDetails,
+      if (lastCollectedTime != null)
+        'LastCollectedTime': unixTimestampToJson(lastCollectedTime),
+      if (lastUpdatedTime != null)
+        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      if (uploaderStatus != null) 'UploaderStatus': uploaderStatus.value,
     };
   }
 }
@@ -3769,6 +3986,31 @@ class UploaderStatus {
 
   @override
   bool operator ==(other) => other is UploaderStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class RecorderStatus {
+  static const success = RecorderStatus._('SUCCESS');
+  static const userError = RecorderStatus._('USER_ERROR');
+  static const systemError = RecorderStatus._('SYSTEM_ERROR');
+
+  final String value;
+
+  const RecorderStatus._(this.value);
+
+  static const values = [success, userError, systemError];
+
+  static RecorderStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RecorderStatus._(value));
+
+  @override
+  bool operator ==(other) => other is RecorderStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;

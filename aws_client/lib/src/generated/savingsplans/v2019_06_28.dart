@@ -27,9 +27,9 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// information, see the <a
 /// href="https://docs.aws.amazon.com/savingsplans/latest/userguide/">Amazon Web
 /// Services Savings Plans User Guide</a>.
-class SavingsPlans {
+class Savingsplans {
   final _s.RestJsonProtocol _protocol;
-  SavingsPlans({
+  Savingsplans({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
@@ -57,10 +57,10 @@ class SavingsPlans {
 
   /// Creates a Savings Plan.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [commitment] :
   /// The hourly commitment, in the same currency of the
@@ -114,10 +114,10 @@ class SavingsPlans {
 
   /// Deletes the queued purchase for the specified Savings Plan.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [savingsPlanId] :
   /// The ID of the Savings Plan.
@@ -135,8 +135,9 @@ class SavingsPlans {
     );
   }
 
-  /// Describes the rates for the specified Savings Plan.
+  /// Describes the rates for a specific, existing Savings Plan.
   ///
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
   ///
@@ -233,10 +234,10 @@ class SavingsPlans {
     return DescribeSavingsPlansResponse.fromJson(response);
   }
 
-  /// Describes the offering rates for the specified Savings Plans.
+  /// Describes the offering rates for Savings Plans you might want to purchase.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [filters] :
   /// The filters.
@@ -316,8 +317,8 @@ class SavingsPlans {
 
   /// Describes the offerings for the specified Savings Plans.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [currencies] :
   /// The currencies.
@@ -409,9 +410,9 @@ class SavingsPlans {
 
   /// Lists the tags for the specified resource.
   ///
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource.
@@ -432,10 +433,10 @@ class SavingsPlans {
 
   /// Returns the specified Savings Plan.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [savingsPlanId] :
   /// The ID of the Savings Plan.
@@ -462,10 +463,10 @@ class SavingsPlans {
 
   /// Adds the specified tags to the specified resource.
   ///
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource.
@@ -491,9 +492,9 @@ class SavingsPlans {
 
   /// Removes the specified tags from the specified resource.
   ///
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource.
@@ -537,29 +538,6 @@ class CreateSavingsPlanResponse {
       if (savingsPlanId != null) 'savingsPlanId': savingsPlanId,
     };
   }
-}
-
-class CurrencyCode {
-  static const cny = CurrencyCode._('CNY');
-  static const usd = CurrencyCode._('USD');
-
-  final String value;
-
-  const CurrencyCode._(this.value);
-
-  static const values = [cny, usd];
-
-  static CurrencyCode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => CurrencyCode._(value));
-
-  @override
-  bool operator ==(other) => other is CurrencyCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class DeleteQueuedSavingsPlanResponse {
@@ -610,6 +588,39 @@ class DescribeSavingsPlanRatesResponse {
       if (nextToken != null) 'nextToken': nextToken,
       if (savingsPlanId != null) 'savingsPlanId': savingsPlanId,
       if (searchResults != null) 'searchResults': searchResults,
+    };
+  }
+}
+
+class DescribeSavingsPlansResponse {
+  /// The token to use to retrieve the next page of results. This value is null
+  /// when there are no more results to return.
+  final String? nextToken;
+
+  /// Information about the Savings Plans.
+  final List<SavingsPlan>? savingsPlans;
+
+  DescribeSavingsPlansResponse({
+    this.nextToken,
+    this.savingsPlans,
+  });
+
+  factory DescribeSavingsPlansResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeSavingsPlansResponse(
+      nextToken: json['nextToken'] as String?,
+      savingsPlans: (json['savingsPlans'] as List?)
+          ?.nonNulls
+          .map((e) => SavingsPlan.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final savingsPlans = this.savingsPlans;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (savingsPlans != null) 'savingsPlans': savingsPlans,
     };
   }
 }
@@ -683,39 +694,6 @@ class DescribeSavingsPlansOfferingsResponse {
   }
 }
 
-class DescribeSavingsPlansResponse {
-  /// The token to use to retrieve the next page of results. This value is null
-  /// when there are no more results to return.
-  final String? nextToken;
-
-  /// Information about the Savings Plans.
-  final List<SavingsPlan>? savingsPlans;
-
-  DescribeSavingsPlansResponse({
-    this.nextToken,
-    this.savingsPlans,
-  });
-
-  factory DescribeSavingsPlansResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeSavingsPlansResponse(
-      nextToken: json['nextToken'] as String?,
-      savingsPlans: (json['savingsPlans'] as List?)
-          ?.nonNulls
-          .map((e) => SavingsPlan.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final savingsPlans = this.savingsPlans;
-    return {
-      if (nextToken != null) 'nextToken': nextToken,
-      if (savingsPlans != null) 'savingsPlans': savingsPlans,
-    };
-  }
-}
-
 class ListTagsForResourceResponse {
   /// Information about the tags.
   final Map<String, String>? tags;
@@ -735,6 +713,472 @@ class ListTagsForResourceResponse {
     final tags = this.tags;
     return {
       if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+class ReturnSavingsPlanResponse {
+  /// The ID of the Savings Plan.
+  final String? savingsPlanId;
+
+  ReturnSavingsPlanResponse({
+    this.savingsPlanId,
+  });
+
+  factory ReturnSavingsPlanResponse.fromJson(Map<String, dynamic> json) {
+    return ReturnSavingsPlanResponse(
+      savingsPlanId: json['savingsPlanId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final savingsPlanId = this.savingsPlanId;
+    return {
+      if (savingsPlanId != null) 'savingsPlanId': savingsPlanId,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Information about a Savings Plan offering.
+class SavingsPlanOffering {
+  /// The currency.
+  final CurrencyCode? currency;
+
+  /// The description.
+  final String? description;
+
+  /// The duration, in seconds.
+  final int? durationSeconds;
+
+  /// The ID of the offering.
+  final String? offeringId;
+
+  /// The specific Amazon Web Services operation for the line item in the billing
+  /// report.
+  final String? operation;
+
+  /// The payment option.
+  final SavingsPlanPaymentOption? paymentOption;
+
+  /// The plan type.
+  final SavingsPlanType? planType;
+
+  /// The product type.
+  final List<SavingsPlanProductType>? productTypes;
+
+  /// The properties.
+  final List<SavingsPlanOfferingProperty>? properties;
+
+  /// The service.
+  final String? serviceCode;
+
+  /// The usage details of the line item in the billing report.
+  final String? usageType;
+
+  SavingsPlanOffering({
+    this.currency,
+    this.description,
+    this.durationSeconds,
+    this.offeringId,
+    this.operation,
+    this.paymentOption,
+    this.planType,
+    this.productTypes,
+    this.properties,
+    this.serviceCode,
+    this.usageType,
+  });
+
+  factory SavingsPlanOffering.fromJson(Map<String, dynamic> json) {
+    return SavingsPlanOffering(
+      currency: (json['currency'] as String?)?.let(CurrencyCode.fromString),
+      description: json['description'] as String?,
+      durationSeconds: json['durationSeconds'] as int?,
+      offeringId: json['offeringId'] as String?,
+      operation: json['operation'] as String?,
+      paymentOption: (json['paymentOption'] as String?)
+          ?.let(SavingsPlanPaymentOption.fromString),
+      planType: (json['planType'] as String?)?.let(SavingsPlanType.fromString),
+      productTypes: (json['productTypes'] as List?)
+          ?.nonNulls
+          .map((e) => SavingsPlanProductType.fromString((e as String)))
+          .toList(),
+      properties: (json['properties'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              SavingsPlanOfferingProperty.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      serviceCode: json['serviceCode'] as String?,
+      usageType: json['usageType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currency = this.currency;
+    final description = this.description;
+    final durationSeconds = this.durationSeconds;
+    final offeringId = this.offeringId;
+    final operation = this.operation;
+    final paymentOption = this.paymentOption;
+    final planType = this.planType;
+    final productTypes = this.productTypes;
+    final properties = this.properties;
+    final serviceCode = this.serviceCode;
+    final usageType = this.usageType;
+    return {
+      if (currency != null) 'currency': currency.value,
+      if (description != null) 'description': description,
+      if (durationSeconds != null) 'durationSeconds': durationSeconds,
+      if (offeringId != null) 'offeringId': offeringId,
+      if (operation != null) 'operation': operation,
+      if (paymentOption != null) 'paymentOption': paymentOption.value,
+      if (planType != null) 'planType': planType.value,
+      if (productTypes != null)
+        'productTypes': productTypes.map((e) => e.value).toList(),
+      if (properties != null) 'properties': properties,
+      if (serviceCode != null) 'serviceCode': serviceCode,
+      if (usageType != null) 'usageType': usageType,
+    };
+  }
+}
+
+class SavingsPlanType {
+  static const compute = SavingsPlanType._('Compute');
+  static const eC2Instance = SavingsPlanType._('EC2Instance');
+  static const sageMaker = SavingsPlanType._('SageMaker');
+  static const database = SavingsPlanType._('Database');
+
+  final String value;
+
+  const SavingsPlanType._(this.value);
+
+  static const values = [compute, eC2Instance, sageMaker, database];
+
+  static SavingsPlanType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SavingsPlanType._(value));
+
+  @override
+  bool operator ==(other) => other is SavingsPlanType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SavingsPlanPaymentOption {
+  static const allUpfront = SavingsPlanPaymentOption._('All Upfront');
+  static const partialUpfront = SavingsPlanPaymentOption._('Partial Upfront');
+  static const noUpfront = SavingsPlanPaymentOption._('No Upfront');
+
+  final String value;
+
+  const SavingsPlanPaymentOption._(this.value);
+
+  static const values = [allUpfront, partialUpfront, noUpfront];
+
+  static SavingsPlanPaymentOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SavingsPlanPaymentOption._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SavingsPlanPaymentOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class CurrencyCode {
+  static const cny = CurrencyCode._('CNY');
+  static const usd = CurrencyCode._('USD');
+  static const eur = CurrencyCode._('EUR');
+
+  final String value;
+
+  const CurrencyCode._(this.value);
+
+  static const values = [cny, usd, eur];
+
+  static CurrencyCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CurrencyCode._(value));
+
+  @override
+  bool operator ==(other) => other is CurrencyCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a Savings Plan offering property.
+class SavingsPlanOfferingProperty {
+  /// The property name.
+  final SavingsPlanOfferingPropertyKey? name;
+
+  /// The property value.
+  final String? value;
+
+  SavingsPlanOfferingProperty({
+    this.name,
+    this.value,
+  });
+
+  factory SavingsPlanOfferingProperty.fromJson(Map<String, dynamic> json) {
+    return SavingsPlanOfferingProperty(
+      name: (json['name'] as String?)
+          ?.let(SavingsPlanOfferingPropertyKey.fromString),
+      value: json['value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      if (name != null) 'name': name.value,
+      if (value != null) 'value': value,
+    };
+  }
+}
+
+class SavingsPlanOfferingPropertyKey {
+  static const region = SavingsPlanOfferingPropertyKey._('region');
+  static const instanceFamily =
+      SavingsPlanOfferingPropertyKey._('instanceFamily');
+
+  final String value;
+
+  const SavingsPlanOfferingPropertyKey._(this.value);
+
+  static const values = [region, instanceFamily];
+
+  static SavingsPlanOfferingPropertyKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SavingsPlanOfferingPropertyKey._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SavingsPlanOfferingPropertyKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SavingsPlanProductType {
+  static const ec2 = SavingsPlanProductType._('EC2');
+  static const fargate = SavingsPlanProductType._('Fargate');
+  static const lambda = SavingsPlanProductType._('Lambda');
+  static const sageMaker = SavingsPlanProductType._('SageMaker');
+  static const rds = SavingsPlanProductType._('RDS');
+  static const dsql = SavingsPlanProductType._('DSQL');
+  static const dynamoDB = SavingsPlanProductType._('DynamoDB');
+  static const elastiCache = SavingsPlanProductType._('ElastiCache');
+  static const docDB = SavingsPlanProductType._('DocDB');
+  static const neptune = SavingsPlanProductType._('Neptune');
+  static const timestream = SavingsPlanProductType._('Timestream');
+  static const keyspaces = SavingsPlanProductType._('Keyspaces');
+  static const dms = SavingsPlanProductType._('DMS');
+  static const openSearch = SavingsPlanProductType._('OpenSearch');
+
+  final String value;
+
+  const SavingsPlanProductType._(this.value);
+
+  static const values = [
+    ec2,
+    fargate,
+    lambda,
+    sageMaker,
+    rds,
+    dsql,
+    dynamoDB,
+    elastiCache,
+    docDB,
+    neptune,
+    timestream,
+    keyspaces,
+    dms,
+    openSearch
+  ];
+
+  static SavingsPlanProductType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SavingsPlanProductType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SavingsPlanProductType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a Savings Plan offering filter.
+class SavingsPlanOfferingFilterElement {
+  /// The filter name.
+  final SavingsPlanOfferingFilterAttribute? name;
+
+  /// The filter values.
+  final List<String>? values;
+
+  SavingsPlanOfferingFilterElement({
+    this.name,
+    this.values,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      if (name != null) 'name': name.value,
+      if (values != null) 'values': values,
+    };
+  }
+}
+
+class SavingsPlanOfferingFilterAttribute {
+  static const region = SavingsPlanOfferingFilterAttribute._('region');
+  static const instanceFamily =
+      SavingsPlanOfferingFilterAttribute._('instanceFamily');
+
+  final String value;
+
+  const SavingsPlanOfferingFilterAttribute._(this.value);
+
+  static const values = [region, instanceFamily];
+
+  static SavingsPlanOfferingFilterAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SavingsPlanOfferingFilterAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SavingsPlanOfferingFilterAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a Savings Plan offering rate.
+class SavingsPlanOfferingRate {
+  /// The specific Amazon Web Services operation for the line item in the billing
+  /// report.
+  final String? operation;
+
+  /// The product type.
+  final SavingsPlanProductType? productType;
+
+  /// The properties.
+  final List<SavingsPlanOfferingRateProperty>? properties;
+
+  /// The Savings Plan rate.
+  final String? rate;
+
+  /// The Savings Plan offering.
+  final ParentSavingsPlanOffering? savingsPlanOffering;
+
+  /// The service.
+  final SavingsPlanRateServiceCode? serviceCode;
+
+  /// The unit.
+  final SavingsPlanRateUnit? unit;
+
+  /// The usage details of the line item in the billing report.
+  final String? usageType;
+
+  SavingsPlanOfferingRate({
+    this.operation,
+    this.productType,
+    this.properties,
+    this.rate,
+    this.savingsPlanOffering,
+    this.serviceCode,
+    this.unit,
+    this.usageType,
+  });
+
+  factory SavingsPlanOfferingRate.fromJson(Map<String, dynamic> json) {
+    return SavingsPlanOfferingRate(
+      operation: json['operation'] as String?,
+      productType: (json['productType'] as String?)
+          ?.let(SavingsPlanProductType.fromString),
+      properties: (json['properties'] as List?)
+          ?.nonNulls
+          .map((e) => SavingsPlanOfferingRateProperty.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      rate: json['rate'] as String?,
+      savingsPlanOffering: json['savingsPlanOffering'] != null
+          ? ParentSavingsPlanOffering.fromJson(
+              json['savingsPlanOffering'] as Map<String, dynamic>)
+          : null,
+      serviceCode: (json['serviceCode'] as String?)
+          ?.let(SavingsPlanRateServiceCode.fromString),
+      unit: (json['unit'] as String?)?.let(SavingsPlanRateUnit.fromString),
+      usageType: json['usageType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operation = this.operation;
+    final productType = this.productType;
+    final properties = this.properties;
+    final rate = this.rate;
+    final savingsPlanOffering = this.savingsPlanOffering;
+    final serviceCode = this.serviceCode;
+    final unit = this.unit;
+    final usageType = this.usageType;
+    return {
+      if (operation != null) 'operation': operation,
+      if (productType != null) 'productType': productType.value,
+      if (properties != null) 'properties': properties,
+      if (rate != null) 'rate': rate,
+      if (savingsPlanOffering != null)
+        'savingsPlanOffering': savingsPlanOffering,
+      if (serviceCode != null) 'serviceCode': serviceCode.value,
+      if (unit != null) 'unit': unit.value,
+      if (usageType != null) 'usageType': usageType,
     };
   }
 }
@@ -798,26 +1242,216 @@ class ParentSavingsPlanOffering {
   }
 }
 
-class ReturnSavingsPlanResponse {
-  /// The ID of the Savings Plan.
-  final String? savingsPlanId;
+class SavingsPlanRateUnit {
+  static const hrs = SavingsPlanRateUnit._('Hrs');
+  static const lambdaGbSecond = SavingsPlanRateUnit._('Lambda-GB-Second');
+  static const request = SavingsPlanRateUnit._('Request');
+  static const acuHr = SavingsPlanRateUnit._('ACU-Hr');
+  static const readRequestUnits = SavingsPlanRateUnit._('ReadRequestUnits');
+  static const writeRequestUnits = SavingsPlanRateUnit._('WriteRequestUnits');
+  static const readCapacityUnitHrs =
+      SavingsPlanRateUnit._('ReadCapacityUnit-Hrs');
+  static const writeCapacityUnitHrs =
+      SavingsPlanRateUnit._('WriteCapacityUnit-Hrs');
+  static const replicatedWriteRequestUnits =
+      SavingsPlanRateUnit._('ReplicatedWriteRequestUnits');
+  static const replicatedWriteCapacityUnitHrs =
+      SavingsPlanRateUnit._('ReplicatedWriteCapacityUnit-Hrs');
+  static const gbHours = SavingsPlanRateUnit._('GB-Hours');
+  static const dpu = SavingsPlanRateUnit._('DPU');
+  static const elastiCacheProcessingUnit =
+      SavingsPlanRateUnit._('ElastiCacheProcessingUnit');
+  static const dcuHr = SavingsPlanRateUnit._('DCU-Hr');
+  static const ncuHr = SavingsPlanRateUnit._('NCU-hr');
+  static const ocuHours = SavingsPlanRateUnit._('OCU-hours');
+  static const jobs = SavingsPlanRateUnit._('Jobs');
 
-  ReturnSavingsPlanResponse({
-    this.savingsPlanId,
+  final String value;
+
+  const SavingsPlanRateUnit._(this.value);
+
+  static const values = [
+    hrs,
+    lambdaGbSecond,
+    request,
+    acuHr,
+    readRequestUnits,
+    writeRequestUnits,
+    readCapacityUnitHrs,
+    writeCapacityUnitHrs,
+    replicatedWriteRequestUnits,
+    replicatedWriteCapacityUnitHrs,
+    gbHours,
+    dpu,
+    elastiCacheProcessingUnit,
+    dcuHr,
+    ncuHr,
+    ocuHours,
+    jobs
+  ];
+
+  static SavingsPlanRateUnit fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SavingsPlanRateUnit._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SavingsPlanRateUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SavingsPlanRateServiceCode {
+  static const amazonEC2 = SavingsPlanRateServiceCode._('AmazonEC2');
+  static const amazonECS = SavingsPlanRateServiceCode._('AmazonECS');
+  static const amazonEKS = SavingsPlanRateServiceCode._('AmazonEKS');
+  static const awsLambda = SavingsPlanRateServiceCode._('AWSLambda');
+  static const amazonSageMaker =
+      SavingsPlanRateServiceCode._('AmazonSageMaker');
+  static const amazonRDS = SavingsPlanRateServiceCode._('AmazonRDS');
+  static const auroraDSQL = SavingsPlanRateServiceCode._('AuroraDSQL');
+  static const amazonDynamoDB = SavingsPlanRateServiceCode._('AmazonDynamoDB');
+  static const amazonElastiCache =
+      SavingsPlanRateServiceCode._('AmazonElastiCache');
+  static const amazonDocDB = SavingsPlanRateServiceCode._('AmazonDocDB');
+  static const amazonNeptune = SavingsPlanRateServiceCode._('AmazonNeptune');
+  static const amazonTimestream =
+      SavingsPlanRateServiceCode._('AmazonTimestream');
+  static const amazonMCS = SavingsPlanRateServiceCode._('AmazonMCS');
+  static const awsDatabaseMigrationSvc =
+      SavingsPlanRateServiceCode._('AWSDatabaseMigrationSvc');
+  static const amazonES = SavingsPlanRateServiceCode._('AmazonES');
+
+  final String value;
+
+  const SavingsPlanRateServiceCode._(this.value);
+
+  static const values = [
+    amazonEC2,
+    amazonECS,
+    amazonEKS,
+    awsLambda,
+    amazonSageMaker,
+    amazonRDS,
+    auroraDSQL,
+    amazonDynamoDB,
+    amazonElastiCache,
+    amazonDocDB,
+    amazonNeptune,
+    amazonTimestream,
+    amazonMCS,
+    awsDatabaseMigrationSvc,
+    amazonES
+  ];
+
+  static SavingsPlanRateServiceCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SavingsPlanRateServiceCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SavingsPlanRateServiceCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a Savings Plan offering rate property.
+class SavingsPlanOfferingRateProperty {
+  /// The property name.
+  final String? name;
+
+  /// The property value.
+  final String? value;
+
+  SavingsPlanOfferingRateProperty({
+    this.name,
+    this.value,
   });
 
-  factory ReturnSavingsPlanResponse.fromJson(Map<String, dynamic> json) {
-    return ReturnSavingsPlanResponse(
-      savingsPlanId: json['savingsPlanId'] as String?,
+  factory SavingsPlanOfferingRateProperty.fromJson(Map<String, dynamic> json) {
+    return SavingsPlanOfferingRateProperty(
+      name: json['name'] as String?,
+      value: json['value'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final savingsPlanId = this.savingsPlanId;
+    final name = this.name;
+    final value = this.value;
     return {
-      if (savingsPlanId != null) 'savingsPlanId': savingsPlanId,
+      if (name != null) 'name': name,
+      if (value != null) 'value': value,
     };
   }
+}
+
+/// Information about a Savings Plan offering rate filter.
+class SavingsPlanOfferingRateFilterElement {
+  /// The filter name.
+  final SavingsPlanRateFilterAttribute? name;
+
+  /// The filter values.
+  final List<String>? values;
+
+  SavingsPlanOfferingRateFilterElement({
+    this.name,
+    this.values,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      if (name != null) 'name': name.value,
+      if (values != null) 'values': values,
+    };
+  }
+}
+
+class SavingsPlanRateFilterAttribute {
+  static const region = SavingsPlanRateFilterAttribute._('region');
+  static const instanceFamily =
+      SavingsPlanRateFilterAttribute._('instanceFamily');
+  static const instanceType = SavingsPlanRateFilterAttribute._('instanceType');
+  static const productDescription =
+      SavingsPlanRateFilterAttribute._('productDescription');
+  static const tenancy = SavingsPlanRateFilterAttribute._('tenancy');
+  static const productId = SavingsPlanRateFilterAttribute._('productId');
+
+  final String value;
+
+  const SavingsPlanRateFilterAttribute._(this.value);
+
+  static const values = [
+    region,
+    instanceFamily,
+    instanceType,
+    productDescription,
+    tenancy,
+    productId
+  ];
+
+  static SavingsPlanRateFilterAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SavingsPlanRateFilterAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SavingsPlanRateFilterAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a Savings Plan.
@@ -853,7 +1487,7 @@ class SavingsPlan {
   final String? region;
 
   /// The time until when a return for the Savings Plan can be requested. If the
-  /// Savings Plan is not returnable, the field reflects the Savings Plan start
+  /// Savings Plan is not returnable, the field reflects the Savings Plans start
   /// time.
   final String? returnableUntil;
 
@@ -981,6 +1615,45 @@ class SavingsPlan {
   }
 }
 
+class SavingsPlanState {
+  static const paymentPending = SavingsPlanState._('payment-pending');
+  static const paymentFailed = SavingsPlanState._('payment-failed');
+  static const active = SavingsPlanState._('active');
+  static const retired = SavingsPlanState._('retired');
+  static const queued = SavingsPlanState._('queued');
+  static const queuedDeleted = SavingsPlanState._('queued-deleted');
+  static const pendingReturn = SavingsPlanState._('pending-return');
+  static const returned = SavingsPlanState._('returned');
+
+  final String value;
+
+  const SavingsPlanState._(this.value);
+
+  static const values = [
+    paymentPending,
+    paymentFailed,
+    active,
+    retired,
+    queued,
+    queuedDeleted,
+    pendingReturn,
+    returned
+  ];
+
+  static SavingsPlanState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SavingsPlanState._(value));
+
+  @override
+  bool operator ==(other) => other is SavingsPlanState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Information about a Savings Plan filter.
 class SavingsPlanFilter {
   /// The filter name.
@@ -1004,396 +1677,43 @@ class SavingsPlanFilter {
   }
 }
 
-/// Information about a Savings Plan offering.
-class SavingsPlanOffering {
-  /// The currency.
-  final CurrencyCode? currency;
-
-  /// The description.
-  final String? description;
-
-  /// The duration, in seconds.
-  final int? durationSeconds;
-
-  /// The ID of the offering.
-  final String? offeringId;
-
-  /// The specific Amazon Web Services operation for the line item in the billing
-  /// report.
-  final String? operation;
-
-  /// The payment option.
-  final SavingsPlanPaymentOption? paymentOption;
-
-  /// The plan type.
-  final SavingsPlanType? planType;
-
-  /// The product type.
-  final List<SavingsPlanProductType>? productTypes;
-
-  /// The properties.
-  final List<SavingsPlanOfferingProperty>? properties;
-
-  /// The service.
-  final String? serviceCode;
-
-  /// The usage details of the line item in the billing report.
-  final String? usageType;
-
-  SavingsPlanOffering({
-    this.currency,
-    this.description,
-    this.durationSeconds,
-    this.offeringId,
-    this.operation,
-    this.paymentOption,
-    this.planType,
-    this.productTypes,
-    this.properties,
-    this.serviceCode,
-    this.usageType,
-  });
-
-  factory SavingsPlanOffering.fromJson(Map<String, dynamic> json) {
-    return SavingsPlanOffering(
-      currency: (json['currency'] as String?)?.let(CurrencyCode.fromString),
-      description: json['description'] as String?,
-      durationSeconds: json['durationSeconds'] as int?,
-      offeringId: json['offeringId'] as String?,
-      operation: json['operation'] as String?,
-      paymentOption: (json['paymentOption'] as String?)
-          ?.let(SavingsPlanPaymentOption.fromString),
-      planType: (json['planType'] as String?)?.let(SavingsPlanType.fromString),
-      productTypes: (json['productTypes'] as List?)
-          ?.nonNulls
-          .map((e) => SavingsPlanProductType.fromString((e as String)))
-          .toList(),
-      properties: (json['properties'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              SavingsPlanOfferingProperty.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      serviceCode: json['serviceCode'] as String?,
-      usageType: json['usageType'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final currency = this.currency;
-    final description = this.description;
-    final durationSeconds = this.durationSeconds;
-    final offeringId = this.offeringId;
-    final operation = this.operation;
-    final paymentOption = this.paymentOption;
-    final planType = this.planType;
-    final productTypes = this.productTypes;
-    final properties = this.properties;
-    final serviceCode = this.serviceCode;
-    final usageType = this.usageType;
-    return {
-      if (currency != null) 'currency': currency.value,
-      if (description != null) 'description': description,
-      if (durationSeconds != null) 'durationSeconds': durationSeconds,
-      if (offeringId != null) 'offeringId': offeringId,
-      if (operation != null) 'operation': operation,
-      if (paymentOption != null) 'paymentOption': paymentOption.value,
-      if (planType != null) 'planType': planType.value,
-      if (productTypes != null)
-        'productTypes': productTypes.map((e) => e.value).toList(),
-      if (properties != null) 'properties': properties,
-      if (serviceCode != null) 'serviceCode': serviceCode,
-      if (usageType != null) 'usageType': usageType,
-    };
-  }
-}
-
-class SavingsPlanOfferingFilterAttribute {
-  static const region = SavingsPlanOfferingFilterAttribute._('region');
-  static const instanceFamily =
-      SavingsPlanOfferingFilterAttribute._('instanceFamily');
+class SavingsPlansFilterName {
+  static const region = SavingsPlansFilterName._('region');
+  static const ec2InstanceFamily =
+      SavingsPlansFilterName._('ec2-instance-family');
+  static const commitment = SavingsPlansFilterName._('commitment');
+  static const upfront = SavingsPlansFilterName._('upfront');
+  static const term = SavingsPlansFilterName._('term');
+  static const savingsPlanType = SavingsPlansFilterName._('savings-plan-type');
+  static const paymentOption = SavingsPlansFilterName._('payment-option');
+  static const start = SavingsPlansFilterName._('start');
+  static const end = SavingsPlansFilterName._('end');
+  static const instanceFamily = SavingsPlansFilterName._('instance-family');
 
   final String value;
 
-  const SavingsPlanOfferingFilterAttribute._(this.value);
+  const SavingsPlansFilterName._(this.value);
 
-  static const values = [region, instanceFamily];
+  static const values = [
+    region,
+    ec2InstanceFamily,
+    commitment,
+    upfront,
+    term,
+    savingsPlanType,
+    paymentOption,
+    start,
+    end,
+    instanceFamily
+  ];
 
-  static SavingsPlanOfferingFilterAttribute fromString(String value) =>
+  static SavingsPlansFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => SavingsPlanOfferingFilterAttribute._(value));
+          orElse: () => SavingsPlansFilterName._(value));
 
   @override
   bool operator ==(other) =>
-      other is SavingsPlanOfferingFilterAttribute && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about a Savings Plan offering filter.
-class SavingsPlanOfferingFilterElement {
-  /// The filter name.
-  final SavingsPlanOfferingFilterAttribute? name;
-
-  /// The filter values.
-  final List<String>? values;
-
-  SavingsPlanOfferingFilterElement({
-    this.name,
-    this.values,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final values = this.values;
-    return {
-      if (name != null) 'name': name.value,
-      if (values != null) 'values': values,
-    };
-  }
-}
-
-/// Information about a Savings Plan offering property.
-class SavingsPlanOfferingProperty {
-  /// The property name.
-  final SavingsPlanOfferingPropertyKey? name;
-
-  /// The property value.
-  final String? value;
-
-  SavingsPlanOfferingProperty({
-    this.name,
-    this.value,
-  });
-
-  factory SavingsPlanOfferingProperty.fromJson(Map<String, dynamic> json) {
-    return SavingsPlanOfferingProperty(
-      name: (json['name'] as String?)
-          ?.let(SavingsPlanOfferingPropertyKey.fromString),
-      value: json['value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final value = this.value;
-    return {
-      if (name != null) 'name': name.value,
-      if (value != null) 'value': value,
-    };
-  }
-}
-
-class SavingsPlanOfferingPropertyKey {
-  static const region = SavingsPlanOfferingPropertyKey._('region');
-  static const instanceFamily =
-      SavingsPlanOfferingPropertyKey._('instanceFamily');
-
-  final String value;
-
-  const SavingsPlanOfferingPropertyKey._(this.value);
-
-  static const values = [region, instanceFamily];
-
-  static SavingsPlanOfferingPropertyKey fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SavingsPlanOfferingPropertyKey._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SavingsPlanOfferingPropertyKey && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about a Savings Plan offering rate.
-class SavingsPlanOfferingRate {
-  /// The specific Amazon Web Services operation for the line item in the billing
-  /// report.
-  final String? operation;
-
-  /// The product type.
-  final SavingsPlanProductType? productType;
-
-  /// The properties.
-  final List<SavingsPlanOfferingRateProperty>? properties;
-
-  /// The Savings Plan rate.
-  final String? rate;
-
-  /// The Savings Plan offering.
-  final ParentSavingsPlanOffering? savingsPlanOffering;
-
-  /// The service.
-  final SavingsPlanRateServiceCode? serviceCode;
-
-  /// The unit.
-  final SavingsPlanRateUnit? unit;
-
-  /// The usage details of the line item in the billing report.
-  final String? usageType;
-
-  SavingsPlanOfferingRate({
-    this.operation,
-    this.productType,
-    this.properties,
-    this.rate,
-    this.savingsPlanOffering,
-    this.serviceCode,
-    this.unit,
-    this.usageType,
-  });
-
-  factory SavingsPlanOfferingRate.fromJson(Map<String, dynamic> json) {
-    return SavingsPlanOfferingRate(
-      operation: json['operation'] as String?,
-      productType: (json['productType'] as String?)
-          ?.let(SavingsPlanProductType.fromString),
-      properties: (json['properties'] as List?)
-          ?.nonNulls
-          .map((e) => SavingsPlanOfferingRateProperty.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-      rate: json['rate'] as String?,
-      savingsPlanOffering: json['savingsPlanOffering'] != null
-          ? ParentSavingsPlanOffering.fromJson(
-              json['savingsPlanOffering'] as Map<String, dynamic>)
-          : null,
-      serviceCode: (json['serviceCode'] as String?)
-          ?.let(SavingsPlanRateServiceCode.fromString),
-      unit: (json['unit'] as String?)?.let(SavingsPlanRateUnit.fromString),
-      usageType: json['usageType'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final operation = this.operation;
-    final productType = this.productType;
-    final properties = this.properties;
-    final rate = this.rate;
-    final savingsPlanOffering = this.savingsPlanOffering;
-    final serviceCode = this.serviceCode;
-    final unit = this.unit;
-    final usageType = this.usageType;
-    return {
-      if (operation != null) 'operation': operation,
-      if (productType != null) 'productType': productType.value,
-      if (properties != null) 'properties': properties,
-      if (rate != null) 'rate': rate,
-      if (savingsPlanOffering != null)
-        'savingsPlanOffering': savingsPlanOffering,
-      if (serviceCode != null) 'serviceCode': serviceCode.value,
-      if (unit != null) 'unit': unit.value,
-      if (usageType != null) 'usageType': usageType,
-    };
-  }
-}
-
-/// Information about a Savings Plan offering rate filter.
-class SavingsPlanOfferingRateFilterElement {
-  /// The filter name.
-  final SavingsPlanRateFilterAttribute? name;
-
-  /// The filter values.
-  final List<String>? values;
-
-  SavingsPlanOfferingRateFilterElement({
-    this.name,
-    this.values,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final values = this.values;
-    return {
-      if (name != null) 'name': name.value,
-      if (values != null) 'values': values,
-    };
-  }
-}
-
-/// Information about a Savings Plan offering rate property.
-class SavingsPlanOfferingRateProperty {
-  /// The property name.
-  final String? name;
-
-  /// The property value.
-  final String? value;
-
-  SavingsPlanOfferingRateProperty({
-    this.name,
-    this.value,
-  });
-
-  factory SavingsPlanOfferingRateProperty.fromJson(Map<String, dynamic> json) {
-    return SavingsPlanOfferingRateProperty(
-      name: json['name'] as String?,
-      value: json['value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final value = this.value;
-    return {
-      if (name != null) 'name': name,
-      if (value != null) 'value': value,
-    };
-  }
-}
-
-class SavingsPlanPaymentOption {
-  static const allUpfront = SavingsPlanPaymentOption._('All Upfront');
-  static const partialUpfront = SavingsPlanPaymentOption._('Partial Upfront');
-  static const noUpfront = SavingsPlanPaymentOption._('No Upfront');
-
-  final String value;
-
-  const SavingsPlanPaymentOption._(this.value);
-
-  static const values = [allUpfront, partialUpfront, noUpfront];
-
-  static SavingsPlanPaymentOption fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SavingsPlanPaymentOption._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SavingsPlanPaymentOption && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class SavingsPlanProductType {
-  static const ec2 = SavingsPlanProductType._('EC2');
-  static const fargate = SavingsPlanProductType._('Fargate');
-  static const lambda = SavingsPlanProductType._('Lambda');
-  static const sageMaker = SavingsPlanProductType._('SageMaker');
-
-  final String value;
-
-  const SavingsPlanProductType._(this.value);
-
-  static const values = [ec2, fargate, lambda, sageMaker];
-
-  static SavingsPlanProductType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SavingsPlanProductType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SavingsPlanProductType && other.value == value;
+      other is SavingsPlansFilterName && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -1481,108 +1801,6 @@ class SavingsPlanRate {
   }
 }
 
-/// Information about a Savings Plan rate filter.
-class SavingsPlanRateFilter {
-  /// The filter name.
-  final SavingsPlanRateFilterName? name;
-
-  /// The filter values.
-  final List<String>? values;
-
-  SavingsPlanRateFilter({
-    this.name,
-    this.values,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final values = this.values;
-    return {
-      if (name != null) 'name': name.value,
-      if (values != null) 'values': values,
-    };
-  }
-}
-
-class SavingsPlanRateFilterAttribute {
-  static const region = SavingsPlanRateFilterAttribute._('region');
-  static const instanceFamily =
-      SavingsPlanRateFilterAttribute._('instanceFamily');
-  static const instanceType = SavingsPlanRateFilterAttribute._('instanceType');
-  static const productDescription =
-      SavingsPlanRateFilterAttribute._('productDescription');
-  static const tenancy = SavingsPlanRateFilterAttribute._('tenancy');
-  static const productId = SavingsPlanRateFilterAttribute._('productId');
-
-  final String value;
-
-  const SavingsPlanRateFilterAttribute._(this.value);
-
-  static const values = [
-    region,
-    instanceFamily,
-    instanceType,
-    productDescription,
-    tenancy,
-    productId
-  ];
-
-  static SavingsPlanRateFilterAttribute fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SavingsPlanRateFilterAttribute._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SavingsPlanRateFilterAttribute && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class SavingsPlanRateFilterName {
-  static const region = SavingsPlanRateFilterName._('region');
-  static const instanceType = SavingsPlanRateFilterName._('instanceType');
-  static const productDescription =
-      SavingsPlanRateFilterName._('productDescription');
-  static const tenancy = SavingsPlanRateFilterName._('tenancy');
-  static const productType = SavingsPlanRateFilterName._('productType');
-  static const serviceCode = SavingsPlanRateFilterName._('serviceCode');
-  static const usageType = SavingsPlanRateFilterName._('usageType');
-  static const operation = SavingsPlanRateFilterName._('operation');
-
-  final String value;
-
-  const SavingsPlanRateFilterName._(this.value);
-
-  static const values = [
-    region,
-    instanceType,
-    productDescription,
-    tenancy,
-    productType,
-    serviceCode,
-    usageType,
-    operation
-  ];
-
-  static SavingsPlanRateFilterName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SavingsPlanRateFilterName._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SavingsPlanRateFilterName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 /// Information about a Savings Plan rate property.
 class SavingsPlanRateProperty {
   /// The property name.
@@ -1649,196 +1867,68 @@ class SavingsPlanRatePropertyKey {
   String toString() => value;
 }
 
-class SavingsPlanRateServiceCode {
-  static const amazonEC2 = SavingsPlanRateServiceCode._('AmazonEC2');
-  static const amazonECS = SavingsPlanRateServiceCode._('AmazonECS');
-  static const amazonEKS = SavingsPlanRateServiceCode._('AmazonEKS');
-  static const awsLambda = SavingsPlanRateServiceCode._('AWSLambda');
-  static const amazonSageMaker =
-      SavingsPlanRateServiceCode._('AmazonSageMaker');
+/// Information about a Savings Plan rate filter.
+class SavingsPlanRateFilter {
+  /// The filter name.
+  final SavingsPlanRateFilterName? name;
 
-  final String value;
+  /// The filter values.
+  final List<String>? values;
 
-  const SavingsPlanRateServiceCode._(this.value);
+  SavingsPlanRateFilter({
+    this.name,
+    this.values,
+  });
 
-  static const values = [
-    amazonEC2,
-    amazonECS,
-    amazonEKS,
-    awsLambda,
-    amazonSageMaker
-  ];
-
-  static SavingsPlanRateServiceCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SavingsPlanRateServiceCode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SavingsPlanRateServiceCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      if (name != null) 'name': name.value,
+      if (values != null) 'values': values,
+    };
+  }
 }
 
-class SavingsPlanRateUnit {
-  static const hrs = SavingsPlanRateUnit._('Hrs');
-  static const lambdaGbSecond = SavingsPlanRateUnit._('Lambda-GB-Second');
-  static const request = SavingsPlanRateUnit._('Request');
+class SavingsPlanRateFilterName {
+  static const region = SavingsPlanRateFilterName._('region');
+  static const instanceType = SavingsPlanRateFilterName._('instanceType');
+  static const productDescription =
+      SavingsPlanRateFilterName._('productDescription');
+  static const tenancy = SavingsPlanRateFilterName._('tenancy');
+  static const productType = SavingsPlanRateFilterName._('productType');
+  static const serviceCode = SavingsPlanRateFilterName._('serviceCode');
+  static const usageType = SavingsPlanRateFilterName._('usageType');
+  static const operation = SavingsPlanRateFilterName._('operation');
 
   final String value;
 
-  const SavingsPlanRateUnit._(this.value);
-
-  static const values = [hrs, lambdaGbSecond, request];
-
-  static SavingsPlanRateUnit fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SavingsPlanRateUnit._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SavingsPlanRateUnit && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class SavingsPlanState {
-  static const paymentPending = SavingsPlanState._('payment-pending');
-  static const paymentFailed = SavingsPlanState._('payment-failed');
-  static const active = SavingsPlanState._('active');
-  static const retired = SavingsPlanState._('retired');
-  static const queued = SavingsPlanState._('queued');
-  static const queuedDeleted = SavingsPlanState._('queued-deleted');
-  static const pendingReturn = SavingsPlanState._('pending-return');
-  static const returned = SavingsPlanState._('returned');
-
-  final String value;
-
-  const SavingsPlanState._(this.value);
-
-  static const values = [
-    paymentPending,
-    paymentFailed,
-    active,
-    retired,
-    queued,
-    queuedDeleted,
-    pendingReturn,
-    returned
-  ];
-
-  static SavingsPlanState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SavingsPlanState._(value));
-
-  @override
-  bool operator ==(other) => other is SavingsPlanState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class SavingsPlanType {
-  static const compute = SavingsPlanType._('Compute');
-  static const eC2Instance = SavingsPlanType._('EC2Instance');
-  static const sageMaker = SavingsPlanType._('SageMaker');
-
-  final String value;
-
-  const SavingsPlanType._(this.value);
-
-  static const values = [compute, eC2Instance, sageMaker];
-
-  static SavingsPlanType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SavingsPlanType._(value));
-
-  @override
-  bool operator ==(other) => other is SavingsPlanType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class SavingsPlansFilterName {
-  static const region = SavingsPlansFilterName._('region');
-  static const ec2InstanceFamily =
-      SavingsPlansFilterName._('ec2-instance-family');
-  static const commitment = SavingsPlansFilterName._('commitment');
-  static const upfront = SavingsPlansFilterName._('upfront');
-  static const term = SavingsPlansFilterName._('term');
-  static const savingsPlanType = SavingsPlansFilterName._('savings-plan-type');
-  static const paymentOption = SavingsPlansFilterName._('payment-option');
-  static const start = SavingsPlansFilterName._('start');
-  static const end = SavingsPlansFilterName._('end');
-
-  final String value;
-
-  const SavingsPlansFilterName._(this.value);
+  const SavingsPlanRateFilterName._(this.value);
 
   static const values = [
     region,
-    ec2InstanceFamily,
-    commitment,
-    upfront,
-    term,
-    savingsPlanType,
-    paymentOption,
-    start,
-    end
+    instanceType,
+    productDescription,
+    tenancy,
+    productType,
+    serviceCode,
+    usageType,
+    operation
   ];
 
-  static SavingsPlansFilterName fromString(String value) =>
+  static SavingsPlanRateFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => SavingsPlansFilterName._(value));
+          orElse: () => SavingsPlanRateFilterName._(value));
 
   @override
   bool operator ==(other) =>
-      other is SavingsPlansFilterName && other.value == value;
+      other is SavingsPlanRateFilterName && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
-}
-
-class TagResourceResponse {
-  TagResourceResponse();
-
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UntagResourceResponse {
-  UntagResourceResponse();
-
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
 }
 
 class InternalServerException extends _s.GenericAwsException {

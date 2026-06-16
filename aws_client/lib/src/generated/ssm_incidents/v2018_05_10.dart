@@ -43,7 +43,6 @@ class SsmIncidents {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'ssm-incidents',
-            signingName: 'ssm-incidents',
           ),
           region: region,
           credentials: credentials,
@@ -66,11 +65,11 @@ class SsmIncidents {
   /// CloudFormation stack creation or update that can be investigated as a
   /// potential cause of the incident.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [findingIds] :
   /// A list of IDs of findings for which you want to view details.
@@ -98,12 +97,12 @@ class SsmIncidents {
   /// A replication set replicates and encrypts your data to the provided
   /// Regions with the provided KMS key.
   ///
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [regions] :
   /// The Regions that Incident Manager replicates your data to. You can have up
@@ -138,12 +137,12 @@ class SsmIncidents {
   /// A response plan engages contacts, starts chat channel collaboration, and
   /// initiates runbooks at the beginning of an incident.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [incidentTemplate] :
   /// Details used to create an incident when using this response plan.
@@ -210,12 +209,12 @@ class SsmIncidents {
   /// events to mark important events that Incident Manager can detect
   /// automatically.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [eventData] :
   /// A short description of the event.
@@ -275,10 +274,10 @@ class SsmIncidents {
 
   /// Delete an incident record from Incident Manager.
   ///
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [arn] :
   /// The Amazon Resource Name (ARN) of the incident record you are deleting.
@@ -299,11 +298,11 @@ class SsmIncidents {
   /// Deletes all Regions in your replication set. Deleting the replication set
   /// deletes all Incident Manager data.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [arn] :
   /// The Amazon Resource Name (ARN) of the replication set you're deleting.
@@ -325,11 +324,11 @@ class SsmIncidents {
   /// Deletes the resource policy that Resource Access Manager uses to share
   /// your Incident Manager resource.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [policyId] :
   /// The ID of the resource policy you're deleting.
@@ -357,10 +356,10 @@ class SsmIncidents {
   /// linked CloudWatch alarms and EventBridge events from creating an incident
   /// with this response plan.
   ///
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [arn] :
   /// The Amazon Resource Name (ARN) of the response plan.
@@ -380,10 +379,10 @@ class SsmIncidents {
 
   /// Deletes a timeline event from an incident.
   ///
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [eventId] :
   /// The ID of the event to update. You can use <code>ListTimelineEvents</code>
@@ -410,11 +409,11 @@ class SsmIncidents {
 
   /// Returns the details for the specified incident record.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [arn] :
   /// The Amazon Resource Name (ARN) of the incident record.
@@ -436,11 +435,11 @@ class SsmIncidents {
 
   /// Retrieve your Incident Manager replication set.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [arn] :
   /// The Amazon Resource Name (ARN) of the replication set you want to
@@ -463,11 +462,11 @@ class SsmIncidents {
 
   /// Retrieves the resource policies attached to the specified response plan.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the response plan with the attached
@@ -510,11 +509,11 @@ class SsmIncidents {
 
   /// Retrieves the details of the specified response plan.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [arn] :
   /// The Amazon Resource Name (ARN) of the response plan.
@@ -536,11 +535,11 @@ class SsmIncidents {
 
   /// Retrieves a timeline event based on its ID and incident record.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [eventId] :
   /// The ID of the event. You can get an event's ID when you create it, or by
@@ -573,11 +572,11 @@ class SsmIncidents {
   /// creation or update or an CodeDeploy deployment that can be investigated as
   /// a potential cause of the incident.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [incidentRecordArn] :
   /// The Amazon Resource Name (ARN) of the incident for which you want to view
@@ -594,12 +593,6 @@ class SsmIncidents {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      20,
-    );
     final $payload = <String, dynamic>{
       'incidentRecordArn': incidentRecordArn,
       if (maxResults != null) 'maxResults': maxResults,
@@ -617,10 +610,10 @@ class SsmIncidents {
   /// Lists all incident records in your account. Use this command to retrieve
   /// the Amazon Resource Name (ARN) of the incident record you want to update.
   ///
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [filters] :
   /// Filters the list of incident records you want to search through. You can
@@ -689,10 +682,10 @@ class SsmIncidents {
 
   /// List all related items for an incident record.
   ///
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [incidentRecordArn] :
   /// The Amazon Resource Name (ARN) of the incident record containing the
@@ -731,10 +724,10 @@ class SsmIncidents {
 
   /// Lists details about the replication set configured in your account.
   ///
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results per page.
@@ -767,10 +760,10 @@ class SsmIncidents {
 
   /// Lists all response plans in your account.
   ///
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of response plans per page.
@@ -804,11 +797,11 @@ class SsmIncidents {
   /// Lists the tags that are attached to the specified response plan or
   /// incident.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the response plan or incident.
@@ -826,10 +819,10 @@ class SsmIncidents {
 
   /// Lists timeline events for the specified incident record.
   ///
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [incidentRecordArn] :
   /// The Amazon Resource Name (ARN) of the incident that includes the timeline
@@ -916,11 +909,11 @@ class SsmIncidents {
   /// href="https://docs.aws.amazon.com/incident-manager/latest/userguide/incident-manager-cross-account-cross-region.html">Cross-Region
   /// and cross-account incident management</a>.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [policy] :
   /// Details of the resource policy.
@@ -948,12 +941,12 @@ class SsmIncidents {
   /// Used to start an incident from CloudWatch alarms, EventBridge events, or
   /// manually.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [responsePlanArn] :
   /// The Amazon Resource Name (ARN) of the response plan that pre-defines
@@ -1031,13 +1024,13 @@ class SsmIncidents {
 
   /// Adds a tag to a response plan.
   ///
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the response plan you're adding the tags
@@ -1062,12 +1055,12 @@ class SsmIncidents {
 
   /// Removes a tag from a resource.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the response plan you're removing a tag
@@ -1094,11 +1087,11 @@ class SsmIncidents {
   /// Update deletion protection to either allow or deny deletion of the final
   /// Region in a replication set.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [arn] :
   /// The Amazon Resource Name (ARN) of the replication set to update.
@@ -1133,12 +1126,12 @@ class SsmIncidents {
   /// href="https://docs.aws.amazon.com/incident-manager/latest/userguide/chat.html#chat-interact">Interacting
   /// through chat</a>.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [arn] :
   /// The Amazon Resource Name (ARN) of the incident record you are updating.
@@ -1228,12 +1221,12 @@ class SsmIncidents {
   /// Add or remove related items from the related items tab of an incident
   /// record.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [incidentRecordArn] :
   /// The Amazon Resource Name (ARN) of the incident record that contains the
@@ -1265,12 +1258,12 @@ class SsmIncidents {
 
   /// Add or delete Regions from your replication set.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [actions] :
   /// An action to add or delete a Region.
@@ -1301,12 +1294,12 @@ class SsmIncidents {
 
   /// Updates the specified response plan.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [arn] :
   /// The Amazon Resource Name (ARN) of the response plan.
@@ -1432,12 +1425,12 @@ class SsmIncidents {
   /// Updates a timeline event. You can update events of type <code>Custom
   /// Event</code>.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [eventId] :
   /// The ID of the event to update. You can use <code>ListTimelineEvents</code>
@@ -1501,146 +1494,6 @@ class SsmIncidents {
   }
 }
 
-/// The action that starts at the beginning of an incident. The response plan
-/// defines the action.
-class Action {
-  /// The Systems Manager automation document to start as the runbook at the
-  /// beginning of the incident.
-  final SsmAutomation? ssmAutomation;
-
-  Action({
-    this.ssmAutomation,
-  });
-
-  factory Action.fromJson(Map<String, dynamic> json) {
-    return Action(
-      ssmAutomation: json['ssmAutomation'] != null
-          ? SsmAutomation.fromJson(
-              json['ssmAutomation'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final ssmAutomation = this.ssmAutomation;
-    return {
-      if (ssmAutomation != null) 'ssmAutomation': ssmAutomation,
-    };
-  }
-}
-
-/// Defines the Amazon Web Services Region and KMS key to add to the replication
-/// set.
-class AddRegionAction {
-  /// The Amazon Web Services Region name to add to the replication set.
-  final String regionName;
-
-  /// The KMS key ID to use to encrypt your replication set.
-  final String? sseKmsKeyId;
-
-  AddRegionAction({
-    required this.regionName,
-    this.sseKmsKeyId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final regionName = this.regionName;
-    final sseKmsKeyId = this.sseKmsKeyId;
-    return {
-      'regionName': regionName,
-      if (sseKmsKeyId != null) 'sseKmsKeyId': sseKmsKeyId,
-    };
-  }
-}
-
-/// Use the AttributeValueList to filter by string or integer values.
-class AttributeValueList {
-  /// The list of integer values that the filter matches.
-  final List<int>? integerValues;
-
-  /// The list of string values that the filter matches.
-  final List<String>? stringValues;
-
-  AttributeValueList({
-    this.integerValues,
-    this.stringValues,
-  });
-
-  Map<String, dynamic> toJson() {
-    final integerValues = this.integerValues;
-    final stringValues = this.stringValues;
-    return {
-      if (integerValues != null) 'integerValues': integerValues,
-      if (stringValues != null) 'stringValues': stringValues,
-    };
-  }
-}
-
-/// The Systems Manager automation document process to start as the runbook at
-/// the beginning of the incident.
-class AutomationExecution {
-  /// The Amazon Resource Name (ARN) of the automation process.
-  final String? ssmExecutionArn;
-
-  AutomationExecution({
-    this.ssmExecutionArn,
-  });
-
-  factory AutomationExecution.fromJson(Map<String, dynamic> json) {
-    return AutomationExecution(
-      ssmExecutionArn: json['ssmExecutionArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final ssmExecutionArn = this.ssmExecutionArn;
-    return {
-      if (ssmExecutionArn != null) 'ssmExecutionArn': ssmExecutionArn,
-    };
-  }
-}
-
-/// Details about an error returned for a <a>BatchGetIncidentFindings</a>
-/// operation.
-class BatchGetIncidentFindingsError {
-  /// The code associated with an error that was returned for a
-  /// <code>BatchGetIncidentFindings</code> operation.
-  final String code;
-
-  /// The ID of a specified finding for which an error was returned for a
-  /// <code>BatchGetIncidentFindings</code> operation.
-  final String findingId;
-
-  /// The description for an error that was returned for a
-  /// <code>BatchGetIncidentFindings</code> operation.
-  final String message;
-
-  BatchGetIncidentFindingsError({
-    required this.code,
-    required this.findingId,
-    required this.message,
-  });
-
-  factory BatchGetIncidentFindingsError.fromJson(Map<String, dynamic> json) {
-    return BatchGetIncidentFindingsError(
-      code: (json['code'] as String?) ?? '',
-      findingId: (json['findingId'] as String?) ?? '',
-      message: (json['message'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final findingId = this.findingId;
-    final message = this.message;
-    return {
-      'code': code,
-      'findingId': findingId,
-      'message': message,
-    };
-  }
-}
-
 class BatchGetIncidentFindingsOutput {
   /// A list of errors encountered during the operation.
   final List<BatchGetIncidentFindingsError> errors;
@@ -1673,164 +1526,6 @@ class BatchGetIncidentFindingsOutput {
     return {
       'errors': errors,
       'findings': findings,
-    };
-  }
-}
-
-/// The Chatbot chat channel used for collaboration during an incident.
-class ChatChannel {
-  /// The Amazon SNS targets that Chatbot uses to notify the chat channel of
-  /// updates to an incident. You can also make updates to the incident through
-  /// the chat channel by using the Amazon SNS topics.
-  final List<String>? chatbotSns;
-
-  /// Used to remove the chat channel from an incident record or response plan.
-  final EmptyChatChannel? empty;
-
-  ChatChannel({
-    this.chatbotSns,
-    this.empty,
-  });
-
-  factory ChatChannel.fromJson(Map<String, dynamic> json) {
-    return ChatChannel(
-      chatbotSns: (json['chatbotSns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      empty: json['empty'] != null
-          ? EmptyChatChannel.fromJson(json['empty'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final chatbotSns = this.chatbotSns;
-    final empty = this.empty;
-    return {
-      if (chatbotSns != null) 'chatbotSns': chatbotSns,
-      if (empty != null) 'empty': empty,
-    };
-  }
-}
-
-/// Information about an CloudFormation stack creation or update that occurred
-/// around the time of an incident and could be a potential cause of the
-/// incident.
-class CloudFormationStackUpdate {
-  /// The Amazon Resource Name (ARN) of the CloudFormation stack involved in the
-  /// update.
-  final String stackArn;
-
-  /// The timestamp for when the CloudFormation stack creation or update began.
-  final DateTime startTime;
-
-  /// The timestamp for when the CloudFormation stack creation or update ended.
-  /// Not reported for deployments that are still in progress.
-  final DateTime? endTime;
-
-  CloudFormationStackUpdate({
-    required this.stackArn,
-    required this.startTime,
-    this.endTime,
-  });
-
-  factory CloudFormationStackUpdate.fromJson(Map<String, dynamic> json) {
-    return CloudFormationStackUpdate(
-      stackArn: (json['stackArn'] as String?) ?? '',
-      startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
-      endTime: timeStampFromJson(json['endTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final stackArn = this.stackArn;
-    final startTime = this.startTime;
-    final endTime = this.endTime;
-    return {
-      'stackArn': stackArn,
-      'startTime': unixTimestampToJson(startTime),
-      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
-    };
-  }
-}
-
-/// Information about a CodeDeploy deployment that occurred around the time of
-/// an incident and could be a possible cause of the incident.
-class CodeDeployDeployment {
-  /// The Amazon Resource Name (ARN) of the CodeDeploy deployment group associated
-  /// with the deployment.
-  final String deploymentGroupArn;
-
-  /// The ID of the CodeDeploy deployment.
-  final String deploymentId;
-
-  /// The timestamp for when the CodeDeploy deployment began.
-  final DateTime startTime;
-
-  /// The timestamp for when the CodeDeploy deployment ended. Not reported for
-  /// deployments that are still in progress.
-  final DateTime? endTime;
-
-  CodeDeployDeployment({
-    required this.deploymentGroupArn,
-    required this.deploymentId,
-    required this.startTime,
-    this.endTime,
-  });
-
-  factory CodeDeployDeployment.fromJson(Map<String, dynamic> json) {
-    return CodeDeployDeployment(
-      deploymentGroupArn: (json['deploymentGroupArn'] as String?) ?? '',
-      deploymentId: (json['deploymentId'] as String?) ?? '',
-      startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
-      endTime: timeStampFromJson(json['endTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deploymentGroupArn = this.deploymentGroupArn;
-    final deploymentId = this.deploymentId;
-    final startTime = this.startTime;
-    final endTime = this.endTime;
-    return {
-      'deploymentGroupArn': deploymentGroupArn,
-      'deploymentId': deploymentId,
-      'startTime': unixTimestampToJson(startTime),
-      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
-    };
-  }
-}
-
-/// A conditional statement with which to compare a value, after a timestamp,
-/// before a timestamp, or equal to a string or integer. If multiple conditions
-/// are specified, the conditionals become an <code>AND</code>ed statement. If
-/// multiple values are specified for a conditional, the values are
-/// <code>OR</code>d.
-class Condition {
-  /// After the specified timestamp.
-  final DateTime? after;
-
-  /// Before the specified timestamp
-  final DateTime? before;
-
-  /// The value is equal to the provided string or integer.
-  final AttributeValueList? equals;
-
-  Condition({
-    this.after,
-    this.before,
-    this.equals,
-  });
-
-  Map<String, dynamic> toJson() {
-    final after = this.after;
-    final before = this.before;
-    final equals = this.equals;
-    return {
-      if (after != null) 'after': unixTimestampToJson(after),
-      if (before != null) 'before': unixTimestampToJson(before),
-      if (equals != null) 'equals': equals,
     };
   }
 }
@@ -1920,25 +1615,6 @@ class DeleteIncidentRecordOutput {
   }
 }
 
-/// Defines the information about the Amazon Web Services Region you're deleting
-/// from your replication set.
-class DeleteRegionAction {
-  /// The name of the Amazon Web Services Region you're deleting from the
-  /// replication set.
-  final String regionName;
-
-  DeleteRegionAction({
-    required this.regionName,
-  });
-
-  Map<String, dynamic> toJson() {
-    final regionName = this.regionName;
-    return {
-      'regionName': regionName,
-    };
-  }
-}
-
 class DeleteReplicationSetOutput {
   DeleteReplicationSetOutput();
 
@@ -1984,285 +1660,6 @@ class DeleteTimelineEventOutput {
 
   Map<String, dynamic> toJson() {
     return {};
-  }
-}
-
-/// The dynamic SSM parameter value.
-class DynamicSsmParameterValue {
-  /// Variable dynamic parameters. A parameter value is determined when an
-  /// incident is created.
-  final VariableType? variable;
-
-  DynamicSsmParameterValue({
-    this.variable,
-  });
-
-  factory DynamicSsmParameterValue.fromJson(Map<String, dynamic> json) {
-    return DynamicSsmParameterValue(
-      variable: (json['variable'] as String?)?.let(VariableType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final variable = this.variable;
-    return {
-      if (variable != null) 'variable': variable.value,
-    };
-  }
-}
-
-/// Used to remove the chat channel from an incident record or response plan.
-class EmptyChatChannel {
-  EmptyChatChannel();
-
-  factory EmptyChatChannel.fromJson(Map<String, dynamic> _) {
-    return EmptyChatChannel();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// An item referenced in a <code>TimelineEvent</code> that is involved in or
-/// somehow associated with an incident. You can specify an Amazon Resource Name
-/// (ARN) for an Amazon Web Services resource or a <code>RelatedItem</code> ID.
-class EventReference {
-  /// The ID of a <code>RelatedItem</code> referenced in a
-  /// <code>TimelineEvent</code>.
-  final String? relatedItemId;
-
-  /// The Amazon Resource Name (ARN) of an Amazon Web Services resource referenced
-  /// in a <code>TimelineEvent</code>.
-  final String? resource;
-
-  EventReference({
-    this.relatedItemId,
-    this.resource,
-  });
-
-  factory EventReference.fromJson(Map<String, dynamic> json) {
-    return EventReference(
-      relatedItemId: json['relatedItemId'] as String?,
-      resource: json['resource'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final relatedItemId = this.relatedItemId;
-    final resource = this.resource;
-    return {
-      if (relatedItemId != null) 'relatedItemId': relatedItemId,
-      if (resource != null) 'resource': resource,
-    };
-  }
-}
-
-/// Details about a timeline event during an incident.
-class EventSummary {
-  /// The timeline event ID.
-  final String eventId;
-
-  /// The timestamp for when the event occurred.
-  final DateTime eventTime;
-
-  /// The type of event. The timeline event must be <code>Custom Event</code> or
-  /// <code>Note</code>.
-  final String eventType;
-
-  /// The timestamp for when the timeline event was last updated.
-  final DateTime eventUpdatedTime;
-
-  /// The Amazon Resource Name (ARN) of the incident that the event happened
-  /// during.
-  final String incidentRecordArn;
-
-  /// A list of references in a <code>TimelineEvent</code>.
-  final List<EventReference>? eventReferences;
-
-  EventSummary({
-    required this.eventId,
-    required this.eventTime,
-    required this.eventType,
-    required this.eventUpdatedTime,
-    required this.incidentRecordArn,
-    this.eventReferences,
-  });
-
-  factory EventSummary.fromJson(Map<String, dynamic> json) {
-    return EventSummary(
-      eventId: (json['eventId'] as String?) ?? '',
-      eventTime: nonNullableTimeStampFromJson(json['eventTime'] ?? 0),
-      eventType: (json['eventType'] as String?) ?? '',
-      eventUpdatedTime:
-          nonNullableTimeStampFromJson(json['eventUpdatedTime'] ?? 0),
-      incidentRecordArn: (json['incidentRecordArn'] as String?) ?? '',
-      eventReferences: (json['eventReferences'] as List?)
-          ?.nonNulls
-          .map((e) => EventReference.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eventId = this.eventId;
-    final eventTime = this.eventTime;
-    final eventType = this.eventType;
-    final eventUpdatedTime = this.eventUpdatedTime;
-    final incidentRecordArn = this.incidentRecordArn;
-    final eventReferences = this.eventReferences;
-    return {
-      'eventId': eventId,
-      'eventTime': unixTimestampToJson(eventTime),
-      'eventType': eventType,
-      'eventUpdatedTime': unixTimestampToJson(eventUpdatedTime),
-      'incidentRecordArn': incidentRecordArn,
-      if (eventReferences != null) 'eventReferences': eventReferences,
-    };
-  }
-}
-
-/// Filter the selection by using a condition.
-class Filter {
-  /// The condition accepts before or after a specified time, equal to a string,
-  /// or equal to an integer.
-  final Condition condition;
-
-  /// The key that you're filtering on.
-  final String key;
-
-  Filter({
-    required this.condition,
-    required this.key,
-  });
-
-  Map<String, dynamic> toJson() {
-    final condition = this.condition;
-    final key = this.key;
-    return {
-      'condition': condition,
-      'key': key,
-    };
-  }
-}
-
-/// Information about a specific CodeDeploy deployment or CloudFormation stack
-/// creation or update that occurred around the time of a reported incident.
-/// These activities can be investigated as a potential cause of the incident.
-class Finding {
-  /// The timestamp for when a finding was created.
-  final DateTime creationTime;
-
-  /// The ID assigned to the finding.
-  final String id;
-
-  /// The timestamp for when the finding was most recently updated with additional
-  /// information.
-  final DateTime lastModifiedTime;
-
-  /// Details about the finding.
-  final FindingDetails? details;
-
-  Finding({
-    required this.creationTime,
-    required this.id,
-    required this.lastModifiedTime,
-    this.details,
-  });
-
-  factory Finding.fromJson(Map<String, dynamic> json) {
-    return Finding(
-      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
-      id: (json['id'] as String?) ?? '',
-      lastModifiedTime:
-          nonNullableTimeStampFromJson(json['lastModifiedTime'] ?? 0),
-      details: json['details'] != null
-          ? FindingDetails.fromJson(json['details'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationTime = this.creationTime;
-    final id = this.id;
-    final lastModifiedTime = this.lastModifiedTime;
-    final details = this.details;
-    return {
-      'creationTime': unixTimestampToJson(creationTime),
-      'id': id,
-      'lastModifiedTime': unixTimestampToJson(lastModifiedTime),
-      if (details != null) 'details': details,
-    };
-  }
-}
-
-/// Extended textual information about the finding.
-class FindingDetails {
-  /// Information about the CloudFormation stack creation or update associated
-  /// with the finding.
-  final CloudFormationStackUpdate? cloudFormationStackUpdate;
-
-  /// Information about the CodeDeploy deployment associated with the finding.
-  final CodeDeployDeployment? codeDeployDeployment;
-
-  FindingDetails({
-    this.cloudFormationStackUpdate,
-    this.codeDeployDeployment,
-  });
-
-  factory FindingDetails.fromJson(Map<String, dynamic> json) {
-    return FindingDetails(
-      cloudFormationStackUpdate: json['cloudFormationStackUpdate'] != null
-          ? CloudFormationStackUpdate.fromJson(
-              json['cloudFormationStackUpdate'] as Map<String, dynamic>)
-          : null,
-      codeDeployDeployment: json['codeDeployDeployment'] != null
-          ? CodeDeployDeployment.fromJson(
-              json['codeDeployDeployment'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cloudFormationStackUpdate = this.cloudFormationStackUpdate;
-    final codeDeployDeployment = this.codeDeployDeployment;
-    return {
-      if (cloudFormationStackUpdate != null)
-        'cloudFormationStackUpdate': cloudFormationStackUpdate,
-      if (codeDeployDeployment != null)
-        'codeDeployDeployment': codeDeployDeployment,
-    };
-  }
-}
-
-/// Identifying information about the finding.
-class FindingSummary {
-  /// The ID of the finding.
-  final String id;
-
-  /// The timestamp for when the finding was last updated.
-  final DateTime lastModifiedTime;
-
-  FindingSummary({
-    required this.id,
-    required this.lastModifiedTime,
-  });
-
-  factory FindingSummary.fromJson(Map<String, dynamic> json) {
-    return FindingSummary(
-      id: (json['id'] as String?) ?? '',
-      lastModifiedTime:
-          nonNullableTimeStampFromJson(json['lastModifiedTime'] ?? 0),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final lastModifiedTime = this.lastModifiedTime;
-    return {
-      'id': id,
-      'lastModifiedTime': unixTimestampToJson(lastModifiedTime),
-    };
   }
 }
 
@@ -2452,553 +1849,6 @@ class GetTimelineEventOutput {
     final event = this.event;
     return {
       'event': event,
-    };
-  }
-}
-
-/// The record of the incident that's created when an incident occurs.
-class IncidentRecord {
-  /// The Amazon Resource Name (ARN) of the incident record.
-  final String arn;
-
-  /// The timestamp for when Incident Manager created the incident record.
-  final DateTime creationTime;
-
-  /// The string Incident Manager uses to prevent duplicate incidents from being
-  /// created by the same incident in the same account.
-  final String dedupeString;
-
-  /// The impact of the incident on customers and applications.
-  /// <p class="title"> <b>Supported impact codes</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>1</code> - Critical
-  /// </li>
-  /// <li>
-  /// <code>2</code> - High
-  /// </li>
-  /// <li>
-  /// <code>3</code> - Medium
-  /// </li>
-  /// <li>
-  /// <code>4</code> - Low
-  /// </li>
-  /// <li>
-  /// <code>5</code> - No Impact
-  /// </li>
-  /// </ul>
-  final int impact;
-
-  /// Details about the action that started the incident.
-  final IncidentRecordSource incidentRecordSource;
-
-  /// Who modified the incident most recently.
-  final String lastModifiedBy;
-
-  /// The timestamp for when the incident was most recently modified.
-  final DateTime lastModifiedTime;
-
-  /// The current status of the incident.
-  final IncidentRecordStatus status;
-
-  /// The title of the incident.
-  final String title;
-
-  /// The runbook, or automation document, that's run at the beginning of the
-  /// incident.
-  final List<AutomationExecution>? automationExecutions;
-
-  /// The chat channel used for collaboration during an incident.
-  final ChatChannel? chatChannel;
-
-  /// The Amazon SNS targets that are notified when updates are made to an
-  /// incident.
-  final List<NotificationTargetItem>? notificationTargets;
-
-  /// The timestamp for when the incident was resolved. This appears as a timeline
-  /// event.
-  final DateTime? resolvedTime;
-
-  /// The summary of the incident. The summary is a brief synopsis of what
-  /// occurred, what's currently happening, and context of the incident.
-  final String? summary;
-
-  IncidentRecord({
-    required this.arn,
-    required this.creationTime,
-    required this.dedupeString,
-    required this.impact,
-    required this.incidentRecordSource,
-    required this.lastModifiedBy,
-    required this.lastModifiedTime,
-    required this.status,
-    required this.title,
-    this.automationExecutions,
-    this.chatChannel,
-    this.notificationTargets,
-    this.resolvedTime,
-    this.summary,
-  });
-
-  factory IncidentRecord.fromJson(Map<String, dynamic> json) {
-    return IncidentRecord(
-      arn: (json['arn'] as String?) ?? '',
-      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
-      dedupeString: (json['dedupeString'] as String?) ?? '',
-      impact: (json['impact'] as int?) ?? 0,
-      incidentRecordSource: IncidentRecordSource.fromJson(
-          (json['incidentRecordSource'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      lastModifiedBy: (json['lastModifiedBy'] as String?) ?? '',
-      lastModifiedTime:
-          nonNullableTimeStampFromJson(json['lastModifiedTime'] ?? 0),
-      status:
-          IncidentRecordStatus.fromString((json['status'] as String?) ?? ''),
-      title: (json['title'] as String?) ?? '',
-      automationExecutions: (json['automationExecutions'] as List?)
-          ?.nonNulls
-          .map((e) => AutomationExecution.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      chatChannel: json['chatChannel'] != null
-          ? ChatChannel.fromJson(json['chatChannel'] as Map<String, dynamic>)
-          : null,
-      notificationTargets: (json['notificationTargets'] as List?)
-          ?.nonNulls
-          .map(
-              (e) => NotificationTargetItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      resolvedTime: timeStampFromJson(json['resolvedTime']),
-      summary: json['summary'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final creationTime = this.creationTime;
-    final dedupeString = this.dedupeString;
-    final impact = this.impact;
-    final incidentRecordSource = this.incidentRecordSource;
-    final lastModifiedBy = this.lastModifiedBy;
-    final lastModifiedTime = this.lastModifiedTime;
-    final status = this.status;
-    final title = this.title;
-    final automationExecutions = this.automationExecutions;
-    final chatChannel = this.chatChannel;
-    final notificationTargets = this.notificationTargets;
-    final resolvedTime = this.resolvedTime;
-    final summary = this.summary;
-    return {
-      'arn': arn,
-      'creationTime': unixTimestampToJson(creationTime),
-      'dedupeString': dedupeString,
-      'impact': impact,
-      'incidentRecordSource': incidentRecordSource,
-      'lastModifiedBy': lastModifiedBy,
-      'lastModifiedTime': unixTimestampToJson(lastModifiedTime),
-      'status': status.value,
-      'title': title,
-      if (automationExecutions != null)
-        'automationExecutions': automationExecutions,
-      if (chatChannel != null) 'chatChannel': chatChannel,
-      if (notificationTargets != null)
-        'notificationTargets': notificationTargets,
-      if (resolvedTime != null)
-        'resolvedTime': unixTimestampToJson(resolvedTime),
-      if (summary != null) 'summary': summary,
-    };
-  }
-}
-
-/// Details about what created the incident record and when it was created.
-class IncidentRecordSource {
-  /// The principal that started the incident.
-  final String createdBy;
-
-  /// The service that started the incident. This can be manually created from
-  /// Incident Manager, automatically created using an Amazon CloudWatch alarm, or
-  /// Amazon EventBridge event.
-  final String source;
-
-  /// The service principal that assumed the role specified in
-  /// <code>createdBy</code>. If no service principal assumed the role this will
-  /// be left blank.
-  final String? invokedBy;
-
-  /// The resource that caused the incident to be created.
-  final String? resourceArn;
-
-  IncidentRecordSource({
-    required this.createdBy,
-    required this.source,
-    this.invokedBy,
-    this.resourceArn,
-  });
-
-  factory IncidentRecordSource.fromJson(Map<String, dynamic> json) {
-    return IncidentRecordSource(
-      createdBy: (json['createdBy'] as String?) ?? '',
-      source: (json['source'] as String?) ?? '',
-      invokedBy: json['invokedBy'] as String?,
-      resourceArn: json['resourceArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdBy = this.createdBy;
-    final source = this.source;
-    final invokedBy = this.invokedBy;
-    final resourceArn = this.resourceArn;
-    return {
-      'createdBy': createdBy,
-      'source': source,
-      if (invokedBy != null) 'invokedBy': invokedBy,
-      if (resourceArn != null) 'resourceArn': resourceArn,
-    };
-  }
-}
-
-class IncidentRecordStatus {
-  static const open = IncidentRecordStatus._('OPEN');
-  static const resolved = IncidentRecordStatus._('RESOLVED');
-
-  final String value;
-
-  const IncidentRecordStatus._(this.value);
-
-  static const values = [open, resolved];
-
-  static IncidentRecordStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => IncidentRecordStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is IncidentRecordStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Details describing an incident record.
-class IncidentRecordSummary {
-  /// The Amazon Resource Name (ARN) of the incident.
-  final String arn;
-
-  /// The timestamp for when the incident was created.
-  final DateTime creationTime;
-
-  /// Defines the impact to customers and applications.
-  final int impact;
-
-  /// What caused Incident Manager to create the incident.
-  final IncidentRecordSource incidentRecordSource;
-
-  /// The current status of the incident.
-  final IncidentRecordStatus status;
-
-  /// The title of the incident. This value is either provided by the response
-  /// plan or overwritten on creation.
-  final String title;
-
-  /// The timestamp for when the incident was resolved.
-  final DateTime? resolvedTime;
-
-  IncidentRecordSummary({
-    required this.arn,
-    required this.creationTime,
-    required this.impact,
-    required this.incidentRecordSource,
-    required this.status,
-    required this.title,
-    this.resolvedTime,
-  });
-
-  factory IncidentRecordSummary.fromJson(Map<String, dynamic> json) {
-    return IncidentRecordSummary(
-      arn: (json['arn'] as String?) ?? '',
-      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
-      impact: (json['impact'] as int?) ?? 0,
-      incidentRecordSource: IncidentRecordSource.fromJson(
-          (json['incidentRecordSource'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      status:
-          IncidentRecordStatus.fromString((json['status'] as String?) ?? ''),
-      title: (json['title'] as String?) ?? '',
-      resolvedTime: timeStampFromJson(json['resolvedTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final creationTime = this.creationTime;
-    final impact = this.impact;
-    final incidentRecordSource = this.incidentRecordSource;
-    final status = this.status;
-    final title = this.title;
-    final resolvedTime = this.resolvedTime;
-    return {
-      'arn': arn,
-      'creationTime': unixTimestampToJson(creationTime),
-      'impact': impact,
-      'incidentRecordSource': incidentRecordSource,
-      'status': status.value,
-      'title': title,
-      if (resolvedTime != null)
-        'resolvedTime': unixTimestampToJson(resolvedTime),
-    };
-  }
-}
-
-/// Basic details used in creating a response plan. The response plan is then
-/// used to create an incident record.
-class IncidentTemplate {
-  /// The impact of the incident on your customers and applications.
-  /// <p class="title"> <b>Supported impact codes</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>1</code> - Critical
-  /// </li>
-  /// <li>
-  /// <code>2</code> - High
-  /// </li>
-  /// <li>
-  /// <code>3</code> - Medium
-  /// </li>
-  /// <li>
-  /// <code>4</code> - Low
-  /// </li>
-  /// <li>
-  /// <code>5</code> - No Impact
-  /// </li>
-  /// </ul>
-  final int impact;
-
-  /// The title of the incident.
-  final String title;
-
-  /// The string Incident Manager uses to prevent the same root cause from
-  /// creating multiple incidents in the same account.
-  ///
-  /// A deduplication string is a term or phrase the system uses to check for
-  /// duplicate incidents. If you specify a deduplication string, Incident Manager
-  /// searches for open incidents that contain the same string in the
-  /// <code>dedupeString</code> field when it creates the incident. If a duplicate
-  /// is detected, Incident Manager deduplicates the newer incident into the
-  /// existing incident.
-  /// <note>
-  /// By default, Incident Manager automatically deduplicates multiple incidents
-  /// created by the same Amazon CloudWatch alarm or Amazon EventBridge event. You
-  /// don't have to enter your own deduplication string to prevent duplication for
-  /// these resource types.
-  /// </note>
-  final String? dedupeString;
-
-  /// Tags to assign to the template. When the <code>StartIncident</code> API
-  /// action is called, Incident Manager assigns the tags specified in the
-  /// template to the incident.
-  final Map<String, String>? incidentTags;
-
-  /// The Amazon SNS targets that are notified when updates are made to an
-  /// incident.
-  final List<NotificationTargetItem>? notificationTargets;
-
-  /// The summary of the incident. The summary is a brief synopsis of what
-  /// occurred, what's currently happening, and context.
-  final String? summary;
-
-  IncidentTemplate({
-    required this.impact,
-    required this.title,
-    this.dedupeString,
-    this.incidentTags,
-    this.notificationTargets,
-    this.summary,
-  });
-
-  factory IncidentTemplate.fromJson(Map<String, dynamic> json) {
-    return IncidentTemplate(
-      impact: (json['impact'] as int?) ?? 0,
-      title: (json['title'] as String?) ?? '',
-      dedupeString: json['dedupeString'] as String?,
-      incidentTags: (json['incidentTags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      notificationTargets: (json['notificationTargets'] as List?)
-          ?.nonNulls
-          .map(
-              (e) => NotificationTargetItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      summary: json['summary'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final impact = this.impact;
-    final title = this.title;
-    final dedupeString = this.dedupeString;
-    final incidentTags = this.incidentTags;
-    final notificationTargets = this.notificationTargets;
-    final summary = this.summary;
-    return {
-      'impact': impact,
-      'title': title,
-      if (dedupeString != null) 'dedupeString': dedupeString,
-      if (incidentTags != null) 'incidentTags': incidentTags,
-      if (notificationTargets != null)
-        'notificationTargets': notificationTargets,
-      if (summary != null) 'summary': summary,
-    };
-  }
-}
-
-/// Information about third-party services integrated into a response plan.
-class Integration {
-  /// Information about the PagerDuty service where the response plan creates an
-  /// incident.
-  final PagerDutyConfiguration? pagerDutyConfiguration;
-
-  Integration({
-    this.pagerDutyConfiguration,
-  });
-
-  factory Integration.fromJson(Map<String, dynamic> json) {
-    return Integration(
-      pagerDutyConfiguration: json['pagerDutyConfiguration'] != null
-          ? PagerDutyConfiguration.fromJson(
-              json['pagerDutyConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final pagerDutyConfiguration = this.pagerDutyConfiguration;
-    return {
-      if (pagerDutyConfiguration != null)
-        'pagerDutyConfiguration': pagerDutyConfiguration,
-    };
-  }
-}
-
-/// Details and type of a related item.
-class ItemIdentifier {
-  /// The type of related item.
-  final ItemType type;
-
-  /// Details about the related item.
-  final ItemValue value;
-
-  ItemIdentifier({
-    required this.type,
-    required this.value,
-  });
-
-  factory ItemIdentifier.fromJson(Map<String, dynamic> json) {
-    return ItemIdentifier(
-      type: ItemType.fromString((json['type'] as String?) ?? ''),
-      value: ItemValue.fromJson((json['value'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final type = this.type;
-    final value = this.value;
-    return {
-      'type': type.value,
-      'value': value,
-    };
-  }
-}
-
-class ItemType {
-  static const analysis = ItemType._('ANALYSIS');
-  static const incident = ItemType._('INCIDENT');
-  static const metric = ItemType._('METRIC');
-  static const parent = ItemType._('PARENT');
-  static const attachment = ItemType._('ATTACHMENT');
-  static const other = ItemType._('OTHER');
-  static const automation = ItemType._('AUTOMATION');
-  static const involvedResource = ItemType._('INVOLVED_RESOURCE');
-  static const task = ItemType._('TASK');
-
-  final String value;
-
-  const ItemType._(this.value);
-
-  static const values = [
-    analysis,
-    incident,
-    metric,
-    parent,
-    attachment,
-    other,
-    automation,
-    involvedResource,
-    task
-  ];
-
-  static ItemType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ItemType._(value));
-
-  @override
-  bool operator ==(other) => other is ItemType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes a related item.
-class ItemValue {
-  /// The Amazon Resource Name (ARN) of the related item, if the related item is
-  /// an Amazon resource.
-  final String? arn;
-
-  /// The metric definition, if the related item is a metric in Amazon CloudWatch.
-  final String? metricDefinition;
-
-  /// Details about an incident that is associated with a PagerDuty incident.
-  final PagerDutyIncidentDetail? pagerDutyIncidentDetail;
-
-  /// The URL, if the related item is a non-Amazon Web Services resource.
-  final String? url;
-
-  ItemValue({
-    this.arn,
-    this.metricDefinition,
-    this.pagerDutyIncidentDetail,
-    this.url,
-  });
-
-  factory ItemValue.fromJson(Map<String, dynamic> json) {
-    return ItemValue(
-      arn: json['arn'] as String?,
-      metricDefinition: json['metricDefinition'] as String?,
-      pagerDutyIncidentDetail: json['pagerDutyIncidentDetail'] != null
-          ? PagerDutyIncidentDetail.fromJson(
-              json['pagerDutyIncidentDetail'] as Map<String, dynamic>)
-          : null,
-      url: json['url'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final metricDefinition = this.metricDefinition;
-    final pagerDutyIncidentDetail = this.pagerDutyIncidentDetail;
-    final url = this.url;
-    return {
-      if (arn != null) 'arn': arn,
-      if (metricDefinition != null) 'metricDefinition': metricDefinition,
-      if (pagerDutyIncidentDetail != null)
-        'pagerDutyIncidentDetail': pagerDutyIncidentDetail,
-      if (url != null) 'url': url,
     };
   }
 }
@@ -3228,25 +2078,241 @@ class ListTimelineEventsOutput {
   }
 }
 
-/// The SNS targets that are notified when updates are made to an incident.
-class NotificationTargetItem {
-  /// The Amazon Resource Name (ARN) of the SNS topic.
-  final String? snsTopicArn;
+class PutResourcePolicyOutput {
+  /// The ID of the resource policy.
+  final String policyId;
 
-  NotificationTargetItem({
-    this.snsTopicArn,
+  PutResourcePolicyOutput({
+    required this.policyId,
   });
 
-  factory NotificationTargetItem.fromJson(Map<String, dynamic> json) {
-    return NotificationTargetItem(
-      snsTopicArn: json['snsTopicArn'] as String?,
+  factory PutResourcePolicyOutput.fromJson(Map<String, dynamic> json) {
+    return PutResourcePolicyOutput(
+      policyId: (json['policyId'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    final snsTopicArn = this.snsTopicArn;
+    final policyId = this.policyId;
     return {
-      if (snsTopicArn != null) 'snsTopicArn': snsTopicArn,
+      'policyId': policyId,
+    };
+  }
+}
+
+class StartIncidentOutput {
+  /// The ARN of the newly created incident record.
+  final String incidentRecordArn;
+
+  StartIncidentOutput({
+    required this.incidentRecordArn,
+  });
+
+  factory StartIncidentOutput.fromJson(Map<String, dynamic> json) {
+    return StartIncidentOutput(
+      incidentRecordArn: (json['incidentRecordArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final incidentRecordArn = this.incidentRecordArn;
+    return {
+      'incidentRecordArn': incidentRecordArn,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateDeletionProtectionOutput {
+  UpdateDeletionProtectionOutput();
+
+  factory UpdateDeletionProtectionOutput.fromJson(Map<String, dynamic> _) {
+    return UpdateDeletionProtectionOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateIncidentRecordOutput {
+  UpdateIncidentRecordOutput();
+
+  factory UpdateIncidentRecordOutput.fromJson(Map<String, dynamic> _) {
+    return UpdateIncidentRecordOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateRelatedItemsOutput {
+  UpdateRelatedItemsOutput();
+
+  factory UpdateRelatedItemsOutput.fromJson(Map<String, dynamic> _) {
+    return UpdateRelatedItemsOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateReplicationSetOutput {
+  UpdateReplicationSetOutput();
+
+  factory UpdateReplicationSetOutput.fromJson(Map<String, dynamic> _) {
+    return UpdateReplicationSetOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateResponsePlanOutput {
+  UpdateResponsePlanOutput();
+
+  factory UpdateResponsePlanOutput.fromJson(Map<String, dynamic> _) {
+    return UpdateResponsePlanOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateTimelineEventOutput {
+  UpdateTimelineEventOutput();
+
+  factory UpdateTimelineEventOutput.fromJson(Map<String, dynamic> _) {
+    return UpdateTimelineEventOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// An item referenced in a <code>TimelineEvent</code> that is involved in or
+/// somehow associated with an incident. You can specify an Amazon Resource Name
+/// (ARN) for an Amazon Web Services resource or a <code>RelatedItem</code> ID.
+class EventReference {
+  /// The ID of a <code>RelatedItem</code> referenced in a
+  /// <code>TimelineEvent</code>.
+  final String? relatedItemId;
+
+  /// The Amazon Resource Name (ARN) of an Amazon Web Services resource referenced
+  /// in a <code>TimelineEvent</code>.
+  final String? resource;
+
+  EventReference({
+    this.relatedItemId,
+    this.resource,
+  });
+
+  factory EventReference.fromJson(Map<String, dynamic> json) {
+    return EventReference(
+      relatedItemId: json['relatedItemId'] as String?,
+      resource: json['resource'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final relatedItemId = this.relatedItemId;
+    final resource = this.resource;
+    return {
+      if (relatedItemId != null) 'relatedItemId': relatedItemId,
+      if (resource != null) 'resource': resource,
+    };
+  }
+}
+
+/// The Chatbot chat channel used for collaboration during an incident.
+class ChatChannel {
+  /// The Amazon SNS targets that Chatbot uses to notify the chat channel of
+  /// updates to an incident. You can also make updates to the incident through
+  /// the chat channel by using the Amazon SNS topics.
+  final List<String>? chatbotSns;
+
+  /// Used to remove the chat channel from an incident record or response plan.
+  final EmptyChatChannel? empty;
+
+  ChatChannel({
+    this.chatbotSns,
+    this.empty,
+  });
+
+  factory ChatChannel.fromJson(Map<String, dynamic> json) {
+    return ChatChannel(
+      chatbotSns: (json['chatbotSns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      empty: json['empty'] != null
+          ? EmptyChatChannel.fromJson(json['empty'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final chatbotSns = this.chatbotSns;
+    final empty = this.empty;
+    return {
+      if (chatbotSns != null) 'chatbotSns': chatbotSns,
+      if (empty != null) 'empty': empty,
+    };
+  }
+}
+
+/// Information about third-party services integrated into a response plan.
+class Integration {
+  /// Information about the PagerDuty service where the response plan creates an
+  /// incident.
+  final PagerDutyConfiguration? pagerDutyConfiguration;
+
+  Integration({
+    this.pagerDutyConfiguration,
+  });
+
+  factory Integration.fromJson(Map<String, dynamic> json) {
+    return Integration(
+      pagerDutyConfiguration: json['pagerDutyConfiguration'] != null
+          ? PagerDutyConfiguration.fromJson(
+              json['pagerDutyConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pagerDutyConfiguration = this.pagerDutyConfiguration;
+    return {
+      if (pagerDutyConfiguration != null)
+        'pagerDutyConfiguration': pagerDutyConfiguration,
     };
   }
 }
@@ -3317,158 +2383,297 @@ class PagerDutyIncidentConfiguration {
   }
 }
 
-/// Details about the PagerDuty incident associated with an incident created by
-/// an Incident Manager response plan.
-class PagerDutyIncidentDetail {
-  /// The ID of the incident associated with the PagerDuty service for the
-  /// response plan.
-  final String id;
+/// The action that starts at the beginning of an incident. The response plan
+/// defines the action.
+class Action {
+  /// The Systems Manager automation document to start as the runbook at the
+  /// beginning of the incident.
+  final SsmAutomation? ssmAutomation;
 
-  /// Indicates whether to resolve the PagerDuty incident when you resolve the
-  /// associated Incident Manager incident.
-  final bool? autoResolve;
-
-  /// The ID of the Amazon Web Services Secrets Manager secret that stores your
-  /// PagerDuty key, either a General Access REST API Key or User Token REST API
-  /// Key, and other user credentials.
-  final String? secretId;
-
-  PagerDutyIncidentDetail({
-    required this.id,
-    this.autoResolve,
-    this.secretId,
+  Action({
+    this.ssmAutomation,
   });
 
-  factory PagerDutyIncidentDetail.fromJson(Map<String, dynamic> json) {
-    return PagerDutyIncidentDetail(
-      id: (json['id'] as String?) ?? '',
-      autoResolve: json['autoResolve'] as bool?,
-      secretId: json['secretId'] as String?,
+  factory Action.fromJson(Map<String, dynamic> json) {
+    return Action(
+      ssmAutomation: json['ssmAutomation'] != null
+          ? SsmAutomation.fromJson(
+              json['ssmAutomation'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final id = this.id;
-    final autoResolve = this.autoResolve;
-    final secretId = this.secretId;
+    final ssmAutomation = this.ssmAutomation;
     return {
-      'id': id,
-      if (autoResolve != null) 'autoResolve': autoResolve,
-      if (secretId != null) 'secretId': secretId,
+      if (ssmAutomation != null) 'ssmAutomation': ssmAutomation,
     };
   }
 }
 
-class PutResourcePolicyOutput {
-  /// The ID of the resource policy.
-  final String policyId;
+/// Details about the Systems Manager automation document that will be used as a
+/// runbook during an incident.
+class SsmAutomation {
+  /// The automation document's name.
+  final String documentName;
 
-  PutResourcePolicyOutput({
-    required this.policyId,
+  /// The Amazon Resource Name (ARN) of the role that the automation document will
+  /// assume when running commands.
+  final String roleArn;
+
+  /// The automation document's version to use when running.
+  final String? documentVersion;
+
+  /// The key-value pair to resolve dynamic parameter values when processing a
+  /// Systems Manager Automation runbook.
+  final Map<String, DynamicSsmParameterValue>? dynamicParameters;
+
+  /// The key-value pair parameters to use when running the automation document.
+  final Map<String, List<String>>? parameters;
+
+  /// The account that the automation document will be run in. This can be in
+  /// either the management account or an application account.
+  final SsmTargetAccount? targetAccount;
+
+  SsmAutomation({
+    required this.documentName,
+    required this.roleArn,
+    this.documentVersion,
+    this.dynamicParameters,
+    this.parameters,
+    this.targetAccount,
   });
 
-  factory PutResourcePolicyOutput.fromJson(Map<String, dynamic> json) {
-    return PutResourcePolicyOutput(
-      policyId: (json['policyId'] as String?) ?? '',
+  factory SsmAutomation.fromJson(Map<String, dynamic> json) {
+    return SsmAutomation(
+      documentName: (json['documentName'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
+      documentVersion: json['documentVersion'] as String?,
+      dynamicParameters: (json['dynamicParameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k, DynamicSsmParameterValue.fromJson(e as Map<String, dynamic>))),
+      parameters: (json['parameters'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, (e as List).nonNulls.map((e) => e as String).toList())),
+      targetAccount:
+          (json['targetAccount'] as String?)?.let(SsmTargetAccount.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final policyId = this.policyId;
+    final documentName = this.documentName;
+    final roleArn = this.roleArn;
+    final documentVersion = this.documentVersion;
+    final dynamicParameters = this.dynamicParameters;
+    final parameters = this.parameters;
+    final targetAccount = this.targetAccount;
     return {
-      'policyId': policyId,
+      'documentName': documentName,
+      'roleArn': roleArn,
+      if (documentVersion != null) 'documentVersion': documentVersion,
+      if (dynamicParameters != null) 'dynamicParameters': dynamicParameters,
+      if (parameters != null) 'parameters': parameters,
+      if (targetAccount != null) 'targetAccount': targetAccount.value,
     };
   }
 }
 
-/// Information about a Amazon Web Services Region in your replication set.
-class RegionInfo {
-  /// The status of the Amazon Web Services Region in the replication set.
-  final RegionStatus status;
-
-  /// The timestamp for when Incident Manager updated the status of the Amazon Web
-  /// Services Region.
-  final DateTime statusUpdateDateTime;
-
-  /// The ID of the KMS key used to encrypt the data in this Amazon Web Services
-  /// Region.
-  final String? sseKmsKeyId;
-
-  /// Information displayed about the status of the Amazon Web Services Region.
-  final String? statusMessage;
-
-  RegionInfo({
-    required this.status,
-    required this.statusUpdateDateTime,
-    this.sseKmsKeyId,
-    this.statusMessage,
-  });
-
-  factory RegionInfo.fromJson(Map<String, dynamic> json) {
-    return RegionInfo(
-      status: RegionStatus.fromString((json['status'] as String?) ?? ''),
-      statusUpdateDateTime:
-          nonNullableTimeStampFromJson(json['statusUpdateDateTime'] ?? 0),
-      sseKmsKeyId: json['sseKmsKeyId'] as String?,
-      statusMessage: json['statusMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final status = this.status;
-    final statusUpdateDateTime = this.statusUpdateDateTime;
-    final sseKmsKeyId = this.sseKmsKeyId;
-    final statusMessage = this.statusMessage;
-    return {
-      'status': status.value,
-      'statusUpdateDateTime': unixTimestampToJson(statusUpdateDateTime),
-      if (sseKmsKeyId != null) 'sseKmsKeyId': sseKmsKeyId,
-      if (statusMessage != null) 'statusMessage': statusMessage,
-    };
-  }
-}
-
-/// The mapping between a Amazon Web Services Region and the key that's used to
-/// encrypt the data.
-class RegionMapInputValue {
-  /// The KMS key used to encrypt the data in your replication set.
-  final String? sseKmsKeyId;
-
-  RegionMapInputValue({
-    this.sseKmsKeyId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final sseKmsKeyId = this.sseKmsKeyId;
-    return {
-      if (sseKmsKeyId != null) 'sseKmsKeyId': sseKmsKeyId,
-    };
-  }
-}
-
-class RegionStatus {
-  static const active = RegionStatus._('ACTIVE');
-  static const creating = RegionStatus._('CREATING');
-  static const deleting = RegionStatus._('DELETING');
-  static const failed = RegionStatus._('FAILED');
+class SsmTargetAccount {
+  static const responsePlanOwnerAccount =
+      SsmTargetAccount._('RESPONSE_PLAN_OWNER_ACCOUNT');
+  static const impactedAccount = SsmTargetAccount._('IMPACTED_ACCOUNT');
 
   final String value;
 
-  const RegionStatus._(this.value);
+  const SsmTargetAccount._(this.value);
 
-  static const values = [active, creating, deleting, failed];
+  static const values = [responsePlanOwnerAccount, impactedAccount];
 
-  static RegionStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => RegionStatus._(value));
+  static SsmTargetAccount fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SsmTargetAccount._(value));
 
   @override
-  bool operator ==(other) => other is RegionStatus && other.value == value;
+  bool operator ==(other) => other is SsmTargetAccount && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
+}
+
+/// The dynamic SSM parameter value.
+class DynamicSsmParameterValue {
+  /// Variable dynamic parameters. A parameter value is determined when an
+  /// incident is created.
+  final VariableType? variable;
+
+  DynamicSsmParameterValue({
+    this.variable,
+  });
+
+  factory DynamicSsmParameterValue.fromJson(Map<String, dynamic> json) {
+    return DynamicSsmParameterValue(
+      variable: (json['variable'] as String?)?.let(VariableType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final variable = this.variable;
+    return {
+      if (variable != null) 'variable': variable.value,
+    };
+  }
+}
+
+class VariableType {
+  static const incidentRecordArn = VariableType._('INCIDENT_RECORD_ARN');
+  static const involvedResources = VariableType._('INVOLVED_RESOURCES');
+
+  final String value;
+
+  const VariableType._(this.value);
+
+  static const values = [incidentRecordArn, involvedResources];
+
+  static VariableType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => VariableType._(value));
+
+  @override
+  bool operator ==(other) => other is VariableType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Used to remove the chat channel from an incident record or response plan.
+class EmptyChatChannel {
+  EmptyChatChannel();
+
+  factory EmptyChatChannel.fromJson(Map<String, dynamic> _) {
+    return EmptyChatChannel();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The SNS targets that are notified when updates are made to an incident.
+class NotificationTargetItem {
+  /// The Amazon Resource Name (ARN) of the SNS topic.
+  final String? snsTopicArn;
+
+  NotificationTargetItem({
+    this.snsTopicArn,
+  });
+
+  factory NotificationTargetItem.fromJson(Map<String, dynamic> json) {
+    return NotificationTargetItem(
+      snsTopicArn: json['snsTopicArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final snsTopicArn = this.snsTopicArn;
+    return {
+      if (snsTopicArn != null) 'snsTopicArn': snsTopicArn,
+    };
+  }
+}
+
+/// Details used when updating the replication set.
+class UpdateReplicationSetAction {
+  /// Details about the Amazon Web Services Region that you're adding to the
+  /// replication set.
+  final AddRegionAction? addRegionAction;
+
+  /// Details about the Amazon Web Services Region that you're deleting to the
+  /// replication set.
+  final DeleteRegionAction? deleteRegionAction;
+
+  UpdateReplicationSetAction({
+    this.addRegionAction,
+    this.deleteRegionAction,
+  });
+
+  Map<String, dynamic> toJson() {
+    final addRegionAction = this.addRegionAction;
+    final deleteRegionAction = this.deleteRegionAction;
+    return {
+      if (addRegionAction != null) 'addRegionAction': addRegionAction,
+      if (deleteRegionAction != null) 'deleteRegionAction': deleteRegionAction,
+    };
+  }
+}
+
+/// Defines the Amazon Web Services Region and KMS key to add to the replication
+/// set.
+class AddRegionAction {
+  /// The Amazon Web Services Region name to add to the replication set.
+  final String regionName;
+
+  /// The KMS key ID to use to encrypt your replication set.
+  final String? sseKmsKeyId;
+
+  AddRegionAction({
+    required this.regionName,
+    this.sseKmsKeyId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final regionName = this.regionName;
+    final sseKmsKeyId = this.sseKmsKeyId;
+    return {
+      'regionName': regionName,
+      if (sseKmsKeyId != null) 'sseKmsKeyId': sseKmsKeyId,
+    };
+  }
+}
+
+/// Defines the information about the Amazon Web Services Region you're deleting
+/// from your replication set.
+class DeleteRegionAction {
+  /// The name of the Amazon Web Services Region you're deleting from the
+  /// replication set.
+  final String regionName;
+
+  DeleteRegionAction({
+    required this.regionName,
+  });
+
+  Map<String, dynamic> toJson() {
+    final regionName = this.regionName;
+    return {
+      'regionName': regionName,
+    };
+  }
+}
+
+/// Details about the related item you're adding.
+class RelatedItemsUpdate {
+  /// Details about the related item you're adding.
+  final RelatedItem? itemToAdd;
+
+  /// Details about the related item you're deleting.
+  final ItemIdentifier? itemToRemove;
+
+  RelatedItemsUpdate({
+    this.itemToAdd,
+    this.itemToRemove,
+  });
+
+  Map<String, dynamic> toJson() {
+    final itemToAdd = this.itemToAdd;
+    final itemToRemove = this.itemToRemove;
+    return {
+      if (itemToAdd != null) 'itemToAdd': itemToAdd,
+      if (itemToRemove != null) 'itemToRemove': itemToRemove,
+    };
+  }
 }
 
 /// Resources that responders use to triage and mitigate the incident.
@@ -3514,25 +2719,816 @@ class RelatedItem {
   }
 }
 
-/// Details about the related item you're adding.
-class RelatedItemsUpdate {
-  /// Details about the related item you're adding.
-  final RelatedItem? itemToAdd;
+/// Details and type of a related item.
+class ItemIdentifier {
+  /// The type of related item.
+  final ItemType type;
 
-  /// Details about the related item you're deleting.
-  final ItemIdentifier? itemToRemove;
+  /// Details about the related item.
+  final ItemValue value;
 
-  RelatedItemsUpdate({
-    this.itemToAdd,
-    this.itemToRemove,
+  ItemIdentifier({
+    required this.type,
+    required this.value,
+  });
+
+  factory ItemIdentifier.fromJson(Map<String, dynamic> json) {
+    return ItemIdentifier(
+      type: ItemType.fromString((json['type'] as String?) ?? ''),
+      value: ItemValue.fromJson((json['value'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final value = this.value;
+    return {
+      'type': type.value,
+      'value': value,
+    };
+  }
+}
+
+/// Describes a related item.
+class ItemValue {
+  /// The Amazon Resource Name (ARN) of the related item, if the related item is
+  /// an Amazon resource.
+  final String? arn;
+
+  /// The metric definition, if the related item is a metric in Amazon CloudWatch.
+  final String? metricDefinition;
+
+  /// Details about an incident that is associated with a PagerDuty incident.
+  final PagerDutyIncidentDetail? pagerDutyIncidentDetail;
+
+  /// The URL, if the related item is a non-Amazon Web Services resource.
+  final String? url;
+
+  ItemValue({
+    this.arn,
+    this.metricDefinition,
+    this.pagerDutyIncidentDetail,
+    this.url,
+  });
+
+  factory ItemValue.fromJson(Map<String, dynamic> json) {
+    return ItemValue(
+      arn: json['arn'] as String?,
+      metricDefinition: json['metricDefinition'] as String?,
+      pagerDutyIncidentDetail: json['pagerDutyIncidentDetail'] != null
+          ? PagerDutyIncidentDetail.fromJson(
+              json['pagerDutyIncidentDetail'] as Map<String, dynamic>)
+          : null,
+      url: json['url'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final metricDefinition = this.metricDefinition;
+    final pagerDutyIncidentDetail = this.pagerDutyIncidentDetail;
+    final url = this.url;
+    return {
+      if (arn != null) 'arn': arn,
+      if (metricDefinition != null) 'metricDefinition': metricDefinition,
+      if (pagerDutyIncidentDetail != null)
+        'pagerDutyIncidentDetail': pagerDutyIncidentDetail,
+      if (url != null) 'url': url,
+    };
+  }
+}
+
+class ItemType {
+  static const analysis = ItemType._('ANALYSIS');
+  static const incident = ItemType._('INCIDENT');
+  static const metric = ItemType._('METRIC');
+  static const parent = ItemType._('PARENT');
+  static const attachment = ItemType._('ATTACHMENT');
+  static const other = ItemType._('OTHER');
+  static const automation = ItemType._('AUTOMATION');
+  static const involvedResource = ItemType._('INVOLVED_RESOURCE');
+  static const task = ItemType._('TASK');
+
+  final String value;
+
+  const ItemType._(this.value);
+
+  static const values = [
+    analysis,
+    incident,
+    metric,
+    parent,
+    attachment,
+    other,
+    automation,
+    involvedResource,
+    task
+  ];
+
+  static ItemType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ItemType._(value));
+
+  @override
+  bool operator ==(other) => other is ItemType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Details about the PagerDuty incident associated with an incident created by
+/// an Incident Manager response plan.
+class PagerDutyIncidentDetail {
+  /// The ID of the incident associated with the PagerDuty service for the
+  /// response plan.
+  final String id;
+
+  /// Indicates whether to resolve the PagerDuty incident when you resolve the
+  /// associated Incident Manager incident.
+  final bool? autoResolve;
+
+  /// The ID of the Amazon Web Services Secrets Manager secret that stores your
+  /// PagerDuty key, either a General Access REST API Key or User Token REST API
+  /// Key, and other user credentials.
+  final String? secretId;
+
+  PagerDutyIncidentDetail({
+    required this.id,
+    this.autoResolve,
+    this.secretId,
+  });
+
+  factory PagerDutyIncidentDetail.fromJson(Map<String, dynamic> json) {
+    return PagerDutyIncidentDetail(
+      id: (json['id'] as String?) ?? '',
+      autoResolve: json['autoResolve'] as bool?,
+      secretId: json['secretId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final autoResolve = this.autoResolve;
+    final secretId = this.secretId;
+    return {
+      'id': id,
+      if (autoResolve != null) 'autoResolve': autoResolve,
+      if (secretId != null) 'secretId': secretId,
+    };
+  }
+}
+
+class IncidentRecordStatus {
+  static const open = IncidentRecordStatus._('OPEN');
+  static const resolved = IncidentRecordStatus._('RESOLVED');
+
+  final String value;
+
+  const IncidentRecordStatus._(this.value);
+
+  static const values = [open, resolved];
+
+  static IncidentRecordStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IncidentRecordStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IncidentRecordStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Details about what caused the incident to be created in Incident Manager.
+class TriggerDetails {
+  /// Identifies the service that sourced the event. All events sourced from
+  /// within Amazon Web Services begin with "<code>aws.</code>" Customer-generated
+  /// events can have any value here, as long as it doesn't begin with
+  /// "<code>aws.</code>" We recommend the use of Java package-name style reverse
+  /// domain-name strings.
+  final String source;
+
+  /// The timestamp for when the incident was detected.
+  final DateTime timestamp;
+
+  /// Raw data passed from either Amazon EventBridge, Amazon CloudWatch, or
+  /// Incident Manager when an incident is created.
+  final String? rawData;
+
+  /// The Amazon Resource Name (ARN) of the source that detected the incident.
+  final String? triggerArn;
+
+  TriggerDetails({
+    required this.source,
+    required this.timestamp,
+    this.rawData,
+    this.triggerArn,
   });
 
   Map<String, dynamic> toJson() {
-    final itemToAdd = this.itemToAdd;
-    final itemToRemove = this.itemToRemove;
+    final source = this.source;
+    final timestamp = this.timestamp;
+    final rawData = this.rawData;
+    final triggerArn = this.triggerArn;
     return {
-      if (itemToAdd != null) 'itemToAdd': itemToAdd,
-      if (itemToRemove != null) 'itemToRemove': itemToRemove,
+      'source': source,
+      'timestamp': unixTimestampToJson(timestamp),
+      if (rawData != null) 'rawData': rawData,
+      if (triggerArn != null) 'triggerArn': triggerArn,
+    };
+  }
+}
+
+/// Details about a timeline event during an incident.
+class EventSummary {
+  /// The timeline event ID.
+  final String eventId;
+
+  /// The timestamp for when the event occurred.
+  final DateTime eventTime;
+
+  /// The type of event. The timeline event must be <code>Custom Event</code> or
+  /// <code>Note</code>.
+  final String eventType;
+
+  /// The timestamp for when the timeline event was last updated.
+  final DateTime eventUpdatedTime;
+
+  /// The Amazon Resource Name (ARN) of the incident that the event happened
+  /// during.
+  final String incidentRecordArn;
+
+  /// A list of references in a <code>TimelineEvent</code>.
+  final List<EventReference>? eventReferences;
+
+  EventSummary({
+    required this.eventId,
+    required this.eventTime,
+    required this.eventType,
+    required this.eventUpdatedTime,
+    required this.incidentRecordArn,
+    this.eventReferences,
+  });
+
+  factory EventSummary.fromJson(Map<String, dynamic> json) {
+    return EventSummary(
+      eventId: (json['eventId'] as String?) ?? '',
+      eventTime: nonNullableTimeStampFromJson(json['eventTime'] ?? 0),
+      eventType: (json['eventType'] as String?) ?? '',
+      eventUpdatedTime:
+          nonNullableTimeStampFromJson(json['eventUpdatedTime'] ?? 0),
+      incidentRecordArn: (json['incidentRecordArn'] as String?) ?? '',
+      eventReferences: (json['eventReferences'] as List?)
+          ?.nonNulls
+          .map((e) => EventReference.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventId = this.eventId;
+    final eventTime = this.eventTime;
+    final eventType = this.eventType;
+    final eventUpdatedTime = this.eventUpdatedTime;
+    final incidentRecordArn = this.incidentRecordArn;
+    final eventReferences = this.eventReferences;
+    return {
+      'eventId': eventId,
+      'eventTime': unixTimestampToJson(eventTime),
+      'eventType': eventType,
+      'eventUpdatedTime': unixTimestampToJson(eventUpdatedTime),
+      'incidentRecordArn': incidentRecordArn,
+      if (eventReferences != null) 'eventReferences': eventReferences,
+    };
+  }
+}
+
+class TimelineEventSort {
+  static const eventTime = TimelineEventSort._('EVENT_TIME');
+
+  final String value;
+
+  const TimelineEventSort._(this.value);
+
+  static const values = [eventTime];
+
+  static TimelineEventSort fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TimelineEventSort._(value));
+
+  @override
+  bool operator ==(other) => other is TimelineEventSort && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SortOrder {
+  static const ascending = SortOrder._('ASCENDING');
+  static const descending = SortOrder._('DESCENDING');
+
+  final String value;
+
+  const SortOrder._(this.value);
+
+  static const values = [ascending, descending];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Filter the selection by using a condition.
+class Filter {
+  /// The condition accepts before or after a specified time, equal to a string,
+  /// or equal to an integer.
+  final Condition condition;
+
+  /// The key that you're filtering on.
+  final String key;
+
+  Filter({
+    required this.condition,
+    required this.key,
+  });
+
+  Map<String, dynamic> toJson() {
+    final condition = this.condition;
+    final key = this.key;
+    return {
+      'condition': condition,
+      'key': key,
+    };
+  }
+}
+
+/// A conditional statement with which to compare a value, after a timestamp,
+/// before a timestamp, or equal to a string or integer. If multiple conditions
+/// are specified, the conditionals become an <code>AND</code>ed statement. If
+/// multiple values are specified for a conditional, the values are
+/// <code>OR</code>d.
+class Condition {
+  /// After the specified timestamp.
+  final DateTime? after;
+
+  /// Before the specified timestamp
+  final DateTime? before;
+
+  /// The value is equal to the provided string or integer.
+  final AttributeValueList? equals;
+
+  Condition({
+    this.after,
+    this.before,
+    this.equals,
+  });
+
+  Map<String, dynamic> toJson() {
+    final after = this.after;
+    final before = this.before;
+    final equals = this.equals;
+    return {
+      if (after != null) 'after': unixTimestampToJson(after),
+      if (before != null) 'before': unixTimestampToJson(before),
+      if (equals != null) 'equals': equals,
+    };
+  }
+}
+
+/// Use the AttributeValueList to filter by string or integer values.
+class AttributeValueList {
+  /// The list of integer values that the filter matches.
+  final List<int>? integerValues;
+
+  /// The list of string values that the filter matches.
+  final List<String>? stringValues;
+
+  AttributeValueList({
+    this.integerValues,
+    this.stringValues,
+  });
+
+  Map<String, dynamic> toJson() {
+    final integerValues = this.integerValues;
+    final stringValues = this.stringValues;
+    return {
+      if (integerValues != null) 'integerValues': integerValues,
+      if (stringValues != null) 'stringValues': stringValues,
+    };
+  }
+}
+
+/// Details of the response plan that are used when creating an incident.
+class ResponsePlanSummary {
+  /// The Amazon Resource Name (ARN) of the response plan.
+  final String arn;
+
+  /// The name of the response plan. This can't include spaces.
+  final String name;
+
+  /// The human readable name of the response plan. This can include spaces.
+  final String? displayName;
+
+  ResponsePlanSummary({
+    required this.arn,
+    required this.name,
+    this.displayName,
+  });
+
+  factory ResponsePlanSummary.fromJson(Map<String, dynamic> json) {
+    return ResponsePlanSummary(
+      arn: (json['arn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      displayName: json['displayName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    final displayName = this.displayName;
+    return {
+      'arn': arn,
+      'name': name,
+      if (displayName != null) 'displayName': displayName,
+    };
+  }
+}
+
+/// Details describing an incident record.
+class IncidentRecordSummary {
+  /// The Amazon Resource Name (ARN) of the incident.
+  final String arn;
+
+  /// The timestamp for when the incident was created.
+  final DateTime creationTime;
+
+  /// Defines the impact to customers and applications.
+  final int impact;
+
+  /// What caused Incident Manager to create the incident.
+  final IncidentRecordSource incidentRecordSource;
+
+  /// The current status of the incident.
+  final IncidentRecordStatus status;
+
+  /// The title of the incident. This value is either provided by the response
+  /// plan or overwritten on creation.
+  final String title;
+
+  /// The timestamp for when the incident was resolved.
+  final DateTime? resolvedTime;
+
+  IncidentRecordSummary({
+    required this.arn,
+    required this.creationTime,
+    required this.impact,
+    required this.incidentRecordSource,
+    required this.status,
+    required this.title,
+    this.resolvedTime,
+  });
+
+  factory IncidentRecordSummary.fromJson(Map<String, dynamic> json) {
+    return IncidentRecordSummary(
+      arn: (json['arn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      impact: (json['impact'] as int?) ?? 0,
+      incidentRecordSource: IncidentRecordSource.fromJson(
+          (json['incidentRecordSource'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      status:
+          IncidentRecordStatus.fromString((json['status'] as String?) ?? ''),
+      title: (json['title'] as String?) ?? '',
+      resolvedTime: timeStampFromJson(json['resolvedTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTime = this.creationTime;
+    final impact = this.impact;
+    final incidentRecordSource = this.incidentRecordSource;
+    final status = this.status;
+    final title = this.title;
+    final resolvedTime = this.resolvedTime;
+    return {
+      'arn': arn,
+      'creationTime': unixTimestampToJson(creationTime),
+      'impact': impact,
+      'incidentRecordSource': incidentRecordSource,
+      'status': status.value,
+      'title': title,
+      if (resolvedTime != null)
+        'resolvedTime': unixTimestampToJson(resolvedTime),
+    };
+  }
+}
+
+/// Details about what created the incident record and when it was created.
+class IncidentRecordSource {
+  /// The principal that started the incident.
+  final String createdBy;
+
+  /// The service that started the incident. This can be manually created from
+  /// Incident Manager, automatically created using an Amazon CloudWatch alarm, or
+  /// Amazon EventBridge event.
+  final String source;
+
+  /// The service principal that assumed the role specified in
+  /// <code>createdBy</code>. If no service principal assumed the role this will
+  /// be left blank.
+  final String? invokedBy;
+
+  /// The resource that caused the incident to be created.
+  final String? resourceArn;
+
+  IncidentRecordSource({
+    required this.createdBy,
+    required this.source,
+    this.invokedBy,
+    this.resourceArn,
+  });
+
+  factory IncidentRecordSource.fromJson(Map<String, dynamic> json) {
+    return IncidentRecordSource(
+      createdBy: (json['createdBy'] as String?) ?? '',
+      source: (json['source'] as String?) ?? '',
+      invokedBy: json['invokedBy'] as String?,
+      resourceArn: json['resourceArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdBy = this.createdBy;
+    final source = this.source;
+    final invokedBy = this.invokedBy;
+    final resourceArn = this.resourceArn;
+    return {
+      'createdBy': createdBy,
+      'source': source,
+      if (invokedBy != null) 'invokedBy': invokedBy,
+      if (resourceArn != null) 'resourceArn': resourceArn,
+    };
+  }
+}
+
+/// Identifying information about the finding.
+class FindingSummary {
+  /// The ID of the finding.
+  final String id;
+
+  /// The timestamp for when the finding was last updated.
+  final DateTime lastModifiedTime;
+
+  FindingSummary({
+    required this.id,
+    required this.lastModifiedTime,
+  });
+
+  factory FindingSummary.fromJson(Map<String, dynamic> json) {
+    return FindingSummary(
+      id: (json['id'] as String?) ?? '',
+      lastModifiedTime:
+          nonNullableTimeStampFromJson(json['lastModifiedTime'] ?? 0),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final lastModifiedTime = this.lastModifiedTime;
+    return {
+      'id': id,
+      'lastModifiedTime': unixTimestampToJson(lastModifiedTime),
+    };
+  }
+}
+
+/// A significant event that happened during the incident.
+class TimelineEvent {
+  /// A short description of the event.
+  final String eventData;
+
+  /// The ID of the timeline event.
+  final String eventId;
+
+  /// The timestamp for when the event occurred.
+  final DateTime eventTime;
+
+  /// The type of event that occurred. Currently Incident Manager supports only
+  /// the <code>Custom Event</code> and <code>Note</code> types.
+  final String eventType;
+
+  /// The timestamp for when the timeline event was last updated.
+  final DateTime eventUpdatedTime;
+
+  /// The Amazon Resource Name (ARN) of the incident that the event occurred
+  /// during.
+  final String incidentRecordArn;
+
+  /// A list of references in a <code>TimelineEvent</code>.
+  final List<EventReference>? eventReferences;
+
+  TimelineEvent({
+    required this.eventData,
+    required this.eventId,
+    required this.eventTime,
+    required this.eventType,
+    required this.eventUpdatedTime,
+    required this.incidentRecordArn,
+    this.eventReferences,
+  });
+
+  factory TimelineEvent.fromJson(Map<String, dynamic> json) {
+    return TimelineEvent(
+      eventData: (json['eventData'] as String?) ?? '',
+      eventId: (json['eventId'] as String?) ?? '',
+      eventTime: nonNullableTimeStampFromJson(json['eventTime'] ?? 0),
+      eventType: (json['eventType'] as String?) ?? '',
+      eventUpdatedTime:
+          nonNullableTimeStampFromJson(json['eventUpdatedTime'] ?? 0),
+      incidentRecordArn: (json['incidentRecordArn'] as String?) ?? '',
+      eventReferences: (json['eventReferences'] as List?)
+          ?.nonNulls
+          .map((e) => EventReference.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventData = this.eventData;
+    final eventId = this.eventId;
+    final eventTime = this.eventTime;
+    final eventType = this.eventType;
+    final eventUpdatedTime = this.eventUpdatedTime;
+    final incidentRecordArn = this.incidentRecordArn;
+    final eventReferences = this.eventReferences;
+    return {
+      'eventData': eventData,
+      'eventId': eventId,
+      'eventTime': unixTimestampToJson(eventTime),
+      'eventType': eventType,
+      'eventUpdatedTime': unixTimestampToJson(eventUpdatedTime),
+      'incidentRecordArn': incidentRecordArn,
+      if (eventReferences != null) 'eventReferences': eventReferences,
+    };
+  }
+}
+
+/// Basic details used in creating a response plan. The response plan is then
+/// used to create an incident record.
+class IncidentTemplate {
+  /// The impact of the incident on your customers and applications.
+  /// <p class="title"> <b>Supported impact codes</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>1</code> - Critical
+  /// </li>
+  /// <li>
+  /// <code>2</code> - High
+  /// </li>
+  /// <li>
+  /// <code>3</code> - Medium
+  /// </li>
+  /// <li>
+  /// <code>4</code> - Low
+  /// </li>
+  /// <li>
+  /// <code>5</code> - No Impact
+  /// </li>
+  /// </ul>
+  final int impact;
+
+  /// The title of the incident.
+  final String title;
+
+  /// The string Incident Manager uses to prevent the same root cause from
+  /// creating multiple incidents in the same account.
+  ///
+  /// A deduplication string is a term or phrase the system uses to check for
+  /// duplicate incidents. If you specify a deduplication string, Incident Manager
+  /// searches for open incidents that contain the same string in the
+  /// <code>dedupeString</code> field when it creates the incident. If a duplicate
+  /// is detected, Incident Manager deduplicates the newer incident into the
+  /// existing incident.
+  /// <note>
+  /// By default, Incident Manager automatically deduplicates multiple incidents
+  /// created by the same Amazon CloudWatch alarm or Amazon EventBridge event. You
+  /// don't have to enter your own deduplication string to prevent duplication for
+  /// these resource types.
+  /// </note>
+  final String? dedupeString;
+
+  /// Tags to assign to the template. When the <code>StartIncident</code> API
+  /// action is called, Incident Manager assigns the tags specified in the
+  /// template to the incident.
+  final Map<String, String>? incidentTags;
+
+  /// The Amazon SNS targets that are notified when updates are made to an
+  /// incident.
+  final List<NotificationTargetItem>? notificationTargets;
+
+  /// The summary of the incident. The summary is a brief synopsis of what
+  /// occurred, what's currently happening, and context.
+  final String? summary;
+
+  IncidentTemplate({
+    required this.impact,
+    required this.title,
+    this.dedupeString,
+    this.incidentTags,
+    this.notificationTargets,
+    this.summary,
+  });
+
+  factory IncidentTemplate.fromJson(Map<String, dynamic> json) {
+    return IncidentTemplate(
+      impact: (json['impact'] as int?) ?? 0,
+      title: (json['title'] as String?) ?? '',
+      dedupeString: json['dedupeString'] as String?,
+      incidentTags: (json['incidentTags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      notificationTargets: (json['notificationTargets'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => NotificationTargetItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      summary: json['summary'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final impact = this.impact;
+    final title = this.title;
+    final dedupeString = this.dedupeString;
+    final incidentTags = this.incidentTags;
+    final notificationTargets = this.notificationTargets;
+    final summary = this.summary;
+    return {
+      'impact': impact,
+      'title': title,
+      if (dedupeString != null) 'dedupeString': dedupeString,
+      if (incidentTags != null) 'incidentTags': incidentTags,
+      if (notificationTargets != null)
+        'notificationTargets': notificationTargets,
+      if (summary != null) 'summary': summary,
+    };
+  }
+}
+
+/// The resource policy that allows Incident Manager to perform actions on
+/// resources on your behalf.
+class ResourcePolicy {
+  /// The JSON blob that describes the policy.
+  final String policyDocument;
+
+  /// The ID of the resource policy.
+  final String policyId;
+
+  /// The Amazon Web Services Region that policy allows resources to be used in.
+  final String ramResourceShareRegion;
+
+  ResourcePolicy({
+    required this.policyDocument,
+    required this.policyId,
+    required this.ramResourceShareRegion,
+  });
+
+  factory ResourcePolicy.fromJson(Map<String, dynamic> json) {
+    return ResourcePolicy(
+      policyDocument: (json['policyDocument'] as String?) ?? '',
+      policyId: (json['policyId'] as String?) ?? '',
+      ramResourceShareRegion: (json['ramResourceShareRegion'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyDocument = this.policyDocument;
+    final policyId = this.policyId;
+    final ramResourceShareRegion = this.ramResourceShareRegion;
+    return {
+      'policyDocument': policyDocument,
+      'policyId': policyId,
+      'ramResourceShareRegion': ramResourceShareRegion,
     };
   }
 }
@@ -3647,493 +3643,490 @@ class ReplicationSetStatus {
   String toString() => value;
 }
 
-/// The resource policy that allows Incident Manager to perform actions on
-/// resources on your behalf.
-class ResourcePolicy {
-  /// The JSON blob that describes the policy.
-  final String policyDocument;
+/// Information about a Amazon Web Services Region in your replication set.
+class RegionInfo {
+  /// The status of the Amazon Web Services Region in the replication set.
+  final RegionStatus status;
 
-  /// The ID of the resource policy.
-  final String policyId;
+  /// The timestamp for when Incident Manager updated the status of the Amazon Web
+  /// Services Region.
+  final DateTime statusUpdateDateTime;
 
-  /// The Amazon Web Services Region that policy allows resources to be used in.
-  final String ramResourceShareRegion;
+  /// The ID of the KMS key used to encrypt the data in this Amazon Web Services
+  /// Region.
+  final String? sseKmsKeyId;
 
-  ResourcePolicy({
-    required this.policyDocument,
-    required this.policyId,
-    required this.ramResourceShareRegion,
+  /// Information displayed about the status of the Amazon Web Services Region.
+  final String? statusMessage;
+
+  RegionInfo({
+    required this.status,
+    required this.statusUpdateDateTime,
+    this.sseKmsKeyId,
+    this.statusMessage,
   });
 
-  factory ResourcePolicy.fromJson(Map<String, dynamic> json) {
-    return ResourcePolicy(
-      policyDocument: (json['policyDocument'] as String?) ?? '',
-      policyId: (json['policyId'] as String?) ?? '',
-      ramResourceShareRegion: (json['ramResourceShareRegion'] as String?) ?? '',
+  factory RegionInfo.fromJson(Map<String, dynamic> json) {
+    return RegionInfo(
+      status: RegionStatus.fromString((json['status'] as String?) ?? ''),
+      statusUpdateDateTime:
+          nonNullableTimeStampFromJson(json['statusUpdateDateTime'] ?? 0),
+      sseKmsKeyId: json['sseKmsKeyId'] as String?,
+      statusMessage: json['statusMessage'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final policyDocument = this.policyDocument;
-    final policyId = this.policyId;
-    final ramResourceShareRegion = this.ramResourceShareRegion;
+    final status = this.status;
+    final statusUpdateDateTime = this.statusUpdateDateTime;
+    final sseKmsKeyId = this.sseKmsKeyId;
+    final statusMessage = this.statusMessage;
     return {
-      'policyDocument': policyDocument,
-      'policyId': policyId,
-      'ramResourceShareRegion': ramResourceShareRegion,
+      'status': status.value,
+      'statusUpdateDateTime': unixTimestampToJson(statusUpdateDateTime),
+      if (sseKmsKeyId != null) 'sseKmsKeyId': sseKmsKeyId,
+      if (statusMessage != null) 'statusMessage': statusMessage,
     };
   }
 }
 
-/// Details of the response plan that are used when creating an incident.
-class ResponsePlanSummary {
-  /// The Amazon Resource Name (ARN) of the response plan.
+class RegionStatus {
+  static const active = RegionStatus._('ACTIVE');
+  static const creating = RegionStatus._('CREATING');
+  static const deleting = RegionStatus._('DELETING');
+  static const failed = RegionStatus._('FAILED');
+
+  final String value;
+
+  const RegionStatus._(this.value);
+
+  static const values = [active, creating, deleting, failed];
+
+  static RegionStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RegionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is RegionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The record of the incident that's created when an incident occurs.
+class IncidentRecord {
+  /// The Amazon Resource Name (ARN) of the incident record.
   final String arn;
 
-  /// The name of the response plan. This can't include spaces.
-  final String name;
+  /// The timestamp for when Incident Manager created the incident record.
+  final DateTime creationTime;
 
-  /// The human readable name of the response plan. This can include spaces.
-  final String? displayName;
+  /// The string Incident Manager uses to prevent duplicate incidents from being
+  /// created by the same incident in the same account.
+  final String dedupeString;
 
-  ResponsePlanSummary({
+  /// The impact of the incident on customers and applications.
+  /// <p class="title"> <b>Supported impact codes</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>1</code> - Critical
+  /// </li>
+  /// <li>
+  /// <code>2</code> - High
+  /// </li>
+  /// <li>
+  /// <code>3</code> - Medium
+  /// </li>
+  /// <li>
+  /// <code>4</code> - Low
+  /// </li>
+  /// <li>
+  /// <code>5</code> - No Impact
+  /// </li>
+  /// </ul>
+  final int impact;
+
+  /// Details about the action that started the incident.
+  final IncidentRecordSource incidentRecordSource;
+
+  /// Who modified the incident most recently.
+  final String lastModifiedBy;
+
+  /// The timestamp for when the incident was most recently modified.
+  final DateTime lastModifiedTime;
+
+  /// The current status of the incident.
+  final IncidentRecordStatus status;
+
+  /// The title of the incident.
+  final String title;
+
+  /// The runbook, or automation document, that's run at the beginning of the
+  /// incident.
+  final List<AutomationExecution>? automationExecutions;
+
+  /// The chat channel used for collaboration during an incident.
+  final ChatChannel? chatChannel;
+
+  /// The Amazon SNS targets that are notified when updates are made to an
+  /// incident.
+  final List<NotificationTargetItem>? notificationTargets;
+
+  /// The timestamp for when the incident was resolved. This appears as a timeline
+  /// event.
+  final DateTime? resolvedTime;
+
+  /// The summary of the incident. The summary is a brief synopsis of what
+  /// occurred, what's currently happening, and context of the incident.
+  final String? summary;
+
+  IncidentRecord({
     required this.arn,
-    required this.name,
-    this.displayName,
+    required this.creationTime,
+    required this.dedupeString,
+    required this.impact,
+    required this.incidentRecordSource,
+    required this.lastModifiedBy,
+    required this.lastModifiedTime,
+    required this.status,
+    required this.title,
+    this.automationExecutions,
+    this.chatChannel,
+    this.notificationTargets,
+    this.resolvedTime,
+    this.summary,
   });
 
-  factory ResponsePlanSummary.fromJson(Map<String, dynamic> json) {
-    return ResponsePlanSummary(
+  factory IncidentRecord.fromJson(Map<String, dynamic> json) {
+    return IncidentRecord(
       arn: (json['arn'] as String?) ?? '',
-      name: (json['name'] as String?) ?? '',
-      displayName: json['displayName'] as String?,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      dedupeString: (json['dedupeString'] as String?) ?? '',
+      impact: (json['impact'] as int?) ?? 0,
+      incidentRecordSource: IncidentRecordSource.fromJson(
+          (json['incidentRecordSource'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      lastModifiedBy: (json['lastModifiedBy'] as String?) ?? '',
+      lastModifiedTime:
+          nonNullableTimeStampFromJson(json['lastModifiedTime'] ?? 0),
+      status:
+          IncidentRecordStatus.fromString((json['status'] as String?) ?? ''),
+      title: (json['title'] as String?) ?? '',
+      automationExecutions: (json['automationExecutions'] as List?)
+          ?.nonNulls
+          .map((e) => AutomationExecution.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      chatChannel: json['chatChannel'] != null
+          ? ChatChannel.fromJson(json['chatChannel'] as Map<String, dynamic>)
+          : null,
+      notificationTargets: (json['notificationTargets'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => NotificationTargetItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      resolvedTime: timeStampFromJson(json['resolvedTime']),
+      summary: json['summary'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final arn = this.arn;
-    final name = this.name;
-    final displayName = this.displayName;
+    final creationTime = this.creationTime;
+    final dedupeString = this.dedupeString;
+    final impact = this.impact;
+    final incidentRecordSource = this.incidentRecordSource;
+    final lastModifiedBy = this.lastModifiedBy;
+    final lastModifiedTime = this.lastModifiedTime;
+    final status = this.status;
+    final title = this.title;
+    final automationExecutions = this.automationExecutions;
+    final chatChannel = this.chatChannel;
+    final notificationTargets = this.notificationTargets;
+    final resolvedTime = this.resolvedTime;
+    final summary = this.summary;
     return {
       'arn': arn,
-      'name': name,
-      if (displayName != null) 'displayName': displayName,
+      'creationTime': unixTimestampToJson(creationTime),
+      'dedupeString': dedupeString,
+      'impact': impact,
+      'incidentRecordSource': incidentRecordSource,
+      'lastModifiedBy': lastModifiedBy,
+      'lastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      'status': status.value,
+      'title': title,
+      if (automationExecutions != null)
+        'automationExecutions': automationExecutions,
+      if (chatChannel != null) 'chatChannel': chatChannel,
+      if (notificationTargets != null)
+        'notificationTargets': notificationTargets,
+      if (resolvedTime != null)
+        'resolvedTime': unixTimestampToJson(resolvedTime),
+      if (summary != null) 'summary': summary,
     };
   }
 }
 
-class SortOrder {
-  static const ascending = SortOrder._('ASCENDING');
-  static const descending = SortOrder._('DESCENDING');
+/// The Systems Manager automation document process to start as the runbook at
+/// the beginning of the incident.
+class AutomationExecution {
+  /// The Amazon Resource Name (ARN) of the automation process.
+  final String? ssmExecutionArn;
 
-  final String value;
-
-  const SortOrder._(this.value);
-
-  static const values = [ascending, descending];
-
-  static SortOrder fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
-
-  @override
-  bool operator ==(other) => other is SortOrder && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Details about the Systems Manager automation document that will be used as a
-/// runbook during an incident.
-class SsmAutomation {
-  /// The automation document's name.
-  final String documentName;
-
-  /// The Amazon Resource Name (ARN) of the role that the automation document will
-  /// assume when running commands.
-  final String roleArn;
-
-  /// The automation document's version to use when running.
-  final String? documentVersion;
-
-  /// The key-value pair to resolve dynamic parameter values when processing a
-  /// Systems Manager Automation runbook.
-  final Map<String, DynamicSsmParameterValue>? dynamicParameters;
-
-  /// The key-value pair parameters to use when running the automation document.
-  final Map<String, List<String>>? parameters;
-
-  /// The account that the automation document will be run in. This can be in
-  /// either the management account or an application account.
-  final SsmTargetAccount? targetAccount;
-
-  SsmAutomation({
-    required this.documentName,
-    required this.roleArn,
-    this.documentVersion,
-    this.dynamicParameters,
-    this.parameters,
-    this.targetAccount,
+  AutomationExecution({
+    this.ssmExecutionArn,
   });
 
-  factory SsmAutomation.fromJson(Map<String, dynamic> json) {
-    return SsmAutomation(
-      documentName: (json['documentName'] as String?) ?? '',
-      roleArn: (json['roleArn'] as String?) ?? '',
-      documentVersion: json['documentVersion'] as String?,
-      dynamicParameters: (json['dynamicParameters'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(
-              k, DynamicSsmParameterValue.fromJson(e as Map<String, dynamic>))),
-      parameters: (json['parameters'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(k, (e as List).nonNulls.map((e) => e as String).toList())),
-      targetAccount:
-          (json['targetAccount'] as String?)?.let(SsmTargetAccount.fromString),
+  factory AutomationExecution.fromJson(Map<String, dynamic> json) {
+    return AutomationExecution(
+      ssmExecutionArn: json['ssmExecutionArn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final documentName = this.documentName;
-    final roleArn = this.roleArn;
-    final documentVersion = this.documentVersion;
-    final dynamicParameters = this.dynamicParameters;
-    final parameters = this.parameters;
-    final targetAccount = this.targetAccount;
+    final ssmExecutionArn = this.ssmExecutionArn;
     return {
-      'documentName': documentName,
-      'roleArn': roleArn,
-      if (documentVersion != null) 'documentVersion': documentVersion,
-      if (dynamicParameters != null) 'dynamicParameters': dynamicParameters,
-      if (parameters != null) 'parameters': parameters,
-      if (targetAccount != null) 'targetAccount': targetAccount.value,
+      if (ssmExecutionArn != null) 'ssmExecutionArn': ssmExecutionArn,
     };
   }
 }
 
-class SsmTargetAccount {
-  static const responsePlanOwnerAccount =
-      SsmTargetAccount._('RESPONSE_PLAN_OWNER_ACCOUNT');
-  static const impactedAccount = SsmTargetAccount._('IMPACTED_ACCOUNT');
+/// The mapping between a Amazon Web Services Region and the key that's used to
+/// encrypt the data.
+class RegionMapInputValue {
+  /// The KMS key used to encrypt the data in your replication set.
+  final String? sseKmsKeyId;
 
-  final String value;
-
-  const SsmTargetAccount._(this.value);
-
-  static const values = [responsePlanOwnerAccount, impactedAccount];
-
-  static SsmTargetAccount fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SsmTargetAccount._(value));
-
-  @override
-  bool operator ==(other) => other is SsmTargetAccount && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class StartIncidentOutput {
-  /// The ARN of the newly created incident record.
-  final String incidentRecordArn;
-
-  StartIncidentOutput({
-    required this.incidentRecordArn,
+  RegionMapInputValue({
+    this.sseKmsKeyId,
   });
 
-  factory StartIncidentOutput.fromJson(Map<String, dynamic> json) {
-    return StartIncidentOutput(
-      incidentRecordArn: (json['incidentRecordArn'] as String?) ?? '',
+  Map<String, dynamic> toJson() {
+    final sseKmsKeyId = this.sseKmsKeyId;
+    return {
+      if (sseKmsKeyId != null) 'sseKmsKeyId': sseKmsKeyId,
+    };
+  }
+}
+
+/// Details about an error returned for a <a>BatchGetIncidentFindings</a>
+/// operation.
+class BatchGetIncidentFindingsError {
+  /// The code associated with an error that was returned for a
+  /// <code>BatchGetIncidentFindings</code> operation.
+  final String code;
+
+  /// The ID of a specified finding for which an error was returned for a
+  /// <code>BatchGetIncidentFindings</code> operation.
+  final String findingId;
+
+  /// The description for an error that was returned for a
+  /// <code>BatchGetIncidentFindings</code> operation.
+  final String message;
+
+  BatchGetIncidentFindingsError({
+    required this.code,
+    required this.findingId,
+    required this.message,
+  });
+
+  factory BatchGetIncidentFindingsError.fromJson(Map<String, dynamic> json) {
+    return BatchGetIncidentFindingsError(
+      code: (json['code'] as String?) ?? '',
+      findingId: (json['findingId'] as String?) ?? '',
+      message: (json['message'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    final incidentRecordArn = this.incidentRecordArn;
+    final code = this.code;
+    final findingId = this.findingId;
+    final message = this.message;
     return {
-      'incidentRecordArn': incidentRecordArn,
+      'code': code,
+      'findingId': findingId,
+      'message': message,
     };
   }
 }
 
-class TagResourceResponse {
-  TagResourceResponse();
+/// Information about a specific CodeDeploy deployment or CloudFormation stack
+/// creation or update that occurred around the time of a reported incident.
+/// These activities can be investigated as a potential cause of the incident.
+class Finding {
+  /// The timestamp for when a finding was created.
+  final DateTime creationTime;
 
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
+  /// The ID assigned to the finding.
+  final String id;
 
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
+  /// The timestamp for when the finding was most recently updated with additional
+  /// information.
+  final DateTime lastModifiedTime;
 
-/// A significant event that happened during the incident.
-class TimelineEvent {
-  /// A short description of the event.
-  final String eventData;
+  /// Details about the finding.
+  final FindingDetails? details;
 
-  /// The ID of the timeline event.
-  final String eventId;
-
-  /// The timestamp for when the event occurred.
-  final DateTime eventTime;
-
-  /// The type of event that occurred. Currently Incident Manager supports only
-  /// the <code>Custom Event</code> and <code>Note</code> types.
-  final String eventType;
-
-  /// The timestamp for when the timeline event was last updated.
-  final DateTime eventUpdatedTime;
-
-  /// The Amazon Resource Name (ARN) of the incident that the event occurred
-  /// during.
-  final String incidentRecordArn;
-
-  /// A list of references in a <code>TimelineEvent</code>.
-  final List<EventReference>? eventReferences;
-
-  TimelineEvent({
-    required this.eventData,
-    required this.eventId,
-    required this.eventTime,
-    required this.eventType,
-    required this.eventUpdatedTime,
-    required this.incidentRecordArn,
-    this.eventReferences,
+  Finding({
+    required this.creationTime,
+    required this.id,
+    required this.lastModifiedTime,
+    this.details,
   });
 
-  factory TimelineEvent.fromJson(Map<String, dynamic> json) {
-    return TimelineEvent(
-      eventData: (json['eventData'] as String?) ?? '',
-      eventId: (json['eventId'] as String?) ?? '',
-      eventTime: nonNullableTimeStampFromJson(json['eventTime'] ?? 0),
-      eventType: (json['eventType'] as String?) ?? '',
-      eventUpdatedTime:
-          nonNullableTimeStampFromJson(json['eventUpdatedTime'] ?? 0),
-      incidentRecordArn: (json['incidentRecordArn'] as String?) ?? '',
-      eventReferences: (json['eventReferences'] as List?)
-          ?.nonNulls
-          .map((e) => EventReference.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  factory Finding.fromJson(Map<String, dynamic> json) {
+    return Finding(
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      lastModifiedTime:
+          nonNullableTimeStampFromJson(json['lastModifiedTime'] ?? 0),
+      details: json['details'] != null
+          ? FindingDetails.fromJson(json['details'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final eventData = this.eventData;
-    final eventId = this.eventId;
-    final eventTime = this.eventTime;
-    final eventType = this.eventType;
-    final eventUpdatedTime = this.eventUpdatedTime;
-    final incidentRecordArn = this.incidentRecordArn;
-    final eventReferences = this.eventReferences;
+    final creationTime = this.creationTime;
+    final id = this.id;
+    final lastModifiedTime = this.lastModifiedTime;
+    final details = this.details;
     return {
-      'eventData': eventData,
-      'eventId': eventId,
-      'eventTime': unixTimestampToJson(eventTime),
-      'eventType': eventType,
-      'eventUpdatedTime': unixTimestampToJson(eventUpdatedTime),
-      'incidentRecordArn': incidentRecordArn,
-      if (eventReferences != null) 'eventReferences': eventReferences,
+      'creationTime': unixTimestampToJson(creationTime),
+      'id': id,
+      'lastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (details != null) 'details': details,
     };
   }
 }
 
-class TimelineEventSort {
-  static const eventTime = TimelineEventSort._('EVENT_TIME');
+/// Extended textual information about the finding.
+class FindingDetails {
+  /// Information about the CloudFormation stack creation or update associated
+  /// with the finding.
+  final CloudFormationStackUpdate? cloudFormationStackUpdate;
 
-  final String value;
+  /// Information about the CodeDeploy deployment associated with the finding.
+  final CodeDeployDeployment? codeDeployDeployment;
 
-  const TimelineEventSort._(this.value);
-
-  static const values = [eventTime];
-
-  static TimelineEventSort fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TimelineEventSort._(value));
-
-  @override
-  bool operator ==(other) => other is TimelineEventSort && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Details about what caused the incident to be created in Incident Manager.
-class TriggerDetails {
-  /// Identifies the service that sourced the event. All events sourced from
-  /// within Amazon Web Services begin with "<code>aws.</code>" Customer-generated
-  /// events can have any value here, as long as it doesn't begin with
-  /// "<code>aws.</code>" We recommend the use of Java package-name style reverse
-  /// domain-name strings.
-  final String source;
-
-  /// The timestamp for when the incident was detected.
-  final DateTime timestamp;
-
-  /// Raw data passed from either Amazon EventBridge, Amazon CloudWatch, or
-  /// Incident Manager when an incident is created.
-  final String? rawData;
-
-  /// The Amazon Resource Name (ARN) of the source that detected the incident.
-  final String? triggerArn;
-
-  TriggerDetails({
-    required this.source,
-    required this.timestamp,
-    this.rawData,
-    this.triggerArn,
+  FindingDetails({
+    this.cloudFormationStackUpdate,
+    this.codeDeployDeployment,
   });
 
+  factory FindingDetails.fromJson(Map<String, dynamic> json) {
+    return FindingDetails(
+      cloudFormationStackUpdate: json['cloudFormationStackUpdate'] != null
+          ? CloudFormationStackUpdate.fromJson(
+              json['cloudFormationStackUpdate'] as Map<String, dynamic>)
+          : null,
+      codeDeployDeployment: json['codeDeployDeployment'] != null
+          ? CodeDeployDeployment.fromJson(
+              json['codeDeployDeployment'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   Map<String, dynamic> toJson() {
-    final source = this.source;
-    final timestamp = this.timestamp;
-    final rawData = this.rawData;
-    final triggerArn = this.triggerArn;
+    final cloudFormationStackUpdate = this.cloudFormationStackUpdate;
+    final codeDeployDeployment = this.codeDeployDeployment;
     return {
-      'source': source,
-      'timestamp': unixTimestampToJson(timestamp),
-      if (rawData != null) 'rawData': rawData,
-      if (triggerArn != null) 'triggerArn': triggerArn,
+      if (cloudFormationStackUpdate != null)
+        'cloudFormationStackUpdate': cloudFormationStackUpdate,
+      if (codeDeployDeployment != null)
+        'codeDeployDeployment': codeDeployDeployment,
     };
   }
 }
 
-class UntagResourceResponse {
-  UntagResourceResponse();
+/// Information about a CodeDeploy deployment that occurred around the time of
+/// an incident and could be a possible cause of the incident.
+class CodeDeployDeployment {
+  /// The Amazon Resource Name (ARN) of the CodeDeploy deployment group associated
+  /// with the deployment.
+  final String deploymentGroupArn;
 
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
+  /// The ID of the CodeDeploy deployment.
+  final String deploymentId;
 
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
+  /// The timestamp for when the CodeDeploy deployment began.
+  final DateTime startTime;
 
-class UpdateDeletionProtectionOutput {
-  UpdateDeletionProtectionOutput();
+  /// The timestamp for when the CodeDeploy deployment ended. Not reported for
+  /// deployments that are still in progress.
+  final DateTime? endTime;
 
-  factory UpdateDeletionProtectionOutput.fromJson(Map<String, dynamic> _) {
-    return UpdateDeletionProtectionOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateIncidentRecordOutput {
-  UpdateIncidentRecordOutput();
-
-  factory UpdateIncidentRecordOutput.fromJson(Map<String, dynamic> _) {
-    return UpdateIncidentRecordOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateRelatedItemsOutput {
-  UpdateRelatedItemsOutput();
-
-  factory UpdateRelatedItemsOutput.fromJson(Map<String, dynamic> _) {
-    return UpdateRelatedItemsOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Details used when updating the replication set.
-class UpdateReplicationSetAction {
-  /// Details about the Amazon Web Services Region that you're adding to the
-  /// replication set.
-  final AddRegionAction? addRegionAction;
-
-  /// Details about the Amazon Web Services Region that you're deleting to the
-  /// replication set.
-  final DeleteRegionAction? deleteRegionAction;
-
-  UpdateReplicationSetAction({
-    this.addRegionAction,
-    this.deleteRegionAction,
+  CodeDeployDeployment({
+    required this.deploymentGroupArn,
+    required this.deploymentId,
+    required this.startTime,
+    this.endTime,
   });
 
+  factory CodeDeployDeployment.fromJson(Map<String, dynamic> json) {
+    return CodeDeployDeployment(
+      deploymentGroupArn: (json['deploymentGroupArn'] as String?) ?? '',
+      deploymentId: (json['deploymentId'] as String?) ?? '',
+      startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
+      endTime: timeStampFromJson(json['endTime']),
+    );
+  }
+
   Map<String, dynamic> toJson() {
-    final addRegionAction = this.addRegionAction;
-    final deleteRegionAction = this.deleteRegionAction;
+    final deploymentGroupArn = this.deploymentGroupArn;
+    final deploymentId = this.deploymentId;
+    final startTime = this.startTime;
+    final endTime = this.endTime;
     return {
-      if (addRegionAction != null) 'addRegionAction': addRegionAction,
-      if (deleteRegionAction != null) 'deleteRegionAction': deleteRegionAction,
+      'deploymentGroupArn': deploymentGroupArn,
+      'deploymentId': deploymentId,
+      'startTime': unixTimestampToJson(startTime),
+      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
     };
   }
 }
 
-class UpdateReplicationSetOutput {
-  UpdateReplicationSetOutput();
+/// Information about an CloudFormation stack creation or update that occurred
+/// around the time of an incident and could be a potential cause of the
+/// incident.
+class CloudFormationStackUpdate {
+  /// The Amazon Resource Name (ARN) of the CloudFormation stack involved in the
+  /// update.
+  final String stackArn;
 
-  factory UpdateReplicationSetOutput.fromJson(Map<String, dynamic> _) {
-    return UpdateReplicationSetOutput();
+  /// The timestamp for when the CloudFormation stack creation or update began.
+  final DateTime startTime;
+
+  /// The timestamp for when the CloudFormation stack creation or update ended.
+  /// Not reported for deployments that are still in progress.
+  final DateTime? endTime;
+
+  CloudFormationStackUpdate({
+    required this.stackArn,
+    required this.startTime,
+    this.endTime,
+  });
+
+  factory CloudFormationStackUpdate.fromJson(Map<String, dynamic> json) {
+    return CloudFormationStackUpdate(
+      stackArn: (json['stackArn'] as String?) ?? '',
+      startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
+      endTime: timeStampFromJson(json['endTime']),
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final stackArn = this.stackArn;
+    final startTime = this.startTime;
+    final endTime = this.endTime;
+    return {
+      'stackArn': stackArn,
+      'startTime': unixTimestampToJson(startTime),
+      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
+    };
   }
-}
-
-class UpdateResponsePlanOutput {
-  UpdateResponsePlanOutput();
-
-  factory UpdateResponsePlanOutput.fromJson(Map<String, dynamic> _) {
-    return UpdateResponsePlanOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateTimelineEventOutput {
-  UpdateTimelineEventOutput();
-
-  factory UpdateTimelineEventOutput.fromJson(Map<String, dynamic> _) {
-    return UpdateTimelineEventOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class VariableType {
-  static const incidentRecordArn = VariableType._('INCIDENT_RECORD_ARN');
-  static const involvedResources = VariableType._('INVOLVED_RESOURCES');
-
-  final String value;
-
-  const VariableType._(this.value);
-
-  static const values = [incidentRecordArn, involvedResources];
-
-  static VariableType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => VariableType._(value));
-
-  @override
-  bool operator ==(other) => other is VariableType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

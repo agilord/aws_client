@@ -206,7 +206,6 @@ class CodeCatalyst {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'codecatalyst',
-            signingName: 'codecatalyst',
           ),
           region: region,
           credentials: credentials,
@@ -223,6 +222,44 @@ class CodeCatalyst {
     _protocol.close();
   }
 
+  /// Returns information about a user.
+  ///
+  /// Parameter [id] :
+  /// The system-generated unique ID of the user.
+  ///
+  /// Parameter [userName] :
+  /// The name of the user as displayed in Amazon CodeCatalyst.
+  Future<GetUserDetailsResponse> getUserDetails({
+    String? id,
+    String? userName,
+  }) async {
+    final $query = <String, List<String>>{
+      if (id != null) 'id': [id],
+      if (userName != null) 'userName': [userName],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/userDetails',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetUserDetailsResponse.fromJson(response);
+  }
+
+  /// Verifies whether the calling user has a valid Amazon CodeCatalyst login
+  /// and session. If successful, this returns the ID of the user in Amazon
+  /// CodeCatalyst.
+  Future<VerifySessionResponse> verifySession() async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/session',
+      exceptionFnMap: _exceptionFns,
+    );
+    return VerifySessionResponse.fromJson(response);
+  }
+
   /// Creates a personal access token (PAT) for the current user. A personal
   /// access token (PAT) is similar to a password. It is associated with your
   /// user identity for use across all spaces and projects in Amazon
@@ -232,13 +269,6 @@ class CodeCatalyst {
   /// them in your user settings.For more information, see <a
   /// href="https://docs.aws.amazon.com/codecatalyst/latest/userguide/ipa-tokens-keys.html">Managing
   /// personal access tokens in Amazon CodeCatalyst</a>.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [name] :
   /// The friendly name of the personal access token.
@@ -264,6 +294,384 @@ class CodeCatalyst {
     return CreateAccessTokenResponse.fromJson(response);
   }
 
+  /// Deletes a specified personal access token (PAT). A personal access token
+  /// can only be deleted by the user who created it.
+  ///
+  /// Parameter [id] :
+  /// The ID of the personal access token to delete. You can find the IDs of all
+  /// PATs associated with your Amazon Web Services Builder ID in a space by
+  /// calling <a>ListAccessTokens</a>.
+  Future<void> deleteAccessToken({
+    required String id,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/v1/accessTokens/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Lists all personal access tokens (PATs) associated with the user who calls
+  /// the API. You can only list PATs associated with your Amazon Web Services
+  /// Builder ID.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to show in a single call to this API. If the
+  /// number of results is larger than the number you specified, the response
+  /// will include a <code>NextToken</code> element, which you can use to obtain
+  /// additional results.
+  ///
+  /// Parameter [nextToken] :
+  /// A token returned from a call to this API to indicate the next batch of
+  /// results to return, if any.
+  Future<ListAccessTokensResponse> listAccessTokens({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v1/accessTokens',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListAccessTokensResponse.fromJson(response);
+  }
+
+  /// Returns information about an space.
+  ///
+  /// Parameter [name] :
+  /// The name of the space.
+  Future<GetSpaceResponse> getSpace({
+    required String name,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v1/spaces/${Uri.encodeComponent(name)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetSpaceResponse.fromJson(response);
+  }
+
+  /// Changes one or more values for a space.
+  ///
+  /// Parameter [name] :
+  /// The name of the space.
+  ///
+  /// Parameter [description] :
+  /// The description of the space.
+  Future<UpdateSpaceResponse> updateSpace({
+    required String name,
+    String? description,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (description != null) 'description': description,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri: '/v1/spaces/${Uri.encodeComponent(name)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateSpaceResponse.fromJson(response);
+  }
+
+  /// Deletes a space.
+  /// <important>
+  /// Deleting a space cannot be undone. Additionally, since space names must be
+  /// unique across Amazon CodeCatalyst, you cannot reuse names of deleted
+  /// spaces.
+  /// </important>
+  ///
+  /// Parameter [name] :
+  /// The name of the space. To retrieve a list of space names, use
+  /// <a>ListSpaces</a>.
+  Future<DeleteSpaceResponse> deleteSpace({
+    required String name,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/v1/spaces/${Uri.encodeComponent(name)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteSpaceResponse.fromJson(response);
+  }
+
+  /// Retrieves a list of spaces.
+  ///
+  /// Parameter [nextToken] :
+  /// A token returned from a call to this API to indicate the next batch of
+  /// results to return, if any.
+  Future<ListSpacesResponse> listSpaces({
+    String? nextToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v1/spaces',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListSpacesResponse.fromJson(response);
+  }
+
+  /// Retrieves a list of Dev Environments in a project.
+  ///
+  /// Parameter [spaceName] :
+  /// The name of the space.
+  ///
+  /// Parameter [filters] :
+  /// Information about filters to apply to narrow the results returned in the
+  /// list.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to show in a single call to this API. If the
+  /// number of results is larger than the number you specified, the response
+  /// will include a <code>NextToken</code> element, which you can use to obtain
+  /// additional results.
+  ///
+  /// Parameter [nextToken] :
+  /// A token returned from a call to this API to indicate the next batch of
+  /// results to return, if any.
+  ///
+  /// Parameter [projectName] :
+  /// The name of the project in the space.
+  Future<ListDevEnvironmentsResponse> listDevEnvironments({
+    required String spaceName,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
+    String? projectName,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (filters != null) 'filters': filters,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (projectName != null) 'projectName': projectName,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/v1/spaces/${Uri.encodeComponent(spaceName)}/devEnvironments',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListDevEnvironmentsResponse.fromJson(response);
+  }
+
+  /// Retrieves a list of events that occurred during a specific time in a
+  /// space. You can use these events to audit user and system activity in a
+  /// space. For more information, see <a
+  /// href="https://docs.aws.amazon.com/codecatalyst/latest/userguide/ipa-monitoring.html">Monitoring</a>
+  /// in the <i>Amazon CodeCatalyst User Guide</i>.
+  /// <note>
+  /// ListEventLogs guarantees events for the last 30 days in a given space. You
+  /// can also view and retrieve a list of management events over the last 90
+  /// days for Amazon CodeCatalyst in the CloudTrail console by viewing Event
+  /// history, or by creating a trail to create and maintain a record of events
+  /// that extends past 90 days. For more information, see <a
+  /// href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/view-cloudtrail-events.html">Working
+  /// with CloudTrail Event History</a> and <a
+  /// href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-getting-started.html">Working
+  /// with CloudTrail trails</a>.
+  /// </note>
+  ///
+  /// Parameter [endTime] :
+  /// The time after which you do not want any events retrieved, in coordinated
+  /// universal time (UTC) timestamp format as specified in <a
+  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>.
+  ///
+  /// Parameter [spaceName] :
+  /// The name of the space.
+  ///
+  /// Parameter [startTime] :
+  /// The date and time when you want to start retrieving events, in coordinated
+  /// universal time (UTC) timestamp format as specified in <a
+  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>.
+  ///
+  /// Parameter [eventName] :
+  /// The name of the event.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to show in a single call to this API. If the
+  /// number of results is larger than the number you specified, the response
+  /// will include a <code>NextToken</code> element, which you can use to obtain
+  /// additional results.
+  ///
+  /// Parameter [nextToken] :
+  /// A token returned from a call to this API to indicate the next batch of
+  /// results to return, if any.
+  Future<ListEventLogsResponse> listEventLogs({
+    required DateTime endTime,
+    required String spaceName,
+    required DateTime startTime,
+    String? eventName,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      'endTime': iso8601ToJson(endTime),
+      'startTime': iso8601ToJson(startTime),
+      if (eventName != null) 'eventName': eventName,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v1/spaces/${Uri.encodeComponent(spaceName)}/eventLogs',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListEventLogsResponse.fromJson(response);
+  }
+
+  /// Creates a project in a specified space.
+  ///
+  /// Parameter [displayName] :
+  /// The friendly name of the project that will be displayed to users.
+  ///
+  /// Parameter [spaceName] :
+  /// The name of the space.
+  ///
+  /// Parameter [description] :
+  /// The description of the project. This description will be displayed to all
+  /// users of the project. We recommend providing a brief description of the
+  /// project and its intended purpose.
+  Future<CreateProjectResponse> createProject({
+    required String displayName,
+    required String spaceName,
+    String? description,
+  }) async {
+    final $payload = <String, dynamic>{
+      'displayName': displayName,
+      if (description != null) 'description': description,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateProjectResponse.fromJson(response);
+  }
+
+  /// Returns information about a project.
+  ///
+  /// Parameter [name] :
+  /// The name of the project in the space.
+  ///
+  /// Parameter [spaceName] :
+  /// The name of the space.
+  Future<GetProjectResponse> getProject({
+    required String name,
+    required String spaceName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(name)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetProjectResponse.fromJson(response);
+  }
+
+  /// Changes one or more values for a project.
+  ///
+  /// Parameter [name] :
+  /// The name of the project.
+  ///
+  /// Parameter [spaceName] :
+  /// The name of the space.
+  ///
+  /// Parameter [description] :
+  /// The description of the project.
+  Future<UpdateProjectResponse> updateProject({
+    required String name,
+    required String spaceName,
+    String? description,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (description != null) 'description': description,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri:
+          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(name)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateProjectResponse.fromJson(response);
+  }
+
+  /// Deletes a project in a space.
+  ///
+  /// Parameter [name] :
+  /// The name of the project in the space. To retrieve a list of project names,
+  /// use <a>ListProjects</a>.
+  ///
+  /// Parameter [spaceName] :
+  /// The name of the space.
+  Future<DeleteProjectResponse> deleteProject({
+    required String name,
+    required String spaceName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(name)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteProjectResponse.fromJson(response);
+  }
+
+  /// Retrieves a list of projects.
+  ///
+  /// Parameter [spaceName] :
+  /// The name of the space.
+  ///
+  /// Parameter [filters] :
+  /// Information about filters to apply to narrow the results returned in the
+  /// list.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to show in a single call to this API. If the
+  /// number of results is larger than the number you specified, the response
+  /// will include a <code>NextToken</code> element, which you can use to obtain
+  /// additional results.
+  ///
+  /// Parameter [nextToken] :
+  /// A token returned from a call to this API to indicate the next batch of
+  /// results to return, if any.
+  Future<ListProjectsResponse> listProjects({
+    required String spaceName,
+    List<ProjectListFilter>? filters,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (filters != null) 'filters': filters,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListProjectsResponse.fromJson(response);
+  }
+
   /// Creates a Dev Environment in Amazon CodeCatalyst, a cloud-based
   /// development environment that you can use to quickly work on the code
   /// stored in the source repositories of your project.
@@ -273,13 +681,6 @@ class CodeCatalyst {
   /// of persistent storage. None of these defaults apply to a Dev Environment
   /// created programmatically.
   /// </note>
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [instanceType] :
   /// The Amazon EC2 instace type to use for the Dev Environment.
@@ -369,295 +770,8 @@ class CodeCatalyst {
     return CreateDevEnvironmentResponse.fromJson(response);
   }
 
-  /// Creates a project in a specified space.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [displayName] :
-  /// The friendly name of the project that will be displayed to users.
-  ///
-  /// Parameter [spaceName] :
-  /// The name of the space.
-  ///
-  /// Parameter [description] :
-  /// The description of the project. This description will be displayed to all
-  /// users of the project. We recommend providing a brief description of the
-  /// project and its intended purpose.
-  Future<CreateProjectResponse> createProject({
-    required String displayName,
-    required String spaceName,
-    String? description,
-  }) async {
-    final $payload = <String, dynamic>{
-      'displayName': displayName,
-      if (description != null) 'description': description,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'PUT',
-      requestUri: '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects',
-      exceptionFnMap: _exceptionFns,
-    );
-    return CreateProjectResponse.fromJson(response);
-  }
-
-  /// Creates an empty Git-based source repository in a specified project. The
-  /// repository is created with an initial empty commit with a default branch
-  /// named <code>main</code>.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [name] :
-  /// The name of the source repository. For more information about name
-  /// requirements, see <a
-  /// href="https://docs.aws.amazon.com/codecatalyst/latest/userguide/source-quotas.html">Quotas
-  /// for source repositories</a>.
-  ///
-  /// Parameter [projectName] :
-  /// The name of the project in the space.
-  ///
-  /// Parameter [spaceName] :
-  /// The name of the space.
-  ///
-  /// Parameter [description] :
-  /// The description of the source repository.
-  Future<CreateSourceRepositoryResponse> createSourceRepository({
-    required String name,
-    required String projectName,
-    required String spaceName,
-    String? description,
-  }) async {
-    final $payload = <String, dynamic>{
-      if (description != null) 'description': description,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'PUT',
-      requestUri:
-          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(projectName)}/sourceRepositories/${Uri.encodeComponent(name)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return CreateSourceRepositoryResponse.fromJson(response);
-  }
-
-  /// Creates a branch in a specified source repository in Amazon CodeCatalyst.
-  /// <note>
-  /// This API only creates a branch in a source repository hosted in Amazon
-  /// CodeCatalyst. You cannot use this API to create a branch in a linked
-  /// repository.
-  /// </note>
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [name] :
-  /// The name for the branch you're creating.
-  ///
-  /// Parameter [projectName] :
-  /// The name of the project in the space.
-  ///
-  /// Parameter [sourceRepositoryName] :
-  /// The name of the repository where you want to create a branch.
-  ///
-  /// Parameter [spaceName] :
-  /// The name of the space.
-  ///
-  /// Parameter [headCommitId] :
-  /// The commit ID in an existing branch from which you want to create the new
-  /// branch.
-  Future<CreateSourceRepositoryBranchResponse> createSourceRepositoryBranch({
-    required String name,
-    required String projectName,
-    required String sourceRepositoryName,
-    required String spaceName,
-    String? headCommitId,
-  }) async {
-    final $payload = <String, dynamic>{
-      if (headCommitId != null) 'headCommitId': headCommitId,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'PUT',
-      requestUri:
-          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(projectName)}/sourceRepositories/${Uri.encodeComponent(sourceRepositoryName)}/branches/${Uri.encodeComponent(name)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return CreateSourceRepositoryBranchResponse.fromJson(response);
-  }
-
-  /// Deletes a specified personal access token (PAT). A personal access token
-  /// can only be deleted by the user who created it.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [id] :
-  /// The ID of the personal access token to delete. You can find the IDs of all
-  /// PATs associated with your Amazon Web Services Builder ID in a space by
-  /// calling <a>ListAccessTokens</a>.
-  Future<void> deleteAccessToken({
-    required String id,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'DELETE',
-      requestUri: '/v1/accessTokens/${Uri.encodeComponent(id)}',
-      exceptionFnMap: _exceptionFns,
-    );
-  }
-
-  /// Deletes a Dev Environment.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [id] :
-  /// The system-generated unique ID of the Dev Environment you want to delete.
-  /// To retrieve a list of Dev Environment IDs, use <a>ListDevEnvironments</a>.
-  ///
-  /// Parameter [projectName] :
-  /// The name of the project in the space.
-  ///
-  /// Parameter [spaceName] :
-  /// The name of the space.
-  Future<DeleteDevEnvironmentResponse> deleteDevEnvironment({
-    required String id,
-    required String projectName,
-    required String spaceName,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'DELETE',
-      requestUri:
-          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(projectName)}/devEnvironments/${Uri.encodeComponent(id)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return DeleteDevEnvironmentResponse.fromJson(response);
-  }
-
-  /// Deletes a project in a space.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [name] :
-  /// The name of the project in the space. To retrieve a list of project names,
-  /// use <a>ListProjects</a>.
-  ///
-  /// Parameter [spaceName] :
-  /// The name of the space.
-  Future<DeleteProjectResponse> deleteProject({
-    required String name,
-    required String spaceName,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'DELETE',
-      requestUri:
-          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(name)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return DeleteProjectResponse.fromJson(response);
-  }
-
-  /// Deletes a source repository in Amazon CodeCatalyst. You cannot use this
-  /// API to delete a linked repository. It can only be used to delete a Amazon
-  /// CodeCatalyst source repository.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [name] :
-  /// The name of the source repository.
-  ///
-  /// Parameter [projectName] :
-  /// The name of the project in the space.
-  ///
-  /// Parameter [spaceName] :
-  /// The name of the space.
-  Future<DeleteSourceRepositoryResponse> deleteSourceRepository({
-    required String name,
-    required String projectName,
-    required String spaceName,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'DELETE',
-      requestUri:
-          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(projectName)}/sourceRepositories/${Uri.encodeComponent(name)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return DeleteSourceRepositoryResponse.fromJson(response);
-  }
-
-  /// Deletes a space.
-  /// <important>
-  /// Deleting a space cannot be undone. Additionally, since space names must be
-  /// unique across Amazon CodeCatalyst, you cannot reuse names of deleted
-  /// spaces.
-  /// </important>
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [name] :
-  /// The name of the space. To retrieve a list of space names, use
-  /// <a>ListSpaces</a>.
-  Future<DeleteSpaceResponse> deleteSpace({
-    required String name,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'DELETE',
-      requestUri: '/v1/spaces/${Uri.encodeComponent(name)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return DeleteSpaceResponse.fromJson(response);
-  }
-
   /// Returns information about a Dev Environment for a source repository in a
   /// project. Dev Environments are specific to the user who creates them.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [id] :
   /// The system-generated unique ID of the Dev Environment for which you want
@@ -684,1003 +798,8 @@ class CodeCatalyst {
     return GetDevEnvironmentResponse.fromJson(response);
   }
 
-  /// Returns information about a project.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [name] :
-  /// The name of the project in the space.
-  ///
-  /// Parameter [spaceName] :
-  /// The name of the space.
-  Future<GetProjectResponse> getProject({
-    required String name,
-    required String spaceName,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri:
-          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(name)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetProjectResponse.fromJson(response);
-  }
-
-  /// Returns information about a source repository.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [name] :
-  /// The name of the source repository.
-  ///
-  /// Parameter [projectName] :
-  /// The name of the project in the space.
-  ///
-  /// Parameter [spaceName] :
-  /// The name of the space.
-  Future<GetSourceRepositoryResponse> getSourceRepository({
-    required String name,
-    required String projectName,
-    required String spaceName,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri:
-          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(projectName)}/sourceRepositories/${Uri.encodeComponent(name)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetSourceRepositoryResponse.fromJson(response);
-  }
-
-  /// Returns information about the URLs that can be used with a Git client to
-  /// clone a source repository.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [projectName] :
-  /// The name of the project in the space.
-  ///
-  /// Parameter [sourceRepositoryName] :
-  /// The name of the source repository.
-  ///
-  /// Parameter [spaceName] :
-  /// The name of the space.
-  Future<GetSourceRepositoryCloneUrlsResponse> getSourceRepositoryCloneUrls({
-    required String projectName,
-    required String sourceRepositoryName,
-    required String spaceName,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri:
-          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(projectName)}/sourceRepositories/${Uri.encodeComponent(sourceRepositoryName)}/cloneUrls',
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetSourceRepositoryCloneUrlsResponse.fromJson(response);
-  }
-
-  /// Returns information about an space.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [name] :
-  /// The name of the space.
-  Future<GetSpaceResponse> getSpace({
-    required String name,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/v1/spaces/${Uri.encodeComponent(name)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetSpaceResponse.fromJson(response);
-  }
-
-  /// Returns information about the Amazon Web Services account used for billing
-  /// purposes and the billing plan for the space.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [spaceName] :
-  /// The name of the space.
-  Future<GetSubscriptionResponse> getSubscription({
-    required String spaceName,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/v1/spaces/${Uri.encodeComponent(spaceName)}/subscription',
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetSubscriptionResponse.fromJson(response);
-  }
-
-  /// Returns information about a user.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [id] :
-  /// The system-generated unique ID of the user.
-  ///
-  /// Parameter [userName] :
-  /// The name of the user as displayed in Amazon CodeCatalyst.
-  Future<GetUserDetailsResponse> getUserDetails({
-    String? id,
-    String? userName,
-  }) async {
-    final $query = <String, List<String>>{
-      if (id != null) 'id': [id],
-      if (userName != null) 'userName': [userName],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/userDetails',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetUserDetailsResponse.fromJson(response);
-  }
-
-  /// Returns information about a workflow.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [id] :
-  /// The ID of the workflow. To rerieve a list of workflow IDs, use
-  /// <a>ListWorkflows</a>.
-  ///
-  /// Parameter [projectName] :
-  /// The name of the project in the space.
-  ///
-  /// Parameter [spaceName] :
-  /// The name of the space.
-  Future<GetWorkflowResponse> getWorkflow({
-    required String id,
-    required String projectName,
-    required String spaceName,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri:
-          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(projectName)}/workflows/${Uri.encodeComponent(id)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetWorkflowResponse.fromJson(response);
-  }
-
-  /// Returns information about a specified run of a workflow.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [id] :
-  /// The ID of the workflow run. To retrieve a list of workflow run IDs, use
-  /// <a>ListWorkflowRuns</a>.
-  ///
-  /// Parameter [projectName] :
-  /// The name of the project in the space.
-  ///
-  /// Parameter [spaceName] :
-  /// The name of the space.
-  Future<GetWorkflowRunResponse> getWorkflowRun({
-    required String id,
-    required String projectName,
-    required String spaceName,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri:
-          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(projectName)}/workflowRuns/${Uri.encodeComponent(id)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetWorkflowRunResponse.fromJson(response);
-  }
-
-  /// Lists all personal access tokens (PATs) associated with the user who calls
-  /// the API. You can only list PATs associated with your Amazon Web Services
-  /// Builder ID.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of results to show in a single call to this API. If the
-  /// number of results is larger than the number you specified, the response
-  /// will include a <code>NextToken</code> element, which you can use to obtain
-  /// additional results.
-  ///
-  /// Parameter [nextToken] :
-  /// A token returned from a call to this API to indicate the next batch of
-  /// results to return, if any.
-  Future<ListAccessTokensResponse> listAccessTokens({
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      0,
-      10,
-    );
-    final $payload = <String, dynamic>{
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/v1/accessTokens',
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListAccessTokensResponse.fromJson(response);
-  }
-
-  /// Retrieves a list of active sessions for a Dev Environment in a project.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [devEnvironmentId] :
-  /// The system-generated unique ID of the Dev Environment.
-  ///
-  /// Parameter [projectName] :
-  /// The name of the project in the space.
-  ///
-  /// Parameter [spaceName] :
-  /// The name of the space.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of results to show in a single call to this API. If the
-  /// number of results is larger than the number you specified, the response
-  /// will include a <code>NextToken</code> element, which you can use to obtain
-  /// additional results.
-  ///
-  /// Parameter [nextToken] :
-  /// A token returned from a call to this API to indicate the next batch of
-  /// results to return, if any.
-  Future<ListDevEnvironmentSessionsResponse> listDevEnvironmentSessions({
-    required String devEnvironmentId,
-    required String projectName,
-    required String spaceName,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      200,
-    );
-    final $payload = <String, dynamic>{
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri:
-          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(projectName)}/devEnvironments/${Uri.encodeComponent(devEnvironmentId)}/sessions',
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListDevEnvironmentSessionsResponse.fromJson(response);
-  }
-
-  /// Retrieves a list of Dev Environments in a project.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [spaceName] :
-  /// The name of the space.
-  ///
-  /// Parameter [filters] :
-  /// Information about filters to apply to narrow the results returned in the
-  /// list.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of results to show in a single call to this API. If the
-  /// number of results is larger than the number you specified, the response
-  /// will include a <code>NextToken</code> element, which you can use to obtain
-  /// additional results.
-  ///
-  /// Parameter [nextToken] :
-  /// A token returned from a call to this API to indicate the next batch of
-  /// results to return, if any.
-  ///
-  /// Parameter [projectName] :
-  /// The name of the project in the space.
-  Future<ListDevEnvironmentsResponse> listDevEnvironments({
-    required String spaceName,
-    List<Filter>? filters,
-    int? maxResults,
-    String? nextToken,
-    String? projectName,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
-    final $payload = <String, dynamic>{
-      if (filters != null) 'filters': filters,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-      if (projectName != null) 'projectName': projectName,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri:
-          '/v1/spaces/${Uri.encodeComponent(spaceName)}/devEnvironments',
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListDevEnvironmentsResponse.fromJson(response);
-  }
-
-  /// Retrieves a list of events that occurred during a specific time in a
-  /// space. You can use these events to audit user and system activity in a
-  /// space. For more information, see <a
-  /// href="https://docs.aws.amazon.com/codecatalyst/latest/userguide/ipa-monitoring.html">Monitoring</a>
-  /// in the <i>Amazon CodeCatalyst User Guide</i>.
-  /// <note>
-  /// ListEventLogs guarantees events for the last 30 days in a given space. You
-  /// can also view and retrieve a list of management events over the last 90
-  /// days for Amazon CodeCatalyst in the CloudTrail console by viewing Event
-  /// history, or by creating a trail to create and maintain a record of events
-  /// that extends past 90 days. For more information, see <a
-  /// href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/view-cloudtrail-events.html">Working
-  /// with CloudTrail Event History</a> and <a
-  /// href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-getting-started.html">Working
-  /// with CloudTrail trails</a>.
-  /// </note>
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [endTime] :
-  /// The time after which you do not want any events retrieved, in coordinated
-  /// universal time (UTC) timestamp format as specified in <a
-  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>.
-  ///
-  /// Parameter [spaceName] :
-  /// The name of the space.
-  ///
-  /// Parameter [startTime] :
-  /// The date and time when you want to start retrieving events, in coordinated
-  /// universal time (UTC) timestamp format as specified in <a
-  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>.
-  ///
-  /// Parameter [eventName] :
-  /// The name of the event.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of results to show in a single call to this API. If the
-  /// number of results is larger than the number you specified, the response
-  /// will include a <code>NextToken</code> element, which you can use to obtain
-  /// additional results.
-  ///
-  /// Parameter [nextToken] :
-  /// A token returned from a call to this API to indicate the next batch of
-  /// results to return, if any.
-  Future<ListEventLogsResponse> listEventLogs({
-    required DateTime endTime,
-    required String spaceName,
-    required DateTime startTime,
-    String? eventName,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      250,
-    );
-    final $payload = <String, dynamic>{
-      'endTime': iso8601ToJson(endTime),
-      'startTime': iso8601ToJson(startTime),
-      if (eventName != null) 'eventName': eventName,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/v1/spaces/${Uri.encodeComponent(spaceName)}/eventLogs',
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListEventLogsResponse.fromJson(response);
-  }
-
-  /// Retrieves a list of projects.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [spaceName] :
-  /// The name of the space.
-  ///
-  /// Parameter [filters] :
-  /// Information about filters to apply to narrow the results returned in the
-  /// list.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of results to show in a single call to this API. If the
-  /// number of results is larger than the number you specified, the response
-  /// will include a <code>NextToken</code> element, which you can use to obtain
-  /// additional results.
-  ///
-  /// Parameter [nextToken] :
-  /// A token returned from a call to this API to indicate the next batch of
-  /// results to return, if any.
-  Future<ListProjectsResponse> listProjects({
-    required String spaceName,
-    List<ProjectListFilter>? filters,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    final $payload = <String, dynamic>{
-      if (filters != null) 'filters': filters,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects',
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListProjectsResponse.fromJson(response);
-  }
-
-  /// Retrieves a list of source repositories in a project.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [projectName] :
-  /// The name of the project in the space.
-  ///
-  /// Parameter [spaceName] :
-  /// The name of the space.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of results to show in a single call to this API. If the
-  /// number of results is larger than the number you specified, the response
-  /// will include a <code>NextToken</code> element, which you can use to obtain
-  /// additional results.
-  ///
-  /// Parameter [nextToken] :
-  /// A token returned from a call to this API to indicate the next batch of
-  /// results to return, if any.
-  Future<ListSourceRepositoriesResponse> listSourceRepositories({
-    required String projectName,
-    required String spaceName,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      200,
-    );
-    final $payload = <String, dynamic>{
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri:
-          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(projectName)}/sourceRepositories',
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListSourceRepositoriesResponse.fromJson(response);
-  }
-
-  /// Retrieves a list of branches in a specified source repository.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [projectName] :
-  /// The name of the project in the space.
-  ///
-  /// Parameter [sourceRepositoryName] :
-  /// The name of the source repository.
-  ///
-  /// Parameter [spaceName] :
-  /// The name of the space.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of results to show in a single call to this API. If the
-  /// number of results is larger than the number you specified, the response
-  /// will include a <code>NextToken</code> element, which you can use to obtain
-  /// additional results.
-  ///
-  /// Parameter [nextToken] :
-  /// A token returned from a call to this API to indicate the next batch of
-  /// results to return, if any.
-  Future<ListSourceRepositoryBranchesResponse> listSourceRepositoryBranches({
-    required String projectName,
-    required String sourceRepositoryName,
-    required String spaceName,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
-    final $payload = <String, dynamic>{
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri:
-          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(projectName)}/sourceRepositories/${Uri.encodeComponent(sourceRepositoryName)}/branches',
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListSourceRepositoryBranchesResponse.fromJson(response);
-  }
-
-  /// Retrieves a list of spaces.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [nextToken] :
-  /// A token returned from a call to this API to indicate the next batch of
-  /// results to return, if any.
-  Future<ListSpacesResponse> listSpaces({
-    String? nextToken,
-  }) async {
-    final $payload = <String, dynamic>{
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/v1/spaces',
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListSpacesResponse.fromJson(response);
-  }
-
-  /// Retrieves a list of workflow runs of a specified workflow.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [projectName] :
-  /// The name of the project in the space.
-  ///
-  /// Parameter [spaceName] :
-  /// The name of the space.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of results to show in a single call to this API. If the
-  /// number of results is larger than the number you specified, the response
-  /// will include a <code>NextToken</code> element, which you can use to obtain
-  /// additional results.
-  ///
-  /// Parameter [nextToken] :
-  /// A token returned from a call to this API to indicate the next batch of
-  /// results to return, if any.
-  ///
-  /// Parameter [sortBy] :
-  /// Information used to sort the items in the returned list.
-  ///
-  /// Parameter [workflowId] :
-  /// The ID of the workflow. To retrieve a list of workflow IDs, use
-  /// <a>ListWorkflows</a>.
-  Future<ListWorkflowRunsResponse> listWorkflowRuns({
-    required String projectName,
-    required String spaceName,
-    int? maxResults,
-    String? nextToken,
-    List<WorkflowRunSortCriteria>? sortBy,
-    String? workflowId,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
-    final $query = <String, List<String>>{
-      if (maxResults != null) 'maxResults': [maxResults.toString()],
-      if (nextToken != null) 'nextToken': [nextToken],
-      if (workflowId != null) 'workflowId': [workflowId],
-    };
-    final $payload = <String, dynamic>{
-      if (sortBy != null) 'sortBy': sortBy,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri:
-          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(projectName)}/workflowRuns',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListWorkflowRunsResponse.fromJson(response);
-  }
-
-  /// Retrieves a list of workflows in a specified project.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [projectName] :
-  /// The name of the project in the space.
-  ///
-  /// Parameter [spaceName] :
-  /// The name of the space.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of results to show in a single call to this API. If the
-  /// number of results is larger than the number you specified, the response
-  /// will include a <code>NextToken</code> element, which you can use to obtain
-  /// additional results.
-  ///
-  /// Parameter [nextToken] :
-  /// A token returned from a call to this API to indicate the next batch of
-  /// results to return, if any.
-  ///
-  /// Parameter [sortBy] :
-  /// Information used to sort the items in the returned list.
-  Future<ListWorkflowsResponse> listWorkflows({
-    required String projectName,
-    required String spaceName,
-    int? maxResults,
-    String? nextToken,
-    List<WorkflowSortCriteria>? sortBy,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    final $query = <String, List<String>>{
-      if (maxResults != null) 'maxResults': [maxResults.toString()],
-      if (nextToken != null) 'nextToken': [nextToken],
-    };
-    final $payload = <String, dynamic>{
-      if (sortBy != null) 'sortBy': sortBy,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri:
-          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(projectName)}/workflows',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListWorkflowsResponse.fromJson(response);
-  }
-
-  /// Starts a specified Dev Environment and puts it into an active state.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [id] :
-  /// The system-generated unique ID of the Dev Environment.
-  ///
-  /// Parameter [projectName] :
-  /// The name of the project in the space.
-  ///
-  /// Parameter [spaceName] :
-  /// The name of the space.
-  ///
-  /// Parameter [ides] :
-  /// Information about the integrated development environment (IDE) configured
-  /// for a Dev Environment.
-  ///
-  /// Parameter [inactivityTimeoutMinutes] :
-  /// The amount of time the Dev Environment will run without any activity
-  /// detected before stopping, in minutes. Only whole integers are allowed. Dev
-  /// Environments consume compute minutes when running.
-  ///
-  /// Parameter [instanceType] :
-  /// The Amazon EC2 instace type to use for the Dev Environment.
-  Future<StartDevEnvironmentResponse> startDevEnvironment({
-    required String id,
-    required String projectName,
-    required String spaceName,
-    List<IdeConfiguration>? ides,
-    int? inactivityTimeoutMinutes,
-    InstanceType? instanceType,
-  }) async {
-    _s.validateNumRange(
-      'inactivityTimeoutMinutes',
-      inactivityTimeoutMinutes,
-      0,
-      1200,
-    );
-    final $payload = <String, dynamic>{
-      if (ides != null) 'ides': ides,
-      if (inactivityTimeoutMinutes != null)
-        'inactivityTimeoutMinutes': inactivityTimeoutMinutes,
-      if (instanceType != null) 'instanceType': instanceType.value,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'PUT',
-      requestUri:
-          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(projectName)}/devEnvironments/${Uri.encodeComponent(id)}/start',
-      exceptionFnMap: _exceptionFns,
-    );
-    return StartDevEnvironmentResponse.fromJson(response);
-  }
-
-  /// Starts a session for a specified Dev Environment.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [id] :
-  /// The system-generated unique ID of the Dev Environment.
-  ///
-  /// Parameter [projectName] :
-  /// The name of the project in the space.
-  ///
-  /// Parameter [spaceName] :
-  /// The name of the space.
-  Future<StartDevEnvironmentSessionResponse> startDevEnvironmentSession({
-    required String id,
-    required String projectName,
-    required DevEnvironmentSessionConfiguration sessionConfiguration,
-    required String spaceName,
-  }) async {
-    final $payload = <String, dynamic>{
-      'sessionConfiguration': sessionConfiguration,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'PUT',
-      requestUri:
-          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(projectName)}/devEnvironments/${Uri.encodeComponent(id)}/session',
-      exceptionFnMap: _exceptionFns,
-    );
-    return StartDevEnvironmentSessionResponse.fromJson(response);
-  }
-
-  /// Begins a run of a specified workflow.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [projectName] :
-  /// The name of the project in the space.
-  ///
-  /// Parameter [spaceName] :
-  /// The name of the space.
-  ///
-  /// Parameter [workflowId] :
-  /// The system-generated unique ID of the workflow. To retrieve a list of
-  /// workflow IDs, use <a>ListWorkflows</a>.
-  ///
-  /// Parameter [clientToken] :
-  /// A user-specified idempotency token. Idempotency ensures that an API
-  /// request completes only once. With an idempotent request, if the original
-  /// request completes successfully, the subsequent retries return the result
-  /// from the original successful request and have no additional effect.
-  Future<StartWorkflowRunResponse> startWorkflowRun({
-    required String projectName,
-    required String spaceName,
-    required String workflowId,
-    String? clientToken,
-  }) async {
-    final $query = <String, List<String>>{
-      'workflowId': [workflowId],
-    };
-    final $payload = <String, dynamic>{
-      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'PUT',
-      requestUri:
-          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(projectName)}/workflowRuns',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return StartWorkflowRunResponse.fromJson(response);
-  }
-
-  /// Pauses a specified Dev Environment and places it in a non-running state.
-  /// Stopped Dev Environments do not consume compute minutes.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [id] :
-  /// The system-generated unique ID of the Dev Environment.
-  ///
-  /// Parameter [projectName] :
-  /// The name of the project in the space.
-  ///
-  /// Parameter [spaceName] :
-  /// The name of the space.
-  Future<StopDevEnvironmentResponse> stopDevEnvironment({
-    required String id,
-    required String projectName,
-    required String spaceName,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'PUT',
-      requestUri:
-          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(projectName)}/devEnvironments/${Uri.encodeComponent(id)}/stop',
-      exceptionFnMap: _exceptionFns,
-    );
-    return StopDevEnvironmentResponse.fromJson(response);
-  }
-
-  /// Stops a session for a specified Dev Environment.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [id] :
-  /// The system-generated unique ID of the Dev Environment. To obtain this ID,
-  /// use <a>ListDevEnvironments</a>.
-  ///
-  /// Parameter [projectName] :
-  /// The name of the project in the space.
-  ///
-  /// Parameter [sessionId] :
-  /// The system-generated unique ID of the Dev Environment session. This ID is
-  /// returned by <a>StartDevEnvironmentSession</a>.
-  ///
-  /// Parameter [spaceName] :
-  /// The name of the space.
-  Future<StopDevEnvironmentSessionResponse> stopDevEnvironmentSession({
-    required String id,
-    required String projectName,
-    required String sessionId,
-    required String spaceName,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'DELETE',
-      requestUri:
-          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(projectName)}/devEnvironments/${Uri.encodeComponent(id)}/session/${Uri.encodeComponent(sessionId)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return StopDevEnvironmentSessionResponse.fromJson(response);
-  }
-
   /// Changes one or more values for a Dev Environment. Updating certain values
   /// of the Dev Environment will cause a restart.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [id] :
   /// The system-generated unique ID of the Dev Environment.
@@ -1754,25 +873,232 @@ class CodeCatalyst {
     return UpdateDevEnvironmentResponse.fromJson(response);
   }
 
-  /// Changes one or more values for a project.
+  /// Deletes a Dev Environment.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// Parameter [id] :
+  /// The system-generated unique ID of the Dev Environment you want to delete.
+  /// To retrieve a list of Dev Environment IDs, use <a>ListDevEnvironments</a>.
+  ///
+  /// Parameter [projectName] :
+  /// The name of the project in the space.
+  ///
+  /// Parameter [spaceName] :
+  /// The name of the space.
+  Future<DeleteDevEnvironmentResponse> deleteDevEnvironment({
+    required String id,
+    required String projectName,
+    required String spaceName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(projectName)}/devEnvironments/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteDevEnvironmentResponse.fromJson(response);
+  }
+
+  /// Retrieves a list of active sessions for a Dev Environment in a project.
+  ///
+  /// Parameter [devEnvironmentId] :
+  /// The system-generated unique ID of the Dev Environment.
+  ///
+  /// Parameter [projectName] :
+  /// The name of the project in the space.
+  ///
+  /// Parameter [spaceName] :
+  /// The name of the space.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to show in a single call to this API. If the
+  /// number of results is larger than the number you specified, the response
+  /// will include a <code>NextToken</code> element, which you can use to obtain
+  /// additional results.
+  ///
+  /// Parameter [nextToken] :
+  /// A token returned from a call to this API to indicate the next batch of
+  /// results to return, if any.
+  Future<ListDevEnvironmentSessionsResponse> listDevEnvironmentSessions({
+    required String devEnvironmentId,
+    required String projectName,
+    required String spaceName,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(projectName)}/devEnvironments/${Uri.encodeComponent(devEnvironmentId)}/sessions',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListDevEnvironmentSessionsResponse.fromJson(response);
+  }
+
+  /// Starts a specified Dev Environment and puts it into an active state.
+  ///
+  /// Parameter [id] :
+  /// The system-generated unique ID of the Dev Environment.
+  ///
+  /// Parameter [projectName] :
+  /// The name of the project in the space.
+  ///
+  /// Parameter [spaceName] :
+  /// The name of the space.
+  ///
+  /// Parameter [ides] :
+  /// Information about the integrated development environment (IDE) configured
+  /// for a Dev Environment.
+  ///
+  /// Parameter [inactivityTimeoutMinutes] :
+  /// The amount of time the Dev Environment will run without any activity
+  /// detected before stopping, in minutes. Only whole integers are allowed. Dev
+  /// Environments consume compute minutes when running.
+  ///
+  /// Parameter [instanceType] :
+  /// The Amazon EC2 instace type to use for the Dev Environment.
+  Future<StartDevEnvironmentResponse> startDevEnvironment({
+    required String id,
+    required String projectName,
+    required String spaceName,
+    List<IdeConfiguration>? ides,
+    int? inactivityTimeoutMinutes,
+    InstanceType? instanceType,
+  }) async {
+    _s.validateNumRange(
+      'inactivityTimeoutMinutes',
+      inactivityTimeoutMinutes,
+      0,
+      1200,
+    );
+    final $payload = <String, dynamic>{
+      if (ides != null) 'ides': ides,
+      if (inactivityTimeoutMinutes != null)
+        'inactivityTimeoutMinutes': inactivityTimeoutMinutes,
+      if (instanceType != null) 'instanceType': instanceType.value,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(projectName)}/devEnvironments/${Uri.encodeComponent(id)}/start',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartDevEnvironmentResponse.fromJson(response);
+  }
+
+  /// Starts a session for a specified Dev Environment.
+  ///
+  /// Parameter [id] :
+  /// The system-generated unique ID of the Dev Environment.
+  ///
+  /// Parameter [projectName] :
+  /// The name of the project in the space.
+  ///
+  /// Parameter [spaceName] :
+  /// The name of the space.
+  Future<StartDevEnvironmentSessionResponse> startDevEnvironmentSession({
+    required String id,
+    required String projectName,
+    required DevEnvironmentSessionConfiguration sessionConfiguration,
+    required String spaceName,
+  }) async {
+    final $payload = <String, dynamic>{
+      'sessionConfiguration': sessionConfiguration,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(projectName)}/devEnvironments/${Uri.encodeComponent(id)}/session',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartDevEnvironmentSessionResponse.fromJson(response);
+  }
+
+  /// Pauses a specified Dev Environment and places it in a non-running state.
+  /// Stopped Dev Environments do not consume compute minutes.
+  ///
+  /// Parameter [id] :
+  /// The system-generated unique ID of the Dev Environment.
+  ///
+  /// Parameter [projectName] :
+  /// The name of the project in the space.
+  ///
+  /// Parameter [spaceName] :
+  /// The name of the space.
+  Future<StopDevEnvironmentResponse> stopDevEnvironment({
+    required String id,
+    required String projectName,
+    required String spaceName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'PUT',
+      requestUri:
+          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(projectName)}/devEnvironments/${Uri.encodeComponent(id)}/stop',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StopDevEnvironmentResponse.fromJson(response);
+  }
+
+  /// Stops a session for a specified Dev Environment.
+  ///
+  /// Parameter [id] :
+  /// The system-generated unique ID of the Dev Environment. To obtain this ID,
+  /// use <a>ListDevEnvironments</a>.
+  ///
+  /// Parameter [projectName] :
+  /// The name of the project in the space.
+  ///
+  /// Parameter [sessionId] :
+  /// The system-generated unique ID of the Dev Environment session. This ID is
+  /// returned by <a>StartDevEnvironmentSession</a>.
+  ///
+  /// Parameter [spaceName] :
+  /// The name of the space.
+  Future<StopDevEnvironmentSessionResponse> stopDevEnvironmentSession({
+    required String id,
+    required String projectName,
+    required String sessionId,
+    required String spaceName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(projectName)}/devEnvironments/${Uri.encodeComponent(id)}/session/${Uri.encodeComponent(sessionId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StopDevEnvironmentSessionResponse.fromJson(response);
+  }
+
+  /// Creates an empty Git-based source repository in a specified project. The
+  /// repository is created with an initial empty commit with a default branch
+  /// named <code>main</code>.
   ///
   /// Parameter [name] :
-  /// The name of the project.
+  /// The name of the source repository. For more information about name
+  /// requirements, see <a
+  /// href="https://docs.aws.amazon.com/codecatalyst/latest/userguide/source-quotas.html">Quotas
+  /// for source repositories</a>.
+  ///
+  /// Parameter [projectName] :
+  /// The name of the project in the space.
   ///
   /// Parameter [spaceName] :
   /// The name of the space.
   ///
   /// Parameter [description] :
-  /// The description of the project.
-  Future<UpdateProjectResponse> updateProject({
+  /// The description of the source repository.
+  Future<CreateSourceRepositoryResponse> createSourceRepository({
     required String name,
+    required String projectName,
     required String spaceName,
     String? description,
   }) async {
@@ -1781,131 +1107,490 @@ class CodeCatalyst {
     };
     final response = await _protocol.send(
       payload: $payload,
-      method: 'PATCH',
+      method: 'PUT',
       requestUri:
-          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(name)}',
+          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(projectName)}/sourceRepositories/${Uri.encodeComponent(name)}',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateProjectResponse.fromJson(response);
+    return CreateSourceRepositoryResponse.fromJson(response);
   }
 
-  /// Changes one or more values for a space.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// Returns information about a source repository.
   ///
   /// Parameter [name] :
+  /// The name of the source repository.
+  ///
+  /// Parameter [projectName] :
+  /// The name of the project in the space.
+  ///
+  /// Parameter [spaceName] :
   /// The name of the space.
-  ///
-  /// Parameter [description] :
-  /// The description of the space.
-  Future<UpdateSpaceResponse> updateSpace({
+  Future<GetSourceRepositoryResponse> getSourceRepository({
     required String name,
-    String? description,
+    required String projectName,
+    required String spaceName,
   }) async {
-    final $payload = <String, dynamic>{
-      if (description != null) 'description': description,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'PATCH',
-      requestUri: '/v1/spaces/${Uri.encodeComponent(name)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return UpdateSpaceResponse.fromJson(response);
-  }
-
-  /// Verifies whether the calling user has a valid Amazon CodeCatalyst login
-  /// and session. If successful, this returns the ID of the user in Amazon
-  /// CodeCatalyst.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  Future<VerifySessionResponse> verifySession() async {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/session',
+      requestUri:
+          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(projectName)}/sourceRepositories/${Uri.encodeComponent(name)}',
       exceptionFnMap: _exceptionFns,
     );
-    return VerifySessionResponse.fromJson(response);
+    return GetSourceRepositoryResponse.fromJson(response);
+  }
+
+  /// Deletes a source repository in Amazon CodeCatalyst. You cannot use this
+  /// API to delete a linked repository. It can only be used to delete a Amazon
+  /// CodeCatalyst source repository.
+  ///
+  /// Parameter [name] :
+  /// The name of the source repository.
+  ///
+  /// Parameter [projectName] :
+  /// The name of the project in the space.
+  ///
+  /// Parameter [spaceName] :
+  /// The name of the space.
+  Future<DeleteSourceRepositoryResponse> deleteSourceRepository({
+    required String name,
+    required String projectName,
+    required String spaceName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(projectName)}/sourceRepositories/${Uri.encodeComponent(name)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteSourceRepositoryResponse.fromJson(response);
+  }
+
+  /// Retrieves a list of source repositories in a project.
+  ///
+  /// Parameter [projectName] :
+  /// The name of the project in the space.
+  ///
+  /// Parameter [spaceName] :
+  /// The name of the space.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to show in a single call to this API. If the
+  /// number of results is larger than the number you specified, the response
+  /// will include a <code>NextToken</code> element, which you can use to obtain
+  /// additional results.
+  ///
+  /// Parameter [nextToken] :
+  /// A token returned from a call to this API to indicate the next batch of
+  /// results to return, if any.
+  Future<ListSourceRepositoriesResponse> listSourceRepositories({
+    required String projectName,
+    required String spaceName,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(projectName)}/sourceRepositories',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListSourceRepositoriesResponse.fromJson(response);
+  }
+
+  /// Returns information about the URLs that can be used with a Git client to
+  /// clone a source repository.
+  ///
+  /// Parameter [projectName] :
+  /// The name of the project in the space.
+  ///
+  /// Parameter [sourceRepositoryName] :
+  /// The name of the source repository.
+  ///
+  /// Parameter [spaceName] :
+  /// The name of the space.
+  Future<GetSourceRepositoryCloneUrlsResponse> getSourceRepositoryCloneUrls({
+    required String projectName,
+    required String sourceRepositoryName,
+    required String spaceName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(projectName)}/sourceRepositories/${Uri.encodeComponent(sourceRepositoryName)}/cloneUrls',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetSourceRepositoryCloneUrlsResponse.fromJson(response);
+  }
+
+  /// Creates a branch in a specified source repository in Amazon CodeCatalyst.
+  /// <note>
+  /// This API only creates a branch in a source repository hosted in Amazon
+  /// CodeCatalyst. You cannot use this API to create a branch in a linked
+  /// repository.
+  /// </note>
+  ///
+  /// Parameter [name] :
+  /// The name for the branch you're creating.
+  ///
+  /// Parameter [projectName] :
+  /// The name of the project in the space.
+  ///
+  /// Parameter [sourceRepositoryName] :
+  /// The name of the repository where you want to create a branch.
+  ///
+  /// Parameter [spaceName] :
+  /// The name of the space.
+  ///
+  /// Parameter [headCommitId] :
+  /// The commit ID in an existing branch from which you want to create the new
+  /// branch.
+  Future<CreateSourceRepositoryBranchResponse> createSourceRepositoryBranch({
+    required String name,
+    required String projectName,
+    required String sourceRepositoryName,
+    required String spaceName,
+    String? headCommitId,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (headCommitId != null) 'headCommitId': headCommitId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(projectName)}/sourceRepositories/${Uri.encodeComponent(sourceRepositoryName)}/branches/${Uri.encodeComponent(name)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateSourceRepositoryBranchResponse.fromJson(response);
+  }
+
+  /// Retrieves a list of branches in a specified source repository.
+  ///
+  /// Parameter [projectName] :
+  /// The name of the project in the space.
+  ///
+  /// Parameter [sourceRepositoryName] :
+  /// The name of the source repository.
+  ///
+  /// Parameter [spaceName] :
+  /// The name of the space.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to show in a single call to this API. If the
+  /// number of results is larger than the number you specified, the response
+  /// will include a <code>NextToken</code> element, which you can use to obtain
+  /// additional results.
+  ///
+  /// Parameter [nextToken] :
+  /// A token returned from a call to this API to indicate the next batch of
+  /// results to return, if any.
+  Future<ListSourceRepositoryBranchesResponse> listSourceRepositoryBranches({
+    required String projectName,
+    required String sourceRepositoryName,
+    required String spaceName,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(projectName)}/sourceRepositories/${Uri.encodeComponent(sourceRepositoryName)}/branches',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListSourceRepositoryBranchesResponse.fromJson(response);
+  }
+
+  /// Returns information about a workflow.
+  ///
+  /// Parameter [id] :
+  /// The ID of the workflow. To rerieve a list of workflow IDs, use
+  /// <a>ListWorkflows</a>.
+  ///
+  /// Parameter [projectName] :
+  /// The name of the project in the space.
+  ///
+  /// Parameter [spaceName] :
+  /// The name of the space.
+  Future<GetWorkflowResponse> getWorkflow({
+    required String id,
+    required String projectName,
+    required String spaceName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(projectName)}/workflows/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetWorkflowResponse.fromJson(response);
+  }
+
+  /// Retrieves a list of workflows in a specified project.
+  ///
+  /// Parameter [projectName] :
+  /// The name of the project in the space.
+  ///
+  /// Parameter [spaceName] :
+  /// The name of the space.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to show in a single call to this API. If the
+  /// number of results is larger than the number you specified, the response
+  /// will include a <code>NextToken</code> element, which you can use to obtain
+  /// additional results.
+  ///
+  /// Parameter [nextToken] :
+  /// A token returned from a call to this API to indicate the next batch of
+  /// results to return, if any.
+  ///
+  /// Parameter [sortBy] :
+  /// Information used to sort the items in the returned list.
+  Future<ListWorkflowsResponse> listWorkflows({
+    required String projectName,
+    required String spaceName,
+    int? maxResults,
+    String? nextToken,
+    List<WorkflowSortCriteria>? sortBy,
+  }) async {
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final $payload = <String, dynamic>{
+      if (sortBy != null) 'sortBy': sortBy,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(projectName)}/workflows',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListWorkflowsResponse.fromJson(response);
+  }
+
+  /// Begins a run of a specified workflow.
+  ///
+  /// Parameter [projectName] :
+  /// The name of the project in the space.
+  ///
+  /// Parameter [spaceName] :
+  /// The name of the space.
+  ///
+  /// Parameter [workflowId] :
+  /// The system-generated unique ID of the workflow. To retrieve a list of
+  /// workflow IDs, use <a>ListWorkflows</a>.
+  ///
+  /// Parameter [clientToken] :
+  /// A user-specified idempotency token. Idempotency ensures that an API
+  /// request completes only once. With an idempotent request, if the original
+  /// request completes successfully, the subsequent retries return the result
+  /// from the original successful request and have no additional effect.
+  Future<StartWorkflowRunResponse> startWorkflowRun({
+    required String projectName,
+    required String spaceName,
+    required String workflowId,
+    String? clientToken,
+  }) async {
+    final $query = <String, List<String>>{
+      'workflowId': [workflowId],
+    };
+    final $payload = <String, dynamic>{
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(projectName)}/workflowRuns',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartWorkflowRunResponse.fromJson(response);
+  }
+
+  /// Returns information about a specified run of a workflow.
+  ///
+  /// Parameter [id] :
+  /// The ID of the workflow run. To retrieve a list of workflow run IDs, use
+  /// <a>ListWorkflowRuns</a>.
+  ///
+  /// Parameter [projectName] :
+  /// The name of the project in the space.
+  ///
+  /// Parameter [spaceName] :
+  /// The name of the space.
+  Future<GetWorkflowRunResponse> getWorkflowRun({
+    required String id,
+    required String projectName,
+    required String spaceName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(projectName)}/workflowRuns/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetWorkflowRunResponse.fromJson(response);
+  }
+
+  /// Retrieves a list of workflow runs of a specified workflow.
+  ///
+  /// Parameter [projectName] :
+  /// The name of the project in the space.
+  ///
+  /// Parameter [spaceName] :
+  /// The name of the space.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to show in a single call to this API. If the
+  /// number of results is larger than the number you specified, the response
+  /// will include a <code>NextToken</code> element, which you can use to obtain
+  /// additional results.
+  ///
+  /// Parameter [nextToken] :
+  /// A token returned from a call to this API to indicate the next batch of
+  /// results to return, if any.
+  ///
+  /// Parameter [sortBy] :
+  /// Information used to sort the items in the returned list.
+  ///
+  /// Parameter [workflowId] :
+  /// The ID of the workflow. To retrieve a list of workflow IDs, use
+  /// <a>ListWorkflows</a>.
+  Future<ListWorkflowRunsResponse> listWorkflowRuns({
+    required String projectName,
+    required String spaceName,
+    int? maxResults,
+    String? nextToken,
+    List<WorkflowRunSortCriteria>? sortBy,
+    String? workflowId,
+  }) async {
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (workflowId != null) 'workflowId': [workflowId],
+    };
+    final $payload = <String, dynamic>{
+      if (sortBy != null) 'sortBy': sortBy,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/v1/spaces/${Uri.encodeComponent(spaceName)}/projects/${Uri.encodeComponent(projectName)}/workflowRuns',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListWorkflowRunsResponse.fromJson(response);
+  }
+
+  /// Returns information about the Amazon Web Services account used for billing
+  /// purposes and the billing plan for the space.
+  ///
+  /// Parameter [spaceName] :
+  /// The name of the space.
+  Future<GetSubscriptionResponse> getSubscription({
+    required String spaceName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v1/spaces/${Uri.encodeComponent(spaceName)}/subscription',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetSubscriptionResponse.fromJson(response);
   }
 }
 
-/// Information about a specified personal access token (PAT).
-class AccessTokenSummary {
-  /// The system-generated ID of the personal access token.
-  final String id;
+class GetUserDetailsResponse {
+  /// The friendly name displayed for the user in Amazon CodeCatalyst.
+  final String? displayName;
 
-  /// The friendly name of the personal access token.
-  final String name;
+  /// The email address provided by the user when they signed up.
+  final EmailAddress? primaryEmail;
 
-  /// The date and time when the personal access token will expire, in coordinated
-  /// universal time (UTC) timestamp format as specified in <a
-  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>.
-  final DateTime? expiresTime;
+  /// The system-generated unique ID of the user.
+  final String? userId;
 
-  AccessTokenSummary({
-    required this.id,
-    required this.name,
-    this.expiresTime,
+  /// The name of the user as displayed in Amazon CodeCatalyst.
+  final String? userName;
+
+  /// <p/>
+  final String? version;
+
+  GetUserDetailsResponse({
+    this.displayName,
+    this.primaryEmail,
+    this.userId,
+    this.userName,
+    this.version,
   });
 
-  factory AccessTokenSummary.fromJson(Map<String, dynamic> json) {
-    return AccessTokenSummary(
-      id: (json['id'] as String?) ?? '',
-      name: (json['name'] as String?) ?? '',
-      expiresTime: timeStampFromJson(json['expiresTime']),
+  factory GetUserDetailsResponse.fromJson(Map<String, dynamic> json) {
+    return GetUserDetailsResponse(
+      displayName: json['displayName'] as String?,
+      primaryEmail: json['primaryEmail'] != null
+          ? EmailAddress.fromJson(json['primaryEmail'] as Map<String, dynamic>)
+          : null,
+      userId: json['userId'] as String?,
+      userName: json['userName'] as String?,
+      version: json['version'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final id = this.id;
-    final name = this.name;
-    final expiresTime = this.expiresTime;
+    final displayName = this.displayName;
+    final primaryEmail = this.primaryEmail;
+    final userId = this.userId;
+    final userName = this.userName;
+    final version = this.version;
     return {
-      'id': id,
-      'name': name,
-      if (expiresTime != null) 'expiresTime': iso8601ToJson(expiresTime),
+      if (displayName != null) 'displayName': displayName,
+      if (primaryEmail != null) 'primaryEmail': primaryEmail,
+      if (userId != null) 'userId': userId,
+      if (userName != null) 'userName': userName,
+      if (version != null) 'version': version,
     };
   }
 }
 
-class ComparisonOperator {
-  static const eq = ComparisonOperator._('EQ');
-  static const gt = ComparisonOperator._('GT');
-  static const ge = ComparisonOperator._('GE');
-  static const lt = ComparisonOperator._('LT');
-  static const le = ComparisonOperator._('LE');
-  static const beginsWith = ComparisonOperator._('BEGINS_WITH');
+class VerifySessionResponse {
+  /// The system-generated unique ID of the user in Amazon CodeCatalyst.
+  final String? identity;
 
-  final String value;
+  VerifySessionResponse({
+    this.identity,
+  });
 
-  const ComparisonOperator._(this.value);
+  factory VerifySessionResponse.fromJson(Map<String, dynamic> json) {
+    return VerifySessionResponse(
+      identity: json['identity'] as String?,
+    );
+  }
 
-  static const values = [eq, gt, ge, lt, le, beginsWith];
-
-  static ComparisonOperator fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ComparisonOperator._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ComparisonOperator && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final identity = this.identity;
+    return {
+      if (identity != null) 'identity': identity,
+    };
+  }
 }
 
 class CreateAccessTokenResponse {
@@ -1954,6 +1639,458 @@ class CreateAccessTokenResponse {
   }
 }
 
+class DeleteAccessTokenResponse {
+  DeleteAccessTokenResponse();
+
+  factory DeleteAccessTokenResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteAccessTokenResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class ListAccessTokensResponse {
+  /// A list of personal access tokens (PATs) associated with the calling user
+  /// identity.
+  final List<AccessTokenSummary> items;
+
+  /// A token returned from a call to this API to indicate the next batch of
+  /// results to return, if any.
+  final String? nextToken;
+
+  ListAccessTokensResponse({
+    required this.items,
+    this.nextToken,
+  });
+
+  factory ListAccessTokensResponse.fromJson(Map<String, dynamic> json) {
+    return ListAccessTokensResponse(
+      items: ((json['items'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => AccessTokenSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      'items': items,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class GetSpaceResponse {
+  /// The name of the space.
+  final String name;
+
+  /// The Amazon Web Services Region where the space exists.
+  final String regionName;
+
+  /// The description of the space.
+  final String? description;
+
+  /// The friendly name of the space displayed to users.
+  final String? displayName;
+
+  GetSpaceResponse({
+    required this.name,
+    required this.regionName,
+    this.description,
+    this.displayName,
+  });
+
+  factory GetSpaceResponse.fromJson(Map<String, dynamic> json) {
+    return GetSpaceResponse(
+      name: (json['name'] as String?) ?? '',
+      regionName: (json['regionName'] as String?) ?? '',
+      description: json['description'] as String?,
+      displayName: json['displayName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final regionName = this.regionName;
+    final description = this.description;
+    final displayName = this.displayName;
+    return {
+      'name': name,
+      'regionName': regionName,
+      if (description != null) 'description': description,
+      if (displayName != null) 'displayName': displayName,
+    };
+  }
+}
+
+class UpdateSpaceResponse {
+  /// The description of the space.
+  final String? description;
+
+  /// The friendly name of the space displayed to users in Amazon CodeCatalyst.
+  final String? displayName;
+
+  /// The name of the space.
+  final String? name;
+
+  UpdateSpaceResponse({
+    this.description,
+    this.displayName,
+    this.name,
+  });
+
+  factory UpdateSpaceResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateSpaceResponse(
+      description: json['description'] as String?,
+      displayName: json['displayName'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final displayName = this.displayName;
+    final name = this.name;
+    return {
+      if (description != null) 'description': description,
+      if (displayName != null) 'displayName': displayName,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+class DeleteSpaceResponse {
+  /// The name of the space.
+  final String name;
+
+  /// The friendly name of the space displayed to users of the space in Amazon
+  /// CodeCatalyst.
+  final String? displayName;
+
+  DeleteSpaceResponse({
+    required this.name,
+    this.displayName,
+  });
+
+  factory DeleteSpaceResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteSpaceResponse(
+      name: (json['name'] as String?) ?? '',
+      displayName: json['displayName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final displayName = this.displayName;
+    return {
+      'name': name,
+      if (displayName != null) 'displayName': displayName,
+    };
+  }
+}
+
+class ListSpacesResponse {
+  /// Information about the spaces.
+  final List<SpaceSummary>? items;
+
+  /// A token returned from a call to this API to indicate the next batch of
+  /// results to return, if any.
+  final String? nextToken;
+
+  ListSpacesResponse({
+    this.items,
+    this.nextToken,
+  });
+
+  factory ListSpacesResponse.fromJson(Map<String, dynamic> json) {
+    return ListSpacesResponse(
+      items: (json['items'] as List?)
+          ?.nonNulls
+          .map((e) => SpaceSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      if (items != null) 'items': items,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListDevEnvironmentsResponse {
+  /// Information about the Dev Environments in a project.
+  final List<DevEnvironmentSummary> items;
+
+  /// A token returned from a call to this API to indicate the next batch of
+  /// results to return, if any.
+  final String? nextToken;
+
+  ListDevEnvironmentsResponse({
+    required this.items,
+    this.nextToken,
+  });
+
+  factory ListDevEnvironmentsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDevEnvironmentsResponse(
+      items: ((json['items'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => DevEnvironmentSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      'items': items,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListEventLogsResponse {
+  /// Information about each event retrieved in the list.
+  final List<EventLogEntry> items;
+
+  /// A token returned from a call to this API to indicate the next batch of
+  /// results to return, if any.
+  final String? nextToken;
+
+  ListEventLogsResponse({
+    required this.items,
+    this.nextToken,
+  });
+
+  factory ListEventLogsResponse.fromJson(Map<String, dynamic> json) {
+    return ListEventLogsResponse(
+      items: ((json['items'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => EventLogEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      'items': items,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class CreateProjectResponse {
+  /// The name of the project in the space.
+  final String name;
+
+  /// The description of the project.
+  final String? description;
+
+  /// The friendly name of the project.
+  final String? displayName;
+
+  /// The name of the space.
+  final String? spaceName;
+
+  CreateProjectResponse({
+    required this.name,
+    this.description,
+    this.displayName,
+    this.spaceName,
+  });
+
+  factory CreateProjectResponse.fromJson(Map<String, dynamic> json) {
+    return CreateProjectResponse(
+      name: (json['name'] as String?) ?? '',
+      description: json['description'] as String?,
+      displayName: json['displayName'] as String?,
+      spaceName: json['spaceName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final description = this.description;
+    final displayName = this.displayName;
+    final spaceName = this.spaceName;
+    return {
+      'name': name,
+      if (description != null) 'description': description,
+      if (displayName != null) 'displayName': displayName,
+      if (spaceName != null) 'spaceName': spaceName,
+    };
+  }
+}
+
+class GetProjectResponse {
+  /// The name of the project in the space.
+  final String name;
+
+  /// The description of the project.
+  final String? description;
+
+  /// The friendly name of the project displayed to users in Amazon CodeCatalyst.
+  final String? displayName;
+
+  /// The name of the space.
+  final String? spaceName;
+
+  GetProjectResponse({
+    required this.name,
+    this.description,
+    this.displayName,
+    this.spaceName,
+  });
+
+  factory GetProjectResponse.fromJson(Map<String, dynamic> json) {
+    return GetProjectResponse(
+      name: (json['name'] as String?) ?? '',
+      description: json['description'] as String?,
+      displayName: json['displayName'] as String?,
+      spaceName: json['spaceName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final description = this.description;
+    final displayName = this.displayName;
+    final spaceName = this.spaceName;
+    return {
+      'name': name,
+      if (description != null) 'description': description,
+      if (displayName != null) 'displayName': displayName,
+      if (spaceName != null) 'spaceName': spaceName,
+    };
+  }
+}
+
+class UpdateProjectResponse {
+  /// The description of the project.
+  final String? description;
+
+  /// The friendly name of the project displayed to users in Amazon CodeCatalyst.
+  final String? displayName;
+
+  /// The name of the project.
+  final String? name;
+
+  /// The name of the space.
+  final String? spaceName;
+
+  UpdateProjectResponse({
+    this.description,
+    this.displayName,
+    this.name,
+    this.spaceName,
+  });
+
+  factory UpdateProjectResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateProjectResponse(
+      description: json['description'] as String?,
+      displayName: json['displayName'] as String?,
+      name: json['name'] as String?,
+      spaceName: json['spaceName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final displayName = this.displayName;
+    final name = this.name;
+    final spaceName = this.spaceName;
+    return {
+      if (description != null) 'description': description,
+      if (displayName != null) 'displayName': displayName,
+      if (name != null) 'name': name,
+      if (spaceName != null) 'spaceName': spaceName,
+    };
+  }
+}
+
+class DeleteProjectResponse {
+  /// The name of the project in the space.
+  final String name;
+
+  /// The name of the space.
+  final String spaceName;
+
+  /// The friendly name displayed to users of the project in Amazon CodeCatalyst.
+  final String? displayName;
+
+  DeleteProjectResponse({
+    required this.name,
+    required this.spaceName,
+    this.displayName,
+  });
+
+  factory DeleteProjectResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteProjectResponse(
+      name: (json['name'] as String?) ?? '',
+      spaceName: (json['spaceName'] as String?) ?? '',
+      displayName: json['displayName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final spaceName = this.spaceName;
+    final displayName = this.displayName;
+    return {
+      'name': name,
+      'spaceName': spaceName,
+      if (displayName != null) 'displayName': displayName,
+    };
+  }
+}
+
+class ListProjectsResponse {
+  /// Information about the projects.
+  final List<ProjectSummary>? items;
+
+  /// A token returned from a call to this API to indicate the next batch of
+  /// results to return, if any.
+  final String? nextToken;
+
+  ListProjectsResponse({
+    this.items,
+    this.nextToken,
+  });
+
+  factory ListProjectsResponse.fromJson(Map<String, dynamic> json) {
+    return ListProjectsResponse(
+      items: (json['items'] as List?)
+          ?.nonNulls
+          .map((e) => ProjectSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      if (items != null) 'items': items,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 class CreateDevEnvironmentResponse {
   /// The system-generated unique ID of the Dev Environment.
   final String id;
@@ -1998,45 +2135,668 @@ class CreateDevEnvironmentResponse {
   }
 }
 
-class CreateProjectResponse {
+class GetDevEnvironmentResponse {
+  /// The system-generated unique ID of the user who created the Dev Environment.
+  final String creatorId;
+
+  /// The system-generated unique ID of the Dev Environment.
+  final String id;
+
+  /// The amount of time the Dev Environment will run without any activity
+  /// detected before stopping, in minutes.
+  final int inactivityTimeoutMinutes;
+
+  /// The Amazon EC2 instace type to use for the Dev Environment.
+  final InstanceType instanceType;
+
+  /// The time when the Dev Environment was last updated, in coordinated universal
+  /// time (UTC) timestamp format as specified in <a
+  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>.
+  final DateTime lastUpdatedTime;
+
+  /// Information about the amount of storage allocated to the Dev Environment. By
+  /// default, a Dev Environment is configured to have 16GB of persistent storage.
+  final PersistentStorage persistentStorage;
+
   /// The name of the project in the space.
-  final String name;
+  final String projectName;
 
-  /// The description of the project.
-  final String? description;
-
-  /// The friendly name of the project.
-  final String? displayName;
+  /// The source repository that contains the branch cloned into the Dev
+  /// Environment.
+  final List<DevEnvironmentRepositorySummary> repositories;
 
   /// The name of the space.
-  final String? spaceName;
+  final String spaceName;
 
-  CreateProjectResponse({
-    required this.name,
-    this.description,
-    this.displayName,
-    this.spaceName,
+  /// The current status of the Dev Environment.
+  final DevEnvironmentStatus status;
+
+  /// The user-specified alias for the Dev Environment.
+  final String? alias;
+
+  /// Information about the integrated development environment (IDE) configured
+  /// for the Dev Environment.
+  final List<Ide>? ides;
+
+  /// The reason for the status.
+  final String? statusReason;
+
+  /// The name of the connection used to connect to Amazon VPC used when the Dev
+  /// Environment was created, if any.
+  final String? vpcConnectionName;
+
+  GetDevEnvironmentResponse({
+    required this.creatorId,
+    required this.id,
+    required this.inactivityTimeoutMinutes,
+    required this.instanceType,
+    required this.lastUpdatedTime,
+    required this.persistentStorage,
+    required this.projectName,
+    required this.repositories,
+    required this.spaceName,
+    required this.status,
+    this.alias,
+    this.ides,
+    this.statusReason,
+    this.vpcConnectionName,
   });
 
-  factory CreateProjectResponse.fromJson(Map<String, dynamic> json) {
-    return CreateProjectResponse(
+  factory GetDevEnvironmentResponse.fromJson(Map<String, dynamic> json) {
+    return GetDevEnvironmentResponse(
+      creatorId: (json['creatorId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      inactivityTimeoutMinutes: (json['inactivityTimeoutMinutes'] as int?) ?? 0,
+      instanceType:
+          InstanceType.fromString((json['instanceType'] as String?) ?? ''),
+      lastUpdatedTime:
+          nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
+      persistentStorage: PersistentStorage.fromJson(
+          (json['persistentStorage'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      projectName: (json['projectName'] as String?) ?? '',
+      repositories: ((json['repositories'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => DevEnvironmentRepositorySummary.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      spaceName: (json['spaceName'] as String?) ?? '',
+      status:
+          DevEnvironmentStatus.fromString((json['status'] as String?) ?? ''),
+      alias: json['alias'] as String?,
+      ides: (json['ides'] as List?)
+          ?.nonNulls
+          .map((e) => Ide.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      statusReason: json['statusReason'] as String?,
+      vpcConnectionName: json['vpcConnectionName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creatorId = this.creatorId;
+    final id = this.id;
+    final inactivityTimeoutMinutes = this.inactivityTimeoutMinutes;
+    final instanceType = this.instanceType;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final persistentStorage = this.persistentStorage;
+    final projectName = this.projectName;
+    final repositories = this.repositories;
+    final spaceName = this.spaceName;
+    final status = this.status;
+    final alias = this.alias;
+    final ides = this.ides;
+    final statusReason = this.statusReason;
+    final vpcConnectionName = this.vpcConnectionName;
+    return {
+      'creatorId': creatorId,
+      'id': id,
+      'inactivityTimeoutMinutes': inactivityTimeoutMinutes,
+      'instanceType': instanceType.value,
+      'lastUpdatedTime': iso8601ToJson(lastUpdatedTime),
+      'persistentStorage': persistentStorage,
+      'projectName': projectName,
+      'repositories': repositories,
+      'spaceName': spaceName,
+      'status': status.value,
+      if (alias != null) 'alias': alias,
+      if (ides != null) 'ides': ides,
+      if (statusReason != null) 'statusReason': statusReason,
+      if (vpcConnectionName != null) 'vpcConnectionName': vpcConnectionName,
+    };
+  }
+}
+
+class UpdateDevEnvironmentResponse {
+  /// The system-generated unique ID of the Dev Environment.
+  final String id;
+
+  /// The name of the project in the space.
+  final String projectName;
+
+  /// The name of the space.
+  final String spaceName;
+
+  /// The user-specified alias for the Dev Environment.
+  final String? alias;
+
+  /// A user-specified idempotency token. Idempotency ensures that an API request
+  /// completes only once. With an idempotent request, if the original request
+  /// completes successfully, the subsequent retries return the result from the
+  /// original successful request and have no additional effect.
+  final String? clientToken;
+
+  /// Information about the integrated development environment (IDE) configured
+  /// for the Dev Environment.
+  final List<IdeConfiguration>? ides;
+
+  /// The amount of time the Dev Environment will run without any activity
+  /// detected before stopping, in minutes.
+  final int? inactivityTimeoutMinutes;
+
+  /// The Amazon EC2 instace type to use for the Dev Environment.
+  final InstanceType? instanceType;
+
+  UpdateDevEnvironmentResponse({
+    required this.id,
+    required this.projectName,
+    required this.spaceName,
+    this.alias,
+    this.clientToken,
+    this.ides,
+    this.inactivityTimeoutMinutes,
+    this.instanceType,
+  });
+
+  factory UpdateDevEnvironmentResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateDevEnvironmentResponse(
+      id: (json['id'] as String?) ?? '',
+      projectName: (json['projectName'] as String?) ?? '',
+      spaceName: (json['spaceName'] as String?) ?? '',
+      alias: json['alias'] as String?,
+      clientToken: json['clientToken'] as String?,
+      ides: (json['ides'] as List?)
+          ?.nonNulls
+          .map((e) => IdeConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      inactivityTimeoutMinutes: json['inactivityTimeoutMinutes'] as int?,
+      instanceType:
+          (json['instanceType'] as String?)?.let(InstanceType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final projectName = this.projectName;
+    final spaceName = this.spaceName;
+    final alias = this.alias;
+    final clientToken = this.clientToken;
+    final ides = this.ides;
+    final inactivityTimeoutMinutes = this.inactivityTimeoutMinutes;
+    final instanceType = this.instanceType;
+    return {
+      'id': id,
+      'projectName': projectName,
+      'spaceName': spaceName,
+      if (alias != null) 'alias': alias,
+      if (clientToken != null) 'clientToken': clientToken,
+      if (ides != null) 'ides': ides,
+      if (inactivityTimeoutMinutes != null)
+        'inactivityTimeoutMinutes': inactivityTimeoutMinutes,
+      if (instanceType != null) 'instanceType': instanceType.value,
+    };
+  }
+}
+
+class DeleteDevEnvironmentResponse {
+  /// The system-generated unique ID of the deleted Dev Environment.
+  final String id;
+
+  /// The name of the project in the space.
+  final String projectName;
+
+  /// The name of the space.
+  final String spaceName;
+
+  DeleteDevEnvironmentResponse({
+    required this.id,
+    required this.projectName,
+    required this.spaceName,
+  });
+
+  factory DeleteDevEnvironmentResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteDevEnvironmentResponse(
+      id: (json['id'] as String?) ?? '',
+      projectName: (json['projectName'] as String?) ?? '',
+      spaceName: (json['spaceName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final projectName = this.projectName;
+    final spaceName = this.spaceName;
+    return {
+      'id': id,
+      'projectName': projectName,
+      'spaceName': spaceName,
+    };
+  }
+}
+
+class ListDevEnvironmentSessionsResponse {
+  /// Information about each session retrieved in the list.
+  final List<DevEnvironmentSessionSummary> items;
+
+  /// A token returned from a call to this API to indicate the next batch of
+  /// results to return, if any.
+  final String? nextToken;
+
+  ListDevEnvironmentSessionsResponse({
+    required this.items,
+    this.nextToken,
+  });
+
+  factory ListDevEnvironmentSessionsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListDevEnvironmentSessionsResponse(
+      items: ((json['items'] as List?) ?? const [])
+          .nonNulls
+          .map((e) =>
+              DevEnvironmentSessionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      'items': items,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class StartDevEnvironmentResponse {
+  /// The system-generated unique ID of the Dev Environment.
+  final String id;
+
+  /// The name of the project in the space.
+  final String projectName;
+
+  /// The name of the space.
+  final String spaceName;
+
+  /// The status of the Dev Environment.
+  final DevEnvironmentStatus status;
+
+  StartDevEnvironmentResponse({
+    required this.id,
+    required this.projectName,
+    required this.spaceName,
+    required this.status,
+  });
+
+  factory StartDevEnvironmentResponse.fromJson(Map<String, dynamic> json) {
+    return StartDevEnvironmentResponse(
+      id: (json['id'] as String?) ?? '',
+      projectName: (json['projectName'] as String?) ?? '',
+      spaceName: (json['spaceName'] as String?) ?? '',
+      status:
+          DevEnvironmentStatus.fromString((json['status'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final projectName = this.projectName;
+    final spaceName = this.spaceName;
+    final status = this.status;
+    return {
+      'id': id,
+      'projectName': projectName,
+      'spaceName': spaceName,
+      'status': status.value,
+    };
+  }
+}
+
+class StartDevEnvironmentSessionResponse {
+  final DevEnvironmentAccessDetails accessDetails;
+
+  /// The system-generated unique ID of the Dev Environment.
+  final String id;
+
+  /// The name of the project in the space.
+  final String projectName;
+
+  /// The name of the space.
+  final String spaceName;
+
+  /// The system-generated unique ID of the Dev Environment session.
+  final String? sessionId;
+
+  StartDevEnvironmentSessionResponse({
+    required this.accessDetails,
+    required this.id,
+    required this.projectName,
+    required this.spaceName,
+    this.sessionId,
+  });
+
+  factory StartDevEnvironmentSessionResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartDevEnvironmentSessionResponse(
+      accessDetails: DevEnvironmentAccessDetails.fromJson(
+          (json['accessDetails'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      id: (json['id'] as String?) ?? '',
+      projectName: (json['projectName'] as String?) ?? '',
+      spaceName: (json['spaceName'] as String?) ?? '',
+      sessionId: json['sessionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessDetails = this.accessDetails;
+    final id = this.id;
+    final projectName = this.projectName;
+    final spaceName = this.spaceName;
+    final sessionId = this.sessionId;
+    return {
+      'accessDetails': accessDetails,
+      'id': id,
+      'projectName': projectName,
+      'spaceName': spaceName,
+      if (sessionId != null) 'sessionId': sessionId,
+    };
+  }
+}
+
+class StopDevEnvironmentResponse {
+  /// The system-generated unique ID of the Dev Environment.
+  final String id;
+
+  /// The name of the project in the space.
+  final String projectName;
+
+  /// The name of the space.
+  final String spaceName;
+
+  /// The status of the Dev Environment.
+  final DevEnvironmentStatus status;
+
+  StopDevEnvironmentResponse({
+    required this.id,
+    required this.projectName,
+    required this.spaceName,
+    required this.status,
+  });
+
+  factory StopDevEnvironmentResponse.fromJson(Map<String, dynamic> json) {
+    return StopDevEnvironmentResponse(
+      id: (json['id'] as String?) ?? '',
+      projectName: (json['projectName'] as String?) ?? '',
+      spaceName: (json['spaceName'] as String?) ?? '',
+      status:
+          DevEnvironmentStatus.fromString((json['status'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final projectName = this.projectName;
+    final spaceName = this.spaceName;
+    final status = this.status;
+    return {
+      'id': id,
+      'projectName': projectName,
+      'spaceName': spaceName,
+      'status': status.value,
+    };
+  }
+}
+
+class StopDevEnvironmentSessionResponse {
+  /// The system-generated unique ID of the Dev Environment.
+  final String id;
+
+  /// The name of the project in the space.
+  final String projectName;
+
+  /// The system-generated unique ID of the Dev Environment session.
+  final String sessionId;
+
+  /// The name of the space.
+  final String spaceName;
+
+  StopDevEnvironmentSessionResponse({
+    required this.id,
+    required this.projectName,
+    required this.sessionId,
+    required this.spaceName,
+  });
+
+  factory StopDevEnvironmentSessionResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StopDevEnvironmentSessionResponse(
+      id: (json['id'] as String?) ?? '',
+      projectName: (json['projectName'] as String?) ?? '',
+      sessionId: (json['sessionId'] as String?) ?? '',
+      spaceName: (json['spaceName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final projectName = this.projectName;
+    final sessionId = this.sessionId;
+    final spaceName = this.spaceName;
+    return {
+      'id': id,
+      'projectName': projectName,
+      'sessionId': sessionId,
+      'spaceName': spaceName,
+    };
+  }
+}
+
+class CreateSourceRepositoryResponse {
+  /// The name of the source repository.
+  final String name;
+
+  /// The name of the project in the space.
+  final String projectName;
+
+  /// The name of the space.
+  final String spaceName;
+
+  /// The description of the source repository.
+  final String? description;
+
+  CreateSourceRepositoryResponse({
+    required this.name,
+    required this.projectName,
+    required this.spaceName,
+    this.description,
+  });
+
+  factory CreateSourceRepositoryResponse.fromJson(Map<String, dynamic> json) {
+    return CreateSourceRepositoryResponse(
       name: (json['name'] as String?) ?? '',
+      projectName: (json['projectName'] as String?) ?? '',
+      spaceName: (json['spaceName'] as String?) ?? '',
       description: json['description'] as String?,
-      displayName: json['displayName'] as String?,
-      spaceName: json['spaceName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final name = this.name;
+    final projectName = this.projectName;
+    final spaceName = this.spaceName;
     final description = this.description;
-    final displayName = this.displayName;
+    return {
+      'name': name,
+      'projectName': projectName,
+      'spaceName': spaceName,
+      if (description != null) 'description': description,
+    };
+  }
+}
+
+class GetSourceRepositoryResponse {
+  /// The time the source repository was created, in coordinated universal time
+  /// (UTC) timestamp format as specified in <a
+  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>.
+  final DateTime createdTime;
+
+  /// The time the source repository was last updated, in coordinated universal
+  /// time (UTC) timestamp format as specified in <a
+  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>.
+  final DateTime lastUpdatedTime;
+
+  /// The name of the source repository.
+  final String name;
+
+  /// The name of the project in the space.
+  final String projectName;
+
+  /// The name of the space.
+  final String spaceName;
+
+  /// The description of the source repository.
+  final String? description;
+
+  GetSourceRepositoryResponse({
+    required this.createdTime,
+    required this.lastUpdatedTime,
+    required this.name,
+    required this.projectName,
+    required this.spaceName,
+    this.description,
+  });
+
+  factory GetSourceRepositoryResponse.fromJson(Map<String, dynamic> json) {
+    return GetSourceRepositoryResponse(
+      createdTime: nonNullableTimeStampFromJson(json['createdTime'] ?? 0),
+      lastUpdatedTime:
+          nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      projectName: (json['projectName'] as String?) ?? '',
+      spaceName: (json['spaceName'] as String?) ?? '',
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTime = this.createdTime;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final name = this.name;
+    final projectName = this.projectName;
+    final spaceName = this.spaceName;
+    final description = this.description;
+    return {
+      'createdTime': iso8601ToJson(createdTime),
+      'lastUpdatedTime': iso8601ToJson(lastUpdatedTime),
+      'name': name,
+      'projectName': projectName,
+      'spaceName': spaceName,
+      if (description != null) 'description': description,
+    };
+  }
+}
+
+class DeleteSourceRepositoryResponse {
+  /// The name of the repository.
+  final String name;
+
+  /// The name of the project in the space.
+  final String projectName;
+
+  /// The name of the space.
+  final String spaceName;
+
+  DeleteSourceRepositoryResponse({
+    required this.name,
+    required this.projectName,
+    required this.spaceName,
+  });
+
+  factory DeleteSourceRepositoryResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteSourceRepositoryResponse(
+      name: (json['name'] as String?) ?? '',
+      projectName: (json['projectName'] as String?) ?? '',
+      spaceName: (json['spaceName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final projectName = this.projectName;
     final spaceName = this.spaceName;
     return {
       'name': name,
-      if (description != null) 'description': description,
-      if (displayName != null) 'displayName': displayName,
-      if (spaceName != null) 'spaceName': spaceName,
+      'projectName': projectName,
+      'spaceName': spaceName,
+    };
+  }
+}
+
+class ListSourceRepositoriesResponse {
+  /// Information about the source repositories.
+  final List<ListSourceRepositoriesItem>? items;
+
+  /// A token returned from a call to this API to indicate the next batch of
+  /// results to return, if any.
+  final String? nextToken;
+
+  ListSourceRepositoriesResponse({
+    this.items,
+    this.nextToken,
+  });
+
+  factory ListSourceRepositoriesResponse.fromJson(Map<String, dynamic> json) {
+    return ListSourceRepositoriesResponse(
+      items: (json['items'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ListSourceRepositoriesItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      if (items != null) 'items': items,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class GetSourceRepositoryCloneUrlsResponse {
+  /// The HTTPS URL to use when cloning the source repository.
+  final String https;
+
+  GetSourceRepositoryCloneUrlsResponse({
+    required this.https,
+  });
+
+  factory GetSourceRepositoryCloneUrlsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetSourceRepositoryCloneUrlsResponse(
+      https: (json['https'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final https = this.https;
+    return {
+      'https': https,
     };
   }
 }
@@ -2088,63 +2848,179 @@ class CreateSourceRepositoryBranchResponse {
   }
 }
 
-class CreateSourceRepositoryResponse {
-  /// The name of the source repository.
+class ListSourceRepositoryBranchesResponse {
+  /// Information about the source branches.
+  final List<ListSourceRepositoryBranchesItem> items;
+
+  /// A token returned from a call to this API to indicate the next batch of
+  /// results to return, if any.
+  final String? nextToken;
+
+  ListSourceRepositoryBranchesResponse({
+    required this.items,
+    this.nextToken,
+  });
+
+  factory ListSourceRepositoryBranchesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListSourceRepositoryBranchesResponse(
+      items: ((json['items'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => ListSourceRepositoryBranchesItem.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      'items': items,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class GetWorkflowResponse {
+  /// The date and time the workflow was created, in coordinated universal time
+  /// (UTC) timestamp format as specified in <a
+  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>
+  final DateTime createdTime;
+
+  /// Information about the workflow definition file for the workflow.
+  final WorkflowDefinition definition;
+
+  /// The ID of the workflow.
+  final String id;
+
+  /// The date and time the workflow was last updated, in coordinated universal
+  /// time (UTC) timestamp format as specified in <a
+  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>
+  final DateTime lastUpdatedTime;
+
+  /// The name of the workflow.
   final String name;
 
   /// The name of the project in the space.
   final String projectName;
 
+  /// The behavior to use when multiple workflows occur at the same time. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/codecatalyst/latest/userguide/workflows-configure-runs.html">https://docs.aws.amazon.com/codecatalyst/latest/userguide/workflows-configure-runs.html</a>
+  /// in the Amazon CodeCatalyst User Guide.
+  final WorkflowRunMode runMode;
+
   /// The name of the space.
   final String spaceName;
 
-  /// The description of the source repository.
-  final String? description;
+  /// The status of the workflow.
+  final WorkflowStatus status;
 
-  CreateSourceRepositoryResponse({
+  /// The name of the branch that contains the workflow YAML.
+  final String? sourceBranchName;
+
+  /// The name of the source repository where the workflow YAML is stored.
+  final String? sourceRepositoryName;
+
+  GetWorkflowResponse({
+    required this.createdTime,
+    required this.definition,
+    required this.id,
+    required this.lastUpdatedTime,
     required this.name,
     required this.projectName,
+    required this.runMode,
     required this.spaceName,
-    this.description,
+    required this.status,
+    this.sourceBranchName,
+    this.sourceRepositoryName,
   });
 
-  factory CreateSourceRepositoryResponse.fromJson(Map<String, dynamic> json) {
-    return CreateSourceRepositoryResponse(
+  factory GetWorkflowResponse.fromJson(Map<String, dynamic> json) {
+    return GetWorkflowResponse(
+      createdTime: nonNullableTimeStampFromJson(json['createdTime'] ?? 0),
+      definition: WorkflowDefinition.fromJson(
+          (json['definition'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      id: (json['id'] as String?) ?? '',
+      lastUpdatedTime:
+          nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
       name: (json['name'] as String?) ?? '',
       projectName: (json['projectName'] as String?) ?? '',
+      runMode: WorkflowRunMode.fromString((json['runMode'] as String?) ?? ''),
       spaceName: (json['spaceName'] as String?) ?? '',
-      description: json['description'] as String?,
+      status: WorkflowStatus.fromString((json['status'] as String?) ?? ''),
+      sourceBranchName: json['sourceBranchName'] as String?,
+      sourceRepositoryName: json['sourceRepositoryName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final createdTime = this.createdTime;
+    final definition = this.definition;
+    final id = this.id;
+    final lastUpdatedTime = this.lastUpdatedTime;
     final name = this.name;
     final projectName = this.projectName;
+    final runMode = this.runMode;
     final spaceName = this.spaceName;
-    final description = this.description;
+    final status = this.status;
+    final sourceBranchName = this.sourceBranchName;
+    final sourceRepositoryName = this.sourceRepositoryName;
     return {
+      'createdTime': iso8601ToJson(createdTime),
+      'definition': definition,
+      'id': id,
+      'lastUpdatedTime': iso8601ToJson(lastUpdatedTime),
       'name': name,
       'projectName': projectName,
+      'runMode': runMode.value,
       'spaceName': spaceName,
-      if (description != null) 'description': description,
+      'status': status.value,
+      if (sourceBranchName != null) 'sourceBranchName': sourceBranchName,
+      if (sourceRepositoryName != null)
+        'sourceRepositoryName': sourceRepositoryName,
     };
   }
 }
 
-class DeleteAccessTokenResponse {
-  DeleteAccessTokenResponse();
+class ListWorkflowsResponse {
+  /// Information about the workflows in a project.
+  final List<WorkflowSummary>? items;
 
-  factory DeleteAccessTokenResponse.fromJson(Map<String, dynamic> _) {
-    return DeleteAccessTokenResponse();
+  /// A token returned from a call to this API to indicate the next batch of
+  /// results to return, if any.
+  final String? nextToken;
+
+  ListWorkflowsResponse({
+    this.items,
+    this.nextToken,
+  });
+
+  factory ListWorkflowsResponse.fromJson(Map<String, dynamic> json) {
+    return ListWorkflowsResponse(
+      items: (json['items'] as List?)
+          ?.nonNulls
+          .map((e) => WorkflowSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      if (items != null) 'items': items,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
   }
 }
 
-class DeleteDevEnvironmentResponse {
-  /// The system-generated unique ID of the deleted Dev Environment.
+class StartWorkflowRunResponse {
+  /// The system-generated unique ID of the workflow run.
   final String id;
 
   /// The name of the project in the space.
@@ -2153,17 +3029,22 @@ class DeleteDevEnvironmentResponse {
   /// The name of the space.
   final String spaceName;
 
-  DeleteDevEnvironmentResponse({
+  /// The system-generated unique ID of the workflow.
+  final String workflowId;
+
+  StartWorkflowRunResponse({
     required this.id,
     required this.projectName,
     required this.spaceName,
+    required this.workflowId,
   });
 
-  factory DeleteDevEnvironmentResponse.fromJson(Map<String, dynamic> json) {
-    return DeleteDevEnvironmentResponse(
+  factory StartWorkflowRunResponse.fromJson(Map<String, dynamic> json) {
+    return StartWorkflowRunResponse(
       id: (json['id'] as String?) ?? '',
       projectName: (json['projectName'] as String?) ?? '',
       spaceName: (json['spaceName'] as String?) ?? '',
+      workflowId: (json['workflowId'] as String?) ?? '',
     );
   }
 
@@ -2171,53 +3052,24 @@ class DeleteDevEnvironmentResponse {
     final id = this.id;
     final projectName = this.projectName;
     final spaceName = this.spaceName;
+    final workflowId = this.workflowId;
     return {
       'id': id,
       'projectName': projectName,
       'spaceName': spaceName,
+      'workflowId': workflowId,
     };
   }
 }
 
-class DeleteProjectResponse {
-  /// The name of the project in the space.
-  final String name;
+class GetWorkflowRunResponse {
+  /// The ID of the workflow run.
+  final String id;
 
-  /// The name of the space.
-  final String spaceName;
-
-  /// The friendly name displayed to users of the project in Amazon CodeCatalyst.
-  final String? displayName;
-
-  DeleteProjectResponse({
-    required this.name,
-    required this.spaceName,
-    this.displayName,
-  });
-
-  factory DeleteProjectResponse.fromJson(Map<String, dynamic> json) {
-    return DeleteProjectResponse(
-      name: (json['name'] as String?) ?? '',
-      spaceName: (json['spaceName'] as String?) ?? '',
-      displayName: json['displayName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final spaceName = this.spaceName;
-    final displayName = this.displayName;
-    return {
-      'name': name,
-      'spaceName': spaceName,
-      if (displayName != null) 'displayName': displayName,
-    };
-  }
-}
-
-class DeleteSourceRepositoryResponse {
-  /// The name of the repository.
-  final String name;
+  /// The date and time the workflow run status was last updated, in coordinated
+  /// universal time (UTC) timestamp format as specified in <a
+  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>
+  final DateTime lastUpdatedTime;
 
   /// The name of the project in the space.
   final String projectName;
@@ -2225,60 +3077,655 @@ class DeleteSourceRepositoryResponse {
   /// The name of the space.
   final String spaceName;
 
-  DeleteSourceRepositoryResponse({
-    required this.name,
+  /// The date and time the workflow run began, in coordinated universal time
+  /// (UTC) timestamp format as specified in <a
+  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>
+  final DateTime startTime;
+
+  /// The status of the workflow run.
+  final WorkflowRunStatus status;
+
+  /// The ID of the workflow.
+  final String workflowId;
+
+  /// The date and time the workflow run ended, in coordinated universal time
+  /// (UTC) timestamp format as specified in <a
+  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>.
+  final DateTime? endTime;
+
+  /// Information about the reasons for the status of the workflow run.
+  final List<WorkflowRunStatusReason>? statusReasons;
+
+  GetWorkflowRunResponse({
+    required this.id,
+    required this.lastUpdatedTime,
     required this.projectName,
     required this.spaceName,
+    required this.startTime,
+    required this.status,
+    required this.workflowId,
+    this.endTime,
+    this.statusReasons,
   });
 
-  factory DeleteSourceRepositoryResponse.fromJson(Map<String, dynamic> json) {
-    return DeleteSourceRepositoryResponse(
-      name: (json['name'] as String?) ?? '',
+  factory GetWorkflowRunResponse.fromJson(Map<String, dynamic> json) {
+    return GetWorkflowRunResponse(
+      id: (json['id'] as String?) ?? '',
+      lastUpdatedTime:
+          nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
       projectName: (json['projectName'] as String?) ?? '',
       spaceName: (json['spaceName'] as String?) ?? '',
+      startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
+      status: WorkflowRunStatus.fromString((json['status'] as String?) ?? ''),
+      workflowId: (json['workflowId'] as String?) ?? '',
+      endTime: timeStampFromJson(json['endTime']),
+      statusReasons: (json['statusReasons'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              WorkflowRunStatusReason.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final name = this.name;
+    final id = this.id;
+    final lastUpdatedTime = this.lastUpdatedTime;
     final projectName = this.projectName;
     final spaceName = this.spaceName;
+    final startTime = this.startTime;
+    final status = this.status;
+    final workflowId = this.workflowId;
+    final endTime = this.endTime;
+    final statusReasons = this.statusReasons;
     return {
-      'name': name,
+      'id': id,
+      'lastUpdatedTime': iso8601ToJson(lastUpdatedTime),
       'projectName': projectName,
       'spaceName': spaceName,
+      'startTime': iso8601ToJson(startTime),
+      'status': status.value,
+      'workflowId': workflowId,
+      if (endTime != null) 'endTime': iso8601ToJson(endTime),
+      if (statusReasons != null) 'statusReasons': statusReasons,
     };
   }
 }
 
-class DeleteSpaceResponse {
-  /// The name of the space.
-  final String name;
+class ListWorkflowRunsResponse {
+  /// Information about the runs of a workflow.
+  final List<WorkflowRunSummary>? items;
 
-  /// The friendly name of the space displayed to users of the space in Amazon
-  /// CodeCatalyst.
-  final String? displayName;
+  /// A token returned from a call to this API to indicate the next batch of
+  /// results to return, if any.
+  final String? nextToken;
 
-  DeleteSpaceResponse({
-    required this.name,
-    this.displayName,
+  ListWorkflowRunsResponse({
+    this.items,
+    this.nextToken,
   });
 
-  factory DeleteSpaceResponse.fromJson(Map<String, dynamic> json) {
-    return DeleteSpaceResponse(
-      name: (json['name'] as String?) ?? '',
-      displayName: json['displayName'] as String?,
+  factory ListWorkflowRunsResponse.fromJson(Map<String, dynamic> json) {
+    return ListWorkflowRunsResponse(
+      items: (json['items'] as List?)
+          ?.nonNulls
+          .map((e) => WorkflowRunSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final name = this.name;
-    final displayName = this.displayName;
+    final items = this.items;
+    final nextToken = this.nextToken;
     return {
-      'name': name,
-      if (displayName != null) 'displayName': displayName,
+      if (items != null) 'items': items,
+      if (nextToken != null) 'nextToken': nextToken,
     };
   }
+}
+
+class GetSubscriptionResponse {
+  /// The display name of the Amazon Web Services account used for billing for the
+  /// space.
+  final String? awsAccountName;
+
+  /// The day and time the pending change will be applied to the space, in
+  /// coordinated universal time (UTC) timestamp format as specified in <a
+  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>.
+  final DateTime? pendingSubscriptionStartTime;
+
+  /// The type of the billing plan that the space will be changed to at the start
+  /// of the next billing cycle. This applies only to changes that reduce the
+  /// functionality available for the space. Billing plan changes that increase
+  /// functionality are applied immediately. For more information, see <a
+  /// href="https://codecatalyst.aws/explore/pricing">Pricing</a>.
+  final String? pendingSubscriptionType;
+
+  /// The type of the billing plan for the space.
+  final String? subscriptionType;
+
+  GetSubscriptionResponse({
+    this.awsAccountName,
+    this.pendingSubscriptionStartTime,
+    this.pendingSubscriptionType,
+    this.subscriptionType,
+  });
+
+  factory GetSubscriptionResponse.fromJson(Map<String, dynamic> json) {
+    return GetSubscriptionResponse(
+      awsAccountName: json['awsAccountName'] as String?,
+      pendingSubscriptionStartTime:
+          timeStampFromJson(json['pendingSubscriptionStartTime']),
+      pendingSubscriptionType: json['pendingSubscriptionType'] as String?,
+      subscriptionType: json['subscriptionType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsAccountName = this.awsAccountName;
+    final pendingSubscriptionStartTime = this.pendingSubscriptionStartTime;
+    final pendingSubscriptionType = this.pendingSubscriptionType;
+    final subscriptionType = this.subscriptionType;
+    return {
+      if (awsAccountName != null) 'awsAccountName': awsAccountName,
+      if (pendingSubscriptionStartTime != null)
+        'pendingSubscriptionStartTime':
+            iso8601ToJson(pendingSubscriptionStartTime),
+      if (pendingSubscriptionType != null)
+        'pendingSubscriptionType': pendingSubscriptionType,
+      if (subscriptionType != null) 'subscriptionType': subscriptionType,
+    };
+  }
+}
+
+/// Information about a workflow run.
+class WorkflowRunSummary {
+  /// The system-generated unique ID of the workflow run.
+  final String id;
+
+  /// The date and time the workflow was last updated, in coordinated universal
+  /// time (UTC) timestamp format as specified in <a
+  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>
+  final DateTime lastUpdatedTime;
+
+  /// The date and time the workflow run began, in coordinated universal time
+  /// (UTC) timestamp format as specified in <a
+  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>.
+  final DateTime startTime;
+
+  /// The status of the workflow run.
+  final WorkflowRunStatus status;
+
+  /// The system-generated unique ID of the workflow.
+  final String workflowId;
+
+  /// The name of the workflow.
+  final String workflowName;
+
+  /// The date and time the workflow run ended, in coordinated universal time
+  /// (UTC) timestamp format as specified in <a
+  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>
+  final DateTime? endTime;
+
+  /// The reasons for the workflow run status.
+  final List<WorkflowRunStatusReason>? statusReasons;
+
+  WorkflowRunSummary({
+    required this.id,
+    required this.lastUpdatedTime,
+    required this.startTime,
+    required this.status,
+    required this.workflowId,
+    required this.workflowName,
+    this.endTime,
+    this.statusReasons,
+  });
+
+  factory WorkflowRunSummary.fromJson(Map<String, dynamic> json) {
+    return WorkflowRunSummary(
+      id: (json['id'] as String?) ?? '',
+      lastUpdatedTime:
+          nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
+      startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
+      status: WorkflowRunStatus.fromString((json['status'] as String?) ?? ''),
+      workflowId: (json['workflowId'] as String?) ?? '',
+      workflowName: (json['workflowName'] as String?) ?? '',
+      endTime: timeStampFromJson(json['endTime']),
+      statusReasons: (json['statusReasons'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              WorkflowRunStatusReason.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final startTime = this.startTime;
+    final status = this.status;
+    final workflowId = this.workflowId;
+    final workflowName = this.workflowName;
+    final endTime = this.endTime;
+    final statusReasons = this.statusReasons;
+    return {
+      'id': id,
+      'lastUpdatedTime': iso8601ToJson(lastUpdatedTime),
+      'startTime': iso8601ToJson(startTime),
+      'status': status.value,
+      'workflowId': workflowId,
+      'workflowName': workflowName,
+      if (endTime != null) 'endTime': iso8601ToJson(endTime),
+      if (statusReasons != null) 'statusReasons': statusReasons,
+    };
+  }
+}
+
+class WorkflowRunStatus {
+  static const succeeded = WorkflowRunStatus._('SUCCEEDED');
+  static const failed = WorkflowRunStatus._('FAILED');
+  static const stopped = WorkflowRunStatus._('STOPPED');
+  static const superseded = WorkflowRunStatus._('SUPERSEDED');
+  static const cancelled = WorkflowRunStatus._('CANCELLED');
+  static const notRun = WorkflowRunStatus._('NOT_RUN');
+  static const validating = WorkflowRunStatus._('VALIDATING');
+  static const provisioning = WorkflowRunStatus._('PROVISIONING');
+  static const inProgress = WorkflowRunStatus._('IN_PROGRESS');
+  static const stopping = WorkflowRunStatus._('STOPPING');
+  static const abandoned = WorkflowRunStatus._('ABANDONED');
+
+  final String value;
+
+  const WorkflowRunStatus._(this.value);
+
+  static const values = [
+    succeeded,
+    failed,
+    stopped,
+    superseded,
+    cancelled,
+    notRun,
+    validating,
+    provisioning,
+    inProgress,
+    stopping,
+    abandoned
+  ];
+
+  static WorkflowRunStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WorkflowRunStatus._(value));
+
+  @override
+  bool operator ==(other) => other is WorkflowRunStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about the status of a workflow run.
+class WorkflowRunStatusReason {
+  WorkflowRunStatusReason();
+
+  factory WorkflowRunStatusReason.fromJson(Map<String, dynamic> _) {
+    return WorkflowRunStatusReason();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Information used to sort workflow runs in the returned list.
+class WorkflowRunSortCriteria {
+  WorkflowRunSortCriteria();
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Information about a workflow.
+class WorkflowSummary {
+  /// The date and time the workflow was created, in coordinated universal time
+  /// (UTC) timestamp format as specified in <a
+  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>
+  final DateTime createdTime;
+
+  /// Information about the workflow definition file.
+  final WorkflowDefinitionSummary definition;
+
+  /// The system-generated unique ID of a workflow.
+  final String id;
+
+  /// The date and time the workflow was last updated, in coordinated universal
+  /// time (UTC) timestamp format as specified in <a
+  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>
+  final DateTime lastUpdatedTime;
+
+  /// The name of the workflow.
+  final String name;
+
+  /// The run mode of the workflow.
+  final WorkflowRunMode runMode;
+
+  /// The name of the branch of the source repository where the workflow
+  /// definition file is stored.
+  final String sourceBranchName;
+
+  /// The name of the source repository where the workflow definition file is
+  /// stored.
+  final String sourceRepositoryName;
+
+  /// The status of the workflow.
+  final WorkflowStatus status;
+
+  WorkflowSummary({
+    required this.createdTime,
+    required this.definition,
+    required this.id,
+    required this.lastUpdatedTime,
+    required this.name,
+    required this.runMode,
+    required this.sourceBranchName,
+    required this.sourceRepositoryName,
+    required this.status,
+  });
+
+  factory WorkflowSummary.fromJson(Map<String, dynamic> json) {
+    return WorkflowSummary(
+      createdTime: nonNullableTimeStampFromJson(json['createdTime'] ?? 0),
+      definition: WorkflowDefinitionSummary.fromJson(
+          (json['definition'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      id: (json['id'] as String?) ?? '',
+      lastUpdatedTime:
+          nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      runMode: WorkflowRunMode.fromString((json['runMode'] as String?) ?? ''),
+      sourceBranchName: (json['sourceBranchName'] as String?) ?? '',
+      sourceRepositoryName: (json['sourceRepositoryName'] as String?) ?? '',
+      status: WorkflowStatus.fromString((json['status'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTime = this.createdTime;
+    final definition = this.definition;
+    final id = this.id;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final name = this.name;
+    final runMode = this.runMode;
+    final sourceBranchName = this.sourceBranchName;
+    final sourceRepositoryName = this.sourceRepositoryName;
+    final status = this.status;
+    return {
+      'createdTime': iso8601ToJson(createdTime),
+      'definition': definition,
+      'id': id,
+      'lastUpdatedTime': iso8601ToJson(lastUpdatedTime),
+      'name': name,
+      'runMode': runMode.value,
+      'sourceBranchName': sourceBranchName,
+      'sourceRepositoryName': sourceRepositoryName,
+      'status': status.value,
+    };
+  }
+}
+
+/// Information about a workflow definition.
+class WorkflowDefinitionSummary {
+  /// The path to the workflow definition file stored in the source repository for
+  /// the project, including the file name.
+  final String path;
+
+  WorkflowDefinitionSummary({
+    required this.path,
+  });
+
+  factory WorkflowDefinitionSummary.fromJson(Map<String, dynamic> json) {
+    return WorkflowDefinitionSummary(
+      path: (json['path'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final path = this.path;
+    return {
+      'path': path,
+    };
+  }
+}
+
+class WorkflowRunMode {
+  static const queued = WorkflowRunMode._('QUEUED');
+  static const parallel = WorkflowRunMode._('PARALLEL');
+  static const superseded = WorkflowRunMode._('SUPERSEDED');
+
+  final String value;
+
+  const WorkflowRunMode._(this.value);
+
+  static const values = [queued, parallel, superseded];
+
+  static WorkflowRunMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WorkflowRunMode._(value));
+
+  @override
+  bool operator ==(other) => other is WorkflowRunMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class WorkflowStatus {
+  static const invalid = WorkflowStatus._('INVALID');
+  static const active = WorkflowStatus._('ACTIVE');
+
+  final String value;
+
+  const WorkflowStatus._(this.value);
+
+  static const values = [invalid, active];
+
+  static WorkflowStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WorkflowStatus._(value));
+
+  @override
+  bool operator ==(other) => other is WorkflowStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information used to sort workflows in the returned list.
+class WorkflowSortCriteria {
+  WorkflowSortCriteria();
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Information about a workflow definition file.
+class WorkflowDefinition {
+  /// The path to the workflow definition file stored in the source repository for
+  /// the project, including the file name.
+  final String path;
+
+  WorkflowDefinition({
+    required this.path,
+  });
+
+  factory WorkflowDefinition.fromJson(Map<String, dynamic> json) {
+    return WorkflowDefinition(
+      path: (json['path'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final path = this.path;
+    return {
+      'path': path,
+    };
+  }
+}
+
+/// Information about a branch of a source repository returned in a list of
+/// branches.
+class ListSourceRepositoryBranchesItem {
+  /// The commit ID of the tip of the branch at the time of the request, also
+  /// known as the head commit.
+  final String? headCommitId;
+
+  /// The time the branch was last updated, in coordinated universal time (UTC)
+  /// timestamp format as specified in <a
+  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>.
+  final DateTime? lastUpdatedTime;
+
+  /// The name of the branch.
+  final String? name;
+
+  /// The Git reference name of the branch.
+  final String? ref;
+
+  ListSourceRepositoryBranchesItem({
+    this.headCommitId,
+    this.lastUpdatedTime,
+    this.name,
+    this.ref,
+  });
+
+  factory ListSourceRepositoryBranchesItem.fromJson(Map<String, dynamic> json) {
+    return ListSourceRepositoryBranchesItem(
+      headCommitId: json['headCommitId'] as String?,
+      lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
+      name: json['name'] as String?,
+      ref: json['ref'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final headCommitId = this.headCommitId;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final name = this.name;
+    final ref = this.ref;
+    return {
+      if (headCommitId != null) 'headCommitId': headCommitId,
+      if (lastUpdatedTime != null)
+        'lastUpdatedTime': iso8601ToJson(lastUpdatedTime),
+      if (name != null) 'name': name,
+      if (ref != null) 'ref': ref,
+    };
+  }
+}
+
+/// Information about a source repository returned in a list of source
+/// repositories.
+class ListSourceRepositoriesItem {
+  /// The time the source repository was created, in coordinated universal time
+  /// (UTC) timestamp format as specified in <a
+  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>.
+  final DateTime createdTime;
+
+  /// The system-generated unique ID of the source repository.
+  final String id;
+
+  /// The time the source repository was last updated, in coordinated universal
+  /// time (UTC) timestamp format as specified in <a
+  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>.
+  final DateTime lastUpdatedTime;
+
+  /// The name of the source repository.
+  final String name;
+
+  /// The description of the repository, if any.
+  final String? description;
+
+  ListSourceRepositoriesItem({
+    required this.createdTime,
+    required this.id,
+    required this.lastUpdatedTime,
+    required this.name,
+    this.description,
+  });
+
+  factory ListSourceRepositoriesItem.fromJson(Map<String, dynamic> json) {
+    return ListSourceRepositoriesItem(
+      createdTime: nonNullableTimeStampFromJson(json['createdTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      lastUpdatedTime:
+          nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTime = this.createdTime;
+    final id = this.id;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final name = this.name;
+    final description = this.description;
+    return {
+      'createdTime': iso8601ToJson(createdTime),
+      'id': id,
+      'lastUpdatedTime': iso8601ToJson(lastUpdatedTime),
+      'name': name,
+      if (description != null) 'description': description,
+    };
+  }
+}
+
+class DevEnvironmentStatus {
+  static const pending = DevEnvironmentStatus._('PENDING');
+  static const running = DevEnvironmentStatus._('RUNNING');
+  static const starting = DevEnvironmentStatus._('STARTING');
+  static const stopping = DevEnvironmentStatus._('STOPPING');
+  static const stopped = DevEnvironmentStatus._('STOPPED');
+  static const failed = DevEnvironmentStatus._('FAILED');
+  static const deleting = DevEnvironmentStatus._('DELETING');
+  static const deleted = DevEnvironmentStatus._('DELETED');
+
+  final String value;
+
+  const DevEnvironmentStatus._(this.value);
+
+  static const values = [
+    pending,
+    running,
+    starting,
+    stopping,
+    stopped,
+    failed,
+    deleting,
+    deleted
+  ];
+
+  static DevEnvironmentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DevEnvironmentStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DevEnvironmentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about connection details for a Dev Environment.
@@ -2312,37 +3759,6 @@ class DevEnvironmentAccessDetails {
   }
 }
 
-/// Information about the source repsitory for a Dev Environment.
-class DevEnvironmentRepositorySummary {
-  /// The name of the source repository.
-  final String repositoryName;
-
-  /// The name of the branch in a source repository cloned into the Dev
-  /// Environment.
-  final String? branchName;
-
-  DevEnvironmentRepositorySummary({
-    required this.repositoryName,
-    this.branchName,
-  });
-
-  factory DevEnvironmentRepositorySummary.fromJson(Map<String, dynamic> json) {
-    return DevEnvironmentRepositorySummary(
-      repositoryName: (json['repositoryName'] as String?) ?? '',
-      branchName: json['branchName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final repositoryName = this.repositoryName;
-    final branchName = this.branchName;
-    return {
-      'repositoryName': repositoryName,
-      if (branchName != null) 'branchName': branchName,
-    };
-  }
-}
-
 /// Information about the configuration of a Dev Environment session.
 class DevEnvironmentSessionConfiguration {
   /// The type of the session.
@@ -2366,6 +3782,121 @@ class DevEnvironmentSessionConfiguration {
       if (executeCommandSessionConfiguration != null)
         'executeCommandSessionConfiguration':
             executeCommandSessionConfiguration,
+    };
+  }
+}
+
+class DevEnvironmentSessionType {
+  static const ssm = DevEnvironmentSessionType._('SSM');
+  static const ssh = DevEnvironmentSessionType._('SSH');
+
+  final String value;
+
+  const DevEnvironmentSessionType._(this.value);
+
+  static const values = [ssm, ssh];
+
+  static DevEnvironmentSessionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DevEnvironmentSessionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DevEnvironmentSessionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about the commands that will be run on a Dev Environment when an
+/// SSH session begins.
+class ExecuteCommandSessionConfiguration {
+  /// The command used at the beginning of the SSH session to a Dev Environment.
+  final String command;
+
+  /// An array of arguments containing arguments and members.
+  final List<String>? arguments;
+
+  ExecuteCommandSessionConfiguration({
+    required this.command,
+    this.arguments,
+  });
+
+  Map<String, dynamic> toJson() {
+    final command = this.command;
+    final arguments = this.arguments;
+    return {
+      'command': command,
+      if (arguments != null) 'arguments': arguments,
+    };
+  }
+}
+
+class InstanceType {
+  static const devStandard1Small = InstanceType._('dev.standard1.small');
+  static const devStandard1Medium = InstanceType._('dev.standard1.medium');
+  static const devStandard1Large = InstanceType._('dev.standard1.large');
+  static const devStandard1Xlarge = InstanceType._('dev.standard1.xlarge');
+
+  final String value;
+
+  const InstanceType._(this.value);
+
+  static const values = [
+    devStandard1Small,
+    devStandard1Medium,
+    devStandard1Large,
+    devStandard1Xlarge
+  ];
+
+  static InstanceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => InstanceType._(value));
+
+  @override
+  bool operator ==(other) => other is InstanceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about the configuration of an integrated development environment
+/// (IDE) for a Dev Environment.
+class IdeConfiguration {
+  /// The name of the IDE. Valid values include <code>Cloud9</code>,
+  /// <code>IntelliJ</code>, <code>PyCharm</code>, <code>GoLand</code>, and
+  /// <code>VSCode</code>.
+  final String? name;
+
+  /// A link to the IDE runtime image.
+  /// <note>
+  /// This parameter is not required for <code>VSCode</code>.
+  /// </note>
+  final String? runtime;
+
+  IdeConfiguration({
+    this.name,
+    this.runtime,
+  });
+
+  factory IdeConfiguration.fromJson(Map<String, dynamic> json) {
+    return IdeConfiguration(
+      name: json['name'] as String?,
+      runtime: json['runtime'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final runtime = this.runtime;
+    return {
+      if (name != null) 'name': name,
+      if (runtime != null) 'runtime': runtime,
     };
   }
 }
@@ -2423,23 +3954,223 @@ class DevEnvironmentSessionSummary {
   }
 }
 
-class DevEnvironmentSessionType {
-  static const ssm = DevEnvironmentSessionType._('SSM');
-  static const ssh = DevEnvironmentSessionType._('SSH');
+/// Information about the persistent storage for a Dev Environment.
+class PersistentStorage {
+  /// The size of the persistent storage in gigabytes (specifically GiB).
+  /// <note>
+  /// Valid values for storage are based on memory sizes in 16GB increments. Valid
+  /// values are 16, 32, and 64.
+  /// </note>
+  final int sizeInGiB;
+
+  PersistentStorage({
+    required this.sizeInGiB,
+  });
+
+  factory PersistentStorage.fromJson(Map<String, dynamic> json) {
+    return PersistentStorage(
+      sizeInGiB: (json['sizeInGiB'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sizeInGiB = this.sizeInGiB;
+    return {
+      'sizeInGiB': sizeInGiB,
+    };
+  }
+}
+
+/// Information about an integrated development environment (IDE) used in a Dev
+/// Environment.
+class Ide {
+  /// The name of the IDE.
+  final String? name;
+
+  /// A link to the IDE runtime image.
+  final String? runtime;
+
+  Ide({
+    this.name,
+    this.runtime,
+  });
+
+  factory Ide.fromJson(Map<String, dynamic> json) {
+    return Ide(
+      name: json['name'] as String?,
+      runtime: json['runtime'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final runtime = this.runtime;
+    return {
+      if (name != null) 'name': name,
+      if (runtime != null) 'runtime': runtime,
+    };
+  }
+}
+
+/// Information about the source repsitory for a Dev Environment.
+class DevEnvironmentRepositorySummary {
+  /// The name of the source repository.
+  final String repositoryName;
+
+  /// The name of the branch in a source repository cloned into the Dev
+  /// Environment.
+  final String? branchName;
+
+  DevEnvironmentRepositorySummary({
+    required this.repositoryName,
+    this.branchName,
+  });
+
+  factory DevEnvironmentRepositorySummary.fromJson(Map<String, dynamic> json) {
+    return DevEnvironmentRepositorySummary(
+      repositoryName: (json['repositoryName'] as String?) ?? '',
+      branchName: json['branchName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final repositoryName = this.repositoryName;
+    final branchName = this.branchName;
+    return {
+      'repositoryName': repositoryName,
+      if (branchName != null) 'branchName': branchName,
+    };
+  }
+}
+
+/// Information about the configuration of persistent storage for a Dev
+/// Environment.
+class PersistentStorageConfiguration {
+  /// The size of the persistent storage in gigabytes (specifically GiB).
+  /// <note>
+  /// Valid values for storage are based on memory sizes in 16GB increments. Valid
+  /// values are 16, 32, and 64.
+  /// </note>
+  final int sizeInGiB;
+
+  PersistentStorageConfiguration({
+    required this.sizeInGiB,
+  });
+
+  Map<String, dynamic> toJson() {
+    final sizeInGiB = this.sizeInGiB;
+    return {
+      'sizeInGiB': sizeInGiB,
+    };
+  }
+}
+
+/// Information about a repository that will be cloned to a Dev Environment.
+class RepositoryInput {
+  /// The name of the source repository.
+  final String repositoryName;
+
+  /// The name of the branch in a source repository.
+  final String? branchName;
+
+  RepositoryInput({
+    required this.repositoryName,
+    this.branchName,
+  });
+
+  Map<String, dynamic> toJson() {
+    final repositoryName = this.repositoryName;
+    final branchName = this.branchName;
+    return {
+      'repositoryName': repositoryName,
+      if (branchName != null) 'branchName': branchName,
+    };
+  }
+}
+
+/// Information about a project.
+class ProjectSummary {
+  /// The name of the project in the space.
+  final String name;
+
+  /// The description of the project.
+  final String? description;
+
+  /// The friendly name displayed to users of the project in Amazon CodeCatalyst.
+  final String? displayName;
+
+  ProjectSummary({
+    required this.name,
+    this.description,
+    this.displayName,
+  });
+
+  factory ProjectSummary.fromJson(Map<String, dynamic> json) {
+    return ProjectSummary(
+      name: (json['name'] as String?) ?? '',
+      description: json['description'] as String?,
+      displayName: json['displayName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final description = this.description;
+    final displayName = this.displayName;
+    return {
+      'name': name,
+      if (description != null) 'description': description,
+      if (displayName != null) 'displayName': displayName,
+    };
+  }
+}
+
+/// nformation about the filter used to narrow the results returned in a list of
+/// projects.
+class ProjectListFilter {
+  /// A key that can be used to sort results.
+  final FilterKey key;
+
+  /// The values of the key.
+  final List<String> values;
+
+  /// The operator used to compare the fields.
+  final ComparisonOperator? comparisonOperator;
+
+  ProjectListFilter({
+    required this.key,
+    required this.values,
+    this.comparisonOperator,
+  });
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final values = this.values;
+    final comparisonOperator = this.comparisonOperator;
+    return {
+      'key': key.value,
+      'values': values,
+      if (comparisonOperator != null)
+        'comparisonOperator': comparisonOperator.value,
+    };
+  }
+}
+
+class FilterKey {
+  static const hasAccessTo = FilterKey._('hasAccessTo');
+  static const name = FilterKey._('name');
 
   final String value;
 
-  const DevEnvironmentSessionType._(this.value);
+  const FilterKey._(this.value);
 
-  static const values = [ssm, ssh];
+  static const values = [hasAccessTo, name];
 
-  static DevEnvironmentSessionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DevEnvironmentSessionType._(value));
+  static FilterKey fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FilterKey._(value));
 
   @override
-  bool operator ==(other) =>
-      other is DevEnvironmentSessionType && other.value == value;
+  bool operator ==(other) => other is FilterKey && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -2448,38 +4179,318 @@ class DevEnvironmentSessionType {
   String toString() => value;
 }
 
-class DevEnvironmentStatus {
-  static const pending = DevEnvironmentStatus._('PENDING');
-  static const running = DevEnvironmentStatus._('RUNNING');
-  static const starting = DevEnvironmentStatus._('STARTING');
-  static const stopping = DevEnvironmentStatus._('STOPPING');
-  static const stopped = DevEnvironmentStatus._('STOPPED');
-  static const failed = DevEnvironmentStatus._('FAILED');
-  static const deleting = DevEnvironmentStatus._('DELETING');
-  static const deleted = DevEnvironmentStatus._('DELETED');
+class ComparisonOperator {
+  static const eq = ComparisonOperator._('EQ');
+  static const gt = ComparisonOperator._('GT');
+  static const ge = ComparisonOperator._('GE');
+  static const lt = ComparisonOperator._('LT');
+  static const le = ComparisonOperator._('LE');
+  static const beginsWith = ComparisonOperator._('BEGINS_WITH');
 
   final String value;
 
-  const DevEnvironmentStatus._(this.value);
+  const ComparisonOperator._(this.value);
 
-  static const values = [
-    pending,
-    running,
-    starting,
-    stopping,
-    stopped,
-    failed,
-    deleting,
-    deleted
-  ];
+  static const values = [eq, gt, ge, lt, le, beginsWith];
 
-  static DevEnvironmentStatus fromString(String value) =>
+  static ComparisonOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => DevEnvironmentStatus._(value));
+          orElse: () => ComparisonOperator._(value));
 
   @override
   bool operator ==(other) =>
-      other is DevEnvironmentStatus && other.value == value;
+      other is ComparisonOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about an entry in an event log of Amazon CodeCatalyst activity.
+class EventLogEntry {
+  /// The category for the event.
+  final String eventCategory;
+
+  /// The name of the event.
+  final String eventName;
+
+  /// The source of the event.
+  final String eventSource;
+
+  /// The time the event took place, in coordinated universal time (UTC) timestamp
+  /// format as specified in <a
+  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>.
+  final DateTime eventTime;
+
+  /// The type of the event.
+  final String eventType;
+
+  /// The system-generated unique ID of the event.
+  final String id;
+
+  /// The type of the event.
+  final OperationType operationType;
+
+  /// The system-generated unique ID of the user whose actions are recorded in the
+  /// event.
+  final UserIdentity userIdentity;
+
+  /// The code of the error, if any.
+  final String? errorCode;
+
+  /// Information about the project where the event occurred.
+  final ProjectInformation? projectInformation;
+
+  /// The system-generated unique ID of the request.
+  final String? requestId;
+
+  /// Information about the payload of the request.
+  final EventPayload? requestPayload;
+
+  /// Information about the payload of the response, if any.
+  final EventPayload? responsePayload;
+
+  /// The IP address of the user whose actions are recorded in the event.
+  final String? sourceIpAddress;
+
+  /// The user agent whose actions are recorded in the event.
+  final String? userAgent;
+
+  EventLogEntry({
+    required this.eventCategory,
+    required this.eventName,
+    required this.eventSource,
+    required this.eventTime,
+    required this.eventType,
+    required this.id,
+    required this.operationType,
+    required this.userIdentity,
+    this.errorCode,
+    this.projectInformation,
+    this.requestId,
+    this.requestPayload,
+    this.responsePayload,
+    this.sourceIpAddress,
+    this.userAgent,
+  });
+
+  factory EventLogEntry.fromJson(Map<String, dynamic> json) {
+    return EventLogEntry(
+      eventCategory: (json['eventCategory'] as String?) ?? '',
+      eventName: (json['eventName'] as String?) ?? '',
+      eventSource: (json['eventSource'] as String?) ?? '',
+      eventTime: nonNullableTimeStampFromJson(json['eventTime'] ?? 0),
+      eventType: (json['eventType'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      operationType:
+          OperationType.fromString((json['operationType'] as String?) ?? ''),
+      userIdentity: UserIdentity.fromJson(
+          (json['userIdentity'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      errorCode: json['errorCode'] as String?,
+      projectInformation: json['projectInformation'] != null
+          ? ProjectInformation.fromJson(
+              json['projectInformation'] as Map<String, dynamic>)
+          : null,
+      requestId: json['requestId'] as String?,
+      requestPayload: json['requestPayload'] != null
+          ? EventPayload.fromJson(
+              json['requestPayload'] as Map<String, dynamic>)
+          : null,
+      responsePayload: json['responsePayload'] != null
+          ? EventPayload.fromJson(
+              json['responsePayload'] as Map<String, dynamic>)
+          : null,
+      sourceIpAddress: json['sourceIpAddress'] as String?,
+      userAgent: json['userAgent'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventCategory = this.eventCategory;
+    final eventName = this.eventName;
+    final eventSource = this.eventSource;
+    final eventTime = this.eventTime;
+    final eventType = this.eventType;
+    final id = this.id;
+    final operationType = this.operationType;
+    final userIdentity = this.userIdentity;
+    final errorCode = this.errorCode;
+    final projectInformation = this.projectInformation;
+    final requestId = this.requestId;
+    final requestPayload = this.requestPayload;
+    final responsePayload = this.responsePayload;
+    final sourceIpAddress = this.sourceIpAddress;
+    final userAgent = this.userAgent;
+    return {
+      'eventCategory': eventCategory,
+      'eventName': eventName,
+      'eventSource': eventSource,
+      'eventTime': iso8601ToJson(eventTime),
+      'eventType': eventType,
+      'id': id,
+      'operationType': operationType.value,
+      'userIdentity': userIdentity,
+      if (errorCode != null) 'errorCode': errorCode,
+      if (projectInformation != null) 'projectInformation': projectInformation,
+      if (requestId != null) 'requestId': requestId,
+      if (requestPayload != null) 'requestPayload': requestPayload,
+      if (responsePayload != null) 'responsePayload': responsePayload,
+      if (sourceIpAddress != null) 'sourceIpAddress': sourceIpAddress,
+      if (userAgent != null) 'userAgent': userAgent,
+    };
+  }
+}
+
+class OperationType {
+  static const readonly = OperationType._('READONLY');
+  static const mutation = OperationType._('MUTATION');
+
+  final String value;
+
+  const OperationType._(this.value);
+
+  static const values = [readonly, mutation];
+
+  static OperationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OperationType._(value));
+
+  @override
+  bool operator ==(other) => other is OperationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a user whose activity is recorded in an event for a space.
+class UserIdentity {
+  /// The ID of the Amazon CodeCatalyst service principal.
+  final String principalId;
+
+  /// The role assigned to the user in a Amazon CodeCatalyst space or project when
+  /// the event occurred.
+  final UserType userType;
+
+  /// The Amazon Web Services account number of the user in Amazon Web Services,
+  /// if any.
+  final String? awsAccountId;
+
+  /// The display name of the user in Amazon CodeCatalyst.
+  final String? userName;
+
+  UserIdentity({
+    required this.principalId,
+    required this.userType,
+    this.awsAccountId,
+    this.userName,
+  });
+
+  factory UserIdentity.fromJson(Map<String, dynamic> json) {
+    return UserIdentity(
+      principalId: (json['principalId'] as String?) ?? '',
+      userType: UserType.fromString((json['userType'] as String?) ?? ''),
+      awsAccountId: json['awsAccountId'] as String?,
+      userName: json['userName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final principalId = this.principalId;
+    final userType = this.userType;
+    final awsAccountId = this.awsAccountId;
+    final userName = this.userName;
+    return {
+      'principalId': principalId,
+      'userType': userType.value,
+      if (awsAccountId != null) 'awsAccountId': awsAccountId,
+      if (userName != null) 'userName': userName,
+    };
+  }
+}
+
+/// Information about a project in a space.
+class ProjectInformation {
+  /// The name of the project in the space.
+  final String? name;
+
+  /// The system-generated unique ID of the project.
+  final String? projectId;
+
+  ProjectInformation({
+    this.name,
+    this.projectId,
+  });
+
+  factory ProjectInformation.fromJson(Map<String, dynamic> json) {
+    return ProjectInformation(
+      name: json['name'] as String?,
+      projectId: json['projectId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final projectId = this.projectId;
+    return {
+      if (name != null) 'name': name,
+      if (projectId != null) 'projectId': projectId,
+    };
+  }
+}
+
+/// Information about the payload of an event recording Amazon CodeCatalyst
+/// activity.
+class EventPayload {
+  /// The type of content in the event payload.
+  final String? contentType;
+
+  /// The data included in the event payload.
+  final String? data;
+
+  EventPayload({
+    this.contentType,
+    this.data,
+  });
+
+  factory EventPayload.fromJson(Map<String, dynamic> json) {
+    return EventPayload(
+      contentType: json['contentType'] as String?,
+      data: json['data'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contentType = this.contentType;
+    final data = this.data;
+    return {
+      if (contentType != null) 'contentType': contentType,
+      if (data != null) 'data': data,
+    };
+  }
+}
+
+class UserType {
+  static const user = UserType._('USER');
+  static const awsAccount = UserType._('AWS_ACCOUNT');
+  static const unknown = UserType._('UNKNOWN');
+
+  final String value;
+
+  const UserType._(this.value);
+
+  static const values = [user, awsAccount, unknown];
+
+  static UserType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UserType._(value));
+
+  @override
+  bool operator ==(other) => other is UserType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -2622,227 +4633,6 @@ class DevEnvironmentSummary {
   }
 }
 
-/// Information about an email address.
-class EmailAddress {
-  /// The email address.
-  final String? email;
-
-  /// Whether the email address has been verified.
-  final bool? verified;
-
-  EmailAddress({
-    this.email,
-    this.verified,
-  });
-
-  factory EmailAddress.fromJson(Map<String, dynamic> json) {
-    return EmailAddress(
-      email: json['email'] as String?,
-      verified: json['verified'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final email = this.email;
-    final verified = this.verified;
-    return {
-      if (email != null) 'email': email,
-      if (verified != null) 'verified': verified,
-    };
-  }
-}
-
-/// Information about an entry in an event log of Amazon CodeCatalyst activity.
-class EventLogEntry {
-  /// The category for the event.
-  final String eventCategory;
-
-  /// The name of the event.
-  final String eventName;
-
-  /// The source of the event.
-  final String eventSource;
-
-  /// The time the event took place, in coordinated universal time (UTC) timestamp
-  /// format as specified in <a
-  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>.
-  final DateTime eventTime;
-
-  /// The type of the event.
-  final String eventType;
-
-  /// The system-generated unique ID of the event.
-  final String id;
-
-  /// The type of the event.
-  final OperationType operationType;
-
-  /// The system-generated unique ID of the user whose actions are recorded in the
-  /// event.
-  final UserIdentity userIdentity;
-
-  /// The code of the error, if any.
-  final String? errorCode;
-
-  /// Information about the project where the event occurred.
-  final ProjectInformation? projectInformation;
-
-  /// The system-generated unique ID of the request.
-  final String? requestId;
-
-  /// Information about the payload of the request.
-  final EventPayload? requestPayload;
-
-  /// Information about the payload of the response, if any.
-  final EventPayload? responsePayload;
-
-  /// The IP address of the user whose actions are recorded in the event.
-  final String? sourceIpAddress;
-
-  /// The user agent whose actions are recorded in the event.
-  final String? userAgent;
-
-  EventLogEntry({
-    required this.eventCategory,
-    required this.eventName,
-    required this.eventSource,
-    required this.eventTime,
-    required this.eventType,
-    required this.id,
-    required this.operationType,
-    required this.userIdentity,
-    this.errorCode,
-    this.projectInformation,
-    this.requestId,
-    this.requestPayload,
-    this.responsePayload,
-    this.sourceIpAddress,
-    this.userAgent,
-  });
-
-  factory EventLogEntry.fromJson(Map<String, dynamic> json) {
-    return EventLogEntry(
-      eventCategory: (json['eventCategory'] as String?) ?? '',
-      eventName: (json['eventName'] as String?) ?? '',
-      eventSource: (json['eventSource'] as String?) ?? '',
-      eventTime: nonNullableTimeStampFromJson(json['eventTime'] ?? 0),
-      eventType: (json['eventType'] as String?) ?? '',
-      id: (json['id'] as String?) ?? '',
-      operationType:
-          OperationType.fromString((json['operationType'] as String?) ?? ''),
-      userIdentity: UserIdentity.fromJson(
-          (json['userIdentity'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      errorCode: json['errorCode'] as String?,
-      projectInformation: json['projectInformation'] != null
-          ? ProjectInformation.fromJson(
-              json['projectInformation'] as Map<String, dynamic>)
-          : null,
-      requestId: json['requestId'] as String?,
-      requestPayload: json['requestPayload'] != null
-          ? EventPayload.fromJson(
-              json['requestPayload'] as Map<String, dynamic>)
-          : null,
-      responsePayload: json['responsePayload'] != null
-          ? EventPayload.fromJson(
-              json['responsePayload'] as Map<String, dynamic>)
-          : null,
-      sourceIpAddress: json['sourceIpAddress'] as String?,
-      userAgent: json['userAgent'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eventCategory = this.eventCategory;
-    final eventName = this.eventName;
-    final eventSource = this.eventSource;
-    final eventTime = this.eventTime;
-    final eventType = this.eventType;
-    final id = this.id;
-    final operationType = this.operationType;
-    final userIdentity = this.userIdentity;
-    final errorCode = this.errorCode;
-    final projectInformation = this.projectInformation;
-    final requestId = this.requestId;
-    final requestPayload = this.requestPayload;
-    final responsePayload = this.responsePayload;
-    final sourceIpAddress = this.sourceIpAddress;
-    final userAgent = this.userAgent;
-    return {
-      'eventCategory': eventCategory,
-      'eventName': eventName,
-      'eventSource': eventSource,
-      'eventTime': iso8601ToJson(eventTime),
-      'eventType': eventType,
-      'id': id,
-      'operationType': operationType.value,
-      'userIdentity': userIdentity,
-      if (errorCode != null) 'errorCode': errorCode,
-      if (projectInformation != null) 'projectInformation': projectInformation,
-      if (requestId != null) 'requestId': requestId,
-      if (requestPayload != null) 'requestPayload': requestPayload,
-      if (responsePayload != null) 'responsePayload': responsePayload,
-      if (sourceIpAddress != null) 'sourceIpAddress': sourceIpAddress,
-      if (userAgent != null) 'userAgent': userAgent,
-    };
-  }
-}
-
-/// Information about the payload of an event recording Amazon CodeCatalyst
-/// activity.
-class EventPayload {
-  /// The type of content in the event payload.
-  final String? contentType;
-
-  /// The data included in the event payload.
-  final String? data;
-
-  EventPayload({
-    this.contentType,
-    this.data,
-  });
-
-  factory EventPayload.fromJson(Map<String, dynamic> json) {
-    return EventPayload(
-      contentType: json['contentType'] as String?,
-      data: json['data'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final contentType = this.contentType;
-    final data = this.data;
-    return {
-      if (contentType != null) 'contentType': contentType,
-      if (data != null) 'data': data,
-    };
-  }
-}
-
-/// Information about the commands that will be run on a Dev Environment when an
-/// SSH session begins.
-class ExecuteCommandSessionConfiguration {
-  /// The command used at the beginning of the SSH session to a Dev Environment.
-  final String command;
-
-  /// An array of arguments containing arguments and members.
-  final List<String>? arguments;
-
-  ExecuteCommandSessionConfiguration({
-    required this.command,
-    this.arguments,
-  });
-
-  Map<String, dynamic> toJson() {
-    final command = this.command;
-    final arguments = this.arguments;
-    return {
-      'command': command,
-      if (arguments != null) 'arguments': arguments,
-    };
-  }
-}
-
 /// Information about a filter used to limit results of a query.
 class Filter {
   /// A key that can be used to sort results.
@@ -2868,1363 +4658,6 @@ class Filter {
       'key': key,
       'values': values,
       if (comparisonOperator != null) 'comparisonOperator': comparisonOperator,
-    };
-  }
-}
-
-class FilterKey {
-  static const hasAccessTo = FilterKey._('hasAccessTo');
-  static const name = FilterKey._('name');
-
-  final String value;
-
-  const FilterKey._(this.value);
-
-  static const values = [hasAccessTo, name];
-
-  static FilterKey fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => FilterKey._(value));
-
-  @override
-  bool operator ==(other) => other is FilterKey && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class GetDevEnvironmentResponse {
-  /// The system-generated unique ID of the user who created the Dev Environment.
-  final String creatorId;
-
-  /// The system-generated unique ID of the Dev Environment.
-  final String id;
-
-  /// The amount of time the Dev Environment will run without any activity
-  /// detected before stopping, in minutes.
-  final int inactivityTimeoutMinutes;
-
-  /// The Amazon EC2 instace type to use for the Dev Environment.
-  final InstanceType instanceType;
-
-  /// The time when the Dev Environment was last updated, in coordinated universal
-  /// time (UTC) timestamp format as specified in <a
-  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>.
-  final DateTime lastUpdatedTime;
-
-  /// Information about the amount of storage allocated to the Dev Environment. By
-  /// default, a Dev Environment is configured to have 16GB of persistent storage.
-  final PersistentStorage persistentStorage;
-
-  /// The name of the project in the space.
-  final String projectName;
-
-  /// The source repository that contains the branch cloned into the Dev
-  /// Environment.
-  final List<DevEnvironmentRepositorySummary> repositories;
-
-  /// The name of the space.
-  final String spaceName;
-
-  /// The current status of the Dev Environment.
-  final DevEnvironmentStatus status;
-
-  /// The user-specified alias for the Dev Environment.
-  final String? alias;
-
-  /// Information about the integrated development environment (IDE) configured
-  /// for the Dev Environment.
-  final List<Ide>? ides;
-
-  /// The reason for the status.
-  final String? statusReason;
-
-  /// The name of the connection used to connect to Amazon VPC used when the Dev
-  /// Environment was created, if any.
-  final String? vpcConnectionName;
-
-  GetDevEnvironmentResponse({
-    required this.creatorId,
-    required this.id,
-    required this.inactivityTimeoutMinutes,
-    required this.instanceType,
-    required this.lastUpdatedTime,
-    required this.persistentStorage,
-    required this.projectName,
-    required this.repositories,
-    required this.spaceName,
-    required this.status,
-    this.alias,
-    this.ides,
-    this.statusReason,
-    this.vpcConnectionName,
-  });
-
-  factory GetDevEnvironmentResponse.fromJson(Map<String, dynamic> json) {
-    return GetDevEnvironmentResponse(
-      creatorId: (json['creatorId'] as String?) ?? '',
-      id: (json['id'] as String?) ?? '',
-      inactivityTimeoutMinutes: (json['inactivityTimeoutMinutes'] as int?) ?? 0,
-      instanceType:
-          InstanceType.fromString((json['instanceType'] as String?) ?? ''),
-      lastUpdatedTime:
-          nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
-      persistentStorage: PersistentStorage.fromJson(
-          (json['persistentStorage'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      projectName: (json['projectName'] as String?) ?? '',
-      repositories: ((json['repositories'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => DevEnvironmentRepositorySummary.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-      spaceName: (json['spaceName'] as String?) ?? '',
-      status:
-          DevEnvironmentStatus.fromString((json['status'] as String?) ?? ''),
-      alias: json['alias'] as String?,
-      ides: (json['ides'] as List?)
-          ?.nonNulls
-          .map((e) => Ide.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      statusReason: json['statusReason'] as String?,
-      vpcConnectionName: json['vpcConnectionName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creatorId = this.creatorId;
-    final id = this.id;
-    final inactivityTimeoutMinutes = this.inactivityTimeoutMinutes;
-    final instanceType = this.instanceType;
-    final lastUpdatedTime = this.lastUpdatedTime;
-    final persistentStorage = this.persistentStorage;
-    final projectName = this.projectName;
-    final repositories = this.repositories;
-    final spaceName = this.spaceName;
-    final status = this.status;
-    final alias = this.alias;
-    final ides = this.ides;
-    final statusReason = this.statusReason;
-    final vpcConnectionName = this.vpcConnectionName;
-    return {
-      'creatorId': creatorId,
-      'id': id,
-      'inactivityTimeoutMinutes': inactivityTimeoutMinutes,
-      'instanceType': instanceType.value,
-      'lastUpdatedTime': iso8601ToJson(lastUpdatedTime),
-      'persistentStorage': persistentStorage,
-      'projectName': projectName,
-      'repositories': repositories,
-      'spaceName': spaceName,
-      'status': status.value,
-      if (alias != null) 'alias': alias,
-      if (ides != null) 'ides': ides,
-      if (statusReason != null) 'statusReason': statusReason,
-      if (vpcConnectionName != null) 'vpcConnectionName': vpcConnectionName,
-    };
-  }
-}
-
-class GetProjectResponse {
-  /// The name of the project in the space.
-  final String name;
-
-  /// The description of the project.
-  final String? description;
-
-  /// The friendly name of the project displayed to users in Amazon CodeCatalyst.
-  final String? displayName;
-
-  /// The name of the space.
-  final String? spaceName;
-
-  GetProjectResponse({
-    required this.name,
-    this.description,
-    this.displayName,
-    this.spaceName,
-  });
-
-  factory GetProjectResponse.fromJson(Map<String, dynamic> json) {
-    return GetProjectResponse(
-      name: (json['name'] as String?) ?? '',
-      description: json['description'] as String?,
-      displayName: json['displayName'] as String?,
-      spaceName: json['spaceName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final description = this.description;
-    final displayName = this.displayName;
-    final spaceName = this.spaceName;
-    return {
-      'name': name,
-      if (description != null) 'description': description,
-      if (displayName != null) 'displayName': displayName,
-      if (spaceName != null) 'spaceName': spaceName,
-    };
-  }
-}
-
-class GetSourceRepositoryCloneUrlsResponse {
-  /// The HTTPS URL to use when cloning the source repository.
-  final String https;
-
-  GetSourceRepositoryCloneUrlsResponse({
-    required this.https,
-  });
-
-  factory GetSourceRepositoryCloneUrlsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return GetSourceRepositoryCloneUrlsResponse(
-      https: (json['https'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final https = this.https;
-    return {
-      'https': https,
-    };
-  }
-}
-
-class GetSourceRepositoryResponse {
-  /// The time the source repository was created, in coordinated universal time
-  /// (UTC) timestamp format as specified in <a
-  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>.
-  final DateTime createdTime;
-
-  /// The time the source repository was last updated, in coordinated universal
-  /// time (UTC) timestamp format as specified in <a
-  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>.
-  final DateTime lastUpdatedTime;
-
-  /// The name of the source repository.
-  final String name;
-
-  /// The name of the project in the space.
-  final String projectName;
-
-  /// The name of the space.
-  final String spaceName;
-
-  /// The description of the source repository.
-  final String? description;
-
-  GetSourceRepositoryResponse({
-    required this.createdTime,
-    required this.lastUpdatedTime,
-    required this.name,
-    required this.projectName,
-    required this.spaceName,
-    this.description,
-  });
-
-  factory GetSourceRepositoryResponse.fromJson(Map<String, dynamic> json) {
-    return GetSourceRepositoryResponse(
-      createdTime: nonNullableTimeStampFromJson(json['createdTime'] ?? 0),
-      lastUpdatedTime:
-          nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
-      name: (json['name'] as String?) ?? '',
-      projectName: (json['projectName'] as String?) ?? '',
-      spaceName: (json['spaceName'] as String?) ?? '',
-      description: json['description'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdTime = this.createdTime;
-    final lastUpdatedTime = this.lastUpdatedTime;
-    final name = this.name;
-    final projectName = this.projectName;
-    final spaceName = this.spaceName;
-    final description = this.description;
-    return {
-      'createdTime': iso8601ToJson(createdTime),
-      'lastUpdatedTime': iso8601ToJson(lastUpdatedTime),
-      'name': name,
-      'projectName': projectName,
-      'spaceName': spaceName,
-      if (description != null) 'description': description,
-    };
-  }
-}
-
-class GetSpaceResponse {
-  /// The name of the space.
-  final String name;
-
-  /// The Amazon Web Services Region where the space exists.
-  final String regionName;
-
-  /// The description of the space.
-  final String? description;
-
-  /// The friendly name of the space displayed to users.
-  final String? displayName;
-
-  GetSpaceResponse({
-    required this.name,
-    required this.regionName,
-    this.description,
-    this.displayName,
-  });
-
-  factory GetSpaceResponse.fromJson(Map<String, dynamic> json) {
-    return GetSpaceResponse(
-      name: (json['name'] as String?) ?? '',
-      regionName: (json['regionName'] as String?) ?? '',
-      description: json['description'] as String?,
-      displayName: json['displayName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final regionName = this.regionName;
-    final description = this.description;
-    final displayName = this.displayName;
-    return {
-      'name': name,
-      'regionName': regionName,
-      if (description != null) 'description': description,
-      if (displayName != null) 'displayName': displayName,
-    };
-  }
-}
-
-class GetSubscriptionResponse {
-  /// The display name of the Amazon Web Services account used for billing for the
-  /// space.
-  final String? awsAccountName;
-
-  /// The day and time the pending change will be applied to the space, in
-  /// coordinated universal time (UTC) timestamp format as specified in <a
-  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>.
-  final DateTime? pendingSubscriptionStartTime;
-
-  /// The type of the billing plan that the space will be changed to at the start
-  /// of the next billing cycle. This applies only to changes that reduce the
-  /// functionality available for the space. Billing plan changes that increase
-  /// functionality are applied immediately. For more information, see <a
-  /// href="https://codecatalyst.aws/explore/pricing">Pricing</a>.
-  final String? pendingSubscriptionType;
-
-  /// The type of the billing plan for the space.
-  final String? subscriptionType;
-
-  GetSubscriptionResponse({
-    this.awsAccountName,
-    this.pendingSubscriptionStartTime,
-    this.pendingSubscriptionType,
-    this.subscriptionType,
-  });
-
-  factory GetSubscriptionResponse.fromJson(Map<String, dynamic> json) {
-    return GetSubscriptionResponse(
-      awsAccountName: json['awsAccountName'] as String?,
-      pendingSubscriptionStartTime:
-          timeStampFromJson(json['pendingSubscriptionStartTime']),
-      pendingSubscriptionType: json['pendingSubscriptionType'] as String?,
-      subscriptionType: json['subscriptionType'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final awsAccountName = this.awsAccountName;
-    final pendingSubscriptionStartTime = this.pendingSubscriptionStartTime;
-    final pendingSubscriptionType = this.pendingSubscriptionType;
-    final subscriptionType = this.subscriptionType;
-    return {
-      if (awsAccountName != null) 'awsAccountName': awsAccountName,
-      if (pendingSubscriptionStartTime != null)
-        'pendingSubscriptionStartTime':
-            iso8601ToJson(pendingSubscriptionStartTime),
-      if (pendingSubscriptionType != null)
-        'pendingSubscriptionType': pendingSubscriptionType,
-      if (subscriptionType != null) 'subscriptionType': subscriptionType,
-    };
-  }
-}
-
-class GetUserDetailsResponse {
-  /// The friendly name displayed for the user in Amazon CodeCatalyst.
-  final String? displayName;
-
-  /// The email address provided by the user when they signed up.
-  final EmailAddress? primaryEmail;
-
-  /// The system-generated unique ID of the user.
-  final String? userId;
-
-  /// The name of the user as displayed in Amazon CodeCatalyst.
-  final String? userName;
-
-  /// <p/>
-  final String? version;
-
-  GetUserDetailsResponse({
-    this.displayName,
-    this.primaryEmail,
-    this.userId,
-    this.userName,
-    this.version,
-  });
-
-  factory GetUserDetailsResponse.fromJson(Map<String, dynamic> json) {
-    return GetUserDetailsResponse(
-      displayName: json['displayName'] as String?,
-      primaryEmail: json['primaryEmail'] != null
-          ? EmailAddress.fromJson(json['primaryEmail'] as Map<String, dynamic>)
-          : null,
-      userId: json['userId'] as String?,
-      userName: json['userName'] as String?,
-      version: json['version'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final displayName = this.displayName;
-    final primaryEmail = this.primaryEmail;
-    final userId = this.userId;
-    final userName = this.userName;
-    final version = this.version;
-    return {
-      if (displayName != null) 'displayName': displayName,
-      if (primaryEmail != null) 'primaryEmail': primaryEmail,
-      if (userId != null) 'userId': userId,
-      if (userName != null) 'userName': userName,
-      if (version != null) 'version': version,
-    };
-  }
-}
-
-class GetWorkflowResponse {
-  /// The date and time the workflow was created, in coordinated universal time
-  /// (UTC) timestamp format as specified in <a
-  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>
-  final DateTime createdTime;
-
-  /// Information about the workflow definition file for the workflow.
-  final WorkflowDefinition definition;
-
-  /// The ID of the workflow.
-  final String id;
-
-  /// The date and time the workflow was last updated, in coordinated universal
-  /// time (UTC) timestamp format as specified in <a
-  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>
-  final DateTime lastUpdatedTime;
-
-  /// The name of the workflow.
-  final String name;
-
-  /// The name of the project in the space.
-  final String projectName;
-
-  /// The behavior to use when multiple workflows occur at the same time. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/codecatalyst/latest/userguide/workflows-configure-runs.html">https://docs.aws.amazon.com/codecatalyst/latest/userguide/workflows-configure-runs.html</a>
-  /// in the Amazon CodeCatalyst User Guide.
-  final WorkflowRunMode runMode;
-
-  /// The name of the space.
-  final String spaceName;
-
-  /// The status of the workflow.
-  final WorkflowStatus status;
-
-  /// The name of the branch that contains the workflow YAML.
-  final String? sourceBranchName;
-
-  /// The name of the source repository where the workflow YAML is stored.
-  final String? sourceRepositoryName;
-
-  GetWorkflowResponse({
-    required this.createdTime,
-    required this.definition,
-    required this.id,
-    required this.lastUpdatedTime,
-    required this.name,
-    required this.projectName,
-    required this.runMode,
-    required this.spaceName,
-    required this.status,
-    this.sourceBranchName,
-    this.sourceRepositoryName,
-  });
-
-  factory GetWorkflowResponse.fromJson(Map<String, dynamic> json) {
-    return GetWorkflowResponse(
-      createdTime: nonNullableTimeStampFromJson(json['createdTime'] ?? 0),
-      definition: WorkflowDefinition.fromJson(
-          (json['definition'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      id: (json['id'] as String?) ?? '',
-      lastUpdatedTime:
-          nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
-      name: (json['name'] as String?) ?? '',
-      projectName: (json['projectName'] as String?) ?? '',
-      runMode: WorkflowRunMode.fromString((json['runMode'] as String?) ?? ''),
-      spaceName: (json['spaceName'] as String?) ?? '',
-      status: WorkflowStatus.fromString((json['status'] as String?) ?? ''),
-      sourceBranchName: json['sourceBranchName'] as String?,
-      sourceRepositoryName: json['sourceRepositoryName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdTime = this.createdTime;
-    final definition = this.definition;
-    final id = this.id;
-    final lastUpdatedTime = this.lastUpdatedTime;
-    final name = this.name;
-    final projectName = this.projectName;
-    final runMode = this.runMode;
-    final spaceName = this.spaceName;
-    final status = this.status;
-    final sourceBranchName = this.sourceBranchName;
-    final sourceRepositoryName = this.sourceRepositoryName;
-    return {
-      'createdTime': iso8601ToJson(createdTime),
-      'definition': definition,
-      'id': id,
-      'lastUpdatedTime': iso8601ToJson(lastUpdatedTime),
-      'name': name,
-      'projectName': projectName,
-      'runMode': runMode.value,
-      'spaceName': spaceName,
-      'status': status.value,
-      if (sourceBranchName != null) 'sourceBranchName': sourceBranchName,
-      if (sourceRepositoryName != null)
-        'sourceRepositoryName': sourceRepositoryName,
-    };
-  }
-}
-
-class GetWorkflowRunResponse {
-  /// The ID of the workflow run.
-  final String id;
-
-  /// The date and time the workflow run status was last updated, in coordinated
-  /// universal time (UTC) timestamp format as specified in <a
-  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>
-  final DateTime lastUpdatedTime;
-
-  /// The name of the project in the space.
-  final String projectName;
-
-  /// The name of the space.
-  final String spaceName;
-
-  /// The date and time the workflow run began, in coordinated universal time
-  /// (UTC) timestamp format as specified in <a
-  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>
-  final DateTime startTime;
-
-  /// The status of the workflow run.
-  final WorkflowRunStatus status;
-
-  /// The ID of the workflow.
-  final String workflowId;
-
-  /// The date and time the workflow run ended, in coordinated universal time
-  /// (UTC) timestamp format as specified in <a
-  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>.
-  final DateTime? endTime;
-
-  /// Information about the reasons for the status of the workflow run.
-  final List<WorkflowRunStatusReason>? statusReasons;
-
-  GetWorkflowRunResponse({
-    required this.id,
-    required this.lastUpdatedTime,
-    required this.projectName,
-    required this.spaceName,
-    required this.startTime,
-    required this.status,
-    required this.workflowId,
-    this.endTime,
-    this.statusReasons,
-  });
-
-  factory GetWorkflowRunResponse.fromJson(Map<String, dynamic> json) {
-    return GetWorkflowRunResponse(
-      id: (json['id'] as String?) ?? '',
-      lastUpdatedTime:
-          nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
-      projectName: (json['projectName'] as String?) ?? '',
-      spaceName: (json['spaceName'] as String?) ?? '',
-      startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
-      status: WorkflowRunStatus.fromString((json['status'] as String?) ?? ''),
-      workflowId: (json['workflowId'] as String?) ?? '',
-      endTime: timeStampFromJson(json['endTime']),
-      statusReasons: (json['statusReasons'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              WorkflowRunStatusReason.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final lastUpdatedTime = this.lastUpdatedTime;
-    final projectName = this.projectName;
-    final spaceName = this.spaceName;
-    final startTime = this.startTime;
-    final status = this.status;
-    final workflowId = this.workflowId;
-    final endTime = this.endTime;
-    final statusReasons = this.statusReasons;
-    return {
-      'id': id,
-      'lastUpdatedTime': iso8601ToJson(lastUpdatedTime),
-      'projectName': projectName,
-      'spaceName': spaceName,
-      'startTime': iso8601ToJson(startTime),
-      'status': status.value,
-      'workflowId': workflowId,
-      if (endTime != null) 'endTime': iso8601ToJson(endTime),
-      if (statusReasons != null) 'statusReasons': statusReasons,
-    };
-  }
-}
-
-/// Information about an integrated development environment (IDE) used in a Dev
-/// Environment.
-class Ide {
-  /// The name of the IDE.
-  final String? name;
-
-  /// A link to the IDE runtime image.
-  final String? runtime;
-
-  Ide({
-    this.name,
-    this.runtime,
-  });
-
-  factory Ide.fromJson(Map<String, dynamic> json) {
-    return Ide(
-      name: json['name'] as String?,
-      runtime: json['runtime'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final runtime = this.runtime;
-    return {
-      if (name != null) 'name': name,
-      if (runtime != null) 'runtime': runtime,
-    };
-  }
-}
-
-/// Information about the configuration of an integrated development environment
-/// (IDE) for a Dev Environment.
-class IdeConfiguration {
-  /// The name of the IDE. Valid values include <code>Cloud9</code>,
-  /// <code>IntelliJ</code>, <code>PyCharm</code>, <code>GoLand</code>, and
-  /// <code>VSCode</code>.
-  final String? name;
-
-  /// A link to the IDE runtime image.
-  /// <note>
-  /// This parameter is not required for <code>VSCode</code>.
-  /// </note>
-  final String? runtime;
-
-  IdeConfiguration({
-    this.name,
-    this.runtime,
-  });
-
-  factory IdeConfiguration.fromJson(Map<String, dynamic> json) {
-    return IdeConfiguration(
-      name: json['name'] as String?,
-      runtime: json['runtime'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final runtime = this.runtime;
-    return {
-      if (name != null) 'name': name,
-      if (runtime != null) 'runtime': runtime,
-    };
-  }
-}
-
-class InstanceType {
-  static const devStandard1Small = InstanceType._('dev.standard1.small');
-  static const devStandard1Medium = InstanceType._('dev.standard1.medium');
-  static const devStandard1Large = InstanceType._('dev.standard1.large');
-  static const devStandard1Xlarge = InstanceType._('dev.standard1.xlarge');
-
-  final String value;
-
-  const InstanceType._(this.value);
-
-  static const values = [
-    devStandard1Small,
-    devStandard1Medium,
-    devStandard1Large,
-    devStandard1Xlarge
-  ];
-
-  static InstanceType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => InstanceType._(value));
-
-  @override
-  bool operator ==(other) => other is InstanceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ListAccessTokensResponse {
-  /// A list of personal access tokens (PATs) associated with the calling user
-  /// identity.
-  final List<AccessTokenSummary> items;
-
-  /// A token returned from a call to this API to indicate the next batch of
-  /// results to return, if any.
-  final String? nextToken;
-
-  ListAccessTokensResponse({
-    required this.items,
-    this.nextToken,
-  });
-
-  factory ListAccessTokensResponse.fromJson(Map<String, dynamic> json) {
-    return ListAccessTokensResponse(
-      items: ((json['items'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => AccessTokenSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final items = this.items;
-    final nextToken = this.nextToken;
-    return {
-      'items': items,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListDevEnvironmentSessionsResponse {
-  /// Information about each session retrieved in the list.
-  final List<DevEnvironmentSessionSummary> items;
-
-  /// A token returned from a call to this API to indicate the next batch of
-  /// results to return, if any.
-  final String? nextToken;
-
-  ListDevEnvironmentSessionsResponse({
-    required this.items,
-    this.nextToken,
-  });
-
-  factory ListDevEnvironmentSessionsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListDevEnvironmentSessionsResponse(
-      items: ((json['items'] as List?) ?? const [])
-          .nonNulls
-          .map((e) =>
-              DevEnvironmentSessionSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final items = this.items;
-    final nextToken = this.nextToken;
-    return {
-      'items': items,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListDevEnvironmentsResponse {
-  /// Information about the Dev Environments in a project.
-  final List<DevEnvironmentSummary> items;
-
-  /// A token returned from a call to this API to indicate the next batch of
-  /// results to return, if any.
-  final String? nextToken;
-
-  ListDevEnvironmentsResponse({
-    required this.items,
-    this.nextToken,
-  });
-
-  factory ListDevEnvironmentsResponse.fromJson(Map<String, dynamic> json) {
-    return ListDevEnvironmentsResponse(
-      items: ((json['items'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => DevEnvironmentSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final items = this.items;
-    final nextToken = this.nextToken;
-    return {
-      'items': items,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListEventLogsResponse {
-  /// Information about each event retrieved in the list.
-  final List<EventLogEntry> items;
-
-  /// A token returned from a call to this API to indicate the next batch of
-  /// results to return, if any.
-  final String? nextToken;
-
-  ListEventLogsResponse({
-    required this.items,
-    this.nextToken,
-  });
-
-  factory ListEventLogsResponse.fromJson(Map<String, dynamic> json) {
-    return ListEventLogsResponse(
-      items: ((json['items'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => EventLogEntry.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final items = this.items;
-    final nextToken = this.nextToken;
-    return {
-      'items': items,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListProjectsResponse {
-  /// Information about the projects.
-  final List<ProjectSummary>? items;
-
-  /// A token returned from a call to this API to indicate the next batch of
-  /// results to return, if any.
-  final String? nextToken;
-
-  ListProjectsResponse({
-    this.items,
-    this.nextToken,
-  });
-
-  factory ListProjectsResponse.fromJson(Map<String, dynamic> json) {
-    return ListProjectsResponse(
-      items: (json['items'] as List?)
-          ?.nonNulls
-          .map((e) => ProjectSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final items = this.items;
-    final nextToken = this.nextToken;
-    return {
-      if (items != null) 'items': items,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-/// Information about a source repository returned in a list of source
-/// repositories.
-class ListSourceRepositoriesItem {
-  /// The time the source repository was created, in coordinated universal time
-  /// (UTC) timestamp format as specified in <a
-  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>.
-  final DateTime createdTime;
-
-  /// The system-generated unique ID of the source repository.
-  final String id;
-
-  /// The time the source repository was last updated, in coordinated universal
-  /// time (UTC) timestamp format as specified in <a
-  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>.
-  final DateTime lastUpdatedTime;
-
-  /// The name of the source repository.
-  final String name;
-
-  /// The description of the repository, if any.
-  final String? description;
-
-  ListSourceRepositoriesItem({
-    required this.createdTime,
-    required this.id,
-    required this.lastUpdatedTime,
-    required this.name,
-    this.description,
-  });
-
-  factory ListSourceRepositoriesItem.fromJson(Map<String, dynamic> json) {
-    return ListSourceRepositoriesItem(
-      createdTime: nonNullableTimeStampFromJson(json['createdTime'] ?? 0),
-      id: (json['id'] as String?) ?? '',
-      lastUpdatedTime:
-          nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
-      name: (json['name'] as String?) ?? '',
-      description: json['description'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdTime = this.createdTime;
-    final id = this.id;
-    final lastUpdatedTime = this.lastUpdatedTime;
-    final name = this.name;
-    final description = this.description;
-    return {
-      'createdTime': iso8601ToJson(createdTime),
-      'id': id,
-      'lastUpdatedTime': iso8601ToJson(lastUpdatedTime),
-      'name': name,
-      if (description != null) 'description': description,
-    };
-  }
-}
-
-class ListSourceRepositoriesResponse {
-  /// Information about the source repositories.
-  final List<ListSourceRepositoriesItem>? items;
-
-  /// A token returned from a call to this API to indicate the next batch of
-  /// results to return, if any.
-  final String? nextToken;
-
-  ListSourceRepositoriesResponse({
-    this.items,
-    this.nextToken,
-  });
-
-  factory ListSourceRepositoriesResponse.fromJson(Map<String, dynamic> json) {
-    return ListSourceRepositoriesResponse(
-      items: (json['items'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              ListSourceRepositoriesItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final items = this.items;
-    final nextToken = this.nextToken;
-    return {
-      if (items != null) 'items': items,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-/// Information about a branch of a source repository returned in a list of
-/// branches.
-class ListSourceRepositoryBranchesItem {
-  /// The commit ID of the tip of the branch at the time of the request, also
-  /// known as the head commit.
-  final String? headCommitId;
-
-  /// The time the branch was last updated, in coordinated universal time (UTC)
-  /// timestamp format as specified in <a
-  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>.
-  final DateTime? lastUpdatedTime;
-
-  /// The name of the branch.
-  final String? name;
-
-  /// The Git reference name of the branch.
-  final String? ref;
-
-  ListSourceRepositoryBranchesItem({
-    this.headCommitId,
-    this.lastUpdatedTime,
-    this.name,
-    this.ref,
-  });
-
-  factory ListSourceRepositoryBranchesItem.fromJson(Map<String, dynamic> json) {
-    return ListSourceRepositoryBranchesItem(
-      headCommitId: json['headCommitId'] as String?,
-      lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
-      name: json['name'] as String?,
-      ref: json['ref'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final headCommitId = this.headCommitId;
-    final lastUpdatedTime = this.lastUpdatedTime;
-    final name = this.name;
-    final ref = this.ref;
-    return {
-      if (headCommitId != null) 'headCommitId': headCommitId,
-      if (lastUpdatedTime != null)
-        'lastUpdatedTime': iso8601ToJson(lastUpdatedTime),
-      if (name != null) 'name': name,
-      if (ref != null) 'ref': ref,
-    };
-  }
-}
-
-class ListSourceRepositoryBranchesResponse {
-  /// Information about the source branches.
-  final List<ListSourceRepositoryBranchesItem> items;
-
-  /// A token returned from a call to this API to indicate the next batch of
-  /// results to return, if any.
-  final String? nextToken;
-
-  ListSourceRepositoryBranchesResponse({
-    required this.items,
-    this.nextToken,
-  });
-
-  factory ListSourceRepositoryBranchesResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListSourceRepositoryBranchesResponse(
-      items: ((json['items'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => ListSourceRepositoryBranchesItem.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final items = this.items;
-    final nextToken = this.nextToken;
-    return {
-      'items': items,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListSpacesResponse {
-  /// Information about the spaces.
-  final List<SpaceSummary>? items;
-
-  /// A token returned from a call to this API to indicate the next batch of
-  /// results to return, if any.
-  final String? nextToken;
-
-  ListSpacesResponse({
-    this.items,
-    this.nextToken,
-  });
-
-  factory ListSpacesResponse.fromJson(Map<String, dynamic> json) {
-    return ListSpacesResponse(
-      items: (json['items'] as List?)
-          ?.nonNulls
-          .map((e) => SpaceSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final items = this.items;
-    final nextToken = this.nextToken;
-    return {
-      if (items != null) 'items': items,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListWorkflowRunsResponse {
-  /// Information about the runs of a workflow.
-  final List<WorkflowRunSummary>? items;
-
-  /// A token returned from a call to this API to indicate the next batch of
-  /// results to return, if any.
-  final String? nextToken;
-
-  ListWorkflowRunsResponse({
-    this.items,
-    this.nextToken,
-  });
-
-  factory ListWorkflowRunsResponse.fromJson(Map<String, dynamic> json) {
-    return ListWorkflowRunsResponse(
-      items: (json['items'] as List?)
-          ?.nonNulls
-          .map((e) => WorkflowRunSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final items = this.items;
-    final nextToken = this.nextToken;
-    return {
-      if (items != null) 'items': items,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListWorkflowsResponse {
-  /// Information about the workflows in a project.
-  final List<WorkflowSummary>? items;
-
-  /// A token returned from a call to this API to indicate the next batch of
-  /// results to return, if any.
-  final String? nextToken;
-
-  ListWorkflowsResponse({
-    this.items,
-    this.nextToken,
-  });
-
-  factory ListWorkflowsResponse.fromJson(Map<String, dynamic> json) {
-    return ListWorkflowsResponse(
-      items: (json['items'] as List?)
-          ?.nonNulls
-          .map((e) => WorkflowSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final items = this.items;
-    final nextToken = this.nextToken;
-    return {
-      if (items != null) 'items': items,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class OperationType {
-  static const readonly = OperationType._('READONLY');
-  static const mutation = OperationType._('MUTATION');
-
-  final String value;
-
-  const OperationType._(this.value);
-
-  static const values = [readonly, mutation];
-
-  static OperationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => OperationType._(value));
-
-  @override
-  bool operator ==(other) => other is OperationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about the persistent storage for a Dev Environment.
-class PersistentStorage {
-  /// The size of the persistent storage in gigabytes (specifically GiB).
-  /// <note>
-  /// Valid values for storage are based on memory sizes in 16GB increments. Valid
-  /// values are 16, 32, and 64.
-  /// </note>
-  final int sizeInGiB;
-
-  PersistentStorage({
-    required this.sizeInGiB,
-  });
-
-  factory PersistentStorage.fromJson(Map<String, dynamic> json) {
-    return PersistentStorage(
-      sizeInGiB: (json['sizeInGiB'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final sizeInGiB = this.sizeInGiB;
-    return {
-      'sizeInGiB': sizeInGiB,
-    };
-  }
-}
-
-/// Information about the configuration of persistent storage for a Dev
-/// Environment.
-class PersistentStorageConfiguration {
-  /// The size of the persistent storage in gigabytes (specifically GiB).
-  /// <note>
-  /// Valid values for storage are based on memory sizes in 16GB increments. Valid
-  /// values are 16, 32, and 64.
-  /// </note>
-  final int sizeInGiB;
-
-  PersistentStorageConfiguration({
-    required this.sizeInGiB,
-  });
-
-  Map<String, dynamic> toJson() {
-    final sizeInGiB = this.sizeInGiB;
-    return {
-      'sizeInGiB': sizeInGiB,
-    };
-  }
-}
-
-/// Information about a project in a space.
-class ProjectInformation {
-  /// The name of the project in the space.
-  final String? name;
-
-  /// The system-generated unique ID of the project.
-  final String? projectId;
-
-  ProjectInformation({
-    this.name,
-    this.projectId,
-  });
-
-  factory ProjectInformation.fromJson(Map<String, dynamic> json) {
-    return ProjectInformation(
-      name: json['name'] as String?,
-      projectId: json['projectId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final projectId = this.projectId;
-    return {
-      if (name != null) 'name': name,
-      if (projectId != null) 'projectId': projectId,
-    };
-  }
-}
-
-/// nformation about the filter used to narrow the results returned in a list of
-/// projects.
-class ProjectListFilter {
-  /// A key that can be used to sort results.
-  final FilterKey key;
-
-  /// The values of the key.
-  final List<String> values;
-
-  /// The operator used to compare the fields.
-  final ComparisonOperator? comparisonOperator;
-
-  ProjectListFilter({
-    required this.key,
-    required this.values,
-    this.comparisonOperator,
-  });
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final values = this.values;
-    final comparisonOperator = this.comparisonOperator;
-    return {
-      'key': key.value,
-      'values': values,
-      if (comparisonOperator != null)
-        'comparisonOperator': comparisonOperator.value,
-    };
-  }
-}
-
-/// Information about a project.
-class ProjectSummary {
-  /// The name of the project in the space.
-  final String name;
-
-  /// The description of the project.
-  final String? description;
-
-  /// The friendly name displayed to users of the project in Amazon CodeCatalyst.
-  final String? displayName;
-
-  ProjectSummary({
-    required this.name,
-    this.description,
-    this.displayName,
-  });
-
-  factory ProjectSummary.fromJson(Map<String, dynamic> json) {
-    return ProjectSummary(
-      name: (json['name'] as String?) ?? '',
-      description: json['description'] as String?,
-      displayName: json['displayName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final description = this.description;
-    final displayName = this.displayName;
-    return {
-      'name': name,
-      if (description != null) 'description': description,
-      if (displayName != null) 'displayName': displayName,
-    };
-  }
-}
-
-/// Information about a repository that will be cloned to a Dev Environment.
-class RepositoryInput {
-  /// The name of the source repository.
-  final String repositoryName;
-
-  /// The name of the branch in a source repository.
-  final String? branchName;
-
-  RepositoryInput({
-    required this.repositoryName,
-    this.branchName,
-  });
-
-  Map<String, dynamic> toJson() {
-    final repositoryName = this.repositoryName;
-    final branchName = this.branchName;
-    return {
-      'repositoryName': repositoryName,
-      if (branchName != null) 'branchName': branchName,
     };
   }
 }
@@ -4273,873 +4706,73 @@ class SpaceSummary {
   }
 }
 
-class StartDevEnvironmentResponse {
-  /// The system-generated unique ID of the Dev Environment.
+/// Information about a specified personal access token (PAT).
+class AccessTokenSummary {
+  /// The system-generated ID of the personal access token.
   final String id;
 
-  /// The name of the project in the space.
-  final String projectName;
-
-  /// The name of the space.
-  final String spaceName;
-
-  /// The status of the Dev Environment.
-  final DevEnvironmentStatus status;
-
-  StartDevEnvironmentResponse({
-    required this.id,
-    required this.projectName,
-    required this.spaceName,
-    required this.status,
-  });
-
-  factory StartDevEnvironmentResponse.fromJson(Map<String, dynamic> json) {
-    return StartDevEnvironmentResponse(
-      id: (json['id'] as String?) ?? '',
-      projectName: (json['projectName'] as String?) ?? '',
-      spaceName: (json['spaceName'] as String?) ?? '',
-      status:
-          DevEnvironmentStatus.fromString((json['status'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final projectName = this.projectName;
-    final spaceName = this.spaceName;
-    final status = this.status;
-    return {
-      'id': id,
-      'projectName': projectName,
-      'spaceName': spaceName,
-      'status': status.value,
-    };
-  }
-}
-
-class StartDevEnvironmentSessionResponse {
-  final DevEnvironmentAccessDetails accessDetails;
-
-  /// The system-generated unique ID of the Dev Environment.
-  final String id;
-
-  /// The name of the project in the space.
-  final String projectName;
-
-  /// The name of the space.
-  final String spaceName;
-
-  /// The system-generated unique ID of the Dev Environment session.
-  final String? sessionId;
-
-  StartDevEnvironmentSessionResponse({
-    required this.accessDetails,
-    required this.id,
-    required this.projectName,
-    required this.spaceName,
-    this.sessionId,
-  });
-
-  factory StartDevEnvironmentSessionResponse.fromJson(
-      Map<String, dynamic> json) {
-    return StartDevEnvironmentSessionResponse(
-      accessDetails: DevEnvironmentAccessDetails.fromJson(
-          (json['accessDetails'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      id: (json['id'] as String?) ?? '',
-      projectName: (json['projectName'] as String?) ?? '',
-      spaceName: (json['spaceName'] as String?) ?? '',
-      sessionId: json['sessionId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accessDetails = this.accessDetails;
-    final id = this.id;
-    final projectName = this.projectName;
-    final spaceName = this.spaceName;
-    final sessionId = this.sessionId;
-    return {
-      'accessDetails': accessDetails,
-      'id': id,
-      'projectName': projectName,
-      'spaceName': spaceName,
-      if (sessionId != null) 'sessionId': sessionId,
-    };
-  }
-}
-
-class StartWorkflowRunResponse {
-  /// The system-generated unique ID of the workflow run.
-  final String id;
-
-  /// The name of the project in the space.
-  final String projectName;
-
-  /// The name of the space.
-  final String spaceName;
-
-  /// The system-generated unique ID of the workflow.
-  final String workflowId;
-
-  StartWorkflowRunResponse({
-    required this.id,
-    required this.projectName,
-    required this.spaceName,
-    required this.workflowId,
-  });
-
-  factory StartWorkflowRunResponse.fromJson(Map<String, dynamic> json) {
-    return StartWorkflowRunResponse(
-      id: (json['id'] as String?) ?? '',
-      projectName: (json['projectName'] as String?) ?? '',
-      spaceName: (json['spaceName'] as String?) ?? '',
-      workflowId: (json['workflowId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final projectName = this.projectName;
-    final spaceName = this.spaceName;
-    final workflowId = this.workflowId;
-    return {
-      'id': id,
-      'projectName': projectName,
-      'spaceName': spaceName,
-      'workflowId': workflowId,
-    };
-  }
-}
-
-class StopDevEnvironmentResponse {
-  /// The system-generated unique ID of the Dev Environment.
-  final String id;
-
-  /// The name of the project in the space.
-  final String projectName;
-
-  /// The name of the space.
-  final String spaceName;
-
-  /// The status of the Dev Environment.
-  final DevEnvironmentStatus status;
-
-  StopDevEnvironmentResponse({
-    required this.id,
-    required this.projectName,
-    required this.spaceName,
-    required this.status,
-  });
-
-  factory StopDevEnvironmentResponse.fromJson(Map<String, dynamic> json) {
-    return StopDevEnvironmentResponse(
-      id: (json['id'] as String?) ?? '',
-      projectName: (json['projectName'] as String?) ?? '',
-      spaceName: (json['spaceName'] as String?) ?? '',
-      status:
-          DevEnvironmentStatus.fromString((json['status'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final projectName = this.projectName;
-    final spaceName = this.spaceName;
-    final status = this.status;
-    return {
-      'id': id,
-      'projectName': projectName,
-      'spaceName': spaceName,
-      'status': status.value,
-    };
-  }
-}
-
-class StopDevEnvironmentSessionResponse {
-  /// The system-generated unique ID of the Dev Environment.
-  final String id;
-
-  /// The name of the project in the space.
-  final String projectName;
-
-  /// The system-generated unique ID of the Dev Environment session.
-  final String sessionId;
-
-  /// The name of the space.
-  final String spaceName;
-
-  StopDevEnvironmentSessionResponse({
-    required this.id,
-    required this.projectName,
-    required this.sessionId,
-    required this.spaceName,
-  });
-
-  factory StopDevEnvironmentSessionResponse.fromJson(
-      Map<String, dynamic> json) {
-    return StopDevEnvironmentSessionResponse(
-      id: (json['id'] as String?) ?? '',
-      projectName: (json['projectName'] as String?) ?? '',
-      sessionId: (json['sessionId'] as String?) ?? '',
-      spaceName: (json['spaceName'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final projectName = this.projectName;
-    final sessionId = this.sessionId;
-    final spaceName = this.spaceName;
-    return {
-      'id': id,
-      'projectName': projectName,
-      'sessionId': sessionId,
-      'spaceName': spaceName,
-    };
-  }
-}
-
-class UpdateDevEnvironmentResponse {
-  /// The system-generated unique ID of the Dev Environment.
-  final String id;
-
-  /// The name of the project in the space.
-  final String projectName;
-
-  /// The name of the space.
-  final String spaceName;
-
-  /// The user-specified alias for the Dev Environment.
-  final String? alias;
-
-  /// A user-specified idempotency token. Idempotency ensures that an API request
-  /// completes only once. With an idempotent request, if the original request
-  /// completes successfully, the subsequent retries return the result from the
-  /// original successful request and have no additional effect.
-  final String? clientToken;
-
-  /// Information about the integrated development environment (IDE) configured
-  /// for the Dev Environment.
-  final List<IdeConfiguration>? ides;
-
-  /// The amount of time the Dev Environment will run without any activity
-  /// detected before stopping, in minutes.
-  final int? inactivityTimeoutMinutes;
-
-  /// The Amazon EC2 instace type to use for the Dev Environment.
-  final InstanceType? instanceType;
-
-  UpdateDevEnvironmentResponse({
-    required this.id,
-    required this.projectName,
-    required this.spaceName,
-    this.alias,
-    this.clientToken,
-    this.ides,
-    this.inactivityTimeoutMinutes,
-    this.instanceType,
-  });
-
-  factory UpdateDevEnvironmentResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateDevEnvironmentResponse(
-      id: (json['id'] as String?) ?? '',
-      projectName: (json['projectName'] as String?) ?? '',
-      spaceName: (json['spaceName'] as String?) ?? '',
-      alias: json['alias'] as String?,
-      clientToken: json['clientToken'] as String?,
-      ides: (json['ides'] as List?)
-          ?.nonNulls
-          .map((e) => IdeConfiguration.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      inactivityTimeoutMinutes: json['inactivityTimeoutMinutes'] as int?,
-      instanceType:
-          (json['instanceType'] as String?)?.let(InstanceType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final projectName = this.projectName;
-    final spaceName = this.spaceName;
-    final alias = this.alias;
-    final clientToken = this.clientToken;
-    final ides = this.ides;
-    final inactivityTimeoutMinutes = this.inactivityTimeoutMinutes;
-    final instanceType = this.instanceType;
-    return {
-      'id': id,
-      'projectName': projectName,
-      'spaceName': spaceName,
-      if (alias != null) 'alias': alias,
-      if (clientToken != null) 'clientToken': clientToken,
-      if (ides != null) 'ides': ides,
-      if (inactivityTimeoutMinutes != null)
-        'inactivityTimeoutMinutes': inactivityTimeoutMinutes,
-      if (instanceType != null) 'instanceType': instanceType.value,
-    };
-  }
-}
-
-class UpdateProjectResponse {
-  /// The description of the project.
-  final String? description;
-
-  /// The friendly name of the project displayed to users in Amazon CodeCatalyst.
-  final String? displayName;
-
-  /// The name of the project.
-  final String? name;
-
-  /// The name of the space.
-  final String? spaceName;
-
-  UpdateProjectResponse({
-    this.description,
-    this.displayName,
-    this.name,
-    this.spaceName,
-  });
-
-  factory UpdateProjectResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateProjectResponse(
-      description: json['description'] as String?,
-      displayName: json['displayName'] as String?,
-      name: json['name'] as String?,
-      spaceName: json['spaceName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final displayName = this.displayName;
-    final name = this.name;
-    final spaceName = this.spaceName;
-    return {
-      if (description != null) 'description': description,
-      if (displayName != null) 'displayName': displayName,
-      if (name != null) 'name': name,
-      if (spaceName != null) 'spaceName': spaceName,
-    };
-  }
-}
-
-class UpdateSpaceResponse {
-  /// The description of the space.
-  final String? description;
-
-  /// The friendly name of the space displayed to users in Amazon CodeCatalyst.
-  final String? displayName;
-
-  /// The name of the space.
-  final String? name;
-
-  UpdateSpaceResponse({
-    this.description,
-    this.displayName,
-    this.name,
-  });
-
-  factory UpdateSpaceResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateSpaceResponse(
-      description: json['description'] as String?,
-      displayName: json['displayName'] as String?,
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final displayName = this.displayName;
-    final name = this.name;
-    return {
-      if (description != null) 'description': description,
-      if (displayName != null) 'displayName': displayName,
-      if (name != null) 'name': name,
-    };
-  }
-}
-
-/// Information about a user whose activity is recorded in an event for a space.
-class UserIdentity {
-  /// The ID of the Amazon CodeCatalyst service principal.
-  final String principalId;
-
-  /// The role assigned to the user in a Amazon CodeCatalyst space or project when
-  /// the event occurred.
-  final UserType userType;
-
-  /// The Amazon Web Services account number of the user in Amazon Web Services,
-  /// if any.
-  final String? awsAccountId;
-
-  /// The display name of the user in Amazon CodeCatalyst.
-  final String? userName;
-
-  UserIdentity({
-    required this.principalId,
-    required this.userType,
-    this.awsAccountId,
-    this.userName,
-  });
-
-  factory UserIdentity.fromJson(Map<String, dynamic> json) {
-    return UserIdentity(
-      principalId: (json['principalId'] as String?) ?? '',
-      userType: UserType.fromString((json['userType'] as String?) ?? ''),
-      awsAccountId: json['awsAccountId'] as String?,
-      userName: json['userName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final principalId = this.principalId;
-    final userType = this.userType;
-    final awsAccountId = this.awsAccountId;
-    final userName = this.userName;
-    return {
-      'principalId': principalId,
-      'userType': userType.value,
-      if (awsAccountId != null) 'awsAccountId': awsAccountId,
-      if (userName != null) 'userName': userName,
-    };
-  }
-}
-
-class UserType {
-  static const user = UserType._('USER');
-  static const awsAccount = UserType._('AWS_ACCOUNT');
-  static const unknown = UserType._('UNKNOWN');
-
-  final String value;
-
-  const UserType._(this.value);
-
-  static const values = [user, awsAccount, unknown];
-
-  static UserType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => UserType._(value));
-
-  @override
-  bool operator ==(other) => other is UserType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class VerifySessionResponse {
-  /// The system-generated unique ID of the user in Amazon CodeCatalyst.
-  final String? identity;
-
-  VerifySessionResponse({
-    this.identity,
-  });
-
-  factory VerifySessionResponse.fromJson(Map<String, dynamic> json) {
-    return VerifySessionResponse(
-      identity: json['identity'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final identity = this.identity;
-    return {
-      if (identity != null) 'identity': identity,
-    };
-  }
-}
-
-/// Information about a workflow definition file.
-class WorkflowDefinition {
-  /// The path to the workflow definition file stored in the source repository for
-  /// the project, including the file name.
-  final String path;
-
-  WorkflowDefinition({
-    required this.path,
-  });
-
-  factory WorkflowDefinition.fromJson(Map<String, dynamic> json) {
-    return WorkflowDefinition(
-      path: (json['path'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final path = this.path;
-    return {
-      'path': path,
-    };
-  }
-}
-
-/// Information about a workflow definition.
-class WorkflowDefinitionSummary {
-  /// The path to the workflow definition file stored in the source repository for
-  /// the project, including the file name.
-  final String path;
-
-  WorkflowDefinitionSummary({
-    required this.path,
-  });
-
-  factory WorkflowDefinitionSummary.fromJson(Map<String, dynamic> json) {
-    return WorkflowDefinitionSummary(
-      path: (json['path'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final path = this.path;
-    return {
-      'path': path,
-    };
-  }
-}
-
-class WorkflowRunMode {
-  static const queued = WorkflowRunMode._('QUEUED');
-  static const parallel = WorkflowRunMode._('PARALLEL');
-  static const superseded = WorkflowRunMode._('SUPERSEDED');
-
-  final String value;
-
-  const WorkflowRunMode._(this.value);
-
-  static const values = [queued, parallel, superseded];
-
-  static WorkflowRunMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => WorkflowRunMode._(value));
-
-  @override
-  bool operator ==(other) => other is WorkflowRunMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information used to sort workflow runs in the returned list.
-class WorkflowRunSortCriteria {
-  WorkflowRunSortCriteria();
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class WorkflowRunStatus {
-  static const succeeded = WorkflowRunStatus._('SUCCEEDED');
-  static const failed = WorkflowRunStatus._('FAILED');
-  static const stopped = WorkflowRunStatus._('STOPPED');
-  static const superseded = WorkflowRunStatus._('SUPERSEDED');
-  static const cancelled = WorkflowRunStatus._('CANCELLED');
-  static const notRun = WorkflowRunStatus._('NOT_RUN');
-  static const validating = WorkflowRunStatus._('VALIDATING');
-  static const provisioning = WorkflowRunStatus._('PROVISIONING');
-  static const inProgress = WorkflowRunStatus._('IN_PROGRESS');
-  static const stopping = WorkflowRunStatus._('STOPPING');
-  static const abandoned = WorkflowRunStatus._('ABANDONED');
-
-  final String value;
-
-  const WorkflowRunStatus._(this.value);
-
-  static const values = [
-    succeeded,
-    failed,
-    stopped,
-    superseded,
-    cancelled,
-    notRun,
-    validating,
-    provisioning,
-    inProgress,
-    stopping,
-    abandoned
-  ];
-
-  static WorkflowRunStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => WorkflowRunStatus._(value));
-
-  @override
-  bool operator ==(other) => other is WorkflowRunStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about the status of a workflow run.
-class WorkflowRunStatusReason {
-  WorkflowRunStatusReason();
-
-  factory WorkflowRunStatusReason.fromJson(Map<String, dynamic> _) {
-    return WorkflowRunStatusReason();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Information about a workflow run.
-class WorkflowRunSummary {
-  /// The system-generated unique ID of the workflow run.
-  final String id;
-
-  /// The date and time the workflow was last updated, in coordinated universal
-  /// time (UTC) timestamp format as specified in <a
-  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>
-  final DateTime lastUpdatedTime;
-
-  /// The date and time the workflow run began, in coordinated universal time
-  /// (UTC) timestamp format as specified in <a
-  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>.
-  final DateTime startTime;
-
-  /// The status of the workflow run.
-  final WorkflowRunStatus status;
-
-  /// The system-generated unique ID of the workflow.
-  final String workflowId;
-
-  /// The name of the workflow.
-  final String workflowName;
-
-  /// The date and time the workflow run ended, in coordinated universal time
-  /// (UTC) timestamp format as specified in <a
-  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>
-  final DateTime? endTime;
-
-  /// The reasons for the workflow run status.
-  final List<WorkflowRunStatusReason>? statusReasons;
-
-  WorkflowRunSummary({
-    required this.id,
-    required this.lastUpdatedTime,
-    required this.startTime,
-    required this.status,
-    required this.workflowId,
-    required this.workflowName,
-    this.endTime,
-    this.statusReasons,
-  });
-
-  factory WorkflowRunSummary.fromJson(Map<String, dynamic> json) {
-    return WorkflowRunSummary(
-      id: (json['id'] as String?) ?? '',
-      lastUpdatedTime:
-          nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
-      startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
-      status: WorkflowRunStatus.fromString((json['status'] as String?) ?? ''),
-      workflowId: (json['workflowId'] as String?) ?? '',
-      workflowName: (json['workflowName'] as String?) ?? '',
-      endTime: timeStampFromJson(json['endTime']),
-      statusReasons: (json['statusReasons'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              WorkflowRunStatusReason.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final lastUpdatedTime = this.lastUpdatedTime;
-    final startTime = this.startTime;
-    final status = this.status;
-    final workflowId = this.workflowId;
-    final workflowName = this.workflowName;
-    final endTime = this.endTime;
-    final statusReasons = this.statusReasons;
-    return {
-      'id': id,
-      'lastUpdatedTime': iso8601ToJson(lastUpdatedTime),
-      'startTime': iso8601ToJson(startTime),
-      'status': status.value,
-      'workflowId': workflowId,
-      'workflowName': workflowName,
-      if (endTime != null) 'endTime': iso8601ToJson(endTime),
-      if (statusReasons != null) 'statusReasons': statusReasons,
-    };
-  }
-}
-
-/// Information used to sort workflows in the returned list.
-class WorkflowSortCriteria {
-  WorkflowSortCriteria();
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class WorkflowStatus {
-  static const invalid = WorkflowStatus._('INVALID');
-  static const active = WorkflowStatus._('ACTIVE');
-
-  final String value;
-
-  const WorkflowStatus._(this.value);
-
-  static const values = [invalid, active];
-
-  static WorkflowStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => WorkflowStatus._(value));
-
-  @override
-  bool operator ==(other) => other is WorkflowStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about a workflow.
-class WorkflowSummary {
-  /// The date and time the workflow was created, in coordinated universal time
-  /// (UTC) timestamp format as specified in <a
-  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>
-  final DateTime createdTime;
-
-  /// Information about the workflow definition file.
-  final WorkflowDefinitionSummary definition;
-
-  /// The system-generated unique ID of a workflow.
-  final String id;
-
-  /// The date and time the workflow was last updated, in coordinated universal
-  /// time (UTC) timestamp format as specified in <a
-  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>
-  final DateTime lastUpdatedTime;
-
-  /// The name of the workflow.
+  /// The friendly name of the personal access token.
   final String name;
 
-  /// The run mode of the workflow.
-  final WorkflowRunMode runMode;
+  /// The date and time when the personal access token will expire, in coordinated
+  /// universal time (UTC) timestamp format as specified in <a
+  /// href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339</a>.
+  final DateTime? expiresTime;
 
-  /// The name of the branch of the source repository where the workflow
-  /// definition file is stored.
-  final String sourceBranchName;
-
-  /// The name of the source repository where the workflow definition file is
-  /// stored.
-  final String sourceRepositoryName;
-
-  /// The status of the workflow.
-  final WorkflowStatus status;
-
-  WorkflowSummary({
-    required this.createdTime,
-    required this.definition,
+  AccessTokenSummary({
     required this.id,
-    required this.lastUpdatedTime,
     required this.name,
-    required this.runMode,
-    required this.sourceBranchName,
-    required this.sourceRepositoryName,
-    required this.status,
+    this.expiresTime,
   });
 
-  factory WorkflowSummary.fromJson(Map<String, dynamic> json) {
-    return WorkflowSummary(
-      createdTime: nonNullableTimeStampFromJson(json['createdTime'] ?? 0),
-      definition: WorkflowDefinitionSummary.fromJson(
-          (json['definition'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
+  factory AccessTokenSummary.fromJson(Map<String, dynamic> json) {
+    return AccessTokenSummary(
       id: (json['id'] as String?) ?? '',
-      lastUpdatedTime:
-          nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
       name: (json['name'] as String?) ?? '',
-      runMode: WorkflowRunMode.fromString((json['runMode'] as String?) ?? ''),
-      sourceBranchName: (json['sourceBranchName'] as String?) ?? '',
-      sourceRepositoryName: (json['sourceRepositoryName'] as String?) ?? '',
-      status: WorkflowStatus.fromString((json['status'] as String?) ?? ''),
+      expiresTime: timeStampFromJson(json['expiresTime']),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final createdTime = this.createdTime;
-    final definition = this.definition;
     final id = this.id;
-    final lastUpdatedTime = this.lastUpdatedTime;
     final name = this.name;
-    final runMode = this.runMode;
-    final sourceBranchName = this.sourceBranchName;
-    final sourceRepositoryName = this.sourceRepositoryName;
-    final status = this.status;
+    final expiresTime = this.expiresTime;
     return {
-      'createdTime': iso8601ToJson(createdTime),
-      'definition': definition,
       'id': id,
-      'lastUpdatedTime': iso8601ToJson(lastUpdatedTime),
       'name': name,
-      'runMode': runMode.value,
-      'sourceBranchName': sourceBranchName,
-      'sourceRepositoryName': sourceRepositoryName,
-      'status': status.value,
+      if (expiresTime != null) 'expiresTime': iso8601ToJson(expiresTime),
     };
   }
 }
 
-class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String? type, String? message})
-      : super(type: type, code: 'AccessDeniedException', message: message);
+/// Information about an email address.
+class EmailAddress {
+  /// The email address.
+  final String? email;
+
+  /// Whether the email address has been verified.
+  final bool? verified;
+
+  EmailAddress({
+    this.email,
+    this.verified,
+  });
+
+  factory EmailAddress.fromJson(Map<String, dynamic> json) {
+    return EmailAddress(
+      email: json['email'] as String?,
+      verified: json['verified'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final email = this.email;
+    final verified = this.verified;
+    return {
+      if (email != null) 'email': email,
+      if (verified != null) 'verified': verified,
+    };
+  }
 }
 
-class ConflictException extends _s.GenericAwsException {
-  ConflictException({String? type, String? message})
-      : super(type: type, code: 'ConflictException', message: message);
-}
-
-class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String? type, String? message})
-      : super(type: type, code: 'ResourceNotFoundException', message: message);
-}
-
-class ServiceQuotaExceededException extends _s.GenericAwsException {
-  ServiceQuotaExceededException({String? type, String? message})
-      : super(
-            type: type,
-            code: 'ServiceQuotaExceededException',
-            message: message);
-}
-
-class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String? type, String? message})
-      : super(type: type, code: 'ThrottlingException', message: message);
-}
-
-class ValidationException extends _s.GenericAwsException {
-  ValidationException({String? type, String? message})
-      : super(type: type, code: 'ValidationException', message: message);
-}
-
-final _exceptionFns = <String, _s.AwsExceptionFn>{
-  'AccessDeniedException': (type, message) =>
-      AccessDeniedException(type: type, message: message),
-  'ConflictException': (type, message) =>
-      ConflictException(type: type, message: message),
-  'ResourceNotFoundException': (type, message) =>
-      ResourceNotFoundException(type: type, message: message),
-  'ServiceQuotaExceededException': (type, message) =>
-      ServiceQuotaExceededException(type: type, message: message),
-  'ThrottlingException': (type, message) =>
-      ThrottlingException(type: type, message: message),
-  'ValidationException': (type, message) =>
-      ValidationException(type: type, message: message),
-};
+final _exceptionFns = <String, _s.AwsExceptionFn>{};

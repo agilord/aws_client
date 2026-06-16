@@ -1,4 +1,4 @@
-import 'package:aws_client/swf_2012_01_25.dart';
+import 'package:aws_client/swf.dart';
 import 'package:test/test.dart';
 
 import 'harness.dart';

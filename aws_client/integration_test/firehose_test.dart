@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
-import 'package:aws_client/firehose_2015_08_04.dart';
-import 'package:aws_client/s3_2006_03_01.dart' show S3;
+import 'package:aws_client/firehose.dart';
+import 'package:aws_client/s3.dart' show S3;
 import 'package:test/test.dart';
 
 import 'harness.dart';

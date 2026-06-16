@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:aws_client/sfn_2016_11_23.dart';
+import 'package:aws_client/sfn.dart';
 import 'package:test/test.dart';
 
 import 'harness.dart';

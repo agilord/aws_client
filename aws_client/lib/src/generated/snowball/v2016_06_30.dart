@@ -63,9 +63,9 @@ class Snowball {
   /// <code>AwaitingQuorum</code> status. You'll have at least an hour after
   /// creating a cluster job to cancel it.
   ///
-  /// May throw [KMSRequestFailedException].
   /// May throw [InvalidJobStateException].
   /// May throw [InvalidResourceException].
+  /// May throw [KMSRequestFailedException].
   ///
   /// Parameter [clusterId] :
   /// The 39-character ID for the cluster that you want to cancel, for example
@@ -95,8 +95,8 @@ class Snowball {
   /// returns a job's <code>JobState</code> as part of the response element data
   /// returned.
   ///
-  /// May throw [InvalidResourceException].
   /// May throw [InvalidJobStateException].
+  /// May throw [InvalidResourceException].
   /// May throw [KMSRequestFailedException].
   ///
   /// Parameter [jobId] :
@@ -160,10 +160,10 @@ class Snowball {
   /// nodes. The cluster does not ship until these five node jobs have been
   /// created.
   ///
+  /// May throw [Ec2RequestFailedException].
+  /// May throw [InvalidInputCombinationException].
   /// May throw [InvalidResourceException].
   /// May throw [KMSRequestFailedException].
-  /// May throw [InvalidInputCombinationException].
-  /// May throw [Ec2RequestFailedException].
   ///
   /// Parameter [addressId] :
   /// The ID for the address that you want the cluster shipped to.
@@ -383,10 +383,11 @@ class Snowball {
   ///
   /// Availability of device types differ by Amazon Web Services Region. For
   /// more information about Region availability, see <a
-  /// href="https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/?p=ngi&amp;loc=4">Amazon
+  /// href="https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/?p=ngi&loc=4">Amazon
   /// Web Services Regional Services</a>.
-  /// </note> <p/> <p class="title"> <b>Snow Family devices and their
-  /// capacities.</b>
+  /// </note>
+  ///
+  /// <p class="title"> <b>Snow Family devices and their capacities.</b>
   ///
   /// <ul>
   /// <li>
@@ -399,7 +400,9 @@ class Snowball {
   /// <li>
   /// Description: Snowcone
   /// </li>
-  /// </ul> <p/> </li>
+  /// </ul>
+  ///
+  /// </li>
   /// <li>
   /// Device type: <b>SNC1_HDD</b>
   ///
@@ -410,7 +413,9 @@ class Snowball {
   /// <li>
   /// Description: Snowcone
   /// </li>
-  /// </ul> <p/> </li>
+  /// </ul>
+  ///
+  /// </li>
   /// <li>
   /// Device type: <b>EDGE_S</b>
   ///
@@ -421,7 +426,9 @@ class Snowball {
   /// <li>
   /// Description: Snowball Edge Storage Optimized for data transfer only
   /// </li>
-  /// </ul> <p/> </li>
+  /// </ul>
+  ///
+  /// </li>
   /// <li>
   /// Device type: <b>EDGE_CG</b>
   ///
@@ -432,7 +439,9 @@ class Snowball {
   /// <li>
   /// Description: Snowball Edge Compute Optimized with GPU
   /// </li>
-  /// </ul> <p/> </li>
+  /// </ul>
+  ///
+  /// </li>
   /// <li>
   /// Device type: <b>EDGE_C</b>
   ///
@@ -443,7 +452,9 @@ class Snowball {
   /// <li>
   /// Description: Snowball Edge Compute Optimized without GPU
   /// </li>
-  /// </ul> <p/> </li>
+  /// </ul>
+  ///
+  /// </li>
   /// <li>
   /// Device type: <b>EDGE</b>
   ///
@@ -456,7 +467,9 @@ class Snowball {
   /// </li>
   /// </ul> <note>
   /// This device is replaced with T98.
-  /// </note> <p/> </li>
+  /// </note>
+  ///
+  /// </li>
   /// <li>
   /// Device type: <b>STANDARD</b>
   ///
@@ -470,7 +483,9 @@ class Snowball {
   /// This device is only available in the Ningxia, Beijing, and Singapore
   /// Amazon Web Services Region
   /// </note> </li>
-  /// </ul> <p/> </li>
+  /// </ul>
+  ///
+  /// </li>
   /// <li>
   /// Device type: <b>STANDARD</b>
   ///
@@ -484,7 +499,9 @@ class Snowball {
   /// This device is only available in the Ningxia, Beijing, and Singapore
   /// Amazon Web Services Region.
   /// </note> </li>
-  /// </ul> <p/> </li>
+  /// </ul>
+  ///
+  /// </li>
   /// <li>
   /// Snow Family device type: <b>RACK_5U_C</b>
   ///
@@ -509,11 +526,11 @@ class Snowball {
   /// </ul> </li>
   /// </ul>
   ///
-  /// May throw [InvalidResourceException].
-  /// May throw [KMSRequestFailedException].
-  /// May throw [InvalidInputCombinationException].
   /// May throw [ClusterLimitExceededException].
   /// May throw [Ec2RequestFailedException].
+  /// May throw [InvalidInputCombinationException].
+  /// May throw [InvalidResourceException].
+  /// May throw [KMSRequestFailedException].
   ///
   /// Parameter [addressId] :
   /// The ID for the address that you want the Snow device shipped to.
@@ -528,7 +545,7 @@ class Snowball {
   /// <code>Important Photos 2016-08-11</code>.
   ///
   /// Parameter [deviceConfiguration] :
-  /// Defines the device configuration for an Snowcone job.
+  /// Defines the device configuration for an Snowball Edge job.
   ///
   /// For more information, see
   /// "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html"
@@ -763,10 +780,10 @@ class Snowball {
   /// Creates a shipping label that will be used to return the Snow device to
   /// Amazon Web Services.
   ///
-  /// May throw [InvalidResourceException].
-  /// May throw [InvalidJobStateException].
-  /// May throw [InvalidInputCombinationException].
   /// May throw [ConflictException].
+  /// May throw [InvalidInputCombinationException].
+  /// May throw [InvalidJobStateException].
+  /// May throw [InvalidResourceException].
   /// May throw [ReturnShippingLabelAlreadyExistsException].
   ///
   /// Parameter [jobId] :
@@ -834,8 +851,8 @@ class Snowball {
   /// API in one of the US regions will return addresses from the list of all
   /// addresses associated with this account in all US regions.
   ///
-  /// May throw [InvalidResourceException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidResourceException].
   ///
   /// Parameter [maxResults] :
   /// The number of <code>ADDRESS</code> objects to return.
@@ -934,9 +951,9 @@ class Snowball {
   /// Information on the shipping label of a Snow device that is being returned
   /// to Amazon Web Services.
   ///
-  /// May throw [InvalidResourceException].
-  /// May throw [InvalidJobStateException].
   /// May throw [ConflictException].
+  /// May throw [InvalidJobStateException].
+  /// May throw [InvalidResourceException].
   ///
   /// Parameter [jobId] :
   /// The automatically generated ID for a job, for example
@@ -986,8 +1003,8 @@ class Snowball {
   /// The credentials of a given job, including its manifest file and unlock
   /// code, expire 360 days after the job is created.
   ///
-  /// May throw [InvalidResourceException].
   /// May throw [InvalidJobStateException].
+  /// May throw [InvalidResourceException].
   ///
   /// Parameter [jobId] :
   /// The ID for a job that you want to get the manifest file for, for example
@@ -1030,8 +1047,8 @@ class Snowball {
   /// job. Saving these separately helps prevent unauthorized parties from
   /// gaining access to the Snow device associated with that job.
   ///
-  /// May throw [InvalidResourceException].
   /// May throw [InvalidJobStateException].
+  /// May throw [InvalidResourceException].
   ///
   /// Parameter [jobId] :
   /// The ID for the job that you want to get the <code>UnlockCode</code> value
@@ -1082,8 +1099,8 @@ class Snowball {
   /// Returns an Amazon S3 presigned URL for an update file associated with a
   /// specified <code>JobId</code>.
   ///
-  /// May throw [InvalidResourceException].
   /// May throw [InvalidJobStateException].
+  /// May throw [InvalidResourceException].
   ///
   /// Parameter [jobId] :
   /// The ID for a job that you want to get the software update file for, for
@@ -1114,8 +1131,8 @@ class Snowball {
   /// specified cluster and contains a job's state, a job's ID, and other
   /// information.
   ///
-  /// May throw [InvalidResourceException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidResourceException].
   ///
   /// Parameter [clusterId] :
   /// The 39-character ID for the cluster that you want to list, for example
@@ -1212,8 +1229,8 @@ class Snowball {
   /// supported in the Market, but still supported for use on devices through
   /// Amazon EC2 VM Import/Export and running locally in AMIs.
   ///
-  /// May throw [InvalidNextTokenException].
   /// May throw [Ec2RequestFailedException].
+  /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results for the list of compatible images.
@@ -1301,8 +1318,8 @@ class Snowball {
 
   /// Lists all long-term pricing types.
   ///
-  /// May throw [InvalidResourceException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidResourceException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of <code>ListLongTermPricing</code> objects to return.
@@ -1439,11 +1456,11 @@ class Snowball {
   /// state, usually 60 minutes after the cluster being created, this action is
   /// no longer available.
   ///
-  /// May throw [InvalidResourceException].
-  /// May throw [InvalidJobStateException].
-  /// May throw [KMSRequestFailedException].
-  /// May throw [InvalidInputCombinationException].
   /// May throw [Ec2RequestFailedException].
+  /// May throw [InvalidInputCombinationException].
+  /// May throw [InvalidJobStateException].
+  /// May throw [InvalidResourceException].
+  /// May throw [KMSRequestFailedException].
   ///
   /// Parameter [clusterId] :
   /// The cluster ID of the cluster that you want to update, for example
@@ -1523,12 +1540,12 @@ class Snowball {
   /// to a different job state, usually within 60 minutes of the job being
   /// created, this action is no longer available.
   ///
-  /// May throw [InvalidResourceException].
-  /// May throw [InvalidJobStateException].
-  /// May throw [KMSRequestFailedException].
-  /// May throw [InvalidInputCombinationException].
   /// May throw [ClusterLimitExceededException].
   /// May throw [Ec2RequestFailedException].
+  /// May throw [InvalidInputCombinationException].
+  /// May throw [InvalidJobStateException].
+  /// May throw [InvalidResourceException].
+  /// May throw [KMSRequestFailedException].
   ///
   /// Parameter [jobId] :
   /// The job ID of the job that you want to update, for example
@@ -1621,8 +1638,8 @@ class Snowball {
 
   /// Updates the state when a shipment state changes to a different state.
   ///
-  /// May throw [InvalidResourceException].
   /// May throw [InvalidJobStateException].
+  /// May throw [InvalidResourceException].
   ///
   /// Parameter [jobId] :
   /// The job ID of the job whose shipment date you want to update, for example
@@ -1696,161 +1713,6 @@ class Snowball {
   }
 }
 
-/// The address that you want the Snow device(s) associated with a specific job
-/// to be shipped to. Addresses are validated at the time of creation. The
-/// address you provide must be located within the serviceable area of your
-/// region. Although no individual elements of the <code>Address</code> are
-/// required, if the address is invalid or unsupported, then an exception is
-/// thrown.
-class Address {
-  /// The unique ID for an address.
-  final String? addressId;
-
-  /// The city in an address that a Snow device is to be delivered to.
-  final String? city;
-
-  /// The name of the company to receive a Snow device at an address.
-  final String? company;
-
-  /// The country in an address that a Snow device is to be delivered to.
-  final String? country;
-
-  /// If the address you are creating is a primary address, then set this option
-  /// to true. This field is not supported in most regions.
-  final bool? isRestricted;
-
-  /// This field is no longer used and the value is ignored.
-  final String? landmark;
-
-  /// The name of a person to receive a Snow device at an address.
-  final String? name;
-
-  /// The phone number associated with an address that a Snow device is to be
-  /// delivered to.
-  final String? phoneNumber;
-
-  /// The postal code in an address that a Snow device is to be delivered to.
-  final String? postalCode;
-
-  /// This field is no longer used and the value is ignored.
-  final String? prefectureOrDistrict;
-
-  /// The state or province in an address that a Snow device is to be delivered
-  /// to.
-  final String? stateOrProvince;
-
-  /// The first line in a street address that a Snow device is to be delivered to.
-  final String? street1;
-
-  /// The second line in a street address that a Snow device is to be delivered
-  /// to.
-  final String? street2;
-
-  /// The third line in a street address that a Snow device is to be delivered to.
-  final String? street3;
-
-  /// Differentiates between delivery address and pickup address in the customer
-  /// account. Provided at job creation.
-  final AddressType? type;
-
-  Address({
-    this.addressId,
-    this.city,
-    this.company,
-    this.country,
-    this.isRestricted,
-    this.landmark,
-    this.name,
-    this.phoneNumber,
-    this.postalCode,
-    this.prefectureOrDistrict,
-    this.stateOrProvince,
-    this.street1,
-    this.street2,
-    this.street3,
-    this.type,
-  });
-
-  factory Address.fromJson(Map<String, dynamic> json) {
-    return Address(
-      addressId: json['AddressId'] as String?,
-      city: json['City'] as String?,
-      company: json['Company'] as String?,
-      country: json['Country'] as String?,
-      isRestricted: json['IsRestricted'] as bool?,
-      landmark: json['Landmark'] as String?,
-      name: json['Name'] as String?,
-      phoneNumber: json['PhoneNumber'] as String?,
-      postalCode: json['PostalCode'] as String?,
-      prefectureOrDistrict: json['PrefectureOrDistrict'] as String?,
-      stateOrProvince: json['StateOrProvince'] as String?,
-      street1: json['Street1'] as String?,
-      street2: json['Street2'] as String?,
-      street3: json['Street3'] as String?,
-      type: (json['Type'] as String?)?.let(AddressType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final addressId = this.addressId;
-    final city = this.city;
-    final company = this.company;
-    final country = this.country;
-    final isRestricted = this.isRestricted;
-    final landmark = this.landmark;
-    final name = this.name;
-    final phoneNumber = this.phoneNumber;
-    final postalCode = this.postalCode;
-    final prefectureOrDistrict = this.prefectureOrDistrict;
-    final stateOrProvince = this.stateOrProvince;
-    final street1 = this.street1;
-    final street2 = this.street2;
-    final street3 = this.street3;
-    final type = this.type;
-    return {
-      if (addressId != null) 'AddressId': addressId,
-      if (city != null) 'City': city,
-      if (company != null) 'Company': company,
-      if (country != null) 'Country': country,
-      if (isRestricted != null) 'IsRestricted': isRestricted,
-      if (landmark != null) 'Landmark': landmark,
-      if (name != null) 'Name': name,
-      if (phoneNumber != null) 'PhoneNumber': phoneNumber,
-      if (postalCode != null) 'PostalCode': postalCode,
-      if (prefectureOrDistrict != null)
-        'PrefectureOrDistrict': prefectureOrDistrict,
-      if (stateOrProvince != null) 'StateOrProvince': stateOrProvince,
-      if (street1 != null) 'Street1': street1,
-      if (street2 != null) 'Street2': street2,
-      if (street3 != null) 'Street3': street3,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class AddressType {
-  static const custPickup = AddressType._('CUST_PICKUP');
-  static const awsShip = AddressType._('AWS_SHIP');
-
-  final String value;
-
-  const AddressType._(this.value);
-
-  static const values = [custPickup, awsShip];
-
-  static AddressType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => AddressType._(value));
-
-  @override
-  bool operator ==(other) => other is AddressType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class CancelClusterResult {
   CancelClusterResult();
 
@@ -1872,286 +1734,6 @@ class CancelJobResult {
 
   Map<String, dynamic> toJson() {
     return {};
-  }
-}
-
-/// Contains a cluster's state, a cluster's ID, and other important information.
-class ClusterListEntry {
-  /// The 39-character ID for the cluster that you want to list, for example
-  /// <code>CID123e4567-e89b-12d3-a456-426655440000</code>.
-  final String? clusterId;
-
-  /// The current state of this cluster. For information about the state of a
-  /// specific node, see <a>JobListEntry$JobState</a>.
-  final ClusterState? clusterState;
-
-  /// The creation date for this cluster.
-  final DateTime? creationDate;
-
-  /// Defines an optional description of the cluster, for example
-  /// <code>Environmental Data Cluster-01</code>.
-  final String? description;
-
-  ClusterListEntry({
-    this.clusterId,
-    this.clusterState,
-    this.creationDate,
-    this.description,
-  });
-
-  factory ClusterListEntry.fromJson(Map<String, dynamic> json) {
-    return ClusterListEntry(
-      clusterId: json['ClusterId'] as String?,
-      clusterState:
-          (json['ClusterState'] as String?)?.let(ClusterState.fromString),
-      creationDate: timeStampFromJson(json['CreationDate']),
-      description: json['Description'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clusterId = this.clusterId;
-    final clusterState = this.clusterState;
-    final creationDate = this.creationDate;
-    final description = this.description;
-    return {
-      if (clusterId != null) 'ClusterId': clusterId,
-      if (clusterState != null) 'ClusterState': clusterState.value,
-      if (creationDate != null)
-        'CreationDate': unixTimestampToJson(creationDate),
-      if (description != null) 'Description': description,
-    };
-  }
-}
-
-/// Contains metadata about a specific cluster.
-class ClusterMetadata {
-  /// The automatically generated ID for a specific address.
-  final String? addressId;
-
-  /// The automatically generated ID for a cluster.
-  final String? clusterId;
-
-  /// The current status of the cluster.
-  final ClusterState? clusterState;
-
-  /// The creation date for this cluster.
-  final DateTime? creationDate;
-
-  /// The optional description of the cluster.
-  final String? description;
-
-  /// The ID of the address that you want a cluster shipped to, after it will be
-  /// shipped to its primary address. This field is not supported in most regions.
-  final String? forwardingAddressId;
-
-  /// The type of job for this cluster. Currently, the only job type supported for
-  /// clusters is <code>LOCAL_USE</code>.
-  final JobType? jobType;
-
-  /// The <code>KmsKeyARN</code> Amazon Resource Name (ARN) associated with this
-  /// cluster. This ARN was created using the <a
-  /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateKey.html">CreateKey</a>
-  /// API action in Key Management Service (KMS.
-  final String? kmsKeyARN;
-
-  /// The Amazon Simple Notification Service (Amazon SNS) notification settings
-  /// for this cluster.
-  final Notification? notification;
-
-  /// Represents metadata and configuration settings for services on an Amazon Web
-  /// Services Snow Family device.
-  final OnDeviceServiceConfiguration? onDeviceServiceConfiguration;
-
-  /// The arrays of <a>JobResource</a> objects that can include updated
-  /// <a>S3Resource</a> objects or <a>LambdaResource</a> objects.
-  final JobResource? resources;
-
-  /// The role ARN associated with this cluster. This ARN was created using the <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html">CreateRole</a>
-  /// API action in Identity and Access Management (IAM).
-  final String? roleARN;
-
-  /// The shipping speed for each node in this cluster. This speed doesn't dictate
-  /// how soon you'll get each device, rather it represents how quickly each
-  /// device moves to its destination while in transit. Regional shipping speeds
-  /// are as follows:
-  ///
-  /// <ul>
-  /// <li>
-  /// In Australia, you have access to express shipping. Typically, devices
-  /// shipped express are delivered in about a day.
-  /// </li>
-  /// <li>
-  /// In the European Union (EU), you have access to express shipping. Typically,
-  /// Snow devices shipped express are delivered in about a day. In addition, most
-  /// countries in the EU have access to standard shipping, which typically takes
-  /// less than a week, one way.
-  /// </li>
-  /// <li>
-  /// In India, Snow devices are delivered in one to seven days.
-  /// </li>
-  /// <li>
-  /// In the US, you have access to one-day shipping and two-day shipping.
-  /// </li>
-  /// </ul>
-  final ShippingOption? shippingOption;
-
-  /// The type of Snowcone device to use for this cluster.
-  /// <note>
-  /// For cluster jobs, Amazon Web Services Snow Family currently supports only
-  /// the <code>EDGE</code> device type.
-  /// </note>
-  final SnowballType? snowballType;
-
-  /// The tax documents required in your Amazon Web Services Region.
-  final TaxDocuments? taxDocuments;
-
-  ClusterMetadata({
-    this.addressId,
-    this.clusterId,
-    this.clusterState,
-    this.creationDate,
-    this.description,
-    this.forwardingAddressId,
-    this.jobType,
-    this.kmsKeyARN,
-    this.notification,
-    this.onDeviceServiceConfiguration,
-    this.resources,
-    this.roleARN,
-    this.shippingOption,
-    this.snowballType,
-    this.taxDocuments,
-  });
-
-  factory ClusterMetadata.fromJson(Map<String, dynamic> json) {
-    return ClusterMetadata(
-      addressId: json['AddressId'] as String?,
-      clusterId: json['ClusterId'] as String?,
-      clusterState:
-          (json['ClusterState'] as String?)?.let(ClusterState.fromString),
-      creationDate: timeStampFromJson(json['CreationDate']),
-      description: json['Description'] as String?,
-      forwardingAddressId: json['ForwardingAddressId'] as String?,
-      jobType: (json['JobType'] as String?)?.let(JobType.fromString),
-      kmsKeyARN: json['KmsKeyARN'] as String?,
-      notification: json['Notification'] != null
-          ? Notification.fromJson(json['Notification'] as Map<String, dynamic>)
-          : null,
-      onDeviceServiceConfiguration: json['OnDeviceServiceConfiguration'] != null
-          ? OnDeviceServiceConfiguration.fromJson(
-              json['OnDeviceServiceConfiguration'] as Map<String, dynamic>)
-          : null,
-      resources: json['Resources'] != null
-          ? JobResource.fromJson(json['Resources'] as Map<String, dynamic>)
-          : null,
-      roleARN: json['RoleARN'] as String?,
-      shippingOption:
-          (json['ShippingOption'] as String?)?.let(ShippingOption.fromString),
-      snowballType:
-          (json['SnowballType'] as String?)?.let(SnowballType.fromString),
-      taxDocuments: json['TaxDocuments'] != null
-          ? TaxDocuments.fromJson(json['TaxDocuments'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final addressId = this.addressId;
-    final clusterId = this.clusterId;
-    final clusterState = this.clusterState;
-    final creationDate = this.creationDate;
-    final description = this.description;
-    final forwardingAddressId = this.forwardingAddressId;
-    final jobType = this.jobType;
-    final kmsKeyARN = this.kmsKeyARN;
-    final notification = this.notification;
-    final onDeviceServiceConfiguration = this.onDeviceServiceConfiguration;
-    final resources = this.resources;
-    final roleARN = this.roleARN;
-    final shippingOption = this.shippingOption;
-    final snowballType = this.snowballType;
-    final taxDocuments = this.taxDocuments;
-    return {
-      if (addressId != null) 'AddressId': addressId,
-      if (clusterId != null) 'ClusterId': clusterId,
-      if (clusterState != null) 'ClusterState': clusterState.value,
-      if (creationDate != null)
-        'CreationDate': unixTimestampToJson(creationDate),
-      if (description != null) 'Description': description,
-      if (forwardingAddressId != null)
-        'ForwardingAddressId': forwardingAddressId,
-      if (jobType != null) 'JobType': jobType.value,
-      if (kmsKeyARN != null) 'KmsKeyARN': kmsKeyARN,
-      if (notification != null) 'Notification': notification,
-      if (onDeviceServiceConfiguration != null)
-        'OnDeviceServiceConfiguration': onDeviceServiceConfiguration,
-      if (resources != null) 'Resources': resources,
-      if (roleARN != null) 'RoleARN': roleARN,
-      if (shippingOption != null) 'ShippingOption': shippingOption.value,
-      if (snowballType != null) 'SnowballType': snowballType.value,
-      if (taxDocuments != null) 'TaxDocuments': taxDocuments,
-    };
-  }
-}
-
-class ClusterState {
-  static const awaitingQuorum = ClusterState._('AwaitingQuorum');
-  static const pending = ClusterState._('Pending');
-  static const inUse = ClusterState._('InUse');
-  static const complete = ClusterState._('Complete');
-  static const cancelled = ClusterState._('Cancelled');
-
-  final String value;
-
-  const ClusterState._(this.value);
-
-  static const values = [awaitingQuorum, pending, inUse, complete, cancelled];
-
-  static ClusterState fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ClusterState._(value));
-
-  @override
-  bool operator ==(other) => other is ClusterState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A JSON-formatted object that describes a compatible Amazon Machine Image
-/// (AMI), including the ID and name for a Snow device AMI. This AMI is
-/// compatible with the device's physical hardware requirements, and it should
-/// be able to be run in an SBE1 instance on the device.
-class CompatibleImage {
-  /// The unique identifier for an individual Snow device AMI.
-  final String? amiId;
-
-  /// The optional name of a compatible image.
-  final String? name;
-
-  CompatibleImage({
-    this.amiId,
-    this.name,
-  });
-
-  factory CompatibleImage.fromJson(Map<String, dynamic> json) {
-    return CompatibleImage(
-      amiId: json['AmiId'] as String?,
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final amiId = this.amiId;
-    final name = this.name;
-    return {
-      if (amiId != null) 'AmiId': amiId,
-      if (name != null) 'Name': name,
-    };
   }
 }
 
@@ -2277,91 +1859,6 @@ class CreateReturnShippingLabelResult {
     final status = this.status;
     return {
       if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-/// Defines the real-time status of a Snow device's data transfer while the
-/// device is at Amazon Web Services. This data is only available while a job
-/// has a <code>JobState</code> value of <code>InProgress</code>, for both
-/// import and export jobs.
-class DataTransfer {
-  /// The number of bytes transferred between a Snow device and Amazon S3.
-  final int? bytesTransferred;
-
-  /// The number of objects transferred between a Snow device and Amazon S3.
-  final int? objectsTransferred;
-
-  /// The total bytes of data for a transfer between a Snow device and Amazon S3.
-  /// This value is set to 0 (zero) until all the keys that will be transferred
-  /// have been listed.
-  final int? totalBytes;
-
-  /// The total number of objects for a transfer between a Snow device and Amazon
-  /// S3. This value is set to 0 (zero) until all the keys that will be
-  /// transferred have been listed.
-  final int? totalObjects;
-
-  DataTransfer({
-    this.bytesTransferred,
-    this.objectsTransferred,
-    this.totalBytes,
-    this.totalObjects,
-  });
-
-  factory DataTransfer.fromJson(Map<String, dynamic> json) {
-    return DataTransfer(
-      bytesTransferred: json['BytesTransferred'] as int?,
-      objectsTransferred: json['ObjectsTransferred'] as int?,
-      totalBytes: json['TotalBytes'] as int?,
-      totalObjects: json['TotalObjects'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bytesTransferred = this.bytesTransferred;
-    final objectsTransferred = this.objectsTransferred;
-    final totalBytes = this.totalBytes;
-    final totalObjects = this.totalObjects;
-    return {
-      if (bytesTransferred != null) 'BytesTransferred': bytesTransferred,
-      if (objectsTransferred != null) 'ObjectsTransferred': objectsTransferred,
-      if (totalBytes != null) 'TotalBytes': totalBytes,
-      if (totalObjects != null) 'TotalObjects': totalObjects,
-    };
-  }
-}
-
-/// The name and version of the service dependant on the requested service.
-class DependentService {
-  /// The name of the dependent service.
-  final ServiceName? serviceName;
-
-  /// The version of the dependent service.
-  final ServiceVersion? serviceVersion;
-
-  DependentService({
-    this.serviceName,
-    this.serviceVersion,
-  });
-
-  factory DependentService.fromJson(Map<String, dynamic> json) {
-    return DependentService(
-      serviceName:
-          (json['ServiceName'] as String?)?.let(ServiceName.fromString),
-      serviceVersion: json['ServiceVersion'] != null
-          ? ServiceVersion.fromJson(
-              json['ServiceVersion'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final serviceName = this.serviceName;
-    final serviceVersion = this.serviceVersion;
-    return {
-      if (serviceName != null) 'ServiceName': serviceName.value,
-      if (serviceVersion != null) 'ServiceVersion': serviceVersion,
     };
   }
 }
@@ -2528,146 +2025,6 @@ class DescribeReturnShippingLabelResult {
   }
 }
 
-/// The container for <code>SnowconeDeviceConfiguration</code>.
-class DeviceConfiguration {
-  /// Returns information about the device configuration for an Snowcone job.
-  final SnowconeDeviceConfiguration? snowconeDeviceConfiguration;
-
-  DeviceConfiguration({
-    this.snowconeDeviceConfiguration,
-  });
-
-  factory DeviceConfiguration.fromJson(Map<String, dynamic> json) {
-    return DeviceConfiguration(
-      snowconeDeviceConfiguration: json['SnowconeDeviceConfiguration'] != null
-          ? SnowconeDeviceConfiguration.fromJson(
-              json['SnowconeDeviceConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final snowconeDeviceConfiguration = this.snowconeDeviceConfiguration;
-    return {
-      if (snowconeDeviceConfiguration != null)
-        'SnowconeDeviceConfiguration': snowconeDeviceConfiguration,
-    };
-  }
-}
-
-class DeviceServiceName {
-  static const nfsOnDeviceService =
-      DeviceServiceName._('NFS_ON_DEVICE_SERVICE');
-  static const s3OnDeviceService = DeviceServiceName._('S3_ON_DEVICE_SERVICE');
-
-  final String value;
-
-  const DeviceServiceName._(this.value);
-
-  static const values = [nfsOnDeviceService, s3OnDeviceService];
-
-  static DeviceServiceName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DeviceServiceName._(value));
-
-  @override
-  bool operator ==(other) => other is DeviceServiceName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object representing the metadata and configuration settings of EKS
-/// Anywhere on the Snow Family device.
-class EKSOnDeviceServiceConfiguration {
-  /// The optional version of EKS Anywhere on the Snow Family device.
-  final String? eKSAnywhereVersion;
-
-  /// The Kubernetes version for EKS Anywhere on the Snow Family device.
-  final String? kubernetesVersion;
-
-  EKSOnDeviceServiceConfiguration({
-    this.eKSAnywhereVersion,
-    this.kubernetesVersion,
-  });
-
-  factory EKSOnDeviceServiceConfiguration.fromJson(Map<String, dynamic> json) {
-    return EKSOnDeviceServiceConfiguration(
-      eKSAnywhereVersion: json['EKSAnywhereVersion'] as String?,
-      kubernetesVersion: json['KubernetesVersion'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eKSAnywhereVersion = this.eKSAnywhereVersion;
-    final kubernetesVersion = this.kubernetesVersion;
-    return {
-      if (eKSAnywhereVersion != null) 'EKSAnywhereVersion': eKSAnywhereVersion,
-      if (kubernetesVersion != null) 'KubernetesVersion': kubernetesVersion,
-    };
-  }
-}
-
-/// A JSON-formatted object that contains the IDs for an Amazon Machine Image
-/// (AMI), including the Amazon EC2-compatible AMI ID and the Snow device AMI
-/// ID. Each AMI has these two IDs to simplify identifying the AMI in both the
-/// Amazon Web Services Cloud and on the device.
-class Ec2AmiResource {
-  /// The ID of the AMI in Amazon EC2.
-  final String amiId;
-
-  /// The ID of the AMI on the Snow device.
-  final String? snowballAmiId;
-
-  Ec2AmiResource({
-    required this.amiId,
-    this.snowballAmiId,
-  });
-
-  factory Ec2AmiResource.fromJson(Map<String, dynamic> json) {
-    return Ec2AmiResource(
-      amiId: (json['AmiId'] as String?) ?? '',
-      snowballAmiId: json['SnowballAmiId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final amiId = this.amiId;
-    final snowballAmiId = this.snowballAmiId;
-    return {
-      'AmiId': amiId,
-      if (snowballAmiId != null) 'SnowballAmiId': snowballAmiId,
-    };
-  }
-}
-
-/// The container for the <a>EventTriggerDefinition$EventResourceARN</a>.
-class EventTriggerDefinition {
-  /// The Amazon Resource Name (ARN) for any local Amazon S3 resource that is an
-  /// Lambda function's event trigger associated with this job.
-  final String? eventResourceARN;
-
-  EventTriggerDefinition({
-    this.eventResourceARN,
-  });
-
-  factory EventTriggerDefinition.fromJson(Map<String, dynamic> json) {
-    return EventTriggerDefinition(
-      eventResourceARN: json['EventResourceARN'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eventResourceARN = this.eventResourceARN;
-    return {
-      if (eventResourceARN != null) 'EventResourceARN': eventResourceARN,
-    };
-  }
-}
-
 class GetJobManifestResult {
   /// The Amazon S3 presigned URL for the manifest file associated with the
   /// specified <code>JobId</code> value.
@@ -2767,642 +2124,6 @@ class GetSoftwareUpdatesResult {
     final updatesURI = this.updatesURI;
     return {
       if (updatesURI != null) 'UpdatesURI': updatesURI,
-    };
-  }
-}
-
-/// The tax documents required in Amazon Web Services Region in India.
-class INDTaxDocuments {
-  /// The Goods and Services Tax (GST) documents required in Amazon Web Services
-  /// Region in India.
-  final String? gstin;
-
-  INDTaxDocuments({
-    this.gstin,
-  });
-
-  factory INDTaxDocuments.fromJson(Map<String, dynamic> json) {
-    return INDTaxDocuments(
-      gstin: json['GSTIN'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final gstin = this.gstin;
-    return {
-      if (gstin != null) 'GSTIN': gstin,
-    };
-  }
-}
-
-class ImpactLevel {
-  static const il2 = ImpactLevel._('IL2');
-  static const il4 = ImpactLevel._('IL4');
-  static const il5 = ImpactLevel._('IL5');
-  static const il6 = ImpactLevel._('IL6');
-  static const il99 = ImpactLevel._('IL99');
-
-  final String value;
-
-  const ImpactLevel._(this.value);
-
-  static const values = [il2, il4, il5, il6, il99];
-
-  static ImpactLevel fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ImpactLevel._(value));
-
-  @override
-  bool operator ==(other) => other is ImpactLevel && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Each <code>JobListEntry</code> object contains a job's state, a job's ID,
-/// and a value that indicates whether the job is a job part, in the case of an
-/// export job.
-class JobListEntry {
-  /// The creation date for this job.
-  final DateTime? creationDate;
-
-  /// The optional description of this specific job, for example <code>Important
-  /// Photos 2016-08-11</code>.
-  final String? description;
-
-  /// A value that indicates that this job is a main job. A main job represents a
-  /// successful request to create an export job. Main jobs aren't associated with
-  /// any Snowballs. Instead, each main job will have at least one job part, and
-  /// each job part is associated with a Snowball. It might take some time before
-  /// the job parts associated with a particular main job are listed, because they
-  /// are created after the main job is created.
-  final bool? isMaster;
-
-  /// The automatically generated ID for a job, for example
-  /// <code>JID123e4567-e89b-12d3-a456-426655440000</code>.
-  final String? jobId;
-
-  /// The current state of this job.
-  final JobState? jobState;
-
-  /// The type of job.
-  final JobType? jobType;
-
-  /// The type of device used with this job.
-  final SnowballType? snowballType;
-
-  JobListEntry({
-    this.creationDate,
-    this.description,
-    this.isMaster,
-    this.jobId,
-    this.jobState,
-    this.jobType,
-    this.snowballType,
-  });
-
-  factory JobListEntry.fromJson(Map<String, dynamic> json) {
-    return JobListEntry(
-      creationDate: timeStampFromJson(json['CreationDate']),
-      description: json['Description'] as String?,
-      isMaster: json['IsMaster'] as bool?,
-      jobId: json['JobId'] as String?,
-      jobState: (json['JobState'] as String?)?.let(JobState.fromString),
-      jobType: (json['JobType'] as String?)?.let(JobType.fromString),
-      snowballType:
-          (json['SnowballType'] as String?)?.let(SnowballType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDate = this.creationDate;
-    final description = this.description;
-    final isMaster = this.isMaster;
-    final jobId = this.jobId;
-    final jobState = this.jobState;
-    final jobType = this.jobType;
-    final snowballType = this.snowballType;
-    return {
-      if (creationDate != null)
-        'CreationDate': unixTimestampToJson(creationDate),
-      if (description != null) 'Description': description,
-      if (isMaster != null) 'IsMaster': isMaster,
-      if (jobId != null) 'JobId': jobId,
-      if (jobState != null) 'JobState': jobState.value,
-      if (jobType != null) 'JobType': jobType.value,
-      if (snowballType != null) 'SnowballType': snowballType.value,
-    };
-  }
-}
-
-/// Contains job logs. Whenever a Snow device is used to import data into or
-/// export data out of Amazon S3, you'll have the option of downloading a PDF
-/// job report. Job logs are returned as a part of the response syntax of the
-/// <code>DescribeJob</code> action in the <code>JobMetadata</code> data type.
-/// The job logs can be accessed for up to 60 minutes after this request has
-/// been made. To access any of the job logs after 60 minutes have passed,
-/// you'll have to make another call to the <code>DescribeJob</code> action.
-///
-/// For import jobs, the PDF job report becomes available at the end of the
-/// import process. For export jobs, your job report typically becomes available
-/// while the Snow device for your job part is being delivered to you.
-///
-/// The job report provides you insight into the state of your Amazon S3 data
-/// transfer. The report includes details about your job or job part for your
-/// records.
-///
-/// For deeper visibility into the status of your transferred objects, you can
-/// look at the two associated logs: a success log and a failure log. The logs
-/// are saved in comma-separated value (CSV) format, and the name of each log
-/// includes the ID of the job or job part that the log describes.
-class JobLogs {
-  /// A link to an Amazon S3 presigned URL where the job completion report is
-  /// located.
-  final String? jobCompletionReportURI;
-
-  /// A link to an Amazon S3 presigned URL where the job failure log is located.
-  final String? jobFailureLogURI;
-
-  /// A link to an Amazon S3 presigned URL where the job success log is located.
-  final String? jobSuccessLogURI;
-
-  JobLogs({
-    this.jobCompletionReportURI,
-    this.jobFailureLogURI,
-    this.jobSuccessLogURI,
-  });
-
-  factory JobLogs.fromJson(Map<String, dynamic> json) {
-    return JobLogs(
-      jobCompletionReportURI: json['JobCompletionReportURI'] as String?,
-      jobFailureLogURI: json['JobFailureLogURI'] as String?,
-      jobSuccessLogURI: json['JobSuccessLogURI'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final jobCompletionReportURI = this.jobCompletionReportURI;
-    final jobFailureLogURI = this.jobFailureLogURI;
-    final jobSuccessLogURI = this.jobSuccessLogURI;
-    return {
-      if (jobCompletionReportURI != null)
-        'JobCompletionReportURI': jobCompletionReportURI,
-      if (jobFailureLogURI != null) 'JobFailureLogURI': jobFailureLogURI,
-      if (jobSuccessLogURI != null) 'JobSuccessLogURI': jobSuccessLogURI,
-    };
-  }
-}
-
-/// Contains information about a specific job including shipping information,
-/// job status, and other important metadata. This information is returned as a
-/// part of the response syntax of the <code>DescribeJob</code> action.
-class JobMetadata {
-  /// The ID for the address that you want the Snow device shipped to.
-  final String? addressId;
-
-  /// The 39-character ID for the cluster, for example
-  /// <code>CID123e4567-e89b-12d3-a456-426655440000</code>.
-  final String? clusterId;
-
-  /// The creation date for this job.
-  final DateTime? creationDate;
-
-  /// A value that defines the real-time status of a Snow device's data transfer
-  /// while the device is at Amazon Web Services. This data is only available
-  /// while a job has a <code>JobState</code> value of <code>InProgress</code>,
-  /// for both import and export jobs.
-  final DataTransfer? dataTransferProgress;
-
-  /// The description of the job, provided at job creation.
-  final String? description;
-  final DeviceConfiguration? deviceConfiguration;
-
-  /// The ID of the address that you want a job shipped to, after it will be
-  /// shipped to its primary address. This field is not supported in most regions.
-  final String? forwardingAddressId;
-
-  /// The highest impact level of data that will be stored or processed on the
-  /// device, provided at job creation.
-  final ImpactLevel? impactLevel;
-
-  /// The automatically generated ID for a job, for example
-  /// <code>JID123e4567-e89b-12d3-a456-426655440000</code>.
-  final String? jobId;
-
-  /// Links to Amazon S3 presigned URLs for the job report and logs. For import
-  /// jobs, the PDF job report becomes available at the end of the import process.
-  /// For export jobs, your job report typically becomes available while the Snow
-  /// device for your job part is being delivered to you.
-  final JobLogs? jobLogInfo;
-
-  /// The current status of the jobs.
-  final JobState? jobState;
-
-  /// The type of job.
-  final JobType? jobType;
-
-  /// The Amazon Resource Name (ARN) for the Key Management Service (KMS) key
-  /// associated with this job. This ARN was created using the <a
-  /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateKey.html">CreateKey</a>
-  /// API action in KMS.
-  final String? kmsKeyARN;
-
-  /// The ID of the long-term pricing type for the device.
-  final String? longTermPricingId;
-
-  /// The Amazon Simple Notification Service (Amazon SNS) notification settings
-  /// associated with a specific job. The <code>Notification</code> object is
-  /// returned as a part of the response syntax of the <code>DescribeJob</code>
-  /// action in the <code>JobMetadata</code> data type.
-  final Notification? notification;
-
-  /// Represents metadata and configuration settings for services on an Amazon Web
-  /// Services Snow Family device.
-  final OnDeviceServiceConfiguration? onDeviceServiceConfiguration;
-
-  /// Information identifying the person picking up the device.
-  final PickupDetails? pickupDetails;
-
-  /// Allows you to securely operate and manage Snowcone devices remotely from
-  /// outside of your internal network. When set to
-  /// <code>INSTALLED_AUTOSTART</code>, remote management will automatically be
-  /// available when the device arrives at your location. Otherwise, you need to
-  /// use the Snowball Client to manage the device.
-  final RemoteManagement? remoteManagement;
-
-  /// An array of <code>S3Resource</code> objects. Each <code>S3Resource</code>
-  /// object represents an Amazon S3 bucket that your transferred data will be
-  /// exported from or imported into.
-  final JobResource? resources;
-
-  /// The role ARN associated with this job. This ARN was created using the <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html">CreateRole</a>
-  /// API action in Identity and Access Management.
-  final String? roleARN;
-
-  /// A job's shipping information, including inbound and outbound tracking
-  /// numbers and shipping speed options.
-  final ShippingDetails? shippingDetails;
-
-  /// The Snow device capacity preference for this job, specified at job creation.
-  /// In US regions, you can choose between 50 TB and 80 TB Snowballs. All other
-  /// regions use 80 TB capacity Snowballs.
-  ///
-  /// For more information, see
-  /// "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html"
-  /// (Snow Family Devices and Capacity) in the <i>Snowcone User Guide</i> or
-  /// "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html"
-  /// (Snow Family Devices and Capacity) in the <i>Snowcone User Guide</i>.
-  final SnowballCapacity? snowballCapacityPreference;
-
-  /// Unique ID associated with a device.
-  final String? snowballId;
-
-  /// The type of device used with this job.
-  final SnowballType? snowballType;
-
-  /// The metadata associated with the tax documents required in your Amazon Web
-  /// Services Region.
-  final TaxDocuments? taxDocuments;
-
-  JobMetadata({
-    this.addressId,
-    this.clusterId,
-    this.creationDate,
-    this.dataTransferProgress,
-    this.description,
-    this.deviceConfiguration,
-    this.forwardingAddressId,
-    this.impactLevel,
-    this.jobId,
-    this.jobLogInfo,
-    this.jobState,
-    this.jobType,
-    this.kmsKeyARN,
-    this.longTermPricingId,
-    this.notification,
-    this.onDeviceServiceConfiguration,
-    this.pickupDetails,
-    this.remoteManagement,
-    this.resources,
-    this.roleARN,
-    this.shippingDetails,
-    this.snowballCapacityPreference,
-    this.snowballId,
-    this.snowballType,
-    this.taxDocuments,
-  });
-
-  factory JobMetadata.fromJson(Map<String, dynamic> json) {
-    return JobMetadata(
-      addressId: json['AddressId'] as String?,
-      clusterId: json['ClusterId'] as String?,
-      creationDate: timeStampFromJson(json['CreationDate']),
-      dataTransferProgress: json['DataTransferProgress'] != null
-          ? DataTransfer.fromJson(
-              json['DataTransferProgress'] as Map<String, dynamic>)
-          : null,
-      description: json['Description'] as String?,
-      deviceConfiguration: json['DeviceConfiguration'] != null
-          ? DeviceConfiguration.fromJson(
-              json['DeviceConfiguration'] as Map<String, dynamic>)
-          : null,
-      forwardingAddressId: json['ForwardingAddressId'] as String?,
-      impactLevel:
-          (json['ImpactLevel'] as String?)?.let(ImpactLevel.fromString),
-      jobId: json['JobId'] as String?,
-      jobLogInfo: json['JobLogInfo'] != null
-          ? JobLogs.fromJson(json['JobLogInfo'] as Map<String, dynamic>)
-          : null,
-      jobState: (json['JobState'] as String?)?.let(JobState.fromString),
-      jobType: (json['JobType'] as String?)?.let(JobType.fromString),
-      kmsKeyARN: json['KmsKeyARN'] as String?,
-      longTermPricingId: json['LongTermPricingId'] as String?,
-      notification: json['Notification'] != null
-          ? Notification.fromJson(json['Notification'] as Map<String, dynamic>)
-          : null,
-      onDeviceServiceConfiguration: json['OnDeviceServiceConfiguration'] != null
-          ? OnDeviceServiceConfiguration.fromJson(
-              json['OnDeviceServiceConfiguration'] as Map<String, dynamic>)
-          : null,
-      pickupDetails: json['PickupDetails'] != null
-          ? PickupDetails.fromJson(
-              json['PickupDetails'] as Map<String, dynamic>)
-          : null,
-      remoteManagement: (json['RemoteManagement'] as String?)
-          ?.let(RemoteManagement.fromString),
-      resources: json['Resources'] != null
-          ? JobResource.fromJson(json['Resources'] as Map<String, dynamic>)
-          : null,
-      roleARN: json['RoleARN'] as String?,
-      shippingDetails: json['ShippingDetails'] != null
-          ? ShippingDetails.fromJson(
-              json['ShippingDetails'] as Map<String, dynamic>)
-          : null,
-      snowballCapacityPreference:
-          (json['SnowballCapacityPreference'] as String?)
-              ?.let(SnowballCapacity.fromString),
-      snowballId: json['SnowballId'] as String?,
-      snowballType:
-          (json['SnowballType'] as String?)?.let(SnowballType.fromString),
-      taxDocuments: json['TaxDocuments'] != null
-          ? TaxDocuments.fromJson(json['TaxDocuments'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final addressId = this.addressId;
-    final clusterId = this.clusterId;
-    final creationDate = this.creationDate;
-    final dataTransferProgress = this.dataTransferProgress;
-    final description = this.description;
-    final deviceConfiguration = this.deviceConfiguration;
-    final forwardingAddressId = this.forwardingAddressId;
-    final impactLevel = this.impactLevel;
-    final jobId = this.jobId;
-    final jobLogInfo = this.jobLogInfo;
-    final jobState = this.jobState;
-    final jobType = this.jobType;
-    final kmsKeyARN = this.kmsKeyARN;
-    final longTermPricingId = this.longTermPricingId;
-    final notification = this.notification;
-    final onDeviceServiceConfiguration = this.onDeviceServiceConfiguration;
-    final pickupDetails = this.pickupDetails;
-    final remoteManagement = this.remoteManagement;
-    final resources = this.resources;
-    final roleARN = this.roleARN;
-    final shippingDetails = this.shippingDetails;
-    final snowballCapacityPreference = this.snowballCapacityPreference;
-    final snowballId = this.snowballId;
-    final snowballType = this.snowballType;
-    final taxDocuments = this.taxDocuments;
-    return {
-      if (addressId != null) 'AddressId': addressId,
-      if (clusterId != null) 'ClusterId': clusterId,
-      if (creationDate != null)
-        'CreationDate': unixTimestampToJson(creationDate),
-      if (dataTransferProgress != null)
-        'DataTransferProgress': dataTransferProgress,
-      if (description != null) 'Description': description,
-      if (deviceConfiguration != null)
-        'DeviceConfiguration': deviceConfiguration,
-      if (forwardingAddressId != null)
-        'ForwardingAddressId': forwardingAddressId,
-      if (impactLevel != null) 'ImpactLevel': impactLevel.value,
-      if (jobId != null) 'JobId': jobId,
-      if (jobLogInfo != null) 'JobLogInfo': jobLogInfo,
-      if (jobState != null) 'JobState': jobState.value,
-      if (jobType != null) 'JobType': jobType.value,
-      if (kmsKeyARN != null) 'KmsKeyARN': kmsKeyARN,
-      if (longTermPricingId != null) 'LongTermPricingId': longTermPricingId,
-      if (notification != null) 'Notification': notification,
-      if (onDeviceServiceConfiguration != null)
-        'OnDeviceServiceConfiguration': onDeviceServiceConfiguration,
-      if (pickupDetails != null) 'PickupDetails': pickupDetails,
-      if (remoteManagement != null) 'RemoteManagement': remoteManagement.value,
-      if (resources != null) 'Resources': resources,
-      if (roleARN != null) 'RoleARN': roleARN,
-      if (shippingDetails != null) 'ShippingDetails': shippingDetails,
-      if (snowballCapacityPreference != null)
-        'SnowballCapacityPreference': snowballCapacityPreference.value,
-      if (snowballId != null) 'SnowballId': snowballId,
-      if (snowballType != null) 'SnowballType': snowballType.value,
-      if (taxDocuments != null) 'TaxDocuments': taxDocuments,
-    };
-  }
-}
-
-/// Contains an array of Amazon Web Services resource objects. Each object
-/// represents an Amazon S3 bucket, an Lambda function, or an Amazon Machine
-/// Image (AMI) based on Amazon EC2 that is associated with a particular job.
-class JobResource {
-  /// The Amazon Machine Images (AMIs) associated with this job.
-  final List<Ec2AmiResource>? ec2AmiResources;
-
-  /// The Python-language Lambda functions for this job.
-  final List<LambdaResource>? lambdaResources;
-
-  /// An array of <code>S3Resource</code> objects.
-  final List<S3Resource>? s3Resources;
-
-  JobResource({
-    this.ec2AmiResources,
-    this.lambdaResources,
-    this.s3Resources,
-  });
-
-  factory JobResource.fromJson(Map<String, dynamic> json) {
-    return JobResource(
-      ec2AmiResources: (json['Ec2AmiResources'] as List?)
-          ?.nonNulls
-          .map((e) => Ec2AmiResource.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      lambdaResources: (json['LambdaResources'] as List?)
-          ?.nonNulls
-          .map((e) => LambdaResource.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      s3Resources: (json['S3Resources'] as List?)
-          ?.nonNulls
-          .map((e) => S3Resource.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final ec2AmiResources = this.ec2AmiResources;
-    final lambdaResources = this.lambdaResources;
-    final s3Resources = this.s3Resources;
-    return {
-      if (ec2AmiResources != null) 'Ec2AmiResources': ec2AmiResources,
-      if (lambdaResources != null) 'LambdaResources': lambdaResources,
-      if (s3Resources != null) 'S3Resources': s3Resources,
-    };
-  }
-}
-
-class JobState {
-  static const $new = JobState._('New');
-  static const preparingAppliance = JobState._('PreparingAppliance');
-  static const preparingShipment = JobState._('PreparingShipment');
-  static const inTransitToCustomer = JobState._('InTransitToCustomer');
-  static const withCustomer = JobState._('WithCustomer');
-  static const inTransitToAWS = JobState._('InTransitToAWS');
-  static const withAWSSortingFacility = JobState._('WithAWSSortingFacility');
-  static const withAWS = JobState._('WithAWS');
-  static const inProgress = JobState._('InProgress');
-  static const complete = JobState._('Complete');
-  static const cancelled = JobState._('Cancelled');
-  static const listing = JobState._('Listing');
-  static const pending = JobState._('Pending');
-
-  final String value;
-
-  const JobState._(this.value);
-
-  static const values = [
-    $new,
-    preparingAppliance,
-    preparingShipment,
-    inTransitToCustomer,
-    withCustomer,
-    inTransitToAWS,
-    withAWSSortingFacility,
-    withAWS,
-    inProgress,
-    complete,
-    cancelled,
-    listing,
-    pending
-  ];
-
-  static JobState fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => JobState._(value));
-
-  @override
-  bool operator ==(other) => other is JobState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class JobType {
-  static const import = JobType._('IMPORT');
-  static const export = JobType._('EXPORT');
-  static const localUse = JobType._('LOCAL_USE');
-
-  final String value;
-
-  const JobType._(this.value);
-
-  static const values = [import, export, localUse];
-
-  static JobType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => JobType._(value));
-
-  @override
-  bool operator ==(other) => other is JobType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains a key range. For export jobs, a <code>S3Resource</code> object can
-/// have an optional <code>KeyRange</code> value. The length of the range is
-/// defined at job creation, and has either an inclusive
-/// <code>BeginMarker</code>, an inclusive <code>EndMarker</code>, or both.
-/// Ranges are UTF-8 binary sorted.
-class KeyRange {
-  /// The key that starts an optional key range for an export job. Ranges are
-  /// inclusive and UTF-8 binary sorted.
-  final String? beginMarker;
-
-  /// The key that ends an optional key range for an export job. Ranges are
-  /// inclusive and UTF-8 binary sorted.
-  final String? endMarker;
-
-  KeyRange({
-    this.beginMarker,
-    this.endMarker,
-  });
-
-  factory KeyRange.fromJson(Map<String, dynamic> json) {
-    return KeyRange(
-      beginMarker: json['BeginMarker'] as String?,
-      endMarker: json['EndMarker'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final beginMarker = this.beginMarker;
-    final endMarker = this.endMarker;
-    return {
-      if (beginMarker != null) 'BeginMarker': beginMarker,
-      if (endMarker != null) 'EndMarker': endMarker,
-    };
-  }
-}
-
-/// Identifies
-class LambdaResource {
-  /// The array of ARNs for <a>S3Resource</a> objects to trigger the
-  /// <a>LambdaResource</a> objects associated with this job.
-  final List<EventTriggerDefinition>? eventTriggers;
-
-  /// An Amazon Resource Name (ARN) that represents an Lambda function to be
-  /// triggered by PUT object actions on the associated local Amazon S3 resource.
-  final String? lambdaArn;
-
-  LambdaResource({
-    this.eventTriggers,
-    this.lambdaArn,
-  });
-
-  factory LambdaResource.fromJson(Map<String, dynamic> json) {
-    return LambdaResource(
-      eventTriggers: (json['EventTriggers'] as List?)
-          ?.nonNulls
-          .map(
-              (e) => EventTriggerDefinition.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      lambdaArn: json['LambdaArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eventTriggers = this.eventTriggers;
-    final lambdaArn = this.lambdaArn;
-    return {
-      if (eventTriggers != null) 'EventTriggers': eventTriggers,
-      if (lambdaArn != null) 'LambdaArn': lambdaArn,
     };
   }
 }
@@ -3673,6 +2394,1123 @@ class ListServiceVersionsResult {
   }
 }
 
+class UpdateClusterResult {
+  UpdateClusterResult();
+
+  factory UpdateClusterResult.fromJson(Map<String, dynamic> _) {
+    return UpdateClusterResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateJobResult {
+  UpdateJobResult();
+
+  factory UpdateJobResult.fromJson(Map<String, dynamic> _) {
+    return UpdateJobResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateJobShipmentStateResult {
+  UpdateJobShipmentStateResult();
+
+  factory UpdateJobShipmentStateResult.fromJson(Map<String, dynamic> _) {
+    return UpdateJobShipmentStateResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateLongTermPricingResult {
+  UpdateLongTermPricingResult();
+
+  factory UpdateLongTermPricingResult.fromJson(Map<String, dynamic> _) {
+    return UpdateLongTermPricingResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class ShipmentState {
+  static const received = ShipmentState._('RECEIVED');
+  static const returned = ShipmentState._('RETURNED');
+
+  final String value;
+
+  const ShipmentState._(this.value);
+
+  static const values = [received, returned];
+
+  static ShipmentState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ShipmentState._(value));
+
+  @override
+  bool operator ==(other) => other is ShipmentState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The Amazon Simple Notification Service (Amazon SNS) notification settings
+/// associated with a specific job. The <code>Notification</code> object is
+/// returned as a part of the response syntax of the <code>DescribeJob</code>
+/// action in the <code>JobMetadata</code> data type.
+///
+/// When the notification settings are defined during job creation, you can
+/// choose to notify based on a specific set of job states using the
+/// <code>JobStatesToNotify</code> array of strings, or you can specify that you
+/// want to have Amazon SNS notifications sent out for all job states with
+/// <code>NotifyAll</code> set to true.
+class Notification {
+  /// Used to send SNS notifications for the person picking up the device
+  /// (identified during job creation).
+  final String? devicePickupSnsTopicARN;
+
+  /// The list of job states that will trigger a notification for this job.
+  final List<JobState>? jobStatesToNotify;
+
+  /// Any change in job state will trigger a notification for this job.
+  final bool? notifyAll;
+
+  /// The new SNS <code>TopicArn</code> that you want to associate with this job.
+  /// You can create Amazon Resource Names (ARNs) for topics by using the <a
+  /// href="https://docs.aws.amazon.com/sns/latest/api/API_CreateTopic.html">CreateTopic</a>
+  /// Amazon SNS API action.
+  ///
+  /// You can subscribe email addresses to an Amazon SNS topic through the Amazon
+  /// Web Services Management Console, or by using the <a
+  /// href="https://docs.aws.amazon.com/sns/latest/api/API_Subscribe.html">Subscribe</a>
+  /// Amazon Simple Notification Service (Amazon SNS) API action.
+  final String? snsTopicARN;
+
+  Notification({
+    this.devicePickupSnsTopicARN,
+    this.jobStatesToNotify,
+    this.notifyAll,
+    this.snsTopicARN,
+  });
+
+  factory Notification.fromJson(Map<String, dynamic> json) {
+    return Notification(
+      devicePickupSnsTopicARN: json['DevicePickupSnsTopicARN'] as String?,
+      jobStatesToNotify: (json['JobStatesToNotify'] as List?)
+          ?.nonNulls
+          .map((e) => JobState.fromString((e as String)))
+          .toList(),
+      notifyAll: json['NotifyAll'] as bool?,
+      snsTopicARN: json['SnsTopicARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final devicePickupSnsTopicARN = this.devicePickupSnsTopicARN;
+    final jobStatesToNotify = this.jobStatesToNotify;
+    final notifyAll = this.notifyAll;
+    final snsTopicARN = this.snsTopicARN;
+    return {
+      if (devicePickupSnsTopicARN != null)
+        'DevicePickupSnsTopicARN': devicePickupSnsTopicARN,
+      if (jobStatesToNotify != null)
+        'JobStatesToNotify': jobStatesToNotify.map((e) => e.value).toList(),
+      if (notifyAll != null) 'NotifyAll': notifyAll,
+      if (snsTopicARN != null) 'SnsTopicARN': snsTopicARN,
+    };
+  }
+}
+
+/// Contains an array of Amazon Web Services resource objects. Each object
+/// represents an Amazon S3 bucket, an Lambda function, or an Amazon Machine
+/// Image (AMI) based on Amazon EC2 that is associated with a particular job.
+class JobResource {
+  /// The Amazon Machine Images (AMIs) associated with this job.
+  final List<Ec2AmiResource>? ec2AmiResources;
+
+  /// The Python-language Lambda functions for this job.
+  final List<LambdaResource>? lambdaResources;
+
+  /// An array of <code>S3Resource</code> objects.
+  final List<S3Resource>? s3Resources;
+
+  JobResource({
+    this.ec2AmiResources,
+    this.lambdaResources,
+    this.s3Resources,
+  });
+
+  factory JobResource.fromJson(Map<String, dynamic> json) {
+    return JobResource(
+      ec2AmiResources: (json['Ec2AmiResources'] as List?)
+          ?.nonNulls
+          .map((e) => Ec2AmiResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      lambdaResources: (json['LambdaResources'] as List?)
+          ?.nonNulls
+          .map((e) => LambdaResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      s3Resources: (json['S3Resources'] as List?)
+          ?.nonNulls
+          .map((e) => S3Resource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ec2AmiResources = this.ec2AmiResources;
+    final lambdaResources = this.lambdaResources;
+    final s3Resources = this.s3Resources;
+    return {
+      if (ec2AmiResources != null) 'Ec2AmiResources': ec2AmiResources,
+      if (lambdaResources != null) 'LambdaResources': lambdaResources,
+      if (s3Resources != null) 'S3Resources': s3Resources,
+    };
+  }
+}
+
+/// An object that represents the metadata and configuration settings for
+/// services on an Amazon Web Services Snow Family device.
+class OnDeviceServiceConfiguration {
+  /// The configuration of EKS Anywhere on the Snow Family device.
+  final EKSOnDeviceServiceConfiguration? eKSOnDeviceService;
+
+  /// Represents the NFS (Network File System) service on a Snow Family device.
+  final NFSOnDeviceServiceConfiguration? nFSOnDeviceService;
+
+  /// Configuration for Amazon S3 compatible storage on Snow family devices.
+  final S3OnDeviceServiceConfiguration? s3OnDeviceService;
+
+  /// Represents the Storage Gateway service Tape Gateway type on a Snow Family
+  /// device.
+  final TGWOnDeviceServiceConfiguration? tGWOnDeviceService;
+
+  OnDeviceServiceConfiguration({
+    this.eKSOnDeviceService,
+    this.nFSOnDeviceService,
+    this.s3OnDeviceService,
+    this.tGWOnDeviceService,
+  });
+
+  factory OnDeviceServiceConfiguration.fromJson(Map<String, dynamic> json) {
+    return OnDeviceServiceConfiguration(
+      eKSOnDeviceService: json['EKSOnDeviceService'] != null
+          ? EKSOnDeviceServiceConfiguration.fromJson(
+              json['EKSOnDeviceService'] as Map<String, dynamic>)
+          : null,
+      nFSOnDeviceService: json['NFSOnDeviceService'] != null
+          ? NFSOnDeviceServiceConfiguration.fromJson(
+              json['NFSOnDeviceService'] as Map<String, dynamic>)
+          : null,
+      s3OnDeviceService: json['S3OnDeviceService'] != null
+          ? S3OnDeviceServiceConfiguration.fromJson(
+              json['S3OnDeviceService'] as Map<String, dynamic>)
+          : null,
+      tGWOnDeviceService: json['TGWOnDeviceService'] != null
+          ? TGWOnDeviceServiceConfiguration.fromJson(
+              json['TGWOnDeviceService'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eKSOnDeviceService = this.eKSOnDeviceService;
+    final nFSOnDeviceService = this.nFSOnDeviceService;
+    final s3OnDeviceService = this.s3OnDeviceService;
+    final tGWOnDeviceService = this.tGWOnDeviceService;
+    return {
+      if (eKSOnDeviceService != null) 'EKSOnDeviceService': eKSOnDeviceService,
+      if (nFSOnDeviceService != null) 'NFSOnDeviceService': nFSOnDeviceService,
+      if (s3OnDeviceService != null) 'S3OnDeviceService': s3OnDeviceService,
+      if (tGWOnDeviceService != null) 'TGWOnDeviceService': tGWOnDeviceService,
+    };
+  }
+}
+
+class ShippingOption {
+  static const secondDay = ShippingOption._('SECOND_DAY');
+  static const nextDay = ShippingOption._('NEXT_DAY');
+  static const express = ShippingOption._('EXPRESS');
+  static const standard = ShippingOption._('STANDARD');
+
+  final String value;
+
+  const ShippingOption._(this.value);
+
+  static const values = [secondDay, nextDay, express, standard];
+
+  static ShippingOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ShippingOption._(value));
+
+  @override
+  bool operator ==(other) => other is ShippingOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SnowballCapacity {
+  static const t50 = SnowballCapacity._('T50');
+  static const t80 = SnowballCapacity._('T80');
+  static const t100 = SnowballCapacity._('T100');
+  static const t42 = SnowballCapacity._('T42');
+  static const t98 = SnowballCapacity._('T98');
+  static const t8 = SnowballCapacity._('T8');
+  static const t14 = SnowballCapacity._('T14');
+  static const t32 = SnowballCapacity._('T32');
+  static const noPreference = SnowballCapacity._('NoPreference');
+  static const t240 = SnowballCapacity._('T240');
+  static const t13 = SnowballCapacity._('T13');
+
+  final String value;
+
+  const SnowballCapacity._(this.value);
+
+  static const values = [
+    t50,
+    t80,
+    t100,
+    t42,
+    t98,
+    t8,
+    t14,
+    t32,
+    noPreference,
+    t240,
+    t13
+  ];
+
+  static SnowballCapacity fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SnowballCapacity._(value));
+
+  @override
+  bool operator ==(other) => other is SnowballCapacity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information identifying the person picking up the device.
+class PickupDetails {
+  /// The unique ID for a device that will be picked up.
+  final String? devicePickupId;
+
+  /// The email address of the person picking up the device.
+  final String? email;
+
+  /// Expiration date of the credential identifying the person picking up the
+  /// device.
+  final DateTime? identificationExpirationDate;
+
+  /// Organization that issued the credential identifying the person picking up
+  /// the device.
+  final String? identificationIssuingOrg;
+
+  /// The number on the credential identifying the person picking up the device.
+  final String? identificationNumber;
+
+  /// The name of the person picking up the device.
+  final String? name;
+
+  /// The phone number of the person picking up the device.
+  final String? phoneNumber;
+
+  PickupDetails({
+    this.devicePickupId,
+    this.email,
+    this.identificationExpirationDate,
+    this.identificationIssuingOrg,
+    this.identificationNumber,
+    this.name,
+    this.phoneNumber,
+  });
+
+  factory PickupDetails.fromJson(Map<String, dynamic> json) {
+    return PickupDetails(
+      devicePickupId: json['DevicePickupId'] as String?,
+      email: json['Email'] as String?,
+      identificationExpirationDate:
+          timeStampFromJson(json['IdentificationExpirationDate']),
+      identificationIssuingOrg: json['IdentificationIssuingOrg'] as String?,
+      identificationNumber: json['IdentificationNumber'] as String?,
+      name: json['Name'] as String?,
+      phoneNumber: json['PhoneNumber'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final devicePickupId = this.devicePickupId;
+    final email = this.email;
+    final identificationExpirationDate = this.identificationExpirationDate;
+    final identificationIssuingOrg = this.identificationIssuingOrg;
+    final identificationNumber = this.identificationNumber;
+    final name = this.name;
+    final phoneNumber = this.phoneNumber;
+    return {
+      if (devicePickupId != null) 'DevicePickupId': devicePickupId,
+      if (email != null) 'Email': email,
+      if (identificationExpirationDate != null)
+        'IdentificationExpirationDate':
+            unixTimestampToJson(identificationExpirationDate),
+      if (identificationIssuingOrg != null)
+        'IdentificationIssuingOrg': identificationIssuingOrg,
+      if (identificationNumber != null)
+        'IdentificationNumber': identificationNumber,
+      if (name != null) 'Name': name,
+      if (phoneNumber != null) 'PhoneNumber': phoneNumber,
+    };
+  }
+}
+
+/// An object that represents the metadata and configuration settings for the
+/// NFS (Network File System) service on an Amazon Web Services Snow Family
+/// device.
+class NFSOnDeviceServiceConfiguration {
+  /// The maximum NFS storage for one Snow Family device.
+  final int? storageLimit;
+
+  /// The scale unit of the NFS storage on the device.
+  ///
+  /// Valid values: TB.
+  final StorageUnit? storageUnit;
+
+  NFSOnDeviceServiceConfiguration({
+    this.storageLimit,
+    this.storageUnit,
+  });
+
+  factory NFSOnDeviceServiceConfiguration.fromJson(Map<String, dynamic> json) {
+    return NFSOnDeviceServiceConfiguration(
+      storageLimit: json['StorageLimit'] as int?,
+      storageUnit:
+          (json['StorageUnit'] as String?)?.let(StorageUnit.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final storageLimit = this.storageLimit;
+    final storageUnit = this.storageUnit;
+    return {
+      if (storageLimit != null) 'StorageLimit': storageLimit,
+      if (storageUnit != null) 'StorageUnit': storageUnit.value,
+    };
+  }
+}
+
+/// An object that represents the metadata and configuration settings for the
+/// Storage Gateway service Tape Gateway type on an Amazon Web Services Snow
+/// Family device.
+class TGWOnDeviceServiceConfiguration {
+  /// The maximum number of virtual tapes to store on one Snow Family device. Due
+  /// to physical resource limitations, this value must be set to 80 for Snowball
+  /// Edge.
+  final int? storageLimit;
+
+  /// The scale unit of the virtual tapes on the device.
+  final StorageUnit? storageUnit;
+
+  TGWOnDeviceServiceConfiguration({
+    this.storageLimit,
+    this.storageUnit,
+  });
+
+  factory TGWOnDeviceServiceConfiguration.fromJson(Map<String, dynamic> json) {
+    return TGWOnDeviceServiceConfiguration(
+      storageLimit: json['StorageLimit'] as int?,
+      storageUnit:
+          (json['StorageUnit'] as String?)?.let(StorageUnit.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final storageLimit = this.storageLimit;
+    final storageUnit = this.storageUnit;
+    return {
+      if (storageLimit != null) 'StorageLimit': storageLimit,
+      if (storageUnit != null) 'StorageUnit': storageUnit.value,
+    };
+  }
+}
+
+/// An object representing the metadata and configuration settings of EKS
+/// Anywhere on the Snow Family device.
+class EKSOnDeviceServiceConfiguration {
+  /// The optional version of EKS Anywhere on the Snow Family device.
+  final String? eKSAnywhereVersion;
+
+  /// The Kubernetes version for EKS Anywhere on the Snow Family device.
+  final String? kubernetesVersion;
+
+  EKSOnDeviceServiceConfiguration({
+    this.eKSAnywhereVersion,
+    this.kubernetesVersion,
+  });
+
+  factory EKSOnDeviceServiceConfiguration.fromJson(Map<String, dynamic> json) {
+    return EKSOnDeviceServiceConfiguration(
+      eKSAnywhereVersion: json['EKSAnywhereVersion'] as String?,
+      kubernetesVersion: json['KubernetesVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eKSAnywhereVersion = this.eKSAnywhereVersion;
+    final kubernetesVersion = this.kubernetesVersion;
+    return {
+      if (eKSAnywhereVersion != null) 'EKSAnywhereVersion': eKSAnywhereVersion,
+      if (kubernetesVersion != null) 'KubernetesVersion': kubernetesVersion,
+    };
+  }
+}
+
+/// Amazon S3 compatible storage on Snow family devices configuration items.
+class S3OnDeviceServiceConfiguration {
+  /// >Fault tolerance level of the cluster. This indicates the number of nodes
+  /// that can go down without degrading the performance of the cluster. This
+  /// additional input helps when the specified <code>StorageLimit</code> matches
+  /// more than one Amazon S3 compatible storage on Snow family devices service
+  /// configuration.
+  final int? faultTolerance;
+
+  /// Applicable when creating a cluster. Specifies how many nodes are needed for
+  /// Amazon S3 compatible storage on Snow family devices. If specified, the other
+  /// input can be omitted.
+  final int? serviceSize;
+
+  /// If the specified storage limit value matches storage limit of one of the
+  /// defined configurations, that configuration will be used. If the specified
+  /// storage limit value does not match any defined configuration, the request
+  /// will fail. If more than one configuration has the same storage limit as
+  /// specified, the other input need to be provided.
+  final double? storageLimit;
+
+  /// Storage unit. Currently the only supported unit is TB.
+  final StorageUnit? storageUnit;
+
+  S3OnDeviceServiceConfiguration({
+    this.faultTolerance,
+    this.serviceSize,
+    this.storageLimit,
+    this.storageUnit,
+  });
+
+  factory S3OnDeviceServiceConfiguration.fromJson(Map<String, dynamic> json) {
+    return S3OnDeviceServiceConfiguration(
+      faultTolerance: json['FaultTolerance'] as int?,
+      serviceSize: json['ServiceSize'] as int?,
+      storageLimit: json['StorageLimit'] as double?,
+      storageUnit:
+          (json['StorageUnit'] as String?)?.let(StorageUnit.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final faultTolerance = this.faultTolerance;
+    final serviceSize = this.serviceSize;
+    final storageLimit = this.storageLimit;
+    final storageUnit = this.storageUnit;
+    return {
+      if (faultTolerance != null) 'FaultTolerance': faultTolerance,
+      if (serviceSize != null) 'ServiceSize': serviceSize,
+      if (storageLimit != null) 'StorageLimit': storageLimit,
+      if (storageUnit != null) 'StorageUnit': storageUnit.value,
+    };
+  }
+}
+
+class StorageUnit {
+  static const tb = StorageUnit._('TB');
+
+  final String value;
+
+  const StorageUnit._(this.value);
+
+  static const values = [tb];
+
+  static StorageUnit fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StorageUnit._(value));
+
+  @override
+  bool operator ==(other) => other is StorageUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A JSON-formatted object that contains the IDs for an Amazon Machine Image
+/// (AMI), including the Amazon EC2-compatible AMI ID and the Snow device AMI
+/// ID. Each AMI has these two IDs to simplify identifying the AMI in both the
+/// Amazon Web Services Cloud and on the device.
+class Ec2AmiResource {
+  /// The ID of the AMI in Amazon EC2.
+  final String amiId;
+
+  /// The ID of the AMI on the Snow device.
+  final String? snowballAmiId;
+
+  Ec2AmiResource({
+    required this.amiId,
+    this.snowballAmiId,
+  });
+
+  factory Ec2AmiResource.fromJson(Map<String, dynamic> json) {
+    return Ec2AmiResource(
+      amiId: (json['AmiId'] as String?) ?? '',
+      snowballAmiId: json['SnowballAmiId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final amiId = this.amiId;
+    final snowballAmiId = this.snowballAmiId;
+    return {
+      'AmiId': amiId,
+      if (snowballAmiId != null) 'SnowballAmiId': snowballAmiId,
+    };
+  }
+}
+
+/// Identifies
+class LambdaResource {
+  /// The array of ARNs for <a>S3Resource</a> objects to trigger the
+  /// <a>LambdaResource</a> objects associated with this job.
+  final List<EventTriggerDefinition>? eventTriggers;
+
+  /// An Amazon Resource Name (ARN) that represents an Lambda function to be
+  /// triggered by PUT object actions on the associated local Amazon S3 resource.
+  final String? lambdaArn;
+
+  LambdaResource({
+    this.eventTriggers,
+    this.lambdaArn,
+  });
+
+  factory LambdaResource.fromJson(Map<String, dynamic> json) {
+    return LambdaResource(
+      eventTriggers: (json['EventTriggers'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => EventTriggerDefinition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      lambdaArn: json['LambdaArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventTriggers = this.eventTriggers;
+    final lambdaArn = this.lambdaArn;
+    return {
+      if (eventTriggers != null) 'EventTriggers': eventTriggers,
+      if (lambdaArn != null) 'LambdaArn': lambdaArn,
+    };
+  }
+}
+
+/// The container for the <a>EventTriggerDefinition$EventResourceARN</a>.
+class EventTriggerDefinition {
+  /// The Amazon Resource Name (ARN) for any local Amazon S3 resource that is an
+  /// Lambda function's event trigger associated with this job.
+  final String? eventResourceARN;
+
+  EventTriggerDefinition({
+    this.eventResourceARN,
+  });
+
+  factory EventTriggerDefinition.fromJson(Map<String, dynamic> json) {
+    return EventTriggerDefinition(
+      eventResourceARN: json['EventResourceARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventResourceARN = this.eventResourceARN;
+    return {
+      if (eventResourceARN != null) 'EventResourceARN': eventResourceARN,
+    };
+  }
+}
+
+/// Each <code>S3Resource</code> object represents an Amazon S3 bucket that your
+/// transferred data will be exported from or imported into. For export jobs,
+/// this object can have an optional <code>KeyRange</code> value. The length of
+/// the range is defined at job creation, and has either an inclusive
+/// <code>BeginMarker</code>, an inclusive <code>EndMarker</code>, or both.
+/// Ranges are UTF-8 binary sorted.
+class S3Resource {
+  /// The Amazon Resource Name (ARN) of an Amazon S3 bucket.
+  final String? bucketArn;
+
+  /// For export jobs, you can provide an optional <code>KeyRange</code> within a
+  /// specific Amazon S3 bucket. The length of the range is defined at job
+  /// creation, and has either an inclusive <code>BeginMarker</code>, an inclusive
+  /// <code>EndMarker</code>, or both. Ranges are UTF-8 binary sorted.
+  final KeyRange? keyRange;
+
+  /// Specifies the service or services on the Snow Family device that your
+  /// transferred data will be exported from or imported into. Amazon Web Services
+  /// Snow Family supports Amazon S3 and NFS (Network File System).
+  final List<TargetOnDeviceService>? targetOnDeviceServices;
+
+  S3Resource({
+    this.bucketArn,
+    this.keyRange,
+    this.targetOnDeviceServices,
+  });
+
+  factory S3Resource.fromJson(Map<String, dynamic> json) {
+    return S3Resource(
+      bucketArn: json['BucketArn'] as String?,
+      keyRange: json['KeyRange'] != null
+          ? KeyRange.fromJson(json['KeyRange'] as Map<String, dynamic>)
+          : null,
+      targetOnDeviceServices: (json['TargetOnDeviceServices'] as List?)
+          ?.nonNulls
+          .map((e) => TargetOnDeviceService.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketArn = this.bucketArn;
+    final keyRange = this.keyRange;
+    final targetOnDeviceServices = this.targetOnDeviceServices;
+    return {
+      if (bucketArn != null) 'BucketArn': bucketArn,
+      if (keyRange != null) 'KeyRange': keyRange,
+      if (targetOnDeviceServices != null)
+        'TargetOnDeviceServices': targetOnDeviceServices,
+    };
+  }
+}
+
+/// Contains a key range. For export jobs, a <code>S3Resource</code> object can
+/// have an optional <code>KeyRange</code> value. The length of the range is
+/// defined at job creation, and has either an inclusive
+/// <code>BeginMarker</code>, an inclusive <code>EndMarker</code>, or both.
+/// Ranges are UTF-8 binary sorted.
+class KeyRange {
+  /// The key that starts an optional key range for an export job. Ranges are
+  /// inclusive and UTF-8 binary sorted.
+  final String? beginMarker;
+
+  /// The key that ends an optional key range for an export job. Ranges are
+  /// inclusive and UTF-8 binary sorted.
+  final String? endMarker;
+
+  KeyRange({
+    this.beginMarker,
+    this.endMarker,
+  });
+
+  factory KeyRange.fromJson(Map<String, dynamic> json) {
+    return KeyRange(
+      beginMarker: json['BeginMarker'] as String?,
+      endMarker: json['EndMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final beginMarker = this.beginMarker;
+    final endMarker = this.endMarker;
+    return {
+      if (beginMarker != null) 'BeginMarker': beginMarker,
+      if (endMarker != null) 'EndMarker': endMarker,
+    };
+  }
+}
+
+/// An object that represents the service or services on the Snow Family device
+/// that your transferred data will be exported from or imported into. Amazon
+/// Web Services Snow Family supports Amazon S3 and NFS (Network File System).
+class TargetOnDeviceService {
+  /// Specifies the name of the service on the Snow Family device that your
+  /// transferred data will be exported from or imported into.
+  final DeviceServiceName? serviceName;
+
+  /// Specifies whether the data is being imported or exported. You can import or
+  /// export the data, or use it locally on the device.
+  final TransferOption? transferOption;
+
+  TargetOnDeviceService({
+    this.serviceName,
+    this.transferOption,
+  });
+
+  factory TargetOnDeviceService.fromJson(Map<String, dynamic> json) {
+    return TargetOnDeviceService(
+      serviceName:
+          (json['ServiceName'] as String?)?.let(DeviceServiceName.fromString),
+      transferOption:
+          (json['TransferOption'] as String?)?.let(TransferOption.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceName = this.serviceName;
+    final transferOption = this.transferOption;
+    return {
+      if (serviceName != null) 'ServiceName': serviceName.value,
+      if (transferOption != null) 'TransferOption': transferOption.value,
+    };
+  }
+}
+
+class DeviceServiceName {
+  static const nfsOnDeviceService =
+      DeviceServiceName._('NFS_ON_DEVICE_SERVICE');
+  static const s3OnDeviceService = DeviceServiceName._('S3_ON_DEVICE_SERVICE');
+
+  final String value;
+
+  const DeviceServiceName._(this.value);
+
+  static const values = [nfsOnDeviceService, s3OnDeviceService];
+
+  static DeviceServiceName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeviceServiceName._(value));
+
+  @override
+  bool operator ==(other) => other is DeviceServiceName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TransferOption {
+  static const import = TransferOption._('IMPORT');
+  static const export = TransferOption._('EXPORT');
+  static const localUse = TransferOption._('LOCAL_USE');
+
+  final String value;
+
+  const TransferOption._(this.value);
+
+  static const values = [import, export, localUse];
+
+  static TransferOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TransferOption._(value));
+
+  @override
+  bool operator ==(other) => other is TransferOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class JobState {
+  static const $new = JobState._('New');
+  static const preparingAppliance = JobState._('PreparingAppliance');
+  static const preparingShipment = JobState._('PreparingShipment');
+  static const inTransitToCustomer = JobState._('InTransitToCustomer');
+  static const withCustomer = JobState._('WithCustomer');
+  static const inTransitToAWS = JobState._('InTransitToAWS');
+  static const withAWSSortingFacility = JobState._('WithAWSSortingFacility');
+  static const withAWS = JobState._('WithAWS');
+  static const inProgress = JobState._('InProgress');
+  static const complete = JobState._('Complete');
+  static const cancelled = JobState._('Cancelled');
+  static const listing = JobState._('Listing');
+  static const pending = JobState._('Pending');
+
+  final String value;
+
+  const JobState._(this.value);
+
+  static const values = [
+    $new,
+    preparingAppliance,
+    preparingShipment,
+    inTransitToCustomer,
+    withCustomer,
+    inTransitToAWS,
+    withAWSSortingFacility,
+    withAWS,
+    inProgress,
+    complete,
+    cancelled,
+    listing,
+    pending
+  ];
+
+  static JobState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobState._(value));
+
+  @override
+  bool operator ==(other) => other is JobState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ServiceName {
+  static const kubernetes = ServiceName._('KUBERNETES');
+  static const eksAnywhere = ServiceName._('EKS_ANYWHERE');
+
+  final String value;
+
+  const ServiceName._(this.value);
+
+  static const values = [kubernetes, eksAnywhere];
+
+  static ServiceName fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ServiceName._(value));
+
+  @override
+  bool operator ==(other) => other is ServiceName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The name and version of the service dependant on the requested service.
+class DependentService {
+  /// The name of the dependent service.
+  final ServiceName? serviceName;
+
+  /// The version of the dependent service.
+  final ServiceVersion? serviceVersion;
+
+  DependentService({
+    this.serviceName,
+    this.serviceVersion,
+  });
+
+  factory DependentService.fromJson(Map<String, dynamic> json) {
+    return DependentService(
+      serviceName:
+          (json['ServiceName'] as String?)?.let(ServiceName.fromString),
+      serviceVersion: json['ServiceVersion'] != null
+          ? ServiceVersion.fromJson(
+              json['ServiceVersion'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceName = this.serviceName;
+    final serviceVersion = this.serviceVersion;
+    return {
+      if (serviceName != null) 'ServiceName': serviceName.value,
+      if (serviceVersion != null) 'ServiceVersion': serviceVersion,
+    };
+  }
+}
+
+/// The version of the requested service.
+class ServiceVersion {
+  /// The version number of the requested service.
+  final String? version;
+
+  ServiceVersion({
+    this.version,
+  });
+
+  factory ServiceVersion.fromJson(Map<String, dynamic> json) {
+    return ServiceVersion(
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final version = this.version;
+    return {
+      if (version != null) 'Version': version,
+    };
+  }
+}
+
+/// The address that you want the Snow device(s) associated with a specific job
+/// to be shipped to. Addresses are validated at the time of creation. The
+/// address you provide must be located within the serviceable area of your
+/// region. Although no individual elements of the <code>Address</code> are
+/// required, if the address is invalid or unsupported, then an exception is
+/// thrown.
+class Address {
+  /// The unique ID for an address.
+  final String? addressId;
+
+  /// The city in an address that a Snow device is to be delivered to.
+  final String? city;
+
+  /// The name of the company to receive a Snow device at an address.
+  final String? company;
+
+  /// The country in an address that a Snow device is to be delivered to.
+  final String? country;
+
+  /// If the address you are creating is a primary address, then set this option
+  /// to true. This field is not supported in most regions.
+  final bool? isRestricted;
+
+  /// This field is no longer used and the value is ignored.
+  final String? landmark;
+
+  /// The name of a person to receive a Snow device at an address.
+  final String? name;
+
+  /// The phone number associated with an address that a Snow device is to be
+  /// delivered to.
+  final String? phoneNumber;
+
+  /// The postal code in an address that a Snow device is to be delivered to.
+  final String? postalCode;
+
+  /// This field is no longer used and the value is ignored.
+  final String? prefectureOrDistrict;
+
+  /// The state or province in an address that a Snow device is to be delivered
+  /// to.
+  final String? stateOrProvince;
+
+  /// The first line in a street address that a Snow device is to be delivered to.
+  final String? street1;
+
+  /// The second line in a street address that a Snow device is to be delivered
+  /// to.
+  final String? street2;
+
+  /// The third line in a street address that a Snow device is to be delivered to.
+  final String? street3;
+
+  /// Differentiates between delivery address and pickup address in the customer
+  /// account. Provided at job creation.
+  final AddressType? type;
+
+  Address({
+    this.addressId,
+    this.city,
+    this.company,
+    this.country,
+    this.isRestricted,
+    this.landmark,
+    this.name,
+    this.phoneNumber,
+    this.postalCode,
+    this.prefectureOrDistrict,
+    this.stateOrProvince,
+    this.street1,
+    this.street2,
+    this.street3,
+    this.type,
+  });
+
+  factory Address.fromJson(Map<String, dynamic> json) {
+    return Address(
+      addressId: json['AddressId'] as String?,
+      city: json['City'] as String?,
+      company: json['Company'] as String?,
+      country: json['Country'] as String?,
+      isRestricted: json['IsRestricted'] as bool?,
+      landmark: json['Landmark'] as String?,
+      name: json['Name'] as String?,
+      phoneNumber: json['PhoneNumber'] as String?,
+      postalCode: json['PostalCode'] as String?,
+      prefectureOrDistrict: json['PrefectureOrDistrict'] as String?,
+      stateOrProvince: json['StateOrProvince'] as String?,
+      street1: json['Street1'] as String?,
+      street2: json['Street2'] as String?,
+      street3: json['Street3'] as String?,
+      type: (json['Type'] as String?)?.let(AddressType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final addressId = this.addressId;
+    final city = this.city;
+    final company = this.company;
+    final country = this.country;
+    final isRestricted = this.isRestricted;
+    final landmark = this.landmark;
+    final name = this.name;
+    final phoneNumber = this.phoneNumber;
+    final postalCode = this.postalCode;
+    final prefectureOrDistrict = this.prefectureOrDistrict;
+    final stateOrProvince = this.stateOrProvince;
+    final street1 = this.street1;
+    final street2 = this.street2;
+    final street3 = this.street3;
+    final type = this.type;
+    return {
+      if (addressId != null) 'AddressId': addressId,
+      if (city != null) 'City': city,
+      if (company != null) 'Company': company,
+      if (country != null) 'Country': country,
+      if (isRestricted != null) 'IsRestricted': isRestricted,
+      if (landmark != null) 'Landmark': landmark,
+      if (name != null) 'Name': name,
+      if (phoneNumber != null) 'PhoneNumber': phoneNumber,
+      if (postalCode != null) 'PostalCode': postalCode,
+      if (prefectureOrDistrict != null)
+        'PrefectureOrDistrict': prefectureOrDistrict,
+      if (stateOrProvince != null) 'StateOrProvince': stateOrProvince,
+      if (street1 != null) 'Street1': street1,
+      if (street2 != null) 'Street2': street2,
+      if (street3 != null) 'Street3': street3,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class AddressType {
+  static const custPickup = AddressType._('CUST_PICKUP');
+  static const awsShip = AddressType._('AWS_SHIP');
+
+  final String value;
+
+  const AddressType._(this.value);
+
+  static const values = [custPickup, awsShip];
+
+  static AddressType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AddressType._(value));
+
+  @override
+  bool operator ==(other) => other is AddressType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Each <code>LongTermPricingListEntry</code> object contains information about
 /// a long-term pricing type.
 class LongTermPricingListEntry {
@@ -3798,386 +3636,275 @@ class LongTermPricingType {
   String toString() => value;
 }
 
-/// An object that represents the metadata and configuration settings for the
-/// NFS (Network File System) service on an Amazon Web Services Snow Family
-/// device.
-class NFSOnDeviceServiceConfiguration {
-  /// The maximum NFS storage for one Snow Family device.
-  final int? storageLimit;
+class SnowballType {
+  static const standard = SnowballType._('STANDARD');
+  static const edge = SnowballType._('EDGE');
+  static const edgeC = SnowballType._('EDGE_C');
+  static const edgeCg = SnowballType._('EDGE_CG');
+  static const edgeS = SnowballType._('EDGE_S');
+  static const snc1Hdd = SnowballType._('SNC1_HDD');
+  static const snc1Ssd = SnowballType._('SNC1_SSD');
+  static const v3_5c = SnowballType._('V3_5C');
+  static const v3_5s = SnowballType._('V3_5S');
+  static const rack_5uC = SnowballType._('RACK_5U_C');
 
-  /// The scale unit of the NFS storage on the device.
-  ///
-  /// Valid values: TB.
-  final StorageUnit? storageUnit;
+  final String value;
 
-  NFSOnDeviceServiceConfiguration({
-    this.storageLimit,
-    this.storageUnit,
+  const SnowballType._(this.value);
+
+  static const values = [
+    standard,
+    edge,
+    edgeC,
+    edgeCg,
+    edgeS,
+    snc1Hdd,
+    snc1Ssd,
+    v3_5c,
+    v3_5s,
+    rack_5uC
+  ];
+
+  static SnowballType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SnowballType._(value));
+
+  @override
+  bool operator ==(other) => other is SnowballType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Each <code>JobListEntry</code> object contains a job's state, a job's ID,
+/// and a value that indicates whether the job is a job part, in the case of an
+/// export job.
+class JobListEntry {
+  /// The creation date for this job.
+  final DateTime? creationDate;
+
+  /// The optional description of this specific job, for example <code>Important
+  /// Photos 2016-08-11</code>.
+  final String? description;
+
+  /// A value that indicates that this job is a main job. A main job represents a
+  /// successful request to create an export job. Main jobs aren't associated with
+  /// any Snowballs. Instead, each main job will have at least one job part, and
+  /// each job part is associated with a Snowball. It might take some time before
+  /// the job parts associated with a particular main job are listed, because they
+  /// are created after the main job is created.
+  final bool? isMaster;
+
+  /// The automatically generated ID for a job, for example
+  /// <code>JID123e4567-e89b-12d3-a456-426655440000</code>.
+  final String? jobId;
+
+  /// The current state of this job.
+  final JobState? jobState;
+
+  /// The type of job.
+  final JobType? jobType;
+
+  /// The type of device used with this job.
+  final SnowballType? snowballType;
+
+  JobListEntry({
+    this.creationDate,
+    this.description,
+    this.isMaster,
+    this.jobId,
+    this.jobState,
+    this.jobType,
+    this.snowballType,
   });
 
-  factory NFSOnDeviceServiceConfiguration.fromJson(Map<String, dynamic> json) {
-    return NFSOnDeviceServiceConfiguration(
-      storageLimit: json['StorageLimit'] as int?,
-      storageUnit:
-          (json['StorageUnit'] as String?)?.let(StorageUnit.fromString),
+  factory JobListEntry.fromJson(Map<String, dynamic> json) {
+    return JobListEntry(
+      creationDate: timeStampFromJson(json['CreationDate']),
+      description: json['Description'] as String?,
+      isMaster: json['IsMaster'] as bool?,
+      jobId: json['JobId'] as String?,
+      jobState: (json['JobState'] as String?)?.let(JobState.fromString),
+      jobType: (json['JobType'] as String?)?.let(JobType.fromString),
+      snowballType:
+          (json['SnowballType'] as String?)?.let(SnowballType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final storageLimit = this.storageLimit;
-    final storageUnit = this.storageUnit;
+    final creationDate = this.creationDate;
+    final description = this.description;
+    final isMaster = this.isMaster;
+    final jobId = this.jobId;
+    final jobState = this.jobState;
+    final jobType = this.jobType;
+    final snowballType = this.snowballType;
     return {
-      if (storageLimit != null) 'StorageLimit': storageLimit,
-      if (storageUnit != null) 'StorageUnit': storageUnit.value,
+      if (creationDate != null)
+        'CreationDate': unixTimestampToJson(creationDate),
+      if (description != null) 'Description': description,
+      if (isMaster != null) 'IsMaster': isMaster,
+      if (jobId != null) 'JobId': jobId,
+      if (jobState != null) 'JobState': jobState.value,
+      if (jobType != null) 'JobType': jobType.value,
+      if (snowballType != null) 'SnowballType': snowballType.value,
     };
   }
 }
 
-/// The Amazon Simple Notification Service (Amazon SNS) notification settings
-/// associated with a specific job. The <code>Notification</code> object is
-/// returned as a part of the response syntax of the <code>DescribeJob</code>
-/// action in the <code>JobMetadata</code> data type.
-///
-/// When the notification settings are defined during job creation, you can
-/// choose to notify based on a specific set of job states using the
-/// <code>JobStatesToNotify</code> array of strings, or you can specify that you
-/// want to have Amazon SNS notifications sent out for all job states with
-/// <code>NotifyAll</code> set to true.
-class Notification {
-  /// Used to send SNS notifications for the person picking up the device
-  /// (identified during job creation).
-  final String? devicePickupSnsTopicARN;
+class JobType {
+  static const import = JobType._('IMPORT');
+  static const export = JobType._('EXPORT');
+  static const localUse = JobType._('LOCAL_USE');
 
-  /// The list of job states that will trigger a notification for this job.
-  final List<JobState>? jobStatesToNotify;
+  final String value;
 
-  /// Any change in job state will trigger a notification for this job.
-  final bool? notifyAll;
+  const JobType._(this.value);
 
-  /// The new SNS <code>TopicArn</code> that you want to associate with this job.
-  /// You can create Amazon Resource Names (ARNs) for topics by using the <a
-  /// href="https://docs.aws.amazon.com/sns/latest/api/API_CreateTopic.html">CreateTopic</a>
-  /// Amazon SNS API action.
-  ///
-  /// You can subscribe email addresses to an Amazon SNS topic through the Amazon
-  /// Web Services Management Console, or by using the <a
-  /// href="https://docs.aws.amazon.com/sns/latest/api/API_Subscribe.html">Subscribe</a>
-  /// Amazon Simple Notification Service (Amazon SNS) API action.
-  final String? snsTopicARN;
+  static const values = [import, export, localUse];
 
-  Notification({
-    this.devicePickupSnsTopicARN,
-    this.jobStatesToNotify,
-    this.notifyAll,
-    this.snsTopicARN,
-  });
+  static JobType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobType._(value));
 
-  factory Notification.fromJson(Map<String, dynamic> json) {
-    return Notification(
-      devicePickupSnsTopicARN: json['DevicePickupSnsTopicARN'] as String?,
-      jobStatesToNotify: (json['JobStatesToNotify'] as List?)
-          ?.nonNulls
-          .map((e) => JobState.fromString((e as String)))
-          .toList(),
-      notifyAll: json['NotifyAll'] as bool?,
-      snsTopicARN: json['SnsTopicARN'] as String?,
-    );
-  }
+  @override
+  bool operator ==(other) => other is JobType && other.value == value;
 
-  Map<String, dynamic> toJson() {
-    final devicePickupSnsTopicARN = this.devicePickupSnsTopicARN;
-    final jobStatesToNotify = this.jobStatesToNotify;
-    final notifyAll = this.notifyAll;
-    final snsTopicARN = this.snsTopicARN;
-    return {
-      if (devicePickupSnsTopicARN != null)
-        'DevicePickupSnsTopicARN': devicePickupSnsTopicARN,
-      if (jobStatesToNotify != null)
-        'JobStatesToNotify': jobStatesToNotify.map((e) => e.value).toList(),
-      if (notifyAll != null) 'NotifyAll': notifyAll,
-      if (snsTopicARN != null) 'SnsTopicARN': snsTopicARN,
-    };
-  }
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-/// An object that represents the metadata and configuration settings for
-/// services on an Amazon Web Services Snow Family device.
-class OnDeviceServiceConfiguration {
-  /// The configuration of EKS Anywhere on the Snow Family device.
-  final EKSOnDeviceServiceConfiguration? eKSOnDeviceService;
+/// A JSON-formatted object that describes a compatible Amazon Machine Image
+/// (AMI), including the ID and name for a Snow device AMI. This AMI is
+/// compatible with the device's physical hardware requirements, and it should
+/// be able to be run in an SBE1 instance on the device.
+class CompatibleImage {
+  /// The unique identifier for an individual Snow device AMI.
+  final String? amiId;
 
-  /// Represents the NFS (Network File System) service on a Snow Family device.
-  final NFSOnDeviceServiceConfiguration? nFSOnDeviceService;
-
-  /// Configuration for Amazon S3 compatible storage on Snow family devices.
-  final S3OnDeviceServiceConfiguration? s3OnDeviceService;
-
-  /// Represents the Storage Gateway service Tape Gateway type on a Snow Family
-  /// device.
-  final TGWOnDeviceServiceConfiguration? tGWOnDeviceService;
-
-  OnDeviceServiceConfiguration({
-    this.eKSOnDeviceService,
-    this.nFSOnDeviceService,
-    this.s3OnDeviceService,
-    this.tGWOnDeviceService,
-  });
-
-  factory OnDeviceServiceConfiguration.fromJson(Map<String, dynamic> json) {
-    return OnDeviceServiceConfiguration(
-      eKSOnDeviceService: json['EKSOnDeviceService'] != null
-          ? EKSOnDeviceServiceConfiguration.fromJson(
-              json['EKSOnDeviceService'] as Map<String, dynamic>)
-          : null,
-      nFSOnDeviceService: json['NFSOnDeviceService'] != null
-          ? NFSOnDeviceServiceConfiguration.fromJson(
-              json['NFSOnDeviceService'] as Map<String, dynamic>)
-          : null,
-      s3OnDeviceService: json['S3OnDeviceService'] != null
-          ? S3OnDeviceServiceConfiguration.fromJson(
-              json['S3OnDeviceService'] as Map<String, dynamic>)
-          : null,
-      tGWOnDeviceService: json['TGWOnDeviceService'] != null
-          ? TGWOnDeviceServiceConfiguration.fromJson(
-              json['TGWOnDeviceService'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eKSOnDeviceService = this.eKSOnDeviceService;
-    final nFSOnDeviceService = this.nFSOnDeviceService;
-    final s3OnDeviceService = this.s3OnDeviceService;
-    final tGWOnDeviceService = this.tGWOnDeviceService;
-    return {
-      if (eKSOnDeviceService != null) 'EKSOnDeviceService': eKSOnDeviceService,
-      if (nFSOnDeviceService != null) 'NFSOnDeviceService': nFSOnDeviceService,
-      if (s3OnDeviceService != null) 'S3OnDeviceService': s3OnDeviceService,
-      if (tGWOnDeviceService != null) 'TGWOnDeviceService': tGWOnDeviceService,
-    };
-  }
-}
-
-/// Information identifying the person picking up the device.
-class PickupDetails {
-  /// The unique ID for a device that will be picked up.
-  final String? devicePickupId;
-
-  /// The email address of the person picking up the device.
-  final String? email;
-
-  /// Expiration date of the credential identifying the person picking up the
-  /// device.
-  final DateTime? identificationExpirationDate;
-
-  /// Organization that issued the credential identifying the person picking up
-  /// the device.
-  final String? identificationIssuingOrg;
-
-  /// The number on the credential identifying the person picking up the device.
-  final String? identificationNumber;
-
-  /// The name of the person picking up the device.
+  /// The optional name of a compatible image.
   final String? name;
 
-  /// The phone number of the person picking up the device.
-  final String? phoneNumber;
-
-  PickupDetails({
-    this.devicePickupId,
-    this.email,
-    this.identificationExpirationDate,
-    this.identificationIssuingOrg,
-    this.identificationNumber,
+  CompatibleImage({
+    this.amiId,
     this.name,
-    this.phoneNumber,
   });
 
-  factory PickupDetails.fromJson(Map<String, dynamic> json) {
-    return PickupDetails(
-      devicePickupId: json['DevicePickupId'] as String?,
-      email: json['Email'] as String?,
-      identificationExpirationDate:
-          timeStampFromJson(json['IdentificationExpirationDate']),
-      identificationIssuingOrg: json['IdentificationIssuingOrg'] as String?,
-      identificationNumber: json['IdentificationNumber'] as String?,
+  factory CompatibleImage.fromJson(Map<String, dynamic> json) {
+    return CompatibleImage(
+      amiId: json['AmiId'] as String?,
       name: json['Name'] as String?,
-      phoneNumber: json['PhoneNumber'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final devicePickupId = this.devicePickupId;
-    final email = this.email;
-    final identificationExpirationDate = this.identificationExpirationDate;
-    final identificationIssuingOrg = this.identificationIssuingOrg;
-    final identificationNumber = this.identificationNumber;
+    final amiId = this.amiId;
     final name = this.name;
-    final phoneNumber = this.phoneNumber;
     return {
-      if (devicePickupId != null) 'DevicePickupId': devicePickupId,
-      if (email != null) 'Email': email,
-      if (identificationExpirationDate != null)
-        'IdentificationExpirationDate':
-            unixTimestampToJson(identificationExpirationDate),
-      if (identificationIssuingOrg != null)
-        'IdentificationIssuingOrg': identificationIssuingOrg,
-      if (identificationNumber != null)
-        'IdentificationNumber': identificationNumber,
+      if (amiId != null) 'AmiId': amiId,
       if (name != null) 'Name': name,
-      if (phoneNumber != null) 'PhoneNumber': phoneNumber,
     };
   }
 }
 
-class RemoteManagement {
-  static const installedOnly = RemoteManagement._('INSTALLED_ONLY');
-  static const installedAutostart = RemoteManagement._('INSTALLED_AUTOSTART');
-  static const notInstalled = RemoteManagement._('NOT_INSTALLED');
+/// Contains a cluster's state, a cluster's ID, and other important information.
+class ClusterListEntry {
+  /// The 39-character ID for the cluster that you want to list, for example
+  /// <code>CID123e4567-e89b-12d3-a456-426655440000</code>.
+  final String? clusterId;
+
+  /// The current state of this cluster. For information about the state of a
+  /// specific node, see <a>JobListEntry$JobState</a>.
+  final ClusterState? clusterState;
+
+  /// The creation date for this cluster.
+  final DateTime? creationDate;
+
+  /// Defines an optional description of the cluster, for example
+  /// <code>Environmental Data Cluster-01</code>.
+  final String? description;
+
+  ClusterListEntry({
+    this.clusterId,
+    this.clusterState,
+    this.creationDate,
+    this.description,
+  });
+
+  factory ClusterListEntry.fromJson(Map<String, dynamic> json) {
+    return ClusterListEntry(
+      clusterId: json['ClusterId'] as String?,
+      clusterState:
+          (json['ClusterState'] as String?)?.let(ClusterState.fromString),
+      creationDate: timeStampFromJson(json['CreationDate']),
+      description: json['Description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterId = this.clusterId;
+    final clusterState = this.clusterState;
+    final creationDate = this.creationDate;
+    final description = this.description;
+    return {
+      if (clusterId != null) 'ClusterId': clusterId,
+      if (clusterState != null) 'ClusterState': clusterState.value,
+      if (creationDate != null)
+        'CreationDate': unixTimestampToJson(creationDate),
+      if (description != null) 'Description': description,
+    };
+  }
+}
+
+class ClusterState {
+  static const awaitingQuorum = ClusterState._('AwaitingQuorum');
+  static const pending = ClusterState._('Pending');
+  static const inUse = ClusterState._('InUse');
+  static const complete = ClusterState._('Complete');
+  static const cancelled = ClusterState._('Cancelled');
 
   final String value;
 
-  const RemoteManagement._(this.value);
+  const ClusterState._(this.value);
 
-  static const values = [installedOnly, installedAutostart, notInstalled];
+  static const values = [awaitingQuorum, pending, inUse, complete, cancelled];
 
-  static RemoteManagement fromString(String value) =>
+  static ClusterState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ClusterState._(value));
+
+  @override
+  bool operator ==(other) => other is ClusterState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ShippingLabelStatus {
+  static const inProgress = ShippingLabelStatus._('InProgress');
+  static const timedOut = ShippingLabelStatus._('TimedOut');
+  static const succeeded = ShippingLabelStatus._('Succeeded');
+  static const failed = ShippingLabelStatus._('Failed');
+
+  final String value;
+
+  const ShippingLabelStatus._(this.value);
+
+  static const values = [inProgress, timedOut, succeeded, failed];
+
+  static ShippingLabelStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => RemoteManagement._(value));
+          orElse: () => ShippingLabelStatus._(value));
 
   @override
-  bool operator ==(other) => other is RemoteManagement && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Amazon S3 compatible storage on Snow family devices configuration items.
-class S3OnDeviceServiceConfiguration {
-  /// &gt;Fault tolerance level of the cluster. This indicates the number of nodes
-  /// that can go down without degrading the performance of the cluster. This
-  /// additional input helps when the specified <code>StorageLimit</code> matches
-  /// more than one Amazon S3 compatible storage on Snow family devices service
-  /// configuration.
-  final int? faultTolerance;
-
-  /// Applicable when creating a cluster. Specifies how many nodes are needed for
-  /// Amazon S3 compatible storage on Snow family devices. If specified, the other
-  /// input can be omitted.
-  final int? serviceSize;
-
-  /// If the specified storage limit value matches storage limit of one of the
-  /// defined configurations, that configuration will be used. If the specified
-  /// storage limit value does not match any defined configuration, the request
-  /// will fail. If more than one configuration has the same storage limit as
-  /// specified, the other input need to be provided.
-  final double? storageLimit;
-
-  /// Storage unit. Currently the only supported unit is TB.
-  final StorageUnit? storageUnit;
-
-  S3OnDeviceServiceConfiguration({
-    this.faultTolerance,
-    this.serviceSize,
-    this.storageLimit,
-    this.storageUnit,
-  });
-
-  factory S3OnDeviceServiceConfiguration.fromJson(Map<String, dynamic> json) {
-    return S3OnDeviceServiceConfiguration(
-      faultTolerance: json['FaultTolerance'] as int?,
-      serviceSize: json['ServiceSize'] as int?,
-      storageLimit: json['StorageLimit'] as double?,
-      storageUnit:
-          (json['StorageUnit'] as String?)?.let(StorageUnit.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final faultTolerance = this.faultTolerance;
-    final serviceSize = this.serviceSize;
-    final storageLimit = this.storageLimit;
-    final storageUnit = this.storageUnit;
-    return {
-      if (faultTolerance != null) 'FaultTolerance': faultTolerance,
-      if (serviceSize != null) 'ServiceSize': serviceSize,
-      if (storageLimit != null) 'StorageLimit': storageLimit,
-      if (storageUnit != null) 'StorageUnit': storageUnit.value,
-    };
-  }
-}
-
-/// Each <code>S3Resource</code> object represents an Amazon S3 bucket that your
-/// transferred data will be exported from or imported into. For export jobs,
-/// this object can have an optional <code>KeyRange</code> value. The length of
-/// the range is defined at job creation, and has either an inclusive
-/// <code>BeginMarker</code>, an inclusive <code>EndMarker</code>, or both.
-/// Ranges are UTF-8 binary sorted.
-class S3Resource {
-  /// The Amazon Resource Name (ARN) of an Amazon S3 bucket.
-  final String? bucketArn;
-
-  /// For export jobs, you can provide an optional <code>KeyRange</code> within a
-  /// specific Amazon S3 bucket. The length of the range is defined at job
-  /// creation, and has either an inclusive <code>BeginMarker</code>, an inclusive
-  /// <code>EndMarker</code>, or both. Ranges are UTF-8 binary sorted.
-  final KeyRange? keyRange;
-
-  /// Specifies the service or services on the Snow Family device that your
-  /// transferred data will be exported from or imported into. Amazon Web Services
-  /// Snow Family supports Amazon S3 and NFS (Network File System).
-  final List<TargetOnDeviceService>? targetOnDeviceServices;
-
-  S3Resource({
-    this.bucketArn,
-    this.keyRange,
-    this.targetOnDeviceServices,
-  });
-
-  factory S3Resource.fromJson(Map<String, dynamic> json) {
-    return S3Resource(
-      bucketArn: json['BucketArn'] as String?,
-      keyRange: json['KeyRange'] != null
-          ? KeyRange.fromJson(json['KeyRange'] as Map<String, dynamic>)
-          : null,
-      targetOnDeviceServices: (json['TargetOnDeviceServices'] as List?)
-          ?.nonNulls
-          .map((e) => TargetOnDeviceService.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucketArn = this.bucketArn;
-    final keyRange = this.keyRange;
-    final targetOnDeviceServices = this.targetOnDeviceServices;
-    return {
-      if (bucketArn != null) 'BucketArn': bucketArn,
-      if (keyRange != null) 'KeyRange': keyRange,
-      if (targetOnDeviceServices != null)
-        'TargetOnDeviceServices': targetOnDeviceServices,
-    };
-  }
-}
-
-class ServiceName {
-  static const kubernetes = ServiceName._('KUBERNETES');
-  static const eksAnywhere = ServiceName._('EKS_ANYWHERE');
-
-  final String value;
-
-  const ServiceName._(this.value);
-
-  static const values = [kubernetes, eksAnywhere];
-
-  static ServiceName fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ServiceName._(value));
-
-  @override
-  bool operator ==(other) => other is ServiceName && other.value == value;
+  bool operator ==(other) =>
+      other is ShippingLabelStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -4186,87 +3913,264 @@ class ServiceName {
   String toString() => value;
 }
 
-/// The version of the requested service.
-class ServiceVersion {
-  /// The version number of the requested service.
-  final String? version;
+/// Contains information about a specific job including shipping information,
+/// job status, and other important metadata. This information is returned as a
+/// part of the response syntax of the <code>DescribeJob</code> action.
+class JobMetadata {
+  /// The ID for the address that you want the Snow device shipped to.
+  final String? addressId;
 
-  ServiceVersion({
-    this.version,
-  });
+  /// The 39-character ID for the cluster, for example
+  /// <code>CID123e4567-e89b-12d3-a456-426655440000</code>.
+  final String? clusterId;
 
-  factory ServiceVersion.fromJson(Map<String, dynamic> json) {
-    return ServiceVersion(
-      version: json['Version'] as String?,
-    );
-  }
+  /// The creation date for this job.
+  final DateTime? creationDate;
 
-  Map<String, dynamic> toJson() {
-    final version = this.version;
-    return {
-      if (version != null) 'Version': version,
-    };
-  }
-}
+  /// A value that defines the real-time status of a Snow device's data transfer
+  /// while the device is at Amazon Web Services. This data is only available
+  /// while a job has a <code>JobState</code> value of <code>InProgress</code>,
+  /// for both import and export jobs.
+  final DataTransfer? dataTransferProgress;
 
-/// The <code>Status</code> and <code>TrackingNumber</code> information for an
-/// inbound or outbound shipment.
-class Shipment {
-  /// Status information for a shipment.
-  final String? status;
+  /// The description of the job, provided at job creation.
+  final String? description;
+  final DeviceConfiguration? deviceConfiguration;
 
-  /// The tracking number for this job. Using this tracking number with your
-  /// region's carrier's website, you can track a Snow device as the carrier
-  /// transports it.
+  /// The ID of the address that you want a job shipped to, after it will be
+  /// shipped to its primary address. This field is not supported in most regions.
+  final String? forwardingAddressId;
+
+  /// The highest impact level of data that will be stored or processed on the
+  /// device, provided at job creation.
+  final ImpactLevel? impactLevel;
+
+  /// The automatically generated ID for a job, for example
+  /// <code>JID123e4567-e89b-12d3-a456-426655440000</code>.
+  final String? jobId;
+
+  /// Links to Amazon S3 presigned URLs for the job report and logs. For import
+  /// jobs, the PDF job report becomes available at the end of the import process.
+  /// For export jobs, your job report typically becomes available while the Snow
+  /// device for your job part is being delivered to you.
+  final JobLogs? jobLogInfo;
+
+  /// The current status of the jobs.
+  final JobState? jobState;
+
+  /// The type of job.
+  final JobType? jobType;
+
+  /// The Amazon Resource Name (ARN) for the Key Management Service (KMS) key
+  /// associated with this job. This ARN was created using the <a
+  /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateKey.html">CreateKey</a>
+  /// API action in KMS.
+  final String? kmsKeyARN;
+
+  /// The ID of the long-term pricing type for the device.
+  final String? longTermPricingId;
+
+  /// The Amazon Simple Notification Service (Amazon SNS) notification settings
+  /// associated with a specific job. The <code>Notification</code> object is
+  /// returned as a part of the response syntax of the <code>DescribeJob</code>
+  /// action in the <code>JobMetadata</code> data type.
+  final Notification? notification;
+
+  /// Represents metadata and configuration settings for services on an Amazon Web
+  /// Services Snow Family device.
+  final OnDeviceServiceConfiguration? onDeviceServiceConfiguration;
+
+  /// Information identifying the person picking up the device.
+  final PickupDetails? pickupDetails;
+
+  /// Allows you to securely operate and manage Snowcone devices remotely from
+  /// outside of your internal network. When set to
+  /// <code>INSTALLED_AUTOSTART</code>, remote management will automatically be
+  /// available when the device arrives at your location. Otherwise, you need to
+  /// use the Snowball Client to manage the device.
+  final RemoteManagement? remoteManagement;
+
+  /// An array of <code>S3Resource</code> objects. Each <code>S3Resource</code>
+  /// object represents an Amazon S3 bucket that your transferred data will be
+  /// exported from or imported into.
+  final JobResource? resources;
+
+  /// The role ARN associated with this job. This ARN was created using the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html">CreateRole</a>
+  /// API action in Identity and Access Management.
+  final String? roleARN;
+
+  /// A job's shipping information, including inbound and outbound tracking
+  /// numbers and shipping speed options.
+  final ShippingDetails? shippingDetails;
+
+  /// The Snow device capacity preference for this job, specified at job creation.
+  /// In US regions, you can choose between 50 TB and 80 TB Snowballs. All other
+  /// regions use 80 TB capacity Snowballs.
   ///
-  /// For India, the carrier is Amazon Logistics. For all other regions, UPS is
-  /// the carrier.
-  final String? trackingNumber;
+  /// For more information, see
+  /// "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html"
+  /// (Snow Family Devices and Capacity) in the <i>Snowcone User Guide</i> or
+  /// "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html"
+  /// (Snow Family Devices and Capacity) in the <i>Snowcone User Guide</i>.
+  final SnowballCapacity? snowballCapacityPreference;
 
-  Shipment({
-    this.status,
-    this.trackingNumber,
+  /// Unique ID associated with a device.
+  final String? snowballId;
+
+  /// The type of device used with this job.
+  final SnowballType? snowballType;
+
+  /// The metadata associated with the tax documents required in your Amazon Web
+  /// Services Region.
+  final TaxDocuments? taxDocuments;
+
+  JobMetadata({
+    this.addressId,
+    this.clusterId,
+    this.creationDate,
+    this.dataTransferProgress,
+    this.description,
+    this.deviceConfiguration,
+    this.forwardingAddressId,
+    this.impactLevel,
+    this.jobId,
+    this.jobLogInfo,
+    this.jobState,
+    this.jobType,
+    this.kmsKeyARN,
+    this.longTermPricingId,
+    this.notification,
+    this.onDeviceServiceConfiguration,
+    this.pickupDetails,
+    this.remoteManagement,
+    this.resources,
+    this.roleARN,
+    this.shippingDetails,
+    this.snowballCapacityPreference,
+    this.snowballId,
+    this.snowballType,
+    this.taxDocuments,
   });
 
-  factory Shipment.fromJson(Map<String, dynamic> json) {
-    return Shipment(
-      status: json['Status'] as String?,
-      trackingNumber: json['TrackingNumber'] as String?,
+  factory JobMetadata.fromJson(Map<String, dynamic> json) {
+    return JobMetadata(
+      addressId: json['AddressId'] as String?,
+      clusterId: json['ClusterId'] as String?,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      dataTransferProgress: json['DataTransferProgress'] != null
+          ? DataTransfer.fromJson(
+              json['DataTransferProgress'] as Map<String, dynamic>)
+          : null,
+      description: json['Description'] as String?,
+      deviceConfiguration: json['DeviceConfiguration'] != null
+          ? DeviceConfiguration.fromJson(
+              json['DeviceConfiguration'] as Map<String, dynamic>)
+          : null,
+      forwardingAddressId: json['ForwardingAddressId'] as String?,
+      impactLevel:
+          (json['ImpactLevel'] as String?)?.let(ImpactLevel.fromString),
+      jobId: json['JobId'] as String?,
+      jobLogInfo: json['JobLogInfo'] != null
+          ? JobLogs.fromJson(json['JobLogInfo'] as Map<String, dynamic>)
+          : null,
+      jobState: (json['JobState'] as String?)?.let(JobState.fromString),
+      jobType: (json['JobType'] as String?)?.let(JobType.fromString),
+      kmsKeyARN: json['KmsKeyARN'] as String?,
+      longTermPricingId: json['LongTermPricingId'] as String?,
+      notification: json['Notification'] != null
+          ? Notification.fromJson(json['Notification'] as Map<String, dynamic>)
+          : null,
+      onDeviceServiceConfiguration: json['OnDeviceServiceConfiguration'] != null
+          ? OnDeviceServiceConfiguration.fromJson(
+              json['OnDeviceServiceConfiguration'] as Map<String, dynamic>)
+          : null,
+      pickupDetails: json['PickupDetails'] != null
+          ? PickupDetails.fromJson(
+              json['PickupDetails'] as Map<String, dynamic>)
+          : null,
+      remoteManagement: (json['RemoteManagement'] as String?)
+          ?.let(RemoteManagement.fromString),
+      resources: json['Resources'] != null
+          ? JobResource.fromJson(json['Resources'] as Map<String, dynamic>)
+          : null,
+      roleARN: json['RoleARN'] as String?,
+      shippingDetails: json['ShippingDetails'] != null
+          ? ShippingDetails.fromJson(
+              json['ShippingDetails'] as Map<String, dynamic>)
+          : null,
+      snowballCapacityPreference:
+          (json['SnowballCapacityPreference'] as String?)
+              ?.let(SnowballCapacity.fromString),
+      snowballId: json['SnowballId'] as String?,
+      snowballType:
+          (json['SnowballType'] as String?)?.let(SnowballType.fromString),
+      taxDocuments: json['TaxDocuments'] != null
+          ? TaxDocuments.fromJson(json['TaxDocuments'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final status = this.status;
-    final trackingNumber = this.trackingNumber;
+    final addressId = this.addressId;
+    final clusterId = this.clusterId;
+    final creationDate = this.creationDate;
+    final dataTransferProgress = this.dataTransferProgress;
+    final description = this.description;
+    final deviceConfiguration = this.deviceConfiguration;
+    final forwardingAddressId = this.forwardingAddressId;
+    final impactLevel = this.impactLevel;
+    final jobId = this.jobId;
+    final jobLogInfo = this.jobLogInfo;
+    final jobState = this.jobState;
+    final jobType = this.jobType;
+    final kmsKeyARN = this.kmsKeyARN;
+    final longTermPricingId = this.longTermPricingId;
+    final notification = this.notification;
+    final onDeviceServiceConfiguration = this.onDeviceServiceConfiguration;
+    final pickupDetails = this.pickupDetails;
+    final remoteManagement = this.remoteManagement;
+    final resources = this.resources;
+    final roleARN = this.roleARN;
+    final shippingDetails = this.shippingDetails;
+    final snowballCapacityPreference = this.snowballCapacityPreference;
+    final snowballId = this.snowballId;
+    final snowballType = this.snowballType;
+    final taxDocuments = this.taxDocuments;
     return {
-      if (status != null) 'Status': status,
-      if (trackingNumber != null) 'TrackingNumber': trackingNumber,
+      if (addressId != null) 'AddressId': addressId,
+      if (clusterId != null) 'ClusterId': clusterId,
+      if (creationDate != null)
+        'CreationDate': unixTimestampToJson(creationDate),
+      if (dataTransferProgress != null)
+        'DataTransferProgress': dataTransferProgress,
+      if (description != null) 'Description': description,
+      if (deviceConfiguration != null)
+        'DeviceConfiguration': deviceConfiguration,
+      if (forwardingAddressId != null)
+        'ForwardingAddressId': forwardingAddressId,
+      if (impactLevel != null) 'ImpactLevel': impactLevel.value,
+      if (jobId != null) 'JobId': jobId,
+      if (jobLogInfo != null) 'JobLogInfo': jobLogInfo,
+      if (jobState != null) 'JobState': jobState.value,
+      if (jobType != null) 'JobType': jobType.value,
+      if (kmsKeyARN != null) 'KmsKeyARN': kmsKeyARN,
+      if (longTermPricingId != null) 'LongTermPricingId': longTermPricingId,
+      if (notification != null) 'Notification': notification,
+      if (onDeviceServiceConfiguration != null)
+        'OnDeviceServiceConfiguration': onDeviceServiceConfiguration,
+      if (pickupDetails != null) 'PickupDetails': pickupDetails,
+      if (remoteManagement != null) 'RemoteManagement': remoteManagement.value,
+      if (resources != null) 'Resources': resources,
+      if (roleARN != null) 'RoleARN': roleARN,
+      if (shippingDetails != null) 'ShippingDetails': shippingDetails,
+      if (snowballCapacityPreference != null)
+        'SnowballCapacityPreference': snowballCapacityPreference.value,
+      if (snowballId != null) 'SnowballId': snowballId,
+      if (snowballType != null) 'SnowballType': snowballType.value,
+      if (taxDocuments != null) 'TaxDocuments': taxDocuments,
     };
   }
-}
-
-class ShipmentState {
-  static const received = ShipmentState._('RECEIVED');
-  static const returned = ShipmentState._('RETURNED');
-
-  final String value;
-
-  const ShipmentState._(this.value);
-
-  static const values = [received, returned];
-
-  static ShipmentState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ShipmentState._(value));
-
-  @override
-  bool operator ==(other) => other is ShipmentState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// A job's shipping information, including inbound and outbound tracking
@@ -4338,261 +4242,111 @@ class ShippingDetails {
   }
 }
 
-class ShippingLabelStatus {
-  static const inProgress = ShippingLabelStatus._('InProgress');
-  static const timedOut = ShippingLabelStatus._('TimedOut');
-  static const succeeded = ShippingLabelStatus._('Succeeded');
-  static const failed = ShippingLabelStatus._('Failed');
+/// Defines the real-time status of a Snow device's data transfer while the
+/// device is at Amazon Web Services. This data is only available while a job
+/// has a <code>JobState</code> value of <code>InProgress</code>, for both
+/// import and export jobs.
+class DataTransfer {
+  /// The number of bytes transferred between a Snow device and Amazon S3.
+  final int? bytesTransferred;
 
-  final String value;
+  /// The number of objects transferred between a Snow device and Amazon S3.
+  final int? objectsTransferred;
 
-  const ShippingLabelStatus._(this.value);
+  /// The total bytes of data for a transfer between a Snow device and Amazon S3.
+  /// This value is set to 0 (zero) until all the keys that will be transferred
+  /// have been listed.
+  final int? totalBytes;
 
-  static const values = [inProgress, timedOut, succeeded, failed];
+  /// The total number of objects for a transfer between a Snow device and Amazon
+  /// S3. This value is set to 0 (zero) until all the keys that will be
+  /// transferred have been listed.
+  final int? totalObjects;
 
-  static ShippingLabelStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ShippingLabelStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ShippingLabelStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ShippingOption {
-  static const secondDay = ShippingOption._('SECOND_DAY');
-  static const nextDay = ShippingOption._('NEXT_DAY');
-  static const express = ShippingOption._('EXPRESS');
-  static const standard = ShippingOption._('STANDARD');
-
-  final String value;
-
-  const ShippingOption._(this.value);
-
-  static const values = [secondDay, nextDay, express, standard];
-
-  static ShippingOption fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ShippingOption._(value));
-
-  @override
-  bool operator ==(other) => other is ShippingOption && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class SnowballCapacity {
-  static const t50 = SnowballCapacity._('T50');
-  static const t80 = SnowballCapacity._('T80');
-  static const t100 = SnowballCapacity._('T100');
-  static const t42 = SnowballCapacity._('T42');
-  static const t98 = SnowballCapacity._('T98');
-  static const t8 = SnowballCapacity._('T8');
-  static const t14 = SnowballCapacity._('T14');
-  static const t32 = SnowballCapacity._('T32');
-  static const noPreference = SnowballCapacity._('NoPreference');
-  static const t240 = SnowballCapacity._('T240');
-  static const t13 = SnowballCapacity._('T13');
-
-  final String value;
-
-  const SnowballCapacity._(this.value);
-
-  static const values = [
-    t50,
-    t80,
-    t100,
-    t42,
-    t98,
-    t8,
-    t14,
-    t32,
-    noPreference,
-    t240,
-    t13
-  ];
-
-  static SnowballCapacity fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SnowballCapacity._(value));
-
-  @override
-  bool operator ==(other) => other is SnowballCapacity && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class SnowballType {
-  static const standard = SnowballType._('STANDARD');
-  static const edge = SnowballType._('EDGE');
-  static const edgeC = SnowballType._('EDGE_C');
-  static const edgeCg = SnowballType._('EDGE_CG');
-  static const edgeS = SnowballType._('EDGE_S');
-  static const snc1Hdd = SnowballType._('SNC1_HDD');
-  static const snc1Ssd = SnowballType._('SNC1_SSD');
-  static const v3_5c = SnowballType._('V3_5C');
-  static const v3_5s = SnowballType._('V3_5S');
-  static const rack_5uC = SnowballType._('RACK_5U_C');
-
-  final String value;
-
-  const SnowballType._(this.value);
-
-  static const values = [
-    standard,
-    edge,
-    edgeC,
-    edgeCg,
-    edgeS,
-    snc1Hdd,
-    snc1Ssd,
-    v3_5c,
-    v3_5s,
-    rack_5uC
-  ];
-
-  static SnowballType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SnowballType._(value));
-
-  @override
-  bool operator ==(other) => other is SnowballType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Specifies the device configuration for an Snowcone job.
-class SnowconeDeviceConfiguration {
-  /// Configures the wireless connection for the Snowcone device.
-  final WirelessConnection? wirelessConnection;
-
-  SnowconeDeviceConfiguration({
-    this.wirelessConnection,
+  DataTransfer({
+    this.bytesTransferred,
+    this.objectsTransferred,
+    this.totalBytes,
+    this.totalObjects,
   });
 
-  factory SnowconeDeviceConfiguration.fromJson(Map<String, dynamic> json) {
-    return SnowconeDeviceConfiguration(
-      wirelessConnection: json['WirelessConnection'] != null
-          ? WirelessConnection.fromJson(
-              json['WirelessConnection'] as Map<String, dynamic>)
-          : null,
+  factory DataTransfer.fromJson(Map<String, dynamic> json) {
+    return DataTransfer(
+      bytesTransferred: json['BytesTransferred'] as int?,
+      objectsTransferred: json['ObjectsTransferred'] as int?,
+      totalBytes: json['TotalBytes'] as int?,
+      totalObjects: json['TotalObjects'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final wirelessConnection = this.wirelessConnection;
+    final bytesTransferred = this.bytesTransferred;
+    final objectsTransferred = this.objectsTransferred;
+    final totalBytes = this.totalBytes;
+    final totalObjects = this.totalObjects;
     return {
-      if (wirelessConnection != null) 'WirelessConnection': wirelessConnection,
+      if (bytesTransferred != null) 'BytesTransferred': bytesTransferred,
+      if (objectsTransferred != null) 'ObjectsTransferred': objectsTransferred,
+      if (totalBytes != null) 'TotalBytes': totalBytes,
+      if (totalObjects != null) 'TotalObjects': totalObjects,
     };
   }
 }
 
-class StorageUnit {
-  static const tb = StorageUnit._('TB');
+/// Contains job logs. Whenever a Snow device is used to import data into or
+/// export data out of Amazon S3, you'll have the option of downloading a PDF
+/// job report. Job logs are returned as a part of the response syntax of the
+/// <code>DescribeJob</code> action in the <code>JobMetadata</code> data type.
+/// The job logs can be accessed for up to 60 minutes after this request has
+/// been made. To access any of the job logs after 60 minutes have passed,
+/// you'll have to make another call to the <code>DescribeJob</code> action.
+///
+/// For import jobs, the PDF job report becomes available at the end of the
+/// import process. For export jobs, your job report typically becomes available
+/// while the Snow device for your job part is being delivered to you.
+///
+/// The job report provides you insight into the state of your Amazon S3 data
+/// transfer. The report includes details about your job or job part for your
+/// records.
+///
+/// For deeper visibility into the status of your transferred objects, you can
+/// look at the two associated logs: a success log and a failure log. The logs
+/// are saved in comma-separated value (CSV) format, and the name of each log
+/// includes the ID of the job or job part that the log describes.
+class JobLogs {
+  /// A link to an Amazon S3 presigned URL where the job completion report is
+  /// located.
+  final String? jobCompletionReportURI;
 
-  final String value;
+  /// A link to an Amazon S3 presigned URL where the job failure log is located.
+  final String? jobFailureLogURI;
 
-  const StorageUnit._(this.value);
+  /// A link to an Amazon S3 presigned URL where the job success log is located.
+  final String? jobSuccessLogURI;
 
-  static const values = [tb];
-
-  static StorageUnit fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => StorageUnit._(value));
-
-  @override
-  bool operator ==(other) => other is StorageUnit && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object that represents the metadata and configuration settings for the
-/// Storage Gateway service Tape Gateway type on an Amazon Web Services Snow
-/// Family device.
-class TGWOnDeviceServiceConfiguration {
-  /// The maximum number of virtual tapes to store on one Snow Family device. Due
-  /// to physical resource limitations, this value must be set to 80 for Snowball
-  /// Edge.
-  final int? storageLimit;
-
-  /// The scale unit of the virtual tapes on the device.
-  final StorageUnit? storageUnit;
-
-  TGWOnDeviceServiceConfiguration({
-    this.storageLimit,
-    this.storageUnit,
+  JobLogs({
+    this.jobCompletionReportURI,
+    this.jobFailureLogURI,
+    this.jobSuccessLogURI,
   });
 
-  factory TGWOnDeviceServiceConfiguration.fromJson(Map<String, dynamic> json) {
-    return TGWOnDeviceServiceConfiguration(
-      storageLimit: json['StorageLimit'] as int?,
-      storageUnit:
-          (json['StorageUnit'] as String?)?.let(StorageUnit.fromString),
+  factory JobLogs.fromJson(Map<String, dynamic> json) {
+    return JobLogs(
+      jobCompletionReportURI: json['JobCompletionReportURI'] as String?,
+      jobFailureLogURI: json['JobFailureLogURI'] as String?,
+      jobSuccessLogURI: json['JobSuccessLogURI'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final storageLimit = this.storageLimit;
-    final storageUnit = this.storageUnit;
+    final jobCompletionReportURI = this.jobCompletionReportURI;
+    final jobFailureLogURI = this.jobFailureLogURI;
+    final jobSuccessLogURI = this.jobSuccessLogURI;
     return {
-      if (storageLimit != null) 'StorageLimit': storageLimit,
-      if (storageUnit != null) 'StorageUnit': storageUnit.value,
-    };
-  }
-}
-
-/// An object that represents the service or services on the Snow Family device
-/// that your transferred data will be exported from or imported into. Amazon
-/// Web Services Snow Family supports Amazon S3 and NFS (Network File System).
-class TargetOnDeviceService {
-  /// Specifies the name of the service on the Snow Family device that your
-  /// transferred data will be exported from or imported into.
-  final DeviceServiceName? serviceName;
-
-  /// Specifies whether the data is being imported or exported. You can import or
-  /// export the data, or use it locally on the device.
-  final TransferOption? transferOption;
-
-  TargetOnDeviceService({
-    this.serviceName,
-    this.transferOption,
-  });
-
-  factory TargetOnDeviceService.fromJson(Map<String, dynamic> json) {
-    return TargetOnDeviceService(
-      serviceName:
-          (json['ServiceName'] as String?)?.let(DeviceServiceName.fromString),
-      transferOption:
-          (json['TransferOption'] as String?)?.let(TransferOption.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final serviceName = this.serviceName;
-    final transferOption = this.transferOption;
-    return {
-      if (serviceName != null) 'ServiceName': serviceName.value,
-      if (transferOption != null) 'TransferOption': transferOption.value,
+      if (jobCompletionReportURI != null)
+        'JobCompletionReportURI': jobCompletionReportURI,
+      if (jobFailureLogURI != null) 'JobFailureLogURI': jobFailureLogURI,
+      if (jobSuccessLogURI != null) 'JobSuccessLogURI': jobSuccessLogURI,
     };
   }
 }
@@ -4621,23 +4375,50 @@ class TaxDocuments {
   }
 }
 
-class TransferOption {
-  static const import = TransferOption._('IMPORT');
-  static const export = TransferOption._('EXPORT');
-  static const localUse = TransferOption._('LOCAL_USE');
+/// The container for <code>SnowconeDeviceConfiguration</code>.
+class DeviceConfiguration {
+  /// Returns information about the device configuration for an Snowball Edge job.
+  final SnowconeDeviceConfiguration? snowconeDeviceConfiguration;
+
+  DeviceConfiguration({
+    this.snowconeDeviceConfiguration,
+  });
+
+  factory DeviceConfiguration.fromJson(Map<String, dynamic> json) {
+    return DeviceConfiguration(
+      snowconeDeviceConfiguration: json['SnowconeDeviceConfiguration'] != null
+          ? SnowconeDeviceConfiguration.fromJson(
+              json['SnowconeDeviceConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final snowconeDeviceConfiguration = this.snowconeDeviceConfiguration;
+    return {
+      if (snowconeDeviceConfiguration != null)
+        'SnowconeDeviceConfiguration': snowconeDeviceConfiguration,
+    };
+  }
+}
+
+class RemoteManagement {
+  static const installedOnly = RemoteManagement._('INSTALLED_ONLY');
+  static const installedAutostart = RemoteManagement._('INSTALLED_AUTOSTART');
+  static const notInstalled = RemoteManagement._('NOT_INSTALLED');
 
   final String value;
 
-  const TransferOption._(this.value);
+  const RemoteManagement._(this.value);
 
-  static const values = [import, export, localUse];
+  static const values = [installedOnly, installedAutostart, notInstalled];
 
-  static TransferOption fromString(String value) =>
+  static RemoteManagement fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => TransferOption._(value));
+          orElse: () => RemoteManagement._(value));
 
   @override
-  bool operator ==(other) => other is TransferOption && other.value == value;
+  bool operator ==(other) => other is RemoteManagement && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -4646,57 +4427,61 @@ class TransferOption {
   String toString() => value;
 }
 
-class UpdateClusterResult {
-  UpdateClusterResult();
+class ImpactLevel {
+  static const il2 = ImpactLevel._('IL2');
+  static const il4 = ImpactLevel._('IL4');
+  static const il5 = ImpactLevel._('IL5');
+  static const il6 = ImpactLevel._('IL6');
+  static const il99 = ImpactLevel._('IL99');
 
-  factory UpdateClusterResult.fromJson(Map<String, dynamic> _) {
-    return UpdateClusterResult();
+  final String value;
+
+  const ImpactLevel._(this.value);
+
+  static const values = [il2, il4, il5, il6, il99];
+
+  static ImpactLevel fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ImpactLevel._(value));
+
+  @override
+  bool operator ==(other) => other is ImpactLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Specifies the device configuration for an Snowball Edge job.
+class SnowconeDeviceConfiguration {
+  /// Configures the wireless connection for the Snowball Edge device.
+  final WirelessConnection? wirelessConnection;
+
+  SnowconeDeviceConfiguration({
+    this.wirelessConnection,
+  });
+
+  factory SnowconeDeviceConfiguration.fromJson(Map<String, dynamic> json) {
+    return SnowconeDeviceConfiguration(
+      wirelessConnection: json['WirelessConnection'] != null
+          ? WirelessConnection.fromJson(
+              json['WirelessConnection'] as Map<String, dynamic>)
+          : null,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final wirelessConnection = this.wirelessConnection;
+    return {
+      if (wirelessConnection != null) 'WirelessConnection': wirelessConnection,
+    };
   }
 }
 
-class UpdateJobResult {
-  UpdateJobResult();
-
-  factory UpdateJobResult.fromJson(Map<String, dynamic> _) {
-    return UpdateJobResult();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateJobShipmentStateResult {
-  UpdateJobShipmentStateResult();
-
-  factory UpdateJobShipmentStateResult.fromJson(Map<String, dynamic> _) {
-    return UpdateJobShipmentStateResult();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateLongTermPricingResult {
-  UpdateLongTermPricingResult();
-
-  factory UpdateLongTermPricingResult.fromJson(Map<String, dynamic> _) {
-    return UpdateLongTermPricingResult();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Configures the wireless connection on an Snowcone device.
+/// Configures the wireless connection on an Snowball Edge device.
 class WirelessConnection {
-  /// Enables the Wi-Fi adapter on an Snowcone device.
+  /// Enables the Wi-Fi adapter on an Snowball Edge device.
   final bool? isWifiEnabled;
 
   WirelessConnection({
@@ -4713,6 +4498,238 @@ class WirelessConnection {
     final isWifiEnabled = this.isWifiEnabled;
     return {
       if (isWifiEnabled != null) 'IsWifiEnabled': isWifiEnabled,
+    };
+  }
+}
+
+/// The tax documents required in Amazon Web Services Region in India.
+class INDTaxDocuments {
+  /// The Goods and Services Tax (GST) documents required in Amazon Web Services
+  /// Region in India.
+  final String? gstin;
+
+  INDTaxDocuments({
+    this.gstin,
+  });
+
+  factory INDTaxDocuments.fromJson(Map<String, dynamic> json) {
+    return INDTaxDocuments(
+      gstin: json['GSTIN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final gstin = this.gstin;
+    return {
+      if (gstin != null) 'GSTIN': gstin,
+    };
+  }
+}
+
+/// The <code>Status</code> and <code>TrackingNumber</code> information for an
+/// inbound or outbound shipment.
+class Shipment {
+  /// Status information for a shipment.
+  final String? status;
+
+  /// The tracking number for this job. Using this tracking number with your
+  /// region's carrier's website, you can track a Snow device as the carrier
+  /// transports it.
+  ///
+  /// For India, the carrier is Amazon Logistics. For all other regions, UPS is
+  /// the carrier.
+  final String? trackingNumber;
+
+  Shipment({
+    this.status,
+    this.trackingNumber,
+  });
+
+  factory Shipment.fromJson(Map<String, dynamic> json) {
+    return Shipment(
+      status: json['Status'] as String?,
+      trackingNumber: json['TrackingNumber'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final trackingNumber = this.trackingNumber;
+    return {
+      if (status != null) 'Status': status,
+      if (trackingNumber != null) 'TrackingNumber': trackingNumber,
+    };
+  }
+}
+
+/// Contains metadata about a specific cluster.
+class ClusterMetadata {
+  /// The automatically generated ID for a specific address.
+  final String? addressId;
+
+  /// The automatically generated ID for a cluster.
+  final String? clusterId;
+
+  /// The current status of the cluster.
+  final ClusterState? clusterState;
+
+  /// The creation date for this cluster.
+  final DateTime? creationDate;
+
+  /// The optional description of the cluster.
+  final String? description;
+
+  /// The ID of the address that you want a cluster shipped to, after it will be
+  /// shipped to its primary address. This field is not supported in most regions.
+  final String? forwardingAddressId;
+
+  /// The type of job for this cluster. Currently, the only job type supported for
+  /// clusters is <code>LOCAL_USE</code>.
+  final JobType? jobType;
+
+  /// The <code>KmsKeyARN</code> Amazon Resource Name (ARN) associated with this
+  /// cluster. This ARN was created using the <a
+  /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateKey.html">CreateKey</a>
+  /// API action in Key Management Service (KMS.
+  final String? kmsKeyARN;
+
+  /// The Amazon Simple Notification Service (Amazon SNS) notification settings
+  /// for this cluster.
+  final Notification? notification;
+
+  /// Represents metadata and configuration settings for services on an Amazon Web
+  /// Services Snow Family device.
+  final OnDeviceServiceConfiguration? onDeviceServiceConfiguration;
+
+  /// The arrays of <a>JobResource</a> objects that can include updated
+  /// <a>S3Resource</a> objects or <a>LambdaResource</a> objects.
+  final JobResource? resources;
+
+  /// The role ARN associated with this cluster. This ARN was created using the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html">CreateRole</a>
+  /// API action in Identity and Access Management (IAM).
+  final String? roleARN;
+
+  /// The shipping speed for each node in this cluster. This speed doesn't dictate
+  /// how soon you'll get each device, rather it represents how quickly each
+  /// device moves to its destination while in transit. Regional shipping speeds
+  /// are as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// In Australia, you have access to express shipping. Typically, devices
+  /// shipped express are delivered in about a day.
+  /// </li>
+  /// <li>
+  /// In the European Union (EU), you have access to express shipping. Typically,
+  /// Snow devices shipped express are delivered in about a day. In addition, most
+  /// countries in the EU have access to standard shipping, which typically takes
+  /// less than a week, one way.
+  /// </li>
+  /// <li>
+  /// In India, Snow devices are delivered in one to seven days.
+  /// </li>
+  /// <li>
+  /// In the US, you have access to one-day shipping and two-day shipping.
+  /// </li>
+  /// </ul>
+  final ShippingOption? shippingOption;
+
+  /// The type of Snowball Edge device to use for this cluster.
+  /// <note>
+  /// For cluster jobs, Amazon Web Services Snow Family currently supports only
+  /// the <code>EDGE</code> device type.
+  /// </note>
+  final SnowballType? snowballType;
+
+  /// The tax documents required in your Amazon Web Services Region.
+  final TaxDocuments? taxDocuments;
+
+  ClusterMetadata({
+    this.addressId,
+    this.clusterId,
+    this.clusterState,
+    this.creationDate,
+    this.description,
+    this.forwardingAddressId,
+    this.jobType,
+    this.kmsKeyARN,
+    this.notification,
+    this.onDeviceServiceConfiguration,
+    this.resources,
+    this.roleARN,
+    this.shippingOption,
+    this.snowballType,
+    this.taxDocuments,
+  });
+
+  factory ClusterMetadata.fromJson(Map<String, dynamic> json) {
+    return ClusterMetadata(
+      addressId: json['AddressId'] as String?,
+      clusterId: json['ClusterId'] as String?,
+      clusterState:
+          (json['ClusterState'] as String?)?.let(ClusterState.fromString),
+      creationDate: timeStampFromJson(json['CreationDate']),
+      description: json['Description'] as String?,
+      forwardingAddressId: json['ForwardingAddressId'] as String?,
+      jobType: (json['JobType'] as String?)?.let(JobType.fromString),
+      kmsKeyARN: json['KmsKeyARN'] as String?,
+      notification: json['Notification'] != null
+          ? Notification.fromJson(json['Notification'] as Map<String, dynamic>)
+          : null,
+      onDeviceServiceConfiguration: json['OnDeviceServiceConfiguration'] != null
+          ? OnDeviceServiceConfiguration.fromJson(
+              json['OnDeviceServiceConfiguration'] as Map<String, dynamic>)
+          : null,
+      resources: json['Resources'] != null
+          ? JobResource.fromJson(json['Resources'] as Map<String, dynamic>)
+          : null,
+      roleARN: json['RoleARN'] as String?,
+      shippingOption:
+          (json['ShippingOption'] as String?)?.let(ShippingOption.fromString),
+      snowballType:
+          (json['SnowballType'] as String?)?.let(SnowballType.fromString),
+      taxDocuments: json['TaxDocuments'] != null
+          ? TaxDocuments.fromJson(json['TaxDocuments'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final addressId = this.addressId;
+    final clusterId = this.clusterId;
+    final clusterState = this.clusterState;
+    final creationDate = this.creationDate;
+    final description = this.description;
+    final forwardingAddressId = this.forwardingAddressId;
+    final jobType = this.jobType;
+    final kmsKeyARN = this.kmsKeyARN;
+    final notification = this.notification;
+    final onDeviceServiceConfiguration = this.onDeviceServiceConfiguration;
+    final resources = this.resources;
+    final roleARN = this.roleARN;
+    final shippingOption = this.shippingOption;
+    final snowballType = this.snowballType;
+    final taxDocuments = this.taxDocuments;
+    return {
+      if (addressId != null) 'AddressId': addressId,
+      if (clusterId != null) 'ClusterId': clusterId,
+      if (clusterState != null) 'ClusterState': clusterState.value,
+      if (creationDate != null)
+        'CreationDate': unixTimestampToJson(creationDate),
+      if (description != null) 'Description': description,
+      if (forwardingAddressId != null)
+        'ForwardingAddressId': forwardingAddressId,
+      if (jobType != null) 'JobType': jobType.value,
+      if (kmsKeyARN != null) 'KmsKeyARN': kmsKeyARN,
+      if (notification != null) 'Notification': notification,
+      if (onDeviceServiceConfiguration != null)
+        'OnDeviceServiceConfiguration': onDeviceServiceConfiguration,
+      if (resources != null) 'Resources': resources,
+      if (roleARN != null) 'RoleARN': roleARN,
+      if (shippingOption != null) 'ShippingOption': shippingOption.value,
+      if (snowballType != null) 'SnowballType': snowballType.value,
+      if (taxDocuments != null) 'TaxDocuments': taxDocuments,
     };
   }
 }

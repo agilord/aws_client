@@ -71,8 +71,9 @@ class DynamoDB {
   /// field of the <code>BatchStatementResponse</code> for each statement.
   /// </important>
   ///
-  /// May throw [RequestLimitExceeded].
   /// May throw [InternalServerError].
+  /// May throw [RequestLimitExceeded].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [statements] :
   /// The list of PartiQL statements representing the batch to run.
@@ -161,11 +162,18 @@ class DynamoDB {
   /// according to the type of read. For more information, see <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithTables.html#CapacityUnitCalculations">Working
   /// with Tables</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  /// <note>
+  /// <code>BatchGetItem</code> will result in a
+  /// <code>ValidationException</code> if the same key is specified multiple
+  /// times.
+  /// </note>
   ///
-  /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [RequestLimitExceeded].
   /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [RequestLimitExceeded].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [requestItems] :
   /// A map of one or more table names or table ARNs and, for each table, a map
@@ -393,11 +401,14 @@ class DynamoDB {
   /// </li>
   /// </ul>
   ///
-  /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ItemCollectionSizeLimitExceededException].
-  /// May throw [RequestLimitExceeded].
   /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
+  /// May throw [ItemCollectionSizeLimitExceededException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ReplicatedWriteConflictException].
+  /// May throw [RequestLimitExceeded].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [requestItems] :
   /// A map of one or more table names or table ARNs and, for each table, a list
@@ -517,12 +528,13 @@ class DynamoDB {
   /// </li>
   /// </ul>
   ///
-  /// May throw [TableNotFoundException].
-  /// May throw [TableInUseException].
-  /// May throw [ContinuousBackupsUnavailableException].
   /// May throw [BackupInUseException].
-  /// May throw [LimitExceededException].
+  /// May throw [ContinuousBackupsUnavailableException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
+  /// May throw [LimitExceededException].
+  /// May throw [TableInUseException].
+  /// May throw [TableNotFoundException].
   ///
   /// Parameter [backupName] :
   /// Specified name for the backup.
@@ -625,9 +637,10 @@ class DynamoDB {
   /// matching secondary indexes across your global table.
   /// </important>
   ///
-  /// May throw [LimitExceededException].
-  /// May throw [InternalServerError].
   /// May throw [GlobalTableAlreadyExistsException].
+  /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
+  /// May throw [LimitExceededException].
   /// May throw [TableNotFoundException].
   ///
   /// Parameter [globalTableName] :
@@ -679,13 +692,115 @@ class DynamoDB {
   /// You can use the <code>DescribeTable</code> action to check the table
   /// status.
   ///
-  /// May throw [ResourceInUseException].
-  /// May throw [LimitExceededException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceInUseException].
+  ///
+  /// Parameter [tableName] :
+  /// The name of the table to create. You can also provide the Amazon Resource
+  /// Name (ARN) of the table in this parameter.
   ///
   /// Parameter [attributeDefinitions] :
   /// An array of attributes that describe the key schema for the table and
   /// indexes.
+  ///
+  /// Parameter [billingMode] :
+  /// Controls how you are charged for read and write throughput and how you
+  /// manage capacity. This setting can be changed later.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PAY_PER_REQUEST</code> - We recommend using
+  /// <code>PAY_PER_REQUEST</code> for most DynamoDB workloads.
+  /// <code>PAY_PER_REQUEST</code> sets the billing mode to <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/on-demand-capacity-mode.html">On-demand
+  /// capacity mode</a>.
+  /// </li>
+  /// <li>
+  /// <code>PROVISIONED</code> - We recommend using <code>PROVISIONED</code> for
+  /// steady workloads with predictable growth where capacity requirements can
+  /// be reliably forecasted. <code>PROVISIONED</code> sets the billing mode to
+  /// <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/provisioned-capacity-mode.html">Provisioned
+  /// capacity mode</a>.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [deletionProtectionEnabled] :
+  /// Indicates whether deletion protection is to be enabled (true) or disabled
+  /// (false) on the table.
+  ///
+  /// Parameter [globalSecondaryIndexes] :
+  /// One or more global secondary indexes (the maximum is 20) to be created on
+  /// the table. Each global secondary index in the array includes the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>IndexName</code> - The name of the global secondary index. Must be
+  /// unique only for this table.
+  ///
+  ///
+  /// </li>
+  /// <li>
+  /// <code>KeySchema</code> - Specifies the key schema for the global secondary
+  /// index. Each global secondary index supports up to 4 partition keys and up
+  /// to 4 sort keys.
+  /// </li>
+  /// <li>
+  /// <code>Projection</code> - Specifies attributes that are copied (projected)
+  /// from the table into the index. These are in addition to the primary key
+  /// attributes and index key attributes, which are automatically projected.
+  /// Each attribute specification is composed of:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ProjectionType</code> - One of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>KEYS_ONLY</code> - Only the index and primary keys are projected
+  /// into the index.
+  /// </li>
+  /// <li>
+  /// <code>INCLUDE</code> - Only the specified table attributes are projected
+  /// into the index. The list of projected attributes is in
+  /// <code>NonKeyAttributes</code>.
+  /// </li>
+  /// <li>
+  /// <code>ALL</code> - All of the table attributes are projected into the
+  /// index.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>NonKeyAttributes</code> - A list of one or more non-key attribute
+  /// names that are projected into the secondary index. The total count of
+  /// attributes provided in <code>NonKeyAttributes</code>, summed across all of
+  /// the secondary indexes, must not exceed 100. If you project the same
+  /// attribute into two different indexes, this counts as two distinct
+  /// attributes when determining the total. This limit only applies when you
+  /// specify the ProjectionType of <code>INCLUDE</code>. You still can specify
+  /// the ProjectionType of <code>ALL</code> to project all attributes from the
+  /// source table, even if the table has more than 100 attributes.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>ProvisionedThroughput</code> - The provisioned throughput settings
+  /// for the global secondary index, consisting of read and write capacity
+  /// units.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [globalTableSettingsReplicationMode] :
+  /// Controls the settings synchronization mode for the global table. For
+  /// multi-account global tables, this parameter is required and the only
+  /// supported value is ENABLED. For same-account global tables, this parameter
+  /// is set to ENABLED_WITH_OVERRIDES.
+  ///
+  /// Parameter [globalTableSourceArn] :
+  /// The Amazon Resource Name (ARN) of the source table used for the creation
+  /// of a multi-account global table.
   ///
   /// Parameter [keySchema] :
   /// Specifies the attributes that make up the primary key for a table or an
@@ -734,90 +849,6 @@ class DynamoDB {
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithTables.html#WorkingWithTables.primary.key">Working
   /// with Tables</a> in the <i>Amazon DynamoDB Developer Guide</i>.
   ///
-  /// Parameter [tableName] :
-  /// The name of the table to create. You can also provide the Amazon Resource
-  /// Name (ARN) of the table in this parameter.
-  ///
-  /// Parameter [billingMode] :
-  /// Controls how you are charged for read and write throughput and how you
-  /// manage capacity. This setting can be changed later.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>PROVISIONED</code> - We recommend using <code>PROVISIONED</code> for
-  /// predictable workloads. <code>PROVISIONED</code> sets the billing mode to
-  /// <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/provisioned-capacity-mode.html">Provisioned
-  /// capacity mode</a>.
-  /// </li>
-  /// <li>
-  /// <code>PAY_PER_REQUEST</code> - We recommend using
-  /// <code>PAY_PER_REQUEST</code> for unpredictable workloads.
-  /// <code>PAY_PER_REQUEST</code> sets the billing mode to <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/on-demand-capacity-mode.html">On-demand
-  /// capacity mode</a>.
-  /// </li>
-  /// </ul>
-  ///
-  /// Parameter [deletionProtectionEnabled] :
-  /// Indicates whether deletion protection is to be enabled (true) or disabled
-  /// (false) on the table.
-  ///
-  /// Parameter [globalSecondaryIndexes] :
-  /// One or more global secondary indexes (the maximum is 20) to be created on
-  /// the table. Each global secondary index in the array includes the
-  /// following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>IndexName</code> - The name of the global secondary index. Must be
-  /// unique only for this table.
-  /// <p/> </li>
-  /// <li>
-  /// <code>KeySchema</code> - Specifies the key schema for the global secondary
-  /// index.
-  /// </li>
-  /// <li>
-  /// <code>Projection</code> - Specifies attributes that are copied (projected)
-  /// from the table into the index. These are in addition to the primary key
-  /// attributes and index key attributes, which are automatically projected.
-  /// Each attribute specification is composed of:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ProjectionType</code> - One of the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>KEYS_ONLY</code> - Only the index and primary keys are projected
-  /// into the index.
-  /// </li>
-  /// <li>
-  /// <code>INCLUDE</code> - Only the specified table attributes are projected
-  /// into the index. The list of projected attributes is in
-  /// <code>NonKeyAttributes</code>.
-  /// </li>
-  /// <li>
-  /// <code>ALL</code> - All of the table attributes are projected into the
-  /// index.
-  /// </li>
-  /// </ul> </li>
-  /// <li>
-  /// <code>NonKeyAttributes</code> - A list of one or more non-key attribute
-  /// names that are projected into the secondary index. The total count of
-  /// attributes provided in <code>NonKeyAttributes</code>, summed across all of
-  /// the secondary indexes, must not exceed 100. If you project the same
-  /// attribute into two different indexes, this counts as two distinct
-  /// attributes when determining the total.
-  /// </li>
-  /// </ul> </li>
-  /// <li>
-  /// <code>ProvisionedThroughput</code> - The provisioned throughput settings
-  /// for the global secondary index, consisting of read and write capacity
-  /// units.
-  /// </li>
-  /// </ul>
-  ///
   /// Parameter [localSecondaryIndexes] :
   /// One or more local secondary indexes (the maximum is 5) to be created on
   /// the table. Each index is scoped to a given partition key value. There is a
@@ -830,7 +861,9 @@ class DynamoDB {
   /// <li>
   /// <code>IndexName</code> - The name of the local secondary index. Must be
   /// unique only for this table.
-  /// <p/> </li>
+  ///
+  ///
+  /// </li>
   /// <li>
   /// <code>KeySchema</code> - Specifies the key schema for the local secondary
   /// index. The key schema must begin with the same partition key as the table.
@@ -866,7 +899,10 @@ class DynamoDB {
   /// attributes provided in <code>NonKeyAttributes</code>, summed across all of
   /// the secondary indexes, must not exceed 100. If you project the same
   /// attribute into two different indexes, this counts as two distinct
-  /// attributes when determining the total.
+  /// attributes when determining the total. This limit only applies when you
+  /// specify the ProjectionType of <code>INCLUDE</code>. You still can specify
+  /// the ProjectionType of <code>ALL</code> to project all attributes from the
+  /// source table, even if the table has more than 100 attributes.
   /// </li>
   /// </ul> </li>
   /// </ul>
@@ -954,13 +990,19 @@ class DynamoDB {
   /// A list of key-value pairs to label the table. For more information, see <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html">Tagging
   /// for DynamoDB</a>.
+  ///
+  /// Parameter [warmThroughput] :
+  /// Represents the warm throughput (in read units per second and write units
+  /// per second) for creating a table.
   Future<CreateTableOutput> createTable({
-    required List<AttributeDefinition> attributeDefinitions,
-    required List<KeySchemaElement> keySchema,
     required String tableName,
+    List<AttributeDefinition>? attributeDefinitions,
     BillingMode? billingMode,
     bool? deletionProtectionEnabled,
     List<GlobalSecondaryIndex>? globalSecondaryIndexes,
+    GlobalTableSettingsReplicationMode? globalTableSettingsReplicationMode,
+    String? globalTableSourceArn,
+    List<KeySchemaElement>? keySchema,
     List<LocalSecondaryIndex>? localSecondaryIndexes,
     OnDemandThroughput? onDemandThroughput,
     ProvisionedThroughput? provisionedThroughput,
@@ -969,6 +1011,7 @@ class DynamoDB {
     StreamSpecification? streamSpecification,
     TableClass? tableClass,
     List<Tag>? tags,
+    WarmThroughput? warmThroughput,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -981,14 +1024,20 @@ class DynamoDB {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AttributeDefinitions': attributeDefinitions,
-        'KeySchema': keySchema,
         'TableName': tableName,
+        if (attributeDefinitions != null)
+          'AttributeDefinitions': attributeDefinitions,
         if (billingMode != null) 'BillingMode': billingMode.value,
         if (deletionProtectionEnabled != null)
           'DeletionProtectionEnabled': deletionProtectionEnabled,
         if (globalSecondaryIndexes != null)
           'GlobalSecondaryIndexes': globalSecondaryIndexes,
+        if (globalTableSettingsReplicationMode != null)
+          'GlobalTableSettingsReplicationMode':
+              globalTableSettingsReplicationMode.value,
+        if (globalTableSourceArn != null)
+          'GlobalTableSourceArn': globalTableSourceArn,
+        if (keySchema != null) 'KeySchema': keySchema,
         if (localSecondaryIndexes != null)
           'LocalSecondaryIndexes': localSecondaryIndexes,
         if (onDemandThroughput != null)
@@ -1001,6 +1050,7 @@ class DynamoDB {
           'StreamSpecification': streamSpecification,
         if (tableClass != null) 'TableClass': tableClass.value,
         if (tags != null) 'Tags': tags,
+        if (warmThroughput != null) 'WarmThroughput': warmThroughput,
       },
     );
 
@@ -1012,10 +1062,11 @@ class DynamoDB {
   /// You can call <code>DeleteBackup</code> at a maximum rate of 10 times per
   /// second.
   ///
-  /// May throw [BackupNotFoundException].
   /// May throw [BackupInUseException].
-  /// May throw [LimitExceededException].
+  /// May throw [BackupNotFoundException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [backupArn] :
   /// The ARN associated with the backup.
@@ -1057,12 +1108,15 @@ class DynamoDB {
   /// delete. Otherwise, the item is not deleted.
   ///
   /// May throw [ConditionalCheckFailedException].
-  /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ItemCollectionSizeLimitExceededException].
-  /// May throw [TransactionConflictException].
-  /// May throw [RequestLimitExceeded].
   /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
+  /// May throw [ItemCollectionSizeLimitExceededException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ReplicatedWriteConflictException].
+  /// May throw [RequestLimitExceeded].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [TransactionConflictException].
   ///
   /// Parameter [key] :
   /// A map of attribute names to <code>AttributeValue</code> objects,
@@ -1091,8 +1145,8 @@ class DynamoDB {
   /// These function names are case-sensitive.
   /// </li>
   /// <li>
-  /// Comparison operators: <code>= | &lt;&gt; | &lt; | &gt; | &lt;= | &gt;= |
-  /// BETWEEN | IN </code>
+  /// Comparison operators: <code>= | <> | < | > | <= | >= | BETWEEN | IN
+  /// </code>
   /// </li>
   /// <li>
   /// Logical operators: <code>AND | OR | NOT</code>
@@ -1298,11 +1352,12 @@ class DynamoDB {
   /// <code>GetResourcePolicy</code> request again.
   /// </note>
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
+  /// May throw [LimitExceededException].
   /// May throw [PolicyNotFoundException].
   /// May throw [ResourceInUseException].
-  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the DynamoDB resource from which the
@@ -1350,10 +1405,7 @@ class DynamoDB {
   /// table does not exist, DynamoDB returns a
   /// <code>ResourceNotFoundException</code>. If table is already in the
   /// <code>DELETING</code> state, no error is returned.
-  /// <important>
-  /// For global tables, this operation only applies to global tables using
-  /// Version 2019.11.21 (Current version).
-  /// </important> <note>
+  /// <note>
   /// DynamoDB might continue to accept data read and write operations, such as
   /// <code>GetItem</code> and <code>PutItem</code>, on a table in the
   /// <code>DELETING</code> state until the table deletion is complete. For the
@@ -1369,10 +1421,11 @@ class DynamoDB {
   /// Use the <code>DescribeTable</code> action to check the status of the
   /// table.
   ///
+  /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceInUseException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalServerError].
   ///
   /// Parameter [tableName] :
   /// The name of the table to delete. You can also provide the Amazon Resource
@@ -1405,6 +1458,7 @@ class DynamoDB {
   ///
   /// May throw [BackupNotFoundException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
   ///
   /// Parameter [backupArn] :
   /// The Amazon Resource Name (ARN) associated with the backup.
@@ -1440,14 +1494,16 @@ class DynamoDB {
   /// <code>LatestRestorableDateTime</code>.
   ///
   /// <code>LatestRestorableDateTime</code> is typically 5 minutes before the
-  /// current time. You can restore your table to any point in time during the
-  /// last 35 days.
+  /// current time. You can restore your table to any point in time in the last
+  /// 35 days. You can set the recovery period to any value between 1 and 35
+  /// days.
   ///
   /// You can call <code>DescribeContinuousBackups</code> at a maximum rate of
   /// 10 times per second.
   ///
-  /// May throw [TableNotFoundException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
+  /// May throw [TableNotFoundException].
   ///
   /// Parameter [tableName] :
   /// Name of the table for which the customer wants to check the continuous
@@ -1479,8 +1535,8 @@ class DynamoDB {
   /// Returns information about contributor insights for a given table or global
   /// secondary index.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerError].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [tableName] :
   /// The name of the table to describe. You can also provide the Amazon
@@ -1534,8 +1590,8 @@ class DynamoDB {
   /// Describes an existing table export.
   ///
   /// May throw [ExportNotFoundException].
-  /// May throw [LimitExceededException].
   /// May throw [InternalServerError].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [exportArn] :
   /// The Amazon Resource Name (ARN) associated with the export.
@@ -1578,8 +1634,9 @@ class DynamoDB {
   /// global tables</a>.
   /// </important>
   ///
-  /// May throw [InternalServerError].
   /// May throw [GlobalTableNotFoundException].
+  /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
   ///
   /// Parameter [globalTableName] :
   /// The name of the global table.
@@ -1624,6 +1681,7 @@ class DynamoDB {
   ///
   /// May throw [GlobalTableNotFoundException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
   ///
   /// Parameter [globalTableName] :
   /// The name of the global table to describe.
@@ -1678,8 +1736,9 @@ class DynamoDB {
 
   /// Returns information about the status of Kinesis streaming.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [tableName] :
   /// The name of the table being described. You can also provide the Amazon
@@ -1784,6 +1843,7 @@ class DynamoDB {
   /// The <code>DescribeLimits</code> Request element has no content.
   ///
   /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
   Future<DescribeLimitsOutput> describeLimits() async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1803,10 +1863,7 @@ class DynamoDB {
   /// Returns information about the table, including the current status of the
   /// table, when it was created, the primary key schema, and any indexes on the
   /// table.
-  /// <important>
-  /// For global tables, this operation only applies to global tables using
-  /// Version 2019.11.21 (Current version).
-  /// </important> <note>
+  /// <note>
   /// If you issue a <code>DescribeTable</code> request immediately after a
   /// <code>CreateTable</code> request, DynamoDB might return a
   /// <code>ResourceNotFoundException</code>. This is because
@@ -1815,8 +1872,9 @@ class DynamoDB {
   /// few seconds, and then try the <code>DescribeTable</code> request again.
   /// </note>
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [tableName] :
   /// The name of the table to describe. You can also provide the Amazon
@@ -1844,13 +1902,9 @@ class DynamoDB {
 
   /// Describes auto scaling settings across replicas of the global table at
   /// once.
-  /// <important>
-  /// For global tables, this operation only applies to global tables using
-  /// Version 2019.11.21 (Current version).
-  /// </important>
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerError].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [tableName] :
   /// The name of the table. You can also provide the Amazon Resource Name (ARN)
@@ -1880,8 +1934,9 @@ class DynamoDB {
   /// Gives a description of the Time to Live (TTL) status on the specified
   /// table.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [tableName] :
   /// The name of the table to be described. You can also provide the Amazon
@@ -1911,6 +1966,7 @@ class DynamoDB {
   /// is done without deleting either of the resources.
   ///
   /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
   /// May throw [LimitExceededException].
   /// May throw [ResourceInUseException].
   /// May throw [ResourceNotFoundException].
@@ -1957,6 +2013,7 @@ class DynamoDB {
   /// check if streaming to the Kinesis data stream is ACTIVE.
   ///
   /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
   /// May throw [LimitExceededException].
   /// May throw [ResourceInUseException].
   /// May throw [ResourceNotFoundException].
@@ -2016,13 +2073,14 @@ class DynamoDB {
   /// include <code>NextToken</code>.
   ///
   /// May throw [ConditionalCheckFailedException].
-  /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ItemCollectionSizeLimitExceededException].
-  /// May throw [TransactionConflictException].
-  /// May throw [RequestLimitExceeded].
-  /// May throw [InternalServerError].
   /// May throw [DuplicateItemException].
+  /// May throw [InternalServerError].
+  /// May throw [ItemCollectionSizeLimitExceededException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [RequestLimitExceeded].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [TransactionConflictException].
   ///
   /// Parameter [statement] :
   /// The PartiQL statement representing the operation to run.
@@ -2111,13 +2169,14 @@ class DynamoDB {
   /// API.
   /// </note>
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [TransactionCanceledException].
-  /// May throw [TransactionInProgressException].
   /// May throw [IdempotentParameterMismatchException].
+  /// May throw [InternalServerError].
   /// May throw [ProvisionedThroughputExceededException].
   /// May throw [RequestLimitExceeded].
-  /// May throw [InternalServerError].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [TransactionCanceledException].
+  /// May throw [TransactionInProgressException].
   ///
   /// Parameter [transactStatements] :
   /// The list of PartiQL statements representing the transaction to run.
@@ -2164,12 +2223,12 @@ class DynamoDB {
   /// recovery enabled, and you can export data from any time within the point
   /// in time recovery window.
   ///
-  /// May throw [TableNotFoundException].
-  /// May throw [PointInTimeRecoveryUnavailableException].
-  /// May throw [LimitExceededException].
-  /// May throw [InvalidExportTimeException].
   /// May throw [ExportConflictException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidExportTimeException].
+  /// May throw [LimitExceededException].
+  /// May throw [PointInTimeRecoveryUnavailableException].
+  /// May throw [TableNotFoundException].
   ///
   /// Parameter [s3Bucket] :
   /// The name of the Amazon S3 bucket to export the snapshot to.
@@ -2189,7 +2248,7 @@ class DynamoDB {
   ///
   /// If you submit a request with the same client token but a change in other
   /// parameters within the 8-hour idempotency window, DynamoDB returns an
-  /// <code>ImportConflictException</code>.
+  /// <code>ExportConflictException</code>.
   ///
   /// Parameter [exportFormat] :
   /// The format for the exported data. Valid values for
@@ -2292,10 +2351,12 @@ class DynamoDB {
   /// consistent read might take more time than an eventually consistent read,
   /// it always returns the last updated value.
   ///
-  /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [RequestLimitExceeded].
   /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [RequestLimitExceeded].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [key] :
   /// A map of attribute names to <code>AttributeValue</code> objects,
@@ -2462,9 +2523,10 @@ class DynamoDB {
   /// creating a table using the <code>CreateTable</code> request will always be
   /// applied to all requests for that table.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
   /// May throw [PolicyNotFoundException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the DynamoDB resource to which the
@@ -2493,9 +2555,9 @@ class DynamoDB {
 
   /// Imports table data from an S3 bucket.
   ///
-  /// May throw [ResourceInUseException].
-  /// May throw [LimitExceededException].
   /// May throw [ImportConflictException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceInUseException].
   ///
   /// Parameter [inputFormat] :
   /// The format of the source data. Valid values for <code>ImportFormat</code>
@@ -2579,6 +2641,7 @@ class DynamoDB {
   /// Web Services Backup list API.</a>
   ///
   /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
   ///
   /// Parameter [backupType] :
   /// The backups from the table specified by <code>BackupType</code> are
@@ -2664,8 +2727,8 @@ class DynamoDB {
   /// Returns a list of ContributorInsightsSummary for a table and all its
   /// global secondary indexes.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerError].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [maxResults] :
   /// Maximum number of results to return per page.
@@ -2707,10 +2770,11 @@ class DynamoDB {
     return ListContributorInsightsOutput.fromJson(jsonResponse.body);
   }
 
-  /// Lists completed exports within the past 90 days.
+  /// Lists completed exports within the past 90 days, in reverse alphanumeric
+  /// order of <code>ExportArn</code>.
   ///
-  /// May throw [LimitExceededException].
   /// May throw [InternalServerError].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [maxResults] :
   /// Maximum number of results to return per page.
@@ -2772,6 +2836,7 @@ class DynamoDB {
   /// </important>
   ///
   /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
   ///
   /// Parameter [exclusiveStartGlobalTableName] :
   /// The first global table name that this operation will evaluate.
@@ -2872,6 +2937,7 @@ class DynamoDB {
   /// page returning a maximum of 100 table names.
   ///
   /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
   ///
   /// Parameter [exclusiveStartTableName] :
   /// The first table name that this operation will evaluate. Use the value that
@@ -2918,8 +2984,9 @@ class DynamoDB {
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html">Tagging
   /// for DynamoDB</a> in the <i>Amazon DynamoDB Developer Guide</i>.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon DynamoDB resource with tags to be listed. This value is an
@@ -2977,18 +3044,26 @@ class DynamoDB {
   /// table. Since every record must contain that attribute, the
   /// <code>attribute_not_exists</code> function will only succeed if no
   /// matching item exists.
+  /// </note> <note>
+  /// To determine whether <code>PutItem</code> overwrote an existing item, use
+  /// <code>ReturnValues</code> set to <code>ALL_OLD</code>. If the response
+  /// includes the <code>Attributes</code> element, an existing item was
+  /// overwritten.
   /// </note>
   /// For more information about <code>PutItem</code>, see <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithItems.html">Working
   /// with Items</a> in the <i>Amazon DynamoDB Developer Guide</i>.
   ///
   /// May throw [ConditionalCheckFailedException].
-  /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ItemCollectionSizeLimitExceededException].
-  /// May throw [TransactionConflictException].
-  /// May throw [RequestLimitExceeded].
   /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
+  /// May throw [ItemCollectionSizeLimitExceededException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ReplicatedWriteConflictException].
+  /// May throw [RequestLimitExceeded].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [TransactionConflictException].
   ///
   /// Parameter [item] :
   /// A map of attribute name/value pairs, one for each attribute. Only the
@@ -3033,8 +3108,8 @@ class DynamoDB {
   /// These function names are case-sensitive.
   /// </li>
   /// <li>
-  /// Comparison operators: <code>= | &lt;&gt; | &lt; | &gt; | &lt;= | &gt;= |
-  /// BETWEEN | IN </code>
+  /// Comparison operators: <code>= | <> | < | > | <= | >= | BETWEEN | IN
+  /// </code>
   /// </li>
   /// <li>
   /// Logical operators: <code>AND | OR | NOT</code>
@@ -3246,11 +3321,12 @@ class DynamoDB {
   /// <code>GetResourcePolicy</code> request again.
   /// </note>
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
   /// May throw [LimitExceededException].
   /// May throw [PolicyNotFoundException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [policy] :
   /// An Amazon Web Services resource-based policy document in JSON format.
@@ -3390,10 +3466,12 @@ class DynamoDB {
   /// consistent reads only, so do not specify <code>ConsistentRead</code> when
   /// querying a global secondary index.
   ///
-  /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [RequestLimitExceeded].
   /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [RequestLimitExceeded].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [tableName] :
   /// The name of the table containing the requested items. You can also provide
@@ -3561,21 +3639,20 @@ class DynamoDB {
   /// the sort key value is equal to <code>:sortkeyval</code>.
   /// </li>
   /// <li>
-  /// <code>sortKeyName</code> <code>&lt;</code> <code>:sortkeyval</code> - true
-  /// if the sort key value is less than <code>:sortkeyval</code>.
+  /// <code>sortKeyName</code> <code><</code> <code>:sortkeyval</code> - true if
+  /// the sort key value is less than <code>:sortkeyval</code>.
   /// </li>
   /// <li>
-  /// <code>sortKeyName</code> <code>&lt;=</code> <code>:sortkeyval</code> -
-  /// true if the sort key value is less than or equal to
-  /// <code>:sortkeyval</code>.
+  /// <code>sortKeyName</code> <code><=</code> <code>:sortkeyval</code> - true
+  /// if the sort key value is less than or equal to <code>:sortkeyval</code>.
   /// </li>
   /// <li>
-  /// <code>sortKeyName</code> <code>&gt;</code> <code>:sortkeyval</code> - true
-  /// if the sort key value is greater than <code>:sortkeyval</code>.
+  /// <code>sortKeyName</code> <code>></code> <code>:sortkeyval</code> - true if
+  /// the sort key value is greater than <code>:sortkeyval</code>.
   /// </li>
   /// <li>
-  /// <code>sortKeyName</code> <code>&gt;= </code> <code>:sortkeyval</code> -
-  /// true if the sort key value is greater than or equal to
+  /// <code>sortKeyName</code> <code>>= </code> <code>:sortkeyval</code> - true
+  /// if the sort key value is greater than or equal to
   /// <code>:sortkeyval</code>.
   /// </li>
   /// <li>
@@ -3836,12 +3913,13 @@ class DynamoDB {
   /// </li>
   /// </ul>
   ///
+  /// May throw [BackupInUseException].
+  /// May throw [BackupNotFoundException].
+  /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
+  /// May throw [LimitExceededException].
   /// May throw [TableAlreadyExistsException].
   /// May throw [TableInUseException].
-  /// May throw [BackupNotFoundException].
-  /// May throw [BackupInUseException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalServerError].
   ///
   /// Parameter [backupArn] :
   /// The Amazon Resource Name (ARN) associated with the backup.
@@ -3911,8 +3989,9 @@ class DynamoDB {
   /// Restores the specified table to the specified point in time within
   /// <code>EarliestRestorableDateTime</code> and
   /// <code>LatestRestorableDateTime</code>. You can restore your table to any
-  /// point in time during the last 35 days. Any number of users can execute up
-  /// to 50 concurrent restores (any type of restore) in a given account.
+  /// point in time in the last 35 days. You can set the recovery period to any
+  /// value between 1 and 35 days. Any number of users can execute up to 50
+  /// concurrent restores (any type of restore) in a given account.
   ///
   /// When you restore using point in time recovery, DynamoDB restores your
   /// table data to the state based on the selected date and time
@@ -3964,13 +4043,14 @@ class DynamoDB {
   /// </li>
   /// </ul>
   ///
-  /// May throw [TableAlreadyExistsException].
-  /// May throw [TableNotFoundException].
-  /// May throw [TableInUseException].
-  /// May throw [LimitExceededException].
-  /// May throw [InvalidRestoreTimeException].
-  /// May throw [PointInTimeRecoveryUnavailableException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
+  /// May throw [InvalidRestoreTimeException].
+  /// May throw [LimitExceededException].
+  /// May throw [PointInTimeRecoveryUnavailableException].
+  /// May throw [TableAlreadyExistsException].
+  /// May throw [TableInUseException].
+  /// May throw [TableNotFoundException].
   ///
   /// Parameter [targetTableName] :
   /// The name of the new table to which it must be restored to.
@@ -4109,10 +4189,12 @@ class DynamoDB {
   /// consistent snapshot of the table when the scan operation was requested.
   /// </note>
   ///
-  /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [RequestLimitExceeded].
   /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [RequestLimitExceeded].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [tableName] :
   /// The name of the table containing the requested items or if you provide
@@ -4473,14 +4555,33 @@ class DynamoDB {
   /// Cost Management console for cost allocation tracking. You can call
   /// TagResource up to five times per second, per account.
   ///
+  /// <ul>
+  /// <li>
+  /// <code>TagResource</code> is an asynchronous operation. If you issue a
+  /// <a>ListTagsOfResource</a> request immediately after a
+  /// <code>TagResource</code> request, DynamoDB might return your previous tag
+  /// set, if there was one, or an empty tag set. This is because
+  /// <code>ListTagsOfResource</code> uses an eventually consistent query, and
+  /// the metadata for your tags or table might not be available at that moment.
+  /// Wait for a few seconds, and then try the <code>ListTagsOfResource</code>
+  /// request again.
+  /// </li>
+  /// <li>
+  /// The application or removal of tags using <code>TagResource</code> and
+  /// <code>UntagResource</code> APIs is eventually consistent.
+  /// <code>ListTagsOfResource</code> API will only reflect the changes after a
+  /// few seconds.
+  /// </li>
+  /// </ul>
   /// For an overview on tagging DynamoDB resources, see <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html">Tagging
   /// for DynamoDB</a> in the <i>Amazon DynamoDB Developer Guide</i>.
   ///
-  /// May throw [LimitExceededException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// Identifies the Amazon DynamoDB resource to which tags should be added.
@@ -4538,11 +4639,13 @@ class DynamoDB {
   /// </li>
   /// </ul>
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [TransactionCanceledException].
+  /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
   /// May throw [ProvisionedThroughputExceededException].
   /// May throw [RequestLimitExceeded].
-  /// May throw [InternalServerError].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [TransactionCanceledException].
   ///
   /// Parameter [transactItems] :
   /// An ordered array of up to 100 <code>TransactGetItem</code> objects, each
@@ -4589,15 +4692,15 @@ class DynamoDB {
   ///
   /// <ul>
   /// <li>
-  /// <code>Put</code>  —   Initiates a <code>PutItem</code> operation to write
-  /// a new item. This structure specifies the primary key of the item to be
+  /// <code>Put</code> — Initiates a <code>PutItem</code> operation to write a
+  /// new item. This structure specifies the primary key of the item to be
   /// written, the name of the table to write it in, an optional condition
   /// expression that must be satisfied for the write to succeed, a list of the
   /// item's attributes, and a field indicating whether to retrieve the item's
   /// attributes if the condition is not met.
   /// </li>
   /// <li>
-  /// <code>Update</code>  —   Initiates an <code>UpdateItem</code> operation to
+  /// <code>Update</code> — Initiates an <code>UpdateItem</code> operation to
   /// update an existing item. This structure specifies the primary key of the
   /// item to be updated, the name of the table where it resides, an optional
   /// condition expression that must be satisfied for the update to succeed, an
@@ -4606,7 +4709,7 @@ class DynamoDB {
   /// not met.
   /// </li>
   /// <li>
-  /// <code>Delete</code>  —   Initiates a <code>DeleteItem</code> operation to
+  /// <code>Delete</code> — Initiates a <code>DeleteItem</code> operation to
   /// delete an existing item. This structure specifies the primary key of the
   /// item to be deleted, the name of the table where it resides, an optional
   /// condition expression that must be satisfied for the deletion to succeed,
@@ -4614,12 +4717,12 @@ class DynamoDB {
   /// condition is not met.
   /// </li>
   /// <li>
-  /// <code>ConditionCheck</code>  —   Applies a condition to an item that is
-  /// not being modified by the transaction. This structure specifies the
-  /// primary key of the item to be checked, the name of the table where it
-  /// resides, a condition expression that must be satisfied for the transaction
-  /// to succeed, and a field indicating whether to retrieve the item's
-  /// attributes if the condition is not met.
+  /// <code>ConditionCheck</code> — Applies a condition to an item that is not
+  /// being modified by the transaction. This structure specifies the primary
+  /// key of the item to be checked, the name of the table where it resides, a
+  /// condition expression that must be satisfied for the transaction to
+  /// succeed, and a field indicating whether to retrieve the item's attributes
+  /// if the condition is not met.
   /// </li>
   /// </ul>
   /// DynamoDB rejects the entire <code>TransactWriteItems</code> request if any
@@ -4649,13 +4752,15 @@ class DynamoDB {
   /// </li>
   /// </ul>
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [TransactionCanceledException].
-  /// May throw [TransactionInProgressException].
   /// May throw [IdempotentParameterMismatchException].
+  /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
   /// May throw [ProvisionedThroughputExceededException].
   /// May throw [RequestLimitExceeded].
-  /// May throw [InternalServerError].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [TransactionCanceledException].
+  /// May throw [TransactionInProgressException].
   ///
   /// Parameter [transactItems] :
   /// An ordered array of up to 100 <code>TransactWriteItem</code> objects, each
@@ -4728,14 +4833,33 @@ class DynamoDB {
   /// Removes the association of tags from an Amazon DynamoDB resource. You can
   /// call <code>UntagResource</code> up to five times per second, per account.
   ///
+  /// <ul>
+  /// <li>
+  /// <code>UntagResource</code> is an asynchronous operation. If you issue a
+  /// <a>ListTagsOfResource</a> request immediately after an
+  /// <code>UntagResource</code> request, DynamoDB might return your previous
+  /// tag set, if there was one, or an empty tag set. This is because
+  /// <code>ListTagsOfResource</code> uses an eventually consistent query, and
+  /// the metadata for your tags or table might not be available at that moment.
+  /// Wait for a few seconds, and then try the <code>ListTagsOfResource</code>
+  /// request again.
+  /// </li>
+  /// <li>
+  /// The application or removal of tags using <code>TagResource</code> and
+  /// <code>UntagResource</code> APIs is eventually consistent.
+  /// <code>ListTagsOfResource</code> API will only reflect the changes after a
+  /// few seconds.
+  /// </li>
+  /// </ul>
   /// For an overview on tagging DynamoDB resources, see <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html">Tagging
   /// for DynamoDB</a> in the <i>Amazon DynamoDB Developer Guide</i>.
   ///
-  /// May throw [LimitExceededException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The DynamoDB resource that the tags will be removed from. This value is an
@@ -4779,12 +4903,14 @@ class DynamoDB {
   /// <code>LatestRestorableDateTime</code>.
   ///
   /// <code>LatestRestorableDateTime</code> is typically 5 minutes before the
-  /// current time. You can restore your table to any point in time during the
-  /// last 35 days.
+  /// current time. You can restore your table to any point in time in the last
+  /// 35 days. You can set the <code>RecoveryPeriodInDays</code> to any value
+  /// between 1 and 35 days.
   ///
-  /// May throw [TableNotFoundException].
   /// May throw [ContinuousBackupsUnavailableException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
+  /// May throw [TableNotFoundException].
   ///
   /// Parameter [pointInTimeRecoverySpecification] :
   /// Represents the settings used to enable point in time recovery.
@@ -4824,8 +4950,8 @@ class DynamoDB {
   /// customer managed key, you should not enable CloudWatch Contributor
   /// Insights for DynamoDB for this table.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerError].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [contributorInsightsAction] :
   /// Represents the contributor insights action.
@@ -4834,11 +4960,16 @@ class DynamoDB {
   /// The name of the table. You can also provide the Amazon Resource Name (ARN)
   /// of the table in this parameter.
   ///
+  /// Parameter [contributorInsightsMode] :
+  /// Specifies whether to track all access and throttled events or throttled
+  /// events only for the DynamoDB table or index.
+  ///
   /// Parameter [indexName] :
   /// The global secondary index name, if applicable.
   Future<UpdateContributorInsightsOutput> updateContributorInsights({
     required ContributorInsightsAction contributorInsightsAction,
     required String tableName,
+    ContributorInsightsMode? contributorInsightsMode,
     String? indexName,
   }) async {
     final headers = <String, String>{
@@ -4854,6 +4985,8 @@ class DynamoDB {
       payload: {
         'ContributorInsightsAction': contributorInsightsAction.value,
         'TableName': tableName,
+        if (contributorInsightsMode != null)
+          'ContributorInsightsMode': contributorInsightsMode.value,
         if (indexName != null) 'IndexName': indexName,
       },
     );
@@ -4882,10 +5015,9 @@ class DynamoDB {
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html">Upgrading
   /// global tables</a>.
   /// </important> <note>
-  /// For global tables, this operation only applies to global tables using
-  /// Version 2019.11.21 (Current version). If you are using global tables <a
+  /// If you are using global tables <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html">Version
-  /// 2019.11.21</a> you can use <a
+  /// 2019.11.21</a> (Current) you can use <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_UpdateTable.html">UpdateTable</a>
   /// instead.
   ///
@@ -4910,8 +5042,9 @@ class DynamoDB {
   /// </li>
   /// </ul>
   ///
-  /// May throw [InternalServerError].
   /// May throw [GlobalTableNotFoundException].
+  /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
   /// May throw [ReplicaAlreadyExistsException].
   /// May throw [ReplicaNotFoundException].
   /// May throw [TableNotFoundException].
@@ -4963,11 +5096,12 @@ class DynamoDB {
   /// </important>
   ///
   /// May throw [GlobalTableNotFoundException].
-  /// May throw [ReplicaNotFoundException].
   /// May throw [IndexNotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [ResourceInUseException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
+  /// May throw [LimitExceededException].
+  /// May throw [ReplicaNotFoundException].
+  /// May throw [ResourceInUseException].
   ///
   /// Parameter [globalTableName] :
   /// The name of the global table
@@ -5068,12 +5202,15 @@ class DynamoDB {
   /// parameter.
   ///
   /// May throw [ConditionalCheckFailedException].
-  /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ItemCollectionSizeLimitExceededException].
-  /// May throw [TransactionConflictException].
-  /// May throw [RequestLimitExceeded].
   /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
+  /// May throw [ItemCollectionSizeLimitExceededException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ReplicatedWriteConflictException].
+  /// May throw [RequestLimitExceeded].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [TransactionConflictException].
   ///
   /// Parameter [key] :
   /// The primary key of the item to be updated. Each element consists of an
@@ -5108,8 +5245,8 @@ class DynamoDB {
   /// These function names are case-sensitive.
   /// </li>
   /// <li>
-  /// Comparison operators: <code>= | &lt;&gt; | &lt; | &gt; | &lt;= | &gt;= |
-  /// BETWEEN | IN </code>
+  /// Comparison operators: <code>= | <> | < | > | <= | >= | BETWEEN | IN
+  /// </code>
   /// </li>
   /// <li>
   /// Logical operators: <code>AND | OR | NOT</code>
@@ -5334,9 +5471,7 @@ class DynamoDB {
   /// be a set of strings.
   /// </li>
   /// </ul> <important>
-  /// The <code>ADD</code> action only supports Number and set data types. In
-  /// addition, <code>ADD</code> can only be used on top-level attributes, not
-  /// nested attributes.
+  /// The <code>ADD</code> action only supports Number and set data types.
   /// </important> </li>
   /// <li>
   /// <code>DELETE</code> - Deletes an element from a set.
@@ -5347,9 +5482,7 @@ class DynamoDB {
   /// <code>[a,c]</code>, then the final attribute value is <code>[b]</code>.
   /// Specifying an empty set is an error.
   /// <important>
-  /// The <code>DELETE</code> action only supports set data types. In addition,
-  /// <code>DELETE</code> can only be used on top-level attributes, not nested
-  /// attributes.
+  /// The <code>DELETE</code> action only supports set data types.
   /// </important> </li>
   /// </ul>
   /// You can have many actions in a single expression, such as the following:
@@ -5414,6 +5547,7 @@ class DynamoDB {
   /// The command to update the Kinesis stream destination.
   ///
   /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
   /// May throw [LimitExceededException].
   /// May throw [ResourceInUseException].
   /// May throw [ResourceNotFoundException].
@@ -5457,10 +5591,7 @@ class DynamoDB {
 
   /// Modifies the provisioned throughput settings, global secondary indexes, or
   /// DynamoDB Streams settings for a given table.
-  /// <important>
-  /// For global tables, this operation only applies to global tables using
-  /// Version 2019.11.21 (Current version).
-  /// </important>
+  ///
   /// You can only perform one of the following operations at once:
   ///
   /// <ul>
@@ -5483,10 +5614,11 @@ class DynamoDB {
   /// <code>ACTIVE</code> state, the <code>UpdateTable</code> operation is
   /// complete.
   ///
+  /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceInUseException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalServerError].
   ///
   /// Parameter [tableName] :
   /// The name of the table to be updated. You can also provide the Amazon
@@ -5508,17 +5640,18 @@ class DynamoDB {
   ///
   /// <ul>
   /// <li>
-  /// <code>PROVISIONED</code> - We recommend using <code>PROVISIONED</code> for
-  /// predictable workloads. <code>PROVISIONED</code> sets the billing mode to
-  /// <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/provisioned-capacity-mode.html">Provisioned
+  /// <code>PAY_PER_REQUEST</code> - We recommend using
+  /// <code>PAY_PER_REQUEST</code> for most DynamoDB workloads.
+  /// <code>PAY_PER_REQUEST</code> sets the billing mode to <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/on-demand-capacity-mode.html">On-demand
   /// capacity mode</a>.
   /// </li>
   /// <li>
-  /// <code>PAY_PER_REQUEST</code> - We recommend using
-  /// <code>PAY_PER_REQUEST</code> for unpredictable workloads.
-  /// <code>PAY_PER_REQUEST</code> sets the billing mode to <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/on-demand-capacity-mode.html">On-demand
+  /// <code>PROVISIONED</code> - We recommend using <code>PROVISIONED</code> for
+  /// steady workloads with predictable growth where capacity requirements can
+  /// be reliably forecasted. <code>PROVISIONED</code> sets the billing mode to
+  /// <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/provisioned-capacity-mode.html">Provisioned
   /// capacity mode</a>.
   /// </li>
   /// </ul>
@@ -5551,6 +5684,72 @@ class DynamoDB {
   /// Global Secondary Indexes</a> in the <i>Amazon DynamoDB Developer
   /// Guide</i>.
   ///
+  /// Parameter [globalTableSettingsReplicationMode] :
+  /// Controls the settings replication mode for a global table replica. This
+  /// attribute can be defined using UpdateTable operation only on a regional
+  /// table with values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ENABLED</code>: Defines settings replication on a regional table to
+  /// be used as a source table for creating Multi-Account Global Table.
+  /// </li>
+  /// <li>
+  /// <code>DISABLED</code>: Remove settings replication on a regional table.
+  /// Settings replication needs to be defined to ENABLED again in order to
+  /// create a Multi-Account Global Table using this table.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [globalTableWitnessUpdates] :
+  /// A list of witness updates for a MRSC global table. A witness provides a
+  /// cost-effective alternative to a full replica in a MRSC global table by
+  /// maintaining replicated change data written to global table replicas. You
+  /// cannot perform read or write operations on a witness. For each witness,
+  /// you can request one action:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Create</code> - add a new witness to the global table.
+  /// </li>
+  /// <li>
+  /// <code>Delete</code> - remove a witness from the global table.
+  /// </li>
+  /// </ul>
+  /// You can create or delete only one witness per <code>UpdateTable</code>
+  /// operation.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_HowItWorks.html#V2globaltables_HowItWorks.consistency-modes">Multi-Region
+  /// strong consistency (MRSC)</a> in the Amazon DynamoDB Developer Guide
+  ///
+  /// Parameter [multiRegionConsistency] :
+  /// Specifies the consistency mode for a new global table. This parameter is
+  /// only valid when you create a global table by specifying one or more <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_ReplicationGroupUpdate.html#DDB-Type-ReplicationGroupUpdate-Create">Create</a>
+  /// actions in the <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_UpdateTable.html#DDB-UpdateTable-request-ReplicaUpdates">ReplicaUpdates</a>
+  /// action list.
+  ///
+  /// You can specify one of the following consistency modes:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>EVENTUAL</code>: Configures a new global table for multi-Region
+  /// eventual consistency (MREC). This is the default consistency mode for
+  /// global tables.
+  /// </li>
+  /// <li>
+  /// <code>STRONG</code>: Configures a new global table for multi-Region strong
+  /// consistency (MRSC).
+  /// </li>
+  /// </ul>
+  /// If you don't specify this field, the global table consistency mode
+  /// defaults to <code>EVENTUAL</code>. For more information about global
+  /// tables consistency modes, see <a
+  /// href="https://docs.aws.amazon.com/V2globaltables_HowItWorks.html#V2globaltables_HowItWorks.consistency-modes">
+  /// Consistency modes</a> in DynamoDB developer guide.
+  ///
   /// Parameter [onDemandThroughput] :
   /// Updates the maximum number of read and write units for the specified table
   /// in on-demand capacity mode. If you use this parameter, you must specify
@@ -5563,10 +5762,6 @@ class DynamoDB {
   /// Parameter [replicaUpdates] :
   /// A list of replica update actions (create, delete, or update) for the
   /// table.
-  /// <note>
-  /// For global tables, this property only applies to global tables using
-  /// Version 2019.11.21 (Current version).
-  /// </note>
   ///
   /// Parameter [sSESpecification] :
   /// The new server-side encryption settings for the specified table.
@@ -5582,18 +5777,26 @@ class DynamoDB {
   /// Parameter [tableClass] :
   /// The table class of the table to be updated. Valid values are
   /// <code>STANDARD</code> and <code>STANDARD_INFREQUENT_ACCESS</code>.
+  ///
+  /// Parameter [warmThroughput] :
+  /// Represents the warm throughput (in read units per second and write units
+  /// per second) for updating a table.
   Future<UpdateTableOutput> updateTable({
     required String tableName,
     List<AttributeDefinition>? attributeDefinitions,
     BillingMode? billingMode,
     bool? deletionProtectionEnabled,
     List<GlobalSecondaryIndexUpdate>? globalSecondaryIndexUpdates,
+    GlobalTableSettingsReplicationMode? globalTableSettingsReplicationMode,
+    List<GlobalTableWitnessGroupUpdate>? globalTableWitnessUpdates,
+    MultiRegionConsistency? multiRegionConsistency,
     OnDemandThroughput? onDemandThroughput,
     ProvisionedThroughput? provisionedThroughput,
     List<ReplicationGroupUpdate>? replicaUpdates,
     SSESpecification? sSESpecification,
     StreamSpecification? streamSpecification,
     TableClass? tableClass,
+    WarmThroughput? warmThroughput,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -5614,6 +5817,13 @@ class DynamoDB {
           'DeletionProtectionEnabled': deletionProtectionEnabled,
         if (globalSecondaryIndexUpdates != null)
           'GlobalSecondaryIndexUpdates': globalSecondaryIndexUpdates,
+        if (globalTableSettingsReplicationMode != null)
+          'GlobalTableSettingsReplicationMode':
+              globalTableSettingsReplicationMode.value,
+        if (globalTableWitnessUpdates != null)
+          'GlobalTableWitnessUpdates': globalTableWitnessUpdates,
+        if (multiRegionConsistency != null)
+          'MultiRegionConsistency': multiRegionConsistency.value,
         if (onDemandThroughput != null)
           'OnDemandThroughput': onDemandThroughput,
         if (provisionedThroughput != null)
@@ -5623,6 +5833,7 @@ class DynamoDB {
         if (streamSpecification != null)
           'StreamSpecification': streamSpecification,
         if (tableClass != null) 'TableClass': tableClass.value,
+        if (warmThroughput != null) 'WarmThroughput': warmThroughput,
       },
     );
 
@@ -5630,15 +5841,11 @@ class DynamoDB {
   }
 
   /// Updates auto scaling settings on your global tables at once.
-  /// <important>
-  /// For global tables, this operation only applies to global tables using
-  /// Version 2019.11.21 (Current version).
-  /// </important>
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
-  /// May throw [LimitExceededException].
   /// May throw [InternalServerError].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [tableName] :
   /// The name of the global table to be updated. You can also provide the
@@ -5712,10 +5919,11 @@ class DynamoDB {
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/TTL.html">Time
   /// To Live</a> in the Amazon DynamoDB Developer Guide.
   ///
+  /// May throw [InternalServerError].
+  /// May throw [InvalidEndpointException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceInUseException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalServerError].
   ///
   /// Parameter [tableName] :
   /// The name of the table to be configured. You can also provide the Amazon
@@ -5746,1008 +5954,6 @@ class DynamoDB {
 
     return UpdateTimeToLiveOutput.fromJson(jsonResponse.body);
   }
-}
-
-class ApproximateCreationDateTimePrecision {
-  static const millisecond =
-      ApproximateCreationDateTimePrecision._('MILLISECOND');
-  static const microsecond =
-      ApproximateCreationDateTimePrecision._('MICROSECOND');
-
-  final String value;
-
-  const ApproximateCreationDateTimePrecision._(this.value);
-
-  static const values = [millisecond, microsecond];
-
-  static ApproximateCreationDateTimePrecision fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ApproximateCreationDateTimePrecision._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ApproximateCreationDateTimePrecision && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains details of a table archival operation.
-class ArchivalSummary {
-  /// The Amazon Resource Name (ARN) of the backup the table was archived to, when
-  /// applicable in the archival reason. If you wish to restore this backup to the
-  /// same table name, you will need to delete the original table.
-  final String? archivalBackupArn;
-
-  /// The date and time when table archival was initiated by DynamoDB, in UNIX
-  /// epoch time format.
-  final DateTime? archivalDateTime;
-
-  /// The reason DynamoDB archived the table. Currently, the only possible value
-  /// is:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>INACCESSIBLE_ENCRYPTION_CREDENTIALS</code> - The table was archived
-  /// due to the table's KMS key being inaccessible for more than seven days. An
-  /// On-Demand backup was created at the archival time.
-  /// </li>
-  /// </ul>
-  final String? archivalReason;
-
-  ArchivalSummary({
-    this.archivalBackupArn,
-    this.archivalDateTime,
-    this.archivalReason,
-  });
-
-  factory ArchivalSummary.fromJson(Map<String, dynamic> json) {
-    return ArchivalSummary(
-      archivalBackupArn: json['ArchivalBackupArn'] as String?,
-      archivalDateTime: timeStampFromJson(json['ArchivalDateTime']),
-      archivalReason: json['ArchivalReason'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final archivalBackupArn = this.archivalBackupArn;
-    final archivalDateTime = this.archivalDateTime;
-    final archivalReason = this.archivalReason;
-    return {
-      if (archivalBackupArn != null) 'ArchivalBackupArn': archivalBackupArn,
-      if (archivalDateTime != null)
-        'ArchivalDateTime': unixTimestampToJson(archivalDateTime),
-      if (archivalReason != null) 'ArchivalReason': archivalReason,
-    };
-  }
-}
-
-class AttributeAction {
-  static const add = AttributeAction._('ADD');
-  static const put = AttributeAction._('PUT');
-  static const delete = AttributeAction._('DELETE');
-
-  final String value;
-
-  const AttributeAction._(this.value);
-
-  static const values = [add, put, delete];
-
-  static AttributeAction fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AttributeAction._(value));
-
-  @override
-  bool operator ==(other) => other is AttributeAction && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents an attribute for describing the schema for the table and indexes.
-class AttributeDefinition {
-  /// A name for the attribute.
-  final String attributeName;
-
-  /// The data type for the attribute, where:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>S</code> - the attribute is of type String
-  /// </li>
-  /// <li>
-  /// <code>N</code> - the attribute is of type Number
-  /// </li>
-  /// <li>
-  /// <code>B</code> - the attribute is of type Binary
-  /// </li>
-  /// </ul>
-  final ScalarAttributeType attributeType;
-
-  AttributeDefinition({
-    required this.attributeName,
-    required this.attributeType,
-  });
-
-  factory AttributeDefinition.fromJson(Map<String, dynamic> json) {
-    return AttributeDefinition(
-      attributeName: (json['AttributeName'] as String?) ?? '',
-      attributeType: ScalarAttributeType.fromString(
-          (json['AttributeType'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attributeName = this.attributeName;
-    final attributeType = this.attributeType;
-    return {
-      'AttributeName': attributeName,
-      'AttributeType': attributeType.value,
-    };
-  }
-}
-
-/// Represents the data for an attribute.
-///
-/// Each attribute value is described as a name-value pair. The name is the data
-/// type, and the value is the data itself.
-///
-/// For more information, see <a
-/// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.NamingRulesDataTypes.html#HowItWorks.DataTypes">Data
-/// Types</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-class AttributeValue {
-  /// An attribute of type Binary. For example:
-  ///
-  /// <code>"B": "dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk"</code>
-  final Uint8List? b;
-
-  /// An attribute of type Boolean. For example:
-  ///
-  /// <code>"BOOL": true</code>
-  final bool? boolValue;
-
-  /// An attribute of type Binary Set. For example:
-  ///
-  /// <code>"BS": ["U3Vubnk=", "UmFpbnk=", "U25vd3k="]</code>
-  final List<Uint8List>? bs;
-
-  /// An attribute of type List. For example:
-  ///
-  /// <code>"L": [ {"S": "Cookies"} , {"S": "Coffee"}, {"N": "3.14159"}]</code>
-  final List<AttributeValue>? l;
-
-  /// An attribute of type Map. For example:
-  ///
-  /// <code>"M": {"Name": {"S": "Joe"}, "Age": {"N": "35"}}</code>
-  final Map<String, AttributeValue>? m;
-
-  /// An attribute of type Number. For example:
-  ///
-  /// <code>"N": "123.45"</code>
-  ///
-  /// Numbers are sent across the network to DynamoDB as strings, to maximize
-  /// compatibility across languages and libraries. However, DynamoDB treats them
-  /// as number type attributes for mathematical operations.
-  final String? n;
-
-  /// An attribute of type Number Set. For example:
-  ///
-  /// <code>"NS": ["42.2", "-19", "7.5", "3.14"]</code>
-  ///
-  /// Numbers are sent across the network to DynamoDB as strings, to maximize
-  /// compatibility across languages and libraries. However, DynamoDB treats them
-  /// as number type attributes for mathematical operations.
-  final List<String>? ns;
-
-  /// An attribute of type Null. For example:
-  ///
-  /// <code>"NULL": true</code>
-  final bool? nullValue;
-
-  /// An attribute of type String. For example:
-  ///
-  /// <code>"S": "Hello"</code>
-  final String? s;
-
-  /// An attribute of type String Set. For example:
-  ///
-  /// <code>"SS": ["Giraffe", "Hippo" ,"Zebra"]</code>
-  final List<String>? ss;
-
-  AttributeValue({
-    this.b,
-    this.boolValue,
-    this.bs,
-    this.l,
-    this.m,
-    this.n,
-    this.ns,
-    this.nullValue,
-    this.s,
-    this.ss,
-  });
-
-  factory AttributeValue.fromJson(Map<String, dynamic> json) {
-    return AttributeValue(
-      b: _s.decodeNullableUint8List(json['B'] as String?),
-      boolValue: json['BOOL'] as bool?,
-      bs: (json['BS'] as List?)
-          ?.nonNulls
-          .map((e) => _s.decodeUint8List(e as String))
-          .toList(),
-      l: (json['L'] as List?)
-          ?.nonNulls
-          .map((e) => AttributeValue.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      m: (json['M'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
-      n: json['N'] as String?,
-      ns: (json['NS'] as List?)?.nonNulls.map((e) => e as String).toList(),
-      nullValue: json['NULL'] as bool?,
-      s: json['S'] as String?,
-      ss: (json['SS'] as List?)?.nonNulls.map((e) => e as String).toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final b = this.b;
-    final boolValue = this.boolValue;
-    final bs = this.bs;
-    final l = this.l;
-    final m = this.m;
-    final n = this.n;
-    final ns = this.ns;
-    final nullValue = this.nullValue;
-    final s = this.s;
-    final ss = this.ss;
-    return {
-      if (b != null) 'B': base64Encode(b),
-      if (boolValue != null) 'BOOL': boolValue,
-      if (bs != null) 'BS': bs.map(base64Encode).toList(),
-      if (l != null) 'L': l,
-      if (m != null) 'M': m,
-      if (n != null) 'N': n,
-      if (ns != null) 'NS': ns,
-      if (nullValue != null) 'NULL': nullValue,
-      if (s != null) 'S': s,
-      if (ss != null) 'SS': ss,
-    };
-  }
-}
-
-/// For the <code>UpdateItem</code> operation, represents the attributes to be
-/// modified, the action to perform on each, and the new value for each.
-/// <note>
-/// You cannot use <code>UpdateItem</code> to update any primary key attributes.
-/// Instead, you will need to delete the item, and then use <code>PutItem</code>
-/// to create a new item with new attributes.
-/// </note>
-/// Attribute values cannot be null; string and binary type attributes must have
-/// lengths greater than zero; and set type attributes must not be empty.
-/// Requests with empty values will be rejected with a
-/// <code>ValidationException</code> exception.
-class AttributeValueUpdate {
-  /// Specifies how to perform the update. Valid values are <code>PUT</code>
-  /// (default), <code>DELETE</code>, and <code>ADD</code>. The behavior depends
-  /// on whether the specified primary key already exists in the table.
-  ///
-  /// <b>If an item with the specified <i>Key</i> is found in the table:</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>PUT</code> - Adds the specified attribute to the item. If the
-  /// attribute already exists, it is replaced by the new value.
-  /// </li>
-  /// <li>
-  /// <code>DELETE</code> - If no value is specified, the attribute and its value
-  /// are removed from the item. The data type of the specified value must match
-  /// the existing value's data type.
-  ///
-  /// If a <i>set</i> of values is specified, then those values are subtracted
-  /// from the old set. For example, if the attribute value was the set
-  /// <code>[a,b,c]</code> and the <code>DELETE</code> action specified
-  /// <code>[a,c]</code>, then the final attribute value would be
-  /// <code>[b]</code>. Specifying an empty set is an error.
-  /// </li>
-  /// <li>
-  /// <code>ADD</code> - If the attribute does not already exist, then the
-  /// attribute and its values are added to the item. If the attribute does exist,
-  /// then the behavior of <code>ADD</code> depends on the data type of the
-  /// attribute:
-  ///
-  /// <ul>
-  /// <li>
-  /// If the existing attribute is a number, and if <code>Value</code> is also a
-  /// number, then the <code>Value</code> is mathematically added to the existing
-  /// attribute. If <code>Value</code> is a negative number, then it is subtracted
-  /// from the existing attribute.
-  /// <note>
-  /// If you use <code>ADD</code> to increment or decrement a number value for an
-  /// item that doesn't exist before the update, DynamoDB uses 0 as the initial
-  /// value.
-  ///
-  /// In addition, if you use <code>ADD</code> to update an existing item, and
-  /// intend to increment or decrement an attribute value which does not yet
-  /// exist, DynamoDB uses <code>0</code> as the initial value. For example,
-  /// suppose that the item you want to update does not yet have an attribute
-  /// named <i>itemcount</i>, but you decide to <code>ADD</code> the number
-  /// <code>3</code> to this attribute anyway, even though it currently does not
-  /// exist. DynamoDB will create the <i>itemcount</i> attribute, set its initial
-  /// value to <code>0</code>, and finally add <code>3</code> to it. The result
-  /// will be a new <i>itemcount</i> attribute in the item, with a value of
-  /// <code>3</code>.
-  /// </note> </li>
-  /// <li>
-  /// If the existing data type is a set, and if the <code>Value</code> is also a
-  /// set, then the <code>Value</code> is added to the existing set. (This is a
-  /// <i>set</i> operation, not mathematical addition.) For example, if the
-  /// attribute value was the set <code>[1,2]</code>, and the <code>ADD</code>
-  /// action specified <code>[3]</code>, then the final attribute value would be
-  /// <code>[1,2,3]</code>. An error occurs if an Add action is specified for a
-  /// set attribute and the attribute type specified does not match the existing
-  /// set type.
-  ///
-  /// Both sets must have the same primitive data type. For example, if the
-  /// existing data type is a set of strings, the <code>Value</code> must also be
-  /// a set of strings. The same holds true for number sets and binary sets.
-  /// </li>
-  /// </ul>
-  /// This action is only valid for an existing attribute whose data type is
-  /// number or is a set. Do not use <code>ADD</code> for any other data types.
-  /// </li>
-  /// </ul>
-  /// <b>If no item with the specified <i>Key</i> is found:</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>PUT</code> - DynamoDB creates a new item with the specified primary
-  /// key, and then adds the attribute.
-  /// </li>
-  /// <li>
-  /// <code>DELETE</code> - Nothing happens; there is no attribute to delete.
-  /// </li>
-  /// <li>
-  /// <code>ADD</code> - DynamoDB creates a new item with the supplied primary key
-  /// and number (or set) for the attribute value. The only data types allowed are
-  /// number, number set, string set or binary set.
-  /// </li>
-  /// </ul>
-  final AttributeAction? action;
-
-  /// Represents the data for an attribute.
-  ///
-  /// Each attribute value is described as a name-value pair. The name is the data
-  /// type, and the value is the data itself.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.NamingRulesDataTypes.html#HowItWorks.DataTypes">Data
-  /// Types</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-  final AttributeValue? value;
-
-  AttributeValueUpdate({
-    this.action,
-    this.value,
-  });
-
-  Map<String, dynamic> toJson() {
-    final action = this.action;
-    final value = this.value;
-    return {
-      if (action != null) 'Action': action.value,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-/// Represents the properties of the scaling policy.
-class AutoScalingPolicyDescription {
-  /// The name of the scaling policy.
-  final String? policyName;
-
-  /// Represents a target tracking scaling policy configuration.
-  final AutoScalingTargetTrackingScalingPolicyConfigurationDescription?
-      targetTrackingScalingPolicyConfiguration;
-
-  AutoScalingPolicyDescription({
-    this.policyName,
-    this.targetTrackingScalingPolicyConfiguration,
-  });
-
-  factory AutoScalingPolicyDescription.fromJson(Map<String, dynamic> json) {
-    return AutoScalingPolicyDescription(
-      policyName: json['PolicyName'] as String?,
-      targetTrackingScalingPolicyConfiguration:
-          json['TargetTrackingScalingPolicyConfiguration'] != null
-              ? AutoScalingTargetTrackingScalingPolicyConfigurationDescription
-                  .fromJson(json['TargetTrackingScalingPolicyConfiguration']
-                      as Map<String, dynamic>)
-              : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final policyName = this.policyName;
-    final targetTrackingScalingPolicyConfiguration =
-        this.targetTrackingScalingPolicyConfiguration;
-    return {
-      if (policyName != null) 'PolicyName': policyName,
-      if (targetTrackingScalingPolicyConfiguration != null)
-        'TargetTrackingScalingPolicyConfiguration':
-            targetTrackingScalingPolicyConfiguration,
-    };
-  }
-}
-
-/// Represents the auto scaling policy to be modified.
-class AutoScalingPolicyUpdate {
-  /// Represents a target tracking scaling policy configuration.
-  final AutoScalingTargetTrackingScalingPolicyConfigurationUpdate
-      targetTrackingScalingPolicyConfiguration;
-
-  /// The name of the scaling policy.
-  final String? policyName;
-
-  AutoScalingPolicyUpdate({
-    required this.targetTrackingScalingPolicyConfiguration,
-    this.policyName,
-  });
-
-  Map<String, dynamic> toJson() {
-    final targetTrackingScalingPolicyConfiguration =
-        this.targetTrackingScalingPolicyConfiguration;
-    final policyName = this.policyName;
-    return {
-      'TargetTrackingScalingPolicyConfiguration':
-          targetTrackingScalingPolicyConfiguration,
-      if (policyName != null) 'PolicyName': policyName,
-    };
-  }
-}
-
-/// Represents the auto scaling settings for a global table or global secondary
-/// index.
-class AutoScalingSettingsDescription {
-  /// Disabled auto scaling for this global table or global secondary index.
-  final bool? autoScalingDisabled;
-
-  /// Role ARN used for configuring the auto scaling policy.
-  final String? autoScalingRoleArn;
-
-  /// The maximum capacity units that a global table or global secondary index
-  /// should be scaled up to.
-  final int? maximumUnits;
-
-  /// The minimum capacity units that a global table or global secondary index
-  /// should be scaled down to.
-  final int? minimumUnits;
-
-  /// Information about the scaling policies.
-  final List<AutoScalingPolicyDescription>? scalingPolicies;
-
-  AutoScalingSettingsDescription({
-    this.autoScalingDisabled,
-    this.autoScalingRoleArn,
-    this.maximumUnits,
-    this.minimumUnits,
-    this.scalingPolicies,
-  });
-
-  factory AutoScalingSettingsDescription.fromJson(Map<String, dynamic> json) {
-    return AutoScalingSettingsDescription(
-      autoScalingDisabled: json['AutoScalingDisabled'] as bool?,
-      autoScalingRoleArn: json['AutoScalingRoleArn'] as String?,
-      maximumUnits: json['MaximumUnits'] as int?,
-      minimumUnits: json['MinimumUnits'] as int?,
-      scalingPolicies: (json['ScalingPolicies'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              AutoScalingPolicyDescription.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final autoScalingDisabled = this.autoScalingDisabled;
-    final autoScalingRoleArn = this.autoScalingRoleArn;
-    final maximumUnits = this.maximumUnits;
-    final minimumUnits = this.minimumUnits;
-    final scalingPolicies = this.scalingPolicies;
-    return {
-      if (autoScalingDisabled != null)
-        'AutoScalingDisabled': autoScalingDisabled,
-      if (autoScalingRoleArn != null) 'AutoScalingRoleArn': autoScalingRoleArn,
-      if (maximumUnits != null) 'MaximumUnits': maximumUnits,
-      if (minimumUnits != null) 'MinimumUnits': minimumUnits,
-      if (scalingPolicies != null) 'ScalingPolicies': scalingPolicies,
-    };
-  }
-}
-
-/// Represents the auto scaling settings to be modified for a global table or
-/// global secondary index.
-class AutoScalingSettingsUpdate {
-  /// Disabled auto scaling for this global table or global secondary index.
-  final bool? autoScalingDisabled;
-
-  /// Role ARN used for configuring auto scaling policy.
-  final String? autoScalingRoleArn;
-
-  /// The maximum capacity units that a global table or global secondary index
-  /// should be scaled up to.
-  final int? maximumUnits;
-
-  /// The minimum capacity units that a global table or global secondary index
-  /// should be scaled down to.
-  final int? minimumUnits;
-
-  /// The scaling policy to apply for scaling target global table or global
-  /// secondary index capacity units.
-  final AutoScalingPolicyUpdate? scalingPolicyUpdate;
-
-  AutoScalingSettingsUpdate({
-    this.autoScalingDisabled,
-    this.autoScalingRoleArn,
-    this.maximumUnits,
-    this.minimumUnits,
-    this.scalingPolicyUpdate,
-  });
-
-  Map<String, dynamic> toJson() {
-    final autoScalingDisabled = this.autoScalingDisabled;
-    final autoScalingRoleArn = this.autoScalingRoleArn;
-    final maximumUnits = this.maximumUnits;
-    final minimumUnits = this.minimumUnits;
-    final scalingPolicyUpdate = this.scalingPolicyUpdate;
-    return {
-      if (autoScalingDisabled != null)
-        'AutoScalingDisabled': autoScalingDisabled,
-      if (autoScalingRoleArn != null) 'AutoScalingRoleArn': autoScalingRoleArn,
-      if (maximumUnits != null) 'MaximumUnits': maximumUnits,
-      if (minimumUnits != null) 'MinimumUnits': minimumUnits,
-      if (scalingPolicyUpdate != null)
-        'ScalingPolicyUpdate': scalingPolicyUpdate,
-    };
-  }
-}
-
-/// Represents the properties of a target tracking scaling policy.
-class AutoScalingTargetTrackingScalingPolicyConfigurationDescription {
-  /// The target value for the metric. The range is 8.515920e-109 to 1.174271e+108
-  /// (Base 10) or 2e-360 to 2e360 (Base 2).
-  final double targetValue;
-
-  /// Indicates whether scale in by the target tracking policy is disabled. If the
-  /// value is true, scale in is disabled and the target tracking policy won't
-  /// remove capacity from the scalable resource. Otherwise, scale in is enabled
-  /// and the target tracking policy can remove capacity from the scalable
-  /// resource. The default value is false.
-  final bool? disableScaleIn;
-
-  /// The amount of time, in seconds, after a scale in activity completes before
-  /// another scale in activity can start. The cooldown period is used to block
-  /// subsequent scale in requests until it has expired. You should scale in
-  /// conservatively to protect your application's availability. However, if
-  /// another alarm triggers a scale out policy during the cooldown period after a
-  /// scale-in, application auto scaling scales out your scalable target
-  /// immediately.
-  final int? scaleInCooldown;
-
-  /// The amount of time, in seconds, after a scale out activity completes before
-  /// another scale out activity can start. While the cooldown period is in
-  /// effect, the capacity that has been added by the previous scale out event
-  /// that initiated the cooldown is calculated as part of the desired capacity
-  /// for the next scale out. You should continuously (but not excessively) scale
-  /// out.
-  final int? scaleOutCooldown;
-
-  AutoScalingTargetTrackingScalingPolicyConfigurationDescription({
-    required this.targetValue,
-    this.disableScaleIn,
-    this.scaleInCooldown,
-    this.scaleOutCooldown,
-  });
-
-  factory AutoScalingTargetTrackingScalingPolicyConfigurationDescription.fromJson(
-      Map<String, dynamic> json) {
-    return AutoScalingTargetTrackingScalingPolicyConfigurationDescription(
-      targetValue: (json['TargetValue'] as double?) ?? 0,
-      disableScaleIn: json['DisableScaleIn'] as bool?,
-      scaleInCooldown: json['ScaleInCooldown'] as int?,
-      scaleOutCooldown: json['ScaleOutCooldown'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final targetValue = this.targetValue;
-    final disableScaleIn = this.disableScaleIn;
-    final scaleInCooldown = this.scaleInCooldown;
-    final scaleOutCooldown = this.scaleOutCooldown;
-    return {
-      'TargetValue': targetValue,
-      if (disableScaleIn != null) 'DisableScaleIn': disableScaleIn,
-      if (scaleInCooldown != null) 'ScaleInCooldown': scaleInCooldown,
-      if (scaleOutCooldown != null) 'ScaleOutCooldown': scaleOutCooldown,
-    };
-  }
-}
-
-/// Represents the settings of a target tracking scaling policy that will be
-/// modified.
-class AutoScalingTargetTrackingScalingPolicyConfigurationUpdate {
-  /// The target value for the metric. The range is 8.515920e-109 to 1.174271e+108
-  /// (Base 10) or 2e-360 to 2e360 (Base 2).
-  final double targetValue;
-
-  /// Indicates whether scale in by the target tracking policy is disabled. If the
-  /// value is true, scale in is disabled and the target tracking policy won't
-  /// remove capacity from the scalable resource. Otherwise, scale in is enabled
-  /// and the target tracking policy can remove capacity from the scalable
-  /// resource. The default value is false.
-  final bool? disableScaleIn;
-
-  /// The amount of time, in seconds, after a scale in activity completes before
-  /// another scale in activity can start. The cooldown period is used to block
-  /// subsequent scale in requests until it has expired. You should scale in
-  /// conservatively to protect your application's availability. However, if
-  /// another alarm triggers a scale out policy during the cooldown period after a
-  /// scale-in, application auto scaling scales out your scalable target
-  /// immediately.
-  final int? scaleInCooldown;
-
-  /// The amount of time, in seconds, after a scale out activity completes before
-  /// another scale out activity can start. While the cooldown period is in
-  /// effect, the capacity that has been added by the previous scale out event
-  /// that initiated the cooldown is calculated as part of the desired capacity
-  /// for the next scale out. You should continuously (but not excessively) scale
-  /// out.
-  final int? scaleOutCooldown;
-
-  AutoScalingTargetTrackingScalingPolicyConfigurationUpdate({
-    required this.targetValue,
-    this.disableScaleIn,
-    this.scaleInCooldown,
-    this.scaleOutCooldown,
-  });
-
-  Map<String, dynamic> toJson() {
-    final targetValue = this.targetValue;
-    final disableScaleIn = this.disableScaleIn;
-    final scaleInCooldown = this.scaleInCooldown;
-    final scaleOutCooldown = this.scaleOutCooldown;
-    return {
-      'TargetValue': targetValue,
-      if (disableScaleIn != null) 'DisableScaleIn': disableScaleIn,
-      if (scaleInCooldown != null) 'ScaleInCooldown': scaleInCooldown,
-      if (scaleOutCooldown != null) 'ScaleOutCooldown': scaleOutCooldown,
-    };
-  }
-}
-
-/// Contains the description of the backup created for the table.
-class BackupDescription {
-  /// Contains the details of the backup created for the table.
-  final BackupDetails? backupDetails;
-
-  /// Contains the details of the table when the backup was created.
-  final SourceTableDetails? sourceTableDetails;
-
-  /// Contains the details of the features enabled on the table when the backup
-  /// was created. For example, LSIs, GSIs, streams, TTL.
-  final SourceTableFeatureDetails? sourceTableFeatureDetails;
-
-  BackupDescription({
-    this.backupDetails,
-    this.sourceTableDetails,
-    this.sourceTableFeatureDetails,
-  });
-
-  factory BackupDescription.fromJson(Map<String, dynamic> json) {
-    return BackupDescription(
-      backupDetails: json['BackupDetails'] != null
-          ? BackupDetails.fromJson(
-              json['BackupDetails'] as Map<String, dynamic>)
-          : null,
-      sourceTableDetails: json['SourceTableDetails'] != null
-          ? SourceTableDetails.fromJson(
-              json['SourceTableDetails'] as Map<String, dynamic>)
-          : null,
-      sourceTableFeatureDetails: json['SourceTableFeatureDetails'] != null
-          ? SourceTableFeatureDetails.fromJson(
-              json['SourceTableFeatureDetails'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final backupDetails = this.backupDetails;
-    final sourceTableDetails = this.sourceTableDetails;
-    final sourceTableFeatureDetails = this.sourceTableFeatureDetails;
-    return {
-      if (backupDetails != null) 'BackupDetails': backupDetails,
-      if (sourceTableDetails != null) 'SourceTableDetails': sourceTableDetails,
-      if (sourceTableFeatureDetails != null)
-        'SourceTableFeatureDetails': sourceTableFeatureDetails,
-    };
-  }
-}
-
-/// Contains the details of the backup created for the table.
-class BackupDetails {
-  /// ARN associated with the backup.
-  final String backupArn;
-
-  /// Time at which the backup was created. This is the request time of the
-  /// backup.
-  final DateTime backupCreationDateTime;
-
-  /// Name of the requested backup.
-  final String backupName;
-
-  /// Backup can be in one of the following states: CREATING, ACTIVE, DELETED.
-  final BackupStatus backupStatus;
-
-  /// BackupType:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>USER</code> - You create and manage these using the on-demand backup
-  /// feature.
-  /// </li>
-  /// <li>
-  /// <code>SYSTEM</code> - If you delete a table with point-in-time recovery
-  /// enabled, a <code>SYSTEM</code> backup is automatically created and is
-  /// retained for 35 days (at no additional cost). System backups allow you to
-  /// restore the deleted table to the state it was in just before the point of
-  /// deletion.
-  /// </li>
-  /// <li>
-  /// <code>AWS_BACKUP</code> - On-demand backup created by you from Backup
-  /// service.
-  /// </li>
-  /// </ul>
-  final BackupType backupType;
-
-  /// Time at which the automatic on-demand backup created by DynamoDB will
-  /// expire. This <code>SYSTEM</code> on-demand backup expires automatically 35
-  /// days after its creation.
-  final DateTime? backupExpiryDateTime;
-
-  /// Size of the backup in bytes. DynamoDB updates this value approximately every
-  /// six hours. Recent changes might not be reflected in this value.
-  final int? backupSizeBytes;
-
-  BackupDetails({
-    required this.backupArn,
-    required this.backupCreationDateTime,
-    required this.backupName,
-    required this.backupStatus,
-    required this.backupType,
-    this.backupExpiryDateTime,
-    this.backupSizeBytes,
-  });
-
-  factory BackupDetails.fromJson(Map<String, dynamic> json) {
-    return BackupDetails(
-      backupArn: (json['BackupArn'] as String?) ?? '',
-      backupCreationDateTime:
-          nonNullableTimeStampFromJson(json['BackupCreationDateTime'] ?? 0),
-      backupName: (json['BackupName'] as String?) ?? '',
-      backupStatus:
-          BackupStatus.fromString((json['BackupStatus'] as String?) ?? ''),
-      backupType: BackupType.fromString((json['BackupType'] as String?) ?? ''),
-      backupExpiryDateTime: timeStampFromJson(json['BackupExpiryDateTime']),
-      backupSizeBytes: json['BackupSizeBytes'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final backupArn = this.backupArn;
-    final backupCreationDateTime = this.backupCreationDateTime;
-    final backupName = this.backupName;
-    final backupStatus = this.backupStatus;
-    final backupType = this.backupType;
-    final backupExpiryDateTime = this.backupExpiryDateTime;
-    final backupSizeBytes = this.backupSizeBytes;
-    return {
-      'BackupArn': backupArn,
-      'BackupCreationDateTime': unixTimestampToJson(backupCreationDateTime),
-      'BackupName': backupName,
-      'BackupStatus': backupStatus.value,
-      'BackupType': backupType.value,
-      if (backupExpiryDateTime != null)
-        'BackupExpiryDateTime': unixTimestampToJson(backupExpiryDateTime),
-      if (backupSizeBytes != null) 'BackupSizeBytes': backupSizeBytes,
-    };
-  }
-}
-
-class BackupStatus {
-  static const creating = BackupStatus._('CREATING');
-  static const deleted = BackupStatus._('DELETED');
-  static const available = BackupStatus._('AVAILABLE');
-
-  final String value;
-
-  const BackupStatus._(this.value);
-
-  static const values = [creating, deleted, available];
-
-  static BackupStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => BackupStatus._(value));
-
-  @override
-  bool operator ==(other) => other is BackupStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains details for the backup.
-class BackupSummary {
-  /// ARN associated with the backup.
-  final String? backupArn;
-
-  /// Time at which the backup was created.
-  final DateTime? backupCreationDateTime;
-
-  /// Time at which the automatic on-demand backup created by DynamoDB will
-  /// expire. This <code>SYSTEM</code> on-demand backup expires automatically 35
-  /// days after its creation.
-  final DateTime? backupExpiryDateTime;
-
-  /// Name of the specified backup.
-  final String? backupName;
-
-  /// Size of the backup in bytes.
-  final int? backupSizeBytes;
-
-  /// Backup can be in one of the following states: CREATING, ACTIVE, DELETED.
-  final BackupStatus? backupStatus;
-
-  /// BackupType:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>USER</code> - You create and manage these using the on-demand backup
-  /// feature.
-  /// </li>
-  /// <li>
-  /// <code>SYSTEM</code> - If you delete a table with point-in-time recovery
-  /// enabled, a <code>SYSTEM</code> backup is automatically created and is
-  /// retained for 35 days (at no additional cost). System backups allow you to
-  /// restore the deleted table to the state it was in just before the point of
-  /// deletion.
-  /// </li>
-  /// <li>
-  /// <code>AWS_BACKUP</code> - On-demand backup created by you from Backup
-  /// service.
-  /// </li>
-  /// </ul>
-  final BackupType? backupType;
-
-  /// ARN associated with the table.
-  final String? tableArn;
-
-  /// Unique identifier for the table.
-  final String? tableId;
-
-  /// Name of the table.
-  final String? tableName;
-
-  BackupSummary({
-    this.backupArn,
-    this.backupCreationDateTime,
-    this.backupExpiryDateTime,
-    this.backupName,
-    this.backupSizeBytes,
-    this.backupStatus,
-    this.backupType,
-    this.tableArn,
-    this.tableId,
-    this.tableName,
-  });
-
-  factory BackupSummary.fromJson(Map<String, dynamic> json) {
-    return BackupSummary(
-      backupArn: json['BackupArn'] as String?,
-      backupCreationDateTime: timeStampFromJson(json['BackupCreationDateTime']),
-      backupExpiryDateTime: timeStampFromJson(json['BackupExpiryDateTime']),
-      backupName: json['BackupName'] as String?,
-      backupSizeBytes: json['BackupSizeBytes'] as int?,
-      backupStatus:
-          (json['BackupStatus'] as String?)?.let(BackupStatus.fromString),
-      backupType: (json['BackupType'] as String?)?.let(BackupType.fromString),
-      tableArn: json['TableArn'] as String?,
-      tableId: json['TableId'] as String?,
-      tableName: json['TableName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final backupArn = this.backupArn;
-    final backupCreationDateTime = this.backupCreationDateTime;
-    final backupExpiryDateTime = this.backupExpiryDateTime;
-    final backupName = this.backupName;
-    final backupSizeBytes = this.backupSizeBytes;
-    final backupStatus = this.backupStatus;
-    final backupType = this.backupType;
-    final tableArn = this.tableArn;
-    final tableId = this.tableId;
-    final tableName = this.tableName;
-    return {
-      if (backupArn != null) 'BackupArn': backupArn,
-      if (backupCreationDateTime != null)
-        'BackupCreationDateTime': unixTimestampToJson(backupCreationDateTime),
-      if (backupExpiryDateTime != null)
-        'BackupExpiryDateTime': unixTimestampToJson(backupExpiryDateTime),
-      if (backupName != null) 'BackupName': backupName,
-      if (backupSizeBytes != null) 'BackupSizeBytes': backupSizeBytes,
-      if (backupStatus != null) 'BackupStatus': backupStatus.value,
-      if (backupType != null) 'BackupType': backupType.value,
-      if (tableArn != null) 'TableArn': tableArn,
-      if (tableId != null) 'TableId': tableId,
-      if (tableName != null) 'TableName': tableName,
-    };
-  }
-}
-
-class BackupType {
-  static const user = BackupType._('USER');
-  static const system = BackupType._('SYSTEM');
-  static const awsBackup = BackupType._('AWS_BACKUP');
-
-  final String value;
-
-  const BackupType._(this.value);
-
-  static const values = [user, system, awsBackup];
-
-  static BackupType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => BackupType._(value));
-
-  @override
-  bool operator ==(other) => other is BackupType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class BackupTypeFilter {
-  static const user = BackupTypeFilter._('USER');
-  static const system = BackupTypeFilter._('SYSTEM');
-  static const awsBackup = BackupTypeFilter._('AWS_BACKUP');
-  static const all = BackupTypeFilter._('ALL');
-
-  final String value;
-
-  const BackupTypeFilter._(this.value);
-
-  static const values = [user, system, awsBackup, all];
-
-  static BackupTypeFilter fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => BackupTypeFilter._(value));
-
-  @override
-  bool operator ==(other) => other is BackupTypeFilter && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class BatchExecuteStatementOutput {
@@ -6873,185 +6079,6 @@ class BatchGetItemOutput {
       if (consumedCapacity != null) 'ConsumedCapacity': consumedCapacity,
       if (responses != null) 'Responses': responses,
       if (unprocessedKeys != null) 'UnprocessedKeys': unprocessedKeys,
-    };
-  }
-}
-
-/// An error associated with a statement in a PartiQL batch that was run.
-class BatchStatementError {
-  /// The error code associated with the failed PartiQL batch statement.
-  final BatchStatementErrorCodeEnum? code;
-
-  /// The item which caused the condition check to fail. This will be set if
-  /// ReturnValuesOnConditionCheckFailure is specified as <code>ALL_OLD</code>.
-  final Map<String, AttributeValue>? item;
-
-  /// The error message associated with the PartiQL batch response.
-  final String? message;
-
-  BatchStatementError({
-    this.code,
-    this.item,
-    this.message,
-  });
-
-  factory BatchStatementError.fromJson(Map<String, dynamic> json) {
-    return BatchStatementError(
-      code: (json['Code'] as String?)
-          ?.let(BatchStatementErrorCodeEnum.fromString),
-      item: (json['Item'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
-      message: json['Message'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final item = this.item;
-    final message = this.message;
-    return {
-      if (code != null) 'Code': code.value,
-      if (item != null) 'Item': item,
-      if (message != null) 'Message': message,
-    };
-  }
-}
-
-class BatchStatementErrorCodeEnum {
-  static const conditionalCheckFailed =
-      BatchStatementErrorCodeEnum._('ConditionalCheckFailed');
-  static const itemCollectionSizeLimitExceeded =
-      BatchStatementErrorCodeEnum._('ItemCollectionSizeLimitExceeded');
-  static const requestLimitExceeded =
-      BatchStatementErrorCodeEnum._('RequestLimitExceeded');
-  static const validationError =
-      BatchStatementErrorCodeEnum._('ValidationError');
-  static const provisionedThroughputExceeded =
-      BatchStatementErrorCodeEnum._('ProvisionedThroughputExceeded');
-  static const transactionConflict =
-      BatchStatementErrorCodeEnum._('TransactionConflict');
-  static const throttlingError =
-      BatchStatementErrorCodeEnum._('ThrottlingError');
-  static const internalServerError =
-      BatchStatementErrorCodeEnum._('InternalServerError');
-  static const resourceNotFound =
-      BatchStatementErrorCodeEnum._('ResourceNotFound');
-  static const accessDenied = BatchStatementErrorCodeEnum._('AccessDenied');
-  static const duplicateItem = BatchStatementErrorCodeEnum._('DuplicateItem');
-
-  final String value;
-
-  const BatchStatementErrorCodeEnum._(this.value);
-
-  static const values = [
-    conditionalCheckFailed,
-    itemCollectionSizeLimitExceeded,
-    requestLimitExceeded,
-    validationError,
-    provisionedThroughputExceeded,
-    transactionConflict,
-    throttlingError,
-    internalServerError,
-    resourceNotFound,
-    accessDenied,
-    duplicateItem
-  ];
-
-  static BatchStatementErrorCodeEnum fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => BatchStatementErrorCodeEnum._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is BatchStatementErrorCodeEnum && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A PartiQL batch statement request.
-class BatchStatementRequest {
-  /// A valid PartiQL statement.
-  final String statement;
-
-  /// The read consistency of the PartiQL batch request.
-  final bool? consistentRead;
-
-  /// The parameters associated with a PartiQL statement in the batch request.
-  final List<AttributeValue>? parameters;
-
-  /// An optional parameter that returns the item attributes for a PartiQL batch
-  /// request operation that failed a condition check.
-  ///
-  /// There is no additional cost associated with requesting a return value aside
-  /// from the small network and processing overhead of receiving a larger
-  /// response. No read capacity units are consumed.
-  final ReturnValuesOnConditionCheckFailure?
-      returnValuesOnConditionCheckFailure;
-
-  BatchStatementRequest({
-    required this.statement,
-    this.consistentRead,
-    this.parameters,
-    this.returnValuesOnConditionCheckFailure,
-  });
-
-  Map<String, dynamic> toJson() {
-    final statement = this.statement;
-    final consistentRead = this.consistentRead;
-    final parameters = this.parameters;
-    final returnValuesOnConditionCheckFailure =
-        this.returnValuesOnConditionCheckFailure;
-    return {
-      'Statement': statement,
-      if (consistentRead != null) 'ConsistentRead': consistentRead,
-      if (parameters != null) 'Parameters': parameters,
-      if (returnValuesOnConditionCheckFailure != null)
-        'ReturnValuesOnConditionCheckFailure':
-            returnValuesOnConditionCheckFailure.value,
-    };
-  }
-}
-
-/// A PartiQL batch statement response..
-class BatchStatementResponse {
-  /// The error associated with a failed PartiQL batch statement.
-  final BatchStatementError? error;
-
-  /// A DynamoDB item associated with a BatchStatementResponse
-  final Map<String, AttributeValue>? item;
-
-  /// The table name associated with a failed PartiQL batch statement.
-  final String? tableName;
-
-  BatchStatementResponse({
-    this.error,
-    this.item,
-    this.tableName,
-  });
-
-  factory BatchStatementResponse.fromJson(Map<String, dynamic> json) {
-    return BatchStatementResponse(
-      error: json['Error'] != null
-          ? BatchStatementError.fromJson(json['Error'] as Map<String, dynamic>)
-          : null,
-      item: (json['Item'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
-      tableName: json['TableName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final error = this.error;
-    final item = this.item;
-    final tableName = this.tableName;
-    return {
-      if (error != null) 'Error': error,
-      if (item != null) 'Item': item,
-      if (tableName != null) 'TableName': tableName,
     };
   }
 }
@@ -7189,733 +6216,6 @@ class BatchWriteItemOutput {
   }
 }
 
-class BillingMode {
-  static const provisioned = BillingMode._('PROVISIONED');
-  static const payPerRequest = BillingMode._('PAY_PER_REQUEST');
-
-  final String value;
-
-  const BillingMode._(this.value);
-
-  static const values = [provisioned, payPerRequest];
-
-  static BillingMode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => BillingMode._(value));
-
-  @override
-  bool operator ==(other) => other is BillingMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains the details for the read/write capacity mode. This page talks about
-/// <code>PROVISIONED</code> and <code>PAY_PER_REQUEST</code> billing modes. For
-/// more information about these modes, see <a
-/// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html">Read/write
-/// capacity mode</a>.
-/// <note>
-/// You may need to switch to on-demand mode at least once in order to return a
-/// <code>BillingModeSummary</code> response.
-/// </note>
-class BillingModeSummary {
-  /// Controls how you are charged for read and write throughput and how you
-  /// manage capacity. This setting can be changed later.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>PROVISIONED</code> - Sets the read/write capacity mode to
-  /// <code>PROVISIONED</code>. We recommend using <code>PROVISIONED</code> for
-  /// predictable workloads.
-  /// </li>
-  /// <li>
-  /// <code>PAY_PER_REQUEST</code> - Sets the read/write capacity mode to
-  /// <code>PAY_PER_REQUEST</code>. We recommend using
-  /// <code>PAY_PER_REQUEST</code> for unpredictable workloads.
-  /// </li>
-  /// </ul>
-  final BillingMode? billingMode;
-
-  /// Represents the time when <code>PAY_PER_REQUEST</code> was last set as the
-  /// read/write capacity mode.
-  final DateTime? lastUpdateToPayPerRequestDateTime;
-
-  BillingModeSummary({
-    this.billingMode,
-    this.lastUpdateToPayPerRequestDateTime,
-  });
-
-  factory BillingModeSummary.fromJson(Map<String, dynamic> json) {
-    return BillingModeSummary(
-      billingMode:
-          (json['BillingMode'] as String?)?.let(BillingMode.fromString),
-      lastUpdateToPayPerRequestDateTime:
-          timeStampFromJson(json['LastUpdateToPayPerRequestDateTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final billingMode = this.billingMode;
-    final lastUpdateToPayPerRequestDateTime =
-        this.lastUpdateToPayPerRequestDateTime;
-    return {
-      if (billingMode != null) 'BillingMode': billingMode.value,
-      if (lastUpdateToPayPerRequestDateTime != null)
-        'LastUpdateToPayPerRequestDateTime':
-            unixTimestampToJson(lastUpdateToPayPerRequestDateTime),
-    };
-  }
-}
-
-/// Represents the amount of provisioned throughput capacity consumed on a table
-/// or an index.
-class Capacity {
-  /// The total number of capacity units consumed on a table or an index.
-  final double? capacityUnits;
-
-  /// The total number of read capacity units consumed on a table or an index.
-  final double? readCapacityUnits;
-
-  /// The total number of write capacity units consumed on a table or an index.
-  final double? writeCapacityUnits;
-
-  Capacity({
-    this.capacityUnits,
-    this.readCapacityUnits,
-    this.writeCapacityUnits,
-  });
-
-  factory Capacity.fromJson(Map<String, dynamic> json) {
-    return Capacity(
-      capacityUnits: json['CapacityUnits'] as double?,
-      readCapacityUnits: json['ReadCapacityUnits'] as double?,
-      writeCapacityUnits: json['WriteCapacityUnits'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final capacityUnits = this.capacityUnits;
-    final readCapacityUnits = this.readCapacityUnits;
-    final writeCapacityUnits = this.writeCapacityUnits;
-    return {
-      if (capacityUnits != null) 'CapacityUnits': capacityUnits,
-      if (readCapacityUnits != null) 'ReadCapacityUnits': readCapacityUnits,
-      if (writeCapacityUnits != null) 'WriteCapacityUnits': writeCapacityUnits,
-    };
-  }
-}
-
-class ComparisonOperator {
-  static const eq = ComparisonOperator._('EQ');
-  static const ne = ComparisonOperator._('NE');
-  static const $in = ComparisonOperator._('IN');
-  static const le = ComparisonOperator._('LE');
-  static const lt = ComparisonOperator._('LT');
-  static const ge = ComparisonOperator._('GE');
-  static const gt = ComparisonOperator._('GT');
-  static const between = ComparisonOperator._('BETWEEN');
-  static const notNull = ComparisonOperator._('NOT_NULL');
-  static const $null = ComparisonOperator._('NULL');
-  static const contains = ComparisonOperator._('CONTAINS');
-  static const notContains = ComparisonOperator._('NOT_CONTAINS');
-  static const beginsWith = ComparisonOperator._('BEGINS_WITH');
-
-  final String value;
-
-  const ComparisonOperator._(this.value);
-
-  static const values = [
-    eq,
-    ne,
-    $in,
-    le,
-    lt,
-    ge,
-    gt,
-    between,
-    notNull,
-    $null,
-    contains,
-    notContains,
-    beginsWith
-  ];
-
-  static ComparisonOperator fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ComparisonOperator._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ComparisonOperator && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents the selection criteria for a <code>Query</code> or
-/// <code>Scan</code> operation:
-///
-/// <ul>
-/// <li>
-/// For a <code>Query</code> operation, <code>Condition</code> is used for
-/// specifying the <code>KeyConditions</code> to use when querying a table or an
-/// index. For <code>KeyConditions</code>, only the following comparison
-/// operators are supported:
-///
-/// <code>EQ | LE | LT | GE | GT | BEGINS_WITH | BETWEEN</code>
-///
-/// <code>Condition</code> is also used in a <code>QueryFilter</code>, which
-/// evaluates the query results and returns only the desired values.
-/// </li>
-/// <li>
-/// For a <code>Scan</code> operation, <code>Condition</code> is used in a
-/// <code>ScanFilter</code>, which evaluates the scan results and returns only
-/// the desired values.
-/// </li>
-/// </ul>
-class Condition {
-  /// A comparator for evaluating attributes. For example, equals, greater than,
-  /// less than, etc.
-  ///
-  /// The following comparison operators are available:
-  ///
-  /// <code>EQ | NE | LE | LT | GE | GT | NOT_NULL | NULL | CONTAINS |
-  /// NOT_CONTAINS | BEGINS_WITH | IN | BETWEEN</code>
-  ///
-  /// The following are descriptions of each comparison operator.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>EQ</code> : Equal. <code>EQ</code> is supported for all data types,
-  /// including lists and maps.
-  ///
-  /// <code>AttributeValueList</code> can contain only one
-  /// <code>AttributeValue</code> element of type String, Number, Binary, String
-  /// Set, Number Set, or Binary Set. If an item contains an
-  /// <code>AttributeValue</code> element of a different type than the one
-  /// provided in the request, the value does not match. For example,
-  /// <code>{"S":"6"}</code> does not equal <code>{"N":"6"}</code>. Also,
-  /// <code>{"N":"6"}</code> does not equal <code>{"NS":["6", "2", "1"]}</code>.
-  /// <p/> </li>
-  /// <li>
-  /// <code>NE</code> : Not equal. <code>NE</code> is supported for all data
-  /// types, including lists and maps.
-  ///
-  /// <code>AttributeValueList</code> can contain only one
-  /// <code>AttributeValue</code> of type String, Number, Binary, String Set,
-  /// Number Set, or Binary Set. If an item contains an
-  /// <code>AttributeValue</code> of a different type than the one provided in the
-  /// request, the value does not match. For example, <code>{"S":"6"}</code> does
-  /// not equal <code>{"N":"6"}</code>. Also, <code>{"N":"6"}</code> does not
-  /// equal <code>{"NS":["6", "2", "1"]}</code>.
-  /// <p/> </li>
-  /// <li>
-  /// <code>LE</code> : Less than or equal.
-  ///
-  /// <code>AttributeValueList</code> can contain only one
-  /// <code>AttributeValue</code> element of type String, Number, or Binary (not a
-  /// set type). If an item contains an <code>AttributeValue</code> element of a
-  /// different type than the one provided in the request, the value does not
-  /// match. For example, <code>{"S":"6"}</code> does not equal
-  /// <code>{"N":"6"}</code>. Also, <code>{"N":"6"}</code> does not compare to
-  /// <code>{"NS":["6", "2", "1"]}</code>.
-  /// <p/> </li>
-  /// <li>
-  /// <code>LT</code> : Less than.
-  ///
-  /// <code>AttributeValueList</code> can contain only one
-  /// <code>AttributeValue</code> of type String, Number, or Binary (not a set
-  /// type). If an item contains an <code>AttributeValue</code> element of a
-  /// different type than the one provided in the request, the value does not
-  /// match. For example, <code>{"S":"6"}</code> does not equal
-  /// <code>{"N":"6"}</code>. Also, <code>{"N":"6"}</code> does not compare to
-  /// <code>{"NS":["6", "2", "1"]}</code>.
-  /// <p/> </li>
-  /// <li>
-  /// <code>GE</code> : Greater than or equal.
-  ///
-  /// <code>AttributeValueList</code> can contain only one
-  /// <code>AttributeValue</code> element of type String, Number, or Binary (not a
-  /// set type). If an item contains an <code>AttributeValue</code> element of a
-  /// different type than the one provided in the request, the value does not
-  /// match. For example, <code>{"S":"6"}</code> does not equal
-  /// <code>{"N":"6"}</code>. Also, <code>{"N":"6"}</code> does not compare to
-  /// <code>{"NS":["6", "2", "1"]}</code>.
-  /// <p/> </li>
-  /// <li>
-  /// <code>GT</code> : Greater than.
-  ///
-  /// <code>AttributeValueList</code> can contain only one
-  /// <code>AttributeValue</code> element of type String, Number, or Binary (not a
-  /// set type). If an item contains an <code>AttributeValue</code> element of a
-  /// different type than the one provided in the request, the value does not
-  /// match. For example, <code>{"S":"6"}</code> does not equal
-  /// <code>{"N":"6"}</code>. Also, <code>{"N":"6"}</code> does not compare to
-  /// <code>{"NS":["6", "2", "1"]}</code>.
-  /// <p/> </li>
-  /// <li>
-  /// <code>NOT_NULL</code> : The attribute exists. <code>NOT_NULL</code> is
-  /// supported for all data types, including lists and maps.
-  /// <note>
-  /// This operator tests for the existence of an attribute, not its data type. If
-  /// the data type of attribute "<code>a</code>" is null, and you evaluate it
-  /// using <code>NOT_NULL</code>, the result is a Boolean <code>true</code>. This
-  /// result is because the attribute "<code>a</code>" exists; its data type is
-  /// not relevant to the <code>NOT_NULL</code> comparison operator.
-  /// </note> </li>
-  /// <li>
-  /// <code>NULL</code> : The attribute does not exist. <code>NULL</code> is
-  /// supported for all data types, including lists and maps.
-  /// <note>
-  /// This operator tests for the nonexistence of an attribute, not its data type.
-  /// If the data type of attribute "<code>a</code>" is null, and you evaluate it
-  /// using <code>NULL</code>, the result is a Boolean <code>false</code>. This is
-  /// because the attribute "<code>a</code>" exists; its data type is not relevant
-  /// to the <code>NULL</code> comparison operator.
-  /// </note> </li>
-  /// <li>
-  /// <code>CONTAINS</code> : Checks for a subsequence, or value in a set.
-  ///
-  /// <code>AttributeValueList</code> can contain only one
-  /// <code>AttributeValue</code> element of type String, Number, or Binary (not a
-  /// set type). If the target attribute of the comparison is of type String, then
-  /// the operator checks for a substring match. If the target attribute of the
-  /// comparison is of type Binary, then the operator looks for a subsequence of
-  /// the target that matches the input. If the target attribute of the comparison
-  /// is a set ("<code>SS</code>", "<code>NS</code>", or "<code>BS</code>"), then
-  /// the operator evaluates to true if it finds an exact match with any member of
-  /// the set.
-  ///
-  /// CONTAINS is supported for lists: When evaluating "<code>a CONTAINS
-  /// b</code>", "<code>a</code>" can be a list; however, "<code>b</code>" cannot
-  /// be a set, a map, or a list.
-  /// </li>
-  /// <li>
-  /// <code>NOT_CONTAINS</code> : Checks for absence of a subsequence, or absence
-  /// of a value in a set.
-  ///
-  /// <code>AttributeValueList</code> can contain only one
-  /// <code>AttributeValue</code> element of type String, Number, or Binary (not a
-  /// set type). If the target attribute of the comparison is a String, then the
-  /// operator checks for the absence of a substring match. If the target
-  /// attribute of the comparison is Binary, then the operator checks for the
-  /// absence of a subsequence of the target that matches the input. If the target
-  /// attribute of the comparison is a set ("<code>SS</code>", "<code>NS</code>",
-  /// or "<code>BS</code>"), then the operator evaluates to true if it <i>does
-  /// not</i> find an exact match with any member of the set.
-  ///
-  /// NOT_CONTAINS is supported for lists: When evaluating "<code>a NOT CONTAINS
-  /// b</code>", "<code>a</code>" can be a list; however, "<code>b</code>" cannot
-  /// be a set, a map, or a list.
-  /// </li>
-  /// <li>
-  /// <code>BEGINS_WITH</code> : Checks for a prefix.
-  ///
-  /// <code>AttributeValueList</code> can contain only one
-  /// <code>AttributeValue</code> of type String or Binary (not a Number or a set
-  /// type). The target attribute of the comparison must be of type String or
-  /// Binary (not a Number or a set type).
-  /// <p/> </li>
-  /// <li>
-  /// <code>IN</code> : Checks for matching elements in a list.
-  ///
-  /// <code>AttributeValueList</code> can contain one or more
-  /// <code>AttributeValue</code> elements of type String, Number, or Binary.
-  /// These attributes are compared against an existing attribute of an item. If
-  /// any elements of the input are equal to the item attribute, the expression
-  /// evaluates to true.
-  /// </li>
-  /// <li>
-  /// <code>BETWEEN</code> : Greater than or equal to the first value, and less
-  /// than or equal to the second value.
-  ///
-  /// <code>AttributeValueList</code> must contain two <code>AttributeValue</code>
-  /// elements of the same type, either String, Number, or Binary (not a set
-  /// type). A target attribute matches if the target value is greater than, or
-  /// equal to, the first element and less than, or equal to, the second element.
-  /// If an item contains an <code>AttributeValue</code> element of a different
-  /// type than the one provided in the request, the value does not match. For
-  /// example, <code>{"S":"6"}</code> does not compare to <code>{"N":"6"}</code>.
-  /// Also, <code>{"N":"6"}</code> does not compare to <code>{"NS":["6", "2",
-  /// "1"]}</code>
-  /// </li>
-  /// </ul>
-  /// For usage examples of <code>AttributeValueList</code> and
-  /// <code>ComparisonOperator</code>, see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.html">Legacy
-  /// Conditional Parameters</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-  final ComparisonOperator comparisonOperator;
-
-  /// One or more values to evaluate against the supplied attribute. The number of
-  /// values in the list depends on the <code>ComparisonOperator</code> being
-  /// used.
-  ///
-  /// For type Number, value comparisons are numeric.
-  ///
-  /// String value comparisons for greater than, equals, or less than are based on
-  /// ASCII character code values. For example, <code>a</code> is greater than
-  /// <code>A</code>, and <code>a</code> is greater than <code>B</code>. For a
-  /// list of code values, see <a
-  /// href="http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters">http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters</a>.
-  ///
-  /// For Binary, DynamoDB treats each byte of the binary data as unsigned when it
-  /// compares binary values.
-  final List<AttributeValue>? attributeValueList;
-
-  Condition({
-    required this.comparisonOperator,
-    this.attributeValueList,
-  });
-
-  Map<String, dynamic> toJson() {
-    final comparisonOperator = this.comparisonOperator;
-    final attributeValueList = this.attributeValueList;
-    return {
-      'ComparisonOperator': comparisonOperator.value,
-      if (attributeValueList != null) 'AttributeValueList': attributeValueList,
-    };
-  }
-}
-
-/// Represents a request to perform a check that an item exists or to check the
-/// condition of specific attributes of the item.
-class ConditionCheck {
-  /// A condition that must be satisfied in order for a conditional update to
-  /// succeed. For more information, see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.ConditionExpressions.html">Condition
-  /// expressions</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-  final String conditionExpression;
-
-  /// The primary key of the item to be checked. Each element consists of an
-  /// attribute name and a value for that attribute.
-  final Map<String, AttributeValue> key;
-
-  /// Name of the table for the check item request. You can also provide the
-  /// Amazon Resource Name (ARN) of the table in this parameter.
-  final String tableName;
-
-  /// One or more substitution tokens for attribute names in an expression. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.ExpressionAttributeNames.html">Expression
-  /// attribute names</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-  final Map<String, String>? expressionAttributeNames;
-
-  /// One or more values that can be substituted in an expression. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.ConditionExpressions.html">Condition
-  /// expressions</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-  final Map<String, AttributeValue>? expressionAttributeValues;
-
-  /// Use <code>ReturnValuesOnConditionCheckFailure</code> to get the item
-  /// attributes if the <code>ConditionCheck</code> condition fails. For
-  /// <code>ReturnValuesOnConditionCheckFailure</code>, the valid values are: NONE
-  /// and ALL_OLD.
-  final ReturnValuesOnConditionCheckFailure?
-      returnValuesOnConditionCheckFailure;
-
-  ConditionCheck({
-    required this.conditionExpression,
-    required this.key,
-    required this.tableName,
-    this.expressionAttributeNames,
-    this.expressionAttributeValues,
-    this.returnValuesOnConditionCheckFailure,
-  });
-
-  Map<String, dynamic> toJson() {
-    final conditionExpression = this.conditionExpression;
-    final key = this.key;
-    final tableName = this.tableName;
-    final expressionAttributeNames = this.expressionAttributeNames;
-    final expressionAttributeValues = this.expressionAttributeValues;
-    final returnValuesOnConditionCheckFailure =
-        this.returnValuesOnConditionCheckFailure;
-    return {
-      'ConditionExpression': conditionExpression,
-      'Key': key,
-      'TableName': tableName,
-      if (expressionAttributeNames != null)
-        'ExpressionAttributeNames': expressionAttributeNames,
-      if (expressionAttributeValues != null)
-        'ExpressionAttributeValues': expressionAttributeValues,
-      if (returnValuesOnConditionCheckFailure != null)
-        'ReturnValuesOnConditionCheckFailure':
-            returnValuesOnConditionCheckFailure.value,
-    };
-  }
-}
-
-class ConditionalOperator {
-  static const and = ConditionalOperator._('AND');
-  static const or = ConditionalOperator._('OR');
-
-  final String value;
-
-  const ConditionalOperator._(this.value);
-
-  static const values = [and, or];
-
-  static ConditionalOperator fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConditionalOperator._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ConditionalOperator && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The capacity units consumed by an operation. The data returned includes the
-/// total provisioned throughput consumed, along with statistics for the table
-/// and any indexes involved in the operation. <code>ConsumedCapacity</code> is
-/// only returned if the request asked for it. For more information, see <a
-/// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/provisioned-capacity-mode.html">Provisioned
-/// capacity mode</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-class ConsumedCapacity {
-  /// The total number of capacity units consumed by the operation.
-  final double? capacityUnits;
-
-  /// The amount of throughput consumed on each global index affected by the
-  /// operation.
-  final Map<String, Capacity>? globalSecondaryIndexes;
-
-  /// The amount of throughput consumed on each local index affected by the
-  /// operation.
-  final Map<String, Capacity>? localSecondaryIndexes;
-
-  /// The total number of read capacity units consumed by the operation.
-  final double? readCapacityUnits;
-
-  /// The amount of throughput consumed on the table affected by the operation.
-  final Capacity? table;
-
-  /// The name of the table that was affected by the operation. If you had
-  /// specified the Amazon Resource Name (ARN) of a table in the input, you'll see
-  /// the table ARN in the response.
-  final String? tableName;
-
-  /// The total number of write capacity units consumed by the operation.
-  final double? writeCapacityUnits;
-
-  ConsumedCapacity({
-    this.capacityUnits,
-    this.globalSecondaryIndexes,
-    this.localSecondaryIndexes,
-    this.readCapacityUnits,
-    this.table,
-    this.tableName,
-    this.writeCapacityUnits,
-  });
-
-  factory ConsumedCapacity.fromJson(Map<String, dynamic> json) {
-    return ConsumedCapacity(
-      capacityUnits: json['CapacityUnits'] as double?,
-      globalSecondaryIndexes:
-          (json['GlobalSecondaryIndexes'] as Map<String, dynamic>?)?.map(
-              (k, e) =>
-                  MapEntry(k, Capacity.fromJson(e as Map<String, dynamic>))),
-      localSecondaryIndexes:
-          (json['LocalSecondaryIndexes'] as Map<String, dynamic>?)?.map(
-              (k, e) =>
-                  MapEntry(k, Capacity.fromJson(e as Map<String, dynamic>))),
-      readCapacityUnits: json['ReadCapacityUnits'] as double?,
-      table: json['Table'] != null
-          ? Capacity.fromJson(json['Table'] as Map<String, dynamic>)
-          : null,
-      tableName: json['TableName'] as String?,
-      writeCapacityUnits: json['WriteCapacityUnits'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final capacityUnits = this.capacityUnits;
-    final globalSecondaryIndexes = this.globalSecondaryIndexes;
-    final localSecondaryIndexes = this.localSecondaryIndexes;
-    final readCapacityUnits = this.readCapacityUnits;
-    final table = this.table;
-    final tableName = this.tableName;
-    final writeCapacityUnits = this.writeCapacityUnits;
-    return {
-      if (capacityUnits != null) 'CapacityUnits': capacityUnits,
-      if (globalSecondaryIndexes != null)
-        'GlobalSecondaryIndexes': globalSecondaryIndexes,
-      if (localSecondaryIndexes != null)
-        'LocalSecondaryIndexes': localSecondaryIndexes,
-      if (readCapacityUnits != null) 'ReadCapacityUnits': readCapacityUnits,
-      if (table != null) 'Table': table,
-      if (tableName != null) 'TableName': tableName,
-      if (writeCapacityUnits != null) 'WriteCapacityUnits': writeCapacityUnits,
-    };
-  }
-}
-
-/// Represents the continuous backups and point in time recovery settings on the
-/// table.
-class ContinuousBackupsDescription {
-  /// <code>ContinuousBackupsStatus</code> can be one of the following states:
-  /// ENABLED, DISABLED
-  final ContinuousBackupsStatus continuousBackupsStatus;
-
-  /// The description of the point in time recovery settings applied to the table.
-  final PointInTimeRecoveryDescription? pointInTimeRecoveryDescription;
-
-  ContinuousBackupsDescription({
-    required this.continuousBackupsStatus,
-    this.pointInTimeRecoveryDescription,
-  });
-
-  factory ContinuousBackupsDescription.fromJson(Map<String, dynamic> json) {
-    return ContinuousBackupsDescription(
-      continuousBackupsStatus: ContinuousBackupsStatus.fromString(
-          (json['ContinuousBackupsStatus'] as String?) ?? ''),
-      pointInTimeRecoveryDescription: json['PointInTimeRecoveryDescription'] !=
-              null
-          ? PointInTimeRecoveryDescription.fromJson(
-              json['PointInTimeRecoveryDescription'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final continuousBackupsStatus = this.continuousBackupsStatus;
-    final pointInTimeRecoveryDescription = this.pointInTimeRecoveryDescription;
-    return {
-      'ContinuousBackupsStatus': continuousBackupsStatus.value,
-      if (pointInTimeRecoveryDescription != null)
-        'PointInTimeRecoveryDescription': pointInTimeRecoveryDescription,
-    };
-  }
-}
-
-class ContinuousBackupsStatus {
-  static const enabled = ContinuousBackupsStatus._('ENABLED');
-  static const disabled = ContinuousBackupsStatus._('DISABLED');
-
-  final String value;
-
-  const ContinuousBackupsStatus._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static ContinuousBackupsStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ContinuousBackupsStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ContinuousBackupsStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ContributorInsightsAction {
-  static const enable = ContributorInsightsAction._('ENABLE');
-  static const disable = ContributorInsightsAction._('DISABLE');
-
-  final String value;
-
-  const ContributorInsightsAction._(this.value);
-
-  static const values = [enable, disable];
-
-  static ContributorInsightsAction fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ContributorInsightsAction._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ContributorInsightsAction && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ContributorInsightsStatus {
-  static const enabling = ContributorInsightsStatus._('ENABLING');
-  static const enabled = ContributorInsightsStatus._('ENABLED');
-  static const disabling = ContributorInsightsStatus._('DISABLING');
-  static const disabled = ContributorInsightsStatus._('DISABLED');
-  static const failed = ContributorInsightsStatus._('FAILED');
-
-  final String value;
-
-  const ContributorInsightsStatus._(this.value);
-
-  static const values = [enabling, enabled, disabling, disabled, failed];
-
-  static ContributorInsightsStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ContributorInsightsStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ContributorInsightsStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents a Contributor Insights summary entry.
-class ContributorInsightsSummary {
-  /// Describes the current status for contributor insights for the given table
-  /// and index, if applicable.
-  final ContributorInsightsStatus? contributorInsightsStatus;
-
-  /// Name of the index associated with the summary, if any.
-  final String? indexName;
-
-  /// Name of the table associated with the summary.
-  final String? tableName;
-
-  ContributorInsightsSummary({
-    this.contributorInsightsStatus,
-    this.indexName,
-    this.tableName,
-  });
-
-  factory ContributorInsightsSummary.fromJson(Map<String, dynamic> json) {
-    return ContributorInsightsSummary(
-      contributorInsightsStatus: (json['ContributorInsightsStatus'] as String?)
-          ?.let(ContributorInsightsStatus.fromString),
-      indexName: json['IndexName'] as String?,
-      tableName: json['TableName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final contributorInsightsStatus = this.contributorInsightsStatus;
-    final indexName = this.indexName;
-    final tableName = this.tableName;
-    return {
-      if (contributorInsightsStatus != null)
-        'ContributorInsightsStatus': contributorInsightsStatus.value,
-      if (indexName != null) 'IndexName': indexName,
-      if (tableName != null) 'TableName': tableName,
-    };
-  }
-}
-
 class CreateBackupOutput {
   /// Contains the details of the backup created for the table.
   final BackupDetails? backupDetails;
@@ -7937,58 +6237,6 @@ class CreateBackupOutput {
     final backupDetails = this.backupDetails;
     return {
       if (backupDetails != null) 'BackupDetails': backupDetails,
-    };
-  }
-}
-
-/// Represents a new global secondary index to be added to an existing table.
-class CreateGlobalSecondaryIndexAction {
-  /// The name of the global secondary index to be created.
-  final String indexName;
-
-  /// The key schema for the global secondary index.
-  final List<KeySchemaElement> keySchema;
-
-  /// Represents attributes that are copied (projected) from the table into an
-  /// index. These are in addition to the primary key attributes and index key
-  /// attributes, which are automatically projected.
-  final Projection projection;
-
-  /// The maximum number of read and write units for the global secondary index
-  /// being created. If you use this parameter, you must specify
-  /// <code>MaxReadRequestUnits</code>, <code>MaxWriteRequestUnits</code>, or
-  /// both.
-  final OnDemandThroughput? onDemandThroughput;
-
-  /// Represents the provisioned throughput settings for the specified global
-  /// secondary index.
-  ///
-  /// For current minimum and maximum provisioned throughput values, see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Service,
-  /// Account, and Table Quotas</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-  final ProvisionedThroughput? provisionedThroughput;
-
-  CreateGlobalSecondaryIndexAction({
-    required this.indexName,
-    required this.keySchema,
-    required this.projection,
-    this.onDemandThroughput,
-    this.provisionedThroughput,
-  });
-
-  Map<String, dynamic> toJson() {
-    final indexName = this.indexName;
-    final keySchema = this.keySchema;
-    final projection = this.projection;
-    final onDemandThroughput = this.onDemandThroughput;
-    final provisionedThroughput = this.provisionedThroughput;
-    return {
-      'IndexName': indexName,
-      'KeySchema': keySchema,
-      'Projection': projection,
-      if (onDemandThroughput != null) 'OnDemandThroughput': onDemandThroughput,
-      if (provisionedThroughput != null)
-        'ProvisionedThroughput': provisionedThroughput,
     };
   }
 }
@@ -8019,82 +6267,6 @@ class CreateGlobalTableOutput {
   }
 }
 
-/// Represents a replica to be added.
-class CreateReplicaAction {
-  /// The Region of the replica to be added.
-  final String regionName;
-
-  CreateReplicaAction({
-    required this.regionName,
-  });
-
-  Map<String, dynamic> toJson() {
-    final regionName = this.regionName;
-    return {
-      'RegionName': regionName,
-    };
-  }
-}
-
-/// Represents a replica to be created.
-class CreateReplicationGroupMemberAction {
-  /// The Region where the new replica will be created.
-  final String regionName;
-
-  /// Replica-specific global secondary index settings.
-  final List<ReplicaGlobalSecondaryIndex>? globalSecondaryIndexes;
-
-  /// The KMS key that should be used for KMS encryption in the new replica. To
-  /// specify a key, use its key ID, Amazon Resource Name (ARN), alias name, or
-  /// alias ARN. Note that you should only provide this parameter if the key is
-  /// different from the default DynamoDB KMS key <code>alias/aws/dynamodb</code>.
-  final String? kMSMasterKeyId;
-
-  /// The maximum on-demand throughput settings for the specified replica table
-  /// being created. You can only modify <code>MaxReadRequestUnits</code>, because
-  /// you can't modify <code>MaxWriteRequestUnits</code> for individual replica
-  /// tables.
-  final OnDemandThroughputOverride? onDemandThroughputOverride;
-
-  /// Replica-specific provisioned throughput. If not specified, uses the source
-  /// table's provisioned throughput settings.
-  final ProvisionedThroughputOverride? provisionedThroughputOverride;
-
-  /// Replica-specific table class. If not specified, uses the source table's
-  /// table class.
-  final TableClass? tableClassOverride;
-
-  CreateReplicationGroupMemberAction({
-    required this.regionName,
-    this.globalSecondaryIndexes,
-    this.kMSMasterKeyId,
-    this.onDemandThroughputOverride,
-    this.provisionedThroughputOverride,
-    this.tableClassOverride,
-  });
-
-  Map<String, dynamic> toJson() {
-    final regionName = this.regionName;
-    final globalSecondaryIndexes = this.globalSecondaryIndexes;
-    final kMSMasterKeyId = this.kMSMasterKeyId;
-    final onDemandThroughputOverride = this.onDemandThroughputOverride;
-    final provisionedThroughputOverride = this.provisionedThroughputOverride;
-    final tableClassOverride = this.tableClassOverride;
-    return {
-      'RegionName': regionName,
-      if (globalSecondaryIndexes != null)
-        'GlobalSecondaryIndexes': globalSecondaryIndexes,
-      if (kMSMasterKeyId != null) 'KMSMasterKeyId': kMSMasterKeyId,
-      if (onDemandThroughputOverride != null)
-        'OnDemandThroughputOverride': onDemandThroughputOverride,
-      if (provisionedThroughputOverride != null)
-        'ProvisionedThroughputOverride': provisionedThroughputOverride,
-      if (tableClassOverride != null)
-        'TableClassOverride': tableClassOverride.value,
-    };
-  }
-}
-
 /// Represents the output of a <code>CreateTable</code> operation.
 class CreateTableOutput {
   /// Represents the properties of the table.
@@ -8121,102 +6293,6 @@ class CreateTableOutput {
   }
 }
 
-/// Processing options for the CSV file being imported.
-class CsvOptions {
-  /// The delimiter used for separating items in the CSV file being imported.
-  final String? delimiter;
-
-  /// List of the headers used to specify a common header for all source CSV files
-  /// being imported. If this field is specified then the first line of each CSV
-  /// file is treated as data instead of the header. If this field is not
-  /// specified the the first line of each CSV file is treated as the header.
-  final List<String>? headerList;
-
-  CsvOptions({
-    this.delimiter,
-    this.headerList,
-  });
-
-  factory CsvOptions.fromJson(Map<String, dynamic> json) {
-    return CsvOptions(
-      delimiter: json['Delimiter'] as String?,
-      headerList: (json['HeaderList'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final delimiter = this.delimiter;
-    final headerList = this.headerList;
-    return {
-      if (delimiter != null) 'Delimiter': delimiter,
-      if (headerList != null) 'HeaderList': headerList,
-    };
-  }
-}
-
-/// Represents a request to perform a <code>DeleteItem</code> operation.
-class Delete {
-  /// The primary key of the item to be deleted. Each element consists of an
-  /// attribute name and a value for that attribute.
-  final Map<String, AttributeValue> key;
-
-  /// Name of the table in which the item to be deleted resides. You can also
-  /// provide the Amazon Resource Name (ARN) of the table in this parameter.
-  final String tableName;
-
-  /// A condition that must be satisfied in order for a conditional delete to
-  /// succeed.
-  final String? conditionExpression;
-
-  /// One or more substitution tokens for attribute names in an expression.
-  final Map<String, String>? expressionAttributeNames;
-
-  /// One or more values that can be substituted in an expression.
-  final Map<String, AttributeValue>? expressionAttributeValues;
-
-  /// Use <code>ReturnValuesOnConditionCheckFailure</code> to get the item
-  /// attributes if the <code>Delete</code> condition fails. For
-  /// <code>ReturnValuesOnConditionCheckFailure</code>, the valid values are: NONE
-  /// and ALL_OLD.
-  final ReturnValuesOnConditionCheckFailure?
-      returnValuesOnConditionCheckFailure;
-
-  Delete({
-    required this.key,
-    required this.tableName,
-    this.conditionExpression,
-    this.expressionAttributeNames,
-    this.expressionAttributeValues,
-    this.returnValuesOnConditionCheckFailure,
-  });
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final tableName = this.tableName;
-    final conditionExpression = this.conditionExpression;
-    final expressionAttributeNames = this.expressionAttributeNames;
-    final expressionAttributeValues = this.expressionAttributeValues;
-    final returnValuesOnConditionCheckFailure =
-        this.returnValuesOnConditionCheckFailure;
-    return {
-      'Key': key,
-      'TableName': tableName,
-      if (conditionExpression != null)
-        'ConditionExpression': conditionExpression,
-      if (expressionAttributeNames != null)
-        'ExpressionAttributeNames': expressionAttributeNames,
-      if (expressionAttributeValues != null)
-        'ExpressionAttributeValues': expressionAttributeValues,
-      if (returnValuesOnConditionCheckFailure != null)
-        'ReturnValuesOnConditionCheckFailure':
-            returnValuesOnConditionCheckFailure.value,
-    };
-  }
-}
-
 class DeleteBackupOutput {
   /// Contains the description of the backup created for the table.
   final BackupDescription? backupDescription;
@@ -8238,23 +6314,6 @@ class DeleteBackupOutput {
     final backupDescription = this.backupDescription;
     return {
       if (backupDescription != null) 'BackupDescription': backupDescription,
-    };
-  }
-}
-
-/// Represents a global secondary index to be deleted from an existing table.
-class DeleteGlobalSecondaryIndexAction {
-  /// The name of the global secondary index to be deleted.
-  final String indexName;
-
-  DeleteGlobalSecondaryIndexAction({
-    required this.indexName,
-  });
-
-  Map<String, dynamic> toJson() {
-    final indexName = this.indexName;
-    return {
-      'IndexName': indexName,
     };
   }
 }
@@ -8335,68 +6394,6 @@ class DeleteItemOutput {
       if (consumedCapacity != null) 'ConsumedCapacity': consumedCapacity,
       if (itemCollectionMetrics != null)
         'ItemCollectionMetrics': itemCollectionMetrics,
-    };
-  }
-}
-
-/// Represents a replica to be removed.
-class DeleteReplicaAction {
-  /// The Region of the replica to be removed.
-  final String regionName;
-
-  DeleteReplicaAction({
-    required this.regionName,
-  });
-
-  Map<String, dynamic> toJson() {
-    final regionName = this.regionName;
-    return {
-      'RegionName': regionName,
-    };
-  }
-}
-
-/// Represents a replica to be deleted.
-class DeleteReplicationGroupMemberAction {
-  /// The Region where the replica exists.
-  final String regionName;
-
-  DeleteReplicationGroupMemberAction({
-    required this.regionName,
-  });
-
-  Map<String, dynamic> toJson() {
-    final regionName = this.regionName;
-    return {
-      'RegionName': regionName,
-    };
-  }
-}
-
-/// Represents a request to perform a <code>DeleteItem</code> operation on an
-/// item.
-class DeleteRequest {
-  /// A map of attribute name to attribute values, representing the primary key of
-  /// the item to delete. All of the table's primary key attributes must be
-  /// specified, and their data types must match those of the table's key schema.
-  final Map<String, AttributeValue> key;
-
-  DeleteRequest({
-    required this.key,
-  });
-
-  factory DeleteRequest.fromJson(Map<String, dynamic> json) {
-    return DeleteRequest(
-      key: ((json['Key'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
-          .map((k, e) =>
-              MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    return {
-      'Key': key,
     };
   }
 }
@@ -8506,6 +6503,11 @@ class DescribeContinuousBackupsOutput {
 }
 
 class DescribeContributorInsightsOutput {
+  /// The mode of CloudWatch Contributor Insights for DynamoDB that determines
+  /// which events are emitted. Can be set to track all access and throttled
+  /// events or throttled events only.
+  final ContributorInsightsMode? contributorInsightsMode;
+
   /// List of names of the associated contributor insights rules.
   final List<String>? contributorInsightsRuleList;
 
@@ -8547,6 +6549,7 @@ class DescribeContributorInsightsOutput {
   final String? tableName;
 
   DescribeContributorInsightsOutput({
+    this.contributorInsightsMode,
     this.contributorInsightsRuleList,
     this.contributorInsightsStatus,
     this.failureException,
@@ -8558,6 +6561,8 @@ class DescribeContributorInsightsOutput {
   factory DescribeContributorInsightsOutput.fromJson(
       Map<String, dynamic> json) {
     return DescribeContributorInsightsOutput(
+      contributorInsightsMode: (json['ContributorInsightsMode'] as String?)
+          ?.let(ContributorInsightsMode.fromString),
       contributorInsightsRuleList:
           (json['ContributorInsightsRuleList'] as List?)
               ?.nonNulls
@@ -8576,6 +6581,7 @@ class DescribeContributorInsightsOutput {
   }
 
   Map<String, dynamic> toJson() {
+    final contributorInsightsMode = this.contributorInsightsMode;
     final contributorInsightsRuleList = this.contributorInsightsRuleList;
     final contributorInsightsStatus = this.contributorInsightsStatus;
     final failureException = this.failureException;
@@ -8583,6 +6589,8 @@ class DescribeContributorInsightsOutput {
     final lastUpdateDateTime = this.lastUpdateDateTime;
     final tableName = this.tableName;
     return {
+      if (contributorInsightsMode != null)
+        'ContributorInsightsMode': contributorInsightsMode.value,
       if (contributorInsightsRuleList != null)
         'ContributorInsightsRuleList': contributorInsightsRuleList,
       if (contributorInsightsStatus != null)
@@ -8876,7 +6884,7 @@ class DescribeTableReplicaAutoScalingOutput {
 }
 
 class DescribeTimeToLiveOutput {
-  /// <p/>
+  ///
   final TimeToLiveDescription? timeToLiveDescription;
 
   DescribeTimeToLiveOutput({
@@ -8901,98 +6909,57 @@ class DescribeTimeToLiveOutput {
   }
 }
 
-class DestinationStatus {
-  static const enabling = DestinationStatus._('ENABLING');
-  static const active = DestinationStatus._('ACTIVE');
-  static const disabling = DestinationStatus._('DISABLING');
-  static const disabled = DestinationStatus._('DISABLED');
-  static const enableFailed = DestinationStatus._('ENABLE_FAILED');
-  static const updating = DestinationStatus._('UPDATING');
+class KinesisStreamingDestinationOutput {
+  /// The current status of the replication.
+  final DestinationStatus? destinationStatus;
 
-  final String value;
+  /// The destination for the Kinesis streaming information that is being enabled.
+  final EnableKinesisStreamingConfiguration?
+      enableKinesisStreamingConfiguration;
 
-  const DestinationStatus._(this.value);
+  /// The ARN for the specific Kinesis data stream.
+  final String? streamArn;
 
-  static const values = [
-    enabling,
-    active,
-    disabling,
-    disabled,
-    enableFailed,
-    updating
-  ];
+  /// The name of the table being modified.
+  final String? tableName;
 
-  static DestinationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DestinationStatus._(value));
-
-  @override
-  bool operator ==(other) => other is DestinationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Enables setting the configuration for Kinesis Streaming.
-class EnableKinesisStreamingConfiguration {
-  /// Toggle for the precision of Kinesis data stream timestamp. The values are
-  /// either <code>MILLISECOND</code> or <code>MICROSECOND</code>.
-  final ApproximateCreationDateTimePrecision?
-      approximateCreationDateTimePrecision;
-
-  EnableKinesisStreamingConfiguration({
-    this.approximateCreationDateTimePrecision,
+  KinesisStreamingDestinationOutput({
+    this.destinationStatus,
+    this.enableKinesisStreamingConfiguration,
+    this.streamArn,
+    this.tableName,
   });
 
-  factory EnableKinesisStreamingConfiguration.fromJson(
+  factory KinesisStreamingDestinationOutput.fromJson(
       Map<String, dynamic> json) {
-    return EnableKinesisStreamingConfiguration(
-      approximateCreationDateTimePrecision:
-          (json['ApproximateCreationDateTimePrecision'] as String?)
-              ?.let(ApproximateCreationDateTimePrecision.fromString),
+    return KinesisStreamingDestinationOutput(
+      destinationStatus: (json['DestinationStatus'] as String?)
+          ?.let(DestinationStatus.fromString),
+      enableKinesisStreamingConfiguration:
+          json['EnableKinesisStreamingConfiguration'] != null
+              ? EnableKinesisStreamingConfiguration.fromJson(
+                  json['EnableKinesisStreamingConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      streamArn: json['StreamArn'] as String?,
+      tableName: json['TableName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final approximateCreationDateTimePrecision =
-        this.approximateCreationDateTimePrecision;
+    final destinationStatus = this.destinationStatus;
+    final enableKinesisStreamingConfiguration =
+        this.enableKinesisStreamingConfiguration;
+    final streamArn = this.streamArn;
+    final tableName = this.tableName;
     return {
-      if (approximateCreationDateTimePrecision != null)
-        'ApproximateCreationDateTimePrecision':
-            approximateCreationDateTimePrecision.value,
-    };
-  }
-}
-
-/// An endpoint information details.
-class Endpoint {
-  /// IP address of the endpoint.
-  final String address;
-
-  /// Endpoint cache time to live (TTL) value.
-  final int cachePeriodInMinutes;
-
-  Endpoint({
-    required this.address,
-    required this.cachePeriodInMinutes,
-  });
-
-  factory Endpoint.fromJson(Map<String, dynamic> json) {
-    return Endpoint(
-      address: (json['Address'] as String?) ?? '',
-      cachePeriodInMinutes: (json['CachePeriodInMinutes'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final address = this.address;
-    final cachePeriodInMinutes = this.cachePeriodInMinutes;
-    return {
-      'Address': address,
-      'CachePeriodInMinutes': cachePeriodInMinutes,
+      if (destinationStatus != null)
+        'DestinationStatus': destinationStatus.value,
+      if (enableKinesisStreamingConfiguration != null)
+        'EnableKinesisStreamingConfiguration':
+            enableKinesisStreamingConfiguration,
+      if (streamArn != null) 'StreamArn': streamArn,
+      if (tableName != null) 'TableName': tableName,
     };
   }
 }
@@ -9095,569 +7062,6 @@ class ExecuteTransactionOutput {
   }
 }
 
-/// Represents a condition to be compared with an attribute value. This
-/// condition can be used with <code>DeleteItem</code>, <code>PutItem</code>, or
-/// <code>UpdateItem</code> operations; if the comparison evaluates to true, the
-/// operation succeeds; if not, the operation fails. You can use
-/// <code>ExpectedAttributeValue</code> in one of two different ways:
-///
-/// <ul>
-/// <li>
-/// Use <code>AttributeValueList</code> to specify one or more values to compare
-/// against an attribute. Use <code>ComparisonOperator</code> to specify how you
-/// want to perform the comparison. If the comparison evaluates to true, then
-/// the conditional operation succeeds.
-/// </li>
-/// <li>
-/// Use <code>Value</code> to specify a value that DynamoDB will compare against
-/// an attribute. If the values match, then <code>ExpectedAttributeValue</code>
-/// evaluates to true and the conditional operation succeeds. Optionally, you
-/// can also set <code>Exists</code> to false, indicating that you <i>do not</i>
-/// expect to find the attribute value in the table. In this case, the
-/// conditional operation succeeds only if the comparison evaluates to false.
-/// </li>
-/// </ul>
-/// <code>Value</code> and <code>Exists</code> are incompatible with
-/// <code>AttributeValueList</code> and <code>ComparisonOperator</code>. Note
-/// that if you use both sets of parameters at once, DynamoDB will return a
-/// <code>ValidationException</code> exception.
-class ExpectedAttributeValue {
-  /// One or more values to evaluate against the supplied attribute. The number of
-  /// values in the list depends on the <code>ComparisonOperator</code> being
-  /// used.
-  ///
-  /// For type Number, value comparisons are numeric.
-  ///
-  /// String value comparisons for greater than, equals, or less than are based on
-  /// ASCII character code values. For example, <code>a</code> is greater than
-  /// <code>A</code>, and <code>a</code> is greater than <code>B</code>. For a
-  /// list of code values, see <a
-  /// href="http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters">http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters</a>.
-  ///
-  /// For Binary, DynamoDB treats each byte of the binary data as unsigned when it
-  /// compares binary values.
-  ///
-  /// For information on specifying data types in JSON, see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DataFormat.html">JSON
-  /// Data Format</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-  final List<AttributeValue>? attributeValueList;
-
-  /// A comparator for evaluating attributes in the
-  /// <code>AttributeValueList</code>. For example, equals, greater than, less
-  /// than, etc.
-  ///
-  /// The following comparison operators are available:
-  ///
-  /// <code>EQ | NE | LE | LT | GE | GT | NOT_NULL | NULL | CONTAINS |
-  /// NOT_CONTAINS | BEGINS_WITH | IN | BETWEEN</code>
-  ///
-  /// The following are descriptions of each comparison operator.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>EQ</code> : Equal. <code>EQ</code> is supported for all data types,
-  /// including lists and maps.
-  ///
-  /// <code>AttributeValueList</code> can contain only one
-  /// <code>AttributeValue</code> element of type String, Number, Binary, String
-  /// Set, Number Set, or Binary Set. If an item contains an
-  /// <code>AttributeValue</code> element of a different type than the one
-  /// provided in the request, the value does not match. For example,
-  /// <code>{"S":"6"}</code> does not equal <code>{"N":"6"}</code>. Also,
-  /// <code>{"N":"6"}</code> does not equal <code>{"NS":["6", "2", "1"]}</code>.
-  /// <p/> </li>
-  /// <li>
-  /// <code>NE</code> : Not equal. <code>NE</code> is supported for all data
-  /// types, including lists and maps.
-  ///
-  /// <code>AttributeValueList</code> can contain only one
-  /// <code>AttributeValue</code> of type String, Number, Binary, String Set,
-  /// Number Set, or Binary Set. If an item contains an
-  /// <code>AttributeValue</code> of a different type than the one provided in the
-  /// request, the value does not match. For example, <code>{"S":"6"}</code> does
-  /// not equal <code>{"N":"6"}</code>. Also, <code>{"N":"6"}</code> does not
-  /// equal <code>{"NS":["6", "2", "1"]}</code>.
-  /// <p/> </li>
-  /// <li>
-  /// <code>LE</code> : Less than or equal.
-  ///
-  /// <code>AttributeValueList</code> can contain only one
-  /// <code>AttributeValue</code> element of type String, Number, or Binary (not a
-  /// set type). If an item contains an <code>AttributeValue</code> element of a
-  /// different type than the one provided in the request, the value does not
-  /// match. For example, <code>{"S":"6"}</code> does not equal
-  /// <code>{"N":"6"}</code>. Also, <code>{"N":"6"}</code> does not compare to
-  /// <code>{"NS":["6", "2", "1"]}</code>.
-  /// <p/> </li>
-  /// <li>
-  /// <code>LT</code> : Less than.
-  ///
-  /// <code>AttributeValueList</code> can contain only one
-  /// <code>AttributeValue</code> of type String, Number, or Binary (not a set
-  /// type). If an item contains an <code>AttributeValue</code> element of a
-  /// different type than the one provided in the request, the value does not
-  /// match. For example, <code>{"S":"6"}</code> does not equal
-  /// <code>{"N":"6"}</code>. Also, <code>{"N":"6"}</code> does not compare to
-  /// <code>{"NS":["6", "2", "1"]}</code>.
-  /// <p/> </li>
-  /// <li>
-  /// <code>GE</code> : Greater than or equal.
-  ///
-  /// <code>AttributeValueList</code> can contain only one
-  /// <code>AttributeValue</code> element of type String, Number, or Binary (not a
-  /// set type). If an item contains an <code>AttributeValue</code> element of a
-  /// different type than the one provided in the request, the value does not
-  /// match. For example, <code>{"S":"6"}</code> does not equal
-  /// <code>{"N":"6"}</code>. Also, <code>{"N":"6"}</code> does not compare to
-  /// <code>{"NS":["6", "2", "1"]}</code>.
-  /// <p/> </li>
-  /// <li>
-  /// <code>GT</code> : Greater than.
-  ///
-  /// <code>AttributeValueList</code> can contain only one
-  /// <code>AttributeValue</code> element of type String, Number, or Binary (not a
-  /// set type). If an item contains an <code>AttributeValue</code> element of a
-  /// different type than the one provided in the request, the value does not
-  /// match. For example, <code>{"S":"6"}</code> does not equal
-  /// <code>{"N":"6"}</code>. Also, <code>{"N":"6"}</code> does not compare to
-  /// <code>{"NS":["6", "2", "1"]}</code>.
-  /// <p/> </li>
-  /// <li>
-  /// <code>NOT_NULL</code> : The attribute exists. <code>NOT_NULL</code> is
-  /// supported for all data types, including lists and maps.
-  /// <note>
-  /// This operator tests for the existence of an attribute, not its data type. If
-  /// the data type of attribute "<code>a</code>" is null, and you evaluate it
-  /// using <code>NOT_NULL</code>, the result is a Boolean <code>true</code>. This
-  /// result is because the attribute "<code>a</code>" exists; its data type is
-  /// not relevant to the <code>NOT_NULL</code> comparison operator.
-  /// </note> </li>
-  /// <li>
-  /// <code>NULL</code> : The attribute does not exist. <code>NULL</code> is
-  /// supported for all data types, including lists and maps.
-  /// <note>
-  /// This operator tests for the nonexistence of an attribute, not its data type.
-  /// If the data type of attribute "<code>a</code>" is null, and you evaluate it
-  /// using <code>NULL</code>, the result is a Boolean <code>false</code>. This is
-  /// because the attribute "<code>a</code>" exists; its data type is not relevant
-  /// to the <code>NULL</code> comparison operator.
-  /// </note> </li>
-  /// <li>
-  /// <code>CONTAINS</code> : Checks for a subsequence, or value in a set.
-  ///
-  /// <code>AttributeValueList</code> can contain only one
-  /// <code>AttributeValue</code> element of type String, Number, or Binary (not a
-  /// set type). If the target attribute of the comparison is of type String, then
-  /// the operator checks for a substring match. If the target attribute of the
-  /// comparison is of type Binary, then the operator looks for a subsequence of
-  /// the target that matches the input. If the target attribute of the comparison
-  /// is a set ("<code>SS</code>", "<code>NS</code>", or "<code>BS</code>"), then
-  /// the operator evaluates to true if it finds an exact match with any member of
-  /// the set.
-  ///
-  /// CONTAINS is supported for lists: When evaluating "<code>a CONTAINS
-  /// b</code>", "<code>a</code>" can be a list; however, "<code>b</code>" cannot
-  /// be a set, a map, or a list.
-  /// </li>
-  /// <li>
-  /// <code>NOT_CONTAINS</code> : Checks for absence of a subsequence, or absence
-  /// of a value in a set.
-  ///
-  /// <code>AttributeValueList</code> can contain only one
-  /// <code>AttributeValue</code> element of type String, Number, or Binary (not a
-  /// set type). If the target attribute of the comparison is a String, then the
-  /// operator checks for the absence of a substring match. If the target
-  /// attribute of the comparison is Binary, then the operator checks for the
-  /// absence of a subsequence of the target that matches the input. If the target
-  /// attribute of the comparison is a set ("<code>SS</code>", "<code>NS</code>",
-  /// or "<code>BS</code>"), then the operator evaluates to true if it <i>does
-  /// not</i> find an exact match with any member of the set.
-  ///
-  /// NOT_CONTAINS is supported for lists: When evaluating "<code>a NOT CONTAINS
-  /// b</code>", "<code>a</code>" can be a list; however, "<code>b</code>" cannot
-  /// be a set, a map, or a list.
-  /// </li>
-  /// <li>
-  /// <code>BEGINS_WITH</code> : Checks for a prefix.
-  ///
-  /// <code>AttributeValueList</code> can contain only one
-  /// <code>AttributeValue</code> of type String or Binary (not a Number or a set
-  /// type). The target attribute of the comparison must be of type String or
-  /// Binary (not a Number or a set type).
-  /// <p/> </li>
-  /// <li>
-  /// <code>IN</code> : Checks for matching elements in a list.
-  ///
-  /// <code>AttributeValueList</code> can contain one or more
-  /// <code>AttributeValue</code> elements of type String, Number, or Binary.
-  /// These attributes are compared against an existing attribute of an item. If
-  /// any elements of the input are equal to the item attribute, the expression
-  /// evaluates to true.
-  /// </li>
-  /// <li>
-  /// <code>BETWEEN</code> : Greater than or equal to the first value, and less
-  /// than or equal to the second value.
-  ///
-  /// <code>AttributeValueList</code> must contain two <code>AttributeValue</code>
-  /// elements of the same type, either String, Number, or Binary (not a set
-  /// type). A target attribute matches if the target value is greater than, or
-  /// equal to, the first element and less than, or equal to, the second element.
-  /// If an item contains an <code>AttributeValue</code> element of a different
-  /// type than the one provided in the request, the value does not match. For
-  /// example, <code>{"S":"6"}</code> does not compare to <code>{"N":"6"}</code>.
-  /// Also, <code>{"N":"6"}</code> does not compare to <code>{"NS":["6", "2",
-  /// "1"]}</code>
-  /// </li>
-  /// </ul>
-  final ComparisonOperator? comparisonOperator;
-
-  /// Causes DynamoDB to evaluate the value before attempting a conditional
-  /// operation:
-  ///
-  /// <ul>
-  /// <li>
-  /// If <code>Exists</code> is <code>true</code>, DynamoDB will check to see if
-  /// that attribute value already exists in the table. If it is found, then the
-  /// operation succeeds. If it is not found, the operation fails with a
-  /// <code>ConditionCheckFailedException</code>.
-  /// </li>
-  /// <li>
-  /// If <code>Exists</code> is <code>false</code>, DynamoDB assumes that the
-  /// attribute value does not exist in the table. If in fact the value does not
-  /// exist, then the assumption is valid and the operation succeeds. If the value
-  /// is found, despite the assumption that it does not exist, the operation fails
-  /// with a <code>ConditionCheckFailedException</code>.
-  /// </li>
-  /// </ul>
-  /// The default setting for <code>Exists</code> is <code>true</code>. If you
-  /// supply a <code>Value</code> all by itself, DynamoDB assumes the attribute
-  /// exists: You don't have to set <code>Exists</code> to <code>true</code>,
-  /// because it is implied.
-  ///
-  /// DynamoDB returns a <code>ValidationException</code> if:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>Exists</code> is <code>true</code> but there is no <code>Value</code>
-  /// to check. (You expect a value to exist, but don't specify what that value
-  /// is.)
-  /// </li>
-  /// <li>
-  /// <code>Exists</code> is <code>false</code> but you also provide a
-  /// <code>Value</code>. (You cannot expect an attribute to have a value, while
-  /// also expecting it not to exist.)
-  /// </li>
-  /// </ul>
-  final bool? exists;
-
-  /// Represents the data for the expected attribute.
-  ///
-  /// Each attribute value is described as a name-value pair. The name is the data
-  /// type, and the value is the data itself.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.NamingRulesDataTypes.html#HowItWorks.DataTypes">Data
-  /// Types</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-  final AttributeValue? value;
-
-  ExpectedAttributeValue({
-    this.attributeValueList,
-    this.comparisonOperator,
-    this.exists,
-    this.value,
-  });
-
-  Map<String, dynamic> toJson() {
-    final attributeValueList = this.attributeValueList;
-    final comparisonOperator = this.comparisonOperator;
-    final exists = this.exists;
-    final value = this.value;
-    return {
-      if (attributeValueList != null) 'AttributeValueList': attributeValueList,
-      if (comparisonOperator != null)
-        'ComparisonOperator': comparisonOperator.value,
-      if (exists != null) 'Exists': exists,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-/// Represents the properties of the exported table.
-class ExportDescription {
-  /// The billable size of the table export.
-  final int? billedSizeBytes;
-
-  /// The client token that was provided for the export task. A client token makes
-  /// calls to <code>ExportTableToPointInTimeInput</code> idempotent, meaning that
-  /// multiple identical calls have the same effect as one single call.
-  final String? clientToken;
-
-  /// The time at which the export task completed.
-  final DateTime? endTime;
-
-  /// The Amazon Resource Name (ARN) of the table export.
-  final String? exportArn;
-
-  /// The format of the exported data. Valid values for <code>ExportFormat</code>
-  /// are <code>DYNAMODB_JSON</code> or <code>ION</code>.
-  final ExportFormat? exportFormat;
-
-  /// The name of the manifest file for the export task.
-  final String? exportManifest;
-
-  /// Export can be in one of the following states: IN_PROGRESS, COMPLETED, or
-  /// FAILED.
-  final ExportStatus? exportStatus;
-
-  /// Point in time from which table data was exported.
-  final DateTime? exportTime;
-
-  /// The type of export that was performed. Valid values are
-  /// <code>FULL_EXPORT</code> or <code>INCREMENTAL_EXPORT</code>.
-  final ExportType? exportType;
-
-  /// Status code for the result of the failed export.
-  final String? failureCode;
-
-  /// Export failure reason description.
-  final String? failureMessage;
-
-  /// Optional object containing the parameters specific to an incremental export.
-  final IncrementalExportSpecification? incrementalExportSpecification;
-
-  /// The number of items exported.
-  final int? itemCount;
-
-  /// The name of the Amazon S3 bucket containing the export.
-  final String? s3Bucket;
-
-  /// The ID of the Amazon Web Services account that owns the bucket containing
-  /// the export.
-  final String? s3BucketOwner;
-
-  /// The Amazon S3 bucket prefix used as the file name and path of the exported
-  /// snapshot.
-  final String? s3Prefix;
-
-  /// Type of encryption used on the bucket where export data is stored. Valid
-  /// values for <code>S3SseAlgorithm</code> are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>AES256</code> - server-side encryption with Amazon S3 managed keys
-  /// </li>
-  /// <li>
-  /// <code>KMS</code> - server-side encryption with KMS managed keys
-  /// </li>
-  /// </ul>
-  final S3SseAlgorithm? s3SseAlgorithm;
-
-  /// The ID of the KMS managed key used to encrypt the S3 bucket where export
-  /// data is stored (if applicable).
-  final String? s3SseKmsKeyId;
-
-  /// The time at which the export task began.
-  final DateTime? startTime;
-
-  /// The Amazon Resource Name (ARN) of the table that was exported.
-  final String? tableArn;
-
-  /// Unique ID of the table that was exported.
-  final String? tableId;
-
-  ExportDescription({
-    this.billedSizeBytes,
-    this.clientToken,
-    this.endTime,
-    this.exportArn,
-    this.exportFormat,
-    this.exportManifest,
-    this.exportStatus,
-    this.exportTime,
-    this.exportType,
-    this.failureCode,
-    this.failureMessage,
-    this.incrementalExportSpecification,
-    this.itemCount,
-    this.s3Bucket,
-    this.s3BucketOwner,
-    this.s3Prefix,
-    this.s3SseAlgorithm,
-    this.s3SseKmsKeyId,
-    this.startTime,
-    this.tableArn,
-    this.tableId,
-  });
-
-  factory ExportDescription.fromJson(Map<String, dynamic> json) {
-    return ExportDescription(
-      billedSizeBytes: json['BilledSizeBytes'] as int?,
-      clientToken: json['ClientToken'] as String?,
-      endTime: timeStampFromJson(json['EndTime']),
-      exportArn: json['ExportArn'] as String?,
-      exportFormat:
-          (json['ExportFormat'] as String?)?.let(ExportFormat.fromString),
-      exportManifest: json['ExportManifest'] as String?,
-      exportStatus:
-          (json['ExportStatus'] as String?)?.let(ExportStatus.fromString),
-      exportTime: timeStampFromJson(json['ExportTime']),
-      exportType: (json['ExportType'] as String?)?.let(ExportType.fromString),
-      failureCode: json['FailureCode'] as String?,
-      failureMessage: json['FailureMessage'] as String?,
-      incrementalExportSpecification: json['IncrementalExportSpecification'] !=
-              null
-          ? IncrementalExportSpecification.fromJson(
-              json['IncrementalExportSpecification'] as Map<String, dynamic>)
-          : null,
-      itemCount: json['ItemCount'] as int?,
-      s3Bucket: json['S3Bucket'] as String?,
-      s3BucketOwner: json['S3BucketOwner'] as String?,
-      s3Prefix: json['S3Prefix'] as String?,
-      s3SseAlgorithm:
-          (json['S3SseAlgorithm'] as String?)?.let(S3SseAlgorithm.fromString),
-      s3SseKmsKeyId: json['S3SseKmsKeyId'] as String?,
-      startTime: timeStampFromJson(json['StartTime']),
-      tableArn: json['TableArn'] as String?,
-      tableId: json['TableId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final billedSizeBytes = this.billedSizeBytes;
-    final clientToken = this.clientToken;
-    final endTime = this.endTime;
-    final exportArn = this.exportArn;
-    final exportFormat = this.exportFormat;
-    final exportManifest = this.exportManifest;
-    final exportStatus = this.exportStatus;
-    final exportTime = this.exportTime;
-    final exportType = this.exportType;
-    final failureCode = this.failureCode;
-    final failureMessage = this.failureMessage;
-    final incrementalExportSpecification = this.incrementalExportSpecification;
-    final itemCount = this.itemCount;
-    final s3Bucket = this.s3Bucket;
-    final s3BucketOwner = this.s3BucketOwner;
-    final s3Prefix = this.s3Prefix;
-    final s3SseAlgorithm = this.s3SseAlgorithm;
-    final s3SseKmsKeyId = this.s3SseKmsKeyId;
-    final startTime = this.startTime;
-    final tableArn = this.tableArn;
-    final tableId = this.tableId;
-    return {
-      if (billedSizeBytes != null) 'BilledSizeBytes': billedSizeBytes,
-      if (clientToken != null) 'ClientToken': clientToken,
-      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
-      if (exportArn != null) 'ExportArn': exportArn,
-      if (exportFormat != null) 'ExportFormat': exportFormat.value,
-      if (exportManifest != null) 'ExportManifest': exportManifest,
-      if (exportStatus != null) 'ExportStatus': exportStatus.value,
-      if (exportTime != null) 'ExportTime': unixTimestampToJson(exportTime),
-      if (exportType != null) 'ExportType': exportType.value,
-      if (failureCode != null) 'FailureCode': failureCode,
-      if (failureMessage != null) 'FailureMessage': failureMessage,
-      if (incrementalExportSpecification != null)
-        'IncrementalExportSpecification': incrementalExportSpecification,
-      if (itemCount != null) 'ItemCount': itemCount,
-      if (s3Bucket != null) 'S3Bucket': s3Bucket,
-      if (s3BucketOwner != null) 'S3BucketOwner': s3BucketOwner,
-      if (s3Prefix != null) 'S3Prefix': s3Prefix,
-      if (s3SseAlgorithm != null) 'S3SseAlgorithm': s3SseAlgorithm.value,
-      if (s3SseKmsKeyId != null) 'S3SseKmsKeyId': s3SseKmsKeyId,
-      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (tableArn != null) 'TableArn': tableArn,
-      if (tableId != null) 'TableId': tableId,
-    };
-  }
-}
-
-class ExportFormat {
-  static const dynamodbJson = ExportFormat._('DYNAMODB_JSON');
-  static const ion = ExportFormat._('ION');
-
-  final String value;
-
-  const ExportFormat._(this.value);
-
-  static const values = [dynamodbJson, ion];
-
-  static ExportFormat fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ExportFormat._(value));
-
-  @override
-  bool operator ==(other) => other is ExportFormat && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ExportStatus {
-  static const inProgress = ExportStatus._('IN_PROGRESS');
-  static const completed = ExportStatus._('COMPLETED');
-  static const failed = ExportStatus._('FAILED');
-
-  final String value;
-
-  const ExportStatus._(this.value);
-
-  static const values = [inProgress, completed, failed];
-
-  static ExportStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ExportStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ExportStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Summary information about an export task.
-class ExportSummary {
-  /// The Amazon Resource Name (ARN) of the export.
-  final String? exportArn;
-
-  /// Export can be in one of the following states: IN_PROGRESS, COMPLETED, or
-  /// FAILED.
-  final ExportStatus? exportStatus;
-
-  /// The type of export that was performed. Valid values are
-  /// <code>FULL_EXPORT</code> or <code>INCREMENTAL_EXPORT</code>.
-  final ExportType? exportType;
-
-  ExportSummary({
-    this.exportArn,
-    this.exportStatus,
-    this.exportType,
-  });
-
-  factory ExportSummary.fromJson(Map<String, dynamic> json) {
-    return ExportSummary(
-      exportArn: json['ExportArn'] as String?,
-      exportStatus:
-          (json['ExportStatus'] as String?)?.let(ExportStatus.fromString),
-      exportType: (json['ExportType'] as String?)?.let(ExportType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final exportArn = this.exportArn;
-    final exportStatus = this.exportStatus;
-    final exportType = this.exportType;
-    return {
-      if (exportArn != null) 'ExportArn': exportArn,
-      if (exportStatus != null) 'ExportStatus': exportStatus.value,
-      if (exportType != null) 'ExportType': exportType.value,
-    };
-  }
-}
-
 class ExportTableToPointInTimeOutput {
   /// Contains a description of the table export.
   final ExportDescription? exportDescription;
@@ -9679,129 +7083,6 @@ class ExportTableToPointInTimeOutput {
     final exportDescription = this.exportDescription;
     return {
       if (exportDescription != null) 'ExportDescription': exportDescription,
-    };
-  }
-}
-
-class ExportType {
-  static const fullExport = ExportType._('FULL_EXPORT');
-  static const incrementalExport = ExportType._('INCREMENTAL_EXPORT');
-
-  final String value;
-
-  const ExportType._(this.value);
-
-  static const values = [fullExport, incrementalExport];
-
-  static ExportType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ExportType._(value));
-
-  @override
-  bool operator ==(other) => other is ExportType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ExportViewType {
-  static const newImage = ExportViewType._('NEW_IMAGE');
-  static const newAndOldImages = ExportViewType._('NEW_AND_OLD_IMAGES');
-
-  final String value;
-
-  const ExportViewType._(this.value);
-
-  static const values = [newImage, newAndOldImages];
-
-  static ExportViewType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ExportViewType._(value));
-
-  @override
-  bool operator ==(other) => other is ExportViewType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents a failure a contributor insights operation.
-class FailureException {
-  /// Description of the failure.
-  final String? exceptionDescription;
-
-  /// Exception name.
-  final String? exceptionName;
-
-  FailureException({
-    this.exceptionDescription,
-    this.exceptionName,
-  });
-
-  factory FailureException.fromJson(Map<String, dynamic> json) {
-    return FailureException(
-      exceptionDescription: json['ExceptionDescription'] as String?,
-      exceptionName: json['ExceptionName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final exceptionDescription = this.exceptionDescription;
-    final exceptionName = this.exceptionName;
-    return {
-      if (exceptionDescription != null)
-        'ExceptionDescription': exceptionDescription,
-      if (exceptionName != null) 'ExceptionName': exceptionName,
-    };
-  }
-}
-
-/// Specifies an item and related attribute values to retrieve in a
-/// <code>TransactGetItem</code> object.
-class Get {
-  /// A map of attribute names to <code>AttributeValue</code> objects that
-  /// specifies the primary key of the item to retrieve.
-  final Map<String, AttributeValue> key;
-
-  /// The name of the table from which to retrieve the specified item. You can
-  /// also provide the Amazon Resource Name (ARN) of the table in this parameter.
-  final String tableName;
-
-  /// One or more substitution tokens for attribute names in the
-  /// ProjectionExpression parameter.
-  final Map<String, String>? expressionAttributeNames;
-
-  /// A string that identifies one or more attributes of the specified item to
-  /// retrieve from the table. The attributes in the expression must be separated
-  /// by commas. If no attribute names are specified, then all attributes of the
-  /// specified item are returned. If any of the requested attributes are not
-  /// found, they do not appear in the result.
-  final String? projectionExpression;
-
-  Get({
-    required this.key,
-    required this.tableName,
-    this.expressionAttributeNames,
-    this.projectionExpression,
-  });
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final tableName = this.tableName;
-    final expressionAttributeNames = this.expressionAttributeNames;
-    final projectionExpression = this.projectionExpression;
-    return {
-      'Key': key,
-      'TableName': tableName,
-      if (expressionAttributeNames != null)
-        'ExpressionAttributeNames': expressionAttributeNames,
-      if (projectionExpression != null)
-        'ProjectionExpression': projectionExpression,
     };
   }
 }
@@ -9880,888 +7161,6 @@ class GetResourcePolicyOutput {
   }
 }
 
-/// Represents the properties of a global secondary index.
-class GlobalSecondaryIndex {
-  /// The name of the global secondary index. The name must be unique among all
-  /// other indexes on this table.
-  final String indexName;
-
-  /// The complete key schema for a global secondary index, which consists of one
-  /// or more pairs of attribute names and key types:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>HASH</code> - partition key
-  /// </li>
-  /// <li>
-  /// <code>RANGE</code> - sort key
-  /// </li>
-  /// </ul> <note>
-  /// The partition key of an item is also known as its <i>hash attribute</i>. The
-  /// term "hash attribute" derives from DynamoDB's usage of an internal hash
-  /// function to evenly distribute data items across partitions, based on their
-  /// partition key values.
-  ///
-  /// The sort key of an item is also known as its <i>range attribute</i>. The
-  /// term "range attribute" derives from the way DynamoDB stores items with the
-  /// same partition key physically close together, in sorted order by the sort
-  /// key value.
-  /// </note>
-  final List<KeySchemaElement> keySchema;
-
-  /// Represents attributes that are copied (projected) from the table into the
-  /// global secondary index. These are in addition to the primary key attributes
-  /// and index key attributes, which are automatically projected.
-  final Projection projection;
-
-  /// The maximum number of read and write units for the specified global
-  /// secondary index. If you use this parameter, you must specify
-  /// <code>MaxReadRequestUnits</code>, <code>MaxWriteRequestUnits</code>, or
-  /// both.
-  final OnDemandThroughput? onDemandThroughput;
-
-  /// Represents the provisioned throughput settings for the specified global
-  /// secondary index.
-  ///
-  /// For current minimum and maximum provisioned throughput values, see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Service,
-  /// Account, and Table Quotas</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-  final ProvisionedThroughput? provisionedThroughput;
-
-  GlobalSecondaryIndex({
-    required this.indexName,
-    required this.keySchema,
-    required this.projection,
-    this.onDemandThroughput,
-    this.provisionedThroughput,
-  });
-
-  factory GlobalSecondaryIndex.fromJson(Map<String, dynamic> json) {
-    return GlobalSecondaryIndex(
-      indexName: (json['IndexName'] as String?) ?? '',
-      keySchema: ((json['KeySchema'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      projection: Projection.fromJson(
-          (json['Projection'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      onDemandThroughput: json['OnDemandThroughput'] != null
-          ? OnDemandThroughput.fromJson(
-              json['OnDemandThroughput'] as Map<String, dynamic>)
-          : null,
-      provisionedThroughput: json['ProvisionedThroughput'] != null
-          ? ProvisionedThroughput.fromJson(
-              json['ProvisionedThroughput'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final indexName = this.indexName;
-    final keySchema = this.keySchema;
-    final projection = this.projection;
-    final onDemandThroughput = this.onDemandThroughput;
-    final provisionedThroughput = this.provisionedThroughput;
-    return {
-      'IndexName': indexName,
-      'KeySchema': keySchema,
-      'Projection': projection,
-      if (onDemandThroughput != null) 'OnDemandThroughput': onDemandThroughput,
-      if (provisionedThroughput != null)
-        'ProvisionedThroughput': provisionedThroughput,
-    };
-  }
-}
-
-/// Represents the auto scaling settings of a global secondary index for a
-/// global table that will be modified.
-class GlobalSecondaryIndexAutoScalingUpdate {
-  /// The name of the global secondary index.
-  final String? indexName;
-  final AutoScalingSettingsUpdate? provisionedWriteCapacityAutoScalingUpdate;
-
-  GlobalSecondaryIndexAutoScalingUpdate({
-    this.indexName,
-    this.provisionedWriteCapacityAutoScalingUpdate,
-  });
-
-  Map<String, dynamic> toJson() {
-    final indexName = this.indexName;
-    final provisionedWriteCapacityAutoScalingUpdate =
-        this.provisionedWriteCapacityAutoScalingUpdate;
-    return {
-      if (indexName != null) 'IndexName': indexName,
-      if (provisionedWriteCapacityAutoScalingUpdate != null)
-        'ProvisionedWriteCapacityAutoScalingUpdate':
-            provisionedWriteCapacityAutoScalingUpdate,
-    };
-  }
-}
-
-/// Represents the properties of a global secondary index.
-class GlobalSecondaryIndexDescription {
-  /// Indicates whether the index is currently backfilling. <i>Backfilling</i> is
-  /// the process of reading items from the table and determining whether they can
-  /// be added to the index. (Not all items will qualify: For example, a partition
-  /// key cannot have any duplicate values.) If an item can be added to the index,
-  /// DynamoDB will do so. After all items have been processed, the backfilling
-  /// operation is complete and <code>Backfilling</code> is false.
-  ///
-  /// You can delete an index that is being created during the
-  /// <code>Backfilling</code> phase when <code>IndexStatus</code> is set to
-  /// CREATING and <code>Backfilling</code> is true. You can't delete the index
-  /// that is being created when <code>IndexStatus</code> is set to CREATING and
-  /// <code>Backfilling</code> is false.
-  /// <note>
-  /// For indexes that were created during a <code>CreateTable</code> operation,
-  /// the <code>Backfilling</code> attribute does not appear in the
-  /// <code>DescribeTable</code> output.
-  /// </note>
-  final bool? backfilling;
-
-  /// The Amazon Resource Name (ARN) that uniquely identifies the index.
-  final String? indexArn;
-
-  /// The name of the global secondary index.
-  final String? indexName;
-
-  /// The total size of the specified index, in bytes. DynamoDB updates this value
-  /// approximately every six hours. Recent changes might not be reflected in this
-  /// value.
-  final int? indexSizeBytes;
-
-  /// The current state of the global secondary index:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>CREATING</code> - The index is being created.
-  /// </li>
-  /// <li>
-  /// <code>UPDATING</code> - The index is being updated.
-  /// </li>
-  /// <li>
-  /// <code>DELETING</code> - The index is being deleted.
-  /// </li>
-  /// <li>
-  /// <code>ACTIVE</code> - The index is ready for use.
-  /// </li>
-  /// </ul>
-  final IndexStatus? indexStatus;
-
-  /// The number of items in the specified index. DynamoDB updates this value
-  /// approximately every six hours. Recent changes might not be reflected in this
-  /// value.
-  final int? itemCount;
-
-  /// The complete key schema for a global secondary index, which consists of one
-  /// or more pairs of attribute names and key types:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>HASH</code> - partition key
-  /// </li>
-  /// <li>
-  /// <code>RANGE</code> - sort key
-  /// </li>
-  /// </ul> <note>
-  /// The partition key of an item is also known as its <i>hash attribute</i>. The
-  /// term "hash attribute" derives from DynamoDB's usage of an internal hash
-  /// function to evenly distribute data items across partitions, based on their
-  /// partition key values.
-  ///
-  /// The sort key of an item is also known as its <i>range attribute</i>. The
-  /// term "range attribute" derives from the way DynamoDB stores items with the
-  /// same partition key physically close together, in sorted order by the sort
-  /// key value.
-  /// </note>
-  final List<KeySchemaElement>? keySchema;
-
-  /// The maximum number of read and write units for the specified global
-  /// secondary index. If you use this parameter, you must specify
-  /// <code>MaxReadRequestUnits</code>, <code>MaxWriteRequestUnits</code>, or
-  /// both.
-  final OnDemandThroughput? onDemandThroughput;
-
-  /// Represents attributes that are copied (projected) from the table into the
-  /// global secondary index. These are in addition to the primary key attributes
-  /// and index key attributes, which are automatically projected.
-  final Projection? projection;
-
-  /// Represents the provisioned throughput settings for the specified global
-  /// secondary index.
-  ///
-  /// For current minimum and maximum provisioned throughput values, see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Service,
-  /// Account, and Table Quotas</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-  final ProvisionedThroughputDescription? provisionedThroughput;
-
-  GlobalSecondaryIndexDescription({
-    this.backfilling,
-    this.indexArn,
-    this.indexName,
-    this.indexSizeBytes,
-    this.indexStatus,
-    this.itemCount,
-    this.keySchema,
-    this.onDemandThroughput,
-    this.projection,
-    this.provisionedThroughput,
-  });
-
-  factory GlobalSecondaryIndexDescription.fromJson(Map<String, dynamic> json) {
-    return GlobalSecondaryIndexDescription(
-      backfilling: json['Backfilling'] as bool?,
-      indexArn: json['IndexArn'] as String?,
-      indexName: json['IndexName'] as String?,
-      indexSizeBytes: json['IndexSizeBytes'] as int?,
-      indexStatus:
-          (json['IndexStatus'] as String?)?.let(IndexStatus.fromString),
-      itemCount: json['ItemCount'] as int?,
-      keySchema: (json['KeySchema'] as List?)
-          ?.nonNulls
-          .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      onDemandThroughput: json['OnDemandThroughput'] != null
-          ? OnDemandThroughput.fromJson(
-              json['OnDemandThroughput'] as Map<String, dynamic>)
-          : null,
-      projection: json['Projection'] != null
-          ? Projection.fromJson(json['Projection'] as Map<String, dynamic>)
-          : null,
-      provisionedThroughput: json['ProvisionedThroughput'] != null
-          ? ProvisionedThroughputDescription.fromJson(
-              json['ProvisionedThroughput'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final backfilling = this.backfilling;
-    final indexArn = this.indexArn;
-    final indexName = this.indexName;
-    final indexSizeBytes = this.indexSizeBytes;
-    final indexStatus = this.indexStatus;
-    final itemCount = this.itemCount;
-    final keySchema = this.keySchema;
-    final onDemandThroughput = this.onDemandThroughput;
-    final projection = this.projection;
-    final provisionedThroughput = this.provisionedThroughput;
-    return {
-      if (backfilling != null) 'Backfilling': backfilling,
-      if (indexArn != null) 'IndexArn': indexArn,
-      if (indexName != null) 'IndexName': indexName,
-      if (indexSizeBytes != null) 'IndexSizeBytes': indexSizeBytes,
-      if (indexStatus != null) 'IndexStatus': indexStatus.value,
-      if (itemCount != null) 'ItemCount': itemCount,
-      if (keySchema != null) 'KeySchema': keySchema,
-      if (onDemandThroughput != null) 'OnDemandThroughput': onDemandThroughput,
-      if (projection != null) 'Projection': projection,
-      if (provisionedThroughput != null)
-        'ProvisionedThroughput': provisionedThroughput,
-    };
-  }
-}
-
-/// Represents the properties of a global secondary index for the table when the
-/// backup was created.
-class GlobalSecondaryIndexInfo {
-  /// The name of the global secondary index.
-  final String? indexName;
-
-  /// The complete key schema for a global secondary index, which consists of one
-  /// or more pairs of attribute names and key types:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>HASH</code> - partition key
-  /// </li>
-  /// <li>
-  /// <code>RANGE</code> - sort key
-  /// </li>
-  /// </ul> <note>
-  /// The partition key of an item is also known as its <i>hash attribute</i>. The
-  /// term "hash attribute" derives from DynamoDB's usage of an internal hash
-  /// function to evenly distribute data items across partitions, based on their
-  /// partition key values.
-  ///
-  /// The sort key of an item is also known as its <i>range attribute</i>. The
-  /// term "range attribute" derives from the way DynamoDB stores items with the
-  /// same partition key physically close together, in sorted order by the sort
-  /// key value.
-  /// </note>
-  final List<KeySchemaElement>? keySchema;
-  final OnDemandThroughput? onDemandThroughput;
-
-  /// Represents attributes that are copied (projected) from the table into the
-  /// global secondary index. These are in addition to the primary key attributes
-  /// and index key attributes, which are automatically projected.
-  final Projection? projection;
-
-  /// Represents the provisioned throughput settings for the specified global
-  /// secondary index.
-  final ProvisionedThroughput? provisionedThroughput;
-
-  GlobalSecondaryIndexInfo({
-    this.indexName,
-    this.keySchema,
-    this.onDemandThroughput,
-    this.projection,
-    this.provisionedThroughput,
-  });
-
-  factory GlobalSecondaryIndexInfo.fromJson(Map<String, dynamic> json) {
-    return GlobalSecondaryIndexInfo(
-      indexName: json['IndexName'] as String?,
-      keySchema: (json['KeySchema'] as List?)
-          ?.nonNulls
-          .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      onDemandThroughput: json['OnDemandThroughput'] != null
-          ? OnDemandThroughput.fromJson(
-              json['OnDemandThroughput'] as Map<String, dynamic>)
-          : null,
-      projection: json['Projection'] != null
-          ? Projection.fromJson(json['Projection'] as Map<String, dynamic>)
-          : null,
-      provisionedThroughput: json['ProvisionedThroughput'] != null
-          ? ProvisionedThroughput.fromJson(
-              json['ProvisionedThroughput'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final indexName = this.indexName;
-    final keySchema = this.keySchema;
-    final onDemandThroughput = this.onDemandThroughput;
-    final projection = this.projection;
-    final provisionedThroughput = this.provisionedThroughput;
-    return {
-      if (indexName != null) 'IndexName': indexName,
-      if (keySchema != null) 'KeySchema': keySchema,
-      if (onDemandThroughput != null) 'OnDemandThroughput': onDemandThroughput,
-      if (projection != null) 'Projection': projection,
-      if (provisionedThroughput != null)
-        'ProvisionedThroughput': provisionedThroughput,
-    };
-  }
-}
-
-/// Represents one of the following:
-///
-/// <ul>
-/// <li>
-/// A new global secondary index to be added to an existing table.
-/// </li>
-/// <li>
-/// New provisioned throughput parameters for an existing global secondary
-/// index.
-/// </li>
-/// <li>
-/// An existing global secondary index to be removed from an existing table.
-/// </li>
-/// </ul>
-class GlobalSecondaryIndexUpdate {
-  /// The parameters required for creating a global secondary index on an existing
-  /// table:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>IndexName </code>
-  /// </li>
-  /// <li>
-  /// <code>KeySchema </code>
-  /// </li>
-  /// <li>
-  /// <code>AttributeDefinitions </code>
-  /// </li>
-  /// <li>
-  /// <code>Projection </code>
-  /// </li>
-  /// <li>
-  /// <code>ProvisionedThroughput </code>
-  /// </li>
-  /// </ul>
-  final CreateGlobalSecondaryIndexAction? create;
-
-  /// The name of an existing global secondary index to be removed.
-  final DeleteGlobalSecondaryIndexAction? delete;
-
-  /// The name of an existing global secondary index, along with new provisioned
-  /// throughput settings to be applied to that index.
-  final UpdateGlobalSecondaryIndexAction? update;
-
-  GlobalSecondaryIndexUpdate({
-    this.create,
-    this.delete,
-    this.update,
-  });
-
-  Map<String, dynamic> toJson() {
-    final create = this.create;
-    final delete = this.delete;
-    final update = this.update;
-    return {
-      if (create != null) 'Create': create,
-      if (delete != null) 'Delete': delete,
-      if (update != null) 'Update': update,
-    };
-  }
-}
-
-/// Represents the properties of a global table.
-class GlobalTable {
-  /// The global table name.
-  final String? globalTableName;
-
-  /// The Regions where the global table has replicas.
-  final List<Replica>? replicationGroup;
-
-  GlobalTable({
-    this.globalTableName,
-    this.replicationGroup,
-  });
-
-  factory GlobalTable.fromJson(Map<String, dynamic> json) {
-    return GlobalTable(
-      globalTableName: json['GlobalTableName'] as String?,
-      replicationGroup: (json['ReplicationGroup'] as List?)
-          ?.nonNulls
-          .map((e) => Replica.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final globalTableName = this.globalTableName;
-    final replicationGroup = this.replicationGroup;
-    return {
-      if (globalTableName != null) 'GlobalTableName': globalTableName,
-      if (replicationGroup != null) 'ReplicationGroup': replicationGroup,
-    };
-  }
-}
-
-/// Contains details about the global table.
-class GlobalTableDescription {
-  /// The creation time of the global table.
-  final DateTime? creationDateTime;
-
-  /// The unique identifier of the global table.
-  final String? globalTableArn;
-
-  /// The global table name.
-  final String? globalTableName;
-
-  /// The current state of the global table:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>CREATING</code> - The global table is being created.
-  /// </li>
-  /// <li>
-  /// <code>UPDATING</code> - The global table is being updated.
-  /// </li>
-  /// <li>
-  /// <code>DELETING</code> - The global table is being deleted.
-  /// </li>
-  /// <li>
-  /// <code>ACTIVE</code> - The global table is ready for use.
-  /// </li>
-  /// </ul>
-  final GlobalTableStatus? globalTableStatus;
-
-  /// The Regions where the global table has replicas.
-  final List<ReplicaDescription>? replicationGroup;
-
-  GlobalTableDescription({
-    this.creationDateTime,
-    this.globalTableArn,
-    this.globalTableName,
-    this.globalTableStatus,
-    this.replicationGroup,
-  });
-
-  factory GlobalTableDescription.fromJson(Map<String, dynamic> json) {
-    return GlobalTableDescription(
-      creationDateTime: timeStampFromJson(json['CreationDateTime']),
-      globalTableArn: json['GlobalTableArn'] as String?,
-      globalTableName: json['GlobalTableName'] as String?,
-      globalTableStatus: (json['GlobalTableStatus'] as String?)
-          ?.let(GlobalTableStatus.fromString),
-      replicationGroup: (json['ReplicationGroup'] as List?)
-          ?.nonNulls
-          .map((e) => ReplicaDescription.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDateTime = this.creationDateTime;
-    final globalTableArn = this.globalTableArn;
-    final globalTableName = this.globalTableName;
-    final globalTableStatus = this.globalTableStatus;
-    final replicationGroup = this.replicationGroup;
-    return {
-      if (creationDateTime != null)
-        'CreationDateTime': unixTimestampToJson(creationDateTime),
-      if (globalTableArn != null) 'GlobalTableArn': globalTableArn,
-      if (globalTableName != null) 'GlobalTableName': globalTableName,
-      if (globalTableStatus != null)
-        'GlobalTableStatus': globalTableStatus.value,
-      if (replicationGroup != null) 'ReplicationGroup': replicationGroup,
-    };
-  }
-}
-
-/// Represents the settings of a global secondary index for a global table that
-/// will be modified.
-class GlobalTableGlobalSecondaryIndexSettingsUpdate {
-  /// The name of the global secondary index. The name must be unique among all
-  /// other indexes on this table.
-  final String indexName;
-
-  /// Auto scaling settings for managing a global secondary index's write capacity
-  /// units.
-  final AutoScalingSettingsUpdate?
-      provisionedWriteCapacityAutoScalingSettingsUpdate;
-
-  /// The maximum number of writes consumed per second before DynamoDB returns a
-  /// <code>ThrottlingException.</code>
-  final int? provisionedWriteCapacityUnits;
-
-  GlobalTableGlobalSecondaryIndexSettingsUpdate({
-    required this.indexName,
-    this.provisionedWriteCapacityAutoScalingSettingsUpdate,
-    this.provisionedWriteCapacityUnits,
-  });
-
-  Map<String, dynamic> toJson() {
-    final indexName = this.indexName;
-    final provisionedWriteCapacityAutoScalingSettingsUpdate =
-        this.provisionedWriteCapacityAutoScalingSettingsUpdate;
-    final provisionedWriteCapacityUnits = this.provisionedWriteCapacityUnits;
-    return {
-      'IndexName': indexName,
-      if (provisionedWriteCapacityAutoScalingSettingsUpdate != null)
-        'ProvisionedWriteCapacityAutoScalingSettingsUpdate':
-            provisionedWriteCapacityAutoScalingSettingsUpdate,
-      if (provisionedWriteCapacityUnits != null)
-        'ProvisionedWriteCapacityUnits': provisionedWriteCapacityUnits,
-    };
-  }
-}
-
-class GlobalTableStatus {
-  static const creating = GlobalTableStatus._('CREATING');
-  static const active = GlobalTableStatus._('ACTIVE');
-  static const deleting = GlobalTableStatus._('DELETING');
-  static const updating = GlobalTableStatus._('UPDATING');
-
-  final String value;
-
-  const GlobalTableStatus._(this.value);
-
-  static const values = [creating, active, deleting, updating];
-
-  static GlobalTableStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => GlobalTableStatus._(value));
-
-  @override
-  bool operator ==(other) => other is GlobalTableStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ImportStatus {
-  static const inProgress = ImportStatus._('IN_PROGRESS');
-  static const completed = ImportStatus._('COMPLETED');
-  static const cancelling = ImportStatus._('CANCELLING');
-  static const cancelled = ImportStatus._('CANCELLED');
-  static const failed = ImportStatus._('FAILED');
-
-  final String value;
-
-  const ImportStatus._(this.value);
-
-  static const values = [inProgress, completed, cancelling, cancelled, failed];
-
-  static ImportStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ImportStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ImportStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Summary information about the source file for the import.
-class ImportSummary {
-  /// The Amazon Resource Number (ARN) of the Cloudwatch Log Group associated with
-  /// this import task.
-  final String? cloudWatchLogGroupArn;
-
-  /// The time at which this import task ended. (Does this include the successful
-  /// complete creation of the table it was imported to?)
-  final DateTime? endTime;
-
-  /// The Amazon Resource Number (ARN) corresponding to the import request.
-  final String? importArn;
-
-  /// The status of the import operation.
-  final ImportStatus? importStatus;
-
-  /// The format of the source data. Valid values are <code>CSV</code>,
-  /// <code>DYNAMODB_JSON</code> or <code>ION</code>.
-  final InputFormat? inputFormat;
-
-  /// The path and S3 bucket of the source file that is being imported. This
-  /// includes the S3Bucket (required), S3KeyPrefix (optional) and S3BucketOwner
-  /// (optional if the bucket is owned by the requester).
-  final S3BucketSource? s3BucketSource;
-
-  /// The time at which this import task began.
-  final DateTime? startTime;
-
-  /// The Amazon Resource Number (ARN) of the table being imported into.
-  final String? tableArn;
-
-  ImportSummary({
-    this.cloudWatchLogGroupArn,
-    this.endTime,
-    this.importArn,
-    this.importStatus,
-    this.inputFormat,
-    this.s3BucketSource,
-    this.startTime,
-    this.tableArn,
-  });
-
-  factory ImportSummary.fromJson(Map<String, dynamic> json) {
-    return ImportSummary(
-      cloudWatchLogGroupArn: json['CloudWatchLogGroupArn'] as String?,
-      endTime: timeStampFromJson(json['EndTime']),
-      importArn: json['ImportArn'] as String?,
-      importStatus:
-          (json['ImportStatus'] as String?)?.let(ImportStatus.fromString),
-      inputFormat:
-          (json['InputFormat'] as String?)?.let(InputFormat.fromString),
-      s3BucketSource: json['S3BucketSource'] != null
-          ? S3BucketSource.fromJson(
-              json['S3BucketSource'] as Map<String, dynamic>)
-          : null,
-      startTime: timeStampFromJson(json['StartTime']),
-      tableArn: json['TableArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cloudWatchLogGroupArn = this.cloudWatchLogGroupArn;
-    final endTime = this.endTime;
-    final importArn = this.importArn;
-    final importStatus = this.importStatus;
-    final inputFormat = this.inputFormat;
-    final s3BucketSource = this.s3BucketSource;
-    final startTime = this.startTime;
-    final tableArn = this.tableArn;
-    return {
-      if (cloudWatchLogGroupArn != null)
-        'CloudWatchLogGroupArn': cloudWatchLogGroupArn,
-      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
-      if (importArn != null) 'ImportArn': importArn,
-      if (importStatus != null) 'ImportStatus': importStatus.value,
-      if (inputFormat != null) 'InputFormat': inputFormat.value,
-      if (s3BucketSource != null) 'S3BucketSource': s3BucketSource,
-      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (tableArn != null) 'TableArn': tableArn,
-    };
-  }
-}
-
-/// Represents the properties of the table being imported into.
-class ImportTableDescription {
-  /// The client token that was provided for the import task. Reusing the client
-  /// token on retry makes a call to <code>ImportTable</code> idempotent.
-  final String? clientToken;
-
-  /// The Amazon Resource Number (ARN) of the Cloudwatch Log Group associated with
-  /// the target table.
-  final String? cloudWatchLogGroupArn;
-
-  /// The time at which the creation of the table associated with this import task
-  /// completed.
-  final DateTime? endTime;
-
-  /// The number of errors occurred on importing the source file into the target
-  /// table.
-  final int? errorCount;
-
-  /// The error code corresponding to the failure that the import job ran into
-  /// during execution.
-  final String? failureCode;
-
-  /// The error message corresponding to the failure that the import job ran into
-  /// during execution.
-  final String? failureMessage;
-
-  /// The Amazon Resource Number (ARN) corresponding to the import request.
-  final String? importArn;
-
-  /// The status of the import.
-  final ImportStatus? importStatus;
-
-  /// The number of items successfully imported into the new table.
-  final int? importedItemCount;
-
-  /// The compression options for the data that has been imported into the target
-  /// table. The values are NONE, GZIP, or ZSTD.
-  final InputCompressionType? inputCompressionType;
-
-  /// The format of the source data going into the target table.
-  final InputFormat? inputFormat;
-
-  /// The format options for the data that was imported into the target table.
-  /// There is one value, CsvOption.
-  final InputFormatOptions? inputFormatOptions;
-
-  /// The total number of items processed from the source file.
-  final int? processedItemCount;
-
-  /// The total size of data processed from the source file, in Bytes.
-  final int? processedSizeBytes;
-
-  /// Values for the S3 bucket the source file is imported from. Includes bucket
-  /// name (required), key prefix (optional) and bucket account owner ID
-  /// (optional).
-  final S3BucketSource? s3BucketSource;
-
-  /// The time when this import task started.
-  final DateTime? startTime;
-
-  /// The Amazon Resource Number (ARN) of the table being imported into.
-  final String? tableArn;
-
-  /// The parameters for the new table that is being imported into.
-  final TableCreationParameters? tableCreationParameters;
-
-  /// The table id corresponding to the table created by import table process.
-  final String? tableId;
-
-  ImportTableDescription({
-    this.clientToken,
-    this.cloudWatchLogGroupArn,
-    this.endTime,
-    this.errorCount,
-    this.failureCode,
-    this.failureMessage,
-    this.importArn,
-    this.importStatus,
-    this.importedItemCount,
-    this.inputCompressionType,
-    this.inputFormat,
-    this.inputFormatOptions,
-    this.processedItemCount,
-    this.processedSizeBytes,
-    this.s3BucketSource,
-    this.startTime,
-    this.tableArn,
-    this.tableCreationParameters,
-    this.tableId,
-  });
-
-  factory ImportTableDescription.fromJson(Map<String, dynamic> json) {
-    return ImportTableDescription(
-      clientToken: json['ClientToken'] as String?,
-      cloudWatchLogGroupArn: json['CloudWatchLogGroupArn'] as String?,
-      endTime: timeStampFromJson(json['EndTime']),
-      errorCount: json['ErrorCount'] as int?,
-      failureCode: json['FailureCode'] as String?,
-      failureMessage: json['FailureMessage'] as String?,
-      importArn: json['ImportArn'] as String?,
-      importStatus:
-          (json['ImportStatus'] as String?)?.let(ImportStatus.fromString),
-      importedItemCount: json['ImportedItemCount'] as int?,
-      inputCompressionType: (json['InputCompressionType'] as String?)
-          ?.let(InputCompressionType.fromString),
-      inputFormat:
-          (json['InputFormat'] as String?)?.let(InputFormat.fromString),
-      inputFormatOptions: json['InputFormatOptions'] != null
-          ? InputFormatOptions.fromJson(
-              json['InputFormatOptions'] as Map<String, dynamic>)
-          : null,
-      processedItemCount: json['ProcessedItemCount'] as int?,
-      processedSizeBytes: json['ProcessedSizeBytes'] as int?,
-      s3BucketSource: json['S3BucketSource'] != null
-          ? S3BucketSource.fromJson(
-              json['S3BucketSource'] as Map<String, dynamic>)
-          : null,
-      startTime: timeStampFromJson(json['StartTime']),
-      tableArn: json['TableArn'] as String?,
-      tableCreationParameters: json['TableCreationParameters'] != null
-          ? TableCreationParameters.fromJson(
-              json['TableCreationParameters'] as Map<String, dynamic>)
-          : null,
-      tableId: json['TableId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clientToken = this.clientToken;
-    final cloudWatchLogGroupArn = this.cloudWatchLogGroupArn;
-    final endTime = this.endTime;
-    final errorCount = this.errorCount;
-    final failureCode = this.failureCode;
-    final failureMessage = this.failureMessage;
-    final importArn = this.importArn;
-    final importStatus = this.importStatus;
-    final importedItemCount = this.importedItemCount;
-    final inputCompressionType = this.inputCompressionType;
-    final inputFormat = this.inputFormat;
-    final inputFormatOptions = this.inputFormatOptions;
-    final processedItemCount = this.processedItemCount;
-    final processedSizeBytes = this.processedSizeBytes;
-    final s3BucketSource = this.s3BucketSource;
-    final startTime = this.startTime;
-    final tableArn = this.tableArn;
-    final tableCreationParameters = this.tableCreationParameters;
-    final tableId = this.tableId;
-    return {
-      if (clientToken != null) 'ClientToken': clientToken,
-      if (cloudWatchLogGroupArn != null)
-        'CloudWatchLogGroupArn': cloudWatchLogGroupArn,
-      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
-      if (errorCount != null) 'ErrorCount': errorCount,
-      if (failureCode != null) 'FailureCode': failureCode,
-      if (failureMessage != null) 'FailureMessage': failureMessage,
-      if (importArn != null) 'ImportArn': importArn,
-      if (importStatus != null) 'ImportStatus': importStatus.value,
-      if (importedItemCount != null) 'ImportedItemCount': importedItemCount,
-      if (inputCompressionType != null)
-        'InputCompressionType': inputCompressionType.value,
-      if (inputFormat != null) 'InputFormat': inputFormat.value,
-      if (inputFormatOptions != null) 'InputFormatOptions': inputFormatOptions,
-      if (processedItemCount != null) 'ProcessedItemCount': processedItemCount,
-      if (processedSizeBytes != null) 'ProcessedSizeBytes': processedSizeBytes,
-      if (s3BucketSource != null) 'S3BucketSource': s3BucketSource,
-      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (tableArn != null) 'TableArn': tableArn,
-      if (tableCreationParameters != null)
-        'TableCreationParameters': tableCreationParameters,
-      if (tableId != null) 'TableId': tableId,
-    };
-  }
-}
-
 class ImportTableOutput {
   /// Represents the properties of the table created for the import, and
   /// parameters of the import. The import parameters include import status, how
@@ -10784,558 +7183,6 @@ class ImportTableOutput {
     final importTableDescription = this.importTableDescription;
     return {
       'ImportTableDescription': importTableDescription,
-    };
-  }
-}
-
-/// Optional object containing the parameters specific to an incremental export.
-class IncrementalExportSpecification {
-  /// Time in the past which provides the inclusive start range for the export
-  /// table's data, counted in seconds from the start of the Unix epoch. The
-  /// incremental export will reflect the table's state including and after this
-  /// point in time.
-  final DateTime? exportFromTime;
-
-  /// Time in the past which provides the exclusive end range for the export
-  /// table's data, counted in seconds from the start of the Unix epoch. The
-  /// incremental export will reflect the table's state just prior to this point
-  /// in time. If this is not provided, the latest time with data available will
-  /// be used.
-  final DateTime? exportToTime;
-
-  /// The view type that was chosen for the export. Valid values are
-  /// <code>NEW_AND_OLD_IMAGES</code> and <code>NEW_IMAGES</code>. The default
-  /// value is <code>NEW_AND_OLD_IMAGES</code>.
-  final ExportViewType? exportViewType;
-
-  IncrementalExportSpecification({
-    this.exportFromTime,
-    this.exportToTime,
-    this.exportViewType,
-  });
-
-  factory IncrementalExportSpecification.fromJson(Map<String, dynamic> json) {
-    return IncrementalExportSpecification(
-      exportFromTime: timeStampFromJson(json['ExportFromTime']),
-      exportToTime: timeStampFromJson(json['ExportToTime']),
-      exportViewType:
-          (json['ExportViewType'] as String?)?.let(ExportViewType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final exportFromTime = this.exportFromTime;
-    final exportToTime = this.exportToTime;
-    final exportViewType = this.exportViewType;
-    return {
-      if (exportFromTime != null)
-        'ExportFromTime': unixTimestampToJson(exportFromTime),
-      if (exportToTime != null)
-        'ExportToTime': unixTimestampToJson(exportToTime),
-      if (exportViewType != null) 'ExportViewType': exportViewType.value,
-    };
-  }
-}
-
-class IndexStatus {
-  static const creating = IndexStatus._('CREATING');
-  static const updating = IndexStatus._('UPDATING');
-  static const deleting = IndexStatus._('DELETING');
-  static const active = IndexStatus._('ACTIVE');
-
-  final String value;
-
-  const IndexStatus._(this.value);
-
-  static const values = [creating, updating, deleting, active];
-
-  static IndexStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => IndexStatus._(value));
-
-  @override
-  bool operator ==(other) => other is IndexStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class InputCompressionType {
-  static const gzip = InputCompressionType._('GZIP');
-  static const zstd = InputCompressionType._('ZSTD');
-  static const none = InputCompressionType._('NONE');
-
-  final String value;
-
-  const InputCompressionType._(this.value);
-
-  static const values = [gzip, zstd, none];
-
-  static InputCompressionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => InputCompressionType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is InputCompressionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class InputFormat {
-  static const dynamodbJson = InputFormat._('DYNAMODB_JSON');
-  static const ion = InputFormat._('ION');
-  static const csv = InputFormat._('CSV');
-
-  final String value;
-
-  const InputFormat._(this.value);
-
-  static const values = [dynamodbJson, ion, csv];
-
-  static InputFormat fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => InputFormat._(value));
-
-  @override
-  bool operator ==(other) => other is InputFormat && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The format options for the data that was imported into the target table.
-/// There is one value, CsvOption.
-class InputFormatOptions {
-  /// The options for imported source files in CSV format. The values are
-  /// Delimiter and HeaderList.
-  final CsvOptions? csv;
-
-  InputFormatOptions({
-    this.csv,
-  });
-
-  factory InputFormatOptions.fromJson(Map<String, dynamic> json) {
-    return InputFormatOptions(
-      csv: json['Csv'] != null
-          ? CsvOptions.fromJson(json['Csv'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final csv = this.csv;
-    return {
-      if (csv != null) 'Csv': csv,
-    };
-  }
-}
-
-/// Information about item collections, if any, that were affected by the
-/// operation. <code>ItemCollectionMetrics</code> is only returned if the
-/// request asked for it. If the table does not have any local secondary
-/// indexes, this information is not returned in the response.
-class ItemCollectionMetrics {
-  /// The partition key value of the item collection. This value is the same as
-  /// the partition key value of the item.
-  final Map<String, AttributeValue>? itemCollectionKey;
-
-  /// An estimate of item collection size, in gigabytes. This value is a
-  /// two-element array containing a lower bound and an upper bound for the
-  /// estimate. The estimate includes the size of all the items in the table, plus
-  /// the size of all attributes projected into all of the local secondary indexes
-  /// on that table. Use this estimate to measure whether a local secondary index
-  /// is approaching its size limit.
-  ///
-  /// The estimate is subject to change over time; therefore, do not rely on the
-  /// precision or accuracy of the estimate.
-  final List<double>? sizeEstimateRangeGB;
-
-  ItemCollectionMetrics({
-    this.itemCollectionKey,
-    this.sizeEstimateRangeGB,
-  });
-
-  factory ItemCollectionMetrics.fromJson(Map<String, dynamic> json) {
-    return ItemCollectionMetrics(
-      itemCollectionKey: (json['ItemCollectionKey'] as Map<String, dynamic>?)
-          ?.map((k, e) =>
-              MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
-      sizeEstimateRangeGB: (json['SizeEstimateRangeGB'] as List?)
-          ?.nonNulls
-          .map((e) => e as double)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final itemCollectionKey = this.itemCollectionKey;
-    final sizeEstimateRangeGB = this.sizeEstimateRangeGB;
-    return {
-      if (itemCollectionKey != null) 'ItemCollectionKey': itemCollectionKey,
-      if (sizeEstimateRangeGB != null)
-        'SizeEstimateRangeGB': sizeEstimateRangeGB,
-    };
-  }
-}
-
-/// Details for the requested item.
-class ItemResponse {
-  /// Map of attribute data consisting of the data type and attribute value.
-  final Map<String, AttributeValue>? item;
-
-  ItemResponse({
-    this.item,
-  });
-
-  factory ItemResponse.fromJson(Map<String, dynamic> json) {
-    return ItemResponse(
-      item: (json['Item'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final item = this.item;
-    return {
-      if (item != null) 'Item': item,
-    };
-  }
-}
-
-/// Represents <i>a single element</i> of a key schema. A key schema specifies
-/// the attributes that make up the primary key of a table, or the key
-/// attributes of an index.
-///
-/// A <code>KeySchemaElement</code> represents exactly one attribute of the
-/// primary key. For example, a simple primary key would be represented by one
-/// <code>KeySchemaElement</code> (for the partition key). A composite primary
-/// key would require one <code>KeySchemaElement</code> for the partition key,
-/// and another <code>KeySchemaElement</code> for the sort key.
-///
-/// A <code>KeySchemaElement</code> must be a scalar, top-level attribute (not a
-/// nested attribute). The data type must be one of String, Number, or Binary.
-/// The attribute cannot be nested within a List or a Map.
-class KeySchemaElement {
-  /// The name of a key attribute.
-  final String attributeName;
-
-  /// The role that this key attribute will assume:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>HASH</code> - partition key
-  /// </li>
-  /// <li>
-  /// <code>RANGE</code> - sort key
-  /// </li>
-  /// </ul> <note>
-  /// The partition key of an item is also known as its <i>hash attribute</i>. The
-  /// term "hash attribute" derives from DynamoDB's usage of an internal hash
-  /// function to evenly distribute data items across partitions, based on their
-  /// partition key values.
-  ///
-  /// The sort key of an item is also known as its <i>range attribute</i>. The
-  /// term "range attribute" derives from the way DynamoDB stores items with the
-  /// same partition key physically close together, in sorted order by the sort
-  /// key value.
-  /// </note>
-  final KeyType keyType;
-
-  KeySchemaElement({
-    required this.attributeName,
-    required this.keyType,
-  });
-
-  factory KeySchemaElement.fromJson(Map<String, dynamic> json) {
-    return KeySchemaElement(
-      attributeName: (json['AttributeName'] as String?) ?? '',
-      keyType: KeyType.fromString((json['KeyType'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attributeName = this.attributeName;
-    final keyType = this.keyType;
-    return {
-      'AttributeName': attributeName,
-      'KeyType': keyType.value,
-    };
-  }
-}
-
-class KeyType {
-  static const hash = KeyType._('HASH');
-  static const range = KeyType._('RANGE');
-
-  final String value;
-
-  const KeyType._(this.value);
-
-  static const values = [hash, range];
-
-  static KeyType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => KeyType._(value));
-
-  @override
-  bool operator ==(other) => other is KeyType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents a set of primary keys and, for each key, the attributes to
-/// retrieve from the table.
-///
-/// For each primary key, you must provide <i>all</i> of the key attributes. For
-/// example, with a simple primary key, you only need to provide the partition
-/// key. For a composite primary key, you must provide <i>both</i> the partition
-/// key and the sort key.
-class KeysAndAttributes {
-  /// The primary key attribute values that define the items and the attributes
-  /// associated with the items.
-  final List<Map<String, AttributeValue>> keys;
-
-  /// This is a legacy parameter. Use <code>ProjectionExpression</code> instead.
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.html">Legacy
-  /// Conditional Parameters</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-  final List<String>? attributesToGet;
-
-  /// The consistency of a read operation. If set to <code>true</code>, then a
-  /// strongly consistent read is used; otherwise, an eventually consistent read
-  /// is used.
-  final bool? consistentRead;
-
-  /// One or more substitution tokens for attribute names in an expression. The
-  /// following are some use cases for using
-  /// <code>ExpressionAttributeNames</code>:
-  ///
-  /// <ul>
-  /// <li>
-  /// To access an attribute whose name conflicts with a DynamoDB reserved word.
-  /// </li>
-  /// <li>
-  /// To create a placeholder for repeating occurrences of an attribute name in an
-  /// expression.
-  /// </li>
-  /// <li>
-  /// To prevent special characters in an attribute name from being misinterpreted
-  /// in an expression.
-  /// </li>
-  /// </ul>
-  /// Use the <b>#</b> character in an expression to dereference an attribute
-  /// name. For example, consider the following attribute name:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>Percentile</code>
-  /// </li>
-  /// </ul>
-  /// The name of this attribute conflicts with a reserved word, so it cannot be
-  /// used directly in an expression. (For the complete list of reserved words,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html">Reserved
-  /// Words</a> in the <i>Amazon DynamoDB Developer Guide</i>). To work around
-  /// this, you could specify the following for
-  /// <code>ExpressionAttributeNames</code>:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>{"#P":"Percentile"}</code>
-  /// </li>
-  /// </ul>
-  /// You could then use this substitution in an expression, as in this example:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>#P = :val</code>
-  /// </li>
-  /// </ul> <note>
-  /// Tokens that begin with the <b>:</b> character are <i>expression attribute
-  /// values</i>, which are placeholders for the actual value at runtime.
-  /// </note>
-  /// For more information on expression attribute names, see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Accessing
-  /// Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-  final Map<String, String>? expressionAttributeNames;
-
-  /// A string that identifies one or more attributes to retrieve from the table.
-  /// These attributes can include scalars, sets, or elements of a JSON document.
-  /// The attributes in the <code>ProjectionExpression</code> must be separated by
-  /// commas.
-  ///
-  /// If no attribute names are specified, then all attributes will be returned.
-  /// If any of the requested attributes are not found, they will not appear in
-  /// the result.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Accessing
-  /// Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-  final String? projectionExpression;
-
-  KeysAndAttributes({
-    required this.keys,
-    this.attributesToGet,
-    this.consistentRead,
-    this.expressionAttributeNames,
-    this.projectionExpression,
-  });
-
-  factory KeysAndAttributes.fromJson(Map<String, dynamic> json) {
-    return KeysAndAttributes(
-      keys: ((json['Keys'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => (e as Map<String, dynamic>).map((k, e) =>
-              MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))))
-          .toList(),
-      attributesToGet: (json['AttributesToGet'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      consistentRead: json['ConsistentRead'] as bool?,
-      expressionAttributeNames:
-          (json['ExpressionAttributeNames'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(k, e as String)),
-      projectionExpression: json['ProjectionExpression'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final keys = this.keys;
-    final attributesToGet = this.attributesToGet;
-    final consistentRead = this.consistentRead;
-    final expressionAttributeNames = this.expressionAttributeNames;
-    final projectionExpression = this.projectionExpression;
-    return {
-      'Keys': keys,
-      if (attributesToGet != null) 'AttributesToGet': attributesToGet,
-      if (consistentRead != null) 'ConsistentRead': consistentRead,
-      if (expressionAttributeNames != null)
-        'ExpressionAttributeNames': expressionAttributeNames,
-      if (projectionExpression != null)
-        'ProjectionExpression': projectionExpression,
-    };
-  }
-}
-
-/// Describes a Kinesis data stream destination.
-class KinesisDataStreamDestination {
-  /// The precision of the Kinesis data stream timestamp. The values are either
-  /// <code>MILLISECOND</code> or <code>MICROSECOND</code>.
-  final ApproximateCreationDateTimePrecision?
-      approximateCreationDateTimePrecision;
-
-  /// The current status of replication.
-  final DestinationStatus? destinationStatus;
-
-  /// The human-readable string that corresponds to the replica status.
-  final String? destinationStatusDescription;
-
-  /// The ARN for a specific Kinesis data stream.
-  final String? streamArn;
-
-  KinesisDataStreamDestination({
-    this.approximateCreationDateTimePrecision,
-    this.destinationStatus,
-    this.destinationStatusDescription,
-    this.streamArn,
-  });
-
-  factory KinesisDataStreamDestination.fromJson(Map<String, dynamic> json) {
-    return KinesisDataStreamDestination(
-      approximateCreationDateTimePrecision:
-          (json['ApproximateCreationDateTimePrecision'] as String?)
-              ?.let(ApproximateCreationDateTimePrecision.fromString),
-      destinationStatus: (json['DestinationStatus'] as String?)
-          ?.let(DestinationStatus.fromString),
-      destinationStatusDescription:
-          json['DestinationStatusDescription'] as String?,
-      streamArn: json['StreamArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final approximateCreationDateTimePrecision =
-        this.approximateCreationDateTimePrecision;
-    final destinationStatus = this.destinationStatus;
-    final destinationStatusDescription = this.destinationStatusDescription;
-    final streamArn = this.streamArn;
-    return {
-      if (approximateCreationDateTimePrecision != null)
-        'ApproximateCreationDateTimePrecision':
-            approximateCreationDateTimePrecision.value,
-      if (destinationStatus != null)
-        'DestinationStatus': destinationStatus.value,
-      if (destinationStatusDescription != null)
-        'DestinationStatusDescription': destinationStatusDescription,
-      if (streamArn != null) 'StreamArn': streamArn,
-    };
-  }
-}
-
-class KinesisStreamingDestinationOutput {
-  /// The current status of the replication.
-  final DestinationStatus? destinationStatus;
-
-  /// The destination for the Kinesis streaming information that is being enabled.
-  final EnableKinesisStreamingConfiguration?
-      enableKinesisStreamingConfiguration;
-
-  /// The ARN for the specific Kinesis data stream.
-  final String? streamArn;
-
-  /// The name of the table being modified.
-  final String? tableName;
-
-  KinesisStreamingDestinationOutput({
-    this.destinationStatus,
-    this.enableKinesisStreamingConfiguration,
-    this.streamArn,
-    this.tableName,
-  });
-
-  factory KinesisStreamingDestinationOutput.fromJson(
-      Map<String, dynamic> json) {
-    return KinesisStreamingDestinationOutput(
-      destinationStatus: (json['DestinationStatus'] as String?)
-          ?.let(DestinationStatus.fromString),
-      enableKinesisStreamingConfiguration:
-          json['EnableKinesisStreamingConfiguration'] != null
-              ? EnableKinesisStreamingConfiguration.fromJson(
-                  json['EnableKinesisStreamingConfiguration']
-                      as Map<String, dynamic>)
-              : null,
-      streamArn: json['StreamArn'] as String?,
-      tableName: json['TableName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final destinationStatus = this.destinationStatus;
-    final enableKinesisStreamingConfiguration =
-        this.enableKinesisStreamingConfiguration;
-    final streamArn = this.streamArn;
-    final tableName = this.tableName;
-    return {
-      if (destinationStatus != null)
-        'DestinationStatus': destinationStatus.value,
-      if (enableKinesisStreamingConfiguration != null)
-        'EnableKinesisStreamingConfiguration':
-            enableKinesisStreamingConfiguration,
-      if (streamArn != null) 'StreamArn': streamArn,
-      if (tableName != null) 'TableName': tableName,
     };
   }
 }
@@ -11601,711 +7448,6 @@ class ListTagsOfResourceOutput {
   }
 }
 
-/// Represents the properties of a local secondary index.
-class LocalSecondaryIndex {
-  /// The name of the local secondary index. The name must be unique among all
-  /// other indexes on this table.
-  final String indexName;
-
-  /// The complete key schema for the local secondary index, consisting of one or
-  /// more pairs of attribute names and key types:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>HASH</code> - partition key
-  /// </li>
-  /// <li>
-  /// <code>RANGE</code> - sort key
-  /// </li>
-  /// </ul> <note>
-  /// The partition key of an item is also known as its <i>hash attribute</i>. The
-  /// term "hash attribute" derives from DynamoDB's usage of an internal hash
-  /// function to evenly distribute data items across partitions, based on their
-  /// partition key values.
-  ///
-  /// The sort key of an item is also known as its <i>range attribute</i>. The
-  /// term "range attribute" derives from the way DynamoDB stores items with the
-  /// same partition key physically close together, in sorted order by the sort
-  /// key value.
-  /// </note>
-  final List<KeySchemaElement> keySchema;
-
-  /// Represents attributes that are copied (projected) from the table into the
-  /// local secondary index. These are in addition to the primary key attributes
-  /// and index key attributes, which are automatically projected.
-  final Projection projection;
-
-  LocalSecondaryIndex({
-    required this.indexName,
-    required this.keySchema,
-    required this.projection,
-  });
-
-  Map<String, dynamic> toJson() {
-    final indexName = this.indexName;
-    final keySchema = this.keySchema;
-    final projection = this.projection;
-    return {
-      'IndexName': indexName,
-      'KeySchema': keySchema,
-      'Projection': projection,
-    };
-  }
-}
-
-/// Represents the properties of a local secondary index.
-class LocalSecondaryIndexDescription {
-  /// The Amazon Resource Name (ARN) that uniquely identifies the index.
-  final String? indexArn;
-
-  /// Represents the name of the local secondary index.
-  final String? indexName;
-
-  /// The total size of the specified index, in bytes. DynamoDB updates this value
-  /// approximately every six hours. Recent changes might not be reflected in this
-  /// value.
-  final int? indexSizeBytes;
-
-  /// The number of items in the specified index. DynamoDB updates this value
-  /// approximately every six hours. Recent changes might not be reflected in this
-  /// value.
-  final int? itemCount;
-
-  /// The complete key schema for the local secondary index, consisting of one or
-  /// more pairs of attribute names and key types:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>HASH</code> - partition key
-  /// </li>
-  /// <li>
-  /// <code>RANGE</code> - sort key
-  /// </li>
-  /// </ul> <note>
-  /// The partition key of an item is also known as its <i>hash attribute</i>. The
-  /// term "hash attribute" derives from DynamoDB's usage of an internal hash
-  /// function to evenly distribute data items across partitions, based on their
-  /// partition key values.
-  ///
-  /// The sort key of an item is also known as its <i>range attribute</i>. The
-  /// term "range attribute" derives from the way DynamoDB stores items with the
-  /// same partition key physically close together, in sorted order by the sort
-  /// key value.
-  /// </note>
-  final List<KeySchemaElement>? keySchema;
-
-  /// Represents attributes that are copied (projected) from the table into the
-  /// global secondary index. These are in addition to the primary key attributes
-  /// and index key attributes, which are automatically projected.
-  final Projection? projection;
-
-  LocalSecondaryIndexDescription({
-    this.indexArn,
-    this.indexName,
-    this.indexSizeBytes,
-    this.itemCount,
-    this.keySchema,
-    this.projection,
-  });
-
-  factory LocalSecondaryIndexDescription.fromJson(Map<String, dynamic> json) {
-    return LocalSecondaryIndexDescription(
-      indexArn: json['IndexArn'] as String?,
-      indexName: json['IndexName'] as String?,
-      indexSizeBytes: json['IndexSizeBytes'] as int?,
-      itemCount: json['ItemCount'] as int?,
-      keySchema: (json['KeySchema'] as List?)
-          ?.nonNulls
-          .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      projection: json['Projection'] != null
-          ? Projection.fromJson(json['Projection'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final indexArn = this.indexArn;
-    final indexName = this.indexName;
-    final indexSizeBytes = this.indexSizeBytes;
-    final itemCount = this.itemCount;
-    final keySchema = this.keySchema;
-    final projection = this.projection;
-    return {
-      if (indexArn != null) 'IndexArn': indexArn,
-      if (indexName != null) 'IndexName': indexName,
-      if (indexSizeBytes != null) 'IndexSizeBytes': indexSizeBytes,
-      if (itemCount != null) 'ItemCount': itemCount,
-      if (keySchema != null) 'KeySchema': keySchema,
-      if (projection != null) 'Projection': projection,
-    };
-  }
-}
-
-/// Represents the properties of a local secondary index for the table when the
-/// backup was created.
-class LocalSecondaryIndexInfo {
-  /// Represents the name of the local secondary index.
-  final String? indexName;
-
-  /// The complete key schema for a local secondary index, which consists of one
-  /// or more pairs of attribute names and key types:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>HASH</code> - partition key
-  /// </li>
-  /// <li>
-  /// <code>RANGE</code> - sort key
-  /// </li>
-  /// </ul> <note>
-  /// The partition key of an item is also known as its <i>hash attribute</i>. The
-  /// term "hash attribute" derives from DynamoDB's usage of an internal hash
-  /// function to evenly distribute data items across partitions, based on their
-  /// partition key values.
-  ///
-  /// The sort key of an item is also known as its <i>range attribute</i>. The
-  /// term "range attribute" derives from the way DynamoDB stores items with the
-  /// same partition key physically close together, in sorted order by the sort
-  /// key value.
-  /// </note>
-  final List<KeySchemaElement>? keySchema;
-
-  /// Represents attributes that are copied (projected) from the table into the
-  /// global secondary index. These are in addition to the primary key attributes
-  /// and index key attributes, which are automatically projected.
-  final Projection? projection;
-
-  LocalSecondaryIndexInfo({
-    this.indexName,
-    this.keySchema,
-    this.projection,
-  });
-
-  factory LocalSecondaryIndexInfo.fromJson(Map<String, dynamic> json) {
-    return LocalSecondaryIndexInfo(
-      indexName: json['IndexName'] as String?,
-      keySchema: (json['KeySchema'] as List?)
-          ?.nonNulls
-          .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      projection: json['Projection'] != null
-          ? Projection.fromJson(json['Projection'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final indexName = this.indexName;
-    final keySchema = this.keySchema;
-    final projection = this.projection;
-    return {
-      if (indexName != null) 'IndexName': indexName,
-      if (keySchema != null) 'KeySchema': keySchema,
-      if (projection != null) 'Projection': projection,
-    };
-  }
-}
-
-/// Sets the maximum number of read and write units for the specified on-demand
-/// table. If you use this parameter, you must specify
-/// <code>MaxReadRequestUnits</code>, <code>MaxWriteRequestUnits</code>, or
-/// both.
-class OnDemandThroughput {
-  /// Maximum number of read request units for the specified table.
-  ///
-  /// To specify a maximum <code>OnDemandThroughput</code> on your table, set the
-  /// value of <code>MaxReadRequestUnits</code> as greater than or equal to 1. To
-  /// remove the maximum <code>OnDemandThroughput</code> that is currently set on
-  /// your table, set the value of <code>MaxReadRequestUnits</code> to -1.
-  final int? maxReadRequestUnits;
-
-  /// Maximum number of write request units for the specified table.
-  ///
-  /// To specify a maximum <code>OnDemandThroughput</code> on your table, set the
-  /// value of <code>MaxWriteRequestUnits</code> as greater than or equal to 1. To
-  /// remove the maximum <code>OnDemandThroughput</code> that is currently set on
-  /// your table, set the value of <code>MaxWriteRequestUnits</code> to -1.
-  final int? maxWriteRequestUnits;
-
-  OnDemandThroughput({
-    this.maxReadRequestUnits,
-    this.maxWriteRequestUnits,
-  });
-
-  factory OnDemandThroughput.fromJson(Map<String, dynamic> json) {
-    return OnDemandThroughput(
-      maxReadRequestUnits: json['MaxReadRequestUnits'] as int?,
-      maxWriteRequestUnits: json['MaxWriteRequestUnits'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final maxReadRequestUnits = this.maxReadRequestUnits;
-    final maxWriteRequestUnits = this.maxWriteRequestUnits;
-    return {
-      if (maxReadRequestUnits != null)
-        'MaxReadRequestUnits': maxReadRequestUnits,
-      if (maxWriteRequestUnits != null)
-        'MaxWriteRequestUnits': maxWriteRequestUnits,
-    };
-  }
-}
-
-/// Overrides the on-demand throughput settings for this replica table. If you
-/// don't specify a value for this parameter, it uses the source table's
-/// on-demand throughput settings.
-class OnDemandThroughputOverride {
-  /// Maximum number of read request units for the specified replica table.
-  final int? maxReadRequestUnits;
-
-  OnDemandThroughputOverride({
-    this.maxReadRequestUnits,
-  });
-
-  factory OnDemandThroughputOverride.fromJson(Map<String, dynamic> json) {
-    return OnDemandThroughputOverride(
-      maxReadRequestUnits: json['MaxReadRequestUnits'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final maxReadRequestUnits = this.maxReadRequestUnits;
-    return {
-      if (maxReadRequestUnits != null)
-        'MaxReadRequestUnits': maxReadRequestUnits,
-    };
-  }
-}
-
-/// Represents a PartiQL statement that uses parameters.
-class ParameterizedStatement {
-  /// A PartiQL statement that uses parameters.
-  final String statement;
-
-  /// The parameter values.
-  final List<AttributeValue>? parameters;
-
-  /// An optional parameter that returns the item attributes for a PartiQL
-  /// <code>ParameterizedStatement</code> operation that failed a condition check.
-  ///
-  /// There is no additional cost associated with requesting a return value aside
-  /// from the small network and processing overhead of receiving a larger
-  /// response. No read capacity units are consumed.
-  final ReturnValuesOnConditionCheckFailure?
-      returnValuesOnConditionCheckFailure;
-
-  ParameterizedStatement({
-    required this.statement,
-    this.parameters,
-    this.returnValuesOnConditionCheckFailure,
-  });
-
-  Map<String, dynamic> toJson() {
-    final statement = this.statement;
-    final parameters = this.parameters;
-    final returnValuesOnConditionCheckFailure =
-        this.returnValuesOnConditionCheckFailure;
-    return {
-      'Statement': statement,
-      if (parameters != null) 'Parameters': parameters,
-      if (returnValuesOnConditionCheckFailure != null)
-        'ReturnValuesOnConditionCheckFailure':
-            returnValuesOnConditionCheckFailure.value,
-    };
-  }
-}
-
-/// The description of the point in time settings applied to the table.
-class PointInTimeRecoveryDescription {
-  /// Specifies the earliest point in time you can restore your table to. You can
-  /// restore your table to any point in time during the last 35 days.
-  final DateTime? earliestRestorableDateTime;
-
-  /// <code>LatestRestorableDateTime</code> is typically 5 minutes before the
-  /// current time.
-  final DateTime? latestRestorableDateTime;
-
-  /// The current state of point in time recovery:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ENABLED</code> - Point in time recovery is enabled.
-  /// </li>
-  /// <li>
-  /// <code>DISABLED</code> - Point in time recovery is disabled.
-  /// </li>
-  /// </ul>
-  final PointInTimeRecoveryStatus? pointInTimeRecoveryStatus;
-
-  PointInTimeRecoveryDescription({
-    this.earliestRestorableDateTime,
-    this.latestRestorableDateTime,
-    this.pointInTimeRecoveryStatus,
-  });
-
-  factory PointInTimeRecoveryDescription.fromJson(Map<String, dynamic> json) {
-    return PointInTimeRecoveryDescription(
-      earliestRestorableDateTime:
-          timeStampFromJson(json['EarliestRestorableDateTime']),
-      latestRestorableDateTime:
-          timeStampFromJson(json['LatestRestorableDateTime']),
-      pointInTimeRecoveryStatus: (json['PointInTimeRecoveryStatus'] as String?)
-          ?.let(PointInTimeRecoveryStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final earliestRestorableDateTime = this.earliestRestorableDateTime;
-    final latestRestorableDateTime = this.latestRestorableDateTime;
-    final pointInTimeRecoveryStatus = this.pointInTimeRecoveryStatus;
-    return {
-      if (earliestRestorableDateTime != null)
-        'EarliestRestorableDateTime':
-            unixTimestampToJson(earliestRestorableDateTime),
-      if (latestRestorableDateTime != null)
-        'LatestRestorableDateTime':
-            unixTimestampToJson(latestRestorableDateTime),
-      if (pointInTimeRecoveryStatus != null)
-        'PointInTimeRecoveryStatus': pointInTimeRecoveryStatus.value,
-    };
-  }
-}
-
-/// Represents the settings used to enable point in time recovery.
-class PointInTimeRecoverySpecification {
-  /// Indicates whether point in time recovery is enabled (true) or disabled
-  /// (false) on the table.
-  final bool pointInTimeRecoveryEnabled;
-
-  PointInTimeRecoverySpecification({
-    required this.pointInTimeRecoveryEnabled,
-  });
-
-  Map<String, dynamic> toJson() {
-    final pointInTimeRecoveryEnabled = this.pointInTimeRecoveryEnabled;
-    return {
-      'PointInTimeRecoveryEnabled': pointInTimeRecoveryEnabled,
-    };
-  }
-}
-
-class PointInTimeRecoveryStatus {
-  static const enabled = PointInTimeRecoveryStatus._('ENABLED');
-  static const disabled = PointInTimeRecoveryStatus._('DISABLED');
-
-  final String value;
-
-  const PointInTimeRecoveryStatus._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static PointInTimeRecoveryStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PointInTimeRecoveryStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PointInTimeRecoveryStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents attributes that are copied (projected) from the table into an
-/// index. These are in addition to the primary key attributes and index key
-/// attributes, which are automatically projected.
-class Projection {
-  /// Represents the non-key attribute names which will be projected into the
-  /// index.
-  ///
-  /// For local secondary indexes, the total count of
-  /// <code>NonKeyAttributes</code> summed across all of the local secondary
-  /// indexes, must not exceed 100. If you project the same attribute into two
-  /// different indexes, this counts as two distinct attributes when determining
-  /// the total.
-  final List<String>? nonKeyAttributes;
-
-  /// The set of attributes that are projected into the index:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>KEYS_ONLY</code> - Only the index and primary keys are projected into
-  /// the index.
-  /// </li>
-  /// <li>
-  /// <code>INCLUDE</code> - In addition to the attributes described in
-  /// <code>KEYS_ONLY</code>, the secondary index will include other non-key
-  /// attributes that you specify.
-  /// </li>
-  /// <li>
-  /// <code>ALL</code> - All of the table attributes are projected into the index.
-  /// </li>
-  /// </ul>
-  /// When using the DynamoDB console, <code>ALL</code> is selected by default.
-  final ProjectionType? projectionType;
-
-  Projection({
-    this.nonKeyAttributes,
-    this.projectionType,
-  });
-
-  factory Projection.fromJson(Map<String, dynamic> json) {
-    return Projection(
-      nonKeyAttributes: (json['NonKeyAttributes'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      projectionType:
-          (json['ProjectionType'] as String?)?.let(ProjectionType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nonKeyAttributes = this.nonKeyAttributes;
-    final projectionType = this.projectionType;
-    return {
-      if (nonKeyAttributes != null) 'NonKeyAttributes': nonKeyAttributes,
-      if (projectionType != null) 'ProjectionType': projectionType.value,
-    };
-  }
-}
-
-class ProjectionType {
-  static const all = ProjectionType._('ALL');
-  static const keysOnly = ProjectionType._('KEYS_ONLY');
-  static const include = ProjectionType._('INCLUDE');
-
-  final String value;
-
-  const ProjectionType._(this.value);
-
-  static const values = [all, keysOnly, include];
-
-  static ProjectionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ProjectionType._(value));
-
-  @override
-  bool operator ==(other) => other is ProjectionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents the provisioned throughput settings for a specified table or
-/// index. The settings can be modified using the <code>UpdateTable</code>
-/// operation.
-///
-/// For current minimum and maximum provisioned throughput values, see <a
-/// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Service,
-/// Account, and Table Quotas</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-class ProvisionedThroughput {
-  /// The maximum number of strongly consistent reads consumed per second before
-  /// DynamoDB returns a <code>ThrottlingException</code>. For more information,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughput.html">Specifying
-  /// Read and Write Requirements</a> in the <i>Amazon DynamoDB Developer
-  /// Guide</i>.
-  ///
-  /// If read/write capacity mode is <code>PAY_PER_REQUEST</code> the value is set
-  /// to 0.
-  final int readCapacityUnits;
-
-  /// The maximum number of writes consumed per second before DynamoDB returns a
-  /// <code>ThrottlingException</code>. For more information, see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughput.html">Specifying
-  /// Read and Write Requirements</a> in the <i>Amazon DynamoDB Developer
-  /// Guide</i>.
-  ///
-  /// If read/write capacity mode is <code>PAY_PER_REQUEST</code> the value is set
-  /// to 0.
-  final int writeCapacityUnits;
-
-  ProvisionedThroughput({
-    required this.readCapacityUnits,
-    required this.writeCapacityUnits,
-  });
-
-  factory ProvisionedThroughput.fromJson(Map<String, dynamic> json) {
-    return ProvisionedThroughput(
-      readCapacityUnits: (json['ReadCapacityUnits'] as int?) ?? 0,
-      writeCapacityUnits: (json['WriteCapacityUnits'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final readCapacityUnits = this.readCapacityUnits;
-    final writeCapacityUnits = this.writeCapacityUnits;
-    return {
-      'ReadCapacityUnits': readCapacityUnits,
-      'WriteCapacityUnits': writeCapacityUnits,
-    };
-  }
-}
-
-/// Represents the provisioned throughput settings for the table, consisting of
-/// read and write capacity units, along with data about increases and
-/// decreases.
-class ProvisionedThroughputDescription {
-  /// The date and time of the last provisioned throughput decrease for this
-  /// table.
-  final DateTime? lastDecreaseDateTime;
-
-  /// The date and time of the last provisioned throughput increase for this
-  /// table.
-  final DateTime? lastIncreaseDateTime;
-
-  /// The number of provisioned throughput decreases for this table during this
-  /// UTC calendar day. For current maximums on provisioned throughput decreases,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Service,
-  /// Account, and Table Quotas</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-  final int? numberOfDecreasesToday;
-
-  /// The maximum number of strongly consistent reads consumed per second before
-  /// DynamoDB returns a <code>ThrottlingException</code>. Eventually consistent
-  /// reads require less effort than strongly consistent reads, so a setting of 50
-  /// <code>ReadCapacityUnits</code> per second provides 100 eventually consistent
-  /// <code>ReadCapacityUnits</code> per second.
-  final int? readCapacityUnits;
-
-  /// The maximum number of writes consumed per second before DynamoDB returns a
-  /// <code>ThrottlingException</code>.
-  final int? writeCapacityUnits;
-
-  ProvisionedThroughputDescription({
-    this.lastDecreaseDateTime,
-    this.lastIncreaseDateTime,
-    this.numberOfDecreasesToday,
-    this.readCapacityUnits,
-    this.writeCapacityUnits,
-  });
-
-  factory ProvisionedThroughputDescription.fromJson(Map<String, dynamic> json) {
-    return ProvisionedThroughputDescription(
-      lastDecreaseDateTime: timeStampFromJson(json['LastDecreaseDateTime']),
-      lastIncreaseDateTime: timeStampFromJson(json['LastIncreaseDateTime']),
-      numberOfDecreasesToday: json['NumberOfDecreasesToday'] as int?,
-      readCapacityUnits: json['ReadCapacityUnits'] as int?,
-      writeCapacityUnits: json['WriteCapacityUnits'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lastDecreaseDateTime = this.lastDecreaseDateTime;
-    final lastIncreaseDateTime = this.lastIncreaseDateTime;
-    final numberOfDecreasesToday = this.numberOfDecreasesToday;
-    final readCapacityUnits = this.readCapacityUnits;
-    final writeCapacityUnits = this.writeCapacityUnits;
-    return {
-      if (lastDecreaseDateTime != null)
-        'LastDecreaseDateTime': unixTimestampToJson(lastDecreaseDateTime),
-      if (lastIncreaseDateTime != null)
-        'LastIncreaseDateTime': unixTimestampToJson(lastIncreaseDateTime),
-      if (numberOfDecreasesToday != null)
-        'NumberOfDecreasesToday': numberOfDecreasesToday,
-      if (readCapacityUnits != null) 'ReadCapacityUnits': readCapacityUnits,
-      if (writeCapacityUnits != null) 'WriteCapacityUnits': writeCapacityUnits,
-    };
-  }
-}
-
-/// Replica-specific provisioned throughput settings. If not specified, uses the
-/// source table's provisioned throughput settings.
-class ProvisionedThroughputOverride {
-  /// Replica-specific read capacity units. If not specified, uses the source
-  /// table's read capacity settings.
-  final int? readCapacityUnits;
-
-  ProvisionedThroughputOverride({
-    this.readCapacityUnits,
-  });
-
-  factory ProvisionedThroughputOverride.fromJson(Map<String, dynamic> json) {
-    return ProvisionedThroughputOverride(
-      readCapacityUnits: json['ReadCapacityUnits'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final readCapacityUnits = this.readCapacityUnits;
-    return {
-      if (readCapacityUnits != null) 'ReadCapacityUnits': readCapacityUnits,
-    };
-  }
-}
-
-/// Represents a request to perform a <code>PutItem</code> operation.
-class Put {
-  /// A map of attribute name to attribute values, representing the primary key of
-  /// the item to be written by <code>PutItem</code>. All of the table's primary
-  /// key attributes must be specified, and their data types must match those of
-  /// the table's key schema. If any attributes are present in the item that are
-  /// part of an index key schema for the table, their types must match the index
-  /// key schema.
-  final Map<String, AttributeValue> item;
-
-  /// Name of the table in which to write the item. You can also provide the
-  /// Amazon Resource Name (ARN) of the table in this parameter.
-  final String tableName;
-
-  /// A condition that must be satisfied in order for a conditional update to
-  /// succeed.
-  final String? conditionExpression;
-
-  /// One or more substitution tokens for attribute names in an expression.
-  final Map<String, String>? expressionAttributeNames;
-
-  /// One or more values that can be substituted in an expression.
-  final Map<String, AttributeValue>? expressionAttributeValues;
-
-  /// Use <code>ReturnValuesOnConditionCheckFailure</code> to get the item
-  /// attributes if the <code>Put</code> condition fails. For
-  /// <code>ReturnValuesOnConditionCheckFailure</code>, the valid values are: NONE
-  /// and ALL_OLD.
-  final ReturnValuesOnConditionCheckFailure?
-      returnValuesOnConditionCheckFailure;
-
-  Put({
-    required this.item,
-    required this.tableName,
-    this.conditionExpression,
-    this.expressionAttributeNames,
-    this.expressionAttributeValues,
-    this.returnValuesOnConditionCheckFailure,
-  });
-
-  Map<String, dynamic> toJson() {
-    final item = this.item;
-    final tableName = this.tableName;
-    final conditionExpression = this.conditionExpression;
-    final expressionAttributeNames = this.expressionAttributeNames;
-    final expressionAttributeValues = this.expressionAttributeValues;
-    final returnValuesOnConditionCheckFailure =
-        this.returnValuesOnConditionCheckFailure;
-    return {
-      'Item': item,
-      'TableName': tableName,
-      if (conditionExpression != null)
-        'ConditionExpression': conditionExpression,
-      if (expressionAttributeNames != null)
-        'ExpressionAttributeNames': expressionAttributeNames,
-      if (expressionAttributeValues != null)
-        'ExpressionAttributeValues': expressionAttributeValues,
-      if (returnValuesOnConditionCheckFailure != null)
-        'ReturnValuesOnConditionCheckFailure':
-            returnValuesOnConditionCheckFailure.value,
-    };
-  }
-}
-
 /// Represents the output of a <code>PutItem</code> operation.
 class PutItemOutput {
   /// The attribute values as they appeared before the <code>PutItem</code>
@@ -12382,37 +7524,6 @@ class PutItemOutput {
       if (consumedCapacity != null) 'ConsumedCapacity': consumedCapacity,
       if (itemCollectionMetrics != null)
         'ItemCollectionMetrics': itemCollectionMetrics,
-    };
-  }
-}
-
-/// Represents a request to perform a <code>PutItem</code> operation on an item.
-class PutRequest {
-  /// A map of attribute name to attribute values, representing the primary key of
-  /// an item to be processed by <code>PutItem</code>. All of the table's primary
-  /// key attributes must be specified, and their data types must match those of
-  /// the table's key schema. If any attributes are present in the item that are
-  /// part of an index key schema for the table, their types must match the index
-  /// key schema.
-  final Map<String, AttributeValue> item;
-
-  PutRequest({
-    required this.item,
-  });
-
-  factory PutRequest.fromJson(Map<String, dynamic> json) {
-    return PutRequest(
-      item: ((json['Item'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{})
-          .map((k, e) =>
-              MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final item = this.item;
-    return {
-      'Item': item,
     };
   }
 }
@@ -12535,27 +7646,728 @@ class QueryOutput {
   }
 }
 
-/// Represents the properties of a replica.
-class Replica {
-  /// The Region where the replica needs to be created.
-  final String? regionName;
+class RestoreTableFromBackupOutput {
+  /// The description of the table created from an existing backup.
+  final TableDescription? tableDescription;
 
-  Replica({
-    this.regionName,
+  RestoreTableFromBackupOutput({
+    this.tableDescription,
   });
 
-  factory Replica.fromJson(Map<String, dynamic> json) {
-    return Replica(
-      regionName: json['RegionName'] as String?,
+  factory RestoreTableFromBackupOutput.fromJson(Map<String, dynamic> json) {
+    return RestoreTableFromBackupOutput(
+      tableDescription: json['TableDescription'] != null
+          ? TableDescription.fromJson(
+              json['TableDescription'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final regionName = this.regionName;
+    final tableDescription = this.tableDescription;
     return {
-      if (regionName != null) 'RegionName': regionName,
+      if (tableDescription != null) 'TableDescription': tableDescription,
     };
   }
+}
+
+class RestoreTableToPointInTimeOutput {
+  /// Represents the properties of a table.
+  final TableDescription? tableDescription;
+
+  RestoreTableToPointInTimeOutput({
+    this.tableDescription,
+  });
+
+  factory RestoreTableToPointInTimeOutput.fromJson(Map<String, dynamic> json) {
+    return RestoreTableToPointInTimeOutput(
+      tableDescription: json['TableDescription'] != null
+          ? TableDescription.fromJson(
+              json['TableDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tableDescription = this.tableDescription;
+    return {
+      if (tableDescription != null) 'TableDescription': tableDescription,
+    };
+  }
+}
+
+/// Represents the output of a <code>Scan</code> operation.
+class ScanOutput {
+  /// The capacity units consumed by the <code>Scan</code> operation. The data
+  /// returned includes the total provisioned throughput consumed, along with
+  /// statistics for the table and any indexes involved in the operation.
+  /// <code>ConsumedCapacity</code> is only returned if the
+  /// <code>ReturnConsumedCapacity</code> parameter was specified. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/read-write-operations.html#read-operation-consumption">Capacity
+  /// unit consumption for read operations</a> in the <i>Amazon DynamoDB Developer
+  /// Guide</i>.
+  final ConsumedCapacity? consumedCapacity;
+
+  /// The number of items in the response.
+  ///
+  /// If you set <code>ScanFilter</code> in the request, then <code>Count</code>
+  /// is the number of items returned after the filter was applied, and
+  /// <code>ScannedCount</code> is the number of matching items before the filter
+  /// was applied.
+  ///
+  /// If you did not use a filter in the request, then <code>Count</code> is the
+  /// same as <code>ScannedCount</code>.
+  final int? count;
+
+  /// An array of item attributes that match the scan criteria. Each element in
+  /// this array consists of an attribute name and the value for that attribute.
+  final List<Map<String, AttributeValue>>? items;
+
+  /// The primary key of the item where the operation stopped, inclusive of the
+  /// previous result set. Use this value to start a new operation, excluding this
+  /// value in the new request.
+  ///
+  /// If <code>LastEvaluatedKey</code> is empty, then the "last page" of results
+  /// has been processed and there is no more data to be retrieved.
+  ///
+  /// If <code>LastEvaluatedKey</code> is not empty, it does not necessarily mean
+  /// that there is more data in the result set. The only way to know when you
+  /// have reached the end of the result set is when <code>LastEvaluatedKey</code>
+  /// is empty.
+  final Map<String, AttributeValue>? lastEvaluatedKey;
+
+  /// The number of items evaluated, before any <code>ScanFilter</code> is
+  /// applied. A high <code>ScannedCount</code> value with few, or no,
+  /// <code>Count</code> results indicates an inefficient <code>Scan</code>
+  /// operation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/QueryAndScan.html#Count">Count
+  /// and ScannedCount</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  ///
+  /// If you did not use a filter in the request, then <code>ScannedCount</code>
+  /// is the same as <code>Count</code>.
+  final int? scannedCount;
+
+  ScanOutput({
+    this.consumedCapacity,
+    this.count,
+    this.items,
+    this.lastEvaluatedKey,
+    this.scannedCount,
+  });
+
+  factory ScanOutput.fromJson(Map<String, dynamic> json) {
+    return ScanOutput(
+      consumedCapacity: json['ConsumedCapacity'] != null
+          ? ConsumedCapacity.fromJson(
+              json['ConsumedCapacity'] as Map<String, dynamic>)
+          : null,
+      count: json['Count'] as int?,
+      items: (json['Items'] as List?)
+          ?.nonNulls
+          .map((e) => (e as Map<String, dynamic>).map((k, e) =>
+              MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))))
+          .toList(),
+      lastEvaluatedKey: (json['LastEvaluatedKey'] as Map<String, dynamic>?)
+          ?.map((k, e) =>
+              MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      scannedCount: json['ScannedCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final consumedCapacity = this.consumedCapacity;
+    final count = this.count;
+    final items = this.items;
+    final lastEvaluatedKey = this.lastEvaluatedKey;
+    final scannedCount = this.scannedCount;
+    return {
+      if (consumedCapacity != null) 'ConsumedCapacity': consumedCapacity,
+      if (count != null) 'Count': count,
+      if (items != null) 'Items': items,
+      if (lastEvaluatedKey != null) 'LastEvaluatedKey': lastEvaluatedKey,
+      if (scannedCount != null) 'ScannedCount': scannedCount,
+    };
+  }
+}
+
+class TransactGetItemsOutput {
+  /// If the <i>ReturnConsumedCapacity</i> value was <code>TOTAL</code>, this is
+  /// an array of <code>ConsumedCapacity</code> objects, one for each table
+  /// addressed by <code>TransactGetItem</code> objects in the
+  /// <i>TransactItems</i> parameter. These <code>ConsumedCapacity</code> objects
+  /// report the read-capacity units consumed by the <code>TransactGetItems</code>
+  /// call in that table.
+  final List<ConsumedCapacity>? consumedCapacity;
+
+  /// An ordered array of up to 100 <code>ItemResponse</code> objects, each of
+  /// which corresponds to the <code>TransactGetItem</code> object in the same
+  /// position in the <i>TransactItems</i> array. Each <code>ItemResponse</code>
+  /// object contains a Map of the name-value pairs that are the projected
+  /// attributes of the requested item.
+  ///
+  /// If a requested item could not be retrieved, the corresponding
+  /// <code>ItemResponse</code> object is Null, or if the requested item has no
+  /// projected attributes, the corresponding <code>ItemResponse</code> object is
+  /// an empty Map.
+  final List<ItemResponse>? responses;
+
+  TransactGetItemsOutput({
+    this.consumedCapacity,
+    this.responses,
+  });
+
+  factory TransactGetItemsOutput.fromJson(Map<String, dynamic> json) {
+    return TransactGetItemsOutput(
+      consumedCapacity: (json['ConsumedCapacity'] as List?)
+          ?.nonNulls
+          .map((e) => ConsumedCapacity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      responses: (json['Responses'] as List?)
+          ?.nonNulls
+          .map((e) => ItemResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final consumedCapacity = this.consumedCapacity;
+    final responses = this.responses;
+    return {
+      if (consumedCapacity != null) 'ConsumedCapacity': consumedCapacity,
+      if (responses != null) 'Responses': responses,
+    };
+  }
+}
+
+class TransactWriteItemsOutput {
+  /// The capacity units consumed by the entire <code>TransactWriteItems</code>
+  /// operation. The values of the list are ordered according to the ordering of
+  /// the <code>TransactItems</code> request parameter.
+  final List<ConsumedCapacity>? consumedCapacity;
+
+  /// A list of tables that were processed by <code>TransactWriteItems</code> and,
+  /// for each table, information about any item collections that were affected by
+  /// individual <code>UpdateItem</code>, <code>PutItem</code>, or
+  /// <code>DeleteItem</code> operations.
+  final Map<String, List<ItemCollectionMetrics>>? itemCollectionMetrics;
+
+  TransactWriteItemsOutput({
+    this.consumedCapacity,
+    this.itemCollectionMetrics,
+  });
+
+  factory TransactWriteItemsOutput.fromJson(Map<String, dynamic> json) {
+    return TransactWriteItemsOutput(
+      consumedCapacity: (json['ConsumedCapacity'] as List?)
+          ?.nonNulls
+          .map((e) => ConsumedCapacity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      itemCollectionMetrics: (json['ItemCollectionMetrics']
+              as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k,
+              (e as List)
+                  .nonNulls
+                  .map((e) =>
+                      ItemCollectionMetrics.fromJson(e as Map<String, dynamic>))
+                  .toList())),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final consumedCapacity = this.consumedCapacity;
+    final itemCollectionMetrics = this.itemCollectionMetrics;
+    return {
+      if (consumedCapacity != null) 'ConsumedCapacity': consumedCapacity,
+      if (itemCollectionMetrics != null)
+        'ItemCollectionMetrics': itemCollectionMetrics,
+    };
+  }
+}
+
+class UpdateContinuousBackupsOutput {
+  /// Represents the continuous backups and point in time recovery settings on the
+  /// table.
+  final ContinuousBackupsDescription? continuousBackupsDescription;
+
+  UpdateContinuousBackupsOutput({
+    this.continuousBackupsDescription,
+  });
+
+  factory UpdateContinuousBackupsOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateContinuousBackupsOutput(
+      continuousBackupsDescription: json['ContinuousBackupsDescription'] != null
+          ? ContinuousBackupsDescription.fromJson(
+              json['ContinuousBackupsDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final continuousBackupsDescription = this.continuousBackupsDescription;
+    return {
+      if (continuousBackupsDescription != null)
+        'ContinuousBackupsDescription': continuousBackupsDescription,
+    };
+  }
+}
+
+class UpdateContributorInsightsOutput {
+  /// The updated mode of CloudWatch Contributor Insights that determines whether
+  /// to monitor all access and throttled events or to track throttled events
+  /// exclusively.
+  final ContributorInsightsMode? contributorInsightsMode;
+
+  /// The status of contributor insights
+  final ContributorInsightsStatus? contributorInsightsStatus;
+
+  /// The name of the global secondary index, if applicable.
+  final String? indexName;
+
+  /// The name of the table.
+  final String? tableName;
+
+  UpdateContributorInsightsOutput({
+    this.contributorInsightsMode,
+    this.contributorInsightsStatus,
+    this.indexName,
+    this.tableName,
+  });
+
+  factory UpdateContributorInsightsOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateContributorInsightsOutput(
+      contributorInsightsMode: (json['ContributorInsightsMode'] as String?)
+          ?.let(ContributorInsightsMode.fromString),
+      contributorInsightsStatus: (json['ContributorInsightsStatus'] as String?)
+          ?.let(ContributorInsightsStatus.fromString),
+      indexName: json['IndexName'] as String?,
+      tableName: json['TableName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contributorInsightsMode = this.contributorInsightsMode;
+    final contributorInsightsStatus = this.contributorInsightsStatus;
+    final indexName = this.indexName;
+    final tableName = this.tableName;
+    return {
+      if (contributorInsightsMode != null)
+        'ContributorInsightsMode': contributorInsightsMode.value,
+      if (contributorInsightsStatus != null)
+        'ContributorInsightsStatus': contributorInsightsStatus.value,
+      if (indexName != null) 'IndexName': indexName,
+      if (tableName != null) 'TableName': tableName,
+    };
+  }
+}
+
+class UpdateGlobalTableOutput {
+  /// Contains the details of the global table.
+  final GlobalTableDescription? globalTableDescription;
+
+  UpdateGlobalTableOutput({
+    this.globalTableDescription,
+  });
+
+  factory UpdateGlobalTableOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateGlobalTableOutput(
+      globalTableDescription: json['GlobalTableDescription'] != null
+          ? GlobalTableDescription.fromJson(
+              json['GlobalTableDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalTableDescription = this.globalTableDescription;
+    return {
+      if (globalTableDescription != null)
+        'GlobalTableDescription': globalTableDescription,
+    };
+  }
+}
+
+class UpdateGlobalTableSettingsOutput {
+  /// The name of the global table.
+  final String? globalTableName;
+
+  /// The Region-specific settings for the global table.
+  final List<ReplicaSettingsDescription>? replicaSettings;
+
+  UpdateGlobalTableSettingsOutput({
+    this.globalTableName,
+    this.replicaSettings,
+  });
+
+  factory UpdateGlobalTableSettingsOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateGlobalTableSettingsOutput(
+      globalTableName: json['GlobalTableName'] as String?,
+      replicaSettings: (json['ReplicaSettings'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ReplicaSettingsDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalTableName = this.globalTableName;
+    final replicaSettings = this.replicaSettings;
+    return {
+      if (globalTableName != null) 'GlobalTableName': globalTableName,
+      if (replicaSettings != null) 'ReplicaSettings': replicaSettings,
+    };
+  }
+}
+
+/// Represents the output of an <code>UpdateItem</code> operation.
+class UpdateItemOutput {
+  /// A map of attribute values as they appear before or after the
+  /// <code>UpdateItem</code> operation, as determined by the
+  /// <code>ReturnValues</code> parameter.
+  ///
+  /// The <code>Attributes</code> map is only present if the update was successful
+  /// and <code>ReturnValues</code> was specified as something other than
+  /// <code>NONE</code> in the request. Each element represents one attribute.
+  final Map<String, AttributeValue>? attributes;
+
+  /// The capacity units consumed by the <code>UpdateItem</code> operation. The
+  /// data returned includes the total provisioned throughput consumed, along with
+  /// statistics for the table and any indexes involved in the operation.
+  /// <code>ConsumedCapacity</code> is only returned if the
+  /// <code>ReturnConsumedCapacity</code> parameter was specified. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/read-write-operations.html#write-operation-consumption">Capacity
+  /// unity consumption for write operations</a> in the <i>Amazon DynamoDB
+  /// Developer Guide</i>.
+  final ConsumedCapacity? consumedCapacity;
+
+  /// Information about item collections, if any, that were affected by the
+  /// <code>UpdateItem</code> operation. <code>ItemCollectionMetrics</code> is
+  /// only returned if the <code>ReturnItemCollectionMetrics</code> parameter was
+  /// specified. If the table does not have any local secondary indexes, this
+  /// information is not returned in the response.
+  ///
+  /// Each <code>ItemCollectionMetrics</code> element consists of:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ItemCollectionKey</code> - The partition key value of the item
+  /// collection. This is the same as the partition key value of the item itself.
+  /// </li>
+  /// <li>
+  /// <code>SizeEstimateRangeGB</code> - An estimate of item collection size, in
+  /// gigabytes. This value is a two-element array containing a lower bound and an
+  /// upper bound for the estimate. The estimate includes the size of all the
+  /// items in the table, plus the size of all attributes projected into all of
+  /// the local secondary indexes on that table. Use this estimate to measure
+  /// whether a local secondary index is approaching its size limit.
+  ///
+  /// The estimate is subject to change over time; therefore, do not rely on the
+  /// precision or accuracy of the estimate.
+  /// </li>
+  /// </ul>
+  final ItemCollectionMetrics? itemCollectionMetrics;
+
+  UpdateItemOutput({
+    this.attributes,
+    this.consumedCapacity,
+    this.itemCollectionMetrics,
+  });
+
+  factory UpdateItemOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateItemOutput(
+      attributes: (json['Attributes'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      consumedCapacity: json['ConsumedCapacity'] != null
+          ? ConsumedCapacity.fromJson(
+              json['ConsumedCapacity'] as Map<String, dynamic>)
+          : null,
+      itemCollectionMetrics: json['ItemCollectionMetrics'] != null
+          ? ItemCollectionMetrics.fromJson(
+              json['ItemCollectionMetrics'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final consumedCapacity = this.consumedCapacity;
+    final itemCollectionMetrics = this.itemCollectionMetrics;
+    return {
+      if (attributes != null) 'Attributes': attributes,
+      if (consumedCapacity != null) 'ConsumedCapacity': consumedCapacity,
+      if (itemCollectionMetrics != null)
+        'ItemCollectionMetrics': itemCollectionMetrics,
+    };
+  }
+}
+
+class UpdateKinesisStreamingDestinationOutput {
+  /// The status of the attempt to update the Kinesis streaming destination
+  /// output.
+  final DestinationStatus? destinationStatus;
+
+  /// The ARN for the Kinesis stream input.
+  final String? streamArn;
+
+  /// The table name for the Kinesis streaming destination output.
+  final String? tableName;
+
+  /// The command to update the Kinesis streaming destination configuration.
+  final UpdateKinesisStreamingConfiguration?
+      updateKinesisStreamingConfiguration;
+
+  UpdateKinesisStreamingDestinationOutput({
+    this.destinationStatus,
+    this.streamArn,
+    this.tableName,
+    this.updateKinesisStreamingConfiguration,
+  });
+
+  factory UpdateKinesisStreamingDestinationOutput.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateKinesisStreamingDestinationOutput(
+      destinationStatus: (json['DestinationStatus'] as String?)
+          ?.let(DestinationStatus.fromString),
+      streamArn: json['StreamArn'] as String?,
+      tableName: json['TableName'] as String?,
+      updateKinesisStreamingConfiguration:
+          json['UpdateKinesisStreamingConfiguration'] != null
+              ? UpdateKinesisStreamingConfiguration.fromJson(
+                  json['UpdateKinesisStreamingConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationStatus = this.destinationStatus;
+    final streamArn = this.streamArn;
+    final tableName = this.tableName;
+    final updateKinesisStreamingConfiguration =
+        this.updateKinesisStreamingConfiguration;
+    return {
+      if (destinationStatus != null)
+        'DestinationStatus': destinationStatus.value,
+      if (streamArn != null) 'StreamArn': streamArn,
+      if (tableName != null) 'TableName': tableName,
+      if (updateKinesisStreamingConfiguration != null)
+        'UpdateKinesisStreamingConfiguration':
+            updateKinesisStreamingConfiguration,
+    };
+  }
+}
+
+/// Represents the output of an <code>UpdateTable</code> operation.
+class UpdateTableOutput {
+  /// Represents the properties of the table.
+  final TableDescription? tableDescription;
+
+  UpdateTableOutput({
+    this.tableDescription,
+  });
+
+  factory UpdateTableOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateTableOutput(
+      tableDescription: json['TableDescription'] != null
+          ? TableDescription.fromJson(
+              json['TableDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tableDescription = this.tableDescription;
+    return {
+      if (tableDescription != null) 'TableDescription': tableDescription,
+    };
+  }
+}
+
+class UpdateTableReplicaAutoScalingOutput {
+  /// Returns information about the auto scaling settings of a table with
+  /// replicas.
+  final TableAutoScalingDescription? tableAutoScalingDescription;
+
+  UpdateTableReplicaAutoScalingOutput({
+    this.tableAutoScalingDescription,
+  });
+
+  factory UpdateTableReplicaAutoScalingOutput.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateTableReplicaAutoScalingOutput(
+      tableAutoScalingDescription: json['TableAutoScalingDescription'] != null
+          ? TableAutoScalingDescription.fromJson(
+              json['TableAutoScalingDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tableAutoScalingDescription = this.tableAutoScalingDescription;
+    return {
+      if (tableAutoScalingDescription != null)
+        'TableAutoScalingDescription': tableAutoScalingDescription,
+    };
+  }
+}
+
+class UpdateTimeToLiveOutput {
+  /// Represents the output of an <code>UpdateTimeToLive</code> operation.
+  final TimeToLiveSpecification? timeToLiveSpecification;
+
+  UpdateTimeToLiveOutput({
+    this.timeToLiveSpecification,
+  });
+
+  factory UpdateTimeToLiveOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateTimeToLiveOutput(
+      timeToLiveSpecification: json['TimeToLiveSpecification'] != null
+          ? TimeToLiveSpecification.fromJson(
+              json['TimeToLiveSpecification'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timeToLiveSpecification = this.timeToLiveSpecification;
+    return {
+      if (timeToLiveSpecification != null)
+        'TimeToLiveSpecification': timeToLiveSpecification,
+    };
+  }
+}
+
+/// Represents the settings used to enable or disable Time to Live (TTL) for the
+/// specified table.
+class TimeToLiveSpecification {
+  /// The name of the TTL attribute used to store the expiration time for items in
+  /// the table.
+  final String attributeName;
+
+  /// Indicates whether TTL is to be enabled (true) or disabled (false) on the
+  /// table.
+  final bool enabled;
+
+  TimeToLiveSpecification({
+    required this.attributeName,
+    required this.enabled,
+  });
+
+  factory TimeToLiveSpecification.fromJson(Map<String, dynamic> json) {
+    return TimeToLiveSpecification(
+      attributeName: (json['AttributeName'] as String?) ?? '',
+      enabled: (json['Enabled'] as bool?) ?? false,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeName = this.attributeName;
+    final enabled = this.enabled;
+    return {
+      'AttributeName': attributeName,
+      'Enabled': enabled,
+    };
+  }
+}
+
+/// Represents the auto scaling configuration for a global table.
+class TableAutoScalingDescription {
+  /// Represents replicas of the global table.
+  final List<ReplicaAutoScalingDescription>? replicas;
+
+  /// The name of the table.
+  final String? tableName;
+
+  /// The current state of the table:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATING</code> - The table is being created.
+  /// </li>
+  /// <li>
+  /// <code>UPDATING</code> - The table is being updated.
+  /// </li>
+  /// <li>
+  /// <code>DELETING</code> - The table is being deleted.
+  /// </li>
+  /// <li>
+  /// <code>ACTIVE</code> - The table is ready for use.
+  /// </li>
+  /// </ul>
+  final TableStatus? tableStatus;
+
+  TableAutoScalingDescription({
+    this.replicas,
+    this.tableName,
+    this.tableStatus,
+  });
+
+  factory TableAutoScalingDescription.fromJson(Map<String, dynamic> json) {
+    return TableAutoScalingDescription(
+      replicas: (json['Replicas'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ReplicaAutoScalingDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tableName: json['TableName'] as String?,
+      tableStatus:
+          (json['TableStatus'] as String?)?.let(TableStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicas = this.replicas;
+    final tableName = this.tableName;
+    final tableStatus = this.tableStatus;
+    return {
+      if (replicas != null) 'Replicas': replicas,
+      if (tableName != null) 'TableName': tableName,
+      if (tableStatus != null) 'TableStatus': tableStatus.value,
+    };
+  }
+}
+
+class TableStatus {
+  static const creating = TableStatus._('CREATING');
+  static const updating = TableStatus._('UPDATING');
+  static const deleting = TableStatus._('DELETING');
+  static const active = TableStatus._('ACTIVE');
+  static const inaccessibleEncryptionCredentials =
+      TableStatus._('INACCESSIBLE_ENCRYPTION_CREDENTIALS');
+  static const archiving = TableStatus._('ARCHIVING');
+  static const archived = TableStatus._('ARCHIVED');
+  static const replicationNotAuthorized =
+      TableStatus._('REPLICATION_NOT_AUTHORIZED');
+
+  final String value;
+
+  const TableStatus._(this.value);
+
+  static const values = [
+    creating,
+    updating,
+    deleting,
+    active,
+    inaccessibleEncryptionCredentials,
+    archiving,
+    archived,
+    replicationNotAuthorized
+  ];
+
+  static TableStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TableStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TableStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the auto scaling settings of the replica.
@@ -12646,217 +8458,206 @@ class ReplicaAutoScalingDescription {
   }
 }
 
-/// Represents the auto scaling settings of a replica that will be modified.
-class ReplicaAutoScalingUpdate {
-  /// The Region where the replica exists.
-  final String regionName;
+/// Represents the auto scaling settings for a global table or global secondary
+/// index.
+class AutoScalingSettingsDescription {
+  /// Disabled auto scaling for this global table or global secondary index.
+  final bool? autoScalingDisabled;
 
-  /// Represents the auto scaling settings of global secondary indexes that will
-  /// be modified.
-  final List<ReplicaGlobalSecondaryIndexAutoScalingUpdate>?
-      replicaGlobalSecondaryIndexUpdates;
-  final AutoScalingSettingsUpdate?
-      replicaProvisionedReadCapacityAutoScalingUpdate;
+  /// Role ARN used for configuring the auto scaling policy.
+  final String? autoScalingRoleArn;
 
-  ReplicaAutoScalingUpdate({
-    required this.regionName,
-    this.replicaGlobalSecondaryIndexUpdates,
-    this.replicaProvisionedReadCapacityAutoScalingUpdate,
+  /// The maximum capacity units that a global table or global secondary index
+  /// should be scaled up to.
+  final int? maximumUnits;
+
+  /// The minimum capacity units that a global table or global secondary index
+  /// should be scaled down to.
+  final int? minimumUnits;
+
+  /// Information about the scaling policies.
+  final List<AutoScalingPolicyDescription>? scalingPolicies;
+
+  AutoScalingSettingsDescription({
+    this.autoScalingDisabled,
+    this.autoScalingRoleArn,
+    this.maximumUnits,
+    this.minimumUnits,
+    this.scalingPolicies,
   });
 
-  Map<String, dynamic> toJson() {
-    final regionName = this.regionName;
-    final replicaGlobalSecondaryIndexUpdates =
-        this.replicaGlobalSecondaryIndexUpdates;
-    final replicaProvisionedReadCapacityAutoScalingUpdate =
-        this.replicaProvisionedReadCapacityAutoScalingUpdate;
-    return {
-      'RegionName': regionName,
-      if (replicaGlobalSecondaryIndexUpdates != null)
-        'ReplicaGlobalSecondaryIndexUpdates':
-            replicaGlobalSecondaryIndexUpdates,
-      if (replicaProvisionedReadCapacityAutoScalingUpdate != null)
-        'ReplicaProvisionedReadCapacityAutoScalingUpdate':
-            replicaProvisionedReadCapacityAutoScalingUpdate,
-    };
-  }
-}
-
-/// Contains the details of the replica.
-class ReplicaDescription {
-  /// Replica-specific global secondary index settings.
-  final List<ReplicaGlobalSecondaryIndexDescription>? globalSecondaryIndexes;
-
-  /// The KMS key of the replica that will be used for KMS encryption.
-  final String? kMSMasterKeyId;
-
-  /// Overrides the maximum on-demand throughput settings for the specified
-  /// replica table.
-  final OnDemandThroughputOverride? onDemandThroughputOverride;
-
-  /// Replica-specific provisioned throughput. If not described, uses the source
-  /// table's provisioned throughput settings.
-  final ProvisionedThroughputOverride? provisionedThroughputOverride;
-
-  /// The name of the Region.
-  final String? regionName;
-
-  /// The time at which the replica was first detected as inaccessible. To
-  /// determine cause of inaccessibility check the <code>ReplicaStatus</code>
-  /// property.
-  final DateTime? replicaInaccessibleDateTime;
-
-  /// The current state of the replica:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>CREATING</code> - The replica is being created.
-  /// </li>
-  /// <li>
-  /// <code>UPDATING</code> - The replica is being updated.
-  /// </li>
-  /// <li>
-  /// <code>DELETING</code> - The replica is being deleted.
-  /// </li>
-  /// <li>
-  /// <code>ACTIVE</code> - The replica is ready for use.
-  /// </li>
-  /// <li>
-  /// <code>REGION_DISABLED</code> - The replica is inaccessible because the
-  /// Amazon Web Services Region has been disabled.
-  /// <note>
-  /// If the Amazon Web Services Region remains inaccessible for more than 20
-  /// hours, DynamoDB will remove this replica from the replication group. The
-  /// replica will not be deleted and replication will stop from and to this
-  /// region.
-  /// </note> </li>
-  /// <li>
-  /// <code>INACCESSIBLE_ENCRYPTION_CREDENTIALS </code> - The KMS key used to
-  /// encrypt the table is inaccessible.
-  /// <note>
-  /// If the KMS key remains inaccessible for more than 20 hours, DynamoDB will
-  /// remove this replica from the replication group. The replica will not be
-  /// deleted and replication will stop from and to this region.
-  /// </note> </li>
-  /// </ul>
-  final ReplicaStatus? replicaStatus;
-
-  /// Detailed information about the replica status.
-  final String? replicaStatusDescription;
-
-  /// Specifies the progress of a Create, Update, or Delete action on the replica
-  /// as a percentage.
-  final String? replicaStatusPercentProgress;
-  final TableClassSummary? replicaTableClassSummary;
-
-  ReplicaDescription({
-    this.globalSecondaryIndexes,
-    this.kMSMasterKeyId,
-    this.onDemandThroughputOverride,
-    this.provisionedThroughputOverride,
-    this.regionName,
-    this.replicaInaccessibleDateTime,
-    this.replicaStatus,
-    this.replicaStatusDescription,
-    this.replicaStatusPercentProgress,
-    this.replicaTableClassSummary,
-  });
-
-  factory ReplicaDescription.fromJson(Map<String, dynamic> json) {
-    return ReplicaDescription(
-      globalSecondaryIndexes: (json['GlobalSecondaryIndexes'] as List?)
+  factory AutoScalingSettingsDescription.fromJson(Map<String, dynamic> json) {
+    return AutoScalingSettingsDescription(
+      autoScalingDisabled: json['AutoScalingDisabled'] as bool?,
+      autoScalingRoleArn: json['AutoScalingRoleArn'] as String?,
+      maximumUnits: json['MaximumUnits'] as int?,
+      minimumUnits: json['MinimumUnits'] as int?,
+      scalingPolicies: (json['ScalingPolicies'] as List?)
           ?.nonNulls
-          .map((e) => ReplicaGlobalSecondaryIndexDescription.fromJson(
-              e as Map<String, dynamic>))
+          .map((e) =>
+              AutoScalingPolicyDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
-      kMSMasterKeyId: json['KMSMasterKeyId'] as String?,
-      onDemandThroughputOverride: json['OnDemandThroughputOverride'] != null
-          ? OnDemandThroughputOverride.fromJson(
-              json['OnDemandThroughputOverride'] as Map<String, dynamic>)
-          : null,
-      provisionedThroughputOverride:
-          json['ProvisionedThroughputOverride'] != null
-              ? ProvisionedThroughputOverride.fromJson(
-                  json['ProvisionedThroughputOverride'] as Map<String, dynamic>)
-              : null,
-      regionName: json['RegionName'] as String?,
-      replicaInaccessibleDateTime:
-          timeStampFromJson(json['ReplicaInaccessibleDateTime']),
-      replicaStatus:
-          (json['ReplicaStatus'] as String?)?.let(ReplicaStatus.fromString),
-      replicaStatusDescription: json['ReplicaStatusDescription'] as String?,
-      replicaStatusPercentProgress:
-          json['ReplicaStatusPercentProgress'] as String?,
-      replicaTableClassSummary: json['ReplicaTableClassSummary'] != null
-          ? TableClassSummary.fromJson(
-              json['ReplicaTableClassSummary'] as Map<String, dynamic>)
-          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final globalSecondaryIndexes = this.globalSecondaryIndexes;
-    final kMSMasterKeyId = this.kMSMasterKeyId;
-    final onDemandThroughputOverride = this.onDemandThroughputOverride;
-    final provisionedThroughputOverride = this.provisionedThroughputOverride;
-    final regionName = this.regionName;
-    final replicaInaccessibleDateTime = this.replicaInaccessibleDateTime;
-    final replicaStatus = this.replicaStatus;
-    final replicaStatusDescription = this.replicaStatusDescription;
-    final replicaStatusPercentProgress = this.replicaStatusPercentProgress;
-    final replicaTableClassSummary = this.replicaTableClassSummary;
+    final autoScalingDisabled = this.autoScalingDisabled;
+    final autoScalingRoleArn = this.autoScalingRoleArn;
+    final maximumUnits = this.maximumUnits;
+    final minimumUnits = this.minimumUnits;
+    final scalingPolicies = this.scalingPolicies;
     return {
-      if (globalSecondaryIndexes != null)
-        'GlobalSecondaryIndexes': globalSecondaryIndexes,
-      if (kMSMasterKeyId != null) 'KMSMasterKeyId': kMSMasterKeyId,
-      if (onDemandThroughputOverride != null)
-        'OnDemandThroughputOverride': onDemandThroughputOverride,
-      if (provisionedThroughputOverride != null)
-        'ProvisionedThroughputOverride': provisionedThroughputOverride,
-      if (regionName != null) 'RegionName': regionName,
-      if (replicaInaccessibleDateTime != null)
-        'ReplicaInaccessibleDateTime':
-            unixTimestampToJson(replicaInaccessibleDateTime),
-      if (replicaStatus != null) 'ReplicaStatus': replicaStatus.value,
-      if (replicaStatusDescription != null)
-        'ReplicaStatusDescription': replicaStatusDescription,
-      if (replicaStatusPercentProgress != null)
-        'ReplicaStatusPercentProgress': replicaStatusPercentProgress,
-      if (replicaTableClassSummary != null)
-        'ReplicaTableClassSummary': replicaTableClassSummary,
+      if (autoScalingDisabled != null)
+        'AutoScalingDisabled': autoScalingDisabled,
+      if (autoScalingRoleArn != null) 'AutoScalingRoleArn': autoScalingRoleArn,
+      if (maximumUnits != null) 'MaximumUnits': maximumUnits,
+      if (minimumUnits != null) 'MinimumUnits': minimumUnits,
+      if (scalingPolicies != null) 'ScalingPolicies': scalingPolicies,
     };
   }
 }
 
-/// Represents the properties of a replica global secondary index.
-class ReplicaGlobalSecondaryIndex {
-  /// The name of the global secondary index.
-  final String indexName;
+class ReplicaStatus {
+  static const creating = ReplicaStatus._('CREATING');
+  static const creationFailed = ReplicaStatus._('CREATION_FAILED');
+  static const updating = ReplicaStatus._('UPDATING');
+  static const deleting = ReplicaStatus._('DELETING');
+  static const active = ReplicaStatus._('ACTIVE');
+  static const regionDisabled = ReplicaStatus._('REGION_DISABLED');
+  static const inaccessibleEncryptionCredentials =
+      ReplicaStatus._('INACCESSIBLE_ENCRYPTION_CREDENTIALS');
+  static const archiving = ReplicaStatus._('ARCHIVING');
+  static const archived = ReplicaStatus._('ARCHIVED');
+  static const replicationNotAuthorized =
+      ReplicaStatus._('REPLICATION_NOT_AUTHORIZED');
 
-  /// Overrides the maximum on-demand throughput settings for the specified global
-  /// secondary index in the specified replica table.
-  final OnDemandThroughputOverride? onDemandThroughputOverride;
+  final String value;
 
-  /// Replica table GSI-specific provisioned throughput. If not specified, uses
-  /// the source table GSI's read capacity settings.
-  final ProvisionedThroughputOverride? provisionedThroughputOverride;
+  const ReplicaStatus._(this.value);
 
-  ReplicaGlobalSecondaryIndex({
-    required this.indexName,
-    this.onDemandThroughputOverride,
-    this.provisionedThroughputOverride,
+  static const values = [
+    creating,
+    creationFailed,
+    updating,
+    deleting,
+    active,
+    regionDisabled,
+    inaccessibleEncryptionCredentials,
+    archiving,
+    archived,
+    replicationNotAuthorized
+  ];
+
+  static ReplicaStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReplicaStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ReplicaStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the properties of the scaling policy.
+class AutoScalingPolicyDescription {
+  /// The name of the scaling policy.
+  final String? policyName;
+
+  /// Represents a target tracking scaling policy configuration.
+  final AutoScalingTargetTrackingScalingPolicyConfigurationDescription?
+      targetTrackingScalingPolicyConfiguration;
+
+  AutoScalingPolicyDescription({
+    this.policyName,
+    this.targetTrackingScalingPolicyConfiguration,
   });
 
+  factory AutoScalingPolicyDescription.fromJson(Map<String, dynamic> json) {
+    return AutoScalingPolicyDescription(
+      policyName: json['PolicyName'] as String?,
+      targetTrackingScalingPolicyConfiguration:
+          json['TargetTrackingScalingPolicyConfiguration'] != null
+              ? AutoScalingTargetTrackingScalingPolicyConfigurationDescription
+                  .fromJson(json['TargetTrackingScalingPolicyConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
   Map<String, dynamic> toJson() {
-    final indexName = this.indexName;
-    final onDemandThroughputOverride = this.onDemandThroughputOverride;
-    final provisionedThroughputOverride = this.provisionedThroughputOverride;
+    final policyName = this.policyName;
+    final targetTrackingScalingPolicyConfiguration =
+        this.targetTrackingScalingPolicyConfiguration;
     return {
-      'IndexName': indexName,
-      if (onDemandThroughputOverride != null)
-        'OnDemandThroughputOverride': onDemandThroughputOverride,
-      if (provisionedThroughputOverride != null)
-        'ProvisionedThroughputOverride': provisionedThroughputOverride,
+      if (policyName != null) 'PolicyName': policyName,
+      if (targetTrackingScalingPolicyConfiguration != null)
+        'TargetTrackingScalingPolicyConfiguration':
+            targetTrackingScalingPolicyConfiguration,
+    };
+  }
+}
+
+/// Represents the properties of a target tracking scaling policy.
+class AutoScalingTargetTrackingScalingPolicyConfigurationDescription {
+  /// The target value for the metric. The range is 8.515920e-109 to 1.174271e+108
+  /// (Base 10) or 2e-360 to 2e360 (Base 2).
+  final double targetValue;
+
+  /// Indicates whether scale in by the target tracking policy is disabled. If the
+  /// value is true, scale in is disabled and the target tracking policy won't
+  /// remove capacity from the scalable resource. Otherwise, scale in is enabled
+  /// and the target tracking policy can remove capacity from the scalable
+  /// resource. The default value is false.
+  final bool? disableScaleIn;
+
+  /// The amount of time, in seconds, after a scale in activity completes before
+  /// another scale in activity can start. The cooldown period is used to block
+  /// subsequent scale in requests until it has expired. You should scale in
+  /// conservatively to protect your application's availability. However, if
+  /// another alarm triggers a scale out policy during the cooldown period after a
+  /// scale-in, application auto scaling scales out your scalable target
+  /// immediately.
+  final int? scaleInCooldown;
+
+  /// The amount of time, in seconds, after a scale out activity completes before
+  /// another scale out activity can start. While the cooldown period is in
+  /// effect, the capacity that has been added by the previous scale out event
+  /// that initiated the cooldown is calculated as part of the desired capacity
+  /// for the next scale out. You should continuously (but not excessively) scale
+  /// out.
+  final int? scaleOutCooldown;
+
+  AutoScalingTargetTrackingScalingPolicyConfigurationDescription({
+    required this.targetValue,
+    this.disableScaleIn,
+    this.scaleInCooldown,
+    this.scaleOutCooldown,
+  });
+
+  factory AutoScalingTargetTrackingScalingPolicyConfigurationDescription.fromJson(
+      Map<String, dynamic> json) {
+    return AutoScalingTargetTrackingScalingPolicyConfigurationDescription(
+      targetValue: (json['TargetValue'] as double?) ?? 0,
+      disableScaleIn: json['DisableScaleIn'] as bool?,
+      scaleInCooldown: json['ScaleInCooldown'] as int?,
+      scaleOutCooldown: json['ScaleOutCooldown'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final targetValue = this.targetValue;
+    final disableScaleIn = this.disableScaleIn;
+    final scaleInCooldown = this.scaleInCooldown;
+    final scaleOutCooldown = this.scaleOutCooldown;
+    return {
+      'TargetValue': targetValue,
+      if (disableScaleIn != null) 'DisableScaleIn': disableScaleIn,
+      if (scaleInCooldown != null) 'ScaleInCooldown': scaleInCooldown,
+      if (scaleOutCooldown != null) 'ScaleOutCooldown': scaleOutCooldown,
     };
   }
 }
@@ -12938,6 +8739,114 @@ class ReplicaGlobalSecondaryIndexAutoScalingDescription {
   }
 }
 
+class IndexStatus {
+  static const creating = IndexStatus._('CREATING');
+  static const updating = IndexStatus._('UPDATING');
+  static const deleting = IndexStatus._('DELETING');
+  static const active = IndexStatus._('ACTIVE');
+
+  final String value;
+
+  const IndexStatus._(this.value);
+
+  static const values = [creating, updating, deleting, active];
+
+  static IndexStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IndexStatus._(value));
+
+  @override
+  bool operator ==(other) => other is IndexStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the auto scaling settings to be modified for a global table or
+/// global secondary index.
+class AutoScalingSettingsUpdate {
+  /// Disabled auto scaling for this global table or global secondary index.
+  final bool? autoScalingDisabled;
+
+  /// Role ARN used for configuring auto scaling policy.
+  final String? autoScalingRoleArn;
+
+  /// The maximum capacity units that a global table or global secondary index
+  /// should be scaled up to.
+  final int? maximumUnits;
+
+  /// The minimum capacity units that a global table or global secondary index
+  /// should be scaled down to.
+  final int? minimumUnits;
+
+  /// The scaling policy to apply for scaling target global table or global
+  /// secondary index capacity units.
+  final AutoScalingPolicyUpdate? scalingPolicyUpdate;
+
+  AutoScalingSettingsUpdate({
+    this.autoScalingDisabled,
+    this.autoScalingRoleArn,
+    this.maximumUnits,
+    this.minimumUnits,
+    this.scalingPolicyUpdate,
+  });
+
+  Map<String, dynamic> toJson() {
+    final autoScalingDisabled = this.autoScalingDisabled;
+    final autoScalingRoleArn = this.autoScalingRoleArn;
+    final maximumUnits = this.maximumUnits;
+    final minimumUnits = this.minimumUnits;
+    final scalingPolicyUpdate = this.scalingPolicyUpdate;
+    return {
+      if (autoScalingDisabled != null)
+        'AutoScalingDisabled': autoScalingDisabled,
+      if (autoScalingRoleArn != null) 'AutoScalingRoleArn': autoScalingRoleArn,
+      if (maximumUnits != null) 'MaximumUnits': maximumUnits,
+      if (minimumUnits != null) 'MinimumUnits': minimumUnits,
+      if (scalingPolicyUpdate != null)
+        'ScalingPolicyUpdate': scalingPolicyUpdate,
+    };
+  }
+}
+
+/// Represents the auto scaling settings of a replica that will be modified.
+class ReplicaAutoScalingUpdate {
+  /// The Region where the replica exists.
+  final String regionName;
+
+  /// Represents the auto scaling settings of global secondary indexes that will
+  /// be modified.
+  final List<ReplicaGlobalSecondaryIndexAutoScalingUpdate>?
+      replicaGlobalSecondaryIndexUpdates;
+  final AutoScalingSettingsUpdate?
+      replicaProvisionedReadCapacityAutoScalingUpdate;
+
+  ReplicaAutoScalingUpdate({
+    required this.regionName,
+    this.replicaGlobalSecondaryIndexUpdates,
+    this.replicaProvisionedReadCapacityAutoScalingUpdate,
+  });
+
+  Map<String, dynamic> toJson() {
+    final regionName = this.regionName;
+    final replicaGlobalSecondaryIndexUpdates =
+        this.replicaGlobalSecondaryIndexUpdates;
+    final replicaProvisionedReadCapacityAutoScalingUpdate =
+        this.replicaProvisionedReadCapacityAutoScalingUpdate;
+    return {
+      'RegionName': regionName,
+      if (replicaGlobalSecondaryIndexUpdates != null)
+        'ReplicaGlobalSecondaryIndexUpdates':
+            replicaGlobalSecondaryIndexUpdates,
+      if (replicaProvisionedReadCapacityAutoScalingUpdate != null)
+        'ReplicaProvisionedReadCapacityAutoScalingUpdate':
+            replicaProvisionedReadCapacityAutoScalingUpdate,
+    };
+  }
+}
+
 /// Represents the auto scaling settings of a global secondary index for a
 /// replica that will be modified.
 class ReplicaGlobalSecondaryIndexAutoScalingUpdate {
@@ -12963,6 +8872,1569 @@ class ReplicaGlobalSecondaryIndexAutoScalingUpdate {
   }
 }
 
+/// Represents the auto scaling policy to be modified.
+class AutoScalingPolicyUpdate {
+  /// Represents a target tracking scaling policy configuration.
+  final AutoScalingTargetTrackingScalingPolicyConfigurationUpdate
+      targetTrackingScalingPolicyConfiguration;
+
+  /// The name of the scaling policy.
+  final String? policyName;
+
+  AutoScalingPolicyUpdate({
+    required this.targetTrackingScalingPolicyConfiguration,
+    this.policyName,
+  });
+
+  Map<String, dynamic> toJson() {
+    final targetTrackingScalingPolicyConfiguration =
+        this.targetTrackingScalingPolicyConfiguration;
+    final policyName = this.policyName;
+    return {
+      'TargetTrackingScalingPolicyConfiguration':
+          targetTrackingScalingPolicyConfiguration,
+      if (policyName != null) 'PolicyName': policyName,
+    };
+  }
+}
+
+/// Represents the settings of a target tracking scaling policy that will be
+/// modified.
+class AutoScalingTargetTrackingScalingPolicyConfigurationUpdate {
+  /// The target value for the metric. The range is 8.515920e-109 to 1.174271e+108
+  /// (Base 10) or 2e-360 to 2e360 (Base 2).
+  final double targetValue;
+
+  /// Indicates whether scale in by the target tracking policy is disabled. If the
+  /// value is true, scale in is disabled and the target tracking policy won't
+  /// remove capacity from the scalable resource. Otherwise, scale in is enabled
+  /// and the target tracking policy can remove capacity from the scalable
+  /// resource. The default value is false.
+  final bool? disableScaleIn;
+
+  /// The amount of time, in seconds, after a scale in activity completes before
+  /// another scale in activity can start. The cooldown period is used to block
+  /// subsequent scale in requests until it has expired. You should scale in
+  /// conservatively to protect your application's availability. However, if
+  /// another alarm triggers a scale out policy during the cooldown period after a
+  /// scale-in, application auto scaling scales out your scalable target
+  /// immediately.
+  final int? scaleInCooldown;
+
+  /// The amount of time, in seconds, after a scale out activity completes before
+  /// another scale out activity can start. While the cooldown period is in
+  /// effect, the capacity that has been added by the previous scale out event
+  /// that initiated the cooldown is calculated as part of the desired capacity
+  /// for the next scale out. You should continuously (but not excessively) scale
+  /// out.
+  final int? scaleOutCooldown;
+
+  AutoScalingTargetTrackingScalingPolicyConfigurationUpdate({
+    required this.targetValue,
+    this.disableScaleIn,
+    this.scaleInCooldown,
+    this.scaleOutCooldown,
+  });
+
+  Map<String, dynamic> toJson() {
+    final targetValue = this.targetValue;
+    final disableScaleIn = this.disableScaleIn;
+    final scaleInCooldown = this.scaleInCooldown;
+    final scaleOutCooldown = this.scaleOutCooldown;
+    return {
+      'TargetValue': targetValue,
+      if (disableScaleIn != null) 'DisableScaleIn': disableScaleIn,
+      if (scaleInCooldown != null) 'ScaleInCooldown': scaleInCooldown,
+      if (scaleOutCooldown != null) 'ScaleOutCooldown': scaleOutCooldown,
+    };
+  }
+}
+
+/// Represents the auto scaling settings of a global secondary index for a
+/// global table that will be modified.
+class GlobalSecondaryIndexAutoScalingUpdate {
+  /// The name of the global secondary index.
+  final String? indexName;
+  final AutoScalingSettingsUpdate? provisionedWriteCapacityAutoScalingUpdate;
+
+  GlobalSecondaryIndexAutoScalingUpdate({
+    this.indexName,
+    this.provisionedWriteCapacityAutoScalingUpdate,
+  });
+
+  Map<String, dynamic> toJson() {
+    final indexName = this.indexName;
+    final provisionedWriteCapacityAutoScalingUpdate =
+        this.provisionedWriteCapacityAutoScalingUpdate;
+    return {
+      if (indexName != null) 'IndexName': indexName,
+      if (provisionedWriteCapacityAutoScalingUpdate != null)
+        'ProvisionedWriteCapacityAutoScalingUpdate':
+            provisionedWriteCapacityAutoScalingUpdate,
+    };
+  }
+}
+
+/// Represents the properties of a table.
+class TableDescription {
+  /// Contains information about the table archive.
+  final ArchivalSummary? archivalSummary;
+
+  /// An array of <code>AttributeDefinition</code> objects. Each of these objects
+  /// describes one attribute in the table and index key schema.
+  ///
+  /// Each <code>AttributeDefinition</code> object in this array is composed of:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AttributeName</code> - The name of the attribute.
+  /// </li>
+  /// <li>
+  /// <code>AttributeType</code> - The data type for the attribute.
+  /// </li>
+  /// </ul>
+  final List<AttributeDefinition>? attributeDefinitions;
+
+  /// Contains the details for the read/write capacity mode.
+  final BillingModeSummary? billingModeSummary;
+
+  /// The date and time when the table was created, in <a
+  /// href="http://www.epochconverter.com/">UNIX epoch time</a> format.
+  final DateTime? creationDateTime;
+
+  /// Indicates whether deletion protection is enabled (true) or disabled (false)
+  /// on the table.
+  final bool? deletionProtectionEnabled;
+
+  /// The global secondary indexes, if any, on the table. Each index is scoped to
+  /// a given partition key value. Each element is composed of:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Backfilling</code> - If true, then the index is currently in the
+  /// backfilling phase. Backfilling occurs only when a new global secondary index
+  /// is added to the table. It is the process by which DynamoDB populates the new
+  /// index with data from the table. (This attribute does not appear for indexes
+  /// that were created during a <code>CreateTable</code> operation.)
+  ///
+  /// You can delete an index that is being created during the
+  /// <code>Backfilling</code> phase when <code>IndexStatus</code> is set to
+  /// CREATING and <code>Backfilling</code> is true. You can't delete the index
+  /// that is being created when <code>IndexStatus</code> is set to CREATING and
+  /// <code>Backfilling</code> is false. (This attribute does not appear for
+  /// indexes that were created during a <code>CreateTable</code> operation.)
+  /// </li>
+  /// <li>
+  /// <code>IndexName</code> - The name of the global secondary index.
+  /// </li>
+  /// <li>
+  /// <code>IndexSizeBytes</code> - The total size of the global secondary index,
+  /// in bytes. DynamoDB updates this value approximately every six hours. Recent
+  /// changes might not be reflected in this value.
+  /// </li>
+  /// <li>
+  /// <code>IndexStatus</code> - The current status of the global secondary index:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATING</code> - The index is being created.
+  /// </li>
+  /// <li>
+  /// <code>UPDATING</code> - The index is being updated.
+  /// </li>
+  /// <li>
+  /// <code>DELETING</code> - The index is being deleted.
+  /// </li>
+  /// <li>
+  /// <code>ACTIVE</code> - The index is ready for use.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>ItemCount</code> - The number of items in the global secondary index.
+  /// DynamoDB updates this value approximately every six hours. Recent changes
+  /// might not be reflected in this value.
+  /// </li>
+  /// <li>
+  /// <code>KeySchema</code> - Specifies the complete index key schema. The
+  /// attribute names in the key schema must be between 1 and 255 characters
+  /// (inclusive). The key schema must begin with the same partition key as the
+  /// table.
+  /// </li>
+  /// <li>
+  /// <code>Projection</code> - Specifies attributes that are copied (projected)
+  /// from the table into the index. These are in addition to the primary key
+  /// attributes and index key attributes, which are automatically projected. Each
+  /// attribute specification is composed of:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ProjectionType</code> - One of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>KEYS_ONLY</code> - Only the index and primary keys are projected into
+  /// the index.
+  /// </li>
+  /// <li>
+  /// <code>INCLUDE</code> - In addition to the attributes described in
+  /// <code>KEYS_ONLY</code>, the secondary index will include other non-key
+  /// attributes that you specify.
+  /// </li>
+  /// <li>
+  /// <code>ALL</code> - All of the table attributes are projected into the index.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>NonKeyAttributes</code> - A list of one or more non-key attribute
+  /// names that are projected into the secondary index. The total count of
+  /// attributes provided in <code>NonKeyAttributes</code>, summed across all of
+  /// the secondary indexes, must not exceed 100. If you project the same
+  /// attribute into two different indexes, this counts as two distinct attributes
+  /// when determining the total. This limit only applies when you specify the
+  /// ProjectionType of <code>INCLUDE</code>. You still can specify the
+  /// ProjectionType of <code>ALL</code> to project all attributes from the source
+  /// table, even if the table has more than 100 attributes.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>ProvisionedThroughput</code> - The provisioned throughput settings for
+  /// the global secondary index, consisting of read and write capacity units,
+  /// along with data about increases and decreases.
+  /// </li>
+  /// </ul>
+  /// If the table is in the <code>DELETING</code> state, no information about
+  /// indexes will be returned.
+  final List<GlobalSecondaryIndexDescription>? globalSecondaryIndexes;
+
+  /// Indicates one of the settings synchronization modes for the global table:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ENABLED</code>: Indicates that the settings synchronization mode for
+  /// the global table is enabled.
+  /// </li>
+  /// <li>
+  /// <code>DISABLED</code>: Indicates that the settings synchronization mode for
+  /// the global table is disabled.
+  /// </li>
+  /// <li>
+  /// <code>ENABLED_WITH_OVERRIDES</code>: This mode is set by default for a same
+  /// account global table. Indicates that certain global table settings can be
+  /// overridden.
+  /// </li>
+  /// </ul>
+  final GlobalTableSettingsReplicationMode? globalTableSettingsReplicationMode;
+
+  /// Represents the version of <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html">global
+  /// tables</a> in use, if the table is replicated across Amazon Web Services
+  /// Regions.
+  final String? globalTableVersion;
+
+  /// The witness Region and its current status in the MRSC global table. Only one
+  /// witness Region can be configured per MRSC global table.
+  final List<GlobalTableWitnessDescription>? globalTableWitnesses;
+
+  /// The number of items in the specified table. DynamoDB updates this value
+  /// approximately every six hours. Recent changes might not be reflected in this
+  /// value.
+  final int? itemCount;
+
+  /// The primary key structure for the table. Each <code>KeySchemaElement</code>
+  /// consists of:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AttributeName</code> - The name of the attribute.
+  /// </li>
+  /// <li>
+  /// <code>KeyType</code> - The role of the attribute:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>HASH</code> - partition key
+  /// </li>
+  /// <li>
+  /// <code>RANGE</code> - sort key
+  /// </li>
+  /// </ul> <note>
+  /// The partition key of an item is also known as its <i>hash attribute</i>. The
+  /// term "hash attribute" derives from DynamoDB's usage of an internal hash
+  /// function to evenly distribute data items across partitions, based on their
+  /// partition key values.
+  ///
+  /// The sort key of an item is also known as its <i>range attribute</i>. The
+  /// term "range attribute" derives from the way DynamoDB stores items with the
+  /// same partition key physically close together, in sorted order by the sort
+  /// key value.
+  /// </note> </li>
+  /// </ul>
+  /// For more information about primary keys, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DataModel.html#DataModelPrimaryKey">Primary
+  /// Key</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  final List<KeySchemaElement>? keySchema;
+
+  /// The Amazon Resource Name (ARN) that uniquely identifies the latest stream
+  /// for this table.
+  final String? latestStreamArn;
+
+  /// A timestamp, in ISO 8601 format, for this stream.
+  ///
+  /// Note that <code>LatestStreamLabel</code> is not a unique identifier for the
+  /// stream, because it is possible that a stream from another table might have
+  /// the same timestamp. However, the combination of the following three elements
+  /// is guaranteed to be unique:
+  ///
+  /// <ul>
+  /// <li>
+  /// Amazon Web Services customer ID
+  /// </li>
+  /// <li>
+  /// Table name
+  /// </li>
+  /// <li>
+  /// <code>StreamLabel</code>
+  /// </li>
+  /// </ul>
+  final String? latestStreamLabel;
+
+  /// Represents one or more local secondary indexes on the table. Each index is
+  /// scoped to a given partition key value. Tables with one or more local
+  /// secondary indexes are subject to an item collection size limit, where the
+  /// amount of data within a given item collection cannot exceed 10 GB. Each
+  /// element is composed of:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>IndexName</code> - The name of the local secondary index.
+  /// </li>
+  /// <li>
+  /// <code>KeySchema</code> - Specifies the complete index key schema. The
+  /// attribute names in the key schema must be between 1 and 255 characters
+  /// (inclusive). The key schema must begin with the same partition key as the
+  /// table.
+  /// </li>
+  /// <li>
+  /// <code>Projection</code> - Specifies attributes that are copied (projected)
+  /// from the table into the index. These are in addition to the primary key
+  /// attributes and index key attributes, which are automatically projected. Each
+  /// attribute specification is composed of:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ProjectionType</code> - One of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>KEYS_ONLY</code> - Only the index and primary keys are projected into
+  /// the index.
+  /// </li>
+  /// <li>
+  /// <code>INCLUDE</code> - Only the specified table attributes are projected
+  /// into the index. The list of projected attributes is in
+  /// <code>NonKeyAttributes</code>.
+  /// </li>
+  /// <li>
+  /// <code>ALL</code> - All of the table attributes are projected into the index.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>NonKeyAttributes</code> - A list of one or more non-key attribute
+  /// names that are projected into the secondary index. The total count of
+  /// attributes provided in <code>NonKeyAttributes</code>, summed across all of
+  /// the secondary indexes, must not exceed 100. If you project the same
+  /// attribute into two different indexes, this counts as two distinct attributes
+  /// when determining the total. This limit only applies when you specify the
+  /// ProjectionType of <code>INCLUDE</code>. You still can specify the
+  /// ProjectionType of <code>ALL</code> to project all attributes from the source
+  /// table, even if the table has more than 100 attributes.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>IndexSizeBytes</code> - Represents the total size of the index, in
+  /// bytes. DynamoDB updates this value approximately every six hours. Recent
+  /// changes might not be reflected in this value.
+  /// </li>
+  /// <li>
+  /// <code>ItemCount</code> - Represents the number of items in the index.
+  /// DynamoDB updates this value approximately every six hours. Recent changes
+  /// might not be reflected in this value.
+  /// </li>
+  /// </ul>
+  /// If the table is in the <code>DELETING</code> state, no information about
+  /// indexes will be returned.
+  final List<LocalSecondaryIndexDescription>? localSecondaryIndexes;
+
+  /// Indicates one of the following consistency modes for a global table:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>EVENTUAL</code>: Indicates that the global table is configured for
+  /// multi-Region eventual consistency (MREC).
+  /// </li>
+  /// <li>
+  /// <code>STRONG</code>: Indicates that the global table is configured for
+  /// multi-Region strong consistency (MRSC).
+  /// </li>
+  /// </ul>
+  /// If you don't specify this field, the global table consistency mode defaults
+  /// to <code>EVENTUAL</code>. For more information about global tables
+  /// consistency modes, see <a
+  /// href="https://docs.aws.amazon.com/V2globaltables_HowItWorks.html#V2globaltables_HowItWorks.consistency-modes">
+  /// Consistency modes</a> in DynamoDB developer guide.
+  final MultiRegionConsistency? multiRegionConsistency;
+
+  /// The maximum number of read and write units for the specified on-demand
+  /// table. If you use this parameter, you must specify
+  /// <code>MaxReadRequestUnits</code>, <code>MaxWriteRequestUnits</code>, or
+  /// both.
+  final OnDemandThroughput? onDemandThroughput;
+
+  /// The provisioned throughput settings for the table, consisting of read and
+  /// write capacity units, along with data about increases and decreases.
+  final ProvisionedThroughputDescription? provisionedThroughput;
+
+  /// Represents replicas of the table.
+  final List<ReplicaDescription>? replicas;
+
+  /// Contains details for the restore.
+  final RestoreSummary? restoreSummary;
+
+  /// The description of the server-side encryption status on the specified table.
+  final SSEDescription? sSEDescription;
+
+  /// The current DynamoDB Streams configuration for the table.
+  final StreamSpecification? streamSpecification;
+
+  /// The Amazon Resource Name (ARN) that uniquely identifies the table.
+  final String? tableArn;
+
+  /// Contains details of the table class.
+  final TableClassSummary? tableClassSummary;
+
+  /// Unique identifier for the table for which the backup was created.
+  final String? tableId;
+
+  /// The name of the table.
+  final String? tableName;
+
+  /// The total size of the specified table, in bytes. DynamoDB updates this value
+  /// approximately every six hours. Recent changes might not be reflected in this
+  /// value.
+  final int? tableSizeBytes;
+
+  /// The current state of the table:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATING</code> - The table is being created.
+  /// </li>
+  /// <li>
+  /// <code>UPDATING</code> - The table/index configuration is being updated. The
+  /// table/index remains available for data operations when
+  /// <code>UPDATING</code>.
+  /// </li>
+  /// <li>
+  /// <code>DELETING</code> - The table is being deleted.
+  /// </li>
+  /// <li>
+  /// <code>ACTIVE</code> - The table is ready for use.
+  /// </li>
+  /// <li>
+  /// <code>INACCESSIBLE_ENCRYPTION_CREDENTIALS</code> - The KMS key used to
+  /// encrypt the table in inaccessible. Table operations may fail due to failure
+  /// to use the KMS key. DynamoDB will initiate the table archival process when a
+  /// table's KMS key remains inaccessible for more than seven days.
+  /// </li>
+  /// <li>
+  /// <code>ARCHIVING</code> - The table is being archived. Operations are not
+  /// allowed until archival is complete.
+  /// </li>
+  /// <li>
+  /// <code>ARCHIVED</code> - The table has been archived. See the ArchivalReason
+  /// for more information.
+  /// </li>
+  /// </ul>
+  final TableStatus? tableStatus;
+
+  /// Describes the warm throughput value of the base table.
+  final TableWarmThroughputDescription? warmThroughput;
+
+  TableDescription({
+    this.archivalSummary,
+    this.attributeDefinitions,
+    this.billingModeSummary,
+    this.creationDateTime,
+    this.deletionProtectionEnabled,
+    this.globalSecondaryIndexes,
+    this.globalTableSettingsReplicationMode,
+    this.globalTableVersion,
+    this.globalTableWitnesses,
+    this.itemCount,
+    this.keySchema,
+    this.latestStreamArn,
+    this.latestStreamLabel,
+    this.localSecondaryIndexes,
+    this.multiRegionConsistency,
+    this.onDemandThroughput,
+    this.provisionedThroughput,
+    this.replicas,
+    this.restoreSummary,
+    this.sSEDescription,
+    this.streamSpecification,
+    this.tableArn,
+    this.tableClassSummary,
+    this.tableId,
+    this.tableName,
+    this.tableSizeBytes,
+    this.tableStatus,
+    this.warmThroughput,
+  });
+
+  factory TableDescription.fromJson(Map<String, dynamic> json) {
+    return TableDescription(
+      archivalSummary: json['ArchivalSummary'] != null
+          ? ArchivalSummary.fromJson(
+              json['ArchivalSummary'] as Map<String, dynamic>)
+          : null,
+      attributeDefinitions: (json['AttributeDefinitions'] as List?)
+          ?.nonNulls
+          .map((e) => AttributeDefinition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      billingModeSummary: json['BillingModeSummary'] != null
+          ? BillingModeSummary.fromJson(
+              json['BillingModeSummary'] as Map<String, dynamic>)
+          : null,
+      creationDateTime: timeStampFromJson(json['CreationDateTime']),
+      deletionProtectionEnabled: json['DeletionProtectionEnabled'] as bool?,
+      globalSecondaryIndexes: (json['GlobalSecondaryIndexes'] as List?)
+          ?.nonNulls
+          .map((e) => GlobalSecondaryIndexDescription.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      globalTableSettingsReplicationMode:
+          (json['GlobalTableSettingsReplicationMode'] as String?)
+              ?.let(GlobalTableSettingsReplicationMode.fromString),
+      globalTableVersion: json['GlobalTableVersion'] as String?,
+      globalTableWitnesses: (json['GlobalTableWitnesses'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              GlobalTableWitnessDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      itemCount: json['ItemCount'] as int?,
+      keySchema: (json['KeySchema'] as List?)
+          ?.nonNulls
+          .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      latestStreamArn: json['LatestStreamArn'] as String?,
+      latestStreamLabel: json['LatestStreamLabel'] as String?,
+      localSecondaryIndexes: (json['LocalSecondaryIndexes'] as List?)
+          ?.nonNulls
+          .map((e) => LocalSecondaryIndexDescription.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      multiRegionConsistency: (json['MultiRegionConsistency'] as String?)
+          ?.let(MultiRegionConsistency.fromString),
+      onDemandThroughput: json['OnDemandThroughput'] != null
+          ? OnDemandThroughput.fromJson(
+              json['OnDemandThroughput'] as Map<String, dynamic>)
+          : null,
+      provisionedThroughput: json['ProvisionedThroughput'] != null
+          ? ProvisionedThroughputDescription.fromJson(
+              json['ProvisionedThroughput'] as Map<String, dynamic>)
+          : null,
+      replicas: (json['Replicas'] as List?)
+          ?.nonNulls
+          .map((e) => ReplicaDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      restoreSummary: json['RestoreSummary'] != null
+          ? RestoreSummary.fromJson(
+              json['RestoreSummary'] as Map<String, dynamic>)
+          : null,
+      sSEDescription: json['SSEDescription'] != null
+          ? SSEDescription.fromJson(
+              json['SSEDescription'] as Map<String, dynamic>)
+          : null,
+      streamSpecification: json['StreamSpecification'] != null
+          ? StreamSpecification.fromJson(
+              json['StreamSpecification'] as Map<String, dynamic>)
+          : null,
+      tableArn: json['TableArn'] as String?,
+      tableClassSummary: json['TableClassSummary'] != null
+          ? TableClassSummary.fromJson(
+              json['TableClassSummary'] as Map<String, dynamic>)
+          : null,
+      tableId: json['TableId'] as String?,
+      tableName: json['TableName'] as String?,
+      tableSizeBytes: json['TableSizeBytes'] as int?,
+      tableStatus:
+          (json['TableStatus'] as String?)?.let(TableStatus.fromString),
+      warmThroughput: json['WarmThroughput'] != null
+          ? TableWarmThroughputDescription.fromJson(
+              json['WarmThroughput'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final archivalSummary = this.archivalSummary;
+    final attributeDefinitions = this.attributeDefinitions;
+    final billingModeSummary = this.billingModeSummary;
+    final creationDateTime = this.creationDateTime;
+    final deletionProtectionEnabled = this.deletionProtectionEnabled;
+    final globalSecondaryIndexes = this.globalSecondaryIndexes;
+    final globalTableSettingsReplicationMode =
+        this.globalTableSettingsReplicationMode;
+    final globalTableVersion = this.globalTableVersion;
+    final globalTableWitnesses = this.globalTableWitnesses;
+    final itemCount = this.itemCount;
+    final keySchema = this.keySchema;
+    final latestStreamArn = this.latestStreamArn;
+    final latestStreamLabel = this.latestStreamLabel;
+    final localSecondaryIndexes = this.localSecondaryIndexes;
+    final multiRegionConsistency = this.multiRegionConsistency;
+    final onDemandThroughput = this.onDemandThroughput;
+    final provisionedThroughput = this.provisionedThroughput;
+    final replicas = this.replicas;
+    final restoreSummary = this.restoreSummary;
+    final sSEDescription = this.sSEDescription;
+    final streamSpecification = this.streamSpecification;
+    final tableArn = this.tableArn;
+    final tableClassSummary = this.tableClassSummary;
+    final tableId = this.tableId;
+    final tableName = this.tableName;
+    final tableSizeBytes = this.tableSizeBytes;
+    final tableStatus = this.tableStatus;
+    final warmThroughput = this.warmThroughput;
+    return {
+      if (archivalSummary != null) 'ArchivalSummary': archivalSummary,
+      if (attributeDefinitions != null)
+        'AttributeDefinitions': attributeDefinitions,
+      if (billingModeSummary != null) 'BillingModeSummary': billingModeSummary,
+      if (creationDateTime != null)
+        'CreationDateTime': unixTimestampToJson(creationDateTime),
+      if (deletionProtectionEnabled != null)
+        'DeletionProtectionEnabled': deletionProtectionEnabled,
+      if (globalSecondaryIndexes != null)
+        'GlobalSecondaryIndexes': globalSecondaryIndexes,
+      if (globalTableSettingsReplicationMode != null)
+        'GlobalTableSettingsReplicationMode':
+            globalTableSettingsReplicationMode.value,
+      if (globalTableVersion != null) 'GlobalTableVersion': globalTableVersion,
+      if (globalTableWitnesses != null)
+        'GlobalTableWitnesses': globalTableWitnesses,
+      if (itemCount != null) 'ItemCount': itemCount,
+      if (keySchema != null) 'KeySchema': keySchema,
+      if (latestStreamArn != null) 'LatestStreamArn': latestStreamArn,
+      if (latestStreamLabel != null) 'LatestStreamLabel': latestStreamLabel,
+      if (localSecondaryIndexes != null)
+        'LocalSecondaryIndexes': localSecondaryIndexes,
+      if (multiRegionConsistency != null)
+        'MultiRegionConsistency': multiRegionConsistency.value,
+      if (onDemandThroughput != null) 'OnDemandThroughput': onDemandThroughput,
+      if (provisionedThroughput != null)
+        'ProvisionedThroughput': provisionedThroughput,
+      if (replicas != null) 'Replicas': replicas,
+      if (restoreSummary != null) 'RestoreSummary': restoreSummary,
+      if (sSEDescription != null) 'SSEDescription': sSEDescription,
+      if (streamSpecification != null)
+        'StreamSpecification': streamSpecification,
+      if (tableArn != null) 'TableArn': tableArn,
+      if (tableClassSummary != null) 'TableClassSummary': tableClassSummary,
+      if (tableId != null) 'TableId': tableId,
+      if (tableName != null) 'TableName': tableName,
+      if (tableSizeBytes != null) 'TableSizeBytes': tableSizeBytes,
+      if (tableStatus != null) 'TableStatus': tableStatus.value,
+      if (warmThroughput != null) 'WarmThroughput': warmThroughput,
+    };
+  }
+}
+
+/// Represents the provisioned throughput settings for the table, consisting of
+/// read and write capacity units, along with data about increases and
+/// decreases.
+class ProvisionedThroughputDescription {
+  /// The date and time of the last provisioned throughput decrease for this
+  /// table.
+  final DateTime? lastDecreaseDateTime;
+
+  /// The date and time of the last provisioned throughput increase for this
+  /// table.
+  final DateTime? lastIncreaseDateTime;
+
+  /// The number of provisioned throughput decreases for this table during this
+  /// UTC calendar day. For current maximums on provisioned throughput decreases,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Service,
+  /// Account, and Table Quotas</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  final int? numberOfDecreasesToday;
+
+  /// The maximum number of strongly consistent reads consumed per second before
+  /// DynamoDB returns a <code>ThrottlingException</code>. Eventually consistent
+  /// reads require less effort than strongly consistent reads, so a setting of 50
+  /// <code>ReadCapacityUnits</code> per second provides 100 eventually consistent
+  /// <code>ReadCapacityUnits</code> per second.
+  final int? readCapacityUnits;
+
+  /// The maximum number of writes consumed per second before DynamoDB returns a
+  /// <code>ThrottlingException</code>.
+  final int? writeCapacityUnits;
+
+  ProvisionedThroughputDescription({
+    this.lastDecreaseDateTime,
+    this.lastIncreaseDateTime,
+    this.numberOfDecreasesToday,
+    this.readCapacityUnits,
+    this.writeCapacityUnits,
+  });
+
+  factory ProvisionedThroughputDescription.fromJson(Map<String, dynamic> json) {
+    return ProvisionedThroughputDescription(
+      lastDecreaseDateTime: timeStampFromJson(json['LastDecreaseDateTime']),
+      lastIncreaseDateTime: timeStampFromJson(json['LastIncreaseDateTime']),
+      numberOfDecreasesToday: json['NumberOfDecreasesToday'] as int?,
+      readCapacityUnits: json['ReadCapacityUnits'] as int?,
+      writeCapacityUnits: json['WriteCapacityUnits'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastDecreaseDateTime = this.lastDecreaseDateTime;
+    final lastIncreaseDateTime = this.lastIncreaseDateTime;
+    final numberOfDecreasesToday = this.numberOfDecreasesToday;
+    final readCapacityUnits = this.readCapacityUnits;
+    final writeCapacityUnits = this.writeCapacityUnits;
+    return {
+      if (lastDecreaseDateTime != null)
+        'LastDecreaseDateTime': unixTimestampToJson(lastDecreaseDateTime),
+      if (lastIncreaseDateTime != null)
+        'LastIncreaseDateTime': unixTimestampToJson(lastIncreaseDateTime),
+      if (numberOfDecreasesToday != null)
+        'NumberOfDecreasesToday': numberOfDecreasesToday,
+      if (readCapacityUnits != null) 'ReadCapacityUnits': readCapacityUnits,
+      if (writeCapacityUnits != null) 'WriteCapacityUnits': writeCapacityUnits,
+    };
+  }
+}
+
+/// Contains the details for the read/write capacity mode. This page talks about
+/// <code>PROVISIONED</code> and <code>PAY_PER_REQUEST</code> billing modes. For
+/// more information about these modes, see <a
+/// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html">Read/write
+/// capacity mode</a>.
+/// <note>
+/// You may need to switch to on-demand mode at least once in order to return a
+/// <code>BillingModeSummary</code> response.
+/// </note>
+class BillingModeSummary {
+  /// Controls how you are charged for read and write throughput and how you
+  /// manage capacity. This setting can be changed later.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PROVISIONED</code> - Sets the read/write capacity mode to
+  /// <code>PROVISIONED</code>. We recommend using <code>PROVISIONED</code> for
+  /// predictable workloads.
+  /// </li>
+  /// <li>
+  /// <code>PAY_PER_REQUEST</code> - Sets the read/write capacity mode to
+  /// <code>PAY_PER_REQUEST</code>. We recommend using
+  /// <code>PAY_PER_REQUEST</code> for unpredictable workloads.
+  /// </li>
+  /// </ul>
+  final BillingMode? billingMode;
+
+  /// Represents the time when <code>PAY_PER_REQUEST</code> was last set as the
+  /// read/write capacity mode.
+  final DateTime? lastUpdateToPayPerRequestDateTime;
+
+  BillingModeSummary({
+    this.billingMode,
+    this.lastUpdateToPayPerRequestDateTime,
+  });
+
+  factory BillingModeSummary.fromJson(Map<String, dynamic> json) {
+    return BillingModeSummary(
+      billingMode:
+          (json['BillingMode'] as String?)?.let(BillingMode.fromString),
+      lastUpdateToPayPerRequestDateTime:
+          timeStampFromJson(json['LastUpdateToPayPerRequestDateTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final billingMode = this.billingMode;
+    final lastUpdateToPayPerRequestDateTime =
+        this.lastUpdateToPayPerRequestDateTime;
+    return {
+      if (billingMode != null) 'BillingMode': billingMode.value,
+      if (lastUpdateToPayPerRequestDateTime != null)
+        'LastUpdateToPayPerRequestDateTime':
+            unixTimestampToJson(lastUpdateToPayPerRequestDateTime),
+    };
+  }
+}
+
+/// Represents the DynamoDB Streams configuration for a table in DynamoDB.
+class StreamSpecification {
+  /// Indicates whether DynamoDB Streams is enabled (true) or disabled (false) on
+  /// the table.
+  final bool streamEnabled;
+
+  /// When an item in the table is modified, <code>StreamViewType</code>
+  /// determines what information is written to the stream for this table. Valid
+  /// values for <code>StreamViewType</code> are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>KEYS_ONLY</code> - Only the key attributes of the modified item are
+  /// written to the stream.
+  /// </li>
+  /// <li>
+  /// <code>NEW_IMAGE</code> - The entire item, as it appears after it was
+  /// modified, is written to the stream.
+  /// </li>
+  /// <li>
+  /// <code>OLD_IMAGE</code> - The entire item, as it appeared before it was
+  /// modified, is written to the stream.
+  /// </li>
+  /// <li>
+  /// <code>NEW_AND_OLD_IMAGES</code> - Both the new and the old item images of
+  /// the item are written to the stream.
+  /// </li>
+  /// </ul>
+  final StreamViewType? streamViewType;
+
+  StreamSpecification({
+    required this.streamEnabled,
+    this.streamViewType,
+  });
+
+  factory StreamSpecification.fromJson(Map<String, dynamic> json) {
+    return StreamSpecification(
+      streamEnabled: (json['StreamEnabled'] as bool?) ?? false,
+      streamViewType:
+          (json['StreamViewType'] as String?)?.let(StreamViewType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final streamEnabled = this.streamEnabled;
+    final streamViewType = this.streamViewType;
+    return {
+      'StreamEnabled': streamEnabled,
+      if (streamViewType != null) 'StreamViewType': streamViewType.value,
+    };
+  }
+}
+
+class GlobalTableSettingsReplicationMode {
+  static const enabled = GlobalTableSettingsReplicationMode._('ENABLED');
+  static const disabled = GlobalTableSettingsReplicationMode._('DISABLED');
+  static const enabledWithOverrides =
+      GlobalTableSettingsReplicationMode._('ENABLED_WITH_OVERRIDES');
+
+  final String value;
+
+  const GlobalTableSettingsReplicationMode._(this.value);
+
+  static const values = [enabled, disabled, enabledWithOverrides];
+
+  static GlobalTableSettingsReplicationMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GlobalTableSettingsReplicationMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GlobalTableSettingsReplicationMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains details for the restore.
+class RestoreSummary {
+  /// Point in time or source backup time.
+  final DateTime restoreDateTime;
+
+  /// Indicates if a restore is in progress or not.
+  final bool restoreInProgress;
+
+  /// The Amazon Resource Name (ARN) of the backup from which the table was
+  /// restored.
+  final String? sourceBackupArn;
+
+  /// The ARN of the source table of the backup that is being restored.
+  final String? sourceTableArn;
+
+  RestoreSummary({
+    required this.restoreDateTime,
+    required this.restoreInProgress,
+    this.sourceBackupArn,
+    this.sourceTableArn,
+  });
+
+  factory RestoreSummary.fromJson(Map<String, dynamic> json) {
+    return RestoreSummary(
+      restoreDateTime:
+          nonNullableTimeStampFromJson(json['RestoreDateTime'] ?? 0),
+      restoreInProgress: (json['RestoreInProgress'] as bool?) ?? false,
+      sourceBackupArn: json['SourceBackupArn'] as String?,
+      sourceTableArn: json['SourceTableArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final restoreDateTime = this.restoreDateTime;
+    final restoreInProgress = this.restoreInProgress;
+    final sourceBackupArn = this.sourceBackupArn;
+    final sourceTableArn = this.sourceTableArn;
+    return {
+      'RestoreDateTime': unixTimestampToJson(restoreDateTime),
+      'RestoreInProgress': restoreInProgress,
+      if (sourceBackupArn != null) 'SourceBackupArn': sourceBackupArn,
+      if (sourceTableArn != null) 'SourceTableArn': sourceTableArn,
+    };
+  }
+}
+
+/// The description of the server-side encryption status on the specified table.
+class SSEDescription {
+  /// Indicates the time, in UNIX epoch date format, when DynamoDB detected that
+  /// the table's KMS key was inaccessible. This attribute will automatically be
+  /// cleared when DynamoDB detects that the table's KMS key is accessible again.
+  /// DynamoDB will initiate the table archival process when table's KMS key
+  /// remains inaccessible for more than seven days from this date.
+  final DateTime? inaccessibleEncryptionDateTime;
+
+  /// The KMS key ARN used for the KMS encryption.
+  final String? kMSMasterKeyArn;
+
+  /// Server-side encryption type. The only supported value is:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>KMS</code> - Server-side encryption that uses Key Management Service.
+  /// The key is stored in your account and is managed by KMS (KMS charges apply).
+  /// </li>
+  /// </ul>
+  final SSEType? sSEType;
+
+  /// Represents the current state of server-side encryption. The only supported
+  /// values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ENABLED</code> - Server-side encryption is enabled.
+  /// </li>
+  /// <li>
+  /// <code>UPDATING</code> - Server-side encryption is being updated.
+  /// </li>
+  /// </ul>
+  final SSEStatus? status;
+
+  SSEDescription({
+    this.inaccessibleEncryptionDateTime,
+    this.kMSMasterKeyArn,
+    this.sSEType,
+    this.status,
+  });
+
+  factory SSEDescription.fromJson(Map<String, dynamic> json) {
+    return SSEDescription(
+      inaccessibleEncryptionDateTime:
+          timeStampFromJson(json['InaccessibleEncryptionDateTime']),
+      kMSMasterKeyArn: json['KMSMasterKeyArn'] as String?,
+      sSEType: (json['SSEType'] as String?)?.let(SSEType.fromString),
+      status: (json['Status'] as String?)?.let(SSEStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inaccessibleEncryptionDateTime = this.inaccessibleEncryptionDateTime;
+    final kMSMasterKeyArn = this.kMSMasterKeyArn;
+    final sSEType = this.sSEType;
+    final status = this.status;
+    return {
+      if (inaccessibleEncryptionDateTime != null)
+        'InaccessibleEncryptionDateTime':
+            unixTimestampToJson(inaccessibleEncryptionDateTime),
+      if (kMSMasterKeyArn != null) 'KMSMasterKeyArn': kMSMasterKeyArn,
+      if (sSEType != null) 'SSEType': sSEType.value,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+/// Contains details of a table archival operation.
+class ArchivalSummary {
+  /// The Amazon Resource Name (ARN) of the backup the table was archived to, when
+  /// applicable in the archival reason. If you wish to restore this backup to the
+  /// same table name, you will need to delete the original table.
+  final String? archivalBackupArn;
+
+  /// The date and time when table archival was initiated by DynamoDB, in UNIX
+  /// epoch time format.
+  final DateTime? archivalDateTime;
+
+  /// The reason DynamoDB archived the table. Currently, the only possible value
+  /// is:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>INACCESSIBLE_ENCRYPTION_CREDENTIALS</code> - The table was archived
+  /// due to the table's KMS key being inaccessible for more than seven days. An
+  /// On-Demand backup was created at the archival time.
+  /// </li>
+  /// </ul>
+  final String? archivalReason;
+
+  ArchivalSummary({
+    this.archivalBackupArn,
+    this.archivalDateTime,
+    this.archivalReason,
+  });
+
+  factory ArchivalSummary.fromJson(Map<String, dynamic> json) {
+    return ArchivalSummary(
+      archivalBackupArn: json['ArchivalBackupArn'] as String?,
+      archivalDateTime: timeStampFromJson(json['ArchivalDateTime']),
+      archivalReason: json['ArchivalReason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final archivalBackupArn = this.archivalBackupArn;
+    final archivalDateTime = this.archivalDateTime;
+    final archivalReason = this.archivalReason;
+    return {
+      if (archivalBackupArn != null) 'ArchivalBackupArn': archivalBackupArn,
+      if (archivalDateTime != null)
+        'ArchivalDateTime': unixTimestampToJson(archivalDateTime),
+      if (archivalReason != null) 'ArchivalReason': archivalReason,
+    };
+  }
+}
+
+/// Contains details of the table class.
+class TableClassSummary {
+  /// The date and time at which the table class was last updated.
+  final DateTime? lastUpdateDateTime;
+
+  /// The table class of the specified table. Valid values are
+  /// <code>STANDARD</code> and <code>STANDARD_INFREQUENT_ACCESS</code>.
+  final TableClass? tableClass;
+
+  TableClassSummary({
+    this.lastUpdateDateTime,
+    this.tableClass,
+  });
+
+  factory TableClassSummary.fromJson(Map<String, dynamic> json) {
+    return TableClassSummary(
+      lastUpdateDateTime: timeStampFromJson(json['LastUpdateDateTime']),
+      tableClass: (json['TableClass'] as String?)?.let(TableClass.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastUpdateDateTime = this.lastUpdateDateTime;
+    final tableClass = this.tableClass;
+    return {
+      if (lastUpdateDateTime != null)
+        'LastUpdateDateTime': unixTimestampToJson(lastUpdateDateTime),
+      if (tableClass != null) 'TableClass': tableClass.value,
+    };
+  }
+}
+
+/// Sets the maximum number of read and write units for the specified on-demand
+/// table. If you use this parameter, you must specify
+/// <code>MaxReadRequestUnits</code>, <code>MaxWriteRequestUnits</code>, or
+/// both.
+class OnDemandThroughput {
+  /// Maximum number of read request units for the specified table.
+  ///
+  /// To specify a maximum <code>OnDemandThroughput</code> on your table, set the
+  /// value of <code>MaxReadRequestUnits</code> as greater than or equal to 1. To
+  /// remove the maximum <code>OnDemandThroughput</code> that is currently set on
+  /// your table, set the value of <code>MaxReadRequestUnits</code> to -1.
+  final int? maxReadRequestUnits;
+
+  /// Maximum number of write request units for the specified table.
+  ///
+  /// To specify a maximum <code>OnDemandThroughput</code> on your table, set the
+  /// value of <code>MaxWriteRequestUnits</code> as greater than or equal to 1. To
+  /// remove the maximum <code>OnDemandThroughput</code> that is currently set on
+  /// your table, set the value of <code>MaxWriteRequestUnits</code> to -1.
+  final int? maxWriteRequestUnits;
+
+  OnDemandThroughput({
+    this.maxReadRequestUnits,
+    this.maxWriteRequestUnits,
+  });
+
+  factory OnDemandThroughput.fromJson(Map<String, dynamic> json) {
+    return OnDemandThroughput(
+      maxReadRequestUnits: json['MaxReadRequestUnits'] as int?,
+      maxWriteRequestUnits: json['MaxWriteRequestUnits'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxReadRequestUnits = this.maxReadRequestUnits;
+    final maxWriteRequestUnits = this.maxWriteRequestUnits;
+    return {
+      if (maxReadRequestUnits != null)
+        'MaxReadRequestUnits': maxReadRequestUnits,
+      if (maxWriteRequestUnits != null)
+        'MaxWriteRequestUnits': maxWriteRequestUnits,
+    };
+  }
+}
+
+/// Represents the warm throughput value (in read units per second and write
+/// units per second) of the table. Warm throughput is applicable for DynamoDB
+/// Standard-IA tables and specifies the minimum provisioned capacity maintained
+/// for immediate data access.
+class TableWarmThroughputDescription {
+  /// Represents the base table's warm throughput value in read units per second.
+  final int? readUnitsPerSecond;
+
+  /// Represents warm throughput value of the base table.
+  final TableStatus? status;
+
+  /// Represents the base table's warm throughput value in write units per second.
+  final int? writeUnitsPerSecond;
+
+  TableWarmThroughputDescription({
+    this.readUnitsPerSecond,
+    this.status,
+    this.writeUnitsPerSecond,
+  });
+
+  factory TableWarmThroughputDescription.fromJson(Map<String, dynamic> json) {
+    return TableWarmThroughputDescription(
+      readUnitsPerSecond: json['ReadUnitsPerSecond'] as int?,
+      status: (json['Status'] as String?)?.let(TableStatus.fromString),
+      writeUnitsPerSecond: json['WriteUnitsPerSecond'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final readUnitsPerSecond = this.readUnitsPerSecond;
+    final status = this.status;
+    final writeUnitsPerSecond = this.writeUnitsPerSecond;
+    return {
+      if (readUnitsPerSecond != null) 'ReadUnitsPerSecond': readUnitsPerSecond,
+      if (status != null) 'Status': status.value,
+      if (writeUnitsPerSecond != null)
+        'WriteUnitsPerSecond': writeUnitsPerSecond,
+    };
+  }
+}
+
+class MultiRegionConsistency {
+  static const eventual = MultiRegionConsistency._('EVENTUAL');
+  static const strong = MultiRegionConsistency._('STRONG');
+
+  final String value;
+
+  const MultiRegionConsistency._(this.value);
+
+  static const values = [eventual, strong];
+
+  static MultiRegionConsistency fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MultiRegionConsistency._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MultiRegionConsistency && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TableClass {
+  static const standard = TableClass._('STANDARD');
+  static const standardInfrequentAccess =
+      TableClass._('STANDARD_INFREQUENT_ACCESS');
+
+  final String value;
+
+  const TableClass._(this.value);
+
+  static const values = [standard, standardInfrequentAccess];
+
+  static TableClass fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TableClass._(value));
+
+  @override
+  bool operator ==(other) => other is TableClass && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SSEStatus {
+  static const enabling = SSEStatus._('ENABLING');
+  static const enabled = SSEStatus._('ENABLED');
+  static const disabling = SSEStatus._('DISABLING');
+  static const disabled = SSEStatus._('DISABLED');
+  static const updating = SSEStatus._('UPDATING');
+
+  final String value;
+
+  const SSEStatus._(this.value);
+
+  static const values = [enabling, enabled, disabling, disabled, updating];
+
+  static SSEStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SSEStatus._(value));
+
+  @override
+  bool operator ==(other) => other is SSEStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SSEType {
+  static const aes256 = SSEType._('AES256');
+  static const kms = SSEType._('KMS');
+
+  final String value;
+
+  const SSEType._(this.value);
+
+  static const values = [aes256, kms];
+
+  static SSEType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SSEType._(value));
+
+  @override
+  bool operator ==(other) => other is SSEType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the properties of a witness Region in a MRSC global table.
+class GlobalTableWitnessDescription {
+  /// The name of the Amazon Web Services Region that serves as a witness for the
+  /// MRSC global table.
+  final String? regionName;
+
+  /// The current status of the witness Region in the MRSC global table.
+  final WitnessStatus? witnessStatus;
+
+  GlobalTableWitnessDescription({
+    this.regionName,
+    this.witnessStatus,
+  });
+
+  factory GlobalTableWitnessDescription.fromJson(Map<String, dynamic> json) {
+    return GlobalTableWitnessDescription(
+      regionName: json['RegionName'] as String?,
+      witnessStatus:
+          (json['WitnessStatus'] as String?)?.let(WitnessStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final regionName = this.regionName;
+    final witnessStatus = this.witnessStatus;
+    return {
+      if (regionName != null) 'RegionName': regionName,
+      if (witnessStatus != null) 'WitnessStatus': witnessStatus.value,
+    };
+  }
+}
+
+class WitnessStatus {
+  static const creating = WitnessStatus._('CREATING');
+  static const deleting = WitnessStatus._('DELETING');
+  static const active = WitnessStatus._('ACTIVE');
+
+  final String value;
+
+  const WitnessStatus._(this.value);
+
+  static const values = [creating, deleting, active];
+
+  static WitnessStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WitnessStatus._(value));
+
+  @override
+  bool operator ==(other) => other is WitnessStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains the details of the replica.
+class ReplicaDescription {
+  /// Replica-specific global secondary index settings.
+  final List<ReplicaGlobalSecondaryIndexDescription>? globalSecondaryIndexes;
+
+  /// Indicates one of the settings synchronization modes for the global table
+  /// replica:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ENABLED</code>: Indicates that the settings synchronization mode for
+  /// the global table replica is enabled.
+  /// </li>
+  /// <li>
+  /// <code>DISABLED</code>: Indicates that the settings synchronization mode for
+  /// the global table replica is disabled.
+  /// </li>
+  /// <li>
+  /// <code>ENABLED_WITH_OVERRIDES</code>: This mode is set by default for a same
+  /// account global table. Indicates that certain global table settings can be
+  /// overridden.
+  /// </li>
+  /// </ul>
+  final GlobalTableSettingsReplicationMode? globalTableSettingsReplicationMode;
+
+  /// The KMS key of the replica that will be used for KMS encryption.
+  final String? kMSMasterKeyId;
+
+  /// Overrides the maximum on-demand throughput settings for the specified
+  /// replica table.
+  final OnDemandThroughputOverride? onDemandThroughputOverride;
+
+  /// Replica-specific provisioned throughput. If not described, uses the source
+  /// table's provisioned throughput settings.
+  final ProvisionedThroughputOverride? provisionedThroughputOverride;
+
+  /// The name of the Region.
+  final String? regionName;
+
+  /// The Amazon Resource Name (ARN) of the global table replica.
+  final String? replicaArn;
+
+  /// The time at which the replica was first detected as inaccessible. To
+  /// determine cause of inaccessibility check the <code>ReplicaStatus</code>
+  /// property.
+  final DateTime? replicaInaccessibleDateTime;
+
+  /// The current state of the replica:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATING</code> - The replica is being created.
+  /// </li>
+  /// <li>
+  /// <code>UPDATING</code> - The replica is being updated.
+  /// </li>
+  /// <li>
+  /// <code>DELETING</code> - The replica is being deleted.
+  /// </li>
+  /// <li>
+  /// <code>ACTIVE</code> - The replica is ready for use.
+  /// </li>
+  /// <li>
+  /// <code>REGION_DISABLED</code> - The replica is inaccessible because the
+  /// Amazon Web Services Region has been disabled.
+  /// <note>
+  /// If the Amazon Web Services Region remains inaccessible for more than 20
+  /// hours, DynamoDB will remove this replica from the replication group. The
+  /// replica will not be deleted and replication will stop from and to this
+  /// region.
+  /// </note> </li>
+  /// <li>
+  /// <code>INACCESSIBLE_ENCRYPTION_CREDENTIALS </code> - The KMS key used to
+  /// encrypt the table is inaccessible.
+  /// <note>
+  /// If the KMS key remains inaccessible for more than 20 hours, DynamoDB will
+  /// remove this replica from the replication group. The replica will not be
+  /// deleted and replication will stop from and to this region.
+  /// </note> </li>
+  /// </ul>
+  final ReplicaStatus? replicaStatus;
+
+  /// Detailed information about the replica status.
+  final String? replicaStatusDescription;
+
+  /// Specifies the progress of a Create, Update, or Delete action on the replica
+  /// as a percentage.
+  final String? replicaStatusPercentProgress;
+  final TableClassSummary? replicaTableClassSummary;
+
+  /// Represents the warm throughput value for this replica.
+  final TableWarmThroughputDescription? warmThroughput;
+
+  ReplicaDescription({
+    this.globalSecondaryIndexes,
+    this.globalTableSettingsReplicationMode,
+    this.kMSMasterKeyId,
+    this.onDemandThroughputOverride,
+    this.provisionedThroughputOverride,
+    this.regionName,
+    this.replicaArn,
+    this.replicaInaccessibleDateTime,
+    this.replicaStatus,
+    this.replicaStatusDescription,
+    this.replicaStatusPercentProgress,
+    this.replicaTableClassSummary,
+    this.warmThroughput,
+  });
+
+  factory ReplicaDescription.fromJson(Map<String, dynamic> json) {
+    return ReplicaDescription(
+      globalSecondaryIndexes: (json['GlobalSecondaryIndexes'] as List?)
+          ?.nonNulls
+          .map((e) => ReplicaGlobalSecondaryIndexDescription.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      globalTableSettingsReplicationMode:
+          (json['GlobalTableSettingsReplicationMode'] as String?)
+              ?.let(GlobalTableSettingsReplicationMode.fromString),
+      kMSMasterKeyId: json['KMSMasterKeyId'] as String?,
+      onDemandThroughputOverride: json['OnDemandThroughputOverride'] != null
+          ? OnDemandThroughputOverride.fromJson(
+              json['OnDemandThroughputOverride'] as Map<String, dynamic>)
+          : null,
+      provisionedThroughputOverride:
+          json['ProvisionedThroughputOverride'] != null
+              ? ProvisionedThroughputOverride.fromJson(
+                  json['ProvisionedThroughputOverride'] as Map<String, dynamic>)
+              : null,
+      regionName: json['RegionName'] as String?,
+      replicaArn: json['ReplicaArn'] as String?,
+      replicaInaccessibleDateTime:
+          timeStampFromJson(json['ReplicaInaccessibleDateTime']),
+      replicaStatus:
+          (json['ReplicaStatus'] as String?)?.let(ReplicaStatus.fromString),
+      replicaStatusDescription: json['ReplicaStatusDescription'] as String?,
+      replicaStatusPercentProgress:
+          json['ReplicaStatusPercentProgress'] as String?,
+      replicaTableClassSummary: json['ReplicaTableClassSummary'] != null
+          ? TableClassSummary.fromJson(
+              json['ReplicaTableClassSummary'] as Map<String, dynamic>)
+          : null,
+      warmThroughput: json['WarmThroughput'] != null
+          ? TableWarmThroughputDescription.fromJson(
+              json['WarmThroughput'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalSecondaryIndexes = this.globalSecondaryIndexes;
+    final globalTableSettingsReplicationMode =
+        this.globalTableSettingsReplicationMode;
+    final kMSMasterKeyId = this.kMSMasterKeyId;
+    final onDemandThroughputOverride = this.onDemandThroughputOverride;
+    final provisionedThroughputOverride = this.provisionedThroughputOverride;
+    final regionName = this.regionName;
+    final replicaArn = this.replicaArn;
+    final replicaInaccessibleDateTime = this.replicaInaccessibleDateTime;
+    final replicaStatus = this.replicaStatus;
+    final replicaStatusDescription = this.replicaStatusDescription;
+    final replicaStatusPercentProgress = this.replicaStatusPercentProgress;
+    final replicaTableClassSummary = this.replicaTableClassSummary;
+    final warmThroughput = this.warmThroughput;
+    return {
+      if (globalSecondaryIndexes != null)
+        'GlobalSecondaryIndexes': globalSecondaryIndexes,
+      if (globalTableSettingsReplicationMode != null)
+        'GlobalTableSettingsReplicationMode':
+            globalTableSettingsReplicationMode.value,
+      if (kMSMasterKeyId != null) 'KMSMasterKeyId': kMSMasterKeyId,
+      if (onDemandThroughputOverride != null)
+        'OnDemandThroughputOverride': onDemandThroughputOverride,
+      if (provisionedThroughputOverride != null)
+        'ProvisionedThroughputOverride': provisionedThroughputOverride,
+      if (regionName != null) 'RegionName': regionName,
+      if (replicaArn != null) 'ReplicaArn': replicaArn,
+      if (replicaInaccessibleDateTime != null)
+        'ReplicaInaccessibleDateTime':
+            unixTimestampToJson(replicaInaccessibleDateTime),
+      if (replicaStatus != null) 'ReplicaStatus': replicaStatus.value,
+      if (replicaStatusDescription != null)
+        'ReplicaStatusDescription': replicaStatusDescription,
+      if (replicaStatusPercentProgress != null)
+        'ReplicaStatusPercentProgress': replicaStatusPercentProgress,
+      if (replicaTableClassSummary != null)
+        'ReplicaTableClassSummary': replicaTableClassSummary,
+      if (warmThroughput != null) 'WarmThroughput': warmThroughput,
+    };
+  }
+}
+
+/// Replica-specific provisioned throughput settings. If not specified, uses the
+/// source table's provisioned throughput settings.
+class ProvisionedThroughputOverride {
+  /// Replica-specific read capacity units. If not specified, uses the source
+  /// table's read capacity settings.
+  final int? readCapacityUnits;
+
+  ProvisionedThroughputOverride({
+    this.readCapacityUnits,
+  });
+
+  factory ProvisionedThroughputOverride.fromJson(Map<String, dynamic> json) {
+    return ProvisionedThroughputOverride(
+      readCapacityUnits: json['ReadCapacityUnits'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final readCapacityUnits = this.readCapacityUnits;
+    return {
+      if (readCapacityUnits != null) 'ReadCapacityUnits': readCapacityUnits,
+    };
+  }
+}
+
+/// Overrides the on-demand throughput settings for this replica table. If you
+/// don't specify a value for this parameter, it uses the source table's
+/// on-demand throughput settings.
+class OnDemandThroughputOverride {
+  /// Maximum number of read request units for the specified replica table.
+  final int? maxReadRequestUnits;
+
+  OnDemandThroughputOverride({
+    this.maxReadRequestUnits,
+  });
+
+  factory OnDemandThroughputOverride.fromJson(Map<String, dynamic> json) {
+    return OnDemandThroughputOverride(
+      maxReadRequestUnits: json['MaxReadRequestUnits'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxReadRequestUnits = this.maxReadRequestUnits;
+    return {
+      if (maxReadRequestUnits != null)
+        'MaxReadRequestUnits': maxReadRequestUnits,
+    };
+  }
+}
+
 /// Represents the properties of a replica global secondary index.
 class ReplicaGlobalSecondaryIndexDescription {
   /// The name of the global secondary index.
@@ -12975,10 +10447,15 @@ class ReplicaGlobalSecondaryIndexDescription {
   /// If not described, uses the source table GSI's read capacity settings.
   final ProvisionedThroughputOverride? provisionedThroughputOverride;
 
+  /// Represents the warm throughput of the global secondary index for this
+  /// replica.
+  final GlobalSecondaryIndexWarmThroughputDescription? warmThroughput;
+
   ReplicaGlobalSecondaryIndexDescription({
     this.indexName,
     this.onDemandThroughputOverride,
     this.provisionedThroughputOverride,
+    this.warmThroughput,
   });
 
   factory ReplicaGlobalSecondaryIndexDescription.fromJson(
@@ -12994,6 +10471,10 @@ class ReplicaGlobalSecondaryIndexDescription {
               ? ProvisionedThroughputOverride.fromJson(
                   json['ProvisionedThroughputOverride'] as Map<String, dynamic>)
               : null,
+      warmThroughput: json['WarmThroughput'] != null
+          ? GlobalSecondaryIndexWarmThroughputDescription.fromJson(
+              json['WarmThroughput'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -13001,8 +10482,1052 @@ class ReplicaGlobalSecondaryIndexDescription {
     final indexName = this.indexName;
     final onDemandThroughputOverride = this.onDemandThroughputOverride;
     final provisionedThroughputOverride = this.provisionedThroughputOverride;
+    final warmThroughput = this.warmThroughput;
     return {
       if (indexName != null) 'IndexName': indexName,
+      if (onDemandThroughputOverride != null)
+        'OnDemandThroughputOverride': onDemandThroughputOverride,
+      if (provisionedThroughputOverride != null)
+        'ProvisionedThroughputOverride': provisionedThroughputOverride,
+      if (warmThroughput != null) 'WarmThroughput': warmThroughput,
+    };
+  }
+}
+
+/// The description of the warm throughput value on a global secondary index.
+class GlobalSecondaryIndexWarmThroughputDescription {
+  /// Represents warm throughput read units per second value for a global
+  /// secondary index.
+  final int? readUnitsPerSecond;
+
+  /// Represents the warm throughput status being created or updated on a global
+  /// secondary index. The status can only be <code>UPDATING</code> or
+  /// <code>ACTIVE</code>.
+  final IndexStatus? status;
+
+  /// Represents warm throughput write units per second value for a global
+  /// secondary index.
+  final int? writeUnitsPerSecond;
+
+  GlobalSecondaryIndexWarmThroughputDescription({
+    this.readUnitsPerSecond,
+    this.status,
+    this.writeUnitsPerSecond,
+  });
+
+  factory GlobalSecondaryIndexWarmThroughputDescription.fromJson(
+      Map<String, dynamic> json) {
+    return GlobalSecondaryIndexWarmThroughputDescription(
+      readUnitsPerSecond: json['ReadUnitsPerSecond'] as int?,
+      status: (json['Status'] as String?)?.let(IndexStatus.fromString),
+      writeUnitsPerSecond: json['WriteUnitsPerSecond'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final readUnitsPerSecond = this.readUnitsPerSecond;
+    final status = this.status;
+    final writeUnitsPerSecond = this.writeUnitsPerSecond;
+    return {
+      if (readUnitsPerSecond != null) 'ReadUnitsPerSecond': readUnitsPerSecond,
+      if (status != null) 'Status': status.value,
+      if (writeUnitsPerSecond != null)
+        'WriteUnitsPerSecond': writeUnitsPerSecond,
+    };
+  }
+}
+
+class StreamViewType {
+  static const newImage = StreamViewType._('NEW_IMAGE');
+  static const oldImage = StreamViewType._('OLD_IMAGE');
+  static const newAndOldImages = StreamViewType._('NEW_AND_OLD_IMAGES');
+  static const keysOnly = StreamViewType._('KEYS_ONLY');
+
+  final String value;
+
+  const StreamViewType._(this.value);
+
+  static const values = [newImage, oldImage, newAndOldImages, keysOnly];
+
+  static StreamViewType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StreamViewType._(value));
+
+  @override
+  bool operator ==(other) => other is StreamViewType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the properties of a global secondary index.
+class GlobalSecondaryIndexDescription {
+  /// Indicates whether the index is currently backfilling. <i>Backfilling</i> is
+  /// the process of reading items from the table and determining whether they can
+  /// be added to the index. (Not all items will qualify: For example, a partition
+  /// key cannot have any duplicate values.) If an item can be added to the index,
+  /// DynamoDB will do so. After all items have been processed, the backfilling
+  /// operation is complete and <code>Backfilling</code> is false.
+  ///
+  /// You can delete an index that is being created during the
+  /// <code>Backfilling</code> phase when <code>IndexStatus</code> is set to
+  /// CREATING and <code>Backfilling</code> is true. You can't delete the index
+  /// that is being created when <code>IndexStatus</code> is set to CREATING and
+  /// <code>Backfilling</code> is false.
+  /// <note>
+  /// For indexes that were created during a <code>CreateTable</code> operation,
+  /// the <code>Backfilling</code> attribute does not appear in the
+  /// <code>DescribeTable</code> output.
+  /// </note>
+  final bool? backfilling;
+
+  /// The Amazon Resource Name (ARN) that uniquely identifies the index.
+  final String? indexArn;
+
+  /// The name of the global secondary index.
+  final String? indexName;
+
+  /// The total size of the specified index, in bytes. DynamoDB updates this value
+  /// approximately every six hours. Recent changes might not be reflected in this
+  /// value.
+  final int? indexSizeBytes;
+
+  /// The current state of the global secondary index:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATING</code> - The index is being created.
+  /// </li>
+  /// <li>
+  /// <code>UPDATING</code> - The index is being updated.
+  /// </li>
+  /// <li>
+  /// <code>DELETING</code> - The index is being deleted.
+  /// </li>
+  /// <li>
+  /// <code>ACTIVE</code> - The index is ready for use.
+  /// </li>
+  /// </ul>
+  final IndexStatus? indexStatus;
+
+  /// The number of items in the specified index. DynamoDB updates this value
+  /// approximately every six hours. Recent changes might not be reflected in this
+  /// value.
+  final int? itemCount;
+
+  /// The complete key schema for a global secondary index, which consists of one
+  /// or more pairs of attribute names and key types:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>HASH</code> - partition key
+  /// </li>
+  /// <li>
+  /// <code>RANGE</code> - sort key
+  /// </li>
+  /// </ul> <note>
+  /// The partition key of an item is also known as its <i>hash attribute</i>. The
+  /// term "hash attribute" derives from DynamoDB's usage of an internal hash
+  /// function to evenly distribute data items across partitions, based on their
+  /// partition key values.
+  ///
+  /// The sort key of an item is also known as its <i>range attribute</i>. The
+  /// term "range attribute" derives from the way DynamoDB stores items with the
+  /// same partition key physically close together, in sorted order by the sort
+  /// key value.
+  /// </note>
+  final List<KeySchemaElement>? keySchema;
+
+  /// The maximum number of read and write units for the specified global
+  /// secondary index. If you use this parameter, you must specify
+  /// <code>MaxReadRequestUnits</code>, <code>MaxWriteRequestUnits</code>, or
+  /// both.
+  final OnDemandThroughput? onDemandThroughput;
+
+  /// Represents attributes that are copied (projected) from the table into the
+  /// global secondary index. These are in addition to the primary key attributes
+  /// and index key attributes, which are automatically projected.
+  final Projection? projection;
+
+  /// Represents the provisioned throughput settings for the specified global
+  /// secondary index.
+  ///
+  /// For current minimum and maximum provisioned throughput values, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Service,
+  /// Account, and Table Quotas</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  final ProvisionedThroughputDescription? provisionedThroughput;
+
+  /// Represents the warm throughput value (in read units per second and write
+  /// units per second) for the specified secondary index.
+  final GlobalSecondaryIndexWarmThroughputDescription? warmThroughput;
+
+  GlobalSecondaryIndexDescription({
+    this.backfilling,
+    this.indexArn,
+    this.indexName,
+    this.indexSizeBytes,
+    this.indexStatus,
+    this.itemCount,
+    this.keySchema,
+    this.onDemandThroughput,
+    this.projection,
+    this.provisionedThroughput,
+    this.warmThroughput,
+  });
+
+  factory GlobalSecondaryIndexDescription.fromJson(Map<String, dynamic> json) {
+    return GlobalSecondaryIndexDescription(
+      backfilling: json['Backfilling'] as bool?,
+      indexArn: json['IndexArn'] as String?,
+      indexName: json['IndexName'] as String?,
+      indexSizeBytes: json['IndexSizeBytes'] as int?,
+      indexStatus:
+          (json['IndexStatus'] as String?)?.let(IndexStatus.fromString),
+      itemCount: json['ItemCount'] as int?,
+      keySchema: (json['KeySchema'] as List?)
+          ?.nonNulls
+          .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      onDemandThroughput: json['OnDemandThroughput'] != null
+          ? OnDemandThroughput.fromJson(
+              json['OnDemandThroughput'] as Map<String, dynamic>)
+          : null,
+      projection: json['Projection'] != null
+          ? Projection.fromJson(json['Projection'] as Map<String, dynamic>)
+          : null,
+      provisionedThroughput: json['ProvisionedThroughput'] != null
+          ? ProvisionedThroughputDescription.fromJson(
+              json['ProvisionedThroughput'] as Map<String, dynamic>)
+          : null,
+      warmThroughput: json['WarmThroughput'] != null
+          ? GlobalSecondaryIndexWarmThroughputDescription.fromJson(
+              json['WarmThroughput'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final backfilling = this.backfilling;
+    final indexArn = this.indexArn;
+    final indexName = this.indexName;
+    final indexSizeBytes = this.indexSizeBytes;
+    final indexStatus = this.indexStatus;
+    final itemCount = this.itemCount;
+    final keySchema = this.keySchema;
+    final onDemandThroughput = this.onDemandThroughput;
+    final projection = this.projection;
+    final provisionedThroughput = this.provisionedThroughput;
+    final warmThroughput = this.warmThroughput;
+    return {
+      if (backfilling != null) 'Backfilling': backfilling,
+      if (indexArn != null) 'IndexArn': indexArn,
+      if (indexName != null) 'IndexName': indexName,
+      if (indexSizeBytes != null) 'IndexSizeBytes': indexSizeBytes,
+      if (indexStatus != null) 'IndexStatus': indexStatus.value,
+      if (itemCount != null) 'ItemCount': itemCount,
+      if (keySchema != null) 'KeySchema': keySchema,
+      if (onDemandThroughput != null) 'OnDemandThroughput': onDemandThroughput,
+      if (projection != null) 'Projection': projection,
+      if (provisionedThroughput != null)
+        'ProvisionedThroughput': provisionedThroughput,
+      if (warmThroughput != null) 'WarmThroughput': warmThroughput,
+    };
+  }
+}
+
+/// Represents attributes that are copied (projected) from the table into an
+/// index. These are in addition to the primary key attributes and index key
+/// attributes, which are automatically projected.
+class Projection {
+  /// Represents the non-key attribute names which will be projected into the
+  /// index.
+  ///
+  /// For global and local secondary indexes, the total count of
+  /// <code>NonKeyAttributes</code> summed across all of the secondary indexes,
+  /// must not exceed 100. If you project the same attribute into two different
+  /// indexes, this counts as two distinct attributes when determining the total.
+  /// This limit only applies when you specify the ProjectionType of
+  /// <code>INCLUDE</code>. You still can specify the ProjectionType of
+  /// <code>ALL</code> to project all attributes from the source table, even if
+  /// the table has more than 100 attributes.
+  final List<String>? nonKeyAttributes;
+
+  /// The set of attributes that are projected into the index:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>KEYS_ONLY</code> - Only the index and primary keys are projected into
+  /// the index.
+  /// </li>
+  /// <li>
+  /// <code>INCLUDE</code> - In addition to the attributes described in
+  /// <code>KEYS_ONLY</code>, the secondary index will include other non-key
+  /// attributes that you specify.
+  /// </li>
+  /// <li>
+  /// <code>ALL</code> - All of the table attributes are projected into the index.
+  /// </li>
+  /// </ul>
+  /// When using the DynamoDB console, <code>ALL</code> is selected by default.
+  final ProjectionType? projectionType;
+
+  Projection({
+    this.nonKeyAttributes,
+    this.projectionType,
+  });
+
+  factory Projection.fromJson(Map<String, dynamic> json) {
+    return Projection(
+      nonKeyAttributes: (json['NonKeyAttributes'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      projectionType:
+          (json['ProjectionType'] as String?)?.let(ProjectionType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nonKeyAttributes = this.nonKeyAttributes;
+    final projectionType = this.projectionType;
+    return {
+      if (nonKeyAttributes != null) 'NonKeyAttributes': nonKeyAttributes,
+      if (projectionType != null) 'ProjectionType': projectionType.value,
+    };
+  }
+}
+
+class ProjectionType {
+  static const all = ProjectionType._('ALL');
+  static const keysOnly = ProjectionType._('KEYS_ONLY');
+  static const include = ProjectionType._('INCLUDE');
+
+  final String value;
+
+  const ProjectionType._(this.value);
+
+  static const values = [all, keysOnly, include];
+
+  static ProjectionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProjectionType._(value));
+
+  @override
+  bool operator ==(other) => other is ProjectionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the properties of a local secondary index.
+class LocalSecondaryIndexDescription {
+  /// The Amazon Resource Name (ARN) that uniquely identifies the index.
+  final String? indexArn;
+
+  /// Represents the name of the local secondary index.
+  final String? indexName;
+
+  /// The total size of the specified index, in bytes. DynamoDB updates this value
+  /// approximately every six hours. Recent changes might not be reflected in this
+  /// value.
+  final int? indexSizeBytes;
+
+  /// The number of items in the specified index. DynamoDB updates this value
+  /// approximately every six hours. Recent changes might not be reflected in this
+  /// value.
+  final int? itemCount;
+
+  /// The complete key schema for the local secondary index, consisting of one or
+  /// more pairs of attribute names and key types:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>HASH</code> - partition key
+  /// </li>
+  /// <li>
+  /// <code>RANGE</code> - sort key
+  /// </li>
+  /// </ul> <note>
+  /// The partition key of an item is also known as its <i>hash attribute</i>. The
+  /// term "hash attribute" derives from DynamoDB's usage of an internal hash
+  /// function to evenly distribute data items across partitions, based on their
+  /// partition key values.
+  ///
+  /// The sort key of an item is also known as its <i>range attribute</i>. The
+  /// term "range attribute" derives from the way DynamoDB stores items with the
+  /// same partition key physically close together, in sorted order by the sort
+  /// key value.
+  /// </note>
+  final List<KeySchemaElement>? keySchema;
+
+  /// Represents attributes that are copied (projected) from the table into the
+  /// global secondary index. These are in addition to the primary key attributes
+  /// and index key attributes, which are automatically projected.
+  final Projection? projection;
+
+  LocalSecondaryIndexDescription({
+    this.indexArn,
+    this.indexName,
+    this.indexSizeBytes,
+    this.itemCount,
+    this.keySchema,
+    this.projection,
+  });
+
+  factory LocalSecondaryIndexDescription.fromJson(Map<String, dynamic> json) {
+    return LocalSecondaryIndexDescription(
+      indexArn: json['IndexArn'] as String?,
+      indexName: json['IndexName'] as String?,
+      indexSizeBytes: json['IndexSizeBytes'] as int?,
+      itemCount: json['ItemCount'] as int?,
+      keySchema: (json['KeySchema'] as List?)
+          ?.nonNulls
+          .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      projection: json['Projection'] != null
+          ? Projection.fromJson(json['Projection'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final indexArn = this.indexArn;
+    final indexName = this.indexName;
+    final indexSizeBytes = this.indexSizeBytes;
+    final itemCount = this.itemCount;
+    final keySchema = this.keySchema;
+    final projection = this.projection;
+    return {
+      if (indexArn != null) 'IndexArn': indexArn,
+      if (indexName != null) 'IndexName': indexName,
+      if (indexSizeBytes != null) 'IndexSizeBytes': indexSizeBytes,
+      if (itemCount != null) 'ItemCount': itemCount,
+      if (keySchema != null) 'KeySchema': keySchema,
+      if (projection != null) 'Projection': projection,
+    };
+  }
+}
+
+class BillingMode {
+  static const provisioned = BillingMode._('PROVISIONED');
+  static const payPerRequest = BillingMode._('PAY_PER_REQUEST');
+
+  final String value;
+
+  const BillingMode._(this.value);
+
+  static const values = [provisioned, payPerRequest];
+
+  static BillingMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BillingMode._(value));
+
+  @override
+  bool operator ==(other) => other is BillingMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents <i>a single element</i> of a key schema. A key schema specifies
+/// the attributes that make up the primary key of a table, or the key
+/// attributes of an index.
+///
+/// A <code>KeySchemaElement</code> represents exactly one attribute of the
+/// primary key. For example, a simple primary key would be represented by one
+/// <code>KeySchemaElement</code> (for the partition key). A composite primary
+/// key would require one <code>KeySchemaElement</code> for the partition key,
+/// and another <code>KeySchemaElement</code> for the sort key.
+///
+/// A <code>KeySchemaElement</code> must be a scalar, top-level attribute (not a
+/// nested attribute). The data type must be one of String, Number, or Binary.
+/// The attribute cannot be nested within a List or a Map.
+class KeySchemaElement {
+  /// The name of a key attribute.
+  final String attributeName;
+
+  /// The role that this key attribute will assume:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>HASH</code> - partition key
+  /// </li>
+  /// <li>
+  /// <code>RANGE</code> - sort key
+  /// </li>
+  /// </ul> <note>
+  /// The partition key of an item is also known as its <i>hash attribute</i>. The
+  /// term "hash attribute" derives from DynamoDB's usage of an internal hash
+  /// function to evenly distribute data items across partitions, based on their
+  /// partition key values.
+  ///
+  /// The sort key of an item is also known as its <i>range attribute</i>. The
+  /// term "range attribute" derives from the way DynamoDB stores items with the
+  /// same partition key physically close together, in sorted order by the sort
+  /// key value.
+  /// </note>
+  final KeyType keyType;
+
+  KeySchemaElement({
+    required this.attributeName,
+    required this.keyType,
+  });
+
+  factory KeySchemaElement.fromJson(Map<String, dynamic> json) {
+    return KeySchemaElement(
+      attributeName: (json['AttributeName'] as String?) ?? '',
+      keyType: KeyType.fromString((json['KeyType'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeName = this.attributeName;
+    final keyType = this.keyType;
+    return {
+      'AttributeName': attributeName,
+      'KeyType': keyType.value,
+    };
+  }
+}
+
+class KeyType {
+  static const hash = KeyType._('HASH');
+  static const range = KeyType._('RANGE');
+
+  final String value;
+
+  const KeyType._(this.value);
+
+  static const values = [hash, range];
+
+  static KeyType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => KeyType._(value));
+
+  @override
+  bool operator ==(other) => other is KeyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents an attribute for describing the schema for the table and indexes.
+class AttributeDefinition {
+  /// A name for the attribute.
+  final String attributeName;
+
+  /// The data type for the attribute, where:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>S</code> - the attribute is of type String
+  /// </li>
+  /// <li>
+  /// <code>N</code> - the attribute is of type Number
+  /// </li>
+  /// <li>
+  /// <code>B</code> - the attribute is of type Binary
+  /// </li>
+  /// </ul>
+  final ScalarAttributeType attributeType;
+
+  AttributeDefinition({
+    required this.attributeName,
+    required this.attributeType,
+  });
+
+  factory AttributeDefinition.fromJson(Map<String, dynamic> json) {
+    return AttributeDefinition(
+      attributeName: (json['AttributeName'] as String?) ?? '',
+      attributeType: ScalarAttributeType.fromString(
+          (json['AttributeType'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeName = this.attributeName;
+    final attributeType = this.attributeType;
+    return {
+      'AttributeName': attributeName,
+      'AttributeType': attributeType.value,
+    };
+  }
+}
+
+class ScalarAttributeType {
+  static const s = ScalarAttributeType._('S');
+  static const n = ScalarAttributeType._('N');
+  static const b = ScalarAttributeType._('B');
+
+  final String value;
+
+  const ScalarAttributeType._(this.value);
+
+  static const values = [s, n, b];
+
+  static ScalarAttributeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ScalarAttributeType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ScalarAttributeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the provisioned throughput settings for the specified global
+/// secondary index. You must use <code>ProvisionedThroughput</code> or
+/// <code>OnDemandThroughput</code> based on your table’s capacity mode.
+///
+/// For current minimum and maximum provisioned throughput values, see <a
+/// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Service,
+/// Account, and Table Quotas</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+class ProvisionedThroughput {
+  /// The maximum number of strongly consistent reads consumed per second before
+  /// DynamoDB returns a <code>ThrottlingException</code>. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughput.html">Specifying
+  /// Read and Write Requirements</a> in the <i>Amazon DynamoDB Developer
+  /// Guide</i>.
+  ///
+  /// If read/write capacity mode is <code>PAY_PER_REQUEST</code> the value is set
+  /// to 0.
+  final int readCapacityUnits;
+
+  /// The maximum number of writes consumed per second before DynamoDB returns a
+  /// <code>ThrottlingException</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughput.html">Specifying
+  /// Read and Write Requirements</a> in the <i>Amazon DynamoDB Developer
+  /// Guide</i>.
+  ///
+  /// If read/write capacity mode is <code>PAY_PER_REQUEST</code> the value is set
+  /// to 0.
+  final int writeCapacityUnits;
+
+  ProvisionedThroughput({
+    required this.readCapacityUnits,
+    required this.writeCapacityUnits,
+  });
+
+  factory ProvisionedThroughput.fromJson(Map<String, dynamic> json) {
+    return ProvisionedThroughput(
+      readCapacityUnits: (json['ReadCapacityUnits'] as int?) ?? 0,
+      writeCapacityUnits: (json['WriteCapacityUnits'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final readCapacityUnits = this.readCapacityUnits;
+    final writeCapacityUnits = this.writeCapacityUnits;
+    return {
+      'ReadCapacityUnits': readCapacityUnits,
+      'WriteCapacityUnits': writeCapacityUnits,
+    };
+  }
+}
+
+/// Represents the settings used to enable server-side encryption.
+class SSESpecification {
+  /// Indicates whether server-side encryption is done using an Amazon Web
+  /// Services managed key or an Amazon Web Services owned key. If enabled (true),
+  /// server-side encryption type is set to <code>KMS</code> and an Amazon Web
+  /// Services managed key is used (KMS charges apply). If disabled (false) or not
+  /// specified, server-side encryption is set to Amazon Web Services owned key.
+  final bool? enabled;
+
+  /// The KMS key that should be used for the KMS encryption. To specify a key,
+  /// use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. Note
+  /// that you should only provide this parameter if the key is different from the
+  /// default DynamoDB key <code>alias/aws/dynamodb</code>.
+  final String? kMSMasterKeyId;
+
+  /// Server-side encryption type. The only supported value is:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>KMS</code> - Server-side encryption that uses Key Management Service.
+  /// The key is stored in your account and is managed by KMS (KMS charges apply).
+  /// </li>
+  /// </ul>
+  final SSEType? sSEType;
+
+  SSESpecification({
+    this.enabled,
+    this.kMSMasterKeyId,
+    this.sSEType,
+  });
+
+  factory SSESpecification.fromJson(Map<String, dynamic> json) {
+    return SSESpecification(
+      enabled: json['Enabled'] as bool?,
+      kMSMasterKeyId: json['KMSMasterKeyId'] as String?,
+      sSEType: (json['SSEType'] as String?)?.let(SSEType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final kMSMasterKeyId = this.kMSMasterKeyId;
+    final sSEType = this.sSEType;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+      if (kMSMasterKeyId != null) 'KMSMasterKeyId': kMSMasterKeyId,
+      if (sSEType != null) 'SSEType': sSEType.value,
+    };
+  }
+}
+
+/// Provides visibility into the number of read and write operations your table
+/// or secondary index can instantaneously support. The settings can be modified
+/// using the <code>UpdateTable</code> operation to meet the throughput
+/// requirements of an upcoming peak event.
+class WarmThroughput {
+  /// Represents the number of read operations your base table can instantaneously
+  /// support.
+  final int? readUnitsPerSecond;
+
+  /// Represents the number of write operations your base table can
+  /// instantaneously support.
+  final int? writeUnitsPerSecond;
+
+  WarmThroughput({
+    this.readUnitsPerSecond,
+    this.writeUnitsPerSecond,
+  });
+
+  factory WarmThroughput.fromJson(Map<String, dynamic> json) {
+    return WarmThroughput(
+      readUnitsPerSecond: json['ReadUnitsPerSecond'] as int?,
+      writeUnitsPerSecond: json['WriteUnitsPerSecond'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final readUnitsPerSecond = this.readUnitsPerSecond;
+    final writeUnitsPerSecond = this.writeUnitsPerSecond;
+    return {
+      if (readUnitsPerSecond != null) 'ReadUnitsPerSecond': readUnitsPerSecond,
+      if (writeUnitsPerSecond != null)
+        'WriteUnitsPerSecond': writeUnitsPerSecond,
+    };
+  }
+}
+
+/// Represents one of the following:
+///
+/// <ul>
+/// <li>
+/// A new witness to be added to a new global table.
+/// </li>
+/// <li>
+/// An existing witness to be removed from an existing global table.
+/// </li>
+/// </ul>
+/// You can configure one witness per MRSC global table.
+class GlobalTableWitnessGroupUpdate {
+  /// Specifies a witness Region to be added to a new MRSC global table. The
+  /// witness must be added when creating the MRSC global table.
+  final CreateGlobalTableWitnessGroupMemberAction? create;
+
+  /// Specifies a witness Region to be removed from an existing global table. Must
+  /// be done in conjunction with removing a replica. The deletion of both a
+  /// witness and replica converts the remaining replica to a single-Region
+  /// DynamoDB table.
+  final DeleteGlobalTableWitnessGroupMemberAction? delete;
+
+  GlobalTableWitnessGroupUpdate({
+    this.create,
+    this.delete,
+  });
+
+  Map<String, dynamic> toJson() {
+    final create = this.create;
+    final delete = this.delete;
+    return {
+      if (create != null) 'Create': create,
+      if (delete != null) 'Delete': delete,
+    };
+  }
+}
+
+/// Specifies the action to add a new witness Region to a MRSC global table. A
+/// MRSC global table can be configured with either three replicas, or with two
+/// replicas and one witness.
+class CreateGlobalTableWitnessGroupMemberAction {
+  /// The Amazon Web Services Region name to be added as a witness Region for the
+  /// MRSC global table. The witness must be in a different Region than the
+  /// replicas and within the same Region set:
+  ///
+  /// <ul>
+  /// <li>
+  /// US Region set: US East (N. Virginia), US East (Ohio), US West (Oregon)
+  /// </li>
+  /// <li>
+  /// EU Region set: Europe (Ireland), Europe (London), Europe (Paris), Europe
+  /// (Frankfurt)
+  /// </li>
+  /// <li>
+  /// AP Region set: Asia Pacific (Tokyo), Asia Pacific (Seoul), Asia Pacific
+  /// (Osaka)
+  /// </li>
+  /// </ul>
+  final String regionName;
+
+  CreateGlobalTableWitnessGroupMemberAction({
+    required this.regionName,
+  });
+
+  Map<String, dynamic> toJson() {
+    final regionName = this.regionName;
+    return {
+      'RegionName': regionName,
+    };
+  }
+}
+
+/// Specifies the action to remove a witness Region from a MRSC global table.
+/// You cannot delete a single witness from a MRSC global table - you must
+/// delete both a replica and the witness together. The deletion of both a
+/// witness and replica converts the remaining replica to a single-Region
+/// DynamoDB table.
+class DeleteGlobalTableWitnessGroupMemberAction {
+  /// The witness Region name to be removed from the MRSC global table.
+  final String regionName;
+
+  DeleteGlobalTableWitnessGroupMemberAction({
+    required this.regionName,
+  });
+
+  Map<String, dynamic> toJson() {
+    final regionName = this.regionName;
+    return {
+      'RegionName': regionName,
+    };
+  }
+}
+
+/// Represents one of the following:
+///
+/// <ul>
+/// <li>
+/// A new replica to be added to an existing regional table or global table.
+/// This request invokes the <code>CreateTableReplica</code> action in the
+/// destination Region.
+/// </li>
+/// <li>
+/// New parameters for an existing replica. This request invokes the
+/// <code>UpdateTable</code> action in the destination Region.
+/// </li>
+/// <li>
+/// An existing replica to be deleted. The request invokes the
+/// <code>DeleteTableReplica</code> action in the destination Region, deleting
+/// the replica and all if its items in the destination Region.
+/// </li>
+/// </ul> <note>
+/// When you manually remove a table or global table replica, you do not
+/// automatically remove any associated scalable targets, scaling policies, or
+/// CloudWatch alarms.
+/// </note>
+class ReplicationGroupUpdate {
+  /// The parameters required for creating a replica for the table.
+  final CreateReplicationGroupMemberAction? create;
+
+  /// The parameters required for deleting a replica for the table.
+  final DeleteReplicationGroupMemberAction? delete;
+
+  /// The parameters required for updating a replica for the table.
+  final UpdateReplicationGroupMemberAction? update;
+
+  ReplicationGroupUpdate({
+    this.create,
+    this.delete,
+    this.update,
+  });
+
+  Map<String, dynamic> toJson() {
+    final create = this.create;
+    final delete = this.delete;
+    final update = this.update;
+    return {
+      if (create != null) 'Create': create,
+      if (delete != null) 'Delete': delete,
+      if (update != null) 'Update': update,
+    };
+  }
+}
+
+/// Represents a replica to be created.
+class CreateReplicationGroupMemberAction {
+  /// The Region where the new replica will be created.
+  final String regionName;
+
+  /// Replica-specific global secondary index settings.
+  final List<ReplicaGlobalSecondaryIndex>? globalSecondaryIndexes;
+
+  /// The KMS key that should be used for KMS encryption in the new replica. To
+  /// specify a key, use its key ID, Amazon Resource Name (ARN), alias name, or
+  /// alias ARN. Note that you should only provide this parameter if the key is
+  /// different from the default DynamoDB KMS key <code>alias/aws/dynamodb</code>.
+  final String? kMSMasterKeyId;
+
+  /// The maximum on-demand throughput settings for the specified replica table
+  /// being created. You can only modify <code>MaxReadRequestUnits</code>, because
+  /// you can't modify <code>MaxWriteRequestUnits</code> for individual replica
+  /// tables.
+  final OnDemandThroughputOverride? onDemandThroughputOverride;
+
+  /// Replica-specific provisioned throughput. If not specified, uses the source
+  /// table's provisioned throughput settings.
+  final ProvisionedThroughputOverride? provisionedThroughputOverride;
+
+  /// Replica-specific table class. If not specified, uses the source table's
+  /// table class.
+  final TableClass? tableClassOverride;
+
+  CreateReplicationGroupMemberAction({
+    required this.regionName,
+    this.globalSecondaryIndexes,
+    this.kMSMasterKeyId,
+    this.onDemandThroughputOverride,
+    this.provisionedThroughputOverride,
+    this.tableClassOverride,
+  });
+
+  Map<String, dynamic> toJson() {
+    final regionName = this.regionName;
+    final globalSecondaryIndexes = this.globalSecondaryIndexes;
+    final kMSMasterKeyId = this.kMSMasterKeyId;
+    final onDemandThroughputOverride = this.onDemandThroughputOverride;
+    final provisionedThroughputOverride = this.provisionedThroughputOverride;
+    final tableClassOverride = this.tableClassOverride;
+    return {
+      'RegionName': regionName,
+      if (globalSecondaryIndexes != null)
+        'GlobalSecondaryIndexes': globalSecondaryIndexes,
+      if (kMSMasterKeyId != null) 'KMSMasterKeyId': kMSMasterKeyId,
+      if (onDemandThroughputOverride != null)
+        'OnDemandThroughputOverride': onDemandThroughputOverride,
+      if (provisionedThroughputOverride != null)
+        'ProvisionedThroughputOverride': provisionedThroughputOverride,
+      if (tableClassOverride != null)
+        'TableClassOverride': tableClassOverride.value,
+    };
+  }
+}
+
+/// Represents a replica to be modified.
+class UpdateReplicationGroupMemberAction {
+  /// The Region where the replica exists.
+  final String regionName;
+
+  /// Replica-specific global secondary index settings.
+  final List<ReplicaGlobalSecondaryIndex>? globalSecondaryIndexes;
+
+  /// The KMS key of the replica that should be used for KMS encryption. To
+  /// specify a key, use its key ID, Amazon Resource Name (ARN), alias name, or
+  /// alias ARN. Note that you should only provide this parameter if the key is
+  /// different from the default DynamoDB KMS key <code>alias/aws/dynamodb</code>.
+  final String? kMSMasterKeyId;
+
+  /// Overrides the maximum on-demand throughput for the replica table.
+  final OnDemandThroughputOverride? onDemandThroughputOverride;
+
+  /// Replica-specific provisioned throughput. If not specified, uses the source
+  /// table's provisioned throughput settings.
+  final ProvisionedThroughputOverride? provisionedThroughputOverride;
+
+  /// Replica-specific table class. If not specified, uses the source table's
+  /// table class.
+  final TableClass? tableClassOverride;
+
+  UpdateReplicationGroupMemberAction({
+    required this.regionName,
+    this.globalSecondaryIndexes,
+    this.kMSMasterKeyId,
+    this.onDemandThroughputOverride,
+    this.provisionedThroughputOverride,
+    this.tableClassOverride,
+  });
+
+  Map<String, dynamic> toJson() {
+    final regionName = this.regionName;
+    final globalSecondaryIndexes = this.globalSecondaryIndexes;
+    final kMSMasterKeyId = this.kMSMasterKeyId;
+    final onDemandThroughputOverride = this.onDemandThroughputOverride;
+    final provisionedThroughputOverride = this.provisionedThroughputOverride;
+    final tableClassOverride = this.tableClassOverride;
+    return {
+      'RegionName': regionName,
+      if (globalSecondaryIndexes != null)
+        'GlobalSecondaryIndexes': globalSecondaryIndexes,
+      if (kMSMasterKeyId != null) 'KMSMasterKeyId': kMSMasterKeyId,
+      if (onDemandThroughputOverride != null)
+        'OnDemandThroughputOverride': onDemandThroughputOverride,
+      if (provisionedThroughputOverride != null)
+        'ProvisionedThroughputOverride': provisionedThroughputOverride,
+      if (tableClassOverride != null)
+        'TableClassOverride': tableClassOverride.value,
+    };
+  }
+}
+
+/// Represents a replica to be deleted.
+class DeleteReplicationGroupMemberAction {
+  /// The Region where the replica exists.
+  final String regionName;
+
+  DeleteReplicationGroupMemberAction({
+    required this.regionName,
+  });
+
+  Map<String, dynamic> toJson() {
+    final regionName = this.regionName;
+    return {
+      'RegionName': regionName,
+    };
+  }
+}
+
+/// Represents the properties of a replica global secondary index.
+class ReplicaGlobalSecondaryIndex {
+  /// The name of the global secondary index.
+  final String indexName;
+
+  /// Overrides the maximum on-demand throughput settings for the specified global
+  /// secondary index in the specified replica table.
+  final OnDemandThroughputOverride? onDemandThroughputOverride;
+
+  /// Replica table GSI-specific provisioned throughput. If not specified, uses
+  /// the source table GSI's read capacity settings.
+  final ProvisionedThroughputOverride? provisionedThroughputOverride;
+
+  ReplicaGlobalSecondaryIndex({
+    required this.indexName,
+    this.onDemandThroughputOverride,
+    this.provisionedThroughputOverride,
+  });
+
+  Map<String, dynamic> toJson() {
+    final indexName = this.indexName;
+    final onDemandThroughputOverride = this.onDemandThroughputOverride;
+    final provisionedThroughputOverride = this.provisionedThroughputOverride;
+    return {
+      'IndexName': indexName,
       if (onDemandThroughputOverride != null)
         'OnDemandThroughputOverride': onDemandThroughputOverride,
       if (provisionedThroughputOverride != null)
@@ -13011,144 +11536,1231 @@ class ReplicaGlobalSecondaryIndexDescription {
   }
 }
 
-/// Represents the properties of a global secondary index.
-class ReplicaGlobalSecondaryIndexSettingsDescription {
-  /// The name of the global secondary index. The name must be unique among all
-  /// other indexes on this table.
-  final String indexName;
-
-  /// The current status of the global secondary index:
+/// Represents one of the following:
+///
+/// <ul>
+/// <li>
+/// A new global secondary index to be added to an existing table.
+/// </li>
+/// <li>
+/// New provisioned throughput parameters for an existing global secondary
+/// index.
+/// </li>
+/// <li>
+/// An existing global secondary index to be removed from an existing table.
+/// </li>
+/// </ul>
+class GlobalSecondaryIndexUpdate {
+  /// The parameters required for creating a global secondary index on an existing
+  /// table:
   ///
   /// <ul>
   /// <li>
-  /// <code>CREATING</code> - The global secondary index is being created.
+  /// <code>IndexName </code>
   /// </li>
   /// <li>
-  /// <code>UPDATING</code> - The global secondary index is being updated.
+  /// <code>KeySchema </code>
   /// </li>
   /// <li>
-  /// <code>DELETING</code> - The global secondary index is being deleted.
+  /// <code>AttributeDefinitions </code>
   /// </li>
   /// <li>
-  /// <code>ACTIVE</code> - The global secondary index is ready for use.
+  /// <code>Projection </code>
+  /// </li>
+  /// <li>
+  /// <code>ProvisionedThroughput </code>
   /// </li>
   /// </ul>
-  final IndexStatus? indexStatus;
+  final CreateGlobalSecondaryIndexAction? create;
 
-  /// Auto scaling settings for a global secondary index replica's read capacity
-  /// units.
-  final AutoScalingSettingsDescription?
-      provisionedReadCapacityAutoScalingSettings;
+  /// The name of an existing global secondary index to be removed.
+  final DeleteGlobalSecondaryIndexAction? delete;
 
-  /// The maximum number of strongly consistent reads consumed per second before
-  /// DynamoDB returns a <code>ThrottlingException</code>.
-  final int? provisionedReadCapacityUnits;
+  /// The name of an existing global secondary index, along with new provisioned
+  /// throughput settings to be applied to that index.
+  final UpdateGlobalSecondaryIndexAction? update;
 
-  /// Auto scaling settings for a global secondary index replica's write capacity
-  /// units.
-  final AutoScalingSettingsDescription?
-      provisionedWriteCapacityAutoScalingSettings;
-
-  /// The maximum number of writes consumed per second before DynamoDB returns a
-  /// <code>ThrottlingException</code>.
-  final int? provisionedWriteCapacityUnits;
-
-  ReplicaGlobalSecondaryIndexSettingsDescription({
-    required this.indexName,
-    this.indexStatus,
-    this.provisionedReadCapacityAutoScalingSettings,
-    this.provisionedReadCapacityUnits,
-    this.provisionedWriteCapacityAutoScalingSettings,
-    this.provisionedWriteCapacityUnits,
+  GlobalSecondaryIndexUpdate({
+    this.create,
+    this.delete,
+    this.update,
   });
 
-  factory ReplicaGlobalSecondaryIndexSettingsDescription.fromJson(
-      Map<String, dynamic> json) {
-    return ReplicaGlobalSecondaryIndexSettingsDescription(
-      indexName: (json['IndexName'] as String?) ?? '',
-      indexStatus:
-          (json['IndexStatus'] as String?)?.let(IndexStatus.fromString),
-      provisionedReadCapacityAutoScalingSettings:
-          json['ProvisionedReadCapacityAutoScalingSettings'] != null
-              ? AutoScalingSettingsDescription.fromJson(
-                  json['ProvisionedReadCapacityAutoScalingSettings']
-                      as Map<String, dynamic>)
-              : null,
-      provisionedReadCapacityUnits:
-          json['ProvisionedReadCapacityUnits'] as int?,
-      provisionedWriteCapacityAutoScalingSettings:
-          json['ProvisionedWriteCapacityAutoScalingSettings'] != null
-              ? AutoScalingSettingsDescription.fromJson(
-                  json['ProvisionedWriteCapacityAutoScalingSettings']
-                      as Map<String, dynamic>)
-              : null,
-      provisionedWriteCapacityUnits:
-          json['ProvisionedWriteCapacityUnits'] as int?,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final indexName = this.indexName;
-    final indexStatus = this.indexStatus;
-    final provisionedReadCapacityAutoScalingSettings =
-        this.provisionedReadCapacityAutoScalingSettings;
-    final provisionedReadCapacityUnits = this.provisionedReadCapacityUnits;
-    final provisionedWriteCapacityAutoScalingSettings =
-        this.provisionedWriteCapacityAutoScalingSettings;
-    final provisionedWriteCapacityUnits = this.provisionedWriteCapacityUnits;
+    final create = this.create;
+    final delete = this.delete;
+    final update = this.update;
     return {
-      'IndexName': indexName,
-      if (indexStatus != null) 'IndexStatus': indexStatus.value,
-      if (provisionedReadCapacityAutoScalingSettings != null)
-        'ProvisionedReadCapacityAutoScalingSettings':
-            provisionedReadCapacityAutoScalingSettings,
-      if (provisionedReadCapacityUnits != null)
-        'ProvisionedReadCapacityUnits': provisionedReadCapacityUnits,
-      if (provisionedWriteCapacityAutoScalingSettings != null)
-        'ProvisionedWriteCapacityAutoScalingSettings':
-            provisionedWriteCapacityAutoScalingSettings,
-      if (provisionedWriteCapacityUnits != null)
-        'ProvisionedWriteCapacityUnits': provisionedWriteCapacityUnits,
+      if (create != null) 'Create': create,
+      if (delete != null) 'Delete': delete,
+      if (update != null) 'Update': update,
     };
   }
 }
 
-/// Represents the settings of a global secondary index for a global table that
-/// will be modified.
-class ReplicaGlobalSecondaryIndexSettingsUpdate {
-  /// The name of the global secondary index. The name must be unique among all
-  /// other indexes on this table.
+/// Represents the new provisioned throughput settings to be applied to a global
+/// secondary index.
+class UpdateGlobalSecondaryIndexAction {
+  /// The name of the global secondary index to be updated.
   final String indexName;
 
-  /// Auto scaling settings for managing a global secondary index replica's read
-  /// capacity units.
-  final AutoScalingSettingsUpdate?
-      provisionedReadCapacityAutoScalingSettingsUpdate;
+  /// Updates the maximum number of read and write units for the specified global
+  /// secondary index. If you use this parameter, you must specify
+  /// <code>MaxReadRequestUnits</code>, <code>MaxWriteRequestUnits</code>, or
+  /// both.
+  final OnDemandThroughput? onDemandThroughput;
 
-  /// The maximum number of strongly consistent reads consumed per second before
-  /// DynamoDB returns a <code>ThrottlingException</code>.
-  final int? provisionedReadCapacityUnits;
+  /// Represents the provisioned throughput settings for the specified global
+  /// secondary index.
+  ///
+  /// For current minimum and maximum provisioned throughput values, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Service,
+  /// Account, and Table Quotas</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  final ProvisionedThroughput? provisionedThroughput;
 
-  ReplicaGlobalSecondaryIndexSettingsUpdate({
+  /// Represents the warm throughput value of the new provisioned throughput
+  /// settings to be applied to a global secondary index.
+  final WarmThroughput? warmThroughput;
+
+  UpdateGlobalSecondaryIndexAction({
     required this.indexName,
-    this.provisionedReadCapacityAutoScalingSettingsUpdate,
-    this.provisionedReadCapacityUnits,
+    this.onDemandThroughput,
+    this.provisionedThroughput,
+    this.warmThroughput,
   });
 
   Map<String, dynamic> toJson() {
     final indexName = this.indexName;
-    final provisionedReadCapacityAutoScalingSettingsUpdate =
-        this.provisionedReadCapacityAutoScalingSettingsUpdate;
-    final provisionedReadCapacityUnits = this.provisionedReadCapacityUnits;
+    final onDemandThroughput = this.onDemandThroughput;
+    final provisionedThroughput = this.provisionedThroughput;
+    final warmThroughput = this.warmThroughput;
     return {
       'IndexName': indexName,
-      if (provisionedReadCapacityAutoScalingSettingsUpdate != null)
-        'ProvisionedReadCapacityAutoScalingSettingsUpdate':
-            provisionedReadCapacityAutoScalingSettingsUpdate,
-      if (provisionedReadCapacityUnits != null)
-        'ProvisionedReadCapacityUnits': provisionedReadCapacityUnits,
+      if (onDemandThroughput != null) 'OnDemandThroughput': onDemandThroughput,
+      if (provisionedThroughput != null)
+        'ProvisionedThroughput': provisionedThroughput,
+      if (warmThroughput != null) 'WarmThroughput': warmThroughput,
     };
   }
+}
+
+/// Represents a new global secondary index to be added to an existing table.
+class CreateGlobalSecondaryIndexAction {
+  /// The name of the global secondary index to be created.
+  final String indexName;
+
+  /// The key schema for the global secondary index. Global secondary index
+  /// supports up to 4 partition and up to 4 sort keys.
+  final List<KeySchemaElement> keySchema;
+
+  /// Represents attributes that are copied (projected) from the table into an
+  /// index. These are in addition to the primary key attributes and index key
+  /// attributes, which are automatically projected.
+  final Projection projection;
+
+  /// The maximum number of read and write units for the global secondary index
+  /// being created. If you use this parameter, you must specify
+  /// <code>MaxReadRequestUnits</code>, <code>MaxWriteRequestUnits</code>, or
+  /// both. You must use either <code>OnDemand Throughput</code> or
+  /// <code>ProvisionedThroughput</code> based on your table's capacity mode.
+  final OnDemandThroughput? onDemandThroughput;
+
+  /// Represents the provisioned throughput settings for the specified global
+  /// secondary index.
+  ///
+  /// For current minimum and maximum provisioned throughput values, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Service,
+  /// Account, and Table Quotas</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  final ProvisionedThroughput? provisionedThroughput;
+
+  /// Represents the warm throughput value (in read units per second and write
+  /// units per second) when creating a secondary index.
+  final WarmThroughput? warmThroughput;
+
+  CreateGlobalSecondaryIndexAction({
+    required this.indexName,
+    required this.keySchema,
+    required this.projection,
+    this.onDemandThroughput,
+    this.provisionedThroughput,
+    this.warmThroughput,
+  });
+
+  Map<String, dynamic> toJson() {
+    final indexName = this.indexName;
+    final keySchema = this.keySchema;
+    final projection = this.projection;
+    final onDemandThroughput = this.onDemandThroughput;
+    final provisionedThroughput = this.provisionedThroughput;
+    final warmThroughput = this.warmThroughput;
+    return {
+      'IndexName': indexName,
+      'KeySchema': keySchema,
+      'Projection': projection,
+      if (onDemandThroughput != null) 'OnDemandThroughput': onDemandThroughput,
+      if (provisionedThroughput != null)
+        'ProvisionedThroughput': provisionedThroughput,
+      if (warmThroughput != null) 'WarmThroughput': warmThroughput,
+    };
+  }
+}
+
+/// Represents a global secondary index to be deleted from an existing table.
+class DeleteGlobalSecondaryIndexAction {
+  /// The name of the global secondary index to be deleted.
+  final String indexName;
+
+  DeleteGlobalSecondaryIndexAction({
+    required this.indexName,
+  });
+
+  Map<String, dynamic> toJson() {
+    final indexName = this.indexName;
+    return {
+      'IndexName': indexName,
+    };
+  }
+}
+
+class DestinationStatus {
+  static const enabling = DestinationStatus._('ENABLING');
+  static const active = DestinationStatus._('ACTIVE');
+  static const disabling = DestinationStatus._('DISABLING');
+  static const disabled = DestinationStatus._('DISABLED');
+  static const enableFailed = DestinationStatus._('ENABLE_FAILED');
+  static const updating = DestinationStatus._('UPDATING');
+
+  final String value;
+
+  const DestinationStatus._(this.value);
+
+  static const values = [
+    enabling,
+    active,
+    disabling,
+    disabled,
+    enableFailed,
+    updating
+  ];
+
+  static DestinationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DestinationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DestinationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Enables updating the configuration for Kinesis Streaming.
+class UpdateKinesisStreamingConfiguration {
+  /// Enables updating the precision of Kinesis data stream timestamp.
+  final ApproximateCreationDateTimePrecision?
+      approximateCreationDateTimePrecision;
+
+  UpdateKinesisStreamingConfiguration({
+    this.approximateCreationDateTimePrecision,
+  });
+
+  factory UpdateKinesisStreamingConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateKinesisStreamingConfiguration(
+      approximateCreationDateTimePrecision:
+          (json['ApproximateCreationDateTimePrecision'] as String?)
+              ?.let(ApproximateCreationDateTimePrecision.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approximateCreationDateTimePrecision =
+        this.approximateCreationDateTimePrecision;
+    return {
+      if (approximateCreationDateTimePrecision != null)
+        'ApproximateCreationDateTimePrecision':
+            approximateCreationDateTimePrecision.value,
+    };
+  }
+}
+
+class ApproximateCreationDateTimePrecision {
+  static const millisecond =
+      ApproximateCreationDateTimePrecision._('MILLISECOND');
+  static const microsecond =
+      ApproximateCreationDateTimePrecision._('MICROSECOND');
+
+  final String value;
+
+  const ApproximateCreationDateTimePrecision._(this.value);
+
+  static const values = [millisecond, microsecond];
+
+  static ApproximateCreationDateTimePrecision fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ApproximateCreationDateTimePrecision._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ApproximateCreationDateTimePrecision && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The capacity units consumed by an operation. The data returned includes the
+/// total provisioned throughput consumed, along with statistics for the table
+/// and any indexes involved in the operation. <code>ConsumedCapacity</code> is
+/// only returned if the request asked for it. For more information, see <a
+/// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/provisioned-capacity-mode.html">Provisioned
+/// capacity mode</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+class ConsumedCapacity {
+  /// The total number of capacity units consumed by the operation.
+  final double? capacityUnits;
+
+  /// The amount of throughput consumed on each global index affected by the
+  /// operation.
+  final Map<String, Capacity>? globalSecondaryIndexes;
+
+  /// The amount of throughput consumed on each local index affected by the
+  /// operation.
+  final Map<String, Capacity>? localSecondaryIndexes;
+
+  /// The total number of read capacity units consumed by the operation.
+  final double? readCapacityUnits;
+
+  /// The amount of throughput consumed on the table affected by the operation.
+  final Capacity? table;
+
+  /// The name of the table that was affected by the operation. If you had
+  /// specified the Amazon Resource Name (ARN) of a table in the input, you'll see
+  /// the table ARN in the response.
+  final String? tableName;
+
+  /// The total number of write capacity units consumed by the operation.
+  final double? writeCapacityUnits;
+
+  ConsumedCapacity({
+    this.capacityUnits,
+    this.globalSecondaryIndexes,
+    this.localSecondaryIndexes,
+    this.readCapacityUnits,
+    this.table,
+    this.tableName,
+    this.writeCapacityUnits,
+  });
+
+  factory ConsumedCapacity.fromJson(Map<String, dynamic> json) {
+    return ConsumedCapacity(
+      capacityUnits: json['CapacityUnits'] as double?,
+      globalSecondaryIndexes:
+          (json['GlobalSecondaryIndexes'] as Map<String, dynamic>?)?.map(
+              (k, e) =>
+                  MapEntry(k, Capacity.fromJson(e as Map<String, dynamic>))),
+      localSecondaryIndexes:
+          (json['LocalSecondaryIndexes'] as Map<String, dynamic>?)?.map(
+              (k, e) =>
+                  MapEntry(k, Capacity.fromJson(e as Map<String, dynamic>))),
+      readCapacityUnits: json['ReadCapacityUnits'] as double?,
+      table: json['Table'] != null
+          ? Capacity.fromJson(json['Table'] as Map<String, dynamic>)
+          : null,
+      tableName: json['TableName'] as String?,
+      writeCapacityUnits: json['WriteCapacityUnits'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capacityUnits = this.capacityUnits;
+    final globalSecondaryIndexes = this.globalSecondaryIndexes;
+    final localSecondaryIndexes = this.localSecondaryIndexes;
+    final readCapacityUnits = this.readCapacityUnits;
+    final table = this.table;
+    final tableName = this.tableName;
+    final writeCapacityUnits = this.writeCapacityUnits;
+    return {
+      if (capacityUnits != null) 'CapacityUnits': capacityUnits,
+      if (globalSecondaryIndexes != null)
+        'GlobalSecondaryIndexes': globalSecondaryIndexes,
+      if (localSecondaryIndexes != null)
+        'LocalSecondaryIndexes': localSecondaryIndexes,
+      if (readCapacityUnits != null) 'ReadCapacityUnits': readCapacityUnits,
+      if (table != null) 'Table': table,
+      if (tableName != null) 'TableName': tableName,
+      if (writeCapacityUnits != null) 'WriteCapacityUnits': writeCapacityUnits,
+    };
+  }
+}
+
+/// Information about item collections, if any, that were affected by the
+/// operation. <code>ItemCollectionMetrics</code> is only returned if the
+/// request asked for it. If the table does not have any local secondary
+/// indexes, this information is not returned in the response.
+class ItemCollectionMetrics {
+  /// The partition key value of the item collection. This value is the same as
+  /// the partition key value of the item.
+  final Map<String, AttributeValue>? itemCollectionKey;
+
+  /// An estimate of item collection size, in gigabytes. This value is a
+  /// two-element array containing a lower bound and an upper bound for the
+  /// estimate. The estimate includes the size of all the items in the table, plus
+  /// the size of all attributes projected into all of the local secondary indexes
+  /// on that table. Use this estimate to measure whether a local secondary index
+  /// is approaching its size limit.
+  ///
+  /// The estimate is subject to change over time; therefore, do not rely on the
+  /// precision or accuracy of the estimate.
+  final List<double>? sizeEstimateRangeGB;
+
+  ItemCollectionMetrics({
+    this.itemCollectionKey,
+    this.sizeEstimateRangeGB,
+  });
+
+  factory ItemCollectionMetrics.fromJson(Map<String, dynamic> json) {
+    return ItemCollectionMetrics(
+      itemCollectionKey: (json['ItemCollectionKey'] as Map<String, dynamic>?)
+          ?.map((k, e) =>
+              MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      sizeEstimateRangeGB: (json['SizeEstimateRangeGB'] as List?)
+          ?.nonNulls
+          .map((e) => e as double)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final itemCollectionKey = this.itemCollectionKey;
+    final sizeEstimateRangeGB = this.sizeEstimateRangeGB;
+    return {
+      if (itemCollectionKey != null) 'ItemCollectionKey': itemCollectionKey,
+      if (sizeEstimateRangeGB != null)
+        'SizeEstimateRangeGB': sizeEstimateRangeGB,
+    };
+  }
+}
+
+/// Represents the data for an attribute.
+///
+/// Each attribute value is described as a name-value pair. The name is the data
+/// type, and the value is the data itself.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.NamingRulesDataTypes.html#HowItWorks.DataTypes">Data
+/// Types</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+class AttributeValue {
+  /// An attribute of type Binary. For example:
+  ///
+  /// <code>"B": "dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk"</code>
+  final Uint8List? b;
+
+  /// An attribute of type Boolean. For example:
+  ///
+  /// <code>"BOOL": true</code>
+  final bool? boolValue;
+
+  /// An attribute of type Binary Set. For example:
+  ///
+  /// <code>"BS": ["U3Vubnk=", "UmFpbnk=", "U25vd3k="]</code>
+  final List<Uint8List>? bs;
+
+  /// An attribute of type List. For example:
+  ///
+  /// <code>"L": [ {"S": "Cookies"} , {"S": "Coffee"}, {"N": "3.14159"}]</code>
+  final List<AttributeValue>? l;
+
+  /// An attribute of type Map. For example:
+  ///
+  /// <code>"M": {"Name": {"S": "Joe"}, "Age": {"N": "35"}}</code>
+  final Map<String, AttributeValue>? m;
+
+  /// An attribute of type Number. For example:
+  ///
+  /// <code>"N": "123.45"</code>
+  ///
+  /// Numbers are sent across the network to DynamoDB as strings, to maximize
+  /// compatibility across languages and libraries. However, DynamoDB treats them
+  /// as number type attributes for mathematical operations.
+  final String? n;
+
+  /// An attribute of type Number Set. For example:
+  ///
+  /// <code>"NS": ["42.2", "-19", "7.5", "3.14"]</code>
+  ///
+  /// Numbers are sent across the network to DynamoDB as strings, to maximize
+  /// compatibility across languages and libraries. However, DynamoDB treats them
+  /// as number type attributes for mathematical operations.
+  final List<String>? ns;
+
+  /// An attribute of type Null. For example:
+  ///
+  /// <code>"NULL": true</code>
+  final bool? nullValue;
+
+  /// An attribute of type String. For example:
+  ///
+  /// <code>"S": "Hello"</code>
+  final String? s;
+
+  /// An attribute of type String Set. For example:
+  ///
+  /// <code>"SS": ["Giraffe", "Hippo" ,"Zebra"]</code>
+  final List<String>? ss;
+
+  AttributeValue({
+    this.b,
+    this.boolValue,
+    this.bs,
+    this.l,
+    this.m,
+    this.n,
+    this.ns,
+    this.nullValue,
+    this.s,
+    this.ss,
+  });
+
+  factory AttributeValue.fromJson(Map<String, dynamic> json) {
+    return AttributeValue(
+      b: _s.decodeNullableUint8List(json['B'] as String?),
+      boolValue: json['BOOL'] as bool?,
+      bs: (json['BS'] as List?)
+          ?.nonNulls
+          .map((e) => _s.decodeUint8List(e as String))
+          .toList(),
+      l: (json['L'] as List?)
+          ?.nonNulls
+          .map((e) => AttributeValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      m: (json['M'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      n: json['N'] as String?,
+      ns: (json['NS'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      nullValue: json['NULL'] as bool?,
+      s: json['S'] as String?,
+      ss: (json['SS'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final b = this.b;
+    final boolValue = this.boolValue;
+    final bs = this.bs;
+    final l = this.l;
+    final m = this.m;
+    final n = this.n;
+    final ns = this.ns;
+    final nullValue = this.nullValue;
+    final s = this.s;
+    final ss = this.ss;
+    return {
+      if (b != null) 'B': base64Encode(b),
+      if (boolValue != null) 'BOOL': boolValue,
+      if (bs != null) 'BS': bs.map(base64Encode).toList(),
+      if (l != null) 'L': l,
+      if (m != null) 'M': m,
+      if (n != null) 'N': n,
+      if (ns != null) 'NS': ns,
+      if (nullValue != null) 'NULL': nullValue,
+      if (s != null) 'S': s,
+      if (ss != null) 'SS': ss,
+    };
+  }
+}
+
+/// Represents the amount of provisioned throughput capacity consumed on a table
+/// or an index.
+class Capacity {
+  /// The total number of capacity units consumed on a table or an index.
+  final double? capacityUnits;
+
+  /// The total number of read capacity units consumed on a table or an index.
+  final double? readCapacityUnits;
+
+  /// The total number of write capacity units consumed on a table or an index.
+  final double? writeCapacityUnits;
+
+  Capacity({
+    this.capacityUnits,
+    this.readCapacityUnits,
+    this.writeCapacityUnits,
+  });
+
+  factory Capacity.fromJson(Map<String, dynamic> json) {
+    return Capacity(
+      capacityUnits: json['CapacityUnits'] as double?,
+      readCapacityUnits: json['ReadCapacityUnits'] as double?,
+      writeCapacityUnits: json['WriteCapacityUnits'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capacityUnits = this.capacityUnits;
+    final readCapacityUnits = this.readCapacityUnits;
+    final writeCapacityUnits = this.writeCapacityUnits;
+    return {
+      if (capacityUnits != null) 'CapacityUnits': capacityUnits,
+      if (readCapacityUnits != null) 'ReadCapacityUnits': readCapacityUnits,
+      if (writeCapacityUnits != null) 'WriteCapacityUnits': writeCapacityUnits,
+    };
+  }
+}
+
+class ConditionalOperator {
+  static const and = ConditionalOperator._('AND');
+  static const or = ConditionalOperator._('OR');
+
+  final String value;
+
+  const ConditionalOperator._(this.value);
+
+  static const values = [and, or];
+
+  static ConditionalOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConditionalOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConditionalOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ReturnValue {
+  static const none = ReturnValue._('NONE');
+  static const allOld = ReturnValue._('ALL_OLD');
+  static const updatedOld = ReturnValue._('UPDATED_OLD');
+  static const allNew = ReturnValue._('ALL_NEW');
+  static const updatedNew = ReturnValue._('UPDATED_NEW');
+
+  final String value;
+
+  const ReturnValue._(this.value);
+
+  static const values = [none, allOld, updatedOld, allNew, updatedNew];
+
+  static ReturnValue fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ReturnValue._(value));
+
+  @override
+  bool operator ==(other) => other is ReturnValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Determines the level of detail about either provisioned or on-demand
+/// throughput consumption that is returned in the response:
+///
+/// <ul>
+/// <li>
+/// <code>INDEXES</code> - The response includes the aggregate
+/// <code>ConsumedCapacity</code> for the operation, together with
+/// <code>ConsumedCapacity</code> for each table and secondary index that was
+/// accessed.
+///
+/// Note that some operations, such as <code>GetItem</code> and
+/// <code>BatchGetItem</code>, do not access any indexes at all. In these cases,
+/// specifying <code>INDEXES</code> will only return
+/// <code>ConsumedCapacity</code> information for table(s).
+/// </li>
+/// <li>
+/// <code>TOTAL</code> - The response includes only the aggregate
+/// <code>ConsumedCapacity</code> for the operation.
+/// </li>
+/// <li>
+/// <code>NONE</code> - No <code>ConsumedCapacity</code> details are included in
+/// the response.
+/// </li>
+/// </ul>
+class ReturnConsumedCapacity {
+  static const indexes = ReturnConsumedCapacity._('INDEXES');
+  static const total = ReturnConsumedCapacity._('TOTAL');
+  static const none = ReturnConsumedCapacity._('NONE');
+
+  final String value;
+
+  const ReturnConsumedCapacity._(this.value);
+
+  static const values = [indexes, total, none];
+
+  static ReturnConsumedCapacity fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReturnConsumedCapacity._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReturnConsumedCapacity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ReturnItemCollectionMetrics {
+  static const size = ReturnItemCollectionMetrics._('SIZE');
+  static const none = ReturnItemCollectionMetrics._('NONE');
+
+  final String value;
+
+  const ReturnItemCollectionMetrics._(this.value);
+
+  static const values = [size, none];
+
+  static ReturnItemCollectionMetrics fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReturnItemCollectionMetrics._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReturnItemCollectionMetrics && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ReturnValuesOnConditionCheckFailure {
+  static const allOld = ReturnValuesOnConditionCheckFailure._('ALL_OLD');
+  static const none = ReturnValuesOnConditionCheckFailure._('NONE');
+
+  final String value;
+
+  const ReturnValuesOnConditionCheckFailure._(this.value);
+
+  static const values = [allOld, none];
+
+  static ReturnValuesOnConditionCheckFailure fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReturnValuesOnConditionCheckFailure._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReturnValuesOnConditionCheckFailure && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents a condition to be compared with an attribute value. This
+/// condition can be used with <code>DeleteItem</code>, <code>PutItem</code>, or
+/// <code>UpdateItem</code> operations; if the comparison evaluates to true, the
+/// operation succeeds; if not, the operation fails. You can use
+/// <code>ExpectedAttributeValue</code> in one of two different ways:
+///
+/// <ul>
+/// <li>
+/// Use <code>AttributeValueList</code> to specify one or more values to compare
+/// against an attribute. Use <code>ComparisonOperator</code> to specify how you
+/// want to perform the comparison. If the comparison evaluates to true, then
+/// the conditional operation succeeds.
+/// </li>
+/// <li>
+/// Use <code>Value</code> to specify a value that DynamoDB will compare against
+/// an attribute. If the values match, then <code>ExpectedAttributeValue</code>
+/// evaluates to true and the conditional operation succeeds. Optionally, you
+/// can also set <code>Exists</code> to false, indicating that you <i>do not</i>
+/// expect to find the attribute value in the table. In this case, the
+/// conditional operation succeeds only if the comparison evaluates to false.
+/// </li>
+/// </ul>
+/// <code>Value</code> and <code>Exists</code> are incompatible with
+/// <code>AttributeValueList</code> and <code>ComparisonOperator</code>. Note
+/// that if you use both sets of parameters at once, DynamoDB will return a
+/// <code>ValidationException</code> exception.
+class ExpectedAttributeValue {
+  /// One or more values to evaluate against the supplied attribute. The number of
+  /// values in the list depends on the <code>ComparisonOperator</code> being
+  /// used.
+  ///
+  /// For type Number, value comparisons are numeric.
+  ///
+  /// String value comparisons for greater than, equals, or less than are based on
+  /// ASCII character code values. For example, <code>a</code> is greater than
+  /// <code>A</code>, and <code>a</code> is greater than <code>B</code>. For a
+  /// list of code values, see <a
+  /// href="http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters">http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters</a>.
+  ///
+  /// For Binary, DynamoDB treats each byte of the binary data as unsigned when it
+  /// compares binary values.
+  ///
+  /// For information on specifying data types in JSON, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DataFormat.html">JSON
+  /// Data Format</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  final List<AttributeValue>? attributeValueList;
+
+  /// A comparator for evaluating attributes in the
+  /// <code>AttributeValueList</code>. For example, equals, greater than, less
+  /// than, etc.
+  ///
+  /// The following comparison operators are available:
+  ///
+  /// <code>EQ | NE | LE | LT | GE | GT | NOT_NULL | NULL | CONTAINS |
+  /// NOT_CONTAINS | BEGINS_WITH | IN | BETWEEN</code>
+  ///
+  /// The following are descriptions of each comparison operator.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>EQ</code> : Equal. <code>EQ</code> is supported for all data types,
+  /// including lists and maps.
+  ///
+  /// <code>AttributeValueList</code> can contain only one
+  /// <code>AttributeValue</code> element of type String, Number, Binary, String
+  /// Set, Number Set, or Binary Set. If an item contains an
+  /// <code>AttributeValue</code> element of a different type than the one
+  /// provided in the request, the value does not match. For example,
+  /// <code>{"S":"6"}</code> does not equal <code>{"N":"6"}</code>. Also,
+  /// <code>{"N":"6"}</code> does not equal <code>{"NS":["6", "2", "1"]}</code>.
+  ///
+  ///
+  /// </li>
+  /// <li>
+  /// <code>NE</code> : Not equal. <code>NE</code> is supported for all data
+  /// types, including lists and maps.
+  ///
+  /// <code>AttributeValueList</code> can contain only one
+  /// <code>AttributeValue</code> of type String, Number, Binary, String Set,
+  /// Number Set, or Binary Set. If an item contains an
+  /// <code>AttributeValue</code> of a different type than the one provided in the
+  /// request, the value does not match. For example, <code>{"S":"6"}</code> does
+  /// not equal <code>{"N":"6"}</code>. Also, <code>{"N":"6"}</code> does not
+  /// equal <code>{"NS":["6", "2", "1"]}</code>.
+  ///
+  ///
+  /// </li>
+  /// <li>
+  /// <code>LE</code> : Less than or equal.
+  ///
+  /// <code>AttributeValueList</code> can contain only one
+  /// <code>AttributeValue</code> element of type String, Number, or Binary (not a
+  /// set type). If an item contains an <code>AttributeValue</code> element of a
+  /// different type than the one provided in the request, the value does not
+  /// match. For example, <code>{"S":"6"}</code> does not equal
+  /// <code>{"N":"6"}</code>. Also, <code>{"N":"6"}</code> does not compare to
+  /// <code>{"NS":["6", "2", "1"]}</code>.
+  ///
+  ///
+  /// </li>
+  /// <li>
+  /// <code>LT</code> : Less than.
+  ///
+  /// <code>AttributeValueList</code> can contain only one
+  /// <code>AttributeValue</code> of type String, Number, or Binary (not a set
+  /// type). If an item contains an <code>AttributeValue</code> element of a
+  /// different type than the one provided in the request, the value does not
+  /// match. For example, <code>{"S":"6"}</code> does not equal
+  /// <code>{"N":"6"}</code>. Also, <code>{"N":"6"}</code> does not compare to
+  /// <code>{"NS":["6", "2", "1"]}</code>.
+  ///
+  ///
+  /// </li>
+  /// <li>
+  /// <code>GE</code> : Greater than or equal.
+  ///
+  /// <code>AttributeValueList</code> can contain only one
+  /// <code>AttributeValue</code> element of type String, Number, or Binary (not a
+  /// set type). If an item contains an <code>AttributeValue</code> element of a
+  /// different type than the one provided in the request, the value does not
+  /// match. For example, <code>{"S":"6"}</code> does not equal
+  /// <code>{"N":"6"}</code>. Also, <code>{"N":"6"}</code> does not compare to
+  /// <code>{"NS":["6", "2", "1"]}</code>.
+  ///
+  ///
+  /// </li>
+  /// <li>
+  /// <code>GT</code> : Greater than.
+  ///
+  /// <code>AttributeValueList</code> can contain only one
+  /// <code>AttributeValue</code> element of type String, Number, or Binary (not a
+  /// set type). If an item contains an <code>AttributeValue</code> element of a
+  /// different type than the one provided in the request, the value does not
+  /// match. For example, <code>{"S":"6"}</code> does not equal
+  /// <code>{"N":"6"}</code>. Also, <code>{"N":"6"}</code> does not compare to
+  /// <code>{"NS":["6", "2", "1"]}</code>.
+  ///
+  ///
+  /// </li>
+  /// <li>
+  /// <code>NOT_NULL</code> : The attribute exists. <code>NOT_NULL</code> is
+  /// supported for all data types, including lists and maps.
+  /// <note>
+  /// This operator tests for the existence of an attribute, not its data type. If
+  /// the data type of attribute "<code>a</code>" is null, and you evaluate it
+  /// using <code>NOT_NULL</code>, the result is a Boolean <code>true</code>. This
+  /// result is because the attribute "<code>a</code>" exists; its data type is
+  /// not relevant to the <code>NOT_NULL</code> comparison operator.
+  /// </note> </li>
+  /// <li>
+  /// <code>NULL</code> : The attribute does not exist. <code>NULL</code> is
+  /// supported for all data types, including lists and maps.
+  /// <note>
+  /// This operator tests for the nonexistence of an attribute, not its data type.
+  /// If the data type of attribute "<code>a</code>" is null, and you evaluate it
+  /// using <code>NULL</code>, the result is a Boolean <code>false</code>. This is
+  /// because the attribute "<code>a</code>" exists; its data type is not relevant
+  /// to the <code>NULL</code> comparison operator.
+  /// </note> </li>
+  /// <li>
+  /// <code>CONTAINS</code> : Checks for a subsequence, or value in a set.
+  ///
+  /// <code>AttributeValueList</code> can contain only one
+  /// <code>AttributeValue</code> element of type String, Number, or Binary (not a
+  /// set type). If the target attribute of the comparison is of type String, then
+  /// the operator checks for a substring match. If the target attribute of the
+  /// comparison is of type Binary, then the operator looks for a subsequence of
+  /// the target that matches the input. If the target attribute of the comparison
+  /// is a set ("<code>SS</code>", "<code>NS</code>", or "<code>BS</code>"), then
+  /// the operator evaluates to true if it finds an exact match with any member of
+  /// the set.
+  ///
+  /// CONTAINS is supported for lists: When evaluating "<code>a CONTAINS
+  /// b</code>", "<code>a</code>" can be a list; however, "<code>b</code>" cannot
+  /// be a set, a map, or a list.
+  /// </li>
+  /// <li>
+  /// <code>NOT_CONTAINS</code> : Checks for absence of a subsequence, or absence
+  /// of a value in a set.
+  ///
+  /// <code>AttributeValueList</code> can contain only one
+  /// <code>AttributeValue</code> element of type String, Number, or Binary (not a
+  /// set type). If the target attribute of the comparison is a String, then the
+  /// operator checks for the absence of a substring match. If the target
+  /// attribute of the comparison is Binary, then the operator checks for the
+  /// absence of a subsequence of the target that matches the input. If the target
+  /// attribute of the comparison is a set ("<code>SS</code>", "<code>NS</code>",
+  /// or "<code>BS</code>"), then the operator evaluates to true if it <i>does
+  /// not</i> find an exact match with any member of the set.
+  ///
+  /// NOT_CONTAINS is supported for lists: When evaluating "<code>a NOT CONTAINS
+  /// b</code>", "<code>a</code>" can be a list; however, "<code>b</code>" cannot
+  /// be a set, a map, or a list.
+  /// </li>
+  /// <li>
+  /// <code>BEGINS_WITH</code> : Checks for a prefix.
+  ///
+  /// <code>AttributeValueList</code> can contain only one
+  /// <code>AttributeValue</code> of type String or Binary (not a Number or a set
+  /// type). The target attribute of the comparison must be of type String or
+  /// Binary (not a Number or a set type).
+  ///
+  ///
+  /// </li>
+  /// <li>
+  /// <code>IN</code> : Checks for matching elements in a list.
+  ///
+  /// <code>AttributeValueList</code> can contain one or more
+  /// <code>AttributeValue</code> elements of type String, Number, or Binary.
+  /// These attributes are compared against an existing attribute of an item. If
+  /// any elements of the input are equal to the item attribute, the expression
+  /// evaluates to true.
+  /// </li>
+  /// <li>
+  /// <code>BETWEEN</code> : Greater than or equal to the first value, and less
+  /// than or equal to the second value.
+  ///
+  /// <code>AttributeValueList</code> must contain two <code>AttributeValue</code>
+  /// elements of the same type, either String, Number, or Binary (not a set
+  /// type). A target attribute matches if the target value is greater than, or
+  /// equal to, the first element and less than, or equal to, the second element.
+  /// If an item contains an <code>AttributeValue</code> element of a different
+  /// type than the one provided in the request, the value does not match. For
+  /// example, <code>{"S":"6"}</code> does not compare to <code>{"N":"6"}</code>.
+  /// Also, <code>{"N":"6"}</code> does not compare to <code>{"NS":["6", "2",
+  /// "1"]}</code>
+  /// </li>
+  /// </ul>
+  final ComparisonOperator? comparisonOperator;
+
+  /// Causes DynamoDB to evaluate the value before attempting a conditional
+  /// operation:
+  ///
+  /// <ul>
+  /// <li>
+  /// If <code>Exists</code> is <code>true</code>, DynamoDB will check to see if
+  /// that attribute value already exists in the table. If it is found, then the
+  /// operation succeeds. If it is not found, the operation fails with a
+  /// <code>ConditionCheckFailedException</code>.
+  /// </li>
+  /// <li>
+  /// If <code>Exists</code> is <code>false</code>, DynamoDB assumes that the
+  /// attribute value does not exist in the table. If in fact the value does not
+  /// exist, then the assumption is valid and the operation succeeds. If the value
+  /// is found, despite the assumption that it does not exist, the operation fails
+  /// with a <code>ConditionCheckFailedException</code>.
+  /// </li>
+  /// </ul>
+  /// The default setting for <code>Exists</code> is <code>true</code>. If you
+  /// supply a <code>Value</code> all by itself, DynamoDB assumes the attribute
+  /// exists: You don't have to set <code>Exists</code> to <code>true</code>,
+  /// because it is implied.
+  ///
+  /// DynamoDB returns a <code>ValidationException</code> if:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Exists</code> is <code>true</code> but there is no <code>Value</code>
+  /// to check. (You expect a value to exist, but don't specify what that value
+  /// is.)
+  /// </li>
+  /// <li>
+  /// <code>Exists</code> is <code>false</code> but you also provide a
+  /// <code>Value</code>. (You cannot expect an attribute to have a value, while
+  /// also expecting it not to exist.)
+  /// </li>
+  /// </ul>
+  final bool? exists;
+
+  /// Represents the data for the expected attribute.
+  ///
+  /// Each attribute value is described as a name-value pair. The name is the data
+  /// type, and the value is the data itself.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.NamingRulesDataTypes.html#HowItWorks.DataTypes">Data
+  /// Types</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  final AttributeValue? value;
+
+  ExpectedAttributeValue({
+    this.attributeValueList,
+    this.comparisonOperator,
+    this.exists,
+    this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final attributeValueList = this.attributeValueList;
+    final comparisonOperator = this.comparisonOperator;
+    final exists = this.exists;
+    final value = this.value;
+    return {
+      if (attributeValueList != null) 'AttributeValueList': attributeValueList,
+      if (comparisonOperator != null)
+        'ComparisonOperator': comparisonOperator.value,
+      if (exists != null) 'Exists': exists,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+class ComparisonOperator {
+  static const eq = ComparisonOperator._('EQ');
+  static const ne = ComparisonOperator._('NE');
+  static const $in = ComparisonOperator._('IN');
+  static const le = ComparisonOperator._('LE');
+  static const lt = ComparisonOperator._('LT');
+  static const ge = ComparisonOperator._('GE');
+  static const gt = ComparisonOperator._('GT');
+  static const between = ComparisonOperator._('BETWEEN');
+  static const notNull = ComparisonOperator._('NOT_NULL');
+  static const $null = ComparisonOperator._('NULL');
+  static const contains = ComparisonOperator._('CONTAINS');
+  static const notContains = ComparisonOperator._('NOT_CONTAINS');
+  static const beginsWith = ComparisonOperator._('BEGINS_WITH');
+
+  final String value;
+
+  const ComparisonOperator._(this.value);
+
+  static const values = [
+    eq,
+    ne,
+    $in,
+    le,
+    lt,
+    ge,
+    gt,
+    between,
+    notNull,
+    $null,
+    contains,
+    notContains,
+    beginsWith
+  ];
+
+  static ComparisonOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ComparisonOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ComparisonOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// For the <code>UpdateItem</code> operation, represents the attributes to be
+/// modified, the action to perform on each, and the new value for each.
+/// <note>
+/// You cannot use <code>UpdateItem</code> to update any primary key attributes.
+/// Instead, you will need to delete the item, and then use <code>PutItem</code>
+/// to create a new item with new attributes.
+/// </note>
+/// Attribute values cannot be null; string and binary type attributes must have
+/// lengths greater than zero; and set type attributes must not be empty.
+/// Requests with empty values will be rejected with a
+/// <code>ValidationException</code> exception.
+class AttributeValueUpdate {
+  /// Specifies how to perform the update. Valid values are <code>PUT</code>
+  /// (default), <code>DELETE</code>, and <code>ADD</code>. The behavior depends
+  /// on whether the specified primary key already exists in the table.
+  ///
+  /// <b>If an item with the specified <i>Key</i> is found in the table:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PUT</code> - Adds the specified attribute to the item. If the
+  /// attribute already exists, it is replaced by the new value.
+  /// </li>
+  /// <li>
+  /// <code>DELETE</code> - If no value is specified, the attribute and its value
+  /// are removed from the item. The data type of the specified value must match
+  /// the existing value's data type.
+  ///
+  /// If a <i>set</i> of values is specified, then those values are subtracted
+  /// from the old set. For example, if the attribute value was the set
+  /// <code>[a,b,c]</code> and the <code>DELETE</code> action specified
+  /// <code>[a,c]</code>, then the final attribute value would be
+  /// <code>[b]</code>. Specifying an empty set is an error.
+  /// </li>
+  /// <li>
+  /// <code>ADD</code> - If the attribute does not already exist, then the
+  /// attribute and its values are added to the item. If the attribute does exist,
+  /// then the behavior of <code>ADD</code> depends on the data type of the
+  /// attribute:
+  ///
+  /// <ul>
+  /// <li>
+  /// If the existing attribute is a number, and if <code>Value</code> is also a
+  /// number, then the <code>Value</code> is mathematically added to the existing
+  /// attribute. If <code>Value</code> is a negative number, then it is subtracted
+  /// from the existing attribute.
+  /// <note>
+  /// If you use <code>ADD</code> to increment or decrement a number value for an
+  /// item that doesn't exist before the update, DynamoDB uses 0 as the initial
+  /// value.
+  ///
+  /// In addition, if you use <code>ADD</code> to update an existing item, and
+  /// intend to increment or decrement an attribute value which does not yet
+  /// exist, DynamoDB uses <code>0</code> as the initial value. For example,
+  /// suppose that the item you want to update does not yet have an attribute
+  /// named <i>itemcount</i>, but you decide to <code>ADD</code> the number
+  /// <code>3</code> to this attribute anyway, even though it currently does not
+  /// exist. DynamoDB will create the <i>itemcount</i> attribute, set its initial
+  /// value to <code>0</code>, and finally add <code>3</code> to it. The result
+  /// will be a new <i>itemcount</i> attribute in the item, with a value of
+  /// <code>3</code>.
+  /// </note> </li>
+  /// <li>
+  /// If the existing data type is a set, and if the <code>Value</code> is also a
+  /// set, then the <code>Value</code> is added to the existing set. (This is a
+  /// <i>set</i> operation, not mathematical addition.) For example, if the
+  /// attribute value was the set <code>[1,2]</code>, and the <code>ADD</code>
+  /// action specified <code>[3]</code>, then the final attribute value would be
+  /// <code>[1,2,3]</code>. An error occurs if an Add action is specified for a
+  /// set attribute and the attribute type specified does not match the existing
+  /// set type.
+  ///
+  /// Both sets must have the same primitive data type. For example, if the
+  /// existing data type is a set of strings, the <code>Value</code> must also be
+  /// a set of strings. The same holds true for number sets and binary sets.
+  /// </li>
+  /// </ul>
+  /// This action is only valid for an existing attribute whose data type is
+  /// number or is a set. Do not use <code>ADD</code> for any other data types.
+  /// </li>
+  /// </ul>
+  /// <b>If no item with the specified <i>Key</i> is found:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PUT</code> - DynamoDB creates a new item with the specified primary
+  /// key, and then adds the attribute.
+  /// </li>
+  /// <li>
+  /// <code>DELETE</code> - Nothing happens; there is no attribute to delete.
+  /// </li>
+  /// <li>
+  /// <code>ADD</code> - DynamoDB creates a new item with the supplied primary key
+  /// and number (or set) for the attribute value. The only data types allowed are
+  /// number, number set, string set or binary set.
+  /// </li>
+  /// </ul>
+  final AttributeAction? action;
+
+  /// Represents the data for an attribute.
+  ///
+  /// Each attribute value is described as a name-value pair. The name is the data
+  /// type, and the value is the data itself.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.NamingRulesDataTypes.html#HowItWorks.DataTypes">Data
+  /// Types</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  final AttributeValue? value;
+
+  AttributeValueUpdate({
+    this.action,
+    this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final value = this.value;
+    return {
+      if (action != null) 'Action': action.value,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+class AttributeAction {
+  static const add = AttributeAction._('ADD');
+  static const put = AttributeAction._('PUT');
+  static const delete = AttributeAction._('DELETE');
+
+  final String value;
+
+  const AttributeAction._(this.value);
+
+  static const values = [add, put, delete];
+
+  static AttributeAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AttributeAction._(value));
+
+  @override
+  bool operator ==(other) => other is AttributeAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents the properties of a replica.
@@ -13297,6 +12909,108 @@ class ReplicaSettingsDescription {
   }
 }
 
+/// Represents the properties of a global secondary index.
+class ReplicaGlobalSecondaryIndexSettingsDescription {
+  /// The name of the global secondary index. The name must be unique among all
+  /// other indexes on this table.
+  final String indexName;
+
+  /// The current status of the global secondary index:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATING</code> - The global secondary index is being created.
+  /// </li>
+  /// <li>
+  /// <code>UPDATING</code> - The global secondary index is being updated.
+  /// </li>
+  /// <li>
+  /// <code>DELETING</code> - The global secondary index is being deleted.
+  /// </li>
+  /// <li>
+  /// <code>ACTIVE</code> - The global secondary index is ready for use.
+  /// </li>
+  /// </ul>
+  final IndexStatus? indexStatus;
+
+  /// Auto scaling settings for a global secondary index replica's read capacity
+  /// units.
+  final AutoScalingSettingsDescription?
+      provisionedReadCapacityAutoScalingSettings;
+
+  /// The maximum number of strongly consistent reads consumed per second before
+  /// DynamoDB returns a <code>ThrottlingException</code>.
+  final int? provisionedReadCapacityUnits;
+
+  /// Auto scaling settings for a global secondary index replica's write capacity
+  /// units.
+  final AutoScalingSettingsDescription?
+      provisionedWriteCapacityAutoScalingSettings;
+
+  /// The maximum number of writes consumed per second before DynamoDB returns a
+  /// <code>ThrottlingException</code>.
+  final int? provisionedWriteCapacityUnits;
+
+  ReplicaGlobalSecondaryIndexSettingsDescription({
+    required this.indexName,
+    this.indexStatus,
+    this.provisionedReadCapacityAutoScalingSettings,
+    this.provisionedReadCapacityUnits,
+    this.provisionedWriteCapacityAutoScalingSettings,
+    this.provisionedWriteCapacityUnits,
+  });
+
+  factory ReplicaGlobalSecondaryIndexSettingsDescription.fromJson(
+      Map<String, dynamic> json) {
+    return ReplicaGlobalSecondaryIndexSettingsDescription(
+      indexName: (json['IndexName'] as String?) ?? '',
+      indexStatus:
+          (json['IndexStatus'] as String?)?.let(IndexStatus.fromString),
+      provisionedReadCapacityAutoScalingSettings:
+          json['ProvisionedReadCapacityAutoScalingSettings'] != null
+              ? AutoScalingSettingsDescription.fromJson(
+                  json['ProvisionedReadCapacityAutoScalingSettings']
+                      as Map<String, dynamic>)
+              : null,
+      provisionedReadCapacityUnits:
+          json['ProvisionedReadCapacityUnits'] as int?,
+      provisionedWriteCapacityAutoScalingSettings:
+          json['ProvisionedWriteCapacityAutoScalingSettings'] != null
+              ? AutoScalingSettingsDescription.fromJson(
+                  json['ProvisionedWriteCapacityAutoScalingSettings']
+                      as Map<String, dynamic>)
+              : null,
+      provisionedWriteCapacityUnits:
+          json['ProvisionedWriteCapacityUnits'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final indexName = this.indexName;
+    final indexStatus = this.indexStatus;
+    final provisionedReadCapacityAutoScalingSettings =
+        this.provisionedReadCapacityAutoScalingSettings;
+    final provisionedReadCapacityUnits = this.provisionedReadCapacityUnits;
+    final provisionedWriteCapacityAutoScalingSettings =
+        this.provisionedWriteCapacityAutoScalingSettings;
+    final provisionedWriteCapacityUnits = this.provisionedWriteCapacityUnits;
+    return {
+      'IndexName': indexName,
+      if (indexStatus != null) 'IndexStatus': indexStatus.value,
+      if (provisionedReadCapacityAutoScalingSettings != null)
+        'ProvisionedReadCapacityAutoScalingSettings':
+            provisionedReadCapacityAutoScalingSettings,
+      if (provisionedReadCapacityUnits != null)
+        'ProvisionedReadCapacityUnits': provisionedReadCapacityUnits,
+      if (provisionedWriteCapacityAutoScalingSettings != null)
+        'ProvisionedWriteCapacityAutoScalingSettings':
+            provisionedWriteCapacityAutoScalingSettings,
+      if (provisionedWriteCapacityUnits != null)
+        'ProvisionedWriteCapacityUnits': provisionedWriteCapacityUnits,
+    };
+  }
+}
+
 /// Represents the settings for a global table in a Region that will be
 /// modified.
 class ReplicaSettingsUpdate {
@@ -13359,36 +13073,172 @@ class ReplicaSettingsUpdate {
   }
 }
 
-class ReplicaStatus {
-  static const creating = ReplicaStatus._('CREATING');
-  static const creationFailed = ReplicaStatus._('CREATION_FAILED');
-  static const updating = ReplicaStatus._('UPDATING');
-  static const deleting = ReplicaStatus._('DELETING');
-  static const active = ReplicaStatus._('ACTIVE');
-  static const regionDisabled = ReplicaStatus._('REGION_DISABLED');
-  static const inaccessibleEncryptionCredentials =
-      ReplicaStatus._('INACCESSIBLE_ENCRYPTION_CREDENTIALS');
+/// Represents the settings of a global secondary index for a global table that
+/// will be modified.
+class ReplicaGlobalSecondaryIndexSettingsUpdate {
+  /// The name of the global secondary index. The name must be unique among all
+  /// other indexes on this table.
+  final String indexName;
+
+  /// Auto scaling settings for managing a global secondary index replica's read
+  /// capacity units.
+  final AutoScalingSettingsUpdate?
+      provisionedReadCapacityAutoScalingSettingsUpdate;
+
+  /// The maximum number of strongly consistent reads consumed per second before
+  /// DynamoDB returns a <code>ThrottlingException</code>.
+  final int? provisionedReadCapacityUnits;
+
+  ReplicaGlobalSecondaryIndexSettingsUpdate({
+    required this.indexName,
+    this.provisionedReadCapacityAutoScalingSettingsUpdate,
+    this.provisionedReadCapacityUnits,
+  });
+
+  Map<String, dynamic> toJson() {
+    final indexName = this.indexName;
+    final provisionedReadCapacityAutoScalingSettingsUpdate =
+        this.provisionedReadCapacityAutoScalingSettingsUpdate;
+    final provisionedReadCapacityUnits = this.provisionedReadCapacityUnits;
+    return {
+      'IndexName': indexName,
+      if (provisionedReadCapacityAutoScalingSettingsUpdate != null)
+        'ProvisionedReadCapacityAutoScalingSettingsUpdate':
+            provisionedReadCapacityAutoScalingSettingsUpdate,
+      if (provisionedReadCapacityUnits != null)
+        'ProvisionedReadCapacityUnits': provisionedReadCapacityUnits,
+    };
+  }
+}
+
+/// Represents the settings of a global secondary index for a global table that
+/// will be modified.
+class GlobalTableGlobalSecondaryIndexSettingsUpdate {
+  /// The name of the global secondary index. The name must be unique among all
+  /// other indexes on this table.
+  final String indexName;
+
+  /// Auto scaling settings for managing a global secondary index's write capacity
+  /// units.
+  final AutoScalingSettingsUpdate?
+      provisionedWriteCapacityAutoScalingSettingsUpdate;
+
+  /// The maximum number of writes consumed per second before DynamoDB returns a
+  /// <code>ThrottlingException.</code>
+  final int? provisionedWriteCapacityUnits;
+
+  GlobalTableGlobalSecondaryIndexSettingsUpdate({
+    required this.indexName,
+    this.provisionedWriteCapacityAutoScalingSettingsUpdate,
+    this.provisionedWriteCapacityUnits,
+  });
+
+  Map<String, dynamic> toJson() {
+    final indexName = this.indexName;
+    final provisionedWriteCapacityAutoScalingSettingsUpdate =
+        this.provisionedWriteCapacityAutoScalingSettingsUpdate;
+    final provisionedWriteCapacityUnits = this.provisionedWriteCapacityUnits;
+    return {
+      'IndexName': indexName,
+      if (provisionedWriteCapacityAutoScalingSettingsUpdate != null)
+        'ProvisionedWriteCapacityAutoScalingSettingsUpdate':
+            provisionedWriteCapacityAutoScalingSettingsUpdate,
+      if (provisionedWriteCapacityUnits != null)
+        'ProvisionedWriteCapacityUnits': provisionedWriteCapacityUnits,
+    };
+  }
+}
+
+/// Contains details about the global table.
+class GlobalTableDescription {
+  /// The creation time of the global table.
+  final DateTime? creationDateTime;
+
+  /// The unique identifier of the global table.
+  final String? globalTableArn;
+
+  /// The global table name.
+  final String? globalTableName;
+
+  /// The current state of the global table:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATING</code> - The global table is being created.
+  /// </li>
+  /// <li>
+  /// <code>UPDATING</code> - The global table is being updated.
+  /// </li>
+  /// <li>
+  /// <code>DELETING</code> - The global table is being deleted.
+  /// </li>
+  /// <li>
+  /// <code>ACTIVE</code> - The global table is ready for use.
+  /// </li>
+  /// </ul>
+  final GlobalTableStatus? globalTableStatus;
+
+  /// The Regions where the global table has replicas.
+  final List<ReplicaDescription>? replicationGroup;
+
+  GlobalTableDescription({
+    this.creationDateTime,
+    this.globalTableArn,
+    this.globalTableName,
+    this.globalTableStatus,
+    this.replicationGroup,
+  });
+
+  factory GlobalTableDescription.fromJson(Map<String, dynamic> json) {
+    return GlobalTableDescription(
+      creationDateTime: timeStampFromJson(json['CreationDateTime']),
+      globalTableArn: json['GlobalTableArn'] as String?,
+      globalTableName: json['GlobalTableName'] as String?,
+      globalTableStatus: (json['GlobalTableStatus'] as String?)
+          ?.let(GlobalTableStatus.fromString),
+      replicationGroup: (json['ReplicationGroup'] as List?)
+          ?.nonNulls
+          .map((e) => ReplicaDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final globalTableArn = this.globalTableArn;
+    final globalTableName = this.globalTableName;
+    final globalTableStatus = this.globalTableStatus;
+    final replicationGroup = this.replicationGroup;
+    return {
+      if (creationDateTime != null)
+        'CreationDateTime': unixTimestampToJson(creationDateTime),
+      if (globalTableArn != null) 'GlobalTableArn': globalTableArn,
+      if (globalTableName != null) 'GlobalTableName': globalTableName,
+      if (globalTableStatus != null)
+        'GlobalTableStatus': globalTableStatus.value,
+      if (replicationGroup != null) 'ReplicationGroup': replicationGroup,
+    };
+  }
+}
+
+class GlobalTableStatus {
+  static const creating = GlobalTableStatus._('CREATING');
+  static const active = GlobalTableStatus._('ACTIVE');
+  static const deleting = GlobalTableStatus._('DELETING');
+  static const updating = GlobalTableStatus._('UPDATING');
 
   final String value;
 
-  const ReplicaStatus._(this.value);
+  const GlobalTableStatus._(this.value);
 
-  static const values = [
-    creating,
-    creationFailed,
-    updating,
-    deleting,
-    active,
-    regionDisabled,
-    inaccessibleEncryptionCredentials
-  ];
+  static const values = [creating, active, deleting, updating];
 
-  static ReplicaStatus fromString(String value) =>
+  static GlobalTableStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => ReplicaStatus._(value));
+          orElse: () => GlobalTableStatus._(value));
 
   @override
-  bool operator ==(other) => other is ReplicaStatus && other.value == value;
+  bool operator ==(other) => other is GlobalTableStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -13432,270 +13282,1258 @@ class ReplicaUpdate {
   }
 }
 
-/// Represents one of the following:
-///
-/// <ul>
-/// <li>
-/// A new replica to be added to an existing regional table or global table.
-/// This request invokes the <code>CreateTableReplica</code> action in the
-/// destination Region.
-/// </li>
-/// <li>
-/// New parameters for an existing replica. This request invokes the
-/// <code>UpdateTable</code> action in the destination Region.
-/// </li>
-/// <li>
-/// An existing replica to be deleted. The request invokes the
-/// <code>DeleteTableReplica</code> action in the destination Region, deleting
-/// the replica and all if its items in the destination Region.
-/// </li>
-/// </ul> <note>
-/// When you manually remove a table or global table replica, you do not
-/// automatically remove any associated scalable targets, scaling policies, or
-/// CloudWatch alarms.
-/// </note>
-class ReplicationGroupUpdate {
-  /// The parameters required for creating a replica for the table.
-  final CreateReplicationGroupMemberAction? create;
+/// Represents a replica to be added.
+class CreateReplicaAction {
+  /// The Region of the replica to be added.
+  final String regionName;
 
-  /// The parameters required for deleting a replica for the table.
-  final DeleteReplicationGroupMemberAction? delete;
+  CreateReplicaAction({
+    required this.regionName,
+  });
 
-  /// The parameters required for updating a replica for the table.
-  final UpdateReplicationGroupMemberAction? update;
+  Map<String, dynamic> toJson() {
+    final regionName = this.regionName;
+    return {
+      'RegionName': regionName,
+    };
+  }
+}
 
-  ReplicationGroupUpdate({
-    this.create,
+/// Represents a replica to be removed.
+class DeleteReplicaAction {
+  /// The Region of the replica to be removed.
+  final String regionName;
+
+  DeleteReplicaAction({
+    required this.regionName,
+  });
+
+  Map<String, dynamic> toJson() {
+    final regionName = this.regionName;
+    return {
+      'RegionName': regionName,
+    };
+  }
+}
+
+class ContributorInsightsStatus {
+  static const enabling = ContributorInsightsStatus._('ENABLING');
+  static const enabled = ContributorInsightsStatus._('ENABLED');
+  static const disabling = ContributorInsightsStatus._('DISABLING');
+  static const disabled = ContributorInsightsStatus._('DISABLED');
+  static const failed = ContributorInsightsStatus._('FAILED');
+
+  final String value;
+
+  const ContributorInsightsStatus._(this.value);
+
+  static const values = [enabling, enabled, disabling, disabled, failed];
+
+  static ContributorInsightsStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContributorInsightsStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContributorInsightsStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ContributorInsightsMode {
+  static const accessedAndThrottledKeys =
+      ContributorInsightsMode._('ACCESSED_AND_THROTTLED_KEYS');
+  static const throttledKeys = ContributorInsightsMode._('THROTTLED_KEYS');
+
+  final String value;
+
+  const ContributorInsightsMode._(this.value);
+
+  static const values = [accessedAndThrottledKeys, throttledKeys];
+
+  static ContributorInsightsMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContributorInsightsMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContributorInsightsMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ContributorInsightsAction {
+  static const enable = ContributorInsightsAction._('ENABLE');
+  static const disable = ContributorInsightsAction._('DISABLE');
+
+  final String value;
+
+  const ContributorInsightsAction._(this.value);
+
+  static const values = [enable, disable];
+
+  static ContributorInsightsAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContributorInsightsAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContributorInsightsAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the continuous backups and point in time recovery settings on the
+/// table.
+class ContinuousBackupsDescription {
+  /// <code>ContinuousBackupsStatus</code> can be one of the following states:
+  /// ENABLED, DISABLED
+  final ContinuousBackupsStatus continuousBackupsStatus;
+
+  /// The description of the point in time recovery settings applied to the table.
+  final PointInTimeRecoveryDescription? pointInTimeRecoveryDescription;
+
+  ContinuousBackupsDescription({
+    required this.continuousBackupsStatus,
+    this.pointInTimeRecoveryDescription,
+  });
+
+  factory ContinuousBackupsDescription.fromJson(Map<String, dynamic> json) {
+    return ContinuousBackupsDescription(
+      continuousBackupsStatus: ContinuousBackupsStatus.fromString(
+          (json['ContinuousBackupsStatus'] as String?) ?? ''),
+      pointInTimeRecoveryDescription: json['PointInTimeRecoveryDescription'] !=
+              null
+          ? PointInTimeRecoveryDescription.fromJson(
+              json['PointInTimeRecoveryDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final continuousBackupsStatus = this.continuousBackupsStatus;
+    final pointInTimeRecoveryDescription = this.pointInTimeRecoveryDescription;
+    return {
+      'ContinuousBackupsStatus': continuousBackupsStatus.value,
+      if (pointInTimeRecoveryDescription != null)
+        'PointInTimeRecoveryDescription': pointInTimeRecoveryDescription,
+    };
+  }
+}
+
+class ContinuousBackupsStatus {
+  static const enabled = ContinuousBackupsStatus._('ENABLED');
+  static const disabled = ContinuousBackupsStatus._('DISABLED');
+
+  final String value;
+
+  const ContinuousBackupsStatus._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static ContinuousBackupsStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContinuousBackupsStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContinuousBackupsStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The description of the point in time settings applied to the table.
+class PointInTimeRecoveryDescription {
+  /// Specifies the earliest point in time you can restore your table to. You can
+  /// restore your table to any point in time during the last 35 days.
+  final DateTime? earliestRestorableDateTime;
+
+  /// <code>LatestRestorableDateTime</code> is typically 5 minutes before the
+  /// current time.
+  final DateTime? latestRestorableDateTime;
+
+  /// The current state of point in time recovery:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ENABLED</code> - Point in time recovery is enabled.
+  /// </li>
+  /// <li>
+  /// <code>DISABLED</code> - Point in time recovery is disabled.
+  /// </li>
+  /// </ul>
+  final PointInTimeRecoveryStatus? pointInTimeRecoveryStatus;
+
+  /// The number of preceding days for which continuous backups are taken and
+  /// maintained. Your table data is only recoverable to any point-in-time from
+  /// within the configured recovery period. This parameter is optional.
+  final int? recoveryPeriodInDays;
+
+  PointInTimeRecoveryDescription({
+    this.earliestRestorableDateTime,
+    this.latestRestorableDateTime,
+    this.pointInTimeRecoveryStatus,
+    this.recoveryPeriodInDays,
+  });
+
+  factory PointInTimeRecoveryDescription.fromJson(Map<String, dynamic> json) {
+    return PointInTimeRecoveryDescription(
+      earliestRestorableDateTime:
+          timeStampFromJson(json['EarliestRestorableDateTime']),
+      latestRestorableDateTime:
+          timeStampFromJson(json['LatestRestorableDateTime']),
+      pointInTimeRecoveryStatus: (json['PointInTimeRecoveryStatus'] as String?)
+          ?.let(PointInTimeRecoveryStatus.fromString),
+      recoveryPeriodInDays: json['RecoveryPeriodInDays'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final earliestRestorableDateTime = this.earliestRestorableDateTime;
+    final latestRestorableDateTime = this.latestRestorableDateTime;
+    final pointInTimeRecoveryStatus = this.pointInTimeRecoveryStatus;
+    final recoveryPeriodInDays = this.recoveryPeriodInDays;
+    return {
+      if (earliestRestorableDateTime != null)
+        'EarliestRestorableDateTime':
+            unixTimestampToJson(earliestRestorableDateTime),
+      if (latestRestorableDateTime != null)
+        'LatestRestorableDateTime':
+            unixTimestampToJson(latestRestorableDateTime),
+      if (pointInTimeRecoveryStatus != null)
+        'PointInTimeRecoveryStatus': pointInTimeRecoveryStatus.value,
+      if (recoveryPeriodInDays != null)
+        'RecoveryPeriodInDays': recoveryPeriodInDays,
+    };
+  }
+}
+
+class PointInTimeRecoveryStatus {
+  static const enabled = PointInTimeRecoveryStatus._('ENABLED');
+  static const disabled = PointInTimeRecoveryStatus._('DISABLED');
+
+  final String value;
+
+  const PointInTimeRecoveryStatus._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static PointInTimeRecoveryStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PointInTimeRecoveryStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PointInTimeRecoveryStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the settings used to enable point in time recovery.
+class PointInTimeRecoverySpecification {
+  /// Indicates whether point in time recovery is enabled (true) or disabled
+  /// (false) on the table.
+  final bool pointInTimeRecoveryEnabled;
+
+  /// The number of preceding days for which continuous backups are taken and
+  /// maintained. Your table data is only recoverable to any point-in-time from
+  /// within the configured recovery period. This parameter is optional. If no
+  /// value is provided, the value will default to 35.
+  final int? recoveryPeriodInDays;
+
+  PointInTimeRecoverySpecification({
+    required this.pointInTimeRecoveryEnabled,
+    this.recoveryPeriodInDays,
+  });
+
+  Map<String, dynamic> toJson() {
+    final pointInTimeRecoveryEnabled = this.pointInTimeRecoveryEnabled;
+    final recoveryPeriodInDays = this.recoveryPeriodInDays;
+    return {
+      'PointInTimeRecoveryEnabled': pointInTimeRecoveryEnabled,
+      if (recoveryPeriodInDays != null)
+        'RecoveryPeriodInDays': recoveryPeriodInDays,
+    };
+  }
+}
+
+/// A list of requests that can perform update, put, delete, or check operations
+/// on multiple items in one or more tables atomically.
+class TransactWriteItem {
+  /// A request to perform a check item operation.
+  final ConditionCheck? conditionCheck;
+
+  /// A request to perform a <code>DeleteItem</code> operation.
+  final Delete? delete;
+
+  /// A request to perform a <code>PutItem</code> operation.
+  final Put? put;
+
+  /// A request to perform an <code>UpdateItem</code> operation.
+  final Update? update;
+
+  TransactWriteItem({
+    this.conditionCheck,
     this.delete,
+    this.put,
     this.update,
   });
 
   Map<String, dynamic> toJson() {
-    final create = this.create;
+    final conditionCheck = this.conditionCheck;
     final delete = this.delete;
+    final put = this.put;
     final update = this.update;
     return {
-      if (create != null) 'Create': create,
+      if (conditionCheck != null) 'ConditionCheck': conditionCheck,
       if (delete != null) 'Delete': delete,
+      if (put != null) 'Put': put,
       if (update != null) 'Update': update,
     };
   }
 }
 
-/// Contains details for the restore.
-class RestoreSummary {
-  /// Point in time or source backup time.
-  final DateTime restoreDateTime;
+/// Represents a request to perform a check that an item exists or to check the
+/// condition of specific attributes of the item.
+class ConditionCheck {
+  /// A condition that must be satisfied in order for a conditional update to
+  /// succeed. For more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.ConditionExpressions.html">Condition
+  /// expressions</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  final String conditionExpression;
 
-  /// Indicates if a restore is in progress or not.
-  final bool restoreInProgress;
+  /// The primary key of the item to be checked. Each element consists of an
+  /// attribute name and a value for that attribute.
+  final Map<String, AttributeValue> key;
 
-  /// The Amazon Resource Name (ARN) of the backup from which the table was
-  /// restored.
-  final String? sourceBackupArn;
+  /// Name of the table for the check item request. You can also provide the
+  /// Amazon Resource Name (ARN) of the table in this parameter.
+  final String tableName;
 
-  /// The ARN of the source table of the backup that is being restored.
-  final String? sourceTableArn;
+  /// One or more substitution tokens for attribute names in an expression. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.ExpressionAttributeNames.html">Expression
+  /// attribute names</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  final Map<String, String>? expressionAttributeNames;
 
-  RestoreSummary({
-    required this.restoreDateTime,
-    required this.restoreInProgress,
-    this.sourceBackupArn,
-    this.sourceTableArn,
+  /// One or more values that can be substituted in an expression. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.ConditionExpressions.html">Condition
+  /// expressions</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  final Map<String, AttributeValue>? expressionAttributeValues;
+
+  /// Use <code>ReturnValuesOnConditionCheckFailure</code> to get the item
+  /// attributes if the <code>ConditionCheck</code> condition fails. For
+  /// <code>ReturnValuesOnConditionCheckFailure</code>, the valid values are: NONE
+  /// and ALL_OLD.
+  final ReturnValuesOnConditionCheckFailure?
+      returnValuesOnConditionCheckFailure;
+
+  ConditionCheck({
+    required this.conditionExpression,
+    required this.key,
+    required this.tableName,
+    this.expressionAttributeNames,
+    this.expressionAttributeValues,
+    this.returnValuesOnConditionCheckFailure,
   });
 
-  factory RestoreSummary.fromJson(Map<String, dynamic> json) {
-    return RestoreSummary(
-      restoreDateTime:
-          nonNullableTimeStampFromJson(json['RestoreDateTime'] ?? 0),
-      restoreInProgress: (json['RestoreInProgress'] as bool?) ?? false,
-      sourceBackupArn: json['SourceBackupArn'] as String?,
-      sourceTableArn: json['SourceTableArn'] as String?,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final restoreDateTime = this.restoreDateTime;
-    final restoreInProgress = this.restoreInProgress;
-    final sourceBackupArn = this.sourceBackupArn;
-    final sourceTableArn = this.sourceTableArn;
+    final conditionExpression = this.conditionExpression;
+    final key = this.key;
+    final tableName = this.tableName;
+    final expressionAttributeNames = this.expressionAttributeNames;
+    final expressionAttributeValues = this.expressionAttributeValues;
+    final returnValuesOnConditionCheckFailure =
+        this.returnValuesOnConditionCheckFailure;
     return {
-      'RestoreDateTime': unixTimestampToJson(restoreDateTime),
-      'RestoreInProgress': restoreInProgress,
-      if (sourceBackupArn != null) 'SourceBackupArn': sourceBackupArn,
-      if (sourceTableArn != null) 'SourceTableArn': sourceTableArn,
+      'ConditionExpression': conditionExpression,
+      'Key': key,
+      'TableName': tableName,
+      if (expressionAttributeNames != null)
+        'ExpressionAttributeNames': expressionAttributeNames,
+      if (expressionAttributeValues != null)
+        'ExpressionAttributeValues': expressionAttributeValues,
+      if (returnValuesOnConditionCheckFailure != null)
+        'ReturnValuesOnConditionCheckFailure':
+            returnValuesOnConditionCheckFailure.value,
     };
   }
 }
 
-class RestoreTableFromBackupOutput {
-  /// The description of the table created from an existing backup.
-  final TableDescription? tableDescription;
+/// Represents a request to perform a <code>PutItem</code> operation.
+class Put {
+  /// A map of attribute name to attribute values, representing the primary key of
+  /// the item to be written by <code>PutItem</code>. All of the table's primary
+  /// key attributes must be specified, and their data types must match those of
+  /// the table's key schema. If any attributes are present in the item that are
+  /// part of an index key schema for the table, their types must match the index
+  /// key schema.
+  final Map<String, AttributeValue> item;
 
-  RestoreTableFromBackupOutput({
-    this.tableDescription,
+  /// Name of the table in which to write the item. You can also provide the
+  /// Amazon Resource Name (ARN) of the table in this parameter.
+  final String tableName;
+
+  /// A condition that must be satisfied in order for a conditional update to
+  /// succeed.
+  final String? conditionExpression;
+
+  /// One or more substitution tokens for attribute names in an expression.
+  final Map<String, String>? expressionAttributeNames;
+
+  /// One or more values that can be substituted in an expression.
+  final Map<String, AttributeValue>? expressionAttributeValues;
+
+  /// Use <code>ReturnValuesOnConditionCheckFailure</code> to get the item
+  /// attributes if the <code>Put</code> condition fails. For
+  /// <code>ReturnValuesOnConditionCheckFailure</code>, the valid values are: NONE
+  /// and ALL_OLD.
+  final ReturnValuesOnConditionCheckFailure?
+      returnValuesOnConditionCheckFailure;
+
+  Put({
+    required this.item,
+    required this.tableName,
+    this.conditionExpression,
+    this.expressionAttributeNames,
+    this.expressionAttributeValues,
+    this.returnValuesOnConditionCheckFailure,
   });
 
-  factory RestoreTableFromBackupOutput.fromJson(Map<String, dynamic> json) {
-    return RestoreTableFromBackupOutput(
-      tableDescription: json['TableDescription'] != null
-          ? TableDescription.fromJson(
-              json['TableDescription'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final tableDescription = this.tableDescription;
+    final item = this.item;
+    final tableName = this.tableName;
+    final conditionExpression = this.conditionExpression;
+    final expressionAttributeNames = this.expressionAttributeNames;
+    final expressionAttributeValues = this.expressionAttributeValues;
+    final returnValuesOnConditionCheckFailure =
+        this.returnValuesOnConditionCheckFailure;
     return {
-      if (tableDescription != null) 'TableDescription': tableDescription,
+      'Item': item,
+      'TableName': tableName,
+      if (conditionExpression != null)
+        'ConditionExpression': conditionExpression,
+      if (expressionAttributeNames != null)
+        'ExpressionAttributeNames': expressionAttributeNames,
+      if (expressionAttributeValues != null)
+        'ExpressionAttributeValues': expressionAttributeValues,
+      if (returnValuesOnConditionCheckFailure != null)
+        'ReturnValuesOnConditionCheckFailure':
+            returnValuesOnConditionCheckFailure.value,
     };
   }
 }
 
-class RestoreTableToPointInTimeOutput {
-  /// Represents the properties of a table.
-  final TableDescription? tableDescription;
+/// Represents a request to perform a <code>DeleteItem</code> operation.
+class Delete {
+  /// The primary key of the item to be deleted. Each element consists of an
+  /// attribute name and a value for that attribute.
+  final Map<String, AttributeValue> key;
 
-  RestoreTableToPointInTimeOutput({
-    this.tableDescription,
+  /// Name of the table in which the item to be deleted resides. You can also
+  /// provide the Amazon Resource Name (ARN) of the table in this parameter.
+  final String tableName;
+
+  /// A condition that must be satisfied in order for a conditional delete to
+  /// succeed.
+  final String? conditionExpression;
+
+  /// One or more substitution tokens for attribute names in an expression.
+  final Map<String, String>? expressionAttributeNames;
+
+  /// One or more values that can be substituted in an expression.
+  final Map<String, AttributeValue>? expressionAttributeValues;
+
+  /// Use <code>ReturnValuesOnConditionCheckFailure</code> to get the item
+  /// attributes if the <code>Delete</code> condition fails. For
+  /// <code>ReturnValuesOnConditionCheckFailure</code>, the valid values are: NONE
+  /// and ALL_OLD.
+  final ReturnValuesOnConditionCheckFailure?
+      returnValuesOnConditionCheckFailure;
+
+  Delete({
+    required this.key,
+    required this.tableName,
+    this.conditionExpression,
+    this.expressionAttributeNames,
+    this.expressionAttributeValues,
+    this.returnValuesOnConditionCheckFailure,
   });
 
-  factory RestoreTableToPointInTimeOutput.fromJson(Map<String, dynamic> json) {
-    return RestoreTableToPointInTimeOutput(
-      tableDescription: json['TableDescription'] != null
-          ? TableDescription.fromJson(
-              json['TableDescription'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final tableDescription = this.tableDescription;
+    final key = this.key;
+    final tableName = this.tableName;
+    final conditionExpression = this.conditionExpression;
+    final expressionAttributeNames = this.expressionAttributeNames;
+    final expressionAttributeValues = this.expressionAttributeValues;
+    final returnValuesOnConditionCheckFailure =
+        this.returnValuesOnConditionCheckFailure;
     return {
-      if (tableDescription != null) 'TableDescription': tableDescription,
+      'Key': key,
+      'TableName': tableName,
+      if (conditionExpression != null)
+        'ConditionExpression': conditionExpression,
+      if (expressionAttributeNames != null)
+        'ExpressionAttributeNames': expressionAttributeNames,
+      if (expressionAttributeValues != null)
+        'ExpressionAttributeValues': expressionAttributeValues,
+      if (returnValuesOnConditionCheckFailure != null)
+        'ReturnValuesOnConditionCheckFailure':
+            returnValuesOnConditionCheckFailure.value,
     };
   }
 }
 
-/// Determines the level of detail about either provisioned or on-demand
-/// throughput consumption that is returned in the response:
+/// Represents a request to perform an <code>UpdateItem</code> operation.
+class Update {
+  /// The primary key of the item to be updated. Each element consists of an
+  /// attribute name and a value for that attribute.
+  final Map<String, AttributeValue> key;
+
+  /// Name of the table for the <code>UpdateItem</code> request. You can also
+  /// provide the Amazon Resource Name (ARN) of the table in this parameter.
+  final String tableName;
+
+  /// An expression that defines one or more attributes to be updated, the action
+  /// to be performed on them, and new value(s) for them.
+  final String updateExpression;
+
+  /// A condition that must be satisfied in order for a conditional update to
+  /// succeed.
+  final String? conditionExpression;
+
+  /// One or more substitution tokens for attribute names in an expression.
+  final Map<String, String>? expressionAttributeNames;
+
+  /// One or more values that can be substituted in an expression.
+  final Map<String, AttributeValue>? expressionAttributeValues;
+
+  /// Use <code>ReturnValuesOnConditionCheckFailure</code> to get the item
+  /// attributes if the <code>Update</code> condition fails. For
+  /// <code>ReturnValuesOnConditionCheckFailure</code>, the valid values are: NONE
+  /// and ALL_OLD.
+  final ReturnValuesOnConditionCheckFailure?
+      returnValuesOnConditionCheckFailure;
+
+  Update({
+    required this.key,
+    required this.tableName,
+    required this.updateExpression,
+    this.conditionExpression,
+    this.expressionAttributeNames,
+    this.expressionAttributeValues,
+    this.returnValuesOnConditionCheckFailure,
+  });
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final tableName = this.tableName;
+    final updateExpression = this.updateExpression;
+    final conditionExpression = this.conditionExpression;
+    final expressionAttributeNames = this.expressionAttributeNames;
+    final expressionAttributeValues = this.expressionAttributeValues;
+    final returnValuesOnConditionCheckFailure =
+        this.returnValuesOnConditionCheckFailure;
+    return {
+      'Key': key,
+      'TableName': tableName,
+      'UpdateExpression': updateExpression,
+      if (conditionExpression != null)
+        'ConditionExpression': conditionExpression,
+      if (expressionAttributeNames != null)
+        'ExpressionAttributeNames': expressionAttributeNames,
+      if (expressionAttributeValues != null)
+        'ExpressionAttributeValues': expressionAttributeValues,
+      if (returnValuesOnConditionCheckFailure != null)
+        'ReturnValuesOnConditionCheckFailure':
+            returnValuesOnConditionCheckFailure.value,
+    };
+  }
+}
+
+/// Details for the requested item.
+class ItemResponse {
+  /// Map of attribute data consisting of the data type and attribute value.
+  final Map<String, AttributeValue>? item;
+
+  ItemResponse({
+    this.item,
+  });
+
+  factory ItemResponse.fromJson(Map<String, dynamic> json) {
+    return ItemResponse(
+      item: (json['Item'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final item = this.item;
+    return {
+      if (item != null) 'Item': item,
+    };
+  }
+}
+
+/// Specifies an item to be retrieved as part of the transaction.
+class TransactGetItem {
+  /// Contains the primary key that identifies the item to get, together with the
+  /// name of the table that contains the item, and optionally the specific
+  /// attributes of the item to retrieve.
+  final Get get;
+
+  TransactGetItem({
+    required this.get,
+  });
+
+  Map<String, dynamic> toJson() {
+    final get = this.get;
+    return {
+      'Get': get,
+    };
+  }
+}
+
+/// Specifies an item and related attribute values to retrieve in a
+/// <code>TransactGetItem</code> object.
+class Get {
+  /// A map of attribute names to <code>AttributeValue</code> objects that
+  /// specifies the primary key of the item to retrieve.
+  final Map<String, AttributeValue> key;
+
+  /// The name of the table from which to retrieve the specified item. You can
+  /// also provide the Amazon Resource Name (ARN) of the table in this parameter.
+  final String tableName;
+
+  /// One or more substitution tokens for attribute names in the
+  /// ProjectionExpression parameter.
+  final Map<String, String>? expressionAttributeNames;
+
+  /// A string that identifies one or more attributes of the specified item to
+  /// retrieve from the table. The attributes in the expression must be separated
+  /// by commas. If no attribute names are specified, then all attributes of the
+  /// specified item are returned. If any of the requested attributes are not
+  /// found, they do not appear in the result.
+  final String? projectionExpression;
+
+  Get({
+    required this.key,
+    required this.tableName,
+    this.expressionAttributeNames,
+    this.projectionExpression,
+  });
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final tableName = this.tableName;
+    final expressionAttributeNames = this.expressionAttributeNames;
+    final projectionExpression = this.projectionExpression;
+    return {
+      'Key': key,
+      'TableName': tableName,
+      if (expressionAttributeNames != null)
+        'ExpressionAttributeNames': expressionAttributeNames,
+      if (projectionExpression != null)
+        'ProjectionExpression': projectionExpression,
+    };
+  }
+}
+
+/// Describes a tag. A tag is a key-value pair. You can add up to 50 tags to a
+/// single DynamoDB table.
+///
+/// Amazon Web Services-assigned tag names and values are automatically assigned
+/// the <code>aws:</code> prefix, which the user cannot assign. Amazon Web
+/// Services-assigned tag names do not count towards the tag limit of 50.
+/// User-assigned tag names have the prefix <code>user:</code> in the Cost
+/// Allocation Report. You cannot backdate the application of a tag.
+///
+/// For an overview on tagging DynamoDB resources, see <a
+/// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html">Tagging
+/// for DynamoDB</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+class Tag {
+  /// The key of the tag. Tag keys are case sensitive. Each DynamoDB table can
+  /// only have up to one tag with the same key. If you try to add an existing tag
+  /// (same key), the existing tag value will be updated to the new value.
+  final String key;
+
+  /// The value of the tag. Tag values are case-sensitive and can be null.
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
+class Select {
+  static const allAttributes = Select._('ALL_ATTRIBUTES');
+  static const allProjectedAttributes = Select._('ALL_PROJECTED_ATTRIBUTES');
+  static const specificAttributes = Select._('SPECIFIC_ATTRIBUTES');
+  static const count = Select._('COUNT');
+
+  final String value;
+
+  const Select._(this.value);
+
+  static const values = [
+    allAttributes,
+    allProjectedAttributes,
+    specificAttributes,
+    count
+  ];
+
+  static Select fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Select._(value));
+
+  @override
+  bool operator ==(other) => other is Select && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the selection criteria for a <code>Query</code> or
+/// <code>Scan</code> operation:
 ///
 /// <ul>
 /// <li>
-/// <code>INDEXES</code> - The response includes the aggregate
-/// <code>ConsumedCapacity</code> for the operation, together with
-/// <code>ConsumedCapacity</code> for each table and secondary index that was
-/// accessed.
+/// For a <code>Query</code> operation, <code>Condition</code> is used for
+/// specifying the <code>KeyConditions</code> to use when querying a table or an
+/// index. For <code>KeyConditions</code>, only the following comparison
+/// operators are supported:
 ///
-/// Note that some operations, such as <code>GetItem</code> and
-/// <code>BatchGetItem</code>, do not access any indexes at all. In these cases,
-/// specifying <code>INDEXES</code> will only return
-/// <code>ConsumedCapacity</code> information for table(s).
+/// <code>EQ | LE | LT | GE | GT | BEGINS_WITH | BETWEEN</code>
+///
+/// <code>Condition</code> is also used in a <code>QueryFilter</code>, which
+/// evaluates the query results and returns only the desired values.
 /// </li>
 /// <li>
-/// <code>TOTAL</code> - The response includes only the aggregate
-/// <code>ConsumedCapacity</code> for the operation.
-/// </li>
-/// <li>
-/// <code>NONE</code> - No <code>ConsumedCapacity</code> details are included in
-/// the response.
+/// For a <code>Scan</code> operation, <code>Condition</code> is used in a
+/// <code>ScanFilter</code>, which evaluates the scan results and returns only
+/// the desired values.
 /// </li>
 /// </ul>
-class ReturnConsumedCapacity {
-  static const indexes = ReturnConsumedCapacity._('INDEXES');
-  static const total = ReturnConsumedCapacity._('TOTAL');
-  static const none = ReturnConsumedCapacity._('NONE');
+class Condition {
+  /// A comparator for evaluating attributes. For example, equals, greater than,
+  /// less than, etc.
+  ///
+  /// The following comparison operators are available:
+  ///
+  /// <code>EQ | NE | LE | LT | GE | GT | NOT_NULL | NULL | CONTAINS |
+  /// NOT_CONTAINS | BEGINS_WITH | IN | BETWEEN</code>
+  ///
+  /// The following are descriptions of each comparison operator.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>EQ</code> : Equal. <code>EQ</code> is supported for all data types,
+  /// including lists and maps.
+  ///
+  /// <code>AttributeValueList</code> can contain only one
+  /// <code>AttributeValue</code> element of type String, Number, Binary, String
+  /// Set, Number Set, or Binary Set. If an item contains an
+  /// <code>AttributeValue</code> element of a different type than the one
+  /// provided in the request, the value does not match. For example,
+  /// <code>{"S":"6"}</code> does not equal <code>{"N":"6"}</code>. Also,
+  /// <code>{"N":"6"}</code> does not equal <code>{"NS":["6", "2", "1"]}</code>.
+  ///
+  ///
+  /// </li>
+  /// <li>
+  /// <code>NE</code> : Not equal. <code>NE</code> is supported for all data
+  /// types, including lists and maps.
+  ///
+  /// <code>AttributeValueList</code> can contain only one
+  /// <code>AttributeValue</code> of type String, Number, Binary, String Set,
+  /// Number Set, or Binary Set. If an item contains an
+  /// <code>AttributeValue</code> of a different type than the one provided in the
+  /// request, the value does not match. For example, <code>{"S":"6"}</code> does
+  /// not equal <code>{"N":"6"}</code>. Also, <code>{"N":"6"}</code> does not
+  /// equal <code>{"NS":["6", "2", "1"]}</code>.
+  ///
+  ///
+  /// </li>
+  /// <li>
+  /// <code>LE</code> : Less than or equal.
+  ///
+  /// <code>AttributeValueList</code> can contain only one
+  /// <code>AttributeValue</code> element of type String, Number, or Binary (not a
+  /// set type). If an item contains an <code>AttributeValue</code> element of a
+  /// different type than the one provided in the request, the value does not
+  /// match. For example, <code>{"S":"6"}</code> does not equal
+  /// <code>{"N":"6"}</code>. Also, <code>{"N":"6"}</code> does not compare to
+  /// <code>{"NS":["6", "2", "1"]}</code>.
+  ///
+  ///
+  /// </li>
+  /// <li>
+  /// <code>LT</code> : Less than.
+  ///
+  /// <code>AttributeValueList</code> can contain only one
+  /// <code>AttributeValue</code> of type String, Number, or Binary (not a set
+  /// type). If an item contains an <code>AttributeValue</code> element of a
+  /// different type than the one provided in the request, the value does not
+  /// match. For example, <code>{"S":"6"}</code> does not equal
+  /// <code>{"N":"6"}</code>. Also, <code>{"N":"6"}</code> does not compare to
+  /// <code>{"NS":["6", "2", "1"]}</code>.
+  ///
+  ///
+  /// </li>
+  /// <li>
+  /// <code>GE</code> : Greater than or equal.
+  ///
+  /// <code>AttributeValueList</code> can contain only one
+  /// <code>AttributeValue</code> element of type String, Number, or Binary (not a
+  /// set type). If an item contains an <code>AttributeValue</code> element of a
+  /// different type than the one provided in the request, the value does not
+  /// match. For example, <code>{"S":"6"}</code> does not equal
+  /// <code>{"N":"6"}</code>. Also, <code>{"N":"6"}</code> does not compare to
+  /// <code>{"NS":["6", "2", "1"]}</code>.
+  ///
+  ///
+  /// </li>
+  /// <li>
+  /// <code>GT</code> : Greater than.
+  ///
+  /// <code>AttributeValueList</code> can contain only one
+  /// <code>AttributeValue</code> element of type String, Number, or Binary (not a
+  /// set type). If an item contains an <code>AttributeValue</code> element of a
+  /// different type than the one provided in the request, the value does not
+  /// match. For example, <code>{"S":"6"}</code> does not equal
+  /// <code>{"N":"6"}</code>. Also, <code>{"N":"6"}</code> does not compare to
+  /// <code>{"NS":["6", "2", "1"]}</code>.
+  ///
+  ///
+  /// </li>
+  /// <li>
+  /// <code>NOT_NULL</code> : The attribute exists. <code>NOT_NULL</code> is
+  /// supported for all data types, including lists and maps.
+  /// <note>
+  /// This operator tests for the existence of an attribute, not its data type. If
+  /// the data type of attribute "<code>a</code>" is null, and you evaluate it
+  /// using <code>NOT_NULL</code>, the result is a Boolean <code>true</code>. This
+  /// result is because the attribute "<code>a</code>" exists; its data type is
+  /// not relevant to the <code>NOT_NULL</code> comparison operator.
+  /// </note> </li>
+  /// <li>
+  /// <code>NULL</code> : The attribute does not exist. <code>NULL</code> is
+  /// supported for all data types, including lists and maps.
+  /// <note>
+  /// This operator tests for the nonexistence of an attribute, not its data type.
+  /// If the data type of attribute "<code>a</code>" is null, and you evaluate it
+  /// using <code>NULL</code>, the result is a Boolean <code>false</code>. This is
+  /// because the attribute "<code>a</code>" exists; its data type is not relevant
+  /// to the <code>NULL</code> comparison operator.
+  /// </note> </li>
+  /// <li>
+  /// <code>CONTAINS</code> : Checks for a subsequence, or value in a set.
+  ///
+  /// <code>AttributeValueList</code> can contain only one
+  /// <code>AttributeValue</code> element of type String, Number, or Binary (not a
+  /// set type). If the target attribute of the comparison is of type String, then
+  /// the operator checks for a substring match. If the target attribute of the
+  /// comparison is of type Binary, then the operator looks for a subsequence of
+  /// the target that matches the input. If the target attribute of the comparison
+  /// is a set ("<code>SS</code>", "<code>NS</code>", or "<code>BS</code>"), then
+  /// the operator evaluates to true if it finds an exact match with any member of
+  /// the set.
+  ///
+  /// CONTAINS is supported for lists: When evaluating "<code>a CONTAINS
+  /// b</code>", "<code>a</code>" can be a list; however, "<code>b</code>" cannot
+  /// be a set, a map, or a list.
+  /// </li>
+  /// <li>
+  /// <code>NOT_CONTAINS</code> : Checks for absence of a subsequence, or absence
+  /// of a value in a set.
+  ///
+  /// <code>AttributeValueList</code> can contain only one
+  /// <code>AttributeValue</code> element of type String, Number, or Binary (not a
+  /// set type). If the target attribute of the comparison is a String, then the
+  /// operator checks for the absence of a substring match. If the target
+  /// attribute of the comparison is Binary, then the operator checks for the
+  /// absence of a subsequence of the target that matches the input. If the target
+  /// attribute of the comparison is a set ("<code>SS</code>", "<code>NS</code>",
+  /// or "<code>BS</code>"), then the operator evaluates to true if it <i>does
+  /// not</i> find an exact match with any member of the set.
+  ///
+  /// NOT_CONTAINS is supported for lists: When evaluating "<code>a NOT CONTAINS
+  /// b</code>", "<code>a</code>" can be a list; however, "<code>b</code>" cannot
+  /// be a set, a map, or a list.
+  /// </li>
+  /// <li>
+  /// <code>BEGINS_WITH</code> : Checks for a prefix.
+  ///
+  /// <code>AttributeValueList</code> can contain only one
+  /// <code>AttributeValue</code> of type String or Binary (not a Number or a set
+  /// type). The target attribute of the comparison must be of type String or
+  /// Binary (not a Number or a set type).
+  ///
+  ///
+  /// </li>
+  /// <li>
+  /// <code>IN</code> : Checks for matching elements in a list.
+  ///
+  /// <code>AttributeValueList</code> can contain one or more
+  /// <code>AttributeValue</code> elements of type String, Number, or Binary.
+  /// These attributes are compared against an existing attribute of an item. If
+  /// any elements of the input are equal to the item attribute, the expression
+  /// evaluates to true.
+  /// </li>
+  /// <li>
+  /// <code>BETWEEN</code> : Greater than or equal to the first value, and less
+  /// than or equal to the second value.
+  ///
+  /// <code>AttributeValueList</code> must contain two <code>AttributeValue</code>
+  /// elements of the same type, either String, Number, or Binary (not a set
+  /// type). A target attribute matches if the target value is greater than, or
+  /// equal to, the first element and less than, or equal to, the second element.
+  /// If an item contains an <code>AttributeValue</code> element of a different
+  /// type than the one provided in the request, the value does not match. For
+  /// example, <code>{"S":"6"}</code> does not compare to <code>{"N":"6"}</code>.
+  /// Also, <code>{"N":"6"}</code> does not compare to <code>{"NS":["6", "2",
+  /// "1"]}</code>
+  /// </li>
+  /// </ul>
+  /// For usage examples of <code>AttributeValueList</code> and
+  /// <code>ComparisonOperator</code>, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.html">Legacy
+  /// Conditional Parameters</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  final ComparisonOperator comparisonOperator;
 
-  final String value;
+  /// One or more values to evaluate against the supplied attribute. The number of
+  /// values in the list depends on the <code>ComparisonOperator</code> being
+  /// used.
+  ///
+  /// For type Number, value comparisons are numeric.
+  ///
+  /// String value comparisons for greater than, equals, or less than are based on
+  /// ASCII character code values. For example, <code>a</code> is greater than
+  /// <code>A</code>, and <code>a</code> is greater than <code>B</code>. For a
+  /// list of code values, see <a
+  /// href="http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters">http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters</a>.
+  ///
+  /// For Binary, DynamoDB treats each byte of the binary data as unsigned when it
+  /// compares binary values.
+  final List<AttributeValue>? attributeValueList;
 
-  const ReturnConsumedCapacity._(this.value);
+  Condition({
+    required this.comparisonOperator,
+    this.attributeValueList,
+  });
 
-  static const values = [indexes, total, none];
-
-  static ReturnConsumedCapacity fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ReturnConsumedCapacity._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ReturnConsumedCapacity && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final comparisonOperator = this.comparisonOperator;
+    final attributeValueList = this.attributeValueList;
+    return {
+      'ComparisonOperator': comparisonOperator.value,
+      if (attributeValueList != null) 'AttributeValueList': attributeValueList,
+    };
+  }
 }
 
-class ReturnItemCollectionMetrics {
-  static const size = ReturnItemCollectionMetrics._('SIZE');
-  static const none = ReturnItemCollectionMetrics._('NONE');
+/// Represents the properties of a local secondary index.
+class LocalSecondaryIndex {
+  /// The name of the local secondary index. The name must be unique among all
+  /// other indexes on this table.
+  final String indexName;
 
-  final String value;
+  /// The complete key schema for the local secondary index, consisting of one or
+  /// more pairs of attribute names and key types:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>HASH</code> - partition key
+  /// </li>
+  /// <li>
+  /// <code>RANGE</code> - sort key
+  /// </li>
+  /// </ul> <note>
+  /// The partition key of an item is also known as its <i>hash attribute</i>. The
+  /// term "hash attribute" derives from DynamoDB's usage of an internal hash
+  /// function to evenly distribute data items across partitions, based on their
+  /// partition key values.
+  ///
+  /// The sort key of an item is also known as its <i>range attribute</i>. The
+  /// term "range attribute" derives from the way DynamoDB stores items with the
+  /// same partition key physically close together, in sorted order by the sort
+  /// key value.
+  /// </note>
+  final List<KeySchemaElement> keySchema;
 
-  const ReturnItemCollectionMetrics._(this.value);
+  /// Represents attributes that are copied (projected) from the table into the
+  /// local secondary index. These are in addition to the primary key attributes
+  /// and index key attributes, which are automatically projected.
+  final Projection projection;
 
-  static const values = [size, none];
+  LocalSecondaryIndex({
+    required this.indexName,
+    required this.keySchema,
+    required this.projection,
+  });
 
-  static ReturnItemCollectionMetrics fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ReturnItemCollectionMetrics._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ReturnItemCollectionMetrics && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final indexName = this.indexName;
+    final keySchema = this.keySchema;
+    final projection = this.projection;
+    return {
+      'IndexName': indexName,
+      'KeySchema': keySchema,
+      'Projection': projection,
+    };
+  }
 }
 
-class ReturnValue {
-  static const none = ReturnValue._('NONE');
-  static const allOld = ReturnValue._('ALL_OLD');
-  static const updatedOld = ReturnValue._('UPDATED_OLD');
-  static const allNew = ReturnValue._('ALL_NEW');
-  static const updatedNew = ReturnValue._('UPDATED_NEW');
+/// Represents the properties of a global secondary index.
+class GlobalSecondaryIndex {
+  /// The name of the global secondary index. The name must be unique among all
+  /// other indexes on this table.
+  final String indexName;
 
-  final String value;
+  /// The complete key schema for a global secondary index, which consists of one
+  /// or more pairs of attribute names and key types:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>HASH</code> - partition key
+  /// </li>
+  /// <li>
+  /// <code>RANGE</code> - sort key
+  /// </li>
+  /// </ul> <note>
+  /// The partition key of an item is also known as its <i>hash attribute</i>. The
+  /// term "hash attribute" derives from DynamoDB's usage of an internal hash
+  /// function to evenly distribute data items across partitions, based on their
+  /// partition key values.
+  ///
+  /// The sort key of an item is also known as its <i>range attribute</i>. The
+  /// term "range attribute" derives from the way DynamoDB stores items with the
+  /// same partition key physically close together, in sorted order by the sort
+  /// key value.
+  /// </note>
+  final List<KeySchemaElement> keySchema;
 
-  const ReturnValue._(this.value);
+  /// Represents attributes that are copied (projected) from the table into the
+  /// global secondary index. These are in addition to the primary key attributes
+  /// and index key attributes, which are automatically projected.
+  final Projection projection;
 
-  static const values = [none, allOld, updatedOld, allNew, updatedNew];
+  /// The maximum number of read and write units for the specified global
+  /// secondary index. If you use this parameter, you must specify
+  /// <code>MaxReadRequestUnits</code>, <code>MaxWriteRequestUnits</code>, or
+  /// both. You must use either <code>OnDemandThroughput</code> or
+  /// <code>ProvisionedThroughput</code> based on your table's capacity mode.
+  final OnDemandThroughput? onDemandThroughput;
 
-  static ReturnValue fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ReturnValue._(value));
+  /// Represents the provisioned throughput settings for the specified global
+  /// secondary index. You must use either <code>OnDemandThroughput</code> or
+  /// <code>ProvisionedThroughput</code> based on your table's capacity mode.
+  ///
+  /// For current minimum and maximum provisioned throughput values, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Service,
+  /// Account, and Table Quotas</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  final ProvisionedThroughput? provisionedThroughput;
 
-  @override
-  bool operator ==(other) => other is ReturnValue && other.value == value;
+  /// Represents the warm throughput value (in read units per second and write
+  /// units per second) for the specified secondary index. If you use this
+  /// parameter, you must specify <code>ReadUnitsPerSecond</code>,
+  /// <code>WriteUnitsPerSecond</code>, or both.
+  final WarmThroughput? warmThroughput;
 
-  @override
-  int get hashCode => value.hashCode;
+  GlobalSecondaryIndex({
+    required this.indexName,
+    required this.keySchema,
+    required this.projection,
+    this.onDemandThroughput,
+    this.provisionedThroughput,
+    this.warmThroughput,
+  });
 
-  @override
-  String toString() => value;
+  factory GlobalSecondaryIndex.fromJson(Map<String, dynamic> json) {
+    return GlobalSecondaryIndex(
+      indexName: (json['IndexName'] as String?) ?? '',
+      keySchema: ((json['KeySchema'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      projection: Projection.fromJson(
+          (json['Projection'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      onDemandThroughput: json['OnDemandThroughput'] != null
+          ? OnDemandThroughput.fromJson(
+              json['OnDemandThroughput'] as Map<String, dynamic>)
+          : null,
+      provisionedThroughput: json['ProvisionedThroughput'] != null
+          ? ProvisionedThroughput.fromJson(
+              json['ProvisionedThroughput'] as Map<String, dynamic>)
+          : null,
+      warmThroughput: json['WarmThroughput'] != null
+          ? WarmThroughput.fromJson(
+              json['WarmThroughput'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final indexName = this.indexName;
+    final keySchema = this.keySchema;
+    final projection = this.projection;
+    final onDemandThroughput = this.onDemandThroughput;
+    final provisionedThroughput = this.provisionedThroughput;
+    final warmThroughput = this.warmThroughput;
+    return {
+      'IndexName': indexName,
+      'KeySchema': keySchema,
+      'Projection': projection,
+      if (onDemandThroughput != null) 'OnDemandThroughput': onDemandThroughput,
+      if (provisionedThroughput != null)
+        'ProvisionedThroughput': provisionedThroughput,
+      if (warmThroughput != null) 'WarmThroughput': warmThroughput,
+    };
+  }
 }
 
-class ReturnValuesOnConditionCheckFailure {
-  static const allOld = ReturnValuesOnConditionCheckFailure._('ALL_OLD');
-  static const none = ReturnValuesOnConditionCheckFailure._('NONE');
+/// Summary information about the source file for the import.
+class ImportSummary {
+  /// The Amazon Resource Number (ARN) of the Cloudwatch Log Group associated with
+  /// this import task.
+  final String? cloudWatchLogGroupArn;
+
+  /// The time at which this import task ended. (Does this include the successful
+  /// complete creation of the table it was imported to?)
+  final DateTime? endTime;
+
+  /// The Amazon Resource Number (ARN) corresponding to the import request.
+  final String? importArn;
+
+  /// The status of the import operation.
+  final ImportStatus? importStatus;
+
+  /// The format of the source data. Valid values are <code>CSV</code>,
+  /// <code>DYNAMODB_JSON</code> or <code>ION</code>.
+  final InputFormat? inputFormat;
+
+  /// The path and S3 bucket of the source file that is being imported. This
+  /// includes the S3Bucket (required), S3KeyPrefix (optional) and S3BucketOwner
+  /// (optional if the bucket is owned by the requester).
+  final S3BucketSource? s3BucketSource;
+
+  /// The time at which this import task began.
+  final DateTime? startTime;
+
+  /// The Amazon Resource Number (ARN) of the table being imported into.
+  final String? tableArn;
+
+  ImportSummary({
+    this.cloudWatchLogGroupArn,
+    this.endTime,
+    this.importArn,
+    this.importStatus,
+    this.inputFormat,
+    this.s3BucketSource,
+    this.startTime,
+    this.tableArn,
+  });
+
+  factory ImportSummary.fromJson(Map<String, dynamic> json) {
+    return ImportSummary(
+      cloudWatchLogGroupArn: json['CloudWatchLogGroupArn'] as String?,
+      endTime: timeStampFromJson(json['EndTime']),
+      importArn: json['ImportArn'] as String?,
+      importStatus:
+          (json['ImportStatus'] as String?)?.let(ImportStatus.fromString),
+      inputFormat:
+          (json['InputFormat'] as String?)?.let(InputFormat.fromString),
+      s3BucketSource: json['S3BucketSource'] != null
+          ? S3BucketSource.fromJson(
+              json['S3BucketSource'] as Map<String, dynamic>)
+          : null,
+      startTime: timeStampFromJson(json['StartTime']),
+      tableArn: json['TableArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchLogGroupArn = this.cloudWatchLogGroupArn;
+    final endTime = this.endTime;
+    final importArn = this.importArn;
+    final importStatus = this.importStatus;
+    final inputFormat = this.inputFormat;
+    final s3BucketSource = this.s3BucketSource;
+    final startTime = this.startTime;
+    final tableArn = this.tableArn;
+    return {
+      if (cloudWatchLogGroupArn != null)
+        'CloudWatchLogGroupArn': cloudWatchLogGroupArn,
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (importArn != null) 'ImportArn': importArn,
+      if (importStatus != null) 'ImportStatus': importStatus.value,
+      if (inputFormat != null) 'InputFormat': inputFormat.value,
+      if (s3BucketSource != null) 'S3BucketSource': s3BucketSource,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (tableArn != null) 'TableArn': tableArn,
+    };
+  }
+}
+
+class ImportStatus {
+  static const inProgress = ImportStatus._('IN_PROGRESS');
+  static const completed = ImportStatus._('COMPLETED');
+  static const cancelling = ImportStatus._('CANCELLING');
+  static const cancelled = ImportStatus._('CANCELLED');
+  static const failed = ImportStatus._('FAILED');
 
   final String value;
 
-  const ReturnValuesOnConditionCheckFailure._(this.value);
+  const ImportStatus._(this.value);
 
-  static const values = [allOld, none];
+  static const values = [inProgress, completed, cancelling, cancelled, failed];
 
-  static ReturnValuesOnConditionCheckFailure fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ReturnValuesOnConditionCheckFailure._(value));
+  static ImportStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ImportStatus._(value));
 
   @override
-  bool operator ==(other) =>
-      other is ReturnValuesOnConditionCheckFailure && other.value == value;
+  bool operator ==(other) => other is ImportStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -13742,6 +14580,950 @@ class S3BucketSource {
   }
 }
 
+class InputFormat {
+  static const dynamodbJson = InputFormat._('DYNAMODB_JSON');
+  static const ion = InputFormat._('ION');
+  static const csv = InputFormat._('CSV');
+
+  final String value;
+
+  const InputFormat._(this.value);
+
+  static const values = [dynamodbJson, ion, csv];
+
+  static InputFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => InputFormat._(value));
+
+  @override
+  bool operator ==(other) => other is InputFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the properties of a global table.
+class GlobalTable {
+  /// The global table name.
+  final String? globalTableName;
+
+  /// The Regions where the global table has replicas.
+  final List<Replica>? replicationGroup;
+
+  GlobalTable({
+    this.globalTableName,
+    this.replicationGroup,
+  });
+
+  factory GlobalTable.fromJson(Map<String, dynamic> json) {
+    return GlobalTable(
+      globalTableName: json['GlobalTableName'] as String?,
+      replicationGroup: (json['ReplicationGroup'] as List?)
+          ?.nonNulls
+          .map((e) => Replica.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalTableName = this.globalTableName;
+    final replicationGroup = this.replicationGroup;
+    return {
+      if (globalTableName != null) 'GlobalTableName': globalTableName,
+      if (replicationGroup != null) 'ReplicationGroup': replicationGroup,
+    };
+  }
+}
+
+/// Represents the properties of a replica.
+class Replica {
+  /// The Region where the replica needs to be created.
+  final String? regionName;
+
+  Replica({
+    this.regionName,
+  });
+
+  factory Replica.fromJson(Map<String, dynamic> json) {
+    return Replica(
+      regionName: json['RegionName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final regionName = this.regionName;
+    return {
+      if (regionName != null) 'RegionName': regionName,
+    };
+  }
+}
+
+/// Summary information about an export task.
+class ExportSummary {
+  /// The Amazon Resource Name (ARN) of the export.
+  final String? exportArn;
+
+  /// Export can be in one of the following states: IN_PROGRESS, COMPLETED, or
+  /// FAILED.
+  final ExportStatus? exportStatus;
+
+  /// The type of export that was performed. Valid values are
+  /// <code>FULL_EXPORT</code> or <code>INCREMENTAL_EXPORT</code>.
+  final ExportType? exportType;
+
+  ExportSummary({
+    this.exportArn,
+    this.exportStatus,
+    this.exportType,
+  });
+
+  factory ExportSummary.fromJson(Map<String, dynamic> json) {
+    return ExportSummary(
+      exportArn: json['ExportArn'] as String?,
+      exportStatus:
+          (json['ExportStatus'] as String?)?.let(ExportStatus.fromString),
+      exportType: (json['ExportType'] as String?)?.let(ExportType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final exportArn = this.exportArn;
+    final exportStatus = this.exportStatus;
+    final exportType = this.exportType;
+    return {
+      if (exportArn != null) 'ExportArn': exportArn,
+      if (exportStatus != null) 'ExportStatus': exportStatus.value,
+      if (exportType != null) 'ExportType': exportType.value,
+    };
+  }
+}
+
+class ExportStatus {
+  static const inProgress = ExportStatus._('IN_PROGRESS');
+  static const completed = ExportStatus._('COMPLETED');
+  static const failed = ExportStatus._('FAILED');
+
+  final String value;
+
+  const ExportStatus._(this.value);
+
+  static const values = [inProgress, completed, failed];
+
+  static ExportStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ExportStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ExportStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ExportType {
+  static const fullExport = ExportType._('FULL_EXPORT');
+  static const incrementalExport = ExportType._('INCREMENTAL_EXPORT');
+
+  final String value;
+
+  const ExportType._(this.value);
+
+  static const values = [fullExport, incrementalExport];
+
+  static ExportType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ExportType._(value));
+
+  @override
+  bool operator ==(other) => other is ExportType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents a Contributor Insights summary entry.
+class ContributorInsightsSummary {
+  /// Indicates the current mode of CloudWatch Contributor Insights, specifying
+  /// whether it tracks all access and throttled events or throttled events only
+  /// for the DynamoDB table or index.
+  final ContributorInsightsMode? contributorInsightsMode;
+
+  /// Describes the current status for contributor insights for the given table
+  /// and index, if applicable.
+  final ContributorInsightsStatus? contributorInsightsStatus;
+
+  /// Name of the index associated with the summary, if any.
+  final String? indexName;
+
+  /// Name of the table associated with the summary.
+  final String? tableName;
+
+  ContributorInsightsSummary({
+    this.contributorInsightsMode,
+    this.contributorInsightsStatus,
+    this.indexName,
+    this.tableName,
+  });
+
+  factory ContributorInsightsSummary.fromJson(Map<String, dynamic> json) {
+    return ContributorInsightsSummary(
+      contributorInsightsMode: (json['ContributorInsightsMode'] as String?)
+          ?.let(ContributorInsightsMode.fromString),
+      contributorInsightsStatus: (json['ContributorInsightsStatus'] as String?)
+          ?.let(ContributorInsightsStatus.fromString),
+      indexName: json['IndexName'] as String?,
+      tableName: json['TableName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contributorInsightsMode = this.contributorInsightsMode;
+    final contributorInsightsStatus = this.contributorInsightsStatus;
+    final indexName = this.indexName;
+    final tableName = this.tableName;
+    return {
+      if (contributorInsightsMode != null)
+        'ContributorInsightsMode': contributorInsightsMode.value,
+      if (contributorInsightsStatus != null)
+        'ContributorInsightsStatus': contributorInsightsStatus.value,
+      if (indexName != null) 'IndexName': indexName,
+      if (tableName != null) 'TableName': tableName,
+    };
+  }
+}
+
+/// Contains details for the backup.
+class BackupSummary {
+  /// ARN associated with the backup.
+  final String? backupArn;
+
+  /// Time at which the backup was created.
+  final DateTime? backupCreationDateTime;
+
+  /// Time at which the automatic on-demand backup created by DynamoDB will
+  /// expire. This <code>SYSTEM</code> on-demand backup expires automatically 35
+  /// days after its creation.
+  final DateTime? backupExpiryDateTime;
+
+  /// Name of the specified backup.
+  final String? backupName;
+
+  /// Size of the backup in bytes.
+  final int? backupSizeBytes;
+
+  /// Backup can be in one of the following states: CREATING, ACTIVE, DELETED.
+  final BackupStatus? backupStatus;
+
+  /// BackupType:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>USER</code> - You create and manage these using the on-demand backup
+  /// feature.
+  /// </li>
+  /// <li>
+  /// <code>SYSTEM</code> - If you delete a table with point-in-time recovery
+  /// enabled, a <code>SYSTEM</code> backup is automatically created and is
+  /// retained for 35 days (at no additional cost). System backups allow you to
+  /// restore the deleted table to the state it was in just before the point of
+  /// deletion.
+  /// </li>
+  /// <li>
+  /// <code>AWS_BACKUP</code> - On-demand backup created by you from Backup
+  /// service.
+  /// </li>
+  /// </ul>
+  final BackupType? backupType;
+
+  /// ARN associated with the table.
+  final String? tableArn;
+
+  /// Unique identifier for the table.
+  final String? tableId;
+
+  /// Name of the table.
+  final String? tableName;
+
+  BackupSummary({
+    this.backupArn,
+    this.backupCreationDateTime,
+    this.backupExpiryDateTime,
+    this.backupName,
+    this.backupSizeBytes,
+    this.backupStatus,
+    this.backupType,
+    this.tableArn,
+    this.tableId,
+    this.tableName,
+  });
+
+  factory BackupSummary.fromJson(Map<String, dynamic> json) {
+    return BackupSummary(
+      backupArn: json['BackupArn'] as String?,
+      backupCreationDateTime: timeStampFromJson(json['BackupCreationDateTime']),
+      backupExpiryDateTime: timeStampFromJson(json['BackupExpiryDateTime']),
+      backupName: json['BackupName'] as String?,
+      backupSizeBytes: json['BackupSizeBytes'] as int?,
+      backupStatus:
+          (json['BackupStatus'] as String?)?.let(BackupStatus.fromString),
+      backupType: (json['BackupType'] as String?)?.let(BackupType.fromString),
+      tableArn: json['TableArn'] as String?,
+      tableId: json['TableId'] as String?,
+      tableName: json['TableName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final backupArn = this.backupArn;
+    final backupCreationDateTime = this.backupCreationDateTime;
+    final backupExpiryDateTime = this.backupExpiryDateTime;
+    final backupName = this.backupName;
+    final backupSizeBytes = this.backupSizeBytes;
+    final backupStatus = this.backupStatus;
+    final backupType = this.backupType;
+    final tableArn = this.tableArn;
+    final tableId = this.tableId;
+    final tableName = this.tableName;
+    return {
+      if (backupArn != null) 'BackupArn': backupArn,
+      if (backupCreationDateTime != null)
+        'BackupCreationDateTime': unixTimestampToJson(backupCreationDateTime),
+      if (backupExpiryDateTime != null)
+        'BackupExpiryDateTime': unixTimestampToJson(backupExpiryDateTime),
+      if (backupName != null) 'BackupName': backupName,
+      if (backupSizeBytes != null) 'BackupSizeBytes': backupSizeBytes,
+      if (backupStatus != null) 'BackupStatus': backupStatus.value,
+      if (backupType != null) 'BackupType': backupType.value,
+      if (tableArn != null) 'TableArn': tableArn,
+      if (tableId != null) 'TableId': tableId,
+      if (tableName != null) 'TableName': tableName,
+    };
+  }
+}
+
+class BackupStatus {
+  static const creating = BackupStatus._('CREATING');
+  static const deleted = BackupStatus._('DELETED');
+  static const available = BackupStatus._('AVAILABLE');
+
+  final String value;
+
+  const BackupStatus._(this.value);
+
+  static const values = [creating, deleted, available];
+
+  static BackupStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BackupStatus._(value));
+
+  @override
+  bool operator ==(other) => other is BackupStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class BackupType {
+  static const user = BackupType._('USER');
+  static const system = BackupType._('SYSTEM');
+  static const awsBackup = BackupType._('AWS_BACKUP');
+
+  final String value;
+
+  const BackupType._(this.value);
+
+  static const values = [user, system, awsBackup];
+
+  static BackupType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BackupType._(value));
+
+  @override
+  bool operator ==(other) => other is BackupType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class BackupTypeFilter {
+  static const user = BackupTypeFilter._('USER');
+  static const system = BackupTypeFilter._('SYSTEM');
+  static const awsBackup = BackupTypeFilter._('AWS_BACKUP');
+  static const all = BackupTypeFilter._('ALL');
+
+  final String value;
+
+  const BackupTypeFilter._(this.value);
+
+  static const values = [user, system, awsBackup, all];
+
+  static BackupTypeFilter fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BackupTypeFilter._(value));
+
+  @override
+  bool operator ==(other) => other is BackupTypeFilter && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the properties of the table being imported into.
+class ImportTableDescription {
+  /// The client token that was provided for the import task. Reusing the client
+  /// token on retry makes a call to <code>ImportTable</code> idempotent.
+  final String? clientToken;
+
+  /// The Amazon Resource Number (ARN) of the Cloudwatch Log Group associated with
+  /// the target table.
+  final String? cloudWatchLogGroupArn;
+
+  /// The time at which the creation of the table associated with this import task
+  /// completed.
+  final DateTime? endTime;
+
+  /// The number of errors occurred on importing the source file into the target
+  /// table.
+  final int? errorCount;
+
+  /// The error code corresponding to the failure that the import job ran into
+  /// during execution.
+  final String? failureCode;
+
+  /// The error message corresponding to the failure that the import job ran into
+  /// during execution.
+  final String? failureMessage;
+
+  /// The Amazon Resource Number (ARN) corresponding to the import request.
+  final String? importArn;
+
+  /// The status of the import.
+  final ImportStatus? importStatus;
+
+  /// The number of items successfully imported into the new table.
+  final int? importedItemCount;
+
+  /// The compression options for the data that has been imported into the target
+  /// table. The values are NONE, GZIP, or ZSTD.
+  final InputCompressionType? inputCompressionType;
+
+  /// The format of the source data going into the target table.
+  final InputFormat? inputFormat;
+
+  /// The format options for the data that was imported into the target table.
+  /// There is one value, CsvOption.
+  final InputFormatOptions? inputFormatOptions;
+
+  /// The total number of items processed from the source file.
+  final int? processedItemCount;
+
+  /// The total size of data processed from the source file, in Bytes.
+  final int? processedSizeBytes;
+
+  /// Values for the S3 bucket the source file is imported from. Includes bucket
+  /// name (required), key prefix (optional) and bucket account owner ID
+  /// (optional).
+  final S3BucketSource? s3BucketSource;
+
+  /// The time when this import task started.
+  final DateTime? startTime;
+
+  /// The Amazon Resource Number (ARN) of the table being imported into.
+  final String? tableArn;
+
+  /// The parameters for the new table that is being imported into.
+  final TableCreationParameters? tableCreationParameters;
+
+  /// The table id corresponding to the table created by import table process.
+  final String? tableId;
+
+  ImportTableDescription({
+    this.clientToken,
+    this.cloudWatchLogGroupArn,
+    this.endTime,
+    this.errorCount,
+    this.failureCode,
+    this.failureMessage,
+    this.importArn,
+    this.importStatus,
+    this.importedItemCount,
+    this.inputCompressionType,
+    this.inputFormat,
+    this.inputFormatOptions,
+    this.processedItemCount,
+    this.processedSizeBytes,
+    this.s3BucketSource,
+    this.startTime,
+    this.tableArn,
+    this.tableCreationParameters,
+    this.tableId,
+  });
+
+  factory ImportTableDescription.fromJson(Map<String, dynamic> json) {
+    return ImportTableDescription(
+      clientToken: json['ClientToken'] as String?,
+      cloudWatchLogGroupArn: json['CloudWatchLogGroupArn'] as String?,
+      endTime: timeStampFromJson(json['EndTime']),
+      errorCount: json['ErrorCount'] as int?,
+      failureCode: json['FailureCode'] as String?,
+      failureMessage: json['FailureMessage'] as String?,
+      importArn: json['ImportArn'] as String?,
+      importStatus:
+          (json['ImportStatus'] as String?)?.let(ImportStatus.fromString),
+      importedItemCount: json['ImportedItemCount'] as int?,
+      inputCompressionType: (json['InputCompressionType'] as String?)
+          ?.let(InputCompressionType.fromString),
+      inputFormat:
+          (json['InputFormat'] as String?)?.let(InputFormat.fromString),
+      inputFormatOptions: json['InputFormatOptions'] != null
+          ? InputFormatOptions.fromJson(
+              json['InputFormatOptions'] as Map<String, dynamic>)
+          : null,
+      processedItemCount: json['ProcessedItemCount'] as int?,
+      processedSizeBytes: json['ProcessedSizeBytes'] as int?,
+      s3BucketSource: json['S3BucketSource'] != null
+          ? S3BucketSource.fromJson(
+              json['S3BucketSource'] as Map<String, dynamic>)
+          : null,
+      startTime: timeStampFromJson(json['StartTime']),
+      tableArn: json['TableArn'] as String?,
+      tableCreationParameters: json['TableCreationParameters'] != null
+          ? TableCreationParameters.fromJson(
+              json['TableCreationParameters'] as Map<String, dynamic>)
+          : null,
+      tableId: json['TableId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clientToken = this.clientToken;
+    final cloudWatchLogGroupArn = this.cloudWatchLogGroupArn;
+    final endTime = this.endTime;
+    final errorCount = this.errorCount;
+    final failureCode = this.failureCode;
+    final failureMessage = this.failureMessage;
+    final importArn = this.importArn;
+    final importStatus = this.importStatus;
+    final importedItemCount = this.importedItemCount;
+    final inputCompressionType = this.inputCompressionType;
+    final inputFormat = this.inputFormat;
+    final inputFormatOptions = this.inputFormatOptions;
+    final processedItemCount = this.processedItemCount;
+    final processedSizeBytes = this.processedSizeBytes;
+    final s3BucketSource = this.s3BucketSource;
+    final startTime = this.startTime;
+    final tableArn = this.tableArn;
+    final tableCreationParameters = this.tableCreationParameters;
+    final tableId = this.tableId;
+    return {
+      if (clientToken != null) 'ClientToken': clientToken,
+      if (cloudWatchLogGroupArn != null)
+        'CloudWatchLogGroupArn': cloudWatchLogGroupArn,
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (errorCount != null) 'ErrorCount': errorCount,
+      if (failureCode != null) 'FailureCode': failureCode,
+      if (failureMessage != null) 'FailureMessage': failureMessage,
+      if (importArn != null) 'ImportArn': importArn,
+      if (importStatus != null) 'ImportStatus': importStatus.value,
+      if (importedItemCount != null) 'ImportedItemCount': importedItemCount,
+      if (inputCompressionType != null)
+        'InputCompressionType': inputCompressionType.value,
+      if (inputFormat != null) 'InputFormat': inputFormat.value,
+      if (inputFormatOptions != null) 'InputFormatOptions': inputFormatOptions,
+      if (processedItemCount != null) 'ProcessedItemCount': processedItemCount,
+      if (processedSizeBytes != null) 'ProcessedSizeBytes': processedSizeBytes,
+      if (s3BucketSource != null) 'S3BucketSource': s3BucketSource,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (tableArn != null) 'TableArn': tableArn,
+      if (tableCreationParameters != null)
+        'TableCreationParameters': tableCreationParameters,
+      if (tableId != null) 'TableId': tableId,
+    };
+  }
+}
+
+/// The format options for the data that was imported into the target table.
+/// There is one value, CsvOption.
+class InputFormatOptions {
+  /// The options for imported source files in CSV format. The values are
+  /// Delimiter and HeaderList.
+  final CsvOptions? csv;
+
+  InputFormatOptions({
+    this.csv,
+  });
+
+  factory InputFormatOptions.fromJson(Map<String, dynamic> json) {
+    return InputFormatOptions(
+      csv: json['Csv'] != null
+          ? CsvOptions.fromJson(json['Csv'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final csv = this.csv;
+    return {
+      if (csv != null) 'Csv': csv,
+    };
+  }
+}
+
+class InputCompressionType {
+  static const gzip = InputCompressionType._('GZIP');
+  static const zstd = InputCompressionType._('ZSTD');
+  static const none = InputCompressionType._('NONE');
+
+  final String value;
+
+  const InputCompressionType._(this.value);
+
+  static const values = [gzip, zstd, none];
+
+  static InputCompressionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InputCompressionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InputCompressionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The parameters for the table created as part of the import operation.
+class TableCreationParameters {
+  /// The attributes of the table created as part of the import operation.
+  final List<AttributeDefinition> attributeDefinitions;
+
+  /// The primary key and option sort key of the table created as part of the
+  /// import operation.
+  final List<KeySchemaElement> keySchema;
+
+  /// The name of the table created as part of the import operation.
+  final String tableName;
+
+  /// The billing mode for provisioning the table created as part of the import
+  /// operation.
+  final BillingMode? billingMode;
+
+  /// The Global Secondary Indexes (GSI) of the table to be created as part of the
+  /// import operation.
+  final List<GlobalSecondaryIndex>? globalSecondaryIndexes;
+  final OnDemandThroughput? onDemandThroughput;
+  final ProvisionedThroughput? provisionedThroughput;
+  final SSESpecification? sSESpecification;
+
+  TableCreationParameters({
+    required this.attributeDefinitions,
+    required this.keySchema,
+    required this.tableName,
+    this.billingMode,
+    this.globalSecondaryIndexes,
+    this.onDemandThroughput,
+    this.provisionedThroughput,
+    this.sSESpecification,
+  });
+
+  factory TableCreationParameters.fromJson(Map<String, dynamic> json) {
+    return TableCreationParameters(
+      attributeDefinitions: ((json['AttributeDefinitions'] as List?) ??
+              const [])
+          .nonNulls
+          .map((e) => AttributeDefinition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      keySchema: ((json['KeySchema'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tableName: (json['TableName'] as String?) ?? '',
+      billingMode:
+          (json['BillingMode'] as String?)?.let(BillingMode.fromString),
+      globalSecondaryIndexes: (json['GlobalSecondaryIndexes'] as List?)
+          ?.nonNulls
+          .map((e) => GlobalSecondaryIndex.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      onDemandThroughput: json['OnDemandThroughput'] != null
+          ? OnDemandThroughput.fromJson(
+              json['OnDemandThroughput'] as Map<String, dynamic>)
+          : null,
+      provisionedThroughput: json['ProvisionedThroughput'] != null
+          ? ProvisionedThroughput.fromJson(
+              json['ProvisionedThroughput'] as Map<String, dynamic>)
+          : null,
+      sSESpecification: json['SSESpecification'] != null
+          ? SSESpecification.fromJson(
+              json['SSESpecification'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeDefinitions = this.attributeDefinitions;
+    final keySchema = this.keySchema;
+    final tableName = this.tableName;
+    final billingMode = this.billingMode;
+    final globalSecondaryIndexes = this.globalSecondaryIndexes;
+    final onDemandThroughput = this.onDemandThroughput;
+    final provisionedThroughput = this.provisionedThroughput;
+    final sSESpecification = this.sSESpecification;
+    return {
+      'AttributeDefinitions': attributeDefinitions,
+      'KeySchema': keySchema,
+      'TableName': tableName,
+      if (billingMode != null) 'BillingMode': billingMode.value,
+      if (globalSecondaryIndexes != null)
+        'GlobalSecondaryIndexes': globalSecondaryIndexes,
+      if (onDemandThroughput != null) 'OnDemandThroughput': onDemandThroughput,
+      if (provisionedThroughput != null)
+        'ProvisionedThroughput': provisionedThroughput,
+      if (sSESpecification != null) 'SSESpecification': sSESpecification,
+    };
+  }
+}
+
+/// Processing options for the CSV file being imported.
+class CsvOptions {
+  /// The delimiter used for separating items in the CSV file being imported.
+  final String? delimiter;
+
+  /// List of the headers used to specify a common header for all source CSV files
+  /// being imported. If this field is specified then the first line of each CSV
+  /// file is treated as data instead of the header. If this field is not
+  /// specified the the first line of each CSV file is treated as the header.
+  final List<String>? headerList;
+
+  CsvOptions({
+    this.delimiter,
+    this.headerList,
+  });
+
+  factory CsvOptions.fromJson(Map<String, dynamic> json) {
+    return CsvOptions(
+      delimiter: json['Delimiter'] as String?,
+      headerList: (json['HeaderList'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final delimiter = this.delimiter;
+    final headerList = this.headerList;
+    return {
+      if (delimiter != null) 'Delimiter': delimiter,
+      if (headerList != null) 'HeaderList': headerList,
+    };
+  }
+}
+
+/// Represents the properties of the exported table.
+class ExportDescription {
+  /// The billable size of the table export.
+  final int? billedSizeBytes;
+
+  /// The client token that was provided for the export task. A client token makes
+  /// calls to <code>ExportTableToPointInTimeInput</code> idempotent, meaning that
+  /// multiple identical calls have the same effect as one single call.
+  final String? clientToken;
+
+  /// The time at which the export task completed.
+  final DateTime? endTime;
+
+  /// The Amazon Resource Name (ARN) of the table export.
+  final String? exportArn;
+
+  /// The format of the exported data. Valid values for <code>ExportFormat</code>
+  /// are <code>DYNAMODB_JSON</code> or <code>ION</code>.
+  final ExportFormat? exportFormat;
+
+  /// The name of the manifest file for the export task.
+  final String? exportManifest;
+
+  /// Export can be in one of the following states: IN_PROGRESS, COMPLETED, or
+  /// FAILED.
+  final ExportStatus? exportStatus;
+
+  /// Point in time from which table data was exported.
+  final DateTime? exportTime;
+
+  /// The type of export that was performed. Valid values are
+  /// <code>FULL_EXPORT</code> or <code>INCREMENTAL_EXPORT</code>.
+  final ExportType? exportType;
+
+  /// Status code for the result of the failed export.
+  final String? failureCode;
+
+  /// Export failure reason description.
+  final String? failureMessage;
+
+  /// Optional object containing the parameters specific to an incremental export.
+  final IncrementalExportSpecification? incrementalExportSpecification;
+
+  /// The number of items exported.
+  final int? itemCount;
+
+  /// The name of the Amazon S3 bucket containing the export.
+  final String? s3Bucket;
+
+  /// The ID of the Amazon Web Services account that owns the bucket containing
+  /// the export.
+  final String? s3BucketOwner;
+
+  /// The Amazon S3 bucket prefix used as the file name and path of the exported
+  /// snapshot.
+  final String? s3Prefix;
+
+  /// Type of encryption used on the bucket where export data is stored. Valid
+  /// values for <code>S3SseAlgorithm</code> are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AES256</code> - server-side encryption with Amazon S3 managed keys
+  /// </li>
+  /// <li>
+  /// <code>KMS</code> - server-side encryption with KMS managed keys
+  /// </li>
+  /// </ul>
+  final S3SseAlgorithm? s3SseAlgorithm;
+
+  /// The ID of the KMS managed key used to encrypt the S3 bucket where export
+  /// data is stored (if applicable).
+  final String? s3SseKmsKeyId;
+
+  /// The time at which the export task began.
+  final DateTime? startTime;
+
+  /// The Amazon Resource Name (ARN) of the table that was exported.
+  final String? tableArn;
+
+  /// Unique ID of the table that was exported.
+  final String? tableId;
+
+  ExportDescription({
+    this.billedSizeBytes,
+    this.clientToken,
+    this.endTime,
+    this.exportArn,
+    this.exportFormat,
+    this.exportManifest,
+    this.exportStatus,
+    this.exportTime,
+    this.exportType,
+    this.failureCode,
+    this.failureMessage,
+    this.incrementalExportSpecification,
+    this.itemCount,
+    this.s3Bucket,
+    this.s3BucketOwner,
+    this.s3Prefix,
+    this.s3SseAlgorithm,
+    this.s3SseKmsKeyId,
+    this.startTime,
+    this.tableArn,
+    this.tableId,
+  });
+
+  factory ExportDescription.fromJson(Map<String, dynamic> json) {
+    return ExportDescription(
+      billedSizeBytes: json['BilledSizeBytes'] as int?,
+      clientToken: json['ClientToken'] as String?,
+      endTime: timeStampFromJson(json['EndTime']),
+      exportArn: json['ExportArn'] as String?,
+      exportFormat:
+          (json['ExportFormat'] as String?)?.let(ExportFormat.fromString),
+      exportManifest: json['ExportManifest'] as String?,
+      exportStatus:
+          (json['ExportStatus'] as String?)?.let(ExportStatus.fromString),
+      exportTime: timeStampFromJson(json['ExportTime']),
+      exportType: (json['ExportType'] as String?)?.let(ExportType.fromString),
+      failureCode: json['FailureCode'] as String?,
+      failureMessage: json['FailureMessage'] as String?,
+      incrementalExportSpecification: json['IncrementalExportSpecification'] !=
+              null
+          ? IncrementalExportSpecification.fromJson(
+              json['IncrementalExportSpecification'] as Map<String, dynamic>)
+          : null,
+      itemCount: json['ItemCount'] as int?,
+      s3Bucket: json['S3Bucket'] as String?,
+      s3BucketOwner: json['S3BucketOwner'] as String?,
+      s3Prefix: json['S3Prefix'] as String?,
+      s3SseAlgorithm:
+          (json['S3SseAlgorithm'] as String?)?.let(S3SseAlgorithm.fromString),
+      s3SseKmsKeyId: json['S3SseKmsKeyId'] as String?,
+      startTime: timeStampFromJson(json['StartTime']),
+      tableArn: json['TableArn'] as String?,
+      tableId: json['TableId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final billedSizeBytes = this.billedSizeBytes;
+    final clientToken = this.clientToken;
+    final endTime = this.endTime;
+    final exportArn = this.exportArn;
+    final exportFormat = this.exportFormat;
+    final exportManifest = this.exportManifest;
+    final exportStatus = this.exportStatus;
+    final exportTime = this.exportTime;
+    final exportType = this.exportType;
+    final failureCode = this.failureCode;
+    final failureMessage = this.failureMessage;
+    final incrementalExportSpecification = this.incrementalExportSpecification;
+    final itemCount = this.itemCount;
+    final s3Bucket = this.s3Bucket;
+    final s3BucketOwner = this.s3BucketOwner;
+    final s3Prefix = this.s3Prefix;
+    final s3SseAlgorithm = this.s3SseAlgorithm;
+    final s3SseKmsKeyId = this.s3SseKmsKeyId;
+    final startTime = this.startTime;
+    final tableArn = this.tableArn;
+    final tableId = this.tableId;
+    return {
+      if (billedSizeBytes != null) 'BilledSizeBytes': billedSizeBytes,
+      if (clientToken != null) 'ClientToken': clientToken,
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (exportArn != null) 'ExportArn': exportArn,
+      if (exportFormat != null) 'ExportFormat': exportFormat.value,
+      if (exportManifest != null) 'ExportManifest': exportManifest,
+      if (exportStatus != null) 'ExportStatus': exportStatus.value,
+      if (exportTime != null) 'ExportTime': unixTimestampToJson(exportTime),
+      if (exportType != null) 'ExportType': exportType.value,
+      if (failureCode != null) 'FailureCode': failureCode,
+      if (failureMessage != null) 'FailureMessage': failureMessage,
+      if (incrementalExportSpecification != null)
+        'IncrementalExportSpecification': incrementalExportSpecification,
+      if (itemCount != null) 'ItemCount': itemCount,
+      if (s3Bucket != null) 'S3Bucket': s3Bucket,
+      if (s3BucketOwner != null) 'S3BucketOwner': s3BucketOwner,
+      if (s3Prefix != null) 'S3Prefix': s3Prefix,
+      if (s3SseAlgorithm != null) 'S3SseAlgorithm': s3SseAlgorithm.value,
+      if (s3SseKmsKeyId != null) 'S3SseKmsKeyId': s3SseKmsKeyId,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (tableArn != null) 'TableArn': tableArn,
+      if (tableId != null) 'TableId': tableId,
+    };
+  }
+}
+
 class S3SseAlgorithm {
   static const aes256 = S3SseAlgorithm._('AES256');
   static const kms = S3SseAlgorithm._('KMS');
@@ -13766,143 +15548,21 @@ class S3SseAlgorithm {
   String toString() => value;
 }
 
-/// The description of the server-side encryption status on the specified table.
-class SSEDescription {
-  /// Indicates the time, in UNIX epoch date format, when DynamoDB detected that
-  /// the table's KMS key was inaccessible. This attribute will automatically be
-  /// cleared when DynamoDB detects that the table's KMS key is accessible again.
-  /// DynamoDB will initiate the table archival process when table's KMS key
-  /// remains inaccessible for more than seven days from this date.
-  final DateTime? inaccessibleEncryptionDateTime;
-
-  /// The KMS key ARN used for the KMS encryption.
-  final String? kMSMasterKeyArn;
-
-  /// Server-side encryption type. The only supported value is:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>KMS</code> - Server-side encryption that uses Key Management Service.
-  /// The key is stored in your account and is managed by KMS (KMS charges apply).
-  /// </li>
-  /// </ul>
-  final SSEType? sSEType;
-
-  /// Represents the current state of server-side encryption. The only supported
-  /// values are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ENABLED</code> - Server-side encryption is enabled.
-  /// </li>
-  /// <li>
-  /// <code>UPDATING</code> - Server-side encryption is being updated.
-  /// </li>
-  /// </ul>
-  final SSEStatus? status;
-
-  SSEDescription({
-    this.inaccessibleEncryptionDateTime,
-    this.kMSMasterKeyArn,
-    this.sSEType,
-    this.status,
-  });
-
-  factory SSEDescription.fromJson(Map<String, dynamic> json) {
-    return SSEDescription(
-      inaccessibleEncryptionDateTime:
-          timeStampFromJson(json['InaccessibleEncryptionDateTime']),
-      kMSMasterKeyArn: json['KMSMasterKeyArn'] as String?,
-      sSEType: (json['SSEType'] as String?)?.let(SSEType.fromString),
-      status: (json['Status'] as String?)?.let(SSEStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final inaccessibleEncryptionDateTime = this.inaccessibleEncryptionDateTime;
-    final kMSMasterKeyArn = this.kMSMasterKeyArn;
-    final sSEType = this.sSEType;
-    final status = this.status;
-    return {
-      if (inaccessibleEncryptionDateTime != null)
-        'InaccessibleEncryptionDateTime':
-            unixTimestampToJson(inaccessibleEncryptionDateTime),
-      if (kMSMasterKeyArn != null) 'KMSMasterKeyArn': kMSMasterKeyArn,
-      if (sSEType != null) 'SSEType': sSEType.value,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-/// Represents the settings used to enable server-side encryption.
-class SSESpecification {
-  /// Indicates whether server-side encryption is done using an Amazon Web
-  /// Services managed key or an Amazon Web Services owned key. If enabled (true),
-  /// server-side encryption type is set to <code>KMS</code> and an Amazon Web
-  /// Services managed key is used (KMS charges apply). If disabled (false) or not
-  /// specified, server-side encryption is set to Amazon Web Services owned key.
-  final bool? enabled;
-
-  /// The KMS key that should be used for the KMS encryption. To specify a key,
-  /// use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. Note
-  /// that you should only provide this parameter if the key is different from the
-  /// default DynamoDB key <code>alias/aws/dynamodb</code>.
-  final String? kMSMasterKeyId;
-
-  /// Server-side encryption type. The only supported value is:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>KMS</code> - Server-side encryption that uses Key Management Service.
-  /// The key is stored in your account and is managed by KMS (KMS charges apply).
-  /// </li>
-  /// </ul>
-  final SSEType? sSEType;
-
-  SSESpecification({
-    this.enabled,
-    this.kMSMasterKeyId,
-    this.sSEType,
-  });
-
-  factory SSESpecification.fromJson(Map<String, dynamic> json) {
-    return SSESpecification(
-      enabled: json['Enabled'] as bool?,
-      kMSMasterKeyId: json['KMSMasterKeyId'] as String?,
-      sSEType: (json['SSEType'] as String?)?.let(SSEType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final enabled = this.enabled;
-    final kMSMasterKeyId = this.kMSMasterKeyId;
-    final sSEType = this.sSEType;
-    return {
-      if (enabled != null) 'Enabled': enabled,
-      if (kMSMasterKeyId != null) 'KMSMasterKeyId': kMSMasterKeyId,
-      if (sSEType != null) 'SSEType': sSEType.value,
-    };
-  }
-}
-
-class SSEStatus {
-  static const enabling = SSEStatus._('ENABLING');
-  static const enabled = SSEStatus._('ENABLED');
-  static const disabling = SSEStatus._('DISABLING');
-  static const disabled = SSEStatus._('DISABLED');
-  static const updating = SSEStatus._('UPDATING');
+class ExportFormat {
+  static const dynamodbJson = ExportFormat._('DYNAMODB_JSON');
+  static const ion = ExportFormat._('ION');
 
   final String value;
 
-  const SSEStatus._(this.value);
+  const ExportFormat._(this.value);
 
-  static const values = [enabling, enabled, disabling, disabled, updating];
+  static const values = [dynamodbJson, ion];
 
-  static SSEStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SSEStatus._(value));
+  static ExportFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ExportFormat._(value));
 
   @override
-  bool operator ==(other) => other is SSEStatus && other.value == value;
+  bool operator ==(other) => other is ExportFormat && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -13911,47 +15571,71 @@ class SSEStatus {
   String toString() => value;
 }
 
-class SSEType {
-  static const aes256 = SSEType._('AES256');
-  static const kms = SSEType._('KMS');
+/// Optional object containing the parameters specific to an incremental export.
+class IncrementalExportSpecification {
+  /// Time in the past which provides the inclusive start range for the export
+  /// table's data, counted in seconds from the start of the Unix epoch. The
+  /// incremental export will reflect the table's state including and after this
+  /// point in time.
+  final DateTime? exportFromTime;
 
-  final String value;
+  /// Time in the past which provides the exclusive end range for the export
+  /// table's data, counted in seconds from the start of the Unix epoch. The
+  /// incremental export will reflect the table's state just prior to this point
+  /// in time. If this is not provided, the latest time with data available will
+  /// be used.
+  final DateTime? exportToTime;
 
-  const SSEType._(this.value);
+  /// The view type that was chosen for the export. Valid values are
+  /// <code>NEW_AND_OLD_IMAGES</code> and <code>NEW_IMAGES</code>. The default
+  /// value is <code>NEW_AND_OLD_IMAGES</code>.
+  final ExportViewType? exportViewType;
 
-  static const values = [aes256, kms];
+  IncrementalExportSpecification({
+    this.exportFromTime,
+    this.exportToTime,
+    this.exportViewType,
+  });
 
-  static SSEType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SSEType._(value));
+  factory IncrementalExportSpecification.fromJson(Map<String, dynamic> json) {
+    return IncrementalExportSpecification(
+      exportFromTime: timeStampFromJson(json['ExportFromTime']),
+      exportToTime: timeStampFromJson(json['ExportToTime']),
+      exportViewType:
+          (json['ExportViewType'] as String?)?.let(ExportViewType.fromString),
+    );
+  }
 
-  @override
-  bool operator ==(other) => other is SSEType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final exportFromTime = this.exportFromTime;
+    final exportToTime = this.exportToTime;
+    final exportViewType = this.exportViewType;
+    return {
+      if (exportFromTime != null)
+        'ExportFromTime': unixTimestampToJson(exportFromTime),
+      if (exportToTime != null)
+        'ExportToTime': unixTimestampToJson(exportToTime),
+      if (exportViewType != null) 'ExportViewType': exportViewType.value,
+    };
+  }
 }
 
-class ScalarAttributeType {
-  static const s = ScalarAttributeType._('S');
-  static const n = ScalarAttributeType._('N');
-  static const b = ScalarAttributeType._('B');
+class ExportViewType {
+  static const newImage = ExportViewType._('NEW_IMAGE');
+  static const newAndOldImages = ExportViewType._('NEW_AND_OLD_IMAGES');
 
   final String value;
 
-  const ScalarAttributeType._(this.value);
+  const ExportViewType._(this.value);
 
-  static const values = [s, n, b];
+  static const values = [newImage, newAndOldImages];
 
-  static ScalarAttributeType fromString(String value) =>
+  static ExportViewType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => ScalarAttributeType._(value));
+          orElse: () => ExportViewType._(value));
 
   @override
-  bool operator ==(other) =>
-      other is ScalarAttributeType && other.value == value;
+  bool operator ==(other) => other is ExportViewType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -13960,129 +15644,384 @@ class ScalarAttributeType {
   String toString() => value;
 }
 
-/// Represents the output of a <code>Scan</code> operation.
-class ScanOutput {
-  /// The capacity units consumed by the <code>Scan</code> operation. The data
-  /// returned includes the total provisioned throughput consumed, along with
-  /// statistics for the table and any indexes involved in the operation.
-  /// <code>ConsumedCapacity</code> is only returned if the
-  /// <code>ReturnConsumedCapacity</code> parameter was specified. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/read-write-operations.html#read-operation-consumption">Capacity
-  /// unit consumption for read operations</a> in the <i>Amazon DynamoDB Developer
-  /// Guide</i>.
-  final ConsumedCapacity? consumedCapacity;
+/// Represents a PartiQL statement that uses parameters.
+class ParameterizedStatement {
+  /// A PartiQL statement that uses parameters.
+  final String statement;
 
-  /// The number of items in the response.
-  ///
-  /// If you set <code>ScanFilter</code> in the request, then <code>Count</code>
-  /// is the number of items returned after the filter was applied, and
-  /// <code>ScannedCount</code> is the number of matching items before the filter
-  /// was applied.
-  ///
-  /// If you did not use a filter in the request, then <code>Count</code> is the
-  /// same as <code>ScannedCount</code>.
-  final int? count;
+  /// The parameter values.
+  final List<AttributeValue>? parameters;
 
-  /// An array of item attributes that match the scan criteria. Each element in
-  /// this array consists of an attribute name and the value for that attribute.
-  final List<Map<String, AttributeValue>>? items;
-
-  /// The primary key of the item where the operation stopped, inclusive of the
-  /// previous result set. Use this value to start a new operation, excluding this
-  /// value in the new request.
+  /// An optional parameter that returns the item attributes for a PartiQL
+  /// <code>ParameterizedStatement</code> operation that failed a condition check.
   ///
-  /// If <code>LastEvaluatedKey</code> is empty, then the "last page" of results
-  /// has been processed and there is no more data to be retrieved.
-  ///
-  /// If <code>LastEvaluatedKey</code> is not empty, it does not necessarily mean
-  /// that there is more data in the result set. The only way to know when you
-  /// have reached the end of the result set is when <code>LastEvaluatedKey</code>
-  /// is empty.
-  final Map<String, AttributeValue>? lastEvaluatedKey;
+  /// There is no additional cost associated with requesting a return value aside
+  /// from the small network and processing overhead of receiving a larger
+  /// response. No read capacity units are consumed.
+  final ReturnValuesOnConditionCheckFailure?
+      returnValuesOnConditionCheckFailure;
 
-  /// The number of items evaluated, before any <code>ScanFilter</code> is
-  /// applied. A high <code>ScannedCount</code> value with few, or no,
-  /// <code>Count</code> results indicates an inefficient <code>Scan</code>
-  /// operation. For more information, see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/QueryAndScan.html#Count">Count
-  /// and ScannedCount</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-  ///
-  /// If you did not use a filter in the request, then <code>ScannedCount</code>
-  /// is the same as <code>Count</code>.
-  final int? scannedCount;
-
-  ScanOutput({
-    this.consumedCapacity,
-    this.count,
-    this.items,
-    this.lastEvaluatedKey,
-    this.scannedCount,
+  ParameterizedStatement({
+    required this.statement,
+    this.parameters,
+    this.returnValuesOnConditionCheckFailure,
   });
 
-  factory ScanOutput.fromJson(Map<String, dynamic> json) {
-    return ScanOutput(
-      consumedCapacity: json['ConsumedCapacity'] != null
-          ? ConsumedCapacity.fromJson(
-              json['ConsumedCapacity'] as Map<String, dynamic>)
-          : null,
-      count: json['Count'] as int?,
-      items: (json['Items'] as List?)
-          ?.nonNulls
-          .map((e) => (e as Map<String, dynamic>).map((k, e) =>
-              MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))))
-          .toList(),
-      lastEvaluatedKey: (json['LastEvaluatedKey'] as Map<String, dynamic>?)
-          ?.map((k, e) =>
-              MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
-      scannedCount: json['ScannedCount'] as int?,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final consumedCapacity = this.consumedCapacity;
-    final count = this.count;
-    final items = this.items;
-    final lastEvaluatedKey = this.lastEvaluatedKey;
-    final scannedCount = this.scannedCount;
+    final statement = this.statement;
+    final parameters = this.parameters;
+    final returnValuesOnConditionCheckFailure =
+        this.returnValuesOnConditionCheckFailure;
     return {
-      if (consumedCapacity != null) 'ConsumedCapacity': consumedCapacity,
-      if (count != null) 'Count': count,
-      if (items != null) 'Items': items,
-      if (lastEvaluatedKey != null) 'LastEvaluatedKey': lastEvaluatedKey,
-      if (scannedCount != null) 'ScannedCount': scannedCount,
+      'Statement': statement,
+      if (parameters != null) 'Parameters': parameters,
+      if (returnValuesOnConditionCheckFailure != null)
+        'ReturnValuesOnConditionCheckFailure':
+            returnValuesOnConditionCheckFailure.value,
     };
   }
 }
 
-class Select {
-  static const allAttributes = Select._('ALL_ATTRIBUTES');
-  static const allProjectedAttributes = Select._('ALL_PROJECTED_ATTRIBUTES');
-  static const specificAttributes = Select._('SPECIFIC_ATTRIBUTES');
-  static const count = Select._('COUNT');
+/// Enables setting the configuration for Kinesis Streaming.
+class EnableKinesisStreamingConfiguration {
+  /// Toggle for the precision of Kinesis data stream timestamp. The values are
+  /// either <code>MILLISECOND</code> or <code>MICROSECOND</code>.
+  final ApproximateCreationDateTimePrecision?
+      approximateCreationDateTimePrecision;
+
+  EnableKinesisStreamingConfiguration({
+    this.approximateCreationDateTimePrecision,
+  });
+
+  factory EnableKinesisStreamingConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return EnableKinesisStreamingConfiguration(
+      approximateCreationDateTimePrecision:
+          (json['ApproximateCreationDateTimePrecision'] as String?)
+              ?.let(ApproximateCreationDateTimePrecision.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approximateCreationDateTimePrecision =
+        this.approximateCreationDateTimePrecision;
+    return {
+      if (approximateCreationDateTimePrecision != null)
+        'ApproximateCreationDateTimePrecision':
+            approximateCreationDateTimePrecision.value,
+    };
+  }
+}
+
+/// The description of the Time to Live (TTL) status on the specified table.
+class TimeToLiveDescription {
+  /// The name of the TTL attribute for items in the table.
+  final String? attributeName;
+
+  /// The TTL status for the table.
+  final TimeToLiveStatus? timeToLiveStatus;
+
+  TimeToLiveDescription({
+    this.attributeName,
+    this.timeToLiveStatus,
+  });
+
+  factory TimeToLiveDescription.fromJson(Map<String, dynamic> json) {
+    return TimeToLiveDescription(
+      attributeName: json['AttributeName'] as String?,
+      timeToLiveStatus: (json['TimeToLiveStatus'] as String?)
+          ?.let(TimeToLiveStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeName = this.attributeName;
+    final timeToLiveStatus = this.timeToLiveStatus;
+    return {
+      if (attributeName != null) 'AttributeName': attributeName,
+      if (timeToLiveStatus != null) 'TimeToLiveStatus': timeToLiveStatus.value,
+    };
+  }
+}
+
+class TimeToLiveStatus {
+  static const enabling = TimeToLiveStatus._('ENABLING');
+  static const disabling = TimeToLiveStatus._('DISABLING');
+  static const enabled = TimeToLiveStatus._('ENABLED');
+  static const disabled = TimeToLiveStatus._('DISABLED');
 
   final String value;
 
-  const Select._(this.value);
+  const TimeToLiveStatus._(this.value);
 
-  static const values = [
-    allAttributes,
-    allProjectedAttributes,
-    specificAttributes,
-    count
-  ];
+  static const values = [enabling, disabling, enabled, disabled];
 
-  static Select fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Select._(value));
+  static TimeToLiveStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TimeToLiveStatus._(value));
 
   @override
-  bool operator ==(other) => other is Select && other.value == value;
+  bool operator ==(other) => other is TimeToLiveStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
+}
+
+/// Describes a Kinesis data stream destination.
+class KinesisDataStreamDestination {
+  /// The precision of the Kinesis data stream timestamp. The values are either
+  /// <code>MILLISECOND</code> or <code>MICROSECOND</code>.
+  final ApproximateCreationDateTimePrecision?
+      approximateCreationDateTimePrecision;
+
+  /// The current status of replication.
+  final DestinationStatus? destinationStatus;
+
+  /// The human-readable string that corresponds to the replica status.
+  final String? destinationStatusDescription;
+
+  /// The ARN for a specific Kinesis data stream.
+  final String? streamArn;
+
+  KinesisDataStreamDestination({
+    this.approximateCreationDateTimePrecision,
+    this.destinationStatus,
+    this.destinationStatusDescription,
+    this.streamArn,
+  });
+
+  factory KinesisDataStreamDestination.fromJson(Map<String, dynamic> json) {
+    return KinesisDataStreamDestination(
+      approximateCreationDateTimePrecision:
+          (json['ApproximateCreationDateTimePrecision'] as String?)
+              ?.let(ApproximateCreationDateTimePrecision.fromString),
+      destinationStatus: (json['DestinationStatus'] as String?)
+          ?.let(DestinationStatus.fromString),
+      destinationStatusDescription:
+          json['DestinationStatusDescription'] as String?,
+      streamArn: json['StreamArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approximateCreationDateTimePrecision =
+        this.approximateCreationDateTimePrecision;
+    final destinationStatus = this.destinationStatus;
+    final destinationStatusDescription = this.destinationStatusDescription;
+    final streamArn = this.streamArn;
+    return {
+      if (approximateCreationDateTimePrecision != null)
+        'ApproximateCreationDateTimePrecision':
+            approximateCreationDateTimePrecision.value,
+      if (destinationStatus != null)
+        'DestinationStatus': destinationStatus.value,
+      if (destinationStatusDescription != null)
+        'DestinationStatusDescription': destinationStatusDescription,
+      if (streamArn != null) 'StreamArn': streamArn,
+    };
+  }
+}
+
+/// An endpoint information details.
+class Endpoint {
+  /// IP address of the endpoint.
+  final String address;
+
+  /// Endpoint cache time to live (TTL) value.
+  final int cachePeriodInMinutes;
+
+  Endpoint({
+    required this.address,
+    required this.cachePeriodInMinutes,
+  });
+
+  factory Endpoint.fromJson(Map<String, dynamic> json) {
+    return Endpoint(
+      address: (json['Address'] as String?) ?? '',
+      cachePeriodInMinutes: (json['CachePeriodInMinutes'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final address = this.address;
+    final cachePeriodInMinutes = this.cachePeriodInMinutes;
+    return {
+      'Address': address,
+      'CachePeriodInMinutes': cachePeriodInMinutes,
+    };
+  }
+}
+
+/// Represents a failure a contributor insights operation.
+class FailureException {
+  /// Description of the failure.
+  final String? exceptionDescription;
+
+  /// Exception name.
+  final String? exceptionName;
+
+  FailureException({
+    this.exceptionDescription,
+    this.exceptionName,
+  });
+
+  factory FailureException.fromJson(Map<String, dynamic> json) {
+    return FailureException(
+      exceptionDescription: json['ExceptionDescription'] as String?,
+      exceptionName: json['ExceptionName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final exceptionDescription = this.exceptionDescription;
+    final exceptionName = this.exceptionName;
+    return {
+      if (exceptionDescription != null)
+        'ExceptionDescription': exceptionDescription,
+      if (exceptionName != null) 'ExceptionName': exceptionName,
+    };
+  }
+}
+
+/// Contains the description of the backup created for the table.
+class BackupDescription {
+  /// Contains the details of the backup created for the table.
+  final BackupDetails? backupDetails;
+
+  /// Contains the details of the table when the backup was created.
+  final SourceTableDetails? sourceTableDetails;
+
+  /// Contains the details of the features enabled on the table when the backup
+  /// was created. For example, LSIs, GSIs, streams, TTL.
+  final SourceTableFeatureDetails? sourceTableFeatureDetails;
+
+  BackupDescription({
+    this.backupDetails,
+    this.sourceTableDetails,
+    this.sourceTableFeatureDetails,
+  });
+
+  factory BackupDescription.fromJson(Map<String, dynamic> json) {
+    return BackupDescription(
+      backupDetails: json['BackupDetails'] != null
+          ? BackupDetails.fromJson(
+              json['BackupDetails'] as Map<String, dynamic>)
+          : null,
+      sourceTableDetails: json['SourceTableDetails'] != null
+          ? SourceTableDetails.fromJson(
+              json['SourceTableDetails'] as Map<String, dynamic>)
+          : null,
+      sourceTableFeatureDetails: json['SourceTableFeatureDetails'] != null
+          ? SourceTableFeatureDetails.fromJson(
+              json['SourceTableFeatureDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final backupDetails = this.backupDetails;
+    final sourceTableDetails = this.sourceTableDetails;
+    final sourceTableFeatureDetails = this.sourceTableFeatureDetails;
+    return {
+      if (backupDetails != null) 'BackupDetails': backupDetails,
+      if (sourceTableDetails != null) 'SourceTableDetails': sourceTableDetails,
+      if (sourceTableFeatureDetails != null)
+        'SourceTableFeatureDetails': sourceTableFeatureDetails,
+    };
+  }
+}
+
+/// Contains the details of the backup created for the table.
+class BackupDetails {
+  /// ARN associated with the backup.
+  final String backupArn;
+
+  /// Time at which the backup was created. This is the request time of the
+  /// backup.
+  final DateTime backupCreationDateTime;
+
+  /// Name of the requested backup.
+  final String backupName;
+
+  /// Backup can be in one of the following states: CREATING, ACTIVE, DELETED.
+  final BackupStatus backupStatus;
+
+  /// BackupType:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>USER</code> - You create and manage these using the on-demand backup
+  /// feature.
+  /// </li>
+  /// <li>
+  /// <code>SYSTEM</code> - If you delete a table with point-in-time recovery
+  /// enabled, a <code>SYSTEM</code> backup is automatically created and is
+  /// retained for 35 days (at no additional cost). System backups allow you to
+  /// restore the deleted table to the state it was in just before the point of
+  /// deletion.
+  /// </li>
+  /// <li>
+  /// <code>AWS_BACKUP</code> - On-demand backup created by you from Backup
+  /// service.
+  /// </li>
+  /// </ul>
+  final BackupType backupType;
+
+  /// Time at which the automatic on-demand backup created by DynamoDB will
+  /// expire. This <code>SYSTEM</code> on-demand backup expires automatically 35
+  /// days after its creation.
+  final DateTime? backupExpiryDateTime;
+
+  /// Size of the backup in bytes. DynamoDB updates this value approximately every
+  /// six hours. Recent changes might not be reflected in this value.
+  final int? backupSizeBytes;
+
+  BackupDetails({
+    required this.backupArn,
+    required this.backupCreationDateTime,
+    required this.backupName,
+    required this.backupStatus,
+    required this.backupType,
+    this.backupExpiryDateTime,
+    this.backupSizeBytes,
+  });
+
+  factory BackupDetails.fromJson(Map<String, dynamic> json) {
+    return BackupDetails(
+      backupArn: (json['BackupArn'] as String?) ?? '',
+      backupCreationDateTime:
+          nonNullableTimeStampFromJson(json['BackupCreationDateTime'] ?? 0),
+      backupName: (json['BackupName'] as String?) ?? '',
+      backupStatus:
+          BackupStatus.fromString((json['BackupStatus'] as String?) ?? ''),
+      backupType: BackupType.fromString((json['BackupType'] as String?) ?? ''),
+      backupExpiryDateTime: timeStampFromJson(json['BackupExpiryDateTime']),
+      backupSizeBytes: json['BackupSizeBytes'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final backupArn = this.backupArn;
+    final backupCreationDateTime = this.backupCreationDateTime;
+    final backupName = this.backupName;
+    final backupStatus = this.backupStatus;
+    final backupType = this.backupType;
+    final backupExpiryDateTime = this.backupExpiryDateTime;
+    final backupSizeBytes = this.backupSizeBytes;
+    return {
+      'BackupArn': backupArn,
+      'BackupCreationDateTime': unixTimestampToJson(backupCreationDateTime),
+      'BackupName': backupName,
+      'BackupStatus': backupStatus.value,
+      'BackupType': backupType.value,
+      if (backupExpiryDateTime != null)
+        'BackupExpiryDateTime': unixTimestampToJson(backupExpiryDateTime),
+      if (backupSizeBytes != null) 'BackupSizeBytes': backupSizeBytes,
+    };
+  }
 }
 
 /// Contains the details of the table when the backup was created.
@@ -14270,437 +16209,14 @@ class SourceTableFeatureDetails {
   }
 }
 
-/// Represents the DynamoDB Streams configuration for a table in DynamoDB.
-class StreamSpecification {
-  /// Indicates whether DynamoDB Streams is enabled (true) or disabled (false) on
-  /// the table.
-  final bool streamEnabled;
+/// Represents the properties of a global secondary index for the table when the
+/// backup was created.
+class GlobalSecondaryIndexInfo {
+  /// The name of the global secondary index.
+  final String? indexName;
 
-  /// When an item in the table is modified, <code>StreamViewType</code>
-  /// determines what information is written to the stream for this table. Valid
-  /// values for <code>StreamViewType</code> are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>KEYS_ONLY</code> - Only the key attributes of the modified item are
-  /// written to the stream.
-  /// </li>
-  /// <li>
-  /// <code>NEW_IMAGE</code> - The entire item, as it appears after it was
-  /// modified, is written to the stream.
-  /// </li>
-  /// <li>
-  /// <code>OLD_IMAGE</code> - The entire item, as it appeared before it was
-  /// modified, is written to the stream.
-  /// </li>
-  /// <li>
-  /// <code>NEW_AND_OLD_IMAGES</code> - Both the new and the old item images of
-  /// the item are written to the stream.
-  /// </li>
-  /// </ul>
-  final StreamViewType? streamViewType;
-
-  StreamSpecification({
-    required this.streamEnabled,
-    this.streamViewType,
-  });
-
-  factory StreamSpecification.fromJson(Map<String, dynamic> json) {
-    return StreamSpecification(
-      streamEnabled: (json['StreamEnabled'] as bool?) ?? false,
-      streamViewType:
-          (json['StreamViewType'] as String?)?.let(StreamViewType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final streamEnabled = this.streamEnabled;
-    final streamViewType = this.streamViewType;
-    return {
-      'StreamEnabled': streamEnabled,
-      if (streamViewType != null) 'StreamViewType': streamViewType.value,
-    };
-  }
-}
-
-class StreamViewType {
-  static const newImage = StreamViewType._('NEW_IMAGE');
-  static const oldImage = StreamViewType._('OLD_IMAGE');
-  static const newAndOldImages = StreamViewType._('NEW_AND_OLD_IMAGES');
-  static const keysOnly = StreamViewType._('KEYS_ONLY');
-
-  final String value;
-
-  const StreamViewType._(this.value);
-
-  static const values = [newImage, oldImage, newAndOldImages, keysOnly];
-
-  static StreamViewType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => StreamViewType._(value));
-
-  @override
-  bool operator ==(other) => other is StreamViewType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents the auto scaling configuration for a global table.
-class TableAutoScalingDescription {
-  /// Represents replicas of the global table.
-  final List<ReplicaAutoScalingDescription>? replicas;
-
-  /// The name of the table.
-  final String? tableName;
-
-  /// The current state of the table:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>CREATING</code> - The table is being created.
-  /// </li>
-  /// <li>
-  /// <code>UPDATING</code> - The table is being updated.
-  /// </li>
-  /// <li>
-  /// <code>DELETING</code> - The table is being deleted.
-  /// </li>
-  /// <li>
-  /// <code>ACTIVE</code> - The table is ready for use.
-  /// </li>
-  /// </ul>
-  final TableStatus? tableStatus;
-
-  TableAutoScalingDescription({
-    this.replicas,
-    this.tableName,
-    this.tableStatus,
-  });
-
-  factory TableAutoScalingDescription.fromJson(Map<String, dynamic> json) {
-    return TableAutoScalingDescription(
-      replicas: (json['Replicas'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              ReplicaAutoScalingDescription.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      tableName: json['TableName'] as String?,
-      tableStatus:
-          (json['TableStatus'] as String?)?.let(TableStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final replicas = this.replicas;
-    final tableName = this.tableName;
-    final tableStatus = this.tableStatus;
-    return {
-      if (replicas != null) 'Replicas': replicas,
-      if (tableName != null) 'TableName': tableName,
-      if (tableStatus != null) 'TableStatus': tableStatus.value,
-    };
-  }
-}
-
-class TableClass {
-  static const standard = TableClass._('STANDARD');
-  static const standardInfrequentAccess =
-      TableClass._('STANDARD_INFREQUENT_ACCESS');
-
-  final String value;
-
-  const TableClass._(this.value);
-
-  static const values = [standard, standardInfrequentAccess];
-
-  static TableClass fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => TableClass._(value));
-
-  @override
-  bool operator ==(other) => other is TableClass && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains details of the table class.
-class TableClassSummary {
-  /// The date and time at which the table class was last updated.
-  final DateTime? lastUpdateDateTime;
-
-  /// The table class of the specified table. Valid values are
-  /// <code>STANDARD</code> and <code>STANDARD_INFREQUENT_ACCESS</code>.
-  final TableClass? tableClass;
-
-  TableClassSummary({
-    this.lastUpdateDateTime,
-    this.tableClass,
-  });
-
-  factory TableClassSummary.fromJson(Map<String, dynamic> json) {
-    return TableClassSummary(
-      lastUpdateDateTime: timeStampFromJson(json['LastUpdateDateTime']),
-      tableClass: (json['TableClass'] as String?)?.let(TableClass.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lastUpdateDateTime = this.lastUpdateDateTime;
-    final tableClass = this.tableClass;
-    return {
-      if (lastUpdateDateTime != null)
-        'LastUpdateDateTime': unixTimestampToJson(lastUpdateDateTime),
-      if (tableClass != null) 'TableClass': tableClass.value,
-    };
-  }
-}
-
-/// The parameters for the table created as part of the import operation.
-class TableCreationParameters {
-  /// The attributes of the table created as part of the import operation.
-  final List<AttributeDefinition> attributeDefinitions;
-
-  /// The primary key and option sort key of the table created as part of the
-  /// import operation.
-  final List<KeySchemaElement> keySchema;
-
-  /// The name of the table created as part of the import operation.
-  final String tableName;
-
-  /// The billing mode for provisioning the table created as part of the import
-  /// operation.
-  final BillingMode? billingMode;
-
-  /// The Global Secondary Indexes (GSI) of the table to be created as part of the
-  /// import operation.
-  final List<GlobalSecondaryIndex>? globalSecondaryIndexes;
-  final OnDemandThroughput? onDemandThroughput;
-  final ProvisionedThroughput? provisionedThroughput;
-  final SSESpecification? sSESpecification;
-
-  TableCreationParameters({
-    required this.attributeDefinitions,
-    required this.keySchema,
-    required this.tableName,
-    this.billingMode,
-    this.globalSecondaryIndexes,
-    this.onDemandThroughput,
-    this.provisionedThroughput,
-    this.sSESpecification,
-  });
-
-  factory TableCreationParameters.fromJson(Map<String, dynamic> json) {
-    return TableCreationParameters(
-      attributeDefinitions: ((json['AttributeDefinitions'] as List?) ??
-              const [])
-          .nonNulls
-          .map((e) => AttributeDefinition.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      keySchema: ((json['KeySchema'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      tableName: (json['TableName'] as String?) ?? '',
-      billingMode:
-          (json['BillingMode'] as String?)?.let(BillingMode.fromString),
-      globalSecondaryIndexes: (json['GlobalSecondaryIndexes'] as List?)
-          ?.nonNulls
-          .map((e) => GlobalSecondaryIndex.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      onDemandThroughput: json['OnDemandThroughput'] != null
-          ? OnDemandThroughput.fromJson(
-              json['OnDemandThroughput'] as Map<String, dynamic>)
-          : null,
-      provisionedThroughput: json['ProvisionedThroughput'] != null
-          ? ProvisionedThroughput.fromJson(
-              json['ProvisionedThroughput'] as Map<String, dynamic>)
-          : null,
-      sSESpecification: json['SSESpecification'] != null
-          ? SSESpecification.fromJson(
-              json['SSESpecification'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attributeDefinitions = this.attributeDefinitions;
-    final keySchema = this.keySchema;
-    final tableName = this.tableName;
-    final billingMode = this.billingMode;
-    final globalSecondaryIndexes = this.globalSecondaryIndexes;
-    final onDemandThroughput = this.onDemandThroughput;
-    final provisionedThroughput = this.provisionedThroughput;
-    final sSESpecification = this.sSESpecification;
-    return {
-      'AttributeDefinitions': attributeDefinitions,
-      'KeySchema': keySchema,
-      'TableName': tableName,
-      if (billingMode != null) 'BillingMode': billingMode.value,
-      if (globalSecondaryIndexes != null)
-        'GlobalSecondaryIndexes': globalSecondaryIndexes,
-      if (onDemandThroughput != null) 'OnDemandThroughput': onDemandThroughput,
-      if (provisionedThroughput != null)
-        'ProvisionedThroughput': provisionedThroughput,
-      if (sSESpecification != null) 'SSESpecification': sSESpecification,
-    };
-  }
-}
-
-/// Represents the properties of a table.
-class TableDescription {
-  /// Contains information about the table archive.
-  final ArchivalSummary? archivalSummary;
-
-  /// An array of <code>AttributeDefinition</code> objects. Each of these objects
-  /// describes one attribute in the table and index key schema.
-  ///
-  /// Each <code>AttributeDefinition</code> object in this array is composed of:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>AttributeName</code> - The name of the attribute.
-  /// </li>
-  /// <li>
-  /// <code>AttributeType</code> - The data type for the attribute.
-  /// </li>
-  /// </ul>
-  final List<AttributeDefinition>? attributeDefinitions;
-
-  /// Contains the details for the read/write capacity mode.
-  final BillingModeSummary? billingModeSummary;
-
-  /// The date and time when the table was created, in <a
-  /// href="http://www.epochconverter.com/">UNIX epoch time</a> format.
-  final DateTime? creationDateTime;
-
-  /// Indicates whether deletion protection is enabled (true) or disabled (false)
-  /// on the table.
-  final bool? deletionProtectionEnabled;
-
-  /// The global secondary indexes, if any, on the table. Each index is scoped to
-  /// a given partition key value. Each element is composed of:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>Backfilling</code> - If true, then the index is currently in the
-  /// backfilling phase. Backfilling occurs only when a new global secondary index
-  /// is added to the table. It is the process by which DynamoDB populates the new
-  /// index with data from the table. (This attribute does not appear for indexes
-  /// that were created during a <code>CreateTable</code> operation.)
-  ///
-  /// You can delete an index that is being created during the
-  /// <code>Backfilling</code> phase when <code>IndexStatus</code> is set to
-  /// CREATING and <code>Backfilling</code> is true. You can't delete the index
-  /// that is being created when <code>IndexStatus</code> is set to CREATING and
-  /// <code>Backfilling</code> is false. (This attribute does not appear for
-  /// indexes that were created during a <code>CreateTable</code> operation.)
-  /// </li>
-  /// <li>
-  /// <code>IndexName</code> - The name of the global secondary index.
-  /// </li>
-  /// <li>
-  /// <code>IndexSizeBytes</code> - The total size of the global secondary index,
-  /// in bytes. DynamoDB updates this value approximately every six hours. Recent
-  /// changes might not be reflected in this value.
-  /// </li>
-  /// <li>
-  /// <code>IndexStatus</code> - The current status of the global secondary index:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>CREATING</code> - The index is being created.
-  /// </li>
-  /// <li>
-  /// <code>UPDATING</code> - The index is being updated.
-  /// </li>
-  /// <li>
-  /// <code>DELETING</code> - The index is being deleted.
-  /// </li>
-  /// <li>
-  /// <code>ACTIVE</code> - The index is ready for use.
-  /// </li>
-  /// </ul> </li>
-  /// <li>
-  /// <code>ItemCount</code> - The number of items in the global secondary index.
-  /// DynamoDB updates this value approximately every six hours. Recent changes
-  /// might not be reflected in this value.
-  /// </li>
-  /// <li>
-  /// <code>KeySchema</code> - Specifies the complete index key schema. The
-  /// attribute names in the key schema must be between 1 and 255 characters
-  /// (inclusive). The key schema must begin with the same partition key as the
-  /// table.
-  /// </li>
-  /// <li>
-  /// <code>Projection</code> - Specifies attributes that are copied (projected)
-  /// from the table into the index. These are in addition to the primary key
-  /// attributes and index key attributes, which are automatically projected. Each
-  /// attribute specification is composed of:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ProjectionType</code> - One of the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>KEYS_ONLY</code> - Only the index and primary keys are projected into
-  /// the index.
-  /// </li>
-  /// <li>
-  /// <code>INCLUDE</code> - In addition to the attributes described in
-  /// <code>KEYS_ONLY</code>, the secondary index will include other non-key
-  /// attributes that you specify.
-  /// </li>
-  /// <li>
-  /// <code>ALL</code> - All of the table attributes are projected into the index.
-  /// </li>
-  /// </ul> </li>
-  /// <li>
-  /// <code>NonKeyAttributes</code> - A list of one or more non-key attribute
-  /// names that are projected into the secondary index. The total count of
-  /// attributes provided in <code>NonKeyAttributes</code>, summed across all of
-  /// the secondary indexes, must not exceed 100. If you project the same
-  /// attribute into two different indexes, this counts as two distinct attributes
-  /// when determining the total.
-  /// </li>
-  /// </ul> </li>
-  /// <li>
-  /// <code>ProvisionedThroughput</code> - The provisioned throughput settings for
-  /// the global secondary index, consisting of read and write capacity units,
-  /// along with data about increases and decreases.
-  /// </li>
-  /// </ul>
-  /// If the table is in the <code>DELETING</code> state, no information about
-  /// indexes will be returned.
-  final List<GlobalSecondaryIndexDescription>? globalSecondaryIndexes;
-
-  /// Represents the version of <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html">global
-  /// tables</a> in use, if the table is replicated across Amazon Web Services
-  /// Regions.
-  final String? globalTableVersion;
-
-  /// The number of items in the specified table. DynamoDB updates this value
-  /// approximately every six hours. Recent changes might not be reflected in this
-  /// value.
-  final int? itemCount;
-
-  /// The primary key structure for the table. Each <code>KeySchemaElement</code>
-  /// consists of:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>AttributeName</code> - The name of the attribute.
-  /// </li>
-  /// <li>
-  /// <code>KeyType</code> - The role of the attribute:
+  /// The complete key schema for a global secondary index, which consists of one
+  /// or more pairs of attribute names and key types:
   ///
   /// <ul>
   /// <li>
@@ -14719,1184 +16235,126 @@ class TableDescription {
   /// term "range attribute" derives from the way DynamoDB stores items with the
   /// same partition key physically close together, in sorted order by the sort
   /// key value.
-  /// </note> </li>
-  /// </ul>
-  /// For more information about primary keys, see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DataModel.html#DataModelPrimaryKey">Primary
-  /// Key</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  /// </note>
   final List<KeySchemaElement>? keySchema;
-
-  /// The Amazon Resource Name (ARN) that uniquely identifies the latest stream
-  /// for this table.
-  final String? latestStreamArn;
-
-  /// A timestamp, in ISO 8601 format, for this stream.
-  ///
-  /// Note that <code>LatestStreamLabel</code> is not a unique identifier for the
-  /// stream, because it is possible that a stream from another table might have
-  /// the same timestamp. However, the combination of the following three elements
-  /// is guaranteed to be unique:
-  ///
-  /// <ul>
-  /// <li>
-  /// Amazon Web Services customer ID
-  /// </li>
-  /// <li>
-  /// Table name
-  /// </li>
-  /// <li>
-  /// <code>StreamLabel</code>
-  /// </li>
-  /// </ul>
-  final String? latestStreamLabel;
-
-  /// Represents one or more local secondary indexes on the table. Each index is
-  /// scoped to a given partition key value. Tables with one or more local
-  /// secondary indexes are subject to an item collection size limit, where the
-  /// amount of data within a given item collection cannot exceed 10 GB. Each
-  /// element is composed of:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>IndexName</code> - The name of the local secondary index.
-  /// </li>
-  /// <li>
-  /// <code>KeySchema</code> - Specifies the complete index key schema. The
-  /// attribute names in the key schema must be between 1 and 255 characters
-  /// (inclusive). The key schema must begin with the same partition key as the
-  /// table.
-  /// </li>
-  /// <li>
-  /// <code>Projection</code> - Specifies attributes that are copied (projected)
-  /// from the table into the index. These are in addition to the primary key
-  /// attributes and index key attributes, which are automatically projected. Each
-  /// attribute specification is composed of:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ProjectionType</code> - One of the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>KEYS_ONLY</code> - Only the index and primary keys are projected into
-  /// the index.
-  /// </li>
-  /// <li>
-  /// <code>INCLUDE</code> - Only the specified table attributes are projected
-  /// into the index. The list of projected attributes is in
-  /// <code>NonKeyAttributes</code>.
-  /// </li>
-  /// <li>
-  /// <code>ALL</code> - All of the table attributes are projected into the index.
-  /// </li>
-  /// </ul> </li>
-  /// <li>
-  /// <code>NonKeyAttributes</code> - A list of one or more non-key attribute
-  /// names that are projected into the secondary index. The total count of
-  /// attributes provided in <code>NonKeyAttributes</code>, summed across all of
-  /// the secondary indexes, must not exceed 100. If you project the same
-  /// attribute into two different indexes, this counts as two distinct attributes
-  /// when determining the total.
-  /// </li>
-  /// </ul> </li>
-  /// <li>
-  /// <code>IndexSizeBytes</code> - Represents the total size of the index, in
-  /// bytes. DynamoDB updates this value approximately every six hours. Recent
-  /// changes might not be reflected in this value.
-  /// </li>
-  /// <li>
-  /// <code>ItemCount</code> - Represents the number of items in the index.
-  /// DynamoDB updates this value approximately every six hours. Recent changes
-  /// might not be reflected in this value.
-  /// </li>
-  /// </ul>
-  /// If the table is in the <code>DELETING</code> state, no information about
-  /// indexes will be returned.
-  final List<LocalSecondaryIndexDescription>? localSecondaryIndexes;
-
-  /// The maximum number of read and write units for the specified on-demand
-  /// table. If you use this parameter, you must specify
-  /// <code>MaxReadRequestUnits</code>, <code>MaxWriteRequestUnits</code>, or
-  /// both.
   final OnDemandThroughput? onDemandThroughput;
 
-  /// The provisioned throughput settings for the table, consisting of read and
-  /// write capacity units, along with data about increases and decreases.
-  final ProvisionedThroughputDescription? provisionedThroughput;
+  /// Represents attributes that are copied (projected) from the table into the
+  /// global secondary index. These are in addition to the primary key attributes
+  /// and index key attributes, which are automatically projected.
+  final Projection? projection;
 
-  /// Represents replicas of the table.
-  final List<ReplicaDescription>? replicas;
+  /// Represents the provisioned throughput settings for the specified global
+  /// secondary index.
+  final ProvisionedThroughput? provisionedThroughput;
 
-  /// Contains details for the restore.
-  final RestoreSummary? restoreSummary;
-
-  /// The description of the server-side encryption status on the specified table.
-  final SSEDescription? sSEDescription;
-
-  /// The current DynamoDB Streams configuration for the table.
-  final StreamSpecification? streamSpecification;
-
-  /// The Amazon Resource Name (ARN) that uniquely identifies the table.
-  final String? tableArn;
-
-  /// Contains details of the table class.
-  final TableClassSummary? tableClassSummary;
-
-  /// Unique identifier for the table for which the backup was created.
-  final String? tableId;
-
-  /// The name of the table.
-  final String? tableName;
-
-  /// The total size of the specified table, in bytes. DynamoDB updates this value
-  /// approximately every six hours. Recent changes might not be reflected in this
-  /// value.
-  final int? tableSizeBytes;
-
-  /// The current state of the table:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>CREATING</code> - The table is being created.
-  /// </li>
-  /// <li>
-  /// <code>UPDATING</code> - The table/index configuration is being updated. The
-  /// table/index remains available for data operations when
-  /// <code>UPDATING</code>.
-  /// </li>
-  /// <li>
-  /// <code>DELETING</code> - The table is being deleted.
-  /// </li>
-  /// <li>
-  /// <code>ACTIVE</code> - The table is ready for use.
-  /// </li>
-  /// <li>
-  /// <code>INACCESSIBLE_ENCRYPTION_CREDENTIALS</code> - The KMS key used to
-  /// encrypt the table in inaccessible. Table operations may fail due to failure
-  /// to use the KMS key. DynamoDB will initiate the table archival process when a
-  /// table's KMS key remains inaccessible for more than seven days.
-  /// </li>
-  /// <li>
-  /// <code>ARCHIVING</code> - The table is being archived. Operations are not
-  /// allowed until archival is complete.
-  /// </li>
-  /// <li>
-  /// <code>ARCHIVED</code> - The table has been archived. See the ArchivalReason
-  /// for more information.
-  /// </li>
-  /// </ul>
-  final TableStatus? tableStatus;
-
-  TableDescription({
-    this.archivalSummary,
-    this.attributeDefinitions,
-    this.billingModeSummary,
-    this.creationDateTime,
-    this.deletionProtectionEnabled,
-    this.globalSecondaryIndexes,
-    this.globalTableVersion,
-    this.itemCount,
+  GlobalSecondaryIndexInfo({
+    this.indexName,
     this.keySchema,
-    this.latestStreamArn,
-    this.latestStreamLabel,
-    this.localSecondaryIndexes,
     this.onDemandThroughput,
+    this.projection,
     this.provisionedThroughput,
-    this.replicas,
-    this.restoreSummary,
-    this.sSEDescription,
-    this.streamSpecification,
-    this.tableArn,
-    this.tableClassSummary,
-    this.tableId,
-    this.tableName,
-    this.tableSizeBytes,
-    this.tableStatus,
   });
 
-  factory TableDescription.fromJson(Map<String, dynamic> json) {
-    return TableDescription(
-      archivalSummary: json['ArchivalSummary'] != null
-          ? ArchivalSummary.fromJson(
-              json['ArchivalSummary'] as Map<String, dynamic>)
-          : null,
-      attributeDefinitions: (json['AttributeDefinitions'] as List?)
-          ?.nonNulls
-          .map((e) => AttributeDefinition.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      billingModeSummary: json['BillingModeSummary'] != null
-          ? BillingModeSummary.fromJson(
-              json['BillingModeSummary'] as Map<String, dynamic>)
-          : null,
-      creationDateTime: timeStampFromJson(json['CreationDateTime']),
-      deletionProtectionEnabled: json['DeletionProtectionEnabled'] as bool?,
-      globalSecondaryIndexes: (json['GlobalSecondaryIndexes'] as List?)
-          ?.nonNulls
-          .map((e) => GlobalSecondaryIndexDescription.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-      globalTableVersion: json['GlobalTableVersion'] as String?,
-      itemCount: json['ItemCount'] as int?,
+  factory GlobalSecondaryIndexInfo.fromJson(Map<String, dynamic> json) {
+    return GlobalSecondaryIndexInfo(
+      indexName: json['IndexName'] as String?,
       keySchema: (json['KeySchema'] as List?)
           ?.nonNulls
           .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      latestStreamArn: json['LatestStreamArn'] as String?,
-      latestStreamLabel: json['LatestStreamLabel'] as String?,
-      localSecondaryIndexes: (json['LocalSecondaryIndexes'] as List?)
-          ?.nonNulls
-          .map((e) => LocalSecondaryIndexDescription.fromJson(
-              e as Map<String, dynamic>))
           .toList(),
       onDemandThroughput: json['OnDemandThroughput'] != null
           ? OnDemandThroughput.fromJson(
               json['OnDemandThroughput'] as Map<String, dynamic>)
           : null,
+      projection: json['Projection'] != null
+          ? Projection.fromJson(json['Projection'] as Map<String, dynamic>)
+          : null,
       provisionedThroughput: json['ProvisionedThroughput'] != null
-          ? ProvisionedThroughputDescription.fromJson(
+          ? ProvisionedThroughput.fromJson(
               json['ProvisionedThroughput'] as Map<String, dynamic>)
           : null,
-      replicas: (json['Replicas'] as List?)
-          ?.nonNulls
-          .map((e) => ReplicaDescription.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      restoreSummary: json['RestoreSummary'] != null
-          ? RestoreSummary.fromJson(
-              json['RestoreSummary'] as Map<String, dynamic>)
-          : null,
-      sSEDescription: json['SSEDescription'] != null
-          ? SSEDescription.fromJson(
-              json['SSEDescription'] as Map<String, dynamic>)
-          : null,
-      streamSpecification: json['StreamSpecification'] != null
-          ? StreamSpecification.fromJson(
-              json['StreamSpecification'] as Map<String, dynamic>)
-          : null,
-      tableArn: json['TableArn'] as String?,
-      tableClassSummary: json['TableClassSummary'] != null
-          ? TableClassSummary.fromJson(
-              json['TableClassSummary'] as Map<String, dynamic>)
-          : null,
-      tableId: json['TableId'] as String?,
-      tableName: json['TableName'] as String?,
-      tableSizeBytes: json['TableSizeBytes'] as int?,
-      tableStatus:
-          (json['TableStatus'] as String?)?.let(TableStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final archivalSummary = this.archivalSummary;
-    final attributeDefinitions = this.attributeDefinitions;
-    final billingModeSummary = this.billingModeSummary;
-    final creationDateTime = this.creationDateTime;
-    final deletionProtectionEnabled = this.deletionProtectionEnabled;
-    final globalSecondaryIndexes = this.globalSecondaryIndexes;
-    final globalTableVersion = this.globalTableVersion;
-    final itemCount = this.itemCount;
+    final indexName = this.indexName;
     final keySchema = this.keySchema;
-    final latestStreamArn = this.latestStreamArn;
-    final latestStreamLabel = this.latestStreamLabel;
-    final localSecondaryIndexes = this.localSecondaryIndexes;
     final onDemandThroughput = this.onDemandThroughput;
+    final projection = this.projection;
     final provisionedThroughput = this.provisionedThroughput;
-    final replicas = this.replicas;
-    final restoreSummary = this.restoreSummary;
-    final sSEDescription = this.sSEDescription;
-    final streamSpecification = this.streamSpecification;
-    final tableArn = this.tableArn;
-    final tableClassSummary = this.tableClassSummary;
-    final tableId = this.tableId;
-    final tableName = this.tableName;
-    final tableSizeBytes = this.tableSizeBytes;
-    final tableStatus = this.tableStatus;
     return {
-      if (archivalSummary != null) 'ArchivalSummary': archivalSummary,
-      if (attributeDefinitions != null)
-        'AttributeDefinitions': attributeDefinitions,
-      if (billingModeSummary != null) 'BillingModeSummary': billingModeSummary,
-      if (creationDateTime != null)
-        'CreationDateTime': unixTimestampToJson(creationDateTime),
-      if (deletionProtectionEnabled != null)
-        'DeletionProtectionEnabled': deletionProtectionEnabled,
-      if (globalSecondaryIndexes != null)
-        'GlobalSecondaryIndexes': globalSecondaryIndexes,
-      if (globalTableVersion != null) 'GlobalTableVersion': globalTableVersion,
-      if (itemCount != null) 'ItemCount': itemCount,
+      if (indexName != null) 'IndexName': indexName,
       if (keySchema != null) 'KeySchema': keySchema,
-      if (latestStreamArn != null) 'LatestStreamArn': latestStreamArn,
-      if (latestStreamLabel != null) 'LatestStreamLabel': latestStreamLabel,
-      if (localSecondaryIndexes != null)
-        'LocalSecondaryIndexes': localSecondaryIndexes,
       if (onDemandThroughput != null) 'OnDemandThroughput': onDemandThroughput,
+      if (projection != null) 'Projection': projection,
       if (provisionedThroughput != null)
         'ProvisionedThroughput': provisionedThroughput,
-      if (replicas != null) 'Replicas': replicas,
-      if (restoreSummary != null) 'RestoreSummary': restoreSummary,
-      if (sSEDescription != null) 'SSEDescription': sSEDescription,
-      if (streamSpecification != null)
-        'StreamSpecification': streamSpecification,
-      if (tableArn != null) 'TableArn': tableArn,
-      if (tableClassSummary != null) 'TableClassSummary': tableClassSummary,
-      if (tableId != null) 'TableId': tableId,
-      if (tableName != null) 'TableName': tableName,
-      if (tableSizeBytes != null) 'TableSizeBytes': tableSizeBytes,
-      if (tableStatus != null) 'TableStatus': tableStatus.value,
     };
   }
 }
 
-class TableStatus {
-  static const creating = TableStatus._('CREATING');
-  static const updating = TableStatus._('UPDATING');
-  static const deleting = TableStatus._('DELETING');
-  static const active = TableStatus._('ACTIVE');
-  static const inaccessibleEncryptionCredentials =
-      TableStatus._('INACCESSIBLE_ENCRYPTION_CREDENTIALS');
-  static const archiving = TableStatus._('ARCHIVING');
-  static const archived = TableStatus._('ARCHIVED');
-
-  final String value;
-
-  const TableStatus._(this.value);
-
-  static const values = [
-    creating,
-    updating,
-    deleting,
-    active,
-    inaccessibleEncryptionCredentials,
-    archiving,
-    archived
-  ];
-
-  static TableStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => TableStatus._(value));
-
-  @override
-  bool operator ==(other) => other is TableStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes a tag. A tag is a key-value pair. You can add up to 50 tags to a
-/// single DynamoDB table.
-///
-/// Amazon Web Services-assigned tag names and values are automatically assigned
-/// the <code>aws:</code> prefix, which the user cannot assign. Amazon Web
-/// Services-assigned tag names do not count towards the tag limit of 50.
-/// User-assigned tag names have the prefix <code>user:</code> in the Cost
-/// Allocation Report. You cannot backdate the application of a tag.
-///
-/// For an overview on tagging DynamoDB resources, see <a
-/// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html">Tagging
-/// for DynamoDB</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-class Tag {
-  /// The key of the tag. Tag keys are case sensitive. Each DynamoDB table can
-  /// only have up to one tag with the same key. If you try to add an existing tag
-  /// (same key), the existing tag value will be updated to the new value.
-  final String key;
-
-  /// The value of the tag. Tag values are case-sensitive and can be null.
-  final String value;
-
-  Tag({
-    required this.key,
-    required this.value,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['Key'] as String?) ?? '',
-      value: (json['Value'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'Key': key,
-      'Value': value,
-    };
-  }
-}
-
-/// The description of the Time to Live (TTL) status on the specified table.
-class TimeToLiveDescription {
-  /// The name of the TTL attribute for items in the table.
-  final String? attributeName;
-
-  /// The TTL status for the table.
-  final TimeToLiveStatus? timeToLiveStatus;
-
-  TimeToLiveDescription({
-    this.attributeName,
-    this.timeToLiveStatus,
-  });
-
-  factory TimeToLiveDescription.fromJson(Map<String, dynamic> json) {
-    return TimeToLiveDescription(
-      attributeName: json['AttributeName'] as String?,
-      timeToLiveStatus: (json['TimeToLiveStatus'] as String?)
-          ?.let(TimeToLiveStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attributeName = this.attributeName;
-    final timeToLiveStatus = this.timeToLiveStatus;
-    return {
-      if (attributeName != null) 'AttributeName': attributeName,
-      if (timeToLiveStatus != null) 'TimeToLiveStatus': timeToLiveStatus.value,
-    };
-  }
-}
-
-/// Represents the settings used to enable or disable Time to Live (TTL) for the
-/// specified table.
-class TimeToLiveSpecification {
-  /// The name of the TTL attribute used to store the expiration time for items in
-  /// the table.
-  final String attributeName;
-
-  /// Indicates whether TTL is to be enabled (true) or disabled (false) on the
-  /// table.
-  final bool enabled;
-
-  TimeToLiveSpecification({
-    required this.attributeName,
-    required this.enabled,
-  });
-
-  factory TimeToLiveSpecification.fromJson(Map<String, dynamic> json) {
-    return TimeToLiveSpecification(
-      attributeName: (json['AttributeName'] as String?) ?? '',
-      enabled: (json['Enabled'] as bool?) ?? false,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attributeName = this.attributeName;
-    final enabled = this.enabled;
-    return {
-      'AttributeName': attributeName,
-      'Enabled': enabled,
-    };
-  }
-}
-
-class TimeToLiveStatus {
-  static const enabling = TimeToLiveStatus._('ENABLING');
-  static const disabling = TimeToLiveStatus._('DISABLING');
-  static const enabled = TimeToLiveStatus._('ENABLED');
-  static const disabled = TimeToLiveStatus._('DISABLED');
-
-  final String value;
-
-  const TimeToLiveStatus._(this.value);
-
-  static const values = [enabling, disabling, enabled, disabled];
-
-  static TimeToLiveStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TimeToLiveStatus._(value));
-
-  @override
-  bool operator ==(other) => other is TimeToLiveStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Specifies an item to be retrieved as part of the transaction.
-class TransactGetItem {
-  /// Contains the primary key that identifies the item to get, together with the
-  /// name of the table that contains the item, and optionally the specific
-  /// attributes of the item to retrieve.
-  final Get get;
-
-  TransactGetItem({
-    required this.get,
-  });
-
-  Map<String, dynamic> toJson() {
-    final get = this.get;
-    return {
-      'Get': get,
-    };
-  }
-}
-
-class TransactGetItemsOutput {
-  /// If the <i>ReturnConsumedCapacity</i> value was <code>TOTAL</code>, this is
-  /// an array of <code>ConsumedCapacity</code> objects, one for each table
-  /// addressed by <code>TransactGetItem</code> objects in the
-  /// <i>TransactItems</i> parameter. These <code>ConsumedCapacity</code> objects
-  /// report the read-capacity units consumed by the <code>TransactGetItems</code>
-  /// call in that table.
-  final List<ConsumedCapacity>? consumedCapacity;
-
-  /// An ordered array of up to 100 <code>ItemResponse</code> objects, each of
-  /// which corresponds to the <code>TransactGetItem</code> object in the same
-  /// position in the <i>TransactItems</i> array. Each <code>ItemResponse</code>
-  /// object contains a Map of the name-value pairs that are the projected
-  /// attributes of the requested item.
-  ///
-  /// If a requested item could not be retrieved, the corresponding
-  /// <code>ItemResponse</code> object is Null, or if the requested item has no
-  /// projected attributes, the corresponding <code>ItemResponse</code> object is
-  /// an empty Map.
-  final List<ItemResponse>? responses;
-
-  TransactGetItemsOutput({
-    this.consumedCapacity,
-    this.responses,
-  });
-
-  factory TransactGetItemsOutput.fromJson(Map<String, dynamic> json) {
-    return TransactGetItemsOutput(
-      consumedCapacity: (json['ConsumedCapacity'] as List?)
-          ?.nonNulls
-          .map((e) => ConsumedCapacity.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      responses: (json['Responses'] as List?)
-          ?.nonNulls
-          .map((e) => ItemResponse.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final consumedCapacity = this.consumedCapacity;
-    final responses = this.responses;
-    return {
-      if (consumedCapacity != null) 'ConsumedCapacity': consumedCapacity,
-      if (responses != null) 'Responses': responses,
-    };
-  }
-}
-
-/// A list of requests that can perform update, put, delete, or check operations
-/// on multiple items in one or more tables atomically.
-class TransactWriteItem {
-  /// A request to perform a check item operation.
-  final ConditionCheck? conditionCheck;
-
-  /// A request to perform a <code>DeleteItem</code> operation.
-  final Delete? delete;
-
-  /// A request to perform a <code>PutItem</code> operation.
-  final Put? put;
-
-  /// A request to perform an <code>UpdateItem</code> operation.
-  final Update? update;
-
-  TransactWriteItem({
-    this.conditionCheck,
-    this.delete,
-    this.put,
-    this.update,
-  });
-
-  Map<String, dynamic> toJson() {
-    final conditionCheck = this.conditionCheck;
-    final delete = this.delete;
-    final put = this.put;
-    final update = this.update;
-    return {
-      if (conditionCheck != null) 'ConditionCheck': conditionCheck,
-      if (delete != null) 'Delete': delete,
-      if (put != null) 'Put': put,
-      if (update != null) 'Update': update,
-    };
-  }
-}
-
-class TransactWriteItemsOutput {
-  /// The capacity units consumed by the entire <code>TransactWriteItems</code>
-  /// operation. The values of the list are ordered according to the ordering of
-  /// the <code>TransactItems</code> request parameter.
-  final List<ConsumedCapacity>? consumedCapacity;
-
-  /// A list of tables that were processed by <code>TransactWriteItems</code> and,
-  /// for each table, information about any item collections that were affected by
-  /// individual <code>UpdateItem</code>, <code>PutItem</code>, or
-  /// <code>DeleteItem</code> operations.
-  final Map<String, List<ItemCollectionMetrics>>? itemCollectionMetrics;
-
-  TransactWriteItemsOutput({
-    this.consumedCapacity,
-    this.itemCollectionMetrics,
-  });
-
-  factory TransactWriteItemsOutput.fromJson(Map<String, dynamic> json) {
-    return TransactWriteItemsOutput(
-      consumedCapacity: (json['ConsumedCapacity'] as List?)
-          ?.nonNulls
-          .map((e) => ConsumedCapacity.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      itemCollectionMetrics: (json['ItemCollectionMetrics']
-              as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(
-              k,
-              (e as List)
-                  .nonNulls
-                  .map((e) =>
-                      ItemCollectionMetrics.fromJson(e as Map<String, dynamic>))
-                  .toList())),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final consumedCapacity = this.consumedCapacity;
-    final itemCollectionMetrics = this.itemCollectionMetrics;
-    return {
-      if (consumedCapacity != null) 'ConsumedCapacity': consumedCapacity,
-      if (itemCollectionMetrics != null)
-        'ItemCollectionMetrics': itemCollectionMetrics,
-    };
-  }
-}
-
-/// Represents a request to perform an <code>UpdateItem</code> operation.
-class Update {
-  /// The primary key of the item to be updated. Each element consists of an
-  /// attribute name and a value for that attribute.
-  final Map<String, AttributeValue> key;
-
-  /// Name of the table for the <code>UpdateItem</code> request. You can also
-  /// provide the Amazon Resource Name (ARN) of the table in this parameter.
-  final String tableName;
-
-  /// An expression that defines one or more attributes to be updated, the action
-  /// to be performed on them, and new value(s) for them.
-  final String updateExpression;
-
-  /// A condition that must be satisfied in order for a conditional update to
-  /// succeed.
-  final String? conditionExpression;
-
-  /// One or more substitution tokens for attribute names in an expression.
-  final Map<String, String>? expressionAttributeNames;
-
-  /// One or more values that can be substituted in an expression.
-  final Map<String, AttributeValue>? expressionAttributeValues;
-
-  /// Use <code>ReturnValuesOnConditionCheckFailure</code> to get the item
-  /// attributes if the <code>Update</code> condition fails. For
-  /// <code>ReturnValuesOnConditionCheckFailure</code>, the valid values are: NONE
-  /// and ALL_OLD.
-  final ReturnValuesOnConditionCheckFailure?
-      returnValuesOnConditionCheckFailure;
-
-  Update({
-    required this.key,
-    required this.tableName,
-    required this.updateExpression,
-    this.conditionExpression,
-    this.expressionAttributeNames,
-    this.expressionAttributeValues,
-    this.returnValuesOnConditionCheckFailure,
-  });
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final tableName = this.tableName;
-    final updateExpression = this.updateExpression;
-    final conditionExpression = this.conditionExpression;
-    final expressionAttributeNames = this.expressionAttributeNames;
-    final expressionAttributeValues = this.expressionAttributeValues;
-    final returnValuesOnConditionCheckFailure =
-        this.returnValuesOnConditionCheckFailure;
-    return {
-      'Key': key,
-      'TableName': tableName,
-      'UpdateExpression': updateExpression,
-      if (conditionExpression != null)
-        'ConditionExpression': conditionExpression,
-      if (expressionAttributeNames != null)
-        'ExpressionAttributeNames': expressionAttributeNames,
-      if (expressionAttributeValues != null)
-        'ExpressionAttributeValues': expressionAttributeValues,
-      if (returnValuesOnConditionCheckFailure != null)
-        'ReturnValuesOnConditionCheckFailure':
-            returnValuesOnConditionCheckFailure.value,
-    };
-  }
-}
-
-class UpdateContinuousBackupsOutput {
-  /// Represents the continuous backups and point in time recovery settings on the
-  /// table.
-  final ContinuousBackupsDescription? continuousBackupsDescription;
-
-  UpdateContinuousBackupsOutput({
-    this.continuousBackupsDescription,
-  });
-
-  factory UpdateContinuousBackupsOutput.fromJson(Map<String, dynamic> json) {
-    return UpdateContinuousBackupsOutput(
-      continuousBackupsDescription: json['ContinuousBackupsDescription'] != null
-          ? ContinuousBackupsDescription.fromJson(
-              json['ContinuousBackupsDescription'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final continuousBackupsDescription = this.continuousBackupsDescription;
-    return {
-      if (continuousBackupsDescription != null)
-        'ContinuousBackupsDescription': continuousBackupsDescription,
-    };
-  }
-}
-
-class UpdateContributorInsightsOutput {
-  /// The status of contributor insights
-  final ContributorInsightsStatus? contributorInsightsStatus;
-
-  /// The name of the global secondary index, if applicable.
+/// Represents the properties of a local secondary index for the table when the
+/// backup was created.
+class LocalSecondaryIndexInfo {
+  /// Represents the name of the local secondary index.
   final String? indexName;
 
-  /// The name of the table.
-  final String? tableName;
-
-  UpdateContributorInsightsOutput({
-    this.contributorInsightsStatus,
-    this.indexName,
-    this.tableName,
-  });
-
-  factory UpdateContributorInsightsOutput.fromJson(Map<String, dynamic> json) {
-    return UpdateContributorInsightsOutput(
-      contributorInsightsStatus: (json['ContributorInsightsStatus'] as String?)
-          ?.let(ContributorInsightsStatus.fromString),
-      indexName: json['IndexName'] as String?,
-      tableName: json['TableName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final contributorInsightsStatus = this.contributorInsightsStatus;
-    final indexName = this.indexName;
-    final tableName = this.tableName;
-    return {
-      if (contributorInsightsStatus != null)
-        'ContributorInsightsStatus': contributorInsightsStatus.value,
-      if (indexName != null) 'IndexName': indexName,
-      if (tableName != null) 'TableName': tableName,
-    };
-  }
-}
-
-/// Represents the new provisioned throughput settings to be applied to a global
-/// secondary index.
-class UpdateGlobalSecondaryIndexAction {
-  /// The name of the global secondary index to be updated.
-  final String indexName;
-
-  /// Updates the maximum number of read and write units for the specified global
-  /// secondary index. If you use this parameter, you must specify
-  /// <code>MaxReadRequestUnits</code>, <code>MaxWriteRequestUnits</code>, or
-  /// both.
-  final OnDemandThroughput? onDemandThroughput;
-
-  /// Represents the provisioned throughput settings for the specified global
-  /// secondary index.
-  ///
-  /// For current minimum and maximum provisioned throughput values, see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Service,
-  /// Account, and Table Quotas</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-  final ProvisionedThroughput? provisionedThroughput;
-
-  UpdateGlobalSecondaryIndexAction({
-    required this.indexName,
-    this.onDemandThroughput,
-    this.provisionedThroughput,
-  });
-
-  Map<String, dynamic> toJson() {
-    final indexName = this.indexName;
-    final onDemandThroughput = this.onDemandThroughput;
-    final provisionedThroughput = this.provisionedThroughput;
-    return {
-      'IndexName': indexName,
-      if (onDemandThroughput != null) 'OnDemandThroughput': onDemandThroughput,
-      if (provisionedThroughput != null)
-        'ProvisionedThroughput': provisionedThroughput,
-    };
-  }
-}
-
-class UpdateGlobalTableOutput {
-  /// Contains the details of the global table.
-  final GlobalTableDescription? globalTableDescription;
-
-  UpdateGlobalTableOutput({
-    this.globalTableDescription,
-  });
-
-  factory UpdateGlobalTableOutput.fromJson(Map<String, dynamic> json) {
-    return UpdateGlobalTableOutput(
-      globalTableDescription: json['GlobalTableDescription'] != null
-          ? GlobalTableDescription.fromJson(
-              json['GlobalTableDescription'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final globalTableDescription = this.globalTableDescription;
-    return {
-      if (globalTableDescription != null)
-        'GlobalTableDescription': globalTableDescription,
-    };
-  }
-}
-
-class UpdateGlobalTableSettingsOutput {
-  /// The name of the global table.
-  final String? globalTableName;
-
-  /// The Region-specific settings for the global table.
-  final List<ReplicaSettingsDescription>? replicaSettings;
-
-  UpdateGlobalTableSettingsOutput({
-    this.globalTableName,
-    this.replicaSettings,
-  });
-
-  factory UpdateGlobalTableSettingsOutput.fromJson(Map<String, dynamic> json) {
-    return UpdateGlobalTableSettingsOutput(
-      globalTableName: json['GlobalTableName'] as String?,
-      replicaSettings: (json['ReplicaSettings'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              ReplicaSettingsDescription.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final globalTableName = this.globalTableName;
-    final replicaSettings = this.replicaSettings;
-    return {
-      if (globalTableName != null) 'GlobalTableName': globalTableName,
-      if (replicaSettings != null) 'ReplicaSettings': replicaSettings,
-    };
-  }
-}
-
-/// Represents the output of an <code>UpdateItem</code> operation.
-class UpdateItemOutput {
-  /// A map of attribute values as they appear before or after the
-  /// <code>UpdateItem</code> operation, as determined by the
-  /// <code>ReturnValues</code> parameter.
-  ///
-  /// The <code>Attributes</code> map is only present if the update was successful
-  /// and <code>ReturnValues</code> was specified as something other than
-  /// <code>NONE</code> in the request. Each element represents one attribute.
-  final Map<String, AttributeValue>? attributes;
-
-  /// The capacity units consumed by the <code>UpdateItem</code> operation. The
-  /// data returned includes the total provisioned throughput consumed, along with
-  /// statistics for the table and any indexes involved in the operation.
-  /// <code>ConsumedCapacity</code> is only returned if the
-  /// <code>ReturnConsumedCapacity</code> parameter was specified. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/read-write-operations.html#write-operation-consumption">Capacity
-  /// unity consumption for write operations</a> in the <i>Amazon DynamoDB
-  /// Developer Guide</i>.
-  final ConsumedCapacity? consumedCapacity;
-
-  /// Information about item collections, if any, that were affected by the
-  /// <code>UpdateItem</code> operation. <code>ItemCollectionMetrics</code> is
-  /// only returned if the <code>ReturnItemCollectionMetrics</code> parameter was
-  /// specified. If the table does not have any local secondary indexes, this
-  /// information is not returned in the response.
-  ///
-  /// Each <code>ItemCollectionMetrics</code> element consists of:
+  /// The complete key schema for a local secondary index, which consists of one
+  /// or more pairs of attribute names and key types:
   ///
   /// <ul>
   /// <li>
-  /// <code>ItemCollectionKey</code> - The partition key value of the item
-  /// collection. This is the same as the partition key value of the item itself.
+  /// <code>HASH</code> - partition key
   /// </li>
   /// <li>
-  /// <code>SizeEstimateRangeGB</code> - An estimate of item collection size, in
-  /// gigabytes. This value is a two-element array containing a lower bound and an
-  /// upper bound for the estimate. The estimate includes the size of all the
-  /// items in the table, plus the size of all attributes projected into all of
-  /// the local secondary indexes on that table. Use this estimate to measure
-  /// whether a local secondary index is approaching its size limit.
-  ///
-  /// The estimate is subject to change over time; therefore, do not rely on the
-  /// precision or accuracy of the estimate.
+  /// <code>RANGE</code> - sort key
   /// </li>
-  /// </ul>
-  final ItemCollectionMetrics? itemCollectionMetrics;
+  /// </ul> <note>
+  /// The partition key of an item is also known as its <i>hash attribute</i>. The
+  /// term "hash attribute" derives from DynamoDB's usage of an internal hash
+  /// function to evenly distribute data items across partitions, based on their
+  /// partition key values.
+  ///
+  /// The sort key of an item is also known as its <i>range attribute</i>. The
+  /// term "range attribute" derives from the way DynamoDB stores items with the
+  /// same partition key physically close together, in sorted order by the sort
+  /// key value.
+  /// </note>
+  final List<KeySchemaElement>? keySchema;
 
-  UpdateItemOutput({
-    this.attributes,
-    this.consumedCapacity,
-    this.itemCollectionMetrics,
+  /// Represents attributes that are copied (projected) from the table into the
+  /// global secondary index. These are in addition to the primary key attributes
+  /// and index key attributes, which are automatically projected.
+  final Projection? projection;
+
+  LocalSecondaryIndexInfo({
+    this.indexName,
+    this.keySchema,
+    this.projection,
   });
 
-  factory UpdateItemOutput.fromJson(Map<String, dynamic> json) {
-    return UpdateItemOutput(
-      attributes: (json['Attributes'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
-      consumedCapacity: json['ConsumedCapacity'] != null
-          ? ConsumedCapacity.fromJson(
-              json['ConsumedCapacity'] as Map<String, dynamic>)
-          : null,
-      itemCollectionMetrics: json['ItemCollectionMetrics'] != null
-          ? ItemCollectionMetrics.fromJson(
-              json['ItemCollectionMetrics'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attributes = this.attributes;
-    final consumedCapacity = this.consumedCapacity;
-    final itemCollectionMetrics = this.itemCollectionMetrics;
-    return {
-      if (attributes != null) 'Attributes': attributes,
-      if (consumedCapacity != null) 'ConsumedCapacity': consumedCapacity,
-      if (itemCollectionMetrics != null)
-        'ItemCollectionMetrics': itemCollectionMetrics,
-    };
-  }
-}
-
-/// Enables updating the configuration for Kinesis Streaming.
-class UpdateKinesisStreamingConfiguration {
-  /// Enables updating the precision of Kinesis data stream timestamp.
-  final ApproximateCreationDateTimePrecision?
-      approximateCreationDateTimePrecision;
-
-  UpdateKinesisStreamingConfiguration({
-    this.approximateCreationDateTimePrecision,
-  });
-
-  factory UpdateKinesisStreamingConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return UpdateKinesisStreamingConfiguration(
-      approximateCreationDateTimePrecision:
-          (json['ApproximateCreationDateTimePrecision'] as String?)
-              ?.let(ApproximateCreationDateTimePrecision.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final approximateCreationDateTimePrecision =
-        this.approximateCreationDateTimePrecision;
-    return {
-      if (approximateCreationDateTimePrecision != null)
-        'ApproximateCreationDateTimePrecision':
-            approximateCreationDateTimePrecision.value,
-    };
-  }
-}
-
-class UpdateKinesisStreamingDestinationOutput {
-  /// The status of the attempt to update the Kinesis streaming destination
-  /// output.
-  final DestinationStatus? destinationStatus;
-
-  /// The ARN for the Kinesis stream input.
-  final String? streamArn;
-
-  /// The table name for the Kinesis streaming destination output.
-  final String? tableName;
-
-  /// The command to update the Kinesis streaming destination configuration.
-  final UpdateKinesisStreamingConfiguration?
-      updateKinesisStreamingConfiguration;
-
-  UpdateKinesisStreamingDestinationOutput({
-    this.destinationStatus,
-    this.streamArn,
-    this.tableName,
-    this.updateKinesisStreamingConfiguration,
-  });
-
-  factory UpdateKinesisStreamingDestinationOutput.fromJson(
-      Map<String, dynamic> json) {
-    return UpdateKinesisStreamingDestinationOutput(
-      destinationStatus: (json['DestinationStatus'] as String?)
-          ?.let(DestinationStatus.fromString),
-      streamArn: json['StreamArn'] as String?,
-      tableName: json['TableName'] as String?,
-      updateKinesisStreamingConfiguration:
-          json['UpdateKinesisStreamingConfiguration'] != null
-              ? UpdateKinesisStreamingConfiguration.fromJson(
-                  json['UpdateKinesisStreamingConfiguration']
-                      as Map<String, dynamic>)
-              : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final destinationStatus = this.destinationStatus;
-    final streamArn = this.streamArn;
-    final tableName = this.tableName;
-    final updateKinesisStreamingConfiguration =
-        this.updateKinesisStreamingConfiguration;
-    return {
-      if (destinationStatus != null)
-        'DestinationStatus': destinationStatus.value,
-      if (streamArn != null) 'StreamArn': streamArn,
-      if (tableName != null) 'TableName': tableName,
-      if (updateKinesisStreamingConfiguration != null)
-        'UpdateKinesisStreamingConfiguration':
-            updateKinesisStreamingConfiguration,
-    };
-  }
-}
-
-/// Represents a replica to be modified.
-class UpdateReplicationGroupMemberAction {
-  /// The Region where the replica exists.
-  final String regionName;
-
-  /// Replica-specific global secondary index settings.
-  final List<ReplicaGlobalSecondaryIndex>? globalSecondaryIndexes;
-
-  /// The KMS key of the replica that should be used for KMS encryption. To
-  /// specify a key, use its key ID, Amazon Resource Name (ARN), alias name, or
-  /// alias ARN. Note that you should only provide this parameter if the key is
-  /// different from the default DynamoDB KMS key <code>alias/aws/dynamodb</code>.
-  final String? kMSMasterKeyId;
-
-  /// Overrides the maximum on-demand throughput for the replica table.
-  final OnDemandThroughputOverride? onDemandThroughputOverride;
-
-  /// Replica-specific provisioned throughput. If not specified, uses the source
-  /// table's provisioned throughput settings.
-  final ProvisionedThroughputOverride? provisionedThroughputOverride;
-
-  /// Replica-specific table class. If not specified, uses the source table's
-  /// table class.
-  final TableClass? tableClassOverride;
-
-  UpdateReplicationGroupMemberAction({
-    required this.regionName,
-    this.globalSecondaryIndexes,
-    this.kMSMasterKeyId,
-    this.onDemandThroughputOverride,
-    this.provisionedThroughputOverride,
-    this.tableClassOverride,
-  });
-
-  Map<String, dynamic> toJson() {
-    final regionName = this.regionName;
-    final globalSecondaryIndexes = this.globalSecondaryIndexes;
-    final kMSMasterKeyId = this.kMSMasterKeyId;
-    final onDemandThroughputOverride = this.onDemandThroughputOverride;
-    final provisionedThroughputOverride = this.provisionedThroughputOverride;
-    final tableClassOverride = this.tableClassOverride;
-    return {
-      'RegionName': regionName,
-      if (globalSecondaryIndexes != null)
-        'GlobalSecondaryIndexes': globalSecondaryIndexes,
-      if (kMSMasterKeyId != null) 'KMSMasterKeyId': kMSMasterKeyId,
-      if (onDemandThroughputOverride != null)
-        'OnDemandThroughputOverride': onDemandThroughputOverride,
-      if (provisionedThroughputOverride != null)
-        'ProvisionedThroughputOverride': provisionedThroughputOverride,
-      if (tableClassOverride != null)
-        'TableClassOverride': tableClassOverride.value,
-    };
-  }
-}
-
-/// Represents the output of an <code>UpdateTable</code> operation.
-class UpdateTableOutput {
-  /// Represents the properties of the table.
-  final TableDescription? tableDescription;
-
-  UpdateTableOutput({
-    this.tableDescription,
-  });
-
-  factory UpdateTableOutput.fromJson(Map<String, dynamic> json) {
-    return UpdateTableOutput(
-      tableDescription: json['TableDescription'] != null
-          ? TableDescription.fromJson(
-              json['TableDescription'] as Map<String, dynamic>)
+  factory LocalSecondaryIndexInfo.fromJson(Map<String, dynamic> json) {
+    return LocalSecondaryIndexInfo(
+      indexName: json['IndexName'] as String?,
+      keySchema: (json['KeySchema'] as List?)
+          ?.nonNulls
+          .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      projection: json['Projection'] != null
+          ? Projection.fromJson(json['Projection'] as Map<String, dynamic>)
           : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final tableDescription = this.tableDescription;
+    final indexName = this.indexName;
+    final keySchema = this.keySchema;
+    final projection = this.projection;
     return {
-      if (tableDescription != null) 'TableDescription': tableDescription,
-    };
-  }
-}
-
-class UpdateTableReplicaAutoScalingOutput {
-  /// Returns information about the auto scaling settings of a table with
-  /// replicas.
-  final TableAutoScalingDescription? tableAutoScalingDescription;
-
-  UpdateTableReplicaAutoScalingOutput({
-    this.tableAutoScalingDescription,
-  });
-
-  factory UpdateTableReplicaAutoScalingOutput.fromJson(
-      Map<String, dynamic> json) {
-    return UpdateTableReplicaAutoScalingOutput(
-      tableAutoScalingDescription: json['TableAutoScalingDescription'] != null
-          ? TableAutoScalingDescription.fromJson(
-              json['TableAutoScalingDescription'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tableAutoScalingDescription = this.tableAutoScalingDescription;
-    return {
-      if (tableAutoScalingDescription != null)
-        'TableAutoScalingDescription': tableAutoScalingDescription,
-    };
-  }
-}
-
-class UpdateTimeToLiveOutput {
-  /// Represents the output of an <code>UpdateTimeToLive</code> operation.
-  final TimeToLiveSpecification? timeToLiveSpecification;
-
-  UpdateTimeToLiveOutput({
-    this.timeToLiveSpecification,
-  });
-
-  factory UpdateTimeToLiveOutput.fromJson(Map<String, dynamic> json) {
-    return UpdateTimeToLiveOutput(
-      timeToLiveSpecification: json['TimeToLiveSpecification'] != null
-          ? TimeToLiveSpecification.fromJson(
-              json['TimeToLiveSpecification'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final timeToLiveSpecification = this.timeToLiveSpecification;
-    return {
-      if (timeToLiveSpecification != null)
-        'TimeToLiveSpecification': timeToLiveSpecification,
+      if (indexName != null) 'IndexName': indexName,
+      if (keySchema != null) 'KeySchema': keySchema,
+      if (projection != null) 'Projection': projection,
     };
   }
 }
@@ -15936,6 +16394,379 @@ class WriteRequest {
     return {
       if (deleteRequest != null) 'DeleteRequest': deleteRequest,
       if (putRequest != null) 'PutRequest': putRequest,
+    };
+  }
+}
+
+/// Represents a request to perform a <code>PutItem</code> operation on an item.
+class PutRequest {
+  /// A map of attribute name to attribute values, representing the primary key of
+  /// an item to be processed by <code>PutItem</code>. All of the table's primary
+  /// key attributes must be specified, and their data types must match those of
+  /// the table's key schema. If any attributes are present in the item that are
+  /// part of an index key schema for the table, their types must match the index
+  /// key schema.
+  final Map<String, AttributeValue> item;
+
+  PutRequest({
+    required this.item,
+  });
+
+  factory PutRequest.fromJson(Map<String, dynamic> json) {
+    return PutRequest(
+      item: ((json['Item'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) =>
+              MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final item = this.item;
+    return {
+      'Item': item,
+    };
+  }
+}
+
+/// Represents a request to perform a <code>DeleteItem</code> operation on an
+/// item.
+class DeleteRequest {
+  /// A map of attribute name to attribute values, representing the primary key of
+  /// the item to delete. All of the table's primary key attributes must be
+  /// specified, and their data types must match those of the table's key schema.
+  final Map<String, AttributeValue> key;
+
+  DeleteRequest({
+    required this.key,
+  });
+
+  factory DeleteRequest.fromJson(Map<String, dynamic> json) {
+    return DeleteRequest(
+      key: ((json['Key'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
+          .map((k, e) =>
+              MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    return {
+      'Key': key,
+    };
+  }
+}
+
+/// Represents a set of primary keys and, for each key, the attributes to
+/// retrieve from the table.
+///
+/// For each primary key, you must provide <i>all</i> of the key attributes. For
+/// example, with a simple primary key, you only need to provide the partition
+/// key. For a composite primary key, you must provide <i>both</i> the partition
+/// key and the sort key.
+class KeysAndAttributes {
+  /// The primary key attribute values that define the items and the attributes
+  /// associated with the items.
+  final List<Map<String, AttributeValue>> keys;
+
+  /// This is a legacy parameter. Use <code>ProjectionExpression</code> instead.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.html">Legacy
+  /// Conditional Parameters</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  final List<String>? attributesToGet;
+
+  /// The consistency of a read operation. If set to <code>true</code>, then a
+  /// strongly consistent read is used; otherwise, an eventually consistent read
+  /// is used.
+  final bool? consistentRead;
+
+  /// One or more substitution tokens for attribute names in an expression. The
+  /// following are some use cases for using
+  /// <code>ExpressionAttributeNames</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// To access an attribute whose name conflicts with a DynamoDB reserved word.
+  /// </li>
+  /// <li>
+  /// To create a placeholder for repeating occurrences of an attribute name in an
+  /// expression.
+  /// </li>
+  /// <li>
+  /// To prevent special characters in an attribute name from being misinterpreted
+  /// in an expression.
+  /// </li>
+  /// </ul>
+  /// Use the <b>#</b> character in an expression to dereference an attribute
+  /// name. For example, consider the following attribute name:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Percentile</code>
+  /// </li>
+  /// </ul>
+  /// The name of this attribute conflicts with a reserved word, so it cannot be
+  /// used directly in an expression. (For the complete list of reserved words,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html">Reserved
+  /// Words</a> in the <i>Amazon DynamoDB Developer Guide</i>). To work around
+  /// this, you could specify the following for
+  /// <code>ExpressionAttributeNames</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>{"#P":"Percentile"}</code>
+  /// </li>
+  /// </ul>
+  /// You could then use this substitution in an expression, as in this example:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>#P = :val</code>
+  /// </li>
+  /// </ul> <note>
+  /// Tokens that begin with the <b>:</b> character are <i>expression attribute
+  /// values</i>, which are placeholders for the actual value at runtime.
+  /// </note>
+  /// For more information on expression attribute names, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Accessing
+  /// Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  final Map<String, String>? expressionAttributeNames;
+
+  /// A string that identifies one or more attributes to retrieve from the table.
+  /// These attributes can include scalars, sets, or elements of a JSON document.
+  /// The attributes in the <code>ProjectionExpression</code> must be separated by
+  /// commas.
+  ///
+  /// If no attribute names are specified, then all attributes will be returned.
+  /// If any of the requested attributes are not found, they will not appear in
+  /// the result.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Accessing
+  /// Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  final String? projectionExpression;
+
+  KeysAndAttributes({
+    required this.keys,
+    this.attributesToGet,
+    this.consistentRead,
+    this.expressionAttributeNames,
+    this.projectionExpression,
+  });
+
+  factory KeysAndAttributes.fromJson(Map<String, dynamic> json) {
+    return KeysAndAttributes(
+      keys: ((json['Keys'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => (e as Map<String, dynamic>).map((k, e) =>
+              MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))))
+          .toList(),
+      attributesToGet: (json['AttributesToGet'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      consistentRead: json['ConsistentRead'] as bool?,
+      expressionAttributeNames:
+          (json['ExpressionAttributeNames'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      projectionExpression: json['ProjectionExpression'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final keys = this.keys;
+    final attributesToGet = this.attributesToGet;
+    final consistentRead = this.consistentRead;
+    final expressionAttributeNames = this.expressionAttributeNames;
+    final projectionExpression = this.projectionExpression;
+    return {
+      'Keys': keys,
+      if (attributesToGet != null) 'AttributesToGet': attributesToGet,
+      if (consistentRead != null) 'ConsistentRead': consistentRead,
+      if (expressionAttributeNames != null)
+        'ExpressionAttributeNames': expressionAttributeNames,
+      if (projectionExpression != null)
+        'ProjectionExpression': projectionExpression,
+    };
+  }
+}
+
+/// A PartiQL batch statement response..
+class BatchStatementResponse {
+  /// The error associated with a failed PartiQL batch statement.
+  final BatchStatementError? error;
+
+  /// A DynamoDB item associated with a BatchStatementResponse
+  final Map<String, AttributeValue>? item;
+
+  /// The table name associated with a failed PartiQL batch statement.
+  final String? tableName;
+
+  BatchStatementResponse({
+    this.error,
+    this.item,
+    this.tableName,
+  });
+
+  factory BatchStatementResponse.fromJson(Map<String, dynamic> json) {
+    return BatchStatementResponse(
+      error: json['Error'] != null
+          ? BatchStatementError.fromJson(json['Error'] as Map<String, dynamic>)
+          : null,
+      item: (json['Item'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      tableName: json['TableName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final error = this.error;
+    final item = this.item;
+    final tableName = this.tableName;
+    return {
+      if (error != null) 'Error': error,
+      if (item != null) 'Item': item,
+      if (tableName != null) 'TableName': tableName,
+    };
+  }
+}
+
+/// An error associated with a statement in a PartiQL batch that was run.
+class BatchStatementError {
+  /// The error code associated with the failed PartiQL batch statement.
+  final BatchStatementErrorCodeEnum? code;
+
+  /// The item which caused the condition check to fail. This will be set if
+  /// ReturnValuesOnConditionCheckFailure is specified as <code>ALL_OLD</code>.
+  final Map<String, AttributeValue>? item;
+
+  /// The error message associated with the PartiQL batch response.
+  final String? message;
+
+  BatchStatementError({
+    this.code,
+    this.item,
+    this.message,
+  });
+
+  factory BatchStatementError.fromJson(Map<String, dynamic> json) {
+    return BatchStatementError(
+      code: (json['Code'] as String?)
+          ?.let(BatchStatementErrorCodeEnum.fromString),
+      item: (json['Item'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final item = this.item;
+    final message = this.message;
+    return {
+      if (code != null) 'Code': code.value,
+      if (item != null) 'Item': item,
+      if (message != null) 'Message': message,
+    };
+  }
+}
+
+class BatchStatementErrorCodeEnum {
+  static const conditionalCheckFailed =
+      BatchStatementErrorCodeEnum._('ConditionalCheckFailed');
+  static const itemCollectionSizeLimitExceeded =
+      BatchStatementErrorCodeEnum._('ItemCollectionSizeLimitExceeded');
+  static const requestLimitExceeded =
+      BatchStatementErrorCodeEnum._('RequestLimitExceeded');
+  static const validationError =
+      BatchStatementErrorCodeEnum._('ValidationError');
+  static const provisionedThroughputExceeded =
+      BatchStatementErrorCodeEnum._('ProvisionedThroughputExceeded');
+  static const transactionConflict =
+      BatchStatementErrorCodeEnum._('TransactionConflict');
+  static const throttlingError =
+      BatchStatementErrorCodeEnum._('ThrottlingError');
+  static const internalServerError =
+      BatchStatementErrorCodeEnum._('InternalServerError');
+  static const resourceNotFound =
+      BatchStatementErrorCodeEnum._('ResourceNotFound');
+  static const accessDenied = BatchStatementErrorCodeEnum._('AccessDenied');
+  static const duplicateItem = BatchStatementErrorCodeEnum._('DuplicateItem');
+
+  final String value;
+
+  const BatchStatementErrorCodeEnum._(this.value);
+
+  static const values = [
+    conditionalCheckFailed,
+    itemCollectionSizeLimitExceeded,
+    requestLimitExceeded,
+    validationError,
+    provisionedThroughputExceeded,
+    transactionConflict,
+    throttlingError,
+    internalServerError,
+    resourceNotFound,
+    accessDenied,
+    duplicateItem
+  ];
+
+  static BatchStatementErrorCodeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BatchStatementErrorCodeEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BatchStatementErrorCodeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A PartiQL batch statement request.
+class BatchStatementRequest {
+  /// A valid PartiQL statement.
+  final String statement;
+
+  /// The read consistency of the PartiQL batch request.
+  final bool? consistentRead;
+
+  /// The parameters associated with a PartiQL statement in the batch request.
+  final List<AttributeValue>? parameters;
+
+  /// An optional parameter that returns the item attributes for a PartiQL batch
+  /// request operation that failed a condition check.
+  ///
+  /// There is no additional cost associated with requesting a return value aside
+  /// from the small network and processing overhead of receiving a larger
+  /// response. No read capacity units are consumed.
+  final ReturnValuesOnConditionCheckFailure?
+      returnValuesOnConditionCheckFailure;
+
+  BatchStatementRequest({
+    required this.statement,
+    this.consistentRead,
+    this.parameters,
+    this.returnValuesOnConditionCheckFailure,
+  });
+
+  Map<String, dynamic> toJson() {
+    final statement = this.statement;
+    final consistentRead = this.consistentRead;
+    final parameters = this.parameters;
+    final returnValuesOnConditionCheckFailure =
+        this.returnValuesOnConditionCheckFailure;
+    return {
+      'Statement': statement,
+      if (consistentRead != null) 'ConsistentRead': consistentRead,
+      if (parameters != null) 'Parameters': parameters,
+      if (returnValuesOnConditionCheckFailure != null)
+        'ReturnValuesOnConditionCheckFailure':
+            returnValuesOnConditionCheckFailure.value,
     };
   }
 }
@@ -16023,6 +16854,11 @@ class InternalServerError extends _s.GenericAwsException {
       : super(type: type, code: 'InternalServerError', message: message);
 }
 
+class InvalidEndpointException extends _s.GenericAwsException {
+  InvalidEndpointException({String? type, String? message})
+      : super(type: type, code: 'InvalidEndpointException', message: message);
+}
+
 class InvalidExportTimeException extends _s.GenericAwsException {
   InvalidExportTimeException({String? type, String? message})
       : super(type: type, code: 'InvalidExportTimeException', message: message);
@@ -16081,6 +16917,14 @@ class ReplicaNotFoundException extends _s.GenericAwsException {
       : super(type: type, code: 'ReplicaNotFoundException', message: message);
 }
 
+class ReplicatedWriteConflictException extends _s.GenericAwsException {
+  ReplicatedWriteConflictException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ReplicatedWriteConflictException',
+            message: message);
+}
+
 class RequestLimitExceeded extends _s.GenericAwsException {
   RequestLimitExceeded({String? type, String? message})
       : super(type: type, code: 'RequestLimitExceeded', message: message);
@@ -16110,6 +16954,11 @@ class TableInUseException extends _s.GenericAwsException {
 class TableNotFoundException extends _s.GenericAwsException {
   TableNotFoundException({String? type, String? message})
       : super(type: type, code: 'TableNotFoundException', message: message);
+}
+
+class ThrottlingException extends _s.GenericAwsException {
+  ThrottlingException({String? type, String? message})
+      : super(type: type, code: 'ThrottlingException', message: message);
 }
 
 class TransactionCanceledException extends _s.GenericAwsException {
@@ -16161,6 +17010,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       IndexNotFoundException(type: type, message: message),
   'InternalServerError': (type, message) =>
       InternalServerError(type: type, message: message),
+  'InvalidEndpointException': (type, message) =>
+      InvalidEndpointException(type: type, message: message),
   'InvalidExportTimeException': (type, message) =>
       InvalidExportTimeException(type: type, message: message),
   'InvalidRestoreTimeException': (type, message) =>
@@ -16179,6 +17030,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ReplicaAlreadyExistsException(type: type, message: message),
   'ReplicaNotFoundException': (type, message) =>
       ReplicaNotFoundException(type: type, message: message),
+  'ReplicatedWriteConflictException': (type, message) =>
+      ReplicatedWriteConflictException(type: type, message: message),
   'RequestLimitExceeded': (type, message) =>
       RequestLimitExceeded(type: type, message: message),
   'ResourceInUseException': (type, message) =>
@@ -16191,6 +17044,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       TableInUseException(type: type, message: message),
   'TableNotFoundException': (type, message) =>
       TableNotFoundException(type: type, message: message),
+  'ThrottlingException': (type, message) =>
+      ThrottlingException(type: type, message: message),
   'TransactionCanceledException': (type, message) =>
       TransactionCanceledException(type: type, message: message),
   'TransactionConflictException': (type, message) =>

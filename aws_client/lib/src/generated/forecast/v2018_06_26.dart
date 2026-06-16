@@ -33,7 +33,6 @@ class Forecast {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'forecast',
-            signingName: 'forecast',
           ),
           region: region,
           credentials: credentials,
@@ -99,10 +98,10 @@ class Forecast {
   /// <code>ReferencePredictorArn</code> and <code>PredictorName</code>.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceAlreadyExistsException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [predictorName] :
   /// A unique name for the predictor
@@ -341,8 +340,8 @@ class Forecast {
   /// </note>
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceAlreadyExistsException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceAlreadyExistsException].
   ///
   /// Parameter [datasetName] :
   /// A name for the dataset.
@@ -510,10 +509,10 @@ class Forecast {
   /// </note>
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceAlreadyExistsException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [datasetGroupName] :
   /// A name for the dataset group.
@@ -639,10 +638,10 @@ class Forecast {
   /// operation.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceAlreadyExistsException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [dataSource] :
   /// The location of the training data to import and an Identity and Access
@@ -915,10 +914,10 @@ class Forecast {
   /// </ul>
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceAlreadyExistsException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [explainabilityConfig] :
   /// The configuration settings that define the granularity of time series and
@@ -1039,10 +1038,10 @@ class Forecast {
   /// </note>
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceAlreadyExistsException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [explainabilityArn] :
   /// The Amazon Resource Name (ARN) of the Explainability to export.
@@ -1152,10 +1151,10 @@ class Forecast {
   /// their forecasted values.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceAlreadyExistsException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [forecastName] :
   /// A name for the forecast.
@@ -1269,9 +1268,9 @@ class Forecast {
   /// Amazon Simple Storage Service (Amazon S3) bucket. The forecast file name
   /// will match the following conventions:
   ///
-  /// &lt;ForecastExportJobName&gt;_&lt;ExportTimestamp&gt;_&lt;PartNumber&gt;
+  /// <ForecastExportJobName>_<ExportTimestamp>_<PartNumber>
   ///
-  /// where the &lt;ExportTimestamp&gt; component is in Java SimpleDateFormat
+  /// where the <ExportTimestamp> component is in Java SimpleDateFormat
   /// (yyyy-MM-ddTHH-mm-ssZ).
   ///
   /// You must specify a <a>DataDestination</a> object that includes an Identity
@@ -1291,10 +1290,10 @@ class Forecast {
   /// </note>
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceAlreadyExistsException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [destination] :
   /// The location where you want to save the forecast and an Identity and
@@ -1390,10 +1389,10 @@ class Forecast {
   /// Monitoring</a>.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceAlreadyExistsException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [monitorName] :
   /// The name of the monitor resource.
@@ -1501,10 +1500,10 @@ class Forecast {
   /// </note>
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceAlreadyExistsException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [featurizationConfig] :
   /// The featurization configuration.
@@ -1742,9 +1741,9 @@ class Forecast {
   ///
   /// The export file names will match the following conventions:
   ///
-  /// <code>&lt;ExportJobName&gt;_&lt;ExportTimestamp&gt;_&lt;PartNumber&gt;.csv</code>
+  /// <code><ExportJobName>_<ExportTimestamp>_<PartNumber>.csv</code>
   ///
-  /// The &lt;ExportTimestamp&gt; component is in Java SimpleDate format
+  /// The <ExportTimestamp> component is in Java SimpleDate format
   /// (yyyy-MM-ddTHH-mm-ssZ).
   ///
   /// You must specify a <a>DataDestination</a> object that includes an Amazon
@@ -1758,10 +1757,10 @@ class Forecast {
   /// </note>
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceAlreadyExistsException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [predictorArn] :
   /// The Amazon Resource Name (ARN) of the predictor that you want to export.
@@ -1868,10 +1867,10 @@ class Forecast {
   /// the what-if analysis.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceAlreadyExistsException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [forecastArn] :
   /// The Amazon Resource Name (ARN) of the baseline forecast.
@@ -1936,10 +1935,10 @@ class Forecast {
   /// replacement dataset or a set of transformations to the original dataset.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceAlreadyExistsException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [whatIfAnalysisArn] :
   /// The Amazon Resource Name (ARN) of the what-if analysis.
@@ -2011,9 +2010,9 @@ class Forecast {
   /// your Amazon Simple Storage Service (Amazon S3) bucket. The forecast file
   /// name will match the following conventions:
   ///
-  /// <code>≈&lt;ForecastExportJobName&gt;_&lt;ExportTimestamp&gt;_&lt;PartNumber&gt;</code>
+  /// <code>≈<ForecastExportJobName>_<ExportTimestamp>_<PartNumber></code>
   ///
-  /// The &lt;ExportTimestamp&gt; component is in Java SimpleDateFormat
+  /// The <ExportTimestamp> component is in Java SimpleDateFormat
   /// (yyyy-MM-ddTHH-mm-ssZ).
   ///
   /// You must specify a <a>DataDestination</a> object that includes an Identity
@@ -2033,10 +2032,10 @@ class Forecast {
   /// </note>
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceAlreadyExistsException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [destination] :
   /// The location where you want to save the forecast and an Identity and
@@ -2104,8 +2103,8 @@ class Forecast {
   /// </note>
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [datasetArn] :
   /// The Amazon Resource Name (ARN) of the dataset to delete.
@@ -2140,8 +2139,8 @@ class Forecast {
   /// group.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [datasetGroupArn] :
   /// The Amazon Resource Name (ARN) of the dataset group to delete.
@@ -2173,8 +2172,8 @@ class Forecast {
   /// operation.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [datasetImportJobArn] :
   /// The Amazon Resource Name (ARN) of the dataset import job to delete.
@@ -2204,8 +2203,8 @@ class Forecast {
   /// <a>DescribeExplainability</a> operation.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [explainabilityArn] :
   /// The Amazon Resource Name (ARN) of the Explainability resource to delete.
@@ -2231,8 +2230,8 @@ class Forecast {
   /// Deletes an Explainability export.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [explainabilityExportArn] :
   /// The Amazon Resource Name (ARN) of the Explainability export to delete.
@@ -2264,8 +2263,8 @@ class Forecast {
   /// is deleted, you can no longer query the forecast.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [forecastArn] :
   /// The Amazon Resource Name (ARN) of the forecast to delete.
@@ -2294,8 +2293,8 @@ class Forecast {
   /// To get the status, use the <a>DescribeForecastExportJob</a> operation.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [forecastExportJobArn] :
   /// The Amazon Resource Name (ARN) of the forecast export job to delete.
@@ -2323,8 +2322,8 @@ class Forecast {
   /// <code>CREATE_FAILED</code>, or <code>CREATE_STOPPED</code>.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [monitorArn] :
   /// The Amazon Resource Name (ARN) of the monitor resource to delete.
@@ -2353,8 +2352,8 @@ class Forecast {
   /// status, use the <a>DescribePredictor</a> operation.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [predictorArn] :
   /// The Amazon Resource Name (ARN) of the predictor to delete.
@@ -2380,8 +2379,8 @@ class Forecast {
   /// Deletes a predictor backtest export job.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [predictorBacktestExportJobArn] :
   /// The Amazon Resource Name (ARN) of the predictor backtest export job to
@@ -2437,8 +2436,8 @@ class Forecast {
   /// </note>
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the parent resource to delete. All child
@@ -2471,8 +2470,8 @@ class Forecast {
   /// exported.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [whatIfAnalysisArn] :
   /// The Amazon Resource Name (ARN) of the what-if analysis that you want to
@@ -2505,8 +2504,8 @@ class Forecast {
   /// what-if forecast is deleted, you can no longer query the what-if analysis.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [whatIfForecastArn] :
   /// The Amazon Resource Name (ARN) of the what-if forecast that you want to
@@ -2537,8 +2536,8 @@ class Forecast {
   /// <a>DescribeWhatIfForecastExport</a> operation.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [whatIfForecastExportArn] :
   /// The Amazon Resource Name (ARN) of the what-if forecast export that you
@@ -3236,8 +3235,8 @@ class Forecast {
   /// </note>
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [predictorArn] :
   /// The Amazon Resource Name (ARN) of the predictor to get metrics for.
@@ -3318,8 +3317,8 @@ class Forecast {
   /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_Filter.html">Filter</a>
   /// objects.
   ///
-  /// May throw [InvalidNextTokenException].
   /// May throw [InvalidInputException].
+  /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [filters] :
   /// An array of filters. For each filter, you provide a condition and a match
@@ -3443,8 +3442,8 @@ class Forecast {
   /// To retrieve the complete set of properties for a particular Explainability
   /// resource, use the ARN with the <a>DescribeExplainability</a> operation.
   ///
-  /// May throw [InvalidNextTokenException].
   /// May throw [InvalidInputException].
+  /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [filters] :
   /// An array of filters. For each filter, provide a condition and a match
@@ -3515,8 +3514,8 @@ class Forecast {
   /// To retrieve the complete set of properties for a particular Explainability
   /// export, use the ARN with the <a>DescribeExplainability</a> operation.
   ///
-  /// May throw [InvalidNextTokenException].
   /// May throw [InvalidInputException].
+  /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [filters] :
   /// An array of filters. For each filter, provide a condition and a match
@@ -3586,8 +3585,8 @@ class Forecast {
   /// ARN with the <a>DescribeForecastExportJob</a> operation. You can filter
   /// the list using an array of <a>Filter</a> objects.
   ///
-  /// May throw [InvalidNextTokenException].
   /// May throw [InvalidInputException].
+  /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [filters] :
   /// An array of filters. For each filter, you provide a condition and a match
@@ -3617,8 +3616,8 @@ class Forecast {
   /// <i>electricityforecast</i>, specify the following filter:
   ///
   /// <code>"Filters": [ { "Condition": "IS", "Key": "ForecastArn", "Value":
-  /// "arn:aws:forecast:us-west-2:&lt;acct-id&gt;:forecast/electricityforecast"
-  /// } ]</code>
+  /// "arn:aws:forecast:us-west-2:<acct-id>:forecast/electricityforecast" }
+  /// ]</code>
   ///
   /// Parameter [maxResults] :
   /// The number of items to return in the response.
@@ -3665,8 +3664,8 @@ class Forecast {
   /// <a>DescribeForecast</a> operation. You can filter the list using an array
   /// of <a>Filter</a> objects.
   ///
-  /// May throw [InvalidNextTokenException].
   /// May throw [InvalidInputException].
+  /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [filters] :
   /// An array of filters. For each filter, you provide a condition and a match
@@ -3745,8 +3744,8 @@ class Forecast {
   /// href="https://docs.aws.amazon.com/forecast/latest/dg/predictor-monitoring-results.html">Viewing
   /// Monitoring Results</a>.
   ///
-  /// May throw [InvalidNextTokenException].
   /// May throw [InvalidInputException].
+  /// May throw [InvalidNextTokenException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [monitorArn] :
@@ -3829,8 +3828,8 @@ class Forecast {
   /// monitor resource by specify the monitor's ARN in the
   /// <a>DescribeMonitor</a> operation.
   ///
-  /// May throw [InvalidNextTokenException].
   /// May throw [InvalidInputException].
+  /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [filters] :
   /// An array of filters. For each filter, provide a condition and a match
@@ -3907,8 +3906,8 @@ class Forecast {
   /// export job, use the ARN with the <a>DescribePredictorBacktestExportJob</a>
   /// operation.
   ///
-  /// May throw [InvalidNextTokenException].
   /// May throw [InvalidInputException].
+  /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [filters] :
   /// An array of filters. For each filter, provide a condition and a match
@@ -3983,8 +3982,8 @@ class Forecast {
   /// <a>DescribeAutoPredictor</a> and <a>DescribePredictor</a> operations. You
   /// can filter the list using an array of <a>Filter</a> objects.
   ///
-  /// May throw [InvalidNextTokenException].
   /// May throw [InvalidInputException].
+  /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [filters] :
   /// An array of filters. For each filter, you provide a condition and a match
@@ -4056,8 +4055,8 @@ class Forecast {
 
   /// Lists the tags for an Amazon Forecast resource.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) that identifies the resource for which to
@@ -4090,8 +4089,8 @@ class Forecast {
   /// using the what-if analysis ARN with the <a>DescribeWhatIfAnalysis</a>
   /// operation.
   ///
-  /// May throw [InvalidNextTokenException].
   /// May throw [InvalidInputException].
+  /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [filters] :
   /// An array of filters. For each filter, you provide a condition and a match
@@ -4121,9 +4120,8 @@ class Forecast {
   /// <i>electricityWhatIf</i>, specify the following filter:
   ///
   /// <code>"Filters": [ { "Condition": "IS", "Key": "WhatIfAnalysisArn",
-  /// "Value":
-  /// "arn:aws:forecast:us-west-2:&lt;acct-id&gt;:forecast/electricityWhatIf" }
-  /// ]</code>
+  /// "Value": "arn:aws:forecast:us-west-2:<acct-id>:forecast/electricityWhatIf"
+  /// } ]</code>
   ///
   /// Parameter [maxResults] :
   /// The number of items to return in the response.
@@ -4170,8 +4168,8 @@ class Forecast {
   /// properties by using the what-if forecast export ARN with the
   /// <a>DescribeWhatIfForecastExport</a> operation.
   ///
-  /// May throw [InvalidNextTokenException].
   /// May throw [InvalidInputException].
+  /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [filters] :
   /// An array of filters. For each filter, you provide a condition and a match
@@ -4202,8 +4200,8 @@ class Forecast {
   ///
   /// <code>"Filters": [ { "Condition": "IS", "Key": "WhatIfForecastExportArn",
   /// "Value":
-  /// "arn:aws:forecast:us-west-2:&lt;acct-id&gt;:forecast/electricityWIFExport"
-  /// } ]</code>
+  /// "arn:aws:forecast:us-west-2:<acct-id>:forecast/electricityWIFExport" }
+  /// ]</code>
   ///
   /// Parameter [maxResults] :
   /// The number of items to return in the response.
@@ -4211,7 +4209,7 @@ class Forecast {
   /// Parameter [nextToken] :
   /// If the result of the previous request was truncated, the response includes
   /// a <code>NextToken</code>. To retrieve the next set of results, use the
-  /// token in the next&#x2028; request. Tokens expire after 24 hours.
+  /// token in the next request. Tokens expire after 24 hours.
   Future<ListWhatIfForecastExportsResponse> listWhatIfForecastExports({
     List<Filter>? filters,
     int? maxResults,
@@ -4250,8 +4248,8 @@ class Forecast {
   /// using the what-if forecast ARN with the <a>DescribeWhatIfForecast</a>
   /// operation.
   ///
-  /// May throw [InvalidNextTokenException].
   /// May throw [InvalidInputException].
+  /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [filters] :
   /// An array of filters. For each filter, you provide a condition and a match
@@ -4282,7 +4280,7 @@ class Forecast {
   ///
   /// <code>"Filters": [ { "Condition": "IS", "Key": "WhatIfForecastArn",
   /// "Value":
-  /// "arn:aws:forecast:us-west-2:&lt;acct-id&gt;:forecast/electricityWhatIfForecast"
+  /// "arn:aws:forecast:us-west-2:<acct-id>:forecast/electricityWhatIfForecast"
   /// } ]</code>
   ///
   /// Parameter [maxResults] :
@@ -4291,7 +4289,7 @@ class Forecast {
   /// Parameter [nextToken] :
   /// If the result of the previous request was truncated, the response includes
   /// a <code>NextToken</code>. To retrieve the next set of results, use the
-  /// token in the next&#x2028; request. Tokens expire after 24 hours.
+  /// token in the next request. Tokens expire after 24 hours.
   Future<ListWhatIfForecastsResponse> listWhatIfForecasts({
     List<Filter>? filters,
     int? maxResults,
@@ -4327,8 +4325,8 @@ class Forecast {
   ///
   /// May throw [InvalidInputException].
   /// May throw [LimitExceededException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the monitor resource to resume.
@@ -4418,9 +4416,9 @@ class Forecast {
   /// in the request parameters, they are not changed. When a resource is
   /// deleted, the tags associated with that resource are also deleted.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [LimitExceededException].
   /// May throw [InvalidInputException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) that identifies the resource for which to
@@ -4487,8 +4485,8 @@ class Forecast {
 
   /// Deletes the specified tags from a resource.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) that identifies the resource for which to
@@ -4526,8 +4524,8 @@ class Forecast {
   /// </note>
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [datasetArns] :
   /// An array of the Amazon Resource Names (ARNs) of the datasets to add to the
@@ -4557,670 +4555,6 @@ class Forecast {
   }
 }
 
-/// Defines the modifications that you are making to an attribute for a what-if
-/// forecast. For example, you can use this operation to create a what-if
-/// forecast that investigates a 10% off sale on all shoes. To do this, you
-/// specify <code>"AttributeName": "shoes"</code>, <code>"Operation":
-/// "MULTIPLY"</code>, and <code>"Value": "0.90"</code>. Pair this operation
-/// with the <a>TimeSeriesCondition</a> operation within the
-/// <a>CreateWhatIfForecastRequest$TimeSeriesTransformations</a> operation to
-/// define a subset of attribute items that are modified.
-class Action {
-  /// The related time series that you are modifying. This value is case
-  /// insensitive.
-  final String attributeName;
-
-  /// The operation that is applied to the provided attribute. Operations include:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ADD</code> - adds <code>Value</code> to all rows of
-  /// <code>AttributeName</code>.
-  /// </li>
-  /// <li>
-  /// <code>SUBTRACT</code> - subtracts <code>Value</code> from all rows of
-  /// <code>AttributeName</code>.
-  /// </li>
-  /// <li>
-  /// <code>MULTIPLY</code> - multiplies all rows of <code>AttributeName</code> by
-  /// <code>Value</code>.
-  /// </li>
-  /// <li>
-  /// <code>DIVIDE</code> - divides all rows of <code>AttributeName</code> by
-  /// <code>Value</code>.
-  /// </li>
-  /// </ul>
-  final Operation operation;
-
-  /// The value that is applied for the chosen <code>Operation</code>.
-  final double value;
-
-  Action({
-    required this.attributeName,
-    required this.operation,
-    required this.value,
-  });
-
-  factory Action.fromJson(Map<String, dynamic> json) {
-    return Action(
-      attributeName: (json['AttributeName'] as String?) ?? '',
-      operation: Operation.fromString((json['Operation'] as String?) ?? ''),
-      value: (json['Value'] as double?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attributeName = this.attributeName;
-    final operation = this.operation;
-    final value = this.value;
-    return {
-      'AttributeName': attributeName,
-      'Operation': operation.value,
-      'Value': value,
-    };
-  }
-}
-
-/// Describes an additional dataset. This object is part of the
-/// <a>DataConfig</a> object. Forecast supports the Weather Index and Holidays
-/// additional datasets.
-///
-/// <b>Weather Index</b>
-///
-/// The Amazon Forecast Weather Index is a built-in dataset that incorporates
-/// historical and projected weather information into your model. The Weather
-/// Index supplements your datasets with over two years of historical weather
-/// data and up to 14 days of projected weather data. For more information, see
-/// <a href="https://docs.aws.amazon.com/forecast/latest/dg/weather.html">Amazon
-/// Forecast Weather Index</a>.
-///
-/// <b>Holidays</b>
-///
-/// Holidays is a built-in dataset that incorporates national holiday
-/// information into your model. It provides native support for the holiday
-/// calendars of 66 countries. To view the holiday calendars, refer to the <a
-/// href="http://jollyday.sourceforge.net/data.html">Jollyday</a> library. For
-/// more information, see <a
-/// href="https://docs.aws.amazon.com/forecast/latest/dg/holidays.html">Holidays
-/// Featurization</a>.
-class AdditionalDataset {
-  /// The name of the additional dataset. Valid names: <code>"holiday"</code> and
-  /// <code>"weather"</code>.
-  final String name;
-
-  /// <b>Weather Index</b>
-  ///
-  /// To enable the Weather Index, do not specify a value for
-  /// <code>Configuration</code>.
-  ///
-  /// <b>Holidays</b>
-  ///
-  /// <b>Holidays</b>
-  ///
-  /// To enable Holidays, set <code>CountryCode</code> to one of the following
-  /// two-letter country codes:
-  ///
-  /// <ul>
-  /// <li>
-  /// "AL" - ALBANIA
-  /// </li>
-  /// <li>
-  /// "AR" - ARGENTINA
-  /// </li>
-  /// <li>
-  /// "AT" - AUSTRIA
-  /// </li>
-  /// <li>
-  /// "AU" - AUSTRALIA
-  /// </li>
-  /// <li>
-  /// "BA" - BOSNIA HERZEGOVINA
-  /// </li>
-  /// <li>
-  /// "BE" - BELGIUM
-  /// </li>
-  /// <li>
-  /// "BG" - BULGARIA
-  /// </li>
-  /// <li>
-  /// "BO" - BOLIVIA
-  /// </li>
-  /// <li>
-  /// "BR" - BRAZIL
-  /// </li>
-  /// <li>
-  /// "BY" - BELARUS
-  /// </li>
-  /// <li>
-  /// "CA" - CANADA
-  /// </li>
-  /// <li>
-  /// "CL" - CHILE
-  /// </li>
-  /// <li>
-  /// "CO" - COLOMBIA
-  /// </li>
-  /// <li>
-  /// "CR" - COSTA RICA
-  /// </li>
-  /// <li>
-  /// "HR" - CROATIA
-  /// </li>
-  /// <li>
-  /// "CZ" - CZECH REPUBLIC
-  /// </li>
-  /// <li>
-  /// "DK" - DENMARK
-  /// </li>
-  /// <li>
-  /// "EC" - ECUADOR
-  /// </li>
-  /// <li>
-  /// "EE" - ESTONIA
-  /// </li>
-  /// <li>
-  /// "ET" - ETHIOPIA
-  /// </li>
-  /// <li>
-  /// "FI" - FINLAND
-  /// </li>
-  /// <li>
-  /// "FR" - FRANCE
-  /// </li>
-  /// <li>
-  /// "DE" - GERMANY
-  /// </li>
-  /// <li>
-  /// "GR" - GREECE
-  /// </li>
-  /// <li>
-  /// "HU" - HUNGARY
-  /// </li>
-  /// <li>
-  /// "IS" - ICELAND
-  /// </li>
-  /// <li>
-  /// "IN" - INDIA
-  /// </li>
-  /// <li>
-  /// "IE" - IRELAND
-  /// </li>
-  /// <li>
-  /// "IT" - ITALY
-  /// </li>
-  /// <li>
-  /// "JP" - JAPAN
-  /// </li>
-  /// <li>
-  /// "KZ" - KAZAKHSTAN
-  /// </li>
-  /// <li>
-  /// "KR" - KOREA
-  /// </li>
-  /// <li>
-  /// "LV" - LATVIA
-  /// </li>
-  /// <li>
-  /// "LI" - LIECHTENSTEIN
-  /// </li>
-  /// <li>
-  /// "LT" - LITHUANIA
-  /// </li>
-  /// <li>
-  /// "LU" - LUXEMBOURG
-  /// </li>
-  /// <li>
-  /// "MK" - MACEDONIA
-  /// </li>
-  /// <li>
-  /// "MT" - MALTA
-  /// </li>
-  /// <li>
-  /// "MX" - MEXICO
-  /// </li>
-  /// <li>
-  /// "MD" - MOLDOVA
-  /// </li>
-  /// <li>
-  /// "ME" - MONTENEGRO
-  /// </li>
-  /// <li>
-  /// "NL" - NETHERLANDS
-  /// </li>
-  /// <li>
-  /// "NZ" - NEW ZEALAND
-  /// </li>
-  /// <li>
-  /// "NI" - NICARAGUA
-  /// </li>
-  /// <li>
-  /// "NG" - NIGERIA
-  /// </li>
-  /// <li>
-  /// "NO" - NORWAY
-  /// </li>
-  /// <li>
-  /// "PA" - PANAMA
-  /// </li>
-  /// <li>
-  /// "PY" - PARAGUAY
-  /// </li>
-  /// <li>
-  /// "PE" - PERU
-  /// </li>
-  /// <li>
-  /// "PL" - POLAND
-  /// </li>
-  /// <li>
-  /// "PT" - PORTUGAL
-  /// </li>
-  /// <li>
-  /// "RO" - ROMANIA
-  /// </li>
-  /// <li>
-  /// "RU" - RUSSIA
-  /// </li>
-  /// <li>
-  /// "RS" - SERBIA
-  /// </li>
-  /// <li>
-  /// "SK" - SLOVAKIA
-  /// </li>
-  /// <li>
-  /// "SI" - SLOVENIA
-  /// </li>
-  /// <li>
-  /// "ZA" - SOUTH AFRICA
-  /// </li>
-  /// <li>
-  /// "ES" - SPAIN
-  /// </li>
-  /// <li>
-  /// "SE" - SWEDEN
-  /// </li>
-  /// <li>
-  /// "CH" - SWITZERLAND
-  /// </li>
-  /// <li>
-  /// "UA" - UKRAINE
-  /// </li>
-  /// <li>
-  /// "AE" - UNITED ARAB EMIRATES
-  /// </li>
-  /// <li>
-  /// "US" - UNITED STATES
-  /// </li>
-  /// <li>
-  /// "UK" - UNITED KINGDOM
-  /// </li>
-  /// <li>
-  /// "UY" - URUGUAY
-  /// </li>
-  /// <li>
-  /// "VE" - VENEZUELA
-  /// </li>
-  /// </ul>
-  final Map<String, List<String>>? configuration;
-
-  AdditionalDataset({
-    required this.name,
-    this.configuration,
-  });
-
-  factory AdditionalDataset.fromJson(Map<String, dynamic> json) {
-    return AdditionalDataset(
-      name: (json['Name'] as String?) ?? '',
-      configuration: (json['Configuration'] as Map<String, dynamic>?)?.map((k,
-              e) =>
-          MapEntry(k, (e as List).nonNulls.map((e) => e as String).toList())),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final configuration = this.configuration;
-    return {
-      'Name': name,
-      if (configuration != null) 'Configuration': configuration,
-    };
-  }
-}
-
-/// Provides information about the method used to transform attributes.
-///
-/// The following is an example using the RETAIL domain:
-///
-/// <code>{</code>
-///
-/// <code>"AttributeName": "demand",</code>
-///
-/// <code>"Transformations": {"aggregation": "sum", "middlefill": "zero",
-/// "backfill": "zero"}</code>
-///
-/// <code>}</code>
-class AttributeConfig {
-  /// The name of the attribute as specified in the schema. Amazon Forecast
-  /// supports the target field of the target time series and the related time
-  /// series datasets. For example, for the RETAIL domain, the target is
-  /// <code>demand</code>.
-  final String attributeName;
-
-  /// The method parameters (key-value pairs), which are a map of override
-  /// parameters. Specify these parameters to override the default values. Related
-  /// Time Series attributes do not accept aggregation parameters.
-  ///
-  /// The following list shows the parameters and their valid values for the
-  /// "filling" featurization method for a <b>Target Time Series</b> dataset.
-  /// Default values are bolded.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>aggregation</code>: <b>sum</b>, <code>avg</code>, <code>first</code>,
-  /// <code>min</code>, <code>max</code>
-  /// </li>
-  /// <li>
-  /// <code>frontfill</code>: <b>none</b>
-  /// </li>
-  /// <li>
-  /// <code>middlefill</code>: <b>zero</b>, <code>nan</code> (not a number),
-  /// <code>value</code>, <code>median</code>, <code>mean</code>,
-  /// <code>min</code>, <code>max</code>
-  /// </li>
-  /// <li>
-  /// <code>backfill</code>: <b>zero</b>, <code>nan</code>, <code>value</code>,
-  /// <code>median</code>, <code>mean</code>, <code>min</code>, <code>max</code>
-  /// </li>
-  /// </ul>
-  /// The following list shows the parameters and their valid values for a
-  /// <b>Related Time Series</b> featurization method (there are no defaults):
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>middlefill</code>: <code>zero</code>, <code>value</code>,
-  /// <code>median</code>, <code>mean</code>, <code>min</code>, <code>max</code>
-  /// </li>
-  /// <li>
-  /// <code>backfill</code>: <code>zero</code>, <code>value</code>,
-  /// <code>median</code>, <code>mean</code>, <code>min</code>, <code>max</code>
-  /// </li>
-  /// <li>
-  /// <code>futurefill</code>: <code>zero</code>, <code>value</code>,
-  /// <code>median</code>, <code>mean</code>, <code>min</code>, <code>max</code>
-  /// </li>
-  /// </ul>
-  /// To set a filling method to a specific value, set the fill parameter to
-  /// <code>value</code> and define the value in a corresponding
-  /// <code>_value</code> parameter. For example, to set backfilling to a value of
-  /// 2, include the following: <code>"backfill": "value"</code> and
-  /// <code>"backfill_value":"2"</code>.
-  final Map<String, String> transformations;
-
-  AttributeConfig({
-    required this.attributeName,
-    required this.transformations,
-  });
-
-  factory AttributeConfig.fromJson(Map<String, dynamic> json) {
-    return AttributeConfig(
-      attributeName: (json['AttributeName'] as String?) ?? '',
-      transformations: ((json['Transformations'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{})
-          .map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attributeName = this.attributeName;
-    final transformations = this.transformations;
-    return {
-      'AttributeName': attributeName,
-      'Transformations': transformations,
-    };
-  }
-}
-
-class AttributeType {
-  static const string = AttributeType._('string');
-  static const integer = AttributeType._('integer');
-  static const float = AttributeType._('float');
-  static const timestamp = AttributeType._('timestamp');
-  static const geolocation = AttributeType._('geolocation');
-
-  final String value;
-
-  const AttributeType._(this.value);
-
-  static const values = [string, integer, float, timestamp, geolocation];
-
-  static AttributeType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AttributeType._(value));
-
-  @override
-  bool operator ==(other) => other is AttributeType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class AutoMLOverrideStrategy {
-  static const latencyOptimized = AutoMLOverrideStrategy._('LatencyOptimized');
-  static const accuracyOptimized =
-      AutoMLOverrideStrategy._('AccuracyOptimized');
-
-  final String value;
-
-  const AutoMLOverrideStrategy._(this.value);
-
-  static const values = [latencyOptimized, accuracyOptimized];
-
-  static AutoMLOverrideStrategy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AutoMLOverrideStrategy._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AutoMLOverrideStrategy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Metrics you can use as a baseline for comparison purposes. Use these metrics
-/// when you interpret monitoring results for an auto predictor.
-class Baseline {
-  /// The initial <a
-  /// href="https://docs.aws.amazon.com/forecast/latest/dg/metrics.html">accuracy
-  /// metrics</a> for the predictor you are monitoring. Use these metrics as a
-  /// baseline for comparison purposes as you use your predictor and the metrics
-  /// change.
-  final PredictorBaseline? predictorBaseline;
-
-  Baseline({
-    this.predictorBaseline,
-  });
-
-  factory Baseline.fromJson(Map<String, dynamic> json) {
-    return Baseline(
-      predictorBaseline: json['PredictorBaseline'] != null
-          ? PredictorBaseline.fromJson(
-              json['PredictorBaseline'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final predictorBaseline = this.predictorBaseline;
-    return {
-      if (predictorBaseline != null) 'PredictorBaseline': predictorBaseline,
-    };
-  }
-}
-
-/// An individual metric that you can use for comparison as you evaluate your
-/// monitoring results.
-class BaselineMetric {
-  /// The name of the metric.
-  final String? name;
-
-  /// The value for the metric.
-  final double? value;
-
-  BaselineMetric({
-    this.name,
-    this.value,
-  });
-
-  factory BaselineMetric.fromJson(Map<String, dynamic> json) {
-    return BaselineMetric(
-      name: json['Name'] as String?,
-      value: json['Value'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final value = this.value;
-    return {
-      if (name != null) 'Name': name,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-/// Specifies a categorical hyperparameter and it's range of tunable values.
-/// This object is part of the <a>ParameterRanges</a> object.
-class CategoricalParameterRange {
-  /// The name of the categorical hyperparameter to tune.
-  final String name;
-
-  /// A list of the tunable categories for the hyperparameter.
-  final List<String> values;
-
-  CategoricalParameterRange({
-    required this.name,
-    required this.values,
-  });
-
-  factory CategoricalParameterRange.fromJson(Map<String, dynamic> json) {
-    return CategoricalParameterRange(
-      name: (json['Name'] as String?) ?? '',
-      values: ((json['Values'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final values = this.values;
-    return {
-      'Name': name,
-      'Values': values,
-    };
-  }
-}
-
-class Condition {
-  static const equals = Condition._('EQUALS');
-  static const notEquals = Condition._('NOT_EQUALS');
-  static const lessThan = Condition._('LESS_THAN');
-  static const greaterThan = Condition._('GREATER_THAN');
-
-  final String value;
-
-  const Condition._(this.value);
-
-  static const values = [equals, notEquals, lessThan, greaterThan];
-
-  static Condition fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Condition._(value));
-
-  @override
-  bool operator ==(other) => other is Condition && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Specifies a continuous hyperparameter and it's range of tunable values. This
-/// object is part of the <a>ParameterRanges</a> object.
-class ContinuousParameterRange {
-  /// The maximum tunable value of the hyperparameter.
-  final double maxValue;
-
-  /// The minimum tunable value of the hyperparameter.
-  final double minValue;
-
-  /// The name of the hyperparameter to tune.
-  final String name;
-
-  /// The scale that hyperparameter tuning uses to search the hyperparameter
-  /// range. Valid values:
-  /// <dl> <dt>Auto</dt> <dd>
-  /// Amazon Forecast hyperparameter tuning chooses the best scale for the
-  /// hyperparameter.
-  /// </dd> <dt>Linear</dt> <dd>
-  /// Hyperparameter tuning searches the values in the hyperparameter range by
-  /// using a linear scale.
-  /// </dd> <dt>Logarithmic</dt> <dd>
-  /// Hyperparameter tuning searches the values in the hyperparameter range by
-  /// using a logarithmic scale.
-  ///
-  /// Logarithmic scaling works only for ranges that have values greater than 0.
-  /// </dd> <dt>ReverseLogarithmic</dt> <dd>
-  /// hyperparameter tuning searches the values in the hyperparameter range by
-  /// using a reverse logarithmic scale.
-  ///
-  /// Reverse logarithmic scaling works only for ranges that are entirely within
-  /// the range 0 &lt;= x &lt; 1.0.
-  /// </dd> </dl>
-  /// For information about choosing a hyperparameter scale, see <a
-  /// href="http://docs.aws.amazon.com/sagemaker/latest/dg/automatic-model-tuning-define-ranges.html#scaling-type">Hyperparameter
-  /// Scaling</a>. One of the following values:
-  final ScalingType? scalingType;
-
-  ContinuousParameterRange({
-    required this.maxValue,
-    required this.minValue,
-    required this.name,
-    this.scalingType,
-  });
-
-  factory ContinuousParameterRange.fromJson(Map<String, dynamic> json) {
-    return ContinuousParameterRange(
-      maxValue: (json['MaxValue'] as double?) ?? 0,
-      minValue: (json['MinValue'] as double?) ?? 0,
-      name: (json['Name'] as String?) ?? '',
-      scalingType:
-          (json['ScalingType'] as String?)?.let(ScalingType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final maxValue = this.maxValue;
-    final minValue = this.minValue;
-    final name = this.name;
-    final scalingType = this.scalingType;
-    return {
-      'MaxValue': maxValue,
-      'MinValue': minValue,
-      'Name': name,
-      if (scalingType != null) 'ScalingType': scalingType.value,
-    };
-  }
-}
-
 class CreateAutoPredictorResponse {
   /// The Amazon Resource Name (ARN) of the predictor.
   final String? predictorArn;
@@ -5239,6 +4573,28 @@ class CreateAutoPredictorResponse {
     final predictorArn = this.predictorArn;
     return {
       if (predictorArn != null) 'PredictorArn': predictorArn,
+    };
+  }
+}
+
+class CreateDatasetResponse {
+  /// The Amazon Resource Name (ARN) of the dataset.
+  final String? datasetArn;
+
+  CreateDatasetResponse({
+    this.datasetArn,
+  });
+
+  factory CreateDatasetResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDatasetResponse(
+      datasetArn: json['DatasetArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datasetArn = this.datasetArn;
+    return {
+      if (datasetArn != null) 'DatasetArn': datasetArn,
     };
   }
 }
@@ -5288,24 +4644,24 @@ class CreateDatasetImportJobResponse {
   }
 }
 
-class CreateDatasetResponse {
-  /// The Amazon Resource Name (ARN) of the dataset.
-  final String? datasetArn;
+class CreateExplainabilityResponse {
+  /// The Amazon Resource Name (ARN) of the Explainability.
+  final String? explainabilityArn;
 
-  CreateDatasetResponse({
-    this.datasetArn,
+  CreateExplainabilityResponse({
+    this.explainabilityArn,
   });
 
-  factory CreateDatasetResponse.fromJson(Map<String, dynamic> json) {
-    return CreateDatasetResponse(
-      datasetArn: json['DatasetArn'] as String?,
+  factory CreateExplainabilityResponse.fromJson(Map<String, dynamic> json) {
+    return CreateExplainabilityResponse(
+      explainabilityArn: json['ExplainabilityArn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final datasetArn = this.datasetArn;
+    final explainabilityArn = this.explainabilityArn;
     return {
-      if (datasetArn != null) 'DatasetArn': datasetArn,
+      if (explainabilityArn != null) 'ExplainabilityArn': explainabilityArn,
     };
   }
 }
@@ -5334,24 +4690,24 @@ class CreateExplainabilityExportResponse {
   }
 }
 
-class CreateExplainabilityResponse {
-  /// The Amazon Resource Name (ARN) of the Explainability.
-  final String? explainabilityArn;
+class CreateForecastResponse {
+  /// The Amazon Resource Name (ARN) of the forecast.
+  final String? forecastArn;
 
-  CreateExplainabilityResponse({
-    this.explainabilityArn,
+  CreateForecastResponse({
+    this.forecastArn,
   });
 
-  factory CreateExplainabilityResponse.fromJson(Map<String, dynamic> json) {
-    return CreateExplainabilityResponse(
-      explainabilityArn: json['ExplainabilityArn'] as String?,
+  factory CreateForecastResponse.fromJson(Map<String, dynamic> json) {
+    return CreateForecastResponse(
+      forecastArn: json['ForecastArn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final explainabilityArn = this.explainabilityArn;
+    final forecastArn = this.forecastArn;
     return {
-      if (explainabilityArn != null) 'ExplainabilityArn': explainabilityArn,
+      if (forecastArn != null) 'ForecastArn': forecastArn,
     };
   }
 }
@@ -5379,28 +4735,6 @@ class CreateForecastExportJobResponse {
   }
 }
 
-class CreateForecastResponse {
-  /// The Amazon Resource Name (ARN) of the forecast.
-  final String? forecastArn;
-
-  CreateForecastResponse({
-    this.forecastArn,
-  });
-
-  factory CreateForecastResponse.fromJson(Map<String, dynamic> json) {
-    return CreateForecastResponse(
-      forecastArn: json['ForecastArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final forecastArn = this.forecastArn;
-    return {
-      if (forecastArn != null) 'ForecastArn': forecastArn,
-    };
-  }
-}
-
 class CreateMonitorResponse {
   /// The Amazon Resource Name (ARN) of the monitor resource.
   final String? monitorArn;
@@ -5419,6 +4753,28 @@ class CreateMonitorResponse {
     final monitorArn = this.monitorArn;
     return {
       if (monitorArn != null) 'MonitorArn': monitorArn,
+    };
+  }
+}
+
+class CreatePredictorResponse {
+  /// The Amazon Resource Name (ARN) of the predictor.
+  final String? predictorArn;
+
+  CreatePredictorResponse({
+    this.predictorArn,
+  });
+
+  factory CreatePredictorResponse.fromJson(Map<String, dynamic> json) {
+    return CreatePredictorResponse(
+      predictorArn: json['PredictorArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final predictorArn = this.predictorArn;
+    return {
+      if (predictorArn != null) 'PredictorArn': predictorArn,
     };
   }
 }
@@ -5449,28 +4805,6 @@ class CreatePredictorBacktestExportJobResponse {
   }
 }
 
-class CreatePredictorResponse {
-  /// The Amazon Resource Name (ARN) of the predictor.
-  final String? predictorArn;
-
-  CreatePredictorResponse({
-    this.predictorArn,
-  });
-
-  factory CreatePredictorResponse.fromJson(Map<String, dynamic> json) {
-    return CreatePredictorResponse(
-      predictorArn: json['PredictorArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final predictorArn = this.predictorArn;
-    return {
-      if (predictorArn != null) 'PredictorArn': predictorArn,
-    };
-  }
-}
-
 class CreateWhatIfAnalysisResponse {
   /// The Amazon Resource Name (ARN) of the what-if analysis.
   final String? whatIfAnalysisArn;
@@ -5489,30 +4823,6 @@ class CreateWhatIfAnalysisResponse {
     final whatIfAnalysisArn = this.whatIfAnalysisArn;
     return {
       if (whatIfAnalysisArn != null) 'WhatIfAnalysisArn': whatIfAnalysisArn,
-    };
-  }
-}
-
-class CreateWhatIfForecastExportResponse {
-  /// The Amazon Resource Name (ARN) of the what-if forecast.
-  final String? whatIfForecastExportArn;
-
-  CreateWhatIfForecastExportResponse({
-    this.whatIfForecastExportArn,
-  });
-
-  factory CreateWhatIfForecastExportResponse.fromJson(
-      Map<String, dynamic> json) {
-    return CreateWhatIfForecastExportResponse(
-      whatIfForecastExportArn: json['WhatIfForecastExportArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final whatIfForecastExportArn = this.whatIfForecastExportArn;
-    return {
-      if (whatIfForecastExportArn != null)
-        'WhatIfForecastExportArn': whatIfForecastExportArn,
     };
   }
 }
@@ -5539,410 +4849,28 @@ class CreateWhatIfForecastResponse {
   }
 }
 
-/// The data configuration for your dataset group and any additional datasets.
-class DataConfig {
-  /// The ARN of the dataset group used to train the predictor.
-  final String datasetGroupArn;
+class CreateWhatIfForecastExportResponse {
+  /// The Amazon Resource Name (ARN) of the what-if forecast.
+  final String? whatIfForecastExportArn;
 
-  /// Additional built-in datasets like Holidays and the Weather Index.
-  final List<AdditionalDataset>? additionalDatasets;
-
-  /// Aggregation and filling options for attributes in your dataset group.
-  final List<AttributeConfig>? attributeConfigs;
-
-  DataConfig({
-    required this.datasetGroupArn,
-    this.additionalDatasets,
-    this.attributeConfigs,
+  CreateWhatIfForecastExportResponse({
+    this.whatIfForecastExportArn,
   });
 
-  factory DataConfig.fromJson(Map<String, dynamic> json) {
-    return DataConfig(
-      datasetGroupArn: (json['DatasetGroupArn'] as String?) ?? '',
-      additionalDatasets: (json['AdditionalDatasets'] as List?)
-          ?.nonNulls
-          .map((e) => AdditionalDataset.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      attributeConfigs: (json['AttributeConfigs'] as List?)
-          ?.nonNulls
-          .map((e) => AttributeConfig.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  factory CreateWhatIfForecastExportResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateWhatIfForecastExportResponse(
+      whatIfForecastExportArn: json['WhatIfForecastExportArn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final datasetGroupArn = this.datasetGroupArn;
-    final additionalDatasets = this.additionalDatasets;
-    final attributeConfigs = this.attributeConfigs;
+    final whatIfForecastExportArn = this.whatIfForecastExportArn;
     return {
-      'DatasetGroupArn': datasetGroupArn,
-      if (additionalDatasets != null) 'AdditionalDatasets': additionalDatasets,
-      if (attributeConfigs != null) 'AttributeConfigs': attributeConfigs,
+      if (whatIfForecastExportArn != null)
+        'WhatIfForecastExportArn': whatIfForecastExportArn,
     };
   }
-}
-
-/// The destination for an export job. Provide an S3 path, an Identity and
-/// Access Management (IAM) role that allows Amazon Forecast to access the
-/// location, and an Key Management Service (KMS) key (optional).
-class DataDestination {
-  /// The path to an Amazon Simple Storage Service (Amazon S3) bucket along with
-  /// the credentials to access the bucket.
-  final S3Config s3Config;
-
-  DataDestination({
-    required this.s3Config,
-  });
-
-  factory DataDestination.fromJson(Map<String, dynamic> json) {
-    return DataDestination(
-      s3Config: S3Config.fromJson((json['S3Config'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final s3Config = this.s3Config;
-    return {
-      'S3Config': s3Config,
-    };
-  }
-}
-
-/// The source of your data, an Identity and Access Management (IAM) role that
-/// allows Amazon Forecast to access the data and, optionally, an Key Management
-/// Service (KMS) key.
-class DataSource {
-  /// The path to the data stored in an Amazon Simple Storage Service (Amazon S3)
-  /// bucket along with the credentials to access the data.
-  final S3Config s3Config;
-
-  DataSource({
-    required this.s3Config,
-  });
-
-  factory DataSource.fromJson(Map<String, dynamic> json) {
-    return DataSource(
-      s3Config: S3Config.fromJson((json['S3Config'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final s3Config = this.s3Config;
-    return {
-      'S3Config': s3Config,
-    };
-  }
-}
-
-/// Provides a summary of the dataset group properties used in the <a
-/// href="https://docs.aws.amazon.com/forecast/latest/dg/API_ListDatasetGroups.html">ListDatasetGroups</a>
-/// operation. To get the complete set of properties, call the <a
-/// href="https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetGroup.html">DescribeDatasetGroup</a>
-/// operation, and provide the <code>DatasetGroupArn</code>.
-class DatasetGroupSummary {
-  /// When the dataset group was created.
-  final DateTime? creationTime;
-
-  /// The Amazon Resource Name (ARN) of the dataset group.
-  final String? datasetGroupArn;
-
-  /// The name of the dataset group.
-  final String? datasetGroupName;
-
-  /// When the dataset group was created or last updated from a call to the <a
-  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_UpdateDatasetGroup.html">UpdateDatasetGroup</a>
-  /// operation. While the dataset group is being updated,
-  /// <code>LastModificationTime</code> is the current time of the
-  /// <code>ListDatasetGroups</code> call.
-  final DateTime? lastModificationTime;
-
-  DatasetGroupSummary({
-    this.creationTime,
-    this.datasetGroupArn,
-    this.datasetGroupName,
-    this.lastModificationTime,
-  });
-
-  factory DatasetGroupSummary.fromJson(Map<String, dynamic> json) {
-    return DatasetGroupSummary(
-      creationTime: timeStampFromJson(json['CreationTime']),
-      datasetGroupArn: json['DatasetGroupArn'] as String?,
-      datasetGroupName: json['DatasetGroupName'] as String?,
-      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationTime = this.creationTime;
-    final datasetGroupArn = this.datasetGroupArn;
-    final datasetGroupName = this.datasetGroupName;
-    final lastModificationTime = this.lastModificationTime;
-    return {
-      if (creationTime != null)
-        'CreationTime': unixTimestampToJson(creationTime),
-      if (datasetGroupArn != null) 'DatasetGroupArn': datasetGroupArn,
-      if (datasetGroupName != null) 'DatasetGroupName': datasetGroupName,
-      if (lastModificationTime != null)
-        'LastModificationTime': unixTimestampToJson(lastModificationTime),
-    };
-  }
-}
-
-/// Provides a summary of the dataset import job properties used in the <a
-/// href="https://docs.aws.amazon.com/forecast/latest/dg/API_ListDatasetImportJobs.html">ListDatasetImportJobs</a>
-/// operation. To get the complete set of properties, call the <a
-/// href="https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetImportJob.html">DescribeDatasetImportJob</a>
-/// operation, and provide the <code>DatasetImportJobArn</code>.
-class DatasetImportJobSummary {
-  /// When the dataset import job was created.
-  final DateTime? creationTime;
-
-  /// The location of the training data to import and an Identity and Access
-  /// Management (IAM) role that Amazon Forecast can assume to access the data.
-  /// The training data must be stored in an Amazon S3 bucket.
-  ///
-  /// If encryption is used, <code>DataSource</code> includes an Key Management
-  /// Service (KMS) key.
-  final DataSource? dataSource;
-
-  /// The Amazon Resource Name (ARN) of the dataset import job.
-  final String? datasetImportJobArn;
-
-  /// The name of the dataset import job.
-  final String? datasetImportJobName;
-
-  /// The import mode of the dataset import job, FULL or INCREMENTAL.
-  final ImportMode? importMode;
-
-  /// The last time the resource was modified. The timestamp depends on the status
-  /// of the job:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>CREATE_PENDING</code> - The <code>CreationTime</code>.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_IN_PROGRESS</code> - The current timestamp.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_STOPPING</code> - The current timestamp.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_STOPPED</code> - When the job stopped.
-  /// </li>
-  /// <li>
-  /// <code>ACTIVE</code> or <code>CREATE_FAILED</code> - When the job finished or
-  /// failed.
-  /// </li>
-  /// </ul>
-  final DateTime? lastModificationTime;
-
-  /// If an error occurred, an informational message about the error.
-  final String? message;
-
-  /// The status of the dataset import job. States include:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ACTIVE</code>
-  /// </li>
-  /// <li>
-  /// <code>CREATE_PENDING</code>, <code>CREATE_IN_PROGRESS</code>,
-  /// <code>CREATE_FAILED</code>
-  /// </li>
-  /// <li>
-  /// <code>DELETE_PENDING</code>, <code>DELETE_IN_PROGRESS</code>,
-  /// <code>DELETE_FAILED</code>
-  /// </li>
-  /// <li>
-  /// <code>CREATE_STOPPING</code>, <code>CREATE_STOPPED</code>
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  DatasetImportJobSummary({
-    this.creationTime,
-    this.dataSource,
-    this.datasetImportJobArn,
-    this.datasetImportJobName,
-    this.importMode,
-    this.lastModificationTime,
-    this.message,
-    this.status,
-  });
-
-  factory DatasetImportJobSummary.fromJson(Map<String, dynamic> json) {
-    return DatasetImportJobSummary(
-      creationTime: timeStampFromJson(json['CreationTime']),
-      dataSource: json['DataSource'] != null
-          ? DataSource.fromJson(json['DataSource'] as Map<String, dynamic>)
-          : null,
-      datasetImportJobArn: json['DatasetImportJobArn'] as String?,
-      datasetImportJobName: json['DatasetImportJobName'] as String?,
-      importMode: (json['ImportMode'] as String?)?.let(ImportMode.fromString),
-      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
-      message: json['Message'] as String?,
-      status: json['Status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationTime = this.creationTime;
-    final dataSource = this.dataSource;
-    final datasetImportJobArn = this.datasetImportJobArn;
-    final datasetImportJobName = this.datasetImportJobName;
-    final importMode = this.importMode;
-    final lastModificationTime = this.lastModificationTime;
-    final message = this.message;
-    final status = this.status;
-    return {
-      if (creationTime != null)
-        'CreationTime': unixTimestampToJson(creationTime),
-      if (dataSource != null) 'DataSource': dataSource,
-      if (datasetImportJobArn != null)
-        'DatasetImportJobArn': datasetImportJobArn,
-      if (datasetImportJobName != null)
-        'DatasetImportJobName': datasetImportJobName,
-      if (importMode != null) 'ImportMode': importMode.value,
-      if (lastModificationTime != null)
-        'LastModificationTime': unixTimestampToJson(lastModificationTime),
-      if (message != null) 'Message': message,
-      if (status != null) 'Status': status,
-    };
-  }
-}
-
-/// Provides a summary of the dataset properties used in the <a
-/// href="https://docs.aws.amazon.com/forecast/latest/dg/API_ListDatasets.html">ListDatasets</a>
-/// operation. To get the complete set of properties, call the <a
-/// href="https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDataset.html">DescribeDataset</a>
-/// operation, and provide the <code>DatasetArn</code>.
-class DatasetSummary {
-  /// When the dataset was created.
-  final DateTime? creationTime;
-
-  /// The Amazon Resource Name (ARN) of the dataset.
-  final String? datasetArn;
-
-  /// The name of the dataset.
-  final String? datasetName;
-
-  /// The dataset type.
-  final DatasetType? datasetType;
-
-  /// The domain associated with the dataset.
-  final Domain? domain;
-
-  /// When you create a dataset, <code>LastModificationTime</code> is the same as
-  /// <code>CreationTime</code>. While data is being imported to the dataset,
-  /// <code>LastModificationTime</code> is the current time of the
-  /// <code>ListDatasets</code> call. After a <a
-  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetImportJob.html">CreateDatasetImportJob</a>
-  /// operation has finished, <code>LastModificationTime</code> is when the import
-  /// job completed or failed.
-  final DateTime? lastModificationTime;
-
-  DatasetSummary({
-    this.creationTime,
-    this.datasetArn,
-    this.datasetName,
-    this.datasetType,
-    this.domain,
-    this.lastModificationTime,
-  });
-
-  factory DatasetSummary.fromJson(Map<String, dynamic> json) {
-    return DatasetSummary(
-      creationTime: timeStampFromJson(json['CreationTime']),
-      datasetArn: json['DatasetArn'] as String?,
-      datasetName: json['DatasetName'] as String?,
-      datasetType:
-          (json['DatasetType'] as String?)?.let(DatasetType.fromString),
-      domain: (json['Domain'] as String?)?.let(Domain.fromString),
-      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationTime = this.creationTime;
-    final datasetArn = this.datasetArn;
-    final datasetName = this.datasetName;
-    final datasetType = this.datasetType;
-    final domain = this.domain;
-    final lastModificationTime = this.lastModificationTime;
-    return {
-      if (creationTime != null)
-        'CreationTime': unixTimestampToJson(creationTime),
-      if (datasetArn != null) 'DatasetArn': datasetArn,
-      if (datasetName != null) 'DatasetName': datasetName,
-      if (datasetType != null) 'DatasetType': datasetType.value,
-      if (domain != null) 'Domain': domain.value,
-      if (lastModificationTime != null)
-        'LastModificationTime': unixTimestampToJson(lastModificationTime),
-    };
-  }
-}
-
-class DatasetType {
-  static const targetTimeSeries = DatasetType._('TARGET_TIME_SERIES');
-  static const relatedTimeSeries = DatasetType._('RELATED_TIME_SERIES');
-  static const itemMetadata = DatasetType._('ITEM_METADATA');
-
-  final String value;
-
-  const DatasetType._(this.value);
-
-  static const values = [targetTimeSeries, relatedTimeSeries, itemMetadata];
-
-  static DatasetType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => DatasetType._(value));
-
-  @override
-  bool operator ==(other) => other is DatasetType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DayOfWeek {
-  static const monday = DayOfWeek._('MONDAY');
-  static const tuesday = DayOfWeek._('TUESDAY');
-  static const wednesday = DayOfWeek._('WEDNESDAY');
-  static const thursday = DayOfWeek._('THURSDAY');
-  static const friday = DayOfWeek._('FRIDAY');
-  static const saturday = DayOfWeek._('SATURDAY');
-  static const sunday = DayOfWeek._('SUNDAY');
-
-  final String value;
-
-  const DayOfWeek._(this.value);
-
-  static const values = [
-    monday,
-    tuesday,
-    wednesday,
-    thursday,
-    friday,
-    saturday,
-    sunday
-  ];
-
-  static DayOfWeek fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => DayOfWeek._(value));
-
-  @override
-  bool operator ==(other) => other is DayOfWeek && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class DescribeAutoPredictorResponse {
@@ -6171,6 +5099,141 @@ class DescribeAutoPredictorResponse {
       if (status != null) 'Status': status,
       if (timeAlignmentBoundary != null)
         'TimeAlignmentBoundary': timeAlignmentBoundary,
+    };
+  }
+}
+
+class DescribeDatasetResponse {
+  /// When the dataset was created.
+  final DateTime? creationTime;
+
+  /// The frequency of data collection.
+  ///
+  /// Valid intervals are Y (Year), M (Month), W (Week), D (Day), H (Hour), 30min
+  /// (30 minutes), 15min (15 minutes), 10min (10 minutes), 5min (5 minutes), and
+  /// 1min (1 minute). For example, "M" indicates every month and "30min"
+  /// indicates every 30 minutes.
+  final String? dataFrequency;
+
+  /// The Amazon Resource Name (ARN) of the dataset.
+  final String? datasetArn;
+
+  /// The name of the dataset.
+  final String? datasetName;
+
+  /// The dataset type.
+  final DatasetType? datasetType;
+
+  /// The domain associated with the dataset.
+  final Domain? domain;
+
+  /// The Key Management Service (KMS) key and the Identity and Access Management
+  /// (IAM) role that Amazon Forecast can assume to access the key.
+  final EncryptionConfig? encryptionConfig;
+
+  /// When you create a dataset, <code>LastModificationTime</code> is the same as
+  /// <code>CreationTime</code>. While data is being imported to the dataset,
+  /// <code>LastModificationTime</code> is the current time of the
+  /// <code>DescribeDataset</code> call. After a <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetImportJob.html">CreateDatasetImportJob</a>
+  /// operation has finished, <code>LastModificationTime</code> is when the import
+  /// job completed or failed.
+  final DateTime? lastModificationTime;
+
+  /// An array of <code>SchemaAttribute</code> objects that specify the dataset
+  /// fields. Each <code>SchemaAttribute</code> specifies the name and data type
+  /// of a field.
+  final Schema? schema;
+
+  /// The status of the dataset. States include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code>
+  /// </li>
+  /// <li>
+  /// <code>CREATE_PENDING</code>, <code>CREATE_IN_PROGRESS</code>,
+  /// <code>CREATE_FAILED</code>
+  /// </li>
+  /// <li>
+  /// <code>DELETE_PENDING</code>, <code>DELETE_IN_PROGRESS</code>,
+  /// <code>DELETE_FAILED</code>
+  /// </li>
+  /// <li>
+  /// <code>UPDATE_PENDING</code>, <code>UPDATE_IN_PROGRESS</code>,
+  /// <code>UPDATE_FAILED</code>
+  /// </li>
+  /// </ul>
+  /// The <code>UPDATE</code> states apply while data is imported to the dataset
+  /// from a call to the <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetImportJob.html">CreateDatasetImportJob</a>
+  /// operation and reflect the status of the dataset import job. For example,
+  /// when the import job status is <code>CREATE_IN_PROGRESS</code>, the status of
+  /// the dataset is <code>UPDATE_IN_PROGRESS</code>.
+  /// <note>
+  /// The <code>Status</code> of the dataset must be <code>ACTIVE</code> before
+  /// you can import training data.
+  /// </note>
+  final String? status;
+
+  DescribeDatasetResponse({
+    this.creationTime,
+    this.dataFrequency,
+    this.datasetArn,
+    this.datasetName,
+    this.datasetType,
+    this.domain,
+    this.encryptionConfig,
+    this.lastModificationTime,
+    this.schema,
+    this.status,
+  });
+
+  factory DescribeDatasetResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeDatasetResponse(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      dataFrequency: json['DataFrequency'] as String?,
+      datasetArn: json['DatasetArn'] as String?,
+      datasetName: json['DatasetName'] as String?,
+      datasetType:
+          (json['DatasetType'] as String?)?.let(DatasetType.fromString),
+      domain: (json['Domain'] as String?)?.let(Domain.fromString),
+      encryptionConfig: json['EncryptionConfig'] != null
+          ? EncryptionConfig.fromJson(
+              json['EncryptionConfig'] as Map<String, dynamic>)
+          : null,
+      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
+      schema: json['Schema'] != null
+          ? Schema.fromJson(json['Schema'] as Map<String, dynamic>)
+          : null,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final dataFrequency = this.dataFrequency;
+    final datasetArn = this.datasetArn;
+    final datasetName = this.datasetName;
+    final datasetType = this.datasetType;
+    final domain = this.domain;
+    final encryptionConfig = this.encryptionConfig;
+    final lastModificationTime = this.lastModificationTime;
+    final schema = this.schema;
+    final status = this.status;
+    return {
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (dataFrequency != null) 'DataFrequency': dataFrequency,
+      if (datasetArn != null) 'DatasetArn': datasetArn,
+      if (datasetName != null) 'DatasetName': datasetName,
+      if (datasetType != null) 'DatasetType': datasetType.value,
+      if (domain != null) 'Domain': domain.value,
+      if (encryptionConfig != null) 'EncryptionConfig': encryptionConfig,
+      if (lastModificationTime != null)
+        'LastModificationTime': unixTimestampToJson(lastModificationTime),
+      if (schema != null) 'Schema': schema,
+      if (status != null) 'Status': status,
     };
   }
 }
@@ -6481,262 +5544,6 @@ class DescribeDatasetImportJobResponse {
   }
 }
 
-class DescribeDatasetResponse {
-  /// When the dataset was created.
-  final DateTime? creationTime;
-
-  /// The frequency of data collection.
-  ///
-  /// Valid intervals are Y (Year), M (Month), W (Week), D (Day), H (Hour), 30min
-  /// (30 minutes), 15min (15 minutes), 10min (10 minutes), 5min (5 minutes), and
-  /// 1min (1 minute). For example, "M" indicates every month and "30min"
-  /// indicates every 30 minutes.
-  final String? dataFrequency;
-
-  /// The Amazon Resource Name (ARN) of the dataset.
-  final String? datasetArn;
-
-  /// The name of the dataset.
-  final String? datasetName;
-
-  /// The dataset type.
-  final DatasetType? datasetType;
-
-  /// The domain associated with the dataset.
-  final Domain? domain;
-
-  /// The Key Management Service (KMS) key and the Identity and Access Management
-  /// (IAM) role that Amazon Forecast can assume to access the key.
-  final EncryptionConfig? encryptionConfig;
-
-  /// When you create a dataset, <code>LastModificationTime</code> is the same as
-  /// <code>CreationTime</code>. While data is being imported to the dataset,
-  /// <code>LastModificationTime</code> is the current time of the
-  /// <code>DescribeDataset</code> call. After a <a
-  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetImportJob.html">CreateDatasetImportJob</a>
-  /// operation has finished, <code>LastModificationTime</code> is when the import
-  /// job completed or failed.
-  final DateTime? lastModificationTime;
-
-  /// An array of <code>SchemaAttribute</code> objects that specify the dataset
-  /// fields. Each <code>SchemaAttribute</code> specifies the name and data type
-  /// of a field.
-  final Schema? schema;
-
-  /// The status of the dataset. States include:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ACTIVE</code>
-  /// </li>
-  /// <li>
-  /// <code>CREATE_PENDING</code>, <code>CREATE_IN_PROGRESS</code>,
-  /// <code>CREATE_FAILED</code>
-  /// </li>
-  /// <li>
-  /// <code>DELETE_PENDING</code>, <code>DELETE_IN_PROGRESS</code>,
-  /// <code>DELETE_FAILED</code>
-  /// </li>
-  /// <li>
-  /// <code>UPDATE_PENDING</code>, <code>UPDATE_IN_PROGRESS</code>,
-  /// <code>UPDATE_FAILED</code>
-  /// </li>
-  /// </ul>
-  /// The <code>UPDATE</code> states apply while data is imported to the dataset
-  /// from a call to the <a
-  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetImportJob.html">CreateDatasetImportJob</a>
-  /// operation and reflect the status of the dataset import job. For example,
-  /// when the import job status is <code>CREATE_IN_PROGRESS</code>, the status of
-  /// the dataset is <code>UPDATE_IN_PROGRESS</code>.
-  /// <note>
-  /// The <code>Status</code> of the dataset must be <code>ACTIVE</code> before
-  /// you can import training data.
-  /// </note>
-  final String? status;
-
-  DescribeDatasetResponse({
-    this.creationTime,
-    this.dataFrequency,
-    this.datasetArn,
-    this.datasetName,
-    this.datasetType,
-    this.domain,
-    this.encryptionConfig,
-    this.lastModificationTime,
-    this.schema,
-    this.status,
-  });
-
-  factory DescribeDatasetResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeDatasetResponse(
-      creationTime: timeStampFromJson(json['CreationTime']),
-      dataFrequency: json['DataFrequency'] as String?,
-      datasetArn: json['DatasetArn'] as String?,
-      datasetName: json['DatasetName'] as String?,
-      datasetType:
-          (json['DatasetType'] as String?)?.let(DatasetType.fromString),
-      domain: (json['Domain'] as String?)?.let(Domain.fromString),
-      encryptionConfig: json['EncryptionConfig'] != null
-          ? EncryptionConfig.fromJson(
-              json['EncryptionConfig'] as Map<String, dynamic>)
-          : null,
-      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
-      schema: json['Schema'] != null
-          ? Schema.fromJson(json['Schema'] as Map<String, dynamic>)
-          : null,
-      status: json['Status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationTime = this.creationTime;
-    final dataFrequency = this.dataFrequency;
-    final datasetArn = this.datasetArn;
-    final datasetName = this.datasetName;
-    final datasetType = this.datasetType;
-    final domain = this.domain;
-    final encryptionConfig = this.encryptionConfig;
-    final lastModificationTime = this.lastModificationTime;
-    final schema = this.schema;
-    final status = this.status;
-    return {
-      if (creationTime != null)
-        'CreationTime': unixTimestampToJson(creationTime),
-      if (dataFrequency != null) 'DataFrequency': dataFrequency,
-      if (datasetArn != null) 'DatasetArn': datasetArn,
-      if (datasetName != null) 'DatasetName': datasetName,
-      if (datasetType != null) 'DatasetType': datasetType.value,
-      if (domain != null) 'Domain': domain.value,
-      if (encryptionConfig != null) 'EncryptionConfig': encryptionConfig,
-      if (lastModificationTime != null)
-        'LastModificationTime': unixTimestampToJson(lastModificationTime),
-      if (schema != null) 'Schema': schema,
-      if (status != null) 'Status': status,
-    };
-  }
-}
-
-class DescribeExplainabilityExportResponse {
-  /// When the Explainability export was created.
-  final DateTime? creationTime;
-  final DataDestination? destination;
-
-  /// The Amazon Resource Name (ARN) of the Explainability export.
-  final String? explainabilityArn;
-
-  /// The Amazon Resource Name (ARN) of the Explainability export.
-  final String? explainabilityExportArn;
-
-  /// The name of the Explainability export.
-  final String? explainabilityExportName;
-
-  /// The format of the exported data, CSV or PARQUET.
-  final String? format;
-
-  /// The last time the resource was modified. The timestamp depends on the status
-  /// of the job:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>CREATE_PENDING</code> - The <code>CreationTime</code>.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_IN_PROGRESS</code> - The current timestamp.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_STOPPING</code> - The current timestamp.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_STOPPED</code> - When the job stopped.
-  /// </li>
-  /// <li>
-  /// <code>ACTIVE</code> or <code>CREATE_FAILED</code> - When the job finished or
-  /// failed.
-  /// </li>
-  /// </ul>
-  final DateTime? lastModificationTime;
-
-  /// Information about any errors that occurred during the export.
-  final String? message;
-
-  /// The status of the Explainability export. States include:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ACTIVE</code>
-  /// </li>
-  /// <li>
-  /// <code>CREATE_PENDING</code>, <code>CREATE_IN_PROGRESS</code>,
-  /// <code>CREATE_FAILED</code>
-  /// </li>
-  /// <li>
-  /// <code>CREATE_STOPPING</code>, <code>CREATE_STOPPED</code>
-  /// </li>
-  /// <li>
-  /// <code>DELETE_PENDING</code>, <code>DELETE_IN_PROGRESS</code>,
-  /// <code>DELETE_FAILED</code>
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  DescribeExplainabilityExportResponse({
-    this.creationTime,
-    this.destination,
-    this.explainabilityArn,
-    this.explainabilityExportArn,
-    this.explainabilityExportName,
-    this.format,
-    this.lastModificationTime,
-    this.message,
-    this.status,
-  });
-
-  factory DescribeExplainabilityExportResponse.fromJson(
-      Map<String, dynamic> json) {
-    return DescribeExplainabilityExportResponse(
-      creationTime: timeStampFromJson(json['CreationTime']),
-      destination: json['Destination'] != null
-          ? DataDestination.fromJson(
-              json['Destination'] as Map<String, dynamic>)
-          : null,
-      explainabilityArn: json['ExplainabilityArn'] as String?,
-      explainabilityExportArn: json['ExplainabilityExportArn'] as String?,
-      explainabilityExportName: json['ExplainabilityExportName'] as String?,
-      format: json['Format'] as String?,
-      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
-      message: json['Message'] as String?,
-      status: json['Status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationTime = this.creationTime;
-    final destination = this.destination;
-    final explainabilityArn = this.explainabilityArn;
-    final explainabilityExportArn = this.explainabilityExportArn;
-    final explainabilityExportName = this.explainabilityExportName;
-    final format = this.format;
-    final lastModificationTime = this.lastModificationTime;
-    final message = this.message;
-    final status = this.status;
-    return {
-      if (creationTime != null)
-        'CreationTime': unixTimestampToJson(creationTime),
-      if (destination != null) 'Destination': destination,
-      if (explainabilityArn != null) 'ExplainabilityArn': explainabilityArn,
-      if (explainabilityExportArn != null)
-        'ExplainabilityExportArn': explainabilityExportArn,
-      if (explainabilityExportName != null)
-        'ExplainabilityExportName': explainabilityExportName,
-      if (format != null) 'Format': format,
-      if (lastModificationTime != null)
-        'LastModificationTime': unixTimestampToJson(lastModificationTime),
-      if (message != null) 'Message': message,
-      if (status != null) 'Status': status,
-    };
-  }
-}
-
 class DescribeExplainabilityResponse {
   /// When the Explainability resource was created.
   final DateTime? creationTime;
@@ -6902,22 +5709,19 @@ class DescribeExplainabilityResponse {
   }
 }
 
-class DescribeForecastExportJobResponse {
-  /// When the forecast export job was created.
+class DescribeExplainabilityExportResponse {
+  /// When the Explainability export was created.
   final DateTime? creationTime;
-
-  /// The path to the Amazon Simple Storage Service (Amazon S3) bucket where the
-  /// forecast is exported.
   final DataDestination? destination;
 
-  /// The Amazon Resource Name (ARN) of the exported forecast.
-  final String? forecastArn;
+  /// The Amazon Resource Name (ARN) of the Explainability export.
+  final String? explainabilityArn;
 
-  /// The ARN of the forecast export job.
-  final String? forecastExportJobArn;
+  /// The Amazon Resource Name (ARN) of the Explainability export.
+  final String? explainabilityExportArn;
 
-  /// The name of the forecast export job.
-  final String? forecastExportJobName;
+  /// The name of the Explainability export.
+  final String? explainabilityExportName;
 
   /// The format of the exported data, CSV or PARQUET.
   final String? format;
@@ -6945,10 +5749,10 @@ class DescribeForecastExportJobResponse {
   /// </ul>
   final DateTime? lastModificationTime;
 
-  /// If an error occurred, an informational message about the error.
+  /// Information about any errors that occurred during the export.
   final String? message;
 
-  /// The status of the forecast export job. States include:
+  /// The status of the Explainability export. States include:
   ///
   /// <ul>
   /// <li>
@@ -6965,35 +5769,32 @@ class DescribeForecastExportJobResponse {
   /// <code>DELETE_PENDING</code>, <code>DELETE_IN_PROGRESS</code>,
   /// <code>DELETE_FAILED</code>
   /// </li>
-  /// </ul> <note>
-  /// The <code>Status</code> of the forecast export job must be
-  /// <code>ACTIVE</code> before you can access the forecast in your S3 bucket.
-  /// </note>
+  /// </ul>
   final String? status;
 
-  DescribeForecastExportJobResponse({
+  DescribeExplainabilityExportResponse({
     this.creationTime,
     this.destination,
-    this.forecastArn,
-    this.forecastExportJobArn,
-    this.forecastExportJobName,
+    this.explainabilityArn,
+    this.explainabilityExportArn,
+    this.explainabilityExportName,
     this.format,
     this.lastModificationTime,
     this.message,
     this.status,
   });
 
-  factory DescribeForecastExportJobResponse.fromJson(
+  factory DescribeExplainabilityExportResponse.fromJson(
       Map<String, dynamic> json) {
-    return DescribeForecastExportJobResponse(
+    return DescribeExplainabilityExportResponse(
       creationTime: timeStampFromJson(json['CreationTime']),
       destination: json['Destination'] != null
           ? DataDestination.fromJson(
               json['Destination'] as Map<String, dynamic>)
           : null,
-      forecastArn: json['ForecastArn'] as String?,
-      forecastExportJobArn: json['ForecastExportJobArn'] as String?,
-      forecastExportJobName: json['ForecastExportJobName'] as String?,
+      explainabilityArn: json['ExplainabilityArn'] as String?,
+      explainabilityExportArn: json['ExplainabilityExportArn'] as String?,
+      explainabilityExportName: json['ExplainabilityExportName'] as String?,
       format: json['Format'] as String?,
       lastModificationTime: timeStampFromJson(json['LastModificationTime']),
       message: json['Message'] as String?,
@@ -7004,9 +5805,9 @@ class DescribeForecastExportJobResponse {
   Map<String, dynamic> toJson() {
     final creationTime = this.creationTime;
     final destination = this.destination;
-    final forecastArn = this.forecastArn;
-    final forecastExportJobArn = this.forecastExportJobArn;
-    final forecastExportJobName = this.forecastExportJobName;
+    final explainabilityArn = this.explainabilityArn;
+    final explainabilityExportArn = this.explainabilityExportArn;
+    final explainabilityExportName = this.explainabilityExportName;
     final format = this.format;
     final lastModificationTime = this.lastModificationTime;
     final message = this.message;
@@ -7015,11 +5816,11 @@ class DescribeForecastExportJobResponse {
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
       if (destination != null) 'Destination': destination,
-      if (forecastArn != null) 'ForecastArn': forecastArn,
-      if (forecastExportJobArn != null)
-        'ForecastExportJobArn': forecastExportJobArn,
-      if (forecastExportJobName != null)
-        'ForecastExportJobName': forecastExportJobName,
+      if (explainabilityArn != null) 'ExplainabilityArn': explainabilityArn,
+      if (explainabilityExportArn != null)
+        'ExplainabilityExportArn': explainabilityExportArn,
+      if (explainabilityExportName != null)
+        'ExplainabilityExportName': explainabilityExportName,
       if (format != null) 'Format': format,
       if (lastModificationTime != null)
         'LastModificationTime': unixTimestampToJson(lastModificationTime),
@@ -7173,6 +5974,133 @@ class DescribeForecastResponse {
   }
 }
 
+class DescribeForecastExportJobResponse {
+  /// When the forecast export job was created.
+  final DateTime? creationTime;
+
+  /// The path to the Amazon Simple Storage Service (Amazon S3) bucket where the
+  /// forecast is exported.
+  final DataDestination? destination;
+
+  /// The Amazon Resource Name (ARN) of the exported forecast.
+  final String? forecastArn;
+
+  /// The ARN of the forecast export job.
+  final String? forecastExportJobArn;
+
+  /// The name of the forecast export job.
+  final String? forecastExportJobName;
+
+  /// The format of the exported data, CSV or PARQUET.
+  final String? format;
+
+  /// The last time the resource was modified. The timestamp depends on the status
+  /// of the job:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATE_PENDING</code> - The <code>CreationTime</code>.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_IN_PROGRESS</code> - The current timestamp.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_STOPPING</code> - The current timestamp.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_STOPPED</code> - When the job stopped.
+  /// </li>
+  /// <li>
+  /// <code>ACTIVE</code> or <code>CREATE_FAILED</code> - When the job finished or
+  /// failed.
+  /// </li>
+  /// </ul>
+  final DateTime? lastModificationTime;
+
+  /// If an error occurred, an informational message about the error.
+  final String? message;
+
+  /// The status of the forecast export job. States include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code>
+  /// </li>
+  /// <li>
+  /// <code>CREATE_PENDING</code>, <code>CREATE_IN_PROGRESS</code>,
+  /// <code>CREATE_FAILED</code>
+  /// </li>
+  /// <li>
+  /// <code>CREATE_STOPPING</code>, <code>CREATE_STOPPED</code>
+  /// </li>
+  /// <li>
+  /// <code>DELETE_PENDING</code>, <code>DELETE_IN_PROGRESS</code>,
+  /// <code>DELETE_FAILED</code>
+  /// </li>
+  /// </ul> <note>
+  /// The <code>Status</code> of the forecast export job must be
+  /// <code>ACTIVE</code> before you can access the forecast in your S3 bucket.
+  /// </note>
+  final String? status;
+
+  DescribeForecastExportJobResponse({
+    this.creationTime,
+    this.destination,
+    this.forecastArn,
+    this.forecastExportJobArn,
+    this.forecastExportJobName,
+    this.format,
+    this.lastModificationTime,
+    this.message,
+    this.status,
+  });
+
+  factory DescribeForecastExportJobResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeForecastExportJobResponse(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      destination: json['Destination'] != null
+          ? DataDestination.fromJson(
+              json['Destination'] as Map<String, dynamic>)
+          : null,
+      forecastArn: json['ForecastArn'] as String?,
+      forecastExportJobArn: json['ForecastExportJobArn'] as String?,
+      forecastExportJobName: json['ForecastExportJobName'] as String?,
+      format: json['Format'] as String?,
+      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
+      message: json['Message'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final destination = this.destination;
+    final forecastArn = this.forecastArn;
+    final forecastExportJobArn = this.forecastExportJobArn;
+    final forecastExportJobName = this.forecastExportJobName;
+    final format = this.format;
+    final lastModificationTime = this.lastModificationTime;
+    final message = this.message;
+    final status = this.status;
+    return {
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (destination != null) 'Destination': destination,
+      if (forecastArn != null) 'ForecastArn': forecastArn,
+      if (forecastExportJobArn != null)
+        'ForecastExportJobArn': forecastExportJobArn,
+      if (forecastExportJobName != null)
+        'ForecastExportJobName': forecastExportJobName,
+      if (format != null) 'Format': format,
+      if (lastModificationTime != null)
+        'LastModificationTime': unixTimestampToJson(lastModificationTime),
+      if (message != null) 'Message': message,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
 class DescribeMonitorResponse {
   /// Metrics you can use as a baseline for comparison purposes. Use these values
   /// you interpret monitoring results for an auto predictor.
@@ -7272,130 +6200,6 @@ class DescribeMonitorResponse {
       if (monitorArn != null) 'MonitorArn': monitorArn,
       if (monitorName != null) 'MonitorName': monitorName,
       if (resourceArn != null) 'ResourceArn': resourceArn,
-      if (status != null) 'Status': status,
-    };
-  }
-}
-
-class DescribePredictorBacktestExportJobResponse {
-  /// When the predictor backtest export job was created.
-  final DateTime? creationTime;
-  final DataDestination? destination;
-
-  /// The format of the exported data, CSV or PARQUET.
-  final String? format;
-
-  /// The last time the resource was modified. The timestamp depends on the status
-  /// of the job:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>CREATE_PENDING</code> - The <code>CreationTime</code>.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_IN_PROGRESS</code> - The current timestamp.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_STOPPING</code> - The current timestamp.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_STOPPED</code> - When the job stopped.
-  /// </li>
-  /// <li>
-  /// <code>ACTIVE</code> or <code>CREATE_FAILED</code> - When the job finished or
-  /// failed.
-  /// </li>
-  /// </ul>
-  final DateTime? lastModificationTime;
-
-  /// Information about any errors that may have occurred during the backtest
-  /// export.
-  final String? message;
-
-  /// The Amazon Resource Name (ARN) of the predictor.
-  final String? predictorArn;
-
-  /// The Amazon Resource Name (ARN) of the predictor backtest export job.
-  final String? predictorBacktestExportJobArn;
-
-  /// The name of the predictor backtest export job.
-  final String? predictorBacktestExportJobName;
-
-  /// The status of the predictor backtest export job. States include:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ACTIVE</code>
-  /// </li>
-  /// <li>
-  /// <code>CREATE_PENDING</code>, <code>CREATE_IN_PROGRESS</code>,
-  /// <code>CREATE_FAILED</code>
-  /// </li>
-  /// <li>
-  /// <code>CREATE_STOPPING</code>, <code>CREATE_STOPPED</code>
-  /// </li>
-  /// <li>
-  /// <code>DELETE_PENDING</code>, <code>DELETE_IN_PROGRESS</code>,
-  /// <code>DELETE_FAILED</code>
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  DescribePredictorBacktestExportJobResponse({
-    this.creationTime,
-    this.destination,
-    this.format,
-    this.lastModificationTime,
-    this.message,
-    this.predictorArn,
-    this.predictorBacktestExportJobArn,
-    this.predictorBacktestExportJobName,
-    this.status,
-  });
-
-  factory DescribePredictorBacktestExportJobResponse.fromJson(
-      Map<String, dynamic> json) {
-    return DescribePredictorBacktestExportJobResponse(
-      creationTime: timeStampFromJson(json['CreationTime']),
-      destination: json['Destination'] != null
-          ? DataDestination.fromJson(
-              json['Destination'] as Map<String, dynamic>)
-          : null,
-      format: json['Format'] as String?,
-      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
-      message: json['Message'] as String?,
-      predictorArn: json['PredictorArn'] as String?,
-      predictorBacktestExportJobArn:
-          json['PredictorBacktestExportJobArn'] as String?,
-      predictorBacktestExportJobName:
-          json['PredictorBacktestExportJobName'] as String?,
-      status: json['Status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationTime = this.creationTime;
-    final destination = this.destination;
-    final format = this.format;
-    final lastModificationTime = this.lastModificationTime;
-    final message = this.message;
-    final predictorArn = this.predictorArn;
-    final predictorBacktestExportJobArn = this.predictorBacktestExportJobArn;
-    final predictorBacktestExportJobName = this.predictorBacktestExportJobName;
-    final status = this.status;
-    return {
-      if (creationTime != null)
-        'CreationTime': unixTimestampToJson(creationTime),
-      if (destination != null) 'Destination': destination,
-      if (format != null) 'Format': format,
-      if (lastModificationTime != null)
-        'LastModificationTime': unixTimestampToJson(lastModificationTime),
-      if (message != null) 'Message': message,
-      if (predictorArn != null) 'PredictorArn': predictorArn,
-      if (predictorBacktestExportJobArn != null)
-        'PredictorBacktestExportJobArn': predictorBacktestExportJobArn,
-      if (predictorBacktestExportJobName != null)
-        'PredictorBacktestExportJobName': predictorBacktestExportJobName,
       if (status != null) 'Status': status,
     };
   }
@@ -7690,6 +6494,130 @@ class DescribePredictorResponse {
   }
 }
 
+class DescribePredictorBacktestExportJobResponse {
+  /// When the predictor backtest export job was created.
+  final DateTime? creationTime;
+  final DataDestination? destination;
+
+  /// The format of the exported data, CSV or PARQUET.
+  final String? format;
+
+  /// The last time the resource was modified. The timestamp depends on the status
+  /// of the job:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATE_PENDING</code> - The <code>CreationTime</code>.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_IN_PROGRESS</code> - The current timestamp.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_STOPPING</code> - The current timestamp.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_STOPPED</code> - When the job stopped.
+  /// </li>
+  /// <li>
+  /// <code>ACTIVE</code> or <code>CREATE_FAILED</code> - When the job finished or
+  /// failed.
+  /// </li>
+  /// </ul>
+  final DateTime? lastModificationTime;
+
+  /// Information about any errors that may have occurred during the backtest
+  /// export.
+  final String? message;
+
+  /// The Amazon Resource Name (ARN) of the predictor.
+  final String? predictorArn;
+
+  /// The Amazon Resource Name (ARN) of the predictor backtest export job.
+  final String? predictorBacktestExportJobArn;
+
+  /// The name of the predictor backtest export job.
+  final String? predictorBacktestExportJobName;
+
+  /// The status of the predictor backtest export job. States include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code>
+  /// </li>
+  /// <li>
+  /// <code>CREATE_PENDING</code>, <code>CREATE_IN_PROGRESS</code>,
+  /// <code>CREATE_FAILED</code>
+  /// </li>
+  /// <li>
+  /// <code>CREATE_STOPPING</code>, <code>CREATE_STOPPED</code>
+  /// </li>
+  /// <li>
+  /// <code>DELETE_PENDING</code>, <code>DELETE_IN_PROGRESS</code>,
+  /// <code>DELETE_FAILED</code>
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  DescribePredictorBacktestExportJobResponse({
+    this.creationTime,
+    this.destination,
+    this.format,
+    this.lastModificationTime,
+    this.message,
+    this.predictorArn,
+    this.predictorBacktestExportJobArn,
+    this.predictorBacktestExportJobName,
+    this.status,
+  });
+
+  factory DescribePredictorBacktestExportJobResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribePredictorBacktestExportJobResponse(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      destination: json['Destination'] != null
+          ? DataDestination.fromJson(
+              json['Destination'] as Map<String, dynamic>)
+          : null,
+      format: json['Format'] as String?,
+      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
+      message: json['Message'] as String?,
+      predictorArn: json['PredictorArn'] as String?,
+      predictorBacktestExportJobArn:
+          json['PredictorBacktestExportJobArn'] as String?,
+      predictorBacktestExportJobName:
+          json['PredictorBacktestExportJobName'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final destination = this.destination;
+    final format = this.format;
+    final lastModificationTime = this.lastModificationTime;
+    final message = this.message;
+    final predictorArn = this.predictorArn;
+    final predictorBacktestExportJobArn = this.predictorBacktestExportJobArn;
+    final predictorBacktestExportJobName = this.predictorBacktestExportJobName;
+    final status = this.status;
+    return {
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (destination != null) 'Destination': destination,
+      if (format != null) 'Format': format,
+      if (lastModificationTime != null)
+        'LastModificationTime': unixTimestampToJson(lastModificationTime),
+      if (message != null) 'Message': message,
+      if (predictorArn != null) 'PredictorArn': predictorArn,
+      if (predictorBacktestExportJobArn != null)
+        'PredictorBacktestExportJobArn': predictorBacktestExportJobArn,
+      if (predictorBacktestExportJobName != null)
+        'PredictorBacktestExportJobName': predictorBacktestExportJobName,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
 class DescribeWhatIfAnalysisResponse {
   /// When the what-if analysis was created.
   final DateTime? creationTime;
@@ -7810,145 +6738,6 @@ class DescribeWhatIfAnalysisResponse {
       if (timeSeriesSelector != null) 'TimeSeriesSelector': timeSeriesSelector,
       if (whatIfAnalysisArn != null) 'WhatIfAnalysisArn': whatIfAnalysisArn,
       if (whatIfAnalysisName != null) 'WhatIfAnalysisName': whatIfAnalysisName,
-    };
-  }
-}
-
-class DescribeWhatIfForecastExportResponse {
-  /// When the what-if forecast export was created.
-  final DateTime? creationTime;
-  final DataDestination? destination;
-
-  /// The approximate time remaining to complete the what-if forecast export, in
-  /// minutes.
-  final int? estimatedTimeRemainingInMinutes;
-
-  /// The format of the exported data, CSV or PARQUET.
-  final String? format;
-
-  /// The last time the resource was modified. The timestamp depends on the status
-  /// of the job:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>CREATE_PENDING</code> - The <code>CreationTime</code>.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_IN_PROGRESS</code> - The current timestamp.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_STOPPING</code> - The current timestamp.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_STOPPED</code> - When the job stopped.
-  /// </li>
-  /// <li>
-  /// <code>ACTIVE</code> or <code>CREATE_FAILED</code> - When the job finished or
-  /// failed.
-  /// </li>
-  /// </ul>
-  final DateTime? lastModificationTime;
-
-  /// If an error occurred, an informational message about the error.
-  final String? message;
-
-  /// The status of the what-if forecast. States include:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ACTIVE</code>
-  /// </li>
-  /// <li>
-  /// <code>CREATE_PENDING</code>, <code>CREATE_IN_PROGRESS</code>,
-  /// <code>CREATE_FAILED</code>
-  /// </li>
-  /// <li>
-  /// <code>CREATE_STOPPING</code>, <code>CREATE_STOPPED</code>
-  /// </li>
-  /// <li>
-  /// <code>DELETE_PENDING</code>, <code>DELETE_IN_PROGRESS</code>,
-  /// <code>DELETE_FAILED</code>
-  /// </li>
-  /// </ul> <note>
-  /// The <code>Status</code> of the what-if forecast export must be
-  /// <code>ACTIVE</code> before you can access the forecast export.
-  /// </note>
-  final String? status;
-
-  /// An array of Amazon Resource Names (ARNs) that represent all of the what-if
-  /// forecasts exported in this resource.
-  final List<String>? whatIfForecastArns;
-
-  /// The Amazon Resource Name (ARN) of the what-if forecast export.
-  final String? whatIfForecastExportArn;
-
-  /// The name of the what-if forecast export.
-  final String? whatIfForecastExportName;
-
-  DescribeWhatIfForecastExportResponse({
-    this.creationTime,
-    this.destination,
-    this.estimatedTimeRemainingInMinutes,
-    this.format,
-    this.lastModificationTime,
-    this.message,
-    this.status,
-    this.whatIfForecastArns,
-    this.whatIfForecastExportArn,
-    this.whatIfForecastExportName,
-  });
-
-  factory DescribeWhatIfForecastExportResponse.fromJson(
-      Map<String, dynamic> json) {
-    return DescribeWhatIfForecastExportResponse(
-      creationTime: timeStampFromJson(json['CreationTime']),
-      destination: json['Destination'] != null
-          ? DataDestination.fromJson(
-              json['Destination'] as Map<String, dynamic>)
-          : null,
-      estimatedTimeRemainingInMinutes:
-          json['EstimatedTimeRemainingInMinutes'] as int?,
-      format: json['Format'] as String?,
-      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
-      message: json['Message'] as String?,
-      status: json['Status'] as String?,
-      whatIfForecastArns: (json['WhatIfForecastArns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      whatIfForecastExportArn: json['WhatIfForecastExportArn'] as String?,
-      whatIfForecastExportName: json['WhatIfForecastExportName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationTime = this.creationTime;
-    final destination = this.destination;
-    final estimatedTimeRemainingInMinutes =
-        this.estimatedTimeRemainingInMinutes;
-    final format = this.format;
-    final lastModificationTime = this.lastModificationTime;
-    final message = this.message;
-    final status = this.status;
-    final whatIfForecastArns = this.whatIfForecastArns;
-    final whatIfForecastExportArn = this.whatIfForecastExportArn;
-    final whatIfForecastExportName = this.whatIfForecastExportName;
-    return {
-      if (creationTime != null)
-        'CreationTime': unixTimestampToJson(creationTime),
-      if (destination != null) 'Destination': destination,
-      if (estimatedTimeRemainingInMinutes != null)
-        'EstimatedTimeRemainingInMinutes': estimatedTimeRemainingInMinutes,
-      if (format != null) 'Format': format,
-      if (lastModificationTime != null)
-        'LastModificationTime': unixTimestampToJson(lastModificationTime),
-      if (message != null) 'Message': message,
-      if (status != null) 'Status': status,
-      if (whatIfForecastArns != null) 'WhatIfForecastArns': whatIfForecastArns,
-      if (whatIfForecastExportArn != null)
-        'WhatIfForecastExportArn': whatIfForecastExportArn,
-      if (whatIfForecastExportName != null)
-        'WhatIfForecastExportName': whatIfForecastExportName,
     };
   }
 }
@@ -8112,304 +6901,17 @@ class DescribeWhatIfForecastResponse {
   }
 }
 
-class Domain {
-  static const retail = Domain._('RETAIL');
-  static const custom = Domain._('CUSTOM');
-  static const inventoryPlanning = Domain._('INVENTORY_PLANNING');
-  static const ec2Capacity = Domain._('EC2_CAPACITY');
-  static const workForce = Domain._('WORK_FORCE');
-  static const webTraffic = Domain._('WEB_TRAFFIC');
-  static const metrics = Domain._('METRICS');
-
-  final String value;
-
-  const Domain._(this.value);
-
-  static const values = [
-    retail,
-    custom,
-    inventoryPlanning,
-    ec2Capacity,
-    workForce,
-    webTraffic,
-    metrics
-  ];
-
-  static Domain fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Domain._(value));
-
-  @override
-  bool operator ==(other) => other is Domain && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An Key Management Service (KMS) key and an Identity and Access Management
-/// (IAM) role that Amazon Forecast can assume to access the key. You can
-/// specify this optional object in the <a>CreateDataset</a> and
-/// <a>CreatePredictor</a> requests.
-class EncryptionConfig {
-  /// The Amazon Resource Name (ARN) of the KMS key.
-  final String kMSKeyArn;
-
-  /// The ARN of the IAM role that Amazon Forecast can assume to access the KMS
-  /// key.
-  ///
-  /// Passing a role across Amazon Web Services accounts is not allowed. If you
-  /// pass a role that isn't in your account, you get an
-  /// <code>InvalidInputException</code> error.
-  final String roleArn;
-
-  EncryptionConfig({
-    required this.kMSKeyArn,
-    required this.roleArn,
-  });
-
-  factory EncryptionConfig.fromJson(Map<String, dynamic> json) {
-    return EncryptionConfig(
-      kMSKeyArn: (json['KMSKeyArn'] as String?) ?? '',
-      roleArn: (json['RoleArn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final kMSKeyArn = this.kMSKeyArn;
-    final roleArn = this.roleArn;
-    return {
-      'KMSKeyArn': kMSKeyArn,
-      'RoleArn': roleArn,
-    };
-  }
-}
-
-/// Provides detailed error metrics to evaluate the performance of a predictor.
-/// This object is part of the <a>Metrics</a> object.
-class ErrorMetric {
-  /// The Forecast type used to compute WAPE, MAPE, MASE, and RMSE.
-  final String? forecastType;
-
-  /// The Mean Absolute Percentage Error (MAPE)
-  final double? mape;
-
-  /// The Mean Absolute Scaled Error (MASE)
-  final double? mase;
-
-  /// The root-mean-square error (RMSE).
-  final double? rmse;
-
-  /// The weighted absolute percentage error (WAPE).
-  final double? wape;
-
-  ErrorMetric({
-    this.forecastType,
-    this.mape,
-    this.mase,
-    this.rmse,
-    this.wape,
-  });
-
-  factory ErrorMetric.fromJson(Map<String, dynamic> json) {
-    return ErrorMetric(
-      forecastType: json['ForecastType'] as String?,
-      mape: json['MAPE'] as double?,
-      mase: json['MASE'] as double?,
-      rmse: json['RMSE'] as double?,
-      wape: json['WAPE'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final forecastType = this.forecastType;
-    final mape = this.mape;
-    final mase = this.mase;
-    final rmse = this.rmse;
-    final wape = this.wape;
-    return {
-      if (forecastType != null) 'ForecastType': forecastType,
-      if (mape != null) 'MAPE': mape,
-      if (mase != null) 'MASE': mase,
-      if (rmse != null) 'RMSE': rmse,
-      if (wape != null) 'WAPE': wape,
-    };
-  }
-}
-
-/// Parameters that define how to split a dataset into training data and testing
-/// data, and the number of iterations to perform. These parameters are
-/// specified in the predefined algorithms but you can override them in the
-/// <a>CreatePredictor</a> request.
-class EvaluationParameters {
-  /// The point from the end of the dataset where you want to split the data for
-  /// model training and testing (evaluation). Specify the value as the number of
-  /// data points. The default is the value of the forecast horizon.
-  /// <code>BackTestWindowOffset</code> can be used to mimic a past virtual
-  /// forecast start date. This value must be greater than or equal to the
-  /// forecast horizon and less than half of the TARGET_TIME_SERIES dataset
-  /// length.
-  ///
-  /// <code>ForecastHorizon</code> &lt;= <code>BackTestWindowOffset</code> &lt;
-  /// 1/2 * TARGET_TIME_SERIES dataset length
-  final int? backTestWindowOffset;
-
-  /// The number of times to split the input data. The default is 1. Valid values
-  /// are 1 through 5.
-  final int? numberOfBacktestWindows;
-
-  EvaluationParameters({
-    this.backTestWindowOffset,
-    this.numberOfBacktestWindows,
-  });
-
-  factory EvaluationParameters.fromJson(Map<String, dynamic> json) {
-    return EvaluationParameters(
-      backTestWindowOffset: json['BackTestWindowOffset'] as int?,
-      numberOfBacktestWindows: json['NumberOfBacktestWindows'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final backTestWindowOffset = this.backTestWindowOffset;
-    final numberOfBacktestWindows = this.numberOfBacktestWindows;
-    return {
-      if (backTestWindowOffset != null)
-        'BackTestWindowOffset': backTestWindowOffset,
-      if (numberOfBacktestWindows != null)
-        'NumberOfBacktestWindows': numberOfBacktestWindows,
-    };
-  }
-}
-
-/// The results of evaluating an algorithm. Returned as part of the
-/// <a>GetAccuracyMetrics</a> response.
-class EvaluationResult {
-  /// The Amazon Resource Name (ARN) of the algorithm that was evaluated.
-  final String? algorithmArn;
-
-  /// The array of test windows used for evaluating the algorithm. The
-  /// <code>NumberOfBacktestWindows</code> from the <a>EvaluationParameters</a>
-  /// object determines the number of windows in the array.
-  final List<WindowSummary>? testWindows;
-
-  EvaluationResult({
-    this.algorithmArn,
-    this.testWindows,
-  });
-
-  factory EvaluationResult.fromJson(Map<String, dynamic> json) {
-    return EvaluationResult(
-      algorithmArn: json['AlgorithmArn'] as String?,
-      testWindows: (json['TestWindows'] as List?)
-          ?.nonNulls
-          .map((e) => WindowSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final algorithmArn = this.algorithmArn;
-    final testWindows = this.testWindows;
-    return {
-      if (algorithmArn != null) 'AlgorithmArn': algorithmArn,
-      if (testWindows != null) 'TestWindows': testWindows,
-    };
-  }
-}
-
-class EvaluationType {
-  static const summary = EvaluationType._('SUMMARY');
-  static const computed = EvaluationType._('COMPUTED');
-
-  final String value;
-
-  const EvaluationType._(this.value);
-
-  static const values = [summary, computed];
-
-  static EvaluationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EvaluationType._(value));
-
-  @override
-  bool operator ==(other) => other is EvaluationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The ExplainabilityConfig data type defines the number of time series and
-/// time points included in <a>CreateExplainability</a>.
-///
-/// If you provide a predictor ARN for <code>ResourceArn</code>, you must set
-/// both <code>TimePointGranularity</code> and
-/// <code>TimeSeriesGranularity</code> to “ALL”. When creating Predictor
-/// Explainability, Amazon Forecast considers all time series and time points.
-///
-/// If you provide a forecast ARN for <code>ResourceArn</code>, you can set
-/// <code>TimePointGranularity</code> and <code>TimeSeriesGranularity</code> to
-/// either “ALL” or “Specific”.
-class ExplainabilityConfig {
-  /// To create an Explainability for all time points in your forecast horizon,
-  /// use <code>ALL</code>. To create an Explainability for specific time points
-  /// in your forecast horizon, use <code>SPECIFIC</code>.
-  ///
-  /// Specify time points with the <code>StartDateTime</code> and
-  /// <code>EndDateTime</code> parameters within the <a>CreateExplainability</a>
-  /// operation.
-  final TimePointGranularity timePointGranularity;
-
-  /// To create an Explainability for all time series in your datasets, use
-  /// <code>ALL</code>. To create an Explainability for specific time series in
-  /// your datasets, use <code>SPECIFIC</code>.
-  ///
-  /// Specify time series by uploading a CSV or Parquet file to an Amazon S3
-  /// bucket and set the location within the <a>DataDestination</a> data type.
-  final TimeSeriesGranularity timeSeriesGranularity;
-
-  ExplainabilityConfig({
-    required this.timePointGranularity,
-    required this.timeSeriesGranularity,
-  });
-
-  factory ExplainabilityConfig.fromJson(Map<String, dynamic> json) {
-    return ExplainabilityConfig(
-      timePointGranularity: TimePointGranularity.fromString(
-          (json['TimePointGranularity'] as String?) ?? ''),
-      timeSeriesGranularity: TimeSeriesGranularity.fromString(
-          (json['TimeSeriesGranularity'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final timePointGranularity = this.timePointGranularity;
-    final timeSeriesGranularity = this.timeSeriesGranularity;
-    return {
-      'TimePointGranularity': timePointGranularity.value,
-      'TimeSeriesGranularity': timeSeriesGranularity.value,
-    };
-  }
-}
-
-/// Provides a summary of the Explainability export properties used in the
-/// <a>ListExplainabilityExports</a> operation. To get a complete set of
-/// properties, call the <a>DescribeExplainabilityExport</a> operation, and
-/// provide the <code>ExplainabilityExportArn</code>.
-class ExplainabilityExportSummary {
-  /// When the Explainability was created.
+class DescribeWhatIfForecastExportResponse {
+  /// When the what-if forecast export was created.
   final DateTime? creationTime;
   final DataDestination? destination;
 
-  /// The Amazon Resource Name (ARN) of the Explainability export.
-  final String? explainabilityExportArn;
+  /// The approximate time remaining to complete the what-if forecast export, in
+  /// minutes.
+  final int? estimatedTimeRemainingInMinutes;
 
-  /// The name of the Explainability export
-  final String? explainabilityExportName;
+  /// The format of the exported data, CSV or PARQUET.
+  final String? format;
 
   /// The last time the resource was modified. The timestamp depends on the status
   /// of the job:
@@ -8434,11 +6936,10 @@ class ExplainabilityExportSummary {
   /// </ul>
   final DateTime? lastModificationTime;
 
-  /// Information about any errors that may have occurred during the
-  /// Explainability export.
+  /// If an error occurred, an informational message about the error.
   final String? message;
 
-  /// The status of the Explainability export. States include:
+  /// The status of the what-if forecast. States include:
   ///
   /// <ul>
   /// <li>
@@ -8455,816 +6956,86 @@ class ExplainabilityExportSummary {
   /// <code>DELETE_PENDING</code>, <code>DELETE_IN_PROGRESS</code>,
   /// <code>DELETE_FAILED</code>
   /// </li>
-  /// </ul>
+  /// </ul> <note>
+  /// The <code>Status</code> of the what-if forecast export must be
+  /// <code>ACTIVE</code> before you can access the forecast export.
+  /// </note>
   final String? status;
 
-  ExplainabilityExportSummary({
+  /// An array of Amazon Resource Names (ARNs) that represent all of the what-if
+  /// forecasts exported in this resource.
+  final List<String>? whatIfForecastArns;
+
+  /// The Amazon Resource Name (ARN) of the what-if forecast export.
+  final String? whatIfForecastExportArn;
+
+  /// The name of the what-if forecast export.
+  final String? whatIfForecastExportName;
+
+  DescribeWhatIfForecastExportResponse({
     this.creationTime,
     this.destination,
-    this.explainabilityExportArn,
-    this.explainabilityExportName,
+    this.estimatedTimeRemainingInMinutes,
+    this.format,
     this.lastModificationTime,
     this.message,
     this.status,
+    this.whatIfForecastArns,
+    this.whatIfForecastExportArn,
+    this.whatIfForecastExportName,
   });
 
-  factory ExplainabilityExportSummary.fromJson(Map<String, dynamic> json) {
-    return ExplainabilityExportSummary(
+  factory DescribeWhatIfForecastExportResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeWhatIfForecastExportResponse(
       creationTime: timeStampFromJson(json['CreationTime']),
       destination: json['Destination'] != null
           ? DataDestination.fromJson(
               json['Destination'] as Map<String, dynamic>)
           : null,
-      explainabilityExportArn: json['ExplainabilityExportArn'] as String?,
-      explainabilityExportName: json['ExplainabilityExportName'] as String?,
+      estimatedTimeRemainingInMinutes:
+          json['EstimatedTimeRemainingInMinutes'] as int?,
+      format: json['Format'] as String?,
       lastModificationTime: timeStampFromJson(json['LastModificationTime']),
       message: json['Message'] as String?,
       status: json['Status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationTime = this.creationTime;
-    final destination = this.destination;
-    final explainabilityExportArn = this.explainabilityExportArn;
-    final explainabilityExportName = this.explainabilityExportName;
-    final lastModificationTime = this.lastModificationTime;
-    final message = this.message;
-    final status = this.status;
-    return {
-      if (creationTime != null)
-        'CreationTime': unixTimestampToJson(creationTime),
-      if (destination != null) 'Destination': destination,
-      if (explainabilityExportArn != null)
-        'ExplainabilityExportArn': explainabilityExportArn,
-      if (explainabilityExportName != null)
-        'ExplainabilityExportName': explainabilityExportName,
-      if (lastModificationTime != null)
-        'LastModificationTime': unixTimestampToJson(lastModificationTime),
-      if (message != null) 'Message': message,
-      if (status != null) 'Status': status,
-    };
-  }
-}
-
-/// Provides information about the Explainability resource.
-class ExplainabilityInfo {
-  /// The Amazon Resource Name (ARN) of the Explainability.
-  final String? explainabilityArn;
-
-  /// The status of the Explainability. States include:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ACTIVE</code>
-  /// </li>
-  /// <li>
-  /// <code>CREATE_PENDING</code>, <code>CREATE_IN_PROGRESS</code>,
-  /// <code>CREATE_FAILED</code>
-  /// </li>
-  /// <li>
-  /// <code>CREATE_STOPPING</code>, <code>CREATE_STOPPED</code>
-  /// </li>
-  /// <li>
-  /// <code>DELETE_PENDING</code>, <code>DELETE_IN_PROGRESS</code>,
-  /// <code>DELETE_FAILED</code>
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  ExplainabilityInfo({
-    this.explainabilityArn,
-    this.status,
-  });
-
-  factory ExplainabilityInfo.fromJson(Map<String, dynamic> json) {
-    return ExplainabilityInfo(
-      explainabilityArn: json['ExplainabilityArn'] as String?,
-      status: json['Status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final explainabilityArn = this.explainabilityArn;
-    final status = this.status;
-    return {
-      if (explainabilityArn != null) 'ExplainabilityArn': explainabilityArn,
-      if (status != null) 'Status': status,
-    };
-  }
-}
-
-/// Provides a summary of the Explainability properties used in the
-/// <a>ListExplainabilities</a> operation. To get a complete set of properties,
-/// call the <a>DescribeExplainability</a> operation, and provide the listed
-/// <code>ExplainabilityArn</code>.
-class ExplainabilitySummary {
-  /// When the Explainability was created.
-  final DateTime? creationTime;
-
-  /// The Amazon Resource Name (ARN) of the Explainability.
-  final String? explainabilityArn;
-
-  /// The configuration settings that define the granularity of time series and
-  /// time points for the Explainability.
-  final ExplainabilityConfig? explainabilityConfig;
-
-  /// The name of the Explainability.
-  final String? explainabilityName;
-
-  /// The last time the resource was modified. The timestamp depends on the status
-  /// of the job:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>CREATE_PENDING</code> - The <code>CreationTime</code>.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_IN_PROGRESS</code> - The current timestamp.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_STOPPING</code> - The current timestamp.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_STOPPED</code> - When the job stopped.
-  /// </li>
-  /// <li>
-  /// <code>ACTIVE</code> or <code>CREATE_FAILED</code> - When the job finished or
-  /// failed.
-  /// </li>
-  /// </ul>
-  final DateTime? lastModificationTime;
-
-  /// Information about any errors that may have occurred during the
-  /// Explainability creation process.
-  final String? message;
-
-  /// The Amazon Resource Name (ARN) of the Predictor or Forecast used to create
-  /// the Explainability.
-  final String? resourceArn;
-
-  /// The status of the Explainability. States include:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ACTIVE</code>
-  /// </li>
-  /// <li>
-  /// <code>CREATE_PENDING</code>, <code>CREATE_IN_PROGRESS</code>,
-  /// <code>CREATE_FAILED</code>
-  /// </li>
-  /// <li>
-  /// <code>CREATE_STOPPING</code>, <code>CREATE_STOPPED</code>
-  /// </li>
-  /// <li>
-  /// <code>DELETE_PENDING</code>, <code>DELETE_IN_PROGRESS</code>,
-  /// <code>DELETE_FAILED</code>
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  ExplainabilitySummary({
-    this.creationTime,
-    this.explainabilityArn,
-    this.explainabilityConfig,
-    this.explainabilityName,
-    this.lastModificationTime,
-    this.message,
-    this.resourceArn,
-    this.status,
-  });
-
-  factory ExplainabilitySummary.fromJson(Map<String, dynamic> json) {
-    return ExplainabilitySummary(
-      creationTime: timeStampFromJson(json['CreationTime']),
-      explainabilityArn: json['ExplainabilityArn'] as String?,
-      explainabilityConfig: json['ExplainabilityConfig'] != null
-          ? ExplainabilityConfig.fromJson(
-              json['ExplainabilityConfig'] as Map<String, dynamic>)
-          : null,
-      explainabilityName: json['ExplainabilityName'] as String?,
-      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
-      message: json['Message'] as String?,
-      resourceArn: json['ResourceArn'] as String?,
-      status: json['Status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationTime = this.creationTime;
-    final explainabilityArn = this.explainabilityArn;
-    final explainabilityConfig = this.explainabilityConfig;
-    final explainabilityName = this.explainabilityName;
-    final lastModificationTime = this.lastModificationTime;
-    final message = this.message;
-    final resourceArn = this.resourceArn;
-    final status = this.status;
-    return {
-      if (creationTime != null)
-        'CreationTime': unixTimestampToJson(creationTime),
-      if (explainabilityArn != null) 'ExplainabilityArn': explainabilityArn,
-      if (explainabilityConfig != null)
-        'ExplainabilityConfig': explainabilityConfig,
-      if (explainabilityName != null) 'ExplainabilityName': explainabilityName,
-      if (lastModificationTime != null)
-        'LastModificationTime': unixTimestampToJson(lastModificationTime),
-      if (message != null) 'Message': message,
-      if (resourceArn != null) 'ResourceArn': resourceArn,
-      if (status != null) 'Status': status,
-    };
-  }
-}
-
-/// <note>
-/// This object belongs to the <a>CreatePredictor</a> operation. If you created
-/// your predictor with <a>CreateAutoPredictor</a>, see <a>AttributeConfig</a>.
-/// </note>
-/// Provides featurization (transformation) information for a dataset field.
-/// This object is part of the <a>FeaturizationConfig</a> object.
-///
-/// For example:
-///
-/// <code>{</code>
-///
-/// <code>"AttributeName": "demand",</code>
-///
-/// <code>FeaturizationPipeline [ {</code>
-///
-/// <code>"FeaturizationMethodName": "filling",</code>
-///
-/// <code>"FeaturizationMethodParameters": {"aggregation": "avg", "backfill":
-/// "nan"}</code>
-///
-/// <code>} ]</code>
-///
-/// <code>}</code>
-class Featurization {
-  /// The name of the schema attribute that specifies the data field to be
-  /// featurized. Amazon Forecast supports the target field of the
-  /// <code>TARGET_TIME_SERIES</code> and the <code>RELATED_TIME_SERIES</code>
-  /// datasets. For example, for the <code>RETAIL</code> domain, the target is
-  /// <code>demand</code>, and for the <code>CUSTOM</code> domain, the target is
-  /// <code>target_value</code>. For more information, see
-  /// <a>howitworks-missing-values</a>.
-  final String attributeName;
-
-  /// An array of one <code>FeaturizationMethod</code> object that specifies the
-  /// feature transformation method.
-  final List<FeaturizationMethod>? featurizationPipeline;
-
-  Featurization({
-    required this.attributeName,
-    this.featurizationPipeline,
-  });
-
-  factory Featurization.fromJson(Map<String, dynamic> json) {
-    return Featurization(
-      attributeName: (json['AttributeName'] as String?) ?? '',
-      featurizationPipeline: (json['FeaturizationPipeline'] as List?)
-          ?.nonNulls
-          .map((e) => FeaturizationMethod.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attributeName = this.attributeName;
-    final featurizationPipeline = this.featurizationPipeline;
-    return {
-      'AttributeName': attributeName,
-      if (featurizationPipeline != null)
-        'FeaturizationPipeline': featurizationPipeline,
-    };
-  }
-}
-
-/// <note>
-/// This object belongs to the <a>CreatePredictor</a> operation. If you created
-/// your predictor with <a>CreateAutoPredictor</a>, see <a>AttributeConfig</a>.
-/// </note>
-/// In a <a>CreatePredictor</a> operation, the specified algorithm trains a
-/// model using the specified dataset group. You can optionally tell the
-/// operation to modify data fields prior to training a model. These
-/// modifications are referred to as <i>featurization</i>.
-///
-/// You define featurization using the <code>FeaturizationConfig</code> object.
-/// You specify an array of transformations, one for each field that you want to
-/// featurize. You then include the <code>FeaturizationConfig</code> object in
-/// your <code>CreatePredictor</code> request. Amazon Forecast applies the
-/// featurization to the <code>TARGET_TIME_SERIES</code> and
-/// <code>RELATED_TIME_SERIES</code> datasets before model training.
-///
-/// You can create multiple featurization configurations. For example, you might
-/// call the <code>CreatePredictor</code> operation twice by specifying
-/// different featurization configurations.
-class FeaturizationConfig {
-  /// The frequency of predictions in a forecast.
-  ///
-  /// Valid intervals are an integer followed by Y (Year), M (Month), W (Week), D
-  /// (Day), H (Hour), and min (Minute). For example, "1D" indicates every day and
-  /// "15min" indicates every 15 minutes. You cannot specify a value that would
-  /// overlap with the next larger frequency. That means, for example, you cannot
-  /// specify a frequency of 60 minutes, because that is equivalent to 1 hour. The
-  /// valid values for each frequency are the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// Minute - 1-59
-  /// </li>
-  /// <li>
-  /// Hour - 1-23
-  /// </li>
-  /// <li>
-  /// Day - 1-6
-  /// </li>
-  /// <li>
-  /// Week - 1-4
-  /// </li>
-  /// <li>
-  /// Month - 1-11
-  /// </li>
-  /// <li>
-  /// Year - 1
-  /// </li>
-  /// </ul>
-  /// Thus, if you want every other week forecasts, specify "2W". Or, if you want
-  /// quarterly forecasts, you specify "3M".
-  ///
-  /// The frequency must be greater than or equal to the TARGET_TIME_SERIES
-  /// dataset frequency.
-  ///
-  /// When a RELATED_TIME_SERIES dataset is provided, the frequency must be equal
-  /// to the TARGET_TIME_SERIES dataset frequency.
-  final String forecastFrequency;
-
-  /// An array of featurization (transformation) information for the fields of a
-  /// dataset.
-  final List<Featurization>? featurizations;
-
-  /// An array of dimension (field) names that specify how to group the generated
-  /// forecast.
-  ///
-  /// For example, suppose that you are generating a forecast for item sales
-  /// across all of your stores, and your dataset contains a <code>store_id</code>
-  /// field. If you want the sales forecast for each item by store, you would
-  /// specify <code>store_id</code> as the dimension.
-  ///
-  /// All forecast dimensions specified in the <code>TARGET_TIME_SERIES</code>
-  /// dataset don't need to be specified in the <code>CreatePredictor</code>
-  /// request. All forecast dimensions specified in the
-  /// <code>RELATED_TIME_SERIES</code> dataset must be specified in the
-  /// <code>CreatePredictor</code> request.
-  final List<String>? forecastDimensions;
-
-  FeaturizationConfig({
-    required this.forecastFrequency,
-    this.featurizations,
-    this.forecastDimensions,
-  });
-
-  factory FeaturizationConfig.fromJson(Map<String, dynamic> json) {
-    return FeaturizationConfig(
-      forecastFrequency: (json['ForecastFrequency'] as String?) ?? '',
-      featurizations: (json['Featurizations'] as List?)
-          ?.nonNulls
-          .map((e) => Featurization.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      forecastDimensions: (json['ForecastDimensions'] as List?)
+      whatIfForecastArns: (json['WhatIfForecastArns'] as List?)
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final forecastFrequency = this.forecastFrequency;
-    final featurizations = this.featurizations;
-    final forecastDimensions = this.forecastDimensions;
-    return {
-      'ForecastFrequency': forecastFrequency,
-      if (featurizations != null) 'Featurizations': featurizations,
-      if (forecastDimensions != null) 'ForecastDimensions': forecastDimensions,
-    };
-  }
-}
-
-/// Provides information about the method that featurizes (transforms) a dataset
-/// field. The method is part of the <code>FeaturizationPipeline</code> of the
-/// <a>Featurization</a> object.
-///
-/// The following is an example of how you specify a
-/// <code>FeaturizationMethod</code> object.
-///
-/// <code>{</code>
-///
-/// <code>"FeaturizationMethodName": "filling",</code>
-///
-/// <code>"FeaturizationMethodParameters": {"aggregation": "sum", "middlefill":
-/// "zero", "backfill": "zero"}</code>
-///
-/// <code>}</code>
-class FeaturizationMethod {
-  /// The name of the method. The "filling" method is the only supported method.
-  final FeaturizationMethodName featurizationMethodName;
-
-  /// The method parameters (key-value pairs), which are a map of override
-  /// parameters. Specify these parameters to override the default values. Related
-  /// Time Series attributes do not accept aggregation parameters.
-  ///
-  /// The following list shows the parameters and their valid values for the
-  /// "filling" featurization method for a <b>Target Time Series</b> dataset. Bold
-  /// signifies the default value.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>aggregation</code>: <b>sum</b>, <code>avg</code>, <code>first</code>,
-  /// <code>min</code>, <code>max</code>
-  /// </li>
-  /// <li>
-  /// <code>frontfill</code>: <b>none</b>
-  /// </li>
-  /// <li>
-  /// <code>middlefill</code>: <b>zero</b>, <code>nan</code> (not a number),
-  /// <code>value</code>, <code>median</code>, <code>mean</code>,
-  /// <code>min</code>, <code>max</code>
-  /// </li>
-  /// <li>
-  /// <code>backfill</code>: <b>zero</b>, <code>nan</code>, <code>value</code>,
-  /// <code>median</code>, <code>mean</code>, <code>min</code>, <code>max</code>
-  /// </li>
-  /// </ul>
-  /// The following list shows the parameters and their valid values for a
-  /// <b>Related Time Series</b> featurization method (there are no defaults):
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>middlefill</code>: <code>zero</code>, <code>value</code>,
-  /// <code>median</code>, <code>mean</code>, <code>min</code>, <code>max</code>
-  /// </li>
-  /// <li>
-  /// <code>backfill</code>: <code>zero</code>, <code>value</code>,
-  /// <code>median</code>, <code>mean</code>, <code>min</code>, <code>max</code>
-  /// </li>
-  /// <li>
-  /// <code>futurefill</code>: <code>zero</code>, <code>value</code>,
-  /// <code>median</code>, <code>mean</code>, <code>min</code>, <code>max</code>
-  /// </li>
-  /// </ul>
-  /// To set a filling method to a specific value, set the fill parameter to
-  /// <code>value</code> and define the value in a corresponding
-  /// <code>_value</code> parameter. For example, to set backfilling to a value of
-  /// 2, include the following: <code>"backfill": "value"</code> and
-  /// <code>"backfill_value":"2"</code>.
-  final Map<String, String>? featurizationMethodParameters;
-
-  FeaturizationMethod({
-    required this.featurizationMethodName,
-    this.featurizationMethodParameters,
-  });
-
-  factory FeaturizationMethod.fromJson(Map<String, dynamic> json) {
-    return FeaturizationMethod(
-      featurizationMethodName: FeaturizationMethodName.fromString(
-          (json['FeaturizationMethodName'] as String?) ?? ''),
-      featurizationMethodParameters:
-          (json['FeaturizationMethodParameters'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final featurizationMethodName = this.featurizationMethodName;
-    final featurizationMethodParameters = this.featurizationMethodParameters;
-    return {
-      'FeaturizationMethodName': featurizationMethodName.value,
-      if (featurizationMethodParameters != null)
-        'FeaturizationMethodParameters': featurizationMethodParameters,
-    };
-  }
-}
-
-class FeaturizationMethodName {
-  static const filling = FeaturizationMethodName._('filling');
-
-  final String value;
-
-  const FeaturizationMethodName._(this.value);
-
-  static const values = [filling];
-
-  static FeaturizationMethodName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FeaturizationMethodName._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is FeaturizationMethodName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes a filter for choosing a subset of objects. Each filter consists of
-/// a condition and a match statement. The condition is either <code>IS</code>
-/// or <code>IS_NOT</code>, which specifies whether to include or exclude the
-/// objects that match the statement, respectively. The match statement consists
-/// of a key and a value.
-class Filter {
-  /// The condition to apply. To include the objects that match the statement,
-  /// specify <code>IS</code>. To exclude matching objects, specify
-  /// <code>IS_NOT</code>.
-  final FilterConditionString condition;
-
-  /// The name of the parameter to filter on.
-  final String key;
-
-  /// The value to match.
-  final String value;
-
-  Filter({
-    required this.condition,
-    required this.key,
-    required this.value,
-  });
-
-  Map<String, dynamic> toJson() {
-    final condition = this.condition;
-    final key = this.key;
-    final value = this.value;
-    return {
-      'Condition': condition.value,
-      'Key': key,
-      'Value': value,
-    };
-  }
-}
-
-class FilterConditionString {
-  static const $is = FilterConditionString._('IS');
-  static const isNot = FilterConditionString._('IS_NOT');
-
-  final String value;
-
-  const FilterConditionString._(this.value);
-
-  static const values = [$is, isNot];
-
-  static FilterConditionString fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FilterConditionString._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is FilterConditionString && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides a summary of the forecast export job properties used in the
-/// <a>ListForecastExportJobs</a> operation. To get the complete set of
-/// properties, call the <a>DescribeForecastExportJob</a> operation, and provide
-/// the listed <code>ForecastExportJobArn</code>.
-class ForecastExportJobSummary {
-  /// When the forecast export job was created.
-  final DateTime? creationTime;
-
-  /// The path to the Amazon Simple Storage Service (Amazon S3) bucket where the
-  /// forecast is exported.
-  final DataDestination? destination;
-
-  /// The Amazon Resource Name (ARN) of the forecast export job.
-  final String? forecastExportJobArn;
-
-  /// The name of the forecast export job.
-  final String? forecastExportJobName;
-
-  /// The last time the resource was modified. The timestamp depends on the status
-  /// of the job:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>CREATE_PENDING</code> - The <code>CreationTime</code>.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_IN_PROGRESS</code> - The current timestamp.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_STOPPING</code> - The current timestamp.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_STOPPED</code> - When the job stopped.
-  /// </li>
-  /// <li>
-  /// <code>ACTIVE</code> or <code>CREATE_FAILED</code> - When the job finished or
-  /// failed.
-  /// </li>
-  /// </ul>
-  final DateTime? lastModificationTime;
-
-  /// If an error occurred, an informational message about the error.
-  final String? message;
-
-  /// The status of the forecast export job. States include:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ACTIVE</code>
-  /// </li>
-  /// <li>
-  /// <code>CREATE_PENDING</code>, <code>CREATE_IN_PROGRESS</code>,
-  /// <code>CREATE_FAILED</code>
-  /// </li>
-  /// <li>
-  /// <code>CREATE_STOPPING</code>, <code>CREATE_STOPPED</code>
-  /// </li>
-  /// <li>
-  /// <code>DELETE_PENDING</code>, <code>DELETE_IN_PROGRESS</code>,
-  /// <code>DELETE_FAILED</code>
-  /// </li>
-  /// </ul> <note>
-  /// The <code>Status</code> of the forecast export job must be
-  /// <code>ACTIVE</code> before you can access the forecast in your S3 bucket.
-  /// </note>
-  final String? status;
-
-  ForecastExportJobSummary({
-    this.creationTime,
-    this.destination,
-    this.forecastExportJobArn,
-    this.forecastExportJobName,
-    this.lastModificationTime,
-    this.message,
-    this.status,
-  });
-
-  factory ForecastExportJobSummary.fromJson(Map<String, dynamic> json) {
-    return ForecastExportJobSummary(
-      creationTime: timeStampFromJson(json['CreationTime']),
-      destination: json['Destination'] != null
-          ? DataDestination.fromJson(
-              json['Destination'] as Map<String, dynamic>)
-          : null,
-      forecastExportJobArn: json['ForecastExportJobArn'] as String?,
-      forecastExportJobName: json['ForecastExportJobName'] as String?,
-      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
-      message: json['Message'] as String?,
-      status: json['Status'] as String?,
+      whatIfForecastExportArn: json['WhatIfForecastExportArn'] as String?,
+      whatIfForecastExportName: json['WhatIfForecastExportName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final creationTime = this.creationTime;
     final destination = this.destination;
-    final forecastExportJobArn = this.forecastExportJobArn;
-    final forecastExportJobName = this.forecastExportJobName;
+    final estimatedTimeRemainingInMinutes =
+        this.estimatedTimeRemainingInMinutes;
+    final format = this.format;
     final lastModificationTime = this.lastModificationTime;
     final message = this.message;
     final status = this.status;
+    final whatIfForecastArns = this.whatIfForecastArns;
+    final whatIfForecastExportArn = this.whatIfForecastExportArn;
+    final whatIfForecastExportName = this.whatIfForecastExportName;
     return {
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
       if (destination != null) 'Destination': destination,
-      if (forecastExportJobArn != null)
-        'ForecastExportJobArn': forecastExportJobArn,
-      if (forecastExportJobName != null)
-        'ForecastExportJobName': forecastExportJobName,
+      if (estimatedTimeRemainingInMinutes != null)
+        'EstimatedTimeRemainingInMinutes': estimatedTimeRemainingInMinutes,
+      if (format != null) 'Format': format,
       if (lastModificationTime != null)
         'LastModificationTime': unixTimestampToJson(lastModificationTime),
       if (message != null) 'Message': message,
       if (status != null) 'Status': status,
-    };
-  }
-}
-
-/// Provides a summary of the forecast properties used in the
-/// <a>ListForecasts</a> operation. To get the complete set of properties, call
-/// the <a>DescribeForecast</a> operation, and provide the
-/// <code>ForecastArn</code> that is listed in the summary.
-class ForecastSummary {
-  /// Whether the Forecast was created from an AutoPredictor.
-  final bool? createdUsingAutoPredictor;
-
-  /// When the forecast creation task was created.
-  final DateTime? creationTime;
-
-  /// The Amazon Resource Name (ARN) of the dataset group that provided the data
-  /// used to train the predictor.
-  final String? datasetGroupArn;
-
-  /// The ARN of the forecast.
-  final String? forecastArn;
-
-  /// The name of the forecast.
-  final String? forecastName;
-
-  /// The last time the resource was modified. The timestamp depends on the status
-  /// of the job:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>CREATE_PENDING</code> - The <code>CreationTime</code>.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_IN_PROGRESS</code> - The current timestamp.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_STOPPING</code> - The current timestamp.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_STOPPED</code> - When the job stopped.
-  /// </li>
-  /// <li>
-  /// <code>ACTIVE</code> or <code>CREATE_FAILED</code> - When the job finished or
-  /// failed.
-  /// </li>
-  /// </ul>
-  final DateTime? lastModificationTime;
-
-  /// If an error occurred, an informational message about the error.
-  final String? message;
-
-  /// The ARN of the predictor used to generate the forecast.
-  final String? predictorArn;
-
-  /// The status of the forecast. States include:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ACTIVE</code>
-  /// </li>
-  /// <li>
-  /// <code>CREATE_PENDING</code>, <code>CREATE_IN_PROGRESS</code>,
-  /// <code>CREATE_FAILED</code>
-  /// </li>
-  /// <li>
-  /// <code>CREATE_STOPPING</code>, <code>CREATE_STOPPED</code>
-  /// </li>
-  /// <li>
-  /// <code>DELETE_PENDING</code>, <code>DELETE_IN_PROGRESS</code>,
-  /// <code>DELETE_FAILED</code>
-  /// </li>
-  /// </ul> <note>
-  /// The <code>Status</code> of the forecast must be <code>ACTIVE</code> before
-  /// you can query or export the forecast.
-  /// </note>
-  final String? status;
-
-  ForecastSummary({
-    this.createdUsingAutoPredictor,
-    this.creationTime,
-    this.datasetGroupArn,
-    this.forecastArn,
-    this.forecastName,
-    this.lastModificationTime,
-    this.message,
-    this.predictorArn,
-    this.status,
-  });
-
-  factory ForecastSummary.fromJson(Map<String, dynamic> json) {
-    return ForecastSummary(
-      createdUsingAutoPredictor: json['CreatedUsingAutoPredictor'] as bool?,
-      creationTime: timeStampFromJson(json['CreationTime']),
-      datasetGroupArn: json['DatasetGroupArn'] as String?,
-      forecastArn: json['ForecastArn'] as String?,
-      forecastName: json['ForecastName'] as String?,
-      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
-      message: json['Message'] as String?,
-      predictorArn: json['PredictorArn'] as String?,
-      status: json['Status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdUsingAutoPredictor = this.createdUsingAutoPredictor;
-    final creationTime = this.creationTime;
-    final datasetGroupArn = this.datasetGroupArn;
-    final forecastArn = this.forecastArn;
-    final forecastName = this.forecastName;
-    final lastModificationTime = this.lastModificationTime;
-    final message = this.message;
-    final predictorArn = this.predictorArn;
-    final status = this.status;
-    return {
-      if (createdUsingAutoPredictor != null)
-        'CreatedUsingAutoPredictor': createdUsingAutoPredictor,
-      if (creationTime != null)
-        'CreationTime': unixTimestampToJson(creationTime),
-      if (datasetGroupArn != null) 'DatasetGroupArn': datasetGroupArn,
-      if (forecastArn != null) 'ForecastArn': forecastArn,
-      if (forecastName != null) 'ForecastName': forecastName,
-      if (lastModificationTime != null)
-        'LastModificationTime': unixTimestampToJson(lastModificationTime),
-      if (message != null) 'Message': message,
-      if (predictorArn != null) 'PredictorArn': predictorArn,
-      if (status != null) 'Status': status,
+      if (whatIfForecastArns != null) 'WhatIfForecastArns': whatIfForecastArns,
+      if (whatIfForecastExportArn != null)
+        'WhatIfForecastExportArn': whatIfForecastExportArn,
+      if (whatIfForecastExportName != null)
+        'WhatIfForecastExportName': whatIfForecastExportName,
     };
   }
 }
@@ -9325,175 +7096,6 @@ class GetAccuracyMetricsResponse {
         'OptimizationMetric': optimizationMetric.value,
       if (predictorEvaluationResults != null)
         'PredictorEvaluationResults': predictorEvaluationResults,
-    };
-  }
-}
-
-/// Configuration information for a hyperparameter tuning job. You specify this
-/// object in the <a>CreatePredictor</a> request.
-///
-/// A <i>hyperparameter</i> is a parameter that governs the model training
-/// process. You set hyperparameters before training starts, unlike model
-/// parameters, which are determined during training. The values of the
-/// hyperparameters effect which values are chosen for the model parameters.
-///
-/// In a <i>hyperparameter tuning job</i>, Amazon Forecast chooses the set of
-/// hyperparameter values that optimize a specified metric. Forecast
-/// accomplishes this by running many training jobs over a range of
-/// hyperparameter values. The optimum set of values depends on the algorithm,
-/// the training data, and the specified metric objective.
-class HyperParameterTuningJobConfig {
-  /// Specifies the ranges of valid values for the hyperparameters.
-  final ParameterRanges? parameterRanges;
-
-  HyperParameterTuningJobConfig({
-    this.parameterRanges,
-  });
-
-  factory HyperParameterTuningJobConfig.fromJson(Map<String, dynamic> json) {
-    return HyperParameterTuningJobConfig(
-      parameterRanges: json['ParameterRanges'] != null
-          ? ParameterRanges.fromJson(
-              json['ParameterRanges'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final parameterRanges = this.parameterRanges;
-    return {
-      if (parameterRanges != null) 'ParameterRanges': parameterRanges,
-    };
-  }
-}
-
-class ImportMode {
-  static const full = ImportMode._('FULL');
-  static const incremental = ImportMode._('INCREMENTAL');
-
-  final String value;
-
-  const ImportMode._(this.value);
-
-  static const values = [full, incremental];
-
-  static ImportMode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ImportMode._(value));
-
-  @override
-  bool operator ==(other) => other is ImportMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// <note>
-/// This object belongs to the <a>CreatePredictor</a> operation. If you created
-/// your predictor with <a>CreateAutoPredictor</a>, see <a>DataConfig</a>.
-/// </note>
-/// The data used to train a predictor. The data includes a dataset group and
-/// any supplementary features. You specify this object in the
-/// <a>CreatePredictor</a> request.
-class InputDataConfig {
-  /// The Amazon Resource Name (ARN) of the dataset group.
-  final String datasetGroupArn;
-
-  /// An array of supplementary features. The only supported feature is a holiday
-  /// calendar.
-  final List<SupplementaryFeature>? supplementaryFeatures;
-
-  InputDataConfig({
-    required this.datasetGroupArn,
-    this.supplementaryFeatures,
-  });
-
-  factory InputDataConfig.fromJson(Map<String, dynamic> json) {
-    return InputDataConfig(
-      datasetGroupArn: (json['DatasetGroupArn'] as String?) ?? '',
-      supplementaryFeatures: (json['SupplementaryFeatures'] as List?)
-          ?.nonNulls
-          .map((e) => SupplementaryFeature.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final datasetGroupArn = this.datasetGroupArn;
-    final supplementaryFeatures = this.supplementaryFeatures;
-    return {
-      'DatasetGroupArn': datasetGroupArn,
-      if (supplementaryFeatures != null)
-        'SupplementaryFeatures': supplementaryFeatures,
-    };
-  }
-}
-
-/// Specifies an integer hyperparameter and it's range of tunable values. This
-/// object is part of the <a>ParameterRanges</a> object.
-class IntegerParameterRange {
-  /// The maximum tunable value of the hyperparameter.
-  final int maxValue;
-
-  /// The minimum tunable value of the hyperparameter.
-  final int minValue;
-
-  /// The name of the hyperparameter to tune.
-  final String name;
-
-  /// The scale that hyperparameter tuning uses to search the hyperparameter
-  /// range. Valid values:
-  /// <dl> <dt>Auto</dt> <dd>
-  /// Amazon Forecast hyperparameter tuning chooses the best scale for the
-  /// hyperparameter.
-  /// </dd> <dt>Linear</dt> <dd>
-  /// Hyperparameter tuning searches the values in the hyperparameter range by
-  /// using a linear scale.
-  /// </dd> <dt>Logarithmic</dt> <dd>
-  /// Hyperparameter tuning searches the values in the hyperparameter range by
-  /// using a logarithmic scale.
-  ///
-  /// Logarithmic scaling works only for ranges that have values greater than 0.
-  /// </dd> <dt>ReverseLogarithmic</dt> <dd>
-  /// Not supported for <code>IntegerParameterRange</code>.
-  ///
-  /// Reverse logarithmic scaling works only for ranges that are entirely within
-  /// the range 0 &lt;= x &lt; 1.0.
-  /// </dd> </dl>
-  /// For information about choosing a hyperparameter scale, see <a
-  /// href="http://docs.aws.amazon.com/sagemaker/latest/dg/automatic-model-tuning-define-ranges.html#scaling-type">Hyperparameter
-  /// Scaling</a>. One of the following values:
-  final ScalingType? scalingType;
-
-  IntegerParameterRange({
-    required this.maxValue,
-    required this.minValue,
-    required this.name,
-    this.scalingType,
-  });
-
-  factory IntegerParameterRange.fromJson(Map<String, dynamic> json) {
-    return IntegerParameterRange(
-      maxValue: (json['MaxValue'] as int?) ?? 0,
-      minValue: (json['MinValue'] as int?) ?? 0,
-      name: (json['Name'] as String?) ?? '',
-      scalingType:
-          (json['ScalingType'] as String?)?.let(ScalingType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final maxValue = this.maxValue;
-    final minValue = this.minValue;
-    final name = this.name;
-    final scalingType = this.scalingType;
-    return {
-      'MaxValue': maxValue,
-      'MinValue': minValue,
-      'Name': name,
-      if (scalingType != null) 'ScalingType': scalingType.value,
     };
   }
 }
@@ -9984,7 +7586,7 @@ class ListWhatIfForecastExportsResponse {
 class ListWhatIfForecastsResponse {
   /// If the result of the previous request was truncated, the response includes a
   /// <code>NextToken</code>. To retrieve the next set of results, use the token
-  /// in the next&#x2028; request. Tokens expire after 24 hours.
+  /// in the next request. Tokens expire after 24 hours.
   final String? nextToken;
 
   /// An array of <code>WhatIfForecasts</code> objects that describe the matched
@@ -10016,217 +7618,122 @@ class ListWhatIfForecastsResponse {
   }
 }
 
-/// An individual metric Forecast calculated when monitoring predictor usage.
-/// You can compare the value for this metric to the metric's value in the
-/// <a>Baseline</a> to see how your predictor's performance is changing.
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateDatasetGroupResponse {
+  UpdateDatasetGroupResponse();
+
+  factory UpdateDatasetGroupResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateDatasetGroupResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The optional metadata that you apply to a resource to help you categorize
+/// and organize them. Each tag consists of a key and an optional value, both of
+/// which you define.
 ///
-/// For more information about metrics generated by Forecast see <a
-/// href="https://docs.aws.amazon.com/forecast/latest/dg/metrics.html">Evaluating
-/// Predictor Accuracy</a>
-class MetricResult {
-  /// The name of the metric.
-  final String? metricName;
+/// The following basic restrictions apply to tags:
+///
+/// <ul>
+/// <li>
+/// Maximum number of tags per resource - 50.
+/// </li>
+/// <li>
+/// For each resource, each tag key must be unique, and each tag key can have
+/// only one value.
+/// </li>
+/// <li>
+/// Maximum key length - 128 Unicode characters in UTF-8.
+/// </li>
+/// <li>
+/// Maximum value length - 256 Unicode characters in UTF-8.
+/// </li>
+/// <li>
+/// If your tagging schema is used across multiple services and resources,
+/// remember that other services may have restrictions on allowed characters.
+/// Generally allowed characters are: letters, numbers, and spaces representable
+/// in UTF-8, and the following characters: + - = . _ : / @.
+/// </li>
+/// <li>
+/// Tag keys and values are case sensitive.
+/// </li>
+/// <li>
+/// Do not use <code>aws:</code>, <code>AWS:</code>, or any upper or lowercase
+/// combination of such as a prefix for keys as it is reserved for Amazon Web
+/// Services use. You cannot edit or delete tag keys with this prefix. Values
+/// can have this prefix. If a tag value has <code>aws</code> as its prefix but
+/// the key does not, then Forecast considers it to be a user tag and will count
+/// against the limit of 50 tags. Tags with only the key prefix of
+/// <code>aws</code> do not count against your tags per resource limit.
+/// </li>
+/// </ul>
+class Tag {
+  /// One part of a key-value pair that makes up a tag. A <code>key</code> is a
+  /// general label that acts like a category for more specific tag values.
+  final String key;
 
-  /// The value for the metric.
-  final double? metricValue;
+  /// The optional part of a key-value pair that makes up a tag. A
+  /// <code>value</code> acts as a descriptor within a tag category (key).
+  final String value;
 
-  MetricResult({
-    this.metricName,
-    this.metricValue,
+  Tag({
+    required this.key,
+    required this.value,
   });
 
-  factory MetricResult.fromJson(Map<String, dynamic> json) {
-    return MetricResult(
-      metricName: json['MetricName'] as String?,
-      metricValue: json['MetricValue'] as double?,
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    final metricName = this.metricName;
-    final metricValue = this.metricValue;
+    final key = this.key;
+    final value = this.value;
     return {
-      if (metricName != null) 'MetricName': metricName,
-      if (metricValue != null) 'MetricValue': metricValue,
+      'Key': key,
+      'Value': value,
     };
   }
 }
 
-/// Provides metrics that are used to evaluate the performance of a predictor.
-/// This object is part of the <a>WindowSummary</a> object.
-class Metrics {
-  /// The average value of all weighted quantile losses.
-  final double? averageWeightedQuantileLoss;
-
-  /// Provides detailed error metrics for each forecast type. Metrics include
-  /// root-mean square-error (RMSE), mean absolute percentage error (MAPE), mean
-  /// absolute scaled error (MASE), and weighted average percentage error (WAPE).
-  final List<ErrorMetric>? errorMetrics;
-
-  /// The root-mean-square error (RMSE).
-  final double? rmse;
-
-  /// An array of weighted quantile losses. Quantiles divide a probability
-  /// distribution into regions of equal probability. The distribution in this
-  /// case is the loss function.
-  final List<WeightedQuantileLoss>? weightedQuantileLosses;
-
-  Metrics({
-    this.averageWeightedQuantileLoss,
-    this.errorMetrics,
-    this.rmse,
-    this.weightedQuantileLosses,
-  });
-
-  factory Metrics.fromJson(Map<String, dynamic> json) {
-    return Metrics(
-      averageWeightedQuantileLoss:
-          json['AverageWeightedQuantileLoss'] as double?,
-      errorMetrics: (json['ErrorMetrics'] as List?)
-          ?.nonNulls
-          .map((e) => ErrorMetric.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      rmse: json['RMSE'] as double?,
-      weightedQuantileLosses: (json['WeightedQuantileLosses'] as List?)
-          ?.nonNulls
-          .map((e) => WeightedQuantileLoss.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final averageWeightedQuantileLoss = this.averageWeightedQuantileLoss;
-    final errorMetrics = this.errorMetrics;
-    final rmse = this.rmse;
-    final weightedQuantileLosses = this.weightedQuantileLosses;
-    return {
-      if (averageWeightedQuantileLoss != null)
-        'AverageWeightedQuantileLoss': averageWeightedQuantileLoss,
-      if (errorMetrics != null) 'ErrorMetrics': errorMetrics,
-      if (rmse != null) 'RMSE': rmse,
-      if (weightedQuantileLosses != null)
-        'WeightedQuantileLosses': weightedQuantileLosses,
-    };
-  }
-}
-
-/// The configuration details for the predictor monitor.
-class MonitorConfig {
-  /// The name of the monitor resource.
-  final String monitorName;
-
-  MonitorConfig({
-    required this.monitorName,
-  });
-
-  Map<String, dynamic> toJson() {
-    final monitorName = this.monitorName;
-    return {
-      'MonitorName': monitorName,
-    };
-  }
-}
-
-/// The source of the data the monitor used during the evaluation.
-class MonitorDataSource {
-  /// The Amazon Resource Name (ARN) of the dataset import job used to import the
-  /// data that initiated the monitor evaluation.
-  final String? datasetImportJobArn;
-
-  /// The Amazon Resource Name (ARN) of the forecast the monitor used during the
-  /// evaluation.
-  final String? forecastArn;
-
-  /// The Amazon Resource Name (ARN) of the predictor resource you are monitoring.
-  final String? predictorArn;
-
-  MonitorDataSource({
-    this.datasetImportJobArn,
-    this.forecastArn,
-    this.predictorArn,
-  });
-
-  factory MonitorDataSource.fromJson(Map<String, dynamic> json) {
-    return MonitorDataSource(
-      datasetImportJobArn: json['DatasetImportJobArn'] as String?,
-      forecastArn: json['ForecastArn'] as String?,
-      predictorArn: json['PredictorArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final datasetImportJobArn = this.datasetImportJobArn;
-    final forecastArn = this.forecastArn;
-    final predictorArn = this.predictorArn;
-    return {
-      if (datasetImportJobArn != null)
-        'DatasetImportJobArn': datasetImportJobArn,
-      if (forecastArn != null) 'ForecastArn': forecastArn,
-      if (predictorArn != null) 'PredictorArn': predictorArn,
-    };
-  }
-}
-
-/// Provides information about the monitor resource.
-class MonitorInfo {
-  /// The Amazon Resource Name (ARN) of the monitor resource.
-  final String? monitorArn;
-
-  /// The status of the monitor. States include:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ACTIVE</code>
-  /// </li>
-  /// <li>
-  /// <code>ACTIVE_STOPPING</code>, <code>ACTIVE_STOPPED</code>
-  /// </li>
-  /// <li>
-  /// <code>UPDATE_IN_PROGRESS</code>
-  /// </li>
-  /// <li>
-  /// <code>CREATE_PENDING</code>, <code>CREATE_IN_PROGRESS</code>,
-  /// <code>CREATE_FAILED</code>
-  /// </li>
-  /// <li>
-  /// <code>DELETE_PENDING</code>, <code>DELETE_IN_PROGRESS</code>,
-  /// <code>DELETE_FAILED</code>
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  MonitorInfo({
-    this.monitorArn,
-    this.status,
-  });
-
-  factory MonitorInfo.fromJson(Map<String, dynamic> json) {
-    return MonitorInfo(
-      monitorArn: json['MonitorArn'] as String?,
-      status: json['Status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final monitorArn = this.monitorArn;
-    final status = this.status;
-    return {
-      if (monitorArn != null) 'MonitorArn': monitorArn,
-      if (status != null) 'Status': status,
-    };
-  }
-}
-
-/// Provides a summary of the monitor properties used in the <a>ListMonitors</a>
-/// operation. To get a complete set of properties, call the
-/// <a>DescribeMonitor</a> operation, and provide the listed
-/// <code>MonitorArn</code>.
-class MonitorSummary {
-  /// When the monitor resource was created.
+/// Provides a summary of the what-if forecast properties used in the
+/// <a>ListWhatIfForecasts</a> operation. To get the complete set of properties,
+/// call the <a>DescribeWhatIfForecast</a> operation, and provide the
+/// <code>WhatIfForecastArn</code> that is listed in the summary.
+class WhatIfForecastSummary {
+  /// When the what-if forecast was created.
   final DateTime? creationTime;
 
-  /// The last time the monitor resource was modified. The timestamp depends on
-  /// the status of the job:
+  /// The last time the resource was modified. The timestamp depends on the status
+  /// of the job:
   ///
   /// <ul>
   /// <li>
@@ -10236,179 +7743,150 @@ class MonitorSummary {
   /// <code>CREATE_IN_PROGRESS</code> - The current timestamp.
   /// </li>
   /// <li>
-  /// <code>STOPPED</code> - When the resource stopped.
+  /// <code>CREATE_STOPPING</code> - The current timestamp.
   /// </li>
   /// <li>
-  /// <code>ACTIVE</code> or <code>CREATE_FAILED</code> - When the monitor
-  /// creation finished or failed.
+  /// <code>CREATE_STOPPED</code> - When the job stopped.
+  /// </li>
+  /// <li>
+  /// <code>ACTIVE</code> or <code>CREATE_FAILED</code> - When the job finished or
+  /// failed.
   /// </li>
   /// </ul>
   final DateTime? lastModificationTime;
 
-  /// The Amazon Resource Name (ARN) of the monitor resource.
-  final String? monitorArn;
+  /// If an error occurred, an informational message about the error.
+  final String? message;
 
-  /// The name of the monitor resource.
-  final String? monitorName;
-
-  /// The Amazon Resource Name (ARN) of the predictor being monitored.
-  final String? resourceArn;
-
-  /// The status of the monitor. States include:
+  /// The status of the what-if forecast. States include:
   ///
   /// <ul>
   /// <li>
   /// <code>ACTIVE</code>
   /// </li>
   /// <li>
-  /// <code>ACTIVE_STOPPING</code>, <code>ACTIVE_STOPPED</code>
-  /// </li>
-  /// <li>
-  /// <code>UPDATE_IN_PROGRESS</code>
-  /// </li>
-  /// <li>
   /// <code>CREATE_PENDING</code>, <code>CREATE_IN_PROGRESS</code>,
   /// <code>CREATE_FAILED</code>
+  /// </li>
+  /// <li>
+  /// <code>CREATE_STOPPING</code>, <code>CREATE_STOPPED</code>
   /// </li>
   /// <li>
   /// <code>DELETE_PENDING</code>, <code>DELETE_IN_PROGRESS</code>,
   /// <code>DELETE_FAILED</code>
   /// </li>
-  /// </ul>
+  /// </ul> <note>
+  /// The <code>Status</code> of the what-if analysis must be <code>ACTIVE</code>
+  /// before you can access the analysis.
+  /// </note>
   final String? status;
 
-  MonitorSummary({
+  /// The Amazon Resource Name (ARN) of the what-if analysis that contains this
+  /// what-if forecast.
+  final String? whatIfAnalysisArn;
+
+  /// The Amazon Resource Name (ARN) of the what-if forecast.
+  final String? whatIfForecastArn;
+
+  /// The name of the what-if forecast.
+  final String? whatIfForecastName;
+
+  WhatIfForecastSummary({
     this.creationTime,
     this.lastModificationTime,
-    this.monitorArn,
-    this.monitorName,
-    this.resourceArn,
+    this.message,
     this.status,
+    this.whatIfAnalysisArn,
+    this.whatIfForecastArn,
+    this.whatIfForecastName,
   });
 
-  factory MonitorSummary.fromJson(Map<String, dynamic> json) {
-    return MonitorSummary(
+  factory WhatIfForecastSummary.fromJson(Map<String, dynamic> json) {
+    return WhatIfForecastSummary(
       creationTime: timeStampFromJson(json['CreationTime']),
       lastModificationTime: timeStampFromJson(json['LastModificationTime']),
-      monitorArn: json['MonitorArn'] as String?,
-      monitorName: json['MonitorName'] as String?,
-      resourceArn: json['ResourceArn'] as String?,
+      message: json['Message'] as String?,
       status: json['Status'] as String?,
+      whatIfAnalysisArn: json['WhatIfAnalysisArn'] as String?,
+      whatIfForecastArn: json['WhatIfForecastArn'] as String?,
+      whatIfForecastName: json['WhatIfForecastName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final creationTime = this.creationTime;
     final lastModificationTime = this.lastModificationTime;
-    final monitorArn = this.monitorArn;
-    final monitorName = this.monitorName;
-    final resourceArn = this.resourceArn;
+    final message = this.message;
     final status = this.status;
+    final whatIfAnalysisArn = this.whatIfAnalysisArn;
+    final whatIfForecastArn = this.whatIfForecastArn;
+    final whatIfForecastName = this.whatIfForecastName;
     return {
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
       if (lastModificationTime != null)
         'LastModificationTime': unixTimestampToJson(lastModificationTime),
-      if (monitorArn != null) 'MonitorArn': monitorArn,
-      if (monitorName != null) 'MonitorName': monitorName,
-      if (resourceArn != null) 'ResourceArn': resourceArn,
+      if (message != null) 'Message': message,
       if (status != null) 'Status': status,
+      if (whatIfAnalysisArn != null) 'WhatIfAnalysisArn': whatIfAnalysisArn,
+      if (whatIfForecastArn != null) 'WhatIfForecastArn': whatIfForecastArn,
+      if (whatIfForecastName != null) 'WhatIfForecastName': whatIfForecastName,
     };
   }
 }
 
-class Month {
-  static const january = Month._('JANUARY');
-  static const february = Month._('FEBRUARY');
-  static const march = Month._('MARCH');
-  static const april = Month._('APRIL');
-  static const may = Month._('MAY');
-  static const june = Month._('JUNE');
-  static const july = Month._('JULY');
-  static const august = Month._('AUGUST');
-  static const september = Month._('SEPTEMBER');
-  static const october = Month._('OCTOBER');
-  static const november = Month._('NOVEMBER');
-  static const december = Month._('DECEMBER');
+/// Describes a filter for choosing a subset of objects. Each filter consists of
+/// a condition and a match statement. The condition is either <code>IS</code>
+/// or <code>IS_NOT</code>, which specifies whether to include or exclude the
+/// objects that match the statement, respectively. The match statement consists
+/// of a key and a value.
+class Filter {
+  /// The condition to apply. To include the objects that match the statement,
+  /// specify <code>IS</code>. To exclude matching objects, specify
+  /// <code>IS_NOT</code>.
+  final FilterConditionString condition;
 
+  /// The name of the parameter to filter on.
+  final String key;
+
+  /// The value to match.
   final String value;
 
-  const Month._(this.value);
+  Filter({
+    required this.condition,
+    required this.key,
+    required this.value,
+  });
 
-  static const values = [
-    january,
-    february,
-    march,
-    april,
-    may,
-    june,
-    july,
-    august,
-    september,
-    october,
-    november,
-    december
-  ];
-
-  static Month fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Month._(value));
-
-  @override
-  bool operator ==(other) => other is Month && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final condition = this.condition;
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Condition': condition.value,
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
-class Operation {
-  static const add = Operation._('ADD');
-  static const subtract = Operation._('SUBTRACT');
-  static const multiply = Operation._('MULTIPLY');
-  static const divide = Operation._('DIVIDE');
+class FilterConditionString {
+  static const $is = FilterConditionString._('IS');
+  static const isNot = FilterConditionString._('IS_NOT');
 
   final String value;
 
-  const Operation._(this.value);
+  const FilterConditionString._(this.value);
 
-  static const values = [add, subtract, multiply, divide];
+  static const values = [$is, isNot];
 
-  static Operation fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Operation._(value));
-
-  @override
-  bool operator ==(other) => other is Operation && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class OptimizationMetric {
-  static const wape = OptimizationMetric._('WAPE');
-  static const rmse = OptimizationMetric._('RMSE');
-  static const averageWeightedQuantileLoss =
-      OptimizationMetric._('AverageWeightedQuantileLoss');
-  static const mase = OptimizationMetric._('MASE');
-  static const mape = OptimizationMetric._('MAPE');
-
-  final String value;
-
-  const OptimizationMetric._(this.value);
-
-  static const values = [wape, rmse, averageWeightedQuantileLoss, mase, mape];
-
-  static OptimizationMetric fromString(String value) =>
+  static FilterConditionString fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => OptimizationMetric._(value));
+          orElse: () => FilterConditionString._(value));
 
   @override
   bool operator ==(other) =>
-      other is OptimizationMetric && other.value == value;
+      other is FilterConditionString && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -10417,68 +7895,17 @@ class OptimizationMetric {
   String toString() => value;
 }
 
-/// Specifies the categorical, continuous, and integer hyperparameters, and
-/// their ranges of tunable values. The range of tunable values determines which
-/// values that a hyperparameter tuning job can choose for the specified
-/// hyperparameter. This object is part of the
-/// <a>HyperParameterTuningJobConfig</a> object.
-class ParameterRanges {
-  /// Specifies the tunable range for each categorical hyperparameter.
-  final List<CategoricalParameterRange>? categoricalParameterRanges;
-
-  /// Specifies the tunable range for each continuous hyperparameter.
-  final List<ContinuousParameterRange>? continuousParameterRanges;
-
-  /// Specifies the tunable range for each integer hyperparameter.
-  final List<IntegerParameterRange>? integerParameterRanges;
-
-  ParameterRanges({
-    this.categoricalParameterRanges,
-    this.continuousParameterRanges,
-    this.integerParameterRanges,
-  });
-
-  factory ParameterRanges.fromJson(Map<String, dynamic> json) {
-    return ParameterRanges(
-      categoricalParameterRanges: (json['CategoricalParameterRanges'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              CategoricalParameterRange.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      continuousParameterRanges: (json['ContinuousParameterRanges'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              ContinuousParameterRange.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      integerParameterRanges: (json['IntegerParameterRanges'] as List?)
-          ?.nonNulls
-          .map((e) => IntegerParameterRange.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final categoricalParameterRanges = this.categoricalParameterRanges;
-    final continuousParameterRanges = this.continuousParameterRanges;
-    final integerParameterRanges = this.integerParameterRanges;
-    return {
-      if (categoricalParameterRanges != null)
-        'CategoricalParameterRanges': categoricalParameterRanges,
-      if (continuousParameterRanges != null)
-        'ContinuousParameterRanges': continuousParameterRanges,
-      if (integerParameterRanges != null)
-        'IntegerParameterRanges': integerParameterRanges,
-    };
-  }
-}
-
-/// Provides a summary of the predictor backtest export job properties used in
-/// the <a>ListPredictorBacktestExportJobs</a> operation. To get a complete set
-/// of properties, call the <a>DescribePredictorBacktestExportJob</a> operation,
-/// and provide the listed <code>PredictorBacktestExportJobArn</code>.
-class PredictorBacktestExportJobSummary {
-  /// When the predictor backtest export job was created.
+/// Provides a summary of the what-if forecast export properties used in the
+/// <a>ListWhatIfForecastExports</a> operation. To get the complete set of
+/// properties, call the <a>DescribeWhatIfForecastExport</a> operation, and
+/// provide the <code>WhatIfForecastExportArn</code> that is listed in the
+/// summary.
+class WhatIfForecastExportSummary {
+  /// When the what-if forecast export was created.
   final DateTime? creationTime;
+
+  /// The path to the Amazon Simple Storage Service (Amazon S3) bucket where the
+  /// forecast is exported.
   final DataDestination? destination;
 
   /// The last time the resource was modified. The timestamp depends on the status
@@ -10504,17 +7931,10 @@ class PredictorBacktestExportJobSummary {
   /// </ul>
   final DateTime? lastModificationTime;
 
-  /// Information about any errors that may have occurred during the backtest
-  /// export.
+  /// If an error occurred, an informational message about the error.
   final String? message;
 
-  /// The Amazon Resource Name (ARN) of the predictor backtest export job.
-  final String? predictorBacktestExportJobArn;
-
-  /// The name of the predictor backtest export job.
-  final String? predictorBacktestExportJobName;
-
-  /// The status of the predictor backtest export job. States include:
+  /// The status of the what-if forecast export. States include:
   ///
   /// <ul>
   /// <li>
@@ -10531,22 +7951,35 @@ class PredictorBacktestExportJobSummary {
   /// <code>DELETE_PENDING</code>, <code>DELETE_IN_PROGRESS</code>,
   /// <code>DELETE_FAILED</code>
   /// </li>
-  /// </ul>
+  /// </ul> <note>
+  /// The <code>Status</code> of the what-if analysis must be <code>ACTIVE</code>
+  /// before you can access the analysis.
+  /// </note>
   final String? status;
 
-  PredictorBacktestExportJobSummary({
+  /// An array of Amazon Resource Names (ARNs) that define the what-if forecasts
+  /// included in the export.
+  final List<String>? whatIfForecastArns;
+
+  /// The Amazon Resource Name (ARN) of the what-if forecast export.
+  final String? whatIfForecastExportArn;
+
+  /// The what-if forecast export name.
+  final String? whatIfForecastExportName;
+
+  WhatIfForecastExportSummary({
     this.creationTime,
     this.destination,
     this.lastModificationTime,
     this.message,
-    this.predictorBacktestExportJobArn,
-    this.predictorBacktestExportJobName,
     this.status,
+    this.whatIfForecastArns,
+    this.whatIfForecastExportArn,
+    this.whatIfForecastExportName,
   });
 
-  factory PredictorBacktestExportJobSummary.fromJson(
-      Map<String, dynamic> json) {
-    return PredictorBacktestExportJobSummary(
+  factory WhatIfForecastExportSummary.fromJson(Map<String, dynamic> json) {
+    return WhatIfForecastExportSummary(
       creationTime: timeStampFromJson(json['CreationTime']),
       destination: json['Destination'] != null
           ? DataDestination.fromJson(
@@ -10554,11 +7987,13 @@ class PredictorBacktestExportJobSummary {
           : null,
       lastModificationTime: timeStampFromJson(json['LastModificationTime']),
       message: json['Message'] as String?,
-      predictorBacktestExportJobArn:
-          json['PredictorBacktestExportJobArn'] as String?,
-      predictorBacktestExportJobName:
-          json['PredictorBacktestExportJobName'] as String?,
       status: json['Status'] as String?,
+      whatIfForecastArns: (json['WhatIfForecastArns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      whatIfForecastExportArn: json['WhatIfForecastExportArn'] as String?,
+      whatIfForecastExportName: json['WhatIfForecastExportName'] as String?,
     );
   }
 
@@ -10567,9 +8002,10 @@ class PredictorBacktestExportJobSummary {
     final destination = this.destination;
     final lastModificationTime = this.lastModificationTime;
     final message = this.message;
-    final predictorBacktestExportJobArn = this.predictorBacktestExportJobArn;
-    final predictorBacktestExportJobName = this.predictorBacktestExportJobName;
     final status = this.status;
+    final whatIfForecastArns = this.whatIfForecastArns;
+    final whatIfForecastExportArn = this.whatIfForecastExportArn;
+    final whatIfForecastExportName = this.whatIfForecastExportName;
     return {
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
@@ -10577,253 +8013,200 @@ class PredictorBacktestExportJobSummary {
       if (lastModificationTime != null)
         'LastModificationTime': unixTimestampToJson(lastModificationTime),
       if (message != null) 'Message': message,
-      if (predictorBacktestExportJobArn != null)
-        'PredictorBacktestExportJobArn': predictorBacktestExportJobArn,
-      if (predictorBacktestExportJobName != null)
-        'PredictorBacktestExportJobName': predictorBacktestExportJobName,
       if (status != null) 'Status': status,
+      if (whatIfForecastArns != null) 'WhatIfForecastArns': whatIfForecastArns,
+      if (whatIfForecastExportArn != null)
+        'WhatIfForecastExportArn': whatIfForecastExportArn,
+      if (whatIfForecastExportName != null)
+        'WhatIfForecastExportName': whatIfForecastExportName,
     };
   }
 }
 
-/// Metrics you can use as a baseline for comparison purposes. Use these metrics
-/// when you interpret monitoring results for an auto predictor.
-class PredictorBaseline {
-  /// The initial <a
-  /// href="https://docs.aws.amazon.com/forecast/latest/dg/metrics.html">accuracy
-  /// metrics</a> for the predictor. Use these metrics as a baseline for
-  /// comparison purposes as you use your predictor and the metrics change.
-  final List<BaselineMetric>? baselineMetrics;
+/// The destination for an export job. Provide an S3 path, an Identity and
+/// Access Management (IAM) role that allows Amazon Forecast to access the
+/// location, and an Key Management Service (KMS) key (optional).
+class DataDestination {
+  /// The path to an Amazon Simple Storage Service (Amazon S3) bucket along with
+  /// the credentials to access the bucket.
+  final S3Config s3Config;
 
-  PredictorBaseline({
-    this.baselineMetrics,
+  DataDestination({
+    required this.s3Config,
   });
 
-  factory PredictorBaseline.fromJson(Map<String, dynamic> json) {
-    return PredictorBaseline(
-      baselineMetrics: (json['BaselineMetrics'] as List?)
-          ?.nonNulls
-          .map((e) => BaselineMetric.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  factory DataDestination.fromJson(Map<String, dynamic> json) {
+    return DataDestination(
+      s3Config: S3Config.fromJson((json['S3Config'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final baselineMetrics = this.baselineMetrics;
+    final s3Config = this.s3Config;
     return {
-      if (baselineMetrics != null) 'BaselineMetrics': baselineMetrics,
+      'S3Config': s3Config,
     };
   }
 }
 
-/// Provides details about a predictor event, such as a retraining.
-class PredictorEvent {
-  /// The timestamp for when the event occurred.
-  final DateTime? datetime;
+/// The path to the file(s) in an Amazon Simple Storage Service (Amazon S3)
+/// bucket, and an Identity and Access Management (IAM) role that Amazon
+/// Forecast can assume to access the file(s). Optionally, includes an Key
+/// Management Service (KMS) key. This object is part of the <a>DataSource</a>
+/// object that is submitted in the <a>CreateDatasetImportJob</a> request, and
+/// part of the <a>DataDestination</a> object.
+class S3Config {
+  /// The path to an Amazon Simple Storage Service (Amazon S3) bucket or file(s)
+  /// in an Amazon S3 bucket.
+  final String path;
 
-  /// The type of event. For example, <code>Retrain</code>. A retraining event
-  /// denotes the timepoint when a predictor was retrained. Any monitor results
-  /// from before the <code>Datetime</code> are from the previous predictor. Any
-  /// new metrics are for the newly retrained predictor.
-  final String? detail;
+  /// The ARN of the Identity and Access Management (IAM) role that Amazon
+  /// Forecast can assume to access the Amazon S3 bucket or files. If you provide
+  /// a value for the <code>KMSKeyArn</code> key, the role must allow access to
+  /// the key.
+  ///
+  /// Passing a role across Amazon Web Services accounts is not allowed. If you
+  /// pass a role that isn't in your account, you get an
+  /// <code>InvalidInputException</code> error.
+  final String roleArn;
 
-  PredictorEvent({
-    this.datetime,
-    this.detail,
+  /// The Amazon Resource Name (ARN) of an Key Management Service (KMS) key.
+  final String? kMSKeyArn;
+
+  S3Config({
+    required this.path,
+    required this.roleArn,
+    this.kMSKeyArn,
   });
 
-  factory PredictorEvent.fromJson(Map<String, dynamic> json) {
-    return PredictorEvent(
-      datetime: timeStampFromJson(json['Datetime']),
-      detail: json['Detail'] as String?,
+  factory S3Config.fromJson(Map<String, dynamic> json) {
+    return S3Config(
+      path: (json['Path'] as String?) ?? '',
+      roleArn: (json['RoleArn'] as String?) ?? '',
+      kMSKeyArn: json['KMSKeyArn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final datetime = this.datetime;
-    final detail = this.detail;
+    final path = this.path;
+    final roleArn = this.roleArn;
+    final kMSKeyArn = this.kMSKeyArn;
     return {
-      if (datetime != null) 'Datetime': unixTimestampToJson(datetime),
-      if (detail != null) 'Detail': detail,
+      'Path': path,
+      'RoleArn': roleArn,
+      if (kMSKeyArn != null) 'KMSKeyArn': kMSKeyArn,
     };
   }
 }
 
-/// The algorithm used to perform a backtest and the status of those tests.
-class PredictorExecution {
-  /// The ARN of the algorithm used to test the predictor.
-  final String? algorithmArn;
+/// Provides a summary of the what-if analysis properties used in the
+/// <a>ListWhatIfAnalyses</a> operation. To get the complete set of properties,
+/// call the <a>DescribeWhatIfAnalysis</a> operation, and provide the
+/// <code>WhatIfAnalysisArn</code> that is listed in the summary.
+class WhatIfAnalysisSummary {
+  /// When the what-if analysis was created.
+  final DateTime? creationTime;
 
-  /// An array of test windows used to evaluate the algorithm. The
-  /// <code>NumberOfBacktestWindows</code> from the object determines the number
-  /// of windows in the array.
-  final List<TestWindowSummary>? testWindows;
+  /// The Amazon Resource Name (ARN) of the baseline forecast that is being used
+  /// in this what-if analysis.
+  final String? forecastArn;
 
-  PredictorExecution({
-    this.algorithmArn,
-    this.testWindows,
-  });
+  /// The last time the resource was modified. The timestamp depends on the status
+  /// of the job:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATE_PENDING</code> - The <code>CreationTime</code>.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_IN_PROGRESS</code> - The current timestamp.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_STOPPING</code> - The current timestamp.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_STOPPED</code> - When the job stopped.
+  /// </li>
+  /// <li>
+  /// <code>ACTIVE</code> or <code>CREATE_FAILED</code> - When the job finished or
+  /// failed.
+  /// </li>
+  /// </ul>
+  final DateTime? lastModificationTime;
 
-  factory PredictorExecution.fromJson(Map<String, dynamic> json) {
-    return PredictorExecution(
-      algorithmArn: json['AlgorithmArn'] as String?,
-      testWindows: (json['TestWindows'] as List?)
-          ?.nonNulls
-          .map((e) => TestWindowSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final algorithmArn = this.algorithmArn;
-    final testWindows = this.testWindows;
-    return {
-      if (algorithmArn != null) 'AlgorithmArn': algorithmArn,
-      if (testWindows != null) 'TestWindows': testWindows,
-    };
-  }
-}
-
-/// Contains details on the backtests performed to evaluate the accuracy of the
-/// predictor. The tests are returned in descending order of accuracy, with the
-/// most accurate backtest appearing first. You specify the number of backtests
-/// to perform when you call the operation.
-class PredictorExecutionDetails {
-  /// An array of the backtests performed to evaluate the accuracy of the
-  /// predictor against a particular algorithm. The
-  /// <code>NumberOfBacktestWindows</code> from the object determines the number
-  /// of windows in the array.
-  final List<PredictorExecution>? predictorExecutions;
-
-  PredictorExecutionDetails({
-    this.predictorExecutions,
-  });
-
-  factory PredictorExecutionDetails.fromJson(Map<String, dynamic> json) {
-    return PredictorExecutionDetails(
-      predictorExecutions: (json['PredictorExecutions'] as List?)
-          ?.nonNulls
-          .map((e) => PredictorExecution.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final predictorExecutions = this.predictorExecutions;
-    return {
-      if (predictorExecutions != null)
-        'PredictorExecutions': predictorExecutions,
-    };
-  }
-}
-
-/// Describes the results of a monitor evaluation.
-class PredictorMonitorEvaluation {
-  /// The status of the monitor evaluation. The state can be <code>SUCCESS</code>
-  /// or <code>FAILURE</code>.
-  final String? evaluationState;
-
-  /// The timestamp that indicates when the monitor evaluation was started.
-  final DateTime? evaluationTime;
-
-  /// Information about any errors that may have occurred during the monitor
-  /// evaluation.
+  /// If an error occurred, an informational message about the error.
   final String? message;
 
-  /// A list of metrics Forecast calculated when monitoring a predictor. You can
-  /// compare the value for each metric in the list to the metric's value in the
-  /// <a>Baseline</a> to see how your predictor's performance is changing.
-  final List<MetricResult>? metricResults;
+  /// The status of the what-if analysis. States include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code>
+  /// </li>
+  /// <li>
+  /// <code>CREATE_PENDING</code>, <code>CREATE_IN_PROGRESS</code>,
+  /// <code>CREATE_FAILED</code>
+  /// </li>
+  /// <li>
+  /// <code>CREATE_STOPPING</code>, <code>CREATE_STOPPED</code>
+  /// </li>
+  /// <li>
+  /// <code>DELETE_PENDING</code>, <code>DELETE_IN_PROGRESS</code>,
+  /// <code>DELETE_FAILED</code>
+  /// </li>
+  /// </ul> <note>
+  /// The <code>Status</code> of the what-if analysis must be <code>ACTIVE</code>
+  /// before you can access the analysis.
+  /// </note>
+  final String? status;
 
-  /// The Amazon Resource Name (ARN) of the monitor resource.
-  final String? monitorArn;
+  /// The Amazon Resource Name (ARN) of the what-if analysis.
+  final String? whatIfAnalysisArn;
 
-  /// The source of the data the monitor resource used during the evaluation.
-  final MonitorDataSource? monitorDataSource;
+  /// The name of the what-if analysis.
+  final String? whatIfAnalysisName;
 
-  /// The number of items considered during the evaluation.
-  final int? numItemsEvaluated;
-
-  /// Provides details about a predictor event, such as a retraining.
-  final PredictorEvent? predictorEvent;
-
-  /// The Amazon Resource Name (ARN) of the resource to monitor.
-  final String? resourceArn;
-
-  /// The timestamp that indicates the end of the window that is used for monitor
-  /// evaluation.
-  final DateTime? windowEndDatetime;
-
-  /// The timestamp that indicates the start of the window that is used for
-  /// monitor evaluation.
-  final DateTime? windowStartDatetime;
-
-  PredictorMonitorEvaluation({
-    this.evaluationState,
-    this.evaluationTime,
+  WhatIfAnalysisSummary({
+    this.creationTime,
+    this.forecastArn,
+    this.lastModificationTime,
     this.message,
-    this.metricResults,
-    this.monitorArn,
-    this.monitorDataSource,
-    this.numItemsEvaluated,
-    this.predictorEvent,
-    this.resourceArn,
-    this.windowEndDatetime,
-    this.windowStartDatetime,
+    this.status,
+    this.whatIfAnalysisArn,
+    this.whatIfAnalysisName,
   });
 
-  factory PredictorMonitorEvaluation.fromJson(Map<String, dynamic> json) {
-    return PredictorMonitorEvaluation(
-      evaluationState: json['EvaluationState'] as String?,
-      evaluationTime: timeStampFromJson(json['EvaluationTime']),
+  factory WhatIfAnalysisSummary.fromJson(Map<String, dynamic> json) {
+    return WhatIfAnalysisSummary(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      forecastArn: json['ForecastArn'] as String?,
+      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
       message: json['Message'] as String?,
-      metricResults: (json['MetricResults'] as List?)
-          ?.nonNulls
-          .map((e) => MetricResult.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      monitorArn: json['MonitorArn'] as String?,
-      monitorDataSource: json['MonitorDataSource'] != null
-          ? MonitorDataSource.fromJson(
-              json['MonitorDataSource'] as Map<String, dynamic>)
-          : null,
-      numItemsEvaluated: json['NumItemsEvaluated'] as int?,
-      predictorEvent: json['PredictorEvent'] != null
-          ? PredictorEvent.fromJson(
-              json['PredictorEvent'] as Map<String, dynamic>)
-          : null,
-      resourceArn: json['ResourceArn'] as String?,
-      windowEndDatetime: timeStampFromJson(json['WindowEndDatetime']),
-      windowStartDatetime: timeStampFromJson(json['WindowStartDatetime']),
+      status: json['Status'] as String?,
+      whatIfAnalysisArn: json['WhatIfAnalysisArn'] as String?,
+      whatIfAnalysisName: json['WhatIfAnalysisName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final evaluationState = this.evaluationState;
-    final evaluationTime = this.evaluationTime;
+    final creationTime = this.creationTime;
+    final forecastArn = this.forecastArn;
+    final lastModificationTime = this.lastModificationTime;
     final message = this.message;
-    final metricResults = this.metricResults;
-    final monitorArn = this.monitorArn;
-    final monitorDataSource = this.monitorDataSource;
-    final numItemsEvaluated = this.numItemsEvaluated;
-    final predictorEvent = this.predictorEvent;
-    final resourceArn = this.resourceArn;
-    final windowEndDatetime = this.windowEndDatetime;
-    final windowStartDatetime = this.windowStartDatetime;
+    final status = this.status;
+    final whatIfAnalysisArn = this.whatIfAnalysisArn;
+    final whatIfAnalysisName = this.whatIfAnalysisName;
     return {
-      if (evaluationState != null) 'EvaluationState': evaluationState,
-      if (evaluationTime != null)
-        'EvaluationTime': unixTimestampToJson(evaluationTime),
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (forecastArn != null) 'ForecastArn': forecastArn,
+      if (lastModificationTime != null)
+        'LastModificationTime': unixTimestampToJson(lastModificationTime),
       if (message != null) 'Message': message,
-      if (metricResults != null) 'MetricResults': metricResults,
-      if (monitorArn != null) 'MonitorArn': monitorArn,
-      if (monitorDataSource != null) 'MonitorDataSource': monitorDataSource,
-      if (numItemsEvaluated != null) 'NumItemsEvaluated': numItemsEvaluated,
-      if (predictorEvent != null) 'PredictorEvent': predictorEvent,
-      if (resourceArn != null) 'ResourceArn': resourceArn,
-      if (windowEndDatetime != null)
-        'WindowEndDatetime': unixTimestampToJson(windowEndDatetime),
-      if (windowStartDatetime != null)
-        'WindowStartDatetime': unixTimestampToJson(windowStartDatetime),
+      if (status != null) 'Status': status,
+      if (whatIfAnalysisArn != null) 'WhatIfAnalysisArn': whatIfAnalysisArn,
+      if (whatIfAnalysisName != null) 'WhatIfAnalysisName': whatIfAnalysisName,
     };
   }
 }
@@ -10990,79 +8373,1775 @@ class ReferencePredictorSummary {
   }
 }
 
-/// The path to the file(s) in an Amazon Simple Storage Service (Amazon S3)
-/// bucket, and an Identity and Access Management (IAM) role that Amazon
-/// Forecast can assume to access the file(s). Optionally, includes an Key
-/// Management Service (KMS) key. This object is part of the <a>DataSource</a>
-/// object that is submitted in the <a>CreateDatasetImportJob</a> request, and
-/// part of the <a>DataDestination</a> object.
-class S3Config {
-  /// The path to an Amazon Simple Storage Service (Amazon S3) bucket or file(s)
-  /// in an Amazon S3 bucket.
-  final String path;
-
-  /// The ARN of the Identity and Access Management (IAM) role that Amazon
-  /// Forecast can assume to access the Amazon S3 bucket or files. If you provide
-  /// a value for the <code>KMSKeyArn</code> key, the role must allow access to
-  /// the key.
-  ///
-  /// Passing a role across Amazon Web Services accounts is not allowed. If you
-  /// pass a role that isn't in your account, you get an
-  /// <code>InvalidInputException</code> error.
-  final String roleArn;
-
-  /// The Amazon Resource Name (ARN) of an Key Management Service (KMS) key.
-  final String? kMSKeyArn;
-
-  S3Config({
-    required this.path,
-    required this.roleArn,
-    this.kMSKeyArn,
-  });
-
-  factory S3Config.fromJson(Map<String, dynamic> json) {
-    return S3Config(
-      path: (json['Path'] as String?) ?? '',
-      roleArn: (json['RoleArn'] as String?) ?? '',
-      kMSKeyArn: json['KMSKeyArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final path = this.path;
-    final roleArn = this.roleArn;
-    final kMSKeyArn = this.kMSKeyArn;
-    return {
-      'Path': path,
-      'RoleArn': roleArn,
-      if (kMSKeyArn != null) 'KMSKeyArn': kMSKeyArn,
-    };
-  }
-}
-
-class ScalingType {
-  static const auto = ScalingType._('Auto');
-  static const linear = ScalingType._('Linear');
-  static const logarithmic = ScalingType._('Logarithmic');
-  static const reverseLogarithmic = ScalingType._('ReverseLogarithmic');
+class State {
+  static const active = State._('Active');
+  static const deleted = State._('Deleted');
 
   final String value;
 
-  const ScalingType._(this.value);
+  const State._(this.value);
 
-  static const values = [auto, linear, logarithmic, reverseLogarithmic];
+  static const values = [active, deleted];
 
-  static ScalingType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ScalingType._(value));
+  static State fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => State._(value));
 
   @override
-  bool operator ==(other) => other is ScalingType && other.value == value;
+  bool operator ==(other) => other is State && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
+}
+
+/// Provides a summary of the predictor backtest export job properties used in
+/// the <a>ListPredictorBacktestExportJobs</a> operation. To get a complete set
+/// of properties, call the <a>DescribePredictorBacktestExportJob</a> operation,
+/// and provide the listed <code>PredictorBacktestExportJobArn</code>.
+class PredictorBacktestExportJobSummary {
+  /// When the predictor backtest export job was created.
+  final DateTime? creationTime;
+  final DataDestination? destination;
+
+  /// The last time the resource was modified. The timestamp depends on the status
+  /// of the job:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATE_PENDING</code> - The <code>CreationTime</code>.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_IN_PROGRESS</code> - The current timestamp.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_STOPPING</code> - The current timestamp.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_STOPPED</code> - When the job stopped.
+  /// </li>
+  /// <li>
+  /// <code>ACTIVE</code> or <code>CREATE_FAILED</code> - When the job finished or
+  /// failed.
+  /// </li>
+  /// </ul>
+  final DateTime? lastModificationTime;
+
+  /// Information about any errors that may have occurred during the backtest
+  /// export.
+  final String? message;
+
+  /// The Amazon Resource Name (ARN) of the predictor backtest export job.
+  final String? predictorBacktestExportJobArn;
+
+  /// The name of the predictor backtest export job.
+  final String? predictorBacktestExportJobName;
+
+  /// The status of the predictor backtest export job. States include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code>
+  /// </li>
+  /// <li>
+  /// <code>CREATE_PENDING</code>, <code>CREATE_IN_PROGRESS</code>,
+  /// <code>CREATE_FAILED</code>
+  /// </li>
+  /// <li>
+  /// <code>CREATE_STOPPING</code>, <code>CREATE_STOPPED</code>
+  /// </li>
+  /// <li>
+  /// <code>DELETE_PENDING</code>, <code>DELETE_IN_PROGRESS</code>,
+  /// <code>DELETE_FAILED</code>
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  PredictorBacktestExportJobSummary({
+    this.creationTime,
+    this.destination,
+    this.lastModificationTime,
+    this.message,
+    this.predictorBacktestExportJobArn,
+    this.predictorBacktestExportJobName,
+    this.status,
+  });
+
+  factory PredictorBacktestExportJobSummary.fromJson(
+      Map<String, dynamic> json) {
+    return PredictorBacktestExportJobSummary(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      destination: json['Destination'] != null
+          ? DataDestination.fromJson(
+              json['Destination'] as Map<String, dynamic>)
+          : null,
+      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
+      message: json['Message'] as String?,
+      predictorBacktestExportJobArn:
+          json['PredictorBacktestExportJobArn'] as String?,
+      predictorBacktestExportJobName:
+          json['PredictorBacktestExportJobName'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final destination = this.destination;
+    final lastModificationTime = this.lastModificationTime;
+    final message = this.message;
+    final predictorBacktestExportJobArn = this.predictorBacktestExportJobArn;
+    final predictorBacktestExportJobName = this.predictorBacktestExportJobName;
+    final status = this.status;
+    return {
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (destination != null) 'Destination': destination,
+      if (lastModificationTime != null)
+        'LastModificationTime': unixTimestampToJson(lastModificationTime),
+      if (message != null) 'Message': message,
+      if (predictorBacktestExportJobArn != null)
+        'PredictorBacktestExportJobArn': predictorBacktestExportJobArn,
+      if (predictorBacktestExportJobName != null)
+        'PredictorBacktestExportJobName': predictorBacktestExportJobName,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
+/// Provides a summary of the monitor properties used in the <a>ListMonitors</a>
+/// operation. To get a complete set of properties, call the
+/// <a>DescribeMonitor</a> operation, and provide the listed
+/// <code>MonitorArn</code>.
+class MonitorSummary {
+  /// When the monitor resource was created.
+  final DateTime? creationTime;
+
+  /// The last time the monitor resource was modified. The timestamp depends on
+  /// the status of the job:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATE_PENDING</code> - The <code>CreationTime</code>.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_IN_PROGRESS</code> - The current timestamp.
+  /// </li>
+  /// <li>
+  /// <code>STOPPED</code> - When the resource stopped.
+  /// </li>
+  /// <li>
+  /// <code>ACTIVE</code> or <code>CREATE_FAILED</code> - When the monitor
+  /// creation finished or failed.
+  /// </li>
+  /// </ul>
+  final DateTime? lastModificationTime;
+
+  /// The Amazon Resource Name (ARN) of the monitor resource.
+  final String? monitorArn;
+
+  /// The name of the monitor resource.
+  final String? monitorName;
+
+  /// The Amazon Resource Name (ARN) of the predictor being monitored.
+  final String? resourceArn;
+
+  /// The status of the monitor. States include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code>
+  /// </li>
+  /// <li>
+  /// <code>ACTIVE_STOPPING</code>, <code>ACTIVE_STOPPED</code>
+  /// </li>
+  /// <li>
+  /// <code>UPDATE_IN_PROGRESS</code>
+  /// </li>
+  /// <li>
+  /// <code>CREATE_PENDING</code>, <code>CREATE_IN_PROGRESS</code>,
+  /// <code>CREATE_FAILED</code>
+  /// </li>
+  /// <li>
+  /// <code>DELETE_PENDING</code>, <code>DELETE_IN_PROGRESS</code>,
+  /// <code>DELETE_FAILED</code>
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  MonitorSummary({
+    this.creationTime,
+    this.lastModificationTime,
+    this.monitorArn,
+    this.monitorName,
+    this.resourceArn,
+    this.status,
+  });
+
+  factory MonitorSummary.fromJson(Map<String, dynamic> json) {
+    return MonitorSummary(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
+      monitorArn: json['MonitorArn'] as String?,
+      monitorName: json['MonitorName'] as String?,
+      resourceArn: json['ResourceArn'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final lastModificationTime = this.lastModificationTime;
+    final monitorArn = this.monitorArn;
+    final monitorName = this.monitorName;
+    final resourceArn = this.resourceArn;
+    final status = this.status;
+    return {
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (lastModificationTime != null)
+        'LastModificationTime': unixTimestampToJson(lastModificationTime),
+      if (monitorArn != null) 'MonitorArn': monitorArn,
+      if (monitorName != null) 'MonitorName': monitorName,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
+/// Describes the results of a monitor evaluation.
+class PredictorMonitorEvaluation {
+  /// The status of the monitor evaluation. The state can be <code>SUCCESS</code>
+  /// or <code>FAILURE</code>.
+  final String? evaluationState;
+
+  /// The timestamp that indicates when the monitor evaluation was started.
+  final DateTime? evaluationTime;
+
+  /// Information about any errors that may have occurred during the monitor
+  /// evaluation.
+  final String? message;
+
+  /// A list of metrics Forecast calculated when monitoring a predictor. You can
+  /// compare the value for each metric in the list to the metric's value in the
+  /// <a>Baseline</a> to see how your predictor's performance is changing.
+  final List<MetricResult>? metricResults;
+
+  /// The Amazon Resource Name (ARN) of the monitor resource.
+  final String? monitorArn;
+
+  /// The source of the data the monitor resource used during the evaluation.
+  final MonitorDataSource? monitorDataSource;
+
+  /// The number of items considered during the evaluation.
+  final int? numItemsEvaluated;
+
+  /// Provides details about a predictor event, such as a retraining.
+  final PredictorEvent? predictorEvent;
+
+  /// The Amazon Resource Name (ARN) of the resource to monitor.
+  final String? resourceArn;
+
+  /// The timestamp that indicates the end of the window that is used for monitor
+  /// evaluation.
+  final DateTime? windowEndDatetime;
+
+  /// The timestamp that indicates the start of the window that is used for
+  /// monitor evaluation.
+  final DateTime? windowStartDatetime;
+
+  PredictorMonitorEvaluation({
+    this.evaluationState,
+    this.evaluationTime,
+    this.message,
+    this.metricResults,
+    this.monitorArn,
+    this.monitorDataSource,
+    this.numItemsEvaluated,
+    this.predictorEvent,
+    this.resourceArn,
+    this.windowEndDatetime,
+    this.windowStartDatetime,
+  });
+
+  factory PredictorMonitorEvaluation.fromJson(Map<String, dynamic> json) {
+    return PredictorMonitorEvaluation(
+      evaluationState: json['EvaluationState'] as String?,
+      evaluationTime: timeStampFromJson(json['EvaluationTime']),
+      message: json['Message'] as String?,
+      metricResults: (json['MetricResults'] as List?)
+          ?.nonNulls
+          .map((e) => MetricResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      monitorArn: json['MonitorArn'] as String?,
+      monitorDataSource: json['MonitorDataSource'] != null
+          ? MonitorDataSource.fromJson(
+              json['MonitorDataSource'] as Map<String, dynamic>)
+          : null,
+      numItemsEvaluated: json['NumItemsEvaluated'] as int?,
+      predictorEvent: json['PredictorEvent'] != null
+          ? PredictorEvent.fromJson(
+              json['PredictorEvent'] as Map<String, dynamic>)
+          : null,
+      resourceArn: json['ResourceArn'] as String?,
+      windowEndDatetime: timeStampFromJson(json['WindowEndDatetime']),
+      windowStartDatetime: timeStampFromJson(json['WindowStartDatetime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final evaluationState = this.evaluationState;
+    final evaluationTime = this.evaluationTime;
+    final message = this.message;
+    final metricResults = this.metricResults;
+    final monitorArn = this.monitorArn;
+    final monitorDataSource = this.monitorDataSource;
+    final numItemsEvaluated = this.numItemsEvaluated;
+    final predictorEvent = this.predictorEvent;
+    final resourceArn = this.resourceArn;
+    final windowEndDatetime = this.windowEndDatetime;
+    final windowStartDatetime = this.windowStartDatetime;
+    return {
+      if (evaluationState != null) 'EvaluationState': evaluationState,
+      if (evaluationTime != null)
+        'EvaluationTime': unixTimestampToJson(evaluationTime),
+      if (message != null) 'Message': message,
+      if (metricResults != null) 'MetricResults': metricResults,
+      if (monitorArn != null) 'MonitorArn': monitorArn,
+      if (monitorDataSource != null) 'MonitorDataSource': monitorDataSource,
+      if (numItemsEvaluated != null) 'NumItemsEvaluated': numItemsEvaluated,
+      if (predictorEvent != null) 'PredictorEvent': predictorEvent,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+      if (windowEndDatetime != null)
+        'WindowEndDatetime': unixTimestampToJson(windowEndDatetime),
+      if (windowStartDatetime != null)
+        'WindowStartDatetime': unixTimestampToJson(windowStartDatetime),
+    };
+  }
+}
+
+/// Provides details about a predictor event, such as a retraining.
+class PredictorEvent {
+  /// The timestamp for when the event occurred.
+  final DateTime? datetime;
+
+  /// The type of event. For example, <code>Retrain</code>. A retraining event
+  /// denotes the timepoint when a predictor was retrained. Any monitor results
+  /// from before the <code>Datetime</code> are from the previous predictor. Any
+  /// new metrics are for the newly retrained predictor.
+  final String? detail;
+
+  PredictorEvent({
+    this.datetime,
+    this.detail,
+  });
+
+  factory PredictorEvent.fromJson(Map<String, dynamic> json) {
+    return PredictorEvent(
+      datetime: timeStampFromJson(json['Datetime']),
+      detail: json['Detail'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datetime = this.datetime;
+    final detail = this.detail;
+    return {
+      if (datetime != null) 'Datetime': unixTimestampToJson(datetime),
+      if (detail != null) 'Detail': detail,
+    };
+  }
+}
+
+/// The source of the data the monitor used during the evaluation.
+class MonitorDataSource {
+  /// The Amazon Resource Name (ARN) of the dataset import job used to import the
+  /// data that initiated the monitor evaluation.
+  final String? datasetImportJobArn;
+
+  /// The Amazon Resource Name (ARN) of the forecast the monitor used during the
+  /// evaluation.
+  final String? forecastArn;
+
+  /// The Amazon Resource Name (ARN) of the predictor resource you are monitoring.
+  final String? predictorArn;
+
+  MonitorDataSource({
+    this.datasetImportJobArn,
+    this.forecastArn,
+    this.predictorArn,
+  });
+
+  factory MonitorDataSource.fromJson(Map<String, dynamic> json) {
+    return MonitorDataSource(
+      datasetImportJobArn: json['DatasetImportJobArn'] as String?,
+      forecastArn: json['ForecastArn'] as String?,
+      predictorArn: json['PredictorArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datasetImportJobArn = this.datasetImportJobArn;
+    final forecastArn = this.forecastArn;
+    final predictorArn = this.predictorArn;
+    return {
+      if (datasetImportJobArn != null)
+        'DatasetImportJobArn': datasetImportJobArn,
+      if (forecastArn != null) 'ForecastArn': forecastArn,
+      if (predictorArn != null) 'PredictorArn': predictorArn,
+    };
+  }
+}
+
+/// An individual metric Forecast calculated when monitoring predictor usage.
+/// You can compare the value for this metric to the metric's value in the
+/// <a>Baseline</a> to see how your predictor's performance is changing.
+///
+/// For more information about metrics generated by Forecast see <a
+/// href="https://docs.aws.amazon.com/forecast/latest/dg/metrics.html">Evaluating
+/// Predictor Accuracy</a>
+class MetricResult {
+  /// The name of the metric.
+  final String? metricName;
+
+  /// The value for the metric.
+  final double? metricValue;
+
+  MetricResult({
+    this.metricName,
+    this.metricValue,
+  });
+
+  factory MetricResult.fromJson(Map<String, dynamic> json) {
+    return MetricResult(
+      metricName: json['MetricName'] as String?,
+      metricValue: json['MetricValue'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricName = this.metricName;
+    final metricValue = this.metricValue;
+    return {
+      if (metricName != null) 'MetricName': metricName,
+      if (metricValue != null) 'MetricValue': metricValue,
+    };
+  }
+}
+
+/// Provides a summary of the forecast properties used in the
+/// <a>ListForecasts</a> operation. To get the complete set of properties, call
+/// the <a>DescribeForecast</a> operation, and provide the
+/// <code>ForecastArn</code> that is listed in the summary.
+class ForecastSummary {
+  /// Whether the Forecast was created from an AutoPredictor.
+  final bool? createdUsingAutoPredictor;
+
+  /// When the forecast creation task was created.
+  final DateTime? creationTime;
+
+  /// The Amazon Resource Name (ARN) of the dataset group that provided the data
+  /// used to train the predictor.
+  final String? datasetGroupArn;
+
+  /// The ARN of the forecast.
+  final String? forecastArn;
+
+  /// The name of the forecast.
+  final String? forecastName;
+
+  /// The last time the resource was modified. The timestamp depends on the status
+  /// of the job:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATE_PENDING</code> - The <code>CreationTime</code>.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_IN_PROGRESS</code> - The current timestamp.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_STOPPING</code> - The current timestamp.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_STOPPED</code> - When the job stopped.
+  /// </li>
+  /// <li>
+  /// <code>ACTIVE</code> or <code>CREATE_FAILED</code> - When the job finished or
+  /// failed.
+  /// </li>
+  /// </ul>
+  final DateTime? lastModificationTime;
+
+  /// If an error occurred, an informational message about the error.
+  final String? message;
+
+  /// The ARN of the predictor used to generate the forecast.
+  final String? predictorArn;
+
+  /// The status of the forecast. States include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code>
+  /// </li>
+  /// <li>
+  /// <code>CREATE_PENDING</code>, <code>CREATE_IN_PROGRESS</code>,
+  /// <code>CREATE_FAILED</code>
+  /// </li>
+  /// <li>
+  /// <code>CREATE_STOPPING</code>, <code>CREATE_STOPPED</code>
+  /// </li>
+  /// <li>
+  /// <code>DELETE_PENDING</code>, <code>DELETE_IN_PROGRESS</code>,
+  /// <code>DELETE_FAILED</code>
+  /// </li>
+  /// </ul> <note>
+  /// The <code>Status</code> of the forecast must be <code>ACTIVE</code> before
+  /// you can query or export the forecast.
+  /// </note>
+  final String? status;
+
+  ForecastSummary({
+    this.createdUsingAutoPredictor,
+    this.creationTime,
+    this.datasetGroupArn,
+    this.forecastArn,
+    this.forecastName,
+    this.lastModificationTime,
+    this.message,
+    this.predictorArn,
+    this.status,
+  });
+
+  factory ForecastSummary.fromJson(Map<String, dynamic> json) {
+    return ForecastSummary(
+      createdUsingAutoPredictor: json['CreatedUsingAutoPredictor'] as bool?,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      datasetGroupArn: json['DatasetGroupArn'] as String?,
+      forecastArn: json['ForecastArn'] as String?,
+      forecastName: json['ForecastName'] as String?,
+      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
+      message: json['Message'] as String?,
+      predictorArn: json['PredictorArn'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdUsingAutoPredictor = this.createdUsingAutoPredictor;
+    final creationTime = this.creationTime;
+    final datasetGroupArn = this.datasetGroupArn;
+    final forecastArn = this.forecastArn;
+    final forecastName = this.forecastName;
+    final lastModificationTime = this.lastModificationTime;
+    final message = this.message;
+    final predictorArn = this.predictorArn;
+    final status = this.status;
+    return {
+      if (createdUsingAutoPredictor != null)
+        'CreatedUsingAutoPredictor': createdUsingAutoPredictor,
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (datasetGroupArn != null) 'DatasetGroupArn': datasetGroupArn,
+      if (forecastArn != null) 'ForecastArn': forecastArn,
+      if (forecastName != null) 'ForecastName': forecastName,
+      if (lastModificationTime != null)
+        'LastModificationTime': unixTimestampToJson(lastModificationTime),
+      if (message != null) 'Message': message,
+      if (predictorArn != null) 'PredictorArn': predictorArn,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
+/// Provides a summary of the forecast export job properties used in the
+/// <a>ListForecastExportJobs</a> operation. To get the complete set of
+/// properties, call the <a>DescribeForecastExportJob</a> operation, and provide
+/// the listed <code>ForecastExportJobArn</code>.
+class ForecastExportJobSummary {
+  /// When the forecast export job was created.
+  final DateTime? creationTime;
+
+  /// The path to the Amazon Simple Storage Service (Amazon S3) bucket where the
+  /// forecast is exported.
+  final DataDestination? destination;
+
+  /// The Amazon Resource Name (ARN) of the forecast export job.
+  final String? forecastExportJobArn;
+
+  /// The name of the forecast export job.
+  final String? forecastExportJobName;
+
+  /// The last time the resource was modified. The timestamp depends on the status
+  /// of the job:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATE_PENDING</code> - The <code>CreationTime</code>.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_IN_PROGRESS</code> - The current timestamp.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_STOPPING</code> - The current timestamp.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_STOPPED</code> - When the job stopped.
+  /// </li>
+  /// <li>
+  /// <code>ACTIVE</code> or <code>CREATE_FAILED</code> - When the job finished or
+  /// failed.
+  /// </li>
+  /// </ul>
+  final DateTime? lastModificationTime;
+
+  /// If an error occurred, an informational message about the error.
+  final String? message;
+
+  /// The status of the forecast export job. States include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code>
+  /// </li>
+  /// <li>
+  /// <code>CREATE_PENDING</code>, <code>CREATE_IN_PROGRESS</code>,
+  /// <code>CREATE_FAILED</code>
+  /// </li>
+  /// <li>
+  /// <code>CREATE_STOPPING</code>, <code>CREATE_STOPPED</code>
+  /// </li>
+  /// <li>
+  /// <code>DELETE_PENDING</code>, <code>DELETE_IN_PROGRESS</code>,
+  /// <code>DELETE_FAILED</code>
+  /// </li>
+  /// </ul> <note>
+  /// The <code>Status</code> of the forecast export job must be
+  /// <code>ACTIVE</code> before you can access the forecast in your S3 bucket.
+  /// </note>
+  final String? status;
+
+  ForecastExportJobSummary({
+    this.creationTime,
+    this.destination,
+    this.forecastExportJobArn,
+    this.forecastExportJobName,
+    this.lastModificationTime,
+    this.message,
+    this.status,
+  });
+
+  factory ForecastExportJobSummary.fromJson(Map<String, dynamic> json) {
+    return ForecastExportJobSummary(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      destination: json['Destination'] != null
+          ? DataDestination.fromJson(
+              json['Destination'] as Map<String, dynamic>)
+          : null,
+      forecastExportJobArn: json['ForecastExportJobArn'] as String?,
+      forecastExportJobName: json['ForecastExportJobName'] as String?,
+      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
+      message: json['Message'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final destination = this.destination;
+    final forecastExportJobArn = this.forecastExportJobArn;
+    final forecastExportJobName = this.forecastExportJobName;
+    final lastModificationTime = this.lastModificationTime;
+    final message = this.message;
+    final status = this.status;
+    return {
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (destination != null) 'Destination': destination,
+      if (forecastExportJobArn != null)
+        'ForecastExportJobArn': forecastExportJobArn,
+      if (forecastExportJobName != null)
+        'ForecastExportJobName': forecastExportJobName,
+      if (lastModificationTime != null)
+        'LastModificationTime': unixTimestampToJson(lastModificationTime),
+      if (message != null) 'Message': message,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
+/// Provides a summary of the Explainability export properties used in the
+/// <a>ListExplainabilityExports</a> operation. To get a complete set of
+/// properties, call the <a>DescribeExplainabilityExport</a> operation, and
+/// provide the <code>ExplainabilityExportArn</code>.
+class ExplainabilityExportSummary {
+  /// When the Explainability was created.
+  final DateTime? creationTime;
+  final DataDestination? destination;
+
+  /// The Amazon Resource Name (ARN) of the Explainability export.
+  final String? explainabilityExportArn;
+
+  /// The name of the Explainability export
+  final String? explainabilityExportName;
+
+  /// The last time the resource was modified. The timestamp depends on the status
+  /// of the job:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATE_PENDING</code> - The <code>CreationTime</code>.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_IN_PROGRESS</code> - The current timestamp.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_STOPPING</code> - The current timestamp.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_STOPPED</code> - When the job stopped.
+  /// </li>
+  /// <li>
+  /// <code>ACTIVE</code> or <code>CREATE_FAILED</code> - When the job finished or
+  /// failed.
+  /// </li>
+  /// </ul>
+  final DateTime? lastModificationTime;
+
+  /// Information about any errors that may have occurred during the
+  /// Explainability export.
+  final String? message;
+
+  /// The status of the Explainability export. States include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code>
+  /// </li>
+  /// <li>
+  /// <code>CREATE_PENDING</code>, <code>CREATE_IN_PROGRESS</code>,
+  /// <code>CREATE_FAILED</code>
+  /// </li>
+  /// <li>
+  /// <code>CREATE_STOPPING</code>, <code>CREATE_STOPPED</code>
+  /// </li>
+  /// <li>
+  /// <code>DELETE_PENDING</code>, <code>DELETE_IN_PROGRESS</code>,
+  /// <code>DELETE_FAILED</code>
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  ExplainabilityExportSummary({
+    this.creationTime,
+    this.destination,
+    this.explainabilityExportArn,
+    this.explainabilityExportName,
+    this.lastModificationTime,
+    this.message,
+    this.status,
+  });
+
+  factory ExplainabilityExportSummary.fromJson(Map<String, dynamic> json) {
+    return ExplainabilityExportSummary(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      destination: json['Destination'] != null
+          ? DataDestination.fromJson(
+              json['Destination'] as Map<String, dynamic>)
+          : null,
+      explainabilityExportArn: json['ExplainabilityExportArn'] as String?,
+      explainabilityExportName: json['ExplainabilityExportName'] as String?,
+      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
+      message: json['Message'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final destination = this.destination;
+    final explainabilityExportArn = this.explainabilityExportArn;
+    final explainabilityExportName = this.explainabilityExportName;
+    final lastModificationTime = this.lastModificationTime;
+    final message = this.message;
+    final status = this.status;
+    return {
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (destination != null) 'Destination': destination,
+      if (explainabilityExportArn != null)
+        'ExplainabilityExportArn': explainabilityExportArn,
+      if (explainabilityExportName != null)
+        'ExplainabilityExportName': explainabilityExportName,
+      if (lastModificationTime != null)
+        'LastModificationTime': unixTimestampToJson(lastModificationTime),
+      if (message != null) 'Message': message,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
+/// Provides a summary of the Explainability properties used in the
+/// <a>ListExplainabilities</a> operation. To get a complete set of properties,
+/// call the <a>DescribeExplainability</a> operation, and provide the listed
+/// <code>ExplainabilityArn</code>.
+class ExplainabilitySummary {
+  /// When the Explainability was created.
+  final DateTime? creationTime;
+
+  /// The Amazon Resource Name (ARN) of the Explainability.
+  final String? explainabilityArn;
+
+  /// The configuration settings that define the granularity of time series and
+  /// time points for the Explainability.
+  final ExplainabilityConfig? explainabilityConfig;
+
+  /// The name of the Explainability.
+  final String? explainabilityName;
+
+  /// The last time the resource was modified. The timestamp depends on the status
+  /// of the job:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATE_PENDING</code> - The <code>CreationTime</code>.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_IN_PROGRESS</code> - The current timestamp.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_STOPPING</code> - The current timestamp.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_STOPPED</code> - When the job stopped.
+  /// </li>
+  /// <li>
+  /// <code>ACTIVE</code> or <code>CREATE_FAILED</code> - When the job finished or
+  /// failed.
+  /// </li>
+  /// </ul>
+  final DateTime? lastModificationTime;
+
+  /// Information about any errors that may have occurred during the
+  /// Explainability creation process.
+  final String? message;
+
+  /// The Amazon Resource Name (ARN) of the Predictor or Forecast used to create
+  /// the Explainability.
+  final String? resourceArn;
+
+  /// The status of the Explainability. States include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code>
+  /// </li>
+  /// <li>
+  /// <code>CREATE_PENDING</code>, <code>CREATE_IN_PROGRESS</code>,
+  /// <code>CREATE_FAILED</code>
+  /// </li>
+  /// <li>
+  /// <code>CREATE_STOPPING</code>, <code>CREATE_STOPPED</code>
+  /// </li>
+  /// <li>
+  /// <code>DELETE_PENDING</code>, <code>DELETE_IN_PROGRESS</code>,
+  /// <code>DELETE_FAILED</code>
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  ExplainabilitySummary({
+    this.creationTime,
+    this.explainabilityArn,
+    this.explainabilityConfig,
+    this.explainabilityName,
+    this.lastModificationTime,
+    this.message,
+    this.resourceArn,
+    this.status,
+  });
+
+  factory ExplainabilitySummary.fromJson(Map<String, dynamic> json) {
+    return ExplainabilitySummary(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      explainabilityArn: json['ExplainabilityArn'] as String?,
+      explainabilityConfig: json['ExplainabilityConfig'] != null
+          ? ExplainabilityConfig.fromJson(
+              json['ExplainabilityConfig'] as Map<String, dynamic>)
+          : null,
+      explainabilityName: json['ExplainabilityName'] as String?,
+      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
+      message: json['Message'] as String?,
+      resourceArn: json['ResourceArn'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final explainabilityArn = this.explainabilityArn;
+    final explainabilityConfig = this.explainabilityConfig;
+    final explainabilityName = this.explainabilityName;
+    final lastModificationTime = this.lastModificationTime;
+    final message = this.message;
+    final resourceArn = this.resourceArn;
+    final status = this.status;
+    return {
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (explainabilityArn != null) 'ExplainabilityArn': explainabilityArn,
+      if (explainabilityConfig != null)
+        'ExplainabilityConfig': explainabilityConfig,
+      if (explainabilityName != null) 'ExplainabilityName': explainabilityName,
+      if (lastModificationTime != null)
+        'LastModificationTime': unixTimestampToJson(lastModificationTime),
+      if (message != null) 'Message': message,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
+/// The ExplainabilityConfig data type defines the number of time series and
+/// time points included in <a>CreateExplainability</a>.
+///
+/// If you provide a predictor ARN for <code>ResourceArn</code>, you must set
+/// both <code>TimePointGranularity</code> and
+/// <code>TimeSeriesGranularity</code> to “ALL”. When creating Predictor
+/// Explainability, Amazon Forecast considers all time series and time points.
+///
+/// If you provide a forecast ARN for <code>ResourceArn</code>, you can set
+/// <code>TimePointGranularity</code> and <code>TimeSeriesGranularity</code> to
+/// either “ALL” or “Specific”.
+class ExplainabilityConfig {
+  /// To create an Explainability for all time points in your forecast horizon,
+  /// use <code>ALL</code>. To create an Explainability for specific time points
+  /// in your forecast horizon, use <code>SPECIFIC</code>.
+  ///
+  /// Specify time points with the <code>StartDateTime</code> and
+  /// <code>EndDateTime</code> parameters within the <a>CreateExplainability</a>
+  /// operation.
+  final TimePointGranularity timePointGranularity;
+
+  /// To create an Explainability for all time series in your datasets, use
+  /// <code>ALL</code>. To create an Explainability for specific time series in
+  /// your datasets, use <code>SPECIFIC</code>.
+  ///
+  /// Specify time series by uploading a CSV or Parquet file to an Amazon S3
+  /// bucket and set the location within the <a>DataDestination</a> data type.
+  final TimeSeriesGranularity timeSeriesGranularity;
+
+  ExplainabilityConfig({
+    required this.timePointGranularity,
+    required this.timeSeriesGranularity,
+  });
+
+  factory ExplainabilityConfig.fromJson(Map<String, dynamic> json) {
+    return ExplainabilityConfig(
+      timePointGranularity: TimePointGranularity.fromString(
+          (json['TimePointGranularity'] as String?) ?? ''),
+      timeSeriesGranularity: TimeSeriesGranularity.fromString(
+          (json['TimeSeriesGranularity'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timePointGranularity = this.timePointGranularity;
+    final timeSeriesGranularity = this.timeSeriesGranularity;
+    return {
+      'TimePointGranularity': timePointGranularity.value,
+      'TimeSeriesGranularity': timeSeriesGranularity.value,
+    };
+  }
+}
+
+class TimeSeriesGranularity {
+  static const all = TimeSeriesGranularity._('ALL');
+  static const specific = TimeSeriesGranularity._('SPECIFIC');
+
+  final String value;
+
+  const TimeSeriesGranularity._(this.value);
+
+  static const values = [all, specific];
+
+  static TimeSeriesGranularity fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TimeSeriesGranularity._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TimeSeriesGranularity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TimePointGranularity {
+  static const all = TimePointGranularity._('ALL');
+  static const specific = TimePointGranularity._('SPECIFIC');
+
+  final String value;
+
+  const TimePointGranularity._(this.value);
+
+  static const values = [all, specific];
+
+  static TimePointGranularity fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TimePointGranularity._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TimePointGranularity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides a summary of the dataset properties used in the <a
+/// href="https://docs.aws.amazon.com/forecast/latest/dg/API_ListDatasets.html">ListDatasets</a>
+/// operation. To get the complete set of properties, call the <a
+/// href="https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDataset.html">DescribeDataset</a>
+/// operation, and provide the <code>DatasetArn</code>.
+class DatasetSummary {
+  /// When the dataset was created.
+  final DateTime? creationTime;
+
+  /// The Amazon Resource Name (ARN) of the dataset.
+  final String? datasetArn;
+
+  /// The name of the dataset.
+  final String? datasetName;
+
+  /// The dataset type.
+  final DatasetType? datasetType;
+
+  /// The domain associated with the dataset.
+  final Domain? domain;
+
+  /// When you create a dataset, <code>LastModificationTime</code> is the same as
+  /// <code>CreationTime</code>. While data is being imported to the dataset,
+  /// <code>LastModificationTime</code> is the current time of the
+  /// <code>ListDatasets</code> call. After a <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetImportJob.html">CreateDatasetImportJob</a>
+  /// operation has finished, <code>LastModificationTime</code> is when the import
+  /// job completed or failed.
+  final DateTime? lastModificationTime;
+
+  DatasetSummary({
+    this.creationTime,
+    this.datasetArn,
+    this.datasetName,
+    this.datasetType,
+    this.domain,
+    this.lastModificationTime,
+  });
+
+  factory DatasetSummary.fromJson(Map<String, dynamic> json) {
+    return DatasetSummary(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      datasetArn: json['DatasetArn'] as String?,
+      datasetName: json['DatasetName'] as String?,
+      datasetType:
+          (json['DatasetType'] as String?)?.let(DatasetType.fromString),
+      domain: (json['Domain'] as String?)?.let(Domain.fromString),
+      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final datasetArn = this.datasetArn;
+    final datasetName = this.datasetName;
+    final datasetType = this.datasetType;
+    final domain = this.domain;
+    final lastModificationTime = this.lastModificationTime;
+    return {
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (datasetArn != null) 'DatasetArn': datasetArn,
+      if (datasetName != null) 'DatasetName': datasetName,
+      if (datasetType != null) 'DatasetType': datasetType.value,
+      if (domain != null) 'Domain': domain.value,
+      if (lastModificationTime != null)
+        'LastModificationTime': unixTimestampToJson(lastModificationTime),
+    };
+  }
+}
+
+class DatasetType {
+  static const targetTimeSeries = DatasetType._('TARGET_TIME_SERIES');
+  static const relatedTimeSeries = DatasetType._('RELATED_TIME_SERIES');
+  static const itemMetadata = DatasetType._('ITEM_METADATA');
+
+  final String value;
+
+  const DatasetType._(this.value);
+
+  static const values = [targetTimeSeries, relatedTimeSeries, itemMetadata];
+
+  static DatasetType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DatasetType._(value));
+
+  @override
+  bool operator ==(other) => other is DatasetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class Domain {
+  static const retail = Domain._('RETAIL');
+  static const custom = Domain._('CUSTOM');
+  static const inventoryPlanning = Domain._('INVENTORY_PLANNING');
+  static const ec2Capacity = Domain._('EC2_CAPACITY');
+  static const workForce = Domain._('WORK_FORCE');
+  static const webTraffic = Domain._('WEB_TRAFFIC');
+  static const metrics = Domain._('METRICS');
+
+  final String value;
+
+  const Domain._(this.value);
+
+  static const values = [
+    retail,
+    custom,
+    inventoryPlanning,
+    ec2Capacity,
+    workForce,
+    webTraffic,
+    metrics
+  ];
+
+  static Domain fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Domain._(value));
+
+  @override
+  bool operator ==(other) => other is Domain && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides a summary of the dataset import job properties used in the <a
+/// href="https://docs.aws.amazon.com/forecast/latest/dg/API_ListDatasetImportJobs.html">ListDatasetImportJobs</a>
+/// operation. To get the complete set of properties, call the <a
+/// href="https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetImportJob.html">DescribeDatasetImportJob</a>
+/// operation, and provide the <code>DatasetImportJobArn</code>.
+class DatasetImportJobSummary {
+  /// When the dataset import job was created.
+  final DateTime? creationTime;
+
+  /// The location of the training data to import and an Identity and Access
+  /// Management (IAM) role that Amazon Forecast can assume to access the data.
+  /// The training data must be stored in an Amazon S3 bucket.
+  ///
+  /// If encryption is used, <code>DataSource</code> includes an Key Management
+  /// Service (KMS) key.
+  final DataSource? dataSource;
+
+  /// The Amazon Resource Name (ARN) of the dataset import job.
+  final String? datasetImportJobArn;
+
+  /// The name of the dataset import job.
+  final String? datasetImportJobName;
+
+  /// The import mode of the dataset import job, FULL or INCREMENTAL.
+  final ImportMode? importMode;
+
+  /// The last time the resource was modified. The timestamp depends on the status
+  /// of the job:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATE_PENDING</code> - The <code>CreationTime</code>.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_IN_PROGRESS</code> - The current timestamp.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_STOPPING</code> - The current timestamp.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_STOPPED</code> - When the job stopped.
+  /// </li>
+  /// <li>
+  /// <code>ACTIVE</code> or <code>CREATE_FAILED</code> - When the job finished or
+  /// failed.
+  /// </li>
+  /// </ul>
+  final DateTime? lastModificationTime;
+
+  /// If an error occurred, an informational message about the error.
+  final String? message;
+
+  /// The status of the dataset import job. States include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code>
+  /// </li>
+  /// <li>
+  /// <code>CREATE_PENDING</code>, <code>CREATE_IN_PROGRESS</code>,
+  /// <code>CREATE_FAILED</code>
+  /// </li>
+  /// <li>
+  /// <code>DELETE_PENDING</code>, <code>DELETE_IN_PROGRESS</code>,
+  /// <code>DELETE_FAILED</code>
+  /// </li>
+  /// <li>
+  /// <code>CREATE_STOPPING</code>, <code>CREATE_STOPPED</code>
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  DatasetImportJobSummary({
+    this.creationTime,
+    this.dataSource,
+    this.datasetImportJobArn,
+    this.datasetImportJobName,
+    this.importMode,
+    this.lastModificationTime,
+    this.message,
+    this.status,
+  });
+
+  factory DatasetImportJobSummary.fromJson(Map<String, dynamic> json) {
+    return DatasetImportJobSummary(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      dataSource: json['DataSource'] != null
+          ? DataSource.fromJson(json['DataSource'] as Map<String, dynamic>)
+          : null,
+      datasetImportJobArn: json['DatasetImportJobArn'] as String?,
+      datasetImportJobName: json['DatasetImportJobName'] as String?,
+      importMode: (json['ImportMode'] as String?)?.let(ImportMode.fromString),
+      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
+      message: json['Message'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final dataSource = this.dataSource;
+    final datasetImportJobArn = this.datasetImportJobArn;
+    final datasetImportJobName = this.datasetImportJobName;
+    final importMode = this.importMode;
+    final lastModificationTime = this.lastModificationTime;
+    final message = this.message;
+    final status = this.status;
+    return {
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (dataSource != null) 'DataSource': dataSource,
+      if (datasetImportJobArn != null)
+        'DatasetImportJobArn': datasetImportJobArn,
+      if (datasetImportJobName != null)
+        'DatasetImportJobName': datasetImportJobName,
+      if (importMode != null) 'ImportMode': importMode.value,
+      if (lastModificationTime != null)
+        'LastModificationTime': unixTimestampToJson(lastModificationTime),
+      if (message != null) 'Message': message,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
+/// The source of your data, an Identity and Access Management (IAM) role that
+/// allows Amazon Forecast to access the data and, optionally, an Key Management
+/// Service (KMS) key.
+class DataSource {
+  /// The path to the data stored in an Amazon Simple Storage Service (Amazon S3)
+  /// bucket along with the credentials to access the data.
+  final S3Config s3Config;
+
+  DataSource({
+    required this.s3Config,
+  });
+
+  factory DataSource.fromJson(Map<String, dynamic> json) {
+    return DataSource(
+      s3Config: S3Config.fromJson((json['S3Config'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Config = this.s3Config;
+    return {
+      'S3Config': s3Config,
+    };
+  }
+}
+
+class ImportMode {
+  static const full = ImportMode._('FULL');
+  static const incremental = ImportMode._('INCREMENTAL');
+
+  final String value;
+
+  const ImportMode._(this.value);
+
+  static const values = [full, incremental];
+
+  static ImportMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ImportMode._(value));
+
+  @override
+  bool operator ==(other) => other is ImportMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides a summary of the dataset group properties used in the <a
+/// href="https://docs.aws.amazon.com/forecast/latest/dg/API_ListDatasetGroups.html">ListDatasetGroups</a>
+/// operation. To get the complete set of properties, call the <a
+/// href="https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetGroup.html">DescribeDatasetGroup</a>
+/// operation, and provide the <code>DatasetGroupArn</code>.
+class DatasetGroupSummary {
+  /// When the dataset group was created.
+  final DateTime? creationTime;
+
+  /// The Amazon Resource Name (ARN) of the dataset group.
+  final String? datasetGroupArn;
+
+  /// The name of the dataset group.
+  final String? datasetGroupName;
+
+  /// When the dataset group was created or last updated from a call to the <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_UpdateDatasetGroup.html">UpdateDatasetGroup</a>
+  /// operation. While the dataset group is being updated,
+  /// <code>LastModificationTime</code> is the current time of the
+  /// <code>ListDatasetGroups</code> call.
+  final DateTime? lastModificationTime;
+
+  DatasetGroupSummary({
+    this.creationTime,
+    this.datasetGroupArn,
+    this.datasetGroupName,
+    this.lastModificationTime,
+  });
+
+  factory DatasetGroupSummary.fromJson(Map<String, dynamic> json) {
+    return DatasetGroupSummary(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      datasetGroupArn: json['DatasetGroupArn'] as String?,
+      datasetGroupName: json['DatasetGroupName'] as String?,
+      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final datasetGroupArn = this.datasetGroupArn;
+    final datasetGroupName = this.datasetGroupName;
+    final lastModificationTime = this.lastModificationTime;
+    return {
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (datasetGroupArn != null) 'DatasetGroupArn': datasetGroupArn,
+      if (datasetGroupName != null) 'DatasetGroupName': datasetGroupName,
+      if (lastModificationTime != null)
+        'LastModificationTime': unixTimestampToJson(lastModificationTime),
+    };
+  }
+}
+
+class AutoMLOverrideStrategy {
+  static const latencyOptimized = AutoMLOverrideStrategy._('LatencyOptimized');
+  static const accuracyOptimized =
+      AutoMLOverrideStrategy._('AccuracyOptimized');
+
+  final String value;
+
+  const AutoMLOverrideStrategy._(this.value);
+
+  static const values = [latencyOptimized, accuracyOptimized];
+
+  static AutoMLOverrideStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AutoMLOverrideStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AutoMLOverrideStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class OptimizationMetric {
+  static const wape = OptimizationMetric._('WAPE');
+  static const rmse = OptimizationMetric._('RMSE');
+  static const averageWeightedQuantileLoss =
+      OptimizationMetric._('AverageWeightedQuantileLoss');
+  static const mase = OptimizationMetric._('MASE');
+  static const mape = OptimizationMetric._('MAPE');
+
+  final String value;
+
+  const OptimizationMetric._(this.value);
+
+  static const values = [wape, rmse, averageWeightedQuantileLoss, mase, mape];
+
+  static OptimizationMetric fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OptimizationMetric._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OptimizationMetric && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The results of evaluating an algorithm. Returned as part of the
+/// <a>GetAccuracyMetrics</a> response.
+class EvaluationResult {
+  /// The Amazon Resource Name (ARN) of the algorithm that was evaluated.
+  final String? algorithmArn;
+
+  /// The array of test windows used for evaluating the algorithm. The
+  /// <code>NumberOfBacktestWindows</code> from the <a>EvaluationParameters</a>
+  /// object determines the number of windows in the array.
+  final List<WindowSummary>? testWindows;
+
+  EvaluationResult({
+    this.algorithmArn,
+    this.testWindows,
+  });
+
+  factory EvaluationResult.fromJson(Map<String, dynamic> json) {
+    return EvaluationResult(
+      algorithmArn: json['AlgorithmArn'] as String?,
+      testWindows: (json['TestWindows'] as List?)
+          ?.nonNulls
+          .map((e) => WindowSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final algorithmArn = this.algorithmArn;
+    final testWindows = this.testWindows;
+    return {
+      if (algorithmArn != null) 'AlgorithmArn': algorithmArn,
+      if (testWindows != null) 'TestWindows': testWindows,
+    };
+  }
+}
+
+/// The metrics for a time range within the evaluation portion of a dataset.
+/// This object is part of the <a>EvaluationResult</a> object.
+///
+/// The <code>TestWindowStart</code> and <code>TestWindowEnd</code> parameters
+/// are determined by the <code>BackTestWindowOffset</code> parameter of the
+/// <a>EvaluationParameters</a> object.
+class WindowSummary {
+  /// The type of evaluation.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>SUMMARY</code> - The average metrics across all windows.
+  /// </li>
+  /// <li>
+  /// <code>COMPUTED</code> - The metrics for the specified window.
+  /// </li>
+  /// </ul>
+  final EvaluationType? evaluationType;
+
+  /// The number of data points within the window.
+  final int? itemCount;
+
+  /// Provides metrics used to evaluate the performance of a predictor.
+  final Metrics? metrics;
+
+  /// The timestamp that defines the end of the window.
+  final DateTime? testWindowEnd;
+
+  /// The timestamp that defines the start of the window.
+  final DateTime? testWindowStart;
+
+  WindowSummary({
+    this.evaluationType,
+    this.itemCount,
+    this.metrics,
+    this.testWindowEnd,
+    this.testWindowStart,
+  });
+
+  factory WindowSummary.fromJson(Map<String, dynamic> json) {
+    return WindowSummary(
+      evaluationType:
+          (json['EvaluationType'] as String?)?.let(EvaluationType.fromString),
+      itemCount: json['ItemCount'] as int?,
+      metrics: json['Metrics'] != null
+          ? Metrics.fromJson(json['Metrics'] as Map<String, dynamic>)
+          : null,
+      testWindowEnd: timeStampFromJson(json['TestWindowEnd']),
+      testWindowStart: timeStampFromJson(json['TestWindowStart']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final evaluationType = this.evaluationType;
+    final itemCount = this.itemCount;
+    final metrics = this.metrics;
+    final testWindowEnd = this.testWindowEnd;
+    final testWindowStart = this.testWindowStart;
+    return {
+      if (evaluationType != null) 'EvaluationType': evaluationType.value,
+      if (itemCount != null) 'ItemCount': itemCount,
+      if (metrics != null) 'Metrics': metrics,
+      if (testWindowEnd != null)
+        'TestWindowEnd': unixTimestampToJson(testWindowEnd),
+      if (testWindowStart != null)
+        'TestWindowStart': unixTimestampToJson(testWindowStart),
+    };
+  }
+}
+
+class EvaluationType {
+  static const summary = EvaluationType._('SUMMARY');
+  static const computed = EvaluationType._('COMPUTED');
+
+  final String value;
+
+  const EvaluationType._(this.value);
+
+  static const values = [summary, computed];
+
+  static EvaluationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EvaluationType._(value));
+
+  @override
+  bool operator ==(other) => other is EvaluationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides metrics that are used to evaluate the performance of a predictor.
+/// This object is part of the <a>WindowSummary</a> object.
+class Metrics {
+  /// The average value of all weighted quantile losses.
+  final double? averageWeightedQuantileLoss;
+
+  /// Provides detailed error metrics for each forecast type. Metrics include
+  /// root-mean square-error (RMSE), mean absolute percentage error (MAPE), mean
+  /// absolute scaled error (MASE), and weighted average percentage error (WAPE).
+  final List<ErrorMetric>? errorMetrics;
+
+  /// The root-mean-square error (RMSE).
+  final double? rmse;
+
+  /// An array of weighted quantile losses. Quantiles divide a probability
+  /// distribution into regions of equal probability. The distribution in this
+  /// case is the loss function.
+  final List<WeightedQuantileLoss>? weightedQuantileLosses;
+
+  Metrics({
+    this.averageWeightedQuantileLoss,
+    this.errorMetrics,
+    this.rmse,
+    this.weightedQuantileLosses,
+  });
+
+  factory Metrics.fromJson(Map<String, dynamic> json) {
+    return Metrics(
+      averageWeightedQuantileLoss:
+          json['AverageWeightedQuantileLoss'] as double?,
+      errorMetrics: (json['ErrorMetrics'] as List?)
+          ?.nonNulls
+          .map((e) => ErrorMetric.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      rmse: json['RMSE'] as double?,
+      weightedQuantileLosses: (json['WeightedQuantileLosses'] as List?)
+          ?.nonNulls
+          .map((e) => WeightedQuantileLoss.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final averageWeightedQuantileLoss = this.averageWeightedQuantileLoss;
+    final errorMetrics = this.errorMetrics;
+    final rmse = this.rmse;
+    final weightedQuantileLosses = this.weightedQuantileLosses;
+    return {
+      if (averageWeightedQuantileLoss != null)
+        'AverageWeightedQuantileLoss': averageWeightedQuantileLoss,
+      if (errorMetrics != null) 'ErrorMetrics': errorMetrics,
+      if (rmse != null) 'RMSE': rmse,
+      if (weightedQuantileLosses != null)
+        'WeightedQuantileLosses': weightedQuantileLosses,
+    };
+  }
+}
+
+/// Provides detailed error metrics to evaluate the performance of a predictor.
+/// This object is part of the <a>Metrics</a> object.
+class ErrorMetric {
+  /// The Forecast type used to compute WAPE, MAPE, MASE, and RMSE.
+  final String? forecastType;
+
+  /// The Mean Absolute Percentage Error (MAPE)
+  final double? mape;
+
+  /// The Mean Absolute Scaled Error (MASE)
+  final double? mase;
+
+  /// The root-mean-square error (RMSE).
+  final double? rmse;
+
+  /// The weighted absolute percentage error (WAPE).
+  final double? wape;
+
+  ErrorMetric({
+    this.forecastType,
+    this.mape,
+    this.mase,
+    this.rmse,
+    this.wape,
+  });
+
+  factory ErrorMetric.fromJson(Map<String, dynamic> json) {
+    return ErrorMetric(
+      forecastType: json['ForecastType'] as String?,
+      mape: json['MAPE'] as double?,
+      mase: json['MASE'] as double?,
+      rmse: json['RMSE'] as double?,
+      wape: json['WAPE'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final forecastType = this.forecastType;
+    final mape = this.mape;
+    final mase = this.mase;
+    final rmse = this.rmse;
+    final wape = this.wape;
+    return {
+      if (forecastType != null) 'ForecastType': forecastType,
+      if (mape != null) 'MAPE': mape,
+      if (mase != null) 'MASE': mase,
+      if (rmse != null) 'RMSE': rmse,
+      if (wape != null) 'WAPE': wape,
+    };
+  }
+}
+
+/// The weighted loss value for a quantile. This object is part of the
+/// <a>Metrics</a> object.
+class WeightedQuantileLoss {
+  /// The difference between the predicted value and the actual value over the
+  /// quantile, weighted (normalized) by dividing by the sum over all quantiles.
+  final double? lossValue;
+
+  /// The quantile. Quantiles divide a probability distribution into regions of
+  /// equal probability. For example, if the distribution was divided into 5
+  /// regions of equal probability, the quantiles would be 0.2, 0.4, 0.6, and 0.8.
+  final double? quantile;
+
+  WeightedQuantileLoss({
+    this.lossValue,
+    this.quantile,
+  });
+
+  factory WeightedQuantileLoss.fromJson(Map<String, dynamic> json) {
+    return WeightedQuantileLoss(
+      lossValue: json['LossValue'] as double?,
+      quantile: json['Quantile'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lossValue = this.lossValue;
+    final quantile = this.quantile;
+    return {
+      if (lossValue != null) 'LossValue': lossValue,
+      if (quantile != null) 'Quantile': quantile,
+    };
+  }
+}
+
+/// A replacement dataset is a modified version of the baseline related time
+/// series that contains only the values that you want to include in a what-if
+/// forecast. The replacement dataset must contain the forecast dimensions and
+/// item identifiers in the baseline related time series as well as at least 1
+/// changed time series. This dataset is merged with the baseline related time
+/// series to create a transformed dataset that is used for the what-if
+/// forecast.
+class TimeSeriesReplacementsDataSource {
+  final S3Config s3Config;
+  final Schema schema;
+
+  /// The format of the replacement data, CSV or PARQUET.
+  final String? format;
+
+  /// The timestamp format of the replacement data.
+  final String? timestampFormat;
+
+  TimeSeriesReplacementsDataSource({
+    required this.s3Config,
+    required this.schema,
+    this.format,
+    this.timestampFormat,
+  });
+
+  factory TimeSeriesReplacementsDataSource.fromJson(Map<String, dynamic> json) {
+    return TimeSeriesReplacementsDataSource(
+      s3Config: S3Config.fromJson((json['S3Config'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      schema: Schema.fromJson((json['Schema'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      format: json['Format'] as String?,
+      timestampFormat: json['TimestampFormat'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Config = this.s3Config;
+    final schema = this.schema;
+    final format = this.format;
+    final timestampFormat = this.timestampFormat;
+    return {
+      'S3Config': s3Config,
+      'Schema': schema,
+      if (format != null) 'Format': format,
+      if (timestampFormat != null) 'TimestampFormat': timestampFormat,
+    };
+  }
 }
 
 /// Defines the fields of a dataset.
@@ -11130,21 +10209,25 @@ class SchemaAttribute {
   }
 }
 
-class State {
-  static const active = State._('Active');
-  static const deleted = State._('Deleted');
+class AttributeType {
+  static const string = AttributeType._('string');
+  static const integer = AttributeType._('integer');
+  static const float = AttributeType._('float');
+  static const timestamp = AttributeType._('timestamp');
+  static const geolocation = AttributeType._('geolocation');
 
   final String value;
 
-  const State._(this.value);
+  const AttributeType._(this.value);
 
-  static const values = [active, deleted];
+  static const values = [string, integer, float, timestamp, geolocation];
 
-  static State fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => State._(value));
+  static AttributeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AttributeType._(value));
 
   @override
-  bool operator ==(other) => other is State && other.value == value;
+  bool operator ==(other) => other is AttributeType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -11153,118 +10236,871 @@ class State {
   String toString() => value;
 }
 
-/// Provides statistics for each data field imported into to an Amazon Forecast
-/// dataset with the <a
-/// href="https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetImportJob.html">CreateDatasetImportJob</a>
-/// operation.
-class Statistics {
-  /// For a numeric field, the average value in the field.
-  final double? avg;
+/// A transformation function is a pair of operations that select and modify the
+/// rows in a related time series. You select the rows that you want with a
+/// condition operation and you modify the rows with a transformation operation.
+/// All conditions are joined with an AND operation, meaning that all conditions
+/// must be true for the transformation to be applied. Transformations are
+/// applied in the order that they are listed.
+class TimeSeriesTransformation {
+  /// An array of actions that define a time series and how it is transformed.
+  /// These transformations create a new time series that is used for the what-if
+  /// analysis.
+  final Action? action;
 
-  /// The number of values in the field. If the response value is -1, refer to
-  /// <code>CountLong</code>.
-  final int? count;
+  /// An array of conditions that define which members of the related time series
+  /// are transformed.
+  final List<TimeSeriesCondition>? timeSeriesConditions;
 
-  /// The number of distinct values in the field. If the response value is -1,
-  /// refer to <code>CountDistinctLong</code>.
-  final int? countDistinct;
-
-  /// The number of distinct values in the field. <code>CountDistinctLong</code>
-  /// is used instead of <code>CountDistinct</code> if the value is greater than
-  /// 2,147,483,647.
-  final int? countDistinctLong;
-
-  /// The number of values in the field. <code>CountLong</code> is used instead of
-  /// <code>Count</code> if the value is greater than 2,147,483,647.
-  final int? countLong;
-
-  /// The number of NAN (not a number) values in the field. If the response value
-  /// is -1, refer to <code>CountNanLong</code>.
-  final int? countNan;
-
-  /// The number of NAN (not a number) values in the field.
-  /// <code>CountNanLong</code> is used instead of <code>CountNan</code> if the
-  /// value is greater than 2,147,483,647.
-  final int? countNanLong;
-
-  /// The number of null values in the field. If the response value is -1, refer
-  /// to <code>CountNullLong</code>.
-  final int? countNull;
-
-  /// The number of null values in the field. <code>CountNullLong</code> is used
-  /// instead of <code>CountNull</code> if the value is greater than
-  /// 2,147,483,647.
-  final int? countNullLong;
-
-  /// For a numeric field, the maximum value in the field.
-  final String? max;
-
-  /// For a numeric field, the minimum value in the field.
-  final String? min;
-
-  /// For a numeric field, the standard deviation.
-  final double? stddev;
-
-  Statistics({
-    this.avg,
-    this.count,
-    this.countDistinct,
-    this.countDistinctLong,
-    this.countLong,
-    this.countNan,
-    this.countNanLong,
-    this.countNull,
-    this.countNullLong,
-    this.max,
-    this.min,
-    this.stddev,
+  TimeSeriesTransformation({
+    this.action,
+    this.timeSeriesConditions,
   });
 
-  factory Statistics.fromJson(Map<String, dynamic> json) {
-    return Statistics(
-      avg: json['Avg'] as double?,
-      count: json['Count'] as int?,
-      countDistinct: json['CountDistinct'] as int?,
-      countDistinctLong: json['CountDistinctLong'] as int?,
-      countLong: json['CountLong'] as int?,
-      countNan: json['CountNan'] as int?,
-      countNanLong: json['CountNanLong'] as int?,
-      countNull: json['CountNull'] as int?,
-      countNullLong: json['CountNullLong'] as int?,
-      max: json['Max'] as String?,
-      min: json['Min'] as String?,
-      stddev: json['Stddev'] as double?,
+  factory TimeSeriesTransformation.fromJson(Map<String, dynamic> json) {
+    return TimeSeriesTransformation(
+      action: json['Action'] != null
+          ? Action.fromJson(json['Action'] as Map<String, dynamic>)
+          : null,
+      timeSeriesConditions: (json['TimeSeriesConditions'] as List?)
+          ?.nonNulls
+          .map((e) => TimeSeriesCondition.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final avg = this.avg;
-    final count = this.count;
-    final countDistinct = this.countDistinct;
-    final countDistinctLong = this.countDistinctLong;
-    final countLong = this.countLong;
-    final countNan = this.countNan;
-    final countNanLong = this.countNanLong;
-    final countNull = this.countNull;
-    final countNullLong = this.countNullLong;
-    final max = this.max;
-    final min = this.min;
-    final stddev = this.stddev;
+    final action = this.action;
+    final timeSeriesConditions = this.timeSeriesConditions;
     return {
-      if (avg != null) 'Avg': avg,
-      if (count != null) 'Count': count,
-      if (countDistinct != null) 'CountDistinct': countDistinct,
-      if (countDistinctLong != null) 'CountDistinctLong': countDistinctLong,
-      if (countLong != null) 'CountLong': countLong,
-      if (countNan != null) 'CountNan': countNan,
-      if (countNanLong != null) 'CountNanLong': countNanLong,
-      if (countNull != null) 'CountNull': countNull,
-      if (countNullLong != null) 'CountNullLong': countNullLong,
-      if (max != null) 'Max': max,
-      if (min != null) 'Min': min,
-      if (stddev != null) 'Stddev': stddev,
+      if (action != null) 'Action': action,
+      if (timeSeriesConditions != null)
+        'TimeSeriesConditions': timeSeriesConditions,
     };
   }
+}
+
+/// Defines the modifications that you are making to an attribute for a what-if
+/// forecast. For example, you can use this operation to create a what-if
+/// forecast that investigates a 10% off sale on all shoes. To do this, you
+/// specify <code>"AttributeName": "shoes"</code>, <code>"Operation":
+/// "MULTIPLY"</code>, and <code>"Value": "0.90"</code>. Pair this operation
+/// with the <a>TimeSeriesCondition</a> operation within the
+/// <a>CreateWhatIfForecastRequest$TimeSeriesTransformations</a> operation to
+/// define a subset of attribute items that are modified.
+class Action {
+  /// The related time series that you are modifying. This value is case
+  /// insensitive.
+  final String attributeName;
+
+  /// The operation that is applied to the provided attribute. Operations include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ADD</code> - adds <code>Value</code> to all rows of
+  /// <code>AttributeName</code>.
+  /// </li>
+  /// <li>
+  /// <code>SUBTRACT</code> - subtracts <code>Value</code> from all rows of
+  /// <code>AttributeName</code>.
+  /// </li>
+  /// <li>
+  /// <code>MULTIPLY</code> - multiplies all rows of <code>AttributeName</code> by
+  /// <code>Value</code>.
+  /// </li>
+  /// <li>
+  /// <code>DIVIDE</code> - divides all rows of <code>AttributeName</code> by
+  /// <code>Value</code>.
+  /// </li>
+  /// </ul>
+  final Operation operation;
+
+  /// The value that is applied for the chosen <code>Operation</code>.
+  final double value;
+
+  Action({
+    required this.attributeName,
+    required this.operation,
+    required this.value,
+  });
+
+  factory Action.fromJson(Map<String, dynamic> json) {
+    return Action(
+      attributeName: (json['AttributeName'] as String?) ?? '',
+      operation: Operation.fromString((json['Operation'] as String?) ?? ''),
+      value: (json['Value'] as double?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeName = this.attributeName;
+    final operation = this.operation;
+    final value = this.value;
+    return {
+      'AttributeName': attributeName,
+      'Operation': operation.value,
+      'Value': value,
+    };
+  }
+}
+
+/// Creates a subset of items within an attribute that are modified. For
+/// example, you can use this operation to create a subset of items that cost $5
+/// or less. To do this, you specify <code>"AttributeName": "price"</code>,
+/// <code>"AttributeValue": "5"</code>, and <code>"Condition":
+/// "LESS_THAN"</code>. Pair this operation with the <a>Action</a> operation
+/// within the <a>CreateWhatIfForecastRequest$TimeSeriesTransformations</a>
+/// operation to define how the attribute is modified.
+class TimeSeriesCondition {
+  /// The item_id, dimension name, IM name, or timestamp that you are modifying.
+  final String attributeName;
+
+  /// The value that is applied for the chosen <code>Condition</code>.
+  final String attributeValue;
+
+  /// The condition to apply. Valid values are <code>EQUALS</code>,
+  /// <code>NOT_EQUALS</code>, <code>LESS_THAN</code> and
+  /// <code>GREATER_THAN</code>.
+  final Condition condition;
+
+  TimeSeriesCondition({
+    required this.attributeName,
+    required this.attributeValue,
+    required this.condition,
+  });
+
+  factory TimeSeriesCondition.fromJson(Map<String, dynamic> json) {
+    return TimeSeriesCondition(
+      attributeName: (json['AttributeName'] as String?) ?? '',
+      attributeValue: (json['AttributeValue'] as String?) ?? '',
+      condition: Condition.fromString((json['Condition'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeName = this.attributeName;
+    final attributeValue = this.attributeValue;
+    final condition = this.condition;
+    return {
+      'AttributeName': attributeName,
+      'AttributeValue': attributeValue,
+      'Condition': condition.value,
+    };
+  }
+}
+
+class Condition {
+  static const equals = Condition._('EQUALS');
+  static const notEquals = Condition._('NOT_EQUALS');
+  static const lessThan = Condition._('LESS_THAN');
+  static const greaterThan = Condition._('GREATER_THAN');
+
+  final String value;
+
+  const Condition._(this.value);
+
+  static const values = [equals, notEquals, lessThan, greaterThan];
+
+  static Condition fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Condition._(value));
+
+  @override
+  bool operator ==(other) => other is Condition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class Operation {
+  static const add = Operation._('ADD');
+  static const subtract = Operation._('SUBTRACT');
+  static const multiply = Operation._('MULTIPLY');
+  static const divide = Operation._('DIVIDE');
+
+  final String value;
+
+  const Operation._(this.value);
+
+  static const values = [add, subtract, multiply, divide];
+
+  static Operation fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Operation._(value));
+
+  @override
+  bool operator ==(other) => other is Operation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Defines the set of time series that are used to create the forecasts in a
+/// <code>TimeSeriesIdentifiers</code> object.
+///
+/// The <code>TimeSeriesIdentifiers</code> object needs the following
+/// information:
+///
+/// <ul>
+/// <li>
+/// <code>DataSource</code>
+/// </li>
+/// <li>
+/// <code>Format</code>
+/// </li>
+/// <li>
+/// <code>Schema</code>
+/// </li>
+/// </ul>
+class TimeSeriesSelector {
+  /// Details about the import file that contains the time series for which you
+  /// want to create forecasts.
+  final TimeSeriesIdentifiers? timeSeriesIdentifiers;
+
+  TimeSeriesSelector({
+    this.timeSeriesIdentifiers,
+  });
+
+  factory TimeSeriesSelector.fromJson(Map<String, dynamic> json) {
+    return TimeSeriesSelector(
+      timeSeriesIdentifiers: json['TimeSeriesIdentifiers'] != null
+          ? TimeSeriesIdentifiers.fromJson(
+              json['TimeSeriesIdentifiers'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timeSeriesIdentifiers = this.timeSeriesIdentifiers;
+    return {
+      if (timeSeriesIdentifiers != null)
+        'TimeSeriesIdentifiers': timeSeriesIdentifiers,
+    };
+  }
+}
+
+/// Details about the import file that contains the time series for which you
+/// want to create forecasts.
+class TimeSeriesIdentifiers {
+  final DataSource? dataSource;
+
+  /// The format of the data, either CSV or PARQUET.
+  final String? format;
+  final Schema? schema;
+
+  TimeSeriesIdentifiers({
+    this.dataSource,
+    this.format,
+    this.schema,
+  });
+
+  factory TimeSeriesIdentifiers.fromJson(Map<String, dynamic> json) {
+    return TimeSeriesIdentifiers(
+      dataSource: json['DataSource'] != null
+          ? DataSource.fromJson(json['DataSource'] as Map<String, dynamic>)
+          : null,
+      format: json['Format'] as String?,
+      schema: json['Schema'] != null
+          ? Schema.fromJson(json['Schema'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSource = this.dataSource;
+    final format = this.format;
+    final schema = this.schema;
+    return {
+      if (dataSource != null) 'DataSource': dataSource,
+      if (format != null) 'Format': format,
+      if (schema != null) 'Schema': schema,
+    };
+  }
+}
+
+/// Parameters that define how to split a dataset into training data and testing
+/// data, and the number of iterations to perform. These parameters are
+/// specified in the predefined algorithms but you can override them in the
+/// <a>CreatePredictor</a> request.
+class EvaluationParameters {
+  /// The point from the end of the dataset where you want to split the data for
+  /// model training and testing (evaluation). Specify the value as the number of
+  /// data points. The default is the value of the forecast horizon.
+  /// <code>BackTestWindowOffset</code> can be used to mimic a past virtual
+  /// forecast start date. This value must be greater than or equal to the
+  /// forecast horizon and less than half of the TARGET_TIME_SERIES dataset
+  /// length.
+  ///
+  /// <code>ForecastHorizon</code> <= <code>BackTestWindowOffset</code> < 1/2 *
+  /// TARGET_TIME_SERIES dataset length
+  final int? backTestWindowOffset;
+
+  /// The number of times to split the input data. The default is 1. Valid values
+  /// are 1 through 5.
+  final int? numberOfBacktestWindows;
+
+  EvaluationParameters({
+    this.backTestWindowOffset,
+    this.numberOfBacktestWindows,
+  });
+
+  factory EvaluationParameters.fromJson(Map<String, dynamic> json) {
+    return EvaluationParameters(
+      backTestWindowOffset: json['BackTestWindowOffset'] as int?,
+      numberOfBacktestWindows: json['NumberOfBacktestWindows'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final backTestWindowOffset = this.backTestWindowOffset;
+    final numberOfBacktestWindows = this.numberOfBacktestWindows;
+    return {
+      if (backTestWindowOffset != null)
+        'BackTestWindowOffset': backTestWindowOffset,
+      if (numberOfBacktestWindows != null)
+        'NumberOfBacktestWindows': numberOfBacktestWindows,
+    };
+  }
+}
+
+/// Configuration information for a hyperparameter tuning job. You specify this
+/// object in the <a>CreatePredictor</a> request.
+///
+/// A <i>hyperparameter</i> is a parameter that governs the model training
+/// process. You set hyperparameters before training starts, unlike model
+/// parameters, which are determined during training. The values of the
+/// hyperparameters effect which values are chosen for the model parameters.
+///
+/// In a <i>hyperparameter tuning job</i>, Amazon Forecast chooses the set of
+/// hyperparameter values that optimize a specified metric. Forecast
+/// accomplishes this by running many training jobs over a range of
+/// hyperparameter values. The optimum set of values depends on the algorithm,
+/// the training data, and the specified metric objective.
+class HyperParameterTuningJobConfig {
+  /// Specifies the ranges of valid values for the hyperparameters.
+  final ParameterRanges? parameterRanges;
+
+  HyperParameterTuningJobConfig({
+    this.parameterRanges,
+  });
+
+  factory HyperParameterTuningJobConfig.fromJson(Map<String, dynamic> json) {
+    return HyperParameterTuningJobConfig(
+      parameterRanges: json['ParameterRanges'] != null
+          ? ParameterRanges.fromJson(
+              json['ParameterRanges'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final parameterRanges = this.parameterRanges;
+    return {
+      if (parameterRanges != null) 'ParameterRanges': parameterRanges,
+    };
+  }
+}
+
+/// <note>
+/// This object belongs to the <a>CreatePredictor</a> operation. If you created
+/// your predictor with <a>CreateAutoPredictor</a>, see <a>DataConfig</a>.
+/// </note>
+/// The data used to train a predictor. The data includes a dataset group and
+/// any supplementary features. You specify this object in the
+/// <a>CreatePredictor</a> request.
+class InputDataConfig {
+  /// The Amazon Resource Name (ARN) of the dataset group.
+  final String datasetGroupArn;
+
+  /// An array of supplementary features. The only supported feature is a holiday
+  /// calendar.
+  final List<SupplementaryFeature>? supplementaryFeatures;
+
+  InputDataConfig({
+    required this.datasetGroupArn,
+    this.supplementaryFeatures,
+  });
+
+  factory InputDataConfig.fromJson(Map<String, dynamic> json) {
+    return InputDataConfig(
+      datasetGroupArn: (json['DatasetGroupArn'] as String?) ?? '',
+      supplementaryFeatures: (json['SupplementaryFeatures'] as List?)
+          ?.nonNulls
+          .map((e) => SupplementaryFeature.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datasetGroupArn = this.datasetGroupArn;
+    final supplementaryFeatures = this.supplementaryFeatures;
+    return {
+      'DatasetGroupArn': datasetGroupArn,
+      if (supplementaryFeatures != null)
+        'SupplementaryFeatures': supplementaryFeatures,
+    };
+  }
+}
+
+/// <note>
+/// This object belongs to the <a>CreatePredictor</a> operation. If you created
+/// your predictor with <a>CreateAutoPredictor</a>, see <a>AttributeConfig</a>.
+/// </note>
+/// In a <a>CreatePredictor</a> operation, the specified algorithm trains a
+/// model using the specified dataset group. You can optionally tell the
+/// operation to modify data fields prior to training a model. These
+/// modifications are referred to as <i>featurization</i>.
+///
+/// You define featurization using the <code>FeaturizationConfig</code> object.
+/// You specify an array of transformations, one for each field that you want to
+/// featurize. You then include the <code>FeaturizationConfig</code> object in
+/// your <code>CreatePredictor</code> request. Amazon Forecast applies the
+/// featurization to the <code>TARGET_TIME_SERIES</code> and
+/// <code>RELATED_TIME_SERIES</code> datasets before model training.
+///
+/// You can create multiple featurization configurations. For example, you might
+/// call the <code>CreatePredictor</code> operation twice by specifying
+/// different featurization configurations.
+class FeaturizationConfig {
+  /// The frequency of predictions in a forecast.
+  ///
+  /// Valid intervals are an integer followed by Y (Year), M (Month), W (Week), D
+  /// (Day), H (Hour), and min (Minute). For example, "1D" indicates every day and
+  /// "15min" indicates every 15 minutes. You cannot specify a value that would
+  /// overlap with the next larger frequency. That means, for example, you cannot
+  /// specify a frequency of 60 minutes, because that is equivalent to 1 hour. The
+  /// valid values for each frequency are the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// Minute - 1-59
+  /// </li>
+  /// <li>
+  /// Hour - 1-23
+  /// </li>
+  /// <li>
+  /// Day - 1-6
+  /// </li>
+  /// <li>
+  /// Week - 1-4
+  /// </li>
+  /// <li>
+  /// Month - 1-11
+  /// </li>
+  /// <li>
+  /// Year - 1
+  /// </li>
+  /// </ul>
+  /// Thus, if you want every other week forecasts, specify "2W". Or, if you want
+  /// quarterly forecasts, you specify "3M".
+  ///
+  /// The frequency must be greater than or equal to the TARGET_TIME_SERIES
+  /// dataset frequency.
+  ///
+  /// When a RELATED_TIME_SERIES dataset is provided, the frequency must be equal
+  /// to the TARGET_TIME_SERIES dataset frequency.
+  final String forecastFrequency;
+
+  /// An array of featurization (transformation) information for the fields of a
+  /// dataset.
+  final List<Featurization>? featurizations;
+
+  /// An array of dimension (field) names that specify how to group the generated
+  /// forecast.
+  ///
+  /// For example, suppose that you are generating a forecast for item sales
+  /// across all of your stores, and your dataset contains a <code>store_id</code>
+  /// field. If you want the sales forecast for each item by store, you would
+  /// specify <code>store_id</code> as the dimension.
+  ///
+  /// All forecast dimensions specified in the <code>TARGET_TIME_SERIES</code>
+  /// dataset don't need to be specified in the <code>CreatePredictor</code>
+  /// request. All forecast dimensions specified in the
+  /// <code>RELATED_TIME_SERIES</code> dataset must be specified in the
+  /// <code>CreatePredictor</code> request.
+  final List<String>? forecastDimensions;
+
+  FeaturizationConfig({
+    required this.forecastFrequency,
+    this.featurizations,
+    this.forecastDimensions,
+  });
+
+  factory FeaturizationConfig.fromJson(Map<String, dynamic> json) {
+    return FeaturizationConfig(
+      forecastFrequency: (json['ForecastFrequency'] as String?) ?? '',
+      featurizations: (json['Featurizations'] as List?)
+          ?.nonNulls
+          .map((e) => Featurization.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      forecastDimensions: (json['ForecastDimensions'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final forecastFrequency = this.forecastFrequency;
+    final featurizations = this.featurizations;
+    final forecastDimensions = this.forecastDimensions;
+    return {
+      'ForecastFrequency': forecastFrequency,
+      if (featurizations != null) 'Featurizations': featurizations,
+      if (forecastDimensions != null) 'ForecastDimensions': forecastDimensions,
+    };
+  }
+}
+
+/// An Key Management Service (KMS) key and an Identity and Access Management
+/// (IAM) role that Amazon Forecast can assume to access the key. You can
+/// specify this optional object in the <a>CreateDataset</a> and
+/// <a>CreatePredictor</a> requests.
+class EncryptionConfig {
+  /// The Amazon Resource Name (ARN) of the KMS key.
+  final String kMSKeyArn;
+
+  /// The ARN of the IAM role that Amazon Forecast can assume to access the KMS
+  /// key.
+  ///
+  /// Passing a role across Amazon Web Services accounts is not allowed. If you
+  /// pass a role that isn't in your account, you get an
+  /// <code>InvalidInputException</code> error.
+  final String roleArn;
+
+  EncryptionConfig({
+    required this.kMSKeyArn,
+    required this.roleArn,
+  });
+
+  factory EncryptionConfig.fromJson(Map<String, dynamic> json) {
+    return EncryptionConfig(
+      kMSKeyArn: (json['KMSKeyArn'] as String?) ?? '',
+      roleArn: (json['RoleArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kMSKeyArn = this.kMSKeyArn;
+    final roleArn = this.roleArn;
+    return {
+      'KMSKeyArn': kMSKeyArn,
+      'RoleArn': roleArn,
+    };
+  }
+}
+
+/// Contains details on the backtests performed to evaluate the accuracy of the
+/// predictor. The tests are returned in descending order of accuracy, with the
+/// most accurate backtest appearing first. You specify the number of backtests
+/// to perform when you call the operation.
+class PredictorExecutionDetails {
+  /// An array of the backtests performed to evaluate the accuracy of the
+  /// predictor against a particular algorithm. The
+  /// <code>NumberOfBacktestWindows</code> from the object determines the number
+  /// of windows in the array.
+  final List<PredictorExecution>? predictorExecutions;
+
+  PredictorExecutionDetails({
+    this.predictorExecutions,
+  });
+
+  factory PredictorExecutionDetails.fromJson(Map<String, dynamic> json) {
+    return PredictorExecutionDetails(
+      predictorExecutions: (json['PredictorExecutions'] as List?)
+          ?.nonNulls
+          .map((e) => PredictorExecution.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final predictorExecutions = this.predictorExecutions;
+    return {
+      if (predictorExecutions != null)
+        'PredictorExecutions': predictorExecutions,
+    };
+  }
+}
+
+/// The algorithm used to perform a backtest and the status of those tests.
+class PredictorExecution {
+  /// The ARN of the algorithm used to test the predictor.
+  final String? algorithmArn;
+
+  /// An array of test windows used to evaluate the algorithm. The
+  /// <code>NumberOfBacktestWindows</code> from the object determines the number
+  /// of windows in the array.
+  final List<TestWindowSummary>? testWindows;
+
+  PredictorExecution({
+    this.algorithmArn,
+    this.testWindows,
+  });
+
+  factory PredictorExecution.fromJson(Map<String, dynamic> json) {
+    return PredictorExecution(
+      algorithmArn: json['AlgorithmArn'] as String?,
+      testWindows: (json['TestWindows'] as List?)
+          ?.nonNulls
+          .map((e) => TestWindowSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final algorithmArn = this.algorithmArn;
+    final testWindows = this.testWindows;
+    return {
+      if (algorithmArn != null) 'AlgorithmArn': algorithmArn,
+      if (testWindows != null) 'TestWindows': testWindows,
+    };
+  }
+}
+
+/// The status, start time, and end time of a backtest, as well as a failure
+/// reason if applicable.
+class TestWindowSummary {
+  /// If the test failed, the reason why it failed.
+  final String? message;
+
+  /// The status of the test. Possible status values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code>
+  /// </li>
+  /// <li>
+  /// <code>CREATE_IN_PROGRESS</code>
+  /// </li>
+  /// <li>
+  /// <code>CREATE_FAILED</code>
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  /// The time at which the test ended.
+  final DateTime? testWindowEnd;
+
+  /// The time at which the test began.
+  final DateTime? testWindowStart;
+
+  TestWindowSummary({
+    this.message,
+    this.status,
+    this.testWindowEnd,
+    this.testWindowStart,
+  });
+
+  factory TestWindowSummary.fromJson(Map<String, dynamic> json) {
+    return TestWindowSummary(
+      message: json['Message'] as String?,
+      status: json['Status'] as String?,
+      testWindowEnd: timeStampFromJson(json['TestWindowEnd']),
+      testWindowStart: timeStampFromJson(json['TestWindowStart']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final status = this.status;
+    final testWindowEnd = this.testWindowEnd;
+    final testWindowStart = this.testWindowStart;
+    return {
+      if (message != null) 'Message': message,
+      if (status != null) 'Status': status,
+      if (testWindowEnd != null)
+        'TestWindowEnd': unixTimestampToJson(testWindowEnd),
+      if (testWindowStart != null)
+        'TestWindowStart': unixTimestampToJson(testWindowStart),
+    };
+  }
+}
+
+/// <note>
+/// This object belongs to the <a>CreatePredictor</a> operation. If you created
+/// your predictor with <a>CreateAutoPredictor</a>, see <a>AttributeConfig</a>.
+/// </note>
+/// Provides featurization (transformation) information for a dataset field.
+/// This object is part of the <a>FeaturizationConfig</a> object.
+///
+/// For example:
+///
+/// <code>{</code>
+///
+/// <code>"AttributeName": "demand",</code>
+///
+/// <code>FeaturizationPipeline [ {</code>
+///
+/// <code>"FeaturizationMethodName": "filling",</code>
+///
+/// <code>"FeaturizationMethodParameters": {"aggregation": "avg", "backfill":
+/// "nan"}</code>
+///
+/// <code>} ]</code>
+///
+/// <code>}</code>
+class Featurization {
+  /// The name of the schema attribute that specifies the data field to be
+  /// featurized. Amazon Forecast supports the target field of the
+  /// <code>TARGET_TIME_SERIES</code> and the <code>RELATED_TIME_SERIES</code>
+  /// datasets. For example, for the <code>RETAIL</code> domain, the target is
+  /// <code>demand</code>, and for the <code>CUSTOM</code> domain, the target is
+  /// <code>target_value</code>. For more information, see
+  /// <a>howitworks-missing-values</a>.
+  final String attributeName;
+
+  /// An array of one <code>FeaturizationMethod</code> object that specifies the
+  /// feature transformation method.
+  final List<FeaturizationMethod>? featurizationPipeline;
+
+  Featurization({
+    required this.attributeName,
+    this.featurizationPipeline,
+  });
+
+  factory Featurization.fromJson(Map<String, dynamic> json) {
+    return Featurization(
+      attributeName: (json['AttributeName'] as String?) ?? '',
+      featurizationPipeline: (json['FeaturizationPipeline'] as List?)
+          ?.nonNulls
+          .map((e) => FeaturizationMethod.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeName = this.attributeName;
+    final featurizationPipeline = this.featurizationPipeline;
+    return {
+      'AttributeName': attributeName,
+      if (featurizationPipeline != null)
+        'FeaturizationPipeline': featurizationPipeline,
+    };
+  }
+}
+
+/// Provides information about the method that featurizes (transforms) a dataset
+/// field. The method is part of the <code>FeaturizationPipeline</code> of the
+/// <a>Featurization</a> object.
+///
+/// The following is an example of how you specify a
+/// <code>FeaturizationMethod</code> object.
+///
+/// <code>{</code>
+///
+/// <code>"FeaturizationMethodName": "filling",</code>
+///
+/// <code>"FeaturizationMethodParameters": {"aggregation": "sum", "middlefill":
+/// "zero", "backfill": "zero"}</code>
+///
+/// <code>}</code>
+class FeaturizationMethod {
+  /// The name of the method. The "filling" method is the only supported method.
+  final FeaturizationMethodName featurizationMethodName;
+
+  /// The method parameters (key-value pairs), which are a map of override
+  /// parameters. Specify these parameters to override the default values. Related
+  /// Time Series attributes do not accept aggregation parameters.
+  ///
+  /// The following list shows the parameters and their valid values for the
+  /// "filling" featurization method for a <b>Target Time Series</b> dataset. Bold
+  /// signifies the default value.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>aggregation</code>: <b>sum</b>, <code>avg</code>, <code>first</code>,
+  /// <code>min</code>, <code>max</code>
+  /// </li>
+  /// <li>
+  /// <code>frontfill</code>: <b>none</b>
+  /// </li>
+  /// <li>
+  /// <code>middlefill</code>: <b>zero</b>, <code>nan</code> (not a number),
+  /// <code>value</code>, <code>median</code>, <code>mean</code>,
+  /// <code>min</code>, <code>max</code>
+  /// </li>
+  /// <li>
+  /// <code>backfill</code>: <b>zero</b>, <code>nan</code>, <code>value</code>,
+  /// <code>median</code>, <code>mean</code>, <code>min</code>, <code>max</code>
+  /// </li>
+  /// </ul>
+  /// The following list shows the parameters and their valid values for a
+  /// <b>Related Time Series</b> featurization method (there are no defaults):
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>middlefill</code>: <code>zero</code>, <code>value</code>,
+  /// <code>median</code>, <code>mean</code>, <code>min</code>, <code>max</code>
+  /// </li>
+  /// <li>
+  /// <code>backfill</code>: <code>zero</code>, <code>value</code>,
+  /// <code>median</code>, <code>mean</code>, <code>min</code>, <code>max</code>
+  /// </li>
+  /// <li>
+  /// <code>futurefill</code>: <code>zero</code>, <code>value</code>,
+  /// <code>median</code>, <code>mean</code>, <code>min</code>, <code>max</code>
+  /// </li>
+  /// </ul>
+  /// To set a filling method to a specific value, set the fill parameter to
+  /// <code>value</code> and define the value in a corresponding
+  /// <code>_value</code> parameter. For example, to set backfilling to a value of
+  /// 2, include the following: <code>"backfill": "value"</code> and
+  /// <code>"backfill_value":"2"</code>.
+  final Map<String, String>? featurizationMethodParameters;
+
+  FeaturizationMethod({
+    required this.featurizationMethodName,
+    this.featurizationMethodParameters,
+  });
+
+  factory FeaturizationMethod.fromJson(Map<String, dynamic> json) {
+    return FeaturizationMethod(
+      featurizationMethodName: FeaturizationMethodName.fromString(
+          (json['FeaturizationMethodName'] as String?) ?? ''),
+      featurizationMethodParameters:
+          (json['FeaturizationMethodParameters'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final featurizationMethodName = this.featurizationMethodName;
+    final featurizationMethodParameters = this.featurizationMethodParameters;
+    return {
+      'FeaturizationMethodName': featurizationMethodName.value,
+      if (featurizationMethodParameters != null)
+        'FeaturizationMethodParameters': featurizationMethodParameters,
+    };
+  }
+}
+
+class FeaturizationMethodName {
+  static const filling = FeaturizationMethodName._('filling');
+
+  final String value;
+
+  const FeaturizationMethodName._(this.value);
+
+  static const values = [filling];
+
+  static FeaturizationMethodName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FeaturizationMethodName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FeaturizationMethodName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// <note>
@@ -11534,143 +11370,597 @@ class SupplementaryFeature {
   }
 }
 
-/// The optional metadata that you apply to a resource to help you categorize
-/// and organize them. Each tag consists of a key and an optional value, both of
-/// which you define.
-///
-/// The following basic restrictions apply to tags:
-///
-/// <ul>
-/// <li>
-/// Maximum number of tags per resource - 50.
-/// </li>
-/// <li>
-/// For each resource, each tag key must be unique, and each tag key can have
-/// only one value.
-/// </li>
-/// <li>
-/// Maximum key length - 128 Unicode characters in UTF-8.
-/// </li>
-/// <li>
-/// Maximum value length - 256 Unicode characters in UTF-8.
-/// </li>
-/// <li>
-/// If your tagging schema is used across multiple services and resources,
-/// remember that other services may have restrictions on allowed characters.
-/// Generally allowed characters are: letters, numbers, and spaces representable
-/// in UTF-8, and the following characters: + - = . _ : / @.
-/// </li>
-/// <li>
-/// Tag keys and values are case sensitive.
-/// </li>
-/// <li>
-/// Do not use <code>aws:</code>, <code>AWS:</code>, or any upper or lowercase
-/// combination of such as a prefix for keys as it is reserved for Amazon Web
-/// Services use. You cannot edit or delete tag keys with this prefix. Values
-/// can have this prefix. If a tag value has <code>aws</code> as its prefix but
-/// the key does not, then Forecast considers it to be a user tag and will count
-/// against the limit of 50 tags. Tags with only the key prefix of
-/// <code>aws</code> do not count against your tags per resource limit.
-/// </li>
-/// </ul>
-class Tag {
-  /// One part of a key-value pair that makes up a tag. A <code>key</code> is a
-  /// general label that acts like a category for more specific tag values.
-  final String key;
+/// Specifies the categorical, continuous, and integer hyperparameters, and
+/// their ranges of tunable values. The range of tunable values determines which
+/// values that a hyperparameter tuning job can choose for the specified
+/// hyperparameter. This object is part of the
+/// <a>HyperParameterTuningJobConfig</a> object.
+class ParameterRanges {
+  /// Specifies the tunable range for each categorical hyperparameter.
+  final List<CategoricalParameterRange>? categoricalParameterRanges;
 
-  /// The optional part of a key-value pair that makes up a tag. A
-  /// <code>value</code> acts as a descriptor within a tag category (key).
-  final String value;
+  /// Specifies the tunable range for each continuous hyperparameter.
+  final List<ContinuousParameterRange>? continuousParameterRanges;
 
-  Tag({
-    required this.key,
-    required this.value,
+  /// Specifies the tunable range for each integer hyperparameter.
+  final List<IntegerParameterRange>? integerParameterRanges;
+
+  ParameterRanges({
+    this.categoricalParameterRanges,
+    this.continuousParameterRanges,
+    this.integerParameterRanges,
   });
 
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['Key'] as String?) ?? '',
-      value: (json['Value'] as String?) ?? '',
+  factory ParameterRanges.fromJson(Map<String, dynamic> json) {
+    return ParameterRanges(
+      categoricalParameterRanges: (json['CategoricalParameterRanges'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              CategoricalParameterRange.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      continuousParameterRanges: (json['ContinuousParameterRanges'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ContinuousParameterRange.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      integerParameterRanges: (json['IntegerParameterRanges'] as List?)
+          ?.nonNulls
+          .map((e) => IntegerParameterRange.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
+    final categoricalParameterRanges = this.categoricalParameterRanges;
+    final continuousParameterRanges = this.continuousParameterRanges;
+    final integerParameterRanges = this.integerParameterRanges;
     return {
-      'Key': key,
-      'Value': value,
+      if (categoricalParameterRanges != null)
+        'CategoricalParameterRanges': categoricalParameterRanges,
+      if (continuousParameterRanges != null)
+        'ContinuousParameterRanges': continuousParameterRanges,
+      if (integerParameterRanges != null)
+        'IntegerParameterRanges': integerParameterRanges,
     };
   }
 }
 
-class TagResourceResponse {
-  TagResourceResponse();
+/// Specifies an integer hyperparameter and it's range of tunable values. This
+/// object is part of the <a>ParameterRanges</a> object.
+class IntegerParameterRange {
+  /// The maximum tunable value of the hyperparameter.
+  final int maxValue;
 
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
+  /// The minimum tunable value of the hyperparameter.
+  final int minValue;
+
+  /// The name of the hyperparameter to tune.
+  final String name;
+
+  /// The scale that hyperparameter tuning uses to search the hyperparameter
+  /// range. Valid values:
+  /// <dl> <dt>Auto</dt> <dd>
+  /// Amazon Forecast hyperparameter tuning chooses the best scale for the
+  /// hyperparameter.
+  /// </dd> <dt>Linear</dt> <dd>
+  /// Hyperparameter tuning searches the values in the hyperparameter range by
+  /// using a linear scale.
+  /// </dd> <dt>Logarithmic</dt> <dd>
+  /// Hyperparameter tuning searches the values in the hyperparameter range by
+  /// using a logarithmic scale.
+  ///
+  /// Logarithmic scaling works only for ranges that have values greater than 0.
+  /// </dd> <dt>ReverseLogarithmic</dt> <dd>
+  /// Not supported for <code>IntegerParameterRange</code>.
+  ///
+  /// Reverse logarithmic scaling works only for ranges that are entirely within
+  /// the range 0 <= x < 1.0.
+  /// </dd> </dl>
+  /// For information about choosing a hyperparameter scale, see <a
+  /// href="http://docs.aws.amazon.com/sagemaker/latest/dg/automatic-model-tuning-define-ranges.html#scaling-type">Hyperparameter
+  /// Scaling</a>. One of the following values:
+  final ScalingType? scalingType;
+
+  IntegerParameterRange({
+    required this.maxValue,
+    required this.minValue,
+    required this.name,
+    this.scalingType,
+  });
+
+  factory IntegerParameterRange.fromJson(Map<String, dynamic> json) {
+    return IntegerParameterRange(
+      maxValue: (json['MaxValue'] as int?) ?? 0,
+      minValue: (json['MinValue'] as int?) ?? 0,
+      name: (json['Name'] as String?) ?? '',
+      scalingType:
+          (json['ScalingType'] as String?)?.let(ScalingType.fromString),
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final maxValue = this.maxValue;
+    final minValue = this.minValue;
+    final name = this.name;
+    final scalingType = this.scalingType;
+    return {
+      'MaxValue': maxValue,
+      'MinValue': minValue,
+      'Name': name,
+      if (scalingType != null) 'ScalingType': scalingType.value,
+    };
   }
 }
 
-/// The status, start time, and end time of a backtest, as well as a failure
-/// reason if applicable.
-class TestWindowSummary {
-  /// If the test failed, the reason why it failed.
-  final String? message;
+class ScalingType {
+  static const auto = ScalingType._('Auto');
+  static const linear = ScalingType._('Linear');
+  static const logarithmic = ScalingType._('Logarithmic');
+  static const reverseLogarithmic = ScalingType._('ReverseLogarithmic');
 
-  /// The status of the test. Possible status values are:
+  final String value;
+
+  const ScalingType._(this.value);
+
+  static const values = [auto, linear, logarithmic, reverseLogarithmic];
+
+  static ScalingType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ScalingType._(value));
+
+  @override
+  bool operator ==(other) => other is ScalingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Specifies a continuous hyperparameter and it's range of tunable values. This
+/// object is part of the <a>ParameterRanges</a> object.
+class ContinuousParameterRange {
+  /// The maximum tunable value of the hyperparameter.
+  final double maxValue;
+
+  /// The minimum tunable value of the hyperparameter.
+  final double minValue;
+
+  /// The name of the hyperparameter to tune.
+  final String name;
+
+  /// The scale that hyperparameter tuning uses to search the hyperparameter
+  /// range. Valid values:
+  /// <dl> <dt>Auto</dt> <dd>
+  /// Amazon Forecast hyperparameter tuning chooses the best scale for the
+  /// hyperparameter.
+  /// </dd> <dt>Linear</dt> <dd>
+  /// Hyperparameter tuning searches the values in the hyperparameter range by
+  /// using a linear scale.
+  /// </dd> <dt>Logarithmic</dt> <dd>
+  /// Hyperparameter tuning searches the values in the hyperparameter range by
+  /// using a logarithmic scale.
+  ///
+  /// Logarithmic scaling works only for ranges that have values greater than 0.
+  /// </dd> <dt>ReverseLogarithmic</dt> <dd>
+  /// hyperparameter tuning searches the values in the hyperparameter range by
+  /// using a reverse logarithmic scale.
+  ///
+  /// Reverse logarithmic scaling works only for ranges that are entirely within
+  /// the range 0 <= x < 1.0.
+  /// </dd> </dl>
+  /// For information about choosing a hyperparameter scale, see <a
+  /// href="http://docs.aws.amazon.com/sagemaker/latest/dg/automatic-model-tuning-define-ranges.html#scaling-type">Hyperparameter
+  /// Scaling</a>. One of the following values:
+  final ScalingType? scalingType;
+
+  ContinuousParameterRange({
+    required this.maxValue,
+    required this.minValue,
+    required this.name,
+    this.scalingType,
+  });
+
+  factory ContinuousParameterRange.fromJson(Map<String, dynamic> json) {
+    return ContinuousParameterRange(
+      maxValue: (json['MaxValue'] as double?) ?? 0,
+      minValue: (json['MinValue'] as double?) ?? 0,
+      name: (json['Name'] as String?) ?? '',
+      scalingType:
+          (json['ScalingType'] as String?)?.let(ScalingType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxValue = this.maxValue;
+    final minValue = this.minValue;
+    final name = this.name;
+    final scalingType = this.scalingType;
+    return {
+      'MaxValue': maxValue,
+      'MinValue': minValue,
+      'Name': name,
+      if (scalingType != null) 'ScalingType': scalingType.value,
+    };
+  }
+}
+
+/// Specifies a categorical hyperparameter and it's range of tunable values.
+/// This object is part of the <a>ParameterRanges</a> object.
+class CategoricalParameterRange {
+  /// The name of the categorical hyperparameter to tune.
+  final String name;
+
+  /// A list of the tunable categories for the hyperparameter.
+  final List<String> values;
+
+  CategoricalParameterRange({
+    required this.name,
+    required this.values,
+  });
+
+  factory CategoricalParameterRange.fromJson(Map<String, dynamic> json) {
+    return CategoricalParameterRange(
+      name: (json['Name'] as String?) ?? '',
+      values: ((json['Values'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      'Name': name,
+      'Values': values,
+    };
+  }
+}
+
+/// Metrics you can use as a baseline for comparison purposes. Use these metrics
+/// when you interpret monitoring results for an auto predictor.
+class Baseline {
+  /// The initial <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/metrics.html">accuracy
+  /// metrics</a> for the predictor you are monitoring. Use these metrics as a
+  /// baseline for comparison purposes as you use your predictor and the metrics
+  /// change.
+  final PredictorBaseline? predictorBaseline;
+
+  Baseline({
+    this.predictorBaseline,
+  });
+
+  factory Baseline.fromJson(Map<String, dynamic> json) {
+    return Baseline(
+      predictorBaseline: json['PredictorBaseline'] != null
+          ? PredictorBaseline.fromJson(
+              json['PredictorBaseline'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final predictorBaseline = this.predictorBaseline;
+    return {
+      if (predictorBaseline != null) 'PredictorBaseline': predictorBaseline,
+    };
+  }
+}
+
+/// Metrics you can use as a baseline for comparison purposes. Use these metrics
+/// when you interpret monitoring results for an auto predictor.
+class PredictorBaseline {
+  /// The initial <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/metrics.html">accuracy
+  /// metrics</a> for the predictor. Use these metrics as a baseline for
+  /// comparison purposes as you use your predictor and the metrics change.
+  final List<BaselineMetric>? baselineMetrics;
+
+  PredictorBaseline({
+    this.baselineMetrics,
+  });
+
+  factory PredictorBaseline.fromJson(Map<String, dynamic> json) {
+    return PredictorBaseline(
+      baselineMetrics: (json['BaselineMetrics'] as List?)
+          ?.nonNulls
+          .map((e) => BaselineMetric.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final baselineMetrics = this.baselineMetrics;
+    return {
+      if (baselineMetrics != null) 'BaselineMetrics': baselineMetrics,
+    };
+  }
+}
+
+/// An individual metric that you can use for comparison as you evaluate your
+/// monitoring results.
+class BaselineMetric {
+  /// The name of the metric.
+  final String? name;
+
+  /// The value for the metric.
+  final double? value;
+
+  BaselineMetric({
+    this.name,
+    this.value,
+  });
+
+  factory BaselineMetric.fromJson(Map<String, dynamic> json) {
+    return BaselineMetric(
+      name: json['Name'] as String?,
+      value: json['Value'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      if (name != null) 'Name': name,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Provides statistics for each data field imported into to an Amazon Forecast
+/// dataset with the <a
+/// href="https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetImportJob.html">CreateDatasetImportJob</a>
+/// operation.
+class Statistics {
+  /// For a numeric field, the average value in the field.
+  final double? avg;
+
+  /// The number of values in the field. If the response value is -1, refer to
+  /// <code>CountLong</code>.
+  final int? count;
+
+  /// The number of distinct values in the field. If the response value is -1,
+  /// refer to <code>CountDistinctLong</code>.
+  final int? countDistinct;
+
+  /// The number of distinct values in the field. <code>CountDistinctLong</code>
+  /// is used instead of <code>CountDistinct</code> if the value is greater than
+  /// 2,147,483,647.
+  final int? countDistinctLong;
+
+  /// The number of values in the field. <code>CountLong</code> is used instead of
+  /// <code>Count</code> if the value is greater than 2,147,483,647.
+  final int? countLong;
+
+  /// The number of NAN (not a number) values in the field. If the response value
+  /// is -1, refer to <code>CountNanLong</code>.
+  final int? countNan;
+
+  /// The number of NAN (not a number) values in the field.
+  /// <code>CountNanLong</code> is used instead of <code>CountNan</code> if the
+  /// value is greater than 2,147,483,647.
+  final int? countNanLong;
+
+  /// The number of null values in the field. If the response value is -1, refer
+  /// to <code>CountNullLong</code>.
+  final int? countNull;
+
+  /// The number of null values in the field. <code>CountNullLong</code> is used
+  /// instead of <code>CountNull</code> if the value is greater than
+  /// 2,147,483,647.
+  final int? countNullLong;
+
+  /// For a numeric field, the maximum value in the field.
+  final String? max;
+
+  /// For a numeric field, the minimum value in the field.
+  final String? min;
+
+  /// For a numeric field, the standard deviation.
+  final double? stddev;
+
+  Statistics({
+    this.avg,
+    this.count,
+    this.countDistinct,
+    this.countDistinctLong,
+    this.countLong,
+    this.countNan,
+    this.countNanLong,
+    this.countNull,
+    this.countNullLong,
+    this.max,
+    this.min,
+    this.stddev,
+  });
+
+  factory Statistics.fromJson(Map<String, dynamic> json) {
+    return Statistics(
+      avg: json['Avg'] as double?,
+      count: json['Count'] as int?,
+      countDistinct: json['CountDistinct'] as int?,
+      countDistinctLong: json['CountDistinctLong'] as int?,
+      countLong: json['CountLong'] as int?,
+      countNan: json['CountNan'] as int?,
+      countNanLong: json['CountNanLong'] as int?,
+      countNull: json['CountNull'] as int?,
+      countNullLong: json['CountNullLong'] as int?,
+      max: json['Max'] as String?,
+      min: json['Min'] as String?,
+      stddev: json['Stddev'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final avg = this.avg;
+    final count = this.count;
+    final countDistinct = this.countDistinct;
+    final countDistinctLong = this.countDistinctLong;
+    final countLong = this.countLong;
+    final countNan = this.countNan;
+    final countNanLong = this.countNanLong;
+    final countNull = this.countNull;
+    final countNullLong = this.countNullLong;
+    final max = this.max;
+    final min = this.min;
+    final stddev = this.stddev;
+    return {
+      if (avg != null) 'Avg': avg,
+      if (count != null) 'Count': count,
+      if (countDistinct != null) 'CountDistinct': countDistinct,
+      if (countDistinctLong != null) 'CountDistinctLong': countDistinctLong,
+      if (countLong != null) 'CountLong': countLong,
+      if (countNan != null) 'CountNan': countNan,
+      if (countNanLong != null) 'CountNanLong': countNanLong,
+      if (countNull != null) 'CountNull': countNull,
+      if (countNullLong != null) 'CountNullLong': countNullLong,
+      if (max != null) 'Max': max,
+      if (min != null) 'Min': min,
+      if (stddev != null) 'Stddev': stddev,
+    };
+  }
+}
+
+/// The data configuration for your dataset group and any additional datasets.
+class DataConfig {
+  /// The ARN of the dataset group used to train the predictor.
+  final String datasetGroupArn;
+
+  /// Additional built-in datasets like Holidays and the Weather Index.
+  final List<AdditionalDataset>? additionalDatasets;
+
+  /// Aggregation and filling options for attributes in your dataset group.
+  final List<AttributeConfig>? attributeConfigs;
+
+  DataConfig({
+    required this.datasetGroupArn,
+    this.additionalDatasets,
+    this.attributeConfigs,
+  });
+
+  factory DataConfig.fromJson(Map<String, dynamic> json) {
+    return DataConfig(
+      datasetGroupArn: (json['DatasetGroupArn'] as String?) ?? '',
+      additionalDatasets: (json['AdditionalDatasets'] as List?)
+          ?.nonNulls
+          .map((e) => AdditionalDataset.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      attributeConfigs: (json['AttributeConfigs'] as List?)
+          ?.nonNulls
+          .map((e) => AttributeConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datasetGroupArn = this.datasetGroupArn;
+    final additionalDatasets = this.additionalDatasets;
+    final attributeConfigs = this.attributeConfigs;
+    return {
+      'DatasetGroupArn': datasetGroupArn,
+      if (additionalDatasets != null) 'AdditionalDatasets': additionalDatasets,
+      if (attributeConfigs != null) 'AttributeConfigs': attributeConfigs,
+    };
+  }
+}
+
+/// Provides information about the Explainability resource.
+class ExplainabilityInfo {
+  /// The Amazon Resource Name (ARN) of the Explainability.
+  final String? explainabilityArn;
+
+  /// The status of the Explainability. States include:
   ///
   /// <ul>
   /// <li>
   /// <code>ACTIVE</code>
   /// </li>
   /// <li>
-  /// <code>CREATE_IN_PROGRESS</code>
+  /// <code>CREATE_PENDING</code>, <code>CREATE_IN_PROGRESS</code>,
+  /// <code>CREATE_FAILED</code>
   /// </li>
   /// <li>
-  /// <code>CREATE_FAILED</code>
+  /// <code>CREATE_STOPPING</code>, <code>CREATE_STOPPED</code>
+  /// </li>
+  /// <li>
+  /// <code>DELETE_PENDING</code>, <code>DELETE_IN_PROGRESS</code>,
+  /// <code>DELETE_FAILED</code>
   /// </li>
   /// </ul>
   final String? status;
 
-  /// The time at which the test ended.
-  final DateTime? testWindowEnd;
-
-  /// The time at which the test began.
-  final DateTime? testWindowStart;
-
-  TestWindowSummary({
-    this.message,
+  ExplainabilityInfo({
+    this.explainabilityArn,
     this.status,
-    this.testWindowEnd,
-    this.testWindowStart,
   });
 
-  factory TestWindowSummary.fromJson(Map<String, dynamic> json) {
-    return TestWindowSummary(
-      message: json['Message'] as String?,
+  factory ExplainabilityInfo.fromJson(Map<String, dynamic> json) {
+    return ExplainabilityInfo(
+      explainabilityArn: json['ExplainabilityArn'] as String?,
       status: json['Status'] as String?,
-      testWindowEnd: timeStampFromJson(json['TestWindowEnd']),
-      testWindowStart: timeStampFromJson(json['TestWindowStart']),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final message = this.message;
+    final explainabilityArn = this.explainabilityArn;
     final status = this.status;
-    final testWindowEnd = this.testWindowEnd;
-    final testWindowStart = this.testWindowStart;
     return {
-      if (message != null) 'Message': message,
+      if (explainabilityArn != null) 'ExplainabilityArn': explainabilityArn,
       if (status != null) 'Status': status,
-      if (testWindowEnd != null)
-        'TestWindowEnd': unixTimestampToJson(testWindowEnd),
-      if (testWindowStart != null)
-        'TestWindowStart': unixTimestampToJson(testWindowStart),
+    };
+  }
+}
+
+/// Provides information about the monitor resource.
+class MonitorInfo {
+  /// The Amazon Resource Name (ARN) of the monitor resource.
+  final String? monitorArn;
+
+  /// The status of the monitor. States include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code>
+  /// </li>
+  /// <li>
+  /// <code>ACTIVE_STOPPING</code>, <code>ACTIVE_STOPPED</code>
+  /// </li>
+  /// <li>
+  /// <code>UPDATE_IN_PROGRESS</code>
+  /// </li>
+  /// <li>
+  /// <code>CREATE_PENDING</code>, <code>CREATE_IN_PROGRESS</code>,
+  /// <code>CREATE_FAILED</code>
+  /// </li>
+  /// <li>
+  /// <code>DELETE_PENDING</code>, <code>DELETE_IN_PROGRESS</code>,
+  /// <code>DELETE_FAILED</code>
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  MonitorInfo({
+    this.monitorArn,
+    this.status,
+  });
+
+  factory MonitorInfo.fromJson(Map<String, dynamic> json) {
+    return MonitorInfo(
+      monitorArn: json['MonitorArn'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final monitorArn = this.monitorArn;
+    final status = this.status;
+    return {
+      if (monitorArn != null) 'MonitorArn': monitorArn,
+      if (status != null) 'Status': status,
     };
   }
 }
@@ -11733,23 +12023,44 @@ class TimeAlignmentBoundary {
   }
 }
 
-class TimePointGranularity {
-  static const all = TimePointGranularity._('ALL');
-  static const specific = TimePointGranularity._('SPECIFIC');
+class Month {
+  static const january = Month._('JANUARY');
+  static const february = Month._('FEBRUARY');
+  static const march = Month._('MARCH');
+  static const april = Month._('APRIL');
+  static const may = Month._('MAY');
+  static const june = Month._('JUNE');
+  static const july = Month._('JULY');
+  static const august = Month._('AUGUST');
+  static const september = Month._('SEPTEMBER');
+  static const october = Month._('OCTOBER');
+  static const november = Month._('NOVEMBER');
+  static const december = Month._('DECEMBER');
 
   final String value;
 
-  const TimePointGranularity._(this.value);
+  const Month._(this.value);
 
-  static const values = [all, specific];
+  static const values = [
+    january,
+    february,
+    march,
+    april,
+    may,
+    june,
+    july,
+    august,
+    september,
+    october,
+    november,
+    december
+  ];
 
-  static TimePointGranularity fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TimePointGranularity._(value));
+  static Month fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Month._(value));
 
   @override
-  bool operator ==(other) =>
-      other is TimePointGranularity && other.value == value;
+  bool operator ==(other) => other is Month && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -11758,726 +12069,413 @@ class TimePointGranularity {
   String toString() => value;
 }
 
-/// Creates a subset of items within an attribute that are modified. For
-/// example, you can use this operation to create a subset of items that cost $5
-/// or less. To do this, you specify <code>"AttributeName": "price"</code>,
-/// <code>"AttributeValue": "5"</code>, and <code>"Condition":
-/// "LESS_THAN"</code>. Pair this operation with the <a>Action</a> operation
-/// within the <a>CreateWhatIfForecastRequest$TimeSeriesTransformations</a>
-/// operation to define how the attribute is modified.
-class TimeSeriesCondition {
-  /// The item_id, dimension name, IM name, or timestamp that you are modifying.
-  final String attributeName;
+class DayOfWeek {
+  static const monday = DayOfWeek._('MONDAY');
+  static const tuesday = DayOfWeek._('TUESDAY');
+  static const wednesday = DayOfWeek._('WEDNESDAY');
+  static const thursday = DayOfWeek._('THURSDAY');
+  static const friday = DayOfWeek._('FRIDAY');
+  static const saturday = DayOfWeek._('SATURDAY');
+  static const sunday = DayOfWeek._('SUNDAY');
 
-  /// The value that is applied for the chosen <code>Condition</code>.
-  final String attributeValue;
+  final String value;
 
-  /// The condition to apply. Valid values are <code>EQUALS</code>,
-  /// <code>NOT_EQUALS</code>, <code>LESS_THAN</code> and
-  /// <code>GREATER_THAN</code>.
-  final Condition condition;
+  const DayOfWeek._(this.value);
 
-  TimeSeriesCondition({
-    required this.attributeName,
-    required this.attributeValue,
-    required this.condition,
+  static const values = [
+    monday,
+    tuesday,
+    wednesday,
+    thursday,
+    friday,
+    saturday,
+    sunday
+  ];
+
+  static DayOfWeek fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DayOfWeek._(value));
+
+  @override
+  bool operator ==(other) => other is DayOfWeek && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes an additional dataset. This object is part of the
+/// <a>DataConfig</a> object. Forecast supports the Weather Index and Holidays
+/// additional datasets.
+///
+/// <b>Weather Index</b>
+///
+/// The Amazon Forecast Weather Index is a built-in dataset that incorporates
+/// historical and projected weather information into your model. The Weather
+/// Index supplements your datasets with over two years of historical weather
+/// data and up to 14 days of projected weather data. For more information, see
+/// <a href="https://docs.aws.amazon.com/forecast/latest/dg/weather.html">Amazon
+/// Forecast Weather Index</a>.
+///
+/// <b>Holidays</b>
+///
+/// Holidays is a built-in dataset that incorporates national holiday
+/// information into your model. It provides native support for the holiday
+/// calendars of 66 countries. To view the holiday calendars, refer to the <a
+/// href="http://jollyday.sourceforge.net/data.html">Jollyday</a> library. For
+/// more information, see <a
+/// href="https://docs.aws.amazon.com/forecast/latest/dg/holidays.html">Holidays
+/// Featurization</a>.
+class AdditionalDataset {
+  /// The name of the additional dataset. Valid names: <code>"holiday"</code> and
+  /// <code>"weather"</code>.
+  final String name;
+
+  /// <b>Weather Index</b>
+  ///
+  /// To enable the Weather Index, do not specify a value for
+  /// <code>Configuration</code>.
+  ///
+  /// <b>Holidays</b>
+  ///
+  /// <b>Holidays</b>
+  ///
+  /// To enable Holidays, set <code>CountryCode</code> to one of the following
+  /// two-letter country codes:
+  ///
+  /// <ul>
+  /// <li>
+  /// "AL" - ALBANIA
+  /// </li>
+  /// <li>
+  /// "AR" - ARGENTINA
+  /// </li>
+  /// <li>
+  /// "AT" - AUSTRIA
+  /// </li>
+  /// <li>
+  /// "AU" - AUSTRALIA
+  /// </li>
+  /// <li>
+  /// "BA" - BOSNIA HERZEGOVINA
+  /// </li>
+  /// <li>
+  /// "BE" - BELGIUM
+  /// </li>
+  /// <li>
+  /// "BG" - BULGARIA
+  /// </li>
+  /// <li>
+  /// "BO" - BOLIVIA
+  /// </li>
+  /// <li>
+  /// "BR" - BRAZIL
+  /// </li>
+  /// <li>
+  /// "BY" - BELARUS
+  /// </li>
+  /// <li>
+  /// "CA" - CANADA
+  /// </li>
+  /// <li>
+  /// "CL" - CHILE
+  /// </li>
+  /// <li>
+  /// "CO" - COLOMBIA
+  /// </li>
+  /// <li>
+  /// "CR" - COSTA RICA
+  /// </li>
+  /// <li>
+  /// "HR" - CROATIA
+  /// </li>
+  /// <li>
+  /// "CZ" - CZECH REPUBLIC
+  /// </li>
+  /// <li>
+  /// "DK" - DENMARK
+  /// </li>
+  /// <li>
+  /// "EC" - ECUADOR
+  /// </li>
+  /// <li>
+  /// "EE" - ESTONIA
+  /// </li>
+  /// <li>
+  /// "ET" - ETHIOPIA
+  /// </li>
+  /// <li>
+  /// "FI" - FINLAND
+  /// </li>
+  /// <li>
+  /// "FR" - FRANCE
+  /// </li>
+  /// <li>
+  /// "DE" - GERMANY
+  /// </li>
+  /// <li>
+  /// "GR" - GREECE
+  /// </li>
+  /// <li>
+  /// "HU" - HUNGARY
+  /// </li>
+  /// <li>
+  /// "IS" - ICELAND
+  /// </li>
+  /// <li>
+  /// "IN" - INDIA
+  /// </li>
+  /// <li>
+  /// "IE" - IRELAND
+  /// </li>
+  /// <li>
+  /// "IT" - ITALY
+  /// </li>
+  /// <li>
+  /// "JP" - JAPAN
+  /// </li>
+  /// <li>
+  /// "KZ" - KAZAKHSTAN
+  /// </li>
+  /// <li>
+  /// "KR" - KOREA
+  /// </li>
+  /// <li>
+  /// "LV" - LATVIA
+  /// </li>
+  /// <li>
+  /// "LI" - LIECHTENSTEIN
+  /// </li>
+  /// <li>
+  /// "LT" - LITHUANIA
+  /// </li>
+  /// <li>
+  /// "LU" - LUXEMBOURG
+  /// </li>
+  /// <li>
+  /// "MK" - MACEDONIA
+  /// </li>
+  /// <li>
+  /// "MT" - MALTA
+  /// </li>
+  /// <li>
+  /// "MX" - MEXICO
+  /// </li>
+  /// <li>
+  /// "MD" - MOLDOVA
+  /// </li>
+  /// <li>
+  /// "ME" - MONTENEGRO
+  /// </li>
+  /// <li>
+  /// "NL" - NETHERLANDS
+  /// </li>
+  /// <li>
+  /// "NZ" - NEW ZEALAND
+  /// </li>
+  /// <li>
+  /// "NI" - NICARAGUA
+  /// </li>
+  /// <li>
+  /// "NG" - NIGERIA
+  /// </li>
+  /// <li>
+  /// "NO" - NORWAY
+  /// </li>
+  /// <li>
+  /// "PA" - PANAMA
+  /// </li>
+  /// <li>
+  /// "PY" - PARAGUAY
+  /// </li>
+  /// <li>
+  /// "PE" - PERU
+  /// </li>
+  /// <li>
+  /// "PL" - POLAND
+  /// </li>
+  /// <li>
+  /// "PT" - PORTUGAL
+  /// </li>
+  /// <li>
+  /// "RO" - ROMANIA
+  /// </li>
+  /// <li>
+  /// "RU" - RUSSIA
+  /// </li>
+  /// <li>
+  /// "RS" - SERBIA
+  /// </li>
+  /// <li>
+  /// "SK" - SLOVAKIA
+  /// </li>
+  /// <li>
+  /// "SI" - SLOVENIA
+  /// </li>
+  /// <li>
+  /// "ZA" - SOUTH AFRICA
+  /// </li>
+  /// <li>
+  /// "ES" - SPAIN
+  /// </li>
+  /// <li>
+  /// "SE" - SWEDEN
+  /// </li>
+  /// <li>
+  /// "CH" - SWITZERLAND
+  /// </li>
+  /// <li>
+  /// "UA" - UKRAINE
+  /// </li>
+  /// <li>
+  /// "AE" - UNITED ARAB EMIRATES
+  /// </li>
+  /// <li>
+  /// "US" - UNITED STATES
+  /// </li>
+  /// <li>
+  /// "UK" - UNITED KINGDOM
+  /// </li>
+  /// <li>
+  /// "UY" - URUGUAY
+  /// </li>
+  /// <li>
+  /// "VE" - VENEZUELA
+  /// </li>
+  /// </ul>
+  final Map<String, List<String>>? configuration;
+
+  AdditionalDataset({
+    required this.name,
+    this.configuration,
   });
 
-  factory TimeSeriesCondition.fromJson(Map<String, dynamic> json) {
-    return TimeSeriesCondition(
+  factory AdditionalDataset.fromJson(Map<String, dynamic> json) {
+    return AdditionalDataset(
+      name: (json['Name'] as String?) ?? '',
+      configuration: (json['Configuration'] as Map<String, dynamic>?)?.map((k,
+              e) =>
+          MapEntry(k, (e as List).nonNulls.map((e) => e as String).toList())),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final configuration = this.configuration;
+    return {
+      'Name': name,
+      if (configuration != null) 'Configuration': configuration,
+    };
+  }
+}
+
+/// Provides information about the method used to transform attributes.
+///
+/// The following is an example using the RETAIL domain:
+///
+/// <code>{</code>
+///
+/// <code>"AttributeName": "demand",</code>
+///
+/// <code>"Transformations": {"aggregation": "sum", "middlefill": "zero",
+/// "backfill": "zero"}</code>
+///
+/// <code>}</code>
+class AttributeConfig {
+  /// The name of the attribute as specified in the schema. Amazon Forecast
+  /// supports the target field of the target time series and the related time
+  /// series datasets. For example, for the RETAIL domain, the target is
+  /// <code>demand</code>.
+  final String attributeName;
+
+  /// The method parameters (key-value pairs), which are a map of override
+  /// parameters. Specify these parameters to override the default values. Related
+  /// Time Series attributes do not accept aggregation parameters.
+  ///
+  /// The following list shows the parameters and their valid values for the
+  /// "filling" featurization method for a <b>Target Time Series</b> dataset.
+  /// Default values are bolded.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>aggregation</code>: <b>sum</b>, <code>avg</code>, <code>first</code>,
+  /// <code>min</code>, <code>max</code>
+  /// </li>
+  /// <li>
+  /// <code>frontfill</code>: <b>none</b>
+  /// </li>
+  /// <li>
+  /// <code>middlefill</code>: <b>zero</b>, <code>nan</code> (not a number),
+  /// <code>value</code>, <code>median</code>, <code>mean</code>,
+  /// <code>min</code>, <code>max</code>
+  /// </li>
+  /// <li>
+  /// <code>backfill</code>: <b>zero</b>, <code>nan</code>, <code>value</code>,
+  /// <code>median</code>, <code>mean</code>, <code>min</code>, <code>max</code>
+  /// </li>
+  /// </ul>
+  /// The following list shows the parameters and their valid values for a
+  /// <b>Related Time Series</b> featurization method (there are no defaults):
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>middlefill</code>: <code>zero</code>, <code>value</code>,
+  /// <code>median</code>, <code>mean</code>, <code>min</code>, <code>max</code>
+  /// </li>
+  /// <li>
+  /// <code>backfill</code>: <code>zero</code>, <code>value</code>,
+  /// <code>median</code>, <code>mean</code>, <code>min</code>, <code>max</code>
+  /// </li>
+  /// <li>
+  /// <code>futurefill</code>: <code>zero</code>, <code>value</code>,
+  /// <code>median</code>, <code>mean</code>, <code>min</code>, <code>max</code>
+  /// </li>
+  /// </ul>
+  /// To set a filling method to a specific value, set the fill parameter to
+  /// <code>value</code> and define the value in a corresponding
+  /// <code>_value</code> parameter. For example, to set backfilling to a value of
+  /// 2, include the following: <code>"backfill": "value"</code> and
+  /// <code>"backfill_value":"2"</code>.
+  final Map<String, String> transformations;
+
+  AttributeConfig({
+    required this.attributeName,
+    required this.transformations,
+  });
+
+  factory AttributeConfig.fromJson(Map<String, dynamic> json) {
+    return AttributeConfig(
       attributeName: (json['AttributeName'] as String?) ?? '',
-      attributeValue: (json['AttributeValue'] as String?) ?? '',
-      condition: Condition.fromString((json['Condition'] as String?) ?? ''),
+      transformations: ((json['Transformations'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) => MapEntry(k, e as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final attributeName = this.attributeName;
-    final attributeValue = this.attributeValue;
-    final condition = this.condition;
+    final transformations = this.transformations;
     return {
       'AttributeName': attributeName,
-      'AttributeValue': attributeValue,
-      'Condition': condition.value,
+      'Transformations': transformations,
     };
   }
 }
 
-class TimeSeriesGranularity {
-  static const all = TimeSeriesGranularity._('ALL');
-  static const specific = TimeSeriesGranularity._('SPECIFIC');
+/// The configuration details for the predictor monitor.
+class MonitorConfig {
+  /// The name of the monitor resource.
+  final String monitorName;
 
-  final String value;
-
-  const TimeSeriesGranularity._(this.value);
-
-  static const values = [all, specific];
-
-  static TimeSeriesGranularity fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TimeSeriesGranularity._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is TimeSeriesGranularity && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Details about the import file that contains the time series for which you
-/// want to create forecasts.
-class TimeSeriesIdentifiers {
-  final DataSource? dataSource;
-
-  /// The format of the data, either CSV or PARQUET.
-  final String? format;
-  final Schema? schema;
-
-  TimeSeriesIdentifiers({
-    this.dataSource,
-    this.format,
-    this.schema,
+  MonitorConfig({
+    required this.monitorName,
   });
 
-  factory TimeSeriesIdentifiers.fromJson(Map<String, dynamic> json) {
-    return TimeSeriesIdentifiers(
-      dataSource: json['DataSource'] != null
-          ? DataSource.fromJson(json['DataSource'] as Map<String, dynamic>)
-          : null,
-      format: json['Format'] as String?,
-      schema: json['Schema'] != null
-          ? Schema.fromJson(json['Schema'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final dataSource = this.dataSource;
-    final format = this.format;
-    final schema = this.schema;
+    final monitorName = this.monitorName;
     return {
-      if (dataSource != null) 'DataSource': dataSource,
-      if (format != null) 'Format': format,
-      if (schema != null) 'Schema': schema,
-    };
-  }
-}
-
-/// A replacement dataset is a modified version of the baseline related time
-/// series that contains only the values that you want to include in a what-if
-/// forecast. The replacement dataset must contain the forecast dimensions and
-/// item identifiers in the baseline related time series as well as at least 1
-/// changed time series. This dataset is merged with the baseline related time
-/// series to create a transformed dataset that is used for the what-if
-/// forecast.
-class TimeSeriesReplacementsDataSource {
-  final S3Config s3Config;
-  final Schema schema;
-
-  /// The format of the replacement data, CSV or PARQUET.
-  final String? format;
-
-  /// The timestamp format of the replacement data.
-  final String? timestampFormat;
-
-  TimeSeriesReplacementsDataSource({
-    required this.s3Config,
-    required this.schema,
-    this.format,
-    this.timestampFormat,
-  });
-
-  factory TimeSeriesReplacementsDataSource.fromJson(Map<String, dynamic> json) {
-    return TimeSeriesReplacementsDataSource(
-      s3Config: S3Config.fromJson((json['S3Config'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-      schema: Schema.fromJson((json['Schema'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-      format: json['Format'] as String?,
-      timestampFormat: json['TimestampFormat'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final s3Config = this.s3Config;
-    final schema = this.schema;
-    final format = this.format;
-    final timestampFormat = this.timestampFormat;
-    return {
-      'S3Config': s3Config,
-      'Schema': schema,
-      if (format != null) 'Format': format,
-      if (timestampFormat != null) 'TimestampFormat': timestampFormat,
-    };
-  }
-}
-
-/// Defines the set of time series that are used to create the forecasts in a
-/// <code>TimeSeriesIdentifiers</code> object.
-///
-/// The <code>TimeSeriesIdentifiers</code> object needs the following
-/// information:
-///
-/// <ul>
-/// <li>
-/// <code>DataSource</code>
-/// </li>
-/// <li>
-/// <code>Format</code>
-/// </li>
-/// <li>
-/// <code>Schema</code>
-/// </li>
-/// </ul>
-class TimeSeriesSelector {
-  /// Details about the import file that contains the time series for which you
-  /// want to create forecasts.
-  final TimeSeriesIdentifiers? timeSeriesIdentifiers;
-
-  TimeSeriesSelector({
-    this.timeSeriesIdentifiers,
-  });
-
-  factory TimeSeriesSelector.fromJson(Map<String, dynamic> json) {
-    return TimeSeriesSelector(
-      timeSeriesIdentifiers: json['TimeSeriesIdentifiers'] != null
-          ? TimeSeriesIdentifiers.fromJson(
-              json['TimeSeriesIdentifiers'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final timeSeriesIdentifiers = this.timeSeriesIdentifiers;
-    return {
-      if (timeSeriesIdentifiers != null)
-        'TimeSeriesIdentifiers': timeSeriesIdentifiers,
-    };
-  }
-}
-
-/// A transformation function is a pair of operations that select and modify the
-/// rows in a related time series. You select the rows that you want with a
-/// condition operation and you modify the rows with a transformation operation.
-/// All conditions are joined with an AND operation, meaning that all conditions
-/// must be true for the transformation to be applied. Transformations are
-/// applied in the order that they are listed.
-class TimeSeriesTransformation {
-  /// An array of actions that define a time series and how it is transformed.
-  /// These transformations create a new time series that is used for the what-if
-  /// analysis.
-  final Action? action;
-
-  /// An array of conditions that define which members of the related time series
-  /// are transformed.
-  final List<TimeSeriesCondition>? timeSeriesConditions;
-
-  TimeSeriesTransformation({
-    this.action,
-    this.timeSeriesConditions,
-  });
-
-  factory TimeSeriesTransformation.fromJson(Map<String, dynamic> json) {
-    return TimeSeriesTransformation(
-      action: json['Action'] != null
-          ? Action.fromJson(json['Action'] as Map<String, dynamic>)
-          : null,
-      timeSeriesConditions: (json['TimeSeriesConditions'] as List?)
-          ?.nonNulls
-          .map((e) => TimeSeriesCondition.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final action = this.action;
-    final timeSeriesConditions = this.timeSeriesConditions;
-    return {
-      if (action != null) 'Action': action,
-      if (timeSeriesConditions != null)
-        'TimeSeriesConditions': timeSeriesConditions,
-    };
-  }
-}
-
-class UntagResourceResponse {
-  UntagResourceResponse();
-
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateDatasetGroupResponse {
-  UpdateDatasetGroupResponse();
-
-  factory UpdateDatasetGroupResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateDatasetGroupResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// The weighted loss value for a quantile. This object is part of the
-/// <a>Metrics</a> object.
-class WeightedQuantileLoss {
-  /// The difference between the predicted value and the actual value over the
-  /// quantile, weighted (normalized) by dividing by the sum over all quantiles.
-  final double? lossValue;
-
-  /// The quantile. Quantiles divide a probability distribution into regions of
-  /// equal probability. For example, if the distribution was divided into 5
-  /// regions of equal probability, the quantiles would be 0.2, 0.4, 0.6, and 0.8.
-  final double? quantile;
-
-  WeightedQuantileLoss({
-    this.lossValue,
-    this.quantile,
-  });
-
-  factory WeightedQuantileLoss.fromJson(Map<String, dynamic> json) {
-    return WeightedQuantileLoss(
-      lossValue: json['LossValue'] as double?,
-      quantile: json['Quantile'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lossValue = this.lossValue;
-    final quantile = this.quantile;
-    return {
-      if (lossValue != null) 'LossValue': lossValue,
-      if (quantile != null) 'Quantile': quantile,
-    };
-  }
-}
-
-/// Provides a summary of the what-if analysis properties used in the
-/// <a>ListWhatIfAnalyses</a> operation. To get the complete set of properties,
-/// call the <a>DescribeWhatIfAnalysis</a> operation, and provide the
-/// <code>WhatIfAnalysisArn</code> that is listed in the summary.
-class WhatIfAnalysisSummary {
-  /// When the what-if analysis was created.
-  final DateTime? creationTime;
-
-  /// The Amazon Resource Name (ARN) of the baseline forecast that is being used
-  /// in this what-if analysis.
-  final String? forecastArn;
-
-  /// The last time the resource was modified. The timestamp depends on the status
-  /// of the job:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>CREATE_PENDING</code> - The <code>CreationTime</code>.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_IN_PROGRESS</code> - The current timestamp.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_STOPPING</code> - The current timestamp.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_STOPPED</code> - When the job stopped.
-  /// </li>
-  /// <li>
-  /// <code>ACTIVE</code> or <code>CREATE_FAILED</code> - When the job finished or
-  /// failed.
-  /// </li>
-  /// </ul>
-  final DateTime? lastModificationTime;
-
-  /// If an error occurred, an informational message about the error.
-  final String? message;
-
-  /// The status of the what-if analysis. States include:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ACTIVE</code>
-  /// </li>
-  /// <li>
-  /// <code>CREATE_PENDING</code>, <code>CREATE_IN_PROGRESS</code>,
-  /// <code>CREATE_FAILED</code>
-  /// </li>
-  /// <li>
-  /// <code>CREATE_STOPPING</code>, <code>CREATE_STOPPED</code>
-  /// </li>
-  /// <li>
-  /// <code>DELETE_PENDING</code>, <code>DELETE_IN_PROGRESS</code>,
-  /// <code>DELETE_FAILED</code>
-  /// </li>
-  /// </ul> <note>
-  /// The <code>Status</code> of the what-if analysis must be <code>ACTIVE</code>
-  /// before you can access the analysis.
-  /// </note>
-  final String? status;
-
-  /// The Amazon Resource Name (ARN) of the what-if analysis.
-  final String? whatIfAnalysisArn;
-
-  /// The name of the what-if analysis.
-  final String? whatIfAnalysisName;
-
-  WhatIfAnalysisSummary({
-    this.creationTime,
-    this.forecastArn,
-    this.lastModificationTime,
-    this.message,
-    this.status,
-    this.whatIfAnalysisArn,
-    this.whatIfAnalysisName,
-  });
-
-  factory WhatIfAnalysisSummary.fromJson(Map<String, dynamic> json) {
-    return WhatIfAnalysisSummary(
-      creationTime: timeStampFromJson(json['CreationTime']),
-      forecastArn: json['ForecastArn'] as String?,
-      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
-      message: json['Message'] as String?,
-      status: json['Status'] as String?,
-      whatIfAnalysisArn: json['WhatIfAnalysisArn'] as String?,
-      whatIfAnalysisName: json['WhatIfAnalysisName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationTime = this.creationTime;
-    final forecastArn = this.forecastArn;
-    final lastModificationTime = this.lastModificationTime;
-    final message = this.message;
-    final status = this.status;
-    final whatIfAnalysisArn = this.whatIfAnalysisArn;
-    final whatIfAnalysisName = this.whatIfAnalysisName;
-    return {
-      if (creationTime != null)
-        'CreationTime': unixTimestampToJson(creationTime),
-      if (forecastArn != null) 'ForecastArn': forecastArn,
-      if (lastModificationTime != null)
-        'LastModificationTime': unixTimestampToJson(lastModificationTime),
-      if (message != null) 'Message': message,
-      if (status != null) 'Status': status,
-      if (whatIfAnalysisArn != null) 'WhatIfAnalysisArn': whatIfAnalysisArn,
-      if (whatIfAnalysisName != null) 'WhatIfAnalysisName': whatIfAnalysisName,
-    };
-  }
-}
-
-/// Provides a summary of the what-if forecast export properties used in the
-/// <a>ListWhatIfForecastExports</a> operation. To get the complete set of
-/// properties, call the <a>DescribeWhatIfForecastExport</a> operation, and
-/// provide the <code>WhatIfForecastExportArn</code> that is listed in the
-/// summary.
-class WhatIfForecastExportSummary {
-  /// When the what-if forecast export was created.
-  final DateTime? creationTime;
-
-  /// The path to the Amazon Simple Storage Service (Amazon S3) bucket where the
-  /// forecast is exported.
-  final DataDestination? destination;
-
-  /// The last time the resource was modified. The timestamp depends on the status
-  /// of the job:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>CREATE_PENDING</code> - The <code>CreationTime</code>.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_IN_PROGRESS</code> - The current timestamp.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_STOPPING</code> - The current timestamp.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_STOPPED</code> - When the job stopped.
-  /// </li>
-  /// <li>
-  /// <code>ACTIVE</code> or <code>CREATE_FAILED</code> - When the job finished or
-  /// failed.
-  /// </li>
-  /// </ul>
-  final DateTime? lastModificationTime;
-
-  /// If an error occurred, an informational message about the error.
-  final String? message;
-
-  /// The status of the what-if forecast export. States include:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ACTIVE</code>
-  /// </li>
-  /// <li>
-  /// <code>CREATE_PENDING</code>, <code>CREATE_IN_PROGRESS</code>,
-  /// <code>CREATE_FAILED</code>
-  /// </li>
-  /// <li>
-  /// <code>CREATE_STOPPING</code>, <code>CREATE_STOPPED</code>
-  /// </li>
-  /// <li>
-  /// <code>DELETE_PENDING</code>, <code>DELETE_IN_PROGRESS</code>,
-  /// <code>DELETE_FAILED</code>
-  /// </li>
-  /// </ul> <note>
-  /// The <code>Status</code> of the what-if analysis must be <code>ACTIVE</code>
-  /// before you can access the analysis.
-  /// </note>
-  final String? status;
-
-  /// An array of Amazon Resource Names (ARNs) that define the what-if forecasts
-  /// included in the export.
-  final List<String>? whatIfForecastArns;
-
-  /// The Amazon Resource Name (ARN) of the what-if forecast export.
-  final String? whatIfForecastExportArn;
-
-  /// The what-if forecast export name.
-  final String? whatIfForecastExportName;
-
-  WhatIfForecastExportSummary({
-    this.creationTime,
-    this.destination,
-    this.lastModificationTime,
-    this.message,
-    this.status,
-    this.whatIfForecastArns,
-    this.whatIfForecastExportArn,
-    this.whatIfForecastExportName,
-  });
-
-  factory WhatIfForecastExportSummary.fromJson(Map<String, dynamic> json) {
-    return WhatIfForecastExportSummary(
-      creationTime: timeStampFromJson(json['CreationTime']),
-      destination: json['Destination'] != null
-          ? DataDestination.fromJson(
-              json['Destination'] as Map<String, dynamic>)
-          : null,
-      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
-      message: json['Message'] as String?,
-      status: json['Status'] as String?,
-      whatIfForecastArns: (json['WhatIfForecastArns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      whatIfForecastExportArn: json['WhatIfForecastExportArn'] as String?,
-      whatIfForecastExportName: json['WhatIfForecastExportName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationTime = this.creationTime;
-    final destination = this.destination;
-    final lastModificationTime = this.lastModificationTime;
-    final message = this.message;
-    final status = this.status;
-    final whatIfForecastArns = this.whatIfForecastArns;
-    final whatIfForecastExportArn = this.whatIfForecastExportArn;
-    final whatIfForecastExportName = this.whatIfForecastExportName;
-    return {
-      if (creationTime != null)
-        'CreationTime': unixTimestampToJson(creationTime),
-      if (destination != null) 'Destination': destination,
-      if (lastModificationTime != null)
-        'LastModificationTime': unixTimestampToJson(lastModificationTime),
-      if (message != null) 'Message': message,
-      if (status != null) 'Status': status,
-      if (whatIfForecastArns != null) 'WhatIfForecastArns': whatIfForecastArns,
-      if (whatIfForecastExportArn != null)
-        'WhatIfForecastExportArn': whatIfForecastExportArn,
-      if (whatIfForecastExportName != null)
-        'WhatIfForecastExportName': whatIfForecastExportName,
-    };
-  }
-}
-
-/// Provides a summary of the what-if forecast properties used in the
-/// <a>ListWhatIfForecasts</a> operation. To get the complete set of properties,
-/// call the <a>DescribeWhatIfForecast</a> operation, and provide the
-/// <code>WhatIfForecastArn</code> that is listed in the summary.
-class WhatIfForecastSummary {
-  /// When the what-if forecast was created.
-  final DateTime? creationTime;
-
-  /// The last time the resource was modified. The timestamp depends on the status
-  /// of the job:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>CREATE_PENDING</code> - The <code>CreationTime</code>.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_IN_PROGRESS</code> - The current timestamp.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_STOPPING</code> - The current timestamp.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_STOPPED</code> - When the job stopped.
-  /// </li>
-  /// <li>
-  /// <code>ACTIVE</code> or <code>CREATE_FAILED</code> - When the job finished or
-  /// failed.
-  /// </li>
-  /// </ul>
-  final DateTime? lastModificationTime;
-
-  /// If an error occurred, an informational message about the error.
-  final String? message;
-
-  /// The status of the what-if forecast. States include:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ACTIVE</code>
-  /// </li>
-  /// <li>
-  /// <code>CREATE_PENDING</code>, <code>CREATE_IN_PROGRESS</code>,
-  /// <code>CREATE_FAILED</code>
-  /// </li>
-  /// <li>
-  /// <code>CREATE_STOPPING</code>, <code>CREATE_STOPPED</code>
-  /// </li>
-  /// <li>
-  /// <code>DELETE_PENDING</code>, <code>DELETE_IN_PROGRESS</code>,
-  /// <code>DELETE_FAILED</code>
-  /// </li>
-  /// </ul> <note>
-  /// The <code>Status</code> of the what-if analysis must be <code>ACTIVE</code>
-  /// before you can access the analysis.
-  /// </note>
-  final String? status;
-
-  /// The Amazon Resource Name (ARN) of the what-if analysis that contains this
-  /// what-if forecast.
-  final String? whatIfAnalysisArn;
-
-  /// The Amazon Resource Name (ARN) of the what-if forecast.
-  final String? whatIfForecastArn;
-
-  /// The name of the what-if forecast.
-  final String? whatIfForecastName;
-
-  WhatIfForecastSummary({
-    this.creationTime,
-    this.lastModificationTime,
-    this.message,
-    this.status,
-    this.whatIfAnalysisArn,
-    this.whatIfForecastArn,
-    this.whatIfForecastName,
-  });
-
-  factory WhatIfForecastSummary.fromJson(Map<String, dynamic> json) {
-    return WhatIfForecastSummary(
-      creationTime: timeStampFromJson(json['CreationTime']),
-      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
-      message: json['Message'] as String?,
-      status: json['Status'] as String?,
-      whatIfAnalysisArn: json['WhatIfAnalysisArn'] as String?,
-      whatIfForecastArn: json['WhatIfForecastArn'] as String?,
-      whatIfForecastName: json['WhatIfForecastName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationTime = this.creationTime;
-    final lastModificationTime = this.lastModificationTime;
-    final message = this.message;
-    final status = this.status;
-    final whatIfAnalysisArn = this.whatIfAnalysisArn;
-    final whatIfForecastArn = this.whatIfForecastArn;
-    final whatIfForecastName = this.whatIfForecastName;
-    return {
-      if (creationTime != null)
-        'CreationTime': unixTimestampToJson(creationTime),
-      if (lastModificationTime != null)
-        'LastModificationTime': unixTimestampToJson(lastModificationTime),
-      if (message != null) 'Message': message,
-      if (status != null) 'Status': status,
-      if (whatIfAnalysisArn != null) 'WhatIfAnalysisArn': whatIfAnalysisArn,
-      if (whatIfForecastArn != null) 'WhatIfForecastArn': whatIfForecastArn,
-      if (whatIfForecastName != null) 'WhatIfForecastName': whatIfForecastName,
-    };
-  }
-}
-
-/// The metrics for a time range within the evaluation portion of a dataset.
-/// This object is part of the <a>EvaluationResult</a> object.
-///
-/// The <code>TestWindowStart</code> and <code>TestWindowEnd</code> parameters
-/// are determined by the <code>BackTestWindowOffset</code> parameter of the
-/// <a>EvaluationParameters</a> object.
-class WindowSummary {
-  /// The type of evaluation.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>SUMMARY</code> - The average metrics across all windows.
-  /// </li>
-  /// <li>
-  /// <code>COMPUTED</code> - The metrics for the specified window.
-  /// </li>
-  /// </ul>
-  final EvaluationType? evaluationType;
-
-  /// The number of data points within the window.
-  final int? itemCount;
-
-  /// Provides metrics used to evaluate the performance of a predictor.
-  final Metrics? metrics;
-
-  /// The timestamp that defines the end of the window.
-  final DateTime? testWindowEnd;
-
-  /// The timestamp that defines the start of the window.
-  final DateTime? testWindowStart;
-
-  WindowSummary({
-    this.evaluationType,
-    this.itemCount,
-    this.metrics,
-    this.testWindowEnd,
-    this.testWindowStart,
-  });
-
-  factory WindowSummary.fromJson(Map<String, dynamic> json) {
-    return WindowSummary(
-      evaluationType:
-          (json['EvaluationType'] as String?)?.let(EvaluationType.fromString),
-      itemCount: json['ItemCount'] as int?,
-      metrics: json['Metrics'] != null
-          ? Metrics.fromJson(json['Metrics'] as Map<String, dynamic>)
-          : null,
-      testWindowEnd: timeStampFromJson(json['TestWindowEnd']),
-      testWindowStart: timeStampFromJson(json['TestWindowStart']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final evaluationType = this.evaluationType;
-    final itemCount = this.itemCount;
-    final metrics = this.metrics;
-    final testWindowEnd = this.testWindowEnd;
-    final testWindowStart = this.testWindowStart;
-    return {
-      if (evaluationType != null) 'EvaluationType': evaluationType.value,
-      if (itemCount != null) 'ItemCount': itemCount,
-      if (metrics != null) 'Metrics': metrics,
-      if (testWindowEnd != null)
-        'TestWindowEnd': unixTimestampToJson(testWindowEnd),
-      if (testWindowStart != null)
-        'TestWindowStart': unixTimestampToJson(testWindowStart),
+      'MonitorName': monitorName,
     };
   }
 }

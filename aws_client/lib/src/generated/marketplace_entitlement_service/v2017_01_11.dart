@@ -52,12 +52,12 @@ class MarketplaceEntitlement {
   }
 
   /// GetEntitlements retrieves entitlement values for a given product. The
-  /// results can be filtered based on customer identifier or product
-  /// dimensions.
+  /// results can be filtered based on customer identifier, AWS account ID,
+  /// license ARN, or product dimensions.
   ///
+  /// May throw [InternalServiceErrorException].
   /// May throw [InvalidParameterException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServiceErrorException].
   ///
   /// Parameter [productCode] :
   /// Product code is used to uniquely identify a product in AWS Marketplace.
@@ -69,6 +69,19 @@ class MarketplaceEntitlement {
   /// specific dimension. Filters are described as keys mapped to a lists of
   /// values. Filtered requests are <i>unioned</i> for each value in the value
   /// list, and then <i>intersected</i> for each filter key.
+  ///
+  /// <code>CustomerIdentifier</code> and <code>CustomerAWSAccountId</code> are
+  /// mutually exclusive parameters. You must use one or the other, but not both
+  /// in the same request.
+  /// <note>
+  /// If you're migrating an existing integration, use <a
+  /// href="https://docs.aws.amazon.com/marketplace/latest/userguide/data-feed-account.html">Account
+  /// Feeds</a> to map <code>CustomerIdentifier</code> to
+  /// <code>CustomerAWSAccountId</code>, and <a
+  /// href="https://docs.aws.amazon.com/marketplace/latest/userguide/data-feed-agreements.html">Agreements
+  /// Feeds</a> to map <code>CustomerAWSAccountId</code> and
+  /// <code>LicenseArn</code>.
+  /// </note>
   ///
   /// Parameter [maxResults] :
   /// The maximum number of items to retrieve from the GetEntitlements
@@ -113,10 +126,52 @@ class MarketplaceEntitlement {
   }
 }
 
+/// The GetEntitlementsRequest contains results from the GetEntitlements
+/// operation.
+class GetEntitlementsResult {
+  /// The set of entitlements found through the GetEntitlements operation. If the
+  /// result contains an empty set of entitlements, NextToken might still be
+  /// present and should be used.
+  final List<Entitlement>? entitlements;
+
+  /// For paginated results, use NextToken in subsequent calls to GetEntitlements.
+  /// If the result contains an empty set of entitlements, NextToken might still
+  /// be present and should be used.
+  final String? nextToken;
+
+  GetEntitlementsResult({
+    this.entitlements,
+    this.nextToken,
+  });
+
+  factory GetEntitlementsResult.fromJson(Map<String, dynamic> json) {
+    return GetEntitlementsResult(
+      entitlements: (json['Entitlements'] as List?)
+          ?.nonNulls
+          .map((e) => Entitlement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entitlements = this.entitlements;
+    final nextToken = this.nextToken;
+    return {
+      if (entitlements != null) 'Entitlements': entitlements,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 /// An entitlement represents capacity in a product owned by the customer. For
 /// example, a customer might own some number of users or seats in an SaaS
 /// application or some amount of data capacity in a multi-tenant database.
 class Entitlement {
+  /// The <code>CustomerAWSAccountId</code> parameter specifies the AWS account ID
+  /// of the buyer.
+  final String? customerAWSAccountId;
+
   /// The customer identifier is a handle to each unique customer in an
   /// application. Customer identifiers are obtained through the ResolveCustomer
   /// operation in AWS Marketplace Metering Service.
@@ -134,6 +189,10 @@ class Entitlement {
   /// contract will still have entitlements with an expiration date.
   final DateTime? expirationDate;
 
+  /// The <code>LicenseArn</code> is a unique identifier for a specific granted
+  /// license. These are used for software purchased through AWS Marketplace.
+  final String? licenseArn;
+
   /// The product code for which the given entitlement applies. Product codes are
   /// provided by AWS Marketplace when the product listing is created.
   final String? productCode;
@@ -143,18 +202,22 @@ class Entitlement {
   final EntitlementValue? value;
 
   Entitlement({
+    this.customerAWSAccountId,
     this.customerIdentifier,
     this.dimension,
     this.expirationDate,
+    this.licenseArn,
     this.productCode,
     this.value,
   });
 
   factory Entitlement.fromJson(Map<String, dynamic> json) {
     return Entitlement(
+      customerAWSAccountId: json['CustomerAWSAccountId'] as String?,
       customerIdentifier: json['CustomerIdentifier'] as String?,
       dimension: json['Dimension'] as String?,
       expirationDate: timeStampFromJson(json['ExpirationDate']),
+      licenseArn: json['LicenseArn'] as String?,
       productCode: json['ProductCode'] as String?,
       value: json['Value'] != null
           ? EntitlementValue.fromJson(json['Value'] as Map<String, dynamic>)
@@ -163,16 +226,21 @@ class Entitlement {
   }
 
   Map<String, dynamic> toJson() {
+    final customerAWSAccountId = this.customerAWSAccountId;
     final customerIdentifier = this.customerIdentifier;
     final dimension = this.dimension;
     final expirationDate = this.expirationDate;
+    final licenseArn = this.licenseArn;
     final productCode = this.productCode;
     final value = this.value;
     return {
+      if (customerAWSAccountId != null)
+        'CustomerAWSAccountId': customerAWSAccountId,
       if (customerIdentifier != null) 'CustomerIdentifier': customerIdentifier,
       if (dimension != null) 'Dimension': dimension,
       if (expirationDate != null)
         'ExpirationDate': unixTimestampToJson(expirationDate),
+      if (licenseArn != null) 'LicenseArn': licenseArn,
       if (productCode != null) 'ProductCode': productCode,
       if (value != null) 'Value': value,
     };
@@ -232,12 +300,20 @@ class GetEntitlementFilterName {
   static const customerIdentifier =
       GetEntitlementFilterName._('CUSTOMER_IDENTIFIER');
   static const dimension = GetEntitlementFilterName._('DIMENSION');
+  static const customerAwsAccountId =
+      GetEntitlementFilterName._('CUSTOMER_AWS_ACCOUNT_ID');
+  static const licenseArn = GetEntitlementFilterName._('LICENSE_ARN');
 
   final String value;
 
   const GetEntitlementFilterName._(this.value);
 
-  static const values = [customerIdentifier, dimension];
+  static const values = [
+    customerIdentifier,
+    dimension,
+    customerAwsAccountId,
+    licenseArn
+  ];
 
   static GetEntitlementFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
@@ -252,44 +328,6 @@ class GetEntitlementFilterName {
 
   @override
   String toString() => value;
-}
-
-/// The GetEntitlementsRequest contains results from the GetEntitlements
-/// operation.
-class GetEntitlementsResult {
-  /// The set of entitlements found through the GetEntitlements operation. If the
-  /// result contains an empty set of entitlements, NextToken might still be
-  /// present and should be used.
-  final List<Entitlement>? entitlements;
-
-  /// For paginated results, use NextToken in subsequent calls to GetEntitlements.
-  /// If the result contains an empty set of entitlements, NextToken might still
-  /// be present and should be used.
-  final String? nextToken;
-
-  GetEntitlementsResult({
-    this.entitlements,
-    this.nextToken,
-  });
-
-  factory GetEntitlementsResult.fromJson(Map<String, dynamic> json) {
-    return GetEntitlementsResult(
-      entitlements: (json['Entitlements'] as List?)
-          ?.nonNulls
-          .map((e) => Entitlement.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final entitlements = this.entitlements;
-    final nextToken = this.nextToken;
-    return {
-      if (entitlements != null) 'Entitlements': entitlements,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
 }
 
 class InternalServiceErrorException extends _s.GenericAwsException {

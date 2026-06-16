@@ -58,6 +58,50 @@ class ConfigService {
     _protocol.close();
   }
 
+  /// Adds all resource types specified in the <code>ResourceTypes</code> list
+  /// to the <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>
+  /// of specified configuration recorder and includes those resource types when
+  /// recording.
+  ///
+  /// For this operation, the specified configuration recorder must use a <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html">RecordingStrategy</a>
+  /// that is either <code>INCLUSION_BY_RESOURCE_TYPES</code> or
+  /// <code>EXCLUSION_BY_RESOURCE_TYPES</code>.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [NoSuchConfigurationRecorderException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [configurationRecorderArn] :
+  /// The Amazon Resource Name (ARN) of the specified configuration recorder.
+  ///
+  /// Parameter [resourceTypes] :
+  /// The list of resource types you want to add to the recording group of the
+  /// specified configuration recorder.
+  Future<AssociateResourceTypesResponse> associateResourceTypes({
+    required String configurationRecorderArn,
+    required List<ResourceType> resourceTypes,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'StarlingDoveService.AssociateResourceTypes'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ConfigurationRecorderArn': configurationRecorderArn,
+        'ResourceTypes': resourceTypes.map((e) => e.value).toList(),
+      },
+    );
+
+    return AssociateResourceTypesResponse.fromJson(jsonResponse.body);
+  }
+
   /// Returns the current configuration items for resources that are present in
   /// your Config aggregator. The operation also returns a list of resources
   /// that are not processed in the current request. If there are no unprocessed
@@ -73,8 +117,8 @@ class ConfigService {
   /// </li>
   /// </ul> </note>
   ///
-  /// May throw [ValidationException].
   /// May throw [NoSuchConfigurationAggregatorException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [configurationAggregatorName] :
   /// The name of the configuration aggregator.
@@ -121,8 +165,8 @@ class ConfigService {
   /// </li>
   /// </ul> </note>
   ///
-  /// May throw [ValidationException].
   /// May throw [NoAvailableConfigurationRecorderException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceKeys] :
   /// A list of resource keys to be processed with the current request. Each
@@ -189,6 +233,26 @@ class ConfigService {
   ///
   /// You can check the state of a rule by using the
   /// <code>DescribeConfigRules</code> request.
+  /// <note>
+  /// <b>Recommendation: Consider excluding the
+  /// <code>AWS::Config::ResourceCompliance</code> resource type from recording
+  /// before deleting rules</b>
+  ///
+  /// Deleting rules creates configuration items (CIs) for
+  /// <code>AWS::Config::ResourceCompliance</code> that can affect your costs
+  /// for the configuration recorder. If you are deleting rules which evaluate a
+  /// large number of resource types, this can lead to a spike in the number of
+  /// CIs recorded.
+  ///
+  /// To avoid the associated costs, you can opt to disable recording for the
+  /// <code>AWS::Config::ResourceCompliance</code> resource type before deleting
+  /// rules, and re-enable recording after the rules have been deleted.
+  ///
+  /// However, since deleting rules is an asynchronous process, it might take an
+  /// hour or more to complete. During the time when recording is disabled for
+  /// <code>AWS::Config::ResourceCompliance</code>, rule evaluations will not be
+  /// recorded in the associated resource’s history.
+  /// </note>
   ///
   /// May throw [NoSuchConfigRuleException].
   /// May throw [ResourceInUseException].
@@ -240,24 +304,25 @@ class ConfigService {
     );
   }
 
-  /// Deletes the configuration recorder.
+  /// Deletes the customer managed configuration recorder.
   ///
-  /// After the configuration recorder is deleted, Config will not record
-  /// resource configuration changes until you create a new configuration
+  /// This operation does not delete the configuration information that was
+  /// previously recorded. You will be able to access the previously recorded
+  /// information by using the <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_GetResourceConfigHistory.html">GetResourceConfigHistory</a>
+  /// operation, but you will not be able to access this information in the
+  /// Config console until you have created a new customer managed configuration
   /// recorder.
   ///
-  /// This action does not delete the configuration information that was
-  /// previously recorded. You will be able to access the previously recorded
-  /// information by using the <code>GetResourceConfigHistory</code> action, but
-  /// you will not be able to access this information in the Config console
-  /// until you create a new configuration recorder.
-  ///
   /// May throw [NoSuchConfigurationRecorderException].
+  /// May throw [UnmodifiableEntityException].
   ///
   /// Parameter [configurationRecorderName] :
-  /// The name of the configuration recorder to be deleted. You can retrieve the
-  /// name of your configuration recorder by using the
-  /// <code>DescribeConfigurationRecorders</code> action.
+  /// The name of the customer managed configuration recorder that you want to
+  /// delete. You can retrieve the name of your configuration recorders by using
+  /// the <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html">DescribeConfigurationRecorders</a>
+  /// operation.
   Future<void> deleteConfigurationRecorder({
     required String configurationRecorderName,
   }) async {
@@ -284,6 +349,26 @@ class ConfigService {
   /// Config sets the conformance pack to <code>DELETE_IN_PROGRESS</code> until
   /// the deletion is complete. You cannot update a conformance pack while it is
   /// in this state.
+  /// <note>
+  /// <b>Recommendation: Consider excluding the
+  /// <code>AWS::Config::ResourceCompliance</code> resource type from recording
+  /// before deleting rules</b>
+  ///
+  /// Deleting rules creates configuration items (CIs) for
+  /// <code>AWS::Config::ResourceCompliance</code> that can affect your costs
+  /// for the configuration recorder. If you are deleting rules which evaluate a
+  /// large number of resource types, this can lead to a spike in the number of
+  /// CIs recorded.
+  ///
+  /// To avoid the associated costs, you can opt to disable recording for the
+  /// <code>AWS::Config::ResourceCompliance</code> resource type before deleting
+  /// rules, and re-enable recording after the rules have been deleted.
+  ///
+  /// However, since deleting rules is an asynchronous process, it might take an
+  /// hour or more to complete. During the time when recording is disabled for
+  /// <code>AWS::Config::ResourceCompliance</code>, rule evaluations will not be
+  /// recorded in the associated resource’s history.
+  /// </note>
   ///
   /// May throw [NoSuchConformancePackException].
   /// May throw [ResourceInUseException].
@@ -311,15 +396,16 @@ class ConfigService {
 
   /// Deletes the delivery channel.
   ///
-  /// Before you can delete the delivery channel, you must stop the
-  /// configuration recorder by using the <a>StopConfigurationRecorder</a>
-  /// action.
+  /// Before you can delete the delivery channel, you must stop the customer
+  /// managed configuration recorder. You can use the
+  /// <a>StopConfigurationRecorder</a> operation to stop the customer managed
+  /// configuration recorder.
   ///
-  /// May throw [NoSuchDeliveryChannelException].
   /// May throw [LastDeliveryChannelDeleteFailedException].
+  /// May throw [NoSuchDeliveryChannelException].
   ///
   /// Parameter [deliveryChannelName] :
-  /// The name of the delivery channel to delete.
+  /// The name of the delivery channel that you want to delete.
   Future<void> deleteDeliveryChannel({
     required String deliveryChannelName,
   }) async {
@@ -379,10 +465,30 @@ class ConfigService {
   ///
   /// Config sets the state of a rule to DELETE_IN_PROGRESS until the deletion
   /// is complete. You cannot update a rule while it is in this state.
+  /// <note>
+  /// <b>Recommendation: Consider excluding the
+  /// <code>AWS::Config::ResourceCompliance</code> resource type from recording
+  /// before deleting rules</b>
+  ///
+  /// Deleting rules creates configuration items (CIs) for
+  /// <code>AWS::Config::ResourceCompliance</code> that can affect your costs
+  /// for the configuration recorder. If you are deleting rules which evaluate a
+  /// large number of resource types, this can lead to a spike in the number of
+  /// CIs recorded.
+  ///
+  /// To avoid the associated costs, you can opt to disable recording for the
+  /// <code>AWS::Config::ResourceCompliance</code> resource type before deleting
+  /// rules, and re-enable recording after the rules have been deleted.
+  ///
+  /// However, since deleting rules is an asynchronous process, it might take an
+  /// hour or more to complete. During the time when recording is disabled for
+  /// <code>AWS::Config::ResourceCompliance</code>, rule evaluations will not be
+  /// recorded in the associated resource’s history.
+  /// </note>
   ///
   /// May throw [NoSuchOrganizationConfigRuleException].
-  /// May throw [ResourceInUseException].
   /// May throw [OrganizationAccessDeniedException].
+  /// May throw [ResourceInUseException].
   ///
   /// Parameter [organizationConfigRuleName] :
   /// The name of organization Config rule that you want to delete.
@@ -417,10 +523,30 @@ class ConfigService {
   /// Config sets the state of a conformance pack to DELETE_IN_PROGRESS until
   /// the deletion is complete. You cannot update a conformance pack while it is
   /// in this state.
+  /// <note>
+  /// <b>Recommendation: Consider excluding the
+  /// <code>AWS::Config::ResourceCompliance</code> resource type from recording
+  /// before deleting rules</b>
+  ///
+  /// Deleting rules creates configuration items (CIs) for
+  /// <code>AWS::Config::ResourceCompliance</code> that can affect your costs
+  /// for the configuration recorder. If you are deleting rules which evaluate a
+  /// large number of resource types, this can lead to a spike in the number of
+  /// CIs recorded.
+  ///
+  /// To avoid the associated costs, you can opt to disable recording for the
+  /// <code>AWS::Config::ResourceCompliance</code> resource type before deleting
+  /// rules, and re-enable recording after the rules have been deleted.
+  ///
+  /// However, since deleting rules is an asynchronous process, it might take an
+  /// hour or more to complete. During the time when recording is disabled for
+  /// <code>AWS::Config::ResourceCompliance</code>, rule evaluations will not be
+  /// recorded in the associated resource’s history.
+  /// </note>
   ///
   /// May throw [NoSuchOrganizationConformancePackException].
-  /// May throw [ResourceInUseException].
   /// May throw [OrganizationAccessDeniedException].
+  /// May throw [ResourceInUseException].
   ///
   /// Parameter [organizationConformancePackName] :
   /// The name of organization conformance pack that you want to delete.
@@ -476,10 +602,10 @@ class ConfigService {
 
   /// Deletes the remediation configuration.
   ///
-  /// May throw [NoSuchRemediationConfigurationException].
-  /// May throw [RemediationInProgressException].
   /// May throw [InsufficientPermissionsException].
   /// May throw [InvalidParameterValueException].
+  /// May throw [NoSuchRemediationConfigurationException].
+  /// May throw [RemediationInProgressException].
   ///
   /// Parameter [configRuleName] :
   /// The name of the Config rule for which you want to delete remediation
@@ -553,8 +679,8 @@ class ConfigService {
   /// status. You can retrieve the ConfigurationItems recorded for this resource
   /// in your Config History.
   ///
-  /// May throw [ValidationException].
   /// May throw [NoRunningConfigurationRecorderException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceId] :
   /// Unique identifier of the resource.
@@ -608,11 +734,60 @@ class ConfigService {
     );
   }
 
+  /// Deletes an existing service-linked configuration recorder.
+  ///
+  /// This operation does not delete the configuration information that was
+  /// previously recorded. You will be able to access the previously recorded
+  /// information by using the <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_GetResourceConfigHistory.html">GetResourceConfigHistory</a>
+  /// operation, but you will not be able to access this information in the
+  /// Config console until you have created a new service-linked configuration
+  /// recorder for the same service.
+  /// <note>
+  /// <b>The recording scope determines if you receive configuration items</b>
+  ///
+  /// The recording scope is set by the service that is linked to the
+  /// configuration recorder and determines whether you receive configuration
+  /// items (CIs) in the delivery channel. If the recording scope is internal,
+  /// you will not receive CIs in the delivery channel.
+  /// </note>
+  ///
+  /// May throw [ConflictException].
+  /// May throw [NoSuchConfigurationRecorderException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [servicePrincipal] :
+  /// The service principal of the Amazon Web Services service for the
+  /// service-linked configuration recorder that you want to delete.
+  Future<DeleteServiceLinkedConfigurationRecorderResponse>
+      deleteServiceLinkedConfigurationRecorder({
+    required String servicePrincipal,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'StarlingDoveService.DeleteServiceLinkedConfigurationRecorder'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ServicePrincipal': servicePrincipal,
+      },
+    );
+
+    return DeleteServiceLinkedConfigurationRecorderResponse.fromJson(
+        jsonResponse.body);
+  }
+
   /// Deletes the stored query for a single Amazon Web Services account and a
   /// single Amazon Web Services Region.
   ///
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [queryName] :
   /// The name of the query that you want to delete.
@@ -653,9 +828,9 @@ class ConfigService {
   /// </li>
   /// </ul>
   ///
-  /// May throw [NoSuchDeliveryChannelException].
   /// May throw [NoAvailableConfigurationRecorderException].
   /// May throw [NoRunningConfigurationRecorderException].
+  /// May throw [NoSuchDeliveryChannelException].
   ///
   /// Parameter [deliveryChannelName] :
   /// The name of the delivery channel through which the snapshot is delivered.
@@ -688,10 +863,10 @@ class ConfigService {
   /// <code>nextToken</code>, the results are displayed on the next page.
   /// </note>
   ///
-  /// May throw [ValidationException].
   /// May throw [InvalidLimitException].
   /// May throw [InvalidNextTokenException].
   /// May throw [NoSuchConfigurationAggregatorException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [configurationAggregatorName] :
   /// The name of the configuration aggregator.
@@ -742,20 +917,20 @@ class ConfigService {
         jsonResponse.body);
   }
 
-  /// Returns a list of the conformance packs and their associated compliance
-  /// status with the count of compliant and noncompliant Config rules within
-  /// each conformance pack. Also returns the total rule count which includes
-  /// compliant rules, noncompliant rules, and rules that cannot be evaluated
-  /// due to insufficient data.
+  /// Returns a list of the existing and deleted conformance packs and their
+  /// associated compliance status with the count of compliant and noncompliant
+  /// Config rules within each conformance pack. Also returns the total rule
+  /// count which includes compliant rules, noncompliant rules, and rules that
+  /// cannot be evaluated due to insufficient data.
   /// <note>
   /// The results can return an empty result page, but if you have a
   /// <code>nextToken</code>, the results are displayed on the next page.
   /// </note>
   ///
-  /// May throw [ValidationException].
   /// May throw [InvalidLimitException].
   /// May throw [InvalidNextTokenException].
   /// May throw [NoSuchConfigurationAggregatorException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [configurationAggregatorName] :
   /// The name of the configuration aggregator.
@@ -811,9 +986,9 @@ class ConfigService {
   /// Returns a list of authorizations granted to various aggregator accounts
   /// and regions.
   ///
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidNextTokenException].
   /// May throw [InvalidLimitException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [limit] :
   /// The maximum number of AggregationAuthorizations returned on each page. The
@@ -854,7 +1029,7 @@ class ConfigService {
   }
 
   /// Indicates whether the specified Config rules are compliant. If a rule is
-  /// noncompliant, this action returns the number of Amazon Web Services
+  /// noncompliant, this operation returns the number of Amazon Web Services
   /// resources that do not comply with the rule.
   ///
   /// A rule is compliant if all of the evaluated resources comply with it. It
@@ -885,9 +1060,9 @@ class ConfigService {
   /// </li>
   /// </ul>
   ///
+  /// May throw [InvalidNextTokenException].
   /// May throw [InvalidParameterValueException].
   /// May throw [NoSuchConfigRuleException].
-  /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [complianceTypes] :
   /// Filters the results by compliance.
@@ -926,8 +1101,8 @@ class ConfigService {
   }
 
   /// Indicates whether the specified Amazon Web Services resources are
-  /// compliant. If a resource is noncompliant, this action returns the number
-  /// of Config rules that the resource does not comply with.
+  /// compliant. If a resource is noncompliant, this operation returns the
+  /// number of Config rules that the resource does not comply with.
   ///
   /// A resource is compliant if it complies with all the Config rules that
   /// evaluate it. It is noncompliant if it does not comply with one or more of
@@ -958,8 +1133,8 @@ class ConfigService {
   /// </li>
   /// </ul>
   ///
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [complianceTypes] :
   /// Filters the results by compliance.
@@ -981,8 +1156,8 @@ class ConfigService {
   /// Parameter [resourceType] :
   /// The types of Amazon Web Services resources for which you want compliance
   /// information (for example, <code>AWS::EC2::Instance</code>). For this
-  /// action, you can specify that the resource type is an Amazon Web Services
-  /// account by specifying <code>AWS::::Account</code>.
+  /// operation, you can specify that the resource type is an Amazon Web
+  /// Services account by specifying <code>AWS::::Account</code>.
   Future<DescribeComplianceByResourceResponse> describeComplianceByResource({
     List<ComplianceType>? complianceTypes,
     int? limit,
@@ -1024,9 +1199,9 @@ class ConfigService {
   /// the last time Config failed to invoke the rule, and the related error for
   /// the last failure.
   ///
-  /// May throw [NoSuchConfigRuleException].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [NoSuchConfigRuleException].
   ///
   /// Parameter [configRuleNames] :
   /// The name of the Config managed rules for which you want status
@@ -1081,9 +1256,9 @@ class ConfigService {
 
   /// Returns details about your Config rules.
   ///
-  /// May throw [NoSuchConfigRuleException].
   /// May throw [InvalidNextTokenException].
   /// May throw [InvalidParameterValueException].
+  /// May throw [NoSuchConfigRuleException].
   ///
   /// Parameter [configRuleNames] :
   /// The names of the Config rules for which you want details. If you do not
@@ -1124,15 +1299,67 @@ class ConfigService {
     return DescribeConfigRulesResponse.fromJson(jsonResponse.body);
   }
 
+  /// Returns the details of one or more configuration aggregators. If the
+  /// configuration aggregator is not specified, this operation returns the
+  /// details for all the configuration aggregators associated with the account.
+  ///
+  /// May throw [InvalidLimitException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [NoSuchConfigurationAggregatorException].
+  ///
+  /// Parameter [configurationAggregatorNames] :
+  /// The name of the configuration aggregators.
+  ///
+  /// Parameter [limit] :
+  /// The maximum number of configuration aggregators returned on each page. The
+  /// default is maximum. If you specify 0, Config uses the default.
+  ///
+  /// Parameter [nextToken] :
+  /// The <code>nextToken</code> string returned on a previous page that you use
+  /// to get the next page of results in a paginated response.
+  Future<DescribeConfigurationAggregatorsResponse>
+      describeConfigurationAggregators({
+    List<String>? configurationAggregatorNames,
+    int? limit,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'limit',
+      limit,
+      0,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'StarlingDoveService.DescribeConfigurationAggregators'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (configurationAggregatorNames != null)
+          'ConfigurationAggregatorNames': configurationAggregatorNames,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return DescribeConfigurationAggregatorsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Returns status information for sources within an aggregator. The status
   /// includes information about the last time Config verified authorization
   /// between the source account and an aggregator account. In case of a
   /// failure, the status contains the related error code or message.
   ///
+  /// May throw [InvalidLimitException].
+  /// May throw [InvalidNextTokenException].
   /// May throw [InvalidParameterValueException].
   /// May throw [NoSuchConfigurationAggregatorException].
-  /// May throw [InvalidNextTokenException].
-  /// May throw [InvalidLimitException].
   ///
   /// Parameter [configurationAggregatorName] :
   /// The name of the configuration aggregator.
@@ -1196,114 +1423,39 @@ class ConfigService {
         jsonResponse.body);
   }
 
-  /// Returns the details of one or more configuration aggregators. If the
-  /// configuration aggregator is not specified, this action returns the details
-  /// for all the configuration aggregators associated with the account.
+  /// Returns details for the configuration recorder you specify.
   ///
-  /// May throw [InvalidParameterValueException].
-  /// May throw [NoSuchConfigurationAggregatorException].
-  /// May throw [InvalidNextTokenException].
-  /// May throw [InvalidLimitException].
-  ///
-  /// Parameter [configurationAggregatorNames] :
-  /// The name of the configuration aggregators.
-  ///
-  /// Parameter [limit] :
-  /// The maximum number of configuration aggregators returned on each page. The
-  /// default is maximum. If you specify 0, Config uses the default.
-  ///
-  /// Parameter [nextToken] :
-  /// The <code>nextToken</code> string returned on a previous page that you use
-  /// to get the next page of results in a paginated response.
-  Future<DescribeConfigurationAggregatorsResponse>
-      describeConfigurationAggregators({
-    List<String>? configurationAggregatorNames,
-    int? limit,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      0,
-      100,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'StarlingDoveService.DescribeConfigurationAggregators'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        if (configurationAggregatorNames != null)
-          'ConfigurationAggregatorNames': configurationAggregatorNames,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
-    );
-
-    return DescribeConfigurationAggregatorsResponse.fromJson(jsonResponse.body);
-  }
-
-  /// Returns the current status of the specified configuration recorder as well
-  /// as the status of the last recording event for the recorder. If a
-  /// configuration recorder is not specified, this action returns the status of
-  /// all configuration recorders associated with the account.
+  /// If a configuration recorder is not specified, this operation returns
+  /// details for the customer managed configuration recorder configured for the
+  /// account, if applicable.
   /// <note>
-  /// &gt;You can specify only one configuration recorder for each Amazon Web
-  /// Services Region for each account. For a detailed status of recording
-  /// events over time, add your Config events to Amazon CloudWatch metrics and
-  /// use CloudWatch metrics.
+  /// When making a request to this operation, you can only specify one
+  /// configuration recorder.
   /// </note>
   ///
   /// May throw [NoSuchConfigurationRecorderException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [arn] :
+  /// The Amazon Resource Name (ARN) of the configuration recorder that you want
+  /// to specify.
   ///
   /// Parameter [configurationRecorderNames] :
-  /// The name(s) of the configuration recorder. If the name is not specified,
-  /// the action returns the current status of all the configuration recorders
-  /// associated with the account.
-  Future<DescribeConfigurationRecorderStatusResponse>
-      describeConfigurationRecorderStatus({
-    List<String>? configurationRecorderNames,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'StarlingDoveService.DescribeConfigurationRecorderStatus'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        if (configurationRecorderNames != null)
-          'ConfigurationRecorderNames': configurationRecorderNames,
-      },
-    );
-
-    return DescribeConfigurationRecorderStatusResponse.fromJson(
-        jsonResponse.body);
-  }
-
-  /// Returns the details for the specified configuration recorders. If the
-  /// configuration recorder is not specified, this action returns the details
-  /// for all configuration recorders associated with the account.
+  /// A list of names of the configuration recorders that you want to specify.
   /// <note>
-  /// You can specify only one configuration recorder for each Amazon Web
-  /// Services Region for each account.
+  /// When making a request to this operation, you can only specify one
+  /// configuration recorder.
   /// </note>
   ///
-  /// May throw [NoSuchConfigurationRecorderException].
-  ///
-  /// Parameter [configurationRecorderNames] :
-  /// A list of configuration recorder names.
+  /// Parameter [servicePrincipal] :
+  /// For service-linked configuration recorders, you can use the service
+  /// principal of the linked Amazon Web Services service to specify the
+  /// configuration recorder.
   Future<DescribeConfigurationRecordersResponse>
       describeConfigurationRecorders({
+    String? arn,
     List<String>? configurationRecorderNames,
+    String? servicePrincipal,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1316,12 +1468,77 @@ class ConfigService {
       // TODO queryParams
       headers: headers,
       payload: {
+        if (arn != null) 'Arn': arn,
         if (configurationRecorderNames != null)
           'ConfigurationRecorderNames': configurationRecorderNames,
+        if (servicePrincipal != null) 'ServicePrincipal': servicePrincipal,
       },
     );
 
     return DescribeConfigurationRecordersResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns the current status of the configuration recorder you specify as
+  /// well as the status of the last recording event for the configuration
+  /// recorders.
+  ///
+  /// For a detailed status of recording events over time, add your Config
+  /// events to Amazon CloudWatch metrics and use CloudWatch metrics.
+  ///
+  /// If a configuration recorder is not specified, this operation returns the
+  /// status for the customer managed configuration recorder configured for the
+  /// account, if applicable.
+  /// <note>
+  /// When making a request to this operation, you can only specify one
+  /// configuration recorder.
+  /// </note>
+  ///
+  /// May throw [NoSuchConfigurationRecorderException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [arn] :
+  /// The Amazon Resource Name (ARN) of the configuration recorder that you want
+  /// to specify.
+  ///
+  /// Parameter [configurationRecorderNames] :
+  /// The name of the configuration recorder. If the name is not specified, the
+  /// operation returns the status for the customer managed configuration
+  /// recorder configured for the account, if applicable.
+  /// <note>
+  /// When making a request to this operation, you can only specify one
+  /// configuration recorder.
+  /// </note>
+  ///
+  /// Parameter [servicePrincipal] :
+  /// For service-linked configuration recorders, you can use the service
+  /// principal of the linked Amazon Web Services service to specify the
+  /// configuration recorder.
+  Future<DescribeConfigurationRecorderStatusResponse>
+      describeConfigurationRecorderStatus({
+    String? arn,
+    List<String>? configurationRecorderNames,
+    String? servicePrincipal,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'StarlingDoveService.DescribeConfigurationRecorderStatus'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (arn != null) 'Arn': arn,
+        if (configurationRecorderNames != null)
+          'ConfigurationRecorderNames': configurationRecorderNames,
+        if (servicePrincipal != null) 'ServicePrincipal': servicePrincipal,
+      },
+    );
+
+    return DescribeConfigurationRecorderStatusResponse.fromJson(
+        jsonResponse.body);
   }
 
   /// Returns compliance details for each rule in that conformance pack.
@@ -1383,6 +1600,56 @@ class ConfigService {
         jsonResponse.body);
   }
 
+  /// Returns a list of one or more conformance packs.
+  ///
+  /// May throw [InvalidLimitException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [NoSuchConformancePackException].
+  ///
+  /// Parameter [conformancePackNames] :
+  /// Comma-separated list of conformance pack names for which you want details.
+  /// If you do not specify any names, Config returns details for all your
+  /// conformance packs.
+  ///
+  /// Parameter [limit] :
+  /// The maximum number of conformance packs returned on each page.
+  ///
+  /// Parameter [nextToken] :
+  /// The <code>nextToken</code> string returned in a previous request that you
+  /// use to request the next page of results in a paginated response.
+  Future<DescribeConformancePacksResponse> describeConformancePacks({
+    List<String>? conformancePackNames,
+    int? limit,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'limit',
+      limit,
+      0,
+      20,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'StarlingDoveService.DescribeConformancePacks'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (conformancePackNames != null)
+          'ConformancePackNames': conformancePackNames,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return DescribeConformancePacksResponse.fromJson(jsonResponse.body);
+  }
+
   /// Provides one or more conformance packs deployment status.
   /// <note>
   /// If there are no conformance packs then you will see an empty result.
@@ -1433,93 +1700,9 @@ class ConfigService {
     return DescribeConformancePackStatusResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns a list of one or more conformance packs.
-  ///
-  /// May throw [NoSuchConformancePackException].
-  /// May throw [InvalidLimitException].
-  /// May throw [InvalidNextTokenException].
-  /// May throw [InvalidParameterValueException].
-  ///
-  /// Parameter [conformancePackNames] :
-  /// Comma-separated list of conformance pack names for which you want details.
-  /// If you do not specify any names, Config returns details for all your
-  /// conformance packs.
-  ///
-  /// Parameter [limit] :
-  /// The maximum number of conformance packs returned on each page.
-  ///
-  /// Parameter [nextToken] :
-  /// The <code>nextToken</code> string returned in a previous request that you
-  /// use to request the next page of results in a paginated response.
-  Future<DescribeConformancePacksResponse> describeConformancePacks({
-    List<String>? conformancePackNames,
-    int? limit,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      0,
-      20,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'StarlingDoveService.DescribeConformancePacks'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        if (conformancePackNames != null)
-          'ConformancePackNames': conformancePackNames,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
-    );
-
-    return DescribeConformancePacksResponse.fromJson(jsonResponse.body);
-  }
-
-  /// Returns the current status of the specified delivery channel. If a
-  /// delivery channel is not specified, this action returns the current status
-  /// of all delivery channels associated with the account.
-  /// <note>
-  /// Currently, you can specify only one delivery channel per region in your
-  /// account.
-  /// </note>
-  ///
-  /// May throw [NoSuchDeliveryChannelException].
-  ///
-  /// Parameter [deliveryChannelNames] :
-  /// A list of delivery channel names.
-  Future<DescribeDeliveryChannelStatusResponse> describeDeliveryChannelStatus({
-    List<String>? deliveryChannelNames,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'StarlingDoveService.DescribeDeliveryChannelStatus'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        if (deliveryChannelNames != null)
-          'DeliveryChannelNames': deliveryChannelNames,
-      },
-    );
-
-    return DescribeDeliveryChannelStatusResponse.fromJson(jsonResponse.body);
-  }
-
   /// Returns details about the specified delivery channel. If a delivery
-  /// channel is not specified, this action returns the details of all delivery
-  /// channels associated with the account.
+  /// channel is not specified, this operation returns the details of all
+  /// delivery channels associated with the account.
   /// <note>
   /// Currently, you can specify only one delivery channel per region in your
   /// account.
@@ -1551,6 +1734,115 @@ class ConfigService {
     return DescribeDeliveryChannelsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Returns the current status of the specified delivery channel. If a
+  /// delivery channel is not specified, this operation returns the current
+  /// status of all delivery channels associated with the account.
+  /// <note>
+  /// Currently, you can specify only one delivery channel per region in your
+  /// account.
+  /// </note>
+  ///
+  /// May throw [NoSuchDeliveryChannelException].
+  ///
+  /// Parameter [deliveryChannelNames] :
+  /// A list of delivery channel names.
+  Future<DescribeDeliveryChannelStatusResponse> describeDeliveryChannelStatus({
+    List<String>? deliveryChannelNames,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'StarlingDoveService.DescribeDeliveryChannelStatus'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (deliveryChannelNames != null)
+          'DeliveryChannelNames': deliveryChannelNames,
+      },
+    );
+
+    return DescribeDeliveryChannelStatusResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns a list of organization Config rules.
+  /// <note>
+  /// When you specify the limit and the next token, you receive a paginated
+  /// response.
+  ///
+  /// Limit and next token are not applicable if you specify organization Config
+  /// rule names. It is only applicable, when you request all the organization
+  /// Config rules.
+  ///
+  /// <i>For accounts within an organization</i>
+  ///
+  /// If you deploy an organizational rule or conformance pack in an
+  /// organization administrator account, and then establish a delegated
+  /// administrator and deploy an organizational rule or conformance pack in the
+  /// delegated administrator account, you won't be able to see the
+  /// organizational rule or conformance pack in the organization administrator
+  /// account from the delegated administrator account or see the organizational
+  /// rule or conformance pack in the delegated administrator account from
+  /// organization administrator account. The
+  /// <code>DescribeOrganizationConfigRules</code> and
+  /// <code>DescribeOrganizationConformancePacks</code> APIs can only see and
+  /// interact with the organization-related resource that were deployed from
+  /// within the account calling those APIs.
+  /// </note>
+  ///
+  /// May throw [InvalidLimitException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [NoSuchOrganizationConfigRuleException].
+  /// May throw [OrganizationAccessDeniedException].
+  ///
+  /// Parameter [limit] :
+  /// The maximum number of organization Config rules returned on each page. If
+  /// you do no specify a number, Config uses the default. The default is 100.
+  ///
+  /// Parameter [nextToken] :
+  /// The <code>nextToken</code> string returned on a previous page that you use
+  /// to get the next page of results in a paginated response.
+  ///
+  /// Parameter [organizationConfigRuleNames] :
+  /// The names of organization Config rules for which you want details. If you
+  /// do not specify any names, Config returns details for all your organization
+  /// Config rules.
+  Future<DescribeOrganizationConfigRulesResponse>
+      describeOrganizationConfigRules({
+    int? limit,
+    String? nextToken,
+    List<String>? organizationConfigRuleNames,
+  }) async {
+    _s.validateNumRange(
+      'limit',
+      limit,
+      0,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'StarlingDoveService.DescribeOrganizationConfigRules'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (organizationConfigRuleNames != null)
+          'OrganizationConfigRuleNames': organizationConfigRuleNames,
+      },
+    );
+
+    return DescribeOrganizationConfigRulesResponse.fromJson(jsonResponse.body);
+  }
+
   /// Provides organization Config rule deployment status for an organization.
   /// <note>
   /// The status is not considered successful until organization Config rule is
@@ -1563,9 +1855,9 @@ class ConfigService {
   /// all the organization Config rules.
   /// </note>
   ///
-  /// May throw [NoSuchOrganizationConfigRuleException].
   /// May throw [InvalidLimitException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [NoSuchOrganizationConfigRuleException].
   /// May throw [OrganizationAccessDeniedException].
   ///
   /// Parameter [limit] :
@@ -1616,14 +1908,14 @@ class ConfigService {
         jsonResponse.body);
   }
 
-  /// Returns a list of organization Config rules.
+  /// Returns a list of organization conformance packs.
   /// <note>
   /// When you specify the limit and the next token, you receive a paginated
   /// response.
   ///
-  /// Limit and next token are not applicable if you specify organization Config
-  /// rule names. It is only applicable, when you request all the organization
-  /// Config rules.
+  /// Limit and next token are not applicable if you specify organization
+  /// conformance packs names. They are only applicable, when you request all
+  /// the organization conformance packs.
   ///
   /// <i>For accounts within an organization</i>
   ///
@@ -1641,28 +1933,26 @@ class ConfigService {
   /// within the account calling those APIs.
   /// </note>
   ///
-  /// May throw [NoSuchOrganizationConfigRuleException].
-  /// May throw [InvalidNextTokenException].
   /// May throw [InvalidLimitException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [NoSuchOrganizationConformancePackException].
   /// May throw [OrganizationAccessDeniedException].
   ///
   /// Parameter [limit] :
-  /// The maximum number of organization Config rules returned on each page. If
+  /// The maximum number of organization config packs returned on each page. If
   /// you do no specify a number, Config uses the default. The default is 100.
   ///
   /// Parameter [nextToken] :
-  /// The <code>nextToken</code> string returned on a previous page that you use
-  /// to get the next page of results in a paginated response.
+  /// The nextToken string returned on a previous page that you use to get the
+  /// next page of results in a paginated response.
   ///
-  /// Parameter [organizationConfigRuleNames] :
-  /// The names of organization Config rules for which you want details. If you
-  /// do not specify any names, Config returns details for all your organization
-  /// Config rules.
-  Future<DescribeOrganizationConfigRulesResponse>
-      describeOrganizationConfigRules({
+  /// Parameter [organizationConformancePackNames] :
+  /// The name that you assign to an organization conformance pack.
+  Future<DescribeOrganizationConformancePacksResponse>
+      describeOrganizationConformancePacks({
     int? limit,
     String? nextToken,
-    List<String>? organizationConfigRuleNames,
+    List<String>? organizationConformancePackNames,
   }) async {
     _s.validateNumRange(
       'limit',
@@ -1672,7 +1962,7 @@ class ConfigService {
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'StarlingDoveService.DescribeOrganizationConfigRules'
+      'X-Amz-Target': 'StarlingDoveService.DescribeOrganizationConformancePacks'
     };
     final jsonResponse = await _protocol.send(
       method: 'POST',
@@ -1683,12 +1973,13 @@ class ConfigService {
       payload: {
         if (limit != null) 'Limit': limit,
         if (nextToken != null) 'NextToken': nextToken,
-        if (organizationConfigRuleNames != null)
-          'OrganizationConfigRuleNames': organizationConfigRuleNames,
+        if (organizationConformancePackNames != null)
+          'OrganizationConformancePackNames': organizationConformancePackNames,
       },
     );
 
-    return DescribeOrganizationConfigRulesResponse.fromJson(jsonResponse.body);
+    return DescribeOrganizationConformancePacksResponse.fromJson(
+        jsonResponse.body);
   }
 
   /// Provides organization conformance pack deployment status for an
@@ -1704,9 +1995,9 @@ class ConfigService {
   /// request all the organization conformance packs.
   /// </note>
   ///
-  /// May throw [NoSuchOrganizationConformancePackException].
   /// May throw [InvalidLimitException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [NoSuchOrganizationConformancePackException].
   /// May throw [OrganizationAccessDeniedException].
   ///
   /// Parameter [limit] :
@@ -1757,85 +2048,11 @@ class ConfigService {
         jsonResponse.body);
   }
 
-  /// Returns a list of organization conformance packs.
-  /// <note>
-  /// When you specify the limit and the next token, you receive a paginated
-  /// response.
-  ///
-  /// Limit and next token are not applicable if you specify organization
-  /// conformance packs names. They are only applicable, when you request all
-  /// the organization conformance packs.
-  ///
-  /// <i>For accounts within an organization</i>
-  ///
-  /// If you deploy an organizational rule or conformance pack in an
-  /// organization administrator account, and then establish a delegated
-  /// administrator and deploy an organizational rule or conformance pack in the
-  /// delegated administrator account, you won't be able to see the
-  /// organizational rule or conformance pack in the organization administrator
-  /// account from the delegated administrator account or see the organizational
-  /// rule or conformance pack in the delegated administrator account from
-  /// organization administrator account. The
-  /// <code>DescribeOrganizationConfigRules</code> and
-  /// <code>DescribeOrganizationConformancePacks</code> APIs can only see and
-  /// interact with the organization-related resource that were deployed from
-  /// within the account calling those APIs.
-  /// </note>
-  ///
-  /// May throw [NoSuchOrganizationConformancePackException].
-  /// May throw [InvalidNextTokenException].
-  /// May throw [InvalidLimitException].
-  /// May throw [OrganizationAccessDeniedException].
-  ///
-  /// Parameter [limit] :
-  /// The maximum number of organization config packs returned on each page. If
-  /// you do no specify a number, Config uses the default. The default is 100.
-  ///
-  /// Parameter [nextToken] :
-  /// The nextToken string returned on a previous page that you use to get the
-  /// next page of results in a paginated response.
-  ///
-  /// Parameter [organizationConformancePackNames] :
-  /// The name that you assign to an organization conformance pack.
-  Future<DescribeOrganizationConformancePacksResponse>
-      describeOrganizationConformancePacks({
-    int? limit,
-    String? nextToken,
-    List<String>? organizationConformancePackNames,
-  }) async {
-    _s.validateNumRange(
-      'limit',
-      limit,
-      0,
-      100,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'StarlingDoveService.DescribeOrganizationConformancePacks'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (organizationConformancePackNames != null)
-          'OrganizationConformancePackNames': organizationConformancePackNames,
-      },
-    );
-
-    return DescribeOrganizationConformancePacksResponse.fromJson(
-        jsonResponse.body);
-  }
-
   /// Returns a list of all pending aggregation requests.
   ///
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidNextTokenException].
   /// May throw [InvalidLimitException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [limit] :
   /// The maximum number of evaluation results returned on each page. The
@@ -1976,12 +2193,12 @@ class ConfigService {
   /// occur, and any error messages for steps that have failed. When you specify
   /// the limit and the next token, you receive a paginated response.
   ///
-  /// May throw [NoSuchRemediationConfigurationException].
   /// May throw [InvalidNextTokenException].
   /// May throw [InvalidParameterValueException].
+  /// May throw [NoSuchRemediationConfigurationException].
   ///
   /// Parameter [configRuleName] :
-  /// A list of Config rule names.
+  /// The name of the Config rule.
   ///
   /// Parameter [limit] :
   /// The maximum number of RemediationExecutionStatuses returned on each page.
@@ -2030,16 +2247,16 @@ class ConfigService {
   }
 
   /// Returns the details of one or more retention configurations. If the
-  /// retention configuration name is not specified, this action returns the
+  /// retention configuration name is not specified, this operation returns the
   /// details for all the retention configurations for that account.
   /// <note>
   /// Currently, Config supports only one retention configuration per region in
   /// your account.
   /// </note>
   ///
+  /// May throw [InvalidNextTokenException].
   /// May throw [InvalidParameterValueException].
   /// May throw [NoSuchRetentionConfigurationException].
-  /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [nextToken] :
   /// The <code>nextToken</code> string returned on a previous page that you use
@@ -2078,6 +2295,50 @@ class ConfigService {
     return DescribeRetentionConfigurationsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Removes all resource types specified in the <code>ResourceTypes</code>
+  /// list from the <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>
+  /// of configuration recorder and excludes these resource types when
+  /// recording.
+  ///
+  /// For this operation, the configuration recorder must use a <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html">RecordingStrategy</a>
+  /// that is either <code>INCLUSION_BY_RESOURCE_TYPES</code> or
+  /// <code>EXCLUSION_BY_RESOURCE_TYPES</code>.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [NoSuchConfigurationRecorderException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [configurationRecorderArn] :
+  /// The Amazon Resource Name (ARN) of the specified configuration recorder.
+  ///
+  /// Parameter [resourceTypes] :
+  /// The list of resource types you want to remove from the recording group of
+  /// the specified configuration recorder.
+  Future<DisassociateResourceTypesResponse> disassociateResourceTypes({
+    required String configurationRecorderArn,
+    required List<ResourceType> resourceTypes,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'StarlingDoveService.DisassociateResourceTypes'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ConfigurationRecorderArn': configurationRecorderArn,
+        'ResourceTypes': resourceTypes.map((e) => e.value).toList(),
+      },
+    );
+
+    return DisassociateResourceTypesResponse.fromJson(jsonResponse.body);
+  }
+
   /// Returns the evaluation results for the specified Config rule for a
   /// specific resource in a rule. The results indicate which Amazon Web
   /// Services resources were evaluated by the rule, when each resource was last
@@ -2087,10 +2348,10 @@ class ConfigService {
   /// <code>nextToken</code>, the results are displayed on the next page.
   /// </note>
   ///
-  /// May throw [ValidationException].
   /// May throw [InvalidLimitException].
   /// May throw [InvalidNextTokenException].
   /// May throw [NoSuchConfigurationAggregatorException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [accountId] :
   /// The 12-digit account ID of the source account.
@@ -2170,10 +2431,10 @@ class ConfigService {
   /// the results are displayed on the next page.
   /// </note>
   ///
-  /// May throw [ValidationException].
   /// May throw [InvalidLimitException].
   /// May throw [InvalidNextTokenException].
   /// May throw [NoSuchConfigurationAggregatorException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [configurationAggregatorName] :
   /// The name of the configuration aggregator.
@@ -2240,10 +2501,10 @@ class ConfigService {
   /// the results are displayed on the next page.
   /// </note>
   ///
-  /// May throw [ValidationException].
   /// May throw [InvalidLimitException].
   /// May throw [InvalidNextTokenException].
   /// May throw [NoSuchConfigurationAggregatorException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [configurationAggregatorName] :
   /// The name of the configuration aggregator.
@@ -2311,10 +2572,10 @@ class ConfigService {
   /// GroupByKey, the API returns resource counts for all source accounts that
   /// are present in your aggregator.
   ///
-  /// May throw [ValidationException].
   /// May throw [InvalidLimitException].
   /// May throw [InvalidNextTokenException].
   /// May throw [NoSuchConfigurationAggregatorException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [configurationAggregatorName] :
   /// The name of the configuration aggregator.
@@ -2372,11 +2633,14 @@ class ConfigService {
 
   /// Returns configuration item that is aggregated for your specific resource
   /// in a specific source account and region.
+  /// <note>
+  /// The API does not return results for deleted resources.
+  /// </note>
   ///
-  /// May throw [ValidationException].
   /// May throw [NoSuchConfigurationAggregatorException].
   /// May throw [OversizedConfigurationItemException].
   /// May throw [ResourceNotDiscoveredException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [configurationAggregatorName] :
   /// The name of the configuration aggregator.
@@ -2411,8 +2675,8 @@ class ConfigService {
   /// when each resource was last evaluated, and whether each resource complies
   /// with the rule.
   ///
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidParameterValueException].
   /// May throw [NoSuchConfigRuleException].
   ///
   /// Parameter [configRuleName] :
@@ -2596,9 +2860,9 @@ class ConfigService {
   ///
   /// May throw [InvalidLimitException].
   /// May throw [InvalidNextTokenException].
-  /// May throw [NoSuchConformancePackException].
-  /// May throw [NoSuchConfigRuleInConformancePackException].
   /// May throw [InvalidParameterValueException].
+  /// May throw [NoSuchConfigRuleInConformancePackException].
+  /// May throw [NoSuchConformancePackException].
   ///
   /// Parameter [conformancePackName] :
   /// Name of the conformance pack.
@@ -2651,9 +2915,9 @@ class ConfigService {
   /// Returns compliance details for the conformance pack based on the
   /// cumulative compliance results of all the rules in that conformance pack.
   ///
-  /// May throw [NoSuchConformancePackException].
   /// May throw [InvalidLimitException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [NoSuchConformancePackException].
   ///
   /// Parameter [conformancePackNames] :
   /// Names of conformance packs.
@@ -2775,9 +3039,9 @@ class ConfigService {
   /// action.
   /// </note>
   ///
-  /// May throw [ValidationException].
   /// May throw [InvalidLimitException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [limit] :
   /// The maximum number of <a>ResourceCount</a> objects returned on each page.
@@ -2836,9 +3100,9 @@ class ConfigService {
   /// Returns detailed status for each member account within an organization for
   /// a given organization Config rule.
   ///
-  /// May throw [NoSuchOrganizationConfigRuleException].
   /// May throw [InvalidLimitException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [NoSuchOrganizationConfigRuleException].
   /// May throw [OrganizationAccessDeniedException].
   ///
   /// Parameter [organizationConfigRuleName] :
@@ -2895,9 +3159,9 @@ class ConfigService {
   /// Returns detailed status for each member account within an organization for
   /// a given organization conformance pack.
   ///
-  /// May throw [NoSuchOrganizationConformancePackException].
   /// May throw [InvalidLimitException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [NoSuchOrganizationConformancePackException].
   /// May throw [OrganizationAccessDeniedException].
   ///
   /// Parameter [organizationConformancePackName] :
@@ -2984,17 +3248,23 @@ class ConfigService {
 
   /// <important>
   /// For accurate reporting on the compliance status, you must record the
-  /// <code>AWS::Config::ResourceCompliance</code> resource type. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html">Selecting
-  /// Which Resources Config Records</a>.
+  /// <code>AWS::Config::ResourceCompliance</code> resource type.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html">Recording
+  /// Amazon Web Services Resources</a> in the <i>Config Resources Developer
+  /// Guide</i>.
   /// </important>
-  /// Returns a list of <code>ConfigurationItems</code> for the specified
-  /// resource. The list contains details about each state of the resource
-  /// during the specified time interval. If you specified a retention period to
-  /// retain your <code>ConfigurationItems</code> between a minimum of 30 days
-  /// and a maximum of 7 years (2557 days), Config returns the
-  /// <code>ConfigurationItems</code> for the specified retention period.
+  /// Returns a list of configurations items (CIs) for the specified resource.
+  ///
+  /// <b>Contents</b>
+  ///
+  /// The list contains details about each state of the resource during the
+  /// specified time interval. If you specified a retention period to retain
+  /// your CIs between a minimum of 30 days and a maximum of 7 years (2557
+  /// days), Config returns the CIs for the specified retention period.
+  ///
+  /// <b>Pagination</b>
   ///
   /// The response is paginated. By default, Config returns a limit of 10
   /// configuration items per page. You can customize this number with the
@@ -3009,12 +3279,12 @@ class ConfigService {
   /// <code>nextToken</code>.
   /// </note>
   ///
-  /// May throw [ValidationException].
-  /// May throw [InvalidTimeRangeException].
   /// May throw [InvalidLimitException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidTimeRangeException].
   /// May throw [NoAvailableConfigurationRecorderException].
   /// May throw [ResourceNotDiscoveredException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceId] :
   /// The ID of the resource (for example., <code>sg-xxxxxx</code>).
@@ -3127,8 +3397,8 @@ class ConfigService {
 
   /// Returns the details of a specific stored query.
   ///
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [queryName] :
   /// The name of the query.
@@ -3165,10 +3435,10 @@ class ConfigService {
   /// API returns all the EC2 instance identifiers of accountID 12345678910 and
   /// region us-east-1.
   ///
-  /// May throw [ValidationException].
   /// May throw [InvalidLimitException].
   /// May throw [InvalidNextTokenException].
   /// May throw [NoSuchConfigurationAggregatorException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [configurationAggregatorName] :
   /// The name of the configuration aggregator.
@@ -3223,6 +3493,52 @@ class ConfigService {
     return ListAggregateDiscoveredResourcesResponse.fromJson(jsonResponse.body);
   }
 
+  /// Returns a list of configuration recorders depending on the filters you
+  /// specify.
+  ///
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [filters] :
+  /// Filters the results based on a list of
+  /// <code>ConfigurationRecorderFilter</code> objects that you specify.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to include in the response.
+  ///
+  /// Parameter [nextToken] :
+  /// The <code>NextToken</code> string returned on a previous page that you use
+  /// to get the next page of results in a paginated response.
+  Future<ListConfigurationRecordersResponse> listConfigurationRecorders({
+    List<ConfigurationRecorderFilter>? filters,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      20,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'StarlingDoveService.ListConfigurationRecorders'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListConfigurationRecordersResponse.fromJson(jsonResponse.body);
+  }
+
   /// Returns a list of conformance pack compliance scores. A compliance score
   /// is the percentage of the number of compliant rule-resource combinations in
   /// a conformance pack compared to the number of total possible rule-resource
@@ -3235,9 +3551,9 @@ class ConfigService {
   /// of <code>INSUFFICIENT_DATA</code>.
   /// </note>
   ///
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidLimitException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [filters] :
   /// Filters the results based on the
@@ -3313,27 +3629,56 @@ class ConfigService {
         jsonResponse.body);
   }
 
-  /// Accepts a resource type and returns a list of resource identifiers for the
-  /// resources of that type. A resource identifier includes the resource type,
-  /// ID, and (if available) the custom resource name. The results consist of
-  /// resources that Config has discovered, including those that Config is not
-  /// currently recording. You can narrow the results to include only resources
-  /// that have specific resource IDs or a resource name.
+  /// Returns a list of resource resource identifiers for the specified resource
+  /// types for the resources of that type. A <i>resource identifier</i>
+  /// includes the resource type, ID, and (if available) the custom resource
+  /// name.
+  ///
+  /// The results consist of resources that Config has <i>discovered</i>,
+  /// including those that Config is not currently recording. You can narrow the
+  /// results to include only resources that have specific resource IDs or a
+  /// resource name.
   /// <note>
   /// You can specify either resource IDs or a resource name, but not both, in
   /// the same request.
-  /// </note>
-  /// The response is paginated. By default, Config lists 100 resource
-  /// identifiers on each page. You can customize this number with the
-  /// <code>limit</code> parameter. The response includes a
-  /// <code>nextToken</code> string. To get the next page of results, run the
-  /// request again and specify the string for the <code>nextToken</code>
-  /// parameter.
+  /// </note> <important>
+  /// <i>CloudFormation stack recording behavior in Config</i>
   ///
-  /// May throw [ValidationException].
+  /// When a CloudFormation stack fails to create (for example, it enters the
+  /// <code>ROLLBACK_FAILED</code> state), Config does not record a
+  /// configuration item (CI) for that stack. Configuration items are only
+  /// recorded for stacks that reach the following states:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATE_COMPLETE</code>
+  /// </li>
+  /// <li>
+  /// <code>UPDATE_COMPLETE</code>
+  /// </li>
+  /// <li>
+  /// <code>UPDATE_ROLLBACK_COMPLETE</code>
+  /// </li>
+  /// <li>
+  /// <code>UPDATE_ROLLBACK_FAILED</code>
+  /// </li>
+  /// <li>
+  /// <code>DELETE_FAILED</code>
+  /// </li>
+  /// <li>
+  /// <code>DELETE_COMPLETE</code>
+  /// </li>
+  /// </ul>
+  /// Because no CI is created for a failed stack creation, you won't see
+  /// configuration history for that stack in Config, even after the stack is
+  /// deleted. This helps make sure that Config only tracks resources that were
+  /// successfully provisioned.
+  /// </important>
+  ///
   /// May throw [InvalidLimitException].
   /// May throw [InvalidNextTokenException].
   /// May throw [NoAvailableConfigurationRecorderException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceType] :
   /// The type of resources that you want Config to list in the response.
@@ -3450,8 +3795,8 @@ class ConfigService {
   /// Lists the stored queries for a single Amazon Web Services account and a
   /// single Amazon Web Services Region. The default is 100.
   ///
-  /// May throw [ValidationException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to be returned with a single call.
@@ -3490,16 +3835,41 @@ class ConfigService {
 
   /// List the tags for Config resource.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [InvalidLimitException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) that identifies the resource for which to
-  /// list the tags. Currently, the supported resources are
-  /// <code>ConfigRule</code>, <code>ConfigurationAggregator</code> and
-  /// <code>AggregatorAuthorization</code>.
+  /// list the tags. The following resources are supported:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ConfigurationRecorder</code>
+  /// </li>
+  /// <li>
+  /// <code>ConfigRule</code>
+  /// </li>
+  /// <li>
+  /// <code>OrganizationConfigRule</code>
+  /// </li>
+  /// <li>
+  /// <code>ConformancePack</code>
+  /// </li>
+  /// <li>
+  /// <code>OrganizationConformancePack</code>
+  /// </li>
+  /// <li>
+  /// <code>ConfigurationAggregator</code>
+  /// </li>
+  /// <li>
+  /// <code>AggregationAuthorization</code>
+  /// </li>
+  /// <li>
+  /// <code>StoredQuery</code>
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [limit] :
   /// The maximum number of tags returned on each page. The limit maximum is 50.
@@ -3543,12 +3913,21 @@ class ConfigService {
   /// Authorizes the aggregator account and region to collect data from the
   /// source account and region.
   /// <note>
+  /// <b>Tags are added at creation and cannot be updated with this
+  /// operation</b>
+  ///
   /// <code>PutAggregationAuthorization</code> is an idempotent API. Subsequent
   /// requests won’t create a duplicate resource if one was already created. If
   /// a following request has different <code>tags</code> values, Config will
   /// ignore these differences and treat it as an idempotent request of the
   /// previous. In this case, <code>tags</code> will not be updated, even if
   /// they are different.
+  ///
+  /// Use <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_TagResource.html">TagResource</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_UntagResource.html">UntagResource</a>
+  /// to update tags after creation.
   /// </note>
   ///
   /// May throw [InvalidParameterValueException].
@@ -3636,18 +4015,27 @@ class ConfigService {
   /// href="https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config.html">Evaluating
   /// Resources with Config Rules</a> in the <i>Config Developer Guide</i>.
   /// <note>
+  /// <b>Tags are added at creation and cannot be updated with this
+  /// operation</b>
+  ///
   /// <code>PutConfigRule</code> is an idempotent API. Subsequent requests won’t
   /// create a duplicate resource if one was already created. If a following
   /// request has different <code>tags</code> values, Config will ignore these
   /// differences and treat it as an idempotent request of the previous. In this
   /// case, <code>tags</code> will not be updated, even if they are different.
+  ///
+  /// Use <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_TagResource.html">TagResource</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_UntagResource.html">UntagResource</a>
+  /// to update tags after creation.
   /// </note>
   ///
+  /// May throw [InsufficientPermissionsException].
   /// May throw [InvalidParameterValueException].
   /// May throw [MaxNumberOfConfigRulesExceededException].
-  /// May throw [ResourceInUseException].
-  /// May throw [InsufficientPermissionsException].
   /// May throw [NoAvailableConfigurationRecorderException].
+  /// May throw [ResourceInUseException].
   ///
   /// Parameter [configRule] :
   /// The rule that you want to add to your account.
@@ -3700,19 +4088,28 @@ class ConfigService {
   /// href="https://docs.aws.amazon.com/config/latest/developerguide/set-up-aggregator-cli.html#register-a-delegated-administrator-cli">Register
   /// a Delegated Administrator</a> in the <i>Config developer guide</i>.
   /// </note> <note>
+  /// <b>Tags are added at creation and cannot be updated with this
+  /// operation</b>
+  ///
   /// <code>PutConfigurationAggregator</code> is an idempotent API. Subsequent
   /// requests won’t create a duplicate resource if one was already created. If
   /// a following request has different <code>tags</code> values, Config will
   /// ignore these differences and treat it as an idempotent request of the
   /// previous. In this case, <code>tags</code> will not be updated, even if
   /// they are different.
+  ///
+  /// Use <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_TagResource.html">TagResource</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_UntagResource.html">UntagResource</a>
+  /// to update tags after creation.
   /// </note>
   ///
   /// May throw [InvalidParameterValueException].
-  /// May throw [LimitExceededException].
   /// May throw [InvalidRoleException].
-  /// May throw [OrganizationAccessDeniedException].
+  /// May throw [LimitExceededException].
   /// May throw [NoAvailableOrganizationException].
+  /// May throw [OrganizationAccessDeniedException].
   /// May throw [OrganizationAllFeaturesNotEnabledException].
   ///
   /// Parameter [configurationAggregatorName] :
@@ -3720,6 +4117,10 @@ class ConfigService {
   ///
   /// Parameter [accountAggregationSources] :
   /// A list of AccountAggregationSource object.
+  ///
+  /// Parameter [aggregatorFilters] :
+  /// An object to filter configuration recorders in an aggregator. Either
+  /// <code>ResourceType</code> or <code>ServicePrincipal</code> is required.
   ///
   /// Parameter [organizationAggregationSource] :
   /// An OrganizationAggregationSource object.
@@ -3729,6 +4130,7 @@ class ConfigService {
   Future<PutConfigurationAggregatorResponse> putConfigurationAggregator({
     required String configurationAggregatorName,
     List<AccountAggregationSource>? accountAggregationSources,
+    AggregatorFilters? aggregatorFilters,
     OrganizationAggregationSource? organizationAggregationSource,
     List<Tag>? tags,
   }) async {
@@ -3746,6 +4148,7 @@ class ConfigService {
         'ConfigurationAggregatorName': configurationAggregatorName,
         if (accountAggregationSources != null)
           'AccountAggregationSources': accountAggregationSources,
+        if (aggregatorFilters != null) 'AggregatorFilters': aggregatorFilters,
         if (organizationAggregationSource != null)
           'OrganizationAggregationSource': organizationAggregationSource,
         if (tags != null) 'Tags': tags,
@@ -3755,35 +4158,69 @@ class ConfigService {
     return PutConfigurationAggregatorResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates a new configuration recorder to record configuration changes for
-  /// specified resource types.
+  /// Creates or updates the customer managed configuration recorder.
   ///
-  /// You can also use this action to change the <code>roleARN</code> or the
-  /// <code>recordingGroup</code> of an existing recorder. For more information,
-  /// see <a
+  /// You can use this operation to create a new customer managed configuration
+  /// recorder or to update the <code>roleARN</code> and the
+  /// <code>recordingGroup</code> for an existing customer managed configuration
+  /// recorder.
+  ///
+  /// To start the customer managed configuration recorder and begin recording
+  /// configuration changes for the resource types you specify, use the <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_StartConfigurationRecorder.html">StartConfigurationRecorder</a>
+  /// operation.
+  ///
+  /// For more information, see <a
   /// href="https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html">
-  /// <b>Managing the Configuration Recorder</b> </a> in the <i>Config Developer
-  /// Guide</i>.
+  /// <b>Working with the Configuration Recorder</b> </a> in the <i>Config
+  /// Developer Guide</i>.
   /// <note>
-  /// You can specify only one configuration recorder for each Amazon Web
-  /// Services Region for each account.
+  /// <b>One customer managed configuration recorder per account per Region</b>
   ///
-  /// If the configuration recorder does not have the
-  /// <code>recordingGroup</code> field specified, the default is to record all
-  /// supported resource types.
+  /// You can create only one customer managed configuration recorder for each
+  /// account for each Amazon Web Services Region.
+  ///
+  /// <b>Default is to record all supported resource types, excluding the global
+  /// IAM resource types</b>
+  ///
+  /// If you have not specified values for the <code>recordingGroup</code>
+  /// field, the default for the customer managed configuration recorder is to
+  /// record all supported resource types, excluding the global IAM resource
+  /// types: <code>AWS::IAM::Group</code>, <code>AWS::IAM::Policy</code>,
+  /// <code>AWS::IAM::Role</code>, and <code>AWS::IAM::User</code>.
+  ///
+  /// <b>Tags are added at creation and cannot be updated</b>
+  ///
+  /// <code>PutConfigurationRecorder</code> is an idempotent API. Subsequent
+  /// requests won’t create a duplicate resource if one was already created. If
+  /// a following request has different tags values, Config will ignore these
+  /// differences and treat it as an idempotent request of the previous. In this
+  /// case, tags will not be updated, even if they are different.
+  ///
+  /// Use <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_TagResource.html">TagResource</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_UntagResource.html">UntagResource</a>
+  /// to update tags after creation.
   /// </note>
   ///
-  /// May throw [MaxNumberOfConfigurationRecordersExceededException].
-  /// May throw [ValidationException].
   /// May throw [InvalidConfigurationRecorderNameException].
-  /// May throw [InvalidRoleException].
   /// May throw [InvalidRecordingGroupException].
+  /// May throw [InvalidRoleException].
+  /// May throw [MaxNumberOfConfigurationRecordersExceededException].
+  /// May throw [UnmodifiableEntityException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [configurationRecorder] :
-  /// An object for the configuration recorder to record configuration changes
-  /// for specified resource types.
+  /// An object for the configuration recorder. A configuration recorder records
+  /// configuration changes for the resource types in scope.
+  ///
+  /// Parameter [tags] :
+  /// The tags for the customer managed configuration recorder. Each tag
+  /// consists of a key and an optional value, both of which you define.
   Future<void> putConfigurationRecorder({
     required ConfigurationRecorder configurationRecorder,
+    List<Tag>? tags,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3797,6 +4234,7 @@ class ConfigService {
       headers: headers,
       payload: {
         'ConfigurationRecorder': configurationRecorder,
+        if (tags != null) 'Tags': tags,
       },
     );
   }
@@ -3807,7 +4245,19 @@ class ConfigService {
   /// can have per account, see <a
   /// href="https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html">
   /// <b>Service Limits</b> </a> in the <i>Config Developer Guide</i>.
+  /// <important>
+  /// When you use <code>PutConformancePack</code> to deploy conformance packs
+  /// in your account, the operation can create Config rules and remediation
+  /// actions without requiring <code>config:PutConfigRule</code> or
+  /// <code>config:PutRemediationConfigurations</code> permissions in your
+  /// account IAM policies.
   ///
+  /// This API uses the <code>AWSServiceRoleForConfigConforms</code>
+  /// service-linked role in your account to create conformance pack resources.
+  /// This service-linked role includes the permissions to create Config rules
+  /// and remediation configurations, even if your account IAM policies
+  /// explicitly deny these actions.
+  /// </important>
   /// This API creates a service-linked role
   /// <code>AWSServiceRoleForConfigConforms</code> in your account. The
   /// service-linked role is created only when the role does not exist in your
@@ -3816,13 +4266,29 @@ class ConfigService {
   /// You must specify only one of the follow parameters:
   /// <code>TemplateS3Uri</code>, <code>TemplateBody</code> or
   /// <code>TemplateSSMDocumentDetails</code>.
+  /// </note> <note>
+  /// <b>Tags are added at creation and cannot be updated with this
+  /// operation</b>
+  ///
+  /// <code>PutConformancePack</code> is an idempotent API. Subsequent requests
+  /// won't create a duplicate resource if one was already created. If a
+  /// following request has different <code>tags</code> values, Config will
+  /// ignore these differences and treat it as an idempotent request of the
+  /// previous. In this case, <code>tags</code> will not be updated, even if
+  /// they are different.
+  ///
+  /// Use <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_TagResource.html">TagResource</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_UntagResource.html">UntagResource</a>
+  /// to update tags after creation.
   /// </note>
   ///
-  /// May throw [InsufficientPermissionsException].
   /// May throw [ConformancePackTemplateValidationException].
-  /// May throw [ResourceInUseException].
+  /// May throw [InsufficientPermissionsException].
   /// May throw [InvalidParameterValueException].
   /// May throw [MaxNumberOfConformancePacksExceededException].
+  /// May throw [ResourceInUseException].
   ///
   /// Parameter [conformancePackName] :
   /// The unique name of the conformance pack you want to deploy.
@@ -3843,10 +4309,14 @@ class ConfigService {
   /// This field is optional.
   /// </note>
   ///
+  /// Parameter [tags] :
+  /// The tags for the conformance pack. Each tag consists of a key and an
+  /// optional value, both of which you define.
+  ///
   /// Parameter [templateBody] :
-  /// A string containing the full conformance pack template body. The structure
-  /// containing the template body has a minimum length of 1 byte and a maximum
-  /// length of 51,200 bytes.
+  /// A string that contains the full conformance pack template body. The
+  /// structure containing the template body has a minimum length of 1 byte and
+  /// a maximum length of 51,200 bytes.
   /// <note>
   /// You can use a YAML template with two resource types: Config rule
   /// (<code>AWS::Config::ConfigRule</code>) and remediation action
@@ -3875,6 +4345,7 @@ class ConfigService {
     List<ConformancePackInputParameter>? conformancePackInputParameters,
     String? deliveryS3Bucket,
     String? deliveryS3KeyPrefix,
+    List<Tag>? tags,
     String? templateBody,
     String? templateS3Uri,
     TemplateSSMDocumentDetails? templateSSMDocumentDetails,
@@ -3896,6 +4367,7 @@ class ConfigService {
         if (deliveryS3Bucket != null) 'DeliveryS3Bucket': deliveryS3Bucket,
         if (deliveryS3KeyPrefix != null)
           'DeliveryS3KeyPrefix': deliveryS3KeyPrefix,
+        if (tags != null) 'Tags': tags,
         if (templateBody != null) 'TemplateBody': templateBody,
         if (templateS3Uri != null) 'TemplateS3Uri': templateS3Uri,
         if (templateSSMDocumentDetails != null)
@@ -3906,37 +4378,36 @@ class ConfigService {
     return PutConformancePackResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates a delivery channel object to deliver configuration information and
-  /// other compliance information to an Amazon S3 bucket and Amazon SNS topic.
+  /// Creates or updates a delivery channel to deliver configuration information
+  /// and other compliance information.
+  ///
+  /// You can use this operation to create a new delivery channel or to update
+  /// the Amazon S3 bucket and the Amazon SNS topic of an existing delivery
+  /// channel.
+  ///
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/config/latest/developerguide/notifications-for-AWS-Config.html">Notifications
-  /// that Config Sends to an Amazon SNS topic</a>.
-  ///
-  /// Before you can create a delivery channel, you must create a configuration
-  /// recorder.
-  ///
-  /// You can use this action to change the Amazon S3 bucket or an Amazon SNS
-  /// topic of the existing delivery channel. To change the Amazon S3 bucket or
-  /// an Amazon SNS topic, call this action and specify the changed values for
-  /// the S3 bucket and the SNS topic. If you specify a different value for
-  /// either the S3 bucket or the SNS topic, this action will keep the existing
-  /// value for the parameter that is not changed.
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/manage-delivery-channel.html">
+  /// <b>Working with the Delivery Channel</b> </a> in the <i>Config Developer
+  /// Guide.</i>
   /// <note>
-  /// You can have only one delivery channel per region in your account.
+  /// <b>One delivery channel per account per Region</b>
+  ///
+  /// You can have only one delivery channel for each account for each Amazon
+  /// Web Services Region.
   /// </note>
   ///
-  /// May throw [MaxNumberOfDeliveryChannelsExceededException].
-  /// May throw [NoAvailableConfigurationRecorderException].
+  /// May throw [InsufficientDeliveryPolicyException].
   /// May throw [InvalidDeliveryChannelNameException].
-  /// May throw [NoSuchBucketException].
   /// May throw [InvalidS3KeyPrefixException].
   /// May throw [InvalidS3KmsKeyArnException].
   /// May throw [InvalidSNSTopicARNException].
-  /// May throw [InsufficientDeliveryPolicyException].
+  /// May throw [MaxNumberOfDeliveryChannelsExceededException].
+  /// May throw [NoAvailableConfigurationRecorderException].
+  /// May throw [NoSuchBucketException].
   ///
   /// Parameter [deliveryChannel] :
-  /// The configuration delivery channel object that delivers the configuration
-  /// information to an Amazon S3 bucket and to an Amazon SNS topic.
+  /// An object for the delivery channel. A delivery channel sends notifications
+  /// and updated configuration states.
   Future<void> putDeliveryChannel({
     required DeliveryChannel deliveryChannel,
   }) async {
@@ -3957,8 +4428,8 @@ class ConfigService {
   }
 
   /// Used by an Lambda function to deliver evaluation results to Config. This
-  /// action is required in every Lambda function that is invoked by an Config
-  /// rule.
+  /// operation is required in every Lambda function that is invoked by an
+  /// Config rule.
   ///
   /// May throw [InvalidParameterValueException].
   /// May throw [InvalidResultTokenException].
@@ -4011,8 +4482,8 @@ class ConfigService {
   /// Add or updates the evaluations for process checks. This API checks if the
   /// rule is a process check when the name of the Config rule is provided.
   ///
-  /// May throw [NoSuchConfigRuleException].
   /// May throw [InvalidParameterValueException].
+  /// May throw [NoSuchConfigRuleException].
   ///
   /// Parameter [configRuleName] :
   /// The name of the Config rule.
@@ -4105,14 +4576,14 @@ class ConfigService {
   /// <code>OrganizationManagedRuleMetadata</code> for managed rules.
   /// </note>
   ///
-  /// May throw [MaxNumberOfOrganizationConfigRulesExceededException].
-  /// May throw [ResourceInUseException].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [ValidationException].
-  /// May throw [OrganizationAccessDeniedException].
-  /// May throw [NoAvailableOrganizationException].
-  /// May throw [OrganizationAllFeaturesNotEnabledException].
   /// May throw [InsufficientPermissionsException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [MaxNumberOfOrganizationConfigRulesExceededException].
+  /// May throw [NoAvailableOrganizationException].
+  /// May throw [OrganizationAccessDeniedException].
+  /// May throw [OrganizationAllFeaturesNotEnabledException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [organizationConfigRuleName] :
   /// The name that you assign to an organization Config rule.
@@ -4188,7 +4659,20 @@ class ConfigService {
   /// When calling this API with a delegated administrator, you must ensure
   /// Organizations <code>ListDelegatedAdministrator</code> permissions are
   /// added. An organization can have up to 3 delegated administrators.
+  /// <important>
+  /// When you use <code>PutOrganizationConformancePack</code> to deploy
+  /// conformance packs across member accounts, the operation can create Config
+  /// rules and remediation actions without requiring
+  /// <code>config:PutConfigRule</code> or
+  /// <code>config:PutRemediationConfigurations</code> permissions in member
+  /// account IAM policies.
   ///
+  /// This API uses the <code>AWSServiceRoleForConfigConforms</code>
+  /// service-linked role in each member account to create conformance pack
+  /// resources. This service-linked role includes the permissions to create
+  /// Config rules and remediation configurations, even if member account IAM
+  /// policies explicitly deny these actions.
+  /// </important>
   /// This API enables organization service access for
   /// <code>config-multiaccountsetup.amazonaws.com</code> through the
   /// <code>EnableAWSServiceAccess</code> action and creates a service-linked
@@ -4213,14 +4697,14 @@ class ConfigService {
   /// cannot update a conformance pack while it is in this state.
   /// </note>
   ///
+  /// May throw [InsufficientPermissionsException].
   /// May throw [MaxNumberOfOrganizationConformancePacksExceededException].
+  /// May throw [NoAvailableOrganizationException].
+  /// May throw [OrganizationAccessDeniedException].
+  /// May throw [OrganizationAllFeaturesNotEnabledException].
+  /// May throw [OrganizationConformancePackTemplateValidationException].
   /// May throw [ResourceInUseException].
   /// May throw [ValidationException].
-  /// May throw [OrganizationAccessDeniedException].
-  /// May throw [InsufficientPermissionsException].
-  /// May throw [OrganizationConformancePackTemplateValidationException].
-  /// May throw [OrganizationAllFeaturesNotEnabledException].
-  /// May throw [NoAvailableOrganizationException].
   ///
   /// Parameter [organizationConformancePackName] :
   /// Name of the organization conformance pack you want to create.
@@ -4247,7 +4731,7 @@ class ConfigService {
   /// conformance pack while deploying a conformance pack.
   ///
   /// Parameter [templateBody] :
-  /// A string containing full conformance pack template body. Structure
+  /// A string that contains the full conformance pack template body. Structure
   /// containing the template body with a minimum length of 1 byte and a maximum
   /// length of 51,200 bytes.
   ///
@@ -4402,6 +4886,11 @@ class ConfigService {
   /// href="https://docs.aws.amazon.com/config/latest/developerguide/config-concepts.html#aws-config-rules">Concepts
   /// | Config Rules</a> in the <i>Config Developer Guide</i>.
   /// </note> <note>
+  /// <b>Exceptions cannot be placed on service-linked remediation actions</b>
+  ///
+  /// You cannot place an exception on service-linked remediation actions, such
+  /// as remediation actions put by an organizational conformance pack.
+  /// </note> <note>
   /// <b>Auto remediation can be initiated even for compliant resources</b>
   ///
   /// If you enable auto remediation for a specific Config rule using the <a
@@ -4419,8 +4908,8 @@ class ConfigService {
   /// snapshot.
   /// </note>
   ///
-  /// May throw [InvalidParameterValueException].
   /// May throw [InsufficientPermissionsException].
+  /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [configRuleName] :
   /// The name of the Config rule for which you want to create remediation
@@ -4481,10 +4970,10 @@ class ConfigService {
   /// configuration item.
   /// </note>
   ///
-  /// May throw [ValidationException].
   /// May throw [InsufficientPermissionsException].
-  /// May throw [NoRunningConfigurationRecorderException].
   /// May throw [MaxActiveResourcesExceededException].
+  /// May throw [NoRunningConfigurationRecorderException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [configuration] :
   /// The configuration object of the resource in valid JSON format. It must
@@ -4595,12 +5084,88 @@ class ConfigService {
     return PutRetentionConfigurationResponse.fromJson(jsonResponse.body);
   }
 
+  /// Creates a service-linked configuration recorder that is linked to a
+  /// specific Amazon Web Services service based on the
+  /// <code>ServicePrincipal</code> you specify.
+  ///
+  /// The configuration recorder's <code>name</code>,
+  /// <code>recordingGroup</code>, <code>recordingMode</code>, and
+  /// <code>recordingScope</code> is set by the service that is linked to the
+  /// configuration recorder.
+  ///
+  /// For more information and a list of supported services/service principals,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html">
+  /// <b>Working with the Configuration Recorder</b> </a> in the <i>Config
+  /// Developer Guide</i>.
+  ///
+  /// This API creates a service-linked role
+  /// <code>AWSServiceRoleForConfig</code> in your account. The service-linked
+  /// role is created only when the role does not exist in your account.
+  /// <note>
+  /// <b>The recording scope determines if you receive configuration items</b>
+  ///
+  /// The recording scope is set by the service that is linked to the
+  /// configuration recorder and determines whether you receive configuration
+  /// items (CIs) in the delivery channel. If the recording scope is internal,
+  /// you will not receive CIs in the delivery channel.
+  ///
+  /// <b>Tags are added at creation and cannot be updated with this
+  /// operation</b>
+  ///
+  /// Use <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_TagResource.html">TagResource</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_UntagResource.html">UntagResource</a>
+  /// to update tags after creation.
+  /// </note>
+  ///
+  /// May throw [ConflictException].
+  /// May throw [InsufficientPermissionsException].
+  /// May throw [LimitExceededException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [servicePrincipal] :
+  /// The service principal of the Amazon Web Services service for the
+  /// service-linked configuration recorder that you want to create.
+  ///
+  /// Parameter [tags] :
+  /// The tags for a service-linked configuration recorder. Each tag consists of
+  /// a key and an optional value, both of which you define.
+  Future<PutServiceLinkedConfigurationRecorderResponse>
+      putServiceLinkedConfigurationRecorder({
+    required String servicePrincipal,
+    List<Tag>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'StarlingDoveService.PutServiceLinkedConfigurationRecorder'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ServicePrincipal': servicePrincipal,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return PutServiceLinkedConfigurationRecorderResponse.fromJson(
+        jsonResponse.body);
+  }
+
   /// Saves a new query or updates an existing saved query. The
   /// <code>QueryName</code> must be unique for a single Amazon Web Services
   /// account and a single Amazon Web Services Region. You can create upto 300
   /// queries in a single Amazon Web Services account and a single Amazon Web
   /// Services Region.
   /// <note>
+  /// <b>Tags are added at creation and cannot be updated</b>
+  ///
   /// <code>PutStoredQuery</code> is an idempotent API. Subsequent requests
   /// won’t create a duplicate resource if one was already created. If a
   /// following request has different <code>tags</code> values, Config will
@@ -4609,9 +5174,9 @@ class ConfigService {
   /// they are different.
   /// </note>
   ///
-  /// May throw [ValidationException].
-  /// May throw [TooManyTagsException].
   /// May throw [ResourceConcurrentModificationException].
+  /// May throw [TooManyTagsException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [storedQuery] :
   /// A list of <code>StoredQuery</code> objects. The mandatory fields are
@@ -4670,9 +5235,9 @@ class ConfigService {
   /// </note>
   ///
   /// May throw [InvalidExpressionException].
-  /// May throw [NoSuchConfigurationAggregatorException].
   /// May throw [InvalidLimitException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [NoSuchConfigurationAggregatorException].
   ///
   /// Parameter [configurationAggregatorName] :
   /// The name of the configuration aggregator.
@@ -4823,10 +5388,10 @@ class ConfigService {
   /// Your custom rule will still run periodic evaluations every 24 hours.
   /// </li> </ol>
   ///
-  /// May throw [NoSuchConfigRuleException].
-  /// May throw [LimitExceededException].
-  /// May throw [ResourceInUseException].
   /// May throw [InvalidParameterValueException].
+  /// May throw [LimitExceededException].
+  /// May throw [NoSuchConfigRuleException].
+  /// May throw [ResourceInUseException].
   ///
   /// Parameter [configRuleNames] :
   /// The list of names of Config rules that you want to run evaluations for.
@@ -4849,18 +5414,22 @@ class ConfigService {
     );
   }
 
-  /// Starts recording configurations of the Amazon Web Services resources you
-  /// have selected to record in your Amazon Web Services account.
+  /// Starts the customer managed configuration recorder. The customer managed
+  /// configuration recorder will begin recording configuration changes for the
+  /// resource types you specify.
   ///
-  /// You must have created at least one delivery channel to successfully start
-  /// the configuration recorder.
+  /// You must have created a delivery channel to successfully start the
+  /// customer managed configuration recorder. You can use the <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_PutDeliveryChannel.html">PutDeliveryChannel</a>
+  /// operation to create a delivery channel.
   ///
-  /// May throw [NoSuchConfigurationRecorderException].
   /// May throw [NoAvailableDeliveryChannelException].
+  /// May throw [NoSuchConfigurationRecorderException].
+  /// May throw [UnmodifiableEntityException].
   ///
   /// Parameter [configurationRecorderName] :
-  /// The name of the recorder object that records each configuration change
-  /// made to the resources.
+  /// The name of the customer managed configuration recorder that you want to
+  /// start.
   Future<void> startConfigurationRecorder({
     required String configurationRecorderName,
   }) async {
@@ -4888,8 +5457,8 @@ class ConfigService {
   /// StartRemediationExecution call for the specified resource keys must
   /// complete before you can call the API again.
   ///
-  /// May throw [InvalidParameterValueException].
   /// May throw [InsufficientPermissionsException].
+  /// May throw [InvalidParameterValueException].
   /// May throw [NoSuchRemediationConfigurationException].
   ///
   /// Parameter [configRuleName] :
@@ -4947,12 +5516,14 @@ class ConfigService {
   /// CloudFormation User Guide.
   /// </note>
   ///
-  /// May throw [InvalidParameterValueException].
   /// May throw [IdempotentParameterMismatch].
+  /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [evaluationMode] :
-  /// The mode of an evaluation. The valid values for this API are
-  /// <code>DETECTIVE</code> and <code>PROACTIVE</code>.
+  /// The mode of an evaluation.
+  /// <note>
+  /// The only valid value for this API is <code>PROACTIVE</code>.
+  /// </note>
   ///
   /// Parameter [resourceDetails] :
   /// Returns a <code>ResourceDetails</code> object.
@@ -5013,14 +5584,16 @@ class ConfigService {
     return StartResourceEvaluationResponse.fromJson(jsonResponse.body);
   }
 
-  /// Stops recording configurations of the Amazon Web Services resources you
-  /// have selected to record in your Amazon Web Services account.
+  /// Stops the customer managed configuration recorder. The customer managed
+  /// configuration recorder will stop recording configuration changes for the
+  /// resource types you have specified.
   ///
   /// May throw [NoSuchConfigurationRecorderException].
+  /// May throw [UnmodifiableEntityException].
   ///
   /// Parameter [configurationRecorderName] :
-  /// The name of the recorder object that records each configuration change
-  /// made to the resources.
+  /// The name of the customer managed configuration recorder that you want to
+  /// stop.
   Future<void> stopConfigurationRecorder({
     required String configurationRecorderName,
   }) async {
@@ -5041,20 +5614,45 @@ class ConfigService {
   }
 
   /// Associates the specified tags to a resource with the specified
-  /// resourceArn. If existing tags on a resource are not specified in the
-  /// request parameters, they are not changed. If existing tags are specified,
-  /// however, then their values will be updated. When a resource is deleted,
-  /// the tags associated with that resource are deleted as well.
+  /// <code>ResourceArn</code>. If existing tags on a resource are not specified
+  /// in the request parameters, they are not changed. If existing tags are
+  /// specified, however, then their values will be updated. When a resource is
+  /// deleted, the tags associated with that resource are deleted as well.
   ///
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [TooManyTagsException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) that identifies the resource for which to
-  /// list the tags. Currently, the supported resources are
-  /// <code>ConfigRule</code>, <code>ConfigurationAggregator</code> and
-  /// <code>AggregatorAuthorization</code>.
+  /// list the tags. The following resources are supported:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ConfigurationRecorder</code>
+  /// </li>
+  /// <li>
+  /// <code>ConfigRule</code>
+  /// </li>
+  /// <li>
+  /// <code>OrganizationConfigRule</code>
+  /// </li>
+  /// <li>
+  /// <code>ConformancePack</code>
+  /// </li>
+  /// <li>
+  /// <code>OrganizationConformancePack</code>
+  /// </li>
+  /// <li>
+  /// <code>ConfigurationAggregator</code>
+  /// </li>
+  /// <li>
+  /// <code>AggregationAuthorization</code>
+  /// </li>
+  /// <li>
+  /// <code>StoredQuery</code>
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [tags] :
   /// An array of tag object.
@@ -5081,14 +5679,39 @@ class ConfigService {
 
   /// Deletes specified tags from a resource.
   ///
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) that identifies the resource for which to
-  /// list the tags. Currently, the supported resources are
-  /// <code>ConfigRule</code>, <code>ConfigurationAggregator</code> and
-  /// <code>AggregatorAuthorization</code>.
+  /// list the tags. The following resources are supported:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ConfigurationRecorder</code>
+  /// </li>
+  /// <li>
+  /// <code>ConfigRule</code>
+  /// </li>
+  /// <li>
+  /// <code>OrganizationConfigRule</code>
+  /// </li>
+  /// <li>
+  /// <code>ConformancePack</code>
+  /// </li>
+  /// <li>
+  /// <code>OrganizationConformancePack</code>
+  /// </li>
+  /// <li>
+  /// <code>ConfigurationAggregator</code>
+  /// </li>
+  /// <li>
+  /// <code>AggregationAuthorization</code>
+  /// </li>
+  /// <li>
+  /// <code>StoredQuery</code>
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [tagKeys] :
   /// The keys of the tags to be removed.
@@ -5114,907 +5737,25 @@ class ConfigService {
   }
 }
 
-/// A collection of accounts and regions.
-class AccountAggregationSource {
-  /// The 12-digit account ID of the account being aggregated.
-  final List<String> accountIds;
+class AssociateResourceTypesResponse {
+  final ConfigurationRecorder configurationRecorder;
 
-  /// If true, aggregate existing Config regions and future regions.
-  final bool? allAwsRegions;
-
-  /// The source regions being aggregated.
-  final List<String>? awsRegions;
-
-  AccountAggregationSource({
-    required this.accountIds,
-    this.allAwsRegions,
-    this.awsRegions,
+  AssociateResourceTypesResponse({
+    required this.configurationRecorder,
   });
 
-  factory AccountAggregationSource.fromJson(Map<String, dynamic> json) {
-    return AccountAggregationSource(
-      accountIds: ((json['AccountIds'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      allAwsRegions: json['AllAwsRegions'] as bool?,
-      awsRegions: (json['AwsRegions'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
+  factory AssociateResourceTypesResponse.fromJson(Map<String, dynamic> json) {
+    return AssociateResourceTypesResponse(
+      configurationRecorder: ConfigurationRecorder.fromJson(
+          (json['ConfigurationRecorder'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final accountIds = this.accountIds;
-    final allAwsRegions = this.allAwsRegions;
-    final awsRegions = this.awsRegions;
+    final configurationRecorder = this.configurationRecorder;
     return {
-      'AccountIds': accountIds,
-      if (allAwsRegions != null) 'AllAwsRegions': allAwsRegions,
-      if (awsRegions != null) 'AwsRegions': awsRegions,
-    };
-  }
-}
-
-/// Indicates whether an Config rule is compliant based on account ID, region,
-/// compliance, and rule name.
-///
-/// A rule is compliant if all of the resources that the rule evaluated comply
-/// with it. It is noncompliant if any of these resources do not comply.
-class AggregateComplianceByConfigRule {
-  /// The 12-digit account ID of the source account.
-  final String? accountId;
-
-  /// The source region from where the data is aggregated.
-  final String? awsRegion;
-
-  /// Indicates whether an Amazon Web Services resource or Config rule is
-  /// compliant and provides the number of contributors that affect the
-  /// compliance.
-  final Compliance? compliance;
-
-  /// The name of the Config rule.
-  final String? configRuleName;
-
-  AggregateComplianceByConfigRule({
-    this.accountId,
-    this.awsRegion,
-    this.compliance,
-    this.configRuleName,
-  });
-
-  factory AggregateComplianceByConfigRule.fromJson(Map<String, dynamic> json) {
-    return AggregateComplianceByConfigRule(
-      accountId: json['AccountId'] as String?,
-      awsRegion: json['AwsRegion'] as String?,
-      compliance: json['Compliance'] != null
-          ? Compliance.fromJson(json['Compliance'] as Map<String, dynamic>)
-          : null,
-      configRuleName: json['ConfigRuleName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final awsRegion = this.awsRegion;
-    final compliance = this.compliance;
-    final configRuleName = this.configRuleName;
-    return {
-      if (accountId != null) 'AccountId': accountId,
-      if (awsRegion != null) 'AwsRegion': awsRegion,
-      if (compliance != null) 'Compliance': compliance,
-      if (configRuleName != null) 'ConfigRuleName': configRuleName,
-    };
-  }
-}
-
-/// Provides aggregate compliance of the conformance pack. Indicates whether a
-/// conformance pack is compliant based on the name of the conformance pack,
-/// account ID, and region.
-///
-/// A conformance pack is compliant if all of the rules in a conformance packs
-/// are compliant. It is noncompliant if any of the rules are not compliant. The
-/// compliance status of a conformance pack is INSUFFICIENT_DATA only if all
-/// rules within a conformance pack cannot be evaluated due to insufficient
-/// data. If some of the rules in a conformance pack are compliant but the
-/// compliance status of other rules in that same conformance pack is
-/// INSUFFICIENT_DATA, the conformance pack shows compliant.
-class AggregateComplianceByConformancePack {
-  /// The 12-digit Amazon Web Services account ID of the source account.
-  final String? accountId;
-
-  /// The source Amazon Web Services Region from where the data is aggregated.
-  final String? awsRegion;
-
-  /// The compliance status of the conformance pack.
-  final AggregateConformancePackCompliance? compliance;
-
-  /// The name of the conformance pack.
-  final String? conformancePackName;
-
-  AggregateComplianceByConformancePack({
-    this.accountId,
-    this.awsRegion,
-    this.compliance,
-    this.conformancePackName,
-  });
-
-  factory AggregateComplianceByConformancePack.fromJson(
-      Map<String, dynamic> json) {
-    return AggregateComplianceByConformancePack(
-      accountId: json['AccountId'] as String?,
-      awsRegion: json['AwsRegion'] as String?,
-      compliance: json['Compliance'] != null
-          ? AggregateConformancePackCompliance.fromJson(
-              json['Compliance'] as Map<String, dynamic>)
-          : null,
-      conformancePackName: json['ConformancePackName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final awsRegion = this.awsRegion;
-    final compliance = this.compliance;
-    final conformancePackName = this.conformancePackName;
-    return {
-      if (accountId != null) 'AccountId': accountId,
-      if (awsRegion != null) 'AwsRegion': awsRegion,
-      if (compliance != null) 'Compliance': compliance,
-      if (conformancePackName != null)
-        'ConformancePackName': conformancePackName,
-    };
-  }
-}
-
-/// Returns the number of compliant and noncompliant rules for one or more
-/// accounts and regions in an aggregator.
-class AggregateComplianceCount {
-  /// The number of compliant and noncompliant Config rules.
-  final ComplianceSummary? complianceSummary;
-
-  /// The 12-digit account ID or region based on the GroupByKey value.
-  final String? groupName;
-
-  AggregateComplianceCount({
-    this.complianceSummary,
-    this.groupName,
-  });
-
-  factory AggregateComplianceCount.fromJson(Map<String, dynamic> json) {
-    return AggregateComplianceCount(
-      complianceSummary: json['ComplianceSummary'] != null
-          ? ComplianceSummary.fromJson(
-              json['ComplianceSummary'] as Map<String, dynamic>)
-          : null,
-      groupName: json['GroupName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final complianceSummary = this.complianceSummary;
-    final groupName = this.groupName;
-    return {
-      if (complianceSummary != null) 'ComplianceSummary': complianceSummary,
-      if (groupName != null) 'GroupName': groupName,
-    };
-  }
-}
-
-/// Provides the number of compliant and noncompliant rules within a conformance
-/// pack. Also provides the compliance status of the conformance pack and the
-/// total rule count which includes compliant rules, noncompliant rules, and
-/// rules that cannot be evaluated due to insufficient data.
-///
-/// A conformance pack is compliant if all of the rules in a conformance packs
-/// are compliant. It is noncompliant if any of the rules are not compliant. The
-/// compliance status of a conformance pack is INSUFFICIENT_DATA only if all
-/// rules within a conformance pack cannot be evaluated due to insufficient
-/// data. If some of the rules in a conformance pack are compliant but the
-/// compliance status of other rules in that same conformance pack is
-/// INSUFFICIENT_DATA, the conformance pack shows compliant.
-class AggregateConformancePackCompliance {
-  /// The compliance status of the conformance pack.
-  final ConformancePackComplianceType? complianceType;
-
-  /// The number of compliant Config Rules.
-  final int? compliantRuleCount;
-
-  /// The number of noncompliant Config Rules.
-  final int? nonCompliantRuleCount;
-
-  /// Total number of compliant rules, noncompliant rules, and the rules that do
-  /// not have any applicable resources to evaluate upon resulting in insufficient
-  /// data.
-  final int? totalRuleCount;
-
-  AggregateConformancePackCompliance({
-    this.complianceType,
-    this.compliantRuleCount,
-    this.nonCompliantRuleCount,
-    this.totalRuleCount,
-  });
-
-  factory AggregateConformancePackCompliance.fromJson(
-      Map<String, dynamic> json) {
-    return AggregateConformancePackCompliance(
-      complianceType: (json['ComplianceType'] as String?)
-          ?.let(ConformancePackComplianceType.fromString),
-      compliantRuleCount: json['CompliantRuleCount'] as int?,
-      nonCompliantRuleCount: json['NonCompliantRuleCount'] as int?,
-      totalRuleCount: json['TotalRuleCount'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final complianceType = this.complianceType;
-    final compliantRuleCount = this.compliantRuleCount;
-    final nonCompliantRuleCount = this.nonCompliantRuleCount;
-    final totalRuleCount = this.totalRuleCount;
-    return {
-      if (complianceType != null) 'ComplianceType': complianceType.value,
-      if (compliantRuleCount != null) 'CompliantRuleCount': compliantRuleCount,
-      if (nonCompliantRuleCount != null)
-        'NonCompliantRuleCount': nonCompliantRuleCount,
-      if (totalRuleCount != null) 'TotalRuleCount': totalRuleCount,
-    };
-  }
-}
-
-/// The number of conformance packs that are compliant and noncompliant.
-class AggregateConformancePackComplianceCount {
-  /// Number of compliant conformance packs.
-  final int? compliantConformancePackCount;
-
-  /// Number of noncompliant conformance packs.
-  final int? nonCompliantConformancePackCount;
-
-  AggregateConformancePackComplianceCount({
-    this.compliantConformancePackCount,
-    this.nonCompliantConformancePackCount,
-  });
-
-  factory AggregateConformancePackComplianceCount.fromJson(
-      Map<String, dynamic> json) {
-    return AggregateConformancePackComplianceCount(
-      compliantConformancePackCount:
-          json['CompliantConformancePackCount'] as int?,
-      nonCompliantConformancePackCount:
-          json['NonCompliantConformancePackCount'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final compliantConformancePackCount = this.compliantConformancePackCount;
-    final nonCompliantConformancePackCount =
-        this.nonCompliantConformancePackCount;
-    return {
-      if (compliantConformancePackCount != null)
-        'CompliantConformancePackCount': compliantConformancePackCount,
-      if (nonCompliantConformancePackCount != null)
-        'NonCompliantConformancePackCount': nonCompliantConformancePackCount,
-    };
-  }
-}
-
-/// Filters the conformance packs based on an account ID, region, compliance
-/// type, and the name of the conformance pack.
-class AggregateConformancePackComplianceFilters {
-  /// The 12-digit Amazon Web Services account ID of the source account.
-  final String? accountId;
-
-  /// The source Amazon Web Services Region from where the data is aggregated.
-  final String? awsRegion;
-
-  /// The compliance status of the conformance pack.
-  final ConformancePackComplianceType? complianceType;
-
-  /// The name of the conformance pack.
-  final String? conformancePackName;
-
-  AggregateConformancePackComplianceFilters({
-    this.accountId,
-    this.awsRegion,
-    this.complianceType,
-    this.conformancePackName,
-  });
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final awsRegion = this.awsRegion;
-    final complianceType = this.complianceType;
-    final conformancePackName = this.conformancePackName;
-    return {
-      if (accountId != null) 'AccountId': accountId,
-      if (awsRegion != null) 'AwsRegion': awsRegion,
-      if (complianceType != null) 'ComplianceType': complianceType.value,
-      if (conformancePackName != null)
-        'ConformancePackName': conformancePackName,
-    };
-  }
-}
-
-/// Provides a summary of compliance based on either account ID or region.
-class AggregateConformancePackComplianceSummary {
-  /// Returns an <code>AggregateConformancePackComplianceCount</code> object.
-  final AggregateConformancePackComplianceCount? complianceSummary;
-
-  /// Groups the result based on Amazon Web Services account ID or Amazon Web
-  /// Services Region.
-  final String? groupName;
-
-  AggregateConformancePackComplianceSummary({
-    this.complianceSummary,
-    this.groupName,
-  });
-
-  factory AggregateConformancePackComplianceSummary.fromJson(
-      Map<String, dynamic> json) {
-    return AggregateConformancePackComplianceSummary(
-      complianceSummary: json['ComplianceSummary'] != null
-          ? AggregateConformancePackComplianceCount.fromJson(
-              json['ComplianceSummary'] as Map<String, dynamic>)
-          : null,
-      groupName: json['GroupName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final complianceSummary = this.complianceSummary;
-    final groupName = this.groupName;
-    return {
-      if (complianceSummary != null) 'ComplianceSummary': complianceSummary,
-      if (groupName != null) 'GroupName': groupName,
-    };
-  }
-}
-
-/// Filters the results based on account ID and region.
-class AggregateConformancePackComplianceSummaryFilters {
-  /// The 12-digit Amazon Web Services account ID of the source account.
-  final String? accountId;
-
-  /// The source Amazon Web Services Region from where the data is aggregated.
-  final String? awsRegion;
-
-  AggregateConformancePackComplianceSummaryFilters({
-    this.accountId,
-    this.awsRegion,
-  });
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final awsRegion = this.awsRegion;
-    return {
-      if (accountId != null) 'AccountId': accountId,
-      if (awsRegion != null) 'AwsRegion': awsRegion,
-    };
-  }
-}
-
-class AggregateConformancePackComplianceSummaryGroupKey {
-  static const accountId =
-      AggregateConformancePackComplianceSummaryGroupKey._('ACCOUNT_ID');
-  static const awsRegion =
-      AggregateConformancePackComplianceSummaryGroupKey._('AWS_REGION');
-
-  final String value;
-
-  const AggregateConformancePackComplianceSummaryGroupKey._(this.value);
-
-  static const values = [accountId, awsRegion];
-
-  static AggregateConformancePackComplianceSummaryGroupKey fromString(
-          String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              AggregateConformancePackComplianceSummaryGroupKey._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AggregateConformancePackComplianceSummaryGroupKey &&
-      other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The details of an Config evaluation for an account ID and region in an
-/// aggregator. Provides the Amazon Web Services resource that was evaluated,
-/// the compliance of the resource, related time stamps, and supplementary
-/// information.
-class AggregateEvaluationResult {
-  /// The 12-digit account ID of the source account.
-  final String? accountId;
-
-  /// Supplementary information about how the agrregate evaluation determined the
-  /// compliance.
-  final String? annotation;
-
-  /// The source region from where the data is aggregated.
-  final String? awsRegion;
-
-  /// The resource compliance status.
-  ///
-  /// For the <code>AggregationEvaluationResult</code> data type, Config supports
-  /// only the <code>COMPLIANT</code> and <code>NON_COMPLIANT</code>. Config does
-  /// not support the <code>NOT_APPLICABLE</code> and
-  /// <code>INSUFFICIENT_DATA</code> value.
-  final ComplianceType? complianceType;
-
-  /// The time when the Config rule evaluated the Amazon Web Services resource.
-  final DateTime? configRuleInvokedTime;
-
-  /// Uniquely identifies the evaluation result.
-  final EvaluationResultIdentifier? evaluationResultIdentifier;
-
-  /// The time when Config recorded the aggregate evaluation result.
-  final DateTime? resultRecordedTime;
-
-  AggregateEvaluationResult({
-    this.accountId,
-    this.annotation,
-    this.awsRegion,
-    this.complianceType,
-    this.configRuleInvokedTime,
-    this.evaluationResultIdentifier,
-    this.resultRecordedTime,
-  });
-
-  factory AggregateEvaluationResult.fromJson(Map<String, dynamic> json) {
-    return AggregateEvaluationResult(
-      accountId: json['AccountId'] as String?,
-      annotation: json['Annotation'] as String?,
-      awsRegion: json['AwsRegion'] as String?,
-      complianceType:
-          (json['ComplianceType'] as String?)?.let(ComplianceType.fromString),
-      configRuleInvokedTime: timeStampFromJson(json['ConfigRuleInvokedTime']),
-      evaluationResultIdentifier: json['EvaluationResultIdentifier'] != null
-          ? EvaluationResultIdentifier.fromJson(
-              json['EvaluationResultIdentifier'] as Map<String, dynamic>)
-          : null,
-      resultRecordedTime: timeStampFromJson(json['ResultRecordedTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final annotation = this.annotation;
-    final awsRegion = this.awsRegion;
-    final complianceType = this.complianceType;
-    final configRuleInvokedTime = this.configRuleInvokedTime;
-    final evaluationResultIdentifier = this.evaluationResultIdentifier;
-    final resultRecordedTime = this.resultRecordedTime;
-    return {
-      if (accountId != null) 'AccountId': accountId,
-      if (annotation != null) 'Annotation': annotation,
-      if (awsRegion != null) 'AwsRegion': awsRegion,
-      if (complianceType != null) 'ComplianceType': complianceType.value,
-      if (configRuleInvokedTime != null)
-        'ConfigRuleInvokedTime': unixTimestampToJson(configRuleInvokedTime),
-      if (evaluationResultIdentifier != null)
-        'EvaluationResultIdentifier': evaluationResultIdentifier,
-      if (resultRecordedTime != null)
-        'ResultRecordedTime': unixTimestampToJson(resultRecordedTime),
-    };
-  }
-}
-
-/// The details that identify a resource that is collected by Config aggregator,
-/// including the resource type, ID, (if available) the custom resource name,
-/// the source account, and source region.
-class AggregateResourceIdentifier {
-  /// The ID of the Amazon Web Services resource.
-  final String resourceId;
-
-  /// The type of the Amazon Web Services resource.
-  final ResourceType resourceType;
-
-  /// The 12-digit account ID of the source account.
-  final String sourceAccountId;
-
-  /// The source region where data is aggregated.
-  final String sourceRegion;
-
-  /// The name of the Amazon Web Services resource.
-  final String? resourceName;
-
-  AggregateResourceIdentifier({
-    required this.resourceId,
-    required this.resourceType,
-    required this.sourceAccountId,
-    required this.sourceRegion,
-    this.resourceName,
-  });
-
-  factory AggregateResourceIdentifier.fromJson(Map<String, dynamic> json) {
-    return AggregateResourceIdentifier(
-      resourceId: (json['ResourceId'] as String?) ?? '',
-      resourceType:
-          ResourceType.fromString((json['ResourceType'] as String?) ?? ''),
-      sourceAccountId: (json['SourceAccountId'] as String?) ?? '',
-      sourceRegion: (json['SourceRegion'] as String?) ?? '',
-      resourceName: json['ResourceName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resourceId = this.resourceId;
-    final resourceType = this.resourceType;
-    final sourceAccountId = this.sourceAccountId;
-    final sourceRegion = this.sourceRegion;
-    final resourceName = this.resourceName;
-    return {
-      'ResourceId': resourceId,
-      'ResourceType': resourceType.value,
-      'SourceAccountId': sourceAccountId,
-      'SourceRegion': sourceRegion,
-      if (resourceName != null) 'ResourceName': resourceName,
-    };
-  }
-}
-
-/// The current sync status between the source and the aggregator account.
-class AggregatedSourceStatus {
-  /// The region authorized to collect aggregated data.
-  final String? awsRegion;
-
-  /// The error code that Config returned when the source account aggregation last
-  /// failed.
-  final String? lastErrorCode;
-
-  /// The message indicating that the source account aggregation failed due to an
-  /// error.
-  final String? lastErrorMessage;
-
-  /// Filters the last updated status type.
-  ///
-  /// <ul>
-  /// <li>
-  /// Valid value FAILED indicates errors while moving data.
-  /// </li>
-  /// <li>
-  /// Valid value SUCCEEDED indicates the data was successfully moved.
-  /// </li>
-  /// <li>
-  /// Valid value OUTDATED indicates the data is not the most recent.
-  /// </li>
-  /// </ul>
-  final AggregatedSourceStatusType? lastUpdateStatus;
-
-  /// The time of the last update.
-  final DateTime? lastUpdateTime;
-
-  /// The source account ID or an organization.
-  final String? sourceId;
-
-  /// The source account or an organization.
-  final AggregatedSourceType? sourceType;
-
-  AggregatedSourceStatus({
-    this.awsRegion,
-    this.lastErrorCode,
-    this.lastErrorMessage,
-    this.lastUpdateStatus,
-    this.lastUpdateTime,
-    this.sourceId,
-    this.sourceType,
-  });
-
-  factory AggregatedSourceStatus.fromJson(Map<String, dynamic> json) {
-    return AggregatedSourceStatus(
-      awsRegion: json['AwsRegion'] as String?,
-      lastErrorCode: json['LastErrorCode'] as String?,
-      lastErrorMessage: json['LastErrorMessage'] as String?,
-      lastUpdateStatus: (json['LastUpdateStatus'] as String?)
-          ?.let(AggregatedSourceStatusType.fromString),
-      lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
-      sourceId: json['SourceId'] as String?,
-      sourceType:
-          (json['SourceType'] as String?)?.let(AggregatedSourceType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final awsRegion = this.awsRegion;
-    final lastErrorCode = this.lastErrorCode;
-    final lastErrorMessage = this.lastErrorMessage;
-    final lastUpdateStatus = this.lastUpdateStatus;
-    final lastUpdateTime = this.lastUpdateTime;
-    final sourceId = this.sourceId;
-    final sourceType = this.sourceType;
-    return {
-      if (awsRegion != null) 'AwsRegion': awsRegion,
-      if (lastErrorCode != null) 'LastErrorCode': lastErrorCode,
-      if (lastErrorMessage != null) 'LastErrorMessage': lastErrorMessage,
-      if (lastUpdateStatus != null) 'LastUpdateStatus': lastUpdateStatus.value,
-      if (lastUpdateTime != null)
-        'LastUpdateTime': unixTimestampToJson(lastUpdateTime),
-      if (sourceId != null) 'SourceId': sourceId,
-      if (sourceType != null) 'SourceType': sourceType.value,
-    };
-  }
-}
-
-class AggregatedSourceStatusType {
-  static const failed = AggregatedSourceStatusType._('FAILED');
-  static const succeeded = AggregatedSourceStatusType._('SUCCEEDED');
-  static const outdated = AggregatedSourceStatusType._('OUTDATED');
-
-  final String value;
-
-  const AggregatedSourceStatusType._(this.value);
-
-  static const values = [failed, succeeded, outdated];
-
-  static AggregatedSourceStatusType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AggregatedSourceStatusType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AggregatedSourceStatusType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class AggregatedSourceType {
-  static const account = AggregatedSourceType._('ACCOUNT');
-  static const organization = AggregatedSourceType._('ORGANIZATION');
-
-  final String value;
-
-  const AggregatedSourceType._(this.value);
-
-  static const values = [account, organization];
-
-  static AggregatedSourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AggregatedSourceType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AggregatedSourceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object that represents the authorizations granted to aggregator accounts
-/// and regions.
-class AggregationAuthorization {
-  /// The Amazon Resource Name (ARN) of the aggregation object.
-  final String? aggregationAuthorizationArn;
-
-  /// The 12-digit account ID of the account authorized to aggregate data.
-  final String? authorizedAccountId;
-
-  /// The region authorized to collect aggregated data.
-  final String? authorizedAwsRegion;
-
-  /// The time stamp when the aggregation authorization was created.
-  final DateTime? creationTime;
-
-  AggregationAuthorization({
-    this.aggregationAuthorizationArn,
-    this.authorizedAccountId,
-    this.authorizedAwsRegion,
-    this.creationTime,
-  });
-
-  factory AggregationAuthorization.fromJson(Map<String, dynamic> json) {
-    return AggregationAuthorization(
-      aggregationAuthorizationArn:
-          json['AggregationAuthorizationArn'] as String?,
-      authorizedAccountId: json['AuthorizedAccountId'] as String?,
-      authorizedAwsRegion: json['AuthorizedAwsRegion'] as String?,
-      creationTime: timeStampFromJson(json['CreationTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final aggregationAuthorizationArn = this.aggregationAuthorizationArn;
-    final authorizedAccountId = this.authorizedAccountId;
-    final authorizedAwsRegion = this.authorizedAwsRegion;
-    final creationTime = this.creationTime;
-    return {
-      if (aggregationAuthorizationArn != null)
-        'AggregationAuthorizationArn': aggregationAuthorizationArn,
-      if (authorizedAccountId != null)
-        'AuthorizedAccountId': authorizedAccountId,
-      if (authorizedAwsRegion != null)
-        'AuthorizedAwsRegion': authorizedAwsRegion,
-      if (creationTime != null)
-        'CreationTime': unixTimestampToJson(creationTime),
-    };
-  }
-}
-
-/// The detailed configurations of a specified resource.
-class BaseConfigurationItem {
-  /// The 12-digit Amazon Web Services account ID associated with the resource.
-  final String? accountId;
-
-  /// The Amazon Resource Name (ARN) of the resource.
-  final String? arn;
-
-  /// The Availability Zone associated with the resource.
-  final String? availabilityZone;
-
-  /// The region where the resource resides.
-  final String? awsRegion;
-
-  /// The description of the resource configuration.
-  final String? configuration;
-
-  /// The time when the recording of configuration changes was initiated for the
-  /// resource.
-  final DateTime? configurationItemCaptureTime;
-
-  /// The time when configuration changes for the resource were delivered.
-  /// <note>
-  /// This field is optional and is not guaranteed to be present in a
-  /// configuration item (CI). If you are using daily recording, this field will
-  /// be populated. However, if you are using continuous recording, this field
-  /// will be omitted since the delivery time is instantaneous as the CI is
-  /// available right away. For more information on daily recording and continuous
-  /// recording, see <a
-  /// href="https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-recording-frequency">Recording
-  /// Frequency</a> in the <i>Config Developer Guide</i>.
-  /// </note>
-  final DateTime? configurationItemDeliveryTime;
-
-  /// The configuration item status. Valid values include:
-  ///
-  /// <ul>
-  /// <li>
-  /// OK – The resource configuration has been updated.
-  /// </li>
-  /// <li>
-  /// ResourceDiscovered – The resource was newly discovered.
-  /// </li>
-  /// <li>
-  /// ResourceNotRecorded – The resource was discovered, but its configuration was
-  /// not recorded since the recorder doesn't record resources of this type.
-  /// </li>
-  /// <li>
-  /// ResourceDeleted – The resource was deleted
-  /// </li>
-  /// <li>
-  /// ResourceDeletedNotRecorded – The resource was deleted, but its configuration
-  /// was not recorded since the recorder doesn't record resources of this type.
-  /// </li>
-  /// </ul>
-  final ConfigurationItemStatus? configurationItemStatus;
-
-  /// An identifier that indicates the ordering of the configuration items of a
-  /// resource.
-  final String? configurationStateId;
-
-  /// The recording frequency that Config uses to record configuration changes for
-  /// the resource.
-  final RecordingFrequency? recordingFrequency;
-
-  /// The time stamp when the resource was created.
-  final DateTime? resourceCreationTime;
-
-  /// The ID of the resource (for example., sg-xxxxxx).
-  final String? resourceId;
-
-  /// The custom name of the resource, if available.
-  final String? resourceName;
-
-  /// The type of Amazon Web Services resource.
-  final ResourceType? resourceType;
-
-  /// Configuration attributes that Config returns for certain resource types to
-  /// supplement the information returned for the configuration parameter.
-  final Map<String, String>? supplementaryConfiguration;
-
-  /// The version number of the resource configuration.
-  final String? version;
-
-  BaseConfigurationItem({
-    this.accountId,
-    this.arn,
-    this.availabilityZone,
-    this.awsRegion,
-    this.configuration,
-    this.configurationItemCaptureTime,
-    this.configurationItemDeliveryTime,
-    this.configurationItemStatus,
-    this.configurationStateId,
-    this.recordingFrequency,
-    this.resourceCreationTime,
-    this.resourceId,
-    this.resourceName,
-    this.resourceType,
-    this.supplementaryConfiguration,
-    this.version,
-  });
-
-  factory BaseConfigurationItem.fromJson(Map<String, dynamic> json) {
-    return BaseConfigurationItem(
-      accountId: json['accountId'] as String?,
-      arn: json['arn'] as String?,
-      availabilityZone: json['availabilityZone'] as String?,
-      awsRegion: json['awsRegion'] as String?,
-      configuration: json['configuration'] as String?,
-      configurationItemCaptureTime:
-          timeStampFromJson(json['configurationItemCaptureTime']),
-      configurationItemDeliveryTime:
-          timeStampFromJson(json['configurationItemDeliveryTime']),
-      configurationItemStatus: (json['configurationItemStatus'] as String?)
-          ?.let(ConfigurationItemStatus.fromString),
-      configurationStateId: json['configurationStateId'] as String?,
-      recordingFrequency: (json['recordingFrequency'] as String?)
-          ?.let(RecordingFrequency.fromString),
-      resourceCreationTime: timeStampFromJson(json['resourceCreationTime']),
-      resourceId: json['resourceId'] as String?,
-      resourceName: json['resourceName'] as String?,
-      resourceType:
-          (json['resourceType'] as String?)?.let(ResourceType.fromString),
-      supplementaryConfiguration:
-          (json['supplementaryConfiguration'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(k, e as String)),
-      version: json['version'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final arn = this.arn;
-    final availabilityZone = this.availabilityZone;
-    final awsRegion = this.awsRegion;
-    final configuration = this.configuration;
-    final configurationItemCaptureTime = this.configurationItemCaptureTime;
-    final configurationItemDeliveryTime = this.configurationItemDeliveryTime;
-    final configurationItemStatus = this.configurationItemStatus;
-    final configurationStateId = this.configurationStateId;
-    final recordingFrequency = this.recordingFrequency;
-    final resourceCreationTime = this.resourceCreationTime;
-    final resourceId = this.resourceId;
-    final resourceName = this.resourceName;
-    final resourceType = this.resourceType;
-    final supplementaryConfiguration = this.supplementaryConfiguration;
-    final version = this.version;
-    return {
-      if (accountId != null) 'accountId': accountId,
-      if (arn != null) 'arn': arn,
-      if (availabilityZone != null) 'availabilityZone': availabilityZone,
-      if (awsRegion != null) 'awsRegion': awsRegion,
-      if (configuration != null) 'configuration': configuration,
-      if (configurationItemCaptureTime != null)
-        'configurationItemCaptureTime':
-            unixTimestampToJson(configurationItemCaptureTime),
-      if (configurationItemDeliveryTime != null)
-        'configurationItemDeliveryTime':
-            unixTimestampToJson(configurationItemDeliveryTime),
-      if (configurationItemStatus != null)
-        'configurationItemStatus': configurationItemStatus.value,
-      if (configurationStateId != null)
-        'configurationStateId': configurationStateId,
-      if (recordingFrequency != null)
-        'recordingFrequency': recordingFrequency.value,
-      if (resourceCreationTime != null)
-        'resourceCreationTime': unixTimestampToJson(resourceCreationTime),
-      if (resourceId != null) 'resourceId': resourceId,
-      if (resourceName != null) 'resourceName': resourceName,
-      if (resourceType != null) 'resourceType': resourceType.value,
-      if (supplementaryConfiguration != null)
-        'supplementaryConfiguration': supplementaryConfiguration,
-      if (version != null) 'version': version,
+      'ConfigurationRecorder': configurationRecorder,
     };
   }
 }
@@ -6101,2127 +5842,6 @@ class BatchGetResourceConfigResponse {
   }
 }
 
-class ChronologicalOrder {
-  static const reverse = ChronologicalOrder._('Reverse');
-  static const forward = ChronologicalOrder._('Forward');
-
-  final String value;
-
-  const ChronologicalOrder._(this.value);
-
-  static const values = [reverse, forward];
-
-  static ChronologicalOrder fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ChronologicalOrder._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ChronologicalOrder && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Indicates whether an Amazon Web Services resource or Config rule is
-/// compliant and provides the number of contributors that affect the
-/// compliance.
-class Compliance {
-  /// The number of Amazon Web Services resources or Config rules that cause a
-  /// result of <code>NON_COMPLIANT</code>, up to a maximum number.
-  final ComplianceContributorCount? complianceContributorCount;
-
-  /// Indicates whether an Amazon Web Services resource or Config rule is
-  /// compliant.
-  ///
-  /// A resource is compliant if it complies with all of the Config rules that
-  /// evaluate it. A resource is noncompliant if it does not comply with one or
-  /// more of these rules.
-  ///
-  /// A rule is compliant if all of the resources that the rule evaluates comply
-  /// with it. A rule is noncompliant if any of these resources do not comply.
-  ///
-  /// Config returns the <code>INSUFFICIENT_DATA</code> value when no evaluation
-  /// results are available for the Amazon Web Services resource or Config rule.
-  ///
-  /// For the <code>Compliance</code> data type, Config supports only
-  /// <code>COMPLIANT</code>, <code>NON_COMPLIANT</code>, and
-  /// <code>INSUFFICIENT_DATA</code> values. Config does not support the
-  /// <code>NOT_APPLICABLE</code> value for the <code>Compliance</code> data type.
-  final ComplianceType? complianceType;
-
-  Compliance({
-    this.complianceContributorCount,
-    this.complianceType,
-  });
-
-  factory Compliance.fromJson(Map<String, dynamic> json) {
-    return Compliance(
-      complianceContributorCount: json['ComplianceContributorCount'] != null
-          ? ComplianceContributorCount.fromJson(
-              json['ComplianceContributorCount'] as Map<String, dynamic>)
-          : null,
-      complianceType:
-          (json['ComplianceType'] as String?)?.let(ComplianceType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final complianceContributorCount = this.complianceContributorCount;
-    final complianceType = this.complianceType;
-    return {
-      if (complianceContributorCount != null)
-        'ComplianceContributorCount': complianceContributorCount,
-      if (complianceType != null) 'ComplianceType': complianceType.value,
-    };
-  }
-}
-
-/// Indicates whether an Config rule is compliant. A rule is compliant if all of
-/// the resources that the rule evaluated comply with it. A rule is noncompliant
-/// if any of these resources do not comply.
-class ComplianceByConfigRule {
-  /// Indicates whether the Config rule is compliant.
-  final Compliance? compliance;
-
-  /// The name of the Config rule.
-  final String? configRuleName;
-
-  ComplianceByConfigRule({
-    this.compliance,
-    this.configRuleName,
-  });
-
-  factory ComplianceByConfigRule.fromJson(Map<String, dynamic> json) {
-    return ComplianceByConfigRule(
-      compliance: json['Compliance'] != null
-          ? Compliance.fromJson(json['Compliance'] as Map<String, dynamic>)
-          : null,
-      configRuleName: json['ConfigRuleName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final compliance = this.compliance;
-    final configRuleName = this.configRuleName;
-    return {
-      if (compliance != null) 'Compliance': compliance,
-      if (configRuleName != null) 'ConfigRuleName': configRuleName,
-    };
-  }
-}
-
-/// Indicates whether an Amazon Web Services resource that is evaluated
-/// according to one or more Config rules is compliant. A resource is compliant
-/// if it complies with all of the rules that evaluate it. A resource is
-/// noncompliant if it does not comply with one or more of these rules.
-class ComplianceByResource {
-  /// Indicates whether the Amazon Web Services resource complies with all of the
-  /// Config rules that evaluated it.
-  final Compliance? compliance;
-
-  /// The ID of the Amazon Web Services resource that was evaluated.
-  final String? resourceId;
-
-  /// The type of the Amazon Web Services resource that was evaluated.
-  final String? resourceType;
-
-  ComplianceByResource({
-    this.compliance,
-    this.resourceId,
-    this.resourceType,
-  });
-
-  factory ComplianceByResource.fromJson(Map<String, dynamic> json) {
-    return ComplianceByResource(
-      compliance: json['Compliance'] != null
-          ? Compliance.fromJson(json['Compliance'] as Map<String, dynamic>)
-          : null,
-      resourceId: json['ResourceId'] as String?,
-      resourceType: json['ResourceType'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final compliance = this.compliance;
-    final resourceId = this.resourceId;
-    final resourceType = this.resourceType;
-    return {
-      if (compliance != null) 'Compliance': compliance,
-      if (resourceId != null) 'ResourceId': resourceId,
-      if (resourceType != null) 'ResourceType': resourceType,
-    };
-  }
-}
-
-/// The number of Amazon Web Services resources or Config rules responsible for
-/// the current compliance of the item, up to a maximum number.
-class ComplianceContributorCount {
-  /// Indicates whether the maximum count is reached.
-  final bool? capExceeded;
-
-  /// The number of Amazon Web Services resources or Config rules responsible for
-  /// the current compliance of the item.
-  final int? cappedCount;
-
-  ComplianceContributorCount({
-    this.capExceeded,
-    this.cappedCount,
-  });
-
-  factory ComplianceContributorCount.fromJson(Map<String, dynamic> json) {
-    return ComplianceContributorCount(
-      capExceeded: json['CapExceeded'] as bool?,
-      cappedCount: json['CappedCount'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final capExceeded = this.capExceeded;
-    final cappedCount = this.cappedCount;
-    return {
-      if (capExceeded != null) 'CapExceeded': capExceeded,
-      if (cappedCount != null) 'CappedCount': cappedCount,
-    };
-  }
-}
-
-/// The number of Config rules or Amazon Web Services resources that are
-/// compliant and noncompliant.
-class ComplianceSummary {
-  /// The time that Config created the compliance summary.
-  final DateTime? complianceSummaryTimestamp;
-
-  /// The number of Config rules or Amazon Web Services resources that are
-  /// compliant, up to a maximum of 25 for rules and 100 for resources.
-  final ComplianceContributorCount? compliantResourceCount;
-
-  /// The number of Config rules or Amazon Web Services resources that are
-  /// noncompliant, up to a maximum of 25 for rules and 100 for resources.
-  final ComplianceContributorCount? nonCompliantResourceCount;
-
-  ComplianceSummary({
-    this.complianceSummaryTimestamp,
-    this.compliantResourceCount,
-    this.nonCompliantResourceCount,
-  });
-
-  factory ComplianceSummary.fromJson(Map<String, dynamic> json) {
-    return ComplianceSummary(
-      complianceSummaryTimestamp:
-          timeStampFromJson(json['ComplianceSummaryTimestamp']),
-      compliantResourceCount: json['CompliantResourceCount'] != null
-          ? ComplianceContributorCount.fromJson(
-              json['CompliantResourceCount'] as Map<String, dynamic>)
-          : null,
-      nonCompliantResourceCount: json['NonCompliantResourceCount'] != null
-          ? ComplianceContributorCount.fromJson(
-              json['NonCompliantResourceCount'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final complianceSummaryTimestamp = this.complianceSummaryTimestamp;
-    final compliantResourceCount = this.compliantResourceCount;
-    final nonCompliantResourceCount = this.nonCompliantResourceCount;
-    return {
-      if (complianceSummaryTimestamp != null)
-        'ComplianceSummaryTimestamp':
-            unixTimestampToJson(complianceSummaryTimestamp),
-      if (compliantResourceCount != null)
-        'CompliantResourceCount': compliantResourceCount,
-      if (nonCompliantResourceCount != null)
-        'NonCompliantResourceCount': nonCompliantResourceCount,
-    };
-  }
-}
-
-/// The number of Amazon Web Services resources of a specific type that are
-/// compliant or noncompliant, up to a maximum of 100 for each.
-class ComplianceSummaryByResourceType {
-  /// The number of Amazon Web Services resources that are compliant or
-  /// noncompliant, up to a maximum of 100 for each.
-  final ComplianceSummary? complianceSummary;
-
-  /// The type of Amazon Web Services resource.
-  final String? resourceType;
-
-  ComplianceSummaryByResourceType({
-    this.complianceSummary,
-    this.resourceType,
-  });
-
-  factory ComplianceSummaryByResourceType.fromJson(Map<String, dynamic> json) {
-    return ComplianceSummaryByResourceType(
-      complianceSummary: json['ComplianceSummary'] != null
-          ? ComplianceSummary.fromJson(
-              json['ComplianceSummary'] as Map<String, dynamic>)
-          : null,
-      resourceType: json['ResourceType'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final complianceSummary = this.complianceSummary;
-    final resourceType = this.resourceType;
-    return {
-      if (complianceSummary != null) 'ComplianceSummary': complianceSummary,
-      if (resourceType != null) 'ResourceType': resourceType,
-    };
-  }
-}
-
-class ComplianceType {
-  static const compliant = ComplianceType._('COMPLIANT');
-  static const nonCompliant = ComplianceType._('NON_COMPLIANT');
-  static const notApplicable = ComplianceType._('NOT_APPLICABLE');
-  static const insufficientData = ComplianceType._('INSUFFICIENT_DATA');
-
-  final String value;
-
-  const ComplianceType._(this.value);
-
-  static const values = [
-    compliant,
-    nonCompliant,
-    notApplicable,
-    insufficientData
-  ];
-
-  static ComplianceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ComplianceType._(value));
-
-  @override
-  bool operator ==(other) => other is ComplianceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides status of the delivery of the snapshot or the configuration history
-/// to the specified Amazon S3 bucket. Also provides the status of notifications
-/// about the Amazon S3 delivery to the specified Amazon SNS topic.
-class ConfigExportDeliveryInfo {
-  /// The time of the last attempted delivery.
-  final DateTime? lastAttemptTime;
-
-  /// The error code from the last attempted delivery.
-  final String? lastErrorCode;
-
-  /// The error message from the last attempted delivery.
-  final String? lastErrorMessage;
-
-  /// Status of the last attempted delivery.
-  final DeliveryStatus? lastStatus;
-
-  /// The time of the last successful delivery.
-  final DateTime? lastSuccessfulTime;
-
-  /// The time that the next delivery occurs.
-  final DateTime? nextDeliveryTime;
-
-  ConfigExportDeliveryInfo({
-    this.lastAttemptTime,
-    this.lastErrorCode,
-    this.lastErrorMessage,
-    this.lastStatus,
-    this.lastSuccessfulTime,
-    this.nextDeliveryTime,
-  });
-
-  factory ConfigExportDeliveryInfo.fromJson(Map<String, dynamic> json) {
-    return ConfigExportDeliveryInfo(
-      lastAttemptTime: timeStampFromJson(json['lastAttemptTime']),
-      lastErrorCode: json['lastErrorCode'] as String?,
-      lastErrorMessage: json['lastErrorMessage'] as String?,
-      lastStatus:
-          (json['lastStatus'] as String?)?.let(DeliveryStatus.fromString),
-      lastSuccessfulTime: timeStampFromJson(json['lastSuccessfulTime']),
-      nextDeliveryTime: timeStampFromJson(json['nextDeliveryTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lastAttemptTime = this.lastAttemptTime;
-    final lastErrorCode = this.lastErrorCode;
-    final lastErrorMessage = this.lastErrorMessage;
-    final lastStatus = this.lastStatus;
-    final lastSuccessfulTime = this.lastSuccessfulTime;
-    final nextDeliveryTime = this.nextDeliveryTime;
-    return {
-      if (lastAttemptTime != null)
-        'lastAttemptTime': unixTimestampToJson(lastAttemptTime),
-      if (lastErrorCode != null) 'lastErrorCode': lastErrorCode,
-      if (lastErrorMessage != null) 'lastErrorMessage': lastErrorMessage,
-      if (lastStatus != null) 'lastStatus': lastStatus.value,
-      if (lastSuccessfulTime != null)
-        'lastSuccessfulTime': unixTimestampToJson(lastSuccessfulTime),
-      if (nextDeliveryTime != null)
-        'nextDeliveryTime': unixTimestampToJson(nextDeliveryTime),
-    };
-  }
-}
-
-/// Config rules evaluate the configuration settings of your Amazon Web Services
-/// resources. A rule can run when Config detects a configuration change to an
-/// Amazon Web Services resource or at a periodic frequency that you choose (for
-/// example, every 24 hours). There are two types of rules: <i>Config Managed
-/// Rules</i> and <i>Config Custom Rules</i>.
-///
-/// Config Managed Rules are predefined, customizable rules created by Config.
-/// For a list of managed rules, see <a
-/// href="https://docs.aws.amazon.com/config/latest/developerguide/managed-rules-by-aws-config.html">List
-/// of Config Managed Rules</a>.
-///
-/// Config Custom Rules are rules that you create from scratch. There are two
-/// ways to create Config custom rules: with Lambda functions (<a
-/// href="https://docs.aws.amazon.com/config/latest/developerguide/gettingstarted-concepts.html#gettingstarted-concepts-function">
-/// Lambda Developer Guide</a>) and with Guard (<a
-/// href="https://github.com/aws-cloudformation/cloudformation-guard">Guard
-/// GitHub Repository</a>), a policy-as-code language. Config custom rules
-/// created with Lambda are called <i>Config Custom Lambda Rules</i> and Config
-/// custom rules created with Guard are called <i>Config Custom Policy
-/// Rules</i>.
-///
-/// For more information about developing and using Config rules, see <a
-/// href="https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config.html">Evaluating
-/// Resource with Config Rules</a> in the <i>Config Developer Guide</i>.
-/// <note>
-/// You can use the Amazon Web Services CLI and Amazon Web Services SDKs if you
-/// want to create a rule that triggers evaluations for your resources when
-/// Config delivers the configuration snapshot. For more information, see
-/// <a>ConfigSnapshotDeliveryProperties</a>.
-/// </note>
-class ConfigRule {
-  /// Provides the rule owner (<code>Amazon Web Services</code> for managed rules,
-  /// <code>CUSTOM_POLICY</code> for Custom Policy rules, and
-  /// <code>CUSTOM_LAMBDA</code> for Custom Lambda rules), the rule identifier,
-  /// and the notifications that cause the function to evaluate your Amazon Web
-  /// Services resources.
-  final Source source;
-
-  /// The Amazon Resource Name (ARN) of the Config rule.
-  final String? configRuleArn;
-
-  /// The ID of the Config rule.
-  final String? configRuleId;
-
-  /// The name that you assign to the Config rule. The name is required if you are
-  /// adding a new rule.
-  final String? configRuleName;
-
-  /// Indicates whether the Config rule is active or is currently being deleted by
-  /// Config. It can also indicate the evaluation status for the Config rule.
-  ///
-  /// Config sets the state of the rule to <code>EVALUATING</code> temporarily
-  /// after you use the <code>StartConfigRulesEvaluation</code> request to
-  /// evaluate your resources against the Config rule.
-  ///
-  /// Config sets the state of the rule to <code>DELETING_RESULTS</code>
-  /// temporarily after you use the <code>DeleteEvaluationResults</code> request
-  /// to delete the current evaluation results for the Config rule.
-  ///
-  /// Config temporarily sets the state of a rule to <code>DELETING</code> after
-  /// you use the <code>DeleteConfigRule</code> request to delete the rule. After
-  /// Config deletes the rule, the rule and all of its evaluations are erased and
-  /// are no longer available.
-  final ConfigRuleState? configRuleState;
-
-  /// Service principal name of the service that created the rule.
-  /// <note>
-  /// The field is populated only if the service-linked rule is created by a
-  /// service. The field is empty if you create your own rule.
-  /// </note>
-  final String? createdBy;
-
-  /// The description that you provide for the Config rule.
-  final String? description;
-
-  /// The modes the Config rule can be evaluated in. The valid values are distinct
-  /// objects. By default, the value is Detective evaluation mode only.
-  final List<EvaluationModeConfiguration>? evaluationModes;
-
-  /// A string, in JSON format, that is passed to the Config rule Lambda function.
-  final String? inputParameters;
-
-  /// The maximum frequency with which Config runs evaluations for a rule. You can
-  /// specify a value for <code>MaximumExecutionFrequency</code> when:
-  ///
-  /// <ul>
-  /// <li>
-  /// This is for an Config managed rule that is triggered at a periodic
-  /// frequency.
-  /// </li>
-  /// <li>
-  /// Your custom rule is triggered when Config delivers the configuration
-  /// snapshot. For more information, see <a>ConfigSnapshotDeliveryProperties</a>.
-  /// </li>
-  /// </ul> <note>
-  /// By default, rules with a periodic trigger are evaluated every 24 hours. To
-  /// change the frequency, specify a valid value for the
-  /// <code>MaximumExecutionFrequency</code> parameter.
-  /// </note>
-  final MaximumExecutionFrequency? maximumExecutionFrequency;
-
-  /// Defines which resources can trigger an evaluation for the rule. The scope
-  /// can include one or more resource types, a combination of one resource type
-  /// and one resource ID, or a combination of a tag key and value. Specify a
-  /// scope to constrain the resources that can trigger an evaluation for the
-  /// rule. If you do not specify a scope, evaluations are triggered when any
-  /// resource in the recording group changes.
-  /// <note>
-  /// The scope can be empty.
-  /// </note>
-  final Scope? scope;
-
-  ConfigRule({
-    required this.source,
-    this.configRuleArn,
-    this.configRuleId,
-    this.configRuleName,
-    this.configRuleState,
-    this.createdBy,
-    this.description,
-    this.evaluationModes,
-    this.inputParameters,
-    this.maximumExecutionFrequency,
-    this.scope,
-  });
-
-  factory ConfigRule.fromJson(Map<String, dynamic> json) {
-    return ConfigRule(
-      source: Source.fromJson((json['Source'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-      configRuleArn: json['ConfigRuleArn'] as String?,
-      configRuleId: json['ConfigRuleId'] as String?,
-      configRuleName: json['ConfigRuleName'] as String?,
-      configRuleState:
-          (json['ConfigRuleState'] as String?)?.let(ConfigRuleState.fromString),
-      createdBy: json['CreatedBy'] as String?,
-      description: json['Description'] as String?,
-      evaluationModes: (json['EvaluationModes'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              EvaluationModeConfiguration.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      inputParameters: json['InputParameters'] as String?,
-      maximumExecutionFrequency: (json['MaximumExecutionFrequency'] as String?)
-          ?.let(MaximumExecutionFrequency.fromString),
-      scope: json['Scope'] != null
-          ? Scope.fromJson(json['Scope'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final source = this.source;
-    final configRuleArn = this.configRuleArn;
-    final configRuleId = this.configRuleId;
-    final configRuleName = this.configRuleName;
-    final configRuleState = this.configRuleState;
-    final createdBy = this.createdBy;
-    final description = this.description;
-    final evaluationModes = this.evaluationModes;
-    final inputParameters = this.inputParameters;
-    final maximumExecutionFrequency = this.maximumExecutionFrequency;
-    final scope = this.scope;
-    return {
-      'Source': source,
-      if (configRuleArn != null) 'ConfigRuleArn': configRuleArn,
-      if (configRuleId != null) 'ConfigRuleId': configRuleId,
-      if (configRuleName != null) 'ConfigRuleName': configRuleName,
-      if (configRuleState != null) 'ConfigRuleState': configRuleState.value,
-      if (createdBy != null) 'CreatedBy': createdBy,
-      if (description != null) 'Description': description,
-      if (evaluationModes != null) 'EvaluationModes': evaluationModes,
-      if (inputParameters != null) 'InputParameters': inputParameters,
-      if (maximumExecutionFrequency != null)
-        'MaximumExecutionFrequency': maximumExecutionFrequency.value,
-      if (scope != null) 'Scope': scope,
-    };
-  }
-}
-
-/// Filters the compliance results based on account ID, region, compliance type,
-/// and rule name.
-class ConfigRuleComplianceFilters {
-  /// The 12-digit account ID of the source account.
-  final String? accountId;
-
-  /// The source region where the data is aggregated.
-  final String? awsRegion;
-
-  /// The rule compliance status.
-  ///
-  /// For the <code>ConfigRuleComplianceFilters</code> data type, Config supports
-  /// only <code>COMPLIANT</code> and <code>NON_COMPLIANT</code>. Config does not
-  /// support the <code>NOT_APPLICABLE</code> and the
-  /// <code>INSUFFICIENT_DATA</code> values.
-  final ComplianceType? complianceType;
-
-  /// The name of the Config rule.
-  final String? configRuleName;
-
-  ConfigRuleComplianceFilters({
-    this.accountId,
-    this.awsRegion,
-    this.complianceType,
-    this.configRuleName,
-  });
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final awsRegion = this.awsRegion;
-    final complianceType = this.complianceType;
-    final configRuleName = this.configRuleName;
-    return {
-      if (accountId != null) 'AccountId': accountId,
-      if (awsRegion != null) 'AwsRegion': awsRegion,
-      if (complianceType != null) 'ComplianceType': complianceType.value,
-      if (configRuleName != null) 'ConfigRuleName': configRuleName,
-    };
-  }
-}
-
-/// Filters the results based on the account IDs and regions.
-class ConfigRuleComplianceSummaryFilters {
-  /// The 12-digit account ID of the source account.
-  final String? accountId;
-
-  /// The source region where the data is aggregated.
-  final String? awsRegion;
-
-  ConfigRuleComplianceSummaryFilters({
-    this.accountId,
-    this.awsRegion,
-  });
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final awsRegion = this.awsRegion;
-    return {
-      if (accountId != null) 'AccountId': accountId,
-      if (awsRegion != null) 'AwsRegion': awsRegion,
-    };
-  }
-}
-
-class ConfigRuleComplianceSummaryGroupKey {
-  static const accountId = ConfigRuleComplianceSummaryGroupKey._('ACCOUNT_ID');
-  static const awsRegion = ConfigRuleComplianceSummaryGroupKey._('AWS_REGION');
-
-  final String value;
-
-  const ConfigRuleComplianceSummaryGroupKey._(this.value);
-
-  static const values = [accountId, awsRegion];
-
-  static ConfigRuleComplianceSummaryGroupKey fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConfigRuleComplianceSummaryGroupKey._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ConfigRuleComplianceSummaryGroupKey && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Status information for your Config Managed rules and Config Custom Policy
-/// rules. The status includes information such as the last time the rule ran,
-/// the last time it failed, and the related error for the last failure.
-///
-/// This action does not return status information about Config Custom Lambda
-/// rules.
-class ConfigRuleEvaluationStatus {
-  /// The Amazon Resource Name (ARN) of the Config rule.
-  final String? configRuleArn;
-
-  /// The ID of the Config rule.
-  final String? configRuleId;
-
-  /// The name of the Config rule.
-  final String? configRuleName;
-
-  /// The time that you first activated the Config rule.
-  final DateTime? firstActivatedTime;
-
-  /// Indicates whether Config has evaluated your resources against the rule at
-  /// least once.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>true</code> - Config has evaluated your Amazon Web Services resources
-  /// against the rule at least once.
-  /// </li>
-  /// <li>
-  /// <code>false</code> - Config has not finished evaluating your Amazon Web
-  /// Services resources against the rule at least once.
-  /// </li>
-  /// </ul>
-  final bool? firstEvaluationStarted;
-
-  /// The time that you last turned off the Config rule.
-  final DateTime? lastDeactivatedTime;
-
-  /// The status of the last attempted delivery of a debug log for your Config
-  /// Custom Policy rules. Either <code>Successful</code> or <code>Failed</code>.
-  final String? lastDebugLogDeliveryStatus;
-
-  /// The reason Config was not able to deliver a debug log. This is for the last
-  /// failed attempt to retrieve a debug log for your Config Custom Policy rules.
-  final String? lastDebugLogDeliveryStatusReason;
-
-  /// The time Config last attempted to deliver a debug log for your Config Custom
-  /// Policy rules.
-  final DateTime? lastDebugLogDeliveryTime;
-
-  /// The error code that Config returned when the rule last failed.
-  final String? lastErrorCode;
-
-  /// The error message that Config returned when the rule last failed.
-  final String? lastErrorMessage;
-
-  /// The time that Config last failed to evaluate your Amazon Web Services
-  /// resources against the rule.
-  final DateTime? lastFailedEvaluationTime;
-
-  /// The time that Config last failed to invoke the Config rule to evaluate your
-  /// Amazon Web Services resources.
-  final DateTime? lastFailedInvocationTime;
-
-  /// The time that Config last successfully evaluated your Amazon Web Services
-  /// resources against the rule.
-  final DateTime? lastSuccessfulEvaluationTime;
-
-  /// The time that Config last successfully invoked the Config rule to evaluate
-  /// your Amazon Web Services resources.
-  final DateTime? lastSuccessfulInvocationTime;
-
-  ConfigRuleEvaluationStatus({
-    this.configRuleArn,
-    this.configRuleId,
-    this.configRuleName,
-    this.firstActivatedTime,
-    this.firstEvaluationStarted,
-    this.lastDeactivatedTime,
-    this.lastDebugLogDeliveryStatus,
-    this.lastDebugLogDeliveryStatusReason,
-    this.lastDebugLogDeliveryTime,
-    this.lastErrorCode,
-    this.lastErrorMessage,
-    this.lastFailedEvaluationTime,
-    this.lastFailedInvocationTime,
-    this.lastSuccessfulEvaluationTime,
-    this.lastSuccessfulInvocationTime,
-  });
-
-  factory ConfigRuleEvaluationStatus.fromJson(Map<String, dynamic> json) {
-    return ConfigRuleEvaluationStatus(
-      configRuleArn: json['ConfigRuleArn'] as String?,
-      configRuleId: json['ConfigRuleId'] as String?,
-      configRuleName: json['ConfigRuleName'] as String?,
-      firstActivatedTime: timeStampFromJson(json['FirstActivatedTime']),
-      firstEvaluationStarted: json['FirstEvaluationStarted'] as bool?,
-      lastDeactivatedTime: timeStampFromJson(json['LastDeactivatedTime']),
-      lastDebugLogDeliveryStatus: json['LastDebugLogDeliveryStatus'] as String?,
-      lastDebugLogDeliveryStatusReason:
-          json['LastDebugLogDeliveryStatusReason'] as String?,
-      lastDebugLogDeliveryTime:
-          timeStampFromJson(json['LastDebugLogDeliveryTime']),
-      lastErrorCode: json['LastErrorCode'] as String?,
-      lastErrorMessage: json['LastErrorMessage'] as String?,
-      lastFailedEvaluationTime:
-          timeStampFromJson(json['LastFailedEvaluationTime']),
-      lastFailedInvocationTime:
-          timeStampFromJson(json['LastFailedInvocationTime']),
-      lastSuccessfulEvaluationTime:
-          timeStampFromJson(json['LastSuccessfulEvaluationTime']),
-      lastSuccessfulInvocationTime:
-          timeStampFromJson(json['LastSuccessfulInvocationTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final configRuleArn = this.configRuleArn;
-    final configRuleId = this.configRuleId;
-    final configRuleName = this.configRuleName;
-    final firstActivatedTime = this.firstActivatedTime;
-    final firstEvaluationStarted = this.firstEvaluationStarted;
-    final lastDeactivatedTime = this.lastDeactivatedTime;
-    final lastDebugLogDeliveryStatus = this.lastDebugLogDeliveryStatus;
-    final lastDebugLogDeliveryStatusReason =
-        this.lastDebugLogDeliveryStatusReason;
-    final lastDebugLogDeliveryTime = this.lastDebugLogDeliveryTime;
-    final lastErrorCode = this.lastErrorCode;
-    final lastErrorMessage = this.lastErrorMessage;
-    final lastFailedEvaluationTime = this.lastFailedEvaluationTime;
-    final lastFailedInvocationTime = this.lastFailedInvocationTime;
-    final lastSuccessfulEvaluationTime = this.lastSuccessfulEvaluationTime;
-    final lastSuccessfulInvocationTime = this.lastSuccessfulInvocationTime;
-    return {
-      if (configRuleArn != null) 'ConfigRuleArn': configRuleArn,
-      if (configRuleId != null) 'ConfigRuleId': configRuleId,
-      if (configRuleName != null) 'ConfigRuleName': configRuleName,
-      if (firstActivatedTime != null)
-        'FirstActivatedTime': unixTimestampToJson(firstActivatedTime),
-      if (firstEvaluationStarted != null)
-        'FirstEvaluationStarted': firstEvaluationStarted,
-      if (lastDeactivatedTime != null)
-        'LastDeactivatedTime': unixTimestampToJson(lastDeactivatedTime),
-      if (lastDebugLogDeliveryStatus != null)
-        'LastDebugLogDeliveryStatus': lastDebugLogDeliveryStatus,
-      if (lastDebugLogDeliveryStatusReason != null)
-        'LastDebugLogDeliveryStatusReason': lastDebugLogDeliveryStatusReason,
-      if (lastDebugLogDeliveryTime != null)
-        'LastDebugLogDeliveryTime':
-            unixTimestampToJson(lastDebugLogDeliveryTime),
-      if (lastErrorCode != null) 'LastErrorCode': lastErrorCode,
-      if (lastErrorMessage != null) 'LastErrorMessage': lastErrorMessage,
-      if (lastFailedEvaluationTime != null)
-        'LastFailedEvaluationTime':
-            unixTimestampToJson(lastFailedEvaluationTime),
-      if (lastFailedInvocationTime != null)
-        'LastFailedInvocationTime':
-            unixTimestampToJson(lastFailedInvocationTime),
-      if (lastSuccessfulEvaluationTime != null)
-        'LastSuccessfulEvaluationTime':
-            unixTimestampToJson(lastSuccessfulEvaluationTime),
-      if (lastSuccessfulInvocationTime != null)
-        'LastSuccessfulInvocationTime':
-            unixTimestampToJson(lastSuccessfulInvocationTime),
-    };
-  }
-}
-
-class ConfigRuleState {
-  static const active = ConfigRuleState._('ACTIVE');
-  static const deleting = ConfigRuleState._('DELETING');
-  static const deletingResults = ConfigRuleState._('DELETING_RESULTS');
-  static const evaluating = ConfigRuleState._('EVALUATING');
-
-  final String value;
-
-  const ConfigRuleState._(this.value);
-
-  static const values = [active, deleting, deletingResults, evaluating];
-
-  static ConfigRuleState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConfigRuleState._(value));
-
-  @override
-  bool operator ==(other) => other is ConfigRuleState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides options for how often Config delivers configuration snapshots to
-/// the Amazon S3 bucket in your delivery channel.
-///
-/// The frequency for a rule that triggers evaluations for your resources when
-/// Config delivers the configuration snapshot is set by one of two values,
-/// depending on which is less frequent:
-///
-/// <ul>
-/// <li>
-/// The value for the <code>deliveryFrequency</code> parameter within the
-/// delivery channel configuration, which sets how often Config delivers
-/// configuration snapshots. This value also sets how often Config invokes
-/// evaluations for Config rules.
-/// </li>
-/// <li>
-/// The value for the <code>MaximumExecutionFrequency</code> parameter, which
-/// sets the maximum frequency with which Config invokes evaluations for the
-/// rule. For more information, see <a>ConfigRule</a>.
-/// </li>
-/// </ul>
-/// If the <code>deliveryFrequency</code> value is less frequent than the
-/// <code>MaximumExecutionFrequency</code> value for a rule, Config invokes the
-/// rule only as often as the <code>deliveryFrequency</code> value.
-/// <ol>
-/// <li>
-/// For example, you want your rule to run evaluations when Config delivers the
-/// configuration snapshot.
-/// </li>
-/// <li>
-/// You specify the <code>MaximumExecutionFrequency</code> value for
-/// <code>Six_Hours</code>.
-/// </li>
-/// <li>
-/// You then specify the delivery channel <code>deliveryFrequency</code> value
-/// for <code>TwentyFour_Hours</code>.
-/// </li>
-/// <li>
-/// Because the value for <code>deliveryFrequency</code> is less frequent than
-/// <code>MaximumExecutionFrequency</code>, Config invokes evaluations for the
-/// rule every 24 hours.
-/// </li> </ol>
-/// You should set the <code>MaximumExecutionFrequency</code> value to be at
-/// least as frequent as the <code>deliveryFrequency</code> value. You can view
-/// the <code>deliveryFrequency</code> value by using the
-/// <code>DescribeDeliveryChannnels</code> action.
-///
-/// To update the <code>deliveryFrequency</code> with which Config delivers your
-/// configuration snapshots, use the <code>PutDeliveryChannel</code> action.
-class ConfigSnapshotDeliveryProperties {
-  /// The frequency with which Config delivers configuration snapshots.
-  final MaximumExecutionFrequency? deliveryFrequency;
-
-  ConfigSnapshotDeliveryProperties({
-    this.deliveryFrequency,
-  });
-
-  factory ConfigSnapshotDeliveryProperties.fromJson(Map<String, dynamic> json) {
-    return ConfigSnapshotDeliveryProperties(
-      deliveryFrequency: (json['deliveryFrequency'] as String?)
-          ?.let(MaximumExecutionFrequency.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deliveryFrequency = this.deliveryFrequency;
-    return {
-      if (deliveryFrequency != null)
-        'deliveryFrequency': deliveryFrequency.value,
-    };
-  }
-}
-
-/// A list that contains the status of the delivery of the configuration stream
-/// notification to the Amazon SNS topic.
-class ConfigStreamDeliveryInfo {
-  /// The error code from the last attempted delivery.
-  final String? lastErrorCode;
-
-  /// The error message from the last attempted delivery.
-  final String? lastErrorMessage;
-
-  /// Status of the last attempted delivery.
-  ///
-  /// <b>Note</b> Providing an SNS topic on a <a
-  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_DeliveryChannel.html">DeliveryChannel</a>
-  /// for Config is optional. If the SNS delivery is turned off, the last status
-  /// will be <b>Not_Applicable</b>.
-  final DeliveryStatus? lastStatus;
-
-  /// The time from the last status change.
-  final DateTime? lastStatusChangeTime;
-
-  ConfigStreamDeliveryInfo({
-    this.lastErrorCode,
-    this.lastErrorMessage,
-    this.lastStatus,
-    this.lastStatusChangeTime,
-  });
-
-  factory ConfigStreamDeliveryInfo.fromJson(Map<String, dynamic> json) {
-    return ConfigStreamDeliveryInfo(
-      lastErrorCode: json['lastErrorCode'] as String?,
-      lastErrorMessage: json['lastErrorMessage'] as String?,
-      lastStatus:
-          (json['lastStatus'] as String?)?.let(DeliveryStatus.fromString),
-      lastStatusChangeTime: timeStampFromJson(json['lastStatusChangeTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lastErrorCode = this.lastErrorCode;
-    final lastErrorMessage = this.lastErrorMessage;
-    final lastStatus = this.lastStatus;
-    final lastStatusChangeTime = this.lastStatusChangeTime;
-    return {
-      if (lastErrorCode != null) 'lastErrorCode': lastErrorCode,
-      if (lastErrorMessage != null) 'lastErrorMessage': lastErrorMessage,
-      if (lastStatus != null) 'lastStatus': lastStatus.value,
-      if (lastStatusChangeTime != null)
-        'lastStatusChangeTime': unixTimestampToJson(lastStatusChangeTime),
-    };
-  }
-}
-
-/// The details about the configuration aggregator, including information about
-/// source accounts, regions, and metadata of the aggregator.
-class ConfigurationAggregator {
-  /// Provides a list of source accounts and regions to be aggregated.
-  final List<AccountAggregationSource>? accountAggregationSources;
-
-  /// The Amazon Resource Name (ARN) of the aggregator.
-  final String? configurationAggregatorArn;
-
-  /// The name of the aggregator.
-  final String? configurationAggregatorName;
-
-  /// Amazon Web Services service that created the configuration aggregator.
-  final String? createdBy;
-
-  /// The time stamp when the configuration aggregator was created.
-  final DateTime? creationTime;
-
-  /// The time of the last update.
-  final DateTime? lastUpdatedTime;
-
-  /// Provides an organization and list of regions to be aggregated.
-  final OrganizationAggregationSource? organizationAggregationSource;
-
-  ConfigurationAggregator({
-    this.accountAggregationSources,
-    this.configurationAggregatorArn,
-    this.configurationAggregatorName,
-    this.createdBy,
-    this.creationTime,
-    this.lastUpdatedTime,
-    this.organizationAggregationSource,
-  });
-
-  factory ConfigurationAggregator.fromJson(Map<String, dynamic> json) {
-    return ConfigurationAggregator(
-      accountAggregationSources: (json['AccountAggregationSources'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              AccountAggregationSource.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      configurationAggregatorArn: json['ConfigurationAggregatorArn'] as String?,
-      configurationAggregatorName:
-          json['ConfigurationAggregatorName'] as String?,
-      createdBy: json['CreatedBy'] as String?,
-      creationTime: timeStampFromJson(json['CreationTime']),
-      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
-      organizationAggregationSource:
-          json['OrganizationAggregationSource'] != null
-              ? OrganizationAggregationSource.fromJson(
-                  json['OrganizationAggregationSource'] as Map<String, dynamic>)
-              : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountAggregationSources = this.accountAggregationSources;
-    final configurationAggregatorArn = this.configurationAggregatorArn;
-    final configurationAggregatorName = this.configurationAggregatorName;
-    final createdBy = this.createdBy;
-    final creationTime = this.creationTime;
-    final lastUpdatedTime = this.lastUpdatedTime;
-    final organizationAggregationSource = this.organizationAggregationSource;
-    return {
-      if (accountAggregationSources != null)
-        'AccountAggregationSources': accountAggregationSources,
-      if (configurationAggregatorArn != null)
-        'ConfigurationAggregatorArn': configurationAggregatorArn,
-      if (configurationAggregatorName != null)
-        'ConfigurationAggregatorName': configurationAggregatorName,
-      if (createdBy != null) 'CreatedBy': createdBy,
-      if (creationTime != null)
-        'CreationTime': unixTimestampToJson(creationTime),
-      if (lastUpdatedTime != null)
-        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
-      if (organizationAggregationSource != null)
-        'OrganizationAggregationSource': organizationAggregationSource,
-    };
-  }
-}
-
-/// A list that contains detailed configurations of a specified resource.
-class ConfigurationItem {
-  /// The 12-digit Amazon Web Services account ID associated with the resource.
-  final String? accountId;
-
-  /// Amazon Resource Name (ARN) associated with the resource.
-  final String? arn;
-
-  /// The Availability Zone associated with the resource.
-  final String? availabilityZone;
-
-  /// The region where the resource resides.
-  final String? awsRegion;
-
-  /// The description of the resource configuration.
-  final String? configuration;
-
-  /// The time when the recording of configuration changes was initiated for the
-  /// resource.
-  final DateTime? configurationItemCaptureTime;
-
-  /// The time when configuration changes for the resource were delivered.
-  /// <note>
-  /// This field is optional and is not guaranteed to be present in a
-  /// configuration item (CI). If you are using daily recording, this field will
-  /// be populated. However, if you are using continuous recording, this field
-  /// will be omitted since the delivery time is instantaneous as the CI is
-  /// available right away. For more information on daily recording and continuous
-  /// recording, see <a
-  /// href="https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-recording-frequency">Recording
-  /// Frequency</a> in the <i>Config Developer Guide</i>.
-  /// </note>
-  final DateTime? configurationItemDeliveryTime;
-
-  /// Unique MD5 hash that represents the configuration item's state.
-  ///
-  /// You can use MD5 hash to compare the states of two or more configuration
-  /// items that are associated with the same resource.
-  final String? configurationItemMD5Hash;
-
-  /// The configuration item status. Valid values include:
-  ///
-  /// <ul>
-  /// <li>
-  /// OK – The resource configuration has been updated
-  /// </li>
-  /// <li>
-  /// ResourceDiscovered – The resource was newly discovered
-  /// </li>
-  /// <li>
-  /// ResourceNotRecorded – The resource was discovered but its configuration was
-  /// not recorded since the recorder doesn't record resources of this type
-  /// </li>
-  /// <li>
-  /// ResourceDeleted – The resource was deleted
-  /// </li>
-  /// <li>
-  /// ResourceDeletedNotRecorded – The resource was deleted but its configuration
-  /// was not recorded since the recorder doesn't record resources of this type
-  /// </li>
-  /// </ul>
-  final ConfigurationItemStatus? configurationItemStatus;
-
-  /// An identifier that indicates the ordering of the configuration items of a
-  /// resource.
-  final String? configurationStateId;
-
-  /// The recording frequency that Config uses to record configuration changes for
-  /// the resource.
-  final RecordingFrequency? recordingFrequency;
-
-  /// A list of CloudTrail event IDs.
-  ///
-  /// A populated field indicates that the current configuration was initiated by
-  /// the events recorded in the CloudTrail log. For more information about
-  /// CloudTrail, see <a
-  /// href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/what_is_cloud_trail_top_level.html">What
-  /// Is CloudTrail</a>.
-  ///
-  /// An empty field indicates that the current configuration was not initiated by
-  /// any event. As of Version 1.3, the relatedEvents field is empty. You can
-  /// access the <a
-  /// href="https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_LookupEvents.html">LookupEvents
-  /// API</a> in the <i>CloudTrail API Reference</i> to retrieve the events for
-  /// the resource.
-  final List<String>? relatedEvents;
-
-  /// A list of related Amazon Web Services resources.
-  final List<Relationship>? relationships;
-
-  /// The time stamp when the resource was created.
-  final DateTime? resourceCreationTime;
-
-  /// The ID of the resource (for example, <code>sg-xxxxxx</code>).
-  final String? resourceId;
-
-  /// The custom name of the resource, if available.
-  final String? resourceName;
-
-  /// The type of Amazon Web Services resource.
-  final ResourceType? resourceType;
-
-  /// Configuration attributes that Config returns for certain resource types to
-  /// supplement the information returned for the <code>configuration</code>
-  /// parameter.
-  final Map<String, String>? supplementaryConfiguration;
-
-  /// A mapping of key value tags associated with the resource.
-  final Map<String, String>? tags;
-
-  /// The version number of the resource configuration.
-  final String? version;
-
-  ConfigurationItem({
-    this.accountId,
-    this.arn,
-    this.availabilityZone,
-    this.awsRegion,
-    this.configuration,
-    this.configurationItemCaptureTime,
-    this.configurationItemDeliveryTime,
-    this.configurationItemMD5Hash,
-    this.configurationItemStatus,
-    this.configurationStateId,
-    this.recordingFrequency,
-    this.relatedEvents,
-    this.relationships,
-    this.resourceCreationTime,
-    this.resourceId,
-    this.resourceName,
-    this.resourceType,
-    this.supplementaryConfiguration,
-    this.tags,
-    this.version,
-  });
-
-  factory ConfigurationItem.fromJson(Map<String, dynamic> json) {
-    return ConfigurationItem(
-      accountId: json['accountId'] as String?,
-      arn: json['arn'] as String?,
-      availabilityZone: json['availabilityZone'] as String?,
-      awsRegion: json['awsRegion'] as String?,
-      configuration: json['configuration'] as String?,
-      configurationItemCaptureTime:
-          timeStampFromJson(json['configurationItemCaptureTime']),
-      configurationItemDeliveryTime:
-          timeStampFromJson(json['configurationItemDeliveryTime']),
-      configurationItemMD5Hash: json['configurationItemMD5Hash'] as String?,
-      configurationItemStatus: (json['configurationItemStatus'] as String?)
-          ?.let(ConfigurationItemStatus.fromString),
-      configurationStateId: json['configurationStateId'] as String?,
-      recordingFrequency: (json['recordingFrequency'] as String?)
-          ?.let(RecordingFrequency.fromString),
-      relatedEvents: (json['relatedEvents'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      relationships: (json['relationships'] as List?)
-          ?.nonNulls
-          .map((e) => Relationship.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      resourceCreationTime: timeStampFromJson(json['resourceCreationTime']),
-      resourceId: json['resourceId'] as String?,
-      resourceName: json['resourceName'] as String?,
-      resourceType:
-          (json['resourceType'] as String?)?.let(ResourceType.fromString),
-      supplementaryConfiguration:
-          (json['supplementaryConfiguration'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(k, e as String)),
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      version: json['version'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final arn = this.arn;
-    final availabilityZone = this.availabilityZone;
-    final awsRegion = this.awsRegion;
-    final configuration = this.configuration;
-    final configurationItemCaptureTime = this.configurationItemCaptureTime;
-    final configurationItemDeliveryTime = this.configurationItemDeliveryTime;
-    final configurationItemMD5Hash = this.configurationItemMD5Hash;
-    final configurationItemStatus = this.configurationItemStatus;
-    final configurationStateId = this.configurationStateId;
-    final recordingFrequency = this.recordingFrequency;
-    final relatedEvents = this.relatedEvents;
-    final relationships = this.relationships;
-    final resourceCreationTime = this.resourceCreationTime;
-    final resourceId = this.resourceId;
-    final resourceName = this.resourceName;
-    final resourceType = this.resourceType;
-    final supplementaryConfiguration = this.supplementaryConfiguration;
-    final tags = this.tags;
-    final version = this.version;
-    return {
-      if (accountId != null) 'accountId': accountId,
-      if (arn != null) 'arn': arn,
-      if (availabilityZone != null) 'availabilityZone': availabilityZone,
-      if (awsRegion != null) 'awsRegion': awsRegion,
-      if (configuration != null) 'configuration': configuration,
-      if (configurationItemCaptureTime != null)
-        'configurationItemCaptureTime':
-            unixTimestampToJson(configurationItemCaptureTime),
-      if (configurationItemDeliveryTime != null)
-        'configurationItemDeliveryTime':
-            unixTimestampToJson(configurationItemDeliveryTime),
-      if (configurationItemMD5Hash != null)
-        'configurationItemMD5Hash': configurationItemMD5Hash,
-      if (configurationItemStatus != null)
-        'configurationItemStatus': configurationItemStatus.value,
-      if (configurationStateId != null)
-        'configurationStateId': configurationStateId,
-      if (recordingFrequency != null)
-        'recordingFrequency': recordingFrequency.value,
-      if (relatedEvents != null) 'relatedEvents': relatedEvents,
-      if (relationships != null) 'relationships': relationships,
-      if (resourceCreationTime != null)
-        'resourceCreationTime': unixTimestampToJson(resourceCreationTime),
-      if (resourceId != null) 'resourceId': resourceId,
-      if (resourceName != null) 'resourceName': resourceName,
-      if (resourceType != null) 'resourceType': resourceType.value,
-      if (supplementaryConfiguration != null)
-        'supplementaryConfiguration': supplementaryConfiguration,
-      if (tags != null) 'tags': tags,
-      if (version != null) 'version': version,
-    };
-  }
-}
-
-class ConfigurationItemStatus {
-  static const ok = ConfigurationItemStatus._('OK');
-  static const resourceDiscovered =
-      ConfigurationItemStatus._('ResourceDiscovered');
-  static const resourceNotRecorded =
-      ConfigurationItemStatus._('ResourceNotRecorded');
-  static const resourceDeleted = ConfigurationItemStatus._('ResourceDeleted');
-  static const resourceDeletedNotRecorded =
-      ConfigurationItemStatus._('ResourceDeletedNotRecorded');
-
-  final String value;
-
-  const ConfigurationItemStatus._(this.value);
-
-  static const values = [
-    ok,
-    resourceDiscovered,
-    resourceNotRecorded,
-    resourceDeleted,
-    resourceDeletedNotRecorded
-  ];
-
-  static ConfigurationItemStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConfigurationItemStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ConfigurationItemStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Records configuration changes to your specified resource types. For more
-/// information about the configuration recorder, see <a
-/// href="https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html">
-/// <b>Managing the Configuration Recorder</b> </a> in the <i>Config Developer
-/// Guide</i>.
-class ConfigurationRecorder {
-  /// The name of the configuration recorder. Config automatically assigns the
-  /// name of "default" when creating the configuration recorder.
-  /// <note>
-  /// You cannot change the name of the configuration recorder after it has been
-  /// created. To change the configuration recorder name, you must delete it and
-  /// create a new configuration recorder with a new name.
-  /// </note>
-  final String? name;
-
-  /// Specifies which resource types Config records for configuration changes.
-  /// <note>
-  /// <b> High Number of Config Evaluations</b>
-  ///
-  /// You may notice increased activity in your account during your initial month
-  /// recording with Config when compared to subsequent months. During the initial
-  /// bootstrapping process, Config runs evaluations on all the resources in your
-  /// account that you have selected for Config to record.
-  ///
-  /// If you are running ephemeral workloads, you may see increased activity from
-  /// Config as it records configuration changes associated with creating and
-  /// deleting these temporary resources. An <i>ephemeral workload</i> is a
-  /// temporary use of computing resources that are loaded and run when needed.
-  /// Examples include Amazon Elastic Compute Cloud (Amazon EC2) Spot Instances,
-  /// Amazon EMR jobs, and Auto Scaling. If you want to avoid the increased
-  /// activity from running ephemeral workloads, you can run these types of
-  /// workloads in a separate account with Config turned off to avoid increased
-  /// configuration recording and rule evaluations.
-  /// </note>
-  final RecordingGroup? recordingGroup;
-
-  /// Specifies the default recording frequency that Config uses to record
-  /// configuration changes. Config supports <i>Continuous recording</i> and
-  /// <i>Daily recording</i>.
-  ///
-  /// <ul>
-  /// <li>
-  /// Continuous recording allows you to record configuration changes continuously
-  /// whenever a change occurs.
-  /// </li>
-  /// <li>
-  /// Daily recording allows you to receive a configuration item (CI) representing
-  /// the most recent state of your resources over the last 24-hour period, only
-  /// if it’s different from the previous CI recorded.
-  /// </li>
-  /// </ul> <note>
-  /// Firewall Manager depends on continuous recording to monitor your resources.
-  /// If you are using Firewall Manager, it is recommended that you set the
-  /// recording frequency to Continuous.
-  /// </note>
-  /// You can also override the recording frequency for specific resource types.
-  final RecordingMode? recordingMode;
-
-  /// Amazon Resource Name (ARN) of the IAM role assumed by Config and used by the
-  /// configuration recorder.
-  /// <note>
-  /// While the API model does not require this field, the server will reject a
-  /// request without a defined <code>roleARN</code> for the configuration
-  /// recorder.
-  /// </note> <note>
-  /// <b>Pre-existing Config role</b>
-  ///
-  /// If you have used an Amazon Web Services service that uses Config, such as
-  /// Security Hub or Control Tower, and an Config role has already been created,
-  /// make sure that the IAM role that you use when setting up Config keeps the
-  /// same minimum permissions as the already created Config role. You must do
-  /// this so that the other Amazon Web Services service continues to run as
-  /// expected.
-  ///
-  /// For example, if Control Tower has an IAM role that allows Config to read
-  /// Amazon Simple Storage Service (Amazon S3) objects, make sure that the same
-  /// permissions are granted within the IAM role you use when setting up Config.
-  /// Otherwise, it may interfere with how Control Tower operates. For more
-  /// information about IAM roles for Config, see <a
-  /// href="https://docs.aws.amazon.com/config/latest/developerguide/security-iam.html">
-  /// <b>Identity and Access Management for Config</b> </a> in the <i>Config
-  /// Developer Guide</i>.
-  /// </note>
-  final String? roleARN;
-
-  ConfigurationRecorder({
-    this.name,
-    this.recordingGroup,
-    this.recordingMode,
-    this.roleARN,
-  });
-
-  factory ConfigurationRecorder.fromJson(Map<String, dynamic> json) {
-    return ConfigurationRecorder(
-      name: json['name'] as String?,
-      recordingGroup: json['recordingGroup'] != null
-          ? RecordingGroup.fromJson(
-              json['recordingGroup'] as Map<String, dynamic>)
-          : null,
-      recordingMode: json['recordingMode'] != null
-          ? RecordingMode.fromJson(
-              json['recordingMode'] as Map<String, dynamic>)
-          : null,
-      roleARN: json['roleARN'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final recordingGroup = this.recordingGroup;
-    final recordingMode = this.recordingMode;
-    final roleARN = this.roleARN;
-    return {
-      if (name != null) 'name': name,
-      if (recordingGroup != null) 'recordingGroup': recordingGroup,
-      if (recordingMode != null) 'recordingMode': recordingMode,
-      if (roleARN != null) 'roleARN': roleARN,
-    };
-  }
-}
-
-/// The current status of the configuration recorder.
-/// <note>
-/// For a detailed status of recording events over time, add your Config events
-/// to CloudWatch metrics and use CloudWatch metrics.
-/// </note>
-class ConfigurationRecorderStatus {
-  /// The latest error code from when the recorder last failed.
-  final String? lastErrorCode;
-
-  /// The latest error message from when the recorder last failed.
-  final String? lastErrorMessage;
-
-  /// The time the recorder was last started.
-  final DateTime? lastStartTime;
-
-  /// The status of the latest recording event processed by the recorder.
-  final RecorderStatus? lastStatus;
-
-  /// The time of the latest change in status of an recording event processed by
-  /// the recorder.
-  final DateTime? lastStatusChangeTime;
-
-  /// The time the recorder was last stopped.
-  final DateTime? lastStopTime;
-
-  /// The name of the configuration recorder.
-  final String? name;
-
-  /// Specifies whether or not the recorder is currently recording.
-  final bool? recording;
-
-  ConfigurationRecorderStatus({
-    this.lastErrorCode,
-    this.lastErrorMessage,
-    this.lastStartTime,
-    this.lastStatus,
-    this.lastStatusChangeTime,
-    this.lastStopTime,
-    this.name,
-    this.recording,
-  });
-
-  factory ConfigurationRecorderStatus.fromJson(Map<String, dynamic> json) {
-    return ConfigurationRecorderStatus(
-      lastErrorCode: json['lastErrorCode'] as String?,
-      lastErrorMessage: json['lastErrorMessage'] as String?,
-      lastStartTime: timeStampFromJson(json['lastStartTime']),
-      lastStatus:
-          (json['lastStatus'] as String?)?.let(RecorderStatus.fromString),
-      lastStatusChangeTime: timeStampFromJson(json['lastStatusChangeTime']),
-      lastStopTime: timeStampFromJson(json['lastStopTime']),
-      name: json['name'] as String?,
-      recording: json['recording'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lastErrorCode = this.lastErrorCode;
-    final lastErrorMessage = this.lastErrorMessage;
-    final lastStartTime = this.lastStartTime;
-    final lastStatus = this.lastStatus;
-    final lastStatusChangeTime = this.lastStatusChangeTime;
-    final lastStopTime = this.lastStopTime;
-    final name = this.name;
-    final recording = this.recording;
-    return {
-      if (lastErrorCode != null) 'lastErrorCode': lastErrorCode,
-      if (lastErrorMessage != null) 'lastErrorMessage': lastErrorMessage,
-      if (lastStartTime != null)
-        'lastStartTime': unixTimestampToJson(lastStartTime),
-      if (lastStatus != null) 'lastStatus': lastStatus.value,
-      if (lastStatusChangeTime != null)
-        'lastStatusChangeTime': unixTimestampToJson(lastStatusChangeTime),
-      if (lastStopTime != null)
-        'lastStopTime': unixTimestampToJson(lastStopTime),
-      if (name != null) 'name': name,
-      if (recording != null) 'recording': recording,
-    };
-  }
-}
-
-/// Filters the conformance pack by compliance types and Config rule names.
-class ConformancePackComplianceFilters {
-  /// Filters the results by compliance.
-  ///
-  /// The allowed values are <code>COMPLIANT</code> and
-  /// <code>NON_COMPLIANT</code>. <code>INSUFFICIENT_DATA</code> is not supported.
-  final ConformancePackComplianceType? complianceType;
-
-  /// Filters the results by Config rule names.
-  final List<String>? configRuleNames;
-
-  ConformancePackComplianceFilters({
-    this.complianceType,
-    this.configRuleNames,
-  });
-
-  Map<String, dynamic> toJson() {
-    final complianceType = this.complianceType;
-    final configRuleNames = this.configRuleNames;
-    return {
-      if (complianceType != null) 'ComplianceType': complianceType.value,
-      if (configRuleNames != null) 'ConfigRuleNames': configRuleNames,
-    };
-  }
-}
-
-/// A compliance score is the percentage of the number of compliant
-/// rule-resource combinations in a conformance pack compared to the number of
-/// total possible rule-resource combinations in the conformance pack. This
-/// metric provides you with a high-level view of the compliance state of your
-/// conformance packs. You can use it to identify, investigate, and understand
-/// the level of compliance in your conformance packs.
-class ConformancePackComplianceScore {
-  /// The name of the conformance pack.
-  final String? conformancePackName;
-
-  /// The time that the conformance pack compliance score was last updated.
-  final DateTime? lastUpdatedTime;
-
-  /// Compliance score for the conformance pack. Conformance packs with no
-  /// evaluation results will have a compliance score of
-  /// <code>INSUFFICIENT_DATA</code>.
-  final String? score;
-
-  ConformancePackComplianceScore({
-    this.conformancePackName,
-    this.lastUpdatedTime,
-    this.score,
-  });
-
-  factory ConformancePackComplianceScore.fromJson(Map<String, dynamic> json) {
-    return ConformancePackComplianceScore(
-      conformancePackName: json['ConformancePackName'] as String?,
-      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
-      score: json['Score'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final conformancePackName = this.conformancePackName;
-    final lastUpdatedTime = this.lastUpdatedTime;
-    final score = this.score;
-    return {
-      if (conformancePackName != null)
-        'ConformancePackName': conformancePackName,
-      if (lastUpdatedTime != null)
-        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
-      if (score != null) 'Score': score,
-    };
-  }
-}
-
-/// A list of filters to apply to the conformance pack compliance score result
-/// set.
-class ConformancePackComplianceScoresFilters {
-  /// The names of the conformance packs whose compliance scores you want to
-  /// include in the conformance pack compliance score result set. You can include
-  /// up to 25 conformance packs in the <code>ConformancePackNames</code> array of
-  /// strings, each with a character limit of 256 characters for the conformance
-  /// pack name.
-  final List<String> conformancePackNames;
-
-  ConformancePackComplianceScoresFilters({
-    required this.conformancePackNames,
-  });
-
-  Map<String, dynamic> toJson() {
-    final conformancePackNames = this.conformancePackNames;
-    return {
-      'ConformancePackNames': conformancePackNames,
-    };
-  }
-}
-
-/// Summary includes the name and status of the conformance pack.
-class ConformancePackComplianceSummary {
-  /// The status of the conformance pack.
-  final ConformancePackComplianceType conformancePackComplianceStatus;
-
-  /// The name of the conformance pack name.
-  final String conformancePackName;
-
-  ConformancePackComplianceSummary({
-    required this.conformancePackComplianceStatus,
-    required this.conformancePackName,
-  });
-
-  factory ConformancePackComplianceSummary.fromJson(Map<String, dynamic> json) {
-    return ConformancePackComplianceSummary(
-      conformancePackComplianceStatus: ConformancePackComplianceType.fromString(
-          (json['ConformancePackComplianceStatus'] as String?) ?? ''),
-      conformancePackName: (json['ConformancePackName'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final conformancePackComplianceStatus =
-        this.conformancePackComplianceStatus;
-    final conformancePackName = this.conformancePackName;
-    return {
-      'ConformancePackComplianceStatus': conformancePackComplianceStatus.value,
-      'ConformancePackName': conformancePackName,
-    };
-  }
-}
-
-class ConformancePackComplianceType {
-  static const compliant = ConformancePackComplianceType._('COMPLIANT');
-  static const nonCompliant = ConformancePackComplianceType._('NON_COMPLIANT');
-  static const insufficientData =
-      ConformancePackComplianceType._('INSUFFICIENT_DATA');
-
-  final String value;
-
-  const ConformancePackComplianceType._(this.value);
-
-  static const values = [compliant, nonCompliant, insufficientData];
-
-  static ConformancePackComplianceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConformancePackComplianceType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ConformancePackComplianceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Returns details of a conformance pack. A conformance pack is a collection of
-/// Config rules and remediation actions that can be easily deployed in an
-/// account and a region.
-class ConformancePackDetail {
-  /// Amazon Resource Name (ARN) of the conformance pack.
-  final String conformancePackArn;
-
-  /// ID of the conformance pack.
-  final String conformancePackId;
-
-  /// Name of the conformance pack.
-  final String conformancePackName;
-
-  /// A list of <code>ConformancePackInputParameter</code> objects.
-  final List<ConformancePackInputParameter>? conformancePackInputParameters;
-
-  /// The Amazon Web Services service that created the conformance pack.
-  final String? createdBy;
-
-  /// The name of the Amazon S3 bucket where Config stores conformance pack
-  /// templates.
-  /// <note>
-  /// This field is optional.
-  /// </note>
-  final String? deliveryS3Bucket;
-
-  /// The prefix for the Amazon S3 bucket.
-  /// <note>
-  /// This field is optional.
-  /// </note>
-  final String? deliveryS3KeyPrefix;
-
-  /// The last time a conformation pack update was requested.
-  final DateTime? lastUpdateRequestedTime;
-
-  /// An object that contains the name or Amazon Resource Name (ARN) of the Amazon
-  /// Web Services Systems Manager document (SSM document) and the version of the
-  /// SSM document that is used to create a conformance pack.
-  final TemplateSSMDocumentDetails? templateSSMDocumentDetails;
-
-  ConformancePackDetail({
-    required this.conformancePackArn,
-    required this.conformancePackId,
-    required this.conformancePackName,
-    this.conformancePackInputParameters,
-    this.createdBy,
-    this.deliveryS3Bucket,
-    this.deliveryS3KeyPrefix,
-    this.lastUpdateRequestedTime,
-    this.templateSSMDocumentDetails,
-  });
-
-  factory ConformancePackDetail.fromJson(Map<String, dynamic> json) {
-    return ConformancePackDetail(
-      conformancePackArn: (json['ConformancePackArn'] as String?) ?? '',
-      conformancePackId: (json['ConformancePackId'] as String?) ?? '',
-      conformancePackName: (json['ConformancePackName'] as String?) ?? '',
-      conformancePackInputParameters: (json['ConformancePackInputParameters']
-              as List?)
-          ?.nonNulls
-          .map((e) =>
-              ConformancePackInputParameter.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      createdBy: json['CreatedBy'] as String?,
-      deliveryS3Bucket: json['DeliveryS3Bucket'] as String?,
-      deliveryS3KeyPrefix: json['DeliveryS3KeyPrefix'] as String?,
-      lastUpdateRequestedTime:
-          timeStampFromJson(json['LastUpdateRequestedTime']),
-      templateSSMDocumentDetails: json['TemplateSSMDocumentDetails'] != null
-          ? TemplateSSMDocumentDetails.fromJson(
-              json['TemplateSSMDocumentDetails'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final conformancePackArn = this.conformancePackArn;
-    final conformancePackId = this.conformancePackId;
-    final conformancePackName = this.conformancePackName;
-    final conformancePackInputParameters = this.conformancePackInputParameters;
-    final createdBy = this.createdBy;
-    final deliveryS3Bucket = this.deliveryS3Bucket;
-    final deliveryS3KeyPrefix = this.deliveryS3KeyPrefix;
-    final lastUpdateRequestedTime = this.lastUpdateRequestedTime;
-    final templateSSMDocumentDetails = this.templateSSMDocumentDetails;
-    return {
-      'ConformancePackArn': conformancePackArn,
-      'ConformancePackId': conformancePackId,
-      'ConformancePackName': conformancePackName,
-      if (conformancePackInputParameters != null)
-        'ConformancePackInputParameters': conformancePackInputParameters,
-      if (createdBy != null) 'CreatedBy': createdBy,
-      if (deliveryS3Bucket != null) 'DeliveryS3Bucket': deliveryS3Bucket,
-      if (deliveryS3KeyPrefix != null)
-        'DeliveryS3KeyPrefix': deliveryS3KeyPrefix,
-      if (lastUpdateRequestedTime != null)
-        'LastUpdateRequestedTime': unixTimestampToJson(lastUpdateRequestedTime),
-      if (templateSSMDocumentDetails != null)
-        'TemplateSSMDocumentDetails': templateSSMDocumentDetails,
-    };
-  }
-}
-
-/// Filters a conformance pack by Config rule names, compliance types, Amazon
-/// Web Services resource types, and resource IDs.
-class ConformancePackEvaluationFilters {
-  /// Filters the results by compliance.
-  ///
-  /// The allowed values are <code>COMPLIANT</code> and
-  /// <code>NON_COMPLIANT</code>. <code>INSUFFICIENT_DATA</code> is not supported.
-  final ConformancePackComplianceType? complianceType;
-
-  /// Filters the results by Config rule names.
-  final List<String>? configRuleNames;
-
-  /// Filters the results by resource IDs.
-  /// <note>
-  /// This is valid only when you provide resource type. If there is no resource
-  /// type, you will see an error.
-  /// </note>
-  final List<String>? resourceIds;
-
-  /// Filters the results by the resource type (for example,
-  /// <code>"AWS::EC2::Instance"</code>).
-  final String? resourceType;
-
-  ConformancePackEvaluationFilters({
-    this.complianceType,
-    this.configRuleNames,
-    this.resourceIds,
-    this.resourceType,
-  });
-
-  Map<String, dynamic> toJson() {
-    final complianceType = this.complianceType;
-    final configRuleNames = this.configRuleNames;
-    final resourceIds = this.resourceIds;
-    final resourceType = this.resourceType;
-    return {
-      if (complianceType != null) 'ComplianceType': complianceType.value,
-      if (configRuleNames != null) 'ConfigRuleNames': configRuleNames,
-      if (resourceIds != null) 'ResourceIds': resourceIds,
-      if (resourceType != null) 'ResourceType': resourceType,
-    };
-  }
-}
-
-/// The details of a conformance pack evaluation. Provides Config rule and
-/// Amazon Web Services resource type that was evaluated, the compliance of the
-/// conformance pack, related time stamps, and supplementary information.
-class ConformancePackEvaluationResult {
-  /// The compliance type. The allowed values are <code>COMPLIANT</code> and
-  /// <code>NON_COMPLIANT</code>. <code>INSUFFICIENT_DATA</code> is not supported.
-  final ConformancePackComplianceType complianceType;
-
-  /// The time when Config rule evaluated Amazon Web Services resource.
-  final DateTime configRuleInvokedTime;
-  final EvaluationResultIdentifier evaluationResultIdentifier;
-
-  /// The time when Config recorded the evaluation result.
-  final DateTime resultRecordedTime;
-
-  /// Supplementary information about how the evaluation determined the
-  /// compliance.
-  final String? annotation;
-
-  ConformancePackEvaluationResult({
-    required this.complianceType,
-    required this.configRuleInvokedTime,
-    required this.evaluationResultIdentifier,
-    required this.resultRecordedTime,
-    this.annotation,
-  });
-
-  factory ConformancePackEvaluationResult.fromJson(Map<String, dynamic> json) {
-    return ConformancePackEvaluationResult(
-      complianceType: ConformancePackComplianceType.fromString(
-          (json['ComplianceType'] as String?) ?? ''),
-      configRuleInvokedTime:
-          nonNullableTimeStampFromJson(json['ConfigRuleInvokedTime'] ?? 0),
-      evaluationResultIdentifier: EvaluationResultIdentifier.fromJson(
-          (json['EvaluationResultIdentifier'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      resultRecordedTime:
-          nonNullableTimeStampFromJson(json['ResultRecordedTime'] ?? 0),
-      annotation: json['Annotation'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final complianceType = this.complianceType;
-    final configRuleInvokedTime = this.configRuleInvokedTime;
-    final evaluationResultIdentifier = this.evaluationResultIdentifier;
-    final resultRecordedTime = this.resultRecordedTime;
-    final annotation = this.annotation;
-    return {
-      'ComplianceType': complianceType.value,
-      'ConfigRuleInvokedTime': unixTimestampToJson(configRuleInvokedTime),
-      'EvaluationResultIdentifier': evaluationResultIdentifier,
-      'ResultRecordedTime': unixTimestampToJson(resultRecordedTime),
-      if (annotation != null) 'Annotation': annotation,
-    };
-  }
-}
-
-/// Input parameters in the form of key-value pairs for the conformance pack,
-/// both of which you define. Keys can have a maximum character length of 255
-/// characters, and values can have a maximum length of 4096 characters.
-class ConformancePackInputParameter {
-  /// One part of a key-value pair.
-  final String parameterName;
-
-  /// Another part of the key-value pair.
-  final String parameterValue;
-
-  ConformancePackInputParameter({
-    required this.parameterName,
-    required this.parameterValue,
-  });
-
-  factory ConformancePackInputParameter.fromJson(Map<String, dynamic> json) {
-    return ConformancePackInputParameter(
-      parameterName: (json['ParameterName'] as String?) ?? '',
-      parameterValue: (json['ParameterValue'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final parameterName = this.parameterName;
-    final parameterValue = this.parameterValue;
-    return {
-      'ParameterName': parameterName,
-      'ParameterValue': parameterValue,
-    };
-  }
-}
-
-/// Compliance information of one or more Config rules within a conformance
-/// pack. You can filter using Config rule names and compliance types.
-class ConformancePackRuleCompliance {
-  /// Compliance of the Config rule.
-  final ConformancePackComplianceType? complianceType;
-
-  /// Name of the Config rule.
-  final String? configRuleName;
-
-  /// Controls for the conformance pack. A control is a process to prevent or
-  /// detect problems while meeting objectives. A control can align with a
-  /// specific compliance regime or map to internal controls defined by an
-  /// organization.
-  final List<String>? controls;
-
-  ConformancePackRuleCompliance({
-    this.complianceType,
-    this.configRuleName,
-    this.controls,
-  });
-
-  factory ConformancePackRuleCompliance.fromJson(Map<String, dynamic> json) {
-    return ConformancePackRuleCompliance(
-      complianceType: (json['ComplianceType'] as String?)
-          ?.let(ConformancePackComplianceType.fromString),
-      configRuleName: json['ConfigRuleName'] as String?,
-      controls: (json['Controls'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final complianceType = this.complianceType;
-    final configRuleName = this.configRuleName;
-    final controls = this.controls;
-    return {
-      if (complianceType != null) 'ComplianceType': complianceType.value,
-      if (configRuleName != null) 'ConfigRuleName': configRuleName,
-      if (controls != null) 'Controls': controls,
-    };
-  }
-}
-
-class ConformancePackState {
-  static const createInProgress = ConformancePackState._('CREATE_IN_PROGRESS');
-  static const createComplete = ConformancePackState._('CREATE_COMPLETE');
-  static const createFailed = ConformancePackState._('CREATE_FAILED');
-  static const deleteInProgress = ConformancePackState._('DELETE_IN_PROGRESS');
-  static const deleteFailed = ConformancePackState._('DELETE_FAILED');
-
-  final String value;
-
-  const ConformancePackState._(this.value);
-
-  static const values = [
-    createInProgress,
-    createComplete,
-    createFailed,
-    deleteInProgress,
-    deleteFailed
-  ];
-
-  static ConformancePackState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConformancePackState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ConformancePackState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Status details of a conformance pack.
-class ConformancePackStatusDetail {
-  /// Amazon Resource Name (ARN) of comformance pack.
-  final String conformancePackArn;
-
-  /// ID of the conformance pack.
-  final String conformancePackId;
-
-  /// Name of the conformance pack.
-  final String conformancePackName;
-
-  /// Indicates deployment status of conformance pack.
-  ///
-  /// Config sets the state of the conformance pack to:
-  ///
-  /// <ul>
-  /// <li>
-  /// CREATE_IN_PROGRESS when a conformance pack creation is in progress for an
-  /// account.
-  /// </li>
-  /// <li>
-  /// CREATE_COMPLETE when a conformance pack has been successfully created in
-  /// your account.
-  /// </li>
-  /// <li>
-  /// CREATE_FAILED when a conformance pack creation failed in your account.
-  /// </li>
-  /// <li>
-  /// DELETE_IN_PROGRESS when a conformance pack deletion is in progress.
-  /// </li>
-  /// <li>
-  /// DELETE_FAILED when a conformance pack deletion failed in your account.
-  /// </li>
-  /// </ul>
-  final ConformancePackState conformancePackState;
-
-  /// Last time when conformation pack creation and update was requested.
-  final DateTime lastUpdateRequestedTime;
-
-  /// Amazon Resource Name (ARN) of CloudFormation stack.
-  final String stackArn;
-
-  /// The reason of conformance pack creation failure.
-  final String? conformancePackStatusReason;
-
-  /// Last time when conformation pack creation and update was successful.
-  final DateTime? lastUpdateCompletedTime;
-
-  ConformancePackStatusDetail({
-    required this.conformancePackArn,
-    required this.conformancePackId,
-    required this.conformancePackName,
-    required this.conformancePackState,
-    required this.lastUpdateRequestedTime,
-    required this.stackArn,
-    this.conformancePackStatusReason,
-    this.lastUpdateCompletedTime,
-  });
-
-  factory ConformancePackStatusDetail.fromJson(Map<String, dynamic> json) {
-    return ConformancePackStatusDetail(
-      conformancePackArn: (json['ConformancePackArn'] as String?) ?? '',
-      conformancePackId: (json['ConformancePackId'] as String?) ?? '',
-      conformancePackName: (json['ConformancePackName'] as String?) ?? '',
-      conformancePackState: ConformancePackState.fromString(
-          (json['ConformancePackState'] as String?) ?? ''),
-      lastUpdateRequestedTime:
-          nonNullableTimeStampFromJson(json['LastUpdateRequestedTime'] ?? 0),
-      stackArn: (json['StackArn'] as String?) ?? '',
-      conformancePackStatusReason:
-          json['ConformancePackStatusReason'] as String?,
-      lastUpdateCompletedTime:
-          timeStampFromJson(json['LastUpdateCompletedTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final conformancePackArn = this.conformancePackArn;
-    final conformancePackId = this.conformancePackId;
-    final conformancePackName = this.conformancePackName;
-    final conformancePackState = this.conformancePackState;
-    final lastUpdateRequestedTime = this.lastUpdateRequestedTime;
-    final stackArn = this.stackArn;
-    final conformancePackStatusReason = this.conformancePackStatusReason;
-    final lastUpdateCompletedTime = this.lastUpdateCompletedTime;
-    return {
-      'ConformancePackArn': conformancePackArn,
-      'ConformancePackId': conformancePackId,
-      'ConformancePackName': conformancePackName,
-      'ConformancePackState': conformancePackState.value,
-      'LastUpdateRequestedTime': unixTimestampToJson(lastUpdateRequestedTime),
-      'StackArn': stackArn,
-      if (conformancePackStatusReason != null)
-        'ConformancePackStatusReason': conformancePackStatusReason,
-      if (lastUpdateCompletedTime != null)
-        'LastUpdateCompletedTime': unixTimestampToJson(lastUpdateCompletedTime),
-    };
-  }
-}
-
-/// Provides the runtime system, policy definition, and whether debug logging
-/// enabled. You can specify the following CustomPolicyDetails parameter values
-/// only for Config Custom Policy rules.
-class CustomPolicyDetails {
-  /// The runtime system for your Config Custom Policy rule. Guard is a
-  /// policy-as-code language that allows you to write policies that are enforced
-  /// by Config Custom Policy rules. For more information about Guard, see the <a
-  /// href="https://github.com/aws-cloudformation/cloudformation-guard">Guard
-  /// GitHub Repository</a>.
-  final String policyRuntime;
-
-  /// The policy definition containing the logic for your Config Custom Policy
-  /// rule.
-  final String policyText;
-
-  /// The boolean expression for enabling debug logging for your Config Custom
-  /// Policy rule. The default value is <code>false</code>.
-  final bool? enableDebugLogDelivery;
-
-  CustomPolicyDetails({
-    required this.policyRuntime,
-    required this.policyText,
-    this.enableDebugLogDelivery,
-  });
-
-  factory CustomPolicyDetails.fromJson(Map<String, dynamic> json) {
-    return CustomPolicyDetails(
-      policyRuntime: (json['PolicyRuntime'] as String?) ?? '',
-      policyText: (json['PolicyText'] as String?) ?? '',
-      enableDebugLogDelivery: json['EnableDebugLogDelivery'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final policyRuntime = this.policyRuntime;
-    final policyText = this.policyText;
-    final enableDebugLogDelivery = this.enableDebugLogDelivery;
-    return {
-      'PolicyRuntime': policyRuntime,
-      'PolicyText': policyText,
-      if (enableDebugLogDelivery != null)
-        'EnableDebugLogDelivery': enableDebugLogDelivery,
-    };
-  }
-}
-
 /// The output when you delete the evaluation results for the specified Config
 /// rule.
 class DeleteEvaluationResultsResponse {
@@ -8277,6 +5897,36 @@ class DeleteRemediationExceptionsResponse {
   }
 }
 
+class DeleteServiceLinkedConfigurationRecorderResponse {
+  /// The Amazon Resource Name (ARN) of the specified configuration recorder.
+  final String arn;
+
+  /// The name of the specified configuration recorder.
+  final String name;
+
+  DeleteServiceLinkedConfigurationRecorderResponse({
+    required this.arn,
+    required this.name,
+  });
+
+  factory DeleteServiceLinkedConfigurationRecorderResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DeleteServiceLinkedConfigurationRecorderResponse(
+      arn: (json['Arn'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    return {
+      'Arn': arn,
+      'Name': name,
+    };
+  }
+}
+
 class DeleteStoredQueryResponse {
   DeleteStoredQueryResponse();
 
@@ -8310,178 +5960,6 @@ class DeliverConfigSnapshotResponse {
       if (configSnapshotId != null) 'configSnapshotId': configSnapshotId,
     };
   }
-}
-
-/// The channel through which Config delivers notifications and updated
-/// configuration states.
-class DeliveryChannel {
-  /// The options for how often Config delivers configuration snapshots to the
-  /// Amazon S3 bucket.
-  final ConfigSnapshotDeliveryProperties? configSnapshotDeliveryProperties;
-
-  /// The name of the delivery channel. By default, Config assigns the name
-  /// "default" when creating the delivery channel. To change the delivery channel
-  /// name, you must use the DeleteDeliveryChannel action to delete your current
-  /// delivery channel, and then you must use the PutDeliveryChannel command to
-  /// create a delivery channel that has the desired name.
-  final String? name;
-
-  /// The name of the Amazon S3 bucket to which Config delivers configuration
-  /// snapshots and configuration history files.
-  ///
-  /// If you specify a bucket that belongs to another Amazon Web Services account,
-  /// that bucket must have policies that grant access permissions to Config. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/config/latest/developerguide/s3-bucket-policy.html">Permissions
-  /// for the Amazon S3 Bucket</a> in the <i>Config Developer Guide</i>.
-  final String? s3BucketName;
-
-  /// The prefix for the specified Amazon S3 bucket.
-  final String? s3KeyPrefix;
-
-  /// The Amazon Resource Name (ARN) of the Key Management Service (KMS ) KMS key
-  /// (KMS key) used to encrypt objects delivered by Config. Must belong to the
-  /// same Region as the destination S3 bucket.
-  final String? s3KmsKeyArn;
-
-  /// The Amazon Resource Name (ARN) of the Amazon SNS topic to which Config sends
-  /// notifications about configuration changes.
-  ///
-  /// If you choose a topic from another account, the topic must have policies
-  /// that grant access permissions to Config. For more information, see <a
-  /// href="https://docs.aws.amazon.com/config/latest/developerguide/sns-topic-policy.html">Permissions
-  /// for the Amazon SNS Topic</a> in the <i>Config Developer Guide</i>.
-  final String? snsTopicARN;
-
-  DeliveryChannel({
-    this.configSnapshotDeliveryProperties,
-    this.name,
-    this.s3BucketName,
-    this.s3KeyPrefix,
-    this.s3KmsKeyArn,
-    this.snsTopicARN,
-  });
-
-  factory DeliveryChannel.fromJson(Map<String, dynamic> json) {
-    return DeliveryChannel(
-      configSnapshotDeliveryProperties:
-          json['configSnapshotDeliveryProperties'] != null
-              ? ConfigSnapshotDeliveryProperties.fromJson(
-                  json['configSnapshotDeliveryProperties']
-                      as Map<String, dynamic>)
-              : null,
-      name: json['name'] as String?,
-      s3BucketName: json['s3BucketName'] as String?,
-      s3KeyPrefix: json['s3KeyPrefix'] as String?,
-      s3KmsKeyArn: json['s3KmsKeyArn'] as String?,
-      snsTopicARN: json['snsTopicARN'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final configSnapshotDeliveryProperties =
-        this.configSnapshotDeliveryProperties;
-    final name = this.name;
-    final s3BucketName = this.s3BucketName;
-    final s3KeyPrefix = this.s3KeyPrefix;
-    final s3KmsKeyArn = this.s3KmsKeyArn;
-    final snsTopicARN = this.snsTopicARN;
-    return {
-      if (configSnapshotDeliveryProperties != null)
-        'configSnapshotDeliveryProperties': configSnapshotDeliveryProperties,
-      if (name != null) 'name': name,
-      if (s3BucketName != null) 's3BucketName': s3BucketName,
-      if (s3KeyPrefix != null) 's3KeyPrefix': s3KeyPrefix,
-      if (s3KmsKeyArn != null) 's3KmsKeyArn': s3KmsKeyArn,
-      if (snsTopicARN != null) 'snsTopicARN': snsTopicARN,
-    };
-  }
-}
-
-/// The status of a specified delivery channel.
-///
-/// Valid values: <code>Success</code> | <code>Failure</code>
-class DeliveryChannelStatus {
-  /// A list that contains the status of the delivery of the configuration history
-  /// to the specified Amazon S3 bucket.
-  final ConfigExportDeliveryInfo? configHistoryDeliveryInfo;
-
-  /// A list containing the status of the delivery of the snapshot to the
-  /// specified Amazon S3 bucket.
-  final ConfigExportDeliveryInfo? configSnapshotDeliveryInfo;
-
-  /// A list containing the status of the delivery of the configuration stream
-  /// notification to the specified Amazon SNS topic.
-  final ConfigStreamDeliveryInfo? configStreamDeliveryInfo;
-
-  /// The name of the delivery channel.
-  final String? name;
-
-  DeliveryChannelStatus({
-    this.configHistoryDeliveryInfo,
-    this.configSnapshotDeliveryInfo,
-    this.configStreamDeliveryInfo,
-    this.name,
-  });
-
-  factory DeliveryChannelStatus.fromJson(Map<String, dynamic> json) {
-    return DeliveryChannelStatus(
-      configHistoryDeliveryInfo: json['configHistoryDeliveryInfo'] != null
-          ? ConfigExportDeliveryInfo.fromJson(
-              json['configHistoryDeliveryInfo'] as Map<String, dynamic>)
-          : null,
-      configSnapshotDeliveryInfo: json['configSnapshotDeliveryInfo'] != null
-          ? ConfigExportDeliveryInfo.fromJson(
-              json['configSnapshotDeliveryInfo'] as Map<String, dynamic>)
-          : null,
-      configStreamDeliveryInfo: json['configStreamDeliveryInfo'] != null
-          ? ConfigStreamDeliveryInfo.fromJson(
-              json['configStreamDeliveryInfo'] as Map<String, dynamic>)
-          : null,
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final configHistoryDeliveryInfo = this.configHistoryDeliveryInfo;
-    final configSnapshotDeliveryInfo = this.configSnapshotDeliveryInfo;
-    final configStreamDeliveryInfo = this.configStreamDeliveryInfo;
-    final name = this.name;
-    return {
-      if (configHistoryDeliveryInfo != null)
-        'configHistoryDeliveryInfo': configHistoryDeliveryInfo,
-      if (configSnapshotDeliveryInfo != null)
-        'configSnapshotDeliveryInfo': configSnapshotDeliveryInfo,
-      if (configStreamDeliveryInfo != null)
-        'configStreamDeliveryInfo': configStreamDeliveryInfo,
-      if (name != null) 'name': name,
-    };
-  }
-}
-
-class DeliveryStatus {
-  static const success = DeliveryStatus._('Success');
-  static const failure = DeliveryStatus._('Failure');
-  static const notApplicable = DeliveryStatus._('Not_Applicable');
-
-  final String value;
-
-  const DeliveryStatus._(this.value);
-
-  static const values = [success, failure, notApplicable];
-
-  static DeliveryStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DeliveryStatus._(value));
-
-  @override
-  bool operator ==(other) => other is DeliveryStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class DescribeAggregateComplianceByConfigRulesResponse {
@@ -8599,7 +6077,7 @@ class DescribeAggregationAuthorizationsResponse {
   }
 }
 
-/// <p/>
+///
 class DescribeComplianceByConfigRuleResponse {
   /// Indicates whether each of the specified Config rules is compliant.
   final List<ComplianceByConfigRule>? complianceByConfigRules;
@@ -8636,7 +6114,7 @@ class DescribeComplianceByConfigRuleResponse {
   }
 }
 
-/// <p/>
+///
 class DescribeComplianceByResourceResponse {
   /// Indicates whether the specified Amazon Web Services resource complies with
   /// all of the Config rules that evaluate it.
@@ -8673,7 +6151,7 @@ class DescribeComplianceByResourceResponse {
   }
 }
 
-/// <p/>
+///
 class DescribeConfigRuleEvaluationStatusResponse {
   /// Status information about your Config managed rules.
   final List<ConfigRuleEvaluationStatus>? configRulesEvaluationStatus;
@@ -8711,28 +6189,7 @@ class DescribeConfigRuleEvaluationStatusResponse {
   }
 }
 
-/// Returns a filtered list of Detective or Proactive Config rules. By default,
-/// if the filter is not defined, this API returns an unfiltered list. For more
-/// information on Detective or Proactive Config rules, see <a
-/// href="https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config-rules.html">
-/// <b>Evaluation Mode</b> </a> in the <i>Config Developer Guide</i>.
-class DescribeConfigRulesFilters {
-  /// The mode of an evaluation. The valid values are Detective or Proactive.
-  final EvaluationMode? evaluationMode;
-
-  DescribeConfigRulesFilters({
-    this.evaluationMode,
-  });
-
-  Map<String, dynamic> toJson() {
-    final evaluationMode = this.evaluationMode;
-    return {
-      if (evaluationMode != null) 'EvaluationMode': evaluationMode.value,
-    };
-  }
-}
-
-/// <p/>
+///
 class DescribeConfigRulesResponse {
   /// The details about your Config rules.
   final List<ConfigRule>? configRules;
@@ -8761,42 +6218,6 @@ class DescribeConfigRulesResponse {
     final nextToken = this.nextToken;
     return {
       if (configRules != null) 'ConfigRules': configRules,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class DescribeConfigurationAggregatorSourcesStatusResponse {
-  /// Returns an AggregatedSourceStatus object.
-  final List<AggregatedSourceStatus>? aggregatedSourceStatusList;
-
-  /// The <code>nextToken</code> string returned on a previous page that you use
-  /// to get the next page of results in a paginated response.
-  final String? nextToken;
-
-  DescribeConfigurationAggregatorSourcesStatusResponse({
-    this.aggregatedSourceStatusList,
-    this.nextToken,
-  });
-
-  factory DescribeConfigurationAggregatorSourcesStatusResponse.fromJson(
-      Map<String, dynamic> json) {
-    return DescribeConfigurationAggregatorSourcesStatusResponse(
-      aggregatedSourceStatusList: (json['AggregatedSourceStatusList'] as List?)
-          ?.nonNulls
-          .map(
-              (e) => AggregatedSourceStatus.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final aggregatedSourceStatusList = this.aggregatedSourceStatusList;
-    final nextToken = this.nextToken;
-    return {
-      if (aggregatedSourceStatusList != null)
-        'AggregatedSourceStatusList': aggregatedSourceStatusList,
       if (nextToken != null) 'NextToken': nextToken,
     };
   }
@@ -8838,33 +6259,38 @@ class DescribeConfigurationAggregatorsResponse {
   }
 }
 
-/// The output for the <a>DescribeConfigurationRecorderStatus</a> action, in
-/// JSON format.
-class DescribeConfigurationRecorderStatusResponse {
-  /// A list that contains status of the specified recorders.
-  final List<ConfigurationRecorderStatus>? configurationRecordersStatus;
+class DescribeConfigurationAggregatorSourcesStatusResponse {
+  /// Returns an AggregatedSourceStatus object.
+  final List<AggregatedSourceStatus>? aggregatedSourceStatusList;
 
-  DescribeConfigurationRecorderStatusResponse({
-    this.configurationRecordersStatus,
+  /// The <code>nextToken</code> string returned on a previous page that you use
+  /// to get the next page of results in a paginated response.
+  final String? nextToken;
+
+  DescribeConfigurationAggregatorSourcesStatusResponse({
+    this.aggregatedSourceStatusList,
+    this.nextToken,
   });
 
-  factory DescribeConfigurationRecorderStatusResponse.fromJson(
+  factory DescribeConfigurationAggregatorSourcesStatusResponse.fromJson(
       Map<String, dynamic> json) {
-    return DescribeConfigurationRecorderStatusResponse(
-      configurationRecordersStatus: (json['ConfigurationRecordersStatus']
-              as List?)
+    return DescribeConfigurationAggregatorSourcesStatusResponse(
+      aggregatedSourceStatusList: (json['AggregatedSourceStatusList'] as List?)
           ?.nonNulls
-          .map((e) =>
-              ConfigurationRecorderStatus.fromJson(e as Map<String, dynamic>))
+          .map(
+              (e) => AggregatedSourceStatus.fromJson(e as Map<String, dynamic>))
           .toList(),
+      nextToken: json['NextToken'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final configurationRecordersStatus = this.configurationRecordersStatus;
+    final aggregatedSourceStatusList = this.aggregatedSourceStatusList;
+    final nextToken = this.nextToken;
     return {
-      if (configurationRecordersStatus != null)
-        'ConfigurationRecordersStatus': configurationRecordersStatus,
+      if (aggregatedSourceStatusList != null)
+        'AggregatedSourceStatusList': aggregatedSourceStatusList,
+      if (nextToken != null) 'NextToken': nextToken,
     };
   }
 }
@@ -8894,6 +6320,37 @@ class DescribeConfigurationRecordersResponse {
     return {
       if (configurationRecorders != null)
         'ConfigurationRecorders': configurationRecorders,
+    };
+  }
+}
+
+/// The output for the <a>DescribeConfigurationRecorderStatus</a> action, in
+/// JSON format.
+class DescribeConfigurationRecorderStatusResponse {
+  /// A list that contains status of the specified recorders.
+  final List<ConfigurationRecorderStatus>? configurationRecordersStatus;
+
+  DescribeConfigurationRecorderStatusResponse({
+    this.configurationRecordersStatus,
+  });
+
+  factory DescribeConfigurationRecorderStatusResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeConfigurationRecorderStatusResponse(
+      configurationRecordersStatus: (json['ConfigurationRecordersStatus']
+              as List?)
+          ?.nonNulls
+          .map((e) =>
+              ConfigurationRecorderStatus.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configurationRecordersStatus = this.configurationRecordersStatus;
+    return {
+      if (configurationRecordersStatus != null)
+        'ConfigurationRecordersStatus': configurationRecordersStatus,
     };
   }
 }
@@ -8942,6 +6399,40 @@ class DescribeConformancePackComplianceResponse {
   }
 }
 
+class DescribeConformancePacksResponse {
+  /// Returns a list of <code>ConformancePackDetail</code> objects.
+  final List<ConformancePackDetail>? conformancePackDetails;
+
+  /// The <code>nextToken</code> string returned in a previous request that you
+  /// use to request the next page of results in a paginated response.
+  final String? nextToken;
+
+  DescribeConformancePacksResponse({
+    this.conformancePackDetails,
+    this.nextToken,
+  });
+
+  factory DescribeConformancePacksResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeConformancePacksResponse(
+      conformancePackDetails: (json['ConformancePackDetails'] as List?)
+          ?.nonNulls
+          .map((e) => ConformancePackDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final conformancePackDetails = this.conformancePackDetails;
+    final nextToken = this.nextToken;
+    return {
+      if (conformancePackDetails != null)
+        'ConformancePackDetails': conformancePackDetails,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 class DescribeConformancePackStatusResponse {
   /// A list of <code>ConformancePackStatusDetail</code> objects.
   final List<ConformancePackStatusDetail>? conformancePackStatusDetails;
@@ -8979,36 +6470,28 @@ class DescribeConformancePackStatusResponse {
   }
 }
 
-class DescribeConformancePacksResponse {
-  /// Returns a list of <code>ConformancePackDetail</code> objects.
-  final List<ConformancePackDetail>? conformancePackDetails;
+/// The output for the <a>DescribeDeliveryChannels</a> action.
+class DescribeDeliveryChannelsResponse {
+  /// A list that contains the descriptions of the specified delivery channel.
+  final List<DeliveryChannel>? deliveryChannels;
 
-  /// The <code>nextToken</code> string returned in a previous request that you
-  /// use to request the next page of results in a paginated response.
-  final String? nextToken;
-
-  DescribeConformancePacksResponse({
-    this.conformancePackDetails,
-    this.nextToken,
+  DescribeDeliveryChannelsResponse({
+    this.deliveryChannels,
   });
 
-  factory DescribeConformancePacksResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeConformancePacksResponse(
-      conformancePackDetails: (json['ConformancePackDetails'] as List?)
+  factory DescribeDeliveryChannelsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeDeliveryChannelsResponse(
+      deliveryChannels: (json['DeliveryChannels'] as List?)
           ?.nonNulls
-          .map((e) => ConformancePackDetail.fromJson(e as Map<String, dynamic>))
+          .map((e) => DeliveryChannel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      nextToken: json['NextToken'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final conformancePackDetails = this.conformancePackDetails;
-    final nextToken = this.nextToken;
+    final deliveryChannels = this.deliveryChannels;
     return {
-      if (conformancePackDetails != null)
-        'ConformancePackDetails': conformancePackDetails,
-      if (nextToken != null) 'NextToken': nextToken,
+      if (deliveryChannels != null) 'DeliveryChannels': deliveryChannels,
     };
   }
 }
@@ -9041,28 +6524,38 @@ class DescribeDeliveryChannelStatusResponse {
   }
 }
 
-/// The output for the <a>DescribeDeliveryChannels</a> action.
-class DescribeDeliveryChannelsResponse {
-  /// A list that contains the descriptions of the specified delivery channel.
-  final List<DeliveryChannel>? deliveryChannels;
+class DescribeOrganizationConfigRulesResponse {
+  /// The <code>nextToken</code> string returned on a previous page that you use
+  /// to get the next page of results in a paginated response.
+  final String? nextToken;
 
-  DescribeDeliveryChannelsResponse({
-    this.deliveryChannels,
+  /// Returns a list of <code>OrganizationConfigRule</code> objects.
+  final List<OrganizationConfigRule>? organizationConfigRules;
+
+  DescribeOrganizationConfigRulesResponse({
+    this.nextToken,
+    this.organizationConfigRules,
   });
 
-  factory DescribeDeliveryChannelsResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeDeliveryChannelsResponse(
-      deliveryChannels: (json['DeliveryChannels'] as List?)
+  factory DescribeOrganizationConfigRulesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeOrganizationConfigRulesResponse(
+      nextToken: json['NextToken'] as String?,
+      organizationConfigRules: (json['OrganizationConfigRules'] as List?)
           ?.nonNulls
-          .map((e) => DeliveryChannel.fromJson(e as Map<String, dynamic>))
+          .map(
+              (e) => OrganizationConfigRule.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final deliveryChannels = this.deliveryChannels;
+    final nextToken = this.nextToken;
+    final organizationConfigRules = this.organizationConfigRules;
     return {
-      if (deliveryChannels != null) 'DeliveryChannels': deliveryChannels,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (organizationConfigRules != null)
+        'OrganizationConfigRules': organizationConfigRules,
     };
   }
 }
@@ -9104,38 +6597,39 @@ class DescribeOrganizationConfigRuleStatusesResponse {
   }
 }
 
-class DescribeOrganizationConfigRulesResponse {
-  /// The <code>nextToken</code> string returned on a previous page that you use
-  /// to get the next page of results in a paginated response.
+class DescribeOrganizationConformancePacksResponse {
+  /// The nextToken string returned on a previous page that you use to get the
+  /// next page of results in a paginated response.
   final String? nextToken;
 
-  /// Returns a list of <code>OrganizationConfigRule</code> objects.
-  final List<OrganizationConfigRule>? organizationConfigRules;
+  /// Returns a list of OrganizationConformancePacks objects.
+  final List<OrganizationConformancePack>? organizationConformancePacks;
 
-  DescribeOrganizationConfigRulesResponse({
+  DescribeOrganizationConformancePacksResponse({
     this.nextToken,
-    this.organizationConfigRules,
+    this.organizationConformancePacks,
   });
 
-  factory DescribeOrganizationConfigRulesResponse.fromJson(
+  factory DescribeOrganizationConformancePacksResponse.fromJson(
       Map<String, dynamic> json) {
-    return DescribeOrganizationConfigRulesResponse(
+    return DescribeOrganizationConformancePacksResponse(
       nextToken: json['NextToken'] as String?,
-      organizationConfigRules: (json['OrganizationConfigRules'] as List?)
+      organizationConformancePacks: (json['OrganizationConformancePacks']
+              as List?)
           ?.nonNulls
-          .map(
-              (e) => OrganizationConfigRule.fromJson(e as Map<String, dynamic>))
+          .map((e) =>
+              OrganizationConformancePack.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final nextToken = this.nextToken;
-    final organizationConfigRules = this.organizationConfigRules;
+    final organizationConformancePacks = this.organizationConformancePacks;
     return {
       if (nextToken != null) 'NextToken': nextToken,
-      if (organizationConfigRules != null)
-        'OrganizationConfigRules': organizationConfigRules,
+      if (organizationConformancePacks != null)
+        'OrganizationConformancePacks': organizationConformancePacks,
     };
   }
 }
@@ -9176,43 +6670,6 @@ class DescribeOrganizationConformancePackStatusesResponse {
       if (organizationConformancePackStatuses != null)
         'OrganizationConformancePackStatuses':
             organizationConformancePackStatuses,
-    };
-  }
-}
-
-class DescribeOrganizationConformancePacksResponse {
-  /// The nextToken string returned on a previous page that you use to get the
-  /// next page of results in a paginated response.
-  final String? nextToken;
-
-  /// Returns a list of OrganizationConformancePacks objects.
-  final List<OrganizationConformancePack>? organizationConformancePacks;
-
-  DescribeOrganizationConformancePacksResponse({
-    this.nextToken,
-    this.organizationConformancePacks,
-  });
-
-  factory DescribeOrganizationConformancePacksResponse.fromJson(
-      Map<String, dynamic> json) {
-    return DescribeOrganizationConformancePacksResponse(
-      nextToken: json['NextToken'] as String?,
-      organizationConformancePacks: (json['OrganizationConformancePacks']
-              as List?)
-          ?.nonNulls
-          .map((e) =>
-              OrganizationConformancePack.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final organizationConformancePacks = this.organizationConformancePacks;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (organizationConformancePacks != null)
-        'OrganizationConformancePacks': organizationConformancePacks,
     };
   }
 }
@@ -9389,651 +6846,26 @@ class DescribeRetentionConfigurationsResponse {
   }
 }
 
-/// Identifies an Amazon Web Services resource and indicates whether it complies
-/// with the Config rule that it was evaluated against.
-class Evaluation {
-  /// The ID of the Amazon Web Services resource that was evaluated.
-  final String complianceResourceId;
+class DisassociateResourceTypesResponse {
+  final ConfigurationRecorder configurationRecorder;
 
-  /// The type of Amazon Web Services resource that was evaluated.
-  final String complianceResourceType;
-
-  /// Indicates whether the Amazon Web Services resource complies with the Config
-  /// rule that it was evaluated against.
-  ///
-  /// For the <code>Evaluation</code> data type, Config supports only the
-  /// <code>COMPLIANT</code>, <code>NON_COMPLIANT</code>, and
-  /// <code>NOT_APPLICABLE</code> values. Config does not support the
-  /// <code>INSUFFICIENT_DATA</code> value for this data type.
-  ///
-  /// Similarly, Config does not accept <code>INSUFFICIENT_DATA</code> as the
-  /// value for <code>ComplianceType</code> from a <code>PutEvaluations</code>
-  /// request. For example, an Lambda function for a custom Config rule cannot
-  /// pass an <code>INSUFFICIENT_DATA</code> value to Config.
-  final ComplianceType complianceType;
-
-  /// The time of the event in Config that triggered the evaluation. For
-  /// event-based evaluations, the time indicates when Config created the
-  /// configuration item that triggered the evaluation. For periodic evaluations,
-  /// the time indicates when Config triggered the evaluation at the frequency
-  /// that you specified (for example, every 24 hours).
-  final DateTime orderingTimestamp;
-
-  /// Supplementary information about how the evaluation determined the
-  /// compliance.
-  final String? annotation;
-
-  Evaluation({
-    required this.complianceResourceId,
-    required this.complianceResourceType,
-    required this.complianceType,
-    required this.orderingTimestamp,
-    this.annotation,
+  DisassociateResourceTypesResponse({
+    required this.configurationRecorder,
   });
 
-  factory Evaluation.fromJson(Map<String, dynamic> json) {
-    return Evaluation(
-      complianceResourceId: (json['ComplianceResourceId'] as String?) ?? '',
-      complianceResourceType: (json['ComplianceResourceType'] as String?) ?? '',
-      complianceType:
-          ComplianceType.fromString((json['ComplianceType'] as String?) ?? ''),
-      orderingTimestamp:
-          nonNullableTimeStampFromJson(json['OrderingTimestamp'] ?? 0),
-      annotation: json['Annotation'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final complianceResourceId = this.complianceResourceId;
-    final complianceResourceType = this.complianceResourceType;
-    final complianceType = this.complianceType;
-    final orderingTimestamp = this.orderingTimestamp;
-    final annotation = this.annotation;
-    return {
-      'ComplianceResourceId': complianceResourceId,
-      'ComplianceResourceType': complianceResourceType,
-      'ComplianceType': complianceType.value,
-      'OrderingTimestamp': unixTimestampToJson(orderingTimestamp),
-      if (annotation != null) 'Annotation': annotation,
-    };
-  }
-}
-
-/// Use EvaluationContext to group independently initiated proactive resource
-/// evaluations. For example, CFN Stack. If you want to check just a resource
-/// definition, you do not need to provide evaluation context.
-class EvaluationContext {
-  /// A unique EvaluationContextIdentifier ID for an EvaluationContext.
-  final String? evaluationContextIdentifier;
-
-  EvaluationContext({
-    this.evaluationContextIdentifier,
-  });
-
-  factory EvaluationContext.fromJson(Map<String, dynamic> json) {
-    return EvaluationContext(
-      evaluationContextIdentifier:
-          json['EvaluationContextIdentifier'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final evaluationContextIdentifier = this.evaluationContextIdentifier;
-    return {
-      if (evaluationContextIdentifier != null)
-        'EvaluationContextIdentifier': evaluationContextIdentifier,
-    };
-  }
-}
-
-class EvaluationMode {
-  static const detective = EvaluationMode._('DETECTIVE');
-  static const proactive = EvaluationMode._('PROACTIVE');
-
-  final String value;
-
-  const EvaluationMode._(this.value);
-
-  static const values = [detective, proactive];
-
-  static EvaluationMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EvaluationMode._(value));
-
-  @override
-  bool operator ==(other) => other is EvaluationMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The configuration object for Config rule evaluation mode. The supported
-/// valid values are Detective or Proactive.
-class EvaluationModeConfiguration {
-  /// The mode of an evaluation. The valid values are Detective or Proactive.
-  final EvaluationMode? mode;
-
-  EvaluationModeConfiguration({
-    this.mode,
-  });
-
-  factory EvaluationModeConfiguration.fromJson(Map<String, dynamic> json) {
-    return EvaluationModeConfiguration(
-      mode: (json['Mode'] as String?)?.let(EvaluationMode.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final mode = this.mode;
-    return {
-      if (mode != null) 'Mode': mode.value,
-    };
-  }
-}
-
-/// The details of an Config evaluation. Provides the Amazon Web Services
-/// resource that was evaluated, the compliance of the resource, related time
-/// stamps, and supplementary information.
-class EvaluationResult {
-  /// Supplementary information about how the evaluation determined the
-  /// compliance.
-  final String? annotation;
-
-  /// Indicates whether the Amazon Web Services resource complies with the Config
-  /// rule that evaluated it.
-  ///
-  /// For the <code>EvaluationResult</code> data type, Config supports only the
-  /// <code>COMPLIANT</code>, <code>NON_COMPLIANT</code>, and
-  /// <code>NOT_APPLICABLE</code> values. Config does not support the
-  /// <code>INSUFFICIENT_DATA</code> value for the <code>EvaluationResult</code>
-  /// data type.
-  final ComplianceType? complianceType;
-
-  /// The time when the Config rule evaluated the Amazon Web Services resource.
-  final DateTime? configRuleInvokedTime;
-
-  /// Uniquely identifies the evaluation result.
-  final EvaluationResultIdentifier? evaluationResultIdentifier;
-
-  /// The time when Config recorded the evaluation result.
-  final DateTime? resultRecordedTime;
-
-  /// An encrypted token that associates an evaluation with an Config rule. The
-  /// token identifies the rule, the Amazon Web Services resource being evaluated,
-  /// and the event that triggered the evaluation.
-  final String? resultToken;
-
-  EvaluationResult({
-    this.annotation,
-    this.complianceType,
-    this.configRuleInvokedTime,
-    this.evaluationResultIdentifier,
-    this.resultRecordedTime,
-    this.resultToken,
-  });
-
-  factory EvaluationResult.fromJson(Map<String, dynamic> json) {
-    return EvaluationResult(
-      annotation: json['Annotation'] as String?,
-      complianceType:
-          (json['ComplianceType'] as String?)?.let(ComplianceType.fromString),
-      configRuleInvokedTime: timeStampFromJson(json['ConfigRuleInvokedTime']),
-      evaluationResultIdentifier: json['EvaluationResultIdentifier'] != null
-          ? EvaluationResultIdentifier.fromJson(
-              json['EvaluationResultIdentifier'] as Map<String, dynamic>)
-          : null,
-      resultRecordedTime: timeStampFromJson(json['ResultRecordedTime']),
-      resultToken: json['ResultToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final annotation = this.annotation;
-    final complianceType = this.complianceType;
-    final configRuleInvokedTime = this.configRuleInvokedTime;
-    final evaluationResultIdentifier = this.evaluationResultIdentifier;
-    final resultRecordedTime = this.resultRecordedTime;
-    final resultToken = this.resultToken;
-    return {
-      if (annotation != null) 'Annotation': annotation,
-      if (complianceType != null) 'ComplianceType': complianceType.value,
-      if (configRuleInvokedTime != null)
-        'ConfigRuleInvokedTime': unixTimestampToJson(configRuleInvokedTime),
-      if (evaluationResultIdentifier != null)
-        'EvaluationResultIdentifier': evaluationResultIdentifier,
-      if (resultRecordedTime != null)
-        'ResultRecordedTime': unixTimestampToJson(resultRecordedTime),
-      if (resultToken != null) 'ResultToken': resultToken,
-    };
-  }
-}
-
-/// Uniquely identifies an evaluation result.
-class EvaluationResultIdentifier {
-  /// Identifies an Config rule used to evaluate an Amazon Web Services resource,
-  /// and provides the type and ID of the evaluated resource.
-  final EvaluationResultQualifier? evaluationResultQualifier;
-
-  /// The time of the event that triggered the evaluation of your Amazon Web
-  /// Services resources. The time can indicate when Config delivered a
-  /// configuration item change notification, or it can indicate when Config
-  /// delivered the configuration snapshot, depending on which event triggered the
-  /// evaluation.
-  final DateTime? orderingTimestamp;
-
-  /// A Unique ID for an evaluation result.
-  final String? resourceEvaluationId;
-
-  EvaluationResultIdentifier({
-    this.evaluationResultQualifier,
-    this.orderingTimestamp,
-    this.resourceEvaluationId,
-  });
-
-  factory EvaluationResultIdentifier.fromJson(Map<String, dynamic> json) {
-    return EvaluationResultIdentifier(
-      evaluationResultQualifier: json['EvaluationResultQualifier'] != null
-          ? EvaluationResultQualifier.fromJson(
-              json['EvaluationResultQualifier'] as Map<String, dynamic>)
-          : null,
-      orderingTimestamp: timeStampFromJson(json['OrderingTimestamp']),
-      resourceEvaluationId: json['ResourceEvaluationId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final evaluationResultQualifier = this.evaluationResultQualifier;
-    final orderingTimestamp = this.orderingTimestamp;
-    final resourceEvaluationId = this.resourceEvaluationId;
-    return {
-      if (evaluationResultQualifier != null)
-        'EvaluationResultQualifier': evaluationResultQualifier,
-      if (orderingTimestamp != null)
-        'OrderingTimestamp': unixTimestampToJson(orderingTimestamp),
-      if (resourceEvaluationId != null)
-        'ResourceEvaluationId': resourceEvaluationId,
-    };
-  }
-}
-
-/// Identifies an Config rule that evaluated an Amazon Web Services resource,
-/// and provides the type and ID of the resource that the rule evaluated.
-class EvaluationResultQualifier {
-  /// The name of the Config rule that was used in the evaluation.
-  final String? configRuleName;
-
-  /// The mode of an evaluation. The valid values are Detective or Proactive.
-  final EvaluationMode? evaluationMode;
-
-  /// The ID of the evaluated Amazon Web Services resource.
-  final String? resourceId;
-
-  /// The type of Amazon Web Services resource that was evaluated.
-  final String? resourceType;
-
-  EvaluationResultQualifier({
-    this.configRuleName,
-    this.evaluationMode,
-    this.resourceId,
-    this.resourceType,
-  });
-
-  factory EvaluationResultQualifier.fromJson(Map<String, dynamic> json) {
-    return EvaluationResultQualifier(
-      configRuleName: json['ConfigRuleName'] as String?,
-      evaluationMode:
-          (json['EvaluationMode'] as String?)?.let(EvaluationMode.fromString),
-      resourceId: json['ResourceId'] as String?,
-      resourceType: json['ResourceType'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final configRuleName = this.configRuleName;
-    final evaluationMode = this.evaluationMode;
-    final resourceId = this.resourceId;
-    final resourceType = this.resourceType;
-    return {
-      if (configRuleName != null) 'ConfigRuleName': configRuleName,
-      if (evaluationMode != null) 'EvaluationMode': evaluationMode.value,
-      if (resourceId != null) 'ResourceId': resourceId,
-      if (resourceType != null) 'ResourceType': resourceType,
-    };
-  }
-}
-
-/// Returns status details of an evaluation.
-class EvaluationStatus {
-  /// The status of an execution. The valid values are In_Progress, Succeeded or
-  /// Failed.
-  final ResourceEvaluationStatus status;
-
-  /// An explanation for failed execution status.
-  final String? failureReason;
-
-  EvaluationStatus({
-    required this.status,
-    this.failureReason,
-  });
-
-  factory EvaluationStatus.fromJson(Map<String, dynamic> json) {
-    return EvaluationStatus(
-      status: ResourceEvaluationStatus.fromString(
-          (json['Status'] as String?) ?? ''),
-      failureReason: json['FailureReason'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final status = this.status;
-    final failureReason = this.failureReason;
-    return {
-      'Status': status.value,
-      if (failureReason != null) 'FailureReason': failureReason,
-    };
-  }
-}
-
-class EventSource {
-  static const awsConfig = EventSource._('aws.config');
-
-  final String value;
-
-  const EventSource._(this.value);
-
-  static const values = [awsConfig];
-
-  static EventSource fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => EventSource._(value));
-
-  @override
-  bool operator ==(other) => other is EventSource && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Specifies whether the configuration recorder excludes certain resource types
-/// from being recorded. Use the <code>resourceTypes</code> field to enter a
-/// comma-separated list of resource types you want to exclude from recording.
-///
-/// By default, when Config adds support for a new resource type in the Region
-/// where you set up the configuration recorder, including global resource
-/// types, Config starts recording resources of that type automatically.
-/// <note>
-/// <b>How to use the exclusion recording strategy </b>
-///
-/// To use this option, you must set the <code>useOnly</code> field of <a
-/// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html">RecordingStrategy</a>
-/// to <code>EXCLUSION_BY_RESOURCE_TYPES</code>.
-///
-/// Config will then record configuration changes for all supported resource
-/// types, except the resource types that you specify to exclude from being
-/// recorded.
-///
-/// <b>Global resource types and the exclusion recording strategy </b>
-///
-/// Unless specifically listed as exclusions,
-/// <code>AWS::RDS::GlobalCluster</code> will be recorded automatically in all
-/// supported Config Regions were the configuration recorder is enabled.
-///
-/// IAM users, groups, roles, and customer managed policies will be recorded in
-/// the Region where you set up the configuration recorder if that is a Region
-/// where Config was available before February 2022. You cannot be record the
-/// global IAM resouce types in Regions supported by Config after February 2022.
-/// This list where you cannot record the global IAM resource types includes the
-/// following Regions:
-///
-/// <ul>
-/// <li>
-/// Asia Pacific (Hyderabad)
-/// </li>
-/// <li>
-/// Asia Pacific (Melbourne)
-/// </li>
-/// <li>
-/// Canada West (Calgary)
-/// </li>
-/// <li>
-/// Europe (Spain)
-/// </li>
-/// <li>
-/// Europe (Zurich)
-/// </li>
-/// <li>
-/// Israel (Tel Aviv)
-/// </li>
-/// <li>
-/// Middle East (UAE)
-/// </li>
-/// </ul> </note>
-class ExclusionByResourceTypes {
-  /// A comma-separated list of resource types to exclude from recording by the
-  /// configuration recorder.
-  final List<ResourceType>? resourceTypes;
-
-  ExclusionByResourceTypes({
-    this.resourceTypes,
-  });
-
-  factory ExclusionByResourceTypes.fromJson(Map<String, dynamic> json) {
-    return ExclusionByResourceTypes(
-      resourceTypes: (json['resourceTypes'] as List?)
-          ?.nonNulls
-          .map((e) => ResourceType.fromString((e as String)))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resourceTypes = this.resourceTypes;
-    return {
-      if (resourceTypes != null)
-        'resourceTypes': resourceTypes.map((e) => e.value).toList(),
-    };
-  }
-}
-
-/// The controls that Config uses for executing remediations.
-class ExecutionControls {
-  /// A SsmControls object.
-  final SsmControls? ssmControls;
-
-  ExecutionControls({
-    this.ssmControls,
-  });
-
-  factory ExecutionControls.fromJson(Map<String, dynamic> json) {
-    return ExecutionControls(
-      ssmControls: json['SsmControls'] != null
-          ? SsmControls.fromJson(json['SsmControls'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final ssmControls = this.ssmControls;
-    return {
-      if (ssmControls != null) 'SsmControls': ssmControls,
-    };
-  }
-}
-
-/// Identifies an Amazon Web Services resource and indicates whether it complies
-/// with the Config rule that it was evaluated against.
-class ExternalEvaluation {
-  /// The evaluated compliance resource ID. Config accepts only Amazon Web
-  /// Services account ID.
-  final String complianceResourceId;
-
-  /// The evaluated compliance resource type. Config accepts
-  /// <code>AWS::::Account</code> resource type.
-  final String complianceResourceType;
-
-  /// The compliance of the Amazon Web Services resource. The valid values are
-  /// <code>COMPLIANT, NON_COMPLIANT, </code> and <code>NOT_APPLICABLE</code>.
-  final ComplianceType complianceType;
-
-  /// The time when the compliance was recorded.
-  final DateTime orderingTimestamp;
-
-  /// Supplementary information about the reason of compliance. For example, this
-  /// task was completed on a specific date.
-  final String? annotation;
-
-  ExternalEvaluation({
-    required this.complianceResourceId,
-    required this.complianceResourceType,
-    required this.complianceType,
-    required this.orderingTimestamp,
-    this.annotation,
-  });
-
-  Map<String, dynamic> toJson() {
-    final complianceResourceId = this.complianceResourceId;
-    final complianceResourceType = this.complianceResourceType;
-    final complianceType = this.complianceType;
-    final orderingTimestamp = this.orderingTimestamp;
-    final annotation = this.annotation;
-    return {
-      'ComplianceResourceId': complianceResourceId,
-      'ComplianceResourceType': complianceResourceType,
-      'ComplianceType': complianceType.value,
-      'OrderingTimestamp': unixTimestampToJson(orderingTimestamp),
-      if (annotation != null) 'Annotation': annotation,
-    };
-  }
-}
-
-/// List of each of the failed delete remediation exceptions with specific
-/// reasons.
-class FailedDeleteRemediationExceptionsBatch {
-  /// Returns remediation exception resource key object of the failed items.
-  final List<RemediationExceptionResourceKey>? failedItems;
-
-  /// Returns a failure message for delete remediation exception. For example,
-  /// Config creates an exception due to an internal error.
-  final String? failureMessage;
-
-  FailedDeleteRemediationExceptionsBatch({
-    this.failedItems,
-    this.failureMessage,
-  });
-
-  factory FailedDeleteRemediationExceptionsBatch.fromJson(
+  factory DisassociateResourceTypesResponse.fromJson(
       Map<String, dynamic> json) {
-    return FailedDeleteRemediationExceptionsBatch(
-      failedItems: (json['FailedItems'] as List?)
-          ?.nonNulls
-          .map((e) => RemediationExceptionResourceKey.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-      failureMessage: json['FailureMessage'] as String?,
+    return DisassociateResourceTypesResponse(
+      configurationRecorder: ConfigurationRecorder.fromJson(
+          (json['ConfigurationRecorder'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final failedItems = this.failedItems;
-    final failureMessage = this.failureMessage;
+    final configurationRecorder = this.configurationRecorder;
     return {
-      if (failedItems != null) 'FailedItems': failedItems,
-      if (failureMessage != null) 'FailureMessage': failureMessage,
-    };
-  }
-}
-
-/// List of each of the failed remediations with specific reasons.
-class FailedRemediationBatch {
-  /// Returns remediation configurations of the failed items.
-  final List<RemediationConfiguration>? failedItems;
-
-  /// Returns a failure message. For example, the resource is already compliant.
-  final String? failureMessage;
-
-  FailedRemediationBatch({
-    this.failedItems,
-    this.failureMessage,
-  });
-
-  factory FailedRemediationBatch.fromJson(Map<String, dynamic> json) {
-    return FailedRemediationBatch(
-      failedItems: (json['FailedItems'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              RemediationConfiguration.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      failureMessage: json['FailureMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final failedItems = this.failedItems;
-    final failureMessage = this.failureMessage;
-    return {
-      if (failedItems != null) 'FailedItems': failedItems,
-      if (failureMessage != null) 'FailureMessage': failureMessage,
-    };
-  }
-}
-
-/// List of each of the failed remediation exceptions with specific reasons.
-class FailedRemediationExceptionBatch {
-  /// Returns remediation exception resource key object of the failed items.
-  final List<RemediationException>? failedItems;
-
-  /// Returns a failure message. For example, the auto-remediation has failed.
-  final String? failureMessage;
-
-  FailedRemediationExceptionBatch({
-    this.failedItems,
-    this.failureMessage,
-  });
-
-  factory FailedRemediationExceptionBatch.fromJson(Map<String, dynamic> json) {
-    return FailedRemediationExceptionBatch(
-      failedItems: (json['FailedItems'] as List?)
-          ?.nonNulls
-          .map((e) => RemediationException.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      failureMessage: json['FailureMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final failedItems = this.failedItems;
-    final failureMessage = this.failureMessage;
-    return {
-      if (failedItems != null) 'FailedItems': failedItems,
-      if (failureMessage != null) 'FailureMessage': failureMessage,
-    };
-  }
-}
-
-/// Details about the fields such as name of the field.
-class FieldInfo {
-  /// Name of the field.
-  final String? name;
-
-  FieldInfo({
-    this.name,
-  });
-
-  factory FieldInfo.fromJson(Map<String, dynamic> json) {
-    return FieldInfo(
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    return {
-      if (name != null) 'Name': name,
+      'ConfigurationRecorder': configurationRecorder,
     };
   }
 }
@@ -10243,7 +7075,7 @@ class GetAggregateResourceConfigResponse {
   }
 }
 
-/// <p/>
+///
 class GetComplianceDetailsByConfigRuleResponse {
   /// Indicates whether the Amazon Web Services resource complies with the
   /// specified Config rule.
@@ -10279,7 +7111,7 @@ class GetComplianceDetailsByConfigRuleResponse {
   }
 }
 
-/// <p/>
+///
 class GetComplianceDetailsByResourceResponse {
   /// Indicates whether the specified Amazon Web Services resource complies each
   /// Config rule.
@@ -10315,7 +7147,7 @@ class GetComplianceDetailsByResourceResponse {
   }
 }
 
-/// <p/>
+///
 class GetComplianceSummaryByConfigRuleResponse {
   /// The number of Config rules that are compliant and the number that are
   /// noncompliant, up to a maximum of 25 for each.
@@ -10343,7 +7175,7 @@ class GetComplianceSummaryByConfigRuleResponse {
   }
 }
 
-/// <p/>
+///
 class GetComplianceSummaryByResourceTypeResponse {
   /// The number of resources that are compliant and the number that are
   /// noncompliant. If one or more resource types were provided with the request,
@@ -10652,7 +7484,8 @@ class GetOrganizationCustomRulePolicyResponse {
 
 /// The output for the <a>GetResourceConfigHistory</a> action.
 class GetResourceConfigHistoryResponse {
-  /// A list that contains the configuration history of one or more resources.
+  /// An array of <code>ConfigurationItems</code> Objects. Contatins the
+  /// configuration history for one or more resources.
   final List<ConfigurationItem>? configurationItems;
 
   /// The string that you use in a subsequent request to get the next page of
@@ -10791,38 +7624,6 @@ class GetStoredQueryResponse {
   }
 }
 
-/// The count of resources that are grouped by the group name.
-class GroupedResourceCount {
-  /// The name of the group that can be region, account ID, or resource type. For
-  /// example, region1, region2 if the region was chosen as
-  /// <code>GroupByKey</code>.
-  final String groupName;
-
-  /// The number of resources in the group.
-  final int resourceCount;
-
-  GroupedResourceCount({
-    required this.groupName,
-    required this.resourceCount,
-  });
-
-  factory GroupedResourceCount.fromJson(Map<String, dynamic> json) {
-    return GroupedResourceCount(
-      groupName: (json['GroupName'] as String?) ?? '',
-      resourceCount: (json['ResourceCount'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final groupName = this.groupName;
-    final resourceCount = this.resourceCount;
-    return {
-      'GroupName': groupName,
-      'ResourceCount': resourceCount,
-    };
-  }
-}
-
 class ListAggregateDiscoveredResourcesResponse {
   /// The <code>nextToken</code> string returned on a previous page that you use
   /// to get the next page of results in a paginated response.
@@ -10855,6 +7656,43 @@ class ListAggregateDiscoveredResourcesResponse {
       if (nextToken != null) 'NextToken': nextToken,
       if (resourceIdentifiers != null)
         'ResourceIdentifiers': resourceIdentifiers,
+    };
+  }
+}
+
+class ListConfigurationRecordersResponse {
+  /// A list of <code>ConfigurationRecorderSummary</code> objects that includes.
+  final List<ConfigurationRecorderSummary> configurationRecorderSummaries;
+
+  /// The <code>NextToken</code> string returned on a previous page that you use
+  /// to get the next page of results in a paginated response.
+  final String? nextToken;
+
+  ListConfigurationRecordersResponse({
+    required this.configurationRecorderSummaries,
+    this.nextToken,
+  });
+
+  factory ListConfigurationRecordersResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListConfigurationRecordersResponse(
+      configurationRecorderSummaries: ((json['ConfigurationRecorderSummaries']
+                  as List?) ??
+              const [])
+          .nonNulls
+          .map((e) =>
+              ConfigurationRecorderSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configurationRecorderSummaries = this.configurationRecorderSummaries;
+    final nextToken = this.nextToken;
+    return {
+      'ConfigurationRecorderSummaries': configurationRecorderSummaries,
+      if (nextToken != null) 'NextToken': nextToken,
     };
   }
 }
@@ -10896,7 +7734,7 @@ class ListConformancePackComplianceScoresResponse {
   }
 }
 
-/// <p/>
+///
 class ListDiscoveredResourcesResponse {
   /// The string that you use in a subsequent request to get the next page of
   /// results in a paginated response.
@@ -10969,9 +7807,9 @@ class ListResourceEvaluationsResponse {
 class ListStoredQueriesResponse {
   /// If the previous paginated request didn't return all of the remaining
   /// results, the response object's <code>NextToken</code> parameter value is set
-  /// to a token. To retrieve the next set of results, call this action again and
-  /// assign that token to the request object's <code>NextToken</code> parameter.
-  /// If there are no remaining results, the previous response object's
+  /// to a token. To retrieve the next set of results, call this operation again
+  /// and assign that token to the request object's <code>NextToken</code>
+  /// parameter. If there are no remaining results, the previous response object's
   /// <code>NextToken</code> parameter is set to <code>null</code>.
   final String? nextToken;
 
@@ -11033,1602 +7871,6 @@ class ListTagsForResourceResponse {
     return {
       if (nextToken != null) 'NextToken': nextToken,
       if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-class MaximumExecutionFrequency {
-  static const oneHour = MaximumExecutionFrequency._('One_Hour');
-  static const threeHours = MaximumExecutionFrequency._('Three_Hours');
-  static const sixHours = MaximumExecutionFrequency._('Six_Hours');
-  static const twelveHours = MaximumExecutionFrequency._('Twelve_Hours');
-  static const twentyFourHours =
-      MaximumExecutionFrequency._('TwentyFour_Hours');
-
-  final String value;
-
-  const MaximumExecutionFrequency._(this.value);
-
-  static const values = [
-    oneHour,
-    threeHours,
-    sixHours,
-    twelveHours,
-    twentyFourHours
-  ];
-
-  static MaximumExecutionFrequency fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MaximumExecutionFrequency._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is MaximumExecutionFrequency && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class MemberAccountRuleStatus {
-  static const createSuccessful =
-      MemberAccountRuleStatus._('CREATE_SUCCESSFUL');
-  static const createInProgress =
-      MemberAccountRuleStatus._('CREATE_IN_PROGRESS');
-  static const createFailed = MemberAccountRuleStatus._('CREATE_FAILED');
-  static const deleteSuccessful =
-      MemberAccountRuleStatus._('DELETE_SUCCESSFUL');
-  static const deleteFailed = MemberAccountRuleStatus._('DELETE_FAILED');
-  static const deleteInProgress =
-      MemberAccountRuleStatus._('DELETE_IN_PROGRESS');
-  static const updateSuccessful =
-      MemberAccountRuleStatus._('UPDATE_SUCCESSFUL');
-  static const updateInProgress =
-      MemberAccountRuleStatus._('UPDATE_IN_PROGRESS');
-  static const updateFailed = MemberAccountRuleStatus._('UPDATE_FAILED');
-
-  final String value;
-
-  const MemberAccountRuleStatus._(this.value);
-
-  static const values = [
-    createSuccessful,
-    createInProgress,
-    createFailed,
-    deleteSuccessful,
-    deleteFailed,
-    deleteInProgress,
-    updateSuccessful,
-    updateInProgress,
-    updateFailed
-  ];
-
-  static MemberAccountRuleStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MemberAccountRuleStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is MemberAccountRuleStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Organization Config rule creation or deletion status in each member account.
-/// This includes the name of the rule, the status, error code and error message
-/// when the rule creation or deletion failed.
-class MemberAccountStatus {
-  /// The 12-digit account ID of a member account.
-  final String accountId;
-
-  /// The name of Config rule deployed in the member account.
-  final String configRuleName;
-
-  /// Indicates deployment status for Config rule in the member account. When
-  /// management account calls <code>PutOrganizationConfigRule</code> action for
-  /// the first time, Config rule status is created in the member account. When
-  /// management account calls <code>PutOrganizationConfigRule</code> action for
-  /// the second time, Config rule status is updated in the member account. Config
-  /// rule status is deleted when the management account deletes
-  /// <code>OrganizationConfigRule</code> and disables service access for
-  /// <code>config-multiaccountsetup.amazonaws.com</code>.
-  ///
-  /// Config sets the state of the rule to:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>CREATE_SUCCESSFUL</code> when Config rule has been created in the
-  /// member account.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_IN_PROGRESS</code> when Config rule is being created in the
-  /// member account.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_FAILED</code> when Config rule creation has failed in the
-  /// member account.
-  /// </li>
-  /// <li>
-  /// <code>DELETE_FAILED</code> when Config rule deletion has failed in the
-  /// member account.
-  /// </li>
-  /// <li>
-  /// <code>DELETE_IN_PROGRESS</code> when Config rule is being deleted in the
-  /// member account.
-  /// </li>
-  /// <li>
-  /// <code>DELETE_SUCCESSFUL</code> when Config rule has been deleted in the
-  /// member account.
-  /// </li>
-  /// <li>
-  /// <code>UPDATE_SUCCESSFUL</code> when Config rule has been updated in the
-  /// member account.
-  /// </li>
-  /// <li>
-  /// <code>UPDATE_IN_PROGRESS</code> when Config rule is being updated in the
-  /// member account.
-  /// </li>
-  /// <li>
-  /// <code>UPDATE_FAILED</code> when Config rule deletion has failed in the
-  /// member account.
-  /// </li>
-  /// </ul>
-  final MemberAccountRuleStatus memberAccountRuleStatus;
-
-  /// An error code that is returned when Config rule creation or deletion failed
-  /// in the member account.
-  final String? errorCode;
-
-  /// An error message indicating that Config rule account creation or deletion
-  /// has failed due to an error in the member account.
-  final String? errorMessage;
-
-  /// The timestamp of the last status update.
-  final DateTime? lastUpdateTime;
-
-  MemberAccountStatus({
-    required this.accountId,
-    required this.configRuleName,
-    required this.memberAccountRuleStatus,
-    this.errorCode,
-    this.errorMessage,
-    this.lastUpdateTime,
-  });
-
-  factory MemberAccountStatus.fromJson(Map<String, dynamic> json) {
-    return MemberAccountStatus(
-      accountId: (json['AccountId'] as String?) ?? '',
-      configRuleName: (json['ConfigRuleName'] as String?) ?? '',
-      memberAccountRuleStatus: MemberAccountRuleStatus.fromString(
-          (json['MemberAccountRuleStatus'] as String?) ?? ''),
-      errorCode: json['ErrorCode'] as String?,
-      errorMessage: json['ErrorMessage'] as String?,
-      lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final configRuleName = this.configRuleName;
-    final memberAccountRuleStatus = this.memberAccountRuleStatus;
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    final lastUpdateTime = this.lastUpdateTime;
-    return {
-      'AccountId': accountId,
-      'ConfigRuleName': configRuleName,
-      'MemberAccountRuleStatus': memberAccountRuleStatus.value,
-      if (errorCode != null) 'ErrorCode': errorCode,
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-      if (lastUpdateTime != null)
-        'LastUpdateTime': unixTimestampToJson(lastUpdateTime),
-    };
-  }
-}
-
-class MessageType {
-  static const configurationItemChangeNotification =
-      MessageType._('ConfigurationItemChangeNotification');
-  static const configurationSnapshotDeliveryCompleted =
-      MessageType._('ConfigurationSnapshotDeliveryCompleted');
-  static const scheduledNotification = MessageType._('ScheduledNotification');
-  static const oversizedConfigurationItemChangeNotification =
-      MessageType._('OversizedConfigurationItemChangeNotification');
-
-  final String value;
-
-  const MessageType._(this.value);
-
-  static const values = [
-    configurationItemChangeNotification,
-    configurationSnapshotDeliveryCompleted,
-    scheduledNotification,
-    oversizedConfigurationItemChangeNotification
-  ];
-
-  static MessageType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => MessageType._(value));
-
-  @override
-  bool operator ==(other) => other is MessageType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// This object contains regions to set up the aggregator and an IAM role to
-/// retrieve organization details.
-class OrganizationAggregationSource {
-  /// ARN of the IAM role used to retrieve Amazon Web Services Organization
-  /// details associated with the aggregator account.
-  final String roleArn;
-
-  /// If true, aggregate existing Config regions and future regions.
-  final bool? allAwsRegions;
-
-  /// The source regions being aggregated.
-  final List<String>? awsRegions;
-
-  OrganizationAggregationSource({
-    required this.roleArn,
-    this.allAwsRegions,
-    this.awsRegions,
-  });
-
-  factory OrganizationAggregationSource.fromJson(Map<String, dynamic> json) {
-    return OrganizationAggregationSource(
-      roleArn: (json['RoleArn'] as String?) ?? '',
-      allAwsRegions: json['AllAwsRegions'] as bool?,
-      awsRegions: (json['AwsRegions'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final roleArn = this.roleArn;
-    final allAwsRegions = this.allAwsRegions;
-    final awsRegions = this.awsRegions;
-    return {
-      'RoleArn': roleArn,
-      if (allAwsRegions != null) 'AllAwsRegions': allAwsRegions,
-      if (awsRegions != null) 'AwsRegions': awsRegions,
-    };
-  }
-}
-
-/// An organization Config rule that has information about Config rules that
-/// Config creates in member accounts.
-class OrganizationConfigRule {
-  /// Amazon Resource Name (ARN) of organization Config rule.
-  final String organizationConfigRuleArn;
-
-  /// The name that you assign to organization Config rule.
-  final String organizationConfigRuleName;
-
-  /// A comma-separated list of accounts excluded from organization Config rule.
-  final List<String>? excludedAccounts;
-
-  /// The timestamp of the last update.
-  final DateTime? lastUpdateTime;
-
-  /// An object that specifies metadata for your organization's Config Custom
-  /// Policy rule. The metadata includes the runtime system in use, which accounts
-  /// have debug logging enabled, and other custom rule metadata, such as resource
-  /// type, resource ID of Amazon Web Services resource, and organization trigger
-  /// types that initiate Config to evaluate Amazon Web Services resources against
-  /// a rule.
-  final OrganizationCustomPolicyRuleMetadataNoPolicy?
-      organizationCustomPolicyRuleMetadata;
-
-  /// An <code>OrganizationCustomRuleMetadata</code> object.
-  final OrganizationCustomRuleMetadata? organizationCustomRuleMetadata;
-
-  /// An <code>OrganizationManagedRuleMetadata</code> object.
-  final OrganizationManagedRuleMetadata? organizationManagedRuleMetadata;
-
-  OrganizationConfigRule({
-    required this.organizationConfigRuleArn,
-    required this.organizationConfigRuleName,
-    this.excludedAccounts,
-    this.lastUpdateTime,
-    this.organizationCustomPolicyRuleMetadata,
-    this.organizationCustomRuleMetadata,
-    this.organizationManagedRuleMetadata,
-  });
-
-  factory OrganizationConfigRule.fromJson(Map<String, dynamic> json) {
-    return OrganizationConfigRule(
-      organizationConfigRuleArn:
-          (json['OrganizationConfigRuleArn'] as String?) ?? '',
-      organizationConfigRuleName:
-          (json['OrganizationConfigRuleName'] as String?) ?? '',
-      excludedAccounts: (json['ExcludedAccounts'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
-      organizationCustomPolicyRuleMetadata:
-          json['OrganizationCustomPolicyRuleMetadata'] != null
-              ? OrganizationCustomPolicyRuleMetadataNoPolicy.fromJson(
-                  json['OrganizationCustomPolicyRuleMetadata']
-                      as Map<String, dynamic>)
-              : null,
-      organizationCustomRuleMetadata: json['OrganizationCustomRuleMetadata'] !=
-              null
-          ? OrganizationCustomRuleMetadata.fromJson(
-              json['OrganizationCustomRuleMetadata'] as Map<String, dynamic>)
-          : null,
-      organizationManagedRuleMetadata:
-          json['OrganizationManagedRuleMetadata'] != null
-              ? OrganizationManagedRuleMetadata.fromJson(
-                  json['OrganizationManagedRuleMetadata']
-                      as Map<String, dynamic>)
-              : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final organizationConfigRuleArn = this.organizationConfigRuleArn;
-    final organizationConfigRuleName = this.organizationConfigRuleName;
-    final excludedAccounts = this.excludedAccounts;
-    final lastUpdateTime = this.lastUpdateTime;
-    final organizationCustomPolicyRuleMetadata =
-        this.organizationCustomPolicyRuleMetadata;
-    final organizationCustomRuleMetadata = this.organizationCustomRuleMetadata;
-    final organizationManagedRuleMetadata =
-        this.organizationManagedRuleMetadata;
-    return {
-      'OrganizationConfigRuleArn': organizationConfigRuleArn,
-      'OrganizationConfigRuleName': organizationConfigRuleName,
-      if (excludedAccounts != null) 'ExcludedAccounts': excludedAccounts,
-      if (lastUpdateTime != null)
-        'LastUpdateTime': unixTimestampToJson(lastUpdateTime),
-      if (organizationCustomPolicyRuleMetadata != null)
-        'OrganizationCustomPolicyRuleMetadata':
-            organizationCustomPolicyRuleMetadata,
-      if (organizationCustomRuleMetadata != null)
-        'OrganizationCustomRuleMetadata': organizationCustomRuleMetadata,
-      if (organizationManagedRuleMetadata != null)
-        'OrganizationManagedRuleMetadata': organizationManagedRuleMetadata,
-    };
-  }
-}
-
-/// Returns the status for an organization Config rule in an organization.
-class OrganizationConfigRuleStatus {
-  /// The name that you assign to organization Config rule.
-  final String organizationConfigRuleName;
-
-  /// Indicates deployment status of an organization Config rule. When management
-  /// account calls PutOrganizationConfigRule action for the first time, Config
-  /// rule status is created in all the member accounts. When management account
-  /// calls PutOrganizationConfigRule action for the second time, Config rule
-  /// status is updated in all the member accounts. Additionally, Config rule
-  /// status is updated when one or more member accounts join or leave an
-  /// organization. Config rule status is deleted when the management account
-  /// deletes OrganizationConfigRule in all the member accounts and disables
-  /// service access for <code>config-multiaccountsetup.amazonaws.com</code>.
-  ///
-  /// Config sets the state of the rule to:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>CREATE_SUCCESSFUL</code> when an organization Config rule has been
-  /// successfully created in all the member accounts.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_IN_PROGRESS</code> when an organization Config rule creation is
-  /// in progress.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_FAILED</code> when an organization Config rule creation failed
-  /// in one or more member accounts within that organization.
-  /// </li>
-  /// <li>
-  /// <code>DELETE_FAILED</code> when an organization Config rule deletion failed
-  /// in one or more member accounts within that organization.
-  /// </li>
-  /// <li>
-  /// <code>DELETE_IN_PROGRESS</code> when an organization Config rule deletion is
-  /// in progress.
-  /// </li>
-  /// <li>
-  /// <code>DELETE_SUCCESSFUL</code> when an organization Config rule has been
-  /// successfully deleted from all the member accounts.
-  /// </li>
-  /// <li>
-  /// <code>UPDATE_SUCCESSFUL</code> when an organization Config rule has been
-  /// successfully updated in all the member accounts.
-  /// </li>
-  /// <li>
-  /// <code>UPDATE_IN_PROGRESS</code> when an organization Config rule update is
-  /// in progress.
-  /// </li>
-  /// <li>
-  /// <code>UPDATE_FAILED</code> when an organization Config rule update failed in
-  /// one or more member accounts within that organization.
-  /// </li>
-  /// </ul>
-  final OrganizationRuleStatus organizationRuleStatus;
-
-  /// An error code that is returned when organization Config rule creation or
-  /// deletion has failed.
-  final String? errorCode;
-
-  /// An error message indicating that organization Config rule creation or
-  /// deletion failed due to an error.
-  final String? errorMessage;
-
-  /// The timestamp of the last update.
-  final DateTime? lastUpdateTime;
-
-  OrganizationConfigRuleStatus({
-    required this.organizationConfigRuleName,
-    required this.organizationRuleStatus,
-    this.errorCode,
-    this.errorMessage,
-    this.lastUpdateTime,
-  });
-
-  factory OrganizationConfigRuleStatus.fromJson(Map<String, dynamic> json) {
-    return OrganizationConfigRuleStatus(
-      organizationConfigRuleName:
-          (json['OrganizationConfigRuleName'] as String?) ?? '',
-      organizationRuleStatus: OrganizationRuleStatus.fromString(
-          (json['OrganizationRuleStatus'] as String?) ?? ''),
-      errorCode: json['ErrorCode'] as String?,
-      errorMessage: json['ErrorMessage'] as String?,
-      lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final organizationConfigRuleName = this.organizationConfigRuleName;
-    final organizationRuleStatus = this.organizationRuleStatus;
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    final lastUpdateTime = this.lastUpdateTime;
-    return {
-      'OrganizationConfigRuleName': organizationConfigRuleName,
-      'OrganizationRuleStatus': organizationRuleStatus.value,
-      if (errorCode != null) 'ErrorCode': errorCode,
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-      if (lastUpdateTime != null)
-        'LastUpdateTime': unixTimestampToJson(lastUpdateTime),
-    };
-  }
-}
-
-class OrganizationConfigRuleTriggerType {
-  static const configurationItemChangeNotification =
-      OrganizationConfigRuleTriggerType._(
-          'ConfigurationItemChangeNotification');
-  static const oversizedConfigurationItemChangeNotification =
-      OrganizationConfigRuleTriggerType._(
-          'OversizedConfigurationItemChangeNotification');
-  static const scheduledNotification =
-      OrganizationConfigRuleTriggerType._('ScheduledNotification');
-
-  final String value;
-
-  const OrganizationConfigRuleTriggerType._(this.value);
-
-  static const values = [
-    configurationItemChangeNotification,
-    oversizedConfigurationItemChangeNotification,
-    scheduledNotification
-  ];
-
-  static OrganizationConfigRuleTriggerType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => OrganizationConfigRuleTriggerType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is OrganizationConfigRuleTriggerType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class OrganizationConfigRuleTriggerTypeNoSN {
-  static const configurationItemChangeNotification =
-      OrganizationConfigRuleTriggerTypeNoSN._(
-          'ConfigurationItemChangeNotification');
-  static const oversizedConfigurationItemChangeNotification =
-      OrganizationConfigRuleTriggerTypeNoSN._(
-          'OversizedConfigurationItemChangeNotification');
-
-  final String value;
-
-  const OrganizationConfigRuleTriggerTypeNoSN._(this.value);
-
-  static const values = [
-    configurationItemChangeNotification,
-    oversizedConfigurationItemChangeNotification
-  ];
-
-  static OrganizationConfigRuleTriggerTypeNoSN fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => OrganizationConfigRuleTriggerTypeNoSN._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is OrganizationConfigRuleTriggerTypeNoSN && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An organization conformance pack that has information about conformance
-/// packs that Config creates in member accounts.
-class OrganizationConformancePack {
-  /// Last time when organization conformation pack was updated.
-  final DateTime lastUpdateTime;
-
-  /// Amazon Resource Name (ARN) of organization conformance pack.
-  final String organizationConformancePackArn;
-
-  /// The name you assign to an organization conformance pack.
-  final String organizationConformancePackName;
-
-  /// A list of <code>ConformancePackInputParameter</code> objects.
-  final List<ConformancePackInputParameter>? conformancePackInputParameters;
-
-  /// The name of the Amazon S3 bucket where Config stores conformance pack
-  /// templates.
-  /// <note>
-  /// This field is optional.
-  /// </note>
-  final String? deliveryS3Bucket;
-
-  /// Any folder structure you want to add to an Amazon S3 bucket.
-  /// <note>
-  /// This field is optional.
-  /// </note>
-  final String? deliveryS3KeyPrefix;
-
-  /// A comma-separated list of accounts excluded from organization conformance
-  /// pack.
-  final List<String>? excludedAccounts;
-
-  OrganizationConformancePack({
-    required this.lastUpdateTime,
-    required this.organizationConformancePackArn,
-    required this.organizationConformancePackName,
-    this.conformancePackInputParameters,
-    this.deliveryS3Bucket,
-    this.deliveryS3KeyPrefix,
-    this.excludedAccounts,
-  });
-
-  factory OrganizationConformancePack.fromJson(Map<String, dynamic> json) {
-    return OrganizationConformancePack(
-      lastUpdateTime: nonNullableTimeStampFromJson(json['LastUpdateTime'] ?? 0),
-      organizationConformancePackArn:
-          (json['OrganizationConformancePackArn'] as String?) ?? '',
-      organizationConformancePackName:
-          (json['OrganizationConformancePackName'] as String?) ?? '',
-      conformancePackInputParameters: (json['ConformancePackInputParameters']
-              as List?)
-          ?.nonNulls
-          .map((e) =>
-              ConformancePackInputParameter.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      deliveryS3Bucket: json['DeliveryS3Bucket'] as String?,
-      deliveryS3KeyPrefix: json['DeliveryS3KeyPrefix'] as String?,
-      excludedAccounts: (json['ExcludedAccounts'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lastUpdateTime = this.lastUpdateTime;
-    final organizationConformancePackArn = this.organizationConformancePackArn;
-    final organizationConformancePackName =
-        this.organizationConformancePackName;
-    final conformancePackInputParameters = this.conformancePackInputParameters;
-    final deliveryS3Bucket = this.deliveryS3Bucket;
-    final deliveryS3KeyPrefix = this.deliveryS3KeyPrefix;
-    final excludedAccounts = this.excludedAccounts;
-    return {
-      'LastUpdateTime': unixTimestampToJson(lastUpdateTime),
-      'OrganizationConformancePackArn': organizationConformancePackArn,
-      'OrganizationConformancePackName': organizationConformancePackName,
-      if (conformancePackInputParameters != null)
-        'ConformancePackInputParameters': conformancePackInputParameters,
-      if (deliveryS3Bucket != null) 'DeliveryS3Bucket': deliveryS3Bucket,
-      if (deliveryS3KeyPrefix != null)
-        'DeliveryS3KeyPrefix': deliveryS3KeyPrefix,
-      if (excludedAccounts != null) 'ExcludedAccounts': excludedAccounts,
-    };
-  }
-}
-
-/// Organization conformance pack creation or deletion status in each member
-/// account. This includes the name of the conformance pack, the status, error
-/// code and error message when the conformance pack creation or deletion
-/// failed.
-class OrganizationConformancePackDetailedStatus {
-  /// The 12-digit account ID of a member account.
-  final String accountId;
-
-  /// The name of conformance pack deployed in the member account.
-  final String conformancePackName;
-
-  /// Indicates deployment status for conformance pack in a member account. When
-  /// management account calls <code>PutOrganizationConformancePack</code> action
-  /// for the first time, conformance pack status is created in the member
-  /// account. When management account calls
-  /// <code>PutOrganizationConformancePack</code> action for the second time,
-  /// conformance pack status is updated in the member account. Conformance pack
-  /// status is deleted when the management account deletes
-  /// <code>OrganizationConformancePack</code> and disables service access for
-  /// <code>config-multiaccountsetup.amazonaws.com</code>.
-  ///
-  /// Config sets the state of the conformance pack to:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>CREATE_SUCCESSFUL</code> when conformance pack has been created in the
-  /// member account.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_IN_PROGRESS</code> when conformance pack is being created in
-  /// the member account.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_FAILED</code> when conformance pack creation has failed in the
-  /// member account.
-  /// </li>
-  /// <li>
-  /// <code>DELETE_FAILED</code> when conformance pack deletion has failed in the
-  /// member account.
-  /// </li>
-  /// <li>
-  /// <code>DELETE_IN_PROGRESS</code> when conformance pack is being deleted in
-  /// the member account.
-  /// </li>
-  /// <li>
-  /// <code>DELETE_SUCCESSFUL</code> when conformance pack has been deleted in the
-  /// member account.
-  /// </li>
-  /// <li>
-  /// <code>UPDATE_SUCCESSFUL</code> when conformance pack has been updated in the
-  /// member account.
-  /// </li>
-  /// <li>
-  /// <code>UPDATE_IN_PROGRESS</code> when conformance pack is being updated in
-  /// the member account.
-  /// </li>
-  /// <li>
-  /// <code>UPDATE_FAILED</code> when conformance pack deletion has failed in the
-  /// member account.
-  /// </li>
-  /// </ul>
-  final OrganizationResourceDetailedStatus status;
-
-  /// An error code that is returned when conformance pack creation or deletion
-  /// failed in the member account.
-  final String? errorCode;
-
-  /// An error message indicating that conformance pack account creation or
-  /// deletion has failed due to an error in the member account.
-  final String? errorMessage;
-
-  /// The timestamp of the last status update.
-  final DateTime? lastUpdateTime;
-
-  OrganizationConformancePackDetailedStatus({
-    required this.accountId,
-    required this.conformancePackName,
-    required this.status,
-    this.errorCode,
-    this.errorMessage,
-    this.lastUpdateTime,
-  });
-
-  factory OrganizationConformancePackDetailedStatus.fromJson(
-      Map<String, dynamic> json) {
-    return OrganizationConformancePackDetailedStatus(
-      accountId: (json['AccountId'] as String?) ?? '',
-      conformancePackName: (json['ConformancePackName'] as String?) ?? '',
-      status: OrganizationResourceDetailedStatus.fromString(
-          (json['Status'] as String?) ?? ''),
-      errorCode: json['ErrorCode'] as String?,
-      errorMessage: json['ErrorMessage'] as String?,
-      lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final conformancePackName = this.conformancePackName;
-    final status = this.status;
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    final lastUpdateTime = this.lastUpdateTime;
-    return {
-      'AccountId': accountId,
-      'ConformancePackName': conformancePackName,
-      'Status': status.value,
-      if (errorCode != null) 'ErrorCode': errorCode,
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-      if (lastUpdateTime != null)
-        'LastUpdateTime': unixTimestampToJson(lastUpdateTime),
-    };
-  }
-}
-
-/// Returns the status for an organization conformance pack in an organization.
-class OrganizationConformancePackStatus {
-  /// The name that you assign to organization conformance pack.
-  final String organizationConformancePackName;
-
-  /// Indicates deployment status of an organization conformance pack. When
-  /// management account calls PutOrganizationConformancePack for the first time,
-  /// conformance pack status is created in all the member accounts. When
-  /// management account calls PutOrganizationConformancePack for the second time,
-  /// conformance pack status is updated in all the member accounts. Additionally,
-  /// conformance pack status is updated when one or more member accounts join or
-  /// leave an organization. Conformance pack status is deleted when the
-  /// management account deletes OrganizationConformancePack in all the member
-  /// accounts and disables service access for
-  /// <code>config-multiaccountsetup.amazonaws.com</code>.
-  ///
-  /// Config sets the state of the conformance pack to:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>CREATE_SUCCESSFUL</code> when an organization conformance pack has
-  /// been successfully created in all the member accounts.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_IN_PROGRESS</code> when an organization conformance pack
-  /// creation is in progress.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_FAILED</code> when an organization conformance pack creation
-  /// failed in one or more member accounts within that organization.
-  /// </li>
-  /// <li>
-  /// <code>DELETE_FAILED</code> when an organization conformance pack deletion
-  /// failed in one or more member accounts within that organization.
-  /// </li>
-  /// <li>
-  /// <code>DELETE_IN_PROGRESS</code> when an organization conformance pack
-  /// deletion is in progress.
-  /// </li>
-  /// <li>
-  /// <code>DELETE_SUCCESSFUL</code> when an organization conformance pack has
-  /// been successfully deleted from all the member accounts.
-  /// </li>
-  /// <li>
-  /// <code>UPDATE_SUCCESSFUL</code> when an organization conformance pack has
-  /// been successfully updated in all the member accounts.
-  /// </li>
-  /// <li>
-  /// <code>UPDATE_IN_PROGRESS</code> when an organization conformance pack update
-  /// is in progress.
-  /// </li>
-  /// <li>
-  /// <code>UPDATE_FAILED</code> when an organization conformance pack update
-  /// failed in one or more member accounts within that organization.
-  /// </li>
-  /// </ul>
-  final OrganizationResourceStatus status;
-
-  /// An error code that is returned when organization conformance pack creation
-  /// or deletion has failed in a member account.
-  final String? errorCode;
-
-  /// An error message indicating that organization conformance pack creation or
-  /// deletion failed due to an error.
-  final String? errorMessage;
-
-  /// The timestamp of the last update.
-  final DateTime? lastUpdateTime;
-
-  OrganizationConformancePackStatus({
-    required this.organizationConformancePackName,
-    required this.status,
-    this.errorCode,
-    this.errorMessage,
-    this.lastUpdateTime,
-  });
-
-  factory OrganizationConformancePackStatus.fromJson(
-      Map<String, dynamic> json) {
-    return OrganizationConformancePackStatus(
-      organizationConformancePackName:
-          (json['OrganizationConformancePackName'] as String?) ?? '',
-      status: OrganizationResourceStatus.fromString(
-          (json['Status'] as String?) ?? ''),
-      errorCode: json['ErrorCode'] as String?,
-      errorMessage: json['ErrorMessage'] as String?,
-      lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final organizationConformancePackName =
-        this.organizationConformancePackName;
-    final status = this.status;
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    final lastUpdateTime = this.lastUpdateTime;
-    return {
-      'OrganizationConformancePackName': organizationConformancePackName,
-      'Status': status.value,
-      if (errorCode != null) 'ErrorCode': errorCode,
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-      if (lastUpdateTime != null)
-        'LastUpdateTime': unixTimestampToJson(lastUpdateTime),
-    };
-  }
-}
-
-/// An object that specifies metadata for your organization's Config Custom
-/// Policy rule. The metadata includes the runtime system in use, which accounts
-/// have debug logging enabled, and other custom rule metadata, such as resource
-/// type, resource ID of Amazon Web Services resource, and organization trigger
-/// types that initiate Config to evaluate Amazon Web Services resources against
-/// a rule.
-class OrganizationCustomPolicyRuleMetadata {
-  /// The runtime system for your organization Config Custom Policy rules. Guard
-  /// is a policy-as-code language that allows you to write policies that are
-  /// enforced by Config Custom Policy rules. For more information about Guard,
-  /// see the <a
-  /// href="https://github.com/aws-cloudformation/cloudformation-guard">Guard
-  /// GitHub Repository</a>.
-  final String policyRuntime;
-
-  /// The policy definition containing the logic for your organization Config
-  /// Custom Policy rule.
-  final String policyText;
-
-  /// A list of accounts that you can enable debug logging for your organization
-  /// Config Custom Policy rule. List is null when debug logging is enabled for
-  /// all accounts.
-  final List<String>? debugLogDeliveryAccounts;
-
-  /// The description that you provide for your organization Config Custom Policy
-  /// rule.
-  final String? description;
-
-  /// A string, in JSON format, that is passed to your organization Config Custom
-  /// Policy rule.
-  final String? inputParameters;
-
-  /// The maximum frequency with which Config runs evaluations for a rule. Your
-  /// Config Custom Policy rule is triggered when Config delivers the
-  /// configuration snapshot. For more information, see
-  /// <a>ConfigSnapshotDeliveryProperties</a>.
-  final MaximumExecutionFrequency? maximumExecutionFrequency;
-
-  /// The type of notification that initiates Config to run an evaluation for a
-  /// rule. For Config Custom Policy rules, Config supports change-initiated
-  /// notification types:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ConfigurationItemChangeNotification</code> - Initiates an evaluation
-  /// when Config delivers a configuration item as a result of a resource change.
-  /// </li>
-  /// <li>
-  /// <code>OversizedConfigurationItemChangeNotification</code> - Initiates an
-  /// evaluation when Config delivers an oversized configuration item. Config may
-  /// generate this notification type when a resource changes and the notification
-  /// exceeds the maximum size allowed by Amazon SNS.
-  /// </li>
-  /// </ul>
-  final List<OrganizationConfigRuleTriggerTypeNoSN>?
-      organizationConfigRuleTriggerTypes;
-
-  /// The ID of the Amazon Web Services resource that was evaluated.
-  final String? resourceIdScope;
-
-  /// The type of the Amazon Web Services resource that was evaluated.
-  final List<String>? resourceTypesScope;
-
-  /// One part of a key-value pair that make up a tag. A key is a general label
-  /// that acts like a category for more specific tag values.
-  final String? tagKeyScope;
-
-  /// The optional part of a key-value pair that make up a tag. A value acts as a
-  /// descriptor within a tag category (key).
-  final String? tagValueScope;
-
-  OrganizationCustomPolicyRuleMetadata({
-    required this.policyRuntime,
-    required this.policyText,
-    this.debugLogDeliveryAccounts,
-    this.description,
-    this.inputParameters,
-    this.maximumExecutionFrequency,
-    this.organizationConfigRuleTriggerTypes,
-    this.resourceIdScope,
-    this.resourceTypesScope,
-    this.tagKeyScope,
-    this.tagValueScope,
-  });
-
-  Map<String, dynamic> toJson() {
-    final policyRuntime = this.policyRuntime;
-    final policyText = this.policyText;
-    final debugLogDeliveryAccounts = this.debugLogDeliveryAccounts;
-    final description = this.description;
-    final inputParameters = this.inputParameters;
-    final maximumExecutionFrequency = this.maximumExecutionFrequency;
-    final organizationConfigRuleTriggerTypes =
-        this.organizationConfigRuleTriggerTypes;
-    final resourceIdScope = this.resourceIdScope;
-    final resourceTypesScope = this.resourceTypesScope;
-    final tagKeyScope = this.tagKeyScope;
-    final tagValueScope = this.tagValueScope;
-    return {
-      'PolicyRuntime': policyRuntime,
-      'PolicyText': policyText,
-      if (debugLogDeliveryAccounts != null)
-        'DebugLogDeliveryAccounts': debugLogDeliveryAccounts,
-      if (description != null) 'Description': description,
-      if (inputParameters != null) 'InputParameters': inputParameters,
-      if (maximumExecutionFrequency != null)
-        'MaximumExecutionFrequency': maximumExecutionFrequency.value,
-      if (organizationConfigRuleTriggerTypes != null)
-        'OrganizationConfigRuleTriggerTypes':
-            organizationConfigRuleTriggerTypes.map((e) => e.value).toList(),
-      if (resourceIdScope != null) 'ResourceIdScope': resourceIdScope,
-      if (resourceTypesScope != null) 'ResourceTypesScope': resourceTypesScope,
-      if (tagKeyScope != null) 'TagKeyScope': tagKeyScope,
-      if (tagValueScope != null) 'TagValueScope': tagValueScope,
-    };
-  }
-}
-
-/// metadata for your organization Config Custom Policy rule including the
-/// runtime system in use, which accounts have debug logging enabled, and other
-/// custom rule metadata such as resource type, resource ID of Amazon Web
-/// Services resource, and organization trigger types that trigger Config to
-/// evaluate Amazon Web Services resources against a rule.
-class OrganizationCustomPolicyRuleMetadataNoPolicy {
-  /// A list of accounts that you can enable debug logging for your organization
-  /// Config Custom Policy rule. List is null when debug logging is enabled for
-  /// all accounts.
-  final List<String>? debugLogDeliveryAccounts;
-
-  /// The description that you provide for your organization Config Custom Policy
-  /// rule.
-  final String? description;
-
-  /// A string, in JSON format, that is passed to your organization Config Custom
-  /// Policy rule.
-  final String? inputParameters;
-
-  /// The maximum frequency with which Config runs evaluations for a rule. Your
-  /// Config Custom Policy rule is triggered when Config delivers the
-  /// configuration snapshot. For more information, see
-  /// <a>ConfigSnapshotDeliveryProperties</a>.
-  final MaximumExecutionFrequency? maximumExecutionFrequency;
-
-  /// The type of notification that triggers Config to run an evaluation for a
-  /// rule. For Config Custom Policy rules, Config supports change triggered
-  /// notification types:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ConfigurationItemChangeNotification</code> - Triggers an evaluation
-  /// when Config delivers a configuration item as a result of a resource change.
-  /// </li>
-  /// <li>
-  /// <code>OversizedConfigurationItemChangeNotification</code> - Triggers an
-  /// evaluation when Config delivers an oversized configuration item. Config may
-  /// generate this notification type when a resource changes and the notification
-  /// exceeds the maximum size allowed by Amazon SNS.
-  /// </li>
-  /// </ul>
-  final List<OrganizationConfigRuleTriggerTypeNoSN>?
-      organizationConfigRuleTriggerTypes;
-
-  /// The runtime system for your organization Config Custom Policy rules. Guard
-  /// is a policy-as-code language that allows you to write policies that are
-  /// enforced by Config Custom Policy rules. For more information about Guard,
-  /// see the <a
-  /// href="https://github.com/aws-cloudformation/cloudformation-guard">Guard
-  /// GitHub Repository</a>.
-  final String? policyRuntime;
-
-  /// The ID of the Amazon Web Services resource that was evaluated.
-  final String? resourceIdScope;
-
-  /// The type of the Amazon Web Services resource that was evaluated.
-  final List<String>? resourceTypesScope;
-
-  /// One part of a key-value pair that make up a tag. A key is a general label
-  /// that acts like a category for more specific tag values.
-  final String? tagKeyScope;
-
-  /// The optional part of a key-value pair that make up a tag. A value acts as a
-  /// descriptor within a tag category (key).
-  final String? tagValueScope;
-
-  OrganizationCustomPolicyRuleMetadataNoPolicy({
-    this.debugLogDeliveryAccounts,
-    this.description,
-    this.inputParameters,
-    this.maximumExecutionFrequency,
-    this.organizationConfigRuleTriggerTypes,
-    this.policyRuntime,
-    this.resourceIdScope,
-    this.resourceTypesScope,
-    this.tagKeyScope,
-    this.tagValueScope,
-  });
-
-  factory OrganizationCustomPolicyRuleMetadataNoPolicy.fromJson(
-      Map<String, dynamic> json) {
-    return OrganizationCustomPolicyRuleMetadataNoPolicy(
-      debugLogDeliveryAccounts: (json['DebugLogDeliveryAccounts'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      description: json['Description'] as String?,
-      inputParameters: json['InputParameters'] as String?,
-      maximumExecutionFrequency: (json['MaximumExecutionFrequency'] as String?)
-          ?.let(MaximumExecutionFrequency.fromString),
-      organizationConfigRuleTriggerTypes:
-          (json['OrganizationConfigRuleTriggerTypes'] as List?)
-              ?.nonNulls
-              .map((e) => OrganizationConfigRuleTriggerTypeNoSN.fromString(
-                  (e as String)))
-              .toList(),
-      policyRuntime: json['PolicyRuntime'] as String?,
-      resourceIdScope: json['ResourceIdScope'] as String?,
-      resourceTypesScope: (json['ResourceTypesScope'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      tagKeyScope: json['TagKeyScope'] as String?,
-      tagValueScope: json['TagValueScope'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final debugLogDeliveryAccounts = this.debugLogDeliveryAccounts;
-    final description = this.description;
-    final inputParameters = this.inputParameters;
-    final maximumExecutionFrequency = this.maximumExecutionFrequency;
-    final organizationConfigRuleTriggerTypes =
-        this.organizationConfigRuleTriggerTypes;
-    final policyRuntime = this.policyRuntime;
-    final resourceIdScope = this.resourceIdScope;
-    final resourceTypesScope = this.resourceTypesScope;
-    final tagKeyScope = this.tagKeyScope;
-    final tagValueScope = this.tagValueScope;
-    return {
-      if (debugLogDeliveryAccounts != null)
-        'DebugLogDeliveryAccounts': debugLogDeliveryAccounts,
-      if (description != null) 'Description': description,
-      if (inputParameters != null) 'InputParameters': inputParameters,
-      if (maximumExecutionFrequency != null)
-        'MaximumExecutionFrequency': maximumExecutionFrequency.value,
-      if (organizationConfigRuleTriggerTypes != null)
-        'OrganizationConfigRuleTriggerTypes':
-            organizationConfigRuleTriggerTypes.map((e) => e.value).toList(),
-      if (policyRuntime != null) 'PolicyRuntime': policyRuntime,
-      if (resourceIdScope != null) 'ResourceIdScope': resourceIdScope,
-      if (resourceTypesScope != null) 'ResourceTypesScope': resourceTypesScope,
-      if (tagKeyScope != null) 'TagKeyScope': tagKeyScope,
-      if (tagValueScope != null) 'TagValueScope': tagValueScope,
-    };
-  }
-}
-
-/// An object that specifies organization custom rule metadata such as resource
-/// type, resource ID of Amazon Web Services resource, Lambda function ARN, and
-/// organization trigger types that trigger Config to evaluate your Amazon Web
-/// Services resources against a rule. It also provides the frequency with which
-/// you want Config to run evaluations for the rule if the trigger type is
-/// periodic.
-class OrganizationCustomRuleMetadata {
-  /// The lambda function ARN.
-  final String lambdaFunctionArn;
-
-  /// The type of notification that triggers Config to run an evaluation for a
-  /// rule. You can specify the following notification types:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ConfigurationItemChangeNotification</code> - Triggers an evaluation
-  /// when Config delivers a configuration item as a result of a resource change.
-  /// </li>
-  /// <li>
-  /// <code>OversizedConfigurationItemChangeNotification</code> - Triggers an
-  /// evaluation when Config delivers an oversized configuration item. Config may
-  /// generate this notification type when a resource changes and the notification
-  /// exceeds the maximum size allowed by Amazon SNS.
-  /// </li>
-  /// <li>
-  /// <code>ScheduledNotification</code> - Triggers a periodic evaluation at the
-  /// frequency specified for <code>MaximumExecutionFrequency</code>.
-  /// </li>
-  /// </ul>
-  final List<OrganizationConfigRuleTriggerType>
-      organizationConfigRuleTriggerTypes;
-
-  /// The description that you provide for your organization Config rule.
-  final String? description;
-
-  /// A string, in JSON format, that is passed to your organization Config rule
-  /// Lambda function.
-  final String? inputParameters;
-
-  /// The maximum frequency with which Config runs evaluations for a rule. Your
-  /// custom rule is triggered when Config delivers the configuration snapshot.
-  /// For more information, see <a>ConfigSnapshotDeliveryProperties</a>.
-  /// <note>
-  /// By default, rules with a periodic trigger are evaluated every 24 hours. To
-  /// change the frequency, specify a valid value for the
-  /// <code>MaximumExecutionFrequency</code> parameter.
-  /// </note>
-  final MaximumExecutionFrequency? maximumExecutionFrequency;
-
-  /// The ID of the Amazon Web Services resource that was evaluated.
-  final String? resourceIdScope;
-
-  /// The type of the Amazon Web Services resource that was evaluated.
-  final List<String>? resourceTypesScope;
-
-  /// One part of a key-value pair that make up a tag. A key is a general label
-  /// that acts like a category for more specific tag values.
-  final String? tagKeyScope;
-
-  /// The optional part of a key-value pair that make up a tag. A value acts as a
-  /// descriptor within a tag category (key).
-  final String? tagValueScope;
-
-  OrganizationCustomRuleMetadata({
-    required this.lambdaFunctionArn,
-    required this.organizationConfigRuleTriggerTypes,
-    this.description,
-    this.inputParameters,
-    this.maximumExecutionFrequency,
-    this.resourceIdScope,
-    this.resourceTypesScope,
-    this.tagKeyScope,
-    this.tagValueScope,
-  });
-
-  factory OrganizationCustomRuleMetadata.fromJson(Map<String, dynamic> json) {
-    return OrganizationCustomRuleMetadata(
-      lambdaFunctionArn: (json['LambdaFunctionArn'] as String?) ?? '',
-      organizationConfigRuleTriggerTypes:
-          ((json['OrganizationConfigRuleTriggerTypes'] as List?) ?? const [])
-              .nonNulls
-              .map((e) =>
-                  OrganizationConfigRuleTriggerType.fromString((e as String)))
-              .toList(),
-      description: json['Description'] as String?,
-      inputParameters: json['InputParameters'] as String?,
-      maximumExecutionFrequency: (json['MaximumExecutionFrequency'] as String?)
-          ?.let(MaximumExecutionFrequency.fromString),
-      resourceIdScope: json['ResourceIdScope'] as String?,
-      resourceTypesScope: (json['ResourceTypesScope'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      tagKeyScope: json['TagKeyScope'] as String?,
-      tagValueScope: json['TagValueScope'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lambdaFunctionArn = this.lambdaFunctionArn;
-    final organizationConfigRuleTriggerTypes =
-        this.organizationConfigRuleTriggerTypes;
-    final description = this.description;
-    final inputParameters = this.inputParameters;
-    final maximumExecutionFrequency = this.maximumExecutionFrequency;
-    final resourceIdScope = this.resourceIdScope;
-    final resourceTypesScope = this.resourceTypesScope;
-    final tagKeyScope = this.tagKeyScope;
-    final tagValueScope = this.tagValueScope;
-    return {
-      'LambdaFunctionArn': lambdaFunctionArn,
-      'OrganizationConfigRuleTriggerTypes':
-          organizationConfigRuleTriggerTypes.map((e) => e.value).toList(),
-      if (description != null) 'Description': description,
-      if (inputParameters != null) 'InputParameters': inputParameters,
-      if (maximumExecutionFrequency != null)
-        'MaximumExecutionFrequency': maximumExecutionFrequency.value,
-      if (resourceIdScope != null) 'ResourceIdScope': resourceIdScope,
-      if (resourceTypesScope != null) 'ResourceTypesScope': resourceTypesScope,
-      if (tagKeyScope != null) 'TagKeyScope': tagKeyScope,
-      if (tagValueScope != null) 'TagValueScope': tagValueScope,
-    };
-  }
-}
-
-/// An object that specifies organization managed rule metadata such as resource
-/// type and ID of Amazon Web Services resource along with the rule identifier.
-/// It also provides the frequency with which you want Config to run evaluations
-/// for the rule if the trigger type is periodic.
-class OrganizationManagedRuleMetadata {
-  /// For organization config managed rules, a predefined identifier from a list.
-  /// For example, <code>IAM_PASSWORD_POLICY</code> is a managed rule. To
-  /// reference a managed rule, see <a
-  /// href="https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config_use-managed-rules.html">Using
-  /// Config managed rules</a>.
-  final String ruleIdentifier;
-
-  /// The description that you provide for your organization Config rule.
-  final String? description;
-
-  /// A string, in JSON format, that is passed to your organization Config rule
-  /// Lambda function.
-  final String? inputParameters;
-
-  /// The maximum frequency with which Config runs evaluations for a rule. This is
-  /// for an Config managed rule that is triggered at a periodic frequency.
-  /// <note>
-  /// By default, rules with a periodic trigger are evaluated every 24 hours. To
-  /// change the frequency, specify a valid value for the
-  /// <code>MaximumExecutionFrequency</code> parameter.
-  /// </note>
-  final MaximumExecutionFrequency? maximumExecutionFrequency;
-
-  /// The ID of the Amazon Web Services resource that was evaluated.
-  final String? resourceIdScope;
-
-  /// The type of the Amazon Web Services resource that was evaluated.
-  final List<String>? resourceTypesScope;
-
-  /// One part of a key-value pair that make up a tag. A key is a general label
-  /// that acts like a category for more specific tag values.
-  final String? tagKeyScope;
-
-  /// The optional part of a key-value pair that make up a tag. A value acts as a
-  /// descriptor within a tag category (key).
-  final String? tagValueScope;
-
-  OrganizationManagedRuleMetadata({
-    required this.ruleIdentifier,
-    this.description,
-    this.inputParameters,
-    this.maximumExecutionFrequency,
-    this.resourceIdScope,
-    this.resourceTypesScope,
-    this.tagKeyScope,
-    this.tagValueScope,
-  });
-
-  factory OrganizationManagedRuleMetadata.fromJson(Map<String, dynamic> json) {
-    return OrganizationManagedRuleMetadata(
-      ruleIdentifier: (json['RuleIdentifier'] as String?) ?? '',
-      description: json['Description'] as String?,
-      inputParameters: json['InputParameters'] as String?,
-      maximumExecutionFrequency: (json['MaximumExecutionFrequency'] as String?)
-          ?.let(MaximumExecutionFrequency.fromString),
-      resourceIdScope: json['ResourceIdScope'] as String?,
-      resourceTypesScope: (json['ResourceTypesScope'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      tagKeyScope: json['TagKeyScope'] as String?,
-      tagValueScope: json['TagValueScope'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final ruleIdentifier = this.ruleIdentifier;
-    final description = this.description;
-    final inputParameters = this.inputParameters;
-    final maximumExecutionFrequency = this.maximumExecutionFrequency;
-    final resourceIdScope = this.resourceIdScope;
-    final resourceTypesScope = this.resourceTypesScope;
-    final tagKeyScope = this.tagKeyScope;
-    final tagValueScope = this.tagValueScope;
-    return {
-      'RuleIdentifier': ruleIdentifier,
-      if (description != null) 'Description': description,
-      if (inputParameters != null) 'InputParameters': inputParameters,
-      if (maximumExecutionFrequency != null)
-        'MaximumExecutionFrequency': maximumExecutionFrequency.value,
-      if (resourceIdScope != null) 'ResourceIdScope': resourceIdScope,
-      if (resourceTypesScope != null) 'ResourceTypesScope': resourceTypesScope,
-      if (tagKeyScope != null) 'TagKeyScope': tagKeyScope,
-      if (tagValueScope != null) 'TagValueScope': tagValueScope,
-    };
-  }
-}
-
-class OrganizationResourceDetailedStatus {
-  static const createSuccessful =
-      OrganizationResourceDetailedStatus._('CREATE_SUCCESSFUL');
-  static const createInProgress =
-      OrganizationResourceDetailedStatus._('CREATE_IN_PROGRESS');
-  static const createFailed =
-      OrganizationResourceDetailedStatus._('CREATE_FAILED');
-  static const deleteSuccessful =
-      OrganizationResourceDetailedStatus._('DELETE_SUCCESSFUL');
-  static const deleteFailed =
-      OrganizationResourceDetailedStatus._('DELETE_FAILED');
-  static const deleteInProgress =
-      OrganizationResourceDetailedStatus._('DELETE_IN_PROGRESS');
-  static const updateSuccessful =
-      OrganizationResourceDetailedStatus._('UPDATE_SUCCESSFUL');
-  static const updateInProgress =
-      OrganizationResourceDetailedStatus._('UPDATE_IN_PROGRESS');
-  static const updateFailed =
-      OrganizationResourceDetailedStatus._('UPDATE_FAILED');
-
-  final String value;
-
-  const OrganizationResourceDetailedStatus._(this.value);
-
-  static const values = [
-    createSuccessful,
-    createInProgress,
-    createFailed,
-    deleteSuccessful,
-    deleteFailed,
-    deleteInProgress,
-    updateSuccessful,
-    updateInProgress,
-    updateFailed
-  ];
-
-  static OrganizationResourceDetailedStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => OrganizationResourceDetailedStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is OrganizationResourceDetailedStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Status filter object to filter results based on specific member account ID
-/// or status type for an organization conformance pack.
-class OrganizationResourceDetailedStatusFilters {
-  /// The 12-digit account ID of the member account within an organization.
-  final String? accountId;
-
-  /// Indicates deployment status for conformance pack in a member account. When
-  /// management account calls <code>PutOrganizationConformancePack</code> action
-  /// for the first time, conformance pack status is created in the member
-  /// account. When management account calls
-  /// <code>PutOrganizationConformancePack</code> action for the second time,
-  /// conformance pack status is updated in the member account. Conformance pack
-  /// status is deleted when the management account deletes
-  /// <code>OrganizationConformancePack</code> and disables service access for
-  /// <code>config-multiaccountsetup.amazonaws.com</code>.
-  ///
-  /// Config sets the state of the conformance pack to:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>CREATE_SUCCESSFUL</code> when conformance pack has been created in the
-  /// member account.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_IN_PROGRESS</code> when conformance pack is being created in
-  /// the member account.
-  /// </li>
-  /// <li>
-  /// <code>CREATE_FAILED</code> when conformance pack creation has failed in the
-  /// member account.
-  /// </li>
-  /// <li>
-  /// <code>DELETE_FAILED</code> when conformance pack deletion has failed in the
-  /// member account.
-  /// </li>
-  /// <li>
-  /// <code>DELETE_IN_PROGRESS</code> when conformance pack is being deleted in
-  /// the member account.
-  /// </li>
-  /// <li>
-  /// <code>DELETE_SUCCESSFUL</code> when conformance pack has been deleted in the
-  /// member account.
-  /// </li>
-  /// <li>
-  /// <code>UPDATE_SUCCESSFUL</code> when conformance pack has been updated in the
-  /// member account.
-  /// </li>
-  /// <li>
-  /// <code>UPDATE_IN_PROGRESS</code> when conformance pack is being updated in
-  /// the member account.
-  /// </li>
-  /// <li>
-  /// <code>UPDATE_FAILED</code> when conformance pack deletion has failed in the
-  /// member account.
-  /// </li>
-  /// </ul>
-  final OrganizationResourceDetailedStatus? status;
-
-  OrganizationResourceDetailedStatusFilters({
-    this.accountId,
-    this.status,
-  });
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final status = this.status;
-    return {
-      if (accountId != null) 'AccountId': accountId,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-class OrganizationResourceStatus {
-  static const createSuccessful =
-      OrganizationResourceStatus._('CREATE_SUCCESSFUL');
-  static const createInProgress =
-      OrganizationResourceStatus._('CREATE_IN_PROGRESS');
-  static const createFailed = OrganizationResourceStatus._('CREATE_FAILED');
-  static const deleteSuccessful =
-      OrganizationResourceStatus._('DELETE_SUCCESSFUL');
-  static const deleteFailed = OrganizationResourceStatus._('DELETE_FAILED');
-  static const deleteInProgress =
-      OrganizationResourceStatus._('DELETE_IN_PROGRESS');
-  static const updateSuccessful =
-      OrganizationResourceStatus._('UPDATE_SUCCESSFUL');
-  static const updateInProgress =
-      OrganizationResourceStatus._('UPDATE_IN_PROGRESS');
-  static const updateFailed = OrganizationResourceStatus._('UPDATE_FAILED');
-
-  final String value;
-
-  const OrganizationResourceStatus._(this.value);
-
-  static const values = [
-    createSuccessful,
-    createInProgress,
-    createFailed,
-    deleteSuccessful,
-    deleteFailed,
-    deleteInProgress,
-    updateSuccessful,
-    updateInProgress,
-    updateFailed
-  ];
-
-  static OrganizationResourceStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => OrganizationResourceStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is OrganizationResourceStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class OrganizationRuleStatus {
-  static const createSuccessful = OrganizationRuleStatus._('CREATE_SUCCESSFUL');
-  static const createInProgress =
-      OrganizationRuleStatus._('CREATE_IN_PROGRESS');
-  static const createFailed = OrganizationRuleStatus._('CREATE_FAILED');
-  static const deleteSuccessful = OrganizationRuleStatus._('DELETE_SUCCESSFUL');
-  static const deleteFailed = OrganizationRuleStatus._('DELETE_FAILED');
-  static const deleteInProgress =
-      OrganizationRuleStatus._('DELETE_IN_PROGRESS');
-  static const updateSuccessful = OrganizationRuleStatus._('UPDATE_SUCCESSFUL');
-  static const updateInProgress =
-      OrganizationRuleStatus._('UPDATE_IN_PROGRESS');
-  static const updateFailed = OrganizationRuleStatus._('UPDATE_FAILED');
-
-  final String value;
-
-  const OrganizationRuleStatus._(this.value);
-
-  static const values = [
-    createSuccessful,
-    createInProgress,
-    createFailed,
-    deleteSuccessful,
-    deleteFailed,
-    deleteInProgress,
-    updateSuccessful,
-    updateInProgress,
-    updateFailed
-  ];
-
-  static OrganizationRuleStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => OrganizationRuleStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is OrganizationRuleStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class Owner {
-  static const customLambda = Owner._('CUSTOM_LAMBDA');
-  static const aws = Owner._('AWS');
-  static const customPolicy = Owner._('CUSTOM_POLICY');
-
-  final String value;
-
-  const Owner._(this.value);
-
-  static const values = [customLambda, aws, customPolicy];
-
-  static Owner fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Owner._(value));
-
-  @override
-  bool operator ==(other) => other is Owner && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object that represents the account ID and region of an aggregator account
-/// that is requesting authorization but is not yet authorized.
-class PendingAggregationRequest {
-  /// The 12-digit account ID of the account requesting to aggregate data.
-  final String? requesterAccountId;
-
-  /// The region requesting to aggregate data.
-  final String? requesterAwsRegion;
-
-  PendingAggregationRequest({
-    this.requesterAccountId,
-    this.requesterAwsRegion,
-  });
-
-  factory PendingAggregationRequest.fromJson(Map<String, dynamic> json) {
-    return PendingAggregationRequest(
-      requesterAccountId: json['RequesterAccountId'] as String?,
-      requesterAwsRegion: json['RequesterAwsRegion'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final requesterAccountId = this.requesterAccountId;
-    final requesterAwsRegion = this.requesterAwsRegion;
-    return {
-      if (requesterAccountId != null) 'RequesterAccountId': requesterAccountId,
-      if (requesterAwsRegion != null) 'RequesterAwsRegion': requesterAwsRegion,
     };
   }
 }
@@ -12709,7 +7951,7 @@ class PutConformancePackResponse {
   }
 }
 
-/// <p/>
+///
 class PutEvaluationsResponse {
   /// Requests that failed because of a client or server error.
   final List<Evaluation>? failedEvaluations;
@@ -12877,6 +8119,40 @@ class PutRetentionConfigurationResponse {
   }
 }
 
+class PutServiceLinkedConfigurationRecorderResponse {
+  /// The Amazon Resource Name (ARN) of the specified configuration recorder.
+  final String? arn;
+
+  /// The name of the specified configuration recorder.
+  ///
+  /// For service-linked configuration recorders, Config automatically assigns a
+  /// name that has the prefix "<code>AWSConfigurationRecorderFor</code>" to the
+  /// new service-linked configuration recorder.
+  final String? name;
+
+  PutServiceLinkedConfigurationRecorderResponse({
+    this.arn,
+    this.name,
+  });
+
+  factory PutServiceLinkedConfigurationRecorderResponse.fromJson(
+      Map<String, dynamic> json) {
+    return PutServiceLinkedConfigurationRecorderResponse(
+      arn: json['Arn'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
 class PutStoredQueryResponse {
   /// Amazon Resource Name (ARN) of the query. For example,
   /// arn:partition:service:region:account-id:resource-type/resource-name/resource-id.
@@ -12900,1343 +8176,189 @@ class PutStoredQueryResponse {
   }
 }
 
-/// Details about the query.
-class QueryInfo {
-  /// Returns a <code>FieldInfo</code> object.
-  final List<FieldInfo>? selectFields;
+class SelectAggregateResourceConfigResponse {
+  /// The nextToken string returned in a previous request that you use to request
+  /// the next page of results in a paginated response.
+  final String? nextToken;
+  final QueryInfo? queryInfo;
 
-  QueryInfo({
-    this.selectFields,
+  /// Returns the results for the SQL query.
+  final List<String>? results;
+
+  SelectAggregateResourceConfigResponse({
+    this.nextToken,
+    this.queryInfo,
+    this.results,
   });
 
-  factory QueryInfo.fromJson(Map<String, dynamic> json) {
-    return QueryInfo(
-      selectFields: (json['SelectFields'] as List?)
+  factory SelectAggregateResourceConfigResponse.fromJson(
+      Map<String, dynamic> json) {
+    return SelectAggregateResourceConfigResponse(
+      nextToken: json['NextToken'] as String?,
+      queryInfo: json['QueryInfo'] != null
+          ? QueryInfo.fromJson(json['QueryInfo'] as Map<String, dynamic>)
+          : null,
+      results:
+          (json['Results'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final queryInfo = this.queryInfo;
+    final results = this.results;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (queryInfo != null) 'QueryInfo': queryInfo,
+      if (results != null) 'Results': results,
+    };
+  }
+}
+
+class SelectResourceConfigResponse {
+  /// The <code>nextToken</code> string returned in a previous request that you
+  /// use to request the next page of results in a paginated response.
+  final String? nextToken;
+
+  /// Returns the <code>QueryInfo</code> object.
+  final QueryInfo? queryInfo;
+
+  /// Returns the results for the SQL query.
+  final List<String>? results;
+
+  SelectResourceConfigResponse({
+    this.nextToken,
+    this.queryInfo,
+    this.results,
+  });
+
+  factory SelectResourceConfigResponse.fromJson(Map<String, dynamic> json) {
+    return SelectResourceConfigResponse(
+      nextToken: json['NextToken'] as String?,
+      queryInfo: json['QueryInfo'] != null
+          ? QueryInfo.fromJson(json['QueryInfo'] as Map<String, dynamic>)
+          : null,
+      results:
+          (json['Results'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final queryInfo = this.queryInfo;
+    final results = this.results;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (queryInfo != null) 'QueryInfo': queryInfo,
+      if (results != null) 'Results': results,
+    };
+  }
+}
+
+/// The output when you start the evaluation for the specified Config rule.
+class StartConfigRulesEvaluationResponse {
+  StartConfigRulesEvaluationResponse();
+
+  factory StartConfigRulesEvaluationResponse.fromJson(Map<String, dynamic> _) {
+    return StartConfigRulesEvaluationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class StartRemediationExecutionResponse {
+  /// For resources that have failed to start execution, the API returns a
+  /// resource key object.
+  final List<ResourceKey>? failedItems;
+
+  /// Returns a failure message. For example, the resource is already compliant.
+  final String? failureMessage;
+
+  StartRemediationExecutionResponse({
+    this.failedItems,
+    this.failureMessage,
+  });
+
+  factory StartRemediationExecutionResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartRemediationExecutionResponse(
+      failedItems: (json['FailedItems'] as List?)
           ?.nonNulls
-          .map((e) => FieldInfo.fromJson(e as Map<String, dynamic>))
+          .map((e) => ResourceKey.fromJson(e as Map<String, dynamic>))
           .toList(),
+      failureMessage: json['FailureMessage'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final selectFields = this.selectFields;
+    final failedItems = this.failedItems;
+    final failureMessage = this.failureMessage;
     return {
-      if (selectFields != null) 'SelectFields': selectFields,
+      if (failedItems != null) 'FailedItems': failedItems,
+      if (failureMessage != null) 'FailureMessage': failureMessage,
     };
   }
 }
 
-class RecorderStatus {
-  static const pending = RecorderStatus._('Pending');
-  static const success = RecorderStatus._('Success');
-  static const failure = RecorderStatus._('Failure');
+class StartResourceEvaluationResponse {
+  /// A unique ResourceEvaluationId that is associated with a single execution.
+  final String? resourceEvaluationId;
 
-  final String value;
-
-  const RecorderStatus._(this.value);
-
-  static const values = [pending, success, failure];
-
-  static RecorderStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RecorderStatus._(value));
-
-  @override
-  bool operator ==(other) => other is RecorderStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class RecordingFrequency {
-  static const continuous = RecordingFrequency._('CONTINUOUS');
-  static const daily = RecordingFrequency._('DAILY');
-
-  final String value;
-
-  const RecordingFrequency._(this.value);
-
-  static const values = [continuous, daily];
-
-  static RecordingFrequency fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RecordingFrequency._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is RecordingFrequency && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Specifies which resource types Config records for configuration changes. By
-/// default, Config records configuration changes for all current and future
-/// supported resource types in the Amazon Web Services Region where you have
-/// enabled Config, excluding the global IAM resource types: IAM users, groups,
-/// roles, and customer managed policies.
-///
-/// In the recording group, you specify whether you want to record all supported
-/// current and future supported resource types or to include or exclude
-/// specific resources types. For a list of supported resource types, see <a
-/// href="https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources">Supported
-/// Resource Types</a> in the <i>Config developer guide</i>.
-///
-/// If you don't want Config to record all current and future supported resource
-/// types (excluding the global IAM resource types), use one of the following
-/// recording strategies:
-/// <ol>
-/// <li>
-/// <b>Record all current and future resource types with exclusions</b>
-/// (<code>EXCLUSION_BY_RESOURCE_TYPES</code>), or
-/// </li>
-/// <li>
-/// <b>Record specific resource types</b>
-/// (<code>INCLUSION_BY_RESOURCE_TYPES</code>).
-/// </li> </ol>
-/// If you use the recording strategy to <b>Record all current and future
-/// resource types</b> (<code>ALL_SUPPORTED_RESOURCE_TYPES</code>), you can use
-/// the flag <code>includeGlobalResourceTypes</code> to include the global IAM
-/// resource types in your recording.
-/// <important>
-/// <b>Aurora global clusters are recorded in all enabled Regions</b>
-///
-/// The <code>AWS::RDS::GlobalCluster</code> resource type will be recorded in
-/// all supported Config Regions where the configuration recorder is enabled.
-///
-/// If you do not want to record <code>AWS::RDS::GlobalCluster</code> in all
-/// enabled Regions, use the <code>EXCLUSION_BY_RESOURCE_TYPES</code> or
-/// <code>INCLUSION_BY_RESOURCE_TYPES</code> recording strategy.
-/// </important>
-class RecordingGroup {
-  /// Specifies whether Config records configuration changes for all supported
-  /// resource types, excluding the global IAM resource types.
-  ///
-  /// If you set this field to <code>true</code>, when Config adds support for a
-  /// new resource type, Config starts recording resources of that type
-  /// automatically.
-  ///
-  /// If you set this field to <code>true</code>, you cannot enumerate specific
-  /// resource types to record in the <code>resourceTypes</code> field of <a
-  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>,
-  /// or to exclude in the <code>resourceTypes</code> field of <a
-  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html">ExclusionByResourceTypes</a>.
-  /// <note>
-  /// <b>Region availability</b>
-  ///
-  /// Check <a
-  /// href="https://docs.aws.amazon.com/config/latest/developerguide/what-is-resource-config-coverage.html">Resource
-  /// Coverage by Region Availability</a> to see if a resource type is supported
-  /// in the Amazon Web Services Region where you set up Config.
-  /// </note>
-  final bool? allSupported;
-
-  /// An object that specifies how Config excludes resource types from being
-  /// recorded by the configuration recorder.
-  /// <note>
-  /// <b>Required fields</b>
-  ///
-  /// To use this option, you must set the <code>useOnly</code> field of <a
-  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html">RecordingStrategy</a>
-  /// to <code>EXCLUSION_BY_RESOURCE_TYPES</code>.
-  /// </note>
-  final ExclusionByResourceTypes? exclusionByResourceTypes;
-
-  /// This option is a bundle which only applies to the global IAM resource types:
-  /// IAM users, groups, roles, and customer managed policies. These global IAM
-  /// resource types can only be recorded by Config in Regions where Config was
-  /// available before February 2022. You cannot be record the global IAM resouce
-  /// types in Regions supported by Config after February 2022. This list where
-  /// you cannot record the global IAM resource types includes the following
-  /// Regions:
-  ///
-  /// <ul>
-  /// <li>
-  /// Asia Pacific (Hyderabad)
-  /// </li>
-  /// <li>
-  /// Asia Pacific (Melbourne)
-  /// </li>
-  /// <li>
-  /// Canada West (Calgary)
-  /// </li>
-  /// <li>
-  /// Europe (Spain)
-  /// </li>
-  /// <li>
-  /// Europe (Zurich)
-  /// </li>
-  /// <li>
-  /// Israel (Tel Aviv)
-  /// </li>
-  /// <li>
-  /// Middle East (UAE)
-  /// </li>
-  /// </ul> <important>
-  /// <b>Aurora global clusters are recorded in all enabled Regions</b>
-  ///
-  /// The <code>AWS::RDS::GlobalCluster</code> resource type will be recorded in
-  /// all supported Config Regions where the configuration recorder is enabled,
-  /// even if <code>includeGlobalResourceTypes</code> is set<code>false</code>.
-  /// The <code>includeGlobalResourceTypes</code> option is a bundle which only
-  /// applies to IAM users, groups, roles, and customer managed policies.
-  ///
-  /// If you do not want to record <code>AWS::RDS::GlobalCluster</code> in all
-  /// enabled Regions, use one of the following recording strategies:
-  /// <ol>
-  /// <li>
-  /// <b>Record all current and future resource types with exclusions</b>
-  /// (<code>EXCLUSION_BY_RESOURCE_TYPES</code>), or
-  /// </li>
-  /// <li>
-  /// <b>Record specific resource types</b>
-  /// (<code>INCLUSION_BY_RESOURCE_TYPES</code>).
-  /// </li> </ol>
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-all">Selecting
-  /// Which Resources are Recorded</a> in the <i>Config developer guide</i>.
-  /// </important> <important>
-  /// <b>includeGlobalResourceTypes and the exclusion recording strategy</b>
-  ///
-  /// The <code>includeGlobalResourceTypes</code> field has no impact on the
-  /// <code>EXCLUSION_BY_RESOURCE_TYPES</code> recording strategy. This means that
-  /// the global IAM resource types (IAM users, groups, roles, and customer
-  /// managed policies) will not be automatically added as exclusions for
-  /// <code>exclusionByResourceTypes</code> when
-  /// <code>includeGlobalResourceTypes</code> is set to <code>false</code>.
-  ///
-  /// The <code>includeGlobalResourceTypes</code> field should only be used to
-  /// modify the <code>AllSupported</code> field, as the default for the
-  /// <code>AllSupported</code> field is to record configuration changes for all
-  /// supported resource types excluding the global IAM resource types. To include
-  /// the global IAM resource types when <code>AllSupported</code> is set to
-  /// <code>true</code>, make sure to set <code>includeGlobalResourceTypes</code>
-  /// to <code>true</code>.
-  ///
-  /// To exclude the global IAM resource types for the
-  /// <code>EXCLUSION_BY_RESOURCE_TYPES</code> recording strategy, you need to
-  /// manually add them to the <code>resourceTypes</code> field of
-  /// <code>exclusionByResourceTypes</code>.
-  /// </important> <note>
-  /// <b>Required and optional fields</b>
-  ///
-  /// Before you set this field to <code>true</code>, set the
-  /// <code>allSupported</code> field of <a
-  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>
-  /// to <code>true</code>. Optionally, you can set the <code>useOnly</code> field
-  /// of <a
-  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html">RecordingStrategy</a>
-  /// to <code>ALL_SUPPORTED_RESOURCE_TYPES</code>.
-  /// </note> <note>
-  /// <b>Overriding fields</b>
-  ///
-  /// If you set this field to <code>false</code> but list global IAM resource
-  /// types in the <code>resourceTypes</code> field of <a
-  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>,
-  /// Config will still record configuration changes for those specified resource
-  /// types <i>regardless</i> of if you set the
-  /// <code>includeGlobalResourceTypes</code> field to false.
-  ///
-  /// If you do not want to record configuration changes to the global IAM
-  /// resource types (IAM users, groups, roles, and customer managed policies),
-  /// make sure to not list them in the <code>resourceTypes</code> field in
-  /// addition to setting the <code>includeGlobalResourceTypes</code> field to
-  /// false.
-  /// </note>
-  final bool? includeGlobalResourceTypes;
-
-  /// An object that specifies the recording strategy for the configuration
-  /// recorder.
-  ///
-  /// <ul>
-  /// <li>
-  /// If you set the <code>useOnly</code> field of <a
-  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html">RecordingStrategy</a>
-  /// to <code>ALL_SUPPORTED_RESOURCE_TYPES</code>, Config records configuration
-  /// changes for all supported resource types, excluding the global IAM resource
-  /// types. You also must set the <code>allSupported</code> field of <a
-  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>
-  /// to <code>true</code>. When Config adds support for a new resource type,
-  /// Config automatically starts recording resources of that type.
-  /// </li>
-  /// <li>
-  /// If you set the <code>useOnly</code> field of <a
-  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html">RecordingStrategy</a>
-  /// to <code>INCLUSION_BY_RESOURCE_TYPES</code>, Config records configuration
-  /// changes for only the resource types you specify in the
-  /// <code>resourceTypes</code> field of <a
-  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>.
-  /// </li>
-  /// <li>
-  /// If you set the <code>useOnly</code> field of <a
-  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html">RecordingStrategy</a>
-  /// to <code>EXCLUSION_BY_RESOURCE_TYPES</code>, Config records configuration
-  /// changes for all supported resource types except the resource types that you
-  /// specify to exclude from being recorded in the <code>resourceTypes</code>
-  /// field of <a
-  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html">ExclusionByResourceTypes</a>.
-  /// </li>
-  /// </ul> <note>
-  /// <b>Required and optional fields</b>
-  ///
-  /// The <code>recordingStrategy</code> field is optional when you set the
-  /// <code>allSupported</code> field of <a
-  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>
-  /// to <code>true</code>.
-  ///
-  /// The <code>recordingStrategy</code> field is optional when you list resource
-  /// types in the <code>resourceTypes</code> field of <a
-  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>.
-  ///
-  /// The <code>recordingStrategy</code> field is required if you list resource
-  /// types to exclude from recording in the <code>resourceTypes</code> field of
-  /// <a
-  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html">ExclusionByResourceTypes</a>.
-  /// </note> <note>
-  /// <b>Overriding fields</b>
-  ///
-  /// If you choose <code>EXCLUSION_BY_RESOURCE_TYPES</code> for the recording
-  /// strategy, the <code>exclusionByResourceTypes</code> field will override
-  /// other properties in the request.
-  ///
-  /// For example, even if you set <code>includeGlobalResourceTypes</code> to
-  /// false, global IAM resource types will still be automatically recorded in
-  /// this option unless those resource types are specifically listed as
-  /// exclusions in the <code>resourceTypes</code> field of
-  /// <code>exclusionByResourceTypes</code>.
-  /// </note> <note>
-  /// <b>Global resources types and the resource exclusion recording strategy</b>
-  ///
-  /// By default, if you choose the <code>EXCLUSION_BY_RESOURCE_TYPES</code>
-  /// recording strategy, when Config adds support for a new resource type in the
-  /// Region where you set up the configuration recorder, including global
-  /// resource types, Config starts recording resources of that type
-  /// automatically.
-  ///
-  /// Unless specifically listed as exclusions,
-  /// <code>AWS::RDS::GlobalCluster</code> will be recorded automatically in all
-  /// supported Config Regions were the configuration recorder is enabled.
-  ///
-  /// IAM users, groups, roles, and customer managed policies will be recorded in
-  /// the Region where you set up the configuration recorder if that is a Region
-  /// where Config was available before February 2022. You cannot be record the
-  /// global IAM resouce types in Regions supported by Config after February 2022.
-  /// This list where you cannot record the global IAM resource types includes the
-  /// following Regions:
-  ///
-  /// <ul>
-  /// <li>
-  /// Asia Pacific (Hyderabad)
-  /// </li>
-  /// <li>
-  /// Asia Pacific (Melbourne)
-  /// </li>
-  /// <li>
-  /// Canada West (Calgary)
-  /// </li>
-  /// <li>
-  /// Europe (Spain)
-  /// </li>
-  /// <li>
-  /// Europe (Zurich)
-  /// </li>
-  /// <li>
-  /// Israel (Tel Aviv)
-  /// </li>
-  /// <li>
-  /// Middle East (UAE)
-  /// </li>
-  /// </ul> </note>
-  final RecordingStrategy? recordingStrategy;
-
-  /// A comma-separated list that specifies which resource types Config records.
-  ///
-  /// For a list of valid <code>resourceTypes</code> values, see the <b>Resource
-  /// Type Value</b> column in <a
-  /// href="https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources">Supported
-  /// Amazon Web Services resource Types</a> in the <i>Config developer guide</i>.
-  /// <note>
-  /// <b>Required and optional fields</b>
-  ///
-  /// Optionally, you can set the <code>useOnly</code> field of <a
-  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html">RecordingStrategy</a>
-  /// to <code>INCLUSION_BY_RESOURCE_TYPES</code>.
-  ///
-  /// To record all configuration changes, set the <code>allSupported</code> field
-  /// of <a
-  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>
-  /// to <code>true</code>, and either omit this field or don't specify any
-  /// resource types in this field. If you set the <code>allSupported</code> field
-  /// to <code>false</code> and specify values for <code>resourceTypes</code>,
-  /// when Config adds support for a new type of resource, it will not record
-  /// resources of that type unless you manually add that type to your recording
-  /// group.
-  /// </note> <note>
-  /// <b>Region availability</b>
-  ///
-  /// Before specifying a resource type for Config to track, check <a
-  /// href="https://docs.aws.amazon.com/config/latest/developerguide/what-is-resource-config-coverage.html">Resource
-  /// Coverage by Region Availability</a> to see if the resource type is supported
-  /// in the Amazon Web Services Region where you set up Config. If a resource
-  /// type is supported by Config in at least one Region, you can enable the
-  /// recording of that resource type in all Regions supported by Config, even if
-  /// the specified resource type is not supported in the Amazon Web Services
-  /// Region where you set up Config.
-  /// </note>
-  final List<ResourceType>? resourceTypes;
-
-  RecordingGroup({
-    this.allSupported,
-    this.exclusionByResourceTypes,
-    this.includeGlobalResourceTypes,
-    this.recordingStrategy,
-    this.resourceTypes,
+  StartResourceEvaluationResponse({
+    this.resourceEvaluationId,
   });
 
-  factory RecordingGroup.fromJson(Map<String, dynamic> json) {
-    return RecordingGroup(
-      allSupported: json['allSupported'] as bool?,
-      exclusionByResourceTypes: json['exclusionByResourceTypes'] != null
-          ? ExclusionByResourceTypes.fromJson(
-              json['exclusionByResourceTypes'] as Map<String, dynamic>)
-          : null,
-      includeGlobalResourceTypes: json['includeGlobalResourceTypes'] as bool?,
-      recordingStrategy: json['recordingStrategy'] != null
-          ? RecordingStrategy.fromJson(
-              json['recordingStrategy'] as Map<String, dynamic>)
-          : null,
-      resourceTypes: (json['resourceTypes'] as List?)
-          ?.nonNulls
-          .map((e) => ResourceType.fromString((e as String)))
-          .toList(),
+  factory StartResourceEvaluationResponse.fromJson(Map<String, dynamic> json) {
+    return StartResourceEvaluationResponse(
+      resourceEvaluationId: json['ResourceEvaluationId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final allSupported = this.allSupported;
-    final exclusionByResourceTypes = this.exclusionByResourceTypes;
-    final includeGlobalResourceTypes = this.includeGlobalResourceTypes;
-    final recordingStrategy = this.recordingStrategy;
-    final resourceTypes = this.resourceTypes;
+    final resourceEvaluationId = this.resourceEvaluationId;
     return {
-      if (allSupported != null) 'allSupported': allSupported,
-      if (exclusionByResourceTypes != null)
-        'exclusionByResourceTypes': exclusionByResourceTypes,
-      if (includeGlobalResourceTypes != null)
-        'includeGlobalResourceTypes': includeGlobalResourceTypes,
-      if (recordingStrategy != null) 'recordingStrategy': recordingStrategy,
-      if (resourceTypes != null)
-        'resourceTypes': resourceTypes.map((e) => e.value).toList(),
+      if (resourceEvaluationId != null)
+        'ResourceEvaluationId': resourceEvaluationId,
     };
   }
 }
 
-/// Specifies the default recording frequency that Config uses to record
-/// configuration changes. Config supports <i>Continuous recording</i> and
-/// <i>Daily recording</i>.
-///
-/// <ul>
-/// <li>
-/// Continuous recording allows you to record configuration changes continuously
-/// whenever a change occurs.
-/// </li>
-/// <li>
-/// Daily recording allows you to receive a configuration item (CI) representing
-/// the most recent state of your resources over the last 24-hour period, only
-/// if it’s different from the previous CI recorded.
-/// </li>
-/// </ul> <note>
-/// Firewall Manager depends on continuous recording to monitor your resources.
-/// If you are using Firewall Manager, it is recommended that you set the
-/// recording frequency to Continuous.
-/// </note>
-/// You can also override the recording frequency for specific resource types.
-class RecordingMode {
-  /// The default recording frequency that Config uses to record configuration
-  /// changes.
-  /// <important>
-  /// Daily recording is not supported for the following resource types:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>AWS::Config::ResourceCompliance</code>
-  /// </li>
-  /// <li>
-  /// <code>AWS::Config::ConformancePackCompliance</code>
-  /// </li>
-  /// <li>
-  /// <code>AWS::Config::ConfigurationRecorder</code>
-  /// </li>
-  /// </ul>
-  /// For the <b>allSupported</b> (<code>ALL_SUPPORTED_RESOURCE_TYPES</code>)
-  /// recording strategy, these resource types will be set to Continuous
-  /// recording.
-  /// </important>
-  final RecordingFrequency recordingFrequency;
+/// The tags for the resource. The metadata that you apply to a resource to help
+/// you categorize and organize them. Each tag consists of a key and an optional
+/// value, both of which you define. Tag keys can have a maximum character
+/// length of 128 characters, and tag values can have a maximum length of 256
+/// characters.
+class Tag {
+  /// One part of a key-value pair that make up a tag. A key is a general label
+  /// that acts like a category for more specific tag values.
+  final String? key;
 
-  /// An array of <code>recordingModeOverride</code> objects for you to specify
-  /// your overrides for the recording mode. The
-  /// <code>recordingModeOverride</code> object in the
-  /// <code>recordingModeOverrides</code> array consists of three fields: a
-  /// <code>description</code>, the new <code>recordingFrequency</code>, and an
-  /// array of <code>resourceTypes</code> to override.
-  final List<RecordingModeOverride>? recordingModeOverrides;
+  /// The optional part of a key-value pair that make up a tag. A value acts as a
+  /// descriptor within a tag category (key).
+  final String? value;
 
-  RecordingMode({
-    required this.recordingFrequency,
-    this.recordingModeOverrides,
+  Tag({
+    this.key,
+    this.value,
   });
 
-  factory RecordingMode.fromJson(Map<String, dynamic> json) {
-    return RecordingMode(
-      recordingFrequency: RecordingFrequency.fromString(
-          (json['recordingFrequency'] as String?) ?? ''),
-      recordingModeOverrides: (json['recordingModeOverrides'] as List?)
-          ?.nonNulls
-          .map((e) => RecordingModeOverride.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final recordingFrequency = this.recordingFrequency;
-    final recordingModeOverrides = this.recordingModeOverrides;
+    final key = this.key;
+    final value = this.value;
     return {
-      'recordingFrequency': recordingFrequency.value,
-      if (recordingModeOverrides != null)
-        'recordingModeOverrides': recordingModeOverrides,
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
     };
   }
-}
-
-/// An object for you to specify your overrides for the recording mode.
-class RecordingModeOverride {
-  /// The recording frequency that will be applied to all the resource types
-  /// specified in the override.
-  ///
-  /// <ul>
-  /// <li>
-  /// Continuous recording allows you to record configuration changes continuously
-  /// whenever a change occurs.
-  /// </li>
-  /// <li>
-  /// Daily recording allows you to receive a configuration item (CI) representing
-  /// the most recent state of your resources over the last 24-hour period, only
-  /// if it’s different from the previous CI recorded.
-  /// </li>
-  /// </ul> <note>
-  /// Firewall Manager depends on continuous recording to monitor your resources.
-  /// If you are using Firewall Manager, it is recommended that you set the
-  /// recording frequency to Continuous.
-  /// </note>
-  final RecordingFrequency recordingFrequency;
-
-  /// A comma-separated list that specifies which resource types Config includes
-  /// in the override.
-  /// <important>
-  /// Daily recording is not supported for the following resource types:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>AWS::Config::ResourceCompliance</code>
-  /// </li>
-  /// <li>
-  /// <code>AWS::Config::ConformancePackCompliance</code>
-  /// </li>
-  /// <li>
-  /// <code>AWS::Config::ConfigurationRecorder</code>
-  /// </li>
-  /// </ul> </important>
-  final List<ResourceType> resourceTypes;
-
-  /// A description that you provide for the override.
-  final String? description;
-
-  RecordingModeOverride({
-    required this.recordingFrequency,
-    required this.resourceTypes,
-    this.description,
-  });
-
-  factory RecordingModeOverride.fromJson(Map<String, dynamic> json) {
-    return RecordingModeOverride(
-      recordingFrequency: RecordingFrequency.fromString(
-          (json['recordingFrequency'] as String?) ?? ''),
-      resourceTypes: ((json['resourceTypes'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => ResourceType.fromString((e as String)))
-          .toList(),
-      description: json['description'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final recordingFrequency = this.recordingFrequency;
-    final resourceTypes = this.resourceTypes;
-    final description = this.description;
-    return {
-      'recordingFrequency': recordingFrequency.value,
-      'resourceTypes': resourceTypes.map((e) => e.value).toList(),
-      if (description != null) 'description': description,
-    };
-  }
-}
-
-/// Specifies the recording strategy of the configuration recorder.
-class RecordingStrategy {
-  /// The recording strategy for the configuration recorder.
-  ///
-  /// <ul>
-  /// <li>
-  /// If you set this option to <code>ALL_SUPPORTED_RESOURCE_TYPES</code>, Config
-  /// records configuration changes for all supported resource types, excluding
-  /// the global IAM resource types. You also must set the
-  /// <code>allSupported</code> field of <a
-  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>
-  /// to <code>true</code>. When Config adds support for a new resource type,
-  /// Config automatically starts recording resources of that type. For a list of
-  /// supported resource types, see <a
-  /// href="https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources">Supported
-  /// Resource Types</a> in the <i>Config developer guide</i>.
-  /// </li>
-  /// <li>
-  /// If you set this option to <code>INCLUSION_BY_RESOURCE_TYPES</code>, Config
-  /// records configuration changes for only the resource types that you specify
-  /// in the <code>resourceTypes</code> field of <a
-  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>.
-  /// </li>
-  /// <li>
-  /// If you set this option to <code>EXCLUSION_BY_RESOURCE_TYPES</code>, Config
-  /// records configuration changes for all supported resource types, except the
-  /// resource types that you specify to exclude from being recorded in the
-  /// <code>resourceTypes</code> field of <a
-  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html">ExclusionByResourceTypes</a>.
-  /// </li>
-  /// </ul> <note>
-  /// <b>Required and optional fields</b>
-  ///
-  /// The <code>recordingStrategy</code> field is optional when you set the
-  /// <code>allSupported</code> field of <a
-  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>
-  /// to <code>true</code>.
-  ///
-  /// The <code>recordingStrategy</code> field is optional when you list resource
-  /// types in the <code>resourceTypes</code> field of <a
-  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>.
-  ///
-  /// The <code>recordingStrategy</code> field is required if you list resource
-  /// types to exclude from recording in the <code>resourceTypes</code> field of
-  /// <a
-  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html">ExclusionByResourceTypes</a>.
-  /// </note> <note>
-  /// <b>Overriding fields</b>
-  ///
-  /// If you choose <code>EXCLUSION_BY_RESOURCE_TYPES</code> for the recording
-  /// strategy, the <code>exclusionByResourceTypes</code> field will override
-  /// other properties in the request.
-  ///
-  /// For example, even if you set <code>includeGlobalResourceTypes</code> to
-  /// false, global IAM resource types will still be automatically recorded in
-  /// this option unless those resource types are specifically listed as
-  /// exclusions in the <code>resourceTypes</code> field of
-  /// <code>exclusionByResourceTypes</code>.
-  /// </note> <note>
-  /// <b>Global resource types and the exclusion recording strategy</b>
-  ///
-  /// By default, if you choose the <code>EXCLUSION_BY_RESOURCE_TYPES</code>
-  /// recording strategy, when Config adds support for a new resource type in the
-  /// Region where you set up the configuration recorder, including global
-  /// resource types, Config starts recording resources of that type
-  /// automatically.
-  ///
-  /// Unless specifically listed as exclusions,
-  /// <code>AWS::RDS::GlobalCluster</code> will be recorded automatically in all
-  /// supported Config Regions were the configuration recorder is enabled.
-  ///
-  /// IAM users, groups, roles, and customer managed policies will be recorded in
-  /// the Region where you set up the configuration recorder if that is a Region
-  /// where Config was available before February 2022. You cannot be record the
-  /// global IAM resouce types in Regions supported by Config after February 2022.
-  /// This list where you cannot record the global IAM resource types includes the
-  /// following Regions:
-  ///
-  /// <ul>
-  /// <li>
-  /// Asia Pacific (Hyderabad)
-  /// </li>
-  /// <li>
-  /// Asia Pacific (Melbourne)
-  /// </li>
-  /// <li>
-  /// Canada West (Calgary)
-  /// </li>
-  /// <li>
-  /// Europe (Spain)
-  /// </li>
-  /// <li>
-  /// Europe (Zurich)
-  /// </li>
-  /// <li>
-  /// Israel (Tel Aviv)
-  /// </li>
-  /// <li>
-  /// Middle East (UAE)
-  /// </li>
-  /// </ul> </note>
-  final RecordingStrategyType? useOnly;
-
-  RecordingStrategy({
-    this.useOnly,
-  });
-
-  factory RecordingStrategy.fromJson(Map<String, dynamic> json) {
-    return RecordingStrategy(
-      useOnly:
-          (json['useOnly'] as String?)?.let(RecordingStrategyType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final useOnly = this.useOnly;
-    return {
-      if (useOnly != null) 'useOnly': useOnly.value,
-    };
-  }
-}
-
-class RecordingStrategyType {
-  static const allSupportedResourceTypes =
-      RecordingStrategyType._('ALL_SUPPORTED_RESOURCE_TYPES');
-  static const inclusionByResourceTypes =
-      RecordingStrategyType._('INCLUSION_BY_RESOURCE_TYPES');
-  static const exclusionByResourceTypes =
-      RecordingStrategyType._('EXCLUSION_BY_RESOURCE_TYPES');
-
-  final String value;
-
-  const RecordingStrategyType._(this.value);
-
-  static const values = [
-    allSupportedResourceTypes,
-    inclusionByResourceTypes,
-    exclusionByResourceTypes
-  ];
-
-  static RecordingStrategyType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RecordingStrategyType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is RecordingStrategyType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The relationship of the related resource to the main resource.
-class Relationship {
-  /// The type of relationship with the related resource.
-  final String? relationshipName;
-
-  /// The ID of the related resource (for example, <code>sg-xxxxxx</code>).
-  final String? resourceId;
-
-  /// The custom name of the related resource, if available.
-  final String? resourceName;
-
-  /// The resource type of the related resource.
-  final ResourceType? resourceType;
-
-  Relationship({
-    this.relationshipName,
-    this.resourceId,
-    this.resourceName,
-    this.resourceType,
-  });
-
-  factory Relationship.fromJson(Map<String, dynamic> json) {
-    return Relationship(
-      relationshipName: json['relationshipName'] as String?,
-      resourceId: json['resourceId'] as String?,
-      resourceName: json['resourceName'] as String?,
-      resourceType:
-          (json['resourceType'] as String?)?.let(ResourceType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final relationshipName = this.relationshipName;
-    final resourceId = this.resourceId;
-    final resourceName = this.resourceName;
-    final resourceType = this.resourceType;
-    return {
-      if (relationshipName != null) 'relationshipName': relationshipName,
-      if (resourceId != null) 'resourceId': resourceId,
-      if (resourceName != null) 'resourceName': resourceName,
-      if (resourceType != null) 'resourceType': resourceType.value,
-    };
-  }
-}
-
-/// An object that represents the details about the remediation configuration
-/// that includes the remediation action, parameters, and data to execute the
-/// action.
-class RemediationConfiguration {
-  /// The name of the Config rule.
-  final String configRuleName;
-
-  /// Target ID is the name of the SSM document.
-  final String targetId;
-
-  /// The type of the target. Target executes remediation. For example, SSM
-  /// document.
-  final RemediationTargetType targetType;
-
-  /// Amazon Resource Name (ARN) of remediation configuration.
-  final String? arn;
-
-  /// The remediation is triggered automatically.
-  final bool? automatic;
-
-  /// Name of the service that owns the service-linked rule, if applicable.
-  final String? createdByService;
-
-  /// An ExecutionControls object.
-  final ExecutionControls? executionControls;
-
-  /// The maximum number of failed attempts for auto-remediation. If you do not
-  /// select a number, the default is 5.
-  ///
-  /// For example, if you specify MaximumAutomaticAttempts as 5 with
-  /// RetryAttemptSeconds as 50 seconds, Config will put a RemediationException on
-  /// your behalf for the failing resource after the 5th failed attempt within 50
-  /// seconds.
-  final int? maximumAutomaticAttempts;
-
-  /// An object of the RemediationParameterValue.
-  final Map<String, RemediationParameterValue>? parameters;
-
-  /// The type of a resource.
-  final String? resourceType;
-
-  /// Time window to determine whether or not to add a remediation exception to
-  /// prevent infinite remediation attempts. If
-  /// <code>MaximumAutomaticAttempts</code> remediation attempts have been made
-  /// under <code>RetryAttemptSeconds</code>, a remediation exception will be
-  /// added to the resource. If you do not select a number, the default is 60
-  /// seconds.
-  ///
-  /// For example, if you specify <code>RetryAttemptSeconds</code> as 50 seconds
-  /// and <code>MaximumAutomaticAttempts</code> as 5, Config will run
-  /// auto-remediations 5 times within 50 seconds before adding a remediation
-  /// exception to the resource.
-  final int? retryAttemptSeconds;
-
-  /// Version of the target. For example, version of the SSM document.
-  /// <note>
-  /// If you make backward incompatible changes to the SSM document, you must call
-  /// PutRemediationConfiguration API again to ensure the remediations can run.
-  /// </note>
-  final String? targetVersion;
-
-  RemediationConfiguration({
-    required this.configRuleName,
-    required this.targetId,
-    required this.targetType,
-    this.arn,
-    this.automatic,
-    this.createdByService,
-    this.executionControls,
-    this.maximumAutomaticAttempts,
-    this.parameters,
-    this.resourceType,
-    this.retryAttemptSeconds,
-    this.targetVersion,
-  });
-
-  factory RemediationConfiguration.fromJson(Map<String, dynamic> json) {
-    return RemediationConfiguration(
-      configRuleName: (json['ConfigRuleName'] as String?) ?? '',
-      targetId: (json['TargetId'] as String?) ?? '',
-      targetType: RemediationTargetType.fromString(
-          (json['TargetType'] as String?) ?? ''),
-      arn: json['Arn'] as String?,
-      automatic: json['Automatic'] as bool?,
-      createdByService: json['CreatedByService'] as String?,
-      executionControls: json['ExecutionControls'] != null
-          ? ExecutionControls.fromJson(
-              json['ExecutionControls'] as Map<String, dynamic>)
-          : null,
-      maximumAutomaticAttempts: json['MaximumAutomaticAttempts'] as int?,
-      parameters: (json['Parameters'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(k,
-              RemediationParameterValue.fromJson(e as Map<String, dynamic>))),
-      resourceType: json['ResourceType'] as String?,
-      retryAttemptSeconds: json['RetryAttemptSeconds'] as int?,
-      targetVersion: json['TargetVersion'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final configRuleName = this.configRuleName;
-    final targetId = this.targetId;
-    final targetType = this.targetType;
-    final arn = this.arn;
-    final automatic = this.automatic;
-    final createdByService = this.createdByService;
-    final executionControls = this.executionControls;
-    final maximumAutomaticAttempts = this.maximumAutomaticAttempts;
-    final parameters = this.parameters;
-    final resourceType = this.resourceType;
-    final retryAttemptSeconds = this.retryAttemptSeconds;
-    final targetVersion = this.targetVersion;
-    return {
-      'ConfigRuleName': configRuleName,
-      'TargetId': targetId,
-      'TargetType': targetType.value,
-      if (arn != null) 'Arn': arn,
-      if (automatic != null) 'Automatic': automatic,
-      if (createdByService != null) 'CreatedByService': createdByService,
-      if (executionControls != null) 'ExecutionControls': executionControls,
-      if (maximumAutomaticAttempts != null)
-        'MaximumAutomaticAttempts': maximumAutomaticAttempts,
-      if (parameters != null) 'Parameters': parameters,
-      if (resourceType != null) 'ResourceType': resourceType,
-      if (retryAttemptSeconds != null)
-        'RetryAttemptSeconds': retryAttemptSeconds,
-      if (targetVersion != null) 'TargetVersion': targetVersion,
-    };
-  }
-}
-
-/// An object that represents the details about the remediation exception. The
-/// details include the rule name, an explanation of an exception, the time when
-/// the exception will be deleted, the resource ID, and resource type.
-class RemediationException {
-  /// The name of the Config rule.
-  final String configRuleName;
-
-  /// The ID of the resource (for example., sg-xxxxxx).
-  final String resourceId;
-
-  /// The type of a resource.
-  final String resourceType;
-
-  /// The time when the remediation exception will be deleted.
-  final DateTime? expirationTime;
-
-  /// An explanation of an remediation exception.
-  final String? message;
-
-  RemediationException({
-    required this.configRuleName,
-    required this.resourceId,
-    required this.resourceType,
-    this.expirationTime,
-    this.message,
-  });
-
-  factory RemediationException.fromJson(Map<String, dynamic> json) {
-    return RemediationException(
-      configRuleName: (json['ConfigRuleName'] as String?) ?? '',
-      resourceId: (json['ResourceId'] as String?) ?? '',
-      resourceType: (json['ResourceType'] as String?) ?? '',
-      expirationTime: timeStampFromJson(json['ExpirationTime']),
-      message: json['Message'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final configRuleName = this.configRuleName;
-    final resourceId = this.resourceId;
-    final resourceType = this.resourceType;
-    final expirationTime = this.expirationTime;
-    final message = this.message;
-    return {
-      'ConfigRuleName': configRuleName,
-      'ResourceId': resourceId,
-      'ResourceType': resourceType,
-      if (expirationTime != null)
-        'ExpirationTime': unixTimestampToJson(expirationTime),
-      if (message != null) 'Message': message,
-    };
-  }
-}
-
-/// The details that identify a resource within Config, including the resource
-/// type and resource ID.
-class RemediationExceptionResourceKey {
-  /// The ID of the resource (for example., sg-xxxxxx).
-  final String? resourceId;
-
-  /// The type of a resource.
-  final String? resourceType;
-
-  RemediationExceptionResourceKey({
-    this.resourceId,
-    this.resourceType,
-  });
-
-  factory RemediationExceptionResourceKey.fromJson(Map<String, dynamic> json) {
-    return RemediationExceptionResourceKey(
-      resourceId: json['ResourceId'] as String?,
-      resourceType: json['ResourceType'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resourceId = this.resourceId;
-    final resourceType = this.resourceType;
-    return {
-      if (resourceId != null) 'ResourceId': resourceId,
-      if (resourceType != null) 'ResourceType': resourceType,
-    };
-  }
-}
-
-class RemediationExecutionState {
-  static const queued = RemediationExecutionState._('QUEUED');
-  static const inProgress = RemediationExecutionState._('IN_PROGRESS');
-  static const succeeded = RemediationExecutionState._('SUCCEEDED');
-  static const failed = RemediationExecutionState._('FAILED');
-
-  final String value;
-
-  const RemediationExecutionState._(this.value);
-
-  static const values = [queued, inProgress, succeeded, failed];
-
-  static RemediationExecutionState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RemediationExecutionState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is RemediationExecutionState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides details of the current status of the invoked remediation action for
-/// that resource.
-class RemediationExecutionStatus {
-  /// Start time when the remediation was executed.
-  final DateTime? invocationTime;
-
-  /// The time when the remediation execution was last updated.
-  final DateTime? lastUpdatedTime;
-  final ResourceKey? resourceKey;
-
-  /// ENUM of the values.
-  final RemediationExecutionState? state;
-
-  /// Details of every step.
-  final List<RemediationExecutionStep>? stepDetails;
-
-  RemediationExecutionStatus({
-    this.invocationTime,
-    this.lastUpdatedTime,
-    this.resourceKey,
-    this.state,
-    this.stepDetails,
-  });
-
-  factory RemediationExecutionStatus.fromJson(Map<String, dynamic> json) {
-    return RemediationExecutionStatus(
-      invocationTime: timeStampFromJson(json['InvocationTime']),
-      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
-      resourceKey: json['ResourceKey'] != null
-          ? ResourceKey.fromJson(json['ResourceKey'] as Map<String, dynamic>)
-          : null,
-      state:
-          (json['State'] as String?)?.let(RemediationExecutionState.fromString),
-      stepDetails: (json['StepDetails'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              RemediationExecutionStep.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final invocationTime = this.invocationTime;
-    final lastUpdatedTime = this.lastUpdatedTime;
-    final resourceKey = this.resourceKey;
-    final state = this.state;
-    final stepDetails = this.stepDetails;
-    return {
-      if (invocationTime != null)
-        'InvocationTime': unixTimestampToJson(invocationTime),
-      if (lastUpdatedTime != null)
-        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
-      if (resourceKey != null) 'ResourceKey': resourceKey,
-      if (state != null) 'State': state.value,
-      if (stepDetails != null) 'StepDetails': stepDetails,
-    };
-  }
-}
-
-/// Name of the step from the SSM document.
-class RemediationExecutionStep {
-  /// An error message if the step was interrupted during execution.
-  final String? errorMessage;
-
-  /// The details of the step.
-  final String? name;
-
-  /// The time when the step started.
-  final DateTime? startTime;
-
-  /// The valid status of the step.
-  final RemediationExecutionStepState? state;
-
-  /// The time when the step stopped.
-  final DateTime? stopTime;
-
-  RemediationExecutionStep({
-    this.errorMessage,
-    this.name,
-    this.startTime,
-    this.state,
-    this.stopTime,
-  });
-
-  factory RemediationExecutionStep.fromJson(Map<String, dynamic> json) {
-    return RemediationExecutionStep(
-      errorMessage: json['ErrorMessage'] as String?,
-      name: json['Name'] as String?,
-      startTime: timeStampFromJson(json['StartTime']),
-      state: (json['State'] as String?)
-          ?.let(RemediationExecutionStepState.fromString),
-      stopTime: timeStampFromJson(json['StopTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorMessage = this.errorMessage;
-    final name = this.name;
-    final startTime = this.startTime;
-    final state = this.state;
-    final stopTime = this.stopTime;
-    return {
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-      if (name != null) 'Name': name,
-      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (state != null) 'State': state.value,
-      if (stopTime != null) 'StopTime': unixTimestampToJson(stopTime),
-    };
-  }
-}
-
-class RemediationExecutionStepState {
-  static const succeeded = RemediationExecutionStepState._('SUCCEEDED');
-  static const pending = RemediationExecutionStepState._('PENDING');
-  static const failed = RemediationExecutionStepState._('FAILED');
-
-  final String value;
-
-  const RemediationExecutionStepState._(this.value);
-
-  static const values = [succeeded, pending, failed];
-
-  static RemediationExecutionStepState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RemediationExecutionStepState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is RemediationExecutionStepState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The value is either a dynamic (resource) value or a static value. You must
-/// select either a dynamic value or a static value.
-class RemediationParameterValue {
-  /// The value is dynamic and changes at run-time.
-  final ResourceValue? resourceValue;
-
-  /// The value is static and does not change at run-time.
-  final StaticValue? staticValue;
-
-  RemediationParameterValue({
-    this.resourceValue,
-    this.staticValue,
-  });
-
-  factory RemediationParameterValue.fromJson(Map<String, dynamic> json) {
-    return RemediationParameterValue(
-      resourceValue: json['ResourceValue'] != null
-          ? ResourceValue.fromJson(
-              json['ResourceValue'] as Map<String, dynamic>)
-          : null,
-      staticValue: json['StaticValue'] != null
-          ? StaticValue.fromJson(json['StaticValue'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resourceValue = this.resourceValue;
-    final staticValue = this.staticValue;
-    return {
-      if (resourceValue != null) 'ResourceValue': resourceValue,
-      if (staticValue != null) 'StaticValue': staticValue,
-    };
-  }
-}
-
-class RemediationTargetType {
-  static const ssmDocument = RemediationTargetType._('SSM_DOCUMENT');
-
-  final String value;
-
-  const RemediationTargetType._(this.value);
-
-  static const values = [ssmDocument];
-
-  static RemediationTargetType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RemediationTargetType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is RemediationTargetType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ResourceConfigurationSchemaType {
-  static const cfnResourceSchema =
-      ResourceConfigurationSchemaType._('CFN_RESOURCE_SCHEMA');
-
-  final String value;
-
-  const ResourceConfigurationSchemaType._(this.value);
-
-  static const values = [cfnResourceSchema];
-
-  static ResourceConfigurationSchemaType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ResourceConfigurationSchemaType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ResourceConfigurationSchemaType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object that contains the resource type and the number of resources.
-class ResourceCount {
-  /// The number of resources.
-  final int? count;
-
-  /// The resource type (for example, <code>"AWS::EC2::Instance"</code>).
-  final ResourceType? resourceType;
-
-  ResourceCount({
-    this.count,
-    this.resourceType,
-  });
-
-  factory ResourceCount.fromJson(Map<String, dynamic> json) {
-    return ResourceCount(
-      count: json['count'] as int?,
-      resourceType:
-          (json['resourceType'] as String?)?.let(ResourceType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final count = this.count;
-    final resourceType = this.resourceType;
-    return {
-      if (count != null) 'count': count,
-      if (resourceType != null) 'resourceType': resourceType.value,
-    };
-  }
-}
-
-/// Filters the resource count based on account ID, region, and resource type.
-class ResourceCountFilters {
-  /// The 12-digit ID of the account.
-  final String? accountId;
-
-  /// The region where the account is located.
-  final String? region;
-
-  /// The type of the Amazon Web Services resource.
-  final ResourceType? resourceType;
-
-  ResourceCountFilters({
-    this.accountId,
-    this.region,
-    this.resourceType,
-  });
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final region = this.region;
-    final resourceType = this.resourceType;
-    return {
-      if (accountId != null) 'AccountId': accountId,
-      if (region != null) 'Region': region,
-      if (resourceType != null) 'ResourceType': resourceType.value,
-    };
-  }
-}
-
-class ResourceCountGroupKey {
-  static const resourceType = ResourceCountGroupKey._('RESOURCE_TYPE');
-  static const accountId = ResourceCountGroupKey._('ACCOUNT_ID');
-  static const awsRegion = ResourceCountGroupKey._('AWS_REGION');
-
-  final String value;
-
-  const ResourceCountGroupKey._(this.value);
-
-  static const values = [resourceType, accountId, awsRegion];
-
-  static ResourceCountGroupKey fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ResourceCountGroupKey._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ResourceCountGroupKey && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// Returns information about the resource being evaluated.
@@ -14304,101 +8426,49 @@ class ResourceDetails {
   }
 }
 
-/// Returns details of a resource evaluation.
-class ResourceEvaluation {
-  /// The mode of an evaluation. The valid values are Detective or Proactive.
-  final EvaluationMode? evaluationMode;
+/// Use EvaluationContext to group independently initiated proactive resource
+/// evaluations. For example, CFN Stack. If you want to check just a resource
+/// definition, you do not need to provide evaluation context.
+class EvaluationContext {
+  /// A unique EvaluationContextIdentifier ID for an EvaluationContext.
+  final String? evaluationContextIdentifier;
 
-  /// The starting time of an execution.
-  final DateTime? evaluationStartTimestamp;
-
-  /// The ResourceEvaluationId of a evaluation.
-  final String? resourceEvaluationId;
-
-  ResourceEvaluation({
-    this.evaluationMode,
-    this.evaluationStartTimestamp,
-    this.resourceEvaluationId,
+  EvaluationContext({
+    this.evaluationContextIdentifier,
   });
 
-  factory ResourceEvaluation.fromJson(Map<String, dynamic> json) {
-    return ResourceEvaluation(
-      evaluationMode:
-          (json['EvaluationMode'] as String?)?.let(EvaluationMode.fromString),
-      evaluationStartTimestamp:
-          timeStampFromJson(json['EvaluationStartTimestamp']),
-      resourceEvaluationId: json['ResourceEvaluationId'] as String?,
+  factory EvaluationContext.fromJson(Map<String, dynamic> json) {
+    return EvaluationContext(
+      evaluationContextIdentifier:
+          json['EvaluationContextIdentifier'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final evaluationMode = this.evaluationMode;
-    final evaluationStartTimestamp = this.evaluationStartTimestamp;
-    final resourceEvaluationId = this.resourceEvaluationId;
-    return {
-      if (evaluationMode != null) 'EvaluationMode': evaluationMode.value,
-      if (evaluationStartTimestamp != null)
-        'EvaluationStartTimestamp':
-            unixTimestampToJson(evaluationStartTimestamp),
-      if (resourceEvaluationId != null)
-        'ResourceEvaluationId': resourceEvaluationId,
-    };
-  }
-}
-
-/// Returns details of a resource evaluation based on the selected filter.
-class ResourceEvaluationFilters {
-  /// Filters evaluations for a given infrastructure deployment. For example: CFN
-  /// Stack.
-  final String? evaluationContextIdentifier;
-
-  /// Filters all resource evaluations results based on an evaluation mode.
-  /// <important>
-  /// Currently, <code>DECTECTIVE</code> is not supported as a valid value. Ignore
-  /// other documentation stating otherwise.
-  /// </important>
-  final EvaluationMode? evaluationMode;
-
-  /// Returns a <code>TimeWindow</code> object.
-  final TimeWindow? timeWindow;
-
-  ResourceEvaluationFilters({
-    this.evaluationContextIdentifier,
-    this.evaluationMode,
-    this.timeWindow,
-  });
-
-  Map<String, dynamic> toJson() {
     final evaluationContextIdentifier = this.evaluationContextIdentifier;
-    final evaluationMode = this.evaluationMode;
-    final timeWindow = this.timeWindow;
     return {
       if (evaluationContextIdentifier != null)
         'EvaluationContextIdentifier': evaluationContextIdentifier,
-      if (evaluationMode != null) 'EvaluationMode': evaluationMode.value,
-      if (timeWindow != null) 'TimeWindow': timeWindow,
     };
   }
 }
 
-class ResourceEvaluationStatus {
-  static const inProgress = ResourceEvaluationStatus._('IN_PROGRESS');
-  static const failed = ResourceEvaluationStatus._('FAILED');
-  static const succeeded = ResourceEvaluationStatus._('SUCCEEDED');
+class EvaluationMode {
+  static const detective = EvaluationMode._('DETECTIVE');
+  static const proactive = EvaluationMode._('PROACTIVE');
 
   final String value;
 
-  const ResourceEvaluationStatus._(this.value);
+  const EvaluationMode._(this.value);
 
-  static const values = [inProgress, failed, succeeded];
+  static const values = [detective, proactive];
 
-  static ResourceEvaluationStatus fromString(String value) =>
+  static EvaluationMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => ResourceEvaluationStatus._(value));
+          orElse: () => EvaluationMode._(value));
 
   @override
-  bool operator ==(other) =>
-      other is ResourceEvaluationStatus && other.value == value;
+  bool operator ==(other) => other is EvaluationMode && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -14407,87 +8477,29 @@ class ResourceEvaluationStatus {
   String toString() => value;
 }
 
-/// Filters the results by resource account ID, region, resource ID, and
-/// resource name.
-class ResourceFilters {
-  /// The 12-digit source account ID.
-  final String? accountId;
+class ResourceConfigurationSchemaType {
+  static const cfnResourceSchema =
+      ResourceConfigurationSchemaType._('CFN_RESOURCE_SCHEMA');
 
-  /// The source region.
-  final String? region;
+  final String value;
 
-  /// The ID of the resource.
-  final String? resourceId;
+  const ResourceConfigurationSchemaType._(this.value);
 
-  /// The name of the resource.
-  final String? resourceName;
+  static const values = [cfnResourceSchema];
 
-  ResourceFilters({
-    this.accountId,
-    this.region,
-    this.resourceId,
-    this.resourceName,
-  });
+  static ResourceConfigurationSchemaType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceConfigurationSchemaType._(value));
 
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final region = this.region;
-    final resourceId = this.resourceId;
-    final resourceName = this.resourceName;
-    return {
-      if (accountId != null) 'AccountId': accountId,
-      if (region != null) 'Region': region,
-      if (resourceId != null) 'ResourceId': resourceId,
-      if (resourceName != null) 'ResourceName': resourceName,
-    };
-  }
-}
+  @override
+  bool operator ==(other) =>
+      other is ResourceConfigurationSchemaType && other.value == value;
 
-/// The details that identify a resource that is discovered by Config, including
-/// the resource type, ID, and (if available) the custom resource name.
-class ResourceIdentifier {
-  /// The time that the resource was deleted.
-  final DateTime? resourceDeletionTime;
+  @override
+  int get hashCode => value.hashCode;
 
-  /// The ID of the resource (for example, <code>sg-xxxxxx</code>).
-  final String? resourceId;
-
-  /// The custom name of the resource (if available).
-  final String? resourceName;
-
-  /// The type of resource.
-  final ResourceType? resourceType;
-
-  ResourceIdentifier({
-    this.resourceDeletionTime,
-    this.resourceId,
-    this.resourceName,
-    this.resourceType,
-  });
-
-  factory ResourceIdentifier.fromJson(Map<String, dynamic> json) {
-    return ResourceIdentifier(
-      resourceDeletionTime: timeStampFromJson(json['resourceDeletionTime']),
-      resourceId: json['resourceId'] as String?,
-      resourceName: json['resourceName'] as String?,
-      resourceType:
-          (json['resourceType'] as String?)?.let(ResourceType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resourceDeletionTime = this.resourceDeletionTime;
-    final resourceId = this.resourceId;
-    final resourceName = this.resourceName;
-    final resourceType = this.resourceType;
-    return {
-      if (resourceDeletionTime != null)
-        'resourceDeletionTime': unixTimestampToJson(resourceDeletionTime),
-      if (resourceId != null) 'resourceId': resourceId,
-      if (resourceName != null) 'resourceName': resourceName,
-      if (resourceType != null) 'resourceType': resourceType.value,
-    };
-  }
+  @override
+  String toString() => value;
 }
 
 /// The details that identify a resource within Config, including the resource
@@ -15202,6 +9214,232 @@ class ResourceType {
   static const awsRoute53ResolverFirewallRuleGroup =
       ResourceType._('AWS::Route53Resolver::FirewallRuleGroup');
   static const awsSsmDocument = ResourceType._('AWS::SSM::Document');
+  static const awsAppConfigExtensionAssociation =
+      ResourceType._('AWS::AppConfig::ExtensionAssociation');
+  static const awsAppIntegrationsApplication =
+      ResourceType._('AWS::AppIntegrations::Application');
+  static const awsAppSyncApiCache = ResourceType._('AWS::AppSync::ApiCache');
+  static const awsBedrockGuardrail = ResourceType._('AWS::Bedrock::Guardrail');
+  static const awsBedrockKnowledgeBase =
+      ResourceType._('AWS::Bedrock::KnowledgeBase');
+  static const awsCognitoIdentityPool =
+      ResourceType._('AWS::Cognito::IdentityPool');
+  static const awsConnectRule = ResourceType._('AWS::Connect::Rule');
+  static const awsConnectUser = ResourceType._('AWS::Connect::User');
+  static const awsEc2ClientVpnTargetNetworkAssociation =
+      ResourceType._('AWS::EC2::ClientVpnTargetNetworkAssociation');
+  static const awsEc2EIPAssociation =
+      ResourceType._('AWS::EC2::EIPAssociation');
+  static const awsEc2IPAMResourceDiscovery =
+      ResourceType._('AWS::EC2::IPAMResourceDiscovery');
+  static const awsEc2IPAMResourceDiscoveryAssociation =
+      ResourceType._('AWS::EC2::IPAMResourceDiscoveryAssociation');
+  static const awsEc2InstanceConnectEndpoint =
+      ResourceType._('AWS::EC2::InstanceConnectEndpoint');
+  static const awsEc2SnapshotBlockPublicAccess =
+      ResourceType._('AWS::EC2::SnapshotBlockPublicAccess');
+  static const awsEc2VPCBlockPublicAccessExclusion =
+      ResourceType._('AWS::EC2::VPCBlockPublicAccessExclusion');
+  static const awsEc2VPCBlockPublicAccessOptions =
+      ResourceType._('AWS::EC2::VPCBlockPublicAccessOptions');
+  static const awsEc2VPCEndpointConnectionNotification =
+      ResourceType._('AWS::EC2::VPCEndpointConnectionNotification');
+  static const awsEc2VPNConnectionRoute =
+      ResourceType._('AWS::EC2::VPNConnectionRoute');
+  static const awsEvidentlySegment = ResourceType._('AWS::Evidently::Segment');
+  static const awsIamOIDCProvider = ResourceType._('AWS::IAM::OIDCProvider');
+  static const awsInspectorV2Activation =
+      ResourceType._('AWS::InspectorV2::Activation');
+  static const awsMskClusterPolicy = ResourceType._('AWS::MSK::ClusterPolicy');
+  static const awsMskVpcConnection = ResourceType._('AWS::MSK::VpcConnection');
+  static const awsMediaConnectGateway =
+      ResourceType._('AWS::MediaConnect::Gateway');
+  static const awsMemoryDBSubnetGroup =
+      ResourceType._('AWS::MemoryDB::SubnetGroup');
+  static const awsOpenSearchServerlessCollection =
+      ResourceType._('AWS::OpenSearchServerless::Collection');
+  static const awsOpenSearchServerlessVpcEndpoint =
+      ResourceType._('AWS::OpenSearchServerless::VpcEndpoint');
+  static const awsRedshiftEndpointAuthorization =
+      ResourceType._('AWS::Redshift::EndpointAuthorization');
+  static const awsRoute53ProfilesProfile =
+      ResourceType._('AWS::Route53Profiles::Profile');
+  static const awsS3StorageLensGroup =
+      ResourceType._('AWS::S3::StorageLensGroup');
+  static const awsS3ExpressBucketPolicy =
+      ResourceType._('AWS::S3Express::BucketPolicy');
+  static const awsS3ExpressDirectoryBucket =
+      ResourceType._('AWS::S3Express::DirectoryBucket');
+  static const awsSageMakerInferenceExperiment =
+      ResourceType._('AWS::SageMaker::InferenceExperiment');
+  static const awsSecurityHubStandard =
+      ResourceType._('AWS::SecurityHub::Standard');
+  static const awsTransferProfile = ResourceType._('AWS::Transfer::Profile');
+  static const awsCloudFormationStackSet =
+      ResourceType._('AWS::CloudFormation::StackSet');
+  static const awsMediaPackageV2Channel =
+      ResourceType._('AWS::MediaPackageV2::Channel');
+  static const awsS3AccessGrantsLocation =
+      ResourceType._('AWS::S3::AccessGrantsLocation');
+  static const awsS3AccessGrant = ResourceType._('AWS::S3::AccessGrant');
+  static const awsS3AccessGrantsInstance =
+      ResourceType._('AWS::S3::AccessGrantsInstance');
+  static const awsEMRServerlessApplication =
+      ResourceType._('AWS::EMRServerless::Application');
+  static const awsConfigAggregationAuthorization =
+      ResourceType._('AWS::Config::AggregationAuthorization');
+  static const awsBedrockApplicationInferenceProfile =
+      ResourceType._('AWS::Bedrock::ApplicationInferenceProfile');
+  static const awsApiGatewayV2Integration =
+      ResourceType._('AWS::ApiGatewayV2::Integration');
+  static const awsSageMakerMlflowTrackingServer =
+      ResourceType._('AWS::SageMaker::MlflowTrackingServer');
+  static const awsSageMakerModelBiasJobDefinition =
+      ResourceType._('AWS::SageMaker::ModelBiasJobDefinition');
+  static const awsSecretsManagerRotationSchedule =
+      ResourceType._('AWS::SecretsManager::RotationSchedule');
+  static const awsDeadlineQueueFleetAssociation =
+      ResourceType._('AWS::Deadline::QueueFleetAssociation');
+  static const awsEcrRepositoryCreationTemplate =
+      ResourceType._('AWS::ECR::RepositoryCreationTemplate');
+  static const awsCloudFormationLambdaHook =
+      ResourceType._('AWS::CloudFormation::LambdaHook');
+  static const awsEc2SubnetNetworkAclAssociation =
+      ResourceType._('AWS::EC2::SubnetNetworkAclAssociation');
+  static const awsApiGatewayUsagePlan =
+      ResourceType._('AWS::ApiGateway::UsagePlan');
+  static const awsAppConfigExtension =
+      ResourceType._('AWS::AppConfig::Extension');
+  static const awsDeadlineFleet = ResourceType._('AWS::Deadline::Fleet');
+  static const awsEmrStudio = ResourceType._('AWS::EMR::Studio');
+  static const awsS3TablesTableBucket =
+      ResourceType._('AWS::S3Tables::TableBucket');
+  static const awsCloudFrontRealtimeLogConfig =
+      ResourceType._('AWS::CloudFront::RealtimeLogConfig');
+  static const awsBackupGatewayHypervisor =
+      ResourceType._('AWS::BackupGateway::Hypervisor');
+  static const awsBCMDataExportsExport =
+      ResourceType._('AWS::BCMDataExports::Export');
+  static const awsCloudFormationGuardHook =
+      ResourceType._('AWS::CloudFormation::GuardHook');
+  static const awsCloudFrontPublicKey =
+      ResourceType._('AWS::CloudFront::PublicKey');
+  static const awsCloudTrailEventDataStore =
+      ResourceType._('AWS::CloudTrail::EventDataStore');
+  static const awsEntityResolutionIdMappingWorkflow =
+      ResourceType._('AWS::EntityResolution::IdMappingWorkflow');
+  static const awsEntityResolutionSchemaMapping =
+      ResourceType._('AWS::EntityResolution::SchemaMapping');
+  static const awsIoTDomainConfiguration =
+      ResourceType._('AWS::IoT::DomainConfiguration');
+  static const awsPCAConnectorADDirectoryRegistration =
+      ResourceType._('AWS::PCAConnectorAD::DirectoryRegistration');
+  static const awsRdsIntegration = ResourceType._('AWS::RDS::Integration');
+  static const awsConfigConformancePack =
+      ResourceType._('AWS::Config::ConformancePack');
+  static const awsRolesAnywhereProfile =
+      ResourceType._('AWS::RolesAnywhere::Profile');
+  static const awsCodeArtifactDomain =
+      ResourceType._('AWS::CodeArtifact::Domain');
+  static const awsBackupRestoreTestingPlan =
+      ResourceType._('AWS::Backup::RestoreTestingPlan');
+  static const awsConfigStoredQuery =
+      ResourceType._('AWS::Config::StoredQuery');
+  static const awsSageMakerDataQualityJobDefinition =
+      ResourceType._('AWS::SageMaker::DataQualityJobDefinition');
+  static const awsSageMakerModelExplainabilityJobDefinition =
+      ResourceType._('AWS::SageMaker::ModelExplainabilityJobDefinition');
+  static const awsSageMakerModelQualityJobDefinition =
+      ResourceType._('AWS::SageMaker::ModelQualityJobDefinition');
+  static const awsSageMakerStudioLifecycleConfig =
+      ResourceType._('AWS::SageMaker::StudioLifecycleConfig');
+  static const awsSesDedicatedIpPool =
+      ResourceType._('AWS::SES::DedicatedIpPool');
+  static const awsSesMailManagerTrafficPolicy =
+      ResourceType._('AWS::SES::MailManagerTrafficPolicy');
+  static const awsSsmResourceDataSync =
+      ResourceType._('AWS::SSM::ResourceDataSync');
+  static const awsBedrockAgentCoreRuntime =
+      ResourceType._('AWS::BedrockAgentCore::Runtime');
+  static const awsBedrockAgentCoreBrowserCustom =
+      ResourceType._('AWS::BedrockAgentCore::BrowserCustom');
+  static const awsElasticLoadBalancingV2TargetGroup =
+      ResourceType._('AWS::ElasticLoadBalancingV2::TargetGroup');
+  static const awsEMRContainersVirtualCluster =
+      ResourceType._('AWS::EMRContainers::VirtualCluster');
+  static const awsEntityResolutionMatchingWorkflow =
+      ResourceType._('AWS::EntityResolution::MatchingWorkflow');
+  static const awsIoTCoreDeviceAdvisorSuiteDefinition =
+      ResourceType._('AWS::IoTCoreDeviceAdvisor::SuiteDefinition');
+  static const awsEc2SecurityGroupVpcAssociation =
+      ResourceType._('AWS::EC2::SecurityGroupVpcAssociation');
+  static const awsEc2VerifiedAccessInstance =
+      ResourceType._('AWS::EC2::VerifiedAccessInstance');
+  static const awsKafkaConnectCustomPlugin =
+      ResourceType._('AWS::KafkaConnect::CustomPlugin');
+  static const awsNetworkManagerTransitGatewayPeering =
+      ResourceType._('AWS::NetworkManager::TransitGatewayPeering');
+  static const awsOpenSearchServerlessSecurityConfig =
+      ResourceType._('AWS::OpenSearchServerless::SecurityConfig');
+  static const awsRedshiftIntegration =
+      ResourceType._('AWS::Redshift::Integration');
+  static const awsRolesAnywhereTrustAnchor =
+      ResourceType._('AWS::RolesAnywhere::TrustAnchor');
+  static const awsRoute53ProfilesProfileAssociation =
+      ResourceType._('AWS::Route53Profiles::ProfileAssociation');
+  static const awsSSMIncidentsResponsePlan =
+      ResourceType._('AWS::SSMIncidents::ResponsePlan');
+  static const awsTransferServer = ResourceType._('AWS::Transfer::Server');
+  static const awsGlueDatabase = ResourceType._('AWS::Glue::Database');
+  static const awsOrganizationsOrganizationalUnit =
+      ResourceType._('AWS::Organizations::OrganizationalUnit');
+  static const awsEc2IPAMPoolCidr = ResourceType._('AWS::EC2::IPAMPoolCidr');
+  static const awsEc2VPCGatewayAttachment =
+      ResourceType._('AWS::EC2::VPCGatewayAttachment');
+  static const awsBedrockPrompt = ResourceType._('AWS::Bedrock::Prompt');
+  static const awsComprehendFlywheel =
+      ResourceType._('AWS::Comprehend::Flywheel');
+  static const awsDataSyncAgent = ResourceType._('AWS::DataSync::Agent');
+  static const awsMediaTailorLiveSource =
+      ResourceType._('AWS::MediaTailor::LiveSource');
+  static const awsMskServerlessCluster =
+      ResourceType._('AWS::MSK::ServerlessCluster');
+  static const awsIoTSiteWiseAsset = ResourceType._('AWS::IoTSiteWise::Asset');
+  static const awsB2biCapability = ResourceType._('AWS::B2BI::Capability');
+  static const awsCloudFrontKeyValueStore =
+      ResourceType._('AWS::CloudFront::KeyValueStore');
+  static const awsDeadlineMonitor = ResourceType._('AWS::Deadline::Monitor');
+  static const awsGuardDutyMalwareProtectionPlan =
+      ResourceType._('AWS::GuardDuty::MalwareProtectionPlan');
+  static const awsLocationAPIKey = ResourceType._('AWS::Location::APIKey');
+  static const awsMediaPackageV2OriginEndpoint =
+      ResourceType._('AWS::MediaPackageV2::OriginEndpoint');
+  static const awsPCAConnectorADConnector =
+      ResourceType._('AWS::PCAConnectorAD::Connector');
+  static const awsS3TablesTableBucketPolicy =
+      ResourceType._('AWS::S3Tables::TableBucketPolicy');
+  static const awsSecretsManagerResourcePolicy =
+      ResourceType._('AWS::SecretsManager::ResourcePolicy');
+  static const awsSSMContactsContact =
+      ResourceType._('AWS::SSMContacts::Contact');
+  static const awsIoTThingGroup = ResourceType._('AWS::IoT::ThingGroup');
+  static const awsImageBuilderLifecyclePolicy =
+      ResourceType._('AWS::ImageBuilder::LifecyclePolicy');
+  static const awsGameLiftBuild = ResourceType._('AWS::GameLift::Build');
+  static const awsEcrReplicationConfiguration =
+      ResourceType._('AWS::ECR::ReplicationConfiguration');
+  static const awsEc2SubnetCidrBlock =
+      ResourceType._('AWS::EC2::SubnetCidrBlock');
+  static const awsConnectSecurityProfile =
+      ResourceType._('AWS::Connect::SecurityProfile');
+  static const awsCleanRoomsMLTrainingDataset =
+      ResourceType._('AWS::CleanRoomsML::TrainingDataset');
+  static const awsAppStreamAppBlockBuilder =
+      ResourceType._('AWS::AppStream::AppBlockBuilder');
+  static const awsRoute53Dnssec = ResourceType._('AWS::Route53::DNSSEC');
+  static const awsSageMakerUserProfile =
+      ResourceType._('AWS::SageMaker::UserProfile');
+  static const awsApiGatewayMethod = ResourceType._('AWS::ApiGateway::Method');
 
   final String value;
 
@@ -15614,7 +9852,133 @@ class ResourceType {
     awsRdsOptionGroup,
     awsRedshiftEndpointAccess,
     awsRoute53ResolverFirewallRuleGroup,
-    awsSsmDocument
+    awsSsmDocument,
+    awsAppConfigExtensionAssociation,
+    awsAppIntegrationsApplication,
+    awsAppSyncApiCache,
+    awsBedrockGuardrail,
+    awsBedrockKnowledgeBase,
+    awsCognitoIdentityPool,
+    awsConnectRule,
+    awsConnectUser,
+    awsEc2ClientVpnTargetNetworkAssociation,
+    awsEc2EIPAssociation,
+    awsEc2IPAMResourceDiscovery,
+    awsEc2IPAMResourceDiscoveryAssociation,
+    awsEc2InstanceConnectEndpoint,
+    awsEc2SnapshotBlockPublicAccess,
+    awsEc2VPCBlockPublicAccessExclusion,
+    awsEc2VPCBlockPublicAccessOptions,
+    awsEc2VPCEndpointConnectionNotification,
+    awsEc2VPNConnectionRoute,
+    awsEvidentlySegment,
+    awsIamOIDCProvider,
+    awsInspectorV2Activation,
+    awsMskClusterPolicy,
+    awsMskVpcConnection,
+    awsMediaConnectGateway,
+    awsMemoryDBSubnetGroup,
+    awsOpenSearchServerlessCollection,
+    awsOpenSearchServerlessVpcEndpoint,
+    awsRedshiftEndpointAuthorization,
+    awsRoute53ProfilesProfile,
+    awsS3StorageLensGroup,
+    awsS3ExpressBucketPolicy,
+    awsS3ExpressDirectoryBucket,
+    awsSageMakerInferenceExperiment,
+    awsSecurityHubStandard,
+    awsTransferProfile,
+    awsCloudFormationStackSet,
+    awsMediaPackageV2Channel,
+    awsS3AccessGrantsLocation,
+    awsS3AccessGrant,
+    awsS3AccessGrantsInstance,
+    awsEMRServerlessApplication,
+    awsConfigAggregationAuthorization,
+    awsBedrockApplicationInferenceProfile,
+    awsApiGatewayV2Integration,
+    awsSageMakerMlflowTrackingServer,
+    awsSageMakerModelBiasJobDefinition,
+    awsSecretsManagerRotationSchedule,
+    awsDeadlineQueueFleetAssociation,
+    awsEcrRepositoryCreationTemplate,
+    awsCloudFormationLambdaHook,
+    awsEc2SubnetNetworkAclAssociation,
+    awsApiGatewayUsagePlan,
+    awsAppConfigExtension,
+    awsDeadlineFleet,
+    awsEmrStudio,
+    awsS3TablesTableBucket,
+    awsCloudFrontRealtimeLogConfig,
+    awsBackupGatewayHypervisor,
+    awsBCMDataExportsExport,
+    awsCloudFormationGuardHook,
+    awsCloudFrontPublicKey,
+    awsCloudTrailEventDataStore,
+    awsEntityResolutionIdMappingWorkflow,
+    awsEntityResolutionSchemaMapping,
+    awsIoTDomainConfiguration,
+    awsPCAConnectorADDirectoryRegistration,
+    awsRdsIntegration,
+    awsConfigConformancePack,
+    awsRolesAnywhereProfile,
+    awsCodeArtifactDomain,
+    awsBackupRestoreTestingPlan,
+    awsConfigStoredQuery,
+    awsSageMakerDataQualityJobDefinition,
+    awsSageMakerModelExplainabilityJobDefinition,
+    awsSageMakerModelQualityJobDefinition,
+    awsSageMakerStudioLifecycleConfig,
+    awsSesDedicatedIpPool,
+    awsSesMailManagerTrafficPolicy,
+    awsSsmResourceDataSync,
+    awsBedrockAgentCoreRuntime,
+    awsBedrockAgentCoreBrowserCustom,
+    awsElasticLoadBalancingV2TargetGroup,
+    awsEMRContainersVirtualCluster,
+    awsEntityResolutionMatchingWorkflow,
+    awsIoTCoreDeviceAdvisorSuiteDefinition,
+    awsEc2SecurityGroupVpcAssociation,
+    awsEc2VerifiedAccessInstance,
+    awsKafkaConnectCustomPlugin,
+    awsNetworkManagerTransitGatewayPeering,
+    awsOpenSearchServerlessSecurityConfig,
+    awsRedshiftIntegration,
+    awsRolesAnywhereTrustAnchor,
+    awsRoute53ProfilesProfileAssociation,
+    awsSSMIncidentsResponsePlan,
+    awsTransferServer,
+    awsGlueDatabase,
+    awsOrganizationsOrganizationalUnit,
+    awsEc2IPAMPoolCidr,
+    awsEc2VPCGatewayAttachment,
+    awsBedrockPrompt,
+    awsComprehendFlywheel,
+    awsDataSyncAgent,
+    awsMediaTailorLiveSource,
+    awsMskServerlessCluster,
+    awsIoTSiteWiseAsset,
+    awsB2biCapability,
+    awsCloudFrontKeyValueStore,
+    awsDeadlineMonitor,
+    awsGuardDutyMalwareProtectionPlan,
+    awsLocationAPIKey,
+    awsMediaPackageV2OriginEndpoint,
+    awsPCAConnectorADConnector,
+    awsS3TablesTableBucketPolicy,
+    awsSecretsManagerResourcePolicy,
+    awsSSMContactsContact,
+    awsIoTThingGroup,
+    awsImageBuilderLifecyclePolicy,
+    awsGameLiftBuild,
+    awsEcrReplicationConfiguration,
+    awsEc2SubnetCidrBlock,
+    awsConnectSecurityProfile,
+    awsCleanRoomsMLTrainingDataset,
+    awsAppStreamAppBlockBuilder,
+    awsRoute53Dnssec,
+    awsSageMakerUserProfile,
+    awsApiGatewayMethod
   ];
 
   static ResourceType fromString(String value) => values
@@ -15630,50 +9994,110 @@ class ResourceType {
   String toString() => value;
 }
 
-/// The dynamic value of the resource.
-class ResourceValue {
-  /// The value is a resource ID.
-  final ResourceValueType value;
+/// Details about the query.
+class QueryInfo {
+  /// Returns a <code>FieldInfo</code> object.
+  final List<FieldInfo>? selectFields;
 
-  ResourceValue({
-    required this.value,
+  QueryInfo({
+    this.selectFields,
   });
 
-  factory ResourceValue.fromJson(Map<String, dynamic> json) {
-    return ResourceValue(
-      value: ResourceValueType.fromString((json['Value'] as String?) ?? ''),
+  factory QueryInfo.fromJson(Map<String, dynamic> json) {
+    return QueryInfo(
+      selectFields: (json['SelectFields'] as List?)
+          ?.nonNulls
+          .map((e) => FieldInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final value = this.value;
+    final selectFields = this.selectFields;
     return {
-      'Value': value.value,
+      if (selectFields != null) 'SelectFields': selectFields,
     };
   }
 }
 
-class ResourceValueType {
-  static const resourceId = ResourceValueType._('RESOURCE_ID');
+/// Details about the fields such as name of the field.
+class FieldInfo {
+  /// Name of the field.
+  final String? name;
 
-  final String value;
+  FieldInfo({
+    this.name,
+  });
 
-  const ResourceValueType._(this.value);
+  factory FieldInfo.fromJson(Map<String, dynamic> json) {
+    return FieldInfo(
+      name: json['Name'] as String?,
+    );
+  }
 
-  static const values = [resourceId];
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'Name': name,
+    };
+  }
+}
 
-  static ResourceValueType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ResourceValueType._(value));
+/// Provides the details of a stored query.
+class StoredQuery {
+  /// The name of the query.
+  final String queryName;
 
-  @override
-  bool operator ==(other) => other is ResourceValueType && other.value == value;
+  /// A unique description for the query.
+  final String? description;
 
-  @override
-  int get hashCode => value.hashCode;
+  /// The expression of the query. For example, <code>SELECT resourceId,
+  /// resourceType,
+  /// supplementaryConfiguration.BucketVersioningConfiguration.status WHERE
+  /// resourceType = 'AWS::S3::Bucket' AND
+  /// supplementaryConfiguration.BucketVersioningConfiguration.status =
+  /// 'Off'.</code>
+  final String? expression;
 
-  @override
-  String toString() => value;
+  /// Amazon Resource Name (ARN) of the query. For example,
+  /// arn:partition:service:region:account-id:resource-type/resource-name/resource-id.
+  final String? queryArn;
+
+  /// The ID of the query.
+  final String? queryId;
+
+  StoredQuery({
+    required this.queryName,
+    this.description,
+    this.expression,
+    this.queryArn,
+    this.queryId,
+  });
+
+  factory StoredQuery.fromJson(Map<String, dynamic> json) {
+    return StoredQuery(
+      queryName: (json['QueryName'] as String?) ?? '',
+      description: json['Description'] as String?,
+      expression: json['Expression'] as String?,
+      queryArn: json['QueryArn'] as String?,
+      queryId: json['QueryId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final queryName = this.queryName;
+    final description = this.description;
+    final expression = this.expression;
+    final queryArn = this.queryArn;
+    final queryId = this.queryId;
+    return {
+      'QueryName': queryName,
+      if (description != null) 'Description': description,
+      if (expression != null) 'Expression': expression,
+      if (queryArn != null) 'QueryArn': queryArn,
+      if (queryId != null) 'QueryId': queryId,
+    };
+  }
 }
 
 /// An object with the name of the retention configuration and the retention
@@ -15711,6 +10135,2716 @@ class RetentionConfiguration {
   }
 }
 
+/// List of each of the failed remediation exceptions with specific reasons.
+class FailedRemediationExceptionBatch {
+  /// Returns remediation exception resource key object of the failed items.
+  final List<RemediationException>? failedItems;
+
+  /// Returns a failure message. For example, the auto-remediation has failed.
+  final String? failureMessage;
+
+  FailedRemediationExceptionBatch({
+    this.failedItems,
+    this.failureMessage,
+  });
+
+  factory FailedRemediationExceptionBatch.fromJson(Map<String, dynamic> json) {
+    return FailedRemediationExceptionBatch(
+      failedItems: (json['FailedItems'] as List?)
+          ?.nonNulls
+          .map((e) => RemediationException.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      failureMessage: json['FailureMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failedItems = this.failedItems;
+    final failureMessage = this.failureMessage;
+    return {
+      if (failedItems != null) 'FailedItems': failedItems,
+      if (failureMessage != null) 'FailureMessage': failureMessage,
+    };
+  }
+}
+
+/// An object that represents the details about the remediation exception. The
+/// details include the rule name, an explanation of an exception, the time when
+/// the exception will be deleted, the resource ID, and resource type.
+class RemediationException {
+  /// The name of the Config rule.
+  final String configRuleName;
+
+  /// The ID of the resource (for example., sg-xxxxxx).
+  final String resourceId;
+
+  /// The type of a resource.
+  final String resourceType;
+
+  /// The time when the remediation exception will be deleted.
+  final DateTime? expirationTime;
+
+  /// An explanation of an remediation exception.
+  final String? message;
+
+  RemediationException({
+    required this.configRuleName,
+    required this.resourceId,
+    required this.resourceType,
+    this.expirationTime,
+    this.message,
+  });
+
+  factory RemediationException.fromJson(Map<String, dynamic> json) {
+    return RemediationException(
+      configRuleName: (json['ConfigRuleName'] as String?) ?? '',
+      resourceId: (json['ResourceId'] as String?) ?? '',
+      resourceType: (json['ResourceType'] as String?) ?? '',
+      expirationTime: timeStampFromJson(json['ExpirationTime']),
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configRuleName = this.configRuleName;
+    final resourceId = this.resourceId;
+    final resourceType = this.resourceType;
+    final expirationTime = this.expirationTime;
+    final message = this.message;
+    return {
+      'ConfigRuleName': configRuleName,
+      'ResourceId': resourceId,
+      'ResourceType': resourceType,
+      if (expirationTime != null)
+        'ExpirationTime': unixTimestampToJson(expirationTime),
+      if (message != null) 'Message': message,
+    };
+  }
+}
+
+/// The details that identify a resource within Config, including the resource
+/// type and resource ID.
+class RemediationExceptionResourceKey {
+  /// The ID of the resource (for example., sg-xxxxxx).
+  final String? resourceId;
+
+  /// The type of a resource.
+  final String? resourceType;
+
+  RemediationExceptionResourceKey({
+    this.resourceId,
+    this.resourceType,
+  });
+
+  factory RemediationExceptionResourceKey.fromJson(Map<String, dynamic> json) {
+    return RemediationExceptionResourceKey(
+      resourceId: json['ResourceId'] as String?,
+      resourceType: json['ResourceType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceId = this.resourceId;
+    final resourceType = this.resourceType;
+    return {
+      if (resourceId != null) 'ResourceId': resourceId,
+      if (resourceType != null) 'ResourceType': resourceType,
+    };
+  }
+}
+
+/// List of each of the failed remediations with specific reasons.
+class FailedRemediationBatch {
+  /// Returns remediation configurations of the failed items.
+  final List<RemediationConfiguration>? failedItems;
+
+  /// Returns a failure message. For example, the resource is already compliant.
+  final String? failureMessage;
+
+  FailedRemediationBatch({
+    this.failedItems,
+    this.failureMessage,
+  });
+
+  factory FailedRemediationBatch.fromJson(Map<String, dynamic> json) {
+    return FailedRemediationBatch(
+      failedItems: (json['FailedItems'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              RemediationConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      failureMessage: json['FailureMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failedItems = this.failedItems;
+    final failureMessage = this.failureMessage;
+    return {
+      if (failedItems != null) 'FailedItems': failedItems,
+      if (failureMessage != null) 'FailureMessage': failureMessage,
+    };
+  }
+}
+
+/// An object that represents the details about the remediation configuration
+/// that includes the remediation action, parameters, and data to execute the
+/// action.
+class RemediationConfiguration {
+  /// The name of the Config rule.
+  final String configRuleName;
+
+  /// Target ID is the name of the SSM document.
+  final String targetId;
+
+  /// The type of the target. Target executes remediation. For example, SSM
+  /// document.
+  final RemediationTargetType targetType;
+
+  /// Amazon Resource Name (ARN) of remediation configuration.
+  final String? arn;
+
+  /// The remediation is triggered automatically.
+  final bool? automatic;
+
+  /// Name of the service that owns the service-linked rule, if applicable.
+  final String? createdByService;
+
+  /// An ExecutionControls object.
+  final ExecutionControls? executionControls;
+
+  /// The maximum number of failed attempts for auto-remediation. If you do not
+  /// select a number, the default is 5.
+  ///
+  /// For example, if you specify MaximumAutomaticAttempts as 5 with
+  /// RetryAttemptSeconds as 50 seconds, Config will put a RemediationException on
+  /// your behalf for the failing resource after the 5th failed attempt within 50
+  /// seconds.
+  final int? maximumAutomaticAttempts;
+
+  /// An object of the RemediationParameterValue.
+  final Map<String, RemediationParameterValue>? parameters;
+
+  /// The type of a resource.
+  final String? resourceType;
+
+  /// Time window to determine whether or not to add a remediation exception to
+  /// prevent infinite remediation attempts. If
+  /// <code>MaximumAutomaticAttempts</code> remediation attempts have been made
+  /// under <code>RetryAttemptSeconds</code>, a remediation exception will be
+  /// added to the resource. If you do not select a number, the default is 60
+  /// seconds.
+  ///
+  /// For example, if you specify <code>RetryAttemptSeconds</code> as 50 seconds
+  /// and <code>MaximumAutomaticAttempts</code> as 5, Config will run
+  /// auto-remediations 5 times within 50 seconds before adding a remediation
+  /// exception to the resource.
+  final int? retryAttemptSeconds;
+
+  /// Version of the target. For example, version of the SSM document.
+  /// <note>
+  /// If you make backward incompatible changes to the SSM document, you must call
+  /// PutRemediationConfiguration API again to ensure the remediations can run.
+  /// </note>
+  final String? targetVersion;
+
+  RemediationConfiguration({
+    required this.configRuleName,
+    required this.targetId,
+    required this.targetType,
+    this.arn,
+    this.automatic,
+    this.createdByService,
+    this.executionControls,
+    this.maximumAutomaticAttempts,
+    this.parameters,
+    this.resourceType,
+    this.retryAttemptSeconds,
+    this.targetVersion,
+  });
+
+  factory RemediationConfiguration.fromJson(Map<String, dynamic> json) {
+    return RemediationConfiguration(
+      configRuleName: (json['ConfigRuleName'] as String?) ?? '',
+      targetId: (json['TargetId'] as String?) ?? '',
+      targetType: RemediationTargetType.fromString(
+          (json['TargetType'] as String?) ?? ''),
+      arn: json['Arn'] as String?,
+      automatic: json['Automatic'] as bool?,
+      createdByService: json['CreatedByService'] as String?,
+      executionControls: json['ExecutionControls'] != null
+          ? ExecutionControls.fromJson(
+              json['ExecutionControls'] as Map<String, dynamic>)
+          : null,
+      maximumAutomaticAttempts: json['MaximumAutomaticAttempts'] as int?,
+      parameters: (json['Parameters'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k,
+              RemediationParameterValue.fromJson(e as Map<String, dynamic>))),
+      resourceType: json['ResourceType'] as String?,
+      retryAttemptSeconds: json['RetryAttemptSeconds'] as int?,
+      targetVersion: json['TargetVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configRuleName = this.configRuleName;
+    final targetId = this.targetId;
+    final targetType = this.targetType;
+    final arn = this.arn;
+    final automatic = this.automatic;
+    final createdByService = this.createdByService;
+    final executionControls = this.executionControls;
+    final maximumAutomaticAttempts = this.maximumAutomaticAttempts;
+    final parameters = this.parameters;
+    final resourceType = this.resourceType;
+    final retryAttemptSeconds = this.retryAttemptSeconds;
+    final targetVersion = this.targetVersion;
+    return {
+      'ConfigRuleName': configRuleName,
+      'TargetId': targetId,
+      'TargetType': targetType.value,
+      if (arn != null) 'Arn': arn,
+      if (automatic != null) 'Automatic': automatic,
+      if (createdByService != null) 'CreatedByService': createdByService,
+      if (executionControls != null) 'ExecutionControls': executionControls,
+      if (maximumAutomaticAttempts != null)
+        'MaximumAutomaticAttempts': maximumAutomaticAttempts,
+      if (parameters != null) 'Parameters': parameters,
+      if (resourceType != null) 'ResourceType': resourceType,
+      if (retryAttemptSeconds != null)
+        'RetryAttemptSeconds': retryAttemptSeconds,
+      if (targetVersion != null) 'TargetVersion': targetVersion,
+    };
+  }
+}
+
+class RemediationTargetType {
+  static const ssmDocument = RemediationTargetType._('SSM_DOCUMENT');
+
+  final String value;
+
+  const RemediationTargetType._(this.value);
+
+  static const values = [ssmDocument];
+
+  static RemediationTargetType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RemediationTargetType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RemediationTargetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The controls that Config uses for executing remediations.
+class ExecutionControls {
+  /// A SsmControls object.
+  final SsmControls? ssmControls;
+
+  ExecutionControls({
+    this.ssmControls,
+  });
+
+  factory ExecutionControls.fromJson(Map<String, dynamic> json) {
+    return ExecutionControls(
+      ssmControls: json['SsmControls'] != null
+          ? SsmControls.fromJson(json['SsmControls'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ssmControls = this.ssmControls;
+    return {
+      if (ssmControls != null) 'SsmControls': ssmControls,
+    };
+  }
+}
+
+/// Amazon Web Services Systems Manager (SSM) specific remediation controls.
+class SsmControls {
+  /// The maximum percentage of remediation actions allowed to run in parallel on
+  /// the non-compliant resources for that specific rule. You can specify a
+  /// percentage, such as 10%. The default value is 10.
+  final int? concurrentExecutionRatePercentage;
+
+  /// The percentage of errors that are allowed before SSM stops running
+  /// automations on non-compliant resources for that specific rule. You can
+  /// specify a percentage of errors, for example 10%. If you do not specifiy a
+  /// percentage, the default is 50%. For example, if you set the ErrorPercentage
+  /// to 40% for 10 non-compliant resources, then SSM stops running the
+  /// automations when the fifth error is received.
+  final int? errorPercentage;
+
+  SsmControls({
+    this.concurrentExecutionRatePercentage,
+    this.errorPercentage,
+  });
+
+  factory SsmControls.fromJson(Map<String, dynamic> json) {
+    return SsmControls(
+      concurrentExecutionRatePercentage:
+          json['ConcurrentExecutionRatePercentage'] as int?,
+      errorPercentage: json['ErrorPercentage'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final concurrentExecutionRatePercentage =
+        this.concurrentExecutionRatePercentage;
+    final errorPercentage = this.errorPercentage;
+    return {
+      if (concurrentExecutionRatePercentage != null)
+        'ConcurrentExecutionRatePercentage': concurrentExecutionRatePercentage,
+      if (errorPercentage != null) 'ErrorPercentage': errorPercentage,
+    };
+  }
+}
+
+/// The value is either a dynamic (resource) value or a static value. You must
+/// select either a dynamic value or a static value.
+class RemediationParameterValue {
+  /// The value is dynamic and changes at run-time.
+  final ResourceValue? resourceValue;
+
+  /// The value is static and does not change at run-time.
+  final StaticValue? staticValue;
+
+  RemediationParameterValue({
+    this.resourceValue,
+    this.staticValue,
+  });
+
+  factory RemediationParameterValue.fromJson(Map<String, dynamic> json) {
+    return RemediationParameterValue(
+      resourceValue: json['ResourceValue'] != null
+          ? ResourceValue.fromJson(
+              json['ResourceValue'] as Map<String, dynamic>)
+          : null,
+      staticValue: json['StaticValue'] != null
+          ? StaticValue.fromJson(json['StaticValue'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceValue = this.resourceValue;
+    final staticValue = this.staticValue;
+    return {
+      if (resourceValue != null) 'ResourceValue': resourceValue,
+      if (staticValue != null) 'StaticValue': staticValue,
+    };
+  }
+}
+
+/// The dynamic value of the resource.
+class ResourceValue {
+  /// The value is a resource ID.
+  final ResourceValueType value;
+
+  ResourceValue({
+    required this.value,
+  });
+
+  factory ResourceValue.fromJson(Map<String, dynamic> json) {
+    return ResourceValue(
+      value: ResourceValueType.fromString((json['Value'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final value = this.value;
+    return {
+      'Value': value.value,
+    };
+  }
+}
+
+/// The static value of the resource.
+class StaticValue {
+  /// A list of values. For example, the ARN of the assumed role.
+  final List<String> values;
+
+  StaticValue({
+    required this.values,
+  });
+
+  factory StaticValue.fromJson(Map<String, dynamic> json) {
+    return StaticValue(
+      values: ((json['Values'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final values = this.values;
+    return {
+      'Values': values,
+    };
+  }
+}
+
+class ResourceValueType {
+  static const resourceId = ResourceValueType._('RESOURCE_ID');
+
+  final String value;
+
+  const ResourceValueType._(this.value);
+
+  static const values = [resourceId];
+
+  static ResourceValueType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceValueType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceValueType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Input parameters in the form of key-value pairs for the conformance pack,
+/// both of which you define. Keys can have a maximum character length of 255
+/// characters, and values can have a maximum length of 4096 characters.
+class ConformancePackInputParameter {
+  /// One part of a key-value pair.
+  final String parameterName;
+
+  /// Another part of the key-value pair.
+  final String parameterValue;
+
+  ConformancePackInputParameter({
+    required this.parameterName,
+    required this.parameterValue,
+  });
+
+  factory ConformancePackInputParameter.fromJson(Map<String, dynamic> json) {
+    return ConformancePackInputParameter(
+      parameterName: (json['ParameterName'] as String?) ?? '',
+      parameterValue: (json['ParameterValue'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final parameterName = this.parameterName;
+    final parameterValue = this.parameterValue;
+    return {
+      'ParameterName': parameterName,
+      'ParameterValue': parameterValue,
+    };
+  }
+}
+
+/// An object that specifies organization managed rule metadata such as resource
+/// type and ID of Amazon Web Services resource along with the rule identifier.
+/// It also provides the frequency with which you want Config to run evaluations
+/// for the rule if the trigger type is periodic.
+class OrganizationManagedRuleMetadata {
+  /// For organization config managed rules, a predefined identifier from a list.
+  /// For example, <code>IAM_PASSWORD_POLICY</code> is a managed rule. To
+  /// reference a managed rule, see <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config_use-managed-rules.html">Using
+  /// Config managed rules</a>.
+  final String ruleIdentifier;
+
+  /// The description that you provide for your organization Config rule.
+  final String? description;
+
+  /// A string, in JSON format, that is passed to your organization Config rule
+  /// Lambda function.
+  final String? inputParameters;
+
+  /// The maximum frequency with which Config runs evaluations for a rule. This is
+  /// for an Config managed rule that is triggered at a periodic frequency.
+  /// <note>
+  /// By default, rules with a periodic trigger are evaluated every 24 hours. To
+  /// change the frequency, specify a valid value for the
+  /// <code>MaximumExecutionFrequency</code> parameter.
+  /// </note>
+  final MaximumExecutionFrequency? maximumExecutionFrequency;
+
+  /// The ID of the Amazon Web Services resource that was evaluated.
+  final String? resourceIdScope;
+
+  /// The type of the Amazon Web Services resource that was evaluated.
+  final List<String>? resourceTypesScope;
+
+  /// One part of a key-value pair that make up a tag. A key is a general label
+  /// that acts like a category for more specific tag values.
+  final String? tagKeyScope;
+
+  /// The optional part of a key-value pair that make up a tag. A value acts as a
+  /// descriptor within a tag category (key).
+  final String? tagValueScope;
+
+  OrganizationManagedRuleMetadata({
+    required this.ruleIdentifier,
+    this.description,
+    this.inputParameters,
+    this.maximumExecutionFrequency,
+    this.resourceIdScope,
+    this.resourceTypesScope,
+    this.tagKeyScope,
+    this.tagValueScope,
+  });
+
+  factory OrganizationManagedRuleMetadata.fromJson(Map<String, dynamic> json) {
+    return OrganizationManagedRuleMetadata(
+      ruleIdentifier: (json['RuleIdentifier'] as String?) ?? '',
+      description: json['Description'] as String?,
+      inputParameters: json['InputParameters'] as String?,
+      maximumExecutionFrequency: (json['MaximumExecutionFrequency'] as String?)
+          ?.let(MaximumExecutionFrequency.fromString),
+      resourceIdScope: json['ResourceIdScope'] as String?,
+      resourceTypesScope: (json['ResourceTypesScope'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      tagKeyScope: json['TagKeyScope'] as String?,
+      tagValueScope: json['TagValueScope'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ruleIdentifier = this.ruleIdentifier;
+    final description = this.description;
+    final inputParameters = this.inputParameters;
+    final maximumExecutionFrequency = this.maximumExecutionFrequency;
+    final resourceIdScope = this.resourceIdScope;
+    final resourceTypesScope = this.resourceTypesScope;
+    final tagKeyScope = this.tagKeyScope;
+    final tagValueScope = this.tagValueScope;
+    return {
+      'RuleIdentifier': ruleIdentifier,
+      if (description != null) 'Description': description,
+      if (inputParameters != null) 'InputParameters': inputParameters,
+      if (maximumExecutionFrequency != null)
+        'MaximumExecutionFrequency': maximumExecutionFrequency.value,
+      if (resourceIdScope != null) 'ResourceIdScope': resourceIdScope,
+      if (resourceTypesScope != null) 'ResourceTypesScope': resourceTypesScope,
+      if (tagKeyScope != null) 'TagKeyScope': tagKeyScope,
+      if (tagValueScope != null) 'TagValueScope': tagValueScope,
+    };
+  }
+}
+
+/// An object that specifies organization custom rule metadata such as resource
+/// type, resource ID of Amazon Web Services resource, Lambda function ARN, and
+/// organization trigger types that trigger Config to evaluate your Amazon Web
+/// Services resources against a rule. It also provides the frequency with which
+/// you want Config to run evaluations for the rule if the trigger type is
+/// periodic.
+class OrganizationCustomRuleMetadata {
+  /// The lambda function ARN.
+  final String lambdaFunctionArn;
+
+  /// The type of notification that triggers Config to run an evaluation for a
+  /// rule. You can specify the following notification types:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ConfigurationItemChangeNotification</code> - Triggers an evaluation
+  /// when Config delivers a configuration item as a result of a resource change.
+  /// </li>
+  /// <li>
+  /// <code>OversizedConfigurationItemChangeNotification</code> - Triggers an
+  /// evaluation when Config delivers an oversized configuration item. Config may
+  /// generate this notification type when a resource changes and the notification
+  /// exceeds the maximum size allowed by Amazon SNS.
+  /// </li>
+  /// <li>
+  /// <code>ScheduledNotification</code> - Triggers a periodic evaluation at the
+  /// frequency specified for <code>MaximumExecutionFrequency</code>.
+  /// </li>
+  /// </ul>
+  final List<OrganizationConfigRuleTriggerType>
+      organizationConfigRuleTriggerTypes;
+
+  /// The description that you provide for your organization Config rule.
+  final String? description;
+
+  /// A string, in JSON format, that is passed to your organization Config rule
+  /// Lambda function.
+  final String? inputParameters;
+
+  /// The maximum frequency with which Config runs evaluations for a rule. Your
+  /// custom rule is triggered when Config delivers the configuration snapshot.
+  /// For more information, see <a>ConfigSnapshotDeliveryProperties</a>.
+  /// <note>
+  /// By default, rules with a periodic trigger are evaluated every 24 hours. To
+  /// change the frequency, specify a valid value for the
+  /// <code>MaximumExecutionFrequency</code> parameter.
+  /// </note>
+  final MaximumExecutionFrequency? maximumExecutionFrequency;
+
+  /// The ID of the Amazon Web Services resource that was evaluated.
+  final String? resourceIdScope;
+
+  /// The type of the Amazon Web Services resource that was evaluated.
+  final List<String>? resourceTypesScope;
+
+  /// One part of a key-value pair that make up a tag. A key is a general label
+  /// that acts like a category for more specific tag values.
+  final String? tagKeyScope;
+
+  /// The optional part of a key-value pair that make up a tag. A value acts as a
+  /// descriptor within a tag category (key).
+  final String? tagValueScope;
+
+  OrganizationCustomRuleMetadata({
+    required this.lambdaFunctionArn,
+    required this.organizationConfigRuleTriggerTypes,
+    this.description,
+    this.inputParameters,
+    this.maximumExecutionFrequency,
+    this.resourceIdScope,
+    this.resourceTypesScope,
+    this.tagKeyScope,
+    this.tagValueScope,
+  });
+
+  factory OrganizationCustomRuleMetadata.fromJson(Map<String, dynamic> json) {
+    return OrganizationCustomRuleMetadata(
+      lambdaFunctionArn: (json['LambdaFunctionArn'] as String?) ?? '',
+      organizationConfigRuleTriggerTypes:
+          ((json['OrganizationConfigRuleTriggerTypes'] as List?) ?? const [])
+              .nonNulls
+              .map((e) =>
+                  OrganizationConfigRuleTriggerType.fromString((e as String)))
+              .toList(),
+      description: json['Description'] as String?,
+      inputParameters: json['InputParameters'] as String?,
+      maximumExecutionFrequency: (json['MaximumExecutionFrequency'] as String?)
+          ?.let(MaximumExecutionFrequency.fromString),
+      resourceIdScope: json['ResourceIdScope'] as String?,
+      resourceTypesScope: (json['ResourceTypesScope'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      tagKeyScope: json['TagKeyScope'] as String?,
+      tagValueScope: json['TagValueScope'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lambdaFunctionArn = this.lambdaFunctionArn;
+    final organizationConfigRuleTriggerTypes =
+        this.organizationConfigRuleTriggerTypes;
+    final description = this.description;
+    final inputParameters = this.inputParameters;
+    final maximumExecutionFrequency = this.maximumExecutionFrequency;
+    final resourceIdScope = this.resourceIdScope;
+    final resourceTypesScope = this.resourceTypesScope;
+    final tagKeyScope = this.tagKeyScope;
+    final tagValueScope = this.tagValueScope;
+    return {
+      'LambdaFunctionArn': lambdaFunctionArn,
+      'OrganizationConfigRuleTriggerTypes':
+          organizationConfigRuleTriggerTypes.map((e) => e.value).toList(),
+      if (description != null) 'Description': description,
+      if (inputParameters != null) 'InputParameters': inputParameters,
+      if (maximumExecutionFrequency != null)
+        'MaximumExecutionFrequency': maximumExecutionFrequency.value,
+      if (resourceIdScope != null) 'ResourceIdScope': resourceIdScope,
+      if (resourceTypesScope != null) 'ResourceTypesScope': resourceTypesScope,
+      if (tagKeyScope != null) 'TagKeyScope': tagKeyScope,
+      if (tagValueScope != null) 'TagValueScope': tagValueScope,
+    };
+  }
+}
+
+/// An object that specifies metadata for your organization's Config Custom
+/// Policy rule. The metadata includes the runtime system in use, which accounts
+/// have debug logging enabled, and other custom rule metadata, such as resource
+/// type, resource ID of Amazon Web Services resource, and organization trigger
+/// types that initiate Config to evaluate Amazon Web Services resources against
+/// a rule.
+class OrganizationCustomPolicyRuleMetadata {
+  /// The runtime system for your organization Config Custom Policy rules. Guard
+  /// is a policy-as-code language that allows you to write policies that are
+  /// enforced by Config Custom Policy rules. For more information about Guard,
+  /// see the <a
+  /// href="https://github.com/aws-cloudformation/cloudformation-guard">Guard
+  /// GitHub Repository</a>.
+  final String policyRuntime;
+
+  /// The policy definition containing the logic for your organization Config
+  /// Custom Policy rule.
+  final String policyText;
+
+  /// A list of accounts that you can enable debug logging for your organization
+  /// Config Custom Policy rule. List is null when debug logging is enabled for
+  /// all accounts.
+  final List<String>? debugLogDeliveryAccounts;
+
+  /// The description that you provide for your organization Config Custom Policy
+  /// rule.
+  final String? description;
+
+  /// A string, in JSON format, that is passed to your organization Config Custom
+  /// Policy rule.
+  final String? inputParameters;
+
+  /// The maximum frequency with which Config runs evaluations for a rule. Your
+  /// Config Custom Policy rule is triggered when Config delivers the
+  /// configuration snapshot. For more information, see
+  /// <a>ConfigSnapshotDeliveryProperties</a>.
+  final MaximumExecutionFrequency? maximumExecutionFrequency;
+
+  /// The type of notification that initiates Config to run an evaluation for a
+  /// rule. For Config Custom Policy rules, Config supports change-initiated
+  /// notification types:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ConfigurationItemChangeNotification</code> - Initiates an evaluation
+  /// when Config delivers a configuration item as a result of a resource change.
+  /// </li>
+  /// <li>
+  /// <code>OversizedConfigurationItemChangeNotification</code> - Initiates an
+  /// evaluation when Config delivers an oversized configuration item. Config may
+  /// generate this notification type when a resource changes and the notification
+  /// exceeds the maximum size allowed by Amazon SNS.
+  /// </li>
+  /// </ul>
+  final List<OrganizationConfigRuleTriggerTypeNoSN>?
+      organizationConfigRuleTriggerTypes;
+
+  /// The ID of the Amazon Web Services resource that was evaluated.
+  final String? resourceIdScope;
+
+  /// The type of the Amazon Web Services resource that was evaluated.
+  final List<String>? resourceTypesScope;
+
+  /// One part of a key-value pair that make up a tag. A key is a general label
+  /// that acts like a category for more specific tag values.
+  final String? tagKeyScope;
+
+  /// The optional part of a key-value pair that make up a tag. A value acts as a
+  /// descriptor within a tag category (key).
+  final String? tagValueScope;
+
+  OrganizationCustomPolicyRuleMetadata({
+    required this.policyRuntime,
+    required this.policyText,
+    this.debugLogDeliveryAccounts,
+    this.description,
+    this.inputParameters,
+    this.maximumExecutionFrequency,
+    this.organizationConfigRuleTriggerTypes,
+    this.resourceIdScope,
+    this.resourceTypesScope,
+    this.tagKeyScope,
+    this.tagValueScope,
+  });
+
+  Map<String, dynamic> toJson() {
+    final policyRuntime = this.policyRuntime;
+    final policyText = this.policyText;
+    final debugLogDeliveryAccounts = this.debugLogDeliveryAccounts;
+    final description = this.description;
+    final inputParameters = this.inputParameters;
+    final maximumExecutionFrequency = this.maximumExecutionFrequency;
+    final organizationConfigRuleTriggerTypes =
+        this.organizationConfigRuleTriggerTypes;
+    final resourceIdScope = this.resourceIdScope;
+    final resourceTypesScope = this.resourceTypesScope;
+    final tagKeyScope = this.tagKeyScope;
+    final tagValueScope = this.tagValueScope;
+    return {
+      'PolicyRuntime': policyRuntime,
+      'PolicyText': policyText,
+      if (debugLogDeliveryAccounts != null)
+        'DebugLogDeliveryAccounts': debugLogDeliveryAccounts,
+      if (description != null) 'Description': description,
+      if (inputParameters != null) 'InputParameters': inputParameters,
+      if (maximumExecutionFrequency != null)
+        'MaximumExecutionFrequency': maximumExecutionFrequency.value,
+      if (organizationConfigRuleTriggerTypes != null)
+        'OrganizationConfigRuleTriggerTypes':
+            organizationConfigRuleTriggerTypes.map((e) => e.value).toList(),
+      if (resourceIdScope != null) 'ResourceIdScope': resourceIdScope,
+      if (resourceTypesScope != null) 'ResourceTypesScope': resourceTypesScope,
+      if (tagKeyScope != null) 'TagKeyScope': tagKeyScope,
+      if (tagValueScope != null) 'TagValueScope': tagValueScope,
+    };
+  }
+}
+
+class MaximumExecutionFrequency {
+  static const oneHour = MaximumExecutionFrequency._('One_Hour');
+  static const threeHours = MaximumExecutionFrequency._('Three_Hours');
+  static const sixHours = MaximumExecutionFrequency._('Six_Hours');
+  static const twelveHours = MaximumExecutionFrequency._('Twelve_Hours');
+  static const twentyFourHours =
+      MaximumExecutionFrequency._('TwentyFour_Hours');
+
+  final String value;
+
+  const MaximumExecutionFrequency._(this.value);
+
+  static const values = [
+    oneHour,
+    threeHours,
+    sixHours,
+    twelveHours,
+    twentyFourHours
+  ];
+
+  static MaximumExecutionFrequency fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MaximumExecutionFrequency._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MaximumExecutionFrequency && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class OrganizationConfigRuleTriggerTypeNoSN {
+  static const configurationItemChangeNotification =
+      OrganizationConfigRuleTriggerTypeNoSN._(
+          'ConfigurationItemChangeNotification');
+  static const oversizedConfigurationItemChangeNotification =
+      OrganizationConfigRuleTriggerTypeNoSN._(
+          'OversizedConfigurationItemChangeNotification');
+
+  final String value;
+
+  const OrganizationConfigRuleTriggerTypeNoSN._(this.value);
+
+  static const values = [
+    configurationItemChangeNotification,
+    oversizedConfigurationItemChangeNotification
+  ];
+
+  static OrganizationConfigRuleTriggerTypeNoSN fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OrganizationConfigRuleTriggerTypeNoSN._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OrganizationConfigRuleTriggerTypeNoSN && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class OrganizationConfigRuleTriggerType {
+  static const configurationItemChangeNotification =
+      OrganizationConfigRuleTriggerType._(
+          'ConfigurationItemChangeNotification');
+  static const oversizedConfigurationItemChangeNotification =
+      OrganizationConfigRuleTriggerType._(
+          'OversizedConfigurationItemChangeNotification');
+  static const scheduledNotification =
+      OrganizationConfigRuleTriggerType._('ScheduledNotification');
+
+  final String value;
+
+  const OrganizationConfigRuleTriggerType._(this.value);
+
+  static const values = [
+    configurationItemChangeNotification,
+    oversizedConfigurationItemChangeNotification,
+    scheduledNotification
+  ];
+
+  static OrganizationConfigRuleTriggerType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OrganizationConfigRuleTriggerType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OrganizationConfigRuleTriggerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Identifies an Amazon Web Services resource and indicates whether it complies
+/// with the Config rule that it was evaluated against.
+class ExternalEvaluation {
+  /// The evaluated compliance resource ID. Config accepts only Amazon Web
+  /// Services account ID.
+  final String complianceResourceId;
+
+  /// The evaluated compliance resource type. Config accepts
+  /// <code>AWS::::Account</code> resource type.
+  final String complianceResourceType;
+
+  /// The compliance of the Amazon Web Services resource. The valid values are
+  /// <code>COMPLIANT, NON_COMPLIANT, </code> and <code>NOT_APPLICABLE</code>.
+  final ComplianceType complianceType;
+
+  /// The time when the compliance was recorded.
+  final DateTime orderingTimestamp;
+
+  /// Supplementary information about the reason of compliance. For example, this
+  /// task was completed on a specific date.
+  final String? annotation;
+
+  ExternalEvaluation({
+    required this.complianceResourceId,
+    required this.complianceResourceType,
+    required this.complianceType,
+    required this.orderingTimestamp,
+    this.annotation,
+  });
+
+  Map<String, dynamic> toJson() {
+    final complianceResourceId = this.complianceResourceId;
+    final complianceResourceType = this.complianceResourceType;
+    final complianceType = this.complianceType;
+    final orderingTimestamp = this.orderingTimestamp;
+    final annotation = this.annotation;
+    return {
+      'ComplianceResourceId': complianceResourceId,
+      'ComplianceResourceType': complianceResourceType,
+      'ComplianceType': complianceType.value,
+      'OrderingTimestamp': unixTimestampToJson(orderingTimestamp),
+      if (annotation != null) 'Annotation': annotation,
+    };
+  }
+}
+
+class ComplianceType {
+  static const compliant = ComplianceType._('COMPLIANT');
+  static const nonCompliant = ComplianceType._('NON_COMPLIANT');
+  static const notApplicable = ComplianceType._('NOT_APPLICABLE');
+  static const insufficientData = ComplianceType._('INSUFFICIENT_DATA');
+
+  final String value;
+
+  const ComplianceType._(this.value);
+
+  static const values = [
+    compliant,
+    nonCompliant,
+    notApplicable,
+    insufficientData
+  ];
+
+  static ComplianceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ComplianceType._(value));
+
+  @override
+  bool operator ==(other) => other is ComplianceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Identifies an Amazon Web Services resource and indicates whether it complies
+/// with the Config rule that it was evaluated against.
+class Evaluation {
+  /// The ID of the Amazon Web Services resource that was evaluated.
+  final String complianceResourceId;
+
+  /// The type of Amazon Web Services resource that was evaluated.
+  final String complianceResourceType;
+
+  /// Indicates whether the Amazon Web Services resource complies with the Config
+  /// rule that it was evaluated against.
+  ///
+  /// For the <code>Evaluation</code> data type, Config supports only the
+  /// <code>COMPLIANT</code>, <code>NON_COMPLIANT</code>, and
+  /// <code>NOT_APPLICABLE</code> values. Config does not support the
+  /// <code>INSUFFICIENT_DATA</code> value for this data type.
+  ///
+  /// Similarly, Config does not accept <code>INSUFFICIENT_DATA</code> as the
+  /// value for <code>ComplianceType</code> from a <code>PutEvaluations</code>
+  /// request. For example, an Lambda function for a custom Config rule cannot
+  /// pass an <code>INSUFFICIENT_DATA</code> value to Config.
+  final ComplianceType complianceType;
+
+  /// The time of the event in Config that triggered the evaluation. For
+  /// event-based evaluations, the time indicates when Config created the
+  /// configuration item that triggered the evaluation. For periodic evaluations,
+  /// the time indicates when Config triggered the evaluation at the frequency
+  /// that you specified (for example, every 24 hours).
+  final DateTime orderingTimestamp;
+
+  /// Supplementary information about how the evaluation determined the
+  /// compliance.
+  final String? annotation;
+
+  Evaluation({
+    required this.complianceResourceId,
+    required this.complianceResourceType,
+    required this.complianceType,
+    required this.orderingTimestamp,
+    this.annotation,
+  });
+
+  factory Evaluation.fromJson(Map<String, dynamic> json) {
+    return Evaluation(
+      complianceResourceId: (json['ComplianceResourceId'] as String?) ?? '',
+      complianceResourceType: (json['ComplianceResourceType'] as String?) ?? '',
+      complianceType:
+          ComplianceType.fromString((json['ComplianceType'] as String?) ?? ''),
+      orderingTimestamp:
+          nonNullableTimeStampFromJson(json['OrderingTimestamp'] ?? 0),
+      annotation: json['Annotation'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final complianceResourceId = this.complianceResourceId;
+    final complianceResourceType = this.complianceResourceType;
+    final complianceType = this.complianceType;
+    final orderingTimestamp = this.orderingTimestamp;
+    final annotation = this.annotation;
+    return {
+      'ComplianceResourceId': complianceResourceId,
+      'ComplianceResourceType': complianceResourceType,
+      'ComplianceType': complianceType.value,
+      'OrderingTimestamp': unixTimestampToJson(orderingTimestamp),
+      if (annotation != null) 'Annotation': annotation,
+    };
+  }
+}
+
+/// The channel through which Config delivers notifications and updated
+/// configuration states.
+class DeliveryChannel {
+  /// The options for how often Config delivers configuration snapshots to the
+  /// Amazon S3 bucket.
+  final ConfigSnapshotDeliveryProperties? configSnapshotDeliveryProperties;
+
+  /// The name of the delivery channel. By default, Config assigns the name
+  /// "default" when creating the delivery channel. To change the delivery channel
+  /// name, you must use the DeleteDeliveryChannel action to delete your current
+  /// delivery channel, and then you must use the PutDeliveryChannel command to
+  /// create a delivery channel that has the desired name.
+  final String? name;
+
+  /// The name of the Amazon S3 bucket to which Config delivers configuration
+  /// snapshots and configuration history files.
+  ///
+  /// If you specify a bucket that belongs to another Amazon Web Services account,
+  /// that bucket must have policies that grant access permissions to Config. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/s3-bucket-policy.html">Permissions
+  /// for the Amazon S3 Bucket</a> in the <i>Config Developer Guide</i>.
+  final String? s3BucketName;
+
+  /// The prefix for the specified Amazon S3 bucket.
+  final String? s3KeyPrefix;
+
+  /// The Amazon Resource Name (ARN) of the Key Management Service (KMS ) KMS key
+  /// (KMS key) used to encrypt objects delivered by Config. Must belong to the
+  /// same Region as the destination S3 bucket.
+  final String? s3KmsKeyArn;
+
+  /// The Amazon Resource Name (ARN) of the Amazon SNS topic to which Config sends
+  /// notifications about configuration changes.
+  ///
+  /// If you choose a topic from another account, the topic must have policies
+  /// that grant access permissions to Config. For more information, see <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/sns-topic-policy.html">Permissions
+  /// for the Amazon SNS Topic</a> in the <i>Config Developer Guide</i>.
+  final String? snsTopicARN;
+
+  DeliveryChannel({
+    this.configSnapshotDeliveryProperties,
+    this.name,
+    this.s3BucketName,
+    this.s3KeyPrefix,
+    this.s3KmsKeyArn,
+    this.snsTopicARN,
+  });
+
+  factory DeliveryChannel.fromJson(Map<String, dynamic> json) {
+    return DeliveryChannel(
+      configSnapshotDeliveryProperties:
+          json['configSnapshotDeliveryProperties'] != null
+              ? ConfigSnapshotDeliveryProperties.fromJson(
+                  json['configSnapshotDeliveryProperties']
+                      as Map<String, dynamic>)
+              : null,
+      name: json['name'] as String?,
+      s3BucketName: json['s3BucketName'] as String?,
+      s3KeyPrefix: json['s3KeyPrefix'] as String?,
+      s3KmsKeyArn: json['s3KmsKeyArn'] as String?,
+      snsTopicARN: json['snsTopicARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configSnapshotDeliveryProperties =
+        this.configSnapshotDeliveryProperties;
+    final name = this.name;
+    final s3BucketName = this.s3BucketName;
+    final s3KeyPrefix = this.s3KeyPrefix;
+    final s3KmsKeyArn = this.s3KmsKeyArn;
+    final snsTopicARN = this.snsTopicARN;
+    return {
+      if (configSnapshotDeliveryProperties != null)
+        'configSnapshotDeliveryProperties': configSnapshotDeliveryProperties,
+      if (name != null) 'name': name,
+      if (s3BucketName != null) 's3BucketName': s3BucketName,
+      if (s3KeyPrefix != null) 's3KeyPrefix': s3KeyPrefix,
+      if (s3KmsKeyArn != null) 's3KmsKeyArn': s3KmsKeyArn,
+      if (snsTopicARN != null) 'snsTopicARN': snsTopicARN,
+    };
+  }
+}
+
+/// Provides options for how often Config delivers configuration snapshots to
+/// the Amazon S3 bucket in your delivery channel.
+///
+/// The frequency for a rule that triggers evaluations for your resources when
+/// Config delivers the configuration snapshot is set by one of two values,
+/// depending on which is less frequent:
+///
+/// <ul>
+/// <li>
+/// The value for the <code>deliveryFrequency</code> parameter within the
+/// delivery channel configuration, which sets how often Config delivers
+/// configuration snapshots. This value also sets how often Config invokes
+/// evaluations for Config rules.
+/// </li>
+/// <li>
+/// The value for the <code>MaximumExecutionFrequency</code> parameter, which
+/// sets the maximum frequency with which Config invokes evaluations for the
+/// rule. For more information, see <a>ConfigRule</a>.
+/// </li>
+/// </ul>
+/// If the <code>deliveryFrequency</code> value is less frequent than the
+/// <code>MaximumExecutionFrequency</code> value for a rule, Config invokes the
+/// rule only as often as the <code>deliveryFrequency</code> value.
+/// <ol>
+/// <li>
+/// For example, you want your rule to run evaluations when Config delivers the
+/// configuration snapshot.
+/// </li>
+/// <li>
+/// You specify the <code>MaximumExecutionFrequency</code> value for
+/// <code>Six_Hours</code>.
+/// </li>
+/// <li>
+/// You then specify the delivery channel <code>deliveryFrequency</code> value
+/// for <code>TwentyFour_Hours</code>.
+/// </li>
+/// <li>
+/// Because the value for <code>deliveryFrequency</code> is less frequent than
+/// <code>MaximumExecutionFrequency</code>, Config invokes evaluations for the
+/// rule every 24 hours.
+/// </li> </ol>
+/// You should set the <code>MaximumExecutionFrequency</code> value to be at
+/// least as frequent as the <code>deliveryFrequency</code> value. You can view
+/// the <code>deliveryFrequency</code> value by using the
+/// <code>DescribeDeliveryChannnels</code> action.
+///
+/// To update the <code>deliveryFrequency</code> with which Config delivers your
+/// configuration snapshots, use the <code>PutDeliveryChannel</code> action.
+class ConfigSnapshotDeliveryProperties {
+  /// The frequency with which Config delivers configuration snapshots.
+  final MaximumExecutionFrequency? deliveryFrequency;
+
+  ConfigSnapshotDeliveryProperties({
+    this.deliveryFrequency,
+  });
+
+  factory ConfigSnapshotDeliveryProperties.fromJson(Map<String, dynamic> json) {
+    return ConfigSnapshotDeliveryProperties(
+      deliveryFrequency: (json['deliveryFrequency'] as String?)
+          ?.let(MaximumExecutionFrequency.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deliveryFrequency = this.deliveryFrequency;
+    return {
+      if (deliveryFrequency != null)
+        'deliveryFrequency': deliveryFrequency.value,
+    };
+  }
+}
+
+/// This API allows you to create a conformance pack template with an Amazon Web
+/// Services Systems Manager document (SSM document). To deploy a conformance
+/// pack using an SSM document, first create an SSM document with conformance
+/// pack content, and then provide the <code>DocumentName</code> in the <a
+/// href="https://docs.aws.amazon.com/config/latest/APIReference/API_PutConformancePack.html">PutConformancePack
+/// API</a>. You can also provide the <code>DocumentVersion</code>.
+///
+/// The <code>TemplateSSMDocumentDetails</code> object contains the name of the
+/// SSM document and the version of the SSM document.
+class TemplateSSMDocumentDetails {
+  /// The name or Amazon Resource Name (ARN) of the SSM document to use to create
+  /// a conformance pack. If you use the document name, Config checks only your
+  /// account and Amazon Web Services Region for the SSM document.
+  final String documentName;
+
+  /// The version of the SSM document to use to create a conformance pack. By
+  /// default, Config uses the latest version.
+  /// <note>
+  /// This field is optional.
+  /// </note>
+  final String? documentVersion;
+
+  TemplateSSMDocumentDetails({
+    required this.documentName,
+    this.documentVersion,
+  });
+
+  factory TemplateSSMDocumentDetails.fromJson(Map<String, dynamic> json) {
+    return TemplateSSMDocumentDetails(
+      documentName: (json['DocumentName'] as String?) ?? '',
+      documentVersion: json['DocumentVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final documentName = this.documentName;
+    final documentVersion = this.documentVersion;
+    return {
+      'DocumentName': documentName,
+      if (documentVersion != null) 'DocumentVersion': documentVersion,
+    };
+  }
+}
+
+/// Records configuration changes to the resource types in scope.
+///
+/// For more information about the configuration recorder, see <a
+/// href="https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html">
+/// <b>Working with the Configuration Recorder</b> </a> in the <i>Config
+/// Developer Guide</i>.
+class ConfigurationRecorder {
+  /// The Amazon Resource Name (ARN) of the specified configuration recorder.
+  final String? arn;
+
+  /// The name of the configuration recorder.
+  ///
+  /// For customer managed configuration recorders, Config automatically assigns
+  /// the name of "default" when creating a configuration recorder if you do not
+  /// specify a name at creation time.
+  ///
+  /// For service-linked configuration recorders, Config automatically assigns a
+  /// name that has the prefix "<code>AWSConfigurationRecorderFor</code>" to a new
+  /// service-linked configuration recorder.
+  /// <note>
+  /// <b>Changing the name of a configuration recorder</b>
+  ///
+  /// To change the name of the customer managed configuration recorder, you must
+  /// delete it and create a new customer managed configuration recorder with a
+  /// new name.
+  ///
+  /// You cannot change the name of a service-linked configuration recorder.
+  /// </note>
+  final String? name;
+
+  /// Specifies which resource types are in scope for the configuration recorder
+  /// to record.
+  /// <note>
+  /// <b> High Number of Config Evaluations</b>
+  ///
+  /// You might notice increased activity in your account during your initial
+  /// month recording with Config when compared to subsequent months. During the
+  /// initial bootstrapping process, Config runs evaluations on all the resources
+  /// in your account that you have selected for Config to record.
+  ///
+  /// If you are running ephemeral workloads, you may see increased activity from
+  /// Config as it records configuration changes associated with creating and
+  /// deleting these temporary resources. An <i>ephemeral workload</i> is a
+  /// temporary use of computing resources that are loaded and run when needed.
+  /// Examples include Amazon Elastic Compute Cloud (Amazon EC2) Spot Instances,
+  /// Amazon EMR jobs, and Auto Scaling.
+  ///
+  /// If you want to avoid the increased activity from running ephemeral
+  /// workloads, you can set up the configuration recorder to exclude these
+  /// resource types from being recorded, or run these types of workloads in a
+  /// separate account with Config turned off to avoid increased configuration
+  /// recording and rule evaluations.
+  /// </note>
+  final RecordingGroup? recordingGroup;
+
+  /// Specifies the default recording frequency for the configuration recorder.
+  /// Config supports <i>Continuous recording</i> and <i>Daily recording</i>.
+  ///
+  /// <ul>
+  /// <li>
+  /// Continuous recording allows you to record configuration changes continuously
+  /// whenever a change occurs.
+  /// </li>
+  /// <li>
+  /// Daily recording allows you to receive a configuration item (CI) representing
+  /// the most recent state of your resources over the last 24-hour period, only
+  /// if it’s different from the previous CI recorded.
+  /// </li>
+  /// </ul> <note>
+  /// <b>Some resource types require continuous recording</b>
+  ///
+  /// Firewall Manager depends on continuous recording to monitor your resources.
+  /// If you are using Firewall Manager, it is recommended that you set the
+  /// recording frequency to Continuous.
+  /// </note>
+  /// You can also override the recording frequency for specific resource types.
+  final RecordingMode? recordingMode;
+
+  /// Specifies whether the <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_ConfigurationItem.html">ConfigurationItems</a>
+  /// in scope for the specified configuration recorder are recorded for free
+  /// (<code>INTERNAL</code>) or if it impacts the costs to your bill
+  /// (<code>PAID</code>).
+  final RecordingScope? recordingScope;
+
+  /// The Amazon Resource Name (ARN) of the IAM role assumed by Config and used by
+  /// the specified configuration recorder.
+  /// <note>
+  /// <b>The server will reject a request without a defined <code>roleARN</code>
+  /// for the configuration recorder</b>
+  ///
+  /// While the API model does not require this field, the server will reject a
+  /// request without a defined <code>roleARN</code> for the configuration
+  /// recorder.
+  ///
+  /// <b>Policies and compliance results</b>
+  ///
+  /// <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html">IAM
+  /// policies</a> and <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies.html">other
+  /// policies managed in Organizations</a> can impact whether Config has
+  /// permissions to record configuration changes for your resources.
+  /// Additionally, rules directly evaluate the configuration of a resource and
+  /// rules don't take into account these policies when running evaluations. Make
+  /// sure that the policies in effect align with how you intend to use Config.
+  ///
+  /// <b>Keep Minimum Permisions When Reusing an IAM role</b>
+  ///
+  /// If you use an Amazon Web Services service that uses Config, such as Security
+  /// Hub CSPM or Control Tower, and an IAM role has already been created, make
+  /// sure that the IAM role that you use when setting up Config keeps the same
+  /// minimum permissions as the pre-existing IAM role. You must do this to ensure
+  /// that the other Amazon Web Services service continues to run as expected.
+  ///
+  /// For example, if Control Tower has an IAM role that allows Config to read S3
+  /// objects, make sure that the same permissions are granted to the IAM role you
+  /// use when setting up Config. Otherwise, it may interfere with how Control
+  /// Tower operates.
+  ///
+  /// <b>The service-linked IAM role for Config must be used for service-linked
+  /// configuration recorders</b>
+  ///
+  /// For service-linked configuration recorders, you must use the service-linked
+  /// IAM role for Config: <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/using-service-linked-roles.html">AWSServiceRoleForConfig</a>.
+  /// </note>
+  final String? roleARN;
+
+  /// For service-linked configuration recorders, specifies the linked Amazon Web
+  /// Services service for the configuration recorder.
+  final String? servicePrincipal;
+
+  ConfigurationRecorder({
+    this.arn,
+    this.name,
+    this.recordingGroup,
+    this.recordingMode,
+    this.recordingScope,
+    this.roleARN,
+    this.servicePrincipal,
+  });
+
+  factory ConfigurationRecorder.fromJson(Map<String, dynamic> json) {
+    return ConfigurationRecorder(
+      arn: json['arn'] as String?,
+      name: json['name'] as String?,
+      recordingGroup: json['recordingGroup'] != null
+          ? RecordingGroup.fromJson(
+              json['recordingGroup'] as Map<String, dynamic>)
+          : null,
+      recordingMode: json['recordingMode'] != null
+          ? RecordingMode.fromJson(
+              json['recordingMode'] as Map<String, dynamic>)
+          : null,
+      recordingScope:
+          (json['recordingScope'] as String?)?.let(RecordingScope.fromString),
+      roleARN: json['roleARN'] as String?,
+      servicePrincipal: json['servicePrincipal'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    final recordingGroup = this.recordingGroup;
+    final recordingMode = this.recordingMode;
+    final recordingScope = this.recordingScope;
+    final roleARN = this.roleARN;
+    final servicePrincipal = this.servicePrincipal;
+    return {
+      if (arn != null) 'arn': arn,
+      if (name != null) 'name': name,
+      if (recordingGroup != null) 'recordingGroup': recordingGroup,
+      if (recordingMode != null) 'recordingMode': recordingMode,
+      if (recordingScope != null) 'recordingScope': recordingScope.value,
+      if (roleARN != null) 'roleARN': roleARN,
+      if (servicePrincipal != null) 'servicePrincipal': servicePrincipal,
+    };
+  }
+}
+
+/// Specifies which resource types Config records for configuration changes. By
+/// default, Config records configuration changes for all current and future
+/// supported resource types in the Amazon Web Services Region where you have
+/// enabled Config, excluding the global IAM resource types: IAM users, groups,
+/// roles, and customer managed policies.
+///
+/// In the recording group, you specify whether you want to record all supported
+/// current and future supported resource types or to include or exclude
+/// specific resources types. For a list of supported resource types, see <a
+/// href="https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources">Supported
+/// Resource Types</a> in the <i>Config developer guide</i>.
+///
+/// If you don't want Config to record all current and future supported resource
+/// types (excluding the global IAM resource types), use one of the following
+/// recording strategies:
+/// <ol>
+/// <li>
+/// <b>Record all current and future resource types with exclusions</b>
+/// (<code>EXCLUSION_BY_RESOURCE_TYPES</code>), or
+/// </li>
+/// <li>
+/// <b>Record specific resource types</b>
+/// (<code>INCLUSION_BY_RESOURCE_TYPES</code>).
+/// </li> </ol>
+/// If you use the recording strategy to <b>Record all current and future
+/// resource types</b> (<code>ALL_SUPPORTED_RESOURCE_TYPES</code>), you can use
+/// the flag <code>includeGlobalResourceTypes</code> to include the global IAM
+/// resource types in your recording.
+/// <important>
+/// <b>Aurora global clusters are recorded in all enabled Regions</b>
+///
+/// The <code>AWS::RDS::GlobalCluster</code> resource type will be recorded in
+/// all supported Config Regions where the configuration recorder is enabled.
+///
+/// If you do not want to record <code>AWS::RDS::GlobalCluster</code> in all
+/// enabled Regions, use the <code>EXCLUSION_BY_RESOURCE_TYPES</code> or
+/// <code>INCLUSION_BY_RESOURCE_TYPES</code> recording strategy.
+/// </important>
+class RecordingGroup {
+  /// Specifies whether Config records configuration changes for all supported
+  /// resource types, excluding the global IAM resource types.
+  ///
+  /// If you set this field to <code>true</code>, when Config adds support for a
+  /// new resource type, Config starts recording resources of that type
+  /// automatically.
+  ///
+  /// If you set this field to <code>true</code>, you cannot enumerate specific
+  /// resource types to record in the <code>resourceTypes</code> field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>,
+  /// or to exclude in the <code>resourceTypes</code> field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html">ExclusionByResourceTypes</a>.
+  /// <note>
+  /// <b>Region availability</b>
+  ///
+  /// Check <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/what-is-resource-config-coverage.html">Resource
+  /// Coverage by Region Availability</a> to see if a resource type is supported
+  /// in the Amazon Web Services Region where you set up Config.
+  /// </note>
+  final bool? allSupported;
+
+  /// An object that specifies how Config excludes resource types from being
+  /// recorded by the configuration recorder.
+  /// <note>
+  /// <b>Required fields</b>
+  ///
+  /// To use this option, you must set the <code>useOnly</code> field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html">RecordingStrategy</a>
+  /// to <code>EXCLUSION_BY_RESOURCE_TYPES</code>.
+  /// </note>
+  final ExclusionByResourceTypes? exclusionByResourceTypes;
+
+  /// This option is a bundle which only applies to the global IAM resource types:
+  /// IAM users, groups, roles, and customer managed policies. These global IAM
+  /// resource types can only be recorded by Config in Regions where Config was
+  /// available before February 2022. You cannot be record the global IAM resouce
+  /// types in Regions supported by Config after February 2022. For a list of
+  /// those Regions, see <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-all">Recording
+  /// Amazon Web Services Resources | Global Resources</a>.
+  /// <important>
+  /// <b>Aurora global clusters are recorded in all enabled Regions</b>
+  ///
+  /// The <code>AWS::RDS::GlobalCluster</code> resource type will be recorded in
+  /// all supported Config Regions where the configuration recorder is enabled,
+  /// even if <code>includeGlobalResourceTypes</code> is set<code>false</code>.
+  /// The <code>includeGlobalResourceTypes</code> option is a bundle which only
+  /// applies to IAM users, groups, roles, and customer managed policies.
+  ///
+  /// If you do not want to record <code>AWS::RDS::GlobalCluster</code> in all
+  /// enabled Regions, use one of the following recording strategies:
+  /// <ol>
+  /// <li>
+  /// <b>Record all current and future resource types with exclusions</b>
+  /// (<code>EXCLUSION_BY_RESOURCE_TYPES</code>), or
+  /// </li>
+  /// <li>
+  /// <b>Record specific resource types</b>
+  /// (<code>INCLUSION_BY_RESOURCE_TYPES</code>).
+  /// </li> </ol>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-all">Selecting
+  /// Which Resources are Recorded</a> in the <i>Config developer guide</i>.
+  /// </important> <important>
+  /// <b>includeGlobalResourceTypes and the exclusion recording strategy</b>
+  ///
+  /// The <code>includeGlobalResourceTypes</code> field has no impact on the
+  /// <code>EXCLUSION_BY_RESOURCE_TYPES</code> recording strategy. This means that
+  /// the global IAM resource types (IAM users, groups, roles, and customer
+  /// managed policies) will not be automatically added as exclusions for
+  /// <code>exclusionByResourceTypes</code> when
+  /// <code>includeGlobalResourceTypes</code> is set to <code>false</code>.
+  ///
+  /// The <code>includeGlobalResourceTypes</code> field should only be used to
+  /// modify the <code>AllSupported</code> field, as the default for the
+  /// <code>AllSupported</code> field is to record configuration changes for all
+  /// supported resource types excluding the global IAM resource types. To include
+  /// the global IAM resource types when <code>AllSupported</code> is set to
+  /// <code>true</code>, make sure to set <code>includeGlobalResourceTypes</code>
+  /// to <code>true</code>.
+  ///
+  /// To exclude the global IAM resource types for the
+  /// <code>EXCLUSION_BY_RESOURCE_TYPES</code> recording strategy, you need to
+  /// manually add them to the <code>resourceTypes</code> field of
+  /// <code>exclusionByResourceTypes</code>.
+  /// </important> <note>
+  /// <b>Required and optional fields</b>
+  ///
+  /// Before you set this field to <code>true</code>, set the
+  /// <code>allSupported</code> field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>
+  /// to <code>true</code>. Optionally, you can set the <code>useOnly</code> field
+  /// of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html">RecordingStrategy</a>
+  /// to <code>ALL_SUPPORTED_RESOURCE_TYPES</code>.
+  /// </note> <note>
+  /// <b>Overriding fields</b>
+  ///
+  /// If you set this field to <code>false</code> but list global IAM resource
+  /// types in the <code>resourceTypes</code> field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>,
+  /// Config will still record configuration changes for those specified resource
+  /// types <i>regardless</i> of if you set the
+  /// <code>includeGlobalResourceTypes</code> field to false.
+  ///
+  /// If you do not want to record configuration changes to the global IAM
+  /// resource types (IAM users, groups, roles, and customer managed policies),
+  /// make sure to not list them in the <code>resourceTypes</code> field in
+  /// addition to setting the <code>includeGlobalResourceTypes</code> field to
+  /// false.
+  /// </note>
+  final bool? includeGlobalResourceTypes;
+
+  /// An object that specifies the recording strategy for the configuration
+  /// recorder.
+  ///
+  /// <ul>
+  /// <li>
+  /// If you set the <code>useOnly</code> field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html">RecordingStrategy</a>
+  /// to <code>ALL_SUPPORTED_RESOURCE_TYPES</code>, Config records configuration
+  /// changes for all supported resource types, excluding the global IAM resource
+  /// types. You also must set the <code>allSupported</code> field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>
+  /// to <code>true</code>. When Config adds support for a new resource type,
+  /// Config automatically starts recording resources of that type.
+  /// </li>
+  /// <li>
+  /// If you set the <code>useOnly</code> field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html">RecordingStrategy</a>
+  /// to <code>INCLUSION_BY_RESOURCE_TYPES</code>, Config records configuration
+  /// changes for only the resource types you specify in the
+  /// <code>resourceTypes</code> field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>.
+  /// </li>
+  /// <li>
+  /// If you set the <code>useOnly</code> field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html">RecordingStrategy</a>
+  /// to <code>EXCLUSION_BY_RESOURCE_TYPES</code>, Config records configuration
+  /// changes for all supported resource types except the resource types that you
+  /// specify to exclude from being recorded in the <code>resourceTypes</code>
+  /// field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html">ExclusionByResourceTypes</a>.
+  /// </li>
+  /// </ul> <note>
+  /// <b>Required and optional fields</b>
+  ///
+  /// The <code>recordingStrategy</code> field is optional when you set the
+  /// <code>allSupported</code> field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>
+  /// to <code>true</code>.
+  ///
+  /// The <code>recordingStrategy</code> field is optional when you list resource
+  /// types in the <code>resourceTypes</code> field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>.
+  ///
+  /// The <code>recordingStrategy</code> field is required if you list resource
+  /// types to exclude from recording in the <code>resourceTypes</code> field of
+  /// <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html">ExclusionByResourceTypes</a>.
+  /// </note> <note>
+  /// <b>Overriding fields</b>
+  ///
+  /// If you choose <code>EXCLUSION_BY_RESOURCE_TYPES</code> for the recording
+  /// strategy, the <code>exclusionByResourceTypes</code> field will override
+  /// other properties in the request.
+  ///
+  /// For example, even if you set <code>includeGlobalResourceTypes</code> to
+  /// false, global IAM resource types will still be automatically recorded in
+  /// this option unless those resource types are specifically listed as
+  /// exclusions in the <code>resourceTypes</code> field of
+  /// <code>exclusionByResourceTypes</code>.
+  /// </note> <note>
+  /// <b>Global resources types and the resource exclusion recording strategy</b>
+  ///
+  /// By default, if you choose the <code>EXCLUSION_BY_RESOURCE_TYPES</code>
+  /// recording strategy, when Config adds support for a new resource type in the
+  /// Region where you set up the configuration recorder, including global
+  /// resource types, Config starts recording resources of that type
+  /// automatically.
+  ///
+  /// Unless specifically listed as exclusions,
+  /// <code>AWS::RDS::GlobalCluster</code> will be recorded automatically in all
+  /// supported Config Regions were the configuration recorder is enabled.
+  ///
+  /// IAM users, groups, roles, and customer managed policies will be recorded in
+  /// the Region where you set up the configuration recorder if that is a Region
+  /// where Config was available before February 2022. You cannot be record the
+  /// global IAM resouce types in Regions supported by Config after February 2022.
+  /// For a list of those Regions, see <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-all">Recording
+  /// Amazon Web Services Resources | Global Resources</a>.
+  /// </note>
+  final RecordingStrategy? recordingStrategy;
+
+  /// A comma-separated list that specifies which resource types Config records.
+  ///
+  /// For a list of valid <code>resourceTypes</code> values, see the <b>Resource
+  /// Type Value</b> column in <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources">Supported
+  /// Amazon Web Services resource Types</a> in the <i>Config developer guide</i>.
+  /// <note>
+  /// <b>Required and optional fields</b>
+  ///
+  /// Optionally, you can set the <code>useOnly</code> field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html">RecordingStrategy</a>
+  /// to <code>INCLUSION_BY_RESOURCE_TYPES</code>.
+  ///
+  /// To record all configuration changes, set the <code>allSupported</code> field
+  /// of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>
+  /// to <code>true</code>, and either omit this field or don't specify any
+  /// resource types in this field. If you set the <code>allSupported</code> field
+  /// to <code>false</code> and specify values for <code>resourceTypes</code>,
+  /// when Config adds support for a new type of resource, it will not record
+  /// resources of that type unless you manually add that type to your recording
+  /// group.
+  /// </note> <note>
+  /// <b>Region availability</b>
+  ///
+  /// Before specifying a resource type for Config to track, check <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/what-is-resource-config-coverage.html">Resource
+  /// Coverage by Region Availability</a> to see if the resource type is supported
+  /// in the Amazon Web Services Region where you set up Config. If a resource
+  /// type is supported by Config in at least one Region, you can enable the
+  /// recording of that resource type in all Regions supported by Config, even if
+  /// the specified resource type is not supported in the Amazon Web Services
+  /// Region where you set up Config.
+  /// </note>
+  final List<ResourceType>? resourceTypes;
+
+  RecordingGroup({
+    this.allSupported,
+    this.exclusionByResourceTypes,
+    this.includeGlobalResourceTypes,
+    this.recordingStrategy,
+    this.resourceTypes,
+  });
+
+  factory RecordingGroup.fromJson(Map<String, dynamic> json) {
+    return RecordingGroup(
+      allSupported: json['allSupported'] as bool?,
+      exclusionByResourceTypes: json['exclusionByResourceTypes'] != null
+          ? ExclusionByResourceTypes.fromJson(
+              json['exclusionByResourceTypes'] as Map<String, dynamic>)
+          : null,
+      includeGlobalResourceTypes: json['includeGlobalResourceTypes'] as bool?,
+      recordingStrategy: json['recordingStrategy'] != null
+          ? RecordingStrategy.fromJson(
+              json['recordingStrategy'] as Map<String, dynamic>)
+          : null,
+      resourceTypes: (json['resourceTypes'] as List?)
+          ?.nonNulls
+          .map((e) => ResourceType.fromString((e as String)))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allSupported = this.allSupported;
+    final exclusionByResourceTypes = this.exclusionByResourceTypes;
+    final includeGlobalResourceTypes = this.includeGlobalResourceTypes;
+    final recordingStrategy = this.recordingStrategy;
+    final resourceTypes = this.resourceTypes;
+    return {
+      if (allSupported != null) 'allSupported': allSupported,
+      if (exclusionByResourceTypes != null)
+        'exclusionByResourceTypes': exclusionByResourceTypes,
+      if (includeGlobalResourceTypes != null)
+        'includeGlobalResourceTypes': includeGlobalResourceTypes,
+      if (recordingStrategy != null) 'recordingStrategy': recordingStrategy,
+      if (resourceTypes != null)
+        'resourceTypes': resourceTypes.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// Specifies the default recording frequency that Config uses to record
+/// configuration changes. Config supports <i>Continuous recording</i> and
+/// <i>Daily recording</i>.
+///
+/// <ul>
+/// <li>
+/// Continuous recording allows you to record configuration changes continuously
+/// whenever a change occurs.
+/// </li>
+/// <li>
+/// Daily recording allows you to receive a configuration item (CI) representing
+/// the most recent state of your resources over the last 24-hour period, only
+/// if it’s different from the previous CI recorded.
+/// </li>
+/// </ul> <note>
+/// Firewall Manager depends on continuous recording to monitor your resources.
+/// If you are using Firewall Manager, it is recommended that you set the
+/// recording frequency to Continuous.
+/// </note>
+/// You can also override the recording frequency for specific resource types.
+class RecordingMode {
+  /// The default recording frequency that Config uses to record configuration
+  /// changes.
+  /// <important>
+  /// Daily recording cannot be specified for the following resource types:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AWS::Config::ResourceCompliance</code>
+  /// </li>
+  /// <li>
+  /// <code>AWS::Config::ConformancePackCompliance</code>
+  /// </li>
+  /// <li>
+  /// <code>AWS::Config::ConfigurationRecorder</code>
+  /// </li>
+  /// </ul>
+  /// For the <b>allSupported</b> (<code>ALL_SUPPORTED_RESOURCE_TYPES</code>)
+  /// recording strategy, these resource types will be set to Continuous
+  /// recording.
+  /// </important>
+  final RecordingFrequency recordingFrequency;
+
+  /// An array of <code>recordingModeOverride</code> objects for you to specify
+  /// your overrides for the recording mode. The
+  /// <code>recordingModeOverride</code> object in the
+  /// <code>recordingModeOverrides</code> array consists of three fields: a
+  /// <code>description</code>, the new <code>recordingFrequency</code>, and an
+  /// array of <code>resourceTypes</code> to override.
+  final List<RecordingModeOverride>? recordingModeOverrides;
+
+  RecordingMode({
+    required this.recordingFrequency,
+    this.recordingModeOverrides,
+  });
+
+  factory RecordingMode.fromJson(Map<String, dynamic> json) {
+    return RecordingMode(
+      recordingFrequency: RecordingFrequency.fromString(
+          (json['recordingFrequency'] as String?) ?? ''),
+      recordingModeOverrides: (json['recordingModeOverrides'] as List?)
+          ?.nonNulls
+          .map((e) => RecordingModeOverride.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recordingFrequency = this.recordingFrequency;
+    final recordingModeOverrides = this.recordingModeOverrides;
+    return {
+      'recordingFrequency': recordingFrequency.value,
+      if (recordingModeOverrides != null)
+        'recordingModeOverrides': recordingModeOverrides,
+    };
+  }
+}
+
+class RecordingScope {
+  static const internal = RecordingScope._('INTERNAL');
+  static const paid = RecordingScope._('PAID');
+
+  final String value;
+
+  const RecordingScope._(this.value);
+
+  static const values = [internal, paid];
+
+  static RecordingScope fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RecordingScope._(value));
+
+  @override
+  bool operator ==(other) => other is RecordingScope && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class RecordingFrequency {
+  static const continuous = RecordingFrequency._('CONTINUOUS');
+  static const daily = RecordingFrequency._('DAILY');
+
+  final String value;
+
+  const RecordingFrequency._(this.value);
+
+  static const values = [continuous, daily];
+
+  static RecordingFrequency fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RecordingFrequency._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecordingFrequency && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object for you to specify your overrides for the recording mode.
+class RecordingModeOverride {
+  /// The recording frequency that will be applied to all the resource types
+  /// specified in the override.
+  ///
+  /// <ul>
+  /// <li>
+  /// Continuous recording allows you to record configuration changes continuously
+  /// whenever a change occurs.
+  /// </li>
+  /// <li>
+  /// Daily recording allows you to receive a configuration item (CI) representing
+  /// the most recent state of your resources over the last 24-hour period, only
+  /// if it’s different from the previous CI recorded.
+  /// </li>
+  /// </ul> <note>
+  /// Firewall Manager depends on continuous recording to monitor your resources.
+  /// If you are using Firewall Manager, it is recommended that you set the
+  /// recording frequency to Continuous.
+  /// </note>
+  final RecordingFrequency recordingFrequency;
+
+  /// A comma-separated list that specifies which resource types Config includes
+  /// in the override.
+  /// <important>
+  /// Daily recording cannot be specified for the following resource types:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AWS::Config::ResourceCompliance</code>
+  /// </li>
+  /// <li>
+  /// <code>AWS::Config::ConformancePackCompliance</code>
+  /// </li>
+  /// <li>
+  /// <code>AWS::Config::ConfigurationRecorder</code>
+  /// </li>
+  /// </ul> </important>
+  final List<ResourceType> resourceTypes;
+
+  /// A description that you provide for the override.
+  final String? description;
+
+  RecordingModeOverride({
+    required this.recordingFrequency,
+    required this.resourceTypes,
+    this.description,
+  });
+
+  factory RecordingModeOverride.fromJson(Map<String, dynamic> json) {
+    return RecordingModeOverride(
+      recordingFrequency: RecordingFrequency.fromString(
+          (json['recordingFrequency'] as String?) ?? ''),
+      resourceTypes: ((json['resourceTypes'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => ResourceType.fromString((e as String)))
+          .toList(),
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recordingFrequency = this.recordingFrequency;
+    final resourceTypes = this.resourceTypes;
+    final description = this.description;
+    return {
+      'recordingFrequency': recordingFrequency.value,
+      'resourceTypes': resourceTypes.map((e) => e.value).toList(),
+      if (description != null) 'description': description,
+    };
+  }
+}
+
+/// Specifies whether the configuration recorder excludes certain resource types
+/// from being recorded. Use the <code>resourceTypes</code> field to enter a
+/// comma-separated list of resource types you want to exclude from recording.
+///
+/// By default, when Config adds support for a new resource type in the Region
+/// where you set up the configuration recorder, including global resource
+/// types, Config starts recording resources of that type automatically.
+/// <note>
+/// <b>How to use the exclusion recording strategy </b>
+///
+/// To use this option, you must set the <code>useOnly</code> field of <a
+/// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html">RecordingStrategy</a>
+/// to <code>EXCLUSION_BY_RESOURCE_TYPES</code>.
+///
+/// Config will then record configuration changes for all supported resource
+/// types, except the resource types that you specify to exclude from being
+/// recorded.
+///
+/// <b>Global resource types and the exclusion recording strategy </b>
+///
+/// Unless specifically listed as exclusions,
+/// <code>AWS::RDS::GlobalCluster</code> will be recorded automatically in all
+/// supported Config Regions were the configuration recorder is enabled.
+///
+/// IAM users, groups, roles, and customer managed policies will be recorded in
+/// the Region where you set up the configuration recorder if that is a Region
+/// where Config was available before February 2022. You cannot be record the
+/// global IAM resouce types in Regions supported by Config after February 2022.
+/// For a list of those Regions, see <a
+/// href="https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-all">Recording
+/// Amazon Web Services Resources | Global Resources</a>.
+/// </note>
+class ExclusionByResourceTypes {
+  /// A comma-separated list of resource types to exclude from recording by the
+  /// configuration recorder.
+  final List<ResourceType>? resourceTypes;
+
+  ExclusionByResourceTypes({
+    this.resourceTypes,
+  });
+
+  factory ExclusionByResourceTypes.fromJson(Map<String, dynamic> json) {
+    return ExclusionByResourceTypes(
+      resourceTypes: (json['resourceTypes'] as List?)
+          ?.nonNulls
+          .map((e) => ResourceType.fromString((e as String)))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceTypes = this.resourceTypes;
+    return {
+      if (resourceTypes != null)
+        'resourceTypes': resourceTypes.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// Specifies the recording strategy of the configuration recorder.
+class RecordingStrategy {
+  /// The recording strategy for the configuration recorder.
+  ///
+  /// <ul>
+  /// <li>
+  /// If you set this option to <code>ALL_SUPPORTED_RESOURCE_TYPES</code>, Config
+  /// records configuration changes for all supported resource types, excluding
+  /// the global IAM resource types. You also must set the
+  /// <code>allSupported</code> field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>
+  /// to <code>true</code>. When Config adds support for a new resource type,
+  /// Config automatically starts recording resources of that type. For a list of
+  /// supported resource types, see <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources">Supported
+  /// Resource Types</a> in the <i>Config developer guide</i>.
+  /// </li>
+  /// <li>
+  /// If you set this option to <code>INCLUSION_BY_RESOURCE_TYPES</code>, Config
+  /// records configuration changes for only the resource types that you specify
+  /// in the <code>resourceTypes</code> field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>.
+  /// </li>
+  /// <li>
+  /// If you set this option to <code>EXCLUSION_BY_RESOURCE_TYPES</code>, Config
+  /// records configuration changes for all supported resource types, except the
+  /// resource types that you specify to exclude from being recorded in the
+  /// <code>resourceTypes</code> field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html">ExclusionByResourceTypes</a>.
+  /// </li>
+  /// </ul> <note>
+  /// <b>Required and optional fields</b>
+  ///
+  /// The <code>recordingStrategy</code> field is optional when you set the
+  /// <code>allSupported</code> field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>
+  /// to <code>true</code>.
+  ///
+  /// The <code>recordingStrategy</code> field is optional when you list resource
+  /// types in the <code>resourceTypes</code> field of <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html">RecordingGroup</a>.
+  ///
+  /// The <code>recordingStrategy</code> field is required if you list resource
+  /// types to exclude from recording in the <code>resourceTypes</code> field of
+  /// <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html">ExclusionByResourceTypes</a>.
+  /// </note> <note>
+  /// <b>Overriding fields</b>
+  ///
+  /// If you choose <code>EXCLUSION_BY_RESOURCE_TYPES</code> for the recording
+  /// strategy, the <code>exclusionByResourceTypes</code> field will override
+  /// other properties in the request.
+  ///
+  /// For example, even if you set <code>includeGlobalResourceTypes</code> to
+  /// false, global IAM resource types will still be automatically recorded in
+  /// this option unless those resource types are specifically listed as
+  /// exclusions in the <code>resourceTypes</code> field of
+  /// <code>exclusionByResourceTypes</code>.
+  /// </note> <note>
+  /// <b>Global resource types and the exclusion recording strategy</b>
+  ///
+  /// By default, if you choose the <code>EXCLUSION_BY_RESOURCE_TYPES</code>
+  /// recording strategy, when Config adds support for a new resource type in the
+  /// Region where you set up the configuration recorder, including global
+  /// resource types, Config starts recording resources of that type
+  /// automatically.
+  ///
+  /// Unless specifically listed as exclusions,
+  /// <code>AWS::RDS::GlobalCluster</code> will be recorded automatically in all
+  /// supported Config Regions were the configuration recorder is enabled.
+  ///
+  /// IAM users, groups, roles, and customer managed policies will be recorded in
+  /// the Region where you set up the configuration recorder if that is a Region
+  /// where Config was available before February 2022. You cannot be record the
+  /// global IAM resouce types in Regions supported by Config after February 2022.
+  /// This list where you cannot record the global IAM resource types includes the
+  /// following Regions:
+  ///
+  /// <ul>
+  /// <li>
+  /// Asia Pacific (Hyderabad)
+  /// </li>
+  /// <li>
+  /// Asia Pacific (Melbourne)
+  /// </li>
+  /// <li>
+  /// Canada West (Calgary)
+  /// </li>
+  /// <li>
+  /// Europe (Spain)
+  /// </li>
+  /// <li>
+  /// Europe (Zurich)
+  /// </li>
+  /// <li>
+  /// Israel (Tel Aviv)
+  /// </li>
+  /// <li>
+  /// Middle East (UAE)
+  /// </li>
+  /// </ul> </note>
+  final RecordingStrategyType? useOnly;
+
+  RecordingStrategy({
+    this.useOnly,
+  });
+
+  factory RecordingStrategy.fromJson(Map<String, dynamic> json) {
+    return RecordingStrategy(
+      useOnly:
+          (json['useOnly'] as String?)?.let(RecordingStrategyType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final useOnly = this.useOnly;
+    return {
+      if (useOnly != null) 'useOnly': useOnly.value,
+    };
+  }
+}
+
+class RecordingStrategyType {
+  static const allSupportedResourceTypes =
+      RecordingStrategyType._('ALL_SUPPORTED_RESOURCE_TYPES');
+  static const inclusionByResourceTypes =
+      RecordingStrategyType._('INCLUSION_BY_RESOURCE_TYPES');
+  static const exclusionByResourceTypes =
+      RecordingStrategyType._('EXCLUSION_BY_RESOURCE_TYPES');
+
+  final String value;
+
+  const RecordingStrategyType._(this.value);
+
+  static const values = [
+    allSupportedResourceTypes,
+    inclusionByResourceTypes,
+    exclusionByResourceTypes
+  ];
+
+  static RecordingStrategyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RecordingStrategyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecordingStrategyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The details about the configuration aggregator, including information about
+/// source accounts, regions, and metadata of the aggregator.
+class ConfigurationAggregator {
+  /// Provides a list of source accounts and regions to be aggregated.
+  final List<AccountAggregationSource>? accountAggregationSources;
+
+  /// An object to filter the data you specify for an aggregator.
+  final AggregatorFilters? aggregatorFilters;
+
+  /// The Amazon Resource Name (ARN) of the aggregator.
+  final String? configurationAggregatorArn;
+
+  /// The name of the aggregator.
+  final String? configurationAggregatorName;
+
+  /// Amazon Web Services service that created the configuration aggregator.
+  final String? createdBy;
+
+  /// The time stamp when the configuration aggregator was created.
+  final DateTime? creationTime;
+
+  /// The time of the last update.
+  final DateTime? lastUpdatedTime;
+
+  /// Provides an organization and list of regions to be aggregated.
+  final OrganizationAggregationSource? organizationAggregationSource;
+
+  ConfigurationAggregator({
+    this.accountAggregationSources,
+    this.aggregatorFilters,
+    this.configurationAggregatorArn,
+    this.configurationAggregatorName,
+    this.createdBy,
+    this.creationTime,
+    this.lastUpdatedTime,
+    this.organizationAggregationSource,
+  });
+
+  factory ConfigurationAggregator.fromJson(Map<String, dynamic> json) {
+    return ConfigurationAggregator(
+      accountAggregationSources: (json['AccountAggregationSources'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              AccountAggregationSource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      aggregatorFilters: json['AggregatorFilters'] != null
+          ? AggregatorFilters.fromJson(
+              json['AggregatorFilters'] as Map<String, dynamic>)
+          : null,
+      configurationAggregatorArn: json['ConfigurationAggregatorArn'] as String?,
+      configurationAggregatorName:
+          json['ConfigurationAggregatorName'] as String?,
+      createdBy: json['CreatedBy'] as String?,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      organizationAggregationSource:
+          json['OrganizationAggregationSource'] != null
+              ? OrganizationAggregationSource.fromJson(
+                  json['OrganizationAggregationSource'] as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountAggregationSources = this.accountAggregationSources;
+    final aggregatorFilters = this.aggregatorFilters;
+    final configurationAggregatorArn = this.configurationAggregatorArn;
+    final configurationAggregatorName = this.configurationAggregatorName;
+    final createdBy = this.createdBy;
+    final creationTime = this.creationTime;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final organizationAggregationSource = this.organizationAggregationSource;
+    return {
+      if (accountAggregationSources != null)
+        'AccountAggregationSources': accountAggregationSources,
+      if (aggregatorFilters != null) 'AggregatorFilters': aggregatorFilters,
+      if (configurationAggregatorArn != null)
+        'ConfigurationAggregatorArn': configurationAggregatorArn,
+      if (configurationAggregatorName != null)
+        'ConfigurationAggregatorName': configurationAggregatorName,
+      if (createdBy != null) 'CreatedBy': createdBy,
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (lastUpdatedTime != null)
+        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      if (organizationAggregationSource != null)
+        'OrganizationAggregationSource': organizationAggregationSource,
+    };
+  }
+}
+
+/// This object contains regions to set up the aggregator and an IAM role to
+/// retrieve organization details.
+class OrganizationAggregationSource {
+  /// ARN of the IAM role used to retrieve Amazon Web Services Organization
+  /// details associated with the aggregator account.
+  final String roleArn;
+
+  /// If true, aggregate existing Config regions and future regions.
+  final bool? allAwsRegions;
+
+  /// The source regions being aggregated.
+  final List<String>? awsRegions;
+
+  OrganizationAggregationSource({
+    required this.roleArn,
+    this.allAwsRegions,
+    this.awsRegions,
+  });
+
+  factory OrganizationAggregationSource.fromJson(Map<String, dynamic> json) {
+    return OrganizationAggregationSource(
+      roleArn: (json['RoleArn'] as String?) ?? '',
+      allAwsRegions: json['AllAwsRegions'] as bool?,
+      awsRegions: (json['AwsRegions'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roleArn = this.roleArn;
+    final allAwsRegions = this.allAwsRegions;
+    final awsRegions = this.awsRegions;
+    return {
+      'RoleArn': roleArn,
+      if (allAwsRegions != null) 'AllAwsRegions': allAwsRegions,
+      if (awsRegions != null) 'AwsRegions': awsRegions,
+    };
+  }
+}
+
+/// An object to filter the data you specify for an aggregator.
+class AggregatorFilters {
+  /// An object to filter the configuration recorders based on the resource types
+  /// in scope for recording.
+  final AggregatorFilterResourceType? resourceType;
+
+  /// An object to filter service-linked configuration recorders in an aggregator
+  /// based on the linked Amazon Web Services service.
+  final AggregatorFilterServicePrincipal? servicePrincipal;
+
+  AggregatorFilters({
+    this.resourceType,
+    this.servicePrincipal,
+  });
+
+  factory AggregatorFilters.fromJson(Map<String, dynamic> json) {
+    return AggregatorFilters(
+      resourceType: json['ResourceType'] != null
+          ? AggregatorFilterResourceType.fromJson(
+              json['ResourceType'] as Map<String, dynamic>)
+          : null,
+      servicePrincipal: json['ServicePrincipal'] != null
+          ? AggregatorFilterServicePrincipal.fromJson(
+              json['ServicePrincipal'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceType = this.resourceType;
+    final servicePrincipal = this.servicePrincipal;
+    return {
+      if (resourceType != null) 'ResourceType': resourceType,
+      if (servicePrincipal != null) 'ServicePrincipal': servicePrincipal,
+    };
+  }
+}
+
+/// An object to filter the configuration recorders based on the resource types
+/// in scope for recording.
+class AggregatorFilterResourceType {
+  /// The type of resource type filter to apply. <code>INCLUDE</code> specifies
+  /// that the list of resource types in the <code>Value</code> field will be
+  /// aggregated and no other resource types will be filtered.
+  final AggregatorFilterType? type;
+
+  /// Comma-separate list of resource types to filter your aggregated
+  /// configuration recorders.
+  final List<String>? value;
+
+  AggregatorFilterResourceType({
+    this.type,
+    this.value,
+  });
+
+  factory AggregatorFilterResourceType.fromJson(Map<String, dynamic> json) {
+    return AggregatorFilterResourceType(
+      type: (json['Type'] as String?)?.let(AggregatorFilterType.fromString),
+      value:
+          (json['Value'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final value = this.value;
+    return {
+      if (type != null) 'Type': type.value,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// An object to filter service-linked configuration recorders in an aggregator
+/// based on the linked Amazon Web Services service.
+class AggregatorFilterServicePrincipal {
+  /// The type of service principal filter to apply. <code>INCLUDE</code>
+  /// specifies that the list of service principals in the <code>Value</code>
+  /// field will be aggregated and no other service principals will be filtered.
+  final AggregatorFilterType? type;
+
+  /// Comma-separated list of service principals for the linked Amazon Web
+  /// Services services to filter your aggregated service-linked configuration
+  /// recorders.
+  final List<String>? value;
+
+  AggregatorFilterServicePrincipal({
+    this.type,
+    this.value,
+  });
+
+  factory AggregatorFilterServicePrincipal.fromJson(Map<String, dynamic> json) {
+    return AggregatorFilterServicePrincipal(
+      type: (json['Type'] as String?)?.let(AggregatorFilterType.fromString),
+      value:
+          (json['Value'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final value = this.value;
+    return {
+      if (type != null) 'Type': type.value,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+class AggregatorFilterType {
+  static const include = AggregatorFilterType._('INCLUDE');
+
+  final String value;
+
+  const AggregatorFilterType._(this.value);
+
+  static const values = [include];
+
+  static AggregatorFilterType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AggregatorFilterType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AggregatorFilterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A collection of accounts and regions.
+class AccountAggregationSource {
+  /// The 12-digit account ID of the account being aggregated.
+  final List<String> accountIds;
+
+  /// If true, aggregate existing Config regions and future regions.
+  final bool? allAwsRegions;
+
+  /// The source regions being aggregated.
+  final List<String>? awsRegions;
+
+  AccountAggregationSource({
+    required this.accountIds,
+    this.allAwsRegions,
+    this.awsRegions,
+  });
+
+  factory AccountAggregationSource.fromJson(Map<String, dynamic> json) {
+    return AccountAggregationSource(
+      accountIds: ((json['AccountIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      allAwsRegions: json['AllAwsRegions'] as bool?,
+      awsRegions: (json['AwsRegions'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountIds = this.accountIds;
+    final allAwsRegions = this.allAwsRegions;
+    final awsRegions = this.awsRegions;
+    return {
+      'AccountIds': accountIds,
+      if (allAwsRegions != null) 'AllAwsRegions': allAwsRegions,
+      if (awsRegions != null) 'AwsRegions': awsRegions,
+    };
+  }
+}
+
+/// Config rules evaluate the configuration settings of your Amazon Web Services
+/// resources. A rule can run when Config detects a configuration change to an
+/// Amazon Web Services resource or at a periodic frequency that you choose (for
+/// example, every 24 hours). There are two types of rules: <i>Config Managed
+/// Rules</i> and <i>Config Custom Rules</i>.
+///
+/// Config Managed Rules are predefined, customizable rules created by Config.
+/// For a list of managed rules, see <a
+/// href="https://docs.aws.amazon.com/config/latest/developerguide/managed-rules-by-aws-config.html">List
+/// of Config Managed Rules</a>.
+///
+/// Config Custom Rules are rules that you create from scratch. There are two
+/// ways to create Config custom rules: with Lambda functions (<a
+/// href="https://docs.aws.amazon.com/config/latest/developerguide/gettingstarted-concepts.html#gettingstarted-concepts-function">
+/// Lambda Developer Guide</a>) and with Guard (<a
+/// href="https://github.com/aws-cloudformation/cloudformation-guard">Guard
+/// GitHub Repository</a>), a policy-as-code language. Config custom rules
+/// created with Lambda are called <i>Config Custom Lambda Rules</i> and Config
+/// custom rules created with Guard are called <i>Config Custom Policy
+/// Rules</i>.
+///
+/// For more information about developing and using Config rules, see <a
+/// href="https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config.html">Evaluating
+/// Resource with Config Rules</a> in the <i>Config Developer Guide</i>.
+/// <note>
+/// You can use the Amazon Web Services CLI and Amazon Web Services SDKs if you
+/// want to create a rule that triggers evaluations for your resources when
+/// Config delivers the configuration snapshot. For more information, see
+/// <a>ConfigSnapshotDeliveryProperties</a>.
+/// </note>
+class ConfigRule {
+  /// Provides the rule owner (<code>Amazon Web Services</code> for managed rules,
+  /// <code>CUSTOM_POLICY</code> for Custom Policy rules, and
+  /// <code>CUSTOM_LAMBDA</code> for Custom Lambda rules), the rule identifier,
+  /// and the notifications that cause the function to evaluate your Amazon Web
+  /// Services resources.
+  final Source source;
+
+  /// The Amazon Resource Name (ARN) of the Config rule.
+  final String? configRuleArn;
+
+  /// The ID of the Config rule.
+  final String? configRuleId;
+
+  /// The name that you assign to the Config rule. The name is required if you are
+  /// adding a new rule.
+  final String? configRuleName;
+
+  /// Indicates whether the Config rule is active or is currently being deleted by
+  /// Config. It can also indicate the evaluation status for the Config rule.
+  ///
+  /// Config sets the state of the rule to <code>EVALUATING</code> temporarily
+  /// after you use the <code>StartConfigRulesEvaluation</code> request to
+  /// evaluate your resources against the Config rule.
+  ///
+  /// Config sets the state of the rule to <code>DELETING_RESULTS</code>
+  /// temporarily after you use the <code>DeleteEvaluationResults</code> request
+  /// to delete the current evaluation results for the Config rule.
+  ///
+  /// Config temporarily sets the state of a rule to <code>DELETING</code> after
+  /// you use the <code>DeleteConfigRule</code> request to delete the rule. After
+  /// Config deletes the rule, the rule and all of its evaluations are erased and
+  /// are no longer available.
+  final ConfigRuleState? configRuleState;
+
+  /// Service principal name of the service that created the rule.
+  /// <note>
+  /// The field is populated only if the service-linked rule is created by a
+  /// service. The field is empty if you create your own rule.
+  /// </note>
+  final String? createdBy;
+
+  /// The description that you provide for the Config rule.
+  final String? description;
+
+  /// The modes the Config rule can be evaluated in. The valid values are distinct
+  /// objects. By default, the value is Detective evaluation mode only.
+  final List<EvaluationModeConfiguration>? evaluationModes;
+
+  /// A string, in JSON format, that is passed to the Config rule Lambda function.
+  final String? inputParameters;
+
+  /// The maximum frequency with which Config runs evaluations for a rule. You can
+  /// specify a value for <code>MaximumExecutionFrequency</code> when:
+  ///
+  /// <ul>
+  /// <li>
+  /// This is for an Config managed rule that is triggered at a periodic
+  /// frequency.
+  /// </li>
+  /// <li>
+  /// Your custom rule is triggered when Config delivers the configuration
+  /// snapshot. For more information, see <a>ConfigSnapshotDeliveryProperties</a>.
+  /// </li>
+  /// </ul> <note>
+  /// By default, rules with a periodic trigger are evaluated every 24 hours. To
+  /// change the frequency, specify a valid value for the
+  /// <code>MaximumExecutionFrequency</code> parameter.
+  /// </note>
+  final MaximumExecutionFrequency? maximumExecutionFrequency;
+
+  /// Indicates whether you can get <a>Evaluation</a>s for the Config rule. You
+  /// can get <a>Evaluation</a>s for the Amazon Web Services Config rule if this
+  /// value is <code>EXTERNAL</code>. You cannot get <a>Evaluation</a>s for the
+  /// Amazon Web Services Config rule if this value is <code>INTERNAL</code>.
+  final RuleEvaluationVisibility? ruleEvaluationVisibility;
+
+  /// Defines which resources can trigger an evaluation for the rule. The scope
+  /// can include one or more resource types, a combination of one resource type
+  /// and one resource ID, or a combination of a tag key and value. Specify a
+  /// scope to constrain the resources that can trigger an evaluation for the
+  /// rule. If you do not specify a scope, evaluations are triggered when any
+  /// resource in the recording group changes.
+  final Scope? scope;
+
+  ConfigRule({
+    required this.source,
+    this.configRuleArn,
+    this.configRuleId,
+    this.configRuleName,
+    this.configRuleState,
+    this.createdBy,
+    this.description,
+    this.evaluationModes,
+    this.inputParameters,
+    this.maximumExecutionFrequency,
+    this.ruleEvaluationVisibility,
+    this.scope,
+  });
+
+  factory ConfigRule.fromJson(Map<String, dynamic> json) {
+    return ConfigRule(
+      source: Source.fromJson((json['Source'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      configRuleArn: json['ConfigRuleArn'] as String?,
+      configRuleId: json['ConfigRuleId'] as String?,
+      configRuleName: json['ConfigRuleName'] as String?,
+      configRuleState:
+          (json['ConfigRuleState'] as String?)?.let(ConfigRuleState.fromString),
+      createdBy: json['CreatedBy'] as String?,
+      description: json['Description'] as String?,
+      evaluationModes: (json['EvaluationModes'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              EvaluationModeConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      inputParameters: json['InputParameters'] as String?,
+      maximumExecutionFrequency: (json['MaximumExecutionFrequency'] as String?)
+          ?.let(MaximumExecutionFrequency.fromString),
+      ruleEvaluationVisibility: (json['RuleEvaluationVisibility'] as String?)
+          ?.let(RuleEvaluationVisibility.fromString),
+      scope: json['Scope'] != null
+          ? Scope.fromJson(json['Scope'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final source = this.source;
+    final configRuleArn = this.configRuleArn;
+    final configRuleId = this.configRuleId;
+    final configRuleName = this.configRuleName;
+    final configRuleState = this.configRuleState;
+    final createdBy = this.createdBy;
+    final description = this.description;
+    final evaluationModes = this.evaluationModes;
+    final inputParameters = this.inputParameters;
+    final maximumExecutionFrequency = this.maximumExecutionFrequency;
+    final ruleEvaluationVisibility = this.ruleEvaluationVisibility;
+    final scope = this.scope;
+    return {
+      'Source': source,
+      if (configRuleArn != null) 'ConfigRuleArn': configRuleArn,
+      if (configRuleId != null) 'ConfigRuleId': configRuleId,
+      if (configRuleName != null) 'ConfigRuleName': configRuleName,
+      if (configRuleState != null) 'ConfigRuleState': configRuleState.value,
+      if (createdBy != null) 'CreatedBy': createdBy,
+      if (description != null) 'Description': description,
+      if (evaluationModes != null) 'EvaluationModes': evaluationModes,
+      if (inputParameters != null) 'InputParameters': inputParameters,
+      if (maximumExecutionFrequency != null)
+        'MaximumExecutionFrequency': maximumExecutionFrequency.value,
+      if (ruleEvaluationVisibility != null)
+        'RuleEvaluationVisibility': ruleEvaluationVisibility.value,
+      if (scope != null) 'Scope': scope,
+    };
+  }
+}
+
 /// Defines which resources trigger an evaluation for an Config rule. The scope
 /// can include one or more resource types, a combination of a tag key and
 /// value, or a combination of one resource type and one resource ID. Specify a
@@ -15728,6 +12862,13 @@ class Scope {
   /// also specify a resource ID for <code>ComplianceResourceId</code>.
   final List<String>? complianceResourceTypes;
 
+  /// The service principals of the Amazon Web Services services for the rule.
+  /// <note>
+  /// The field is populated only if the service-linked rule is created by a
+  /// service. The field is empty if you create your own rule.
+  /// </note>
+  final List<String>? servicePrincipals;
+
   /// The tag key that is applied to only those Amazon Web Services resources that
   /// you want to trigger an evaluation for the rule.
   final String? tagKey;
@@ -15741,6 +12882,7 @@ class Scope {
   Scope({
     this.complianceResourceId,
     this.complianceResourceTypes,
+    this.servicePrincipals,
     this.tagKey,
     this.tagValue,
   });
@@ -15752,6 +12894,10 @@ class Scope {
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
+      servicePrincipals: (json['ServicePrincipals'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
       tagKey: json['TagKey'] as String?,
       tagValue: json['TagValue'] as String?,
     );
@@ -15760,6 +12906,7 @@ class Scope {
   Map<String, dynamic> toJson() {
     final complianceResourceId = this.complianceResourceId;
     final complianceResourceTypes = this.complianceResourceTypes;
+    final servicePrincipals = this.servicePrincipals;
     final tagKey = this.tagKey;
     final tagValue = this.tagValue;
     return {
@@ -15767,134 +12914,11 @@ class Scope {
         'ComplianceResourceId': complianceResourceId,
       if (complianceResourceTypes != null)
         'ComplianceResourceTypes': complianceResourceTypes,
+      if (servicePrincipals != null) 'ServicePrincipals': servicePrincipals,
       if (tagKey != null) 'TagKey': tagKey,
       if (tagValue != null) 'TagValue': tagValue,
     };
   }
-}
-
-class SelectAggregateResourceConfigResponse {
-  /// The nextToken string returned in a previous request that you use to request
-  /// the next page of results in a paginated response.
-  final String? nextToken;
-  final QueryInfo? queryInfo;
-
-  /// Returns the results for the SQL query.
-  final List<String>? results;
-
-  SelectAggregateResourceConfigResponse({
-    this.nextToken,
-    this.queryInfo,
-    this.results,
-  });
-
-  factory SelectAggregateResourceConfigResponse.fromJson(
-      Map<String, dynamic> json) {
-    return SelectAggregateResourceConfigResponse(
-      nextToken: json['NextToken'] as String?,
-      queryInfo: json['QueryInfo'] != null
-          ? QueryInfo.fromJson(json['QueryInfo'] as Map<String, dynamic>)
-          : null,
-      results:
-          (json['Results'] as List?)?.nonNulls.map((e) => e as String).toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final queryInfo = this.queryInfo;
-    final results = this.results;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (queryInfo != null) 'QueryInfo': queryInfo,
-      if (results != null) 'Results': results,
-    };
-  }
-}
-
-class SelectResourceConfigResponse {
-  /// The <code>nextToken</code> string returned in a previous request that you
-  /// use to request the next page of results in a paginated response.
-  final String? nextToken;
-
-  /// Returns the <code>QueryInfo</code> object.
-  final QueryInfo? queryInfo;
-
-  /// Returns the results for the SQL query.
-  final List<String>? results;
-
-  SelectResourceConfigResponse({
-    this.nextToken,
-    this.queryInfo,
-    this.results,
-  });
-
-  factory SelectResourceConfigResponse.fromJson(Map<String, dynamic> json) {
-    return SelectResourceConfigResponse(
-      nextToken: json['NextToken'] as String?,
-      queryInfo: json['QueryInfo'] != null
-          ? QueryInfo.fromJson(json['QueryInfo'] as Map<String, dynamic>)
-          : null,
-      results:
-          (json['Results'] as List?)?.nonNulls.map((e) => e as String).toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final queryInfo = this.queryInfo;
-    final results = this.results;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (queryInfo != null) 'QueryInfo': queryInfo,
-      if (results != null) 'Results': results,
-    };
-  }
-}
-
-class SortBy {
-  static const score = SortBy._('SCORE');
-
-  final String value;
-
-  const SortBy._(this.value);
-
-  static const values = [score];
-
-  static SortBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => SortBy._(value));
-
-  @override
-  bool operator ==(other) => other is SortBy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class SortOrder {
-  static const ascending = SortOrder._('ASCENDING');
-  static const descending = SortOrder._('DESCENDING');
-
-  final String value;
-
-  const SortOrder._(this.value);
-
-  static const values = [ascending, descending];
-
-  static SortOrder fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
-
-  @override
-  bool operator ==(other) => other is SortOrder && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// Provides the CustomPolicyDetails, the rule owner (<code>Amazon Web
@@ -15979,6 +13003,151 @@ class Source {
         'CustomPolicyDetails': customPolicyDetails,
       if (sourceDetails != null) 'SourceDetails': sourceDetails,
       if (sourceIdentifier != null) 'SourceIdentifier': sourceIdentifier,
+    };
+  }
+}
+
+class ConfigRuleState {
+  static const active = ConfigRuleState._('ACTIVE');
+  static const deleting = ConfigRuleState._('DELETING');
+  static const deletingResults = ConfigRuleState._('DELETING_RESULTS');
+  static const evaluating = ConfigRuleState._('EVALUATING');
+
+  final String value;
+
+  const ConfigRuleState._(this.value);
+
+  static const values = [active, deleting, deletingResults, evaluating];
+
+  static ConfigRuleState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConfigRuleState._(value));
+
+  @override
+  bool operator ==(other) => other is ConfigRuleState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class RuleEvaluationVisibility {
+  static const external = RuleEvaluationVisibility._('EXTERNAL');
+  static const internal = RuleEvaluationVisibility._('INTERNAL');
+
+  final String value;
+
+  const RuleEvaluationVisibility._(this.value);
+
+  static const values = [external, internal];
+
+  static RuleEvaluationVisibility fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RuleEvaluationVisibility._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RuleEvaluationVisibility && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The configuration object for Config rule evaluation mode. The supported
+/// valid values are Detective or Proactive.
+class EvaluationModeConfiguration {
+  /// The mode of an evaluation. The valid values are Detective or Proactive.
+  final EvaluationMode? mode;
+
+  EvaluationModeConfiguration({
+    this.mode,
+  });
+
+  factory EvaluationModeConfiguration.fromJson(Map<String, dynamic> json) {
+    return EvaluationModeConfiguration(
+      mode: (json['Mode'] as String?)?.let(EvaluationMode.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mode = this.mode;
+    return {
+      if (mode != null) 'Mode': mode.value,
+    };
+  }
+}
+
+class Owner {
+  static const customLambda = Owner._('CUSTOM_LAMBDA');
+  static const aws = Owner._('AWS');
+  static const customPolicy = Owner._('CUSTOM_POLICY');
+
+  final String value;
+
+  const Owner._(this.value);
+
+  static const values = [customLambda, aws, customPolicy];
+
+  static Owner fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Owner._(value));
+
+  @override
+  bool operator ==(other) => other is Owner && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides the runtime system, policy definition, and whether debug logging
+/// enabled. You can specify the following CustomPolicyDetails parameter values
+/// only for Config Custom Policy rules.
+class CustomPolicyDetails {
+  /// The runtime system for your Config Custom Policy rule. Guard is a
+  /// policy-as-code language that allows you to write policies that are enforced
+  /// by Config Custom Policy rules. For more information about Guard, see the <a
+  /// href="https://github.com/aws-cloudformation/cloudformation-guard">Guard
+  /// GitHub Repository</a>.
+  final String policyRuntime;
+
+  /// The policy definition containing the logic for your Config Custom Policy
+  /// rule.
+  final String policyText;
+
+  /// The boolean expression for enabling debug logging for your Config Custom
+  /// Policy rule. The default value is <code>false</code>.
+  final bool? enableDebugLogDelivery;
+
+  CustomPolicyDetails({
+    required this.policyRuntime,
+    required this.policyText,
+    this.enableDebugLogDelivery,
+  });
+
+  factory CustomPolicyDetails.fromJson(Map<String, dynamic> json) {
+    return CustomPolicyDetails(
+      policyRuntime: (json['PolicyRuntime'] as String?) ?? '',
+      policyText: (json['PolicyText'] as String?) ?? '',
+      enableDebugLogDelivery: json['EnableDebugLogDelivery'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyRuntime = this.policyRuntime;
+    final policyText = this.policyText;
+    final enableDebugLogDelivery = this.enableDebugLogDelivery;
+    return {
+      'PolicyRuntime': policyRuntime,
+      'PolicyText': policyText,
+      if (enableDebugLogDelivery != null)
+        'EnableDebugLogDelivery': enableDebugLogDelivery,
     };
   }
 }
@@ -16068,140 +13237,1424 @@ class SourceDetail {
   }
 }
 
-/// Amazon Web Services Systems Manager (SSM) specific remediation controls.
-class SsmControls {
-  /// The maximum percentage of remediation actions allowed to run in parallel on
-  /// the non-compliant resources for that specific rule. You can specify a
-  /// percentage, such as 10%. The default value is 10.
-  final int? concurrentExecutionRatePercentage;
+class EventSource {
+  static const awsConfig = EventSource._('aws.config');
 
-  /// The percentage of errors that are allowed before SSM stops running
-  /// automations on non-compliant resources for that specific rule. You can
-  /// specify a percentage of errors, for example 10%. If you do not specifiy a
-  /// percentage, the default is 50%. For example, if you set the ErrorPercentage
-  /// to 40% for 10 non-compliant resources, then SSM stops running the
-  /// automations when the fifth error is received.
-  final int? errorPercentage;
+  final String value;
 
-  SsmControls({
-    this.concurrentExecutionRatePercentage,
-    this.errorPercentage,
+  const EventSource._(this.value);
+
+  static const values = [awsConfig];
+
+  static EventSource fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EventSource._(value));
+
+  @override
+  bool operator ==(other) => other is EventSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class MessageType {
+  static const configurationItemChangeNotification =
+      MessageType._('ConfigurationItemChangeNotification');
+  static const configurationSnapshotDeliveryCompleted =
+      MessageType._('ConfigurationSnapshotDeliveryCompleted');
+  static const scheduledNotification = MessageType._('ScheduledNotification');
+  static const oversizedConfigurationItemChangeNotification =
+      MessageType._('OversizedConfigurationItemChangeNotification');
+
+  final String value;
+
+  const MessageType._(this.value);
+
+  static const values = [
+    configurationItemChangeNotification,
+    configurationSnapshotDeliveryCompleted,
+    scheduledNotification,
+    oversizedConfigurationItemChangeNotification
+  ];
+
+  static MessageType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MessageType._(value));
+
+  @override
+  bool operator ==(other) => other is MessageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object that represents the authorizations granted to aggregator accounts
+/// and regions.
+class AggregationAuthorization {
+  /// The Amazon Resource Name (ARN) of the aggregation object.
+  final String? aggregationAuthorizationArn;
+
+  /// The 12-digit account ID of the account authorized to aggregate data.
+  final String? authorizedAccountId;
+
+  /// The region authorized to collect aggregated data.
+  final String? authorizedAwsRegion;
+
+  /// The time stamp when the aggregation authorization was created.
+  final DateTime? creationTime;
+
+  AggregationAuthorization({
+    this.aggregationAuthorizationArn,
+    this.authorizedAccountId,
+    this.authorizedAwsRegion,
+    this.creationTime,
   });
 
-  factory SsmControls.fromJson(Map<String, dynamic> json) {
-    return SsmControls(
-      concurrentExecutionRatePercentage:
-          json['ConcurrentExecutionRatePercentage'] as int?,
-      errorPercentage: json['ErrorPercentage'] as int?,
+  factory AggregationAuthorization.fromJson(Map<String, dynamic> json) {
+    return AggregationAuthorization(
+      aggregationAuthorizationArn:
+          json['AggregationAuthorizationArn'] as String?,
+      authorizedAccountId: json['AuthorizedAccountId'] as String?,
+      authorizedAwsRegion: json['AuthorizedAwsRegion'] as String?,
+      creationTime: timeStampFromJson(json['CreationTime']),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final concurrentExecutionRatePercentage =
-        this.concurrentExecutionRatePercentage;
-    final errorPercentage = this.errorPercentage;
+    final aggregationAuthorizationArn = this.aggregationAuthorizationArn;
+    final authorizedAccountId = this.authorizedAccountId;
+    final authorizedAwsRegion = this.authorizedAwsRegion;
+    final creationTime = this.creationTime;
     return {
-      if (concurrentExecutionRatePercentage != null)
-        'ConcurrentExecutionRatePercentage': concurrentExecutionRatePercentage,
-      if (errorPercentage != null) 'ErrorPercentage': errorPercentage,
+      if (aggregationAuthorizationArn != null)
+        'AggregationAuthorizationArn': aggregationAuthorizationArn,
+      if (authorizedAccountId != null)
+        'AuthorizedAccountId': authorizedAccountId,
+      if (authorizedAwsRegion != null)
+        'AuthorizedAwsRegion': authorizedAwsRegion,
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
     };
   }
 }
 
-/// The output when you start the evaluation for the specified Config rule.
-class StartConfigRulesEvaluationResponse {
-  StartConfigRulesEvaluationResponse();
+/// Returns details of a specific query.
+class StoredQueryMetadata {
+  /// Amazon Resource Name (ARN) of the query. For example,
+  /// arn:partition:service:region:account-id:resource-type/resource-name/resource-id.
+  final String queryArn;
 
-  factory StartConfigRulesEvaluationResponse.fromJson(Map<String, dynamic> _) {
-    return StartConfigRulesEvaluationResponse();
-  }
+  /// The ID of the query.
+  final String queryId;
 
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
+  /// The name of the query.
+  final String queryName;
 
-class StartRemediationExecutionResponse {
-  /// For resources that have failed to start execution, the API returns a
-  /// resource key object.
-  final List<ResourceKey>? failedItems;
+  /// A unique description for the query.
+  final String? description;
 
-  /// Returns a failure message. For example, the resource is already compliant.
-  final String? failureMessage;
-
-  StartRemediationExecutionResponse({
-    this.failedItems,
-    this.failureMessage,
+  StoredQueryMetadata({
+    required this.queryArn,
+    required this.queryId,
+    required this.queryName,
+    this.description,
   });
 
-  factory StartRemediationExecutionResponse.fromJson(
-      Map<String, dynamic> json) {
-    return StartRemediationExecutionResponse(
-      failedItems: (json['FailedItems'] as List?)
-          ?.nonNulls
-          .map((e) => ResourceKey.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      failureMessage: json['FailureMessage'] as String?,
+  factory StoredQueryMetadata.fromJson(Map<String, dynamic> json) {
+    return StoredQueryMetadata(
+      queryArn: (json['QueryArn'] as String?) ?? '',
+      queryId: (json['QueryId'] as String?) ?? '',
+      queryName: (json['QueryName'] as String?) ?? '',
+      description: json['Description'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final failedItems = this.failedItems;
-    final failureMessage = this.failureMessage;
+    final queryArn = this.queryArn;
+    final queryId = this.queryId;
+    final queryName = this.queryName;
+    final description = this.description;
     return {
-      if (failedItems != null) 'FailedItems': failedItems,
-      if (failureMessage != null) 'FailureMessage': failureMessage,
+      'QueryArn': queryArn,
+      'QueryId': queryId,
+      'QueryName': queryName,
+      if (description != null) 'Description': description,
     };
   }
 }
 
-class StartResourceEvaluationResponse {
-  /// A unique ResourceEvaluationId that is associated with a single execution.
+/// Returns details of a resource evaluation.
+class ResourceEvaluation {
+  /// The mode of an evaluation. The valid values are Detective or Proactive.
+  final EvaluationMode? evaluationMode;
+
+  /// The starting time of an execution.
+  final DateTime? evaluationStartTimestamp;
+
+  /// The ResourceEvaluationId of a evaluation.
   final String? resourceEvaluationId;
 
-  StartResourceEvaluationResponse({
+  ResourceEvaluation({
+    this.evaluationMode,
+    this.evaluationStartTimestamp,
     this.resourceEvaluationId,
   });
 
-  factory StartResourceEvaluationResponse.fromJson(Map<String, dynamic> json) {
-    return StartResourceEvaluationResponse(
+  factory ResourceEvaluation.fromJson(Map<String, dynamic> json) {
+    return ResourceEvaluation(
+      evaluationMode:
+          (json['EvaluationMode'] as String?)?.let(EvaluationMode.fromString),
+      evaluationStartTimestamp:
+          timeStampFromJson(json['EvaluationStartTimestamp']),
       resourceEvaluationId: json['ResourceEvaluationId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final evaluationMode = this.evaluationMode;
+    final evaluationStartTimestamp = this.evaluationStartTimestamp;
     final resourceEvaluationId = this.resourceEvaluationId;
     return {
+      if (evaluationMode != null) 'EvaluationMode': evaluationMode.value,
+      if (evaluationStartTimestamp != null)
+        'EvaluationStartTimestamp':
+            unixTimestampToJson(evaluationStartTimestamp),
       if (resourceEvaluationId != null)
         'ResourceEvaluationId': resourceEvaluationId,
     };
   }
 }
 
-/// The static value of the resource.
-class StaticValue {
-  /// A list of values. For example, the ARN of the assumed role.
-  final List<String> values;
+/// Returns details of a resource evaluation based on the selected filter.
+class ResourceEvaluationFilters {
+  /// Filters evaluations for a given infrastructure deployment. For example: CFN
+  /// Stack.
+  final String? evaluationContextIdentifier;
 
-  StaticValue({
-    required this.values,
+  /// Filters all resource evaluations results based on an evaluation mode.
+  /// <important>
+  /// Currently, <code>DECTECTIVE</code> is not supported as a valid value. Ignore
+  /// other documentation stating otherwise.
+  /// </important>
+  final EvaluationMode? evaluationMode;
+
+  /// Returns a <code>TimeWindow</code> object.
+  final TimeWindow? timeWindow;
+
+  ResourceEvaluationFilters({
+    this.evaluationContextIdentifier,
+    this.evaluationMode,
+    this.timeWindow,
   });
 
-  factory StaticValue.fromJson(Map<String, dynamic> json) {
-    return StaticValue(
-      values: ((json['Values'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
+  Map<String, dynamic> toJson() {
+    final evaluationContextIdentifier = this.evaluationContextIdentifier;
+    final evaluationMode = this.evaluationMode;
+    final timeWindow = this.timeWindow;
+    return {
+      if (evaluationContextIdentifier != null)
+        'EvaluationContextIdentifier': evaluationContextIdentifier,
+      if (evaluationMode != null) 'EvaluationMode': evaluationMode.value,
+      if (timeWindow != null) 'TimeWindow': timeWindow,
+    };
+  }
+}
+
+/// Filters evaluation results based on start and end times.
+class TimeWindow {
+  /// The end time of an execution. The end time must be after the start date.
+  final DateTime? endTime;
+
+  /// The start time of an execution.
+  final DateTime? startTime;
+
+  TimeWindow({
+    this.endTime,
+    this.startTime,
+  });
+
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final startTime = this.startTime;
+    return {
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+    };
+  }
+}
+
+/// The details that identify a resource that is discovered by Config, including
+/// the resource type, ID, and (if available) the custom resource name.
+class ResourceIdentifier {
+  /// The time that the resource was deleted.
+  final DateTime? resourceDeletionTime;
+
+  /// The ID of the resource (for example, <code>sg-xxxxxx</code>).
+  final String? resourceId;
+
+  /// The custom name of the resource (if available).
+  final String? resourceName;
+
+  /// The type of resource.
+  final ResourceType? resourceType;
+
+  ResourceIdentifier({
+    this.resourceDeletionTime,
+    this.resourceId,
+    this.resourceName,
+    this.resourceType,
+  });
+
+  factory ResourceIdentifier.fromJson(Map<String, dynamic> json) {
+    return ResourceIdentifier(
+      resourceDeletionTime: timeStampFromJson(json['resourceDeletionTime']),
+      resourceId: json['resourceId'] as String?,
+      resourceName: json['resourceName'] as String?,
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final values = this.values;
+    final resourceDeletionTime = this.resourceDeletionTime;
+    final resourceId = this.resourceId;
+    final resourceName = this.resourceName;
+    final resourceType = this.resourceType;
     return {
-      'Values': values,
+      if (resourceDeletionTime != null)
+        'resourceDeletionTime': unixTimestampToJson(resourceDeletionTime),
+      if (resourceId != null) 'resourceId': resourceId,
+      if (resourceName != null) 'resourceName': resourceName,
+      if (resourceType != null) 'resourceType': resourceType.value,
     };
   }
+}
+
+/// A compliance score is the percentage of the number of compliant
+/// rule-resource combinations in a conformance pack compared to the number of
+/// total possible rule-resource combinations in the conformance pack. This
+/// metric provides you with a high-level view of the compliance state of your
+/// conformance packs. You can use it to identify, investigate, and understand
+/// the level of compliance in your conformance packs.
+class ConformancePackComplianceScore {
+  /// The name of the conformance pack.
+  final String? conformancePackName;
+
+  /// The time that the conformance pack compliance score was last updated.
+  final DateTime? lastUpdatedTime;
+
+  /// Compliance score for the conformance pack. Conformance packs with no
+  /// evaluation results will have a compliance score of
+  /// <code>INSUFFICIENT_DATA</code>.
+  final String? score;
+
+  ConformancePackComplianceScore({
+    this.conformancePackName,
+    this.lastUpdatedTime,
+    this.score,
+  });
+
+  factory ConformancePackComplianceScore.fromJson(Map<String, dynamic> json) {
+    return ConformancePackComplianceScore(
+      conformancePackName: json['ConformancePackName'] as String?,
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      score: json['Score'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final conformancePackName = this.conformancePackName;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final score = this.score;
+    return {
+      if (conformancePackName != null)
+        'ConformancePackName': conformancePackName,
+      if (lastUpdatedTime != null)
+        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      if (score != null) 'Score': score,
+    };
+  }
+}
+
+/// A list of filters to apply to the conformance pack compliance score result
+/// set.
+class ConformancePackComplianceScoresFilters {
+  /// The names of the conformance packs whose compliance scores you want to
+  /// include in the conformance pack compliance score result set. You can include
+  /// up to 25 conformance packs in the <code>ConformancePackNames</code> array of
+  /// strings, each with a character limit of 256 characters for the conformance
+  /// pack name.
+  final List<String> conformancePackNames;
+
+  ConformancePackComplianceScoresFilters({
+    required this.conformancePackNames,
+  });
+
+  Map<String, dynamic> toJson() {
+    final conformancePackNames = this.conformancePackNames;
+    return {
+      'ConformancePackNames': conformancePackNames,
+    };
+  }
+}
+
+class SortOrder {
+  static const ascending = SortOrder._('ASCENDING');
+  static const descending = SortOrder._('DESCENDING');
+
+  final String value;
+
+  const SortOrder._(this.value);
+
+  static const values = [ascending, descending];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SortBy {
+  static const score = SortBy._('SCORE');
+
+  final String value;
+
+  const SortBy._(this.value);
+
+  static const values = [score];
+
+  static SortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => SortBy._(value));
+
+  @override
+  bool operator ==(other) => other is SortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A summary of a configuration recorder, including the <code>arn</code>,
+/// <code>name</code>, <code>servicePrincipal</code>, and
+/// <code>recordingScope</code>.
+class ConfigurationRecorderSummary {
+  /// The Amazon Resource Name (ARN) of the configuration recorder.
+  final String arn;
+
+  /// The name of the configuration recorder.
+  final String name;
+
+  /// Indicates whether the <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_ConfigurationItem.html">ConfigurationItems</a>
+  /// in scope for the configuration recorder are recorded for free
+  /// (<code>INTERNAL</code>) or if you are charged a service fee for recording
+  /// (<code>PAID</code>).
+  final RecordingScope recordingScope;
+
+  /// For service-linked configuration recorders, indicates which Amazon Web
+  /// Services service the configuration recorder is linked to.
+  final String? servicePrincipal;
+
+  ConfigurationRecorderSummary({
+    required this.arn,
+    required this.name,
+    required this.recordingScope,
+    this.servicePrincipal,
+  });
+
+  factory ConfigurationRecorderSummary.fromJson(Map<String, dynamic> json) {
+    return ConfigurationRecorderSummary(
+      arn: (json['arn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      recordingScope:
+          RecordingScope.fromString((json['recordingScope'] as String?) ?? ''),
+      servicePrincipal: json['servicePrincipal'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    final recordingScope = this.recordingScope;
+    final servicePrincipal = this.servicePrincipal;
+    return {
+      'arn': arn,
+      'name': name,
+      'recordingScope': recordingScope.value,
+      if (servicePrincipal != null) 'servicePrincipal': servicePrincipal,
+    };
+  }
+}
+
+/// Filters configuration recorders by recording scope.
+class ConfigurationRecorderFilter {
+  /// The name of the type of filter. Currently, only <code>recordingScope</code>
+  /// is supported.
+  final ConfigurationRecorderFilterName? filterName;
+
+  /// The value of the filter. For <code>recordingScope</code>, valid values
+  /// include: <code>INTERNAL</code> and <code>PAID</code>.
+  ///
+  /// <code>INTERNAL</code> indicates that the <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_ConfigurationItem.html">ConfigurationItems</a>
+  /// in scope for the configuration recorder are recorded for free.
+  ///
+  /// <code>PAID</code> indicates that the <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_ConfigurationItem.html">ConfigurationItems</a>
+  /// in scope for the configuration recorder impact the costs to your bill.
+  final List<String>? filterValue;
+
+  ConfigurationRecorderFilter({
+    this.filterName,
+    this.filterValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final filterName = this.filterName;
+    final filterValue = this.filterValue;
+    return {
+      if (filterName != null) 'filterName': filterName.value,
+      if (filterValue != null) 'filterValue': filterValue,
+    };
+  }
+}
+
+class ConfigurationRecorderFilterName {
+  static const recordingScope =
+      ConfigurationRecorderFilterName._('recordingScope');
+
+  final String value;
+
+  const ConfigurationRecorderFilterName._(this.value);
+
+  static const values = [recordingScope];
+
+  static ConfigurationRecorderFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConfigurationRecorderFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConfigurationRecorderFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The details that identify a resource that is collected by Config aggregator,
+/// including the resource type, ID, (if available) the custom resource name,
+/// the source account, and source region.
+class AggregateResourceIdentifier {
+  /// The ID of the Amazon Web Services resource.
+  final String resourceId;
+
+  /// The type of the Amazon Web Services resource.
+  final ResourceType resourceType;
+
+  /// The 12-digit account ID of the source account.
+  final String sourceAccountId;
+
+  /// The source region where data is aggregated.
+  final String sourceRegion;
+
+  /// The name of the Amazon Web Services resource.
+  final String? resourceName;
+
+  AggregateResourceIdentifier({
+    required this.resourceId,
+    required this.resourceType,
+    required this.sourceAccountId,
+    required this.sourceRegion,
+    this.resourceName,
+  });
+
+  factory AggregateResourceIdentifier.fromJson(Map<String, dynamic> json) {
+    return AggregateResourceIdentifier(
+      resourceId: (json['ResourceId'] as String?) ?? '',
+      resourceType:
+          ResourceType.fromString((json['ResourceType'] as String?) ?? ''),
+      sourceAccountId: (json['SourceAccountId'] as String?) ?? '',
+      sourceRegion: (json['SourceRegion'] as String?) ?? '',
+      resourceName: json['ResourceName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceId = this.resourceId;
+    final resourceType = this.resourceType;
+    final sourceAccountId = this.sourceAccountId;
+    final sourceRegion = this.sourceRegion;
+    final resourceName = this.resourceName;
+    return {
+      'ResourceId': resourceId,
+      'ResourceType': resourceType.value,
+      'SourceAccountId': sourceAccountId,
+      'SourceRegion': sourceRegion,
+      if (resourceName != null) 'ResourceName': resourceName,
+    };
+  }
+}
+
+/// Filters the results by resource account ID, region, resource ID, and
+/// resource name.
+class ResourceFilters {
+  /// The 12-digit source account ID.
+  final String? accountId;
+
+  /// The source region.
+  final String? region;
+
+  /// The ID of the resource.
+  final String? resourceId;
+
+  /// The name of the resource.
+  final String? resourceName;
+
+  ResourceFilters({
+    this.accountId,
+    this.region,
+    this.resourceId,
+    this.resourceName,
+  });
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final region = this.region;
+    final resourceId = this.resourceId;
+    final resourceName = this.resourceName;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (region != null) 'Region': region,
+      if (resourceId != null) 'ResourceId': resourceId,
+      if (resourceName != null) 'ResourceName': resourceName,
+    };
+  }
+}
+
+/// Returns status details of an evaluation.
+class EvaluationStatus {
+  /// The status of an execution. The valid values are In_Progress, Succeeded or
+  /// Failed.
+  final ResourceEvaluationStatus status;
+
+  /// An explanation for failed execution status.
+  final String? failureReason;
+
+  EvaluationStatus({
+    required this.status,
+    this.failureReason,
+  });
+
+  factory EvaluationStatus.fromJson(Map<String, dynamic> json) {
+    return EvaluationStatus(
+      status: ResourceEvaluationStatus.fromString(
+          (json['Status'] as String?) ?? ''),
+      failureReason: json['FailureReason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final failureReason = this.failureReason;
+    return {
+      'Status': status.value,
+      if (failureReason != null) 'FailureReason': failureReason,
+    };
+  }
+}
+
+class ResourceEvaluationStatus {
+  static const inProgress = ResourceEvaluationStatus._('IN_PROGRESS');
+  static const failed = ResourceEvaluationStatus._('FAILED');
+  static const succeeded = ResourceEvaluationStatus._('SUCCEEDED');
+
+  final String value;
+
+  const ResourceEvaluationStatus._(this.value);
+
+  static const values = [inProgress, failed, succeeded];
+
+  static ResourceEvaluationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceEvaluationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceEvaluationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A list that contains detailed configurations of a specified resource.
+class ConfigurationItem {
+  /// The 12-digit Amazon Web Services account ID associated with the resource.
+  final String? accountId;
+
+  /// Amazon Resource Name (ARN) associated with the resource.
+  final String? arn;
+
+  /// The Availability Zone associated with the resource.
+  final String? availabilityZone;
+
+  /// The region where the resource resides.
+  final String? awsRegion;
+
+  /// A JSON-encoded string that contains the contents for the resource
+  /// configuration. This string needs to be deserialized using
+  /// <code>json.loads()</code> before you can access the contents.
+  final String? configuration;
+
+  /// The time when the recording of configuration changes was initiated for the
+  /// resource.
+  final DateTime? configurationItemCaptureTime;
+
+  /// The time when configuration changes for the resource were delivered.
+  /// <note>
+  /// This field is optional and is not guaranteed to be present in a
+  /// configuration item (CI). If you are using daily recording, this field will
+  /// be populated. However, if you are using continuous recording, this field
+  /// will be omitted since the delivery time is instantaneous as the CI is
+  /// available right away.
+  ///
+  /// For more information on daily recording and continuous recording, see <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-recording-frequency">Recording
+  /// Frequency</a> in the <i>Config Developer Guide</i>.
+  /// </note>
+  final DateTime? configurationItemDeliveryTime;
+
+  /// Unique MD5 hash that represents the configuration item's state.
+  ///
+  /// You can use MD5 hash to compare the states of two or more configuration
+  /// items that are associated with the same resource.
+  final String? configurationItemMD5Hash;
+
+  /// The configuration item status. Valid values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// OK – The resource configuration has been updated
+  /// </li>
+  /// <li>
+  /// ResourceDiscovered – The resource was newly discovered
+  /// </li>
+  /// <li>
+  /// ResourceNotRecorded – The resource was discovered but its configuration was
+  /// not recorded since the recorder doesn't record resources of this type
+  /// </li>
+  /// <li>
+  /// ResourceDeleted – The resource was deleted
+  /// </li>
+  /// <li>
+  /// ResourceDeletedNotRecorded – The resource was deleted but its configuration
+  /// was not recorded since the recorder doesn't record resources of this type
+  /// </li>
+  /// </ul>
+  final ConfigurationItemStatus? configurationItemStatus;
+
+  /// An identifier that indicates the ordering of the configuration items of a
+  /// resource.
+  final String? configurationStateId;
+
+  /// The recording frequency that Config uses to record configuration changes for
+  /// the resource.
+  /// <note>
+  /// This field only appears in the API response when <code>DAILY</code>
+  /// recording is enabled for a resource type. If this field is not present,
+  /// <code>CONTINUOUS</code> recording is enabled for that resource type. For
+  /// more information on daily recording and continuous recording, see <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-recording-frequency">Recording
+  /// Frequency</a> in the <i>Config Developer Guide</i>.
+  /// </note>
+  final RecordingFrequency? recordingFrequency;
+
+  /// A list of CloudTrail event IDs.
+  ///
+  /// A populated field indicates that the current configuration was initiated by
+  /// the events recorded in the CloudTrail log. For more information about
+  /// CloudTrail, see <a
+  /// href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/what_is_cloud_trail_top_level.html">What
+  /// Is CloudTrail</a>.
+  ///
+  /// An empty field indicates that the current configuration was not initiated by
+  /// any event. As of Version 1.3, the relatedEvents field is empty. You can
+  /// access the <a
+  /// href="https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_LookupEvents.html">LookupEvents
+  /// API</a> in the <i>CloudTrail API Reference</i> to retrieve the events for
+  /// the resource.
+  final List<String>? relatedEvents;
+
+  /// A list of related Amazon Web Services resources.
+  final List<Relationship>? relationships;
+
+  /// The time stamp when the resource was created.
+  final DateTime? resourceCreationTime;
+
+  /// The ID of the resource (for example, <code>sg-xxxxxx</code>).
+  final String? resourceId;
+
+  /// The custom name of the resource, if available.
+  final String? resourceName;
+
+  /// The type of Amazon Web Services resource.
+  final ResourceType? resourceType;
+
+  /// A string to string map that contains additional contents for the resource
+  /// configuration.Config returns this field for certain resource types to
+  /// supplement the information returned for the <code>configuration</code>
+  /// field.
+  ///
+  /// This string to string map needs to be deserialized using
+  /// <code>json.loads()</code> before you can accessing the contents.
+  final Map<String, String>? supplementaryConfiguration;
+
+  /// A mapping of key value tags associated with the resource.
+  final Map<String, String>? tags;
+
+  /// The version number of the resource configuration.
+  final String? version;
+
+  ConfigurationItem({
+    this.accountId,
+    this.arn,
+    this.availabilityZone,
+    this.awsRegion,
+    this.configuration,
+    this.configurationItemCaptureTime,
+    this.configurationItemDeliveryTime,
+    this.configurationItemMD5Hash,
+    this.configurationItemStatus,
+    this.configurationStateId,
+    this.recordingFrequency,
+    this.relatedEvents,
+    this.relationships,
+    this.resourceCreationTime,
+    this.resourceId,
+    this.resourceName,
+    this.resourceType,
+    this.supplementaryConfiguration,
+    this.tags,
+    this.version,
+  });
+
+  factory ConfigurationItem.fromJson(Map<String, dynamic> json) {
+    return ConfigurationItem(
+      accountId: json['accountId'] as String?,
+      arn: json['arn'] as String?,
+      availabilityZone: json['availabilityZone'] as String?,
+      awsRegion: json['awsRegion'] as String?,
+      configuration: json['configuration'] as String?,
+      configurationItemCaptureTime:
+          timeStampFromJson(json['configurationItemCaptureTime']),
+      configurationItemDeliveryTime:
+          timeStampFromJson(json['configurationItemDeliveryTime']),
+      configurationItemMD5Hash: json['configurationItemMD5Hash'] as String?,
+      configurationItemStatus: (json['configurationItemStatus'] as String?)
+          ?.let(ConfigurationItemStatus.fromString),
+      configurationStateId: json['configurationStateId'] as String?,
+      recordingFrequency: (json['recordingFrequency'] as String?)
+          ?.let(RecordingFrequency.fromString),
+      relatedEvents: (json['relatedEvents'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      relationships: (json['relationships'] as List?)
+          ?.nonNulls
+          .map((e) => Relationship.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      resourceCreationTime: timeStampFromJson(json['resourceCreationTime']),
+      resourceId: json['resourceId'] as String?,
+      resourceName: json['resourceName'] as String?,
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
+      supplementaryConfiguration:
+          (json['supplementaryConfiguration'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      version: json['version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final arn = this.arn;
+    final availabilityZone = this.availabilityZone;
+    final awsRegion = this.awsRegion;
+    final configuration = this.configuration;
+    final configurationItemCaptureTime = this.configurationItemCaptureTime;
+    final configurationItemDeliveryTime = this.configurationItemDeliveryTime;
+    final configurationItemMD5Hash = this.configurationItemMD5Hash;
+    final configurationItemStatus = this.configurationItemStatus;
+    final configurationStateId = this.configurationStateId;
+    final recordingFrequency = this.recordingFrequency;
+    final relatedEvents = this.relatedEvents;
+    final relationships = this.relationships;
+    final resourceCreationTime = this.resourceCreationTime;
+    final resourceId = this.resourceId;
+    final resourceName = this.resourceName;
+    final resourceType = this.resourceType;
+    final supplementaryConfiguration = this.supplementaryConfiguration;
+    final tags = this.tags;
+    final version = this.version;
+    return {
+      if (accountId != null) 'accountId': accountId,
+      if (arn != null) 'arn': arn,
+      if (availabilityZone != null) 'availabilityZone': availabilityZone,
+      if (awsRegion != null) 'awsRegion': awsRegion,
+      if (configuration != null) 'configuration': configuration,
+      if (configurationItemCaptureTime != null)
+        'configurationItemCaptureTime':
+            unixTimestampToJson(configurationItemCaptureTime),
+      if (configurationItemDeliveryTime != null)
+        'configurationItemDeliveryTime':
+            unixTimestampToJson(configurationItemDeliveryTime),
+      if (configurationItemMD5Hash != null)
+        'configurationItemMD5Hash': configurationItemMD5Hash,
+      if (configurationItemStatus != null)
+        'configurationItemStatus': configurationItemStatus.value,
+      if (configurationStateId != null)
+        'configurationStateId': configurationStateId,
+      if (recordingFrequency != null)
+        'recordingFrequency': recordingFrequency.value,
+      if (relatedEvents != null) 'relatedEvents': relatedEvents,
+      if (relationships != null) 'relationships': relationships,
+      if (resourceCreationTime != null)
+        'resourceCreationTime': unixTimestampToJson(resourceCreationTime),
+      if (resourceId != null) 'resourceId': resourceId,
+      if (resourceName != null) 'resourceName': resourceName,
+      if (resourceType != null) 'resourceType': resourceType.value,
+      if (supplementaryConfiguration != null)
+        'supplementaryConfiguration': supplementaryConfiguration,
+      if (tags != null) 'tags': tags,
+      if (version != null) 'version': version,
+    };
+  }
+}
+
+class ConfigurationItemStatus {
+  static const ok = ConfigurationItemStatus._('OK');
+  static const resourceDiscovered =
+      ConfigurationItemStatus._('ResourceDiscovered');
+  static const resourceNotRecorded =
+      ConfigurationItemStatus._('ResourceNotRecorded');
+  static const resourceDeleted = ConfigurationItemStatus._('ResourceDeleted');
+  static const resourceDeletedNotRecorded =
+      ConfigurationItemStatus._('ResourceDeletedNotRecorded');
+
+  final String value;
+
+  const ConfigurationItemStatus._(this.value);
+
+  static const values = [
+    ok,
+    resourceDiscovered,
+    resourceNotRecorded,
+    resourceDeleted,
+    resourceDeletedNotRecorded
+  ];
+
+  static ConfigurationItemStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConfigurationItemStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConfigurationItemStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The relationship of the related resource to the main resource.
+class Relationship {
+  /// The type of relationship with the related resource.
+  final String? relationshipName;
+
+  /// The ID of the related resource (for example, <code>sg-xxxxxx</code>).
+  final String? resourceId;
+
+  /// The custom name of the related resource, if available.
+  final String? resourceName;
+
+  /// The resource type of the related resource.
+  final ResourceType? resourceType;
+
+  Relationship({
+    this.relationshipName,
+    this.resourceId,
+    this.resourceName,
+    this.resourceType,
+  });
+
+  factory Relationship.fromJson(Map<String, dynamic> json) {
+    return Relationship(
+      relationshipName: json['relationshipName'] as String?,
+      resourceId: json['resourceId'] as String?,
+      resourceName: json['resourceName'] as String?,
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final relationshipName = this.relationshipName;
+    final resourceId = this.resourceId;
+    final resourceName = this.resourceName;
+    final resourceType = this.resourceType;
+    return {
+      if (relationshipName != null) 'relationshipName': relationshipName,
+      if (resourceId != null) 'resourceId': resourceId,
+      if (resourceName != null) 'resourceName': resourceName,
+      if (resourceType != null) 'resourceType': resourceType.value,
+    };
+  }
+}
+
+class ChronologicalOrder {
+  static const reverse = ChronologicalOrder._('Reverse');
+  static const forward = ChronologicalOrder._('Forward');
+
+  final String value;
+
+  const ChronologicalOrder._(this.value);
+
+  static const values = [reverse, forward];
+
+  static ChronologicalOrder fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ChronologicalOrder._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ChronologicalOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Organization conformance pack creation or deletion status in each member
+/// account. This includes the name of the conformance pack, the status, error
+/// code and error message when the conformance pack creation or deletion
+/// failed.
+class OrganizationConformancePackDetailedStatus {
+  /// The 12-digit account ID of a member account.
+  final String accountId;
+
+  /// The name of conformance pack deployed in the member account.
+  final String conformancePackName;
+
+  /// Indicates deployment status for conformance pack in a member account. When
+  /// management account calls <code>PutOrganizationConformancePack</code> action
+  /// for the first time, conformance pack status is created in the member
+  /// account. When management account calls
+  /// <code>PutOrganizationConformancePack</code> action for the second time,
+  /// conformance pack status is updated in the member account. Conformance pack
+  /// status is deleted when the management account deletes
+  /// <code>OrganizationConformancePack</code> and disables service access for
+  /// <code>config-multiaccountsetup.amazonaws.com</code>.
+  ///
+  /// Config sets the state of the conformance pack to:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATE_SUCCESSFUL</code> when conformance pack has been created in the
+  /// member account.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_IN_PROGRESS</code> when conformance pack is being created in
+  /// the member account.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_FAILED</code> when conformance pack creation has failed in the
+  /// member account.
+  /// </li>
+  /// <li>
+  /// <code>DELETE_FAILED</code> when conformance pack deletion has failed in the
+  /// member account.
+  /// </li>
+  /// <li>
+  /// <code>DELETE_IN_PROGRESS</code> when conformance pack is being deleted in
+  /// the member account.
+  /// </li>
+  /// <li>
+  /// <code>DELETE_SUCCESSFUL</code> when conformance pack has been deleted in the
+  /// member account.
+  /// </li>
+  /// <li>
+  /// <code>UPDATE_SUCCESSFUL</code> when conformance pack has been updated in the
+  /// member account.
+  /// </li>
+  /// <li>
+  /// <code>UPDATE_IN_PROGRESS</code> when conformance pack is being updated in
+  /// the member account.
+  /// </li>
+  /// <li>
+  /// <code>UPDATE_FAILED</code> when conformance pack deletion has failed in the
+  /// member account.
+  /// </li>
+  /// </ul>
+  final OrganizationResourceDetailedStatus status;
+
+  /// An error code that is returned when conformance pack creation or deletion
+  /// failed in the member account.
+  final String? errorCode;
+
+  /// An error message indicating that conformance pack account creation or
+  /// deletion has failed due to an error in the member account.
+  final String? errorMessage;
+
+  /// The timestamp of the last status update.
+  final DateTime? lastUpdateTime;
+
+  OrganizationConformancePackDetailedStatus({
+    required this.accountId,
+    required this.conformancePackName,
+    required this.status,
+    this.errorCode,
+    this.errorMessage,
+    this.lastUpdateTime,
+  });
+
+  factory OrganizationConformancePackDetailedStatus.fromJson(
+      Map<String, dynamic> json) {
+    return OrganizationConformancePackDetailedStatus(
+      accountId: (json['AccountId'] as String?) ?? '',
+      conformancePackName: (json['ConformancePackName'] as String?) ?? '',
+      status: OrganizationResourceDetailedStatus.fromString(
+          (json['Status'] as String?) ?? ''),
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final conformancePackName = this.conformancePackName;
+    final status = this.status;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final lastUpdateTime = this.lastUpdateTime;
+    return {
+      'AccountId': accountId,
+      'ConformancePackName': conformancePackName,
+      'Status': status.value,
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (lastUpdateTime != null)
+        'LastUpdateTime': unixTimestampToJson(lastUpdateTime),
+    };
+  }
+}
+
+class OrganizationResourceDetailedStatus {
+  static const createSuccessful =
+      OrganizationResourceDetailedStatus._('CREATE_SUCCESSFUL');
+  static const createInProgress =
+      OrganizationResourceDetailedStatus._('CREATE_IN_PROGRESS');
+  static const createFailed =
+      OrganizationResourceDetailedStatus._('CREATE_FAILED');
+  static const deleteSuccessful =
+      OrganizationResourceDetailedStatus._('DELETE_SUCCESSFUL');
+  static const deleteFailed =
+      OrganizationResourceDetailedStatus._('DELETE_FAILED');
+  static const deleteInProgress =
+      OrganizationResourceDetailedStatus._('DELETE_IN_PROGRESS');
+  static const updateSuccessful =
+      OrganizationResourceDetailedStatus._('UPDATE_SUCCESSFUL');
+  static const updateInProgress =
+      OrganizationResourceDetailedStatus._('UPDATE_IN_PROGRESS');
+  static const updateFailed =
+      OrganizationResourceDetailedStatus._('UPDATE_FAILED');
+
+  final String value;
+
+  const OrganizationResourceDetailedStatus._(this.value);
+
+  static const values = [
+    createSuccessful,
+    createInProgress,
+    createFailed,
+    deleteSuccessful,
+    deleteFailed,
+    deleteInProgress,
+    updateSuccessful,
+    updateInProgress,
+    updateFailed
+  ];
+
+  static OrganizationResourceDetailedStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OrganizationResourceDetailedStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OrganizationResourceDetailedStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Status filter object to filter results based on specific member account ID
+/// or status type for an organization conformance pack.
+class OrganizationResourceDetailedStatusFilters {
+  /// The 12-digit account ID of the member account within an organization.
+  final String? accountId;
+
+  /// Indicates deployment status for conformance pack in a member account. When
+  /// management account calls <code>PutOrganizationConformancePack</code> action
+  /// for the first time, conformance pack status is created in the member
+  /// account. When management account calls
+  /// <code>PutOrganizationConformancePack</code> action for the second time,
+  /// conformance pack status is updated in the member account. Conformance pack
+  /// status is deleted when the management account deletes
+  /// <code>OrganizationConformancePack</code> and disables service access for
+  /// <code>config-multiaccountsetup.amazonaws.com</code>.
+  ///
+  /// Config sets the state of the conformance pack to:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATE_SUCCESSFUL</code> when conformance pack has been created in the
+  /// member account.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_IN_PROGRESS</code> when conformance pack is being created in
+  /// the member account.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_FAILED</code> when conformance pack creation has failed in the
+  /// member account.
+  /// </li>
+  /// <li>
+  /// <code>DELETE_FAILED</code> when conformance pack deletion has failed in the
+  /// member account.
+  /// </li>
+  /// <li>
+  /// <code>DELETE_IN_PROGRESS</code> when conformance pack is being deleted in
+  /// the member account.
+  /// </li>
+  /// <li>
+  /// <code>DELETE_SUCCESSFUL</code> when conformance pack has been deleted in the
+  /// member account.
+  /// </li>
+  /// <li>
+  /// <code>UPDATE_SUCCESSFUL</code> when conformance pack has been updated in the
+  /// member account.
+  /// </li>
+  /// <li>
+  /// <code>UPDATE_IN_PROGRESS</code> when conformance pack is being updated in
+  /// the member account.
+  /// </li>
+  /// <li>
+  /// <code>UPDATE_FAILED</code> when conformance pack deletion has failed in the
+  /// member account.
+  /// </li>
+  /// </ul>
+  final OrganizationResourceDetailedStatus? status;
+
+  OrganizationResourceDetailedStatusFilters({
+    this.accountId,
+    this.status,
+  });
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final status = this.status;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+/// Organization Config rule creation or deletion status in each member account.
+/// This includes the name of the rule, the status, error code and error message
+/// when the rule creation or deletion failed.
+class MemberAccountStatus {
+  /// The 12-digit account ID of a member account.
+  final String accountId;
+
+  /// The name of Config rule deployed in the member account.
+  final String configRuleName;
+
+  /// Indicates deployment status for Config rule in the member account. When
+  /// management account calls <code>PutOrganizationConfigRule</code> action for
+  /// the first time, Config rule status is created in the member account. When
+  /// management account calls <code>PutOrganizationConfigRule</code> action for
+  /// the second time, Config rule status is updated in the member account. Config
+  /// rule status is deleted when the management account deletes
+  /// <code>OrganizationConfigRule</code> and disables service access for
+  /// <code>config-multiaccountsetup.amazonaws.com</code>.
+  ///
+  /// Config sets the state of the rule to:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATE_SUCCESSFUL</code> when Config rule has been created in the
+  /// member account.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_IN_PROGRESS</code> when Config rule is being created in the
+  /// member account.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_FAILED</code> when Config rule creation has failed in the
+  /// member account.
+  /// </li>
+  /// <li>
+  /// <code>DELETE_FAILED</code> when Config rule deletion has failed in the
+  /// member account.
+  /// </li>
+  /// <li>
+  /// <code>DELETE_IN_PROGRESS</code> when Config rule is being deleted in the
+  /// member account.
+  /// </li>
+  /// <li>
+  /// <code>DELETE_SUCCESSFUL</code> when Config rule has been deleted in the
+  /// member account.
+  /// </li>
+  /// <li>
+  /// <code>UPDATE_SUCCESSFUL</code> when Config rule has been updated in the
+  /// member account.
+  /// </li>
+  /// <li>
+  /// <code>UPDATE_IN_PROGRESS</code> when Config rule is being updated in the
+  /// member account.
+  /// </li>
+  /// <li>
+  /// <code>UPDATE_FAILED</code> when Config rule deletion has failed in the
+  /// member account.
+  /// </li>
+  /// </ul>
+  final MemberAccountRuleStatus memberAccountRuleStatus;
+
+  /// An error code that is returned when Config rule creation or deletion failed
+  /// in the member account.
+  final String? errorCode;
+
+  /// An error message indicating that Config rule account creation or deletion
+  /// has failed due to an error in the member account.
+  final String? errorMessage;
+
+  /// The timestamp of the last status update.
+  final DateTime? lastUpdateTime;
+
+  MemberAccountStatus({
+    required this.accountId,
+    required this.configRuleName,
+    required this.memberAccountRuleStatus,
+    this.errorCode,
+    this.errorMessage,
+    this.lastUpdateTime,
+  });
+
+  factory MemberAccountStatus.fromJson(Map<String, dynamic> json) {
+    return MemberAccountStatus(
+      accountId: (json['AccountId'] as String?) ?? '',
+      configRuleName: (json['ConfigRuleName'] as String?) ?? '',
+      memberAccountRuleStatus: MemberAccountRuleStatus.fromString(
+          (json['MemberAccountRuleStatus'] as String?) ?? ''),
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final configRuleName = this.configRuleName;
+    final memberAccountRuleStatus = this.memberAccountRuleStatus;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final lastUpdateTime = this.lastUpdateTime;
+    return {
+      'AccountId': accountId,
+      'ConfigRuleName': configRuleName,
+      'MemberAccountRuleStatus': memberAccountRuleStatus.value,
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (lastUpdateTime != null)
+        'LastUpdateTime': unixTimestampToJson(lastUpdateTime),
+    };
+  }
+}
+
+class MemberAccountRuleStatus {
+  static const createSuccessful =
+      MemberAccountRuleStatus._('CREATE_SUCCESSFUL');
+  static const createInProgress =
+      MemberAccountRuleStatus._('CREATE_IN_PROGRESS');
+  static const createFailed = MemberAccountRuleStatus._('CREATE_FAILED');
+  static const deleteSuccessful =
+      MemberAccountRuleStatus._('DELETE_SUCCESSFUL');
+  static const deleteFailed = MemberAccountRuleStatus._('DELETE_FAILED');
+  static const deleteInProgress =
+      MemberAccountRuleStatus._('DELETE_IN_PROGRESS');
+  static const updateSuccessful =
+      MemberAccountRuleStatus._('UPDATE_SUCCESSFUL');
+  static const updateInProgress =
+      MemberAccountRuleStatus._('UPDATE_IN_PROGRESS');
+  static const updateFailed = MemberAccountRuleStatus._('UPDATE_FAILED');
+
+  final String value;
+
+  const MemberAccountRuleStatus._(this.value);
+
+  static const values = [
+    createSuccessful,
+    createInProgress,
+    createFailed,
+    deleteSuccessful,
+    deleteFailed,
+    deleteInProgress,
+    updateSuccessful,
+    updateInProgress,
+    updateFailed
+  ];
+
+  static MemberAccountRuleStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MemberAccountRuleStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MemberAccountRuleStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Status filter object to filter results based on specific member account ID
@@ -16277,209 +14730,3268 @@ class StatusDetailFilters {
   }
 }
 
-/// Provides the details of a stored query.
-class StoredQuery {
-  /// The name of the query.
-  final String queryName;
+/// An object that contains the resource type and the number of resources.
+class ResourceCount {
+  /// The number of resources.
+  final int? count;
 
-  /// A unique description for the query.
-  final String? description;
+  /// The resource type (for example, <code>"AWS::EC2::Instance"</code>).
+  final ResourceType? resourceType;
 
-  /// The expression of the query. For example, <code>SELECT resourceId,
-  /// resourceType,
-  /// supplementaryConfiguration.BucketVersioningConfiguration.status WHERE
-  /// resourceType = 'AWS::S3::Bucket' AND
-  /// supplementaryConfiguration.BucketVersioningConfiguration.status =
-  /// 'Off'.</code>
-  final String? expression;
-
-  /// Amazon Resource Name (ARN) of the query. For example,
-  /// arn:partition:service:region:account-id:resource-type/resource-name/resource-id.
-  final String? queryArn;
-
-  /// The ID of the query.
-  final String? queryId;
-
-  StoredQuery({
-    required this.queryName,
-    this.description,
-    this.expression,
-    this.queryArn,
-    this.queryId,
+  ResourceCount({
+    this.count,
+    this.resourceType,
   });
 
-  factory StoredQuery.fromJson(Map<String, dynamic> json) {
-    return StoredQuery(
-      queryName: (json['QueryName'] as String?) ?? '',
-      description: json['Description'] as String?,
-      expression: json['Expression'] as String?,
-      queryArn: json['QueryArn'] as String?,
-      queryId: json['QueryId'] as String?,
+  factory ResourceCount.fromJson(Map<String, dynamic> json) {
+    return ResourceCount(
+      count: json['count'] as int?,
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final queryName = this.queryName;
-    final description = this.description;
-    final expression = this.expression;
-    final queryArn = this.queryArn;
-    final queryId = this.queryId;
+    final count = this.count;
+    final resourceType = this.resourceType;
     return {
-      'QueryName': queryName,
-      if (description != null) 'Description': description,
-      if (expression != null) 'Expression': expression,
-      if (queryArn != null) 'QueryArn': queryArn,
-      if (queryId != null) 'QueryId': queryId,
+      if (count != null) 'count': count,
+      if (resourceType != null) 'resourceType': resourceType.value,
     };
   }
 }
 
-/// Returns details of a specific query.
-class StoredQueryMetadata {
-  /// Amazon Resource Name (ARN) of the query. For example,
-  /// arn:partition:service:region:account-id:resource-type/resource-name/resource-id.
-  final String queryArn;
+/// Summary includes the name and status of the conformance pack.
+class ConformancePackComplianceSummary {
+  /// The status of the conformance pack.
+  final ConformancePackComplianceType conformancePackComplianceStatus;
 
-  /// The ID of the query.
-  final String queryId;
+  /// The name of the conformance pack name.
+  final String conformancePackName;
 
-  /// The name of the query.
-  final String queryName;
-
-  /// A unique description for the query.
-  final String? description;
-
-  StoredQueryMetadata({
-    required this.queryArn,
-    required this.queryId,
-    required this.queryName,
-    this.description,
+  ConformancePackComplianceSummary({
+    required this.conformancePackComplianceStatus,
+    required this.conformancePackName,
   });
 
-  factory StoredQueryMetadata.fromJson(Map<String, dynamic> json) {
-    return StoredQueryMetadata(
-      queryArn: (json['QueryArn'] as String?) ?? '',
-      queryId: (json['QueryId'] as String?) ?? '',
-      queryName: (json['QueryName'] as String?) ?? '',
-      description: json['Description'] as String?,
+  factory ConformancePackComplianceSummary.fromJson(Map<String, dynamic> json) {
+    return ConformancePackComplianceSummary(
+      conformancePackComplianceStatus: ConformancePackComplianceType.fromString(
+          (json['ConformancePackComplianceStatus'] as String?) ?? ''),
+      conformancePackName: (json['ConformancePackName'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    final queryArn = this.queryArn;
-    final queryId = this.queryId;
-    final queryName = this.queryName;
-    final description = this.description;
+    final conformancePackComplianceStatus =
+        this.conformancePackComplianceStatus;
+    final conformancePackName = this.conformancePackName;
     return {
-      'QueryArn': queryArn,
-      'QueryId': queryId,
-      'QueryName': queryName,
-      if (description != null) 'Description': description,
+      'ConformancePackComplianceStatus': conformancePackComplianceStatus.value,
+      'ConformancePackName': conformancePackName,
     };
   }
 }
 
-/// The tags for the resource. The metadata that you apply to a resource to help
-/// you categorize and organize them. Each tag consists of a key and an optional
-/// value, both of which you define. Tag keys can have a maximum character
-/// length of 128 characters, and tag values can have a maximum length of 256
-/// characters.
-class Tag {
-  /// One part of a key-value pair that make up a tag. A key is a general label
-  /// that acts like a category for more specific tag values.
-  final String? key;
+class ConformancePackComplianceType {
+  static const compliant = ConformancePackComplianceType._('COMPLIANT');
+  static const nonCompliant = ConformancePackComplianceType._('NON_COMPLIANT');
+  static const insufficientData =
+      ConformancePackComplianceType._('INSUFFICIENT_DATA');
 
-  /// The optional part of a key-value pair that make up a tag. A value acts as a
-  /// descriptor within a tag category (key).
-  final String? value;
+  final String value;
 
-  Tag({
-    this.key,
-    this.value,
+  const ConformancePackComplianceType._(this.value);
+
+  static const values = [compliant, nonCompliant, insufficientData];
+
+  static ConformancePackComplianceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConformancePackComplianceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConformancePackComplianceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The details of a conformance pack evaluation. Provides Config rule and
+/// Amazon Web Services resource type that was evaluated, the compliance of the
+/// conformance pack, related time stamps, and supplementary information.
+class ConformancePackEvaluationResult {
+  /// The compliance type. The allowed values are <code>COMPLIANT</code> and
+  /// <code>NON_COMPLIANT</code>. <code>INSUFFICIENT_DATA</code> is not supported.
+  final ConformancePackComplianceType complianceType;
+
+  /// The time when Config rule evaluated Amazon Web Services resource.
+  final DateTime configRuleInvokedTime;
+  final EvaluationResultIdentifier evaluationResultIdentifier;
+
+  /// The time when Config recorded the evaluation result.
+  final DateTime resultRecordedTime;
+
+  /// Supplementary information about how the evaluation determined the
+  /// compliance.
+  final String? annotation;
+
+  ConformancePackEvaluationResult({
+    required this.complianceType,
+    required this.configRuleInvokedTime,
+    required this.evaluationResultIdentifier,
+    required this.resultRecordedTime,
+    this.annotation,
   });
 
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: json['Key'] as String?,
-      value: json['Value'] as String?,
+  factory ConformancePackEvaluationResult.fromJson(Map<String, dynamic> json) {
+    return ConformancePackEvaluationResult(
+      complianceType: ConformancePackComplianceType.fromString(
+          (json['ComplianceType'] as String?) ?? ''),
+      configRuleInvokedTime:
+          nonNullableTimeStampFromJson(json['ConfigRuleInvokedTime'] ?? 0),
+      evaluationResultIdentifier: EvaluationResultIdentifier.fromJson(
+          (json['EvaluationResultIdentifier'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      resultRecordedTime:
+          nonNullableTimeStampFromJson(json['ResultRecordedTime'] ?? 0),
+      annotation: json['Annotation'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
+    final complianceType = this.complianceType;
+    final configRuleInvokedTime = this.configRuleInvokedTime;
+    final evaluationResultIdentifier = this.evaluationResultIdentifier;
+    final resultRecordedTime = this.resultRecordedTime;
+    final annotation = this.annotation;
     return {
-      if (key != null) 'Key': key,
-      if (value != null) 'Value': value,
+      'ComplianceType': complianceType.value,
+      'ConfigRuleInvokedTime': unixTimestampToJson(configRuleInvokedTime),
+      'EvaluationResultIdentifier': evaluationResultIdentifier,
+      'ResultRecordedTime': unixTimestampToJson(resultRecordedTime),
+      if (annotation != null) 'Annotation': annotation,
     };
   }
 }
 
-/// This API allows you to create a conformance pack template with an Amazon Web
-/// Services Systems Manager document (SSM document). To deploy a conformance
-/// pack using an SSM document, first create an SSM document with conformance
-/// pack content, and then provide the <code>DocumentName</code> in the <a
-/// href="https://docs.aws.amazon.com/config/latest/APIReference/API_PutConformancePack.html">PutConformancePack
-/// API</a>. You can also provide the <code>DocumentVersion</code>.
-///
-/// The <code>TemplateSSMDocumentDetails</code> object contains the name of the
-/// SSM document and the version of the SSM document.
-class TemplateSSMDocumentDetails {
-  /// The name or Amazon Resource Name (ARN) of the SSM document to use to create
-  /// a conformance pack. If you use the document name, Config checks only your
-  /// account and Amazon Web Services Region for the SSM document.
-  final String documentName;
+/// Uniquely identifies an evaluation result.
+class EvaluationResultIdentifier {
+  /// Identifies an Config rule used to evaluate an Amazon Web Services resource,
+  /// and provides the type and ID of the evaluated resource.
+  final EvaluationResultQualifier? evaluationResultQualifier;
 
-  /// The version of the SSM document to use to create a conformance pack. By
-  /// default, Config uses the latest version.
+  /// The time of the event that triggered the evaluation of your Amazon Web
+  /// Services resources. The time can indicate when Config delivered a
+  /// configuration item change notification, or it can indicate when Config
+  /// delivered the configuration snapshot, depending on which event triggered the
+  /// evaluation.
+  final DateTime? orderingTimestamp;
+
+  /// A Unique ID for an evaluation result.
+  final String? resourceEvaluationId;
+
+  EvaluationResultIdentifier({
+    this.evaluationResultQualifier,
+    this.orderingTimestamp,
+    this.resourceEvaluationId,
+  });
+
+  factory EvaluationResultIdentifier.fromJson(Map<String, dynamic> json) {
+    return EvaluationResultIdentifier(
+      evaluationResultQualifier: json['EvaluationResultQualifier'] != null
+          ? EvaluationResultQualifier.fromJson(
+              json['EvaluationResultQualifier'] as Map<String, dynamic>)
+          : null,
+      orderingTimestamp: timeStampFromJson(json['OrderingTimestamp']),
+      resourceEvaluationId: json['ResourceEvaluationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final evaluationResultQualifier = this.evaluationResultQualifier;
+    final orderingTimestamp = this.orderingTimestamp;
+    final resourceEvaluationId = this.resourceEvaluationId;
+    return {
+      if (evaluationResultQualifier != null)
+        'EvaluationResultQualifier': evaluationResultQualifier,
+      if (orderingTimestamp != null)
+        'OrderingTimestamp': unixTimestampToJson(orderingTimestamp),
+      if (resourceEvaluationId != null)
+        'ResourceEvaluationId': resourceEvaluationId,
+    };
+  }
+}
+
+/// Identifies an Config rule that evaluated an Amazon Web Services resource,
+/// and provides the type and ID of the resource that the rule evaluated.
+class EvaluationResultQualifier {
+  /// The name of the Config rule that was used in the evaluation.
+  final String? configRuleName;
+
+  /// The mode of an evaluation. The valid values are Detective or Proactive.
+  final EvaluationMode? evaluationMode;
+
+  /// The ID of the evaluated Amazon Web Services resource.
+  final String? resourceId;
+
+  /// The type of Amazon Web Services resource that was evaluated.
+  final String? resourceType;
+
+  EvaluationResultQualifier({
+    this.configRuleName,
+    this.evaluationMode,
+    this.resourceId,
+    this.resourceType,
+  });
+
+  factory EvaluationResultQualifier.fromJson(Map<String, dynamic> json) {
+    return EvaluationResultQualifier(
+      configRuleName: json['ConfigRuleName'] as String?,
+      evaluationMode:
+          (json['EvaluationMode'] as String?)?.let(EvaluationMode.fromString),
+      resourceId: json['ResourceId'] as String?,
+      resourceType: json['ResourceType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configRuleName = this.configRuleName;
+    final evaluationMode = this.evaluationMode;
+    final resourceId = this.resourceId;
+    final resourceType = this.resourceType;
+    return {
+      if (configRuleName != null) 'ConfigRuleName': configRuleName,
+      if (evaluationMode != null) 'EvaluationMode': evaluationMode.value,
+      if (resourceId != null) 'ResourceId': resourceId,
+      if (resourceType != null) 'ResourceType': resourceType,
+    };
+  }
+}
+
+/// Filters a conformance pack by Config rule names, compliance types, Amazon
+/// Web Services resource types, and resource IDs.
+class ConformancePackEvaluationFilters {
+  /// Filters the results by compliance.
+  ///
+  /// The allowed values are <code>COMPLIANT</code> and
+  /// <code>NON_COMPLIANT</code>. <code>INSUFFICIENT_DATA</code> is not supported.
+  final ConformancePackComplianceType? complianceType;
+
+  /// Filters the results by Config rule names.
+  final List<String>? configRuleNames;
+
+  /// Filters the results by resource IDs.
+  /// <note>
+  /// This is valid only when you provide resource type. If there is no resource
+  /// type, you will see an error.
+  /// </note>
+  final List<String>? resourceIds;
+
+  /// Filters the results by the resource type (for example,
+  /// <code>"AWS::EC2::Instance"</code>).
+  final String? resourceType;
+
+  ConformancePackEvaluationFilters({
+    this.complianceType,
+    this.configRuleNames,
+    this.resourceIds,
+    this.resourceType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final complianceType = this.complianceType;
+    final configRuleNames = this.configRuleNames;
+    final resourceIds = this.resourceIds;
+    final resourceType = this.resourceType;
+    return {
+      if (complianceType != null) 'ComplianceType': complianceType.value,
+      if (configRuleNames != null) 'ConfigRuleNames': configRuleNames,
+      if (resourceIds != null) 'ResourceIds': resourceIds,
+      if (resourceType != null) 'ResourceType': resourceType,
+    };
+  }
+}
+
+/// The number of Amazon Web Services resources of a specific type that are
+/// compliant or noncompliant, up to a maximum of 100 for each.
+class ComplianceSummaryByResourceType {
+  /// The number of Amazon Web Services resources that are compliant or
+  /// noncompliant, up to a maximum of 100 for each.
+  final ComplianceSummary? complianceSummary;
+
+  /// The type of Amazon Web Services resource.
+  final String? resourceType;
+
+  ComplianceSummaryByResourceType({
+    this.complianceSummary,
+    this.resourceType,
+  });
+
+  factory ComplianceSummaryByResourceType.fromJson(Map<String, dynamic> json) {
+    return ComplianceSummaryByResourceType(
+      complianceSummary: json['ComplianceSummary'] != null
+          ? ComplianceSummary.fromJson(
+              json['ComplianceSummary'] as Map<String, dynamic>)
+          : null,
+      resourceType: json['ResourceType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final complianceSummary = this.complianceSummary;
+    final resourceType = this.resourceType;
+    return {
+      if (complianceSummary != null) 'ComplianceSummary': complianceSummary,
+      if (resourceType != null) 'ResourceType': resourceType,
+    };
+  }
+}
+
+/// The number of Config rules or Amazon Web Services resources that are
+/// compliant and noncompliant.
+class ComplianceSummary {
+  /// The time that Config created the compliance summary.
+  final DateTime? complianceSummaryTimestamp;
+
+  /// The number of Config rules or Amazon Web Services resources that are
+  /// compliant, up to a maximum of 25 for rules and 100 for resources.
+  final ComplianceContributorCount? compliantResourceCount;
+
+  /// The number of Config rules or Amazon Web Services resources that are
+  /// noncompliant, up to a maximum of 25 for rules and 100 for resources.
+  final ComplianceContributorCount? nonCompliantResourceCount;
+
+  ComplianceSummary({
+    this.complianceSummaryTimestamp,
+    this.compliantResourceCount,
+    this.nonCompliantResourceCount,
+  });
+
+  factory ComplianceSummary.fromJson(Map<String, dynamic> json) {
+    return ComplianceSummary(
+      complianceSummaryTimestamp:
+          timeStampFromJson(json['ComplianceSummaryTimestamp']),
+      compliantResourceCount: json['CompliantResourceCount'] != null
+          ? ComplianceContributorCount.fromJson(
+              json['CompliantResourceCount'] as Map<String, dynamic>)
+          : null,
+      nonCompliantResourceCount: json['NonCompliantResourceCount'] != null
+          ? ComplianceContributorCount.fromJson(
+              json['NonCompliantResourceCount'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final complianceSummaryTimestamp = this.complianceSummaryTimestamp;
+    final compliantResourceCount = this.compliantResourceCount;
+    final nonCompliantResourceCount = this.nonCompliantResourceCount;
+    return {
+      if (complianceSummaryTimestamp != null)
+        'ComplianceSummaryTimestamp':
+            unixTimestampToJson(complianceSummaryTimestamp),
+      if (compliantResourceCount != null)
+        'CompliantResourceCount': compliantResourceCount,
+      if (nonCompliantResourceCount != null)
+        'NonCompliantResourceCount': nonCompliantResourceCount,
+    };
+  }
+}
+
+/// The number of Amazon Web Services resources or Config rules responsible for
+/// the current compliance of the item, up to a maximum number.
+class ComplianceContributorCount {
+  /// Indicates whether the maximum count is reached.
+  final bool? capExceeded;
+
+  /// The number of Amazon Web Services resources or Config rules responsible for
+  /// the current compliance of the item.
+  final int? cappedCount;
+
+  ComplianceContributorCount({
+    this.capExceeded,
+    this.cappedCount,
+  });
+
+  factory ComplianceContributorCount.fromJson(Map<String, dynamic> json) {
+    return ComplianceContributorCount(
+      capExceeded: json['CapExceeded'] as bool?,
+      cappedCount: json['CappedCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capExceeded = this.capExceeded;
+    final cappedCount = this.cappedCount;
+    return {
+      if (capExceeded != null) 'CapExceeded': capExceeded,
+      if (cappedCount != null) 'CappedCount': cappedCount,
+    };
+  }
+}
+
+/// The details of an Config evaluation. Provides the Amazon Web Services
+/// resource that was evaluated, the compliance of the resource, related time
+/// stamps, and supplementary information.
+class EvaluationResult {
+  /// Supplementary information about how the evaluation determined the
+  /// compliance.
+  final String? annotation;
+
+  /// Indicates whether the Amazon Web Services resource complies with the Config
+  /// rule that evaluated it.
+  ///
+  /// For the <code>EvaluationResult</code> data type, Config supports only the
+  /// <code>COMPLIANT</code>, <code>NON_COMPLIANT</code>, and
+  /// <code>NOT_APPLICABLE</code> values. Config does not support the
+  /// <code>INSUFFICIENT_DATA</code> value for the <code>EvaluationResult</code>
+  /// data type.
+  final ComplianceType? complianceType;
+
+  /// The time when the Config rule evaluated the Amazon Web Services resource.
+  final DateTime? configRuleInvokedTime;
+
+  /// Uniquely identifies the evaluation result.
+  final EvaluationResultIdentifier? evaluationResultIdentifier;
+
+  /// The time when Config recorded the evaluation result.
+  final DateTime? resultRecordedTime;
+
+  /// An encrypted token that associates an evaluation with an Config rule. The
+  /// token identifies the rule, the Amazon Web Services resource being evaluated,
+  /// and the event that triggered the evaluation.
+  final String? resultToken;
+
+  EvaluationResult({
+    this.annotation,
+    this.complianceType,
+    this.configRuleInvokedTime,
+    this.evaluationResultIdentifier,
+    this.resultRecordedTime,
+    this.resultToken,
+  });
+
+  factory EvaluationResult.fromJson(Map<String, dynamic> json) {
+    return EvaluationResult(
+      annotation: json['Annotation'] as String?,
+      complianceType:
+          (json['ComplianceType'] as String?)?.let(ComplianceType.fromString),
+      configRuleInvokedTime: timeStampFromJson(json['ConfigRuleInvokedTime']),
+      evaluationResultIdentifier: json['EvaluationResultIdentifier'] != null
+          ? EvaluationResultIdentifier.fromJson(
+              json['EvaluationResultIdentifier'] as Map<String, dynamic>)
+          : null,
+      resultRecordedTime: timeStampFromJson(json['ResultRecordedTime']),
+      resultToken: json['ResultToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final annotation = this.annotation;
+    final complianceType = this.complianceType;
+    final configRuleInvokedTime = this.configRuleInvokedTime;
+    final evaluationResultIdentifier = this.evaluationResultIdentifier;
+    final resultRecordedTime = this.resultRecordedTime;
+    final resultToken = this.resultToken;
+    return {
+      if (annotation != null) 'Annotation': annotation,
+      if (complianceType != null) 'ComplianceType': complianceType.value,
+      if (configRuleInvokedTime != null)
+        'ConfigRuleInvokedTime': unixTimestampToJson(configRuleInvokedTime),
+      if (evaluationResultIdentifier != null)
+        'EvaluationResultIdentifier': evaluationResultIdentifier,
+      if (resultRecordedTime != null)
+        'ResultRecordedTime': unixTimestampToJson(resultRecordedTime),
+      if (resultToken != null) 'ResultToken': resultToken,
+    };
+  }
+}
+
+/// The count of resources that are grouped by the group name.
+class GroupedResourceCount {
+  /// The name of the group that can be region, account ID, or resource type. For
+  /// example, region1, region2 if the region was chosen as
+  /// <code>GroupByKey</code>.
+  final String groupName;
+
+  /// The number of resources in the group.
+  final int resourceCount;
+
+  GroupedResourceCount({
+    required this.groupName,
+    required this.resourceCount,
+  });
+
+  factory GroupedResourceCount.fromJson(Map<String, dynamic> json) {
+    return GroupedResourceCount(
+      groupName: (json['GroupName'] as String?) ?? '',
+      resourceCount: (json['ResourceCount'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupName = this.groupName;
+    final resourceCount = this.resourceCount;
+    return {
+      'GroupName': groupName,
+      'ResourceCount': resourceCount,
+    };
+  }
+}
+
+/// Filters the resource count based on account ID, region, and resource type.
+class ResourceCountFilters {
+  /// The 12-digit ID of the account.
+  final String? accountId;
+
+  /// The region where the account is located.
+  final String? region;
+
+  /// The type of the Amazon Web Services resource.
+  final ResourceType? resourceType;
+
+  ResourceCountFilters({
+    this.accountId,
+    this.region,
+    this.resourceType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final region = this.region;
+    final resourceType = this.resourceType;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (region != null) 'Region': region,
+      if (resourceType != null) 'ResourceType': resourceType.value,
+    };
+  }
+}
+
+class ResourceCountGroupKey {
+  static const resourceType = ResourceCountGroupKey._('RESOURCE_TYPE');
+  static const accountId = ResourceCountGroupKey._('ACCOUNT_ID');
+  static const awsRegion = ResourceCountGroupKey._('AWS_REGION');
+
+  final String value;
+
+  const ResourceCountGroupKey._(this.value);
+
+  static const values = [resourceType, accountId, awsRegion];
+
+  static ResourceCountGroupKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceCountGroupKey._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceCountGroupKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides a summary of compliance based on either account ID or region.
+class AggregateConformancePackComplianceSummary {
+  /// Returns an <code>AggregateConformancePackComplianceCount</code> object.
+  final AggregateConformancePackComplianceCount? complianceSummary;
+
+  /// Groups the result based on Amazon Web Services account ID or Amazon Web
+  /// Services Region.
+  final String? groupName;
+
+  AggregateConformancePackComplianceSummary({
+    this.complianceSummary,
+    this.groupName,
+  });
+
+  factory AggregateConformancePackComplianceSummary.fromJson(
+      Map<String, dynamic> json) {
+    return AggregateConformancePackComplianceSummary(
+      complianceSummary: json['ComplianceSummary'] != null
+          ? AggregateConformancePackComplianceCount.fromJson(
+              json['ComplianceSummary'] as Map<String, dynamic>)
+          : null,
+      groupName: json['GroupName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final complianceSummary = this.complianceSummary;
+    final groupName = this.groupName;
+    return {
+      if (complianceSummary != null) 'ComplianceSummary': complianceSummary,
+      if (groupName != null) 'GroupName': groupName,
+    };
+  }
+}
+
+/// The number of conformance packs that are compliant and noncompliant.
+class AggregateConformancePackComplianceCount {
+  /// Number of compliant conformance packs.
+  final int? compliantConformancePackCount;
+
+  /// Number of noncompliant conformance packs.
+  final int? nonCompliantConformancePackCount;
+
+  AggregateConformancePackComplianceCount({
+    this.compliantConformancePackCount,
+    this.nonCompliantConformancePackCount,
+  });
+
+  factory AggregateConformancePackComplianceCount.fromJson(
+      Map<String, dynamic> json) {
+    return AggregateConformancePackComplianceCount(
+      compliantConformancePackCount:
+          json['CompliantConformancePackCount'] as int?,
+      nonCompliantConformancePackCount:
+          json['NonCompliantConformancePackCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final compliantConformancePackCount = this.compliantConformancePackCount;
+    final nonCompliantConformancePackCount =
+        this.nonCompliantConformancePackCount;
+    return {
+      if (compliantConformancePackCount != null)
+        'CompliantConformancePackCount': compliantConformancePackCount,
+      if (nonCompliantConformancePackCount != null)
+        'NonCompliantConformancePackCount': nonCompliantConformancePackCount,
+    };
+  }
+}
+
+/// Filters the results based on account ID and region.
+class AggregateConformancePackComplianceSummaryFilters {
+  /// The 12-digit Amazon Web Services account ID of the source account.
+  final String? accountId;
+
+  /// The source Amazon Web Services Region from where the data is aggregated.
+  final String? awsRegion;
+
+  AggregateConformancePackComplianceSummaryFilters({
+    this.accountId,
+    this.awsRegion,
+  });
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final awsRegion = this.awsRegion;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (awsRegion != null) 'AwsRegion': awsRegion,
+    };
+  }
+}
+
+class AggregateConformancePackComplianceSummaryGroupKey {
+  static const accountId =
+      AggregateConformancePackComplianceSummaryGroupKey._('ACCOUNT_ID');
+  static const awsRegion =
+      AggregateConformancePackComplianceSummaryGroupKey._('AWS_REGION');
+
+  final String value;
+
+  const AggregateConformancePackComplianceSummaryGroupKey._(this.value);
+
+  static const values = [accountId, awsRegion];
+
+  static AggregateConformancePackComplianceSummaryGroupKey fromString(
+          String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              AggregateConformancePackComplianceSummaryGroupKey._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AggregateConformancePackComplianceSummaryGroupKey &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Returns the number of compliant and noncompliant rules for one or more
+/// accounts and regions in an aggregator.
+class AggregateComplianceCount {
+  /// The number of compliant and noncompliant Config rules.
+  final ComplianceSummary? complianceSummary;
+
+  /// The 12-digit account ID or region based on the GroupByKey value.
+  final String? groupName;
+
+  AggregateComplianceCount({
+    this.complianceSummary,
+    this.groupName,
+  });
+
+  factory AggregateComplianceCount.fromJson(Map<String, dynamic> json) {
+    return AggregateComplianceCount(
+      complianceSummary: json['ComplianceSummary'] != null
+          ? ComplianceSummary.fromJson(
+              json['ComplianceSummary'] as Map<String, dynamic>)
+          : null,
+      groupName: json['GroupName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final complianceSummary = this.complianceSummary;
+    final groupName = this.groupName;
+    return {
+      if (complianceSummary != null) 'ComplianceSummary': complianceSummary,
+      if (groupName != null) 'GroupName': groupName,
+    };
+  }
+}
+
+/// Filters the results based on the account IDs and regions.
+class ConfigRuleComplianceSummaryFilters {
+  /// The 12-digit account ID of the source account.
+  final String? accountId;
+
+  /// The source region where the data is aggregated.
+  final String? awsRegion;
+
+  ConfigRuleComplianceSummaryFilters({
+    this.accountId,
+    this.awsRegion,
+  });
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final awsRegion = this.awsRegion;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (awsRegion != null) 'AwsRegion': awsRegion,
+    };
+  }
+}
+
+class ConfigRuleComplianceSummaryGroupKey {
+  static const accountId = ConfigRuleComplianceSummaryGroupKey._('ACCOUNT_ID');
+  static const awsRegion = ConfigRuleComplianceSummaryGroupKey._('AWS_REGION');
+
+  final String value;
+
+  const ConfigRuleComplianceSummaryGroupKey._(this.value);
+
+  static const values = [accountId, awsRegion];
+
+  static ConfigRuleComplianceSummaryGroupKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConfigRuleComplianceSummaryGroupKey._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConfigRuleComplianceSummaryGroupKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The details of an Config evaluation for an account ID and region in an
+/// aggregator. Provides the Amazon Web Services resource that was evaluated,
+/// the compliance of the resource, related time stamps, and supplementary
+/// information.
+class AggregateEvaluationResult {
+  /// The 12-digit account ID of the source account.
+  final String? accountId;
+
+  /// Supplementary information about how the agrregate evaluation determined the
+  /// compliance.
+  final String? annotation;
+
+  /// The source region from where the data is aggregated.
+  final String? awsRegion;
+
+  /// The resource compliance status.
+  ///
+  /// For the <code>AggregationEvaluationResult</code> data type, Config supports
+  /// only the <code>COMPLIANT</code> and <code>NON_COMPLIANT</code>. Config does
+  /// not support the <code>NOT_APPLICABLE</code> and
+  /// <code>INSUFFICIENT_DATA</code> value.
+  final ComplianceType? complianceType;
+
+  /// The time when the Config rule evaluated the Amazon Web Services resource.
+  final DateTime? configRuleInvokedTime;
+
+  /// Uniquely identifies the evaluation result.
+  final EvaluationResultIdentifier? evaluationResultIdentifier;
+
+  /// The time when Config recorded the aggregate evaluation result.
+  final DateTime? resultRecordedTime;
+
+  AggregateEvaluationResult({
+    this.accountId,
+    this.annotation,
+    this.awsRegion,
+    this.complianceType,
+    this.configRuleInvokedTime,
+    this.evaluationResultIdentifier,
+    this.resultRecordedTime,
+  });
+
+  factory AggregateEvaluationResult.fromJson(Map<String, dynamic> json) {
+    return AggregateEvaluationResult(
+      accountId: json['AccountId'] as String?,
+      annotation: json['Annotation'] as String?,
+      awsRegion: json['AwsRegion'] as String?,
+      complianceType:
+          (json['ComplianceType'] as String?)?.let(ComplianceType.fromString),
+      configRuleInvokedTime: timeStampFromJson(json['ConfigRuleInvokedTime']),
+      evaluationResultIdentifier: json['EvaluationResultIdentifier'] != null
+          ? EvaluationResultIdentifier.fromJson(
+              json['EvaluationResultIdentifier'] as Map<String, dynamic>)
+          : null,
+      resultRecordedTime: timeStampFromJson(json['ResultRecordedTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final annotation = this.annotation;
+    final awsRegion = this.awsRegion;
+    final complianceType = this.complianceType;
+    final configRuleInvokedTime = this.configRuleInvokedTime;
+    final evaluationResultIdentifier = this.evaluationResultIdentifier;
+    final resultRecordedTime = this.resultRecordedTime;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (annotation != null) 'Annotation': annotation,
+      if (awsRegion != null) 'AwsRegion': awsRegion,
+      if (complianceType != null) 'ComplianceType': complianceType.value,
+      if (configRuleInvokedTime != null)
+        'ConfigRuleInvokedTime': unixTimestampToJson(configRuleInvokedTime),
+      if (evaluationResultIdentifier != null)
+        'EvaluationResultIdentifier': evaluationResultIdentifier,
+      if (resultRecordedTime != null)
+        'ResultRecordedTime': unixTimestampToJson(resultRecordedTime),
+    };
+  }
+}
+
+/// Provides details of the current status of the invoked remediation action for
+/// that resource.
+class RemediationExecutionStatus {
+  /// Start time when the remediation was executed.
+  final DateTime? invocationTime;
+
+  /// The time when the remediation execution was last updated.
+  final DateTime? lastUpdatedTime;
+  final ResourceKey? resourceKey;
+
+  /// ENUM of the values.
+  final RemediationExecutionState? state;
+
+  /// Details of every step.
+  final List<RemediationExecutionStep>? stepDetails;
+
+  RemediationExecutionStatus({
+    this.invocationTime,
+    this.lastUpdatedTime,
+    this.resourceKey,
+    this.state,
+    this.stepDetails,
+  });
+
+  factory RemediationExecutionStatus.fromJson(Map<String, dynamic> json) {
+    return RemediationExecutionStatus(
+      invocationTime: timeStampFromJson(json['InvocationTime']),
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      resourceKey: json['ResourceKey'] != null
+          ? ResourceKey.fromJson(json['ResourceKey'] as Map<String, dynamic>)
+          : null,
+      state:
+          (json['State'] as String?)?.let(RemediationExecutionState.fromString),
+      stepDetails: (json['StepDetails'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              RemediationExecutionStep.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final invocationTime = this.invocationTime;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final resourceKey = this.resourceKey;
+    final state = this.state;
+    final stepDetails = this.stepDetails;
+    return {
+      if (invocationTime != null)
+        'InvocationTime': unixTimestampToJson(invocationTime),
+      if (lastUpdatedTime != null)
+        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      if (resourceKey != null) 'ResourceKey': resourceKey,
+      if (state != null) 'State': state.value,
+      if (stepDetails != null) 'StepDetails': stepDetails,
+    };
+  }
+}
+
+class RemediationExecutionState {
+  static const queued = RemediationExecutionState._('QUEUED');
+  static const inProgress = RemediationExecutionState._('IN_PROGRESS');
+  static const succeeded = RemediationExecutionState._('SUCCEEDED');
+  static const failed = RemediationExecutionState._('FAILED');
+  static const unknown = RemediationExecutionState._('UNKNOWN');
+
+  final String value;
+
+  const RemediationExecutionState._(this.value);
+
+  static const values = [queued, inProgress, succeeded, failed, unknown];
+
+  static RemediationExecutionState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RemediationExecutionState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RemediationExecutionState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Name of the step from the SSM document.
+class RemediationExecutionStep {
+  /// An error message if the step was interrupted during execution.
+  final String? errorMessage;
+
+  /// The details of the step.
+  final String? name;
+
+  /// The time when the step started.
+  final DateTime? startTime;
+
+  /// The valid status of the step.
+  final RemediationExecutionStepState? state;
+
+  /// The time when the step stopped.
+  final DateTime? stopTime;
+
+  RemediationExecutionStep({
+    this.errorMessage,
+    this.name,
+    this.startTime,
+    this.state,
+    this.stopTime,
+  });
+
+  factory RemediationExecutionStep.fromJson(Map<String, dynamic> json) {
+    return RemediationExecutionStep(
+      errorMessage: json['ErrorMessage'] as String?,
+      name: json['Name'] as String?,
+      startTime: timeStampFromJson(json['StartTime']),
+      state: (json['State'] as String?)
+          ?.let(RemediationExecutionStepState.fromString),
+      stopTime: timeStampFromJson(json['StopTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorMessage = this.errorMessage;
+    final name = this.name;
+    final startTime = this.startTime;
+    final state = this.state;
+    final stopTime = this.stopTime;
+    return {
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (name != null) 'Name': name,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (state != null) 'State': state.value,
+      if (stopTime != null) 'StopTime': unixTimestampToJson(stopTime),
+    };
+  }
+}
+
+class RemediationExecutionStepState {
+  static const succeeded = RemediationExecutionStepState._('SUCCEEDED');
+  static const pending = RemediationExecutionStepState._('PENDING');
+  static const failed = RemediationExecutionStepState._('FAILED');
+  static const inProgress = RemediationExecutionStepState._('IN_PROGRESS');
+  static const exited = RemediationExecutionStepState._('EXITED');
+  static const unknown = RemediationExecutionStepState._('UNKNOWN');
+
+  final String value;
+
+  const RemediationExecutionStepState._(this.value);
+
+  static const values = [
+    succeeded,
+    pending,
+    failed,
+    inProgress,
+    exited,
+    unknown
+  ];
+
+  static RemediationExecutionStepState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RemediationExecutionStepState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RemediationExecutionStepState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object that represents the account ID and region of an aggregator account
+/// that is requesting authorization but is not yet authorized.
+class PendingAggregationRequest {
+  /// The 12-digit account ID of the account requesting to aggregate data.
+  final String? requesterAccountId;
+
+  /// The region requesting to aggregate data.
+  final String? requesterAwsRegion;
+
+  PendingAggregationRequest({
+    this.requesterAccountId,
+    this.requesterAwsRegion,
+  });
+
+  factory PendingAggregationRequest.fromJson(Map<String, dynamic> json) {
+    return PendingAggregationRequest(
+      requesterAccountId: json['RequesterAccountId'] as String?,
+      requesterAwsRegion: json['RequesterAwsRegion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final requesterAccountId = this.requesterAccountId;
+    final requesterAwsRegion = this.requesterAwsRegion;
+    return {
+      if (requesterAccountId != null) 'RequesterAccountId': requesterAccountId,
+      if (requesterAwsRegion != null) 'RequesterAwsRegion': requesterAwsRegion,
+    };
+  }
+}
+
+/// Returns the status for an organization conformance pack in an organization.
+class OrganizationConformancePackStatus {
+  /// The name that you assign to organization conformance pack.
+  final String organizationConformancePackName;
+
+  /// Indicates deployment status of an organization conformance pack. When
+  /// management account calls PutOrganizationConformancePack for the first time,
+  /// conformance pack status is created in all the member accounts. When
+  /// management account calls PutOrganizationConformancePack for the second time,
+  /// conformance pack status is updated in all the member accounts. Additionally,
+  /// conformance pack status is updated when one or more member accounts join or
+  /// leave an organization. Conformance pack status is deleted when the
+  /// management account deletes OrganizationConformancePack in all the member
+  /// accounts and disables service access for
+  /// <code>config-multiaccountsetup.amazonaws.com</code>.
+  ///
+  /// Config sets the state of the conformance pack to:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATE_SUCCESSFUL</code> when an organization conformance pack has
+  /// been successfully created in all the member accounts.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_IN_PROGRESS</code> when an organization conformance pack
+  /// creation is in progress.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_FAILED</code> when an organization conformance pack creation
+  /// failed in one or more member accounts within that organization.
+  /// </li>
+  /// <li>
+  /// <code>DELETE_FAILED</code> when an organization conformance pack deletion
+  /// failed in one or more member accounts within that organization.
+  /// </li>
+  /// <li>
+  /// <code>DELETE_IN_PROGRESS</code> when an organization conformance pack
+  /// deletion is in progress.
+  /// </li>
+  /// <li>
+  /// <code>DELETE_SUCCESSFUL</code> when an organization conformance pack has
+  /// been successfully deleted from all the member accounts.
+  /// </li>
+  /// <li>
+  /// <code>UPDATE_SUCCESSFUL</code> when an organization conformance pack has
+  /// been successfully updated in all the member accounts.
+  /// </li>
+  /// <li>
+  /// <code>UPDATE_IN_PROGRESS</code> when an organization conformance pack update
+  /// is in progress.
+  /// </li>
+  /// <li>
+  /// <code>UPDATE_FAILED</code> when an organization conformance pack update
+  /// failed in one or more member accounts within that organization.
+  /// </li>
+  /// </ul>
+  final OrganizationResourceStatus status;
+
+  /// An error code that is returned when organization conformance pack creation
+  /// or deletion has failed in a member account.
+  final String? errorCode;
+
+  /// An error message indicating that organization conformance pack creation or
+  /// deletion failed due to an error.
+  final String? errorMessage;
+
+  /// The timestamp of the last update.
+  final DateTime? lastUpdateTime;
+
+  OrganizationConformancePackStatus({
+    required this.organizationConformancePackName,
+    required this.status,
+    this.errorCode,
+    this.errorMessage,
+    this.lastUpdateTime,
+  });
+
+  factory OrganizationConformancePackStatus.fromJson(
+      Map<String, dynamic> json) {
+    return OrganizationConformancePackStatus(
+      organizationConformancePackName:
+          (json['OrganizationConformancePackName'] as String?) ?? '',
+      status: OrganizationResourceStatus.fromString(
+          (json['Status'] as String?) ?? ''),
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final organizationConformancePackName =
+        this.organizationConformancePackName;
+    final status = this.status;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final lastUpdateTime = this.lastUpdateTime;
+    return {
+      'OrganizationConformancePackName': organizationConformancePackName,
+      'Status': status.value,
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (lastUpdateTime != null)
+        'LastUpdateTime': unixTimestampToJson(lastUpdateTime),
+    };
+  }
+}
+
+class OrganizationResourceStatus {
+  static const createSuccessful =
+      OrganizationResourceStatus._('CREATE_SUCCESSFUL');
+  static const createInProgress =
+      OrganizationResourceStatus._('CREATE_IN_PROGRESS');
+  static const createFailed = OrganizationResourceStatus._('CREATE_FAILED');
+  static const deleteSuccessful =
+      OrganizationResourceStatus._('DELETE_SUCCESSFUL');
+  static const deleteFailed = OrganizationResourceStatus._('DELETE_FAILED');
+  static const deleteInProgress =
+      OrganizationResourceStatus._('DELETE_IN_PROGRESS');
+  static const updateSuccessful =
+      OrganizationResourceStatus._('UPDATE_SUCCESSFUL');
+  static const updateInProgress =
+      OrganizationResourceStatus._('UPDATE_IN_PROGRESS');
+  static const updateFailed = OrganizationResourceStatus._('UPDATE_FAILED');
+
+  final String value;
+
+  const OrganizationResourceStatus._(this.value);
+
+  static const values = [
+    createSuccessful,
+    createInProgress,
+    createFailed,
+    deleteSuccessful,
+    deleteFailed,
+    deleteInProgress,
+    updateSuccessful,
+    updateInProgress,
+    updateFailed
+  ];
+
+  static OrganizationResourceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OrganizationResourceStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OrganizationResourceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An organization conformance pack that has information about conformance
+/// packs that Config creates in member accounts.
+class OrganizationConformancePack {
+  /// Last time when organization conformation pack was updated.
+  final DateTime lastUpdateTime;
+
+  /// Amazon Resource Name (ARN) of organization conformance pack.
+  final String organizationConformancePackArn;
+
+  /// The name you assign to an organization conformance pack.
+  final String organizationConformancePackName;
+
+  /// A list of <code>ConformancePackInputParameter</code> objects.
+  final List<ConformancePackInputParameter>? conformancePackInputParameters;
+
+  /// The name of the Amazon S3 bucket where Config stores conformance pack
+  /// templates.
   /// <note>
   /// This field is optional.
   /// </note>
-  final String? documentVersion;
+  final String? deliveryS3Bucket;
 
-  TemplateSSMDocumentDetails({
-    required this.documentName,
-    this.documentVersion,
+  /// Any folder structure you want to add to an Amazon S3 bucket.
+  /// <note>
+  /// This field is optional.
+  /// </note>
+  final String? deliveryS3KeyPrefix;
+
+  /// A comma-separated list of accounts excluded from organization conformance
+  /// pack.
+  final List<String>? excludedAccounts;
+
+  OrganizationConformancePack({
+    required this.lastUpdateTime,
+    required this.organizationConformancePackArn,
+    required this.organizationConformancePackName,
+    this.conformancePackInputParameters,
+    this.deliveryS3Bucket,
+    this.deliveryS3KeyPrefix,
+    this.excludedAccounts,
   });
 
-  factory TemplateSSMDocumentDetails.fromJson(Map<String, dynamic> json) {
-    return TemplateSSMDocumentDetails(
-      documentName: (json['DocumentName'] as String?) ?? '',
-      documentVersion: json['DocumentVersion'] as String?,
+  factory OrganizationConformancePack.fromJson(Map<String, dynamic> json) {
+    return OrganizationConformancePack(
+      lastUpdateTime: nonNullableTimeStampFromJson(json['LastUpdateTime'] ?? 0),
+      organizationConformancePackArn:
+          (json['OrganizationConformancePackArn'] as String?) ?? '',
+      organizationConformancePackName:
+          (json['OrganizationConformancePackName'] as String?) ?? '',
+      conformancePackInputParameters: (json['ConformancePackInputParameters']
+              as List?)
+          ?.nonNulls
+          .map((e) =>
+              ConformancePackInputParameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      deliveryS3Bucket: json['DeliveryS3Bucket'] as String?,
+      deliveryS3KeyPrefix: json['DeliveryS3KeyPrefix'] as String?,
+      excludedAccounts: (json['ExcludedAccounts'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final documentName = this.documentName;
-    final documentVersion = this.documentVersion;
+    final lastUpdateTime = this.lastUpdateTime;
+    final organizationConformancePackArn = this.organizationConformancePackArn;
+    final organizationConformancePackName =
+        this.organizationConformancePackName;
+    final conformancePackInputParameters = this.conformancePackInputParameters;
+    final deliveryS3Bucket = this.deliveryS3Bucket;
+    final deliveryS3KeyPrefix = this.deliveryS3KeyPrefix;
+    final excludedAccounts = this.excludedAccounts;
     return {
-      'DocumentName': documentName,
-      if (documentVersion != null) 'DocumentVersion': documentVersion,
+      'LastUpdateTime': unixTimestampToJson(lastUpdateTime),
+      'OrganizationConformancePackArn': organizationConformancePackArn,
+      'OrganizationConformancePackName': organizationConformancePackName,
+      if (conformancePackInputParameters != null)
+        'ConformancePackInputParameters': conformancePackInputParameters,
+      if (deliveryS3Bucket != null) 'DeliveryS3Bucket': deliveryS3Bucket,
+      if (deliveryS3KeyPrefix != null)
+        'DeliveryS3KeyPrefix': deliveryS3KeyPrefix,
+      if (excludedAccounts != null) 'ExcludedAccounts': excludedAccounts,
     };
   }
 }
 
-/// Filters evaluation results based on start and end times.
-class TimeWindow {
-  /// The end time of an execution. The end time must be after the start date.
-  final DateTime? endTime;
+/// Returns the status for an organization Config rule in an organization.
+class OrganizationConfigRuleStatus {
+  /// The name that you assign to organization Config rule.
+  final String organizationConfigRuleName;
 
-  /// The start time of an execution.
-  final DateTime? startTime;
+  /// Indicates deployment status of an organization Config rule. When management
+  /// account calls PutOrganizationConfigRule action for the first time, Config
+  /// rule status is created in all the member accounts. When management account
+  /// calls PutOrganizationConfigRule action for the second time, Config rule
+  /// status is updated in all the member accounts. Additionally, Config rule
+  /// status is updated when one or more member accounts join or leave an
+  /// organization. Config rule status is deleted when the management account
+  /// deletes OrganizationConfigRule in all the member accounts and disables
+  /// service access for <code>config-multiaccountsetup.amazonaws.com</code>.
+  ///
+  /// Config sets the state of the rule to:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATE_SUCCESSFUL</code> when an organization Config rule has been
+  /// successfully created in all the member accounts.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_IN_PROGRESS</code> when an organization Config rule creation is
+  /// in progress.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_FAILED</code> when an organization Config rule creation failed
+  /// in one or more member accounts within that organization.
+  /// </li>
+  /// <li>
+  /// <code>DELETE_FAILED</code> when an organization Config rule deletion failed
+  /// in one or more member accounts within that organization.
+  /// </li>
+  /// <li>
+  /// <code>DELETE_IN_PROGRESS</code> when an organization Config rule deletion is
+  /// in progress.
+  /// </li>
+  /// <li>
+  /// <code>DELETE_SUCCESSFUL</code> when an organization Config rule has been
+  /// successfully deleted from all the member accounts.
+  /// </li>
+  /// <li>
+  /// <code>UPDATE_SUCCESSFUL</code> when an organization Config rule has been
+  /// successfully updated in all the member accounts.
+  /// </li>
+  /// <li>
+  /// <code>UPDATE_IN_PROGRESS</code> when an organization Config rule update is
+  /// in progress.
+  /// </li>
+  /// <li>
+  /// <code>UPDATE_FAILED</code> when an organization Config rule update failed in
+  /// one or more member accounts within that organization.
+  /// </li>
+  /// </ul>
+  final OrganizationRuleStatus organizationRuleStatus;
 
-  TimeWindow({
-    this.endTime,
-    this.startTime,
+  /// An error code that is returned when organization Config rule creation or
+  /// deletion has failed.
+  final String? errorCode;
+
+  /// An error message indicating that organization Config rule creation or
+  /// deletion failed due to an error.
+  final String? errorMessage;
+
+  /// The timestamp of the last update.
+  final DateTime? lastUpdateTime;
+
+  OrganizationConfigRuleStatus({
+    required this.organizationConfigRuleName,
+    required this.organizationRuleStatus,
+    this.errorCode,
+    this.errorMessage,
+    this.lastUpdateTime,
+  });
+
+  factory OrganizationConfigRuleStatus.fromJson(Map<String, dynamic> json) {
+    return OrganizationConfigRuleStatus(
+      organizationConfigRuleName:
+          (json['OrganizationConfigRuleName'] as String?) ?? '',
+      organizationRuleStatus: OrganizationRuleStatus.fromString(
+          (json['OrganizationRuleStatus'] as String?) ?? ''),
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final organizationConfigRuleName = this.organizationConfigRuleName;
+    final organizationRuleStatus = this.organizationRuleStatus;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final lastUpdateTime = this.lastUpdateTime;
+    return {
+      'OrganizationConfigRuleName': organizationConfigRuleName,
+      'OrganizationRuleStatus': organizationRuleStatus.value,
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (lastUpdateTime != null)
+        'LastUpdateTime': unixTimestampToJson(lastUpdateTime),
+    };
+  }
+}
+
+class OrganizationRuleStatus {
+  static const createSuccessful = OrganizationRuleStatus._('CREATE_SUCCESSFUL');
+  static const createInProgress =
+      OrganizationRuleStatus._('CREATE_IN_PROGRESS');
+  static const createFailed = OrganizationRuleStatus._('CREATE_FAILED');
+  static const deleteSuccessful = OrganizationRuleStatus._('DELETE_SUCCESSFUL');
+  static const deleteFailed = OrganizationRuleStatus._('DELETE_FAILED');
+  static const deleteInProgress =
+      OrganizationRuleStatus._('DELETE_IN_PROGRESS');
+  static const updateSuccessful = OrganizationRuleStatus._('UPDATE_SUCCESSFUL');
+  static const updateInProgress =
+      OrganizationRuleStatus._('UPDATE_IN_PROGRESS');
+  static const updateFailed = OrganizationRuleStatus._('UPDATE_FAILED');
+
+  final String value;
+
+  const OrganizationRuleStatus._(this.value);
+
+  static const values = [
+    createSuccessful,
+    createInProgress,
+    createFailed,
+    deleteSuccessful,
+    deleteFailed,
+    deleteInProgress,
+    updateSuccessful,
+    updateInProgress,
+    updateFailed
+  ];
+
+  static OrganizationRuleStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OrganizationRuleStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OrganizationRuleStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An organization Config rule that has information about Config rules that
+/// Config creates in member accounts.
+class OrganizationConfigRule {
+  /// Amazon Resource Name (ARN) of organization Config rule.
+  final String organizationConfigRuleArn;
+
+  /// The name that you assign to organization Config rule.
+  final String organizationConfigRuleName;
+
+  /// A comma-separated list of accounts excluded from organization Config rule.
+  final List<String>? excludedAccounts;
+
+  /// The timestamp of the last update.
+  final DateTime? lastUpdateTime;
+
+  /// An object that specifies metadata for your organization's Config Custom
+  /// Policy rule. The metadata includes the runtime system in use, which accounts
+  /// have debug logging enabled, and other custom rule metadata, such as resource
+  /// type, resource ID of Amazon Web Services resource, and organization trigger
+  /// types that initiate Config to evaluate Amazon Web Services resources against
+  /// a rule.
+  final OrganizationCustomPolicyRuleMetadataNoPolicy?
+      organizationCustomPolicyRuleMetadata;
+
+  /// An <code>OrganizationCustomRuleMetadata</code> object.
+  final OrganizationCustomRuleMetadata? organizationCustomRuleMetadata;
+
+  /// An <code>OrganizationManagedRuleMetadata</code> object.
+  final OrganizationManagedRuleMetadata? organizationManagedRuleMetadata;
+
+  OrganizationConfigRule({
+    required this.organizationConfigRuleArn,
+    required this.organizationConfigRuleName,
+    this.excludedAccounts,
+    this.lastUpdateTime,
+    this.organizationCustomPolicyRuleMetadata,
+    this.organizationCustomRuleMetadata,
+    this.organizationManagedRuleMetadata,
+  });
+
+  factory OrganizationConfigRule.fromJson(Map<String, dynamic> json) {
+    return OrganizationConfigRule(
+      organizationConfigRuleArn:
+          (json['OrganizationConfigRuleArn'] as String?) ?? '',
+      organizationConfigRuleName:
+          (json['OrganizationConfigRuleName'] as String?) ?? '',
+      excludedAccounts: (json['ExcludedAccounts'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
+      organizationCustomPolicyRuleMetadata:
+          json['OrganizationCustomPolicyRuleMetadata'] != null
+              ? OrganizationCustomPolicyRuleMetadataNoPolicy.fromJson(
+                  json['OrganizationCustomPolicyRuleMetadata']
+                      as Map<String, dynamic>)
+              : null,
+      organizationCustomRuleMetadata: json['OrganizationCustomRuleMetadata'] !=
+              null
+          ? OrganizationCustomRuleMetadata.fromJson(
+              json['OrganizationCustomRuleMetadata'] as Map<String, dynamic>)
+          : null,
+      organizationManagedRuleMetadata:
+          json['OrganizationManagedRuleMetadata'] != null
+              ? OrganizationManagedRuleMetadata.fromJson(
+                  json['OrganizationManagedRuleMetadata']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final organizationConfigRuleArn = this.organizationConfigRuleArn;
+    final organizationConfigRuleName = this.organizationConfigRuleName;
+    final excludedAccounts = this.excludedAccounts;
+    final lastUpdateTime = this.lastUpdateTime;
+    final organizationCustomPolicyRuleMetadata =
+        this.organizationCustomPolicyRuleMetadata;
+    final organizationCustomRuleMetadata = this.organizationCustomRuleMetadata;
+    final organizationManagedRuleMetadata =
+        this.organizationManagedRuleMetadata;
+    return {
+      'OrganizationConfigRuleArn': organizationConfigRuleArn,
+      'OrganizationConfigRuleName': organizationConfigRuleName,
+      if (excludedAccounts != null) 'ExcludedAccounts': excludedAccounts,
+      if (lastUpdateTime != null)
+        'LastUpdateTime': unixTimestampToJson(lastUpdateTime),
+      if (organizationCustomPolicyRuleMetadata != null)
+        'OrganizationCustomPolicyRuleMetadata':
+            organizationCustomPolicyRuleMetadata,
+      if (organizationCustomRuleMetadata != null)
+        'OrganizationCustomRuleMetadata': organizationCustomRuleMetadata,
+      if (organizationManagedRuleMetadata != null)
+        'OrganizationManagedRuleMetadata': organizationManagedRuleMetadata,
+    };
+  }
+}
+
+/// metadata for your organization Config Custom Policy rule including the
+/// runtime system in use, which accounts have debug logging enabled, and other
+/// custom rule metadata such as resource type, resource ID of Amazon Web
+/// Services resource, and organization trigger types that trigger Config to
+/// evaluate Amazon Web Services resources against a rule.
+class OrganizationCustomPolicyRuleMetadataNoPolicy {
+  /// A list of accounts that you can enable debug logging for your organization
+  /// Config Custom Policy rule. List is null when debug logging is enabled for
+  /// all accounts.
+  final List<String>? debugLogDeliveryAccounts;
+
+  /// The description that you provide for your organization Config Custom Policy
+  /// rule.
+  final String? description;
+
+  /// A string, in JSON format, that is passed to your organization Config Custom
+  /// Policy rule.
+  final String? inputParameters;
+
+  /// The maximum frequency with which Config runs evaluations for a rule. Your
+  /// Config Custom Policy rule is triggered when Config delivers the
+  /// configuration snapshot. For more information, see
+  /// <a>ConfigSnapshotDeliveryProperties</a>.
+  final MaximumExecutionFrequency? maximumExecutionFrequency;
+
+  /// The type of notification that triggers Config to run an evaluation for a
+  /// rule. For Config Custom Policy rules, Config supports change triggered
+  /// notification types:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ConfigurationItemChangeNotification</code> - Triggers an evaluation
+  /// when Config delivers a configuration item as a result of a resource change.
+  /// </li>
+  /// <li>
+  /// <code>OversizedConfigurationItemChangeNotification</code> - Triggers an
+  /// evaluation when Config delivers an oversized configuration item. Config may
+  /// generate this notification type when a resource changes and the notification
+  /// exceeds the maximum size allowed by Amazon SNS.
+  /// </li>
+  /// </ul>
+  final List<OrganizationConfigRuleTriggerTypeNoSN>?
+      organizationConfigRuleTriggerTypes;
+
+  /// The runtime system for your organization Config Custom Policy rules. Guard
+  /// is a policy-as-code language that allows you to write policies that are
+  /// enforced by Config Custom Policy rules. For more information about Guard,
+  /// see the <a
+  /// href="https://github.com/aws-cloudformation/cloudformation-guard">Guard
+  /// GitHub Repository</a>.
+  final String? policyRuntime;
+
+  /// The ID of the Amazon Web Services resource that was evaluated.
+  final String? resourceIdScope;
+
+  /// The type of the Amazon Web Services resource that was evaluated.
+  final List<String>? resourceTypesScope;
+
+  /// One part of a key-value pair that make up a tag. A key is a general label
+  /// that acts like a category for more specific tag values.
+  final String? tagKeyScope;
+
+  /// The optional part of a key-value pair that make up a tag. A value acts as a
+  /// descriptor within a tag category (key).
+  final String? tagValueScope;
+
+  OrganizationCustomPolicyRuleMetadataNoPolicy({
+    this.debugLogDeliveryAccounts,
+    this.description,
+    this.inputParameters,
+    this.maximumExecutionFrequency,
+    this.organizationConfigRuleTriggerTypes,
+    this.policyRuntime,
+    this.resourceIdScope,
+    this.resourceTypesScope,
+    this.tagKeyScope,
+    this.tagValueScope,
+  });
+
+  factory OrganizationCustomPolicyRuleMetadataNoPolicy.fromJson(
+      Map<String, dynamic> json) {
+    return OrganizationCustomPolicyRuleMetadataNoPolicy(
+      debugLogDeliveryAccounts: (json['DebugLogDeliveryAccounts'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      description: json['Description'] as String?,
+      inputParameters: json['InputParameters'] as String?,
+      maximumExecutionFrequency: (json['MaximumExecutionFrequency'] as String?)
+          ?.let(MaximumExecutionFrequency.fromString),
+      organizationConfigRuleTriggerTypes:
+          (json['OrganizationConfigRuleTriggerTypes'] as List?)
+              ?.nonNulls
+              .map((e) => OrganizationConfigRuleTriggerTypeNoSN.fromString(
+                  (e as String)))
+              .toList(),
+      policyRuntime: json['PolicyRuntime'] as String?,
+      resourceIdScope: json['ResourceIdScope'] as String?,
+      resourceTypesScope: (json['ResourceTypesScope'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      tagKeyScope: json['TagKeyScope'] as String?,
+      tagValueScope: json['TagValueScope'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final debugLogDeliveryAccounts = this.debugLogDeliveryAccounts;
+    final description = this.description;
+    final inputParameters = this.inputParameters;
+    final maximumExecutionFrequency = this.maximumExecutionFrequency;
+    final organizationConfigRuleTriggerTypes =
+        this.organizationConfigRuleTriggerTypes;
+    final policyRuntime = this.policyRuntime;
+    final resourceIdScope = this.resourceIdScope;
+    final resourceTypesScope = this.resourceTypesScope;
+    final tagKeyScope = this.tagKeyScope;
+    final tagValueScope = this.tagValueScope;
+    return {
+      if (debugLogDeliveryAccounts != null)
+        'DebugLogDeliveryAccounts': debugLogDeliveryAccounts,
+      if (description != null) 'Description': description,
+      if (inputParameters != null) 'InputParameters': inputParameters,
+      if (maximumExecutionFrequency != null)
+        'MaximumExecutionFrequency': maximumExecutionFrequency.value,
+      if (organizationConfigRuleTriggerTypes != null)
+        'OrganizationConfigRuleTriggerTypes':
+            organizationConfigRuleTriggerTypes.map((e) => e.value).toList(),
+      if (policyRuntime != null) 'PolicyRuntime': policyRuntime,
+      if (resourceIdScope != null) 'ResourceIdScope': resourceIdScope,
+      if (resourceTypesScope != null) 'ResourceTypesScope': resourceTypesScope,
+      if (tagKeyScope != null) 'TagKeyScope': tagKeyScope,
+      if (tagValueScope != null) 'TagValueScope': tagValueScope,
+    };
+  }
+}
+
+/// The status of a specified delivery channel.
+///
+/// Valid values: <code>Success</code> | <code>Failure</code>
+class DeliveryChannelStatus {
+  /// A list that contains the status of the delivery of the configuration history
+  /// to the specified Amazon S3 bucket.
+  final ConfigExportDeliveryInfo? configHistoryDeliveryInfo;
+
+  /// A list containing the status of the delivery of the snapshot to the
+  /// specified Amazon S3 bucket.
+  final ConfigExportDeliveryInfo? configSnapshotDeliveryInfo;
+
+  /// A list containing the status of the delivery of the configuration stream
+  /// notification to the specified Amazon SNS topic.
+  final ConfigStreamDeliveryInfo? configStreamDeliveryInfo;
+
+  /// The name of the delivery channel.
+  final String? name;
+
+  DeliveryChannelStatus({
+    this.configHistoryDeliveryInfo,
+    this.configSnapshotDeliveryInfo,
+    this.configStreamDeliveryInfo,
+    this.name,
+  });
+
+  factory DeliveryChannelStatus.fromJson(Map<String, dynamic> json) {
+    return DeliveryChannelStatus(
+      configHistoryDeliveryInfo: json['configHistoryDeliveryInfo'] != null
+          ? ConfigExportDeliveryInfo.fromJson(
+              json['configHistoryDeliveryInfo'] as Map<String, dynamic>)
+          : null,
+      configSnapshotDeliveryInfo: json['configSnapshotDeliveryInfo'] != null
+          ? ConfigExportDeliveryInfo.fromJson(
+              json['configSnapshotDeliveryInfo'] as Map<String, dynamic>)
+          : null,
+      configStreamDeliveryInfo: json['configStreamDeliveryInfo'] != null
+          ? ConfigStreamDeliveryInfo.fromJson(
+              json['configStreamDeliveryInfo'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configHistoryDeliveryInfo = this.configHistoryDeliveryInfo;
+    final configSnapshotDeliveryInfo = this.configSnapshotDeliveryInfo;
+    final configStreamDeliveryInfo = this.configStreamDeliveryInfo;
+    final name = this.name;
+    return {
+      if (configHistoryDeliveryInfo != null)
+        'configHistoryDeliveryInfo': configHistoryDeliveryInfo,
+      if (configSnapshotDeliveryInfo != null)
+        'configSnapshotDeliveryInfo': configSnapshotDeliveryInfo,
+      if (configStreamDeliveryInfo != null)
+        'configStreamDeliveryInfo': configStreamDeliveryInfo,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// Provides status of the delivery of the snapshot or the configuration history
+/// to the specified Amazon S3 bucket. Also provides the status of notifications
+/// about the Amazon S3 delivery to the specified Amazon SNS topic.
+class ConfigExportDeliveryInfo {
+  /// The time of the last attempted delivery.
+  final DateTime? lastAttemptTime;
+
+  /// The error code from the last attempted delivery.
+  final String? lastErrorCode;
+
+  /// The error message from the last attempted delivery.
+  final String? lastErrorMessage;
+
+  /// Status of the last attempted delivery.
+  final DeliveryStatus? lastStatus;
+
+  /// The time of the last successful delivery.
+  final DateTime? lastSuccessfulTime;
+
+  /// The time that the next delivery occurs.
+  final DateTime? nextDeliveryTime;
+
+  ConfigExportDeliveryInfo({
+    this.lastAttemptTime,
+    this.lastErrorCode,
+    this.lastErrorMessage,
+    this.lastStatus,
+    this.lastSuccessfulTime,
+    this.nextDeliveryTime,
+  });
+
+  factory ConfigExportDeliveryInfo.fromJson(Map<String, dynamic> json) {
+    return ConfigExportDeliveryInfo(
+      lastAttemptTime: timeStampFromJson(json['lastAttemptTime']),
+      lastErrorCode: json['lastErrorCode'] as String?,
+      lastErrorMessage: json['lastErrorMessage'] as String?,
+      lastStatus:
+          (json['lastStatus'] as String?)?.let(DeliveryStatus.fromString),
+      lastSuccessfulTime: timeStampFromJson(json['lastSuccessfulTime']),
+      nextDeliveryTime: timeStampFromJson(json['nextDeliveryTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastAttemptTime = this.lastAttemptTime;
+    final lastErrorCode = this.lastErrorCode;
+    final lastErrorMessage = this.lastErrorMessage;
+    final lastStatus = this.lastStatus;
+    final lastSuccessfulTime = this.lastSuccessfulTime;
+    final nextDeliveryTime = this.nextDeliveryTime;
+    return {
+      if (lastAttemptTime != null)
+        'lastAttemptTime': unixTimestampToJson(lastAttemptTime),
+      if (lastErrorCode != null) 'lastErrorCode': lastErrorCode,
+      if (lastErrorMessage != null) 'lastErrorMessage': lastErrorMessage,
+      if (lastStatus != null) 'lastStatus': lastStatus.value,
+      if (lastSuccessfulTime != null)
+        'lastSuccessfulTime': unixTimestampToJson(lastSuccessfulTime),
+      if (nextDeliveryTime != null)
+        'nextDeliveryTime': unixTimestampToJson(nextDeliveryTime),
+    };
+  }
+}
+
+/// A list that contains the status of the delivery of the configuration stream
+/// notification to the Amazon SNS topic.
+class ConfigStreamDeliveryInfo {
+  /// The error code from the last attempted delivery.
+  final String? lastErrorCode;
+
+  /// The error message from the last attempted delivery.
+  final String? lastErrorMessage;
+
+  /// Status of the last attempted delivery.
+  ///
+  /// <b>Note</b> Providing an SNS topic on a <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_DeliveryChannel.html">DeliveryChannel</a>
+  /// for Config is optional. If the SNS delivery is turned off, the last status
+  /// will be <b>Not_Applicable</b>.
+  final DeliveryStatus? lastStatus;
+
+  /// The time from the last status change.
+  final DateTime? lastStatusChangeTime;
+
+  ConfigStreamDeliveryInfo({
+    this.lastErrorCode,
+    this.lastErrorMessage,
+    this.lastStatus,
+    this.lastStatusChangeTime,
+  });
+
+  factory ConfigStreamDeliveryInfo.fromJson(Map<String, dynamic> json) {
+    return ConfigStreamDeliveryInfo(
+      lastErrorCode: json['lastErrorCode'] as String?,
+      lastErrorMessage: json['lastErrorMessage'] as String?,
+      lastStatus:
+          (json['lastStatus'] as String?)?.let(DeliveryStatus.fromString),
+      lastStatusChangeTime: timeStampFromJson(json['lastStatusChangeTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastErrorCode = this.lastErrorCode;
+    final lastErrorMessage = this.lastErrorMessage;
+    final lastStatus = this.lastStatus;
+    final lastStatusChangeTime = this.lastStatusChangeTime;
+    return {
+      if (lastErrorCode != null) 'lastErrorCode': lastErrorCode,
+      if (lastErrorMessage != null) 'lastErrorMessage': lastErrorMessage,
+      if (lastStatus != null) 'lastStatus': lastStatus.value,
+      if (lastStatusChangeTime != null)
+        'lastStatusChangeTime': unixTimestampToJson(lastStatusChangeTime),
+    };
+  }
+}
+
+class DeliveryStatus {
+  static const success = DeliveryStatus._('Success');
+  static const failure = DeliveryStatus._('Failure');
+  static const notApplicable = DeliveryStatus._('Not_Applicable');
+
+  final String value;
+
+  const DeliveryStatus._(this.value);
+
+  static const values = [success, failure, notApplicable];
+
+  static DeliveryStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeliveryStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DeliveryStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Status details of a conformance pack.
+class ConformancePackStatusDetail {
+  /// Amazon Resource Name (ARN) of comformance pack.
+  final String conformancePackArn;
+
+  /// ID of the conformance pack.
+  final String conformancePackId;
+
+  /// Name of the conformance pack.
+  final String conformancePackName;
+
+  /// Indicates deployment status of conformance pack.
+  ///
+  /// Config sets the state of the conformance pack to:
+  ///
+  /// <ul>
+  /// <li>
+  /// CREATE_IN_PROGRESS when a conformance pack creation is in progress for an
+  /// account.
+  /// </li>
+  /// <li>
+  /// CREATE_COMPLETE when a conformance pack has been successfully created in
+  /// your account.
+  /// </li>
+  /// <li>
+  /// CREATE_FAILED when a conformance pack creation failed in your account.
+  /// </li>
+  /// <li>
+  /// DELETE_IN_PROGRESS when a conformance pack deletion is in progress.
+  /// </li>
+  /// <li>
+  /// DELETE_FAILED when a conformance pack deletion failed in your account.
+  /// </li>
+  /// </ul>
+  final ConformancePackState conformancePackState;
+
+  /// Last time when conformation pack creation and update was requested.
+  final DateTime lastUpdateRequestedTime;
+
+  /// Amazon Resource Name (ARN) of CloudFormation stack.
+  final String stackArn;
+
+  /// The reason of conformance pack creation failure.
+  final String? conformancePackStatusReason;
+
+  /// Last time when conformation pack creation and update was successful.
+  final DateTime? lastUpdateCompletedTime;
+
+  ConformancePackStatusDetail({
+    required this.conformancePackArn,
+    required this.conformancePackId,
+    required this.conformancePackName,
+    required this.conformancePackState,
+    required this.lastUpdateRequestedTime,
+    required this.stackArn,
+    this.conformancePackStatusReason,
+    this.lastUpdateCompletedTime,
+  });
+
+  factory ConformancePackStatusDetail.fromJson(Map<String, dynamic> json) {
+    return ConformancePackStatusDetail(
+      conformancePackArn: (json['ConformancePackArn'] as String?) ?? '',
+      conformancePackId: (json['ConformancePackId'] as String?) ?? '',
+      conformancePackName: (json['ConformancePackName'] as String?) ?? '',
+      conformancePackState: ConformancePackState.fromString(
+          (json['ConformancePackState'] as String?) ?? ''),
+      lastUpdateRequestedTime:
+          nonNullableTimeStampFromJson(json['LastUpdateRequestedTime'] ?? 0),
+      stackArn: (json['StackArn'] as String?) ?? '',
+      conformancePackStatusReason:
+          json['ConformancePackStatusReason'] as String?,
+      lastUpdateCompletedTime:
+          timeStampFromJson(json['LastUpdateCompletedTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final conformancePackArn = this.conformancePackArn;
+    final conformancePackId = this.conformancePackId;
+    final conformancePackName = this.conformancePackName;
+    final conformancePackState = this.conformancePackState;
+    final lastUpdateRequestedTime = this.lastUpdateRequestedTime;
+    final stackArn = this.stackArn;
+    final conformancePackStatusReason = this.conformancePackStatusReason;
+    final lastUpdateCompletedTime = this.lastUpdateCompletedTime;
+    return {
+      'ConformancePackArn': conformancePackArn,
+      'ConformancePackId': conformancePackId,
+      'ConformancePackName': conformancePackName,
+      'ConformancePackState': conformancePackState.value,
+      'LastUpdateRequestedTime': unixTimestampToJson(lastUpdateRequestedTime),
+      'StackArn': stackArn,
+      if (conformancePackStatusReason != null)
+        'ConformancePackStatusReason': conformancePackStatusReason,
+      if (lastUpdateCompletedTime != null)
+        'LastUpdateCompletedTime': unixTimestampToJson(lastUpdateCompletedTime),
+    };
+  }
+}
+
+class ConformancePackState {
+  static const createInProgress = ConformancePackState._('CREATE_IN_PROGRESS');
+  static const createComplete = ConformancePackState._('CREATE_COMPLETE');
+  static const createFailed = ConformancePackState._('CREATE_FAILED');
+  static const deleteInProgress = ConformancePackState._('DELETE_IN_PROGRESS');
+  static const deleteFailed = ConformancePackState._('DELETE_FAILED');
+
+  final String value;
+
+  const ConformancePackState._(this.value);
+
+  static const values = [
+    createInProgress,
+    createComplete,
+    createFailed,
+    deleteInProgress,
+    deleteFailed
+  ];
+
+  static ConformancePackState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConformancePackState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConformancePackState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Returns details of a conformance pack. A conformance pack is a collection of
+/// Config rules and remediation actions that can be easily deployed in an
+/// account and a region.
+class ConformancePackDetail {
+  /// Amazon Resource Name (ARN) of the conformance pack.
+  final String conformancePackArn;
+
+  /// ID of the conformance pack.
+  final String conformancePackId;
+
+  /// Name of the conformance pack.
+  final String conformancePackName;
+
+  /// A list of <code>ConformancePackInputParameter</code> objects.
+  final List<ConformancePackInputParameter>? conformancePackInputParameters;
+
+  /// The Amazon Web Services service that created the conformance pack.
+  final String? createdBy;
+
+  /// The name of the Amazon S3 bucket where Config stores conformance pack
+  /// templates.
+  /// <note>
+  /// This field is optional.
+  /// </note>
+  final String? deliveryS3Bucket;
+
+  /// The prefix for the Amazon S3 bucket.
+  /// <note>
+  /// This field is optional.
+  /// </note>
+  final String? deliveryS3KeyPrefix;
+
+  /// The last time a conformation pack update was requested.
+  final DateTime? lastUpdateRequestedTime;
+
+  /// An object that contains the name or Amazon Resource Name (ARN) of the Amazon
+  /// Web Services Systems Manager document (SSM document) and the version of the
+  /// SSM document that is used to create a conformance pack.
+  final TemplateSSMDocumentDetails? templateSSMDocumentDetails;
+
+  ConformancePackDetail({
+    required this.conformancePackArn,
+    required this.conformancePackId,
+    required this.conformancePackName,
+    this.conformancePackInputParameters,
+    this.createdBy,
+    this.deliveryS3Bucket,
+    this.deliveryS3KeyPrefix,
+    this.lastUpdateRequestedTime,
+    this.templateSSMDocumentDetails,
+  });
+
+  factory ConformancePackDetail.fromJson(Map<String, dynamic> json) {
+    return ConformancePackDetail(
+      conformancePackArn: (json['ConformancePackArn'] as String?) ?? '',
+      conformancePackId: (json['ConformancePackId'] as String?) ?? '',
+      conformancePackName: (json['ConformancePackName'] as String?) ?? '',
+      conformancePackInputParameters: (json['ConformancePackInputParameters']
+              as List?)
+          ?.nonNulls
+          .map((e) =>
+              ConformancePackInputParameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      createdBy: json['CreatedBy'] as String?,
+      deliveryS3Bucket: json['DeliveryS3Bucket'] as String?,
+      deliveryS3KeyPrefix: json['DeliveryS3KeyPrefix'] as String?,
+      lastUpdateRequestedTime:
+          timeStampFromJson(json['LastUpdateRequestedTime']),
+      templateSSMDocumentDetails: json['TemplateSSMDocumentDetails'] != null
+          ? TemplateSSMDocumentDetails.fromJson(
+              json['TemplateSSMDocumentDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final conformancePackArn = this.conformancePackArn;
+    final conformancePackId = this.conformancePackId;
+    final conformancePackName = this.conformancePackName;
+    final conformancePackInputParameters = this.conformancePackInputParameters;
+    final createdBy = this.createdBy;
+    final deliveryS3Bucket = this.deliveryS3Bucket;
+    final deliveryS3KeyPrefix = this.deliveryS3KeyPrefix;
+    final lastUpdateRequestedTime = this.lastUpdateRequestedTime;
+    final templateSSMDocumentDetails = this.templateSSMDocumentDetails;
+    return {
+      'ConformancePackArn': conformancePackArn,
+      'ConformancePackId': conformancePackId,
+      'ConformancePackName': conformancePackName,
+      if (conformancePackInputParameters != null)
+        'ConformancePackInputParameters': conformancePackInputParameters,
+      if (createdBy != null) 'CreatedBy': createdBy,
+      if (deliveryS3Bucket != null) 'DeliveryS3Bucket': deliveryS3Bucket,
+      if (deliveryS3KeyPrefix != null)
+        'DeliveryS3KeyPrefix': deliveryS3KeyPrefix,
+      if (lastUpdateRequestedTime != null)
+        'LastUpdateRequestedTime': unixTimestampToJson(lastUpdateRequestedTime),
+      if (templateSSMDocumentDetails != null)
+        'TemplateSSMDocumentDetails': templateSSMDocumentDetails,
+    };
+  }
+}
+
+/// Compliance information of one or more Config rules within a conformance
+/// pack. You can filter using Config rule names and compliance types.
+class ConformancePackRuleCompliance {
+  /// Compliance of the Config rule.
+  final ConformancePackComplianceType? complianceType;
+
+  /// Name of the Config rule.
+  final String? configRuleName;
+
+  /// Controls for the conformance pack. A control is a process to prevent or
+  /// detect problems while meeting objectives. A control can align with a
+  /// specific compliance regime or map to internal controls defined by an
+  /// organization.
+  final List<String>? controls;
+
+  ConformancePackRuleCompliance({
+    this.complianceType,
+    this.configRuleName,
+    this.controls,
+  });
+
+  factory ConformancePackRuleCompliance.fromJson(Map<String, dynamic> json) {
+    return ConformancePackRuleCompliance(
+      complianceType: (json['ComplianceType'] as String?)
+          ?.let(ConformancePackComplianceType.fromString),
+      configRuleName: json['ConfigRuleName'] as String?,
+      controls: (json['Controls'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final complianceType = this.complianceType;
+    final configRuleName = this.configRuleName;
+    final controls = this.controls;
+    return {
+      if (complianceType != null) 'ComplianceType': complianceType.value,
+      if (configRuleName != null) 'ConfigRuleName': configRuleName,
+      if (controls != null) 'Controls': controls,
+    };
+  }
+}
+
+/// Filters the conformance pack by compliance types and Config rule names.
+class ConformancePackComplianceFilters {
+  /// Filters the results by compliance.
+  ///
+  /// The allowed values are <code>COMPLIANT</code> and
+  /// <code>NON_COMPLIANT</code>. <code>INSUFFICIENT_DATA</code> is not supported.
+  final ConformancePackComplianceType? complianceType;
+
+  /// Filters the results by Config rule names.
+  final List<String>? configRuleNames;
+
+  ConformancePackComplianceFilters({
+    this.complianceType,
+    this.configRuleNames,
   });
 
   Map<String, dynamic> toJson() {
-    final endTime = this.endTime;
-    final startTime = this.startTime;
+    final complianceType = this.complianceType;
+    final configRuleNames = this.configRuleNames;
     return {
-      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
-      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (complianceType != null) 'ComplianceType': complianceType.value,
+      if (configRuleNames != null) 'ConfigRuleNames': configRuleNames,
     };
   }
+}
+
+/// The current status of the configuration recorder.
+///
+/// For a detailed status of recording events over time, add your Config events
+/// to CloudWatch metrics and use CloudWatch metrics.
+class ConfigurationRecorderStatus {
+  /// The Amazon Resource Name (ARN) of the configuration recorder.
+  final String? arn;
+
+  /// The latest error code from when the recorder last failed.
+  final String? lastErrorCode;
+
+  /// The latest error message from when the recorder last failed.
+  final String? lastErrorMessage;
+
+  /// The time the recorder was last started.
+  final DateTime? lastStartTime;
+
+  /// The status of the latest recording event processed by the recorder.
+  final RecorderStatus? lastStatus;
+
+  /// The time of the latest change in status of an recording event processed by
+  /// the recorder.
+  final DateTime? lastStatusChangeTime;
+
+  /// The time the recorder was last stopped.
+  final DateTime? lastStopTime;
+
+  /// The name of the configuration recorder.
+  final String? name;
+
+  /// Specifies whether or not the recorder is currently recording.
+  final bool? recording;
+
+  /// For service-linked configuration recorders, the service principal of the
+  /// linked Amazon Web Services service.
+  final String? servicePrincipal;
+
+  ConfigurationRecorderStatus({
+    this.arn,
+    this.lastErrorCode,
+    this.lastErrorMessage,
+    this.lastStartTime,
+    this.lastStatus,
+    this.lastStatusChangeTime,
+    this.lastStopTime,
+    this.name,
+    this.recording,
+    this.servicePrincipal,
+  });
+
+  factory ConfigurationRecorderStatus.fromJson(Map<String, dynamic> json) {
+    return ConfigurationRecorderStatus(
+      arn: json['arn'] as String?,
+      lastErrorCode: json['lastErrorCode'] as String?,
+      lastErrorMessage: json['lastErrorMessage'] as String?,
+      lastStartTime: timeStampFromJson(json['lastStartTime']),
+      lastStatus:
+          (json['lastStatus'] as String?)?.let(RecorderStatus.fromString),
+      lastStatusChangeTime: timeStampFromJson(json['lastStatusChangeTime']),
+      lastStopTime: timeStampFromJson(json['lastStopTime']),
+      name: json['name'] as String?,
+      recording: json['recording'] as bool?,
+      servicePrincipal: json['servicePrincipal'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final lastErrorCode = this.lastErrorCode;
+    final lastErrorMessage = this.lastErrorMessage;
+    final lastStartTime = this.lastStartTime;
+    final lastStatus = this.lastStatus;
+    final lastStatusChangeTime = this.lastStatusChangeTime;
+    final lastStopTime = this.lastStopTime;
+    final name = this.name;
+    final recording = this.recording;
+    final servicePrincipal = this.servicePrincipal;
+    return {
+      if (arn != null) 'arn': arn,
+      if (lastErrorCode != null) 'lastErrorCode': lastErrorCode,
+      if (lastErrorMessage != null) 'lastErrorMessage': lastErrorMessage,
+      if (lastStartTime != null)
+        'lastStartTime': unixTimestampToJson(lastStartTime),
+      if (lastStatus != null) 'lastStatus': lastStatus.value,
+      if (lastStatusChangeTime != null)
+        'lastStatusChangeTime': unixTimestampToJson(lastStatusChangeTime),
+      if (lastStopTime != null)
+        'lastStopTime': unixTimestampToJson(lastStopTime),
+      if (name != null) 'name': name,
+      if (recording != null) 'recording': recording,
+      if (servicePrincipal != null) 'servicePrincipal': servicePrincipal,
+    };
+  }
+}
+
+class RecorderStatus {
+  static const pending = RecorderStatus._('Pending');
+  static const success = RecorderStatus._('Success');
+  static const failure = RecorderStatus._('Failure');
+  static const notApplicable = RecorderStatus._('NotApplicable');
+
+  final String value;
+
+  const RecorderStatus._(this.value);
+
+  static const values = [pending, success, failure, notApplicable];
+
+  static RecorderStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RecorderStatus._(value));
+
+  @override
+  bool operator ==(other) => other is RecorderStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The current sync status between the source and the aggregator account.
+class AggregatedSourceStatus {
+  /// The region authorized to collect aggregated data.
+  final String? awsRegion;
+
+  /// The error code that Config returned when the source account aggregation last
+  /// failed.
+  final String? lastErrorCode;
+
+  /// The message indicating that the source account aggregation failed due to an
+  /// error.
+  final String? lastErrorMessage;
+
+  /// Filters the last updated status type.
+  ///
+  /// <ul>
+  /// <li>
+  /// Valid value FAILED indicates errors while moving data.
+  /// </li>
+  /// <li>
+  /// Valid value SUCCEEDED indicates the data was successfully moved.
+  /// </li>
+  /// <li>
+  /// Valid value OUTDATED indicates the data is not the most recent.
+  /// </li>
+  /// </ul>
+  final AggregatedSourceStatusType? lastUpdateStatus;
+
+  /// The time of the last update.
+  final DateTime? lastUpdateTime;
+
+  /// The source account ID or an organization.
+  final String? sourceId;
+
+  /// The source account or an organization.
+  final AggregatedSourceType? sourceType;
+
+  AggregatedSourceStatus({
+    this.awsRegion,
+    this.lastErrorCode,
+    this.lastErrorMessage,
+    this.lastUpdateStatus,
+    this.lastUpdateTime,
+    this.sourceId,
+    this.sourceType,
+  });
+
+  factory AggregatedSourceStatus.fromJson(Map<String, dynamic> json) {
+    return AggregatedSourceStatus(
+      awsRegion: json['AwsRegion'] as String?,
+      lastErrorCode: json['LastErrorCode'] as String?,
+      lastErrorMessage: json['LastErrorMessage'] as String?,
+      lastUpdateStatus: (json['LastUpdateStatus'] as String?)
+          ?.let(AggregatedSourceStatusType.fromString),
+      lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
+      sourceId: json['SourceId'] as String?,
+      sourceType:
+          (json['SourceType'] as String?)?.let(AggregatedSourceType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsRegion = this.awsRegion;
+    final lastErrorCode = this.lastErrorCode;
+    final lastErrorMessage = this.lastErrorMessage;
+    final lastUpdateStatus = this.lastUpdateStatus;
+    final lastUpdateTime = this.lastUpdateTime;
+    final sourceId = this.sourceId;
+    final sourceType = this.sourceType;
+    return {
+      if (awsRegion != null) 'AwsRegion': awsRegion,
+      if (lastErrorCode != null) 'LastErrorCode': lastErrorCode,
+      if (lastErrorMessage != null) 'LastErrorMessage': lastErrorMessage,
+      if (lastUpdateStatus != null) 'LastUpdateStatus': lastUpdateStatus.value,
+      if (lastUpdateTime != null)
+        'LastUpdateTime': unixTimestampToJson(lastUpdateTime),
+      if (sourceId != null) 'SourceId': sourceId,
+      if (sourceType != null) 'SourceType': sourceType.value,
+    };
+  }
+}
+
+class AggregatedSourceType {
+  static const account = AggregatedSourceType._('ACCOUNT');
+  static const organization = AggregatedSourceType._('ORGANIZATION');
+
+  final String value;
+
+  const AggregatedSourceType._(this.value);
+
+  static const values = [account, organization];
+
+  static AggregatedSourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AggregatedSourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AggregatedSourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AggregatedSourceStatusType {
+  static const failed = AggregatedSourceStatusType._('FAILED');
+  static const succeeded = AggregatedSourceStatusType._('SUCCEEDED');
+  static const outdated = AggregatedSourceStatusType._('OUTDATED');
+
+  final String value;
+
+  const AggregatedSourceStatusType._(this.value);
+
+  static const values = [failed, succeeded, outdated];
+
+  static AggregatedSourceStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AggregatedSourceStatusType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AggregatedSourceStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Returns a filtered list of Detective or Proactive Config rules. By default,
+/// if the filter is not defined, this API returns an unfiltered list. For more
+/// information on Detective or Proactive Config rules, see <a
+/// href="https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config-rules.html">
+/// <b>Evaluation Mode</b> </a> in the <i>Config Developer Guide</i>.
+class DescribeConfigRulesFilters {
+  /// The mode of an evaluation. The valid values are Detective or Proactive.
+  final EvaluationMode? evaluationMode;
+
+  /// Filters the results by <code>RuleEvaluationVisibility</code>.
+  final RuleEvaluationVisibility? ruleEvaluationVisibility;
+
+  DescribeConfigRulesFilters({
+    this.evaluationMode,
+    this.ruleEvaluationVisibility,
+  });
+
+  Map<String, dynamic> toJson() {
+    final evaluationMode = this.evaluationMode;
+    final ruleEvaluationVisibility = this.ruleEvaluationVisibility;
+    return {
+      if (evaluationMode != null) 'EvaluationMode': evaluationMode.value,
+      if (ruleEvaluationVisibility != null)
+        'RuleEvaluationVisibility': ruleEvaluationVisibility.value,
+    };
+  }
+}
+
+/// Status information for your Config Managed rules and Config Custom Policy
+/// rules. The status includes information such as the last time the rule ran,
+/// the last time it failed, and the related error for the last failure.
+///
+/// This operation does not return status information about Config Custom Lambda
+/// rules.
+class ConfigRuleEvaluationStatus {
+  /// The Amazon Resource Name (ARN) of the Config rule.
+  final String? configRuleArn;
+
+  /// The ID of the Config rule.
+  final String? configRuleId;
+
+  /// The name of the Config rule.
+  final String? configRuleName;
+
+  /// The time that you first activated the Config rule.
+  final DateTime? firstActivatedTime;
+
+  /// Indicates whether Config has evaluated your resources against the rule at
+  /// least once.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>true</code> - Config has evaluated your Amazon Web Services resources
+  /// against the rule at least once.
+  /// </li>
+  /// <li>
+  /// <code>false</code> - Config has not finished evaluating your Amazon Web
+  /// Services resources against the rule at least once.
+  /// </li>
+  /// </ul>
+  final bool? firstEvaluationStarted;
+
+  /// The time that you last turned off the Config rule.
+  final DateTime? lastDeactivatedTime;
+
+  /// The status of the last attempted delivery of a debug log for your Config
+  /// Custom Policy rules. Either <code>Successful</code> or <code>Failed</code>.
+  final String? lastDebugLogDeliveryStatus;
+
+  /// The reason Config was not able to deliver a debug log. This is for the last
+  /// failed attempt to retrieve a debug log for your Config Custom Policy rules.
+  final String? lastDebugLogDeliveryStatusReason;
+
+  /// The time Config last attempted to deliver a debug log for your Config Custom
+  /// Policy rules.
+  final DateTime? lastDebugLogDeliveryTime;
+
+  /// The error code that Config returned when the rule last failed.
+  final String? lastErrorCode;
+
+  /// The error message that Config returned when the rule last failed.
+  final String? lastErrorMessage;
+
+  /// The time that Config last failed to evaluate your Amazon Web Services
+  /// resources against the rule.
+  final DateTime? lastFailedEvaluationTime;
+
+  /// The time that Config last failed to invoke the Config rule to evaluate your
+  /// Amazon Web Services resources.
+  final DateTime? lastFailedInvocationTime;
+
+  /// The time that Config last successfully evaluated your Amazon Web Services
+  /// resources against the rule.
+  final DateTime? lastSuccessfulEvaluationTime;
+
+  /// The time that Config last successfully invoked the Config rule to evaluate
+  /// your Amazon Web Services resources.
+  final DateTime? lastSuccessfulInvocationTime;
+
+  ConfigRuleEvaluationStatus({
+    this.configRuleArn,
+    this.configRuleId,
+    this.configRuleName,
+    this.firstActivatedTime,
+    this.firstEvaluationStarted,
+    this.lastDeactivatedTime,
+    this.lastDebugLogDeliveryStatus,
+    this.lastDebugLogDeliveryStatusReason,
+    this.lastDebugLogDeliveryTime,
+    this.lastErrorCode,
+    this.lastErrorMessage,
+    this.lastFailedEvaluationTime,
+    this.lastFailedInvocationTime,
+    this.lastSuccessfulEvaluationTime,
+    this.lastSuccessfulInvocationTime,
+  });
+
+  factory ConfigRuleEvaluationStatus.fromJson(Map<String, dynamic> json) {
+    return ConfigRuleEvaluationStatus(
+      configRuleArn: json['ConfigRuleArn'] as String?,
+      configRuleId: json['ConfigRuleId'] as String?,
+      configRuleName: json['ConfigRuleName'] as String?,
+      firstActivatedTime: timeStampFromJson(json['FirstActivatedTime']),
+      firstEvaluationStarted: json['FirstEvaluationStarted'] as bool?,
+      lastDeactivatedTime: timeStampFromJson(json['LastDeactivatedTime']),
+      lastDebugLogDeliveryStatus: json['LastDebugLogDeliveryStatus'] as String?,
+      lastDebugLogDeliveryStatusReason:
+          json['LastDebugLogDeliveryStatusReason'] as String?,
+      lastDebugLogDeliveryTime:
+          timeStampFromJson(json['LastDebugLogDeliveryTime']),
+      lastErrorCode: json['LastErrorCode'] as String?,
+      lastErrorMessage: json['LastErrorMessage'] as String?,
+      lastFailedEvaluationTime:
+          timeStampFromJson(json['LastFailedEvaluationTime']),
+      lastFailedInvocationTime:
+          timeStampFromJson(json['LastFailedInvocationTime']),
+      lastSuccessfulEvaluationTime:
+          timeStampFromJson(json['LastSuccessfulEvaluationTime']),
+      lastSuccessfulInvocationTime:
+          timeStampFromJson(json['LastSuccessfulInvocationTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configRuleArn = this.configRuleArn;
+    final configRuleId = this.configRuleId;
+    final configRuleName = this.configRuleName;
+    final firstActivatedTime = this.firstActivatedTime;
+    final firstEvaluationStarted = this.firstEvaluationStarted;
+    final lastDeactivatedTime = this.lastDeactivatedTime;
+    final lastDebugLogDeliveryStatus = this.lastDebugLogDeliveryStatus;
+    final lastDebugLogDeliveryStatusReason =
+        this.lastDebugLogDeliveryStatusReason;
+    final lastDebugLogDeliveryTime = this.lastDebugLogDeliveryTime;
+    final lastErrorCode = this.lastErrorCode;
+    final lastErrorMessage = this.lastErrorMessage;
+    final lastFailedEvaluationTime = this.lastFailedEvaluationTime;
+    final lastFailedInvocationTime = this.lastFailedInvocationTime;
+    final lastSuccessfulEvaluationTime = this.lastSuccessfulEvaluationTime;
+    final lastSuccessfulInvocationTime = this.lastSuccessfulInvocationTime;
+    return {
+      if (configRuleArn != null) 'ConfigRuleArn': configRuleArn,
+      if (configRuleId != null) 'ConfigRuleId': configRuleId,
+      if (configRuleName != null) 'ConfigRuleName': configRuleName,
+      if (firstActivatedTime != null)
+        'FirstActivatedTime': unixTimestampToJson(firstActivatedTime),
+      if (firstEvaluationStarted != null)
+        'FirstEvaluationStarted': firstEvaluationStarted,
+      if (lastDeactivatedTime != null)
+        'LastDeactivatedTime': unixTimestampToJson(lastDeactivatedTime),
+      if (lastDebugLogDeliveryStatus != null)
+        'LastDebugLogDeliveryStatus': lastDebugLogDeliveryStatus,
+      if (lastDebugLogDeliveryStatusReason != null)
+        'LastDebugLogDeliveryStatusReason': lastDebugLogDeliveryStatusReason,
+      if (lastDebugLogDeliveryTime != null)
+        'LastDebugLogDeliveryTime':
+            unixTimestampToJson(lastDebugLogDeliveryTime),
+      if (lastErrorCode != null) 'LastErrorCode': lastErrorCode,
+      if (lastErrorMessage != null) 'LastErrorMessage': lastErrorMessage,
+      if (lastFailedEvaluationTime != null)
+        'LastFailedEvaluationTime':
+            unixTimestampToJson(lastFailedEvaluationTime),
+      if (lastFailedInvocationTime != null)
+        'LastFailedInvocationTime':
+            unixTimestampToJson(lastFailedInvocationTime),
+      if (lastSuccessfulEvaluationTime != null)
+        'LastSuccessfulEvaluationTime':
+            unixTimestampToJson(lastSuccessfulEvaluationTime),
+      if (lastSuccessfulInvocationTime != null)
+        'LastSuccessfulInvocationTime':
+            unixTimestampToJson(lastSuccessfulInvocationTime),
+    };
+  }
+}
+
+/// Indicates whether an Amazon Web Services resource that is evaluated
+/// according to one or more Config rules is compliant. A resource is compliant
+/// if it complies with all of the rules that evaluate it. A resource is
+/// noncompliant if it does not comply with one or more of these rules.
+class ComplianceByResource {
+  /// Indicates whether the Amazon Web Services resource complies with all of the
+  /// Config rules that evaluated it.
+  final Compliance? compliance;
+
+  /// The ID of the Amazon Web Services resource that was evaluated.
+  final String? resourceId;
+
+  /// The type of the Amazon Web Services resource that was evaluated.
+  final String? resourceType;
+
+  ComplianceByResource({
+    this.compliance,
+    this.resourceId,
+    this.resourceType,
+  });
+
+  factory ComplianceByResource.fromJson(Map<String, dynamic> json) {
+    return ComplianceByResource(
+      compliance: json['Compliance'] != null
+          ? Compliance.fromJson(json['Compliance'] as Map<String, dynamic>)
+          : null,
+      resourceId: json['ResourceId'] as String?,
+      resourceType: json['ResourceType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final compliance = this.compliance;
+    final resourceId = this.resourceId;
+    final resourceType = this.resourceType;
+    return {
+      if (compliance != null) 'Compliance': compliance,
+      if (resourceId != null) 'ResourceId': resourceId,
+      if (resourceType != null) 'ResourceType': resourceType,
+    };
+  }
+}
+
+/// Indicates whether an Amazon Web Services resource or Config rule is
+/// compliant and provides the number of contributors that affect the
+/// compliance.
+class Compliance {
+  /// The number of Amazon Web Services resources or Config rules that cause a
+  /// result of <code>NON_COMPLIANT</code>, up to a maximum number.
+  final ComplianceContributorCount? complianceContributorCount;
+
+  /// Indicates whether an Amazon Web Services resource or Config rule is
+  /// compliant.
+  ///
+  /// A resource is compliant if it complies with all of the Config rules that
+  /// evaluate it. A resource is noncompliant if it does not comply with one or
+  /// more of these rules.
+  ///
+  /// A rule is compliant if all of the resources that the rule evaluates comply
+  /// with it. A rule is noncompliant if any of these resources do not comply.
+  ///
+  /// Config returns the <code>INSUFFICIENT_DATA</code> value when no evaluation
+  /// results are available for the Amazon Web Services resource or Config rule.
+  ///
+  /// For the <code>Compliance</code> data type, Config supports only
+  /// <code>COMPLIANT</code>, <code>NON_COMPLIANT</code>, and
+  /// <code>INSUFFICIENT_DATA</code> values. Config does not support the
+  /// <code>NOT_APPLICABLE</code> value for the <code>Compliance</code> data type.
+  final ComplianceType? complianceType;
+
+  Compliance({
+    this.complianceContributorCount,
+    this.complianceType,
+  });
+
+  factory Compliance.fromJson(Map<String, dynamic> json) {
+    return Compliance(
+      complianceContributorCount: json['ComplianceContributorCount'] != null
+          ? ComplianceContributorCount.fromJson(
+              json['ComplianceContributorCount'] as Map<String, dynamic>)
+          : null,
+      complianceType:
+          (json['ComplianceType'] as String?)?.let(ComplianceType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final complianceContributorCount = this.complianceContributorCount;
+    final complianceType = this.complianceType;
+    return {
+      if (complianceContributorCount != null)
+        'ComplianceContributorCount': complianceContributorCount,
+      if (complianceType != null) 'ComplianceType': complianceType.value,
+    };
+  }
+}
+
+/// Indicates whether an Config rule is compliant. A rule is compliant if all of
+/// the resources that the rule evaluated comply with it. A rule is noncompliant
+/// if any of these resources do not comply.
+class ComplianceByConfigRule {
+  /// Indicates whether the Config rule is compliant.
+  final Compliance? compliance;
+
+  /// The name of the Config rule.
+  final String? configRuleName;
+
+  ComplianceByConfigRule({
+    this.compliance,
+    this.configRuleName,
+  });
+
+  factory ComplianceByConfigRule.fromJson(Map<String, dynamic> json) {
+    return ComplianceByConfigRule(
+      compliance: json['Compliance'] != null
+          ? Compliance.fromJson(json['Compliance'] as Map<String, dynamic>)
+          : null,
+      configRuleName: json['ConfigRuleName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final compliance = this.compliance;
+    final configRuleName = this.configRuleName;
+    return {
+      if (compliance != null) 'Compliance': compliance,
+      if (configRuleName != null) 'ConfigRuleName': configRuleName,
+    };
+  }
+}
+
+/// Provides aggregate compliance of the conformance pack. Indicates whether a
+/// conformance pack is compliant based on the name of the conformance pack,
+/// account ID, and region.
+///
+/// A conformance pack is compliant if all of the rules in a conformance packs
+/// are compliant. It is noncompliant if any of the rules are not compliant. The
+/// compliance status of a conformance pack is INSUFFICIENT_DATA only if all
+/// rules within a conformance pack cannot be evaluated due to insufficient
+/// data. If some of the rules in a conformance pack are compliant but the
+/// compliance status of other rules in that same conformance pack is
+/// INSUFFICIENT_DATA, the conformance pack shows compliant.
+class AggregateComplianceByConformancePack {
+  /// The 12-digit Amazon Web Services account ID of the source account.
+  final String? accountId;
+
+  /// The source Amazon Web Services Region from where the data is aggregated.
+  final String? awsRegion;
+
+  /// The compliance status of the conformance pack.
+  final AggregateConformancePackCompliance? compliance;
+
+  /// The name of the conformance pack.
+  final String? conformancePackName;
+
+  AggregateComplianceByConformancePack({
+    this.accountId,
+    this.awsRegion,
+    this.compliance,
+    this.conformancePackName,
+  });
+
+  factory AggregateComplianceByConformancePack.fromJson(
+      Map<String, dynamic> json) {
+    return AggregateComplianceByConformancePack(
+      accountId: json['AccountId'] as String?,
+      awsRegion: json['AwsRegion'] as String?,
+      compliance: json['Compliance'] != null
+          ? AggregateConformancePackCompliance.fromJson(
+              json['Compliance'] as Map<String, dynamic>)
+          : null,
+      conformancePackName: json['ConformancePackName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final awsRegion = this.awsRegion;
+    final compliance = this.compliance;
+    final conformancePackName = this.conformancePackName;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (awsRegion != null) 'AwsRegion': awsRegion,
+      if (compliance != null) 'Compliance': compliance,
+      if (conformancePackName != null)
+        'ConformancePackName': conformancePackName,
+    };
+  }
+}
+
+/// Provides the number of compliant and noncompliant rules within a conformance
+/// pack. Also provides the compliance status of the conformance pack and the
+/// total rule count which includes compliant rules, noncompliant rules, and
+/// rules that cannot be evaluated due to insufficient data.
+///
+/// A conformance pack is compliant if all of the rules in a conformance packs
+/// are compliant. It is noncompliant if any of the rules are not compliant. The
+/// compliance status of a conformance pack is INSUFFICIENT_DATA only if all
+/// rules within a conformance pack cannot be evaluated due to insufficient
+/// data. If some of the rules in a conformance pack are compliant but the
+/// compliance status of other rules in that same conformance pack is
+/// INSUFFICIENT_DATA, the conformance pack shows compliant.
+class AggregateConformancePackCompliance {
+  /// The compliance status of the conformance pack.
+  final ConformancePackComplianceType? complianceType;
+
+  /// The number of compliant Config Rules.
+  final int? compliantRuleCount;
+
+  /// The number of noncompliant Config Rules.
+  final int? nonCompliantRuleCount;
+
+  /// Total number of compliant rules, noncompliant rules, and the rules that do
+  /// not have any applicable resources to evaluate upon resulting in insufficient
+  /// data.
+  final int? totalRuleCount;
+
+  AggregateConformancePackCompliance({
+    this.complianceType,
+    this.compliantRuleCount,
+    this.nonCompliantRuleCount,
+    this.totalRuleCount,
+  });
+
+  factory AggregateConformancePackCompliance.fromJson(
+      Map<String, dynamic> json) {
+    return AggregateConformancePackCompliance(
+      complianceType: (json['ComplianceType'] as String?)
+          ?.let(ConformancePackComplianceType.fromString),
+      compliantRuleCount: json['CompliantRuleCount'] as int?,
+      nonCompliantRuleCount: json['NonCompliantRuleCount'] as int?,
+      totalRuleCount: json['TotalRuleCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final complianceType = this.complianceType;
+    final compliantRuleCount = this.compliantRuleCount;
+    final nonCompliantRuleCount = this.nonCompliantRuleCount;
+    final totalRuleCount = this.totalRuleCount;
+    return {
+      if (complianceType != null) 'ComplianceType': complianceType.value,
+      if (compliantRuleCount != null) 'CompliantRuleCount': compliantRuleCount,
+      if (nonCompliantRuleCount != null)
+        'NonCompliantRuleCount': nonCompliantRuleCount,
+      if (totalRuleCount != null) 'TotalRuleCount': totalRuleCount,
+    };
+  }
+}
+
+/// Filters the conformance packs based on an account ID, region, compliance
+/// type, and the name of the conformance pack.
+class AggregateConformancePackComplianceFilters {
+  /// The 12-digit Amazon Web Services account ID of the source account.
+  final String? accountId;
+
+  /// The source Amazon Web Services Region from where the data is aggregated.
+  final String? awsRegion;
+
+  /// The compliance status of the conformance pack.
+  final ConformancePackComplianceType? complianceType;
+
+  /// The name of the conformance pack.
+  final String? conformancePackName;
+
+  AggregateConformancePackComplianceFilters({
+    this.accountId,
+    this.awsRegion,
+    this.complianceType,
+    this.conformancePackName,
+  });
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final awsRegion = this.awsRegion;
+    final complianceType = this.complianceType;
+    final conformancePackName = this.conformancePackName;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (awsRegion != null) 'AwsRegion': awsRegion,
+      if (complianceType != null) 'ComplianceType': complianceType.value,
+      if (conformancePackName != null)
+        'ConformancePackName': conformancePackName,
+    };
+  }
+}
+
+/// Indicates whether an Config rule is compliant based on account ID, region,
+/// compliance, and rule name.
+///
+/// A rule is compliant if all of the resources that the rule evaluated comply
+/// with it. It is noncompliant if any of these resources do not comply.
+class AggregateComplianceByConfigRule {
+  /// The 12-digit account ID of the source account.
+  final String? accountId;
+
+  /// The source region from where the data is aggregated.
+  final String? awsRegion;
+
+  /// Indicates whether an Amazon Web Services resource or Config rule is
+  /// compliant and provides the number of contributors that affect the
+  /// compliance.
+  final Compliance? compliance;
+
+  /// The name of the Config rule.
+  final String? configRuleName;
+
+  AggregateComplianceByConfigRule({
+    this.accountId,
+    this.awsRegion,
+    this.compliance,
+    this.configRuleName,
+  });
+
+  factory AggregateComplianceByConfigRule.fromJson(Map<String, dynamic> json) {
+    return AggregateComplianceByConfigRule(
+      accountId: json['AccountId'] as String?,
+      awsRegion: json['AwsRegion'] as String?,
+      compliance: json['Compliance'] != null
+          ? Compliance.fromJson(json['Compliance'] as Map<String, dynamic>)
+          : null,
+      configRuleName: json['ConfigRuleName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final awsRegion = this.awsRegion;
+    final compliance = this.compliance;
+    final configRuleName = this.configRuleName;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (awsRegion != null) 'AwsRegion': awsRegion,
+      if (compliance != null) 'Compliance': compliance,
+      if (configRuleName != null) 'ConfigRuleName': configRuleName,
+    };
+  }
+}
+
+/// Filters the compliance results based on account ID, region, compliance type,
+/// and rule name.
+class ConfigRuleComplianceFilters {
+  /// The 12-digit account ID of the source account.
+  final String? accountId;
+
+  /// The source region where the data is aggregated.
+  final String? awsRegion;
+
+  /// The rule compliance status.
+  ///
+  /// For the <code>ConfigRuleComplianceFilters</code> data type, Config supports
+  /// only <code>COMPLIANT</code> and <code>NON_COMPLIANT</code>. Config does not
+  /// support the <code>NOT_APPLICABLE</code> and the
+  /// <code>INSUFFICIENT_DATA</code> values.
+  final ComplianceType? complianceType;
+
+  /// The name of the Config rule.
+  final String? configRuleName;
+
+  ConfigRuleComplianceFilters({
+    this.accountId,
+    this.awsRegion,
+    this.complianceType,
+    this.configRuleName,
+  });
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final awsRegion = this.awsRegion;
+    final complianceType = this.complianceType;
+    final configRuleName = this.configRuleName;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (awsRegion != null) 'AwsRegion': awsRegion,
+      if (complianceType != null) 'ComplianceType': complianceType.value,
+      if (configRuleName != null) 'ConfigRuleName': configRuleName,
+    };
+  }
+}
+
+/// List of each of the failed delete remediation exceptions with specific
+/// reasons.
+class FailedDeleteRemediationExceptionsBatch {
+  /// Returns remediation exception resource key object of the failed items.
+  final List<RemediationExceptionResourceKey>? failedItems;
+
+  /// Returns a failure message for delete remediation exception. For example,
+  /// Config creates an exception due to an internal error.
+  final String? failureMessage;
+
+  FailedDeleteRemediationExceptionsBatch({
+    this.failedItems,
+    this.failureMessage,
+  });
+
+  factory FailedDeleteRemediationExceptionsBatch.fromJson(
+      Map<String, dynamic> json) {
+    return FailedDeleteRemediationExceptionsBatch(
+      failedItems: (json['FailedItems'] as List?)
+          ?.nonNulls
+          .map((e) => RemediationExceptionResourceKey.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      failureMessage: json['FailureMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failedItems = this.failedItems;
+    final failureMessage = this.failureMessage;
+    return {
+      if (failedItems != null) 'FailedItems': failedItems,
+      if (failureMessage != null) 'FailureMessage': failureMessage,
+    };
+  }
+}
+
+/// The detailed configurations of a specified resource.
+class BaseConfigurationItem {
+  /// The 12-digit Amazon Web Services account ID associated with the resource.
+  final String? accountId;
+
+  /// The Amazon Resource Name (ARN) of the resource.
+  final String? arn;
+
+  /// The Availability Zone associated with the resource.
+  final String? availabilityZone;
+
+  /// The region where the resource resides.
+  final String? awsRegion;
+
+  /// A JSON-encoded string that contains the contents for the resource
+  /// configuration. This string needs to be deserialized using
+  /// <code>json.loads()</code> before you can access the contents.
+  final String? configuration;
+
+  /// The time when the recording of configuration changes was initiated for the
+  /// resource.
+  final DateTime? configurationItemCaptureTime;
+
+  /// The time when configuration changes for the resource were delivered.
+  /// <note>
+  /// This field is optional and is not guaranteed to be present in a
+  /// configuration item (CI). If you are using daily recording, this field will
+  /// be populated. However, if you are using continuous recording, this field
+  /// will be omitted since the delivery time is instantaneous as the CI is
+  /// available right away. For more information on daily recording and continuous
+  /// recording, see <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-recording-frequency">Recording
+  /// Frequency</a> in the <i>Config Developer Guide</i>.
+  /// </note>
+  final DateTime? configurationItemDeliveryTime;
+
+  /// The configuration item status. Valid values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// OK – The resource configuration has been updated.
+  /// </li>
+  /// <li>
+  /// ResourceDiscovered – The resource was newly discovered.
+  /// </li>
+  /// <li>
+  /// ResourceNotRecorded – The resource was discovered, but its configuration was
+  /// not recorded since the recorder doesn't record resources of this type.
+  /// </li>
+  /// <li>
+  /// ResourceDeleted – The resource was deleted
+  /// </li>
+  /// <li>
+  /// ResourceDeletedNotRecorded – The resource was deleted, but its configuration
+  /// was not recorded since the recorder doesn't record resources of this type.
+  /// </li>
+  /// </ul>
+  final ConfigurationItemStatus? configurationItemStatus;
+
+  /// An identifier that indicates the ordering of the configuration items of a
+  /// resource.
+  final String? configurationStateId;
+
+  /// The recording frequency that Config uses to record configuration changes for
+  /// the resource.
+  /// <note>
+  /// This field only appears in the API response when <code>DAILY</code>
+  /// recording is enabled for a resource type. If this field is not present,
+  /// <code>CONTINUOUS</code> recording is enabled for that resource type. For
+  /// more information on daily recording and continuous recording, see <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-recording-frequency">Recording
+  /// Frequency</a> in the <i>Config Developer Guide</i>.
+  /// </note>
+  final RecordingFrequency? recordingFrequency;
+
+  /// The time stamp when the resource was created.
+  final DateTime? resourceCreationTime;
+
+  /// The ID of the resource (for example., sg-xxxxxx).
+  final String? resourceId;
+
+  /// The custom name of the resource, if available.
+  final String? resourceName;
+
+  /// The type of Amazon Web Services resource.
+  final ResourceType? resourceType;
+
+  /// A string to string map that contains additional contents for the resource
+  /// configuration.Config returns this field for certain resource types to
+  /// supplement the information returned for the <code>configuration</code>
+  /// field.
+  ///
+  /// This string needs to be deserialized using <code>json.loads()</code> before
+  /// you can access the contents.
+  final Map<String, String>? supplementaryConfiguration;
+
+  /// The version number of the resource configuration.
+  final String? version;
+
+  BaseConfigurationItem({
+    this.accountId,
+    this.arn,
+    this.availabilityZone,
+    this.awsRegion,
+    this.configuration,
+    this.configurationItemCaptureTime,
+    this.configurationItemDeliveryTime,
+    this.configurationItemStatus,
+    this.configurationStateId,
+    this.recordingFrequency,
+    this.resourceCreationTime,
+    this.resourceId,
+    this.resourceName,
+    this.resourceType,
+    this.supplementaryConfiguration,
+    this.version,
+  });
+
+  factory BaseConfigurationItem.fromJson(Map<String, dynamic> json) {
+    return BaseConfigurationItem(
+      accountId: json['accountId'] as String?,
+      arn: json['arn'] as String?,
+      availabilityZone: json['availabilityZone'] as String?,
+      awsRegion: json['awsRegion'] as String?,
+      configuration: json['configuration'] as String?,
+      configurationItemCaptureTime:
+          timeStampFromJson(json['configurationItemCaptureTime']),
+      configurationItemDeliveryTime:
+          timeStampFromJson(json['configurationItemDeliveryTime']),
+      configurationItemStatus: (json['configurationItemStatus'] as String?)
+          ?.let(ConfigurationItemStatus.fromString),
+      configurationStateId: json['configurationStateId'] as String?,
+      recordingFrequency: (json['recordingFrequency'] as String?)
+          ?.let(RecordingFrequency.fromString),
+      resourceCreationTime: timeStampFromJson(json['resourceCreationTime']),
+      resourceId: json['resourceId'] as String?,
+      resourceName: json['resourceName'] as String?,
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
+      supplementaryConfiguration:
+          (json['supplementaryConfiguration'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      version: json['version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final arn = this.arn;
+    final availabilityZone = this.availabilityZone;
+    final awsRegion = this.awsRegion;
+    final configuration = this.configuration;
+    final configurationItemCaptureTime = this.configurationItemCaptureTime;
+    final configurationItemDeliveryTime = this.configurationItemDeliveryTime;
+    final configurationItemStatus = this.configurationItemStatus;
+    final configurationStateId = this.configurationStateId;
+    final recordingFrequency = this.recordingFrequency;
+    final resourceCreationTime = this.resourceCreationTime;
+    final resourceId = this.resourceId;
+    final resourceName = this.resourceName;
+    final resourceType = this.resourceType;
+    final supplementaryConfiguration = this.supplementaryConfiguration;
+    final version = this.version;
+    return {
+      if (accountId != null) 'accountId': accountId,
+      if (arn != null) 'arn': arn,
+      if (availabilityZone != null) 'availabilityZone': availabilityZone,
+      if (awsRegion != null) 'awsRegion': awsRegion,
+      if (configuration != null) 'configuration': configuration,
+      if (configurationItemCaptureTime != null)
+        'configurationItemCaptureTime':
+            unixTimestampToJson(configurationItemCaptureTime),
+      if (configurationItemDeliveryTime != null)
+        'configurationItemDeliveryTime':
+            unixTimestampToJson(configurationItemDeliveryTime),
+      if (configurationItemStatus != null)
+        'configurationItemStatus': configurationItemStatus.value,
+      if (configurationStateId != null)
+        'configurationStateId': configurationStateId,
+      if (recordingFrequency != null)
+        'recordingFrequency': recordingFrequency.value,
+      if (resourceCreationTime != null)
+        'resourceCreationTime': unixTimestampToJson(resourceCreationTime),
+      if (resourceId != null) 'resourceId': resourceId,
+      if (resourceName != null) 'resourceName': resourceName,
+      if (resourceType != null) 'resourceType': resourceType.value,
+      if (supplementaryConfiguration != null)
+        'supplementaryConfiguration': supplementaryConfiguration,
+      if (version != null) 'version': version,
+    };
+  }
+}
+
+class ConflictException extends _s.GenericAwsException {
+  ConflictException({String? type, String? message})
+      : super(type: type, code: 'ConflictException', message: message);
 }
 
 class ConformancePackTemplateValidationException
@@ -16879,12 +18391,20 @@ class TooManyTagsException extends _s.GenericAwsException {
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
+class UnmodifiableEntityException extends _s.GenericAwsException {
+  UnmodifiableEntityException({String? type, String? message})
+      : super(
+            type: type, code: 'UnmodifiableEntityException', message: message);
+}
+
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
+  'ConflictException': (type, message) =>
+      ConflictException(type: type, message: message),
   'ConformancePackTemplateValidationException': (type, message) =>
       ConformancePackTemplateValidationException(type: type, message: message),
   'IdempotentParameterMismatch': (type, message) =>
@@ -16998,6 +18518,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ResourceNotFoundException(type: type, message: message),
   'TooManyTagsException': (type, message) =>
       TooManyTagsException(type: type, message: message),
+  'UnmodifiableEntityException': (type, message) =>
+      UnmodifiableEntityException(type: type, message: message),
   'ValidationException': (type, message) =>
       ValidationException(type: type, message: message),
 };

@@ -68,11 +68,11 @@ class LexModelBuilding {
   /// This operation requires permission for the
   /// <code>lex:CreateBotVersion</code> action.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [ConflictException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [PreconditionFailedException].
   ///
   /// Parameter [name] :
@@ -118,11 +118,11 @@ class LexModelBuilding {
   /// This operation requires permissions to perform the
   /// <code>lex:CreateIntentVersion</code> action.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [ConflictException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [PreconditionFailedException].
   ///
   /// Parameter [name] :
@@ -169,11 +169,11 @@ class LexModelBuilding {
   /// This operation requires permissions for the
   /// <code>lex:CreateSlotTypeVersion</code> action.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [ConflictException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [PreconditionFailedException].
   ///
   /// Parameter [name] :
@@ -224,11 +224,11 @@ class LexModelBuilding {
   /// This operation requires permissions for the <code>lex:DeleteBot</code>
   /// action.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [ConflictException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ResourceInUseException].
   ///
   /// Parameter [name] :
@@ -255,11 +255,11 @@ class LexModelBuilding {
   /// same exception again, delete the referring association until the
   /// <code>DeleteBotAlias</code> operation is successful.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [ConflictException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ResourceInUseException].
   ///
   /// Parameter [botName] :
@@ -286,11 +286,11 @@ class LexModelBuilding {
   /// This operation requires permission for the
   /// <code>lex:DeleteBotChannelAssociation</code> action.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [ConflictException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [botAlias] :
   /// An alias that points to the specific version of the Amazon Lex bot to
@@ -321,11 +321,11 @@ class LexModelBuilding {
   /// This operation requires permissions for the
   /// <code>lex:DeleteBotVersion</code> action.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [ConflictException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ResourceInUseException].
   ///
   /// Parameter [name] :
@@ -366,11 +366,11 @@ class LexModelBuilding {
   /// This operation requires permission for the <code>lex:DeleteIntent</code>
   /// action.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [ConflictException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ResourceInUseException].
   ///
   /// Parameter [name] :
@@ -392,11 +392,11 @@ class LexModelBuilding {
   /// This operation requires permissions for the
   /// <code>lex:DeleteIntentVersion</code> action.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [ConflictException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ResourceInUseException].
   ///
   /// Parameter [name] :
@@ -437,11 +437,11 @@ class LexModelBuilding {
   /// This operation requires permission for the <code>lex:DeleteSlotType</code>
   /// action.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [ConflictException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ResourceInUseException].
   ///
   /// Parameter [name] :
@@ -463,11 +463,11 @@ class LexModelBuilding {
   /// This operation requires permissions for the
   /// <code>lex:DeleteSlotTypeVersion</code> action.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [ConflictException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [ResourceInUseException].
   ///
   /// Parameter [name] :
@@ -507,10 +507,10 @@ class LexModelBuilding {
   /// This operation requires permissions for the
   /// <code>lex:DeleteUtterances</code> action.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [botName] :
   /// The name of the bot that stored the utterances.
@@ -541,10 +541,10 @@ class LexModelBuilding {
   /// This operation requires permissions for the <code>lex:GetBot</code>
   /// action.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [name] :
   /// The name of the bot. The name is case sensitive.
@@ -571,10 +571,10 @@ class LexModelBuilding {
   /// This operation requires permissions for the <code>lex:GetBotAlias</code>
   /// action.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [botName] :
   /// The name of the bot.
@@ -600,9 +600,9 @@ class LexModelBuilding {
   /// This operation requires permissions for the <code>lex:GetBotAliases</code>
   /// action.
   ///
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [botName] :
   /// The name of the bot.
@@ -641,7 +641,7 @@ class LexModelBuilding {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/bots/${Uri.encodeComponent(botName)}/aliases/',
+      requestUri: '/bots/${Uri.encodeComponent(botName)}/aliases',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
@@ -654,10 +654,10 @@ class LexModelBuilding {
   /// This operation requires permissions for the
   /// <code>lex:GetBotChannelAssociation</code> action.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [botAlias] :
   /// An alias pointing to the specific version of the Amazon Lex bot to which
@@ -689,9 +689,9 @@ class LexModelBuilding {
   /// The <code>GetBotChannelAssociations</code> operation requires permissions
   /// for the <code>lex:GetBotChannelAssociations</code> action.
   ///
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [botAlias] :
   /// An alias pointing to the specific version of the Amazon Lex bot to which
@@ -738,68 +738,11 @@ class LexModelBuilding {
       payload: null,
       method: 'GET',
       requestUri:
-          '/bots/${Uri.encodeComponent(botName)}/aliases/${Uri.encodeComponent(botAlias)}/channels/',
+          '/bots/${Uri.encodeComponent(botName)}/aliases/${Uri.encodeComponent(botAlias)}/channels',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetBotChannelAssociationsResponse.fromJson(response);
-  }
-
-  /// Gets information about all of the versions of a bot.
-  ///
-  /// The <code>GetBotVersions</code> operation returns a
-  /// <code>BotMetadata</code> object for each version of a bot. For example, if
-  /// a bot has three numbered versions, the <code>GetBotVersions</code>
-  /// operation returns four <code>BotMetadata</code> objects in the response,
-  /// one for each numbered version and one for the <code>$LATEST</code>
-  /// version.
-  ///
-  /// The <code>GetBotVersions</code> operation always returns at least one
-  /// version, the <code>$LATEST</code> version.
-  ///
-  /// This operation requires permissions for the
-  /// <code>lex:GetBotVersions</code> action.
-  ///
-  /// May throw [NotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
-  /// May throw [BadRequestException].
-  ///
-  /// Parameter [name] :
-  /// The name of the bot for which versions should be returned.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of bot versions to return in the response. The default
-  /// is 10.
-  ///
-  /// Parameter [nextToken] :
-  /// A pagination token for fetching the next page of bot versions. If the
-  /// response to this call is truncated, Amazon Lex returns a pagination token
-  /// in the response. To fetch the next page of versions, specify the
-  /// pagination token in the next request.
-  Future<GetBotVersionsResponse> getBotVersions({
-    required String name,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
-    final $query = <String, List<String>>{
-      if (maxResults != null) 'maxResults': [maxResults.toString()],
-      if (nextToken != null) 'nextToken': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/bots/${Uri.encodeComponent(name)}/versions/',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetBotVersionsResponse.fromJson(response);
   }
 
   /// Returns bot information as follows:
@@ -819,10 +762,10 @@ class LexModelBuilding {
   /// This operation requires permission for the <code>lex:GetBots</code>
   /// action.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of bots to return in the response that the request will
@@ -857,11 +800,68 @@ class LexModelBuilding {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/bots/',
+      requestUri: '/bots',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetBotsResponse.fromJson(response);
+  }
+
+  /// Gets information about all of the versions of a bot.
+  ///
+  /// The <code>GetBotVersions</code> operation returns a
+  /// <code>BotMetadata</code> object for each version of a bot. For example, if
+  /// a bot has three numbered versions, the <code>GetBotVersions</code>
+  /// operation returns four <code>BotMetadata</code> objects in the response,
+  /// one for each numbered version and one for the <code>$LATEST</code>
+  /// version.
+  ///
+  /// The <code>GetBotVersions</code> operation always returns at least one
+  /// version, the <code>$LATEST</code> version.
+  ///
+  /// This operation requires permissions for the
+  /// <code>lex:GetBotVersions</code> action.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
+  ///
+  /// Parameter [name] :
+  /// The name of the bot for which versions should be returned.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of bot versions to return in the response. The default
+  /// is 10.
+  ///
+  /// Parameter [nextToken] :
+  /// A pagination token for fetching the next page of bot versions. If the
+  /// response to this call is truncated, Amazon Lex returns a pagination token
+  /// in the response. To fetch the next page of versions, specify the
+  /// pagination token in the next request.
+  Future<GetBotVersionsResponse> getBotVersions({
+    required String name,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/bots/${Uri.encodeComponent(name)}/versions',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetBotVersionsResponse.fromJson(response);
   }
 
   /// Returns information about a built-in intent.
@@ -869,10 +869,10 @@ class LexModelBuilding {
   /// This operation requires permission for the
   /// <code>lex:GetBuiltinIntent</code> action.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [signature] :
   /// The unique identifier for a built-in intent. To find the signature for an
@@ -896,9 +896,9 @@ class LexModelBuilding {
   /// This operation requires permission for the
   /// <code>lex:GetBuiltinIntents</code> action.
   ///
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [locale] :
   /// A list of locales that the intent supports.
@@ -941,7 +941,7 @@ class LexModelBuilding {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/builtins/intents/',
+      requestUri: '/builtins/intents',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
@@ -957,9 +957,9 @@ class LexModelBuilding {
   /// This operation requires permission for the
   /// <code>lex:GetBuiltInSlotTypes</code> action.
   ///
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [locale] :
   /// A list of locales that the slot type supports.
@@ -999,7 +999,7 @@ class LexModelBuilding {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/builtins/slottypes/',
+      requestUri: '/builtins/slottypes',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
@@ -1008,10 +1008,10 @@ class LexModelBuilding {
 
   /// Exports the contents of a Amazon Lex resource in a specified format.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [exportType] :
   /// The format of the exported data.
@@ -1039,7 +1039,7 @@ class LexModelBuilding {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/exports/',
+      requestUri: '/exports',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
@@ -1049,10 +1049,10 @@ class LexModelBuilding {
   /// Gets information about an import job started with the
   /// <code>StartImport</code> operation.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [importId] :
   /// The identifier of the import job information to return.
@@ -1074,10 +1074,10 @@ class LexModelBuilding {
   /// This operation requires permissions to perform the
   /// <code>lex:GetIntent</code> action.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [name] :
   /// The name of the intent. The name is case sensitive.
@@ -1098,63 +1098,6 @@ class LexModelBuilding {
     return GetIntentResponse.fromJson(response);
   }
 
-  /// Gets information about all of the versions of an intent.
-  ///
-  /// The <code>GetIntentVersions</code> operation returns an
-  /// <code>IntentMetadata</code> object for each version of an intent. For
-  /// example, if an intent has three numbered versions, the
-  /// <code>GetIntentVersions</code> operation returns four
-  /// <code>IntentMetadata</code> objects in the response, one for each numbered
-  /// version and one for the <code>$LATEST</code> version.
-  ///
-  /// The <code>GetIntentVersions</code> operation always returns at least one
-  /// version, the <code>$LATEST</code> version.
-  ///
-  /// This operation requires permissions for the
-  /// <code>lex:GetIntentVersions</code> action.
-  ///
-  /// May throw [NotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
-  /// May throw [BadRequestException].
-  ///
-  /// Parameter [name] :
-  /// The name of the intent for which versions should be returned.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of intent versions to return in the response. The
-  /// default is 10.
-  ///
-  /// Parameter [nextToken] :
-  /// A pagination token for fetching the next page of intent versions. If the
-  /// response to this call is truncated, Amazon Lex returns a pagination token
-  /// in the response. To fetch the next page of versions, specify the
-  /// pagination token in the next request.
-  Future<GetIntentVersionsResponse> getIntentVersions({
-    required String name,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
-    final $query = <String, List<String>>{
-      if (maxResults != null) 'maxResults': [maxResults.toString()],
-      if (nextToken != null) 'nextToken': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/intents/${Uri.encodeComponent(name)}/versions/',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetIntentVersionsResponse.fromJson(response);
-  }
-
   /// Returns intent information as follows:
   ///
   /// <ul>
@@ -1171,10 +1114,10 @@ class LexModelBuilding {
   /// The operation requires permission for the <code>lex:GetIntents</code>
   /// action.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of intents to return in the response. The default is
@@ -1209,20 +1152,77 @@ class LexModelBuilding {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/intents/',
+      requestUri: '/intents',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetIntentsResponse.fromJson(response);
   }
 
+  /// Gets information about all of the versions of an intent.
+  ///
+  /// The <code>GetIntentVersions</code> operation returns an
+  /// <code>IntentMetadata</code> object for each version of an intent. For
+  /// example, if an intent has three numbered versions, the
+  /// <code>GetIntentVersions</code> operation returns four
+  /// <code>IntentMetadata</code> objects in the response, one for each numbered
+  /// version and one for the <code>$LATEST</code> version.
+  ///
+  /// The <code>GetIntentVersions</code> operation always returns at least one
+  /// version, the <code>$LATEST</code> version.
+  ///
+  /// This operation requires permissions for the
+  /// <code>lex:GetIntentVersions</code> action.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
+  ///
+  /// Parameter [name] :
+  /// The name of the intent for which versions should be returned.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of intent versions to return in the response. The
+  /// default is 10.
+  ///
+  /// Parameter [nextToken] :
+  /// A pagination token for fetching the next page of intent versions. If the
+  /// response to this call is truncated, Amazon Lex returns a pagination token
+  /// in the response. To fetch the next page of versions, specify the
+  /// pagination token in the next request.
+  Future<GetIntentVersionsResponse> getIntentVersions({
+    required String name,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/intents/${Uri.encodeComponent(name)}/versions',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetIntentVersionsResponse.fromJson(response);
+  }
+
   /// Provides details about an ongoing or complete migration from an Amazon Lex
   /// V1 bot to an Amazon Lex V2 bot. Use this operation to view the migration
   /// alerts and warnings related to the migration.
   ///
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
   ///
   /// Parameter [migrationId] :
@@ -1242,9 +1242,9 @@ class LexModelBuilding {
 
   /// Gets a list of migrations between Amazon Lex V1 and Amazon Lex V2.
   ///
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of migrations to return in the response. The default is
@@ -1308,10 +1308,10 @@ class LexModelBuilding {
   /// This operation requires permissions for the <code>lex:GetSlotType</code>
   /// action.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [name] :
   /// The name of the slot type. The name is case sensitive.
@@ -1332,63 +1332,6 @@ class LexModelBuilding {
     return GetSlotTypeResponse.fromJson(response);
   }
 
-  /// Gets information about all versions of a slot type.
-  ///
-  /// The <code>GetSlotTypeVersions</code> operation returns a
-  /// <code>SlotTypeMetadata</code> object for each version of a slot type. For
-  /// example, if a slot type has three numbered versions, the
-  /// <code>GetSlotTypeVersions</code> operation returns four
-  /// <code>SlotTypeMetadata</code> objects in the response, one for each
-  /// numbered version and one for the <code>$LATEST</code> version.
-  ///
-  /// The <code>GetSlotTypeVersions</code> operation always returns at least one
-  /// version, the <code>$LATEST</code> version.
-  ///
-  /// This operation requires permissions for the
-  /// <code>lex:GetSlotTypeVersions</code> action.
-  ///
-  /// May throw [NotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
-  /// May throw [BadRequestException].
-  ///
-  /// Parameter [name] :
-  /// The name of the slot type for which versions should be returned.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of slot type versions to return in the response. The
-  /// default is 10.
-  ///
-  /// Parameter [nextToken] :
-  /// A pagination token for fetching the next page of slot type versions. If
-  /// the response to this call is truncated, Amazon Lex returns a pagination
-  /// token in the response. To fetch the next page of versions, specify the
-  /// pagination token in the next request.
-  Future<GetSlotTypeVersionsResponse> getSlotTypeVersions({
-    required String name,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
-    final $query = <String, List<String>>{
-      if (maxResults != null) 'maxResults': [maxResults.toString()],
-      if (nextToken != null) 'nextToken': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/slottypes/${Uri.encodeComponent(name)}/versions/',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetSlotTypeVersionsResponse.fromJson(response);
-  }
-
   /// Returns slot type information as follows:
   ///
   /// <ul>
@@ -1405,10 +1348,10 @@ class LexModelBuilding {
   /// The operation requires permission for the <code>lex:GetSlotTypes</code>
   /// action.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of slot types to return in the response. The default is
@@ -1443,11 +1386,68 @@ class LexModelBuilding {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/slottypes/',
+      requestUri: '/slottypes',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetSlotTypesResponse.fromJson(response);
+  }
+
+  /// Gets information about all versions of a slot type.
+  ///
+  /// The <code>GetSlotTypeVersions</code> operation returns a
+  /// <code>SlotTypeMetadata</code> object for each version of a slot type. For
+  /// example, if a slot type has three numbered versions, the
+  /// <code>GetSlotTypeVersions</code> operation returns four
+  /// <code>SlotTypeMetadata</code> objects in the response, one for each
+  /// numbered version and one for the <code>$LATEST</code> version.
+  ///
+  /// The <code>GetSlotTypeVersions</code> operation always returns at least one
+  /// version, the <code>$LATEST</code> version.
+  ///
+  /// This operation requires permissions for the
+  /// <code>lex:GetSlotTypeVersions</code> action.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
+  ///
+  /// Parameter [name] :
+  /// The name of the slot type for which versions should be returned.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of slot type versions to return in the response. The
+  /// default is 10.
+  ///
+  /// Parameter [nextToken] :
+  /// A pagination token for fetching the next page of slot type versions. If
+  /// the response to this call is truncated, Amazon Lex returns a pagination
+  /// token in the response. To fetch the next page of versions, specify the
+  /// pagination token in the next request.
+  Future<GetSlotTypeVersionsResponse> getSlotTypeVersions({
+    required String name,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/slottypes/${Uri.encodeComponent(name)}/versions',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetSlotTypeVersionsResponse.fromJson(response);
   }
 
   /// Use the <code>GetUtterancesView</code> operation to get information about
@@ -1480,9 +1480,9 @@ class LexModelBuilding {
   /// This operation requires permissions for the
   /// <code>lex:GetUtterancesView</code> action.
   ///
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [botName] :
   /// The name of the bot for which utterance information should be returned.
@@ -1518,10 +1518,10 @@ class LexModelBuilding {
   /// Gets a list of tags associated with the specified resource. Only bots, bot
   /// aliases, and bot channels can have tags associated with them.
   ///
-  /// May throw [NotFoundException].
   /// May throw [BadRequestException].
   /// May throw [InternalFailureException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource to get a list of tags for.
@@ -1542,7 +1542,7 @@ class LexModelBuilding {
   /// locale, and whether the bot is directed toward children under age 13. You
   /// can use this to add intents later, or to remove intents from an existing
   /// bot. When you create a bot with the minimum information, the bot is
-  /// created or updated but Amazon Lex returns the <code/> response
+  /// created or updated but Amazon Lex returns the <code></code> response
   /// <code>FAILED</code>. You can build the bot after you add one or more
   /// intents. For more information about Amazon Lex bots, see
   /// <a>how-it-works</a>.
@@ -1558,10 +1558,10 @@ class LexModelBuilding {
   /// This operation requires permissions for the <code>lex:PutBot</code>
   /// action. For more information, see <a>security-iam</a>.
   ///
-  /// May throw [ConflictException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   /// May throw [PreconditionFailedException].
   ///
   /// Parameter [childDirected] :
@@ -1895,10 +1895,10 @@ class LexModelBuilding {
   /// This operation requires permissions for the <code>lex:PutBotAlias</code>
   /// action.
   ///
-  /// May throw [ConflictException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   /// May throw [PreconditionFailedException].
   ///
   /// Parameter [botName] :
@@ -2022,10 +2022,10 @@ class LexModelBuilding {
   /// This operation requires permissions for the <code>lex:PutIntent</code>
   /// action.
   ///
-  /// May throw [ConflictException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   /// May throw [PreconditionFailedException].
   ///
   /// Parameter [name] :
@@ -2248,10 +2248,10 @@ class LexModelBuilding {
   /// This operation requires permissions for the <code>lex:PutSlotType</code>
   /// action.
   ///
-  /// May throw [ConflictException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   /// May throw [PreconditionFailedException].
   ///
   /// Parameter [name] :
@@ -2366,9 +2366,9 @@ class LexModelBuilding {
 
   /// Starts a job to import a resource to Amazon Lex.
   ///
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [mergeStrategy] :
   /// Specifies the action that the <code>StartImport</code> operation should
@@ -2423,7 +2423,7 @@ class LexModelBuilding {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/imports/',
+      requestUri: '/imports',
       exceptionFnMap: _exceptionFns,
     );
     return StartImportResponse.fromJson(response);
@@ -2436,10 +2436,10 @@ class LexModelBuilding {
   /// href="https://docs.aws.amazon.com/lex/latest/dg/migrate.html">Migrating a
   /// bot</a> in the <i>Amazon Lex developer guide</i>.
   ///
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
-  /// May throw [BadRequestException].
   /// May throw [AccessDeniedException].
+  /// May throw [BadRequestException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
   ///
   /// Parameter [migrationStrategy] :
@@ -2509,11 +2509,11 @@ class LexModelBuilding {
   /// Adds the specified tags to the specified resource. If a tag key already
   /// exists, the existing value is replaced with the new value.
   ///
-  /// May throw [NotFoundException].
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
   /// May throw [InternalFailureException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the bot, bot alias, or bot channel to
@@ -2539,11 +2539,11 @@ class LexModelBuilding {
 
   /// Removes tags from a bot, bot alias or bot channel.
   ///
-  /// May throw [NotFoundException].
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
   /// May throw [InternalFailureException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource to remove the tags from.
@@ -2565,513 +2565,6 @@ class LexModelBuilding {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-  }
-}
-
-/// Provides information about a bot alias.
-class BotAliasMetadata {
-  /// The name of the bot to which the alias points.
-  final String? botName;
-
-  /// The version of the Amazon Lex bot to which the alias points.
-  final String? botVersion;
-
-  /// Checksum of the bot alias.
-  final String? checksum;
-
-  /// Settings that determine how Amazon Lex uses conversation logs for the alias.
-  final ConversationLogsResponse? conversationLogs;
-
-  /// The date that the bot alias was created.
-  final DateTime? createdDate;
-
-  /// A description of the bot alias.
-  final String? description;
-
-  /// The date that the bot alias was updated. When you create a resource, the
-  /// creation date and last updated date are the same.
-  final DateTime? lastUpdatedDate;
-
-  /// The name of the bot alias.
-  final String? name;
-
-  BotAliasMetadata({
-    this.botName,
-    this.botVersion,
-    this.checksum,
-    this.conversationLogs,
-    this.createdDate,
-    this.description,
-    this.lastUpdatedDate,
-    this.name,
-  });
-
-  factory BotAliasMetadata.fromJson(Map<String, dynamic> json) {
-    return BotAliasMetadata(
-      botName: json['botName'] as String?,
-      botVersion: json['botVersion'] as String?,
-      checksum: json['checksum'] as String?,
-      conversationLogs: json['conversationLogs'] != null
-          ? ConversationLogsResponse.fromJson(
-              json['conversationLogs'] as Map<String, dynamic>)
-          : null,
-      createdDate: timeStampFromJson(json['createdDate']),
-      description: json['description'] as String?,
-      lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final botName = this.botName;
-    final botVersion = this.botVersion;
-    final checksum = this.checksum;
-    final conversationLogs = this.conversationLogs;
-    final createdDate = this.createdDate;
-    final description = this.description;
-    final lastUpdatedDate = this.lastUpdatedDate;
-    final name = this.name;
-    return {
-      if (botName != null) 'botName': botName,
-      if (botVersion != null) 'botVersion': botVersion,
-      if (checksum != null) 'checksum': checksum,
-      if (conversationLogs != null) 'conversationLogs': conversationLogs,
-      if (createdDate != null) 'createdDate': unixTimestampToJson(createdDate),
-      if (description != null) 'description': description,
-      if (lastUpdatedDate != null)
-        'lastUpdatedDate': unixTimestampToJson(lastUpdatedDate),
-      if (name != null) 'name': name,
-    };
-  }
-}
-
-/// Represents an association between an Amazon Lex bot and an external
-/// messaging platform.
-class BotChannelAssociation {
-  /// An alias pointing to the specific version of the Amazon Lex bot to which
-  /// this association is being made.
-  final String? botAlias;
-
-  /// Provides information necessary to communicate with the messaging platform.
-  final Map<String, String>? botConfiguration;
-
-  /// The name of the Amazon Lex bot to which this association is being made.
-  /// <note>
-  /// Currently, Amazon Lex supports associations with Facebook and Slack, and
-  /// Twilio.
-  /// </note>
-  final String? botName;
-
-  /// The date that the association between the Amazon Lex bot and the channel was
-  /// created.
-  final DateTime? createdDate;
-
-  /// A text description of the association you are creating.
-  final String? description;
-
-  /// If <code>status</code> is <code>FAILED</code>, Amazon Lex provides the
-  /// reason that it failed to create the association.
-  final String? failureReason;
-
-  /// The name of the association between the bot and the channel.
-  final String? name;
-
-  /// The status of the bot channel.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>CREATED</code> - The channel has been created and is ready for use.
-  /// </li>
-  /// <li>
-  /// <code>IN_PROGRESS</code> - Channel creation is in progress.
-  /// </li>
-  /// <li>
-  /// <code>FAILED</code> - There was an error creating the channel. For
-  /// information about the reason for the failure, see the
-  /// <code>failureReason</code> field.
-  /// </li>
-  /// </ul>
-  final ChannelStatus? status;
-
-  /// Specifies the type of association by indicating the type of channel being
-  /// established between the Amazon Lex bot and the external messaging platform.
-  final ChannelType? type;
-
-  BotChannelAssociation({
-    this.botAlias,
-    this.botConfiguration,
-    this.botName,
-    this.createdDate,
-    this.description,
-    this.failureReason,
-    this.name,
-    this.status,
-    this.type,
-  });
-
-  factory BotChannelAssociation.fromJson(Map<String, dynamic> json) {
-    return BotChannelAssociation(
-      botAlias: json['botAlias'] as String?,
-      botConfiguration: (json['botConfiguration'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      botName: json['botName'] as String?,
-      createdDate: timeStampFromJson(json['createdDate']),
-      description: json['description'] as String?,
-      failureReason: json['failureReason'] as String?,
-      name: json['name'] as String?,
-      status: (json['status'] as String?)?.let(ChannelStatus.fromString),
-      type: (json['type'] as String?)?.let(ChannelType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final botAlias = this.botAlias;
-    final botConfiguration = this.botConfiguration;
-    final botName = this.botName;
-    final createdDate = this.createdDate;
-    final description = this.description;
-    final failureReason = this.failureReason;
-    final name = this.name;
-    final status = this.status;
-    final type = this.type;
-    return {
-      if (botAlias != null) 'botAlias': botAlias,
-      if (botConfiguration != null) 'botConfiguration': botConfiguration,
-      if (botName != null) 'botName': botName,
-      if (createdDate != null) 'createdDate': unixTimestampToJson(createdDate),
-      if (description != null) 'description': description,
-      if (failureReason != null) 'failureReason': failureReason,
-      if (name != null) 'name': name,
-      if (status != null) 'status': status.value,
-      if (type != null) 'type': type.value,
-    };
-  }
-}
-
-/// Provides information about a bot. .
-class BotMetadata {
-  /// The date that the bot was created.
-  final DateTime? createdDate;
-
-  /// A description of the bot.
-  final String? description;
-
-  /// The date that the bot was updated. When you create a bot, the creation date
-  /// and last updated date are the same.
-  final DateTime? lastUpdatedDate;
-
-  /// The name of the bot.
-  final String? name;
-
-  /// The status of the bot.
-  final Status? status;
-
-  /// The version of the bot. For a new bot, the version is always
-  /// <code>$LATEST</code>.
-  final String? version;
-
-  BotMetadata({
-    this.createdDate,
-    this.description,
-    this.lastUpdatedDate,
-    this.name,
-    this.status,
-    this.version,
-  });
-
-  factory BotMetadata.fromJson(Map<String, dynamic> json) {
-    return BotMetadata(
-      createdDate: timeStampFromJson(json['createdDate']),
-      description: json['description'] as String?,
-      lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
-      name: json['name'] as String?,
-      status: (json['status'] as String?)?.let(Status.fromString),
-      version: json['version'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdDate = this.createdDate;
-    final description = this.description;
-    final lastUpdatedDate = this.lastUpdatedDate;
-    final name = this.name;
-    final status = this.status;
-    final version = this.version;
-    return {
-      if (createdDate != null) 'createdDate': unixTimestampToJson(createdDate),
-      if (description != null) 'description': description,
-      if (lastUpdatedDate != null)
-        'lastUpdatedDate': unixTimestampToJson(lastUpdatedDate),
-      if (name != null) 'name': name,
-      if (status != null) 'status': status.value,
-      if (version != null) 'version': version,
-    };
-  }
-}
-
-/// Provides metadata for a built-in intent.
-class BuiltinIntentMetadata {
-  /// A unique identifier for the built-in intent. To find the signature for an
-  /// intent, see <a
-  /// href="https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/built-in-intent-ref/standard-intents">Standard
-  /// Built-in Intents</a> in the <i>Alexa Skills Kit</i>.
-  final String? signature;
-
-  /// A list of identifiers for the locales that the intent supports.
-  final List<Locale>? supportedLocales;
-
-  BuiltinIntentMetadata({
-    this.signature,
-    this.supportedLocales,
-  });
-
-  factory BuiltinIntentMetadata.fromJson(Map<String, dynamic> json) {
-    return BuiltinIntentMetadata(
-      signature: json['signature'] as String?,
-      supportedLocales: (json['supportedLocales'] as List?)
-          ?.nonNulls
-          .map((e) => Locale.fromString((e as String)))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final signature = this.signature;
-    final supportedLocales = this.supportedLocales;
-    return {
-      if (signature != null) 'signature': signature,
-      if (supportedLocales != null)
-        'supportedLocales': supportedLocales.map((e) => e.value).toList(),
-    };
-  }
-}
-
-/// Provides information about a slot used in a built-in intent.
-class BuiltinIntentSlot {
-  /// A list of the slots defined for the intent.
-  final String? name;
-
-  BuiltinIntentSlot({
-    this.name,
-  });
-
-  factory BuiltinIntentSlot.fromJson(Map<String, dynamic> json) {
-    return BuiltinIntentSlot(
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    return {
-      if (name != null) 'name': name,
-    };
-  }
-}
-
-/// Provides information about a built in slot type.
-class BuiltinSlotTypeMetadata {
-  /// A unique identifier for the built-in slot type. To find the signature for a
-  /// slot type, see <a
-  /// href="https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/built-in-intent-ref/slot-type-reference">Slot
-  /// Type Reference</a> in the <i>Alexa Skills Kit</i>.
-  final String? signature;
-
-  /// A list of target locales for the slot.
-  final List<Locale>? supportedLocales;
-
-  BuiltinSlotTypeMetadata({
-    this.signature,
-    this.supportedLocales,
-  });
-
-  factory BuiltinSlotTypeMetadata.fromJson(Map<String, dynamic> json) {
-    return BuiltinSlotTypeMetadata(
-      signature: json['signature'] as String?,
-      supportedLocales: (json['supportedLocales'] as List?)
-          ?.nonNulls
-          .map((e) => Locale.fromString((e as String)))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final signature = this.signature;
-    final supportedLocales = this.supportedLocales;
-    return {
-      if (signature != null) 'signature': signature,
-      if (supportedLocales != null)
-        'supportedLocales': supportedLocales.map((e) => e.value).toList(),
-    };
-  }
-}
-
-class ChannelStatus {
-  static const inProgress = ChannelStatus._('IN_PROGRESS');
-  static const created = ChannelStatus._('CREATED');
-  static const failed = ChannelStatus._('FAILED');
-
-  final String value;
-
-  const ChannelStatus._(this.value);
-
-  static const values = [inProgress, created, failed];
-
-  static ChannelStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ChannelStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ChannelStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ChannelType {
-  static const facebook = ChannelType._('Facebook');
-  static const slack = ChannelType._('Slack');
-  static const twilioSms = ChannelType._('Twilio-Sms');
-  static const kik = ChannelType._('Kik');
-
-  final String value;
-
-  const ChannelType._(this.value);
-
-  static const values = [facebook, slack, twilioSms, kik];
-
-  static ChannelType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ChannelType._(value));
-
-  @override
-  bool operator ==(other) => other is ChannelType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Specifies a Lambda function that verifies requests to a bot or fulfills the
-/// user's request to a bot..
-class CodeHook {
-  /// The version of the request-response that you want Amazon Lex to use to
-  /// invoke your Lambda function. For more information, see <a>using-lambda</a>.
-  final String messageVersion;
-
-  /// The Amazon Resource Name (ARN) of the Lambda function.
-  final String uri;
-
-  CodeHook({
-    required this.messageVersion,
-    required this.uri,
-  });
-
-  factory CodeHook.fromJson(Map<String, dynamic> json) {
-    return CodeHook(
-      messageVersion: (json['messageVersion'] as String?) ?? '',
-      uri: (json['uri'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final messageVersion = this.messageVersion;
-    final uri = this.uri;
-    return {
-      'messageVersion': messageVersion,
-      'uri': uri,
-    };
-  }
-}
-
-class ContentType {
-  static const plainText = ContentType._('PlainText');
-  static const ssml = ContentType._('SSML');
-  static const customPayload = ContentType._('CustomPayload');
-
-  final String value;
-
-  const ContentType._(this.value);
-
-  static const values = [plainText, ssml, customPayload];
-
-  static ContentType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ContentType._(value));
-
-  @override
-  bool operator ==(other) => other is ContentType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides the settings needed for conversation logs.
-class ConversationLogsRequest {
-  /// The Amazon Resource Name (ARN) of an IAM role with permission to write to
-  /// your CloudWatch Logs for text logs and your S3 bucket for audio logs. If
-  /// audio encryption is enabled, this role also provides access permission for
-  /// the AWS KMS key used for encrypting audio logs. For more information, see <a
-  /// href="https://docs.aws.amazon.com/lex/latest/dg/conversation-logs-role-and-policy.html">Creating
-  /// an IAM Role and Policy for Conversation Logs</a>.
-  final String iamRoleArn;
-
-  /// The settings for your conversation logs. You can log the conversation text,
-  /// conversation audio, or both.
-  final List<LogSettingsRequest> logSettings;
-
-  ConversationLogsRequest({
-    required this.iamRoleArn,
-    required this.logSettings,
-  });
-
-  Map<String, dynamic> toJson() {
-    final iamRoleArn = this.iamRoleArn;
-    final logSettings = this.logSettings;
-    return {
-      'iamRoleArn': iamRoleArn,
-      'logSettings': logSettings,
-    };
-  }
-}
-
-/// Contains information about conversation log settings.
-class ConversationLogsResponse {
-  /// The Amazon Resource Name (ARN) of the IAM role used to write your logs to
-  /// CloudWatch Logs or an S3 bucket.
-  final String? iamRoleArn;
-
-  /// The settings for your conversation logs. You can log text, audio, or both.
-  final List<LogSettingsResponse>? logSettings;
-
-  ConversationLogsResponse({
-    this.iamRoleArn,
-    this.logSettings,
-  });
-
-  factory ConversationLogsResponse.fromJson(Map<String, dynamic> json) {
-    return ConversationLogsResponse(
-      iamRoleArn: json['iamRoleArn'] as String?,
-      logSettings: (json['logSettings'] as List?)
-          ?.nonNulls
-          .map((e) => LogSettingsResponse.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final iamRoleArn = this.iamRoleArn;
-    final logSettings = this.logSettings;
-    return {
-      if (iamRoleArn != null) 'iamRoleArn': iamRoleArn,
-      if (logSettings != null) 'logSettings': logSettings,
-    };
   }
 }
 
@@ -3545,241 +3038,217 @@ class CreateSlotTypeVersionResponse {
   }
 }
 
-class Destination {
-  static const cloudwatchLogs = Destination._('CLOUDWATCH_LOGS');
-  static const s3 = Destination._('S3');
+class GetBotResponse {
+  /// The message that Amazon Lex returns when the user elects to end the
+  /// conversation without completing it. For more information, see <a>PutBot</a>.
+  final Statement? abortStatement;
 
-  final String value;
+  /// Checksum of the bot used to identify a specific revision of the bot's
+  /// <code>$LATEST</code> version.
+  final String? checksum;
 
-  const Destination._(this.value);
+  /// For each Amazon Lex bot created with the Amazon Lex Model Building Service,
+  /// you must specify whether your use of Amazon Lex is related to a website,
+  /// program, or other application that is directed or targeted, in whole or in
+  /// part, to children under age 13 and subject to the Children's Online Privacy
+  /// Protection Act (COPPA) by specifying <code>true</code> or <code>false</code>
+  /// in the <code>childDirected</code> field. By specifying <code>true</code> in
+  /// the <code>childDirected</code> field, you confirm that your use of Amazon
+  /// Lex <b>is</b> related to a website, program, or other application that is
+  /// directed or targeted, in whole or in part, to children under age 13 and
+  /// subject to COPPA. By specifying <code>false</code> in the
+  /// <code>childDirected</code> field, you confirm that your use of Amazon Lex
+  /// <b>is not</b> related to a website, program, or other application that is
+  /// directed or targeted, in whole or in part, to children under age 13 and
+  /// subject to COPPA. You may not specify a default value for the
+  /// <code>childDirected</code> field that does not accurately reflect whether
+  /// your use of Amazon Lex is related to a website, program, or other
+  /// application that is directed or targeted, in whole or in part, to children
+  /// under age 13 and subject to COPPA.
+  ///
+  /// If your use of Amazon Lex relates to a website, program, or other
+  /// application that is directed in whole or in part, to children under age 13,
+  /// you must obtain any required verifiable parental consent under COPPA. For
+  /// information regarding the use of Amazon Lex in connection with websites,
+  /// programs, or other applications that are directed or targeted, in whole or
+  /// in part, to children under age 13, see the <a
+  /// href="https://aws.amazon.com/lex/faqs#data-security">Amazon Lex FAQ.</a>
+  final bool? childDirected;
 
-  static const values = [cloudwatchLogs, s3];
+  /// The message Amazon Lex uses when it doesn't understand the user's request.
+  /// For more information, see <a>PutBot</a>.
+  final Prompt? clarificationPrompt;
 
-  static Destination fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Destination._(value));
+  /// The date that the bot was created.
+  final DateTime? createdDate;
 
-  @override
-  bool operator ==(other) => other is Destination && other.value == value;
+  /// A description of the bot.
+  final String? description;
 
-  @override
-  int get hashCode => value.hashCode;
+  /// Indicates whether user utterances should be sent to Amazon Comprehend for
+  /// sentiment analysis.
+  final bool? detectSentiment;
 
-  @override
-  String toString() => value;
-}
+  /// Indicates whether the bot uses accuracy improvements. <code>true</code>
+  /// indicates that the bot is using the improvements, otherwise,
+  /// <code>false</code>.
+  final bool? enableModelImprovements;
 
-/// Each slot type can have a set of values. Each enumeration value represents a
-/// value the slot type can take.
-///
-/// For example, a pizza ordering bot could have a slot type that specifies the
-/// type of crust that the pizza should have. The slot type could include the
-/// values
-///
-/// <ul>
-/// <li>
-/// thick
-/// </li>
-/// <li>
-/// thin
-/// </li>
-/// <li>
-/// stuffed
-/// </li>
-/// </ul>
-class EnumerationValue {
-  /// The value of the slot type.
-  final String value;
+  /// If <code>status</code> is <code>FAILED</code>, Amazon Lex explains why it
+  /// failed to build the bot.
+  final String? failureReason;
 
-  /// Additional values related to the slot type value.
-  final List<String>? synonyms;
+  /// The maximum time in seconds that Amazon Lex retains the data gathered in a
+  /// conversation. For more information, see <a>PutBot</a>.
+  final int? idleSessionTTLInSeconds;
 
-  EnumerationValue({
-    required this.value,
-    this.synonyms,
+  /// An array of <code>intent</code> objects. For more information, see
+  /// <a>PutBot</a>.
+  final List<Intent>? intents;
+
+  /// The date that the bot was updated. When you create a resource, the creation
+  /// date and last updated date are the same.
+  final DateTime? lastUpdatedDate;
+
+  /// The target locale for the bot.
+  final Locale? locale;
+
+  /// The name of the bot.
+  final String? name;
+
+  /// The score that determines where Amazon Lex inserts the
+  /// <code>AMAZON.FallbackIntent</code>, <code>AMAZON.KendraSearchIntent</code>,
+  /// or both when returning alternative intents in a <a
+  /// href="https://docs.aws.amazon.com/lex/latest/dg/API_runtime_PostContent.html">PostContent</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/lex/latest/dg/API_runtime_PostText.html">PostText</a>
+  /// response. <code>AMAZON.FallbackIntent</code> is inserted if the confidence
+  /// score for all intents is below this value.
+  /// <code>AMAZON.KendraSearchIntent</code> is only inserted if it is configured
+  /// for the bot.
+  final double? nluIntentConfidenceThreshold;
+
+  /// The status of the bot.
+  ///
+  /// When the status is <code>BUILDING</code> Amazon Lex is building the bot for
+  /// testing and use.
+  ///
+  /// If the status of the bot is <code>READY_BASIC_TESTING</code>, you can test
+  /// the bot using the exact utterances specified in the bot's intents. When the
+  /// bot is ready for full testing or to run, the status is <code>READY</code>.
+  ///
+  /// If there was a problem with building the bot, the status is
+  /// <code>FAILED</code> and the <code>failureReason</code> field explains why
+  /// the bot did not build.
+  ///
+  /// If the bot was saved but not built, the status is <code>NOT_BUILT</code>.
+  final Status? status;
+
+  /// The version of the bot. For a new bot, the version is always
+  /// <code>$LATEST</code>.
+  final String? version;
+
+  /// The Amazon Polly voice ID that Amazon Lex uses for voice interaction with
+  /// the user. For more information, see <a>PutBot</a>.
+  final String? voiceId;
+
+  GetBotResponse({
+    this.abortStatement,
+    this.checksum,
+    this.childDirected,
+    this.clarificationPrompt,
+    this.createdDate,
+    this.description,
+    this.detectSentiment,
+    this.enableModelImprovements,
+    this.failureReason,
+    this.idleSessionTTLInSeconds,
+    this.intents,
+    this.lastUpdatedDate,
+    this.locale,
+    this.name,
+    this.nluIntentConfidenceThreshold,
+    this.status,
+    this.version,
+    this.voiceId,
   });
 
-  factory EnumerationValue.fromJson(Map<String, dynamic> json) {
-    return EnumerationValue(
-      value: (json['value'] as String?) ?? '',
-      synonyms: (json['synonyms'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final value = this.value;
-    final synonyms = this.synonyms;
-    return {
-      'value': value,
-      if (synonyms != null) 'synonyms': synonyms,
-    };
-  }
-}
-
-class ExportStatus {
-  static const inProgress = ExportStatus._('IN_PROGRESS');
-  static const ready = ExportStatus._('READY');
-  static const failed = ExportStatus._('FAILED');
-
-  final String value;
-
-  const ExportStatus._(this.value);
-
-  static const values = [inProgress, ready, failed];
-
-  static ExportStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ExportStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ExportStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ExportType {
-  static const alexaSkillsKit = ExportType._('ALEXA_SKILLS_KIT');
-  static const lex = ExportType._('LEX');
-
-  final String value;
-
-  const ExportType._(this.value);
-
-  static const values = [alexaSkillsKit, lex];
-
-  static ExportType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ExportType._(value));
-
-  @override
-  bool operator ==(other) => other is ExportType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A prompt for additional activity after an intent is fulfilled. For example,
-/// after the <code>OrderPizza</code> intent is fulfilled, you might prompt the
-/// user to find out whether the user wants to order drinks.
-class FollowUpPrompt {
-  /// Prompts for information from the user.
-  final Prompt prompt;
-
-  /// If the user answers "no" to the question defined in the <code>prompt</code>
-  /// field, Amazon Lex responds with this statement to acknowledge that the
-  /// intent was canceled.
-  final Statement rejectionStatement;
-
-  FollowUpPrompt({
-    required this.prompt,
-    required this.rejectionStatement,
-  });
-
-  factory FollowUpPrompt.fromJson(Map<String, dynamic> json) {
-    return FollowUpPrompt(
-      prompt: Prompt.fromJson((json['prompt'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-      rejectionStatement: Statement.fromJson(
-          (json['rejectionStatement'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final prompt = this.prompt;
-    final rejectionStatement = this.rejectionStatement;
-    return {
-      'prompt': prompt,
-      'rejectionStatement': rejectionStatement,
-    };
-  }
-}
-
-/// Describes how the intent is fulfilled after the user provides all of the
-/// information required for the intent. You can provide a Lambda function to
-/// process the intent, or you can return the intent information to the client
-/// application. We recommend that you use a Lambda function so that the
-/// relevant logic lives in the Cloud and limit the client-side code primarily
-/// to presentation. If you need to update the logic, you only update the Lambda
-/// function; you don't need to upgrade your client application.
-///
-/// Consider the following examples:
-///
-/// <ul>
-/// <li>
-/// In a pizza ordering application, after the user provides all of the
-/// information for placing an order, you use a Lambda function to place an
-/// order with a pizzeria.
-/// </li>
-/// <li>
-/// In a gaming application, when a user says "pick up a rock," this information
-/// must go back to the client application so that it can perform the operation
-/// and update the graphics. In this case, you want Amazon Lex to return the
-/// intent data to the client.
-/// </li>
-/// </ul>
-class FulfillmentActivity {
-  /// How the intent should be fulfilled, either by running a Lambda function or
-  /// by returning the slot data to the client application.
-  final FulfillmentActivityType type;
-
-  /// A description of the Lambda function that is run to fulfill the intent.
-  final CodeHook? codeHook;
-
-  FulfillmentActivity({
-    required this.type,
-    this.codeHook,
-  });
-
-  factory FulfillmentActivity.fromJson(Map<String, dynamic> json) {
-    return FulfillmentActivity(
-      type: FulfillmentActivityType.fromString((json['type'] as String?) ?? ''),
-      codeHook: json['codeHook'] != null
-          ? CodeHook.fromJson(json['codeHook'] as Map<String, dynamic>)
+  factory GetBotResponse.fromJson(Map<String, dynamic> json) {
+    return GetBotResponse(
+      abortStatement: json['abortStatement'] != null
+          ? Statement.fromJson(json['abortStatement'] as Map<String, dynamic>)
           : null,
+      checksum: json['checksum'] as String?,
+      childDirected: json['childDirected'] as bool?,
+      clarificationPrompt: json['clarificationPrompt'] != null
+          ? Prompt.fromJson(json['clarificationPrompt'] as Map<String, dynamic>)
+          : null,
+      createdDate: timeStampFromJson(json['createdDate']),
+      description: json['description'] as String?,
+      detectSentiment: json['detectSentiment'] as bool?,
+      enableModelImprovements: json['enableModelImprovements'] as bool?,
+      failureReason: json['failureReason'] as String?,
+      idleSessionTTLInSeconds: json['idleSessionTTLInSeconds'] as int?,
+      intents: (json['intents'] as List?)
+          ?.nonNulls
+          .map((e) => Intent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
+      locale: (json['locale'] as String?)?.let(Locale.fromString),
+      name: json['name'] as String?,
+      nluIntentConfidenceThreshold:
+          json['nluIntentConfidenceThreshold'] as double?,
+      status: (json['status'] as String?)?.let(Status.fromString),
+      version: json['version'] as String?,
+      voiceId: json['voiceId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final type = this.type;
-    final codeHook = this.codeHook;
+    final abortStatement = this.abortStatement;
+    final checksum = this.checksum;
+    final childDirected = this.childDirected;
+    final clarificationPrompt = this.clarificationPrompt;
+    final createdDate = this.createdDate;
+    final description = this.description;
+    final detectSentiment = this.detectSentiment;
+    final enableModelImprovements = this.enableModelImprovements;
+    final failureReason = this.failureReason;
+    final idleSessionTTLInSeconds = this.idleSessionTTLInSeconds;
+    final intents = this.intents;
+    final lastUpdatedDate = this.lastUpdatedDate;
+    final locale = this.locale;
+    final name = this.name;
+    final nluIntentConfidenceThreshold = this.nluIntentConfidenceThreshold;
+    final status = this.status;
+    final version = this.version;
+    final voiceId = this.voiceId;
     return {
-      'type': type.value,
-      if (codeHook != null) 'codeHook': codeHook,
+      if (abortStatement != null) 'abortStatement': abortStatement,
+      if (checksum != null) 'checksum': checksum,
+      if (childDirected != null) 'childDirected': childDirected,
+      if (clarificationPrompt != null)
+        'clarificationPrompt': clarificationPrompt,
+      if (createdDate != null) 'createdDate': unixTimestampToJson(createdDate),
+      if (description != null) 'description': description,
+      if (detectSentiment != null) 'detectSentiment': detectSentiment,
+      if (enableModelImprovements != null)
+        'enableModelImprovements': enableModelImprovements,
+      if (failureReason != null) 'failureReason': failureReason,
+      if (idleSessionTTLInSeconds != null)
+        'idleSessionTTLInSeconds': idleSessionTTLInSeconds,
+      if (intents != null) 'intents': intents,
+      if (lastUpdatedDate != null)
+        'lastUpdatedDate': unixTimestampToJson(lastUpdatedDate),
+      if (locale != null) 'locale': locale.value,
+      if (name != null) 'name': name,
+      if (nluIntentConfidenceThreshold != null)
+        'nluIntentConfidenceThreshold': nluIntentConfidenceThreshold,
+      if (status != null) 'status': status.value,
+      if (version != null) 'version': version,
+      if (voiceId != null) 'voiceId': voiceId,
     };
   }
-}
-
-class FulfillmentActivityType {
-  static const returnIntent = FulfillmentActivityType._('ReturnIntent');
-  static const codeHook = FulfillmentActivityType._('CodeHook');
-
-  final String value;
-
-  const FulfillmentActivityType._(this.value);
-
-  static const values = [returnIntent, codeHook];
-
-  static FulfillmentActivityType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FulfillmentActivityType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is FulfillmentActivityType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class GetBotAliasResponse {
@@ -4029,215 +3498,35 @@ class GetBotChannelAssociationsResponse {
   }
 }
 
-class GetBotResponse {
-  /// The message that Amazon Lex returns when the user elects to end the
-  /// conversation without completing it. For more information, see <a>PutBot</a>.
-  final Statement? abortStatement;
+class GetBotsResponse {
+  /// An array of <code>botMetadata</code> objects, with one entry for each bot.
+  final List<BotMetadata>? bots;
 
-  /// Checksum of the bot used to identify a specific revision of the bot's
-  /// <code>$LATEST</code> version.
-  final String? checksum;
+  /// If the response is truncated, it includes a pagination token that you can
+  /// specify in your next request to fetch the next page of bots.
+  final String? nextToken;
 
-  /// For each Amazon Lex bot created with the Amazon Lex Model Building Service,
-  /// you must specify whether your use of Amazon Lex is related to a website,
-  /// program, or other application that is directed or targeted, in whole or in
-  /// part, to children under age 13 and subject to the Children's Online Privacy
-  /// Protection Act (COPPA) by specifying <code>true</code> or <code>false</code>
-  /// in the <code>childDirected</code> field. By specifying <code>true</code> in
-  /// the <code>childDirected</code> field, you confirm that your use of Amazon
-  /// Lex <b>is</b> related to a website, program, or other application that is
-  /// directed or targeted, in whole or in part, to children under age 13 and
-  /// subject to COPPA. By specifying <code>false</code> in the
-  /// <code>childDirected</code> field, you confirm that your use of Amazon Lex
-  /// <b>is not</b> related to a website, program, or other application that is
-  /// directed or targeted, in whole or in part, to children under age 13 and
-  /// subject to COPPA. You may not specify a default value for the
-  /// <code>childDirected</code> field that does not accurately reflect whether
-  /// your use of Amazon Lex is related to a website, program, or other
-  /// application that is directed or targeted, in whole or in part, to children
-  /// under age 13 and subject to COPPA.
-  ///
-  /// If your use of Amazon Lex relates to a website, program, or other
-  /// application that is directed in whole or in part, to children under age 13,
-  /// you must obtain any required verifiable parental consent under COPPA. For
-  /// information regarding the use of Amazon Lex in connection with websites,
-  /// programs, or other applications that are directed or targeted, in whole or
-  /// in part, to children under age 13, see the <a
-  /// href="https://aws.amazon.com/lex/faqs#data-security">Amazon Lex FAQ.</a>
-  final bool? childDirected;
-
-  /// The message Amazon Lex uses when it doesn't understand the user's request.
-  /// For more information, see <a>PutBot</a>.
-  final Prompt? clarificationPrompt;
-
-  /// The date that the bot was created.
-  final DateTime? createdDate;
-
-  /// A description of the bot.
-  final String? description;
-
-  /// Indicates whether user utterances should be sent to Amazon Comprehend for
-  /// sentiment analysis.
-  final bool? detectSentiment;
-
-  /// Indicates whether the bot uses accuracy improvements. <code>true</code>
-  /// indicates that the bot is using the improvements, otherwise,
-  /// <code>false</code>.
-  final bool? enableModelImprovements;
-
-  /// If <code>status</code> is <code>FAILED</code>, Amazon Lex explains why it
-  /// failed to build the bot.
-  final String? failureReason;
-
-  /// The maximum time in seconds that Amazon Lex retains the data gathered in a
-  /// conversation. For more information, see <a>PutBot</a>.
-  final int? idleSessionTTLInSeconds;
-
-  /// An array of <code>intent</code> objects. For more information, see
-  /// <a>PutBot</a>.
-  final List<Intent>? intents;
-
-  /// The date that the bot was updated. When you create a resource, the creation
-  /// date and last updated date are the same.
-  final DateTime? lastUpdatedDate;
-
-  /// The target locale for the bot.
-  final Locale? locale;
-
-  /// The name of the bot.
-  final String? name;
-
-  /// The score that determines where Amazon Lex inserts the
-  /// <code>AMAZON.FallbackIntent</code>, <code>AMAZON.KendraSearchIntent</code>,
-  /// or both when returning alternative intents in a <a
-  /// href="https://docs.aws.amazon.com/lex/latest/dg/API_runtime_PostContent.html">PostContent</a>
-  /// or <a
-  /// href="https://docs.aws.amazon.com/lex/latest/dg/API_runtime_PostText.html">PostText</a>
-  /// response. <code>AMAZON.FallbackIntent</code> is inserted if the confidence
-  /// score for all intents is below this value.
-  /// <code>AMAZON.KendraSearchIntent</code> is only inserted if it is configured
-  /// for the bot.
-  final double? nluIntentConfidenceThreshold;
-
-  /// The status of the bot.
-  ///
-  /// When the status is <code>BUILDING</code> Amazon Lex is building the bot for
-  /// testing and use.
-  ///
-  /// If the status of the bot is <code>READY_BASIC_TESTING</code>, you can test
-  /// the bot using the exact utterances specified in the bot's intents. When the
-  /// bot is ready for full testing or to run, the status is <code>READY</code>.
-  ///
-  /// If there was a problem with building the bot, the status is
-  /// <code>FAILED</code> and the <code>failureReason</code> field explains why
-  /// the bot did not build.
-  ///
-  /// If the bot was saved but not built, the status is <code>NOT_BUILT</code>.
-  final Status? status;
-
-  /// The version of the bot. For a new bot, the version is always
-  /// <code>$LATEST</code>.
-  final String? version;
-
-  /// The Amazon Polly voice ID that Amazon Lex uses for voice interaction with
-  /// the user. For more information, see <a>PutBot</a>.
-  final String? voiceId;
-
-  GetBotResponse({
-    this.abortStatement,
-    this.checksum,
-    this.childDirected,
-    this.clarificationPrompt,
-    this.createdDate,
-    this.description,
-    this.detectSentiment,
-    this.enableModelImprovements,
-    this.failureReason,
-    this.idleSessionTTLInSeconds,
-    this.intents,
-    this.lastUpdatedDate,
-    this.locale,
-    this.name,
-    this.nluIntentConfidenceThreshold,
-    this.status,
-    this.version,
-    this.voiceId,
+  GetBotsResponse({
+    this.bots,
+    this.nextToken,
   });
 
-  factory GetBotResponse.fromJson(Map<String, dynamic> json) {
-    return GetBotResponse(
-      abortStatement: json['abortStatement'] != null
-          ? Statement.fromJson(json['abortStatement'] as Map<String, dynamic>)
-          : null,
-      checksum: json['checksum'] as String?,
-      childDirected: json['childDirected'] as bool?,
-      clarificationPrompt: json['clarificationPrompt'] != null
-          ? Prompt.fromJson(json['clarificationPrompt'] as Map<String, dynamic>)
-          : null,
-      createdDate: timeStampFromJson(json['createdDate']),
-      description: json['description'] as String?,
-      detectSentiment: json['detectSentiment'] as bool?,
-      enableModelImprovements: json['enableModelImprovements'] as bool?,
-      failureReason: json['failureReason'] as String?,
-      idleSessionTTLInSeconds: json['idleSessionTTLInSeconds'] as int?,
-      intents: (json['intents'] as List?)
+  factory GetBotsResponse.fromJson(Map<String, dynamic> json) {
+    return GetBotsResponse(
+      bots: (json['bots'] as List?)
           ?.nonNulls
-          .map((e) => Intent.fromJson(e as Map<String, dynamic>))
+          .map((e) => BotMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
-      lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
-      locale: (json['locale'] as String?)?.let(Locale.fromString),
-      name: json['name'] as String?,
-      nluIntentConfidenceThreshold:
-          json['nluIntentConfidenceThreshold'] as double?,
-      status: (json['status'] as String?)?.let(Status.fromString),
-      version: json['version'] as String?,
-      voiceId: json['voiceId'] as String?,
+      nextToken: json['nextToken'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final abortStatement = this.abortStatement;
-    final checksum = this.checksum;
-    final childDirected = this.childDirected;
-    final clarificationPrompt = this.clarificationPrompt;
-    final createdDate = this.createdDate;
-    final description = this.description;
-    final detectSentiment = this.detectSentiment;
-    final enableModelImprovements = this.enableModelImprovements;
-    final failureReason = this.failureReason;
-    final idleSessionTTLInSeconds = this.idleSessionTTLInSeconds;
-    final intents = this.intents;
-    final lastUpdatedDate = this.lastUpdatedDate;
-    final locale = this.locale;
-    final name = this.name;
-    final nluIntentConfidenceThreshold = this.nluIntentConfidenceThreshold;
-    final status = this.status;
-    final version = this.version;
-    final voiceId = this.voiceId;
+    final bots = this.bots;
+    final nextToken = this.nextToken;
     return {
-      if (abortStatement != null) 'abortStatement': abortStatement,
-      if (checksum != null) 'checksum': checksum,
-      if (childDirected != null) 'childDirected': childDirected,
-      if (clarificationPrompt != null)
-        'clarificationPrompt': clarificationPrompt,
-      if (createdDate != null) 'createdDate': unixTimestampToJson(createdDate),
-      if (description != null) 'description': description,
-      if (detectSentiment != null) 'detectSentiment': detectSentiment,
-      if (enableModelImprovements != null)
-        'enableModelImprovements': enableModelImprovements,
-      if (failureReason != null) 'failureReason': failureReason,
-      if (idleSessionTTLInSeconds != null)
-        'idleSessionTTLInSeconds': idleSessionTTLInSeconds,
-      if (intents != null) 'intents': intents,
-      if (lastUpdatedDate != null)
-        'lastUpdatedDate': unixTimestampToJson(lastUpdatedDate),
-      if (locale != null) 'locale': locale.value,
-      if (name != null) 'name': name,
-      if (nluIntentConfidenceThreshold != null)
-        'nluIntentConfidenceThreshold': nluIntentConfidenceThreshold,
-      if (status != null) 'status': status.value,
-      if (version != null) 'version': version,
-      if (voiceId != null) 'voiceId': voiceId,
+      if (bots != null) 'bots': bots,
+      if (nextToken != null) 'nextToken': nextToken,
     };
   }
 }
@@ -4260,39 +3549,6 @@ class GetBotVersionsResponse {
 
   factory GetBotVersionsResponse.fromJson(Map<String, dynamic> json) {
     return GetBotVersionsResponse(
-      bots: (json['bots'] as List?)
-          ?.nonNulls
-          .map((e) => BotMetadata.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bots = this.bots;
-    final nextToken = this.nextToken;
-    return {
-      if (bots != null) 'bots': bots,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class GetBotsResponse {
-  /// An array of <code>botMetadata</code> objects, with one entry for each bot.
-  final List<BotMetadata>? bots;
-
-  /// If the response is truncated, it includes a pagination token that you can
-  /// specify in your next request to fetch the next page of bots.
-  final String? nextToken;
-
-  GetBotsResponse({
-    this.bots,
-    this.nextToken,
-  });
-
-  factory GetBotsResponse.fromJson(Map<String, dynamic> json) {
-    return GetBotsResponse(
       bots: (json['bots'] as List?)
           ?.nonNulls
           .map((e) => BotMetadata.fromJson(e as Map<String, dynamic>))
@@ -4770,24 +4026,22 @@ class GetIntentResponse {
   }
 }
 
-class GetIntentVersionsResponse {
-  /// An array of <code>IntentMetadata</code> objects, one for each numbered
-  /// version of the intent plus one for the <code>$LATEST</code> version.
+class GetIntentsResponse {
+  /// An array of <code>Intent</code> objects. For more information, see
+  /// <a>PutBot</a>.
   final List<IntentMetadata>? intents;
 
-  /// A pagination token for fetching the next page of intent versions. If the
-  /// response to this call is truncated, Amazon Lex returns a pagination token in
-  /// the response. To fetch the next page of versions, specify the pagination
-  /// token in the next request.
+  /// If the response is truncated, the response includes a pagination token that
+  /// you can specify in your next request to fetch the next page of intents.
   final String? nextToken;
 
-  GetIntentVersionsResponse({
+  GetIntentsResponse({
     this.intents,
     this.nextToken,
   });
 
-  factory GetIntentVersionsResponse.fromJson(Map<String, dynamic> json) {
-    return GetIntentVersionsResponse(
+  factory GetIntentsResponse.fromJson(Map<String, dynamic> json) {
+    return GetIntentsResponse(
       intents: (json['intents'] as List?)
           ?.nonNulls
           .map((e) => IntentMetadata.fromJson(e as Map<String, dynamic>))
@@ -4806,22 +4060,24 @@ class GetIntentVersionsResponse {
   }
 }
 
-class GetIntentsResponse {
-  /// An array of <code>Intent</code> objects. For more information, see
-  /// <a>PutBot</a>.
+class GetIntentVersionsResponse {
+  /// An array of <code>IntentMetadata</code> objects, one for each numbered
+  /// version of the intent plus one for the <code>$LATEST</code> version.
   final List<IntentMetadata>? intents;
 
-  /// If the response is truncated, the response includes a pagination token that
-  /// you can specify in your next request to fetch the next page of intents.
+  /// A pagination token for fetching the next page of intent versions. If the
+  /// response to this call is truncated, Amazon Lex returns a pagination token in
+  /// the response. To fetch the next page of versions, specify the pagination
+  /// token in the next request.
   final String? nextToken;
 
-  GetIntentsResponse({
+  GetIntentVersionsResponse({
     this.intents,
     this.nextToken,
   });
 
-  factory GetIntentsResponse.fromJson(Map<String, dynamic> json) {
-    return GetIntentsResponse(
+  factory GetIntentVersionsResponse.fromJson(Map<String, dynamic> json) {
+    return GetIntentVersionsResponse(
       intents: (json['intents'] as List?)
           ?.nonNulls
           .map((e) => IntentMetadata.fromJson(e as Map<String, dynamic>))
@@ -5090,24 +4346,22 @@ class GetSlotTypeResponse {
   }
 }
 
-class GetSlotTypeVersionsResponse {
-  /// A pagination token for fetching the next page of slot type versions. If the
-  /// response to this call is truncated, Amazon Lex returns a pagination token in
-  /// the response. To fetch the next page of versions, specify the pagination
-  /// token in the next request.
+class GetSlotTypesResponse {
+  /// If the response is truncated, it includes a pagination token that you can
+  /// specify in your next request to fetch the next page of slot types.
   final String? nextToken;
 
-  /// An array of <code>SlotTypeMetadata</code> objects, one for each numbered
-  /// version of the slot type plus one for the <code>$LATEST</code> version.
+  /// An array of objects, one for each slot type, that provides information such
+  /// as the name of the slot type, the version, and a description.
   final List<SlotTypeMetadata>? slotTypes;
 
-  GetSlotTypeVersionsResponse({
+  GetSlotTypesResponse({
     this.nextToken,
     this.slotTypes,
   });
 
-  factory GetSlotTypeVersionsResponse.fromJson(Map<String, dynamic> json) {
-    return GetSlotTypeVersionsResponse(
+  factory GetSlotTypesResponse.fromJson(Map<String, dynamic> json) {
+    return GetSlotTypesResponse(
       nextToken: json['nextToken'] as String?,
       slotTypes: (json['slotTypes'] as List?)
           ?.nonNulls
@@ -5126,22 +4380,24 @@ class GetSlotTypeVersionsResponse {
   }
 }
 
-class GetSlotTypesResponse {
-  /// If the response is truncated, it includes a pagination token that you can
-  /// specify in your next request to fetch the next page of slot types.
+class GetSlotTypeVersionsResponse {
+  /// A pagination token for fetching the next page of slot type versions. If the
+  /// response to this call is truncated, Amazon Lex returns a pagination token in
+  /// the response. To fetch the next page of versions, specify the pagination
+  /// token in the next request.
   final String? nextToken;
 
-  /// An array of objects, one for each slot type, that provides information such
-  /// as the name of the slot type, the version, and a description.
+  /// An array of <code>SlotTypeMetadata</code> objects, one for each numbered
+  /// version of the slot type plus one for the <code>$LATEST</code> version.
   final List<SlotTypeMetadata>? slotTypes;
 
-  GetSlotTypesResponse({
+  GetSlotTypeVersionsResponse({
     this.nextToken,
     this.slotTypes,
   });
 
-  factory GetSlotTypesResponse.fromJson(Map<String, dynamic> json) {
-    return GetSlotTypesResponse(
+  factory GetSlotTypeVersionsResponse.fromJson(Map<String, dynamic> json) {
+    return GetSlotTypeVersionsResponse(
       nextToken: json['nextToken'] as String?,
       slotTypes: (json['slotTypes'] as List?)
           ?.nonNulls
@@ -5196,192 +4452,6 @@ class GetUtterancesViewResponse {
   }
 }
 
-class ImportStatus {
-  static const inProgress = ImportStatus._('IN_PROGRESS');
-  static const complete = ImportStatus._('COMPLETE');
-  static const failed = ImportStatus._('FAILED');
-
-  final String value;
-
-  const ImportStatus._(this.value);
-
-  static const values = [inProgress, complete, failed];
-
-  static ImportStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ImportStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ImportStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The name of a context that must be active for an intent to be selected by
-/// Amazon Lex.
-class InputContext {
-  /// The name of the context.
-  final String name;
-
-  InputContext({
-    required this.name,
-  });
-
-  factory InputContext.fromJson(Map<String, dynamic> json) {
-    return InputContext(
-      name: (json['name'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    return {
-      'name': name,
-    };
-  }
-}
-
-/// Identifies the specific version of an intent.
-class Intent {
-  /// The name of the intent.
-  final String intentName;
-
-  /// The version of the intent.
-  final String intentVersion;
-
-  Intent({
-    required this.intentName,
-    required this.intentVersion,
-  });
-
-  factory Intent.fromJson(Map<String, dynamic> json) {
-    return Intent(
-      intentName: (json['intentName'] as String?) ?? '',
-      intentVersion: (json['intentVersion'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final intentName = this.intentName;
-    final intentVersion = this.intentVersion;
-    return {
-      'intentName': intentName,
-      'intentVersion': intentVersion,
-    };
-  }
-}
-
-/// Provides information about an intent.
-class IntentMetadata {
-  /// The date that the intent was created.
-  final DateTime? createdDate;
-
-  /// A description of the intent.
-  final String? description;
-
-  /// The date that the intent was updated. When you create an intent, the
-  /// creation date and last updated date are the same.
-  final DateTime? lastUpdatedDate;
-
-  /// The name of the intent.
-  final String? name;
-
-  /// The version of the intent.
-  final String? version;
-
-  IntentMetadata({
-    this.createdDate,
-    this.description,
-    this.lastUpdatedDate,
-    this.name,
-    this.version,
-  });
-
-  factory IntentMetadata.fromJson(Map<String, dynamic> json) {
-    return IntentMetadata(
-      createdDate: timeStampFromJson(json['createdDate']),
-      description: json['description'] as String?,
-      lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
-      name: json['name'] as String?,
-      version: json['version'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdDate = this.createdDate;
-    final description = this.description;
-    final lastUpdatedDate = this.lastUpdatedDate;
-    final name = this.name;
-    final version = this.version;
-    return {
-      if (createdDate != null) 'createdDate': unixTimestampToJson(createdDate),
-      if (description != null) 'description': description,
-      if (lastUpdatedDate != null)
-        'lastUpdatedDate': unixTimestampToJson(lastUpdatedDate),
-      if (name != null) 'name': name,
-      if (version != null) 'version': version,
-    };
-  }
-}
-
-/// Provides configuration information for the AMAZON.KendraSearchIntent intent.
-/// When you use this intent, Amazon Lex searches the specified Amazon Kendra
-/// index and returns documents from the index that match the user's utterance.
-/// For more information, see <a
-/// href="http://docs.aws.amazon.com/lex/latest/dg/built-in-intent-kendra-search.html">
-/// AMAZON.KendraSearchIntent</a>.
-class KendraConfiguration {
-  /// The Amazon Resource Name (ARN) of the Amazon Kendra index that you want the
-  /// AMAZON.KendraSearchIntent intent to search. The index must be in the same
-  /// account and Region as the Amazon Lex bot. If the Amazon Kendra index does
-  /// not exist, you get an exception when you call the <code>PutIntent</code>
-  /// operation.
-  final String kendraIndex;
-
-  /// The Amazon Resource Name (ARN) of an IAM role that has permission to search
-  /// the Amazon Kendra index. The role must be in the same account and Region as
-  /// the Amazon Lex bot. If the role does not exist, you get an exception when
-  /// you call the <code>PutIntent</code> operation.
-  final String role;
-
-  /// A query filter that Amazon Lex sends to Amazon Kendra to filter the response
-  /// from the query. The filter is in the format defined by Amazon Kendra. For
-  /// more information, see <a
-  /// href="http://docs.aws.amazon.com/kendra/latest/dg/filtering.html">Filtering
-  /// queries</a>.
-  ///
-  /// You can override this filter string with a new filter string at runtime.
-  final String? queryFilterString;
-
-  KendraConfiguration({
-    required this.kendraIndex,
-    required this.role,
-    this.queryFilterString,
-  });
-
-  factory KendraConfiguration.fromJson(Map<String, dynamic> json) {
-    return KendraConfiguration(
-      kendraIndex: (json['kendraIndex'] as String?) ?? '',
-      role: (json['role'] as String?) ?? '',
-      queryFilterString: json['queryFilterString'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final kendraIndex = this.kendraIndex;
-    final role = this.role;
-    final queryFilterString = this.queryFilterString;
-    return {
-      'kendraIndex': kendraIndex,
-      'role': role,
-      if (queryFilterString != null) 'queryFilterString': queryFilterString,
-    };
-  }
-}
-
 class ListTagsForResourceResponse {
   /// The tags associated with a resource.
   final List<Tag>? tags;
@@ -5402,713 +4472,6 @@ class ListTagsForResourceResponse {
   Map<String, dynamic> toJson() {
     final tags = this.tags;
     return {
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-class Locale {
-  static const deDe = Locale._('de-DE');
-  static const enAu = Locale._('en-AU');
-  static const enGb = Locale._('en-GB');
-  static const enIn = Locale._('en-IN');
-  static const enUs = Locale._('en-US');
-  static const es_419 = Locale._('es-419');
-  static const esEs = Locale._('es-ES');
-  static const esUs = Locale._('es-US');
-  static const frFr = Locale._('fr-FR');
-  static const frCa = Locale._('fr-CA');
-  static const itIt = Locale._('it-IT');
-  static const jaJp = Locale._('ja-JP');
-  static const koKr = Locale._('ko-KR');
-
-  final String value;
-
-  const Locale._(this.value);
-
-  static const values = [
-    deDe,
-    enAu,
-    enGb,
-    enIn,
-    enUs,
-    es_419,
-    esEs,
-    esUs,
-    frFr,
-    frCa,
-    itIt,
-    jaJp,
-    koKr
-  ];
-
-  static Locale fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Locale._(value));
-
-  @override
-  bool operator ==(other) => other is Locale && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Settings used to configure delivery mode and destination for conversation
-/// logs.
-class LogSettingsRequest {
-  /// Where the logs will be delivered. Text logs are delivered to a CloudWatch
-  /// Logs log group. Audio logs are delivered to an S3 bucket.
-  final Destination destination;
-
-  /// The type of logging to enable. Text logs are delivered to a CloudWatch Logs
-  /// log group. Audio logs are delivered to an S3 bucket.
-  final LogType logType;
-
-  /// The Amazon Resource Name (ARN) of the CloudWatch Logs log group or S3 bucket
-  /// where the logs should be delivered.
-  final String resourceArn;
-
-  /// The Amazon Resource Name (ARN) of the AWS KMS customer managed key for
-  /// encrypting audio logs delivered to an S3 bucket. The key does not apply to
-  /// CloudWatch Logs and is optional for S3 buckets.
-  final String? kmsKeyArn;
-
-  LogSettingsRequest({
-    required this.destination,
-    required this.logType,
-    required this.resourceArn,
-    this.kmsKeyArn,
-  });
-
-  Map<String, dynamic> toJson() {
-    final destination = this.destination;
-    final logType = this.logType;
-    final resourceArn = this.resourceArn;
-    final kmsKeyArn = this.kmsKeyArn;
-    return {
-      'destination': destination.value,
-      'logType': logType.value,
-      'resourceArn': resourceArn,
-      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
-    };
-  }
-}
-
-/// The settings for conversation logs.
-class LogSettingsResponse {
-  /// The destination where logs are delivered.
-  final Destination? destination;
-
-  /// The Amazon Resource Name (ARN) of the key used to encrypt audio logs in an
-  /// S3 bucket.
-  final String? kmsKeyArn;
-
-  /// The type of logging that is enabled.
-  final LogType? logType;
-
-  /// The Amazon Resource Name (ARN) of the CloudWatch Logs log group or S3 bucket
-  /// where the logs are delivered.
-  final String? resourceArn;
-
-  /// The resource prefix is the first part of the S3 object key within the S3
-  /// bucket that you specified to contain audio logs. For CloudWatch Logs it is
-  /// the prefix of the log stream name within the log group that you specified.
-  final String? resourcePrefix;
-
-  LogSettingsResponse({
-    this.destination,
-    this.kmsKeyArn,
-    this.logType,
-    this.resourceArn,
-    this.resourcePrefix,
-  });
-
-  factory LogSettingsResponse.fromJson(Map<String, dynamic> json) {
-    return LogSettingsResponse(
-      destination:
-          (json['destination'] as String?)?.let(Destination.fromString),
-      kmsKeyArn: json['kmsKeyArn'] as String?,
-      logType: (json['logType'] as String?)?.let(LogType.fromString),
-      resourceArn: json['resourceArn'] as String?,
-      resourcePrefix: json['resourcePrefix'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final destination = this.destination;
-    final kmsKeyArn = this.kmsKeyArn;
-    final logType = this.logType;
-    final resourceArn = this.resourceArn;
-    final resourcePrefix = this.resourcePrefix;
-    return {
-      if (destination != null) 'destination': destination.value,
-      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
-      if (logType != null) 'logType': logType.value,
-      if (resourceArn != null) 'resourceArn': resourceArn,
-      if (resourcePrefix != null) 'resourcePrefix': resourcePrefix,
-    };
-  }
-}
-
-class LogType {
-  static const audio = LogType._('AUDIO');
-  static const text = LogType._('TEXT');
-
-  final String value;
-
-  const LogType._(this.value);
-
-  static const values = [audio, text];
-
-  static LogType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => LogType._(value));
-
-  @override
-  bool operator ==(other) => other is LogType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class MergeStrategy {
-  static const overwriteLatest = MergeStrategy._('OVERWRITE_LATEST');
-  static const failOnConflict = MergeStrategy._('FAIL_ON_CONFLICT');
-
-  final String value;
-
-  const MergeStrategy._(this.value);
-
-  static const values = [overwriteLatest, failOnConflict];
-
-  static MergeStrategy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MergeStrategy._(value));
-
-  @override
-  bool operator ==(other) => other is MergeStrategy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The message object that provides the message text and its type.
-class Message {
-  /// The text of the message.
-  final String content;
-
-  /// The content type of the message string.
-  final ContentType contentType;
-
-  /// Identifies the message group that the message belongs to. When a group is
-  /// assigned to a message, Amazon Lex returns one message from each group in the
-  /// response.
-  final int? groupNumber;
-
-  Message({
-    required this.content,
-    required this.contentType,
-    this.groupNumber,
-  });
-
-  factory Message.fromJson(Map<String, dynamic> json) {
-    return Message(
-      content: (json['content'] as String?) ?? '',
-      contentType:
-          ContentType.fromString((json['contentType'] as String?) ?? ''),
-      groupNumber: json['groupNumber'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final content = this.content;
-    final contentType = this.contentType;
-    final groupNumber = this.groupNumber;
-    return {
-      'content': content,
-      'contentType': contentType.value,
-      if (groupNumber != null) 'groupNumber': groupNumber,
-    };
-  }
-}
-
-/// Provides information about alerts and warnings that Amazon Lex sends during
-/// a migration. The alerts include information about how to resolve the issue.
-class MigrationAlert {
-  /// Additional details about the alert.
-  final List<String>? details;
-
-  /// A message that describes why the alert was issued.
-  final String? message;
-
-  /// A link to the Amazon Lex documentation that describes how to resolve the
-  /// alert.
-  final List<String>? referenceURLs;
-
-  /// The type of alert. There are two kinds of alerts:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ERROR</code> - There was an issue with the migration that can't be
-  /// resolved. The migration stops.
-  /// </li>
-  /// <li>
-  /// <code>WARN</code> - There was an issue with the migration that requires
-  /// manual changes to the new Amazon Lex V2 bot. The migration continues.
-  /// </li>
-  /// </ul>
-  final MigrationAlertType? type;
-
-  MigrationAlert({
-    this.details,
-    this.message,
-    this.referenceURLs,
-    this.type,
-  });
-
-  factory MigrationAlert.fromJson(Map<String, dynamic> json) {
-    return MigrationAlert(
-      details:
-          (json['details'] as List?)?.nonNulls.map((e) => e as String).toList(),
-      message: json['message'] as String?,
-      referenceURLs: (json['referenceURLs'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      type: (json['type'] as String?)?.let(MigrationAlertType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final details = this.details;
-    final message = this.message;
-    final referenceURLs = this.referenceURLs;
-    final type = this.type;
-    return {
-      if (details != null) 'details': details,
-      if (message != null) 'message': message,
-      if (referenceURLs != null) 'referenceURLs': referenceURLs,
-      if (type != null) 'type': type.value,
-    };
-  }
-}
-
-class MigrationAlertType {
-  static const error = MigrationAlertType._('ERROR');
-  static const warn = MigrationAlertType._('WARN');
-
-  final String value;
-
-  const MigrationAlertType._(this.value);
-
-  static const values = [error, warn];
-
-  static MigrationAlertType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MigrationAlertType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is MigrationAlertType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class MigrationSortAttribute {
-  static const v1BotName = MigrationSortAttribute._('V1_BOT_NAME');
-  static const migrationDateTime =
-      MigrationSortAttribute._('MIGRATION_DATE_TIME');
-
-  final String value;
-
-  const MigrationSortAttribute._(this.value);
-
-  static const values = [v1BotName, migrationDateTime];
-
-  static MigrationSortAttribute fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MigrationSortAttribute._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is MigrationSortAttribute && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class MigrationStatus {
-  static const inProgress = MigrationStatus._('IN_PROGRESS');
-  static const completed = MigrationStatus._('COMPLETED');
-  static const failed = MigrationStatus._('FAILED');
-
-  final String value;
-
-  const MigrationStatus._(this.value);
-
-  static const values = [inProgress, completed, failed];
-
-  static MigrationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MigrationStatus._(value));
-
-  @override
-  bool operator ==(other) => other is MigrationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class MigrationStrategy {
-  static const createNew = MigrationStrategy._('CREATE_NEW');
-  static const updateExisting = MigrationStrategy._('UPDATE_EXISTING');
-
-  final String value;
-
-  const MigrationStrategy._(this.value);
-
-  static const values = [createNew, updateExisting];
-
-  static MigrationStrategy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MigrationStrategy._(value));
-
-  @override
-  bool operator ==(other) => other is MigrationStrategy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides information about migrating a bot from Amazon Lex V1 to Amazon Lex
-/// V2.
-class MigrationSummary {
-  /// The unique identifier that Amazon Lex assigned to the migration.
-  final String? migrationId;
-
-  /// The status of the operation. When the status is <code>COMPLETE</code> the
-  /// bot is available in Amazon Lex V2. There may be alerts and warnings that
-  /// need to be resolved to complete the migration.
-  final MigrationStatus? migrationStatus;
-
-  /// The strategy used to conduct the migration.
-  final MigrationStrategy? migrationStrategy;
-
-  /// The date and time that the migration started.
-  final DateTime? migrationTimestamp;
-
-  /// The locale of the Amazon Lex V1 bot that is the source of the migration.
-  final Locale? v1BotLocale;
-
-  /// The name of the Amazon Lex V1 bot that is the source of the migration.
-  final String? v1BotName;
-
-  /// The version of the Amazon Lex V1 bot that is the source of the migration.
-  final String? v1BotVersion;
-
-  /// The unique identifier of the Amazon Lex V2 that is the destination of the
-  /// migration.
-  final String? v2BotId;
-
-  /// The IAM role that Amazon Lex uses to run the Amazon Lex V2 bot.
-  final String? v2BotRole;
-
-  MigrationSummary({
-    this.migrationId,
-    this.migrationStatus,
-    this.migrationStrategy,
-    this.migrationTimestamp,
-    this.v1BotLocale,
-    this.v1BotName,
-    this.v1BotVersion,
-    this.v2BotId,
-    this.v2BotRole,
-  });
-
-  factory MigrationSummary.fromJson(Map<String, dynamic> json) {
-    return MigrationSummary(
-      migrationId: json['migrationId'] as String?,
-      migrationStatus:
-          (json['migrationStatus'] as String?)?.let(MigrationStatus.fromString),
-      migrationStrategy: (json['migrationStrategy'] as String?)
-          ?.let(MigrationStrategy.fromString),
-      migrationTimestamp: timeStampFromJson(json['migrationTimestamp']),
-      v1BotLocale: (json['v1BotLocale'] as String?)?.let(Locale.fromString),
-      v1BotName: json['v1BotName'] as String?,
-      v1BotVersion: json['v1BotVersion'] as String?,
-      v2BotId: json['v2BotId'] as String?,
-      v2BotRole: json['v2BotRole'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final migrationId = this.migrationId;
-    final migrationStatus = this.migrationStatus;
-    final migrationStrategy = this.migrationStrategy;
-    final migrationTimestamp = this.migrationTimestamp;
-    final v1BotLocale = this.v1BotLocale;
-    final v1BotName = this.v1BotName;
-    final v1BotVersion = this.v1BotVersion;
-    final v2BotId = this.v2BotId;
-    final v2BotRole = this.v2BotRole;
-    return {
-      if (migrationId != null) 'migrationId': migrationId,
-      if (migrationStatus != null) 'migrationStatus': migrationStatus.value,
-      if (migrationStrategy != null)
-        'migrationStrategy': migrationStrategy.value,
-      if (migrationTimestamp != null)
-        'migrationTimestamp': unixTimestampToJson(migrationTimestamp),
-      if (v1BotLocale != null) 'v1BotLocale': v1BotLocale.value,
-      if (v1BotName != null) 'v1BotName': v1BotName,
-      if (v1BotVersion != null) 'v1BotVersion': v1BotVersion,
-      if (v2BotId != null) 'v2BotId': v2BotId,
-      if (v2BotRole != null) 'v2BotRole': v2BotRole,
-    };
-  }
-}
-
-class ObfuscationSetting {
-  static const none = ObfuscationSetting._('NONE');
-  static const defaultObfuscation = ObfuscationSetting._('DEFAULT_OBFUSCATION');
-
-  final String value;
-
-  const ObfuscationSetting._(this.value);
-
-  static const values = [none, defaultObfuscation];
-
-  static ObfuscationSetting fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ObfuscationSetting._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ObfuscationSetting && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The specification of an output context that is set when an intent is
-/// fulfilled.
-class OutputContext {
-  /// The name of the context.
-  final String name;
-
-  /// The number of seconds that the context should be active after it is first
-  /// sent in a <code>PostContent</code> or <code>PostText</code> response. You
-  /// can set the value between 5 and 86,400 seconds (24 hours).
-  final int timeToLiveInSeconds;
-
-  /// The number of conversation turns that the context should be active. A
-  /// conversation turn is one <code>PostContent</code> or <code>PostText</code>
-  /// request and the corresponding response from Amazon Lex.
-  final int turnsToLive;
-
-  OutputContext({
-    required this.name,
-    required this.timeToLiveInSeconds,
-    required this.turnsToLive,
-  });
-
-  factory OutputContext.fromJson(Map<String, dynamic> json) {
-    return OutputContext(
-      name: (json['name'] as String?) ?? '',
-      timeToLiveInSeconds: (json['timeToLiveInSeconds'] as int?) ?? 0,
-      turnsToLive: (json['turnsToLive'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final timeToLiveInSeconds = this.timeToLiveInSeconds;
-    final turnsToLive = this.turnsToLive;
-    return {
-      'name': name,
-      'timeToLiveInSeconds': timeToLiveInSeconds,
-      'turnsToLive': turnsToLive,
-    };
-  }
-}
-
-class ProcessBehavior {
-  static const save = ProcessBehavior._('SAVE');
-  static const build = ProcessBehavior._('BUILD');
-
-  final String value;
-
-  const ProcessBehavior._(this.value);
-
-  static const values = [save, build];
-
-  static ProcessBehavior fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ProcessBehavior._(value));
-
-  @override
-  bool operator ==(other) => other is ProcessBehavior && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Obtains information from the user. To define a prompt, provide one or more
-/// messages and specify the number of attempts to get information from the
-/// user. If you provide more than one message, Amazon Lex chooses one of the
-/// messages to use to prompt the user. For more information, see
-/// <a>how-it-works</a>.
-class Prompt {
-  /// The number of times to prompt the user for information.
-  final int maxAttempts;
-
-  /// An array of objects, each of which provides a message string and its type.
-  /// You can specify the message string in plain text or in Speech Synthesis
-  /// Markup Language (SSML).
-  final List<Message> messages;
-
-  /// A response card. Amazon Lex uses this prompt at runtime, in the
-  /// <code>PostText</code> API response. It substitutes session attributes and
-  /// slot values for placeholders in the response card. For more information, see
-  /// <a>ex-resp-card</a>.
-  final String? responseCard;
-
-  Prompt({
-    required this.maxAttempts,
-    required this.messages,
-    this.responseCard,
-  });
-
-  factory Prompt.fromJson(Map<String, dynamic> json) {
-    return Prompt(
-      maxAttempts: (json['maxAttempts'] as int?) ?? 0,
-      messages: ((json['messages'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => Message.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      responseCard: json['responseCard'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final maxAttempts = this.maxAttempts;
-    final messages = this.messages;
-    final responseCard = this.responseCard;
-    return {
-      'maxAttempts': maxAttempts,
-      'messages': messages,
-      if (responseCard != null) 'responseCard': responseCard,
-    };
-  }
-}
-
-class PutBotAliasResponse {
-  /// The name of the bot that the alias points to.
-  final String? botName;
-
-  /// The version of the bot that the alias points to.
-  final String? botVersion;
-
-  /// The checksum for the current version of the alias.
-  final String? checksum;
-
-  /// The settings that determine how Amazon Lex uses conversation logs for the
-  /// alias.
-  final ConversationLogsResponse? conversationLogs;
-
-  /// The date that the bot alias was created.
-  final DateTime? createdDate;
-
-  /// A description of the alias.
-  final String? description;
-
-  /// The date that the bot alias was updated. When you create a resource, the
-  /// creation date and the last updated date are the same.
-  final DateTime? lastUpdatedDate;
-
-  /// The name of the alias.
-  final String? name;
-
-  /// A list of tags associated with a bot.
-  final List<Tag>? tags;
-
-  PutBotAliasResponse({
-    this.botName,
-    this.botVersion,
-    this.checksum,
-    this.conversationLogs,
-    this.createdDate,
-    this.description,
-    this.lastUpdatedDate,
-    this.name,
-    this.tags,
-  });
-
-  factory PutBotAliasResponse.fromJson(Map<String, dynamic> json) {
-    return PutBotAliasResponse(
-      botName: json['botName'] as String?,
-      botVersion: json['botVersion'] as String?,
-      checksum: json['checksum'] as String?,
-      conversationLogs: json['conversationLogs'] != null
-          ? ConversationLogsResponse.fromJson(
-              json['conversationLogs'] as Map<String, dynamic>)
-          : null,
-      createdDate: timeStampFromJson(json['createdDate']),
-      description: json['description'] as String?,
-      lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
-      name: json['name'] as String?,
-      tags: (json['tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final botName = this.botName;
-    final botVersion = this.botVersion;
-    final checksum = this.checksum;
-    final conversationLogs = this.conversationLogs;
-    final createdDate = this.createdDate;
-    final description = this.description;
-    final lastUpdatedDate = this.lastUpdatedDate;
-    final name = this.name;
-    final tags = this.tags;
-    return {
-      if (botName != null) 'botName': botName,
-      if (botVersion != null) 'botVersion': botVersion,
-      if (checksum != null) 'checksum': checksum,
-      if (conversationLogs != null) 'conversationLogs': conversationLogs,
-      if (createdDate != null) 'createdDate': unixTimestampToJson(createdDate),
-      if (description != null) 'description': description,
-      if (lastUpdatedDate != null)
-        'lastUpdatedDate': unixTimestampToJson(lastUpdatedDate),
-      if (name != null) 'name': name,
       if (tags != null) 'tags': tags,
     };
   }
@@ -6346,6 +4709,93 @@ class PutBotResponse {
       if (tags != null) 'tags': tags,
       if (version != null) 'version': version,
       if (voiceId != null) 'voiceId': voiceId,
+    };
+  }
+}
+
+class PutBotAliasResponse {
+  /// The name of the bot that the alias points to.
+  final String? botName;
+
+  /// The version of the bot that the alias points to.
+  final String? botVersion;
+
+  /// The checksum for the current version of the alias.
+  final String? checksum;
+
+  /// The settings that determine how Amazon Lex uses conversation logs for the
+  /// alias.
+  final ConversationLogsResponse? conversationLogs;
+
+  /// The date that the bot alias was created.
+  final DateTime? createdDate;
+
+  /// A description of the alias.
+  final String? description;
+
+  /// The date that the bot alias was updated. When you create a resource, the
+  /// creation date and the last updated date are the same.
+  final DateTime? lastUpdatedDate;
+
+  /// The name of the alias.
+  final String? name;
+
+  /// A list of tags associated with a bot.
+  final List<Tag>? tags;
+
+  PutBotAliasResponse({
+    this.botName,
+    this.botVersion,
+    this.checksum,
+    this.conversationLogs,
+    this.createdDate,
+    this.description,
+    this.lastUpdatedDate,
+    this.name,
+    this.tags,
+  });
+
+  factory PutBotAliasResponse.fromJson(Map<String, dynamic> json) {
+    return PutBotAliasResponse(
+      botName: json['botName'] as String?,
+      botVersion: json['botVersion'] as String?,
+      checksum: json['checksum'] as String?,
+      conversationLogs: json['conversationLogs'] != null
+          ? ConversationLogsResponse.fromJson(
+              json['conversationLogs'] as Map<String, dynamic>)
+          : null,
+      createdDate: timeStampFromJson(json['createdDate']),
+      description: json['description'] as String?,
+      lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
+      name: json['name'] as String?,
+      tags: (json['tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final botName = this.botName;
+    final botVersion = this.botVersion;
+    final checksum = this.checksum;
+    final conversationLogs = this.conversationLogs;
+    final createdDate = this.createdDate;
+    final description = this.description;
+    final lastUpdatedDate = this.lastUpdatedDate;
+    final name = this.name;
+    final tags = this.tags;
+    return {
+      if (botName != null) 'botName': botName,
+      if (botVersion != null) 'botVersion': botVersion,
+      if (checksum != null) 'checksum': checksum,
+      if (conversationLogs != null) 'conversationLogs': conversationLogs,
+      if (createdDate != null) 'createdDate': unixTimestampToJson(createdDate),
+      if (description != null) 'description': description,
+      if (lastUpdatedDate != null)
+        'lastUpdatedDate': unixTimestampToJson(lastUpdatedDate),
+      if (name != null) 'name': name,
+      if (tags != null) 'tags': tags,
     };
   }
 }
@@ -6661,6 +5111,280 @@ class PutSlotTypeResponse {
   }
 }
 
+class StartImportResponse {
+  /// A timestamp for the date and time that the import job was requested.
+  final DateTime? createdDate;
+
+  /// The identifier for the specific import job.
+  final String? importId;
+
+  /// The status of the import job. If the status is <code>FAILED</code>, you can
+  /// get the reason for the failure using the <code>GetImport</code> operation.
+  final ImportStatus? importStatus;
+
+  /// The action to take when there is a merge conflict.
+  final MergeStrategy? mergeStrategy;
+
+  /// The name given to the import job.
+  final String? name;
+
+  /// The type of resource to import.
+  final ResourceType? resourceType;
+
+  /// A list of tags added to the imported bot.
+  final List<Tag>? tags;
+
+  StartImportResponse({
+    this.createdDate,
+    this.importId,
+    this.importStatus,
+    this.mergeStrategy,
+    this.name,
+    this.resourceType,
+    this.tags,
+  });
+
+  factory StartImportResponse.fromJson(Map<String, dynamic> json) {
+    return StartImportResponse(
+      createdDate: timeStampFromJson(json['createdDate']),
+      importId: json['importId'] as String?,
+      importStatus:
+          (json['importStatus'] as String?)?.let(ImportStatus.fromString),
+      mergeStrategy:
+          (json['mergeStrategy'] as String?)?.let(MergeStrategy.fromString),
+      name: json['name'] as String?,
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
+      tags: (json['tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdDate = this.createdDate;
+    final importId = this.importId;
+    final importStatus = this.importStatus;
+    final mergeStrategy = this.mergeStrategy;
+    final name = this.name;
+    final resourceType = this.resourceType;
+    final tags = this.tags;
+    return {
+      if (createdDate != null) 'createdDate': unixTimestampToJson(createdDate),
+      if (importId != null) 'importId': importId,
+      if (importStatus != null) 'importStatus': importStatus.value,
+      if (mergeStrategy != null) 'mergeStrategy': mergeStrategy.value,
+      if (name != null) 'name': name,
+      if (resourceType != null) 'resourceType': resourceType.value,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+class StartMigrationResponse {
+  /// The unique identifier that Amazon Lex assigned to the migration.
+  final String? migrationId;
+
+  /// The strategy used to conduct the migration.
+  final MigrationStrategy? migrationStrategy;
+
+  /// The date and time that the migration started.
+  final DateTime? migrationTimestamp;
+
+  /// The locale used for the Amazon Lex V1 bot.
+  final Locale? v1BotLocale;
+
+  /// The name of the Amazon Lex V1 bot that you are migrating to Amazon Lex V2.
+  final String? v1BotName;
+
+  /// The version of the bot to migrate to Amazon Lex V2.
+  final String? v1BotVersion;
+
+  /// The unique identifier for the Amazon Lex V2 bot.
+  final String? v2BotId;
+
+  /// The IAM role that Amazon Lex uses to run the Amazon Lex V2 bot.
+  final String? v2BotRole;
+
+  StartMigrationResponse({
+    this.migrationId,
+    this.migrationStrategy,
+    this.migrationTimestamp,
+    this.v1BotLocale,
+    this.v1BotName,
+    this.v1BotVersion,
+    this.v2BotId,
+    this.v2BotRole,
+  });
+
+  factory StartMigrationResponse.fromJson(Map<String, dynamic> json) {
+    return StartMigrationResponse(
+      migrationId: json['migrationId'] as String?,
+      migrationStrategy: (json['migrationStrategy'] as String?)
+          ?.let(MigrationStrategy.fromString),
+      migrationTimestamp: timeStampFromJson(json['migrationTimestamp']),
+      v1BotLocale: (json['v1BotLocale'] as String?)?.let(Locale.fromString),
+      v1BotName: json['v1BotName'] as String?,
+      v1BotVersion: json['v1BotVersion'] as String?,
+      v2BotId: json['v2BotId'] as String?,
+      v2BotRole: json['v2BotRole'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final migrationId = this.migrationId;
+    final migrationStrategy = this.migrationStrategy;
+    final migrationTimestamp = this.migrationTimestamp;
+    final v1BotLocale = this.v1BotLocale;
+    final v1BotName = this.v1BotName;
+    final v1BotVersion = this.v1BotVersion;
+    final v2BotId = this.v2BotId;
+    final v2BotRole = this.v2BotRole;
+    return {
+      if (migrationId != null) 'migrationId': migrationId,
+      if (migrationStrategy != null)
+        'migrationStrategy': migrationStrategy.value,
+      if (migrationTimestamp != null)
+        'migrationTimestamp': unixTimestampToJson(migrationTimestamp),
+      if (v1BotLocale != null) 'v1BotLocale': v1BotLocale.value,
+      if (v1BotName != null) 'v1BotName': v1BotName,
+      if (v1BotVersion != null) 'v1BotVersion': v1BotVersion,
+      if (v2BotId != null) 'v2BotId': v2BotId,
+      if (v2BotRole != null) 'v2BotRole': v2BotRole,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// A list of key/value pairs that identify a bot, bot alias, or bot channel.
+/// Tag keys and values can consist of Unicode letters, digits, white space, and
+/// any of the following symbols: _ . : / = + - @.
+class Tag {
+  /// The key for the tag. Keys are not case-sensitive and must be unique.
+  final String key;
+
+  /// The value associated with a key. The value may be an empty string but it
+  /// can't be null.
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['key'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key,
+      'value': value,
+    };
+  }
+}
+
+class Locale {
+  static const deDe = Locale._('de-DE');
+  static const enAu = Locale._('en-AU');
+  static const enGb = Locale._('en-GB');
+  static const enIn = Locale._('en-IN');
+  static const enUs = Locale._('en-US');
+  static const es_419 = Locale._('es-419');
+  static const esEs = Locale._('es-ES');
+  static const esUs = Locale._('es-US');
+  static const frFr = Locale._('fr-FR');
+  static const frCa = Locale._('fr-CA');
+  static const itIt = Locale._('it-IT');
+  static const jaJp = Locale._('ja-JP');
+  static const koKr = Locale._('ko-KR');
+
+  final String value;
+
+  const Locale._(this.value);
+
+  static const values = [
+    deDe,
+    enAu,
+    enGb,
+    enIn,
+    enUs,
+    es_419,
+    esEs,
+    esUs,
+    frFr,
+    frCa,
+    itIt,
+    jaJp,
+    koKr
+  ];
+
+  static Locale fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Locale._(value));
+
+  @override
+  bool operator ==(other) => other is Locale && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class MigrationStrategy {
+  static const createNew = MigrationStrategy._('CREATE_NEW');
+  static const updateExisting = MigrationStrategy._('UPDATE_EXISTING');
+
+  final String value;
+
+  const MigrationStrategy._(this.value);
+
+  static const values = [createNew, updateExisting];
+
+  static MigrationStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MigrationStrategy._(value));
+
+  @override
+  bool operator ==(other) => other is MigrationStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 class ResourceType {
   static const bot = ResourceType._('BOT');
   static const intent = ResourceType._('INTENT');
@@ -6677,6 +5401,627 @@ class ResourceType {
 
   @override
   bool operator ==(other) => other is ResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class MergeStrategy {
+  static const overwriteLatest = MergeStrategy._('OVERWRITE_LATEST');
+  static const failOnConflict = MergeStrategy._('FAIL_ON_CONFLICT');
+
+  final String value;
+
+  const MergeStrategy._(this.value);
+
+  static const values = [overwriteLatest, failOnConflict];
+
+  static MergeStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MergeStrategy._(value));
+
+  @override
+  bool operator ==(other) => other is MergeStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ImportStatus {
+  static const inProgress = ImportStatus._('IN_PROGRESS');
+  static const complete = ImportStatus._('COMPLETE');
+  static const failed = ImportStatus._('FAILED');
+
+  final String value;
+
+  const ImportStatus._(this.value);
+
+  static const values = [inProgress, complete, failed];
+
+  static ImportStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ImportStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ImportStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SlotValueSelectionStrategy {
+  static const originalValue = SlotValueSelectionStrategy._('ORIGINAL_VALUE');
+  static const topResolution = SlotValueSelectionStrategy._('TOP_RESOLUTION');
+
+  final String value;
+
+  const SlotValueSelectionStrategy._(this.value);
+
+  static const values = [originalValue, topResolution];
+
+  static SlotValueSelectionStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SlotValueSelectionStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SlotValueSelectionStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides configuration information for a slot type.
+class SlotTypeConfiguration {
+  /// A regular expression used to validate the value of a slot.
+  final SlotTypeRegexConfiguration? regexConfiguration;
+
+  SlotTypeConfiguration({
+    this.regexConfiguration,
+  });
+
+  factory SlotTypeConfiguration.fromJson(Map<String, dynamic> json) {
+    return SlotTypeConfiguration(
+      regexConfiguration: json['regexConfiguration'] != null
+          ? SlotTypeRegexConfiguration.fromJson(
+              json['regexConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final regexConfiguration = this.regexConfiguration;
+    return {
+      if (regexConfiguration != null) 'regexConfiguration': regexConfiguration,
+    };
+  }
+}
+
+/// Provides a regular expression used to validate the value of a slot.
+class SlotTypeRegexConfiguration {
+  /// A regular expression used to validate the value of a slot.
+  ///
+  /// Use a standard regular expression. Amazon Lex supports the following
+  /// characters in the regular expression:
+  ///
+  /// <ul>
+  /// <li>
+  /// A-Z, a-z
+  /// </li>
+  /// <li>
+  /// 0-9
+  /// </li>
+  /// <li>
+  /// Unicode characters ("\ u<Unicode>")
+  /// </li>
+  /// </ul>
+  /// Represent Unicode characters with four digits, for example "\u0041" or
+  /// "\u005A".
+  ///
+  /// The following regular expression operators are not supported:
+  ///
+  /// <ul>
+  /// <li>
+  /// Infinite repeaters: *, +, or {x,} with no upper bound.
+  /// </li>
+  /// <li>
+  /// Wild card (.)
+  /// </li>
+  /// </ul>
+  final String pattern;
+
+  SlotTypeRegexConfiguration({
+    required this.pattern,
+  });
+
+  factory SlotTypeRegexConfiguration.fromJson(Map<String, dynamic> json) {
+    return SlotTypeRegexConfiguration(
+      pattern: (json['pattern'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pattern = this.pattern;
+    return {
+      'pattern': pattern,
+    };
+  }
+}
+
+/// Each slot type can have a set of values. Each enumeration value represents a
+/// value the slot type can take.
+///
+/// For example, a pizza ordering bot could have a slot type that specifies the
+/// type of crust that the pizza should have. The slot type could include the
+/// values
+///
+/// <ul>
+/// <li>
+/// thick
+/// </li>
+/// <li>
+/// thin
+/// </li>
+/// <li>
+/// stuffed
+/// </li>
+/// </ul>
+class EnumerationValue {
+  /// The value of the slot type.
+  final String value;
+
+  /// Additional values related to the slot type value.
+  final List<String>? synonyms;
+
+  EnumerationValue({
+    required this.value,
+    this.synonyms,
+  });
+
+  factory EnumerationValue.fromJson(Map<String, dynamic> json) {
+    return EnumerationValue(
+      value: (json['value'] as String?) ?? '',
+      synonyms: (json['synonyms'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final value = this.value;
+    final synonyms = this.synonyms;
+    return {
+      'value': value,
+      if (synonyms != null) 'synonyms': synonyms,
+    };
+  }
+}
+
+/// Obtains information from the user. To define a prompt, provide one or more
+/// messages and specify the number of attempts to get information from the
+/// user. If you provide more than one message, Amazon Lex chooses one of the
+/// messages to use to prompt the user. For more information, see
+/// <a>how-it-works</a>.
+class Prompt {
+  /// The number of times to prompt the user for information.
+  final int maxAttempts;
+
+  /// An array of objects, each of which provides a message string and its type.
+  /// You can specify the message string in plain text or in Speech Synthesis
+  /// Markup Language (SSML).
+  final List<Message> messages;
+
+  /// A response card. Amazon Lex uses this prompt at runtime, in the
+  /// <code>PostText</code> API response. It substitutes session attributes and
+  /// slot values for placeholders in the response card. For more information, see
+  /// <a>ex-resp-card</a>.
+  final String? responseCard;
+
+  Prompt({
+    required this.maxAttempts,
+    required this.messages,
+    this.responseCard,
+  });
+
+  factory Prompt.fromJson(Map<String, dynamic> json) {
+    return Prompt(
+      maxAttempts: (json['maxAttempts'] as int?) ?? 0,
+      messages: ((json['messages'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Message.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      responseCard: json['responseCard'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxAttempts = this.maxAttempts;
+    final messages = this.messages;
+    final responseCard = this.responseCard;
+    return {
+      'maxAttempts': maxAttempts,
+      'messages': messages,
+      if (responseCard != null) 'responseCard': responseCard,
+    };
+  }
+}
+
+/// A collection of messages that convey information to the user. At runtime,
+/// Amazon Lex selects the message to convey.
+class Statement {
+  /// A collection of message objects.
+  final List<Message> messages;
+
+  /// At runtime, if the client is using the <a
+  /// href="http://docs.aws.amazon.com/lex/latest/dg/API_runtime_PostText.html">PostText</a>
+  /// API, Amazon Lex includes the response card in the response. It substitutes
+  /// all of the session attributes and slot values for placeholders in the
+  /// response card.
+  final String? responseCard;
+
+  Statement({
+    required this.messages,
+    this.responseCard,
+  });
+
+  factory Statement.fromJson(Map<String, dynamic> json) {
+    return Statement(
+      messages: ((json['messages'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Message.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      responseCard: json['responseCard'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final messages = this.messages;
+    final responseCard = this.responseCard;
+    return {
+      'messages': messages,
+      if (responseCard != null) 'responseCard': responseCard,
+    };
+  }
+}
+
+/// A prompt for additional activity after an intent is fulfilled. For example,
+/// after the <code>OrderPizza</code> intent is fulfilled, you might prompt the
+/// user to find out whether the user wants to order drinks.
+class FollowUpPrompt {
+  /// Prompts for information from the user.
+  final Prompt prompt;
+
+  /// If the user answers "no" to the question defined in the <code>prompt</code>
+  /// field, Amazon Lex responds with this statement to acknowledge that the
+  /// intent was canceled.
+  final Statement rejectionStatement;
+
+  FollowUpPrompt({
+    required this.prompt,
+    required this.rejectionStatement,
+  });
+
+  factory FollowUpPrompt.fromJson(Map<String, dynamic> json) {
+    return FollowUpPrompt(
+      prompt: Prompt.fromJson((json['prompt'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      rejectionStatement: Statement.fromJson(
+          (json['rejectionStatement'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final prompt = this.prompt;
+    final rejectionStatement = this.rejectionStatement;
+    return {
+      'prompt': prompt,
+      'rejectionStatement': rejectionStatement,
+    };
+  }
+}
+
+/// Specifies a Lambda function that verifies requests to a bot or fulfills the
+/// user's request to a bot..
+class CodeHook {
+  /// The version of the request-response that you want Amazon Lex to use to
+  /// invoke your Lambda function. For more information, see <a>using-lambda</a>.
+  final String messageVersion;
+
+  /// The Amazon Resource Name (ARN) of the Lambda function.
+  final String uri;
+
+  CodeHook({
+    required this.messageVersion,
+    required this.uri,
+  });
+
+  factory CodeHook.fromJson(Map<String, dynamic> json) {
+    return CodeHook(
+      messageVersion: (json['messageVersion'] as String?) ?? '',
+      uri: (json['uri'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final messageVersion = this.messageVersion;
+    final uri = this.uri;
+    return {
+      'messageVersion': messageVersion,
+      'uri': uri,
+    };
+  }
+}
+
+/// Describes how the intent is fulfilled after the user provides all of the
+/// information required for the intent. You can provide a Lambda function to
+/// process the intent, or you can return the intent information to the client
+/// application. We recommend that you use a Lambda function so that the
+/// relevant logic lives in the Cloud and limit the client-side code primarily
+/// to presentation. If you need to update the logic, you only update the Lambda
+/// function; you don't need to upgrade your client application.
+///
+/// Consider the following examples:
+///
+/// <ul>
+/// <li>
+/// In a pizza ordering application, after the user provides all of the
+/// information for placing an order, you use a Lambda function to place an
+/// order with a pizzeria.
+/// </li>
+/// <li>
+/// In a gaming application, when a user says "pick up a rock," this information
+/// must go back to the client application so that it can perform the operation
+/// and update the graphics. In this case, you want Amazon Lex to return the
+/// intent data to the client.
+/// </li>
+/// </ul>
+class FulfillmentActivity {
+  /// How the intent should be fulfilled, either by running a Lambda function or
+  /// by returning the slot data to the client application.
+  final FulfillmentActivityType type;
+
+  /// A description of the Lambda function that is run to fulfill the intent.
+  final CodeHook? codeHook;
+
+  FulfillmentActivity({
+    required this.type,
+    this.codeHook,
+  });
+
+  factory FulfillmentActivity.fromJson(Map<String, dynamic> json) {
+    return FulfillmentActivity(
+      type: FulfillmentActivityType.fromString((json['type'] as String?) ?? ''),
+      codeHook: json['codeHook'] != null
+          ? CodeHook.fromJson(json['codeHook'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final codeHook = this.codeHook;
+    return {
+      'type': type.value,
+      if (codeHook != null) 'codeHook': codeHook,
+    };
+  }
+}
+
+/// Provides configuration information for the AMAZON.KendraSearchIntent intent.
+/// When you use this intent, Amazon Lex searches the specified Amazon Kendra
+/// index and returns documents from the index that match the user's utterance.
+/// For more information, see <a
+/// href="http://docs.aws.amazon.com/lex/latest/dg/built-in-intent-kendra-search.html">
+/// AMAZON.KendraSearchIntent</a>.
+class KendraConfiguration {
+  /// The Amazon Resource Name (ARN) of the Amazon Kendra index that you want the
+  /// AMAZON.KendraSearchIntent intent to search. The index must be in the same
+  /// account and Region as the Amazon Lex bot. If the Amazon Kendra index does
+  /// not exist, you get an exception when you call the <code>PutIntent</code>
+  /// operation.
+  final String kendraIndex;
+
+  /// The Amazon Resource Name (ARN) of an IAM role that has permission to search
+  /// the Amazon Kendra index. The role must be in the same account and Region as
+  /// the Amazon Lex bot. If the role does not exist, you get an exception when
+  /// you call the <code>PutIntent</code> operation.
+  final String role;
+
+  /// A query filter that Amazon Lex sends to Amazon Kendra to filter the response
+  /// from the query. The filter is in the format defined by Amazon Kendra. For
+  /// more information, see <a
+  /// href="http://docs.aws.amazon.com/kendra/latest/dg/filtering.html">Filtering
+  /// queries</a>.
+  ///
+  /// You can override this filter string with a new filter string at runtime.
+  final String? queryFilterString;
+
+  KendraConfiguration({
+    required this.kendraIndex,
+    required this.role,
+    this.queryFilterString,
+  });
+
+  factory KendraConfiguration.fromJson(Map<String, dynamic> json) {
+    return KendraConfiguration(
+      kendraIndex: (json['kendraIndex'] as String?) ?? '',
+      role: (json['role'] as String?) ?? '',
+      queryFilterString: json['queryFilterString'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kendraIndex = this.kendraIndex;
+    final role = this.role;
+    final queryFilterString = this.queryFilterString;
+    return {
+      'kendraIndex': kendraIndex,
+      'role': role,
+      if (queryFilterString != null) 'queryFilterString': queryFilterString,
+    };
+  }
+}
+
+/// The specification of an output context that is set when an intent is
+/// fulfilled.
+class OutputContext {
+  /// The name of the context.
+  final String name;
+
+  /// The number of seconds that the context should be active after it is first
+  /// sent in a <code>PostContent</code> or <code>PostText</code> response. You
+  /// can set the value between 5 and 86,400 seconds (24 hours).
+  final int timeToLiveInSeconds;
+
+  /// The number of conversation turns that the context should be active. A
+  /// conversation turn is one <code>PostContent</code> or <code>PostText</code>
+  /// request and the corresponding response from Amazon Lex.
+  final int turnsToLive;
+
+  OutputContext({
+    required this.name,
+    required this.timeToLiveInSeconds,
+    required this.turnsToLive,
+  });
+
+  factory OutputContext.fromJson(Map<String, dynamic> json) {
+    return OutputContext(
+      name: (json['name'] as String?) ?? '',
+      timeToLiveInSeconds: (json['timeToLiveInSeconds'] as int?) ?? 0,
+      turnsToLive: (json['turnsToLive'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final timeToLiveInSeconds = this.timeToLiveInSeconds;
+    final turnsToLive = this.turnsToLive;
+    return {
+      'name': name,
+      'timeToLiveInSeconds': timeToLiveInSeconds,
+      'turnsToLive': turnsToLive,
+    };
+  }
+}
+
+/// The name of a context that must be active for an intent to be selected by
+/// Amazon Lex.
+class InputContext {
+  /// The name of the context.
+  final String name;
+
+  InputContext({
+    required this.name,
+  });
+
+  factory InputContext.fromJson(Map<String, dynamic> json) {
+    return InputContext(
+      name: (json['name'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      'name': name,
+    };
+  }
+}
+
+class FulfillmentActivityType {
+  static const returnIntent = FulfillmentActivityType._('ReturnIntent');
+  static const codeHook = FulfillmentActivityType._('CodeHook');
+
+  final String value;
+
+  const FulfillmentActivityType._(this.value);
+
+  static const values = [returnIntent, codeHook];
+
+  static FulfillmentActivityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FulfillmentActivityType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FulfillmentActivityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The message object that provides the message text and its type.
+class Message {
+  /// The text of the message.
+  final String content;
+
+  /// The content type of the message string.
+  final ContentType contentType;
+
+  /// Identifies the message group that the message belongs to. When a group is
+  /// assigned to a message, Amazon Lex returns one message from each group in the
+  /// response.
+  final int? groupNumber;
+
+  Message({
+    required this.content,
+    required this.contentType,
+    this.groupNumber,
+  });
+
+  factory Message.fromJson(Map<String, dynamic> json) {
+    return Message(
+      content: (json['content'] as String?) ?? '',
+      contentType:
+          ContentType.fromString((json['contentType'] as String?) ?? ''),
+      groupNumber: json['groupNumber'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final contentType = this.contentType;
+    final groupNumber = this.groupNumber;
+    return {
+      'content': content,
+      'contentType': contentType.value,
+      if (groupNumber != null) 'groupNumber': groupNumber,
+    };
+  }
+}
+
+class ContentType {
+  static const plainText = ContentType._('PlainText');
+  static const ssml = ContentType._('SSML');
+  static const customPayload = ContentType._('CustomPayload');
+
+  final String value;
+
+  const ContentType._(this.value);
+
+  static const values = [plainText, ssml, customPayload];
+
+  static ContentType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ContentType._(value));
+
+  @override
+  bool operator ==(other) => other is ContentType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -6833,6 +6178,65 @@ class SlotConstraint {
   String toString() => value;
 }
 
+class ObfuscationSetting {
+  static const none = ObfuscationSetting._('NONE');
+  static const defaultObfuscation = ObfuscationSetting._('DEFAULT_OBFUSCATION');
+
+  final String value;
+
+  const ObfuscationSetting._(this.value);
+
+  static const values = [none, defaultObfuscation];
+
+  static ObfuscationSetting fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ObfuscationSetting._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ObfuscationSetting && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains the default values for a slot. Default values are used when Amazon
+/// Lex hasn't determined a value for a slot.
+class SlotDefaultValueSpec {
+  /// The default values for a slot. You can specify more than one default. For
+  /// example, you can specify a default value to use from a matching context
+  /// variable, a session attribute, or a fixed value.
+  ///
+  /// The default value chosen is selected based on the order that you specify
+  /// them in the list. For example, if you specify a context variable and a fixed
+  /// value in that order, Amazon Lex uses the context variable if it is
+  /// available, else it uses the fixed value.
+  final List<SlotDefaultValue> defaultValueList;
+
+  SlotDefaultValueSpec({
+    required this.defaultValueList,
+  });
+
+  factory SlotDefaultValueSpec.fromJson(Map<String, dynamic> json) {
+    return SlotDefaultValueSpec(
+      defaultValueList: ((json['defaultValueList'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => SlotDefaultValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultValueList = this.defaultValueList;
+    return {
+      'defaultValueList': defaultValueList,
+    };
+  }
+}
+
 /// A default value for a slot.
 class SlotDefaultValue {
   /// The default value for the slot. You can specify one of the following:
@@ -6870,397 +6274,208 @@ class SlotDefaultValue {
   }
 }
 
-/// Contains the default values for a slot. Default values are used when Amazon
-/// Lex hasn't determined a value for a slot.
-class SlotDefaultValueSpec {
-  /// The default values for a slot. You can specify more than one default. For
-  /// example, you can specify a default value to use from a matching context
-  /// variable, a session attribute, or a fixed value.
-  ///
-  /// The default value chosen is selected based on the order that you specify
-  /// them in the list. For example, if you specify a context variable and a fixed
-  /// value in that order, Amazon Lex uses the context variable if it is
-  /// available, else it uses the fixed value.
-  final List<SlotDefaultValue> defaultValueList;
+/// Contains information about conversation log settings.
+class ConversationLogsResponse {
+  /// The Amazon Resource Name (ARN) of the IAM role used to write your logs to
+  /// CloudWatch Logs or an S3 bucket.
+  final String? iamRoleArn;
 
-  SlotDefaultValueSpec({
-    required this.defaultValueList,
+  /// The settings for your conversation logs. You can log text, audio, or both.
+  final List<LogSettingsResponse>? logSettings;
+
+  ConversationLogsResponse({
+    this.iamRoleArn,
+    this.logSettings,
   });
 
-  factory SlotDefaultValueSpec.fromJson(Map<String, dynamic> json) {
-    return SlotDefaultValueSpec(
-      defaultValueList: ((json['defaultValueList'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => SlotDefaultValue.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final defaultValueList = this.defaultValueList;
-    return {
-      'defaultValueList': defaultValueList,
-    };
-  }
-}
-
-/// Provides configuration information for a slot type.
-class SlotTypeConfiguration {
-  /// A regular expression used to validate the value of a slot.
-  final SlotTypeRegexConfiguration? regexConfiguration;
-
-  SlotTypeConfiguration({
-    this.regexConfiguration,
-  });
-
-  factory SlotTypeConfiguration.fromJson(Map<String, dynamic> json) {
-    return SlotTypeConfiguration(
-      regexConfiguration: json['regexConfiguration'] != null
-          ? SlotTypeRegexConfiguration.fromJson(
-              json['regexConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final regexConfiguration = this.regexConfiguration;
-    return {
-      if (regexConfiguration != null) 'regexConfiguration': regexConfiguration,
-    };
-  }
-}
-
-/// Provides information about a slot type..
-class SlotTypeMetadata {
-  /// The date that the slot type was created.
-  final DateTime? createdDate;
-
-  /// A description of the slot type.
-  final String? description;
-
-  /// The date that the slot type was updated. When you create a resource, the
-  /// creation date and last updated date are the same.
-  final DateTime? lastUpdatedDate;
-
-  /// The name of the slot type.
-  final String? name;
-
-  /// The version of the slot type.
-  final String? version;
-
-  SlotTypeMetadata({
-    this.createdDate,
-    this.description,
-    this.lastUpdatedDate,
-    this.name,
-    this.version,
-  });
-
-  factory SlotTypeMetadata.fromJson(Map<String, dynamic> json) {
-    return SlotTypeMetadata(
-      createdDate: timeStampFromJson(json['createdDate']),
-      description: json['description'] as String?,
-      lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
-      name: json['name'] as String?,
-      version: json['version'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdDate = this.createdDate;
-    final description = this.description;
-    final lastUpdatedDate = this.lastUpdatedDate;
-    final name = this.name;
-    final version = this.version;
-    return {
-      if (createdDate != null) 'createdDate': unixTimestampToJson(createdDate),
-      if (description != null) 'description': description,
-      if (lastUpdatedDate != null)
-        'lastUpdatedDate': unixTimestampToJson(lastUpdatedDate),
-      if (name != null) 'name': name,
-      if (version != null) 'version': version,
-    };
-  }
-}
-
-/// Provides a regular expression used to validate the value of a slot.
-class SlotTypeRegexConfiguration {
-  /// A regular expression used to validate the value of a slot.
-  ///
-  /// Use a standard regular expression. Amazon Lex supports the following
-  /// characters in the regular expression:
-  ///
-  /// <ul>
-  /// <li>
-  /// A-Z, a-z
-  /// </li>
-  /// <li>
-  /// 0-9
-  /// </li>
-  /// <li>
-  /// Unicode characters ("\ u&lt;Unicode&gt;")
-  /// </li>
-  /// </ul>
-  /// Represent Unicode characters with four digits, for example "\u0041" or
-  /// "\u005A".
-  ///
-  /// The following regular expression operators are not supported:
-  ///
-  /// <ul>
-  /// <li>
-  /// Infinite repeaters: *, +, or {x,} with no upper bound.
-  /// </li>
-  /// <li>
-  /// Wild card (.)
-  /// </li>
-  /// </ul>
-  final String pattern;
-
-  SlotTypeRegexConfiguration({
-    required this.pattern,
-  });
-
-  factory SlotTypeRegexConfiguration.fromJson(Map<String, dynamic> json) {
-    return SlotTypeRegexConfiguration(
-      pattern: (json['pattern'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final pattern = this.pattern;
-    return {
-      'pattern': pattern,
-    };
-  }
-}
-
-class SlotValueSelectionStrategy {
-  static const originalValue = SlotValueSelectionStrategy._('ORIGINAL_VALUE');
-  static const topResolution = SlotValueSelectionStrategy._('TOP_RESOLUTION');
-
-  final String value;
-
-  const SlotValueSelectionStrategy._(this.value);
-
-  static const values = [originalValue, topResolution];
-
-  static SlotValueSelectionStrategy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SlotValueSelectionStrategy._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SlotValueSelectionStrategy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class SortOrder {
-  static const ascending = SortOrder._('ASCENDING');
-  static const descending = SortOrder._('DESCENDING');
-
-  final String value;
-
-  const SortOrder._(this.value);
-
-  static const values = [ascending, descending];
-
-  static SortOrder fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
-
-  @override
-  bool operator ==(other) => other is SortOrder && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class StartImportResponse {
-  /// A timestamp for the date and time that the import job was requested.
-  final DateTime? createdDate;
-
-  /// The identifier for the specific import job.
-  final String? importId;
-
-  /// The status of the import job. If the status is <code>FAILED</code>, you can
-  /// get the reason for the failure using the <code>GetImport</code> operation.
-  final ImportStatus? importStatus;
-
-  /// The action to take when there is a merge conflict.
-  final MergeStrategy? mergeStrategy;
-
-  /// The name given to the import job.
-  final String? name;
-
-  /// The type of resource to import.
-  final ResourceType? resourceType;
-
-  /// A list of tags added to the imported bot.
-  final List<Tag>? tags;
-
-  StartImportResponse({
-    this.createdDate,
-    this.importId,
-    this.importStatus,
-    this.mergeStrategy,
-    this.name,
-    this.resourceType,
-    this.tags,
-  });
-
-  factory StartImportResponse.fromJson(Map<String, dynamic> json) {
-    return StartImportResponse(
-      createdDate: timeStampFromJson(json['createdDate']),
-      importId: json['importId'] as String?,
-      importStatus:
-          (json['importStatus'] as String?)?.let(ImportStatus.fromString),
-      mergeStrategy:
-          (json['mergeStrategy'] as String?)?.let(MergeStrategy.fromString),
-      name: json['name'] as String?,
-      resourceType:
-          (json['resourceType'] as String?)?.let(ResourceType.fromString),
-      tags: (json['tags'] as List?)
+  factory ConversationLogsResponse.fromJson(Map<String, dynamic> json) {
+    return ConversationLogsResponse(
+      iamRoleArn: json['iamRoleArn'] as String?,
+      logSettings: (json['logSettings'] as List?)
           ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .map((e) => LogSettingsResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final createdDate = this.createdDate;
-    final importId = this.importId;
-    final importStatus = this.importStatus;
-    final mergeStrategy = this.mergeStrategy;
-    final name = this.name;
-    final resourceType = this.resourceType;
-    final tags = this.tags;
+    final iamRoleArn = this.iamRoleArn;
+    final logSettings = this.logSettings;
     return {
-      if (createdDate != null) 'createdDate': unixTimestampToJson(createdDate),
-      if (importId != null) 'importId': importId,
-      if (importStatus != null) 'importStatus': importStatus.value,
-      if (mergeStrategy != null) 'mergeStrategy': mergeStrategy.value,
-      if (name != null) 'name': name,
-      if (resourceType != null) 'resourceType': resourceType.value,
-      if (tags != null) 'tags': tags,
+      if (iamRoleArn != null) 'iamRoleArn': iamRoleArn,
+      if (logSettings != null) 'logSettings': logSettings,
     };
   }
 }
 
-class StartMigrationResponse {
-  /// The unique identifier that Amazon Lex assigned to the migration.
-  final String? migrationId;
+/// The settings for conversation logs.
+class LogSettingsResponse {
+  /// The destination where logs are delivered.
+  final Destination? destination;
 
-  /// The strategy used to conduct the migration.
-  final MigrationStrategy? migrationStrategy;
+  /// The Amazon Resource Name (ARN) of the key used to encrypt audio logs in an
+  /// S3 bucket.
+  final String? kmsKeyArn;
 
-  /// The date and time that the migration started.
-  final DateTime? migrationTimestamp;
+  /// The type of logging that is enabled.
+  final LogType? logType;
 
-  /// The locale used for the Amazon Lex V1 bot.
-  final Locale? v1BotLocale;
+  /// The Amazon Resource Name (ARN) of the CloudWatch Logs log group or S3 bucket
+  /// where the logs are delivered.
+  final String? resourceArn;
 
-  /// The name of the Amazon Lex V1 bot that you are migrating to Amazon Lex V2.
-  final String? v1BotName;
+  /// The resource prefix is the first part of the S3 object key within the S3
+  /// bucket that you specified to contain audio logs. For CloudWatch Logs it is
+  /// the prefix of the log stream name within the log group that you specified.
+  final String? resourcePrefix;
 
-  /// The version of the bot to migrate to Amazon Lex V2.
-  final String? v1BotVersion;
-
-  /// The unique identifier for the Amazon Lex V2 bot.
-  final String? v2BotId;
-
-  /// The IAM role that Amazon Lex uses to run the Amazon Lex V2 bot.
-  final String? v2BotRole;
-
-  StartMigrationResponse({
-    this.migrationId,
-    this.migrationStrategy,
-    this.migrationTimestamp,
-    this.v1BotLocale,
-    this.v1BotName,
-    this.v1BotVersion,
-    this.v2BotId,
-    this.v2BotRole,
+  LogSettingsResponse({
+    this.destination,
+    this.kmsKeyArn,
+    this.logType,
+    this.resourceArn,
+    this.resourcePrefix,
   });
 
-  factory StartMigrationResponse.fromJson(Map<String, dynamic> json) {
-    return StartMigrationResponse(
-      migrationId: json['migrationId'] as String?,
-      migrationStrategy: (json['migrationStrategy'] as String?)
-          ?.let(MigrationStrategy.fromString),
-      migrationTimestamp: timeStampFromJson(json['migrationTimestamp']),
-      v1BotLocale: (json['v1BotLocale'] as String?)?.let(Locale.fromString),
-      v1BotName: json['v1BotName'] as String?,
-      v1BotVersion: json['v1BotVersion'] as String?,
-      v2BotId: json['v2BotId'] as String?,
-      v2BotRole: json['v2BotRole'] as String?,
+  factory LogSettingsResponse.fromJson(Map<String, dynamic> json) {
+    return LogSettingsResponse(
+      destination:
+          (json['destination'] as String?)?.let(Destination.fromString),
+      kmsKeyArn: json['kmsKeyArn'] as String?,
+      logType: (json['logType'] as String?)?.let(LogType.fromString),
+      resourceArn: json['resourceArn'] as String?,
+      resourcePrefix: json['resourcePrefix'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final migrationId = this.migrationId;
-    final migrationStrategy = this.migrationStrategy;
-    final migrationTimestamp = this.migrationTimestamp;
-    final v1BotLocale = this.v1BotLocale;
-    final v1BotName = this.v1BotName;
-    final v1BotVersion = this.v1BotVersion;
-    final v2BotId = this.v2BotId;
-    final v2BotRole = this.v2BotRole;
+    final destination = this.destination;
+    final kmsKeyArn = this.kmsKeyArn;
+    final logType = this.logType;
+    final resourceArn = this.resourceArn;
+    final resourcePrefix = this.resourcePrefix;
     return {
-      if (migrationId != null) 'migrationId': migrationId,
-      if (migrationStrategy != null)
-        'migrationStrategy': migrationStrategy.value,
-      if (migrationTimestamp != null)
-        'migrationTimestamp': unixTimestampToJson(migrationTimestamp),
-      if (v1BotLocale != null) 'v1BotLocale': v1BotLocale.value,
-      if (v1BotName != null) 'v1BotName': v1BotName,
-      if (v1BotVersion != null) 'v1BotVersion': v1BotVersion,
-      if (v2BotId != null) 'v2BotId': v2BotId,
-      if (v2BotRole != null) 'v2BotRole': v2BotRole,
+      if (destination != null) 'destination': destination.value,
+      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
+      if (logType != null) 'logType': logType.value,
+      if (resourceArn != null) 'resourceArn': resourceArn,
+      if (resourcePrefix != null) 'resourcePrefix': resourcePrefix,
     };
   }
 }
 
-/// A collection of messages that convey information to the user. At runtime,
-/// Amazon Lex selects the message to convey.
-class Statement {
-  /// A collection of message objects.
-  final List<Message> messages;
+class LogType {
+  static const audio = LogType._('AUDIO');
+  static const text = LogType._('TEXT');
 
-  /// At runtime, if the client is using the <a
-  /// href="http://docs.aws.amazon.com/lex/latest/dg/API_runtime_PostText.html">PostText</a>
-  /// API, Amazon Lex includes the response card in the response. It substitutes
-  /// all of the session attributes and slot values for placeholders in the
-  /// response card.
-  final String? responseCard;
+  final String value;
 
-  Statement({
-    required this.messages,
-    this.responseCard,
+  const LogType._(this.value);
+
+  static const values = [audio, text];
+
+  static LogType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LogType._(value));
+
+  @override
+  bool operator ==(other) => other is LogType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class Destination {
+  static const cloudwatchLogs = Destination._('CLOUDWATCH_LOGS');
+  static const s3 = Destination._('S3');
+
+  final String value;
+
+  const Destination._(this.value);
+
+  static const values = [cloudwatchLogs, s3];
+
+  static Destination fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Destination._(value));
+
+  @override
+  bool operator ==(other) => other is Destination && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides the settings needed for conversation logs.
+class ConversationLogsRequest {
+  /// The Amazon Resource Name (ARN) of an IAM role with permission to write to
+  /// your CloudWatch Logs for text logs and your S3 bucket for audio logs. If
+  /// audio encryption is enabled, this role also provides access permission for
+  /// the AWS KMS key used for encrypting audio logs. For more information, see <a
+  /// href="https://docs.aws.amazon.com/lex/latest/dg/conversation-logs-role-and-policy.html">Creating
+  /// an IAM Role and Policy for Conversation Logs</a>.
+  final String iamRoleArn;
+
+  /// The settings for your conversation logs. You can log the conversation text,
+  /// conversation audio, or both.
+  final List<LogSettingsRequest> logSettings;
+
+  ConversationLogsRequest({
+    required this.iamRoleArn,
+    required this.logSettings,
   });
 
-  factory Statement.fromJson(Map<String, dynamic> json) {
-    return Statement(
-      messages: ((json['messages'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => Message.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      responseCard: json['responseCard'] as String?,
-    );
+  Map<String, dynamic> toJson() {
+    final iamRoleArn = this.iamRoleArn;
+    final logSettings = this.logSettings;
+    return {
+      'iamRoleArn': iamRoleArn,
+      'logSettings': logSettings,
+    };
   }
+}
+
+/// Settings used to configure delivery mode and destination for conversation
+/// logs.
+class LogSettingsRequest {
+  /// Where the logs will be delivered. Text logs are delivered to a CloudWatch
+  /// Logs log group. Audio logs are delivered to an S3 bucket.
+  final Destination destination;
+
+  /// The type of logging to enable. Text logs are delivered to a CloudWatch Logs
+  /// log group. Audio logs are delivered to an S3 bucket.
+  final LogType logType;
+
+  /// The Amazon Resource Name (ARN) of the CloudWatch Logs log group or S3 bucket
+  /// where the logs should be delivered.
+  final String resourceArn;
+
+  /// The Amazon Resource Name (ARN) of the AWS KMS customer managed key for
+  /// encrypting audio logs delivered to an S3 bucket. The key does not apply to
+  /// CloudWatch Logs and is optional for S3 buckets.
+  final String? kmsKeyArn;
+
+  LogSettingsRequest({
+    required this.destination,
+    required this.logType,
+    required this.resourceArn,
+    this.kmsKeyArn,
+  });
 
   Map<String, dynamic> toJson() {
-    final messages = this.messages;
-    final responseCard = this.responseCard;
+    final destination = this.destination;
+    final logType = this.logType;
+    final resourceArn = this.resourceArn;
+    final kmsKeyArn = this.kmsKeyArn;
     return {
-      'messages': messages,
-      if (responseCard != null) 'responseCard': responseCard,
+      'destination': destination.value,
+      'logType': logType.value,
+      'resourceArn': resourceArn,
+      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
     };
   }
 }
@@ -7291,21 +6506,52 @@ class Status {
   String toString() => value;
 }
 
-class StatusType {
-  static const detected = StatusType._('Detected');
-  static const missed = StatusType._('Missed');
+/// Identifies the specific version of an intent.
+class Intent {
+  /// The name of the intent.
+  final String intentName;
+
+  /// The version of the intent.
+  final String intentVersion;
+
+  Intent({
+    required this.intentName,
+    required this.intentVersion,
+  });
+
+  factory Intent.fromJson(Map<String, dynamic> json) {
+    return Intent(
+      intentName: (json['intentName'] as String?) ?? '',
+      intentVersion: (json['intentVersion'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final intentName = this.intentName;
+    final intentVersion = this.intentVersion;
+    return {
+      'intentName': intentName,
+      'intentVersion': intentVersion,
+    };
+  }
+}
+
+class ProcessBehavior {
+  static const save = ProcessBehavior._('SAVE');
+  static const build = ProcessBehavior._('BUILD');
 
   final String value;
 
-  const StatusType._(this.value);
+  const ProcessBehavior._(this.value);
 
-  static const values = [detected, missed];
+  static const values = [save, build];
 
-  static StatusType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => StatusType._(value));
+  static ProcessBehavior fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProcessBehavior._(value));
 
   @override
-  bool operator ==(other) => other is StatusType && other.value == value;
+  bool operator ==(other) => other is ProcessBehavior && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -7314,60 +6560,39 @@ class StatusType {
   String toString() => value;
 }
 
-/// A list of key/value pairs that identify a bot, bot alias, or bot channel.
-/// Tag keys and values can consist of Unicode letters, digits, white space, and
-/// any of the following symbols: _ . : / = + - @.
-class Tag {
-  /// The key for the tag. Keys are not case-sensitive and must be unique.
-  final String key;
+/// Provides a list of utterances that have been made to a specific version of
+/// your bot. The list contains a maximum of 100 utterances.
+class UtteranceList {
+  /// The version of the bot that processed the list.
+  final String? botVersion;
 
-  /// The value associated with a key. The value may be an empty string but it
-  /// can't be null.
-  final String value;
+  /// One or more <a>UtteranceData</a> objects that contain information about the
+  /// utterances that have been made to a bot. The maximum number of object is
+  /// 100.
+  final List<UtteranceData>? utterances;
 
-  Tag({
-    required this.key,
-    required this.value,
+  UtteranceList({
+    this.botVersion,
+    this.utterances,
   });
 
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['key'] as String?) ?? '',
-      value: (json['value'] as String?) ?? '',
+  factory UtteranceList.fromJson(Map<String, dynamic> json) {
+    return UtteranceList(
+      botVersion: json['botVersion'] as String?,
+      utterances: (json['utterances'] as List?)
+          ?.nonNulls
+          .map((e) => UtteranceData.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
+    final botVersion = this.botVersion;
+    final utterances = this.utterances;
     return {
-      'key': key,
-      'value': value,
+      if (botVersion != null) 'botVersion': botVersion,
+      if (utterances != null) 'utterances': utterances,
     };
-  }
-}
-
-class TagResourceResponse {
-  TagResourceResponse();
-
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UntagResourceResponse {
-  UntagResourceResponse();
-
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
   }
 }
 
@@ -7425,38 +6650,813 @@ class UtteranceData {
   }
 }
 
-/// Provides a list of utterances that have been made to a specific version of
-/// your bot. The list contains a maximum of 100 utterances.
-class UtteranceList {
-  /// The version of the bot that processed the list.
-  final String? botVersion;
+class StatusType {
+  static const detected = StatusType._('Detected');
+  static const missed = StatusType._('Missed');
 
-  /// One or more <a>UtteranceData</a> objects that contain information about the
-  /// utterances that have been made to a bot. The maximum number of object is
-  /// 100.
-  final List<UtteranceData>? utterances;
+  final String value;
 
-  UtteranceList({
-    this.botVersion,
-    this.utterances,
+  const StatusType._(this.value);
+
+  static const values = [detected, missed];
+
+  static StatusType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StatusType._(value));
+
+  @override
+  bool operator ==(other) => other is StatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides information about a slot type..
+class SlotTypeMetadata {
+  /// The date that the slot type was created.
+  final DateTime? createdDate;
+
+  /// A description of the slot type.
+  final String? description;
+
+  /// The date that the slot type was updated. When you create a resource, the
+  /// creation date and last updated date are the same.
+  final DateTime? lastUpdatedDate;
+
+  /// The name of the slot type.
+  final String? name;
+
+  /// The version of the slot type.
+  final String? version;
+
+  SlotTypeMetadata({
+    this.createdDate,
+    this.description,
+    this.lastUpdatedDate,
+    this.name,
+    this.version,
   });
 
-  factory UtteranceList.fromJson(Map<String, dynamic> json) {
-    return UtteranceList(
-      botVersion: json['botVersion'] as String?,
-      utterances: (json['utterances'] as List?)
+  factory SlotTypeMetadata.fromJson(Map<String, dynamic> json) {
+    return SlotTypeMetadata(
+      createdDate: timeStampFromJson(json['createdDate']),
+      description: json['description'] as String?,
+      lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
+      name: json['name'] as String?,
+      version: json['version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdDate = this.createdDate;
+    final description = this.description;
+    final lastUpdatedDate = this.lastUpdatedDate;
+    final name = this.name;
+    final version = this.version;
+    return {
+      if (createdDate != null) 'createdDate': unixTimestampToJson(createdDate),
+      if (description != null) 'description': description,
+      if (lastUpdatedDate != null)
+        'lastUpdatedDate': unixTimestampToJson(lastUpdatedDate),
+      if (name != null) 'name': name,
+      if (version != null) 'version': version,
+    };
+  }
+}
+
+/// Provides information about migrating a bot from Amazon Lex V1 to Amazon Lex
+/// V2.
+class MigrationSummary {
+  /// The unique identifier that Amazon Lex assigned to the migration.
+  final String? migrationId;
+
+  /// The status of the operation. When the status is <code>COMPLETE</code> the
+  /// bot is available in Amazon Lex V2. There may be alerts and warnings that
+  /// need to be resolved to complete the migration.
+  final MigrationStatus? migrationStatus;
+
+  /// The strategy used to conduct the migration.
+  final MigrationStrategy? migrationStrategy;
+
+  /// The date and time that the migration started.
+  final DateTime? migrationTimestamp;
+
+  /// The locale of the Amazon Lex V1 bot that is the source of the migration.
+  final Locale? v1BotLocale;
+
+  /// The name of the Amazon Lex V1 bot that is the source of the migration.
+  final String? v1BotName;
+
+  /// The version of the Amazon Lex V1 bot that is the source of the migration.
+  final String? v1BotVersion;
+
+  /// The unique identifier of the Amazon Lex V2 that is the destination of the
+  /// migration.
+  final String? v2BotId;
+
+  /// The IAM role that Amazon Lex uses to run the Amazon Lex V2 bot.
+  final String? v2BotRole;
+
+  MigrationSummary({
+    this.migrationId,
+    this.migrationStatus,
+    this.migrationStrategy,
+    this.migrationTimestamp,
+    this.v1BotLocale,
+    this.v1BotName,
+    this.v1BotVersion,
+    this.v2BotId,
+    this.v2BotRole,
+  });
+
+  factory MigrationSummary.fromJson(Map<String, dynamic> json) {
+    return MigrationSummary(
+      migrationId: json['migrationId'] as String?,
+      migrationStatus:
+          (json['migrationStatus'] as String?)?.let(MigrationStatus.fromString),
+      migrationStrategy: (json['migrationStrategy'] as String?)
+          ?.let(MigrationStrategy.fromString),
+      migrationTimestamp: timeStampFromJson(json['migrationTimestamp']),
+      v1BotLocale: (json['v1BotLocale'] as String?)?.let(Locale.fromString),
+      v1BotName: json['v1BotName'] as String?,
+      v1BotVersion: json['v1BotVersion'] as String?,
+      v2BotId: json['v2BotId'] as String?,
+      v2BotRole: json['v2BotRole'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final migrationId = this.migrationId;
+    final migrationStatus = this.migrationStatus;
+    final migrationStrategy = this.migrationStrategy;
+    final migrationTimestamp = this.migrationTimestamp;
+    final v1BotLocale = this.v1BotLocale;
+    final v1BotName = this.v1BotName;
+    final v1BotVersion = this.v1BotVersion;
+    final v2BotId = this.v2BotId;
+    final v2BotRole = this.v2BotRole;
+    return {
+      if (migrationId != null) 'migrationId': migrationId,
+      if (migrationStatus != null) 'migrationStatus': migrationStatus.value,
+      if (migrationStrategy != null)
+        'migrationStrategy': migrationStrategy.value,
+      if (migrationTimestamp != null)
+        'migrationTimestamp': unixTimestampToJson(migrationTimestamp),
+      if (v1BotLocale != null) 'v1BotLocale': v1BotLocale.value,
+      if (v1BotName != null) 'v1BotName': v1BotName,
+      if (v1BotVersion != null) 'v1BotVersion': v1BotVersion,
+      if (v2BotId != null) 'v2BotId': v2BotId,
+      if (v2BotRole != null) 'v2BotRole': v2BotRole,
+    };
+  }
+}
+
+class MigrationStatus {
+  static const inProgress = MigrationStatus._('IN_PROGRESS');
+  static const completed = MigrationStatus._('COMPLETED');
+  static const failed = MigrationStatus._('FAILED');
+
+  final String value;
+
+  const MigrationStatus._(this.value);
+
+  static const values = [inProgress, completed, failed];
+
+  static MigrationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MigrationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is MigrationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class MigrationSortAttribute {
+  static const v1BotName = MigrationSortAttribute._('V1_BOT_NAME');
+  static const migrationDateTime =
+      MigrationSortAttribute._('MIGRATION_DATE_TIME');
+
+  final String value;
+
+  const MigrationSortAttribute._(this.value);
+
+  static const values = [v1BotName, migrationDateTime];
+
+  static MigrationSortAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MigrationSortAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MigrationSortAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SortOrder {
+  static const ascending = SortOrder._('ASCENDING');
+  static const descending = SortOrder._('DESCENDING');
+
+  final String value;
+
+  const SortOrder._(this.value);
+
+  static const values = [ascending, descending];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides information about alerts and warnings that Amazon Lex sends during
+/// a migration. The alerts include information about how to resolve the issue.
+class MigrationAlert {
+  /// Additional details about the alert.
+  final List<String>? details;
+
+  /// A message that describes why the alert was issued.
+  final String? message;
+
+  /// A link to the Amazon Lex documentation that describes how to resolve the
+  /// alert.
+  final List<String>? referenceURLs;
+
+  /// The type of alert. There are two kinds of alerts:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ERROR</code> - There was an issue with the migration that can't be
+  /// resolved. The migration stops.
+  /// </li>
+  /// <li>
+  /// <code>WARN</code> - There was an issue with the migration that requires
+  /// manual changes to the new Amazon Lex V2 bot. The migration continues.
+  /// </li>
+  /// </ul>
+  final MigrationAlertType? type;
+
+  MigrationAlert({
+    this.details,
+    this.message,
+    this.referenceURLs,
+    this.type,
+  });
+
+  factory MigrationAlert.fromJson(Map<String, dynamic> json) {
+    return MigrationAlert(
+      details:
+          (json['details'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      message: json['message'] as String?,
+      referenceURLs: (json['referenceURLs'] as List?)
           ?.nonNulls
-          .map((e) => UtteranceData.fromJson(e as Map<String, dynamic>))
+          .map((e) => e as String)
+          .toList(),
+      type: (json['type'] as String?)?.let(MigrationAlertType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final details = this.details;
+    final message = this.message;
+    final referenceURLs = this.referenceURLs;
+    final type = this.type;
+    return {
+      if (details != null) 'details': details,
+      if (message != null) 'message': message,
+      if (referenceURLs != null) 'referenceURLs': referenceURLs,
+      if (type != null) 'type': type.value,
+    };
+  }
+}
+
+class MigrationAlertType {
+  static const error = MigrationAlertType._('ERROR');
+  static const warn = MigrationAlertType._('WARN');
+
+  final String value;
+
+  const MigrationAlertType._(this.value);
+
+  static const values = [error, warn];
+
+  static MigrationAlertType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MigrationAlertType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MigrationAlertType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides information about an intent.
+class IntentMetadata {
+  /// The date that the intent was created.
+  final DateTime? createdDate;
+
+  /// A description of the intent.
+  final String? description;
+
+  /// The date that the intent was updated. When you create an intent, the
+  /// creation date and last updated date are the same.
+  final DateTime? lastUpdatedDate;
+
+  /// The name of the intent.
+  final String? name;
+
+  /// The version of the intent.
+  final String? version;
+
+  IntentMetadata({
+    this.createdDate,
+    this.description,
+    this.lastUpdatedDate,
+    this.name,
+    this.version,
+  });
+
+  factory IntentMetadata.fromJson(Map<String, dynamic> json) {
+    return IntentMetadata(
+      createdDate: timeStampFromJson(json['createdDate']),
+      description: json['description'] as String?,
+      lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
+      name: json['name'] as String?,
+      version: json['version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdDate = this.createdDate;
+    final description = this.description;
+    final lastUpdatedDate = this.lastUpdatedDate;
+    final name = this.name;
+    final version = this.version;
+    return {
+      if (createdDate != null) 'createdDate': unixTimestampToJson(createdDate),
+      if (description != null) 'description': description,
+      if (lastUpdatedDate != null)
+        'lastUpdatedDate': unixTimestampToJson(lastUpdatedDate),
+      if (name != null) 'name': name,
+      if (version != null) 'version': version,
+    };
+  }
+}
+
+class ExportType {
+  static const alexaSkillsKit = ExportType._('ALEXA_SKILLS_KIT');
+  static const lex = ExportType._('LEX');
+
+  final String value;
+
+  const ExportType._(this.value);
+
+  static const values = [alexaSkillsKit, lex];
+
+  static ExportType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ExportType._(value));
+
+  @override
+  bool operator ==(other) => other is ExportType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ExportStatus {
+  static const inProgress = ExportStatus._('IN_PROGRESS');
+  static const ready = ExportStatus._('READY');
+  static const failed = ExportStatus._('FAILED');
+
+  final String value;
+
+  const ExportStatus._(this.value);
+
+  static const values = [inProgress, ready, failed];
+
+  static ExportStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ExportStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ExportStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides information about a built in slot type.
+class BuiltinSlotTypeMetadata {
+  /// A unique identifier for the built-in slot type. To find the signature for a
+  /// slot type, see <a
+  /// href="https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/built-in-intent-ref/slot-type-reference">Slot
+  /// Type Reference</a> in the <i>Alexa Skills Kit</i>.
+  final String? signature;
+
+  /// A list of target locales for the slot.
+  final List<Locale>? supportedLocales;
+
+  BuiltinSlotTypeMetadata({
+    this.signature,
+    this.supportedLocales,
+  });
+
+  factory BuiltinSlotTypeMetadata.fromJson(Map<String, dynamic> json) {
+    return BuiltinSlotTypeMetadata(
+      signature: json['signature'] as String?,
+      supportedLocales: (json['supportedLocales'] as List?)
+          ?.nonNulls
+          .map((e) => Locale.fromString((e as String)))
           .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final botVersion = this.botVersion;
-    final utterances = this.utterances;
+    final signature = this.signature;
+    final supportedLocales = this.supportedLocales;
     return {
+      if (signature != null) 'signature': signature,
+      if (supportedLocales != null)
+        'supportedLocales': supportedLocales.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// Provides metadata for a built-in intent.
+class BuiltinIntentMetadata {
+  /// A unique identifier for the built-in intent. To find the signature for an
+  /// intent, see <a
+  /// href="https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/built-in-intent-ref/standard-intents">Standard
+  /// Built-in Intents</a> in the <i>Alexa Skills Kit</i>.
+  final String? signature;
+
+  /// A list of identifiers for the locales that the intent supports.
+  final List<Locale>? supportedLocales;
+
+  BuiltinIntentMetadata({
+    this.signature,
+    this.supportedLocales,
+  });
+
+  factory BuiltinIntentMetadata.fromJson(Map<String, dynamic> json) {
+    return BuiltinIntentMetadata(
+      signature: json['signature'] as String?,
+      supportedLocales: (json['supportedLocales'] as List?)
+          ?.nonNulls
+          .map((e) => Locale.fromString((e as String)))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final signature = this.signature;
+    final supportedLocales = this.supportedLocales;
+    return {
+      if (signature != null) 'signature': signature,
+      if (supportedLocales != null)
+        'supportedLocales': supportedLocales.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// Provides information about a slot used in a built-in intent.
+class BuiltinIntentSlot {
+  /// A list of the slots defined for the intent.
+  final String? name;
+
+  BuiltinIntentSlot({
+    this.name,
+  });
+
+  factory BuiltinIntentSlot.fromJson(Map<String, dynamic> json) {
+    return BuiltinIntentSlot(
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// Provides information about a bot. .
+class BotMetadata {
+  /// The date that the bot was created.
+  final DateTime? createdDate;
+
+  /// A description of the bot.
+  final String? description;
+
+  /// The date that the bot was updated. When you create a bot, the creation date
+  /// and last updated date are the same.
+  final DateTime? lastUpdatedDate;
+
+  /// The name of the bot.
+  final String? name;
+
+  /// The status of the bot.
+  final Status? status;
+
+  /// The version of the bot. For a new bot, the version is always
+  /// <code>$LATEST</code>.
+  final String? version;
+
+  BotMetadata({
+    this.createdDate,
+    this.description,
+    this.lastUpdatedDate,
+    this.name,
+    this.status,
+    this.version,
+  });
+
+  factory BotMetadata.fromJson(Map<String, dynamic> json) {
+    return BotMetadata(
+      createdDate: timeStampFromJson(json['createdDate']),
+      description: json['description'] as String?,
+      lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
+      name: json['name'] as String?,
+      status: (json['status'] as String?)?.let(Status.fromString),
+      version: json['version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdDate = this.createdDate;
+    final description = this.description;
+    final lastUpdatedDate = this.lastUpdatedDate;
+    final name = this.name;
+    final status = this.status;
+    final version = this.version;
+    return {
+      if (createdDate != null) 'createdDate': unixTimestampToJson(createdDate),
+      if (description != null) 'description': description,
+      if (lastUpdatedDate != null)
+        'lastUpdatedDate': unixTimestampToJson(lastUpdatedDate),
+      if (name != null) 'name': name,
+      if (status != null) 'status': status.value,
+      if (version != null) 'version': version,
+    };
+  }
+}
+
+/// Represents an association between an Amazon Lex bot and an external
+/// messaging platform.
+class BotChannelAssociation {
+  /// An alias pointing to the specific version of the Amazon Lex bot to which
+  /// this association is being made.
+  final String? botAlias;
+
+  /// Provides information necessary to communicate with the messaging platform.
+  final Map<String, String>? botConfiguration;
+
+  /// The name of the Amazon Lex bot to which this association is being made.
+  /// <note>
+  /// Currently, Amazon Lex supports associations with Facebook and Slack, and
+  /// Twilio.
+  /// </note>
+  final String? botName;
+
+  /// The date that the association between the Amazon Lex bot and the channel was
+  /// created.
+  final DateTime? createdDate;
+
+  /// A text description of the association you are creating.
+  final String? description;
+
+  /// If <code>status</code> is <code>FAILED</code>, Amazon Lex provides the
+  /// reason that it failed to create the association.
+  final String? failureReason;
+
+  /// The name of the association between the bot and the channel.
+  final String? name;
+
+  /// The status of the bot channel.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATED</code> - The channel has been created and is ready for use.
+  /// </li>
+  /// <li>
+  /// <code>IN_PROGRESS</code> - Channel creation is in progress.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> - There was an error creating the channel. For
+  /// information about the reason for the failure, see the
+  /// <code>failureReason</code> field.
+  /// </li>
+  /// </ul>
+  final ChannelStatus? status;
+
+  /// Specifies the type of association by indicating the type of channel being
+  /// established between the Amazon Lex bot and the external messaging platform.
+  final ChannelType? type;
+
+  BotChannelAssociation({
+    this.botAlias,
+    this.botConfiguration,
+    this.botName,
+    this.createdDate,
+    this.description,
+    this.failureReason,
+    this.name,
+    this.status,
+    this.type,
+  });
+
+  factory BotChannelAssociation.fromJson(Map<String, dynamic> json) {
+    return BotChannelAssociation(
+      botAlias: json['botAlias'] as String?,
+      botConfiguration: (json['botConfiguration'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      botName: json['botName'] as String?,
+      createdDate: timeStampFromJson(json['createdDate']),
+      description: json['description'] as String?,
+      failureReason: json['failureReason'] as String?,
+      name: json['name'] as String?,
+      status: (json['status'] as String?)?.let(ChannelStatus.fromString),
+      type: (json['type'] as String?)?.let(ChannelType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final botAlias = this.botAlias;
+    final botConfiguration = this.botConfiguration;
+    final botName = this.botName;
+    final createdDate = this.createdDate;
+    final description = this.description;
+    final failureReason = this.failureReason;
+    final name = this.name;
+    final status = this.status;
+    final type = this.type;
+    return {
+      if (botAlias != null) 'botAlias': botAlias,
+      if (botConfiguration != null) 'botConfiguration': botConfiguration,
+      if (botName != null) 'botName': botName,
+      if (createdDate != null) 'createdDate': unixTimestampToJson(createdDate),
+      if (description != null) 'description': description,
+      if (failureReason != null) 'failureReason': failureReason,
+      if (name != null) 'name': name,
+      if (status != null) 'status': status.value,
+      if (type != null) 'type': type.value,
+    };
+  }
+}
+
+class ChannelType {
+  static const facebook = ChannelType._('Facebook');
+  static const slack = ChannelType._('Slack');
+  static const twilioSms = ChannelType._('Twilio-Sms');
+  static const kik = ChannelType._('Kik');
+
+  final String value;
+
+  const ChannelType._(this.value);
+
+  static const values = [facebook, slack, twilioSms, kik];
+
+  static ChannelType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChannelType._(value));
+
+  @override
+  bool operator ==(other) => other is ChannelType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ChannelStatus {
+  static const inProgress = ChannelStatus._('IN_PROGRESS');
+  static const created = ChannelStatus._('CREATED');
+  static const failed = ChannelStatus._('FAILED');
+
+  final String value;
+
+  const ChannelStatus._(this.value);
+
+  static const values = [inProgress, created, failed];
+
+  static ChannelStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ChannelStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ChannelStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides information about a bot alias.
+class BotAliasMetadata {
+  /// The name of the bot to which the alias points.
+  final String? botName;
+
+  /// The version of the Amazon Lex bot to which the alias points.
+  final String? botVersion;
+
+  /// Checksum of the bot alias.
+  final String? checksum;
+
+  /// Settings that determine how Amazon Lex uses conversation logs for the alias.
+  final ConversationLogsResponse? conversationLogs;
+
+  /// The date that the bot alias was created.
+  final DateTime? createdDate;
+
+  /// A description of the bot alias.
+  final String? description;
+
+  /// The date that the bot alias was updated. When you create a resource, the
+  /// creation date and last updated date are the same.
+  final DateTime? lastUpdatedDate;
+
+  /// The name of the bot alias.
+  final String? name;
+
+  BotAliasMetadata({
+    this.botName,
+    this.botVersion,
+    this.checksum,
+    this.conversationLogs,
+    this.createdDate,
+    this.description,
+    this.lastUpdatedDate,
+    this.name,
+  });
+
+  factory BotAliasMetadata.fromJson(Map<String, dynamic> json) {
+    return BotAliasMetadata(
+      botName: json['botName'] as String?,
+      botVersion: json['botVersion'] as String?,
+      checksum: json['checksum'] as String?,
+      conversationLogs: json['conversationLogs'] != null
+          ? ConversationLogsResponse.fromJson(
+              json['conversationLogs'] as Map<String, dynamic>)
+          : null,
+      createdDate: timeStampFromJson(json['createdDate']),
+      description: json['description'] as String?,
+      lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final botName = this.botName;
+    final botVersion = this.botVersion;
+    final checksum = this.checksum;
+    final conversationLogs = this.conversationLogs;
+    final createdDate = this.createdDate;
+    final description = this.description;
+    final lastUpdatedDate = this.lastUpdatedDate;
+    final name = this.name;
+    return {
+      if (botName != null) 'botName': botName,
       if (botVersion != null) 'botVersion': botVersion,
-      if (utterances != null) 'utterances': utterances,
+      if (checksum != null) 'checksum': checksum,
+      if (conversationLogs != null) 'conversationLogs': conversationLogs,
+      if (createdDate != null) 'createdDate': unixTimestampToJson(createdDate),
+      if (description != null) 'description': description,
+      if (lastUpdatedDate != null)
+        'lastUpdatedDate': unixTimestampToJson(lastUpdatedDate),
+      if (name != null) 'name': name,
     };
   }
 }

@@ -95,11 +95,11 @@ class Support {
   /// </li>
   /// </ul> </note>
   ///
-  /// May throw [InternalServerError].
-  /// May throw [AttachmentSetIdNotFound].
-  /// May throw [AttachmentSetExpired].
-  /// May throw [AttachmentSetSizeLimitExceeded].
   /// May throw [AttachmentLimitExceeded].
+  /// May throw [AttachmentSetExpired].
+  /// May throw [AttachmentSetIdNotFound].
+  /// May throw [AttachmentSetSizeLimitExceeded].
+  /// May throw [InternalServerError].
   ///
   /// Parameter [attachments] :
   /// One or more attachments to add to the set. You can add up to three
@@ -162,10 +162,10 @@ class Support {
   /// </li>
   /// </ul> </note>
   ///
-  /// May throw [InternalServerError].
-  /// May throw [CaseIdNotFound].
-  /// May throw [AttachmentSetIdNotFound].
   /// May throw [AttachmentSetExpired].
+  /// May throw [AttachmentSetIdNotFound].
+  /// May throw [CaseIdNotFound].
+  /// May throw [InternalServerError].
   ///
   /// Parameter [communicationBody] :
   /// The body of an email communication to add to the support case.
@@ -258,10 +258,10 @@ class Support {
   /// </li>
   /// </ul> </note>
   ///
-  /// May throw [InternalServerError].
-  /// May throw [CaseCreationLimitExceeded].
-  /// May throw [AttachmentSetIdNotFound].
   /// May throw [AttachmentSetExpired].
+  /// May throw [AttachmentSetIdNotFound].
+  /// May throw [CaseCreationLimitExceeded].
+  /// May throw [InternalServerError].
   ///
   /// Parameter [communicationBody] :
   /// The communication body text that describes the issue. This text appears in
@@ -379,9 +379,9 @@ class Support {
   /// </li>
   /// </ul> </note>
   ///
-  /// May throw [InternalServerError].
-  /// May throw [DescribeAttachmentLimitExceeded].
   /// May throw [AttachmentIdNotFound].
+  /// May throw [DescribeAttachmentLimitExceeded].
+  /// May throw [InternalServerError].
   ///
   /// Parameter [attachmentId] :
   /// The ID of the attachment to return. Attachment IDs are returned by the
@@ -444,8 +444,8 @@ class Support {
   /// </li>
   /// </ul> </note>
   ///
-  /// May throw [InternalServerError].
   /// May throw [CaseIdNotFound].
+  /// May throw [InternalServerError].
   ///
   /// Parameter [afterTime] :
   /// The start date for a filtered date search on support case communications.
@@ -558,8 +558,8 @@ class Support {
   /// </li>
   /// </ul> </note>
   ///
-  /// May throw [InternalServerError].
   /// May throw [CaseIdNotFound].
+  /// May throw [InternalServerError].
   ///
   /// Parameter [caseId] :
   /// The support case ID requested or returned in the call. The case ID is an
@@ -1050,63 +1050,6 @@ class Support {
         jsonResponse.body);
   }
 
-  /// Returns the results for the Trusted Advisor check summaries for the check
-  /// IDs that you specified. You can get the check IDs by calling the
-  /// <a>DescribeTrustedAdvisorChecks</a> operation.
-  ///
-  /// The response contains an array of <a>TrustedAdvisorCheckSummary</a>
-  /// objects.
-  /// <note>
-  /// <ul>
-  /// <li>
-  /// You must have a Business, Enterprise On-Ramp, or Enterprise Support plan
-  /// to use the Amazon Web Services Support API.
-  /// </li>
-  /// <li>
-  /// If you call the Amazon Web Services Support API from an account that
-  /// doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan,
-  /// the <code>SubscriptionRequiredException</code> error message appears. For
-  /// information about changing your support plan, see <a
-  /// href="http://aws.amazon.com/premiumsupport/">Amazon Web Services
-  /// Support</a>.
-  /// </li>
-  /// </ul> </note>
-  /// To call the Trusted Advisor operations in the Amazon Web Services Support
-  /// API, you must use the US East (N. Virginia) endpoint. Currently, the US
-  /// West (Oregon) and Europe (Ireland) endpoints don't support the Trusted
-  /// Advisor operations. For more information, see <a
-  /// href="https://docs.aws.amazon.com/awssupport/latest/user/about-support-api.html#endpoint">About
-  /// the Amazon Web Services Support API</a> in the <i>Amazon Web Services
-  /// Support User Guide</i>.
-  ///
-  /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
-  ///
-  /// Parameter [checkIds] :
-  /// The IDs of the Trusted Advisor checks.
-  Future<DescribeTrustedAdvisorCheckSummariesResponse>
-      describeTrustedAdvisorCheckSummaries({
-    required List<String> checkIds,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AWSSupport_20130415.DescribeTrustedAdvisorCheckSummaries'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'checkIds': checkIds,
-      },
-    );
-
-    return DescribeTrustedAdvisorCheckSummariesResponse.fromJson(
-        jsonResponse.body);
-  }
-
   /// Returns information about all available Trusted Advisor checks, including
   /// the name, ID, category, description, and metadata. You must specify a
   /// language code.
@@ -1207,6 +1150,63 @@ class Support {
     return DescribeTrustedAdvisorChecksResponse.fromJson(jsonResponse.body);
   }
 
+  /// Returns the results for the Trusted Advisor check summaries for the check
+  /// IDs that you specified. You can get the check IDs by calling the
+  /// <a>DescribeTrustedAdvisorChecks</a> operation.
+  ///
+  /// The response contains an array of <a>TrustedAdvisorCheckSummary</a>
+  /// objects.
+  /// <note>
+  /// <ul>
+  /// <li>
+  /// You must have a Business, Enterprise On-Ramp, or Enterprise Support plan
+  /// to use the Amazon Web Services Support API.
+  /// </li>
+  /// <li>
+  /// If you call the Amazon Web Services Support API from an account that
+  /// doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan,
+  /// the <code>SubscriptionRequiredException</code> error message appears. For
+  /// information about changing your support plan, see <a
+  /// href="http://aws.amazon.com/premiumsupport/">Amazon Web Services
+  /// Support</a>.
+  /// </li>
+  /// </ul> </note>
+  /// To call the Trusted Advisor operations in the Amazon Web Services Support
+  /// API, you must use the US East (N. Virginia) endpoint. Currently, the US
+  /// West (Oregon) and Europe (Ireland) endpoints don't support the Trusted
+  /// Advisor operations. For more information, see <a
+  /// href="https://docs.aws.amazon.com/awssupport/latest/user/about-support-api.html#endpoint">About
+  /// the Amazon Web Services Support API</a> in the <i>Amazon Web Services
+  /// Support User Guide</i>.
+  ///
+  /// May throw [InternalServerError].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [checkIds] :
+  /// The IDs of the Trusted Advisor checks.
+  Future<DescribeTrustedAdvisorCheckSummariesResponse>
+      describeTrustedAdvisorCheckSummaries({
+    required List<String> checkIds,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSSupport_20130415.DescribeTrustedAdvisorCheckSummaries'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'checkIds': checkIds,
+      },
+    );
+
+    return DescribeTrustedAdvisorCheckSummariesResponse.fromJson(
+        jsonResponse.body);
+  }
+
   /// Refreshes the Trusted Advisor check that you specify using the check ID.
   /// You can get the check IDs by calling the
   /// <a>DescribeTrustedAdvisorChecks</a> operation.
@@ -1286,8 +1286,8 @@ class Support {
   /// </li>
   /// </ul> </note>
   ///
-  /// May throw [InternalServerError].
   /// May throw [CaseIdNotFound].
+  /// May throw [InternalServerError].
   ///
   /// Parameter [caseId] :
   /// The support case ID requested or returned in the call. The case ID is an
@@ -1372,466 +1372,6 @@ class AddCommunicationToCaseResponse {
   }
 }
 
-/// An attachment to a case communication. The attachment consists of the file
-/// name and the content of the file. Each attachment file size should not
-/// exceed 5 MB. File types that are supported include the following: pdf,
-/// jpeg,.doc, .log, .text
-class Attachment {
-  /// The content of the attachment file.
-  final Uint8List? data;
-
-  /// The name of the attachment file.
-  final String? fileName;
-
-  Attachment({
-    this.data,
-    this.fileName,
-  });
-
-  factory Attachment.fromJson(Map<String, dynamic> json) {
-    return Attachment(
-      data: _s.decodeNullableUint8List(json['data'] as String?),
-      fileName: json['fileName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final data = this.data;
-    final fileName = this.fileName;
-    return {
-      if (data != null) 'data': base64Encode(data),
-      if (fileName != null) 'fileName': fileName,
-    };
-  }
-}
-
-/// The file name and ID of an attachment to a case communication. You can use
-/// the ID to retrieve the attachment with the <a>DescribeAttachment</a>
-/// operation.
-class AttachmentDetails {
-  /// The ID of the attachment.
-  final String? attachmentId;
-
-  /// The file name of the attachment.
-  final String? fileName;
-
-  AttachmentDetails({
-    this.attachmentId,
-    this.fileName,
-  });
-
-  factory AttachmentDetails.fromJson(Map<String, dynamic> json) {
-    return AttachmentDetails(
-      attachmentId: json['attachmentId'] as String?,
-      fileName: json['fileName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attachmentId = this.attachmentId;
-    final fileName = this.fileName;
-    return {
-      if (attachmentId != null) 'attachmentId': attachmentId,
-      if (fileName != null) 'fileName': fileName,
-    };
-  }
-}
-
-/// A JSON-formatted object that contains the metadata for a support case. It is
-/// contained in the response from a <a>DescribeCases</a> request.
-/// <b>CaseDetails</b> contains the following fields:
-///
-/// <ul>
-/// <li>
-/// <b>caseId</b> - The support case ID requested or returned in the call. The
-/// case ID is an alphanumeric string formatted as shown in this example:
-/// case-<i>12345678910-2013-c4c1d2bf33c5cf47</i>.
-/// </li>
-/// <li>
-/// <b>categoryCode</b> - The category of problem for the support case.
-/// Corresponds to the <code>CategoryCode</code> values returned by a call to
-/// <a>DescribeServices</a>.
-/// </li>
-/// <li>
-/// <b>displayId</b> - The identifier for the case on pages in the Amazon Web
-/// Services Support Center.
-/// </li>
-/// <li>
-/// <b>language</b> - The language in which Amazon Web Services Support handles
-/// the case. Amazon Web Services Support currently supports Chinese (“zh”),
-/// English ("en"), Japanese ("ja") and Korean (“ko”). You must specify the ISO
-/// 639-1 code for the <code>language</code> parameter if you want support in
-/// that language.
-/// </li>
-/// <li>
-/// <b>nextToken</b> - A resumption point for pagination.
-/// </li>
-/// <li>
-/// <b>recentCommunications</b> - One or more <a>Communication</a> objects.
-/// Fields of these objects are <code>attachments</code>, <code>body</code>,
-/// <code>caseId</code>, <code>submittedBy</code>, and <code>timeCreated</code>.
-/// </li>
-/// <li>
-/// <b>serviceCode</b> - The identifier for the Amazon Web Services service that
-/// corresponds to the service code defined in the call to
-/// <a>DescribeServices</a>.
-/// </li>
-/// <li>
-/// <b>severityCode</b> - The severity code assigned to the case. Contains one
-/// of the values returned by the call to <a>DescribeSeverityLevels</a>. The
-/// possible values are: <code>low</code>, <code>normal</code>,
-/// <code>high</code>, <code>urgent</code>, and <code>critical</code>.
-/// </li>
-/// <li>
-/// <b>status</b> - The status of the case in the Amazon Web Services Support
-/// Center. Valid values:
-///
-/// <ul>
-/// <li>
-/// <code>all-open</code>
-/// </li>
-/// <li>
-/// <code>customer-action-completed</code>
-/// </li>
-/// <li>
-/// <code>opened</code>
-/// </li>
-/// <li>
-/// <code>pending-customer-action</code>
-/// </li>
-/// <li>
-/// <code>reopened</code>
-/// </li>
-/// <li>
-/// <code>resolved</code>
-/// </li>
-/// <li>
-/// <code>unassigned</code>
-/// </li>
-/// <li>
-/// <code>work-in-progress</code>
-/// </li>
-/// </ul> </li>
-/// <li>
-/// <b>subject</b> - The subject line of the case.
-/// </li>
-/// <li>
-/// <b>submittedBy</b> - The email address of the account that submitted the
-/// case.
-/// </li>
-/// <li>
-/// <b>timeCreated</b> - The time the case was created, in ISO-8601 format.
-/// </li>
-/// </ul>
-class CaseDetails {
-  /// The support case ID requested or returned in the call. The case ID is an
-  /// alphanumeric string formatted as shown in this example:
-  /// case-<i>12345678910-2013-c4c1d2bf33c5cf47</i>
-  final String? caseId;
-
-  /// The category of problem for the support case.
-  final String? categoryCode;
-
-  /// The email addresses that receive copies of communication about the case.
-  final List<String>? ccEmailAddresses;
-
-  /// The ID displayed for the case in the Amazon Web Services Support Center.
-  /// This is a numeric string.
-  final String? displayId;
-
-  /// The language in which Amazon Web Services Support handles the case. Amazon
-  /// Web Services Support currently supports Chinese (“zh”), English ("en"),
-  /// Japanese ("ja") and Korean (“ko”). You must specify the ISO 639-1 code for
-  /// the <code>language</code> parameter if you want support in that language.
-  final String? language;
-
-  /// The five most recent communications between you and Amazon Web Services
-  /// Support Center, including the IDs of any attachments to the communications.
-  /// Also includes a <code>nextToken</code> that you can use to retrieve earlier
-  /// communications.
-  final RecentCaseCommunications? recentCommunications;
-
-  /// The code for the Amazon Web Services service. You can get a list of codes
-  /// and the corresponding service names by calling <a>DescribeServices</a>.
-  final String? serviceCode;
-
-  /// The code for the severity level returned by the call to
-  /// <a>DescribeSeverityLevels</a>.
-  final String? severityCode;
-
-  /// The status of the case.
-  ///
-  /// Valid values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>all-open</code>
-  /// </li>
-  /// <li>
-  /// <code>customer-action-completed</code>
-  /// </li>
-  /// <li>
-  /// <code>opened</code>
-  /// </li>
-  /// <li>
-  /// <code>pending-customer-action</code>
-  /// </li>
-  /// <li>
-  /// <code>reopened</code>
-  /// </li>
-  /// <li>
-  /// <code>resolved</code>
-  /// </li>
-  /// <li>
-  /// <code>unassigned</code>
-  /// </li>
-  /// <li>
-  /// <code>work-in-progress</code>
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  /// The subject line for the case in the Amazon Web Services Support Center.
-  final String? subject;
-
-  /// The email address of the account that submitted the case.
-  final String? submittedBy;
-
-  /// The time that the case was created in the Amazon Web Services Support
-  /// Center.
-  final String? timeCreated;
-
-  CaseDetails({
-    this.caseId,
-    this.categoryCode,
-    this.ccEmailAddresses,
-    this.displayId,
-    this.language,
-    this.recentCommunications,
-    this.serviceCode,
-    this.severityCode,
-    this.status,
-    this.subject,
-    this.submittedBy,
-    this.timeCreated,
-  });
-
-  factory CaseDetails.fromJson(Map<String, dynamic> json) {
-    return CaseDetails(
-      caseId: json['caseId'] as String?,
-      categoryCode: json['categoryCode'] as String?,
-      ccEmailAddresses: (json['ccEmailAddresses'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      displayId: json['displayId'] as String?,
-      language: json['language'] as String?,
-      recentCommunications: json['recentCommunications'] != null
-          ? RecentCaseCommunications.fromJson(
-              json['recentCommunications'] as Map<String, dynamic>)
-          : null,
-      serviceCode: json['serviceCode'] as String?,
-      severityCode: json['severityCode'] as String?,
-      status: json['status'] as String?,
-      subject: json['subject'] as String?,
-      submittedBy: json['submittedBy'] as String?,
-      timeCreated: json['timeCreated'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final caseId = this.caseId;
-    final categoryCode = this.categoryCode;
-    final ccEmailAddresses = this.ccEmailAddresses;
-    final displayId = this.displayId;
-    final language = this.language;
-    final recentCommunications = this.recentCommunications;
-    final serviceCode = this.serviceCode;
-    final severityCode = this.severityCode;
-    final status = this.status;
-    final subject = this.subject;
-    final submittedBy = this.submittedBy;
-    final timeCreated = this.timeCreated;
-    return {
-      if (caseId != null) 'caseId': caseId,
-      if (categoryCode != null) 'categoryCode': categoryCode,
-      if (ccEmailAddresses != null) 'ccEmailAddresses': ccEmailAddresses,
-      if (displayId != null) 'displayId': displayId,
-      if (language != null) 'language': language,
-      if (recentCommunications != null)
-        'recentCommunications': recentCommunications,
-      if (serviceCode != null) 'serviceCode': serviceCode,
-      if (severityCode != null) 'severityCode': severityCode,
-      if (status != null) 'status': status,
-      if (subject != null) 'subject': subject,
-      if (submittedBy != null) 'submittedBy': submittedBy,
-      if (timeCreated != null) 'timeCreated': timeCreated,
-    };
-  }
-}
-
-/// A JSON-formatted name/value pair that represents the category name and
-/// category code of the problem, selected from the <a>DescribeServices</a>
-/// response for each Amazon Web Services service.
-class Category {
-  /// The category code for the support case.
-  final String? code;
-
-  /// The category name for the support case.
-  final String? name;
-
-  Category({
-    this.code,
-    this.name,
-  });
-
-  factory Category.fromJson(Map<String, dynamic> json) {
-    return Category(
-      code: json['code'] as String?,
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final name = this.name;
-    return {
-      if (code != null) 'code': code,
-      if (name != null) 'name': name,
-    };
-  }
-}
-
-/// A communication associated with a support case. The communication consists
-/// of the case ID, the message body, attachment information, the submitter of
-/// the communication, and the date and time of the communication.
-class Communication {
-  /// Information about the attachments to the case communication.
-  final List<AttachmentDetails>? attachmentSet;
-
-  /// The text of the communication between the customer and Amazon Web Services
-  /// Support.
-  final String? body;
-
-  /// The support case ID requested or returned in the call. The case ID is an
-  /// alphanumeric string formatted as shown in this example:
-  /// case-<i>12345678910-2013-c4c1d2bf33c5cf47</i>
-  final String? caseId;
-
-  /// The identity of the account that submitted, or responded to, the support
-  /// case. Customer entries include the IAM role as well as the email address
-  /// (for example, "AdminRole (Role) &lt;janedoe@example.com&gt;). Entries from
-  /// the Amazon Web Services Support team display "Amazon Web Services," and
-  /// don't show an email address.
-  final String? submittedBy;
-
-  /// The time the communication was created.
-  final String? timeCreated;
-
-  Communication({
-    this.attachmentSet,
-    this.body,
-    this.caseId,
-    this.submittedBy,
-    this.timeCreated,
-  });
-
-  factory Communication.fromJson(Map<String, dynamic> json) {
-    return Communication(
-      attachmentSet: (json['attachmentSet'] as List?)
-          ?.nonNulls
-          .map((e) => AttachmentDetails.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      body: json['body'] as String?,
-      caseId: json['caseId'] as String?,
-      submittedBy: json['submittedBy'] as String?,
-      timeCreated: json['timeCreated'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attachmentSet = this.attachmentSet;
-    final body = this.body;
-    final caseId = this.caseId;
-    final submittedBy = this.submittedBy;
-    final timeCreated = this.timeCreated;
-    return {
-      if (attachmentSet != null) 'attachmentSet': attachmentSet,
-      if (body != null) 'body': body,
-      if (caseId != null) 'caseId': caseId,
-      if (submittedBy != null) 'submittedBy': submittedBy,
-      if (timeCreated != null) 'timeCreated': timeCreated,
-    };
-  }
-}
-
-/// A JSON-formatted object that contains the CommunicationTypeOptions for
-/// creating a case for a certain communication channel. It is contained in the
-/// response from a <a>DescribeCreateCaseOptions</a> request.
-/// <b>CommunicationTypeOptions</b> contains the following fields:
-///
-/// <ul>
-/// <li>
-/// <b>datesWithoutSupport</b> - A JSON-formatted list containing date and time
-/// ranges for periods without support in UTC time. Date and time format is RFC
-/// 3339 : 'yyyy-MM-dd'T'HH:mm:ss.SSSZZ'.
-/// </li>
-/// <li>
-/// <b>supportedHours</b> - A JSON-formatted list containing time ranges when
-/// support are available. Time format is RFC 3339 : 'HH:mm:ss.SSS'.
-/// </li>
-/// <li>
-/// <b>type</b> - A string value indicating the communication type that the
-/// aforementioned rules apply to. At the moment the type value can assume one
-/// of 3 values at the moment <code>chat</code>, <code>web</code> and
-/// <code>call</code>.
-/// </li>
-/// </ul>
-class CommunicationTypeOptions {
-  /// A JSON-formatted list containing date and time ranges for periods without
-  /// support
-  final List<DateInterval>? datesWithoutSupport;
-
-  /// A JSON-formatted list containing time ranges when support is available.
-  final List<SupportedHour>? supportedHours;
-
-  /// A string value indicating the communication type. At the moment the type
-  /// value can assume one of 3 values at the moment chat, web and call.
-  final String? type;
-
-  CommunicationTypeOptions({
-    this.datesWithoutSupport,
-    this.supportedHours,
-    this.type,
-  });
-
-  factory CommunicationTypeOptions.fromJson(Map<String, dynamic> json) {
-    return CommunicationTypeOptions(
-      datesWithoutSupport: (json['datesWithoutSupport'] as List?)
-          ?.nonNulls
-          .map((e) => DateInterval.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      supportedHours: (json['supportedHours'] as List?)
-          ?.nonNulls
-          .map((e) => SupportedHour.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      type: json['type'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final datesWithoutSupport = this.datesWithoutSupport;
-    final supportedHours = this.supportedHours;
-    final type = this.type;
-    return {
-      if (datesWithoutSupport != null)
-        'datesWithoutSupport': datesWithoutSupport,
-      if (supportedHours != null) 'supportedHours': supportedHours,
-      if (type != null) 'type': type,
-    };
-  }
-}
-
 /// The support case ID returned by a successful completion of the
 /// <a>CreateCase</a> operation.
 class CreateCaseResponse {
@@ -1854,37 +1394,6 @@ class CreateCaseResponse {
     final caseId = this.caseId;
     return {
       if (caseId != null) 'caseId': caseId,
-    };
-  }
-}
-
-/// Date and time (UTC) format in RFC 3339 : 'yyyy-MM-dd'T'HH:mm:ss.SSSZZ'.
-class DateInterval {
-  /// End Date Time (UTC). RFC 3339 format : 'yyyy-MM-dd'T'HH:mm:ss.SSSZZ'.
-  final String? endDateTime;
-
-  /// A JSON object containing start and date time (UTC). Date and time format is
-  /// RFC 3339 : 'yyyy-MM-dd'T'HH:mm:ss.SSSZZ'.
-  final String? startDateTime;
-
-  DateInterval({
-    this.endDateTime,
-    this.startDateTime,
-  });
-
-  factory DateInterval.fromJson(Map<String, dynamic> json) {
-    return DateInterval(
-      endDateTime: json['endDateTime'] as String?,
-      startDateTime: json['startDateTime'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final endDateTime = this.endDateTime;
-    final startDateTime = this.startDateTime;
-    return {
-      if (endDateTime != null) 'endDateTime': endDateTime,
-      if (startDateTime != null) 'startDateTime': startDateTime,
     };
   }
 }
@@ -2175,35 +1684,6 @@ class DescribeTrustedAdvisorCheckResultResponse {
   }
 }
 
-/// The summaries of the Trusted Advisor checks returned by the
-/// <a>DescribeTrustedAdvisorCheckSummaries</a> operation.
-class DescribeTrustedAdvisorCheckSummariesResponse {
-  /// The summary information for the requested Trusted Advisor checks.
-  final List<TrustedAdvisorCheckSummary> summaries;
-
-  DescribeTrustedAdvisorCheckSummariesResponse({
-    required this.summaries,
-  });
-
-  factory DescribeTrustedAdvisorCheckSummariesResponse.fromJson(
-      Map<String, dynamic> json) {
-    return DescribeTrustedAdvisorCheckSummariesResponse(
-      summaries: ((json['summaries'] as List?) ?? const [])
-          .nonNulls
-          .map((e) =>
-              TrustedAdvisorCheckSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final summaries = this.summaries;
-    return {
-      'summaries': summaries,
-    };
-  }
-}
-
 /// Information about the Trusted Advisor checks returned by the
 /// <a>DescribeTrustedAdvisorChecks</a> operation.
 class DescribeTrustedAdvisorChecksResponse {
@@ -2233,35 +1713,31 @@ class DescribeTrustedAdvisorChecksResponse {
   }
 }
 
-/// The five most recent communications associated with the case.
-class RecentCaseCommunications {
-  /// The five most recent communications associated with the case.
-  final List<Communication>? communications;
+/// The summaries of the Trusted Advisor checks returned by the
+/// <a>DescribeTrustedAdvisorCheckSummaries</a> operation.
+class DescribeTrustedAdvisorCheckSummariesResponse {
+  /// The summary information for the requested Trusted Advisor checks.
+  final List<TrustedAdvisorCheckSummary> summaries;
 
-  /// A resumption point for pagination.
-  final String? nextToken;
-
-  RecentCaseCommunications({
-    this.communications,
-    this.nextToken,
+  DescribeTrustedAdvisorCheckSummariesResponse({
+    required this.summaries,
   });
 
-  factory RecentCaseCommunications.fromJson(Map<String, dynamic> json) {
-    return RecentCaseCommunications(
-      communications: (json['communications'] as List?)
-          ?.nonNulls
-          .map((e) => Communication.fromJson(e as Map<String, dynamic>))
+  factory DescribeTrustedAdvisorCheckSummariesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeTrustedAdvisorCheckSummariesResponse(
+      summaries: ((json['summaries'] as List?) ?? const [])
+          .nonNulls
+          .map((e) =>
+              TrustedAdvisorCheckSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
-      nextToken: json['nextToken'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final communications = this.communications;
-    final nextToken = this.nextToken;
+    final summaries = this.summaries;
     return {
-      if (communications != null) 'communications': communications,
-      if (nextToken != null) 'nextToken': nextToken,
+      'summaries': summaries,
     };
   }
 }
@@ -2323,185 +1799,176 @@ class ResolveCaseResponse {
   }
 }
 
-/// Information about an Amazon Web Services service returned by the
-/// <a>DescribeServices</a> operation.
-class Service {
-  /// A list of categories that describe the type of support issue a case
-  /// describes. Categories consist of a category name and a category code.
-  /// Category names and codes are passed to Amazon Web Services Support when you
-  /// call <a>CreateCase</a>.
-  final List<Category>? categories;
+/// The refresh status of a Trusted Advisor check.
+class TrustedAdvisorCheckRefreshStatus {
+  /// The unique identifier for the Trusted Advisor check.
+  final String checkId;
 
-  /// The code for an Amazon Web Services service returned by the
-  /// <a>DescribeServices</a> response. The <code>name</code> element contains the
-  /// corresponding friendly name.
-  final String? code;
+  /// The amount of time, in milliseconds, until the Trusted Advisor check is
+  /// eligible for refresh.
+  final int millisUntilNextRefreshable;
 
-  /// The friendly name for an Amazon Web Services service. The <code>code</code>
-  /// element contains the corresponding code.
-  final String? name;
-
-  Service({
-    this.categories,
-    this.code,
-    this.name,
-  });
-
-  factory Service.fromJson(Map<String, dynamic> json) {
-    return Service(
-      categories: (json['categories'] as List?)
-          ?.nonNulls
-          .map((e) => Category.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      code: json['code'] as String?,
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final categories = this.categories;
-    final code = this.code;
-    final name = this.name;
-    return {
-      if (categories != null) 'categories': categories,
-      if (code != null) 'code': code,
-      if (name != null) 'name': name,
-    };
-  }
-}
-
-/// A code and name pair that represents the severity level of a support case.
-/// The available values depend on the support plan for the account. For more
-/// information, see <a
-/// href="https://docs.aws.amazon.com/awssupport/latest/user/case-management.html#choosing-severity">Choosing
-/// a severity</a> in the <i>Amazon Web Services Support User Guide</i>.
-class SeverityLevel {
-  /// The code for case severity level.
-  ///
-  /// Valid values: <code>low</code> | <code>normal</code> | <code>high</code> |
-  /// <code>urgent</code> | <code>critical</code>
-  final String? code;
-
-  /// The name of the severity level that corresponds to the severity level code.
-  /// <note>
-  /// The values returned by the API are different from the values that appear in
-  /// the Amazon Web Services Support Center. For example, the API uses the code
-  /// <code>low</code>, but the name appears as General guidance in Support
-  /// Center.
-  ///
-  /// The following are the API code names and how they appear in the console:
+  /// The status of the Trusted Advisor check for which a refresh has been
+  /// requested:
   ///
   /// <ul>
   /// <li>
-  /// <code>low</code> - General guidance
+  /// <code>none</code> - The check is not refreshed or the non-success status
+  /// exceeds the timeout
   /// </li>
   /// <li>
-  /// <code>normal</code> - System impaired
+  /// <code>enqueued</code> - The check refresh requests has entered the refresh
+  /// queue
   /// </li>
   /// <li>
-  /// <code>high</code> - Production system impaired
+  /// <code>processing</code> - The check refresh request is picked up by the rule
+  /// processing engine
   /// </li>
   /// <li>
-  /// <code>urgent</code> - Production system down
+  /// <code>success</code> - The check is successfully refreshed
   /// </li>
   /// <li>
-  /// <code>critical</code> - Business-critical system down
+  /// <code>abandoned</code> - The check refresh has failed
   /// </li>
-  /// </ul> </note>
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/awssupport/latest/user/case-management.html#choosing-severity">Choosing
-  /// a severity</a> in the <i>Amazon Web Services Support User Guide</i>.
-  final String? name;
+  /// </ul>
+  final String status;
 
-  SeverityLevel({
-    this.code,
-    this.name,
+  TrustedAdvisorCheckRefreshStatus({
+    required this.checkId,
+    required this.millisUntilNextRefreshable,
+    required this.status,
   });
 
-  factory SeverityLevel.fromJson(Map<String, dynamic> json) {
-    return SeverityLevel(
-      code: json['code'] as String?,
-      name: json['name'] as String?,
+  factory TrustedAdvisorCheckRefreshStatus.fromJson(Map<String, dynamic> json) {
+    return TrustedAdvisorCheckRefreshStatus(
+      checkId: (json['checkId'] as String?) ?? '',
+      millisUntilNextRefreshable:
+          (json['millisUntilNextRefreshable'] as int?) ?? 0,
+      status: (json['status'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    final code = this.code;
-    final name = this.name;
+    final checkId = this.checkId;
+    final millisUntilNextRefreshable = this.millisUntilNextRefreshable;
+    final status = this.status;
     return {
-      if (code != null) 'code': code,
-      if (name != null) 'name': name,
+      'checkId': checkId,
+      'millisUntilNextRefreshable': millisUntilNextRefreshable,
+      'status': status,
     };
   }
 }
 
-/// Time range object with <code>startTime</code> and <code>endTime</code> range
-/// in RFC 3339 format. <code>'HH:mm:ss.SSS'</code>.
-class SupportedHour {
-  /// End Time. RFC 3339 format <code>'HH:mm:ss.SSS'</code>.
-  final String? endTime;
+/// A summary of a Trusted Advisor check result, including the alert status,
+/// last refresh, and number of resources examined.
+class TrustedAdvisorCheckSummary {
+  /// Summary information that relates to the category of the check. Cost
+  /// Optimizing is the only category that is currently supported.
+  final TrustedAdvisorCategorySpecificSummary categorySpecificSummary;
 
-  /// Start Time. RFC 3339 format <code>'HH:mm:ss.SSS'</code>.
-  final String? startTime;
+  /// The unique identifier for the Trusted Advisor check.
+  final String checkId;
+  final TrustedAdvisorResourcesSummary resourcesSummary;
 
-  SupportedHour({
-    this.endTime,
-    this.startTime,
+  /// The alert status of the check: "ok" (green), "warning" (yellow), "error"
+  /// (red), or "not_available".
+  final String status;
+
+  /// The time of the last refresh of the check.
+  final String timestamp;
+
+  /// Specifies whether the Trusted Advisor check has flagged resources.
+  final bool? hasFlaggedResources;
+
+  TrustedAdvisorCheckSummary({
+    required this.categorySpecificSummary,
+    required this.checkId,
+    required this.resourcesSummary,
+    required this.status,
+    required this.timestamp,
+    this.hasFlaggedResources,
   });
 
-  factory SupportedHour.fromJson(Map<String, dynamic> json) {
-    return SupportedHour(
-      endTime: json['endTime'] as String?,
-      startTime: json['startTime'] as String?,
+  factory TrustedAdvisorCheckSummary.fromJson(Map<String, dynamic> json) {
+    return TrustedAdvisorCheckSummary(
+      categorySpecificSummary: TrustedAdvisorCategorySpecificSummary.fromJson(
+          (json['categorySpecificSummary'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      checkId: (json['checkId'] as String?) ?? '',
+      resourcesSummary: TrustedAdvisorResourcesSummary.fromJson(
+          (json['resourcesSummary'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      status: (json['status'] as String?) ?? '',
+      timestamp: (json['timestamp'] as String?) ?? '',
+      hasFlaggedResources: json['hasFlaggedResources'] as bool?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final endTime = this.endTime;
-    final startTime = this.startTime;
+    final categorySpecificSummary = this.categorySpecificSummary;
+    final checkId = this.checkId;
+    final resourcesSummary = this.resourcesSummary;
+    final status = this.status;
+    final timestamp = this.timestamp;
+    final hasFlaggedResources = this.hasFlaggedResources;
     return {
-      if (endTime != null) 'endTime': endTime,
-      if (startTime != null) 'startTime': startTime,
+      'categorySpecificSummary': categorySpecificSummary,
+      'checkId': checkId,
+      'resourcesSummary': resourcesSummary,
+      'status': status,
+      'timestamp': timestamp,
+      if (hasFlaggedResources != null)
+        'hasFlaggedResources': hasFlaggedResources,
     };
   }
 }
 
-/// A JSON-formatted object that contains the available ISO 639-1 language
-/// <code>code</code>, <code>language</code> name and langauge
-/// <code>display</code> value. The language code is what should be used in the
-/// <a>CreateCase</a> call.
-class SupportedLanguage {
-  /// 2 digit ISO 639-1 code. e.g. <code>en</code>
-  final String? code;
+/// Details about Amazon Web Services resources that were analyzed in a call to
+/// Trusted Advisor <a>DescribeTrustedAdvisorCheckSummaries</a>.
+class TrustedAdvisorResourcesSummary {
+  /// The number of Amazon Web Services resources that were flagged (listed) by
+  /// the Trusted Advisor check.
+  final int resourcesFlagged;
 
-  /// Language display value e.g. <code>ENGLISH</code>
-  final String? display;
+  /// The number of Amazon Web Services resources ignored by Trusted Advisor
+  /// because information was unavailable.
+  final int resourcesIgnored;
 
-  /// Full language description e.g. <code>ENGLISH</code>
-  final String? language;
+  /// The number of Amazon Web Services resources that were analyzed by the
+  /// Trusted Advisor check.
+  final int resourcesProcessed;
 
-  SupportedLanguage({
-    this.code,
-    this.display,
-    this.language,
+  /// The number of Amazon Web Services resources ignored by Trusted Advisor
+  /// because they were marked as suppressed by the user.
+  final int resourcesSuppressed;
+
+  TrustedAdvisorResourcesSummary({
+    required this.resourcesFlagged,
+    required this.resourcesIgnored,
+    required this.resourcesProcessed,
+    required this.resourcesSuppressed,
   });
 
-  factory SupportedLanguage.fromJson(Map<String, dynamic> json) {
-    return SupportedLanguage(
-      code: json['code'] as String?,
-      display: json['display'] as String?,
-      language: json['language'] as String?,
+  factory TrustedAdvisorResourcesSummary.fromJson(Map<String, dynamic> json) {
+    return TrustedAdvisorResourcesSummary(
+      resourcesFlagged: (json['resourcesFlagged'] as int?) ?? 0,
+      resourcesIgnored: (json['resourcesIgnored'] as int?) ?? 0,
+      resourcesProcessed: (json['resourcesProcessed'] as int?) ?? 0,
+      resourcesSuppressed: (json['resourcesSuppressed'] as int?) ?? 0,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final code = this.code;
-    final display = this.display;
-    final language = this.language;
+    final resourcesFlagged = this.resourcesFlagged;
+    final resourcesIgnored = this.resourcesIgnored;
+    final resourcesProcessed = this.resourcesProcessed;
+    final resourcesSuppressed = this.resourcesSuppressed;
     return {
-      if (code != null) 'code': code,
-      if (display != null) 'display': display,
-      if (language != null) 'language': language,
+      'resourcesFlagged': resourcesFlagged,
+      'resourcesIgnored': resourcesIgnored,
+      'resourcesProcessed': resourcesProcessed,
+      'resourcesSuppressed': resourcesSuppressed,
     };
   }
 }
@@ -2531,6 +1998,42 @@ class TrustedAdvisorCategorySpecificSummary {
     final costOptimizing = this.costOptimizing;
     return {
       if (costOptimizing != null) 'costOptimizing': costOptimizing,
+    };
+  }
+}
+
+/// The estimated cost savings that might be realized if the recommended
+/// operations are taken.
+class TrustedAdvisorCostOptimizingSummary {
+  /// The estimated monthly savings that might be realized if the recommended
+  /// operations are taken.
+  final double estimatedMonthlySavings;
+
+  /// The estimated percentage of savings that might be realized if the
+  /// recommended operations are taken.
+  final double estimatedPercentMonthlySavings;
+
+  TrustedAdvisorCostOptimizingSummary({
+    required this.estimatedMonthlySavings,
+    required this.estimatedPercentMonthlySavings,
+  });
+
+  factory TrustedAdvisorCostOptimizingSummary.fromJson(
+      Map<String, dynamic> json) {
+    return TrustedAdvisorCostOptimizingSummary(
+      estimatedMonthlySavings:
+          (json['estimatedMonthlySavings'] as double?) ?? 0,
+      estimatedPercentMonthlySavings:
+          (json['estimatedPercentMonthlySavings'] as double?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final estimatedMonthlySavings = this.estimatedMonthlySavings;
+    final estimatedPercentMonthlySavings = this.estimatedPercentMonthlySavings;
+    return {
+      'estimatedMonthlySavings': estimatedMonthlySavings,
+      'estimatedPercentMonthlySavings': estimatedPercentMonthlySavings,
     };
   }
 }
@@ -2590,67 +2093,6 @@ class TrustedAdvisorCheckDescription {
       'id': id,
       'metadata': metadata,
       'name': name,
-    };
-  }
-}
-
-/// The refresh status of a Trusted Advisor check.
-class TrustedAdvisorCheckRefreshStatus {
-  /// The unique identifier for the Trusted Advisor check.
-  final String checkId;
-
-  /// The amount of time, in milliseconds, until the Trusted Advisor check is
-  /// eligible for refresh.
-  final int millisUntilNextRefreshable;
-
-  /// The status of the Trusted Advisor check for which a refresh has been
-  /// requested:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>none</code> - The check is not refreshed or the non-success status
-  /// exceeds the timeout
-  /// </li>
-  /// <li>
-  /// <code>enqueued</code> - The check refresh requests has entered the refresh
-  /// queue
-  /// </li>
-  /// <li>
-  /// <code>processing</code> - The check refresh request is picked up by the rule
-  /// processing engine
-  /// </li>
-  /// <li>
-  /// <code>success</code> - The check is successfully refreshed
-  /// </li>
-  /// <li>
-  /// <code>abandoned</code> - The check refresh has failed
-  /// </li>
-  /// </ul>
-  final String status;
-
-  TrustedAdvisorCheckRefreshStatus({
-    required this.checkId,
-    required this.millisUntilNextRefreshable,
-    required this.status,
-  });
-
-  factory TrustedAdvisorCheckRefreshStatus.fromJson(Map<String, dynamic> json) {
-    return TrustedAdvisorCheckRefreshStatus(
-      checkId: (json['checkId'] as String?) ?? '',
-      millisUntilNextRefreshable:
-          (json['millisUntilNextRefreshable'] as int?) ?? 0,
-      status: (json['status'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final checkId = this.checkId;
-    final millisUntilNextRefreshable = this.millisUntilNextRefreshable;
-    final status = this.status;
-    return {
-      'checkId': checkId,
-      'millisUntilNextRefreshable': millisUntilNextRefreshable,
-      'status': status,
     };
   }
 }
@@ -2722,106 +2164,6 @@ class TrustedAdvisorCheckResult {
   }
 }
 
-/// A summary of a Trusted Advisor check result, including the alert status,
-/// last refresh, and number of resources examined.
-class TrustedAdvisorCheckSummary {
-  /// Summary information that relates to the category of the check. Cost
-  /// Optimizing is the only category that is currently supported.
-  final TrustedAdvisorCategorySpecificSummary categorySpecificSummary;
-
-  /// The unique identifier for the Trusted Advisor check.
-  final String checkId;
-  final TrustedAdvisorResourcesSummary resourcesSummary;
-
-  /// The alert status of the check: "ok" (green), "warning" (yellow), "error"
-  /// (red), or "not_available".
-  final String status;
-
-  /// The time of the last refresh of the check.
-  final String timestamp;
-
-  /// Specifies whether the Trusted Advisor check has flagged resources.
-  final bool? hasFlaggedResources;
-
-  TrustedAdvisorCheckSummary({
-    required this.categorySpecificSummary,
-    required this.checkId,
-    required this.resourcesSummary,
-    required this.status,
-    required this.timestamp,
-    this.hasFlaggedResources,
-  });
-
-  factory TrustedAdvisorCheckSummary.fromJson(Map<String, dynamic> json) {
-    return TrustedAdvisorCheckSummary(
-      categorySpecificSummary: TrustedAdvisorCategorySpecificSummary.fromJson(
-          (json['categorySpecificSummary'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      checkId: (json['checkId'] as String?) ?? '',
-      resourcesSummary: TrustedAdvisorResourcesSummary.fromJson(
-          (json['resourcesSummary'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      status: (json['status'] as String?) ?? '',
-      timestamp: (json['timestamp'] as String?) ?? '',
-      hasFlaggedResources: json['hasFlaggedResources'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final categorySpecificSummary = this.categorySpecificSummary;
-    final checkId = this.checkId;
-    final resourcesSummary = this.resourcesSummary;
-    final status = this.status;
-    final timestamp = this.timestamp;
-    final hasFlaggedResources = this.hasFlaggedResources;
-    return {
-      'categorySpecificSummary': categorySpecificSummary,
-      'checkId': checkId,
-      'resourcesSummary': resourcesSummary,
-      'status': status,
-      'timestamp': timestamp,
-      if (hasFlaggedResources != null)
-        'hasFlaggedResources': hasFlaggedResources,
-    };
-  }
-}
-
-/// The estimated cost savings that might be realized if the recommended
-/// operations are taken.
-class TrustedAdvisorCostOptimizingSummary {
-  /// The estimated monthly savings that might be realized if the recommended
-  /// operations are taken.
-  final double estimatedMonthlySavings;
-
-  /// The estimated percentage of savings that might be realized if the
-  /// recommended operations are taken.
-  final double estimatedPercentMonthlySavings;
-
-  TrustedAdvisorCostOptimizingSummary({
-    required this.estimatedMonthlySavings,
-    required this.estimatedPercentMonthlySavings,
-  });
-
-  factory TrustedAdvisorCostOptimizingSummary.fromJson(
-      Map<String, dynamic> json) {
-    return TrustedAdvisorCostOptimizingSummary(
-      estimatedMonthlySavings:
-          (json['estimatedMonthlySavings'] as double?) ?? 0,
-      estimatedPercentMonthlySavings:
-          (json['estimatedPercentMonthlySavings'] as double?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final estimatedMonthlySavings = this.estimatedMonthlySavings;
-    final estimatedPercentMonthlySavings = this.estimatedPercentMonthlySavings;
-    return {
-      'estimatedMonthlySavings': estimatedMonthlySavings,
-      'estimatedPercentMonthlySavings': estimatedPercentMonthlySavings,
-    };
-  }
-}
-
 /// Contains information about a resource identified by a Trusted Advisor check.
 class TrustedAdvisorResourceDetail {
   /// Additional information about the identified resource. The exact metadata and
@@ -2882,51 +2224,709 @@ class TrustedAdvisorResourceDetail {
   }
 }
 
-/// Details about Amazon Web Services resources that were analyzed in a call to
-/// Trusted Advisor <a>DescribeTrustedAdvisorCheckSummaries</a>.
-class TrustedAdvisorResourcesSummary {
-  /// The number of Amazon Web Services resources that were flagged (listed) by
-  /// the Trusted Advisor check.
-  final int resourcesFlagged;
+/// A JSON-formatted object that contains the available ISO 639-1 language
+/// <code>code</code>, <code>language</code> name and langauge
+/// <code>display</code> value. The language code is what should be used in the
+/// <a>CreateCase</a> call.
+class SupportedLanguage {
+  /// 2 digit ISO 639-1 code. e.g. <code>en</code>
+  final String? code;
 
-  /// The number of Amazon Web Services resources ignored by Trusted Advisor
-  /// because information was unavailable.
-  final int resourcesIgnored;
+  /// Language display value e.g. <code>ENGLISH</code>
+  final String? display;
 
-  /// The number of Amazon Web Services resources that were analyzed by the
-  /// Trusted Advisor check.
-  final int resourcesProcessed;
+  /// Full language description e.g. <code>ENGLISH</code>
+  final String? language;
 
-  /// The number of Amazon Web Services resources ignored by Trusted Advisor
-  /// because they were marked as suppressed by the user.
-  final int resourcesSuppressed;
-
-  TrustedAdvisorResourcesSummary({
-    required this.resourcesFlagged,
-    required this.resourcesIgnored,
-    required this.resourcesProcessed,
-    required this.resourcesSuppressed,
+  SupportedLanguage({
+    this.code,
+    this.display,
+    this.language,
   });
 
-  factory TrustedAdvisorResourcesSummary.fromJson(Map<String, dynamic> json) {
-    return TrustedAdvisorResourcesSummary(
-      resourcesFlagged: (json['resourcesFlagged'] as int?) ?? 0,
-      resourcesIgnored: (json['resourcesIgnored'] as int?) ?? 0,
-      resourcesProcessed: (json['resourcesProcessed'] as int?) ?? 0,
-      resourcesSuppressed: (json['resourcesSuppressed'] as int?) ?? 0,
+  factory SupportedLanguage.fromJson(Map<String, dynamic> json) {
+    return SupportedLanguage(
+      code: json['code'] as String?,
+      display: json['display'] as String?,
+      language: json['language'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final resourcesFlagged = this.resourcesFlagged;
-    final resourcesIgnored = this.resourcesIgnored;
-    final resourcesProcessed = this.resourcesProcessed;
-    final resourcesSuppressed = this.resourcesSuppressed;
+    final code = this.code;
+    final display = this.display;
+    final language = this.language;
     return {
-      'resourcesFlagged': resourcesFlagged,
-      'resourcesIgnored': resourcesIgnored,
-      'resourcesProcessed': resourcesProcessed,
-      'resourcesSuppressed': resourcesSuppressed,
+      if (code != null) 'code': code,
+      if (display != null) 'display': display,
+      if (language != null) 'language': language,
+    };
+  }
+}
+
+/// A code and name pair that represents the severity level of a support case.
+/// The available values depend on the support plan for the account. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/awssupport/latest/user/case-management.html#choosing-severity">Choosing
+/// a severity</a> in the <i>Amazon Web Services Support User Guide</i>.
+class SeverityLevel {
+  /// The code for case severity level.
+  ///
+  /// Valid values: <code>low</code> | <code>normal</code> | <code>high</code> |
+  /// <code>urgent</code> | <code>critical</code>
+  final String? code;
+
+  /// The name of the severity level that corresponds to the severity level code.
+  /// <note>
+  /// The values returned by the API are different from the values that appear in
+  /// the Amazon Web Services Support Center. For example, the API uses the code
+  /// <code>low</code>, but the name appears as General guidance in Support
+  /// Center.
+  ///
+  /// The following are the API code names and how they appear in the console:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>low</code> - General guidance
+  /// </li>
+  /// <li>
+  /// <code>normal</code> - System impaired
+  /// </li>
+  /// <li>
+  /// <code>high</code> - Production system impaired
+  /// </li>
+  /// <li>
+  /// <code>urgent</code> - Production system down
+  /// </li>
+  /// <li>
+  /// <code>critical</code> - Business-critical system down
+  /// </li>
+  /// </ul> </note>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/awssupport/latest/user/case-management.html#choosing-severity">Choosing
+  /// a severity</a> in the <i>Amazon Web Services Support User Guide</i>.
+  final String? name;
+
+  SeverityLevel({
+    this.code,
+    this.name,
+  });
+
+  factory SeverityLevel.fromJson(Map<String, dynamic> json) {
+    return SeverityLevel(
+      code: json['code'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final name = this.name;
+    return {
+      if (code != null) 'code': code,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// Information about an Amazon Web Services service returned by the
+/// <a>DescribeServices</a> operation.
+class Service {
+  /// A list of categories that describe the type of support issue a case
+  /// describes. Categories consist of a category name and a category code.
+  /// Category names and codes are passed to Amazon Web Services Support when you
+  /// call <a>CreateCase</a>.
+  final List<Category>? categories;
+
+  /// The code for an Amazon Web Services service returned by the
+  /// <a>DescribeServices</a> response. The <code>name</code> element contains the
+  /// corresponding friendly name.
+  final String? code;
+
+  /// The friendly name for an Amazon Web Services service. The <code>code</code>
+  /// element contains the corresponding code.
+  final String? name;
+
+  Service({
+    this.categories,
+    this.code,
+    this.name,
+  });
+
+  factory Service.fromJson(Map<String, dynamic> json) {
+    return Service(
+      categories: (json['categories'] as List?)
+          ?.nonNulls
+          .map((e) => Category.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      code: json['code'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final categories = this.categories;
+    final code = this.code;
+    final name = this.name;
+    return {
+      if (categories != null) 'categories': categories,
+      if (code != null) 'code': code,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// A JSON-formatted name/value pair that represents the category name and
+/// category code of the problem, selected from the <a>DescribeServices</a>
+/// response for each Amazon Web Services service.
+class Category {
+  /// The category code for the support case.
+  final String? code;
+
+  /// The category name for the support case.
+  final String? name;
+
+  Category({
+    this.code,
+    this.name,
+  });
+
+  factory Category.fromJson(Map<String, dynamic> json) {
+    return Category(
+      code: json['code'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final name = this.name;
+    return {
+      if (code != null) 'code': code,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// A JSON-formatted object that contains the CommunicationTypeOptions for
+/// creating a case for a certain communication channel. It is contained in the
+/// response from a <a>DescribeCreateCaseOptions</a> request.
+/// <b>CommunicationTypeOptions</b> contains the following fields:
+///
+/// <ul>
+/// <li>
+/// <b>datesWithoutSupport</b> - A JSON-formatted list containing date and time
+/// ranges for periods without support in UTC time. Date and time format is RFC
+/// 3339 : 'yyyy-MM-dd'T'HH:mm:ss.SSSZZ'.
+/// </li>
+/// <li>
+/// <b>supportedHours</b> - A JSON-formatted list containing time ranges when
+/// support are available. Time format is RFC 3339 : 'HH:mm:ss.SSS'.
+/// </li>
+/// <li>
+/// <b>type</b> - A string value indicating the communication type that the
+/// aforementioned rules apply to. At the moment the type value can assume one
+/// of 3 values at the moment <code>chat</code>, <code>web</code> and
+/// <code>call</code>.
+/// </li>
+/// </ul>
+class CommunicationTypeOptions {
+  /// A JSON-formatted list containing date and time ranges for periods without
+  /// support
+  final List<DateInterval>? datesWithoutSupport;
+
+  /// A JSON-formatted list containing time ranges when support is available.
+  final List<SupportedHour>? supportedHours;
+
+  /// A string value indicating the communication type. At the moment the type
+  /// value can assume one of 3 values at the moment chat, web and call.
+  final String? type;
+
+  CommunicationTypeOptions({
+    this.datesWithoutSupport,
+    this.supportedHours,
+    this.type,
+  });
+
+  factory CommunicationTypeOptions.fromJson(Map<String, dynamic> json) {
+    return CommunicationTypeOptions(
+      datesWithoutSupport: (json['datesWithoutSupport'] as List?)
+          ?.nonNulls
+          .map((e) => DateInterval.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      supportedHours: (json['supportedHours'] as List?)
+          ?.nonNulls
+          .map((e) => SupportedHour.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: json['type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datesWithoutSupport = this.datesWithoutSupport;
+    final supportedHours = this.supportedHours;
+    final type = this.type;
+    return {
+      if (datesWithoutSupport != null)
+        'datesWithoutSupport': datesWithoutSupport,
+      if (supportedHours != null) 'supportedHours': supportedHours,
+      if (type != null) 'type': type,
+    };
+  }
+}
+
+/// Date and time (UTC) format in RFC 3339 : 'yyyy-MM-dd'T'HH:mm:ss.SSSZZ'.
+class DateInterval {
+  /// End Date Time (UTC). RFC 3339 format : 'yyyy-MM-dd'T'HH:mm:ss.SSSZZ'.
+  final String? endDateTime;
+
+  /// A JSON object containing start and date time (UTC). Date and time format is
+  /// RFC 3339 : 'yyyy-MM-dd'T'HH:mm:ss.SSSZZ'.
+  final String? startDateTime;
+
+  DateInterval({
+    this.endDateTime,
+    this.startDateTime,
+  });
+
+  factory DateInterval.fromJson(Map<String, dynamic> json) {
+    return DateInterval(
+      endDateTime: json['endDateTime'] as String?,
+      startDateTime: json['startDateTime'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endDateTime = this.endDateTime;
+    final startDateTime = this.startDateTime;
+    return {
+      if (endDateTime != null) 'endDateTime': endDateTime,
+      if (startDateTime != null) 'startDateTime': startDateTime,
+    };
+  }
+}
+
+/// Time range object with <code>startTime</code> and <code>endTime</code> range
+/// in RFC 3339 format. <code>'HH:mm:ss.SSS'</code>.
+class SupportedHour {
+  /// End Time. RFC 3339 format <code>'HH:mm:ss.SSS'</code>.
+  final String? endTime;
+
+  /// Start Time. RFC 3339 format <code>'HH:mm:ss.SSS'</code>.
+  final String? startTime;
+
+  SupportedHour({
+    this.endTime,
+    this.startTime,
+  });
+
+  factory SupportedHour.fromJson(Map<String, dynamic> json) {
+    return SupportedHour(
+      endTime: json['endTime'] as String?,
+      startTime: json['startTime'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final startTime = this.startTime;
+    return {
+      if (endTime != null) 'endTime': endTime,
+      if (startTime != null) 'startTime': startTime,
+    };
+  }
+}
+
+/// A communication associated with a support case. The communication consists
+/// of the case ID, the message body, attachment information, the submitter of
+/// the communication, and the date and time of the communication.
+class Communication {
+  /// Information about the attachments to the case communication.
+  final List<AttachmentDetails>? attachmentSet;
+
+  /// The text of the communication between the customer and Amazon Web Services
+  /// Support.
+  final String? body;
+
+  /// The support case ID requested or returned in the call. The case ID is an
+  /// alphanumeric string formatted as shown in this example:
+  /// case-<i>12345678910-2013-c4c1d2bf33c5cf47</i>
+  final String? caseId;
+
+  /// The identity of the account that submitted, or responded to, the support
+  /// case. Customer entries include the IAM role as well as the email address
+  /// (for example, "AdminRole (Role) <janedoe@example.com>). Entries from the
+  /// Amazon Web Services Support team display "Amazon Web Services," and don't
+  /// show an email address.
+  final String? submittedBy;
+
+  /// The time the communication was created.
+  final String? timeCreated;
+
+  Communication({
+    this.attachmentSet,
+    this.body,
+    this.caseId,
+    this.submittedBy,
+    this.timeCreated,
+  });
+
+  factory Communication.fromJson(Map<String, dynamic> json) {
+    return Communication(
+      attachmentSet: (json['attachmentSet'] as List?)
+          ?.nonNulls
+          .map((e) => AttachmentDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      body: json['body'] as String?,
+      caseId: json['caseId'] as String?,
+      submittedBy: json['submittedBy'] as String?,
+      timeCreated: json['timeCreated'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachmentSet = this.attachmentSet;
+    final body = this.body;
+    final caseId = this.caseId;
+    final submittedBy = this.submittedBy;
+    final timeCreated = this.timeCreated;
+    return {
+      if (attachmentSet != null) 'attachmentSet': attachmentSet,
+      if (body != null) 'body': body,
+      if (caseId != null) 'caseId': caseId,
+      if (submittedBy != null) 'submittedBy': submittedBy,
+      if (timeCreated != null) 'timeCreated': timeCreated,
+    };
+  }
+}
+
+/// The file name and ID of an attachment to a case communication. You can use
+/// the ID to retrieve the attachment with the <a>DescribeAttachment</a>
+/// operation.
+class AttachmentDetails {
+  /// The ID of the attachment.
+  final String? attachmentId;
+
+  /// The file name of the attachment.
+  final String? fileName;
+
+  AttachmentDetails({
+    this.attachmentId,
+    this.fileName,
+  });
+
+  factory AttachmentDetails.fromJson(Map<String, dynamic> json) {
+    return AttachmentDetails(
+      attachmentId: json['attachmentId'] as String?,
+      fileName: json['fileName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachmentId = this.attachmentId;
+    final fileName = this.fileName;
+    return {
+      if (attachmentId != null) 'attachmentId': attachmentId,
+      if (fileName != null) 'fileName': fileName,
+    };
+  }
+}
+
+/// A JSON-formatted object that contains the metadata for a support case. It is
+/// contained in the response from a <a>DescribeCases</a> request.
+/// <b>CaseDetails</b> contains the following fields:
+///
+/// <ul>
+/// <li>
+/// <b>caseId</b> - The support case ID requested or returned in the call. The
+/// case ID is an alphanumeric string formatted as shown in this example:
+/// case-<i>12345678910-2013-c4c1d2bf33c5cf47</i>.
+/// </li>
+/// <li>
+/// <b>categoryCode</b> - The category of problem for the support case.
+/// Corresponds to the <code>CategoryCode</code> values returned by a call to
+/// <a>DescribeServices</a>.
+/// </li>
+/// <li>
+/// <b>displayId</b> - The identifier for the case on pages in the Amazon Web
+/// Services Support Center.
+/// </li>
+/// <li>
+/// <b>language</b> - The language in which Amazon Web Services Support handles
+/// the case. Amazon Web Services Support currently supports Chinese (“zh”),
+/// English ("en"), Japanese ("ja") and Korean (“ko”). You must specify the ISO
+/// 639-1 code for the <code>language</code> parameter if you want support in
+/// that language.
+/// </li>
+/// <li>
+/// <b>nextToken</b> - A resumption point for pagination.
+/// </li>
+/// <li>
+/// <b>recentCommunications</b> - One or more <a>Communication</a> objects.
+/// Fields of these objects are <code>attachments</code>, <code>body</code>,
+/// <code>caseId</code>, <code>submittedBy</code>, and <code>timeCreated</code>.
+/// </li>
+/// <li>
+/// <b>serviceCode</b> - The identifier for the Amazon Web Services service that
+/// corresponds to the service code defined in the call to
+/// <a>DescribeServices</a>.
+/// </li>
+/// <li>
+/// <b>severityCode</b> - The severity code assigned to the case. Contains one
+/// of the values returned by the call to <a>DescribeSeverityLevels</a>. The
+/// possible values are: <code>low</code>, <code>normal</code>,
+/// <code>high</code>, <code>urgent</code>, and <code>critical</code>.
+/// </li>
+/// <li>
+/// <b>status</b> - The status of the case in the Amazon Web Services Support
+/// Center. Valid values:
+///
+/// <ul>
+/// <li>
+/// <code>all-open</code>
+/// </li>
+/// <li>
+/// <code>customer-action-completed</code>
+/// </li>
+/// <li>
+/// <code>opened</code>
+/// </li>
+/// <li>
+/// <code>pending-customer-action</code>
+/// </li>
+/// <li>
+/// <code>reopened</code>
+/// </li>
+/// <li>
+/// <code>resolved</code>
+/// </li>
+/// <li>
+/// <code>unassigned</code>
+/// </li>
+/// <li>
+/// <code>work-in-progress</code>
+/// </li>
+/// </ul> </li>
+/// <li>
+/// <b>subject</b> - The subject line of the case.
+/// </li>
+/// <li>
+/// <b>submittedBy</b> - The email address of the account that submitted the
+/// case.
+/// </li>
+/// <li>
+/// <b>timeCreated</b> - The time the case was created, in ISO-8601 format.
+/// </li>
+/// </ul>
+class CaseDetails {
+  /// The support case ID requested or returned in the call. The case ID is an
+  /// alphanumeric string formatted as shown in this example:
+  /// case-<i>12345678910-2013-c4c1d2bf33c5cf47</i>
+  final String? caseId;
+
+  /// The category of problem for the support case.
+  final String? categoryCode;
+
+  /// The email addresses that receive copies of communication about the case.
+  final List<String>? ccEmailAddresses;
+
+  /// The ID displayed for the case in the Amazon Web Services Support Center.
+  /// This is a numeric string.
+  final String? displayId;
+
+  /// The language in which Amazon Web Services Support handles the case. Amazon
+  /// Web Services Support currently supports Chinese (“zh”), English ("en"),
+  /// Japanese ("ja") and Korean (“ko”). You must specify the ISO 639-1 code for
+  /// the <code>language</code> parameter if you want support in that language.
+  final String? language;
+
+  /// The five most recent communications between you and Amazon Web Services
+  /// Support Center, including the IDs of any attachments to the communications.
+  /// Also includes a <code>nextToken</code> that you can use to retrieve earlier
+  /// communications.
+  final RecentCaseCommunications? recentCommunications;
+
+  /// The code for the Amazon Web Services service. You can get a list of codes
+  /// and the corresponding service names by calling <a>DescribeServices</a>.
+  final String? serviceCode;
+
+  /// The code for the severity level returned by the call to
+  /// <a>DescribeSeverityLevels</a>.
+  final String? severityCode;
+
+  /// The status of the case.
+  ///
+  /// Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>all-open</code>
+  /// </li>
+  /// <li>
+  /// <code>customer-action-completed</code>
+  /// </li>
+  /// <li>
+  /// <code>opened</code>
+  /// </li>
+  /// <li>
+  /// <code>pending-customer-action</code>
+  /// </li>
+  /// <li>
+  /// <code>reopened</code>
+  /// </li>
+  /// <li>
+  /// <code>resolved</code>
+  /// </li>
+  /// <li>
+  /// <code>unassigned</code>
+  /// </li>
+  /// <li>
+  /// <code>work-in-progress</code>
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  /// The subject line for the case in the Amazon Web Services Support Center.
+  final String? subject;
+
+  /// The email address of the account that submitted the case.
+  final String? submittedBy;
+
+  /// The time that the case was created in the Amazon Web Services Support
+  /// Center.
+  final String? timeCreated;
+
+  CaseDetails({
+    this.caseId,
+    this.categoryCode,
+    this.ccEmailAddresses,
+    this.displayId,
+    this.language,
+    this.recentCommunications,
+    this.serviceCode,
+    this.severityCode,
+    this.status,
+    this.subject,
+    this.submittedBy,
+    this.timeCreated,
+  });
+
+  factory CaseDetails.fromJson(Map<String, dynamic> json) {
+    return CaseDetails(
+      caseId: json['caseId'] as String?,
+      categoryCode: json['categoryCode'] as String?,
+      ccEmailAddresses: (json['ccEmailAddresses'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      displayId: json['displayId'] as String?,
+      language: json['language'] as String?,
+      recentCommunications: json['recentCommunications'] != null
+          ? RecentCaseCommunications.fromJson(
+              json['recentCommunications'] as Map<String, dynamic>)
+          : null,
+      serviceCode: json['serviceCode'] as String?,
+      severityCode: json['severityCode'] as String?,
+      status: json['status'] as String?,
+      subject: json['subject'] as String?,
+      submittedBy: json['submittedBy'] as String?,
+      timeCreated: json['timeCreated'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final caseId = this.caseId;
+    final categoryCode = this.categoryCode;
+    final ccEmailAddresses = this.ccEmailAddresses;
+    final displayId = this.displayId;
+    final language = this.language;
+    final recentCommunications = this.recentCommunications;
+    final serviceCode = this.serviceCode;
+    final severityCode = this.severityCode;
+    final status = this.status;
+    final subject = this.subject;
+    final submittedBy = this.submittedBy;
+    final timeCreated = this.timeCreated;
+    return {
+      if (caseId != null) 'caseId': caseId,
+      if (categoryCode != null) 'categoryCode': categoryCode,
+      if (ccEmailAddresses != null) 'ccEmailAddresses': ccEmailAddresses,
+      if (displayId != null) 'displayId': displayId,
+      if (language != null) 'language': language,
+      if (recentCommunications != null)
+        'recentCommunications': recentCommunications,
+      if (serviceCode != null) 'serviceCode': serviceCode,
+      if (severityCode != null) 'severityCode': severityCode,
+      if (status != null) 'status': status,
+      if (subject != null) 'subject': subject,
+      if (submittedBy != null) 'submittedBy': submittedBy,
+      if (timeCreated != null) 'timeCreated': timeCreated,
+    };
+  }
+}
+
+/// The five most recent communications associated with the case.
+class RecentCaseCommunications {
+  /// The five most recent communications associated with the case.
+  final List<Communication>? communications;
+
+  /// A resumption point for pagination.
+  final String? nextToken;
+
+  RecentCaseCommunications({
+    this.communications,
+    this.nextToken,
+  });
+
+  factory RecentCaseCommunications.fromJson(Map<String, dynamic> json) {
+    return RecentCaseCommunications(
+      communications: (json['communications'] as List?)
+          ?.nonNulls
+          .map((e) => Communication.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final communications = this.communications;
+    final nextToken = this.nextToken;
+    return {
+      if (communications != null) 'communications': communications,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// An attachment to a case communication. The attachment consists of the file
+/// name and the content of the file. Each attachment file size should not
+/// exceed 5 MB. File types that are supported include the following: pdf,
+/// jpeg,.doc, .log, .text
+class Attachment {
+  /// The content of the attachment file.
+  final Uint8List? data;
+
+  /// The name of the attachment file.
+  final String? fileName;
+
+  Attachment({
+    this.data,
+    this.fileName,
+  });
+
+  factory Attachment.fromJson(Map<String, dynamic> json) {
+    return Attachment(
+      data: _s.decodeNullableUint8List(json['data'] as String?),
+      fileName: json['fileName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final data = this.data;
+    final fileName = this.fileName;
+    return {
+      if (data != null) 'data': base64Encode(data),
+      if (fileName != null) 'fileName': fileName,
     };
   }
 }

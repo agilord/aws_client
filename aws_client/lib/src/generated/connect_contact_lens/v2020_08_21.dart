@@ -74,10 +74,10 @@ class ConnectContactLens {
 
   /// Provides a list of analysis segments for a real-time analysis session.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [contactId] :
@@ -118,126 +118,6 @@ class ConnectContactLens {
       exceptionFnMap: _exceptionFns,
     );
     return ListRealtimeContactAnalysisSegmentsResponse.fromJson(response);
-  }
-}
-
-/// Provides the category rules that are used to automatically categorize
-/// contacts based on uttered keywords and phrases.
-class Categories {
-  /// The category rules that have been matched in the analyzed segment.
-  final List<String> matchedCategories;
-
-  /// The category rule that was matched and when it occurred in the transcript.
-  final Map<String, CategoryDetails> matchedDetails;
-
-  Categories({
-    required this.matchedCategories,
-    required this.matchedDetails,
-  });
-
-  factory Categories.fromJson(Map<String, dynamic> json) {
-    return Categories(
-      matchedCategories: ((json['MatchedCategories'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      matchedDetails: ((json['MatchedDetails'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{})
-          .map((k, e) =>
-              MapEntry(k, CategoryDetails.fromJson(e as Map<String, dynamic>))),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final matchedCategories = this.matchedCategories;
-    final matchedDetails = this.matchedDetails;
-    return {
-      'MatchedCategories': matchedCategories,
-      'MatchedDetails': matchedDetails,
-    };
-  }
-}
-
-/// Provides information about the category rule that was matched.
-class CategoryDetails {
-  /// The section of audio where the category rule was detected.
-  final List<PointOfInterest> pointsOfInterest;
-
-  CategoryDetails({
-    required this.pointsOfInterest,
-  });
-
-  factory CategoryDetails.fromJson(Map<String, dynamic> json) {
-    return CategoryDetails(
-      pointsOfInterest: ((json['PointsOfInterest'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => PointOfInterest.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final pointsOfInterest = this.pointsOfInterest;
-    return {
-      'PointsOfInterest': pointsOfInterest,
-    };
-  }
-}
-
-/// For characters that were detected as issues, where they occur in the
-/// transcript.
-class CharacterOffsets {
-  /// The beginning of the issue.
-  final int beginOffsetChar;
-
-  /// The end of the issue.
-  final int endOffsetChar;
-
-  CharacterOffsets({
-    required this.beginOffsetChar,
-    required this.endOffsetChar,
-  });
-
-  factory CharacterOffsets.fromJson(Map<String, dynamic> json) {
-    return CharacterOffsets(
-      beginOffsetChar: (json['BeginOffsetChar'] as int?) ?? 0,
-      endOffsetChar: (json['EndOffsetChar'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final beginOffsetChar = this.beginOffsetChar;
-    final endOffsetChar = this.endOffsetChar;
-    return {
-      'BeginOffsetChar': beginOffsetChar,
-      'EndOffsetChar': endOffsetChar,
-    };
-  }
-}
-
-/// Potential issues that are detected based on an artificial intelligence
-/// analysis of each turn in the conversation.
-class IssueDetected {
-  /// The offset for when the issue was detected in the segment.
-  final CharacterOffsets characterOffsets;
-
-  IssueDetected({
-    required this.characterOffsets,
-  });
-
-  factory IssueDetected.fromJson(Map<String, dynamic> json) {
-    return IssueDetected(
-      characterOffsets: CharacterOffsets.fromJson(
-          (json['CharacterOffsets'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final characterOffsets = this.characterOffsets;
-    return {
-      'CharacterOffsets': characterOffsets,
-    };
   }
 }
 
@@ -291,32 +171,158 @@ class ListRealtimeContactAnalysisSegmentsResponse {
   }
 }
 
-/// The section of the contact audio where that category rule was detected.
-class PointOfInterest {
-  /// The beginning offset in milliseconds where the category rule was detected.
-  final int beginOffsetMillis;
+/// An analyzed segment for a real-time analysis session.
+class RealtimeContactAnalysisSegment {
+  /// The matched category rules.
+  final Categories? categories;
 
-  /// The ending offset in milliseconds where the category rule was detected.
-  final int endOffsetMillis;
+  /// Information about the post-contact summary.
+  final PostContactSummary? postContactSummary;
 
-  PointOfInterest({
-    required this.beginOffsetMillis,
-    required this.endOffsetMillis,
+  /// The analyzed transcript.
+  final Transcript? transcript;
+
+  RealtimeContactAnalysisSegment({
+    this.categories,
+    this.postContactSummary,
+    this.transcript,
   });
 
-  factory PointOfInterest.fromJson(Map<String, dynamic> json) {
-    return PointOfInterest(
+  factory RealtimeContactAnalysisSegment.fromJson(Map<String, dynamic> json) {
+    return RealtimeContactAnalysisSegment(
+      categories: json['Categories'] != null
+          ? Categories.fromJson(json['Categories'] as Map<String, dynamic>)
+          : null,
+      postContactSummary: json['PostContactSummary'] != null
+          ? PostContactSummary.fromJson(
+              json['PostContactSummary'] as Map<String, dynamic>)
+          : null,
+      transcript: json['Transcript'] != null
+          ? Transcript.fromJson(json['Transcript'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final categories = this.categories;
+    final postContactSummary = this.postContactSummary;
+    final transcript = this.transcript;
+    return {
+      if (categories != null) 'Categories': categories,
+      if (postContactSummary != null) 'PostContactSummary': postContactSummary,
+      if (transcript != null) 'Transcript': transcript,
+    };
+  }
+}
+
+/// A list of messages in the session.
+class Transcript {
+  /// The beginning offset in the contact for this transcript.
+  final int beginOffsetMillis;
+
+  /// The content of the transcript.
+  final String content;
+
+  /// The end offset in the contact for this transcript.
+  final int endOffsetMillis;
+
+  /// The identifier of the transcript.
+  final String id;
+
+  /// The identifier of the participant. Valid values are CUSTOMER or AGENT.
+  final String participantId;
+
+  /// The role of participant. For example, is it a customer, agent, or system.
+  final String participantRole;
+
+  /// List of positions where issues were detected on the transcript.
+  final List<IssueDetected>? issuesDetected;
+
+  /// The sentiment detected for this piece of transcript.
+  final SentimentValue? sentiment;
+
+  Transcript({
+    required this.beginOffsetMillis,
+    required this.content,
+    required this.endOffsetMillis,
+    required this.id,
+    required this.participantId,
+    required this.participantRole,
+    this.issuesDetected,
+    this.sentiment,
+  });
+
+  factory Transcript.fromJson(Map<String, dynamic> json) {
+    return Transcript(
       beginOffsetMillis: (json['BeginOffsetMillis'] as int?) ?? 0,
+      content: (json['Content'] as String?) ?? '',
       endOffsetMillis: (json['EndOffsetMillis'] as int?) ?? 0,
+      id: (json['Id'] as String?) ?? '',
+      participantId: (json['ParticipantId'] as String?) ?? '',
+      participantRole: (json['ParticipantRole'] as String?) ?? '',
+      issuesDetected: (json['IssuesDetected'] as List?)
+          ?.nonNulls
+          .map((e) => IssueDetected.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      sentiment: (json['Sentiment'] as String?)?.let(SentimentValue.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final beginOffsetMillis = this.beginOffsetMillis;
+    final content = this.content;
     final endOffsetMillis = this.endOffsetMillis;
+    final id = this.id;
+    final participantId = this.participantId;
+    final participantRole = this.participantRole;
+    final issuesDetected = this.issuesDetected;
+    final sentiment = this.sentiment;
     return {
       'BeginOffsetMillis': beginOffsetMillis,
+      'Content': content,
       'EndOffsetMillis': endOffsetMillis,
+      'Id': id,
+      'ParticipantId': participantId,
+      'ParticipantRole': participantRole,
+      if (issuesDetected != null) 'IssuesDetected': issuesDetected,
+      if (sentiment != null) 'Sentiment': sentiment.value,
+    };
+  }
+}
+
+/// Provides the category rules that are used to automatically categorize
+/// contacts based on uttered keywords and phrases.
+class Categories {
+  /// The category rules that have been matched in the analyzed segment.
+  final List<String> matchedCategories;
+
+  /// The category rule that was matched and when it occurred in the transcript.
+  final Map<String, CategoryDetails> matchedDetails;
+
+  Categories({
+    required this.matchedCategories,
+    required this.matchedDetails,
+  });
+
+  factory Categories.fromJson(Map<String, dynamic> json) {
+    return Categories(
+      matchedCategories: ((json['MatchedCategories'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      matchedDetails: ((json['MatchedDetails'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) =>
+              MapEntry(k, CategoryDetails.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final matchedCategories = this.matchedCategories;
+    final matchedDetails = this.matchedDetails;
+    return {
+      'MatchedCategories': matchedCategories,
+      'MatchedDetails': matchedDetails,
     };
   }
 }
@@ -386,6 +392,31 @@ class PostContactSummary {
   }
 }
 
+class PostContactSummaryStatus {
+  static const failed = PostContactSummaryStatus._('FAILED');
+  static const completed = PostContactSummaryStatus._('COMPLETED');
+
+  final String value;
+
+  const PostContactSummaryStatus._(this.value);
+
+  static const values = [failed, completed];
+
+  static PostContactSummaryStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PostContactSummaryStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PostContactSummaryStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 class PostContactSummaryFailureCode {
   static const quotaExceeded =
       PostContactSummaryFailureCode._('QUOTA_EXCEEDED');
@@ -425,71 +456,58 @@ class PostContactSummaryFailureCode {
   String toString() => value;
 }
 
-class PostContactSummaryStatus {
-  static const failed = PostContactSummaryStatus._('FAILED');
-  static const completed = PostContactSummaryStatus._('COMPLETED');
+/// Provides information about the category rule that was matched.
+class CategoryDetails {
+  /// The section of audio where the category rule was detected.
+  final List<PointOfInterest> pointsOfInterest;
 
-  final String value;
-
-  const PostContactSummaryStatus._(this.value);
-
-  static const values = [failed, completed];
-
-  static PostContactSummaryStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PostContactSummaryStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PostContactSummaryStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An analyzed segment for a real-time analysis session.
-class RealtimeContactAnalysisSegment {
-  /// The matched category rules.
-  final Categories? categories;
-
-  /// Information about the post-contact summary.
-  final PostContactSummary? postContactSummary;
-
-  /// The analyzed transcript.
-  final Transcript? transcript;
-
-  RealtimeContactAnalysisSegment({
-    this.categories,
-    this.postContactSummary,
-    this.transcript,
+  CategoryDetails({
+    required this.pointsOfInterest,
   });
 
-  factory RealtimeContactAnalysisSegment.fromJson(Map<String, dynamic> json) {
-    return RealtimeContactAnalysisSegment(
-      categories: json['Categories'] != null
-          ? Categories.fromJson(json['Categories'] as Map<String, dynamic>)
-          : null,
-      postContactSummary: json['PostContactSummary'] != null
-          ? PostContactSummary.fromJson(
-              json['PostContactSummary'] as Map<String, dynamic>)
-          : null,
-      transcript: json['Transcript'] != null
-          ? Transcript.fromJson(json['Transcript'] as Map<String, dynamic>)
-          : null,
+  factory CategoryDetails.fromJson(Map<String, dynamic> json) {
+    return CategoryDetails(
+      pointsOfInterest: ((json['PointsOfInterest'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => PointOfInterest.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final categories = this.categories;
-    final postContactSummary = this.postContactSummary;
-    final transcript = this.transcript;
+    final pointsOfInterest = this.pointsOfInterest;
     return {
-      if (categories != null) 'Categories': categories,
-      if (postContactSummary != null) 'PostContactSummary': postContactSummary,
-      if (transcript != null) 'Transcript': transcript,
+      'PointsOfInterest': pointsOfInterest,
+    };
+  }
+}
+
+/// The section of the contact audio where that category rule was detected.
+class PointOfInterest {
+  /// The beginning offset in milliseconds where the category rule was detected.
+  final int beginOffsetMillis;
+
+  /// The ending offset in milliseconds where the category rule was detected.
+  final int endOffsetMillis;
+
+  PointOfInterest({
+    required this.beginOffsetMillis,
+    required this.endOffsetMillis,
+  });
+
+  factory PointOfInterest.fromJson(Map<String, dynamic> json) {
+    return PointOfInterest(
+      beginOffsetMillis: (json['BeginOffsetMillis'] as int?) ?? 0,
+      endOffsetMillis: (json['EndOffsetMillis'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final beginOffsetMillis = this.beginOffsetMillis;
+    final endOffsetMillis = this.endOffsetMillis;
+    return {
+      'BeginOffsetMillis': beginOffsetMillis,
+      'EndOffsetMillis': endOffsetMillis,
     };
   }
 }
@@ -519,78 +537,59 @@ class SentimentValue {
   String toString() => value;
 }
 
-/// A list of messages in the session.
-class Transcript {
-  /// The beginning offset in the contact for this transcript.
-  final int beginOffsetMillis;
+/// Potential issues that are detected based on an artificial intelligence
+/// analysis of each turn in the conversation.
+class IssueDetected {
+  /// The offset for when the issue was detected in the segment.
+  final CharacterOffsets characterOffsets;
 
-  /// The content of the transcript.
-  final String content;
-
-  /// The end offset in the contact for this transcript.
-  final int endOffsetMillis;
-
-  /// The identifier of the transcript.
-  final String id;
-
-  /// The identifier of the participant. Valid values are CUSTOMER or AGENT.
-  final String participantId;
-
-  /// The role of participant. For example, is it a customer, agent, or system.
-  final String participantRole;
-
-  /// The sentiment detected for this piece of transcript.
-  final SentimentValue sentiment;
-
-  /// List of positions where issues were detected on the transcript.
-  final List<IssueDetected>? issuesDetected;
-
-  Transcript({
-    required this.beginOffsetMillis,
-    required this.content,
-    required this.endOffsetMillis,
-    required this.id,
-    required this.participantId,
-    required this.participantRole,
-    required this.sentiment,
-    this.issuesDetected,
+  IssueDetected({
+    required this.characterOffsets,
   });
 
-  factory Transcript.fromJson(Map<String, dynamic> json) {
-    return Transcript(
-      beginOffsetMillis: (json['BeginOffsetMillis'] as int?) ?? 0,
-      content: (json['Content'] as String?) ?? '',
-      endOffsetMillis: (json['EndOffsetMillis'] as int?) ?? 0,
-      id: (json['Id'] as String?) ?? '',
-      participantId: (json['ParticipantId'] as String?) ?? '',
-      participantRole: (json['ParticipantRole'] as String?) ?? '',
-      sentiment:
-          SentimentValue.fromString((json['Sentiment'] as String?) ?? ''),
-      issuesDetected: (json['IssuesDetected'] as List?)
-          ?.nonNulls
-          .map((e) => IssueDetected.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  factory IssueDetected.fromJson(Map<String, dynamic> json) {
+    return IssueDetected(
+      characterOffsets: CharacterOffsets.fromJson(
+          (json['CharacterOffsets'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final beginOffsetMillis = this.beginOffsetMillis;
-    final content = this.content;
-    final endOffsetMillis = this.endOffsetMillis;
-    final id = this.id;
-    final participantId = this.participantId;
-    final participantRole = this.participantRole;
-    final sentiment = this.sentiment;
-    final issuesDetected = this.issuesDetected;
+    final characterOffsets = this.characterOffsets;
     return {
-      'BeginOffsetMillis': beginOffsetMillis,
-      'Content': content,
-      'EndOffsetMillis': endOffsetMillis,
-      'Id': id,
-      'ParticipantId': participantId,
-      'ParticipantRole': participantRole,
-      'Sentiment': sentiment.value,
-      if (issuesDetected != null) 'IssuesDetected': issuesDetected,
+      'CharacterOffsets': characterOffsets,
+    };
+  }
+}
+
+/// For characters that were detected as issues, where they occur in the
+/// transcript.
+class CharacterOffsets {
+  /// The beginning of the issue.
+  final int beginOffsetChar;
+
+  /// The end of the issue.
+  final int endOffsetChar;
+
+  CharacterOffsets({
+    required this.beginOffsetChar,
+    required this.endOffsetChar,
+  });
+
+  factory CharacterOffsets.fromJson(Map<String, dynamic> json) {
+    return CharacterOffsets(
+      beginOffsetChar: (json['BeginOffsetChar'] as int?) ?? 0,
+      endOffsetChar: (json['EndOffsetChar'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final beginOffsetChar = this.beginOffsetChar;
+    final endOffsetChar = this.endOffsetChar;
+    return {
+      'BeginOffsetChar': beginOffsetChar,
+      'EndOffsetChar': endOffsetChar,
     };
   }
 }

@@ -1,4 +1,4 @@
-import 'package:aws_client/secrets_manager_2017_10_17.dart';
+import 'package:aws_client/secrets_manager.dart';
 import 'package:test/test.dart';
 
 import 'harness.dart';

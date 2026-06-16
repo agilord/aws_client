@@ -37,7 +37,6 @@ class MigrationHubOrchestrator {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'migrationhub-orchestrator',
-            signingName: 'migrationhub-orchestrator',
           ),
           region: region,
           credentials: credentials,
@@ -54,60 +53,84 @@ class MigrationHubOrchestrator {
     _protocol.close();
   }
 
-  /// Creates a migration workflow template.
+  /// List the tags added to a resource.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
   ///
-  /// Parameter [templateName] :
-  /// The name of the migration workflow template.
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource.
+  Future<ListTagsForResourceResponse> listTagsForResource({
+    required String resourceArn,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTagsForResourceResponse.fromJson(response);
+  }
+
+  /// Tag a resource by specifying its Amazon Resource Name (ARN).
   ///
-  /// Parameter [templateSource] :
-  /// The source of the migration workflow template.
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
-  /// Parameter [clientToken] :
-  /// A unique, case-sensitive identifier that you provide to ensure the
-  /// idempotency of the request. For more information, see <a
-  /// href="https://smithy.io/2.0/spec/behavior-traits.html#idempotencytoken-trait">Idempotency</a>
-  /// in the Smithy documentation.
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource to which you want to add
+  /// tags.
   ///
   /// Parameter [tags] :
-  /// The tags to add to the migration workflow template.
-  ///
-  /// Parameter [templateDescription] :
-  /// A description of the migration workflow template.
-  Future<CreateTemplateResponse> createTemplate({
-    required String templateName,
-    required TemplateSource templateSource,
-    String? clientToken,
-    Map<String, String>? tags,
-    String? templateDescription,
+  /// A collection of labels, in the form of key:value pairs, that apply to this
+  /// resource.
+  Future<void> tagResource({
+    required String resourceArn,
+    required Map<String, String> tags,
   }) async {
     final $payload = <String, dynamic>{
-      'templateName': templateName,
-      'templateSource': templateSource,
-      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
-      if (tags != null) 'tags': tags,
-      if (templateDescription != null)
-        'templateDescription': templateDescription,
+      'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/template',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateTemplateResponse.fromJson(response);
+  }
+
+  /// Deletes the tags for a resource.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource from which you want to
+  /// remove tags.
+  ///
+  /// Parameter [tagKeys] :
+  /// One or more tag keys. Specify only the tag keys, not the tag values.
+  Future<void> untagResource({
+    required String resourceArn,
+    required List<String> tagKeys,
+  }) async {
+    final $query = <String, List<String>>{
+      'tagKeys': tagKeys,
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// Create a workflow to orchestrate your migrations.
   ///
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [inputParameters] :
@@ -159,11 +182,559 @@ class MigrationHubOrchestrator {
     return CreateMigrationWorkflowResponse.fromJson(response);
   }
 
-  /// Create a step in the migration workflow.
+  /// Get migration workflow.
   ///
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [id] :
+  /// The ID of the migration workflow.
+  Future<GetMigrationWorkflowResponse> getWorkflow({
+    required String id,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/migrationworkflow/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetMigrationWorkflowResponse.fromJson(response);
+  }
+
+  /// Update a migration workflow.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [id] :
+  /// The ID of the migration workflow.
+  ///
+  /// Parameter [description] :
+  /// The description of the migration workflow.
+  ///
+  /// Parameter [inputParameters] :
+  /// The input parameters required to update a migration workflow.
+  ///
+  /// Parameter [name] :
+  /// The name of the migration workflow.
+  ///
+  /// Parameter [stepTargets] :
+  /// The servers on which a step will be run.
+  Future<UpdateMigrationWorkflowResponse> updateWorkflow({
+    required String id,
+    String? description,
+    Map<String, StepInput>? inputParameters,
+    String? name,
+    List<String>? stepTargets,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (description != null) 'description': description,
+      if (inputParameters != null) 'inputParameters': inputParameters,
+      if (name != null) 'name': name,
+      if (stepTargets != null) 'stepTargets': stepTargets,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/migrationworkflow/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateMigrationWorkflowResponse.fromJson(response);
+  }
+
+  /// Delete a migration workflow. You must pause a running workflow in
+  /// Migration Hub Orchestrator console to delete it.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [id] :
+  /// The ID of the migration workflow you want to delete.
+  Future<DeleteMigrationWorkflowResponse> deleteWorkflow({
+    required String id,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/migrationworkflow/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteMigrationWorkflowResponse.fromJson(response);
+  }
+
+  /// List the migration workflows.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [adsApplicationConfigurationName] :
+  /// The name of the application configured in Application Discovery Service.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results that can be returned.
+  ///
+  /// Parameter [name] :
+  /// The name of the migration workflow.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token.
+  ///
+  /// Parameter [status] :
+  /// The status of the migration workflow.
+  ///
+  /// Parameter [templateId] :
+  /// The ID of the template.
+  Future<ListMigrationWorkflowsResponse> listWorkflows({
+    String? adsApplicationConfigurationName,
+    int? maxResults,
+    String? name,
+    String? nextToken,
+    MigrationWorkflowStatusEnum? status,
+    String? templateId,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (adsApplicationConfigurationName != null)
+        'adsApplicationConfigurationName': [adsApplicationConfigurationName],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (name != null) 'name': [name],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (status != null) 'status': [status.value],
+      if (templateId != null) 'templateId': [templateId],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/migrationworkflows',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListMigrationWorkflowsResponse.fromJson(response);
+  }
+
+  /// Start a migration workflow.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [id] :
+  /// The ID of the migration workflow.
+  Future<StartMigrationWorkflowResponse> startWorkflow({
+    required String id,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri: '/migrationworkflow/${Uri.encodeComponent(id)}/start',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartMigrationWorkflowResponse.fromJson(response);
+  }
+
+  /// Stop an ongoing migration workflow.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [id] :
+  /// The ID of the migration workflow.
+  Future<StopMigrationWorkflowResponse> stopWorkflow({
+    required String id,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri: '/migrationworkflow/${Uri.encodeComponent(id)}/stop',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StopMigrationWorkflowResponse.fromJson(response);
+  }
+
+  /// Creates a migration workflow template.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [templateName] :
+  /// The name of the migration workflow template.
+  ///
+  /// Parameter [templateSource] :
+  /// The source of the migration workflow template.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request. For more information, see <a
+  /// href="https://smithy.io/2.0/spec/behavior-traits.html#idempotencytoken-trait">Idempotency</a>
+  /// in the Smithy documentation.
+  ///
+  /// Parameter [tags] :
+  /// The tags to add to the migration workflow template.
+  ///
+  /// Parameter [templateDescription] :
+  /// A description of the migration workflow template.
+  Future<CreateTemplateResponse> createTemplate({
+    required String templateName,
+    required TemplateSource templateSource,
+    String? clientToken,
+    Map<String, String>? tags,
+    String? templateDescription,
+  }) async {
+    final $payload = <String, dynamic>{
+      'templateName': templateName,
+      'templateSource': templateSource,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (tags != null) 'tags': tags,
+      if (templateDescription != null)
+        'templateDescription': templateDescription,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/template',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateTemplateResponse.fromJson(response);
+  }
+
+  /// Get the template you want to use for creating a migration workflow.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [id] :
+  /// The ID of the template.
+  Future<GetMigrationWorkflowTemplateResponse> getTemplate({
+    required String id,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/migrationworkflowtemplate/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetMigrationWorkflowTemplateResponse.fromJson(response);
+  }
+
+  /// Updates a migration workflow template.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [id] :
+  /// The ID of the request to update a migration workflow template.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  ///
+  /// Parameter [templateDescription] :
+  /// The description of the migration workflow template to update.
+  ///
+  /// Parameter [templateName] :
+  /// The name of the migration workflow template to update.
+  Future<UpdateTemplateResponse> updateTemplate({
+    required String id,
+    String? clientToken,
+    String? templateDescription,
+    String? templateName,
+  }) async {
+    final $payload = <String, dynamic>{
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (templateDescription != null)
+        'templateDescription': templateDescription,
+      if (templateName != null) 'templateName': templateName,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/template/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateTemplateResponse.fromJson(response);
+  }
+
+  /// Deletes a migration workflow template.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [id] :
+  /// The ID of the request to delete a migration workflow template.
+  Future<void> deleteTemplate({
+    required String id,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/template/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// List the templates available in Migration Hub Orchestrator to create a
+  /// migration workflow.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results that can be returned.
+  ///
+  /// Parameter [name] :
+  /// The name of the template.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token.
+  Future<ListMigrationWorkflowTemplatesResponse> listTemplates({
+    int? maxResults,
+    String? name,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (name != null) 'name': [name],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/migrationworkflowtemplates',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListMigrationWorkflowTemplatesResponse.fromJson(response);
+  }
+
+  /// List AWS Migration Hub Orchestrator plugins.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of plugins that can be returned.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token.
+  Future<ListPluginsResponse> listPlugins({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/plugins',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListPluginsResponse.fromJson(response);
+  }
+
+  /// Get a specific step in a template.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [id] :
+  /// The ID of the step.
+  ///
+  /// Parameter [stepGroupId] :
+  /// The ID of the step group.
+  ///
+  /// Parameter [templateId] :
+  /// The ID of the template.
+  Future<GetTemplateStepResponse> getTemplateStep({
+    required String id,
+    required String stepGroupId,
+    required String templateId,
+  }) async {
+    final $query = <String, List<String>>{
+      'stepGroupId': [stepGroupId],
+      'templateId': [templateId],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/templatestep/${Uri.encodeComponent(id)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetTemplateStepResponse.fromJson(response);
+  }
+
+  /// List the steps in a template.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [stepGroupId] :
+  /// The ID of the step group.
+  ///
+  /// Parameter [templateId] :
+  /// The ID of the template.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results that can be returned.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token.
+  Future<ListTemplateStepsResponse> listTemplateSteps({
+    required String stepGroupId,
+    required String templateId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      100,
+    );
+    final $query = <String, List<String>>{
+      'stepGroupId': [stepGroupId],
+      'templateId': [templateId],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/templatesteps',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTemplateStepsResponse.fromJson(response);
+  }
+
+  /// Get a step group in a template.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [id] :
+  /// The ID of the step group.
+  ///
+  /// Parameter [templateId] :
+  /// The ID of the template.
+  Future<GetTemplateStepGroupResponse> getTemplateStepGroup({
+    required String id,
+    required String templateId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/templates/${Uri.encodeComponent(templateId)}/stepgroups/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetTemplateStepGroupResponse.fromJson(response);
+  }
+
+  /// List the step groups in a template.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [templateId] :
+  /// The ID of the template.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results that can be returned.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token.
+  Future<ListTemplateStepGroupsResponse> listTemplateStepGroups({
+    required String templateId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/templatestepgroups/${Uri.encodeComponent(templateId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTemplateStepGroupsResponse.fromJson(response);
+  }
+
+  /// Create a step in the migration workflow.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [name] :
@@ -231,269 +802,12 @@ class MigrationHubOrchestrator {
     return CreateWorkflowStepResponse.fromJson(response);
   }
 
-  /// Create a step group in a migration workflow.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  ///
-  /// Parameter [name] :
-  /// The name of the step group.
-  ///
-  /// Parameter [workflowId] :
-  /// The ID of the migration workflow that will contain the step group.
-  ///
-  /// Parameter [description] :
-  /// The description of the step group.
-  ///
-  /// Parameter [next] :
-  /// The next step group.
-  ///
-  /// Parameter [previous] :
-  /// The previous step group.
-  Future<CreateWorkflowStepGroupResponse> createWorkflowStepGroup({
-    required String name,
-    required String workflowId,
-    String? description,
-    List<String>? next,
-    List<String>? previous,
-  }) async {
-    final $payload = <String, dynamic>{
-      'name': name,
-      'workflowId': workflowId,
-      if (description != null) 'description': description,
-      if (next != null) 'next': next,
-      if (previous != null) 'previous': previous,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/workflowstepgroups',
-      exceptionFnMap: _exceptionFns,
-    );
-    return CreateWorkflowStepGroupResponse.fromJson(response);
-  }
-
-  /// Deletes a migration workflow template.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [id] :
-  /// The ID of the request to delete a migration workflow template.
-  Future<void> deleteTemplate({
-    required String id,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'DELETE',
-      requestUri: '/template/${Uri.encodeComponent(id)}',
-      exceptionFnMap: _exceptionFns,
-    );
-  }
-
-  /// Delete a migration workflow. You must pause a running workflow in
-  /// Migration Hub Orchestrator console to delete it.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [id] :
-  /// The ID of the migration workflow you want to delete.
-  Future<DeleteMigrationWorkflowResponse> deleteWorkflow({
-    required String id,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'DELETE',
-      requestUri: '/migrationworkflow/${Uri.encodeComponent(id)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return DeleteMigrationWorkflowResponse.fromJson(response);
-  }
-
-  /// Delete a step in a migration workflow. Pause the workflow to delete a
-  /// running step.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [id] :
-  /// The ID of the step you want to delete.
-  ///
-  /// Parameter [stepGroupId] :
-  /// The ID of the step group that contains the step you want to delete.
-  ///
-  /// Parameter [workflowId] :
-  /// The ID of the migration workflow.
-  Future<void> deleteWorkflowStep({
-    required String id,
-    required String stepGroupId,
-    required String workflowId,
-  }) async {
-    final $query = <String, List<String>>{
-      'stepGroupId': [stepGroupId],
-      'workflowId': [workflowId],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'DELETE',
-      requestUri: '/workflowstep/${Uri.encodeComponent(id)}',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-  }
-
-  /// Delete a step group in a migration workflow.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [id] :
-  /// The ID of the step group you want to delete.
-  ///
-  /// Parameter [workflowId] :
-  /// The ID of the migration workflow.
-  Future<void> deleteWorkflowStepGroup({
-    required String id,
-    required String workflowId,
-  }) async {
-    final $query = <String, List<String>>{
-      'workflowId': [workflowId],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'DELETE',
-      requestUri: '/workflowstepgroup/${Uri.encodeComponent(id)}',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-  }
-
-  /// Get the template you want to use for creating a migration workflow.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [id] :
-  /// The ID of the template.
-  Future<GetMigrationWorkflowTemplateResponse> getTemplate({
-    required String id,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/migrationworkflowtemplate/${Uri.encodeComponent(id)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetMigrationWorkflowTemplateResponse.fromJson(response);
-  }
-
-  /// Get a specific step in a template.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [id] :
-  /// The ID of the step.
-  ///
-  /// Parameter [stepGroupId] :
-  /// The ID of the step group.
-  ///
-  /// Parameter [templateId] :
-  /// The ID of the template.
-  Future<GetTemplateStepResponse> getTemplateStep({
-    required String id,
-    required String stepGroupId,
-    required String templateId,
-  }) async {
-    final $query = <String, List<String>>{
-      'stepGroupId': [stepGroupId],
-      'templateId': [templateId],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/templatestep/${Uri.encodeComponent(id)}',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetTemplateStepResponse.fromJson(response);
-  }
-
-  /// Get a step group in a template.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [id] :
-  /// The ID of the step group.
-  ///
-  /// Parameter [templateId] :
-  /// The ID of the template.
-  Future<GetTemplateStepGroupResponse> getTemplateStepGroup({
-    required String id,
-    required String templateId,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri:
-          '/templates/${Uri.encodeComponent(templateId)}/stepgroups/${Uri.encodeComponent(id)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetTemplateStepGroupResponse.fromJson(response);
-  }
-
-  /// Get migration workflow.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [id] :
-  /// The ID of the migration workflow.
-  Future<GetMigrationWorkflowResponse> getWorkflow({
-    required String id,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/migrationworkflow/${Uri.encodeComponent(id)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetMigrationWorkflowResponse.fromJson(response);
-  }
-
   /// Get a step in the migration workflow.
   ///
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [id] :
   /// The ID of the step.
@@ -522,585 +836,11 @@ class MigrationHubOrchestrator {
     return GetWorkflowStepResponse.fromJson(response);
   }
 
-  /// Get the step group of a migration workflow.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [id] :
-  /// The ID of the step group.
-  ///
-  /// Parameter [workflowId] :
-  /// The ID of the migration workflow.
-  Future<GetWorkflowStepGroupResponse> getWorkflowStepGroup({
-    required String id,
-    required String workflowId,
-  }) async {
-    final $query = <String, List<String>>{
-      'workflowId': [workflowId],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/workflowstepgroup/${Uri.encodeComponent(id)}',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetWorkflowStepGroupResponse.fromJson(response);
-  }
-
-  /// List AWS Migration Hub Orchestrator plugins.
-  ///
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of plugins that can be returned.
-  ///
-  /// Parameter [nextToken] :
-  /// The pagination token.
-  Future<ListPluginsResponse> listPlugins({
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      0,
-      100,
-    );
-    final $query = <String, List<String>>{
-      if (maxResults != null) 'maxResults': [maxResults.toString()],
-      if (nextToken != null) 'nextToken': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/plugins',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListPluginsResponse.fromJson(response);
-  }
-
-  /// List the tags added to a resource.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [resourceArn] :
-  /// The Amazon Resource Name (ARN) of the resource.
-  Future<ListTagsForResourceResponse> listTagsForResource({
-    required String resourceArn,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListTagsForResourceResponse.fromJson(response);
-  }
-
-  /// List the step groups in a template.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [templateId] :
-  /// The ID of the template.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of results that can be returned.
-  ///
-  /// Parameter [nextToken] :
-  /// The pagination token.
-  Future<ListTemplateStepGroupsResponse> listTemplateStepGroups({
-    required String templateId,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      0,
-      100,
-    );
-    final $query = <String, List<String>>{
-      if (maxResults != null) 'maxResults': [maxResults.toString()],
-      if (nextToken != null) 'nextToken': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/templatestepgroups/${Uri.encodeComponent(templateId)}',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListTemplateStepGroupsResponse.fromJson(response);
-  }
-
-  /// List the steps in a template.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [stepGroupId] :
-  /// The ID of the step group.
-  ///
-  /// Parameter [templateId] :
-  /// The ID of the template.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of results that can be returned.
-  ///
-  /// Parameter [nextToken] :
-  /// The pagination token.
-  Future<ListTemplateStepsResponse> listTemplateSteps({
-    required String stepGroupId,
-    required String templateId,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      0,
-      100,
-    );
-    final $query = <String, List<String>>{
-      'stepGroupId': [stepGroupId],
-      'templateId': [templateId],
-      if (maxResults != null) 'maxResults': [maxResults.toString()],
-      if (nextToken != null) 'nextToken': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/templatesteps',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListTemplateStepsResponse.fromJson(response);
-  }
-
-  /// List the templates available in Migration Hub Orchestrator to create a
-  /// migration workflow.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of results that can be returned.
-  ///
-  /// Parameter [name] :
-  /// The name of the template.
-  ///
-  /// Parameter [nextToken] :
-  /// The pagination token.
-  Future<ListMigrationWorkflowTemplatesResponse> listTemplates({
-    int? maxResults,
-    String? name,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      0,
-      100,
-    );
-    final $query = <String, List<String>>{
-      if (maxResults != null) 'maxResults': [maxResults.toString()],
-      if (name != null) 'name': [name],
-      if (nextToken != null) 'nextToken': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/migrationworkflowtemplates',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListMigrationWorkflowTemplatesResponse.fromJson(response);
-  }
-
-  /// List the step groups in a migration workflow.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [workflowId] :
-  /// The ID of the migration workflow.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of results that can be returned.
-  ///
-  /// Parameter [nextToken] :
-  /// The pagination token.
-  Future<ListWorkflowStepGroupsResponse> listWorkflowStepGroups({
-    required String workflowId,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      0,
-      100,
-    );
-    final $query = <String, List<String>>{
-      'workflowId': [workflowId],
-      if (maxResults != null) 'maxResults': [maxResults.toString()],
-      if (nextToken != null) 'nextToken': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/workflowstepgroups',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListWorkflowStepGroupsResponse.fromJson(response);
-  }
-
-  /// List the steps in a workflow.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  ///
-  /// Parameter [stepGroupId] :
-  /// The ID of the step group.
-  ///
-  /// Parameter [workflowId] :
-  /// The ID of the migration workflow.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of results that can be returned.
-  ///
-  /// Parameter [nextToken] :
-  /// The pagination token.
-  Future<ListWorkflowStepsResponse> listWorkflowSteps({
-    required String stepGroupId,
-    required String workflowId,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      0,
-      100,
-    );
-    final $query = <String, List<String>>{
-      if (maxResults != null) 'maxResults': [maxResults.toString()],
-      if (nextToken != null) 'nextToken': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri:
-          '/workflow/${Uri.encodeComponent(workflowId)}/workflowstepgroups/${Uri.encodeComponent(stepGroupId)}/workflowsteps',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListWorkflowStepsResponse.fromJson(response);
-  }
-
-  /// List the migration workflows.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [adsApplicationConfigurationName] :
-  /// The name of the application configured in Application Discovery Service.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of results that can be returned.
-  ///
-  /// Parameter [name] :
-  /// The name of the migration workflow.
-  ///
-  /// Parameter [nextToken] :
-  /// The pagination token.
-  ///
-  /// Parameter [status] :
-  /// The status of the migration workflow.
-  ///
-  /// Parameter [templateId] :
-  /// The ID of the template.
-  Future<ListMigrationWorkflowsResponse> listWorkflows({
-    String? adsApplicationConfigurationName,
-    int? maxResults,
-    String? name,
-    String? nextToken,
-    MigrationWorkflowStatusEnum? status,
-    String? templateId,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      0,
-      100,
-    );
-    final $query = <String, List<String>>{
-      if (adsApplicationConfigurationName != null)
-        'adsApplicationConfigurationName': [adsApplicationConfigurationName],
-      if (maxResults != null) 'maxResults': [maxResults.toString()],
-      if (name != null) 'name': [name],
-      if (nextToken != null) 'nextToken': [nextToken],
-      if (status != null) 'status': [status.value],
-      if (templateId != null) 'templateId': [templateId],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/migrationworkflows',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListMigrationWorkflowsResponse.fromJson(response);
-  }
-
-  /// Retry a failed step in a migration workflow.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [id] :
-  /// The ID of the step.
-  ///
-  /// Parameter [stepGroupId] :
-  /// The ID of the step group.
-  ///
-  /// Parameter [workflowId] :
-  /// The ID of the migration workflow.
-  Future<RetryWorkflowStepResponse> retryWorkflowStep({
-    required String id,
-    required String stepGroupId,
-    required String workflowId,
-  }) async {
-    final $query = <String, List<String>>{
-      'stepGroupId': [stepGroupId],
-      'workflowId': [workflowId],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'POST',
-      requestUri: '/retryworkflowstep/${Uri.encodeComponent(id)}',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return RetryWorkflowStepResponse.fromJson(response);
-  }
-
-  /// Start a migration workflow.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [id] :
-  /// The ID of the migration workflow.
-  Future<StartMigrationWorkflowResponse> startWorkflow({
-    required String id,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'POST',
-      requestUri: '/migrationworkflow/${Uri.encodeComponent(id)}/start',
-      exceptionFnMap: _exceptionFns,
-    );
-    return StartMigrationWorkflowResponse.fromJson(response);
-  }
-
-  /// Stop an ongoing migration workflow.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [id] :
-  /// The ID of the migration workflow.
-  Future<StopMigrationWorkflowResponse> stopWorkflow({
-    required String id,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'POST',
-      requestUri: '/migrationworkflow/${Uri.encodeComponent(id)}/stop',
-      exceptionFnMap: _exceptionFns,
-    );
-    return StopMigrationWorkflowResponse.fromJson(response);
-  }
-
-  /// Tag a resource by specifying its Amazon Resource Name (ARN).
-  ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [resourceArn] :
-  /// The Amazon Resource Name (ARN) of the resource to which you want to add
-  /// tags.
-  ///
-  /// Parameter [tags] :
-  /// A collection of labels, in the form of key:value pairs, that apply to this
-  /// resource.
-  Future<void> tagResource({
-    required String resourceArn,
-    required Map<String, String> tags,
-  }) async {
-    final $payload = <String, dynamic>{
-      'tags': tags,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
-      exceptionFnMap: _exceptionFns,
-    );
-  }
-
-  /// Deletes the tags for a resource.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [resourceArn] :
-  /// The Amazon Resource Name (ARN) of the resource from which you want to
-  /// remove tags.
-  ///
-  /// Parameter [tagKeys] :
-  /// One or more tag keys. Specify only the tag keys, not the tag values.
-  Future<void> untagResource({
-    required String resourceArn,
-    required List<String> tagKeys,
-  }) async {
-    final $query = <String, List<String>>{
-      'tagKeys': tagKeys,
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'DELETE',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-  }
-
-  /// Updates a migration workflow template.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [id] :
-  /// The ID of the request to update a migration workflow template.
-  ///
-  /// Parameter [clientToken] :
-  /// A unique, case-sensitive identifier that you provide to ensure the
-  /// idempotency of the request.
-  ///
-  /// Parameter [templateDescription] :
-  /// The description of the migration workflow template to update.
-  ///
-  /// Parameter [templateName] :
-  /// The name of the migration workflow template to update.
-  Future<UpdateTemplateResponse> updateTemplate({
-    required String id,
-    String? clientToken,
-    String? templateDescription,
-    String? templateName,
-  }) async {
-    final $payload = <String, dynamic>{
-      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
-      if (templateDescription != null)
-        'templateDescription': templateDescription,
-      if (templateName != null) 'templateName': templateName,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/template/${Uri.encodeComponent(id)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return UpdateTemplateResponse.fromJson(response);
-  }
-
-  /// Update a migration workflow.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [id] :
-  /// The ID of the migration workflow.
-  ///
-  /// Parameter [description] :
-  /// The description of the migration workflow.
-  ///
-  /// Parameter [inputParameters] :
-  /// The input parameters required to update a migration workflow.
-  ///
-  /// Parameter [name] :
-  /// The name of the migration workflow.
-  ///
-  /// Parameter [stepTargets] :
-  /// The servers on which a step will be run.
-  Future<UpdateMigrationWorkflowResponse> updateWorkflow({
-    required String id,
-    String? description,
-    Map<String, StepInput>? inputParameters,
-    String? name,
-    List<String>? stepTargets,
-  }) async {
-    final $payload = <String, dynamic>{
-      if (description != null) 'description': description,
-      if (inputParameters != null) 'inputParameters': inputParameters,
-      if (name != null) 'name': name,
-      if (stepTargets != null) 'stepTargets': stepTargets,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/migrationworkflow/${Uri.encodeComponent(id)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return UpdateMigrationWorkflowResponse.fromJson(response);
-  }
-
   /// Update a step in a migration workflow.
   ///
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [id] :
@@ -1177,13 +917,201 @@ class MigrationHubOrchestrator {
     return UpdateWorkflowStepResponse.fromJson(response);
   }
 
-  /// Update the step group in a migration workflow.
+  /// Delete a step in a migration workflow. Pause the workflow to delete a
+  /// running step.
   ///
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [id] :
+  /// The ID of the step you want to delete.
+  ///
+  /// Parameter [stepGroupId] :
+  /// The ID of the step group that contains the step you want to delete.
+  ///
+  /// Parameter [workflowId] :
+  /// The ID of the migration workflow.
+  Future<void> deleteWorkflowStep({
+    required String id,
+    required String stepGroupId,
+    required String workflowId,
+  }) async {
+    final $query = <String, List<String>>{
+      'stepGroupId': [stepGroupId],
+      'workflowId': [workflowId],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/workflowstep/${Uri.encodeComponent(id)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// List the steps in a workflow.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [stepGroupId] :
+  /// The ID of the step group.
+  ///
+  /// Parameter [workflowId] :
+  /// The ID of the migration workflow.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results that can be returned.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token.
+  Future<ListWorkflowStepsResponse> listWorkflowSteps({
+    required String stepGroupId,
+    required String workflowId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/workflow/${Uri.encodeComponent(workflowId)}/workflowstepgroups/${Uri.encodeComponent(stepGroupId)}/workflowsteps',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListWorkflowStepsResponse.fromJson(response);
+  }
+
+  /// Retry a failed step in a migration workflow.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [id] :
+  /// The ID of the step.
+  ///
+  /// Parameter [stepGroupId] :
+  /// The ID of the step group.
+  ///
+  /// Parameter [workflowId] :
+  /// The ID of the migration workflow.
+  Future<RetryWorkflowStepResponse> retryWorkflowStep({
+    required String id,
+    required String stepGroupId,
+    required String workflowId,
+  }) async {
+    final $query = <String, List<String>>{
+      'stepGroupId': [stepGroupId],
+      'workflowId': [workflowId],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri: '/retryworkflowstep/${Uri.encodeComponent(id)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return RetryWorkflowStepResponse.fromJson(response);
+  }
+
+  /// Create a step group in a migration workflow.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [name] :
+  /// The name of the step group.
+  ///
+  /// Parameter [workflowId] :
+  /// The ID of the migration workflow that will contain the step group.
+  ///
+  /// Parameter [description] :
+  /// The description of the step group.
+  ///
+  /// Parameter [next] :
+  /// The next step group.
+  ///
+  /// Parameter [previous] :
+  /// The previous step group.
+  Future<CreateWorkflowStepGroupResponse> createWorkflowStepGroup({
+    required String name,
+    required String workflowId,
+    String? description,
+    List<String>? next,
+    List<String>? previous,
+  }) async {
+    final $payload = <String, dynamic>{
+      'name': name,
+      'workflowId': workflowId,
+      if (description != null) 'description': description,
+      if (next != null) 'next': next,
+      if (previous != null) 'previous': previous,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/workflowstepgroups',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateWorkflowStepGroupResponse.fromJson(response);
+  }
+
+  /// Get the step group of a migration workflow.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [id] :
+  /// The ID of the step group.
+  ///
+  /// Parameter [workflowId] :
+  /// The ID of the migration workflow.
+  Future<GetWorkflowStepGroupResponse> getWorkflowStepGroup({
+    required String id,
+    required String workflowId,
+  }) async {
+    final $query = <String, List<String>>{
+      'workflowId': [workflowId],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/workflowstepgroup/${Uri.encodeComponent(id)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetWorkflowStepGroupResponse.fromJson(response);
+  }
+
+  /// Update the step group in a migration workflow.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The ID of the step group.
@@ -1227,6 +1155,124 @@ class MigrationHubOrchestrator {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateWorkflowStepGroupResponse.fromJson(response);
+  }
+
+  /// Delete a step group in a migration workflow.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [id] :
+  /// The ID of the step group you want to delete.
+  ///
+  /// Parameter [workflowId] :
+  /// The ID of the migration workflow.
+  Future<void> deleteWorkflowStepGroup({
+    required String id,
+    required String workflowId,
+  }) async {
+    final $query = <String, List<String>>{
+      'workflowId': [workflowId],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/workflowstepgroup/${Uri.encodeComponent(id)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// List the step groups in a migration workflow.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [workflowId] :
+  /// The ID of the migration workflow.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results that can be returned.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token.
+  Future<ListWorkflowStepGroupsResponse> listWorkflowStepGroups({
+    required String workflowId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      100,
+    );
+    final $query = <String, List<String>>{
+      'workflowId': [workflowId],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/workflowstepgroups',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListWorkflowStepGroupsResponse.fromJson(response);
+  }
+}
+
+class ListTagsForResourceResponse {
+  /// The tags added to a resource.
+  final Map<String, String>? tags;
+
+  ListTagsForResourceResponse({
+    this.tags,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -1329,267 +1375,6 @@ class CreateMigrationWorkflowResponse {
       if (templateId != null) 'templateId': templateId,
       if (workflowInputs != null) 'workflowInputs': workflowInputs,
     };
-  }
-}
-
-class CreateTemplateResponse {
-  /// The tags added to the migration workflow template.
-  final Map<String, String>? tags;
-
-  /// The Amazon Resource Name (ARN) of the migration workflow template. The
-  /// format for an Migration Hub Orchestrator template ARN is
-  /// <code>arn:aws:migrationhub-orchestrator:region:account:template/template-abcd1234</code>.
-  /// For more information about ARNs, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">Amazon
-  /// Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.
-  final String? templateArn;
-
-  /// The ID of the migration workflow template.
-  final String? templateId;
-
-  CreateTemplateResponse({
-    this.tags,
-    this.templateArn,
-    this.templateId,
-  });
-
-  factory CreateTemplateResponse.fromJson(Map<String, dynamic> json) {
-    return CreateTemplateResponse(
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      templateArn: json['templateArn'] as String?,
-      templateId: json['templateId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tags = this.tags;
-    final templateArn = this.templateArn;
-    final templateId = this.templateId;
-    return {
-      if (tags != null) 'tags': tags,
-      if (templateArn != null) 'templateArn': templateArn,
-      if (templateId != null) 'templateId': templateId,
-    };
-  }
-}
-
-class CreateWorkflowStepGroupResponse {
-  /// The time at which the step group is created.
-  final DateTime? creationTime;
-
-  /// The description of the step group.
-  final String? description;
-
-  /// The ID of the step group.
-  final String? id;
-
-  /// The name of the step group.
-  final String? name;
-
-  /// The next step group.
-  final List<String>? next;
-
-  /// The previous step group.
-  final List<String>? previous;
-
-  /// List of AWS services utilized in a migration workflow.
-  final List<Tool>? tools;
-
-  /// The ID of the migration workflow that contains the step group.
-  final String? workflowId;
-
-  CreateWorkflowStepGroupResponse({
-    this.creationTime,
-    this.description,
-    this.id,
-    this.name,
-    this.next,
-    this.previous,
-    this.tools,
-    this.workflowId,
-  });
-
-  factory CreateWorkflowStepGroupResponse.fromJson(Map<String, dynamic> json) {
-    return CreateWorkflowStepGroupResponse(
-      creationTime: timeStampFromJson(json['creationTime']),
-      description: json['description'] as String?,
-      id: json['id'] as String?,
-      name: json['name'] as String?,
-      next: (json['next'] as List?)?.nonNulls.map((e) => e as String).toList(),
-      previous: (json['previous'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      tools: (json['tools'] as List?)
-          ?.nonNulls
-          .map((e) => Tool.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      workflowId: json['workflowId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationTime = this.creationTime;
-    final description = this.description;
-    final id = this.id;
-    final name = this.name;
-    final next = this.next;
-    final previous = this.previous;
-    final tools = this.tools;
-    final workflowId = this.workflowId;
-    return {
-      if (creationTime != null)
-        'creationTime': unixTimestampToJson(creationTime),
-      if (description != null) 'description': description,
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-      if (next != null) 'next': next,
-      if (previous != null) 'previous': previous,
-      if (tools != null) 'tools': tools,
-      if (workflowId != null) 'workflowId': workflowId,
-    };
-  }
-}
-
-class CreateWorkflowStepResponse {
-  /// The ID of the step.
-  final String? id;
-
-  /// The name of the step.
-  final String? name;
-
-  /// The ID of the step group.
-  final String? stepGroupId;
-
-  /// The ID of the migration workflow.
-  final String? workflowId;
-
-  CreateWorkflowStepResponse({
-    this.id,
-    this.name,
-    this.stepGroupId,
-    this.workflowId,
-  });
-
-  factory CreateWorkflowStepResponse.fromJson(Map<String, dynamic> json) {
-    return CreateWorkflowStepResponse(
-      id: json['id'] as String?,
-      name: json['name'] as String?,
-      stepGroupId: json['stepGroupId'] as String?,
-      workflowId: json['workflowId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final name = this.name;
-    final stepGroupId = this.stepGroupId;
-    final workflowId = this.workflowId;
-    return {
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-      if (stepGroupId != null) 'stepGroupId': stepGroupId,
-      if (workflowId != null) 'workflowId': workflowId,
-    };
-  }
-}
-
-class DataType {
-  static const string = DataType._('STRING');
-  static const integer = DataType._('INTEGER');
-  static const stringlist = DataType._('STRINGLIST');
-  static const stringmap = DataType._('STRINGMAP');
-
-  final String value;
-
-  const DataType._(this.value);
-
-  static const values = [string, integer, stringlist, stringmap];
-
-  static DataType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => DataType._(value));
-
-  @override
-  bool operator ==(other) => other is DataType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DeleteMigrationWorkflowResponse {
-  /// The Amazon Resource Name (ARN) of the migration workflow.
-  final String? arn;
-
-  /// The ID of the migration workflow.
-  final String? id;
-
-  /// The status of the migration workflow.
-  final MigrationWorkflowStatusEnum? status;
-
-  DeleteMigrationWorkflowResponse({
-    this.arn,
-    this.id,
-    this.status,
-  });
-
-  factory DeleteMigrationWorkflowResponse.fromJson(Map<String, dynamic> json) {
-    return DeleteMigrationWorkflowResponse(
-      arn: json['arn'] as String?,
-      id: json['id'] as String?,
-      status: (json['status'] as String?)
-          ?.let(MigrationWorkflowStatusEnum.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final id = this.id;
-    final status = this.status;
-    return {
-      if (arn != null) 'arn': arn,
-      if (id != null) 'id': id,
-      if (status != null) 'status': status.value,
-    };
-  }
-}
-
-class DeleteTemplateResponse {
-  DeleteTemplateResponse();
-
-  factory DeleteTemplateResponse.fromJson(Map<String, dynamic> _) {
-    return DeleteTemplateResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class DeleteWorkflowStepGroupResponse {
-  DeleteWorkflowStepGroupResponse();
-
-  factory DeleteWorkflowStepGroupResponse.fromJson(Map<String, dynamic> _) {
-    return DeleteWorkflowStepGroupResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class DeleteWorkflowStepResponse {
-  DeleteWorkflowStepResponse();
-
-  factory DeleteWorkflowStepResponse.fromJson(Map<String, dynamic> _) {
-    return DeleteWorkflowStepResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
   }
 }
 
@@ -1761,6 +1546,332 @@ class GetMigrationWorkflowResponse {
   }
 }
 
+class UpdateMigrationWorkflowResponse {
+  /// The ID of the application configured in Application Discovery Service.
+  final String? adsApplicationConfigurationId;
+
+  /// The Amazon Resource Name (ARN) of the migration workflow.
+  final String? arn;
+
+  /// The time at which the migration workflow was created.
+  final DateTime? creationTime;
+
+  /// The description of the migration workflow.
+  final String? description;
+
+  /// The ID of the migration workflow.
+  final String? id;
+
+  /// The time at which the migration workflow was last modified.
+  final DateTime? lastModifiedTime;
+
+  /// The name of the migration workflow.
+  final String? name;
+
+  /// The status of the migration workflow.
+  final MigrationWorkflowStatusEnum? status;
+
+  /// The servers on which a step will be run.
+  final List<String>? stepTargets;
+
+  /// The tags added to the migration workflow.
+  final Map<String, String>? tags;
+
+  /// The ID of the template.
+  final String? templateId;
+
+  /// The inputs required to update a migration workflow.
+  final Map<String, StepInput>? workflowInputs;
+
+  UpdateMigrationWorkflowResponse({
+    this.adsApplicationConfigurationId,
+    this.arn,
+    this.creationTime,
+    this.description,
+    this.id,
+    this.lastModifiedTime,
+    this.name,
+    this.status,
+    this.stepTargets,
+    this.tags,
+    this.templateId,
+    this.workflowInputs,
+  });
+
+  factory UpdateMigrationWorkflowResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateMigrationWorkflowResponse(
+      adsApplicationConfigurationId:
+          json['adsApplicationConfigurationId'] as String?,
+      arn: json['arn'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      description: json['description'] as String?,
+      id: json['id'] as String?,
+      lastModifiedTime: timeStampFromJson(json['lastModifiedTime']),
+      name: json['name'] as String?,
+      status: (json['status'] as String?)
+          ?.let(MigrationWorkflowStatusEnum.fromString),
+      stepTargets: (json['stepTargets'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      templateId: json['templateId'] as String?,
+      workflowInputs: (json['workflowInputs'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(k, StepInput.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final adsApplicationConfigurationId = this.adsApplicationConfigurationId;
+    final arn = this.arn;
+    final creationTime = this.creationTime;
+    final description = this.description;
+    final id = this.id;
+    final lastModifiedTime = this.lastModifiedTime;
+    final name = this.name;
+    final status = this.status;
+    final stepTargets = this.stepTargets;
+    final tags = this.tags;
+    final templateId = this.templateId;
+    final workflowInputs = this.workflowInputs;
+    return {
+      if (adsApplicationConfigurationId != null)
+        'adsApplicationConfigurationId': adsApplicationConfigurationId,
+      if (arn != null) 'arn': arn,
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (description != null) 'description': description,
+      if (id != null) 'id': id,
+      if (lastModifiedTime != null)
+        'lastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (name != null) 'name': name,
+      if (status != null) 'status': status.value,
+      if (stepTargets != null) 'stepTargets': stepTargets,
+      if (tags != null) 'tags': tags,
+      if (templateId != null) 'templateId': templateId,
+      if (workflowInputs != null) 'workflowInputs': workflowInputs,
+    };
+  }
+}
+
+class DeleteMigrationWorkflowResponse {
+  /// The Amazon Resource Name (ARN) of the migration workflow.
+  final String? arn;
+
+  /// The ID of the migration workflow.
+  final String? id;
+
+  /// The status of the migration workflow.
+  final MigrationWorkflowStatusEnum? status;
+
+  DeleteMigrationWorkflowResponse({
+    this.arn,
+    this.id,
+    this.status,
+  });
+
+  factory DeleteMigrationWorkflowResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteMigrationWorkflowResponse(
+      arn: json['arn'] as String?,
+      id: json['id'] as String?,
+      status: (json['status'] as String?)
+          ?.let(MigrationWorkflowStatusEnum.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final status = this.status;
+    return {
+      if (arn != null) 'arn': arn,
+      if (id != null) 'id': id,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+class ListMigrationWorkflowsResponse {
+  /// The summary of the migration workflow.
+  final List<MigrationWorkflowSummary> migrationWorkflowSummary;
+
+  /// The pagination token.
+  final String? nextToken;
+
+  ListMigrationWorkflowsResponse({
+    required this.migrationWorkflowSummary,
+    this.nextToken,
+  });
+
+  factory ListMigrationWorkflowsResponse.fromJson(Map<String, dynamic> json) {
+    return ListMigrationWorkflowsResponse(
+      migrationWorkflowSummary:
+          ((json['migrationWorkflowSummary'] as List?) ?? const [])
+              .nonNulls
+              .map((e) =>
+                  MigrationWorkflowSummary.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final migrationWorkflowSummary = this.migrationWorkflowSummary;
+    final nextToken = this.nextToken;
+    return {
+      'migrationWorkflowSummary': migrationWorkflowSummary,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class StartMigrationWorkflowResponse {
+  /// The Amazon Resource Name (ARN) of the migration workflow.
+  final String? arn;
+
+  /// The ID of the migration workflow.
+  final String? id;
+
+  /// The time at which the migration workflow was last started.
+  final DateTime? lastStartTime;
+
+  /// The status of the migration workflow.
+  final MigrationWorkflowStatusEnum? status;
+
+  /// The status message of the migration workflow.
+  final String? statusMessage;
+
+  StartMigrationWorkflowResponse({
+    this.arn,
+    this.id,
+    this.lastStartTime,
+    this.status,
+    this.statusMessage,
+  });
+
+  factory StartMigrationWorkflowResponse.fromJson(Map<String, dynamic> json) {
+    return StartMigrationWorkflowResponse(
+      arn: json['arn'] as String?,
+      id: json['id'] as String?,
+      lastStartTime: timeStampFromJson(json['lastStartTime']),
+      status: (json['status'] as String?)
+          ?.let(MigrationWorkflowStatusEnum.fromString),
+      statusMessage: json['statusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final lastStartTime = this.lastStartTime;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    return {
+      if (arn != null) 'arn': arn,
+      if (id != null) 'id': id,
+      if (lastStartTime != null)
+        'lastStartTime': unixTimestampToJson(lastStartTime),
+      if (status != null) 'status': status.value,
+      if (statusMessage != null) 'statusMessage': statusMessage,
+    };
+  }
+}
+
+class StopMigrationWorkflowResponse {
+  /// The Amazon Resource Name (ARN) of the migration workflow.
+  final String? arn;
+
+  /// The ID of the migration workflow.
+  final String? id;
+
+  /// The time at which the migration workflow was stopped.
+  final DateTime? lastStopTime;
+
+  /// The status of the migration workflow.
+  final MigrationWorkflowStatusEnum? status;
+
+  /// The status message of the migration workflow.
+  final String? statusMessage;
+
+  StopMigrationWorkflowResponse({
+    this.arn,
+    this.id,
+    this.lastStopTime,
+    this.status,
+    this.statusMessage,
+  });
+
+  factory StopMigrationWorkflowResponse.fromJson(Map<String, dynamic> json) {
+    return StopMigrationWorkflowResponse(
+      arn: json['arn'] as String?,
+      id: json['id'] as String?,
+      lastStopTime: timeStampFromJson(json['lastStopTime']),
+      status: (json['status'] as String?)
+          ?.let(MigrationWorkflowStatusEnum.fromString),
+      statusMessage: json['statusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final lastStopTime = this.lastStopTime;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    return {
+      if (arn != null) 'arn': arn,
+      if (id != null) 'id': id,
+      if (lastStopTime != null)
+        'lastStopTime': unixTimestampToJson(lastStopTime),
+      if (status != null) 'status': status.value,
+      if (statusMessage != null) 'statusMessage': statusMessage,
+    };
+  }
+}
+
+class CreateTemplateResponse {
+  /// The tags added to the migration workflow template.
+  final Map<String, String>? tags;
+
+  /// The Amazon Resource Name (ARN) of the migration workflow template. The
+  /// format for an Migration Hub Orchestrator template ARN is
+  /// <code>arn:aws:migrationhub-orchestrator:region:account:template/template-abcd1234</code>.
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.
+  final String? templateArn;
+
+  /// The ID of the migration workflow template.
+  final String? templateId;
+
+  CreateTemplateResponse({
+    this.tags,
+    this.templateArn,
+    this.templateId,
+  });
+
+  factory CreateTemplateResponse.fromJson(Map<String, dynamic> json) {
+    return CreateTemplateResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      templateArn: json['templateArn'] as String?,
+      templateId: json['templateId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    final templateArn = this.templateArn;
+    final templateId = this.templateId;
+    return {
+      if (tags != null) 'tags': tags,
+      if (templateArn != null) 'templateArn': templateArn,
+      if (templateId != null) 'templateId': templateId,
+    };
+  }
+}
+
 class GetMigrationWorkflowTemplateResponse {
   /// The time at which the template was last created.
   final DateTime? creationTime;
@@ -1896,95 +2007,121 @@ class GetMigrationWorkflowTemplateResponse {
   }
 }
 
-class GetTemplateStepGroupResponse {
-  /// The time at which the step group was created.
-  final DateTime? creationTime;
+class UpdateTemplateResponse {
+  /// The tags added to the migration workflow template.
+  final Map<String, String>? tags;
 
-  /// The description of the step group.
-  final String? description;
+  /// The ARN of the migration workflow template being updated. The format for an
+  /// Migration Hub Orchestrator template ARN is
+  /// <code>arn:aws:migrationhub-orchestrator:region:account:template/template-abcd1234</code>.
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.
+  final String? templateArn;
 
-  /// The ID of the step group.
-  final String? id;
-
-  /// The time at which the step group was last modified.
-  final DateTime? lastModifiedTime;
-
-  /// The name of the step group.
-  final String? name;
-
-  /// The next step group.
-  final List<String>? next;
-
-  /// The previous step group.
-  final List<String>? previous;
-
-  /// The status of the step group.
-  final StepGroupStatus? status;
-
-  /// The ID of the template.
+  /// The ID of the migration workflow template being updated.
   final String? templateId;
 
-  /// List of AWS services utilized in a migration workflow.
-  final List<Tool>? tools;
-
-  GetTemplateStepGroupResponse({
-    this.creationTime,
-    this.description,
-    this.id,
-    this.lastModifiedTime,
-    this.name,
-    this.next,
-    this.previous,
-    this.status,
+  UpdateTemplateResponse({
+    this.tags,
+    this.templateArn,
     this.templateId,
-    this.tools,
   });
 
-  factory GetTemplateStepGroupResponse.fromJson(Map<String, dynamic> json) {
-    return GetTemplateStepGroupResponse(
-      creationTime: timeStampFromJson(json['creationTime']),
-      description: json['description'] as String?,
-      id: json['id'] as String?,
-      lastModifiedTime: timeStampFromJson(json['lastModifiedTime']),
-      name: json['name'] as String?,
-      next: (json['next'] as List?)?.nonNulls.map((e) => e as String).toList(),
-      previous: (json['previous'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      status: (json['status'] as String?)?.let(StepGroupStatus.fromString),
+  factory UpdateTemplateResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateTemplateResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      templateArn: json['templateArn'] as String?,
       templateId: json['templateId'] as String?,
-      tools: (json['tools'] as List?)
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    final templateArn = this.templateArn;
+    final templateId = this.templateId;
+    return {
+      if (tags != null) 'tags': tags,
+      if (templateArn != null) 'templateArn': templateArn,
+      if (templateId != null) 'templateId': templateId,
+    };
+  }
+}
+
+class DeleteTemplateResponse {
+  DeleteTemplateResponse();
+
+  factory DeleteTemplateResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteTemplateResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class ListMigrationWorkflowTemplatesResponse {
+  /// The summary of the template.
+  final List<TemplateSummary> templateSummary;
+
+  /// The pagination token.
+  final String? nextToken;
+
+  ListMigrationWorkflowTemplatesResponse({
+    required this.templateSummary,
+    this.nextToken,
+  });
+
+  factory ListMigrationWorkflowTemplatesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListMigrationWorkflowTemplatesResponse(
+      templateSummary: ((json['templateSummary'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => TemplateSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final templateSummary = this.templateSummary;
+    final nextToken = this.nextToken;
+    return {
+      'templateSummary': templateSummary,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListPluginsResponse {
+  /// The pagination token.
+  final String? nextToken;
+
+  /// Migration Hub Orchestrator plugins.
+  final List<PluginSummary>? plugins;
+
+  ListPluginsResponse({
+    this.nextToken,
+    this.plugins,
+  });
+
+  factory ListPluginsResponse.fromJson(Map<String, dynamic> json) {
+    return ListPluginsResponse(
+      nextToken: json['nextToken'] as String?,
+      plugins: (json['plugins'] as List?)
           ?.nonNulls
-          .map((e) => Tool.fromJson(e as Map<String, dynamic>))
+          .map((e) => PluginSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final creationTime = this.creationTime;
-    final description = this.description;
-    final id = this.id;
-    final lastModifiedTime = this.lastModifiedTime;
-    final name = this.name;
-    final next = this.next;
-    final previous = this.previous;
-    final status = this.status;
-    final templateId = this.templateId;
-    final tools = this.tools;
+    final nextToken = this.nextToken;
+    final plugins = this.plugins;
     return {
-      if (creationTime != null)
-        'creationTime': unixTimestampToJson(creationTime),
-      if (description != null) 'description': description,
-      if (id != null) 'id': id,
-      if (lastModifiedTime != null)
-        'lastModifiedTime': unixTimestampToJson(lastModifiedTime),
-      if (name != null) 'name': name,
-      if (next != null) 'next': next,
-      if (previous != null) 'previous': previous,
-      if (status != null) 'status': status.value,
-      if (templateId != null) 'templateId': templateId,
-      if (tools != null) 'tools': tools,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (plugins != null) 'plugins': plugins,
     };
   }
 }
@@ -2093,15 +2230,45 @@ class GetTemplateStepResponse {
   }
 }
 
-class GetWorkflowStepGroupResponse {
+class ListTemplateStepsResponse {
+  /// The pagination token.
+  final String? nextToken;
+
+  /// The list of summaries of steps in a template.
+  final List<TemplateStepSummary>? templateStepSummaryList;
+
+  ListTemplateStepsResponse({
+    this.nextToken,
+    this.templateStepSummaryList,
+  });
+
+  factory ListTemplateStepsResponse.fromJson(Map<String, dynamic> json) {
+    return ListTemplateStepsResponse(
+      nextToken: json['nextToken'] as String?,
+      templateStepSummaryList: (json['templateStepSummaryList'] as List?)
+          ?.nonNulls
+          .map((e) => TemplateStepSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final templateStepSummaryList = this.templateStepSummaryList;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (templateStepSummaryList != null)
+        'templateStepSummaryList': templateStepSummaryList,
+    };
+  }
+}
+
+class GetTemplateStepGroupResponse {
   /// The time at which the step group was created.
   final DateTime? creationTime;
 
   /// The description of the step group.
   final String? description;
-
-  /// The time at which the step group ended.
-  final DateTime? endTime;
 
   /// The ID of the step group.
   final String? id;
@@ -2115,86 +2282,152 @@ class GetWorkflowStepGroupResponse {
   /// The next step group.
   final List<String>? next;
 
-  /// The owner of the step group.
-  final Owner? owner;
-
   /// The previous step group.
   final List<String>? previous;
 
   /// The status of the step group.
   final StepGroupStatus? status;
 
+  /// The ID of the template.
+  final String? templateId;
+
   /// List of AWS services utilized in a migration workflow.
   final List<Tool>? tools;
 
-  /// The ID of the migration workflow.
-  final String? workflowId;
-
-  GetWorkflowStepGroupResponse({
+  GetTemplateStepGroupResponse({
     this.creationTime,
     this.description,
-    this.endTime,
     this.id,
     this.lastModifiedTime,
     this.name,
     this.next,
-    this.owner,
     this.previous,
     this.status,
+    this.templateId,
     this.tools,
-    this.workflowId,
   });
 
-  factory GetWorkflowStepGroupResponse.fromJson(Map<String, dynamic> json) {
-    return GetWorkflowStepGroupResponse(
+  factory GetTemplateStepGroupResponse.fromJson(Map<String, dynamic> json) {
+    return GetTemplateStepGroupResponse(
       creationTime: timeStampFromJson(json['creationTime']),
       description: json['description'] as String?,
-      endTime: timeStampFromJson(json['endTime']),
       id: json['id'] as String?,
       lastModifiedTime: timeStampFromJson(json['lastModifiedTime']),
       name: json['name'] as String?,
       next: (json['next'] as List?)?.nonNulls.map((e) => e as String).toList(),
-      owner: (json['owner'] as String?)?.let(Owner.fromString),
       previous: (json['previous'] as List?)
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
       status: (json['status'] as String?)?.let(StepGroupStatus.fromString),
+      templateId: json['templateId'] as String?,
       tools: (json['tools'] as List?)
           ?.nonNulls
           .map((e) => Tool.fromJson(e as Map<String, dynamic>))
           .toList(),
-      workflowId: json['workflowId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final creationTime = this.creationTime;
     final description = this.description;
-    final endTime = this.endTime;
     final id = this.id;
     final lastModifiedTime = this.lastModifiedTime;
     final name = this.name;
     final next = this.next;
-    final owner = this.owner;
     final previous = this.previous;
     final status = this.status;
+    final templateId = this.templateId;
     final tools = this.tools;
-    final workflowId = this.workflowId;
     return {
       if (creationTime != null)
         'creationTime': unixTimestampToJson(creationTime),
       if (description != null) 'description': description,
-      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
       if (id != null) 'id': id,
       if (lastModifiedTime != null)
         'lastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (name != null) 'name': name,
       if (next != null) 'next': next,
-      if (owner != null) 'owner': owner.value,
       if (previous != null) 'previous': previous,
       if (status != null) 'status': status.value,
+      if (templateId != null) 'templateId': templateId,
       if (tools != null) 'tools': tools,
+    };
+  }
+}
+
+class ListTemplateStepGroupsResponse {
+  /// The summary of the step group in the template.
+  final List<TemplateStepGroupSummary> templateStepGroupSummary;
+
+  /// The pagination token.
+  final String? nextToken;
+
+  ListTemplateStepGroupsResponse({
+    required this.templateStepGroupSummary,
+    this.nextToken,
+  });
+
+  factory ListTemplateStepGroupsResponse.fromJson(Map<String, dynamic> json) {
+    return ListTemplateStepGroupsResponse(
+      templateStepGroupSummary:
+          ((json['templateStepGroupSummary'] as List?) ?? const [])
+              .nonNulls
+              .map((e) =>
+                  TemplateStepGroupSummary.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final templateStepGroupSummary = this.templateStepGroupSummary;
+    final nextToken = this.nextToken;
+    return {
+      'templateStepGroupSummary': templateStepGroupSummary,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class CreateWorkflowStepResponse {
+  /// The ID of the step.
+  final String? id;
+
+  /// The name of the step.
+  final String? name;
+
+  /// The ID of the step group.
+  final String? stepGroupId;
+
+  /// The ID of the migration workflow.
+  final String? workflowId;
+
+  CreateWorkflowStepResponse({
+    this.id,
+    this.name,
+    this.stepGroupId,
+    this.workflowId,
+  });
+
+  factory CreateWorkflowStepResponse.fromJson(Map<String, dynamic> json) {
+    return CreateWorkflowStepResponse(
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      stepGroupId: json['stepGroupId'] as String?,
+      workflowId: json['workflowId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    final stepGroupId = this.stepGroupId;
+    final workflowId = this.workflowId;
+    return {
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (stepGroupId != null) 'stepGroupId': stepGroupId,
       if (workflowId != null) 'workflowId': workflowId,
     };
   }
@@ -2385,192 +2618,409 @@ class GetWorkflowStepResponse {
   }
 }
 
-class ListMigrationWorkflowTemplatesResponse {
-  /// The summary of the template.
-  final List<TemplateSummary> templateSummary;
+class UpdateWorkflowStepResponse {
+  /// The ID of the step.
+  final String? id;
+
+  /// The name of the step.
+  final String? name;
+
+  /// The ID of the step group.
+  final String? stepGroupId;
+
+  /// The ID of the migration workflow.
+  final String? workflowId;
+
+  UpdateWorkflowStepResponse({
+    this.id,
+    this.name,
+    this.stepGroupId,
+    this.workflowId,
+  });
+
+  factory UpdateWorkflowStepResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateWorkflowStepResponse(
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      stepGroupId: json['stepGroupId'] as String?,
+      workflowId: json['workflowId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    final stepGroupId = this.stepGroupId;
+    final workflowId = this.workflowId;
+    return {
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (stepGroupId != null) 'stepGroupId': stepGroupId,
+      if (workflowId != null) 'workflowId': workflowId,
+    };
+  }
+}
+
+class DeleteWorkflowStepResponse {
+  DeleteWorkflowStepResponse();
+
+  factory DeleteWorkflowStepResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteWorkflowStepResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class ListWorkflowStepsResponse {
+  /// The summary of steps in a migration workflow.
+  final List<WorkflowStepSummary> workflowStepsSummary;
 
   /// The pagination token.
   final String? nextToken;
 
-  ListMigrationWorkflowTemplatesResponse({
-    required this.templateSummary,
+  ListWorkflowStepsResponse({
+    required this.workflowStepsSummary,
     this.nextToken,
   });
 
-  factory ListMigrationWorkflowTemplatesResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListMigrationWorkflowTemplatesResponse(
-      templateSummary: ((json['templateSummary'] as List?) ?? const [])
+  factory ListWorkflowStepsResponse.fromJson(Map<String, dynamic> json) {
+    return ListWorkflowStepsResponse(
+      workflowStepsSummary: ((json['workflowStepsSummary'] as List?) ??
+              const [])
           .nonNulls
-          .map((e) => TemplateSummary.fromJson(e as Map<String, dynamic>))
+          .map((e) => WorkflowStepSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final templateSummary = this.templateSummary;
+    final workflowStepsSummary = this.workflowStepsSummary;
     final nextToken = this.nextToken;
     return {
-      'templateSummary': templateSummary,
+      'workflowStepsSummary': workflowStepsSummary,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
 }
 
-class ListMigrationWorkflowsResponse {
-  /// The summary of the migration workflow.
-  final List<MigrationWorkflowSummary> migrationWorkflowSummary;
+class RetryWorkflowStepResponse {
+  /// The ID of the step.
+  final String? id;
 
-  /// The pagination token.
-  final String? nextToken;
+  /// The status of the step.
+  final StepStatus? status;
 
-  ListMigrationWorkflowsResponse({
-    required this.migrationWorkflowSummary,
-    this.nextToken,
+  /// The ID of the step group.
+  final String? stepGroupId;
+
+  /// The ID of the migration workflow.
+  final String? workflowId;
+
+  RetryWorkflowStepResponse({
+    this.id,
+    this.status,
+    this.stepGroupId,
+    this.workflowId,
   });
 
-  factory ListMigrationWorkflowsResponse.fromJson(Map<String, dynamic> json) {
-    return ListMigrationWorkflowsResponse(
-      migrationWorkflowSummary:
-          ((json['migrationWorkflowSummary'] as List?) ?? const [])
-              .nonNulls
-              .map((e) =>
-                  MigrationWorkflowSummary.fromJson(e as Map<String, dynamic>))
-              .toList(),
-      nextToken: json['nextToken'] as String?,
+  factory RetryWorkflowStepResponse.fromJson(Map<String, dynamic> json) {
+    return RetryWorkflowStepResponse(
+      id: json['id'] as String?,
+      status: (json['status'] as String?)?.let(StepStatus.fromString),
+      stepGroupId: json['stepGroupId'] as String?,
+      workflowId: json['workflowId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final migrationWorkflowSummary = this.migrationWorkflowSummary;
-    final nextToken = this.nextToken;
+    final id = this.id;
+    final status = this.status;
+    final stepGroupId = this.stepGroupId;
+    final workflowId = this.workflowId;
     return {
-      'migrationWorkflowSummary': migrationWorkflowSummary,
-      if (nextToken != null) 'nextToken': nextToken,
+      if (id != null) 'id': id,
+      if (status != null) 'status': status.value,
+      if (stepGroupId != null) 'stepGroupId': stepGroupId,
+      if (workflowId != null) 'workflowId': workflowId,
     };
   }
 }
 
-class ListPluginsResponse {
-  /// The pagination token.
-  final String? nextToken;
+class CreateWorkflowStepGroupResponse {
+  /// The time at which the step group is created.
+  final DateTime? creationTime;
 
-  /// Migration Hub Orchestrator plugins.
-  final List<PluginSummary>? plugins;
+  /// The description of the step group.
+  final String? description;
 
-  ListPluginsResponse({
-    this.nextToken,
-    this.plugins,
+  /// The ID of the step group.
+  final String? id;
+
+  /// The name of the step group.
+  final String? name;
+
+  /// The next step group.
+  final List<String>? next;
+
+  /// The previous step group.
+  final List<String>? previous;
+
+  /// List of AWS services utilized in a migration workflow.
+  final List<Tool>? tools;
+
+  /// The ID of the migration workflow that contains the step group.
+  final String? workflowId;
+
+  CreateWorkflowStepGroupResponse({
+    this.creationTime,
+    this.description,
+    this.id,
+    this.name,
+    this.next,
+    this.previous,
+    this.tools,
+    this.workflowId,
   });
 
-  factory ListPluginsResponse.fromJson(Map<String, dynamic> json) {
-    return ListPluginsResponse(
-      nextToken: json['nextToken'] as String?,
-      plugins: (json['plugins'] as List?)
+  factory CreateWorkflowStepGroupResponse.fromJson(Map<String, dynamic> json) {
+    return CreateWorkflowStepGroupResponse(
+      creationTime: timeStampFromJson(json['creationTime']),
+      description: json['description'] as String?,
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      next: (json['next'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      previous: (json['previous'] as List?)
           ?.nonNulls
-          .map((e) => PluginSummary.fromJson(e as Map<String, dynamic>))
+          .map((e) => e as String)
           .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final plugins = this.plugins;
-    return {
-      if (nextToken != null) 'nextToken': nextToken,
-      if (plugins != null) 'plugins': plugins,
-    };
-  }
-}
-
-class ListTagsForResourceResponse {
-  /// The tags added to a resource.
-  final Map<String, String>? tags;
-
-  ListTagsForResourceResponse({
-    this.tags,
-  });
-
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
-    return ListTagsForResourceResponse(
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tags = this.tags;
-    return {
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-class ListTemplateStepGroupsResponse {
-  /// The summary of the step group in the template.
-  final List<TemplateStepGroupSummary> templateStepGroupSummary;
-
-  /// The pagination token.
-  final String? nextToken;
-
-  ListTemplateStepGroupsResponse({
-    required this.templateStepGroupSummary,
-    this.nextToken,
-  });
-
-  factory ListTemplateStepGroupsResponse.fromJson(Map<String, dynamic> json) {
-    return ListTemplateStepGroupsResponse(
-      templateStepGroupSummary:
-          ((json['templateStepGroupSummary'] as List?) ?? const [])
-              .nonNulls
-              .map((e) =>
-                  TemplateStepGroupSummary.fromJson(e as Map<String, dynamic>))
-              .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final templateStepGroupSummary = this.templateStepGroupSummary;
-    final nextToken = this.nextToken;
-    return {
-      'templateStepGroupSummary': templateStepGroupSummary,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListTemplateStepsResponse {
-  /// The pagination token.
-  final String? nextToken;
-
-  /// The list of summaries of steps in a template.
-  final List<TemplateStepSummary>? templateStepSummaryList;
-
-  ListTemplateStepsResponse({
-    this.nextToken,
-    this.templateStepSummaryList,
-  });
-
-  factory ListTemplateStepsResponse.fromJson(Map<String, dynamic> json) {
-    return ListTemplateStepsResponse(
-      nextToken: json['nextToken'] as String?,
-      templateStepSummaryList: (json['templateStepSummaryList'] as List?)
+      tools: (json['tools'] as List?)
           ?.nonNulls
-          .map((e) => TemplateStepSummary.fromJson(e as Map<String, dynamic>))
+          .map((e) => Tool.fromJson(e as Map<String, dynamic>))
           .toList(),
+      workflowId: json['workflowId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final templateStepSummaryList = this.templateStepSummaryList;
+    final creationTime = this.creationTime;
+    final description = this.description;
+    final id = this.id;
+    final name = this.name;
+    final next = this.next;
+    final previous = this.previous;
+    final tools = this.tools;
+    final workflowId = this.workflowId;
     return {
-      if (nextToken != null) 'nextToken': nextToken,
-      if (templateStepSummaryList != null)
-        'templateStepSummaryList': templateStepSummaryList,
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (description != null) 'description': description,
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (next != null) 'next': next,
+      if (previous != null) 'previous': previous,
+      if (tools != null) 'tools': tools,
+      if (workflowId != null) 'workflowId': workflowId,
     };
+  }
+}
+
+class GetWorkflowStepGroupResponse {
+  /// The time at which the step group was created.
+  final DateTime? creationTime;
+
+  /// The description of the step group.
+  final String? description;
+
+  /// The time at which the step group ended.
+  final DateTime? endTime;
+
+  /// The ID of the step group.
+  final String? id;
+
+  /// The time at which the step group was last modified.
+  final DateTime? lastModifiedTime;
+
+  /// The name of the step group.
+  final String? name;
+
+  /// The next step group.
+  final List<String>? next;
+
+  /// The owner of the step group.
+  final Owner? owner;
+
+  /// The previous step group.
+  final List<String>? previous;
+
+  /// The status of the step group.
+  final StepGroupStatus? status;
+
+  /// List of AWS services utilized in a migration workflow.
+  final List<Tool>? tools;
+
+  /// The ID of the migration workflow.
+  final String? workflowId;
+
+  GetWorkflowStepGroupResponse({
+    this.creationTime,
+    this.description,
+    this.endTime,
+    this.id,
+    this.lastModifiedTime,
+    this.name,
+    this.next,
+    this.owner,
+    this.previous,
+    this.status,
+    this.tools,
+    this.workflowId,
+  });
+
+  factory GetWorkflowStepGroupResponse.fromJson(Map<String, dynamic> json) {
+    return GetWorkflowStepGroupResponse(
+      creationTime: timeStampFromJson(json['creationTime']),
+      description: json['description'] as String?,
+      endTime: timeStampFromJson(json['endTime']),
+      id: json['id'] as String?,
+      lastModifiedTime: timeStampFromJson(json['lastModifiedTime']),
+      name: json['name'] as String?,
+      next: (json['next'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      owner: (json['owner'] as String?)?.let(Owner.fromString),
+      previous: (json['previous'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      status: (json['status'] as String?)?.let(StepGroupStatus.fromString),
+      tools: (json['tools'] as List?)
+          ?.nonNulls
+          .map((e) => Tool.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      workflowId: json['workflowId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final description = this.description;
+    final endTime = this.endTime;
+    final id = this.id;
+    final lastModifiedTime = this.lastModifiedTime;
+    final name = this.name;
+    final next = this.next;
+    final owner = this.owner;
+    final previous = this.previous;
+    final status = this.status;
+    final tools = this.tools;
+    final workflowId = this.workflowId;
+    return {
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (description != null) 'description': description,
+      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
+      if (id != null) 'id': id,
+      if (lastModifiedTime != null)
+        'lastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (name != null) 'name': name,
+      if (next != null) 'next': next,
+      if (owner != null) 'owner': owner.value,
+      if (previous != null) 'previous': previous,
+      if (status != null) 'status': status.value,
+      if (tools != null) 'tools': tools,
+      if (workflowId != null) 'workflowId': workflowId,
+    };
+  }
+}
+
+class UpdateWorkflowStepGroupResponse {
+  /// The description of the step group.
+  final String? description;
+
+  /// The ID of the step group.
+  final String? id;
+
+  /// The time at which the step group was last modified.
+  final DateTime? lastModifiedTime;
+
+  /// The name of the step group.
+  final String? name;
+
+  /// The next step group.
+  final List<String>? next;
+
+  /// The previous step group.
+  final List<String>? previous;
+
+  /// List of AWS services utilized in a migration workflow.
+  final List<Tool>? tools;
+
+  /// The ID of the migration workflow.
+  final String? workflowId;
+
+  UpdateWorkflowStepGroupResponse({
+    this.description,
+    this.id,
+    this.lastModifiedTime,
+    this.name,
+    this.next,
+    this.previous,
+    this.tools,
+    this.workflowId,
+  });
+
+  factory UpdateWorkflowStepGroupResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateWorkflowStepGroupResponse(
+      description: json['description'] as String?,
+      id: json['id'] as String?,
+      lastModifiedTime: timeStampFromJson(json['lastModifiedTime']),
+      name: json['name'] as String?,
+      next: (json['next'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      previous: (json['previous'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      tools: (json['tools'] as List?)
+          ?.nonNulls
+          .map((e) => Tool.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      workflowId: json['workflowId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final id = this.id;
+    final lastModifiedTime = this.lastModifiedTime;
+    final name = this.name;
+    final next = this.next;
+    final previous = this.previous;
+    final tools = this.tools;
+    final workflowId = this.workflowId;
+    return {
+      if (description != null) 'description': description,
+      if (id != null) 'id': id,
+      if (lastModifiedTime != null)
+        'lastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (name != null) 'name': name,
+      if (next != null) 'next': next,
+      if (previous != null) 'previous': previous,
+      if (tools != null) 'tools': tools,
+      if (workflowId != null) 'workflowId': workflowId,
+    };
+  }
+}
+
+class DeleteWorkflowStepGroupResponse {
+  DeleteWorkflowStepGroupResponse();
+
+  factory DeleteWorkflowStepGroupResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteWorkflowStepGroupResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -2608,35 +3058,1050 @@ class ListWorkflowStepGroupsResponse {
   }
 }
 
-class ListWorkflowStepsResponse {
-  /// The summary of steps in a migration workflow.
-  final List<WorkflowStepSummary> workflowStepsSummary;
+/// The summary of a step group in a workflow.
+class WorkflowStepGroupSummary {
+  /// The ID of the step group.
+  final String? id;
 
-  /// The pagination token.
-  final String? nextToken;
+  /// The name of the step group.
+  final String? name;
 
-  ListWorkflowStepsResponse({
-    required this.workflowStepsSummary,
-    this.nextToken,
+  /// The next step group.
+  final List<String>? next;
+
+  /// The owner of the step group.
+  final Owner? owner;
+
+  /// The previous step group.
+  final List<String>? previous;
+
+  /// The status of the step group.
+  final StepGroupStatus? status;
+
+  WorkflowStepGroupSummary({
+    this.id,
+    this.name,
+    this.next,
+    this.owner,
+    this.previous,
+    this.status,
   });
 
-  factory ListWorkflowStepsResponse.fromJson(Map<String, dynamic> json) {
-    return ListWorkflowStepsResponse(
-      workflowStepsSummary: ((json['workflowStepsSummary'] as List?) ??
-              const [])
-          .nonNulls
-          .map((e) => WorkflowStepSummary.fromJson(e as Map<String, dynamic>))
+  factory WorkflowStepGroupSummary.fromJson(Map<String, dynamic> json) {
+    return WorkflowStepGroupSummary(
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      next: (json['next'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      owner: (json['owner'] as String?)?.let(Owner.fromString),
+      previous: (json['previous'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
           .toList(),
-      nextToken: json['nextToken'] as String?,
+      status: (json['status'] as String?)?.let(StepGroupStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final workflowStepsSummary = this.workflowStepsSummary;
-    final nextToken = this.nextToken;
+    final id = this.id;
+    final name = this.name;
+    final next = this.next;
+    final owner = this.owner;
+    final previous = this.previous;
+    final status = this.status;
     return {
-      'workflowStepsSummary': workflowStepsSummary,
-      if (nextToken != null) 'nextToken': nextToken,
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (next != null) 'next': next,
+      if (owner != null) 'owner': owner.value,
+      if (previous != null) 'previous': previous,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+class Owner {
+  static const awsManaged = Owner._('AWS_MANAGED');
+  static const custom = Owner._('CUSTOM');
+
+  final String value;
+
+  const Owner._(this.value);
+
+  static const values = [awsManaged, custom];
+
+  static Owner fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Owner._(value));
+
+  @override
+  bool operator ==(other) => other is Owner && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class StepGroupStatus {
+  static const awaitingDependencies =
+      StepGroupStatus._('AWAITING_DEPENDENCIES');
+  static const ready = StepGroupStatus._('READY');
+  static const inProgress = StepGroupStatus._('IN_PROGRESS');
+  static const completed = StepGroupStatus._('COMPLETED');
+  static const failed = StepGroupStatus._('FAILED');
+  static const paused = StepGroupStatus._('PAUSED');
+  static const pausing = StepGroupStatus._('PAUSING');
+  static const userAttentionRequired =
+      StepGroupStatus._('USER_ATTENTION_REQUIRED');
+
+  final String value;
+
+  const StepGroupStatus._(this.value);
+
+  static const values = [
+    awaitingDependencies,
+    ready,
+    inProgress,
+    completed,
+    failed,
+    paused,
+    pausing,
+    userAttentionRequired
+  ];
+
+  static StepGroupStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StepGroupStatus._(value));
+
+  @override
+  bool operator ==(other) => other is StepGroupStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// List of AWS services utilized in a migration workflow.
+class Tool {
+  /// The name of an AWS service.
+  final String? name;
+
+  /// The URL of an AWS service.
+  final String? url;
+
+  Tool({
+    this.name,
+    this.url,
+  });
+
+  factory Tool.fromJson(Map<String, dynamic> json) {
+    return Tool(
+      name: json['name'] as String?,
+      url: json['url'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final url = this.url;
+    return {
+      if (name != null) 'name': name,
+      if (url != null) 'url': url,
+    };
+  }
+}
+
+class StepStatus {
+  static const awaitingDependencies = StepStatus._('AWAITING_DEPENDENCIES');
+  static const skipped = StepStatus._('SKIPPED');
+  static const ready = StepStatus._('READY');
+  static const inProgress = StepStatus._('IN_PROGRESS');
+  static const completed = StepStatus._('COMPLETED');
+  static const failed = StepStatus._('FAILED');
+  static const paused = StepStatus._('PAUSED');
+  static const userAttentionRequired = StepStatus._('USER_ATTENTION_REQUIRED');
+
+  final String value;
+
+  const StepStatus._(this.value);
+
+  static const values = [
+    awaitingDependencies,
+    skipped,
+    ready,
+    inProgress,
+    completed,
+    failed,
+    paused,
+    userAttentionRequired
+  ];
+
+  static StepStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StepStatus._(value));
+
+  @override
+  bool operator ==(other) => other is StepStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The summary of the step in a migration workflow.
+class WorkflowStepSummary {
+  /// The description of the step.
+  final String? description;
+
+  /// The name of the step.
+  final String? name;
+
+  /// The next step.
+  final List<String>? next;
+
+  /// The number of servers that have been migrated.
+  final int? noOfSrvCompleted;
+
+  /// The number of servers that have failed to migrate.
+  final int? noOfSrvFailed;
+
+  /// The owner of the step.
+  final Owner? owner;
+
+  /// The previous step.
+  final List<String>? previous;
+
+  /// The location of the script.
+  final String? scriptLocation;
+
+  /// The status of the step.
+  final StepStatus? status;
+
+  /// The status message of the migration workflow.
+  final String? statusMessage;
+
+  /// The action type of the step. You must run and update the status of a manual
+  /// step for the workflow to continue after the completion of the step.
+  final StepActionType? stepActionType;
+
+  /// The ID of the step.
+  final String? stepId;
+
+  /// The total number of servers that have been migrated.
+  final int? totalNoOfSrv;
+
+  WorkflowStepSummary({
+    this.description,
+    this.name,
+    this.next,
+    this.noOfSrvCompleted,
+    this.noOfSrvFailed,
+    this.owner,
+    this.previous,
+    this.scriptLocation,
+    this.status,
+    this.statusMessage,
+    this.stepActionType,
+    this.stepId,
+    this.totalNoOfSrv,
+  });
+
+  factory WorkflowStepSummary.fromJson(Map<String, dynamic> json) {
+    return WorkflowStepSummary(
+      description: json['description'] as String?,
+      name: json['name'] as String?,
+      next: (json['next'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      noOfSrvCompleted: json['noOfSrvCompleted'] as int?,
+      noOfSrvFailed: json['noOfSrvFailed'] as int?,
+      owner: (json['owner'] as String?)?.let(Owner.fromString),
+      previous: (json['previous'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      scriptLocation: json['scriptLocation'] as String?,
+      status: (json['status'] as String?)?.let(StepStatus.fromString),
+      statusMessage: json['statusMessage'] as String?,
+      stepActionType:
+          (json['stepActionType'] as String?)?.let(StepActionType.fromString),
+      stepId: json['stepId'] as String?,
+      totalNoOfSrv: json['totalNoOfSrv'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final name = this.name;
+    final next = this.next;
+    final noOfSrvCompleted = this.noOfSrvCompleted;
+    final noOfSrvFailed = this.noOfSrvFailed;
+    final owner = this.owner;
+    final previous = this.previous;
+    final scriptLocation = this.scriptLocation;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    final stepActionType = this.stepActionType;
+    final stepId = this.stepId;
+    final totalNoOfSrv = this.totalNoOfSrv;
+    return {
+      if (description != null) 'description': description,
+      if (name != null) 'name': name,
+      if (next != null) 'next': next,
+      if (noOfSrvCompleted != null) 'noOfSrvCompleted': noOfSrvCompleted,
+      if (noOfSrvFailed != null) 'noOfSrvFailed': noOfSrvFailed,
+      if (owner != null) 'owner': owner.value,
+      if (previous != null) 'previous': previous,
+      if (scriptLocation != null) 'scriptLocation': scriptLocation,
+      if (status != null) 'status': status.value,
+      if (statusMessage != null) 'statusMessage': statusMessage,
+      if (stepActionType != null) 'stepActionType': stepActionType.value,
+      if (stepId != null) 'stepId': stepId,
+      if (totalNoOfSrv != null) 'totalNoOfSrv': totalNoOfSrv,
+    };
+  }
+}
+
+class StepActionType {
+  static const manual = StepActionType._('MANUAL');
+  static const automated = StepActionType._('AUTOMATED');
+
+  final String value;
+
+  const StepActionType._(this.value);
+
+  static const values = [manual, automated];
+
+  static StepActionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StepActionType._(value));
+
+  @override
+  bool operator ==(other) => other is StepActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The custom script to run tests on source or target environments.
+class WorkflowStepAutomationConfiguration {
+  /// The command required to run the script.
+  final PlatformCommand? command;
+
+  /// The source or target environment.
+  final RunEnvironment? runEnvironment;
+
+  /// The Amazon S3 bucket where the script is located.
+  final String? scriptLocationS3Bucket;
+
+  /// The Amazon S3 key for the script location.
+  final PlatformScriptKey? scriptLocationS3Key;
+
+  /// The servers on which to run the script.
+  final TargetType? targetType;
+
+  WorkflowStepAutomationConfiguration({
+    this.command,
+    this.runEnvironment,
+    this.scriptLocationS3Bucket,
+    this.scriptLocationS3Key,
+    this.targetType,
+  });
+
+  factory WorkflowStepAutomationConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return WorkflowStepAutomationConfiguration(
+      command: json['command'] != null
+          ? PlatformCommand.fromJson(json['command'] as Map<String, dynamic>)
+          : null,
+      runEnvironment:
+          (json['runEnvironment'] as String?)?.let(RunEnvironment.fromString),
+      scriptLocationS3Bucket: json['scriptLocationS3Bucket'] as String?,
+      scriptLocationS3Key: json['scriptLocationS3Key'] != null
+          ? PlatformScriptKey.fromJson(
+              json['scriptLocationS3Key'] as Map<String, dynamic>)
+          : null,
+      targetType: (json['targetType'] as String?)?.let(TargetType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final command = this.command;
+    final runEnvironment = this.runEnvironment;
+    final scriptLocationS3Bucket = this.scriptLocationS3Bucket;
+    final scriptLocationS3Key = this.scriptLocationS3Key;
+    final targetType = this.targetType;
+    return {
+      if (command != null) 'command': command,
+      if (runEnvironment != null) 'runEnvironment': runEnvironment.value,
+      if (scriptLocationS3Bucket != null)
+        'scriptLocationS3Bucket': scriptLocationS3Bucket,
+      if (scriptLocationS3Key != null)
+        'scriptLocationS3Key': scriptLocationS3Key,
+      if (targetType != null) 'targetType': targetType.value,
+    };
+  }
+}
+
+/// The output of a step.
+class WorkflowStepOutput {
+  /// The data type of the output.
+  final DataType? dataType;
+
+  /// The name of the step.
+  final String? name;
+
+  /// Determine if an output is required from a step.
+  final bool? required;
+
+  /// The value of the output.
+  final WorkflowStepOutputUnion? value;
+
+  WorkflowStepOutput({
+    this.dataType,
+    this.name,
+    this.required,
+    this.value,
+  });
+
+  factory WorkflowStepOutput.fromJson(Map<String, dynamic> json) {
+    return WorkflowStepOutput(
+      dataType: (json['dataType'] as String?)?.let(DataType.fromString),
+      name: json['name'] as String?,
+      required: json['required'] as bool?,
+      value: json['value'] != null
+          ? WorkflowStepOutputUnion.fromJson(
+              json['value'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataType = this.dataType;
+    final name = this.name;
+    final required = this.required;
+    final value = this.value;
+    return {
+      if (dataType != null) 'dataType': dataType.value,
+      if (name != null) 'name': name,
+      if (required != null) 'required': required,
+      if (value != null) 'value': value,
+    };
+  }
+}
+
+class DataType {
+  static const string = DataType._('STRING');
+  static const integer = DataType._('INTEGER');
+  static const stringlist = DataType._('STRINGLIST');
+  static const stringmap = DataType._('STRINGMAP');
+
+  final String value;
+
+  const DataType._(this.value);
+
+  static const values = [string, integer, stringlist, stringmap];
+
+  static DataType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DataType._(value));
+
+  @override
+  bool operator ==(other) => other is DataType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A structure to hold multiple values of an output.
+class WorkflowStepOutputUnion {
+  /// The integer value.
+  final int? integerValue;
+
+  /// The list of string value.
+  final List<String>? listOfStringValue;
+
+  /// The string value.
+  final String? stringValue;
+
+  WorkflowStepOutputUnion({
+    this.integerValue,
+    this.listOfStringValue,
+    this.stringValue,
+  });
+
+  factory WorkflowStepOutputUnion.fromJson(Map<String, dynamic> json) {
+    return WorkflowStepOutputUnion(
+      integerValue: json['integerValue'] as int?,
+      listOfStringValue: (json['listOfStringValue'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      stringValue: json['stringValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final integerValue = this.integerValue;
+    final listOfStringValue = this.listOfStringValue;
+    final stringValue = this.stringValue;
+    return {
+      if (integerValue != null) 'integerValue': integerValue,
+      if (listOfStringValue != null) 'listOfStringValue': listOfStringValue,
+      if (stringValue != null) 'stringValue': stringValue,
+    };
+  }
+}
+
+/// The script location for a particular operating system.
+class PlatformScriptKey {
+  /// The script location for Linux.
+  final String? linux;
+
+  /// The script location for Windows.
+  final String? windows;
+
+  PlatformScriptKey({
+    this.linux,
+    this.windows,
+  });
+
+  factory PlatformScriptKey.fromJson(Map<String, dynamic> json) {
+    return PlatformScriptKey(
+      linux: json['linux'] as String?,
+      windows: json['windows'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final linux = this.linux;
+    final windows = this.windows;
+    return {
+      if (linux != null) 'linux': linux,
+      if (windows != null) 'windows': windows,
+    };
+  }
+}
+
+/// Command to be run on a particular operating system.
+class PlatformCommand {
+  /// Command for Linux.
+  final String? linux;
+
+  /// Command for Windows.
+  final String? windows;
+
+  PlatformCommand({
+    this.linux,
+    this.windows,
+  });
+
+  factory PlatformCommand.fromJson(Map<String, dynamic> json) {
+    return PlatformCommand(
+      linux: json['linux'] as String?,
+      windows: json['windows'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final linux = this.linux;
+    final windows = this.windows;
+    return {
+      if (linux != null) 'linux': linux,
+      if (windows != null) 'windows': windows,
+    };
+  }
+}
+
+class RunEnvironment {
+  static const aws = RunEnvironment._('AWS');
+  static const onpremise = RunEnvironment._('ONPREMISE');
+
+  final String value;
+
+  const RunEnvironment._(this.value);
+
+  static const values = [aws, onpremise];
+
+  static RunEnvironment fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RunEnvironment._(value));
+
+  @override
+  bool operator ==(other) => other is RunEnvironment && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TargetType {
+  static const single = TargetType._('SINGLE');
+  static const all = TargetType._('ALL');
+  static const none = TargetType._('NONE');
+
+  final String value;
+
+  const TargetType._(this.value);
+
+  static const values = [single, all, none];
+
+  static TargetType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TargetType._(value));
+
+  @override
+  bool operator ==(other) => other is TargetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The summary of the step group in the template.
+class TemplateStepGroupSummary {
+  /// The ID of the step group.
+  final String? id;
+
+  /// The name of the step group.
+  final String? name;
+
+  /// The next step group.
+  final List<String>? next;
+
+  /// The previous step group.
+  final List<String>? previous;
+
+  TemplateStepGroupSummary({
+    this.id,
+    this.name,
+    this.next,
+    this.previous,
+  });
+
+  factory TemplateStepGroupSummary.fromJson(Map<String, dynamic> json) {
+    return TemplateStepGroupSummary(
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      next: (json['next'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      previous: (json['previous'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    final next = this.next;
+    final previous = this.previous;
+    return {
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (next != null) 'next': next,
+      if (previous != null) 'previous': previous,
+    };
+  }
+}
+
+/// The summary of the step.
+class TemplateStepSummary {
+  /// The ID of the step.
+  final String? id;
+
+  /// The name of the step.
+  final String? name;
+
+  /// The next step.
+  final List<String>? next;
+
+  /// The owner of the step.
+  final Owner? owner;
+
+  /// The previous step.
+  final List<String>? previous;
+
+  /// The action type of the step. You must run and update the status of a manual
+  /// step for the workflow to continue after the completion of the step.
+  final StepActionType? stepActionType;
+
+  /// The ID of the step group.
+  final String? stepGroupId;
+
+  /// The servers on which to run the script.
+  final TargetType? targetType;
+
+  /// The ID of the template.
+  final String? templateId;
+
+  TemplateStepSummary({
+    this.id,
+    this.name,
+    this.next,
+    this.owner,
+    this.previous,
+    this.stepActionType,
+    this.stepGroupId,
+    this.targetType,
+    this.templateId,
+  });
+
+  factory TemplateStepSummary.fromJson(Map<String, dynamic> json) {
+    return TemplateStepSummary(
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      next: (json['next'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      owner: (json['owner'] as String?)?.let(Owner.fromString),
+      previous: (json['previous'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      stepActionType:
+          (json['stepActionType'] as String?)?.let(StepActionType.fromString),
+      stepGroupId: json['stepGroupId'] as String?,
+      targetType: (json['targetType'] as String?)?.let(TargetType.fromString),
+      templateId: json['templateId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    final next = this.next;
+    final owner = this.owner;
+    final previous = this.previous;
+    final stepActionType = this.stepActionType;
+    final stepGroupId = this.stepGroupId;
+    final targetType = this.targetType;
+    final templateId = this.templateId;
+    return {
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (next != null) 'next': next,
+      if (owner != null) 'owner': owner.value,
+      if (previous != null) 'previous': previous,
+      if (stepActionType != null) 'stepActionType': stepActionType.value,
+      if (stepGroupId != null) 'stepGroupId': stepGroupId,
+      if (targetType != null) 'targetType': targetType.value,
+      if (templateId != null) 'templateId': templateId,
+    };
+  }
+}
+
+/// The custom script to run tests on source or target environments.
+class StepAutomationConfiguration {
+  /// The command to run the script.
+  final PlatformCommand? command;
+
+  /// The source or target environment.
+  final RunEnvironment? runEnvironment;
+
+  /// The Amazon S3 bucket where the script is located.
+  final String? scriptLocationS3Bucket;
+
+  /// The Amazon S3 key for the script location.
+  final PlatformScriptKey? scriptLocationS3Key;
+
+  /// The servers on which to run the script.
+  final TargetType? targetType;
+
+  StepAutomationConfiguration({
+    this.command,
+    this.runEnvironment,
+    this.scriptLocationS3Bucket,
+    this.scriptLocationS3Key,
+    this.targetType,
+  });
+
+  factory StepAutomationConfiguration.fromJson(Map<String, dynamic> json) {
+    return StepAutomationConfiguration(
+      command: json['command'] != null
+          ? PlatformCommand.fromJson(json['command'] as Map<String, dynamic>)
+          : null,
+      runEnvironment:
+          (json['runEnvironment'] as String?)?.let(RunEnvironment.fromString),
+      scriptLocationS3Bucket: json['scriptLocationS3Bucket'] as String?,
+      scriptLocationS3Key: json['scriptLocationS3Key'] != null
+          ? PlatformScriptKey.fromJson(
+              json['scriptLocationS3Key'] as Map<String, dynamic>)
+          : null,
+      targetType: (json['targetType'] as String?)?.let(TargetType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final command = this.command;
+    final runEnvironment = this.runEnvironment;
+    final scriptLocationS3Bucket = this.scriptLocationS3Bucket;
+    final scriptLocationS3Key = this.scriptLocationS3Key;
+    final targetType = this.targetType;
+    return {
+      if (command != null) 'command': command,
+      if (runEnvironment != null) 'runEnvironment': runEnvironment.value,
+      if (scriptLocationS3Bucket != null)
+        'scriptLocationS3Bucket': scriptLocationS3Bucket,
+      if (scriptLocationS3Key != null)
+        'scriptLocationS3Key': scriptLocationS3Key,
+      if (targetType != null) 'targetType': targetType.value,
+    };
+  }
+}
+
+/// The output of the step.
+class StepOutput {
+  /// The data type of the step output.
+  final DataType? dataType;
+
+  /// The name of the step.
+  final String? name;
+
+  /// Determine if an output is required from a step.
+  final bool? required;
+
+  StepOutput({
+    this.dataType,
+    this.name,
+    this.required,
+  });
+
+  factory StepOutput.fromJson(Map<String, dynamic> json) {
+    return StepOutput(
+      dataType: (json['dataType'] as String?)?.let(DataType.fromString),
+      name: json['name'] as String?,
+      required: json['required'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataType = this.dataType;
+    final name = this.name;
+    final required = this.required;
+    return {
+      if (dataType != null) 'dataType': dataType.value,
+      if (name != null) 'name': name,
+      if (required != null) 'required': required,
+    };
+  }
+}
+
+/// The summary of the Migration Hub Orchestrator plugin.
+class PluginSummary {
+  /// The name of the host.
+  final String? hostname;
+
+  /// The IP address at which the plugin is located.
+  final String? ipAddress;
+
+  /// The ID of the plugin.
+  final String? pluginId;
+
+  /// The time at which the plugin was registered.
+  final String? registeredTime;
+
+  /// The status of the plugin.
+  final PluginHealth? status;
+
+  /// The version of the plugin.
+  final String? version;
+
+  PluginSummary({
+    this.hostname,
+    this.ipAddress,
+    this.pluginId,
+    this.registeredTime,
+    this.status,
+    this.version,
+  });
+
+  factory PluginSummary.fromJson(Map<String, dynamic> json) {
+    return PluginSummary(
+      hostname: json['hostname'] as String?,
+      ipAddress: json['ipAddress'] as String?,
+      pluginId: json['pluginId'] as String?,
+      registeredTime: json['registeredTime'] as String?,
+      status: (json['status'] as String?)?.let(PluginHealth.fromString),
+      version: json['version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostname = this.hostname;
+    final ipAddress = this.ipAddress;
+    final pluginId = this.pluginId;
+    final registeredTime = this.registeredTime;
+    final status = this.status;
+    final version = this.version;
+    return {
+      if (hostname != null) 'hostname': hostname,
+      if (ipAddress != null) 'ipAddress': ipAddress,
+      if (pluginId != null) 'pluginId': pluginId,
+      if (registeredTime != null) 'registeredTime': registeredTime,
+      if (status != null) 'status': status.value,
+      if (version != null) 'version': version,
+    };
+  }
+}
+
+class PluginHealth {
+  static const healthy = PluginHealth._('HEALTHY');
+  static const unhealthy = PluginHealth._('UNHEALTHY');
+
+  final String value;
+
+  const PluginHealth._(this.value);
+
+  static const values = [healthy, unhealthy];
+
+  static PluginHealth fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PluginHealth._(value));
+
+  @override
+  bool operator ==(other) => other is PluginHealth && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The summary of the template.
+class TemplateSummary {
+  /// The Amazon Resource Name (ARN) of the template.
+  final String? arn;
+
+  /// The description of the template.
+  final String? description;
+
+  /// The ID of the template.
+  final String? id;
+
+  /// The name of the template.
+  final String? name;
+
+  TemplateSummary({
+    this.arn,
+    this.description,
+    this.id,
+    this.name,
+  });
+
+  factory TemplateSummary.fromJson(Map<String, dynamic> json) {
+    return TemplateSummary(
+      arn: json['arn'] as String?,
+      description: json['description'] as String?,
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final description = this.description;
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (arn != null) 'arn': arn,
+      if (description != null) 'description': description,
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+class TemplateStatus {
+  static const created = TemplateStatus._('CREATED');
+  static const ready = TemplateStatus._('READY');
+  static const pendingCreation = TemplateStatus._('PENDING_CREATION');
+  static const creating = TemplateStatus._('CREATING');
+  static const creationFailed = TemplateStatus._('CREATION_FAILED');
+
+  final String value;
+
+  const TemplateStatus._(this.value);
+
+  static const values = [
+    created,
+    ready,
+    pendingCreation,
+    creating,
+    creationFailed
+  ];
+
+  static TemplateStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TemplateStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TemplateStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The input parameters of a template.
+class TemplateInput {
+  /// The data type of the template input.
+  final DataType? dataType;
+
+  /// The name of the template.
+  final String? inputName;
+
+  /// Determine if an input is required from the template.
+  final bool? required;
+
+  TemplateInput({
+    this.dataType,
+    this.inputName,
+    this.required,
+  });
+
+  factory TemplateInput.fromJson(Map<String, dynamic> json) {
+    return TemplateInput(
+      dataType: (json['dataType'] as String?)?.let(DataType.fromString),
+      inputName: json['inputName'] as String?,
+      required: json['required'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataType = this.dataType;
+    final inputName = this.inputName;
+    final required = this.required;
+    return {
+      if (dataType != null) 'dataType': dataType.value,
+      if (inputName != null) 'inputName': inputName,
+      if (required != null) 'required': required,
+    };
+  }
+}
+
+/// The migration workflow template used as the source for the new template.
+class TemplateSource {
+  /// The ID of the workflow from the source migration workflow template.
+  final String? workflowId;
+
+  TemplateSource({
+    this.workflowId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final workflowId = this.workflowId;
+    return {
+      if (workflowId != null) 'workflowId': workflowId,
     };
   }
 }
@@ -2788,413 +4253,6 @@ class MigrationWorkflowSummary {
   }
 }
 
-class Owner {
-  static const awsManaged = Owner._('AWS_MANAGED');
-  static const custom = Owner._('CUSTOM');
-
-  final String value;
-
-  const Owner._(this.value);
-
-  static const values = [awsManaged, custom];
-
-  static Owner fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Owner._(value));
-
-  @override
-  bool operator ==(other) => other is Owner && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Command to be run on a particular operating system.
-class PlatformCommand {
-  /// Command for Linux.
-  final String? linux;
-
-  /// Command for Windows.
-  final String? windows;
-
-  PlatformCommand({
-    this.linux,
-    this.windows,
-  });
-
-  factory PlatformCommand.fromJson(Map<String, dynamic> json) {
-    return PlatformCommand(
-      linux: json['linux'] as String?,
-      windows: json['windows'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final linux = this.linux;
-    final windows = this.windows;
-    return {
-      if (linux != null) 'linux': linux,
-      if (windows != null) 'windows': windows,
-    };
-  }
-}
-
-/// The script location for a particular operating system.
-class PlatformScriptKey {
-  /// The script location for Linux.
-  final String? linux;
-
-  /// The script location for Windows.
-  final String? windows;
-
-  PlatformScriptKey({
-    this.linux,
-    this.windows,
-  });
-
-  factory PlatformScriptKey.fromJson(Map<String, dynamic> json) {
-    return PlatformScriptKey(
-      linux: json['linux'] as String?,
-      windows: json['windows'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final linux = this.linux;
-    final windows = this.windows;
-    return {
-      if (linux != null) 'linux': linux,
-      if (windows != null) 'windows': windows,
-    };
-  }
-}
-
-class PluginHealth {
-  static const healthy = PluginHealth._('HEALTHY');
-  static const unhealthy = PluginHealth._('UNHEALTHY');
-
-  final String value;
-
-  const PluginHealth._(this.value);
-
-  static const values = [healthy, unhealthy];
-
-  static PluginHealth fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => PluginHealth._(value));
-
-  @override
-  bool operator ==(other) => other is PluginHealth && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The summary of the Migration Hub Orchestrator plugin.
-class PluginSummary {
-  /// The name of the host.
-  final String? hostname;
-
-  /// The IP address at which the plugin is located.
-  final String? ipAddress;
-
-  /// The ID of the plugin.
-  final String? pluginId;
-
-  /// The time at which the plugin was registered.
-  final String? registeredTime;
-
-  /// The status of the plugin.
-  final PluginHealth? status;
-
-  /// The version of the plugin.
-  final String? version;
-
-  PluginSummary({
-    this.hostname,
-    this.ipAddress,
-    this.pluginId,
-    this.registeredTime,
-    this.status,
-    this.version,
-  });
-
-  factory PluginSummary.fromJson(Map<String, dynamic> json) {
-    return PluginSummary(
-      hostname: json['hostname'] as String?,
-      ipAddress: json['ipAddress'] as String?,
-      pluginId: json['pluginId'] as String?,
-      registeredTime: json['registeredTime'] as String?,
-      status: (json['status'] as String?)?.let(PluginHealth.fromString),
-      version: json['version'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hostname = this.hostname;
-    final ipAddress = this.ipAddress;
-    final pluginId = this.pluginId;
-    final registeredTime = this.registeredTime;
-    final status = this.status;
-    final version = this.version;
-    return {
-      if (hostname != null) 'hostname': hostname,
-      if (ipAddress != null) 'ipAddress': ipAddress,
-      if (pluginId != null) 'pluginId': pluginId,
-      if (registeredTime != null) 'registeredTime': registeredTime,
-      if (status != null) 'status': status.value,
-      if (version != null) 'version': version,
-    };
-  }
-}
-
-class RetryWorkflowStepResponse {
-  /// The ID of the step.
-  final String? id;
-
-  /// The status of the step.
-  final StepStatus? status;
-
-  /// The ID of the step group.
-  final String? stepGroupId;
-
-  /// The ID of the migration workflow.
-  final String? workflowId;
-
-  RetryWorkflowStepResponse({
-    this.id,
-    this.status,
-    this.stepGroupId,
-    this.workflowId,
-  });
-
-  factory RetryWorkflowStepResponse.fromJson(Map<String, dynamic> json) {
-    return RetryWorkflowStepResponse(
-      id: json['id'] as String?,
-      status: (json['status'] as String?)?.let(StepStatus.fromString),
-      stepGroupId: json['stepGroupId'] as String?,
-      workflowId: json['workflowId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final status = this.status;
-    final stepGroupId = this.stepGroupId;
-    final workflowId = this.workflowId;
-    return {
-      if (id != null) 'id': id,
-      if (status != null) 'status': status.value,
-      if (stepGroupId != null) 'stepGroupId': stepGroupId,
-      if (workflowId != null) 'workflowId': workflowId,
-    };
-  }
-}
-
-class RunEnvironment {
-  static const aws = RunEnvironment._('AWS');
-  static const onpremise = RunEnvironment._('ONPREMISE');
-
-  final String value;
-
-  const RunEnvironment._(this.value);
-
-  static const values = [aws, onpremise];
-
-  static RunEnvironment fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RunEnvironment._(value));
-
-  @override
-  bool operator ==(other) => other is RunEnvironment && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class StartMigrationWorkflowResponse {
-  /// The Amazon Resource Name (ARN) of the migration workflow.
-  final String? arn;
-
-  /// The ID of the migration workflow.
-  final String? id;
-
-  /// The time at which the migration workflow was last started.
-  final DateTime? lastStartTime;
-
-  /// The status of the migration workflow.
-  final MigrationWorkflowStatusEnum? status;
-
-  /// The status message of the migration workflow.
-  final String? statusMessage;
-
-  StartMigrationWorkflowResponse({
-    this.arn,
-    this.id,
-    this.lastStartTime,
-    this.status,
-    this.statusMessage,
-  });
-
-  factory StartMigrationWorkflowResponse.fromJson(Map<String, dynamic> json) {
-    return StartMigrationWorkflowResponse(
-      arn: json['arn'] as String?,
-      id: json['id'] as String?,
-      lastStartTime: timeStampFromJson(json['lastStartTime']),
-      status: (json['status'] as String?)
-          ?.let(MigrationWorkflowStatusEnum.fromString),
-      statusMessage: json['statusMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final id = this.id;
-    final lastStartTime = this.lastStartTime;
-    final status = this.status;
-    final statusMessage = this.statusMessage;
-    return {
-      if (arn != null) 'arn': arn,
-      if (id != null) 'id': id,
-      if (lastStartTime != null)
-        'lastStartTime': unixTimestampToJson(lastStartTime),
-      if (status != null) 'status': status.value,
-      if (statusMessage != null) 'statusMessage': statusMessage,
-    };
-  }
-}
-
-class StepActionType {
-  static const manual = StepActionType._('MANUAL');
-  static const automated = StepActionType._('AUTOMATED');
-
-  final String value;
-
-  const StepActionType._(this.value);
-
-  static const values = [manual, automated];
-
-  static StepActionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => StepActionType._(value));
-
-  @override
-  bool operator ==(other) => other is StepActionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The custom script to run tests on source or target environments.
-class StepAutomationConfiguration {
-  /// The command to run the script.
-  final PlatformCommand? command;
-
-  /// The source or target environment.
-  final RunEnvironment? runEnvironment;
-
-  /// The Amazon S3 bucket where the script is located.
-  final String? scriptLocationS3Bucket;
-
-  /// The Amazon S3 key for the script location.
-  final PlatformScriptKey? scriptLocationS3Key;
-
-  /// The servers on which to run the script.
-  final TargetType? targetType;
-
-  StepAutomationConfiguration({
-    this.command,
-    this.runEnvironment,
-    this.scriptLocationS3Bucket,
-    this.scriptLocationS3Key,
-    this.targetType,
-  });
-
-  factory StepAutomationConfiguration.fromJson(Map<String, dynamic> json) {
-    return StepAutomationConfiguration(
-      command: json['command'] != null
-          ? PlatformCommand.fromJson(json['command'] as Map<String, dynamic>)
-          : null,
-      runEnvironment:
-          (json['runEnvironment'] as String?)?.let(RunEnvironment.fromString),
-      scriptLocationS3Bucket: json['scriptLocationS3Bucket'] as String?,
-      scriptLocationS3Key: json['scriptLocationS3Key'] != null
-          ? PlatformScriptKey.fromJson(
-              json['scriptLocationS3Key'] as Map<String, dynamic>)
-          : null,
-      targetType: (json['targetType'] as String?)?.let(TargetType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final command = this.command;
-    final runEnvironment = this.runEnvironment;
-    final scriptLocationS3Bucket = this.scriptLocationS3Bucket;
-    final scriptLocationS3Key = this.scriptLocationS3Key;
-    final targetType = this.targetType;
-    return {
-      if (command != null) 'command': command,
-      if (runEnvironment != null) 'runEnvironment': runEnvironment.value,
-      if (scriptLocationS3Bucket != null)
-        'scriptLocationS3Bucket': scriptLocationS3Bucket,
-      if (scriptLocationS3Key != null)
-        'scriptLocationS3Key': scriptLocationS3Key,
-      if (targetType != null) 'targetType': targetType.value,
-    };
-  }
-}
-
-class StepGroupStatus {
-  static const awaitingDependencies =
-      StepGroupStatus._('AWAITING_DEPENDENCIES');
-  static const ready = StepGroupStatus._('READY');
-  static const inProgress = StepGroupStatus._('IN_PROGRESS');
-  static const completed = StepGroupStatus._('COMPLETED');
-  static const failed = StepGroupStatus._('FAILED');
-  static const paused = StepGroupStatus._('PAUSED');
-  static const pausing = StepGroupStatus._('PAUSING');
-  static const userAttentionRequired =
-      StepGroupStatus._('USER_ATTENTION_REQUIRED');
-
-  final String value;
-
-  const StepGroupStatus._(this.value);
-
-  static const values = [
-    awaitingDependencies,
-    ready,
-    inProgress,
-    completed,
-    failed,
-    paused,
-    pausing,
-    userAttentionRequired
-  ];
-
-  static StepGroupStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => StepGroupStatus._(value));
-
-  @override
-  bool operator ==(other) => other is StepGroupStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 /// A map of key value pairs that is generated when you create a migration
 /// workflow. The key value pairs will differ based on your selection of the
 /// template.
@@ -3241,1065 +4299,6 @@ class StepInput {
       if (listOfStringsValue != null) 'listOfStringsValue': listOfStringsValue,
       if (mapOfStringValue != null) 'mapOfStringValue': mapOfStringValue,
       if (stringValue != null) 'stringValue': stringValue,
-    };
-  }
-}
-
-/// The output of the step.
-class StepOutput {
-  /// The data type of the step output.
-  final DataType? dataType;
-
-  /// The name of the step.
-  final String? name;
-
-  /// Determine if an output is required from a step.
-  final bool? required;
-
-  StepOutput({
-    this.dataType,
-    this.name,
-    this.required,
-  });
-
-  factory StepOutput.fromJson(Map<String, dynamic> json) {
-    return StepOutput(
-      dataType: (json['dataType'] as String?)?.let(DataType.fromString),
-      name: json['name'] as String?,
-      required: json['required'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataType = this.dataType;
-    final name = this.name;
-    final required = this.required;
-    return {
-      if (dataType != null) 'dataType': dataType.value,
-      if (name != null) 'name': name,
-      if (required != null) 'required': required,
-    };
-  }
-}
-
-class StepStatus {
-  static const awaitingDependencies = StepStatus._('AWAITING_DEPENDENCIES');
-  static const skipped = StepStatus._('SKIPPED');
-  static const ready = StepStatus._('READY');
-  static const inProgress = StepStatus._('IN_PROGRESS');
-  static const completed = StepStatus._('COMPLETED');
-  static const failed = StepStatus._('FAILED');
-  static const paused = StepStatus._('PAUSED');
-  static const userAttentionRequired = StepStatus._('USER_ATTENTION_REQUIRED');
-
-  final String value;
-
-  const StepStatus._(this.value);
-
-  static const values = [
-    awaitingDependencies,
-    skipped,
-    ready,
-    inProgress,
-    completed,
-    failed,
-    paused,
-    userAttentionRequired
-  ];
-
-  static StepStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => StepStatus._(value));
-
-  @override
-  bool operator ==(other) => other is StepStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class StopMigrationWorkflowResponse {
-  /// The Amazon Resource Name (ARN) of the migration workflow.
-  final String? arn;
-
-  /// The ID of the migration workflow.
-  final String? id;
-
-  /// The time at which the migration workflow was stopped.
-  final DateTime? lastStopTime;
-
-  /// The status of the migration workflow.
-  final MigrationWorkflowStatusEnum? status;
-
-  /// The status message of the migration workflow.
-  final String? statusMessage;
-
-  StopMigrationWorkflowResponse({
-    this.arn,
-    this.id,
-    this.lastStopTime,
-    this.status,
-    this.statusMessage,
-  });
-
-  factory StopMigrationWorkflowResponse.fromJson(Map<String, dynamic> json) {
-    return StopMigrationWorkflowResponse(
-      arn: json['arn'] as String?,
-      id: json['id'] as String?,
-      lastStopTime: timeStampFromJson(json['lastStopTime']),
-      status: (json['status'] as String?)
-          ?.let(MigrationWorkflowStatusEnum.fromString),
-      statusMessage: json['statusMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final id = this.id;
-    final lastStopTime = this.lastStopTime;
-    final status = this.status;
-    final statusMessage = this.statusMessage;
-    return {
-      if (arn != null) 'arn': arn,
-      if (id != null) 'id': id,
-      if (lastStopTime != null)
-        'lastStopTime': unixTimestampToJson(lastStopTime),
-      if (status != null) 'status': status.value,
-      if (statusMessage != null) 'statusMessage': statusMessage,
-    };
-  }
-}
-
-class TagResourceResponse {
-  TagResourceResponse();
-
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class TargetType {
-  static const single = TargetType._('SINGLE');
-  static const all = TargetType._('ALL');
-  static const none = TargetType._('NONE');
-
-  final String value;
-
-  const TargetType._(this.value);
-
-  static const values = [single, all, none];
-
-  static TargetType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => TargetType._(value));
-
-  @override
-  bool operator ==(other) => other is TargetType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The input parameters of a template.
-class TemplateInput {
-  /// The data type of the template input.
-  final DataType? dataType;
-
-  /// The name of the template.
-  final String? inputName;
-
-  /// Determine if an input is required from the template.
-  final bool? required;
-
-  TemplateInput({
-    this.dataType,
-    this.inputName,
-    this.required,
-  });
-
-  factory TemplateInput.fromJson(Map<String, dynamic> json) {
-    return TemplateInput(
-      dataType: (json['dataType'] as String?)?.let(DataType.fromString),
-      inputName: json['inputName'] as String?,
-      required: json['required'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataType = this.dataType;
-    final inputName = this.inputName;
-    final required = this.required;
-    return {
-      if (dataType != null) 'dataType': dataType.value,
-      if (inputName != null) 'inputName': inputName,
-      if (required != null) 'required': required,
-    };
-  }
-}
-
-/// The migration workflow template used as the source for the new template.
-class TemplateSource {
-  /// The ID of the workflow from the source migration workflow template.
-  final String? workflowId;
-
-  TemplateSource({
-    this.workflowId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final workflowId = this.workflowId;
-    return {
-      if (workflowId != null) 'workflowId': workflowId,
-    };
-  }
-}
-
-class TemplateStatus {
-  static const created = TemplateStatus._('CREATED');
-  static const ready = TemplateStatus._('READY');
-  static const pendingCreation = TemplateStatus._('PENDING_CREATION');
-  static const creating = TemplateStatus._('CREATING');
-  static const creationFailed = TemplateStatus._('CREATION_FAILED');
-
-  final String value;
-
-  const TemplateStatus._(this.value);
-
-  static const values = [
-    created,
-    ready,
-    pendingCreation,
-    creating,
-    creationFailed
-  ];
-
-  static TemplateStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TemplateStatus._(value));
-
-  @override
-  bool operator ==(other) => other is TemplateStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The summary of the step group in the template.
-class TemplateStepGroupSummary {
-  /// The ID of the step group.
-  final String? id;
-
-  /// The name of the step group.
-  final String? name;
-
-  /// The next step group.
-  final List<String>? next;
-
-  /// The previous step group.
-  final List<String>? previous;
-
-  TemplateStepGroupSummary({
-    this.id,
-    this.name,
-    this.next,
-    this.previous,
-  });
-
-  factory TemplateStepGroupSummary.fromJson(Map<String, dynamic> json) {
-    return TemplateStepGroupSummary(
-      id: json['id'] as String?,
-      name: json['name'] as String?,
-      next: (json['next'] as List?)?.nonNulls.map((e) => e as String).toList(),
-      previous: (json['previous'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final name = this.name;
-    final next = this.next;
-    final previous = this.previous;
-    return {
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-      if (next != null) 'next': next,
-      if (previous != null) 'previous': previous,
-    };
-  }
-}
-
-/// The summary of the step.
-class TemplateStepSummary {
-  /// The ID of the step.
-  final String? id;
-
-  /// The name of the step.
-  final String? name;
-
-  /// The next step.
-  final List<String>? next;
-
-  /// The owner of the step.
-  final Owner? owner;
-
-  /// The previous step.
-  final List<String>? previous;
-
-  /// The action type of the step. You must run and update the status of a manual
-  /// step for the workflow to continue after the completion of the step.
-  final StepActionType? stepActionType;
-
-  /// The ID of the step group.
-  final String? stepGroupId;
-
-  /// The servers on which to run the script.
-  final TargetType? targetType;
-
-  /// The ID of the template.
-  final String? templateId;
-
-  TemplateStepSummary({
-    this.id,
-    this.name,
-    this.next,
-    this.owner,
-    this.previous,
-    this.stepActionType,
-    this.stepGroupId,
-    this.targetType,
-    this.templateId,
-  });
-
-  factory TemplateStepSummary.fromJson(Map<String, dynamic> json) {
-    return TemplateStepSummary(
-      id: json['id'] as String?,
-      name: json['name'] as String?,
-      next: (json['next'] as List?)?.nonNulls.map((e) => e as String).toList(),
-      owner: (json['owner'] as String?)?.let(Owner.fromString),
-      previous: (json['previous'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      stepActionType:
-          (json['stepActionType'] as String?)?.let(StepActionType.fromString),
-      stepGroupId: json['stepGroupId'] as String?,
-      targetType: (json['targetType'] as String?)?.let(TargetType.fromString),
-      templateId: json['templateId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final name = this.name;
-    final next = this.next;
-    final owner = this.owner;
-    final previous = this.previous;
-    final stepActionType = this.stepActionType;
-    final stepGroupId = this.stepGroupId;
-    final targetType = this.targetType;
-    final templateId = this.templateId;
-    return {
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-      if (next != null) 'next': next,
-      if (owner != null) 'owner': owner.value,
-      if (previous != null) 'previous': previous,
-      if (stepActionType != null) 'stepActionType': stepActionType.value,
-      if (stepGroupId != null) 'stepGroupId': stepGroupId,
-      if (targetType != null) 'targetType': targetType.value,
-      if (templateId != null) 'templateId': templateId,
-    };
-  }
-}
-
-/// The summary of the template.
-class TemplateSummary {
-  /// The Amazon Resource Name (ARN) of the template.
-  final String? arn;
-
-  /// The description of the template.
-  final String? description;
-
-  /// The ID of the template.
-  final String? id;
-
-  /// The name of the template.
-  final String? name;
-
-  TemplateSummary({
-    this.arn,
-    this.description,
-    this.id,
-    this.name,
-  });
-
-  factory TemplateSummary.fromJson(Map<String, dynamic> json) {
-    return TemplateSummary(
-      arn: json['arn'] as String?,
-      description: json['description'] as String?,
-      id: json['id'] as String?,
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final description = this.description;
-    final id = this.id;
-    final name = this.name;
-    return {
-      if (arn != null) 'arn': arn,
-      if (description != null) 'description': description,
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-    };
-  }
-}
-
-/// List of AWS services utilized in a migration workflow.
-class Tool {
-  /// The name of an AWS service.
-  final String? name;
-
-  /// The URL of an AWS service.
-  final String? url;
-
-  Tool({
-    this.name,
-    this.url,
-  });
-
-  factory Tool.fromJson(Map<String, dynamic> json) {
-    return Tool(
-      name: json['name'] as String?,
-      url: json['url'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final url = this.url;
-    return {
-      if (name != null) 'name': name,
-      if (url != null) 'url': url,
-    };
-  }
-}
-
-class UntagResourceResponse {
-  UntagResourceResponse();
-
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateMigrationWorkflowResponse {
-  /// The ID of the application configured in Application Discovery Service.
-  final String? adsApplicationConfigurationId;
-
-  /// The Amazon Resource Name (ARN) of the migration workflow.
-  final String? arn;
-
-  /// The time at which the migration workflow was created.
-  final DateTime? creationTime;
-
-  /// The description of the migration workflow.
-  final String? description;
-
-  /// The ID of the migration workflow.
-  final String? id;
-
-  /// The time at which the migration workflow was last modified.
-  final DateTime? lastModifiedTime;
-
-  /// The name of the migration workflow.
-  final String? name;
-
-  /// The status of the migration workflow.
-  final MigrationWorkflowStatusEnum? status;
-
-  /// The servers on which a step will be run.
-  final List<String>? stepTargets;
-
-  /// The tags added to the migration workflow.
-  final Map<String, String>? tags;
-
-  /// The ID of the template.
-  final String? templateId;
-
-  /// The inputs required to update a migration workflow.
-  final Map<String, StepInput>? workflowInputs;
-
-  UpdateMigrationWorkflowResponse({
-    this.adsApplicationConfigurationId,
-    this.arn,
-    this.creationTime,
-    this.description,
-    this.id,
-    this.lastModifiedTime,
-    this.name,
-    this.status,
-    this.stepTargets,
-    this.tags,
-    this.templateId,
-    this.workflowInputs,
-  });
-
-  factory UpdateMigrationWorkflowResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateMigrationWorkflowResponse(
-      adsApplicationConfigurationId:
-          json['adsApplicationConfigurationId'] as String?,
-      arn: json['arn'] as String?,
-      creationTime: timeStampFromJson(json['creationTime']),
-      description: json['description'] as String?,
-      id: json['id'] as String?,
-      lastModifiedTime: timeStampFromJson(json['lastModifiedTime']),
-      name: json['name'] as String?,
-      status: (json['status'] as String?)
-          ?.let(MigrationWorkflowStatusEnum.fromString),
-      stepTargets: (json['stepTargets'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      templateId: json['templateId'] as String?,
-      workflowInputs: (json['workflowInputs'] as Map<String, dynamic>?)?.map(
-          (k, e) => MapEntry(k, StepInput.fromJson(e as Map<String, dynamic>))),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final adsApplicationConfigurationId = this.adsApplicationConfigurationId;
-    final arn = this.arn;
-    final creationTime = this.creationTime;
-    final description = this.description;
-    final id = this.id;
-    final lastModifiedTime = this.lastModifiedTime;
-    final name = this.name;
-    final status = this.status;
-    final stepTargets = this.stepTargets;
-    final tags = this.tags;
-    final templateId = this.templateId;
-    final workflowInputs = this.workflowInputs;
-    return {
-      if (adsApplicationConfigurationId != null)
-        'adsApplicationConfigurationId': adsApplicationConfigurationId,
-      if (arn != null) 'arn': arn,
-      if (creationTime != null)
-        'creationTime': unixTimestampToJson(creationTime),
-      if (description != null) 'description': description,
-      if (id != null) 'id': id,
-      if (lastModifiedTime != null)
-        'lastModifiedTime': unixTimestampToJson(lastModifiedTime),
-      if (name != null) 'name': name,
-      if (status != null) 'status': status.value,
-      if (stepTargets != null) 'stepTargets': stepTargets,
-      if (tags != null) 'tags': tags,
-      if (templateId != null) 'templateId': templateId,
-      if (workflowInputs != null) 'workflowInputs': workflowInputs,
-    };
-  }
-}
-
-class UpdateTemplateResponse {
-  /// The tags added to the migration workflow template.
-  final Map<String, String>? tags;
-
-  /// The ARN of the migration workflow template being updated. The format for an
-  /// Migration Hub Orchestrator template ARN is
-  /// <code>arn:aws:migrationhub-orchestrator:region:account:template/template-abcd1234</code>.
-  /// For more information about ARNs, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">Amazon
-  /// Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.
-  final String? templateArn;
-
-  /// The ID of the migration workflow template being updated.
-  final String? templateId;
-
-  UpdateTemplateResponse({
-    this.tags,
-    this.templateArn,
-    this.templateId,
-  });
-
-  factory UpdateTemplateResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateTemplateResponse(
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      templateArn: json['templateArn'] as String?,
-      templateId: json['templateId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tags = this.tags;
-    final templateArn = this.templateArn;
-    final templateId = this.templateId;
-    return {
-      if (tags != null) 'tags': tags,
-      if (templateArn != null) 'templateArn': templateArn,
-      if (templateId != null) 'templateId': templateId,
-    };
-  }
-}
-
-class UpdateWorkflowStepGroupResponse {
-  /// The description of the step group.
-  final String? description;
-
-  /// The ID of the step group.
-  final String? id;
-
-  /// The time at which the step group was last modified.
-  final DateTime? lastModifiedTime;
-
-  /// The name of the step group.
-  final String? name;
-
-  /// The next step group.
-  final List<String>? next;
-
-  /// The previous step group.
-  final List<String>? previous;
-
-  /// List of AWS services utilized in a migration workflow.
-  final List<Tool>? tools;
-
-  /// The ID of the migration workflow.
-  final String? workflowId;
-
-  UpdateWorkflowStepGroupResponse({
-    this.description,
-    this.id,
-    this.lastModifiedTime,
-    this.name,
-    this.next,
-    this.previous,
-    this.tools,
-    this.workflowId,
-  });
-
-  factory UpdateWorkflowStepGroupResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateWorkflowStepGroupResponse(
-      description: json['description'] as String?,
-      id: json['id'] as String?,
-      lastModifiedTime: timeStampFromJson(json['lastModifiedTime']),
-      name: json['name'] as String?,
-      next: (json['next'] as List?)?.nonNulls.map((e) => e as String).toList(),
-      previous: (json['previous'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      tools: (json['tools'] as List?)
-          ?.nonNulls
-          .map((e) => Tool.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      workflowId: json['workflowId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final id = this.id;
-    final lastModifiedTime = this.lastModifiedTime;
-    final name = this.name;
-    final next = this.next;
-    final previous = this.previous;
-    final tools = this.tools;
-    final workflowId = this.workflowId;
-    return {
-      if (description != null) 'description': description,
-      if (id != null) 'id': id,
-      if (lastModifiedTime != null)
-        'lastModifiedTime': unixTimestampToJson(lastModifiedTime),
-      if (name != null) 'name': name,
-      if (next != null) 'next': next,
-      if (previous != null) 'previous': previous,
-      if (tools != null) 'tools': tools,
-      if (workflowId != null) 'workflowId': workflowId,
-    };
-  }
-}
-
-class UpdateWorkflowStepResponse {
-  /// The ID of the step.
-  final String? id;
-
-  /// The name of the step.
-  final String? name;
-
-  /// The ID of the step group.
-  final String? stepGroupId;
-
-  /// The ID of the migration workflow.
-  final String? workflowId;
-
-  UpdateWorkflowStepResponse({
-    this.id,
-    this.name,
-    this.stepGroupId,
-    this.workflowId,
-  });
-
-  factory UpdateWorkflowStepResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateWorkflowStepResponse(
-      id: json['id'] as String?,
-      name: json['name'] as String?,
-      stepGroupId: json['stepGroupId'] as String?,
-      workflowId: json['workflowId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final name = this.name;
-    final stepGroupId = this.stepGroupId;
-    final workflowId = this.workflowId;
-    return {
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-      if (stepGroupId != null) 'stepGroupId': stepGroupId,
-      if (workflowId != null) 'workflowId': workflowId,
-    };
-  }
-}
-
-/// The custom script to run tests on source or target environments.
-class WorkflowStepAutomationConfiguration {
-  /// The command required to run the script.
-  final PlatformCommand? command;
-
-  /// The source or target environment.
-  final RunEnvironment? runEnvironment;
-
-  /// The Amazon S3 bucket where the script is located.
-  final String? scriptLocationS3Bucket;
-
-  /// The Amazon S3 key for the script location.
-  final PlatformScriptKey? scriptLocationS3Key;
-
-  /// The servers on which to run the script.
-  final TargetType? targetType;
-
-  WorkflowStepAutomationConfiguration({
-    this.command,
-    this.runEnvironment,
-    this.scriptLocationS3Bucket,
-    this.scriptLocationS3Key,
-    this.targetType,
-  });
-
-  factory WorkflowStepAutomationConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return WorkflowStepAutomationConfiguration(
-      command: json['command'] != null
-          ? PlatformCommand.fromJson(json['command'] as Map<String, dynamic>)
-          : null,
-      runEnvironment:
-          (json['runEnvironment'] as String?)?.let(RunEnvironment.fromString),
-      scriptLocationS3Bucket: json['scriptLocationS3Bucket'] as String?,
-      scriptLocationS3Key: json['scriptLocationS3Key'] != null
-          ? PlatformScriptKey.fromJson(
-              json['scriptLocationS3Key'] as Map<String, dynamic>)
-          : null,
-      targetType: (json['targetType'] as String?)?.let(TargetType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final command = this.command;
-    final runEnvironment = this.runEnvironment;
-    final scriptLocationS3Bucket = this.scriptLocationS3Bucket;
-    final scriptLocationS3Key = this.scriptLocationS3Key;
-    final targetType = this.targetType;
-    return {
-      if (command != null) 'command': command,
-      if (runEnvironment != null) 'runEnvironment': runEnvironment.value,
-      if (scriptLocationS3Bucket != null)
-        'scriptLocationS3Bucket': scriptLocationS3Bucket,
-      if (scriptLocationS3Key != null)
-        'scriptLocationS3Key': scriptLocationS3Key,
-      if (targetType != null) 'targetType': targetType.value,
-    };
-  }
-}
-
-/// The summary of a step group in a workflow.
-class WorkflowStepGroupSummary {
-  /// The ID of the step group.
-  final String? id;
-
-  /// The name of the step group.
-  final String? name;
-
-  /// The next step group.
-  final List<String>? next;
-
-  /// The owner of the step group.
-  final Owner? owner;
-
-  /// The previous step group.
-  final List<String>? previous;
-
-  /// The status of the step group.
-  final StepGroupStatus? status;
-
-  WorkflowStepGroupSummary({
-    this.id,
-    this.name,
-    this.next,
-    this.owner,
-    this.previous,
-    this.status,
-  });
-
-  factory WorkflowStepGroupSummary.fromJson(Map<String, dynamic> json) {
-    return WorkflowStepGroupSummary(
-      id: json['id'] as String?,
-      name: json['name'] as String?,
-      next: (json['next'] as List?)?.nonNulls.map((e) => e as String).toList(),
-      owner: (json['owner'] as String?)?.let(Owner.fromString),
-      previous: (json['previous'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      status: (json['status'] as String?)?.let(StepGroupStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final name = this.name;
-    final next = this.next;
-    final owner = this.owner;
-    final previous = this.previous;
-    final status = this.status;
-    return {
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-      if (next != null) 'next': next,
-      if (owner != null) 'owner': owner.value,
-      if (previous != null) 'previous': previous,
-      if (status != null) 'status': status.value,
-    };
-  }
-}
-
-/// The output of a step.
-class WorkflowStepOutput {
-  /// The data type of the output.
-  final DataType? dataType;
-
-  /// The name of the step.
-  final String? name;
-
-  /// Determine if an output is required from a step.
-  final bool? required;
-
-  /// The value of the output.
-  final WorkflowStepOutputUnion? value;
-
-  WorkflowStepOutput({
-    this.dataType,
-    this.name,
-    this.required,
-    this.value,
-  });
-
-  factory WorkflowStepOutput.fromJson(Map<String, dynamic> json) {
-    return WorkflowStepOutput(
-      dataType: (json['dataType'] as String?)?.let(DataType.fromString),
-      name: json['name'] as String?,
-      required: json['required'] as bool?,
-      value: json['value'] != null
-          ? WorkflowStepOutputUnion.fromJson(
-              json['value'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataType = this.dataType;
-    final name = this.name;
-    final required = this.required;
-    final value = this.value;
-    return {
-      if (dataType != null) 'dataType': dataType.value,
-      if (name != null) 'name': name,
-      if (required != null) 'required': required,
-      if (value != null) 'value': value,
-    };
-  }
-}
-
-/// A structure to hold multiple values of an output.
-class WorkflowStepOutputUnion {
-  /// The integer value.
-  final int? integerValue;
-
-  /// The list of string value.
-  final List<String>? listOfStringValue;
-
-  /// The string value.
-  final String? stringValue;
-
-  WorkflowStepOutputUnion({
-    this.integerValue,
-    this.listOfStringValue,
-    this.stringValue,
-  });
-
-  factory WorkflowStepOutputUnion.fromJson(Map<String, dynamic> json) {
-    return WorkflowStepOutputUnion(
-      integerValue: json['integerValue'] as int?,
-      listOfStringValue: (json['listOfStringValue'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      stringValue: json['stringValue'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final integerValue = this.integerValue;
-    final listOfStringValue = this.listOfStringValue;
-    final stringValue = this.stringValue;
-    return {
-      if (integerValue != null) 'integerValue': integerValue,
-      if (listOfStringValue != null) 'listOfStringValue': listOfStringValue,
-      if (stringValue != null) 'stringValue': stringValue,
-    };
-  }
-}
-
-/// The summary of the step in a migration workflow.
-class WorkflowStepSummary {
-  /// The description of the step.
-  final String? description;
-
-  /// The name of the step.
-  final String? name;
-
-  /// The next step.
-  final List<String>? next;
-
-  /// The number of servers that have been migrated.
-  final int? noOfSrvCompleted;
-
-  /// The number of servers that have failed to migrate.
-  final int? noOfSrvFailed;
-
-  /// The owner of the step.
-  final Owner? owner;
-
-  /// The previous step.
-  final List<String>? previous;
-
-  /// The location of the script.
-  final String? scriptLocation;
-
-  /// The status of the step.
-  final StepStatus? status;
-
-  /// The status message of the migration workflow.
-  final String? statusMessage;
-
-  /// The action type of the step. You must run and update the status of a manual
-  /// step for the workflow to continue after the completion of the step.
-  final StepActionType? stepActionType;
-
-  /// The ID of the step.
-  final String? stepId;
-
-  /// The total number of servers that have been migrated.
-  final int? totalNoOfSrv;
-
-  WorkflowStepSummary({
-    this.description,
-    this.name,
-    this.next,
-    this.noOfSrvCompleted,
-    this.noOfSrvFailed,
-    this.owner,
-    this.previous,
-    this.scriptLocation,
-    this.status,
-    this.statusMessage,
-    this.stepActionType,
-    this.stepId,
-    this.totalNoOfSrv,
-  });
-
-  factory WorkflowStepSummary.fromJson(Map<String, dynamic> json) {
-    return WorkflowStepSummary(
-      description: json['description'] as String?,
-      name: json['name'] as String?,
-      next: (json['next'] as List?)?.nonNulls.map((e) => e as String).toList(),
-      noOfSrvCompleted: json['noOfSrvCompleted'] as int?,
-      noOfSrvFailed: json['noOfSrvFailed'] as int?,
-      owner: (json['owner'] as String?)?.let(Owner.fromString),
-      previous: (json['previous'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      scriptLocation: json['scriptLocation'] as String?,
-      status: (json['status'] as String?)?.let(StepStatus.fromString),
-      statusMessage: json['statusMessage'] as String?,
-      stepActionType:
-          (json['stepActionType'] as String?)?.let(StepActionType.fromString),
-      stepId: json['stepId'] as String?,
-      totalNoOfSrv: json['totalNoOfSrv'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final name = this.name;
-    final next = this.next;
-    final noOfSrvCompleted = this.noOfSrvCompleted;
-    final noOfSrvFailed = this.noOfSrvFailed;
-    final owner = this.owner;
-    final previous = this.previous;
-    final scriptLocation = this.scriptLocation;
-    final status = this.status;
-    final statusMessage = this.statusMessage;
-    final stepActionType = this.stepActionType;
-    final stepId = this.stepId;
-    final totalNoOfSrv = this.totalNoOfSrv;
-    return {
-      if (description != null) 'description': description,
-      if (name != null) 'name': name,
-      if (next != null) 'next': next,
-      if (noOfSrvCompleted != null) 'noOfSrvCompleted': noOfSrvCompleted,
-      if (noOfSrvFailed != null) 'noOfSrvFailed': noOfSrvFailed,
-      if (owner != null) 'owner': owner.value,
-      if (previous != null) 'previous': previous,
-      if (scriptLocation != null) 'scriptLocation': scriptLocation,
-      if (status != null) 'status': status.value,
-      if (statusMessage != null) 'statusMessage': statusMessage,
-      if (stepActionType != null) 'stepActionType': stepActionType.value,
-      if (stepId != null) 'stepId': stepId,
-      if (totalNoOfSrv != null) 'totalNoOfSrv': totalNoOfSrv,
     };
   }
 }

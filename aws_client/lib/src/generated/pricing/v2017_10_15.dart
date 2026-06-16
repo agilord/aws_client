@@ -44,9 +44,9 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// </li>
 /// </ul>
 /// Use <code>GetServices</code> without a service code to retrieve the service
-/// codes for all Amazon Web Services, then <code>GetServices</code> with a
-/// service code to retrieve the attribute names for that service. After you
-/// have the service code and attribute names, you can use
+/// codes for all Amazon Web Services services, then <code>GetServices</code>
+/// with a service code to retrieve the attribute names for that service. After
+/// you have the service code and attribute names, you can use
 /// <code>GetAttributeValues</code> to see what values are available for an
 /// attribute. With the service code and an attribute name and value, you can
 /// use <code>GetProducts</code> to find specific products that you're
@@ -94,12 +94,13 @@ class Pricing {
   /// <code>operation</code>, <code>locationType</code>, and
   /// <code>instanceCapacity10xlarge</code>.
   ///
-  /// May throw [InvalidParameterException].
-  /// May throw [InvalidNextTokenException].
-  /// May throw [NotFoundException].
-  /// May throw [InternalErrorException].
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [ExpiredNextTokenException].
+  /// May throw [InternalErrorException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [formatVersion] :
   /// The format version that you want the response to be in.
@@ -158,12 +159,13 @@ class Pricing {
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/billing-what-is.html">Billing
   /// and Cost Management User Guide</a>.
   ///
-  /// May throw [InvalidParameterException].
-  /// May throw [InvalidNextTokenException].
-  /// May throw [NotFoundException].
-  /// May throw [InternalErrorException].
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [ExpiredNextTokenException].
+  /// May throw [InternalErrorException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [attributeName] :
   /// The name of the attribute that you want to retrieve the values for, such
@@ -190,7 +192,7 @@ class Pricing {
       'maxResults',
       maxResults,
       1,
-      100,
+      10000,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -225,12 +227,12 @@ class Pricing {
   /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_ListPriceLists.html">ListPriceLists</a>
   /// response.
   ///
-  /// May throw [InvalidParameterException].
-  /// May throw [NotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalErrorException].
-  /// May throw [ThrottlingException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotFoundException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [fileFormat] :
   /// The format that you want to retrieve your Price List files in. The
@@ -268,12 +270,13 @@ class Pricing {
 
   /// Returns a list of all products that match the filter criteria.
   ///
-  /// May throw [InvalidParameterException].
-  /// May throw [InvalidNextTokenException].
-  /// May throw [NotFoundException].
-  /// May throw [InternalErrorException].
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [ExpiredNextTokenException].
+  /// May throw [InternalErrorException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [serviceCode] :
   /// The code for the service whose products you want to retrieve.
@@ -345,14 +348,14 @@ class Pricing {
   /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_GetPriceListFileUrl.html">GetPriceListFileUrl</a>
   /// API.
   ///
-  /// May throw [InvalidParameterException].
-  /// May throw [InvalidNextTokenException].
-  /// May throw [NotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [InternalErrorException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ExpiredNextTokenException].
+  /// May throw [InternalErrorException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotFoundException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [currencyCode] :
   /// The three alphabetical character ISO-4217 currency code that the Price
@@ -362,14 +365,14 @@ class Pricing {
   /// The date that the Price List file prices are effective from.
   ///
   /// Parameter [serviceCode] :
-  /// The service code or the Savings Plan service code for the attributes that
+  /// The service code or the Savings Plans service code for the attributes that
   /// you want to retrieve. For example, to get the list of applicable Amazon
   /// EC2 price lists, use <code>AmazonEC2</code>. For a full list of service
   /// codes containing On-Demand and Reserved Instance (RI) pricing, use the <a
   /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_DescribeServices.html#awscostmanagement-pricing_DescribeServices-request-FormatVersion">DescribeServices</a>
   /// API.
   ///
-  /// To retrieve the Reserved Instance and Compute Savings Plan price lists,
+  /// To retrieve the Reserved Instance and Compute Savings Plans price lists,
   /// use <code>ComputeSavingsPlans</code>.
   ///
   /// To retrieve Machine Learning Savings Plans price lists, use
@@ -428,31 +431,6 @@ class Pricing {
   }
 }
 
-/// The values of a given attribute, such as <code>Throughput Optimized
-/// HDD</code> or <code>Provisioned IOPS</code> for the <code>Amazon EC2</code>
-/// <code>volumeType</code> attribute.
-class AttributeValue {
-  /// The specific value of an <code>attributeName</code>.
-  final String? value;
-
-  AttributeValue({
-    this.value,
-  });
-
-  factory AttributeValue.fromJson(Map<String, dynamic> json) {
-    return AttributeValue(
-      value: json['Value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final value = this.value;
-    return {
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
 class DescribeServicesResponse {
   /// The format version of the response. For example, <code>aws_v1</code>.
   final String? formatVersion;
@@ -490,74 +468,6 @@ class DescribeServicesResponse {
       if (services != null) 'Services': services,
     };
   }
-}
-
-/// The constraints that you want all returned products to match.
-class Filter {
-  /// The product metadata field that you want to filter on. You can filter by
-  /// just the service code to see all products for a specific service, filter by
-  /// just the attribute name to see a specific attribute for multiple services,
-  /// or use both a service code and an attribute name to retrieve only products
-  /// that match both fields.
-  ///
-  /// Valid values include: <code>ServiceCode</code>, and all attribute names
-  ///
-  /// For example, you can filter by the <code>AmazonEC2</code> service code and
-  /// the <code>volumeType</code> attribute name to get the prices for only Amazon
-  /// EC2 volumes.
-  final String field;
-
-  /// The type of filter that you want to use.
-  ///
-  /// Valid values are: <code>TERM_MATCH</code>. <code>TERM_MATCH</code> returns
-  /// only products that match both the given filter field and the given value.
-  final FilterType type;
-
-  /// The service code or attribute value that you want to filter by. If you're
-  /// filtering by service code this is the actual service code, such as
-  /// <code>AmazonEC2</code>. If you're filtering by attribute name, this is the
-  /// attribute value that you want the returned products to match, such as a
-  /// <code>Provisioned IOPS</code> volume.
-  final String value;
-
-  Filter({
-    required this.field,
-    required this.type,
-    required this.value,
-  });
-
-  Map<String, dynamic> toJson() {
-    final field = this.field;
-    final type = this.type;
-    final value = this.value;
-    return {
-      'Field': field,
-      'Type': type.value,
-      'Value': value,
-    };
-  }
-}
-
-class FilterType {
-  static const termMatch = FilterType._('TERM_MATCH');
-
-  final String value;
-
-  const FilterType._(this.value);
-
-  static const values = [termMatch];
-
-  static FilterType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => FilterType._(value));
-
-  @override
-  bool operator ==(other) => other is FilterType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class GetAttributeValuesResponse {
@@ -752,6 +662,125 @@ class PriceList {
       if (fileFormats != null) 'FileFormats': fileFormats,
       if (priceListArn != null) 'PriceListArn': priceListArn,
       if (regionCode != null) 'RegionCode': regionCode,
+    };
+  }
+}
+
+/// The constraints that you want all returned products to match.
+class Filter {
+  /// The product metadata field that you want to filter on. You can filter by
+  /// just the service code to see all products for a specific service, filter by
+  /// just the attribute name to see a specific attribute for multiple services,
+  /// or use both a service code and an attribute name to retrieve only products
+  /// that match both fields.
+  ///
+  /// Valid values include: <code>ServiceCode</code>, and all attribute names
+  ///
+  /// For example, you can filter by the <code>AmazonEC2</code> service code and
+  /// the <code>volumeType</code> attribute name to get the prices for only Amazon
+  /// EC2 volumes.
+  final String field;
+
+  /// The type of filter that you want to use.
+  ///
+  /// Valid values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>TERM_MATCH</code>: Returns only products that match both the given
+  /// filter field and the given value.
+  /// </li>
+  /// <li>
+  /// <code>EQUALS</code>: Returns products that have a field value exactly
+  /// matching the provided value.
+  /// </li>
+  /// <li>
+  /// <code>CONTAINS</code>: Returns products where the field value contains the
+  /// provided value as a substring.
+  /// </li>
+  /// <li>
+  /// <code>ANY_OF</code>: Returns products where the field value is any of the
+  /// provided values.
+  /// </li>
+  /// <li>
+  /// <code>NONE_OF</code>: Returns products where the field value is not any of
+  /// the provided values.
+  /// </li>
+  /// </ul>
+  final FilterType type;
+
+  /// The service code or attribute value that you want to filter by. If you're
+  /// filtering by service code this is the actual service code, such as
+  /// <code>AmazonEC2</code>. If you're filtering by attribute name, this is the
+  /// attribute value that you want the returned products to match, such as a
+  /// <code>Provisioned IOPS</code> volume.
+  final String value;
+
+  Filter({
+    required this.field,
+    required this.type,
+    required this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final field = this.field;
+    final type = this.type;
+    final value = this.value;
+    return {
+      'Field': field,
+      'Type': type.value,
+      'Value': value,
+    };
+  }
+}
+
+class FilterType {
+  static const termMatch = FilterType._('TERM_MATCH');
+  static const equals = FilterType._('EQUALS');
+  static const contains = FilterType._('CONTAINS');
+  static const anyOf = FilterType._('ANY_OF');
+  static const noneOf = FilterType._('NONE_OF');
+
+  final String value;
+
+  const FilterType._(this.value);
+
+  static const values = [termMatch, equals, contains, anyOf, noneOf];
+
+  static FilterType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FilterType._(value));
+
+  @override
+  bool operator ==(other) => other is FilterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The values of a given attribute, such as <code>Throughput Optimized
+/// HDD</code> or <code>Provisioned IOPS</code> for the <code>Amazon EC2</code>
+/// <code>volumeType</code> attribute.
+class AttributeValue {
+  /// The specific value of an <code>attributeName</code>.
+  final String? value;
+
+  AttributeValue({
+    this.value,
+  });
+
+  factory AttributeValue.fromJson(Map<String, dynamic> json) {
+    return AttributeValue(
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final value = this.value;
+    return {
+      if (value != null) 'Value': value,
     };
   }
 }

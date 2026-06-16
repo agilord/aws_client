@@ -50,7 +50,6 @@ class CostExplorer {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'ce',
-            signingName: 'ce',
           ),
           region: region,
           credentials: credentials,
@@ -139,8 +138,8 @@ class CostExplorer {
   /// notifications. Email subscribers can set an absolute or percentage
   /// threshold and a time frequency for receiving notifications.
   ///
-  /// May throw [UnknownMonitorException].
   /// May throw [LimitExceededException].
+  /// May throw [UnknownMonitorException].
   ///
   /// Parameter [anomalySubscription] :
   /// The cost anomaly subscription object that you want to create.
@@ -204,18 +203,18 @@ class CostExplorer {
     return CreateAnomalySubscriptionResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates a new Cost Category with the requested name and rules.
+  /// Creates a new cost category with the requested name and rules.
   ///
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [LimitExceededException].
+  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [rules] :
-  /// The Cost Category rules used to categorize costs. For more information,
+  /// The cost category rules used to categorize costs. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_CostCategoryRule.html">CostCategoryRule</a>.
   ///
   /// Parameter [effectiveStart] :
-  /// The Cost Category's effective start date. It can only be a billing start
+  /// The cost category's effective start date. It can only be a billing start
   /// date (first day of the month). If the date isn't provided, it's the first
   /// day of the current month. Dates can't be before the previous twelve
   /// months, or in the future.
@@ -258,8 +257,8 @@ class CostExplorer {
   /// </ul>
   ///
   /// Parameter [splitChargeRules] :
-  /// The split charge rules used to allocate your charges between your Cost
-  /// Category values.
+  /// The split charge rules used to allocate your charges between your cost
+  /// category values.
   Future<CreateCostCategoryDefinitionResponse> createCostCategoryDefinition({
     required String name,
     required CostCategoryRuleVersion ruleVersion,
@@ -346,14 +345,14 @@ class CostExplorer {
     );
   }
 
-  /// Deletes a Cost Category. Expenses from this month going forward will no
-  /// longer be categorized with this Cost Category.
+  /// Deletes a cost category. Expenses from this month going forward will no
+  /// longer be categorized with this cost category.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [costCategoryArn] :
-  /// The unique identifier for your Cost Category.
+  /// The unique identifier for your cost category.
   Future<DeleteCostCategoryDefinitionResponse> deleteCostCategoryDefinition({
     required String costCategoryArn,
   }) async {
@@ -376,22 +375,22 @@ class CostExplorer {
   }
 
   /// Returns the name, Amazon Resource Name (ARN), rules, definition, and
-  /// effective dates of a Cost Category that's defined in the account.
+  /// effective dates of a cost category that's defined in the account.
   ///
-  /// You have the option to use <code>EffectiveOn</code> to return a Cost
-  /// Category that's active on a specific date. If there's no
+  /// You have the option to use <code>EffectiveOn</code> to return a cost
+  /// category that's active on a specific date. If there's no
   /// <code>EffectiveOn</code> specified, you see a Cost Category that's
-  /// effective on the current date. If Cost Category is still effective,
+  /// effective on the current date. If cost category is still effective,
   /// <code>EffectiveEnd</code> is omitted in the response.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [costCategoryArn] :
-  /// The unique identifier for your Cost Category.
+  /// The unique identifier for your cost category.
   ///
   /// Parameter [effectiveOn] :
-  /// The date when the Cost Category was effective.
+  /// The date when the cost category was effective.
   Future<DescribeCostCategoryDefinitionResponse>
       describeCostCategoryDefinition({
     required String costCategoryArn,
@@ -420,8 +419,8 @@ class CostExplorer {
   /// time period that's specified by the <code>DateInterval</code> object.
   /// Anomalies are available for up to 90 days.
   ///
-  /// May throw [LimitExceededException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [dateInterval] :
   /// Assigns the start and end dates for retrieving cost anomalies. The
@@ -481,9 +480,9 @@ class CostExplorer {
   /// Retrieves the cost anomaly monitor definitions for your account. You can
   /// filter using a list of cost anomaly monitor Amazon Resource Names (ARNs).
   ///
+  /// May throw [InvalidNextTokenException].
   /// May throw [LimitExceededException].
   /// May throw [UnknownMonitorException].
-  /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [maxResults] :
   /// The number of entries that a paginated response contains.
@@ -523,9 +522,9 @@ class CostExplorer {
   /// Retrieves the cost anomaly subscription objects for your account. You can
   /// filter using a list of cost anomaly monitor Amazon Resource Names (ARNs).
   ///
+  /// May throw [InvalidNextTokenException].
   /// May throw [LimitExceededException].
   /// May throw [UnknownSubscriptionException].
-  /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [maxResults] :
   /// The number of entries a paginated response contains.
@@ -571,8 +570,8 @@ class CostExplorer {
   /// Retrieves estimated usage records for hourly granularity or resource-level
   /// data at daily granularity.
   ///
-  /// May throw [LimitExceededException].
   /// May throw [DataUnavailableException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [approximationDimension] :
   /// The service to evaluate for the usage records. You can choose
@@ -611,6 +610,36 @@ class CostExplorer {
     return GetApproximateUsageRecordsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves a commitment purchase analysis result based on the
+  /// <code>AnalysisId</code>.
+  ///
+  /// May throw [AnalysisNotFoundException].
+  /// May throw [DataUnavailableException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [analysisId] :
+  /// The analysis ID that's associated with the commitment purchase analysis.
+  Future<GetCommitmentPurchaseAnalysisResponse> getCommitmentPurchaseAnalysis({
+    required String analysisId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSInsightsIndexService.GetCommitmentPurchaseAnalysis'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AnalysisId': analysisId,
+      },
+    );
+
+    return GetCommitmentPurchaseAnalysisResponse.fromJson(jsonResponse.body);
+  }
+
   /// Retrieves cost and usage metrics for your account. You can specify which
   /// cost and usage-related metric that you want the request to return. For
   /// example, you can specify <code>BlendedCosts</code> or
@@ -625,11 +654,13 @@ class CostExplorer {
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/billing-limits.html">Quotas
   /// and restrictions</a> in the <i>Billing and Cost Management User Guide</i>.
   ///
-  /// May throw [LimitExceededException].
   /// May throw [BillExpirationException].
+  /// May throw [BillingViewHealthStatusException].
   /// May throw [DataUnavailableException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
   /// May throw [RequestChangedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [granularity] :
   /// Sets the Amazon Web Services cost granularity to <code>MONTHLY</code> or
@@ -667,6 +698,13 @@ class CostExplorer {
   /// <code>2017-05-01</code>, then the cost and usage data is retrieved from
   /// <code>2017-01-01</code> up to and including <code>2017-04-30</code> but
   /// not including <code>2017-05-01</code>.
+  ///
+  /// Parameter [billingViewArn] :
+  /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing
+  /// view. The ARN is used to specify which particular billing view you want to
+  /// interact with or retrieve information from when making API calls related
+  /// to Amazon Web Services Billing and Cost Management features. The
+  /// BillingViewArn can be retrieved by calling the ListBillingViews API.
   ///
   /// Parameter [filter] :
   /// Filters Amazon Web Services costs by different dimensions. For example,
@@ -706,6 +744,7 @@ class CostExplorer {
     required Granularity granularity,
     required List<String> metrics,
     required DateInterval timePeriod,
+    String? billingViewArn,
     Expression? filter,
     List<GroupDefinition>? groupBy,
     String? nextPageToken,
@@ -724,6 +763,7 @@ class CostExplorer {
         'Granularity': granularity.value,
         'Metrics': metrics,
         'TimePeriod': timePeriod,
+        if (billingViewArn != null) 'BillingViewArn': billingViewArn,
         if (filter != null) 'Filter': filter,
         if (groupBy != null) 'GroupBy': groupBy,
         if (nextPageToken != null) 'NextPageToken': nextPageToken,
@@ -731,6 +771,92 @@ class CostExplorer {
     );
 
     return GetCostAndUsageResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves cost and usage comparisons for your account between two periods
+  /// within the last 13 months. If you have enabled multi-year data at monthly
+  /// granularity, you can go back up to 38 months.
+  ///
+  /// May throw [BillingViewHealthStatusException].
+  /// May throw [DataUnavailableException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [baselineTimePeriod] :
+  /// The reference time period for comparison. This time period serves as the
+  /// baseline against which other cost and usage data will be compared. The
+  /// interval must start and end on the first day of a month, with a duration
+  /// of exactly one month.
+  ///
+  /// Parameter [comparisonTimePeriod] :
+  /// The comparison time period for analysis. This time period's cost and usage
+  /// data will be compared against the baseline time period. The interval must
+  /// start and end on the first day of a month, with a duration of exactly one
+  /// month.
+  ///
+  /// Parameter [metricForComparison] :
+  /// The cost and usage metric to compare. Valid values are
+  /// <code>AmortizedCost</code>, <code>BlendedCost</code>,
+  /// <code>NetAmortizedCost</code>, <code>NetUnblendedCost</code>,
+  /// <code>NormalizedUsageAmount</code>, <code>UnblendedCost</code>, and
+  /// <code>UsageQuantity</code>.
+  ///
+  /// Parameter [billingViewArn] :
+  /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing
+  /// view. The ARN is used to specify which particular billing view you want to
+  /// interact with or retrieve information from when making API calls related
+  /// to Amazon Web Services Billing and Cost Management features. The
+  /// BillingViewArn can be retrieved by calling the ListBillingViews API.
+  ///
+  /// Parameter [groupBy] :
+  /// You can group results using the attributes <code>DIMENSION</code>,
+  /// <code>TAG</code>, and <code>COST_CATEGORY</code>.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results that are returned for the request.
+  ///
+  /// Parameter [nextPageToken] :
+  /// The token to retrieve the next set of paginated results.
+  Future<GetCostAndUsageComparisonsResponse> getCostAndUsageComparisons({
+    required DateInterval baselineTimePeriod,
+    required DateInterval comparisonTimePeriod,
+    required String metricForComparison,
+    String? billingViewArn,
+    Expression? filter,
+    List<GroupDefinition>? groupBy,
+    int? maxResults,
+    String? nextPageToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      2000,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSInsightsIndexService.GetCostAndUsageComparisons'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'BaselineTimePeriod': baselineTimePeriod,
+        'ComparisonTimePeriod': comparisonTimePeriod,
+        'MetricForComparison': metricForComparison,
+        if (billingViewArn != null) 'BillingViewArn': billingViewArn,
+        if (filter != null) 'Filter': filter,
+        if (groupBy != null) 'GroupBy': groupBy,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextPageToken != null) 'NextPageToken': nextPageToken,
+      },
+    );
+
+    return GetCostAndUsageComparisonsResponse.fromJson(jsonResponse.body);
   }
 
   /// Retrieves cost and usage metrics with resources for your account. You can
@@ -755,11 +881,13 @@ class CostExplorer {
   /// Guide</i>.
   /// </note>
   ///
-  /// May throw [DataUnavailableException].
-  /// May throw [LimitExceededException].
   /// May throw [BillExpirationException].
+  /// May throw [BillingViewHealthStatusException].
+  /// May throw [DataUnavailableException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
   /// May throw [RequestChangedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [filter] :
   /// Filters Amazon Web Services costs by different dimensions. For example,
@@ -799,6 +927,13 @@ class CostExplorer {
   /// data is retrieved from <code>2017-01-01</code> up to and including
   /// <code>2017-04-30</code> but not including <code>2017-05-01</code>.
   ///
+  /// Parameter [billingViewArn] :
+  /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing
+  /// view. The ARN is used to specify which particular billing view you want to
+  /// interact with or retrieve information from when making API calls related
+  /// to Amazon Web Services Billing and Cost Management features. The
+  /// BillingViewArn can be retrieved by calling the ListBillingViews API.
+  ///
   /// Parameter [groupBy] :
   /// You can group Amazon Web Services costs using up to two different groups:
   /// <code>DIMENSION</code>, <code>TAG</code>, <code>COST_CATEGORY</code>.
@@ -833,6 +968,7 @@ class CostExplorer {
     required Expression filter,
     required Granularity granularity,
     required DateInterval timePeriod,
+    String? billingViewArn,
     List<GroupDefinition>? groupBy,
     List<String>? metrics,
     String? nextPageToken,
@@ -851,6 +987,7 @@ class CostExplorer {
         'Filter': filter,
         'Granularity': granularity.value,
         'TimePeriod': timePeriod,
+        if (billingViewArn != null) 'BillingViewArn': billingViewArn,
         if (groupBy != null) 'GroupBy': groupBy,
         if (metrics != null) 'Metrics': metrics,
         if (nextPageToken != null) 'NextPageToken': nextPageToken,
@@ -860,17 +997,26 @@ class CostExplorer {
     return GetCostAndUsageWithResourcesResponse.fromJson(jsonResponse.body);
   }
 
-  /// Retrieves an array of Cost Category names and values incurred cost.
+  /// Retrieves an array of cost category names and values incurred cost.
   /// <note>
-  /// If some Cost Category names and values are not associated with any cost,
+  /// If some cost category names and values are not associated with any cost,
   /// they will not be returned by this API.
   /// </note>
   ///
-  /// May throw [LimitExceededException].
   /// May throw [BillExpirationException].
+  /// May throw [BillingViewHealthStatusException].
   /// May throw [DataUnavailableException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
   /// May throw [RequestChangedException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [billingViewArn] :
+  /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing
+  /// view. The ARN is used to specify which particular billing view you want to
+  /// interact with or retrieve information from when making API calls related
+  /// to Amazon Web Services Billing and Cost Management features. The
+  /// BillingViewArn can be retrieved by calling the ListBillingViews API.
   ///
   /// Parameter [maxResults] :
   /// This field is only used when the <code>SortBy</code> value is provided in
@@ -893,10 +1039,10 @@ class CostExplorer {
   /// The value that you want to search the filter values for.
   ///
   /// If you don't specify a <code>CostCategoryName</code>,
-  /// <code>SearchString</code> is used to filter Cost Category names that match
+  /// <code>SearchString</code> is used to filter cost category names that match
   /// the <code>SearchString</code> pattern. If you specify a
   /// <code>CostCategoryName</code>, <code>SearchString</code> is used to filter
-  /// Cost Category values that match the <code>SearchString</code> pattern.
+  /// cost category values that match the <code>SearchString</code> pattern.
   ///
   /// Parameter [sortBy] :
   /// The value that you sort the data by.
@@ -934,6 +1080,7 @@ class CostExplorer {
   /// and <code>SearchString</code> key values aren't supported.
   Future<GetCostCategoriesResponse> getCostCategories({
     required DateInterval timePeriod,
+    String? billingViewArn,
     String? costCategoryName,
     Expression? filter,
     int? maxResults,
@@ -959,6 +1106,7 @@ class CostExplorer {
       headers: headers,
       payload: {
         'TimePeriod': timePeriod,
+        if (billingViewArn != null) 'BillingViewArn': billingViewArn,
         if (costCategoryName != null) 'CostCategoryName': costCategoryName,
         if (filter != null) 'Filter': filter,
         if (maxResults != null) 'MaxResults': maxResults,
@@ -971,16 +1119,107 @@ class CostExplorer {
     return GetCostCategoriesResponse.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves key factors driving cost changes between two time periods within
+  /// the last 13 months, such as usage changes, discount changes, and
+  /// commitment-based savings. If you have enabled multi-year data at monthly
+  /// granularity, you can go back up to 38 months.
+  ///
+  /// May throw [BillingViewHealthStatusException].
+  /// May throw [DataUnavailableException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [baselineTimePeriod] :
+  /// The reference time period for comparison. This time period serves as the
+  /// baseline against which other cost and usage data will be compared. The
+  /// interval must start and end on the first day of a month, with a duration
+  /// of exactly one month.
+  ///
+  /// Parameter [comparisonTimePeriod] :
+  /// The comparison time period for analysis. This time period's cost and usage
+  /// data will be compared against the baseline time period. The interval must
+  /// start and end on the first day of a month, with a duration of exactly one
+  /// month.
+  ///
+  /// Parameter [metricForComparison] :
+  /// The cost and usage metric to compare. Valid values are
+  /// <code>AmortizedCost</code>, <code>BlendedCost</code>,
+  /// <code>NetAmortizedCost</code>, <code>NetUnblendedCost</code>,
+  /// <code>NormalizedUsageAmount</code>, <code>UnblendedCost</code>, and
+  /// <code>UsageQuantity</code>.
+  ///
+  /// Parameter [billingViewArn] :
+  /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing
+  /// view. The ARN is used to specify which particular billing view you want to
+  /// interact with or retrieve information from when making API calls related
+  /// to Amazon Web Services Billing and Cost Management features. The
+  /// BillingViewArn can be retrieved by calling the ListBillingViews API.
+  ///
+  /// Parameter [groupBy] :
+  /// You can group results using the attributes <code>DIMENSION</code>,
+  /// <code>TAG</code>, and <code>COST_CATEGORY</code>. Note that
+  /// <code>SERVICE</code> and <code>USAGE_TYPE</code> dimensions are
+  /// automatically included in the cost comparison drivers analysis.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results that are returned for the request.
+  ///
+  /// Parameter [nextPageToken] :
+  /// The token to retrieve the next set of paginated results.
+  Future<GetCostComparisonDriversResponse> getCostComparisonDrivers({
+    required DateInterval baselineTimePeriod,
+    required DateInterval comparisonTimePeriod,
+    required String metricForComparison,
+    String? billingViewArn,
+    Expression? filter,
+    List<GroupDefinition>? groupBy,
+    int? maxResults,
+    String? nextPageToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      10,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSInsightsIndexService.GetCostComparisonDrivers'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'BaselineTimePeriod': baselineTimePeriod,
+        'ComparisonTimePeriod': comparisonTimePeriod,
+        'MetricForComparison': metricForComparison,
+        if (billingViewArn != null) 'BillingViewArn': billingViewArn,
+        if (filter != null) 'Filter': filter,
+        if (groupBy != null) 'GroupBy': groupBy,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextPageToken != null) 'NextPageToken': nextPageToken,
+      },
+    );
+
+    return GetCostComparisonDriversResponse.fromJson(jsonResponse.body);
+  }
+
   /// Retrieves a forecast for how much Amazon Web Services predicts that you
   /// will spend over the forecast time period that you select, based on your
   /// past costs.
   ///
-  /// May throw [LimitExceededException].
+  /// May throw [BillingViewHealthStatusException].
   /// May throw [DataUnavailableException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [granularity] :
   /// How granular you want the forecast to be. You can get 3 months of
-  /// <code>DAILY</code> forecasts or 12 months of <code>MONTHLY</code>
+  /// <code>DAILY</code> forecasts or 18 months of <code>MONTHLY</code>
   /// forecasts.
   ///
   /// The <code>GetCostForecast</code> operation supports only
@@ -1017,6 +1256,13 @@ class CostExplorer {
   /// must be equal to or no later than the current date to avoid a validation
   /// error.
   ///
+  /// Parameter [billingViewArn] :
+  /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing
+  /// view. The ARN is used to specify which particular billing view you want to
+  /// interact with or retrieve information from when making API calls related
+  /// to Amazon Web Services Billing and Cost Management features. The
+  /// BillingViewArn can be retrieved by calling the ListBillingViews API.
+  ///
   /// Parameter [filter] :
   /// The filters that you want to use to filter your forecast. The
   /// <code>GetCostForecast</code> API supports filtering by the following
@@ -1031,9 +1277,6 @@ class CostExplorer {
   /// </li>
   /// <li>
   /// <code>LINKED_ACCOUNT</code>
-  /// </li>
-  /// <li>
-  /// <code>LINKED_ACCOUNT_NAME</code>
   /// </li>
   /// <li>
   /// <code>OPERATION</code>
@@ -1104,6 +1347,7 @@ class CostExplorer {
     required Granularity granularity,
     required Metric metric,
     required DateInterval timePeriod,
+    String? billingViewArn,
     Expression? filter,
     int? predictionIntervalLevel,
   }) async {
@@ -1127,6 +1371,7 @@ class CostExplorer {
         'Granularity': granularity.value,
         'Metric': metric.value,
         'TimePeriod': timePeriod,
+        if (billingViewArn != null) 'BillingViewArn': billingViewArn,
         if (filter != null) 'Filter': filter,
         if (predictionIntervalLevel != null)
           'PredictionIntervalLevel': predictionIntervalLevel,
@@ -1139,11 +1384,13 @@ class CostExplorer {
   /// Retrieves all available filter values for a specified filter over a period
   /// of time. You can search the dimension values for an arbitrary string.
   ///
-  /// May throw [LimitExceededException].
   /// May throw [BillExpirationException].
+  /// May throw [BillingViewHealthStatusException].
   /// May throw [DataUnavailableException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
   /// May throw [RequestChangedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [dimension] :
   /// The name of the dimension. Each <code>Dimension</code> is available for a
@@ -1159,6 +1406,13 @@ class CostExplorer {
   /// <code>2017-05-01</code>, then the cost and usage data is retrieved from
   /// <code>2017-01-01</code> up to and including <code>2017-04-30</code> but
   /// not including <code>2017-05-01</code>.
+  ///
+  /// Parameter [billingViewArn] :
+  /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing
+  /// view. The ARN is used to specify which particular billing view you want to
+  /// interact with or retrieve information from when making API calls related
+  /// to Amazon Web Services Billing and Cost Management features. The
+  /// BillingViewArn can be retrieved by calling the ListBillingViews API.
   ///
   /// Parameter [context] :
   /// The context for the call to <code>GetDimensionValues</code>. This can be
@@ -1181,10 +1435,10 @@ class CostExplorer {
   /// Possible values are the following:
   ///
   /// - Amazon Web Services(Amazon Web Services): The entity that sells Amazon
-  /// Web Services.
+  /// Web Services services.
   ///
   /// - AISPL (Amazon Internet Services Pvt. Ltd.): The local Indian entity
-  /// that's an acting reseller for Amazon Web Services in India.
+  /// that's an acting reseller for Amazon Web Services services in India.
   ///
   /// - Amazon Web Services Marketplace: The entity that supports the sale of
   /// solutions that are built on Amazon Web Services by third-party software
@@ -1407,6 +1661,7 @@ class CostExplorer {
   Future<GetDimensionValuesResponse> getDimensionValues({
     required Dimension dimension,
     required DateInterval timePeriod,
+    String? billingViewArn,
     Context? context,
     Expression? filter,
     int? maxResults,
@@ -1433,6 +1688,7 @@ class CostExplorer {
       payload: {
         'Dimension': dimension.value,
         'TimePeriod': timePeriod,
+        if (billingViewArn != null) 'BillingViewArn': billingViewArn,
         if (context != null) 'Context': context.value,
         if (filter != null) 'Filter': filter,
         if (maxResults != null) 'MaxResults': maxResults,
@@ -1449,8 +1705,8 @@ class CostExplorer {
   /// see how much of your Amazon Elastic Compute Cloud, Amazon ElastiCache,
   /// Amazon Relational Database Service, or Amazon Redshift usage is covered by
   /// a reservation. An organization's management account can see the coverage
-  /// of the associated member accounts. This supports dimensions, Cost
-  /// Categories, and nested expressions. For any time period, you can filter
+  /// of the associated member accounts. This supports dimensions, cost
+  /// categories, and nested expressions. For any time period, you can filter
   /// data about reservation usage by the following dimensions:
   ///
   /// <ul>
@@ -1494,9 +1750,9 @@ class CostExplorer {
   /// To determine valid values for a dimension, use the
   /// <code>GetDimensionValues</code> operation.
   ///
-  /// May throw [LimitExceededException].
   /// May throw [DataUnavailableException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [timePeriod] :
   /// The start and end dates of the period that you want to retrieve data about
@@ -1732,9 +1988,9 @@ class CostExplorer {
   /// <code>c4.large</code> because that is the smallest size instance in the c4
   /// instance family.
   ///
-  /// May throw [LimitExceededException].
   /// May throw [DataUnavailableException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [service] :
   /// The specific service that you want recommendations for.
@@ -1787,7 +2043,7 @@ class CostExplorer {
       'pageSize',
       pageSize,
       0,
-      1152921504606846976,
+      6000,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1826,9 +2082,9 @@ class CostExplorer {
   /// to determine the possible dimension values. Currently, you can group only
   /// by <code>SUBSCRIPTION_ID</code>.
   ///
-  /// May throw [LimitExceededException].
   /// May throw [DataUnavailableException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [timePeriod] :
   /// Sets the start and end dates for retrieving Reserved Instance (RI)
@@ -1869,7 +2125,14 @@ class CostExplorer {
   /// </li>
   /// <li>
   /// SERVICE
-  /// </li>
+  /// <note>
+  /// If not specified, the <code>SERVICE</code> filter defaults to Amazon
+  /// Elastic Compute Cloud - Compute. Supported values for <code>SERVICE</code>
+  /// are Amazon Elastic Compute Cloud - Compute, Amazon Relational Database
+  /// Service, Amazon ElastiCache, Amazon Redshift, and Amazon Elasticsearch
+  /// Service. The value for the <code>SERVICE</code> filter should not exceed
+  /// "1".
+  /// </note> </li>
   /// <li>
   /// SCOPE
   /// </li>
@@ -2017,8 +2280,8 @@ class CostExplorer {
   /// Your Cost with Rightsizing Recommendations</a> in the <i>Billing and Cost
   /// Management User Guide</i>.
   ///
-  /// May throw [LimitExceededException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [service] :
   /// The specific service that you want recommendations for. The only valid
@@ -2051,7 +2314,7 @@ class CostExplorer {
       'pageSize',
       pageSize,
       0,
-      1152921504606846976,
+      6000,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2079,8 +2342,8 @@ class CostExplorer {
   /// include the hourly data-points that construct the cost, coverage, and
   /// utilization charts.
   ///
-  /// May throw [LimitExceededException].
   /// May throw [DataUnavailableException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [recommendationDetailId] :
   /// The ID that is associated with the Savings Plan recommendation.
@@ -2111,7 +2374,7 @@ class CostExplorer {
   /// Retrieves the Savings Plans covered for your account. This enables you to
   /// see how much of your cost is covered by a Savings Plan. An organization’s
   /// management account can see the coverage of the associated member accounts.
-  /// This supports dimensions, Cost Categories, and nested expressions. For any
+  /// This supports dimensions, cost categories, and nested expressions. For any
   /// time period, you can filter data for Savings Plans usage with the
   /// following dimensions:
   ///
@@ -2132,9 +2395,9 @@ class CostExplorer {
   /// To determine valid values for a dimension, use the
   /// <code>GetDimensionValues</code> operation.
   ///
-  /// May throw [LimitExceededException].
   /// May throw [DataUnavailableException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [timePeriod] :
   /// The time period that you want the usage and costs for. The
@@ -2269,8 +2532,8 @@ class CostExplorer {
   /// a new set of recommendations, and then use
   /// <code>GetSavingsPlansPurchaseRecommendation</code> to retrieve them.
   ///
-  /// May throw [LimitExceededException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [lookbackPeriodInDays] :
   /// The lookback period that's used to generate the recommendation.
@@ -2330,7 +2593,7 @@ class CostExplorer {
       'pageSize',
       pageSize,
       0,
-      1152921504606846976,
+      6000,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2369,8 +2632,8 @@ class CostExplorer {
   /// <code>GetSavingsPlansUtilization</code>.
   /// </note>
   ///
-  /// May throw [LimitExceededException].
   /// May throw [DataUnavailableException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [timePeriod] :
   /// The time period that you want the usage and costs for. The
@@ -2478,9 +2741,9 @@ class CostExplorer {
   /// <code>SavingsPlansArn</code>.
   /// </note>
   ///
-  /// May throw [LimitExceededException].
   /// May throw [DataUnavailableException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [timePeriod] :
   /// The time period that you want the usage and costs for. The
@@ -2599,11 +2862,13 @@ class CostExplorer {
   /// Queries for available tag keys and tag values for a specified period. You
   /// can search the tag values for an arbitrary string.
   ///
-  /// May throw [LimitExceededException].
   /// May throw [BillExpirationException].
+  /// May throw [BillingViewHealthStatusException].
   /// May throw [DataUnavailableException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
   /// May throw [RequestChangedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [timePeriod] :
   /// The start and end dates for retrieving the dimension values. The start
@@ -2612,6 +2877,13 @@ class CostExplorer {
   /// <code>2017-05-01</code>, then the cost and usage data is retrieved from
   /// <code>2017-01-01</code> up to and including <code>2017-04-30</code> but
   /// not including <code>2017-05-01</code>.
+  ///
+  /// Parameter [billingViewArn] :
+  /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing
+  /// view. The ARN is used to specify which particular billing view you want to
+  /// interact with or retrieve information from when making API calls related
+  /// to Amazon Web Services Billing and Cost Management features. The
+  /// BillingViewArn can be retrieved by calling the ListBillingViews API.
   ///
   /// Parameter [maxResults] :
   /// This field is only used when SortBy is provided in the request. The
@@ -2668,6 +2940,7 @@ class CostExplorer {
   /// The key of the tag that you want to return values for.
   Future<GetTagsResponse> getTags({
     required DateInterval timePeriod,
+    String? billingViewArn,
     Expression? filter,
     int? maxResults,
     String? nextPageToken,
@@ -2693,6 +2966,7 @@ class CostExplorer {
       headers: headers,
       payload: {
         'TimePeriod': timePeriod,
+        if (billingViewArn != null) 'BillingViewArn': billingViewArn,
         if (filter != null) 'Filter': filter,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextPageToken != null) 'NextPageToken': nextPageToken,
@@ -2709,13 +2983,15 @@ class CostExplorer {
   /// will use over the forecast time period that you select, based on your past
   /// usage.
   ///
-  /// May throw [LimitExceededException].
+  /// May throw [BillingViewHealthStatusException].
   /// May throw [DataUnavailableException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [UnresolvableUsageUnitException].
   ///
   /// Parameter [granularity] :
   /// How granular you want the forecast to be. You can get 3 months of
-  /// <code>DAILY</code> forecasts or 12 months of <code>MONTHLY</code>
+  /// <code>DAILY</code> forecasts or 18 months of <code>MONTHLY</code>
   /// forecasts.
   ///
   /// The <code>GetUsageForecast</code> operation supports only
@@ -2744,6 +3020,13 @@ class CostExplorer {
   /// to and including <code>2017-04-30</code> but not including
   /// <code>2017-05-01</code>. The start date must be equal to or later than the
   /// current date to avoid a validation error.
+  ///
+  /// Parameter [billingViewArn] :
+  /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing
+  /// view. The ARN is used to specify which particular billing view you want to
+  /// interact with or retrieve information from when making API calls related
+  /// to Amazon Web Services Billing and Cost Management features. The
+  /// BillingViewArn can be retrieved by calling the ListBillingViews API.
   ///
   /// Parameter [filter] :
   /// The filters that you want to use to filter your forecast. The
@@ -2833,6 +3116,7 @@ class CostExplorer {
     required Granularity granularity,
     required Metric metric,
     required DateInterval timePeriod,
+    String? billingViewArn,
     Expression? filter,
     int? predictionIntervalLevel,
   }) async {
@@ -2856,6 +3140,7 @@ class CostExplorer {
         'Granularity': granularity.value,
         'Metric': metric.value,
         'TimePeriod': timePeriod,
+        if (billingViewArn != null) 'BillingViewArn': billingViewArn,
         if (filter != null) 'Filter': filter,
         if (predictionIntervalLevel != null)
           'PredictionIntervalLevel': predictionIntervalLevel,
@@ -2865,10 +3150,61 @@ class CostExplorer {
     return GetUsageForecastResponse.fromJson(jsonResponse.body);
   }
 
+  /// Lists the commitment purchase analyses for your account.
+  ///
+  /// May throw [DataUnavailableException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [analysisIds] :
+  /// The analysis IDs associated with the commitment purchase analyses.
+  ///
+  /// Parameter [analysisStatus] :
+  /// The status of the analysis.
+  ///
+  /// Parameter [nextPageToken] :
+  /// The token to retrieve the next set of results.
+  ///
+  /// Parameter [pageSize] :
+  /// The number of analyses that you want returned in a single response object.
+  Future<ListCommitmentPurchaseAnalysesResponse>
+      listCommitmentPurchaseAnalyses({
+    List<String>? analysisIds,
+    AnalysisStatus? analysisStatus,
+    String? nextPageToken,
+    int? pageSize,
+  }) async {
+    _s.validateNumRange(
+      'pageSize',
+      pageSize,
+      0,
+      600,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSInsightsIndexService.ListCommitmentPurchaseAnalyses'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (analysisIds != null) 'AnalysisIds': analysisIds,
+        if (analysisStatus != null) 'AnalysisStatus': analysisStatus.value,
+        if (nextPageToken != null) 'NextPageToken': nextPageToken,
+        if (pageSize != null) 'PageSize': pageSize,
+      },
+    );
+
+    return ListCommitmentPurchaseAnalysesResponse.fromJson(jsonResponse.body);
+  }
+
   /// Retrieves a list of your historical cost allocation tag backfill requests.
   ///
-  /// May throw [LimitExceededException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of objects that are returned for this request.
@@ -2912,8 +3248,8 @@ class CostExplorer {
   /// Get a list of cost allocation tags. All inputs in the API are optional and
   /// serve as filters. By default, all cost allocation tags are returned.
   ///
-  /// May throw [LimitExceededException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of objects that are returned for this request. By
@@ -2972,11 +3308,12 @@ class CostExplorer {
   }
 
   /// Returns the name, Amazon Resource Name (ARN), <code>NumberOfRules</code>
-  /// and effective dates of all Cost Categories defined in the account. You
-  /// have the option to use <code>EffectiveOn</code> to return a list of Cost
-  /// Categories that were active on a specific date. If there is no
-  /// <code>EffectiveOn</code> specified, you’ll see Cost Categories that are
-  /// effective on the current date. If Cost Category is still effective,
+  /// and effective dates of all cost categories defined in the account. You
+  /// have the option to use <code>EffectiveOn</code> and
+  /// <code>SupportedResourceTypes</code> to return a list of cost categories
+  /// that were active on a specific date. If there is no
+  /// <code>EffectiveOn</code> specified, you’ll see cost categories that are
+  /// effective on the current date. If cost category is still effective,
   /// <code>EffectiveEnd</code> is omitted in the response.
   /// <code>ListCostCategoryDefinitions</code> supports pagination. The request
   /// can have a <code>MaxResults</code> range up to 100.
@@ -2984,7 +3321,7 @@ class CostExplorer {
   /// May throw [LimitExceededException].
   ///
   /// Parameter [effectiveOn] :
-  /// The date when the Cost Category was effective.
+  /// The date when the cost category was effective.
   ///
   /// Parameter [maxResults] :
   /// The number of entries a paginated response contains.
@@ -2993,10 +3330,19 @@ class CostExplorer {
   /// The token to retrieve the next set of results. Amazon Web Services
   /// provides the token when the response from a previous call has more results
   /// than the maximum page size.
+  ///
+  /// Parameter [supportedResourceTypes] :
+  /// Filter cost category definitions that are supported by given resource
+  /// types based on the latest version. If the filter is present, the result
+  /// only includes Cost Categories that supports input resource type. If the
+  /// filter isn't provided, no filtering is applied. The valid values are
+  /// <code>billing:rispgroupsharing</code> and
+  /// <code>billing:billingview</code>.
   Future<ListCostCategoryDefinitionsResponse> listCostCategoryDefinitions({
     String? effectiveOn,
     int? maxResults,
     String? nextToken,
+    List<String>? supportedResourceTypes,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -3018,18 +3364,73 @@ class CostExplorer {
         if (effectiveOn != null) 'EffectiveOn': effectiveOn,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
+        if (supportedResourceTypes != null)
+          'SupportedResourceTypes': supportedResourceTypes,
       },
     );
 
     return ListCostCategoryDefinitionsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Returns resource associations of all cost categories defined in the
+  /// account. You have the option to use <code>CostCategoryArn</code> to get
+  /// the association for a specific cost category.
+  /// <code>ListCostCategoryResourceAssociations</code> supports pagination. The
+  /// request can have a <code>MaxResults</code> range up to 100.
+  ///
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [costCategoryArn] :
+  /// The unique identifier for your cost category.
+  ///
+  /// Parameter [maxResults] :
+  /// The number of entries a paginated response contains.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to retrieve the next set of results. Amazon Web Services
+  /// provides the token when the response from a previous call has more results
+  /// than the maximum page size.
+  Future<ListCostCategoryResourceAssociationsResponse>
+      listCostCategoryResourceAssociations({
+    String? costCategoryArn,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWSInsightsIndexService.ListCostCategoryResourceAssociations'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (costCategoryArn != null) 'CostCategoryArn': costCategoryArn,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListCostCategoryResourceAssociationsResponse.fromJson(
+        jsonResponse.body);
+  }
+
   /// Retrieves a list of your historical recommendation generations within the
   /// past 30 days.
   ///
-  /// May throw [LimitExceededException].
-  /// May throw [InvalidNextTokenException].
   /// May throw [DataUnavailableException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [generationStatus] :
   /// The status of the recommendation generation.
@@ -3054,7 +3455,7 @@ class CostExplorer {
       'pageSize',
       pageSize,
       0,
-      1152921504606846976,
+      6000,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3083,8 +3484,8 @@ class CostExplorer {
   /// Returns a list of resource tags associated with the resource specified by
   /// the Amazon Resource Name (ARN).
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource. For a list of supported
@@ -3144,15 +3545,50 @@ class CostExplorer {
     return ProvideAnomalyFeedbackResponse.fromJson(jsonResponse.body);
   }
 
+  /// Specifies the parameters of a planned commitment purchase and starts the
+  /// generation of the analysis. This enables you to estimate the cost,
+  /// coverage, and utilization impact of your planned commitment purchases.
+  ///
+  /// May throw [DataUnavailableException].
+  /// May throw [GenerationExistsException].
+  /// May throw [LimitExceededException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [commitmentPurchaseAnalysisConfiguration] :
+  /// The configuration for the commitment purchase analysis.
+  Future<StartCommitmentPurchaseAnalysisResponse>
+      startCommitmentPurchaseAnalysis({
+    required CommitmentPurchaseAnalysisConfiguration
+        commitmentPurchaseAnalysisConfiguration,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSInsightsIndexService.StartCommitmentPurchaseAnalysis'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'CommitmentPurchaseAnalysisConfiguration':
+            commitmentPurchaseAnalysisConfiguration,
+      },
+    );
+
+    return StartCommitmentPurchaseAnalysisResponse.fromJson(jsonResponse.body);
+  }
+
   /// Request a cost allocation tag backfill. This will backfill the activation
   /// status (either <code>active</code> or <code>inactive</code>) for all tag
-  /// keys from <code>para:BackfillFrom</code> up to the when this request is
+  /// keys from <code>para:BackfillFrom</code> up to the time this request is
   /// made.
   ///
   /// You can request a backfill once every 24 hours.
   ///
-  /// May throw [LimitExceededException].
   /// May throw [BackfillLimitExceededException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [backfillFrom] :
   /// The date you want the backfill to start from. The date can only be a first
@@ -3191,10 +3627,10 @@ class CostExplorer {
   /// operation.
   /// </note>
   ///
+  /// May throw [DataUnavailableException].
+  /// May throw [GenerationExistsException].
   /// May throw [LimitExceededException].
   /// May throw [ServiceQuotaExceededException].
-  /// May throw [GenerationExistsException].
-  /// May throw [DataUnavailableException].
   Future<StartSavingsPlansPurchaseRecommendationGenerationResponse>
       startSavingsPlansPurchaseRecommendationGeneration() async {
     final headers = <String, String>{
@@ -3226,9 +3662,9 @@ class CostExplorer {
   /// Although the maximum number of array members is 200, user-tag maximum is
   /// 50. The remaining are reserved for Amazon Web Services use.
   ///
+  /// May throw [LimitExceededException].
   /// May throw [ResourceNotFoundException].
   /// May throw [TooManyTagsException].
-  /// May throw [LimitExceededException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource. For a list of supported
@@ -3292,8 +3728,8 @@ class CostExplorer {
   /// Removes one or more tags from a resource. Specify only tag keys in your
   /// request. Don't specify the value.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource. For a list of supported
@@ -3455,7 +3891,7 @@ class CostExplorer {
     _s.validateNumRange(
       'threshold',
       threshold,
-      0,
+      0.0,
       1152921504606846976,
     );
     final headers = <String, String>{
@@ -3515,16 +3951,16 @@ class CostExplorer {
     return UpdateCostAllocationTagsStatusResponse.fromJson(jsonResponse.body);
   }
 
-  /// Updates an existing Cost Category. Changes made to the Cost Category rules
+  /// Updates an existing cost category. Changes made to the cost category rules
   /// will be used to categorize the current month’s expenses and future
   /// expenses. This won’t change categorization for the previous months.
   ///
+  /// May throw [LimitExceededException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
-  /// May throw [LimitExceededException].
   ///
   /// Parameter [costCategoryArn] :
-  /// The unique identifier for your Cost Category.
+  /// The unique identifier for your cost category.
   ///
   /// Parameter [rules] :
   /// The <code>Expression</code> object used to categorize costs. For more
@@ -3533,14 +3969,14 @@ class CostExplorer {
   /// </a>.
   ///
   /// Parameter [effectiveStart] :
-  /// The Cost Category's effective start date. It can only be a billing start
+  /// The cost category's effective start date. It can only be a billing start
   /// date (first day of the month). If the date isn't provided, it's the first
   /// day of the current month. Dates can't be before the previous twelve
   /// months, or in the future.
   ///
   /// Parameter [splitChargeRules] :
-  /// The split charge rules used to allocate your charges between your Cost
-  /// Category values.
+  /// The split charge rules used to allocate your charges between your cost
+  /// category values.
   Future<UpdateCostCategoryDefinitionResponse> updateCostCategoryDefinition({
     required String costCategoryArn,
     required CostCategoryRuleVersion ruleVersion,
@@ -3570,1600 +4006,6 @@ class CostExplorer {
     );
 
     return UpdateCostCategoryDefinitionResponse.fromJson(jsonResponse.body);
-  }
-}
-
-class AccountScope {
-  static const payer = AccountScope._('PAYER');
-  static const linked = AccountScope._('LINKED');
-
-  final String value;
-
-  const AccountScope._(this.value);
-
-  static const values = [payer, linked];
-
-  static AccountScope fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => AccountScope._(value));
-
-  @override
-  bool operator ==(other) => other is AccountScope && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An unusual cost pattern. This consists of the detailed metadata and the
-/// current status of the anomaly object.
-class Anomaly {
-  /// The unique identifier for the anomaly.
-  final String anomalyId;
-
-  /// The latest and maximum score for the anomaly.
-  final AnomalyScore anomalyScore;
-
-  /// The dollar impact for the anomaly.
-  final Impact impact;
-
-  /// The Amazon Resource Name (ARN) for the cost monitor that generated this
-  /// anomaly.
-  final String monitorArn;
-
-  /// The last day the anomaly is detected.
-  final String? anomalyEndDate;
-
-  /// The first day the anomaly is detected.
-  final String? anomalyStartDate;
-
-  /// The dimension for the anomaly (for example, an Amazon Web Service in a
-  /// service monitor).
-  final String? dimensionValue;
-
-  /// The feedback value.
-  final AnomalyFeedbackType? feedback;
-
-  /// The list of identified root causes for the anomaly.
-  final List<RootCause>? rootCauses;
-
-  Anomaly({
-    required this.anomalyId,
-    required this.anomalyScore,
-    required this.impact,
-    required this.monitorArn,
-    this.anomalyEndDate,
-    this.anomalyStartDate,
-    this.dimensionValue,
-    this.feedback,
-    this.rootCauses,
-  });
-
-  factory Anomaly.fromJson(Map<String, dynamic> json) {
-    return Anomaly(
-      anomalyId: (json['AnomalyId'] as String?) ?? '',
-      anomalyScore: AnomalyScore.fromJson(
-          (json['AnomalyScore'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      impact: Impact.fromJson((json['Impact'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-      monitorArn: (json['MonitorArn'] as String?) ?? '',
-      anomalyEndDate: json['AnomalyEndDate'] as String?,
-      anomalyStartDate: json['AnomalyStartDate'] as String?,
-      dimensionValue: json['DimensionValue'] as String?,
-      feedback:
-          (json['Feedback'] as String?)?.let(AnomalyFeedbackType.fromString),
-      rootCauses: (json['RootCauses'] as List?)
-          ?.nonNulls
-          .map((e) => RootCause.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final anomalyId = this.anomalyId;
-    final anomalyScore = this.anomalyScore;
-    final impact = this.impact;
-    final monitorArn = this.monitorArn;
-    final anomalyEndDate = this.anomalyEndDate;
-    final anomalyStartDate = this.anomalyStartDate;
-    final dimensionValue = this.dimensionValue;
-    final feedback = this.feedback;
-    final rootCauses = this.rootCauses;
-    return {
-      'AnomalyId': anomalyId,
-      'AnomalyScore': anomalyScore,
-      'Impact': impact,
-      'MonitorArn': monitorArn,
-      if (anomalyEndDate != null) 'AnomalyEndDate': anomalyEndDate,
-      if (anomalyStartDate != null) 'AnomalyStartDate': anomalyStartDate,
-      if (dimensionValue != null) 'DimensionValue': dimensionValue,
-      if (feedback != null) 'Feedback': feedback.value,
-      if (rootCauses != null) 'RootCauses': rootCauses,
-    };
-  }
-}
-
-/// The time period for an anomaly.
-class AnomalyDateInterval {
-  /// The first date an anomaly was observed.
-  final String startDate;
-
-  /// The last date an anomaly was observed.
-  final String? endDate;
-
-  AnomalyDateInterval({
-    required this.startDate,
-    this.endDate,
-  });
-
-  Map<String, dynamic> toJson() {
-    final startDate = this.startDate;
-    final endDate = this.endDate;
-    return {
-      'StartDate': startDate,
-      if (endDate != null) 'EndDate': endDate,
-    };
-  }
-}
-
-class AnomalyFeedbackType {
-  static const yes = AnomalyFeedbackType._('YES');
-  static const no = AnomalyFeedbackType._('NO');
-  static const plannedActivity = AnomalyFeedbackType._('PLANNED_ACTIVITY');
-
-  final String value;
-
-  const AnomalyFeedbackType._(this.value);
-
-  static const values = [yes, no, plannedActivity];
-
-  static AnomalyFeedbackType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AnomalyFeedbackType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AnomalyFeedbackType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// This object continuously inspects your account's cost data for anomalies.
-/// It's based on <code>MonitorType</code> and
-/// <code>MonitorSpecification</code>. The content consists of detailed metadata
-/// and the current status of the monitor object.
-class AnomalyMonitor {
-  /// The name of the monitor.
-  final String monitorName;
-
-  /// The possible type values.
-  final MonitorType monitorType;
-
-  /// The date when the monitor was created.
-  final String? creationDate;
-
-  /// The value for evaluated dimensions.
-  final int? dimensionalValueCount;
-
-  /// The date when the monitor last evaluated for anomalies.
-  final String? lastEvaluatedDate;
-
-  /// The date when the monitor was last updated.
-  final String? lastUpdatedDate;
-
-  /// The Amazon Resource Name (ARN) value.
-  final String? monitorArn;
-
-  /// The dimensions to evaluate.
-  final MonitorDimension? monitorDimension;
-  final Expression? monitorSpecification;
-
-  AnomalyMonitor({
-    required this.monitorName,
-    required this.monitorType,
-    this.creationDate,
-    this.dimensionalValueCount,
-    this.lastEvaluatedDate,
-    this.lastUpdatedDate,
-    this.monitorArn,
-    this.monitorDimension,
-    this.monitorSpecification,
-  });
-
-  factory AnomalyMonitor.fromJson(Map<String, dynamic> json) {
-    return AnomalyMonitor(
-      monitorName: (json['MonitorName'] as String?) ?? '',
-      monitorType:
-          MonitorType.fromString((json['MonitorType'] as String?) ?? ''),
-      creationDate: json['CreationDate'] as String?,
-      dimensionalValueCount: json['DimensionalValueCount'] as int?,
-      lastEvaluatedDate: json['LastEvaluatedDate'] as String?,
-      lastUpdatedDate: json['LastUpdatedDate'] as String?,
-      monitorArn: json['MonitorArn'] as String?,
-      monitorDimension: (json['MonitorDimension'] as String?)
-          ?.let(MonitorDimension.fromString),
-      monitorSpecification: json['MonitorSpecification'] != null
-          ? Expression.fromJson(
-              json['MonitorSpecification'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final monitorName = this.monitorName;
-    final monitorType = this.monitorType;
-    final creationDate = this.creationDate;
-    final dimensionalValueCount = this.dimensionalValueCount;
-    final lastEvaluatedDate = this.lastEvaluatedDate;
-    final lastUpdatedDate = this.lastUpdatedDate;
-    final monitorArn = this.monitorArn;
-    final monitorDimension = this.monitorDimension;
-    final monitorSpecification = this.monitorSpecification;
-    return {
-      'MonitorName': monitorName,
-      'MonitorType': monitorType.value,
-      if (creationDate != null) 'CreationDate': creationDate,
-      if (dimensionalValueCount != null)
-        'DimensionalValueCount': dimensionalValueCount,
-      if (lastEvaluatedDate != null) 'LastEvaluatedDate': lastEvaluatedDate,
-      if (lastUpdatedDate != null) 'LastUpdatedDate': lastUpdatedDate,
-      if (monitorArn != null) 'MonitorArn': monitorArn,
-      if (monitorDimension != null) 'MonitorDimension': monitorDimension.value,
-      if (monitorSpecification != null)
-        'MonitorSpecification': monitorSpecification,
-    };
-  }
-}
-
-/// Quantifies the anomaly. The higher score means that it's more anomalous.
-class AnomalyScore {
-  /// The last observed score.
-  final double currentScore;
-
-  /// The maximum score that's observed during the
-  /// <code>AnomalyDateInterval</code>.
-  final double maxScore;
-
-  AnomalyScore({
-    required this.currentScore,
-    required this.maxScore,
-  });
-
-  factory AnomalyScore.fromJson(Map<String, dynamic> json) {
-    return AnomalyScore(
-      currentScore: (json['CurrentScore'] as double?) ?? 0,
-      maxScore: (json['MaxScore'] as double?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final currentScore = this.currentScore;
-    final maxScore = this.maxScore;
-    return {
-      'CurrentScore': currentScore,
-      'MaxScore': maxScore,
-    };
-  }
-}
-
-/// An <code>AnomalySubscription</code> resource (also referred to as an alert
-/// subscription) sends notifications about specific anomalies that meet an
-/// alerting criteria defined by you.
-///
-/// You can specify the frequency of the alerts and the subscribers to notify.
-///
-/// Anomaly subscriptions can be associated with one or more <a
-/// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AnomalyMonitor.html">
-/// <code>AnomalyMonitor</code> </a> resources, and they only send notifications
-/// about anomalies detected by those associated monitors. You can also
-/// configure a threshold to further control which anomalies are included in the
-/// notifications.
-///
-/// Anomalies that don’t exceed the chosen threshold and therefore don’t trigger
-/// notifications from an anomaly subscription will still be available on the
-/// console and from the <a
-/// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_GetAnomalies.html">
-/// <code>GetAnomalies</code> </a> API.
-class AnomalySubscription {
-  /// The frequency that anomaly notifications are sent. Notifications are sent
-  /// either over email (for DAILY and WEEKLY frequencies) or SNS (for IMMEDIATE
-  /// frequency). For more information, see <a
-  /// href="https://docs.aws.amazon.com/cost-management/latest/userguide/ad-SNS.html">Creating
-  /// an Amazon SNS topic for anomaly notifications</a>.
-  final AnomalySubscriptionFrequency frequency;
-
-  /// A list of cost anomaly monitors.
-  final List<String> monitorArnList;
-
-  /// A list of subscribers to notify.
-  final List<Subscriber> subscribers;
-
-  /// The name for the subscription.
-  final String subscriptionName;
-
-  /// Your unique account identifier.
-  final String? accountId;
-
-  /// The <code>AnomalySubscription</code> Amazon Resource Name (ARN).
-  final String? subscriptionArn;
-
-  /// (deprecated)
-  ///
-  /// An absolute dollar value that must be exceeded by the anomaly's total impact
-  /// (see <a
-  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Impact.html">Impact</a>
-  /// for more details) for an anomaly notification to be generated.
-  ///
-  /// This field has been deprecated. To specify a threshold, use
-  /// ThresholdExpression. Continued use of Threshold will be treated as shorthand
-  /// syntax for a ThresholdExpression.
-  ///
-  /// One of Threshold or ThresholdExpression is required for this resource. You
-  /// cannot specify both.
-  final double? threshold;
-
-  /// An <a
-  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html">Expression</a>
-  /// object used to specify the anomalies that you want to generate alerts for.
-  /// This supports dimensions and nested expressions. The supported dimensions
-  /// are <code>ANOMALY_TOTAL_IMPACT_ABSOLUTE</code> and
-  /// <code>ANOMALY_TOTAL_IMPACT_PERCENTAGE</code>, corresponding to an anomaly’s
-  /// TotalImpact and TotalImpactPercentage, respectively (see <a
-  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Impact.html">Impact</a>
-  /// for more details). The supported nested expression types are
-  /// <code>AND</code> and <code>OR</code>. The match option
-  /// <code>GREATER_THAN_OR_EQUAL</code> is required. Values must be numbers
-  /// between 0 and 10,000,000,000 in string format.
-  ///
-  /// One of Threshold or ThresholdExpression is required for this resource. You
-  /// cannot specify both.
-  ///
-  /// The following are examples of valid ThresholdExpressions:
-  ///
-  /// <ul>
-  /// <li>
-  /// Absolute threshold: <code>{ "Dimensions": { "Key":
-  /// "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL"
-  /// ], "Values": [ "100" ] } }</code>
-  /// </li>
-  /// <li>
-  /// Percentage threshold: <code>{ "Dimensions": { "Key":
-  /// "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL"
-  /// ], "Values": [ "100" ] } }</code>
-  /// </li>
-  /// <li>
-  /// <code>AND</code> two thresholds together: <code>{ "And": [ { "Dimensions": {
-  /// "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [
-  /// "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions": { "Key":
-  /// "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL"
-  /// ], "Values": [ "100" ] } } ] }</code>
-  /// </li>
-  /// <li>
-  /// <code>OR</code> two thresholds together: <code>{ "Or": [ { "Dimensions": {
-  /// "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [
-  /// "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions": { "Key":
-  /// "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL"
-  /// ], "Values": [ "100" ] } } ] }</code>
-  /// </li>
-  /// </ul>
-  final Expression? thresholdExpression;
-
-  AnomalySubscription({
-    required this.frequency,
-    required this.monitorArnList,
-    required this.subscribers,
-    required this.subscriptionName,
-    this.accountId,
-    this.subscriptionArn,
-    this.threshold,
-    this.thresholdExpression,
-  });
-
-  factory AnomalySubscription.fromJson(Map<String, dynamic> json) {
-    return AnomalySubscription(
-      frequency: AnomalySubscriptionFrequency.fromString(
-          (json['Frequency'] as String?) ?? ''),
-      monitorArnList: ((json['MonitorArnList'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      subscribers: ((json['Subscribers'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => Subscriber.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      subscriptionName: (json['SubscriptionName'] as String?) ?? '',
-      accountId: json['AccountId'] as String?,
-      subscriptionArn: json['SubscriptionArn'] as String?,
-      threshold: json['Threshold'] as double?,
-      thresholdExpression: json['ThresholdExpression'] != null
-          ? Expression.fromJson(
-              json['ThresholdExpression'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final frequency = this.frequency;
-    final monitorArnList = this.monitorArnList;
-    final subscribers = this.subscribers;
-    final subscriptionName = this.subscriptionName;
-    final accountId = this.accountId;
-    final subscriptionArn = this.subscriptionArn;
-    final threshold = this.threshold;
-    final thresholdExpression = this.thresholdExpression;
-    return {
-      'Frequency': frequency.value,
-      'MonitorArnList': monitorArnList,
-      'Subscribers': subscribers,
-      'SubscriptionName': subscriptionName,
-      if (accountId != null) 'AccountId': accountId,
-      if (subscriptionArn != null) 'SubscriptionArn': subscriptionArn,
-      if (threshold != null) 'Threshold': threshold,
-      if (thresholdExpression != null)
-        'ThresholdExpression': thresholdExpression,
-    };
-  }
-}
-
-class AnomalySubscriptionFrequency {
-  static const daily = AnomalySubscriptionFrequency._('DAILY');
-  static const immediate = AnomalySubscriptionFrequency._('IMMEDIATE');
-  static const weekly = AnomalySubscriptionFrequency._('WEEKLY');
-
-  final String value;
-
-  const AnomalySubscriptionFrequency._(this.value);
-
-  static const values = [daily, immediate, weekly];
-
-  static AnomalySubscriptionFrequency fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AnomalySubscriptionFrequency._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AnomalySubscriptionFrequency && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ApproximationDimension {
-  static const service = ApproximationDimension._('SERVICE');
-  static const resource = ApproximationDimension._('RESOURCE');
-
-  final String value;
-
-  const ApproximationDimension._(this.value);
-
-  static const values = [service, resource];
-
-  static ApproximationDimension fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ApproximationDimension._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ApproximationDimension && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class Context {
-  static const costAndUsage = Context._('COST_AND_USAGE');
-  static const reservations = Context._('RESERVATIONS');
-  static const savingsPlans = Context._('SAVINGS_PLANS');
-
-  final String value;
-
-  const Context._(this.value);
-
-  static const values = [costAndUsage, reservations, savingsPlans];
-
-  static Context fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Context._(value));
-
-  @override
-  bool operator ==(other) => other is Context && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The cost allocation tag structure. This includes detailed metadata for the
-/// <code>CostAllocationTag</code> object.
-class CostAllocationTag {
-  /// The status of a cost allocation tag.
-  final CostAllocationTagStatus status;
-
-  /// The key for the cost allocation tag.
-  final String tagKey;
-
-  /// The type of cost allocation tag. You can use <code>AWSGenerated</code> or
-  /// <code>UserDefined</code> type tags. <code>AWSGenerated</code> type tags are
-  /// tags that Amazon Web Services defines and applies to support Amazon Web
-  /// Services resources for cost allocation purposes. <code>UserDefined</code>
-  /// type tags are tags that you define, create, and apply to resources.
-  final CostAllocationTagType type;
-
-  /// The last date that the tag was either activated or deactivated.
-  final String? lastUpdatedDate;
-
-  /// The last month that the tag was used on an Amazon Web Services resource.
-  final String? lastUsedDate;
-
-  CostAllocationTag({
-    required this.status,
-    required this.tagKey,
-    required this.type,
-    this.lastUpdatedDate,
-    this.lastUsedDate,
-  });
-
-  factory CostAllocationTag.fromJson(Map<String, dynamic> json) {
-    return CostAllocationTag(
-      status:
-          CostAllocationTagStatus.fromString((json['Status'] as String?) ?? ''),
-      tagKey: (json['TagKey'] as String?) ?? '',
-      type: CostAllocationTagType.fromString((json['Type'] as String?) ?? ''),
-      lastUpdatedDate: json['LastUpdatedDate'] as String?,
-      lastUsedDate: json['LastUsedDate'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final status = this.status;
-    final tagKey = this.tagKey;
-    final type = this.type;
-    final lastUpdatedDate = this.lastUpdatedDate;
-    final lastUsedDate = this.lastUsedDate;
-    return {
-      'Status': status.value,
-      'TagKey': tagKey,
-      'Type': type.value,
-      if (lastUpdatedDate != null) 'LastUpdatedDate': lastUpdatedDate,
-      if (lastUsedDate != null) 'LastUsedDate': lastUsedDate,
-    };
-  }
-}
-
-/// The cost allocation tag backfill request structure that contains metadata
-/// and details of a certain backfill.
-class CostAllocationTagBackfillRequest {
-  /// The date the backfill starts from.
-  final String? backfillFrom;
-
-  /// The status of the cost allocation tag backfill request.
-  final CostAllocationTagBackfillStatus? backfillStatus;
-
-  /// The backfill completion time.
-  final String? completedAt;
-
-  /// The time when the backfill status was last updated.
-  final String? lastUpdatedAt;
-
-  /// The time when the backfill was requested.
-  final String? requestedAt;
-
-  CostAllocationTagBackfillRequest({
-    this.backfillFrom,
-    this.backfillStatus,
-    this.completedAt,
-    this.lastUpdatedAt,
-    this.requestedAt,
-  });
-
-  factory CostAllocationTagBackfillRequest.fromJson(Map<String, dynamic> json) {
-    return CostAllocationTagBackfillRequest(
-      backfillFrom: json['BackfillFrom'] as String?,
-      backfillStatus: (json['BackfillStatus'] as String?)
-          ?.let(CostAllocationTagBackfillStatus.fromString),
-      completedAt: json['CompletedAt'] as String?,
-      lastUpdatedAt: json['LastUpdatedAt'] as String?,
-      requestedAt: json['RequestedAt'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final backfillFrom = this.backfillFrom;
-    final backfillStatus = this.backfillStatus;
-    final completedAt = this.completedAt;
-    final lastUpdatedAt = this.lastUpdatedAt;
-    final requestedAt = this.requestedAt;
-    return {
-      if (backfillFrom != null) 'BackfillFrom': backfillFrom,
-      if (backfillStatus != null) 'BackfillStatus': backfillStatus.value,
-      if (completedAt != null) 'CompletedAt': completedAt,
-      if (lastUpdatedAt != null) 'LastUpdatedAt': lastUpdatedAt,
-      if (requestedAt != null) 'RequestedAt': requestedAt,
-    };
-  }
-}
-
-class CostAllocationTagBackfillStatus {
-  static const succeeded = CostAllocationTagBackfillStatus._('SUCCEEDED');
-  static const processing = CostAllocationTagBackfillStatus._('PROCESSING');
-  static const failed = CostAllocationTagBackfillStatus._('FAILED');
-
-  final String value;
-
-  const CostAllocationTagBackfillStatus._(this.value);
-
-  static const values = [succeeded, processing, failed];
-
-  static CostAllocationTagBackfillStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CostAllocationTagBackfillStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CostAllocationTagBackfillStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class CostAllocationTagStatus {
-  static const active = CostAllocationTagStatus._('Active');
-  static const inactive = CostAllocationTagStatus._('Inactive');
-
-  final String value;
-
-  const CostAllocationTagStatus._(this.value);
-
-  static const values = [active, inactive];
-
-  static CostAllocationTagStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CostAllocationTagStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CostAllocationTagStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The cost allocation tag status. The status of a key can either be active or
-/// inactive.
-class CostAllocationTagStatusEntry {
-  /// The status of a cost allocation tag.
-  final CostAllocationTagStatus status;
-
-  /// The key for the cost allocation tag.
-  final String tagKey;
-
-  CostAllocationTagStatusEntry({
-    required this.status,
-    required this.tagKey,
-  });
-
-  Map<String, dynamic> toJson() {
-    final status = this.status;
-    final tagKey = this.tagKey;
-    return {
-      'Status': status.value,
-      'TagKey': tagKey,
-    };
-  }
-}
-
-class CostAllocationTagType {
-  static const awsGenerated = CostAllocationTagType._('AWSGenerated');
-  static const userDefined = CostAllocationTagType._('UserDefined');
-
-  final String value;
-
-  const CostAllocationTagType._(this.value);
-
-  static const values = [awsGenerated, userDefined];
-
-  static CostAllocationTagType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CostAllocationTagType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CostAllocationTagType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The structure of Cost Categories. This includes detailed metadata and the
-/// set of rules for the <code>CostCategory</code> object.
-class CostCategory {
-  /// The unique identifier for your Cost Category.
-  final String costCategoryArn;
-
-  /// The effective start date of your Cost Category.
-  final String effectiveStart;
-  final String name;
-  final CostCategoryRuleVersion ruleVersion;
-
-  /// The rules are processed in order. If there are multiple rules that match the
-  /// line item, then the first rule to match is used to determine that Cost
-  /// Category value.
-  final List<CostCategoryRule> rules;
-  final String? defaultValue;
-
-  /// The effective end date of your Cost Category.
-  final String? effectiveEnd;
-
-  /// The list of processing statuses for Cost Management products for a specific
-  /// cost category.
-  final List<CostCategoryProcessingStatus>? processingStatus;
-
-  /// The split charge rules that are used to allocate your charges between your
-  /// Cost Category values.
-  final List<CostCategorySplitChargeRule>? splitChargeRules;
-
-  CostCategory({
-    required this.costCategoryArn,
-    required this.effectiveStart,
-    required this.name,
-    required this.ruleVersion,
-    required this.rules,
-    this.defaultValue,
-    this.effectiveEnd,
-    this.processingStatus,
-    this.splitChargeRules,
-  });
-
-  factory CostCategory.fromJson(Map<String, dynamic> json) {
-    return CostCategory(
-      costCategoryArn: (json['CostCategoryArn'] as String?) ?? '',
-      effectiveStart: (json['EffectiveStart'] as String?) ?? '',
-      name: (json['Name'] as String?) ?? '',
-      ruleVersion: CostCategoryRuleVersion.fromString(
-          (json['RuleVersion'] as String?) ?? ''),
-      rules: ((json['Rules'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => CostCategoryRule.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      defaultValue: json['DefaultValue'] as String?,
-      effectiveEnd: json['EffectiveEnd'] as String?,
-      processingStatus: (json['ProcessingStatus'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              CostCategoryProcessingStatus.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      splitChargeRules: (json['SplitChargeRules'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              CostCategorySplitChargeRule.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final costCategoryArn = this.costCategoryArn;
-    final effectiveStart = this.effectiveStart;
-    final name = this.name;
-    final ruleVersion = this.ruleVersion;
-    final rules = this.rules;
-    final defaultValue = this.defaultValue;
-    final effectiveEnd = this.effectiveEnd;
-    final processingStatus = this.processingStatus;
-    final splitChargeRules = this.splitChargeRules;
-    return {
-      'CostCategoryArn': costCategoryArn,
-      'EffectiveStart': effectiveStart,
-      'Name': name,
-      'RuleVersion': ruleVersion.value,
-      'Rules': rules,
-      if (defaultValue != null) 'DefaultValue': defaultValue,
-      if (effectiveEnd != null) 'EffectiveEnd': effectiveEnd,
-      if (processingStatus != null) 'ProcessingStatus': processingStatus,
-      if (splitChargeRules != null) 'SplitChargeRules': splitChargeRules,
-    };
-  }
-}
-
-/// When you create or update a cost category, you can define the
-/// <code>CostCategoryRule</code> rule type as <code>INHERITED_VALUE</code>.
-/// This rule type adds the flexibility to define a rule that dynamically
-/// inherits the cost category value from the dimension value that's defined by
-/// <code>CostCategoryInheritedValueDimension</code>. For example, suppose that
-/// you want to dynamically group costs that are based on the value of a
-/// specific tag key. First, choose an inherited value rule type, and then
-/// choose the tag dimension and specify the tag key to use.
-class CostCategoryInheritedValueDimension {
-  /// The key to extract cost category values.
-  final String? dimensionKey;
-
-  /// The name of the dimension that's used to group costs.
-  ///
-  /// If you specify <code>LINKED_ACCOUNT_NAME</code>, the cost category value is
-  /// based on account name. If you specify <code>TAG</code>, the cost category
-  /// value is based on the value of the specified tag key.
-  final CostCategoryInheritedValueDimensionName? dimensionName;
-
-  CostCategoryInheritedValueDimension({
-    this.dimensionKey,
-    this.dimensionName,
-  });
-
-  factory CostCategoryInheritedValueDimension.fromJson(
-      Map<String, dynamic> json) {
-    return CostCategoryInheritedValueDimension(
-      dimensionKey: json['DimensionKey'] as String?,
-      dimensionName: (json['DimensionName'] as String?)
-          ?.let(CostCategoryInheritedValueDimensionName.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dimensionKey = this.dimensionKey;
-    final dimensionName = this.dimensionName;
-    return {
-      if (dimensionKey != null) 'DimensionKey': dimensionKey,
-      if (dimensionName != null) 'DimensionName': dimensionName.value,
-    };
-  }
-}
-
-class CostCategoryInheritedValueDimensionName {
-  static const linkedAccountName =
-      CostCategoryInheritedValueDimensionName._('LINKED_ACCOUNT_NAME');
-  static const tag = CostCategoryInheritedValueDimensionName._('TAG');
-
-  final String value;
-
-  const CostCategoryInheritedValueDimensionName._(this.value);
-
-  static const values = [linkedAccountName, tag];
-
-  static CostCategoryInheritedValueDimensionName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CostCategoryInheritedValueDimensionName._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CostCategoryInheritedValueDimensionName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The list of processing statuses for Cost Management products for a specific
-/// cost category.
-class CostCategoryProcessingStatus {
-  /// The Cost Management product name of the applied status.
-  final CostCategoryStatusComponent? component;
-
-  /// The process status for a specific cost category.
-  final CostCategoryStatus? status;
-
-  CostCategoryProcessingStatus({
-    this.component,
-    this.status,
-  });
-
-  factory CostCategoryProcessingStatus.fromJson(Map<String, dynamic> json) {
-    return CostCategoryProcessingStatus(
-      component: (json['Component'] as String?)
-          ?.let(CostCategoryStatusComponent.fromString),
-      status: (json['Status'] as String?)?.let(CostCategoryStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final component = this.component;
-    final status = this.status;
-    return {
-      if (component != null) 'Component': component.value,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-/// A reference to a Cost Category containing only enough information to
-/// identify the Cost Category.
-///
-/// You can use this information to retrieve the full Cost Category information
-/// using <code>DescribeCostCategory</code>.
-class CostCategoryReference {
-  /// The unique identifier for your Cost Category.
-  final String? costCategoryArn;
-  final String? defaultValue;
-
-  /// The Cost Category's effective end date.
-  final String? effectiveEnd;
-
-  /// The Cost Category's effective start date.
-  final String? effectiveStart;
-  final String? name;
-
-  /// The number of rules that are associated with a specific Cost Category.
-  final int? numberOfRules;
-
-  /// The list of processing statuses for Cost Management products for a specific
-  /// cost category.
-  final List<CostCategoryProcessingStatus>? processingStatus;
-
-  /// A list of unique cost category values in a specific cost category.
-  final List<String>? values;
-
-  CostCategoryReference({
-    this.costCategoryArn,
-    this.defaultValue,
-    this.effectiveEnd,
-    this.effectiveStart,
-    this.name,
-    this.numberOfRules,
-    this.processingStatus,
-    this.values,
-  });
-
-  factory CostCategoryReference.fromJson(Map<String, dynamic> json) {
-    return CostCategoryReference(
-      costCategoryArn: json['CostCategoryArn'] as String?,
-      defaultValue: json['DefaultValue'] as String?,
-      effectiveEnd: json['EffectiveEnd'] as String?,
-      effectiveStart: json['EffectiveStart'] as String?,
-      name: json['Name'] as String?,
-      numberOfRules: json['NumberOfRules'] as int?,
-      processingStatus: (json['ProcessingStatus'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              CostCategoryProcessingStatus.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      values:
-          (json['Values'] as List?)?.nonNulls.map((e) => e as String).toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final costCategoryArn = this.costCategoryArn;
-    final defaultValue = this.defaultValue;
-    final effectiveEnd = this.effectiveEnd;
-    final effectiveStart = this.effectiveStart;
-    final name = this.name;
-    final numberOfRules = this.numberOfRules;
-    final processingStatus = this.processingStatus;
-    final values = this.values;
-    return {
-      if (costCategoryArn != null) 'CostCategoryArn': costCategoryArn,
-      if (defaultValue != null) 'DefaultValue': defaultValue,
-      if (effectiveEnd != null) 'EffectiveEnd': effectiveEnd,
-      if (effectiveStart != null) 'EffectiveStart': effectiveStart,
-      if (name != null) 'Name': name,
-      if (numberOfRules != null) 'NumberOfRules': numberOfRules,
-      if (processingStatus != null) 'ProcessingStatus': processingStatus,
-      if (values != null) 'Values': values,
-    };
-  }
-}
-
-/// Rules are processed in order. If there are multiple rules that match the
-/// line item, then the first rule to match is used to determine that Cost
-/// Category value.
-class CostCategoryRule {
-  /// The value the line item is categorized as if the line item contains the
-  /// matched dimension.
-  final CostCategoryInheritedValueDimension? inheritedValue;
-
-  /// An <a
-  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html">Expression</a>
-  /// object used to categorize costs. This supports dimensions, tags, and nested
-  /// expressions. Currently the only dimensions supported are
-  /// <code>LINKED_ACCOUNT</code>, <code>SERVICE_CODE</code>,
-  /// <code>RECORD_TYPE</code>, <code>LINKED_ACCOUNT_NAME</code>,
-  /// <code>REGION</code>, and <code>USAGE_TYPE</code>.
-  ///
-  /// <code>RECORD_TYPE</code> is a dimension used for Cost Explorer APIs, and is
-  /// also supported for Cost Category expressions. This dimension uses different
-  /// terms, depending on whether you're using the console or API/JSON editor. For
-  /// a detailed comparison, see <a
-  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/manage-cost-categories.html#cost-categories-terms">Term
-  /// Comparisons</a> in the <i>Billing and Cost Management User Guide</i>.
-  final Expression? rule;
-
-  /// You can define the <code>CostCategoryRule</code> rule type as either
-  /// <code>REGULAR</code> or <code>INHERITED_VALUE</code>. The
-  /// <code>INHERITED_VALUE</code> rule type adds the flexibility to define a rule
-  /// that dynamically inherits the cost category value. This value is from the
-  /// dimension value that's defined by
-  /// <code>CostCategoryInheritedValueDimension</code>. For example, suppose that
-  /// you want to costs to be dynamically grouped based on the value of a specific
-  /// tag key. First, choose an inherited value rule type, and then choose the tag
-  /// dimension and specify the tag key to use.
-  final CostCategoryRuleType? type;
-  final String? value;
-
-  CostCategoryRule({
-    this.inheritedValue,
-    this.rule,
-    this.type,
-    this.value,
-  });
-
-  factory CostCategoryRule.fromJson(Map<String, dynamic> json) {
-    return CostCategoryRule(
-      inheritedValue: json['InheritedValue'] != null
-          ? CostCategoryInheritedValueDimension.fromJson(
-              json['InheritedValue'] as Map<String, dynamic>)
-          : null,
-      rule: json['Rule'] != null
-          ? Expression.fromJson(json['Rule'] as Map<String, dynamic>)
-          : null,
-      type: (json['Type'] as String?)?.let(CostCategoryRuleType.fromString),
-      value: json['Value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final inheritedValue = this.inheritedValue;
-    final rule = this.rule;
-    final type = this.type;
-    final value = this.value;
-    return {
-      if (inheritedValue != null) 'InheritedValue': inheritedValue,
-      if (rule != null) 'Rule': rule,
-      if (type != null) 'Type': type.value,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-class CostCategoryRuleType {
-  static const regular = CostCategoryRuleType._('REGULAR');
-  static const inheritedValue = CostCategoryRuleType._('INHERITED_VALUE');
-
-  final String value;
-
-  const CostCategoryRuleType._(this.value);
-
-  static const values = [regular, inheritedValue];
-
-  static CostCategoryRuleType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CostCategoryRuleType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CostCategoryRuleType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The rule schema version in this particular Cost Category.
-class CostCategoryRuleVersion {
-  static const costCategoryExpressionV1 =
-      CostCategoryRuleVersion._('CostCategoryExpression.v1');
-
-  final String value;
-
-  const CostCategoryRuleVersion._(this.value);
-
-  static const values = [costCategoryExpressionV1];
-
-  static CostCategoryRuleVersion fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CostCategoryRuleVersion._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CostCategoryRuleVersion && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class CostCategorySplitChargeMethod {
-  static const fixed = CostCategorySplitChargeMethod._('FIXED');
-  static const proportional = CostCategorySplitChargeMethod._('PROPORTIONAL');
-  static const even = CostCategorySplitChargeMethod._('EVEN');
-
-  final String value;
-
-  const CostCategorySplitChargeMethod._(this.value);
-
-  static const values = [fixed, proportional, even];
-
-  static CostCategorySplitChargeMethod fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CostCategorySplitChargeMethod._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CostCategorySplitChargeMethod && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Use the split charge rule to split the cost of one Cost Category value
-/// across several other target values.
-class CostCategorySplitChargeRule {
-  /// The method that's used to define how to split your source costs across your
-  /// targets.
-  ///
-  /// <code>Proportional</code> - Allocates charges across your targets based on
-  /// the proportional weighted cost of each target.
-  ///
-  /// <code>Fixed</code> - Allocates charges across your targets based on your
-  /// defined allocation percentage.
-  ///
-  /// &gt;<code>Even</code> - Allocates costs evenly across all targets.
-  final CostCategorySplitChargeMethod method;
-
-  /// The Cost Category value that you want to split. That value can't be used as
-  /// a source or a target in other split charge rules. To indicate uncategorized
-  /// costs, you can use an empty string as the source.
-  final String source;
-
-  /// The Cost Category values that you want to split costs across. These values
-  /// can't be used as a source in other split charge rules.
-  final List<String> targets;
-
-  /// The parameters for a split charge method. This is only required for the
-  /// <code>FIXED</code> method.
-  final List<CostCategorySplitChargeRuleParameter>? parameters;
-
-  CostCategorySplitChargeRule({
-    required this.method,
-    required this.source,
-    required this.targets,
-    this.parameters,
-  });
-
-  factory CostCategorySplitChargeRule.fromJson(Map<String, dynamic> json) {
-    return CostCategorySplitChargeRule(
-      method: CostCategorySplitChargeMethod.fromString(
-          (json['Method'] as String?) ?? ''),
-      source: (json['Source'] as String?) ?? '',
-      targets: ((json['Targets'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      parameters: (json['Parameters'] as List?)
-          ?.nonNulls
-          .map((e) => CostCategorySplitChargeRuleParameter.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final method = this.method;
-    final source = this.source;
-    final targets = this.targets;
-    final parameters = this.parameters;
-    return {
-      'Method': method.value,
-      'Source': source,
-      'Targets': targets,
-      if (parameters != null) 'Parameters': parameters,
-    };
-  }
-}
-
-/// The parameters for a split charge method.
-class CostCategorySplitChargeRuleParameter {
-  /// The parameter type.
-  final CostCategorySplitChargeRuleParameterType type;
-
-  /// The parameter values.
-  final List<String> values;
-
-  CostCategorySplitChargeRuleParameter({
-    required this.type,
-    required this.values,
-  });
-
-  factory CostCategorySplitChargeRuleParameter.fromJson(
-      Map<String, dynamic> json) {
-    return CostCategorySplitChargeRuleParameter(
-      type: CostCategorySplitChargeRuleParameterType.fromString(
-          (json['Type'] as String?) ?? ''),
-      values: ((json['Values'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final type = this.type;
-    final values = this.values;
-    return {
-      'Type': type.value,
-      'Values': values,
-    };
-  }
-}
-
-class CostCategorySplitChargeRuleParameterType {
-  static const allocationPercentages =
-      CostCategorySplitChargeRuleParameterType._('ALLOCATION_PERCENTAGES');
-
-  final String value;
-
-  const CostCategorySplitChargeRuleParameterType._(this.value);
-
-  static const values = [allocationPercentages];
-
-  static CostCategorySplitChargeRuleParameterType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CostCategorySplitChargeRuleParameterType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CostCategorySplitChargeRuleParameterType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class CostCategoryStatus {
-  static const processing = CostCategoryStatus._('PROCESSING');
-  static const applied = CostCategoryStatus._('APPLIED');
-
-  final String value;
-
-  const CostCategoryStatus._(this.value);
-
-  static const values = [processing, applied];
-
-  static CostCategoryStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CostCategoryStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CostCategoryStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class CostCategoryStatusComponent {
-  static const costExplorer = CostCategoryStatusComponent._('COST_EXPLORER');
-
-  final String value;
-
-  const CostCategoryStatusComponent._(this.value);
-
-  static const values = [costExplorer];
-
-  static CostCategoryStatusComponent fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CostCategoryStatusComponent._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CostCategoryStatusComponent && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The Cost Categories values used for filtering the costs.
-///
-/// If <code>Values</code> and <code>Key</code> are not specified, the
-/// <code>ABSENT</code> <code>MatchOption</code> is applied to all Cost
-/// Categories. That is, it filters on resources that aren't mapped to any Cost
-/// Categories.
-///
-/// If <code>Values</code> is provided and <code>Key</code> isn't specified, the
-/// <code>ABSENT</code> <code>MatchOption</code> is applied to the Cost
-/// Categories <code>Key</code> only. That is, it filters on resources without
-/// the given Cost Categories key.
-class CostCategoryValues {
-  final String? key;
-
-  /// The match options that you can use to filter your results. MatchOptions is
-  /// only applicable for actions related to cost category. The default values for
-  /// <code>MatchOptions</code> is <code>EQUALS</code> and
-  /// <code>CASE_SENSITIVE</code>.
-  final List<MatchOption>? matchOptions;
-
-  /// The specific value of the Cost Category.
-  final List<String>? values;
-
-  CostCategoryValues({
-    this.key,
-    this.matchOptions,
-    this.values,
-  });
-
-  factory CostCategoryValues.fromJson(Map<String, dynamic> json) {
-    return CostCategoryValues(
-      key: json['Key'] as String?,
-      matchOptions: (json['MatchOptions'] as List?)
-          ?.nonNulls
-          .map((e) => MatchOption.fromString((e as String)))
-          .toList(),
-      values:
-          (json['Values'] as List?)?.nonNulls.map((e) => e as String).toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final matchOptions = this.matchOptions;
-    final values = this.values;
-    return {
-      if (key != null) 'Key': key,
-      if (matchOptions != null)
-        'MatchOptions': matchOptions.map((e) => e.value).toList(),
-      if (values != null) 'Values': values,
-    };
-  }
-}
-
-/// The amount of instance usage that a reservation covered.
-class Coverage {
-  /// The amount of cost that the reservation covered.
-  final CoverageCost? coverageCost;
-
-  /// The amount of instance usage that the reservation covered, in hours.
-  final CoverageHours? coverageHours;
-
-  /// The amount of instance usage that the reservation covered, in normalized
-  /// units.
-  final CoverageNormalizedUnits? coverageNormalizedUnits;
-
-  Coverage({
-    this.coverageCost,
-    this.coverageHours,
-    this.coverageNormalizedUnits,
-  });
-
-  factory Coverage.fromJson(Map<String, dynamic> json) {
-    return Coverage(
-      coverageCost: json['CoverageCost'] != null
-          ? CoverageCost.fromJson(json['CoverageCost'] as Map<String, dynamic>)
-          : null,
-      coverageHours: json['CoverageHours'] != null
-          ? CoverageHours.fromJson(
-              json['CoverageHours'] as Map<String, dynamic>)
-          : null,
-      coverageNormalizedUnits: json['CoverageNormalizedUnits'] != null
-          ? CoverageNormalizedUnits.fromJson(
-              json['CoverageNormalizedUnits'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final coverageCost = this.coverageCost;
-    final coverageHours = this.coverageHours;
-    final coverageNormalizedUnits = this.coverageNormalizedUnits;
-    return {
-      if (coverageCost != null) 'CoverageCost': coverageCost,
-      if (coverageHours != null) 'CoverageHours': coverageHours,
-      if (coverageNormalizedUnits != null)
-        'CoverageNormalizedUnits': coverageNormalizedUnits,
-    };
-  }
-}
-
-/// Reservation coverage for a specified period, in hours.
-class CoverageByTime {
-  /// The groups of instances that the reservation covered.
-  final List<ReservationCoverageGroup>? groups;
-
-  /// The period that this coverage was used over.
-  final DateInterval? timePeriod;
-
-  /// The total reservation coverage, in hours.
-  final Coverage? total;
-
-  CoverageByTime({
-    this.groups,
-    this.timePeriod,
-    this.total,
-  });
-
-  factory CoverageByTime.fromJson(Map<String, dynamic> json) {
-    return CoverageByTime(
-      groups: (json['Groups'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              ReservationCoverageGroup.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      timePeriod: json['TimePeriod'] != null
-          ? DateInterval.fromJson(json['TimePeriod'] as Map<String, dynamic>)
-          : null,
-      total: json['Total'] != null
-          ? Coverage.fromJson(json['Total'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final groups = this.groups;
-    final timePeriod = this.timePeriod;
-    final total = this.total;
-    return {
-      if (groups != null) 'Groups': groups,
-      if (timePeriod != null) 'TimePeriod': timePeriod,
-      if (total != null) 'Total': total,
-    };
-  }
-}
-
-/// How much it costs to run an instance.
-class CoverageCost {
-  /// How much an On-Demand Instance costs.
-  final String? onDemandCost;
-
-  CoverageCost({
-    this.onDemandCost,
-  });
-
-  factory CoverageCost.fromJson(Map<String, dynamic> json) {
-    return CoverageCost(
-      onDemandCost: json['OnDemandCost'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final onDemandCost = this.onDemandCost;
-    return {
-      if (onDemandCost != null) 'OnDemandCost': onDemandCost,
-    };
-  }
-}
-
-/// How long a running instance either used a reservation or was On-Demand.
-class CoverageHours {
-  /// The percentage of instance hours that a reservation covered.
-  final String? coverageHoursPercentage;
-
-  /// The number of instance running hours that On-Demand Instances covered.
-  final String? onDemandHours;
-
-  /// The number of instance running hours that reservations covered.
-  final String? reservedHours;
-
-  /// The total instance usage, in hours.
-  final String? totalRunningHours;
-
-  CoverageHours({
-    this.coverageHoursPercentage,
-    this.onDemandHours,
-    this.reservedHours,
-    this.totalRunningHours,
-  });
-
-  factory CoverageHours.fromJson(Map<String, dynamic> json) {
-    return CoverageHours(
-      coverageHoursPercentage: json['CoverageHoursPercentage'] as String?,
-      onDemandHours: json['OnDemandHours'] as String?,
-      reservedHours: json['ReservedHours'] as String?,
-      totalRunningHours: json['TotalRunningHours'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final coverageHoursPercentage = this.coverageHoursPercentage;
-    final onDemandHours = this.onDemandHours;
-    final reservedHours = this.reservedHours;
-    final totalRunningHours = this.totalRunningHours;
-    return {
-      if (coverageHoursPercentage != null)
-        'CoverageHoursPercentage': coverageHoursPercentage,
-      if (onDemandHours != null) 'OnDemandHours': onDemandHours,
-      if (reservedHours != null) 'ReservedHours': reservedHours,
-      if (totalRunningHours != null) 'TotalRunningHours': totalRunningHours,
-    };
-  }
-}
-
-/// The amount of instance usage, in normalized units. You can use normalized
-/// units to see your EC2 usage for multiple sizes of instances in a uniform
-/// way. For example, suppose that you run an xlarge instance and a 2xlarge
-/// instance. If you run both instances for the same amount of time, the 2xlarge
-/// instance uses twice as much of your reservation as the xlarge instance, even
-/// though both instances show only one instance-hour. When you use normalized
-/// units instead of instance-hours, the xlarge instance used 8 normalized
-/// units, and the 2xlarge instance used 16 normalized units.
-///
-/// For more information, see <a
-/// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-modifying.html">Modifying
-/// Reserved Instances</a> in the <i>Amazon Elastic Compute Cloud User Guide for
-/// Linux Instances</i>.
-class CoverageNormalizedUnits {
-  /// The percentage of your used instance normalized units that a reservation
-  /// covers.
-  final String? coverageNormalizedUnitsPercentage;
-
-  /// The number of normalized units that are covered by On-Demand Instances
-  /// instead of a reservation.
-  final String? onDemandNormalizedUnits;
-
-  /// The number of normalized units that a reservation covers.
-  final String? reservedNormalizedUnits;
-
-  /// The total number of normalized units that you used.
-  final String? totalRunningNormalizedUnits;
-
-  CoverageNormalizedUnits({
-    this.coverageNormalizedUnitsPercentage,
-    this.onDemandNormalizedUnits,
-    this.reservedNormalizedUnits,
-    this.totalRunningNormalizedUnits,
-  });
-
-  factory CoverageNormalizedUnits.fromJson(Map<String, dynamic> json) {
-    return CoverageNormalizedUnits(
-      coverageNormalizedUnitsPercentage:
-          json['CoverageNormalizedUnitsPercentage'] as String?,
-      onDemandNormalizedUnits: json['OnDemandNormalizedUnits'] as String?,
-      reservedNormalizedUnits: json['ReservedNormalizedUnits'] as String?,
-      totalRunningNormalizedUnits:
-          json['TotalRunningNormalizedUnits'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final coverageNormalizedUnitsPercentage =
-        this.coverageNormalizedUnitsPercentage;
-    final onDemandNormalizedUnits = this.onDemandNormalizedUnits;
-    final reservedNormalizedUnits = this.reservedNormalizedUnits;
-    final totalRunningNormalizedUnits = this.totalRunningNormalizedUnits;
-    return {
-      if (coverageNormalizedUnitsPercentage != null)
-        'CoverageNormalizedUnitsPercentage': coverageNormalizedUnitsPercentage,
-      if (onDemandNormalizedUnits != null)
-        'OnDemandNormalizedUnits': onDemandNormalizedUnits,
-      if (reservedNormalizedUnits != null)
-        'ReservedNormalizedUnits': reservedNormalizedUnits,
-      if (totalRunningNormalizedUnits != null)
-        'TotalRunningNormalizedUnits': totalRunningNormalizedUnits,
-    };
   }
 }
 
@@ -5213,10 +4055,10 @@ class CreateAnomalySubscriptionResponse {
 }
 
 class CreateCostCategoryDefinitionResponse {
-  /// The unique identifier for your newly created Cost Category.
+  /// The unique identifier for your newly created cost category.
   final String? costCategoryArn;
 
-  /// The Cost Category's effective start date. It can only be a billing start
+  /// The cost category's effective start date. It can only be a billing start
   /// date (first day of the month).
   final String? effectiveStart;
 
@@ -5239,164 +4081,6 @@ class CreateCostCategoryDefinitionResponse {
     return {
       if (costCategoryArn != null) 'CostCategoryArn': costCategoryArn,
       if (effectiveStart != null) 'EffectiveStart': effectiveStart,
-    };
-  }
-}
-
-/// Context about the current instance.
-class CurrentInstance {
-  /// The currency code that Amazon Web Services used to calculate the costs for
-  /// this instance.
-  final String? currencyCode;
-
-  /// The name that you given an instance. This field shows as blank if you
-  /// haven't given the instance a name.
-  final String? instanceName;
-
-  /// The current On-Demand cost of operating this instance on a monthly basis.
-  final String? monthlyCost;
-
-  /// The number of hours during the lookback period that's billed at On-Demand
-  /// rates.
-  final String? onDemandHoursInLookbackPeriod;
-
-  /// The number of hours during the lookback period that's covered by
-  /// reservations.
-  final String? reservationCoveredHoursInLookbackPeriod;
-
-  /// Details about the resource and utilization.
-  final ResourceDetails? resourceDetails;
-
-  /// Resource ID of the current instance.
-  final String? resourceId;
-
-  /// Utilization information of the current instance during the lookback period.
-  final ResourceUtilization? resourceUtilization;
-
-  /// The number of hours during the lookback period that's covered by Savings
-  /// Plans.
-  final String? savingsPlansCoveredHoursInLookbackPeriod;
-
-  /// Cost allocation resource tags that are applied to the instance.
-  final List<TagValues>? tags;
-
-  /// The total number of hours that the instance ran during the lookback period.
-  final String? totalRunningHoursInLookbackPeriod;
-
-  CurrentInstance({
-    this.currencyCode,
-    this.instanceName,
-    this.monthlyCost,
-    this.onDemandHoursInLookbackPeriod,
-    this.reservationCoveredHoursInLookbackPeriod,
-    this.resourceDetails,
-    this.resourceId,
-    this.resourceUtilization,
-    this.savingsPlansCoveredHoursInLookbackPeriod,
-    this.tags,
-    this.totalRunningHoursInLookbackPeriod,
-  });
-
-  factory CurrentInstance.fromJson(Map<String, dynamic> json) {
-    return CurrentInstance(
-      currencyCode: json['CurrencyCode'] as String?,
-      instanceName: json['InstanceName'] as String?,
-      monthlyCost: json['MonthlyCost'] as String?,
-      onDemandHoursInLookbackPeriod:
-          json['OnDemandHoursInLookbackPeriod'] as String?,
-      reservationCoveredHoursInLookbackPeriod:
-          json['ReservationCoveredHoursInLookbackPeriod'] as String?,
-      resourceDetails: json['ResourceDetails'] != null
-          ? ResourceDetails.fromJson(
-              json['ResourceDetails'] as Map<String, dynamic>)
-          : null,
-      resourceId: json['ResourceId'] as String?,
-      resourceUtilization: json['ResourceUtilization'] != null
-          ? ResourceUtilization.fromJson(
-              json['ResourceUtilization'] as Map<String, dynamic>)
-          : null,
-      savingsPlansCoveredHoursInLookbackPeriod:
-          json['SavingsPlansCoveredHoursInLookbackPeriod'] as String?,
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => TagValues.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      totalRunningHoursInLookbackPeriod:
-          json['TotalRunningHoursInLookbackPeriod'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final currencyCode = this.currencyCode;
-    final instanceName = this.instanceName;
-    final monthlyCost = this.monthlyCost;
-    final onDemandHoursInLookbackPeriod = this.onDemandHoursInLookbackPeriod;
-    final reservationCoveredHoursInLookbackPeriod =
-        this.reservationCoveredHoursInLookbackPeriod;
-    final resourceDetails = this.resourceDetails;
-    final resourceId = this.resourceId;
-    final resourceUtilization = this.resourceUtilization;
-    final savingsPlansCoveredHoursInLookbackPeriod =
-        this.savingsPlansCoveredHoursInLookbackPeriod;
-    final tags = this.tags;
-    final totalRunningHoursInLookbackPeriod =
-        this.totalRunningHoursInLookbackPeriod;
-    return {
-      if (currencyCode != null) 'CurrencyCode': currencyCode,
-      if (instanceName != null) 'InstanceName': instanceName,
-      if (monthlyCost != null) 'MonthlyCost': monthlyCost,
-      if (onDemandHoursInLookbackPeriod != null)
-        'OnDemandHoursInLookbackPeriod': onDemandHoursInLookbackPeriod,
-      if (reservationCoveredHoursInLookbackPeriod != null)
-        'ReservationCoveredHoursInLookbackPeriod':
-            reservationCoveredHoursInLookbackPeriod,
-      if (resourceDetails != null) 'ResourceDetails': resourceDetails,
-      if (resourceId != null) 'ResourceId': resourceId,
-      if (resourceUtilization != null)
-        'ResourceUtilization': resourceUtilization,
-      if (savingsPlansCoveredHoursInLookbackPeriod != null)
-        'SavingsPlansCoveredHoursInLookbackPeriod':
-            savingsPlansCoveredHoursInLookbackPeriod,
-      if (tags != null) 'Tags': tags,
-      if (totalRunningHoursInLookbackPeriod != null)
-        'TotalRunningHoursInLookbackPeriod': totalRunningHoursInLookbackPeriod,
-    };
-  }
-}
-
-/// The time period of the request.
-class DateInterval {
-  /// The end of the time period. The end date is exclusive. For example, if
-  /// <code>end</code> is <code>2017-05-01</code>, Amazon Web Services retrieves
-  /// cost and usage data from the start date up to, but not including,
-  /// <code>2017-05-01</code>.
-  final String end;
-
-  /// The beginning of the time period. The start date is inclusive. For example,
-  /// if <code>start</code> is <code>2017-01-01</code>, Amazon Web Services
-  /// retrieves cost and usage data starting at <code>2017-01-01</code> up to the
-  /// end date. The start date must be equal to or no later than the current date
-  /// to avoid a validation error.
-  final String start;
-
-  DateInterval({
-    required this.end,
-    required this.start,
-  });
-
-  factory DateInterval.fromJson(Map<String, dynamic> json) {
-    return DateInterval(
-      end: (json['End'] as String?) ?? '',
-      start: (json['Start'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final end = this.end;
-    final start = this.start;
-    return {
-      'End': end,
-      'Start': start,
     };
   }
 }
@@ -5426,11 +4110,11 @@ class DeleteAnomalySubscriptionResponse {
 }
 
 class DeleteCostCategoryDefinitionResponse {
-  /// The unique identifier for your Cost Category.
+  /// The unique identifier for your cost category.
   final String? costCategoryArn;
 
-  /// The effective end date of the Cost Category as a result of deleting it. No
-  /// costs after this date is categorized by the deleted Cost Category.
+  /// The effective end date of the cost category as a result of deleting it. No
+  /// costs after this date is categorized by the deleted cost category.
   final String? effectiveEnd;
 
   DeleteCostCategoryDefinitionResponse({
@@ -5476,1054 +4160,6 @@ class DescribeCostCategoryDefinitionResponse {
     final costCategory = this.costCategory;
     return {
       if (costCategory != null) 'CostCategory': costCategory,
-    };
-  }
-}
-
-class Dimension {
-  static const az = Dimension._('AZ');
-  static const instanceType = Dimension._('INSTANCE_TYPE');
-  static const linkedAccount = Dimension._('LINKED_ACCOUNT');
-  static const linkedAccountName = Dimension._('LINKED_ACCOUNT_NAME');
-  static const operation = Dimension._('OPERATION');
-  static const purchaseType = Dimension._('PURCHASE_TYPE');
-  static const region = Dimension._('REGION');
-  static const service = Dimension._('SERVICE');
-  static const serviceCode = Dimension._('SERVICE_CODE');
-  static const usageType = Dimension._('USAGE_TYPE');
-  static const usageTypeGroup = Dimension._('USAGE_TYPE_GROUP');
-  static const recordType = Dimension._('RECORD_TYPE');
-  static const operatingSystem = Dimension._('OPERATING_SYSTEM');
-  static const tenancy = Dimension._('TENANCY');
-  static const scope = Dimension._('SCOPE');
-  static const platform = Dimension._('PLATFORM');
-  static const subscriptionId = Dimension._('SUBSCRIPTION_ID');
-  static const legalEntityName = Dimension._('LEGAL_ENTITY_NAME');
-  static const deploymentOption = Dimension._('DEPLOYMENT_OPTION');
-  static const databaseEngine = Dimension._('DATABASE_ENGINE');
-  static const cacheEngine = Dimension._('CACHE_ENGINE');
-  static const instanceTypeFamily = Dimension._('INSTANCE_TYPE_FAMILY');
-  static const billingEntity = Dimension._('BILLING_ENTITY');
-  static const reservationId = Dimension._('RESERVATION_ID');
-  static const resourceId = Dimension._('RESOURCE_ID');
-  static const rightsizingType = Dimension._('RIGHTSIZING_TYPE');
-  static const savingsPlansType = Dimension._('SAVINGS_PLANS_TYPE');
-  static const savingsPlanArn = Dimension._('SAVINGS_PLAN_ARN');
-  static const paymentOption = Dimension._('PAYMENT_OPTION');
-  static const agreementEndDateTimeAfter =
-      Dimension._('AGREEMENT_END_DATE_TIME_AFTER');
-  static const agreementEndDateTimeBefore =
-      Dimension._('AGREEMENT_END_DATE_TIME_BEFORE');
-  static const invoicingEntity = Dimension._('INVOICING_ENTITY');
-  static const anomalyTotalImpactAbsolute =
-      Dimension._('ANOMALY_TOTAL_IMPACT_ABSOLUTE');
-  static const anomalyTotalImpactPercentage =
-      Dimension._('ANOMALY_TOTAL_IMPACT_PERCENTAGE');
-
-  final String value;
-
-  const Dimension._(this.value);
-
-  static const values = [
-    az,
-    instanceType,
-    linkedAccount,
-    linkedAccountName,
-    operation,
-    purchaseType,
-    region,
-    service,
-    serviceCode,
-    usageType,
-    usageTypeGroup,
-    recordType,
-    operatingSystem,
-    tenancy,
-    scope,
-    platform,
-    subscriptionId,
-    legalEntityName,
-    deploymentOption,
-    databaseEngine,
-    cacheEngine,
-    instanceTypeFamily,
-    billingEntity,
-    reservationId,
-    resourceId,
-    rightsizingType,
-    savingsPlansType,
-    savingsPlanArn,
-    paymentOption,
-    agreementEndDateTimeAfter,
-    agreementEndDateTimeBefore,
-    invoicingEntity,
-    anomalyTotalImpactAbsolute,
-    anomalyTotalImpactPercentage
-  ];
-
-  static Dimension fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Dimension._(value));
-
-  @override
-  bool operator ==(other) => other is Dimension && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The metadata that you can use to filter and group your results. You can use
-/// <code>GetDimensionValues</code> to find specific values.
-class DimensionValues {
-  /// The names of the metadata types that you can use to filter and group your
-  /// results. For example, <code>AZ</code> returns a list of Availability Zones.
-  ///
-  /// Not all dimensions are supported in each API. Refer to the documentation for
-  /// each specific API to see what is supported.
-  ///
-  /// <code>LINK_ACCOUNT_NAME</code> and <code>SERVICE_CODE</code> can only be
-  /// used in <a
-  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_CostCategoryRule.html">CostCategoryRule</a>.
-  ///
-  /// <code>ANOMALY_TOTAL_IMPACT_ABSOLUTE</code> and
-  /// <code>ANOMALY_TOTAL_IMPACT_PERCENTAGE</code> can only be used in <a
-  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AnomalySubscription.html">AnomalySubscriptions</a>.
-  final Dimension? key;
-
-  /// The match options that you can use to filter your results.
-  ///
-  /// <code>MatchOptions</code> is only applicable for actions related to Cost
-  /// Category and Anomaly Subscriptions. Refer to the documentation for each
-  /// specific API to see what is supported.
-  ///
-  /// The default values for <code>MatchOptions</code> are <code>EQUALS</code> and
-  /// <code>CASE_SENSITIVE</code>.
-  final List<MatchOption>? matchOptions;
-
-  /// The metadata values that you can use to filter and group your results. You
-  /// can use <code>GetDimensionValues</code> to find specific values.
-  final List<String>? values;
-
-  DimensionValues({
-    this.key,
-    this.matchOptions,
-    this.values,
-  });
-
-  factory DimensionValues.fromJson(Map<String, dynamic> json) {
-    return DimensionValues(
-      key: (json['Key'] as String?)?.let(Dimension.fromString),
-      matchOptions: (json['MatchOptions'] as List?)
-          ?.nonNulls
-          .map((e) => MatchOption.fromString((e as String)))
-          .toList(),
-      values:
-          (json['Values'] as List?)?.nonNulls.map((e) => e as String).toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final matchOptions = this.matchOptions;
-    final values = this.values;
-    return {
-      if (key != null) 'Key': key.value,
-      if (matchOptions != null)
-        'MatchOptions': matchOptions.map((e) => e.value).toList(),
-      if (values != null) 'Values': values,
-    };
-  }
-}
-
-/// The metadata of a specific type that you can use to filter and group your
-/// results. You can use <code>GetDimensionValues</code> to find specific
-/// values.
-class DimensionValuesWithAttributes {
-  /// The attribute that applies to a specific <code>Dimension</code>.
-  final Map<String, String>? attributes;
-
-  /// The value of a dimension with a specific attribute.
-  final String? value;
-
-  DimensionValuesWithAttributes({
-    this.attributes,
-    this.value,
-  });
-
-  factory DimensionValuesWithAttributes.fromJson(Map<String, dynamic> json) {
-    return DimensionValuesWithAttributes(
-      attributes: (json['Attributes'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      value: json['Value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attributes = this.attributes;
-    final value = this.value;
-    return {
-      if (attributes != null) 'Attributes': attributes,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-/// The field that contains a list of disk (local storage) metrics that are
-/// associated with the current instance.
-class DiskResourceUtilization {
-  /// The maximum read throughput operations per second.
-  final String? diskReadBytesPerSecond;
-
-  /// The maximum number of read operations per second.
-  final String? diskReadOpsPerSecond;
-
-  /// The maximum write throughput operations per second.
-  final String? diskWriteBytesPerSecond;
-
-  /// The maximum number of write operations per second.
-  final String? diskWriteOpsPerSecond;
-
-  DiskResourceUtilization({
-    this.diskReadBytesPerSecond,
-    this.diskReadOpsPerSecond,
-    this.diskWriteBytesPerSecond,
-    this.diskWriteOpsPerSecond,
-  });
-
-  factory DiskResourceUtilization.fromJson(Map<String, dynamic> json) {
-    return DiskResourceUtilization(
-      diskReadBytesPerSecond: json['DiskReadBytesPerSecond'] as String?,
-      diskReadOpsPerSecond: json['DiskReadOpsPerSecond'] as String?,
-      diskWriteBytesPerSecond: json['DiskWriteBytesPerSecond'] as String?,
-      diskWriteOpsPerSecond: json['DiskWriteOpsPerSecond'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final diskReadBytesPerSecond = this.diskReadBytesPerSecond;
-    final diskReadOpsPerSecond = this.diskReadOpsPerSecond;
-    final diskWriteBytesPerSecond = this.diskWriteBytesPerSecond;
-    final diskWriteOpsPerSecond = this.diskWriteOpsPerSecond;
-    return {
-      if (diskReadBytesPerSecond != null)
-        'DiskReadBytesPerSecond': diskReadBytesPerSecond,
-      if (diskReadOpsPerSecond != null)
-        'DiskReadOpsPerSecond': diskReadOpsPerSecond,
-      if (diskWriteBytesPerSecond != null)
-        'DiskWriteBytesPerSecond': diskWriteBytesPerSecond,
-      if (diskWriteOpsPerSecond != null)
-        'DiskWriteOpsPerSecond': diskWriteOpsPerSecond,
-    };
-  }
-}
-
-/// The EBS field that contains a list of EBS metrics that are associated with
-/// the current instance.
-class EBSResourceUtilization {
-  /// The maximum size of read operations per second
-  final String? ebsReadBytesPerSecond;
-
-  /// The maximum number of read operations per second.
-  final String? ebsReadOpsPerSecond;
-
-  /// The maximum size of write operations per second.
-  final String? ebsWriteBytesPerSecond;
-
-  /// The maximum number of write operations per second.
-  final String? ebsWriteOpsPerSecond;
-
-  EBSResourceUtilization({
-    this.ebsReadBytesPerSecond,
-    this.ebsReadOpsPerSecond,
-    this.ebsWriteBytesPerSecond,
-    this.ebsWriteOpsPerSecond,
-  });
-
-  factory EBSResourceUtilization.fromJson(Map<String, dynamic> json) {
-    return EBSResourceUtilization(
-      ebsReadBytesPerSecond: json['EbsReadBytesPerSecond'] as String?,
-      ebsReadOpsPerSecond: json['EbsReadOpsPerSecond'] as String?,
-      ebsWriteBytesPerSecond: json['EbsWriteBytesPerSecond'] as String?,
-      ebsWriteOpsPerSecond: json['EbsWriteOpsPerSecond'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final ebsReadBytesPerSecond = this.ebsReadBytesPerSecond;
-    final ebsReadOpsPerSecond = this.ebsReadOpsPerSecond;
-    final ebsWriteBytesPerSecond = this.ebsWriteBytesPerSecond;
-    final ebsWriteOpsPerSecond = this.ebsWriteOpsPerSecond;
-    return {
-      if (ebsReadBytesPerSecond != null)
-        'EbsReadBytesPerSecond': ebsReadBytesPerSecond,
-      if (ebsReadOpsPerSecond != null)
-        'EbsReadOpsPerSecond': ebsReadOpsPerSecond,
-      if (ebsWriteBytesPerSecond != null)
-        'EbsWriteBytesPerSecond': ebsWriteBytesPerSecond,
-      if (ebsWriteOpsPerSecond != null)
-        'EbsWriteOpsPerSecond': ebsWriteOpsPerSecond,
-    };
-  }
-}
-
-/// Details about the Amazon EC2 reservations that Amazon Web Services
-/// recommends that you purchase.
-class EC2InstanceDetails {
-  /// The Availability Zone of the recommended reservation.
-  final String? availabilityZone;
-
-  /// Determines whether the recommendation is for a current-generation instance.
-  final bool? currentGeneration;
-
-  /// The instance family of the recommended reservation.
-  final String? family;
-
-  /// The type of instance that Amazon Web Services recommends.
-  final String? instanceType;
-
-  /// The platform of the recommended reservation. The platform is the specific
-  /// combination of operating system, license model, and software on an instance.
-  final String? platform;
-
-  /// The Amazon Web Services Region of the recommended reservation.
-  final String? region;
-
-  /// Determines whether the recommended reservation is size flexible.
-  final bool? sizeFlexEligible;
-
-  /// Determines whether the recommended reservation is dedicated or shared.
-  final String? tenancy;
-
-  EC2InstanceDetails({
-    this.availabilityZone,
-    this.currentGeneration,
-    this.family,
-    this.instanceType,
-    this.platform,
-    this.region,
-    this.sizeFlexEligible,
-    this.tenancy,
-  });
-
-  factory EC2InstanceDetails.fromJson(Map<String, dynamic> json) {
-    return EC2InstanceDetails(
-      availabilityZone: json['AvailabilityZone'] as String?,
-      currentGeneration: json['CurrentGeneration'] as bool?,
-      family: json['Family'] as String?,
-      instanceType: json['InstanceType'] as String?,
-      platform: json['Platform'] as String?,
-      region: json['Region'] as String?,
-      sizeFlexEligible: json['SizeFlexEligible'] as bool?,
-      tenancy: json['Tenancy'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final availabilityZone = this.availabilityZone;
-    final currentGeneration = this.currentGeneration;
-    final family = this.family;
-    final instanceType = this.instanceType;
-    final platform = this.platform;
-    final region = this.region;
-    final sizeFlexEligible = this.sizeFlexEligible;
-    final tenancy = this.tenancy;
-    return {
-      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
-      if (currentGeneration != null) 'CurrentGeneration': currentGeneration,
-      if (family != null) 'Family': family,
-      if (instanceType != null) 'InstanceType': instanceType,
-      if (platform != null) 'Platform': platform,
-      if (region != null) 'Region': region,
-      if (sizeFlexEligible != null) 'SizeFlexEligible': sizeFlexEligible,
-      if (tenancy != null) 'Tenancy': tenancy,
-    };
-  }
-}
-
-/// Details on the Amazon EC2 Resource.
-class EC2ResourceDetails {
-  /// The hourly public On-Demand rate for the instance type.
-  final String? hourlyOnDemandRate;
-
-  /// The type of Amazon Web Services instance.
-  final String? instanceType;
-
-  /// The memory capacity of the Amazon Web Services instance.
-  final String? memory;
-
-  /// The network performance capacity of the Amazon Web Services instance.
-  final String? networkPerformance;
-
-  /// The platform of the Amazon Web Services instance. The platform is the
-  /// specific combination of operating system, license model, and software on an
-  /// instance.
-  final String? platform;
-
-  /// The Amazon Web Services Region of the instance.
-  final String? region;
-
-  /// The SKU of the product.
-  final String? sku;
-
-  /// The disk storage of the Amazon Web Services instance. This doesn't include
-  /// EBS storage.
-  final String? storage;
-
-  /// The number of VCPU cores in the Amazon Web Services instance type.
-  final String? vcpu;
-
-  EC2ResourceDetails({
-    this.hourlyOnDemandRate,
-    this.instanceType,
-    this.memory,
-    this.networkPerformance,
-    this.platform,
-    this.region,
-    this.sku,
-    this.storage,
-    this.vcpu,
-  });
-
-  factory EC2ResourceDetails.fromJson(Map<String, dynamic> json) {
-    return EC2ResourceDetails(
-      hourlyOnDemandRate: json['HourlyOnDemandRate'] as String?,
-      instanceType: json['InstanceType'] as String?,
-      memory: json['Memory'] as String?,
-      networkPerformance: json['NetworkPerformance'] as String?,
-      platform: json['Platform'] as String?,
-      region: json['Region'] as String?,
-      sku: json['Sku'] as String?,
-      storage: json['Storage'] as String?,
-      vcpu: json['Vcpu'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hourlyOnDemandRate = this.hourlyOnDemandRate;
-    final instanceType = this.instanceType;
-    final memory = this.memory;
-    final networkPerformance = this.networkPerformance;
-    final platform = this.platform;
-    final region = this.region;
-    final sku = this.sku;
-    final storage = this.storage;
-    final vcpu = this.vcpu;
-    return {
-      if (hourlyOnDemandRate != null) 'HourlyOnDemandRate': hourlyOnDemandRate,
-      if (instanceType != null) 'InstanceType': instanceType,
-      if (memory != null) 'Memory': memory,
-      if (networkPerformance != null) 'NetworkPerformance': networkPerformance,
-      if (platform != null) 'Platform': platform,
-      if (region != null) 'Region': region,
-      if (sku != null) 'Sku': sku,
-      if (storage != null) 'Storage': storage,
-      if (vcpu != null) 'Vcpu': vcpu,
-    };
-  }
-}
-
-/// Utilization metrics for the instance.
-class EC2ResourceUtilization {
-  /// The field that contains a list of disk (local storage) metrics that are
-  /// associated with the current instance.
-  final DiskResourceUtilization? diskResourceUtilization;
-
-  /// The EBS field that contains a list of EBS metrics that are associated with
-  /// the current instance.
-  final EBSResourceUtilization? eBSResourceUtilization;
-
-  /// The maximum observed or expected CPU utilization of the instance.
-  final String? maxCpuUtilizationPercentage;
-
-  /// The maximum observed or expected memory utilization of the instance.
-  final String? maxMemoryUtilizationPercentage;
-
-  /// The maximum observed or expected storage utilization of the instance. This
-  /// doesn't include EBS storage.
-  final String? maxStorageUtilizationPercentage;
-
-  /// The network field that contains a list of network metrics that are
-  /// associated with the current instance.
-  final NetworkResourceUtilization? networkResourceUtilization;
-
-  EC2ResourceUtilization({
-    this.diskResourceUtilization,
-    this.eBSResourceUtilization,
-    this.maxCpuUtilizationPercentage,
-    this.maxMemoryUtilizationPercentage,
-    this.maxStorageUtilizationPercentage,
-    this.networkResourceUtilization,
-  });
-
-  factory EC2ResourceUtilization.fromJson(Map<String, dynamic> json) {
-    return EC2ResourceUtilization(
-      diskResourceUtilization: json['DiskResourceUtilization'] != null
-          ? DiskResourceUtilization.fromJson(
-              json['DiskResourceUtilization'] as Map<String, dynamic>)
-          : null,
-      eBSResourceUtilization: json['EBSResourceUtilization'] != null
-          ? EBSResourceUtilization.fromJson(
-              json['EBSResourceUtilization'] as Map<String, dynamic>)
-          : null,
-      maxCpuUtilizationPercentage:
-          json['MaxCpuUtilizationPercentage'] as String?,
-      maxMemoryUtilizationPercentage:
-          json['MaxMemoryUtilizationPercentage'] as String?,
-      maxStorageUtilizationPercentage:
-          json['MaxStorageUtilizationPercentage'] as String?,
-      networkResourceUtilization: json['NetworkResourceUtilization'] != null
-          ? NetworkResourceUtilization.fromJson(
-              json['NetworkResourceUtilization'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final diskResourceUtilization = this.diskResourceUtilization;
-    final eBSResourceUtilization = this.eBSResourceUtilization;
-    final maxCpuUtilizationPercentage = this.maxCpuUtilizationPercentage;
-    final maxMemoryUtilizationPercentage = this.maxMemoryUtilizationPercentage;
-    final maxStorageUtilizationPercentage =
-        this.maxStorageUtilizationPercentage;
-    final networkResourceUtilization = this.networkResourceUtilization;
-    return {
-      if (diskResourceUtilization != null)
-        'DiskResourceUtilization': diskResourceUtilization,
-      if (eBSResourceUtilization != null)
-        'EBSResourceUtilization': eBSResourceUtilization,
-      if (maxCpuUtilizationPercentage != null)
-        'MaxCpuUtilizationPercentage': maxCpuUtilizationPercentage,
-      if (maxMemoryUtilizationPercentage != null)
-        'MaxMemoryUtilizationPercentage': maxMemoryUtilizationPercentage,
-      if (maxStorageUtilizationPercentage != null)
-        'MaxStorageUtilizationPercentage': maxStorageUtilizationPercentage,
-      if (networkResourceUtilization != null)
-        'NetworkResourceUtilization': networkResourceUtilization,
-    };
-  }
-}
-
-/// The Amazon EC2 hardware specifications that you want Amazon Web Services to
-/// provide recommendations for.
-class EC2Specification {
-  /// Indicates whether you want a recommendation for standard or convertible
-  /// reservations.
-  final OfferingClass? offeringClass;
-
-  EC2Specification({
-    this.offeringClass,
-  });
-
-  factory EC2Specification.fromJson(Map<String, dynamic> json) {
-    return EC2Specification(
-      offeringClass:
-          (json['OfferingClass'] as String?)?.let(OfferingClass.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final offeringClass = this.offeringClass;
-    return {
-      if (offeringClass != null) 'OfferingClass': offeringClass.value,
-    };
-  }
-}
-
-/// Details about the Amazon OpenSearch Service reservations that Amazon Web
-/// Services recommends that you purchase.
-class ESInstanceDetails {
-  /// Determines whether the recommendation is for a current-generation instance.
-  final bool? currentGeneration;
-
-  /// The class of instance that Amazon Web Services recommends.
-  final String? instanceClass;
-
-  /// The size of instance that Amazon Web Services recommends.
-  final String? instanceSize;
-
-  /// The Amazon Web Services Region of the recommended reservation.
-  final String? region;
-
-  /// Determines whether the recommended reservation is size flexible.
-  final bool? sizeFlexEligible;
-
-  ESInstanceDetails({
-    this.currentGeneration,
-    this.instanceClass,
-    this.instanceSize,
-    this.region,
-    this.sizeFlexEligible,
-  });
-
-  factory ESInstanceDetails.fromJson(Map<String, dynamic> json) {
-    return ESInstanceDetails(
-      currentGeneration: json['CurrentGeneration'] as bool?,
-      instanceClass: json['InstanceClass'] as String?,
-      instanceSize: json['InstanceSize'] as String?,
-      region: json['Region'] as String?,
-      sizeFlexEligible: json['SizeFlexEligible'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final currentGeneration = this.currentGeneration;
-    final instanceClass = this.instanceClass;
-    final instanceSize = this.instanceSize;
-    final region = this.region;
-    final sizeFlexEligible = this.sizeFlexEligible;
-    return {
-      if (currentGeneration != null) 'CurrentGeneration': currentGeneration,
-      if (instanceClass != null) 'InstanceClass': instanceClass,
-      if (instanceSize != null) 'InstanceSize': instanceSize,
-      if (region != null) 'Region': region,
-      if (sizeFlexEligible != null) 'SizeFlexEligible': sizeFlexEligible,
-    };
-  }
-}
-
-/// Details about the Amazon ElastiCache reservations that Amazon Web Services
-/// recommends that you purchase.
-class ElastiCacheInstanceDetails {
-  /// Determines whether the recommendation is for a current generation instance.
-  final bool? currentGeneration;
-
-  /// The instance family of the recommended reservation.
-  final String? family;
-
-  /// The type of node that Amazon Web Services recommends.
-  final String? nodeType;
-
-  /// The description of the recommended reservation.
-  final String? productDescription;
-
-  /// The Amazon Web Services Region of the recommended reservation.
-  final String? region;
-
-  /// Determines whether the recommended reservation is size flexible.
-  final bool? sizeFlexEligible;
-
-  ElastiCacheInstanceDetails({
-    this.currentGeneration,
-    this.family,
-    this.nodeType,
-    this.productDescription,
-    this.region,
-    this.sizeFlexEligible,
-  });
-
-  factory ElastiCacheInstanceDetails.fromJson(Map<String, dynamic> json) {
-    return ElastiCacheInstanceDetails(
-      currentGeneration: json['CurrentGeneration'] as bool?,
-      family: json['Family'] as String?,
-      nodeType: json['NodeType'] as String?,
-      productDescription: json['ProductDescription'] as String?,
-      region: json['Region'] as String?,
-      sizeFlexEligible: json['SizeFlexEligible'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final currentGeneration = this.currentGeneration;
-    final family = this.family;
-    final nodeType = this.nodeType;
-    final productDescription = this.productDescription;
-    final region = this.region;
-    final sizeFlexEligible = this.sizeFlexEligible;
-    return {
-      if (currentGeneration != null) 'CurrentGeneration': currentGeneration,
-      if (family != null) 'Family': family,
-      if (nodeType != null) 'NodeType': nodeType,
-      if (productDescription != null) 'ProductDescription': productDescription,
-      if (region != null) 'Region': region,
-      if (sizeFlexEligible != null) 'SizeFlexEligible': sizeFlexEligible,
-    };
-  }
-}
-
-/// Use <code>Expression</code> to filter in various Cost Explorer APIs.
-///
-/// Not all <code>Expression</code> types are supported in each API. Refer to
-/// the documentation for each specific API to see what is supported.
-///
-/// There are two patterns:
-///
-/// <ul>
-/// <li>
-/// Simple dimension values.
-///
-/// <ul>
-/// <li>
-/// There are three types of simple dimension values:
-/// <code>CostCategories</code>, <code>Tags</code>, and <code>Dimensions</code>.
-///
-/// <ul>
-/// <li>
-/// Specify the <code>CostCategories</code> field to define a filter that acts
-/// on Cost Categories.
-/// </li>
-/// <li>
-/// Specify the <code>Tags</code> field to define a filter that acts on Cost
-/// Allocation Tags.
-/// </li>
-/// <li>
-/// Specify the <code>Dimensions</code> field to define a filter that acts on
-/// the <a
-/// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_DimensionValues.html">
-/// <code>DimensionValues</code> </a>.
-/// </li>
-/// </ul> </li>
-/// <li>
-/// For each filter type, you can set the dimension name and values for the
-/// filters that you plan to use.
-///
-/// <ul>
-/// <li>
-/// For example, you can filter for <code>REGION==us-east-1 OR
-/// REGION==us-west-1</code>. For <code>GetRightsizingRecommendation</code>, the
-/// Region is a full name (for example, <code>REGION==US East (N.
-/// Virginia)</code>.
-/// </li>
-/// <li>
-/// The corresponding <code>Expression</code> for this example is as follows:
-/// <code>{ "Dimensions": { "Key": "REGION", "Values": [ "us-east-1",
-/// "us-west-1" ] } }</code>
-/// </li>
-/// <li>
-/// As shown in the previous example, lists of dimension values are combined
-/// with <code>OR</code> when applying the filter.
-/// </li>
-/// </ul> </li>
-/// <li>
-/// You can also set different match options to further control how the filter
-/// behaves. Not all APIs support match options. Refer to the documentation for
-/// each specific API to see what is supported.
-///
-/// <ul>
-/// <li>
-/// For example, you can filter for linked account names that start with "a".
-/// </li>
-/// <li>
-/// The corresponding <code>Expression</code> for this example is as follows:
-/// <code>{ "Dimensions": { "Key": "LINKED_ACCOUNT_NAME", "MatchOptions": [
-/// "STARTS_WITH" ], "Values": [ "a" ] } }</code>
-/// </li>
-/// </ul> </li>
-/// </ul> </li>
-/// <li>
-/// Compound <code>Expression</code> types with logical operations.
-///
-/// <ul>
-/// <li>
-/// You can use multiple <code>Expression</code> types and the logical operators
-/// <code>AND/OR/NOT</code> to create a list of one or more
-/// <code>Expression</code> objects. By doing this, you can filter by more
-/// advanced options.
-/// </li>
-/// <li>
-/// For example, you can filter by <code>((REGION == us-east-1 OR REGION ==
-/// us-west-1) OR (TAG.Type == Type1)) AND (USAGE_TYPE != DataTransfer)</code>.
-/// </li>
-/// <li>
-/// The corresponding <code>Expression</code> for this example is as follows:
-/// <code>{ "And": [ {"Or": [ {"Dimensions": { "Key": "REGION", "Values": [
-/// "us-east-1", "us-west-1" ] }}, {"Tags": { "Key": "TagName", "Values":
-/// ["Value1"] } } ]}, {"Not": {"Dimensions": { "Key": "USAGE_TYPE", "Values":
-/// ["DataTransfer"] }}} ] } </code>
-/// </li>
-/// </ul> <note>
-/// Because each <code>Expression</code> can have only one operator, the service
-/// returns an error if more than one is specified. The following example shows
-/// an <code>Expression</code> object that creates an error: <code> { "And": [
-/// ... ], "Dimensions": { "Key": "USAGE_TYPE", "Values": [ "DataTransfer" ] } }
-/// </code>
-///
-/// The following is an example of the corresponding error message:
-/// <code>"Expression has more than one roots. Only one root operator is allowed
-/// for each expression: And, Or, Not, Dimensions, Tags, CostCategories"</code>
-/// </note> </li>
-/// </ul> <note>
-/// For the <code>GetRightsizingRecommendation</code> action, a combination of
-/// OR and NOT isn't supported. OR isn't supported between different dimensions,
-/// or dimensions and tags. NOT operators aren't supported. Dimensions are also
-/// limited to <code>LINKED_ACCOUNT</code>, <code>REGION</code>, or
-/// <code>RIGHTSIZING_TYPE</code>.
-///
-/// For the <code>GetReservationPurchaseRecommendation</code> action, only NOT
-/// is supported. AND and OR aren't supported. Dimensions are limited to
-/// <code>LINKED_ACCOUNT</code>.
-/// </note>
-class Expression {
-  /// Return results that match both <code>Dimension</code> objects.
-  final List<Expression>? and;
-
-  /// The filter that's based on <code>CostCategory</code> values.
-  final CostCategoryValues? costCategories;
-
-  /// The specific <code>Dimension</code> to use for <code>Expression</code>.
-  final DimensionValues? dimensions;
-
-  /// Return results that don't match a <code>Dimension</code> object.
-  final Expression? not;
-
-  /// Return results that match either <code>Dimension</code> object.
-  final List<Expression>? or;
-
-  /// The specific <code>Tag</code> to use for <code>Expression</code>.
-  final TagValues? tags;
-
-  Expression({
-    this.and,
-    this.costCategories,
-    this.dimensions,
-    this.not,
-    this.or,
-    this.tags,
-  });
-
-  factory Expression.fromJson(Map<String, dynamic> json) {
-    return Expression(
-      and: (json['And'] as List?)
-          ?.nonNulls
-          .map((e) => Expression.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      costCategories: json['CostCategories'] != null
-          ? CostCategoryValues.fromJson(
-              json['CostCategories'] as Map<String, dynamic>)
-          : null,
-      dimensions: json['Dimensions'] != null
-          ? DimensionValues.fromJson(json['Dimensions'] as Map<String, dynamic>)
-          : null,
-      not: json['Not'] != null
-          ? Expression.fromJson(json['Not'] as Map<String, dynamic>)
-          : null,
-      or: (json['Or'] as List?)
-          ?.nonNulls
-          .map((e) => Expression.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      tags: json['Tags'] != null
-          ? TagValues.fromJson(json['Tags'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final and = this.and;
-    final costCategories = this.costCategories;
-    final dimensions = this.dimensions;
-    final not = this.not;
-    final or = this.or;
-    final tags = this.tags;
-    return {
-      if (and != null) 'And': and,
-      if (costCategories != null) 'CostCategories': costCategories,
-      if (dimensions != null) 'Dimensions': dimensions,
-      if (not != null) 'Not': not,
-      if (or != null) 'Or': or,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-class FindingReasonCode {
-  static const cpuOverProvisioned = FindingReasonCode._('CPU_OVER_PROVISIONED');
-  static const cpuUnderProvisioned =
-      FindingReasonCode._('CPU_UNDER_PROVISIONED');
-  static const memoryOverProvisioned =
-      FindingReasonCode._('MEMORY_OVER_PROVISIONED');
-  static const memoryUnderProvisioned =
-      FindingReasonCode._('MEMORY_UNDER_PROVISIONED');
-  static const ebsThroughputOverProvisioned =
-      FindingReasonCode._('EBS_THROUGHPUT_OVER_PROVISIONED');
-  static const ebsThroughputUnderProvisioned =
-      FindingReasonCode._('EBS_THROUGHPUT_UNDER_PROVISIONED');
-  static const ebsIopsOverProvisioned =
-      FindingReasonCode._('EBS_IOPS_OVER_PROVISIONED');
-  static const ebsIopsUnderProvisioned =
-      FindingReasonCode._('EBS_IOPS_UNDER_PROVISIONED');
-  static const networkBandwidthOverProvisioned =
-      FindingReasonCode._('NETWORK_BANDWIDTH_OVER_PROVISIONED');
-  static const networkBandwidthUnderProvisioned =
-      FindingReasonCode._('NETWORK_BANDWIDTH_UNDER_PROVISIONED');
-  static const networkPpsOverProvisioned =
-      FindingReasonCode._('NETWORK_PPS_OVER_PROVISIONED');
-  static const networkPpsUnderProvisioned =
-      FindingReasonCode._('NETWORK_PPS_UNDER_PROVISIONED');
-  static const diskIopsOverProvisioned =
-      FindingReasonCode._('DISK_IOPS_OVER_PROVISIONED');
-  static const diskIopsUnderProvisioned =
-      FindingReasonCode._('DISK_IOPS_UNDER_PROVISIONED');
-  static const diskThroughputOverProvisioned =
-      FindingReasonCode._('DISK_THROUGHPUT_OVER_PROVISIONED');
-  static const diskThroughputUnderProvisioned =
-      FindingReasonCode._('DISK_THROUGHPUT_UNDER_PROVISIONED');
-
-  final String value;
-
-  const FindingReasonCode._(this.value);
-
-  static const values = [
-    cpuOverProvisioned,
-    cpuUnderProvisioned,
-    memoryOverProvisioned,
-    memoryUnderProvisioned,
-    ebsThroughputOverProvisioned,
-    ebsThroughputUnderProvisioned,
-    ebsIopsOverProvisioned,
-    ebsIopsUnderProvisioned,
-    networkBandwidthOverProvisioned,
-    networkBandwidthUnderProvisioned,
-    networkPpsOverProvisioned,
-    networkPpsUnderProvisioned,
-    diskIopsOverProvisioned,
-    diskIopsUnderProvisioned,
-    diskThroughputOverProvisioned,
-    diskThroughputUnderProvisioned
-  ];
-
-  static FindingReasonCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FindingReasonCode._(value));
-
-  @override
-  bool operator ==(other) => other is FindingReasonCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The forecast that's created for your query.
-class ForecastResult {
-  /// The mean value of the forecast.
-  final String? meanValue;
-
-  /// The lower limit for the prediction interval.
-  final String? predictionIntervalLowerBound;
-
-  /// The upper limit for the prediction interval.
-  final String? predictionIntervalUpperBound;
-
-  /// The period of time that the forecast covers.
-  final DateInterval? timePeriod;
-
-  ForecastResult({
-    this.meanValue,
-    this.predictionIntervalLowerBound,
-    this.predictionIntervalUpperBound,
-    this.timePeriod,
-  });
-
-  factory ForecastResult.fromJson(Map<String, dynamic> json) {
-    return ForecastResult(
-      meanValue: json['MeanValue'] as String?,
-      predictionIntervalLowerBound:
-          json['PredictionIntervalLowerBound'] as String?,
-      predictionIntervalUpperBound:
-          json['PredictionIntervalUpperBound'] as String?,
-      timePeriod: json['TimePeriod'] != null
-          ? DateInterval.fromJson(json['TimePeriod'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final meanValue = this.meanValue;
-    final predictionIntervalLowerBound = this.predictionIntervalLowerBound;
-    final predictionIntervalUpperBound = this.predictionIntervalUpperBound;
-    final timePeriod = this.timePeriod;
-    return {
-      if (meanValue != null) 'MeanValue': meanValue,
-      if (predictionIntervalLowerBound != null)
-        'PredictionIntervalLowerBound': predictionIntervalLowerBound,
-      if (predictionIntervalUpperBound != null)
-        'PredictionIntervalUpperBound': predictionIntervalUpperBound,
-      if (timePeriod != null) 'TimePeriod': timePeriod,
-    };
-  }
-}
-
-class GenerationStatus {
-  static const succeeded = GenerationStatus._('SUCCEEDED');
-  static const processing = GenerationStatus._('PROCESSING');
-  static const failed = GenerationStatus._('FAILED');
-
-  final String value;
-
-  const GenerationStatus._(this.value);
-
-  static const values = [succeeded, processing, failed];
-
-  static GenerationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => GenerationStatus._(value));
-
-  @override
-  bool operator ==(other) => other is GenerationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The summary of the Savings Plans recommendation generation.
-class GenerationSummary {
-  /// Indicates the estimated time for when the recommendation generation will
-  /// complete.
-  final String? estimatedCompletionTime;
-
-  /// Indicates the completion time of the recommendation generation.
-  final String? generationCompletionTime;
-
-  /// Indicates the start time of the recommendation generation.
-  final String? generationStartedTime;
-
-  /// Indicates whether the recommendation generation succeeded, is processing, or
-  /// failed.
-  final GenerationStatus? generationStatus;
-
-  /// Indicates the ID for this specific recommendation.
-  final String? recommendationId;
-
-  GenerationSummary({
-    this.estimatedCompletionTime,
-    this.generationCompletionTime,
-    this.generationStartedTime,
-    this.generationStatus,
-    this.recommendationId,
-  });
-
-  factory GenerationSummary.fromJson(Map<String, dynamic> json) {
-    return GenerationSummary(
-      estimatedCompletionTime: json['EstimatedCompletionTime'] as String?,
-      generationCompletionTime: json['GenerationCompletionTime'] as String?,
-      generationStartedTime: json['GenerationStartedTime'] as String?,
-      generationStatus: (json['GenerationStatus'] as String?)
-          ?.let(GenerationStatus.fromString),
-      recommendationId: json['RecommendationId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final estimatedCompletionTime = this.estimatedCompletionTime;
-    final generationCompletionTime = this.generationCompletionTime;
-    final generationStartedTime = this.generationStartedTime;
-    final generationStatus = this.generationStatus;
-    final recommendationId = this.recommendationId;
-    return {
-      if (estimatedCompletionTime != null)
-        'EstimatedCompletionTime': estimatedCompletionTime,
-      if (generationCompletionTime != null)
-        'GenerationCompletionTime': generationCompletionTime,
-      if (generationStartedTime != null)
-        'GenerationStartedTime': generationStartedTime,
-      if (generationStatus != null) 'GenerationStatus': generationStatus.value,
-      if (recommendationId != null) 'RecommendationId': recommendationId,
     };
   }
 }
@@ -6674,6 +4310,91 @@ class GetApproximateUsageRecordsResponse {
   }
 }
 
+class GetCommitmentPurchaseAnalysisResponse {
+  /// The analysis ID that's associated with the commitment purchase analysis.
+  final String analysisId;
+
+  /// The start time of the analysis.
+  final String analysisStartedTime;
+
+  /// The status of the analysis.
+  final AnalysisStatus analysisStatus;
+
+  /// The configuration for the commitment purchase analysis.
+  final CommitmentPurchaseAnalysisConfiguration
+      commitmentPurchaseAnalysisConfiguration;
+
+  /// The estimated time for when the analysis will complete.
+  final String estimatedCompletionTime;
+
+  /// The completion time of the analysis.
+  final String? analysisCompletionTime;
+
+  /// Details about the analysis.
+  final AnalysisDetails? analysisDetails;
+
+  /// The error code used for the analysis.
+  final ErrorCode? errorCode;
+
+  GetCommitmentPurchaseAnalysisResponse({
+    required this.analysisId,
+    required this.analysisStartedTime,
+    required this.analysisStatus,
+    required this.commitmentPurchaseAnalysisConfiguration,
+    required this.estimatedCompletionTime,
+    this.analysisCompletionTime,
+    this.analysisDetails,
+    this.errorCode,
+  });
+
+  factory GetCommitmentPurchaseAnalysisResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetCommitmentPurchaseAnalysisResponse(
+      analysisId: (json['AnalysisId'] as String?) ?? '',
+      analysisStartedTime: (json['AnalysisStartedTime'] as String?) ?? '',
+      analysisStatus:
+          AnalysisStatus.fromString((json['AnalysisStatus'] as String?) ?? ''),
+      commitmentPurchaseAnalysisConfiguration:
+          CommitmentPurchaseAnalysisConfiguration.fromJson(
+              (json['CommitmentPurchaseAnalysisConfiguration']
+                      as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
+      estimatedCompletionTime:
+          (json['EstimatedCompletionTime'] as String?) ?? '',
+      analysisCompletionTime: json['AnalysisCompletionTime'] as String?,
+      analysisDetails: json['AnalysisDetails'] != null
+          ? AnalysisDetails.fromJson(
+              json['AnalysisDetails'] as Map<String, dynamic>)
+          : null,
+      errorCode: (json['ErrorCode'] as String?)?.let(ErrorCode.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final analysisId = this.analysisId;
+    final analysisStartedTime = this.analysisStartedTime;
+    final analysisStatus = this.analysisStatus;
+    final commitmentPurchaseAnalysisConfiguration =
+        this.commitmentPurchaseAnalysisConfiguration;
+    final estimatedCompletionTime = this.estimatedCompletionTime;
+    final analysisCompletionTime = this.analysisCompletionTime;
+    final analysisDetails = this.analysisDetails;
+    final errorCode = this.errorCode;
+    return {
+      'AnalysisId': analysisId,
+      'AnalysisStartedTime': analysisStartedTime,
+      'AnalysisStatus': analysisStatus.value,
+      'CommitmentPurchaseAnalysisConfiguration':
+          commitmentPurchaseAnalysisConfiguration,
+      'EstimatedCompletionTime': estimatedCompletionTime,
+      if (analysisCompletionTime != null)
+        'AnalysisCompletionTime': analysisCompletionTime,
+      if (analysisDetails != null) 'AnalysisDetails': analysisDetails,
+      if (errorCode != null) 'ErrorCode': errorCode.value,
+    };
+  }
+}
+
 class GetCostAndUsageResponse {
   /// The attributes that apply to a specific dimension value. For example, if the
   /// value is a linked account, the attribute is that account name.
@@ -6728,6 +4449,54 @@ class GetCostAndUsageResponse {
       if (groupDefinitions != null) 'GroupDefinitions': groupDefinitions,
       if (nextPageToken != null) 'NextPageToken': nextPageToken,
       if (resultsByTime != null) 'ResultsByTime': resultsByTime,
+    };
+  }
+}
+
+class GetCostAndUsageComparisonsResponse {
+  /// An array of comparison results showing cost and usage metrics between
+  /// <code>BaselineTimePeriod</code> and <code>ComparisonTimePeriod</code>.
+  final List<CostAndUsageComparison>? costAndUsageComparisons;
+
+  /// The token to retrieve the next set of paginated results.
+  final String? nextPageToken;
+
+  /// A summary of the total cost and usage, comparing amounts between
+  /// <code>BaselineTimePeriod</code> and <code>ComparisonTimePeriod</code> and
+  /// their differences. This total represents the aggregate total across all
+  /// paginated results, if the response spans multiple pages.
+  final Map<String, ComparisonMetricValue>? totalCostAndUsage;
+
+  GetCostAndUsageComparisonsResponse({
+    this.costAndUsageComparisons,
+    this.nextPageToken,
+    this.totalCostAndUsage,
+  });
+
+  factory GetCostAndUsageComparisonsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetCostAndUsageComparisonsResponse(
+      costAndUsageComparisons: (json['CostAndUsageComparisons'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => CostAndUsageComparison.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextPageToken: json['NextPageToken'] as String?,
+      totalCostAndUsage: (json['TotalCostAndUsage'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k, ComparisonMetricValue.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final costAndUsageComparisons = this.costAndUsageComparisons;
+    final nextPageToken = this.nextPageToken;
+    final totalCostAndUsage = this.totalCostAndUsage;
+    return {
+      if (costAndUsageComparisons != null)
+        'CostAndUsageComparisons': costAndUsageComparisons,
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+      if (totalCostAndUsage != null) 'TotalCostAndUsage': totalCostAndUsage,
     };
   }
 }
@@ -6798,10 +4567,10 @@ class GetCostCategoriesResponse {
   /// The total number of objects.
   final int totalSize;
 
-  /// The names of the Cost Categories.
+  /// The names of the cost categories.
   final List<String>? costCategoryNames;
 
-  /// The Cost Category values.
+  /// The cost category values.
   ///
   /// If the <code>CostCategoryName</code> key isn't specified in the request, the
   /// <code>CostCategoryValues</code> fields aren't returned.
@@ -6848,6 +4617,41 @@ class GetCostCategoriesResponse {
       'TotalSize': totalSize,
       if (costCategoryNames != null) 'CostCategoryNames': costCategoryNames,
       if (costCategoryValues != null) 'CostCategoryValues': costCategoryValues,
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+    };
+  }
+}
+
+class GetCostComparisonDriversResponse {
+  /// An array of comparison results showing factors that drive significant cost
+  /// differences between <code>BaselineTimePeriod</code> and
+  /// <code>ComparisonTimePeriod</code>.
+  final List<CostComparisonDriver>? costComparisonDrivers;
+
+  /// The token to retrieve the next set of paginated results.
+  final String? nextPageToken;
+
+  GetCostComparisonDriversResponse({
+    this.costComparisonDrivers,
+    this.nextPageToken,
+  });
+
+  factory GetCostComparisonDriversResponse.fromJson(Map<String, dynamic> json) {
+    return GetCostComparisonDriversResponse(
+      costComparisonDrivers: (json['CostComparisonDrivers'] as List?)
+          ?.nonNulls
+          .map((e) => CostComparisonDriver.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextPageToken: json['NextPageToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final costComparisonDrivers = this.costComparisonDrivers;
+    final nextPageToken = this.nextPageToken;
+    return {
+      if (costComparisonDrivers != null)
+        'CostComparisonDrivers': costComparisonDrivers,
       if (nextPageToken != null) 'NextPageToken': nextPageToken,
     };
   }
@@ -7399,6 +5203,46 @@ class GetSavingsPlansPurchaseRecommendationResponse {
   }
 }
 
+class GetSavingsPlansUtilizationResponse {
+  /// The total amount of cost/commitment that you used your Savings Plans,
+  /// regardless of date ranges.
+  final SavingsPlansUtilizationAggregates total;
+
+  /// The amount of cost/commitment that you used your Savings Plans. You can use
+  /// it to specify date ranges.
+  final List<SavingsPlansUtilizationByTime>? savingsPlansUtilizationsByTime;
+
+  GetSavingsPlansUtilizationResponse({
+    required this.total,
+    this.savingsPlansUtilizationsByTime,
+  });
+
+  factory GetSavingsPlansUtilizationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetSavingsPlansUtilizationResponse(
+      total: SavingsPlansUtilizationAggregates.fromJson(
+          (json['Total'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      savingsPlansUtilizationsByTime: (json['SavingsPlansUtilizationsByTime']
+              as List?)
+          ?.nonNulls
+          .map((e) =>
+              SavingsPlansUtilizationByTime.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final total = this.total;
+    final savingsPlansUtilizationsByTime = this.savingsPlansUtilizationsByTime;
+    return {
+      'Total': total,
+      if (savingsPlansUtilizationsByTime != null)
+        'SavingsPlansUtilizationsByTime': savingsPlansUtilizationsByTime,
+    };
+  }
+}
+
 class GetSavingsPlansUtilizationDetailsResponse {
   /// Retrieves a single daily or monthly Savings Plans utilization rate and
   /// details for your account.
@@ -7451,46 +5295,6 @@ class GetSavingsPlansUtilizationDetailsResponse {
       'TimePeriod': timePeriod,
       if (nextToken != null) 'NextToken': nextToken,
       if (total != null) 'Total': total,
-    };
-  }
-}
-
-class GetSavingsPlansUtilizationResponse {
-  /// The total amount of cost/commitment that you used your Savings Plans,
-  /// regardless of date ranges.
-  final SavingsPlansUtilizationAggregates total;
-
-  /// The amount of cost/commitment that you used your Savings Plans. You can use
-  /// it to specify date ranges.
-  final List<SavingsPlansUtilizationByTime>? savingsPlansUtilizationsByTime;
-
-  GetSavingsPlansUtilizationResponse({
-    required this.total,
-    this.savingsPlansUtilizationsByTime,
-  });
-
-  factory GetSavingsPlansUtilizationResponse.fromJson(
-      Map<String, dynamic> json) {
-    return GetSavingsPlansUtilizationResponse(
-      total: SavingsPlansUtilizationAggregates.fromJson(
-          (json['Total'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      savingsPlansUtilizationsByTime: (json['SavingsPlansUtilizationsByTime']
-              as List?)
-          ?.nonNulls
-          .map((e) =>
-              SavingsPlansUtilizationByTime.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final total = this.total;
-    final savingsPlansUtilizationsByTime = this.savingsPlansUtilizationsByTime;
-    return {
-      'Total': total,
-      if (savingsPlansUtilizationsByTime != null)
-        'SavingsPlansUtilizationsByTime': savingsPlansUtilizationsByTime,
     };
   }
 }
@@ -7580,261 +5384,36 @@ class GetUsageForecastResponse {
   }
 }
 
-class Granularity {
-  static const daily = Granularity._('DAILY');
-  static const monthly = Granularity._('MONTHLY');
-  static const hourly = Granularity._('HOURLY');
+class ListCommitmentPurchaseAnalysesResponse {
+  /// The list of analyses.
+  final List<AnalysisSummary>? analysisSummaryList;
 
-  final String value;
+  /// The token to retrieve the next set of results.
+  final String? nextPageToken;
 
-  const Granularity._(this.value);
-
-  static const values = [daily, monthly, hourly];
-
-  static Granularity fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Granularity._(value));
-
-  @override
-  bool operator ==(other) => other is Granularity && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// One level of grouped data in the results.
-class Group {
-  /// The keys that are included in this group.
-  final List<String>? keys;
-
-  /// The metrics that are included in this group.
-  final Map<String, MetricValue>? metrics;
-
-  Group({
-    this.keys,
-    this.metrics,
+  ListCommitmentPurchaseAnalysesResponse({
+    this.analysisSummaryList,
+    this.nextPageToken,
   });
 
-  factory Group.fromJson(Map<String, dynamic> json) {
-    return Group(
-      keys: (json['Keys'] as List?)?.nonNulls.map((e) => e as String).toList(),
-      metrics: (json['Metrics'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(k, MetricValue.fromJson(e as Map<String, dynamic>))),
+  factory ListCommitmentPurchaseAnalysesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListCommitmentPurchaseAnalysesResponse(
+      analysisSummaryList: (json['AnalysisSummaryList'] as List?)
+          ?.nonNulls
+          .map((e) => AnalysisSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextPageToken: json['NextPageToken'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final keys = this.keys;
-    final metrics = this.metrics;
+    final analysisSummaryList = this.analysisSummaryList;
+    final nextPageToken = this.nextPageToken;
     return {
-      if (keys != null) 'Keys': keys,
-      if (metrics != null) 'Metrics': metrics,
-    };
-  }
-}
-
-/// Represents a group when you specify a group by criteria or in the response
-/// to a query with a specific grouping.
-class GroupDefinition {
-  /// The string that represents a key for a specified group.
-  final String? key;
-
-  /// The string that represents the type of group.
-  final GroupDefinitionType? type;
-
-  GroupDefinition({
-    this.key,
-    this.type,
-  });
-
-  factory GroupDefinition.fromJson(Map<String, dynamic> json) {
-    return GroupDefinition(
-      key: json['Key'] as String?,
-      type: (json['Type'] as String?)?.let(GroupDefinitionType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final type = this.type;
-    return {
-      if (key != null) 'Key': key,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class GroupDefinitionType {
-  static const dimension = GroupDefinitionType._('DIMENSION');
-  static const tag = GroupDefinitionType._('TAG');
-  static const costCategory = GroupDefinitionType._('COST_CATEGORY');
-
-  final String value;
-
-  const GroupDefinitionType._(this.value);
-
-  static const values = [dimension, tag, costCategory];
-
-  static GroupDefinitionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => GroupDefinitionType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is GroupDefinitionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The dollar value of the anomaly.
-class Impact {
-  /// The maximum dollar value that's observed for an anomaly.
-  final double maxImpact;
-
-  /// The cumulative dollar amount that was actually spent during the anomaly.
-  final double? totalActualSpend;
-
-  /// The cumulative dollar amount that was expected to be spent during the
-  /// anomaly. It is calculated using advanced machine learning models to
-  /// determine the typical spending pattern based on historical data for a
-  /// customer.
-  final double? totalExpectedSpend;
-
-  /// The cumulative dollar difference between the total actual spend and total
-  /// expected spend. It is calculated as <code>TotalActualSpend -
-  /// TotalExpectedSpend</code>.
-  final double? totalImpact;
-
-  /// The cumulative percentage difference between the total actual spend and
-  /// total expected spend. It is calculated as <code>(TotalImpact /
-  /// TotalExpectedSpend) * 100</code>. When <code>TotalExpectedSpend</code> is
-  /// zero, this field is omitted. Expected spend can be zero in situations such
-  /// as when you start to use a service for the first time.
-  final double? totalImpactPercentage;
-
-  Impact({
-    required this.maxImpact,
-    this.totalActualSpend,
-    this.totalExpectedSpend,
-    this.totalImpact,
-    this.totalImpactPercentage,
-  });
-
-  factory Impact.fromJson(Map<String, dynamic> json) {
-    return Impact(
-      maxImpact: (json['MaxImpact'] as double?) ?? 0,
-      totalActualSpend: json['TotalActualSpend'] as double?,
-      totalExpectedSpend: json['TotalExpectedSpend'] as double?,
-      totalImpact: json['TotalImpact'] as double?,
-      totalImpactPercentage: json['TotalImpactPercentage'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final maxImpact = this.maxImpact;
-    final totalActualSpend = this.totalActualSpend;
-    final totalExpectedSpend = this.totalExpectedSpend;
-    final totalImpact = this.totalImpact;
-    final totalImpactPercentage = this.totalImpactPercentage;
-    return {
-      'MaxImpact': maxImpact,
-      if (totalActualSpend != null) 'TotalActualSpend': totalActualSpend,
-      if (totalExpectedSpend != null) 'TotalExpectedSpend': totalExpectedSpend,
-      if (totalImpact != null) 'TotalImpact': totalImpact,
-      if (totalImpactPercentage != null)
-        'TotalImpactPercentage': totalImpactPercentage,
-    };
-  }
-}
-
-/// Details about the reservations that Amazon Web Services recommends that you
-/// purchase.
-class InstanceDetails {
-  /// The Amazon EC2 reservations that Amazon Web Services recommends that you
-  /// purchase.
-  final EC2InstanceDetails? eC2InstanceDetails;
-
-  /// The Amazon OpenSearch Service reservations that Amazon Web Services
-  /// recommends that you purchase.
-  final ESInstanceDetails? eSInstanceDetails;
-
-  /// The ElastiCache reservations that Amazon Web Services recommends that you
-  /// purchase.
-  final ElastiCacheInstanceDetails? elastiCacheInstanceDetails;
-
-  /// The MemoryDB reservations that Amazon Web Services recommends that you
-  /// purchase.
-  final MemoryDBInstanceDetails? memoryDBInstanceDetails;
-
-  /// The Amazon RDS reservations that Amazon Web Services recommends that you
-  /// purchase.
-  final RDSInstanceDetails? rDSInstanceDetails;
-
-  /// The Amazon Redshift reservations that Amazon Web Services recommends that
-  /// you purchase.
-  final RedshiftInstanceDetails? redshiftInstanceDetails;
-
-  InstanceDetails({
-    this.eC2InstanceDetails,
-    this.eSInstanceDetails,
-    this.elastiCacheInstanceDetails,
-    this.memoryDBInstanceDetails,
-    this.rDSInstanceDetails,
-    this.redshiftInstanceDetails,
-  });
-
-  factory InstanceDetails.fromJson(Map<String, dynamic> json) {
-    return InstanceDetails(
-      eC2InstanceDetails: json['EC2InstanceDetails'] != null
-          ? EC2InstanceDetails.fromJson(
-              json['EC2InstanceDetails'] as Map<String, dynamic>)
-          : null,
-      eSInstanceDetails: json['ESInstanceDetails'] != null
-          ? ESInstanceDetails.fromJson(
-              json['ESInstanceDetails'] as Map<String, dynamic>)
-          : null,
-      elastiCacheInstanceDetails: json['ElastiCacheInstanceDetails'] != null
-          ? ElastiCacheInstanceDetails.fromJson(
-              json['ElastiCacheInstanceDetails'] as Map<String, dynamic>)
-          : null,
-      memoryDBInstanceDetails: json['MemoryDBInstanceDetails'] != null
-          ? MemoryDBInstanceDetails.fromJson(
-              json['MemoryDBInstanceDetails'] as Map<String, dynamic>)
-          : null,
-      rDSInstanceDetails: json['RDSInstanceDetails'] != null
-          ? RDSInstanceDetails.fromJson(
-              json['RDSInstanceDetails'] as Map<String, dynamic>)
-          : null,
-      redshiftInstanceDetails: json['RedshiftInstanceDetails'] != null
-          ? RedshiftInstanceDetails.fromJson(
-              json['RedshiftInstanceDetails'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eC2InstanceDetails = this.eC2InstanceDetails;
-    final eSInstanceDetails = this.eSInstanceDetails;
-    final elastiCacheInstanceDetails = this.elastiCacheInstanceDetails;
-    final memoryDBInstanceDetails = this.memoryDBInstanceDetails;
-    final rDSInstanceDetails = this.rDSInstanceDetails;
-    final redshiftInstanceDetails = this.redshiftInstanceDetails;
-    return {
-      if (eC2InstanceDetails != null) 'EC2InstanceDetails': eC2InstanceDetails,
-      if (eSInstanceDetails != null) 'ESInstanceDetails': eSInstanceDetails,
-      if (elastiCacheInstanceDetails != null)
-        'ElastiCacheInstanceDetails': elastiCacheInstanceDetails,
-      if (memoryDBInstanceDetails != null)
-        'MemoryDBInstanceDetails': memoryDBInstanceDetails,
-      if (rDSInstanceDetails != null) 'RDSInstanceDetails': rDSInstanceDetails,
-      if (redshiftInstanceDetails != null)
-        'RedshiftInstanceDetails': redshiftInstanceDetails,
+      if (analysisSummaryList != null)
+        'AnalysisSummaryList': analysisSummaryList,
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
     };
   }
 }
@@ -7911,7 +5490,7 @@ class ListCostAllocationTagsResponse {
 }
 
 class ListCostCategoryDefinitionsResponse {
-  /// A reference to a Cost Category that contains enough information to identify
+  /// A reference to a cost category that contains enough information to identify
   /// the Cost Category.
   final List<CostCategoryReference>? costCategoryReferences;
 
@@ -7942,6 +5521,46 @@ class ListCostCategoryDefinitionsResponse {
     return {
       if (costCategoryReferences != null)
         'CostCategoryReferences': costCategoryReferences,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListCostCategoryResourceAssociationsResponse {
+  /// A reference to a cost category association that contains information on an
+  /// associated resource.
+  final List<CostCategoryResourceAssociation>? costCategoryResourceAssociations;
+
+  /// The token to retrieve the next set of results. Amazon Web Services provides
+  /// the token when the response from a previous call has more results than the
+  /// maximum page size.
+  final String? nextToken;
+
+  ListCostCategoryResourceAssociationsResponse({
+    this.costCategoryResourceAssociations,
+    this.nextToken,
+  });
+
+  factory ListCostCategoryResourceAssociationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListCostCategoryResourceAssociationsResponse(
+      costCategoryResourceAssociations:
+          (json['CostCategoryResourceAssociations'] as List?)
+              ?.nonNulls
+              .map((e) => CostCategoryResourceAssociation.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final costCategoryResourceAssociations =
+        this.costCategoryResourceAssociations;
+    final nextToken = this.nextToken;
+    return {
+      if (costCategoryResourceAssociations != null)
+        'CostCategoryResourceAssociations': costCategoryResourceAssociations,
       if (nextToken != null) 'NextToken': nextToken,
     };
   }
@@ -8006,30 +5625,956 @@ class ListTagsForResourceResponse {
   }
 }
 
-class LookbackPeriodInDays {
-  static const sevenDays = LookbackPeriodInDays._('SEVEN_DAYS');
-  static const thirtyDays = LookbackPeriodInDays._('THIRTY_DAYS');
-  static const sixtyDays = LookbackPeriodInDays._('SIXTY_DAYS');
+class ProvideAnomalyFeedbackResponse {
+  /// The ID of the modified cost anomaly.
+  final String anomalyId;
+
+  ProvideAnomalyFeedbackResponse({
+    required this.anomalyId,
+  });
+
+  factory ProvideAnomalyFeedbackResponse.fromJson(Map<String, dynamic> json) {
+    return ProvideAnomalyFeedbackResponse(
+      anomalyId: (json['AnomalyId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final anomalyId = this.anomalyId;
+    return {
+      'AnomalyId': anomalyId,
+    };
+  }
+}
+
+class StartCommitmentPurchaseAnalysisResponse {
+  /// The analysis ID that's associated with the commitment purchase analysis.
+  final String analysisId;
+
+  /// The start time of the analysis.
+  final String analysisStartedTime;
+
+  /// The estimated time for when the analysis will complete.
+  final String estimatedCompletionTime;
+
+  StartCommitmentPurchaseAnalysisResponse({
+    required this.analysisId,
+    required this.analysisStartedTime,
+    required this.estimatedCompletionTime,
+  });
+
+  factory StartCommitmentPurchaseAnalysisResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartCommitmentPurchaseAnalysisResponse(
+      analysisId: (json['AnalysisId'] as String?) ?? '',
+      analysisStartedTime: (json['AnalysisStartedTime'] as String?) ?? '',
+      estimatedCompletionTime:
+          (json['EstimatedCompletionTime'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final analysisId = this.analysisId;
+    final analysisStartedTime = this.analysisStartedTime;
+    final estimatedCompletionTime = this.estimatedCompletionTime;
+    return {
+      'AnalysisId': analysisId,
+      'AnalysisStartedTime': analysisStartedTime,
+      'EstimatedCompletionTime': estimatedCompletionTime,
+    };
+  }
+}
+
+class StartCostAllocationTagBackfillResponse {
+  /// An object containing detailed metadata of your new backfill request.
+  final CostAllocationTagBackfillRequest? backfillRequest;
+
+  StartCostAllocationTagBackfillResponse({
+    this.backfillRequest,
+  });
+
+  factory StartCostAllocationTagBackfillResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartCostAllocationTagBackfillResponse(
+      backfillRequest: json['BackfillRequest'] != null
+          ? CostAllocationTagBackfillRequest.fromJson(
+              json['BackfillRequest'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final backfillRequest = this.backfillRequest;
+    return {
+      if (backfillRequest != null) 'BackfillRequest': backfillRequest,
+    };
+  }
+}
+
+class StartSavingsPlansPurchaseRecommendationGenerationResponse {
+  /// The estimated time for when the recommendation generation will complete.
+  final String? estimatedCompletionTime;
+
+  /// The start time of the recommendation generation.
+  final String? generationStartedTime;
+
+  /// The ID for this specific recommendation.
+  final String? recommendationId;
+
+  StartSavingsPlansPurchaseRecommendationGenerationResponse({
+    this.estimatedCompletionTime,
+    this.generationStartedTime,
+    this.recommendationId,
+  });
+
+  factory StartSavingsPlansPurchaseRecommendationGenerationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartSavingsPlansPurchaseRecommendationGenerationResponse(
+      estimatedCompletionTime: json['EstimatedCompletionTime'] as String?,
+      generationStartedTime: json['GenerationStartedTime'] as String?,
+      recommendationId: json['RecommendationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final estimatedCompletionTime = this.estimatedCompletionTime;
+    final generationStartedTime = this.generationStartedTime;
+    final recommendationId = this.recommendationId;
+    return {
+      if (estimatedCompletionTime != null)
+        'EstimatedCompletionTime': estimatedCompletionTime,
+      if (generationStartedTime != null)
+        'GenerationStartedTime': generationStartedTime,
+      if (recommendationId != null) 'RecommendationId': recommendationId,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateAnomalyMonitorResponse {
+  /// A cost anomaly monitor ARN.
+  final String monitorArn;
+
+  UpdateAnomalyMonitorResponse({
+    required this.monitorArn,
+  });
+
+  factory UpdateAnomalyMonitorResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateAnomalyMonitorResponse(
+      monitorArn: (json['MonitorArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final monitorArn = this.monitorArn;
+    return {
+      'MonitorArn': monitorArn,
+    };
+  }
+}
+
+class UpdateAnomalySubscriptionResponse {
+  /// A cost anomaly subscription ARN.
+  final String subscriptionArn;
+
+  UpdateAnomalySubscriptionResponse({
+    required this.subscriptionArn,
+  });
+
+  factory UpdateAnomalySubscriptionResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateAnomalySubscriptionResponse(
+      subscriptionArn: (json['SubscriptionArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final subscriptionArn = this.subscriptionArn;
+    return {
+      'SubscriptionArn': subscriptionArn,
+    };
+  }
+}
+
+class UpdateCostAllocationTagsStatusResponse {
+  /// A list of <code>UpdateCostAllocationTagsStatusError</code> objects with
+  /// error details about each cost allocation tag that can't be updated. If
+  /// there's no failure, an empty array returns.
+  final List<UpdateCostAllocationTagsStatusError>? errors;
+
+  UpdateCostAllocationTagsStatusResponse({
+    this.errors,
+  });
+
+  factory UpdateCostAllocationTagsStatusResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateCostAllocationTagsStatusResponse(
+      errors: (json['Errors'] as List?)
+          ?.nonNulls
+          .map((e) => UpdateCostAllocationTagsStatusError.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errors = this.errors;
+    return {
+      if (errors != null) 'Errors': errors,
+    };
+  }
+}
+
+class UpdateCostCategoryDefinitionResponse {
+  /// The unique identifier for your cost category.
+  final String? costCategoryArn;
+
+  /// The cost category's effective start date. It can only be a billing start
+  /// date (first day of the month).
+  final String? effectiveStart;
+
+  UpdateCostCategoryDefinitionResponse({
+    this.costCategoryArn,
+    this.effectiveStart,
+  });
+
+  factory UpdateCostCategoryDefinitionResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateCostCategoryDefinitionResponse(
+      costCategoryArn: json['CostCategoryArn'] as String?,
+      effectiveStart: json['EffectiveStart'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final costCategoryArn = this.costCategoryArn;
+    final effectiveStart = this.effectiveStart;
+    return {
+      if (costCategoryArn != null) 'CostCategoryArn': costCategoryArn,
+      if (effectiveStart != null) 'EffectiveStart': effectiveStart,
+    };
+  }
+}
+
+/// The rule schema version in this particular cost category.
+class CostCategoryRuleVersion {
+  static const costCategoryExpressionV1 =
+      CostCategoryRuleVersion._('CostCategoryExpression.v1');
 
   final String value;
 
-  const LookbackPeriodInDays._(this.value);
+  const CostCategoryRuleVersion._(this.value);
 
-  static const values = [sevenDays, thirtyDays, sixtyDays];
+  static const values = [costCategoryExpressionV1];
 
-  static LookbackPeriodInDays fromString(String value) =>
+  static CostCategoryRuleVersion fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => LookbackPeriodInDays._(value));
+          orElse: () => CostCategoryRuleVersion._(value));
 
   @override
   bool operator ==(other) =>
-      other is LookbackPeriodInDays && other.value == value;
+      other is CostCategoryRuleVersion && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
+}
+
+/// Use the split charge rule to split the cost of one cost category value
+/// across several other target values.
+class CostCategorySplitChargeRule {
+  /// The method that's used to define how to split your source costs across your
+  /// targets.
+  ///
+  /// <code>Proportional</code> - Allocates charges across your targets based on
+  /// the proportional weighted cost of each target.
+  ///
+  /// <code>Fixed</code> - Allocates charges across your targets based on your
+  /// defined allocation percentage.
+  ///
+  /// ><code>Even</code> - Allocates costs evenly across all targets.
+  final CostCategorySplitChargeMethod method;
+
+  /// The cost category value that you want to split. That value can't be used as
+  /// a source or a target in other split charge rules. To indicate uncategorized
+  /// costs, you can use an empty string as the source.
+  final String source;
+
+  /// The cost category values that you want to split costs across. These values
+  /// can't be used as a source in other split charge rules.
+  final List<String> targets;
+
+  /// The parameters for a split charge method. This is only required for the
+  /// <code>FIXED</code> method.
+  final List<CostCategorySplitChargeRuleParameter>? parameters;
+
+  CostCategorySplitChargeRule({
+    required this.method,
+    required this.source,
+    required this.targets,
+    this.parameters,
+  });
+
+  factory CostCategorySplitChargeRule.fromJson(Map<String, dynamic> json) {
+    return CostCategorySplitChargeRule(
+      method: CostCategorySplitChargeMethod.fromString(
+          (json['Method'] as String?) ?? ''),
+      source: (json['Source'] as String?) ?? '',
+      targets: ((json['Targets'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      parameters: (json['Parameters'] as List?)
+          ?.nonNulls
+          .map((e) => CostCategorySplitChargeRuleParameter.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final method = this.method;
+    final source = this.source;
+    final targets = this.targets;
+    final parameters = this.parameters;
+    return {
+      'Method': method.value,
+      'Source': source,
+      'Targets': targets,
+      if (parameters != null) 'Parameters': parameters,
+    };
+  }
+}
+
+class CostCategorySplitChargeMethod {
+  static const fixed = CostCategorySplitChargeMethod._('FIXED');
+  static const proportional = CostCategorySplitChargeMethod._('PROPORTIONAL');
+  static const even = CostCategorySplitChargeMethod._('EVEN');
+
+  final String value;
+
+  const CostCategorySplitChargeMethod._(this.value);
+
+  static const values = [fixed, proportional, even];
+
+  static CostCategorySplitChargeMethod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CostCategorySplitChargeMethod._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CostCategorySplitChargeMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The parameters for a split charge method.
+class CostCategorySplitChargeRuleParameter {
+  /// The parameter type.
+  final CostCategorySplitChargeRuleParameterType type;
+
+  /// The parameter values.
+  final List<String> values;
+
+  CostCategorySplitChargeRuleParameter({
+    required this.type,
+    required this.values,
+  });
+
+  factory CostCategorySplitChargeRuleParameter.fromJson(
+      Map<String, dynamic> json) {
+    return CostCategorySplitChargeRuleParameter(
+      type: CostCategorySplitChargeRuleParameterType.fromString(
+          (json['Type'] as String?) ?? ''),
+      values: ((json['Values'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final values = this.values;
+    return {
+      'Type': type.value,
+      'Values': values,
+    };
+  }
+}
+
+class CostCategorySplitChargeRuleParameterType {
+  static const allocationPercentages =
+      CostCategorySplitChargeRuleParameterType._('ALLOCATION_PERCENTAGES');
+
+  final String value;
+
+  const CostCategorySplitChargeRuleParameterType._(this.value);
+
+  static const values = [allocationPercentages];
+
+  static CostCategorySplitChargeRuleParameterType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CostCategorySplitChargeRuleParameterType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CostCategorySplitChargeRuleParameterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Rules are processed in order. If there are multiple rules that match the
+/// line item, then the first rule to match is used to determine that cost
+/// category value.
+class CostCategoryRule {
+  /// The value the line item is categorized as if the line item contains the
+  /// matched dimension.
+  final CostCategoryInheritedValueDimension? inheritedValue;
+
+  /// An <a
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html">Expression</a>
+  /// object used to categorize costs. This supports dimensions, tags, and nested
+  /// expressions. Currently the only dimensions supported are
+  /// <code>LINKED_ACCOUNT</code>, <code>SERVICE_CODE</code>,
+  /// <code>RECORD_TYPE</code>, <code>LINKED_ACCOUNT_NAME</code>,
+  /// <code>REGION</code>, and <code>USAGE_TYPE</code>.
+  ///
+  /// <code>RECORD_TYPE</code> is a dimension used for Cost Explorer APIs, and is
+  /// also supported for cost category expressions. This dimension uses different
+  /// terms, depending on whether you're using the console or API/JSON editor. For
+  /// a detailed comparison, see <a
+  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/manage-cost-categories.html#cost-categories-terms">Term
+  /// Comparisons</a> in the <i>Billing and Cost Management User Guide</i>.
+  final Expression? rule;
+
+  /// You can define the <code>CostCategoryRule</code> rule type as either
+  /// <code>REGULAR</code> or <code>INHERITED_VALUE</code>. The
+  /// <code>INHERITED_VALUE</code> rule type adds the flexibility to define a rule
+  /// that dynamically inherits the cost category value. This value is from the
+  /// dimension value that's defined by
+  /// <code>CostCategoryInheritedValueDimension</code>. For example, suppose that
+  /// you want to costs to be dynamically grouped based on the value of a specific
+  /// tag key. First, choose an inherited value rule type, and then choose the tag
+  /// dimension and specify the tag key to use.
+  final CostCategoryRuleType? type;
+  final String? value;
+
+  CostCategoryRule({
+    this.inheritedValue,
+    this.rule,
+    this.type,
+    this.value,
+  });
+
+  factory CostCategoryRule.fromJson(Map<String, dynamic> json) {
+    return CostCategoryRule(
+      inheritedValue: json['InheritedValue'] != null
+          ? CostCategoryInheritedValueDimension.fromJson(
+              json['InheritedValue'] as Map<String, dynamic>)
+          : null,
+      rule: json['Rule'] != null
+          ? Expression.fromJson(json['Rule'] as Map<String, dynamic>)
+          : null,
+      type: (json['Type'] as String?)?.let(CostCategoryRuleType.fromString),
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inheritedValue = this.inheritedValue;
+    final rule = this.rule;
+    final type = this.type;
+    final value = this.value;
+    return {
+      if (inheritedValue != null) 'InheritedValue': inheritedValue,
+      if (rule != null) 'Rule': rule,
+      if (type != null) 'Type': type.value,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Use <code>Expression</code> to filter in various Cost Explorer APIs.
+///
+/// Not all <code>Expression</code> types are supported in each API. Refer to
+/// the documentation for each specific API to see what is supported.
+///
+/// There are two patterns:
+///
+/// <ul>
+/// <li>
+/// Simple dimension values.
+///
+/// <ul>
+/// <li>
+/// There are three types of simple dimension values:
+/// <code>CostCategories</code>, <code>Tags</code>, and <code>Dimensions</code>.
+///
+/// <ul>
+/// <li>
+/// Specify the <code>CostCategories</code> field to define a filter that acts
+/// on Cost Categories.
+/// </li>
+/// <li>
+/// Specify the <code>Tags</code> field to define a filter that acts on Cost
+/// Allocation Tags.
+/// </li>
+/// <li>
+/// Specify the <code>Dimensions</code> field to define a filter that acts on
+/// the <a
+/// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_DimensionValues.html">
+/// <code>DimensionValues</code> </a>.
+/// </li>
+/// </ul> </li>
+/// <li>
+/// For each filter type, you can set the dimension name and values for the
+/// filters that you plan to use.
+///
+/// <ul>
+/// <li>
+/// For example, you can filter for <code>REGION==us-east-1 OR
+/// REGION==us-west-1</code>. For <code>GetRightsizingRecommendation</code>, the
+/// Region is a full name (for example, <code>REGION==US East (N.
+/// Virginia)</code>.
+/// </li>
+/// <li>
+/// The corresponding <code>Expression</code> for this example is as follows:
+/// <code>{ "Dimensions": { "Key": "REGION", "Values": [ "us-east-1",
+/// "us-west-1" ] } }</code>
+/// </li>
+/// <li>
+/// As shown in the previous example, lists of dimension values are combined
+/// with <code>OR</code> when applying the filter.
+/// </li>
+/// </ul> </li>
+/// <li>
+/// You can also set different match options to further control how the filter
+/// behaves. Not all APIs support match options. Refer to the documentation for
+/// each specific API to see what is supported.
+///
+/// <ul>
+/// <li>
+/// For example, you can filter for linked account names that start with "a".
+/// </li>
+/// <li>
+/// The corresponding <code>Expression</code> for this example is as follows:
+/// <code>{ "Dimensions": { "Key": "LINKED_ACCOUNT_NAME", "MatchOptions": [
+/// "STARTS_WITH" ], "Values": [ "a" ] } }</code>
+/// </li>
+/// </ul> </li>
+/// </ul> </li>
+/// <li>
+/// Compound <code>Expression</code> types with logical operations.
+///
+/// <ul>
+/// <li>
+/// You can use multiple <code>Expression</code> types and the logical operators
+/// <code>AND/OR/NOT</code> to create a list of one or more
+/// <code>Expression</code> objects. By doing this, you can filter by more
+/// advanced options.
+/// </li>
+/// <li>
+/// For example, you can filter by <code>((REGION == us-east-1 OR REGION ==
+/// us-west-1) OR (TAG.Type == Type1)) AND (USAGE_TYPE != DataTransfer)</code>.
+/// </li>
+/// <li>
+/// The corresponding <code>Expression</code> for this example is as follows:
+/// <code>{ "And": [ {"Or": [ {"Dimensions": { "Key": "REGION", "Values": [
+/// "us-east-1", "us-west-1" ] }}, {"Tags": { "Key": "TagName", "Values":
+/// ["Value1"] } } ]}, {"Not": {"Dimensions": { "Key": "USAGE_TYPE", "Values":
+/// ["DataTransfer"] }}} ] } </code>
+/// </li>
+/// </ul> <note>
+/// Because each <code>Expression</code> can have only one operator, the service
+/// returns an error if more than one is specified. The following example shows
+/// an <code>Expression</code> object that creates an error: <code> { "And": [
+/// ... ], "Dimensions": { "Key": "USAGE_TYPE", "Values": [ "DataTransfer" ] } }
+/// </code>
+///
+/// The following is an example of the corresponding error message:
+/// <code>"Expression has more than one roots. Only one root operator is allowed
+/// for each expression: And, Or, Not, Dimensions, Tags, CostCategories"</code>
+/// </note> </li>
+/// </ul> <note>
+/// For the <code>GetRightsizingRecommendation</code> action, a combination of
+/// OR and NOT isn't supported. OR isn't supported between different dimensions,
+/// or dimensions and tags. NOT operators aren't supported. Dimensions are also
+/// limited to <code>LINKED_ACCOUNT</code>, <code>REGION</code>, or
+/// <code>RIGHTSIZING_TYPE</code>.
+///
+/// For the <code>GetReservationPurchaseRecommendation</code> action, only NOT
+/// is supported. AND and OR aren't supported. Dimensions are limited to
+/// <code>LINKED_ACCOUNT</code>.
+/// </note>
+class Expression {
+  /// Return results that match both <code>Dimension</code> objects.
+  final List<Expression>? and;
+
+  /// The filter that's based on <code>CostCategory</code> values.
+  final CostCategoryValues? costCategories;
+
+  /// The specific <code>Dimension</code> to use for <code>Expression</code>.
+  final DimensionValues? dimensions;
+
+  /// Return results that don't match a <code>Dimension</code> object.
+  final Expression? not;
+
+  /// Return results that match either <code>Dimension</code> object.
+  final List<Expression>? or;
+
+  /// The specific <code>Tag</code> to use for <code>Expression</code>.
+  final TagValues? tags;
+
+  Expression({
+    this.and,
+    this.costCategories,
+    this.dimensions,
+    this.not,
+    this.or,
+    this.tags,
+  });
+
+  factory Expression.fromJson(Map<String, dynamic> json) {
+    return Expression(
+      and: (json['And'] as List?)
+          ?.nonNulls
+          .map((e) => Expression.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      costCategories: json['CostCategories'] != null
+          ? CostCategoryValues.fromJson(
+              json['CostCategories'] as Map<String, dynamic>)
+          : null,
+      dimensions: json['Dimensions'] != null
+          ? DimensionValues.fromJson(json['Dimensions'] as Map<String, dynamic>)
+          : null,
+      not: json['Not'] != null
+          ? Expression.fromJson(json['Not'] as Map<String, dynamic>)
+          : null,
+      or: (json['Or'] as List?)
+          ?.nonNulls
+          .map((e) => Expression.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tags: json['Tags'] != null
+          ? TagValues.fromJson(json['Tags'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final and = this.and;
+    final costCategories = this.costCategories;
+    final dimensions = this.dimensions;
+    final not = this.not;
+    final or = this.or;
+    final tags = this.tags;
+    return {
+      if (and != null) 'And': and,
+      if (costCategories != null) 'CostCategories': costCategories,
+      if (dimensions != null) 'Dimensions': dimensions,
+      if (not != null) 'Not': not,
+      if (or != null) 'Or': or,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// When you create or update a cost category, you can define the
+/// <code>CostCategoryRule</code> rule type as <code>INHERITED_VALUE</code>.
+/// This rule type adds the flexibility to define a rule that dynamically
+/// inherits the cost category value from the dimension value that's defined by
+/// <code>CostCategoryInheritedValueDimension</code>. For example, suppose that
+/// you want to dynamically group costs that are based on the value of a
+/// specific tag key. First, choose an inherited value rule type, and then
+/// choose the tag dimension and specify the tag key to use.
+class CostCategoryInheritedValueDimension {
+  /// The key to extract cost category values.
+  final String? dimensionKey;
+
+  /// The name of the dimension that's used to group costs.
+  ///
+  /// If you specify <code>LINKED_ACCOUNT_NAME</code>, the cost category value is
+  /// based on account name. If you specify <code>TAG</code>, the cost category
+  /// value is based on the value of the specified tag key.
+  final CostCategoryInheritedValueDimensionName? dimensionName;
+
+  CostCategoryInheritedValueDimension({
+    this.dimensionKey,
+    this.dimensionName,
+  });
+
+  factory CostCategoryInheritedValueDimension.fromJson(
+      Map<String, dynamic> json) {
+    return CostCategoryInheritedValueDimension(
+      dimensionKey: json['DimensionKey'] as String?,
+      dimensionName: (json['DimensionName'] as String?)
+          ?.let(CostCategoryInheritedValueDimensionName.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dimensionKey = this.dimensionKey;
+    final dimensionName = this.dimensionName;
+    return {
+      if (dimensionKey != null) 'DimensionKey': dimensionKey,
+      if (dimensionName != null) 'DimensionName': dimensionName.value,
+    };
+  }
+}
+
+class CostCategoryRuleType {
+  static const regular = CostCategoryRuleType._('REGULAR');
+  static const inheritedValue = CostCategoryRuleType._('INHERITED_VALUE');
+
+  final String value;
+
+  const CostCategoryRuleType._(this.value);
+
+  static const values = [regular, inheritedValue];
+
+  static CostCategoryRuleType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CostCategoryRuleType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CostCategoryRuleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class CostCategoryInheritedValueDimensionName {
+  static const linkedAccountName =
+      CostCategoryInheritedValueDimensionName._('LINKED_ACCOUNT_NAME');
+  static const tag = CostCategoryInheritedValueDimensionName._('TAG');
+
+  final String value;
+
+  const CostCategoryInheritedValueDimensionName._(this.value);
+
+  static const values = [linkedAccountName, tag];
+
+  static CostCategoryInheritedValueDimensionName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CostCategoryInheritedValueDimensionName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CostCategoryInheritedValueDimensionName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The metadata that you can use to filter and group your results. You can use
+/// <code>GetDimensionValues</code> to find specific values.
+class DimensionValues {
+  /// The names of the metadata types that you can use to filter and group your
+  /// results. For example, <code>AZ</code> returns a list of Availability Zones.
+  ///
+  /// Not all dimensions are supported in each API. Refer to the documentation for
+  /// each specific API to see what is supported.
+  ///
+  /// <code>LINKED_ACCOUNT_NAME</code> and <code>SERVICE_CODE</code> can only be
+  /// used in <a
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_CostCategoryRule.html">CostCategoryRule</a>.
+  ///
+  /// <code>ANOMALY_TOTAL_IMPACT_ABSOLUTE</code> and
+  /// <code>ANOMALY_TOTAL_IMPACT_PERCENTAGE</code> can only be used in <a
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AnomalySubscription.html">AnomalySubscriptions</a>.
+  final Dimension? key;
+
+  /// The match options that you can use to filter your results.
+  ///
+  /// <code>MatchOptions</code> is only applicable for actions related to cost
+  /// category and Anomaly Subscriptions. Refer to the documentation for each
+  /// specific API to see what is supported.
+  ///
+  /// The default values for <code>MatchOptions</code> are <code>EQUALS</code> and
+  /// <code>CASE_SENSITIVE</code>.
+  final List<MatchOption>? matchOptions;
+
+  /// The metadata values that you can use to filter and group your results. You
+  /// can use <code>GetDimensionValues</code> to find specific values.
+  final List<String>? values;
+
+  DimensionValues({
+    this.key,
+    this.matchOptions,
+    this.values,
+  });
+
+  factory DimensionValues.fromJson(Map<String, dynamic> json) {
+    return DimensionValues(
+      key: (json['Key'] as String?)?.let(Dimension.fromString),
+      matchOptions: (json['MatchOptions'] as List?)
+          ?.nonNulls
+          .map((e) => MatchOption.fromString((e as String)))
+          .toList(),
+      values:
+          (json['Values'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final matchOptions = this.matchOptions;
+    final values = this.values;
+    return {
+      if (key != null) 'Key': key.value,
+      if (matchOptions != null)
+        'MatchOptions': matchOptions.map((e) => e.value).toList(),
+      if (values != null) 'Values': values,
+    };
+  }
+}
+
+/// The values that are available for a tag.
+///
+/// If <code>Values</code> and <code>Key</code> aren't specified, the
+/// <code>ABSENT</code> <code>MatchOption</code> is applied to all tags. That
+/// is, it's filtered on resources with no tags.
+///
+/// If <code>Key</code> is provided and <code>Values</code> isn't specified, the
+/// <code>ABSENT</code> <code>MatchOption</code> is applied to the tag
+/// <code>Key</code> only. That is, it's filtered on resources without the given
+/// tag key.
+class TagValues {
+  /// The key for the tag.
+  final String? key;
+
+  /// The match options that you can use to filter your results.
+  /// <code>MatchOptions</code> is only applicable for actions related to cost
+  /// category. The default values for <code>MatchOptions</code> are
+  /// <code>EQUALS</code> and <code>CASE_SENSITIVE</code>.
+  final List<MatchOption>? matchOptions;
+
+  /// The specific value of the tag.
+  final List<String>? values;
+
+  TagValues({
+    this.key,
+    this.matchOptions,
+    this.values,
+  });
+
+  factory TagValues.fromJson(Map<String, dynamic> json) {
+    return TagValues(
+      key: json['Key'] as String?,
+      matchOptions: (json['MatchOptions'] as List?)
+          ?.nonNulls
+          .map((e) => MatchOption.fromString((e as String)))
+          .toList(),
+      values:
+          (json['Values'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final matchOptions = this.matchOptions;
+    final values = this.values;
+    return {
+      if (key != null) 'Key': key,
+      if (matchOptions != null)
+        'MatchOptions': matchOptions.map((e) => e.value).toList(),
+      if (values != null) 'Values': values,
+    };
+  }
+}
+
+/// The Cost Categories values used for filtering the costs.
+///
+/// If <code>Values</code> and <code>Key</code> are not specified, the
+/// <code>ABSENT</code> <code>MatchOption</code> is applied to all Cost
+/// Categories. That is, it filters on resources that aren't mapped to any Cost
+/// Categories.
+///
+/// If <code>Values</code> is provided and <code>Key</code> isn't specified, the
+/// <code>ABSENT</code> <code>MatchOption</code> is applied to the Cost
+/// Categories <code>Key</code> only. That is, it filters on resources without
+/// the given Cost Categories key.
+class CostCategoryValues {
+  final String? key;
+
+  /// The match options that you can use to filter your results. MatchOptions is
+  /// only applicable for actions related to cost category. The default values for
+  /// <code>MatchOptions</code> is <code>EQUALS</code> and
+  /// <code>CASE_SENSITIVE</code>.
+  final List<MatchOption>? matchOptions;
+
+  /// The specific value of the cost category.
+  final List<String>? values;
+
+  CostCategoryValues({
+    this.key,
+    this.matchOptions,
+    this.values,
+  });
+
+  factory CostCategoryValues.fromJson(Map<String, dynamic> json) {
+    return CostCategoryValues(
+      key: json['Key'] as String?,
+      matchOptions: (json['MatchOptions'] as List?)
+          ?.nonNulls
+          .map((e) => MatchOption.fromString((e as String)))
+          .toList(),
+      values:
+          (json['Values'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final matchOptions = this.matchOptions;
+    final values = this.values;
+    return {
+      if (key != null) 'Key': key,
+      if (matchOptions != null)
+        'MatchOptions': matchOptions.map((e) => e.value).toList(),
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 class MatchOption {
@@ -8070,54 +6615,1384 @@ class MatchOption {
   String toString() => value;
 }
 
-/// Details about the MemoryDB reservations that Amazon Web Services recommends
-/// that you purchase.
-class MemoryDBInstanceDetails {
-  /// Determines whether the recommendation is for a current generation instance.
-  final bool? currentGeneration;
+class Dimension {
+  static const az = Dimension._('AZ');
+  static const instanceType = Dimension._('INSTANCE_TYPE');
+  static const linkedAccount = Dimension._('LINKED_ACCOUNT');
+  static const payerAccount = Dimension._('PAYER_ACCOUNT');
+  static const linkedAccountName = Dimension._('LINKED_ACCOUNT_NAME');
+  static const operation = Dimension._('OPERATION');
+  static const purchaseType = Dimension._('PURCHASE_TYPE');
+  static const region = Dimension._('REGION');
+  static const service = Dimension._('SERVICE');
+  static const serviceCode = Dimension._('SERVICE_CODE');
+  static const usageType = Dimension._('USAGE_TYPE');
+  static const usageTypeGroup = Dimension._('USAGE_TYPE_GROUP');
+  static const recordType = Dimension._('RECORD_TYPE');
+  static const operatingSystem = Dimension._('OPERATING_SYSTEM');
+  static const tenancy = Dimension._('TENANCY');
+  static const scope = Dimension._('SCOPE');
+  static const platform = Dimension._('PLATFORM');
+  static const subscriptionId = Dimension._('SUBSCRIPTION_ID');
+  static const legalEntityName = Dimension._('LEGAL_ENTITY_NAME');
+  static const deploymentOption = Dimension._('DEPLOYMENT_OPTION');
+  static const databaseEngine = Dimension._('DATABASE_ENGINE');
+  static const cacheEngine = Dimension._('CACHE_ENGINE');
+  static const instanceTypeFamily = Dimension._('INSTANCE_TYPE_FAMILY');
+  static const billingEntity = Dimension._('BILLING_ENTITY');
+  static const reservationId = Dimension._('RESERVATION_ID');
+  static const resourceId = Dimension._('RESOURCE_ID');
+  static const rightsizingType = Dimension._('RIGHTSIZING_TYPE');
+  static const savingsPlansType = Dimension._('SAVINGS_PLANS_TYPE');
+  static const savingsPlanArn = Dimension._('SAVINGS_PLAN_ARN');
+  static const paymentOption = Dimension._('PAYMENT_OPTION');
+  static const agreementEndDateTimeAfter =
+      Dimension._('AGREEMENT_END_DATE_TIME_AFTER');
+  static const agreementEndDateTimeBefore =
+      Dimension._('AGREEMENT_END_DATE_TIME_BEFORE');
+  static const invoicingEntity = Dimension._('INVOICING_ENTITY');
+  static const anomalyTotalImpactAbsolute =
+      Dimension._('ANOMALY_TOTAL_IMPACT_ABSOLUTE');
+  static const anomalyTotalImpactPercentage =
+      Dimension._('ANOMALY_TOTAL_IMPACT_PERCENTAGE');
 
-  /// The instance family of the recommended reservation.
-  final String? family;
+  final String value;
 
-  /// The node type of the recommended reservation.
-  final String? nodeType;
+  const Dimension._(this.value);
 
-  /// The Amazon Web Services Region of the recommended reservation.
-  final String? region;
+  static const values = [
+    az,
+    instanceType,
+    linkedAccount,
+    payerAccount,
+    linkedAccountName,
+    operation,
+    purchaseType,
+    region,
+    service,
+    serviceCode,
+    usageType,
+    usageTypeGroup,
+    recordType,
+    operatingSystem,
+    tenancy,
+    scope,
+    platform,
+    subscriptionId,
+    legalEntityName,
+    deploymentOption,
+    databaseEngine,
+    cacheEngine,
+    instanceTypeFamily,
+    billingEntity,
+    reservationId,
+    resourceId,
+    rightsizingType,
+    savingsPlansType,
+    savingsPlanArn,
+    paymentOption,
+    agreementEndDateTimeAfter,
+    agreementEndDateTimeBefore,
+    invoicingEntity,
+    anomalyTotalImpactAbsolute,
+    anomalyTotalImpactPercentage
+  ];
 
-  /// Determines whether the recommended reservation is size flexible.
-  final bool? sizeFlexEligible;
+  static Dimension fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Dimension._(value));
 
-  MemoryDBInstanceDetails({
-    this.currentGeneration,
-    this.family,
-    this.nodeType,
-    this.region,
-    this.sizeFlexEligible,
+  @override
+  bool operator ==(other) => other is Dimension && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Gives a detailed description of the result of an action. It's on each cost
+/// allocation tag entry in the request.
+class UpdateCostAllocationTagsStatusError {
+  /// An error code representing why the action failed on this entry.
+  final String? code;
+
+  /// A message explaining why the action failed on this entry.
+  final String? message;
+
+  /// The key for the cost allocation tag.
+  final String? tagKey;
+
+  UpdateCostAllocationTagsStatusError({
+    this.code,
+    this.message,
+    this.tagKey,
   });
 
-  factory MemoryDBInstanceDetails.fromJson(Map<String, dynamic> json) {
-    return MemoryDBInstanceDetails(
-      currentGeneration: json['CurrentGeneration'] as bool?,
-      family: json['Family'] as String?,
-      nodeType: json['NodeType'] as String?,
-      region: json['Region'] as String?,
-      sizeFlexEligible: json['SizeFlexEligible'] as bool?,
+  factory UpdateCostAllocationTagsStatusError.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateCostAllocationTagsStatusError(
+      code: json['Code'] as String?,
+      message: json['Message'] as String?,
+      tagKey: json['TagKey'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final currentGeneration = this.currentGeneration;
-    final family = this.family;
-    final nodeType = this.nodeType;
-    final region = this.region;
-    final sizeFlexEligible = this.sizeFlexEligible;
+    final code = this.code;
+    final message = this.message;
+    final tagKey = this.tagKey;
     return {
-      if (currentGeneration != null) 'CurrentGeneration': currentGeneration,
-      if (family != null) 'Family': family,
-      if (nodeType != null) 'NodeType': nodeType,
+      if (code != null) 'Code': code,
+      if (message != null) 'Message': message,
+      if (tagKey != null) 'TagKey': tagKey,
+    };
+  }
+}
+
+/// The cost allocation tag status. The status of a key can either be active or
+/// inactive.
+class CostAllocationTagStatusEntry {
+  /// The status of a cost allocation tag.
+  final CostAllocationTagStatus status;
+
+  /// The key for the cost allocation tag.
+  final String tagKey;
+
+  CostAllocationTagStatusEntry({
+    required this.status,
+    required this.tagKey,
+  });
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final tagKey = this.tagKey;
+    return {
+      'Status': status.value,
+      'TagKey': tagKey,
+    };
+  }
+}
+
+class CostAllocationTagStatus {
+  static const active = CostAllocationTagStatus._('Active');
+  static const inactive = CostAllocationTagStatus._('Inactive');
+
+  final String value;
+
+  const CostAllocationTagStatus._(this.value);
+
+  static const values = [active, inactive];
+
+  static CostAllocationTagStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CostAllocationTagStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CostAllocationTagStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AnomalySubscriptionFrequency {
+  static const daily = AnomalySubscriptionFrequency._('DAILY');
+  static const immediate = AnomalySubscriptionFrequency._('IMMEDIATE');
+  static const weekly = AnomalySubscriptionFrequency._('WEEKLY');
+
+  final String value;
+
+  const AnomalySubscriptionFrequency._(this.value);
+
+  static const values = [daily, immediate, weekly];
+
+  static AnomalySubscriptionFrequency fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AnomalySubscriptionFrequency._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnomalySubscriptionFrequency && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The recipient of <code>AnomalySubscription</code> notifications.
+class Subscriber {
+  /// The email address or SNS Amazon Resource Name (ARN). This depends on the
+  /// <code>Type</code>.
+  final String? address;
+
+  /// Indicates if the subscriber accepts the notifications.
+  final SubscriberStatus? status;
+
+  /// The notification delivery channel.
+  final SubscriberType? type;
+
+  Subscriber({
+    this.address,
+    this.status,
+    this.type,
+  });
+
+  factory Subscriber.fromJson(Map<String, dynamic> json) {
+    return Subscriber(
+      address: json['Address'] as String?,
+      status: (json['Status'] as String?)?.let(SubscriberStatus.fromString),
+      type: (json['Type'] as String?)?.let(SubscriberType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final address = this.address;
+    final status = this.status;
+    final type = this.type;
+    return {
+      if (address != null) 'Address': address,
+      if (status != null) 'Status': status.value,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class SubscriberType {
+  static const email = SubscriberType._('EMAIL');
+  static const sns = SubscriberType._('SNS');
+
+  final String value;
+
+  const SubscriberType._(this.value);
+
+  static const values = [email, sns];
+
+  static SubscriberType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SubscriberType._(value));
+
+  @override
+  bool operator ==(other) => other is SubscriberType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SubscriberStatus {
+  static const confirmed = SubscriberStatus._('CONFIRMED');
+  static const declined = SubscriberStatus._('DECLINED');
+
+  final String value;
+
+  const SubscriberStatus._(this.value);
+
+  static const values = [confirmed, declined];
+
+  static SubscriberStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SubscriberStatus._(value));
+
+  @override
+  bool operator ==(other) => other is SubscriberStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The tag structure that contains a tag key and value.
+/// <note>
+/// Tagging is supported only for the following Cost Explorer resource types: <a
+/// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AnomalyMonitor.html">
+/// <code>AnomalyMonitor</code> </a>, <a
+/// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AnomalySubscription.html">
+/// <code>AnomalySubscription</code> </a>, <a
+/// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_CostCategory.html">
+/// <code>CostCategory</code> </a>.
+/// </note>
+class ResourceTag {
+  /// The key that's associated with the tag.
+  final String key;
+
+  /// The value that's associated with the tag.
+  final String value;
+
+  ResourceTag({
+    required this.key,
+    required this.value,
+  });
+
+  factory ResourceTag.fromJson(Map<String, dynamic> json) {
+    return ResourceTag(
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
+/// The cost allocation tag backfill request structure that contains metadata
+/// and details of a certain backfill.
+class CostAllocationTagBackfillRequest {
+  /// The date the backfill starts from.
+  final String? backfillFrom;
+
+  /// The status of the cost allocation tag backfill request.
+  final CostAllocationTagBackfillStatus? backfillStatus;
+
+  /// The backfill completion time.
+  final String? completedAt;
+
+  /// The time when the backfill status was last updated.
+  final String? lastUpdatedAt;
+
+  /// The time when the backfill was requested.
+  final String? requestedAt;
+
+  CostAllocationTagBackfillRequest({
+    this.backfillFrom,
+    this.backfillStatus,
+    this.completedAt,
+    this.lastUpdatedAt,
+    this.requestedAt,
+  });
+
+  factory CostAllocationTagBackfillRequest.fromJson(Map<String, dynamic> json) {
+    return CostAllocationTagBackfillRequest(
+      backfillFrom: json['BackfillFrom'] as String?,
+      backfillStatus: (json['BackfillStatus'] as String?)
+          ?.let(CostAllocationTagBackfillStatus.fromString),
+      completedAt: json['CompletedAt'] as String?,
+      lastUpdatedAt: json['LastUpdatedAt'] as String?,
+      requestedAt: json['RequestedAt'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final backfillFrom = this.backfillFrom;
+    final backfillStatus = this.backfillStatus;
+    final completedAt = this.completedAt;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final requestedAt = this.requestedAt;
+    return {
+      if (backfillFrom != null) 'BackfillFrom': backfillFrom,
+      if (backfillStatus != null) 'BackfillStatus': backfillStatus.value,
+      if (completedAt != null) 'CompletedAt': completedAt,
+      if (lastUpdatedAt != null) 'LastUpdatedAt': lastUpdatedAt,
+      if (requestedAt != null) 'RequestedAt': requestedAt,
+    };
+  }
+}
+
+class CostAllocationTagBackfillStatus {
+  static const succeeded = CostAllocationTagBackfillStatus._('SUCCEEDED');
+  static const processing = CostAllocationTagBackfillStatus._('PROCESSING');
+  static const failed = CostAllocationTagBackfillStatus._('FAILED');
+
+  final String value;
+
+  const CostAllocationTagBackfillStatus._(this.value);
+
+  static const values = [succeeded, processing, failed];
+
+  static CostAllocationTagBackfillStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CostAllocationTagBackfillStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CostAllocationTagBackfillStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The configuration for the commitment purchase analysis.
+class CommitmentPurchaseAnalysisConfiguration {
+  /// The configuration for the Savings Plans purchase analysis.
+  final SavingsPlansPurchaseAnalysisConfiguration?
+      savingsPlansPurchaseAnalysisConfiguration;
+
+  CommitmentPurchaseAnalysisConfiguration({
+    this.savingsPlansPurchaseAnalysisConfiguration,
+  });
+
+  factory CommitmentPurchaseAnalysisConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return CommitmentPurchaseAnalysisConfiguration(
+      savingsPlansPurchaseAnalysisConfiguration:
+          json['SavingsPlansPurchaseAnalysisConfiguration'] != null
+              ? SavingsPlansPurchaseAnalysisConfiguration.fromJson(
+                  json['SavingsPlansPurchaseAnalysisConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final savingsPlansPurchaseAnalysisConfiguration =
+        this.savingsPlansPurchaseAnalysisConfiguration;
+    return {
+      if (savingsPlansPurchaseAnalysisConfiguration != null)
+        'SavingsPlansPurchaseAnalysisConfiguration':
+            savingsPlansPurchaseAnalysisConfiguration,
+    };
+  }
+}
+
+/// The configuration for the Savings Plans purchase analysis.
+class SavingsPlansPurchaseAnalysisConfiguration {
+  /// The type of analysis.
+  final AnalysisType analysisType;
+
+  /// The time period associated with the analysis.
+  final DateInterval lookBackTimePeriod;
+
+  /// Savings Plans to include in the analysis.
+  final List<SavingsPlans> savingsPlansToAdd;
+
+  /// The account that the analysis is for.
+  final String? accountId;
+
+  /// The account scope that you want your analysis for.
+  final AccountScope? accountScope;
+
+  /// Specifies the target Savings Plans coverage as a percentage from
+  /// <code>10</code> to <code>100</code>. This field is required when
+  /// <code>AnalysisType</code> is <code>TARGET_AVERAGE_COVERAGE</code>. It
+  /// defines the target average hourly coverage that the recommended Savings
+  /// Plans commitment should achieve over the lookback period.
+  final int? savingsPlansTargetCoverage;
+
+  /// Savings Plans to exclude from the analysis.
+  final List<String>? savingsPlansToExclude;
+
+  SavingsPlansPurchaseAnalysisConfiguration({
+    required this.analysisType,
+    required this.lookBackTimePeriod,
+    required this.savingsPlansToAdd,
+    this.accountId,
+    this.accountScope,
+    this.savingsPlansTargetCoverage,
+    this.savingsPlansToExclude,
+  });
+
+  factory SavingsPlansPurchaseAnalysisConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return SavingsPlansPurchaseAnalysisConfiguration(
+      analysisType:
+          AnalysisType.fromString((json['AnalysisType'] as String?) ?? ''),
+      lookBackTimePeriod: DateInterval.fromJson(
+          (json['LookBackTimePeriod'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      savingsPlansToAdd: ((json['SavingsPlansToAdd'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => SavingsPlans.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      accountId: json['AccountId'] as String?,
+      accountScope:
+          (json['AccountScope'] as String?)?.let(AccountScope.fromString),
+      savingsPlansTargetCoverage: json['SavingsPlansTargetCoverage'] as int?,
+      savingsPlansToExclude: (json['SavingsPlansToExclude'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final analysisType = this.analysisType;
+    final lookBackTimePeriod = this.lookBackTimePeriod;
+    final savingsPlansToAdd = this.savingsPlansToAdd;
+    final accountId = this.accountId;
+    final accountScope = this.accountScope;
+    final savingsPlansTargetCoverage = this.savingsPlansTargetCoverage;
+    final savingsPlansToExclude = this.savingsPlansToExclude;
+    return {
+      'AnalysisType': analysisType.value,
+      'LookBackTimePeriod': lookBackTimePeriod,
+      'SavingsPlansToAdd': savingsPlansToAdd,
+      if (accountId != null) 'AccountId': accountId,
+      if (accountScope != null) 'AccountScope': accountScope.value,
+      if (savingsPlansTargetCoverage != null)
+        'SavingsPlansTargetCoverage': savingsPlansTargetCoverage,
+      if (savingsPlansToExclude != null)
+        'SavingsPlansToExclude': savingsPlansToExclude,
+    };
+  }
+}
+
+class AccountScope {
+  static const payer = AccountScope._('PAYER');
+  static const linked = AccountScope._('LINKED');
+
+  final String value;
+
+  const AccountScope._(this.value);
+
+  static const values = [payer, linked];
+
+  static AccountScope fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AccountScope._(value));
+
+  @override
+  bool operator ==(other) => other is AccountScope && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AnalysisType {
+  static const maxSavings = AnalysisType._('MAX_SAVINGS');
+  static const customCommitment = AnalysisType._('CUSTOM_COMMITMENT');
+  static const targetAverageCoverage =
+      AnalysisType._('TARGET_AVERAGE_COVERAGE');
+
+  final String value;
+
+  const AnalysisType._(this.value);
+
+  static const values = [maxSavings, customCommitment, targetAverageCoverage];
+
+  static AnalysisType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AnalysisType._(value));
+
+  @override
+  bool operator ==(other) => other is AnalysisType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The time period of the request.
+class DateInterval {
+  /// The end of the time period. The end date is exclusive. For example, if
+  /// <code>end</code> is <code>2017-05-01</code>, Amazon Web Services retrieves
+  /// cost and usage data from the start date up to, but not including,
+  /// <code>2017-05-01</code>.
+  final String end;
+
+  /// The beginning of the time period. The start date is inclusive. For example,
+  /// if <code>start</code> is <code>2017-01-01</code>, Amazon Web Services
+  /// retrieves cost and usage data starting at <code>2017-01-01</code> up to the
+  /// end date. The start date must be equal to or no later than the current date
+  /// to avoid a validation error.
+  final String start;
+
+  DateInterval({
+    required this.end,
+    required this.start,
+  });
+
+  factory DateInterval.fromJson(Map<String, dynamic> json) {
+    return DateInterval(
+      end: (json['End'] as String?) ?? '',
+      start: (json['Start'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final end = this.end;
+    final start = this.start;
+    return {
+      'End': end,
+      'Start': start,
+    };
+  }
+}
+
+/// The Savings Plans commitment details.
+class SavingsPlans {
+  /// The instance family of the Savings Plans commitment.
+  final String? instanceFamily;
+
+  /// The unique ID that's used to distinguish Savings Plans commitments from one
+  /// another.
+  final String? offeringId;
+
+  /// The payment option for the Savings Plans commitment.
+  final PaymentOption? paymentOption;
+
+  /// The Region associated with the Savings Plans commitment.
+  final String? region;
+
+  /// The Savings Plans commitment.
+  final double? savingsPlansCommitment;
+
+  /// The Savings Plans type.
+  final SupportedSavingsPlansType? savingsPlansType;
+
+  /// The term that you want the Savings Plans commitment for.
+  final TermInYears? termInYears;
+
+  SavingsPlans({
+    this.instanceFamily,
+    this.offeringId,
+    this.paymentOption,
+    this.region,
+    this.savingsPlansCommitment,
+    this.savingsPlansType,
+    this.termInYears,
+  });
+
+  factory SavingsPlans.fromJson(Map<String, dynamic> json) {
+    return SavingsPlans(
+      instanceFamily: json['InstanceFamily'] as String?,
+      offeringId: json['OfferingId'] as String?,
+      paymentOption:
+          (json['PaymentOption'] as String?)?.let(PaymentOption.fromString),
+      region: json['Region'] as String?,
+      savingsPlansCommitment: json['SavingsPlansCommitment'] as double?,
+      savingsPlansType: (json['SavingsPlansType'] as String?)
+          ?.let(SupportedSavingsPlansType.fromString),
+      termInYears:
+          (json['TermInYears'] as String?)?.let(TermInYears.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceFamily = this.instanceFamily;
+    final offeringId = this.offeringId;
+    final paymentOption = this.paymentOption;
+    final region = this.region;
+    final savingsPlansCommitment = this.savingsPlansCommitment;
+    final savingsPlansType = this.savingsPlansType;
+    final termInYears = this.termInYears;
+    return {
+      if (instanceFamily != null) 'InstanceFamily': instanceFamily,
+      if (offeringId != null) 'OfferingId': offeringId,
+      if (paymentOption != null) 'PaymentOption': paymentOption.value,
       if (region != null) 'Region': region,
-      if (sizeFlexEligible != null) 'SizeFlexEligible': sizeFlexEligible,
+      if (savingsPlansCommitment != null)
+        'SavingsPlansCommitment': savingsPlansCommitment,
+      if (savingsPlansType != null) 'SavingsPlansType': savingsPlansType.value,
+      if (termInYears != null) 'TermInYears': termInYears.value,
+    };
+  }
+}
+
+class PaymentOption {
+  static const noUpfront = PaymentOption._('NO_UPFRONT');
+  static const partialUpfront = PaymentOption._('PARTIAL_UPFRONT');
+  static const allUpfront = PaymentOption._('ALL_UPFRONT');
+  static const lightUtilization = PaymentOption._('LIGHT_UTILIZATION');
+  static const mediumUtilization = PaymentOption._('MEDIUM_UTILIZATION');
+  static const heavyUtilization = PaymentOption._('HEAVY_UTILIZATION');
+
+  final String value;
+
+  const PaymentOption._(this.value);
+
+  static const values = [
+    noUpfront,
+    partialUpfront,
+    allUpfront,
+    lightUtilization,
+    mediumUtilization,
+    heavyUtilization
+  ];
+
+  static PaymentOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PaymentOption._(value));
+
+  @override
+  bool operator ==(other) => other is PaymentOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SupportedSavingsPlansType {
+  static const computeSp = SupportedSavingsPlansType._('COMPUTE_SP');
+  static const ec2InstanceSp = SupportedSavingsPlansType._('EC2_INSTANCE_SP');
+  static const sagemakerSp = SupportedSavingsPlansType._('SAGEMAKER_SP');
+  static const databaseSp = SupportedSavingsPlansType._('DATABASE_SP');
+
+  final String value;
+
+  const SupportedSavingsPlansType._(this.value);
+
+  static const values = [computeSp, ec2InstanceSp, sagemakerSp, databaseSp];
+
+  static SupportedSavingsPlansType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SupportedSavingsPlansType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SupportedSavingsPlansType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TermInYears {
+  static const oneYear = TermInYears._('ONE_YEAR');
+  static const threeYears = TermInYears._('THREE_YEARS');
+
+  final String value;
+
+  const TermInYears._(this.value);
+
+  static const values = [oneYear, threeYears];
+
+  static TermInYears fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TermInYears._(value));
+
+  @override
+  bool operator ==(other) => other is TermInYears && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AnomalyFeedbackType {
+  static const yes = AnomalyFeedbackType._('YES');
+  static const no = AnomalyFeedbackType._('NO');
+  static const plannedActivity = AnomalyFeedbackType._('PLANNED_ACTIVITY');
+
+  final String value;
+
+  const AnomalyFeedbackType._(this.value);
+
+  static const values = [yes, no, plannedActivity];
+
+  static AnomalyFeedbackType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AnomalyFeedbackType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnomalyFeedbackType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The summary of the Savings Plans recommendation generation.
+class GenerationSummary {
+  /// Indicates the estimated time for when the recommendation generation will
+  /// complete.
+  final String? estimatedCompletionTime;
+
+  /// Indicates the completion time of the recommendation generation.
+  final String? generationCompletionTime;
+
+  /// Indicates the start time of the recommendation generation.
+  final String? generationStartedTime;
+
+  /// Indicates whether the recommendation generation succeeded, is processing, or
+  /// failed.
+  final GenerationStatus? generationStatus;
+
+  /// Indicates the ID for this specific recommendation.
+  final String? recommendationId;
+
+  GenerationSummary({
+    this.estimatedCompletionTime,
+    this.generationCompletionTime,
+    this.generationStartedTime,
+    this.generationStatus,
+    this.recommendationId,
+  });
+
+  factory GenerationSummary.fromJson(Map<String, dynamic> json) {
+    return GenerationSummary(
+      estimatedCompletionTime: json['EstimatedCompletionTime'] as String?,
+      generationCompletionTime: json['GenerationCompletionTime'] as String?,
+      generationStartedTime: json['GenerationStartedTime'] as String?,
+      generationStatus: (json['GenerationStatus'] as String?)
+          ?.let(GenerationStatus.fromString),
+      recommendationId: json['RecommendationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final estimatedCompletionTime = this.estimatedCompletionTime;
+    final generationCompletionTime = this.generationCompletionTime;
+    final generationStartedTime = this.generationStartedTime;
+    final generationStatus = this.generationStatus;
+    final recommendationId = this.recommendationId;
+    return {
+      if (estimatedCompletionTime != null)
+        'EstimatedCompletionTime': estimatedCompletionTime,
+      if (generationCompletionTime != null)
+        'GenerationCompletionTime': generationCompletionTime,
+      if (generationStartedTime != null)
+        'GenerationStartedTime': generationStartedTime,
+      if (generationStatus != null) 'GenerationStatus': generationStatus.value,
+      if (recommendationId != null) 'RecommendationId': recommendationId,
+    };
+  }
+}
+
+class GenerationStatus {
+  static const succeeded = GenerationStatus._('SUCCEEDED');
+  static const processing = GenerationStatus._('PROCESSING');
+  static const failed = GenerationStatus._('FAILED');
+
+  final String value;
+
+  const GenerationStatus._(this.value);
+
+  static const values = [succeeded, processing, failed];
+
+  static GenerationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GenerationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is GenerationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A reference to a cost category association that contains information on an
+/// associated resource.
+class CostCategoryResourceAssociation {
+  /// The unique identifier for your cost category.
+  final String? costCategoryArn;
+  final String? costCategoryName;
+
+  /// The unique identifier for an associated resource.
+  final String? resourceArn;
+
+  CostCategoryResourceAssociation({
+    this.costCategoryArn,
+    this.costCategoryName,
+    this.resourceArn,
+  });
+
+  factory CostCategoryResourceAssociation.fromJson(Map<String, dynamic> json) {
+    return CostCategoryResourceAssociation(
+      costCategoryArn: json['CostCategoryArn'] as String?,
+      costCategoryName: json['CostCategoryName'] as String?,
+      resourceArn: json['ResourceArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final costCategoryArn = this.costCategoryArn;
+    final costCategoryName = this.costCategoryName;
+    final resourceArn = this.resourceArn;
+    return {
+      if (costCategoryArn != null) 'CostCategoryArn': costCategoryArn,
+      if (costCategoryName != null) 'CostCategoryName': costCategoryName,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+    };
+  }
+}
+
+/// A reference to a cost category containing only enough information to
+/// identify the Cost Category.
+///
+/// You can use this information to retrieve the full cost category information
+/// using <code>DescribeCostCategory</code>.
+class CostCategoryReference {
+  /// The unique identifier for your cost category.
+  final String? costCategoryArn;
+  final String? defaultValue;
+
+  /// The cost category's effective end date.
+  final String? effectiveEnd;
+
+  /// The cost category's effective start date.
+  final String? effectiveStart;
+  final String? name;
+
+  /// The number of rules that are associated with a specific cost category.
+  final int? numberOfRules;
+
+  /// The list of processing statuses for Cost Management products for a specific
+  /// cost category.
+  final List<CostCategoryProcessingStatus>? processingStatus;
+
+  /// The resource types supported by a specific cost category.
+  final List<String>? supportedResourceTypes;
+
+  /// A list of unique cost category values in a specific cost category.
+  final List<String>? values;
+
+  CostCategoryReference({
+    this.costCategoryArn,
+    this.defaultValue,
+    this.effectiveEnd,
+    this.effectiveStart,
+    this.name,
+    this.numberOfRules,
+    this.processingStatus,
+    this.supportedResourceTypes,
+    this.values,
+  });
+
+  factory CostCategoryReference.fromJson(Map<String, dynamic> json) {
+    return CostCategoryReference(
+      costCategoryArn: json['CostCategoryArn'] as String?,
+      defaultValue: json['DefaultValue'] as String?,
+      effectiveEnd: json['EffectiveEnd'] as String?,
+      effectiveStart: json['EffectiveStart'] as String?,
+      name: json['Name'] as String?,
+      numberOfRules: json['NumberOfRules'] as int?,
+      processingStatus: (json['ProcessingStatus'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              CostCategoryProcessingStatus.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      supportedResourceTypes: (json['SupportedResourceTypes'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      values:
+          (json['Values'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final costCategoryArn = this.costCategoryArn;
+    final defaultValue = this.defaultValue;
+    final effectiveEnd = this.effectiveEnd;
+    final effectiveStart = this.effectiveStart;
+    final name = this.name;
+    final numberOfRules = this.numberOfRules;
+    final processingStatus = this.processingStatus;
+    final supportedResourceTypes = this.supportedResourceTypes;
+    final values = this.values;
+    return {
+      if (costCategoryArn != null) 'CostCategoryArn': costCategoryArn,
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (effectiveEnd != null) 'EffectiveEnd': effectiveEnd,
+      if (effectiveStart != null) 'EffectiveStart': effectiveStart,
+      if (name != null) 'Name': name,
+      if (numberOfRules != null) 'NumberOfRules': numberOfRules,
+      if (processingStatus != null) 'ProcessingStatus': processingStatus,
+      if (supportedResourceTypes != null)
+        'SupportedResourceTypes': supportedResourceTypes,
+      if (values != null) 'Values': values,
+    };
+  }
+}
+
+/// The list of processing statuses for Cost Management products for a specific
+/// cost category.
+class CostCategoryProcessingStatus {
+  /// The Cost Management product name of the applied status.
+  final CostCategoryStatusComponent? component;
+
+  /// The process status for a specific cost category.
+  final CostCategoryStatus? status;
+
+  CostCategoryProcessingStatus({
+    this.component,
+    this.status,
+  });
+
+  factory CostCategoryProcessingStatus.fromJson(Map<String, dynamic> json) {
+    return CostCategoryProcessingStatus(
+      component: (json['Component'] as String?)
+          ?.let(CostCategoryStatusComponent.fromString),
+      status: (json['Status'] as String?)?.let(CostCategoryStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final component = this.component;
+    final status = this.status;
+    return {
+      if (component != null) 'Component': component.value,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class CostCategoryStatusComponent {
+  static const costExplorer = CostCategoryStatusComponent._('COST_EXPLORER');
+
+  final String value;
+
+  const CostCategoryStatusComponent._(this.value);
+
+  static const values = [costExplorer];
+
+  static CostCategoryStatusComponent fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CostCategoryStatusComponent._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CostCategoryStatusComponent && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class CostCategoryStatus {
+  static const processing = CostCategoryStatus._('PROCESSING');
+  static const applied = CostCategoryStatus._('APPLIED');
+
+  final String value;
+
+  const CostCategoryStatus._(this.value);
+
+  static const values = [processing, applied];
+
+  static CostCategoryStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CostCategoryStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CostCategoryStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The cost allocation tag structure. This includes detailed metadata for the
+/// <code>CostAllocationTag</code> object.
+class CostAllocationTag {
+  /// The status of a cost allocation tag.
+  final CostAllocationTagStatus status;
+
+  /// The key for the cost allocation tag.
+  final String tagKey;
+
+  /// The type of cost allocation tag. You can use <code>AWSGenerated</code> or
+  /// <code>UserDefined</code> type tags. <code>AWSGenerated</code> type tags are
+  /// tags that Amazon Web Services defines and applies to support Amazon Web
+  /// Services resources for cost allocation purposes. <code>UserDefined</code>
+  /// type tags are tags that you define, create, and apply to resources.
+  final CostAllocationTagType type;
+
+  /// The last date that the tag was either activated or deactivated.
+  final String? lastUpdatedDate;
+
+  /// The last month that the tag was used on an Amazon Web Services resource.
+  final String? lastUsedDate;
+
+  CostAllocationTag({
+    required this.status,
+    required this.tagKey,
+    required this.type,
+    this.lastUpdatedDate,
+    this.lastUsedDate,
+  });
+
+  factory CostAllocationTag.fromJson(Map<String, dynamic> json) {
+    return CostAllocationTag(
+      status:
+          CostAllocationTagStatus.fromString((json['Status'] as String?) ?? ''),
+      tagKey: (json['TagKey'] as String?) ?? '',
+      type: CostAllocationTagType.fromString((json['Type'] as String?) ?? ''),
+      lastUpdatedDate: json['LastUpdatedDate'] as String?,
+      lastUsedDate: json['LastUsedDate'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final tagKey = this.tagKey;
+    final type = this.type;
+    final lastUpdatedDate = this.lastUpdatedDate;
+    final lastUsedDate = this.lastUsedDate;
+    return {
+      'Status': status.value,
+      'TagKey': tagKey,
+      'Type': type.value,
+      if (lastUpdatedDate != null) 'LastUpdatedDate': lastUpdatedDate,
+      if (lastUsedDate != null) 'LastUsedDate': lastUsedDate,
+    };
+  }
+}
+
+class CostAllocationTagType {
+  static const awsGenerated = CostAllocationTagType._('AWSGenerated');
+  static const userDefined = CostAllocationTagType._('UserDefined');
+
+  final String value;
+
+  const CostAllocationTagType._(this.value);
+
+  static const values = [awsGenerated, userDefined];
+
+  static CostAllocationTagType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CostAllocationTagType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CostAllocationTagType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A summary of the analysis.
+class AnalysisSummary {
+  /// The completion time of the analysis.
+  final String? analysisCompletionTime;
+
+  /// The analysis ID that's associated with the commitment purchase analysis.
+  final String? analysisId;
+
+  /// The start time of the analysis.
+  final String? analysisStartedTime;
+
+  /// The status of the analysis.
+  final AnalysisStatus? analysisStatus;
+
+  /// The configuration for the commitment purchase analysis.
+  final CommitmentPurchaseAnalysisConfiguration?
+      commitmentPurchaseAnalysisConfiguration;
+
+  /// The error code used for the analysis.
+  final ErrorCode? errorCode;
+
+  /// The estimated time for when the analysis will complete.
+  final String? estimatedCompletionTime;
+
+  AnalysisSummary({
+    this.analysisCompletionTime,
+    this.analysisId,
+    this.analysisStartedTime,
+    this.analysisStatus,
+    this.commitmentPurchaseAnalysisConfiguration,
+    this.errorCode,
+    this.estimatedCompletionTime,
+  });
+
+  factory AnalysisSummary.fromJson(Map<String, dynamic> json) {
+    return AnalysisSummary(
+      analysisCompletionTime: json['AnalysisCompletionTime'] as String?,
+      analysisId: json['AnalysisId'] as String?,
+      analysisStartedTime: json['AnalysisStartedTime'] as String?,
+      analysisStatus:
+          (json['AnalysisStatus'] as String?)?.let(AnalysisStatus.fromString),
+      commitmentPurchaseAnalysisConfiguration:
+          json['CommitmentPurchaseAnalysisConfiguration'] != null
+              ? CommitmentPurchaseAnalysisConfiguration.fromJson(
+                  json['CommitmentPurchaseAnalysisConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      errorCode: (json['ErrorCode'] as String?)?.let(ErrorCode.fromString),
+      estimatedCompletionTime: json['EstimatedCompletionTime'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final analysisCompletionTime = this.analysisCompletionTime;
+    final analysisId = this.analysisId;
+    final analysisStartedTime = this.analysisStartedTime;
+    final analysisStatus = this.analysisStatus;
+    final commitmentPurchaseAnalysisConfiguration =
+        this.commitmentPurchaseAnalysisConfiguration;
+    final errorCode = this.errorCode;
+    final estimatedCompletionTime = this.estimatedCompletionTime;
+    return {
+      if (analysisCompletionTime != null)
+        'AnalysisCompletionTime': analysisCompletionTime,
+      if (analysisId != null) 'AnalysisId': analysisId,
+      if (analysisStartedTime != null)
+        'AnalysisStartedTime': analysisStartedTime,
+      if (analysisStatus != null) 'AnalysisStatus': analysisStatus.value,
+      if (commitmentPurchaseAnalysisConfiguration != null)
+        'CommitmentPurchaseAnalysisConfiguration':
+            commitmentPurchaseAnalysisConfiguration,
+      if (errorCode != null) 'ErrorCode': errorCode.value,
+      if (estimatedCompletionTime != null)
+        'EstimatedCompletionTime': estimatedCompletionTime,
+    };
+  }
+}
+
+class AnalysisStatus {
+  static const succeeded = AnalysisStatus._('SUCCEEDED');
+  static const processing = AnalysisStatus._('PROCESSING');
+  static const failed = AnalysisStatus._('FAILED');
+
+  final String value;
+
+  const AnalysisStatus._(this.value);
+
+  static const values = [succeeded, processing, failed];
+
+  static AnalysisStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AnalysisStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AnalysisStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ErrorCode {
+  static const noUsageFound = ErrorCode._('NO_USAGE_FOUND');
+  static const internalFailure = ErrorCode._('INTERNAL_FAILURE');
+  static const invalidSavingsPlansToAdd =
+      ErrorCode._('INVALID_SAVINGS_PLANS_TO_ADD');
+  static const invalidSavingsPlansToExclude =
+      ErrorCode._('INVALID_SAVINGS_PLANS_TO_EXCLUDE');
+  static const invalidAccountId = ErrorCode._('INVALID_ACCOUNT_ID');
+
+  final String value;
+
+  const ErrorCode._(this.value);
+
+  static const values = [
+    noUsageFound,
+    internalFailure,
+    invalidSavingsPlansToAdd,
+    invalidSavingsPlansToExclude,
+    invalidAccountId
+  ];
+
+  static ErrorCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is ErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The aggregated value for a metric.
+class MetricValue {
+  /// The actual number that represents the metric.
+  final String? amount;
+
+  /// The unit that the metric is given in.
+  final String? unit;
+
+  MetricValue({
+    this.amount,
+    this.unit,
+  });
+
+  factory MetricValue.fromJson(Map<String, dynamic> json) {
+    return MetricValue(
+      amount: json['Amount'] as String?,
+      unit: json['Unit'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final amount = this.amount;
+    final unit = this.unit;
+    return {
+      if (amount != null) 'Amount': amount,
+      if (unit != null) 'Unit': unit,
+    };
+  }
+}
+
+/// The forecast that's created for your query.
+class ForecastResult {
+  /// The mean value of the forecast.
+  final String? meanValue;
+
+  /// The lower limit for the prediction interval.
+  final String? predictionIntervalLowerBound;
+
+  /// The upper limit for the prediction interval.
+  final String? predictionIntervalUpperBound;
+
+  /// The period of time that the forecast covers.
+  final DateInterval? timePeriod;
+
+  ForecastResult({
+    this.meanValue,
+    this.predictionIntervalLowerBound,
+    this.predictionIntervalUpperBound,
+    this.timePeriod,
+  });
+
+  factory ForecastResult.fromJson(Map<String, dynamic> json) {
+    return ForecastResult(
+      meanValue: json['MeanValue'] as String?,
+      predictionIntervalLowerBound:
+          json['PredictionIntervalLowerBound'] as String?,
+      predictionIntervalUpperBound:
+          json['PredictionIntervalUpperBound'] as String?,
+      timePeriod: json['TimePeriod'] != null
+          ? DateInterval.fromJson(json['TimePeriod'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final meanValue = this.meanValue;
+    final predictionIntervalLowerBound = this.predictionIntervalLowerBound;
+    final predictionIntervalUpperBound = this.predictionIntervalUpperBound;
+    final timePeriod = this.timePeriod;
+    return {
+      if (meanValue != null) 'MeanValue': meanValue,
+      if (predictionIntervalLowerBound != null)
+        'PredictionIntervalLowerBound': predictionIntervalLowerBound,
+      if (predictionIntervalUpperBound != null)
+        'PredictionIntervalUpperBound': predictionIntervalUpperBound,
+      if (timePeriod != null) 'TimePeriod': timePeriod,
     };
   }
 }
@@ -8158,281 +8033,346 @@ class Metric {
   String toString() => value;
 }
 
-/// The aggregated value for a metric.
-class MetricValue {
-  /// The actual number that represents the metric.
-  final String? amount;
+class Granularity {
+  static const daily = Granularity._('DAILY');
+  static const monthly = Granularity._('MONTHLY');
+  static const hourly = Granularity._('HOURLY');
 
-  /// The unit that the metric is given in.
-  final String? unit;
+  final String value;
 
-  MetricValue({
-    this.amount,
-    this.unit,
+  const Granularity._(this.value);
+
+  static const values = [daily, monthly, hourly];
+
+  static Granularity fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Granularity._(value));
+
+  @override
+  bool operator ==(other) => other is Granularity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The details for how to sort the data.
+class SortDefinition {
+  /// The key that's used to sort the data.
+  final String key;
+
+  /// The order that's used to sort the data.
+  final SortOrder? sortOrder;
+
+  SortDefinition({
+    required this.key,
+    this.sortOrder,
   });
 
-  factory MetricValue.fromJson(Map<String, dynamic> json) {
-    return MetricValue(
-      amount: json['Amount'] as String?,
-      unit: json['Unit'] as String?,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final amount = this.amount;
-    final unit = this.unit;
+    final key = this.key;
+    final sortOrder = this.sortOrder;
     return {
-      if (amount != null) 'Amount': amount,
-      if (unit != null) 'Unit': unit,
+      'Key': key,
+      if (sortOrder != null) 'SortOrder': sortOrder.value,
     };
   }
 }
 
-/// Details for the modification recommendation.
-class ModifyRecommendationDetail {
-  /// Determines whether this instance type is the Amazon Web Services default
-  /// recommendation.
-  final List<TargetInstance>? targetInstances;
+class SortOrder {
+  static const ascending = SortOrder._('ASCENDING');
+  static const descending = SortOrder._('DESCENDING');
 
-  ModifyRecommendationDetail({
-    this.targetInstances,
+  final String value;
+
+  const SortOrder._(this.value);
+
+  static const values = [ascending, descending];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The aggregated utilization metrics for your Savings Plans usage.
+class SavingsPlansUtilizationAggregates {
+  /// A ratio of your effectiveness of using existing Savings Plans to apply to
+  /// workloads that are Savings Plans eligible.
+  final SavingsPlansUtilization utilization;
+
+  /// The total amortized commitment for a Savings Plans. This includes the sum of
+  /// the upfront and recurring Savings Plans fees.
+  final SavingsPlansAmortizedCommitment? amortizedCommitment;
+
+  /// The amount that's saved by using existing Savings Plans. Savings returns
+  /// both net savings from Savings Plans and also the
+  /// <code>onDemandCostEquivalent</code> of the Savings Plans when considering
+  /// the utilization rate.
+  final SavingsPlansSavings? savings;
+
+  SavingsPlansUtilizationAggregates({
+    required this.utilization,
+    this.amortizedCommitment,
+    this.savings,
   });
 
-  factory ModifyRecommendationDetail.fromJson(Map<String, dynamic> json) {
-    return ModifyRecommendationDetail(
-      targetInstances: (json['TargetInstances'] as List?)
-          ?.nonNulls
-          .map((e) => TargetInstance.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  factory SavingsPlansUtilizationAggregates.fromJson(
+      Map<String, dynamic> json) {
+    return SavingsPlansUtilizationAggregates(
+      utilization: SavingsPlansUtilization.fromJson(
+          (json['Utilization'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      amortizedCommitment: json['AmortizedCommitment'] != null
+          ? SavingsPlansAmortizedCommitment.fromJson(
+              json['AmortizedCommitment'] as Map<String, dynamic>)
+          : null,
+      savings: json['Savings'] != null
+          ? SavingsPlansSavings.fromJson(
+              json['Savings'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final targetInstances = this.targetInstances;
+    final utilization = this.utilization;
+    final amortizedCommitment = this.amortizedCommitment;
+    final savings = this.savings;
     return {
-      if (targetInstances != null) 'TargetInstances': targetInstances,
+      'Utilization': utilization,
+      if (amortizedCommitment != null)
+        'AmortizedCommitment': amortizedCommitment,
+      if (savings != null) 'Savings': savings,
     };
   }
 }
 
-class MonitorDimension {
-  static const service = MonitorDimension._('SERVICE');
+/// The measurement of how well you're using your existing Savings Plans.
+class SavingsPlansUtilization {
+  /// The total amount of Savings Plans commitment that's been purchased in an
+  /// account (or set of accounts).
+  final String? totalCommitment;
 
-  final String value;
+  /// The amount of your Savings Plans commitment that wasn't consumed from
+  /// Savings Plans eligible usage in a specific period.
+  final String? unusedCommitment;
 
-  const MonitorDimension._(this.value);
+  /// The amount of your Savings Plans commitment that was consumed from Savings
+  /// Plans eligible usage in a specific period.
+  final String? usedCommitment;
 
-  static const values = [service];
+  /// The amount of <code>UsedCommitment</code> divided by the
+  /// <code>TotalCommitment</code> for your Savings Plans.
+  final String? utilizationPercentage;
 
-  static MonitorDimension fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MonitorDimension._(value));
-
-  @override
-  bool operator ==(other) => other is MonitorDimension && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class MonitorType {
-  static const dimensional = MonitorType._('DIMENSIONAL');
-  static const custom = MonitorType._('CUSTOM');
-
-  final String value;
-
-  const MonitorType._(this.value);
-
-  static const values = [dimensional, custom];
-
-  static MonitorType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => MonitorType._(value));
-
-  @override
-  bool operator ==(other) => other is MonitorType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The network field that contains a list of network metrics that are
-/// associated with the current instance.
-class NetworkResourceUtilization {
-  /// The network inbound throughput utilization measured in Bytes per second
-  /// (Bps).
-  final String? networkInBytesPerSecond;
-
-  /// The network outbound throughput utilization measured in Bytes per second
-  /// (Bps).
-  final String? networkOutBytesPerSecond;
-
-  /// The network inbound packets that are measured in packets per second.
-  final String? networkPacketsInPerSecond;
-
-  /// The network outbound packets that are measured in packets per second.
-  final String? networkPacketsOutPerSecond;
-
-  NetworkResourceUtilization({
-    this.networkInBytesPerSecond,
-    this.networkOutBytesPerSecond,
-    this.networkPacketsInPerSecond,
-    this.networkPacketsOutPerSecond,
+  SavingsPlansUtilization({
+    this.totalCommitment,
+    this.unusedCommitment,
+    this.usedCommitment,
+    this.utilizationPercentage,
   });
 
-  factory NetworkResourceUtilization.fromJson(Map<String, dynamic> json) {
-    return NetworkResourceUtilization(
-      networkInBytesPerSecond: json['NetworkInBytesPerSecond'] as String?,
-      networkOutBytesPerSecond: json['NetworkOutBytesPerSecond'] as String?,
-      networkPacketsInPerSecond: json['NetworkPacketsInPerSecond'] as String?,
-      networkPacketsOutPerSecond: json['NetworkPacketsOutPerSecond'] as String?,
+  factory SavingsPlansUtilization.fromJson(Map<String, dynamic> json) {
+    return SavingsPlansUtilization(
+      totalCommitment: json['TotalCommitment'] as String?,
+      unusedCommitment: json['UnusedCommitment'] as String?,
+      usedCommitment: json['UsedCommitment'] as String?,
+      utilizationPercentage: json['UtilizationPercentage'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final networkInBytesPerSecond = this.networkInBytesPerSecond;
-    final networkOutBytesPerSecond = this.networkOutBytesPerSecond;
-    final networkPacketsInPerSecond = this.networkPacketsInPerSecond;
-    final networkPacketsOutPerSecond = this.networkPacketsOutPerSecond;
+    final totalCommitment = this.totalCommitment;
+    final unusedCommitment = this.unusedCommitment;
+    final usedCommitment = this.usedCommitment;
+    final utilizationPercentage = this.utilizationPercentage;
     return {
-      if (networkInBytesPerSecond != null)
-        'NetworkInBytesPerSecond': networkInBytesPerSecond,
-      if (networkOutBytesPerSecond != null)
-        'NetworkOutBytesPerSecond': networkOutBytesPerSecond,
-      if (networkPacketsInPerSecond != null)
-        'NetworkPacketsInPerSecond': networkPacketsInPerSecond,
-      if (networkPacketsOutPerSecond != null)
-        'NetworkPacketsOutPerSecond': networkPacketsOutPerSecond,
+      if (totalCommitment != null) 'TotalCommitment': totalCommitment,
+      if (unusedCommitment != null) 'UnusedCommitment': unusedCommitment,
+      if (usedCommitment != null) 'UsedCommitment': usedCommitment,
+      if (utilizationPercentage != null)
+        'UtilizationPercentage': utilizationPercentage,
     };
   }
 }
 
-class NumericOperator {
-  static const equal = NumericOperator._('EQUAL');
-  static const greaterThanOrEqual = NumericOperator._('GREATER_THAN_OR_EQUAL');
-  static const lessThanOrEqual = NumericOperator._('LESS_THAN_OR_EQUAL');
-  static const greaterThan = NumericOperator._('GREATER_THAN');
-  static const lessThan = NumericOperator._('LESS_THAN');
-  static const between = NumericOperator._('BETWEEN');
+/// The amount of savings that you're accumulating, against the public On-Demand
+/// rate of the usage accrued in an account.
+class SavingsPlansSavings {
+  /// The savings amount that you're accumulating for the usage that's covered by
+  /// a Savings Plans, when compared to the On-Demand equivalent of the same
+  /// usage.
+  final String? netSavings;
 
-  final String value;
+  /// How much the amount that the usage would have cost if it was accrued at the
+  /// On-Demand rate.
+  final String? onDemandCostEquivalent;
 
-  const NumericOperator._(this.value);
+  SavingsPlansSavings({
+    this.netSavings,
+    this.onDemandCostEquivalent,
+  });
 
-  static const values = [
-    equal,
-    greaterThanOrEqual,
-    lessThanOrEqual,
-    greaterThan,
-    lessThan,
-    between
-  ];
+  factory SavingsPlansSavings.fromJson(Map<String, dynamic> json) {
+    return SavingsPlansSavings(
+      netSavings: json['NetSavings'] as String?,
+      onDemandCostEquivalent: json['OnDemandCostEquivalent'] as String?,
+    );
+  }
 
-  static NumericOperator fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => NumericOperator._(value));
-
-  @override
-  bool operator ==(other) => other is NumericOperator && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final netSavings = this.netSavings;
+    final onDemandCostEquivalent = this.onDemandCostEquivalent;
+    return {
+      if (netSavings != null) 'NetSavings': netSavings,
+      if (onDemandCostEquivalent != null)
+        'OnDemandCostEquivalent': onDemandCostEquivalent,
+    };
+  }
 }
 
-class OfferingClass {
-  static const standard = OfferingClass._('STANDARD');
-  static const convertible = OfferingClass._('CONVERTIBLE');
+/// The amortized amount of Savings Plans purchased in a specific account during
+/// a specific time interval.
+class SavingsPlansAmortizedCommitment {
+  /// The amortized amount of your Savings Plans commitment that was purchased
+  /// with either a <code>Partial</code> or a <code>NoUpfront</code>.
+  final String? amortizedRecurringCommitment;
 
-  final String value;
+  /// The amortized amount of your Savings Plans commitment that was purchased
+  /// with an <code>Upfront</code> or <code>PartialUpfront</code> Savings Plans.
+  final String? amortizedUpfrontCommitment;
 
-  const OfferingClass._(this.value);
+  /// The total amortized amount of your Savings Plans commitment, regardless of
+  /// your Savings Plans purchase method.
+  final String? totalAmortizedCommitment;
 
-  static const values = [standard, convertible];
+  SavingsPlansAmortizedCommitment({
+    this.amortizedRecurringCommitment,
+    this.amortizedUpfrontCommitment,
+    this.totalAmortizedCommitment,
+  });
 
-  static OfferingClass fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => OfferingClass._(value));
+  factory SavingsPlansAmortizedCommitment.fromJson(Map<String, dynamic> json) {
+    return SavingsPlansAmortizedCommitment(
+      amortizedRecurringCommitment:
+          json['AmortizedRecurringCommitment'] as String?,
+      amortizedUpfrontCommitment: json['AmortizedUpfrontCommitment'] as String?,
+      totalAmortizedCommitment: json['TotalAmortizedCommitment'] as String?,
+    );
+  }
 
-  @override
-  bool operator ==(other) => other is OfferingClass && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final amortizedRecurringCommitment = this.amortizedRecurringCommitment;
+    final amortizedUpfrontCommitment = this.amortizedUpfrontCommitment;
+    final totalAmortizedCommitment = this.totalAmortizedCommitment;
+    return {
+      if (amortizedRecurringCommitment != null)
+        'AmortizedRecurringCommitment': amortizedRecurringCommitment,
+      if (amortizedUpfrontCommitment != null)
+        'AmortizedUpfrontCommitment': amortizedUpfrontCommitment,
+      if (totalAmortizedCommitment != null)
+        'TotalAmortizedCommitment': totalAmortizedCommitment,
+    };
+  }
 }
 
-class PaymentOption {
-  static const noUpfront = PaymentOption._('NO_UPFRONT');
-  static const partialUpfront = PaymentOption._('PARTIAL_UPFRONT');
-  static const allUpfront = PaymentOption._('ALL_UPFRONT');
-  static const lightUtilization = PaymentOption._('LIGHT_UTILIZATION');
-  static const mediumUtilization = PaymentOption._('MEDIUM_UTILIZATION');
-  static const heavyUtilization = PaymentOption._('HEAVY_UTILIZATION');
+/// A single daily or monthly Savings Plans utilization rate and details for
+/// your account. A management account in an organization have access to member
+/// accounts. You can use <code>GetDimensionValues</code> to determine the
+/// possible dimension values.
+class SavingsPlansUtilizationDetail {
+  /// The total amortized commitment for a Savings Plans. Includes the sum of the
+  /// upfront and recurring Savings Plans fees.
+  final SavingsPlansAmortizedCommitment? amortizedCommitment;
 
-  final String value;
+  /// The attribute that applies to a specific <code>Dimension</code>.
+  final Map<String, String>? attributes;
 
-  const PaymentOption._(this.value);
+  /// The amount saved by using existing Savings Plans. Savings returns both net
+  /// savings from savings plans and also the <code>onDemandCostEquivalent</code>
+  /// of the Savings Plans when considering the utilization rate.
+  final SavingsPlansSavings? savings;
 
-  static const values = [
-    noUpfront,
-    partialUpfront,
-    allUpfront,
-    lightUtilization,
-    mediumUtilization,
-    heavyUtilization
-  ];
+  /// The unique Amazon Resource Name (ARN) for a particular Savings Plan.
+  final String? savingsPlanArn;
 
-  static PaymentOption fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PaymentOption._(value));
+  /// A ratio of your effectiveness of using existing Savings Plans to apply to
+  /// workloads that are Savings Plans eligible.
+  final SavingsPlansUtilization? utilization;
 
-  @override
-  bool operator ==(other) => other is PaymentOption && other.value == value;
+  SavingsPlansUtilizationDetail({
+    this.amortizedCommitment,
+    this.attributes,
+    this.savings,
+    this.savingsPlanArn,
+    this.utilization,
+  });
 
-  @override
-  int get hashCode => value.hashCode;
+  factory SavingsPlansUtilizationDetail.fromJson(Map<String, dynamic> json) {
+    return SavingsPlansUtilizationDetail(
+      amortizedCommitment: json['AmortizedCommitment'] != null
+          ? SavingsPlansAmortizedCommitment.fromJson(
+              json['AmortizedCommitment'] as Map<String, dynamic>)
+          : null,
+      attributes: (json['Attributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      savings: json['Savings'] != null
+          ? SavingsPlansSavings.fromJson(
+              json['Savings'] as Map<String, dynamic>)
+          : null,
+      savingsPlanArn: json['SavingsPlanArn'] as String?,
+      utilization: json['Utilization'] != null
+          ? SavingsPlansUtilization.fromJson(
+              json['Utilization'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final amortizedCommitment = this.amortizedCommitment;
+    final attributes = this.attributes;
+    final savings = this.savings;
+    final savingsPlanArn = this.savingsPlanArn;
+    final utilization = this.utilization;
+    return {
+      if (amortizedCommitment != null)
+        'AmortizedCommitment': amortizedCommitment,
+      if (attributes != null) 'Attributes': attributes,
+      if (savings != null) 'Savings': savings,
+      if (savingsPlanArn != null) 'SavingsPlanArn': savingsPlanArn,
+      if (utilization != null) 'Utilization': utilization,
+    };
+  }
 }
 
-class PlatformDifference {
-  static const hypervisor = PlatformDifference._('HYPERVISOR');
-  static const networkInterface = PlatformDifference._('NETWORK_INTERFACE');
-  static const storageInterface = PlatformDifference._('STORAGE_INTERFACE');
-  static const instanceStoreAvailability =
-      PlatformDifference._('INSTANCE_STORE_AVAILABILITY');
-  static const virtualizationType = PlatformDifference._('VIRTUALIZATION_TYPE');
+class SavingsPlansDataType {
+  static const attributes = SavingsPlansDataType._('ATTRIBUTES');
+  static const utilization = SavingsPlansDataType._('UTILIZATION');
+  static const amortizedCommitment =
+      SavingsPlansDataType._('AMORTIZED_COMMITMENT');
+  static const savings = SavingsPlansDataType._('SAVINGS');
 
   final String value;
 
-  const PlatformDifference._(this.value);
+  const SavingsPlansDataType._(this.value);
 
-  static const values = [
-    hypervisor,
-    networkInterface,
-    storageInterface,
-    instanceStoreAvailability,
-    virtualizationType
-  ];
+  static const values = [attributes, utilization, amortizedCommitment, savings];
 
-  static PlatformDifference fromString(String value) =>
+  static SavingsPlansDataType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => PlatformDifference._(value));
+          orElse: () => SavingsPlansDataType._(value));
 
   @override
   bool operator ==(other) =>
-      other is PlatformDifference && other.value == value;
+      other is SavingsPlansDataType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -8441,108 +8381,707 @@ class PlatformDifference {
   String toString() => value;
 }
 
-class ProvideAnomalyFeedbackResponse {
-  /// The ID of the modified cost anomaly.
-  final String anomalyId;
+/// The amount of Savings Plans utilization (in hours).
+class SavingsPlansUtilizationByTime {
+  final DateInterval timePeriod;
 
-  ProvideAnomalyFeedbackResponse({
-    required this.anomalyId,
+  /// A ratio of your effectiveness of using existing Savings Plans to apply to
+  /// workloads that are Savings Plans eligible.
+  final SavingsPlansUtilization utilization;
+
+  /// The total amortized commitment for a Savings Plans. This includes the sum of
+  /// the upfront and recurring Savings Plans fees.
+  final SavingsPlansAmortizedCommitment? amortizedCommitment;
+
+  /// The amount that's saved by using existing Savings Plans. Savings returns
+  /// both net savings from Savings Plans and also the
+  /// <code>onDemandCostEquivalent</code> of the Savings Plans when considering
+  /// the utilization rate.
+  final SavingsPlansSavings? savings;
+
+  SavingsPlansUtilizationByTime({
+    required this.timePeriod,
+    required this.utilization,
+    this.amortizedCommitment,
+    this.savings,
   });
 
-  factory ProvideAnomalyFeedbackResponse.fromJson(Map<String, dynamic> json) {
-    return ProvideAnomalyFeedbackResponse(
-      anomalyId: (json['AnomalyId'] as String?) ?? '',
+  factory SavingsPlansUtilizationByTime.fromJson(Map<String, dynamic> json) {
+    return SavingsPlansUtilizationByTime(
+      timePeriod: DateInterval.fromJson(
+          (json['TimePeriod'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      utilization: SavingsPlansUtilization.fromJson(
+          (json['Utilization'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      amortizedCommitment: json['AmortizedCommitment'] != null
+          ? SavingsPlansAmortizedCommitment.fromJson(
+              json['AmortizedCommitment'] as Map<String, dynamic>)
+          : null,
+      savings: json['Savings'] != null
+          ? SavingsPlansSavings.fromJson(
+              json['Savings'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final anomalyId = this.anomalyId;
+    final timePeriod = this.timePeriod;
+    final utilization = this.utilization;
+    final amortizedCommitment = this.amortizedCommitment;
+    final savings = this.savings;
     return {
-      'AnomalyId': anomalyId,
+      'TimePeriod': timePeriod,
+      'Utilization': utilization,
+      if (amortizedCommitment != null)
+        'AmortizedCommitment': amortizedCommitment,
+      if (savings != null) 'Savings': savings,
     };
   }
 }
 
-/// Details about the Amazon RDS reservations that Amazon Web Services
-/// recommends that you purchase.
-class RDSInstanceDetails {
-  /// Determines whether the recommendation is for a current-generation instance.
-  final bool? currentGeneration;
+/// Metadata about your Savings Plans Purchase Recommendations.
+class SavingsPlansPurchaseRecommendationMetadata {
+  /// Additional metadata that might be applicable to the recommendation.
+  final String? additionalMetadata;
 
-  /// The database edition that the recommended reservation supports.
-  final String? databaseEdition;
+  /// The timestamp that shows when the recommendations were generated.
+  final String? generationTimestamp;
 
-  /// The database engine that the recommended reservation supports.
-  final String? databaseEngine;
+  /// The unique identifier for the recommendation set.
+  final String? recommendationId;
 
-  /// Determines whether the recommendation is for a reservation in a single
-  /// Availability Zone or a reservation with a backup in a second Availability
-  /// Zone.
-  final String? deploymentOption;
-
-  /// The instance family of the recommended reservation.
-  final String? family;
-
-  /// The type of instance that Amazon Web Services recommends.
-  final String? instanceType;
-
-  /// The license model that the recommended reservation supports.
-  final String? licenseModel;
-
-  /// The Amazon Web Services Region of the recommended reservation.
-  final String? region;
-
-  /// Determines whether the recommended reservation is size flexible.
-  final bool? sizeFlexEligible;
-
-  RDSInstanceDetails({
-    this.currentGeneration,
-    this.databaseEdition,
-    this.databaseEngine,
-    this.deploymentOption,
-    this.family,
-    this.instanceType,
-    this.licenseModel,
-    this.region,
-    this.sizeFlexEligible,
+  SavingsPlansPurchaseRecommendationMetadata({
+    this.additionalMetadata,
+    this.generationTimestamp,
+    this.recommendationId,
   });
 
-  factory RDSInstanceDetails.fromJson(Map<String, dynamic> json) {
-    return RDSInstanceDetails(
-      currentGeneration: json['CurrentGeneration'] as bool?,
-      databaseEdition: json['DatabaseEdition'] as String?,
-      databaseEngine: json['DatabaseEngine'] as String?,
-      deploymentOption: json['DeploymentOption'] as String?,
-      family: json['Family'] as String?,
-      instanceType: json['InstanceType'] as String?,
-      licenseModel: json['LicenseModel'] as String?,
-      region: json['Region'] as String?,
-      sizeFlexEligible: json['SizeFlexEligible'] as bool?,
+  factory SavingsPlansPurchaseRecommendationMetadata.fromJson(
+      Map<String, dynamic> json) {
+    return SavingsPlansPurchaseRecommendationMetadata(
+      additionalMetadata: json['AdditionalMetadata'] as String?,
+      generationTimestamp: json['GenerationTimestamp'] as String?,
+      recommendationId: json['RecommendationId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final currentGeneration = this.currentGeneration;
-    final databaseEdition = this.databaseEdition;
-    final databaseEngine = this.databaseEngine;
-    final deploymentOption = this.deploymentOption;
-    final family = this.family;
-    final instanceType = this.instanceType;
-    final licenseModel = this.licenseModel;
-    final region = this.region;
-    final sizeFlexEligible = this.sizeFlexEligible;
+    final additionalMetadata = this.additionalMetadata;
+    final generationTimestamp = this.generationTimestamp;
+    final recommendationId = this.recommendationId;
     return {
-      if (currentGeneration != null) 'CurrentGeneration': currentGeneration,
-      if (databaseEdition != null) 'DatabaseEdition': databaseEdition,
-      if (databaseEngine != null) 'DatabaseEngine': databaseEngine,
-      if (deploymentOption != null) 'DeploymentOption': deploymentOption,
-      if (family != null) 'Family': family,
-      if (instanceType != null) 'InstanceType': instanceType,
-      if (licenseModel != null) 'LicenseModel': licenseModel,
-      if (region != null) 'Region': region,
-      if (sizeFlexEligible != null) 'SizeFlexEligible': sizeFlexEligible,
+      if (additionalMetadata != null) 'AdditionalMetadata': additionalMetadata,
+      if (generationTimestamp != null)
+        'GenerationTimestamp': generationTimestamp,
+      if (recommendationId != null) 'RecommendationId': recommendationId,
     };
   }
+}
+
+/// Contains your request parameters, Savings Plan Recommendations Summary, and
+/// Details.
+class SavingsPlansPurchaseRecommendation {
+  /// The account scope that you want your recommendations for. Amazon Web
+  /// Services calculates recommendations that include the management account and
+  /// member accounts if the value is set to <code>PAYER</code>. If the value is
+  /// <code>LINKED</code>, recommendations are calculated for individual member
+  /// accounts only.
+  final AccountScope? accountScope;
+
+  /// The lookback period in days that's used to generate the recommendation.
+  final LookbackPeriodInDays? lookbackPeriodInDays;
+
+  /// The payment option that's used to generate the recommendation.
+  final PaymentOption? paymentOption;
+
+  /// Details for the Savings Plans that we recommend that you purchase to cover
+  /// existing Savings Plans eligible workloads.
+  final List<SavingsPlansPurchaseRecommendationDetail>?
+      savingsPlansPurchaseRecommendationDetails;
+
+  /// Summary metrics for your Savings Plans Recommendations.
+  final SavingsPlansPurchaseRecommendationSummary?
+      savingsPlansPurchaseRecommendationSummary;
+
+  /// The requested Savings Plans recommendation type.
+  final SupportedSavingsPlansType? savingsPlansType;
+
+  /// The Savings Plans recommendation term in years. It's used to generate the
+  /// recommendation.
+  final TermInYears? termInYears;
+
+  SavingsPlansPurchaseRecommendation({
+    this.accountScope,
+    this.lookbackPeriodInDays,
+    this.paymentOption,
+    this.savingsPlansPurchaseRecommendationDetails,
+    this.savingsPlansPurchaseRecommendationSummary,
+    this.savingsPlansType,
+    this.termInYears,
+  });
+
+  factory SavingsPlansPurchaseRecommendation.fromJson(
+      Map<String, dynamic> json) {
+    return SavingsPlansPurchaseRecommendation(
+      accountScope:
+          (json['AccountScope'] as String?)?.let(AccountScope.fromString),
+      lookbackPeriodInDays: (json['LookbackPeriodInDays'] as String?)
+          ?.let(LookbackPeriodInDays.fromString),
+      paymentOption:
+          (json['PaymentOption'] as String?)?.let(PaymentOption.fromString),
+      savingsPlansPurchaseRecommendationDetails:
+          (json['SavingsPlansPurchaseRecommendationDetails'] as List?)
+              ?.nonNulls
+              .map((e) => SavingsPlansPurchaseRecommendationDetail.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      savingsPlansPurchaseRecommendationSummary:
+          json['SavingsPlansPurchaseRecommendationSummary'] != null
+              ? SavingsPlansPurchaseRecommendationSummary.fromJson(
+                  json['SavingsPlansPurchaseRecommendationSummary']
+                      as Map<String, dynamic>)
+              : null,
+      savingsPlansType: (json['SavingsPlansType'] as String?)
+          ?.let(SupportedSavingsPlansType.fromString),
+      termInYears:
+          (json['TermInYears'] as String?)?.let(TermInYears.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountScope = this.accountScope;
+    final lookbackPeriodInDays = this.lookbackPeriodInDays;
+    final paymentOption = this.paymentOption;
+    final savingsPlansPurchaseRecommendationDetails =
+        this.savingsPlansPurchaseRecommendationDetails;
+    final savingsPlansPurchaseRecommendationSummary =
+        this.savingsPlansPurchaseRecommendationSummary;
+    final savingsPlansType = this.savingsPlansType;
+    final termInYears = this.termInYears;
+    return {
+      if (accountScope != null) 'AccountScope': accountScope.value,
+      if (lookbackPeriodInDays != null)
+        'LookbackPeriodInDays': lookbackPeriodInDays.value,
+      if (paymentOption != null) 'PaymentOption': paymentOption.value,
+      if (savingsPlansPurchaseRecommendationDetails != null)
+        'SavingsPlansPurchaseRecommendationDetails':
+            savingsPlansPurchaseRecommendationDetails,
+      if (savingsPlansPurchaseRecommendationSummary != null)
+        'SavingsPlansPurchaseRecommendationSummary':
+            savingsPlansPurchaseRecommendationSummary,
+      if (savingsPlansType != null) 'SavingsPlansType': savingsPlansType.value,
+      if (termInYears != null) 'TermInYears': termInYears.value,
+    };
+  }
+}
+
+class LookbackPeriodInDays {
+  static const sevenDays = LookbackPeriodInDays._('SEVEN_DAYS');
+  static const thirtyDays = LookbackPeriodInDays._('THIRTY_DAYS');
+  static const sixtyDays = LookbackPeriodInDays._('SIXTY_DAYS');
+
+  final String value;
+
+  const LookbackPeriodInDays._(this.value);
+
+  static const values = [sevenDays, thirtyDays, sixtyDays];
+
+  static LookbackPeriodInDays fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LookbackPeriodInDays._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LookbackPeriodInDays && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Summary metrics for your Savings Plans Purchase Recommendations.
+class SavingsPlansPurchaseRecommendationSummary {
+  /// The currency code that Amazon Web Services used to generate the
+  /// recommendations and present potential savings.
+  final String? currencyCode;
+
+  /// The current total on demand spend of the applicable usage types over the
+  /// lookback period.
+  final String? currentOnDemandSpend;
+
+  /// The recommended Savings Plans cost on a daily (24 hourly) basis.
+  final String? dailyCommitmentToPurchase;
+
+  /// The estimated monthly savings amount that's based on the recommended Savings
+  /// Plans purchase.
+  final String? estimatedMonthlySavingsAmount;
+
+  /// The estimated On-Demand costs you expect with no additional commitment. It's
+  /// based on your usage of the selected time period and the Savings Plans you
+  /// own.
+  final String? estimatedOnDemandCostWithCurrentCommitment;
+
+  /// The estimated return on investment that's based on the recommended Savings
+  /// Plans and estimated savings.
+  final String? estimatedROI;
+
+  /// The estimated total savings over the lookback period, based on the purchase
+  /// of the recommended Savings Plans.
+  final String? estimatedSavingsAmount;
+
+  /// The estimated savings relative to the total cost of On-Demand usage, over
+  /// the lookback period. This is calculated as
+  /// <code>estimatedSavingsAmount</code>/ <code>CurrentOnDemandSpend</code>*100.
+  final String? estimatedSavingsPercentage;
+
+  /// The estimated total cost of the usage after purchasing the recommended
+  /// Savings Plans. This is a sum of the cost of Savings Plans during this term,
+  /// and the remaining On-Demand usage.
+  final String? estimatedTotalCost;
+
+  /// The recommended hourly commitment that's based on the recommendation
+  /// parameters.
+  final String? hourlyCommitmentToPurchase;
+
+  /// The aggregate number of Savings Plans recommendations that exist for your
+  /// account.
+  final String? totalRecommendationCount;
+
+  SavingsPlansPurchaseRecommendationSummary({
+    this.currencyCode,
+    this.currentOnDemandSpend,
+    this.dailyCommitmentToPurchase,
+    this.estimatedMonthlySavingsAmount,
+    this.estimatedOnDemandCostWithCurrentCommitment,
+    this.estimatedROI,
+    this.estimatedSavingsAmount,
+    this.estimatedSavingsPercentage,
+    this.estimatedTotalCost,
+    this.hourlyCommitmentToPurchase,
+    this.totalRecommendationCount,
+  });
+
+  factory SavingsPlansPurchaseRecommendationSummary.fromJson(
+      Map<String, dynamic> json) {
+    return SavingsPlansPurchaseRecommendationSummary(
+      currencyCode: json['CurrencyCode'] as String?,
+      currentOnDemandSpend: json['CurrentOnDemandSpend'] as String?,
+      dailyCommitmentToPurchase: json['DailyCommitmentToPurchase'] as String?,
+      estimatedMonthlySavingsAmount:
+          json['EstimatedMonthlySavingsAmount'] as String?,
+      estimatedOnDemandCostWithCurrentCommitment:
+          json['EstimatedOnDemandCostWithCurrentCommitment'] as String?,
+      estimatedROI: json['EstimatedROI'] as String?,
+      estimatedSavingsAmount: json['EstimatedSavingsAmount'] as String?,
+      estimatedSavingsPercentage: json['EstimatedSavingsPercentage'] as String?,
+      estimatedTotalCost: json['EstimatedTotalCost'] as String?,
+      hourlyCommitmentToPurchase: json['HourlyCommitmentToPurchase'] as String?,
+      totalRecommendationCount: json['TotalRecommendationCount'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currencyCode = this.currencyCode;
+    final currentOnDemandSpend = this.currentOnDemandSpend;
+    final dailyCommitmentToPurchase = this.dailyCommitmentToPurchase;
+    final estimatedMonthlySavingsAmount = this.estimatedMonthlySavingsAmount;
+    final estimatedOnDemandCostWithCurrentCommitment =
+        this.estimatedOnDemandCostWithCurrentCommitment;
+    final estimatedROI = this.estimatedROI;
+    final estimatedSavingsAmount = this.estimatedSavingsAmount;
+    final estimatedSavingsPercentage = this.estimatedSavingsPercentage;
+    final estimatedTotalCost = this.estimatedTotalCost;
+    final hourlyCommitmentToPurchase = this.hourlyCommitmentToPurchase;
+    final totalRecommendationCount = this.totalRecommendationCount;
+    return {
+      if (currencyCode != null) 'CurrencyCode': currencyCode,
+      if (currentOnDemandSpend != null)
+        'CurrentOnDemandSpend': currentOnDemandSpend,
+      if (dailyCommitmentToPurchase != null)
+        'DailyCommitmentToPurchase': dailyCommitmentToPurchase,
+      if (estimatedMonthlySavingsAmount != null)
+        'EstimatedMonthlySavingsAmount': estimatedMonthlySavingsAmount,
+      if (estimatedOnDemandCostWithCurrentCommitment != null)
+        'EstimatedOnDemandCostWithCurrentCommitment':
+            estimatedOnDemandCostWithCurrentCommitment,
+      if (estimatedROI != null) 'EstimatedROI': estimatedROI,
+      if (estimatedSavingsAmount != null)
+        'EstimatedSavingsAmount': estimatedSavingsAmount,
+      if (estimatedSavingsPercentage != null)
+        'EstimatedSavingsPercentage': estimatedSavingsPercentage,
+      if (estimatedTotalCost != null) 'EstimatedTotalCost': estimatedTotalCost,
+      if (hourlyCommitmentToPurchase != null)
+        'HourlyCommitmentToPurchase': hourlyCommitmentToPurchase,
+      if (totalRecommendationCount != null)
+        'TotalRecommendationCount': totalRecommendationCount,
+    };
+  }
+}
+
+/// Details for your recommended Savings Plans.
+class SavingsPlansPurchaseRecommendationDetail {
+  /// The <code>AccountID</code> the recommendation is generated for.
+  final String? accountId;
+
+  /// The currency code that Amazon Web Services used to generate the
+  /// recommendations and present potential savings.
+  final String? currencyCode;
+
+  /// The average value of hourly On-Demand spend over the lookback period of the
+  /// applicable usage type.
+  final String? currentAverageHourlyOnDemandSpend;
+
+  /// The highest value of hourly On-Demand spend over the lookback period of the
+  /// applicable usage type.
+  final String? currentMaximumHourlyOnDemandSpend;
+
+  /// The lowest value of hourly On-Demand spend over the lookback period of the
+  /// applicable usage type.
+  final String? currentMinimumHourlyOnDemandSpend;
+
+  /// The estimated utilization of the recommended Savings Plans.
+  final String? estimatedAverageUtilization;
+
+  /// The estimated monthly savings amount based on the recommended Savings Plans.
+  final String? estimatedMonthlySavingsAmount;
+
+  /// The remaining On-Demand cost estimated to not be covered by the recommended
+  /// Savings Plans, over the length of the lookback period.
+  final String? estimatedOnDemandCost;
+
+  /// The estimated On-Demand costs you expect with no additional commitment,
+  /// based on your usage of the selected time period and the Savings Plans you
+  /// own.
+  final String? estimatedOnDemandCostWithCurrentCommitment;
+
+  /// The estimated return on investment that's based on the recommended Savings
+  /// Plans that you purchased. This is calculated as
+  /// <code>estimatedSavingsAmount</code>/ <code>estimatedSPCost</code>*100.
+  final String? estimatedROI;
+
+  /// The cost of the recommended Savings Plans over the length of the lookback
+  /// period.
+  final String? estimatedSPCost;
+
+  /// The estimated savings amount that's based on the recommended Savings Plans
+  /// over the length of the lookback period.
+  final String? estimatedSavingsAmount;
+
+  /// The estimated savings percentage relative to the total cost of applicable
+  /// On-Demand usage over the lookback period.
+  final String? estimatedSavingsPercentage;
+
+  /// The recommended hourly commitment level for the Savings Plans type and the
+  /// configuration that's based on the usage during the lookback period.
+  final String? hourlyCommitmentToPurchase;
+
+  /// Contains detailed information about a specific Savings Plan recommendation.
+  final String? recommendationDetailId;
+
+  /// Details for your recommended Savings Plans.
+  final SavingsPlansDetails? savingsPlansDetails;
+
+  /// The upfront cost of the recommended Savings Plans, based on the selected
+  /// payment option.
+  final String? upfrontCost;
+
+  SavingsPlansPurchaseRecommendationDetail({
+    this.accountId,
+    this.currencyCode,
+    this.currentAverageHourlyOnDemandSpend,
+    this.currentMaximumHourlyOnDemandSpend,
+    this.currentMinimumHourlyOnDemandSpend,
+    this.estimatedAverageUtilization,
+    this.estimatedMonthlySavingsAmount,
+    this.estimatedOnDemandCost,
+    this.estimatedOnDemandCostWithCurrentCommitment,
+    this.estimatedROI,
+    this.estimatedSPCost,
+    this.estimatedSavingsAmount,
+    this.estimatedSavingsPercentage,
+    this.hourlyCommitmentToPurchase,
+    this.recommendationDetailId,
+    this.savingsPlansDetails,
+    this.upfrontCost,
+  });
+
+  factory SavingsPlansPurchaseRecommendationDetail.fromJson(
+      Map<String, dynamic> json) {
+    return SavingsPlansPurchaseRecommendationDetail(
+      accountId: json['AccountId'] as String?,
+      currencyCode: json['CurrencyCode'] as String?,
+      currentAverageHourlyOnDemandSpend:
+          json['CurrentAverageHourlyOnDemandSpend'] as String?,
+      currentMaximumHourlyOnDemandSpend:
+          json['CurrentMaximumHourlyOnDemandSpend'] as String?,
+      currentMinimumHourlyOnDemandSpend:
+          json['CurrentMinimumHourlyOnDemandSpend'] as String?,
+      estimatedAverageUtilization:
+          json['EstimatedAverageUtilization'] as String?,
+      estimatedMonthlySavingsAmount:
+          json['EstimatedMonthlySavingsAmount'] as String?,
+      estimatedOnDemandCost: json['EstimatedOnDemandCost'] as String?,
+      estimatedOnDemandCostWithCurrentCommitment:
+          json['EstimatedOnDemandCostWithCurrentCommitment'] as String?,
+      estimatedROI: json['EstimatedROI'] as String?,
+      estimatedSPCost: json['EstimatedSPCost'] as String?,
+      estimatedSavingsAmount: json['EstimatedSavingsAmount'] as String?,
+      estimatedSavingsPercentage: json['EstimatedSavingsPercentage'] as String?,
+      hourlyCommitmentToPurchase: json['HourlyCommitmentToPurchase'] as String?,
+      recommendationDetailId: json['RecommendationDetailId'] as String?,
+      savingsPlansDetails: json['SavingsPlansDetails'] != null
+          ? SavingsPlansDetails.fromJson(
+              json['SavingsPlansDetails'] as Map<String, dynamic>)
+          : null,
+      upfrontCost: json['UpfrontCost'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final currencyCode = this.currencyCode;
+    final currentAverageHourlyOnDemandSpend =
+        this.currentAverageHourlyOnDemandSpend;
+    final currentMaximumHourlyOnDemandSpend =
+        this.currentMaximumHourlyOnDemandSpend;
+    final currentMinimumHourlyOnDemandSpend =
+        this.currentMinimumHourlyOnDemandSpend;
+    final estimatedAverageUtilization = this.estimatedAverageUtilization;
+    final estimatedMonthlySavingsAmount = this.estimatedMonthlySavingsAmount;
+    final estimatedOnDemandCost = this.estimatedOnDemandCost;
+    final estimatedOnDemandCostWithCurrentCommitment =
+        this.estimatedOnDemandCostWithCurrentCommitment;
+    final estimatedROI = this.estimatedROI;
+    final estimatedSPCost = this.estimatedSPCost;
+    final estimatedSavingsAmount = this.estimatedSavingsAmount;
+    final estimatedSavingsPercentage = this.estimatedSavingsPercentage;
+    final hourlyCommitmentToPurchase = this.hourlyCommitmentToPurchase;
+    final recommendationDetailId = this.recommendationDetailId;
+    final savingsPlansDetails = this.savingsPlansDetails;
+    final upfrontCost = this.upfrontCost;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (currencyCode != null) 'CurrencyCode': currencyCode,
+      if (currentAverageHourlyOnDemandSpend != null)
+        'CurrentAverageHourlyOnDemandSpend': currentAverageHourlyOnDemandSpend,
+      if (currentMaximumHourlyOnDemandSpend != null)
+        'CurrentMaximumHourlyOnDemandSpend': currentMaximumHourlyOnDemandSpend,
+      if (currentMinimumHourlyOnDemandSpend != null)
+        'CurrentMinimumHourlyOnDemandSpend': currentMinimumHourlyOnDemandSpend,
+      if (estimatedAverageUtilization != null)
+        'EstimatedAverageUtilization': estimatedAverageUtilization,
+      if (estimatedMonthlySavingsAmount != null)
+        'EstimatedMonthlySavingsAmount': estimatedMonthlySavingsAmount,
+      if (estimatedOnDemandCost != null)
+        'EstimatedOnDemandCost': estimatedOnDemandCost,
+      if (estimatedOnDemandCostWithCurrentCommitment != null)
+        'EstimatedOnDemandCostWithCurrentCommitment':
+            estimatedOnDemandCostWithCurrentCommitment,
+      if (estimatedROI != null) 'EstimatedROI': estimatedROI,
+      if (estimatedSPCost != null) 'EstimatedSPCost': estimatedSPCost,
+      if (estimatedSavingsAmount != null)
+        'EstimatedSavingsAmount': estimatedSavingsAmount,
+      if (estimatedSavingsPercentage != null)
+        'EstimatedSavingsPercentage': estimatedSavingsPercentage,
+      if (hourlyCommitmentToPurchase != null)
+        'HourlyCommitmentToPurchase': hourlyCommitmentToPurchase,
+      if (recommendationDetailId != null)
+        'RecommendationDetailId': recommendationDetailId,
+      if (savingsPlansDetails != null)
+        'SavingsPlansDetails': savingsPlansDetails,
+      if (upfrontCost != null) 'UpfrontCost': upfrontCost,
+    };
+  }
+}
+
+/// The attribute details on a specific Savings Plan.
+class SavingsPlansDetails {
+  /// A group of instance types that Savings Plans applies to.
+  final String? instanceFamily;
+
+  /// The unique ID that's used to distinguish Savings Plans from one another.
+  final String? offeringId;
+
+  /// A collection of Amazon Web Services resources in a geographic area. Each
+  /// Amazon Web Services Region is isolated and independent of the other Regions.
+  final String? region;
+
+  SavingsPlansDetails({
+    this.instanceFamily,
+    this.offeringId,
+    this.region,
+  });
+
+  factory SavingsPlansDetails.fromJson(Map<String, dynamic> json) {
+    return SavingsPlansDetails(
+      instanceFamily: json['InstanceFamily'] as String?,
+      offeringId: json['OfferingId'] as String?,
+      region: json['Region'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceFamily = this.instanceFamily;
+    final offeringId = this.offeringId;
+    final region = this.region;
+    return {
+      if (instanceFamily != null) 'InstanceFamily': instanceFamily,
+      if (offeringId != null) 'OfferingId': offeringId,
+      if (region != null) 'Region': region,
+    };
+  }
+}
+
+/// The amount of Savings Plans eligible usage that's covered by Savings Plans.
+/// All calculations consider the On-Demand equivalent of your Savings Plans
+/// usage.
+class SavingsPlansCoverage {
+  /// The attribute that applies to a specific <code>Dimension</code>.
+  final Map<String, String>? attributes;
+
+  /// The amount of Savings Plans eligible usage that the Savings Plans covered.
+  final SavingsPlansCoverageData? coverage;
+  final DateInterval? timePeriod;
+
+  SavingsPlansCoverage({
+    this.attributes,
+    this.coverage,
+    this.timePeriod,
+  });
+
+  factory SavingsPlansCoverage.fromJson(Map<String, dynamic> json) {
+    return SavingsPlansCoverage(
+      attributes: (json['Attributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      coverage: json['Coverage'] != null
+          ? SavingsPlansCoverageData.fromJson(
+              json['Coverage'] as Map<String, dynamic>)
+          : null,
+      timePeriod: json['TimePeriod'] != null
+          ? DateInterval.fromJson(json['TimePeriod'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final coverage = this.coverage;
+    final timePeriod = this.timePeriod;
+    return {
+      if (attributes != null) 'Attributes': attributes,
+      if (coverage != null) 'Coverage': coverage,
+      if (timePeriod != null) 'TimePeriod': timePeriod,
+    };
+  }
+}
+
+/// Specific coverage percentage, On-Demand costs, and spend covered by Savings
+/// Plans, and total Savings Plans costs for an account.
+class SavingsPlansCoverageData {
+  /// The percentage of your existing Savings Plans covered usage, divided by all
+  /// of your eligible Savings Plans usage in an account (or set of accounts).
+  final String? coveragePercentage;
+
+  /// The cost of your Amazon Web Services usage at the public On-Demand rate.
+  final String? onDemandCost;
+
+  /// The amount of your Amazon Web Services usage that's covered by a Savings
+  /// Plans.
+  final String? spendCoveredBySavingsPlans;
+
+  /// The total cost of your Amazon Web Services usage, regardless of your
+  /// purchase option.
+  final String? totalCost;
+
+  SavingsPlansCoverageData({
+    this.coveragePercentage,
+    this.onDemandCost,
+    this.spendCoveredBySavingsPlans,
+    this.totalCost,
+  });
+
+  factory SavingsPlansCoverageData.fromJson(Map<String, dynamic> json) {
+    return SavingsPlansCoverageData(
+      coveragePercentage: json['CoveragePercentage'] as String?,
+      onDemandCost: json['OnDemandCost'] as String?,
+      spendCoveredBySavingsPlans: json['SpendCoveredBySavingsPlans'] as String?,
+      totalCost: json['TotalCost'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final coveragePercentage = this.coveragePercentage;
+    final onDemandCost = this.onDemandCost;
+    final spendCoveredBySavingsPlans = this.spendCoveredBySavingsPlans;
+    final totalCost = this.totalCost;
+    return {
+      if (coveragePercentage != null) 'CoveragePercentage': coveragePercentage,
+      if (onDemandCost != null) 'OnDemandCost': onDemandCost,
+      if (spendCoveredBySavingsPlans != null)
+        'SpendCoveredBySavingsPlans': spendCoveredBySavingsPlans,
+      if (totalCost != null) 'TotalCost': totalCost,
+    };
+  }
+}
+
+/// Represents a group when you specify a group by criteria or in the response
+/// to a query with a specific grouping.
+class GroupDefinition {
+  /// The string that represents a key for a specified group.
+  final String? key;
+
+  /// The string that represents the type of group.
+  final GroupDefinitionType? type;
+
+  GroupDefinition({
+    this.key,
+    this.type,
+  });
+
+  factory GroupDefinition.fromJson(Map<String, dynamic> json) {
+    return GroupDefinition(
+      key: json['Key'] as String?,
+      type: (json['Type'] as String?)?.let(GroupDefinitionType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final type = this.type;
+    return {
+      if (key != null) 'Key': key,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class GroupDefinitionType {
+  static const dimension = GroupDefinitionType._('DIMENSION');
+  static const tag = GroupDefinitionType._('TAG');
+  static const costCategory = GroupDefinitionType._('COST_CATEGORY');
+
+  final String value;
+
+  const GroupDefinitionType._(this.value);
+
+  static const values = [dimension, tag, costCategory];
+
+  static GroupDefinitionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GroupDefinitionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GroupDefinitionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The details and metrics for the given recommendation.
@@ -8874,6 +9413,147 @@ class RecommendationDetailHourlyMetrics {
   }
 }
 
+/// Metadata for a recommendation set.
+class RightsizingRecommendationMetadata {
+  /// Additional metadata that might be applicable to the recommendation.
+  final String? additionalMetadata;
+
+  /// The timestamp for when Amazon Web Services made the recommendation.
+  final String? generationTimestamp;
+
+  /// The number of days of previous usage that Amazon Web Services considers when
+  /// making the recommendation.
+  final LookbackPeriodInDays? lookbackPeriodInDays;
+
+  /// The ID for the recommendation.
+  final String? recommendationId;
+
+  RightsizingRecommendationMetadata({
+    this.additionalMetadata,
+    this.generationTimestamp,
+    this.lookbackPeriodInDays,
+    this.recommendationId,
+  });
+
+  factory RightsizingRecommendationMetadata.fromJson(
+      Map<String, dynamic> json) {
+    return RightsizingRecommendationMetadata(
+      additionalMetadata: json['AdditionalMetadata'] as String?,
+      generationTimestamp: json['GenerationTimestamp'] as String?,
+      lookbackPeriodInDays: (json['LookbackPeriodInDays'] as String?)
+          ?.let(LookbackPeriodInDays.fromString),
+      recommendationId: json['RecommendationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalMetadata = this.additionalMetadata;
+    final generationTimestamp = this.generationTimestamp;
+    final lookbackPeriodInDays = this.lookbackPeriodInDays;
+    final recommendationId = this.recommendationId;
+    return {
+      if (additionalMetadata != null) 'AdditionalMetadata': additionalMetadata,
+      if (generationTimestamp != null)
+        'GenerationTimestamp': generationTimestamp,
+      if (lookbackPeriodInDays != null)
+        'LookbackPeriodInDays': lookbackPeriodInDays.value,
+      if (recommendationId != null) 'RecommendationId': recommendationId,
+    };
+  }
+}
+
+/// The summary of rightsizing recommendations
+class RightsizingRecommendationSummary {
+  /// The estimated total savings resulting from modifications, on a monthly
+  /// basis.
+  final String? estimatedTotalMonthlySavingsAmount;
+
+  /// The currency code that Amazon Web Services used to calculate the savings.
+  final String? savingsCurrencyCode;
+
+  /// The savings percentage based on the recommended modifications. It's relative
+  /// to the total On-Demand costs that are associated with these instances.
+  final String? savingsPercentage;
+
+  /// The total number of instance recommendations.
+  final String? totalRecommendationCount;
+
+  RightsizingRecommendationSummary({
+    this.estimatedTotalMonthlySavingsAmount,
+    this.savingsCurrencyCode,
+    this.savingsPercentage,
+    this.totalRecommendationCount,
+  });
+
+  factory RightsizingRecommendationSummary.fromJson(Map<String, dynamic> json) {
+    return RightsizingRecommendationSummary(
+      estimatedTotalMonthlySavingsAmount:
+          json['EstimatedTotalMonthlySavingsAmount'] as String?,
+      savingsCurrencyCode: json['SavingsCurrencyCode'] as String?,
+      savingsPercentage: json['SavingsPercentage'] as String?,
+      totalRecommendationCount: json['TotalRecommendationCount'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final estimatedTotalMonthlySavingsAmount =
+        this.estimatedTotalMonthlySavingsAmount;
+    final savingsCurrencyCode = this.savingsCurrencyCode;
+    final savingsPercentage = this.savingsPercentage;
+    final totalRecommendationCount = this.totalRecommendationCount;
+    return {
+      if (estimatedTotalMonthlySavingsAmount != null)
+        'EstimatedTotalMonthlySavingsAmount':
+            estimatedTotalMonthlySavingsAmount,
+      if (savingsCurrencyCode != null)
+        'SavingsCurrencyCode': savingsCurrencyCode,
+      if (savingsPercentage != null) 'SavingsPercentage': savingsPercentage,
+      if (totalRecommendationCount != null)
+        'TotalRecommendationCount': totalRecommendationCount,
+    };
+  }
+}
+
+/// You can use <code>RightsizingRecommendationConfiguration</code> to customize
+/// recommendations across two attributes. You can choose to view
+/// recommendations for instances within the same instance families or across
+/// different instance families. You can also choose to view your estimated
+/// savings that are associated with recommendations with consideration of
+/// existing Savings Plans or Reserved Instance (RI) benefits, or neither.
+class RightsizingRecommendationConfiguration {
+  /// The option to consider RI or Savings Plans discount benefits in your savings
+  /// calculation. The default value is <code>TRUE</code>.
+  final bool benefitsConsidered;
+
+  /// The option to see recommendations within the same instance family or
+  /// recommendations for instances across other families. The default value is
+  /// <code>SAME_INSTANCE_FAMILY</code>.
+  final RecommendationTarget recommendationTarget;
+
+  RightsizingRecommendationConfiguration({
+    required this.benefitsConsidered,
+    required this.recommendationTarget,
+  });
+
+  factory RightsizingRecommendationConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return RightsizingRecommendationConfiguration(
+      benefitsConsidered: (json['BenefitsConsidered'] as bool?) ?? false,
+      recommendationTarget: RecommendationTarget.fromString(
+          (json['RecommendationTarget'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final benefitsConsidered = this.benefitsConsidered;
+    final recommendationTarget = this.recommendationTarget;
+    return {
+      'BenefitsConsidered': benefitsConsidered,
+      'RecommendationTarget': recommendationTarget.value,
+    };
+  }
+}
+
 class RecommendationTarget {
   static const sameInstanceFamily =
       RecommendationTarget._('SAME_INSTANCE_FAMILY');
@@ -8901,54 +9581,836 @@ class RecommendationTarget {
   String toString() => value;
 }
 
-/// Details about the Amazon Redshift reservations that Amazon Web Services
-/// recommends that you purchase.
-class RedshiftInstanceDetails {
-  /// Determines whether the recommendation is for a current-generation instance.
-  final bool? currentGeneration;
+/// Recommendations to rightsize resources.
+class RightsizingRecommendation {
+  /// The account that this recommendation is for.
+  final String? accountId;
 
-  /// The instance family of the recommended reservation.
-  final String? family;
+  /// Context regarding the current instance.
+  final CurrentInstance? currentInstance;
 
-  /// The type of node that Amazon Web Services recommends.
-  final String? nodeType;
+  /// The list of possible reasons why the recommendation is generated, such as
+  /// under- or over-utilization of specific metrics (for example, CPU, Memory,
+  /// Network).
+  final List<FindingReasonCode>? findingReasonCodes;
 
-  /// The Amazon Web Services Region of the recommended reservation.
-  final String? region;
+  /// The details for the modification recommendations.
+  final ModifyRecommendationDetail? modifyRecommendationDetail;
 
-  /// Determines whether the recommended reservation is size flexible.
-  final bool? sizeFlexEligible;
+  /// A recommendation to either terminate or modify the resource.
+  final RightsizingType? rightsizingType;
 
-  RedshiftInstanceDetails({
-    this.currentGeneration,
-    this.family,
-    this.nodeType,
-    this.region,
-    this.sizeFlexEligible,
+  /// The details for termination recommendations.
+  final TerminateRecommendationDetail? terminateRecommendationDetail;
+
+  RightsizingRecommendation({
+    this.accountId,
+    this.currentInstance,
+    this.findingReasonCodes,
+    this.modifyRecommendationDetail,
+    this.rightsizingType,
+    this.terminateRecommendationDetail,
   });
 
-  factory RedshiftInstanceDetails.fromJson(Map<String, dynamic> json) {
-    return RedshiftInstanceDetails(
-      currentGeneration: json['CurrentGeneration'] as bool?,
-      family: json['Family'] as String?,
-      nodeType: json['NodeType'] as String?,
-      region: json['Region'] as String?,
-      sizeFlexEligible: json['SizeFlexEligible'] as bool?,
+  factory RightsizingRecommendation.fromJson(Map<String, dynamic> json) {
+    return RightsizingRecommendation(
+      accountId: json['AccountId'] as String?,
+      currentInstance: json['CurrentInstance'] != null
+          ? CurrentInstance.fromJson(
+              json['CurrentInstance'] as Map<String, dynamic>)
+          : null,
+      findingReasonCodes: (json['FindingReasonCodes'] as List?)
+          ?.nonNulls
+          .map((e) => FindingReasonCode.fromString((e as String)))
+          .toList(),
+      modifyRecommendationDetail: json['ModifyRecommendationDetail'] != null
+          ? ModifyRecommendationDetail.fromJson(
+              json['ModifyRecommendationDetail'] as Map<String, dynamic>)
+          : null,
+      rightsizingType:
+          (json['RightsizingType'] as String?)?.let(RightsizingType.fromString),
+      terminateRecommendationDetail:
+          json['TerminateRecommendationDetail'] != null
+              ? TerminateRecommendationDetail.fromJson(
+                  json['TerminateRecommendationDetail'] as Map<String, dynamic>)
+              : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final currentGeneration = this.currentGeneration;
-    final family = this.family;
-    final nodeType = this.nodeType;
-    final region = this.region;
-    final sizeFlexEligible = this.sizeFlexEligible;
+    final accountId = this.accountId;
+    final currentInstance = this.currentInstance;
+    final findingReasonCodes = this.findingReasonCodes;
+    final modifyRecommendationDetail = this.modifyRecommendationDetail;
+    final rightsizingType = this.rightsizingType;
+    final terminateRecommendationDetail = this.terminateRecommendationDetail;
     return {
-      if (currentGeneration != null) 'CurrentGeneration': currentGeneration,
-      if (family != null) 'Family': family,
-      if (nodeType != null) 'NodeType': nodeType,
+      if (accountId != null) 'AccountId': accountId,
+      if (currentInstance != null) 'CurrentInstance': currentInstance,
+      if (findingReasonCodes != null)
+        'FindingReasonCodes': findingReasonCodes.map((e) => e.value).toList(),
+      if (modifyRecommendationDetail != null)
+        'ModifyRecommendationDetail': modifyRecommendationDetail,
+      if (rightsizingType != null) 'RightsizingType': rightsizingType.value,
+      if (terminateRecommendationDetail != null)
+        'TerminateRecommendationDetail': terminateRecommendationDetail,
+    };
+  }
+}
+
+/// Context about the current instance.
+class CurrentInstance {
+  /// The currency code that Amazon Web Services used to calculate the costs for
+  /// this instance.
+  final String? currencyCode;
+
+  /// The name that you given an instance. This field shows as blank if you
+  /// haven't given the instance a name.
+  final String? instanceName;
+
+  /// The current On-Demand cost of operating this instance on a monthly basis.
+  final String? monthlyCost;
+
+  /// The number of hours during the lookback period that's billed at On-Demand
+  /// rates.
+  final String? onDemandHoursInLookbackPeriod;
+
+  /// The number of hours during the lookback period that's covered by
+  /// reservations.
+  final String? reservationCoveredHoursInLookbackPeriod;
+
+  /// Details about the resource and utilization.
+  final ResourceDetails? resourceDetails;
+
+  /// Resource ID of the current instance.
+  final String? resourceId;
+
+  /// Utilization information of the current instance during the lookback period.
+  final ResourceUtilization? resourceUtilization;
+
+  /// The number of hours during the lookback period that's covered by Savings
+  /// Plans.
+  final String? savingsPlansCoveredHoursInLookbackPeriod;
+
+  /// Cost allocation resource tags that are applied to the instance.
+  final List<TagValues>? tags;
+
+  /// The total number of hours that the instance ran during the lookback period.
+  final String? totalRunningHoursInLookbackPeriod;
+
+  CurrentInstance({
+    this.currencyCode,
+    this.instanceName,
+    this.monthlyCost,
+    this.onDemandHoursInLookbackPeriod,
+    this.reservationCoveredHoursInLookbackPeriod,
+    this.resourceDetails,
+    this.resourceId,
+    this.resourceUtilization,
+    this.savingsPlansCoveredHoursInLookbackPeriod,
+    this.tags,
+    this.totalRunningHoursInLookbackPeriod,
+  });
+
+  factory CurrentInstance.fromJson(Map<String, dynamic> json) {
+    return CurrentInstance(
+      currencyCode: json['CurrencyCode'] as String?,
+      instanceName: json['InstanceName'] as String?,
+      monthlyCost: json['MonthlyCost'] as String?,
+      onDemandHoursInLookbackPeriod:
+          json['OnDemandHoursInLookbackPeriod'] as String?,
+      reservationCoveredHoursInLookbackPeriod:
+          json['ReservationCoveredHoursInLookbackPeriod'] as String?,
+      resourceDetails: json['ResourceDetails'] != null
+          ? ResourceDetails.fromJson(
+              json['ResourceDetails'] as Map<String, dynamic>)
+          : null,
+      resourceId: json['ResourceId'] as String?,
+      resourceUtilization: json['ResourceUtilization'] != null
+          ? ResourceUtilization.fromJson(
+              json['ResourceUtilization'] as Map<String, dynamic>)
+          : null,
+      savingsPlansCoveredHoursInLookbackPeriod:
+          json['SavingsPlansCoveredHoursInLookbackPeriod'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => TagValues.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      totalRunningHoursInLookbackPeriod:
+          json['TotalRunningHoursInLookbackPeriod'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currencyCode = this.currencyCode;
+    final instanceName = this.instanceName;
+    final monthlyCost = this.monthlyCost;
+    final onDemandHoursInLookbackPeriod = this.onDemandHoursInLookbackPeriod;
+    final reservationCoveredHoursInLookbackPeriod =
+        this.reservationCoveredHoursInLookbackPeriod;
+    final resourceDetails = this.resourceDetails;
+    final resourceId = this.resourceId;
+    final resourceUtilization = this.resourceUtilization;
+    final savingsPlansCoveredHoursInLookbackPeriod =
+        this.savingsPlansCoveredHoursInLookbackPeriod;
+    final tags = this.tags;
+    final totalRunningHoursInLookbackPeriod =
+        this.totalRunningHoursInLookbackPeriod;
+    return {
+      if (currencyCode != null) 'CurrencyCode': currencyCode,
+      if (instanceName != null) 'InstanceName': instanceName,
+      if (monthlyCost != null) 'MonthlyCost': monthlyCost,
+      if (onDemandHoursInLookbackPeriod != null)
+        'OnDemandHoursInLookbackPeriod': onDemandHoursInLookbackPeriod,
+      if (reservationCoveredHoursInLookbackPeriod != null)
+        'ReservationCoveredHoursInLookbackPeriod':
+            reservationCoveredHoursInLookbackPeriod,
+      if (resourceDetails != null) 'ResourceDetails': resourceDetails,
+      if (resourceId != null) 'ResourceId': resourceId,
+      if (resourceUtilization != null)
+        'ResourceUtilization': resourceUtilization,
+      if (savingsPlansCoveredHoursInLookbackPeriod != null)
+        'SavingsPlansCoveredHoursInLookbackPeriod':
+            savingsPlansCoveredHoursInLookbackPeriod,
+      if (tags != null) 'Tags': tags,
+      if (totalRunningHoursInLookbackPeriod != null)
+        'TotalRunningHoursInLookbackPeriod': totalRunningHoursInLookbackPeriod,
+    };
+  }
+}
+
+class RightsizingType {
+  static const terminate = RightsizingType._('TERMINATE');
+  static const modify = RightsizingType._('MODIFY');
+
+  final String value;
+
+  const RightsizingType._(this.value);
+
+  static const values = [terminate, modify];
+
+  static RightsizingType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RightsizingType._(value));
+
+  @override
+  bool operator ==(other) => other is RightsizingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Details for the modification recommendation.
+class ModifyRecommendationDetail {
+  /// Determines whether this instance type is the Amazon Web Services default
+  /// recommendation.
+  final List<TargetInstance>? targetInstances;
+
+  ModifyRecommendationDetail({
+    this.targetInstances,
+  });
+
+  factory ModifyRecommendationDetail.fromJson(Map<String, dynamic> json) {
+    return ModifyRecommendationDetail(
+      targetInstances: (json['TargetInstances'] as List?)
+          ?.nonNulls
+          .map((e) => TargetInstance.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final targetInstances = this.targetInstances;
+    return {
+      if (targetInstances != null) 'TargetInstances': targetInstances,
+    };
+  }
+}
+
+/// Details on termination recommendation.
+class TerminateRecommendationDetail {
+  /// The currency code that Amazon Web Services used to calculate the costs for
+  /// this instance.
+  final String? currencyCode;
+
+  /// The estimated savings that result from modification, on a monthly basis.
+  final String? estimatedMonthlySavings;
+
+  TerminateRecommendationDetail({
+    this.currencyCode,
+    this.estimatedMonthlySavings,
+  });
+
+  factory TerminateRecommendationDetail.fromJson(Map<String, dynamic> json) {
+    return TerminateRecommendationDetail(
+      currencyCode: json['CurrencyCode'] as String?,
+      estimatedMonthlySavings: json['EstimatedMonthlySavings'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currencyCode = this.currencyCode;
+    final estimatedMonthlySavings = this.estimatedMonthlySavings;
+    return {
+      if (currencyCode != null) 'CurrencyCode': currencyCode,
+      if (estimatedMonthlySavings != null)
+        'EstimatedMonthlySavings': estimatedMonthlySavings,
+    };
+  }
+}
+
+class FindingReasonCode {
+  static const cpuOverProvisioned = FindingReasonCode._('CPU_OVER_PROVISIONED');
+  static const cpuUnderProvisioned =
+      FindingReasonCode._('CPU_UNDER_PROVISIONED');
+  static const memoryOverProvisioned =
+      FindingReasonCode._('MEMORY_OVER_PROVISIONED');
+  static const memoryUnderProvisioned =
+      FindingReasonCode._('MEMORY_UNDER_PROVISIONED');
+  static const ebsThroughputOverProvisioned =
+      FindingReasonCode._('EBS_THROUGHPUT_OVER_PROVISIONED');
+  static const ebsThroughputUnderProvisioned =
+      FindingReasonCode._('EBS_THROUGHPUT_UNDER_PROVISIONED');
+  static const ebsIopsOverProvisioned =
+      FindingReasonCode._('EBS_IOPS_OVER_PROVISIONED');
+  static const ebsIopsUnderProvisioned =
+      FindingReasonCode._('EBS_IOPS_UNDER_PROVISIONED');
+  static const networkBandwidthOverProvisioned =
+      FindingReasonCode._('NETWORK_BANDWIDTH_OVER_PROVISIONED');
+  static const networkBandwidthUnderProvisioned =
+      FindingReasonCode._('NETWORK_BANDWIDTH_UNDER_PROVISIONED');
+  static const networkPpsOverProvisioned =
+      FindingReasonCode._('NETWORK_PPS_OVER_PROVISIONED');
+  static const networkPpsUnderProvisioned =
+      FindingReasonCode._('NETWORK_PPS_UNDER_PROVISIONED');
+  static const diskIopsOverProvisioned =
+      FindingReasonCode._('DISK_IOPS_OVER_PROVISIONED');
+  static const diskIopsUnderProvisioned =
+      FindingReasonCode._('DISK_IOPS_UNDER_PROVISIONED');
+  static const diskThroughputOverProvisioned =
+      FindingReasonCode._('DISK_THROUGHPUT_OVER_PROVISIONED');
+  static const diskThroughputUnderProvisioned =
+      FindingReasonCode._('DISK_THROUGHPUT_UNDER_PROVISIONED');
+
+  final String value;
+
+  const FindingReasonCode._(this.value);
+
+  static const values = [
+    cpuOverProvisioned,
+    cpuUnderProvisioned,
+    memoryOverProvisioned,
+    memoryUnderProvisioned,
+    ebsThroughputOverProvisioned,
+    ebsThroughputUnderProvisioned,
+    ebsIopsOverProvisioned,
+    ebsIopsUnderProvisioned,
+    networkBandwidthOverProvisioned,
+    networkBandwidthUnderProvisioned,
+    networkPpsOverProvisioned,
+    networkPpsUnderProvisioned,
+    diskIopsOverProvisioned,
+    diskIopsUnderProvisioned,
+    diskThroughputOverProvisioned,
+    diskThroughputUnderProvisioned
+  ];
+
+  static FindingReasonCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FindingReasonCode._(value));
+
+  @override
+  bool operator ==(other) => other is FindingReasonCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Details on recommended instance.
+class TargetInstance {
+  /// The currency code that Amazon Web Services used to calculate the costs for
+  /// this instance.
+  final String? currencyCode;
+
+  /// Determines whether this recommendation is the defaulted Amazon Web Services
+  /// recommendation.
+  final bool? defaultTargetInstance;
+
+  /// The expected cost to operate this instance type on a monthly basis.
+  final String? estimatedMonthlyCost;
+
+  /// The estimated savings that result from modification, on a monthly basis.
+  final String? estimatedMonthlySavings;
+
+  /// The expected utilization metrics for target instance type.
+  final ResourceUtilization? expectedResourceUtilization;
+
+  /// Explains the actions that you might need to take to successfully migrate
+  /// your workloads from the current instance type to the recommended instance
+  /// type.
+  final List<PlatformDifference>? platformDifferences;
+
+  /// Details on the target instance type.
+  final ResourceDetails? resourceDetails;
+
+  TargetInstance({
+    this.currencyCode,
+    this.defaultTargetInstance,
+    this.estimatedMonthlyCost,
+    this.estimatedMonthlySavings,
+    this.expectedResourceUtilization,
+    this.platformDifferences,
+    this.resourceDetails,
+  });
+
+  factory TargetInstance.fromJson(Map<String, dynamic> json) {
+    return TargetInstance(
+      currencyCode: json['CurrencyCode'] as String?,
+      defaultTargetInstance: json['DefaultTargetInstance'] as bool?,
+      estimatedMonthlyCost: json['EstimatedMonthlyCost'] as String?,
+      estimatedMonthlySavings: json['EstimatedMonthlySavings'] as String?,
+      expectedResourceUtilization: json['ExpectedResourceUtilization'] != null
+          ? ResourceUtilization.fromJson(
+              json['ExpectedResourceUtilization'] as Map<String, dynamic>)
+          : null,
+      platformDifferences: (json['PlatformDifferences'] as List?)
+          ?.nonNulls
+          .map((e) => PlatformDifference.fromString((e as String)))
+          .toList(),
+      resourceDetails: json['ResourceDetails'] != null
+          ? ResourceDetails.fromJson(
+              json['ResourceDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currencyCode = this.currencyCode;
+    final defaultTargetInstance = this.defaultTargetInstance;
+    final estimatedMonthlyCost = this.estimatedMonthlyCost;
+    final estimatedMonthlySavings = this.estimatedMonthlySavings;
+    final expectedResourceUtilization = this.expectedResourceUtilization;
+    final platformDifferences = this.platformDifferences;
+    final resourceDetails = this.resourceDetails;
+    return {
+      if (currencyCode != null) 'CurrencyCode': currencyCode,
+      if (defaultTargetInstance != null)
+        'DefaultTargetInstance': defaultTargetInstance,
+      if (estimatedMonthlyCost != null)
+        'EstimatedMonthlyCost': estimatedMonthlyCost,
+      if (estimatedMonthlySavings != null)
+        'EstimatedMonthlySavings': estimatedMonthlySavings,
+      if (expectedResourceUtilization != null)
+        'ExpectedResourceUtilization': expectedResourceUtilization,
+      if (platformDifferences != null)
+        'PlatformDifferences': platformDifferences.map((e) => e.value).toList(),
+      if (resourceDetails != null) 'ResourceDetails': resourceDetails,
+    };
+  }
+}
+
+/// Details for the resource.
+class ResourceDetails {
+  /// Details for the Amazon EC2 resource.
+  final EC2ResourceDetails? eC2ResourceDetails;
+
+  ResourceDetails({
+    this.eC2ResourceDetails,
+  });
+
+  factory ResourceDetails.fromJson(Map<String, dynamic> json) {
+    return ResourceDetails(
+      eC2ResourceDetails: json['EC2ResourceDetails'] != null
+          ? EC2ResourceDetails.fromJson(
+              json['EC2ResourceDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eC2ResourceDetails = this.eC2ResourceDetails;
+    return {
+      if (eC2ResourceDetails != null) 'EC2ResourceDetails': eC2ResourceDetails,
+    };
+  }
+}
+
+/// Resource utilization of current resource.
+class ResourceUtilization {
+  /// The utilization of current Amazon EC2 instance.
+  final EC2ResourceUtilization? eC2ResourceUtilization;
+
+  ResourceUtilization({
+    this.eC2ResourceUtilization,
+  });
+
+  factory ResourceUtilization.fromJson(Map<String, dynamic> json) {
+    return ResourceUtilization(
+      eC2ResourceUtilization: json['EC2ResourceUtilization'] != null
+          ? EC2ResourceUtilization.fromJson(
+              json['EC2ResourceUtilization'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eC2ResourceUtilization = this.eC2ResourceUtilization;
+    return {
+      if (eC2ResourceUtilization != null)
+        'EC2ResourceUtilization': eC2ResourceUtilization,
+    };
+  }
+}
+
+class PlatformDifference {
+  static const hypervisor = PlatformDifference._('HYPERVISOR');
+  static const networkInterface = PlatformDifference._('NETWORK_INTERFACE');
+  static const storageInterface = PlatformDifference._('STORAGE_INTERFACE');
+  static const instanceStoreAvailability =
+      PlatformDifference._('INSTANCE_STORE_AVAILABILITY');
+  static const virtualizationType = PlatformDifference._('VIRTUALIZATION_TYPE');
+
+  final String value;
+
+  const PlatformDifference._(this.value);
+
+  static const values = [
+    hypervisor,
+    networkInterface,
+    storageInterface,
+    instanceStoreAvailability,
+    virtualizationType
+  ];
+
+  static PlatformDifference fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PlatformDifference._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PlatformDifference && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Utilization metrics for the instance.
+class EC2ResourceUtilization {
+  /// The field that contains a list of disk (local storage) metrics that are
+  /// associated with the current instance.
+  final DiskResourceUtilization? diskResourceUtilization;
+
+  /// The EBS field that contains a list of EBS metrics that are associated with
+  /// the current instance.
+  final EBSResourceUtilization? eBSResourceUtilization;
+
+  /// The maximum observed or expected CPU utilization of the instance.
+  final String? maxCpuUtilizationPercentage;
+
+  /// The maximum observed or expected memory utilization of the instance.
+  final String? maxMemoryUtilizationPercentage;
+
+  /// The maximum observed or expected storage utilization of the instance. This
+  /// doesn't include EBS storage.
+  final String? maxStorageUtilizationPercentage;
+
+  /// The network field that contains a list of network metrics that are
+  /// associated with the current instance.
+  final NetworkResourceUtilization? networkResourceUtilization;
+
+  EC2ResourceUtilization({
+    this.diskResourceUtilization,
+    this.eBSResourceUtilization,
+    this.maxCpuUtilizationPercentage,
+    this.maxMemoryUtilizationPercentage,
+    this.maxStorageUtilizationPercentage,
+    this.networkResourceUtilization,
+  });
+
+  factory EC2ResourceUtilization.fromJson(Map<String, dynamic> json) {
+    return EC2ResourceUtilization(
+      diskResourceUtilization: json['DiskResourceUtilization'] != null
+          ? DiskResourceUtilization.fromJson(
+              json['DiskResourceUtilization'] as Map<String, dynamic>)
+          : null,
+      eBSResourceUtilization: json['EBSResourceUtilization'] != null
+          ? EBSResourceUtilization.fromJson(
+              json['EBSResourceUtilization'] as Map<String, dynamic>)
+          : null,
+      maxCpuUtilizationPercentage:
+          json['MaxCpuUtilizationPercentage'] as String?,
+      maxMemoryUtilizationPercentage:
+          json['MaxMemoryUtilizationPercentage'] as String?,
+      maxStorageUtilizationPercentage:
+          json['MaxStorageUtilizationPercentage'] as String?,
+      networkResourceUtilization: json['NetworkResourceUtilization'] != null
+          ? NetworkResourceUtilization.fromJson(
+              json['NetworkResourceUtilization'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final diskResourceUtilization = this.diskResourceUtilization;
+    final eBSResourceUtilization = this.eBSResourceUtilization;
+    final maxCpuUtilizationPercentage = this.maxCpuUtilizationPercentage;
+    final maxMemoryUtilizationPercentage = this.maxMemoryUtilizationPercentage;
+    final maxStorageUtilizationPercentage =
+        this.maxStorageUtilizationPercentage;
+    final networkResourceUtilization = this.networkResourceUtilization;
+    return {
+      if (diskResourceUtilization != null)
+        'DiskResourceUtilization': diskResourceUtilization,
+      if (eBSResourceUtilization != null)
+        'EBSResourceUtilization': eBSResourceUtilization,
+      if (maxCpuUtilizationPercentage != null)
+        'MaxCpuUtilizationPercentage': maxCpuUtilizationPercentage,
+      if (maxMemoryUtilizationPercentage != null)
+        'MaxMemoryUtilizationPercentage': maxMemoryUtilizationPercentage,
+      if (maxStorageUtilizationPercentage != null)
+        'MaxStorageUtilizationPercentage': maxStorageUtilizationPercentage,
+      if (networkResourceUtilization != null)
+        'NetworkResourceUtilization': networkResourceUtilization,
+    };
+  }
+}
+
+/// The EBS field that contains a list of EBS metrics that are associated with
+/// the current instance.
+class EBSResourceUtilization {
+  /// The maximum size of read operations per second
+  final String? ebsReadBytesPerSecond;
+
+  /// The maximum number of read operations per second.
+  final String? ebsReadOpsPerSecond;
+
+  /// The maximum size of write operations per second.
+  final String? ebsWriteBytesPerSecond;
+
+  /// The maximum number of write operations per second.
+  final String? ebsWriteOpsPerSecond;
+
+  EBSResourceUtilization({
+    this.ebsReadBytesPerSecond,
+    this.ebsReadOpsPerSecond,
+    this.ebsWriteBytesPerSecond,
+    this.ebsWriteOpsPerSecond,
+  });
+
+  factory EBSResourceUtilization.fromJson(Map<String, dynamic> json) {
+    return EBSResourceUtilization(
+      ebsReadBytesPerSecond: json['EbsReadBytesPerSecond'] as String?,
+      ebsReadOpsPerSecond: json['EbsReadOpsPerSecond'] as String?,
+      ebsWriteBytesPerSecond: json['EbsWriteBytesPerSecond'] as String?,
+      ebsWriteOpsPerSecond: json['EbsWriteOpsPerSecond'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ebsReadBytesPerSecond = this.ebsReadBytesPerSecond;
+    final ebsReadOpsPerSecond = this.ebsReadOpsPerSecond;
+    final ebsWriteBytesPerSecond = this.ebsWriteBytesPerSecond;
+    final ebsWriteOpsPerSecond = this.ebsWriteOpsPerSecond;
+    return {
+      if (ebsReadBytesPerSecond != null)
+        'EbsReadBytesPerSecond': ebsReadBytesPerSecond,
+      if (ebsReadOpsPerSecond != null)
+        'EbsReadOpsPerSecond': ebsReadOpsPerSecond,
+      if (ebsWriteBytesPerSecond != null)
+        'EbsWriteBytesPerSecond': ebsWriteBytesPerSecond,
+      if (ebsWriteOpsPerSecond != null)
+        'EbsWriteOpsPerSecond': ebsWriteOpsPerSecond,
+    };
+  }
+}
+
+/// The field that contains a list of disk (local storage) metrics that are
+/// associated with the current instance.
+class DiskResourceUtilization {
+  /// The maximum read throughput operations per second.
+  final String? diskReadBytesPerSecond;
+
+  /// The maximum number of read operations per second.
+  final String? diskReadOpsPerSecond;
+
+  /// The maximum write throughput operations per second.
+  final String? diskWriteBytesPerSecond;
+
+  /// The maximum number of write operations per second.
+  final String? diskWriteOpsPerSecond;
+
+  DiskResourceUtilization({
+    this.diskReadBytesPerSecond,
+    this.diskReadOpsPerSecond,
+    this.diskWriteBytesPerSecond,
+    this.diskWriteOpsPerSecond,
+  });
+
+  factory DiskResourceUtilization.fromJson(Map<String, dynamic> json) {
+    return DiskResourceUtilization(
+      diskReadBytesPerSecond: json['DiskReadBytesPerSecond'] as String?,
+      diskReadOpsPerSecond: json['DiskReadOpsPerSecond'] as String?,
+      diskWriteBytesPerSecond: json['DiskWriteBytesPerSecond'] as String?,
+      diskWriteOpsPerSecond: json['DiskWriteOpsPerSecond'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final diskReadBytesPerSecond = this.diskReadBytesPerSecond;
+    final diskReadOpsPerSecond = this.diskReadOpsPerSecond;
+    final diskWriteBytesPerSecond = this.diskWriteBytesPerSecond;
+    final diskWriteOpsPerSecond = this.diskWriteOpsPerSecond;
+    return {
+      if (diskReadBytesPerSecond != null)
+        'DiskReadBytesPerSecond': diskReadBytesPerSecond,
+      if (diskReadOpsPerSecond != null)
+        'DiskReadOpsPerSecond': diskReadOpsPerSecond,
+      if (diskWriteBytesPerSecond != null)
+        'DiskWriteBytesPerSecond': diskWriteBytesPerSecond,
+      if (diskWriteOpsPerSecond != null)
+        'DiskWriteOpsPerSecond': diskWriteOpsPerSecond,
+    };
+  }
+}
+
+/// The network field that contains a list of network metrics that are
+/// associated with the current instance.
+class NetworkResourceUtilization {
+  /// The network inbound throughput utilization measured in Bytes per second
+  /// (Bps).
+  final String? networkInBytesPerSecond;
+
+  /// The network outbound throughput utilization measured in Bytes per second
+  /// (Bps).
+  final String? networkOutBytesPerSecond;
+
+  /// The network inbound packets that are measured in packets per second.
+  final String? networkPacketsInPerSecond;
+
+  /// The network outbound packets that are measured in packets per second.
+  final String? networkPacketsOutPerSecond;
+
+  NetworkResourceUtilization({
+    this.networkInBytesPerSecond,
+    this.networkOutBytesPerSecond,
+    this.networkPacketsInPerSecond,
+    this.networkPacketsOutPerSecond,
+  });
+
+  factory NetworkResourceUtilization.fromJson(Map<String, dynamic> json) {
+    return NetworkResourceUtilization(
+      networkInBytesPerSecond: json['NetworkInBytesPerSecond'] as String?,
+      networkOutBytesPerSecond: json['NetworkOutBytesPerSecond'] as String?,
+      networkPacketsInPerSecond: json['NetworkPacketsInPerSecond'] as String?,
+      networkPacketsOutPerSecond: json['NetworkPacketsOutPerSecond'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final networkInBytesPerSecond = this.networkInBytesPerSecond;
+    final networkOutBytesPerSecond = this.networkOutBytesPerSecond;
+    final networkPacketsInPerSecond = this.networkPacketsInPerSecond;
+    final networkPacketsOutPerSecond = this.networkPacketsOutPerSecond;
+    return {
+      if (networkInBytesPerSecond != null)
+        'NetworkInBytesPerSecond': networkInBytesPerSecond,
+      if (networkOutBytesPerSecond != null)
+        'NetworkOutBytesPerSecond': networkOutBytesPerSecond,
+      if (networkPacketsInPerSecond != null)
+        'NetworkPacketsInPerSecond': networkPacketsInPerSecond,
+      if (networkPacketsOutPerSecond != null)
+        'NetworkPacketsOutPerSecond': networkPacketsOutPerSecond,
+    };
+  }
+}
+
+/// Details on the Amazon EC2 Resource.
+class EC2ResourceDetails {
+  /// The hourly public On-Demand rate for the instance type.
+  final String? hourlyOnDemandRate;
+
+  /// The type of Amazon Web Services instance.
+  final String? instanceType;
+
+  /// The memory capacity of the Amazon Web Services instance.
+  final String? memory;
+
+  /// The network performance capacity of the Amazon Web Services instance.
+  final String? networkPerformance;
+
+  /// The platform of the Amazon Web Services instance. The platform is the
+  /// specific combination of operating system, license model, and software on an
+  /// instance.
+  final String? platform;
+
+  /// The Amazon Web Services Region of the instance.
+  final String? region;
+
+  /// The SKU of the product.
+  final String? sku;
+
+  /// The disk storage of the Amazon Web Services instance. This doesn't include
+  /// EBS storage.
+  final String? storage;
+
+  /// The number of VCPU cores in the Amazon Web Services instance type.
+  final String? vcpu;
+
+  EC2ResourceDetails({
+    this.hourlyOnDemandRate,
+    this.instanceType,
+    this.memory,
+    this.networkPerformance,
+    this.platform,
+    this.region,
+    this.sku,
+    this.storage,
+    this.vcpu,
+  });
+
+  factory EC2ResourceDetails.fromJson(Map<String, dynamic> json) {
+    return EC2ResourceDetails(
+      hourlyOnDemandRate: json['HourlyOnDemandRate'] as String?,
+      instanceType: json['InstanceType'] as String?,
+      memory: json['Memory'] as String?,
+      networkPerformance: json['NetworkPerformance'] as String?,
+      platform: json['Platform'] as String?,
+      region: json['Region'] as String?,
+      sku: json['Sku'] as String?,
+      storage: json['Storage'] as String?,
+      vcpu: json['Vcpu'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hourlyOnDemandRate = this.hourlyOnDemandRate;
+    final instanceType = this.instanceType;
+    final memory = this.memory;
+    final networkPerformance = this.networkPerformance;
+    final platform = this.platform;
+    final region = this.region;
+    final sku = this.sku;
+    final storage = this.storage;
+    final vcpu = this.vcpu;
+    return {
+      if (hourlyOnDemandRate != null) 'HourlyOnDemandRate': hourlyOnDemandRate,
+      if (instanceType != null) 'InstanceType': instanceType,
+      if (memory != null) 'Memory': memory,
+      if (networkPerformance != null) 'NetworkPerformance': networkPerformance,
+      if (platform != null) 'Platform': platform,
       if (region != null) 'Region': region,
-      if (sizeFlexEligible != null) 'SizeFlexEligible': sizeFlexEligible,
+      if (sku != null) 'Sku': sku,
+      if (storage != null) 'Storage': storage,
+      if (vcpu != null) 'Vcpu': vcpu,
     };
   }
 }
@@ -9109,35 +10571,136 @@ class ReservationAggregates {
   }
 }
 
-/// A group of reservations that share a set of attributes.
-class ReservationCoverageGroup {
-  /// The attributes for this group of reservations.
-  final Map<String, String>? attributes;
+/// The amount of utilization, in hours.
+class UtilizationByTime {
+  /// The groups that this utilization result uses.
+  final List<ReservationUtilizationGroup>? groups;
 
-  /// How much instance usage this group of reservations covered.
-  final Coverage? coverage;
+  /// The period of time that this utilization was used for.
+  final DateInterval? timePeriod;
 
-  ReservationCoverageGroup({
-    this.attributes,
-    this.coverage,
+  /// The total number of reservation hours that were used.
+  final ReservationAggregates? total;
+
+  UtilizationByTime({
+    this.groups,
+    this.timePeriod,
+    this.total,
   });
 
-  factory ReservationCoverageGroup.fromJson(Map<String, dynamic> json) {
-    return ReservationCoverageGroup(
-      attributes: (json['Attributes'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      coverage: json['Coverage'] != null
-          ? Coverage.fromJson(json['Coverage'] as Map<String, dynamic>)
+  factory UtilizationByTime.fromJson(Map<String, dynamic> json) {
+    return UtilizationByTime(
+      groups: (json['Groups'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ReservationUtilizationGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      timePeriod: json['TimePeriod'] != null
+          ? DateInterval.fromJson(json['TimePeriod'] as Map<String, dynamic>)
+          : null,
+      total: json['Total'] != null
+          ? ReservationAggregates.fromJson(
+              json['Total'] as Map<String, dynamic>)
           : null,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final groups = this.groups;
+    final timePeriod = this.timePeriod;
+    final total = this.total;
+    return {
+      if (groups != null) 'Groups': groups,
+      if (timePeriod != null) 'TimePeriod': timePeriod,
+      if (total != null) 'Total': total,
+    };
+  }
+}
+
+/// A group of reservations that share a set of attributes.
+class ReservationUtilizationGroup {
+  /// The attributes for this group of reservations.
+  final Map<String, String>? attributes;
+
+  /// The key for a specific reservation attribute.
+  final String? key;
+
+  /// How much you used this group of reservations.
+  final ReservationAggregates? utilization;
+
+  /// The value of a specific reservation attribute.
+  final String? value;
+
+  ReservationUtilizationGroup({
+    this.attributes,
+    this.key,
+    this.utilization,
+    this.value,
+  });
+
+  factory ReservationUtilizationGroup.fromJson(Map<String, dynamic> json) {
+    return ReservationUtilizationGroup(
+      attributes: (json['Attributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      key: json['Key'] as String?,
+      utilization: json['Utilization'] != null
+          ? ReservationAggregates.fromJson(
+              json['Utilization'] as Map<String, dynamic>)
+          : null,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
     final attributes = this.attributes;
-    final coverage = this.coverage;
+    final key = this.key;
+    final utilization = this.utilization;
+    final value = this.value;
     return {
       if (attributes != null) 'Attributes': attributes,
-      if (coverage != null) 'Coverage': coverage,
+      if (key != null) 'Key': key,
+      if (utilization != null) 'Utilization': utilization,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Information about a recommendation, such as the timestamp for when Amazon
+/// Web Services made a specific recommendation.
+class ReservationPurchaseRecommendationMetadata {
+  /// Additional metadata that might be applicable to the recommendation.
+  final String? additionalMetadata;
+
+  /// The timestamp for when Amazon Web Services made the recommendation.
+  final String? generationTimestamp;
+
+  /// The ID for the recommendation.
+  final String? recommendationId;
+
+  ReservationPurchaseRecommendationMetadata({
+    this.additionalMetadata,
+    this.generationTimestamp,
+    this.recommendationId,
+  });
+
+  factory ReservationPurchaseRecommendationMetadata.fromJson(
+      Map<String, dynamic> json) {
+    return ReservationPurchaseRecommendationMetadata(
+      additionalMetadata: json['AdditionalMetadata'] as String?,
+      generationTimestamp: json['GenerationTimestamp'] as String?,
+      recommendationId: json['RecommendationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalMetadata = this.additionalMetadata;
+    final generationTimestamp = this.generationTimestamp;
+    final recommendationId = this.recommendationId;
+    return {
+      if (additionalMetadata != null) 'AdditionalMetadata': additionalMetadata,
+      if (generationTimestamp != null)
+        'GenerationTimestamp': generationTimestamp,
+      if (recommendationId != null) 'RecommendationId': recommendationId,
     };
   }
 }
@@ -9230,260 +10793,29 @@ class ReservationPurchaseRecommendation {
   }
 }
 
-/// Details about your recommended reservation purchase.
-class ReservationPurchaseRecommendationDetail {
-  /// The account that this Reserved Instance (RI) recommendation is for.
-  final String? accountId;
+/// Hardware specifications for the service that you want recommendations for.
+class ServiceSpecification {
+  /// The Amazon EC2 hardware specifications that you want Amazon Web Services to
+  /// provide recommendations for.
+  final EC2Specification? eC2Specification;
 
-  /// The average number of normalized units that you used in an hour during the
-  /// historical period. Amazon Web Services uses this to calculate your
-  /// recommended reservation purchases.
-  final String? averageNormalizedUnitsUsedPerHour;
-
-  /// The average number of instances that you used in an hour during the
-  /// historical period. Amazon Web Services uses this to calculate your
-  /// recommended reservation purchases.
-  final String? averageNumberOfInstancesUsedPerHour;
-
-  /// The average utilization of your instances. Amazon Web Services uses this to
-  /// calculate your recommended reservation purchases.
-  final String? averageUtilization;
-
-  /// The currency code that Amazon Web Services used to calculate the costs for
-  /// this instance.
-  final String? currencyCode;
-
-  /// How long Amazon Web Services estimates that it takes for this instance to
-  /// start saving you money, in months.
-  final String? estimatedBreakEvenInMonths;
-
-  /// How much Amazon Web Services estimates that you spend on On-Demand Instances
-  /// in a month.
-  final String? estimatedMonthlyOnDemandCost;
-
-  /// How much Amazon Web Services estimates that this specific recommendation
-  /// might save you in a month.
-  final String? estimatedMonthlySavingsAmount;
-
-  /// How much Amazon Web Services estimates that this specific recommendation
-  /// might save you in a month, as a percentage of your overall costs.
-  final String? estimatedMonthlySavingsPercentage;
-
-  /// How much Amazon Web Services estimates that you might spend for all usage
-  /// during the specified historical period if you had a reservation.
-  final String? estimatedReservationCostForLookbackPeriod;
-
-  /// Details about the reservations that Amazon Web Services recommends that you
-  /// purchase.
-  final InstanceDetails? instanceDetails;
-
-  /// The maximum number of normalized units that you used in an hour during the
-  /// historical period. Amazon Web Services uses this to calculate your
-  /// recommended reservation purchases.
-  final String? maximumNormalizedUnitsUsedPerHour;
-
-  /// The maximum number of instances that you used in an hour during the
-  /// historical period. Amazon Web Services uses this to calculate your
-  /// recommended reservation purchases.
-  final String? maximumNumberOfInstancesUsedPerHour;
-
-  /// The minimum number of normalized units that you used in an hour during the
-  /// historical period. Amazon Web Services uses this to calculate your
-  /// recommended reservation purchases.
-  final String? minimumNormalizedUnitsUsedPerHour;
-
-  /// The minimum number of instances that you used in an hour during the
-  /// historical period. Amazon Web Services uses this to calculate your
-  /// recommended reservation purchases.
-  final String? minimumNumberOfInstancesUsedPerHour;
-
-  /// The number of normalized units that Amazon Web Services recommends that you
-  /// purchase.
-  final String? recommendedNormalizedUnitsToPurchase;
-
-  /// The number of instances that Amazon Web Services recommends that you
-  /// purchase.
-  final String? recommendedNumberOfInstancesToPurchase;
-
-  /// How much purchasing this instance costs you on a monthly basis.
-  final String? recurringStandardMonthlyCost;
-
-  /// How much purchasing this instance costs you upfront.
-  final String? upfrontCost;
-
-  ReservationPurchaseRecommendationDetail({
-    this.accountId,
-    this.averageNormalizedUnitsUsedPerHour,
-    this.averageNumberOfInstancesUsedPerHour,
-    this.averageUtilization,
-    this.currencyCode,
-    this.estimatedBreakEvenInMonths,
-    this.estimatedMonthlyOnDemandCost,
-    this.estimatedMonthlySavingsAmount,
-    this.estimatedMonthlySavingsPercentage,
-    this.estimatedReservationCostForLookbackPeriod,
-    this.instanceDetails,
-    this.maximumNormalizedUnitsUsedPerHour,
-    this.maximumNumberOfInstancesUsedPerHour,
-    this.minimumNormalizedUnitsUsedPerHour,
-    this.minimumNumberOfInstancesUsedPerHour,
-    this.recommendedNormalizedUnitsToPurchase,
-    this.recommendedNumberOfInstancesToPurchase,
-    this.recurringStandardMonthlyCost,
-    this.upfrontCost,
+  ServiceSpecification({
+    this.eC2Specification,
   });
 
-  factory ReservationPurchaseRecommendationDetail.fromJson(
-      Map<String, dynamic> json) {
-    return ReservationPurchaseRecommendationDetail(
-      accountId: json['AccountId'] as String?,
-      averageNormalizedUnitsUsedPerHour:
-          json['AverageNormalizedUnitsUsedPerHour'] as String?,
-      averageNumberOfInstancesUsedPerHour:
-          json['AverageNumberOfInstancesUsedPerHour'] as String?,
-      averageUtilization: json['AverageUtilization'] as String?,
-      currencyCode: json['CurrencyCode'] as String?,
-      estimatedBreakEvenInMonths: json['EstimatedBreakEvenInMonths'] as String?,
-      estimatedMonthlyOnDemandCost:
-          json['EstimatedMonthlyOnDemandCost'] as String?,
-      estimatedMonthlySavingsAmount:
-          json['EstimatedMonthlySavingsAmount'] as String?,
-      estimatedMonthlySavingsPercentage:
-          json['EstimatedMonthlySavingsPercentage'] as String?,
-      estimatedReservationCostForLookbackPeriod:
-          json['EstimatedReservationCostForLookbackPeriod'] as String?,
-      instanceDetails: json['InstanceDetails'] != null
-          ? InstanceDetails.fromJson(
-              json['InstanceDetails'] as Map<String, dynamic>)
+  factory ServiceSpecification.fromJson(Map<String, dynamic> json) {
+    return ServiceSpecification(
+      eC2Specification: json['EC2Specification'] != null
+          ? EC2Specification.fromJson(
+              json['EC2Specification'] as Map<String, dynamic>)
           : null,
-      maximumNormalizedUnitsUsedPerHour:
-          json['MaximumNormalizedUnitsUsedPerHour'] as String?,
-      maximumNumberOfInstancesUsedPerHour:
-          json['MaximumNumberOfInstancesUsedPerHour'] as String?,
-      minimumNormalizedUnitsUsedPerHour:
-          json['MinimumNormalizedUnitsUsedPerHour'] as String?,
-      minimumNumberOfInstancesUsedPerHour:
-          json['MinimumNumberOfInstancesUsedPerHour'] as String?,
-      recommendedNormalizedUnitsToPurchase:
-          json['RecommendedNormalizedUnitsToPurchase'] as String?,
-      recommendedNumberOfInstancesToPurchase:
-          json['RecommendedNumberOfInstancesToPurchase'] as String?,
-      recurringStandardMonthlyCost:
-          json['RecurringStandardMonthlyCost'] as String?,
-      upfrontCost: json['UpfrontCost'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final averageNormalizedUnitsUsedPerHour =
-        this.averageNormalizedUnitsUsedPerHour;
-    final averageNumberOfInstancesUsedPerHour =
-        this.averageNumberOfInstancesUsedPerHour;
-    final averageUtilization = this.averageUtilization;
-    final currencyCode = this.currencyCode;
-    final estimatedBreakEvenInMonths = this.estimatedBreakEvenInMonths;
-    final estimatedMonthlyOnDemandCost = this.estimatedMonthlyOnDemandCost;
-    final estimatedMonthlySavingsAmount = this.estimatedMonthlySavingsAmount;
-    final estimatedMonthlySavingsPercentage =
-        this.estimatedMonthlySavingsPercentage;
-    final estimatedReservationCostForLookbackPeriod =
-        this.estimatedReservationCostForLookbackPeriod;
-    final instanceDetails = this.instanceDetails;
-    final maximumNormalizedUnitsUsedPerHour =
-        this.maximumNormalizedUnitsUsedPerHour;
-    final maximumNumberOfInstancesUsedPerHour =
-        this.maximumNumberOfInstancesUsedPerHour;
-    final minimumNormalizedUnitsUsedPerHour =
-        this.minimumNormalizedUnitsUsedPerHour;
-    final minimumNumberOfInstancesUsedPerHour =
-        this.minimumNumberOfInstancesUsedPerHour;
-    final recommendedNormalizedUnitsToPurchase =
-        this.recommendedNormalizedUnitsToPurchase;
-    final recommendedNumberOfInstancesToPurchase =
-        this.recommendedNumberOfInstancesToPurchase;
-    final recurringStandardMonthlyCost = this.recurringStandardMonthlyCost;
-    final upfrontCost = this.upfrontCost;
+    final eC2Specification = this.eC2Specification;
     return {
-      if (accountId != null) 'AccountId': accountId,
-      if (averageNormalizedUnitsUsedPerHour != null)
-        'AverageNormalizedUnitsUsedPerHour': averageNormalizedUnitsUsedPerHour,
-      if (averageNumberOfInstancesUsedPerHour != null)
-        'AverageNumberOfInstancesUsedPerHour':
-            averageNumberOfInstancesUsedPerHour,
-      if (averageUtilization != null) 'AverageUtilization': averageUtilization,
-      if (currencyCode != null) 'CurrencyCode': currencyCode,
-      if (estimatedBreakEvenInMonths != null)
-        'EstimatedBreakEvenInMonths': estimatedBreakEvenInMonths,
-      if (estimatedMonthlyOnDemandCost != null)
-        'EstimatedMonthlyOnDemandCost': estimatedMonthlyOnDemandCost,
-      if (estimatedMonthlySavingsAmount != null)
-        'EstimatedMonthlySavingsAmount': estimatedMonthlySavingsAmount,
-      if (estimatedMonthlySavingsPercentage != null)
-        'EstimatedMonthlySavingsPercentage': estimatedMonthlySavingsPercentage,
-      if (estimatedReservationCostForLookbackPeriod != null)
-        'EstimatedReservationCostForLookbackPeriod':
-            estimatedReservationCostForLookbackPeriod,
-      if (instanceDetails != null) 'InstanceDetails': instanceDetails,
-      if (maximumNormalizedUnitsUsedPerHour != null)
-        'MaximumNormalizedUnitsUsedPerHour': maximumNormalizedUnitsUsedPerHour,
-      if (maximumNumberOfInstancesUsedPerHour != null)
-        'MaximumNumberOfInstancesUsedPerHour':
-            maximumNumberOfInstancesUsedPerHour,
-      if (minimumNormalizedUnitsUsedPerHour != null)
-        'MinimumNormalizedUnitsUsedPerHour': minimumNormalizedUnitsUsedPerHour,
-      if (minimumNumberOfInstancesUsedPerHour != null)
-        'MinimumNumberOfInstancesUsedPerHour':
-            minimumNumberOfInstancesUsedPerHour,
-      if (recommendedNormalizedUnitsToPurchase != null)
-        'RecommendedNormalizedUnitsToPurchase':
-            recommendedNormalizedUnitsToPurchase,
-      if (recommendedNumberOfInstancesToPurchase != null)
-        'RecommendedNumberOfInstancesToPurchase':
-            recommendedNumberOfInstancesToPurchase,
-      if (recurringStandardMonthlyCost != null)
-        'RecurringStandardMonthlyCost': recurringStandardMonthlyCost,
-      if (upfrontCost != null) 'UpfrontCost': upfrontCost,
-    };
-  }
-}
-
-/// Information about a recommendation, such as the timestamp for when Amazon
-/// Web Services made a specific recommendation.
-class ReservationPurchaseRecommendationMetadata {
-  /// Additional metadata that might be applicable to the recommendation.
-  final String? additionalMetadata;
-
-  /// The timestamp for when Amazon Web Services made the recommendation.
-  final String? generationTimestamp;
-
-  /// The ID for the recommendation.
-  final String? recommendationId;
-
-  ReservationPurchaseRecommendationMetadata({
-    this.additionalMetadata,
-    this.generationTimestamp,
-    this.recommendationId,
-  });
-
-  factory ReservationPurchaseRecommendationMetadata.fromJson(
-      Map<String, dynamic> json) {
-    return ReservationPurchaseRecommendationMetadata(
-      additionalMetadata: json['AdditionalMetadata'] as String?,
-      generationTimestamp: json['GenerationTimestamp'] as String?,
-      recommendationId: json['RecommendationId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final additionalMetadata = this.additionalMetadata;
-    final generationTimestamp = this.generationTimestamp;
-    final recommendationId = this.recommendationId;
-    return {
-      if (additionalMetadata != null) 'AdditionalMetadata': additionalMetadata,
-      if (generationTimestamp != null)
-        'GenerationTimestamp': generationTimestamp,
-      if (recommendationId != null) 'RecommendationId': recommendationId,
+      if (eC2Specification != null) 'EC2Specification': eC2Specification,
     };
   }
 }
@@ -9538,142 +10870,1314 @@ class ReservationPurchaseRecommendationSummary {
   }
 }
 
+/// Details about your recommended reservation purchase.
+class ReservationPurchaseRecommendationDetail {
+  /// The account that this Reserved Instance (RI) recommendation is for.
+  final String? accountId;
+
+  /// The average number of normalized units that you used in an hour during the
+  /// historical period. Amazon Web Services uses this to calculate your
+  /// recommended reservation purchases.
+  final String? averageNormalizedUnitsUsedPerHour;
+
+  /// The average number of provisioned capacity units that you used in an hour
+  /// during the historical period. Amazon Web Services uses this to calculate
+  /// your recommended reservation purchases.
+  final String? averageNumberOfCapacityUnitsUsedPerHour;
+
+  /// The average number of instances that you used in an hour during the
+  /// historical period. Amazon Web Services uses this to calculate your
+  /// recommended reservation purchases.
+  final String? averageNumberOfInstancesUsedPerHour;
+
+  /// The average utilization of your instances. Amazon Web Services uses this to
+  /// calculate your recommended reservation purchases.
+  final String? averageUtilization;
+
+  /// The currency code that Amazon Web Services used to calculate the costs for
+  /// this instance.
+  final String? currencyCode;
+
+  /// How long Amazon Web Services estimates that it takes for this instance to
+  /// start saving you money, in months.
+  final String? estimatedBreakEvenInMonths;
+
+  /// How much Amazon Web Services estimates that you spend on On-Demand Instances
+  /// in a month.
+  final String? estimatedMonthlyOnDemandCost;
+
+  /// How much Amazon Web Services estimates that this specific recommendation
+  /// might save you in a month.
+  final String? estimatedMonthlySavingsAmount;
+
+  /// How much Amazon Web Services estimates that this specific recommendation
+  /// might save you in a month, as a percentage of your overall costs.
+  final String? estimatedMonthlySavingsPercentage;
+
+  /// How much Amazon Web Services estimates that you might spend for all usage
+  /// during the specified historical period if you had a reservation.
+  final String? estimatedReservationCostForLookbackPeriod;
+
+  /// Details about the reservations that Amazon Web Services recommends that you
+  /// purchase.
+  final InstanceDetails? instanceDetails;
+
+  /// The maximum number of normalized units that you used in an hour during the
+  /// historical period. Amazon Web Services uses this to calculate your
+  /// recommended reservation purchases.
+  final String? maximumNormalizedUnitsUsedPerHour;
+
+  /// The maximum number of provisioned capacity units that you used in an hour
+  /// during the historical period. Amazon Web Services uses this to calculate
+  /// your recommended reservation purchases.
+  final String? maximumNumberOfCapacityUnitsUsedPerHour;
+
+  /// The maximum number of instances that you used in an hour during the
+  /// historical period. Amazon Web Services uses this to calculate your
+  /// recommended reservation purchases.
+  final String? maximumNumberOfInstancesUsedPerHour;
+
+  /// The minimum number of normalized units that you used in an hour during the
+  /// historical period. Amazon Web Services uses this to calculate your
+  /// recommended reservation purchases.
+  final String? minimumNormalizedUnitsUsedPerHour;
+
+  /// The minimum number of provisioned capacity units that you used in an hour
+  /// during the historical period. Amazon Web Services uses this to calculate
+  /// your recommended reservation purchases.
+  final String? minimumNumberOfCapacityUnitsUsedPerHour;
+
+  /// The minimum number of instances that you used in an hour during the
+  /// historical period. Amazon Web Services uses this to calculate your
+  /// recommended reservation purchases.
+  final String? minimumNumberOfInstancesUsedPerHour;
+
+  /// The number of normalized units that Amazon Web Services recommends that you
+  /// purchase.
+  final String? recommendedNormalizedUnitsToPurchase;
+
+  /// The number of reserved capacity units that Amazon Web Services recommends
+  /// that you purchase.
+  final String? recommendedNumberOfCapacityUnitsToPurchase;
+
+  /// The number of instances that Amazon Web Services recommends that you
+  /// purchase.
+  final String? recommendedNumberOfInstancesToPurchase;
+
+  /// How much purchasing this instance costs you on a monthly basis.
+  final String? recurringStandardMonthlyCost;
+
+  /// Details about the reservations that Amazon Web Services recommends that you
+  /// purchase.
+  final ReservedCapacityDetails? reservedCapacityDetails;
+
+  /// How much purchasing this instance costs you upfront.
+  final String? upfrontCost;
+
+  ReservationPurchaseRecommendationDetail({
+    this.accountId,
+    this.averageNormalizedUnitsUsedPerHour,
+    this.averageNumberOfCapacityUnitsUsedPerHour,
+    this.averageNumberOfInstancesUsedPerHour,
+    this.averageUtilization,
+    this.currencyCode,
+    this.estimatedBreakEvenInMonths,
+    this.estimatedMonthlyOnDemandCost,
+    this.estimatedMonthlySavingsAmount,
+    this.estimatedMonthlySavingsPercentage,
+    this.estimatedReservationCostForLookbackPeriod,
+    this.instanceDetails,
+    this.maximumNormalizedUnitsUsedPerHour,
+    this.maximumNumberOfCapacityUnitsUsedPerHour,
+    this.maximumNumberOfInstancesUsedPerHour,
+    this.minimumNormalizedUnitsUsedPerHour,
+    this.minimumNumberOfCapacityUnitsUsedPerHour,
+    this.minimumNumberOfInstancesUsedPerHour,
+    this.recommendedNormalizedUnitsToPurchase,
+    this.recommendedNumberOfCapacityUnitsToPurchase,
+    this.recommendedNumberOfInstancesToPurchase,
+    this.recurringStandardMonthlyCost,
+    this.reservedCapacityDetails,
+    this.upfrontCost,
+  });
+
+  factory ReservationPurchaseRecommendationDetail.fromJson(
+      Map<String, dynamic> json) {
+    return ReservationPurchaseRecommendationDetail(
+      accountId: json['AccountId'] as String?,
+      averageNormalizedUnitsUsedPerHour:
+          json['AverageNormalizedUnitsUsedPerHour'] as String?,
+      averageNumberOfCapacityUnitsUsedPerHour:
+          json['AverageNumberOfCapacityUnitsUsedPerHour'] as String?,
+      averageNumberOfInstancesUsedPerHour:
+          json['AverageNumberOfInstancesUsedPerHour'] as String?,
+      averageUtilization: json['AverageUtilization'] as String?,
+      currencyCode: json['CurrencyCode'] as String?,
+      estimatedBreakEvenInMonths: json['EstimatedBreakEvenInMonths'] as String?,
+      estimatedMonthlyOnDemandCost:
+          json['EstimatedMonthlyOnDemandCost'] as String?,
+      estimatedMonthlySavingsAmount:
+          json['EstimatedMonthlySavingsAmount'] as String?,
+      estimatedMonthlySavingsPercentage:
+          json['EstimatedMonthlySavingsPercentage'] as String?,
+      estimatedReservationCostForLookbackPeriod:
+          json['EstimatedReservationCostForLookbackPeriod'] as String?,
+      instanceDetails: json['InstanceDetails'] != null
+          ? InstanceDetails.fromJson(
+              json['InstanceDetails'] as Map<String, dynamic>)
+          : null,
+      maximumNormalizedUnitsUsedPerHour:
+          json['MaximumNormalizedUnitsUsedPerHour'] as String?,
+      maximumNumberOfCapacityUnitsUsedPerHour:
+          json['MaximumNumberOfCapacityUnitsUsedPerHour'] as String?,
+      maximumNumberOfInstancesUsedPerHour:
+          json['MaximumNumberOfInstancesUsedPerHour'] as String?,
+      minimumNormalizedUnitsUsedPerHour:
+          json['MinimumNormalizedUnitsUsedPerHour'] as String?,
+      minimumNumberOfCapacityUnitsUsedPerHour:
+          json['MinimumNumberOfCapacityUnitsUsedPerHour'] as String?,
+      minimumNumberOfInstancesUsedPerHour:
+          json['MinimumNumberOfInstancesUsedPerHour'] as String?,
+      recommendedNormalizedUnitsToPurchase:
+          json['RecommendedNormalizedUnitsToPurchase'] as String?,
+      recommendedNumberOfCapacityUnitsToPurchase:
+          json['RecommendedNumberOfCapacityUnitsToPurchase'] as String?,
+      recommendedNumberOfInstancesToPurchase:
+          json['RecommendedNumberOfInstancesToPurchase'] as String?,
+      recurringStandardMonthlyCost:
+          json['RecurringStandardMonthlyCost'] as String?,
+      reservedCapacityDetails: json['ReservedCapacityDetails'] != null
+          ? ReservedCapacityDetails.fromJson(
+              json['ReservedCapacityDetails'] as Map<String, dynamic>)
+          : null,
+      upfrontCost: json['UpfrontCost'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final averageNormalizedUnitsUsedPerHour =
+        this.averageNormalizedUnitsUsedPerHour;
+    final averageNumberOfCapacityUnitsUsedPerHour =
+        this.averageNumberOfCapacityUnitsUsedPerHour;
+    final averageNumberOfInstancesUsedPerHour =
+        this.averageNumberOfInstancesUsedPerHour;
+    final averageUtilization = this.averageUtilization;
+    final currencyCode = this.currencyCode;
+    final estimatedBreakEvenInMonths = this.estimatedBreakEvenInMonths;
+    final estimatedMonthlyOnDemandCost = this.estimatedMonthlyOnDemandCost;
+    final estimatedMonthlySavingsAmount = this.estimatedMonthlySavingsAmount;
+    final estimatedMonthlySavingsPercentage =
+        this.estimatedMonthlySavingsPercentage;
+    final estimatedReservationCostForLookbackPeriod =
+        this.estimatedReservationCostForLookbackPeriod;
+    final instanceDetails = this.instanceDetails;
+    final maximumNormalizedUnitsUsedPerHour =
+        this.maximumNormalizedUnitsUsedPerHour;
+    final maximumNumberOfCapacityUnitsUsedPerHour =
+        this.maximumNumberOfCapacityUnitsUsedPerHour;
+    final maximumNumberOfInstancesUsedPerHour =
+        this.maximumNumberOfInstancesUsedPerHour;
+    final minimumNormalizedUnitsUsedPerHour =
+        this.minimumNormalizedUnitsUsedPerHour;
+    final minimumNumberOfCapacityUnitsUsedPerHour =
+        this.minimumNumberOfCapacityUnitsUsedPerHour;
+    final minimumNumberOfInstancesUsedPerHour =
+        this.minimumNumberOfInstancesUsedPerHour;
+    final recommendedNormalizedUnitsToPurchase =
+        this.recommendedNormalizedUnitsToPurchase;
+    final recommendedNumberOfCapacityUnitsToPurchase =
+        this.recommendedNumberOfCapacityUnitsToPurchase;
+    final recommendedNumberOfInstancesToPurchase =
+        this.recommendedNumberOfInstancesToPurchase;
+    final recurringStandardMonthlyCost = this.recurringStandardMonthlyCost;
+    final reservedCapacityDetails = this.reservedCapacityDetails;
+    final upfrontCost = this.upfrontCost;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (averageNormalizedUnitsUsedPerHour != null)
+        'AverageNormalizedUnitsUsedPerHour': averageNormalizedUnitsUsedPerHour,
+      if (averageNumberOfCapacityUnitsUsedPerHour != null)
+        'AverageNumberOfCapacityUnitsUsedPerHour':
+            averageNumberOfCapacityUnitsUsedPerHour,
+      if (averageNumberOfInstancesUsedPerHour != null)
+        'AverageNumberOfInstancesUsedPerHour':
+            averageNumberOfInstancesUsedPerHour,
+      if (averageUtilization != null) 'AverageUtilization': averageUtilization,
+      if (currencyCode != null) 'CurrencyCode': currencyCode,
+      if (estimatedBreakEvenInMonths != null)
+        'EstimatedBreakEvenInMonths': estimatedBreakEvenInMonths,
+      if (estimatedMonthlyOnDemandCost != null)
+        'EstimatedMonthlyOnDemandCost': estimatedMonthlyOnDemandCost,
+      if (estimatedMonthlySavingsAmount != null)
+        'EstimatedMonthlySavingsAmount': estimatedMonthlySavingsAmount,
+      if (estimatedMonthlySavingsPercentage != null)
+        'EstimatedMonthlySavingsPercentage': estimatedMonthlySavingsPercentage,
+      if (estimatedReservationCostForLookbackPeriod != null)
+        'EstimatedReservationCostForLookbackPeriod':
+            estimatedReservationCostForLookbackPeriod,
+      if (instanceDetails != null) 'InstanceDetails': instanceDetails,
+      if (maximumNormalizedUnitsUsedPerHour != null)
+        'MaximumNormalizedUnitsUsedPerHour': maximumNormalizedUnitsUsedPerHour,
+      if (maximumNumberOfCapacityUnitsUsedPerHour != null)
+        'MaximumNumberOfCapacityUnitsUsedPerHour':
+            maximumNumberOfCapacityUnitsUsedPerHour,
+      if (maximumNumberOfInstancesUsedPerHour != null)
+        'MaximumNumberOfInstancesUsedPerHour':
+            maximumNumberOfInstancesUsedPerHour,
+      if (minimumNormalizedUnitsUsedPerHour != null)
+        'MinimumNormalizedUnitsUsedPerHour': minimumNormalizedUnitsUsedPerHour,
+      if (minimumNumberOfCapacityUnitsUsedPerHour != null)
+        'MinimumNumberOfCapacityUnitsUsedPerHour':
+            minimumNumberOfCapacityUnitsUsedPerHour,
+      if (minimumNumberOfInstancesUsedPerHour != null)
+        'MinimumNumberOfInstancesUsedPerHour':
+            minimumNumberOfInstancesUsedPerHour,
+      if (recommendedNormalizedUnitsToPurchase != null)
+        'RecommendedNormalizedUnitsToPurchase':
+            recommendedNormalizedUnitsToPurchase,
+      if (recommendedNumberOfCapacityUnitsToPurchase != null)
+        'RecommendedNumberOfCapacityUnitsToPurchase':
+            recommendedNumberOfCapacityUnitsToPurchase,
+      if (recommendedNumberOfInstancesToPurchase != null)
+        'RecommendedNumberOfInstancesToPurchase':
+            recommendedNumberOfInstancesToPurchase,
+      if (recurringStandardMonthlyCost != null)
+        'RecurringStandardMonthlyCost': recurringStandardMonthlyCost,
+      if (reservedCapacityDetails != null)
+        'ReservedCapacityDetails': reservedCapacityDetails,
+      if (upfrontCost != null) 'UpfrontCost': upfrontCost,
+    };
+  }
+}
+
+/// Details about the reservations that Amazon Web Services recommends that you
+/// purchase.
+class InstanceDetails {
+  /// The Amazon EC2 reservations that Amazon Web Services recommends that you
+  /// purchase.
+  final EC2InstanceDetails? eC2InstanceDetails;
+
+  /// The Amazon OpenSearch Service reservations that Amazon Web Services
+  /// recommends that you purchase.
+  final ESInstanceDetails? eSInstanceDetails;
+
+  /// The ElastiCache reservations that Amazon Web Services recommends that you
+  /// purchase.
+  final ElastiCacheInstanceDetails? elastiCacheInstanceDetails;
+
+  /// The MemoryDB reservations that Amazon Web Services recommends that you
+  /// purchase.
+  final MemoryDBInstanceDetails? memoryDBInstanceDetails;
+
+  /// The Amazon RDS reservations that Amazon Web Services recommends that you
+  /// purchase.
+  final RDSInstanceDetails? rDSInstanceDetails;
+
+  /// The Amazon Redshift reservations that Amazon Web Services recommends that
+  /// you purchase.
+  final RedshiftInstanceDetails? redshiftInstanceDetails;
+
+  InstanceDetails({
+    this.eC2InstanceDetails,
+    this.eSInstanceDetails,
+    this.elastiCacheInstanceDetails,
+    this.memoryDBInstanceDetails,
+    this.rDSInstanceDetails,
+    this.redshiftInstanceDetails,
+  });
+
+  factory InstanceDetails.fromJson(Map<String, dynamic> json) {
+    return InstanceDetails(
+      eC2InstanceDetails: json['EC2InstanceDetails'] != null
+          ? EC2InstanceDetails.fromJson(
+              json['EC2InstanceDetails'] as Map<String, dynamic>)
+          : null,
+      eSInstanceDetails: json['ESInstanceDetails'] != null
+          ? ESInstanceDetails.fromJson(
+              json['ESInstanceDetails'] as Map<String, dynamic>)
+          : null,
+      elastiCacheInstanceDetails: json['ElastiCacheInstanceDetails'] != null
+          ? ElastiCacheInstanceDetails.fromJson(
+              json['ElastiCacheInstanceDetails'] as Map<String, dynamic>)
+          : null,
+      memoryDBInstanceDetails: json['MemoryDBInstanceDetails'] != null
+          ? MemoryDBInstanceDetails.fromJson(
+              json['MemoryDBInstanceDetails'] as Map<String, dynamic>)
+          : null,
+      rDSInstanceDetails: json['RDSInstanceDetails'] != null
+          ? RDSInstanceDetails.fromJson(
+              json['RDSInstanceDetails'] as Map<String, dynamic>)
+          : null,
+      redshiftInstanceDetails: json['RedshiftInstanceDetails'] != null
+          ? RedshiftInstanceDetails.fromJson(
+              json['RedshiftInstanceDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eC2InstanceDetails = this.eC2InstanceDetails;
+    final eSInstanceDetails = this.eSInstanceDetails;
+    final elastiCacheInstanceDetails = this.elastiCacheInstanceDetails;
+    final memoryDBInstanceDetails = this.memoryDBInstanceDetails;
+    final rDSInstanceDetails = this.rDSInstanceDetails;
+    final redshiftInstanceDetails = this.redshiftInstanceDetails;
+    return {
+      if (eC2InstanceDetails != null) 'EC2InstanceDetails': eC2InstanceDetails,
+      if (eSInstanceDetails != null) 'ESInstanceDetails': eSInstanceDetails,
+      if (elastiCacheInstanceDetails != null)
+        'ElastiCacheInstanceDetails': elastiCacheInstanceDetails,
+      if (memoryDBInstanceDetails != null)
+        'MemoryDBInstanceDetails': memoryDBInstanceDetails,
+      if (rDSInstanceDetails != null) 'RDSInstanceDetails': rDSInstanceDetails,
+      if (redshiftInstanceDetails != null)
+        'RedshiftInstanceDetails': redshiftInstanceDetails,
+    };
+  }
+}
+
+/// Details about the reservations that Amazon Web Services recommends that you
+/// purchase.
+class ReservedCapacityDetails {
+  /// The DynamoDB reservations that Amazon Web Services recommends that you
+  /// purchase.
+  final DynamoDBCapacityDetails? dynamoDBCapacityDetails;
+
+  ReservedCapacityDetails({
+    this.dynamoDBCapacityDetails,
+  });
+
+  factory ReservedCapacityDetails.fromJson(Map<String, dynamic> json) {
+    return ReservedCapacityDetails(
+      dynamoDBCapacityDetails: json['DynamoDBCapacityDetails'] != null
+          ? DynamoDBCapacityDetails.fromJson(
+              json['DynamoDBCapacityDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dynamoDBCapacityDetails = this.dynamoDBCapacityDetails;
+    return {
+      if (dynamoDBCapacityDetails != null)
+        'DynamoDBCapacityDetails': dynamoDBCapacityDetails,
+    };
+  }
+}
+
+/// The DynamoDB reservations that Amazon Web Services recommends that you
+/// purchase.
+class DynamoDBCapacityDetails {
+  /// The capacity unit of the recommended reservation.
+  final String? capacityUnits;
+
+  /// The Amazon Web Services Region of the recommended reservation.
+  final String? region;
+
+  DynamoDBCapacityDetails({
+    this.capacityUnits,
+    this.region,
+  });
+
+  factory DynamoDBCapacityDetails.fromJson(Map<String, dynamic> json) {
+    return DynamoDBCapacityDetails(
+      capacityUnits: json['CapacityUnits'] as String?,
+      region: json['Region'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capacityUnits = this.capacityUnits;
+    final region = this.region;
+    return {
+      if (capacityUnits != null) 'CapacityUnits': capacityUnits,
+      if (region != null) 'Region': region,
+    };
+  }
+}
+
+/// Details about the Amazon EC2 reservations that Amazon Web Services
+/// recommends that you purchase.
+class EC2InstanceDetails {
+  /// The Availability Zone of the recommended reservation.
+  final String? availabilityZone;
+
+  /// Determines whether the recommendation is for a current-generation instance.
+  final bool? currentGeneration;
+
+  /// The instance family of the recommended reservation.
+  final String? family;
+
+  /// The type of instance that Amazon Web Services recommends.
+  final String? instanceType;
+
+  /// The platform of the recommended reservation. The platform is the specific
+  /// combination of operating system, license model, and software on an instance.
+  final String? platform;
+
+  /// The Amazon Web Services Region of the recommended reservation.
+  final String? region;
+
+  /// Determines whether the recommended reservation is size flexible.
+  final bool? sizeFlexEligible;
+
+  /// Determines whether the recommended reservation is dedicated or shared.
+  final String? tenancy;
+
+  EC2InstanceDetails({
+    this.availabilityZone,
+    this.currentGeneration,
+    this.family,
+    this.instanceType,
+    this.platform,
+    this.region,
+    this.sizeFlexEligible,
+    this.tenancy,
+  });
+
+  factory EC2InstanceDetails.fromJson(Map<String, dynamic> json) {
+    return EC2InstanceDetails(
+      availabilityZone: json['AvailabilityZone'] as String?,
+      currentGeneration: json['CurrentGeneration'] as bool?,
+      family: json['Family'] as String?,
+      instanceType: json['InstanceType'] as String?,
+      platform: json['Platform'] as String?,
+      region: json['Region'] as String?,
+      sizeFlexEligible: json['SizeFlexEligible'] as bool?,
+      tenancy: json['Tenancy'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZone = this.availabilityZone;
+    final currentGeneration = this.currentGeneration;
+    final family = this.family;
+    final instanceType = this.instanceType;
+    final platform = this.platform;
+    final region = this.region;
+    final sizeFlexEligible = this.sizeFlexEligible;
+    final tenancy = this.tenancy;
+    return {
+      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+      if (currentGeneration != null) 'CurrentGeneration': currentGeneration,
+      if (family != null) 'Family': family,
+      if (instanceType != null) 'InstanceType': instanceType,
+      if (platform != null) 'Platform': platform,
+      if (region != null) 'Region': region,
+      if (sizeFlexEligible != null) 'SizeFlexEligible': sizeFlexEligible,
+      if (tenancy != null) 'Tenancy': tenancy,
+    };
+  }
+}
+
+/// Details about the Amazon RDS reservations that Amazon Web Services
+/// recommends that you purchase.
+class RDSInstanceDetails {
+  /// Determines whether the recommendation is for a current-generation instance.
+  final bool? currentGeneration;
+
+  /// The database edition that the recommended reservation supports.
+  final String? databaseEdition;
+
+  /// The database engine that the recommended reservation supports.
+  final String? databaseEngine;
+
+  /// Determines whether the recommendation is for a reservation for RDS Custom.
+  final String? deploymentModel;
+
+  /// Determines whether the recommendation is for a reservation in a single
+  /// Availability Zone or a reservation with a backup in a second Availability
+  /// Zone.
+  final String? deploymentOption;
+
+  /// The instance family of the recommended reservation.
+  final String? family;
+
+  /// The type of instance that Amazon Web Services recommends.
+  final String? instanceType;
+
+  /// The license model that the recommended reservation supports.
+  final String? licenseModel;
+
+  /// The Amazon Web Services Region of the recommended reservation.
+  final String? region;
+
+  /// Determines whether the recommended reservation is size flexible.
+  final bool? sizeFlexEligible;
+
+  RDSInstanceDetails({
+    this.currentGeneration,
+    this.databaseEdition,
+    this.databaseEngine,
+    this.deploymentModel,
+    this.deploymentOption,
+    this.family,
+    this.instanceType,
+    this.licenseModel,
+    this.region,
+    this.sizeFlexEligible,
+  });
+
+  factory RDSInstanceDetails.fromJson(Map<String, dynamic> json) {
+    return RDSInstanceDetails(
+      currentGeneration: json['CurrentGeneration'] as bool?,
+      databaseEdition: json['DatabaseEdition'] as String?,
+      databaseEngine: json['DatabaseEngine'] as String?,
+      deploymentModel: json['DeploymentModel'] as String?,
+      deploymentOption: json['DeploymentOption'] as String?,
+      family: json['Family'] as String?,
+      instanceType: json['InstanceType'] as String?,
+      licenseModel: json['LicenseModel'] as String?,
+      region: json['Region'] as String?,
+      sizeFlexEligible: json['SizeFlexEligible'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currentGeneration = this.currentGeneration;
+    final databaseEdition = this.databaseEdition;
+    final databaseEngine = this.databaseEngine;
+    final deploymentModel = this.deploymentModel;
+    final deploymentOption = this.deploymentOption;
+    final family = this.family;
+    final instanceType = this.instanceType;
+    final licenseModel = this.licenseModel;
+    final region = this.region;
+    final sizeFlexEligible = this.sizeFlexEligible;
+    return {
+      if (currentGeneration != null) 'CurrentGeneration': currentGeneration,
+      if (databaseEdition != null) 'DatabaseEdition': databaseEdition,
+      if (databaseEngine != null) 'DatabaseEngine': databaseEngine,
+      if (deploymentModel != null) 'DeploymentModel': deploymentModel,
+      if (deploymentOption != null) 'DeploymentOption': deploymentOption,
+      if (family != null) 'Family': family,
+      if (instanceType != null) 'InstanceType': instanceType,
+      if (licenseModel != null) 'LicenseModel': licenseModel,
+      if (region != null) 'Region': region,
+      if (sizeFlexEligible != null) 'SizeFlexEligible': sizeFlexEligible,
+    };
+  }
+}
+
+/// Details about the Amazon Redshift reservations that Amazon Web Services
+/// recommends that you purchase.
+class RedshiftInstanceDetails {
+  /// Determines whether the recommendation is for a current-generation instance.
+  final bool? currentGeneration;
+
+  /// The instance family of the recommended reservation.
+  final String? family;
+
+  /// The type of node that Amazon Web Services recommends.
+  final String? nodeType;
+
+  /// The Amazon Web Services Region of the recommended reservation.
+  final String? region;
+
+  /// Determines whether the recommended reservation is size flexible.
+  final bool? sizeFlexEligible;
+
+  RedshiftInstanceDetails({
+    this.currentGeneration,
+    this.family,
+    this.nodeType,
+    this.region,
+    this.sizeFlexEligible,
+  });
+
+  factory RedshiftInstanceDetails.fromJson(Map<String, dynamic> json) {
+    return RedshiftInstanceDetails(
+      currentGeneration: json['CurrentGeneration'] as bool?,
+      family: json['Family'] as String?,
+      nodeType: json['NodeType'] as String?,
+      region: json['Region'] as String?,
+      sizeFlexEligible: json['SizeFlexEligible'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currentGeneration = this.currentGeneration;
+    final family = this.family;
+    final nodeType = this.nodeType;
+    final region = this.region;
+    final sizeFlexEligible = this.sizeFlexEligible;
+    return {
+      if (currentGeneration != null) 'CurrentGeneration': currentGeneration,
+      if (family != null) 'Family': family,
+      if (nodeType != null) 'NodeType': nodeType,
+      if (region != null) 'Region': region,
+      if (sizeFlexEligible != null) 'SizeFlexEligible': sizeFlexEligible,
+    };
+  }
+}
+
+/// Details about the Amazon ElastiCache reservations that Amazon Web Services
+/// recommends that you purchase.
+class ElastiCacheInstanceDetails {
+  /// Determines whether the recommendation is for a current generation instance.
+  final bool? currentGeneration;
+
+  /// The instance family of the recommended reservation.
+  final String? family;
+
+  /// The type of node that Amazon Web Services recommends.
+  final String? nodeType;
+
+  /// The description of the recommended reservation.
+  final String? productDescription;
+
+  /// The Amazon Web Services Region of the recommended reservation.
+  final String? region;
+
+  /// Determines whether the recommended reservation is size flexible.
+  final bool? sizeFlexEligible;
+
+  ElastiCacheInstanceDetails({
+    this.currentGeneration,
+    this.family,
+    this.nodeType,
+    this.productDescription,
+    this.region,
+    this.sizeFlexEligible,
+  });
+
+  factory ElastiCacheInstanceDetails.fromJson(Map<String, dynamic> json) {
+    return ElastiCacheInstanceDetails(
+      currentGeneration: json['CurrentGeneration'] as bool?,
+      family: json['Family'] as String?,
+      nodeType: json['NodeType'] as String?,
+      productDescription: json['ProductDescription'] as String?,
+      region: json['Region'] as String?,
+      sizeFlexEligible: json['SizeFlexEligible'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currentGeneration = this.currentGeneration;
+    final family = this.family;
+    final nodeType = this.nodeType;
+    final productDescription = this.productDescription;
+    final region = this.region;
+    final sizeFlexEligible = this.sizeFlexEligible;
+    return {
+      if (currentGeneration != null) 'CurrentGeneration': currentGeneration,
+      if (family != null) 'Family': family,
+      if (nodeType != null) 'NodeType': nodeType,
+      if (productDescription != null) 'ProductDescription': productDescription,
+      if (region != null) 'Region': region,
+      if (sizeFlexEligible != null) 'SizeFlexEligible': sizeFlexEligible,
+    };
+  }
+}
+
+/// Details about the Amazon OpenSearch Service reservations that Amazon Web
+/// Services recommends that you purchase.
+class ESInstanceDetails {
+  /// Determines whether the recommendation is for a current-generation instance.
+  final bool? currentGeneration;
+
+  /// The class of instance that Amazon Web Services recommends.
+  final String? instanceClass;
+
+  /// The size of instance that Amazon Web Services recommends.
+  final String? instanceSize;
+
+  /// The Amazon Web Services Region of the recommended reservation.
+  final String? region;
+
+  /// Determines whether the recommended reservation is size flexible.
+  final bool? sizeFlexEligible;
+
+  ESInstanceDetails({
+    this.currentGeneration,
+    this.instanceClass,
+    this.instanceSize,
+    this.region,
+    this.sizeFlexEligible,
+  });
+
+  factory ESInstanceDetails.fromJson(Map<String, dynamic> json) {
+    return ESInstanceDetails(
+      currentGeneration: json['CurrentGeneration'] as bool?,
+      instanceClass: json['InstanceClass'] as String?,
+      instanceSize: json['InstanceSize'] as String?,
+      region: json['Region'] as String?,
+      sizeFlexEligible: json['SizeFlexEligible'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currentGeneration = this.currentGeneration;
+    final instanceClass = this.instanceClass;
+    final instanceSize = this.instanceSize;
+    final region = this.region;
+    final sizeFlexEligible = this.sizeFlexEligible;
+    return {
+      if (currentGeneration != null) 'CurrentGeneration': currentGeneration,
+      if (instanceClass != null) 'InstanceClass': instanceClass,
+      if (instanceSize != null) 'InstanceSize': instanceSize,
+      if (region != null) 'Region': region,
+      if (sizeFlexEligible != null) 'SizeFlexEligible': sizeFlexEligible,
+    };
+  }
+}
+
+/// Details about the MemoryDB reservations that Amazon Web Services recommends
+/// that you purchase.
+class MemoryDBInstanceDetails {
+  /// Determines whether the recommendation is for a current generation instance.
+  final bool? currentGeneration;
+
+  /// The instance family of the recommended reservation.
+  final String? family;
+
+  /// The node type of the recommended reservation.
+  final String? nodeType;
+
+  /// The Amazon Web Services Region of the recommended reservation.
+  final String? region;
+
+  /// Determines whether the recommended reservation is size flexible.
+  final bool? sizeFlexEligible;
+
+  MemoryDBInstanceDetails({
+    this.currentGeneration,
+    this.family,
+    this.nodeType,
+    this.region,
+    this.sizeFlexEligible,
+  });
+
+  factory MemoryDBInstanceDetails.fromJson(Map<String, dynamic> json) {
+    return MemoryDBInstanceDetails(
+      currentGeneration: json['CurrentGeneration'] as bool?,
+      family: json['Family'] as String?,
+      nodeType: json['NodeType'] as String?,
+      region: json['Region'] as String?,
+      sizeFlexEligible: json['SizeFlexEligible'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currentGeneration = this.currentGeneration;
+    final family = this.family;
+    final nodeType = this.nodeType;
+    final region = this.region;
+    final sizeFlexEligible = this.sizeFlexEligible;
+    return {
+      if (currentGeneration != null) 'CurrentGeneration': currentGeneration,
+      if (family != null) 'Family': family,
+      if (nodeType != null) 'NodeType': nodeType,
+      if (region != null) 'Region': region,
+      if (sizeFlexEligible != null) 'SizeFlexEligible': sizeFlexEligible,
+    };
+  }
+}
+
+/// The Amazon EC2 hardware specifications that you want Amazon Web Services to
+/// provide recommendations for.
+class EC2Specification {
+  /// Indicates whether you want a recommendation for standard or convertible
+  /// reservations.
+  final OfferingClass? offeringClass;
+
+  EC2Specification({
+    this.offeringClass,
+  });
+
+  factory EC2Specification.fromJson(Map<String, dynamic> json) {
+    return EC2Specification(
+      offeringClass:
+          (json['OfferingClass'] as String?)?.let(OfferingClass.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final offeringClass = this.offeringClass;
+    return {
+      if (offeringClass != null) 'OfferingClass': offeringClass.value,
+    };
+  }
+}
+
+class OfferingClass {
+  static const standard = OfferingClass._('STANDARD');
+  static const convertible = OfferingClass._('CONVERTIBLE');
+
+  final String value;
+
+  const OfferingClass._(this.value);
+
+  static const values = [standard, convertible];
+
+  static OfferingClass fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OfferingClass._(value));
+
+  @override
+  bool operator ==(other) => other is OfferingClass && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The amount of instance usage that a reservation covered.
+class Coverage {
+  /// The amount of cost that the reservation covered.
+  final CoverageCost? coverageCost;
+
+  /// The amount of instance usage that the reservation covered, in hours.
+  final CoverageHours? coverageHours;
+
+  /// The amount of instance usage that the reservation covered, in normalized
+  /// units.
+  final CoverageNormalizedUnits? coverageNormalizedUnits;
+
+  Coverage({
+    this.coverageCost,
+    this.coverageHours,
+    this.coverageNormalizedUnits,
+  });
+
+  factory Coverage.fromJson(Map<String, dynamic> json) {
+    return Coverage(
+      coverageCost: json['CoverageCost'] != null
+          ? CoverageCost.fromJson(json['CoverageCost'] as Map<String, dynamic>)
+          : null,
+      coverageHours: json['CoverageHours'] != null
+          ? CoverageHours.fromJson(
+              json['CoverageHours'] as Map<String, dynamic>)
+          : null,
+      coverageNormalizedUnits: json['CoverageNormalizedUnits'] != null
+          ? CoverageNormalizedUnits.fromJson(
+              json['CoverageNormalizedUnits'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final coverageCost = this.coverageCost;
+    final coverageHours = this.coverageHours;
+    final coverageNormalizedUnits = this.coverageNormalizedUnits;
+    return {
+      if (coverageCost != null) 'CoverageCost': coverageCost,
+      if (coverageHours != null) 'CoverageHours': coverageHours,
+      if (coverageNormalizedUnits != null)
+        'CoverageNormalizedUnits': coverageNormalizedUnits,
+    };
+  }
+}
+
+/// How long a running instance either used a reservation or was On-Demand.
+class CoverageHours {
+  /// The percentage of instance hours that a reservation covered.
+  final String? coverageHoursPercentage;
+
+  /// The number of instance running hours that On-Demand Instances covered.
+  final String? onDemandHours;
+
+  /// The number of instance running hours that reservations covered.
+  final String? reservedHours;
+
+  /// The total instance usage, in hours.
+  final String? totalRunningHours;
+
+  CoverageHours({
+    this.coverageHoursPercentage,
+    this.onDemandHours,
+    this.reservedHours,
+    this.totalRunningHours,
+  });
+
+  factory CoverageHours.fromJson(Map<String, dynamic> json) {
+    return CoverageHours(
+      coverageHoursPercentage: json['CoverageHoursPercentage'] as String?,
+      onDemandHours: json['OnDemandHours'] as String?,
+      reservedHours: json['ReservedHours'] as String?,
+      totalRunningHours: json['TotalRunningHours'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final coverageHoursPercentage = this.coverageHoursPercentage;
+    final onDemandHours = this.onDemandHours;
+    final reservedHours = this.reservedHours;
+    final totalRunningHours = this.totalRunningHours;
+    return {
+      if (coverageHoursPercentage != null)
+        'CoverageHoursPercentage': coverageHoursPercentage,
+      if (onDemandHours != null) 'OnDemandHours': onDemandHours,
+      if (reservedHours != null) 'ReservedHours': reservedHours,
+      if (totalRunningHours != null) 'TotalRunningHours': totalRunningHours,
+    };
+  }
+}
+
+/// The amount of instance usage, in normalized units. You can use normalized
+/// units to see your EC2 usage for multiple sizes of instances in a uniform
+/// way. For example, suppose that you run an xlarge instance and a 2xlarge
+/// instance. If you run both instances for the same amount of time, the 2xlarge
+/// instance uses twice as much of your reservation as the xlarge instance, even
+/// though both instances show only one instance-hour. When you use normalized
+/// units instead of instance-hours, the xlarge instance used 8 normalized
+/// units, and the 2xlarge instance used 16 normalized units.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-modifying.html">Modifying
+/// Reserved Instances</a> in the <i>Amazon Elastic Compute Cloud User Guide for
+/// Linux Instances</i>.
+class CoverageNormalizedUnits {
+  /// The percentage of your used instance normalized units that a reservation
+  /// covers.
+  final String? coverageNormalizedUnitsPercentage;
+
+  /// The number of normalized units that are covered by On-Demand Instances
+  /// instead of a reservation.
+  final String? onDemandNormalizedUnits;
+
+  /// The number of normalized units that a reservation covers.
+  final String? reservedNormalizedUnits;
+
+  /// The total number of normalized units that you used.
+  final String? totalRunningNormalizedUnits;
+
+  CoverageNormalizedUnits({
+    this.coverageNormalizedUnitsPercentage,
+    this.onDemandNormalizedUnits,
+    this.reservedNormalizedUnits,
+    this.totalRunningNormalizedUnits,
+  });
+
+  factory CoverageNormalizedUnits.fromJson(Map<String, dynamic> json) {
+    return CoverageNormalizedUnits(
+      coverageNormalizedUnitsPercentage:
+          json['CoverageNormalizedUnitsPercentage'] as String?,
+      onDemandNormalizedUnits: json['OnDemandNormalizedUnits'] as String?,
+      reservedNormalizedUnits: json['ReservedNormalizedUnits'] as String?,
+      totalRunningNormalizedUnits:
+          json['TotalRunningNormalizedUnits'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final coverageNormalizedUnitsPercentage =
+        this.coverageNormalizedUnitsPercentage;
+    final onDemandNormalizedUnits = this.onDemandNormalizedUnits;
+    final reservedNormalizedUnits = this.reservedNormalizedUnits;
+    final totalRunningNormalizedUnits = this.totalRunningNormalizedUnits;
+    return {
+      if (coverageNormalizedUnitsPercentage != null)
+        'CoverageNormalizedUnitsPercentage': coverageNormalizedUnitsPercentage,
+      if (onDemandNormalizedUnits != null)
+        'OnDemandNormalizedUnits': onDemandNormalizedUnits,
+      if (reservedNormalizedUnits != null)
+        'ReservedNormalizedUnits': reservedNormalizedUnits,
+      if (totalRunningNormalizedUnits != null)
+        'TotalRunningNormalizedUnits': totalRunningNormalizedUnits,
+    };
+  }
+}
+
+/// How much it costs to run an instance.
+class CoverageCost {
+  /// How much an On-Demand Instance costs.
+  final String? onDemandCost;
+
+  CoverageCost({
+    this.onDemandCost,
+  });
+
+  factory CoverageCost.fromJson(Map<String, dynamic> json) {
+    return CoverageCost(
+      onDemandCost: json['OnDemandCost'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final onDemandCost = this.onDemandCost;
+    return {
+      if (onDemandCost != null) 'OnDemandCost': onDemandCost,
+    };
+  }
+}
+
+/// Reservation coverage for a specified period, in hours.
+class CoverageByTime {
+  /// The groups of instances that the reservation covered.
+  final List<ReservationCoverageGroup>? groups;
+
+  /// The period that this coverage was used over.
+  final DateInterval? timePeriod;
+
+  /// The total reservation coverage, in hours.
+  final Coverage? total;
+
+  CoverageByTime({
+    this.groups,
+    this.timePeriod,
+    this.total,
+  });
+
+  factory CoverageByTime.fromJson(Map<String, dynamic> json) {
+    return CoverageByTime(
+      groups: (json['Groups'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ReservationCoverageGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      timePeriod: json['TimePeriod'] != null
+          ? DateInterval.fromJson(json['TimePeriod'] as Map<String, dynamic>)
+          : null,
+      total: json['Total'] != null
+          ? Coverage.fromJson(json['Total'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groups = this.groups;
+    final timePeriod = this.timePeriod;
+    final total = this.total;
+    return {
+      if (groups != null) 'Groups': groups,
+      if (timePeriod != null) 'TimePeriod': timePeriod,
+      if (total != null) 'Total': total,
+    };
+  }
+}
+
 /// A group of reservations that share a set of attributes.
-class ReservationUtilizationGroup {
+class ReservationCoverageGroup {
   /// The attributes for this group of reservations.
   final Map<String, String>? attributes;
 
-  /// The key for a specific reservation attribute.
-  final String? key;
+  /// How much instance usage this group of reservations covered.
+  final Coverage? coverage;
 
-  /// How much you used this group of reservations.
-  final ReservationAggregates? utilization;
+  ReservationCoverageGroup({
+    this.attributes,
+    this.coverage,
+  });
 
-  /// The value of a specific reservation attribute.
+  factory ReservationCoverageGroup.fromJson(Map<String, dynamic> json) {
+    return ReservationCoverageGroup(
+      attributes: (json['Attributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      coverage: json['Coverage'] != null
+          ? Coverage.fromJson(json['Coverage'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final coverage = this.coverage;
+    return {
+      if (attributes != null) 'Attributes': attributes,
+      if (coverage != null) 'Coverage': coverage,
+    };
+  }
+}
+
+/// The metadata of a specific type that you can use to filter and group your
+/// results. You can use <code>GetDimensionValues</code> to find specific
+/// values.
+class DimensionValuesWithAttributes {
+  /// The attribute that applies to a specific <code>Dimension</code>.
+  final Map<String, String>? attributes;
+
+  /// The value of a dimension with a specific attribute.
   final String? value;
 
-  ReservationUtilizationGroup({
+  DimensionValuesWithAttributes({
     this.attributes,
-    this.key,
-    this.utilization,
     this.value,
   });
 
-  factory ReservationUtilizationGroup.fromJson(Map<String, dynamic> json) {
-    return ReservationUtilizationGroup(
+  factory DimensionValuesWithAttributes.fromJson(Map<String, dynamic> json) {
+    return DimensionValuesWithAttributes(
       attributes: (json['Attributes'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
-      key: json['Key'] as String?,
-      utilization: json['Utilization'] != null
-          ? ReservationAggregates.fromJson(
-              json['Utilization'] as Map<String, dynamic>)
-          : null,
       value: json['Value'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final attributes = this.attributes;
-    final key = this.key;
-    final utilization = this.utilization;
     final value = this.value;
     return {
       if (attributes != null) 'Attributes': attributes,
-      if (key != null) 'Key': key,
-      if (utilization != null) 'Utilization': utilization,
       if (value != null) 'Value': value,
     };
   }
 }
 
-/// Details for the resource.
-class ResourceDetails {
-  /// Details for the Amazon EC2 resource.
-  final EC2ResourceDetails? eC2ResourceDetails;
+class Context {
+  static const costAndUsage = Context._('COST_AND_USAGE');
+  static const reservations = Context._('RESERVATIONS');
+  static const savingsPlans = Context._('SAVINGS_PLANS');
 
-  ResourceDetails({
-    this.eC2ResourceDetails,
-  });
-
-  factory ResourceDetails.fromJson(Map<String, dynamic> json) {
-    return ResourceDetails(
-      eC2ResourceDetails: json['EC2ResourceDetails'] != null
-          ? EC2ResourceDetails.fromJson(
-              json['EC2ResourceDetails'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eC2ResourceDetails = this.eC2ResourceDetails;
-    return {
-      if (eC2ResourceDetails != null) 'EC2ResourceDetails': eC2ResourceDetails,
-    };
-  }
-}
-
-/// The tag structure that contains a tag key and value.
-/// <note>
-/// Tagging is supported only for the following Cost Explorer resource types: <a
-/// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AnomalyMonitor.html">
-/// <code>AnomalyMonitor</code> </a>, <a
-/// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AnomalySubscription.html">
-/// <code>AnomalySubscription</code> </a>, <a
-/// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_CostCategory.html">
-/// <code>CostCategory</code> </a>.
-/// </note>
-class ResourceTag {
-  /// The key that's associated with the tag.
-  final String key;
-
-  /// The value that's associated with the tag.
   final String value;
 
-  ResourceTag({
-    required this.key,
-    required this.value,
+  const Context._(this.value);
+
+  static const values = [costAndUsage, reservations, savingsPlans];
+
+  static Context fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Context._(value));
+
+  @override
+  bool operator ==(other) => other is Context && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents a collection of cost drivers and their associated metrics for
+/// cost comparison analysis.
+class CostComparisonDriver {
+  /// An array of cost drivers, each representing a cost difference between the
+  /// baseline and comparison time periods. Each entry also includes a metric
+  /// delta (for example, usage change) that contributed to the cost variance,
+  /// along with the identifier and type of change.
+  final List<CostDriver>? costDrivers;
+  final Expression? costSelector;
+
+  /// A mapping of metric names to their comparison values.
+  final Map<String, ComparisonMetricValue>? metrics;
+
+  CostComparisonDriver({
+    this.costDrivers,
+    this.costSelector,
+    this.metrics,
   });
 
-  factory ResourceTag.fromJson(Map<String, dynamic> json) {
-    return ResourceTag(
-      key: (json['Key'] as String?) ?? '',
-      value: (json['Value'] as String?) ?? '',
+  factory CostComparisonDriver.fromJson(Map<String, dynamic> json) {
+    return CostComparisonDriver(
+      costDrivers: (json['CostDrivers'] as List?)
+          ?.nonNulls
+          .map((e) => CostDriver.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      costSelector: json['CostSelector'] != null
+          ? Expression.fromJson(json['CostSelector'] as Map<String, dynamic>)
+          : null,
+      metrics: (json['Metrics'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(
+              k, ComparisonMetricValue.fromJson(e as Map<String, dynamic>))),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
+    final costDrivers = this.costDrivers;
+    final costSelector = this.costSelector;
+    final metrics = this.metrics;
     return {
-      'Key': key,
-      'Value': value,
+      if (costDrivers != null) 'CostDrivers': costDrivers,
+      if (costSelector != null) 'CostSelector': costSelector,
+      if (metrics != null) 'Metrics': metrics,
     };
   }
 }
 
-/// Resource utilization of current resource.
-class ResourceUtilization {
-  /// The utilization of current Amazon EC2 instance.
-  final EC2ResourceUtilization? eC2ResourceUtilization;
+/// Represents factors that contribute to cost variations between the baseline
+/// and comparison time periods, including the type of driver, an identifier of
+/// the driver, and associated metrics.
+class CostDriver {
+  /// A mapping of metric names to their comparison values, measuring the impact
+  /// of this cost driver.
+  final Map<String, ComparisonMetricValue>? metrics;
 
-  ResourceUtilization({
-    this.eC2ResourceUtilization,
+  /// The specific identifier of the cost driver.
+  final String? name;
+
+  /// The category or classification of the cost driver.
+  ///
+  /// Values include: BUNDLED_DISCOUNT, CREDIT, OUT_OF_CYCLE_CHARGE, REFUND,
+  /// RECURRING_RESERVATION_FEE, RESERVATION_USAGE, RI_VOLUME_DISCOUNT,
+  /// SAVINGS_PLAN_USAGE, SAVINGS_PLAN_RECURRING_FEE, SUPPORT_FEE, TAX,
+  /// UPFRONT_RESERVATION_FEE, USAGE_CHANGE, COMMITMENT
+  final String? type;
+
+  CostDriver({
+    this.metrics,
+    this.name,
+    this.type,
   });
 
-  factory ResourceUtilization.fromJson(Map<String, dynamic> json) {
-    return ResourceUtilization(
-      eC2ResourceUtilization: json['EC2ResourceUtilization'] != null
-          ? EC2ResourceUtilization.fromJson(
-              json['EC2ResourceUtilization'] as Map<String, dynamic>)
-          : null,
+  factory CostDriver.fromJson(Map<String, dynamic> json) {
+    return CostDriver(
+      metrics: (json['Metrics'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(
+              k, ComparisonMetricValue.fromJson(e as Map<String, dynamic>))),
+      name: json['Name'] as String?,
+      type: json['Type'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final eC2ResourceUtilization = this.eC2ResourceUtilization;
+    final metrics = this.metrics;
+    final name = this.name;
+    final type = this.type;
     return {
-      if (eC2ResourceUtilization != null)
-        'EC2ResourceUtilization': eC2ResourceUtilization,
+      if (metrics != null) 'Metrics': metrics,
+      if (name != null) 'Name': name,
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+/// Contains cost or usage metric values for comparing two time periods. Each
+/// value includes amounts for the baseline and comparison time periods, their
+/// difference, and the unit of measurement.
+class ComparisonMetricValue {
+  /// The numeric value for the baseline time period measurement.
+  final String? baselineTimePeriodAmount;
+
+  /// The numeric value for the comparison time period measurement.
+  final String? comparisonTimePeriodAmount;
+
+  /// The calculated difference between <code>ComparisonTimePeriodAmount</code>
+  /// and <code>BaselineTimePeriodAmount</code>.
+  final String? difference;
+
+  /// The unit of measurement applicable to all numeric values in this comparison.
+  final String? unit;
+
+  ComparisonMetricValue({
+    this.baselineTimePeriodAmount,
+    this.comparisonTimePeriodAmount,
+    this.difference,
+    this.unit,
+  });
+
+  factory ComparisonMetricValue.fromJson(Map<String, dynamic> json) {
+    return ComparisonMetricValue(
+      baselineTimePeriodAmount: json['BaselineTimePeriodAmount'] as String?,
+      comparisonTimePeriodAmount: json['ComparisonTimePeriodAmount'] as String?,
+      difference: json['Difference'] as String?,
+      unit: json['Unit'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final baselineTimePeriodAmount = this.baselineTimePeriodAmount;
+    final comparisonTimePeriodAmount = this.comparisonTimePeriodAmount;
+    final difference = this.difference;
+    final unit = this.unit;
+    return {
+      if (baselineTimePeriodAmount != null)
+        'BaselineTimePeriodAmount': baselineTimePeriodAmount,
+      if (comparisonTimePeriodAmount != null)
+        'ComparisonTimePeriodAmount': comparisonTimePeriodAmount,
+      if (difference != null) 'Difference': difference,
+      if (unit != null) 'Unit': unit,
     };
   }
 }
@@ -9728,240 +12232,333 @@ class ResultByTime {
   }
 }
 
-/// Recommendations to rightsize resources.
-class RightsizingRecommendation {
-  /// The account that this recommendation is for.
-  final String? accountId;
+/// One level of grouped data in the results.
+class Group {
+  /// The keys that are included in this group.
+  final List<String>? keys;
 
-  /// Context regarding the current instance.
-  final CurrentInstance? currentInstance;
+  /// The metrics that are included in this group.
+  final Map<String, MetricValue>? metrics;
 
-  /// The list of possible reasons why the recommendation is generated, such as
-  /// under- or over-utilization of specific metrics (for example, CPU, Memory,
-  /// Network).
-  final List<FindingReasonCode>? findingReasonCodes;
-
-  /// The details for the modification recommendations.
-  final ModifyRecommendationDetail? modifyRecommendationDetail;
-
-  /// A recommendation to either terminate or modify the resource.
-  final RightsizingType? rightsizingType;
-
-  /// The details for termination recommendations.
-  final TerminateRecommendationDetail? terminateRecommendationDetail;
-
-  RightsizingRecommendation({
-    this.accountId,
-    this.currentInstance,
-    this.findingReasonCodes,
-    this.modifyRecommendationDetail,
-    this.rightsizingType,
-    this.terminateRecommendationDetail,
+  Group({
+    this.keys,
+    this.metrics,
   });
 
-  factory RightsizingRecommendation.fromJson(Map<String, dynamic> json) {
-    return RightsizingRecommendation(
-      accountId: json['AccountId'] as String?,
-      currentInstance: json['CurrentInstance'] != null
-          ? CurrentInstance.fromJson(
-              json['CurrentInstance'] as Map<String, dynamic>)
+  factory Group.fromJson(Map<String, dynamic> json) {
+    return Group(
+      keys: (json['Keys'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      metrics: (json['Metrics'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, MetricValue.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final keys = this.keys;
+    final metrics = this.metrics;
+    return {
+      if (keys != null) 'Keys': keys,
+      if (metrics != null) 'Metrics': metrics,
+    };
+  }
+}
+
+/// Represents a comparison of cost and usage metrics between two time periods.
+class CostAndUsageComparison {
+  final Expression? costAndUsageSelector;
+
+  /// A mapping of metric names to their comparison values.
+  final Map<String, ComparisonMetricValue>? metrics;
+
+  CostAndUsageComparison({
+    this.costAndUsageSelector,
+    this.metrics,
+  });
+
+  factory CostAndUsageComparison.fromJson(Map<String, dynamic> json) {
+    return CostAndUsageComparison(
+      costAndUsageSelector: json['CostAndUsageSelector'] != null
+          ? Expression.fromJson(
+              json['CostAndUsageSelector'] as Map<String, dynamic>)
           : null,
-      findingReasonCodes: (json['FindingReasonCodes'] as List?)
-          ?.nonNulls
-          .map((e) => FindingReasonCode.fromString((e as String)))
-          .toList(),
-      modifyRecommendationDetail: json['ModifyRecommendationDetail'] != null
-          ? ModifyRecommendationDetail.fromJson(
-              json['ModifyRecommendationDetail'] as Map<String, dynamic>)
-          : null,
-      rightsizingType:
-          (json['RightsizingType'] as String?)?.let(RightsizingType.fromString),
-      terminateRecommendationDetail:
-          json['TerminateRecommendationDetail'] != null
-              ? TerminateRecommendationDetail.fromJson(
-                  json['TerminateRecommendationDetail'] as Map<String, dynamic>)
+      metrics: (json['Metrics'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(
+              k, ComparisonMetricValue.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final costAndUsageSelector = this.costAndUsageSelector;
+    final metrics = this.metrics;
+    return {
+      if (costAndUsageSelector != null)
+        'CostAndUsageSelector': costAndUsageSelector,
+      if (metrics != null) 'Metrics': metrics,
+    };
+  }
+}
+
+/// Details about the analysis.
+class AnalysisDetails {
+  /// Details about the Savings Plans purchase analysis.
+  final SavingsPlansPurchaseAnalysisDetails?
+      savingsPlansPurchaseAnalysisDetails;
+
+  AnalysisDetails({
+    this.savingsPlansPurchaseAnalysisDetails,
+  });
+
+  factory AnalysisDetails.fromJson(Map<String, dynamic> json) {
+    return AnalysisDetails(
+      savingsPlansPurchaseAnalysisDetails:
+          json['SavingsPlansPurchaseAnalysisDetails'] != null
+              ? SavingsPlansPurchaseAnalysisDetails.fromJson(
+                  json['SavingsPlansPurchaseAnalysisDetails']
+                      as Map<String, dynamic>)
               : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final currentInstance = this.currentInstance;
-    final findingReasonCodes = this.findingReasonCodes;
-    final modifyRecommendationDetail = this.modifyRecommendationDetail;
-    final rightsizingType = this.rightsizingType;
-    final terminateRecommendationDetail = this.terminateRecommendationDetail;
+    final savingsPlansPurchaseAnalysisDetails =
+        this.savingsPlansPurchaseAnalysisDetails;
     return {
-      if (accountId != null) 'AccountId': accountId,
-      if (currentInstance != null) 'CurrentInstance': currentInstance,
-      if (findingReasonCodes != null)
-        'FindingReasonCodes': findingReasonCodes.map((e) => e.value).toList(),
-      if (modifyRecommendationDetail != null)
-        'ModifyRecommendationDetail': modifyRecommendationDetail,
-      if (rightsizingType != null) 'RightsizingType': rightsizingType.value,
-      if (terminateRecommendationDetail != null)
-        'TerminateRecommendationDetail': terminateRecommendationDetail,
+      if (savingsPlansPurchaseAnalysisDetails != null)
+        'SavingsPlansPurchaseAnalysisDetails':
+            savingsPlansPurchaseAnalysisDetails,
     };
   }
 }
 
-/// You can use <code>RightsizingRecommendationConfiguration</code> to customize
-/// recommendations across two attributes. You can choose to view
-/// recommendations for instances within the same instance families or across
-/// different instance families. You can also choose to view your estimated
-/// savings that are associated with recommendations with consideration of
-/// existing Savings Plans or Reserved Instance (RI) benefits, or neither.
-class RightsizingRecommendationConfiguration {
-  /// The option to consider RI or Savings Plans discount benefits in your savings
-  /// calculation. The default value is <code>TRUE</code>.
-  final bool benefitsConsidered;
-
-  /// The option to see recommendations within the same instance family or
-  /// recommendations for instances across other families. The default value is
-  /// <code>SAME_INSTANCE_FAMILY</code>.
-  final RecommendationTarget recommendationTarget;
-
-  RightsizingRecommendationConfiguration({
-    required this.benefitsConsidered,
-    required this.recommendationTarget,
-  });
-
-  factory RightsizingRecommendationConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return RightsizingRecommendationConfiguration(
-      benefitsConsidered: (json['BenefitsConsidered'] as bool?) ?? false,
-      recommendationTarget: RecommendationTarget.fromString(
-          (json['RecommendationTarget'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final benefitsConsidered = this.benefitsConsidered;
-    final recommendationTarget = this.recommendationTarget;
-    return {
-      'BenefitsConsidered': benefitsConsidered,
-      'RecommendationTarget': recommendationTarget.value,
-    };
-  }
-}
-
-/// Metadata for a recommendation set.
-class RightsizingRecommendationMetadata {
-  /// Additional metadata that might be applicable to the recommendation.
+/// Details about the Savings Plans purchase analysis.
+class SavingsPlansPurchaseAnalysisDetails {
+  /// Additional metadata that might be applicable to the commitment.
   final String? additionalMetadata;
 
-  /// The timestamp for when Amazon Web Services made the recommendation.
-  final String? generationTimestamp;
+  /// The currency code used for the analysis.
+  final String? currencyCode;
 
-  /// The number of days of previous usage that Amazon Web Services considers when
-  /// making the recommendation.
-  final LookbackPeriodInDays? lookbackPeriodInDays;
+  /// The average value of hourly coverage over the lookback period.
+  final String? currentAverageCoverage;
 
-  /// The ID for the recommendation.
-  final String? recommendationId;
+  /// The average value of hourly On-Demand spend over the lookback period.
+  final String? currentAverageHourlyOnDemandSpend;
 
-  RightsizingRecommendationMetadata({
+  /// The highest value of hourly On-Demand spend over the lookback period.
+  final String? currentMaximumHourlyOnDemandSpend;
+
+  /// The lowest value of hourly On-Demand spend over the lookback period.
+  final String? currentMinimumHourlyOnDemandSpend;
+
+  /// The current total On-Demand spend over the lookback period.
+  final String? currentOnDemandSpend;
+
+  /// The estimated coverage of the Savings Plan.
+  final String? estimatedAverageCoverage;
+
+  /// The estimated utilization of the Savings Plan.
+  final String? estimatedAverageUtilization;
+
+  /// The estimated cost of the Savings Plan over the length of the lookback
+  /// period.
+  final String? estimatedCommitmentCost;
+
+  /// The estimated monthly savings amount based on the Savings Plan.
+  final String? estimatedMonthlySavingsAmount;
+
+  /// The remaining On-Demand cost estimated to not be covered by the Savings Plan
+  /// over the length of the lookback period.
+  final String? estimatedOnDemandCost;
+
+  /// The estimated On-Demand cost you expect with no additional commitment based
+  /// on your usage of the selected time period and the Savings Plan you own.
+  final String? estimatedOnDemandCostWithCurrentCommitment;
+
+  /// The estimated return on investment that's based on the Savings Plan and
+  /// estimated savings. This is calculated as
+  /// estimatedSavingsAmount/estimatedSPCost*100.
+  final String? estimatedROI;
+
+  /// The estimated savings amount that's based on the Savings Plan over the
+  /// length of the lookback period.
+  final String? estimatedSavingsAmount;
+
+  /// The estimated savings percentage relative to the total cost over the cost
+  /// calculation lookback period.
+  final String? estimatedSavingsPercentage;
+
+  /// The existing hourly commitment for the Savings Plan type.
+  final String? existingHourlyCommitment;
+
+  /// The recommended or custom hourly commitment.
+  final String? hourlyCommitmentToPurchase;
+
+  /// The date and time of the last hour that went into the analysis.
+  final String? latestUsageTimestamp;
+
+  /// The lookback period in hours that's used to generate the analysis.
+  final String? lookbackPeriodInHours;
+
+  /// The related hourly cost, coverage, and utilization metrics over the lookback
+  /// period.
+  final List<RecommendationDetailHourlyMetrics>? metricsOverLookbackPeriod;
+
+  /// The upfront cost of the Savings Plan based on the selected payment option.
+  final String? upfrontCost;
+
+  SavingsPlansPurchaseAnalysisDetails({
     this.additionalMetadata,
-    this.generationTimestamp,
-    this.lookbackPeriodInDays,
-    this.recommendationId,
+    this.currencyCode,
+    this.currentAverageCoverage,
+    this.currentAverageHourlyOnDemandSpend,
+    this.currentMaximumHourlyOnDemandSpend,
+    this.currentMinimumHourlyOnDemandSpend,
+    this.currentOnDemandSpend,
+    this.estimatedAverageCoverage,
+    this.estimatedAverageUtilization,
+    this.estimatedCommitmentCost,
+    this.estimatedMonthlySavingsAmount,
+    this.estimatedOnDemandCost,
+    this.estimatedOnDemandCostWithCurrentCommitment,
+    this.estimatedROI,
+    this.estimatedSavingsAmount,
+    this.estimatedSavingsPercentage,
+    this.existingHourlyCommitment,
+    this.hourlyCommitmentToPurchase,
+    this.latestUsageTimestamp,
+    this.lookbackPeriodInHours,
+    this.metricsOverLookbackPeriod,
+    this.upfrontCost,
   });
 
-  factory RightsizingRecommendationMetadata.fromJson(
+  factory SavingsPlansPurchaseAnalysisDetails.fromJson(
       Map<String, dynamic> json) {
-    return RightsizingRecommendationMetadata(
+    return SavingsPlansPurchaseAnalysisDetails(
       additionalMetadata: json['AdditionalMetadata'] as String?,
-      generationTimestamp: json['GenerationTimestamp'] as String?,
-      lookbackPeriodInDays: (json['LookbackPeriodInDays'] as String?)
-          ?.let(LookbackPeriodInDays.fromString),
-      recommendationId: json['RecommendationId'] as String?,
+      currencyCode: json['CurrencyCode'] as String?,
+      currentAverageCoverage: json['CurrentAverageCoverage'] as String?,
+      currentAverageHourlyOnDemandSpend:
+          json['CurrentAverageHourlyOnDemandSpend'] as String?,
+      currentMaximumHourlyOnDemandSpend:
+          json['CurrentMaximumHourlyOnDemandSpend'] as String?,
+      currentMinimumHourlyOnDemandSpend:
+          json['CurrentMinimumHourlyOnDemandSpend'] as String?,
+      currentOnDemandSpend: json['CurrentOnDemandSpend'] as String?,
+      estimatedAverageCoverage: json['EstimatedAverageCoverage'] as String?,
+      estimatedAverageUtilization:
+          json['EstimatedAverageUtilization'] as String?,
+      estimatedCommitmentCost: json['EstimatedCommitmentCost'] as String?,
+      estimatedMonthlySavingsAmount:
+          json['EstimatedMonthlySavingsAmount'] as String?,
+      estimatedOnDemandCost: json['EstimatedOnDemandCost'] as String?,
+      estimatedOnDemandCostWithCurrentCommitment:
+          json['EstimatedOnDemandCostWithCurrentCommitment'] as String?,
+      estimatedROI: json['EstimatedROI'] as String?,
+      estimatedSavingsAmount: json['EstimatedSavingsAmount'] as String?,
+      estimatedSavingsPercentage: json['EstimatedSavingsPercentage'] as String?,
+      existingHourlyCommitment: json['ExistingHourlyCommitment'] as String?,
+      hourlyCommitmentToPurchase: json['HourlyCommitmentToPurchase'] as String?,
+      latestUsageTimestamp: json['LatestUsageTimestamp'] as String?,
+      lookbackPeriodInHours: json['LookbackPeriodInHours'] as String?,
+      metricsOverLookbackPeriod: (json['MetricsOverLookbackPeriod'] as List?)
+          ?.nonNulls
+          .map((e) => RecommendationDetailHourlyMetrics.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      upfrontCost: json['UpfrontCost'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final additionalMetadata = this.additionalMetadata;
-    final generationTimestamp = this.generationTimestamp;
-    final lookbackPeriodInDays = this.lookbackPeriodInDays;
-    final recommendationId = this.recommendationId;
+    final currencyCode = this.currencyCode;
+    final currentAverageCoverage = this.currentAverageCoverage;
+    final currentAverageHourlyOnDemandSpend =
+        this.currentAverageHourlyOnDemandSpend;
+    final currentMaximumHourlyOnDemandSpend =
+        this.currentMaximumHourlyOnDemandSpend;
+    final currentMinimumHourlyOnDemandSpend =
+        this.currentMinimumHourlyOnDemandSpend;
+    final currentOnDemandSpend = this.currentOnDemandSpend;
+    final estimatedAverageCoverage = this.estimatedAverageCoverage;
+    final estimatedAverageUtilization = this.estimatedAverageUtilization;
+    final estimatedCommitmentCost = this.estimatedCommitmentCost;
+    final estimatedMonthlySavingsAmount = this.estimatedMonthlySavingsAmount;
+    final estimatedOnDemandCost = this.estimatedOnDemandCost;
+    final estimatedOnDemandCostWithCurrentCommitment =
+        this.estimatedOnDemandCostWithCurrentCommitment;
+    final estimatedROI = this.estimatedROI;
+    final estimatedSavingsAmount = this.estimatedSavingsAmount;
+    final estimatedSavingsPercentage = this.estimatedSavingsPercentage;
+    final existingHourlyCommitment = this.existingHourlyCommitment;
+    final hourlyCommitmentToPurchase = this.hourlyCommitmentToPurchase;
+    final latestUsageTimestamp = this.latestUsageTimestamp;
+    final lookbackPeriodInHours = this.lookbackPeriodInHours;
+    final metricsOverLookbackPeriod = this.metricsOverLookbackPeriod;
+    final upfrontCost = this.upfrontCost;
     return {
       if (additionalMetadata != null) 'AdditionalMetadata': additionalMetadata,
-      if (generationTimestamp != null)
-        'GenerationTimestamp': generationTimestamp,
-      if (lookbackPeriodInDays != null)
-        'LookbackPeriodInDays': lookbackPeriodInDays.value,
-      if (recommendationId != null) 'RecommendationId': recommendationId,
+      if (currencyCode != null) 'CurrencyCode': currencyCode,
+      if (currentAverageCoverage != null)
+        'CurrentAverageCoverage': currentAverageCoverage,
+      if (currentAverageHourlyOnDemandSpend != null)
+        'CurrentAverageHourlyOnDemandSpend': currentAverageHourlyOnDemandSpend,
+      if (currentMaximumHourlyOnDemandSpend != null)
+        'CurrentMaximumHourlyOnDemandSpend': currentMaximumHourlyOnDemandSpend,
+      if (currentMinimumHourlyOnDemandSpend != null)
+        'CurrentMinimumHourlyOnDemandSpend': currentMinimumHourlyOnDemandSpend,
+      if (currentOnDemandSpend != null)
+        'CurrentOnDemandSpend': currentOnDemandSpend,
+      if (estimatedAverageCoverage != null)
+        'EstimatedAverageCoverage': estimatedAverageCoverage,
+      if (estimatedAverageUtilization != null)
+        'EstimatedAverageUtilization': estimatedAverageUtilization,
+      if (estimatedCommitmentCost != null)
+        'EstimatedCommitmentCost': estimatedCommitmentCost,
+      if (estimatedMonthlySavingsAmount != null)
+        'EstimatedMonthlySavingsAmount': estimatedMonthlySavingsAmount,
+      if (estimatedOnDemandCost != null)
+        'EstimatedOnDemandCost': estimatedOnDemandCost,
+      if (estimatedOnDemandCostWithCurrentCommitment != null)
+        'EstimatedOnDemandCostWithCurrentCommitment':
+            estimatedOnDemandCostWithCurrentCommitment,
+      if (estimatedROI != null) 'EstimatedROI': estimatedROI,
+      if (estimatedSavingsAmount != null)
+        'EstimatedSavingsAmount': estimatedSavingsAmount,
+      if (estimatedSavingsPercentage != null)
+        'EstimatedSavingsPercentage': estimatedSavingsPercentage,
+      if (existingHourlyCommitment != null)
+        'ExistingHourlyCommitment': existingHourlyCommitment,
+      if (hourlyCommitmentToPurchase != null)
+        'HourlyCommitmentToPurchase': hourlyCommitmentToPurchase,
+      if (latestUsageTimestamp != null)
+        'LatestUsageTimestamp': latestUsageTimestamp,
+      if (lookbackPeriodInHours != null)
+        'LookbackPeriodInHours': lookbackPeriodInHours,
+      if (metricsOverLookbackPeriod != null)
+        'MetricsOverLookbackPeriod': metricsOverLookbackPeriod,
+      if (upfrontCost != null) 'UpfrontCost': upfrontCost,
     };
   }
 }
 
-/// The summary of rightsizing recommendations
-class RightsizingRecommendationSummary {
-  /// The estimated total savings resulting from modifications, on a monthly
-  /// basis.
-  final String? estimatedTotalMonthlySavingsAmount;
-
-  /// The currency code that Amazon Web Services used to calculate the savings.
-  final String? savingsCurrencyCode;
-
-  /// The savings percentage based on the recommended modifications. It's relative
-  /// to the total On-Demand costs that are associated with these instances.
-  final String? savingsPercentage;
-
-  /// The total number of instance recommendations.
-  final String? totalRecommendationCount;
-
-  RightsizingRecommendationSummary({
-    this.estimatedTotalMonthlySavingsAmount,
-    this.savingsCurrencyCode,
-    this.savingsPercentage,
-    this.totalRecommendationCount,
-  });
-
-  factory RightsizingRecommendationSummary.fromJson(Map<String, dynamic> json) {
-    return RightsizingRecommendationSummary(
-      estimatedTotalMonthlySavingsAmount:
-          json['EstimatedTotalMonthlySavingsAmount'] as String?,
-      savingsCurrencyCode: json['SavingsCurrencyCode'] as String?,
-      savingsPercentage: json['SavingsPercentage'] as String?,
-      totalRecommendationCount: json['TotalRecommendationCount'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final estimatedTotalMonthlySavingsAmount =
-        this.estimatedTotalMonthlySavingsAmount;
-    final savingsCurrencyCode = this.savingsCurrencyCode;
-    final savingsPercentage = this.savingsPercentage;
-    final totalRecommendationCount = this.totalRecommendationCount;
-    return {
-      if (estimatedTotalMonthlySavingsAmount != null)
-        'EstimatedTotalMonthlySavingsAmount':
-            estimatedTotalMonthlySavingsAmount,
-      if (savingsCurrencyCode != null)
-        'SavingsCurrencyCode': savingsCurrencyCode,
-      if (savingsPercentage != null) 'SavingsPercentage': savingsPercentage,
-      if (totalRecommendationCount != null)
-        'TotalRecommendationCount': totalRecommendationCount,
-    };
-  }
-}
-
-class RightsizingType {
-  static const terminate = RightsizingType._('TERMINATE');
-  static const modify = RightsizingType._('MODIFY');
+class ApproximationDimension {
+  static const service = ApproximationDimension._('SERVICE');
+  static const resource = ApproximationDimension._('RESOURCE');
 
   final String value;
 
-  const RightsizingType._(this.value);
+  const ApproximationDimension._(this.value);
 
-  static const values = [terminate, modify];
+  static const values = [service, resource];
 
-  static RightsizingType fromString(String value) =>
+  static ApproximationDimension fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => RightsizingType._(value));
+          orElse: () => ApproximationDimension._(value));
 
   @override
-  bool operator ==(other) => other is RightsizingType && other.value == value;
+  bool operator ==(other) =>
+      other is ApproximationDimension && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -9970,10 +12567,550 @@ class RightsizingType {
   String toString() => value;
 }
 
-/// The combination of Amazon Web Service, linked account, linked account name,
-/// Region, and usage type where a cost anomaly is observed. The linked account
-/// name will only be available when the account name can be identified.
+/// An <code>AnomalySubscription</code> resource (also referred to as an alert
+/// subscription) sends notifications about specific anomalies that meet an
+/// alerting criteria defined by you.
+///
+/// You can specify the frequency of the alerts and the subscribers to notify.
+///
+/// Anomaly subscriptions can be associated with one or more <a
+/// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AnomalyMonitor.html">
+/// <code>AnomalyMonitor</code> </a> resources, and they only send notifications
+/// about anomalies detected by those associated monitors. You can also
+/// configure a threshold to further control which anomalies are included in the
+/// notifications.
+///
+/// Anomalies that don’t exceed the chosen threshold and therefore don’t trigger
+/// notifications from an anomaly subscription will still be available on the
+/// console and from the <a
+/// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_GetAnomalies.html">
+/// <code>GetAnomalies</code> </a> API.
+class AnomalySubscription {
+  /// The frequency that anomaly notifications are sent. Notifications are sent
+  /// either over email (for DAILY and WEEKLY frequencies) or SNS (for IMMEDIATE
+  /// frequency). For more information, see <a
+  /// href="https://docs.aws.amazon.com/cost-management/latest/userguide/ad-SNS.html">Creating
+  /// an Amazon SNS topic for anomaly notifications</a>.
+  final AnomalySubscriptionFrequency frequency;
+
+  /// A list of cost anomaly monitors.
+  final List<String> monitorArnList;
+
+  /// A list of subscribers to notify.
+  final List<Subscriber> subscribers;
+
+  /// The name for the subscription.
+  final String subscriptionName;
+
+  /// Your unique account identifier.
+  final String? accountId;
+
+  /// The <code>AnomalySubscription</code> Amazon Resource Name (ARN).
+  final String? subscriptionArn;
+
+  /// (deprecated)
+  ///
+  /// An absolute dollar value that must be exceeded by the anomaly's total impact
+  /// (see <a
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Impact.html">Impact</a>
+  /// for more details) for an anomaly notification to be generated.
+  ///
+  /// This field has been deprecated. To specify a threshold, use
+  /// ThresholdExpression. Continued use of Threshold will be treated as shorthand
+  /// syntax for a ThresholdExpression.
+  ///
+  /// One of Threshold or ThresholdExpression is required for this resource. You
+  /// cannot specify both.
+  final double? threshold;
+
+  /// An <a
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html">Expression</a>
+  /// object used to specify the anomalies that you want to generate alerts for.
+  /// This supports dimensions and nested expressions. The supported dimensions
+  /// are <code>ANOMALY_TOTAL_IMPACT_ABSOLUTE</code> and
+  /// <code>ANOMALY_TOTAL_IMPACT_PERCENTAGE</code>, corresponding to an anomaly’s
+  /// TotalImpact and TotalImpactPercentage, respectively (see <a
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Impact.html">Impact</a>
+  /// for more details). The supported nested expression types are
+  /// <code>AND</code> and <code>OR</code>. The match option
+  /// <code>GREATER_THAN_OR_EQUAL</code> is required. Values must be numbers
+  /// between 0 and 10,000,000,000 in string format.
+  ///
+  /// One of Threshold or ThresholdExpression is required for this resource. You
+  /// cannot specify both.
+  ///
+  /// The following are examples of valid ThresholdExpressions:
+  ///
+  /// <ul>
+  /// <li>
+  /// Absolute threshold: <code>{ "Dimensions": { "Key":
+  /// "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL"
+  /// ], "Values": [ "100" ] } }</code>
+  /// </li>
+  /// <li>
+  /// Percentage threshold: <code>{ "Dimensions": { "Key":
+  /// "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL"
+  /// ], "Values": [ "100" ] } }</code>
+  /// </li>
+  /// <li>
+  /// <code>AND</code> two thresholds together: <code>{ "And": [ { "Dimensions": {
+  /// "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [
+  /// "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions": { "Key":
+  /// "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL"
+  /// ], "Values": [ "100" ] } } ] }</code>
+  /// </li>
+  /// <li>
+  /// <code>OR</code> two thresholds together: <code>{ "Or": [ { "Dimensions": {
+  /// "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [
+  /// "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions": { "Key":
+  /// "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL"
+  /// ], "Values": [ "100" ] } } ] }</code>
+  /// </li>
+  /// </ul>
+  final Expression? thresholdExpression;
+
+  AnomalySubscription({
+    required this.frequency,
+    required this.monitorArnList,
+    required this.subscribers,
+    required this.subscriptionName,
+    this.accountId,
+    this.subscriptionArn,
+    this.threshold,
+    this.thresholdExpression,
+  });
+
+  factory AnomalySubscription.fromJson(Map<String, dynamic> json) {
+    return AnomalySubscription(
+      frequency: AnomalySubscriptionFrequency.fromString(
+          (json['Frequency'] as String?) ?? ''),
+      monitorArnList: ((json['MonitorArnList'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      subscribers: ((json['Subscribers'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Subscriber.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      subscriptionName: (json['SubscriptionName'] as String?) ?? '',
+      accountId: json['AccountId'] as String?,
+      subscriptionArn: json['SubscriptionArn'] as String?,
+      threshold: json['Threshold'] as double?,
+      thresholdExpression: json['ThresholdExpression'] != null
+          ? Expression.fromJson(
+              json['ThresholdExpression'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final frequency = this.frequency;
+    final monitorArnList = this.monitorArnList;
+    final subscribers = this.subscribers;
+    final subscriptionName = this.subscriptionName;
+    final accountId = this.accountId;
+    final subscriptionArn = this.subscriptionArn;
+    final threshold = this.threshold;
+    final thresholdExpression = this.thresholdExpression;
+    return {
+      'Frequency': frequency.value,
+      'MonitorArnList': monitorArnList,
+      'Subscribers': subscribers,
+      'SubscriptionName': subscriptionName,
+      if (accountId != null) 'AccountId': accountId,
+      if (subscriptionArn != null) 'SubscriptionArn': subscriptionArn,
+      if (threshold != null) 'Threshold': threshold,
+      if (thresholdExpression != null)
+        'ThresholdExpression': thresholdExpression,
+    };
+  }
+}
+
+/// This object continuously inspects your account's cost data for anomalies.
+/// It's based on <code>MonitorType</code> and
+/// <code>MonitorSpecification</code>. The content consists of detailed metadata
+/// and the current status of the monitor object.
+class AnomalyMonitor {
+  /// The name of the monitor.
+  final String monitorName;
+
+  /// The type of the monitor.
+  ///
+  /// Set this to <code>DIMENSIONAL</code> for an Amazon Web Services managed
+  /// monitor. Amazon Web Services managed monitors automatically track up to the
+  /// top 5,000 values by cost within a dimension of your choosing. Each dimension
+  /// value is evaluated independently. If you start incurring cost in a new value
+  /// of your chosen dimension, it will automatically be analyzed by an Amazon Web
+  /// Services managed monitor.
+  ///
+  /// Set this to <code>CUSTOM</code> for a customer managed monitor. Customer
+  /// managed monitors let you select specific dimension values that get monitored
+  /// in aggregate.
+  ///
+  /// For more information about monitor types, see <a
+  /// href="https://docs.aws.amazon.com/cost-management/latest/userguide/getting-started-ad.html#monitor-type-def">Monitor
+  /// types</a> in the <i>Billing and Cost Management User Guide</i>.
+  final MonitorType monitorType;
+
+  /// The date when the monitor was created.
+  final String? creationDate;
+
+  /// The value for evaluated dimensions.
+  final int? dimensionalValueCount;
+
+  /// The date when the monitor last evaluated for anomalies.
+  final String? lastEvaluatedDate;
+
+  /// The date when the monitor was last updated.
+  final String? lastUpdatedDate;
+
+  /// The Amazon Resource Name (ARN) value.
+  final String? monitorArn;
+
+  /// For customer managed monitors, do not specify this field.
+  ///
+  /// For Amazon Web Services managed monitors, this field controls which cost
+  /// dimension is automatically analyzed by the monitor. For <code>TAG</code> and
+  /// <code>COST_CATEGORY </code> dimensions, you must also specify
+  /// MonitorSpecification to configure the specific tag or cost category key to
+  /// analyze.
+  final MonitorDimension? monitorDimension;
+
+  /// An <a
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html">Expression</a>
+  /// object used to control what costs the monitor analyzes for anomalies.
+  ///
+  /// For Amazon Web Services managed monitors:
+  ///
+  /// <ul>
+  /// <li>
+  /// If MonitorDimension is <code>SERVICE</code> or <code>LINKED_ACCOUNT</code>,
+  /// do not specify this field
+  /// </li>
+  /// <li>
+  /// If MonitorDimension is <code>TAG</code>, set this field to <code>{ "Tags": {
+  /// "Key": "your tag key" } }</code>
+  /// </li>
+  /// <li>
+  /// If MonitorDimension is <code>COST_CATEGORY</code>, set this field to <code>{
+  /// "CostCategories": { "Key": "your cost category key" } }</code>
+  /// </li>
+  /// </ul>
+  /// For customer managed monitors:
+  ///
+  /// <ul>
+  /// <li>
+  /// To track linked accounts, set this field to <code>{ "Dimensions": { "Key":
+  /// "LINKED_ACCOUNT", "Values": [ "your list of up to 10 account IDs" ] } }
+  /// </code>
+  /// </li>
+  /// <li>
+  /// To track cost allocation tags, set this field to <code>{ "Tags": { "Key":
+  /// "your tag key", "Values": [ "your list of up to 10 tag values" ] } } </code>
+  /// </li>
+  /// <li>
+  /// To track cost categories, set this field to<code>{ "CostCategories": {
+  /// "Key": "your cost category key", "Values": [ "your cost category value" ] }
+  /// } </code>
+  /// </li>
+  /// </ul>
+  final Expression? monitorSpecification;
+
+  AnomalyMonitor({
+    required this.monitorName,
+    required this.monitorType,
+    this.creationDate,
+    this.dimensionalValueCount,
+    this.lastEvaluatedDate,
+    this.lastUpdatedDate,
+    this.monitorArn,
+    this.monitorDimension,
+    this.monitorSpecification,
+  });
+
+  factory AnomalyMonitor.fromJson(Map<String, dynamic> json) {
+    return AnomalyMonitor(
+      monitorName: (json['MonitorName'] as String?) ?? '',
+      monitorType:
+          MonitorType.fromString((json['MonitorType'] as String?) ?? ''),
+      creationDate: json['CreationDate'] as String?,
+      dimensionalValueCount: json['DimensionalValueCount'] as int?,
+      lastEvaluatedDate: json['LastEvaluatedDate'] as String?,
+      lastUpdatedDate: json['LastUpdatedDate'] as String?,
+      monitorArn: json['MonitorArn'] as String?,
+      monitorDimension: (json['MonitorDimension'] as String?)
+          ?.let(MonitorDimension.fromString),
+      monitorSpecification: json['MonitorSpecification'] != null
+          ? Expression.fromJson(
+              json['MonitorSpecification'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final monitorName = this.monitorName;
+    final monitorType = this.monitorType;
+    final creationDate = this.creationDate;
+    final dimensionalValueCount = this.dimensionalValueCount;
+    final lastEvaluatedDate = this.lastEvaluatedDate;
+    final lastUpdatedDate = this.lastUpdatedDate;
+    final monitorArn = this.monitorArn;
+    final monitorDimension = this.monitorDimension;
+    final monitorSpecification = this.monitorSpecification;
+    return {
+      'MonitorName': monitorName,
+      'MonitorType': monitorType.value,
+      if (creationDate != null) 'CreationDate': creationDate,
+      if (dimensionalValueCount != null)
+        'DimensionalValueCount': dimensionalValueCount,
+      if (lastEvaluatedDate != null) 'LastEvaluatedDate': lastEvaluatedDate,
+      if (lastUpdatedDate != null) 'LastUpdatedDate': lastUpdatedDate,
+      if (monitorArn != null) 'MonitorArn': monitorArn,
+      if (monitorDimension != null) 'MonitorDimension': monitorDimension.value,
+      if (monitorSpecification != null)
+        'MonitorSpecification': monitorSpecification,
+    };
+  }
+}
+
+class MonitorType {
+  static const dimensional = MonitorType._('DIMENSIONAL');
+  static const custom = MonitorType._('CUSTOM');
+
+  final String value;
+
+  const MonitorType._(this.value);
+
+  static const values = [dimensional, custom];
+
+  static MonitorType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MonitorType._(value));
+
+  @override
+  bool operator ==(other) => other is MonitorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class MonitorDimension {
+  static const service = MonitorDimension._('SERVICE');
+  static const linkedAccount = MonitorDimension._('LINKED_ACCOUNT');
+  static const tag = MonitorDimension._('TAG');
+  static const costCategory = MonitorDimension._('COST_CATEGORY');
+
+  final String value;
+
+  const MonitorDimension._(this.value);
+
+  static const values = [service, linkedAccount, tag, costCategory];
+
+  static MonitorDimension fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MonitorDimension._(value));
+
+  @override
+  bool operator ==(other) => other is MonitorDimension && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An unusual cost pattern. This consists of the detailed metadata and the
+/// current status of the anomaly object.
+class Anomaly {
+  /// The unique identifier for the anomaly.
+  final String anomalyId;
+
+  /// The latest and maximum score for the anomaly.
+  final AnomalyScore anomalyScore;
+
+  /// The dollar impact for the anomaly.
+  final Impact impact;
+
+  /// The Amazon Resource Name (ARN) for the cost monitor that generated this
+  /// anomaly.
+  final String monitorArn;
+
+  /// The last day the anomaly is detected.
+  final String? anomalyEndDate;
+
+  /// The first day the anomaly is detected.
+  final String? anomalyStartDate;
+
+  /// The dimension for the anomaly (for example, an Amazon Web Services service
+  /// in a service monitor).
+  final String? dimensionValue;
+
+  /// The feedback value.
+  final AnomalyFeedbackType? feedback;
+
+  /// The list of identified root causes for the anomaly.
+  final List<RootCause>? rootCauses;
+
+  Anomaly({
+    required this.anomalyId,
+    required this.anomalyScore,
+    required this.impact,
+    required this.monitorArn,
+    this.anomalyEndDate,
+    this.anomalyStartDate,
+    this.dimensionValue,
+    this.feedback,
+    this.rootCauses,
+  });
+
+  factory Anomaly.fromJson(Map<String, dynamic> json) {
+    return Anomaly(
+      anomalyId: (json['AnomalyId'] as String?) ?? '',
+      anomalyScore: AnomalyScore.fromJson(
+          (json['AnomalyScore'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      impact: Impact.fromJson((json['Impact'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      monitorArn: (json['MonitorArn'] as String?) ?? '',
+      anomalyEndDate: json['AnomalyEndDate'] as String?,
+      anomalyStartDate: json['AnomalyStartDate'] as String?,
+      dimensionValue: json['DimensionValue'] as String?,
+      feedback:
+          (json['Feedback'] as String?)?.let(AnomalyFeedbackType.fromString),
+      rootCauses: (json['RootCauses'] as List?)
+          ?.nonNulls
+          .map((e) => RootCause.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final anomalyId = this.anomalyId;
+    final anomalyScore = this.anomalyScore;
+    final impact = this.impact;
+    final monitorArn = this.monitorArn;
+    final anomalyEndDate = this.anomalyEndDate;
+    final anomalyStartDate = this.anomalyStartDate;
+    final dimensionValue = this.dimensionValue;
+    final feedback = this.feedback;
+    final rootCauses = this.rootCauses;
+    return {
+      'AnomalyId': anomalyId,
+      'AnomalyScore': anomalyScore,
+      'Impact': impact,
+      'MonitorArn': monitorArn,
+      if (anomalyEndDate != null) 'AnomalyEndDate': anomalyEndDate,
+      if (anomalyStartDate != null) 'AnomalyStartDate': anomalyStartDate,
+      if (dimensionValue != null) 'DimensionValue': dimensionValue,
+      if (feedback != null) 'Feedback': feedback.value,
+      if (rootCauses != null) 'RootCauses': rootCauses,
+    };
+  }
+}
+
+/// Quantifies the anomaly. The higher score means that it's more anomalous.
+class AnomalyScore {
+  /// The last observed score.
+  final double currentScore;
+
+  /// The maximum score that's observed during the
+  /// <code>AnomalyDateInterval</code>.
+  final double maxScore;
+
+  AnomalyScore({
+    required this.currentScore,
+    required this.maxScore,
+  });
+
+  factory AnomalyScore.fromJson(Map<String, dynamic> json) {
+    return AnomalyScore(
+      currentScore: (json['CurrentScore'] as double?) ?? 0,
+      maxScore: (json['MaxScore'] as double?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currentScore = this.currentScore;
+    final maxScore = this.maxScore;
+    return {
+      'CurrentScore': currentScore,
+      'MaxScore': maxScore,
+    };
+  }
+}
+
+/// The dollar value of the anomaly.
+class Impact {
+  /// The maximum dollar value that's observed for an anomaly.
+  final double maxImpact;
+
+  /// The cumulative dollar amount that was actually spent during the anomaly.
+  final double? totalActualSpend;
+
+  /// The cumulative dollar amount that was expected to be spent during the
+  /// anomaly. It is calculated using advanced machine learning models to
+  /// determine the typical spending pattern based on historical data for a
+  /// customer.
+  final double? totalExpectedSpend;
+
+  /// The cumulative dollar difference between the total actual spend and total
+  /// expected spend. It is calculated as <code>TotalActualSpend -
+  /// TotalExpectedSpend</code>.
+  final double? totalImpact;
+
+  /// The cumulative percentage difference between the total actual spend and
+  /// total expected spend. It is calculated as <code>(TotalImpact /
+  /// TotalExpectedSpend) * 100</code>. When <code>TotalExpectedSpend</code> is
+  /// zero, this field is omitted. Expected spend can be zero in situations such
+  /// as when you start to use a service for the first time.
+  final double? totalImpactPercentage;
+
+  Impact({
+    required this.maxImpact,
+    this.totalActualSpend,
+    this.totalExpectedSpend,
+    this.totalImpact,
+    this.totalImpactPercentage,
+  });
+
+  factory Impact.fromJson(Map<String, dynamic> json) {
+    return Impact(
+      maxImpact: (json['MaxImpact'] as double?) ?? 0,
+      totalActualSpend: json['TotalActualSpend'] as double?,
+      totalExpectedSpend: json['TotalExpectedSpend'] as double?,
+      totalImpact: json['TotalImpact'] as double?,
+      totalImpactPercentage: json['TotalImpactPercentage'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxImpact = this.maxImpact;
+    final totalActualSpend = this.totalActualSpend;
+    final totalExpectedSpend = this.totalExpectedSpend;
+    final totalImpact = this.totalImpact;
+    final totalImpactPercentage = this.totalImpactPercentage;
+    return {
+      'MaxImpact': maxImpact,
+      if (totalActualSpend != null) 'TotalActualSpend': totalActualSpend,
+      if (totalExpectedSpend != null) 'TotalExpectedSpend': totalExpectedSpend,
+      if (totalImpact != null) 'TotalImpact': totalImpact,
+      if (totalImpactPercentage != null)
+        'TotalImpactPercentage': totalImpactPercentage,
+    };
+  }
+}
+
+/// The combination of Amazon Web Services service, linked account, linked
+/// account name, Region, and usage type where a cost anomaly is observed, along
+/// with the dollar and percentage amount of the anomaly impact. The linked
+/// account name will only be available when the account name can be identified.
 class RootCause {
+  /// The dollar impact for the root cause.
+  final RootCauseImpact? impact;
+
   /// The member account value that's associated with the cost anomaly.
   final String? linkedAccount;
 
@@ -9983,13 +13120,15 @@ class RootCause {
   /// The Amazon Web Services Region that's associated with the cost anomaly.
   final String? region;
 
-  /// The Amazon Web Service name that's associated with the cost anomaly.
+  /// The Amazon Web Services service name that's associated with the cost
+  /// anomaly.
   final String? service;
 
   /// The <code>UsageType</code> value that's associated with the cost anomaly.
   final String? usageType;
 
   RootCause({
+    this.impact,
     this.linkedAccount,
     this.linkedAccountName,
     this.region,
@@ -9999,6 +13138,9 @@ class RootCause {
 
   factory RootCause.fromJson(Map<String, dynamic> json) {
     return RootCause(
+      impact: json['Impact'] != null
+          ? RootCauseImpact.fromJson(json['Impact'] as Map<String, dynamic>)
+          : null,
       linkedAccount: json['LinkedAccount'] as String?,
       linkedAccountName: json['LinkedAccountName'] as String?,
       region: json['Region'] as String?,
@@ -10008,12 +13150,14 @@ class RootCause {
   }
 
   Map<String, dynamic> toJson() {
+    final impact = this.impact;
     final linkedAccount = this.linkedAccount;
     final linkedAccountName = this.linkedAccountName;
     final region = this.region;
     final service = this.service;
     final usageType = this.usageType;
     return {
+      if (impact != null) 'Impact': impact,
       if (linkedAccount != null) 'LinkedAccount': linkedAccount,
       if (linkedAccountName != null) 'LinkedAccountName': linkedAccountName,
       if (region != null) 'Region': region,
@@ -10023,1354 +13167,49 @@ class RootCause {
   }
 }
 
-/// The amortized amount of Savings Plans purchased in a specific account during
-/// a specific time interval.
-class SavingsPlansAmortizedCommitment {
-  /// The amortized amount of your Savings Plans commitment that was purchased
-  /// with either a <code>Partial</code> or a <code>NoUpfront</code>.
-  final String? amortizedRecurringCommitment;
+/// The dollar value of the root cause.
+class RootCauseImpact {
+  /// The dollar amount that this root cause contributed to the anomaly's
+  /// TotalImpact.
+  final double contribution;
 
-  /// The amortized amount of your Savings Plans commitment that was purchased
-  /// with an <code>Upfront</code> or <code>PartialUpfront</code> Savings Plans.
-  final String? amortizedUpfrontCommitment;
-
-  /// The total amortized amount of your Savings Plans commitment, regardless of
-  /// your Savings Plans purchase method.
-  final String? totalAmortizedCommitment;
-
-  SavingsPlansAmortizedCommitment({
-    this.amortizedRecurringCommitment,
-    this.amortizedUpfrontCommitment,
-    this.totalAmortizedCommitment,
+  RootCauseImpact({
+    required this.contribution,
   });
 
-  factory SavingsPlansAmortizedCommitment.fromJson(Map<String, dynamic> json) {
-    return SavingsPlansAmortizedCommitment(
-      amortizedRecurringCommitment:
-          json['AmortizedRecurringCommitment'] as String?,
-      amortizedUpfrontCommitment: json['AmortizedUpfrontCommitment'] as String?,
-      totalAmortizedCommitment: json['TotalAmortizedCommitment'] as String?,
+  factory RootCauseImpact.fromJson(Map<String, dynamic> json) {
+    return RootCauseImpact(
+      contribution: (json['Contribution'] as double?) ?? 0,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final amortizedRecurringCommitment = this.amortizedRecurringCommitment;
-    final amortizedUpfrontCommitment = this.amortizedUpfrontCommitment;
-    final totalAmortizedCommitment = this.totalAmortizedCommitment;
+    final contribution = this.contribution;
     return {
-      if (amortizedRecurringCommitment != null)
-        'AmortizedRecurringCommitment': amortizedRecurringCommitment,
-      if (amortizedUpfrontCommitment != null)
-        'AmortizedUpfrontCommitment': amortizedUpfrontCommitment,
-      if (totalAmortizedCommitment != null)
-        'TotalAmortizedCommitment': totalAmortizedCommitment,
+      'Contribution': contribution,
     };
   }
 }
 
-/// The amount of Savings Plans eligible usage that's covered by Savings Plans.
-/// All calculations consider the On-Demand equivalent of your Savings Plans
-/// usage.
-class SavingsPlansCoverage {
-  /// The attribute that applies to a specific <code>Dimension</code>.
-  final Map<String, String>? attributes;
-
-  /// The amount of Savings Plans eligible usage that the Savings Plans covered.
-  final SavingsPlansCoverageData? coverage;
-  final DateInterval? timePeriod;
-
-  SavingsPlansCoverage({
-    this.attributes,
-    this.coverage,
-    this.timePeriod,
-  });
-
-  factory SavingsPlansCoverage.fromJson(Map<String, dynamic> json) {
-    return SavingsPlansCoverage(
-      attributes: (json['Attributes'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      coverage: json['Coverage'] != null
-          ? SavingsPlansCoverageData.fromJson(
-              json['Coverage'] as Map<String, dynamic>)
-          : null,
-      timePeriod: json['TimePeriod'] != null
-          ? DateInterval.fromJson(json['TimePeriod'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attributes = this.attributes;
-    final coverage = this.coverage;
-    final timePeriod = this.timePeriod;
-    return {
-      if (attributes != null) 'Attributes': attributes,
-      if (coverage != null) 'Coverage': coverage,
-      if (timePeriod != null) 'TimePeriod': timePeriod,
-    };
-  }
-}
-
-/// Specific coverage percentage, On-Demand costs, and spend covered by Savings
-/// Plans, and total Savings Plans costs for an account.
-class SavingsPlansCoverageData {
-  /// The percentage of your existing Savings Plans covered usage, divided by all
-  /// of your eligible Savings Plans usage in an account (or set of accounts).
-  final String? coveragePercentage;
-
-  /// The cost of your Amazon Web Services usage at the public On-Demand rate.
-  final String? onDemandCost;
-
-  /// The amount of your Amazon Web Services usage that's covered by a Savings
-  /// Plans.
-  final String? spendCoveredBySavingsPlans;
-
-  /// The total cost of your Amazon Web Services usage, regardless of your
-  /// purchase option.
-  final String? totalCost;
-
-  SavingsPlansCoverageData({
-    this.coveragePercentage,
-    this.onDemandCost,
-    this.spendCoveredBySavingsPlans,
-    this.totalCost,
-  });
-
-  factory SavingsPlansCoverageData.fromJson(Map<String, dynamic> json) {
-    return SavingsPlansCoverageData(
-      coveragePercentage: json['CoveragePercentage'] as String?,
-      onDemandCost: json['OnDemandCost'] as String?,
-      spendCoveredBySavingsPlans: json['SpendCoveredBySavingsPlans'] as String?,
-      totalCost: json['TotalCost'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final coveragePercentage = this.coveragePercentage;
-    final onDemandCost = this.onDemandCost;
-    final spendCoveredBySavingsPlans = this.spendCoveredBySavingsPlans;
-    final totalCost = this.totalCost;
-    return {
-      if (coveragePercentage != null) 'CoveragePercentage': coveragePercentage,
-      if (onDemandCost != null) 'OnDemandCost': onDemandCost,
-      if (spendCoveredBySavingsPlans != null)
-        'SpendCoveredBySavingsPlans': spendCoveredBySavingsPlans,
-      if (totalCost != null) 'TotalCost': totalCost,
-    };
-  }
-}
-
-class SavingsPlansDataType {
-  static const attributes = SavingsPlansDataType._('ATTRIBUTES');
-  static const utilization = SavingsPlansDataType._('UTILIZATION');
-  static const amortizedCommitment =
-      SavingsPlansDataType._('AMORTIZED_COMMITMENT');
-  static const savings = SavingsPlansDataType._('SAVINGS');
-
-  final String value;
-
-  const SavingsPlansDataType._(this.value);
-
-  static const values = [attributes, utilization, amortizedCommitment, savings];
-
-  static SavingsPlansDataType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SavingsPlansDataType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SavingsPlansDataType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The attribute details on a specific Savings Plan.
-class SavingsPlansDetails {
-  /// A group of instance types that Savings Plans applies to.
-  final String? instanceFamily;
-
-  /// The unique ID that's used to distinguish Savings Plans from one another.
-  final String? offeringId;
-
-  /// A collection of Amazon Web Services resources in a geographic area. Each
-  /// Amazon Web Services Region is isolated and independent of the other Regions.
-  final String? region;
-
-  SavingsPlansDetails({
-    this.instanceFamily,
-    this.offeringId,
-    this.region,
-  });
-
-  factory SavingsPlansDetails.fromJson(Map<String, dynamic> json) {
-    return SavingsPlansDetails(
-      instanceFamily: json['InstanceFamily'] as String?,
-      offeringId: json['OfferingId'] as String?,
-      region: json['Region'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final instanceFamily = this.instanceFamily;
-    final offeringId = this.offeringId;
-    final region = this.region;
-    return {
-      if (instanceFamily != null) 'InstanceFamily': instanceFamily,
-      if (offeringId != null) 'OfferingId': offeringId,
-      if (region != null) 'Region': region,
-    };
-  }
-}
-
-/// Contains your request parameters, Savings Plan Recommendations Summary, and
-/// Details.
-class SavingsPlansPurchaseRecommendation {
-  /// The account scope that you want your recommendations for. Amazon Web
-  /// Services calculates recommendations that include the management account and
-  /// member accounts if the value is set to <code>PAYER</code>. If the value is
-  /// <code>LINKED</code>, recommendations are calculated for individual member
-  /// accounts only.
-  final AccountScope? accountScope;
-
-  /// The lookback period in days that's used to generate the recommendation.
-  final LookbackPeriodInDays? lookbackPeriodInDays;
-
-  /// The payment option that's used to generate the recommendation.
-  final PaymentOption? paymentOption;
-
-  /// Details for the Savings Plans that we recommend that you purchase to cover
-  /// existing Savings Plans eligible workloads.
-  final List<SavingsPlansPurchaseRecommendationDetail>?
-      savingsPlansPurchaseRecommendationDetails;
-
-  /// Summary metrics for your Savings Plans Recommendations.
-  final SavingsPlansPurchaseRecommendationSummary?
-      savingsPlansPurchaseRecommendationSummary;
-
-  /// The requested Savings Plans recommendation type.
-  final SupportedSavingsPlansType? savingsPlansType;
-
-  /// The Savings Plans recommendation term in years. It's used to generate the
-  /// recommendation.
-  final TermInYears? termInYears;
-
-  SavingsPlansPurchaseRecommendation({
-    this.accountScope,
-    this.lookbackPeriodInDays,
-    this.paymentOption,
-    this.savingsPlansPurchaseRecommendationDetails,
-    this.savingsPlansPurchaseRecommendationSummary,
-    this.savingsPlansType,
-    this.termInYears,
-  });
-
-  factory SavingsPlansPurchaseRecommendation.fromJson(
-      Map<String, dynamic> json) {
-    return SavingsPlansPurchaseRecommendation(
-      accountScope:
-          (json['AccountScope'] as String?)?.let(AccountScope.fromString),
-      lookbackPeriodInDays: (json['LookbackPeriodInDays'] as String?)
-          ?.let(LookbackPeriodInDays.fromString),
-      paymentOption:
-          (json['PaymentOption'] as String?)?.let(PaymentOption.fromString),
-      savingsPlansPurchaseRecommendationDetails:
-          (json['SavingsPlansPurchaseRecommendationDetails'] as List?)
-              ?.nonNulls
-              .map((e) => SavingsPlansPurchaseRecommendationDetail.fromJson(
-                  e as Map<String, dynamic>))
-              .toList(),
-      savingsPlansPurchaseRecommendationSummary:
-          json['SavingsPlansPurchaseRecommendationSummary'] != null
-              ? SavingsPlansPurchaseRecommendationSummary.fromJson(
-                  json['SavingsPlansPurchaseRecommendationSummary']
-                      as Map<String, dynamic>)
-              : null,
-      savingsPlansType: (json['SavingsPlansType'] as String?)
-          ?.let(SupportedSavingsPlansType.fromString),
-      termInYears:
-          (json['TermInYears'] as String?)?.let(TermInYears.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountScope = this.accountScope;
-    final lookbackPeriodInDays = this.lookbackPeriodInDays;
-    final paymentOption = this.paymentOption;
-    final savingsPlansPurchaseRecommendationDetails =
-        this.savingsPlansPurchaseRecommendationDetails;
-    final savingsPlansPurchaseRecommendationSummary =
-        this.savingsPlansPurchaseRecommendationSummary;
-    final savingsPlansType = this.savingsPlansType;
-    final termInYears = this.termInYears;
-    return {
-      if (accountScope != null) 'AccountScope': accountScope.value,
-      if (lookbackPeriodInDays != null)
-        'LookbackPeriodInDays': lookbackPeriodInDays.value,
-      if (paymentOption != null) 'PaymentOption': paymentOption.value,
-      if (savingsPlansPurchaseRecommendationDetails != null)
-        'SavingsPlansPurchaseRecommendationDetails':
-            savingsPlansPurchaseRecommendationDetails,
-      if (savingsPlansPurchaseRecommendationSummary != null)
-        'SavingsPlansPurchaseRecommendationSummary':
-            savingsPlansPurchaseRecommendationSummary,
-      if (savingsPlansType != null) 'SavingsPlansType': savingsPlansType.value,
-      if (termInYears != null) 'TermInYears': termInYears.value,
-    };
-  }
-}
-
-/// Details for your recommended Savings Plans.
-class SavingsPlansPurchaseRecommendationDetail {
-  /// The <code>AccountID</code> the recommendation is generated for.
-  final String? accountId;
-
-  /// The currency code that Amazon Web Services used to generate the
-  /// recommendations and present potential savings.
-  final String? currencyCode;
-
-  /// The average value of hourly On-Demand spend over the lookback period of the
-  /// applicable usage type.
-  final String? currentAverageHourlyOnDemandSpend;
-
-  /// The highest value of hourly On-Demand spend over the lookback period of the
-  /// applicable usage type.
-  final String? currentMaximumHourlyOnDemandSpend;
-
-  /// The lowest value of hourly On-Demand spend over the lookback period of the
-  /// applicable usage type.
-  final String? currentMinimumHourlyOnDemandSpend;
-
-  /// The estimated utilization of the recommended Savings Plans.
-  final String? estimatedAverageUtilization;
-
-  /// The estimated monthly savings amount based on the recommended Savings Plans.
-  final String? estimatedMonthlySavingsAmount;
-
-  /// The remaining On-Demand cost estimated to not be covered by the recommended
-  /// Savings Plans, over the length of the lookback period.
-  final String? estimatedOnDemandCost;
-
-  /// The estimated On-Demand costs you expect with no additional commitment,
-  /// based on your usage of the selected time period and the Savings Plans you
-  /// own.
-  final String? estimatedOnDemandCostWithCurrentCommitment;
-
-  /// The estimated return on investment that's based on the recommended Savings
-  /// Plans that you purchased. This is calculated as
-  /// <code>estimatedSavingsAmount</code>/ <code>estimatedSPCost</code>*100.
-  final String? estimatedROI;
-
-  /// The cost of the recommended Savings Plans over the length of the lookback
-  /// period.
-  final String? estimatedSPCost;
-
-  /// The estimated savings amount that's based on the recommended Savings Plans
-  /// over the length of the lookback period.
-  final String? estimatedSavingsAmount;
-
-  /// The estimated savings percentage relative to the total cost of applicable
-  /// On-Demand usage over the lookback period.
-  final String? estimatedSavingsPercentage;
-
-  /// The recommended hourly commitment level for the Savings Plans type and the
-  /// configuration that's based on the usage during the lookback period.
-  final String? hourlyCommitmentToPurchase;
-
-  /// Contains detailed information about a specific Savings Plan recommendation.
-  final String? recommendationDetailId;
-
-  /// Details for your recommended Savings Plans.
-  final SavingsPlansDetails? savingsPlansDetails;
-
-  /// The upfront cost of the recommended Savings Plans, based on the selected
-  /// payment option.
-  final String? upfrontCost;
-
-  SavingsPlansPurchaseRecommendationDetail({
-    this.accountId,
-    this.currencyCode,
-    this.currentAverageHourlyOnDemandSpend,
-    this.currentMaximumHourlyOnDemandSpend,
-    this.currentMinimumHourlyOnDemandSpend,
-    this.estimatedAverageUtilization,
-    this.estimatedMonthlySavingsAmount,
-    this.estimatedOnDemandCost,
-    this.estimatedOnDemandCostWithCurrentCommitment,
-    this.estimatedROI,
-    this.estimatedSPCost,
-    this.estimatedSavingsAmount,
-    this.estimatedSavingsPercentage,
-    this.hourlyCommitmentToPurchase,
-    this.recommendationDetailId,
-    this.savingsPlansDetails,
-    this.upfrontCost,
-  });
-
-  factory SavingsPlansPurchaseRecommendationDetail.fromJson(
-      Map<String, dynamic> json) {
-    return SavingsPlansPurchaseRecommendationDetail(
-      accountId: json['AccountId'] as String?,
-      currencyCode: json['CurrencyCode'] as String?,
-      currentAverageHourlyOnDemandSpend:
-          json['CurrentAverageHourlyOnDemandSpend'] as String?,
-      currentMaximumHourlyOnDemandSpend:
-          json['CurrentMaximumHourlyOnDemandSpend'] as String?,
-      currentMinimumHourlyOnDemandSpend:
-          json['CurrentMinimumHourlyOnDemandSpend'] as String?,
-      estimatedAverageUtilization:
-          json['EstimatedAverageUtilization'] as String?,
-      estimatedMonthlySavingsAmount:
-          json['EstimatedMonthlySavingsAmount'] as String?,
-      estimatedOnDemandCost: json['EstimatedOnDemandCost'] as String?,
-      estimatedOnDemandCostWithCurrentCommitment:
-          json['EstimatedOnDemandCostWithCurrentCommitment'] as String?,
-      estimatedROI: json['EstimatedROI'] as String?,
-      estimatedSPCost: json['EstimatedSPCost'] as String?,
-      estimatedSavingsAmount: json['EstimatedSavingsAmount'] as String?,
-      estimatedSavingsPercentage: json['EstimatedSavingsPercentage'] as String?,
-      hourlyCommitmentToPurchase: json['HourlyCommitmentToPurchase'] as String?,
-      recommendationDetailId: json['RecommendationDetailId'] as String?,
-      savingsPlansDetails: json['SavingsPlansDetails'] != null
-          ? SavingsPlansDetails.fromJson(
-              json['SavingsPlansDetails'] as Map<String, dynamic>)
-          : null,
-      upfrontCost: json['UpfrontCost'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final currencyCode = this.currencyCode;
-    final currentAverageHourlyOnDemandSpend =
-        this.currentAverageHourlyOnDemandSpend;
-    final currentMaximumHourlyOnDemandSpend =
-        this.currentMaximumHourlyOnDemandSpend;
-    final currentMinimumHourlyOnDemandSpend =
-        this.currentMinimumHourlyOnDemandSpend;
-    final estimatedAverageUtilization = this.estimatedAverageUtilization;
-    final estimatedMonthlySavingsAmount = this.estimatedMonthlySavingsAmount;
-    final estimatedOnDemandCost = this.estimatedOnDemandCost;
-    final estimatedOnDemandCostWithCurrentCommitment =
-        this.estimatedOnDemandCostWithCurrentCommitment;
-    final estimatedROI = this.estimatedROI;
-    final estimatedSPCost = this.estimatedSPCost;
-    final estimatedSavingsAmount = this.estimatedSavingsAmount;
-    final estimatedSavingsPercentage = this.estimatedSavingsPercentage;
-    final hourlyCommitmentToPurchase = this.hourlyCommitmentToPurchase;
-    final recommendationDetailId = this.recommendationDetailId;
-    final savingsPlansDetails = this.savingsPlansDetails;
-    final upfrontCost = this.upfrontCost;
-    return {
-      if (accountId != null) 'AccountId': accountId,
-      if (currencyCode != null) 'CurrencyCode': currencyCode,
-      if (currentAverageHourlyOnDemandSpend != null)
-        'CurrentAverageHourlyOnDemandSpend': currentAverageHourlyOnDemandSpend,
-      if (currentMaximumHourlyOnDemandSpend != null)
-        'CurrentMaximumHourlyOnDemandSpend': currentMaximumHourlyOnDemandSpend,
-      if (currentMinimumHourlyOnDemandSpend != null)
-        'CurrentMinimumHourlyOnDemandSpend': currentMinimumHourlyOnDemandSpend,
-      if (estimatedAverageUtilization != null)
-        'EstimatedAverageUtilization': estimatedAverageUtilization,
-      if (estimatedMonthlySavingsAmount != null)
-        'EstimatedMonthlySavingsAmount': estimatedMonthlySavingsAmount,
-      if (estimatedOnDemandCost != null)
-        'EstimatedOnDemandCost': estimatedOnDemandCost,
-      if (estimatedOnDemandCostWithCurrentCommitment != null)
-        'EstimatedOnDemandCostWithCurrentCommitment':
-            estimatedOnDemandCostWithCurrentCommitment,
-      if (estimatedROI != null) 'EstimatedROI': estimatedROI,
-      if (estimatedSPCost != null) 'EstimatedSPCost': estimatedSPCost,
-      if (estimatedSavingsAmount != null)
-        'EstimatedSavingsAmount': estimatedSavingsAmount,
-      if (estimatedSavingsPercentage != null)
-        'EstimatedSavingsPercentage': estimatedSavingsPercentage,
-      if (hourlyCommitmentToPurchase != null)
-        'HourlyCommitmentToPurchase': hourlyCommitmentToPurchase,
-      if (recommendationDetailId != null)
-        'RecommendationDetailId': recommendationDetailId,
-      if (savingsPlansDetails != null)
-        'SavingsPlansDetails': savingsPlansDetails,
-      if (upfrontCost != null) 'UpfrontCost': upfrontCost,
-    };
-  }
-}
-
-/// Metadata about your Savings Plans Purchase Recommendations.
-class SavingsPlansPurchaseRecommendationMetadata {
-  /// Additional metadata that might be applicable to the recommendation.
-  final String? additionalMetadata;
-
-  /// The timestamp that shows when the recommendations were generated.
-  final String? generationTimestamp;
-
-  /// The unique identifier for the recommendation set.
-  final String? recommendationId;
-
-  SavingsPlansPurchaseRecommendationMetadata({
-    this.additionalMetadata,
-    this.generationTimestamp,
-    this.recommendationId,
-  });
-
-  factory SavingsPlansPurchaseRecommendationMetadata.fromJson(
-      Map<String, dynamic> json) {
-    return SavingsPlansPurchaseRecommendationMetadata(
-      additionalMetadata: json['AdditionalMetadata'] as String?,
-      generationTimestamp: json['GenerationTimestamp'] as String?,
-      recommendationId: json['RecommendationId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final additionalMetadata = this.additionalMetadata;
-    final generationTimestamp = this.generationTimestamp;
-    final recommendationId = this.recommendationId;
-    return {
-      if (additionalMetadata != null) 'AdditionalMetadata': additionalMetadata,
-      if (generationTimestamp != null)
-        'GenerationTimestamp': generationTimestamp,
-      if (recommendationId != null) 'RecommendationId': recommendationId,
-    };
-  }
-}
-
-/// Summary metrics for your Savings Plans Purchase Recommendations.
-class SavingsPlansPurchaseRecommendationSummary {
-  /// The currency code that Amazon Web Services used to generate the
-  /// recommendations and present potential savings.
-  final String? currencyCode;
-
-  /// The current total on demand spend of the applicable usage types over the
-  /// lookback period.
-  final String? currentOnDemandSpend;
-
-  /// The recommended Savings Plans cost on a daily (24 hourly) basis.
-  final String? dailyCommitmentToPurchase;
-
-  /// The estimated monthly savings amount that's based on the recommended Savings
-  /// Plans purchase.
-  final String? estimatedMonthlySavingsAmount;
-
-  /// The estimated On-Demand costs you expect with no additional commitment. It's
-  /// based on your usage of the selected time period and the Savings Plans you
-  /// own.
-  final String? estimatedOnDemandCostWithCurrentCommitment;
-
-  /// The estimated return on investment that's based on the recommended Savings
-  /// Plans and estimated savings.
-  final String? estimatedROI;
-
-  /// The estimated total savings over the lookback period, based on the purchase
-  /// of the recommended Savings Plans.
-  final String? estimatedSavingsAmount;
-
-  /// The estimated savings relative to the total cost of On-Demand usage, over
-  /// the lookback period. This is calculated as
-  /// <code>estimatedSavingsAmount</code>/ <code>CurrentOnDemandSpend</code>*100.
-  final String? estimatedSavingsPercentage;
-
-  /// The estimated total cost of the usage after purchasing the recommended
-  /// Savings Plans. This is a sum of the cost of Savings Plans during this term,
-  /// and the remaining On-Demand usage.
-  final String? estimatedTotalCost;
-
-  /// The recommended hourly commitment that's based on the recommendation
-  /// parameters.
-  final String? hourlyCommitmentToPurchase;
-
-  /// The aggregate number of Savings Plans recommendations that exist for your
-  /// account.
-  final String? totalRecommendationCount;
-
-  SavingsPlansPurchaseRecommendationSummary({
-    this.currencyCode,
-    this.currentOnDemandSpend,
-    this.dailyCommitmentToPurchase,
-    this.estimatedMonthlySavingsAmount,
-    this.estimatedOnDemandCostWithCurrentCommitment,
-    this.estimatedROI,
-    this.estimatedSavingsAmount,
-    this.estimatedSavingsPercentage,
-    this.estimatedTotalCost,
-    this.hourlyCommitmentToPurchase,
-    this.totalRecommendationCount,
-  });
-
-  factory SavingsPlansPurchaseRecommendationSummary.fromJson(
-      Map<String, dynamic> json) {
-    return SavingsPlansPurchaseRecommendationSummary(
-      currencyCode: json['CurrencyCode'] as String?,
-      currentOnDemandSpend: json['CurrentOnDemandSpend'] as String?,
-      dailyCommitmentToPurchase: json['DailyCommitmentToPurchase'] as String?,
-      estimatedMonthlySavingsAmount:
-          json['EstimatedMonthlySavingsAmount'] as String?,
-      estimatedOnDemandCostWithCurrentCommitment:
-          json['EstimatedOnDemandCostWithCurrentCommitment'] as String?,
-      estimatedROI: json['EstimatedROI'] as String?,
-      estimatedSavingsAmount: json['EstimatedSavingsAmount'] as String?,
-      estimatedSavingsPercentage: json['EstimatedSavingsPercentage'] as String?,
-      estimatedTotalCost: json['EstimatedTotalCost'] as String?,
-      hourlyCommitmentToPurchase: json['HourlyCommitmentToPurchase'] as String?,
-      totalRecommendationCount: json['TotalRecommendationCount'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final currencyCode = this.currencyCode;
-    final currentOnDemandSpend = this.currentOnDemandSpend;
-    final dailyCommitmentToPurchase = this.dailyCommitmentToPurchase;
-    final estimatedMonthlySavingsAmount = this.estimatedMonthlySavingsAmount;
-    final estimatedOnDemandCostWithCurrentCommitment =
-        this.estimatedOnDemandCostWithCurrentCommitment;
-    final estimatedROI = this.estimatedROI;
-    final estimatedSavingsAmount = this.estimatedSavingsAmount;
-    final estimatedSavingsPercentage = this.estimatedSavingsPercentage;
-    final estimatedTotalCost = this.estimatedTotalCost;
-    final hourlyCommitmentToPurchase = this.hourlyCommitmentToPurchase;
-    final totalRecommendationCount = this.totalRecommendationCount;
-    return {
-      if (currencyCode != null) 'CurrencyCode': currencyCode,
-      if (currentOnDemandSpend != null)
-        'CurrentOnDemandSpend': currentOnDemandSpend,
-      if (dailyCommitmentToPurchase != null)
-        'DailyCommitmentToPurchase': dailyCommitmentToPurchase,
-      if (estimatedMonthlySavingsAmount != null)
-        'EstimatedMonthlySavingsAmount': estimatedMonthlySavingsAmount,
-      if (estimatedOnDemandCostWithCurrentCommitment != null)
-        'EstimatedOnDemandCostWithCurrentCommitment':
-            estimatedOnDemandCostWithCurrentCommitment,
-      if (estimatedROI != null) 'EstimatedROI': estimatedROI,
-      if (estimatedSavingsAmount != null)
-        'EstimatedSavingsAmount': estimatedSavingsAmount,
-      if (estimatedSavingsPercentage != null)
-        'EstimatedSavingsPercentage': estimatedSavingsPercentage,
-      if (estimatedTotalCost != null) 'EstimatedTotalCost': estimatedTotalCost,
-      if (hourlyCommitmentToPurchase != null)
-        'HourlyCommitmentToPurchase': hourlyCommitmentToPurchase,
-      if (totalRecommendationCount != null)
-        'TotalRecommendationCount': totalRecommendationCount,
-    };
-  }
-}
-
-/// The amount of savings that you're accumulating, against the public On-Demand
-/// rate of the usage accrued in an account.
-class SavingsPlansSavings {
-  /// The savings amount that you're accumulating for the usage that's covered by
-  /// a Savings Plans, when compared to the On-Demand equivalent of the same
-  /// usage.
-  final String? netSavings;
-
-  /// How much the amount that the usage would have cost if it was accrued at the
-  /// On-Demand rate.
-  final String? onDemandCostEquivalent;
-
-  SavingsPlansSavings({
-    this.netSavings,
-    this.onDemandCostEquivalent,
-  });
-
-  factory SavingsPlansSavings.fromJson(Map<String, dynamic> json) {
-    return SavingsPlansSavings(
-      netSavings: json['NetSavings'] as String?,
-      onDemandCostEquivalent: json['OnDemandCostEquivalent'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final netSavings = this.netSavings;
-    final onDemandCostEquivalent = this.onDemandCostEquivalent;
-    return {
-      if (netSavings != null) 'NetSavings': netSavings,
-      if (onDemandCostEquivalent != null)
-        'OnDemandCostEquivalent': onDemandCostEquivalent,
-    };
-  }
-}
-
-/// The measurement of how well you're using your existing Savings Plans.
-class SavingsPlansUtilization {
-  /// The total amount of Savings Plans commitment that's been purchased in an
-  /// account (or set of accounts).
-  final String? totalCommitment;
-
-  /// The amount of your Savings Plans commitment that wasn't consumed from
-  /// Savings Plans eligible usage in a specific period.
-  final String? unusedCommitment;
-
-  /// The amount of your Savings Plans commitment that was consumed from Savings
-  /// Plans eligible usage in a specific period.
-  final String? usedCommitment;
-
-  /// The amount of <code>UsedCommitment</code> divided by the
-  /// <code>TotalCommitment</code> for your Savings Plans.
-  final String? utilizationPercentage;
-
-  SavingsPlansUtilization({
-    this.totalCommitment,
-    this.unusedCommitment,
-    this.usedCommitment,
-    this.utilizationPercentage,
-  });
-
-  factory SavingsPlansUtilization.fromJson(Map<String, dynamic> json) {
-    return SavingsPlansUtilization(
-      totalCommitment: json['TotalCommitment'] as String?,
-      unusedCommitment: json['UnusedCommitment'] as String?,
-      usedCommitment: json['UsedCommitment'] as String?,
-      utilizationPercentage: json['UtilizationPercentage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final totalCommitment = this.totalCommitment;
-    final unusedCommitment = this.unusedCommitment;
-    final usedCommitment = this.usedCommitment;
-    final utilizationPercentage = this.utilizationPercentage;
-    return {
-      if (totalCommitment != null) 'TotalCommitment': totalCommitment,
-      if (unusedCommitment != null) 'UnusedCommitment': unusedCommitment,
-      if (usedCommitment != null) 'UsedCommitment': usedCommitment,
-      if (utilizationPercentage != null)
-        'UtilizationPercentage': utilizationPercentage,
-    };
-  }
-}
-
-/// The aggregated utilization metrics for your Savings Plans usage.
-class SavingsPlansUtilizationAggregates {
-  /// A ratio of your effectiveness of using existing Savings Plans to apply to
-  /// workloads that are Savings Plans eligible.
-  final SavingsPlansUtilization utilization;
-
-  /// The total amortized commitment for a Savings Plans. This includes the sum of
-  /// the upfront and recurring Savings Plans fees.
-  final SavingsPlansAmortizedCommitment? amortizedCommitment;
-
-  /// The amount that's saved by using existing Savings Plans. Savings returns
-  /// both net savings from Savings Plans and also the
-  /// <code>onDemandCostEquivalent</code> of the Savings Plans when considering
-  /// the utilization rate.
-  final SavingsPlansSavings? savings;
-
-  SavingsPlansUtilizationAggregates({
-    required this.utilization,
-    this.amortizedCommitment,
-    this.savings,
-  });
-
-  factory SavingsPlansUtilizationAggregates.fromJson(
-      Map<String, dynamic> json) {
-    return SavingsPlansUtilizationAggregates(
-      utilization: SavingsPlansUtilization.fromJson(
-          (json['Utilization'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      amortizedCommitment: json['AmortizedCommitment'] != null
-          ? SavingsPlansAmortizedCommitment.fromJson(
-              json['AmortizedCommitment'] as Map<String, dynamic>)
-          : null,
-      savings: json['Savings'] != null
-          ? SavingsPlansSavings.fromJson(
-              json['Savings'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final utilization = this.utilization;
-    final amortizedCommitment = this.amortizedCommitment;
-    final savings = this.savings;
-    return {
-      'Utilization': utilization,
-      if (amortizedCommitment != null)
-        'AmortizedCommitment': amortizedCommitment,
-      if (savings != null) 'Savings': savings,
-    };
-  }
-}
-
-/// The amount of Savings Plans utilization (in hours).
-class SavingsPlansUtilizationByTime {
-  final DateInterval timePeriod;
-
-  /// A ratio of your effectiveness of using existing Savings Plans to apply to
-  /// workloads that are Savings Plans eligible.
-  final SavingsPlansUtilization utilization;
-
-  /// The total amortized commitment for a Savings Plans. This includes the sum of
-  /// the upfront and recurring Savings Plans fees.
-  final SavingsPlansAmortizedCommitment? amortizedCommitment;
-
-  /// The amount that's saved by using existing Savings Plans. Savings returns
-  /// both net savings from Savings Plans and also the
-  /// <code>onDemandCostEquivalent</code> of the Savings Plans when considering
-  /// the utilization rate.
-  final SavingsPlansSavings? savings;
-
-  SavingsPlansUtilizationByTime({
-    required this.timePeriod,
-    required this.utilization,
-    this.amortizedCommitment,
-    this.savings,
-  });
-
-  factory SavingsPlansUtilizationByTime.fromJson(Map<String, dynamic> json) {
-    return SavingsPlansUtilizationByTime(
-      timePeriod: DateInterval.fromJson(
-          (json['TimePeriod'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      utilization: SavingsPlansUtilization.fromJson(
-          (json['Utilization'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      amortizedCommitment: json['AmortizedCommitment'] != null
-          ? SavingsPlansAmortizedCommitment.fromJson(
-              json['AmortizedCommitment'] as Map<String, dynamic>)
-          : null,
-      savings: json['Savings'] != null
-          ? SavingsPlansSavings.fromJson(
-              json['Savings'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final timePeriod = this.timePeriod;
-    final utilization = this.utilization;
-    final amortizedCommitment = this.amortizedCommitment;
-    final savings = this.savings;
-    return {
-      'TimePeriod': timePeriod,
-      'Utilization': utilization,
-      if (amortizedCommitment != null)
-        'AmortizedCommitment': amortizedCommitment,
-      if (savings != null) 'Savings': savings,
-    };
-  }
-}
-
-/// A single daily or monthly Savings Plans utilization rate and details for
-/// your account. A management account in an organization have access to member
-/// accounts. You can use <code>GetDimensionValues</code> to determine the
-/// possible dimension values.
-class SavingsPlansUtilizationDetail {
-  /// The total amortized commitment for a Savings Plans. Includes the sum of the
-  /// upfront and recurring Savings Plans fees.
-  final SavingsPlansAmortizedCommitment? amortizedCommitment;
-
-  /// The attribute that applies to a specific <code>Dimension</code>.
-  final Map<String, String>? attributes;
-
-  /// The amount saved by using existing Savings Plans. Savings returns both net
-  /// savings from savings plans and also the <code>onDemandCostEquivalent</code>
-  /// of the Savings Plans when considering the utilization rate.
-  final SavingsPlansSavings? savings;
-
-  /// The unique Amazon Resource Name (ARN) for a particular Savings Plan.
-  final String? savingsPlanArn;
-
-  /// A ratio of your effectiveness of using existing Savings Plans to apply to
-  /// workloads that are Savings Plans eligible.
-  final SavingsPlansUtilization? utilization;
-
-  SavingsPlansUtilizationDetail({
-    this.amortizedCommitment,
-    this.attributes,
-    this.savings,
-    this.savingsPlanArn,
-    this.utilization,
-  });
-
-  factory SavingsPlansUtilizationDetail.fromJson(Map<String, dynamic> json) {
-    return SavingsPlansUtilizationDetail(
-      amortizedCommitment: json['AmortizedCommitment'] != null
-          ? SavingsPlansAmortizedCommitment.fromJson(
-              json['AmortizedCommitment'] as Map<String, dynamic>)
-          : null,
-      attributes: (json['Attributes'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      savings: json['Savings'] != null
-          ? SavingsPlansSavings.fromJson(
-              json['Savings'] as Map<String, dynamic>)
-          : null,
-      savingsPlanArn: json['SavingsPlanArn'] as String?,
-      utilization: json['Utilization'] != null
-          ? SavingsPlansUtilization.fromJson(
-              json['Utilization'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final amortizedCommitment = this.amortizedCommitment;
-    final attributes = this.attributes;
-    final savings = this.savings;
-    final savingsPlanArn = this.savingsPlanArn;
-    final utilization = this.utilization;
-    return {
-      if (amortizedCommitment != null)
-        'AmortizedCommitment': amortizedCommitment,
-      if (attributes != null) 'Attributes': attributes,
-      if (savings != null) 'Savings': savings,
-      if (savingsPlanArn != null) 'SavingsPlanArn': savingsPlanArn,
-      if (utilization != null) 'Utilization': utilization,
-    };
-  }
-}
-
-/// Hardware specifications for the service that you want recommendations for.
-class ServiceSpecification {
-  /// The Amazon EC2 hardware specifications that you want Amazon Web Services to
-  /// provide recommendations for.
-  final EC2Specification? eC2Specification;
-
-  ServiceSpecification({
-    this.eC2Specification,
-  });
-
-  factory ServiceSpecification.fromJson(Map<String, dynamic> json) {
-    return ServiceSpecification(
-      eC2Specification: json['EC2Specification'] != null
-          ? EC2Specification.fromJson(
-              json['EC2Specification'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eC2Specification = this.eC2Specification;
-    return {
-      if (eC2Specification != null) 'EC2Specification': eC2Specification,
-    };
-  }
-}
-
-/// The details for how to sort the data.
-class SortDefinition {
-  /// The key that's used to sort the data.
-  final String key;
-
-  /// The order that's used to sort the data.
-  final SortOrder? sortOrder;
-
-  SortDefinition({
-    required this.key,
-    this.sortOrder,
+/// The time period for an anomaly.
+class AnomalyDateInterval {
+  /// The first date an anomaly was observed.
+  final String startDate;
+
+  /// The last date an anomaly was observed.
+  final String? endDate;
+
+  AnomalyDateInterval({
+    required this.startDate,
+    this.endDate,
   });
 
   Map<String, dynamic> toJson() {
-    final key = this.key;
-    final sortOrder = this.sortOrder;
+    final startDate = this.startDate;
+    final endDate = this.endDate;
     return {
-      'Key': key,
-      if (sortOrder != null) 'SortOrder': sortOrder.value,
-    };
-  }
-}
-
-class SortOrder {
-  static const ascending = SortOrder._('ASCENDING');
-  static const descending = SortOrder._('DESCENDING');
-
-  final String value;
-
-  const SortOrder._(this.value);
-
-  static const values = [ascending, descending];
-
-  static SortOrder fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
-
-  @override
-  bool operator ==(other) => other is SortOrder && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class StartCostAllocationTagBackfillResponse {
-  /// An object containing detailed metadata of your new backfill request.
-  final CostAllocationTagBackfillRequest? backfillRequest;
-
-  StartCostAllocationTagBackfillResponse({
-    this.backfillRequest,
-  });
-
-  factory StartCostAllocationTagBackfillResponse.fromJson(
-      Map<String, dynamic> json) {
-    return StartCostAllocationTagBackfillResponse(
-      backfillRequest: json['BackfillRequest'] != null
-          ? CostAllocationTagBackfillRequest.fromJson(
-              json['BackfillRequest'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final backfillRequest = this.backfillRequest;
-    return {
-      if (backfillRequest != null) 'BackfillRequest': backfillRequest,
-    };
-  }
-}
-
-class StartSavingsPlansPurchaseRecommendationGenerationResponse {
-  /// The estimated time for when the recommendation generation will complete.
-  final String? estimatedCompletionTime;
-
-  /// The start time of the recommendation generation.
-  final String? generationStartedTime;
-
-  /// The ID for this specific recommendation.
-  final String? recommendationId;
-
-  StartSavingsPlansPurchaseRecommendationGenerationResponse({
-    this.estimatedCompletionTime,
-    this.generationStartedTime,
-    this.recommendationId,
-  });
-
-  factory StartSavingsPlansPurchaseRecommendationGenerationResponse.fromJson(
-      Map<String, dynamic> json) {
-    return StartSavingsPlansPurchaseRecommendationGenerationResponse(
-      estimatedCompletionTime: json['EstimatedCompletionTime'] as String?,
-      generationStartedTime: json['GenerationStartedTime'] as String?,
-      recommendationId: json['RecommendationId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final estimatedCompletionTime = this.estimatedCompletionTime;
-    final generationStartedTime = this.generationStartedTime;
-    final recommendationId = this.recommendationId;
-    return {
-      if (estimatedCompletionTime != null)
-        'EstimatedCompletionTime': estimatedCompletionTime,
-      if (generationStartedTime != null)
-        'GenerationStartedTime': generationStartedTime,
-      if (recommendationId != null) 'RecommendationId': recommendationId,
-    };
-  }
-}
-
-/// The recipient of <code>AnomalySubscription</code> notifications.
-class Subscriber {
-  /// The email address or SNS Amazon Resource Name (ARN). This depends on the
-  /// <code>Type</code>.
-  final String? address;
-
-  /// Indicates if the subscriber accepts the notifications.
-  final SubscriberStatus? status;
-
-  /// The notification delivery channel.
-  final SubscriberType? type;
-
-  Subscriber({
-    this.address,
-    this.status,
-    this.type,
-  });
-
-  factory Subscriber.fromJson(Map<String, dynamic> json) {
-    return Subscriber(
-      address: json['Address'] as String?,
-      status: (json['Status'] as String?)?.let(SubscriberStatus.fromString),
-      type: (json['Type'] as String?)?.let(SubscriberType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final address = this.address;
-    final status = this.status;
-    final type = this.type;
-    return {
-      if (address != null) 'Address': address,
-      if (status != null) 'Status': status.value,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class SubscriberStatus {
-  static const confirmed = SubscriberStatus._('CONFIRMED');
-  static const declined = SubscriberStatus._('DECLINED');
-
-  final String value;
-
-  const SubscriberStatus._(this.value);
-
-  static const values = [confirmed, declined];
-
-  static SubscriberStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SubscriberStatus._(value));
-
-  @override
-  bool operator ==(other) => other is SubscriberStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class SubscriberType {
-  static const email = SubscriberType._('EMAIL');
-  static const sns = SubscriberType._('SNS');
-
-  final String value;
-
-  const SubscriberType._(this.value);
-
-  static const values = [email, sns];
-
-  static SubscriberType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SubscriberType._(value));
-
-  @override
-  bool operator ==(other) => other is SubscriberType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class SupportedSavingsPlansType {
-  static const computeSp = SupportedSavingsPlansType._('COMPUTE_SP');
-  static const ec2InstanceSp = SupportedSavingsPlansType._('EC2_INSTANCE_SP');
-  static const sagemakerSp = SupportedSavingsPlansType._('SAGEMAKER_SP');
-
-  final String value;
-
-  const SupportedSavingsPlansType._(this.value);
-
-  static const values = [computeSp, ec2InstanceSp, sagemakerSp];
-
-  static SupportedSavingsPlansType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SupportedSavingsPlansType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SupportedSavingsPlansType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class TagResourceResponse {
-  TagResourceResponse();
-
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// The values that are available for a tag.
-///
-/// If <code>Values</code> and <code>Key</code> aren't specified, the
-/// <code>ABSENT</code> <code>MatchOption</code> is applied to all tags. That
-/// is, it's filtered on resources with no tags.
-///
-/// If <code>Key</code> is provided and <code>Values</code> isn't specified, the
-/// <code>ABSENT</code> <code>MatchOption</code> is applied to the tag
-/// <code>Key</code> only. That is, it's filtered on resources without the given
-/// tag key.
-class TagValues {
-  /// The key for the tag.
-  final String? key;
-
-  /// The match options that you can use to filter your results.
-  /// <code>MatchOptions</code> is only applicable for actions related to Cost
-  /// Category. The default values for <code>MatchOptions</code> are
-  /// <code>EQUALS</code> and <code>CASE_SENSITIVE</code>.
-  final List<MatchOption>? matchOptions;
-
-  /// The specific value of the tag.
-  final List<String>? values;
-
-  TagValues({
-    this.key,
-    this.matchOptions,
-    this.values,
-  });
-
-  factory TagValues.fromJson(Map<String, dynamic> json) {
-    return TagValues(
-      key: json['Key'] as String?,
-      matchOptions: (json['MatchOptions'] as List?)
-          ?.nonNulls
-          .map((e) => MatchOption.fromString((e as String)))
-          .toList(),
-      values:
-          (json['Values'] as List?)?.nonNulls.map((e) => e as String).toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final matchOptions = this.matchOptions;
-    final values = this.values;
-    return {
-      if (key != null) 'Key': key,
-      if (matchOptions != null)
-        'MatchOptions': matchOptions.map((e) => e.value).toList(),
-      if (values != null) 'Values': values,
-    };
-  }
-}
-
-/// Details on recommended instance.
-class TargetInstance {
-  /// The currency code that Amazon Web Services used to calculate the costs for
-  /// this instance.
-  final String? currencyCode;
-
-  /// Determines whether this recommendation is the defaulted Amazon Web Services
-  /// recommendation.
-  final bool? defaultTargetInstance;
-
-  /// The expected cost to operate this instance type on a monthly basis.
-  final String? estimatedMonthlyCost;
-
-  /// The estimated savings that result from modification, on a monthly basis.
-  final String? estimatedMonthlySavings;
-
-  /// The expected utilization metrics for target instance type.
-  final ResourceUtilization? expectedResourceUtilization;
-
-  /// Explains the actions that you might need to take to successfully migrate
-  /// your workloads from the current instance type to the recommended instance
-  /// type.
-  final List<PlatformDifference>? platformDifferences;
-
-  /// Details on the target instance type.
-  final ResourceDetails? resourceDetails;
-
-  TargetInstance({
-    this.currencyCode,
-    this.defaultTargetInstance,
-    this.estimatedMonthlyCost,
-    this.estimatedMonthlySavings,
-    this.expectedResourceUtilization,
-    this.platformDifferences,
-    this.resourceDetails,
-  });
-
-  factory TargetInstance.fromJson(Map<String, dynamic> json) {
-    return TargetInstance(
-      currencyCode: json['CurrencyCode'] as String?,
-      defaultTargetInstance: json['DefaultTargetInstance'] as bool?,
-      estimatedMonthlyCost: json['EstimatedMonthlyCost'] as String?,
-      estimatedMonthlySavings: json['EstimatedMonthlySavings'] as String?,
-      expectedResourceUtilization: json['ExpectedResourceUtilization'] != null
-          ? ResourceUtilization.fromJson(
-              json['ExpectedResourceUtilization'] as Map<String, dynamic>)
-          : null,
-      platformDifferences: (json['PlatformDifferences'] as List?)
-          ?.nonNulls
-          .map((e) => PlatformDifference.fromString((e as String)))
-          .toList(),
-      resourceDetails: json['ResourceDetails'] != null
-          ? ResourceDetails.fromJson(
-              json['ResourceDetails'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final currencyCode = this.currencyCode;
-    final defaultTargetInstance = this.defaultTargetInstance;
-    final estimatedMonthlyCost = this.estimatedMonthlyCost;
-    final estimatedMonthlySavings = this.estimatedMonthlySavings;
-    final expectedResourceUtilization = this.expectedResourceUtilization;
-    final platformDifferences = this.platformDifferences;
-    final resourceDetails = this.resourceDetails;
-    return {
-      if (currencyCode != null) 'CurrencyCode': currencyCode,
-      if (defaultTargetInstance != null)
-        'DefaultTargetInstance': defaultTargetInstance,
-      if (estimatedMonthlyCost != null)
-        'EstimatedMonthlyCost': estimatedMonthlyCost,
-      if (estimatedMonthlySavings != null)
-        'EstimatedMonthlySavings': estimatedMonthlySavings,
-      if (expectedResourceUtilization != null)
-        'ExpectedResourceUtilization': expectedResourceUtilization,
-      if (platformDifferences != null)
-        'PlatformDifferences': platformDifferences.map((e) => e.value).toList(),
-      if (resourceDetails != null) 'ResourceDetails': resourceDetails,
-    };
-  }
-}
-
-class TermInYears {
-  static const oneYear = TermInYears._('ONE_YEAR');
-  static const threeYears = TermInYears._('THREE_YEARS');
-
-  final String value;
-
-  const TermInYears._(this.value);
-
-  static const values = [oneYear, threeYears];
-
-  static TermInYears fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => TermInYears._(value));
-
-  @override
-  bool operator ==(other) => other is TermInYears && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Details on termination recommendation.
-class TerminateRecommendationDetail {
-  /// The currency code that Amazon Web Services used to calculate the costs for
-  /// this instance.
-  final String? currencyCode;
-
-  /// The estimated savings that result from modification, on a monthly basis.
-  final String? estimatedMonthlySavings;
-
-  TerminateRecommendationDetail({
-    this.currencyCode,
-    this.estimatedMonthlySavings,
-  });
-
-  factory TerminateRecommendationDetail.fromJson(Map<String, dynamic> json) {
-    return TerminateRecommendationDetail(
-      currencyCode: json['CurrencyCode'] as String?,
-      estimatedMonthlySavings: json['EstimatedMonthlySavings'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final currencyCode = this.currencyCode;
-    final estimatedMonthlySavings = this.estimatedMonthlySavings;
-    return {
-      if (currencyCode != null) 'CurrencyCode': currencyCode,
-      if (estimatedMonthlySavings != null)
-        'EstimatedMonthlySavings': estimatedMonthlySavings,
+      'StartDate': startDate,
+      if (endDate != null) 'EndDate': endDate,
     };
   }
 }
@@ -11404,206 +13243,134 @@ class TotalImpactFilter {
   }
 }
 
-class UntagResourceResponse {
-  UntagResourceResponse();
+class NumericOperator {
+  static const equal = NumericOperator._('EQUAL');
+  static const greaterThanOrEqual = NumericOperator._('GREATER_THAN_OR_EQUAL');
+  static const lessThanOrEqual = NumericOperator._('LESS_THAN_OR_EQUAL');
+  static const greaterThan = NumericOperator._('GREATER_THAN');
+  static const lessThan = NumericOperator._('LESS_THAN');
+  static const between = NumericOperator._('BETWEEN');
 
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
+  final String value;
 
-  Map<String, dynamic> toJson() {
-    return {};
-  }
+  const NumericOperator._(this.value);
+
+  static const values = [
+    equal,
+    greaterThanOrEqual,
+    lessThanOrEqual,
+    greaterThan,
+    lessThan,
+    between
+  ];
+
+  static NumericOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NumericOperator._(value));
+
+  @override
+  bool operator ==(other) => other is NumericOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-class UpdateAnomalyMonitorResponse {
-  /// A cost anomaly monitor ARN.
-  final String monitorArn;
+/// The structure of Cost Categories. This includes detailed metadata and the
+/// set of rules for the <code>CostCategory</code> object.
+class CostCategory {
+  /// The unique identifier for your cost category.
+  final String costCategoryArn;
 
-  UpdateAnomalyMonitorResponse({
-    required this.monitorArn,
+  /// The effective start date of your cost category.
+  final String effectiveStart;
+  final String name;
+  final CostCategoryRuleVersion ruleVersion;
+
+  /// The rules are processed in order. If there are multiple rules that match the
+  /// line item, then the first rule to match is used to determine that cost
+  /// category value.
+  final List<CostCategoryRule> rules;
+  final String? defaultValue;
+
+  /// The effective end date of your cost category.
+  final String? effectiveEnd;
+
+  /// The list of processing statuses for Cost Management products for a specific
+  /// cost category.
+  final List<CostCategoryProcessingStatus>? processingStatus;
+
+  /// The split charge rules that are used to allocate your charges between your
+  /// cost category values.
+  final List<CostCategorySplitChargeRule>? splitChargeRules;
+
+  CostCategory({
+    required this.costCategoryArn,
+    required this.effectiveStart,
+    required this.name,
+    required this.ruleVersion,
+    required this.rules,
+    this.defaultValue,
+    this.effectiveEnd,
+    this.processingStatus,
+    this.splitChargeRules,
   });
 
-  factory UpdateAnomalyMonitorResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateAnomalyMonitorResponse(
-      monitorArn: (json['MonitorArn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final monitorArn = this.monitorArn;
-    return {
-      'MonitorArn': monitorArn,
-    };
-  }
-}
-
-class UpdateAnomalySubscriptionResponse {
-  /// A cost anomaly subscription ARN.
-  final String subscriptionArn;
-
-  UpdateAnomalySubscriptionResponse({
-    required this.subscriptionArn,
-  });
-
-  factory UpdateAnomalySubscriptionResponse.fromJson(
-      Map<String, dynamic> json) {
-    return UpdateAnomalySubscriptionResponse(
-      subscriptionArn: (json['SubscriptionArn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final subscriptionArn = this.subscriptionArn;
-    return {
-      'SubscriptionArn': subscriptionArn,
-    };
-  }
-}
-
-/// Gives a detailed description of the result of an action. It's on each cost
-/// allocation tag entry in the request.
-class UpdateCostAllocationTagsStatusError {
-  /// An error code representing why the action failed on this entry.
-  final String? code;
-
-  /// A message explaining why the action failed on this entry.
-  final String? message;
-
-  /// The key for the cost allocation tag.
-  final String? tagKey;
-
-  UpdateCostAllocationTagsStatusError({
-    this.code,
-    this.message,
-    this.tagKey,
-  });
-
-  factory UpdateCostAllocationTagsStatusError.fromJson(
-      Map<String, dynamic> json) {
-    return UpdateCostAllocationTagsStatusError(
-      code: json['Code'] as String?,
-      message: json['Message'] as String?,
-      tagKey: json['TagKey'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final message = this.message;
-    final tagKey = this.tagKey;
-    return {
-      if (code != null) 'Code': code,
-      if (message != null) 'Message': message,
-      if (tagKey != null) 'TagKey': tagKey,
-    };
-  }
-}
-
-class UpdateCostAllocationTagsStatusResponse {
-  /// A list of <code>UpdateCostAllocationTagsStatusError</code> objects with
-  /// error details about each cost allocation tag that can't be updated. If
-  /// there's no failure, an empty array returns.
-  final List<UpdateCostAllocationTagsStatusError>? errors;
-
-  UpdateCostAllocationTagsStatusResponse({
-    this.errors,
-  });
-
-  factory UpdateCostAllocationTagsStatusResponse.fromJson(
-      Map<String, dynamic> json) {
-    return UpdateCostAllocationTagsStatusResponse(
-      errors: (json['Errors'] as List?)
-          ?.nonNulls
-          .map((e) => UpdateCostAllocationTagsStatusError.fromJson(
-              e as Map<String, dynamic>))
+  factory CostCategory.fromJson(Map<String, dynamic> json) {
+    return CostCategory(
+      costCategoryArn: (json['CostCategoryArn'] as String?) ?? '',
+      effectiveStart: (json['EffectiveStart'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      ruleVersion: CostCategoryRuleVersion.fromString(
+          (json['RuleVersion'] as String?) ?? ''),
+      rules: ((json['Rules'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => CostCategoryRule.fromJson(e as Map<String, dynamic>))
           .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errors = this.errors;
-    return {
-      if (errors != null) 'Errors': errors,
-    };
-  }
-}
-
-class UpdateCostCategoryDefinitionResponse {
-  /// The unique identifier for your Cost Category.
-  final String? costCategoryArn;
-
-  /// The Cost Category's effective start date. It can only be a billing start
-  /// date (first day of the month).
-  final String? effectiveStart;
-
-  UpdateCostCategoryDefinitionResponse({
-    this.costCategoryArn,
-    this.effectiveStart,
-  });
-
-  factory UpdateCostCategoryDefinitionResponse.fromJson(
-      Map<String, dynamic> json) {
-    return UpdateCostCategoryDefinitionResponse(
-      costCategoryArn: json['CostCategoryArn'] as String?,
-      effectiveStart: json['EffectiveStart'] as String?,
+      defaultValue: json['DefaultValue'] as String?,
+      effectiveEnd: json['EffectiveEnd'] as String?,
+      processingStatus: (json['ProcessingStatus'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              CostCategoryProcessingStatus.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      splitChargeRules: (json['SplitChargeRules'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              CostCategorySplitChargeRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final costCategoryArn = this.costCategoryArn;
     final effectiveStart = this.effectiveStart;
+    final name = this.name;
+    final ruleVersion = this.ruleVersion;
+    final rules = this.rules;
+    final defaultValue = this.defaultValue;
+    final effectiveEnd = this.effectiveEnd;
+    final processingStatus = this.processingStatus;
+    final splitChargeRules = this.splitChargeRules;
     return {
-      if (costCategoryArn != null) 'CostCategoryArn': costCategoryArn,
-      if (effectiveStart != null) 'EffectiveStart': effectiveStart,
+      'CostCategoryArn': costCategoryArn,
+      'EffectiveStart': effectiveStart,
+      'Name': name,
+      'RuleVersion': ruleVersion.value,
+      'Rules': rules,
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (effectiveEnd != null) 'EffectiveEnd': effectiveEnd,
+      if (processingStatus != null) 'ProcessingStatus': processingStatus,
+      if (splitChargeRules != null) 'SplitChargeRules': splitChargeRules,
     };
   }
 }
 
-/// The amount of utilization, in hours.
-class UtilizationByTime {
-  /// The groups that this utilization result uses.
-  final List<ReservationUtilizationGroup>? groups;
-
-  /// The period of time that this utilization was used for.
-  final DateInterval? timePeriod;
-
-  /// The total number of reservation hours that were used.
-  final ReservationAggregates? total;
-
-  UtilizationByTime({
-    this.groups,
-    this.timePeriod,
-    this.total,
-  });
-
-  factory UtilizationByTime.fromJson(Map<String, dynamic> json) {
-    return UtilizationByTime(
-      groups: (json['Groups'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              ReservationUtilizationGroup.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      timePeriod: json['TimePeriod'] != null
-          ? DateInterval.fromJson(json['TimePeriod'] as Map<String, dynamic>)
-          : null,
-      total: json['Total'] != null
-          ? ReservationAggregates.fromJson(
-              json['Total'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final groups = this.groups;
-    final timePeriod = this.timePeriod;
-    final total = this.total;
-    return {
-      if (groups != null) 'Groups': groups,
-      if (timePeriod != null) 'TimePeriod': timePeriod,
-      if (total != null) 'Total': total,
-    };
-  }
+class AnalysisNotFoundException extends _s.GenericAwsException {
+  AnalysisNotFoundException({String? type, String? message})
+      : super(type: type, code: 'AnalysisNotFoundException', message: message);
 }
 
 class BackfillLimitExceededException extends _s.GenericAwsException {
@@ -11617,6 +13384,14 @@ class BackfillLimitExceededException extends _s.GenericAwsException {
 class BillExpirationException extends _s.GenericAwsException {
   BillExpirationException({String? type, String? message})
       : super(type: type, code: 'BillExpirationException', message: message);
+}
+
+class BillingViewHealthStatusException extends _s.GenericAwsException {
+  BillingViewHealthStatusException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'BillingViewHealthStatusException',
+            message: message);
 }
 
 class DataUnavailableException extends _s.GenericAwsException {
@@ -11682,10 +13457,14 @@ class UnresolvableUsageUnitException extends _s.GenericAwsException {
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
+  'AnalysisNotFoundException': (type, message) =>
+      AnalysisNotFoundException(type: type, message: message),
   'BackfillLimitExceededException': (type, message) =>
       BackfillLimitExceededException(type: type, message: message),
   'BillExpirationException': (type, message) =>
       BillExpirationException(type: type, message: message),
+  'BillingViewHealthStatusException': (type, message) =>
+      BillingViewHealthStatusException(type: type, message: message),
   'DataUnavailableException': (type, message) =>
       DataUnavailableException(type: type, message: message),
   'GenerationExistsException': (type, message) =>

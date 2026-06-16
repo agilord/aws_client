@@ -20,13 +20,25 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// Amazon Connect is an easy-to-use omnichannel cloud contact center service
+/// <ul>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_Operations_Amazon_Connect_Participant_Service.html">Participant
+/// Service actions</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_Types_Amazon_Connect_Participant_Service.html">Participant
+/// Service data types</a>
+/// </li>
+/// </ul>
+/// Connect Customer is an easy-to-use omnichannel cloud contact center service
 /// that enables companies of any size to deliver superior customer service at a
-/// lower cost. Amazon Connect communications capabilities make it easy for
+/// lower cost. Connect Customer communications capabilities make it easy for
 /// companies to deliver personalized interactions across communication
 /// channels, including chat.
 ///
-/// Use the Amazon Connect Participant Service to manage participants (for
+/// Use the Connect Customer Participant Service to manage participants (for
 /// example, agents, customers, and managers listening in), and to send messages
 /// and events within a chat contact. The APIs in the service enable the
 /// following: sending chat messages, attachment sharing, managing a
@@ -61,11 +73,12 @@ class ConnectParticipant {
     _protocol.close();
   }
 
-  /// Allows you to confirm that the attachment has been uploaded using the
-  /// pre-signed URL provided in StartAttachmentUpload API. A conflict exception
-  /// is thrown when an attachment with that identifier is already being
-  /// uploaded.
+  /// Cancels the authentication session. The opted out branch of the
+  /// Authenticate Customer flow block will be taken.
   /// <note>
+  /// The current supported channel is chat. This API is not supported for Apple
+  /// Messages for Business, WhatsApp, or SMS chats.
+  /// </note> <note>
   /// <code>ConnectionToken</code> is used for invoking this API instead of
   /// <code>ParticipantToken</code>.
   /// </note>
@@ -77,8 +90,54 @@ class ConnectParticipant {
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [connectionToken] :
+  /// The authentication token associated with the participant's connection.
+  ///
+  /// Parameter [sessionId] :
+  /// The <code>sessionId</code> provided in the
+  /// <code>authenticationInitiated</code> event.
+  Future<void> cancelParticipantAuthentication({
+    required String connectionToken,
+    required String sessionId,
+  }) async {
+    final headers = <String, String>{
+      'X-Amz-Bearer': connectionToken.toString(),
+    };
+    final $payload = <String, dynamic>{
+      'SessionId': sessionId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/participant/cancel-authentication',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Allows you to confirm that the attachment has been uploaded using the
+  /// pre-signed URL provided in StartAttachmentUpload API. A conflict exception
+  /// is thrown when an attachment with that identifier is already being
+  /// uploaded.
+  ///
+  /// For security recommendations, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/security-best-practices.html#bp-security-chat">Connect
+  /// Customer Chat security best practices</a>.
+  /// <note>
+  /// <code>ConnectionToken</code> is used for invoking this API instead of
+  /// <code>ParticipantToken</code>.
+  /// </note>
+  /// The Amazon Connect Participant Service APIs do not use <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
+  /// Version 4 authentication</a>.
+  ///
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [attachmentIds] :
   /// A list of unique identifiers for the attachments.
@@ -114,16 +173,30 @@ class ConnectParticipant {
   }
 
   /// Creates the participant's connection.
+  ///
+  /// For security recommendations, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/security-best-practices.html#bp-security-chat">Connect
+  /// Customer Chat security best practices</a>.
+  ///
+  /// For WebRTC security recommendations, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/security-best-practices.html#bp-webrtc-security">Connect
+  /// Customer WebRTC security best practices</a>.
   /// <note>
   /// <code>ParticipantToken</code> is used for invoking this API instead of
   /// <code>ConnectionToken</code>.
   /// </note>
   /// The participant token is valid for the lifetime of the participant – until
-  /// they are part of a contact.
+  /// they are part of a contact. For WebRTC participants, if they leave or are
+  /// disconnected for 60 seconds, a new participant needs to be created using
+  /// the <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_CreateParticipant.html">CreateParticipant</a>
+  /// API.
   ///
-  /// The response URL for <code>WEBSOCKET</code> Type has a connect expiry
-  /// timeout of 100s. Clients must manually connect to the returned websocket
-  /// URL and subscribe to the desired topic.
+  /// <b>For <code>WEBSOCKET</code> Type</b>:
+  ///
+  /// The response URL for has a connect expiry timeout of 100s. Clients must
+  /// manually connect to the returned websocket URL and subscribe to the
+  /// desired topic.
   ///
   /// For chat, you need to publish the following on the established websocket
   /// connection:
@@ -134,6 +207,23 @@ class ConnectParticipant {
   /// parameter, clients need to call this API again to obtain a new websocket
   /// URL and perform the same steps as before.
   ///
+  /// The expiry time for the connection token is different than the
+  /// <code>ChatDurationInMinutes</code>. Expiry time for the connection token
+  /// is 1 day.
+  ///
+  /// <b>For <code>WEBRTC_CONNECTION</code> Type</b>:
+  ///
+  /// The response includes connection data required for the client application
+  /// to join the call using the Amazon Chime SDK client libraries. The
+  /// WebRTCConnection response contains Meeting and Attendee information needed
+  /// to establish the media connection.
+  ///
+  /// The attendee join token in WebRTCConnection response is valid for the
+  /// lifetime of the participant in the call. If a participant leaves or is
+  /// disconnected for 60 seconds, their participant credentials will no longer
+  /// be valid, and a new participant will need to be created to rejoin the
+  /// call.
+  ///
   /// <b>Message streaming support</b>: This API can also be used together with
   /// the <a
   /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_StartContactStreaming.html">StartContactStreaming</a>
@@ -143,9 +233,20 @@ class ConnectParticipant {
   /// real-time chat message streaming</a> in the <i>Amazon Connect
   /// Administrator Guide</i>.
   ///
+  /// <b>Multi-user web, in-app, video calling support</b>:
+  ///
+  /// For WebRTC calls, this API is used in conjunction with the
+  /// CreateParticipant API to enable multi-party calling. The
+  /// StartWebRTCContact API creates the initial contact and routes it to an
+  /// agent, while CreateParticipant adds additional participants to the ongoing
+  /// call. For more information about multi-party WebRTC calls, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/enable-multiuser-inapp.html">Enable
+  /// multi-user web, in-app, and video calling</a> in the <i>Amazon Connect
+  /// Administrator Guide</i>.
+  ///
   /// <b>Feature specifications</b>: For information about feature
   /// specifications, such as the allowed number of open websocket connections
-  /// per participant, see <a
+  /// per participant or maximum number of WebRTC participants, see <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#feature-limits">Feature
   /// specifications</a> in the <i>Amazon Connect Administrator Guide</i>.
   /// <note>
@@ -199,10 +300,14 @@ class ConnectParticipant {
 
   /// Retrieves the view for the specified view token.
   ///
+  /// For security recommendations, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/security-best-practices.html#bp-security-chat">Connect
+  /// Customer Chat security best practices</a>.
+  ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [connectionToken] :
@@ -229,6 +334,10 @@ class ConnectParticipant {
   }
 
   /// Disconnects a participant.
+  ///
+  /// For security recommendations, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/security-best-practices.html#bp-security-chat">Connect
+  /// Customer Chat security best practices</a>.
   /// <note>
   /// <code>ConnectionToken</code> is used for invoking this API instead of
   /// <code>ParticipantToken</code>.
@@ -272,10 +381,23 @@ class ConnectParticipant {
 
   /// Provides a pre-signed URL for download of a completed attachment. This is
   /// an asynchronous API for use with active contacts.
+  ///
+  /// For security recommendations, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/security-best-practices.html#bp-security-chat">Connect
+  /// Customer Chat security best practices</a>.
   /// <note>
+  /// <ul>
+  /// <li>
+  /// The participant role <code>CUSTOM_BOT</code> is not permitted to access
+  /// attachments customers may upload. An <code>AccessDeniedException</code>
+  /// can indicate that the participant may be a CUSTOM_BOT, and it doesn't have
+  /// access to attachments.
+  /// </li>
+  /// <li>
   /// <code>ConnectionToken</code> is used for invoking this API instead of
   /// <code>ParticipantToken</code>.
-  /// </note>
+  /// </li>
+  /// </ul> </note>
   /// The Amazon Connect Participant Service APIs do not use <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
   /// Version 4 authentication</a>.
@@ -290,15 +412,28 @@ class ConnectParticipant {
   ///
   /// Parameter [connectionToken] :
   /// The authentication token associated with the participant's connection.
+  ///
+  /// Parameter [urlExpiryInSeconds] :
+  /// The expiration time of the URL in ISO timestamp. It's specified in ISO
+  /// 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example,
+  /// 2019-11-08T02:41:28.172Z.
   Future<GetAttachmentResponse> getAttachment({
     required String attachmentId,
     required String connectionToken,
+    int? urlExpiryInSeconds,
   }) async {
+    _s.validateNumRange(
+      'urlExpiryInSeconds',
+      urlExpiryInSeconds,
+      5,
+      300,
+    );
     final headers = <String, String>{
       'X-Amz-Bearer': connectionToken.toString(),
     };
     final $payload = <String, dynamic>{
       'AttachmentId': attachmentId,
+      if (urlExpiryInSeconds != null) 'UrlExpiryInSeconds': urlExpiryInSeconds,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -310,11 +445,75 @@ class ConnectParticipant {
     return GetAttachmentResponse.fromJson(response);
   }
 
+  /// Retrieves the AuthenticationUrl for the current authentication session for
+  /// the AuthenticateCustomer flow block.
+  ///
+  /// For security recommendations, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/security-best-practices.html#bp-security-chat">Connect
+  /// Customer Chat security best practices</a>.
+  /// <note>
+  /// <ul>
+  /// <li>
+  /// This API can only be called within one minute of receiving the
+  /// authenticationInitiated event.
+  /// </li>
+  /// <li>
+  /// The current supported channel is chat. This API is not supported for Apple
+  /// Messages for Business, WhatsApp, or SMS chats.
+  /// </li>
+  /// </ul> </note> <note>
+  /// <code>ConnectionToken</code> is used for invoking this API instead of
+  /// <code>ParticipantToken</code>.
+  /// </note>
+  /// The Amazon Connect Participant Service APIs do not use <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
+  /// Version 4 authentication</a>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [connectionToken] :
+  /// The authentication token associated with the participant's connection.
+  ///
+  /// Parameter [redirectUri] :
+  /// The URL where the customer will be redirected after Amazon Cognito
+  /// authorizes the user.
+  ///
+  /// Parameter [sessionId] :
+  /// The sessionId provided in the authenticationInitiated event.
+  Future<GetAuthenticationUrlResponse> getAuthenticationUrl({
+    required String connectionToken,
+    required String redirectUri,
+    required String sessionId,
+  }) async {
+    final headers = <String, String>{
+      'X-Amz-Bearer': connectionToken.toString(),
+    };
+    final $payload = <String, dynamic>{
+      'RedirectUri': redirectUri,
+      'SessionId': sessionId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/participant/authentication-url',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetAuthenticationUrlResponse.fromJson(response);
+  }
+
   /// Retrieves a transcript of the session, including details about any
   /// attachments. For information about accessing past chat contact transcripts
   /// for a persistent chat, see <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html">Enable
   /// persistent chat</a>.
+  ///
+  /// For security recommendations, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/security-best-practices.html#bp-security-chat">Connect
+  /// Customer Chat security best practices</a>.
   ///
   /// If you have a process that consumes events in the transcript of an chat
   /// that has ended, note that chat transcripts contain the following event
@@ -322,10 +521,13 @@ class ConnectParticipant {
   ///
   /// <ul>
   /// <li>
-  /// <code>application/vnd.amazonaws.connect.event.participant.left</code>
+  /// <code>application/vnd.amazonaws.connect.event.participant.invited</code>
   /// </li>
   /// <li>
   /// <code>application/vnd.amazonaws.connect.event.participant.joined</code>
+  /// </li>
+  /// <li>
+  /// <code>application/vnd.amazonaws.connect.event.participant.left</code>
   /// </li>
   /// <li>
   /// <code>application/vnd.amazonaws.connect.event.chat.ended</code>
@@ -411,8 +613,8 @@ class ConnectParticipant {
   /// <note>
   /// The
   /// <code>application/vnd.amazonaws.connect.event.connection.acknowledged</code>
-  /// ContentType will no longer be supported starting December 31, 2024. This
-  /// event has been migrated to the <a
+  /// ContentType is no longer maintained since December 31, 2024. This event
+  /// has been migrated to the <a
   /// href="https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_CreateParticipantConnection.html">CreateParticipantConnection</a>
   /// API using the <code>ConnectParticipant</code> field.
   /// </note>
@@ -420,6 +622,10 @@ class ConnectParticipant {
   /// than two active participants in the chat. Using the SendEvent API for
   /// message receipts when a supervisor is barged-in will result in a conflict
   /// exception.
+  ///
+  /// For security recommendations, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/security-best-practices.html#bp-security-chat">Connect
+  /// Customer Chat security best practices</a>.
   /// <note>
   /// <code>ConnectionToken</code> is used for invoking this API instead of
   /// <code>ParticipantToken</code>.
@@ -429,10 +635,10 @@ class ConnectParticipant {
   /// Version 4 authentication</a>.
   ///
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [connectionToken] :
   /// The authentication token associated with the participant's connection.
@@ -445,8 +651,8 @@ class ConnectParticipant {
   /// application/vnd.amazonaws.connect.event.typing
   /// </li>
   /// <li>
-  /// application/vnd.amazonaws.connect.event.connection.acknowledged (will be
-  /// deprecated on December 31, 2024)
+  /// application/vnd.amazonaws.connect.event.connection.acknowledged (is no
+  /// longer maintained since December 31, 2024)
   /// </li>
   /// <li>
   /// application/vnd.amazonaws.connect.event.message.delivered
@@ -494,6 +700,10 @@ class ConnectParticipant {
   }
 
   /// Sends a message.
+  ///
+  /// For security recommendations, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/security-best-practices.html#bp-security-chat">Connect
+  /// Customer Chat security best practices</a>.
   /// <note>
   /// <code>ConnectionToken</code> is used for invoking this API instead of
   /// <code>ParticipantToken</code>.
@@ -530,9 +740,18 @@ class ConnectParticipant {
   /// </ul>
   ///
   /// Parameter [contentType] :
-  /// The type of the content. Supported types are <code>text/plain</code>,
+  /// The type of the content. Possible types are <code>text/plain</code>,
   /// <code>text/markdown</code>, <code>application/json</code>, and
   /// <code>application/vnd.amazonaws.connect.message.interactive.response</code>.
+  ///
+  /// Supported types on the contact are configured through
+  /// <code>SupportedMessagingContentTypes</code> on <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_StartChatContact.html">StartChatContact</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_StartOutboundChatContact.html">StartOutboundChatContact</a>.
+  ///
+  /// For Apple Messages for Business, SMS, and WhatsApp Business Messaging
+  /// contacts, only <code>text/plain</code> is supported.
   ///
   /// Parameter [clientToken] :
   /// A unique, case-sensitive identifier that you provide to ensure the
@@ -566,6 +785,10 @@ class ConnectParticipant {
 
   /// Provides a pre-signed Amazon S3 URL in response for uploading the file
   /// directly to S3.
+  ///
+  /// For security recommendations, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/security-best-practices.html#bp-security-chat">Connect
+  /// Customer Chat security best practices</a>.
   /// <note>
   /// <code>ConnectionToken</code> is used for invoking this API instead of
   /// <code>ParticipantToken</code>.
@@ -576,9 +799,9 @@ class ConnectParticipant {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [attachmentName] :
   /// A case-sensitive name of the attachment being uploaded.
@@ -635,123 +858,17 @@ class ConnectParticipant {
   }
 }
 
-class ArtifactStatus {
-  static const approved = ArtifactStatus._('APPROVED');
-  static const rejected = ArtifactStatus._('REJECTED');
-  static const inProgress = ArtifactStatus._('IN_PROGRESS');
+class CancelParticipantAuthenticationResponse {
+  CancelParticipantAuthenticationResponse();
 
-  final String value;
-
-  const ArtifactStatus._(this.value);
-
-  static const values = [approved, rejected, inProgress];
-
-  static ArtifactStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ArtifactStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ArtifactStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The case-insensitive input to indicate standard MIME type that describes the
-/// format of the file that will be uploaded.
-class AttachmentItem {
-  /// A unique identifier for the attachment.
-  final String? attachmentId;
-
-  /// A case-sensitive name of the attachment being uploaded.
-  final String? attachmentName;
-
-  /// Describes the MIME file type of the attachment. For a list of supported file
-  /// types, see <a
-  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/feature-limits.html">Feature
-  /// specifications</a> in the <i>Amazon Connect Administrator Guide</i>.
-  final String? contentType;
-
-  /// Status of the attachment.
-  final ArtifactStatus? status;
-
-  AttachmentItem({
-    this.attachmentId,
-    this.attachmentName,
-    this.contentType,
-    this.status,
-  });
-
-  factory AttachmentItem.fromJson(Map<String, dynamic> json) {
-    return AttachmentItem(
-      attachmentId: json['AttachmentId'] as String?,
-      attachmentName: json['AttachmentName'] as String?,
-      contentType: json['ContentType'] as String?,
-      status: (json['Status'] as String?)?.let(ArtifactStatus.fromString),
-    );
+  factory CancelParticipantAuthenticationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return CancelParticipantAuthenticationResponse();
   }
 
   Map<String, dynamic> toJson() {
-    final attachmentId = this.attachmentId;
-    final attachmentName = this.attachmentName;
-    final contentType = this.contentType;
-    final status = this.status;
-    return {
-      if (attachmentId != null) 'AttachmentId': attachmentId,
-      if (attachmentName != null) 'AttachmentName': attachmentName,
-      if (contentType != null) 'ContentType': contentType,
-      if (status != null) 'Status': status.value,
-    };
+    return {};
   }
-}
-
-class ChatItemType {
-  static const typing = ChatItemType._('TYPING');
-  static const participantJoined = ChatItemType._('PARTICIPANT_JOINED');
-  static const participantLeft = ChatItemType._('PARTICIPANT_LEFT');
-  static const chatEnded = ChatItemType._('CHAT_ENDED');
-  static const transferSucceeded = ChatItemType._('TRANSFER_SUCCEEDED');
-  static const transferFailed = ChatItemType._('TRANSFER_FAILED');
-  static const message = ChatItemType._('MESSAGE');
-  static const event = ChatItemType._('EVENT');
-  static const attachment = ChatItemType._('ATTACHMENT');
-  static const connectionAck = ChatItemType._('CONNECTION_ACK');
-  static const messageDelivered = ChatItemType._('MESSAGE_DELIVERED');
-  static const messageRead = ChatItemType._('MESSAGE_READ');
-
-  final String value;
-
-  const ChatItemType._(this.value);
-
-  static const values = [
-    typing,
-    participantJoined,
-    participantLeft,
-    chatEnded,
-    transferSucceeded,
-    transferFailed,
-    message,
-    event,
-    attachment,
-    connectionAck,
-    messageDelivered,
-    messageRead
-  ];
-
-  static ChatItemType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ChatItemType._(value));
-
-  @override
-  bool operator ==(other) => other is ChatItemType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class CompleteAttachmentUploadResponse {
@@ -766,74 +883,21 @@ class CompleteAttachmentUploadResponse {
   }
 }
 
-/// Connection credentials.
-class ConnectionCredentials {
-  /// The connection token.
-  final String? connectionToken;
-
-  /// The expiration of the token.
-  ///
-  /// It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example,
-  /// 2019-11-08T02:41:28.172Z.
-  final String? expiry;
-
-  ConnectionCredentials({
-    this.connectionToken,
-    this.expiry,
-  });
-
-  factory ConnectionCredentials.fromJson(Map<String, dynamic> json) {
-    return ConnectionCredentials(
-      connectionToken: json['ConnectionToken'] as String?,
-      expiry: json['Expiry'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connectionToken = this.connectionToken;
-    final expiry = this.expiry;
-    return {
-      if (connectionToken != null) 'ConnectionToken': connectionToken,
-      if (expiry != null) 'Expiry': expiry,
-    };
-  }
-}
-
-class ConnectionType {
-  static const websocket = ConnectionType._('WEBSOCKET');
-  static const connectionCredentials =
-      ConnectionType._('CONNECTION_CREDENTIALS');
-
-  final String value;
-
-  const ConnectionType._(this.value);
-
-  static const values = [websocket, connectionCredentials];
-
-  static ConnectionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConnectionType._(value));
-
-  @override
-  bool operator ==(other) => other is ConnectionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class CreateParticipantConnectionResponse {
   /// Creates the participant's connection credentials. The authentication token
   /// associated with the participant's connection.
   final ConnectionCredentials? connectionCredentials;
+
+  /// Creates the participant's WebRTC connection data required for the client
+  /// application (mobile application or website) to connect to the call.
+  final WebRTCConnection? webRTCConnection;
 
   /// Creates the participant's websocket connection.
   final Websocket? websocket;
 
   CreateParticipantConnectionResponse({
     this.connectionCredentials,
+    this.webRTCConnection,
     this.websocket,
   });
 
@@ -844,6 +908,10 @@ class CreateParticipantConnectionResponse {
           ? ConnectionCredentials.fromJson(
               json['ConnectionCredentials'] as Map<String, dynamic>)
           : null,
+      webRTCConnection: json['WebRTCConnection'] != null
+          ? WebRTCConnection.fromJson(
+              json['WebRTCConnection'] as Map<String, dynamic>)
+          : null,
       websocket: json['Websocket'] != null
           ? Websocket.fromJson(json['Websocket'] as Map<String, dynamic>)
           : null,
@@ -852,10 +920,12 @@ class CreateParticipantConnectionResponse {
 
   Map<String, dynamic> toJson() {
     final connectionCredentials = this.connectionCredentials;
+    final webRTCConnection = this.webRTCConnection;
     final websocket = this.websocket;
     return {
       if (connectionCredentials != null)
         'ConnectionCredentials': connectionCredentials,
+      if (webRTCConnection != null) 'WebRTCConnection': webRTCConnection,
       if (websocket != null) 'Websocket': websocket,
     };
   }
@@ -899,6 +969,9 @@ class DisconnectParticipantResponse {
 }
 
 class GetAttachmentResponse {
+  /// The size of the attachment in bytes.
+  final int attachmentSizeInBytes;
+
   /// This is the pre-signed URL that can be used for uploading the file to Amazon
   /// S3 when used in response to <a
   /// href="https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_StartAttachmentUpload.html">StartAttachmentUpload</a>.
@@ -909,23 +982,51 @@ class GetAttachmentResponse {
   final String? urlExpiry;
 
   GetAttachmentResponse({
+    required this.attachmentSizeInBytes,
     this.url,
     this.urlExpiry,
   });
 
   factory GetAttachmentResponse.fromJson(Map<String, dynamic> json) {
     return GetAttachmentResponse(
+      attachmentSizeInBytes: (json['AttachmentSizeInBytes'] as int?) ?? 0,
       url: json['Url'] as String?,
       urlExpiry: json['UrlExpiry'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final attachmentSizeInBytes = this.attachmentSizeInBytes;
     final url = this.url;
     final urlExpiry = this.urlExpiry;
     return {
+      'AttachmentSizeInBytes': attachmentSizeInBytes,
       if (url != null) 'Url': url,
       if (urlExpiry != null) 'UrlExpiry': urlExpiry,
+    };
+  }
+}
+
+class GetAuthenticationUrlResponse {
+  /// The URL where the customer will sign in to the identity provider. This URL
+  /// contains the authorize endpoint for the Cognito UserPool used in the
+  /// authentication.
+  final String? authenticationUrl;
+
+  GetAuthenticationUrlResponse({
+    this.authenticationUrl,
+  });
+
+  factory GetAuthenticationUrlResponse.fromJson(Map<String, dynamic> json) {
+    return GetAuthenticationUrlResponse(
+      authenticationUrl: json['AuthenticationUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authenticationUrl = this.authenticationUrl;
+    return {
+      if (authenticationUrl != null) 'AuthenticationUrl': authenticationUrl,
     };
   }
 }
@@ -968,6 +1069,204 @@ class GetTranscriptResponse {
       if (transcript != null) 'Transcript': transcript,
     };
   }
+}
+
+class SendEventResponse {
+  /// The time when the event was sent.
+  ///
+  /// It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example,
+  /// 2019-11-08T02:41:28.172Z.
+  final String? absoluteTime;
+
+  /// The ID of the response.
+  final String? id;
+
+  SendEventResponse({
+    this.absoluteTime,
+    this.id,
+  });
+
+  factory SendEventResponse.fromJson(Map<String, dynamic> json) {
+    return SendEventResponse(
+      absoluteTime: json['AbsoluteTime'] as String?,
+      id: json['Id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final absoluteTime = this.absoluteTime;
+    final id = this.id;
+    return {
+      if (absoluteTime != null) 'AbsoluteTime': absoluteTime,
+      if (id != null) 'Id': id,
+    };
+  }
+}
+
+class SendMessageResponse {
+  /// The time when the message was sent.
+  ///
+  /// It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example,
+  /// 2019-11-08T02:41:28.172Z.
+  final String? absoluteTime;
+
+  /// The ID of the message.
+  final String? id;
+
+  /// Contains metadata for the message.
+  final MessageProcessingMetadata? messageMetadata;
+
+  SendMessageResponse({
+    this.absoluteTime,
+    this.id,
+    this.messageMetadata,
+  });
+
+  factory SendMessageResponse.fromJson(Map<String, dynamic> json) {
+    return SendMessageResponse(
+      absoluteTime: json['AbsoluteTime'] as String?,
+      id: json['Id'] as String?,
+      messageMetadata: json['MessageMetadata'] != null
+          ? MessageProcessingMetadata.fromJson(
+              json['MessageMetadata'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final absoluteTime = this.absoluteTime;
+    final id = this.id;
+    final messageMetadata = this.messageMetadata;
+    return {
+      if (absoluteTime != null) 'AbsoluteTime': absoluteTime,
+      if (id != null) 'Id': id,
+      if (messageMetadata != null) 'MessageMetadata': messageMetadata,
+    };
+  }
+}
+
+class StartAttachmentUploadResponse {
+  /// A unique identifier for the attachment.
+  final String? attachmentId;
+
+  /// The headers to be provided while uploading the file to the URL.
+  final UploadMetadata? uploadMetadata;
+
+  StartAttachmentUploadResponse({
+    this.attachmentId,
+    this.uploadMetadata,
+  });
+
+  factory StartAttachmentUploadResponse.fromJson(Map<String, dynamic> json) {
+    return StartAttachmentUploadResponse(
+      attachmentId: json['AttachmentId'] as String?,
+      uploadMetadata: json['UploadMetadata'] != null
+          ? UploadMetadata.fromJson(
+              json['UploadMetadata'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachmentId = this.attachmentId;
+    final uploadMetadata = this.uploadMetadata;
+    return {
+      if (attachmentId != null) 'AttachmentId': attachmentId,
+      if (uploadMetadata != null) 'UploadMetadata': uploadMetadata,
+    };
+  }
+}
+
+/// Fields to be used while uploading the attachment.
+class UploadMetadata {
+  /// The headers to be provided while uploading the file to the URL.
+  final Map<String, String>? headersToInclude;
+
+  /// This is the pre-signed URL that can be used for uploading the file to Amazon
+  /// S3 when used in response to <a
+  /// href="https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_StartAttachmentUpload.html">StartAttachmentUpload</a>.
+  final String? url;
+
+  /// The expiration time of the URL in ISO timestamp. It's specified in ISO 8601
+  /// format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
+  final String? urlExpiry;
+
+  UploadMetadata({
+    this.headersToInclude,
+    this.url,
+    this.urlExpiry,
+  });
+
+  factory UploadMetadata.fromJson(Map<String, dynamic> json) {
+    return UploadMetadata(
+      headersToInclude: (json['HeadersToInclude'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      url: json['Url'] as String?,
+      urlExpiry: json['UrlExpiry'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final headersToInclude = this.headersToInclude;
+    final url = this.url;
+    final urlExpiry = this.urlExpiry;
+    return {
+      if (headersToInclude != null) 'HeadersToInclude': headersToInclude,
+      if (url != null) 'Url': url,
+      if (urlExpiry != null) 'UrlExpiry': urlExpiry,
+    };
+  }
+}
+
+/// Contains metadata for chat messages.
+class MessageProcessingMetadata {
+  /// The status of Message Processing for the message.
+  final MessageProcessingStatus? messageProcessingStatus;
+
+  MessageProcessingMetadata({
+    this.messageProcessingStatus,
+  });
+
+  factory MessageProcessingMetadata.fromJson(Map<String, dynamic> json) {
+    return MessageProcessingMetadata(
+      messageProcessingStatus: (json['MessageProcessingStatus'] as String?)
+          ?.let(MessageProcessingStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final messageProcessingStatus = this.messageProcessingStatus;
+    return {
+      if (messageProcessingStatus != null)
+        'MessageProcessingStatus': messageProcessingStatus.value,
+    };
+  }
+}
+
+class MessageProcessingStatus {
+  static const processing = MessageProcessingStatus._('PROCESSING');
+  static const failed = MessageProcessingStatus._('FAILED');
+  static const rejected = MessageProcessingStatus._('REJECTED');
+
+  final String value;
+
+  const MessageProcessingStatus._(this.value);
+
+  static const values = [processing, failed, rejected];
+
+  static MessageProcessingStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MessageProcessingStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MessageProcessingStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An item - message or event - that has been sent.
@@ -1086,37 +1385,50 @@ class Item {
   }
 }
 
-/// Contains metadata related to a message.
-class MessageMetadata {
-  /// The identifier of the message that contains the metadata information.
-  final String? messageId;
+class ChatItemType {
+  static const typing = ChatItemType._('TYPING');
+  static const participantJoined = ChatItemType._('PARTICIPANT_JOINED');
+  static const participantLeft = ChatItemType._('PARTICIPANT_LEFT');
+  static const chatEnded = ChatItemType._('CHAT_ENDED');
+  static const transferSucceeded = ChatItemType._('TRANSFER_SUCCEEDED');
+  static const transferFailed = ChatItemType._('TRANSFER_FAILED');
+  static const message = ChatItemType._('MESSAGE');
+  static const event = ChatItemType._('EVENT');
+  static const attachment = ChatItemType._('ATTACHMENT');
+  static const connectionAck = ChatItemType._('CONNECTION_ACK');
+  static const messageDelivered = ChatItemType._('MESSAGE_DELIVERED');
+  static const messageRead = ChatItemType._('MESSAGE_READ');
 
-  /// The list of receipt information for a message for different recipients.
-  final List<Receipt>? receipts;
+  final String value;
 
-  MessageMetadata({
-    this.messageId,
-    this.receipts,
-  });
+  const ChatItemType._(this.value);
 
-  factory MessageMetadata.fromJson(Map<String, dynamic> json) {
-    return MessageMetadata(
-      messageId: json['MessageId'] as String?,
-      receipts: (json['Receipts'] as List?)
-          ?.nonNulls
-          .map((e) => Receipt.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
+  static const values = [
+    typing,
+    participantJoined,
+    participantLeft,
+    chatEnded,
+    transferSucceeded,
+    transferFailed,
+    message,
+    event,
+    attachment,
+    connectionAck,
+    messageDelivered,
+    messageRead
+  ];
 
-  Map<String, dynamic> toJson() {
-    final messageId = this.messageId;
-    final receipts = this.receipts;
-    return {
-      if (messageId != null) 'MessageId': messageId,
-      if (receipts != null) 'Receipts': receipts,
-    };
-  }
+  static ChatItemType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChatItemType._(value));
+
+  @override
+  bool operator ==(other) => other is ChatItemType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ParticipantRole {
@@ -1144,6 +1456,48 @@ class ParticipantRole {
 
   @override
   String toString() => value;
+}
+
+/// Contains metadata related to a message.
+class MessageMetadata {
+  /// The identifier of the message that contains the metadata information.
+  final String? messageId;
+
+  /// The status of Message Processing for the message.
+  final MessageProcessingStatus? messageProcessingStatus;
+
+  /// The list of receipt information for a message for different recipients.
+  final List<Receipt>? receipts;
+
+  MessageMetadata({
+    this.messageId,
+    this.messageProcessingStatus,
+    this.receipts,
+  });
+
+  factory MessageMetadata.fromJson(Map<String, dynamic> json) {
+    return MessageMetadata(
+      messageId: json['MessageId'] as String?,
+      messageProcessingStatus: (json['MessageProcessingStatus'] as String?)
+          ?.let(MessageProcessingStatus.fromString),
+      receipts: (json['Receipts'] as List?)
+          ?.nonNulls
+          .map((e) => Receipt.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final messageId = this.messageId;
+    final messageProcessingStatus = this.messageProcessingStatus;
+    final receipts = this.receipts;
+    return {
+      if (messageId != null) 'MessageId': messageId,
+      if (messageProcessingStatus != null)
+        'MessageProcessingStatus': messageProcessingStatus.value,
+      if (receipts != null) 'Receipts': receipts,
+    };
+  }
 }
 
 /// The receipt for the message delivered to the recipient.
@@ -1184,6 +1538,79 @@ class Receipt {
   }
 }
 
+/// The case-insensitive input to indicate standard MIME type that describes the
+/// format of the file that will be uploaded.
+class AttachmentItem {
+  /// A unique identifier for the attachment.
+  final String? attachmentId;
+
+  /// A case-sensitive name of the attachment being uploaded.
+  final String? attachmentName;
+
+  /// Describes the MIME file type of the attachment. For a list of supported file
+  /// types, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/feature-limits.html">Feature
+  /// specifications</a> in the <i>Amazon Connect Administrator Guide</i>.
+  final String? contentType;
+
+  /// Status of the attachment.
+  final ArtifactStatus? status;
+
+  AttachmentItem({
+    this.attachmentId,
+    this.attachmentName,
+    this.contentType,
+    this.status,
+  });
+
+  factory AttachmentItem.fromJson(Map<String, dynamic> json) {
+    return AttachmentItem(
+      attachmentId: json['AttachmentId'] as String?,
+      attachmentName: json['AttachmentName'] as String?,
+      contentType: json['ContentType'] as String?,
+      status: (json['Status'] as String?)?.let(ArtifactStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachmentId = this.attachmentId;
+    final attachmentName = this.attachmentName;
+    final contentType = this.contentType;
+    final status = this.status;
+    return {
+      if (attachmentId != null) 'AttachmentId': attachmentId,
+      if (attachmentName != null) 'AttachmentName': attachmentName,
+      if (contentType != null) 'ContentType': contentType,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class ArtifactStatus {
+  static const approved = ArtifactStatus._('APPROVED');
+  static const rejected = ArtifactStatus._('REJECTED');
+  static const inProgress = ArtifactStatus._('IN_PROGRESS');
+
+  final String value;
+
+  const ArtifactStatus._(this.value);
+
+  static const values = [approved, rejected, inProgress];
+
+  static ArtifactStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ArtifactStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ArtifactStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 class ScanDirection {
   static const forward = ScanDirection._('FORWARD');
   static const backward = ScanDirection._('BACKWARD');
@@ -1208,70 +1635,6 @@ class ScanDirection {
   String toString() => value;
 }
 
-class SendEventResponse {
-  /// The time when the event was sent.
-  ///
-  /// It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example,
-  /// 2019-11-08T02:41:28.172Z.
-  final String? absoluteTime;
-
-  /// The ID of the response.
-  final String? id;
-
-  SendEventResponse({
-    this.absoluteTime,
-    this.id,
-  });
-
-  factory SendEventResponse.fromJson(Map<String, dynamic> json) {
-    return SendEventResponse(
-      absoluteTime: json['AbsoluteTime'] as String?,
-      id: json['Id'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final absoluteTime = this.absoluteTime;
-    final id = this.id;
-    return {
-      if (absoluteTime != null) 'AbsoluteTime': absoluteTime,
-      if (id != null) 'Id': id,
-    };
-  }
-}
-
-class SendMessageResponse {
-  /// The time when the message was sent.
-  ///
-  /// It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example,
-  /// 2019-11-08T02:41:28.172Z.
-  final String? absoluteTime;
-
-  /// The ID of the message.
-  final String? id;
-
-  SendMessageResponse({
-    this.absoluteTime,
-    this.id,
-  });
-
-  factory SendMessageResponse.fromJson(Map<String, dynamic> json) {
-    return SendMessageResponse(
-      absoluteTime: json['AbsoluteTime'] as String?,
-      id: json['Id'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final absoluteTime = this.absoluteTime;
-    final id = this.id;
-    return {
-      if (absoluteTime != null) 'AbsoluteTime': absoluteTime,
-      if (id != null) 'Id': id,
-    };
-  }
-}
-
 class SortKey {
   static const descending = SortKey._('DESCENDING');
   static const ascending = SortKey._('ASCENDING');
@@ -1293,38 +1656,6 @@ class SortKey {
 
   @override
   String toString() => value;
-}
-
-class StartAttachmentUploadResponse {
-  /// A unique identifier for the attachment.
-  final String? attachmentId;
-
-  /// Fields to be used while uploading the attachment.
-  final UploadMetadata? uploadMetadata;
-
-  StartAttachmentUploadResponse({
-    this.attachmentId,
-    this.uploadMetadata,
-  });
-
-  factory StartAttachmentUploadResponse.fromJson(Map<String, dynamic> json) {
-    return StartAttachmentUploadResponse(
-      attachmentId: json['AttachmentId'] as String?,
-      uploadMetadata: json['UploadMetadata'] != null
-          ? UploadMetadata.fromJson(
-              json['UploadMetadata'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attachmentId = this.attachmentId;
-    final uploadMetadata = this.uploadMetadata;
-    return {
-      if (attachmentId != null) 'AttachmentId': attachmentId,
-      if (uploadMetadata != null) 'UploadMetadata': uploadMetadata,
-    };
-  }
 }
 
 /// A filtering option for where to start. For example, if you sent 100
@@ -1356,47 +1687,6 @@ class StartPosition {
       if (absoluteTime != null) 'AbsoluteTime': absoluteTime,
       if (id != null) 'Id': id,
       if (mostRecent != null) 'MostRecent': mostRecent,
-    };
-  }
-}
-
-/// Fields to be used while uploading the attachment.
-class UploadMetadata {
-  /// The headers to be provided while uploading the file to the URL.
-  final Map<String, String>? headersToInclude;
-
-  /// This is the pre-signed URL that can be used for uploading the file to Amazon
-  /// S3 when used in response to <a
-  /// href="https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_StartAttachmentUpload.html">StartAttachmentUpload</a>.
-  final String? url;
-
-  /// The expiration time of the URL in ISO timestamp. It's specified in ISO 8601
-  /// format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
-  final String? urlExpiry;
-
-  UploadMetadata({
-    this.headersToInclude,
-    this.url,
-    this.urlExpiry,
-  });
-
-  factory UploadMetadata.fromJson(Map<String, dynamic> json) {
-    return UploadMetadata(
-      headersToInclude: (json['HeadersToInclude'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      url: json['Url'] as String?,
-      urlExpiry: json['UrlExpiry'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final headersToInclude = this.headersToInclude;
-    final url = this.url;
-    final urlExpiry = this.urlExpiry;
-    return {
-      if (headersToInclude != null) 'HeadersToInclude': headersToInclude,
-      if (url != null) 'Url': url,
-      if (urlExpiry != null) 'UrlExpiry': urlExpiry,
     };
   }
 }
@@ -1527,6 +1817,290 @@ class Websocket {
       if (url != null) 'Url': url,
     };
   }
+}
+
+/// Connection credentials.
+class ConnectionCredentials {
+  /// The connection token.
+  final String? connectionToken;
+
+  /// The expiration of the token.
+  ///
+  /// It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example,
+  /// 2019-11-08T02:41:28.172Z.
+  final String? expiry;
+
+  ConnectionCredentials({
+    this.connectionToken,
+    this.expiry,
+  });
+
+  factory ConnectionCredentials.fromJson(Map<String, dynamic> json) {
+    return ConnectionCredentials(
+      connectionToken: json['ConnectionToken'] as String?,
+      expiry: json['Expiry'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectionToken = this.connectionToken;
+    final expiry = this.expiry;
+    return {
+      if (connectionToken != null) 'ConnectionToken': connectionToken,
+      if (expiry != null) 'Expiry': expiry,
+    };
+  }
+}
+
+/// Creates the participant’s WebRTC connection data required for the client
+/// application (mobile or web) to connect to the call.
+class WebRTCConnection {
+  final Attendee? attendee;
+
+  /// A meeting created using the Amazon Chime SDK.
+  final WebRTCMeeting? meeting;
+
+  WebRTCConnection({
+    this.attendee,
+    this.meeting,
+  });
+
+  factory WebRTCConnection.fromJson(Map<String, dynamic> json) {
+    return WebRTCConnection(
+      attendee: json['Attendee'] != null
+          ? Attendee.fromJson(json['Attendee'] as Map<String, dynamic>)
+          : null,
+      meeting: json['Meeting'] != null
+          ? WebRTCMeeting.fromJson(json['Meeting'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attendee = this.attendee;
+    final meeting = this.meeting;
+    return {
+      if (attendee != null) 'Attendee': attendee,
+      if (meeting != null) 'Meeting': meeting,
+    };
+  }
+}
+
+/// The attendee information, including attendee ID and join token.
+class Attendee {
+  /// The Amazon Chime SDK attendee ID.
+  final String? attendeeId;
+
+  /// The join token used by the Amazon Chime SDK attendee.
+  final String? joinToken;
+
+  Attendee({
+    this.attendeeId,
+    this.joinToken,
+  });
+
+  factory Attendee.fromJson(Map<String, dynamic> json) {
+    return Attendee(
+      attendeeId: json['AttendeeId'] as String?,
+      joinToken: json['JoinToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attendeeId = this.attendeeId;
+    final joinToken = this.joinToken;
+    return {
+      if (attendeeId != null) 'AttendeeId': attendeeId,
+      if (joinToken != null) 'JoinToken': joinToken,
+    };
+  }
+}
+
+/// A meeting created using the Amazon Chime SDK.
+class WebRTCMeeting {
+  /// The media placement for the meeting.
+  final WebRTCMediaPlacement? mediaPlacement;
+  final MeetingFeaturesConfiguration? meetingFeatures;
+
+  /// The Amazon Chime SDK meeting ID.
+  final String? meetingId;
+
+  WebRTCMeeting({
+    this.mediaPlacement,
+    this.meetingFeatures,
+    this.meetingId,
+  });
+
+  factory WebRTCMeeting.fromJson(Map<String, dynamic> json) {
+    return WebRTCMeeting(
+      mediaPlacement: json['MediaPlacement'] != null
+          ? WebRTCMediaPlacement.fromJson(
+              json['MediaPlacement'] as Map<String, dynamic>)
+          : null,
+      meetingFeatures: json['MeetingFeatures'] != null
+          ? MeetingFeaturesConfiguration.fromJson(
+              json['MeetingFeatures'] as Map<String, dynamic>)
+          : null,
+      meetingId: json['MeetingId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mediaPlacement = this.mediaPlacement;
+    final meetingFeatures = this.meetingFeatures;
+    final meetingId = this.meetingId;
+    return {
+      if (mediaPlacement != null) 'MediaPlacement': mediaPlacement,
+      if (meetingFeatures != null) 'MeetingFeatures': meetingFeatures,
+      if (meetingId != null) 'MeetingId': meetingId,
+    };
+  }
+}
+
+/// A set of endpoints used by clients to connect to the media service group for
+/// an Amazon Chime SDK meeting.
+class WebRTCMediaPlacement {
+  /// The audio fallback URL.
+  final String? audioFallbackUrl;
+
+  /// The audio host URL.
+  final String? audioHostUrl;
+
+  /// The event ingestion URL to which you send client meeting events.
+  final String? eventIngestionUrl;
+
+  /// The signaling URL.
+  final String? signalingUrl;
+
+  WebRTCMediaPlacement({
+    this.audioFallbackUrl,
+    this.audioHostUrl,
+    this.eventIngestionUrl,
+    this.signalingUrl,
+  });
+
+  factory WebRTCMediaPlacement.fromJson(Map<String, dynamic> json) {
+    return WebRTCMediaPlacement(
+      audioFallbackUrl: json['AudioFallbackUrl'] as String?,
+      audioHostUrl: json['AudioHostUrl'] as String?,
+      eventIngestionUrl: json['EventIngestionUrl'] as String?,
+      signalingUrl: json['SignalingUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final audioFallbackUrl = this.audioFallbackUrl;
+    final audioHostUrl = this.audioHostUrl;
+    final eventIngestionUrl = this.eventIngestionUrl;
+    final signalingUrl = this.signalingUrl;
+    return {
+      if (audioFallbackUrl != null) 'AudioFallbackUrl': audioFallbackUrl,
+      if (audioHostUrl != null) 'AudioHostUrl': audioHostUrl,
+      if (eventIngestionUrl != null) 'EventIngestionUrl': eventIngestionUrl,
+      if (signalingUrl != null) 'SignalingUrl': signalingUrl,
+    };
+  }
+}
+
+/// The configuration settings of the features available to a meeting.
+class MeetingFeaturesConfiguration {
+  /// The configuration settings for the audio features available to a meeting.
+  final AudioFeatures? audio;
+
+  MeetingFeaturesConfiguration({
+    this.audio,
+  });
+
+  factory MeetingFeaturesConfiguration.fromJson(Map<String, dynamic> json) {
+    return MeetingFeaturesConfiguration(
+      audio: json['Audio'] != null
+          ? AudioFeatures.fromJson(json['Audio'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final audio = this.audio;
+    return {
+      if (audio != null) 'Audio': audio,
+    };
+  }
+}
+
+/// Has audio-specific configurations as the operating parameter for Echo
+/// Reduction.
+class AudioFeatures {
+  /// Makes echo reduction available to clients who connect to the meeting.
+  final MeetingFeatureStatus? echoReduction;
+
+  AudioFeatures({
+    this.echoReduction,
+  });
+
+  factory AudioFeatures.fromJson(Map<String, dynamic> json) {
+    return AudioFeatures(
+      echoReduction: (json['EchoReduction'] as String?)
+          ?.let(MeetingFeatureStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final echoReduction = this.echoReduction;
+    return {
+      if (echoReduction != null) 'EchoReduction': echoReduction.value,
+    };
+  }
+}
+
+class MeetingFeatureStatus {
+  static const available = MeetingFeatureStatus._('AVAILABLE');
+  static const unavailable = MeetingFeatureStatus._('UNAVAILABLE');
+
+  final String value;
+
+  const MeetingFeatureStatus._(this.value);
+
+  static const values = [available, unavailable];
+
+  static MeetingFeatureStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MeetingFeatureStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MeetingFeatureStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ConnectionType {
+  static const websocket = ConnectionType._('WEBSOCKET');
+  static const connectionCredentials =
+      ConnectionType._('CONNECTION_CREDENTIALS');
+  static const webrtcConnection = ConnectionType._('WEBRTC_CONNECTION');
+
+  final String value;
+
+  const ConnectionType._(this.value);
+
+  static const values = [websocket, connectionCredentials, webrtcConnection];
+
+  static ConnectionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectionType._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

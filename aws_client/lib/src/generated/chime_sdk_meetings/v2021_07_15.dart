@@ -24,7 +24,7 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// to create Amazon Chime SDK meetings, set the Amazon Web Services Regions for
 /// meetings, create and manage users, and send and receive meeting
 /// notifications. For more information about the meeting APIs, see <a
-/// href="https://docs.aws.amazon.com/chime/latest/APIReference/API_Operations_Amazon_Chime_SDK_Meetings.html">Amazon
+/// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_Operations_Amazon_Chime_SDK_Meetings.html">Amazon
 /// Chime SDK meetings</a>.
 class ChimeSdkMeetings {
   final _s.RestJsonProtocol _protocol;
@@ -57,18 +57,18 @@ class ChimeSdkMeetings {
 
   /// Creates up to 100 attendees for an active Amazon Chime SDK meeting. For
   /// more information about the Amazon Chime SDK, see <a
-  /// href="https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html">Using
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html">Using
   /// the Amazon Chime SDK</a> in the <i>Amazon Chime Developer Guide</i>.
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
+  /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
   /// May throw [UnauthorizedException].
   /// May throw [UnprocessableEntityException].
-  /// May throw [LimitExceededException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
-  /// May throw [ThrottlingException].
   ///
   /// Parameter [attendees] :
   /// The attendee information, including attendees' IDs and join tokens.
@@ -126,6 +126,15 @@ class ChimeSdkMeetings {
   /// set your <code>content</code> capability to not receive.
   /// </li>
   /// <li>
+  /// If meeting features is defined as <code>Video:MaxResolution:None</code>
+  /// but <code>Content:MaxResolution</code> is defined as something other than
+  /// <code>None</code> and attendee capabilities are not defined in the API
+  /// request, then the default attendee video capability is set to
+  /// <code>Receive</code> and attendee content capability is set to
+  /// <code>SendReceive</code>. This is because content <code>SendReceive</code>
+  /// requires video to be at least <code>Receive</code>.
+  /// </li>
+  /// <li>
   /// When you change an <code>audio</code> capability from <code>None</code> or
   /// <code>Receive</code> to <code>Send</code> or <code>SendReceive</code> ,
   /// and if the attendee left their microphone unmuted, audio will flow from
@@ -143,12 +152,12 @@ class ChimeSdkMeetings {
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
-  /// May throw [UnauthorizedException].
-  /// May throw [NotFoundException].
   /// May throw [ForbiddenException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [capabilities] :
   /// The capabilities (<code>audio</code>, <code>video</code>, or
@@ -180,24 +189,24 @@ class ChimeSdkMeetings {
 
   /// Creates a new attendee for an active Amazon Chime SDK meeting. For more
   /// information about the Amazon Chime SDK, see <a
-  /// href="https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html">Using
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html">Using
   /// the Amazon Chime SDK</a> in the <i>Amazon Chime Developer Guide</i>.
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
+  /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
   /// May throw [UnauthorizedException].
   /// May throw [UnprocessableEntityException].
-  /// May throw [LimitExceededException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
-  /// May throw [ThrottlingException].
   ///
   /// Parameter [externalUserId] :
   /// The Amazon Chime SDK external user ID. An idempotency token. Links the
   /// attendee to an identity managed by a builder application.
   ///
-  /// Pattern: <code>[-_&amp;@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]*</code>
+  /// Pattern: <code>[-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]*</code>
   ///
   /// Values that begin with <code>aws:</code> are reserved. You can't configure
   /// a value that uses this prefix.
@@ -242,6 +251,15 @@ class ChimeSdkMeetings {
   /// set your <code>content</code> capability to not receive.
   /// </li>
   /// <li>
+  /// If meeting features is defined as <code>Video:MaxResolution:None</code>
+  /// but <code>Content:MaxResolution</code> is defined as something other than
+  /// <code>None</code> and attendee capabilities are not defined in the API
+  /// request, then the default attendee video capability is set to
+  /// <code>Receive</code> and attendee content capability is set to
+  /// <code>SendReceive</code>. This is because content <code>SendReceive</code>
+  /// requires video to be at least <code>Receive</code>.
+  /// </li>
+  /// <li>
   /// When you change an <code>audio</code> capability from <code>None</code> or
   /// <code>Receive</code> to <code>Send</code> or <code>SendReceive</code> ,
   /// and if the attendee left their microphone unmuted, audio will flow from
@@ -277,25 +295,41 @@ class ChimeSdkMeetings {
   /// Creates a new Amazon Chime SDK meeting in the specified media Region with
   /// no initial attendees. For more information about specifying media Regions,
   /// see <a
-  /// href="https://docs.aws.amazon.com/chime/latest/dg/chime-sdk-meetings-regions.html">Amazon
-  /// Chime SDK Media Regions</a> in the <i>Amazon Chime Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/sdk-available-regions">Available
+  /// Regions</a> and <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/chime-sdk-meetings-regions.html">Using
+  /// meeting Regions</a>, both in the <i>Amazon Chime SDK Developer Guide</i>.
   /// For more information about the Amazon Chime SDK, see <a
-  /// href="https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html">Using
-  /// the Amazon Chime SDK</a> in the <i>Amazon Chime Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html">Using
+  /// the Amazon Chime SDK</a> in the <i>Amazon Chime SDK Developer Guide</i>.
+  /// <note>
+  /// If you use this API in conjuction with the and APIs, and you don't specify
+  /// the <code>MeetingFeatures.Content.MaxResolution</code> or
+  /// <code>MeetingFeatures.Video.MaxResolution</code> parameters, the following
+  /// defaults are used:
+  ///
+  /// <ul>
+  /// <li>
+  /// Content.MaxResolution: FHD
+  /// </li>
+  /// <li>
+  /// Video.MaxResolution: HD
+  /// </li>
+  /// </ul> </note>
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
   /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedException].
-  /// May throw [ThrottlingException].
+  /// May throw [LimitExceededException].
   /// May throw [ServiceFailureException].
   /// May throw [ServiceUnavailableException].
-  /// May throw [LimitExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [externalMeetingId] :
   /// The external meeting ID.
   ///
-  /// Pattern: <code>[-_&amp;@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]*</code>
+  /// Pattern: <code>[-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]*</code>
   ///
   /// Values that begin with <code>aws:</code> are reserved. You can't configure
   /// a value that uses this prefix. Case insensitive.
@@ -318,6 +352,10 @@ class ChimeSdkMeetings {
   /// Parameter [clientRequestToken] :
   /// The unique identifier for the client request. Use a different token for
   /// different meetings.
+  ///
+  /// Parameter [mediaPlacementNetworkType] :
+  /// The type of network for the media placement. Either IPv4 only or
+  /// dual-stack (IPv4 and IPv6).
   ///
   /// Parameter [meetingFeatures] :
   /// Lists the audio and video features enabled for a meeting, such as echo
@@ -394,6 +432,7 @@ class ChimeSdkMeetings {
     required String externalMeetingId,
     required String mediaRegion,
     String? clientRequestToken,
+    MediaPlacementNetworkType? mediaPlacementNetworkType,
     MeetingFeaturesConfiguration? meetingFeatures,
     String? meetingHostId,
     NotificationsConfiguration? notificationsConfiguration,
@@ -405,6 +444,8 @@ class ChimeSdkMeetings {
       'ExternalMeetingId': externalMeetingId,
       'MediaRegion': mediaRegion,
       'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
+      if (mediaPlacementNetworkType != null)
+        'MediaPlacementNetworkType': mediaPlacementNetworkType.value,
       if (meetingFeatures != null) 'MeetingFeatures': meetingFeatures,
       if (meetingHostId != null) 'MeetingHostId': meetingHostId,
       if (notificationsConfiguration != null)
@@ -424,20 +465,36 @@ class ChimeSdkMeetings {
 
   /// Creates a new Amazon Chime SDK meeting in the specified media Region, with
   /// attendees. For more information about specifying media Regions, see <a
-  /// href="https://docs.aws.amazon.com/chime/latest/dg/chime-sdk-meetings-regions.html">Amazon
-  /// Chime SDK Media Regions</a> in the <i>Amazon Chime Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/sdk-available-regions">Available
+  /// Regions</a> and <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/chime-sdk-meetings-regions.html">Using
+  /// meeting Regions</a>, both in the <i>Amazon Chime SDK Developer Guide</i>.
   /// For more information about the Amazon Chime SDK, see <a
-  /// href="https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html">Using
-  /// the Amazon Chime SDK</a> in the <i>Amazon Chime Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html">Using
+  /// the Amazon Chime SDK</a> in the <i>Amazon Chime SDK Developer Guide</i>.
+  /// <note>
+  /// If you use this API in conjuction with the and APIs, and you don't specify
+  /// the <code>MeetingFeatures.Content.MaxResolution</code> or
+  /// <code>MeetingFeatures.Video.MaxResolution</code> parameters, the following
+  /// defaults are used:
+  ///
+  /// <ul>
+  /// <li>
+  /// Content.MaxResolution: FHD
+  /// </li>
+  /// <li>
+  /// Video.MaxResolution: HD
+  /// </li>
+  /// </ul> </note>
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
   /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedException].
-  /// May throw [ThrottlingException].
+  /// May throw [LimitExceededException].
   /// May throw [ServiceFailureException].
   /// May throw [ServiceUnavailableException].
-  /// May throw [LimitExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [attendees] :
   /// The attendee information, including attendees' IDs and join tokens.
@@ -445,7 +502,7 @@ class ChimeSdkMeetings {
   /// Parameter [externalMeetingId] :
   /// The external meeting ID.
   ///
-  /// Pattern: <code>[-_&amp;@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]*</code>
+  /// Pattern: <code>[-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]*</code>
   ///
   /// Values that begin with <code>aws:</code> are reserved. You can't configure
   /// a value that uses this prefix. Case insensitive.
@@ -468,6 +525,10 @@ class ChimeSdkMeetings {
   /// Parameter [clientRequestToken] :
   /// The unique identifier for the client request. Use a different token for
   /// different meetings.
+  ///
+  /// Parameter [mediaPlacementNetworkType] :
+  /// The type of network for the media placement. Either IPv4 only or
+  /// dual-stack (IPv4 and IPv6).
   ///
   /// Parameter [meetingFeatures] :
   /// Lists the audio and video features enabled for a meeting, such as echo
@@ -495,6 +556,7 @@ class ChimeSdkMeetings {
     required String externalMeetingId,
     required String mediaRegion,
     String? clientRequestToken,
+    MediaPlacementNetworkType? mediaPlacementNetworkType,
     MeetingFeaturesConfiguration? meetingFeatures,
     String? meetingHostId,
     NotificationsConfiguration? notificationsConfiguration,
@@ -507,6 +569,8 @@ class ChimeSdkMeetings {
       'ExternalMeetingId': externalMeetingId,
       'MediaRegion': mediaRegion,
       'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
+      if (mediaPlacementNetworkType != null)
+        'MediaPlacementNetworkType': mediaPlacementNetworkType.value,
       if (meetingFeatures != null) 'MeetingFeatures': meetingFeatures,
       if (meetingHostId != null) 'MeetingHostId': meetingHostId,
       if (notificationsConfiguration != null)
@@ -528,16 +592,16 @@ class ChimeSdkMeetings {
   /// deletes their <code>JoinToken</code>. Attendees are automatically deleted
   /// when a Amazon Chime SDK meeting is deleted. For more information about the
   /// Amazon Chime SDK, see <a
-  /// href="https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html">Using
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html">Using
   /// the Amazon Chime SDK</a> in the <i>Amazon Chime Developer Guide</i>.
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [attendeeId] :
   /// The Amazon Chime SDK attendee ID.
@@ -560,16 +624,16 @@ class ChimeSdkMeetings {
   /// Deletes the specified Amazon Chime SDK meeting. The operation deletes all
   /// attendees, disconnects all clients, and prevents new clients from joining
   /// the meeting. For more information about the Amazon Chime SDK, see <a
-  /// href="https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html">Using
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html">Using
   /// the Amazon Chime SDK</a> in the <i>Amazon Chime Developer Guide</i>.
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedException].
   /// May throw [NotFoundException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [meetingId] :
   /// The Amazon Chime SDK meeting ID.
@@ -586,16 +650,16 @@ class ChimeSdkMeetings {
 
   /// Gets the Amazon Chime SDK attendee details for a specified meeting ID and
   /// attendee ID. For more information about the Amazon Chime SDK, see <a
-  /// href="https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html">Using
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html">Using
   /// the Amazon Chime SDK</a> in the <i>Amazon Chime Developer Guide</i>.
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [attendeeId] :
   /// The Amazon Chime SDK attendee ID.
@@ -618,16 +682,16 @@ class ChimeSdkMeetings {
 
   /// Gets the Amazon Chime SDK meeting details for the specified meeting ID.
   /// For more information about the Amazon Chime SDK, see <a
-  /// href="https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html">Using
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html">Using
   /// the Amazon Chime SDK</a> in the <i>Amazon Chime Developer Guide</i>.
   ///
-  /// May throw [NotFoundException].
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [meetingId] :
   /// The Amazon Chime SDK meeting ID.
@@ -645,16 +709,16 @@ class ChimeSdkMeetings {
 
   /// Lists the attendees for the specified Amazon Chime SDK meeting. For more
   /// information about the Amazon Chime SDK, see <a
-  /// href="https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html">Using
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html">Using
   /// the Amazon Chime SDK</a> in the <i>Amazon Chime Developer Guide</i>.
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [meetingId] :
   /// The Amazon Chime SDK meeting ID.
@@ -693,12 +757,12 @@ class ChimeSdkMeetings {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedException].
   /// May throw [LimitExceededException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
-  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [resourceARN] :
   /// The ARN of the resource.
@@ -747,15 +811,15 @@ class ChimeSdkMeetings {
   /// out policy using Amazon Web Services Organizations.
   /// </note>
   ///
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [UnauthorizedException].
+  /// May throw [ForbiddenException].
   /// May throw [LimitExceededException].
-  /// May throw [UnprocessableEntityException].
-  /// May throw [ThrottlingException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedException].
+  /// May throw [UnprocessableEntityException].
   ///
   /// Parameter [meetingId] :
   /// The unique ID of the meeting being transcribed.
@@ -801,14 +865,14 @@ class ChimeSdkMeetings {
   /// AI services opt out policy using Amazon Web Services Organizations.
   /// </important>
   ///
+  /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
   /// May throw [NotFoundException].
-  /// May throw [BadRequestException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
   /// May throw [UnauthorizedException].
   /// May throw [UnprocessableEntityException].
-  /// May throw [ThrottlingException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
   ///
   /// Parameter [meetingId] :
   /// The unique ID of the meeting for which you stop transcription.
@@ -828,13 +892,13 @@ class ChimeSdkMeetings {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedException].
   /// May throw [LimitExceededException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
-  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
   /// May throw [TooManyTagsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [resourceARN] :
   /// The ARN of the resource.
@@ -888,12 +952,12 @@ class ChimeSdkMeetings {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedException].
   /// May throw [LimitExceededException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
-  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [resourceARN] :
   /// The ARN of the resource that you're removing tags from.
@@ -949,6 +1013,15 @@ class ChimeSdkMeetings {
   /// set your <code>content</code> capability to not receive.
   /// </li>
   /// <li>
+  /// If meeting features is defined as <code>Video:MaxResolution:None</code>
+  /// but <code>Content:MaxResolution</code> is defined as something other than
+  /// <code>None</code> and attendee capabilities are not defined in the API
+  /// request, then the default attendee video capability is set to
+  /// <code>Receive</code> and attendee content capability is set to
+  /// <code>SendReceive</code>. This is because content <code>SendReceive</code>
+  /// requires video to be at least <code>Receive</code>.
+  /// </li>
+  /// <li>
   /// When you change an <code>audio</code> capability from <code>None</code> or
   /// <code>Receive</code> to <code>Send</code> or <code>SendReceive</code> ,
   /// and if the attendee left their microphone unmuted, audio will flow from
@@ -966,12 +1039,12 @@ class ChimeSdkMeetings {
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
-  /// May throw [UnauthorizedException].
-  /// May throw [NotFoundException].
   /// May throw [ForbiddenException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [attendeeId] :
   /// The ID of the attendee associated with the update request.
@@ -997,267 +1070,6 @@ class ChimeSdkMeetings {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateAttendeeCapabilitiesResponse.fromJson(response);
-  }
-}
-
-/// An Amazon Chime SDK meeting attendee. Includes a unique
-/// <code>AttendeeId</code> and <code>JoinToken</code>. The
-/// <code>JoinToken</code> allows a client to authenticate and join as the
-/// specified attendee. The <code>JoinToken</code> expires when the meeting
-/// ends, or when <a>DeleteAttendee</a> is called. After that, the attendee is
-/// unable to join the meeting.
-///
-/// We recommend securely transferring each <code>JoinToken</code> from your
-/// server application to the client so that no other client has access to the
-/// token except for the one authorized to represent the attendee.
-class Attendee {
-  /// The Amazon Chime SDK attendee ID.
-  final String? attendeeId;
-
-  /// The capabilities assigned to an attendee: audio, video, or content.
-  /// <note>
-  /// You use the capabilities with a set of values that control what the
-  /// capabilities can do, such as <code>SendReceive</code> data. For more
-  /// information about those values, see .
-  /// </note>
-  /// When using capabilities, be aware of these corner cases:
-  ///
-  /// <ul>
-  /// <li>
-  /// If you specify <code>MeetingFeatures:Video:MaxResolution:None</code> when
-  /// you create a meeting, all API requests that include
-  /// <code>SendReceive</code>, <code>Send</code>, or <code>Receive</code> for
-  /// <code>AttendeeCapabilities:Video</code> will be rejected with
-  /// <code>ValidationError 400</code>.
-  /// </li>
-  /// <li>
-  /// If you specify <code>MeetingFeatures:Content:MaxResolution:None</code> when
-  /// you create a meeting, all API requests that include
-  /// <code>SendReceive</code>, <code>Send</code>, or <code>Receive</code> for
-  /// <code>AttendeeCapabilities:Content</code> will be rejected with
-  /// <code>ValidationError 400</code>.
-  /// </li>
-  /// <li>
-  /// You can't set <code>content</code> capabilities to <code>SendReceive</code>
-  /// or <code>Receive</code> unless you also set <code>video</code> capabilities
-  /// to <code>SendReceive</code> or <code>Receive</code>. If you don't set the
-  /// <code>video</code> capability to receive, the response will contain an HTTP
-  /// 400 Bad Request status code. However, you can set your <code>video</code>
-  /// capability to receive and you set your <code>content</code> capability to
-  /// not receive.
-  /// </li>
-  /// <li>
-  /// When you change an <code>audio</code> capability from <code>None</code> or
-  /// <code>Receive</code> to <code>Send</code> or <code>SendReceive</code> , and
-  /// if the attendee left their microphone unmuted, audio will flow from the
-  /// attendee to the other meeting participants.
-  /// </li>
-  /// <li>
-  /// When you change a <code>video</code> or <code>content</code> capability from
-  /// <code>None</code> or <code>Receive</code> to <code>Send</code> or
-  /// <code>SendReceive</code> , and if the attendee turned on their video or
-  /// content streams, remote attendees can receive those streams, but only after
-  /// media renegotiation between the client and the Amazon Chime back-end server.
-  /// </li>
-  /// </ul>
-  final AttendeeCapabilities? capabilities;
-
-  /// The Amazon Chime SDK external user ID. An idempotency token. Links the
-  /// attendee to an identity managed by a builder application.
-  ///
-  /// Pattern: <code>[-_&amp;@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]*</code>
-  ///
-  /// Values that begin with <code>aws:</code> are reserved. You can't configure a
-  /// value that uses this prefix. Case insensitive.
-  final String? externalUserId;
-
-  /// The join token used by the Amazon Chime SDK attendee.
-  final String? joinToken;
-
-  Attendee({
-    this.attendeeId,
-    this.capabilities,
-    this.externalUserId,
-    this.joinToken,
-  });
-
-  factory Attendee.fromJson(Map<String, dynamic> json) {
-    return Attendee(
-      attendeeId: json['AttendeeId'] as String?,
-      capabilities: json['Capabilities'] != null
-          ? AttendeeCapabilities.fromJson(
-              json['Capabilities'] as Map<String, dynamic>)
-          : null,
-      externalUserId: json['ExternalUserId'] as String?,
-      joinToken: json['JoinToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attendeeId = this.attendeeId;
-    final capabilities = this.capabilities;
-    final externalUserId = this.externalUserId;
-    final joinToken = this.joinToken;
-    return {
-      if (attendeeId != null) 'AttendeeId': attendeeId,
-      if (capabilities != null) 'Capabilities': capabilities,
-      if (externalUserId != null) 'ExternalUserId': externalUserId,
-      if (joinToken != null) 'JoinToken': joinToken,
-    };
-  }
-}
-
-/// The media capabilities of an attendee: audio, video, or content.
-/// <note>
-/// You use the capabilities with a set of values that control what the
-/// capabilities can do, such as <code>SendReceive</code> data. For more
-/// information, refer to and .
-/// </note>
-/// When using capabilities, be aware of these corner cases:
-///
-/// <ul>
-/// <li>
-/// If you specify <code>MeetingFeatures:Video:MaxResolution:None</code> when
-/// you create a meeting, all API requests that include
-/// <code>SendReceive</code>, <code>Send</code>, or <code>Receive</code> for
-/// <code>AttendeeCapabilities:Video</code> will be rejected with
-/// <code>ValidationError 400</code>.
-/// </li>
-/// <li>
-/// If you specify <code>MeetingFeatures:Content:MaxResolution:None</code> when
-/// you create a meeting, all API requests that include
-/// <code>SendReceive</code>, <code>Send</code>, or <code>Receive</code> for
-/// <code>AttendeeCapabilities:Content</code> will be rejected with
-/// <code>ValidationError 400</code>.
-/// </li>
-/// <li>
-/// You can't set <code>content</code> capabilities to <code>SendReceive</code>
-/// or <code>Receive</code> unless you also set <code>video</code> capabilities
-/// to <code>SendReceive</code> or <code>Receive</code>. If you don't set the
-/// <code>video</code> capability to receive, the response will contain an HTTP
-/// 400 Bad Request status code. However, you can set your <code>video</code>
-/// capability to receive and you set your <code>content</code> capability to
-/// not receive.
-/// </li>
-/// <li>
-/// When you change an <code>audio</code> capability from <code>None</code> or
-/// <code>Receive</code> to <code>Send</code> or <code>SendReceive</code> , and
-/// an attendee unmutes their microphone, audio flows from the attendee to the
-/// other meeting participants.
-/// </li>
-/// <li>
-/// When you change a <code>video</code> or <code>content</code> capability from
-/// <code>None</code> or <code>Receive</code> to <code>Send</code> or
-/// <code>SendReceive</code> , and the attendee turns on their video or content
-/// streams, remote attendees can receive those streams, but only after media
-/// renegotiation between the client and the Amazon Chime back-end server.
-/// </li>
-/// </ul>
-class AttendeeCapabilities {
-  /// The audio capability assigned to an attendee.
-  final MediaCapabilities audio;
-
-  /// The content capability assigned to an attendee.
-  final MediaCapabilities content;
-
-  /// The video capability assigned to an attendee.
-  final MediaCapabilities video;
-
-  AttendeeCapabilities({
-    required this.audio,
-    required this.content,
-    required this.video,
-  });
-
-  factory AttendeeCapabilities.fromJson(Map<String, dynamic> json) {
-    return AttendeeCapabilities(
-      audio: MediaCapabilities.fromString((json['Audio'] as String?) ?? ''),
-      content: MediaCapabilities.fromString((json['Content'] as String?) ?? ''),
-      video: MediaCapabilities.fromString((json['Video'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final audio = this.audio;
-    final content = this.content;
-    final video = this.video;
-    return {
-      'Audio': audio.value,
-      'Content': content.value,
-      'Video': video.value,
-    };
-  }
-}
-
-/// Lists the maximum number of attendees allowed into the meeting.
-/// <note>
-/// If you specify <code>FHD</code> for
-/// <code>MeetingFeatures:Video:MaxResolution</code>, or if you specify
-/// <code>UHD</code> for <code>MeetingFeatures:Content:MaxResolution</code>, the
-/// maximum number of attendees changes from the default of <code>250</code> to
-/// <code>25</code>.
-/// </note>
-class AttendeeFeatures {
-  /// The maximum number of attendees allowed into the meeting.
-  final int? maxCount;
-
-  AttendeeFeatures({
-    this.maxCount,
-  });
-
-  factory AttendeeFeatures.fromJson(Map<String, dynamic> json) {
-    return AttendeeFeatures(
-      maxCount: json['MaxCount'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final maxCount = this.maxCount;
-    return {
-      if (maxCount != null) 'MaxCount': maxCount,
-    };
-  }
-}
-
-/// A structure that contains one or more attendee IDs.
-class AttendeeIdItem {
-  /// A list of one or more attendee IDs.
-  final String attendeeId;
-
-  AttendeeIdItem({
-    required this.attendeeId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final attendeeId = this.attendeeId;
-    return {
-      'AttendeeId': attendeeId,
-    };
-  }
-}
-
-/// An optional category of meeting features that contains audio-specific
-/// configurations, such as operating parameters for Amazon Voice Focus.
-class AudioFeatures {
-  /// Makes echo reduction available to clients who connect to the meeting.
-  final MeetingFeatureStatus? echoReduction;
-
-  AudioFeatures({
-    this.echoReduction,
-  });
-
-  factory AudioFeatures.fromJson(Map<String, dynamic> json) {
-    return AudioFeatures(
-      echoReduction: (json['EchoReduction'] as String?)
-          ?.let(MeetingFeatureStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final echoReduction = this.echoReduction;
-    return {
-      if (echoReduction != null) 'EchoReduction': echoReduction.value,
-    };
   }
 }
 
@@ -1293,143 +1105,6 @@ class BatchCreateAttendeeResponse {
     return {
       if (attendees != null) 'Attendees': attendees,
       if (errors != null) 'Errors': errors,
-    };
-  }
-}
-
-/// Lists the content (screen share) features for the meeting. Applies to all
-/// attendees.
-/// <note>
-/// If you specify <code>MeetingFeatures:Content:MaxResolution:None</code> when
-/// you create a meeting, all API requests that include
-/// <code>SendReceive</code>, <code>Send</code>, or <code>Receive</code> for
-/// <code>AttendeeCapabilities:Content</code> will be rejected with
-/// <code>ValidationError 400</code>.
-/// </note>
-class ContentFeatures {
-  /// The maximum resolution for the meeting content.
-  /// <note>
-  /// Defaults to <code>FHD</code>. To use <code>UHD</code>, you must also provide
-  /// a <code>MeetingFeatures:Attendee:MaxCount</code> value and override the
-  /// default size limit of 250 attendees.
-  /// </note>
-  final ContentResolution? maxResolution;
-
-  ContentFeatures({
-    this.maxResolution,
-  });
-
-  factory ContentFeatures.fromJson(Map<String, dynamic> json) {
-    return ContentFeatures(
-      maxResolution:
-          (json['MaxResolution'] as String?)?.let(ContentResolution.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final maxResolution = this.maxResolution;
-    return {
-      if (maxResolution != null) 'MaxResolution': maxResolution.value,
-    };
-  }
-}
-
-class ContentResolution {
-  static const none = ContentResolution._('None');
-  static const fhd = ContentResolution._('FHD');
-  static const uhd = ContentResolution._('UHD');
-
-  final String value;
-
-  const ContentResolution._(this.value);
-
-  static const values = [none, fhd, uhd];
-
-  static ContentResolution fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ContentResolution._(value));
-
-  @override
-  bool operator ==(other) => other is ContentResolution && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The list of errors returned when errors are encountered during the
-/// BatchCreateAttendee and CreateAttendee actions. This includes external user
-/// IDs, error codes, and error messages.
-class CreateAttendeeError {
-  /// The error code.
-  final String? errorCode;
-
-  /// The error message.
-  final String? errorMessage;
-
-  /// The Amazon Chime SDK external user ID. An idempotency token. Links the
-  /// attendee to an identity managed by a builder application.
-  ///
-  /// Pattern: <code>[-_&amp;@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]*</code>
-  ///
-  /// Values that begin with <code>aws:</code> are reserved. You can't configure a
-  /// value that uses this prefix. Case insensitive.
-  final String? externalUserId;
-
-  CreateAttendeeError({
-    this.errorCode,
-    this.errorMessage,
-    this.externalUserId,
-  });
-
-  factory CreateAttendeeError.fromJson(Map<String, dynamic> json) {
-    return CreateAttendeeError(
-      errorCode: json['ErrorCode'] as String?,
-      errorMessage: json['ErrorMessage'] as String?,
-      externalUserId: json['ExternalUserId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    final externalUserId = this.externalUserId;
-    return {
-      if (errorCode != null) 'ErrorCode': errorCode,
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-      if (externalUserId != null) 'ExternalUserId': externalUserId,
-    };
-  }
-}
-
-/// The Amazon Chime SDK attendee fields to create, used with the
-/// BatchCreateAttendee action.
-class CreateAttendeeRequestItem {
-  /// The Amazon Chime SDK external user ID. An idempotency token. Links the
-  /// attendee to an identity managed by a builder application.
-  ///
-  /// Pattern: <code>[-_&amp;@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]*</code>
-  ///
-  /// Values that begin with <code>aws:</code> are reserved. You can't configure a
-  /// value that uses this prefix. Case insensitive.
-  final String externalUserId;
-
-  /// A list of one or more capabilities.
-  final AttendeeCapabilities? capabilities;
-
-  CreateAttendeeRequestItem({
-    required this.externalUserId,
-    this.capabilities,
-  });
-
-  Map<String, dynamic> toJson() {
-    final externalUserId = this.externalUserId;
-    final capabilities = this.capabilities;
-    return {
-      'ExternalUserId': externalUserId,
-      if (capabilities != null) 'Capabilities': capabilities,
     };
   }
 }
@@ -1530,52 +1205,448 @@ class CreateMeetingWithAttendeesResponse {
   }
 }
 
-/// Settings specific to the Amazon Transcribe Medical engine.
-class EngineTranscribeMedicalSettings {
-  /// The language code specified for the Amazon Transcribe Medical engine.
-  final TranscribeMedicalLanguageCode languageCode;
+class GetAttendeeResponse {
+  /// The Amazon Chime SDK attendee information.
+  final Attendee? attendee;
 
-  /// The specialty specified for the Amazon Transcribe Medical engine.
-  final TranscribeMedicalSpecialty specialty;
+  GetAttendeeResponse({
+    this.attendee,
+  });
 
-  /// The type of transcription.
-  final TranscribeMedicalType type;
+  factory GetAttendeeResponse.fromJson(Map<String, dynamic> json) {
+    return GetAttendeeResponse(
+      attendee: json['Attendee'] != null
+          ? Attendee.fromJson(json['Attendee'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  /// Set this field to <code>PHI</code> to identify personal health information
-  /// in the transcription output.
-  final TranscribeMedicalContentIdentificationType? contentIdentificationType;
+  Map<String, dynamic> toJson() {
+    final attendee = this.attendee;
+    return {
+      if (attendee != null) 'Attendee': attendee,
+    };
+  }
+}
 
-  /// The Amazon Web Services Region passed to Amazon Transcribe Medical. If you
-  /// don't specify a Region, Amazon Chime uses the meeting's Region.
-  final TranscribeMedicalRegion? region;
+class GetMeetingResponse {
+  /// The Amazon Chime SDK meeting information.
+  final Meeting? meeting;
 
-  /// The name of the vocabulary passed to Amazon Transcribe Medical.
-  final String? vocabularyName;
+  GetMeetingResponse({
+    this.meeting,
+  });
 
-  EngineTranscribeMedicalSettings({
-    required this.languageCode,
-    required this.specialty,
-    required this.type,
-    this.contentIdentificationType,
-    this.region,
-    this.vocabularyName,
+  factory GetMeetingResponse.fromJson(Map<String, dynamic> json) {
+    return GetMeetingResponse(
+      meeting: json['Meeting'] != null
+          ? Meeting.fromJson(json['Meeting'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final meeting = this.meeting;
+    return {
+      if (meeting != null) 'Meeting': meeting,
+    };
+  }
+}
+
+class ListAttendeesResponse {
+  /// The Amazon Chime SDK attendee information.
+  final List<Attendee>? attendees;
+
+  /// The token to use to retrieve the next page of results.
+  final String? nextToken;
+
+  ListAttendeesResponse({
+    this.attendees,
+    this.nextToken,
+  });
+
+  factory ListAttendeesResponse.fromJson(Map<String, dynamic> json) {
+    return ListAttendeesResponse(
+      attendees: (json['Attendees'] as List?)
+          ?.nonNulls
+          .map((e) => Attendee.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attendees = this.attendees;
+    final nextToken = this.nextToken;
+    return {
+      if (attendees != null) 'Attendees': attendees,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListTagsForResourceResponse {
+  /// The tags requested for the specified resource.
+  final List<Tag>? tags;
+
+  ListTagsForResourceResponse({
+    this.tags,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateAttendeeCapabilitiesResponse {
+  /// The updated attendee data.
+  final Attendee? attendee;
+
+  UpdateAttendeeCapabilitiesResponse({
+    this.attendee,
+  });
+
+  factory UpdateAttendeeCapabilitiesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateAttendeeCapabilitiesResponse(
+      attendee: json['Attendee'] != null
+          ? Attendee.fromJson(json['Attendee'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attendee = this.attendee;
+    return {
+      if (attendee != null) 'Attendee': attendee,
+    };
+  }
+}
+
+/// An Amazon Chime SDK meeting attendee. Includes a unique
+/// <code>AttendeeId</code> and <code>JoinToken</code>. The
+/// <code>JoinToken</code> allows a client to authenticate and join as the
+/// specified attendee. The <code>JoinToken</code> expires when the meeting
+/// ends, or when <a>DeleteAttendee</a> is called. After that, the attendee is
+/// unable to join the meeting.
+///
+/// We recommend securely transferring each <code>JoinToken</code> from your
+/// server application to the client so that no other client has access to the
+/// token except for the one authorized to represent the attendee.
+class Attendee {
+  /// The Amazon Chime SDK attendee ID.
+  final String? attendeeId;
+
+  /// The capabilities assigned to an attendee: audio, video, or content.
+  /// <note>
+  /// You use the capabilities with a set of values that control what the
+  /// capabilities can do, such as <code>SendReceive</code> data. For more
+  /// information about those values, see .
+  /// </note>
+  /// When using capabilities, be aware of these corner cases:
+  ///
+  /// <ul>
+  /// <li>
+  /// If you specify <code>MeetingFeatures:Video:MaxResolution:None</code> when
+  /// you create a meeting, all API requests that include
+  /// <code>SendReceive</code>, <code>Send</code>, or <code>Receive</code> for
+  /// <code>AttendeeCapabilities:Video</code> will be rejected with
+  /// <code>ValidationError 400</code>.
+  /// </li>
+  /// <li>
+  /// If you specify <code>MeetingFeatures:Content:MaxResolution:None</code> when
+  /// you create a meeting, all API requests that include
+  /// <code>SendReceive</code>, <code>Send</code>, or <code>Receive</code> for
+  /// <code>AttendeeCapabilities:Content</code> will be rejected with
+  /// <code>ValidationError 400</code>.
+  /// </li>
+  /// <li>
+  /// You can't set <code>content</code> capabilities to <code>SendReceive</code>
+  /// or <code>Receive</code> unless you also set <code>video</code> capabilities
+  /// to <code>SendReceive</code> or <code>Receive</code>. If you don't set the
+  /// <code>video</code> capability to receive, the response will contain an HTTP
+  /// 400 Bad Request status code. However, you can set your <code>video</code>
+  /// capability to receive and you set your <code>content</code> capability to
+  /// not receive.
+  /// </li>
+  /// <li>
+  /// If meeting features is defined as <code>Video:MaxResolution:None</code> but
+  /// <code>Content:MaxResolution</code> is defined as something other than
+  /// <code>None</code> and attendee capabilities are not defined in the API
+  /// request, then the default attendee video capability is set to
+  /// <code>Receive</code> and attendee content capability is set to
+  /// <code>SendReceive</code>. This is because content <code>SendReceive</code>
+  /// requires video to be at least <code>Receive</code>.
+  /// </li>
+  /// <li>
+  /// When you change an <code>audio</code> capability from <code>None</code> or
+  /// <code>Receive</code> to <code>Send</code> or <code>SendReceive</code> , and
+  /// if the attendee left their microphone unmuted, audio will flow from the
+  /// attendee to the other meeting participants.
+  /// </li>
+  /// <li>
+  /// When you change a <code>video</code> or <code>content</code> capability from
+  /// <code>None</code> or <code>Receive</code> to <code>Send</code> or
+  /// <code>SendReceive</code> , and if the attendee turned on their video or
+  /// content streams, remote attendees can receive those streams, but only after
+  /// media renegotiation between the client and the Amazon Chime back-end server.
+  /// </li>
+  /// </ul>
+  final AttendeeCapabilities? capabilities;
+
+  /// The Amazon Chime SDK external user ID. An idempotency token. Links the
+  /// attendee to an identity managed by a builder application.
+  ///
+  /// Pattern: <code>[-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]*</code>
+  ///
+  /// Values that begin with <code>aws:</code> are reserved. You can't configure a
+  /// value that uses this prefix. Case insensitive.
+  final String? externalUserId;
+
+  /// The join token used by the Amazon Chime SDK attendee.
+  final String? joinToken;
+
+  Attendee({
+    this.attendeeId,
+    this.capabilities,
+    this.externalUserId,
+    this.joinToken,
+  });
+
+  factory Attendee.fromJson(Map<String, dynamic> json) {
+    return Attendee(
+      attendeeId: json['AttendeeId'] as String?,
+      capabilities: json['Capabilities'] != null
+          ? AttendeeCapabilities.fromJson(
+              json['Capabilities'] as Map<String, dynamic>)
+          : null,
+      externalUserId: json['ExternalUserId'] as String?,
+      joinToken: json['JoinToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attendeeId = this.attendeeId;
+    final capabilities = this.capabilities;
+    final externalUserId = this.externalUserId;
+    final joinToken = this.joinToken;
+    return {
+      if (attendeeId != null) 'AttendeeId': attendeeId,
+      if (capabilities != null) 'Capabilities': capabilities,
+      if (externalUserId != null) 'ExternalUserId': externalUserId,
+      if (joinToken != null) 'JoinToken': joinToken,
+    };
+  }
+}
+
+/// The media capabilities of an attendee: audio, video, or content.
+/// <note>
+/// You use the capabilities with a set of values that control what the
+/// capabilities can do, such as <code>SendReceive</code> data. For more
+/// information, refer to and .
+/// </note>
+/// When using capabilities, be aware of these corner cases:
+///
+/// <ul>
+/// <li>
+/// If you specify <code>MeetingFeatures:Video:MaxResolution:None</code> when
+/// you create a meeting, all API requests that include
+/// <code>SendReceive</code>, <code>Send</code>, or <code>Receive</code> for
+/// <code>AttendeeCapabilities:Video</code> will be rejected with
+/// <code>ValidationError 400</code>.
+/// </li>
+/// <li>
+/// If you specify <code>MeetingFeatures:Content:MaxResolution:None</code> when
+/// you create a meeting, all API requests that include
+/// <code>SendReceive</code>, <code>Send</code>, or <code>Receive</code> for
+/// <code>AttendeeCapabilities:Content</code> will be rejected with
+/// <code>ValidationError 400</code>.
+/// </li>
+/// <li>
+/// You can't set <code>content</code> capabilities to <code>SendReceive</code>
+/// or <code>Receive</code> unless you also set <code>video</code> capabilities
+/// to <code>SendReceive</code> or <code>Receive</code>. If you don't set the
+/// <code>video</code> capability to receive, the response will contain an HTTP
+/// 400 Bad Request status code. However, you can set your <code>video</code>
+/// capability to receive and you set your <code>content</code> capability to
+/// not receive.
+/// </li>
+/// <li>
+/// If meeting features is defined as <code>Video:MaxResolution:None</code> but
+/// <code>Content:MaxResolution</code> is defined as something other than
+/// <code>None</code> and attendee capabilities are not defined in the API
+/// request, then the default attendee video capability is set to
+/// <code>Receive</code> and attendee content capability is set to
+/// <code>SendReceive</code>. This is because content <code>SendReceive</code>
+/// requires video to be at least <code>Receive</code>.
+/// </li>
+/// <li>
+/// When you change an <code>audio</code> capability from <code>None</code> or
+/// <code>Receive</code> to <code>Send</code> or <code>SendReceive</code> , and
+/// an attendee unmutes their microphone, audio flows from the attendee to the
+/// other meeting participants.
+/// </li>
+/// <li>
+/// When you change a <code>video</code> or <code>content</code> capability from
+/// <code>None</code> or <code>Receive</code> to <code>Send</code> or
+/// <code>SendReceive</code> , and the attendee turns on their video or content
+/// streams, remote attendees can receive those streams, but only after media
+/// renegotiation between the client and the Amazon Chime back-end server.
+/// </li>
+/// </ul>
+class AttendeeCapabilities {
+  /// The audio capability assigned to an attendee.
+  final MediaCapabilities audio;
+
+  /// The content capability assigned to an attendee.
+  final MediaCapabilities content;
+
+  /// The video capability assigned to an attendee.
+  final MediaCapabilities video;
+
+  AttendeeCapabilities({
+    required this.audio,
+    required this.content,
+    required this.video,
+  });
+
+  factory AttendeeCapabilities.fromJson(Map<String, dynamic> json) {
+    return AttendeeCapabilities(
+      audio: MediaCapabilities.fromString((json['Audio'] as String?) ?? ''),
+      content: MediaCapabilities.fromString((json['Content'] as String?) ?? ''),
+      video: MediaCapabilities.fromString((json['Video'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final audio = this.audio;
+    final content = this.content;
+    final video = this.video;
+    return {
+      'Audio': audio.value,
+      'Content': content.value,
+      'Video': video.value,
+    };
+  }
+}
+
+class MediaCapabilities {
+  static const sendReceive = MediaCapabilities._('SendReceive');
+  static const send = MediaCapabilities._('Send');
+  static const receive = MediaCapabilities._('Receive');
+  static const none = MediaCapabilities._('None');
+
+  final String value;
+
+  const MediaCapabilities._(this.value);
+
+  static const values = [sendReceive, send, receive, none];
+
+  static MediaCapabilities fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MediaCapabilities._(value));
+
+  @override
+  bool operator ==(other) => other is MediaCapabilities && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A key-value pair that you define.
+class Tag {
+  /// The tag's key.
+  final String key;
+
+  /// The tag's value.
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
+/// The configuration for the current transcription operation. Must contain
+/// <code>EngineTranscribeSettings</code> or
+/// <code>EngineTranscribeMedicalSettings</code>.
+class TranscriptionConfiguration {
+  /// The transcription configuration settings passed to Amazon Transcribe
+  /// Medical.
+  final EngineTranscribeMedicalSettings? engineTranscribeMedicalSettings;
+
+  /// The transcription configuration settings passed to Amazon Transcribe.
+  final EngineTranscribeSettings? engineTranscribeSettings;
+
+  TranscriptionConfiguration({
+    this.engineTranscribeMedicalSettings,
+    this.engineTranscribeSettings,
   });
 
   Map<String, dynamic> toJson() {
-    final languageCode = this.languageCode;
-    final specialty = this.specialty;
-    final type = this.type;
-    final contentIdentificationType = this.contentIdentificationType;
-    final region = this.region;
-    final vocabularyName = this.vocabularyName;
+    final engineTranscribeMedicalSettings =
+        this.engineTranscribeMedicalSettings;
+    final engineTranscribeSettings = this.engineTranscribeSettings;
     return {
-      'LanguageCode': languageCode.value,
-      'Specialty': specialty.value,
-      'Type': type.value,
-      if (contentIdentificationType != null)
-        'ContentIdentificationType': contentIdentificationType.value,
-      if (region != null) 'Region': region.value,
-      if (vocabularyName != null) 'VocabularyName': vocabularyName,
+      if (engineTranscribeMedicalSettings != null)
+        'EngineTranscribeMedicalSettings': engineTranscribeMedicalSettings,
+      if (engineTranscribeSettings != null)
+        'EngineTranscribeSettings': engineTranscribeSettings,
     };
   }
 }
@@ -1830,129 +1901,72 @@ class EngineTranscribeSettings {
   }
 }
 
-class GetAttendeeResponse {
-  /// The Amazon Chime SDK attendee information.
-  final Attendee? attendee;
+/// Settings specific to the Amazon Transcribe Medical engine.
+class EngineTranscribeMedicalSettings {
+  /// The language code specified for the Amazon Transcribe Medical engine.
+  final TranscribeMedicalLanguageCode languageCode;
 
-  GetAttendeeResponse({
-    this.attendee,
+  /// The specialty specified for the Amazon Transcribe Medical engine.
+  final TranscribeMedicalSpecialty specialty;
+
+  /// The type of transcription.
+  final TranscribeMedicalType type;
+
+  /// Set this field to <code>PHI</code> to identify personal health information
+  /// in the transcription output.
+  final TranscribeMedicalContentIdentificationType? contentIdentificationType;
+
+  /// The Amazon Web Services Region passed to Amazon Transcribe Medical. If you
+  /// don't specify a Region, Amazon Chime uses the meeting's Region.
+  final TranscribeMedicalRegion? region;
+
+  /// The name of the vocabulary passed to Amazon Transcribe Medical.
+  final String? vocabularyName;
+
+  EngineTranscribeMedicalSettings({
+    required this.languageCode,
+    required this.specialty,
+    required this.type,
+    this.contentIdentificationType,
+    this.region,
+    this.vocabularyName,
   });
 
-  factory GetAttendeeResponse.fromJson(Map<String, dynamic> json) {
-    return GetAttendeeResponse(
-      attendee: json['Attendee'] != null
-          ? Attendee.fromJson(json['Attendee'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final attendee = this.attendee;
+    final languageCode = this.languageCode;
+    final specialty = this.specialty;
+    final type = this.type;
+    final contentIdentificationType = this.contentIdentificationType;
+    final region = this.region;
+    final vocabularyName = this.vocabularyName;
     return {
-      if (attendee != null) 'Attendee': attendee,
+      'LanguageCode': languageCode.value,
+      'Specialty': specialty.value,
+      'Type': type.value,
+      if (contentIdentificationType != null)
+        'ContentIdentificationType': contentIdentificationType.value,
+      if (region != null) 'Region': region.value,
+      if (vocabularyName != null) 'VocabularyName': vocabularyName,
     };
   }
 }
 
-class GetMeetingResponse {
-  /// The Amazon Chime SDK meeting information.
-  final Meeting? meeting;
-
-  GetMeetingResponse({
-    this.meeting,
-  });
-
-  factory GetMeetingResponse.fromJson(Map<String, dynamic> json) {
-    return GetMeetingResponse(
-      meeting: json['Meeting'] != null
-          ? Meeting.fromJson(json['Meeting'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final meeting = this.meeting;
-    return {
-      if (meeting != null) 'Meeting': meeting,
-    };
-  }
-}
-
-class ListAttendeesResponse {
-  /// The Amazon Chime SDK attendee information.
-  final List<Attendee>? attendees;
-
-  /// The token to use to retrieve the next page of results.
-  final String? nextToken;
-
-  ListAttendeesResponse({
-    this.attendees,
-    this.nextToken,
-  });
-
-  factory ListAttendeesResponse.fromJson(Map<String, dynamic> json) {
-    return ListAttendeesResponse(
-      attendees: (json['Attendees'] as List?)
-          ?.nonNulls
-          .map((e) => Attendee.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attendees = this.attendees;
-    final nextToken = this.nextToken;
-    return {
-      if (attendees != null) 'Attendees': attendees,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListTagsForResourceResponse {
-  /// The tags requested for the specified resource.
-  final List<Tag>? tags;
-
-  ListTagsForResourceResponse({
-    this.tags,
-  });
-
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
-    return ListTagsForResourceResponse(
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tags = this.tags;
-    return {
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-class MediaCapabilities {
-  static const sendReceive = MediaCapabilities._('SendReceive');
-  static const send = MediaCapabilities._('Send');
-  static const receive = MediaCapabilities._('Receive');
-  static const none = MediaCapabilities._('None');
+class TranscribeMedicalLanguageCode {
+  static const enUs = TranscribeMedicalLanguageCode._('en-US');
 
   final String value;
 
-  const MediaCapabilities._(this.value);
+  const TranscribeMedicalLanguageCode._(this.value);
 
-  static const values = [sendReceive, send, receive, none];
+  static const values = [enUs];
 
-  static MediaCapabilities fromString(String value) =>
+  static TranscribeMedicalLanguageCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => MediaCapabilities._(value));
+          orElse: () => TranscribeMedicalLanguageCode._(value));
 
   @override
-  bool operator ==(other) => other is MediaCapabilities && other.value == value;
+  bool operator ==(other) =>
+      other is TranscribeMedicalLanguageCode && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -1961,100 +1975,336 @@ class MediaCapabilities {
   String toString() => value;
 }
 
-/// A set of endpoints used by clients to connect to the media service group for
-/// an Amazon Chime SDK meeting.
-class MediaPlacement {
-  /// The audio fallback URL.
-  final String? audioFallbackUrl;
+class TranscribeMedicalSpecialty {
+  static const primarycare = TranscribeMedicalSpecialty._('PRIMARYCARE');
+  static const cardiology = TranscribeMedicalSpecialty._('CARDIOLOGY');
+  static const neurology = TranscribeMedicalSpecialty._('NEUROLOGY');
+  static const oncology = TranscribeMedicalSpecialty._('ONCOLOGY');
+  static const radiology = TranscribeMedicalSpecialty._('RADIOLOGY');
+  static const urology = TranscribeMedicalSpecialty._('UROLOGY');
 
-  /// The audio host URL.
-  final String? audioHostUrl;
+  final String value;
 
-  /// The event ingestion URL.
-  final String? eventIngestionUrl;
+  const TranscribeMedicalSpecialty._(this.value);
 
-  /// The screen data URL.
-  /// <important>
-  /// <b>This parameter is deprecated and no longer used by the Amazon Chime
-  /// SDK.</b>
-  /// </important>
-  final String? screenDataUrl;
+  static const values = [
+    primarycare,
+    cardiology,
+    neurology,
+    oncology,
+    radiology,
+    urology
+  ];
 
-  /// The screen sharing URL.
-  /// <important>
-  /// <b>This parameter is deprecated and no longer used by the Amazon Chime
-  /// SDK.</b>
-  /// </important>
-  final String? screenSharingUrl;
+  static TranscribeMedicalSpecialty fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TranscribeMedicalSpecialty._(value));
 
-  /// The screen viewing URL.
-  /// <important>
-  /// <b>This parameter is deprecated and no longer used by the Amazon Chime
-  /// SDK.</b>
-  /// </important>
-  final String? screenViewingUrl;
+  @override
+  bool operator ==(other) =>
+      other is TranscribeMedicalSpecialty && other.value == value;
 
-  /// The signaling URL.
-  final String? signalingUrl;
+  @override
+  int get hashCode => value.hashCode;
 
-  /// The turn control URL.
-  /// <important>
-  /// <b>This parameter is deprecated and no longer used by the Amazon Chime
-  /// SDK.</b>
-  /// </important>
-  final String? turnControlUrl;
+  @override
+  String toString() => value;
+}
 
-  MediaPlacement({
-    this.audioFallbackUrl,
-    this.audioHostUrl,
-    this.eventIngestionUrl,
-    this.screenDataUrl,
-    this.screenSharingUrl,
-    this.screenViewingUrl,
-    this.signalingUrl,
-    this.turnControlUrl,
-  });
+class TranscribeMedicalType {
+  static const conversation = TranscribeMedicalType._('CONVERSATION');
+  static const dictation = TranscribeMedicalType._('DICTATION');
 
-  factory MediaPlacement.fromJson(Map<String, dynamic> json) {
-    return MediaPlacement(
-      audioFallbackUrl: json['AudioFallbackUrl'] as String?,
-      audioHostUrl: json['AudioHostUrl'] as String?,
-      eventIngestionUrl: json['EventIngestionUrl'] as String?,
-      screenDataUrl: json['ScreenDataUrl'] as String?,
-      screenSharingUrl: json['ScreenSharingUrl'] as String?,
-      screenViewingUrl: json['ScreenViewingUrl'] as String?,
-      signalingUrl: json['SignalingUrl'] as String?,
-      turnControlUrl: json['TurnControlUrl'] as String?,
-    );
-  }
+  final String value;
 
-  Map<String, dynamic> toJson() {
-    final audioFallbackUrl = this.audioFallbackUrl;
-    final audioHostUrl = this.audioHostUrl;
-    final eventIngestionUrl = this.eventIngestionUrl;
-    final screenDataUrl = this.screenDataUrl;
-    final screenSharingUrl = this.screenSharingUrl;
-    final screenViewingUrl = this.screenViewingUrl;
-    final signalingUrl = this.signalingUrl;
-    final turnControlUrl = this.turnControlUrl;
-    return {
-      if (audioFallbackUrl != null) 'AudioFallbackUrl': audioFallbackUrl,
-      if (audioHostUrl != null) 'AudioHostUrl': audioHostUrl,
-      if (eventIngestionUrl != null) 'EventIngestionUrl': eventIngestionUrl,
-      if (screenDataUrl != null) 'ScreenDataUrl': screenDataUrl,
-      if (screenSharingUrl != null) 'ScreenSharingUrl': screenSharingUrl,
-      if (screenViewingUrl != null) 'ScreenViewingUrl': screenViewingUrl,
-      if (signalingUrl != null) 'SignalingUrl': signalingUrl,
-      if (turnControlUrl != null) 'TurnControlUrl': turnControlUrl,
-    };
-  }
+  const TranscribeMedicalType._(this.value);
+
+  static const values = [conversation, dictation];
+
+  static TranscribeMedicalType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TranscribeMedicalType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TranscribeMedicalType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TranscribeMedicalRegion {
+  static const usEast_1 = TranscribeMedicalRegion._('us-east-1');
+  static const usEast_2 = TranscribeMedicalRegion._('us-east-2');
+  static const usWest_2 = TranscribeMedicalRegion._('us-west-2');
+  static const apSoutheast_2 = TranscribeMedicalRegion._('ap-southeast-2');
+  static const caCentral_1 = TranscribeMedicalRegion._('ca-central-1');
+  static const euWest_1 = TranscribeMedicalRegion._('eu-west-1');
+  static const auto = TranscribeMedicalRegion._('auto');
+
+  final String value;
+
+  const TranscribeMedicalRegion._(this.value);
+
+  static const values = [
+    usEast_1,
+    usEast_2,
+    usWest_2,
+    apSoutheast_2,
+    caCentral_1,
+    euWest_1,
+    auto
+  ];
+
+  static TranscribeMedicalRegion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TranscribeMedicalRegion._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TranscribeMedicalRegion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TranscribeMedicalContentIdentificationType {
+  static const phi = TranscribeMedicalContentIdentificationType._('PHI');
+
+  final String value;
+
+  const TranscribeMedicalContentIdentificationType._(this.value);
+
+  static const values = [phi];
+
+  static TranscribeMedicalContentIdentificationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TranscribeMedicalContentIdentificationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TranscribeMedicalContentIdentificationType &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TranscribeLanguageCode {
+  static const enUs = TranscribeLanguageCode._('en-US');
+  static const enGb = TranscribeLanguageCode._('en-GB');
+  static const esUs = TranscribeLanguageCode._('es-US');
+  static const frCa = TranscribeLanguageCode._('fr-CA');
+  static const frFr = TranscribeLanguageCode._('fr-FR');
+  static const enAu = TranscribeLanguageCode._('en-AU');
+  static const itIt = TranscribeLanguageCode._('it-IT');
+  static const deDe = TranscribeLanguageCode._('de-DE');
+  static const ptBr = TranscribeLanguageCode._('pt-BR');
+  static const jaJp = TranscribeLanguageCode._('ja-JP');
+  static const koKr = TranscribeLanguageCode._('ko-KR');
+  static const zhCn = TranscribeLanguageCode._('zh-CN');
+  static const thTh = TranscribeLanguageCode._('th-TH');
+  static const hiIn = TranscribeLanguageCode._('hi-IN');
+
+  final String value;
+
+  const TranscribeLanguageCode._(this.value);
+
+  static const values = [
+    enUs,
+    enGb,
+    esUs,
+    frCa,
+    frFr,
+    enAu,
+    itIt,
+    deDe,
+    ptBr,
+    jaJp,
+    koKr,
+    zhCn,
+    thTh,
+    hiIn
+  ];
+
+  static TranscribeLanguageCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TranscribeLanguageCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TranscribeLanguageCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TranscribeVocabularyFilterMethod {
+  static const remove = TranscribeVocabularyFilterMethod._('remove');
+  static const mask = TranscribeVocabularyFilterMethod._('mask');
+  static const tag = TranscribeVocabularyFilterMethod._('tag');
+
+  final String value;
+
+  const TranscribeVocabularyFilterMethod._(this.value);
+
+  static const values = [remove, mask, tag];
+
+  static TranscribeVocabularyFilterMethod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TranscribeVocabularyFilterMethod._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TranscribeVocabularyFilterMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TranscribeRegion {
+  static const usEast_2 = TranscribeRegion._('us-east-2');
+  static const usEast_1 = TranscribeRegion._('us-east-1');
+  static const usWest_2 = TranscribeRegion._('us-west-2');
+  static const apNortheast_2 = TranscribeRegion._('ap-northeast-2');
+  static const apSoutheast_2 = TranscribeRegion._('ap-southeast-2');
+  static const apNortheast_1 = TranscribeRegion._('ap-northeast-1');
+  static const caCentral_1 = TranscribeRegion._('ca-central-1');
+  static const euCentral_1 = TranscribeRegion._('eu-central-1');
+  static const euWest_1 = TranscribeRegion._('eu-west-1');
+  static const euWest_2 = TranscribeRegion._('eu-west-2');
+  static const saEast_1 = TranscribeRegion._('sa-east-1');
+  static const auto = TranscribeRegion._('auto');
+  static const usGovWest_1 = TranscribeRegion._('us-gov-west-1');
+
+  final String value;
+
+  const TranscribeRegion._(this.value);
+
+  static const values = [
+    usEast_2,
+    usEast_1,
+    usWest_2,
+    apNortheast_2,
+    apSoutheast_2,
+    apNortheast_1,
+    caCentral_1,
+    euCentral_1,
+    euWest_1,
+    euWest_2,
+    saEast_1,
+    auto,
+    usGovWest_1
+  ];
+
+  static TranscribeRegion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TranscribeRegion._(value));
+
+  @override
+  bool operator ==(other) => other is TranscribeRegion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TranscribePartialResultsStability {
+  static const low = TranscribePartialResultsStability._('low');
+  static const medium = TranscribePartialResultsStability._('medium');
+  static const high = TranscribePartialResultsStability._('high');
+
+  final String value;
+
+  const TranscribePartialResultsStability._(this.value);
+
+  static const values = [low, medium, high];
+
+  static TranscribePartialResultsStability fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TranscribePartialResultsStability._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TranscribePartialResultsStability && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TranscribeContentIdentificationType {
+  static const pii = TranscribeContentIdentificationType._('PII');
+
+  final String value;
+
+  const TranscribeContentIdentificationType._(this.value);
+
+  static const values = [pii];
+
+  static TranscribeContentIdentificationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TranscribeContentIdentificationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TranscribeContentIdentificationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TranscribeContentRedactionType {
+  static const pii = TranscribeContentRedactionType._('PII');
+
+  final String value;
+
+  const TranscribeContentRedactionType._(this.value);
+
+  static const values = [pii];
+
+  static TranscribeContentRedactionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TranscribeContentRedactionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TranscribeContentRedactionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A meeting created using the Amazon Chime SDK.
 class Meeting {
   /// The external meeting ID.
   ///
-  /// Pattern: <code>[-_&amp;@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]*</code>
+  /// Pattern: <code>[-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]*</code>
   ///
   /// Values that begin with <code>aws:</code> are reserved. You can't configure a
   /// value that uses this prefix. Case insensitive.
@@ -2155,29 +2405,93 @@ class Meeting {
   }
 }
 
-class MeetingFeatureStatus {
-  static const available = MeetingFeatureStatus._('AVAILABLE');
-  static const unavailable = MeetingFeatureStatus._('UNAVAILABLE');
+/// A set of endpoints used by clients to connect to the media service group for
+/// an Amazon Chime SDK meeting.
+class MediaPlacement {
+  /// The audio fallback URL.
+  final String? audioFallbackUrl;
 
-  final String value;
+  /// The audio host URL.
+  final String? audioHostUrl;
 
-  const MeetingFeatureStatus._(this.value);
+  /// The event ingestion URL.
+  final String? eventIngestionUrl;
 
-  static const values = [available, unavailable];
+  /// The screen data URL.
+  /// <important>
+  /// <b>This parameter is deprecated and no longer used by the Amazon Chime
+  /// SDK.</b>
+  /// </important>
+  final String? screenDataUrl;
 
-  static MeetingFeatureStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MeetingFeatureStatus._(value));
+  /// The screen sharing URL.
+  /// <important>
+  /// <b>This parameter is deprecated and no longer used by the Amazon Chime
+  /// SDK.</b>
+  /// </important>
+  final String? screenSharingUrl;
 
-  @override
-  bool operator ==(other) =>
-      other is MeetingFeatureStatus && other.value == value;
+  /// The screen viewing URL.
+  /// <important>
+  /// <b>This parameter is deprecated and no longer used by the Amazon Chime
+  /// SDK.</b>
+  /// </important>
+  final String? screenViewingUrl;
 
-  @override
-  int get hashCode => value.hashCode;
+  /// The signaling URL.
+  final String? signalingUrl;
 
-  @override
-  String toString() => value;
+  /// The turn control URL.
+  /// <important>
+  /// <b>This parameter is deprecated and no longer used by the Amazon Chime
+  /// SDK.</b>
+  /// </important>
+  final String? turnControlUrl;
+
+  MediaPlacement({
+    this.audioFallbackUrl,
+    this.audioHostUrl,
+    this.eventIngestionUrl,
+    this.screenDataUrl,
+    this.screenSharingUrl,
+    this.screenViewingUrl,
+    this.signalingUrl,
+    this.turnControlUrl,
+  });
+
+  factory MediaPlacement.fromJson(Map<String, dynamic> json) {
+    return MediaPlacement(
+      audioFallbackUrl: json['AudioFallbackUrl'] as String?,
+      audioHostUrl: json['AudioHostUrl'] as String?,
+      eventIngestionUrl: json['EventIngestionUrl'] as String?,
+      screenDataUrl: json['ScreenDataUrl'] as String?,
+      screenSharingUrl: json['ScreenSharingUrl'] as String?,
+      screenViewingUrl: json['ScreenViewingUrl'] as String?,
+      signalingUrl: json['SignalingUrl'] as String?,
+      turnControlUrl: json['TurnControlUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final audioFallbackUrl = this.audioFallbackUrl;
+    final audioHostUrl = this.audioHostUrl;
+    final eventIngestionUrl = this.eventIngestionUrl;
+    final screenDataUrl = this.screenDataUrl;
+    final screenSharingUrl = this.screenSharingUrl;
+    final screenViewingUrl = this.screenViewingUrl;
+    final signalingUrl = this.signalingUrl;
+    final turnControlUrl = this.turnControlUrl;
+    return {
+      if (audioFallbackUrl != null) 'AudioFallbackUrl': audioFallbackUrl,
+      if (audioHostUrl != null) 'AudioHostUrl': audioHostUrl,
+      if (eventIngestionUrl != null) 'EventIngestionUrl': eventIngestionUrl,
+      if (screenDataUrl != null) 'ScreenDataUrl': screenDataUrl,
+      if (screenSharingUrl != null) 'ScreenSharingUrl': screenSharingUrl,
+      if (screenViewingUrl != null) 'ScreenViewingUrl': screenViewingUrl,
+      if (signalingUrl != null) 'SignalingUrl': signalingUrl,
+      if (turnControlUrl != null) 'TurnControlUrl': turnControlUrl,
+    };
+  }
 }
 
 /// The configuration settings of the features available to a meeting.
@@ -2232,490 +2546,27 @@ class MeetingFeaturesConfiguration {
   }
 }
 
-/// The configuration for resource targets to receive notifications when meeting
-/// and attendee events occur.
-class NotificationsConfiguration {
-  /// The ARN of the Amazon Web Services Lambda function in the notifications
-  /// configuration.
-  final String? lambdaFunctionArn;
+/// An optional category of meeting features that contains audio-specific
+/// configurations, such as operating parameters for Amazon Voice Focus.
+class AudioFeatures {
+  /// Makes echo reduction available to clients who connect to the meeting.
+  final MeetingFeatureStatus? echoReduction;
 
-  /// The ARN of the SNS topic.
-  final String? snsTopicArn;
-
-  /// The ARN of the SQS queue.
-  final String? sqsQueueArn;
-
-  NotificationsConfiguration({
-    this.lambdaFunctionArn,
-    this.snsTopicArn,
-    this.sqsQueueArn,
+  AudioFeatures({
+    this.echoReduction,
   });
 
-  Map<String, dynamic> toJson() {
-    final lambdaFunctionArn = this.lambdaFunctionArn;
-    final snsTopicArn = this.snsTopicArn;
-    final sqsQueueArn = this.sqsQueueArn;
-    return {
-      if (lambdaFunctionArn != null) 'LambdaFunctionArn': lambdaFunctionArn,
-      if (snsTopicArn != null) 'SnsTopicArn': snsTopicArn,
-      if (sqsQueueArn != null) 'SqsQueueArn': sqsQueueArn,
-    };
-  }
-}
-
-/// A key-value pair that you define.
-class Tag {
-  /// The tag's key.
-  final String key;
-
-  /// The tag's value.
-  final String value;
-
-  Tag({
-    required this.key,
-    required this.value,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['Key'] as String?) ?? '',
-      value: (json['Value'] as String?) ?? '',
+  factory AudioFeatures.fromJson(Map<String, dynamic> json) {
+    return AudioFeatures(
+      echoReduction: (json['EchoReduction'] as String?)
+          ?.let(MeetingFeatureStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
+    final echoReduction = this.echoReduction;
     return {
-      'Key': key,
-      'Value': value,
-    };
-  }
-}
-
-class TagResourceResponse {
-  TagResourceResponse();
-
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class TranscribeContentIdentificationType {
-  static const pii = TranscribeContentIdentificationType._('PII');
-
-  final String value;
-
-  const TranscribeContentIdentificationType._(this.value);
-
-  static const values = [pii];
-
-  static TranscribeContentIdentificationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TranscribeContentIdentificationType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is TranscribeContentIdentificationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class TranscribeContentRedactionType {
-  static const pii = TranscribeContentRedactionType._('PII');
-
-  final String value;
-
-  const TranscribeContentRedactionType._(this.value);
-
-  static const values = [pii];
-
-  static TranscribeContentRedactionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TranscribeContentRedactionType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is TranscribeContentRedactionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class TranscribeLanguageCode {
-  static const enUs = TranscribeLanguageCode._('en-US');
-  static const enGb = TranscribeLanguageCode._('en-GB');
-  static const esUs = TranscribeLanguageCode._('es-US');
-  static const frCa = TranscribeLanguageCode._('fr-CA');
-  static const frFr = TranscribeLanguageCode._('fr-FR');
-  static const enAu = TranscribeLanguageCode._('en-AU');
-  static const itIt = TranscribeLanguageCode._('it-IT');
-  static const deDe = TranscribeLanguageCode._('de-DE');
-  static const ptBr = TranscribeLanguageCode._('pt-BR');
-  static const jaJp = TranscribeLanguageCode._('ja-JP');
-  static const koKr = TranscribeLanguageCode._('ko-KR');
-  static const zhCn = TranscribeLanguageCode._('zh-CN');
-  static const thTh = TranscribeLanguageCode._('th-TH');
-  static const hiIn = TranscribeLanguageCode._('hi-IN');
-
-  final String value;
-
-  const TranscribeLanguageCode._(this.value);
-
-  static const values = [
-    enUs,
-    enGb,
-    esUs,
-    frCa,
-    frFr,
-    enAu,
-    itIt,
-    deDe,
-    ptBr,
-    jaJp,
-    koKr,
-    zhCn,
-    thTh,
-    hiIn
-  ];
-
-  static TranscribeLanguageCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TranscribeLanguageCode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is TranscribeLanguageCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class TranscribeMedicalContentIdentificationType {
-  static const phi = TranscribeMedicalContentIdentificationType._('PHI');
-
-  final String value;
-
-  const TranscribeMedicalContentIdentificationType._(this.value);
-
-  static const values = [phi];
-
-  static TranscribeMedicalContentIdentificationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TranscribeMedicalContentIdentificationType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is TranscribeMedicalContentIdentificationType &&
-      other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class TranscribeMedicalLanguageCode {
-  static const enUs = TranscribeMedicalLanguageCode._('en-US');
-
-  final String value;
-
-  const TranscribeMedicalLanguageCode._(this.value);
-
-  static const values = [enUs];
-
-  static TranscribeMedicalLanguageCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TranscribeMedicalLanguageCode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is TranscribeMedicalLanguageCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class TranscribeMedicalRegion {
-  static const usEast_1 = TranscribeMedicalRegion._('us-east-1');
-  static const usEast_2 = TranscribeMedicalRegion._('us-east-2');
-  static const usWest_2 = TranscribeMedicalRegion._('us-west-2');
-  static const apSoutheast_2 = TranscribeMedicalRegion._('ap-southeast-2');
-  static const caCentral_1 = TranscribeMedicalRegion._('ca-central-1');
-  static const euWest_1 = TranscribeMedicalRegion._('eu-west-1');
-  static const auto = TranscribeMedicalRegion._('auto');
-
-  final String value;
-
-  const TranscribeMedicalRegion._(this.value);
-
-  static const values = [
-    usEast_1,
-    usEast_2,
-    usWest_2,
-    apSoutheast_2,
-    caCentral_1,
-    euWest_1,
-    auto
-  ];
-
-  static TranscribeMedicalRegion fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TranscribeMedicalRegion._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is TranscribeMedicalRegion && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class TranscribeMedicalSpecialty {
-  static const primarycare = TranscribeMedicalSpecialty._('PRIMARYCARE');
-  static const cardiology = TranscribeMedicalSpecialty._('CARDIOLOGY');
-  static const neurology = TranscribeMedicalSpecialty._('NEUROLOGY');
-  static const oncology = TranscribeMedicalSpecialty._('ONCOLOGY');
-  static const radiology = TranscribeMedicalSpecialty._('RADIOLOGY');
-  static const urology = TranscribeMedicalSpecialty._('UROLOGY');
-
-  final String value;
-
-  const TranscribeMedicalSpecialty._(this.value);
-
-  static const values = [
-    primarycare,
-    cardiology,
-    neurology,
-    oncology,
-    radiology,
-    urology
-  ];
-
-  static TranscribeMedicalSpecialty fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TranscribeMedicalSpecialty._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is TranscribeMedicalSpecialty && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class TranscribeMedicalType {
-  static const conversation = TranscribeMedicalType._('CONVERSATION');
-  static const dictation = TranscribeMedicalType._('DICTATION');
-
-  final String value;
-
-  const TranscribeMedicalType._(this.value);
-
-  static const values = [conversation, dictation];
-
-  static TranscribeMedicalType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TranscribeMedicalType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is TranscribeMedicalType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class TranscribePartialResultsStability {
-  static const low = TranscribePartialResultsStability._('low');
-  static const medium = TranscribePartialResultsStability._('medium');
-  static const high = TranscribePartialResultsStability._('high');
-
-  final String value;
-
-  const TranscribePartialResultsStability._(this.value);
-
-  static const values = [low, medium, high];
-
-  static TranscribePartialResultsStability fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TranscribePartialResultsStability._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is TranscribePartialResultsStability && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class TranscribeRegion {
-  static const usEast_2 = TranscribeRegion._('us-east-2');
-  static const usEast_1 = TranscribeRegion._('us-east-1');
-  static const usWest_2 = TranscribeRegion._('us-west-2');
-  static const apNortheast_2 = TranscribeRegion._('ap-northeast-2');
-  static const apSoutheast_2 = TranscribeRegion._('ap-southeast-2');
-  static const apNortheast_1 = TranscribeRegion._('ap-northeast-1');
-  static const caCentral_1 = TranscribeRegion._('ca-central-1');
-  static const euCentral_1 = TranscribeRegion._('eu-central-1');
-  static const euWest_1 = TranscribeRegion._('eu-west-1');
-  static const euWest_2 = TranscribeRegion._('eu-west-2');
-  static const saEast_1 = TranscribeRegion._('sa-east-1');
-  static const auto = TranscribeRegion._('auto');
-  static const usGovWest_1 = TranscribeRegion._('us-gov-west-1');
-
-  final String value;
-
-  const TranscribeRegion._(this.value);
-
-  static const values = [
-    usEast_2,
-    usEast_1,
-    usWest_2,
-    apNortheast_2,
-    apSoutheast_2,
-    apNortheast_1,
-    caCentral_1,
-    euCentral_1,
-    euWest_1,
-    euWest_2,
-    saEast_1,
-    auto,
-    usGovWest_1
-  ];
-
-  static TranscribeRegion fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TranscribeRegion._(value));
-
-  @override
-  bool operator ==(other) => other is TranscribeRegion && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class TranscribeVocabularyFilterMethod {
-  static const remove = TranscribeVocabularyFilterMethod._('remove');
-  static const mask = TranscribeVocabularyFilterMethod._('mask');
-  static const tag = TranscribeVocabularyFilterMethod._('tag');
-
-  final String value;
-
-  const TranscribeVocabularyFilterMethod._(this.value);
-
-  static const values = [remove, mask, tag];
-
-  static TranscribeVocabularyFilterMethod fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TranscribeVocabularyFilterMethod._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is TranscribeVocabularyFilterMethod && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The configuration for the current transcription operation. Must contain
-/// <code>EngineTranscribeSettings</code> or
-/// <code>EngineTranscribeMedicalSettings</code>.
-class TranscriptionConfiguration {
-  /// The transcription configuration settings passed to Amazon Transcribe
-  /// Medical.
-  final EngineTranscribeMedicalSettings? engineTranscribeMedicalSettings;
-
-  /// The transcription configuration settings passed to Amazon Transcribe.
-  final EngineTranscribeSettings? engineTranscribeSettings;
-
-  TranscriptionConfiguration({
-    this.engineTranscribeMedicalSettings,
-    this.engineTranscribeSettings,
-  });
-
-  Map<String, dynamic> toJson() {
-    final engineTranscribeMedicalSettings =
-        this.engineTranscribeMedicalSettings;
-    final engineTranscribeSettings = this.engineTranscribeSettings;
-    return {
-      if (engineTranscribeMedicalSettings != null)
-        'EngineTranscribeMedicalSettings': engineTranscribeMedicalSettings,
-      if (engineTranscribeSettings != null)
-        'EngineTranscribeSettings': engineTranscribeSettings,
-    };
-  }
-}
-
-class UntagResourceResponse {
-  UntagResourceResponse();
-
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateAttendeeCapabilitiesResponse {
-  /// The updated attendee data.
-  final Attendee? attendee;
-
-  UpdateAttendeeCapabilitiesResponse({
-    this.attendee,
-  });
-
-  factory UpdateAttendeeCapabilitiesResponse.fromJson(
-      Map<String, dynamic> json) {
-    return UpdateAttendeeCapabilitiesResponse(
-      attendee: json['Attendee'] != null
-          ? Attendee.fromJson(json['Attendee'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attendee = this.attendee;
-    return {
-      if (attendee != null) 'Attendee': attendee,
+      if (echoReduction != null) 'EchoReduction': echoReduction.value,
     };
   }
 }
@@ -2756,6 +2607,98 @@ class VideoFeatures {
   }
 }
 
+/// Lists the content (screen share) features for the meeting. Applies to all
+/// attendees.
+/// <note>
+/// If you specify <code>MeetingFeatures:Content:MaxResolution:None</code> when
+/// you create a meeting, all API requests that include
+/// <code>SendReceive</code>, <code>Send</code>, or <code>Receive</code> for
+/// <code>AttendeeCapabilities:Content</code> will be rejected with
+/// <code>ValidationError 400</code>.
+/// </note>
+class ContentFeatures {
+  /// The maximum resolution for the meeting content.
+  /// <note>
+  /// Defaults to <code>FHD</code>. To use <code>UHD</code>, you must also provide
+  /// a <code>MeetingFeatures:Attendee:MaxCount</code> value and override the
+  /// default size limit of 250 attendees.
+  /// </note>
+  final ContentResolution? maxResolution;
+
+  ContentFeatures({
+    this.maxResolution,
+  });
+
+  factory ContentFeatures.fromJson(Map<String, dynamic> json) {
+    return ContentFeatures(
+      maxResolution:
+          (json['MaxResolution'] as String?)?.let(ContentResolution.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxResolution = this.maxResolution;
+    return {
+      if (maxResolution != null) 'MaxResolution': maxResolution.value,
+    };
+  }
+}
+
+/// Lists the maximum number of attendees allowed into the meeting.
+/// <note>
+/// If you specify <code>FHD</code> for
+/// <code>MeetingFeatures:Video:MaxResolution</code>, or if you specify
+/// <code>UHD</code> for <code>MeetingFeatures:Content:MaxResolution</code>, the
+/// maximum number of attendees changes from the default of <code>250</code> to
+/// <code>25</code>.
+/// </note>
+class AttendeeFeatures {
+  /// The maximum number of attendees allowed into the meeting.
+  final int? maxCount;
+
+  AttendeeFeatures({
+    this.maxCount,
+  });
+
+  factory AttendeeFeatures.fromJson(Map<String, dynamic> json) {
+    return AttendeeFeatures(
+      maxCount: json['MaxCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxCount = this.maxCount;
+    return {
+      if (maxCount != null) 'MaxCount': maxCount,
+    };
+  }
+}
+
+class ContentResolution {
+  static const none = ContentResolution._('None');
+  static const fhd = ContentResolution._('FHD');
+  static const uhd = ContentResolution._('UHD');
+
+  final String value;
+
+  const ContentResolution._(this.value);
+
+  static const values = [none, fhd, uhd];
+
+  static ContentResolution fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContentResolution._(value));
+
+  @override
+  bool operator ==(other) => other is ContentResolution && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 class VideoResolution {
   static const none = VideoResolution._('None');
   static const hd = VideoResolution._('HD');
@@ -2779,6 +2722,179 @@ class VideoResolution {
 
   @override
   String toString() => value;
+}
+
+class MeetingFeatureStatus {
+  static const available = MeetingFeatureStatus._('AVAILABLE');
+  static const unavailable = MeetingFeatureStatus._('UNAVAILABLE');
+
+  final String value;
+
+  const MeetingFeatureStatus._(this.value);
+
+  static const values = [available, unavailable];
+
+  static MeetingFeatureStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MeetingFeatureStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MeetingFeatureStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The list of errors returned when errors are encountered during the
+/// BatchCreateAttendee and CreateAttendee actions. This includes external user
+/// IDs, error codes, and error messages.
+class CreateAttendeeError {
+  /// The error code.
+  final String? errorCode;
+
+  /// The error message.
+  final String? errorMessage;
+
+  /// The Amazon Chime SDK external user ID. An idempotency token. Links the
+  /// attendee to an identity managed by a builder application.
+  ///
+  /// Pattern: <code>[-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]*</code>
+  ///
+  /// Values that begin with <code>aws:</code> are reserved. You can't configure a
+  /// value that uses this prefix. Case insensitive.
+  final String? externalUserId;
+
+  CreateAttendeeError({
+    this.errorCode,
+    this.errorMessage,
+    this.externalUserId,
+  });
+
+  factory CreateAttendeeError.fromJson(Map<String, dynamic> json) {
+    return CreateAttendeeError(
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      externalUserId: json['ExternalUserId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final externalUserId = this.externalUserId;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (externalUserId != null) 'ExternalUserId': externalUserId,
+    };
+  }
+}
+
+/// The configuration for resource targets to receive notifications when meeting
+/// and attendee events occur.
+class NotificationsConfiguration {
+  /// The ARN of the Amazon Web Services Lambda function in the notifications
+  /// configuration.
+  final String? lambdaFunctionArn;
+
+  /// The ARN of the SNS topic.
+  final String? snsTopicArn;
+
+  /// The ARN of the SQS queue.
+  final String? sqsQueueArn;
+
+  NotificationsConfiguration({
+    this.lambdaFunctionArn,
+    this.snsTopicArn,
+    this.sqsQueueArn,
+  });
+
+  Map<String, dynamic> toJson() {
+    final lambdaFunctionArn = this.lambdaFunctionArn;
+    final snsTopicArn = this.snsTopicArn;
+    final sqsQueueArn = this.sqsQueueArn;
+    return {
+      if (lambdaFunctionArn != null) 'LambdaFunctionArn': lambdaFunctionArn,
+      if (snsTopicArn != null) 'SnsTopicArn': snsTopicArn,
+      if (sqsQueueArn != null) 'SqsQueueArn': sqsQueueArn,
+    };
+  }
+}
+
+class MediaPlacementNetworkType {
+  static const ipv4Only = MediaPlacementNetworkType._('Ipv4Only');
+  static const dualStack = MediaPlacementNetworkType._('DualStack');
+
+  final String value;
+
+  const MediaPlacementNetworkType._(this.value);
+
+  static const values = [ipv4Only, dualStack];
+
+  static MediaPlacementNetworkType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MediaPlacementNetworkType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MediaPlacementNetworkType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The Amazon Chime SDK attendee fields to create, used with the
+/// BatchCreateAttendee action.
+class CreateAttendeeRequestItem {
+  /// The Amazon Chime SDK external user ID. An idempotency token. Links the
+  /// attendee to an identity managed by a builder application.
+  ///
+  /// Pattern: <code>[-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]*</code>
+  ///
+  /// Values that begin with <code>aws:</code> are reserved. You can't configure a
+  /// value that uses this prefix. Case insensitive.
+  final String externalUserId;
+
+  /// A list of one or more capabilities.
+  final AttendeeCapabilities? capabilities;
+
+  CreateAttendeeRequestItem({
+    required this.externalUserId,
+    this.capabilities,
+  });
+
+  Map<String, dynamic> toJson() {
+    final externalUserId = this.externalUserId;
+    final capabilities = this.capabilities;
+    return {
+      'ExternalUserId': externalUserId,
+      if (capabilities != null) 'Capabilities': capabilities,
+    };
+  }
+}
+
+/// A structure that contains one or more attendee IDs.
+class AttendeeIdItem {
+  /// A list of one or more attendee IDs.
+  final String attendeeId;
+
+  AttendeeIdItem({
+    required this.attendeeId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final attendeeId = this.attendeeId;
+    return {
+      'AttendeeId': attendeeId,
+    };
+  }
 }
 
 class BadRequestException extends _s.GenericAwsException {

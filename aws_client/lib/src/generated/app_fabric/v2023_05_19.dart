@@ -45,7 +45,6 @@ class AppFabric {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'appfabric',
-            signingName: 'appfabric',
           ),
           region: region,
           credentials: credentials,
@@ -67,11 +66,11 @@ class AppFabric {
   /// This action polls data from the tasks that are kicked off by the
   /// <code>StartUserAccessTasks</code> action.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appBundleIdentifier] :
   /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of
@@ -99,11 +98,11 @@ class AppFabric {
   /// Establishes a connection between Amazon Web Services AppFabric and an
   /// application, which allows AppFabric to call the APIs of the application.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appAuthorizationIdentifier] :
   /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of
@@ -139,13 +138,13 @@ class AppFabric {
   /// Creates an app authorization within an app bundle, which allows AppFabric
   /// to connect to an application.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [app] :
   /// The name of the application.
@@ -258,12 +257,12 @@ class AppFabric {
 
   /// Creates an app bundle to collect data from an application using AppFabric.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [clientToken] :
   /// Specifies a unique, case-sensitive identifier that you provide to ensure
@@ -310,12 +309,12 @@ class AppFabric {
 
   /// Creates a data ingestion for an application.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [app] :
   /// The name of the application.
@@ -418,12 +417,12 @@ class AppFabric {
   /// ingested data is processed by Amazon Web Services AppFabric and where it's
   /// delivered.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appBundleIdentifier] :
   /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of
@@ -484,11 +483,11 @@ class AppFabric {
   /// Deletes an app authorization. You must delete the associated ingestion
   /// before you can delete an app authorization.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appAuthorizationIdentifier] :
   /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of
@@ -513,11 +512,11 @@ class AppFabric {
   /// Deletes an app bundle. You must delete all associated app authorizations
   /// before you can delete an app bundle.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appBundleIdentifier] :
   /// The ID or Amazon Resource Name (ARN) of the app bundle that needs to be
@@ -537,11 +536,11 @@ class AppFabric {
   /// delete all associated ingestion destinations before you can delete an app
   /// ingestion.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appBundleIdentifier] :
   /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of
@@ -571,11 +570,11 @@ class AppFabric {
   /// destination is deleted while the associated ingestion is enabled, the
   /// ingestion will fail and is eventually disabled.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appBundleIdentifier] :
   /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of
@@ -604,11 +603,11 @@ class AppFabric {
 
   /// Returns information about an app authorization.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appAuthorizationIdentifier] :
   /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of
@@ -633,11 +632,11 @@ class AppFabric {
 
   /// Returns information about an app bundle.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appBundleIdentifier] :
   /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of
@@ -656,11 +655,11 @@ class AppFabric {
 
   /// Returns information about an ingestion.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appBundleIdentifier] :
   /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of
@@ -685,11 +684,11 @@ class AppFabric {
 
   /// Returns information about an ingestion destination.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appBundleIdentifier] :
   /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of
@@ -719,11 +718,11 @@ class AppFabric {
 
   /// Returns a list of all app authorizations configured for an app bundle.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appBundleIdentifier] :
   /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of
@@ -771,10 +770,10 @@ class AppFabric {
 
   /// Returns a list of app bundles.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results that are returned per call. You can use
@@ -816,11 +815,11 @@ class AppFabric {
 
   /// Returns a list of all ingestion destinations configured for an ingestion.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appBundleIdentifier] :
   /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of
@@ -873,11 +872,11 @@ class AppFabric {
 
   /// Returns a list of all ingestions configured for an app bundle.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appBundleIdentifier] :
   /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of
@@ -925,11 +924,11 @@ class AppFabric {
 
   /// Returns a list of tags for a resource.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource for which you want to
@@ -948,12 +947,12 @@ class AppFabric {
 
   /// Starts (enables) an ingestion, which collects data from an application.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [appBundleIdentifier] :
   /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of
@@ -981,11 +980,11 @@ class AppFabric {
   /// The tasks are stopped when the user access status data is found. The tasks
   /// are terminated when the API calls to the application time out.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appBundleIdentifier] :
   /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of
@@ -1012,12 +1011,12 @@ class AppFabric {
 
   /// Stops (disables) an ingestion.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [appBundleIdentifier] :
   /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of
@@ -1041,11 +1040,11 @@ class AppFabric {
 
   /// Assigns one or more tags (key-value pairs) to the specified resource.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource that you want to tag.
@@ -1069,11 +1068,11 @@ class AppFabric {
 
   /// Removes a tag or tags from a resource.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource that you want to untag.
@@ -1104,11 +1103,11 @@ class AppFabric {
   /// the app authorization will set it back to a <code>PendingConnect</code>
   /// state.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appAuthorizationIdentifier] :
   /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of
@@ -1154,13 +1153,13 @@ class AppFabric {
   /// ingested data is processed by Amazon Web Services AppFabric and where it's
   /// delivered.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [appBundleIdentifier] :
   /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of
@@ -1194,416 +1193,6 @@ class AppFabric {
     );
     return UpdateIngestionDestinationResponse.fromJson(response);
   }
-}
-
-/// Contains API key credential information.
-class ApiKeyCredential {
-  /// An API key for an application.
-  final String apiKey;
-
-  ApiKeyCredential({
-    required this.apiKey,
-  });
-
-  Map<String, dynamic> toJson() {
-    final apiKey = this.apiKey;
-    return {
-      'apiKey': apiKey,
-    };
-  }
-}
-
-/// Contains information about an app authorization.
-class AppAuthorization {
-  /// The name of the application.
-  final String app;
-
-  /// The Amazon Resource Name (ARN) of the app authorization.
-  final String appAuthorizationArn;
-
-  /// The Amazon Resource Name (ARN) of the app bundle for the app authorization.
-  final String appBundleArn;
-
-  /// The authorization type.
-  final AuthType authType;
-
-  /// The timestamp of when the app authorization was created.
-  final DateTime createdAt;
-
-  /// The state of the app authorization.
-  ///
-  /// The following states are possible:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>PendingConnect</code>: The initial state of the app authorization. The
-  /// app authorization is created but not yet connected.
-  /// </li>
-  /// <li>
-  /// <code>Connected</code>: The app authorization is connected to the
-  /// application, and is ready to be used.
-  /// </li>
-  /// <li>
-  /// <code>ConnectionValidationFailed</code>: The app authorization received a
-  /// validation exception when trying to connect to the application. If the app
-  /// authorization is in this state, you should verify the configured credentials
-  /// and try to connect the app authorization again.
-  /// </li>
-  /// <li>
-  /// <code>TokenAutoRotationFailed</code>: AppFabric failed to refresh the access
-  /// token. If the app authorization is in this state, you should try to
-  /// reconnect the app authorization.
-  /// </li>
-  /// </ul>
-  final AppAuthorizationStatus status;
-
-  /// Contains information about an application tenant, such as the application
-  /// display name and identifier.
-  final Tenant tenant;
-
-  /// The timestamp of when the app authorization was last updated.
-  final DateTime updatedAt;
-
-  /// The application URL for the OAuth flow.
-  final String? authUrl;
-
-  /// The user persona of the app authorization.
-  ///
-  /// This field should always be <code>admin</code>.
-  final Persona? persona;
-
-  AppAuthorization({
-    required this.app,
-    required this.appAuthorizationArn,
-    required this.appBundleArn,
-    required this.authType,
-    required this.createdAt,
-    required this.status,
-    required this.tenant,
-    required this.updatedAt,
-    this.authUrl,
-    this.persona,
-  });
-
-  factory AppAuthorization.fromJson(Map<String, dynamic> json) {
-    return AppAuthorization(
-      app: (json['app'] as String?) ?? '',
-      appAuthorizationArn: (json['appAuthorizationArn'] as String?) ?? '',
-      appBundleArn: (json['appBundleArn'] as String?) ?? '',
-      authType: AuthType.fromString((json['authType'] as String?) ?? ''),
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
-      status:
-          AppAuthorizationStatus.fromString((json['status'] as String?) ?? ''),
-      tenant: Tenant.fromJson((json['tenant'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
-      authUrl: json['authUrl'] as String?,
-      persona: (json['persona'] as String?)?.let(Persona.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final app = this.app;
-    final appAuthorizationArn = this.appAuthorizationArn;
-    final appBundleArn = this.appBundleArn;
-    final authType = this.authType;
-    final createdAt = this.createdAt;
-    final status = this.status;
-    final tenant = this.tenant;
-    final updatedAt = this.updatedAt;
-    final authUrl = this.authUrl;
-    final persona = this.persona;
-    return {
-      'app': app,
-      'appAuthorizationArn': appAuthorizationArn,
-      'appBundleArn': appBundleArn,
-      'authType': authType.value,
-      'createdAt': iso8601ToJson(createdAt),
-      'status': status.value,
-      'tenant': tenant,
-      'updatedAt': iso8601ToJson(updatedAt),
-      if (authUrl != null) 'authUrl': authUrl,
-      if (persona != null) 'persona': persona.value,
-    };
-  }
-}
-
-class AppAuthorizationStatus {
-  static const pendingConnect = AppAuthorizationStatus._('PendingConnect');
-  static const connected = AppAuthorizationStatus._('Connected');
-  static const connectionValidationFailed =
-      AppAuthorizationStatus._('ConnectionValidationFailed');
-  static const tokenAutoRotationFailed =
-      AppAuthorizationStatus._('TokenAutoRotationFailed');
-
-  final String value;
-
-  const AppAuthorizationStatus._(this.value);
-
-  static const values = [
-    pendingConnect,
-    connected,
-    connectionValidationFailed,
-    tokenAutoRotationFailed
-  ];
-
-  static AppAuthorizationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AppAuthorizationStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AppAuthorizationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains a summary of an app authorization.
-class AppAuthorizationSummary {
-  /// The name of the application.
-  final String app;
-
-  /// The Amazon Resource Name (ARN) of the app authorization.
-  final String appAuthorizationArn;
-
-  /// The Amazon Resource Name (ARN) of the app bundle for the app authorization.
-  final String appBundleArn;
-
-  /// The state of the app authorization.
-  ///
-  /// The following states are possible:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>PendingConnect</code>: The initial state of the app authorization. The
-  /// app authorization is created but not yet connected.
-  /// </li>
-  /// <li>
-  /// <code>Connected</code>: The app authorization is connected to the
-  /// application, and is ready to be used.
-  /// </li>
-  /// <li>
-  /// <code>ConnectionValidationFailed</code>: The app authorization received a
-  /// validation exception when trying to connect to the application. If the app
-  /// authorization is in this state, you should verify the configured credentials
-  /// and try to connect the app authorization again.
-  /// </li>
-  /// <li>
-  /// <code>TokenAutoRotationFailed</code>: AppFabric failed to refresh the access
-  /// token. If the app authorization is in this state, you should try to
-  /// reconnect the app authorization.
-  /// </li>
-  /// </ul>
-  final AppAuthorizationStatus status;
-
-  /// Contains information about an application tenant, such as the application
-  /// display name and identifier.
-  final Tenant tenant;
-
-  /// Timestamp for when the app authorization was last updated.
-  final DateTime updatedAt;
-
-  AppAuthorizationSummary({
-    required this.app,
-    required this.appAuthorizationArn,
-    required this.appBundleArn,
-    required this.status,
-    required this.tenant,
-    required this.updatedAt,
-  });
-
-  factory AppAuthorizationSummary.fromJson(Map<String, dynamic> json) {
-    return AppAuthorizationSummary(
-      app: (json['app'] as String?) ?? '',
-      appAuthorizationArn: (json['appAuthorizationArn'] as String?) ?? '',
-      appBundleArn: (json['appBundleArn'] as String?) ?? '',
-      status:
-          AppAuthorizationStatus.fromString((json['status'] as String?) ?? ''),
-      tenant: Tenant.fromJson((json['tenant'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final app = this.app;
-    final appAuthorizationArn = this.appAuthorizationArn;
-    final appBundleArn = this.appBundleArn;
-    final status = this.status;
-    final tenant = this.tenant;
-    final updatedAt = this.updatedAt;
-    return {
-      'app': app,
-      'appAuthorizationArn': appAuthorizationArn,
-      'appBundleArn': appBundleArn,
-      'status': status.value,
-      'tenant': tenant,
-      'updatedAt': iso8601ToJson(updatedAt),
-    };
-  }
-}
-
-/// Contains information about an app bundle.
-class AppBundle {
-  /// The Amazon Resource Name (ARN) of the app bundle.
-  final String arn;
-
-  /// The Amazon Resource Name (ARN) of the Key Management Service (KMS) key used
-  /// to encrypt the application data.
-  final String? customerManagedKeyArn;
-
-  AppBundle({
-    required this.arn,
-    this.customerManagedKeyArn,
-  });
-
-  factory AppBundle.fromJson(Map<String, dynamic> json) {
-    return AppBundle(
-      arn: (json['arn'] as String?) ?? '',
-      customerManagedKeyArn: json['customerManagedKeyArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final customerManagedKeyArn = this.customerManagedKeyArn;
-    return {
-      'arn': arn,
-      if (customerManagedKeyArn != null)
-        'customerManagedKeyArn': customerManagedKeyArn,
-    };
-  }
-}
-
-/// Contains a summary of an app bundle.
-class AppBundleSummary {
-  /// The Amazon Resource Name (ARN) of the app bundle.
-  final String arn;
-
-  AppBundleSummary({
-    required this.arn,
-  });
-
-  factory AppBundleSummary.fromJson(Map<String, dynamic> json) {
-    return AppBundleSummary(
-      arn: (json['arn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    return {
-      'arn': arn,
-    };
-  }
-}
-
-/// Contains information about an audit log destination configuration.
-class AuditLogDestinationConfiguration {
-  /// Contains information about an audit log destination.
-  final Destination destination;
-
-  AuditLogDestinationConfiguration({
-    required this.destination,
-  });
-
-  factory AuditLogDestinationConfiguration.fromJson(Map<String, dynamic> json) {
-    return AuditLogDestinationConfiguration(
-      destination: Destination.fromJson(
-          (json['destination'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final destination = this.destination;
-    return {
-      'destination': destination,
-    };
-  }
-}
-
-/// Contains information about an audit log processing configuration.
-class AuditLogProcessingConfiguration {
-  /// The format in which the audit logs need to be formatted.
-  final Format format;
-
-  /// The event schema in which the audit logs need to be formatted.
-  final Schema schema;
-
-  AuditLogProcessingConfiguration({
-    required this.format,
-    required this.schema,
-  });
-
-  factory AuditLogProcessingConfiguration.fromJson(Map<String, dynamic> json) {
-    return AuditLogProcessingConfiguration(
-      format: Format.fromString((json['format'] as String?) ?? ''),
-      schema: Schema.fromString((json['schema'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final format = this.format;
-    final schema = this.schema;
-    return {
-      'format': format.value,
-      'schema': schema.value,
-    };
-  }
-}
-
-/// Contains authorization request information, which is required for Amazon Web
-/// Services AppFabric to get the OAuth2 access token for an application.
-class AuthRequest {
-  /// The authorization code returned by the application after permission is
-  /// granted in the application OAuth page (after clicking on the AuthURL).
-  final String code;
-
-  /// The redirect URL that is specified in the AuthURL and the application
-  /// client.
-  final String redirectUri;
-
-  AuthRequest({
-    required this.code,
-    required this.redirectUri,
-  });
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final redirectUri = this.redirectUri;
-    return {
-      'code': code,
-      'redirectUri': redirectUri,
-    };
-  }
-}
-
-class AuthType {
-  static const oauth2 = AuthType._('oauth2');
-  static const apiKey = AuthType._('apiKey');
-
-  final String value;
-
-  const AuthType._(this.value);
-
-  static const values = [oauth2, apiKey];
-
-  static AuthType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => AuthType._(value));
-
-  @override
-  bool operator ==(other) => other is AuthType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class BatchGetUserAccessTasksResponse {
@@ -1704,31 +1293,6 @@ class CreateAppBundleResponse {
   }
 }
 
-class CreateIngestionDestinationResponse {
-  /// Contains information about an ingestion destination.
-  final IngestionDestination ingestionDestination;
-
-  CreateIngestionDestinationResponse({
-    required this.ingestionDestination,
-  });
-
-  factory CreateIngestionDestinationResponse.fromJson(
-      Map<String, dynamic> json) {
-    return CreateIngestionDestinationResponse(
-      ingestionDestination: IngestionDestination.fromJson(
-          (json['ingestionDestination'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final ingestionDestination = this.ingestionDestination;
-    return {
-      'ingestionDestination': ingestionDestination,
-    };
-  }
-}
-
 class CreateIngestionResponse {
   /// Contains information about an ingestion.
   final Ingestion ingestion;
@@ -1753,25 +1317,27 @@ class CreateIngestionResponse {
   }
 }
 
-/// Contains credential information for an application.
-class Credential {
-  /// Contains API key credential information.
-  final ApiKeyCredential? apiKeyCredential;
+class CreateIngestionDestinationResponse {
+  /// Contains information about an ingestion destination.
+  final IngestionDestination ingestionDestination;
 
-  /// Contains OAuth2 client credential information.
-  final Oauth2Credential? oauth2Credential;
-
-  Credential({
-    this.apiKeyCredential,
-    this.oauth2Credential,
+  CreateIngestionDestinationResponse({
+    required this.ingestionDestination,
   });
 
+  factory CreateIngestionDestinationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateIngestionDestinationResponse(
+      ingestionDestination: IngestionDestination.fromJson(
+          (json['ingestionDestination'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
   Map<String, dynamic> toJson() {
-    final apiKeyCredential = this.apiKeyCredential;
-    final oauth2Credential = this.oauth2Credential;
+    final ingestionDestination = this.ingestionDestination;
     return {
-      if (apiKeyCredential != null) 'apiKeyCredential': apiKeyCredential,
-      if (oauth2Credential != null) 'oauth2Credential': oauth2Credential,
+      'ingestionDestination': ingestionDestination,
     };
   }
 }
@@ -1800,18 +1366,6 @@ class DeleteAppBundleResponse {
   }
 }
 
-class DeleteIngestionDestinationResponse {
-  DeleteIngestionDestinationResponse();
-
-  factory DeleteIngestionDestinationResponse.fromJson(Map<String, dynamic> _) {
-    return DeleteIngestionDestinationResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
 class DeleteIngestionResponse {
   DeleteIngestionResponse();
 
@@ -1824,111 +1378,16 @@ class DeleteIngestionResponse {
   }
 }
 
-/// Contains information about an audit log destination.
-class Destination {
-  /// Contains information about an Amazon Kinesis Data Firehose delivery stream.
-  final FirehoseStream? firehoseStream;
+class DeleteIngestionDestinationResponse {
+  DeleteIngestionDestinationResponse();
 
-  /// Contains information about an Amazon S3 bucket.
-  final S3Bucket? s3Bucket;
-
-  Destination({
-    this.firehoseStream,
-    this.s3Bucket,
-  });
-
-  factory Destination.fromJson(Map<String, dynamic> json) {
-    return Destination(
-      firehoseStream: json['firehoseStream'] != null
-          ? FirehoseStream.fromJson(
-              json['firehoseStream'] as Map<String, dynamic>)
-          : null,
-      s3Bucket: json['s3Bucket'] != null
-          ? S3Bucket.fromJson(json['s3Bucket'] as Map<String, dynamic>)
-          : null,
-    );
+  factory DeleteIngestionDestinationResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteIngestionDestinationResponse();
   }
 
   Map<String, dynamic> toJson() {
-    final firehoseStream = this.firehoseStream;
-    final s3Bucket = this.s3Bucket;
-    return {
-      if (firehoseStream != null) 'firehoseStream': firehoseStream,
-      if (s3Bucket != null) 's3Bucket': s3Bucket,
-    };
+    return {};
   }
-}
-
-/// Contains information about the destination of ingested data.
-class DestinationConfiguration {
-  /// Contains information about an audit log destination configuration.
-  final AuditLogDestinationConfiguration? auditLog;
-
-  DestinationConfiguration({
-    this.auditLog,
-  });
-
-  factory DestinationConfiguration.fromJson(Map<String, dynamic> json) {
-    return DestinationConfiguration(
-      auditLog: json['auditLog'] != null
-          ? AuditLogDestinationConfiguration.fromJson(
-              json['auditLog'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final auditLog = this.auditLog;
-    return {
-      if (auditLog != null) 'auditLog': auditLog,
-    };
-  }
-}
-
-/// Contains information about an Amazon Kinesis Data Firehose delivery stream.
-class FirehoseStream {
-  /// The name of the Amazon Kinesis Data Firehose delivery stream.
-  final String streamName;
-
-  FirehoseStream({
-    required this.streamName,
-  });
-
-  factory FirehoseStream.fromJson(Map<String, dynamic> json) {
-    return FirehoseStream(
-      streamName: (json['streamName'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final streamName = this.streamName;
-    return {
-      'streamName': streamName,
-    };
-  }
-}
-
-class Format {
-  static const json = Format._('json');
-  static const parquet = Format._('parquet');
-
-  final String value;
-
-  const Format._(this.value);
-
-  static const values = [json, parquet];
-
-  static Format fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Format._(value));
-
-  @override
-  bool operator ==(other) => other is Format && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class GetAppAuthorizationResponse {
@@ -1979,30 +1438,6 @@ class GetAppBundleResponse {
   }
 }
 
-class GetIngestionDestinationResponse {
-  /// Contains information about an ingestion destination.
-  final IngestionDestination ingestionDestination;
-
-  GetIngestionDestinationResponse({
-    required this.ingestionDestination,
-  });
-
-  factory GetIngestionDestinationResponse.fromJson(Map<String, dynamic> json) {
-    return GetIngestionDestinationResponse(
-      ingestionDestination: IngestionDestination.fromJson(
-          (json['ingestionDestination'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final ingestionDestination = this.ingestionDestination;
-    return {
-      'ingestionDestination': ingestionDestination,
-    };
-  }
-}
-
 class GetIngestionResponse {
   /// Contains information about an ingestion.
   final Ingestion ingestion;
@@ -2027,310 +1462,28 @@ class GetIngestionResponse {
   }
 }
 
-/// Contains information about an ingestion.
-class Ingestion {
-  /// The name of the application.
-  final String app;
+class GetIngestionDestinationResponse {
+  /// Contains information about an ingestion destination.
+  final IngestionDestination ingestionDestination;
 
-  /// The Amazon Resource Name (ARN) of the app bundle for the ingestion.
-  final String appBundleArn;
-
-  /// The Amazon Resource Name (ARN) of the ingestion.
-  final String arn;
-
-  /// The timestamp of when the ingestion was created.
-  final DateTime createdAt;
-
-  /// The type of the ingestion.
-  final IngestionType ingestionType;
-
-  /// The status of the ingestion.
-  final IngestionState state;
-
-  /// The ID of the application tenant.
-  final String tenantId;
-
-  /// The timestamp of when the ingestion was last updated.
-  final DateTime updatedAt;
-
-  Ingestion({
-    required this.app,
-    required this.appBundleArn,
-    required this.arn,
-    required this.createdAt,
-    required this.ingestionType,
-    required this.state,
-    required this.tenantId,
-    required this.updatedAt,
+  GetIngestionDestinationResponse({
+    required this.ingestionDestination,
   });
 
-  factory Ingestion.fromJson(Map<String, dynamic> json) {
-    return Ingestion(
-      app: (json['app'] as String?) ?? '',
-      appBundleArn: (json['appBundleArn'] as String?) ?? '',
-      arn: (json['arn'] as String?) ?? '',
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
-      ingestionType:
-          IngestionType.fromString((json['ingestionType'] as String?) ?? ''),
-      state: IngestionState.fromString((json['state'] as String?) ?? ''),
-      tenantId: (json['tenantId'] as String?) ?? '',
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final app = this.app;
-    final appBundleArn = this.appBundleArn;
-    final arn = this.arn;
-    final createdAt = this.createdAt;
-    final ingestionType = this.ingestionType;
-    final state = this.state;
-    final tenantId = this.tenantId;
-    final updatedAt = this.updatedAt;
-    return {
-      'app': app,
-      'appBundleArn': appBundleArn,
-      'arn': arn,
-      'createdAt': iso8601ToJson(createdAt),
-      'ingestionType': ingestionType.value,
-      'state': state.value,
-      'tenantId': tenantId,
-      'updatedAt': iso8601ToJson(updatedAt),
-    };
-  }
-}
-
-/// Contains information about an ingestion destination.
-class IngestionDestination {
-  /// The Amazon Resource Name (ARN) of the ingestion destination.
-  final String arn;
-
-  /// Contains information about the destination of ingested data.
-  final DestinationConfiguration destinationConfiguration;
-
-  /// The Amazon Resource Name (ARN) of the ingestion.
-  final String ingestionArn;
-
-  /// Contains information about how ingested data is processed.
-  final ProcessingConfiguration processingConfiguration;
-
-  /// The timestamp of when the ingestion destination was created.
-  final DateTime? createdAt;
-
-  /// The state of the ingestion destination.
-  ///
-  /// The following states are possible:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>Active</code>: The ingestion destination is active and is ready to be
-  /// used.
-  /// </li>
-  /// <li>
-  /// <code>Failed</code>: The ingestion destination has failed. If the ingestion
-  /// destination is in this state, you should verify the ingestion destination
-  /// configuration and try again.
-  /// </li>
-  /// </ul>
-  final IngestionDestinationStatus? status;
-
-  /// The reason for the current status of the ingestion destination.
-  ///
-  /// Only present when the <code>status</code> of ingestion destination is
-  /// <code>Failed</code>.
-  final String? statusReason;
-
-  /// The timestamp of when the ingestion destination was last updated.
-  final DateTime? updatedAt;
-
-  IngestionDestination({
-    required this.arn,
-    required this.destinationConfiguration,
-    required this.ingestionArn,
-    required this.processingConfiguration,
-    this.createdAt,
-    this.status,
-    this.statusReason,
-    this.updatedAt,
-  });
-
-  factory IngestionDestination.fromJson(Map<String, dynamic> json) {
-    return IngestionDestination(
-      arn: (json['arn'] as String?) ?? '',
-      destinationConfiguration: DestinationConfiguration.fromJson(
-          (json['destinationConfiguration'] as Map<String, dynamic>?) ??
+  factory GetIngestionDestinationResponse.fromJson(Map<String, dynamic> json) {
+    return GetIngestionDestinationResponse(
+      ingestionDestination: IngestionDestination.fromJson(
+          (json['ingestionDestination'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      ingestionArn: (json['ingestionArn'] as String?) ?? '',
-      processingConfiguration: ProcessingConfiguration.fromJson(
-          (json['processingConfiguration'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      createdAt: timeStampFromJson(json['createdAt']),
-      status: (json['status'] as String?)
-          ?.let(IngestionDestinationStatus.fromString),
-      statusReason: json['statusReason'] as String?,
-      updatedAt: timeStampFromJson(json['updatedAt']),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final destinationConfiguration = this.destinationConfiguration;
-    final ingestionArn = this.ingestionArn;
-    final processingConfiguration = this.processingConfiguration;
-    final createdAt = this.createdAt;
-    final status = this.status;
-    final statusReason = this.statusReason;
-    final updatedAt = this.updatedAt;
+    final ingestionDestination = this.ingestionDestination;
     return {
-      'arn': arn,
-      'destinationConfiguration': destinationConfiguration,
-      'ingestionArn': ingestionArn,
-      'processingConfiguration': processingConfiguration,
-      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
-      if (status != null) 'status': status.value,
-      if (statusReason != null) 'statusReason': statusReason,
-      if (updatedAt != null) 'updatedAt': iso8601ToJson(updatedAt),
+      'ingestionDestination': ingestionDestination,
     };
   }
-}
-
-class IngestionDestinationStatus {
-  static const active = IngestionDestinationStatus._('Active');
-  static const failed = IngestionDestinationStatus._('Failed');
-
-  final String value;
-
-  const IngestionDestinationStatus._(this.value);
-
-  static const values = [active, failed];
-
-  static IngestionDestinationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => IngestionDestinationStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is IngestionDestinationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains a summary of an ingestion destination.
-class IngestionDestinationSummary {
-  /// The Amazon Resource Name (ARN) of the ingestion destination.
-  final String arn;
-
-  IngestionDestinationSummary({
-    required this.arn,
-  });
-
-  factory IngestionDestinationSummary.fromJson(Map<String, dynamic> json) {
-    return IngestionDestinationSummary(
-      arn: (json['arn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    return {
-      'arn': arn,
-    };
-  }
-}
-
-class IngestionState {
-  static const enabled = IngestionState._('enabled');
-  static const disabled = IngestionState._('disabled');
-
-  final String value;
-
-  const IngestionState._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static IngestionState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => IngestionState._(value));
-
-  @override
-  bool operator ==(other) => other is IngestionState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains a summary of an ingestion.
-class IngestionSummary {
-  /// The name of the application.
-  final String app;
-
-  /// The Amazon Resource Name (ARN) of the ingestion.
-  final String arn;
-
-  /// The status of the ingestion.
-  final IngestionState state;
-
-  /// The ID of the application tenant.
-  final String tenantId;
-
-  IngestionSummary({
-    required this.app,
-    required this.arn,
-    required this.state,
-    required this.tenantId,
-  });
-
-  factory IngestionSummary.fromJson(Map<String, dynamic> json) {
-    return IngestionSummary(
-      app: (json['app'] as String?) ?? '',
-      arn: (json['arn'] as String?) ?? '',
-      state: IngestionState.fromString((json['state'] as String?) ?? ''),
-      tenantId: (json['tenantId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final app = this.app;
-    final arn = this.arn;
-    final state = this.state;
-    final tenantId = this.tenantId;
-    return {
-      'app': app,
-      'arn': arn,
-      'state': state.value,
-      'tenantId': tenantId,
-    };
-  }
-}
-
-class IngestionType {
-  static const auditLog = IngestionType._('auditLog');
-
-  final String value;
-
-  const IngestionType._(this.value);
-
-  static const values = [auditLog];
-
-  static IngestionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => IngestionType._(value));
-
-  @override
-  bool operator ==(other) => other is IngestionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class ListAppAuthorizationsResponse {
@@ -2513,156 +1666,6 @@ class ListTagsForResourceResponse {
   }
 }
 
-/// Contains OAuth2 client credential information.
-class Oauth2Credential {
-  /// The client ID of the client application.
-  final String clientId;
-
-  /// The client secret of the client application.
-  final String clientSecret;
-
-  Oauth2Credential({
-    required this.clientId,
-    required this.clientSecret,
-  });
-
-  Map<String, dynamic> toJson() {
-    final clientId = this.clientId;
-    final clientSecret = this.clientSecret;
-    return {
-      'clientId': clientId,
-      'clientSecret': clientSecret,
-    };
-  }
-}
-
-class Persona {
-  static const admin = Persona._('admin');
-  static const endUser = Persona._('endUser');
-
-  final String value;
-
-  const Persona._(this.value);
-
-  static const values = [admin, endUser];
-
-  static Persona fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Persona._(value));
-
-  @override
-  bool operator ==(other) => other is Persona && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains information about how ingested data is processed.
-class ProcessingConfiguration {
-  /// Contains information about an audit log processing configuration.
-  final AuditLogProcessingConfiguration? auditLog;
-
-  ProcessingConfiguration({
-    this.auditLog,
-  });
-
-  factory ProcessingConfiguration.fromJson(Map<String, dynamic> json) {
-    return ProcessingConfiguration(
-      auditLog: json['auditLog'] != null
-          ? AuditLogProcessingConfiguration.fromJson(
-              json['auditLog'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final auditLog = this.auditLog;
-    return {
-      if (auditLog != null) 'auditLog': auditLog,
-    };
-  }
-}
-
-class ResultStatus {
-  static const inProgress = ResultStatus._('IN_PROGRESS');
-  static const completed = ResultStatus._('COMPLETED');
-  static const failed = ResultStatus._('FAILED');
-  static const expired = ResultStatus._('EXPIRED');
-
-  final String value;
-
-  const ResultStatus._(this.value);
-
-  static const values = [inProgress, completed, failed, expired];
-
-  static ResultStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ResultStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ResultStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains information about an Amazon S3 bucket.
-class S3Bucket {
-  /// The name of the Amazon S3 bucket.
-  final String bucketName;
-
-  /// The object key to use.
-  final String? prefix;
-
-  S3Bucket({
-    required this.bucketName,
-    this.prefix,
-  });
-
-  factory S3Bucket.fromJson(Map<String, dynamic> json) {
-    return S3Bucket(
-      bucketName: (json['bucketName'] as String?) ?? '',
-      prefix: json['prefix'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucketName = this.bucketName;
-    final prefix = this.prefix;
-    return {
-      'bucketName': bucketName,
-      if (prefix != null) 'prefix': prefix,
-    };
-  }
-}
-
-class Schema {
-  static const ocsf = Schema._('ocsf');
-  static const raw = Schema._('raw');
-
-  final String value;
-
-  const Schema._(this.value);
-
-  static const values = [ocsf, raw];
-
-  static Schema fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Schema._(value));
-
-  @override
-  bool operator ==(other) => other is Schema && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class StartIngestionResponse {
   StartIngestionResponse();
 
@@ -2713,37 +1716,6 @@ class StopIngestionResponse {
   }
 }
 
-/// The key or keys of the key-value pairs for the tag or tags assigned to a
-/// resource.
-class Tag {
-  /// Tag key.
-  final String key;
-
-  /// Tag value.
-  final String value;
-
-  Tag({
-    required this.key,
-    required this.value,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['key'] as String?) ?? '',
-      value: (json['value'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'key': key,
-      'value': value,
-    };
-  }
-}
-
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2753,66 +1725,6 @@ class TagResourceResponse {
 
   Map<String, dynamic> toJson() {
     return {};
-  }
-}
-
-/// Contains information about an error returned from a user access task.
-class TaskError {
-  /// The code of the error.
-  final String? errorCode;
-
-  /// The message of the error.
-  final String? errorMessage;
-
-  TaskError({
-    this.errorCode,
-    this.errorMessage,
-  });
-
-  factory TaskError.fromJson(Map<String, dynamic> json) {
-    return TaskError(
-      errorCode: json['errorCode'] as String?,
-      errorMessage: json['errorMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    return {
-      if (errorCode != null) 'errorCode': errorCode,
-      if (errorMessage != null) 'errorMessage': errorMessage,
-    };
-  }
-}
-
-/// Contains information about an application tenant.
-class Tenant {
-  /// The display name of the tenant.
-  final String tenantDisplayName;
-
-  /// The ID of the application tenant.
-  final String tenantIdentifier;
-
-  Tenant({
-    required this.tenantDisplayName,
-    required this.tenantIdentifier,
-  });
-
-  factory Tenant.fromJson(Map<String, dynamic> json) {
-    return Tenant(
-      tenantDisplayName: (json['tenantDisplayName'] as String?) ?? '',
-      tenantIdentifier: (json['tenantIdentifier'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tenantDisplayName = this.tenantDisplayName;
-    final tenantIdentifier = this.tenantIdentifier;
-    return {
-      'tenantDisplayName': tenantDisplayName,
-      'tenantIdentifier': tenantIdentifier,
-    };
   }
 }
 
@@ -2873,6 +1785,1114 @@ class UpdateIngestionDestinationResponse {
     final ingestionDestination = this.ingestionDestination;
     return {
       'ingestionDestination': ingestionDestination,
+    };
+  }
+}
+
+/// Contains information about an ingestion destination.
+class IngestionDestination {
+  /// The Amazon Resource Name (ARN) of the ingestion destination.
+  final String arn;
+
+  /// Contains information about the destination of ingested data.
+  final DestinationConfiguration destinationConfiguration;
+
+  /// The Amazon Resource Name (ARN) of the ingestion.
+  final String ingestionArn;
+
+  /// Contains information about how ingested data is processed.
+  final ProcessingConfiguration processingConfiguration;
+
+  /// The timestamp of when the ingestion destination was created.
+  final DateTime? createdAt;
+
+  /// The state of the ingestion destination.
+  ///
+  /// The following states are possible:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Active</code>: The ingestion destination is active and is ready to be
+  /// used.
+  /// </li>
+  /// <li>
+  /// <code>Failed</code>: The ingestion destination has failed. If the ingestion
+  /// destination is in this state, you should verify the ingestion destination
+  /// configuration and try again.
+  /// </li>
+  /// </ul>
+  final IngestionDestinationStatus? status;
+
+  /// The reason for the current status of the ingestion destination.
+  ///
+  /// Only present when the <code>status</code> of ingestion destination is
+  /// <code>Failed</code>.
+  final String? statusReason;
+
+  /// The timestamp of when the ingestion destination was last updated.
+  final DateTime? updatedAt;
+
+  IngestionDestination({
+    required this.arn,
+    required this.destinationConfiguration,
+    required this.ingestionArn,
+    required this.processingConfiguration,
+    this.createdAt,
+    this.status,
+    this.statusReason,
+    this.updatedAt,
+  });
+
+  factory IngestionDestination.fromJson(Map<String, dynamic> json) {
+    return IngestionDestination(
+      arn: (json['arn'] as String?) ?? '',
+      destinationConfiguration: DestinationConfiguration.fromJson(
+          (json['destinationConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      ingestionArn: (json['ingestionArn'] as String?) ?? '',
+      processingConfiguration: ProcessingConfiguration.fromJson(
+          (json['processingConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      createdAt: timeStampFromJson(json['createdAt']),
+      status: (json['status'] as String?)
+          ?.let(IngestionDestinationStatus.fromString),
+      statusReason: json['statusReason'] as String?,
+      updatedAt: timeStampFromJson(json['updatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final destinationConfiguration = this.destinationConfiguration;
+    final ingestionArn = this.ingestionArn;
+    final processingConfiguration = this.processingConfiguration;
+    final createdAt = this.createdAt;
+    final status = this.status;
+    final statusReason = this.statusReason;
+    final updatedAt = this.updatedAt;
+    return {
+      'arn': arn,
+      'destinationConfiguration': destinationConfiguration,
+      'ingestionArn': ingestionArn,
+      'processingConfiguration': processingConfiguration,
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (status != null) 'status': status.value,
+      if (statusReason != null) 'statusReason': statusReason,
+      if (updatedAt != null) 'updatedAt': iso8601ToJson(updatedAt),
+    };
+  }
+}
+
+/// Contains information about how ingested data is processed.
+class ProcessingConfiguration {
+  /// Contains information about an audit log processing configuration.
+  final AuditLogProcessingConfiguration? auditLog;
+
+  ProcessingConfiguration({
+    this.auditLog,
+  });
+
+  factory ProcessingConfiguration.fromJson(Map<String, dynamic> json) {
+    return ProcessingConfiguration(
+      auditLog: json['auditLog'] != null
+          ? AuditLogProcessingConfiguration.fromJson(
+              json['auditLog'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final auditLog = this.auditLog;
+    return {
+      if (auditLog != null) 'auditLog': auditLog,
+    };
+  }
+}
+
+/// Contains information about the destination of ingested data.
+class DestinationConfiguration {
+  /// Contains information about an audit log destination configuration.
+  final AuditLogDestinationConfiguration? auditLog;
+
+  DestinationConfiguration({
+    this.auditLog,
+  });
+
+  factory DestinationConfiguration.fromJson(Map<String, dynamic> json) {
+    return DestinationConfiguration(
+      auditLog: json['auditLog'] != null
+          ? AuditLogDestinationConfiguration.fromJson(
+              json['auditLog'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final auditLog = this.auditLog;
+    return {
+      if (auditLog != null) 'auditLog': auditLog,
+    };
+  }
+}
+
+class IngestionDestinationStatus {
+  static const active = IngestionDestinationStatus._('Active');
+  static const failed = IngestionDestinationStatus._('Failed');
+
+  final String value;
+
+  const IngestionDestinationStatus._(this.value);
+
+  static const values = [active, failed];
+
+  static IngestionDestinationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IngestionDestinationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IngestionDestinationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about an audit log destination configuration.
+class AuditLogDestinationConfiguration {
+  /// Contains information about an audit log destination.
+  final Destination destination;
+
+  AuditLogDestinationConfiguration({
+    required this.destination,
+  });
+
+  factory AuditLogDestinationConfiguration.fromJson(Map<String, dynamic> json) {
+    return AuditLogDestinationConfiguration(
+      destination: Destination.fromJson(
+          (json['destination'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destination = this.destination;
+    return {
+      'destination': destination,
+    };
+  }
+}
+
+/// Contains information about an audit log destination.
+class Destination {
+  /// Contains information about an Amazon Kinesis Data Firehose delivery stream.
+  final FirehoseStream? firehoseStream;
+
+  /// Contains information about an Amazon S3 bucket.
+  final S3Bucket? s3Bucket;
+
+  Destination({
+    this.firehoseStream,
+    this.s3Bucket,
+  });
+
+  factory Destination.fromJson(Map<String, dynamic> json) {
+    return Destination(
+      firehoseStream: json['firehoseStream'] != null
+          ? FirehoseStream.fromJson(
+              json['firehoseStream'] as Map<String, dynamic>)
+          : null,
+      s3Bucket: json['s3Bucket'] != null
+          ? S3Bucket.fromJson(json['s3Bucket'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final firehoseStream = this.firehoseStream;
+    final s3Bucket = this.s3Bucket;
+    return {
+      if (firehoseStream != null) 'firehoseStream': firehoseStream,
+      if (s3Bucket != null) 's3Bucket': s3Bucket,
+    };
+  }
+}
+
+/// Contains information about an Amazon S3 bucket.
+class S3Bucket {
+  /// The name of the Amazon S3 bucket.
+  final String bucketName;
+
+  /// The object key to use.
+  final String? prefix;
+
+  S3Bucket({
+    required this.bucketName,
+    this.prefix,
+  });
+
+  factory S3Bucket.fromJson(Map<String, dynamic> json) {
+    return S3Bucket(
+      bucketName: (json['bucketName'] as String?) ?? '',
+      prefix: json['prefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final prefix = this.prefix;
+    return {
+      'bucketName': bucketName,
+      if (prefix != null) 'prefix': prefix,
+    };
+  }
+}
+
+/// Contains information about an Amazon Kinesis Data Firehose delivery stream.
+class FirehoseStream {
+  /// The name of the Amazon Kinesis Data Firehose delivery stream.
+  final String streamName;
+
+  FirehoseStream({
+    required this.streamName,
+  });
+
+  factory FirehoseStream.fromJson(Map<String, dynamic> json) {
+    return FirehoseStream(
+      streamName: (json['streamName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final streamName = this.streamName;
+    return {
+      'streamName': streamName,
+    };
+  }
+}
+
+/// Contains information about an audit log processing configuration.
+class AuditLogProcessingConfiguration {
+  /// The format in which the audit logs need to be formatted.
+  final Format format;
+
+  /// The event schema in which the audit logs need to be formatted.
+  final Schema schema;
+
+  AuditLogProcessingConfiguration({
+    required this.format,
+    required this.schema,
+  });
+
+  factory AuditLogProcessingConfiguration.fromJson(Map<String, dynamic> json) {
+    return AuditLogProcessingConfiguration(
+      format: Format.fromString((json['format'] as String?) ?? ''),
+      schema: Schema.fromString((json['schema'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final format = this.format;
+    final schema = this.schema;
+    return {
+      'format': format.value,
+      'schema': schema.value,
+    };
+  }
+}
+
+class Schema {
+  static const ocsf = Schema._('ocsf');
+  static const raw = Schema._('raw');
+
+  final String value;
+
+  const Schema._(this.value);
+
+  static const values = [ocsf, raw];
+
+  static Schema fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Schema._(value));
+
+  @override
+  bool operator ==(other) => other is Schema && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class Format {
+  static const json = Format._('json');
+  static const parquet = Format._('parquet');
+
+  final String value;
+
+  const Format._(this.value);
+
+  static const values = [json, parquet];
+
+  static Format fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Format._(value));
+
+  @override
+  bool operator ==(other) => other is Format && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about an app authorization.
+class AppAuthorization {
+  /// The name of the application.
+  final String app;
+
+  /// The Amazon Resource Name (ARN) of the app authorization.
+  final String appAuthorizationArn;
+
+  /// The Amazon Resource Name (ARN) of the app bundle for the app authorization.
+  final String appBundleArn;
+
+  /// The authorization type.
+  final AuthType authType;
+
+  /// The timestamp of when the app authorization was created.
+  final DateTime createdAt;
+
+  /// The state of the app authorization.
+  ///
+  /// The following states are possible:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PendingConnect</code>: The initial state of the app authorization. The
+  /// app authorization is created but not yet connected.
+  /// </li>
+  /// <li>
+  /// <code>Connected</code>: The app authorization is connected to the
+  /// application, and is ready to be used.
+  /// </li>
+  /// <li>
+  /// <code>ConnectionValidationFailed</code>: The app authorization received a
+  /// validation exception when trying to connect to the application. If the app
+  /// authorization is in this state, you should verify the configured credentials
+  /// and try to connect the app authorization again.
+  /// </li>
+  /// <li>
+  /// <code>TokenAutoRotationFailed</code>: AppFabric failed to refresh the access
+  /// token. If the app authorization is in this state, you should try to
+  /// reconnect the app authorization.
+  /// </li>
+  /// </ul>
+  final AppAuthorizationStatus status;
+
+  /// Contains information about an application tenant, such as the application
+  /// display name and identifier.
+  final Tenant tenant;
+
+  /// The timestamp of when the app authorization was last updated.
+  final DateTime updatedAt;
+
+  /// The application URL for the OAuth flow.
+  final String? authUrl;
+
+  /// The user persona of the app authorization.
+  ///
+  /// This field should always be <code>admin</code>.
+  final Persona? persona;
+
+  AppAuthorization({
+    required this.app,
+    required this.appAuthorizationArn,
+    required this.appBundleArn,
+    required this.authType,
+    required this.createdAt,
+    required this.status,
+    required this.tenant,
+    required this.updatedAt,
+    this.authUrl,
+    this.persona,
+  });
+
+  factory AppAuthorization.fromJson(Map<String, dynamic> json) {
+    return AppAuthorization(
+      app: (json['app'] as String?) ?? '',
+      appAuthorizationArn: (json['appAuthorizationArn'] as String?) ?? '',
+      appBundleArn: (json['appBundleArn'] as String?) ?? '',
+      authType: AuthType.fromString((json['authType'] as String?) ?? ''),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      status:
+          AppAuthorizationStatus.fromString((json['status'] as String?) ?? ''),
+      tenant: Tenant.fromJson((json['tenant'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      authUrl: json['authUrl'] as String?,
+      persona: (json['persona'] as String?)?.let(Persona.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final app = this.app;
+    final appAuthorizationArn = this.appAuthorizationArn;
+    final appBundleArn = this.appBundleArn;
+    final authType = this.authType;
+    final createdAt = this.createdAt;
+    final status = this.status;
+    final tenant = this.tenant;
+    final updatedAt = this.updatedAt;
+    final authUrl = this.authUrl;
+    final persona = this.persona;
+    return {
+      'app': app,
+      'appAuthorizationArn': appAuthorizationArn,
+      'appBundleArn': appBundleArn,
+      'authType': authType.value,
+      'createdAt': iso8601ToJson(createdAt),
+      'status': status.value,
+      'tenant': tenant,
+      'updatedAt': iso8601ToJson(updatedAt),
+      if (authUrl != null) 'authUrl': authUrl,
+      if (persona != null) 'persona': persona.value,
+    };
+  }
+}
+
+/// Contains information about an application tenant.
+class Tenant {
+  /// The display name of the tenant.
+  final String tenantDisplayName;
+
+  /// The ID of the application tenant.
+  final String tenantIdentifier;
+
+  Tenant({
+    required this.tenantDisplayName,
+    required this.tenantIdentifier,
+  });
+
+  factory Tenant.fromJson(Map<String, dynamic> json) {
+    return Tenant(
+      tenantDisplayName: (json['tenantDisplayName'] as String?) ?? '',
+      tenantIdentifier: (json['tenantIdentifier'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tenantDisplayName = this.tenantDisplayName;
+    final tenantIdentifier = this.tenantIdentifier;
+    return {
+      'tenantDisplayName': tenantDisplayName,
+      'tenantIdentifier': tenantIdentifier,
+    };
+  }
+}
+
+class AuthType {
+  static const oauth2 = AuthType._('oauth2');
+  static const apiKey = AuthType._('apiKey');
+
+  final String value;
+
+  const AuthType._(this.value);
+
+  static const values = [oauth2, apiKey];
+
+  static AuthType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AuthType._(value));
+
+  @override
+  bool operator ==(other) => other is AuthType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AppAuthorizationStatus {
+  static const pendingConnect = AppAuthorizationStatus._('PendingConnect');
+  static const connected = AppAuthorizationStatus._('Connected');
+  static const connectionValidationFailed =
+      AppAuthorizationStatus._('ConnectionValidationFailed');
+  static const tokenAutoRotationFailed =
+      AppAuthorizationStatus._('TokenAutoRotationFailed');
+
+  final String value;
+
+  const AppAuthorizationStatus._(this.value);
+
+  static const values = [
+    pendingConnect,
+    connected,
+    connectionValidationFailed,
+    tokenAutoRotationFailed
+  ];
+
+  static AppAuthorizationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AppAuthorizationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AppAuthorizationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class Persona {
+  static const admin = Persona._('admin');
+  static const endUser = Persona._('endUser');
+
+  final String value;
+
+  const Persona._(this.value);
+
+  static const values = [admin, endUser];
+
+  static Persona fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Persona._(value));
+
+  @override
+  bool operator ==(other) => other is Persona && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains credential information for an application.
+class Credential {
+  /// Contains API key credential information.
+  final ApiKeyCredential? apiKeyCredential;
+
+  /// Contains OAuth2 client credential information.
+  final Oauth2Credential? oauth2Credential;
+
+  Credential({
+    this.apiKeyCredential,
+    this.oauth2Credential,
+  });
+
+  Map<String, dynamic> toJson() {
+    final apiKeyCredential = this.apiKeyCredential;
+    final oauth2Credential = this.oauth2Credential;
+    return {
+      if (apiKeyCredential != null) 'apiKeyCredential': apiKeyCredential,
+      if (oauth2Credential != null) 'oauth2Credential': oauth2Credential,
+    };
+  }
+}
+
+/// Contains OAuth2 client credential information.
+class Oauth2Credential {
+  /// The client ID of the client application.
+  final String clientId;
+
+  /// The client secret of the client application.
+  final String clientSecret;
+
+  Oauth2Credential({
+    required this.clientId,
+    required this.clientSecret,
+  });
+
+  Map<String, dynamic> toJson() {
+    final clientId = this.clientId;
+    final clientSecret = this.clientSecret;
+    return {
+      'clientId': clientId,
+      'clientSecret': clientSecret,
+    };
+  }
+}
+
+/// Contains API key credential information.
+class ApiKeyCredential {
+  /// An API key for an application.
+  final String apiKey;
+
+  ApiKeyCredential({
+    required this.apiKey,
+  });
+
+  Map<String, dynamic> toJson() {
+    final apiKey = this.apiKey;
+    return {
+      'apiKey': apiKey,
+    };
+  }
+}
+
+/// The key or keys of the key-value pairs for the tag or tags assigned to a
+/// resource.
+class Tag {
+  /// Tag key.
+  final String key;
+
+  /// Tag value.
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['key'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key,
+      'value': value,
+    };
+  }
+}
+
+/// Contains information about a user access task.
+class UserAccessTaskItem {
+  /// The name of the application.
+  final String app;
+
+  /// The ID of the application tenant.
+  final String tenantId;
+
+  /// Error from the task, if any.
+  final TaskError? error;
+
+  /// The unique ID of the task.
+  final String? taskId;
+
+  UserAccessTaskItem({
+    required this.app,
+    required this.tenantId,
+    this.error,
+    this.taskId,
+  });
+
+  factory UserAccessTaskItem.fromJson(Map<String, dynamic> json) {
+    return UserAccessTaskItem(
+      app: (json['app'] as String?) ?? '',
+      tenantId: (json['tenantId'] as String?) ?? '',
+      error: json['error'] != null
+          ? TaskError.fromJson(json['error'] as Map<String, dynamic>)
+          : null,
+      taskId: json['taskId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final app = this.app;
+    final tenantId = this.tenantId;
+    final error = this.error;
+    final taskId = this.taskId;
+    return {
+      'app': app,
+      'tenantId': tenantId,
+      if (error != null) 'error': error,
+      if (taskId != null) 'taskId': taskId,
+    };
+  }
+}
+
+/// Contains information about an error returned from a user access task.
+class TaskError {
+  /// The code of the error.
+  final String? errorCode;
+
+  /// The message of the error.
+  final String? errorMessage;
+
+  TaskError({
+    this.errorCode,
+    this.errorMessage,
+  });
+
+  factory TaskError.fromJson(Map<String, dynamic> json) {
+    return TaskError(
+      errorCode: json['errorCode'] as String?,
+      errorMessage: json['errorMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    return {
+      if (errorCode != null) 'errorCode': errorCode,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+    };
+  }
+}
+
+/// Contains a summary of an ingestion.
+class IngestionSummary {
+  /// The name of the application.
+  final String app;
+
+  /// The Amazon Resource Name (ARN) of the ingestion.
+  final String arn;
+
+  /// The status of the ingestion.
+  final IngestionState state;
+
+  /// The ID of the application tenant.
+  final String tenantId;
+
+  IngestionSummary({
+    required this.app,
+    required this.arn,
+    required this.state,
+    required this.tenantId,
+  });
+
+  factory IngestionSummary.fromJson(Map<String, dynamic> json) {
+    return IngestionSummary(
+      app: (json['app'] as String?) ?? '',
+      arn: (json['arn'] as String?) ?? '',
+      state: IngestionState.fromString((json['state'] as String?) ?? ''),
+      tenantId: (json['tenantId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final app = this.app;
+    final arn = this.arn;
+    final state = this.state;
+    final tenantId = this.tenantId;
+    return {
+      'app': app,
+      'arn': arn,
+      'state': state.value,
+      'tenantId': tenantId,
+    };
+  }
+}
+
+class IngestionState {
+  static const enabled = IngestionState._('enabled');
+  static const disabled = IngestionState._('disabled');
+
+  final String value;
+
+  const IngestionState._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static IngestionState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IngestionState._(value));
+
+  @override
+  bool operator ==(other) => other is IngestionState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains a summary of an ingestion destination.
+class IngestionDestinationSummary {
+  /// The Amazon Resource Name (ARN) of the ingestion destination.
+  final String arn;
+
+  IngestionDestinationSummary({
+    required this.arn,
+  });
+
+  factory IngestionDestinationSummary.fromJson(Map<String, dynamic> json) {
+    return IngestionDestinationSummary(
+      arn: (json['arn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
+      'arn': arn,
+    };
+  }
+}
+
+/// Contains a summary of an app bundle.
+class AppBundleSummary {
+  /// The Amazon Resource Name (ARN) of the app bundle.
+  final String arn;
+
+  AppBundleSummary({
+    required this.arn,
+  });
+
+  factory AppBundleSummary.fromJson(Map<String, dynamic> json) {
+    return AppBundleSummary(
+      arn: (json['arn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
+      'arn': arn,
+    };
+  }
+}
+
+/// Contains a summary of an app authorization.
+class AppAuthorizationSummary {
+  /// The name of the application.
+  final String app;
+
+  /// The Amazon Resource Name (ARN) of the app authorization.
+  final String appAuthorizationArn;
+
+  /// The Amazon Resource Name (ARN) of the app bundle for the app authorization.
+  final String appBundleArn;
+
+  /// The state of the app authorization.
+  ///
+  /// The following states are possible:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PendingConnect</code>: The initial state of the app authorization. The
+  /// app authorization is created but not yet connected.
+  /// </li>
+  /// <li>
+  /// <code>Connected</code>: The app authorization is connected to the
+  /// application, and is ready to be used.
+  /// </li>
+  /// <li>
+  /// <code>ConnectionValidationFailed</code>: The app authorization received a
+  /// validation exception when trying to connect to the application. If the app
+  /// authorization is in this state, you should verify the configured credentials
+  /// and try to connect the app authorization again.
+  /// </li>
+  /// <li>
+  /// <code>TokenAutoRotationFailed</code>: AppFabric failed to refresh the access
+  /// token. If the app authorization is in this state, you should try to
+  /// reconnect the app authorization.
+  /// </li>
+  /// </ul>
+  final AppAuthorizationStatus status;
+
+  /// Contains information about an application tenant, such as the application
+  /// display name and identifier.
+  final Tenant tenant;
+
+  /// Timestamp for when the app authorization was last updated.
+  final DateTime updatedAt;
+
+  AppAuthorizationSummary({
+    required this.app,
+    required this.appAuthorizationArn,
+    required this.appBundleArn,
+    required this.status,
+    required this.tenant,
+    required this.updatedAt,
+  });
+
+  factory AppAuthorizationSummary.fromJson(Map<String, dynamic> json) {
+    return AppAuthorizationSummary(
+      app: (json['app'] as String?) ?? '',
+      appAuthorizationArn: (json['appAuthorizationArn'] as String?) ?? '',
+      appBundleArn: (json['appBundleArn'] as String?) ?? '',
+      status:
+          AppAuthorizationStatus.fromString((json['status'] as String?) ?? ''),
+      tenant: Tenant.fromJson((json['tenant'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final app = this.app;
+    final appAuthorizationArn = this.appAuthorizationArn;
+    final appBundleArn = this.appBundleArn;
+    final status = this.status;
+    final tenant = this.tenant;
+    final updatedAt = this.updatedAt;
+    return {
+      'app': app,
+      'appAuthorizationArn': appAuthorizationArn,
+      'appBundleArn': appBundleArn,
+      'status': status.value,
+      'tenant': tenant,
+      'updatedAt': iso8601ToJson(updatedAt),
+    };
+  }
+}
+
+/// Contains information about an ingestion.
+class Ingestion {
+  /// The name of the application.
+  final String app;
+
+  /// The Amazon Resource Name (ARN) of the app bundle for the ingestion.
+  final String appBundleArn;
+
+  /// The Amazon Resource Name (ARN) of the ingestion.
+  final String arn;
+
+  /// The timestamp of when the ingestion was created.
+  final DateTime createdAt;
+
+  /// The type of the ingestion.
+  final IngestionType ingestionType;
+
+  /// The status of the ingestion.
+  final IngestionState state;
+
+  /// The ID of the application tenant.
+  final String tenantId;
+
+  /// The timestamp of when the ingestion was last updated.
+  final DateTime updatedAt;
+
+  Ingestion({
+    required this.app,
+    required this.appBundleArn,
+    required this.arn,
+    required this.createdAt,
+    required this.ingestionType,
+    required this.state,
+    required this.tenantId,
+    required this.updatedAt,
+  });
+
+  factory Ingestion.fromJson(Map<String, dynamic> json) {
+    return Ingestion(
+      app: (json['app'] as String?) ?? '',
+      appBundleArn: (json['appBundleArn'] as String?) ?? '',
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      ingestionType:
+          IngestionType.fromString((json['ingestionType'] as String?) ?? ''),
+      state: IngestionState.fromString((json['state'] as String?) ?? ''),
+      tenantId: (json['tenantId'] as String?) ?? '',
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final app = this.app;
+    final appBundleArn = this.appBundleArn;
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final ingestionType = this.ingestionType;
+    final state = this.state;
+    final tenantId = this.tenantId;
+    final updatedAt = this.updatedAt;
+    return {
+      'app': app,
+      'appBundleArn': appBundleArn,
+      'arn': arn,
+      'createdAt': iso8601ToJson(createdAt),
+      'ingestionType': ingestionType.value,
+      'state': state.value,
+      'tenantId': tenantId,
+      'updatedAt': iso8601ToJson(updatedAt),
+    };
+  }
+}
+
+class IngestionType {
+  static const auditLog = IngestionType._('auditLog');
+
+  final String value;
+
+  const IngestionType._(this.value);
+
+  static const values = [auditLog];
+
+  static IngestionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IngestionType._(value));
+
+  @override
+  bool operator ==(other) => other is IngestionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about an app bundle.
+class AppBundle {
+  /// The Amazon Resource Name (ARN) of the app bundle.
+  final String arn;
+
+  /// The Amazon Resource Name (ARN) of the Key Management Service (KMS) key used
+  /// to encrypt the application data.
+  final String? customerManagedKeyArn;
+
+  AppBundle({
+    required this.arn,
+    this.customerManagedKeyArn,
+  });
+
+  factory AppBundle.fromJson(Map<String, dynamic> json) {
+    return AppBundle(
+      arn: (json['arn'] as String?) ?? '',
+      customerManagedKeyArn: json['customerManagedKeyArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final customerManagedKeyArn = this.customerManagedKeyArn;
+    return {
+      'arn': arn,
+      if (customerManagedKeyArn != null)
+        'customerManagedKeyArn': customerManagedKeyArn,
+    };
+  }
+}
+
+/// Contains authorization request information, which is required for Amazon Web
+/// Services AppFabric to get the OAuth2 access token for an application.
+class AuthRequest {
+  /// The authorization code returned by the application after permission is
+  /// granted in the application OAuth page (after clicking on the AuthURL).
+  final String code;
+
+  /// The redirect URL that is specified in the AuthURL and the application
+  /// client.
+  final String redirectUri;
+
+  AuthRequest({
+    required this.code,
+    required this.redirectUri,
+  });
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final redirectUri = this.redirectUri;
+    return {
+      'code': code,
+      'redirectUri': redirectUri,
     };
   }
 }
@@ -2997,50 +3017,29 @@ class UserAccessResultItem {
   }
 }
 
-/// Contains information about a user access task.
-class UserAccessTaskItem {
-  /// The name of the application.
-  final String app;
+class ResultStatus {
+  static const inProgress = ResultStatus._('IN_PROGRESS');
+  static const completed = ResultStatus._('COMPLETED');
+  static const failed = ResultStatus._('FAILED');
+  static const expired = ResultStatus._('EXPIRED');
 
-  /// The ID of the application tenant.
-  final String tenantId;
+  final String value;
 
-  /// Error from the task, if any.
-  final TaskError? error;
+  const ResultStatus._(this.value);
 
-  /// The unique ID of the task.
-  final String? taskId;
+  static const values = [inProgress, completed, failed, expired];
 
-  UserAccessTaskItem({
-    required this.app,
-    required this.tenantId,
-    this.error,
-    this.taskId,
-  });
+  static ResultStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ResultStatus._(value));
 
-  factory UserAccessTaskItem.fromJson(Map<String, dynamic> json) {
-    return UserAccessTaskItem(
-      app: (json['app'] as String?) ?? '',
-      tenantId: (json['tenantId'] as String?) ?? '',
-      error: json['error'] != null
-          ? TaskError.fromJson(json['error'] as Map<String, dynamic>)
-          : null,
-      taskId: json['taskId'] as String?,
-    );
-  }
+  @override
+  bool operator ==(other) => other is ResultStatus && other.value == value;
 
-  Map<String, dynamic> toJson() {
-    final app = this.app;
-    final tenantId = this.tenantId;
-    final error = this.error;
-    final taskId = this.taskId;
-    return {
-      'app': app,
-      'tenantId': tenantId,
-      if (error != null) 'error': error,
-      if (taskId != null) 'taskId': taskId,
-    };
-  }
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

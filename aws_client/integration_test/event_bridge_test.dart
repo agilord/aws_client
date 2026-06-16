@@ -1,5 +1,5 @@
-import 'package:aws_client/event_bridge_2015_10_07.dart';
-import 'package:aws_client/sns_2010_03_31.dart' show Sns;
+import 'package:aws_client/event_bridge.dart';
+import 'package:aws_client/sns.dart' show Sns;
 import 'package:test/test.dart';
 
 import 'harness.dart';

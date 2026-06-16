@@ -59,15 +59,34 @@ class SageMakerMetrics {
     _protocol.close();
   }
 
+  /// Used to retrieve training metrics from SageMaker.
+  ///
+  /// Parameter [metricQueries] :
+  /// Queries made to retrieve training metrics from SageMaker.
+  Future<BatchGetMetricsResponse> batchGetMetrics({
+    required List<MetricQuery> metricQueries,
+  }) async {
+    final $payload = <String, dynamic>{
+      'MetricQueries': metricQueries,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/BatchGetMetrics',
+      exceptionFnMap: _exceptionFns,
+    );
+    return BatchGetMetricsResponse.fromJson(response);
+  }
+
   /// Used to ingest training metrics into SageMaker. These metrics can be
-  /// visualized in SageMaker Studio and retrieved with the
-  /// <code>GetMetrics</code> API.
+  /// visualized in SageMaker Studio.
   ///
   /// Parameter [metricData] :
   /// A list of raw metric values to put.
   ///
   /// Parameter [trialComponentName] :
-  /// The name of the Trial Component to associate with the metrics.
+  /// The name of the Trial Component to associate with the metrics. The Trial
+  /// Component name must be entirely lowercase.
   Future<BatchPutMetricsResponse> batchPutMetrics({
     required List<RawMetricData> metricData,
     required String trialComponentName,
@@ -83,6 +102,56 @@ class SageMakerMetrics {
       exceptionFnMap: _exceptionFns,
     );
     return BatchPutMetricsResponse.fromJson(response);
+  }
+}
+
+class BatchGetMetricsResponse {
+  /// The results of a query to retrieve training metrics from SageMaker.
+  final List<MetricQueryResult>? metricQueryResults;
+
+  BatchGetMetricsResponse({
+    this.metricQueryResults,
+  });
+
+  factory BatchGetMetricsResponse.fromJson(Map<String, dynamic> json) {
+    return BatchGetMetricsResponse(
+      metricQueryResults: (json['MetricQueryResults'] as List?)
+          ?.nonNulls
+          .map((e) => MetricQueryResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricQueryResults = this.metricQueryResults;
+    return {
+      if (metricQueryResults != null) 'MetricQueryResults': metricQueryResults,
+    };
+  }
+}
+
+class BatchPutMetricsResponse {
+  /// Lists any errors that occur when inserting metric data.
+  final List<BatchPutMetricsError>? errors;
+
+  BatchPutMetricsResponse({
+    this.errors,
+  });
+
+  factory BatchPutMetricsResponse.fromJson(Map<String, dynamic> json) {
+    return BatchPutMetricsResponse(
+      errors: (json['Errors'] as List?)
+          ?.nonNulls
+          .map((e) => BatchPutMetricsError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errors = this.errors;
+    return {
+      if (errors != null) 'Errors': errors,
+    };
   }
 }
 
@@ -129,31 +198,6 @@ class BatchPutMetricsError {
     return {
       if (code != null) 'Code': code.value,
       if (metricIndex != null) 'MetricIndex': metricIndex,
-    };
-  }
-}
-
-class BatchPutMetricsResponse {
-  /// Lists any errors that occur when inserting metric data.
-  final List<BatchPutMetricsError>? errors;
-
-  BatchPutMetricsResponse({
-    this.errors,
-  });
-
-  factory BatchPutMetricsResponse.fromJson(Map<String, dynamic> json) {
-    return BatchPutMetricsResponse(
-      errors: (json['Errors'] as List?)
-          ?.nonNulls
-          .map((e) => BatchPutMetricsError.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errors = this.errors;
-    return {
-      if (errors != null) 'Errors': errors,
     };
   }
 }
@@ -224,6 +268,213 @@ class RawMetricData {
       if (step != null) 'Step': step,
     };
   }
+}
+
+/// The result of a query to retrieve training metrics from SageMaker.
+class MetricQueryResult {
+  /// The metric values retrieved by the query.
+  final List<double> metricValues;
+
+  /// The status of the metric query.
+  final MetricQueryResultStatus status;
+
+  /// The values for the x-axis of the metrics.
+  final List<int> xAxisValues;
+
+  /// A message describing the status of the metric query.
+  final String? message;
+
+  MetricQueryResult({
+    required this.metricValues,
+    required this.status,
+    required this.xAxisValues,
+    this.message,
+  });
+
+  factory MetricQueryResult.fromJson(Map<String, dynamic> json) {
+    return MetricQueryResult(
+      metricValues: ((json['MetricValues'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as double)
+          .toList(),
+      status:
+          MetricQueryResultStatus.fromString((json['Status'] as String?) ?? ''),
+      xAxisValues: ((json['XAxisValues'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as int)
+          .toList(),
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricValues = this.metricValues;
+    final status = this.status;
+    final xAxisValues = this.xAxisValues;
+    final message = this.message;
+    return {
+      'MetricValues': metricValues,
+      'Status': status.value,
+      'XAxisValues': xAxisValues,
+      if (message != null) 'Message': message,
+    };
+  }
+}
+
+class MetricQueryResultStatus {
+  static const complete = MetricQueryResultStatus._('Complete');
+  static const truncated = MetricQueryResultStatus._('Truncated');
+  static const internalError = MetricQueryResultStatus._('InternalError');
+  static const validationError = MetricQueryResultStatus._('ValidationError');
+
+  final String value;
+
+  const MetricQueryResultStatus._(this.value);
+
+  static const values = [complete, truncated, internalError, validationError];
+
+  static MetricQueryResultStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MetricQueryResultStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MetricQueryResultStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Specifies a query to retrieve training metrics from SageMaker.
+class MetricQuery {
+  /// The name of the metric to retrieve.
+  final String metricName;
+
+  /// The metrics stat type of metrics to retrieve.
+  final MetricStatistic metricStat;
+
+  /// The time period of metrics to retrieve.
+  final Period period;
+
+  /// The ARN of the SageMaker resource to retrieve metrics for.
+  final String resourceArn;
+
+  /// The x-axis type of metrics to retrieve.
+  final XAxisType xAxisType;
+
+  /// The end time of metrics to retrieve.
+  final int? end;
+
+  /// The start time of metrics to retrieve.
+  final int? start;
+
+  MetricQuery({
+    required this.metricName,
+    required this.metricStat,
+    required this.period,
+    required this.resourceArn,
+    required this.xAxisType,
+    this.end,
+    this.start,
+  });
+
+  Map<String, dynamic> toJson() {
+    final metricName = this.metricName;
+    final metricStat = this.metricStat;
+    final period = this.period;
+    final resourceArn = this.resourceArn;
+    final xAxisType = this.xAxisType;
+    final end = this.end;
+    final start = this.start;
+    return {
+      'MetricName': metricName,
+      'MetricStat': metricStat.value,
+      'Period': period.value,
+      'ResourceArn': resourceArn,
+      'XAxisType': xAxisType.value,
+      if (end != null) 'End': end,
+      if (start != null) 'Start': start,
+    };
+  }
+}
+
+class MetricStatistic {
+  static const min = MetricStatistic._('Min');
+  static const max = MetricStatistic._('Max');
+  static const avg = MetricStatistic._('Avg');
+  static const count = MetricStatistic._('Count');
+  static const stdDev = MetricStatistic._('StdDev');
+  static const last = MetricStatistic._('Last');
+
+  final String value;
+
+  const MetricStatistic._(this.value);
+
+  static const values = [min, max, avg, count, stdDev, last];
+
+  static MetricStatistic fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MetricStatistic._(value));
+
+  @override
+  bool operator ==(other) => other is MetricStatistic && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class Period {
+  static const oneMinute = Period._('OneMinute');
+  static const fiveMinute = Period._('FiveMinute');
+  static const oneHour = Period._('OneHour');
+  static const iterationNumber = Period._('IterationNumber');
+
+  final String value;
+
+  const Period._(this.value);
+
+  static const values = [oneMinute, fiveMinute, oneHour, iterationNumber];
+
+  static Period fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Period._(value));
+
+  @override
+  bool operator ==(other) => other is Period && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class XAxisType {
+  static const iterationNumber = XAxisType._('IterationNumber');
+  static const timestamp = XAxisType._('Timestamp');
+
+  final String value;
+
+  const XAxisType._(this.value);
+
+  static const values = [iterationNumber, timestamp];
+
+  static XAxisType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => XAxisType._(value));
+
+  @override
+  bool operator ==(other) => other is XAxisType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

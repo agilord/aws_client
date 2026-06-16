@@ -48,7 +48,6 @@ class AmplifyUIBuilder {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'amplifyuibuilder',
-            signingName: 'amplifyuibuilder',
           ),
           region: region,
           credentials: credentials,
@@ -63,213 +62,6 @@ class AmplifyUIBuilder {
   /// do so can cause the Dart process to hang.
   void close() {
     _protocol.close();
-  }
-
-  /// Creates a new component for an Amplify app.
-  ///
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceConflictException].
-  /// May throw [InternalServerException].
-  /// May throw [InvalidParameterException].
-  ///
-  /// Parameter [appId] :
-  /// The unique ID of the Amplify app to associate with the component.
-  ///
-  /// Parameter [componentToCreate] :
-  /// Represents the configuration of the component to create.
-  ///
-  /// Parameter [environmentName] :
-  /// The name of the backend environment that is a part of the Amplify app.
-  ///
-  /// Parameter [clientToken] :
-  /// The unique client token.
-  Future<CreateComponentResponse> createComponent({
-    required String appId,
-    required CreateComponentData componentToCreate,
-    required String environmentName,
-    String? clientToken,
-  }) async {
-    final $query = <String, List<String>>{
-      if (clientToken != null) 'clientToken': [clientToken],
-    };
-    final response = await _protocol.sendRaw(
-      payload: componentToCreate,
-      method: 'POST',
-      requestUri:
-          '/app/${Uri.encodeComponent(appId)}/environment/${Uri.encodeComponent(environmentName)}/components',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    final $json = await _s.jsonFromResponse(response);
-    return CreateComponentResponse(
-      entity: Component.fromJson($json),
-    );
-  }
-
-  /// Creates a new form for an Amplify app.
-  ///
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceConflictException].
-  /// May throw [InternalServerException].
-  /// May throw [InvalidParameterException].
-  ///
-  /// Parameter [appId] :
-  /// The unique ID of the Amplify app to associate with the form.
-  ///
-  /// Parameter [environmentName] :
-  /// The name of the backend environment that is a part of the Amplify app.
-  ///
-  /// Parameter [formToCreate] :
-  /// Represents the configuration of the form to create.
-  ///
-  /// Parameter [clientToken] :
-  /// The unique client token.
-  Future<CreateFormResponse> createForm({
-    required String appId,
-    required String environmentName,
-    required CreateFormData formToCreate,
-    String? clientToken,
-  }) async {
-    final $query = <String, List<String>>{
-      if (clientToken != null) 'clientToken': [clientToken],
-    };
-    final response = await _protocol.sendRaw(
-      payload: formToCreate,
-      method: 'POST',
-      requestUri:
-          '/app/${Uri.encodeComponent(appId)}/environment/${Uri.encodeComponent(environmentName)}/forms',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    final $json = await _s.jsonFromResponse(response);
-    return CreateFormResponse(
-      entity: Form.fromJson($json),
-    );
-  }
-
-  /// Creates a theme to apply to the components in an Amplify app.
-  ///
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ResourceConflictException].
-  /// May throw [InternalServerException].
-  /// May throw [InvalidParameterException].
-  ///
-  /// Parameter [appId] :
-  /// The unique ID of the Amplify app associated with the theme.
-  ///
-  /// Parameter [environmentName] :
-  /// The name of the backend environment that is a part of the Amplify app.
-  ///
-  /// Parameter [themeToCreate] :
-  /// Represents the configuration of the theme to create.
-  ///
-  /// Parameter [clientToken] :
-  /// The unique client token.
-  Future<CreateThemeResponse> createTheme({
-    required String appId,
-    required String environmentName,
-    required CreateThemeData themeToCreate,
-    String? clientToken,
-  }) async {
-    final $query = <String, List<String>>{
-      if (clientToken != null) 'clientToken': [clientToken],
-    };
-    final response = await _protocol.sendRaw(
-      payload: themeToCreate,
-      method: 'POST',
-      requestUri:
-          '/app/${Uri.encodeComponent(appId)}/environment/${Uri.encodeComponent(environmentName)}/themes',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    final $json = await _s.jsonFromResponse(response);
-    return CreateThemeResponse(
-      entity: Theme.fromJson($json),
-    );
-  }
-
-  /// Deletes a component from an Amplify app.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [appId] :
-  /// The unique ID of the Amplify app associated with the component to delete.
-  ///
-  /// Parameter [environmentName] :
-  /// The name of the backend environment that is a part of the Amplify app.
-  ///
-  /// Parameter [id] :
-  /// The unique ID of the component to delete.
-  Future<void> deleteComponent({
-    required String appId,
-    required String environmentName,
-    required String id,
-  }) async {
-    await _protocol.send(
-      payload: null,
-      method: 'DELETE',
-      requestUri:
-          '/app/${Uri.encodeComponent(appId)}/environment/${Uri.encodeComponent(environmentName)}/components/${Uri.encodeComponent(id)}',
-      exceptionFnMap: _exceptionFns,
-    );
-  }
-
-  /// Deletes a form from an Amplify app.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [appId] :
-  /// The unique ID of the Amplify app associated with the form to delete.
-  ///
-  /// Parameter [environmentName] :
-  /// The name of the backend environment that is a part of the Amplify app.
-  ///
-  /// Parameter [id] :
-  /// The unique ID of the form to delete.
-  Future<void> deleteForm({
-    required String appId,
-    required String environmentName,
-    required String id,
-  }) async {
-    await _protocol.send(
-      payload: null,
-      method: 'DELETE',
-      requestUri:
-          '/app/${Uri.encodeComponent(appId)}/environment/${Uri.encodeComponent(environmentName)}/forms/${Uri.encodeComponent(id)}',
-      exceptionFnMap: _exceptionFns,
-    );
-  }
-
-  /// Deletes a theme from an Amplify app.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [appId] :
-  /// The unique ID of the Amplify app associated with the theme to delete.
-  ///
-  /// Parameter [environmentName] :
-  /// The name of the backend environment that is a part of the Amplify app.
-  ///
-  /// Parameter [id] :
-  /// The unique ID of the theme to delete.
-  Future<void> deleteTheme({
-    required String appId,
-    required String environmentName,
-    required String id,
-  }) async {
-    await _protocol.send(
-      payload: null,
-      method: 'DELETE',
-      requestUri:
-          '/app/${Uri.encodeComponent(appId)}/environment/${Uri.encodeComponent(environmentName)}/themes/${Uri.encodeComponent(id)}',
-      exceptionFnMap: _exceptionFns,
-    );
   }
 
   /// <note>
@@ -298,207 +90,10 @@ class AmplifyUIBuilder {
     return ExchangeCodeForTokenResponse.fromJson(response);
   }
 
-  /// Exports component configurations to code that is ready to integrate into
-  /// an Amplify app.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [InvalidParameterException].
-  ///
-  /// Parameter [appId] :
-  /// The unique ID of the Amplify app to export components to.
-  ///
-  /// Parameter [environmentName] :
-  /// The name of the backend environment that is a part of the Amplify app.
-  ///
-  /// Parameter [nextToken] :
-  /// The token to request the next page of results.
-  Future<ExportComponentsResponse> exportComponents({
-    required String appId,
-    required String environmentName,
-    String? nextToken,
-  }) async {
-    final $query = <String, List<String>>{
-      if (nextToken != null) 'nextToken': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri:
-          '/export/app/${Uri.encodeComponent(appId)}/environment/${Uri.encodeComponent(environmentName)}/components',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ExportComponentsResponse.fromJson(response);
-  }
-
-  /// Exports form configurations to code that is ready to integrate into an
-  /// Amplify app.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [InvalidParameterException].
-  ///
-  /// Parameter [appId] :
-  /// The unique ID of the Amplify app to export forms to.
-  ///
-  /// Parameter [environmentName] :
-  /// The name of the backend environment that is a part of the Amplify app.
-  ///
-  /// Parameter [nextToken] :
-  /// The token to request the next page of results.
-  Future<ExportFormsResponse> exportForms({
-    required String appId,
-    required String environmentName,
-    String? nextToken,
-  }) async {
-    final $query = <String, List<String>>{
-      if (nextToken != null) 'nextToken': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri:
-          '/export/app/${Uri.encodeComponent(appId)}/environment/${Uri.encodeComponent(environmentName)}/forms',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ExportFormsResponse.fromJson(response);
-  }
-
-  /// Exports theme configurations to code that is ready to integrate into an
-  /// Amplify app.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [InvalidParameterException].
-  ///
-  /// Parameter [appId] :
-  /// The unique ID of the Amplify app to export the themes to.
-  ///
-  /// Parameter [environmentName] :
-  /// The name of the backend environment that is part of the Amplify app.
-  ///
-  /// Parameter [nextToken] :
-  /// The token to request the next page of results.
-  Future<ExportThemesResponse> exportThemes({
-    required String appId,
-    required String environmentName,
-    String? nextToken,
-  }) async {
-    final $query = <String, List<String>>{
-      if (nextToken != null) 'nextToken': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri:
-          '/export/app/${Uri.encodeComponent(appId)}/environment/${Uri.encodeComponent(environmentName)}/themes',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ExportThemesResponse.fromJson(response);
-  }
-
-  /// Returns an existing code generation job.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [appId] :
-  /// The unique ID of the Amplify app associated with the code generation job.
-  ///
-  /// Parameter [environmentName] :
-  /// The name of the backend environment that is a part of the Amplify app
-  /// associated with the code generation job.
-  ///
-  /// Parameter [id] :
-  /// The unique ID of the code generation job.
-  Future<GetCodegenJobResponse> getCodegenJob({
-    required String appId,
-    required String environmentName,
-    required String id,
-  }) async {
-    final response = await _protocol.sendRaw(
-      payload: null,
-      method: 'GET',
-      requestUri:
-          '/app/${Uri.encodeComponent(appId)}/environment/${Uri.encodeComponent(environmentName)}/codegen-jobs/${Uri.encodeComponent(id)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    final $json = await _s.jsonFromResponse(response);
-    return GetCodegenJobResponse(
-      job: CodegenJob.fromJson($json),
-    );
-  }
-
-  /// Returns an existing component for an Amplify app.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [appId] :
-  /// The unique ID of the Amplify app.
-  ///
-  /// Parameter [environmentName] :
-  /// The name of the backend environment that is part of the Amplify app.
-  ///
-  /// Parameter [id] :
-  /// The unique ID of the component.
-  Future<GetComponentResponse> getComponent({
-    required String appId,
-    required String environmentName,
-    required String id,
-  }) async {
-    final response = await _protocol.sendRaw(
-      payload: null,
-      method: 'GET',
-      requestUri:
-          '/app/${Uri.encodeComponent(appId)}/environment/${Uri.encodeComponent(environmentName)}/components/${Uri.encodeComponent(id)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    final $json = await _s.jsonFromResponse(response);
-    return GetComponentResponse(
-      component: Component.fromJson($json),
-    );
-  }
-
-  /// Returns an existing form for an Amplify app.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [appId] :
-  /// The unique ID of the Amplify app.
-  ///
-  /// Parameter [environmentName] :
-  /// The name of the backend environment that is part of the Amplify app.
-  ///
-  /// Parameter [id] :
-  /// The unique ID of the form.
-  Future<GetFormResponse> getForm({
-    required String appId,
-    required String environmentName,
-    required String id,
-  }) async {
-    final response = await _protocol.sendRaw(
-      payload: null,
-      method: 'GET',
-      requestUri:
-          '/app/${Uri.encodeComponent(appId)}/environment/${Uri.encodeComponent(environmentName)}/forms/${Uri.encodeComponent(id)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    final $json = await _s.jsonFromResponse(response);
-    return GetFormResponse(
-      form: Form.fromJson($json),
-    );
-  }
-
   /// Returns existing metadata for an Amplify app.
   ///
-  /// May throw [UnauthorizedException].
   /// May throw [InvalidParameterException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [appId] :
   /// The unique ID of the Amplify app.
@@ -519,178 +114,13 @@ class AmplifyUIBuilder {
     return GetMetadataResponse.fromJson(response);
   }
 
-  /// Returns an existing theme for an Amplify app.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [appId] :
-  /// The unique ID of the Amplify app.
-  ///
-  /// Parameter [environmentName] :
-  /// The name of the backend environment that is part of the Amplify app.
-  ///
-  /// Parameter [id] :
-  /// The unique ID for the theme.
-  Future<GetThemeResponse> getTheme({
-    required String appId,
-    required String environmentName,
-    required String id,
-  }) async {
-    final response = await _protocol.sendRaw(
-      payload: null,
-      method: 'GET',
-      requestUri:
-          '/app/${Uri.encodeComponent(appId)}/environment/${Uri.encodeComponent(environmentName)}/themes/${Uri.encodeComponent(id)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    final $json = await _s.jsonFromResponse(response);
-    return GetThemeResponse(
-      theme: Theme.fromJson($json),
-    );
-  }
-
-  /// Retrieves a list of code generation jobs for a specified Amplify app and
-  /// backend environment.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ThrottlingException].
-  ///
-  /// Parameter [appId] :
-  /// The unique ID for the Amplify app.
-  ///
-  /// Parameter [environmentName] :
-  /// The name of the backend environment that is a part of the Amplify app.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of jobs to retrieve.
-  ///
-  /// Parameter [nextToken] :
-  /// The token to request the next page of results.
-  Future<ListCodegenJobsResponse> listCodegenJobs({
-    required String appId,
-    required String environmentName,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    final $query = <String, List<String>>{
-      if (maxResults != null) 'maxResults': [maxResults.toString()],
-      if (nextToken != null) 'nextToken': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri:
-          '/app/${Uri.encodeComponent(appId)}/environment/${Uri.encodeComponent(environmentName)}/codegen-jobs',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListCodegenJobsResponse.fromJson(response);
-  }
-
-  /// Retrieves a list of components for a specified Amplify app and backend
-  /// environment.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [InvalidParameterException].
-  ///
-  /// Parameter [appId] :
-  /// The unique ID for the Amplify app.
-  ///
-  /// Parameter [environmentName] :
-  /// The name of the backend environment that is a part of the Amplify app.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of components to retrieve.
-  ///
-  /// Parameter [nextToken] :
-  /// The token to request the next page of results.
-  Future<ListComponentsResponse> listComponents({
-    required String appId,
-    required String environmentName,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    final $query = <String, List<String>>{
-      if (maxResults != null) 'maxResults': [maxResults.toString()],
-      if (nextToken != null) 'nextToken': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri:
-          '/app/${Uri.encodeComponent(appId)}/environment/${Uri.encodeComponent(environmentName)}/components',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListComponentsResponse.fromJson(response);
-  }
-
-  /// Retrieves a list of forms for a specified Amplify app and backend
-  /// environment.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [InvalidParameterException].
-  ///
-  /// Parameter [appId] :
-  /// The unique ID for the Amplify app.
-  ///
-  /// Parameter [environmentName] :
-  /// The name of the backend environment that is a part of the Amplify app.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of forms to retrieve.
-  ///
-  /// Parameter [nextToken] :
-  /// The token to request the next page of results.
-  Future<ListFormsResponse> listForms({
-    required String appId,
-    required String environmentName,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    final $query = <String, List<String>>{
-      if (maxResults != null) 'maxResults': [maxResults.toString()],
-      if (nextToken != null) 'nextToken': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri:
-          '/app/${Uri.encodeComponent(appId)}/environment/${Uri.encodeComponent(environmentName)}/forms',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListFormsResponse.fromJson(response);
-  }
-
   /// Returns a list of tags for a specified Amazon Resource Name (ARN).
   ///
-  /// May throw [UnauthorizedException].
   /// May throw [InternalServerException].
   /// May throw [InvalidParameterException].
-  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) to use to list tags.
@@ -706,54 +136,10 @@ class AmplifyUIBuilder {
     return ListTagsForResourceResponse.fromJson(response);
   }
 
-  /// Retrieves a list of themes for a specified Amplify app and backend
-  /// environment.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [InvalidParameterException].
-  ///
-  /// Parameter [appId] :
-  /// The unique ID for the Amplify app.
-  ///
-  /// Parameter [environmentName] :
-  /// The name of the backend environment that is a part of the Amplify app.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of theme results to return in the response.
-  ///
-  /// Parameter [nextToken] :
-  /// The token to request the next page of results.
-  Future<ListThemesResponse> listThemes({
-    required String appId,
-    required String environmentName,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    final $query = <String, List<String>>{
-      if (maxResults != null) 'maxResults': [maxResults.toString()],
-      if (nextToken != null) 'nextToken': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri:
-          '/app/${Uri.encodeComponent(appId)}/environment/${Uri.encodeComponent(environmentName)}/themes',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListThemesResponse.fromJson(response);
-  }
-
   /// Stores the metadata information about a feature on a form.
   ///
-  /// May throw [UnauthorizedException].
   /// May throw [InvalidParameterException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [appId] :
   /// The unique ID for the Amplify app.
@@ -808,6 +194,63 @@ class AmplifyUIBuilder {
     return RefreshTokenResponse.fromJson(response);
   }
 
+  /// Tags the resource with a tag key and value.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) to use to tag a resource.
+  ///
+  /// Parameter [tags] :
+  /// A list of tag key value pairs for a specified Amazon Resource Name (ARN).
+  Future<void> tagResource({
+    required String resourceArn,
+    required Map<String, String> tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Untags a resource with a specified Amazon Resource Name (ARN).
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) to use to untag a resource.
+  ///
+  /// Parameter [tagKeys] :
+  /// The tag keys to use to untag a resource.
+  Future<void> untagResource({
+    required String resourceArn,
+    required List<String> tagKeys,
+  }) async {
+    final $query = <String, List<String>>{
+      'tagKeys': tagKeys,
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Starts a code generation job for a specified Amplify app and backend
   /// environment.
   ///
@@ -850,68 +293,163 @@ class AmplifyUIBuilder {
     );
   }
 
-  /// Tags the resource with a tag key and value.
+  /// Returns an existing code generation job.
   ///
-  /// May throw [UnauthorizedException].
   /// May throw [InternalServerException].
   /// May throw [InvalidParameterException].
-  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
-  /// Parameter [resourceArn] :
-  /// The Amazon Resource Name (ARN) to use to tag a resource.
+  /// Parameter [appId] :
+  /// The unique ID of the Amplify app associated with the code generation job.
   ///
-  /// Parameter [tags] :
-  /// A list of tag key value pairs for a specified Amazon Resource Name (ARN).
-  Future<void> tagResource({
-    required String resourceArn,
-    required Map<String, String> tags,
+  /// Parameter [environmentName] :
+  /// The name of the backend environment that is a part of the Amplify app
+  /// associated with the code generation job.
+  ///
+  /// Parameter [id] :
+  /// The unique ID of the code generation job.
+  Future<GetCodegenJobResponse> getCodegenJob({
+    required String appId,
+    required String environmentName,
+    required String id,
   }) async {
-    final $payload = <String, dynamic>{
-      'tags': tags,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+    final response = await _protocol.sendRaw(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/app/${Uri.encodeComponent(appId)}/environment/${Uri.encodeComponent(environmentName)}/codegen-jobs/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
+    );
+    final $json = await _s.jsonFromResponse(response);
+    return GetCodegenJobResponse(
+      job: CodegenJob.fromJson($json),
     );
   }
 
-  /// Untags a resource with a specified Amazon Resource Name (ARN).
+  /// Retrieves a list of code generation jobs for a specified Amplify app and
+  /// backend environment.
   ///
-  /// May throw [UnauthorizedException].
   /// May throw [InternalServerException].
   /// May throw [InvalidParameterException].
   /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   ///
-  /// Parameter [resourceArn] :
-  /// The Amazon Resource Name (ARN) to use to untag a resource.
+  /// Parameter [appId] :
+  /// The unique ID for the Amplify app.
   ///
-  /// Parameter [tagKeys] :
-  /// The tag keys to use to untag a resource.
-  Future<void> untagResource({
-    required String resourceArn,
-    required List<String> tagKeys,
+  /// Parameter [environmentName] :
+  /// The name of the backend environment that is a part of the Amplify app.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of jobs to retrieve.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to request the next page of results.
+  Future<ListCodegenJobsResponse> listCodegenJobs({
+    required String appId,
+    required String environmentName,
+    int? maxResults,
+    String? nextToken,
   }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
     final $query = <String, List<String>>{
-      'tagKeys': tagKeys,
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
     };
     final response = await _protocol.send(
       payload: null,
-      method: 'DELETE',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      method: 'GET',
+      requestUri:
+          '/app/${Uri.encodeComponent(appId)}/environment/${Uri.encodeComponent(environmentName)}/codegen-jobs',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
+    );
+    return ListCodegenJobsResponse.fromJson(response);
+  }
+
+  /// Creates a new component for an Amplify app.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceConflictException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [appId] :
+  /// The unique ID of the Amplify app to associate with the component.
+  ///
+  /// Parameter [componentToCreate] :
+  /// Represents the configuration of the component to create.
+  ///
+  /// Parameter [environmentName] :
+  /// The name of the backend environment that is a part of the Amplify app.
+  ///
+  /// Parameter [clientToken] :
+  /// The unique client token.
+  Future<CreateComponentResponse> createComponent({
+    required String appId,
+    required CreateComponentData componentToCreate,
+    required String environmentName,
+    String? clientToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (clientToken != null) 'clientToken': [clientToken],
+    };
+    final response = await _protocol.sendRaw(
+      payload: componentToCreate,
+      method: 'POST',
+      requestUri:
+          '/app/${Uri.encodeComponent(appId)}/environment/${Uri.encodeComponent(environmentName)}/components',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    final $json = await _s.jsonFromResponse(response);
+    return CreateComponentResponse(
+      entity: Component.fromJson($json),
+    );
+  }
+
+  /// Returns an existing component for an Amplify app.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [appId] :
+  /// The unique ID of the Amplify app.
+  ///
+  /// Parameter [environmentName] :
+  /// The name of the backend environment that is part of the Amplify app.
+  ///
+  /// Parameter [id] :
+  /// The unique ID of the component.
+  Future<GetComponentResponse> getComponent({
+    required String appId,
+    required String environmentName,
+    required String id,
+  }) async {
+    final response = await _protocol.sendRaw(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/app/${Uri.encodeComponent(appId)}/environment/${Uri.encodeComponent(environmentName)}/components/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    final $json = await _s.jsonFromResponse(response);
+    return GetComponentResponse(
+      component: Component.fromJson($json),
     );
   }
 
   /// Updates an existing component.
   ///
-  /// May throw [ResourceConflictException].
   /// May throw [InternalServerException].
   /// May throw [InvalidParameterException].
+  /// May throw [ResourceConflictException].
   ///
   /// Parameter [appId] :
   /// The unique ID for the Amplify app.
@@ -951,11 +489,189 @@ class AmplifyUIBuilder {
     );
   }
 
-  /// Updates an existing form.
+  /// Deletes a component from an Amplify app.
   ///
-  /// May throw [ResourceConflictException].
   /// May throw [InternalServerException].
   /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [appId] :
+  /// The unique ID of the Amplify app associated with the component to delete.
+  ///
+  /// Parameter [environmentName] :
+  /// The name of the backend environment that is a part of the Amplify app.
+  ///
+  /// Parameter [id] :
+  /// The unique ID of the component to delete.
+  Future<void> deleteComponent({
+    required String appId,
+    required String environmentName,
+    required String id,
+  }) async {
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/app/${Uri.encodeComponent(appId)}/environment/${Uri.encodeComponent(environmentName)}/components/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Retrieves a list of components for a specified Amplify app and backend
+  /// environment.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidParameterException].
+  ///
+  /// Parameter [appId] :
+  /// The unique ID for the Amplify app.
+  ///
+  /// Parameter [environmentName] :
+  /// The name of the backend environment that is a part of the Amplify app.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of components to retrieve.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to request the next page of results.
+  Future<ListComponentsResponse> listComponents({
+    required String appId,
+    required String environmentName,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/app/${Uri.encodeComponent(appId)}/environment/${Uri.encodeComponent(environmentName)}/components',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListComponentsResponse.fromJson(response);
+  }
+
+  /// Exports component configurations to code that is ready to integrate into
+  /// an Amplify app.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidParameterException].
+  ///
+  /// Parameter [appId] :
+  /// The unique ID of the Amplify app to export components to.
+  ///
+  /// Parameter [environmentName] :
+  /// The name of the backend environment that is a part of the Amplify app.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to request the next page of results.
+  Future<ExportComponentsResponse> exportComponents({
+    required String appId,
+    required String environmentName,
+    String? nextToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/export/app/${Uri.encodeComponent(appId)}/environment/${Uri.encodeComponent(environmentName)}/components',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ExportComponentsResponse.fromJson(response);
+  }
+
+  /// Creates a new form for an Amplify app.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceConflictException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [appId] :
+  /// The unique ID of the Amplify app to associate with the form.
+  ///
+  /// Parameter [environmentName] :
+  /// The name of the backend environment that is a part of the Amplify app.
+  ///
+  /// Parameter [formToCreate] :
+  /// Represents the configuration of the form to create.
+  ///
+  /// Parameter [clientToken] :
+  /// The unique client token.
+  Future<CreateFormResponse> createForm({
+    required String appId,
+    required String environmentName,
+    required CreateFormData formToCreate,
+    String? clientToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (clientToken != null) 'clientToken': [clientToken],
+    };
+    final response = await _protocol.sendRaw(
+      payload: formToCreate,
+      method: 'POST',
+      requestUri:
+          '/app/${Uri.encodeComponent(appId)}/environment/${Uri.encodeComponent(environmentName)}/forms',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    final $json = await _s.jsonFromResponse(response);
+    return CreateFormResponse(
+      entity: Form.fromJson($json),
+    );
+  }
+
+  /// Returns an existing form for an Amplify app.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [appId] :
+  /// The unique ID of the Amplify app.
+  ///
+  /// Parameter [environmentName] :
+  /// The name of the backend environment that is part of the Amplify app.
+  ///
+  /// Parameter [id] :
+  /// The unique ID of the form.
+  Future<GetFormResponse> getForm({
+    required String appId,
+    required String environmentName,
+    required String id,
+  }) async {
+    final response = await _protocol.sendRaw(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/app/${Uri.encodeComponent(appId)}/environment/${Uri.encodeComponent(environmentName)}/forms/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    final $json = await _s.jsonFromResponse(response);
+    return GetFormResponse(
+      form: Form.fromJson($json),
+    );
+  }
+
+  /// Updates an existing form.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceConflictException].
   ///
   /// Parameter [appId] :
   /// The unique ID for the Amplify app.
@@ -995,11 +711,189 @@ class AmplifyUIBuilder {
     );
   }
 
-  /// Updates an existing theme.
+  /// Deletes a form from an Amplify app.
   ///
-  /// May throw [ResourceConflictException].
   /// May throw [InternalServerException].
   /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [appId] :
+  /// The unique ID of the Amplify app associated with the form to delete.
+  ///
+  /// Parameter [environmentName] :
+  /// The name of the backend environment that is a part of the Amplify app.
+  ///
+  /// Parameter [id] :
+  /// The unique ID of the form to delete.
+  Future<void> deleteForm({
+    required String appId,
+    required String environmentName,
+    required String id,
+  }) async {
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/app/${Uri.encodeComponent(appId)}/environment/${Uri.encodeComponent(environmentName)}/forms/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Retrieves a list of forms for a specified Amplify app and backend
+  /// environment.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidParameterException].
+  ///
+  /// Parameter [appId] :
+  /// The unique ID for the Amplify app.
+  ///
+  /// Parameter [environmentName] :
+  /// The name of the backend environment that is a part of the Amplify app.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of forms to retrieve.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to request the next page of results.
+  Future<ListFormsResponse> listForms({
+    required String appId,
+    required String environmentName,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/app/${Uri.encodeComponent(appId)}/environment/${Uri.encodeComponent(environmentName)}/forms',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListFormsResponse.fromJson(response);
+  }
+
+  /// Exports form configurations to code that is ready to integrate into an
+  /// Amplify app.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidParameterException].
+  ///
+  /// Parameter [appId] :
+  /// The unique ID of the Amplify app to export forms to.
+  ///
+  /// Parameter [environmentName] :
+  /// The name of the backend environment that is a part of the Amplify app.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to request the next page of results.
+  Future<ExportFormsResponse> exportForms({
+    required String appId,
+    required String environmentName,
+    String? nextToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/export/app/${Uri.encodeComponent(appId)}/environment/${Uri.encodeComponent(environmentName)}/forms',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ExportFormsResponse.fromJson(response);
+  }
+
+  /// Creates a theme to apply to the components in an Amplify app.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceConflictException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [appId] :
+  /// The unique ID of the Amplify app associated with the theme.
+  ///
+  /// Parameter [environmentName] :
+  /// The name of the backend environment that is a part of the Amplify app.
+  ///
+  /// Parameter [themeToCreate] :
+  /// Represents the configuration of the theme to create.
+  ///
+  /// Parameter [clientToken] :
+  /// The unique client token.
+  Future<CreateThemeResponse> createTheme({
+    required String appId,
+    required String environmentName,
+    required CreateThemeData themeToCreate,
+    String? clientToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (clientToken != null) 'clientToken': [clientToken],
+    };
+    final response = await _protocol.sendRaw(
+      payload: themeToCreate,
+      method: 'POST',
+      requestUri:
+          '/app/${Uri.encodeComponent(appId)}/environment/${Uri.encodeComponent(environmentName)}/themes',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    final $json = await _s.jsonFromResponse(response);
+    return CreateThemeResponse(
+      entity: Theme.fromJson($json),
+    );
+  }
+
+  /// Returns an existing theme for an Amplify app.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [appId] :
+  /// The unique ID of the Amplify app.
+  ///
+  /// Parameter [environmentName] :
+  /// The name of the backend environment that is part of the Amplify app.
+  ///
+  /// Parameter [id] :
+  /// The unique ID for the theme.
+  Future<GetThemeResponse> getTheme({
+    required String appId,
+    required String environmentName,
+    required String id,
+  }) async {
+    final response = await _protocol.sendRaw(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/app/${Uri.encodeComponent(appId)}/environment/${Uri.encodeComponent(environmentName)}/themes/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    final $json = await _s.jsonFromResponse(response);
+    return GetThemeResponse(
+      theme: Theme.fromJson($json),
+    );
+  }
+
+  /// Updates an existing theme.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceConflictException].
   ///
   /// Parameter [appId] :
   /// The unique ID for the Amplify app.
@@ -1038,1964 +932,110 @@ class AmplifyUIBuilder {
       entity: Theme.fromJson($json),
     );
   }
-}
 
-/// Represents the event action configuration for an element of a
-/// <code>Component</code> or <code>ComponentChild</code>. Use for the workflow
-/// feature in Amplify Studio that allows you to bind events and actions to
-/// components. <code>ActionParameters</code> defines the action that is
-/// performed when an event occurs on the component.
-class ActionParameters {
-  /// The HTML anchor link to the location to open. Specify this value for a
-  /// navigation action.
-  final ComponentProperty? anchor;
-
-  /// A dictionary of key-value pairs mapping Amplify Studio properties to fields
-  /// in a data model. Use when the action performs an operation on an Amplify
-  /// DataStore model.
-  final Map<String, ComponentProperty>? fields;
-
-  /// Specifies whether the user should be signed out globally. Specify this value
-  /// for an auth sign out action.
-  final ComponentProperty? global;
-
-  /// The unique ID of the component that the <code>ActionParameters</code> apply
-  /// to.
-  final ComponentProperty? id;
-
-  /// The name of the data model. Use when the action performs an operation on an
-  /// Amplify DataStore model.
-  final String? model;
-
-  /// A key-value pair that specifies the state property name and its initial
-  /// value.
-  final MutationActionSetStateParameter? state;
-
-  /// The element within the same component to modify when the action occurs.
-  final ComponentProperty? target;
-
-  /// The type of navigation action. Valid values are <code>url</code> and
-  /// <code>anchor</code>. This value is required for a navigation action.
-  final ComponentProperty? type;
-
-  /// The URL to the location to open. Specify this value for a navigation action.
-  final ComponentProperty? url;
-
-  ActionParameters({
-    this.anchor,
-    this.fields,
-    this.global,
-    this.id,
-    this.model,
-    this.state,
-    this.target,
-    this.type,
-    this.url,
-  });
-
-  factory ActionParameters.fromJson(Map<String, dynamic> json) {
-    return ActionParameters(
-      anchor: json['anchor'] != null
-          ? ComponentProperty.fromJson(json['anchor'] as Map<String, dynamic>)
-          : null,
-      fields: (json['fields'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(k, ComponentProperty.fromJson(e as Map<String, dynamic>))),
-      global: json['global'] != null
-          ? ComponentProperty.fromJson(json['global'] as Map<String, dynamic>)
-          : null,
-      id: json['id'] != null
-          ? ComponentProperty.fromJson(json['id'] as Map<String, dynamic>)
-          : null,
-      model: json['model'] as String?,
-      state: json['state'] != null
-          ? MutationActionSetStateParameter.fromJson(
-              json['state'] as Map<String, dynamic>)
-          : null,
-      target: json['target'] != null
-          ? ComponentProperty.fromJson(json['target'] as Map<String, dynamic>)
-          : null,
-      type: json['type'] != null
-          ? ComponentProperty.fromJson(json['type'] as Map<String, dynamic>)
-          : null,
-      url: json['url'] != null
-          ? ComponentProperty.fromJson(json['url'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final anchor = this.anchor;
-    final fields = this.fields;
-    final global = this.global;
-    final id = this.id;
-    final model = this.model;
-    final state = this.state;
-    final target = this.target;
-    final type = this.type;
-    final url = this.url;
-    return {
-      if (anchor != null) 'anchor': anchor,
-      if (fields != null) 'fields': fields,
-      if (global != null) 'global': global,
-      if (id != null) 'id': id,
-      if (model != null) 'model': model,
-      if (state != null) 'state': state,
-      if (target != null) 'target': target,
-      if (type != null) 'type': type,
-      if (url != null) 'url': url,
-    };
-  }
-}
-
-/// Describes the API configuration for a code generation job.
-class ApiConfiguration {
-  /// The configuration for an application using DataStore APIs.
-  final DataStoreRenderConfig? dataStoreConfig;
-
-  /// The configuration for an application using GraphQL APIs.
-  final GraphQLRenderConfig? graphQLConfig;
-
-  /// The configuration for an application with no API being used.
-  final NoApiRenderConfig? noApiConfig;
-
-  ApiConfiguration({
-    this.dataStoreConfig,
-    this.graphQLConfig,
-    this.noApiConfig,
-  });
-
-  factory ApiConfiguration.fromJson(Map<String, dynamic> json) {
-    return ApiConfiguration(
-      dataStoreConfig: json['dataStoreConfig'] != null
-          ? DataStoreRenderConfig.fromJson(
-              json['dataStoreConfig'] as Map<String, dynamic>)
-          : null,
-      graphQLConfig: json['graphQLConfig'] != null
-          ? GraphQLRenderConfig.fromJson(
-              json['graphQLConfig'] as Map<String, dynamic>)
-          : null,
-      noApiConfig: json['noApiConfig'] != null
-          ? NoApiRenderConfig.fromJson(
-              json['noApiConfig'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataStoreConfig = this.dataStoreConfig;
-    final graphQLConfig = this.graphQLConfig;
-    final noApiConfig = this.noApiConfig;
-    return {
-      if (dataStoreConfig != null) 'dataStoreConfig': dataStoreConfig,
-      if (graphQLConfig != null) 'graphQLConfig': graphQLConfig,
-      if (noApiConfig != null) 'noApiConfig': noApiConfig,
-    };
-  }
-}
-
-/// Dependency package that may be required for the project code to run.
-class CodegenDependency {
-  /// Determines if the dependency package is using Semantic versioning. If set to
-  /// true, it indicates that the dependency package uses Semantic versioning.
-  final bool? isSemVer;
-
-  /// Name of the dependency package.
-  final String? name;
-
-  /// Indicates the reason to include the dependency package in your project code.
-  final String? reason;
-
-  /// Indicates the version of the supported dependency package.
-  final String? supportedVersion;
-
-  CodegenDependency({
-    this.isSemVer,
-    this.name,
-    this.reason,
-    this.supportedVersion,
-  });
-
-  factory CodegenDependency.fromJson(Map<String, dynamic> json) {
-    return CodegenDependency(
-      isSemVer: json['isSemVer'] as bool?,
-      name: json['name'] as String?,
-      reason: json['reason'] as String?,
-      supportedVersion: json['supportedVersion'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final isSemVer = this.isSemVer;
-    final name = this.name;
-    final reason = this.reason;
-    final supportedVersion = this.supportedVersion;
-    return {
-      if (isSemVer != null) 'isSemVer': isSemVer,
-      if (name != null) 'name': name,
-      if (reason != null) 'reason': reason,
-      if (supportedVersion != null) 'supportedVersion': supportedVersion,
-    };
-  }
-}
-
-/// Describes the feature flags that you can specify for a code generation job.
-class CodegenFeatureFlags {
-  /// Specifies whether a code generation job supports non models.
-  final bool? isNonModelSupported;
-
-  /// Specifes whether a code generation job supports data relationships.
-  final bool? isRelationshipSupported;
-
-  CodegenFeatureFlags({
-    this.isNonModelSupported,
-    this.isRelationshipSupported,
-  });
-
-  factory CodegenFeatureFlags.fromJson(Map<String, dynamic> json) {
-    return CodegenFeatureFlags(
-      isNonModelSupported: json['isNonModelSupported'] as bool?,
-      isRelationshipSupported: json['isRelationshipSupported'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final isNonModelSupported = this.isNonModelSupported;
-    final isRelationshipSupported = this.isRelationshipSupported;
-    return {
-      if (isNonModelSupported != null)
-        'isNonModelSupported': isNonModelSupported,
-      if (isRelationshipSupported != null)
-        'isRelationshipSupported': isRelationshipSupported,
-    };
-  }
-}
-
-/// Describes the enums in a generic data schema.
-class CodegenGenericDataEnum {
-  /// The list of enum values in the generic data schema.
-  final List<String> values;
-
-  CodegenGenericDataEnum({
-    required this.values,
-  });
-
-  factory CodegenGenericDataEnum.fromJson(Map<String, dynamic> json) {
-    return CodegenGenericDataEnum(
-      values: ((json['values'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final values = this.values;
-    return {
-      'values': values,
-    };
-  }
-}
-
-/// Describes a field in a generic data schema.
-class CodegenGenericDataField {
-  /// The data type for the generic data field.
-  final CodegenGenericDataFieldDataType dataType;
-
-  /// The value of the data type for the generic data field.
-  final String dataTypeValue;
-
-  /// Specifies whether the generic data field is an array.
-  final bool isArray;
-
-  /// Specifies whether the generic data field is read-only.
-  final bool readOnly;
-
-  /// Specifies whether the generic data field is required.
-  final bool required;
-
-  /// The relationship of the generic data schema.
-  final CodegenGenericDataRelationshipType? relationship;
-
-  CodegenGenericDataField({
-    required this.dataType,
-    required this.dataTypeValue,
-    required this.isArray,
-    required this.readOnly,
-    required this.required,
-    this.relationship,
-  });
-
-  factory CodegenGenericDataField.fromJson(Map<String, dynamic> json) {
-    return CodegenGenericDataField(
-      dataType: CodegenGenericDataFieldDataType.fromString(
-          (json['dataType'] as String?) ?? ''),
-      dataTypeValue: (json['dataTypeValue'] as String?) ?? '',
-      isArray: (json['isArray'] as bool?) ?? false,
-      readOnly: (json['readOnly'] as bool?) ?? false,
-      required: (json['required'] as bool?) ?? false,
-      relationship: json['relationship'] != null
-          ? CodegenGenericDataRelationshipType.fromJson(
-              json['relationship'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataType = this.dataType;
-    final dataTypeValue = this.dataTypeValue;
-    final isArray = this.isArray;
-    final readOnly = this.readOnly;
-    final required = this.required;
-    final relationship = this.relationship;
-    return {
-      'dataType': dataType.value,
-      'dataTypeValue': dataTypeValue,
-      'isArray': isArray,
-      'readOnly': readOnly,
-      'required': required,
-      if (relationship != null) 'relationship': relationship,
-    };
-  }
-}
-
-class CodegenGenericDataFieldDataType {
-  static const id = CodegenGenericDataFieldDataType._('ID');
-  static const string = CodegenGenericDataFieldDataType._('String');
-  static const $int = CodegenGenericDataFieldDataType._('Int');
-  static const float = CodegenGenericDataFieldDataType._('Float');
-  static const awsDate = CodegenGenericDataFieldDataType._('AWSDate');
-  static const awsTime = CodegenGenericDataFieldDataType._('AWSTime');
-  static const awsDateTime = CodegenGenericDataFieldDataType._('AWSDateTime');
-  static const awsTimestamp = CodegenGenericDataFieldDataType._('AWSTimestamp');
-  static const awsEmail = CodegenGenericDataFieldDataType._('AWSEmail');
-  static const awsurl = CodegenGenericDataFieldDataType._('AWSURL');
-  static const awsIPAddress = CodegenGenericDataFieldDataType._('AWSIPAddress');
-  static const boolean = CodegenGenericDataFieldDataType._('Boolean');
-  static const awsjson = CodegenGenericDataFieldDataType._('AWSJSON');
-  static const awsPhone = CodegenGenericDataFieldDataType._('AWSPhone');
-  static const $enum = CodegenGenericDataFieldDataType._('Enum');
-  static const model = CodegenGenericDataFieldDataType._('Model');
-  static const nonModel = CodegenGenericDataFieldDataType._('NonModel');
-
-  final String value;
-
-  const CodegenGenericDataFieldDataType._(this.value);
-
-  static const values = [
-    id,
-    string,
-    $int,
-    float,
-    awsDate,
-    awsTime,
-    awsDateTime,
-    awsTimestamp,
-    awsEmail,
-    awsurl,
-    awsIPAddress,
-    boolean,
-    awsjson,
-    awsPhone,
-    $enum,
-    model,
-    nonModel
-  ];
-
-  static CodegenGenericDataFieldDataType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CodegenGenericDataFieldDataType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CodegenGenericDataFieldDataType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes a model in a generic data schema.
-class CodegenGenericDataModel {
-  /// The fields in the generic data model.
-  final Map<String, CodegenGenericDataField> fields;
-
-  /// The primary keys of the generic data model.
-  final List<String> primaryKeys;
-
-  /// Specifies whether the generic data model is a join table.
-  final bool? isJoinTable;
-
-  CodegenGenericDataModel({
-    required this.fields,
-    required this.primaryKeys,
-    this.isJoinTable,
-  });
-
-  factory CodegenGenericDataModel.fromJson(Map<String, dynamic> json) {
-    return CodegenGenericDataModel(
-      fields: ((json['fields'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{})
-          .map((k, e) => MapEntry(
-              k, CodegenGenericDataField.fromJson(e as Map<String, dynamic>))),
-      primaryKeys: ((json['primaryKeys'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      isJoinTable: json['isJoinTable'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final fields = this.fields;
-    final primaryKeys = this.primaryKeys;
-    final isJoinTable = this.isJoinTable;
-    return {
-      'fields': fields,
-      'primaryKeys': primaryKeys,
-      if (isJoinTable != null) 'isJoinTable': isJoinTable,
-    };
-  }
-}
-
-/// Describes a non-model in a generic data schema.
-class CodegenGenericDataNonModel {
-  /// The fields in a generic data schema non model.
-  final Map<String, CodegenGenericDataField> fields;
-
-  CodegenGenericDataNonModel({
-    required this.fields,
-  });
-
-  factory CodegenGenericDataNonModel.fromJson(Map<String, dynamic> json) {
-    return CodegenGenericDataNonModel(
-      fields: ((json['fields'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{})
-          .map((k, e) => MapEntry(
-              k, CodegenGenericDataField.fromJson(e as Map<String, dynamic>))),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final fields = this.fields;
-    return {
-      'fields': fields,
-    };
-  }
-}
-
-/// Describes the relationship between generic data models.
-class CodegenGenericDataRelationshipType {
-  /// The name of the related model in the data relationship.
-  final String relatedModelName;
-
-  /// The data relationship type.
-  final GenericDataRelationshipType type;
-
-  /// The associated fields of the data relationship.
-  final List<String>? associatedFields;
-
-  /// The value of the <code>belongsTo</code> field on the related data model.
-  final String? belongsToFieldOnRelatedModel;
-
-  /// Specifies whether the relationship can unlink the associated model.
-  final bool? canUnlinkAssociatedModel;
-
-  /// Specifies whether the <code>@index</code> directive is supported for a
-  /// <code>hasMany</code> data relationship.
-  final bool? isHasManyIndex;
-
-  /// The name of the related join field in the data relationship.
-  final String? relatedJoinFieldName;
-
-  /// The name of the related join table in the data relationship.
-  final String? relatedJoinTableName;
-
-  /// The related model fields in the data relationship.
-  final List<String>? relatedModelFields;
-
-  CodegenGenericDataRelationshipType({
-    required this.relatedModelName,
-    required this.type,
-    this.associatedFields,
-    this.belongsToFieldOnRelatedModel,
-    this.canUnlinkAssociatedModel,
-    this.isHasManyIndex,
-    this.relatedJoinFieldName,
-    this.relatedJoinTableName,
-    this.relatedModelFields,
-  });
-
-  factory CodegenGenericDataRelationshipType.fromJson(
-      Map<String, dynamic> json) {
-    return CodegenGenericDataRelationshipType(
-      relatedModelName: (json['relatedModelName'] as String?) ?? '',
-      type: GenericDataRelationshipType.fromString(
-          (json['type'] as String?) ?? ''),
-      associatedFields: (json['associatedFields'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      belongsToFieldOnRelatedModel:
-          json['belongsToFieldOnRelatedModel'] as String?,
-      canUnlinkAssociatedModel: json['canUnlinkAssociatedModel'] as bool?,
-      isHasManyIndex: json['isHasManyIndex'] as bool?,
-      relatedJoinFieldName: json['relatedJoinFieldName'] as String?,
-      relatedJoinTableName: json['relatedJoinTableName'] as String?,
-      relatedModelFields: (json['relatedModelFields'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final relatedModelName = this.relatedModelName;
-    final type = this.type;
-    final associatedFields = this.associatedFields;
-    final belongsToFieldOnRelatedModel = this.belongsToFieldOnRelatedModel;
-    final canUnlinkAssociatedModel = this.canUnlinkAssociatedModel;
-    final isHasManyIndex = this.isHasManyIndex;
-    final relatedJoinFieldName = this.relatedJoinFieldName;
-    final relatedJoinTableName = this.relatedJoinTableName;
-    final relatedModelFields = this.relatedModelFields;
-    return {
-      'relatedModelName': relatedModelName,
-      'type': type.value,
-      if (associatedFields != null) 'associatedFields': associatedFields,
-      if (belongsToFieldOnRelatedModel != null)
-        'belongsToFieldOnRelatedModel': belongsToFieldOnRelatedModel,
-      if (canUnlinkAssociatedModel != null)
-        'canUnlinkAssociatedModel': canUnlinkAssociatedModel,
-      if (isHasManyIndex != null) 'isHasManyIndex': isHasManyIndex,
-      if (relatedJoinFieldName != null)
-        'relatedJoinFieldName': relatedJoinFieldName,
-      if (relatedJoinTableName != null)
-        'relatedJoinTableName': relatedJoinTableName,
-      if (relatedModelFields != null) 'relatedModelFields': relatedModelFields,
-    };
-  }
-}
-
-/// Describes the configuration for a code generation job that is associated
-/// with an Amplify app.
-class CodegenJob {
-  /// The ID of the Amplify app associated with the code generation job.
-  final String appId;
-
-  /// The name of the backend environment associated with the code generation job.
-  final String environmentName;
-
-  /// The unique ID for the code generation job.
-  final String id;
-
-  /// The <code>CodegenJobAsset</code> to use for the code generation job.
-  final CodegenJobAsset? asset;
-
-  /// Specifies whether to autogenerate forms in the code generation job.
-  final bool? autoGenerateForms;
-
-  /// The time that the code generation job was created.
-  final DateTime? createdAt;
-
-  /// Lists the dependency packages that may be required for the project code to
-  /// run.
-  final List<CodegenDependency>? dependencies;
-  final CodegenFeatureFlags? features;
-  final CodegenJobGenericDataSchema? genericDataSchema;
-
-  /// The time that the code generation job was modified.
-  final DateTime? modifiedAt;
-  final CodegenJobRenderConfig? renderConfig;
-
-  /// The status of the code generation job.
-  final CodegenJobStatus? status;
-
-  /// The customized status message for the code generation job.
-  final String? statusMessage;
-
-  /// One or more key-value pairs to use when tagging the code generation job.
-  final Map<String, String>? tags;
-
-  CodegenJob({
-    required this.appId,
-    required this.environmentName,
-    required this.id,
-    this.asset,
-    this.autoGenerateForms,
-    this.createdAt,
-    this.dependencies,
-    this.features,
-    this.genericDataSchema,
-    this.modifiedAt,
-    this.renderConfig,
-    this.status,
-    this.statusMessage,
-    this.tags,
-  });
-
-  factory CodegenJob.fromJson(Map<String, dynamic> json) {
-    return CodegenJob(
-      appId: (json['appId'] as String?) ?? '',
-      environmentName: (json['environmentName'] as String?) ?? '',
-      id: (json['id'] as String?) ?? '',
-      asset: json['asset'] != null
-          ? CodegenJobAsset.fromJson(json['asset'] as Map<String, dynamic>)
-          : null,
-      autoGenerateForms: json['autoGenerateForms'] as bool?,
-      createdAt: timeStampFromJson(json['createdAt']),
-      dependencies: (json['dependencies'] as List?)
-          ?.nonNulls
-          .map((e) => CodegenDependency.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      features: json['features'] != null
-          ? CodegenFeatureFlags.fromJson(
-              json['features'] as Map<String, dynamic>)
-          : null,
-      genericDataSchema: json['genericDataSchema'] != null
-          ? CodegenJobGenericDataSchema.fromJson(
-              json['genericDataSchema'] as Map<String, dynamic>)
-          : null,
-      modifiedAt: timeStampFromJson(json['modifiedAt']),
-      renderConfig: json['renderConfig'] != null
-          ? CodegenJobRenderConfig.fromJson(
-              json['renderConfig'] as Map<String, dynamic>)
-          : null,
-      status: (json['status'] as String?)?.let(CodegenJobStatus.fromString),
-      statusMessage: json['statusMessage'] as String?,
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final appId = this.appId;
-    final environmentName = this.environmentName;
-    final id = this.id;
-    final asset = this.asset;
-    final autoGenerateForms = this.autoGenerateForms;
-    final createdAt = this.createdAt;
-    final dependencies = this.dependencies;
-    final features = this.features;
-    final genericDataSchema = this.genericDataSchema;
-    final modifiedAt = this.modifiedAt;
-    final renderConfig = this.renderConfig;
-    final status = this.status;
-    final statusMessage = this.statusMessage;
-    final tags = this.tags;
-    return {
-      'appId': appId,
-      'environmentName': environmentName,
-      'id': id,
-      if (asset != null) 'asset': asset,
-      if (autoGenerateForms != null) 'autoGenerateForms': autoGenerateForms,
-      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
-      if (dependencies != null) 'dependencies': dependencies,
-      if (features != null) 'features': features,
-      if (genericDataSchema != null) 'genericDataSchema': genericDataSchema,
-      if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
-      if (renderConfig != null) 'renderConfig': renderConfig,
-      if (status != null) 'status': status.value,
-      if (statusMessage != null) 'statusMessage': statusMessage,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-/// Describes an asset for a code generation job.
-class CodegenJobAsset {
-  /// The URL to use to access the asset.
-  final String? downloadUrl;
-
-  CodegenJobAsset({
-    this.downloadUrl,
-  });
-
-  factory CodegenJobAsset.fromJson(Map<String, dynamic> json) {
-    return CodegenJobAsset(
-      downloadUrl: json['downloadUrl'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final downloadUrl = this.downloadUrl;
-    return {
-      if (downloadUrl != null) 'downloadUrl': downloadUrl,
-    };
-  }
-}
-
-/// Describes the data schema for a code generation job.
-class CodegenJobGenericDataSchema {
-  /// The type of the data source for the schema. Currently, the only valid value
-  /// is an Amplify <code>DataStore</code>.
-  final CodegenJobGenericDataSourceType dataSourceType;
-
-  /// The name of a <code>CodegenGenericDataEnum</code>.
-  final Map<String, CodegenGenericDataEnum> enums;
-
-  /// The name of a <code>CodegenGenericDataModel</code>.
-  final Map<String, CodegenGenericDataModel> models;
-
-  /// The name of a <code>CodegenGenericDataNonModel</code>.
-  final Map<String, CodegenGenericDataNonModel> nonModels;
-
-  CodegenJobGenericDataSchema({
-    required this.dataSourceType,
-    required this.enums,
-    required this.models,
-    required this.nonModels,
-  });
-
-  factory CodegenJobGenericDataSchema.fromJson(Map<String, dynamic> json) {
-    return CodegenJobGenericDataSchema(
-      dataSourceType: CodegenJobGenericDataSourceType.fromString(
-          (json['dataSourceType'] as String?) ?? ''),
-      enums: ((json['enums'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{})
-          .map((k, e) => MapEntry(
-              k, CodegenGenericDataEnum.fromJson(e as Map<String, dynamic>))),
-      models: ((json['models'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{})
-          .map((k, e) => MapEntry(
-              k, CodegenGenericDataModel.fromJson(e as Map<String, dynamic>))),
-      nonModels: ((json['nonModels'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{})
-          .map((k, e) => MapEntry(k,
-              CodegenGenericDataNonModel.fromJson(e as Map<String, dynamic>))),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataSourceType = this.dataSourceType;
-    final enums = this.enums;
-    final models = this.models;
-    final nonModels = this.nonModels;
-    return {
-      'dataSourceType': dataSourceType.value,
-      'enums': enums,
-      'models': models,
-      'nonModels': nonModels,
-    };
-  }
-}
-
-class CodegenJobGenericDataSourceType {
-  static const dataStore = CodegenJobGenericDataSourceType._('DataStore');
-
-  final String value;
-
-  const CodegenJobGenericDataSourceType._(this.value);
-
-  static const values = [dataStore];
-
-  static CodegenJobGenericDataSourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CodegenJobGenericDataSourceType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CodegenJobGenericDataSourceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes the configuration information for rendering the UI component
-/// associated with the code generation job.
-class CodegenJobRenderConfig {
-  /// The name of the <code>ReactStartCodegenJobData</code> object.
-  final ReactStartCodegenJobData? react;
-
-  CodegenJobRenderConfig({
-    this.react,
-  });
-
-  factory CodegenJobRenderConfig.fromJson(Map<String, dynamic> json) {
-    return CodegenJobRenderConfig(
-      react: json['react'] != null
-          ? ReactStartCodegenJobData.fromJson(
-              json['react'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final react = this.react;
-    return {
-      if (react != null) 'react': react,
-    };
-  }
-}
-
-class CodegenJobStatus {
-  static const inProgress = CodegenJobStatus._('in_progress');
-  static const failed = CodegenJobStatus._('failed');
-  static const succeeded = CodegenJobStatus._('succeeded');
-
-  final String value;
-
-  const CodegenJobStatus._(this.value);
-
-  static const values = [inProgress, failed, succeeded];
-
-  static CodegenJobStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CodegenJobStatus._(value));
-
-  @override
-  bool operator ==(other) => other is CodegenJobStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A summary of the basic information about the code generation job.
-class CodegenJobSummary {
-  /// The unique ID of the Amplify app associated with the code generation job.
-  final String appId;
-
-  /// The name of the backend environment associated with the code generation job.
-  final String environmentName;
-
-  /// The unique ID for the code generation job summary.
-  final String id;
-
-  /// The time that the code generation job summary was created.
-  final DateTime? createdAt;
-
-  /// The time that the code generation job summary was modified.
-  final DateTime? modifiedAt;
-
-  CodegenJobSummary({
-    required this.appId,
-    required this.environmentName,
-    required this.id,
-    this.createdAt,
-    this.modifiedAt,
-  });
-
-  factory CodegenJobSummary.fromJson(Map<String, dynamic> json) {
-    return CodegenJobSummary(
-      appId: (json['appId'] as String?) ?? '',
-      environmentName: (json['environmentName'] as String?) ?? '',
-      id: (json['id'] as String?) ?? '',
-      createdAt: timeStampFromJson(json['createdAt']),
-      modifiedAt: timeStampFromJson(json['modifiedAt']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final appId = this.appId;
-    final environmentName = this.environmentName;
-    final id = this.id;
-    final createdAt = this.createdAt;
-    final modifiedAt = this.modifiedAt;
-    return {
-      'appId': appId,
-      'environmentName': environmentName,
-      'id': id,
-      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
-      if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
-    };
-  }
-}
-
-/// Contains the configuration settings for a user interface (UI) element for an
-/// Amplify app. A component is configured as a primary, stand-alone UI element.
-/// Use <code>ComponentChild</code> to configure an instance of a
-/// <code>Component</code>. A <code>ComponentChild</code> instance inherits the
-/// configuration of the main <code>Component</code>.
-class Component {
-  /// The unique ID of the Amplify app associated with the component.
-  final String appId;
-
-  /// The information to connect a component's properties to data at runtime. You
-  /// can't specify <code>tags</code> as a valid property for
-  /// <code>bindingProperties</code>.
-  /// <p/>
-  final Map<String, ComponentBindingPropertiesValue> bindingProperties;
-
-  /// The type of the component. This can be an Amplify custom UI component or
-  /// another custom component.
-  final String componentType;
-
-  /// The time that the component was created.
-  final DateTime createdAt;
-
+  /// Deletes a theme from an Amplify app.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [appId] :
+  /// The unique ID of the Amplify app associated with the theme to delete.
+  ///
+  /// Parameter [environmentName] :
   /// The name of the backend environment that is a part of the Amplify app.
-  final String environmentName;
-
-  /// The unique ID of the component.
-  final String id;
-
-  /// The name of the component.
-  final String name;
-
-  /// Describes the component's properties that can be overriden in a customized
-  /// instance of the component. You can't specify <code>tags</code> as a valid
-  /// property for <code>overrides</code>.
-  final Map<String, Map<String, String>> overrides;
-
-  /// Describes the component's properties. You can't specify <code>tags</code> as
-  /// a valid property for <code>properties</code>.
-  final Map<String, ComponentProperty> properties;
-
-  /// A list of the component's variants. A variant is a unique style
-  /// configuration of a main component.
-  final List<ComponentVariant> variants;
-
-  /// A list of the component's <code>ComponentChild</code> instances.
-  final List<ComponentChild>? children;
-
-  /// The data binding configuration for the component's properties. Use this for
-  /// a collection component. You can't specify <code>tags</code> as a valid
-  /// property for <code>collectionProperties</code>.
-  final Map<String, ComponentDataConfiguration>? collectionProperties;
-
-  /// Describes the events that can be raised on the component. Use for the
-  /// workflow feature in Amplify Studio that allows you to bind events and
-  /// actions to components.
-  final Map<String, ComponentEvent>? events;
-
-  /// The time that the component was modified.
-  final DateTime? modifiedAt;
-
-  /// The schema version of the component when it was imported.
-  final String? schemaVersion;
-
-  /// The unique ID of the component in its original source system, such as Figma.
-  final String? sourceId;
-
-  /// One or more key-value pairs to use when tagging the component.
-  final Map<String, String>? tags;
-
-  Component({
-    required this.appId,
-    required this.bindingProperties,
-    required this.componentType,
-    required this.createdAt,
-    required this.environmentName,
-    required this.id,
-    required this.name,
-    required this.overrides,
-    required this.properties,
-    required this.variants,
-    this.children,
-    this.collectionProperties,
-    this.events,
-    this.modifiedAt,
-    this.schemaVersion,
-    this.sourceId,
-    this.tags,
-  });
-
-  factory Component.fromJson(Map<String, dynamic> json) {
-    return Component(
-      appId: (json['appId'] as String?) ?? '',
-      bindingProperties:
-          ((json['bindingProperties'] as Map<String, dynamic>?) ??
-                  const <String, dynamic>{})
-              .map((k, e) => MapEntry(
-                  k,
-                  ComponentBindingPropertiesValue.fromJson(
-                      e as Map<String, dynamic>))),
-      componentType: (json['componentType'] as String?) ?? '',
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
-      environmentName: (json['environmentName'] as String?) ?? '',
-      id: (json['id'] as String?) ?? '',
-      name: (json['name'] as String?) ?? '',
-      overrides: ((json['overrides'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{})
-          .map((k, e) => MapEntry(
-              k,
-              (e as Map<String, dynamic>)
-                  .map((k, e) => MapEntry(k, e as String)))),
-      properties: ((json['properties'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{})
-          .map((k, e) => MapEntry(
-              k, ComponentProperty.fromJson(e as Map<String, dynamic>))),
-      variants: ((json['variants'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => ComponentVariant.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      children: (json['children'] as List?)
-          ?.nonNulls
-          .map((e) => ComponentChild.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      collectionProperties: (json['collectionProperties']
-              as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k,
-              ComponentDataConfiguration.fromJson(e as Map<String, dynamic>))),
-      events: (json['events'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(k, ComponentEvent.fromJson(e as Map<String, dynamic>))),
-      modifiedAt: timeStampFromJson(json['modifiedAt']),
-      schemaVersion: json['schemaVersion'] as String?,
-      sourceId: json['sourceId'] as String?,
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
+  ///
+  /// Parameter [id] :
+  /// The unique ID of the theme to delete.
+  Future<void> deleteTheme({
+    required String appId,
+    required String environmentName,
+    required String id,
+  }) async {
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/app/${Uri.encodeComponent(appId)}/environment/${Uri.encodeComponent(environmentName)}/themes/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
     );
   }
 
-  Map<String, dynamic> toJson() {
-    final appId = this.appId;
-    final bindingProperties = this.bindingProperties;
-    final componentType = this.componentType;
-    final createdAt = this.createdAt;
-    final environmentName = this.environmentName;
-    final id = this.id;
-    final name = this.name;
-    final overrides = this.overrides;
-    final properties = this.properties;
-    final variants = this.variants;
-    final children = this.children;
-    final collectionProperties = this.collectionProperties;
-    final events = this.events;
-    final modifiedAt = this.modifiedAt;
-    final schemaVersion = this.schemaVersion;
-    final sourceId = this.sourceId;
-    final tags = this.tags;
-    return {
-      'appId': appId,
-      'bindingProperties': bindingProperties,
-      'componentType': componentType,
-      'createdAt': iso8601ToJson(createdAt),
-      'environmentName': environmentName,
-      'id': id,
-      'name': name,
-      'overrides': overrides,
-      'properties': properties,
-      'variants': variants,
-      if (children != null) 'children': children,
-      if (collectionProperties != null)
-        'collectionProperties': collectionProperties,
-      if (events != null) 'events': events,
-      if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
-      if (schemaVersion != null) 'schemaVersion': schemaVersion,
-      if (sourceId != null) 'sourceId': sourceId,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-/// Represents the data binding configuration for a component at runtime. You
-/// can use <code>ComponentBindingPropertiesValue</code> to add exposed
-/// properties to a component to allow different values to be entered when a
-/// component is reused in different places in an app.
-class ComponentBindingPropertiesValue {
-  /// Describes the properties to customize with data at runtime.
-  final ComponentBindingPropertiesValueProperties? bindingProperties;
-
-  /// The default value of the property.
-  final String? defaultValue;
-
-  /// The property type.
-  final String? type;
-
-  ComponentBindingPropertiesValue({
-    this.bindingProperties,
-    this.defaultValue,
-    this.type,
-  });
-
-  factory ComponentBindingPropertiesValue.fromJson(Map<String, dynamic> json) {
-    return ComponentBindingPropertiesValue(
-      bindingProperties: json['bindingProperties'] != null
-          ? ComponentBindingPropertiesValueProperties.fromJson(
-              json['bindingProperties'] as Map<String, dynamic>)
-          : null,
-      defaultValue: json['defaultValue'] as String?,
-      type: json['type'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bindingProperties = this.bindingProperties;
-    final defaultValue = this.defaultValue;
-    final type = this.type;
-    return {
-      if (bindingProperties != null) 'bindingProperties': bindingProperties,
-      if (defaultValue != null) 'defaultValue': defaultValue,
-      if (type != null) 'type': type,
-    };
-  }
-}
-
-/// Represents the data binding configuration for a specific property using data
-/// stored in Amazon Web Services. For Amazon Web Services connected properties,
-/// you can bind a property to data stored in an Amazon S3 bucket, an Amplify
-/// DataStore model or an authenticated user attribute.
-class ComponentBindingPropertiesValueProperties {
-  /// An Amazon S3 bucket.
-  final String? bucket;
-
-  /// The default value to assign to the property.
-  final String? defaultValue;
-
-  /// The field to bind the data to.
-  final String? field;
-
-  /// The storage key for an Amazon S3 bucket.
-  final String? key;
-
-  /// An Amplify DataStore model.
-  final String? model;
-
-  /// A list of predicates for binding a component's properties to data.
-  final List<Predicate>? predicates;
-
-  /// The name of a component slot.
-  final String? slotName;
-
-  /// An authenticated user attribute.
-  final String? userAttribute;
-
-  ComponentBindingPropertiesValueProperties({
-    this.bucket,
-    this.defaultValue,
-    this.field,
-    this.key,
-    this.model,
-    this.predicates,
-    this.slotName,
-    this.userAttribute,
-  });
-
-  factory ComponentBindingPropertiesValueProperties.fromJson(
-      Map<String, dynamic> json) {
-    return ComponentBindingPropertiesValueProperties(
-      bucket: json['bucket'] as String?,
-      defaultValue: json['defaultValue'] as String?,
-      field: json['field'] as String?,
-      key: json['key'] as String?,
-      model: json['model'] as String?,
-      predicates: (json['predicates'] as List?)
-          ?.nonNulls
-          .map((e) => Predicate.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      slotName: json['slotName'] as String?,
-      userAttribute: json['userAttribute'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucket = this.bucket;
-    final defaultValue = this.defaultValue;
-    final field = this.field;
-    final key = this.key;
-    final model = this.model;
-    final predicates = this.predicates;
-    final slotName = this.slotName;
-    final userAttribute = this.userAttribute;
-    return {
-      if (bucket != null) 'bucket': bucket,
-      if (defaultValue != null) 'defaultValue': defaultValue,
-      if (field != null) 'field': field,
-      if (key != null) 'key': key,
-      if (model != null) 'model': model,
-      if (predicates != null) 'predicates': predicates,
-      if (slotName != null) 'slotName': slotName,
-      if (userAttribute != null) 'userAttribute': userAttribute,
-    };
-  }
-}
-
-/// A nested UI configuration within a parent <code>Component</code>.
-class ComponentChild {
-  /// The type of the child component.
-  final String componentType;
-
-  /// The name of the child component.
-  final String name;
-
-  /// Describes the properties of the child component. You can't specify
-  /// <code>tags</code> as a valid property for <code>properties</code>.
-  final Map<String, ComponentProperty> properties;
-
-  /// The list of <code>ComponentChild</code> instances for this component.
-  final List<ComponentChild>? children;
-
-  /// Describes the events that can be raised on the child component. Use for the
-  /// workflow feature in Amplify Studio that allows you to bind events and
-  /// actions to components.
-  final Map<String, ComponentEvent>? events;
-
-  /// The unique ID of the child component in its original source system, such as
-  /// Figma.
-  final String? sourceId;
-
-  ComponentChild({
-    required this.componentType,
-    required this.name,
-    required this.properties,
-    this.children,
-    this.events,
-    this.sourceId,
-  });
-
-  factory ComponentChild.fromJson(Map<String, dynamic> json) {
-    return ComponentChild(
-      componentType: (json['componentType'] as String?) ?? '',
-      name: (json['name'] as String?) ?? '',
-      properties: ((json['properties'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{})
-          .map((k, e) => MapEntry(
-              k, ComponentProperty.fromJson(e as Map<String, dynamic>))),
-      children: (json['children'] as List?)
-          ?.nonNulls
-          .map((e) => ComponentChild.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      events: (json['events'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(k, ComponentEvent.fromJson(e as Map<String, dynamic>))),
-      sourceId: json['sourceId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final componentType = this.componentType;
-    final name = this.name;
-    final properties = this.properties;
-    final children = this.children;
-    final events = this.events;
-    final sourceId = this.sourceId;
-    return {
-      'componentType': componentType,
-      'name': name,
-      'properties': properties,
-      if (children != null) 'children': children,
-      if (events != null) 'events': events,
-      if (sourceId != null) 'sourceId': sourceId,
-    };
-  }
-}
-
-/// Represents a conditional expression to set a component property. Use
-/// <code>ComponentConditionProperty</code> to set a property to different
-/// values conditionally, based on the value of another property.
-class ComponentConditionProperty {
-  /// The value to assign to the property if the condition is not met.
-  final ComponentProperty? elseValue;
-
-  /// The name of a field. Specify this when the property is a data model.
-  final String? field;
-
-  /// The value of the property to evaluate.
-  final String? operand;
-
-  /// The type of the property to evaluate.
-  final String? operandType;
-
-  /// The operator to use to perform the evaluation, such as <code>eq</code> to
-  /// represent equals.
-  final String? operator;
-
-  /// The name of the conditional property.
-  final String? property;
-
-  /// The value to assign to the property if the condition is met.
-  final ComponentProperty? then;
-
-  ComponentConditionProperty({
-    this.elseValue,
-    this.field,
-    this.operand,
-    this.operandType,
-    this.operator,
-    this.property,
-    this.then,
-  });
-
-  factory ComponentConditionProperty.fromJson(Map<String, dynamic> json) {
-    return ComponentConditionProperty(
-      elseValue: json['else'] != null
-          ? ComponentProperty.fromJson(json['else'] as Map<String, dynamic>)
-          : null,
-      field: json['field'] as String?,
-      operand: json['operand'] as String?,
-      operandType: json['operandType'] as String?,
-      operator: json['operator'] as String?,
-      property: json['property'] as String?,
-      then: json['then'] != null
-          ? ComponentProperty.fromJson(json['then'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final elseValue = this.elseValue;
-    final field = this.field;
-    final operand = this.operand;
-    final operandType = this.operandType;
-    final operator = this.operator;
-    final property = this.property;
-    final then = this.then;
-    return {
-      if (elseValue != null) 'else': elseValue,
-      if (field != null) 'field': field,
-      if (operand != null) 'operand': operand,
-      if (operandType != null) 'operandType': operandType,
-      if (operator != null) 'operator': operator,
-      if (property != null) 'property': property,
-      if (then != null) 'then': then,
-    };
-  }
-}
-
-/// Describes the configuration for binding a component's properties to data.
-class ComponentDataConfiguration {
-  /// The name of the data model to use to bind data to a component.
-  final String model;
-
-  /// A list of IDs to use to bind data to a component. Use this property to bind
-  /// specifically chosen data, rather than data retrieved from a query.
-  final List<String>? identifiers;
-
-  /// Represents the conditional logic to use when binding data to a component.
-  /// Use this property to retrieve only a subset of the data in a collection.
-  final Predicate? predicate;
-
-  /// Describes how to sort the component's properties.
-  final List<SortProperty>? sort;
-
-  ComponentDataConfiguration({
-    required this.model,
-    this.identifiers,
-    this.predicate,
-    this.sort,
-  });
-
-  factory ComponentDataConfiguration.fromJson(Map<String, dynamic> json) {
-    return ComponentDataConfiguration(
-      model: (json['model'] as String?) ?? '',
-      identifiers: (json['identifiers'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      predicate: json['predicate'] != null
-          ? Predicate.fromJson(json['predicate'] as Map<String, dynamic>)
-          : null,
-      sort: (json['sort'] as List?)
-          ?.nonNulls
-          .map((e) => SortProperty.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final model = this.model;
-    final identifiers = this.identifiers;
-    final predicate = this.predicate;
-    final sort = this.sort;
-    return {
-      'model': model,
-      if (identifiers != null) 'identifiers': identifiers,
-      if (predicate != null) 'predicate': predicate,
-      if (sort != null) 'sort': sort,
-    };
-  }
-}
-
-/// Describes the configuration of an event. You can bind an event and a
-/// corresponding action to a <code>Component</code> or a
-/// <code>ComponentChild</code>. A button click is an example of an event.
-class ComponentEvent {
-  /// The action to perform when a specific event is raised.
-  final String? action;
-
-  /// Binds an event to an action on a component. When you specify a
-  /// <code>bindingEvent</code>, the event is called when the action is performed.
-  final String? bindingEvent;
-
-  /// Describes information about the action.
-  final ActionParameters? parameters;
-
-  ComponentEvent({
-    this.action,
-    this.bindingEvent,
-    this.parameters,
-  });
-
-  factory ComponentEvent.fromJson(Map<String, dynamic> json) {
-    return ComponentEvent(
-      action: json['action'] as String?,
-      bindingEvent: json['bindingEvent'] as String?,
-      parameters: json['parameters'] != null
-          ? ActionParameters.fromJson(
-              json['parameters'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final action = this.action;
-    final bindingEvent = this.bindingEvent;
-    final parameters = this.parameters;
-    return {
-      if (action != null) 'action': action,
-      if (bindingEvent != null) 'bindingEvent': bindingEvent,
-      if (parameters != null) 'parameters': parameters,
-    };
-  }
-}
-
-/// Describes the configuration for all of a component's properties. Use
-/// <code>ComponentProperty</code> to specify the values to render or bind by
-/// default.
-class ComponentProperty {
-  /// The information to bind the component property to data at runtime.
-  final ComponentPropertyBindingProperties? bindingProperties;
-
-  /// The information to bind the component property to form data.
-  final Map<String, FormBindingElement>? bindings;
-
-  /// The information to bind the component property to data at runtime. Use this
-  /// for collection components.
-  final ComponentPropertyBindingProperties? collectionBindingProperties;
-
-  /// The name of the component that is affected by an event.
-  final String? componentName;
-
-  /// A list of component properties to concatenate to create the value to assign
-  /// to this component property.
-  final List<ComponentProperty>? concat;
-
-  /// The conditional expression to use to assign a value to the component
-  /// property.
-  final ComponentConditionProperty? condition;
-
-  /// Specifies whether the user configured the property in Amplify Studio after
-  /// importing it.
-  final bool? configured;
-
-  /// The default value to assign to the component property.
-  final String? defaultValue;
-
-  /// An event that occurs in your app. Use this for workflow data binding.
-  final String? event;
-
-  /// The default value assigned to the property when the component is imported
-  /// into an app.
-  final String? importedValue;
-
-  /// The data model to use to assign a value to the component property.
-  final String? model;
-
-  /// The name of the component's property that is affected by an event.
-  final String? property;
-
-  /// The component type.
-  final String? type;
-
-  /// An authenticated user attribute to use to assign a value to the component
-  /// property.
-  final String? userAttribute;
-
-  /// The value to assign to the component property.
-  final String? value;
-
-  ComponentProperty({
-    this.bindingProperties,
-    this.bindings,
-    this.collectionBindingProperties,
-    this.componentName,
-    this.concat,
-    this.condition,
-    this.configured,
-    this.defaultValue,
-    this.event,
-    this.importedValue,
-    this.model,
-    this.property,
-    this.type,
-    this.userAttribute,
-    this.value,
-  });
-
-  factory ComponentProperty.fromJson(Map<String, dynamic> json) {
-    return ComponentProperty(
-      bindingProperties: json['bindingProperties'] != null
-          ? ComponentPropertyBindingProperties.fromJson(
-              json['bindingProperties'] as Map<String, dynamic>)
-          : null,
-      bindings: (json['bindings'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(k, FormBindingElement.fromJson(e as Map<String, dynamic>))),
-      collectionBindingProperties: json['collectionBindingProperties'] != null
-          ? ComponentPropertyBindingProperties.fromJson(
-              json['collectionBindingProperties'] as Map<String, dynamic>)
-          : null,
-      componentName: json['componentName'] as String?,
-      concat: (json['concat'] as List?)
-          ?.nonNulls
-          .map((e) => ComponentProperty.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      condition: json['condition'] != null
-          ? ComponentConditionProperty.fromJson(
-              json['condition'] as Map<String, dynamic>)
-          : null,
-      configured: json['configured'] as bool?,
-      defaultValue: json['defaultValue'] as String?,
-      event: json['event'] as String?,
-      importedValue: json['importedValue'] as String?,
-      model: json['model'] as String?,
-      property: json['property'] as String?,
-      type: json['type'] as String?,
-      userAttribute: json['userAttribute'] as String?,
-      value: json['value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bindingProperties = this.bindingProperties;
-    final bindings = this.bindings;
-    final collectionBindingProperties = this.collectionBindingProperties;
-    final componentName = this.componentName;
-    final concat = this.concat;
-    final condition = this.condition;
-    final configured = this.configured;
-    final defaultValue = this.defaultValue;
-    final event = this.event;
-    final importedValue = this.importedValue;
-    final model = this.model;
-    final property = this.property;
-    final type = this.type;
-    final userAttribute = this.userAttribute;
-    final value = this.value;
-    return {
-      if (bindingProperties != null) 'bindingProperties': bindingProperties,
-      if (bindings != null) 'bindings': bindings,
-      if (collectionBindingProperties != null)
-        'collectionBindingProperties': collectionBindingProperties,
-      if (componentName != null) 'componentName': componentName,
-      if (concat != null) 'concat': concat,
-      if (condition != null) 'condition': condition,
-      if (configured != null) 'configured': configured,
-      if (defaultValue != null) 'defaultValue': defaultValue,
-      if (event != null) 'event': event,
-      if (importedValue != null) 'importedValue': importedValue,
-      if (model != null) 'model': model,
-      if (property != null) 'property': property,
-      if (type != null) 'type': type,
-      if (userAttribute != null) 'userAttribute': userAttribute,
-      if (value != null) 'value': value,
-    };
-  }
-}
-
-/// Associates a component property to a binding property. This enables exposed
-/// properties on the top level component to propagate data to the component's
-/// property values.
-class ComponentPropertyBindingProperties {
-  /// The component property to bind to the data field.
-  final String property;
-
-  /// The data field to bind the property to.
-  final String? field;
-
-  ComponentPropertyBindingProperties({
-    required this.property,
-    this.field,
-  });
-
-  factory ComponentPropertyBindingProperties.fromJson(
-      Map<String, dynamic> json) {
-    return ComponentPropertyBindingProperties(
-      property: (json['property'] as String?) ?? '',
-      field: json['field'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final property = this.property;
-    final field = this.field;
-    return {
-      'property': property,
-      if (field != null) 'field': field,
-    };
-  }
-}
-
-/// Contains a summary of a component. This is a read-only data type that is
-/// returned by <code>ListComponents</code>.
-class ComponentSummary {
-  /// The unique ID of the Amplify app associated with the component.
-  final String appId;
-
-  /// The component type.
-  final String componentType;
-
+  /// Retrieves a list of themes for a specified Amplify app and backend
+  /// environment.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidParameterException].
+  ///
+  /// Parameter [appId] :
+  /// The unique ID for the Amplify app.
+  ///
+  /// Parameter [environmentName] :
   /// The name of the backend environment that is a part of the Amplify app.
-  final String environmentName;
-
-  /// The unique ID of the component.
-  final String id;
-
-  /// The name of the component.
-  final String name;
-
-  ComponentSummary({
-    required this.appId,
-    required this.componentType,
-    required this.environmentName,
-    required this.id,
-    required this.name,
-  });
-
-  factory ComponentSummary.fromJson(Map<String, dynamic> json) {
-    return ComponentSummary(
-      appId: (json['appId'] as String?) ?? '',
-      componentType: (json['componentType'] as String?) ?? '',
-      environmentName: (json['environmentName'] as String?) ?? '',
-      id: (json['id'] as String?) ?? '',
-      name: (json['name'] as String?) ?? '',
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of theme results to return in the response.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to request the next page of results.
+  Future<ListThemesResponse> listThemes({
+    required String appId,
+    required String environmentName,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    final appId = this.appId;
-    final componentType = this.componentType;
-    final environmentName = this.environmentName;
-    final id = this.id;
-    final name = this.name;
-    return {
-      'appId': appId,
-      'componentType': componentType,
-      'environmentName': environmentName,
-      'id': id,
-      'name': name,
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
     };
-  }
-}
-
-/// Describes the style configuration of a unique variation of a main component.
-class ComponentVariant {
-  /// The properties of the component variant that can be overriden when
-  /// customizing an instance of the component. You can't specify
-  /// <code>tags</code> as a valid property for <code>overrides</code>.
-  final Map<String, Map<String, String>>? overrides;
-
-  /// The combination of variants that comprise this variant. You can't specify
-  /// <code>tags</code> as a valid property for <code>variantValues</code>.
-  final Map<String, String>? variantValues;
-
-  ComponentVariant({
-    this.overrides,
-    this.variantValues,
-  });
-
-  factory ComponentVariant.fromJson(Map<String, dynamic> json) {
-    return ComponentVariant(
-      overrides: (json['overrides'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(
-              k,
-              (e as Map<String, dynamic>)
-                  .map((k, e) => MapEntry(k, e as String)))),
-      variantValues: (json['variantValues'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/app/${Uri.encodeComponent(appId)}/environment/${Uri.encodeComponent(environmentName)}/themes',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
     );
+    return ListThemesResponse.fromJson(response);
   }
 
-  Map<String, dynamic> toJson() {
-    final overrides = this.overrides;
-    final variantValues = this.variantValues;
-    return {
-      if (overrides != null) 'overrides': overrides,
-      if (variantValues != null) 'variantValues': variantValues,
+  /// Exports theme configurations to code that is ready to integrate into an
+  /// Amplify app.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidParameterException].
+  ///
+  /// Parameter [appId] :
+  /// The unique ID of the Amplify app to export the themes to.
+  ///
+  /// Parameter [environmentName] :
+  /// The name of the backend environment that is part of the Amplify app.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to request the next page of results.
+  Future<ExportThemesResponse> exportThemes({
+    required String appId,
+    required String environmentName,
+    String? nextToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (nextToken != null) 'nextToken': [nextToken],
     };
-  }
-}
-
-/// Represents all of the information that is required to create a component.
-class CreateComponentData {
-  /// The data binding information for the component's properties.
-  final Map<String, ComponentBindingPropertiesValue> bindingProperties;
-
-  /// The component type. This can be an Amplify custom UI component or another
-  /// custom component.
-  final String componentType;
-
-  /// The name of the component
-  final String name;
-
-  /// Describes the component properties that can be overriden to customize an
-  /// instance of the component.
-  final Map<String, Map<String, String>> overrides;
-
-  /// Describes the component's properties.
-  final Map<String, ComponentProperty> properties;
-
-  /// A list of the unique variants of this component.
-  final List<ComponentVariant> variants;
-
-  /// A list of child components that are instances of the main component.
-  final List<ComponentChild>? children;
-
-  /// The data binding configuration for customizing a component's properties. Use
-  /// this for a collection component.
-  final Map<String, ComponentDataConfiguration>? collectionProperties;
-
-  /// The event configuration for the component. Use for the workflow feature in
-  /// Amplify Studio that allows you to bind events and actions to components.
-  final Map<String, ComponentEvent>? events;
-
-  /// The schema version of the component when it was imported.
-  final String? schemaVersion;
-
-  /// The unique ID of the component in its original source system, such as Figma.
-  final String? sourceId;
-
-  /// One or more key-value pairs to use when tagging the component data.
-  final Map<String, String>? tags;
-
-  CreateComponentData({
-    required this.bindingProperties,
-    required this.componentType,
-    required this.name,
-    required this.overrides,
-    required this.properties,
-    required this.variants,
-    this.children,
-    this.collectionProperties,
-    this.events,
-    this.schemaVersion,
-    this.sourceId,
-    this.tags,
-  });
-
-  Map<String, dynamic> toJson() {
-    final bindingProperties = this.bindingProperties;
-    final componentType = this.componentType;
-    final name = this.name;
-    final overrides = this.overrides;
-    final properties = this.properties;
-    final variants = this.variants;
-    final children = this.children;
-    final collectionProperties = this.collectionProperties;
-    final events = this.events;
-    final schemaVersion = this.schemaVersion;
-    final sourceId = this.sourceId;
-    final tags = this.tags;
-    return {
-      'bindingProperties': bindingProperties,
-      'componentType': componentType,
-      'name': name,
-      'overrides': overrides,
-      'properties': properties,
-      'variants': variants,
-      if (children != null) 'children': children,
-      if (collectionProperties != null)
-        'collectionProperties': collectionProperties,
-      if (events != null) 'events': events,
-      if (schemaVersion != null) 'schemaVersion': schemaVersion,
-      if (sourceId != null) 'sourceId': sourceId,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-class CreateComponentResponse {
-  /// Describes the configuration of the new component.
-  final Component? entity;
-
-  CreateComponentResponse({
-    this.entity,
-  });
-
-  Map<String, dynamic> toJson() {
-    final entity = this.entity;
-    return {
-      if (entity != null) 'entity': entity,
-    };
-  }
-}
-
-/// Represents all of the information that is required to create a form.
-class CreateFormData {
-  /// The type of data source to use to create the form.
-  final FormDataTypeConfig dataType;
-
-  /// The configuration information for the form's fields.
-  final Map<String, FieldConfig> fields;
-
-  /// Specifies whether to perform a create or update action on the form.
-  final FormActionType formActionType;
-
-  /// The name of the form.
-  final String name;
-
-  /// The schema version of the form.
-  final String schemaVersion;
-
-  /// The configuration information for the visual helper elements for the form.
-  /// These elements are not associated with any data.
-  final Map<String, SectionalElement> sectionalElements;
-
-  /// The configuration for the form's style.
-  final FormStyle style;
-
-  /// The <code>FormCTA</code> object that stores the call to action configuration
-  /// for the form.
-  final FormCTA? cta;
-
-  /// Specifies an icon or decoration to display on the form.
-  final LabelDecorator? labelDecorator;
-
-  /// One or more key-value pairs to use when tagging the form data.
-  final Map<String, String>? tags;
-
-  CreateFormData({
-    required this.dataType,
-    required this.fields,
-    required this.formActionType,
-    required this.name,
-    required this.schemaVersion,
-    required this.sectionalElements,
-    required this.style,
-    this.cta,
-    this.labelDecorator,
-    this.tags,
-  });
-
-  Map<String, dynamic> toJson() {
-    final dataType = this.dataType;
-    final fields = this.fields;
-    final formActionType = this.formActionType;
-    final name = this.name;
-    final schemaVersion = this.schemaVersion;
-    final sectionalElements = this.sectionalElements;
-    final style = this.style;
-    final cta = this.cta;
-    final labelDecorator = this.labelDecorator;
-    final tags = this.tags;
-    return {
-      'dataType': dataType,
-      'fields': fields,
-      'formActionType': formActionType.value,
-      'name': name,
-      'schemaVersion': schemaVersion,
-      'sectionalElements': sectionalElements,
-      'style': style,
-      if (cta != null) 'cta': cta,
-      if (labelDecorator != null) 'labelDecorator': labelDecorator.value,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-class CreateFormResponse {
-  /// Describes the configuration of the new form.
-  final Form? entity;
-
-  CreateFormResponse({
-    this.entity,
-  });
-
-  Map<String, dynamic> toJson() {
-    final entity = this.entity;
-    return {
-      if (entity != null) 'entity': entity,
-    };
-  }
-}
-
-/// Represents all of the information that is required to create a theme.
-class CreateThemeData {
-  /// The name of the theme.
-  final String name;
-
-  /// A list of key-value pairs that deﬁnes the properties of the theme.
-  final List<ThemeValues> values;
-
-  /// Describes the properties that can be overriden to customize an instance of
-  /// the theme.
-  final List<ThemeValues>? overrides;
-
-  /// One or more key-value pairs to use when tagging the theme data.
-  final Map<String, String>? tags;
-
-  CreateThemeData({
-    required this.name,
-    required this.values,
-    this.overrides,
-    this.tags,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final values = this.values;
-    final overrides = this.overrides;
-    final tags = this.tags;
-    return {
-      'name': name,
-      'values': values,
-      if (overrides != null) 'overrides': overrides,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-class CreateThemeResponse {
-  /// Describes the configuration of the new theme.
-  final Theme? entity;
-
-  CreateThemeResponse({
-    this.entity,
-  });
-
-  Map<String, dynamic> toJson() {
-    final entity = this.entity;
-    return {
-      if (entity != null) 'entity': entity,
-    };
-  }
-}
-
-/// Describes the DataStore configuration for an API for a code generation job.
-class DataStoreRenderConfig {
-  DataStoreRenderConfig();
-
-  factory DataStoreRenderConfig.fromJson(Map<String, dynamic> _) {
-    return DataStoreRenderConfig();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Describes the configuration of a request to exchange an access code for a
-/// token.
-class ExchangeCodeForTokenRequestBody {
-  /// The access code to send in the request.
-  final String code;
-
-  /// The location of the application that will receive the access code.
-  final String redirectUri;
-
-  /// The ID of the client to request the token from.
-  final String? clientId;
-
-  ExchangeCodeForTokenRequestBody({
-    required this.code,
-    required this.redirectUri,
-    this.clientId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final redirectUri = this.redirectUri;
-    final clientId = this.clientId;
-    return {
-      'code': code,
-      'redirectUri': redirectUri,
-      if (clientId != null) 'clientId': clientId,
-    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/export/app/${Uri.encodeComponent(appId)}/environment/${Uri.encodeComponent(environmentName)}/themes',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ExportThemesResponse.fromJson(response);
   }
 }
 
@@ -3036,6 +1076,252 @@ class ExchangeCodeForTokenResponse {
   }
 }
 
+class GetMetadataResponse {
+  /// Represents the configuration settings for the features metadata.
+  final Map<String, String> features;
+
+  GetMetadataResponse({
+    required this.features,
+  });
+
+  factory GetMetadataResponse.fromJson(Map<String, dynamic> json) {
+    return GetMetadataResponse(
+      features: ((json['features'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final features = this.features;
+    return {
+      'features': features,
+    };
+  }
+}
+
+class ListTagsForResourceResponse {
+  /// A list of tag key value pairs for a specified Amazon Resource Name (ARN).
+  final Map<String, String> tags;
+
+  ListTagsForResourceResponse({
+    required this.tags,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags:
+          ((json['tags'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      'tags': tags,
+    };
+  }
+}
+
+class RefreshTokenResponse {
+  /// The access token.
+  final String accessToken;
+
+  /// The date and time when the new access token expires.
+  final int expiresIn;
+
+  RefreshTokenResponse({
+    required this.accessToken,
+    required this.expiresIn,
+  });
+
+  factory RefreshTokenResponse.fromJson(Map<String, dynamic> json) {
+    return RefreshTokenResponse(
+      accessToken: (json['accessToken'] as String?) ?? '',
+      expiresIn: (json['expiresIn'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessToken = this.accessToken;
+    final expiresIn = this.expiresIn;
+    return {
+      'accessToken': accessToken,
+      'expiresIn': expiresIn,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class StartCodegenJobResponse {
+  /// The code generation job for a UI component that is associated with an
+  /// Amplify app.
+  final CodegenJob? entity;
+
+  StartCodegenJobResponse({
+    this.entity,
+  });
+
+  Map<String, dynamic> toJson() {
+    final entity = this.entity;
+    return {
+      if (entity != null) 'entity': entity,
+    };
+  }
+}
+
+class GetCodegenJobResponse {
+  /// The configuration settings for the code generation job.
+  final CodegenJob? job;
+
+  GetCodegenJobResponse({
+    this.job,
+  });
+
+  Map<String, dynamic> toJson() {
+    final job = this.job;
+    return {
+      if (job != null) 'job': job,
+    };
+  }
+}
+
+class ListCodegenJobsResponse {
+  /// The list of code generation jobs for the Amplify app.
+  final List<CodegenJobSummary> entities;
+
+  /// The pagination token that's included if more results are available.
+  final String? nextToken;
+
+  ListCodegenJobsResponse({
+    required this.entities,
+    this.nextToken,
+  });
+
+  factory ListCodegenJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListCodegenJobsResponse(
+      entities: ((json['entities'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => CodegenJobSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entities = this.entities;
+    final nextToken = this.nextToken;
+    return {
+      'entities': entities,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class CreateComponentResponse {
+  /// Describes the configuration of the new component.
+  final Component? entity;
+
+  CreateComponentResponse({
+    this.entity,
+  });
+
+  Map<String, dynamic> toJson() {
+    final entity = this.entity;
+    return {
+      if (entity != null) 'entity': entity,
+    };
+  }
+}
+
+class GetComponentResponse {
+  /// Represents the configuration settings for the component.
+  final Component? component;
+
+  GetComponentResponse({
+    this.component,
+  });
+
+  Map<String, dynamic> toJson() {
+    final component = this.component;
+    return {
+      if (component != null) 'component': component,
+    };
+  }
+}
+
+class UpdateComponentResponse {
+  /// Describes the configuration of the updated component.
+  final Component? entity;
+
+  UpdateComponentResponse({
+    this.entity,
+  });
+
+  Map<String, dynamic> toJson() {
+    final entity = this.entity;
+    return {
+      if (entity != null) 'entity': entity,
+    };
+  }
+}
+
+class ListComponentsResponse {
+  /// The list of components for the Amplify app.
+  final List<ComponentSummary> entities;
+
+  /// The pagination token that's included if more results are available.
+  final String? nextToken;
+
+  ListComponentsResponse({
+    required this.entities,
+    this.nextToken,
+  });
+
+  factory ListComponentsResponse.fromJson(Map<String, dynamic> json) {
+    return ListComponentsResponse(
+      entities: ((json['entities'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => ComponentSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entities = this.entities;
+    final nextToken = this.nextToken;
+    return {
+      'entities': entities,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 class ExportComponentsResponse {
   /// Represents the configuration of the exported components.
   final List<Component> entities;
@@ -3053,6 +1339,86 @@ class ExportComponentsResponse {
       entities: ((json['entities'] as List?) ?? const [])
           .nonNulls
           .map((e) => Component.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entities = this.entities;
+    final nextToken = this.nextToken;
+    return {
+      'entities': entities,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class CreateFormResponse {
+  /// Describes the configuration of the new form.
+  final Form? entity;
+
+  CreateFormResponse({
+    this.entity,
+  });
+
+  Map<String, dynamic> toJson() {
+    final entity = this.entity;
+    return {
+      if (entity != null) 'entity': entity,
+    };
+  }
+}
+
+class GetFormResponse {
+  /// Represents the configuration settings for the form.
+  final Form? form;
+
+  GetFormResponse({
+    this.form,
+  });
+
+  Map<String, dynamic> toJson() {
+    final form = this.form;
+    return {
+      if (form != null) 'form': form,
+    };
+  }
+}
+
+class UpdateFormResponse {
+  /// Describes the configuration of the updated form.
+  final Form? entity;
+
+  UpdateFormResponse({
+    this.entity,
+  });
+
+  Map<String, dynamic> toJson() {
+    final entity = this.entity;
+    return {
+      if (entity != null) 'entity': entity,
+    };
+  }
+}
+
+class ListFormsResponse {
+  /// The list of forms for the Amplify app.
+  final List<FormSummary> entities;
+
+  /// The pagination token that's included if more results are available.
+  final String? nextToken;
+
+  ListFormsResponse({
+    required this.entities,
+    this.nextToken,
+  });
+
+  factory ListFormsResponse.fromJson(Map<String, dynamic> json) {
+    return ListFormsResponse(
+      entities: ((json['entities'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => FormSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
     );
@@ -3100,6 +1466,86 @@ class ExportFormsResponse {
   }
 }
 
+class CreateThemeResponse {
+  /// Describes the configuration of the new theme.
+  final Theme? entity;
+
+  CreateThemeResponse({
+    this.entity,
+  });
+
+  Map<String, dynamic> toJson() {
+    final entity = this.entity;
+    return {
+      if (entity != null) 'entity': entity,
+    };
+  }
+}
+
+class GetThemeResponse {
+  /// Represents the configuration settings for the theme.
+  final Theme? theme;
+
+  GetThemeResponse({
+    this.theme,
+  });
+
+  Map<String, dynamic> toJson() {
+    final theme = this.theme;
+    return {
+      if (theme != null) 'theme': theme,
+    };
+  }
+}
+
+class UpdateThemeResponse {
+  /// Describes the configuration of the updated theme.
+  final Theme? entity;
+
+  UpdateThemeResponse({
+    this.entity,
+  });
+
+  Map<String, dynamic> toJson() {
+    final entity = this.entity;
+    return {
+      if (entity != null) 'entity': entity,
+    };
+  }
+}
+
+class ListThemesResponse {
+  /// The list of themes for the Amplify app.
+  final List<ThemeSummary> entities;
+
+  /// The pagination token that's returned if more results are available.
+  final String? nextToken;
+
+  ListThemesResponse({
+    required this.entities,
+    this.nextToken,
+  });
+
+  factory ListThemesResponse.fromJson(Map<String, dynamic> json) {
+    return ListThemesResponse(
+      entities: ((json['entities'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => ThemeSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entities = this.entities;
+    final nextToken = this.nextToken;
+    return {
+      'entities': entities,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 class ExportThemesResponse {
   /// Represents the configuration of the exported themes.
   final List<Theme> entities;
@@ -3128,6 +1574,772 @@ class ExportThemesResponse {
     return {
       'entities': entities,
       if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// A theme is a collection of style settings that apply globally to the
+/// components associated with an Amplify application.
+class Theme {
+  /// The unique ID for the Amplify app associated with the theme.
+  final String appId;
+
+  /// The time that the theme was created.
+  final DateTime createdAt;
+
+  /// The name of the backend environment that is a part of the Amplify app.
+  final String environmentName;
+
+  /// The ID for the theme.
+  final String id;
+
+  /// The name of the theme.
+  final String name;
+
+  /// A list of key-value pairs that defines the properties of the theme.
+  final List<ThemeValues> values;
+
+  /// The time that the theme was modified.
+  final DateTime? modifiedAt;
+
+  /// Describes the properties that can be overriden to customize a theme.
+  final List<ThemeValues>? overrides;
+
+  /// One or more key-value pairs to use when tagging the theme.
+  final Map<String, String>? tags;
+
+  Theme({
+    required this.appId,
+    required this.createdAt,
+    required this.environmentName,
+    required this.id,
+    required this.name,
+    required this.values,
+    this.modifiedAt,
+    this.overrides,
+    this.tags,
+  });
+
+  factory Theme.fromJson(Map<String, dynamic> json) {
+    return Theme(
+      appId: (json['appId'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      environmentName: (json['environmentName'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      values: ((json['values'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => ThemeValues.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      modifiedAt: timeStampFromJson(json['modifiedAt']),
+      overrides: (json['overrides'] as List?)
+          ?.nonNulls
+          .map((e) => ThemeValues.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appId = this.appId;
+    final createdAt = this.createdAt;
+    final environmentName = this.environmentName;
+    final id = this.id;
+    final name = this.name;
+    final values = this.values;
+    final modifiedAt = this.modifiedAt;
+    final overrides = this.overrides;
+    final tags = this.tags;
+    return {
+      'appId': appId,
+      'createdAt': iso8601ToJson(createdAt),
+      'environmentName': environmentName,
+      'id': id,
+      'name': name,
+      'values': values,
+      if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
+      if (overrides != null) 'overrides': overrides,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// A key-value pair that defines a property of a theme.
+class ThemeValues {
+  /// The name of the property.
+  final String? key;
+
+  /// The value of the property.
+  final ThemeValue? value;
+
+  ThemeValues({
+    this.key,
+    this.value,
+  });
+
+  factory ThemeValues.fromJson(Map<String, dynamic> json) {
+    return ThemeValues(
+      key: json['key'] as String?,
+      value: json['value'] != null
+          ? ThemeValue.fromJson(json['value'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'key': key,
+      if (value != null) 'value': value,
+    };
+  }
+}
+
+/// Describes the configuration of a theme's properties.
+class ThemeValue {
+  /// A list of key-value pairs that define the theme's properties.
+  final List<ThemeValues>? children;
+
+  /// The value of a theme property.
+  final String? value;
+
+  ThemeValue({
+    this.children,
+    this.value,
+  });
+
+  factory ThemeValue.fromJson(Map<String, dynamic> json) {
+    return ThemeValue(
+      children: (json['children'] as List?)
+          ?.nonNulls
+          .map((e) => ThemeValues.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      value: json['value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final children = this.children;
+    final value = this.value;
+    return {
+      if (children != null) 'children': children,
+      if (value != null) 'value': value,
+    };
+  }
+}
+
+/// Describes the basic information about a theme.
+class ThemeSummary {
+  /// The unique ID for the app associated with the theme summary.
+  final String appId;
+
+  /// The name of the backend environment that is part of the Amplify app.
+  final String environmentName;
+
+  /// The ID of the theme.
+  final String id;
+
+  /// The name of the theme.
+  final String name;
+
+  ThemeSummary({
+    required this.appId,
+    required this.environmentName,
+    required this.id,
+    required this.name,
+  });
+
+  factory ThemeSummary.fromJson(Map<String, dynamic> json) {
+    return ThemeSummary(
+      appId: (json['appId'] as String?) ?? '',
+      environmentName: (json['environmentName'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appId = this.appId;
+    final environmentName = this.environmentName;
+    final id = this.id;
+    final name = this.name;
+    return {
+      'appId': appId,
+      'environmentName': environmentName,
+      'id': id,
+      'name': name,
+    };
+  }
+}
+
+/// Saves the data binding information for a theme.
+class UpdateThemeData {
+  /// A list of key-value pairs that define the theme's properties.
+  final List<ThemeValues> values;
+
+  /// The unique ID of the theme to update.
+  final String? id;
+
+  /// The name of the theme to update.
+  final String? name;
+
+  /// Describes the properties that can be overriden to customize the theme.
+  final List<ThemeValues>? overrides;
+
+  UpdateThemeData({
+    required this.values,
+    this.id,
+    this.name,
+    this.overrides,
+  });
+
+  Map<String, dynamic> toJson() {
+    final values = this.values;
+    final id = this.id;
+    final name = this.name;
+    final overrides = this.overrides;
+    return {
+      'values': values,
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (overrides != null) 'overrides': overrides,
+    };
+  }
+}
+
+/// Represents all of the information that is required to create a theme.
+class CreateThemeData {
+  /// The name of the theme.
+  final String name;
+
+  /// A list of key-value pairs that deﬁnes the properties of the theme.
+  final List<ThemeValues> values;
+
+  /// Describes the properties that can be overriden to customize an instance of
+  /// the theme.
+  final List<ThemeValues>? overrides;
+
+  /// One or more key-value pairs to use when tagging the theme data.
+  final Map<String, String>? tags;
+
+  CreateThemeData({
+    required this.name,
+    required this.values,
+    this.overrides,
+    this.tags,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    final overrides = this.overrides;
+    final tags = this.tags;
+    return {
+      'name': name,
+      'values': values,
+      if (overrides != null) 'overrides': overrides,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Contains the configuration settings for a <code>Form</code> user interface
+/// (UI) element for an Amplify app. A form is a component you can add to your
+/// project by specifying a data source as the default configuration for the
+/// form.
+class Form {
+  /// The unique ID of the Amplify app associated with the form.
+  final String appId;
+
+  /// The type of data source to use to create the form.
+  final FormDataTypeConfig dataType;
+
+  /// The name of the backend environment that is a part of the Amplify app.
+  final String environmentName;
+
+  /// Stores the information about the form's fields.
+  final Map<String, FieldConfig> fields;
+
+  /// The operation to perform on the specified form.
+  final FormActionType formActionType;
+
+  /// The unique ID of the form.
+  final String id;
+
+  /// The name of the form.
+  final String name;
+
+  /// The schema version of the form when it was imported.
+  final String schemaVersion;
+
+  /// Stores the visual helper elements for the form that are not associated with
+  /// any data.
+  final Map<String, SectionalElement> sectionalElements;
+
+  /// Stores the configuration for the form's style.
+  final FormStyle style;
+
+  /// Stores the call to action configuration for the form.
+  final FormCTA? cta;
+
+  /// Specifies an icon or decoration to display on the form.
+  final LabelDecorator? labelDecorator;
+
+  /// One or more key-value pairs to use when tagging the form.
+  final Map<String, String>? tags;
+
+  Form({
+    required this.appId,
+    required this.dataType,
+    required this.environmentName,
+    required this.fields,
+    required this.formActionType,
+    required this.id,
+    required this.name,
+    required this.schemaVersion,
+    required this.sectionalElements,
+    required this.style,
+    this.cta,
+    this.labelDecorator,
+    this.tags,
+  });
+
+  factory Form.fromJson(Map<String, dynamic> json) {
+    return Form(
+      appId: (json['appId'] as String?) ?? '',
+      dataType: FormDataTypeConfig.fromJson(
+          (json['dataType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      environmentName: (json['environmentName'] as String?) ?? '',
+      fields: ((json['fields'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) =>
+              MapEntry(k, FieldConfig.fromJson(e as Map<String, dynamic>))),
+      formActionType:
+          FormActionType.fromString((json['formActionType'] as String?) ?? ''),
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      schemaVersion: (json['schemaVersion'] as String?) ?? '',
+      sectionalElements:
+          ((json['sectionalElements'] as Map<String, dynamic>?) ??
+                  const <String, dynamic>{})
+              .map((k, e) => MapEntry(
+                  k, SectionalElement.fromJson(e as Map<String, dynamic>))),
+      style: FormStyle.fromJson((json['style'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      cta: json['cta'] != null
+          ? FormCTA.fromJson(json['cta'] as Map<String, dynamic>)
+          : null,
+      labelDecorator:
+          (json['labelDecorator'] as String?)?.let(LabelDecorator.fromString),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appId = this.appId;
+    final dataType = this.dataType;
+    final environmentName = this.environmentName;
+    final fields = this.fields;
+    final formActionType = this.formActionType;
+    final id = this.id;
+    final name = this.name;
+    final schemaVersion = this.schemaVersion;
+    final sectionalElements = this.sectionalElements;
+    final style = this.style;
+    final cta = this.cta;
+    final labelDecorator = this.labelDecorator;
+    final tags = this.tags;
+    return {
+      'appId': appId,
+      'dataType': dataType,
+      'environmentName': environmentName,
+      'fields': fields,
+      'formActionType': formActionType.value,
+      'id': id,
+      'name': name,
+      'schemaVersion': schemaVersion,
+      'sectionalElements': sectionalElements,
+      'style': style,
+      if (cta != null) 'cta': cta,
+      if (labelDecorator != null) 'labelDecorator': labelDecorator.value,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+class FormActionType {
+  static const create = FormActionType._('create');
+  static const update = FormActionType._('update');
+
+  final String value;
+
+  const FormActionType._(this.value);
+
+  static const values = [create, update];
+
+  static FormActionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FormActionType._(value));
+
+  @override
+  bool operator ==(other) => other is FormActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the configuration for the form's style.
+class FormStyle {
+  /// The spacing for the horizontal gap.
+  final FormStyleConfig? horizontalGap;
+
+  /// The size of the outer padding for the form.
+  final FormStyleConfig? outerPadding;
+
+  /// The spacing for the vertical gap.
+  final FormStyleConfig? verticalGap;
+
+  FormStyle({
+    this.horizontalGap,
+    this.outerPadding,
+    this.verticalGap,
+  });
+
+  factory FormStyle.fromJson(Map<String, dynamic> json) {
+    return FormStyle(
+      horizontalGap: json['horizontalGap'] != null
+          ? FormStyleConfig.fromJson(
+              json['horizontalGap'] as Map<String, dynamic>)
+          : null,
+      outerPadding: json['outerPadding'] != null
+          ? FormStyleConfig.fromJson(
+              json['outerPadding'] as Map<String, dynamic>)
+          : null,
+      verticalGap: json['verticalGap'] != null
+          ? FormStyleConfig.fromJson(
+              json['verticalGap'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final horizontalGap = this.horizontalGap;
+    final outerPadding = this.outerPadding;
+    final verticalGap = this.verticalGap;
+    return {
+      if (horizontalGap != null) 'horizontalGap': horizontalGap,
+      if (outerPadding != null) 'outerPadding': outerPadding,
+      if (verticalGap != null) 'verticalGap': verticalGap,
+    };
+  }
+}
+
+/// Describes the data type configuration for the data source associated with a
+/// form.
+class FormDataTypeConfig {
+  /// The data source type, either an Amplify DataStore model or a custom data
+  /// type.
+  final FormDataSourceType dataSourceType;
+
+  /// The unique name of the data type you are using as the data source for the
+  /// form.
+  final String dataTypeName;
+
+  FormDataTypeConfig({
+    required this.dataSourceType,
+    required this.dataTypeName,
+  });
+
+  factory FormDataTypeConfig.fromJson(Map<String, dynamic> json) {
+    return FormDataTypeConfig(
+      dataSourceType: FormDataSourceType.fromString(
+          (json['dataSourceType'] as String?) ?? ''),
+      dataTypeName: (json['dataTypeName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSourceType = this.dataSourceType;
+    final dataTypeName = this.dataTypeName;
+    return {
+      'dataSourceType': dataSourceType.value,
+      'dataTypeName': dataTypeName,
+    };
+  }
+}
+
+/// Describes the call to action button configuration for the form.
+class FormCTA {
+  /// Displays a cancel button.
+  final FormButton? cancel;
+
+  /// Displays a clear button.
+  final FormButton? clear;
+
+  /// The position of the button.
+  final FormButtonsPosition? position;
+
+  /// Displays a submit button.
+  final FormButton? submit;
+
+  FormCTA({
+    this.cancel,
+    this.clear,
+    this.position,
+    this.submit,
+  });
+
+  factory FormCTA.fromJson(Map<String, dynamic> json) {
+    return FormCTA(
+      cancel: json['cancel'] != null
+          ? FormButton.fromJson(json['cancel'] as Map<String, dynamic>)
+          : null,
+      clear: json['clear'] != null
+          ? FormButton.fromJson(json['clear'] as Map<String, dynamic>)
+          : null,
+      position:
+          (json['position'] as String?)?.let(FormButtonsPosition.fromString),
+      submit: json['submit'] != null
+          ? FormButton.fromJson(json['submit'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cancel = this.cancel;
+    final clear = this.clear;
+    final position = this.position;
+    final submit = this.submit;
+    return {
+      if (cancel != null) 'cancel': cancel,
+      if (clear != null) 'clear': clear,
+      if (position != null) 'position': position.value,
+      if (submit != null) 'submit': submit,
+    };
+  }
+}
+
+class LabelDecorator {
+  static const required = LabelDecorator._('required');
+  static const optional = LabelDecorator._('optional');
+  static const none = LabelDecorator._('none');
+
+  final String value;
+
+  const LabelDecorator._(this.value);
+
+  static const values = [required, optional, none];
+
+  static LabelDecorator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LabelDecorator._(value));
+
+  @override
+  bool operator ==(other) => other is LabelDecorator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class FormButtonsPosition {
+  static const top = FormButtonsPosition._('top');
+  static const bottom = FormButtonsPosition._('bottom');
+  static const topAndBottom = FormButtonsPosition._('top_and_bottom');
+
+  final String value;
+
+  const FormButtonsPosition._(this.value);
+
+  static const values = [top, bottom, topAndBottom];
+
+  static FormButtonsPosition fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FormButtonsPosition._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FormButtonsPosition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the configuration for a button UI element that is a part of a
+/// form.
+class FormButton {
+  /// Describes the button's properties.
+  final String? children;
+
+  /// Specifies whether the button is visible on the form.
+  final bool? excluded;
+
+  /// The position of the button.
+  final FieldPosition? position;
+
+  FormButton({
+    this.children,
+    this.excluded,
+    this.position,
+  });
+
+  factory FormButton.fromJson(Map<String, dynamic> json) {
+    return FormButton(
+      children: json['children'] as String?,
+      excluded: json['excluded'] as bool?,
+      position: json['position'] != null
+          ? FieldPosition.fromJson(json['position'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final children = this.children;
+    final excluded = this.excluded;
+    final position = this.position;
+    return {
+      if (children != null) 'children': children,
+      if (excluded != null) 'excluded': excluded,
+      if (position != null) 'position': position,
+    };
+  }
+}
+
+/// Describes the field position.
+class FieldPosition {
+  /// The field position is below the field specified by the string.
+  final String? below;
+
+  /// The field position is fixed and doesn't change in relation to other fields.
+  final FixedPosition? fixed;
+
+  /// The field position is to the right of the field specified by the string.
+  final String? rightOf;
+
+  FieldPosition({
+    this.below,
+    this.fixed,
+    this.rightOf,
+  });
+
+  factory FieldPosition.fromJson(Map<String, dynamic> json) {
+    return FieldPosition(
+      below: json['below'] as String?,
+      fixed: (json['fixed'] as String?)?.let(FixedPosition.fromString),
+      rightOf: json['rightOf'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final below = this.below;
+    final fixed = this.fixed;
+    final rightOf = this.rightOf;
+    return {
+      if (below != null) 'below': below,
+      if (fixed != null) 'fixed': fixed.value,
+      if (rightOf != null) 'rightOf': rightOf,
+    };
+  }
+}
+
+class FixedPosition {
+  static const first = FixedPosition._('first');
+
+  final String value;
+
+  const FixedPosition._(this.value);
+
+  static const values = [first];
+
+  static FixedPosition fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FixedPosition._(value));
+
+  @override
+  bool operator ==(other) => other is FixedPosition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Stores the configuration information for a visual helper element for a form.
+/// A sectional element can be a header, a text block, or a divider. These
+/// elements are static and not associated with any data.
+class SectionalElement {
+  /// The type of sectional element. Valid values are <code>Heading</code>,
+  /// <code>Text</code>, and <code>Divider</code>.
+  final String type;
+
+  /// Excludes a sectional element that was generated by default for a specified
+  /// data model.
+  final bool? excluded;
+
+  /// Specifies the size of the font for a <code>Heading</code> sectional element.
+  /// Valid values are <code>1 | 2 | 3 | 4 | 5 | 6</code>.
+  final int? level;
+
+  /// Specifies the orientation for a <code>Divider</code> sectional element.
+  /// Valid values are <code>horizontal</code> or <code>vertical</code>.
+  final String? orientation;
+
+  /// Specifies the position of the text in a field for a <code>Text</code>
+  /// sectional element.
+  final FieldPosition? position;
+
+  /// The text for a <code>Text</code> sectional element.
+  final String? text;
+
+  SectionalElement({
+    required this.type,
+    this.excluded,
+    this.level,
+    this.orientation,
+    this.position,
+    this.text,
+  });
+
+  factory SectionalElement.fromJson(Map<String, dynamic> json) {
+    return SectionalElement(
+      type: (json['type'] as String?) ?? '',
+      excluded: json['excluded'] as bool?,
+      level: json['level'] as int?,
+      orientation: json['orientation'] as String?,
+      position: json['position'] != null
+          ? FieldPosition.fromJson(json['position'] as Map<String, dynamic>)
+          : null,
+      text: json['text'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final excluded = this.excluded;
+    final level = this.level;
+    final orientation = this.orientation;
+    final position = this.position;
+    final text = this.text;
+    return {
+      'type': type,
+      if (excluded != null) 'excluded': excluded,
+      if (level != null) 'level': level,
+      if (orientation != null) 'orientation': orientation,
+      if (position != null) 'position': position,
+      if (text != null) 'text': text,
     };
   }
 }
@@ -3328,43 +2540,6 @@ class FieldInputConfig {
   }
 }
 
-/// Describes the field position.
-class FieldPosition {
-  /// The field position is below the field specified by the string.
-  final String? below;
-
-  /// The field position is fixed and doesn't change in relation to other fields.
-  final FixedPosition? fixed;
-
-  /// The field position is to the right of the field specified by the string.
-  final String? rightOf;
-
-  FieldPosition({
-    this.below,
-    this.fixed,
-    this.rightOf,
-  });
-
-  factory FieldPosition.fromJson(Map<String, dynamic> json) {
-    return FieldPosition(
-      below: json['below'] as String?,
-      fixed: (json['fixed'] as String?)?.let(FixedPosition.fromString),
-      rightOf: json['rightOf'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final below = this.below;
-    final fixed = this.fixed;
-    final rightOf = this.rightOf;
-    return {
-      if (below != null) 'below': below,
-      if (fixed != null) 'fixed': fixed.value,
-      if (rightOf != null) 'rightOf': rightOf,
-    };
-  }
-}
-
 /// Describes the validation configuration for a field.
 class FieldValidationConfiguration {
   /// The validation to perform on an object type.<code/>
@@ -3409,6 +2584,43 @@ class FieldValidationConfiguration {
       if (numValues != null) 'numValues': numValues,
       if (strValues != null) 'strValues': strValues,
       if (validationMessage != null) 'validationMessage': validationMessage,
+    };
+  }
+}
+
+/// Represents the data binding configuration for a value map.
+class ValueMappings {
+  /// The value and display value pairs.
+  final List<ValueMapping> values;
+
+  /// The information to bind fields to data at runtime.
+  final Map<String, FormInputBindingPropertiesValue>? bindingProperties;
+
+  ValueMappings({
+    required this.values,
+    this.bindingProperties,
+  });
+
+  factory ValueMappings.fromJson(Map<String, dynamic> json) {
+    return ValueMappings(
+      values: ((json['values'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => ValueMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      bindingProperties: (json['bindingProperties'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k,
+              FormInputBindingPropertiesValue.fromJson(
+                  e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final values = this.values;
+    final bindingProperties = this.bindingProperties;
+    return {
+      'values': values,
+      if (bindingProperties != null) 'bindingProperties': bindingProperties,
     };
   }
 }
@@ -3493,383 +2705,30 @@ class FileUploaderFieldConfig {
   }
 }
 
-class FixedPosition {
-  static const first = FixedPosition._('first');
+class StorageAccessLevel {
+  static const public = StorageAccessLevel._('public');
+  static const protected = StorageAccessLevel._('protected');
+  static const private = StorageAccessLevel._('private');
 
   final String value;
 
-  const FixedPosition._(this.value);
+  const StorageAccessLevel._(this.value);
 
-  static const values = [first];
+  static const values = [public, protected, private];
 
-  static FixedPosition fromString(String value) =>
+  static StorageAccessLevel fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => FixedPosition._(value));
-
-  @override
-  bool operator ==(other) => other is FixedPosition && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains the configuration settings for a <code>Form</code> user interface
-/// (UI) element for an Amplify app. A form is a component you can add to your
-/// project by specifying a data source as the default configuration for the
-/// form.
-class Form {
-  /// The unique ID of the Amplify app associated with the form.
-  final String appId;
-
-  /// The type of data source to use to create the form.
-  final FormDataTypeConfig dataType;
-
-  /// The name of the backend environment that is a part of the Amplify app.
-  final String environmentName;
-
-  /// Stores the information about the form's fields.
-  final Map<String, FieldConfig> fields;
-
-  /// The operation to perform on the specified form.
-  final FormActionType formActionType;
-
-  /// The unique ID of the form.
-  final String id;
-
-  /// The name of the form.
-  final String name;
-
-  /// The schema version of the form when it was imported.
-  final String schemaVersion;
-
-  /// Stores the visual helper elements for the form that are not associated with
-  /// any data.
-  final Map<String, SectionalElement> sectionalElements;
-
-  /// Stores the configuration for the form's style.
-  final FormStyle style;
-
-  /// Stores the call to action configuration for the form.
-  final FormCTA? cta;
-
-  /// Specifies an icon or decoration to display on the form.
-  final LabelDecorator? labelDecorator;
-
-  /// One or more key-value pairs to use when tagging the form.
-  final Map<String, String>? tags;
-
-  Form({
-    required this.appId,
-    required this.dataType,
-    required this.environmentName,
-    required this.fields,
-    required this.formActionType,
-    required this.id,
-    required this.name,
-    required this.schemaVersion,
-    required this.sectionalElements,
-    required this.style,
-    this.cta,
-    this.labelDecorator,
-    this.tags,
-  });
-
-  factory Form.fromJson(Map<String, dynamic> json) {
-    return Form(
-      appId: (json['appId'] as String?) ?? '',
-      dataType: FormDataTypeConfig.fromJson(
-          (json['dataType'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      environmentName: (json['environmentName'] as String?) ?? '',
-      fields: ((json['fields'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{})
-          .map((k, e) =>
-              MapEntry(k, FieldConfig.fromJson(e as Map<String, dynamic>))),
-      formActionType:
-          FormActionType.fromString((json['formActionType'] as String?) ?? ''),
-      id: (json['id'] as String?) ?? '',
-      name: (json['name'] as String?) ?? '',
-      schemaVersion: (json['schemaVersion'] as String?) ?? '',
-      sectionalElements:
-          ((json['sectionalElements'] as Map<String, dynamic>?) ??
-                  const <String, dynamic>{})
-              .map((k, e) => MapEntry(
-                  k, SectionalElement.fromJson(e as Map<String, dynamic>))),
-      style: FormStyle.fromJson((json['style'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-      cta: json['cta'] != null
-          ? FormCTA.fromJson(json['cta'] as Map<String, dynamic>)
-          : null,
-      labelDecorator:
-          (json['labelDecorator'] as String?)?.let(LabelDecorator.fromString),
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final appId = this.appId;
-    final dataType = this.dataType;
-    final environmentName = this.environmentName;
-    final fields = this.fields;
-    final formActionType = this.formActionType;
-    final id = this.id;
-    final name = this.name;
-    final schemaVersion = this.schemaVersion;
-    final sectionalElements = this.sectionalElements;
-    final style = this.style;
-    final cta = this.cta;
-    final labelDecorator = this.labelDecorator;
-    final tags = this.tags;
-    return {
-      'appId': appId,
-      'dataType': dataType,
-      'environmentName': environmentName,
-      'fields': fields,
-      'formActionType': formActionType.value,
-      'id': id,
-      'name': name,
-      'schemaVersion': schemaVersion,
-      'sectionalElements': sectionalElements,
-      'style': style,
-      if (cta != null) 'cta': cta,
-      if (labelDecorator != null) 'labelDecorator': labelDecorator.value,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-class FormActionType {
-  static const create = FormActionType._('create');
-  static const update = FormActionType._('update');
-
-  final String value;
-
-  const FormActionType._(this.value);
-
-  static const values = [create, update];
-
-  static FormActionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FormActionType._(value));
-
-  @override
-  bool operator ==(other) => other is FormActionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes how to bind a component property to form data.
-class FormBindingElement {
-  /// The name of the component to retrieve a value from.
-  final String element;
-
-  /// The property to retrieve a value from.
-  final String property;
-
-  FormBindingElement({
-    required this.element,
-    required this.property,
-  });
-
-  factory FormBindingElement.fromJson(Map<String, dynamic> json) {
-    return FormBindingElement(
-      element: (json['element'] as String?) ?? '',
-      property: (json['property'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final element = this.element;
-    final property = this.property;
-    return {
-      'element': element,
-      'property': property,
-    };
-  }
-}
-
-/// Describes the configuration for a button UI element that is a part of a
-/// form.
-class FormButton {
-  /// Describes the button's properties.
-  final String? children;
-
-  /// Specifies whether the button is visible on the form.
-  final bool? excluded;
-
-  /// The position of the button.
-  final FieldPosition? position;
-
-  FormButton({
-    this.children,
-    this.excluded,
-    this.position,
-  });
-
-  factory FormButton.fromJson(Map<String, dynamic> json) {
-    return FormButton(
-      children: json['children'] as String?,
-      excluded: json['excluded'] as bool?,
-      position: json['position'] != null
-          ? FieldPosition.fromJson(json['position'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final children = this.children;
-    final excluded = this.excluded;
-    final position = this.position;
-    return {
-      if (children != null) 'children': children,
-      if (excluded != null) 'excluded': excluded,
-      if (position != null) 'position': position,
-    };
-  }
-}
-
-class FormButtonsPosition {
-  static const top = FormButtonsPosition._('top');
-  static const bottom = FormButtonsPosition._('bottom');
-  static const topAndBottom = FormButtonsPosition._('top_and_bottom');
-
-  final String value;
-
-  const FormButtonsPosition._(this.value);
-
-  static const values = [top, bottom, topAndBottom];
-
-  static FormButtonsPosition fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FormButtonsPosition._(value));
+          orElse: () => StorageAccessLevel._(value));
 
   @override
   bool operator ==(other) =>
-      other is FormButtonsPosition && other.value == value;
+      other is StorageAccessLevel && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
-}
-
-/// Describes the call to action button configuration for the form.
-class FormCTA {
-  /// Displays a cancel button.
-  final FormButton? cancel;
-
-  /// Displays a clear button.
-  final FormButton? clear;
-
-  /// The position of the button.
-  final FormButtonsPosition? position;
-
-  /// Displays a submit button.
-  final FormButton? submit;
-
-  FormCTA({
-    this.cancel,
-    this.clear,
-    this.position,
-    this.submit,
-  });
-
-  factory FormCTA.fromJson(Map<String, dynamic> json) {
-    return FormCTA(
-      cancel: json['cancel'] != null
-          ? FormButton.fromJson(json['cancel'] as Map<String, dynamic>)
-          : null,
-      clear: json['clear'] != null
-          ? FormButton.fromJson(json['clear'] as Map<String, dynamic>)
-          : null,
-      position:
-          (json['position'] as String?)?.let(FormButtonsPosition.fromString),
-      submit: json['submit'] != null
-          ? FormButton.fromJson(json['submit'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cancel = this.cancel;
-    final clear = this.clear;
-    final position = this.position;
-    final submit = this.submit;
-    return {
-      if (cancel != null) 'cancel': cancel,
-      if (clear != null) 'clear': clear,
-      if (position != null) 'position': position.value,
-      if (submit != null) 'submit': submit,
-    };
-  }
-}
-
-class FormDataSourceType {
-  static const dataStore = FormDataSourceType._('DataStore');
-  static const custom = FormDataSourceType._('Custom');
-
-  final String value;
-
-  const FormDataSourceType._(this.value);
-
-  static const values = [dataStore, custom];
-
-  static FormDataSourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FormDataSourceType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is FormDataSourceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes the data type configuration for the data source associated with a
-/// form.
-class FormDataTypeConfig {
-  /// The data source type, either an Amplify DataStore model or a custom data
-  /// type.
-  final FormDataSourceType dataSourceType;
-
-  /// The unique name of the data type you are using as the data source for the
-  /// form.
-  final String dataTypeName;
-
-  FormDataTypeConfig({
-    required this.dataSourceType,
-    required this.dataTypeName,
-  });
-
-  factory FormDataTypeConfig.fromJson(Map<String, dynamic> json) {
-    return FormDataTypeConfig(
-      dataSourceType: FormDataSourceType.fromString(
-          (json['dataSourceType'] as String?) ?? ''),
-      dataTypeName: (json['dataTypeName'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataSourceType = this.dataSourceType;
-    final dataTypeName = this.dataTypeName;
-    return {
-      'dataSourceType': dataSourceType.value,
-      'dataTypeName': dataTypeName,
-    };
-  }
 }
 
 /// Represents the data binding configuration for a form's input fields at
@@ -3930,6 +2789,43 @@ class FormInputBindingPropertiesValueProperties {
     final model = this.model;
     return {
       if (model != null) 'model': model,
+    };
+  }
+}
+
+/// Associates a complex object with a display value. Use
+/// <code>ValueMapping</code> to store how to represent complex objects when
+/// they are displayed.
+class ValueMapping {
+  /// The complex object.
+  final FormInputValueProperty value;
+
+  /// The value to display for the complex object.
+  final FormInputValueProperty? displayValue;
+
+  ValueMapping({
+    required this.value,
+    this.displayValue,
+  });
+
+  factory ValueMapping.fromJson(Map<String, dynamic> json) {
+    return ValueMapping(
+      value: FormInputValueProperty.fromJson(
+          (json['value'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      displayValue: json['displayValue'] != null
+          ? FormInputValueProperty.fromJson(
+              json['displayValue'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final value = this.value;
+    final displayValue = this.displayValue;
+    return {
+      'value': value,
+      if (displayValue != null) 'displayValue': displayValue,
     };
   }
 }
@@ -4014,50 +2910,29 @@ class FormInputValuePropertyBindingProperties {
   }
 }
 
-/// Describes the configuration for the form's style.
-class FormStyle {
-  /// The spacing for the horizontal gap.
-  final FormStyleConfig? horizontalGap;
+class FormDataSourceType {
+  static const dataStore = FormDataSourceType._('DataStore');
+  static const custom = FormDataSourceType._('Custom');
 
-  /// The size of the outer padding for the form.
-  final FormStyleConfig? outerPadding;
+  final String value;
 
-  /// The spacing for the vertical gap.
-  final FormStyleConfig? verticalGap;
+  const FormDataSourceType._(this.value);
 
-  FormStyle({
-    this.horizontalGap,
-    this.outerPadding,
-    this.verticalGap,
-  });
+  static const values = [dataStore, custom];
 
-  factory FormStyle.fromJson(Map<String, dynamic> json) {
-    return FormStyle(
-      horizontalGap: json['horizontalGap'] != null
-          ? FormStyleConfig.fromJson(
-              json['horizontalGap'] as Map<String, dynamic>)
-          : null,
-      outerPadding: json['outerPadding'] != null
-          ? FormStyleConfig.fromJson(
-              json['outerPadding'] as Map<String, dynamic>)
-          : null,
-      verticalGap: json['verticalGap'] != null
-          ? FormStyleConfig.fromJson(
-              json['verticalGap'] as Map<String, dynamic>)
-          : null,
-    );
-  }
+  static FormDataSourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FormDataSourceType._(value));
 
-  Map<String, dynamic> toJson() {
-    final horizontalGap = this.horizontalGap;
-    final outerPadding = this.outerPadding;
-    final verticalGap = this.verticalGap;
-    return {
-      if (horizontalGap != null) 'horizontalGap': horizontalGap,
-      if (outerPadding != null) 'outerPadding': outerPadding,
-      if (verticalGap != null) 'verticalGap': verticalGap,
-    };
-  }
+  @override
+  bool operator ==(other) =>
+      other is FormDataSourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes the configuration settings for the form's style properties.
@@ -4152,419 +3027,612 @@ class FormSummary {
   }
 }
 
-class GenericDataRelationshipType {
-  static const hasMany = GenericDataRelationshipType._('HAS_MANY');
-  static const hasOne = GenericDataRelationshipType._('HAS_ONE');
-  static const belongsTo = GenericDataRelationshipType._('BELONGS_TO');
+/// Updates and saves all of the information about a form, based on form ID.
+class UpdateFormData {
+  /// The <code>FormCTA</code> object that stores the call to action configuration
+  /// for the form.
+  final FormCTA? cta;
 
-  final String value;
+  /// The type of data source to use to create the form.
+  final FormDataTypeConfig? dataType;
 
-  const GenericDataRelationshipType._(this.value);
+  /// The configuration information for the form's fields.
+  final Map<String, FieldConfig>? fields;
 
-  static const values = [hasMany, hasOne, belongsTo];
+  /// Specifies whether to perform a create or update action on the form.
+  final FormActionType? formActionType;
 
-  static GenericDataRelationshipType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => GenericDataRelationshipType._(value));
+  /// Specifies an icon or decoration to display on the form.
+  final LabelDecorator? labelDecorator;
 
-  @override
-  bool operator ==(other) =>
-      other is GenericDataRelationshipType && other.value == value;
+  /// The name of the form.
+  final String? name;
 
-  @override
-  int get hashCode => value.hashCode;
+  /// The schema version of the form.
+  final String? schemaVersion;
 
-  @override
-  String toString() => value;
-}
+  /// The configuration information for the visual helper elements for the form.
+  /// These elements are not associated with any data.
+  final Map<String, SectionalElement>? sectionalElements;
 
-class GetCodegenJobResponse {
-  /// The configuration settings for the code generation job.
-  final CodegenJob? job;
+  /// The configuration for the form's style.
+  final FormStyle? style;
 
-  GetCodegenJobResponse({
-    this.job,
+  UpdateFormData({
+    this.cta,
+    this.dataType,
+    this.fields,
+    this.formActionType,
+    this.labelDecorator,
+    this.name,
+    this.schemaVersion,
+    this.sectionalElements,
+    this.style,
   });
 
   Map<String, dynamic> toJson() {
-    final job = this.job;
+    final cta = this.cta;
+    final dataType = this.dataType;
+    final fields = this.fields;
+    final formActionType = this.formActionType;
+    final labelDecorator = this.labelDecorator;
+    final name = this.name;
+    final schemaVersion = this.schemaVersion;
+    final sectionalElements = this.sectionalElements;
+    final style = this.style;
     return {
-      if (job != null) 'job': job,
+      if (cta != null) 'cta': cta,
+      if (dataType != null) 'dataType': dataType,
+      if (fields != null) 'fields': fields,
+      if (formActionType != null) 'formActionType': formActionType.value,
+      if (labelDecorator != null) 'labelDecorator': labelDecorator.value,
+      if (name != null) 'name': name,
+      if (schemaVersion != null) 'schemaVersion': schemaVersion,
+      if (sectionalElements != null) 'sectionalElements': sectionalElements,
+      if (style != null) 'style': style,
     };
   }
 }
 
-class GetComponentResponse {
-  /// Represents the configuration settings for the component.
-  final Component? component;
+/// Represents all of the information that is required to create a form.
+class CreateFormData {
+  /// The type of data source to use to create the form.
+  final FormDataTypeConfig dataType;
 
-  GetComponentResponse({
-    this.component,
+  /// The configuration information for the form's fields.
+  final Map<String, FieldConfig> fields;
+
+  /// Specifies whether to perform a create or update action on the form.
+  final FormActionType formActionType;
+
+  /// The name of the form.
+  final String name;
+
+  /// The schema version of the form.
+  final String schemaVersion;
+
+  /// The configuration information for the visual helper elements for the form.
+  /// These elements are not associated with any data.
+  final Map<String, SectionalElement> sectionalElements;
+
+  /// The configuration for the form's style.
+  final FormStyle style;
+
+  /// The <code>FormCTA</code> object that stores the call to action configuration
+  /// for the form.
+  final FormCTA? cta;
+
+  /// Specifies an icon or decoration to display on the form.
+  final LabelDecorator? labelDecorator;
+
+  /// One or more key-value pairs to use when tagging the form data.
+  final Map<String, String>? tags;
+
+  CreateFormData({
+    required this.dataType,
+    required this.fields,
+    required this.formActionType,
+    required this.name,
+    required this.schemaVersion,
+    required this.sectionalElements,
+    required this.style,
+    this.cta,
+    this.labelDecorator,
+    this.tags,
   });
 
   Map<String, dynamic> toJson() {
-    final component = this.component;
-    return {
-      if (component != null) 'component': component,
-    };
-  }
-}
-
-class GetFormResponse {
-  /// Represents the configuration settings for the form.
-  final Form? form;
-
-  GetFormResponse({
-    this.form,
-  });
-
-  Map<String, dynamic> toJson() {
-    final form = this.form;
-    return {
-      if (form != null) 'form': form,
-    };
-  }
-}
-
-class GetMetadataResponse {
-  /// Represents the configuration settings for the features metadata.
-  final Map<String, String> features;
-
-  GetMetadataResponse({
-    required this.features,
-  });
-
-  factory GetMetadataResponse.fromJson(Map<String, dynamic> json) {
-    return GetMetadataResponse(
-      features: ((json['features'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{})
-          .map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final features = this.features;
-    return {
-      'features': features,
-    };
-  }
-}
-
-class GetThemeResponse {
-  /// Represents the configuration settings for the theme.
-  final Theme? theme;
-
-  GetThemeResponse({
-    this.theme,
-  });
-
-  Map<String, dynamic> toJson() {
-    final theme = this.theme;
-    return {
-      if (theme != null) 'theme': theme,
-    };
-  }
-}
-
-/// Describes the GraphQL configuration for an API for a code generation job.
-class GraphQLRenderConfig {
-  /// The path to the GraphQL fragments file, relative to the component output
-  /// directory.
-  final String fragmentsFilePath;
-
-  /// The path to the GraphQL mutations file, relative to the component output
-  /// directory.
-  final String mutationsFilePath;
-
-  /// The path to the GraphQL queries file, relative to the component output
-  /// directory.
-  final String queriesFilePath;
-
-  /// The path to the GraphQL subscriptions file, relative to the component output
-  /// directory.
-  final String subscriptionsFilePath;
-
-  /// The path to the GraphQL types file, relative to the component output
-  /// directory.
-  final String typesFilePath;
-
-  GraphQLRenderConfig({
-    required this.fragmentsFilePath,
-    required this.mutationsFilePath,
-    required this.queriesFilePath,
-    required this.subscriptionsFilePath,
-    required this.typesFilePath,
-  });
-
-  factory GraphQLRenderConfig.fromJson(Map<String, dynamic> json) {
-    return GraphQLRenderConfig(
-      fragmentsFilePath: (json['fragmentsFilePath'] as String?) ?? '',
-      mutationsFilePath: (json['mutationsFilePath'] as String?) ?? '',
-      queriesFilePath: (json['queriesFilePath'] as String?) ?? '',
-      subscriptionsFilePath: (json['subscriptionsFilePath'] as String?) ?? '',
-      typesFilePath: (json['typesFilePath'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final fragmentsFilePath = this.fragmentsFilePath;
-    final mutationsFilePath = this.mutationsFilePath;
-    final queriesFilePath = this.queriesFilePath;
-    final subscriptionsFilePath = this.subscriptionsFilePath;
-    final typesFilePath = this.typesFilePath;
-    return {
-      'fragmentsFilePath': fragmentsFilePath,
-      'mutationsFilePath': mutationsFilePath,
-      'queriesFilePath': queriesFilePath,
-      'subscriptionsFilePath': subscriptionsFilePath,
-      'typesFilePath': typesFilePath,
-    };
-  }
-}
-
-class JSModule {
-  static const es2020 = JSModule._('es2020');
-  static const esnext = JSModule._('esnext');
-
-  final String value;
-
-  const JSModule._(this.value);
-
-  static const values = [es2020, esnext];
-
-  static JSModule fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => JSModule._(value));
-
-  @override
-  bool operator ==(other) => other is JSModule && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class JSScript {
-  static const jsx = JSScript._('jsx');
-  static const tsx = JSScript._('tsx');
-  static const js = JSScript._('js');
-
-  final String value;
-
-  const JSScript._(this.value);
-
-  static const values = [jsx, tsx, js];
-
-  static JSScript fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => JSScript._(value));
-
-  @override
-  bool operator ==(other) => other is JSScript && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class JSTarget {
-  static const es2015 = JSTarget._('es2015');
-  static const es2020 = JSTarget._('es2020');
-
-  final String value;
-
-  const JSTarget._(this.value);
-
-  static const values = [es2015, es2020];
-
-  static JSTarget fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => JSTarget._(value));
-
-  @override
-  bool operator ==(other) => other is JSTarget && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class LabelDecorator {
-  static const required = LabelDecorator._('required');
-  static const optional = LabelDecorator._('optional');
-  static const none = LabelDecorator._('none');
-
-  final String value;
-
-  const LabelDecorator._(this.value);
-
-  static const values = [required, optional, none];
-
-  static LabelDecorator fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LabelDecorator._(value));
-
-  @override
-  bool operator ==(other) => other is LabelDecorator && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ListCodegenJobsResponse {
-  /// The list of code generation jobs for the Amplify app.
-  final List<CodegenJobSummary> entities;
-
-  /// The pagination token that's included if more results are available.
-  final String? nextToken;
-
-  ListCodegenJobsResponse({
-    required this.entities,
-    this.nextToken,
-  });
-
-  factory ListCodegenJobsResponse.fromJson(Map<String, dynamic> json) {
-    return ListCodegenJobsResponse(
-      entities: ((json['entities'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => CodegenJobSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final entities = this.entities;
-    final nextToken = this.nextToken;
-    return {
-      'entities': entities,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListComponentsResponse {
-  /// The list of components for the Amplify app.
-  final List<ComponentSummary> entities;
-
-  /// The pagination token that's included if more results are available.
-  final String? nextToken;
-
-  ListComponentsResponse({
-    required this.entities,
-    this.nextToken,
-  });
-
-  factory ListComponentsResponse.fromJson(Map<String, dynamic> json) {
-    return ListComponentsResponse(
-      entities: ((json['entities'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => ComponentSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final entities = this.entities;
-    final nextToken = this.nextToken;
-    return {
-      'entities': entities,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListFormsResponse {
-  /// The list of forms for the Amplify app.
-  final List<FormSummary> entities;
-
-  /// The pagination token that's included if more results are available.
-  final String? nextToken;
-
-  ListFormsResponse({
-    required this.entities,
-    this.nextToken,
-  });
-
-  factory ListFormsResponse.fromJson(Map<String, dynamic> json) {
-    return ListFormsResponse(
-      entities: ((json['entities'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => FormSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final entities = this.entities;
-    final nextToken = this.nextToken;
-    return {
-      'entities': entities,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListTagsForResourceResponse {
-  /// A list of tag key value pairs for a specified Amazon Resource Name (ARN).
-  final Map<String, String> tags;
-
-  ListTagsForResourceResponse({
-    required this.tags,
-  });
-
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
-    return ListTagsForResourceResponse(
-      tags:
-          ((json['tags'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
-              .map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
+    final dataType = this.dataType;
+    final fields = this.fields;
+    final formActionType = this.formActionType;
+    final name = this.name;
+    final schemaVersion = this.schemaVersion;
+    final sectionalElements = this.sectionalElements;
+    final style = this.style;
+    final cta = this.cta;
+    final labelDecorator = this.labelDecorator;
     final tags = this.tags;
     return {
-      'tags': tags,
+      'dataType': dataType,
+      'fields': fields,
+      'formActionType': formActionType.value,
+      'name': name,
+      'schemaVersion': schemaVersion,
+      'sectionalElements': sectionalElements,
+      'style': style,
+      if (cta != null) 'cta': cta,
+      if (labelDecorator != null) 'labelDecorator': labelDecorator.value,
+      if (tags != null) 'tags': tags,
     };
   }
 }
 
-class ListThemesResponse {
-  /// The list of themes for the Amplify app.
-  final List<ThemeSummary> entities;
+/// Contains the configuration settings for a user interface (UI) element for an
+/// Amplify app. A component is configured as a primary, stand-alone UI element.
+/// Use <code>ComponentChild</code> to configure an instance of a
+/// <code>Component</code>. A <code>ComponentChild</code> instance inherits the
+/// configuration of the main <code>Component</code>.
+class Component {
+  /// The unique ID of the Amplify app associated with the component.
+  final String appId;
 
-  /// The pagination token that's returned if more results are available.
-  final String? nextToken;
+  /// The information to connect a component's properties to data at runtime. You
+  /// can't specify <code>tags</code> as a valid property for
+  /// <code>bindingProperties</code>.
+  /// <p/>
+  final Map<String, ComponentBindingPropertiesValue> bindingProperties;
 
-  ListThemesResponse({
-    required this.entities,
-    this.nextToken,
+  /// The type of the component. This can be an Amplify custom UI component or
+  /// another custom component.
+  final String componentType;
+
+  /// The time that the component was created.
+  final DateTime createdAt;
+
+  /// The name of the backend environment that is a part of the Amplify app.
+  final String environmentName;
+
+  /// The unique ID of the component.
+  final String id;
+
+  /// The name of the component.
+  final String name;
+
+  /// Describes the component's properties that can be overriden in a customized
+  /// instance of the component. You can't specify <code>tags</code> as a valid
+  /// property for <code>overrides</code>.
+  final Map<String, Map<String, String>> overrides;
+
+  /// Describes the component's properties. You can't specify <code>tags</code> as
+  /// a valid property for <code>properties</code>.
+  final Map<String, ComponentProperty> properties;
+
+  /// A list of the component's variants. A variant is a unique style
+  /// configuration of a main component.
+  final List<ComponentVariant> variants;
+
+  /// A list of the component's <code>ComponentChild</code> instances.
+  final List<ComponentChild>? children;
+
+  /// The data binding configuration for the component's properties. Use this for
+  /// a collection component. You can't specify <code>tags</code> as a valid
+  /// property for <code>collectionProperties</code>.
+  final Map<String, ComponentDataConfiguration>? collectionProperties;
+
+  /// Describes the events that can be raised on the component. Use for the
+  /// workflow feature in Amplify Studio that allows you to bind events and
+  /// actions to components.
+  final Map<String, ComponentEvent>? events;
+
+  /// The time that the component was modified.
+  final DateTime? modifiedAt;
+
+  /// The schema version of the component when it was imported.
+  final String? schemaVersion;
+
+  /// The unique ID of the component in its original source system, such as Figma.
+  final String? sourceId;
+
+  /// One or more key-value pairs to use when tagging the component.
+  final Map<String, String>? tags;
+
+  Component({
+    required this.appId,
+    required this.bindingProperties,
+    required this.componentType,
+    required this.createdAt,
+    required this.environmentName,
+    required this.id,
+    required this.name,
+    required this.overrides,
+    required this.properties,
+    required this.variants,
+    this.children,
+    this.collectionProperties,
+    this.events,
+    this.modifiedAt,
+    this.schemaVersion,
+    this.sourceId,
+    this.tags,
   });
 
-  factory ListThemesResponse.fromJson(Map<String, dynamic> json) {
-    return ListThemesResponse(
-      entities: ((json['entities'] as List?) ?? const [])
+  factory Component.fromJson(Map<String, dynamic> json) {
+    return Component(
+      appId: (json['appId'] as String?) ?? '',
+      bindingProperties:
+          ((json['bindingProperties'] as Map<String, dynamic>?) ??
+                  const <String, dynamic>{})
+              .map((k, e) => MapEntry(
+                  k,
+                  ComponentBindingPropertiesValue.fromJson(
+                      e as Map<String, dynamic>))),
+      componentType: (json['componentType'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      environmentName: (json['environmentName'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      overrides: ((json['overrides'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) => MapEntry(
+              k,
+              (e as Map<String, dynamic>)
+                  .map((k, e) => MapEntry(k, e as String)))),
+      properties: ((json['properties'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) => MapEntry(
+              k, ComponentProperty.fromJson(e as Map<String, dynamic>))),
+      variants: ((json['variants'] as List?) ?? const [])
           .nonNulls
-          .map((e) => ThemeSummary.fromJson(e as Map<String, dynamic>))
+          .map((e) => ComponentVariant.fromJson(e as Map<String, dynamic>))
           .toList(),
-      nextToken: json['nextToken'] as String?,
+      children: (json['children'] as List?)
+          ?.nonNulls
+          .map((e) => ComponentChild.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      collectionProperties: (json['collectionProperties']
+              as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k,
+              ComponentDataConfiguration.fromJson(e as Map<String, dynamic>))),
+      events: (json['events'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, ComponentEvent.fromJson(e as Map<String, dynamic>))),
+      modifiedAt: timeStampFromJson(json['modifiedAt']),
+      schemaVersion: json['schemaVersion'] as String?,
+      sourceId: json['sourceId'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final entities = this.entities;
-    final nextToken = this.nextToken;
+    final appId = this.appId;
+    final bindingProperties = this.bindingProperties;
+    final componentType = this.componentType;
+    final createdAt = this.createdAt;
+    final environmentName = this.environmentName;
+    final id = this.id;
+    final name = this.name;
+    final overrides = this.overrides;
+    final properties = this.properties;
+    final variants = this.variants;
+    final children = this.children;
+    final collectionProperties = this.collectionProperties;
+    final events = this.events;
+    final modifiedAt = this.modifiedAt;
+    final schemaVersion = this.schemaVersion;
+    final sourceId = this.sourceId;
+    final tags = this.tags;
     return {
-      'entities': entities,
-      if (nextToken != null) 'nextToken': nextToken,
+      'appId': appId,
+      'bindingProperties': bindingProperties,
+      'componentType': componentType,
+      'createdAt': iso8601ToJson(createdAt),
+      'environmentName': environmentName,
+      'id': id,
+      'name': name,
+      'overrides': overrides,
+      'properties': properties,
+      'variants': variants,
+      if (children != null) 'children': children,
+      if (collectionProperties != null)
+        'collectionProperties': collectionProperties,
+      if (events != null) 'events': events,
+      if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
+      if (schemaVersion != null) 'schemaVersion': schemaVersion,
+      if (sourceId != null) 'sourceId': sourceId,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Describes the configuration of an event. You can bind an event and a
+/// corresponding action to a <code>Component</code> or a
+/// <code>ComponentChild</code>. A button click is an example of an event.
+class ComponentEvent {
+  /// The action to perform when a specific event is raised.
+  final String? action;
+
+  /// Binds an event to an action on a component. When you specify a
+  /// <code>bindingEvent</code>, the event is called when the action is performed.
+  final String? bindingEvent;
+
+  /// Describes information about the action.
+  final ActionParameters? parameters;
+
+  ComponentEvent({
+    this.action,
+    this.bindingEvent,
+    this.parameters,
+  });
+
+  factory ComponentEvent.fromJson(Map<String, dynamic> json) {
+    return ComponentEvent(
+      action: json['action'] as String?,
+      bindingEvent: json['bindingEvent'] as String?,
+      parameters: json['parameters'] != null
+          ? ActionParameters.fromJson(
+              json['parameters'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final bindingEvent = this.bindingEvent;
+    final parameters = this.parameters;
+    return {
+      if (action != null) 'action': action,
+      if (bindingEvent != null) 'bindingEvent': bindingEvent,
+      if (parameters != null) 'parameters': parameters,
+    };
+  }
+}
+
+/// Represents the event action configuration for an element of a
+/// <code>Component</code> or <code>ComponentChild</code>. Use for the workflow
+/// feature in Amplify Studio that allows you to bind events and actions to
+/// components. <code>ActionParameters</code> defines the action that is
+/// performed when an event occurs on the component.
+class ActionParameters {
+  /// The HTML anchor link to the location to open. Specify this value for a
+  /// navigation action.
+  final ComponentProperty? anchor;
+
+  /// A dictionary of key-value pairs mapping Amplify Studio properties to fields
+  /// in a data model. Use when the action performs an operation on an Amplify
+  /// DataStore model.
+  final Map<String, ComponentProperty>? fields;
+
+  /// Specifies whether the user should be signed out globally. Specify this value
+  /// for an auth sign out action.
+  final ComponentProperty? global;
+
+  /// The unique ID of the component that the <code>ActionParameters</code> apply
+  /// to.
+  final ComponentProperty? id;
+
+  /// The name of the data model. Use when the action performs an operation on an
+  /// Amplify DataStore model.
+  final String? model;
+
+  /// A key-value pair that specifies the state property name and its initial
+  /// value.
+  final MutationActionSetStateParameter? state;
+
+  /// The element within the same component to modify when the action occurs.
+  final ComponentProperty? target;
+
+  /// The type of navigation action. Valid values are <code>url</code> and
+  /// <code>anchor</code>. This value is required for a navigation action.
+  final ComponentProperty? type;
+
+  /// The URL to the location to open. Specify this value for a navigation action.
+  final ComponentProperty? url;
+
+  ActionParameters({
+    this.anchor,
+    this.fields,
+    this.global,
+    this.id,
+    this.model,
+    this.state,
+    this.target,
+    this.type,
+    this.url,
+  });
+
+  factory ActionParameters.fromJson(Map<String, dynamic> json) {
+    return ActionParameters(
+      anchor: json['anchor'] != null
+          ? ComponentProperty.fromJson(json['anchor'] as Map<String, dynamic>)
+          : null,
+      fields: (json['fields'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, ComponentProperty.fromJson(e as Map<String, dynamic>))),
+      global: json['global'] != null
+          ? ComponentProperty.fromJson(json['global'] as Map<String, dynamic>)
+          : null,
+      id: json['id'] != null
+          ? ComponentProperty.fromJson(json['id'] as Map<String, dynamic>)
+          : null,
+      model: json['model'] as String?,
+      state: json['state'] != null
+          ? MutationActionSetStateParameter.fromJson(
+              json['state'] as Map<String, dynamic>)
+          : null,
+      target: json['target'] != null
+          ? ComponentProperty.fromJson(json['target'] as Map<String, dynamic>)
+          : null,
+      type: json['type'] != null
+          ? ComponentProperty.fromJson(json['type'] as Map<String, dynamic>)
+          : null,
+      url: json['url'] != null
+          ? ComponentProperty.fromJson(json['url'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final anchor = this.anchor;
+    final fields = this.fields;
+    final global = this.global;
+    final id = this.id;
+    final model = this.model;
+    final state = this.state;
+    final target = this.target;
+    final type = this.type;
+    final url = this.url;
+    return {
+      if (anchor != null) 'anchor': anchor,
+      if (fields != null) 'fields': fields,
+      if (global != null) 'global': global,
+      if (id != null) 'id': id,
+      if (model != null) 'model': model,
+      if (state != null) 'state': state,
+      if (target != null) 'target': target,
+      if (type != null) 'type': type,
+      if (url != null) 'url': url,
+    };
+  }
+}
+
+/// Describes the configuration for all of a component's properties. Use
+/// <code>ComponentProperty</code> to specify the values to render or bind by
+/// default.
+class ComponentProperty {
+  /// The information to bind the component property to data at runtime.
+  final ComponentPropertyBindingProperties? bindingProperties;
+
+  /// The information to bind the component property to form data.
+  final Map<String, FormBindingElement>? bindings;
+
+  /// The information to bind the component property to data at runtime. Use this
+  /// for collection components.
+  final ComponentPropertyBindingProperties? collectionBindingProperties;
+
+  /// The name of the component that is affected by an event.
+  final String? componentName;
+
+  /// A list of component properties to concatenate to create the value to assign
+  /// to this component property.
+  final List<ComponentProperty>? concat;
+
+  /// The conditional expression to use to assign a value to the component
+  /// property.
+  final ComponentConditionProperty? condition;
+
+  /// Specifies whether the user configured the property in Amplify Studio after
+  /// importing it.
+  final bool? configured;
+
+  /// The default value to assign to the component property.
+  final String? defaultValue;
+
+  /// An event that occurs in your app. Use this for workflow data binding.
+  final String? event;
+
+  /// The default value assigned to the property when the component is imported
+  /// into an app.
+  final String? importedValue;
+
+  /// The data model to use to assign a value to the component property.
+  final String? model;
+
+  /// The name of the component's property that is affected by an event.
+  final String? property;
+
+  /// The component type.
+  final String? type;
+
+  /// An authenticated user attribute to use to assign a value to the component
+  /// property.
+  final String? userAttribute;
+
+  /// The value to assign to the component property.
+  final String? value;
+
+  ComponentProperty({
+    this.bindingProperties,
+    this.bindings,
+    this.collectionBindingProperties,
+    this.componentName,
+    this.concat,
+    this.condition,
+    this.configured,
+    this.defaultValue,
+    this.event,
+    this.importedValue,
+    this.model,
+    this.property,
+    this.type,
+    this.userAttribute,
+    this.value,
+  });
+
+  factory ComponentProperty.fromJson(Map<String, dynamic> json) {
+    return ComponentProperty(
+      bindingProperties: json['bindingProperties'] != null
+          ? ComponentPropertyBindingProperties.fromJson(
+              json['bindingProperties'] as Map<String, dynamic>)
+          : null,
+      bindings: (json['bindings'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, FormBindingElement.fromJson(e as Map<String, dynamic>))),
+      collectionBindingProperties: json['collectionBindingProperties'] != null
+          ? ComponentPropertyBindingProperties.fromJson(
+              json['collectionBindingProperties'] as Map<String, dynamic>)
+          : null,
+      componentName: json['componentName'] as String?,
+      concat: (json['concat'] as List?)
+          ?.nonNulls
+          .map((e) => ComponentProperty.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      condition: json['condition'] != null
+          ? ComponentConditionProperty.fromJson(
+              json['condition'] as Map<String, dynamic>)
+          : null,
+      configured: json['configured'] as bool?,
+      defaultValue: json['defaultValue'] as String?,
+      event: json['event'] as String?,
+      importedValue: json['importedValue'] as String?,
+      model: json['model'] as String?,
+      property: json['property'] as String?,
+      type: json['type'] as String?,
+      userAttribute: json['userAttribute'] as String?,
+      value: json['value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bindingProperties = this.bindingProperties;
+    final bindings = this.bindings;
+    final collectionBindingProperties = this.collectionBindingProperties;
+    final componentName = this.componentName;
+    final concat = this.concat;
+    final condition = this.condition;
+    final configured = this.configured;
+    final defaultValue = this.defaultValue;
+    final event = this.event;
+    final importedValue = this.importedValue;
+    final model = this.model;
+    final property = this.property;
+    final type = this.type;
+    final userAttribute = this.userAttribute;
+    final value = this.value;
+    return {
+      if (bindingProperties != null) 'bindingProperties': bindingProperties,
+      if (bindings != null) 'bindings': bindings,
+      if (collectionBindingProperties != null)
+        'collectionBindingProperties': collectionBindingProperties,
+      if (componentName != null) 'componentName': componentName,
+      if (concat != null) 'concat': concat,
+      if (condition != null) 'condition': condition,
+      if (configured != null) 'configured': configured,
+      if (defaultValue != null) 'defaultValue': defaultValue,
+      if (event != null) 'event': event,
+      if (importedValue != null) 'importedValue': importedValue,
+      if (model != null) 'model': model,
+      if (property != null) 'property': property,
+      if (type != null) 'type': type,
+      if (userAttribute != null) 'userAttribute': userAttribute,
+      if (value != null) 'value': value,
     };
   }
 }
@@ -4608,16 +3676,192 @@ class MutationActionSetStateParameter {
   }
 }
 
-/// Describes the configuration for an application with no API being used.
-class NoApiRenderConfig {
-  NoApiRenderConfig();
+/// Associates a component property to a binding property. This enables exposed
+/// properties on the top level component to propagate data to the component's
+/// property values.
+class ComponentPropertyBindingProperties {
+  /// The component property to bind to the data field.
+  final String property;
 
-  factory NoApiRenderConfig.fromJson(Map<String, dynamic> _) {
-    return NoApiRenderConfig();
+  /// The data field to bind the property to.
+  final String? field;
+
+  ComponentPropertyBindingProperties({
+    required this.property,
+    this.field,
+  });
+
+  factory ComponentPropertyBindingProperties.fromJson(
+      Map<String, dynamic> json) {
+    return ComponentPropertyBindingProperties(
+      property: (json['property'] as String?) ?? '',
+      field: json['field'] as String?,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final property = this.property;
+    final field = this.field;
+    return {
+      'property': property,
+      if (field != null) 'field': field,
+    };
+  }
+}
+
+/// Represents a conditional expression to set a component property. Use
+/// <code>ComponentConditionProperty</code> to set a property to different
+/// values conditionally, based on the value of another property.
+class ComponentConditionProperty {
+  /// The value to assign to the property if the condition is not met.
+  final ComponentProperty? elseValue;
+
+  /// The name of a field. Specify this when the property is a data model.
+  final String? field;
+
+  /// The value of the property to evaluate.
+  final String? operand;
+
+  /// The type of the property to evaluate.
+  final String? operandType;
+
+  /// The operator to use to perform the evaluation, such as <code>eq</code> to
+  /// represent equals.
+  final String? operator;
+
+  /// The name of the conditional property.
+  final String? property;
+
+  /// The value to assign to the property if the condition is met.
+  final ComponentProperty? then;
+
+  ComponentConditionProperty({
+    this.elseValue,
+    this.field,
+    this.operand,
+    this.operandType,
+    this.operator,
+    this.property,
+    this.then,
+  });
+
+  factory ComponentConditionProperty.fromJson(Map<String, dynamic> json) {
+    return ComponentConditionProperty(
+      elseValue: json['else'] != null
+          ? ComponentProperty.fromJson(json['else'] as Map<String, dynamic>)
+          : null,
+      field: json['field'] as String?,
+      operand: json['operand'] as String?,
+      operandType: json['operandType'] as String?,
+      operator: json['operator'] as String?,
+      property: json['property'] as String?,
+      then: json['then'] != null
+          ? ComponentProperty.fromJson(json['then'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final elseValue = this.elseValue;
+    final field = this.field;
+    final operand = this.operand;
+    final operandType = this.operandType;
+    final operator = this.operator;
+    final property = this.property;
+    final then = this.then;
+    return {
+      if (elseValue != null) 'else': elseValue,
+      if (field != null) 'field': field,
+      if (operand != null) 'operand': operand,
+      if (operandType != null) 'operandType': operandType,
+      if (operator != null) 'operator': operator,
+      if (property != null) 'property': property,
+      if (then != null) 'then': then,
+    };
+  }
+}
+
+/// Describes how to bind a component property to form data.
+class FormBindingElement {
+  /// The name of the component to retrieve a value from.
+  final String element;
+
+  /// The property to retrieve a value from.
+  final String property;
+
+  FormBindingElement({
+    required this.element,
+    required this.property,
+  });
+
+  factory FormBindingElement.fromJson(Map<String, dynamic> json) {
+    return FormBindingElement(
+      element: (json['element'] as String?) ?? '',
+      property: (json['property'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final element = this.element;
+    final property = this.property;
+    return {
+      'element': element,
+      'property': property,
+    };
+  }
+}
+
+/// Describes the configuration for binding a component's properties to data.
+class ComponentDataConfiguration {
+  /// The name of the data model to use to bind data to a component.
+  final String model;
+
+  /// A list of IDs to use to bind data to a component. Use this property to bind
+  /// specifically chosen data, rather than data retrieved from a query.
+  final List<String>? identifiers;
+
+  /// Represents the conditional logic to use when binding data to a component.
+  /// Use this property to retrieve only a subset of the data in a collection.
+  final Predicate? predicate;
+
+  /// Describes how to sort the component's properties.
+  final List<SortProperty>? sort;
+
+  ComponentDataConfiguration({
+    required this.model,
+    this.identifiers,
+    this.predicate,
+    this.sort,
+  });
+
+  factory ComponentDataConfiguration.fromJson(Map<String, dynamic> json) {
+    return ComponentDataConfiguration(
+      model: (json['model'] as String?) ?? '',
+      identifiers: (json['identifiers'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      predicate: json['predicate'] != null
+          ? Predicate.fromJson(json['predicate'] as Map<String, dynamic>)
+          : null,
+      sort: (json['sort'] as List?)
+          ?.nonNulls
+          .map((e) => SortProperty.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final model = this.model;
+    final identifiers = this.identifiers;
+    final predicate = this.predicate;
+    final sort = this.sort;
+    return {
+      'model': model,
+      if (identifiers != null) 'identifiers': identifiers,
+      if (predicate != null) 'predicate': predicate,
+      if (sort != null) 'sort': sort,
+    };
   }
 }
 
@@ -4686,239 +3930,6 @@ class Predicate {
   }
 }
 
-/// Stores the metadata information about a feature on a form.
-class PutMetadataFlagBody {
-  /// The new information to store.
-  final String newValue;
-
-  PutMetadataFlagBody({
-    required this.newValue,
-  });
-
-  Map<String, dynamic> toJson() {
-    final newValue = this.newValue;
-    return {
-      'newValue': newValue,
-    };
-  }
-}
-
-/// Describes the code generation job configuration for a React project.
-class ReactStartCodegenJobData {
-  /// The API configuration for the code generation job.
-  final ApiConfiguration? apiConfiguration;
-
-  /// Lists the dependency packages that may be required for the project code to
-  /// run.
-  final Map<String, String>? dependencies;
-
-  /// Specifies whether the code generation job should render inline source maps.
-  final bool? inlineSourceMap;
-
-  /// The JavaScript module type.
-  final JSModule? module;
-
-  /// Specifies whether the code generation job should render type declaration
-  /// files.
-  final bool? renderTypeDeclarations;
-
-  /// The file type to use for a JavaScript project.
-  final JSScript? script;
-
-  /// The ECMAScript specification to use.
-  final JSTarget? target;
-
-  ReactStartCodegenJobData({
-    this.apiConfiguration,
-    this.dependencies,
-    this.inlineSourceMap,
-    this.module,
-    this.renderTypeDeclarations,
-    this.script,
-    this.target,
-  });
-
-  factory ReactStartCodegenJobData.fromJson(Map<String, dynamic> json) {
-    return ReactStartCodegenJobData(
-      apiConfiguration: json['apiConfiguration'] != null
-          ? ApiConfiguration.fromJson(
-              json['apiConfiguration'] as Map<String, dynamic>)
-          : null,
-      dependencies: (json['dependencies'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      inlineSourceMap: json['inlineSourceMap'] as bool?,
-      module: (json['module'] as String?)?.let(JSModule.fromString),
-      renderTypeDeclarations: json['renderTypeDeclarations'] as bool?,
-      script: (json['script'] as String?)?.let(JSScript.fromString),
-      target: (json['target'] as String?)?.let(JSTarget.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final apiConfiguration = this.apiConfiguration;
-    final dependencies = this.dependencies;
-    final inlineSourceMap = this.inlineSourceMap;
-    final module = this.module;
-    final renderTypeDeclarations = this.renderTypeDeclarations;
-    final script = this.script;
-    final target = this.target;
-    return {
-      if (apiConfiguration != null) 'apiConfiguration': apiConfiguration,
-      if (dependencies != null) 'dependencies': dependencies,
-      if (inlineSourceMap != null) 'inlineSourceMap': inlineSourceMap,
-      if (module != null) 'module': module.value,
-      if (renderTypeDeclarations != null)
-        'renderTypeDeclarations': renderTypeDeclarations,
-      if (script != null) 'script': script.value,
-      if (target != null) 'target': target.value,
-    };
-  }
-}
-
-/// Describes a refresh token.
-class RefreshTokenRequestBody {
-  /// The token to use to refresh a previously issued access token that might have
-  /// expired.
-  final String token;
-
-  /// The ID of the client to request the token from.
-  final String? clientId;
-
-  RefreshTokenRequestBody({
-    required this.token,
-    this.clientId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final token = this.token;
-    final clientId = this.clientId;
-    return {
-      'token': token,
-      if (clientId != null) 'clientId': clientId,
-    };
-  }
-}
-
-class RefreshTokenResponse {
-  /// The access token.
-  final String accessToken;
-
-  /// The date and time when the new access token expires.
-  final int expiresIn;
-
-  RefreshTokenResponse({
-    required this.accessToken,
-    required this.expiresIn,
-  });
-
-  factory RefreshTokenResponse.fromJson(Map<String, dynamic> json) {
-    return RefreshTokenResponse(
-      accessToken: (json['accessToken'] as String?) ?? '',
-      expiresIn: (json['expiresIn'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accessToken = this.accessToken;
-    final expiresIn = this.expiresIn;
-    return {
-      'accessToken': accessToken,
-      'expiresIn': expiresIn,
-    };
-  }
-}
-
-/// Stores the configuration information for a visual helper element for a form.
-/// A sectional element can be a header, a text block, or a divider. These
-/// elements are static and not associated with any data.
-class SectionalElement {
-  /// The type of sectional element. Valid values are <code>Heading</code>,
-  /// <code>Text</code>, and <code>Divider</code>.
-  final String type;
-
-  /// Excludes a sectional element that was generated by default for a specified
-  /// data model.
-  final bool? excluded;
-
-  /// Specifies the size of the font for a <code>Heading</code> sectional element.
-  /// Valid values are <code>1 | 2 | 3 | 4 | 5 | 6</code>.
-  final int? level;
-
-  /// Specifies the orientation for a <code>Divider</code> sectional element.
-  /// Valid values are <code>horizontal</code> or <code>vertical</code>.
-  final String? orientation;
-
-  /// Specifies the position of the text in a field for a <code>Text</code>
-  /// sectional element.
-  final FieldPosition? position;
-
-  /// The text for a <code>Text</code> sectional element.
-  final String? text;
-
-  SectionalElement({
-    required this.type,
-    this.excluded,
-    this.level,
-    this.orientation,
-    this.position,
-    this.text,
-  });
-
-  factory SectionalElement.fromJson(Map<String, dynamic> json) {
-    return SectionalElement(
-      type: (json['type'] as String?) ?? '',
-      excluded: json['excluded'] as bool?,
-      level: json['level'] as int?,
-      orientation: json['orientation'] as String?,
-      position: json['position'] != null
-          ? FieldPosition.fromJson(json['position'] as Map<String, dynamic>)
-          : null,
-      text: json['text'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final type = this.type;
-    final excluded = this.excluded;
-    final level = this.level;
-    final orientation = this.orientation;
-    final position = this.position;
-    final text = this.text;
-    return {
-      'type': type,
-      if (excluded != null) 'excluded': excluded,
-      if (level != null) 'level': level,
-      if (orientation != null) 'orientation': orientation,
-      if (position != null) 'position': position,
-      if (text != null) 'text': text,
-    };
-  }
-}
-
-class SortDirection {
-  static const asc = SortDirection._('ASC');
-  static const desc = SortDirection._('DESC');
-
-  final String value;
-
-  const SortDirection._(this.value);
-
-  static const values = [asc, desc];
-
-  static SortDirection fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SortDirection._(value));
-
-  @override
-  bool operator ==(other) => other is SortDirection && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 /// Describes how to sort the data that you bind to a component.
 class SortProperty {
   /// The direction of the sort, either ascending or descending.
@@ -4949,83 +3960,22 @@ class SortProperty {
   }
 }
 
-/// The code generation job resource configuration.
-class StartCodegenJobData {
-  /// The code generation configuration for the codegen job.
-  final CodegenJobRenderConfig renderConfig;
-
-  /// Specifies whether to autogenerate forms in the code generation job.
-  final bool? autoGenerateForms;
-
-  /// The feature flags for a code generation job.
-  final CodegenFeatureFlags? features;
-
-  /// The data schema to use for a code generation job.
-  final CodegenJobGenericDataSchema? genericDataSchema;
-
-  /// One or more key-value pairs to use when tagging the code generation job
-  /// data.
-  final Map<String, String>? tags;
-
-  StartCodegenJobData({
-    required this.renderConfig,
-    this.autoGenerateForms,
-    this.features,
-    this.genericDataSchema,
-    this.tags,
-  });
-
-  Map<String, dynamic> toJson() {
-    final renderConfig = this.renderConfig;
-    final autoGenerateForms = this.autoGenerateForms;
-    final features = this.features;
-    final genericDataSchema = this.genericDataSchema;
-    final tags = this.tags;
-    return {
-      'renderConfig': renderConfig,
-      if (autoGenerateForms != null) 'autoGenerateForms': autoGenerateForms,
-      if (features != null) 'features': features,
-      if (genericDataSchema != null) 'genericDataSchema': genericDataSchema,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-class StartCodegenJobResponse {
-  /// The code generation job for a UI component that is associated with an
-  /// Amplify app.
-  final CodegenJob? entity;
-
-  StartCodegenJobResponse({
-    this.entity,
-  });
-
-  Map<String, dynamic> toJson() {
-    final entity = this.entity;
-    return {
-      if (entity != null) 'entity': entity,
-    };
-  }
-}
-
-class StorageAccessLevel {
-  static const public = StorageAccessLevel._('public');
-  static const protected = StorageAccessLevel._('protected');
-  static const private = StorageAccessLevel._('private');
+class SortDirection {
+  static const asc = SortDirection._('ASC');
+  static const desc = SortDirection._('DESC');
 
   final String value;
 
-  const StorageAccessLevel._(this.value);
+  const SortDirection._(this.value);
 
-  static const values = [public, protected, private];
+  static const values = [asc, desc];
 
-  static StorageAccessLevel fromString(String value) =>
+  static SortDirection fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => StorageAccessLevel._(value));
+          orElse: () => SortDirection._(value));
 
   @override
-  bool operator ==(other) =>
-      other is StorageAccessLevel && other.value == value;
+  bool operator ==(other) => other is SortDirection && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -5034,129 +3984,265 @@ class StorageAccessLevel {
   String toString() => value;
 }
 
-class TagResourceResponse {
-  TagResourceResponse();
+/// Represents the data binding configuration for a component at runtime. You
+/// can use <code>ComponentBindingPropertiesValue</code> to add exposed
+/// properties to a component to allow different values to be entered when a
+/// component is reused in different places in an app.
+class ComponentBindingPropertiesValue {
+  /// Describes the properties to customize with data at runtime.
+  final ComponentBindingPropertiesValueProperties? bindingProperties;
 
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
+  /// The default value of the property.
+  final String? defaultValue;
+
+  /// The property type.
+  final String? type;
+
+  ComponentBindingPropertiesValue({
+    this.bindingProperties,
+    this.defaultValue,
+    this.type,
+  });
+
+  factory ComponentBindingPropertiesValue.fromJson(Map<String, dynamic> json) {
+    return ComponentBindingPropertiesValue(
+      bindingProperties: json['bindingProperties'] != null
+          ? ComponentBindingPropertiesValueProperties.fromJson(
+              json['bindingProperties'] as Map<String, dynamic>)
+          : null,
+      defaultValue: json['defaultValue'] as String?,
+      type: json['type'] as String?,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final bindingProperties = this.bindingProperties;
+    final defaultValue = this.defaultValue;
+    final type = this.type;
+    return {
+      if (bindingProperties != null) 'bindingProperties': bindingProperties,
+      if (defaultValue != null) 'defaultValue': defaultValue,
+      if (type != null) 'type': type,
+    };
   }
 }
 
-/// A theme is a collection of style settings that apply globally to the
-/// components associated with an Amplify application.
-class Theme {
-  /// The unique ID for the Amplify app associated with the theme.
-  final String appId;
+/// Represents the data binding configuration for a specific property using data
+/// stored in Amazon Web Services. For Amazon Web Services connected properties,
+/// you can bind a property to data stored in an Amazon S3 bucket, an Amplify
+/// DataStore model or an authenticated user attribute.
+class ComponentBindingPropertiesValueProperties {
+  /// An Amazon S3 bucket.
+  final String? bucket;
 
-  /// The time that the theme was created.
-  final DateTime createdAt;
+  /// The default value to assign to the property.
+  final String? defaultValue;
 
-  /// The name of the backend environment that is a part of the Amplify app.
-  final String environmentName;
+  /// The field to bind the data to.
+  final String? field;
 
-  /// The ID for the theme.
-  final String id;
+  /// The storage key for an Amazon S3 bucket.
+  final String? key;
 
-  /// The name of the theme.
-  final String name;
+  /// An Amplify DataStore model.
+  final String? model;
 
-  /// A list of key-value pairs that defines the properties of the theme.
-  final List<ThemeValues> values;
+  /// A list of predicates for binding a component's properties to data.
+  final List<Predicate>? predicates;
 
-  /// The time that the theme was modified.
-  final DateTime? modifiedAt;
+  /// The name of a component slot.
+  final String? slotName;
 
-  /// Describes the properties that can be overriden to customize a theme.
-  final List<ThemeValues>? overrides;
+  /// An authenticated user attribute.
+  final String? userAttribute;
 
-  /// One or more key-value pairs to use when tagging the theme.
-  final Map<String, String>? tags;
-
-  Theme({
-    required this.appId,
-    required this.createdAt,
-    required this.environmentName,
-    required this.id,
-    required this.name,
-    required this.values,
-    this.modifiedAt,
-    this.overrides,
-    this.tags,
+  ComponentBindingPropertiesValueProperties({
+    this.bucket,
+    this.defaultValue,
+    this.field,
+    this.key,
+    this.model,
+    this.predicates,
+    this.slotName,
+    this.userAttribute,
   });
 
-  factory Theme.fromJson(Map<String, dynamic> json) {
-    return Theme(
-      appId: (json['appId'] as String?) ?? '',
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
-      environmentName: (json['environmentName'] as String?) ?? '',
-      id: (json['id'] as String?) ?? '',
-      name: (json['name'] as String?) ?? '',
-      values: ((json['values'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => ThemeValues.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      modifiedAt: timeStampFromJson(json['modifiedAt']),
-      overrides: (json['overrides'] as List?)
+  factory ComponentBindingPropertiesValueProperties.fromJson(
+      Map<String, dynamic> json) {
+    return ComponentBindingPropertiesValueProperties(
+      bucket: json['bucket'] as String?,
+      defaultValue: json['defaultValue'] as String?,
+      field: json['field'] as String?,
+      key: json['key'] as String?,
+      model: json['model'] as String?,
+      predicates: (json['predicates'] as List?)
           ?.nonNulls
-          .map((e) => ThemeValues.fromJson(e as Map<String, dynamic>))
+          .map((e) => Predicate.fromJson(e as Map<String, dynamic>))
           .toList(),
-      tags: (json['tags'] as Map<String, dynamic>?)
+      slotName: json['slotName'] as String?,
+      userAttribute: json['userAttribute'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final defaultValue = this.defaultValue;
+    final field = this.field;
+    final key = this.key;
+    final model = this.model;
+    final predicates = this.predicates;
+    final slotName = this.slotName;
+    final userAttribute = this.userAttribute;
+    return {
+      if (bucket != null) 'bucket': bucket,
+      if (defaultValue != null) 'defaultValue': defaultValue,
+      if (field != null) 'field': field,
+      if (key != null) 'key': key,
+      if (model != null) 'model': model,
+      if (predicates != null) 'predicates': predicates,
+      if (slotName != null) 'slotName': slotName,
+      if (userAttribute != null) 'userAttribute': userAttribute,
+    };
+  }
+}
+
+/// Describes the style configuration of a unique variation of a main component.
+class ComponentVariant {
+  /// The properties of the component variant that can be overriden when
+  /// customizing an instance of the component. You can't specify
+  /// <code>tags</code> as a valid property for <code>overrides</code>.
+  final Map<String, Map<String, String>>? overrides;
+
+  /// The combination of variants that comprise this variant. You can't specify
+  /// <code>tags</code> as a valid property for <code>variantValues</code>.
+  final Map<String, String>? variantValues;
+
+  ComponentVariant({
+    this.overrides,
+    this.variantValues,
+  });
+
+  factory ComponentVariant.fromJson(Map<String, dynamic> json) {
+    return ComponentVariant(
+      overrides: (json['overrides'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(
+              k,
+              (e as Map<String, dynamic>)
+                  .map((k, e) => MapEntry(k, e as String)))),
+      variantValues: (json['variantValues'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final appId = this.appId;
-    final createdAt = this.createdAt;
-    final environmentName = this.environmentName;
-    final id = this.id;
-    final name = this.name;
-    final values = this.values;
-    final modifiedAt = this.modifiedAt;
     final overrides = this.overrides;
-    final tags = this.tags;
+    final variantValues = this.variantValues;
     return {
-      'appId': appId,
-      'createdAt': iso8601ToJson(createdAt),
-      'environmentName': environmentName,
-      'id': id,
-      'name': name,
-      'values': values,
-      if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
       if (overrides != null) 'overrides': overrides,
-      if (tags != null) 'tags': tags,
+      if (variantValues != null) 'variantValues': variantValues,
     };
   }
 }
 
-/// Describes the basic information about a theme.
-class ThemeSummary {
-  /// The unique ID for the app associated with the theme summary.
-  final String appId;
+/// A nested UI configuration within a parent <code>Component</code>.
+class ComponentChild {
+  /// The type of the child component.
+  final String componentType;
 
-  /// The name of the backend environment that is part of the Amplify app.
-  final String environmentName;
-
-  /// The ID of the theme.
-  final String id;
-
-  /// The name of the theme.
+  /// The name of the child component.
   final String name;
 
-  ThemeSummary({
+  /// Describes the properties of the child component. You can't specify
+  /// <code>tags</code> as a valid property for <code>properties</code>.
+  final Map<String, ComponentProperty> properties;
+
+  /// The list of <code>ComponentChild</code> instances for this component.
+  final List<ComponentChild>? children;
+
+  /// Describes the events that can be raised on the child component. Use for the
+  /// workflow feature in Amplify Studio that allows you to bind events and
+  /// actions to components.
+  final Map<String, ComponentEvent>? events;
+
+  /// The unique ID of the child component in its original source system, such as
+  /// Figma.
+  final String? sourceId;
+
+  ComponentChild({
+    required this.componentType,
+    required this.name,
+    required this.properties,
+    this.children,
+    this.events,
+    this.sourceId,
+  });
+
+  factory ComponentChild.fromJson(Map<String, dynamic> json) {
+    return ComponentChild(
+      componentType: (json['componentType'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      properties: ((json['properties'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) => MapEntry(
+              k, ComponentProperty.fromJson(e as Map<String, dynamic>))),
+      children: (json['children'] as List?)
+          ?.nonNulls
+          .map((e) => ComponentChild.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      events: (json['events'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, ComponentEvent.fromJson(e as Map<String, dynamic>))),
+      sourceId: json['sourceId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final componentType = this.componentType;
+    final name = this.name;
+    final properties = this.properties;
+    final children = this.children;
+    final events = this.events;
+    final sourceId = this.sourceId;
+    return {
+      'componentType': componentType,
+      'name': name,
+      'properties': properties,
+      if (children != null) 'children': children,
+      if (events != null) 'events': events,
+      if (sourceId != null) 'sourceId': sourceId,
+    };
+  }
+}
+
+/// Contains a summary of a component. This is a read-only data type that is
+/// returned by <code>ListComponents</code>.
+class ComponentSummary {
+  /// The unique ID of the Amplify app associated with the component.
+  final String appId;
+
+  /// The component type.
+  final String componentType;
+
+  /// The name of the backend environment that is a part of the Amplify app.
+  final String environmentName;
+
+  /// The unique ID of the component.
+  final String id;
+
+  /// The name of the component.
+  final String name;
+
+  ComponentSummary({
     required this.appId,
+    required this.componentType,
     required this.environmentName,
     required this.id,
     required this.name,
   });
 
-  factory ThemeSummary.fromJson(Map<String, dynamic> json) {
-    return ThemeSummary(
+  factory ComponentSummary.fromJson(Map<String, dynamic> json) {
+    return ComponentSummary(
       appId: (json['appId'] as String?) ?? '',
+      componentType: (json['componentType'] as String?) ?? '',
       environmentName: (json['environmentName'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
@@ -5165,115 +4251,17 @@ class ThemeSummary {
 
   Map<String, dynamic> toJson() {
     final appId = this.appId;
+    final componentType = this.componentType;
     final environmentName = this.environmentName;
     final id = this.id;
     final name = this.name;
     return {
       'appId': appId,
+      'componentType': componentType,
       'environmentName': environmentName,
       'id': id,
       'name': name,
     };
-  }
-}
-
-/// Describes the configuration of a theme's properties.
-class ThemeValue {
-  /// A list of key-value pairs that define the theme's properties.
-  final List<ThemeValues>? children;
-
-  /// The value of a theme property.
-  final String? value;
-
-  ThemeValue({
-    this.children,
-    this.value,
-  });
-
-  factory ThemeValue.fromJson(Map<String, dynamic> json) {
-    return ThemeValue(
-      children: (json['children'] as List?)
-          ?.nonNulls
-          .map((e) => ThemeValues.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      value: json['value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final children = this.children;
-    final value = this.value;
-    return {
-      if (children != null) 'children': children,
-      if (value != null) 'value': value,
-    };
-  }
-}
-
-/// A key-value pair that defines a property of a theme.
-class ThemeValues {
-  /// The name of the property.
-  final String? key;
-
-  /// The value of the property.
-  final ThemeValue? value;
-
-  ThemeValues({
-    this.key,
-    this.value,
-  });
-
-  factory ThemeValues.fromJson(Map<String, dynamic> json) {
-    return ThemeValues(
-      key: json['key'] as String?,
-      value: json['value'] != null
-          ? ThemeValue.fromJson(json['value'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      if (key != null) 'key': key,
-      if (value != null) 'value': value,
-    };
-  }
-}
-
-class TokenProviders {
-  static const figma = TokenProviders._('figma');
-
-  final String value;
-
-  const TokenProviders._(this.value);
-
-  static const values = [figma];
-
-  static TokenProviders fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TokenProviders._(value));
-
-  @override
-  bool operator ==(other) => other is TokenProviders && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class UntagResourceResponse {
-  UntagResourceResponse();
-
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
   }
 }
 
@@ -5365,226 +4353,1237 @@ class UpdateComponentData {
   }
 }
 
-class UpdateComponentResponse {
-  /// Describes the configuration of the updated component.
-  final Component? entity;
+/// Represents all of the information that is required to create a component.
+class CreateComponentData {
+  /// The data binding information for the component's properties.
+  final Map<String, ComponentBindingPropertiesValue> bindingProperties;
 
-  UpdateComponentResponse({
-    this.entity,
-  });
+  /// The component type. This can be an Amplify custom UI component or another
+  /// custom component.
+  final String componentType;
 
-  Map<String, dynamic> toJson() {
-    final entity = this.entity;
-    return {
-      if (entity != null) 'entity': entity,
-    };
-  }
-}
+  /// The name of the component
+  final String name;
 
-/// Updates and saves all of the information about a form, based on form ID.
-class UpdateFormData {
-  /// The <code>FormCTA</code> object that stores the call to action configuration
-  /// for the form.
-  final FormCTA? cta;
+  /// Describes the component properties that can be overriden to customize an
+  /// instance of the component.
+  final Map<String, Map<String, String>> overrides;
 
-  /// The type of data source to use to create the form.
-  final FormDataTypeConfig? dataType;
+  /// Describes the component's properties.
+  final Map<String, ComponentProperty> properties;
 
-  /// The configuration information for the form's fields.
-  final Map<String, FieldConfig>? fields;
+  /// A list of the unique variants of this component.
+  final List<ComponentVariant> variants;
 
-  /// Specifies whether to perform a create or update action on the form.
-  final FormActionType? formActionType;
+  /// A list of child components that are instances of the main component.
+  final List<ComponentChild>? children;
 
-  /// Specifies an icon or decoration to display on the form.
-  final LabelDecorator? labelDecorator;
+  /// The data binding configuration for customizing a component's properties. Use
+  /// this for a collection component.
+  final Map<String, ComponentDataConfiguration>? collectionProperties;
 
-  /// The name of the form.
-  final String? name;
+  /// The event configuration for the component. Use for the workflow feature in
+  /// Amplify Studio that allows you to bind events and actions to components.
+  final Map<String, ComponentEvent>? events;
 
-  /// The schema version of the form.
+  /// The schema version of the component when it was imported.
   final String? schemaVersion;
 
-  /// The configuration information for the visual helper elements for the form.
-  /// These elements are not associated with any data.
-  final Map<String, SectionalElement>? sectionalElements;
+  /// The unique ID of the component in its original source system, such as Figma.
+  final String? sourceId;
 
-  /// The configuration for the form's style.
-  final FormStyle? style;
+  /// One or more key-value pairs to use when tagging the component data.
+  final Map<String, String>? tags;
 
-  UpdateFormData({
-    this.cta,
-    this.dataType,
-    this.fields,
-    this.formActionType,
-    this.labelDecorator,
-    this.name,
+  CreateComponentData({
+    required this.bindingProperties,
+    required this.componentType,
+    required this.name,
+    required this.overrides,
+    required this.properties,
+    required this.variants,
+    this.children,
+    this.collectionProperties,
+    this.events,
     this.schemaVersion,
-    this.sectionalElements,
-    this.style,
+    this.sourceId,
+    this.tags,
   });
 
   Map<String, dynamic> toJson() {
-    final cta = this.cta;
-    final dataType = this.dataType;
-    final fields = this.fields;
-    final formActionType = this.formActionType;
-    final labelDecorator = this.labelDecorator;
-    final name = this.name;
-    final schemaVersion = this.schemaVersion;
-    final sectionalElements = this.sectionalElements;
-    final style = this.style;
-    return {
-      if (cta != null) 'cta': cta,
-      if (dataType != null) 'dataType': dataType,
-      if (fields != null) 'fields': fields,
-      if (formActionType != null) 'formActionType': formActionType.value,
-      if (labelDecorator != null) 'labelDecorator': labelDecorator.value,
-      if (name != null) 'name': name,
-      if (schemaVersion != null) 'schemaVersion': schemaVersion,
-      if (sectionalElements != null) 'sectionalElements': sectionalElements,
-      if (style != null) 'style': style,
-    };
-  }
-}
-
-class UpdateFormResponse {
-  /// Describes the configuration of the updated form.
-  final Form? entity;
-
-  UpdateFormResponse({
-    this.entity,
-  });
-
-  Map<String, dynamic> toJson() {
-    final entity = this.entity;
-    return {
-      if (entity != null) 'entity': entity,
-    };
-  }
-}
-
-/// Saves the data binding information for a theme.
-class UpdateThemeData {
-  /// A list of key-value pairs that define the theme's properties.
-  final List<ThemeValues> values;
-
-  /// The unique ID of the theme to update.
-  final String? id;
-
-  /// The name of the theme to update.
-  final String? name;
-
-  /// Describes the properties that can be overriden to customize the theme.
-  final List<ThemeValues>? overrides;
-
-  UpdateThemeData({
-    required this.values,
-    this.id,
-    this.name,
-    this.overrides,
-  });
-
-  Map<String, dynamic> toJson() {
-    final values = this.values;
-    final id = this.id;
+    final bindingProperties = this.bindingProperties;
+    final componentType = this.componentType;
     final name = this.name;
     final overrides = this.overrides;
+    final properties = this.properties;
+    final variants = this.variants;
+    final children = this.children;
+    final collectionProperties = this.collectionProperties;
+    final events = this.events;
+    final schemaVersion = this.schemaVersion;
+    final sourceId = this.sourceId;
+    final tags = this.tags;
     return {
-      'values': values,
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-      if (overrides != null) 'overrides': overrides,
+      'bindingProperties': bindingProperties,
+      'componentType': componentType,
+      'name': name,
+      'overrides': overrides,
+      'properties': properties,
+      'variants': variants,
+      if (children != null) 'children': children,
+      if (collectionProperties != null)
+        'collectionProperties': collectionProperties,
+      if (events != null) 'events': events,
+      if (schemaVersion != null) 'schemaVersion': schemaVersion,
+      if (sourceId != null) 'sourceId': sourceId,
+      if (tags != null) 'tags': tags,
     };
   }
 }
 
-class UpdateThemeResponse {
-  /// Describes the configuration of the updated theme.
-  final Theme? entity;
+/// A summary of the basic information about the code generation job.
+class CodegenJobSummary {
+  /// The unique ID of the Amplify app associated with the code generation job.
+  final String appId;
 
-  UpdateThemeResponse({
-    this.entity,
+  /// The name of the backend environment associated with the code generation job.
+  final String environmentName;
+
+  /// The unique ID for the code generation job summary.
+  final String id;
+
+  /// The time that the code generation job summary was created.
+  final DateTime? createdAt;
+
+  /// The time that the code generation job summary was modified.
+  final DateTime? modifiedAt;
+
+  CodegenJobSummary({
+    required this.appId,
+    required this.environmentName,
+    required this.id,
+    this.createdAt,
+    this.modifiedAt,
   });
+
+  factory CodegenJobSummary.fromJson(Map<String, dynamic> json) {
+    return CodegenJobSummary(
+      appId: (json['appId'] as String?) ?? '',
+      environmentName: (json['environmentName'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      createdAt: timeStampFromJson(json['createdAt']),
+      modifiedAt: timeStampFromJson(json['modifiedAt']),
+    );
+  }
 
   Map<String, dynamic> toJson() {
-    final entity = this.entity;
+    final appId = this.appId;
+    final environmentName = this.environmentName;
+    final id = this.id;
+    final createdAt = this.createdAt;
+    final modifiedAt = this.modifiedAt;
     return {
-      if (entity != null) 'entity': entity,
+      'appId': appId,
+      'environmentName': environmentName,
+      'id': id,
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
     };
   }
 }
 
-/// Associates a complex object with a display value. Use
-/// <code>ValueMapping</code> to store how to represent complex objects when
-/// they are displayed.
-class ValueMapping {
-  /// The complex object.
-  final FormInputValueProperty value;
+/// Describes the configuration for a code generation job that is associated
+/// with an Amplify app.
+class CodegenJob {
+  /// The ID of the Amplify app associated with the code generation job.
+  final String appId;
 
-  /// The value to display for the complex object.
-  final FormInputValueProperty? displayValue;
+  /// The name of the backend environment associated with the code generation job.
+  final String environmentName;
 
-  ValueMapping({
-    required this.value,
-    this.displayValue,
+  /// The unique ID for the code generation job.
+  final String id;
+
+  /// The <code>CodegenJobAsset</code> to use for the code generation job.
+  final CodegenJobAsset? asset;
+
+  /// Specifies whether to autogenerate forms in the code generation job.
+  final bool? autoGenerateForms;
+
+  /// The time that the code generation job was created.
+  final DateTime? createdAt;
+
+  /// Lists the dependency packages that may be required for the project code to
+  /// run.
+  final List<CodegenDependency>? dependencies;
+  final CodegenFeatureFlags? features;
+  final CodegenJobGenericDataSchema? genericDataSchema;
+
+  /// The time that the code generation job was modified.
+  final DateTime? modifiedAt;
+  final CodegenJobRenderConfig? renderConfig;
+
+  /// The status of the code generation job.
+  final CodegenJobStatus? status;
+
+  /// The customized status message for the code generation job.
+  final String? statusMessage;
+
+  /// One or more key-value pairs to use when tagging the code generation job.
+  final Map<String, String>? tags;
+
+  CodegenJob({
+    required this.appId,
+    required this.environmentName,
+    required this.id,
+    this.asset,
+    this.autoGenerateForms,
+    this.createdAt,
+    this.dependencies,
+    this.features,
+    this.genericDataSchema,
+    this.modifiedAt,
+    this.renderConfig,
+    this.status,
+    this.statusMessage,
+    this.tags,
   });
 
-  factory ValueMapping.fromJson(Map<String, dynamic> json) {
-    return ValueMapping(
-      value: FormInputValueProperty.fromJson(
-          (json['value'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      displayValue: json['displayValue'] != null
-          ? FormInputValueProperty.fromJson(
-              json['displayValue'] as Map<String, dynamic>)
+  factory CodegenJob.fromJson(Map<String, dynamic> json) {
+    return CodegenJob(
+      appId: (json['appId'] as String?) ?? '',
+      environmentName: (json['environmentName'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      asset: json['asset'] != null
+          ? CodegenJobAsset.fromJson(json['asset'] as Map<String, dynamic>)
+          : null,
+      autoGenerateForms: json['autoGenerateForms'] as bool?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      dependencies: (json['dependencies'] as List?)
+          ?.nonNulls
+          .map((e) => CodegenDependency.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      features: json['features'] != null
+          ? CodegenFeatureFlags.fromJson(
+              json['features'] as Map<String, dynamic>)
+          : null,
+      genericDataSchema: json['genericDataSchema'] != null
+          ? CodegenJobGenericDataSchema.fromJson(
+              json['genericDataSchema'] as Map<String, dynamic>)
+          : null,
+      modifiedAt: timeStampFromJson(json['modifiedAt']),
+      renderConfig: json['renderConfig'] != null
+          ? CodegenJobRenderConfig.fromJson(
+              json['renderConfig'] as Map<String, dynamic>)
+          : null,
+      status: (json['status'] as String?)?.let(CodegenJobStatus.fromString),
+      statusMessage: json['statusMessage'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appId = this.appId;
+    final environmentName = this.environmentName;
+    final id = this.id;
+    final asset = this.asset;
+    final autoGenerateForms = this.autoGenerateForms;
+    final createdAt = this.createdAt;
+    final dependencies = this.dependencies;
+    final features = this.features;
+    final genericDataSchema = this.genericDataSchema;
+    final modifiedAt = this.modifiedAt;
+    final renderConfig = this.renderConfig;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    final tags = this.tags;
+    return {
+      'appId': appId,
+      'environmentName': environmentName,
+      'id': id,
+      if (asset != null) 'asset': asset,
+      if (autoGenerateForms != null) 'autoGenerateForms': autoGenerateForms,
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (dependencies != null) 'dependencies': dependencies,
+      if (features != null) 'features': features,
+      if (genericDataSchema != null) 'genericDataSchema': genericDataSchema,
+      if (modifiedAt != null) 'modifiedAt': iso8601ToJson(modifiedAt),
+      if (renderConfig != null) 'renderConfig': renderConfig,
+      if (status != null) 'status': status.value,
+      if (statusMessage != null) 'statusMessage': statusMessage,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Describes the configuration information for rendering the UI component
+/// associated with the code generation job.
+class CodegenJobRenderConfig {
+  /// The name of the <code>ReactStartCodegenJobData</code> object.
+  final ReactStartCodegenJobData? react;
+
+  CodegenJobRenderConfig({
+    this.react,
+  });
+
+  factory CodegenJobRenderConfig.fromJson(Map<String, dynamic> json) {
+    return CodegenJobRenderConfig(
+      react: json['react'] != null
+          ? ReactStartCodegenJobData.fromJson(
+              json['react'] as Map<String, dynamic>)
           : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final value = this.value;
-    final displayValue = this.displayValue;
+    final react = this.react;
     return {
-      'value': value,
-      if (displayValue != null) 'displayValue': displayValue,
+      if (react != null) 'react': react,
     };
   }
 }
 
-/// Represents the data binding configuration for a value map.
-class ValueMappings {
-  /// The value and display value pairs.
-  final List<ValueMapping> values;
+/// Describes the data schema for a code generation job.
+class CodegenJobGenericDataSchema {
+  /// The type of the data source for the schema. Currently, the only valid value
+  /// is an Amplify <code>DataStore</code>.
+  final CodegenJobGenericDataSourceType dataSourceType;
 
-  /// The information to bind fields to data at runtime.
-  final Map<String, FormInputBindingPropertiesValue>? bindingProperties;
+  /// The name of a <code>CodegenGenericDataEnum</code>.
+  final Map<String, CodegenGenericDataEnum> enums;
 
-  ValueMappings({
-    required this.values,
-    this.bindingProperties,
+  /// The name of a <code>CodegenGenericDataModel</code>.
+  final Map<String, CodegenGenericDataModel> models;
+
+  /// The name of a <code>CodegenGenericDataNonModel</code>.
+  final Map<String, CodegenGenericDataNonModel> nonModels;
+
+  CodegenJobGenericDataSchema({
+    required this.dataSourceType,
+    required this.enums,
+    required this.models,
+    required this.nonModels,
   });
 
-  factory ValueMappings.fromJson(Map<String, dynamic> json) {
-    return ValueMappings(
+  factory CodegenJobGenericDataSchema.fromJson(Map<String, dynamic> json) {
+    return CodegenJobGenericDataSchema(
+      dataSourceType: CodegenJobGenericDataSourceType.fromString(
+          (json['dataSourceType'] as String?) ?? ''),
+      enums: ((json['enums'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) => MapEntry(
+              k, CodegenGenericDataEnum.fromJson(e as Map<String, dynamic>))),
+      models: ((json['models'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) => MapEntry(
+              k, CodegenGenericDataModel.fromJson(e as Map<String, dynamic>))),
+      nonModels: ((json['nonModels'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) => MapEntry(k,
+              CodegenGenericDataNonModel.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSourceType = this.dataSourceType;
+    final enums = this.enums;
+    final models = this.models;
+    final nonModels = this.nonModels;
+    return {
+      'dataSourceType': dataSourceType.value,
+      'enums': enums,
+      'models': models,
+      'nonModels': nonModels,
+    };
+  }
+}
+
+/// Describes the feature flags that you can specify for a code generation job.
+class CodegenFeatureFlags {
+  /// Specifies whether a code generation job supports non models.
+  final bool? isNonModelSupported;
+
+  /// Specifes whether a code generation job supports data relationships.
+  final bool? isRelationshipSupported;
+
+  CodegenFeatureFlags({
+    this.isNonModelSupported,
+    this.isRelationshipSupported,
+  });
+
+  factory CodegenFeatureFlags.fromJson(Map<String, dynamic> json) {
+    return CodegenFeatureFlags(
+      isNonModelSupported: json['isNonModelSupported'] as bool?,
+      isRelationshipSupported: json['isRelationshipSupported'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isNonModelSupported = this.isNonModelSupported;
+    final isRelationshipSupported = this.isRelationshipSupported;
+    return {
+      if (isNonModelSupported != null)
+        'isNonModelSupported': isNonModelSupported,
+      if (isRelationshipSupported != null)
+        'isRelationshipSupported': isRelationshipSupported,
+    };
+  }
+}
+
+class CodegenJobStatus {
+  static const inProgress = CodegenJobStatus._('in_progress');
+  static const failed = CodegenJobStatus._('failed');
+  static const succeeded = CodegenJobStatus._('succeeded');
+
+  final String value;
+
+  const CodegenJobStatus._(this.value);
+
+  static const values = [inProgress, failed, succeeded];
+
+  static CodegenJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CodegenJobStatus._(value));
+
+  @override
+  bool operator ==(other) => other is CodegenJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes an asset for a code generation job.
+class CodegenJobAsset {
+  /// The URL to use to access the asset.
+  final String? downloadUrl;
+
+  CodegenJobAsset({
+    this.downloadUrl,
+  });
+
+  factory CodegenJobAsset.fromJson(Map<String, dynamic> json) {
+    return CodegenJobAsset(
+      downloadUrl: json['downloadUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final downloadUrl = this.downloadUrl;
+    return {
+      if (downloadUrl != null) 'downloadUrl': downloadUrl,
+    };
+  }
+}
+
+/// Dependency package that may be required for the project code to run.
+class CodegenDependency {
+  /// Determines if the dependency package is using Semantic versioning. If set to
+  /// true, it indicates that the dependency package uses Semantic versioning.
+  final bool? isSemVer;
+
+  /// Name of the dependency package.
+  final String? name;
+
+  /// Indicates the reason to include the dependency package in your project code.
+  final String? reason;
+
+  /// Indicates the version of the supported dependency package.
+  final String? supportedVersion;
+
+  CodegenDependency({
+    this.isSemVer,
+    this.name,
+    this.reason,
+    this.supportedVersion,
+  });
+
+  factory CodegenDependency.fromJson(Map<String, dynamic> json) {
+    return CodegenDependency(
+      isSemVer: json['isSemVer'] as bool?,
+      name: json['name'] as String?,
+      reason: json['reason'] as String?,
+      supportedVersion: json['supportedVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isSemVer = this.isSemVer;
+    final name = this.name;
+    final reason = this.reason;
+    final supportedVersion = this.supportedVersion;
+    return {
+      if (isSemVer != null) 'isSemVer': isSemVer,
+      if (name != null) 'name': name,
+      if (reason != null) 'reason': reason,
+      if (supportedVersion != null) 'supportedVersion': supportedVersion,
+    };
+  }
+}
+
+class CodegenJobGenericDataSourceType {
+  static const dataStore = CodegenJobGenericDataSourceType._('DataStore');
+
+  final String value;
+
+  const CodegenJobGenericDataSourceType._(this.value);
+
+  static const values = [dataStore];
+
+  static CodegenJobGenericDataSourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CodegenJobGenericDataSourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CodegenJobGenericDataSourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a non-model in a generic data schema.
+class CodegenGenericDataNonModel {
+  /// The fields in a generic data schema non model.
+  final Map<String, CodegenGenericDataField> fields;
+
+  CodegenGenericDataNonModel({
+    required this.fields,
+  });
+
+  factory CodegenGenericDataNonModel.fromJson(Map<String, dynamic> json) {
+    return CodegenGenericDataNonModel(
+      fields: ((json['fields'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) => MapEntry(
+              k, CodegenGenericDataField.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fields = this.fields;
+    return {
+      'fields': fields,
+    };
+  }
+}
+
+/// Describes a field in a generic data schema.
+class CodegenGenericDataField {
+  /// The data type for the generic data field.
+  final CodegenGenericDataFieldDataType dataType;
+
+  /// The value of the data type for the generic data field.
+  final String dataTypeValue;
+
+  /// Specifies whether the generic data field is an array.
+  final bool isArray;
+
+  /// Specifies whether the generic data field is read-only.
+  final bool readOnly;
+
+  /// Specifies whether the generic data field is required.
+  final bool required;
+
+  /// The relationship of the generic data schema.
+  final CodegenGenericDataRelationshipType? relationship;
+
+  CodegenGenericDataField({
+    required this.dataType,
+    required this.dataTypeValue,
+    required this.isArray,
+    required this.readOnly,
+    required this.required,
+    this.relationship,
+  });
+
+  factory CodegenGenericDataField.fromJson(Map<String, dynamic> json) {
+    return CodegenGenericDataField(
+      dataType: CodegenGenericDataFieldDataType.fromString(
+          (json['dataType'] as String?) ?? ''),
+      dataTypeValue: (json['dataTypeValue'] as String?) ?? '',
+      isArray: (json['isArray'] as bool?) ?? false,
+      readOnly: (json['readOnly'] as bool?) ?? false,
+      required: (json['required'] as bool?) ?? false,
+      relationship: json['relationship'] != null
+          ? CodegenGenericDataRelationshipType.fromJson(
+              json['relationship'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataType = this.dataType;
+    final dataTypeValue = this.dataTypeValue;
+    final isArray = this.isArray;
+    final readOnly = this.readOnly;
+    final required = this.required;
+    final relationship = this.relationship;
+    return {
+      'dataType': dataType.value,
+      'dataTypeValue': dataTypeValue,
+      'isArray': isArray,
+      'readOnly': readOnly,
+      'required': required,
+      if (relationship != null) 'relationship': relationship,
+    };
+  }
+}
+
+class CodegenGenericDataFieldDataType {
+  static const id = CodegenGenericDataFieldDataType._('ID');
+  static const string = CodegenGenericDataFieldDataType._('String');
+  static const $int = CodegenGenericDataFieldDataType._('Int');
+  static const float = CodegenGenericDataFieldDataType._('Float');
+  static const awsDate = CodegenGenericDataFieldDataType._('AWSDate');
+  static const awsTime = CodegenGenericDataFieldDataType._('AWSTime');
+  static const awsDateTime = CodegenGenericDataFieldDataType._('AWSDateTime');
+  static const awsTimestamp = CodegenGenericDataFieldDataType._('AWSTimestamp');
+  static const awsEmail = CodegenGenericDataFieldDataType._('AWSEmail');
+  static const awsurl = CodegenGenericDataFieldDataType._('AWSURL');
+  static const awsIPAddress = CodegenGenericDataFieldDataType._('AWSIPAddress');
+  static const boolean = CodegenGenericDataFieldDataType._('Boolean');
+  static const awsjson = CodegenGenericDataFieldDataType._('AWSJSON');
+  static const awsPhone = CodegenGenericDataFieldDataType._('AWSPhone');
+  static const $enum = CodegenGenericDataFieldDataType._('Enum');
+  static const model = CodegenGenericDataFieldDataType._('Model');
+  static const nonModel = CodegenGenericDataFieldDataType._('NonModel');
+
+  final String value;
+
+  const CodegenGenericDataFieldDataType._(this.value);
+
+  static const values = [
+    id,
+    string,
+    $int,
+    float,
+    awsDate,
+    awsTime,
+    awsDateTime,
+    awsTimestamp,
+    awsEmail,
+    awsurl,
+    awsIPAddress,
+    boolean,
+    awsjson,
+    awsPhone,
+    $enum,
+    model,
+    nonModel
+  ];
+
+  static CodegenGenericDataFieldDataType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CodegenGenericDataFieldDataType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CodegenGenericDataFieldDataType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the relationship between generic data models.
+class CodegenGenericDataRelationshipType {
+  /// The name of the related model in the data relationship.
+  final String relatedModelName;
+
+  /// The data relationship type.
+  final GenericDataRelationshipType type;
+
+  /// The associated fields of the data relationship.
+  final List<String>? associatedFields;
+
+  /// The value of the <code>belongsTo</code> field on the related data model.
+  final String? belongsToFieldOnRelatedModel;
+
+  /// Specifies whether the relationship can unlink the associated model.
+  final bool? canUnlinkAssociatedModel;
+
+  /// Specifies whether the <code>@index</code> directive is supported for a
+  /// <code>hasMany</code> data relationship.
+  final bool? isHasManyIndex;
+
+  /// The name of the related join field in the data relationship.
+  final String? relatedJoinFieldName;
+
+  /// The name of the related join table in the data relationship.
+  final String? relatedJoinTableName;
+
+  /// The related model fields in the data relationship.
+  final List<String>? relatedModelFields;
+
+  CodegenGenericDataRelationshipType({
+    required this.relatedModelName,
+    required this.type,
+    this.associatedFields,
+    this.belongsToFieldOnRelatedModel,
+    this.canUnlinkAssociatedModel,
+    this.isHasManyIndex,
+    this.relatedJoinFieldName,
+    this.relatedJoinTableName,
+    this.relatedModelFields,
+  });
+
+  factory CodegenGenericDataRelationshipType.fromJson(
+      Map<String, dynamic> json) {
+    return CodegenGenericDataRelationshipType(
+      relatedModelName: (json['relatedModelName'] as String?) ?? '',
+      type: GenericDataRelationshipType.fromString(
+          (json['type'] as String?) ?? ''),
+      associatedFields: (json['associatedFields'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      belongsToFieldOnRelatedModel:
+          json['belongsToFieldOnRelatedModel'] as String?,
+      canUnlinkAssociatedModel: json['canUnlinkAssociatedModel'] as bool?,
+      isHasManyIndex: json['isHasManyIndex'] as bool?,
+      relatedJoinFieldName: json['relatedJoinFieldName'] as String?,
+      relatedJoinTableName: json['relatedJoinTableName'] as String?,
+      relatedModelFields: (json['relatedModelFields'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final relatedModelName = this.relatedModelName;
+    final type = this.type;
+    final associatedFields = this.associatedFields;
+    final belongsToFieldOnRelatedModel = this.belongsToFieldOnRelatedModel;
+    final canUnlinkAssociatedModel = this.canUnlinkAssociatedModel;
+    final isHasManyIndex = this.isHasManyIndex;
+    final relatedJoinFieldName = this.relatedJoinFieldName;
+    final relatedJoinTableName = this.relatedJoinTableName;
+    final relatedModelFields = this.relatedModelFields;
+    return {
+      'relatedModelName': relatedModelName,
+      'type': type.value,
+      if (associatedFields != null) 'associatedFields': associatedFields,
+      if (belongsToFieldOnRelatedModel != null)
+        'belongsToFieldOnRelatedModel': belongsToFieldOnRelatedModel,
+      if (canUnlinkAssociatedModel != null)
+        'canUnlinkAssociatedModel': canUnlinkAssociatedModel,
+      if (isHasManyIndex != null) 'isHasManyIndex': isHasManyIndex,
+      if (relatedJoinFieldName != null)
+        'relatedJoinFieldName': relatedJoinFieldName,
+      if (relatedJoinTableName != null)
+        'relatedJoinTableName': relatedJoinTableName,
+      if (relatedModelFields != null) 'relatedModelFields': relatedModelFields,
+    };
+  }
+}
+
+class GenericDataRelationshipType {
+  static const hasMany = GenericDataRelationshipType._('HAS_MANY');
+  static const hasOne = GenericDataRelationshipType._('HAS_ONE');
+  static const belongsTo = GenericDataRelationshipType._('BELONGS_TO');
+
+  final String value;
+
+  const GenericDataRelationshipType._(this.value);
+
+  static const values = [hasMany, hasOne, belongsTo];
+
+  static GenericDataRelationshipType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GenericDataRelationshipType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GenericDataRelationshipType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the enums in a generic data schema.
+class CodegenGenericDataEnum {
+  /// The list of enum values in the generic data schema.
+  final List<String> values;
+
+  CodegenGenericDataEnum({
+    required this.values,
+  });
+
+  factory CodegenGenericDataEnum.fromJson(Map<String, dynamic> json) {
+    return CodegenGenericDataEnum(
       values: ((json['values'] as List?) ?? const [])
           .nonNulls
-          .map((e) => ValueMapping.fromJson(e as Map<String, dynamic>))
+          .map((e) => e as String)
           .toList(),
-      bindingProperties: (json['bindingProperties'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(
-              k,
-              FormInputBindingPropertiesValue.fromJson(
-                  e as Map<String, dynamic>))),
     );
   }
 
   Map<String, dynamic> toJson() {
     final values = this.values;
-    final bindingProperties = this.bindingProperties;
     return {
       'values': values,
-      if (bindingProperties != null) 'bindingProperties': bindingProperties,
+    };
+  }
+}
+
+/// Describes a model in a generic data schema.
+class CodegenGenericDataModel {
+  /// The fields in the generic data model.
+  final Map<String, CodegenGenericDataField> fields;
+
+  /// The primary keys of the generic data model.
+  final List<String> primaryKeys;
+
+  /// Specifies whether the generic data model is a join table.
+  final bool? isJoinTable;
+
+  CodegenGenericDataModel({
+    required this.fields,
+    required this.primaryKeys,
+    this.isJoinTable,
+  });
+
+  factory CodegenGenericDataModel.fromJson(Map<String, dynamic> json) {
+    return CodegenGenericDataModel(
+      fields: ((json['fields'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) => MapEntry(
+              k, CodegenGenericDataField.fromJson(e as Map<String, dynamic>))),
+      primaryKeys: ((json['primaryKeys'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      isJoinTable: json['isJoinTable'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fields = this.fields;
+    final primaryKeys = this.primaryKeys;
+    final isJoinTable = this.isJoinTable;
+    return {
+      'fields': fields,
+      'primaryKeys': primaryKeys,
+      if (isJoinTable != null) 'isJoinTable': isJoinTable,
+    };
+  }
+}
+
+/// Describes the code generation job configuration for a React project.
+class ReactStartCodegenJobData {
+  /// The API configuration for the code generation job.
+  final ApiConfiguration? apiConfiguration;
+
+  /// Lists the dependency packages that may be required for the project code to
+  /// run.
+  final Map<String, String>? dependencies;
+
+  /// Specifies whether the code generation job should render inline source maps.
+  final bool? inlineSourceMap;
+
+  /// The JavaScript module type.
+  final JSModule? module;
+
+  /// Specifies whether the code generation job should render type declaration
+  /// files.
+  final bool? renderTypeDeclarations;
+
+  /// The file type to use for a JavaScript project.
+  final JSScript? script;
+
+  /// The ECMAScript specification to use.
+  final JSTarget? target;
+
+  ReactStartCodegenJobData({
+    this.apiConfiguration,
+    this.dependencies,
+    this.inlineSourceMap,
+    this.module,
+    this.renderTypeDeclarations,
+    this.script,
+    this.target,
+  });
+
+  factory ReactStartCodegenJobData.fromJson(Map<String, dynamic> json) {
+    return ReactStartCodegenJobData(
+      apiConfiguration: json['apiConfiguration'] != null
+          ? ApiConfiguration.fromJson(
+              json['apiConfiguration'] as Map<String, dynamic>)
+          : null,
+      dependencies: (json['dependencies'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      inlineSourceMap: json['inlineSourceMap'] as bool?,
+      module: (json['module'] as String?)?.let(JSModule.fromString),
+      renderTypeDeclarations: json['renderTypeDeclarations'] as bool?,
+      script: (json['script'] as String?)?.let(JSScript.fromString),
+      target: (json['target'] as String?)?.let(JSTarget.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final apiConfiguration = this.apiConfiguration;
+    final dependencies = this.dependencies;
+    final inlineSourceMap = this.inlineSourceMap;
+    final module = this.module;
+    final renderTypeDeclarations = this.renderTypeDeclarations;
+    final script = this.script;
+    final target = this.target;
+    return {
+      if (apiConfiguration != null) 'apiConfiguration': apiConfiguration,
+      if (dependencies != null) 'dependencies': dependencies,
+      if (inlineSourceMap != null) 'inlineSourceMap': inlineSourceMap,
+      if (module != null) 'module': module.value,
+      if (renderTypeDeclarations != null)
+        'renderTypeDeclarations': renderTypeDeclarations,
+      if (script != null) 'script': script.value,
+      if (target != null) 'target': target.value,
+    };
+  }
+}
+
+class JSModule {
+  static const es2020 = JSModule._('es2020');
+  static const esnext = JSModule._('esnext');
+
+  final String value;
+
+  const JSModule._(this.value);
+
+  static const values = [es2020, esnext];
+
+  static JSModule fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JSModule._(value));
+
+  @override
+  bool operator ==(other) => other is JSModule && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class JSTarget {
+  static const es2015 = JSTarget._('es2015');
+  static const es2020 = JSTarget._('es2020');
+
+  final String value;
+
+  const JSTarget._(this.value);
+
+  static const values = [es2015, es2020];
+
+  static JSTarget fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JSTarget._(value));
+
+  @override
+  bool operator ==(other) => other is JSTarget && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class JSScript {
+  static const jsx = JSScript._('jsx');
+  static const tsx = JSScript._('tsx');
+  static const js = JSScript._('js');
+
+  final String value;
+
+  const JSScript._(this.value);
+
+  static const values = [jsx, tsx, js];
+
+  static JSScript fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JSScript._(value));
+
+  @override
+  bool operator ==(other) => other is JSScript && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the API configuration for a code generation job.
+class ApiConfiguration {
+  /// The configuration for an application using DataStore APIs.
+  final DataStoreRenderConfig? dataStoreConfig;
+
+  /// The configuration for an application using GraphQL APIs.
+  final GraphQLRenderConfig? graphQLConfig;
+
+  /// The configuration for an application with no API being used.
+  final NoApiRenderConfig? noApiConfig;
+
+  ApiConfiguration({
+    this.dataStoreConfig,
+    this.graphQLConfig,
+    this.noApiConfig,
+  });
+
+  factory ApiConfiguration.fromJson(Map<String, dynamic> json) {
+    return ApiConfiguration(
+      dataStoreConfig: json['dataStoreConfig'] != null
+          ? DataStoreRenderConfig.fromJson(
+              json['dataStoreConfig'] as Map<String, dynamic>)
+          : null,
+      graphQLConfig: json['graphQLConfig'] != null
+          ? GraphQLRenderConfig.fromJson(
+              json['graphQLConfig'] as Map<String, dynamic>)
+          : null,
+      noApiConfig: json['noApiConfig'] != null
+          ? NoApiRenderConfig.fromJson(
+              json['noApiConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataStoreConfig = this.dataStoreConfig;
+    final graphQLConfig = this.graphQLConfig;
+    final noApiConfig = this.noApiConfig;
+    return {
+      if (dataStoreConfig != null) 'dataStoreConfig': dataStoreConfig,
+      if (graphQLConfig != null) 'graphQLConfig': graphQLConfig,
+      if (noApiConfig != null) 'noApiConfig': noApiConfig,
+    };
+  }
+}
+
+/// Describes the GraphQL configuration for an API for a code generation job.
+class GraphQLRenderConfig {
+  /// The path to the GraphQL fragments file, relative to the component output
+  /// directory.
+  final String fragmentsFilePath;
+
+  /// The path to the GraphQL mutations file, relative to the component output
+  /// directory.
+  final String mutationsFilePath;
+
+  /// The path to the GraphQL queries file, relative to the component output
+  /// directory.
+  final String queriesFilePath;
+
+  /// The path to the GraphQL subscriptions file, relative to the component output
+  /// directory.
+  final String subscriptionsFilePath;
+
+  /// The path to the GraphQL types file, relative to the component output
+  /// directory.
+  final String typesFilePath;
+
+  GraphQLRenderConfig({
+    required this.fragmentsFilePath,
+    required this.mutationsFilePath,
+    required this.queriesFilePath,
+    required this.subscriptionsFilePath,
+    required this.typesFilePath,
+  });
+
+  factory GraphQLRenderConfig.fromJson(Map<String, dynamic> json) {
+    return GraphQLRenderConfig(
+      fragmentsFilePath: (json['fragmentsFilePath'] as String?) ?? '',
+      mutationsFilePath: (json['mutationsFilePath'] as String?) ?? '',
+      queriesFilePath: (json['queriesFilePath'] as String?) ?? '',
+      subscriptionsFilePath: (json['subscriptionsFilePath'] as String?) ?? '',
+      typesFilePath: (json['typesFilePath'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fragmentsFilePath = this.fragmentsFilePath;
+    final mutationsFilePath = this.mutationsFilePath;
+    final queriesFilePath = this.queriesFilePath;
+    final subscriptionsFilePath = this.subscriptionsFilePath;
+    final typesFilePath = this.typesFilePath;
+    return {
+      'fragmentsFilePath': fragmentsFilePath,
+      'mutationsFilePath': mutationsFilePath,
+      'queriesFilePath': queriesFilePath,
+      'subscriptionsFilePath': subscriptionsFilePath,
+      'typesFilePath': typesFilePath,
+    };
+  }
+}
+
+/// Describes the DataStore configuration for an API for a code generation job.
+class DataStoreRenderConfig {
+  DataStoreRenderConfig();
+
+  factory DataStoreRenderConfig.fromJson(Map<String, dynamic> _) {
+    return DataStoreRenderConfig();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Describes the configuration for an application with no API being used.
+class NoApiRenderConfig {
+  NoApiRenderConfig();
+
+  factory NoApiRenderConfig.fromJson(Map<String, dynamic> _) {
+    return NoApiRenderConfig();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The code generation job resource configuration.
+class StartCodegenJobData {
+  /// The code generation configuration for the codegen job.
+  final CodegenJobRenderConfig renderConfig;
+
+  /// Specifies whether to autogenerate forms in the code generation job.
+  final bool? autoGenerateForms;
+
+  /// The feature flags for a code generation job.
+  final CodegenFeatureFlags? features;
+
+  /// The data schema to use for a code generation job.
+  final CodegenJobGenericDataSchema? genericDataSchema;
+
+  /// One or more key-value pairs to use when tagging the code generation job
+  /// data.
+  final Map<String, String>? tags;
+
+  StartCodegenJobData({
+    required this.renderConfig,
+    this.autoGenerateForms,
+    this.features,
+    this.genericDataSchema,
+    this.tags,
+  });
+
+  Map<String, dynamic> toJson() {
+    final renderConfig = this.renderConfig;
+    final autoGenerateForms = this.autoGenerateForms;
+    final features = this.features;
+    final genericDataSchema = this.genericDataSchema;
+    final tags = this.tags;
+    return {
+      'renderConfig': renderConfig,
+      if (autoGenerateForms != null) 'autoGenerateForms': autoGenerateForms,
+      if (features != null) 'features': features,
+      if (genericDataSchema != null) 'genericDataSchema': genericDataSchema,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+class TokenProviders {
+  static const figma = TokenProviders._('figma');
+
+  final String value;
+
+  const TokenProviders._(this.value);
+
+  static const values = [figma];
+
+  static TokenProviders fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TokenProviders._(value));
+
+  @override
+  bool operator ==(other) => other is TokenProviders && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a refresh token.
+class RefreshTokenRequestBody {
+  /// The token to use to refresh a previously issued access token that might have
+  /// expired.
+  final String token;
+
+  /// The ID of the client to request the token from.
+  final String? clientId;
+
+  RefreshTokenRequestBody({
+    required this.token,
+    this.clientId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final token = this.token;
+    final clientId = this.clientId;
+    return {
+      'token': token,
+      if (clientId != null) 'clientId': clientId,
+    };
+  }
+}
+
+/// Stores the metadata information about a feature on a form.
+class PutMetadataFlagBody {
+  /// The new information to store.
+  final String newValue;
+
+  PutMetadataFlagBody({
+    required this.newValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final newValue = this.newValue;
+    return {
+      'newValue': newValue,
+    };
+  }
+}
+
+/// Describes the configuration of a request to exchange an access code for a
+/// token.
+class ExchangeCodeForTokenRequestBody {
+  /// The access code to send in the request.
+  final String code;
+
+  /// The location of the application that will receive the access code.
+  final String redirectUri;
+
+  /// The ID of the client to request the token from.
+  final String? clientId;
+
+  ExchangeCodeForTokenRequestBody({
+    required this.code,
+    required this.redirectUri,
+    this.clientId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final redirectUri = this.redirectUri;
+    final clientId = this.clientId;
+    return {
+      'code': code,
+      'redirectUri': redirectUri,
+      if (clientId != null) 'clientId': clientId,
     };
   }
 }

@@ -21,9 +21,9 @@ import '../../shared/shared.dart'
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Provides APIs for creating and managing Amazon Forecast resources.
-class ForecastQuery {
+class Forecastquery {
   final _s.JsonProtocol _protocol;
-  ForecastQuery({
+  Forecastquery({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
@@ -68,11 +68,11 @@ class ForecastQuery {
   /// dataset that was used to create the predictor.
   /// </note>
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
   /// May throw [InvalidInputException].
-  /// May throw [LimitExceededException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [filters] :
   /// The filtering criteria to apply when retrieving the forecast. For example,
@@ -131,11 +131,11 @@ class ForecastQuery {
 
   /// Retrieves a what-if forecast.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
   /// May throw [InvalidInputException].
-  /// May throw [LimitExceededException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [filters] :
   /// The filtering criteria to apply when retrieving the forecast. For example,
@@ -194,32 +194,49 @@ class ForecastQuery {
   }
 }
 
-/// The forecast value for a specific date. Part of the <a>Forecast</a> object.
-class DataPoint {
-  /// The timestamp of the specific forecast.
-  final String? timestamp;
+class QueryForecastResponse {
+  /// The forecast.
+  final Forecast? forecast;
 
-  /// The forecast value.
-  final double? value;
-
-  DataPoint({
-    this.timestamp,
-    this.value,
+  QueryForecastResponse({
+    this.forecast,
   });
 
-  factory DataPoint.fromJson(Map<String, dynamic> json) {
-    return DataPoint(
-      timestamp: json['Timestamp'] as String?,
-      value: json['Value'] as double?,
+  factory QueryForecastResponse.fromJson(Map<String, dynamic> json) {
+    return QueryForecastResponse(
+      forecast: json['Forecast'] != null
+          ? Forecast.fromJson(json['Forecast'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final timestamp = this.timestamp;
-    final value = this.value;
+    final forecast = this.forecast;
     return {
-      if (timestamp != null) 'Timestamp': timestamp,
-      if (value != null) 'Value': value,
+      if (forecast != null) 'Forecast': forecast,
+    };
+  }
+}
+
+class QueryWhatIfForecastResponse {
+  final Forecast? forecast;
+
+  QueryWhatIfForecastResponse({
+    this.forecast,
+  });
+
+  factory QueryWhatIfForecastResponse.fromJson(Map<String, dynamic> json) {
+    return QueryWhatIfForecastResponse(
+      forecast: json['Forecast'] != null
+          ? Forecast.fromJson(json['Forecast'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final forecast = this.forecast;
+    return {
+      if (forecast != null) 'Forecast': forecast,
     };
   }
 }
@@ -273,49 +290,32 @@ class Forecast {
   }
 }
 
-class QueryForecastResponse {
-  /// The forecast.
-  final Forecast? forecast;
+/// The forecast value for a specific date. Part of the <a>Forecast</a> object.
+class DataPoint {
+  /// The timestamp of the specific forecast.
+  final String? timestamp;
 
-  QueryForecastResponse({
-    this.forecast,
+  /// The forecast value.
+  final double? value;
+
+  DataPoint({
+    this.timestamp,
+    this.value,
   });
 
-  factory QueryForecastResponse.fromJson(Map<String, dynamic> json) {
-    return QueryForecastResponse(
-      forecast: json['Forecast'] != null
-          ? Forecast.fromJson(json['Forecast'] as Map<String, dynamic>)
-          : null,
+  factory DataPoint.fromJson(Map<String, dynamic> json) {
+    return DataPoint(
+      timestamp: json['Timestamp'] as String?,
+      value: json['Value'] as double?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final forecast = this.forecast;
+    final timestamp = this.timestamp;
+    final value = this.value;
     return {
-      if (forecast != null) 'Forecast': forecast,
-    };
-  }
-}
-
-class QueryWhatIfForecastResponse {
-  final Forecast? forecast;
-
-  QueryWhatIfForecastResponse({
-    this.forecast,
-  });
-
-  factory QueryWhatIfForecastResponse.fromJson(Map<String, dynamic> json) {
-    return QueryWhatIfForecastResponse(
-      forecast: json['Forecast'] != null
-          ? Forecast.fromJson(json['Forecast'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final forecast = this.forecast;
-    return {
-      if (forecast != null) 'Forecast': forecast,
+      if (timestamp != null) 'Timestamp': timestamp,
+      if (value != null) 'Value': value,
     };
   }
 }

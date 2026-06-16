@@ -34,7 +34,6 @@ class EksAuth {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'eks-auth',
-            signingName: 'eks-auth',
           ),
           region: region,
           credentials: credentials,
@@ -59,15 +58,15 @@ class EksAuth {
   /// association are available in the pod, the latest versions of the SDKs use
   /// them automatically.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
-  /// May throw [InvalidTokenException].
-  /// May throw [InvalidParameterException].
   /// May throw [ExpiredTokenException].
+  /// May throw [InternalServerException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidTokenException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [clusterName] :
   /// The name of the cluster for the request.
@@ -162,6 +161,72 @@ class AssumeRoleForPodIdentityResponse {
   }
 }
 
+/// An object containing the name of the Kubernetes service account inside the
+/// cluster to associate the IAM credentials with.
+class Subject {
+  /// The name of the Kubernetes namespace inside the cluster to create the
+  /// association in. The service account and the pods that use the service
+  /// account must be in this namespace.
+  final String namespace;
+
+  /// The name of the Kubernetes service account inside the cluster to associate
+  /// the IAM credentials with.
+  final String serviceAccount;
+
+  Subject({
+    required this.namespace,
+    required this.serviceAccount,
+  });
+
+  factory Subject.fromJson(Map<String, dynamic> json) {
+    return Subject(
+      namespace: (json['namespace'] as String?) ?? '',
+      serviceAccount: (json['serviceAccount'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final namespace = this.namespace;
+    final serviceAccount = this.serviceAccount;
+    return {
+      'namespace': namespace,
+      'serviceAccount': serviceAccount,
+    };
+  }
+}
+
+/// Amazon EKS Pod Identity associations provide the ability to manage
+/// credentials for your applications, similar to the way that Amazon EC2
+/// instance profiles provide credentials to Amazon EC2 instances.
+class PodIdentityAssociation {
+  /// The Amazon Resource Name (ARN) of the EKS Pod Identity association.
+  final String associationArn;
+
+  /// The ID of the association.
+  final String associationId;
+
+  PodIdentityAssociation({
+    required this.associationArn,
+    required this.associationId,
+  });
+
+  factory PodIdentityAssociation.fromJson(Map<String, dynamic> json) {
+    return PodIdentityAssociation(
+      associationArn: (json['associationArn'] as String?) ?? '',
+      associationId: (json['associationId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associationArn = this.associationArn;
+    final associationId = this.associationId;
+    return {
+      'associationArn': associationArn,
+      'associationId': associationId,
+    };
+  }
+}
+
 /// An object with the permanent IAM role identity and the temporary session
 /// name.
 class AssumedRoleUser {
@@ -241,72 +306,6 @@ class Credentials {
       'expiration': unixTimestampToJson(expiration),
       'secretAccessKey': secretAccessKey,
       'sessionToken': sessionToken,
-    };
-  }
-}
-
-/// Amazon EKS Pod Identity associations provide the ability to manage
-/// credentials for your applications, similar to the way that Amazon EC2
-/// instance profiles provide credentials to Amazon EC2 instances.
-class PodIdentityAssociation {
-  /// The Amazon Resource Name (ARN) of the EKS Pod Identity association.
-  final String associationArn;
-
-  /// The ID of the association.
-  final String associationId;
-
-  PodIdentityAssociation({
-    required this.associationArn,
-    required this.associationId,
-  });
-
-  factory PodIdentityAssociation.fromJson(Map<String, dynamic> json) {
-    return PodIdentityAssociation(
-      associationArn: (json['associationArn'] as String?) ?? '',
-      associationId: (json['associationId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final associationArn = this.associationArn;
-    final associationId = this.associationId;
-    return {
-      'associationArn': associationArn,
-      'associationId': associationId,
-    };
-  }
-}
-
-/// An object containing the name of the Kubernetes service account inside the
-/// cluster to associate the IAM credentials with.
-class Subject {
-  /// The name of the Kubernetes namespace inside the cluster to create the
-  /// association in. The service account and the pods that use the service
-  /// account must be in this namespace.
-  final String namespace;
-
-  /// The name of the Kubernetes service account inside the cluster to associate
-  /// the IAM credentials with.
-  final String serviceAccount;
-
-  Subject({
-    required this.namespace,
-    required this.serviceAccount,
-  });
-
-  factory Subject.fromJson(Map<String, dynamic> json) {
-    return Subject(
-      namespace: (json['namespace'] as String?) ?? '',
-      serviceAccount: (json['serviceAccount'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final namespace = this.namespace;
-    final serviceAccount = this.serviceAccount;
-    return {
-      'namespace': namespace,
-      'serviceAccount': serviceAccount,
     };
   }
 }

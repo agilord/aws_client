@@ -57,6 +57,42 @@ class Iam {
     _protocol.close();
   }
 
+  /// Accepts a delegation request, granting the requested temporary access.
+  ///
+  /// Once the delegation request is accepted, it is eligible to send the
+  /// exchange token to the partner. The <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_SendDelegationToken.html">SendDelegationToken</a>
+  /// API has to be explicitly called to send the delegation token.
+  ///
+  /// At the time of acceptance, IAM records the details and the state of the
+  /// identity that called this API. This is the identity that gets mapped to
+  /// the delegated credential.
+  ///
+  /// An accepted request may be rejected before the exchange token is sent to
+  /// the partner.
+  ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [NoSuchEntityException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [delegationRequestId] :
+  /// The unique identifier of the delegation request to accept.
+  Future<void> acceptDelegationRequest({
+    required String delegationRequestId,
+  }) async {
+    final $request = <String, String>{
+      'DelegationRequestId': delegationRequestId,
+    };
+    await _protocol.send(
+      $request,
+      action: 'AcceptDelegationRequest',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Adds a new client ID (also known as audience) to the list of client IDs
   /// already registered for the specified IAM OpenID Connect (OIDC) provider
   /// resource.
@@ -64,9 +100,10 @@ class Iam {
   /// This operation is idempotent; it does not fail or return an error if you
   /// add an existing client ID to the provider.
   ///
+  /// May throw [ConcurrentModificationException].
   /// May throw [InvalidInputException].
-  /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [clientID] :
@@ -76,7 +113,9 @@ class Iam {
   /// Parameter [openIDConnectProviderArn] :
   /// The Amazon Resource Name (ARN) of the IAM OpenID Connect (OIDC) provider
   /// resource to add the client ID to. You can get a list of OIDC provider ARNs
-  /// by using the <a>ListOpenIDConnectProviders</a> operation.
+  /// by using the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListOpenIDConnectProviders.html">ListOpenIDConnectProviders</a>
+  /// operation.
   Future<void> addClientIDToOpenIDConnectProvider({
     required String clientID,
     required String openIDConnectProviderArn,
@@ -110,7 +149,18 @@ class Iam {
   /// <note>
   /// The caller of this operation must be granted the <code>PassRole</code>
   /// permission on the IAM role by a permissions policy.
-  /// </note>
+  /// </note> <important>
+  /// When using the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#available-keys-for-iam">iam:AssociatedResourceArn</a>
+  /// condition in a policy to restrict the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html">PassRole</a>
+  /// IAM action, special considerations apply if the policy is intended to
+  /// define access for the <code>AddRoleToInstanceProfile</code> action. In
+  /// this case, you cannot specify a Region or instance ID in the EC2 instance
+  /// ARN. The ARN value must be
+  /// <code>arn:aws:ec2:*:CallerAccountId:instance/*</code>. Using any other ARN
+  /// value may lead to unexpected evaluation results.
+  /// </important>
   /// For more information about roles, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html">IAM
   /// roles</a> in the <i>IAM User Guide</i>. For more information about
@@ -118,11 +168,11 @@ class Iam {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html">Using
   /// instance profiles</a> in the <i>IAM User Guide</i>.
   ///
-  /// May throw [NoSuchEntityException].
   /// May throw [EntityAlreadyExistsException].
   /// May throw [LimitExceededException].
-  /// May throw [UnmodifiableEntityException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
+  /// May throw [UnmodifiableEntityException].
   ///
   /// Parameter [instanceProfileName] :
   /// The name of the instance profile to update.
@@ -159,8 +209,8 @@ class Iam {
 
   /// Adds the specified user to the specified group.
   ///
-  /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [groupName] :
@@ -196,6 +246,50 @@ class Iam {
     );
   }
 
+  /// Associates a delegation request with the current identity.
+  ///
+  /// If the partner that created the delegation request has specified the owner
+  /// account during creation, only an identity from that owner account can call
+  /// the <code>AssociateDelegationRequest</code> API for the specified
+  /// delegation request. Once the <code>AssociateDelegationRequest</code> API
+  /// call is successful, the ARN of the current calling identity will be stored
+  /// as the <code>ownerId</code> of the request.
+  ///
+  /// If the partner that created the delegation request has not specified the
+  /// owner account during creation, any caller from any account can call the
+  /// <code>AssociateDelegationRequest</code> API for the delegation request.
+  /// Once this API call is successful, the ARN of the current calling identity
+  /// will be stored as the <code>ownerId</code> and the Amazon Web Services
+  /// account ID of the current calling identity will be stored as the
+  /// <code>ownerAccount</code> of the request.
+  ///
+  /// For more details, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-temporary-delegation.html#temporary-delegation-managing-permissions">
+  /// Managing Permissions for Delegation Requests</a>.
+  ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidInputException].
+  /// May throw [NoSuchEntityException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [delegationRequestId] :
+  /// The unique identifier of the delegation request to associate.
+  Future<void> associateDelegationRequest({
+    required String delegationRequestId,
+  }) async {
+    final $request = <String, String>{
+      'DelegationRequestId': delegationRequestId,
+    };
+    await _protocol.send(
+      $request,
+      action: 'AssociateDelegationRequest',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Attaches the specified managed policy to the specified IAM group.
   ///
   /// You use this operation to attach a managed policy to a group. To embed an
@@ -212,9 +306,9 @@ class Iam {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
   /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
-  /// May throw [NoSuchEntityException].
-  /// May throw [LimitExceededException].
   /// May throw [InvalidInputException].
+  /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
   /// May throw [PolicyNotAttachableException].
   /// May throw [ServiceFailureException].
   ///
@@ -276,12 +370,12 @@ class Iam {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_policy-validator.html">Validating
   /// IAM policies</a> in the <i>IAM User Guide</i>.
   ///
-  /// May throw [NoSuchEntityException].
-  /// May throw [LimitExceededException].
   /// May throw [InvalidInputException].
-  /// May throw [UnmodifiableEntityException].
+  /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
   /// May throw [PolicyNotAttachableException].
   /// May throw [ServiceFailureException].
+  /// May throw [UnmodifiableEntityException].
   ///
   /// Parameter [policyArn] :
   /// The Amazon Resource Name (ARN) of the IAM policy you want to attach.
@@ -332,9 +426,9 @@ class Iam {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
   /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
-  /// May throw [NoSuchEntityException].
-  /// May throw [LimitExceededException].
   /// May throw [InvalidInputException].
+  /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
   /// May throw [PolicyNotAttachableException].
   /// May throw [ServiceFailureException].
   ///
@@ -377,16 +471,18 @@ class Iam {
   /// Management Console. The Amazon Web Services account root user password is
   /// not affected by this operation.
   ///
-  /// Use <a>UpdateLoginProfile</a> to use the CLI, the Amazon Web Services API,
-  /// or the <b>Users</b> page in the IAM console to change the password for any
-  /// IAM user. For more information about modifying passwords, see <a
+  /// Use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateLoginProfile.html">UpdateLoginProfile</a>
+  /// to use the CLI, the Amazon Web Services API, or the <b>Users</b> page in
+  /// the IAM console to change the password for any IAM user. For more
+  /// information about modifying passwords, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html">Managing
   /// passwords</a> in the <i>IAM User Guide</i>.
   ///
-  /// May throw [NoSuchEntityException].
+  /// May throw [EntityTemporarilyUnmodifiableException].
   /// May throw [InvalidUserTypeException].
   /// May throw [LimitExceededException].
-  /// May throw [EntityTemporarilyUnmodifiableException].
+  /// May throw [NoSuchEntityException].
   /// May throw [PasswordPolicyViolationException].
   /// May throw [ServiceFailureException].
   ///
@@ -447,8 +543,8 @@ class Iam {
   /// associated user and then create new keys.
   /// </important>
   ///
-  /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [userName] :
@@ -510,14 +606,138 @@ class Iam {
     );
   }
 
+  /// Creates an IAM delegation request for temporary access delegation.
+  ///
+  /// This API is not available for general use. In order to use this API, a
+  /// caller first need to go through an onboarding process described in the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-temporary-delegation-partner-guide.html">partner
+  /// onboarding documentation</a>.
+  ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [EntityAlreadyExistsException].
+  /// May throw [InvalidInputException].
+  /// May throw [LimitExceededException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [description] :
+  /// A description of the delegation request.
+  ///
+  /// Parameter [notificationChannel] :
+  /// The notification channel for updates about the delegation request.
+  ///
+  /// At this time,only SNS topic ARNs are accepted for notification. This topic
+  /// ARN must have a resource policy granting <code>SNS:Publish</code>
+  /// permission to the IAM service principal (<code>iam.amazonaws.com</code>).
+  /// See <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-temporary-delegation-partner-guide.html">partner
+  /// onboarding documentation</a> for more details.
+  ///
+  /// Parameter [permissions] :
+  /// The permissions to be delegated in this delegation request.
+  ///
+  /// Parameter [requestorWorkflowId] :
+  /// The workflow ID associated with the requestor.
+  ///
+  /// This is the unique identifier on the partner side that can be used to
+  /// track the progress of the request.
+  ///
+  /// IAM maintains a uniqueness check on this workflow id for each request - if
+  /// a workflow id for an existing request is passed, this API call will fail.
+  ///
+  /// Parameter [sessionDuration] :
+  /// The duration for which the delegated session should remain active, in
+  /// seconds.
+  ///
+  /// The active time window for the session starts when the customer calls the
+  /// <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_SendDelegationToken.html">SendDelegationToken</a>
+  /// API.
+  ///
+  /// Parameter [onlySendByOwner] :
+  /// Specifies whether the delegation token should only be sent by the owner.
+  ///
+  /// This flag prevents any party other than the owner from calling
+  /// <code>SendDelegationToken</code> API for this delegation request. This
+  /// behavior becomes useful when the delegation request owner needs to be
+  /// present for subsequent partner interactions, but the delegation request
+  /// was sent to a more privileged user for approval due to the owner lacking
+  /// sufficient delegation permissions.
+  ///
+  /// Parameter [ownerAccountId] :
+  /// The Amazon Web Services account ID this delegation request is targeted to.
+  ///
+  /// If the account ID is not known, this parameter can be omitted, resulting
+  /// in a request that can be associated by any account. If the account ID
+  /// passed, then the created delegation request can only be associated with an
+  /// identity of that target account.
+  ///
+  /// Parameter [redirectUrl] :
+  /// The URL to redirect to after the delegation request is processed.
+  ///
+  /// This URL is used by the IAM console to show a link to the customer to
+  /// re-load the partner workflow.
+  ///
+  /// Parameter [requestMessage] :
+  /// A message explaining the reason for the delegation request.
+  ///
+  /// Requesters can utilize this field to add a custom note to the delegation
+  /// request. This field is different from the description such that this is to
+  /// be utilized for a custom messaging on a case-by-case basis.
+  ///
+  /// For example, if the current delegation request is in response to a
+  /// previous request being rejected, this explanation can be added to the
+  /// request via this field.
+  Future<CreateDelegationRequestResponse> createDelegationRequest({
+    required String description,
+    required String notificationChannel,
+    required DelegationPermission permissions,
+    required String requestorWorkflowId,
+    required int sessionDuration,
+    bool? onlySendByOwner,
+    String? ownerAccountId,
+    String? redirectUrl,
+    String? requestMessage,
+  }) async {
+    _s.validateNumRange(
+      'sessionDuration',
+      sessionDuration,
+      300,
+      43200,
+      isRequired: true,
+    );
+    final $request = <String, String>{
+      'Description': description,
+      'NotificationChannel': notificationChannel,
+      for (var e1 in permissions.toQueryMap().entries)
+        'Permissions.${e1.key}': e1.value,
+      'RequestorWorkflowId': requestorWorkflowId,
+      'SessionDuration': sessionDuration.toString(),
+      if (onlySendByOwner != null)
+        'OnlySendByOwner': onlySendByOwner.toString(),
+      if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
+      if (redirectUrl != null) 'RedirectUrl': redirectUrl,
+      if (requestMessage != null) 'RequestMessage': requestMessage,
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'CreateDelegationRequest',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'CreateDelegationRequestResult',
+    );
+    return CreateDelegationRequestResponse.fromXml($result);
+  }
+
   /// Creates a new group.
   ///
   /// For information about the number of groups you can create, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html">IAM
   /// and STS quotas</a> in the <i>IAM User Guide</i>.
   ///
-  /// May throw [LimitExceededException].
   /// May throw [EntityAlreadyExistsException].
+  /// May throw [LimitExceededException].
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
@@ -576,10 +796,10 @@ class Iam {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html">IAM
   /// object quotas</a> in the <i>IAM User Guide</i>.
   ///
+  /// May throw [ConcurrentModificationException].
   /// May throw [EntityAlreadyExistsException].
   /// May throw [InvalidInputException].
   /// May throw [LimitExceededException].
-  /// May throw [ConcurrentModificationException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [instanceProfileName] :
@@ -650,23 +870,27 @@ class Iam {
   /// Services Management Console.
   ///
   /// You can use the CLI, the Amazon Web Services API, or the <b>Users</b> page
-  /// in the IAM console to create a password for any IAM user. Use
-  /// <a>ChangePassword</a> to update your own existing password in the <b>My
-  /// Security Credentials</b> page in the Amazon Web Services Management
-  /// Console.
+  /// in the IAM console to create a password for any IAM user. Use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ChangePassword.html">ChangePassword</a>
+  /// to update your own existing password in the <b>My Security Credentials</b>
+  /// page in the Amazon Web Services Management Console.
   ///
   /// For more information about managing passwords, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html">Managing
   /// passwords</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [EntityAlreadyExistsException].
+  /// May throw [LimitExceededException].
   /// May throw [NoSuchEntityException].
   /// May throw [PasswordPolicyViolationException].
-  /// May throw [LimitExceededException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [password] :
   /// The new password for the user.
+  ///
+  /// This parameter must be omitted when you make the request with an <a
+  /// href="https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoot.html">AssumeRoot</a>
+  /// session. It is required in all other cases.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> that is
   /// used to validate this parameter is a string of characters. That string can
@@ -679,28 +903,34 @@ class Iam {
   /// the ability to type certain characters because they have special meaning
   /// within that tool.
   ///
+  /// Parameter [passwordResetRequired] :
+  /// Specifies whether the user is required to set a new password on next
+  /// sign-in.
+  ///
   /// Parameter [userName] :
   /// The name of the IAM user to create a password for. The user must already
   /// exist.
+  ///
+  /// This parameter is optional. If no user name is included, it defaults to
+  /// the principal making the request. When you make this request with root
+  /// user credentials, you must use an <a
+  /// href="https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoot.html">AssumeRoot</a>
+  /// session to omit the user name.
   ///
   /// This parameter allows (through its <a
   /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
-  ///
-  /// Parameter [passwordResetRequired] :
-  /// Specifies whether the user is required to set a new password on next
-  /// sign-in.
   Future<CreateLoginProfileResponse> createLoginProfile({
-    required String password,
-    required String userName,
+    String? password,
     bool? passwordResetRequired,
+    String? userName,
   }) async {
     final $request = <String, String>{
-      'Password': password,
-      'UserName': userName,
+      if (password != null) 'Password': password,
       if (passwordResetRequired != null)
         'PasswordResetRequired': passwordResetRequired.toString(),
+      if (userName != null) 'UserName': userName,
     };
     final $result = await _protocol.send(
       $request,
@@ -759,16 +989,17 @@ class Iam {
   /// in the IdP's configuration.
   /// </note> <note>
   /// The trust for the OIDC provider is derived from the IAM provider that this
-  /// operation creates. Therefore, it is best to limit access to the
-  /// <a>CreateOpenIDConnectProvider</a> operation to highly privileged users.
+  /// operation creates. Therefore, it is best to limit access to the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateOpenIDConnectProvider.html">CreateOpenIDConnectProvider</a>
+  /// operation to highly privileged users.
   /// </note>
   ///
-  /// May throw [InvalidInputException].
-  /// May throw [EntityAlreadyExistsException].
-  /// May throw [LimitExceededException].
   /// May throw [ConcurrentModificationException].
-  /// May throw [ServiceFailureException].
+  /// May throw [EntityAlreadyExistsException].
+  /// May throw [InvalidInputException].
+  /// May throw [LimitExceededException].
   /// May throw [OpenIdIdpCommunicationErrorException].
+  /// May throw [ServiceFailureException].
   ///
   /// Parameter [url] :
   /// The URL of the identity provider. The URL must begin with
@@ -835,6 +1066,11 @@ class Iam {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/identity-providers-oidc-obtain-thumbprint.html">Obtaining
   /// the thumbprint for an OpenID Connect provider</a> in the <i>IAM user
   /// Guide</i>.
+  /// <note>
+  /// If your OIDC provider's discovery endpoint and JWKS endpoint
+  /// (<code>jwks_uri</code>) use different certificates or hosts, include the
+  /// thumbprints for both endpoints in this list.
+  /// </note>
   Future<CreateOpenIDConnectProviderResponse> createOpenIDConnectProvider({
     required String url,
     List<String>? clientIDList,
@@ -892,11 +1128,11 @@ class Iam {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
   /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [EntityAlreadyExistsException].
   /// May throw [InvalidInputException].
   /// May throw [LimitExceededException].
-  /// May throw [EntityAlreadyExistsException].
   /// May throw [MalformedPolicyDocumentException].
-  /// May throw [ConcurrentModificationException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [policyDocument] :
@@ -1020,8 +1256,9 @@ class Iam {
   /// Creates a new version of the specified managed policy. To update a managed
   /// policy, you create a new policy version. A managed policy can have up to
   /// five versions. If the policy has five versions, you must delete an
-  /// existing version using <a>DeletePolicyVersion</a> before you create a new
-  /// version.
+  /// existing version using <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeletePolicyVersion.html">DeletePolicyVersion</a>
+  /// before you create a new version.
   ///
   /// Optionally, you can set the new version as the policy's default version.
   /// The default version is the version that is in effect for the IAM users,
@@ -1031,10 +1268,10 @@ class Iam {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning
   /// for managed policies</a> in the <i>IAM User Guide</i>.
   ///
-  /// May throw [NoSuchEntityException].
-  /// May throw [MalformedPolicyDocumentException].
   /// May throw [InvalidInputException].
   /// May throw [LimitExceededException].
+  /// May throw [MalformedPolicyDocumentException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [policyArn] :
@@ -1121,11 +1358,11 @@ class Iam {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html">IAM
   /// and STS quotas</a> in the <i>IAM User Guide</i>.
   ///
-  /// May throw [LimitExceededException].
-  /// May throw [InvalidInputException].
-  /// May throw [EntityAlreadyExistsException].
-  /// May throw [MalformedPolicyDocumentException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [EntityAlreadyExistsException].
+  /// May throw [InvalidInputException].
+  /// May throw [LimitExceededException].
+  /// May throw [MalformedPolicyDocumentException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [assumeRolePolicyDocument] :
@@ -1306,10 +1543,10 @@ class Iam {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_saml.html">About
   /// SAML 2.0-based federation</a> in the <i>IAM User Guide</i>.
   ///
-  /// May throw [InvalidInputException].
-  /// May throw [EntityAlreadyExistsException].
-  /// May throw [LimitExceededException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [EntityAlreadyExistsException].
+  /// May throw [InvalidInputException].
+  /// May throw [LimitExceededException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [name] :
@@ -1332,6 +1569,14 @@ class Iam {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_saml.html">About
   /// SAML 2.0-based federation</a> in the <i>IAM User Guide</i>
   ///
+  /// Parameter [addPrivateKey] :
+  /// The private key generated from your external identity provider. The
+  /// private key must be a .pem file that uses AES-GCM or AES-CBC encryption
+  /// algorithm to decrypt SAML assertions.
+  ///
+  /// Parameter [assertionEncryptionMode] :
+  /// Specifies the encryption setting for the SAML provider.
+  ///
   /// Parameter [tags] :
   /// A list of tags that you want to attach to the new IAM SAML provider. Each
   /// tag consists of a key name and an associated value. For more information
@@ -1346,11 +1591,16 @@ class Iam {
   Future<CreateSAMLProviderResponse> createSAMLProvider({
     required String name,
     required String sAMLMetadataDocument,
+    String? addPrivateKey,
+    AssertionEncryptionModeType? assertionEncryptionMode,
     List<Tag>? tags,
   }) async {
     final $request = <String, String>{
       'Name': name,
       'SAMLMetadataDocument': sAMLMetadataDocument,
+      if (addPrivateKey != null) 'AddPrivateKey': addPrivateKey,
+      if (assertionEncryptionMode != null)
+        'AssertionEncryptionMode': assertionEncryptionMode.value,
       if (tags != null)
         if (tags.isEmpty)
           'Tags': ''
@@ -1404,7 +1654,8 @@ class Iam {
   /// role documentation for that service.
   ///
   /// Parameter [customSuffix] :
-  /// <p/>
+  ///
+  ///
   /// A string that you provide, which is combined with the service-provided
   /// prefix to form the complete role name. If you make multiple requests for
   /// the same service, then you must supply a different
@@ -1448,16 +1699,15 @@ class Iam {
   /// You can have a maximum of two sets of service-specific credentials for
   /// each supported service per user.
   ///
-  /// You can create service-specific credentials for CodeCommit and Amazon
-  /// Keyspaces (for Apache Cassandra).
+  /// You can create service-specific credentials for Amazon Bedrock, Amazon
+  /// CloudWatch Logs, CodeCommit and Amazon Keyspaces (for Apache Cassandra).
   ///
-  /// You can reset the password to a new service-generated value by calling
-  /// <a>ResetServiceSpecificCredential</a>.
+  /// You can reset the password to a new service-generated value by calling <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ResetServiceSpecificCredential.html">ResetServiceSpecificCredential</a>.
   ///
   /// For more information about service-specific credentials, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_ssh-keys.html">Using
-  /// IAM with CodeCommit: Git credentials, SSH keys, and Amazon Web Services
-  /// access keys</a> in the <i>IAM User Guide</i>.
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_bedrock.html">Service-specific
+  /// credentials for IAM users</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [LimitExceededException].
   /// May throw [NoSuchEntityException].
@@ -1478,14 +1728,28 @@ class Iam {
   /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
+  ///
+  /// Parameter [credentialAgeDays] :
+  /// The number of days until the service specific credential expires. This
+  /// field is only valid for Bedrock and CloudWatch Logs API keys and must be a
+  /// positive integer. When not specified, the credential will not expire.
   Future<CreateServiceSpecificCredentialResponse>
       createServiceSpecificCredential({
     required String serviceName,
     required String userName,
+    int? credentialAgeDays,
   }) async {
+    _s.validateNumRange(
+      'credentialAgeDays',
+      credentialAgeDays,
+      1,
+      36600,
+    );
     final $request = <String, String>{
       'ServiceName': serviceName,
       'UserName': userName,
+      if (credentialAgeDays != null)
+        'CredentialAgeDays': credentialAgeDays.toString(),
     };
     final $result = await _protocol.send(
       $request,
@@ -1506,11 +1770,11 @@ class Iam {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html">IAM
   /// and STS quotas</a> in the <i>IAM User Guide</i>.
   ///
-  /// May throw [LimitExceededException].
-  /// May throw [EntityAlreadyExistsException].
-  /// May throw [NoSuchEntityException].
-  /// May throw [InvalidInputException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [EntityAlreadyExistsException].
+  /// May throw [InvalidInputException].
+  /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [userName] :
@@ -1594,9 +1858,10 @@ class Iam {
   }
 
   /// Creates a new virtual MFA device for the Amazon Web Services account.
-  /// After creating the virtual MFA, use <a>EnableMFADevice</a> to attach the
-  /// MFA device to an IAM user. For more information about creating and working
-  /// with virtual MFA devices, see <a
+  /// After creating the virtual MFA, use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_EnableMFADevice.html">EnableMFADevice</a>
+  /// to attach the MFA device to an IAM user. For more information about
+  /// creating and working with virtual MFA devices, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_VirtualMFA.html">Using
   /// a virtual MFA device</a> in the <i>IAM User Guide</i>.
   ///
@@ -1613,10 +1878,10 @@ class Iam {
   /// procedures.
   /// </important>
   ///
-  /// May throw [LimitExceededException].
-  /// May throw [InvalidInputException].
-  /// May throw [EntityAlreadyExistsException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [EntityAlreadyExistsException].
+  /// May throw [InvalidInputException].
+  /// May throw [LimitExceededException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [virtualMFADeviceName] :
@@ -1693,11 +1958,11 @@ class Iam {
   /// a virtual multi-factor authentication (MFA) device</a> in the <i>IAM User
   /// Guide</i>.
   ///
-  /// May throw [EntityTemporarilyUnmodifiableException].
-  /// May throw [NoSuchEntityException].
-  /// May throw [LimitExceededException].
-  /// May throw [ServiceFailureException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [EntityTemporarilyUnmodifiableException].
+  /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
+  /// May throw [ServiceFailureException].
   ///
   /// Parameter [serialNumber] :
   /// The serial number that uniquely identifies the MFA device. For virtual MFA
@@ -1711,17 +1976,23 @@ class Iam {
   /// Parameter [userName] :
   /// The name of the user whose MFA device you want to deactivate.
   ///
+  /// This parameter is optional. If no user name is included, it defaults to
+  /// the principal making the request. When you make this request with root
+  /// user credentials, you must use an <a
+  /// href="https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoot.html">AssumeRoot</a>
+  /// session to omit the user name.
+  ///
   /// This parameter allows (through its <a
   /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> deactivateMFADevice({
     required String serialNumber,
-    required String userName,
+    String? userName,
   }) async {
     final $request = <String, String>{
       'SerialNumber': serialNumber,
-      'UserName': userName,
+      if (userName != null) 'UserName': userName,
     };
     await _protocol.send(
       $request,
@@ -1742,8 +2013,8 @@ class Iam {
   /// account root user credentials even if the Amazon Web Services account has
   /// no associated users.
   ///
-  /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [accessKeyId] :
@@ -1786,8 +2057,8 @@ class Iam {
   /// <i>Amazon Web Services Sign-In User Guide</i>.
   ///
   /// May throw [ConcurrentModificationException].
-  /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [accountAlias] :
@@ -1816,8 +2087,8 @@ class Iam {
   /// Deletes the password policy for the Amazon Web Services account. There are
   /// no parameters.
   ///
-  /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   Future<void> deleteAccountPasswordPolicy() async {
     final $request = <String, String>{};
@@ -1834,9 +2105,9 @@ class Iam {
   /// Deletes the specified IAM group. The group must not contain any users or
   /// have any attached policies.
   ///
-  /// May throw [NoSuchEntityException].
   /// May throw [DeleteConflictException].
   /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [groupName] :
@@ -1866,13 +2137,14 @@ class Iam {
   /// group.
   ///
   /// A group can also have managed policies attached to it. To detach a managed
-  /// policy from a group, use <a>DetachGroupPolicy</a>. For more information
-  /// about policies, refer to <a
+  /// policy from a group, use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_DetachGroupPolicy.html">DetachGroupPolicy</a>.
+  /// For more information about policies, refer to <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
   /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
-  /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [groupName] :
@@ -1921,9 +2193,9 @@ class Iam {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html">Using
   /// instance profiles</a> in the <i>IAM User Guide</i>.
   ///
-  /// May throw [NoSuchEntityException].
   /// May throw [DeleteConflictException].
   /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [instanceProfileName] :
@@ -1949,41 +2221,50 @@ class Iam {
     );
   }
 
-  /// Deletes the password for the specified IAM user, For more information, see
-  /// <a
+  /// Deletes the password for the specified IAM user or root user, For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_passwords_admin-change-user.html">Managing
   /// passwords for IAM users</a>.
   ///
   /// You can use the CLI, the Amazon Web Services API, or the <b>Users</b> page
-  /// in the IAM console to delete a password for any IAM user. You can use
-  /// <a>ChangePassword</a> to update, but not delete, your own password in the
-  /// <b>My Security Credentials</b> page in the Amazon Web Services Management
-  /// Console.
+  /// in the IAM console to delete a password for any IAM user. You can use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ChangePassword.html">ChangePassword</a>
+  /// to update, but not delete, your own password in the <b>My Security
+  /// Credentials</b> page in the Amazon Web Services Management Console.
   /// <important>
   /// Deleting a user's password does not prevent a user from accessing Amazon
   /// Web Services through the command line interface or the API. To prevent all
   /// user access, you must also either make any access keys inactive or delete
   /// them. For more information about making keys inactive or deleting them,
-  /// see <a>UpdateAccessKey</a> and <a>DeleteAccessKey</a>.
+  /// see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateAccessKey.html">UpdateAccessKey</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteAccessKey.html">DeleteAccessKey</a>.
   /// </important>
   ///
   /// May throw [EntityTemporarilyUnmodifiableException].
-  /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [userName] :
   /// The name of the user whose password you want to delete.
+  ///
+  /// This parameter is optional. If no user name is included, it defaults to
+  /// the principal making the request. When you make this request with root
+  /// user credentials, you must use an <a
+  /// href="https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoot.html">AssumeRoot</a>
+  /// session to omit the user name.
   ///
   /// This parameter allows (through its <a
   /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> deleteLoginProfile({
-    required String userName,
+    String? userName,
   }) async {
     final $request = <String, String>{
-      'UserName': userName,
+      if (userName != null) 'UserName': userName,
     };
     await _protocol.send(
       $request,
@@ -2011,7 +2292,9 @@ class Iam {
   /// Parameter [openIDConnectProviderArn] :
   /// The Amazon Resource Name (ARN) of the IAM OpenID Connect provider resource
   /// object to delete. You can get a list of OpenID Connect provider resource
-  /// ARNs by using the <a>ListOpenIDConnectProviders</a> operation.
+  /// ARNs by using the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListOpenIDConnectProviders.html">ListOpenIDConnectProviders</a>
+  /// operation.
   Future<void> deleteOpenIDConnectProvider({
     required String openIDConnectProviderArn,
   }) async {
@@ -2038,16 +2321,25 @@ class Iam {
   /// <ul>
   /// <li>
   /// Detach the policy from all users, groups, and roles that the policy is
-  /// attached to, using <a>DetachUserPolicy</a>, <a>DetachGroupPolicy</a>, or
-  /// <a>DetachRolePolicy</a>. To list all the users, groups, and roles that a
-  /// policy is attached to, use <a>ListEntitiesForPolicy</a>.
+  /// attached to, using <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_DetachUserPolicy.html">DetachUserPolicy</a>,
+  /// <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_DetachGroupPolicy.html">DetachGroupPolicy</a>,
+  /// or <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_DetachRolePolicy.html">DetachRolePolicy</a>.
+  /// To list all the users, groups, and roles that a policy is attached to, use
+  /// <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListEntitiesForPolicy.html">ListEntitiesForPolicy</a>.
   /// </li>
   /// <li>
-  /// Delete all versions of the policy using <a>DeletePolicyVersion</a>. To
-  /// list the policy's versions, use <a>ListPolicyVersions</a>. You cannot use
-  /// <a>DeletePolicyVersion</a> to delete the version that is marked as the
-  /// default version. You delete the policy's default version in the next step
-  /// of the process.
+  /// Delete all versions of the policy using <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeletePolicyVersion.html">DeletePolicyVersion</a>.
+  /// To list the policy's versions, use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListPolicyVersions.html">ListPolicyVersions</a>.
+  /// You cannot use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeletePolicyVersion.html">DeletePolicyVersion</a>
+  /// to delete the version that is marked as the default version. You delete
+  /// the policy's default version in the next step of the process.
   /// </li>
   /// <li>
   /// Delete the policy (this automatically deletes the policy's default
@@ -2058,10 +2350,10 @@ class Iam {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
   /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
-  /// May throw [NoSuchEntityException].
-  /// May throw [LimitExceededException].
-  /// May throw [InvalidInputException].
   /// May throw [DeleteConflictException].
+  /// May throw [InvalidInputException].
+  /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [policyArn] :
@@ -2090,18 +2382,20 @@ class Iam {
   /// Deletes the specified version from the specified managed policy.
   ///
   /// You cannot delete the default version from a policy using this operation.
-  /// To delete the default version from a policy, use <a>DeletePolicy</a>. To
-  /// find out which version of a policy is marked as the default version, use
-  /// <a>ListPolicyVersions</a>.
+  /// To delete the default version from a policy, use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeletePolicy.html">DeletePolicy</a>.
+  /// To find out which version of a policy is marked as the default version,
+  /// use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListPolicyVersions.html">ListPolicyVersions</a>.
   ///
   /// For information about versions for managed policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning
   /// for managed policies</a> in the <i>IAM User Guide</i>.
   ///
-  /// May throw [NoSuchEntityException].
-  /// May throw [LimitExceededException].
-  /// May throw [InvalidInputException].
   /// May throw [DeleteConflictException].
+  /// May throw [InvalidInputException].
+  /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [policyArn] :
@@ -2153,17 +2447,21 @@ class Iam {
   ///
   /// <ul>
   /// <li>
-  /// Inline policies (<a>DeleteRolePolicy</a>)
+  /// Inline policies (<a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteRolePolicy.html">DeleteRolePolicy</a>)
   /// </li>
   /// <li>
-  /// Attached managed policies (<a>DetachRolePolicy</a>)
+  /// Attached managed policies (<a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_DetachRolePolicy.html">DetachRolePolicy</a>)
   /// </li>
   /// <li>
-  /// Instance profile (<a>RemoveRoleFromInstanceProfile</a>)
+  /// Instance profile (<a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_RemoveRoleFromInstanceProfile.html">RemoveRoleFromInstanceProfile</a>)
   /// </li>
   /// <li>
   /// Optional – Delete instance profile after detaching from role for resource
-  /// clean up (<a>DeleteInstanceProfile</a>)
+  /// clean up (<a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteInstanceProfile.html">DeleteInstanceProfile</a>)
   /// </li>
   /// </ul> <important>
   /// Make sure that you do not have any Amazon EC2 instances running with the
@@ -2172,12 +2470,12 @@ class Iam {
   /// the instance.
   /// </important>
   ///
-  /// May throw [NoSuchEntityException].
+  /// May throw [ConcurrentModificationException].
   /// May throw [DeleteConflictException].
   /// May throw [LimitExceededException].
-  /// May throw [UnmodifiableEntityException].
-  /// May throw [ConcurrentModificationException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
+  /// May throw [UnmodifiableEntityException].
   ///
   /// Parameter [roleName] :
   /// The name of the role to delete.
@@ -2212,8 +2510,8 @@ class Iam {
   /// </important>
   ///
   /// May throw [NoSuchEntityException].
-  /// May throw [UnmodifiableEntityException].
   /// May throw [ServiceFailureException].
+  /// May throw [UnmodifiableEntityException].
   ///
   /// Parameter [roleName] :
   /// The name (friendly name, not ARN) of the IAM role from which you want to
@@ -2238,15 +2536,16 @@ class Iam {
   /// role.
   ///
   /// A role can also have managed policies attached to it. To detach a managed
-  /// policy from a role, use <a>DetachRolePolicy</a>. For more information
-  /// about policies, refer to <a
+  /// policy from a role, use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_DetachRolePolicy.html">DetachRolePolicy</a>.
+  /// For more information about policies, refer to <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
   /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
-  /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
-  /// May throw [UnmodifiableEntityException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
+  /// May throw [UnmodifiableEntityException].
   ///
   /// Parameter [policyName] :
   /// The name of the inline policy to delete from the specified IAM role.
@@ -2317,6 +2616,188 @@ class Iam {
     );
   }
 
+  /// Deletes the specified server certificate.
+  ///
+  /// For more information about working with server certificates, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html">Working
+  /// with server certificates</a> in the <i>IAM User Guide</i>. This topic also
+  /// includes a list of Amazon Web Services services that can use the server
+  /// certificates that you manage with IAM.
+  /// <important>
+  /// If you are using a server certificate with Elastic Load Balancing,
+  /// deleting the certificate could have implications for your application. If
+  /// Elastic Load Balancing doesn't detect the deletion of bound certificates,
+  /// it may continue to use the certificates. This could cause Elastic Load
+  /// Balancing to stop accepting traffic. We recommend that you remove the
+  /// reference to the certificate from Elastic Load Balancing before using this
+  /// command to delete the certificate. For more information, see <a
+  /// href="https://docs.aws.amazon.com/ElasticLoadBalancing/latest/APIReference/API_DeleteLoadBalancerListeners.html">DeleteLoadBalancerListeners</a>
+  /// in the <i>Elastic Load Balancing API Reference</i>.
+  /// </important>
+  ///
+  /// May throw [DeleteConflictException].
+  /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [serverCertificateName] :
+  /// The name of the server certificate you want to delete.
+  ///
+  /// This parameter allows (through its <a
+  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
+  /// characters consisting of upper and lowercase alphanumeric characters with
+  /// no spaces. You can also include any of the following characters: _+=,.@-
+  Future<void> deleteServerCertificate({
+    required String serverCertificateName,
+  }) async {
+    final $request = <String, String>{
+      'ServerCertificateName': serverCertificateName,
+    };
+    await _protocol.send(
+      $request,
+      action: 'DeleteServerCertificate',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Submits a service-linked role deletion request and returns a
+  /// <code>DeletionTaskId</code>, which you can use to check the status of the
+  /// deletion. Before you call this operation, confirm that the role has no
+  /// active sessions and that any resources used by the role in the linked
+  /// service are deleted. If you call this operation more than once for the
+  /// same service-linked role and an earlier deletion task is not complete,
+  /// then the <code>DeletionTaskId</code> of the earlier request is returned.
+  ///
+  /// If you submit a deletion request for a service-linked role whose linked
+  /// service is still accessing a resource, then the deletion task fails. If it
+  /// fails, the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServiceLinkedRoleDeletionStatus.html">GetServiceLinkedRoleDeletionStatus</a>
+  /// operation returns the reason for the failure, usually including the
+  /// resources that must be deleted. To delete the service-linked role, you
+  /// must first remove those resources from the linked service and then submit
+  /// the deletion request again. Resources are specific to the service that is
+  /// linked to the role. For more information about removing resources from a
+  /// service, see the <a href="http://docs.aws.amazon.com/">Amazon Web Services
+  /// documentation</a> for your service.
+  ///
+  /// For more information about service-linked roles, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html#iam-term-service-linked-role">Roles
+  /// terms and concepts: Amazon Web Services service-linked role</a> in the
+  /// <i>IAM User Guide</i>.
+  ///
+  /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [roleName] :
+  /// The name of the service-linked role to be deleted.
+  Future<DeleteServiceLinkedRoleResponse> deleteServiceLinkedRole({
+    required String roleName,
+  }) async {
+    final $request = <String, String>{
+      'RoleName': roleName,
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'DeleteServiceLinkedRole',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'DeleteServiceLinkedRoleResult',
+    );
+    return DeleteServiceLinkedRoleResponse.fromXml($result);
+  }
+
+  /// Deletes the specified service-specific credential.
+  ///
+  /// May throw [NoSuchEntityException].
+  ///
+  /// Parameter [serviceSpecificCredentialId] :
+  /// The unique identifier of the service-specific credential. You can get this
+  /// value by calling <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListServiceSpecificCredentials.html">ListServiceSpecificCredentials</a>.
+  ///
+  /// This parameter allows (through its <a
+  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
+  /// characters that can consist of any upper or lowercased letter or digit.
+  ///
+  /// Parameter [userName] :
+  /// The name of the IAM user associated with the service-specific credential.
+  /// If this value is not specified, then the operation assumes the user whose
+  /// credentials are used to call the operation.
+  ///
+  /// This parameter allows (through its <a
+  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
+  /// characters consisting of upper and lowercase alphanumeric characters with
+  /// no spaces. You can also include any of the following characters: _+=,.@-
+  Future<void> deleteServiceSpecificCredential({
+    required String serviceSpecificCredentialId,
+    String? userName,
+  }) async {
+    final $request = <String, String>{
+      'ServiceSpecificCredentialId': serviceSpecificCredentialId,
+      if (userName != null) 'UserName': userName,
+    };
+    await _protocol.send(
+      $request,
+      action: 'DeleteServiceSpecificCredential',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes a signing certificate associated with the specified IAM user.
+  ///
+  /// If you do not specify a user name, IAM determines the user name implicitly
+  /// based on the Amazon Web Services access key ID signing the request. This
+  /// operation works for access keys under the Amazon Web Services account.
+  /// Consequently, you can use this operation to manage Amazon Web Services
+  /// account root user credentials even if the Amazon Web Services account has
+  /// no associated IAM users.
+  ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [certificateId] :
+  /// The ID of the signing certificate to delete.
+  ///
+  /// The format of this parameter, as described by its <a
+  /// href="http://wikipedia.org/wiki/regex">regex</a> pattern, is a string of
+  /// characters that can be upper- or lower-cased letters or digits.
+  ///
+  /// Parameter [userName] :
+  /// The name of the user the signing certificate belongs to.
+  ///
+  /// This parameter allows (through its <a
+  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
+  /// characters consisting of upper and lowercase alphanumeric characters with
+  /// no spaces. You can also include any of the following characters: _+=,.@-
+  Future<void> deleteSigningCertificate({
+    required String certificateId,
+    String? userName,
+  }) async {
+    final $request = <String, String>{
+      'CertificateId': certificateId,
+      if (userName != null) 'UserName': userName,
+    };
+    await _protocol.send(
+      $request,
+      action: 'DeleteSigningCertificate',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Deletes the specified SSH public key.
   ///
   /// The SSH public key deleted by this operation is used only for
@@ -2360,186 +2841,6 @@ class Iam {
     );
   }
 
-  /// Deletes the specified server certificate.
-  ///
-  /// For more information about working with server certificates, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html">Working
-  /// with server certificates</a> in the <i>IAM User Guide</i>. This topic also
-  /// includes a list of Amazon Web Services services that can use the server
-  /// certificates that you manage with IAM.
-  /// <important>
-  /// If you are using a server certificate with Elastic Load Balancing,
-  /// deleting the certificate could have implications for your application. If
-  /// Elastic Load Balancing doesn't detect the deletion of bound certificates,
-  /// it may continue to use the certificates. This could cause Elastic Load
-  /// Balancing to stop accepting traffic. We recommend that you remove the
-  /// reference to the certificate from Elastic Load Balancing before using this
-  /// command to delete the certificate. For more information, see <a
-  /// href="https://docs.aws.amazon.com/ElasticLoadBalancing/latest/APIReference/API_DeleteLoadBalancerListeners.html">DeleteLoadBalancerListeners</a>
-  /// in the <i>Elastic Load Balancing API Reference</i>.
-  /// </important>
-  ///
-  /// May throw [NoSuchEntityException].
-  /// May throw [DeleteConflictException].
-  /// May throw [LimitExceededException].
-  /// May throw [ServiceFailureException].
-  ///
-  /// Parameter [serverCertificateName] :
-  /// The name of the server certificate you want to delete.
-  ///
-  /// This parameter allows (through its <a
-  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
-  /// characters consisting of upper and lowercase alphanumeric characters with
-  /// no spaces. You can also include any of the following characters: _+=,.@-
-  Future<void> deleteServerCertificate({
-    required String serverCertificateName,
-  }) async {
-    final $request = <String, String>{
-      'ServerCertificateName': serverCertificateName,
-    };
-    await _protocol.send(
-      $request,
-      action: 'DeleteServerCertificate',
-      version: '2010-05-08',
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-    );
-  }
-
-  /// Submits a service-linked role deletion request and returns a
-  /// <code>DeletionTaskId</code>, which you can use to check the status of the
-  /// deletion. Before you call this operation, confirm that the role has no
-  /// active sessions and that any resources used by the role in the linked
-  /// service are deleted. If you call this operation more than once for the
-  /// same service-linked role and an earlier deletion task is not complete,
-  /// then the <code>DeletionTaskId</code> of the earlier request is returned.
-  ///
-  /// If you submit a deletion request for a service-linked role whose linked
-  /// service is still accessing a resource, then the deletion task fails. If it
-  /// fails, the <a>GetServiceLinkedRoleDeletionStatus</a> operation returns the
-  /// reason for the failure, usually including the resources that must be
-  /// deleted. To delete the service-linked role, you must first remove those
-  /// resources from the linked service and then submit the deletion request
-  /// again. Resources are specific to the service that is linked to the role.
-  /// For more information about removing resources from a service, see the <a
-  /// href="http://docs.aws.amazon.com/">Amazon Web Services documentation</a>
-  /// for your service.
-  ///
-  /// For more information about service-linked roles, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html#iam-term-service-linked-role">Roles
-  /// terms and concepts: Amazon Web Services service-linked role</a> in the
-  /// <i>IAM User Guide</i>.
-  ///
-  /// May throw [NoSuchEntityException].
-  /// May throw [LimitExceededException].
-  /// May throw [ServiceFailureException].
-  ///
-  /// Parameter [roleName] :
-  /// The name of the service-linked role to be deleted.
-  Future<DeleteServiceLinkedRoleResponse> deleteServiceLinkedRole({
-    required String roleName,
-  }) async {
-    final $request = <String, String>{
-      'RoleName': roleName,
-    };
-    final $result = await _protocol.send(
-      $request,
-      action: 'DeleteServiceLinkedRole',
-      version: '2010-05-08',
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      resultWrapper: 'DeleteServiceLinkedRoleResult',
-    );
-    return DeleteServiceLinkedRoleResponse.fromXml($result);
-  }
-
-  /// Deletes the specified service-specific credential.
-  ///
-  /// May throw [NoSuchEntityException].
-  ///
-  /// Parameter [serviceSpecificCredentialId] :
-  /// The unique identifier of the service-specific credential. You can get this
-  /// value by calling <a>ListServiceSpecificCredentials</a>.
-  ///
-  /// This parameter allows (through its <a
-  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
-  /// characters that can consist of any upper or lowercased letter or digit.
-  ///
-  /// Parameter [userName] :
-  /// The name of the IAM user associated with the service-specific credential.
-  /// If this value is not specified, then the operation assumes the user whose
-  /// credentials are used to call the operation.
-  ///
-  /// This parameter allows (through its <a
-  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
-  /// characters consisting of upper and lowercase alphanumeric characters with
-  /// no spaces. You can also include any of the following characters: _+=,.@-
-  Future<void> deleteServiceSpecificCredential({
-    required String serviceSpecificCredentialId,
-    String? userName,
-  }) async {
-    final $request = <String, String>{
-      'ServiceSpecificCredentialId': serviceSpecificCredentialId,
-      if (userName != null) 'UserName': userName,
-    };
-    await _protocol.send(
-      $request,
-      action: 'DeleteServiceSpecificCredential',
-      version: '2010-05-08',
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-    );
-  }
-
-  /// Deletes a signing certificate associated with the specified IAM user.
-  ///
-  /// If you do not specify a user name, IAM determines the user name implicitly
-  /// based on the Amazon Web Services access key ID signing the request. This
-  /// operation works for access keys under the Amazon Web Services account.
-  /// Consequently, you can use this operation to manage Amazon Web Services
-  /// account root user credentials even if the Amazon Web Services account has
-  /// no associated IAM users.
-  ///
-  /// May throw [NoSuchEntityException].
-  /// May throw [LimitExceededException].
-  /// May throw [ConcurrentModificationException].
-  /// May throw [ServiceFailureException].
-  ///
-  /// Parameter [certificateId] :
-  /// The ID of the signing certificate to delete.
-  ///
-  /// The format of this parameter, as described by its <a
-  /// href="http://wikipedia.org/wiki/regex">regex</a> pattern, is a string of
-  /// characters that can be upper- or lower-cased letters or digits.
-  ///
-  /// Parameter [userName] :
-  /// The name of the user the signing certificate belongs to.
-  ///
-  /// This parameter allows (through its <a
-  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
-  /// characters consisting of upper and lowercase alphanumeric characters with
-  /// no spaces. You can also include any of the following characters: _+=,.@-
-  Future<void> deleteSigningCertificate({
-    required String certificateId,
-    String? userName,
-  }) async {
-    final $request = <String, String>{
-      'CertificateId': certificateId,
-      if (userName != null) 'UserName': userName,
-    };
-    await _protocol.send(
-      $request,
-      action: 'DeleteSigningCertificate',
-      version: '2010-05-08',
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-    );
-  }
-
   /// Deletes the specified IAM user. Unlike the Amazon Web Services Management
   /// Console, when you delete a user programmatically, you must delete the
   /// items attached to the user manually, or the deletion fails. For more
@@ -2550,39 +2851,49 @@ class Iam {
   ///
   /// <ul>
   /// <li>
-  /// Password (<a>DeleteLoginProfile</a>)
+  /// Password (<a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteLoginProfile.html">DeleteLoginProfile</a>)
   /// </li>
   /// <li>
-  /// Access keys (<a>DeleteAccessKey</a>)
+  /// Access keys (<a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteAccessKey.html">DeleteAccessKey</a>)
   /// </li>
   /// <li>
-  /// Signing certificate (<a>DeleteSigningCertificate</a>)
+  /// Signing certificate (<a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteSigningCertificate.html">DeleteSigningCertificate</a>)
   /// </li>
   /// <li>
-  /// SSH public key (<a>DeleteSSHPublicKey</a>)
+  /// SSH public key (<a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteSSHPublicKey.html">DeleteSSHPublicKey</a>)
   /// </li>
   /// <li>
-  /// Git credentials (<a>DeleteServiceSpecificCredential</a>)
+  /// Git credentials (<a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteServiceSpecificCredential.html">DeleteServiceSpecificCredential</a>)
   /// </li>
   /// <li>
-  /// Multi-factor authentication (MFA) device (<a>DeactivateMFADevice</a>,
-  /// <a>DeleteVirtualMFADevice</a>)
+  /// Multi-factor authentication (MFA) device (<a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeactivateMFADevice.html">DeactivateMFADevice</a>,
+  /// <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteVirtualMFADevice.html">DeleteVirtualMFADevice</a>)
   /// </li>
   /// <li>
-  /// Inline policies (<a>DeleteUserPolicy</a>)
+  /// Inline policies (<a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteUserPolicy.html">DeleteUserPolicy</a>)
   /// </li>
   /// <li>
-  /// Attached managed policies (<a>DetachUserPolicy</a>)
+  /// Attached managed policies (<a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_DetachUserPolicy.html">DetachUserPolicy</a>)
   /// </li>
   /// <li>
-  /// Group memberships (<a>RemoveUserFromGroup</a>)
+  /// Group memberships (<a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_RemoveUserFromGroup.html">RemoveUserFromGroup</a>)
   /// </li>
   /// </ul>
   ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [DeleteConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NoSuchEntityException].
-  /// May throw [DeleteConflictException].
-  /// May throw [ConcurrentModificationException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [userName] :
@@ -2641,13 +2952,14 @@ class Iam {
   /// user.
   ///
   /// A user can also have managed policies attached to it. To detach a managed
-  /// policy from a user, use <a>DetachUserPolicy</a>. For more information
-  /// about policies, refer to <a
+  /// policy from a user, use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_DetachUserPolicy.html">DetachUserPolicy</a>.
+  /// For more information about policies, refer to <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
   /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
-  /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [policyName] :
@@ -2687,15 +2999,15 @@ class Iam {
   /// Deletes a virtual MFA device.
   /// <note>
   /// You must deactivate a user's virtual MFA device before you can delete it.
-  /// For information about deactivating MFA devices, see
-  /// <a>DeactivateMFADevice</a>.
+  /// For information about deactivating MFA devices, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeactivateMFADevice.html">DeactivateMFADevice</a>.
   /// </note>
   ///
-  /// May throw [NoSuchEntityException].
+  /// May throw [ConcurrentModificationException].
   /// May throw [DeleteConflictException].
   /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
-  /// May throw [ConcurrentModificationException].
   ///
   /// Parameter [serialNumber] :
   /// The serial number that uniquely identifies the MFA device. For virtual MFA
@@ -2724,14 +3036,15 @@ class Iam {
   /// Removes the specified managed policy from the specified IAM group.
   ///
   /// A group can also have inline policies embedded with it. To delete an
-  /// inline policy, use <a>DeleteGroupPolicy</a>. For information about
-  /// policies, see <a
+  /// inline policy, use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteGroupPolicy.html">DeleteGroupPolicy</a>.
+  /// For information about policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
   /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
-  /// May throw [NoSuchEntityException].
-  /// May throw [LimitExceededException].
   /// May throw [InvalidInputException].
+  /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [groupName] :
@@ -2771,16 +3084,17 @@ class Iam {
   /// Removes the specified managed policy from the specified role.
   ///
   /// A role can also have inline policies embedded with it. To delete an inline
-  /// policy, use <a>DeleteRolePolicy</a>. For information about policies, see
-  /// <a
+  /// policy, use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteRolePolicy.html">DeleteRolePolicy</a>.
+  /// For information about policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
   /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
-  /// May throw [NoSuchEntityException].
-  /// May throw [LimitExceededException].
   /// May throw [InvalidInputException].
-  /// May throw [UnmodifiableEntityException].
+  /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
+  /// May throw [UnmodifiableEntityException].
   ///
   /// Parameter [policyArn] :
   /// The Amazon Resource Name (ARN) of the IAM policy you want to detach.
@@ -2819,14 +3133,15 @@ class Iam {
   /// Removes the specified managed policy from the specified user.
   ///
   /// A user can also have inline policies embedded with it. To delete an inline
-  /// policy, use <a>DeleteUserPolicy</a>. For information about policies, see
-  /// <a
+  /// policy, use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteUserPolicy.html">DeleteUserPolicy</a>.
+  /// For information about policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
   /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
-  /// May throw [NoSuchEntityException].
-  /// May throw [LimitExceededException].
   /// May throw [InvalidInputException].
+  /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [policyArn] :
@@ -2863,17 +3178,85 @@ class Iam {
     );
   }
 
+  /// Disables the management of privileged root user credentials across member
+  /// accounts in your organization. When you disable this feature, the
+  /// management account and the delegated administrator for IAM can no longer
+  /// manage root user credentials for member accounts in your organization.
+  ///
+  /// May throw [AccountNotManagementOrDelegatedAdministratorException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationNotInAllFeaturesModeException].
+  /// May throw [ServiceAccessNotEnabledException].
+  Future<DisableOrganizationsRootCredentialsManagementResponse>
+      disableOrganizationsRootCredentialsManagement() async {
+    final $request = <String, String>{};
+    final $result = await _protocol.send(
+      $request,
+      action: 'DisableOrganizationsRootCredentialsManagement',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'DisableOrganizationsRootCredentialsManagementResult',
+    );
+    return DisableOrganizationsRootCredentialsManagementResponse.fromXml(
+        $result);
+  }
+
+  /// Disables root user sessions for privileged tasks across member accounts in
+  /// your organization. When you disable this feature, the management account
+  /// and the delegated administrator for IAM can no longer perform privileged
+  /// tasks on member accounts in your organization.
+  ///
+  /// May throw [AccountNotManagementOrDelegatedAdministratorException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationNotInAllFeaturesModeException].
+  /// May throw [ServiceAccessNotEnabledException].
+  Future<DisableOrganizationsRootSessionsResponse>
+      disableOrganizationsRootSessions() async {
+    final $request = <String, String>{};
+    final $result = await _protocol.send(
+      $request,
+      action: 'DisableOrganizationsRootSessions',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'DisableOrganizationsRootSessionsResult',
+    );
+    return DisableOrganizationsRootSessionsResponse.fromXml($result);
+  }
+
+  /// Disables the outbound identity federation feature for your Amazon Web
+  /// Services account. When disabled, IAM principals in the account cannot use
+  /// the <code>GetWebIdentityToken</code> API to obtain JSON Web Tokens (JWTs)
+  /// for authentication with external services. This operation does not affect
+  /// tokens that were issued before the feature was disabled.
+  ///
+  /// May throw [FeatureDisabledException].
+  Future<void> disableOutboundWebIdentityFederation() async {
+    final $request = <String, String>{};
+    await _protocol.send(
+      $request,
+      action: 'DisableOutboundWebIdentityFederation',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Enables the specified MFA device and associates it with the specified IAM
   /// user. When enabled, the MFA device is required for every subsequent login
   /// by the IAM user associated with the device.
   ///
+  /// May throw [ConcurrentModificationException].
   /// May throw [EntityAlreadyExistsException].
   /// May throw [EntityTemporarilyUnmodifiableException].
   /// May throw [InvalidAuthenticationCodeException].
   /// May throw [LimitExceededException].
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
-  /// May throw [ConcurrentModificationException].
   ///
   /// Parameter [authenticationCode1] :
   /// An authentication code emitted by the device.
@@ -2941,6 +3324,116 @@ class Iam {
     );
   }
 
+  /// Enables the management of privileged root user credentials across member
+  /// accounts in your organization. When you enable root credentials management
+  /// for <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html#id_root-user-access-management">centralized
+  /// root access</a>, the management account and the delegated administrator
+  /// for IAM can manage root user credentials for member accounts in your
+  /// organization.
+  ///
+  /// Before you enable centralized root access, you must have an account
+  /// configured with the following settings:
+  ///
+  /// <ul>
+  /// <li>
+  /// You must manage your Amazon Web Services accounts in <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_introduction.html">Organizations</a>.
+  /// </li>
+  /// <li>
+  /// Enable trusted access for Identity and Access Management in Organizations.
+  /// For details, see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-iam.html">IAM
+  /// and Organizations</a> in the <i>Organizations User Guide</i>.
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [AccountNotManagementOrDelegatedAdministratorException].
+  /// May throw [CallerIsNotManagementAccountException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationNotInAllFeaturesModeException].
+  /// May throw [ServiceAccessNotEnabledException].
+  Future<EnableOrganizationsRootCredentialsManagementResponse>
+      enableOrganizationsRootCredentialsManagement() async {
+    final $request = <String, String>{};
+    final $result = await _protocol.send(
+      $request,
+      action: 'EnableOrganizationsRootCredentialsManagement',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'EnableOrganizationsRootCredentialsManagementResult',
+    );
+    return EnableOrganizationsRootCredentialsManagementResponse.fromXml(
+        $result);
+  }
+
+  /// Allows the management account or delegated administrator to perform
+  /// privileged tasks on member accounts in your organization. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html#id_root-user-access-management">Centrally
+  /// manage root access for member accounts</a> in the <i>Identity and Access
+  /// Management User Guide</i>.
+  ///
+  /// Before you enable this feature, you must have an account configured with
+  /// the following settings:
+  ///
+  /// <ul>
+  /// <li>
+  /// You must manage your Amazon Web Services accounts in <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_introduction.html">Organizations</a>.
+  /// </li>
+  /// <li>
+  /// Enable trusted access for Identity and Access Management in Organizations.
+  /// For details, see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-ra.html">IAM
+  /// and Organizations</a> in the <i>Organizations User Guide</i>.
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [AccountNotManagementOrDelegatedAdministratorException].
+  /// May throw [CallerIsNotManagementAccountException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationNotInAllFeaturesModeException].
+  /// May throw [ServiceAccessNotEnabledException].
+  Future<EnableOrganizationsRootSessionsResponse>
+      enableOrganizationsRootSessions() async {
+    final $request = <String, String>{};
+    final $result = await _protocol.send(
+      $request,
+      action: 'EnableOrganizationsRootSessions',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'EnableOrganizationsRootSessionsResult',
+    );
+    return EnableOrganizationsRootSessionsResponse.fromXml($result);
+  }
+
+  /// Enables the outbound identity federation feature for your Amazon Web
+  /// Services account. When enabled, IAM principals in your account can use the
+  /// <code>GetWebIdentityToken</code> API to obtain JSON Web Tokens (JWTs) for
+  /// secure authentication with external services. This operation also
+  /// generates a unique issuer URL for your Amazon Web Services account.
+  ///
+  /// May throw [FeatureEnabledException].
+  Future<EnableOutboundWebIdentityFederationResponse>
+      enableOutboundWebIdentityFederation() async {
+    final $request = <String, String>{};
+    final $result = await _protocol.send(
+      $request,
+      action: 'EnableOutboundWebIdentityFederation',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'EnableOutboundWebIdentityFederationResult',
+    );
+    return EnableOutboundWebIdentityFederationResponse.fromXml($result);
+  }
+
   /// Generates a credential report for the Amazon Web Services account. For
   /// more information about the credential report, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/credential-reports.html">Getting
@@ -2993,7 +3486,7 @@ class Iam {
   /// permissions using service last accessed data</a> in the <i>IAM User
   /// Guide</i>.
   /// <important>
-  /// The data includes all attempts to access Amazon Web Services, not just the
+  /// The data includes all attempts to access Amazon Web Services, not just the
   /// successful ones. This includes all attempts that were made using the
   /// Amazon Web Services Management Console, the Amazon Web Services API
   /// through any of the SDKs, or any of the command line tools. An unexpected
@@ -3001,17 +3494,19 @@ class Iam {
   /// been compromised, because the request might have been denied. Refer to
   /// your CloudTrail logs as the authoritative source for information about all
   /// API calls and whether they were successful or denied access. For more
-  /// information, see <a
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html">Logging
   /// IAM events with CloudTrail</a> in the <i>IAM User Guide</i>.
   /// </important>
   /// This operation returns a <code>JobId</code>. Use this parameter in the
-  /// <code> <a>GetOrganizationsAccessReport</a> </code> operation to check the
-  /// status of the report generation. To check the status of this request, use
-  /// the <code>JobId</code> parameter in the <code>
-  /// <a>GetOrganizationsAccessReport</a> </code> operation and test the
-  /// <code>JobStatus</code> response parameter. When the job is complete, you
-  /// can retrieve the report.
+  /// <code> <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetOrganizationsAccessReport.html">GetOrganizationsAccessReport</a>
+  /// </code> operation to check the status of the report generation. To check
+  /// the status of this request, use the <code>JobId</code> parameter in the
+  /// <code> <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetOrganizationsAccessReport.html">GetOrganizationsAccessReport</a>
+  /// </code> operation and test the <code>JobStatus</code> response parameter.
+  /// When the job is complete, you can retrieve the report.
   ///
   /// To generate a service last accessed data report for entities, specify an
   /// entity path without specifying the optional Organizations policy ID. The
@@ -3153,7 +3648,7 @@ class Iam {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor-action-last-accessed.html">IAM
   /// action last accessed information services and actions</a>.
   /// <important>
-  /// The service last accessed data includes all attempts to access an Amazon
+  /// The service last accessed data includes all attempts to access an Amazon
   /// Web Services API, not just the successful ones. This includes all attempts
   /// that were made using the Amazon Web Services Management Console, the
   /// Amazon Web Services API through any of the SDKs, or any of the command
@@ -3161,7 +3656,7 @@ class Iam {
   /// mean that your account has been compromised, because the request might
   /// have been denied. Refer to your CloudTrail logs as the authoritative
   /// source for information about all API calls and whether they were
-  /// successful or denied access. For more information, see <a
+  /// successful or denied access. For more information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html">Logging
   /// IAM events with CloudTrail</a> in the <i>IAM User Guide</i>.
   /// </important>
@@ -3171,10 +3666,12 @@ class Iam {
   ///
   /// <ul>
   /// <li>
-  /// <a>GetServiceLastAccessedDetails</a> – Use this operation for users,
-  /// groups, roles, or policies to list every Amazon Web Services service that
-  /// the resource could access using permissions policies. For each service,
-  /// the response includes information about the most recent access attempt.
+  /// <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServiceLastAccessedDetails.html">GetServiceLastAccessedDetails</a>
+  /// – Use this operation for users, groups, roles, or policies to list every
+  /// Amazon Web Services service that the resource could access using
+  /// permissions policies. For each service, the response includes information
+  /// about the most recent access attempt.
   ///
   /// The <code>JobId</code> returned by
   /// <code>GenerateServiceLastAccessedDetail</code> must be used by the same
@@ -3182,10 +3679,11 @@ class Iam {
   /// <code>GetServiceLastAccessedDetail</code>.
   /// </li>
   /// <li>
-  /// <a>GetServiceLastAccessedDetailsWithEntities</a> – Use this operation for
-  /// groups and policies to list information about the associated entities
-  /// (users or roles) that attempted to access a specific Amazon Web Services
-  /// service.
+  /// <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServiceLastAccessedDetailsWithEntities.html">GetServiceLastAccessedDetailsWithEntities</a>
+  /// – Use this operation for groups and policies to list information about the
+  /// associated entities (users or roles) that attempted to access a specific
+  /// Amazon Web Services service.
   /// </li>
   /// </ul>
   /// To check the status of the <code>GenerateServiceLastAccessedDetails</code>
@@ -3193,8 +3691,9 @@ class Iam {
   /// test the <code>JobStatus</code> response parameter.
   ///
   /// For additional information about the permissions policies that allow an
-  /// identity (user, group, or role) to access specific services, use the
-  /// <a>ListPoliciesGrantingServiceAccess</a> operation.
+  /// identity (user, group, or role) to access specific services, use the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListPoliciesGrantingServiceAccess.html">ListPoliciesGrantingServiceAccess</a>
+  /// operation.
   /// <note>
   /// Service last accessed data does not use other policy types when
   /// determining whether a resource could access a service. These other policy
@@ -3210,8 +3709,8 @@ class Iam {
   /// permissions using service last accessed data</a> in the <i>IAM User
   /// Guide</i>.
   ///
-  /// May throw [NoSuchEntityException].
   /// May throw [InvalidInputException].
+  /// May throw [NoSuchEntityException].
   ///
   /// Parameter [arn] :
   /// The ARN of the IAM resource (user, group, role, or managed policy) used to
@@ -3285,7 +3784,8 @@ class Iam {
   /// decoding method to convert the policy back to plain JSON text. For
   /// example, if you use Java, you can use the <code>decode</code> method of
   /// the <code>java.net.URLDecoder</code> utility class in the Java SDK. Other
-  /// languages and SDKs provide similar functionality.
+  /// languages and SDKs provide similar functionality, and some SDKs do this
+  /// decoding automatically.
   /// </note>
   /// You can optionally filter the results using the <code>Filter</code>
   /// parameter. You can paginate the results using the <code>MaxItems</code>
@@ -3402,16 +3902,17 @@ class Iam {
   /// Gets a list of all of the context keys referenced in the input policies.
   /// The policies are supplied as a list of one or more strings. To get the
   /// context keys from policies associated with an IAM user, group, or role,
-  /// use <a>GetContextKeysForPrincipalPolicy</a>.
+  /// use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForPrincipalPolicy.html">GetContextKeysForPrincipalPolicy</a>.
   ///
   /// Context keys are variables maintained by Amazon Web Services and its
   /// services that provide details about the context of an API query request.
   /// Context keys can be evaluated by testing against a value specified in an
   /// IAM policy. Use <code>GetContextKeysForCustomPolicy</code> to understand
-  /// what key names and values you must supply when you call
-  /// <a>SimulateCustomPolicy</a>. Note that all parameters are shown in
-  /// unencoded form here for clarity but must be URL encoded to be included as
-  /// a part of a real HTML request.
+  /// what key names and values you must supply when you call <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulateCustomPolicy.html">SimulateCustomPolicy</a>.
+  /// Note that all parameters are shown in unencoded form here for clarity but
+  /// must be URL encoded to be included as a part of a real HTML request.
   ///
   /// May throw [InvalidInputException].
   ///
@@ -3468,21 +3969,26 @@ class Iam {
   ///
   /// You can optionally include a list of one or more additional policies,
   /// specified as strings. If you want to include <i>only</i> a list of
-  /// policies by string, use <a>GetContextKeysForCustomPolicy</a> instead.
+  /// policies by string, use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForCustomPolicy.html">GetContextKeysForCustomPolicy</a>
+  /// instead.
   ///
   /// <b>Note:</b> This operation discloses information about the permissions
   /// granted to other users. If you do not want users to see other user's
-  /// permissions, then consider allowing them to use
-  /// <a>GetContextKeysForCustomPolicy</a> instead.
+  /// permissions, then consider allowing them to use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForCustomPolicy.html">GetContextKeysForCustomPolicy</a>
+  /// instead.
   ///
   /// Context keys are variables maintained by Amazon Web Services and its
   /// services that provide details about the context of an API query request.
   /// Context keys can be evaluated by testing against a value in an IAM policy.
-  /// Use <a>GetContextKeysForPrincipalPolicy</a> to understand what key names
-  /// and values you must supply when you call <a>SimulatePrincipalPolicy</a>.
+  /// Use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForPrincipalPolicy.html">GetContextKeysForPrincipalPolicy</a>
+  /// to understand what key names and values you must supply when you call <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulatePrincipalPolicy.html">SimulatePrincipalPolicy</a>.
   ///
-  /// May throw [NoSuchEntityException].
   /// May throw [InvalidInputException].
+  /// May throw [NoSuchEntityException].
   ///
   /// Parameter [policySourceArn] :
   /// The ARN of a user, group, or role whose policies contain the context keys
@@ -3551,8 +4057,8 @@ class Iam {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/credential-reports.html">Getting
   /// credential reports</a> in the <i>IAM User Guide</i>.
   ///
-  /// May throw [CredentialReportNotPresentException].
   /// May throw [CredentialReportExpiredException].
+  /// May throw [CredentialReportNotPresentException].
   /// May throw [CredentialReportNotReadyException].
   /// May throw [ServiceFailureException].
   Future<GetCredentialReportResponse> getCredentialReport() async {
@@ -3567,6 +4073,57 @@ class Iam {
       resultWrapper: 'GetCredentialReportResult',
     );
     return GetCredentialReportResponse.fromXml($result);
+  }
+
+  /// Retrieves information about a specific delegation request.
+  ///
+  /// If a delegation request has no owner or owner account,
+  /// <code>GetDelegationRequest</code> for that delegation request can be
+  /// called by any account. If the owner account is assigned but there is no
+  /// owner id, only identities within that owner account can call
+  /// <code>GetDelegationRequest</code> for the delegation request. Once the
+  /// delegation request is fully owned, the owner of the request gets a default
+  /// permission to get that delegation request. For more details, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-temporary-delegation.html#temporary-delegation-managing-permissions">
+  /// Managing Permissions for Delegation Requests</a>.
+  ///
+  /// May throw [NoSuchEntityException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [delegationRequestId] :
+  /// The unique identifier of the delegation request to retrieve.
+  ///
+  /// Parameter [delegationPermissionCheck] :
+  /// Specifies whether to perform a permission check for the delegation
+  /// request.
+  ///
+  /// If set to true, the <code>GetDelegationRequest</code> API call will start
+  /// a permission check process. This process calculates whether the caller has
+  /// sufficient permissions to cover the asks from this delegation request.
+  ///
+  /// Setting this parameter to true does not guarantee an answer in the
+  /// response. See the <code>PermissionCheckStatus</code> and the
+  /// <code>PermissionCheckResult</code> response attributes for further
+  /// details.
+  Future<GetDelegationRequestResponse> getDelegationRequest({
+    required String delegationRequestId,
+    bool? delegationPermissionCheck,
+  }) async {
+    final $request = <String, String>{
+      'DelegationRequestId': delegationRequestId,
+      if (delegationPermissionCheck != null)
+        'DelegationPermissionCheck': delegationPermissionCheck.toString(),
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'GetDelegationRequest',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'GetDelegationRequestResult',
+    );
+    return GetDelegationRequestResponse.fromXml($result);
   }
 
   /// Returns a list of IAM users that are in the specified IAM group. You can
@@ -3638,12 +4195,15 @@ class Iam {
   /// decoding method to convert the policy back to plain JSON text. For
   /// example, if you use Java, you can use the <code>decode</code> method of
   /// the <code>java.net.URLDecoder</code> utility class in the Java SDK. Other
-  /// languages and SDKs provide similar functionality.
+  /// languages and SDKs provide similar functionality, and some SDKs do this
+  /// decoding automatically.
   /// </note>
   /// An IAM group can also have managed policies attached to it. To retrieve a
-  /// managed policy document that is attached to a group, use <a>GetPolicy</a>
-  /// to determine the policy's default version, then use
-  /// <a>GetPolicyVersion</a> to retrieve the policy document.
+  /// managed policy document that is attached to a group, use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicy.html">GetPolicy</a>
+  /// to determine the policy's default version, then use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicyVersion.html">GetPolicyVersion</a>
+  /// to retrieve the policy document.
   ///
   /// For more information about policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
@@ -3685,6 +4245,59 @@ class Iam {
       resultWrapper: 'GetGroupPolicyResult',
     );
     return GetGroupPolicyResponse.fromXml($result);
+  }
+
+  /// Retrieves a human readable summary for a given entity. At this time, the
+  /// only supported entity type is <code>delegation-request</code>
+  ///
+  /// This method uses a Large Language Model (LLM) to generate the summary.
+  ///
+  /// If a delegation request has no owner or owner account,
+  /// <code>GetHumanReadableSummary</code> for that delegation request can be
+  /// called by any account. If the owner account is assigned but there is no
+  /// owner id, only identities within that owner account can call
+  /// <code>GetHumanReadableSummary</code> for the delegation request to
+  /// retrieve a summary of that request. Once the delegation request is fully
+  /// owned, the owner of the request gets a default permission to get that
+  /// delegation request. For more details, read <a href="">default permissions
+  /// granted to delegation requests</a>. These rules are identical to <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetDelegationRequest.html">GetDelegationRequest</a>
+  /// API behavior, such that a party who has permissions to call <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetDelegationRequest.html">GetDelegationRequest</a>
+  /// for a given delegation request will always be able to retrieve the human
+  /// readable summary for that request.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [NoSuchEntityException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [entityArn] :
+  /// Arn of the entity to be summarized. At this time, the only supported
+  /// entity type is <code>delegation-request</code>
+  ///
+  /// Parameter [locale] :
+  /// A string representing the locale to use for the summary generation. The
+  /// supported locale strings are based on the <a
+  /// href="/awsconsolehelpdocs/latest/gsg/change-language.html#supported-languages">
+  /// Supported languages of the Amazon Web Services Management Console </a>.
+  Future<GetHumanReadableSummaryResponse> getHumanReadableSummary({
+    required String entityArn,
+    String? locale,
+  }) async {
+    final $request = <String, String>{
+      'EntityArn': entityArn,
+      if (locale != null) 'Locale': locale,
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'GetHumanReadableSummary',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'GetHumanReadableSummaryResult',
+    );
+    return GetHumanReadableSummaryResponse.fromXml($result);
   }
 
   /// Retrieves information about the specified instance profile, including the
@@ -3743,15 +4356,21 @@ class Iam {
   /// Parameter [userName] :
   /// The name of the user whose login profile you want to retrieve.
   ///
+  /// This parameter is optional. If no user name is included, it defaults to
+  /// the principal making the request. When you make this request with root
+  /// user credentials, you must use an <a
+  /// href="https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoot.html">AssumeRoot</a>
+  /// session to omit the user name.
+  ///
   /// This parameter allows (through its <a
   /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<GetLoginProfileResponse> getLoginProfile({
-    required String userName,
+    String? userName,
   }) async {
     final $request = <String, String>{
-      'UserName': userName,
+      if (userName != null) 'UserName': userName,
     };
     final $result = await _protocol.send(
       $request,
@@ -3807,7 +4426,9 @@ class Iam {
   /// Parameter [openIDConnectProviderArn] :
   /// The Amazon Resource Name (ARN) of the OIDC provider resource object in IAM
   /// to get information for. You can get a list of OIDC provider resource ARNs
-  /// by using the <a>ListOpenIDConnectProviders</a> operation.
+  /// by using the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListOpenIDConnectProviders.html">ListOpenIDConnectProviders</a>
+  /// operation.
   ///
   /// For more information about ARNs, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
@@ -3832,13 +4453,14 @@ class Iam {
   }
 
   /// Retrieves the service last accessed data report for Organizations that was
-  /// previously generated using the <code>
-  /// <a>GenerateOrganizationsAccessReport</a> </code> operation. This operation
-  /// retrieves the status of your report job and the report contents.
+  /// previously generated using the <code> <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GenerateOrganizationsAccessReport.html">GenerateOrganizationsAccessReport</a>
+  /// </code> operation. This operation retrieves the status of your report job
+  /// and the report contents.
   ///
   /// Depending on the parameters that you passed when you generated the report,
-  /// the data returned could include different information. For details, see
-  /// <a>GenerateOrganizationsAccessReport</a>.
+  /// the data returned could include different information. For details, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GenerateOrganizationsAccessReport.html">GenerateOrganizationsAccessReport</a>.
   ///
   /// To call this operation, you must be signed in to the management account in
   /// your organization. SCPs must be enabled for your organization root. You
@@ -3859,8 +4481,9 @@ class Iam {
   /// May throw [NoSuchEntityException].
   ///
   /// Parameter [jobId] :
-  /// The identifier of the request generated by the
-  /// <a>GenerateOrganizationsAccessReport</a> operation.
+  /// The identifier of the request generated by the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GenerateOrganizationsAccessReport.html">GenerateOrganizationsAccessReport</a>
+  /// operation.
   ///
   /// Parameter [marker] :
   /// Use this parameter only when paginating results and only after you receive
@@ -3915,25 +4538,53 @@ class Iam {
     return GetOrganizationsAccessReportResponse.fromXml($result);
   }
 
+  /// Retrieves the configuration information for the outbound identity
+  /// federation feature in your Amazon Web Services account. The response
+  /// includes the unique issuer URL for your Amazon Web Services account and
+  /// the current enabled/disabled status of the feature. Use this operation to
+  /// obtain the issuer URL that you need to configure trust relationships with
+  /// external services.
+  ///
+  /// May throw [FeatureDisabledException].
+  Future<GetOutboundWebIdentityFederationInfoResponse>
+      getOutboundWebIdentityFederationInfo() async {
+    final $request = <String, String>{};
+    final $result = await _protocol.send(
+      $request,
+      action: 'GetOutboundWebIdentityFederationInfo',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'GetOutboundWebIdentityFederationInfoResult',
+    );
+    return GetOutboundWebIdentityFederationInfoResponse.fromXml($result);
+  }
+
   /// Retrieves information about the specified managed policy, including the
   /// policy's default version and the total number of IAM users, groups, and
   /// roles to which the policy is attached. To retrieve the list of the
-  /// specific users, groups, and roles that the policy is attached to, use
-  /// <a>ListEntitiesForPolicy</a>. This operation returns metadata about the
-  /// policy. To retrieve the actual policy document for a specific version of
-  /// the policy, use <a>GetPolicyVersion</a>.
+  /// specific users, groups, and roles that the policy is attached to, use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListEntitiesForPolicy.html">ListEntitiesForPolicy</a>.
+  /// This operation returns metadata about the policy. To retrieve the actual
+  /// policy document for a specific version of the policy, use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicyVersion.html">GetPolicyVersion</a>.
   ///
   /// This operation retrieves information about managed policies. To retrieve
   /// information about an inline policy that is embedded with an IAM user,
-  /// group, or role, use <a>GetUserPolicy</a>, <a>GetGroupPolicy</a>, or
-  /// <a>GetRolePolicy</a>.
+  /// group, or role, use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetUserPolicy.html">GetUserPolicy</a>,
+  /// <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetGroupPolicy.html">GetGroupPolicy</a>,
+  /// or <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetRolePolicy.html">GetRolePolicy</a>.
   ///
   /// For more information about policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
   /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
-  /// May throw [NoSuchEntityException].
   /// May throw [InvalidInputException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [policyArn] :
@@ -3970,15 +4621,20 @@ class Iam {
   /// decoding method to convert the policy back to plain JSON text. For
   /// example, if you use Java, you can use the <code>decode</code> method of
   /// the <code>java.net.URLDecoder</code> utility class in the Java SDK. Other
-  /// languages and SDKs provide similar functionality.
+  /// languages and SDKs provide similar functionality, and some SDKs do this
+  /// decoding automatically.
   /// </note>
-  /// To list the available versions for a policy, use
-  /// <a>ListPolicyVersions</a>.
+  /// To list the available versions for a policy, use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListPolicyVersions.html">ListPolicyVersions</a>.
   ///
   /// This operation retrieves information about managed policies. To retrieve
   /// information about an inline policy that is embedded in a user, group, or
-  /// role, use <a>GetUserPolicy</a>, <a>GetGroupPolicy</a>, or
-  /// <a>GetRolePolicy</a>.
+  /// role, use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetUserPolicy.html">GetUserPolicy</a>,
+  /// <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetGroupPolicy.html">GetGroupPolicy</a>,
+  /// or <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetRolePolicy.html">GetRolePolicy</a>.
   ///
   /// For more information about the types of policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
@@ -3988,8 +4644,8 @@ class Iam {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning
   /// for managed policies</a> in the <i>IAM User Guide</i>.
   ///
-  /// May throw [NoSuchEntityException].
   /// May throw [InvalidInputException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [policyArn] :
@@ -4040,7 +4696,8 @@ class Iam {
   /// decoding method to convert the policy back to plain JSON text. For
   /// example, if you use Java, you can use the <code>decode</code> method of
   /// the <code>java.net.URLDecoder</code> utility class in the Java SDK. Other
-  /// languages and SDKs provide similar functionality.
+  /// languages and SDKs provide similar functionality, and some SDKs do this
+  /// decoding automatically.
   /// </note>
   ///
   /// May throw [NoSuchEntityException].
@@ -4079,12 +4736,15 @@ class Iam {
   /// decoding method to convert the policy back to plain JSON text. For
   /// example, if you use Java, you can use the <code>decode</code> method of
   /// the <code>java.net.URLDecoder</code> utility class in the Java SDK. Other
-  /// languages and SDKs provide similar functionality.
+  /// languages and SDKs provide similar functionality, and some SDKs do this
+  /// decoding automatically.
   /// </note>
   /// An IAM role can also have managed policies attached to it. To retrieve a
-  /// managed policy document that is attached to a role, use <a>GetPolicy</a>
-  /// to determine the policy's default version, then use
-  /// <a>GetPolicyVersion</a> to retrieve the policy document.
+  /// managed policy document that is attached to a role, use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicy.html">GetPolicy</a>
+  /// to determine the policy's default version, then use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicyVersion.html">GetPolicyVersion</a>
+  /// to retrieve the policy document.
   ///
   /// For more information about policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
@@ -4140,8 +4800,8 @@ class Iam {
   /// Version 4</a>.
   /// </note>
   ///
-  /// May throw [NoSuchEntityException].
   /// May throw [InvalidInputException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [sAMLProviderArn] :
@@ -4168,59 +4828,6 @@ class Iam {
       resultWrapper: 'GetSAMLProviderResult',
     );
     return GetSAMLProviderResponse.fromXml($result);
-  }
-
-  /// Retrieves the specified SSH public key, including metadata about the key.
-  ///
-  /// The SSH public key retrieved by this operation is used only for
-  /// authenticating the associated IAM user to an CodeCommit repository. For
-  /// more information about using SSH keys to authenticate to an CodeCommit
-  /// repository, see <a
-  /// href="https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html">Set
-  /// up CodeCommit for SSH connections</a> in the <i>CodeCommit User Guide</i>.
-  ///
-  /// May throw [NoSuchEntityException].
-  /// May throw [UnrecognizedPublicKeyEncodingException].
-  ///
-  /// Parameter [encoding] :
-  /// Specifies the public key encoding format to use in the response. To
-  /// retrieve the public key in ssh-rsa format, use <code>SSH</code>. To
-  /// retrieve the public key in PEM format, use <code>PEM</code>.
-  ///
-  /// Parameter [sSHPublicKeyId] :
-  /// The unique identifier for the SSH public key.
-  ///
-  /// This parameter allows (through its <a
-  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
-  /// characters that can consist of any upper or lowercased letter or digit.
-  ///
-  /// Parameter [userName] :
-  /// The name of the IAM user associated with the SSH public key.
-  ///
-  /// This parameter allows (through its <a
-  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
-  /// characters consisting of upper and lowercase alphanumeric characters with
-  /// no spaces. You can also include any of the following characters: _+=,.@-
-  Future<GetSSHPublicKeyResponse> getSSHPublicKey({
-    required EncodingType encoding,
-    required String sSHPublicKeyId,
-    required String userName,
-  }) async {
-    final $request = <String, String>{
-      'Encoding': encoding.value,
-      'SSHPublicKeyId': sSHPublicKeyId,
-      'UserName': userName,
-    };
-    final $result = await _protocol.send(
-      $request,
-      action: 'GetSSHPublicKey',
-      version: '2010-05-08',
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      resultWrapper: 'GetSSHPublicKeyResult',
-    );
-    return GetSSHPublicKeyResponse.fromXml($result);
   }
 
   /// Retrieves information about the specified server certificate stored in
@@ -4318,13 +4925,13 @@ class Iam {
   /// permissions using service last accessed data</a> in the <i>IAM User
   /// Guide</i>.
   ///
-  /// May throw [NoSuchEntityException].
   /// May throw [InvalidInputException].
+  /// May throw [NoSuchEntityException].
   ///
   /// Parameter [jobId] :
-  /// The ID of the request generated by the
-  /// <a>GenerateServiceLastAccessedDetails</a> operation. The
-  /// <code>JobId</code> returned by
+  /// The ID of the request generated by the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GenerateServiceLastAccessedDetails.html">GenerateServiceLastAccessedDetails</a>
+  /// operation. The <code>JobId</code> returned by
   /// <code>GenerateServiceLastAccessedDetail</code> must be used by the same
   /// role within a session, or by the same user when used to call
   /// <code>GetServiceLastAccessedDetail</code>.
@@ -4404,8 +5011,8 @@ class Iam {
   /// By default, the list of associated entities is sorted by date, with the
   /// most recent access listed first.
   ///
-  /// May throw [NoSuchEntityException].
   /// May throw [InvalidInputException].
+  /// May throw [NoSuchEntityException].
   ///
   /// Parameter [jobId] :
   /// The ID of the request generated by the
@@ -4424,7 +5031,7 @@ class Iam {
   /// example, <code>(service prefix: a4b)</code>. For more information about
   /// service namespaces, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">Amazon
-  /// Web Services service namespaces</a> in the <i>Amazon Web Services General
+  /// Web Services service namespaces</a> in the <i>Amazon Web Services General
   /// Reference</i>.
   ///
   /// Parameter [marker] :
@@ -4477,20 +5084,23 @@ class Iam {
   }
 
   /// Retrieves the status of your service-linked role deletion. After you use
-  /// <a>DeleteServiceLinkedRole</a> to submit a service-linked role for
-  /// deletion, you can use the <code>DeletionTaskId</code> parameter in
+  /// <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteServiceLinkedRole.html">DeleteServiceLinkedRole</a>
+  /// to submit a service-linked role for deletion, you can use the
+  /// <code>DeletionTaskId</code> parameter in
   /// <code>GetServiceLinkedRoleDeletionStatus</code> to check the status of the
   /// deletion. If the deletion fails, this operation returns the reason that it
   /// failed, if that information is returned by the service.
   ///
-  /// May throw [NoSuchEntityException].
   /// May throw [InvalidInputException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [deletionTaskId] :
-  /// The deletion task identifier. This identifier is returned by the
-  /// <a>DeleteServiceLinkedRole</a> operation in the format
-  /// <code>task/aws-service-role/&lt;service-principal-name&gt;/&lt;role-name&gt;/&lt;task-uuid&gt;</code>.
+  /// The deletion task identifier. This identifier is returned by the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteServiceLinkedRole.html">DeleteServiceLinkedRole</a>
+  /// operation in the format
+  /// <code>task/aws-service-role/<service-principal-name>/<role-name>/<task-uuid></code>.
   Future<GetServiceLinkedRoleDeletionStatusResponse>
       getServiceLinkedRoleDeletionStatus({
     required String deletionTaskId,
@@ -4508,6 +5118,59 @@ class Iam {
       resultWrapper: 'GetServiceLinkedRoleDeletionStatusResult',
     );
     return GetServiceLinkedRoleDeletionStatusResponse.fromXml($result);
+  }
+
+  /// Retrieves the specified SSH public key, including metadata about the key.
+  ///
+  /// The SSH public key retrieved by this operation is used only for
+  /// authenticating the associated IAM user to an CodeCommit repository. For
+  /// more information about using SSH keys to authenticate to an CodeCommit
+  /// repository, see <a
+  /// href="https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html">Set
+  /// up CodeCommit for SSH connections</a> in the <i>CodeCommit User Guide</i>.
+  ///
+  /// May throw [NoSuchEntityException].
+  /// May throw [UnrecognizedPublicKeyEncodingException].
+  ///
+  /// Parameter [encoding] :
+  /// Specifies the public key encoding format to use in the response. To
+  /// retrieve the public key in ssh-rsa format, use <code>SSH</code>. To
+  /// retrieve the public key in PEM format, use <code>PEM</code>.
+  ///
+  /// Parameter [sSHPublicKeyId] :
+  /// The unique identifier for the SSH public key.
+  ///
+  /// This parameter allows (through its <a
+  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
+  /// characters that can consist of any upper or lowercased letter or digit.
+  ///
+  /// Parameter [userName] :
+  /// The name of the IAM user associated with the SSH public key.
+  ///
+  /// This parameter allows (through its <a
+  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
+  /// characters consisting of upper and lowercase alphanumeric characters with
+  /// no spaces. You can also include any of the following characters: _+=,.@-
+  Future<GetSSHPublicKeyResponse> getSSHPublicKey({
+    required EncodingType encoding,
+    required String sSHPublicKeyId,
+    required String userName,
+  }) async {
+    final $request = <String, String>{
+      'Encoding': encoding.value,
+      'SSHPublicKeyId': sSHPublicKeyId,
+      'UserName': userName,
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'GetSSHPublicKey',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'GetSSHPublicKeyResult',
+    );
+    return GetSSHPublicKeyResponse.fromXml($result);
   }
 
   /// Retrieves information about the specified IAM user, including the user's
@@ -4554,12 +5217,15 @@ class Iam {
   /// decoding method to convert the policy back to plain JSON text. For
   /// example, if you use Java, you can use the <code>decode</code> method of
   /// the <code>java.net.URLDecoder</code> utility class in the Java SDK. Other
-  /// languages and SDKs provide similar functionality.
+  /// languages and SDKs provide similar functionality, and some SDKs do this
+  /// decoding automatically.
   /// </note>
   /// An IAM user can also have managed policies attached to it. To retrieve a
-  /// managed policy document that is attached to a user, use <a>GetPolicy</a>
-  /// to determine the policy's default version. Then use
-  /// <a>GetPolicyVersion</a> to retrieve the policy document.
+  /// managed policy document that is attached to a user, use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicy.html">GetPolicy</a>
+  /// to determine the policy's default version. Then use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicyVersion.html">GetPolicyVersion</a>
+  /// to retrieve the policy document.
   ///
   /// For more information about policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
@@ -4737,8 +5403,9 @@ class Iam {
   /// Lists all managed policies that are attached to the specified IAM group.
   ///
   /// An IAM group can also have inline policies embedded with it. To list the
-  /// inline policies for a group, use <a>ListGroupPolicies</a>. For information
-  /// about policies, see <a
+  /// inline policies for a group, use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListGroupPolicies.html">ListGroupPolicies</a>.
+  /// For information about policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
   /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
@@ -4749,8 +5416,8 @@ class Iam {
   /// group (or none that match the specified path prefix), the operation
   /// returns an empty list.
   ///
-  /// May throw [NoSuchEntityException].
   /// May throw [InvalidInputException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [groupName] :
@@ -4825,8 +5492,9 @@ class Iam {
   /// Lists all managed policies that are attached to the specified IAM role.
   ///
   /// An IAM role can also have inline policies embedded with it. To list the
-  /// inline policies for a role, use <a>ListRolePolicies</a>. For information
-  /// about policies, see <a
+  /// inline policies for a role, use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListRolePolicies.html">ListRolePolicies</a>.
+  /// For information about policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
   /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
@@ -4837,8 +5505,8 @@ class Iam {
   /// role (or none that match the specified path prefix), the operation returns
   /// an empty list.
   ///
-  /// May throw [NoSuchEntityException].
   /// May throw [InvalidInputException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [roleName] :
@@ -4913,8 +5581,9 @@ class Iam {
   /// Lists all managed policies that are attached to the specified IAM user.
   ///
   /// An IAM user can also have inline policies embedded with it. To list the
-  /// inline policies for a user, use <a>ListUserPolicies</a>. For information
-  /// about policies, see <a
+  /// inline policies for a user, use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListUserPolicies.html">ListUserPolicies</a>.
+  /// For information about policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
   /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
@@ -4925,8 +5594,8 @@ class Iam {
   /// group (or none that match the specified path prefix), the operation
   /// returns an empty list.
   ///
-  /// May throw [NoSuchEntityException].
   /// May throw [InvalidInputException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [userName] :
@@ -4998,6 +5667,69 @@ class Iam {
     return ListAttachedUserPoliciesResponse.fromXml($result);
   }
 
+  /// Lists delegation requests based on the specified criteria.
+  ///
+  /// If a delegation request has no owner, even if it is assigned to a specific
+  /// account, it will not be part of the <code>ListDelegationRequests</code>
+  /// output for that account.
+  ///
+  /// For more details, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-temporary-delegation.html#temporary-delegation-managing-permissions">
+  /// Managing Permissions for Delegation Requests</a>.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [NoSuchEntityException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [marker] :
+  /// Use this parameter only when paginating results and only after you receive
+  /// a response indicating that the results are truncated. Set it to the value
+  /// of the <code>Marker</code> element in the response that you received to
+  /// indicate where the next call should start.
+  ///
+  /// Parameter [maxItems] :
+  /// Use this only when paginating results to indicate the maximum number of
+  /// items you want in the response. If additional items exist beyond the
+  /// maximum you specify, the <code>IsTruncated</code> response element is
+  /// <code>true</code>.
+  ///
+  /// If you do not include this parameter, the number of items defaults to 100.
+  /// Note that IAM may return fewer results, even when there are more results
+  /// available. In that case, the <code>IsTruncated</code> response element
+  /// returns <code>true</code>, and <code>Marker</code> contains a value to
+  /// include in the subsequent call that tells the service where to continue
+  /// from.
+  ///
+  /// Parameter [ownerId] :
+  /// The owner ID to filter delegation requests by.
+  Future<ListDelegationRequestsResponse> listDelegationRequests({
+    String? marker,
+    int? maxItems,
+    String? ownerId,
+  }) async {
+    _s.validateNumRange(
+      'maxItems',
+      maxItems,
+      1,
+      1000,
+    );
+    final $request = <String, String>{
+      if (marker != null) 'Marker': marker,
+      if (maxItems != null) 'MaxItems': maxItems.toString(),
+      if (ownerId != null) 'OwnerId': ownerId,
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'ListDelegationRequests',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'ListDelegationRequestsResult',
+    );
+    return ListDelegationRequestsResponse.fromXml($result);
+  }
+
   /// Lists all IAM users, groups, and roles that the specified managed policy
   /// is attached to.
   ///
@@ -5009,8 +5741,8 @@ class Iam {
   /// You can paginate the results using the <code>MaxItems</code> and
   /// <code>Marker</code> parameters.
   ///
-  /// May throw [NoSuchEntityException].
   /// May throw [InvalidInputException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [policyArn] :
@@ -5065,10 +5797,9 @@ class Iam {
   /// Parameter [policyUsageFilter] :
   /// The policy usage method to use for filtering the results.
   ///
-  /// To list only permissions policies,
-  /// set <code>PolicyUsageFilter</code> to <code>PermissionsPolicy</code>. To
-  /// list only the policies used to set permissions boundaries, set the value
-  /// to <code>PermissionsBoundary</code>.
+  /// To list only permissions policies, set <code>PolicyUsageFilter</code> to
+  /// <code>PermissionsPolicy</code>. To list only the policies used to set
+  /// permissions boundaries, set the value to <code>PermissionsBoundary</code>.
   ///
   /// This parameter is optional. If it is not included, all policies are
   /// returned.
@@ -5111,9 +5842,9 @@ class Iam {
   /// IAM group.
   ///
   /// An IAM group can also have managed policies attached to it. To list the
-  /// managed policies that are attached to a group, use
-  /// <a>ListAttachedGroupPolicies</a>. For more information about policies, see
-  /// <a
+  /// managed policies that are attached to a group, use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAttachedGroupPolicies.html">ListAttachedGroupPolicies</a>.
+  /// For more information about policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
   /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
@@ -5307,69 +6038,6 @@ class Iam {
     return ListGroupsForUserResponse.fromXml($result);
   }
 
-  /// Lists the tags that are attached to the specified IAM instance profile.
-  /// The returned list of tags is sorted by tag key. For more information about
-  /// tagging, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
-  /// IAM resources</a> in the <i>IAM User Guide</i>.
-  ///
-  /// May throw [NoSuchEntityException].
-  /// May throw [ServiceFailureException].
-  ///
-  /// Parameter [instanceProfileName] :
-  /// The name of the IAM instance profile whose tags you want to see.
-  ///
-  /// This parameter allows (through its <a
-  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
-  /// characters consisting of upper and lowercase alphanumeric characters with
-  /// no spaces. You can also include any of the following characters: _+=,.@-
-  ///
-  /// Parameter [marker] :
-  /// Use this parameter only when paginating results and only after you receive
-  /// a response indicating that the results are truncated. Set it to the value
-  /// of the <code>Marker</code> element in the response that you received to
-  /// indicate where the next call should start.
-  ///
-  /// Parameter [maxItems] :
-  /// Use this only when paginating results to indicate the maximum number of
-  /// items you want in the response. If additional items exist beyond the
-  /// maximum you specify, the <code>IsTruncated</code> response element is
-  /// <code>true</code>.
-  ///
-  /// If you do not include this parameter, the number of items defaults to 100.
-  /// Note that IAM might return fewer results, even when there are more results
-  /// available. In that case, the <code>IsTruncated</code> response element
-  /// returns <code>true</code>, and <code>Marker</code> contains a value to
-  /// include in the subsequent call that tells the service where to continue
-  /// from.
-  Future<ListInstanceProfileTagsResponse> listInstanceProfileTags({
-    required String instanceProfileName,
-    String? marker,
-    int? maxItems,
-  }) async {
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      1000,
-    );
-    final $request = <String, String>{
-      'InstanceProfileName': instanceProfileName,
-      if (marker != null) 'Marker': marker,
-      if (maxItems != null) 'MaxItems': maxItems.toString(),
-    };
-    final $result = await _protocol.send(
-      $request,
-      action: 'ListInstanceProfileTags',
-      version: '2010-05-08',
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      resultWrapper: 'ListInstanceProfileTagsResult',
-    );
-    return ListInstanceProfileTagsResponse.fromXml($result);
-  }
-
   /// Lists the instance profiles that have the specified path prefix. If there
   /// are none, the operation returns an empty list. For more information about
   /// instance profiles, see <a
@@ -5379,8 +6047,8 @@ class Iam {
   /// IAM resource-listing operations return a subset of the available
   /// attributes for the resource. For example, this operation does not return
   /// tags, even though they are an attribute of the returned object. To view
-  /// all of the information for an instance profile, see
-  /// <a>GetInstanceProfile</a>.
+  /// all of the information for an instance profile, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetInstanceProfile.html">GetInstanceProfile</a>.
   /// </note>
   /// You can paginate the results using the <code>MaxItems</code> and
   /// <code>Marker</code> parameters.
@@ -5513,19 +6181,17 @@ class Iam {
     return ListInstanceProfilesForRoleResponse.fromXml($result);
   }
 
-  /// Lists the tags that are attached to the specified IAM virtual multi-factor
-  /// authentication (MFA) device. The returned list of tags is sorted by tag
-  /// key. For more information about tagging, see <a
+  /// Lists the tags that are attached to the specified IAM instance profile.
+  /// The returned list of tags is sorted by tag key. For more information about
+  /// tagging, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
   /// IAM resources</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
-  /// May throw [InvalidInputException].
   /// May throw [ServiceFailureException].
   ///
-  /// Parameter [serialNumber] :
-  /// The unique identifier for the IAM virtual MFA device whose tags you want
-  /// to see. For virtual MFA devices, the serial number is the same as the ARN.
+  /// Parameter [instanceProfileName] :
+  /// The name of the IAM instance profile whose tags you want to see.
   ///
   /// This parameter allows (through its <a
   /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
@@ -5550,8 +6216,8 @@ class Iam {
   /// returns <code>true</code>, and <code>Marker</code> contains a value to
   /// include in the subsequent call that tells the service where to continue
   /// from.
-  Future<ListMFADeviceTagsResponse> listMFADeviceTags({
-    required String serialNumber,
+  Future<ListInstanceProfileTagsResponse> listInstanceProfileTags({
+    required String instanceProfileName,
     String? marker,
     int? maxItems,
   }) async {
@@ -5562,20 +6228,20 @@ class Iam {
       1000,
     );
     final $request = <String, String>{
-      'SerialNumber': serialNumber,
+      'InstanceProfileName': instanceProfileName,
       if (marker != null) 'Marker': marker,
       if (maxItems != null) 'MaxItems': maxItems.toString(),
     };
     final $result = await _protocol.send(
       $request,
-      action: 'ListMFADeviceTags',
+      action: 'ListInstanceProfileTags',
       version: '2010-05-08',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      resultWrapper: 'ListMFADeviceTagsResult',
+      resultWrapper: 'ListInstanceProfileTagsResult',
     );
-    return ListMFADeviceTagsResponse.fromXml($result);
+    return ListInstanceProfileTagsResponse.fromXml($result);
   }
 
   /// Lists the MFA devices for an IAM user. If the request includes a IAM user
@@ -5644,6 +6310,97 @@ class Iam {
     return ListMFADevicesResponse.fromXml($result);
   }
 
+  /// Lists the tags that are attached to the specified IAM virtual multi-factor
+  /// authentication (MFA) device. The returned list of tags is sorted by tag
+  /// key. For more information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [NoSuchEntityException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [serialNumber] :
+  /// The unique identifier for the IAM virtual MFA device whose tags you want
+  /// to see. For virtual MFA devices, the serial number is the same as the ARN.
+  ///
+  /// This parameter allows (through its <a
+  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
+  /// characters consisting of upper and lowercase alphanumeric characters with
+  /// no spaces. You can also include any of the following characters: _+=,.@-
+  ///
+  /// Parameter [marker] :
+  /// Use this parameter only when paginating results and only after you receive
+  /// a response indicating that the results are truncated. Set it to the value
+  /// of the <code>Marker</code> element in the response that you received to
+  /// indicate where the next call should start.
+  ///
+  /// Parameter [maxItems] :
+  /// Use this only when paginating results to indicate the maximum number of
+  /// items you want in the response. If additional items exist beyond the
+  /// maximum you specify, the <code>IsTruncated</code> response element is
+  /// <code>true</code>.
+  ///
+  /// If you do not include this parameter, the number of items defaults to 100.
+  /// Note that IAM might return fewer results, even when there are more results
+  /// available. In that case, the <code>IsTruncated</code> response element
+  /// returns <code>true</code>, and <code>Marker</code> contains a value to
+  /// include in the subsequent call that tells the service where to continue
+  /// from.
+  Future<ListMFADeviceTagsResponse> listMFADeviceTags({
+    required String serialNumber,
+    String? marker,
+    int? maxItems,
+  }) async {
+    _s.validateNumRange(
+      'maxItems',
+      maxItems,
+      1,
+      1000,
+    );
+    final $request = <String, String>{
+      'SerialNumber': serialNumber,
+      if (marker != null) 'Marker': marker,
+      if (maxItems != null) 'MaxItems': maxItems.toString(),
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'ListMFADeviceTags',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'ListMFADeviceTagsResult',
+    );
+    return ListMFADeviceTagsResponse.fromXml($result);
+  }
+
+  /// Lists information about the IAM OpenID Connect (OIDC) provider resource
+  /// objects defined in the Amazon Web Services account.
+  /// <note>
+  /// IAM resource-listing operations return a subset of the available
+  /// attributes for the resource. For example, this operation does not return
+  /// tags, even though they are an attribute of the returned object. To view
+  /// all of the information for an OIDC provider, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetOpenIDConnectProvider.html">GetOpenIDConnectProvider</a>.
+  /// </note>
+  ///
+  /// May throw [ServiceFailureException].
+  Future<ListOpenIDConnectProvidersResponse>
+      listOpenIDConnectProviders() async {
+    final $request = <String, String>{};
+    final $result = await _protocol.send(
+      $request,
+      action: 'ListOpenIDConnectProviders',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'ListOpenIDConnectProvidersResult',
+    );
+    return ListOpenIDConnectProvidersResponse.fromXml($result);
+  }
+
   /// Lists the tags that are attached to the specified OpenID Connect
   /// (OIDC)-compatible identity provider. The returned list of tags is sorted
   /// by tag key. For more information, see <a
@@ -5654,9 +6411,9 @@ class Iam {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
   /// IAM resources</a> in the <i>IAM User Guide</i>.
   ///
+  /// May throw [InvalidInputException].
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
-  /// May throw [InvalidInputException].
   ///
   /// Parameter [openIDConnectProviderArn] :
   /// The ARN of the OpenID Connect (OIDC) identity provider whose tags you want
@@ -5713,30 +6470,27 @@ class Iam {
     return ListOpenIDConnectProviderTagsResponse.fromXml($result);
   }
 
-  /// Lists information about the IAM OpenID Connect (OIDC) provider resource
-  /// objects defined in the Amazon Web Services account.
-  /// <note>
-  /// IAM resource-listing operations return a subset of the available
-  /// attributes for the resource. For example, this operation does not return
-  /// tags, even though they are an attribute of the returned object. To view
-  /// all of the information for an OIDC provider, see
-  /// <a>GetOpenIDConnectProvider</a>.
-  /// </note>
+  /// Lists the centralized root access features enabled for your organization.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html#id_root-user-access-management">Centrally
+  /// manage root access for member accounts</a>.
   ///
-  /// May throw [ServiceFailureException].
-  Future<ListOpenIDConnectProvidersResponse>
-      listOpenIDConnectProviders() async {
+  /// May throw [AccountNotManagementOrDelegatedAdministratorException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationNotInAllFeaturesModeException].
+  /// May throw [ServiceAccessNotEnabledException].
+  Future<ListOrganizationsFeaturesResponse> listOrganizationsFeatures() async {
     final $request = <String, String>{};
     final $result = await _protocol.send(
       $request,
-      action: 'ListOpenIDConnectProviders',
+      action: 'ListOrganizationsFeatures',
       version: '2010-05-08',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      resultWrapper: 'ListOpenIDConnectProvidersResult',
+      resultWrapper: 'ListOrganizationsFeaturesResult',
     );
-    return ListOpenIDConnectProvidersResponse.fromXml($result);
+    return ListOrganizationsFeaturesResponse.fromXml($result);
   }
 
   /// Lists all the managed policies that are available in your Amazon Web
@@ -5760,7 +6514,8 @@ class Iam {
   /// IAM resource-listing operations return a subset of the available
   /// attributes for the resource. For example, this operation does not return
   /// tags, even though they are an attribute of the returned object. To view
-  /// all of the information for a customer manged policy, see <a>GetPolicy</a>.
+  /// all of the information for a customer manged policy, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicy.html">GetPolicy</a>.
   /// </note>
   ///
   /// May throw [ServiceFailureException].
@@ -5806,10 +6561,9 @@ class Iam {
   /// Parameter [policyUsageFilter] :
   /// The policy usage method to use for filtering the results.
   ///
-  /// To list only permissions policies,
-  /// set <code>PolicyUsageFilter</code> to <code>PermissionsPolicy</code>. To
-  /// list only the policies used to set permissions boundaries, set the value
-  /// to <code>PermissionsBoundary</code>.
+  /// To list only permissions policies, set <code>PolicyUsageFilter</code> to
+  /// <code>PermissionsPolicy</code>. To list only the policies used to set
+  /// permissions boundaries, set the value to <code>PermissionsBoundary</code>.
   ///
   /// This parameter is optional. If it is not included, all policies are
   /// returned.
@@ -5899,11 +6653,14 @@ class Iam {
   ///
   /// Policies that are attached to users and roles as permissions boundaries
   /// are not returned. To view which managed policy is currently used to set
-  /// the permissions boundary for a user or role, use the <a>GetUser</a> or
-  /// <a>GetRole</a> operations.
+  /// the permissions boundary for a user or role, use the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetUser.html">GetUser</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetRole.html">GetRole</a>
+  /// operations.
   ///
-  /// May throw [NoSuchEntityException].
   /// May throw [InvalidInputException].
+  /// May throw [NoSuchEntityException].
   ///
   /// Parameter [arn] :
   /// The ARN of the IAM identity (user, group, or role) whose policies you want
@@ -5921,7 +6678,7 @@ class Iam {
   /// example, <code>(service prefix: a4b)</code>. For more information about
   /// service namespaces, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">Amazon
-  /// Web Services service namespaces</a> in the <i>Amazon Web Services General
+  /// Web Services service namespaces</a> in the <i>Amazon Web Services General
   /// Reference</i>.
   ///
   /// Parameter [marker] :
@@ -5962,9 +6719,9 @@ class Iam {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
   /// IAM resources</a> in the <i>IAM User Guide</i>.
   ///
+  /// May throw [InvalidInputException].
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
-  /// May throw [InvalidInputException].
   ///
   /// Parameter [policyArn] :
   /// The ARN of the IAM customer managed policy whose tags you want to see.
@@ -6028,8 +6785,8 @@ class Iam {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
   /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
-  /// May throw [NoSuchEntityException].
   /// May throw [InvalidInputException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [policyArn] :
@@ -6091,9 +6848,9 @@ class Iam {
   /// IAM role.
   ///
   /// An IAM role can also have managed policies attached to it. To list the
-  /// managed policies that are attached to a role, use
-  /// <a>ListAttachedRolePolicies</a>. For more information about policies, see
-  /// <a
+  /// managed policies that are attached to a role, use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAttachedRolePolicies.html">ListAttachedRolePolicies</a>.
+  /// For more information about policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
   /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
@@ -6158,69 +6915,6 @@ class Iam {
     return ListRolePoliciesResponse.fromXml($result);
   }
 
-  /// Lists the tags that are attached to the specified role. The returned list
-  /// of tags is sorted by tag key. For more information about tagging, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
-  /// IAM resources</a> in the <i>IAM User Guide</i>.
-  ///
-  /// May throw [NoSuchEntityException].
-  /// May throw [ServiceFailureException].
-  ///
-  /// Parameter [roleName] :
-  /// The name of the IAM role for which you want to see the list of tags.
-  ///
-  /// This parameter accepts (through its <a
-  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
-  /// characters that consist of upper and lowercase alphanumeric characters
-  /// with no spaces. You can also include any of the following characters:
-  /// _+=,.@-
-  ///
-  /// Parameter [marker] :
-  /// Use this parameter only when paginating results and only after you receive
-  /// a response indicating that the results are truncated. Set it to the value
-  /// of the <code>Marker</code> element in the response that you received to
-  /// indicate where the next call should start.
-  ///
-  /// Parameter [maxItems] :
-  /// Use this only when paginating results to indicate the maximum number of
-  /// items you want in the response. If additional items exist beyond the
-  /// maximum you specify, the <code>IsTruncated</code> response element is
-  /// <code>true</code>.
-  ///
-  /// If you do not include this parameter, the number of items defaults to 100.
-  /// Note that IAM might return fewer results, even when there are more results
-  /// available. In that case, the <code>IsTruncated</code> response element
-  /// returns <code>true</code>, and <code>Marker</code> contains a value to
-  /// include in the subsequent call that tells the service where to continue
-  /// from.
-  Future<ListRoleTagsResponse> listRoleTags({
-    required String roleName,
-    String? marker,
-    int? maxItems,
-  }) async {
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      1000,
-    );
-    final $request = <String, String>{
-      'RoleName': roleName,
-      if (marker != null) 'Marker': marker,
-      if (maxItems != null) 'MaxItems': maxItems.toString(),
-    };
-    final $result = await _protocol.send(
-      $request,
-      action: 'ListRoleTags',
-      version: '2010-05-08',
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      resultWrapper: 'ListRoleTagsResult',
-    );
-    return ListRoleTagsResponse.fromXml($result);
-  }
-
   /// Lists the IAM roles that have the specified path prefix. If there are
   /// none, the operation returns an empty list. For more information about
   /// roles, see <a
@@ -6242,7 +6936,8 @@ class Iam {
   /// Tags
   /// </li>
   /// </ul>
-  /// To view all of the information for a role, see <a>GetRole</a>.
+  /// To view all of the information for a role, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetRole.html">GetRole</a>.
   /// </note>
   /// You can paginate the results using the <code>MaxItems</code> and
   /// <code>Marker</code> parameters.
@@ -6309,6 +7004,96 @@ class Iam {
     return ListRolesResponse.fromXml($result);
   }
 
+  /// Lists the tags that are attached to the specified role. The returned list
+  /// of tags is sorted by tag key. For more information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  ///
+  /// May throw [NoSuchEntityException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [roleName] :
+  /// The name of the IAM role for which you want to see the list of tags.
+  ///
+  /// This parameter accepts (through its <a
+  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
+  /// characters that consist of upper and lowercase alphanumeric characters
+  /// with no spaces. You can also include any of the following characters:
+  /// _+=,.@-
+  ///
+  /// Parameter [marker] :
+  /// Use this parameter only when paginating results and only after you receive
+  /// a response indicating that the results are truncated. Set it to the value
+  /// of the <code>Marker</code> element in the response that you received to
+  /// indicate where the next call should start.
+  ///
+  /// Parameter [maxItems] :
+  /// Use this only when paginating results to indicate the maximum number of
+  /// items you want in the response. If additional items exist beyond the
+  /// maximum you specify, the <code>IsTruncated</code> response element is
+  /// <code>true</code>.
+  ///
+  /// If you do not include this parameter, the number of items defaults to 100.
+  /// Note that IAM might return fewer results, even when there are more results
+  /// available. In that case, the <code>IsTruncated</code> response element
+  /// returns <code>true</code>, and <code>Marker</code> contains a value to
+  /// include in the subsequent call that tells the service where to continue
+  /// from.
+  Future<ListRoleTagsResponse> listRoleTags({
+    required String roleName,
+    String? marker,
+    int? maxItems,
+  }) async {
+    _s.validateNumRange(
+      'maxItems',
+      maxItems,
+      1,
+      1000,
+    );
+    final $request = <String, String>{
+      'RoleName': roleName,
+      if (marker != null) 'Marker': marker,
+      if (maxItems != null) 'MaxItems': maxItems.toString(),
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'ListRoleTags',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'ListRoleTagsResult',
+    );
+    return ListRoleTagsResponse.fromXml($result);
+  }
+
+  /// Lists the SAML provider resource objects defined in IAM in the account.
+  /// IAM resource-listing operations return a subset of the available
+  /// attributes for the resource. For example, this operation does not return
+  /// tags, even though they are an attribute of the returned object. To view
+  /// all of the information for a SAML provider, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetSAMLProvider.html">GetSAMLProvider</a>.
+  /// <important>
+  /// This operation requires <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
+  /// Version 4</a>.
+  /// </important>
+  ///
+  /// May throw [ServiceFailureException].
+  Future<ListSAMLProvidersResponse> listSAMLProviders() async {
+    final $request = <String, String>{};
+    final $result = await _protocol.send(
+      $request,
+      action: 'ListSAMLProviders',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'ListSAMLProvidersResult',
+    );
+    return ListSAMLProvidersResponse.fromXml($result);
+  }
+
   /// Lists the tags that are attached to the specified Security Assertion
   /// Markup Language (SAML) identity provider. The returned list of tags is
   /// sorted by tag key. For more information, see <a
@@ -6319,9 +7104,9 @@ class Iam {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
   /// IAM resources</a> in the <i>IAM User Guide</i>.
   ///
+  /// May throw [InvalidInputException].
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
-  /// May throw [InvalidInputException].
   ///
   /// Parameter [sAMLProviderArn] :
   /// The ARN of the Security Assertion Markup Language (SAML) identity provider
@@ -6378,47 +7163,26 @@ class Iam {
     return ListSAMLProviderTagsResponse.fromXml($result);
   }
 
-  /// Lists the SAML provider resource objects defined in IAM in the account.
+  /// Lists the server certificates stored in IAM that have the specified path
+  /// prefix. If none exist, the operation returns an empty list.
+  ///
+  /// You can paginate the results using the <code>MaxItems</code> and
+  /// <code>Marker</code> parameters.
+  ///
+  /// For more information about working with server certificates, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html">Working
+  /// with server certificates</a> in the <i>IAM User Guide</i>. This topic also
+  /// includes a list of Amazon Web Services services that can use the server
+  /// certificates that you manage with IAM.
+  /// <note>
   /// IAM resource-listing operations return a subset of the available
   /// attributes for the resource. For example, this operation does not return
   /// tags, even though they are an attribute of the returned object. To view
-  /// all of the information for a SAML provider, see <a>GetSAMLProvider</a>.
-  /// <important>
-  /// This operation requires <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
-  /// Version 4</a>.
-  /// </important>
+  /// all of the information for a servercertificate, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServerCertificate.html">GetServerCertificate</a>.
+  /// </note>
   ///
   /// May throw [ServiceFailureException].
-  Future<ListSAMLProvidersResponse> listSAMLProviders() async {
-    final $request = <String, String>{};
-    final $result = await _protocol.send(
-      $request,
-      action: 'ListSAMLProviders',
-      version: '2010-05-08',
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      resultWrapper: 'ListSAMLProvidersResult',
-    );
-    return ListSAMLProvidersResponse.fromXml($result);
-  }
-
-  /// Returns information about the SSH public keys associated with the
-  /// specified IAM user. If none exists, the operation returns an empty list.
-  ///
-  /// The SSH public keys returned by this operation are used only for
-  /// authenticating the IAM user to an CodeCommit repository. For more
-  /// information about using SSH keys to authenticate to an CodeCommit
-  /// repository, see <a
-  /// href="https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html">Set
-  /// up CodeCommit for SSH connections</a> in the <i>CodeCommit User Guide</i>.
-  ///
-  /// Although each user is limited to a small number of keys, you can still
-  /// paginate the results using the <code>MaxItems</code> and
-  /// <code>Marker</code> parameters.
-  ///
-  /// May throw [NoSuchEntityException].
   ///
   /// Parameter [marker] :
   /// Use this parameter only when paginating results and only after you receive
@@ -6439,19 +7203,23 @@ class Iam {
   /// include in the subsequent call that tells the service where to continue
   /// from.
   ///
-  /// Parameter [userName] :
-  /// The name of the IAM user to list SSH public keys for. If none is
-  /// specified, the <code>UserName</code> field is determined implicitly based
-  /// on the Amazon Web Services access key used to sign the request.
+  /// Parameter [pathPrefix] :
+  /// The path prefix for filtering the results. For example:
+  /// <code>/company/servercerts</code> would get all server certificates for
+  /// which the path starts with <code>/company/servercerts</code>.
   ///
-  /// This parameter allows (through its <a
-  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
-  /// characters consisting of upper and lowercase alphanumeric characters with
-  /// no spaces. You can also include any of the following characters: _+=,.@-
-  Future<ListSSHPublicKeysResponse> listSSHPublicKeys({
+  /// This parameter is optional. If it is not included, it defaults to a slash
+  /// (/), listing all server certificates. This parameter allows (through its
+  /// <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
+  /// characters consisting of either a forward slash (/) by itself or a string
+  /// that must begin and end with forward slashes. In addition, it can contain
+  /// any ASCII character from the ! (<code>\u0021</code>) through the DEL
+  /// character (<code>\u007F</code>), including most punctuation characters,
+  /// digits, and upper and lowercased letters.
+  Future<ListServerCertificatesResponse> listServerCertificates({
     String? marker,
     int? maxItems,
-    String? userName,
+    String? pathPrefix,
   }) async {
     _s.validateNumRange(
       'maxItems',
@@ -6462,18 +7230,18 @@ class Iam {
     final $request = <String, String>{
       if (marker != null) 'Marker': marker,
       if (maxItems != null) 'MaxItems': maxItems.toString(),
-      if (userName != null) 'UserName': userName,
+      if (pathPrefix != null) 'PathPrefix': pathPrefix,
     };
     final $result = await _protocol.send(
       $request,
-      action: 'ListSSHPublicKeys',
+      action: 'ListServerCertificates',
       version: '2010-05-08',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      resultWrapper: 'ListSSHPublicKeysResult',
+      resultWrapper: 'ListServerCertificatesResult',
     );
-    return ListSSHPublicKeysResponse.fromXml($result);
+    return ListServerCertificatesResponse.fromXml($result);
   }
 
   /// Lists the tags that are attached to the specified IAM server certificate.
@@ -6547,87 +7315,6 @@ class Iam {
     return ListServerCertificateTagsResponse.fromXml($result);
   }
 
-  /// Lists the server certificates stored in IAM that have the specified path
-  /// prefix. If none exist, the operation returns an empty list.
-  ///
-  /// You can paginate the results using the <code>MaxItems</code> and
-  /// <code>Marker</code> parameters.
-  ///
-  /// For more information about working with server certificates, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html">Working
-  /// with server certificates</a> in the <i>IAM User Guide</i>. This topic also
-  /// includes a list of Amazon Web Services services that can use the server
-  /// certificates that you manage with IAM.
-  /// <note>
-  /// IAM resource-listing operations return a subset of the available
-  /// attributes for the resource. For example, this operation does not return
-  /// tags, even though they are an attribute of the returned object. To view
-  /// all of the information for a servercertificate, see
-  /// <a>GetServerCertificate</a>.
-  /// </note>
-  ///
-  /// May throw [ServiceFailureException].
-  ///
-  /// Parameter [marker] :
-  /// Use this parameter only when paginating results and only after you receive
-  /// a response indicating that the results are truncated. Set it to the value
-  /// of the <code>Marker</code> element in the response that you received to
-  /// indicate where the next call should start.
-  ///
-  /// Parameter [maxItems] :
-  /// Use this only when paginating results to indicate the maximum number of
-  /// items you want in the response. If additional items exist beyond the
-  /// maximum you specify, the <code>IsTruncated</code> response element is
-  /// <code>true</code>.
-  ///
-  /// If you do not include this parameter, the number of items defaults to 100.
-  /// Note that IAM might return fewer results, even when there are more results
-  /// available. In that case, the <code>IsTruncated</code> response element
-  /// returns <code>true</code>, and <code>Marker</code> contains a value to
-  /// include in the subsequent call that tells the service where to continue
-  /// from.
-  ///
-  /// Parameter [pathPrefix] :
-  /// The path prefix for filtering the results. For example:
-  /// <code>/company/servercerts</code> would get all server certificates for
-  /// which the path starts with <code>/company/servercerts</code>.
-  ///
-  /// This parameter is optional. If it is not included, it defaults to a slash
-  /// (/), listing all server certificates. This parameter allows (through its
-  /// <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
-  /// characters consisting of either a forward slash (/) by itself or a string
-  /// that must begin and end with forward slashes. In addition, it can contain
-  /// any ASCII character from the ! (<code>\u0021</code>) through the DEL
-  /// character (<code>\u007F</code>), including most punctuation characters,
-  /// digits, and upper and lowercased letters.
-  Future<ListServerCertificatesResponse> listServerCertificates({
-    String? marker,
-    int? maxItems,
-    String? pathPrefix,
-  }) async {
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      1000,
-    );
-    final $request = <String, String>{
-      if (marker != null) 'Marker': marker,
-      if (maxItems != null) 'MaxItems': maxItems.toString(),
-      if (pathPrefix != null) 'PathPrefix': pathPrefix,
-    };
-    final $result = await _protocol.send(
-      $request,
-      action: 'ListServerCertificates',
-      version: '2010-05-08',
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      resultWrapper: 'ListServerCertificatesResult',
-    );
-    return ListServerCertificatesResponse.fromXml($result);
-  }
-
   /// Returns information about the service-specific credentials associated with
   /// the specified IAM user. If none exists, the operation returns an empty
   /// list. The service-specific credentials returned by this operation are used
@@ -6639,6 +7326,22 @@ class Iam {
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceNotSupportedException].
+  ///
+  /// Parameter [allUsers] :
+  /// A flag indicating whether to list service specific credentials for all
+  /// users. This parameter cannot be specified together with UserName. When
+  /// true, returns all credentials associated with the specified service.
+  ///
+  /// Parameter [marker] :
+  /// Use this parameter only when paginating results and only after you receive
+  /// a response indicating that the results are truncated. Set it to the value
+  /// of the Marker from the response that you received to indicate where the
+  /// next call should start.
+  ///
+  /// Parameter [maxItems] :
+  /// Use this only when paginating results to indicate the maximum number of
+  /// items you want in the response. If additional items exist beyond the
+  /// maximum you specify, the IsTruncated response element is true.
   ///
   /// Parameter [serviceName] :
   /// Filters the returned results to only those for the specified Amazon Web
@@ -6656,10 +7359,22 @@ class Iam {
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<ListServiceSpecificCredentialsResponse>
       listServiceSpecificCredentials({
+    bool? allUsers,
+    String? marker,
+    int? maxItems,
     String? serviceName,
     String? userName,
   }) async {
+    _s.validateNumRange(
+      'maxItems',
+      maxItems,
+      1,
+      1000,
+    );
     final $request = <String, String>{
+      if (allUsers != null) 'AllUsers': allUsers.toString(),
+      if (marker != null) 'Marker': marker,
+      if (maxItems != null) 'MaxItems': maxItems.toString(),
       if (serviceName != null) 'ServiceName': serviceName,
       if (userName != null) 'UserName': userName,
     };
@@ -6746,12 +7461,84 @@ class Iam {
     return ListSigningCertificatesResponse.fromXml($result);
   }
 
+  /// Returns information about the SSH public keys associated with the
+  /// specified IAM user. If none exists, the operation returns an empty list.
+  ///
+  /// The SSH public keys returned by this operation are used only for
+  /// authenticating the IAM user to an CodeCommit repository. For more
+  /// information about using SSH keys to authenticate to an CodeCommit
+  /// repository, see <a
+  /// href="https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html">Set
+  /// up CodeCommit for SSH connections</a> in the <i>CodeCommit User Guide</i>.
+  ///
+  /// Although each user is limited to a small number of keys, you can still
+  /// paginate the results using the <code>MaxItems</code> and
+  /// <code>Marker</code> parameters.
+  ///
+  /// May throw [NoSuchEntityException].
+  ///
+  /// Parameter [marker] :
+  /// Use this parameter only when paginating results and only after you receive
+  /// a response indicating that the results are truncated. Set it to the value
+  /// of the <code>Marker</code> element in the response that you received to
+  /// indicate where the next call should start.
+  ///
+  /// Parameter [maxItems] :
+  /// Use this only when paginating results to indicate the maximum number of
+  /// items you want in the response. If additional items exist beyond the
+  /// maximum you specify, the <code>IsTruncated</code> response element is
+  /// <code>true</code>.
+  ///
+  /// If you do not include this parameter, the number of items defaults to 100.
+  /// Note that IAM might return fewer results, even when there are more results
+  /// available. In that case, the <code>IsTruncated</code> response element
+  /// returns <code>true</code>, and <code>Marker</code> contains a value to
+  /// include in the subsequent call that tells the service where to continue
+  /// from.
+  ///
+  /// Parameter [userName] :
+  /// The name of the IAM user to list SSH public keys for. If none is
+  /// specified, the <code>UserName</code> field is determined implicitly based
+  /// on the Amazon Web Services access key used to sign the request.
+  ///
+  /// This parameter allows (through its <a
+  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
+  /// characters consisting of upper and lowercase alphanumeric characters with
+  /// no spaces. You can also include any of the following characters: _+=,.@-
+  Future<ListSSHPublicKeysResponse> listSSHPublicKeys({
+    String? marker,
+    int? maxItems,
+    String? userName,
+  }) async {
+    _s.validateNumRange(
+      'maxItems',
+      maxItems,
+      1,
+      1000,
+    );
+    final $request = <String, String>{
+      if (marker != null) 'Marker': marker,
+      if (maxItems != null) 'MaxItems': maxItems.toString(),
+      if (userName != null) 'UserName': userName,
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'ListSSHPublicKeys',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'ListSSHPublicKeysResult',
+    );
+    return ListSSHPublicKeysResponse.fromXml($result);
+  }
+
   /// Lists the names of the inline policies embedded in the specified IAM user.
   ///
   /// An IAM user can also have managed policies attached to it. To list the
-  /// managed policies that are attached to a user, use
-  /// <a>ListAttachedUserPolicies</a>. For more information about policies, see
-  /// <a
+  /// managed policies that are attached to a user, use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAttachedUserPolicies.html">ListAttachedUserPolicies</a>.
+  /// For more information about policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
   /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
@@ -6816,69 +7603,6 @@ class Iam {
     return ListUserPoliciesResponse.fromXml($result);
   }
 
-  /// Lists the tags that are attached to the specified IAM user. The returned
-  /// list of tags is sorted by tag key. For more information about tagging, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
-  /// IAM resources</a> in the <i>IAM User Guide</i>.
-  ///
-  /// May throw [NoSuchEntityException].
-  /// May throw [ServiceFailureException].
-  ///
-  /// Parameter [userName] :
-  /// The name of the IAM user whose tags you want to see.
-  ///
-  /// This parameter allows (through its <a
-  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
-  /// characters consisting of upper and lowercase alphanumeric characters with
-  /// no spaces. You can also include any of the following characters: _+=,.@-
-  ///
-  /// Parameter [marker] :
-  /// Use this parameter only when paginating results and only after you receive
-  /// a response indicating that the results are truncated. Set it to the value
-  /// of the <code>Marker</code> element in the response that you received to
-  /// indicate where the next call should start.
-  ///
-  /// Parameter [maxItems] :
-  /// Use this only when paginating results to indicate the maximum number of
-  /// items you want in the response. If additional items exist beyond the
-  /// maximum you specify, the <code>IsTruncated</code> response element is
-  /// <code>true</code>.
-  ///
-  /// If you do not include this parameter, the number of items defaults to 100.
-  /// Note that IAM might return fewer results, even when there are more results
-  /// available. In that case, the <code>IsTruncated</code> response element
-  /// returns <code>true</code>, and <code>Marker</code> contains a value to
-  /// include in the subsequent call that tells the service where to continue
-  /// from.
-  Future<ListUserTagsResponse> listUserTags({
-    required String userName,
-    String? marker,
-    int? maxItems,
-  }) async {
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      1000,
-    );
-    final $request = <String, String>{
-      'UserName': userName,
-      if (marker != null) 'Marker': marker,
-      if (maxItems != null) 'MaxItems': maxItems.toString(),
-    };
-    final $result = await _protocol.send(
-      $request,
-      action: 'ListUserTags',
-      version: '2010-05-08',
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      resultWrapper: 'ListUserTagsResult',
-    );
-    return ListUserTagsResponse.fromXml($result);
-  }
-
   /// Lists the IAM users that have the specified path prefix. If no path prefix
   /// is specified, the operation returns all users in the Amazon Web Services
   /// account. If there are none, the operation returns an empty list.
@@ -6895,7 +7619,8 @@ class Iam {
   /// Tags
   /// </li>
   /// </ul>
-  /// To view all of the information for a user, see <a>GetUser</a>.
+  /// To view all of the information for a user, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetUser.html">GetUser</a>.
   /// </note>
   /// You can paginate the results using the <code>MaxItems</code> and
   /// <code>Marker</code> parameters.
@@ -6962,6 +7687,69 @@ class Iam {
     return ListUsersResponse.fromXml($result);
   }
 
+  /// Lists the tags that are attached to the specified IAM user. The returned
+  /// list of tags is sorted by tag key. For more information about tagging, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  ///
+  /// May throw [NoSuchEntityException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [userName] :
+  /// The name of the IAM user whose tags you want to see.
+  ///
+  /// This parameter allows (through its <a
+  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
+  /// characters consisting of upper and lowercase alphanumeric characters with
+  /// no spaces. You can also include any of the following characters: _+=,.@-
+  ///
+  /// Parameter [marker] :
+  /// Use this parameter only when paginating results and only after you receive
+  /// a response indicating that the results are truncated. Set it to the value
+  /// of the <code>Marker</code> element in the response that you received to
+  /// indicate where the next call should start.
+  ///
+  /// Parameter [maxItems] :
+  /// Use this only when paginating results to indicate the maximum number of
+  /// items you want in the response. If additional items exist beyond the
+  /// maximum you specify, the <code>IsTruncated</code> response element is
+  /// <code>true</code>.
+  ///
+  /// If you do not include this parameter, the number of items defaults to 100.
+  /// Note that IAM might return fewer results, even when there are more results
+  /// available. In that case, the <code>IsTruncated</code> response element
+  /// returns <code>true</code>, and <code>Marker</code> contains a value to
+  /// include in the subsequent call that tells the service where to continue
+  /// from.
+  Future<ListUserTagsResponse> listUserTags({
+    required String userName,
+    String? marker,
+    int? maxItems,
+  }) async {
+    _s.validateNumRange(
+      'maxItems',
+      maxItems,
+      1,
+      1000,
+    );
+    final $request = <String, String>{
+      'UserName': userName,
+      if (marker != null) 'Marker': marker,
+      if (maxItems != null) 'MaxItems': maxItems.toString(),
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'ListUserTags',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'ListUserTagsResult',
+    );
+    return ListUserTagsResponse.fromXml($result);
+  }
+
   /// Lists the virtual MFA devices defined in the Amazon Web Services account
   /// by assignment status. If you do not specify an assignment status, the
   /// operation returns a list of all virtual MFA devices. Assignment status can
@@ -6970,7 +7758,8 @@ class Iam {
   /// IAM resource-listing operations return a subset of the available
   /// attributes for the resource. For example, this operation does not return
   /// tags, even though they are an attribute of the returned object. To view
-  /// tag information for a virtual MFA device, see <a>ListMFADeviceTags</a>.
+  /// tag information for a virtual MFA device, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListMFADeviceTags.html">ListMFADeviceTags</a>.
   /// </note>
   /// You can paginate the results using the <code>MaxItems</code> and
   /// <code>Marker</code> parameters.
@@ -7135,11 +7924,11 @@ class Iam {
   /// JSON policy evaluation logic</a> in the IAM User Guide.
   /// </important>
   ///
-  /// May throw [NoSuchEntityException].
   /// May throw [InvalidInputException].
-  /// May throw [UnmodifiableEntityException].
+  /// May throw [NoSuchEntityException].
   /// May throw [PolicyNotAttachableException].
   /// May throw [ServiceFailureException].
+  /// May throw [UnmodifiableEntityException].
   ///
   /// Parameter [permissionsBoundary] :
   /// The ARN of the managed policy that is used to set the permissions boundary
@@ -7216,8 +8005,8 @@ class Iam {
   /// May throw [LimitExceededException].
   /// May throw [MalformedPolicyDocumentException].
   /// May throw [NoSuchEntityException].
-  /// May throw [UnmodifiableEntityException].
   /// May throw [ServiceFailureException].
+  /// May throw [UnmodifiableEntityException].
   ///
   /// Parameter [policyDocument] :
   /// The policy document.
@@ -7295,8 +8084,8 @@ class Iam {
   /// JSON policy evaluation logic</a> in the IAM User Guide.
   /// </important>
   ///
-  /// May throw [NoSuchEntityException].
   /// May throw [InvalidInputException].
+  /// May throw [NoSuchEntityException].
   /// May throw [PolicyNotAttachableException].
   /// May throw [ServiceFailureException].
   ///
@@ -7427,6 +8216,46 @@ class Iam {
     );
   }
 
+  /// Rejects a delegation request, denying the requested temporary access.
+  ///
+  /// Once a request is rejected, it cannot be accepted or updated later.
+  /// Rejected requests expire after 7 days.
+  ///
+  /// When rejecting a request, an optional explanation can be added using the
+  /// <code>Notes</code> request parameter.
+  ///
+  /// For more details, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-temporary-delegation.html#temporary-delegation-managing-permissions">
+  /// Managing Permissions for Delegation Requests</a>.
+  ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidInputException].
+  /// May throw [NoSuchEntityException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [delegationRequestId] :
+  /// The unique identifier of the delegation request to reject.
+  ///
+  /// Parameter [notes] :
+  /// Optional notes explaining the reason for rejecting the delegation request.
+  Future<void> rejectDelegationRequest({
+    required String delegationRequestId,
+    String? notes,
+  }) async {
+    final $request = <String, String>{
+      'DelegationRequestId': delegationRequestId,
+      if (notes != null) 'Notes': notes,
+    };
+    await _protocol.send(
+      $request,
+      action: 'RejectDelegationRequest',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Removes the specified client ID (also known as audience) from the list of
   /// client IDs registered for the specified IAM OpenID Connect (OIDC) provider
   /// resource object.
@@ -7434,19 +8263,22 @@ class Iam {
   /// This operation is idempotent; it does not fail or return an error if you
   /// try to remove a client ID that does not exist.
   ///
+  /// May throw [ConcurrentModificationException].
   /// May throw [InvalidInputException].
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [clientID] :
   /// The client ID (also known as audience) to remove from the IAM OIDC
-  /// provider resource. For more information about client IDs, see
-  /// <a>CreateOpenIDConnectProvider</a>.
+  /// provider resource. For more information about client IDs, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateOpenIDConnectProvider.html">CreateOpenIDConnectProvider</a>.
   ///
   /// Parameter [openIDConnectProviderArn] :
   /// The Amazon Resource Name (ARN) of the IAM OIDC provider resource to remove
   /// the client ID from. You can get a list of OIDC provider ARNs by using the
-  /// <a>ListOpenIDConnectProviders</a> operation.
+  /// <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListOpenIDConnectProviders.html">ListOpenIDConnectProviders</a>
+  /// operation.
   ///
   /// For more information about ARNs, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
@@ -7485,10 +8317,10 @@ class Iam {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html">Using
   /// instance profiles</a> in the <i>IAM User Guide</i>.
   ///
-  /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
-  /// May throw [UnmodifiableEntityException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
+  /// May throw [UnmodifiableEntityException].
   ///
   /// Parameter [instanceProfileName] :
   /// The name of the instance profile to update.
@@ -7525,8 +8357,8 @@ class Iam {
 
   /// Removes the specified user from the specified group.
   ///
-  /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [groupName] :
@@ -7614,11 +8446,11 @@ class Iam {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_VirtualMFA.html">Using
   /// a virtual MFA device</a> in the <i>IAM User Guide</i>.
   ///
-  /// May throw [InvalidAuthenticationCodeException].
-  /// May throw [NoSuchEntityException].
-  /// May throw [LimitExceededException].
-  /// May throw [ServiceFailureException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidAuthenticationCodeException].
+  /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
+  /// May throw [ServiceFailureException].
   ///
   /// Parameter [authenticationCode1] :
   /// An authentication code emitted by the device.
@@ -7667,20 +8499,60 @@ class Iam {
     );
   }
 
+  /// Sends the exchange token for an accepted delegation request.
+  ///
+  /// The exchange token is sent to the partner via an asynchronous notification
+  /// channel, established by the partner.
+  ///
+  /// The delegation request must be in the <code>ACCEPTED</code> state when
+  /// calling this API. After the <code>SendDelegationToken</code> API call is
+  /// successful, the request transitions to a <code>FINALIZED</code> state and
+  /// cannot be rolled back. However, a user may reject an accepted request
+  /// before the <code>SendDelegationToken</code> API is called.
+  ///
+  /// For more details, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-temporary-delegation.html#temporary-delegation-managing-permissions">
+  /// Managing Permissions for Delegation Requests</a>.
+  ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidInputException].
+  /// May throw [NoSuchEntityException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [delegationRequestId] :
+  /// The unique identifier of the delegation request for which to send the
+  /// token.
+  Future<void> sendDelegationToken({
+    required String delegationRequestId,
+  }) async {
+    final $request = <String, String>{
+      'DelegationRequestId': delegationRequestId,
+    };
+    await _protocol.send(
+      $request,
+      action: 'SendDelegationToken',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Sets the specified version of the specified policy as the policy's default
   /// (operative) version.
   ///
   /// This operation affects all users, groups, and roles that the policy is
   /// attached to. To list the users, groups, and roles that the policy is
-  /// attached to, use <a>ListEntitiesForPolicy</a>.
+  /// attached to, use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListEntitiesForPolicy.html">ListEntitiesForPolicy</a>.
   ///
   /// For information about managed policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
   /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
-  /// May throw [NoSuchEntityException].
   /// May throw [InvalidInputException].
   /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [policyArn] :
@@ -7742,8 +8614,9 @@ class Iam {
   /// User Guide</i>.
   ///
   /// To view the current session token version, see the
-  /// <code>GlobalEndpointTokenVersion</code> entry in the response of the
-  /// <a>GetAccountSummary</a> operation.
+  /// <code>GlobalEndpointTokenVersion</code> entry in the response of the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountSummary.html">GetAccountSummary</a>
+  /// operation.
   ///
   /// May throw [ServiceFailureException].
   ///
@@ -7784,14 +8657,16 @@ class Iam {
   /// operations. You can simulate resources that don't exist in your account.
   ///
   /// If you want to simulate existing policies that are attached to an IAM
-  /// user, group, or role, use <a>SimulatePrincipalPolicy</a> instead.
+  /// user, group, or role, use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulatePrincipalPolicy.html">SimulatePrincipalPolicy</a>
+  /// instead.
   ///
   /// Context keys are variables that are maintained by Amazon Web Services and
   /// its services and which provide details about the context of an API query
   /// request. You can use the <code>Condition</code> element of an IAM policy
   /// to evaluate context keys. To get the list of context keys that the
-  /// policies require for correct simulation, use
-  /// <a>GetContextKeysForCustomPolicy</a>.
+  /// policies require for correct simulation, use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForCustomPolicy.html">GetContextKeysForCustomPolicy</a>.
   ///
   /// If the output is long, you can use <code>MaxItems</code> and
   /// <code>Marker</code> parameters to paginate the results.
@@ -8119,7 +8994,8 @@ class Iam {
   ///
   /// You can optionally include a list of one or more additional policies
   /// specified as strings to include in the simulation. If you want to simulate
-  /// only policies specified as strings, use <a>SimulateCustomPolicy</a>
+  /// only policies specified as strings, use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulateCustomPolicy.html">SimulateCustomPolicy</a>
   /// instead.
   ///
   /// You can also optionally include one resource-based policy to be evaluated
@@ -8131,15 +9007,16 @@ class Iam {
   ///
   /// <b>Note:</b> This operation discloses information about the permissions
   /// granted to other users. If you do not want users to see other user's
-  /// permissions, then consider allowing them to use
-  /// <a>SimulateCustomPolicy</a> instead.
+  /// permissions, then consider allowing them to use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulateCustomPolicy.html">SimulateCustomPolicy</a>
+  /// instead.
   ///
   /// Context keys are variables maintained by Amazon Web Services and its
   /// services that provide details about the context of an API query request.
   /// You can use the <code>Condition</code> element of an IAM policy to
   /// evaluate context keys. To get the list of context keys that the policies
-  /// require for correct simulation, use
-  /// <a>GetContextKeysForPrincipalPolicy</a>.
+  /// require for correct simulation, use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForPrincipalPolicy.html">GetContextKeysForPrincipalPolicy</a>.
   ///
   /// If the output is long, you can use the <code>MaxItems</code> and
   /// <code>Marker</code> parameters to paginate the results.
@@ -8156,8 +9033,8 @@ class Iam {
   /// Guide</i>.
   /// </note>
   ///
-  /// May throw [NoSuchEntityException].
   /// May throw [InvalidInputException].
+  /// May throw [NoSuchEntityException].
   /// May throw [PolicyEvaluationException].
   ///
   /// Parameter [actionNames] :
@@ -8516,10 +9393,10 @@ class Iam {
   /// </li>
   /// </ul> </note>
   ///
-  /// May throw [NoSuchEntityException].
+  /// May throw [ConcurrentModificationException].
   /// May throw [InvalidInputException].
   /// May throw [LimitExceededException].
-  /// May throw [ConcurrentModificationException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [instanceProfileName] :
@@ -8596,10 +9473,10 @@ class Iam {
   /// </li>
   /// </ul> </note>
   ///
-  /// May throw [InvalidInputException].
-  /// May throw [NoSuchEntityException].
-  /// May throw [LimitExceededException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidInputException].
+  /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [serialNumber] :
@@ -8680,10 +9557,10 @@ class Iam {
   /// </li>
   /// </ul> </note>
   ///
-  /// May throw [NoSuchEntityException].
-  /// May throw [LimitExceededException].
-  /// May throw [InvalidInputException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidInputException].
+  /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [openIDConnectProviderArn] :
@@ -8761,10 +9638,10 @@ class Iam {
   /// </li>
   /// </ul> </note>
   ///
-  /// May throw [NoSuchEntityException].
-  /// May throw [LimitExceededException].
-  /// May throw [InvalidInputException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidInputException].
+  /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [policyArn] :
@@ -8849,10 +9726,10 @@ class Iam {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
   /// IAM identities</a> in the <i>IAM User Guide</i>.
   ///
-  /// May throw [NoSuchEntityException].
-  /// May throw [LimitExceededException].
-  /// May throw [InvalidInputException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidInputException].
+  /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [roleName] :
@@ -8932,10 +9809,10 @@ class Iam {
   /// </li>
   /// </ul> </note>
   ///
-  /// May throw [NoSuchEntityException].
-  /// May throw [LimitExceededException].
-  /// May throw [InvalidInputException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidInputException].
+  /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [sAMLProviderArn] :
@@ -9023,10 +9900,10 @@ class Iam {
   /// </li>
   /// </ul> </note>
   ///
-  /// May throw [NoSuchEntityException].
+  /// May throw [ConcurrentModificationException].
   /// May throw [InvalidInputException].
   /// May throw [LimitExceededException].
-  /// May throw [ConcurrentModificationException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [serverCertificateName] :
@@ -9111,10 +9988,10 @@ class Iam {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
   /// IAM identities</a> in the <i>IAM User Guide</i>.
   ///
-  /// May throw [NoSuchEntityException].
-  /// May throw [LimitExceededException].
-  /// May throw [InvalidInputException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidInputException].
+  /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [tags] :
@@ -9156,9 +10033,9 @@ class Iam {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
   /// IAM resources</a> in the <i>IAM User Guide</i>.
   ///
-  /// May throw [NoSuchEntityException].
-  /// May throw [InvalidInputException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidInputException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [instanceProfileName] :
@@ -9199,9 +10076,9 @@ class Iam {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
   /// IAM resources</a> in the <i>IAM User Guide</i>.
   ///
-  /// May throw [NoSuchEntityException].
-  /// May throw [InvalidInputException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidInputException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [serialNumber] :
@@ -9247,9 +10124,9 @@ class Iam {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
   /// IAM resources</a> in the <i>IAM User Guide</i>.
   ///
-  /// May throw [NoSuchEntityException].
-  /// May throw [InvalidInputException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidInputException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [openIDConnectProviderArn] :
@@ -9290,9 +10167,9 @@ class Iam {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
   /// IAM resources</a> in the <i>IAM User Guide</i>.
   ///
-  /// May throw [NoSuchEntityException].
-  /// May throw [InvalidInputException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidInputException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [policyArn] :
@@ -9334,8 +10211,8 @@ class Iam {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
   /// IAM resources</a> in the <i>IAM User Guide</i>.
   ///
-  /// May throw [NoSuchEntityException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [roleName] :
@@ -9380,9 +10257,9 @@ class Iam {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
   /// IAM resources</a> in the <i>IAM User Guide</i>.
   ///
-  /// May throw [NoSuchEntityException].
-  /// May throw [InvalidInputException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidInputException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [sAMLProviderArn] :
@@ -9432,9 +10309,9 @@ class Iam {
   /// with server certificates</a> in the <i>IAM User Guide</i>.
   /// </note>
   ///
-  /// May throw [NoSuchEntityException].
-  /// May throw [InvalidInputException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidInputException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [serverCertificateName] :
@@ -9475,8 +10352,8 @@ class Iam {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
   /// IAM resources</a> in the <i>IAM User Guide</i>.
   ///
-  /// May throw [NoSuchEntityException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [tagKeys] :
@@ -9529,8 +10406,9 @@ class Iam {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/ManagingCredentials.html">Managing
   /// keys and certificates</a> in the <i>IAM User Guide</i>.
   ///
-  /// May throw [NoSuchEntityException].
+  /// May throw [InvalidInputException].
   /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [accessKeyId] :
@@ -9587,9 +10465,9 @@ class Iam {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingPasswordPolicies.html">Managing
   /// an IAM password policy</a> in the <i>IAM User Guide</i>.
   ///
-  /// May throw [NoSuchEntityException].
-  /// May throw [MalformedPolicyDocumentException].
   /// May throw [LimitExceededException].
+  /// May throw [MalformedPolicyDocumentException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [allowUsersToChangePassword] :
@@ -9666,7 +10544,7 @@ class Iam {
   /// Specifies whether IAM user passwords must contain at least one of the
   /// following non-alphanumeric characters:
   ///
-  /// ! @ # $ % ^ &amp; * ( ) _ + - = [ ] { } | '
+  /// ! @ # $ % ^ & * ( ) _ + - = [ ] { } | '
   ///
   /// If you do not specify a value for this parameter, then the operation uses
   /// the default value of <code>false</code>. The result is that passwords do
@@ -9740,11 +10618,11 @@ class Iam {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-toplevel.html">Using
   /// roles to delegate permissions and federate identities</a>.
   ///
-  /// May throw [NoSuchEntityException].
-  /// May throw [MalformedPolicyDocumentException].
   /// May throw [LimitExceededException].
-  /// May throw [UnmodifiableEntityException].
+  /// May throw [MalformedPolicyDocumentException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
+  /// May throw [UnmodifiableEntityException].
   ///
   /// Parameter [policyDocument] :
   /// The policy that grants an entity permission to assume the role.
@@ -9798,6 +10676,43 @@ class Iam {
     );
   }
 
+  /// Updates an existing delegation request with additional information. When
+  /// the delegation request is updated, it reaches the
+  /// <code>PENDING_APPROVAL</code> state.
+  ///
+  /// Once a delegation request has an owner, that owner gets a default
+  /// permission to update the delegation request. For more details, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-temporary-delegation.html#temporary-delegation-managing-permissions">
+  /// Managing Permissions for Delegation Requests</a>.
+  ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidInputException].
+  /// May throw [NoSuchEntityException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [delegationRequestId] :
+  /// The unique identifier of the delegation request to update.
+  ///
+  /// Parameter [notes] :
+  /// Additional notes or comments to add to the delegation request.
+  Future<void> updateDelegationRequest({
+    required String delegationRequestId,
+    String? notes,
+  }) async {
+    final $request = <String, String>{
+      'DelegationRequestId': delegationRequestId,
+      if (notes != null) 'Notes': notes,
+    };
+    await _protocol.send(
+      $request,
+      action: 'UpdateDelegationRequest',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Updates the name and/or the path of the specified IAM group.
   /// <important>
   /// You should understand the implications of changing a group's path or name.
@@ -9816,9 +10731,9 @@ class Iam {
   /// management</a>.
   /// </note>
   ///
-  /// May throw [NoSuchEntityException].
   /// May throw [EntityAlreadyExistsException].
   /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [groupName] :
@@ -9871,18 +10786,19 @@ class Iam {
 
   /// Changes the password for the specified IAM user. You can use the CLI, the
   /// Amazon Web Services API, or the <b>Users</b> page in the IAM console to
-  /// change the password for any IAM user. Use <a>ChangePassword</a> to change
-  /// your own password in the <b>My Security Credentials</b> page in the Amazon
-  /// Web Services Management Console.
+  /// change the password for any IAM user. Use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ChangePassword.html">ChangePassword</a>
+  /// to change your own password in the <b>My Security Credentials</b> page in
+  /// the Amazon Web Services Management Console.
   ///
   /// For more information about modifying passwords, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html">Managing
   /// passwords</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [EntityTemporarilyUnmodifiableException].
+  /// May throw [LimitExceededException].
   /// May throw [NoSuchEntityException].
   /// May throw [PasswordPolicyViolationException].
-  /// May throw [LimitExceededException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [userName] :
@@ -9916,7 +10832,8 @@ class Iam {
   /// </ul>
   /// However, the format can be further restricted by the account administrator
   /// by setting a password policy on the Amazon Web Services account. For more
-  /// information, see <a>UpdateAccountPasswordPolicy</a>.
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateAccountPasswordPolicy.html">UpdateAccountPasswordPolicy</a>.
   ///
   /// Parameter [passwordResetRequired] :
   /// Allows this new password to be used only once by requiring the specified
@@ -9968,6 +10885,7 @@ class Iam {
   /// privileged users.
   /// </note>
   ///
+  /// May throw [ConcurrentModificationException].
   /// May throw [InvalidInputException].
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
@@ -9975,7 +10893,9 @@ class Iam {
   /// Parameter [openIDConnectProviderArn] :
   /// The Amazon Resource Name (ARN) of the IAM OIDC provider resource object
   /// for which you want to update the thumbprint. You can get a list of OIDC
-  /// provider ARNs by using the <a>ListOpenIDConnectProviders</a> operation.
+  /// provider ARNs by using the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListOpenIDConnectProviders.html">ListOpenIDConnectProviders</a>
+  /// operation.
   ///
   /// For more information about ARNs, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
@@ -9984,8 +10904,8 @@ class Iam {
   ///
   /// Parameter [thumbprintList] :
   /// A list of certificate thumbprints that are associated with the specified
-  /// IAM OpenID Connect provider. For more information, see
-  /// <a>CreateOpenIDConnectProvider</a>.
+  /// IAM OpenID Connect provider. For more information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateOpenIDConnectProvider.html">CreateOpenIDConnectProvider</a>.
   Future<void> updateOpenIDConnectProviderThumbprint({
     required String openIDConnectProviderArn,
     required List<String> thumbprintList,
@@ -10010,9 +10930,9 @@ class Iam {
 
   /// Updates the description or maximum session duration setting of a role.
   ///
-  /// May throw [UnmodifiableEntityException].
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
+  /// May throw [UnmodifiableEntityException].
   ///
   /// Parameter [roleName] :
   /// The name of the role that you want to modify.
@@ -10071,15 +10991,17 @@ class Iam {
     );
   }
 
-  /// Use <a>UpdateRole</a> instead.
+  /// Use <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateRole.html">UpdateRole</a>
+  /// instead.
   ///
   /// Modifies only the description of a role. This operation performs the same
   /// function as the <code>Description</code> parameter in the
   /// <code>UpdateRole</code> operation.
   ///
   /// May throw [NoSuchEntityException].
-  /// May throw [UnmodifiableEntityException].
   /// May throw [ServiceFailureException].
+  /// May throw [UnmodifiableEntityException].
   ///
   /// Parameter [description] :
   /// The new description that you want to apply to the specified role.
@@ -10106,26 +11028,15 @@ class Iam {
     return UpdateRoleDescriptionResponse.fromXml($result);
   }
 
-  /// Updates the metadata document for an existing SAML provider resource
-  /// object.
-  /// <note>
-  /// This operation requires <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
-  /// Version 4</a>.
-  /// </note>
+  /// Updates the metadata document, SAML encryption settings, and private keys
+  /// for an existing SAML provider. To rotate private keys, add your new
+  /// private key and then remove the old key in a separate request.
   ///
-  /// May throw [NoSuchEntityException].
+  /// May throw [ConcurrentModificationException].
   /// May throw [InvalidInputException].
   /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
-  ///
-  /// Parameter [sAMLMetadataDocument] :
-  /// An XML document generated by an identity provider (IdP) that supports SAML
-  /// 2.0. The document includes the issuer's name, expiration information, and
-  /// keys that can be used to validate the SAML authentication response
-  /// (assertions) that are received from the IdP. You must generate the
-  /// metadata document using the identity management software that is used as
-  /// your organization's IdP.
   ///
   /// Parameter [sAMLProviderArn] :
   /// The Amazon Resource Name (ARN) of the SAML provider to update.
@@ -10134,13 +11045,40 @@ class Iam {
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
   /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
   /// Reference</i>.
+  ///
+  /// Parameter [addPrivateKey] :
+  /// Specifies the new private key from your external identity provider. The
+  /// private key must be a .pem file that uses AES-GCM or AES-CBC encryption
+  /// algorithm to decrypt SAML assertions.
+  ///
+  /// Parameter [assertionEncryptionMode] :
+  /// Specifies the encryption setting for the SAML provider.
+  ///
+  /// Parameter [removePrivateKey] :
+  /// The Key ID of the private key to remove.
+  ///
+  /// Parameter [sAMLMetadataDocument] :
+  /// An XML document generated by an identity provider (IdP) that supports SAML
+  /// 2.0. The document includes the issuer's name, expiration information, and
+  /// keys that can be used to validate the SAML authentication response
+  /// (assertions) that are received from the IdP. You must generate the
+  /// metadata document using the identity management software that is used as
+  /// your IdP.
   Future<UpdateSAMLProviderResponse> updateSAMLProvider({
-    required String sAMLMetadataDocument,
     required String sAMLProviderArn,
+    String? addPrivateKey,
+    AssertionEncryptionModeType? assertionEncryptionMode,
+    String? removePrivateKey,
+    String? sAMLMetadataDocument,
   }) async {
     final $request = <String, String>{
-      'SAMLMetadataDocument': sAMLMetadataDocument,
       'SAMLProviderArn': sAMLProviderArn,
+      if (addPrivateKey != null) 'AddPrivateKey': addPrivateKey,
+      if (assertionEncryptionMode != null)
+        'AssertionEncryptionMode': assertionEncryptionMode.value,
+      if (removePrivateKey != null) 'RemovePrivateKey': removePrivateKey,
+      if (sAMLMetadataDocument != null)
+        'SAMLMetadataDocument': sAMLMetadataDocument,
     };
     final $result = await _protocol.send(
       $request,
@@ -10152,59 +11090,6 @@ class Iam {
       resultWrapper: 'UpdateSAMLProviderResult',
     );
     return UpdateSAMLProviderResponse.fromXml($result);
-  }
-
-  /// Sets the status of an IAM user's SSH public key to active or inactive. SSH
-  /// public keys that are inactive cannot be used for authentication. This
-  /// operation can be used to disable a user's SSH public key as part of a key
-  /// rotation work flow.
-  ///
-  /// The SSH public key affected by this operation is used only for
-  /// authenticating the associated IAM user to an CodeCommit repository. For
-  /// more information about using SSH keys to authenticate to an CodeCommit
-  /// repository, see <a
-  /// href="https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html">Set
-  /// up CodeCommit for SSH connections</a> in the <i>CodeCommit User Guide</i>.
-  ///
-  /// May throw [NoSuchEntityException].
-  ///
-  /// Parameter [sSHPublicKeyId] :
-  /// The unique identifier for the SSH public key.
-  ///
-  /// This parameter allows (through its <a
-  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
-  /// characters that can consist of any upper or lowercased letter or digit.
-  ///
-  /// Parameter [status] :
-  /// The status to assign to the SSH public key. <code>Active</code> means that
-  /// the key can be used for authentication with an CodeCommit repository.
-  /// <code>Inactive</code> means that the key cannot be used.
-  ///
-  /// Parameter [userName] :
-  /// The name of the IAM user associated with the SSH public key.
-  ///
-  /// This parameter allows (through its <a
-  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
-  /// characters consisting of upper and lowercase alphanumeric characters with
-  /// no spaces. You can also include any of the following characters: _+=,.@-
-  Future<void> updateSSHPublicKey({
-    required String sSHPublicKeyId,
-    required StatusType status,
-    required String userName,
-  }) async {
-    final $request = <String, String>{
-      'SSHPublicKeyId': sSHPublicKeyId,
-      'Status': status.value,
-      'UserName': userName,
-    };
-    await _protocol.send(
-      $request,
-      action: 'UpdateSSHPublicKey',
-      version: '2010-05-08',
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-    );
   }
 
   /// Updates the name and/or the path of the specified server certificate
@@ -10233,9 +11118,9 @@ class Iam {
   /// management</a> in the <i>IAM User Guide</i>.
   /// </note>
   ///
-  /// May throw [NoSuchEntityException].
   /// May throw [EntityAlreadyExistsException].
   /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [serverCertificateName] :
@@ -10346,8 +11231,9 @@ class Iam {
   /// Amazon Web Services account root user credentials even if the Amazon Web
   /// Services account has no associated users.
   ///
-  /// May throw [NoSuchEntityException].
+  /// May throw [InvalidInputException].
   /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [certificateId] :
@@ -10390,6 +11276,60 @@ class Iam {
     );
   }
 
+  /// Sets the status of an IAM user's SSH public key to active or inactive. SSH
+  /// public keys that are inactive cannot be used for authentication. This
+  /// operation can be used to disable a user's SSH public key as part of a key
+  /// rotation work flow.
+  ///
+  /// The SSH public key affected by this operation is used only for
+  /// authenticating the associated IAM user to an CodeCommit repository. For
+  /// more information about using SSH keys to authenticate to an CodeCommit
+  /// repository, see <a
+  /// href="https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html">Set
+  /// up CodeCommit for SSH connections</a> in the <i>CodeCommit User Guide</i>.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [NoSuchEntityException].
+  ///
+  /// Parameter [sSHPublicKeyId] :
+  /// The unique identifier for the SSH public key.
+  ///
+  /// This parameter allows (through its <a
+  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
+  /// characters that can consist of any upper or lowercased letter or digit.
+  ///
+  /// Parameter [status] :
+  /// The status to assign to the SSH public key. <code>Active</code> means that
+  /// the key can be used for authentication with an CodeCommit repository.
+  /// <code>Inactive</code> means that the key cannot be used.
+  ///
+  /// Parameter [userName] :
+  /// The name of the IAM user associated with the SSH public key.
+  ///
+  /// This parameter allows (through its <a
+  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
+  /// characters consisting of upper and lowercase alphanumeric characters with
+  /// no spaces. You can also include any of the following characters: _+=,.@-
+  Future<void> updateSSHPublicKey({
+    required String sSHPublicKeyId,
+    required StatusType status,
+    required String userName,
+  }) async {
+    final $request = <String, String>{
+      'SSHPublicKeyId': sSHPublicKeyId,
+      'Status': status.value,
+      'UserName': userName,
+    };
+    await _protocol.send(
+      $request,
+      action: 'UpdateSSHPublicKey',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Updates the name and/or the path of the specified IAM user.
   /// <important>
   /// You should understand the implications of changing an IAM user's path or
@@ -10408,11 +11348,11 @@ class Iam {
   /// and policies</a>.
   /// </note>
   ///
-  /// May throw [NoSuchEntityException].
-  /// May throw [LimitExceededException].
+  /// May throw [ConcurrentModificationException].
   /// May throw [EntityAlreadyExistsException].
   /// May throw [EntityTemporarilyUnmodifiableException].
-  /// May throw [ConcurrentModificationException].
+  /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [userName] :
@@ -10463,73 +11403,6 @@ class Iam {
     );
   }
 
-  /// Uploads an SSH public key and associates it with the specified IAM user.
-  ///
-  /// The SSH public key uploaded by this operation can be used only for
-  /// authenticating the associated IAM user to an CodeCommit repository. For
-  /// more information about using SSH keys to authenticate to an CodeCommit
-  /// repository, see <a
-  /// href="https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html">Set
-  /// up CodeCommit for SSH connections</a> in the <i>CodeCommit User Guide</i>.
-  ///
-  /// May throw [LimitExceededException].
-  /// May throw [NoSuchEntityException].
-  /// May throw [InvalidPublicKeyException].
-  /// May throw [DuplicateSSHPublicKeyException].
-  /// May throw [UnrecognizedPublicKeyEncodingException].
-  ///
-  /// Parameter [sSHPublicKeyBody] :
-  /// The SSH public key. The public key must be encoded in ssh-rsa format or
-  /// PEM format. The minimum bit-length of the public key is 2048 bits. For
-  /// example, you can generate a 2048-bit key, and the resulting PEM file is
-  /// 1679 bytes long.
-  ///
-  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> used to
-  /// validate this parameter is a string of characters consisting of the
-  /// following:
-  ///
-  /// <ul>
-  /// <li>
-  /// Any printable ASCII character ranging from the space character
-  /// (<code>\u0020</code>) through the end of the ASCII character range
-  /// </li>
-  /// <li>
-  /// The printable characters in the Basic Latin and Latin-1 Supplement
-  /// character set (through <code>\u00FF</code>)
-  /// </li>
-  /// <li>
-  /// The special characters tab (<code>\u0009</code>), line feed
-  /// (<code>\u000A</code>), and carriage return (<code>\u000D</code>)
-  /// </li>
-  /// </ul>
-  ///
-  /// Parameter [userName] :
-  /// The name of the IAM user to associate the SSH public key with.
-  ///
-  /// This parameter allows (through its <a
-  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
-  /// characters consisting of upper and lowercase alphanumeric characters with
-  /// no spaces. You can also include any of the following characters: _+=,.@-
-  Future<UploadSSHPublicKeyResponse> uploadSSHPublicKey({
-    required String sSHPublicKeyBody,
-    required String userName,
-  }) async {
-    final $request = <String, String>{
-      'SSHPublicKeyBody': sSHPublicKeyBody,
-      'UserName': userName,
-    };
-    final $result = await _protocol.send(
-      $request,
-      action: 'UploadSSHPublicKey',
-      version: '2010-05-08',
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      resultWrapper: 'UploadSSHPublicKeyResult',
-    );
-    return UploadSSHPublicKeyResponse.fromXml($result);
-  }
-
   /// Uploads a server certificate entity for the Amazon Web Services account.
   /// The server certificate entity includes a public key certificate, a private
   /// key, and an optional certificate chain, which should all be PEM-encoded.
@@ -10566,12 +11439,12 @@ class Iam {
   /// the API by making HTTP query requests</a> in the <i>IAM User Guide</i>.
   /// </note>
   ///
-  /// May throw [LimitExceededException].
-  /// May throw [InvalidInputException].
-  /// May throw [EntityAlreadyExistsException].
-  /// May throw [MalformedCertificateException].
-  /// May throw [KeyPairMismatchException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [EntityAlreadyExistsException].
+  /// May throw [InvalidInputException].
+  /// May throw [KeyPairMismatchException].
+  /// May throw [LimitExceededException].
+  /// May throw [MalformedCertificateException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [certificateBody] :
@@ -10747,13 +11620,13 @@ class Iam {
   /// query requests</a> in the <i>IAM User Guide</i>.
   /// </note>
   ///
-  /// May throw [LimitExceededException].
-  /// May throw [EntityAlreadyExistsException].
-  /// May throw [MalformedCertificateException].
-  /// May throw [InvalidCertificateException].
-  /// May throw [DuplicateCertificateException].
-  /// May throw [NoSuchEntityException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [DuplicateCertificateException].
+  /// May throw [EntityAlreadyExistsException].
+  /// May throw [InvalidCertificateException].
+  /// May throw [LimitExceededException].
+  /// May throw [MalformedCertificateException].
+  /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [certificateBody] :
@@ -10804,518 +11677,78 @@ class Iam {
     );
     return UploadSigningCertificateResponse.fromXml($result);
   }
-}
 
-class AccessAdvisorUsageGranularityType {
-  static const serviceLevel =
-      AccessAdvisorUsageGranularityType._('SERVICE_LEVEL');
-  static const actionLevel =
-      AccessAdvisorUsageGranularityType._('ACTION_LEVEL');
-
-  final String value;
-
-  const AccessAdvisorUsageGranularityType._(this.value);
-
-  static const values = [serviceLevel, actionLevel];
-
-  static AccessAdvisorUsageGranularityType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AccessAdvisorUsageGranularityType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AccessAdvisorUsageGranularityType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object that contains details about when a principal in the reported
-/// Organizations entity last attempted to access an Amazon Web Services
-/// service. A principal can be an IAM user, an IAM role, or the Amazon Web
-/// Services account root user within the reported Organizations entity.
-///
-/// This data type is a response element in the
-/// <a>GetOrganizationsAccessReport</a> operation.
-class AccessDetail {
-  /// The name of the service in which access was attempted.
-  final String serviceName;
-
-  /// The namespace of the service in which access was attempted.
+  /// Uploads an SSH public key and associates it with the specified IAM user.
   ///
-  /// To learn the service namespace of a service, see <a
-  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html">Actions,
-  /// resources, and condition keys for Amazon Web Services services</a> in the
-  /// <i>Service Authorization Reference</i>. Choose the name of the service to
-  /// view details for that service. In the first paragraph, find the service
-  /// prefix. For example, <code>(service prefix: a4b)</code>. For more
-  /// information about service namespaces, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">Amazon
-  /// Web Services service namespaces</a> in the <i>Amazon Web Services General
-  /// Reference</i>.
-  final String serviceNamespace;
-
-  /// The path of the Organizations entity (root, organizational unit, or account)
-  /// from which an authenticated principal last attempted to access the service.
-  /// Amazon Web Services does not report unauthenticated requests.
+  /// The SSH public key uploaded by this operation can be used only for
+  /// authenticating the associated IAM user to an CodeCommit repository. For
+  /// more information about using SSH keys to authenticate to an CodeCommit
+  /// repository, see <a
+  /// href="https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html">Set
+  /// up CodeCommit for SSH connections</a> in the <i>CodeCommit User Guide</i>.
   ///
-  /// This field is null if no principals (IAM users, IAM roles, or root user) in
-  /// the reported Organizations entity attempted to access the service within the
-  /// <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">tracking
-  /// period</a>.
-  final String? entityPath;
-
-  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
-  /// date-time format</a>, when an authenticated principal most recently
-  /// attempted to access the service. Amazon Web Services does not report
-  /// unauthenticated requests.
+  /// May throw [DuplicateSSHPublicKeyException].
+  /// May throw [InvalidPublicKeyException].
+  /// May throw [LimitExceededException].
+  /// May throw [NoSuchEntityException].
+  /// May throw [UnrecognizedPublicKeyEncodingException].
   ///
-  /// This field is null if no principals in the reported Organizations entity
-  /// attempted to access the service within the <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">tracking
-  /// period</a>.
-  final DateTime? lastAuthenticatedTime;
-
-  /// The Region where the last service access attempt occurred.
+  /// Parameter [sSHPublicKeyBody] :
+  /// The SSH public key. The public key must be encoded in ssh-rsa format or
+  /// PEM format. The minimum bit-length of the public key is 2048 bits. For
+  /// example, you can generate a 2048-bit key, and the resulting PEM file is
+  /// 1679 bytes long.
   ///
-  /// This field is null if no principals in the reported Organizations entity
-  /// attempted to access the service within the <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">tracking
-  /// period</a>.
-  final String? region;
-
-  /// The number of accounts with authenticated principals (root user, IAM users,
-  /// and IAM roles) that attempted to access the service in the tracking period.
-  final int? totalAuthenticatedEntities;
-
-  AccessDetail({
-    required this.serviceName,
-    required this.serviceNamespace,
-    this.entityPath,
-    this.lastAuthenticatedTime,
-    this.region,
-    this.totalAuthenticatedEntities,
-  });
-  factory AccessDetail.fromXml(_s.XmlElement elem) {
-    return AccessDetail(
-      serviceName: _s.extractXmlStringValue(elem, 'ServiceName')!,
-      serviceNamespace: _s.extractXmlStringValue(elem, 'ServiceNamespace')!,
-      entityPath: _s.extractXmlStringValue(elem, 'EntityPath'),
-      lastAuthenticatedTime:
-          _s.extractXmlDateTimeValue(elem, 'LastAuthenticatedTime'),
-      region: _s.extractXmlStringValue(elem, 'Region'),
-      totalAuthenticatedEntities:
-          _s.extractXmlIntValue(elem, 'TotalAuthenticatedEntities'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final serviceName = this.serviceName;
-    final serviceNamespace = this.serviceNamespace;
-    final entityPath = this.entityPath;
-    final lastAuthenticatedTime = this.lastAuthenticatedTime;
-    final region = this.region;
-    final totalAuthenticatedEntities = this.totalAuthenticatedEntities;
-    return {
-      'ServiceName': serviceName,
-      'ServiceNamespace': serviceNamespace,
-      if (entityPath != null) 'EntityPath': entityPath,
-      if (lastAuthenticatedTime != null)
-        'LastAuthenticatedTime': iso8601ToJson(lastAuthenticatedTime),
-      if (region != null) 'Region': region,
-      if (totalAuthenticatedEntities != null)
-        'TotalAuthenticatedEntities': totalAuthenticatedEntities,
-    };
-  }
-}
-
-/// Contains information about an Amazon Web Services access key.
-///
-/// This data type is used as a response element in the <a>CreateAccessKey</a>
-/// and <a>ListAccessKeys</a> operations.
-/// <note>
-/// The <code>SecretAccessKey</code> value is returned only in response to
-/// <a>CreateAccessKey</a>. You can get a secret access key only when you first
-/// create an access key; you cannot recover the secret access key later. If you
-/// lose a secret access key, you must create a new access key.
-/// </note>
-class AccessKey {
-  /// The ID for this access key.
-  final String accessKeyId;
-
-  /// The secret key used to sign requests.
-  final String secretAccessKey;
-
-  /// The status of the access key. <code>Active</code> means that the key is
-  /// valid for API calls, while <code>Inactive</code> means it is not.
-  final StatusType status;
-
-  /// The name of the IAM user that the access key is associated with.
-  final String userName;
-
-  /// The date when the access key was created.
-  final DateTime? createDate;
-
-  AccessKey({
-    required this.accessKeyId,
-    required this.secretAccessKey,
-    required this.status,
-    required this.userName,
-    this.createDate,
-  });
-  factory AccessKey.fromXml(_s.XmlElement elem) {
-    return AccessKey(
-      accessKeyId: _s.extractXmlStringValue(elem, 'AccessKeyId')!,
-      secretAccessKey: _s.extractXmlStringValue(elem, 'SecretAccessKey')!,
-      status:
-          _s.extractXmlStringValue(elem, 'Status')!.let(StatusType.fromString),
-      userName: _s.extractXmlStringValue(elem, 'UserName')!,
-      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accessKeyId = this.accessKeyId;
-    final secretAccessKey = this.secretAccessKey;
-    final status = this.status;
-    final userName = this.userName;
-    final createDate = this.createDate;
-    return {
-      'AccessKeyId': accessKeyId,
-      'SecretAccessKey': secretAccessKey,
-      'Status': status.value,
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> used to
+  /// validate this parameter is a string of characters consisting of the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// Any printable ASCII character ranging from the space character
+  /// (<code>\u0020</code>) through the end of the ASCII character range
+  /// </li>
+  /// <li>
+  /// The printable characters in the Basic Latin and Latin-1 Supplement
+  /// character set (through <code>\u00FF</code>)
+  /// </li>
+  /// <li>
+  /// The special characters tab (<code>\u0009</code>), line feed
+  /// (<code>\u000A</code>), and carriage return (<code>\u000D</code>)
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [userName] :
+  /// The name of the IAM user to associate the SSH public key with.
+  ///
+  /// This parameter allows (through its <a
+  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
+  /// characters consisting of upper and lowercase alphanumeric characters with
+  /// no spaces. You can also include any of the following characters: _+=,.@-
+  Future<UploadSSHPublicKeyResponse> uploadSSHPublicKey({
+    required String sSHPublicKeyBody,
+    required String userName,
+  }) async {
+    final $request = <String, String>{
+      'SSHPublicKeyBody': sSHPublicKeyBody,
       'UserName': userName,
-      if (createDate != null) 'CreateDate': iso8601ToJson(createDate),
     };
-  }
-}
-
-/// Contains information about the last time an Amazon Web Services access key
-/// was used since IAM began tracking this information on April 22, 2015.
-///
-/// This data type is used as a response element in the
-/// <a>GetAccessKeyLastUsed</a> operation.
-class AccessKeyLastUsed {
-  /// The Amazon Web Services Region where this access key was most recently used.
-  /// The value for this field is "N/A" in the following situations:
-  ///
-  /// <ul>
-  /// <li>
-  /// The user does not have an access key.
-  /// </li>
-  /// <li>
-  /// An access key exists but has not been used since IAM began tracking this
-  /// information.
-  /// </li>
-  /// <li>
-  /// There is no sign-in data associated with the user.
-  /// </li>
-  /// </ul>
-  /// For more information about Amazon Web Services Regions, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html">Regions and
-  /// endpoints</a> in the Amazon Web Services General Reference.
-  final String region;
-
-  /// The name of the Amazon Web Services service with which this access key was
-  /// most recently used. The value of this field is "N/A" in the following
-  /// situations:
-  ///
-  /// <ul>
-  /// <li>
-  /// The user does not have an access key.
-  /// </li>
-  /// <li>
-  /// An access key exists but has not been used since IAM started tracking this
-  /// information.
-  /// </li>
-  /// <li>
-  /// There is no sign-in data associated with the user.
-  /// </li>
-  /// </ul>
-  final String serviceName;
-
-  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
-  /// date-time format</a>, when the access key was most recently used. This field
-  /// is null in the following situations:
-  ///
-  /// <ul>
-  /// <li>
-  /// The user does not have an access key.
-  /// </li>
-  /// <li>
-  /// An access key exists but has not been used since IAM began tracking this
-  /// information.
-  /// </li>
-  /// <li>
-  /// There is no sign-in data associated with the user.
-  /// </li>
-  /// </ul>
-  final DateTime? lastUsedDate;
-
-  AccessKeyLastUsed({
-    required this.region,
-    required this.serviceName,
-    this.lastUsedDate,
-  });
-  factory AccessKeyLastUsed.fromXml(_s.XmlElement elem) {
-    return AccessKeyLastUsed(
-      region: _s.extractXmlStringValue(elem, 'Region')!,
-      serviceName: _s.extractXmlStringValue(elem, 'ServiceName')!,
-      lastUsedDate: _s.extractXmlDateTimeValue(elem, 'LastUsedDate'),
+    final $result = await _protocol.send(
+      $request,
+      action: 'UploadSSHPublicKey',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'UploadSSHPublicKeyResult',
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    final region = this.region;
-    final serviceName = this.serviceName;
-    final lastUsedDate = this.lastUsedDate;
-    return {
-      'Region': region,
-      'ServiceName': serviceName,
-      if (lastUsedDate != null) 'LastUsedDate': iso8601ToJson(lastUsedDate),
-    };
+    return UploadSSHPublicKeyResponse.fromXml($result);
   }
 }
 
-/// Contains information about an Amazon Web Services access key, without its
-/// secret key.
-///
-/// This data type is used as a response element in the <a>ListAccessKeys</a>
-/// operation.
-class AccessKeyMetadata {
-  /// The ID for this access key.
-  final String? accessKeyId;
-
-  /// The date when the access key was created.
-  final DateTime? createDate;
-
-  /// The status of the access key. <code>Active</code> means that the key is
-  /// valid for API calls; <code>Inactive</code> means it is not.
-  final StatusType? status;
-
-  /// The name of the IAM user that the key is associated with.
-  final String? userName;
-
-  AccessKeyMetadata({
-    this.accessKeyId,
-    this.createDate,
-    this.status,
-    this.userName,
-  });
-  factory AccessKeyMetadata.fromXml(_s.XmlElement elem) {
-    return AccessKeyMetadata(
-      accessKeyId: _s.extractXmlStringValue(elem, 'AccessKeyId'),
-      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
-      status:
-          _s.extractXmlStringValue(elem, 'Status')?.let(StatusType.fromString),
-      userName: _s.extractXmlStringValue(elem, 'UserName'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accessKeyId = this.accessKeyId;
-    final createDate = this.createDate;
-    final status = this.status;
-    final userName = this.userName;
-    return {
-      if (accessKeyId != null) 'AccessKeyId': accessKeyId,
-      if (createDate != null) 'CreateDate': iso8601ToJson(createDate),
-      if (status != null) 'Status': status.value,
-      if (userName != null) 'UserName': userName,
-    };
-  }
-}
-
-/// Contains information about an attached permissions boundary.
-///
-/// An attached permissions boundary is a managed policy that has been attached
-/// to a user or role to set the permissions boundary.
-///
-/// For more information about permissions boundaries, see <a
-/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
-/// boundaries for IAM identities </a> in the <i>IAM User Guide</i>.
-class AttachedPermissionsBoundary {
-  /// The ARN of the policy used to set the permissions boundary for the user or
-  /// role.
-  final String? permissionsBoundaryArn;
-
-  /// The permissions boundary usage type that indicates what type of IAM resource
-  /// is used as the permissions boundary for an entity. This data type can only
-  /// have a value of <code>Policy</code>.
-  final PermissionsBoundaryAttachmentType? permissionsBoundaryType;
-
-  AttachedPermissionsBoundary({
-    this.permissionsBoundaryArn,
-    this.permissionsBoundaryType,
-  });
-  factory AttachedPermissionsBoundary.fromXml(_s.XmlElement elem) {
-    return AttachedPermissionsBoundary(
-      permissionsBoundaryArn:
-          _s.extractXmlStringValue(elem, 'PermissionsBoundaryArn'),
-      permissionsBoundaryType: _s
-          .extractXmlStringValue(elem, 'PermissionsBoundaryType')
-          ?.let(PermissionsBoundaryAttachmentType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final permissionsBoundaryArn = this.permissionsBoundaryArn;
-    final permissionsBoundaryType = this.permissionsBoundaryType;
-    return {
-      if (permissionsBoundaryArn != null)
-        'PermissionsBoundaryArn': permissionsBoundaryArn,
-      if (permissionsBoundaryType != null)
-        'PermissionsBoundaryType': permissionsBoundaryType.value,
-    };
-  }
-}
-
-/// Contains information about an attached policy.
-///
-/// An attached policy is a managed policy that has been attached to a user,
-/// group, or role. This data type is used as a response element in the
-/// <a>ListAttachedGroupPolicies</a>, <a>ListAttachedRolePolicies</a>,
-/// <a>ListAttachedUserPolicies</a>, and <a>GetAccountAuthorizationDetails</a>
-/// operations.
-///
-/// For more information about managed policies, refer to <a
-/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-/// policies and inline policies</a> in the <i>IAM User Guide</i>.
-class AttachedPolicy {
-  final String? policyArn;
-
-  /// The friendly name of the attached policy.
-  final String? policyName;
-
-  AttachedPolicy({
-    this.policyArn,
-    this.policyName,
-  });
-  factory AttachedPolicy.fromXml(_s.XmlElement elem) {
-    return AttachedPolicy(
-      policyArn: _s.extractXmlStringValue(elem, 'PolicyArn'),
-      policyName: _s.extractXmlStringValue(elem, 'PolicyName'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final policyArn = this.policyArn;
-    final policyName = this.policyName;
-    return {
-      if (policyArn != null) 'PolicyArn': policyArn,
-      if (policyName != null) 'PolicyName': policyName,
-    };
-  }
-}
-
-/// Contains information about a condition context key. It includes the name of
-/// the key and specifies the value (or values, if the context key supports
-/// multiple values) to use in the simulation. This information is used when
-/// evaluating the <code>Condition</code> elements of the input policies.
-///
-/// This data type is used as an input parameter to <a>SimulateCustomPolicy</a>
-/// and <a>SimulatePrincipalPolicy</a>.
-class ContextEntry {
-  /// The full name of a condition context key, including the service prefix. For
-  /// example, <code>aws:SourceIp</code> or <code>s3:VersionId</code>.
-  final String? contextKeyName;
-
-  /// The data type of the value (or values) specified in the
-  /// <code>ContextKeyValues</code> parameter.
-  final ContextKeyTypeEnum? contextKeyType;
-
-  /// The value (or values, if the condition context key supports multiple values)
-  /// to provide to the simulation when the key is referenced by a
-  /// <code>Condition</code> element in an input policy.
-  final List<String>? contextKeyValues;
-
-  ContextEntry({
-    this.contextKeyName,
-    this.contextKeyType,
-    this.contextKeyValues,
-  });
-
-  Map<String, dynamic> toJson() {
-    final contextKeyName = this.contextKeyName;
-    final contextKeyType = this.contextKeyType;
-    final contextKeyValues = this.contextKeyValues;
-    return {
-      if (contextKeyName != null) 'ContextKeyName': contextKeyName,
-      if (contextKeyType != null) 'ContextKeyType': contextKeyType.value,
-      if (contextKeyValues != null) 'ContextKeyValues': contextKeyValues,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final contextKeyName = this.contextKeyName;
-    final contextKeyType = this.contextKeyType;
-    final contextKeyValues = this.contextKeyValues;
-    return {
-      if (contextKeyName != null) 'ContextKeyName': contextKeyName,
-      if (contextKeyType != null) 'ContextKeyType': contextKeyType.value,
-      if (contextKeyValues != null)
-        if (contextKeyValues.isEmpty)
-          'ContextKeyValues': ''
-        else
-          for (var i1 = 0; i1 < contextKeyValues.length; i1++)
-            'ContextKeyValues.member.${i1 + 1}': contextKeyValues[i1],
-    };
-  }
-}
-
-class ContextKeyTypeEnum {
-  static const string = ContextKeyTypeEnum._('string');
-  static const stringList = ContextKeyTypeEnum._('stringList');
-  static const numeric = ContextKeyTypeEnum._('numeric');
-  static const numericList = ContextKeyTypeEnum._('numericList');
-  static const boolean = ContextKeyTypeEnum._('boolean');
-  static const booleanList = ContextKeyTypeEnum._('booleanList');
-  static const ip = ContextKeyTypeEnum._('ip');
-  static const ipList = ContextKeyTypeEnum._('ipList');
-  static const binary = ContextKeyTypeEnum._('binary');
-  static const binaryList = ContextKeyTypeEnum._('binaryList');
-  static const date = ContextKeyTypeEnum._('date');
-  static const dateList = ContextKeyTypeEnum._('dateList');
-
-  final String value;
-
-  const ContextKeyTypeEnum._(this.value);
-
-  static const values = [
-    string,
-    stringList,
-    numeric,
-    numericList,
-    boolean,
-    booleanList,
-    ip,
-    ipList,
-    binary,
-    binaryList,
-    date,
-    dateList
-  ];
-
-  static ContextKeyTypeEnum fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ContextKeyTypeEnum._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ContextKeyTypeEnum && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains the response to a successful <a>CreateAccessKey</a> request.
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateAccessKey.html">CreateAccessKey</a>
+/// request.
 class CreateAccessKeyResponse {
   /// A structure with details about the access key.
   final AccessKey accessKey;
@@ -11337,7 +11770,45 @@ class CreateAccessKeyResponse {
   }
 }
 
-/// Contains the response to a successful <a>CreateGroup</a> request.
+class CreateDelegationRequestResponse {
+  /// A deep link URL to the Amazon Web Services Management Console for managing
+  /// the delegation request.
+  ///
+  /// For a console based workflow, partners should redirect the customer to this
+  /// URL. If the customer is not logged in to any Amazon Web Services account,
+  /// the Amazon Web Services workflow will automatically direct the customer to
+  /// log in and then display the delegation request approval page.
+  final String? consoleDeepLink;
+
+  /// The unique identifier for the created delegation request.
+  final String? delegationRequestId;
+
+  CreateDelegationRequestResponse({
+    this.consoleDeepLink,
+    this.delegationRequestId,
+  });
+  factory CreateDelegationRequestResponse.fromXml(_s.XmlElement elem) {
+    return CreateDelegationRequestResponse(
+      consoleDeepLink: _s.extractXmlStringValue(elem, 'ConsoleDeepLink'),
+      delegationRequestId:
+          _s.extractXmlStringValue(elem, 'DelegationRequestId'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final consoleDeepLink = this.consoleDeepLink;
+    final delegationRequestId = this.delegationRequestId;
+    return {
+      if (consoleDeepLink != null) 'ConsoleDeepLink': consoleDeepLink,
+      if (delegationRequestId != null)
+        'DelegationRequestId': delegationRequestId,
+    };
+  }
+}
+
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateGroup.html">CreateGroup</a>
+/// request.
 class CreateGroupResponse {
   /// A structure containing details about the new group.
   final Group group;
@@ -11359,7 +11830,9 @@ class CreateGroupResponse {
   }
 }
 
-/// Contains the response to a successful <a>CreateInstanceProfile</a> request.
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateInstanceProfile.html">CreateInstanceProfile</a>
+/// request.
 class CreateInstanceProfileResponse {
   /// A structure containing details about the new instance profile.
   final InstanceProfile instanceProfile;
@@ -11382,7 +11855,9 @@ class CreateInstanceProfileResponse {
   }
 }
 
-/// Contains the response to a successful <a>CreateLoginProfile</a> request.
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateLoginProfile.html">CreateLoginProfile</a>
+/// request.
 class CreateLoginProfileResponse {
   /// A structure containing the user name and password create date.
   final LoginProfile loginProfile;
@@ -11405,11 +11880,13 @@ class CreateLoginProfileResponse {
   }
 }
 
-/// Contains the response to a successful <a>CreateOpenIDConnectProvider</a>
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateOpenIDConnectProvider.html">CreateOpenIDConnectProvider</a>
 /// request.
 class CreateOpenIDConnectProviderResponse {
   /// The Amazon Resource Name (ARN) of the new IAM OpenID Connect provider that
-  /// is created. For more information, see <a>OpenIDConnectProviderListEntry</a>.
+  /// is created. For more information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_OpenIDConnectProviderListEntry.html">OpenIDConnectProviderListEntry</a>.
   final String? openIDConnectProviderArn;
 
   /// A list of tags that are attached to the new IAM OIDC provider. The returned
@@ -11443,7 +11920,9 @@ class CreateOpenIDConnectProviderResponse {
   }
 }
 
-/// Contains the response to a successful <a>CreatePolicy</a> request.
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicy.html">CreatePolicy</a>
+/// request.
 class CreatePolicyResponse {
   /// A structure containing details about the new policy.
   final Policy? policy;
@@ -11465,7 +11944,9 @@ class CreatePolicyResponse {
   }
 }
 
-/// Contains the response to a successful <a>CreatePolicyVersion</a> request.
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicyVersion.html">CreatePolicyVersion</a>
+/// request.
 class CreatePolicyVersionResponse {
   /// A structure containing details about the new policy version.
   final PolicyVersion? policyVersion;
@@ -11488,7 +11969,9 @@ class CreatePolicyVersionResponse {
   }
 }
 
-/// Contains the response to a successful <a>CreateRole</a> request.
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html">CreateRole</a>
+/// request.
 class CreateRoleResponse {
   /// A structure containing details about the new role.
   final Role role;
@@ -11510,7 +11993,9 @@ class CreateRoleResponse {
   }
 }
 
-/// Contains the response to a successful <a>CreateSAMLProvider</a> request.
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateSAMLProvider.html">CreateSAMLProvider</a>
+/// request.
 class CreateSAMLProviderResponse {
   /// The Amazon Resource Name (ARN) of the new SAML provider resource in IAM.
   final String? sAMLProviderArn;
@@ -11545,7 +12030,9 @@ class CreateSAMLProviderResponse {
 }
 
 class CreateServiceLinkedRoleResponse {
-  /// A <a>Role</a> object that contains details about the newly created role.
+  /// A <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_Role.html">Role</a>
+  /// object that contains details about the newly created role.
   final Role? role;
 
   CreateServiceLinkedRoleResponse({
@@ -11571,7 +12058,8 @@ class CreateServiceSpecificCredentialResponse {
   /// <important>
   /// This is the only time that the password for this credential set is
   /// available. It cannot be recovered later. Instead, you must reset the
-  /// password with <a>ResetServiceSpecificCredential</a>.
+  /// password with <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ResetServiceSpecificCredential.html">ResetServiceSpecificCredential</a>.
   /// </important>
   final ServiceSpecificCredential? serviceSpecificCredential;
 
@@ -11595,7 +12083,9 @@ class CreateServiceSpecificCredentialResponse {
   }
 }
 
-/// Contains the response to a successful <a>CreateUser</a> request.
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateUser.html">CreateUser</a>
+/// request.
 class CreateUserResponse {
   /// A structure with details about the new IAM user.
   final User? user;
@@ -11617,7 +12107,9 @@ class CreateUserResponse {
   }
 }
 
-/// Contains the response to a successful <a>CreateVirtualMFADevice</a> request.
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateVirtualMFADevice.html">CreateVirtualMFADevice</a>
+/// request.
 class CreateVirtualMFADeviceResponse {
   /// A structure containing details about the new virtual MFA device.
   final VirtualMFADevice virtualMFADevice;
@@ -11643,7 +12135,7 @@ class CreateVirtualMFADeviceResponse {
 class DeleteServiceLinkedRoleResponse {
   /// The deletion task identifier that you can use to check the status of the
   /// deletion. This identifier is returned in the format
-  /// <code>task/aws-service-role/&lt;service-principal-name&gt;/&lt;role-name&gt;/&lt;task-uuid&gt;</code>.
+  /// <code>task/aws-service-role/<service-principal-name>/<role-name>/<task-uuid></code>.
   final String deletionTaskId;
 
   DeleteServiceLinkedRoleResponse({
@@ -11663,386 +12155,170 @@ class DeleteServiceLinkedRoleResponse {
   }
 }
 
-/// The reason that the service-linked role deletion failed.
-///
-/// This data type is used as a response element in the
-/// <a>GetServiceLinkedRoleDeletionStatus</a> operation.
-class DeletionTaskFailureReasonType {
-  /// A short description of the reason that the service-linked role deletion
-  /// failed.
-  final String? reason;
+class DisableOrganizationsRootCredentialsManagementResponse {
+  /// The features enabled for centralized root access for member accounts in your
+  /// organization.
+  final List<FeatureType>? enabledFeatures;
 
-  /// A list of objects that contains details about the service-linked role
-  /// deletion failure, if that information is returned by the service. If the
-  /// service-linked role has active sessions or if any resources that were used
-  /// by the role have not been deleted from the linked service, the role can't be
-  /// deleted. This parameter includes a list of the resources that are associated
-  /// with the role and the Region in which the resources are being used.
-  final List<RoleUsageType>? roleUsageList;
+  /// The unique identifier (ID) of an organization.
+  final String? organizationId;
 
-  DeletionTaskFailureReasonType({
-    this.reason,
-    this.roleUsageList,
+  DisableOrganizationsRootCredentialsManagementResponse({
+    this.enabledFeatures,
+    this.organizationId,
   });
-  factory DeletionTaskFailureReasonType.fromXml(_s.XmlElement elem) {
-    return DeletionTaskFailureReasonType(
-      reason: _s.extractXmlStringValue(elem, 'Reason'),
-      roleUsageList: _s.extractXmlChild(elem, 'RoleUsageList')?.let((elem) =>
-          elem.findElements('member').map(RoleUsageType.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final reason = this.reason;
-    final roleUsageList = this.roleUsageList;
-    return {
-      if (reason != null) 'Reason': reason,
-      if (roleUsageList != null) 'RoleUsageList': roleUsageList,
-    };
-  }
-}
-
-class DeletionTaskStatusType {
-  static const succeeded = DeletionTaskStatusType._('SUCCEEDED');
-  static const inProgress = DeletionTaskStatusType._('IN_PROGRESS');
-  static const failed = DeletionTaskStatusType._('FAILED');
-  static const notStarted = DeletionTaskStatusType._('NOT_STARTED');
-
-  final String value;
-
-  const DeletionTaskStatusType._(this.value);
-
-  static const values = [succeeded, inProgress, failed, notStarted];
-
-  static DeletionTaskStatusType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DeletionTaskStatusType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DeletionTaskStatusType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object that contains details about when the IAM entities (users or roles)
-/// were last used in an attempt to access the specified Amazon Web Services
-/// service.
-///
-/// This data type is a response element in the
-/// <a>GetServiceLastAccessedDetailsWithEntities</a> operation.
-class EntityDetails {
-  /// The <code>EntityInfo</code> object that contains details about the entity
-  /// (user or role).
-  final EntityInfo entityInfo;
-
-  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
-  /// date-time format</a>, when the authenticated entity last attempted to access
-  /// Amazon Web Services. Amazon Web Services does not report unauthenticated
-  /// requests.
-  ///
-  /// This field is null if no IAM entities attempted to access the service within
-  /// the <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">tracking
-  /// period</a>.
-  final DateTime? lastAuthenticated;
-
-  EntityDetails({
-    required this.entityInfo,
-    this.lastAuthenticated,
-  });
-  factory EntityDetails.fromXml(_s.XmlElement elem) {
-    return EntityDetails(
-      entityInfo: EntityInfo.fromXml(_s.extractXmlChild(elem, 'EntityInfo')!),
-      lastAuthenticated: _s.extractXmlDateTimeValue(elem, 'LastAuthenticated'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final entityInfo = this.entityInfo;
-    final lastAuthenticated = this.lastAuthenticated;
-    return {
-      'EntityInfo': entityInfo,
-      if (lastAuthenticated != null)
-        'LastAuthenticated': iso8601ToJson(lastAuthenticated),
-    };
-  }
-}
-
-/// Contains details about the specified entity (user or role).
-///
-/// This data type is an element of the <a>EntityDetails</a> object.
-class EntityInfo {
-  final String arn;
-
-  /// The identifier of the entity (user or role).
-  final String id;
-
-  /// The name of the entity (user or role).
-  final String name;
-
-  /// The type of entity (user or role).
-  final PolicyOwnerEntityType type;
-
-  /// The path to the entity (user or role). For more information about paths, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// identifiers</a> in the <i>IAM User Guide</i>.
-  final String? path;
-
-  EntityInfo({
-    required this.arn,
-    required this.id,
-    required this.name,
-    required this.type,
-    this.path,
-  });
-  factory EntityInfo.fromXml(_s.XmlElement elem) {
-    return EntityInfo(
-      arn: _s.extractXmlStringValue(elem, 'Arn')!,
-      id: _s.extractXmlStringValue(elem, 'Id')!,
-      name: _s.extractXmlStringValue(elem, 'Name')!,
-      type: _s
-          .extractXmlStringValue(elem, 'Type')!
-          .let(PolicyOwnerEntityType.fromString),
-      path: _s.extractXmlStringValue(elem, 'Path'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final id = this.id;
-    final name = this.name;
-    final type = this.type;
-    final path = this.path;
-    return {
-      'Arn': arn,
-      'Id': id,
-      'Name': name,
-      'Type': type.value,
-      if (path != null) 'Path': path,
-    };
-  }
-}
-
-class EntityType {
-  static const user = EntityType._('User');
-  static const role = EntityType._('Role');
-  static const group = EntityType._('Group');
-  static const localManagedPolicy = EntityType._('LocalManagedPolicy');
-  static const awsManagedPolicy = EntityType._('AWSManagedPolicy');
-
-  final String value;
-
-  const EntityType._(this.value);
-
-  static const values = [
-    user,
-    role,
-    group,
-    localManagedPolicy,
-    awsManagedPolicy
-  ];
-
-  static EntityType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => EntityType._(value));
-
-  @override
-  bool operator ==(other) => other is EntityType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains information about the reason that the operation failed.
-///
-/// This data type is used as a response element in the
-/// <a>GetOrganizationsAccessReport</a>, <a>GetServiceLastAccessedDetails</a>,
-/// and <a>GetServiceLastAccessedDetailsWithEntities</a> operations.
-class ErrorDetails {
-  /// The error code associated with the operation failure.
-  final String code;
-
-  /// Detailed information about the reason that the operation failed.
-  final String message;
-
-  ErrorDetails({
-    required this.code,
-    required this.message,
-  });
-  factory ErrorDetails.fromXml(_s.XmlElement elem) {
-    return ErrorDetails(
-      code: _s.extractXmlStringValue(elem, 'Code')!,
-      message: _s.extractXmlStringValue(elem, 'Message')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final message = this.message;
-    return {
-      'Code': code,
-      'Message': message,
-    };
-  }
-}
-
-/// Contains the results of a simulation.
-///
-/// This data type is used by the return parameter of <code>
-/// <a>SimulateCustomPolicy</a> </code> and <code>
-/// <a>SimulatePrincipalPolicy</a> </code>.
-class EvaluationResult {
-  /// The name of the API operation tested on the indicated resource.
-  final String evalActionName;
-
-  /// The result of the simulation.
-  final PolicyEvaluationDecisionType evalDecision;
-
-  /// Additional details about the results of the cross-account evaluation
-  /// decision. This parameter is populated for only cross-account simulations. It
-  /// contains a brief summary of how each policy type contributes to the final
-  /// evaluation decision.
-  ///
-  /// If the simulation evaluates policies within the same account and includes a
-  /// resource ARN, then the parameter is present but the response is empty. If
-  /// the simulation evaluates policies within the same account and specifies all
-  /// resources (<code>*</code>), then the parameter is not returned.
-  ///
-  /// When you make a cross-account request, Amazon Web Services evaluates the
-  /// request in the trusting account and the trusted account. The request is
-  /// allowed only if both evaluations return <code>true</code>. For more
-  /// information about how policies are evaluated, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html#policy-eval-basics">Evaluating
-  /// policies within a single account</a>.
-  ///
-  /// If an Organizations SCP included in the evaluation denies access, the
-  /// simulation ends. In this case, policy evaluation does not proceed any
-  /// further and this parameter is not returned.
-  final Map<String, PolicyEvaluationDecisionType>? evalDecisionDetails;
-
-  /// The ARN of the resource that the indicated API operation was tested on.
-  final String? evalResourceName;
-
-  /// A list of the statements in the input policies that determine the result for
-  /// this scenario. Remember that even if multiple statements allow the operation
-  /// on the resource, if only one statement denies that operation, then the
-  /// explicit deny overrides any allow. In addition, the deny statement is the
-  /// only entry included in the result.
-  final List<Statement>? matchedStatements;
-
-  /// A list of context keys that are required by the included input policies but
-  /// that were not provided by one of the input parameters. This list is used
-  /// when the resource in a simulation is "*", either explicitly, or when the
-  /// <code>ResourceArns</code> parameter blank. If you include a list of
-  /// resources, then any missing context values are instead included under the
-  /// <code>ResourceSpecificResults</code> section. To discover the context keys
-  /// used by a set of policies, you can call <a>GetContextKeysForCustomPolicy</a>
-  /// or <a>GetContextKeysForPrincipalPolicy</a>.
-  final List<String>? missingContextValues;
-
-  /// A structure that details how Organizations and its service control policies
-  /// affect the results of the simulation. Only applies if the simulated user's
-  /// account is part of an organization.
-  final OrganizationsDecisionDetail? organizationsDecisionDetail;
-
-  /// Contains information about the effect that a permissions boundary has on a
-  /// policy simulation when the boundary is applied to an IAM entity.
-  final PermissionsBoundaryDecisionDetail? permissionsBoundaryDecisionDetail;
-
-  /// The individual results of the simulation of the API operation specified in
-  /// EvalActionName on each resource.
-  final List<ResourceSpecificResult>? resourceSpecificResults;
-
-  EvaluationResult({
-    required this.evalActionName,
-    required this.evalDecision,
-    this.evalDecisionDetails,
-    this.evalResourceName,
-    this.matchedStatements,
-    this.missingContextValues,
-    this.organizationsDecisionDetail,
-    this.permissionsBoundaryDecisionDetail,
-    this.resourceSpecificResults,
-  });
-  factory EvaluationResult.fromXml(_s.XmlElement elem) {
-    return EvaluationResult(
-      evalActionName: _s.extractXmlStringValue(elem, 'EvalActionName')!,
-      evalDecision: _s
-          .extractXmlStringValue(elem, 'EvalDecision')!
-          .let(PolicyEvaluationDecisionType.fromString),
-      evalDecisionDetails: Map.fromEntries(
-        elem.getElement('EvalDecisionDetails')?.findElements('entry').map(
-                  (c) => MapEntry(
-                    _s.extractXmlStringValue(c, 'key')!,
-                    _s
-                        .extractXmlStringValue(c, 'value')!
-                        .let(PolicyEvaluationDecisionType.fromString),
-                  ),
-                ) ??
-            {},
-      ),
-      evalResourceName: _s.extractXmlStringValue(elem, 'EvalResourceName'),
-      matchedStatements: _s.extractXmlChild(elem, 'MatchedStatements')?.let(
-          (elem) =>
-              elem.findElements('member').map(Statement.fromXml).toList()),
-      missingContextValues: _s
-          .extractXmlChild(elem, 'MissingContextValues')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      organizationsDecisionDetail: _s
-          .extractXmlChild(elem, 'OrganizationsDecisionDetail')
-          ?.let(OrganizationsDecisionDetail.fromXml),
-      permissionsBoundaryDecisionDetail: _s
-          .extractXmlChild(elem, 'PermissionsBoundaryDecisionDetail')
-          ?.let(PermissionsBoundaryDecisionDetail.fromXml),
-      resourceSpecificResults: _s
-          .extractXmlChild(elem, 'ResourceSpecificResults')
-          ?.let((elem) => elem
-              .findElements('member')
-              .map(ResourceSpecificResult.fromXml)
+  factory DisableOrganizationsRootCredentialsManagementResponse.fromXml(
+      _s.XmlElement elem) {
+    return DisableOrganizationsRootCredentialsManagementResponse(
+      enabledFeatures: _s.extractXmlChild(elem, 'EnabledFeatures')?.let(
+          (elem) => _s
+              .extractXmlStringListValues(elem, 'member')
+              .map(FeatureType.fromString)
               .toList()),
+      organizationId: _s.extractXmlStringValue(elem, 'OrganizationId'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final evalActionName = this.evalActionName;
-    final evalDecision = this.evalDecision;
-    final evalDecisionDetails = this.evalDecisionDetails;
-    final evalResourceName = this.evalResourceName;
-    final matchedStatements = this.matchedStatements;
-    final missingContextValues = this.missingContextValues;
-    final organizationsDecisionDetail = this.organizationsDecisionDetail;
-    final permissionsBoundaryDecisionDetail =
-        this.permissionsBoundaryDecisionDetail;
-    final resourceSpecificResults = this.resourceSpecificResults;
+    final enabledFeatures = this.enabledFeatures;
+    final organizationId = this.organizationId;
     return {
-      'EvalActionName': evalActionName,
-      'EvalDecision': evalDecision.value,
-      if (evalDecisionDetails != null)
-        'EvalDecisionDetails':
-            evalDecisionDetails.map((k, e) => MapEntry(k, e.value)),
-      if (evalResourceName != null) 'EvalResourceName': evalResourceName,
-      if (matchedStatements != null) 'MatchedStatements': matchedStatements,
-      if (missingContextValues != null)
-        'MissingContextValues': missingContextValues,
-      if (organizationsDecisionDetail != null)
-        'OrganizationsDecisionDetail': organizationsDecisionDetail,
-      if (permissionsBoundaryDecisionDetail != null)
-        'PermissionsBoundaryDecisionDetail': permissionsBoundaryDecisionDetail,
-      if (resourceSpecificResults != null)
-        'ResourceSpecificResults': resourceSpecificResults,
+      if (enabledFeatures != null)
+        'EnabledFeatures': enabledFeatures.map((e) => e.value).toList(),
+      if (organizationId != null) 'OrganizationId': organizationId,
     };
   }
 }
 
-/// Contains the response to a successful <a>GenerateCredentialReport</a>
+class DisableOrganizationsRootSessionsResponse {
+  /// The features you have enabled for centralized root access of member accounts
+  /// in your organization.
+  final List<FeatureType>? enabledFeatures;
+
+  /// The unique identifier (ID) of an organization.
+  final String? organizationId;
+
+  DisableOrganizationsRootSessionsResponse({
+    this.enabledFeatures,
+    this.organizationId,
+  });
+  factory DisableOrganizationsRootSessionsResponse.fromXml(_s.XmlElement elem) {
+    return DisableOrganizationsRootSessionsResponse(
+      enabledFeatures: _s.extractXmlChild(elem, 'EnabledFeatures')?.let(
+          (elem) => _s
+              .extractXmlStringListValues(elem, 'member')
+              .map(FeatureType.fromString)
+              .toList()),
+      organizationId: _s.extractXmlStringValue(elem, 'OrganizationId'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabledFeatures = this.enabledFeatures;
+    final organizationId = this.organizationId;
+    return {
+      if (enabledFeatures != null)
+        'EnabledFeatures': enabledFeatures.map((e) => e.value).toList(),
+      if (organizationId != null) 'OrganizationId': organizationId,
+    };
+  }
+}
+
+class EnableOrganizationsRootCredentialsManagementResponse {
+  /// The features you have enabled for centralized root access.
+  final List<FeatureType>? enabledFeatures;
+
+  /// The unique identifier (ID) of an organization.
+  final String? organizationId;
+
+  EnableOrganizationsRootCredentialsManagementResponse({
+    this.enabledFeatures,
+    this.organizationId,
+  });
+  factory EnableOrganizationsRootCredentialsManagementResponse.fromXml(
+      _s.XmlElement elem) {
+    return EnableOrganizationsRootCredentialsManagementResponse(
+      enabledFeatures: _s.extractXmlChild(elem, 'EnabledFeatures')?.let(
+          (elem) => _s
+              .extractXmlStringListValues(elem, 'member')
+              .map(FeatureType.fromString)
+              .toList()),
+      organizationId: _s.extractXmlStringValue(elem, 'OrganizationId'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabledFeatures = this.enabledFeatures;
+    final organizationId = this.organizationId;
+    return {
+      if (enabledFeatures != null)
+        'EnabledFeatures': enabledFeatures.map((e) => e.value).toList(),
+      if (organizationId != null) 'OrganizationId': organizationId,
+    };
+  }
+}
+
+class EnableOrganizationsRootSessionsResponse {
+  /// The features you have enabled for centralized root access.
+  final List<FeatureType>? enabledFeatures;
+
+  /// The unique identifier (ID) of an organization.
+  final String? organizationId;
+
+  EnableOrganizationsRootSessionsResponse({
+    this.enabledFeatures,
+    this.organizationId,
+  });
+  factory EnableOrganizationsRootSessionsResponse.fromXml(_s.XmlElement elem) {
+    return EnableOrganizationsRootSessionsResponse(
+      enabledFeatures: _s.extractXmlChild(elem, 'EnabledFeatures')?.let(
+          (elem) => _s
+              .extractXmlStringListValues(elem, 'member')
+              .map(FeatureType.fromString)
+              .toList()),
+      organizationId: _s.extractXmlStringValue(elem, 'OrganizationId'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabledFeatures = this.enabledFeatures;
+    final organizationId = this.organizationId;
+    return {
+      if (enabledFeatures != null)
+        'EnabledFeatures': enabledFeatures.map((e) => e.value).toList(),
+      if (organizationId != null) 'OrganizationId': organizationId,
+    };
+  }
+}
+
+class EnableOutboundWebIdentityFederationResponse {
+  /// A unique issuer URL for your Amazon Web Services account that hosts the
+  /// OpenID Connect (OIDC) discovery endpoints at
+  /// <code>/.well-known/openid-configuration and /.well-known/jwks.json</code>.
+  /// The OpenID Connect (OIDC) discovery endpoints contain verification keys and
+  /// metadata necessary for token verification.
+  final String? issuerIdentifier;
+
+  EnableOutboundWebIdentityFederationResponse({
+    this.issuerIdentifier,
+  });
+  factory EnableOutboundWebIdentityFederationResponse.fromXml(
+      _s.XmlElement elem) {
+    return EnableOutboundWebIdentityFederationResponse(
+      issuerIdentifier: _s.extractXmlStringValue(elem, 'IssuerIdentifier'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final issuerIdentifier = this.issuerIdentifier;
+    return {
+      if (issuerIdentifier != null) 'IssuerIdentifier': issuerIdentifier,
+    };
+  }
+}
+
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GenerateCredentialReport.html">GenerateCredentialReport</a>
 /// request.
 class GenerateCredentialReportResponse {
   /// Information about the credential report.
@@ -12075,8 +12351,9 @@ class GenerateCredentialReportResponse {
 }
 
 class GenerateOrganizationsAccessReportResponse {
-  /// The job identifier that you can use in the
-  /// <a>GetOrganizationsAccessReport</a> operation.
+  /// The job identifier that you can use in the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetOrganizationsAccessReport.html">GetOrganizationsAccessReport</a>
+  /// operation.
   final String? jobId;
 
   GenerateOrganizationsAccessReportResponse({
@@ -12098,10 +12375,11 @@ class GenerateOrganizationsAccessReportResponse {
 }
 
 class GenerateServiceLastAccessedDetailsResponse {
-  /// The <code>JobId</code> that you can use in the
-  /// <a>GetServiceLastAccessedDetails</a> or
-  /// <a>GetServiceLastAccessedDetailsWithEntities</a> operations. The
-  /// <code>JobId</code> returned by
+  /// The <code>JobId</code> that you can use in the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServiceLastAccessedDetails.html">GetServiceLastAccessedDetails</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServiceLastAccessedDetailsWithEntities.html">GetServiceLastAccessedDetailsWithEntities</a>
+  /// operations. The <code>JobId</code> returned by
   /// <code>GenerateServiceLastAccessedDetail</code> must be used by the same role
   /// within a session, or by the same user when used to call
   /// <code>GetServiceLastAccessedDetail</code>.
@@ -12125,15 +12403,20 @@ class GenerateServiceLastAccessedDetailsResponse {
   }
 }
 
-/// Contains the response to a successful <a>GetAccessKeyLastUsed</a> request.
-/// It is also returned as a member of the <a>AccessKeyMetaData</a> structure
-/// returned by the <a>ListAccessKeys</a> action.
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccessKeyLastUsed.html">GetAccessKeyLastUsed</a>
+/// request. It is also returned as a member of the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_AccessKeyMetaData.html">AccessKeyMetaData</a>
+/// structure returned by the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAccessKeys.html">ListAccessKeys</a>
+/// action.
 class GetAccessKeyLastUsedResponse {
   /// Contains information about the last time the access key was used.
   final AccessKeyLastUsed? accessKeyLastUsed;
 
   /// The name of the IAM user that owns this access key.
-  /// <p/>
+  ///
+  ///
   final String? userName;
 
   GetAccessKeyLastUsedResponse({
@@ -12159,7 +12442,8 @@ class GetAccessKeyLastUsedResponse {
   }
 }
 
-/// Contains the response to a successful <a>GetAccountAuthorizationDetails</a>
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountAuthorizationDetails.html">GetAccountAuthorizationDetails</a>
 /// request.
 class GetAccountAuthorizationDetailsResponse {
   /// A list containing information about IAM groups.
@@ -12232,7 +12516,8 @@ class GetAccountAuthorizationDetailsResponse {
   }
 }
 
-/// Contains the response to a successful <a>GetAccountPasswordPolicy</a>
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountPasswordPolicy.html">GetAccountPasswordPolicy</a>
 /// request.
 class GetAccountPasswordPolicyResponse {
   /// A structure that contains details about the account's password policy.
@@ -12256,7 +12541,9 @@ class GetAccountPasswordPolicyResponse {
   }
 }
 
-/// Contains the response to a successful <a>GetAccountSummary</a> request.
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountSummary.html">GetAccountSummary</a>
+/// request.
 class GetAccountSummaryResponse {
   /// A set of key–value pairs containing information about IAM entity usage and
   /// IAM quotas.
@@ -12290,9 +12577,11 @@ class GetAccountSummaryResponse {
   }
 }
 
-/// Contains the response to a successful
-/// <a>GetContextKeysForPrincipalPolicy</a> or
-/// <a>GetContextKeysForCustomPolicy</a> request.
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForPrincipalPolicy.html">GetContextKeysForPrincipalPolicy</a>
+/// or <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForCustomPolicy.html">GetContextKeysForCustomPolicy</a>
+/// request.
 class GetContextKeysForPolicyResponse {
   /// The list of context keys that are referenced in the input policies.
   final List<String>? contextKeyNames;
@@ -12316,7 +12605,9 @@ class GetContextKeysForPolicyResponse {
   }
 }
 
-/// Contains the response to a successful <a>GetCredentialReport</a> request.
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetCredentialReport.html">GetCredentialReport</a>
+/// request.
 class GetCredentialReportResponse {
   /// Contains the credential report. The report is Base64-encoded.
   final Uint8List? content;
@@ -12355,47 +12646,88 @@ class GetCredentialReportResponse {
   }
 }
 
-/// Contains the response to a successful <a>GetGroupPolicy</a> request.
-class GetGroupPolicyResponse {
-  /// The group the policy is associated with.
-  final String groupName;
+class GetDelegationRequestResponse {
+  /// The delegation request object containing all details about the request.
+  final DelegationRequest? delegationRequest;
 
-  /// The policy document.
+  /// The result of the permission check, indicating whether the caller has
+  /// sufficient permissions to cover the requested permissions. This is an
+  /// approximate result.
   ///
-  /// IAM stores policies in JSON format. However, resources that were created
-  /// using CloudFormation templates can be formatted in YAML. CloudFormation
-  /// always converts a YAML policy to JSON format before submitting it to IAM.
-  final String policyDocument;
+  /// <ul>
+  /// <li>
+  /// <code>ALLOWED</code> : The caller has sufficient permissions cover all the
+  /// requested permissions.
+  /// </li>
+  /// <li>
+  /// <code>DENIED</code> : The caller does not have sufficient permissions to
+  /// cover all the requested permissions.
+  /// </li>
+  /// <li>
+  /// <code>UNSURE</code> : It is not possible to determine whether the caller has
+  /// all the permissions needed. This output is most likely for cases when the
+  /// caller has permissions with conditions.
+  /// </li>
+  /// </ul>
+  final PermissionCheckResultType? permissionCheckResult;
 
-  /// The name of the policy.
-  final String policyName;
+  /// The status of the permission check for the delegation request.
+  ///
+  /// This value indicates the status of the process to check whether the caller
+  /// has sufficient permissions to cover the requested actions in the delegation
+  /// request. Since this is an asynchronous process, there are three potential
+  /// values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>IN_PROGRESS</code> : The permission check process has started.
+  /// </li>
+  /// <li>
+  /// <code>COMPLETED</code> : The permission check process has completed. The
+  /// <code>PermissionCheckResult</code> will include the result.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> : The permission check process has failed.
+  /// </li>
+  /// </ul>
+  final PermissionCheckStatusType? permissionCheckStatus;
 
-  GetGroupPolicyResponse({
-    required this.groupName,
-    required this.policyDocument,
-    required this.policyName,
+  GetDelegationRequestResponse({
+    this.delegationRequest,
+    this.permissionCheckResult,
+    this.permissionCheckStatus,
   });
-  factory GetGroupPolicyResponse.fromXml(_s.XmlElement elem) {
-    return GetGroupPolicyResponse(
-      groupName: _s.extractXmlStringValue(elem, 'GroupName')!,
-      policyDocument: _s.extractXmlStringValue(elem, 'PolicyDocument')!,
-      policyName: _s.extractXmlStringValue(elem, 'PolicyName')!,
+  factory GetDelegationRequestResponse.fromXml(_s.XmlElement elem) {
+    return GetDelegationRequestResponse(
+      delegationRequest: _s
+          .extractXmlChild(elem, 'DelegationRequest')
+          ?.let(DelegationRequest.fromXml),
+      permissionCheckResult: _s
+          .extractXmlStringValue(elem, 'PermissionCheckResult')
+          ?.let(PermissionCheckResultType.fromString),
+      permissionCheckStatus: _s
+          .extractXmlStringValue(elem, 'PermissionCheckStatus')
+          ?.let(PermissionCheckStatusType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final groupName = this.groupName;
-    final policyDocument = this.policyDocument;
-    final policyName = this.policyName;
+    final delegationRequest = this.delegationRequest;
+    final permissionCheckResult = this.permissionCheckResult;
+    final permissionCheckStatus = this.permissionCheckStatus;
     return {
-      'GroupName': groupName,
-      'PolicyDocument': policyDocument,
-      'PolicyName': policyName,
+      if (delegationRequest != null) 'DelegationRequest': delegationRequest,
+      if (permissionCheckResult != null)
+        'PermissionCheckResult': permissionCheckResult.value,
+      if (permissionCheckStatus != null)
+        'PermissionCheckStatus': permissionCheckStatus.value,
     };
   }
 }
 
-/// Contains the response to a successful <a>GetGroup</a> request.
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetGroup.html">GetGroup</a>
+/// request.
 class GetGroupResponse {
   /// A structure that contains details about the group.
   final Group group;
@@ -12450,7 +12782,91 @@ class GetGroupResponse {
   }
 }
 
-/// Contains the response to a successful <a>GetInstanceProfile</a> request.
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetGroupPolicy.html">GetGroupPolicy</a>
+/// request.
+class GetGroupPolicyResponse {
+  /// The group the policy is associated with.
+  final String groupName;
+
+  /// The policy document.
+  ///
+  /// IAM stores policies in JSON format. However, resources that were created
+  /// using CloudFormation templates can be formatted in YAML. CloudFormation
+  /// always converts a YAML policy to JSON format before submitting it to IAM.
+  final String policyDocument;
+
+  /// The name of the policy.
+  final String policyName;
+
+  GetGroupPolicyResponse({
+    required this.groupName,
+    required this.policyDocument,
+    required this.policyName,
+  });
+  factory GetGroupPolicyResponse.fromXml(_s.XmlElement elem) {
+    return GetGroupPolicyResponse(
+      groupName: _s.extractXmlStringValue(elem, 'GroupName')!,
+      policyDocument: _s.extractXmlStringValue(elem, 'PolicyDocument')!,
+      policyName: _s.extractXmlStringValue(elem, 'PolicyName')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupName = this.groupName;
+    final policyDocument = this.policyDocument;
+    final policyName = this.policyName;
+    return {
+      'GroupName': groupName,
+      'PolicyDocument': policyDocument,
+      'PolicyName': policyName,
+    };
+  }
+}
+
+class GetHumanReadableSummaryResponse {
+  /// The locale that this response was generated for. This maps to the input
+  /// locale.
+  final String? locale;
+
+  /// Summary content in the specified locale. Summary content is non-empty only
+  /// if the <code>SummaryState</code> is <code>AVAILABLE</code>.
+  final String? summaryContent;
+
+  /// State of summary generation. This generation process is asynchronous and
+  /// this attribute indicates the state of the generation process.
+  final SummaryStateType? summaryState;
+
+  GetHumanReadableSummaryResponse({
+    this.locale,
+    this.summaryContent,
+    this.summaryState,
+  });
+  factory GetHumanReadableSummaryResponse.fromXml(_s.XmlElement elem) {
+    return GetHumanReadableSummaryResponse(
+      locale: _s.extractXmlStringValue(elem, 'Locale'),
+      summaryContent: _s.extractXmlStringValue(elem, 'SummaryContent'),
+      summaryState: _s
+          .extractXmlStringValue(elem, 'SummaryState')
+          ?.let(SummaryStateType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final locale = this.locale;
+    final summaryContent = this.summaryContent;
+    final summaryState = this.summaryState;
+    return {
+      if (locale != null) 'Locale': locale,
+      if (summaryContent != null) 'SummaryContent': summaryContent,
+      if (summaryState != null) 'SummaryState': summaryState.value,
+    };
+  }
+}
+
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetInstanceProfile.html">GetInstanceProfile</a>
+/// request.
 class GetInstanceProfileResponse {
   /// A structure containing details about the instance profile.
   final InstanceProfile instanceProfile;
@@ -12473,7 +12889,9 @@ class GetInstanceProfileResponse {
   }
 }
 
-/// Contains the response to a successful <a>GetLoginProfile</a> request.
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetLoginProfile.html">GetLoginProfile</a>
+/// request.
 class GetLoginProfileResponse {
   /// A structure containing the user name and the profile creation date for the
   /// user.
@@ -12552,12 +12970,13 @@ class GetMFADeviceResponse {
   }
 }
 
-/// Contains the response to a successful <a>GetOpenIDConnectProvider</a>
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetOpenIDConnectProvider.html">GetOpenIDConnectProvider</a>
 /// request.
 class GetOpenIDConnectProviderResponse {
   /// A list of client IDs (also known as audiences) that are associated with the
-  /// specified IAM OIDC provider resource object. For more information, see
-  /// <a>CreateOpenIDConnectProvider</a>.
+  /// specified IAM OIDC provider resource object. For more information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateOpenIDConnectProvider.html">CreateOpenIDConnectProvider</a>.
   final List<String>? clientIDList;
 
   /// The date and time when the IAM OIDC provider resource object was created in
@@ -12572,12 +12991,13 @@ class GetOpenIDConnectProviderResponse {
   final List<Tag>? tags;
 
   /// A list of certificate thumbprints that are associated with the specified IAM
-  /// OIDC provider resource object. For more information, see
-  /// <a>CreateOpenIDConnectProvider</a>.
+  /// OIDC provider resource object. For more information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateOpenIDConnectProvider.html">CreateOpenIDConnectProvider</a>.
   final List<String>? thumbprintList;
 
   /// The URL that the IAM OIDC provider resource object is associated with. For
-  /// more information, see <a>CreateOpenIDConnectProvider</a>.
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateOpenIDConnectProvider.html">CreateOpenIDConnectProvider</a>.
   final String? url;
 
   GetOpenIDConnectProviderResponse({
@@ -12619,14 +13039,14 @@ class GetOpenIDConnectProviderResponse {
 }
 
 class GetOrganizationsAccessReportResponse {
-  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
+  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when the report job was created.
   final DateTime jobCreationDate;
 
   /// The status of the job.
   final JobStatusType jobStatus;
 
-  /// An object that contains details about the most recent attempt to access the
+  /// An object that contains details about the most recent attempt to access the
   /// service.
   final List<AccessDetail>? accessDetails;
   final ErrorDetails? errorDetails;
@@ -12640,7 +13060,7 @@ class GetOrganizationsAccessReportResponse {
   /// your results.
   final bool? isTruncated;
 
-  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
+  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when the generated report job was completed or failed.
   ///
   /// This field is null if the job is still in progress, as indicated by a job
@@ -12718,7 +13138,45 @@ class GetOrganizationsAccessReportResponse {
   }
 }
 
-/// Contains the response to a successful <a>GetPolicy</a> request.
+class GetOutboundWebIdentityFederationInfoResponse {
+  /// A unique issuer URL for your Amazon Web Services account that hosts the
+  /// OpenID Connect (OIDC) discovery endpoints at
+  /// <code>/.well-known/openid-configuration and /.well-known/jwks.json</code>.
+  /// The OpenID Connect (OIDC) discovery endpoints contain verification keys and
+  /// metadata necessary for token verification.
+  final String? issuerIdentifier;
+
+  /// Indicates whether outbound identity federation is currently enabled for your
+  /// Amazon Web Services account. When true, IAM principals in the account can
+  /// call the <code>GetWebIdentityToken</code> API to obtain JSON Web Tokens
+  /// (JWTs) for authentication with external services.
+  final bool? jwtVendingEnabled;
+
+  GetOutboundWebIdentityFederationInfoResponse({
+    this.issuerIdentifier,
+    this.jwtVendingEnabled,
+  });
+  factory GetOutboundWebIdentityFederationInfoResponse.fromXml(
+      _s.XmlElement elem) {
+    return GetOutboundWebIdentityFederationInfoResponse(
+      issuerIdentifier: _s.extractXmlStringValue(elem, 'IssuerIdentifier'),
+      jwtVendingEnabled: _s.extractXmlBoolValue(elem, 'JwtVendingEnabled'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final issuerIdentifier = this.issuerIdentifier;
+    final jwtVendingEnabled = this.jwtVendingEnabled;
+    return {
+      if (issuerIdentifier != null) 'IssuerIdentifier': issuerIdentifier,
+      if (jwtVendingEnabled != null) 'JwtVendingEnabled': jwtVendingEnabled,
+    };
+  }
+}
+
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicy.html">GetPolicy</a>
+/// request.
 class GetPolicyResponse {
   /// A structure containing details about the policy.
   final Policy? policy;
@@ -12740,7 +13198,9 @@ class GetPolicyResponse {
   }
 }
 
-/// Contains the response to a successful <a>GetPolicyVersion</a> request.
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicyVersion.html">GetPolicyVersion</a>
+/// request.
 class GetPolicyVersionResponse {
   /// A structure containing details about the policy version.
   final PolicyVersion? policyVersion;
@@ -12763,7 +13223,33 @@ class GetPolicyVersionResponse {
   }
 }
 
-/// Contains the response to a successful <a>GetRolePolicy</a> request.
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetRole.html">GetRole</a>
+/// request.
+class GetRoleResponse {
+  /// A structure containing details about the IAM role.
+  final Role role;
+
+  GetRoleResponse({
+    required this.role,
+  });
+  factory GetRoleResponse.fromXml(_s.XmlElement elem) {
+    return GetRoleResponse(
+      role: Role.fromXml(_s.extractXmlChild(elem, 'Role')!),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final role = this.role;
+    return {
+      'Role': role,
+    };
+  }
+}
+
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetRolePolicy.html">GetRolePolicy</a>
+/// request.
 class GetRolePolicyResponse {
   /// The policy document.
   ///
@@ -12803,36 +13289,25 @@ class GetRolePolicyResponse {
   }
 }
 
-/// Contains the response to a successful <a>GetRole</a> request.
-class GetRoleResponse {
-  /// A structure containing details about the IAM role.
-  final Role role;
-
-  GetRoleResponse({
-    required this.role,
-  });
-  factory GetRoleResponse.fromXml(_s.XmlElement elem) {
-    return GetRoleResponse(
-      role: Role.fromXml(_s.extractXmlChild(elem, 'Role')!),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final role = this.role;
-    return {
-      'Role': role,
-    };
-  }
-}
-
-/// Contains the response to a successful <a>GetSAMLProvider</a> request.
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetSAMLProvider.html">GetSAMLProvider</a>
+/// request.
 class GetSAMLProviderResponse {
+  /// Specifies the encryption setting for the SAML provider.
+  final AssertionEncryptionModeType? assertionEncryptionMode;
+
   /// The date and time when the SAML provider was created.
   final DateTime? createDate;
+
+  /// The private key metadata for the SAML provider.
+  final List<SAMLPrivateKey>? privateKeyList;
 
   /// The XML metadata document that includes information about an identity
   /// provider.
   final String? sAMLMetadataDocument;
+
+  /// The unique identifier assigned to the SAML provider.
+  final String? sAMLProviderUUID;
 
   /// A list of tags that are attached to the specified IAM SAML provider. The
   /// returned list of tags is sorted by tag key. For more information about
@@ -12845,16 +13320,25 @@ class GetSAMLProviderResponse {
   final DateTime? validUntil;
 
   GetSAMLProviderResponse({
+    this.assertionEncryptionMode,
     this.createDate,
+    this.privateKeyList,
     this.sAMLMetadataDocument,
+    this.sAMLProviderUUID,
     this.tags,
     this.validUntil,
   });
   factory GetSAMLProviderResponse.fromXml(_s.XmlElement elem) {
     return GetSAMLProviderResponse(
+      assertionEncryptionMode: _s
+          .extractXmlStringValue(elem, 'AssertionEncryptionMode')
+          ?.let(AssertionEncryptionModeType.fromString),
       createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
+      privateKeyList: _s.extractXmlChild(elem, 'PrivateKeyList')?.let((elem) =>
+          elem.findElements('member').map(SAMLPrivateKey.fromXml).toList()),
       sAMLMetadataDocument:
           _s.extractXmlStringValue(elem, 'SAMLMetadataDocument'),
+      sAMLProviderUUID: _s.extractXmlStringValue(elem, 'SAMLProviderUUID'),
       tags: _s.extractXmlChild(elem, 'Tags')?.let(
           (elem) => elem.findElements('member').map(Tag.fromXml).toList()),
       validUntil: _s.extractXmlDateTimeValue(elem, 'ValidUntil'),
@@ -12862,44 +13346,30 @@ class GetSAMLProviderResponse {
   }
 
   Map<String, dynamic> toJson() {
+    final assertionEncryptionMode = this.assertionEncryptionMode;
     final createDate = this.createDate;
+    final privateKeyList = this.privateKeyList;
     final sAMLMetadataDocument = this.sAMLMetadataDocument;
+    final sAMLProviderUUID = this.sAMLProviderUUID;
     final tags = this.tags;
     final validUntil = this.validUntil;
     return {
+      if (assertionEncryptionMode != null)
+        'AssertionEncryptionMode': assertionEncryptionMode.value,
       if (createDate != null) 'CreateDate': iso8601ToJson(createDate),
+      if (privateKeyList != null) 'PrivateKeyList': privateKeyList,
       if (sAMLMetadataDocument != null)
         'SAMLMetadataDocument': sAMLMetadataDocument,
+      if (sAMLProviderUUID != null) 'SAMLProviderUUID': sAMLProviderUUID,
       if (tags != null) 'Tags': tags,
       if (validUntil != null) 'ValidUntil': iso8601ToJson(validUntil),
     };
   }
 }
 
-/// Contains the response to a successful <a>GetSSHPublicKey</a> request.
-class GetSSHPublicKeyResponse {
-  /// A structure containing details about the SSH public key.
-  final SSHPublicKey? sSHPublicKey;
-
-  GetSSHPublicKeyResponse({
-    this.sSHPublicKey,
-  });
-  factory GetSSHPublicKeyResponse.fromXml(_s.XmlElement elem) {
-    return GetSSHPublicKeyResponse(
-      sSHPublicKey:
-          _s.extractXmlChild(elem, 'SSHPublicKey')?.let(SSHPublicKey.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final sSHPublicKey = this.sSHPublicKey;
-    return {
-      if (sSHPublicKey != null) 'SSHPublicKey': sSHPublicKey,
-    };
-  }
-}
-
-/// Contains the response to a successful <a>GetServerCertificate</a> request.
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServerCertificate.html">GetServerCertificate</a>
+/// request.
 class GetServerCertificateResponse {
   /// A structure containing details about the server certificate.
   final ServerCertificate serverCertificate;
@@ -12923,21 +13393,21 @@ class GetServerCertificateResponse {
 }
 
 class GetServiceLastAccessedDetailsResponse {
-  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
+  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when the generated report job was completed or failed.
   ///
   /// This field is null if the job is still in progress, as indicated by a job
   /// status value of <code>IN_PROGRESS</code>.
   final DateTime jobCompletionDate;
 
-  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
+  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when the report job was created.
   final DateTime jobCreationDate;
 
   /// The status of the job.
   final JobStatusType jobStatus;
 
-  /// A <code>ServiceLastAccessed</code> object that contains details about the
+  /// A <code>ServiceLastAccessed</code> object that contains details about the
   /// most recent attempt to access the service.
   final List<ServiceLastAccessed> servicesLastAccessed;
 
@@ -13017,19 +13487,19 @@ class GetServiceLastAccessedDetailsResponse {
 }
 
 class GetServiceLastAccessedDetailsWithEntitiesResponse {
-  /// An <code>EntityDetailsList</code> object that contains details about when an
+  /// An <code>EntityDetailsList</code> object that contains details about when an
   /// IAM entity (user or role) used group or policy permissions in an attempt to
   /// access the specified Amazon Web Services service.
   final List<EntityDetails> entityDetailsList;
 
-  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
+  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when the generated report job was completed or failed.
   ///
   /// This field is null if the job is still in progress, as indicated by a job
   /// status value of <code>IN_PROGRESS</code>.
   final DateTime jobCompletionDate;
 
-  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
+  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when the report job was created.
   final DateTime jobCreationDate;
 
@@ -13134,47 +13604,34 @@ class GetServiceLinkedRoleDeletionStatusResponse {
   }
 }
 
-/// Contains the response to a successful <a>GetUserPolicy</a> request.
-class GetUserPolicyResponse {
-  /// The policy document.
-  ///
-  /// IAM stores policies in JSON format. However, resources that were created
-  /// using CloudFormation templates can be formatted in YAML. CloudFormation
-  /// always converts a YAML policy to JSON format before submitting it to IAM.
-  final String policyDocument;
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetSSHPublicKey.html">GetSSHPublicKey</a>
+/// request.
+class GetSSHPublicKeyResponse {
+  /// A structure containing details about the SSH public key.
+  final SSHPublicKey? sSHPublicKey;
 
-  /// The name of the policy.
-  final String policyName;
-
-  /// The user the policy is associated with.
-  final String userName;
-
-  GetUserPolicyResponse({
-    required this.policyDocument,
-    required this.policyName,
-    required this.userName,
+  GetSSHPublicKeyResponse({
+    this.sSHPublicKey,
   });
-  factory GetUserPolicyResponse.fromXml(_s.XmlElement elem) {
-    return GetUserPolicyResponse(
-      policyDocument: _s.extractXmlStringValue(elem, 'PolicyDocument')!,
-      policyName: _s.extractXmlStringValue(elem, 'PolicyName')!,
-      userName: _s.extractXmlStringValue(elem, 'UserName')!,
+  factory GetSSHPublicKeyResponse.fromXml(_s.XmlElement elem) {
+    return GetSSHPublicKeyResponse(
+      sSHPublicKey:
+          _s.extractXmlChild(elem, 'SSHPublicKey')?.let(SSHPublicKey.fromXml),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final policyDocument = this.policyDocument;
-    final policyName = this.policyName;
-    final userName = this.userName;
+    final sSHPublicKey = this.sSHPublicKey;
     return {
-      'PolicyDocument': policyDocument,
-      'PolicyName': policyName,
-      'UserName': userName,
+      if (sSHPublicKey != null) 'SSHPublicKey': sSHPublicKey,
     };
   }
 }
 
-/// Contains the response to a successful <a>GetUser</a> request.
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetUser.html">GetUser</a>
+/// request.
 class GetUserResponse {
   /// A structure containing details about the IAM user.
   /// <important>
@@ -13217,154 +13674,4172 @@ class GetUserResponse {
   }
 }
 
-/// Contains information about an IAM group entity.
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetUserPolicy.html">GetUserPolicy</a>
+/// request.
+class GetUserPolicyResponse {
+  /// The policy document.
+  ///
+  /// IAM stores policies in JSON format. However, resources that were created
+  /// using CloudFormation templates can be formatted in YAML. CloudFormation
+  /// always converts a YAML policy to JSON format before submitting it to IAM.
+  final String policyDocument;
+
+  /// The name of the policy.
+  final String policyName;
+
+  /// The user the policy is associated with.
+  final String userName;
+
+  GetUserPolicyResponse({
+    required this.policyDocument,
+    required this.policyName,
+    required this.userName,
+  });
+  factory GetUserPolicyResponse.fromXml(_s.XmlElement elem) {
+    return GetUserPolicyResponse(
+      policyDocument: _s.extractXmlStringValue(elem, 'PolicyDocument')!,
+      policyName: _s.extractXmlStringValue(elem, 'PolicyName')!,
+      userName: _s.extractXmlStringValue(elem, 'UserName')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyDocument = this.policyDocument;
+    final policyName = this.policyName;
+    final userName = this.userName;
+    return {
+      'PolicyDocument': policyDocument,
+      'PolicyName': policyName,
+      'UserName': userName,
+    };
+  }
+}
+
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAccessKeys.html">ListAccessKeys</a>
+/// request.
+class ListAccessKeysResponse {
+  /// A list of objects containing metadata about the access keys.
+  final List<AccessKeyMetadata> accessKeyMetadata;
+
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  ListAccessKeysResponse({
+    required this.accessKeyMetadata,
+    this.isTruncated,
+    this.marker,
+  });
+  factory ListAccessKeysResponse.fromXml(_s.XmlElement elem) {
+    return ListAccessKeysResponse(
+      accessKeyMetadata: _s
+          .extractXmlChild(elem, 'AccessKeyMetadata')!
+          .findElements('member')
+          .map(AccessKeyMetadata.fromXml)
+          .toList(),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessKeyMetadata = this.accessKeyMetadata;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'AccessKeyMetadata': accessKeyMetadata,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAccountAliases.html">ListAccountAliases</a>
+/// request.
+class ListAccountAliasesResponse {
+  /// A list of aliases associated with the account. Amazon Web Services supports
+  /// only one alias per account.
+  final List<String> accountAliases;
+
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  ListAccountAliasesResponse({
+    required this.accountAliases,
+    this.isTruncated,
+    this.marker,
+  });
+  factory ListAccountAliasesResponse.fromXml(_s.XmlElement elem) {
+    return ListAccountAliasesResponse(
+      accountAliases: _s.extractXmlStringListValues(
+          _s.extractXmlChild(elem, 'AccountAliases')!, 'member'),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountAliases = this.accountAliases;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'AccountAliases': accountAliases,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAttachedGroupPolicies.html">ListAttachedGroupPolicies</a>
+/// request.
+class ListAttachedGroupPoliciesResponse {
+  /// A list of the attached policies.
+  final List<AttachedPolicy>? attachedPolicies;
+
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  ListAttachedGroupPoliciesResponse({
+    this.attachedPolicies,
+    this.isTruncated,
+    this.marker,
+  });
+  factory ListAttachedGroupPoliciesResponse.fromXml(_s.XmlElement elem) {
+    return ListAttachedGroupPoliciesResponse(
+      attachedPolicies: _s.extractXmlChild(elem, 'AttachedPolicies')?.let(
+          (elem) =>
+              elem.findElements('member').map(AttachedPolicy.fromXml).toList()),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachedPolicies = this.attachedPolicies;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      if (attachedPolicies != null) 'AttachedPolicies': attachedPolicies,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAttachedRolePolicies.html">ListAttachedRolePolicies</a>
+/// request.
+class ListAttachedRolePoliciesResponse {
+  /// A list of the attached policies.
+  final List<AttachedPolicy>? attachedPolicies;
+
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  ListAttachedRolePoliciesResponse({
+    this.attachedPolicies,
+    this.isTruncated,
+    this.marker,
+  });
+  factory ListAttachedRolePoliciesResponse.fromXml(_s.XmlElement elem) {
+    return ListAttachedRolePoliciesResponse(
+      attachedPolicies: _s.extractXmlChild(elem, 'AttachedPolicies')?.let(
+          (elem) =>
+              elem.findElements('member').map(AttachedPolicy.fromXml).toList()),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachedPolicies = this.attachedPolicies;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      if (attachedPolicies != null) 'AttachedPolicies': attachedPolicies,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAttachedUserPolicies.html">ListAttachedUserPolicies</a>
+/// request.
+class ListAttachedUserPoliciesResponse {
+  /// A list of the attached policies.
+  final List<AttachedPolicy>? attachedPolicies;
+
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  ListAttachedUserPoliciesResponse({
+    this.attachedPolicies,
+    this.isTruncated,
+    this.marker,
+  });
+  factory ListAttachedUserPoliciesResponse.fromXml(_s.XmlElement elem) {
+    return ListAttachedUserPoliciesResponse(
+      attachedPolicies: _s.extractXmlChild(elem, 'AttachedPolicies')?.let(
+          (elem) =>
+              elem.findElements('member').map(AttachedPolicy.fromXml).toList()),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachedPolicies = this.attachedPolicies;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      if (attachedPolicies != null) 'AttachedPolicies': attachedPolicies,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+class ListDelegationRequestsResponse {
+  /// A list of delegation requests that match the specified criteria.
+  final List<DelegationRequest>? delegationRequests;
+
+  /// When <code>isTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items.
+  final bool? isTruncated;
+
+  ListDelegationRequestsResponse({
+    this.delegationRequests,
+    this.marker,
+    this.isTruncated,
+  });
+  factory ListDelegationRequestsResponse.fromXml(_s.XmlElement elem) {
+    return ListDelegationRequestsResponse(
+      delegationRequests: _s.extractXmlChild(elem, 'DelegationRequests')?.let(
+          (elem) => elem
+              .findElements('member')
+              .map(DelegationRequest.fromXml)
+              .toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      isTruncated: _s.extractXmlBoolValue(elem, 'isTruncated'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final delegationRequests = this.delegationRequests;
+    final marker = this.marker;
+    final isTruncated = this.isTruncated;
+    return {
+      if (delegationRequests != null) 'DelegationRequests': delegationRequests,
+      if (marker != null) 'Marker': marker,
+      if (isTruncated != null) 'isTruncated': isTruncated,
+    };
+  }
+}
+
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListEntitiesForPolicy.html">ListEntitiesForPolicy</a>
+/// request.
+class ListEntitiesForPolicyResponse {
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  /// A list of IAM groups that the policy is attached to.
+  final List<PolicyGroup>? policyGroups;
+
+  /// A list of IAM roles that the policy is attached to.
+  final List<PolicyRole>? policyRoles;
+
+  /// A list of IAM users that the policy is attached to.
+  final List<PolicyUser>? policyUsers;
+
+  ListEntitiesForPolicyResponse({
+    this.isTruncated,
+    this.marker,
+    this.policyGroups,
+    this.policyRoles,
+    this.policyUsers,
+  });
+  factory ListEntitiesForPolicyResponse.fromXml(_s.XmlElement elem) {
+    return ListEntitiesForPolicyResponse(
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      policyGroups: _s.extractXmlChild(elem, 'PolicyGroups')?.let((elem) =>
+          elem.findElements('member').map(PolicyGroup.fromXml).toList()),
+      policyRoles: _s.extractXmlChild(elem, 'PolicyRoles')?.let((elem) =>
+          elem.findElements('member').map(PolicyRole.fromXml).toList()),
+      policyUsers: _s.extractXmlChild(elem, 'PolicyUsers')?.let((elem) =>
+          elem.findElements('member').map(PolicyUser.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    final policyGroups = this.policyGroups;
+    final policyRoles = this.policyRoles;
+    final policyUsers = this.policyUsers;
+    return {
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+      if (policyGroups != null) 'PolicyGroups': policyGroups,
+      if (policyRoles != null) 'PolicyRoles': policyRoles,
+      if (policyUsers != null) 'PolicyUsers': policyUsers,
+    };
+  }
+}
+
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListGroupPolicies.html">ListGroupPolicies</a>
+/// request.
+class ListGroupPoliciesResponse {
+  /// A list of policy names.
+  ///
+  /// This parameter allows (through its <a
+  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
+  /// characters consisting of upper and lowercase alphanumeric characters with no
+  /// spaces. You can also include any of the following characters: _+=,.@-
+  final List<String> policyNames;
+
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  ListGroupPoliciesResponse({
+    required this.policyNames,
+    this.isTruncated,
+    this.marker,
+  });
+  factory ListGroupPoliciesResponse.fromXml(_s.XmlElement elem) {
+    return ListGroupPoliciesResponse(
+      policyNames: _s.extractXmlStringListValues(
+          _s.extractXmlChild(elem, 'PolicyNames')!, 'member'),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyNames = this.policyNames;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'PolicyNames': policyNames,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListGroups.html">ListGroups</a>
+/// request.
+class ListGroupsResponse {
+  /// A list of groups.
+  final List<Group> groups;
+
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  ListGroupsResponse({
+    required this.groups,
+    this.isTruncated,
+    this.marker,
+  });
+  factory ListGroupsResponse.fromXml(_s.XmlElement elem) {
+    return ListGroupsResponse(
+      groups: _s
+          .extractXmlChild(elem, 'Groups')!
+          .findElements('member')
+          .map(Group.fromXml)
+          .toList(),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groups = this.groups;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'Groups': groups,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListGroupsForUser.html">ListGroupsForUser</a>
+/// request.
+class ListGroupsForUserResponse {
+  /// A list of groups.
+  final List<Group> groups;
+
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  ListGroupsForUserResponse({
+    required this.groups,
+    this.isTruncated,
+    this.marker,
+  });
+  factory ListGroupsForUserResponse.fromXml(_s.XmlElement elem) {
+    return ListGroupsForUserResponse(
+      groups: _s
+          .extractXmlChild(elem, 'Groups')!
+          .findElements('member')
+          .map(Group.fromXml)
+          .toList(),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groups = this.groups;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'Groups': groups,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListInstanceProfiles.html">ListInstanceProfiles</a>
+/// request.
+class ListInstanceProfilesResponse {
+  /// A list of instance profiles.
+  final List<InstanceProfile> instanceProfiles;
+
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  ListInstanceProfilesResponse({
+    required this.instanceProfiles,
+    this.isTruncated,
+    this.marker,
+  });
+  factory ListInstanceProfilesResponse.fromXml(_s.XmlElement elem) {
+    return ListInstanceProfilesResponse(
+      instanceProfiles: _s
+          .extractXmlChild(elem, 'InstanceProfiles')!
+          .findElements('member')
+          .map(InstanceProfile.fromXml)
+          .toList(),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceProfiles = this.instanceProfiles;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'InstanceProfiles': instanceProfiles,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListInstanceProfilesForRole.html">ListInstanceProfilesForRole</a>
+/// request.
+class ListInstanceProfilesForRoleResponse {
+  /// A list of instance profiles.
+  final List<InstanceProfile> instanceProfiles;
+
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  ListInstanceProfilesForRoleResponse({
+    required this.instanceProfiles,
+    this.isTruncated,
+    this.marker,
+  });
+  factory ListInstanceProfilesForRoleResponse.fromXml(_s.XmlElement elem) {
+    return ListInstanceProfilesForRoleResponse(
+      instanceProfiles: _s
+          .extractXmlChild(elem, 'InstanceProfiles')!
+          .findElements('member')
+          .map(InstanceProfile.fromXml)
+          .toList(),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceProfiles = this.instanceProfiles;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'InstanceProfiles': instanceProfiles,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+class ListInstanceProfileTagsResponse {
+  /// The list of tags that are currently attached to the IAM instance profile.
+  /// Each tag consists of a key name and an associated value. If no tags are
+  /// attached to the specified resource, the response contains an empty list.
+  final List<Tag> tags;
+
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  ListInstanceProfileTagsResponse({
+    required this.tags,
+    this.isTruncated,
+    this.marker,
+  });
+  factory ListInstanceProfileTagsResponse.fromXml(_s.XmlElement elem) {
+    return ListInstanceProfileTagsResponse(
+      tags: _s
+          .extractXmlChild(elem, 'Tags')!
+          .findElements('member')
+          .map(Tag.fromXml)
+          .toList(),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'Tags': tags,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListMFADevices.html">ListMFADevices</a>
+/// request.
+class ListMFADevicesResponse {
+  /// A list of MFA devices.
+  final List<MFADevice> mFADevices;
+
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  ListMFADevicesResponse({
+    required this.mFADevices,
+    this.isTruncated,
+    this.marker,
+  });
+  factory ListMFADevicesResponse.fromXml(_s.XmlElement elem) {
+    return ListMFADevicesResponse(
+      mFADevices: _s
+          .extractXmlChild(elem, 'MFADevices')!
+          .findElements('member')
+          .map(MFADevice.fromXml)
+          .toList(),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mFADevices = this.mFADevices;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'MFADevices': mFADevices,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+class ListMFADeviceTagsResponse {
+  /// The list of tags that are currently attached to the virtual MFA device. Each
+  /// tag consists of a key name and an associated value. If no tags are attached
+  /// to the specified resource, the response contains an empty list.
+  final List<Tag> tags;
+
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  ListMFADeviceTagsResponse({
+    required this.tags,
+    this.isTruncated,
+    this.marker,
+  });
+  factory ListMFADeviceTagsResponse.fromXml(_s.XmlElement elem) {
+    return ListMFADeviceTagsResponse(
+      tags: _s
+          .extractXmlChild(elem, 'Tags')!
+          .findElements('member')
+          .map(Tag.fromXml)
+          .toList(),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'Tags': tags,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListOpenIDConnectProviders.html">ListOpenIDConnectProviders</a>
+/// request.
+class ListOpenIDConnectProvidersResponse {
+  /// The list of IAM OIDC provider resource objects defined in the Amazon Web
+  /// Services account.
+  final List<OpenIDConnectProviderListEntry>? openIDConnectProviderList;
+
+  ListOpenIDConnectProvidersResponse({
+    this.openIDConnectProviderList,
+  });
+  factory ListOpenIDConnectProvidersResponse.fromXml(_s.XmlElement elem) {
+    return ListOpenIDConnectProvidersResponse(
+      openIDConnectProviderList: _s
+          .extractXmlChild(elem, 'OpenIDConnectProviderList')
+          ?.let((elem) => elem
+              .findElements('member')
+              .map(OpenIDConnectProviderListEntry.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final openIDConnectProviderList = this.openIDConnectProviderList;
+    return {
+      if (openIDConnectProviderList != null)
+        'OpenIDConnectProviderList': openIDConnectProviderList,
+    };
+  }
+}
+
+class ListOpenIDConnectProviderTagsResponse {
+  /// The list of tags that are currently attached to the OpenID Connect (OIDC)
+  /// identity provider. Each tag consists of a key name and an associated value.
+  /// If no tags are attached to the specified resource, the response contains an
+  /// empty list.
+  final List<Tag> tags;
+
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  ListOpenIDConnectProviderTagsResponse({
+    required this.tags,
+    this.isTruncated,
+    this.marker,
+  });
+  factory ListOpenIDConnectProviderTagsResponse.fromXml(_s.XmlElement elem) {
+    return ListOpenIDConnectProviderTagsResponse(
+      tags: _s
+          .extractXmlChild(elem, 'Tags')!
+          .findElements('member')
+          .map(Tag.fromXml)
+          .toList(),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'Tags': tags,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+class ListOrganizationsFeaturesResponse {
+  /// Specifies the features that are currently available in your organization.
+  final List<FeatureType>? enabledFeatures;
+
+  /// The unique identifier (ID) of an organization.
+  final String? organizationId;
+
+  ListOrganizationsFeaturesResponse({
+    this.enabledFeatures,
+    this.organizationId,
+  });
+  factory ListOrganizationsFeaturesResponse.fromXml(_s.XmlElement elem) {
+    return ListOrganizationsFeaturesResponse(
+      enabledFeatures: _s.extractXmlChild(elem, 'EnabledFeatures')?.let(
+          (elem) => _s
+              .extractXmlStringListValues(elem, 'member')
+              .map(FeatureType.fromString)
+              .toList()),
+      organizationId: _s.extractXmlStringValue(elem, 'OrganizationId'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabledFeatures = this.enabledFeatures;
+    final organizationId = this.organizationId;
+    return {
+      if (enabledFeatures != null)
+        'EnabledFeatures': enabledFeatures.map((e) => e.value).toList(),
+      if (organizationId != null) 'OrganizationId': organizationId,
+    };
+  }
+}
+
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListPolicies.html">ListPolicies</a>
+/// request.
+class ListPoliciesResponse {
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  /// A list of policies.
+  final List<Policy>? policies;
+
+  ListPoliciesResponse({
+    this.isTruncated,
+    this.marker,
+    this.policies,
+  });
+  factory ListPoliciesResponse.fromXml(_s.XmlElement elem) {
+    return ListPoliciesResponse(
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      policies: _s.extractXmlChild(elem, 'Policies')?.let(
+          (elem) => elem.findElements('member').map(Policy.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    final policies = this.policies;
+    return {
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+      if (policies != null) 'Policies': policies,
+    };
+  }
+}
+
+class ListPoliciesGrantingServiceAccessResponse {
+  /// A <code>ListPoliciesGrantingServiceAccess</code> object that contains
+  /// details about the permissions policies attached to the specified identity
+  /// (user, group, or role).
+  final List<ListPoliciesGrantingServiceAccessEntry>
+      policiesGrantingServiceAccess;
+
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. We
+  /// recommend that you check <code>IsTruncated</code> after every call to ensure
+  /// that you receive all your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  ListPoliciesGrantingServiceAccessResponse({
+    required this.policiesGrantingServiceAccess,
+    this.isTruncated,
+    this.marker,
+  });
+  factory ListPoliciesGrantingServiceAccessResponse.fromXml(
+      _s.XmlElement elem) {
+    return ListPoliciesGrantingServiceAccessResponse(
+      policiesGrantingServiceAccess: _s
+          .extractXmlChild(elem, 'PoliciesGrantingServiceAccess')!
+          .findElements('member')
+          .map(ListPoliciesGrantingServiceAccessEntry.fromXml)
+          .toList(),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policiesGrantingServiceAccess = this.policiesGrantingServiceAccess;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'PoliciesGrantingServiceAccess': policiesGrantingServiceAccess,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+class ListPolicyTagsResponse {
+  /// The list of tags that are currently attached to the IAM customer managed
+  /// policy. Each tag consists of a key name and an associated value. If no tags
+  /// are attached to the specified resource, the response contains an empty list.
+  final List<Tag> tags;
+
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  ListPolicyTagsResponse({
+    required this.tags,
+    this.isTruncated,
+    this.marker,
+  });
+  factory ListPolicyTagsResponse.fromXml(_s.XmlElement elem) {
+    return ListPolicyTagsResponse(
+      tags: _s
+          .extractXmlChild(elem, 'Tags')!
+          .findElements('member')
+          .map(Tag.fromXml)
+          .toList(),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'Tags': tags,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListPolicyVersions.html">ListPolicyVersions</a>
+/// request.
+class ListPolicyVersionsResponse {
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  /// A list of policy versions.
+  ///
+  /// For more information about managed policy versions, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning
+  /// for managed policies</a> in the <i>IAM User Guide</i>.
+  final List<PolicyVersion>? versions;
+
+  ListPolicyVersionsResponse({
+    this.isTruncated,
+    this.marker,
+    this.versions,
+  });
+  factory ListPolicyVersionsResponse.fromXml(_s.XmlElement elem) {
+    return ListPolicyVersionsResponse(
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      versions: _s.extractXmlChild(elem, 'Versions')?.let((elem) =>
+          elem.findElements('member').map(PolicyVersion.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    final versions = this.versions;
+    return {
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+      if (versions != null) 'Versions': versions,
+    };
+  }
+}
+
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListRolePolicies.html">ListRolePolicies</a>
+/// request.
+class ListRolePoliciesResponse {
+  /// A list of policy names.
+  final List<String> policyNames;
+
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  ListRolePoliciesResponse({
+    required this.policyNames,
+    this.isTruncated,
+    this.marker,
+  });
+  factory ListRolePoliciesResponse.fromXml(_s.XmlElement elem) {
+    return ListRolePoliciesResponse(
+      policyNames: _s.extractXmlStringListValues(
+          _s.extractXmlChild(elem, 'PolicyNames')!, 'member'),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyNames = this.policyNames;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'PolicyNames': policyNames,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListRoles.html">ListRoles</a>
+/// request.
+class ListRolesResponse {
+  /// A list of roles.
+  final List<Role> roles;
+
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  ListRolesResponse({
+    required this.roles,
+    this.isTruncated,
+    this.marker,
+  });
+  factory ListRolesResponse.fromXml(_s.XmlElement elem) {
+    return ListRolesResponse(
+      roles: _s
+          .extractXmlChild(elem, 'Roles')!
+          .findElements('member')
+          .map(Role.fromXml)
+          .toList(),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roles = this.roles;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'Roles': roles,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+class ListRoleTagsResponse {
+  /// The list of tags that are currently attached to the role. Each tag consists
+  /// of a key name and an associated value. If no tags are attached to the
+  /// specified resource, the response contains an empty list.
+  final List<Tag> tags;
+
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  ListRoleTagsResponse({
+    required this.tags,
+    this.isTruncated,
+    this.marker,
+  });
+  factory ListRoleTagsResponse.fromXml(_s.XmlElement elem) {
+    return ListRoleTagsResponse(
+      tags: _s
+          .extractXmlChild(elem, 'Tags')!
+          .findElements('member')
+          .map(Tag.fromXml)
+          .toList(),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'Tags': tags,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListSAMLProviders.html">ListSAMLProviders</a>
+/// request.
+class ListSAMLProvidersResponse {
+  /// The list of SAML provider resource objects defined in IAM for this Amazon
+  /// Web Services account.
+  final List<SAMLProviderListEntry>? sAMLProviderList;
+
+  ListSAMLProvidersResponse({
+    this.sAMLProviderList,
+  });
+  factory ListSAMLProvidersResponse.fromXml(_s.XmlElement elem) {
+    return ListSAMLProvidersResponse(
+      sAMLProviderList: _s.extractXmlChild(elem, 'SAMLProviderList')?.let(
+          (elem) => elem
+              .findElements('member')
+              .map(SAMLProviderListEntry.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sAMLProviderList = this.sAMLProviderList;
+    return {
+      if (sAMLProviderList != null) 'SAMLProviderList': sAMLProviderList,
+    };
+  }
+}
+
+class ListSAMLProviderTagsResponse {
+  /// The list of tags that are currently attached to the Security Assertion
+  /// Markup Language (SAML) identity provider. Each tag consists of a key name
+  /// and an associated value. If no tags are attached to the specified resource,
+  /// the response contains an empty list.
+  final List<Tag> tags;
+
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  ListSAMLProviderTagsResponse({
+    required this.tags,
+    this.isTruncated,
+    this.marker,
+  });
+  factory ListSAMLProviderTagsResponse.fromXml(_s.XmlElement elem) {
+    return ListSAMLProviderTagsResponse(
+      tags: _s
+          .extractXmlChild(elem, 'Tags')!
+          .findElements('member')
+          .map(Tag.fromXml)
+          .toList(),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'Tags': tags,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListServerCertificates.html">ListServerCertificates</a>
+/// request.
+class ListServerCertificatesResponse {
+  /// A list of server certificates.
+  final List<ServerCertificateMetadata> serverCertificateMetadataList;
+
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  ListServerCertificatesResponse({
+    required this.serverCertificateMetadataList,
+    this.isTruncated,
+    this.marker,
+  });
+  factory ListServerCertificatesResponse.fromXml(_s.XmlElement elem) {
+    return ListServerCertificatesResponse(
+      serverCertificateMetadataList: _s
+          .extractXmlChild(elem, 'ServerCertificateMetadataList')!
+          .findElements('member')
+          .map(ServerCertificateMetadata.fromXml)
+          .toList(),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serverCertificateMetadataList = this.serverCertificateMetadataList;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'ServerCertificateMetadataList': serverCertificateMetadataList,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+class ListServerCertificateTagsResponse {
+  /// The list of tags that are currently attached to the IAM server certificate.
+  /// Each tag consists of a key name and an associated value. If no tags are
+  /// attached to the specified resource, the response contains an empty list.
+  final List<Tag> tags;
+
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  ListServerCertificateTagsResponse({
+    required this.tags,
+    this.isTruncated,
+    this.marker,
+  });
+  factory ListServerCertificateTagsResponse.fromXml(_s.XmlElement elem) {
+    return ListServerCertificateTagsResponse(
+      tags: _s
+          .extractXmlChild(elem, 'Tags')!
+          .findElements('member')
+          .map(Tag.fromXml)
+          .toList(),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'Tags': tags,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+class ListServiceSpecificCredentialsResponse {
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the Marker request parameter to retrieve more items.
+  final bool? isTruncated;
+
+  /// When IsTruncated is true, this element is present and contains the value to
+  /// use for the Marker parameter in a subsequent pagination request.
+  final String? marker;
+
+  /// A list of structures that each contain details about a service-specific
+  /// credential.
+  final List<ServiceSpecificCredentialMetadata>? serviceSpecificCredentials;
+
+  ListServiceSpecificCredentialsResponse({
+    this.isTruncated,
+    this.marker,
+    this.serviceSpecificCredentials,
+  });
+  factory ListServiceSpecificCredentialsResponse.fromXml(_s.XmlElement elem) {
+    return ListServiceSpecificCredentialsResponse(
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      serviceSpecificCredentials: _s
+          .extractXmlChild(elem, 'ServiceSpecificCredentials')
+          ?.let((elem) => elem
+              .findElements('member')
+              .map(ServiceSpecificCredentialMetadata.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    final serviceSpecificCredentials = this.serviceSpecificCredentials;
+    return {
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+      if (serviceSpecificCredentials != null)
+        'ServiceSpecificCredentials': serviceSpecificCredentials,
+    };
+  }
+}
+
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListSigningCertificates.html">ListSigningCertificates</a>
+/// request.
+class ListSigningCertificatesResponse {
+  /// A list of the user's signing certificate information.
+  final List<SigningCertificate> certificates;
+
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  ListSigningCertificatesResponse({
+    required this.certificates,
+    this.isTruncated,
+    this.marker,
+  });
+  factory ListSigningCertificatesResponse.fromXml(_s.XmlElement elem) {
+    return ListSigningCertificatesResponse(
+      certificates: _s
+          .extractXmlChild(elem, 'Certificates')!
+          .findElements('member')
+          .map(SigningCertificate.fromXml)
+          .toList(),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificates = this.certificates;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'Certificates': certificates,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListSSHPublicKeys.html">ListSSHPublicKeys</a>
+/// request.
+class ListSSHPublicKeysResponse {
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  /// A list of the SSH public keys assigned to IAM user.
+  final List<SSHPublicKeyMetadata>? sSHPublicKeys;
+
+  ListSSHPublicKeysResponse({
+    this.isTruncated,
+    this.marker,
+    this.sSHPublicKeys,
+  });
+  factory ListSSHPublicKeysResponse.fromXml(_s.XmlElement elem) {
+    return ListSSHPublicKeysResponse(
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      sSHPublicKeys: _s.extractXmlChild(elem, 'SSHPublicKeys')?.let((elem) =>
+          elem
+              .findElements('member')
+              .map(SSHPublicKeyMetadata.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    final sSHPublicKeys = this.sSHPublicKeys;
+    return {
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+      if (sSHPublicKeys != null) 'SSHPublicKeys': sSHPublicKeys,
+    };
+  }
+}
+
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListUserPolicies.html">ListUserPolicies</a>
+/// request.
+class ListUserPoliciesResponse {
+  /// A list of policy names.
+  final List<String> policyNames;
+
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  ListUserPoliciesResponse({
+    required this.policyNames,
+    this.isTruncated,
+    this.marker,
+  });
+  factory ListUserPoliciesResponse.fromXml(_s.XmlElement elem) {
+    return ListUserPoliciesResponse(
+      policyNames: _s.extractXmlStringListValues(
+          _s.extractXmlChild(elem, 'PolicyNames')!, 'member'),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyNames = this.policyNames;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'PolicyNames': policyNames,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListUsers.html">ListUsers</a>
+/// request.
+class ListUsersResponse {
+  /// A list of users.
+  final List<User> users;
+
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  ListUsersResponse({
+    required this.users,
+    this.isTruncated,
+    this.marker,
+  });
+  factory ListUsersResponse.fromXml(_s.XmlElement elem) {
+    return ListUsersResponse(
+      users: _s
+          .extractXmlChild(elem, 'Users')!
+          .findElements('member')
+          .map(User.fromXml)
+          .toList(),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final users = this.users;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'Users': users,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+class ListUserTagsResponse {
+  /// The list of tags that are currently attached to the user. Each tag consists
+  /// of a key name and an associated value. If no tags are attached to the
+  /// specified resource, the response contains an empty list.
+  final List<Tag> tags;
+
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  ListUserTagsResponse({
+    required this.tags,
+    this.isTruncated,
+    this.marker,
+  });
+  factory ListUserTagsResponse.fromXml(_s.XmlElement elem) {
+    return ListUserTagsResponse(
+      tags: _s
+          .extractXmlChild(elem, 'Tags')!
+          .findElements('member')
+          .map(Tag.fromXml)
+          .toList(),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'Tags': tags,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListVirtualMFADevices.html">ListVirtualMFADevices</a>
+/// request.
+class ListVirtualMFADevicesResponse {
+  /// The list of virtual MFA devices in the current account that match the
+  /// <code>AssignmentStatus</code> value that was passed in the request.
+  final List<VirtualMFADevice> virtualMFADevices;
+
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  ListVirtualMFADevicesResponse({
+    required this.virtualMFADevices,
+    this.isTruncated,
+    this.marker,
+  });
+  factory ListVirtualMFADevicesResponse.fromXml(_s.XmlElement elem) {
+    return ListVirtualMFADevicesResponse(
+      virtualMFADevices: _s
+          .extractXmlChild(elem, 'VirtualMFADevices')!
+          .findElements('member')
+          .map(VirtualMFADevice.fromXml)
+          .toList(),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final virtualMFADevices = this.virtualMFADevices;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'VirtualMFADevices': virtualMFADevices,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+class ResetServiceSpecificCredentialResponse {
+  /// A structure with details about the updated service-specific credential,
+  /// including the new password.
+  /// <important>
+  /// This is the <b>only</b> time that you can access the password. You cannot
+  /// recover the password later, but you can reset it again.
+  /// </important>
+  final ServiceSpecificCredential? serviceSpecificCredential;
+
+  ResetServiceSpecificCredentialResponse({
+    this.serviceSpecificCredential,
+  });
+  factory ResetServiceSpecificCredentialResponse.fromXml(_s.XmlElement elem) {
+    return ResetServiceSpecificCredentialResponse(
+      serviceSpecificCredential: _s
+          .extractXmlChild(elem, 'ServiceSpecificCredential')
+          ?.let(ServiceSpecificCredential.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceSpecificCredential = this.serviceSpecificCredential;
+    return {
+      if (serviceSpecificCredential != null)
+        'ServiceSpecificCredential': serviceSpecificCredential,
+    };
+  }
+}
+
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulatePrincipalPolicy.html">SimulatePrincipalPolicy</a>
+/// or <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulateCustomPolicy.html">SimulateCustomPolicy</a>
+/// request.
+class SimulatePolicyResponse {
+  /// The results of the simulation.
+  final List<EvaluationResult>? evaluationResults;
+
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  SimulatePolicyResponse({
+    this.evaluationResults,
+    this.isTruncated,
+    this.marker,
+  });
+  factory SimulatePolicyResponse.fromXml(_s.XmlElement elem) {
+    return SimulatePolicyResponse(
+      evaluationResults: _s.extractXmlChild(elem, 'EvaluationResults')?.let(
+          (elem) => elem
+              .findElements('member')
+              .map(EvaluationResult.fromXml)
+              .toList()),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final evaluationResults = this.evaluationResults;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      if (evaluationResults != null) 'EvaluationResults': evaluationResults,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+class UpdateRoleResponse {
+  UpdateRoleResponse();
+  factory UpdateRoleResponse.fromXml(
+      // ignore: avoid_unused_constructor_parameters
+      _s.XmlElement elem) {
+    return UpdateRoleResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateRoleDescriptionResponse {
+  /// A structure that contains details about the modified role.
+  final Role? role;
+
+  UpdateRoleDescriptionResponse({
+    this.role,
+  });
+  factory UpdateRoleDescriptionResponse.fromXml(_s.XmlElement elem) {
+    return UpdateRoleDescriptionResponse(
+      role: _s.extractXmlChild(elem, 'Role')?.let(Role.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final role = this.role;
+    return {
+      if (role != null) 'Role': role,
+    };
+  }
+}
+
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateSAMLProvider.html">UpdateSAMLProvider</a>
+/// request.
+class UpdateSAMLProviderResponse {
+  /// The Amazon Resource Name (ARN) of the SAML provider that was updated.
+  final String? sAMLProviderArn;
+
+  UpdateSAMLProviderResponse({
+    this.sAMLProviderArn,
+  });
+  factory UpdateSAMLProviderResponse.fromXml(_s.XmlElement elem) {
+    return UpdateSAMLProviderResponse(
+      sAMLProviderArn: _s.extractXmlStringValue(elem, 'SAMLProviderArn'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sAMLProviderArn = this.sAMLProviderArn;
+    return {
+      if (sAMLProviderArn != null) 'SAMLProviderArn': sAMLProviderArn,
+    };
+  }
+}
+
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_UploadServerCertificate.html">UploadServerCertificate</a>
+/// request.
+class UploadServerCertificateResponse {
+  /// The meta information of the uploaded server certificate without its
+  /// certificate body, certificate chain, and private key.
+  final ServerCertificateMetadata? serverCertificateMetadata;
+
+  /// A list of tags that are attached to the new IAM server certificate. The
+  /// returned list of tags is sorted by tag key. For more information about
+  /// tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  final List<Tag>? tags;
+
+  UploadServerCertificateResponse({
+    this.serverCertificateMetadata,
+    this.tags,
+  });
+  factory UploadServerCertificateResponse.fromXml(_s.XmlElement elem) {
+    return UploadServerCertificateResponse(
+      serverCertificateMetadata: _s
+          .extractXmlChild(elem, 'ServerCertificateMetadata')
+          ?.let(ServerCertificateMetadata.fromXml),
+      tags: _s.extractXmlChild(elem, 'Tags')?.let(
+          (elem) => elem.findElements('member').map(Tag.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serverCertificateMetadata = this.serverCertificateMetadata;
+    final tags = this.tags;
+    return {
+      if (serverCertificateMetadata != null)
+        'ServerCertificateMetadata': serverCertificateMetadata,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_UploadSigningCertificate.html">UploadSigningCertificate</a>
+/// request.
+class UploadSigningCertificateResponse {
+  /// Information about the certificate.
+  final SigningCertificate certificate;
+
+  UploadSigningCertificateResponse({
+    required this.certificate,
+  });
+  factory UploadSigningCertificateResponse.fromXml(_s.XmlElement elem) {
+    return UploadSigningCertificateResponse(
+      certificate:
+          SigningCertificate.fromXml(_s.extractXmlChild(elem, 'Certificate')!),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificate = this.certificate;
+    return {
+      'Certificate': certificate,
+    };
+  }
+}
+
+/// Contains the response to a successful <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_UploadSSHPublicKey.html">UploadSSHPublicKey</a>
+/// request.
+class UploadSSHPublicKeyResponse {
+  /// Contains information about the SSH public key.
+  final SSHPublicKey? sSHPublicKey;
+
+  UploadSSHPublicKeyResponse({
+    this.sSHPublicKey,
+  });
+  factory UploadSSHPublicKeyResponse.fromXml(_s.XmlElement elem) {
+    return UploadSSHPublicKeyResponse(
+      sSHPublicKey:
+          _s.extractXmlChild(elem, 'SSHPublicKey')?.let(SSHPublicKey.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sSHPublicKey = this.sSHPublicKey;
+    return {
+      if (sSHPublicKey != null) 'SSHPublicKey': sSHPublicKey,
+    };
+  }
+}
+
+/// Contains information about an SSH public key.
+///
+/// This data type is used as a response element in the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetSSHPublicKey.html">GetSSHPublicKey</a>
+/// and <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_UploadSSHPublicKey.html">UploadSSHPublicKey</a>
+/// operations.
+class SSHPublicKey {
+  /// The MD5 message digest of the SSH public key.
+  final String fingerprint;
+
+  /// The SSH public key.
+  final String sSHPublicKeyBody;
+
+  /// The unique identifier for the SSH public key.
+  final String sSHPublicKeyId;
+
+  /// The status of the SSH public key. <code>Active</code> means that the key can
+  /// be used for authentication with an CodeCommit repository.
+  /// <code>Inactive</code> means that the key cannot be used.
+  final StatusType status;
+
+  /// The name of the IAM user associated with the SSH public key.
+  final String userName;
+
+  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
+  /// date-time format</a>, when the SSH public key was uploaded.
+  final DateTime? uploadDate;
+
+  SSHPublicKey({
+    required this.fingerprint,
+    required this.sSHPublicKeyBody,
+    required this.sSHPublicKeyId,
+    required this.status,
+    required this.userName,
+    this.uploadDate,
+  });
+  factory SSHPublicKey.fromXml(_s.XmlElement elem) {
+    return SSHPublicKey(
+      fingerprint: _s.extractXmlStringValue(elem, 'Fingerprint')!,
+      sSHPublicKeyBody: _s.extractXmlStringValue(elem, 'SSHPublicKeyBody')!,
+      sSHPublicKeyId: _s.extractXmlStringValue(elem, 'SSHPublicKeyId')!,
+      status:
+          _s.extractXmlStringValue(elem, 'Status')!.let(StatusType.fromString),
+      userName: _s.extractXmlStringValue(elem, 'UserName')!,
+      uploadDate: _s.extractXmlDateTimeValue(elem, 'UploadDate'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fingerprint = this.fingerprint;
+    final sSHPublicKeyBody = this.sSHPublicKeyBody;
+    final sSHPublicKeyId = this.sSHPublicKeyId;
+    final status = this.status;
+    final userName = this.userName;
+    final uploadDate = this.uploadDate;
+    return {
+      'Fingerprint': fingerprint,
+      'SSHPublicKeyBody': sSHPublicKeyBody,
+      'SSHPublicKeyId': sSHPublicKeyId,
+      'Status': status.value,
+      'UserName': userName,
+      if (uploadDate != null) 'UploadDate': iso8601ToJson(uploadDate),
+    };
+  }
+}
+
+class StatusType {
+  static const active = StatusType._('Active');
+  static const inactive = StatusType._('Inactive');
+  static const expired = StatusType._('Expired');
+
+  final String value;
+
+  const StatusType._(this.value);
+
+  static const values = [active, inactive, expired];
+
+  static StatusType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StatusType._(value));
+
+  @override
+  bool operator ==(other) => other is StatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about an X.509 signing certificate.
+///
+/// This data type is used as a response element in the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_UploadSigningCertificate.html">UploadSigningCertificate</a>
+/// and <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListSigningCertificates.html">ListSigningCertificates</a>
+/// operations.
+class SigningCertificate {
+  /// The contents of the signing certificate.
+  final String certificateBody;
+
+  /// The ID for the signing certificate.
+  final String certificateId;
+
+  /// The status of the signing certificate. <code>Active</code> means that the
+  /// key is valid for API calls, while <code>Inactive</code> means it is not.
+  final StatusType status;
+
+  /// The name of the user the signing certificate is associated with.
+  final String userName;
+
+  /// The date when the signing certificate was uploaded.
+  final DateTime? uploadDate;
+
+  SigningCertificate({
+    required this.certificateBody,
+    required this.certificateId,
+    required this.status,
+    required this.userName,
+    this.uploadDate,
+  });
+  factory SigningCertificate.fromXml(_s.XmlElement elem) {
+    return SigningCertificate(
+      certificateBody: _s.extractXmlStringValue(elem, 'CertificateBody')!,
+      certificateId: _s.extractXmlStringValue(elem, 'CertificateId')!,
+      status:
+          _s.extractXmlStringValue(elem, 'Status')!.let(StatusType.fromString),
+      userName: _s.extractXmlStringValue(elem, 'UserName')!,
+      uploadDate: _s.extractXmlDateTimeValue(elem, 'UploadDate'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateBody = this.certificateBody;
+    final certificateId = this.certificateId;
+    final status = this.status;
+    final userName = this.userName;
+    final uploadDate = this.uploadDate;
+    return {
+      'CertificateBody': certificateBody,
+      'CertificateId': certificateId,
+      'Status': status.value,
+      'UserName': userName,
+      if (uploadDate != null) 'UploadDate': iso8601ToJson(uploadDate),
+    };
+  }
+}
+
+/// Contains information about a server certificate without its certificate
+/// body, certificate chain, and private key.
+///
+/// This data type is used as a response element in the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_UploadServerCertificate.html">UploadServerCertificate</a>
+/// and <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListServerCertificates.html">ListServerCertificates</a>
+/// operations.
+class ServerCertificateMetadata {
+  /// The Amazon Resource Name (ARN) specifying the server certificate. For more
+  /// information about ARNs and how to use them in policies, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
+  /// identifiers</a> in the <i>IAM User Guide</i>.
+  final String arn;
+
+  /// The path to the server certificate. For more information about paths, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
+  /// identifiers</a> in the <i>IAM User Guide</i>.
+  final String path;
+
+  /// The stable and unique string identifying the server certificate. For more
+  /// information about IDs, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
+  /// identifiers</a> in the <i>IAM User Guide</i>.
+  final String serverCertificateId;
+
+  /// The name that identifies the server certificate.
+  final String serverCertificateName;
+
+  /// The date on which the certificate is set to expire.
+  final DateTime? expiration;
+
+  /// The date when the server certificate was uploaded.
+  final DateTime? uploadDate;
+
+  ServerCertificateMetadata({
+    required this.arn,
+    required this.path,
+    required this.serverCertificateId,
+    required this.serverCertificateName,
+    this.expiration,
+    this.uploadDate,
+  });
+  factory ServerCertificateMetadata.fromXml(_s.XmlElement elem) {
+    return ServerCertificateMetadata(
+      arn: _s.extractXmlStringValue(elem, 'Arn')!,
+      path: _s.extractXmlStringValue(elem, 'Path')!,
+      serverCertificateId:
+          _s.extractXmlStringValue(elem, 'ServerCertificateId')!,
+      serverCertificateName:
+          _s.extractXmlStringValue(elem, 'ServerCertificateName')!,
+      expiration: _s.extractXmlDateTimeValue(elem, 'Expiration'),
+      uploadDate: _s.extractXmlDateTimeValue(elem, 'UploadDate'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final path = this.path;
+    final serverCertificateId = this.serverCertificateId;
+    final serverCertificateName = this.serverCertificateName;
+    final expiration = this.expiration;
+    final uploadDate = this.uploadDate;
+    return {
+      'Arn': arn,
+      'Path': path,
+      'ServerCertificateId': serverCertificateId,
+      'ServerCertificateName': serverCertificateName,
+      if (expiration != null) 'Expiration': iso8601ToJson(expiration),
+      if (uploadDate != null) 'UploadDate': iso8601ToJson(uploadDate),
+    };
+  }
+}
+
+/// A structure that represents user-provided metadata that can be associated
+/// with an IAM resource. For more information about tagging, see <a
+/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+/// IAM resources</a> in the <i>IAM User Guide</i>.
+class Tag {
+  /// The key name that can be used to look up or retrieve the associated value.
+  /// For example, <code>Department</code> or <code>Cost Center</code> are common
+  /// choices.
+  final String key;
+
+  /// The value associated with this tag. For example, tags with a key name of
+  /// <code>Department</code> could have values such as <code>Human
+  /// Resources</code>, <code>Accounting</code>, and <code>Support</code>. Tags
+  /// with a key name of <code>Cost Center</code> might have values that consist
+  /// of the number associated with the different cost centers in your company.
+  /// Typically, many resources have tags with the same key name but with
+  /// different values.
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+  factory Tag.fromXml(_s.XmlElement elem) {
+    return Tag(
+      key: _s.extractXmlStringValue(elem, 'Key')!,
+      value: _s.extractXmlStringValue(elem, 'Value')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
+class AssertionEncryptionModeType {
+  static const required = AssertionEncryptionModeType._('Required');
+  static const allowed = AssertionEncryptionModeType._('Allowed');
+
+  final String value;
+
+  const AssertionEncryptionModeType._(this.value);
+
+  static const values = [required, allowed];
+
+  static AssertionEncryptionModeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AssertionEncryptionModeType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AssertionEncryptionModeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about an IAM role. This structure is returned as a
+/// response element in several API operations that interact with roles.
+class Role {
+  /// The Amazon Resource Name (ARN) specifying the role. For more information
+  /// about ARNs and how to use them in policies, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
+  /// identifiers</a> in the <i>IAM User Guide</i> guide.
+  final String arn;
+
+  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
+  /// date-time format</a>, when the role was created.
+  final DateTime createDate;
+
+  /// The path to the role. For more information about paths, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
+  /// identifiers</a> in the <i>IAM User Guide</i>.
+  final String path;
+
+  /// The stable and unique string identifying the role. For more information
+  /// about IDs, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
+  /// identifiers</a> in the <i>IAM User Guide</i>.
+  final String roleId;
+
+  /// The friendly name that identifies the role.
+  final String roleName;
+
+  /// The policy that grants an entity permission to assume the role.
+  final String? assumeRolePolicyDocument;
+
+  /// A description of the role that you provide.
+  final String? description;
+
+  /// The maximum session duration (in seconds) for the specified role. Anyone who
+  /// uses the CLI, or API to assume the role can specify the duration using the
+  /// optional <code>DurationSeconds</code> API parameter or
+  /// <code>duration-seconds</code> CLI parameter.
+  final int? maxSessionDuration;
+
+  /// The ARN of the policy used to set the permissions boundary for the role.
+  ///
+  /// For more information about permissions boundaries, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
+  /// boundaries for IAM identities </a> in the <i>IAM User Guide</i>.
+  final AttachedPermissionsBoundary? permissionsBoundary;
+
+  /// Contains information about the last time that an IAM role was used. This
+  /// includes the date and time and the Region in which the role was last used.
+  /// Activity is only reported for the trailing 400 days. This period can be
+  /// shorter if your Region began supporting these features within the last year.
+  /// The role might have been used more than 400 days ago. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#access-advisor_tracking-period">Regions
+  /// where data is tracked</a> in the <i>IAM user Guide</i>.
+  final RoleLastUsed? roleLastUsed;
+
+  /// A list of tags that are attached to the role. For more information about
+  /// tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  final List<Tag>? tags;
+
+  Role({
+    required this.arn,
+    required this.createDate,
+    required this.path,
+    required this.roleId,
+    required this.roleName,
+    this.assumeRolePolicyDocument,
+    this.description,
+    this.maxSessionDuration,
+    this.permissionsBoundary,
+    this.roleLastUsed,
+    this.tags,
+  });
+  factory Role.fromXml(_s.XmlElement elem) {
+    return Role(
+      arn: _s.extractXmlStringValue(elem, 'Arn')!,
+      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate')!,
+      path: _s.extractXmlStringValue(elem, 'Path')!,
+      roleId: _s.extractXmlStringValue(elem, 'RoleId')!,
+      roleName: _s.extractXmlStringValue(elem, 'RoleName')!,
+      assumeRolePolicyDocument:
+          _s.extractXmlStringValue(elem, 'AssumeRolePolicyDocument'),
+      description: _s.extractXmlStringValue(elem, 'Description'),
+      maxSessionDuration: _s.extractXmlIntValue(elem, 'MaxSessionDuration'),
+      permissionsBoundary: _s
+          .extractXmlChild(elem, 'PermissionsBoundary')
+          ?.let(AttachedPermissionsBoundary.fromXml),
+      roleLastUsed:
+          _s.extractXmlChild(elem, 'RoleLastUsed')?.let(RoleLastUsed.fromXml),
+      tags: _s.extractXmlChild(elem, 'Tags')?.let(
+          (elem) => elem.findElements('member').map(Tag.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createDate = this.createDate;
+    final path = this.path;
+    final roleId = this.roleId;
+    final roleName = this.roleName;
+    final assumeRolePolicyDocument = this.assumeRolePolicyDocument;
+    final description = this.description;
+    final maxSessionDuration = this.maxSessionDuration;
+    final permissionsBoundary = this.permissionsBoundary;
+    final roleLastUsed = this.roleLastUsed;
+    final tags = this.tags;
+    return {
+      'Arn': arn,
+      'CreateDate': iso8601ToJson(createDate),
+      'Path': path,
+      'RoleId': roleId,
+      'RoleName': roleName,
+      if (assumeRolePolicyDocument != null)
+        'AssumeRolePolicyDocument': assumeRolePolicyDocument,
+      if (description != null) 'Description': description,
+      if (maxSessionDuration != null) 'MaxSessionDuration': maxSessionDuration,
+      if (permissionsBoundary != null)
+        'PermissionsBoundary': permissionsBoundary,
+      if (roleLastUsed != null) 'RoleLastUsed': roleLastUsed,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// Contains information about an attached permissions boundary.
+///
+/// An attached permissions boundary is a managed policy that has been attached
+/// to a user or role to set the permissions boundary.
+///
+/// For more information about permissions boundaries, see <a
+/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
+/// boundaries for IAM identities </a> in the <i>IAM User Guide</i>.
+class AttachedPermissionsBoundary {
+  /// The ARN of the policy used to set the permissions boundary for the user or
+  /// role.
+  final String? permissionsBoundaryArn;
+
+  /// The permissions boundary usage type that indicates what type of IAM resource
+  /// is used as the permissions boundary for an entity. This data type can only
+  /// have a value of <code>Policy</code>.
+  final PermissionsBoundaryAttachmentType? permissionsBoundaryType;
+
+  AttachedPermissionsBoundary({
+    this.permissionsBoundaryArn,
+    this.permissionsBoundaryType,
+  });
+  factory AttachedPermissionsBoundary.fromXml(_s.XmlElement elem) {
+    return AttachedPermissionsBoundary(
+      permissionsBoundaryArn:
+          _s.extractXmlStringValue(elem, 'PermissionsBoundaryArn'),
+      permissionsBoundaryType: _s
+          .extractXmlStringValue(elem, 'PermissionsBoundaryType')
+          ?.let(PermissionsBoundaryAttachmentType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final permissionsBoundaryArn = this.permissionsBoundaryArn;
+    final permissionsBoundaryType = this.permissionsBoundaryType;
+    return {
+      if (permissionsBoundaryArn != null)
+        'PermissionsBoundaryArn': permissionsBoundaryArn,
+      if (permissionsBoundaryType != null)
+        'PermissionsBoundaryType': permissionsBoundaryType.value,
+    };
+  }
+}
+
+/// Contains information about the last time that an IAM role was used. This
+/// includes the date and time and the Region in which the role was last used.
+/// Activity is only reported for the trailing 400 days. This period can be
+/// shorter if your Region began supporting these features within the last year.
+/// The role might have been used more than 400 days ago. For more information,
+/// see <a
+/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#access-advisor_tracking-period">Regions
+/// where data is tracked</a> in the <i>IAM user Guide</i>.
+///
+/// This data type is returned as a response element in the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetRole.html">GetRole</a>
+/// and <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountAuthorizationDetails.html">GetAccountAuthorizationDetails</a>
+/// operations.
+class RoleLastUsed {
+  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
+  /// date-time format</a> that the role was last used.
+  ///
+  /// This field is null if the role has not been used within the IAM tracking
+  /// period. For more information about the tracking period, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#access-advisor_tracking-period">Regions
+  /// where data is tracked</a> in the <i>IAM User Guide</i>.
+  final DateTime? lastUsedDate;
+
+  /// The name of the Amazon Web Services Region in which the role was last used.
+  final String? region;
+
+  RoleLastUsed({
+    this.lastUsedDate,
+    this.region,
+  });
+  factory RoleLastUsed.fromXml(_s.XmlElement elem) {
+    return RoleLastUsed(
+      lastUsedDate: _s.extractXmlDateTimeValue(elem, 'LastUsedDate'),
+      region: _s.extractXmlStringValue(elem, 'Region'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastUsedDate = this.lastUsedDate;
+    final region = this.region;
+    return {
+      if (lastUsedDate != null) 'LastUsedDate': iso8601ToJson(lastUsedDate),
+      if (region != null) 'Region': region,
+    };
+  }
+}
+
+class PermissionsBoundaryAttachmentType {
+  static const permissionsBoundaryPolicy =
+      PermissionsBoundaryAttachmentType._('PermissionsBoundaryPolicy');
+
+  final String value;
+
+  const PermissionsBoundaryAttachmentType._(this.value);
+
+  static const values = [permissionsBoundaryPolicy];
+
+  static PermissionsBoundaryAttachmentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PermissionsBoundaryAttachmentType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PermissionsBoundaryAttachmentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about a condition context key. It includes the name of
+/// the key and specifies the value (or values, if the context key supports
+/// multiple values) to use in the simulation. This information is used when
+/// evaluating the <code>Condition</code> elements of the input policies.
+///
+/// This data type is used as an input parameter to <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulateCustomPolicy.html">SimulateCustomPolicy</a>
+/// and <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulatePrincipalPolicy.html">SimulatePrincipalPolicy</a>.
+class ContextEntry {
+  /// The full name of a condition context key, including the service prefix. For
+  /// example, <code>aws:SourceIp</code> or <code>s3:VersionId</code>.
+  final String? contextKeyName;
+
+  /// The data type of the value (or values) specified in the
+  /// <code>ContextKeyValues</code> parameter.
+  final ContextKeyTypeEnum? contextKeyType;
+
+  /// The value (or values, if the condition context key supports multiple values)
+  /// to provide to the simulation when the key is referenced by a
+  /// <code>Condition</code> element in an input policy.
+  final List<String>? contextKeyValues;
+
+  ContextEntry({
+    this.contextKeyName,
+    this.contextKeyType,
+    this.contextKeyValues,
+  });
+
+  Map<String, dynamic> toJson() {
+    final contextKeyName = this.contextKeyName;
+    final contextKeyType = this.contextKeyType;
+    final contextKeyValues = this.contextKeyValues;
+    return {
+      if (contextKeyName != null) 'ContextKeyName': contextKeyName,
+      if (contextKeyType != null) 'ContextKeyType': contextKeyType.value,
+      if (contextKeyValues != null) 'ContextKeyValues': contextKeyValues,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final contextKeyName = this.contextKeyName;
+    final contextKeyType = this.contextKeyType;
+    final contextKeyValues = this.contextKeyValues;
+    return {
+      if (contextKeyName != null) 'ContextKeyName': contextKeyName,
+      if (contextKeyType != null) 'ContextKeyType': contextKeyType.value,
+      if (contextKeyValues != null)
+        if (contextKeyValues.isEmpty)
+          'ContextKeyValues': ''
+        else
+          for (var i1 = 0; i1 < contextKeyValues.length; i1++)
+            'ContextKeyValues.member.${i1 + 1}': contextKeyValues[i1],
+    };
+  }
+}
+
+class ContextKeyTypeEnum {
+  static const string = ContextKeyTypeEnum._('string');
+  static const stringList = ContextKeyTypeEnum._('stringList');
+  static const numeric = ContextKeyTypeEnum._('numeric');
+  static const numericList = ContextKeyTypeEnum._('numericList');
+  static const boolean = ContextKeyTypeEnum._('boolean');
+  static const booleanList = ContextKeyTypeEnum._('booleanList');
+  static const ip = ContextKeyTypeEnum._('ip');
+  static const ipList = ContextKeyTypeEnum._('ipList');
+  static const binary = ContextKeyTypeEnum._('binary');
+  static const binaryList = ContextKeyTypeEnum._('binaryList');
+  static const date = ContextKeyTypeEnum._('date');
+  static const dateList = ContextKeyTypeEnum._('dateList');
+
+  final String value;
+
+  const ContextKeyTypeEnum._(this.value);
+
+  static const values = [
+    string,
+    stringList,
+    numeric,
+    numericList,
+    boolean,
+    booleanList,
+    ip,
+    ipList,
+    binary,
+    binaryList,
+    date,
+    dateList
+  ];
+
+  static ContextKeyTypeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContextKeyTypeEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContextKeyTypeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains the results of a simulation.
+///
+/// This data type is used by the return parameter of <code> <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulateCustomPolicy.html">SimulateCustomPolicy</a>
+/// </code> and <code> <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulatePrincipalPolicy.html">SimulatePrincipalPolicy</a>
+/// </code>.
+class EvaluationResult {
+  /// The name of the API operation tested on the indicated resource.
+  final String evalActionName;
+
+  /// The result of the simulation.
+  final PolicyEvaluationDecisionType evalDecision;
+
+  /// Additional details about the results of the cross-account evaluation
+  /// decision. This parameter is populated for only cross-account simulations. It
+  /// contains a brief summary of how each policy type contributes to the final
+  /// evaluation decision.
+  ///
+  /// If the simulation evaluates policies within the same account and includes a
+  /// resource ARN, then the parameter is present but the response is empty. If
+  /// the simulation evaluates policies within the same account and specifies all
+  /// resources (<code>*</code>), then the parameter is not returned.
+  ///
+  /// When you make a cross-account request, Amazon Web Services evaluates the
+  /// request in the trusting account and the trusted account. The request is
+  /// allowed only if both evaluations return <code>true</code>. For more
+  /// information about how policies are evaluated, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html#policy-eval-basics">Evaluating
+  /// policies within a single account</a>.
+  ///
+  /// If an Organizations SCP included in the evaluation denies access, the
+  /// simulation ends. In this case, policy evaluation does not proceed any
+  /// further and this parameter is not returned.
+  final Map<String, PolicyEvaluationDecisionType>? evalDecisionDetails;
+
+  /// The ARN of the resource that the indicated API operation was tested on.
+  final String? evalResourceName;
+
+  /// A list of the statements in the input policies that determine the result for
+  /// this scenario. Remember that even if multiple statements allow the operation
+  /// on the resource, if only one statement denies that operation, then the
+  /// explicit deny overrides any allow. In addition, the deny statement is the
+  /// only entry included in the result.
+  final List<Statement>? matchedStatements;
+
+  /// A list of context keys that are required by the included input policies but
+  /// that were not provided by one of the input parameters. This list is used
+  /// when the resource in a simulation is "*", either explicitly, or when the
+  /// <code>ResourceArns</code> parameter blank. If you include a list of
+  /// resources, then any missing context values are instead included under the
+  /// <code>ResourceSpecificResults</code> section. To discover the context keys
+  /// used by a set of policies, you can call <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForCustomPolicy.html">GetContextKeysForCustomPolicy</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForPrincipalPolicy.html">GetContextKeysForPrincipalPolicy</a>.
+  final List<String>? missingContextValues;
+
+  /// A structure that details how Organizations and its service control policies
+  /// affect the results of the simulation. Only applies if the simulated user's
+  /// account is part of an organization.
+  final OrganizationsDecisionDetail? organizationsDecisionDetail;
+
+  /// Contains information about the effect that a permissions boundary has on a
+  /// policy simulation when the boundary is applied to an IAM entity.
+  final PermissionsBoundaryDecisionDetail? permissionsBoundaryDecisionDetail;
+
+  /// The individual results of the simulation of the API operation specified in
+  /// EvalActionName on each resource.
+  final List<ResourceSpecificResult>? resourceSpecificResults;
+
+  EvaluationResult({
+    required this.evalActionName,
+    required this.evalDecision,
+    this.evalDecisionDetails,
+    this.evalResourceName,
+    this.matchedStatements,
+    this.missingContextValues,
+    this.organizationsDecisionDetail,
+    this.permissionsBoundaryDecisionDetail,
+    this.resourceSpecificResults,
+  });
+  factory EvaluationResult.fromXml(_s.XmlElement elem) {
+    return EvaluationResult(
+      evalActionName: _s.extractXmlStringValue(elem, 'EvalActionName')!,
+      evalDecision: _s
+          .extractXmlStringValue(elem, 'EvalDecision')!
+          .let(PolicyEvaluationDecisionType.fromString),
+      evalDecisionDetails: Map.fromEntries(
+        elem.getElement('EvalDecisionDetails')?.findElements('entry').map(
+                  (c) => MapEntry(
+                    _s.extractXmlStringValue(c, 'key')!,
+                    _s
+                        .extractXmlStringValue(c, 'value')!
+                        .let(PolicyEvaluationDecisionType.fromString),
+                  ),
+                ) ??
+            {},
+      ),
+      evalResourceName: _s.extractXmlStringValue(elem, 'EvalResourceName'),
+      matchedStatements: _s.extractXmlChild(elem, 'MatchedStatements')?.let(
+          (elem) =>
+              elem.findElements('member').map(Statement.fromXml).toList()),
+      missingContextValues: _s
+          .extractXmlChild(elem, 'MissingContextValues')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      organizationsDecisionDetail: _s
+          .extractXmlChild(elem, 'OrganizationsDecisionDetail')
+          ?.let(OrganizationsDecisionDetail.fromXml),
+      permissionsBoundaryDecisionDetail: _s
+          .extractXmlChild(elem, 'PermissionsBoundaryDecisionDetail')
+          ?.let(PermissionsBoundaryDecisionDetail.fromXml),
+      resourceSpecificResults: _s
+          .extractXmlChild(elem, 'ResourceSpecificResults')
+          ?.let((elem) => elem
+              .findElements('member')
+              .map(ResourceSpecificResult.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final evalActionName = this.evalActionName;
+    final evalDecision = this.evalDecision;
+    final evalDecisionDetails = this.evalDecisionDetails;
+    final evalResourceName = this.evalResourceName;
+    final matchedStatements = this.matchedStatements;
+    final missingContextValues = this.missingContextValues;
+    final organizationsDecisionDetail = this.organizationsDecisionDetail;
+    final permissionsBoundaryDecisionDetail =
+        this.permissionsBoundaryDecisionDetail;
+    final resourceSpecificResults = this.resourceSpecificResults;
+    return {
+      'EvalActionName': evalActionName,
+      'EvalDecision': evalDecision.value,
+      if (evalDecisionDetails != null)
+        'EvalDecisionDetails':
+            evalDecisionDetails.map((k, e) => MapEntry(k, e.value)),
+      if (evalResourceName != null) 'EvalResourceName': evalResourceName,
+      if (matchedStatements != null) 'MatchedStatements': matchedStatements,
+      if (missingContextValues != null)
+        'MissingContextValues': missingContextValues,
+      if (organizationsDecisionDetail != null)
+        'OrganizationsDecisionDetail': organizationsDecisionDetail,
+      if (permissionsBoundaryDecisionDetail != null)
+        'PermissionsBoundaryDecisionDetail': permissionsBoundaryDecisionDetail,
+      if (resourceSpecificResults != null)
+        'ResourceSpecificResults': resourceSpecificResults,
+    };
+  }
+}
+
+class PolicyEvaluationDecisionType {
+  static const allowed = PolicyEvaluationDecisionType._('allowed');
+  static const explicitDeny = PolicyEvaluationDecisionType._('explicitDeny');
+  static const implicitDeny = PolicyEvaluationDecisionType._('implicitDeny');
+
+  final String value;
+
+  const PolicyEvaluationDecisionType._(this.value);
+
+  static const values = [allowed, explicitDeny, implicitDeny];
+
+  static PolicyEvaluationDecisionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PolicyEvaluationDecisionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PolicyEvaluationDecisionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about the effect that Organizations has on a policy
+/// simulation.
+class OrganizationsDecisionDetail {
+  /// Specifies whether the simulated operation is allowed by the Organizations
+  /// service control policies that impact the simulated user's account.
+  final bool? allowedByOrganizations;
+
+  OrganizationsDecisionDetail({
+    this.allowedByOrganizations,
+  });
+  factory OrganizationsDecisionDetail.fromXml(_s.XmlElement elem) {
+    return OrganizationsDecisionDetail(
+      allowedByOrganizations:
+          _s.extractXmlBoolValue(elem, 'AllowedByOrganizations'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedByOrganizations = this.allowedByOrganizations;
+    return {
+      if (allowedByOrganizations != null)
+        'AllowedByOrganizations': allowedByOrganizations,
+    };
+  }
+}
+
+/// Contains information about the effect that a permissions boundary has on a
+/// policy simulation when the boundary is applied to an IAM entity.
+class PermissionsBoundaryDecisionDetail {
+  /// Specifies whether an action is allowed by a permissions boundary that is
+  /// applied to an IAM entity (user or role). A value of <code>true</code> means
+  /// that the permissions boundary does not deny the action. This means that the
+  /// policy includes an <code>Allow</code> statement that matches the request. In
+  /// this case, if an identity-based policy also allows the action, the request
+  /// is allowed. A value of <code>false</code> means that either the requested
+  /// action is not allowed (implicitly denied) or that the action is explicitly
+  /// denied by the permissions boundary. In both of these cases, the action is
+  /// not allowed, regardless of the identity-based policy.
+  final bool? allowedByPermissionsBoundary;
+
+  PermissionsBoundaryDecisionDetail({
+    this.allowedByPermissionsBoundary,
+  });
+  factory PermissionsBoundaryDecisionDetail.fromXml(_s.XmlElement elem) {
+    return PermissionsBoundaryDecisionDetail(
+      allowedByPermissionsBoundary:
+          _s.extractXmlBoolValue(elem, 'AllowedByPermissionsBoundary'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedByPermissionsBoundary = this.allowedByPermissionsBoundary;
+    return {
+      if (allowedByPermissionsBoundary != null)
+        'AllowedByPermissionsBoundary': allowedByPermissionsBoundary,
+    };
+  }
+}
+
+/// Contains the result of the simulation of a single API operation call on a
+/// single resource.
+///
+/// This data type is used by a member of the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_EvaluationResult.html">EvaluationResult</a>
+/// data type.
+class ResourceSpecificResult {
+  /// The result of the simulation of the simulated API operation on the resource
+  /// specified in <code>EvalResourceName</code>.
+  final PolicyEvaluationDecisionType evalResourceDecision;
+
+  /// The name of the simulated resource, in Amazon Resource Name (ARN) format.
+  final String evalResourceName;
+
+  /// Additional details about the results of the evaluation decision on a single
+  /// resource. This parameter is returned only for cross-account simulations.
+  /// This parameter explains how each policy type contributes to the
+  /// resource-specific evaluation decision.
+  final Map<String, PolicyEvaluationDecisionType>? evalDecisionDetails;
+
+  /// A list of the statements in the input policies that determine the result for
+  /// this part of the simulation. Remember that even if multiple statements allow
+  /// the operation on the resource, if <i>any</i> statement denies that
+  /// operation, then the explicit deny overrides any allow. In addition, the deny
+  /// statement is the only entry included in the result.
+  final List<Statement>? matchedStatements;
+
+  /// A list of context keys that are required by the included input policies but
+  /// that were not provided by one of the input parameters. This list is used
+  /// when a list of ARNs is included in the <code>ResourceArns</code> parameter
+  /// instead of "*". If you do not specify individual resources, by setting
+  /// <code>ResourceArns</code> to "*" or by not including the
+  /// <code>ResourceArns</code> parameter, then any missing context values are
+  /// instead included under the <code>EvaluationResults</code> section. To
+  /// discover the context keys used by a set of policies, you can call <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForCustomPolicy.html">GetContextKeysForCustomPolicy</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForPrincipalPolicy.html">GetContextKeysForPrincipalPolicy</a>.
+  final List<String>? missingContextValues;
+
+  /// Contains information about the effect that a permissions boundary has on a
+  /// policy simulation when that boundary is applied to an IAM entity.
+  final PermissionsBoundaryDecisionDetail? permissionsBoundaryDecisionDetail;
+
+  ResourceSpecificResult({
+    required this.evalResourceDecision,
+    required this.evalResourceName,
+    this.evalDecisionDetails,
+    this.matchedStatements,
+    this.missingContextValues,
+    this.permissionsBoundaryDecisionDetail,
+  });
+  factory ResourceSpecificResult.fromXml(_s.XmlElement elem) {
+    return ResourceSpecificResult(
+      evalResourceDecision: _s
+          .extractXmlStringValue(elem, 'EvalResourceDecision')!
+          .let(PolicyEvaluationDecisionType.fromString),
+      evalResourceName: _s.extractXmlStringValue(elem, 'EvalResourceName')!,
+      evalDecisionDetails: Map.fromEntries(
+        elem.getElement('EvalDecisionDetails')?.findElements('entry').map(
+                  (c) => MapEntry(
+                    _s.extractXmlStringValue(c, 'key')!,
+                    _s
+                        .extractXmlStringValue(c, 'value')!
+                        .let(PolicyEvaluationDecisionType.fromString),
+                  ),
+                ) ??
+            {},
+      ),
+      matchedStatements: _s.extractXmlChild(elem, 'MatchedStatements')?.let(
+          (elem) =>
+              elem.findElements('member').map(Statement.fromXml).toList()),
+      missingContextValues: _s
+          .extractXmlChild(elem, 'MissingContextValues')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      permissionsBoundaryDecisionDetail: _s
+          .extractXmlChild(elem, 'PermissionsBoundaryDecisionDetail')
+          ?.let(PermissionsBoundaryDecisionDetail.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final evalResourceDecision = this.evalResourceDecision;
+    final evalResourceName = this.evalResourceName;
+    final evalDecisionDetails = this.evalDecisionDetails;
+    final matchedStatements = this.matchedStatements;
+    final missingContextValues = this.missingContextValues;
+    final permissionsBoundaryDecisionDetail =
+        this.permissionsBoundaryDecisionDetail;
+    return {
+      'EvalResourceDecision': evalResourceDecision.value,
+      'EvalResourceName': evalResourceName,
+      if (evalDecisionDetails != null)
+        'EvalDecisionDetails':
+            evalDecisionDetails.map((k, e) => MapEntry(k, e.value)),
+      if (matchedStatements != null) 'MatchedStatements': matchedStatements,
+      if (missingContextValues != null)
+        'MissingContextValues': missingContextValues,
+      if (permissionsBoundaryDecisionDetail != null)
+        'PermissionsBoundaryDecisionDetail': permissionsBoundaryDecisionDetail,
+    };
+  }
+}
+
+/// Contains a reference to a <code>Statement</code> element in a policy
+/// document that determines the result of the simulation.
+///
+/// This data type is used by the <code>MatchedStatements</code> member of the
+/// <code> <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_EvaluationResult.html">EvaluationResult</a>
+/// </code> type.
+class Statement {
+  /// The row and column of the end of a <code>Statement</code> in an IAM policy.
+  final Position? endPosition;
+
+  /// The identifier of the policy that was provided as an input.
+  final String? sourcePolicyId;
+
+  /// The type of the policy.
+  final PolicySourceType? sourcePolicyType;
+
+  /// The row and column of the beginning of the <code>Statement</code> in an IAM
+  /// policy.
+  final Position? startPosition;
+
+  Statement({
+    this.endPosition,
+    this.sourcePolicyId,
+    this.sourcePolicyType,
+    this.startPosition,
+  });
+  factory Statement.fromXml(_s.XmlElement elem) {
+    return Statement(
+      endPosition:
+          _s.extractXmlChild(elem, 'EndPosition')?.let(Position.fromXml),
+      sourcePolicyId: _s.extractXmlStringValue(elem, 'SourcePolicyId'),
+      sourcePolicyType: _s
+          .extractXmlStringValue(elem, 'SourcePolicyType')
+          ?.let(PolicySourceType.fromString),
+      startPosition:
+          _s.extractXmlChild(elem, 'StartPosition')?.let(Position.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endPosition = this.endPosition;
+    final sourcePolicyId = this.sourcePolicyId;
+    final sourcePolicyType = this.sourcePolicyType;
+    final startPosition = this.startPosition;
+    return {
+      if (endPosition != null) 'EndPosition': endPosition,
+      if (sourcePolicyId != null) 'SourcePolicyId': sourcePolicyId,
+      if (sourcePolicyType != null) 'SourcePolicyType': sourcePolicyType.value,
+      if (startPosition != null) 'StartPosition': startPosition,
+    };
+  }
+}
+
+class PolicySourceType {
+  static const user = PolicySourceType._('user');
+  static const group = PolicySourceType._('group');
+  static const role = PolicySourceType._('role');
+  static const awsManaged = PolicySourceType._('aws-managed');
+  static const userManaged = PolicySourceType._('user-managed');
+  static const resource = PolicySourceType._('resource');
+  static const none = PolicySourceType._('none');
+
+  final String value;
+
+  const PolicySourceType._(this.value);
+
+  static const values = [
+    user,
+    group,
+    role,
+    awsManaged,
+    userManaged,
+    resource,
+    none
+  ];
+
+  static PolicySourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PolicySourceType._(value));
+
+  @override
+  bool operator ==(other) => other is PolicySourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains the row and column of a location of a <code>Statement</code>
+/// element in a policy document.
+///
+/// This data type is used as a member of the <code> <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_Statement.html">Statement</a>
+/// </code> type.
+class Position {
+  /// The column in the line containing the specified position in the document.
+  final int? column;
+
+  /// The line containing the specified position in the document.
+  final int? line;
+
+  Position({
+    this.column,
+    this.line,
+  });
+  factory Position.fromXml(_s.XmlElement elem) {
+    return Position(
+      column: _s.extractXmlIntValue(elem, 'Column'),
+      line: _s.extractXmlIntValue(elem, 'Line'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final column = this.column;
+    final line = this.line;
+    return {
+      if (column != null) 'Column': column,
+      if (line != null) 'Line': line,
+    };
+  }
+}
+
+class GlobalEndpointTokenVersion {
+  static const v1Token = GlobalEndpointTokenVersion._('v1Token');
+  static const v2Token = GlobalEndpointTokenVersion._('v2Token');
+
+  final String value;
+
+  const GlobalEndpointTokenVersion._(this.value);
+
+  static const values = [v1Token, v2Token];
+
+  static GlobalEndpointTokenVersion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GlobalEndpointTokenVersion._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GlobalEndpointTokenVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains the details of a service-specific credential.
+class ServiceSpecificCredential {
+  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
+  /// date-time format</a>, when the service-specific credential were created.
+  final DateTime createDate;
+
+  /// The name of the service associated with the service-specific credential.
+  final String serviceName;
+
+  /// The unique identifier for the service-specific credential.
+  final String serviceSpecificCredentialId;
+
+  /// The status of the service-specific credential. <code>Active</code> means
+  /// that the key is valid for API calls, while <code>Inactive</code> means it is
+  /// not.
+  final StatusType status;
+
+  /// The name of the IAM user associated with the service-specific credential.
+  final String userName;
+
+  /// The date and time when the service specific credential expires. This field
+  /// is only present for Bedrock API keys and CloudWatch Logs API keys that were
+  /// created with an expiration period.
+  final DateTime? expirationDate;
+
+  /// For Bedrock API keys and CloudWatch Logs API keys, this is the public
+  /// portion of the credential that includes the IAM user name and a suffix
+  /// containing version and creation information.
+  final String? serviceCredentialAlias;
+
+  /// For Bedrock API keys and CloudWatch Logs API keys, this is the secret
+  /// portion of the credential that should be used to authenticate API calls.
+  /// This value is returned only when the credential is created.
+  final String? serviceCredentialSecret;
+
+  /// The generated password for the service-specific credential.
+  final String? servicePassword;
+
+  /// The generated user name for the service-specific credential. This value is
+  /// generated by combining the IAM user's name combined with the ID number of
+  /// the Amazon Web Services account, as in <code>jane-at-123456789012</code>,
+  /// for example. This value cannot be configured by the user.
+  final String? serviceUserName;
+
+  ServiceSpecificCredential({
+    required this.createDate,
+    required this.serviceName,
+    required this.serviceSpecificCredentialId,
+    required this.status,
+    required this.userName,
+    this.expirationDate,
+    this.serviceCredentialAlias,
+    this.serviceCredentialSecret,
+    this.servicePassword,
+    this.serviceUserName,
+  });
+  factory ServiceSpecificCredential.fromXml(_s.XmlElement elem) {
+    return ServiceSpecificCredential(
+      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate')!,
+      serviceName: _s.extractXmlStringValue(elem, 'ServiceName')!,
+      serviceSpecificCredentialId:
+          _s.extractXmlStringValue(elem, 'ServiceSpecificCredentialId')!,
+      status:
+          _s.extractXmlStringValue(elem, 'Status')!.let(StatusType.fromString),
+      userName: _s.extractXmlStringValue(elem, 'UserName')!,
+      expirationDate: _s.extractXmlDateTimeValue(elem, 'ExpirationDate'),
+      serviceCredentialAlias:
+          _s.extractXmlStringValue(elem, 'ServiceCredentialAlias'),
+      serviceCredentialSecret:
+          _s.extractXmlStringValue(elem, 'ServiceCredentialSecret'),
+      servicePassword: _s.extractXmlStringValue(elem, 'ServicePassword'),
+      serviceUserName: _s.extractXmlStringValue(elem, 'ServiceUserName'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createDate = this.createDate;
+    final serviceName = this.serviceName;
+    final serviceSpecificCredentialId = this.serviceSpecificCredentialId;
+    final status = this.status;
+    final userName = this.userName;
+    final expirationDate = this.expirationDate;
+    final serviceCredentialAlias = this.serviceCredentialAlias;
+    final serviceCredentialSecret = this.serviceCredentialSecret;
+    final servicePassword = this.servicePassword;
+    final serviceUserName = this.serviceUserName;
+    return {
+      'CreateDate': iso8601ToJson(createDate),
+      'ServiceName': serviceName,
+      'ServiceSpecificCredentialId': serviceSpecificCredentialId,
+      'Status': status.value,
+      'UserName': userName,
+      if (expirationDate != null)
+        'ExpirationDate': iso8601ToJson(expirationDate),
+      if (serviceCredentialAlias != null)
+        'ServiceCredentialAlias': serviceCredentialAlias,
+      if (serviceCredentialSecret != null)
+        'ServiceCredentialSecret': serviceCredentialSecret,
+      if (servicePassword != null) 'ServicePassword': servicePassword,
+      if (serviceUserName != null) 'ServiceUserName': serviceUserName,
+    };
+  }
+}
+
+/// Contains information about a virtual MFA device.
+class VirtualMFADevice {
+  /// The serial number associated with <code>VirtualMFADevice</code>.
+  final String serialNumber;
+
+  /// The base32 seed defined as specified in <a
+  /// href="https://tools.ietf.org/html/rfc3548.txt">RFC3548</a>. The
+  /// <code>Base32StringSeed</code> is base32-encoded.
+  final Uint8List? base32StringSeed;
+
+  /// The date and time on which the virtual MFA device was enabled.
+  final DateTime? enableDate;
+
+  /// A QR code PNG image that encodes
+  /// <code>otpauth://totp/$virtualMFADeviceName@$AccountName?secret=$Base32String</code>
+  /// where <code>$virtualMFADeviceName</code> is one of the create call
+  /// arguments. <code>AccountName</code> is the user name if set (otherwise, the
+  /// account ID otherwise), and <code>Base32String</code> is the seed in base32
+  /// format. The <code>Base32String</code> value is base64-encoded.
+  final Uint8List? qRCodePNG;
+
+  /// A list of tags that are attached to the virtual MFA device. For more
+  /// information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  final List<Tag>? tags;
+
+  /// The IAM user associated with this virtual MFA device.
+  final User? user;
+
+  VirtualMFADevice({
+    required this.serialNumber,
+    this.base32StringSeed,
+    this.enableDate,
+    this.qRCodePNG,
+    this.tags,
+    this.user,
+  });
+  factory VirtualMFADevice.fromXml(_s.XmlElement elem) {
+    return VirtualMFADevice(
+      serialNumber: _s.extractXmlStringValue(elem, 'SerialNumber')!,
+      base32StringSeed: _s.extractXmlUint8ListValue(elem, 'Base32StringSeed'),
+      enableDate: _s.extractXmlDateTimeValue(elem, 'EnableDate'),
+      qRCodePNG: _s.extractXmlUint8ListValue(elem, 'QRCodePNG'),
+      tags: _s.extractXmlChild(elem, 'Tags')?.let(
+          (elem) => elem.findElements('member').map(Tag.fromXml).toList()),
+      user: _s.extractXmlChild(elem, 'User')?.let(User.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serialNumber = this.serialNumber;
+    final base32StringSeed = this.base32StringSeed;
+    final enableDate = this.enableDate;
+    final qRCodePNG = this.qRCodePNG;
+    final tags = this.tags;
+    final user = this.user;
+    return {
+      'SerialNumber': serialNumber,
+      if (base32StringSeed != null)
+        'Base32StringSeed': base64Encode(base32StringSeed),
+      if (enableDate != null) 'EnableDate': iso8601ToJson(enableDate),
+      if (qRCodePNG != null) 'QRCodePNG': base64Encode(qRCodePNG),
+      if (tags != null) 'Tags': tags,
+      if (user != null) 'User': user,
+    };
+  }
+}
+
+/// Contains information about an IAM user entity.
 ///
 /// This data type is used as a response element in the following operations:
 ///
 /// <ul>
 /// <li>
-/// <a>CreateGroup</a>
+/// <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateUser.html">CreateUser</a>
 /// </li>
 /// <li>
-/// <a>GetGroup</a>
+/// <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetUser.html">GetUser</a>
 /// </li>
 /// <li>
-/// <a>ListGroups</a>
+/// <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListUsers.html">ListUsers</a>
 /// </li>
 /// </ul>
-class Group {
-  /// The Amazon Resource Name (ARN) specifying the group. For more information
-  /// about ARNs and how to use them in policies, see <a
+class User {
+  /// The Amazon Resource Name (ARN) that identifies the user. For more
+  /// information about ARNs and how to use ARNs in policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// identifiers</a> in the <i>IAM User Guide</i>.
+  /// Identifiers</a> in the <i>IAM User Guide</i>.
   final String arn;
 
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
-  /// date-time format</a>, when the group was created.
+  /// date-time format</a>, when the user was created.
   final DateTime createDate;
 
-  /// The stable and unique string identifying the group. For more information
+  /// The path to the user. For more information about paths, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
+  /// identifiers</a> in the <i>IAM User Guide</i>.
+  ///
+  /// The ARN of the policy used to set the permissions boundary for the user.
+  final String path;
+
+  /// The stable and unique string identifying the user. For more information
   /// about IDs, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
   /// identifiers</a> in the <i>IAM User Guide</i>.
-  final String groupId;
+  final String userId;
 
-  /// The friendly name that identifies the group.
-  final String groupName;
+  /// The friendly name identifying the user.
+  final String userName;
 
-  /// The path to the group. For more information about paths, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// identifiers</a> in the <i>IAM User Guide</i>.
-  final String path;
+  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
+  /// date-time format</a>, when the user's password was last used to sign in to
+  /// an Amazon Web Services website. For a list of Amazon Web Services websites
+  /// that capture a user's last sign-in time, see the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/credential-reports.html">Credential
+  /// reports</a> topic in the <i>IAM User Guide</i>. If a password is used more
+  /// than once in a five-minute span, only the first use is returned in this
+  /// field. If the field is null (no value), then it indicates that they never
+  /// signed in with a password. This can be because:
+  ///
+  /// <ul>
+  /// <li>
+  /// The user never had a password.
+  /// </li>
+  /// <li>
+  /// A password exists but has not been used since IAM started tracking this
+  /// information on October 20, 2014.
+  /// </li>
+  /// </ul>
+  /// A null value does not mean that the user <i>never</i> had a password. Also,
+  /// if the user does not currently have a password but had one in the past, then
+  /// this field contains the date and time the most recent password was used.
+  ///
+  /// This value is returned only in the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetUser.html">GetUser</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListUsers.html">ListUsers</a>
+  /// operations.
+  final DateTime? passwordLastUsed;
 
-  Group({
+  /// For more information about permissions boundaries, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
+  /// boundaries for IAM identities </a> in the <i>IAM User Guide</i>.
+  final AttachedPermissionsBoundary? permissionsBoundary;
+
+  /// A list of tags that are associated with the user. For more information about
+  /// tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  final List<Tag>? tags;
+
+  User({
     required this.arn,
     required this.createDate,
-    required this.groupId,
-    required this.groupName,
     required this.path,
+    required this.userId,
+    required this.userName,
+    this.passwordLastUsed,
+    this.permissionsBoundary,
+    this.tags,
   });
-  factory Group.fromXml(_s.XmlElement elem) {
-    return Group(
+  factory User.fromXml(_s.XmlElement elem) {
+    return User(
       arn: _s.extractXmlStringValue(elem, 'Arn')!,
       createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate')!,
-      groupId: _s.extractXmlStringValue(elem, 'GroupId')!,
-      groupName: _s.extractXmlStringValue(elem, 'GroupName')!,
       path: _s.extractXmlStringValue(elem, 'Path')!,
+      userId: _s.extractXmlStringValue(elem, 'UserId')!,
+      userName: _s.extractXmlStringValue(elem, 'UserName')!,
+      passwordLastUsed: _s.extractXmlDateTimeValue(elem, 'PasswordLastUsed'),
+      permissionsBoundary: _s
+          .extractXmlChild(elem, 'PermissionsBoundary')
+          ?.let(AttachedPermissionsBoundary.fromXml),
+      tags: _s.extractXmlChild(elem, 'Tags')?.let(
+          (elem) => elem.findElements('member').map(Tag.fromXml).toList()),
     );
   }
 
   Map<String, dynamic> toJson() {
     final arn = this.arn;
     final createDate = this.createDate;
-    final groupId = this.groupId;
-    final groupName = this.groupName;
     final path = this.path;
+    final userId = this.userId;
+    final userName = this.userName;
+    final passwordLastUsed = this.passwordLastUsed;
+    final permissionsBoundary = this.permissionsBoundary;
+    final tags = this.tags;
     return {
       'Arn': arn,
       'CreateDate': iso8601ToJson(createDate),
-      'GroupId': groupId,
-      'GroupName': groupName,
       'Path': path,
+      'UserId': userId,
+      'UserName': userName,
+      if (passwordLastUsed != null)
+        'PasswordLastUsed': iso8601ToJson(passwordLastUsed),
+      if (permissionsBoundary != null)
+        'PermissionsBoundary': permissionsBoundary,
+      if (tags != null) 'Tags': tags,
     };
   }
 }
 
-/// Contains information about an IAM group, including all of the group's
-/// policies.
-///
-/// This data type is used as a response element in the
-/// <a>GetAccountAuthorizationDetails</a> operation.
-class GroupDetail {
-  final String? arn;
+class AssignmentStatusType {
+  static const assigned = AssignmentStatusType._('Assigned');
+  static const unassigned = AssignmentStatusType._('Unassigned');
+  static const any = AssignmentStatusType._('Any');
 
-  /// A list of the managed policies attached to the group.
-  final List<AttachedPolicy>? attachedManagedPolicies;
+  final String value;
+
+  const AssignmentStatusType._(this.value);
+
+  static const values = [assigned, unassigned, any];
+
+  static AssignmentStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AssignmentStatusType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AssignmentStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about an SSH public key, without the key's body or
+/// fingerprint.
+///
+/// This data type is used as a response element in the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListSSHPublicKeys.html">ListSSHPublicKeys</a>
+/// operation.
+class SSHPublicKeyMetadata {
+  /// The unique identifier for the SSH public key.
+  final String sSHPublicKeyId;
+
+  /// The status of the SSH public key. <code>Active</code> means that the key can
+  /// be used for authentication with an CodeCommit repository.
+  /// <code>Inactive</code> means that the key cannot be used.
+  final StatusType status;
 
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
-  /// date-time format</a>, when the group was created.
+  /// date-time format</a>, when the SSH public key was uploaded.
+  final DateTime uploadDate;
+
+  /// The name of the IAM user associated with the SSH public key.
+  final String userName;
+
+  SSHPublicKeyMetadata({
+    required this.sSHPublicKeyId,
+    required this.status,
+    required this.uploadDate,
+    required this.userName,
+  });
+  factory SSHPublicKeyMetadata.fromXml(_s.XmlElement elem) {
+    return SSHPublicKeyMetadata(
+      sSHPublicKeyId: _s.extractXmlStringValue(elem, 'SSHPublicKeyId')!,
+      status:
+          _s.extractXmlStringValue(elem, 'Status')!.let(StatusType.fromString),
+      uploadDate: _s.extractXmlDateTimeValue(elem, 'UploadDate')!,
+      userName: _s.extractXmlStringValue(elem, 'UserName')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sSHPublicKeyId = this.sSHPublicKeyId;
+    final status = this.status;
+    final uploadDate = this.uploadDate;
+    final userName = this.userName;
+    return {
+      'SSHPublicKeyId': sSHPublicKeyId,
+      'Status': status.value,
+      'UploadDate': iso8601ToJson(uploadDate),
+      'UserName': userName,
+    };
+  }
+}
+
+/// Contains additional details about a service-specific credential.
+class ServiceSpecificCredentialMetadata {
+  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
+  /// date-time format</a>, when the service-specific credential were created.
+  final DateTime createDate;
+
+  /// The name of the service associated with the service-specific credential.
+  final String serviceName;
+
+  /// The unique identifier for the service-specific credential.
+  final String serviceSpecificCredentialId;
+
+  /// The status of the service-specific credential. <code>Active</code> means
+  /// that the key is valid for API calls, while <code>Inactive</code> means it is
+  /// not.
+  final StatusType status;
+
+  /// The name of the IAM user associated with the service-specific credential.
+  final String userName;
+
+  /// The date and time when the service specific credential expires. This field
+  /// is only present for Bedrock API keys and CloudWatch Logs API keys that were
+  /// created with an expiration period.
+  final DateTime? expirationDate;
+
+  /// For Bedrock API keys and CloudWatch Logs API keys, this is the public
+  /// portion of the credential that includes the IAM user name and a suffix
+  /// containing version and creation information.
+  final String? serviceCredentialAlias;
+
+  /// The generated user name for the service-specific credential.
+  final String? serviceUserName;
+
+  ServiceSpecificCredentialMetadata({
+    required this.createDate,
+    required this.serviceName,
+    required this.serviceSpecificCredentialId,
+    required this.status,
+    required this.userName,
+    this.expirationDate,
+    this.serviceCredentialAlias,
+    this.serviceUserName,
+  });
+  factory ServiceSpecificCredentialMetadata.fromXml(_s.XmlElement elem) {
+    return ServiceSpecificCredentialMetadata(
+      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate')!,
+      serviceName: _s.extractXmlStringValue(elem, 'ServiceName')!,
+      serviceSpecificCredentialId:
+          _s.extractXmlStringValue(elem, 'ServiceSpecificCredentialId')!,
+      status:
+          _s.extractXmlStringValue(elem, 'Status')!.let(StatusType.fromString),
+      userName: _s.extractXmlStringValue(elem, 'UserName')!,
+      expirationDate: _s.extractXmlDateTimeValue(elem, 'ExpirationDate'),
+      serviceCredentialAlias:
+          _s.extractXmlStringValue(elem, 'ServiceCredentialAlias'),
+      serviceUserName: _s.extractXmlStringValue(elem, 'ServiceUserName'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createDate = this.createDate;
+    final serviceName = this.serviceName;
+    final serviceSpecificCredentialId = this.serviceSpecificCredentialId;
+    final status = this.status;
+    final userName = this.userName;
+    final expirationDate = this.expirationDate;
+    final serviceCredentialAlias = this.serviceCredentialAlias;
+    final serviceUserName = this.serviceUserName;
+    return {
+      'CreateDate': iso8601ToJson(createDate),
+      'ServiceName': serviceName,
+      'ServiceSpecificCredentialId': serviceSpecificCredentialId,
+      'Status': status.value,
+      'UserName': userName,
+      if (expirationDate != null)
+        'ExpirationDate': iso8601ToJson(expirationDate),
+      if (serviceCredentialAlias != null)
+        'ServiceCredentialAlias': serviceCredentialAlias,
+      if (serviceUserName != null) 'ServiceUserName': serviceUserName,
+    };
+  }
+}
+
+/// Contains the list of SAML providers for this account.
+class SAMLProviderListEntry {
+  /// The Amazon Resource Name (ARN) of the SAML provider.
+  final String? arn;
+
+  /// The date and time when the SAML provider was created.
   final DateTime? createDate;
 
-  /// The stable and unique string identifying the group. For more information
-  /// about IDs, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// identifiers</a> in the <i>IAM User Guide</i>.
-  final String? groupId;
+  /// The expiration date and time for the SAML provider.
+  final DateTime? validUntil;
 
-  /// The friendly name that identifies the group.
-  final String? groupName;
-
-  /// A list of the inline policies embedded in the group.
-  final List<PolicyDetail>? groupPolicyList;
-
-  /// The path to the group. For more information about paths, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// identifiers</a> in the <i>IAM User Guide</i>.
-  final String? path;
-
-  GroupDetail({
+  SAMLProviderListEntry({
     this.arn,
-    this.attachedManagedPolicies,
     this.createDate,
-    this.groupId,
-    this.groupName,
-    this.groupPolicyList,
-    this.path,
+    this.validUntil,
   });
-  factory GroupDetail.fromXml(_s.XmlElement elem) {
-    return GroupDetail(
+  factory SAMLProviderListEntry.fromXml(_s.XmlElement elem) {
+    return SAMLProviderListEntry(
       arn: _s.extractXmlStringValue(elem, 'Arn'),
-      attachedManagedPolicies: _s
-          .extractXmlChild(elem, 'AttachedManagedPolicies')
-          ?.let((elem) =>
-              elem.findElements('member').map(AttachedPolicy.fromXml).toList()),
       createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
-      groupId: _s.extractXmlStringValue(elem, 'GroupId'),
-      groupName: _s.extractXmlStringValue(elem, 'GroupName'),
-      groupPolicyList: _s.extractXmlChild(elem, 'GroupPolicyList')?.let(
-          (elem) =>
-              elem.findElements('member').map(PolicyDetail.fromXml).toList()),
-      path: _s.extractXmlStringValue(elem, 'Path'),
+      validUntil: _s.extractXmlDateTimeValue(elem, 'ValidUntil'),
     );
   }
 
   Map<String, dynamic> toJson() {
     final arn = this.arn;
-    final attachedManagedPolicies = this.attachedManagedPolicies;
     final createDate = this.createDate;
-    final groupId = this.groupId;
-    final groupName = this.groupName;
-    final groupPolicyList = this.groupPolicyList;
-    final path = this.path;
+    final validUntil = this.validUntil;
     return {
       if (arn != null) 'Arn': arn,
-      if (attachedManagedPolicies != null)
-        'AttachedManagedPolicies': attachedManagedPolicies,
       if (createDate != null) 'CreateDate': iso8601ToJson(createDate),
-      if (groupId != null) 'GroupId': groupId,
-      if (groupName != null) 'GroupName': groupName,
-      if (groupPolicyList != null) 'GroupPolicyList': groupPolicyList,
+      if (validUntil != null) 'ValidUntil': iso8601ToJson(validUntil),
+    };
+  }
+}
+
+/// Contains information about a version of a managed policy.
+///
+/// This data type is used as a response element in the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicyVersion.html">CreatePolicyVersion</a>,
+/// <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicyVersion.html">GetPolicyVersion</a>,
+/// <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListPolicyVersions.html">ListPolicyVersions</a>,
+/// and <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountAuthorizationDetails.html">GetAccountAuthorizationDetails</a>
+/// operations.
+///
+/// For more information about managed policies, refer to <a
+/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+/// policies and inline policies</a> in the <i>IAM User Guide</i>.
+class PolicyVersion {
+  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
+  /// date-time format</a>, when the policy version was created.
+  final DateTime? createDate;
+
+  /// The policy document.
+  ///
+  /// The policy document is returned in the response to the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicyVersion.html">GetPolicyVersion</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountAuthorizationDetails.html">GetAccountAuthorizationDetails</a>
+  /// operations. It is not returned in the response to the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicyVersion.html">CreatePolicyVersion</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListPolicyVersions.html">ListPolicyVersions</a>
+  /// operations.
+  ///
+  /// The policy document returned in this structure is URL-encoded compliant with
+  /// <a href="https://tools.ietf.org/html/rfc3986">RFC 3986</a>. You can use a
+  /// URL decoding method to convert the policy back to plain JSON text. For
+  /// example, if you use Java, you can use the <code>decode</code> method of the
+  /// <code>java.net.URLDecoder</code> utility class in the Java SDK. Other
+  /// languages and SDKs provide similar functionality.
+  final String? document;
+
+  /// Specifies whether the policy version is set as the policy's default version.
+  final bool? isDefaultVersion;
+
+  /// The identifier for the policy version.
+  ///
+  /// Policy version identifiers always begin with <code>v</code> (always
+  /// lowercase). When a policy is created, the first policy version is
+  /// <code>v1</code>.
+  final String? versionId;
+
+  PolicyVersion({
+    this.createDate,
+    this.document,
+    this.isDefaultVersion,
+    this.versionId,
+  });
+  factory PolicyVersion.fromXml(_s.XmlElement elem) {
+    return PolicyVersion(
+      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
+      document: _s.extractXmlStringValue(elem, 'Document'),
+      isDefaultVersion: _s.extractXmlBoolValue(elem, 'IsDefaultVersion'),
+      versionId: _s.extractXmlStringValue(elem, 'VersionId'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createDate = this.createDate;
+    final document = this.document;
+    final isDefaultVersion = this.isDefaultVersion;
+    final versionId = this.versionId;
+    return {
+      if (createDate != null) 'CreateDate': iso8601ToJson(createDate),
+      if (document != null) 'Document': document,
+      if (isDefaultVersion != null) 'IsDefaultVersion': isDefaultVersion,
+      if (versionId != null) 'VersionId': versionId,
+    };
+  }
+}
+
+/// Contains details about the permissions policies that are attached to the
+/// specified identity (user, group, or role).
+///
+/// This data type is used as a response element in the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListPoliciesGrantingServiceAccess.html">ListPoliciesGrantingServiceAccess</a>
+/// operation.
+class ListPoliciesGrantingServiceAccessEntry {
+  /// The <code>PoliciesGrantingServiceAccess</code> object that contains details
+  /// about the policy.
+  final List<PolicyGrantingServiceAccess>? policies;
+
+  /// The namespace of the service that was accessed.
+  ///
+  /// To learn the service namespace of a service, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html">Actions,
+  /// resources, and condition keys for Amazon Web Services services</a> in the
+  /// <i>Service Authorization Reference</i>. Choose the name of the service to
+  /// view details for that service. In the first paragraph, find the service
+  /// prefix. For example, <code>(service prefix: a4b)</code>. For more
+  /// information about service namespaces, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">Amazon
+  /// Web Services service namespaces</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
+  final String? serviceNamespace;
+
+  ListPoliciesGrantingServiceAccessEntry({
+    this.policies,
+    this.serviceNamespace,
+  });
+  factory ListPoliciesGrantingServiceAccessEntry.fromXml(_s.XmlElement elem) {
+    return ListPoliciesGrantingServiceAccessEntry(
+      policies: _s.extractXmlChild(elem, 'Policies')?.let((elem) => elem
+          .findElements('member')
+          .map(PolicyGrantingServiceAccess.fromXml)
+          .toList()),
+      serviceNamespace: _s.extractXmlStringValue(elem, 'ServiceNamespace'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policies = this.policies;
+    final serviceNamespace = this.serviceNamespace;
+    return {
+      if (policies != null) 'Policies': policies,
+      if (serviceNamespace != null) 'ServiceNamespace': serviceNamespace,
+    };
+  }
+}
+
+/// Contains details about the permissions policies that are attached to the
+/// specified identity (user, group, or role).
+///
+/// This data type is an element of the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListPoliciesGrantingServiceAccessEntry.html">ListPoliciesGrantingServiceAccessEntry</a>
+/// object.
+class PolicyGrantingServiceAccess {
+  /// The policy name.
+  final String policyName;
+
+  /// The policy type. For more information about these policy types, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html">Managed
+  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
+  final PolicyType policyType;
+
+  /// The name of the entity (user or role) to which the inline policy is
+  /// attached.
+  ///
+  /// This field is null for managed policies. For more information about these
+  /// policy types, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html">Managed
+  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
+  final String? entityName;
+
+  /// The type of entity (user or role) that used the policy to access the service
+  /// to which the inline policy is attached.
+  ///
+  /// This field is null for managed policies. For more information about these
+  /// policy types, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html">Managed
+  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
+  final PolicyOwnerEntityType? entityType;
+  final String? policyArn;
+
+  PolicyGrantingServiceAccess({
+    required this.policyName,
+    required this.policyType,
+    this.entityName,
+    this.entityType,
+    this.policyArn,
+  });
+  factory PolicyGrantingServiceAccess.fromXml(_s.XmlElement elem) {
+    return PolicyGrantingServiceAccess(
+      policyName: _s.extractXmlStringValue(elem, 'PolicyName')!,
+      policyType: _s
+          .extractXmlStringValue(elem, 'PolicyType')!
+          .let(PolicyType.fromString),
+      entityName: _s.extractXmlStringValue(elem, 'EntityName'),
+      entityType: _s
+          .extractXmlStringValue(elem, 'EntityType')
+          ?.let(PolicyOwnerEntityType.fromString),
+      policyArn: _s.extractXmlStringValue(elem, 'PolicyArn'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyName = this.policyName;
+    final policyType = this.policyType;
+    final entityName = this.entityName;
+    final entityType = this.entityType;
+    final policyArn = this.policyArn;
+    return {
+      'PolicyName': policyName,
+      'PolicyType': policyType.value,
+      if (entityName != null) 'EntityName': entityName,
+      if (entityType != null) 'EntityType': entityType.value,
+      if (policyArn != null) 'PolicyArn': policyArn,
+    };
+  }
+}
+
+class PolicyType {
+  static const inline = PolicyType._('INLINE');
+  static const managed = PolicyType._('MANAGED');
+
+  final String value;
+
+  const PolicyType._(this.value);
+
+  static const values = [inline, managed];
+
+  static PolicyType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PolicyType._(value));
+
+  @override
+  bool operator ==(other) => other is PolicyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class PolicyOwnerEntityType {
+  static const user = PolicyOwnerEntityType._('USER');
+  static const role = PolicyOwnerEntityType._('ROLE');
+  static const group = PolicyOwnerEntityType._('GROUP');
+
+  final String value;
+
+  const PolicyOwnerEntityType._(this.value);
+
+  static const values = [user, role, group];
+
+  static PolicyOwnerEntityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PolicyOwnerEntityType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PolicyOwnerEntityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about a managed policy.
+///
+/// This data type is used as a response element in the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicy.html">CreatePolicy</a>,
+/// <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicy.html">GetPolicy</a>,
+/// and <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListPolicies.html">ListPolicies</a>
+/// operations.
+///
+/// For more information about managed policies, refer to <a
+/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+/// policies and inline policies</a> in the <i>IAM User Guide</i>.
+class Policy {
+  final String? arn;
+
+  /// The number of entities (users, groups, and roles) that the policy is
+  /// attached to.
+  final int? attachmentCount;
+
+  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
+  /// date-time format</a>, when the policy was created.
+  final DateTime? createDate;
+
+  /// The identifier for the version of the policy that is set as the default
+  /// version.
+  final String? defaultVersionId;
+
+  /// A friendly description of the policy.
+  ///
+  /// This element is included in the response to the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicy.html">GetPolicy</a>
+  /// operation. It is not included in the response to the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListPolicies.html">ListPolicies</a>
+  /// operation.
+  final String? description;
+
+  /// Specifies whether the policy can be attached to an IAM user, group, or role.
+  final bool? isAttachable;
+
+  /// The path to the policy.
+  ///
+  /// For more information about paths, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
+  /// identifiers</a> in the <i>IAM User Guide</i>.
+  final String? path;
+
+  /// The number of entities (users and roles) for which the policy is used to set
+  /// the permissions boundary.
+  ///
+  /// For more information about permissions boundaries, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
+  /// boundaries for IAM identities </a> in the <i>IAM User Guide</i>.
+  final int? permissionsBoundaryUsageCount;
+
+  /// The stable and unique string identifying the policy.
+  ///
+  /// For more information about IDs, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
+  /// identifiers</a> in the <i>IAM User Guide</i>.
+  final String? policyId;
+
+  /// The friendly name (not ARN) identifying the policy.
+  final String? policyName;
+
+  /// A list of tags that are attached to the instance profile. For more
+  /// information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  final List<Tag>? tags;
+
+  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
+  /// date-time format</a>, when the policy was last updated.
+  ///
+  /// When a policy has only one version, this field contains the date and time
+  /// when the policy was created. When a policy has more than one version, this
+  /// field contains the date and time when the most recent policy version was
+  /// created.
+  final DateTime? updateDate;
+
+  Policy({
+    this.arn,
+    this.attachmentCount,
+    this.createDate,
+    this.defaultVersionId,
+    this.description,
+    this.isAttachable,
+    this.path,
+    this.permissionsBoundaryUsageCount,
+    this.policyId,
+    this.policyName,
+    this.tags,
+    this.updateDate,
+  });
+  factory Policy.fromXml(_s.XmlElement elem) {
+    return Policy(
+      arn: _s.extractXmlStringValue(elem, 'Arn'),
+      attachmentCount: _s.extractXmlIntValue(elem, 'AttachmentCount'),
+      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
+      defaultVersionId: _s.extractXmlStringValue(elem, 'DefaultVersionId'),
+      description: _s.extractXmlStringValue(elem, 'Description'),
+      isAttachable: _s.extractXmlBoolValue(elem, 'IsAttachable'),
+      path: _s.extractXmlStringValue(elem, 'Path'),
+      permissionsBoundaryUsageCount:
+          _s.extractXmlIntValue(elem, 'PermissionsBoundaryUsageCount'),
+      policyId: _s.extractXmlStringValue(elem, 'PolicyId'),
+      policyName: _s.extractXmlStringValue(elem, 'PolicyName'),
+      tags: _s.extractXmlChild(elem, 'Tags')?.let(
+          (elem) => elem.findElements('member').map(Tag.fromXml).toList()),
+      updateDate: _s.extractXmlDateTimeValue(elem, 'UpdateDate'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final attachmentCount = this.attachmentCount;
+    final createDate = this.createDate;
+    final defaultVersionId = this.defaultVersionId;
+    final description = this.description;
+    final isAttachable = this.isAttachable;
+    final path = this.path;
+    final permissionsBoundaryUsageCount = this.permissionsBoundaryUsageCount;
+    final policyId = this.policyId;
+    final policyName = this.policyName;
+    final tags = this.tags;
+    final updateDate = this.updateDate;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (attachmentCount != null) 'AttachmentCount': attachmentCount,
+      if (createDate != null) 'CreateDate': iso8601ToJson(createDate),
+      if (defaultVersionId != null) 'DefaultVersionId': defaultVersionId,
+      if (description != null) 'Description': description,
+      if (isAttachable != null) 'IsAttachable': isAttachable,
       if (path != null) 'Path': path,
+      if (permissionsBoundaryUsageCount != null)
+        'PermissionsBoundaryUsageCount': permissionsBoundaryUsageCount,
+      if (policyId != null) 'PolicyId': policyId,
+      if (policyName != null) 'PolicyName': policyName,
+      if (tags != null) 'Tags': tags,
+      if (updateDate != null) 'UpdateDate': iso8601ToJson(updateDate),
+    };
+  }
+}
+
+class PolicyScopeType {
+  static const all = PolicyScopeType._('All');
+  static const aws = PolicyScopeType._('AWS');
+  static const local = PolicyScopeType._('Local');
+
+  final String value;
+
+  const PolicyScopeType._(this.value);
+
+  static const values = [all, aws, local];
+
+  static PolicyScopeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PolicyScopeType._(value));
+
+  @override
+  bool operator ==(other) => other is PolicyScopeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The policy usage type that indicates whether the policy is used as a
+/// permissions policy or as the permissions boundary for an entity.
+///
+/// For more information about permissions boundaries, see <a
+/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
+/// boundaries for IAM identities </a> in the <i>IAM User Guide</i>.
+class PolicyUsageType {
+  static const permissionsPolicy = PolicyUsageType._('PermissionsPolicy');
+  static const permissionsBoundary = PolicyUsageType._('PermissionsBoundary');
+
+  final String value;
+
+  const PolicyUsageType._(this.value);
+
+  static const values = [permissionsPolicy, permissionsBoundary];
+
+  static PolicyUsageType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PolicyUsageType._(value));
+
+  @override
+  bool operator ==(other) => other is PolicyUsageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class FeatureType {
+  static const rootCredentialsManagement =
+      FeatureType._('RootCredentialsManagement');
+  static const rootSessions = FeatureType._('RootSessions');
+
+  final String value;
+
+  const FeatureType._(this.value);
+
+  static const values = [rootCredentialsManagement, rootSessions];
+
+  static FeatureType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FeatureType._(value));
+
+  @override
+  bool operator ==(other) => other is FeatureType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains the Amazon Resource Name (ARN) for an IAM OpenID Connect provider.
+class OpenIDConnectProviderListEntry {
+  final String? arn;
+
+  OpenIDConnectProviderListEntry({
+    this.arn,
+  });
+  factory OpenIDConnectProviderListEntry.fromXml(_s.XmlElement elem) {
+    return OpenIDConnectProviderListEntry(
+      arn: _s.extractXmlStringValue(elem, 'Arn'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
+      if (arn != null) 'Arn': arn,
+    };
+  }
+}
+
+/// Contains information about an MFA device.
+///
+/// This data type is used as a response element in the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListMFADevices.html">ListMFADevices</a>
+/// operation.
+class MFADevice {
+  /// The date when the MFA device was enabled for the user.
+  final DateTime enableDate;
+
+  /// The serial number that uniquely identifies the MFA device. For virtual MFA
+  /// devices, the serial number is the device ARN.
+  final String serialNumber;
+
+  /// The user with whom the MFA device is associated.
+  final String userName;
+
+  MFADevice({
+    required this.enableDate,
+    required this.serialNumber,
+    required this.userName,
+  });
+  factory MFADevice.fromXml(_s.XmlElement elem) {
+    return MFADevice(
+      enableDate: _s.extractXmlDateTimeValue(elem, 'EnableDate')!,
+      serialNumber: _s.extractXmlStringValue(elem, 'SerialNumber')!,
+      userName: _s.extractXmlStringValue(elem, 'UserName')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enableDate = this.enableDate;
+    final serialNumber = this.serialNumber;
+    final userName = this.userName;
+    return {
+      'EnableDate': iso8601ToJson(enableDate),
+      'SerialNumber': serialNumber,
+      'UserName': userName,
     };
   }
 }
@@ -13375,16 +17850,20 @@ class GroupDetail {
 ///
 /// <ul>
 /// <li>
-/// <a>CreateInstanceProfile</a>
+/// <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateInstanceProfile.html">CreateInstanceProfile</a>
 /// </li>
 /// <li>
-/// <a>GetInstanceProfile</a>
+/// <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetInstanceProfile.html">GetInstanceProfile</a>
 /// </li>
 /// <li>
-/// <a>ListInstanceProfiles</a>
+/// <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListInstanceProfiles.html">ListInstanceProfiles</a>
 /// </li>
 /// <li>
-/// <a>ListInstanceProfilesForRole</a>
+/// <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListInstanceProfilesForRole.html">ListInstanceProfilesForRole</a>
 /// </li>
 /// </ul>
 class InstanceProfile {
@@ -13467,782 +17946,1015 @@ class InstanceProfile {
   }
 }
 
-/// Contains the response to a successful <a>ListAccessKeys</a> request.
-class ListAccessKeysResponse {
-  /// A list of objects containing metadata about the access keys.
-  final List<AccessKeyMetadata> accessKeyMetadata;
-
-  /// A flag that indicates whether there are more items to return. If your
-  /// results were truncated, you can make a subsequent pagination request using
-  /// the <code>Marker</code> request parameter to retrieve more items. Note that
-  /// IAM might return fewer than the <code>MaxItems</code> number of results even
-  /// when there are more results available. We recommend that you check
-  /// <code>IsTruncated</code> after every call to ensure that you receive all
-  /// your results.
-  final bool? isTruncated;
-
-  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
-  /// and contains the value to use for the <code>Marker</code> parameter in a
-  /// subsequent pagination request.
-  final String? marker;
-
-  ListAccessKeysResponse({
-    required this.accessKeyMetadata,
-    this.isTruncated,
-    this.marker,
-  });
-  factory ListAccessKeysResponse.fromXml(_s.XmlElement elem) {
-    return ListAccessKeysResponse(
-      accessKeyMetadata: _s
-          .extractXmlChild(elem, 'AccessKeyMetadata')!
-          .findElements('member')
-          .map(AccessKeyMetadata.fromXml)
-          .toList(),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accessKeyMetadata = this.accessKeyMetadata;
-    final isTruncated = this.isTruncated;
-    final marker = this.marker;
-    return {
-      'AccessKeyMetadata': accessKeyMetadata,
-      if (isTruncated != null) 'IsTruncated': isTruncated,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-/// Contains the response to a successful <a>ListAccountAliases</a> request.
-class ListAccountAliasesResponse {
-  /// A list of aliases associated with the account. Amazon Web Services supports
-  /// only one alias per account.
-  final List<String> accountAliases;
-
-  /// A flag that indicates whether there are more items to return. If your
-  /// results were truncated, you can make a subsequent pagination request using
-  /// the <code>Marker</code> request parameter to retrieve more items. Note that
-  /// IAM might return fewer than the <code>MaxItems</code> number of results even
-  /// when there are more results available. We recommend that you check
-  /// <code>IsTruncated</code> after every call to ensure that you receive all
-  /// your results.
-  final bool? isTruncated;
-
-  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
-  /// and contains the value to use for the <code>Marker</code> parameter in a
-  /// subsequent pagination request.
-  final String? marker;
-
-  ListAccountAliasesResponse({
-    required this.accountAliases,
-    this.isTruncated,
-    this.marker,
-  });
-  factory ListAccountAliasesResponse.fromXml(_s.XmlElement elem) {
-    return ListAccountAliasesResponse(
-      accountAliases: _s.extractXmlStringListValues(
-          _s.extractXmlChild(elem, 'AccountAliases')!, 'member'),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountAliases = this.accountAliases;
-    final isTruncated = this.isTruncated;
-    final marker = this.marker;
-    return {
-      'AccountAliases': accountAliases,
-      if (isTruncated != null) 'IsTruncated': isTruncated,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-/// Contains the response to a successful <a>ListAttachedGroupPolicies</a>
-/// request.
-class ListAttachedGroupPoliciesResponse {
-  /// A list of the attached policies.
-  final List<AttachedPolicy>? attachedPolicies;
-
-  /// A flag that indicates whether there are more items to return. If your
-  /// results were truncated, you can make a subsequent pagination request using
-  /// the <code>Marker</code> request parameter to retrieve more items. Note that
-  /// IAM might return fewer than the <code>MaxItems</code> number of results even
-  /// when there are more results available. We recommend that you check
-  /// <code>IsTruncated</code> after every call to ensure that you receive all
-  /// your results.
-  final bool? isTruncated;
-
-  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
-  /// and contains the value to use for the <code>Marker</code> parameter in a
-  /// subsequent pagination request.
-  final String? marker;
-
-  ListAttachedGroupPoliciesResponse({
-    this.attachedPolicies,
-    this.isTruncated,
-    this.marker,
-  });
-  factory ListAttachedGroupPoliciesResponse.fromXml(_s.XmlElement elem) {
-    return ListAttachedGroupPoliciesResponse(
-      attachedPolicies: _s.extractXmlChild(elem, 'AttachedPolicies')?.let(
-          (elem) =>
-              elem.findElements('member').map(AttachedPolicy.fromXml).toList()),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attachedPolicies = this.attachedPolicies;
-    final isTruncated = this.isTruncated;
-    final marker = this.marker;
-    return {
-      if (attachedPolicies != null) 'AttachedPolicies': attachedPolicies,
-      if (isTruncated != null) 'IsTruncated': isTruncated,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-/// Contains the response to a successful <a>ListAttachedRolePolicies</a>
-/// request.
-class ListAttachedRolePoliciesResponse {
-  /// A list of the attached policies.
-  final List<AttachedPolicy>? attachedPolicies;
-
-  /// A flag that indicates whether there are more items to return. If your
-  /// results were truncated, you can make a subsequent pagination request using
-  /// the <code>Marker</code> request parameter to retrieve more items. Note that
-  /// IAM might return fewer than the <code>MaxItems</code> number of results even
-  /// when there are more results available. We recommend that you check
-  /// <code>IsTruncated</code> after every call to ensure that you receive all
-  /// your results.
-  final bool? isTruncated;
-
-  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
-  /// and contains the value to use for the <code>Marker</code> parameter in a
-  /// subsequent pagination request.
-  final String? marker;
-
-  ListAttachedRolePoliciesResponse({
-    this.attachedPolicies,
-    this.isTruncated,
-    this.marker,
-  });
-  factory ListAttachedRolePoliciesResponse.fromXml(_s.XmlElement elem) {
-    return ListAttachedRolePoliciesResponse(
-      attachedPolicies: _s.extractXmlChild(elem, 'AttachedPolicies')?.let(
-          (elem) =>
-              elem.findElements('member').map(AttachedPolicy.fromXml).toList()),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attachedPolicies = this.attachedPolicies;
-    final isTruncated = this.isTruncated;
-    final marker = this.marker;
-    return {
-      if (attachedPolicies != null) 'AttachedPolicies': attachedPolicies,
-      if (isTruncated != null) 'IsTruncated': isTruncated,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-/// Contains the response to a successful <a>ListAttachedUserPolicies</a>
-/// request.
-class ListAttachedUserPoliciesResponse {
-  /// A list of the attached policies.
-  final List<AttachedPolicy>? attachedPolicies;
-
-  /// A flag that indicates whether there are more items to return. If your
-  /// results were truncated, you can make a subsequent pagination request using
-  /// the <code>Marker</code> request parameter to retrieve more items. Note that
-  /// IAM might return fewer than the <code>MaxItems</code> number of results even
-  /// when there are more results available. We recommend that you check
-  /// <code>IsTruncated</code> after every call to ensure that you receive all
-  /// your results.
-  final bool? isTruncated;
-
-  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
-  /// and contains the value to use for the <code>Marker</code> parameter in a
-  /// subsequent pagination request.
-  final String? marker;
-
-  ListAttachedUserPoliciesResponse({
-    this.attachedPolicies,
-    this.isTruncated,
-    this.marker,
-  });
-  factory ListAttachedUserPoliciesResponse.fromXml(_s.XmlElement elem) {
-    return ListAttachedUserPoliciesResponse(
-      attachedPolicies: _s.extractXmlChild(elem, 'AttachedPolicies')?.let(
-          (elem) =>
-              elem.findElements('member').map(AttachedPolicy.fromXml).toList()),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attachedPolicies = this.attachedPolicies;
-    final isTruncated = this.isTruncated;
-    final marker = this.marker;
-    return {
-      if (attachedPolicies != null) 'AttachedPolicies': attachedPolicies,
-      if (isTruncated != null) 'IsTruncated': isTruncated,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-/// Contains the response to a successful <a>ListEntitiesForPolicy</a> request.
-class ListEntitiesForPolicyResponse {
-  /// A flag that indicates whether there are more items to return. If your
-  /// results were truncated, you can make a subsequent pagination request using
-  /// the <code>Marker</code> request parameter to retrieve more items. Note that
-  /// IAM might return fewer than the <code>MaxItems</code> number of results even
-  /// when there are more results available. We recommend that you check
-  /// <code>IsTruncated</code> after every call to ensure that you receive all
-  /// your results.
-  final bool? isTruncated;
-
-  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
-  /// and contains the value to use for the <code>Marker</code> parameter in a
-  /// subsequent pagination request.
-  final String? marker;
-
-  /// A list of IAM groups that the policy is attached to.
-  final List<PolicyGroup>? policyGroups;
-
-  /// A list of IAM roles that the policy is attached to.
-  final List<PolicyRole>? policyRoles;
-
-  /// A list of IAM users that the policy is attached to.
-  final List<PolicyUser>? policyUsers;
-
-  ListEntitiesForPolicyResponse({
-    this.isTruncated,
-    this.marker,
-    this.policyGroups,
-    this.policyRoles,
-    this.policyUsers,
-  });
-  factory ListEntitiesForPolicyResponse.fromXml(_s.XmlElement elem) {
-    return ListEntitiesForPolicyResponse(
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      policyGroups: _s.extractXmlChild(elem, 'PolicyGroups')?.let((elem) =>
-          elem.findElements('member').map(PolicyGroup.fromXml).toList()),
-      policyRoles: _s.extractXmlChild(elem, 'PolicyRoles')?.let((elem) =>
-          elem.findElements('member').map(PolicyRole.fromXml).toList()),
-      policyUsers: _s.extractXmlChild(elem, 'PolicyUsers')?.let((elem) =>
-          elem.findElements('member').map(PolicyUser.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final isTruncated = this.isTruncated;
-    final marker = this.marker;
-    final policyGroups = this.policyGroups;
-    final policyRoles = this.policyRoles;
-    final policyUsers = this.policyUsers;
-    return {
-      if (isTruncated != null) 'IsTruncated': isTruncated,
-      if (marker != null) 'Marker': marker,
-      if (policyGroups != null) 'PolicyGroups': policyGroups,
-      if (policyRoles != null) 'PolicyRoles': policyRoles,
-      if (policyUsers != null) 'PolicyUsers': policyUsers,
-    };
-  }
-}
-
-/// Contains the response to a successful <a>ListGroupPolicies</a> request.
-class ListGroupPoliciesResponse {
-  /// A list of policy names.
-  ///
-  /// This parameter allows (through its <a
-  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
-  /// characters consisting of upper and lowercase alphanumeric characters with no
-  /// spaces. You can also include any of the following characters: _+=,.@-
-  final List<String> policyNames;
-
-  /// A flag that indicates whether there are more items to return. If your
-  /// results were truncated, you can make a subsequent pagination request using
-  /// the <code>Marker</code> request parameter to retrieve more items. Note that
-  /// IAM might return fewer than the <code>MaxItems</code> number of results even
-  /// when there are more results available. We recommend that you check
-  /// <code>IsTruncated</code> after every call to ensure that you receive all
-  /// your results.
-  final bool? isTruncated;
-
-  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
-  /// and contains the value to use for the <code>Marker</code> parameter in a
-  /// subsequent pagination request.
-  final String? marker;
-
-  ListGroupPoliciesResponse({
-    required this.policyNames,
-    this.isTruncated,
-    this.marker,
-  });
-  factory ListGroupPoliciesResponse.fromXml(_s.XmlElement elem) {
-    return ListGroupPoliciesResponse(
-      policyNames: _s.extractXmlStringListValues(
-          _s.extractXmlChild(elem, 'PolicyNames')!, 'member'),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final policyNames = this.policyNames;
-    final isTruncated = this.isTruncated;
-    final marker = this.marker;
-    return {
-      'PolicyNames': policyNames,
-      if (isTruncated != null) 'IsTruncated': isTruncated,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-/// Contains the response to a successful <a>ListGroupsForUser</a> request.
-class ListGroupsForUserResponse {
-  /// A list of groups.
-  final List<Group> groups;
-
-  /// A flag that indicates whether there are more items to return. If your
-  /// results were truncated, you can make a subsequent pagination request using
-  /// the <code>Marker</code> request parameter to retrieve more items. Note that
-  /// IAM might return fewer than the <code>MaxItems</code> number of results even
-  /// when there are more results available. We recommend that you check
-  /// <code>IsTruncated</code> after every call to ensure that you receive all
-  /// your results.
-  final bool? isTruncated;
-
-  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
-  /// and contains the value to use for the <code>Marker</code> parameter in a
-  /// subsequent pagination request.
-  final String? marker;
-
-  ListGroupsForUserResponse({
-    required this.groups,
-    this.isTruncated,
-    this.marker,
-  });
-  factory ListGroupsForUserResponse.fromXml(_s.XmlElement elem) {
-    return ListGroupsForUserResponse(
-      groups: _s
-          .extractXmlChild(elem, 'Groups')!
-          .findElements('member')
-          .map(Group.fromXml)
-          .toList(),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final groups = this.groups;
-    final isTruncated = this.isTruncated;
-    final marker = this.marker;
-    return {
-      'Groups': groups,
-      if (isTruncated != null) 'IsTruncated': isTruncated,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-/// Contains the response to a successful <a>ListGroups</a> request.
-class ListGroupsResponse {
-  /// A list of groups.
-  final List<Group> groups;
-
-  /// A flag that indicates whether there are more items to return. If your
-  /// results were truncated, you can make a subsequent pagination request using
-  /// the <code>Marker</code> request parameter to retrieve more items. Note that
-  /// IAM might return fewer than the <code>MaxItems</code> number of results even
-  /// when there are more results available. We recommend that you check
-  /// <code>IsTruncated</code> after every call to ensure that you receive all
-  /// your results.
-  final bool? isTruncated;
-
-  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
-  /// and contains the value to use for the <code>Marker</code> parameter in a
-  /// subsequent pagination request.
-  final String? marker;
-
-  ListGroupsResponse({
-    required this.groups,
-    this.isTruncated,
-    this.marker,
-  });
-  factory ListGroupsResponse.fromXml(_s.XmlElement elem) {
-    return ListGroupsResponse(
-      groups: _s
-          .extractXmlChild(elem, 'Groups')!
-          .findElements('member')
-          .map(Group.fromXml)
-          .toList(),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final groups = this.groups;
-    final isTruncated = this.isTruncated;
-    final marker = this.marker;
-    return {
-      'Groups': groups,
-      if (isTruncated != null) 'IsTruncated': isTruncated,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-class ListInstanceProfileTagsResponse {
-  /// The list of tags that are currently attached to the IAM instance profile.
-  /// Each tag consists of a key name and an associated value. If no tags are
-  /// attached to the specified resource, the response contains an empty list.
-  final List<Tag> tags;
-
-  /// A flag that indicates whether there are more items to return. If your
-  /// results were truncated, you can make a subsequent pagination request using
-  /// the <code>Marker</code> request parameter to retrieve more items. Note that
-  /// IAM might return fewer than the <code>MaxItems</code> number of results even
-  /// when there are more results available. We recommend that you check
-  /// <code>IsTruncated</code> after every call to ensure that you receive all
-  /// your results.
-  final bool? isTruncated;
-
-  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
-  /// and contains the value to use for the <code>Marker</code> parameter in a
-  /// subsequent pagination request.
-  final String? marker;
-
-  ListInstanceProfileTagsResponse({
-    required this.tags,
-    this.isTruncated,
-    this.marker,
-  });
-  factory ListInstanceProfileTagsResponse.fromXml(_s.XmlElement elem) {
-    return ListInstanceProfileTagsResponse(
-      tags: _s
-          .extractXmlChild(elem, 'Tags')!
-          .findElements('member')
-          .map(Tag.fromXml)
-          .toList(),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tags = this.tags;
-    final isTruncated = this.isTruncated;
-    final marker = this.marker;
-    return {
-      'Tags': tags,
-      if (isTruncated != null) 'IsTruncated': isTruncated,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-/// Contains the response to a successful <a>ListInstanceProfilesForRole</a>
-/// request.
-class ListInstanceProfilesForRoleResponse {
-  /// A list of instance profiles.
-  final List<InstanceProfile> instanceProfiles;
-
-  /// A flag that indicates whether there are more items to return. If your
-  /// results were truncated, you can make a subsequent pagination request using
-  /// the <code>Marker</code> request parameter to retrieve more items. Note that
-  /// IAM might return fewer than the <code>MaxItems</code> number of results even
-  /// when there are more results available. We recommend that you check
-  /// <code>IsTruncated</code> after every call to ensure that you receive all
-  /// your results.
-  final bool? isTruncated;
-
-  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
-  /// and contains the value to use for the <code>Marker</code> parameter in a
-  /// subsequent pagination request.
-  final String? marker;
-
-  ListInstanceProfilesForRoleResponse({
-    required this.instanceProfiles,
-    this.isTruncated,
-    this.marker,
-  });
-  factory ListInstanceProfilesForRoleResponse.fromXml(_s.XmlElement elem) {
-    return ListInstanceProfilesForRoleResponse(
-      instanceProfiles: _s
-          .extractXmlChild(elem, 'InstanceProfiles')!
-          .findElements('member')
-          .map(InstanceProfile.fromXml)
-          .toList(),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final instanceProfiles = this.instanceProfiles;
-    final isTruncated = this.isTruncated;
-    final marker = this.marker;
-    return {
-      'InstanceProfiles': instanceProfiles,
-      if (isTruncated != null) 'IsTruncated': isTruncated,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-/// Contains the response to a successful <a>ListInstanceProfiles</a> request.
-class ListInstanceProfilesResponse {
-  /// A list of instance profiles.
-  final List<InstanceProfile> instanceProfiles;
-
-  /// A flag that indicates whether there are more items to return. If your
-  /// results were truncated, you can make a subsequent pagination request using
-  /// the <code>Marker</code> request parameter to retrieve more items. Note that
-  /// IAM might return fewer than the <code>MaxItems</code> number of results even
-  /// when there are more results available. We recommend that you check
-  /// <code>IsTruncated</code> after every call to ensure that you receive all
-  /// your results.
-  final bool? isTruncated;
-
-  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
-  /// and contains the value to use for the <code>Marker</code> parameter in a
-  /// subsequent pagination request.
-  final String? marker;
-
-  ListInstanceProfilesResponse({
-    required this.instanceProfiles,
-    this.isTruncated,
-    this.marker,
-  });
-  factory ListInstanceProfilesResponse.fromXml(_s.XmlElement elem) {
-    return ListInstanceProfilesResponse(
-      instanceProfiles: _s
-          .extractXmlChild(elem, 'InstanceProfiles')!
-          .findElements('member')
-          .map(InstanceProfile.fromXml)
-          .toList(),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final instanceProfiles = this.instanceProfiles;
-    final isTruncated = this.isTruncated;
-    final marker = this.marker;
-    return {
-      'InstanceProfiles': instanceProfiles,
-      if (isTruncated != null) 'IsTruncated': isTruncated,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-class ListMFADeviceTagsResponse {
-  /// The list of tags that are currently attached to the virtual MFA device. Each
-  /// tag consists of a key name and an associated value. If no tags are attached
-  /// to the specified resource, the response contains an empty list.
-  final List<Tag> tags;
-
-  /// A flag that indicates whether there are more items to return. If your
-  /// results were truncated, you can make a subsequent pagination request using
-  /// the <code>Marker</code> request parameter to retrieve more items. Note that
-  /// IAM might return fewer than the <code>MaxItems</code> number of results even
-  /// when there are more results available. We recommend that you check
-  /// <code>IsTruncated</code> after every call to ensure that you receive all
-  /// your results.
-  final bool? isTruncated;
-
-  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
-  /// and contains the value to use for the <code>Marker</code> parameter in a
-  /// subsequent pagination request.
-  final String? marker;
-
-  ListMFADeviceTagsResponse({
-    required this.tags,
-    this.isTruncated,
-    this.marker,
-  });
-  factory ListMFADeviceTagsResponse.fromXml(_s.XmlElement elem) {
-    return ListMFADeviceTagsResponse(
-      tags: _s
-          .extractXmlChild(elem, 'Tags')!
-          .findElements('member')
-          .map(Tag.fromXml)
-          .toList(),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tags = this.tags;
-    final isTruncated = this.isTruncated;
-    final marker = this.marker;
-    return {
-      'Tags': tags,
-      if (isTruncated != null) 'IsTruncated': isTruncated,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-/// Contains the response to a successful <a>ListMFADevices</a> request.
-class ListMFADevicesResponse {
-  /// A list of MFA devices.
-  final List<MFADevice> mFADevices;
-
-  /// A flag that indicates whether there are more items to return. If your
-  /// results were truncated, you can make a subsequent pagination request using
-  /// the <code>Marker</code> request parameter to retrieve more items. Note that
-  /// IAM might return fewer than the <code>MaxItems</code> number of results even
-  /// when there are more results available. We recommend that you check
-  /// <code>IsTruncated</code> after every call to ensure that you receive all
-  /// your results.
-  final bool? isTruncated;
-
-  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
-  /// and contains the value to use for the <code>Marker</code> parameter in a
-  /// subsequent pagination request.
-  final String? marker;
-
-  ListMFADevicesResponse({
-    required this.mFADevices,
-    this.isTruncated,
-    this.marker,
-  });
-  factory ListMFADevicesResponse.fromXml(_s.XmlElement elem) {
-    return ListMFADevicesResponse(
-      mFADevices: _s
-          .extractXmlChild(elem, 'MFADevices')!
-          .findElements('member')
-          .map(MFADevice.fromXml)
-          .toList(),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final mFADevices = this.mFADevices;
-    final isTruncated = this.isTruncated;
-    final marker = this.marker;
-    return {
-      'MFADevices': mFADevices,
-      if (isTruncated != null) 'IsTruncated': isTruncated,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-class ListOpenIDConnectProviderTagsResponse {
-  /// The list of tags that are currently attached to the OpenID Connect (OIDC)
-  /// identity provider. Each tag consists of a key name and an associated value.
-  /// If no tags are attached to the specified resource, the response contains an
-  /// empty list.
-  final List<Tag> tags;
-
-  /// A flag that indicates whether there are more items to return. If your
-  /// results were truncated, you can make a subsequent pagination request using
-  /// the <code>Marker</code> request parameter to retrieve more items. Note that
-  /// IAM might return fewer than the <code>MaxItems</code> number of results even
-  /// when there are more results available. We recommend that you check
-  /// <code>IsTruncated</code> after every call to ensure that you receive all
-  /// your results.
-  final bool? isTruncated;
-
-  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
-  /// and contains the value to use for the <code>Marker</code> parameter in a
-  /// subsequent pagination request.
-  final String? marker;
-
-  ListOpenIDConnectProviderTagsResponse({
-    required this.tags,
-    this.isTruncated,
-    this.marker,
-  });
-  factory ListOpenIDConnectProviderTagsResponse.fromXml(_s.XmlElement elem) {
-    return ListOpenIDConnectProviderTagsResponse(
-      tags: _s
-          .extractXmlChild(elem, 'Tags')!
-          .findElements('member')
-          .map(Tag.fromXml)
-          .toList(),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tags = this.tags;
-    final isTruncated = this.isTruncated;
-    final marker = this.marker;
-    return {
-      'Tags': tags,
-      if (isTruncated != null) 'IsTruncated': isTruncated,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-/// Contains the response to a successful <a>ListOpenIDConnectProviders</a>
-/// request.
-class ListOpenIDConnectProvidersResponse {
-  /// The list of IAM OIDC provider resource objects defined in the Amazon Web
-  /// Services account.
-  final List<OpenIDConnectProviderListEntry>? openIDConnectProviderList;
-
-  ListOpenIDConnectProvidersResponse({
-    this.openIDConnectProviderList,
-  });
-  factory ListOpenIDConnectProvidersResponse.fromXml(_s.XmlElement elem) {
-    return ListOpenIDConnectProvidersResponse(
-      openIDConnectProviderList: _s
-          .extractXmlChild(elem, 'OpenIDConnectProviderList')
-          ?.let((elem) => elem
-              .findElements('member')
-              .map(OpenIDConnectProviderListEntry.fromXml)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final openIDConnectProviderList = this.openIDConnectProviderList;
-    return {
-      if (openIDConnectProviderList != null)
-        'OpenIDConnectProviderList': openIDConnectProviderList,
-    };
-  }
-}
-
-/// Contains details about the permissions policies that are attached to the
-/// specified identity (user, group, or role).
+/// Contains information about an IAM group entity.
 ///
-/// This data type is used as a response element in the
-/// <a>ListPoliciesGrantingServiceAccess</a> operation.
-class ListPoliciesGrantingServiceAccessEntry {
-  /// The <code>PoliciesGrantingServiceAccess</code> object that contains details
-  /// about the policy.
-  final List<PolicyGrantingServiceAccess>? policies;
+/// This data type is used as a response element in the following operations:
+///
+/// <ul>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateGroup.html">CreateGroup</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetGroup.html">GetGroup</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListGroups.html">ListGroups</a>
+/// </li>
+/// </ul>
+class Group {
+  /// The Amazon Resource Name (ARN) specifying the group. For more information
+  /// about ARNs and how to use them in policies, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
+  /// identifiers</a> in the <i>IAM User Guide</i>.
+  final String arn;
 
-  /// The namespace of the service that was accessed.
+  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
+  /// date-time format</a>, when the group was created.
+  final DateTime createDate;
+
+  /// The stable and unique string identifying the group. For more information
+  /// about IDs, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
+  /// identifiers</a> in the <i>IAM User Guide</i>.
+  final String groupId;
+
+  /// The friendly name that identifies the group.
+  final String groupName;
+
+  /// The path to the group. For more information about paths, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
+  /// identifiers</a> in the <i>IAM User Guide</i>.
+  final String path;
+
+  Group({
+    required this.arn,
+    required this.createDate,
+    required this.groupId,
+    required this.groupName,
+    required this.path,
+  });
+  factory Group.fromXml(_s.XmlElement elem) {
+    return Group(
+      arn: _s.extractXmlStringValue(elem, 'Arn')!,
+      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate')!,
+      groupId: _s.extractXmlStringValue(elem, 'GroupId')!,
+      groupName: _s.extractXmlStringValue(elem, 'GroupName')!,
+      path: _s.extractXmlStringValue(elem, 'Path')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createDate = this.createDate;
+    final groupId = this.groupId;
+    final groupName = this.groupName;
+    final path = this.path;
+    return {
+      'Arn': arn,
+      'CreateDate': iso8601ToJson(createDate),
+      'GroupId': groupId,
+      'GroupName': groupName,
+      'Path': path,
+    };
+  }
+}
+
+/// Contains information about a role that a managed policy is attached to.
+///
+/// This data type is used as a response element in the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListEntitiesForPolicy.html">ListEntitiesForPolicy</a>
+/// operation.
+///
+/// For more information about managed policies, refer to <a
+/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+/// policies and inline policies</a> in the <i>IAM User Guide</i>.
+class PolicyRole {
+  /// The stable and unique string identifying the role. For more information
+  /// about IDs, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html">IAM
+  /// identifiers</a> in the <i>IAM User Guide</i>.
+  final String? roleId;
+
+  /// The name (friendly name, not ARN) identifying the role.
+  final String? roleName;
+
+  PolicyRole({
+    this.roleId,
+    this.roleName,
+  });
+  factory PolicyRole.fromXml(_s.XmlElement elem) {
+    return PolicyRole(
+      roleId: _s.extractXmlStringValue(elem, 'RoleId'),
+      roleName: _s.extractXmlStringValue(elem, 'RoleName'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roleId = this.roleId;
+    final roleName = this.roleName;
+    return {
+      if (roleId != null) 'RoleId': roleId,
+      if (roleName != null) 'RoleName': roleName,
+    };
+  }
+}
+
+/// Contains information about a user that a managed policy is attached to.
+///
+/// This data type is used as a response element in the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListEntitiesForPolicy.html">ListEntitiesForPolicy</a>
+/// operation.
+///
+/// For more information about managed policies, refer to <a
+/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+/// policies and inline policies</a> in the <i>IAM User Guide</i>.
+class PolicyUser {
+  /// The stable and unique string identifying the user. For more information
+  /// about IDs, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html">IAM
+  /// identifiers</a> in the <i>IAM User Guide</i>.
+  final String? userId;
+
+  /// The name (friendly name, not ARN) identifying the user.
+  final String? userName;
+
+  PolicyUser({
+    this.userId,
+    this.userName,
+  });
+  factory PolicyUser.fromXml(_s.XmlElement elem) {
+    return PolicyUser(
+      userId: _s.extractXmlStringValue(elem, 'UserId'),
+      userName: _s.extractXmlStringValue(elem, 'UserName'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final userId = this.userId;
+    final userName = this.userName;
+    return {
+      if (userId != null) 'UserId': userId,
+      if (userName != null) 'UserName': userName,
+    };
+  }
+}
+
+/// Contains information about a group that a managed policy is attached to.
+///
+/// This data type is used as a response element in the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListEntitiesForPolicy.html">ListEntitiesForPolicy</a>
+/// operation.
+///
+/// For more information about managed policies, refer to <a
+/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+/// policies and inline policies</a> in the <i>IAM User Guide</i>.
+class PolicyGroup {
+  /// The stable and unique string identifying the group. For more information
+  /// about IDs, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html">IAM
+  /// identifiers</a> in the <i>IAM User Guide</i>.
+  final String? groupId;
+
+  /// The name (friendly name, not ARN) identifying the group.
+  final String? groupName;
+
+  PolicyGroup({
+    this.groupId,
+    this.groupName,
+  });
+  factory PolicyGroup.fromXml(_s.XmlElement elem) {
+    return PolicyGroup(
+      groupId: _s.extractXmlStringValue(elem, 'GroupId'),
+      groupName: _s.extractXmlStringValue(elem, 'GroupName'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupId = this.groupId;
+    final groupName = this.groupName;
+    return {
+      if (groupId != null) 'GroupId': groupId,
+      if (groupName != null) 'GroupName': groupName,
+    };
+  }
+}
+
+class EntityType {
+  static const user = EntityType._('User');
+  static const role = EntityType._('Role');
+  static const group = EntityType._('Group');
+  static const localManagedPolicy = EntityType._('LocalManagedPolicy');
+  static const awsManagedPolicy = EntityType._('AWSManagedPolicy');
+
+  final String value;
+
+  const EntityType._(this.value);
+
+  static const values = [
+    user,
+    role,
+    group,
+    localManagedPolicy,
+    awsManagedPolicy
+  ];
+
+  static EntityType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EntityType._(value));
+
+  @override
+  bool operator ==(other) => other is EntityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about a delegation request, including its status,
+/// permissions, and associated metadata.
+class DelegationRequest {
+  final String? approverId;
+
+  /// Creation date (timestamp) of this delegation request.
+  final DateTime? createDate;
+
+  /// The unique identifier for the delegation request.
+  final String? delegationRequestId;
+
+  /// Description of the delegation request. This is a message that is provided by
+  /// the Amazon Web Services partner that filed the delegation request.
+  final String? description;
+
+  /// The expiry time of this delegation request
+  ///
+  /// See the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/temporary-delegation-building-integration.html#temporary-delegation-request-lifecycle">Understanding
+  /// the Request Lifecycle</a> for details on the life time of a delegation
+  /// request at each state.
+  final DateTime? expirationTime;
+
+  /// Notes added to this delegation request, if this request was updated via the
+  /// <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateDelegationRequest.html">UpdateDelegationRequest</a>
+  /// API.
+  final String? notes;
+
+  /// A flag indicating whether the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_SendDelegationToken.html">SendDelegationToken</a>
+  /// must be called by the owner of this delegation request. This is set by the
+  /// requesting partner.
+  final bool? onlySendByOwner;
+
+  /// Amazon Web Services account ID of the owner of the delegation request.
+  final String? ownerAccountId;
+
+  /// ARN of the owner of this delegation request.
+  final String? ownerId;
+
+  /// JSON content of the associated permission policy of this delegation request.
+  final String? permissionPolicy;
+  final DelegationPermission? permissions;
+
+  /// A URL to be redirected to once the delegation request is approved. Partners
+  /// provide this URL when creating the delegation request.
+  final String? redirectUrl;
+
+  /// Reasons for rejecting this delegation request, if this request was rejected.
+  /// See also <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_RejectDelegationRequest.html">RejectDelegationRequest</a>
+  /// API documentation.
+  final String? rejectionReason;
+
+  /// A custom message that is added to the delegation request by the partner.
+  ///
+  /// This element is different from the <code>Description</code> element such
+  /// that this is a request specific message injected by the partner. The
+  /// <code>Description</code> is typically a generic explanation of what the
+  /// delegation request is targeted to do.
+  final String? requestMessage;
+
+  /// Identity of the requestor of this delegation request. This will be an Amazon
+  /// Web Services account ID.
+  final String? requestorId;
+
+  /// A friendly name of the requestor.
+  final String? requestorName;
+
+  /// If the <code>PermissionPolicy</code> includes role creation permissions,
+  /// this element will include the list of permissions boundary policies
+  /// associated with the role creation. See <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
+  /// boundaries for IAM entities</a> for more details about IAM permission
+  /// boundaries.
+  final List<String>? rolePermissionRestrictionArns;
+
+  /// The life-time of the requested session credential.
+  final int? sessionDuration;
+
+  /// The state of this delegation request.
+  ///
+  /// See the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/temporary-delegation-building-integration.html#temporary-delegation-request-lifecycle">Understanding
+  /// the Request Lifecycle</a> for an explanation of how these states are
+  /// transitioned.
+  final StateType? state;
+
+  /// Last updated timestamp of the request.
+  final DateTime? updatedTime;
+
+  DelegationRequest({
+    this.approverId,
+    this.createDate,
+    this.delegationRequestId,
+    this.description,
+    this.expirationTime,
+    this.notes,
+    this.onlySendByOwner,
+    this.ownerAccountId,
+    this.ownerId,
+    this.permissionPolicy,
+    this.permissions,
+    this.redirectUrl,
+    this.rejectionReason,
+    this.requestMessage,
+    this.requestorId,
+    this.requestorName,
+    this.rolePermissionRestrictionArns,
+    this.sessionDuration,
+    this.state,
+    this.updatedTime,
+  });
+  factory DelegationRequest.fromXml(_s.XmlElement elem) {
+    return DelegationRequest(
+      approverId: _s.extractXmlStringValue(elem, 'ApproverId'),
+      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
+      delegationRequestId:
+          _s.extractXmlStringValue(elem, 'DelegationRequestId'),
+      description: _s.extractXmlStringValue(elem, 'Description'),
+      expirationTime: _s.extractXmlDateTimeValue(elem, 'ExpirationTime'),
+      notes: _s.extractXmlStringValue(elem, 'Notes'),
+      onlySendByOwner: _s.extractXmlBoolValue(elem, 'OnlySendByOwner'),
+      ownerAccountId: _s.extractXmlStringValue(elem, 'OwnerAccountId'),
+      ownerId: _s.extractXmlStringValue(elem, 'OwnerId'),
+      permissionPolicy: _s.extractXmlStringValue(elem, 'PermissionPolicy'),
+      permissions: _s
+          .extractXmlChild(elem, 'Permissions')
+          ?.let(DelegationPermission.fromXml),
+      redirectUrl: _s.extractXmlStringValue(elem, 'RedirectUrl'),
+      rejectionReason: _s.extractXmlStringValue(elem, 'RejectionReason'),
+      requestMessage: _s.extractXmlStringValue(elem, 'RequestMessage'),
+      requestorId: _s.extractXmlStringValue(elem, 'RequestorId'),
+      requestorName: _s.extractXmlStringValue(elem, 'RequestorName'),
+      rolePermissionRestrictionArns: _s
+          .extractXmlChild(elem, 'RolePermissionRestrictionArns')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      sessionDuration: _s.extractXmlIntValue(elem, 'SessionDuration'),
+      state: _s.extractXmlStringValue(elem, 'State')?.let(StateType.fromString),
+      updatedTime: _s.extractXmlDateTimeValue(elem, 'UpdatedTime'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approverId = this.approverId;
+    final createDate = this.createDate;
+    final delegationRequestId = this.delegationRequestId;
+    final description = this.description;
+    final expirationTime = this.expirationTime;
+    final notes = this.notes;
+    final onlySendByOwner = this.onlySendByOwner;
+    final ownerAccountId = this.ownerAccountId;
+    final ownerId = this.ownerId;
+    final permissionPolicy = this.permissionPolicy;
+    final permissions = this.permissions;
+    final redirectUrl = this.redirectUrl;
+    final rejectionReason = this.rejectionReason;
+    final requestMessage = this.requestMessage;
+    final requestorId = this.requestorId;
+    final requestorName = this.requestorName;
+    final rolePermissionRestrictionArns = this.rolePermissionRestrictionArns;
+    final sessionDuration = this.sessionDuration;
+    final state = this.state;
+    final updatedTime = this.updatedTime;
+    return {
+      if (approverId != null) 'ApproverId': approverId,
+      if (createDate != null) 'CreateDate': iso8601ToJson(createDate),
+      if (delegationRequestId != null)
+        'DelegationRequestId': delegationRequestId,
+      if (description != null) 'Description': description,
+      if (expirationTime != null)
+        'ExpirationTime': iso8601ToJson(expirationTime),
+      if (notes != null) 'Notes': notes,
+      if (onlySendByOwner != null) 'OnlySendByOwner': onlySendByOwner,
+      if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
+      if (ownerId != null) 'OwnerId': ownerId,
+      if (permissionPolicy != null) 'PermissionPolicy': permissionPolicy,
+      if (permissions != null) 'Permissions': permissions,
+      if (redirectUrl != null) 'RedirectUrl': redirectUrl,
+      if (rejectionReason != null) 'RejectionReason': rejectionReason,
+      if (requestMessage != null) 'RequestMessage': requestMessage,
+      if (requestorId != null) 'RequestorId': requestorId,
+      if (requestorName != null) 'RequestorName': requestorName,
+      if (rolePermissionRestrictionArns != null)
+        'RolePermissionRestrictionArns': rolePermissionRestrictionArns,
+      if (sessionDuration != null) 'SessionDuration': sessionDuration,
+      if (state != null) 'State': state.value,
+      if (updatedTime != null) 'UpdatedTime': iso8601ToJson(updatedTime),
+    };
+  }
+}
+
+/// Contains information about the permissions being delegated in a delegation
+/// request.
+class DelegationPermission {
+  /// A list of policy parameters that define the scope and constraints of the
+  /// delegated permissions.
+  final List<PolicyParameter>? parameters;
+
+  /// This ARN maps to a pre-registered policy content for this partner. See the
+  /// <a href="">partner onboarding documentation</a> to understand how to create
+  /// a delegation template.
+  final String? policyTemplateArn;
+
+  DelegationPermission({
+    this.parameters,
+    this.policyTemplateArn,
+  });
+  factory DelegationPermission.fromXml(_s.XmlElement elem) {
+    return DelegationPermission(
+      parameters: _s.extractXmlChild(elem, 'Parameters')?.let((elem) =>
+          elem.findElements('member').map(PolicyParameter.fromXml).toList()),
+      policyTemplateArn: _s.extractXmlStringValue(elem, 'PolicyTemplateArn'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final parameters = this.parameters;
+    final policyTemplateArn = this.policyTemplateArn;
+    return {
+      if (parameters != null) 'Parameters': parameters,
+      if (policyTemplateArn != null) 'PolicyTemplateArn': policyTemplateArn,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final parameters = this.parameters;
+    final policyTemplateArn = this.policyTemplateArn;
+    return {
+      if (parameters != null)
+        if (parameters.isEmpty)
+          'Parameters': ''
+        else
+          for (var i1 = 0; i1 < parameters.length; i1++)
+            for (var e3 in parameters[i1].toQueryMap().entries)
+              'Parameters.member.${i1 + 1}.${e3.key}': e3.value,
+      if (policyTemplateArn != null) 'PolicyTemplateArn': policyTemplateArn,
+    };
+  }
+}
+
+class StateType {
+  static const unassigned = StateType._('UNASSIGNED');
+  static const assigned = StateType._('ASSIGNED');
+  static const pendingApproval = StateType._('PENDING_APPROVAL');
+  static const finalized = StateType._('FINALIZED');
+  static const accepted = StateType._('ACCEPTED');
+  static const rejected = StateType._('REJECTED');
+  static const expired = StateType._('EXPIRED');
+
+  final String value;
+
+  const StateType._(this.value);
+
+  static const values = [
+    unassigned,
+    assigned,
+    pendingApproval,
+    finalized,
+    accepted,
+    rejected,
+    expired
+  ];
+
+  static StateType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StateType._(value));
+
+  @override
+  bool operator ==(other) => other is StateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about a policy parameter used to customize delegated
+/// permissions.
+class PolicyParameter {
+  /// The name of the policy parameter.
+  final String? name;
+
+  /// The data type of the policy parameter value.
+  final PolicyParameterTypeEnum? type;
+
+  /// The allowed values for the policy parameter.
+  final List<String>? values;
+
+  PolicyParameter({
+    this.name,
+    this.type,
+    this.values,
+  });
+  factory PolicyParameter.fromXml(_s.XmlElement elem) {
+    return PolicyParameter(
+      name: _s.extractXmlStringValue(elem, 'Name'),
+      type: _s
+          .extractXmlStringValue(elem, 'Type')
+          ?.let(PolicyParameterTypeEnum.fromString),
+      values: _s
+          .extractXmlChild(elem, 'Values')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final type = this.type;
+    final values = this.values;
+    return {
+      if (name != null) 'Name': name,
+      if (type != null) 'Type': type.value,
+      if (values != null) 'Values': values,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final name = this.name;
+    final type = this.type;
+    final values = this.values;
+    return {
+      if (name != null) 'Name': name,
+      if (type != null) 'Type': type.value,
+      if (values != null)
+        if (values.isEmpty)
+          'Values': ''
+        else
+          for (var i1 = 0; i1 < values.length; i1++)
+            'Values.member.${i1 + 1}': values[i1],
+    };
+  }
+}
+
+class PolicyParameterTypeEnum {
+  static const string = PolicyParameterTypeEnum._('string');
+  static const stringList = PolicyParameterTypeEnum._('stringList');
+
+  final String value;
+
+  const PolicyParameterTypeEnum._(this.value);
+
+  static const values = [string, stringList];
+
+  static PolicyParameterTypeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PolicyParameterTypeEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PolicyParameterTypeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about an attached policy.
+///
+/// An attached policy is a managed policy that has been attached to a user,
+/// group, or role. This data type is used as a response element in the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAttachedGroupPolicies.html">ListAttachedGroupPolicies</a>,
+/// <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAttachedRolePolicies.html">ListAttachedRolePolicies</a>,
+/// <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAttachedUserPolicies.html">ListAttachedUserPolicies</a>,
+/// and <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountAuthorizationDetails.html">GetAccountAuthorizationDetails</a>
+/// operations.
+///
+/// For more information about managed policies, refer to <a
+/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+/// policies and inline policies</a> in the <i>IAM User Guide</i>.
+class AttachedPolicy {
+  final String? policyArn;
+
+  /// The friendly name of the attached policy.
+  final String? policyName;
+
+  AttachedPolicy({
+    this.policyArn,
+    this.policyName,
+  });
+  factory AttachedPolicy.fromXml(_s.XmlElement elem) {
+    return AttachedPolicy(
+      policyArn: _s.extractXmlStringValue(elem, 'PolicyArn'),
+      policyName: _s.extractXmlStringValue(elem, 'PolicyName'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyArn = this.policyArn;
+    final policyName = this.policyName;
+    return {
+      if (policyArn != null) 'PolicyArn': policyArn,
+      if (policyName != null) 'PolicyName': policyName,
+    };
+  }
+}
+
+/// Contains information about an Amazon Web Services access key, without its
+/// secret key.
+///
+/// This data type is used as a response element in the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAccessKeys.html">ListAccessKeys</a>
+/// operation.
+class AccessKeyMetadata {
+  /// The ID for this access key.
+  final String? accessKeyId;
+
+  /// The date when the access key was created.
+  final DateTime? createDate;
+
+  /// The status of the access key. <code>Active</code> means that the key is
+  /// valid for API calls; <code>Inactive</code> means it is not.
+  final StatusType? status;
+
+  /// The name of the IAM user that the key is associated with.
+  final String? userName;
+
+  AccessKeyMetadata({
+    this.accessKeyId,
+    this.createDate,
+    this.status,
+    this.userName,
+  });
+  factory AccessKeyMetadata.fromXml(_s.XmlElement elem) {
+    return AccessKeyMetadata(
+      accessKeyId: _s.extractXmlStringValue(elem, 'AccessKeyId'),
+      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
+      status:
+          _s.extractXmlStringValue(elem, 'Status')?.let(StatusType.fromString),
+      userName: _s.extractXmlStringValue(elem, 'UserName'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessKeyId = this.accessKeyId;
+    final createDate = this.createDate;
+    final status = this.status;
+    final userName = this.userName;
+    return {
+      if (accessKeyId != null) 'AccessKeyId': accessKeyId,
+      if (createDate != null) 'CreateDate': iso8601ToJson(createDate),
+      if (status != null) 'Status': status.value,
+      if (userName != null) 'UserName': userName,
+    };
+  }
+}
+
+class EncodingType {
+  static const ssh = EncodingType._('SSH');
+  static const pem = EncodingType._('PEM');
+
+  final String value;
+
+  const EncodingType._(this.value);
+
+  static const values = [ssh, pem];
+
+  static EncodingType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EncodingType._(value));
+
+  @override
+  bool operator ==(other) => other is EncodingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DeletionTaskStatusType {
+  static const succeeded = DeletionTaskStatusType._('SUCCEEDED');
+  static const inProgress = DeletionTaskStatusType._('IN_PROGRESS');
+  static const failed = DeletionTaskStatusType._('FAILED');
+  static const notStarted = DeletionTaskStatusType._('NOT_STARTED');
+
+  final String value;
+
+  const DeletionTaskStatusType._(this.value);
+
+  static const values = [succeeded, inProgress, failed, notStarted];
+
+  static DeletionTaskStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeletionTaskStatusType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeletionTaskStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The reason that the service-linked role deletion failed.
+///
+/// This data type is used as a response element in the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServiceLinkedRoleDeletionStatus.html">GetServiceLinkedRoleDeletionStatus</a>
+/// operation.
+class DeletionTaskFailureReasonType {
+  /// A short description of the reason that the service-linked role deletion
+  /// failed.
+  final String? reason;
+
+  /// A list of objects that contains details about the service-linked role
+  /// deletion failure, if that information is returned by the service. If the
+  /// service-linked role has active sessions or if any resources that were used
+  /// by the role have not been deleted from the linked service, the role can't be
+  /// deleted. This parameter includes a list of the resources that are associated
+  /// with the role and the Region in which the resources are being used.
+  final List<RoleUsageType>? roleUsageList;
+
+  DeletionTaskFailureReasonType({
+    this.reason,
+    this.roleUsageList,
+  });
+  factory DeletionTaskFailureReasonType.fromXml(_s.XmlElement elem) {
+    return DeletionTaskFailureReasonType(
+      reason: _s.extractXmlStringValue(elem, 'Reason'),
+      roleUsageList: _s.extractXmlChild(elem, 'RoleUsageList')?.let((elem) =>
+          elem.findElements('member').map(RoleUsageType.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reason = this.reason;
+    final roleUsageList = this.roleUsageList;
+    return {
+      if (reason != null) 'Reason': reason,
+      if (roleUsageList != null) 'RoleUsageList': roleUsageList,
+    };
+  }
+}
+
+/// An object that contains details about how a service-linked role is used, if
+/// that information is returned by the service.
+///
+/// This data type is used as a response element in the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServiceLinkedRoleDeletionStatus.html">GetServiceLinkedRoleDeletionStatus</a>
+/// operation.
+class RoleUsageType {
+  /// The name of the Region where the service-linked role is being used.
+  final String? region;
+
+  /// The name of the resource that is using the service-linked role.
+  final List<String>? resources;
+
+  RoleUsageType({
+    this.region,
+    this.resources,
+  });
+  factory RoleUsageType.fromXml(_s.XmlElement elem) {
+    return RoleUsageType(
+      region: _s.extractXmlStringValue(elem, 'Region'),
+      resources: _s
+          .extractXmlChild(elem, 'Resources')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final region = this.region;
+    final resources = this.resources;
+    return {
+      if (region != null) 'Region': region,
+      if (resources != null) 'Resources': resources,
+    };
+  }
+}
+
+class JobStatusType {
+  static const inProgress = JobStatusType._('IN_PROGRESS');
+  static const completed = JobStatusType._('COMPLETED');
+  static const failed = JobStatusType._('FAILED');
+
+  final String value;
+
+  const JobStatusType._(this.value);
+
+  static const values = [inProgress, completed, failed];
+
+  static JobStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => JobStatusType._(value));
+
+  @override
+  bool operator ==(other) => other is JobStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about the reason that the operation failed.
+///
+/// This data type is used as a response element in the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetOrganizationsAccessReport.html">GetOrganizationsAccessReport</a>,
+/// <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServiceLastAccessedDetails.html">GetServiceLastAccessedDetails</a>,
+/// and <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServiceLastAccessedDetailsWithEntities.html">GetServiceLastAccessedDetailsWithEntities</a>
+/// operations.
+class ErrorDetails {
+  /// The error code associated with the operation failure.
+  final String code;
+
+  /// Detailed information about the reason that the operation failed.
+  final String message;
+
+  ErrorDetails({
+    required this.code,
+    required this.message,
+  });
+  factory ErrorDetails.fromXml(_s.XmlElement elem) {
+    return ErrorDetails(
+      code: _s.extractXmlStringValue(elem, 'Code')!,
+      message: _s.extractXmlStringValue(elem, 'Message')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      'Code': code,
+      'Message': message,
+    };
+  }
+}
+
+/// An object that contains details about when the IAM entities (users or roles)
+/// were last used in an attempt to access the specified Amazon Web Services
+/// service.
+///
+/// This data type is a response element in the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServiceLastAccessedDetailsWithEntities.html">GetServiceLastAccessedDetailsWithEntities</a>
+/// operation.
+class EntityDetails {
+  /// The <code>EntityInfo</code> object that contains details about the entity
+  /// (user or role).
+  final EntityInfo entityInfo;
+
+  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
+  /// date-time format</a>, when the authenticated entity last attempted to access
+  /// Amazon Web Services. Amazon Web Services does not report unauthenticated
+  /// requests.
+  ///
+  /// This field is null if no IAM entities attempted to access the service within
+  /// the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">tracking
+  /// period</a>.
+  final DateTime? lastAuthenticated;
+
+  EntityDetails({
+    required this.entityInfo,
+    this.lastAuthenticated,
+  });
+  factory EntityDetails.fromXml(_s.XmlElement elem) {
+    return EntityDetails(
+      entityInfo: EntityInfo.fromXml(_s.extractXmlChild(elem, 'EntityInfo')!),
+      lastAuthenticated: _s.extractXmlDateTimeValue(elem, 'LastAuthenticated'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entityInfo = this.entityInfo;
+    final lastAuthenticated = this.lastAuthenticated;
+    return {
+      'EntityInfo': entityInfo,
+      if (lastAuthenticated != null)
+        'LastAuthenticated': iso8601ToJson(lastAuthenticated),
+    };
+  }
+}
+
+/// Contains details about the specified entity (user or role).
+///
+/// This data type is an element of the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_EntityDetails.html">EntityDetails</a>
+/// object.
+class EntityInfo {
+  final String arn;
+
+  /// The identifier of the entity (user or role).
+  final String id;
+
+  /// The name of the entity (user or role).
+  final String name;
+
+  /// The type of entity (user or role).
+  final PolicyOwnerEntityType type;
+
+  /// The path to the entity (user or role). For more information about paths, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
+  /// identifiers</a> in the <i>IAM User Guide</i>.
+  final String? path;
+
+  EntityInfo({
+    required this.arn,
+    required this.id,
+    required this.name,
+    required this.type,
+    this.path,
+  });
+  factory EntityInfo.fromXml(_s.XmlElement elem) {
+    return EntityInfo(
+      arn: _s.extractXmlStringValue(elem, 'Arn')!,
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      type: _s
+          .extractXmlStringValue(elem, 'Type')!
+          .let(PolicyOwnerEntityType.fromString),
+      path: _s.extractXmlStringValue(elem, 'Path'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final name = this.name;
+    final type = this.type;
+    final path = this.path;
+    return {
+      'Arn': arn,
+      'Id': id,
+      'Name': name,
+      'Type': type.value,
+      if (path != null) 'Path': path,
+    };
+  }
+}
+
+class AccessAdvisorUsageGranularityType {
+  static const serviceLevel =
+      AccessAdvisorUsageGranularityType._('SERVICE_LEVEL');
+  static const actionLevel =
+      AccessAdvisorUsageGranularityType._('ACTION_LEVEL');
+
+  final String value;
+
+  const AccessAdvisorUsageGranularityType._(this.value);
+
+  static const values = [serviceLevel, actionLevel];
+
+  static AccessAdvisorUsageGranularityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AccessAdvisorUsageGranularityType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AccessAdvisorUsageGranularityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains details about the most recent attempt to access the service.
+///
+/// This data type is used as a response element in the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServiceLastAccessedDetails.html">GetServiceLastAccessedDetails</a>
+/// operation.
+class ServiceLastAccessed {
+  /// The name of the service in which access was attempted.
+  final String serviceName;
+
+  /// The namespace of the service in which access was attempted.
   ///
   /// To learn the service namespace of a service, see <a
   /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html">Actions,
@@ -14252,862 +18964,408 @@ class ListPoliciesGrantingServiceAccessEntry {
   /// prefix. For example, <code>(service prefix: a4b)</code>. For more
   /// information about service namespaces, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">Amazon
-  /// Web Services service namespaces</a> in the <i>Amazon Web Services General
+  /// Web Services Service Namespaces</a> in the <i>Amazon Web Services General
   /// Reference</i>.
-  final String? serviceNamespace;
+  final String serviceNamespace;
 
-  ListPoliciesGrantingServiceAccessEntry({
-    this.policies,
-    this.serviceNamespace,
-  });
-  factory ListPoliciesGrantingServiceAccessEntry.fromXml(_s.XmlElement elem) {
-    return ListPoliciesGrantingServiceAccessEntry(
-      policies: _s.extractXmlChild(elem, 'Policies')?.let((elem) => elem
-          .findElements('member')
-          .map(PolicyGrantingServiceAccess.fromXml)
-          .toList()),
-      serviceNamespace: _s.extractXmlStringValue(elem, 'ServiceNamespace'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final policies = this.policies;
-    final serviceNamespace = this.serviceNamespace;
-    return {
-      if (policies != null) 'Policies': policies,
-      if (serviceNamespace != null) 'ServiceNamespace': serviceNamespace,
-    };
-  }
-}
-
-class ListPoliciesGrantingServiceAccessResponse {
-  /// A <code>ListPoliciesGrantingServiceAccess</code> object that contains
-  /// details about the permissions policies attached to the specified identity
-  /// (user, group, or role).
-  final List<ListPoliciesGrantingServiceAccessEntry>
-      policiesGrantingServiceAccess;
-
-  /// A flag that indicates whether there are more items to return. If your
-  /// results were truncated, you can make a subsequent pagination request using
-  /// the <code>Marker</code> request parameter to retrieve more items. We
-  /// recommend that you check <code>IsTruncated</code> after every call to ensure
-  /// that you receive all your results.
-  final bool? isTruncated;
-
-  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
-  /// and contains the value to use for the <code>Marker</code> parameter in a
-  /// subsequent pagination request.
-  final String? marker;
-
-  ListPoliciesGrantingServiceAccessResponse({
-    required this.policiesGrantingServiceAccess,
-    this.isTruncated,
-    this.marker,
-  });
-  factory ListPoliciesGrantingServiceAccessResponse.fromXml(
-      _s.XmlElement elem) {
-    return ListPoliciesGrantingServiceAccessResponse(
-      policiesGrantingServiceAccess: _s
-          .extractXmlChild(elem, 'PoliciesGrantingServiceAccess')!
-          .findElements('member')
-          .map(ListPoliciesGrantingServiceAccessEntry.fromXml)
-          .toList(),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final policiesGrantingServiceAccess = this.policiesGrantingServiceAccess;
-    final isTruncated = this.isTruncated;
-    final marker = this.marker;
-    return {
-      'PoliciesGrantingServiceAccess': policiesGrantingServiceAccess,
-      if (isTruncated != null) 'IsTruncated': isTruncated,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-/// Contains the response to a successful <a>ListPolicies</a> request.
-class ListPoliciesResponse {
-  /// A flag that indicates whether there are more items to return. If your
-  /// results were truncated, you can make a subsequent pagination request using
-  /// the <code>Marker</code> request parameter to retrieve more items. Note that
-  /// IAM might return fewer than the <code>MaxItems</code> number of results even
-  /// when there are more results available. We recommend that you check
-  /// <code>IsTruncated</code> after every call to ensure that you receive all
-  /// your results.
-  final bool? isTruncated;
-
-  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
-  /// and contains the value to use for the <code>Marker</code> parameter in a
-  /// subsequent pagination request.
-  final String? marker;
-
-  /// A list of policies.
-  final List<Policy>? policies;
-
-  ListPoliciesResponse({
-    this.isTruncated,
-    this.marker,
-    this.policies,
-  });
-  factory ListPoliciesResponse.fromXml(_s.XmlElement elem) {
-    return ListPoliciesResponse(
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      policies: _s.extractXmlChild(elem, 'Policies')?.let(
-          (elem) => elem.findElements('member').map(Policy.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final isTruncated = this.isTruncated;
-    final marker = this.marker;
-    final policies = this.policies;
-    return {
-      if (isTruncated != null) 'IsTruncated': isTruncated,
-      if (marker != null) 'Marker': marker,
-      if (policies != null) 'Policies': policies,
-    };
-  }
-}
-
-class ListPolicyTagsResponse {
-  /// The list of tags that are currently attached to the IAM customer managed
-  /// policy. Each tag consists of a key name and an associated value. If no tags
-  /// are attached to the specified resource, the response contains an empty list.
-  final List<Tag> tags;
-
-  /// A flag that indicates whether there are more items to return. If your
-  /// results were truncated, you can make a subsequent pagination request using
-  /// the <code>Marker</code> request parameter to retrieve more items. Note that
-  /// IAM might return fewer than the <code>MaxItems</code> number of results even
-  /// when there are more results available. We recommend that you check
-  /// <code>IsTruncated</code> after every call to ensure that you receive all
-  /// your results.
-  final bool? isTruncated;
-
-  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
-  /// and contains the value to use for the <code>Marker</code> parameter in a
-  /// subsequent pagination request.
-  final String? marker;
-
-  ListPolicyTagsResponse({
-    required this.tags,
-    this.isTruncated,
-    this.marker,
-  });
-  factory ListPolicyTagsResponse.fromXml(_s.XmlElement elem) {
-    return ListPolicyTagsResponse(
-      tags: _s
-          .extractXmlChild(elem, 'Tags')!
-          .findElements('member')
-          .map(Tag.fromXml)
-          .toList(),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tags = this.tags;
-    final isTruncated = this.isTruncated;
-    final marker = this.marker;
-    return {
-      'Tags': tags,
-      if (isTruncated != null) 'IsTruncated': isTruncated,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-/// Contains the response to a successful <a>ListPolicyVersions</a> request.
-class ListPolicyVersionsResponse {
-  /// A flag that indicates whether there are more items to return. If your
-  /// results were truncated, you can make a subsequent pagination request using
-  /// the <code>Marker</code> request parameter to retrieve more items. Note that
-  /// IAM might return fewer than the <code>MaxItems</code> number of results even
-  /// when there are more results available. We recommend that you check
-  /// <code>IsTruncated</code> after every call to ensure that you receive all
-  /// your results.
-  final bool? isTruncated;
-
-  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
-  /// and contains the value to use for the <code>Marker</code> parameter in a
-  /// subsequent pagination request.
-  final String? marker;
-
-  /// A list of policy versions.
+  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
+  /// date-time format</a>, when an authenticated entity most recently attempted
+  /// to access the service. Amazon Web Services does not report unauthenticated
+  /// requests.
   ///
-  /// For more information about managed policy versions, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning
-  /// for managed policies</a> in the <i>IAM User Guide</i>.
-  final List<PolicyVersion>? versions;
+  /// This field is null if no IAM entities attempted to access the service within
+  /// the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">tracking
+  /// period</a>.
+  final DateTime? lastAuthenticated;
 
-  ListPolicyVersionsResponse({
-    this.isTruncated,
-    this.marker,
-    this.versions,
+  /// The ARN of the authenticated entity (user or role) that last attempted to
+  /// access the service. Amazon Web Services does not report unauthenticated
+  /// requests.
+  ///
+  /// This field is null if no IAM entities attempted to access the service within
+  /// the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">tracking
+  /// period</a>.
+  final String? lastAuthenticatedEntity;
+
+  /// The Region from which the authenticated entity (user or role) last attempted
+  /// to access the service. Amazon Web Services does not report unauthenticated
+  /// requests.
+  ///
+  /// This field is null if no IAM entities attempted to access the service within
+  /// the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">tracking
+  /// period</a>.
+  final String? lastAuthenticatedRegion;
+
+  /// The total number of authenticated principals (root user, IAM users, or IAM
+  /// roles) that have attempted to access the service.
+  ///
+  /// This field is null if no principals attempted to access the service within
+  /// the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">tracking
+  /// period</a>.
+  final int? totalAuthenticatedEntities;
+
+  /// An object that contains details about the most recent attempt to access a
+  /// tracked action within the service.
+  ///
+  /// This field is null if there no tracked actions or if the principal did not
+  /// use the tracked actions within the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">tracking
+  /// period</a>. This field is also null if the report was generated at the
+  /// service level and not the action level. For more information, see the
+  /// <code>Granularity</code> field in <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GenerateServiceLastAccessedDetails.html">GenerateServiceLastAccessedDetails</a>.
+  final List<TrackedActionLastAccessed>? trackedActionsLastAccessed;
+
+  ServiceLastAccessed({
+    required this.serviceName,
+    required this.serviceNamespace,
+    this.lastAuthenticated,
+    this.lastAuthenticatedEntity,
+    this.lastAuthenticatedRegion,
+    this.totalAuthenticatedEntities,
+    this.trackedActionsLastAccessed,
   });
-  factory ListPolicyVersionsResponse.fromXml(_s.XmlElement elem) {
-    return ListPolicyVersionsResponse(
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      versions: _s.extractXmlChild(elem, 'Versions')?.let((elem) =>
-          elem.findElements('member').map(PolicyVersion.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final isTruncated = this.isTruncated;
-    final marker = this.marker;
-    final versions = this.versions;
-    return {
-      if (isTruncated != null) 'IsTruncated': isTruncated,
-      if (marker != null) 'Marker': marker,
-      if (versions != null) 'Versions': versions,
-    };
-  }
-}
-
-/// Contains the response to a successful <a>ListRolePolicies</a> request.
-class ListRolePoliciesResponse {
-  /// A list of policy names.
-  final List<String> policyNames;
-
-  /// A flag that indicates whether there are more items to return. If your
-  /// results were truncated, you can make a subsequent pagination request using
-  /// the <code>Marker</code> request parameter to retrieve more items. Note that
-  /// IAM might return fewer than the <code>MaxItems</code> number of results even
-  /// when there are more results available. We recommend that you check
-  /// <code>IsTruncated</code> after every call to ensure that you receive all
-  /// your results.
-  final bool? isTruncated;
-
-  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
-  /// and contains the value to use for the <code>Marker</code> parameter in a
-  /// subsequent pagination request.
-  final String? marker;
-
-  ListRolePoliciesResponse({
-    required this.policyNames,
-    this.isTruncated,
-    this.marker,
-  });
-  factory ListRolePoliciesResponse.fromXml(_s.XmlElement elem) {
-    return ListRolePoliciesResponse(
-      policyNames: _s.extractXmlStringListValues(
-          _s.extractXmlChild(elem, 'PolicyNames')!, 'member'),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final policyNames = this.policyNames;
-    final isTruncated = this.isTruncated;
-    final marker = this.marker;
-    return {
-      'PolicyNames': policyNames,
-      if (isTruncated != null) 'IsTruncated': isTruncated,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-class ListRoleTagsResponse {
-  /// The list of tags that are currently attached to the role. Each tag consists
-  /// of a key name and an associated value. If no tags are attached to the
-  /// specified resource, the response contains an empty list.
-  final List<Tag> tags;
-
-  /// A flag that indicates whether there are more items to return. If your
-  /// results were truncated, you can make a subsequent pagination request using
-  /// the <code>Marker</code> request parameter to retrieve more items. Note that
-  /// IAM might return fewer than the <code>MaxItems</code> number of results even
-  /// when there are more results available. We recommend that you check
-  /// <code>IsTruncated</code> after every call to ensure that you receive all
-  /// your results.
-  final bool? isTruncated;
-
-  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
-  /// and contains the value to use for the <code>Marker</code> parameter in a
-  /// subsequent pagination request.
-  final String? marker;
-
-  ListRoleTagsResponse({
-    required this.tags,
-    this.isTruncated,
-    this.marker,
-  });
-  factory ListRoleTagsResponse.fromXml(_s.XmlElement elem) {
-    return ListRoleTagsResponse(
-      tags: _s
-          .extractXmlChild(elem, 'Tags')!
-          .findElements('member')
-          .map(Tag.fromXml)
-          .toList(),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tags = this.tags;
-    final isTruncated = this.isTruncated;
-    final marker = this.marker;
-    return {
-      'Tags': tags,
-      if (isTruncated != null) 'IsTruncated': isTruncated,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-/// Contains the response to a successful <a>ListRoles</a> request.
-class ListRolesResponse {
-  /// A list of roles.
-  final List<Role> roles;
-
-  /// A flag that indicates whether there are more items to return. If your
-  /// results were truncated, you can make a subsequent pagination request using
-  /// the <code>Marker</code> request parameter to retrieve more items. Note that
-  /// IAM might return fewer than the <code>MaxItems</code> number of results even
-  /// when there are more results available. We recommend that you check
-  /// <code>IsTruncated</code> after every call to ensure that you receive all
-  /// your results.
-  final bool? isTruncated;
-
-  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
-  /// and contains the value to use for the <code>Marker</code> parameter in a
-  /// subsequent pagination request.
-  final String? marker;
-
-  ListRolesResponse({
-    required this.roles,
-    this.isTruncated,
-    this.marker,
-  });
-  factory ListRolesResponse.fromXml(_s.XmlElement elem) {
-    return ListRolesResponse(
-      roles: _s
-          .extractXmlChild(elem, 'Roles')!
-          .findElements('member')
-          .map(Role.fromXml)
-          .toList(),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final roles = this.roles;
-    final isTruncated = this.isTruncated;
-    final marker = this.marker;
-    return {
-      'Roles': roles,
-      if (isTruncated != null) 'IsTruncated': isTruncated,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-class ListSAMLProviderTagsResponse {
-  /// The list of tags that are currently attached to the Security Assertion
-  /// Markup Language (SAML) identity provider. Each tag consists of a key name
-  /// and an associated value. If no tags are attached to the specified resource,
-  /// the response contains an empty list.
-  final List<Tag> tags;
-
-  /// A flag that indicates whether there are more items to return. If your
-  /// results were truncated, you can make a subsequent pagination request using
-  /// the <code>Marker</code> request parameter to retrieve more items. Note that
-  /// IAM might return fewer than the <code>MaxItems</code> number of results even
-  /// when there are more results available. We recommend that you check
-  /// <code>IsTruncated</code> after every call to ensure that you receive all
-  /// your results.
-  final bool? isTruncated;
-
-  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
-  /// and contains the value to use for the <code>Marker</code> parameter in a
-  /// subsequent pagination request.
-  final String? marker;
-
-  ListSAMLProviderTagsResponse({
-    required this.tags,
-    this.isTruncated,
-    this.marker,
-  });
-  factory ListSAMLProviderTagsResponse.fromXml(_s.XmlElement elem) {
-    return ListSAMLProviderTagsResponse(
-      tags: _s
-          .extractXmlChild(elem, 'Tags')!
-          .findElements('member')
-          .map(Tag.fromXml)
-          .toList(),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tags = this.tags;
-    final isTruncated = this.isTruncated;
-    final marker = this.marker;
-    return {
-      'Tags': tags,
-      if (isTruncated != null) 'IsTruncated': isTruncated,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-/// Contains the response to a successful <a>ListSAMLProviders</a> request.
-class ListSAMLProvidersResponse {
-  /// The list of SAML provider resource objects defined in IAM for this Amazon
-  /// Web Services account.
-  final List<SAMLProviderListEntry>? sAMLProviderList;
-
-  ListSAMLProvidersResponse({
-    this.sAMLProviderList,
-  });
-  factory ListSAMLProvidersResponse.fromXml(_s.XmlElement elem) {
-    return ListSAMLProvidersResponse(
-      sAMLProviderList: _s.extractXmlChild(elem, 'SAMLProviderList')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map(SAMLProviderListEntry.fromXml)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final sAMLProviderList = this.sAMLProviderList;
-    return {
-      if (sAMLProviderList != null) 'SAMLProviderList': sAMLProviderList,
-    };
-  }
-}
-
-/// Contains the response to a successful <a>ListSSHPublicKeys</a> request.
-class ListSSHPublicKeysResponse {
-  /// A flag that indicates whether there are more items to return. If your
-  /// results were truncated, you can make a subsequent pagination request using
-  /// the <code>Marker</code> request parameter to retrieve more items. Note that
-  /// IAM might return fewer than the <code>MaxItems</code> number of results even
-  /// when there are more results available. We recommend that you check
-  /// <code>IsTruncated</code> after every call to ensure that you receive all
-  /// your results.
-  final bool? isTruncated;
-
-  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
-  /// and contains the value to use for the <code>Marker</code> parameter in a
-  /// subsequent pagination request.
-  final String? marker;
-
-  /// A list of the SSH public keys assigned to IAM user.
-  final List<SSHPublicKeyMetadata>? sSHPublicKeys;
-
-  ListSSHPublicKeysResponse({
-    this.isTruncated,
-    this.marker,
-    this.sSHPublicKeys,
-  });
-  factory ListSSHPublicKeysResponse.fromXml(_s.XmlElement elem) {
-    return ListSSHPublicKeysResponse(
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      sSHPublicKeys: _s.extractXmlChild(elem, 'SSHPublicKeys')?.let((elem) =>
-          elem
-              .findElements('member')
-              .map(SSHPublicKeyMetadata.fromXml)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final isTruncated = this.isTruncated;
-    final marker = this.marker;
-    final sSHPublicKeys = this.sSHPublicKeys;
-    return {
-      if (isTruncated != null) 'IsTruncated': isTruncated,
-      if (marker != null) 'Marker': marker,
-      if (sSHPublicKeys != null) 'SSHPublicKeys': sSHPublicKeys,
-    };
-  }
-}
-
-class ListServerCertificateTagsResponse {
-  /// The list of tags that are currently attached to the IAM server certificate.
-  /// Each tag consists of a key name and an associated value. If no tags are
-  /// attached to the specified resource, the response contains an empty list.
-  final List<Tag> tags;
-
-  /// A flag that indicates whether there are more items to return. If your
-  /// results were truncated, you can make a subsequent pagination request using
-  /// the <code>Marker</code> request parameter to retrieve more items. Note that
-  /// IAM might return fewer than the <code>MaxItems</code> number of results even
-  /// when there are more results available. We recommend that you check
-  /// <code>IsTruncated</code> after every call to ensure that you receive all
-  /// your results.
-  final bool? isTruncated;
-
-  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
-  /// and contains the value to use for the <code>Marker</code> parameter in a
-  /// subsequent pagination request.
-  final String? marker;
-
-  ListServerCertificateTagsResponse({
-    required this.tags,
-    this.isTruncated,
-    this.marker,
-  });
-  factory ListServerCertificateTagsResponse.fromXml(_s.XmlElement elem) {
-    return ListServerCertificateTagsResponse(
-      tags: _s
-          .extractXmlChild(elem, 'Tags')!
-          .findElements('member')
-          .map(Tag.fromXml)
-          .toList(),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tags = this.tags;
-    final isTruncated = this.isTruncated;
-    final marker = this.marker;
-    return {
-      'Tags': tags,
-      if (isTruncated != null) 'IsTruncated': isTruncated,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-/// Contains the response to a successful <a>ListServerCertificates</a> request.
-class ListServerCertificatesResponse {
-  /// A list of server certificates.
-  final List<ServerCertificateMetadata> serverCertificateMetadataList;
-
-  /// A flag that indicates whether there are more items to return. If your
-  /// results were truncated, you can make a subsequent pagination request using
-  /// the <code>Marker</code> request parameter to retrieve more items. Note that
-  /// IAM might return fewer than the <code>MaxItems</code> number of results even
-  /// when there are more results available. We recommend that you check
-  /// <code>IsTruncated</code> after every call to ensure that you receive all
-  /// your results.
-  final bool? isTruncated;
-
-  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
-  /// and contains the value to use for the <code>Marker</code> parameter in a
-  /// subsequent pagination request.
-  final String? marker;
-
-  ListServerCertificatesResponse({
-    required this.serverCertificateMetadataList,
-    this.isTruncated,
-    this.marker,
-  });
-  factory ListServerCertificatesResponse.fromXml(_s.XmlElement elem) {
-    return ListServerCertificatesResponse(
-      serverCertificateMetadataList: _s
-          .extractXmlChild(elem, 'ServerCertificateMetadataList')!
-          .findElements('member')
-          .map(ServerCertificateMetadata.fromXml)
-          .toList(),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final serverCertificateMetadataList = this.serverCertificateMetadataList;
-    final isTruncated = this.isTruncated;
-    final marker = this.marker;
-    return {
-      'ServerCertificateMetadataList': serverCertificateMetadataList,
-      if (isTruncated != null) 'IsTruncated': isTruncated,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-class ListServiceSpecificCredentialsResponse {
-  /// A list of structures that each contain details about a service-specific
-  /// credential.
-  final List<ServiceSpecificCredentialMetadata>? serviceSpecificCredentials;
-
-  ListServiceSpecificCredentialsResponse({
-    this.serviceSpecificCredentials,
-  });
-  factory ListServiceSpecificCredentialsResponse.fromXml(_s.XmlElement elem) {
-    return ListServiceSpecificCredentialsResponse(
-      serviceSpecificCredentials: _s
-          .extractXmlChild(elem, 'ServiceSpecificCredentials')
+  factory ServiceLastAccessed.fromXml(_s.XmlElement elem) {
+    return ServiceLastAccessed(
+      serviceName: _s.extractXmlStringValue(elem, 'ServiceName')!,
+      serviceNamespace: _s.extractXmlStringValue(elem, 'ServiceNamespace')!,
+      lastAuthenticated: _s.extractXmlDateTimeValue(elem, 'LastAuthenticated'),
+      lastAuthenticatedEntity:
+          _s.extractXmlStringValue(elem, 'LastAuthenticatedEntity'),
+      lastAuthenticatedRegion:
+          _s.extractXmlStringValue(elem, 'LastAuthenticatedRegion'),
+      totalAuthenticatedEntities:
+          _s.extractXmlIntValue(elem, 'TotalAuthenticatedEntities'),
+      trackedActionsLastAccessed: _s
+          .extractXmlChild(elem, 'TrackedActionsLastAccessed')
           ?.let((elem) => elem
               .findElements('member')
-              .map(ServiceSpecificCredentialMetadata.fromXml)
+              .map(TrackedActionLastAccessed.fromXml)
               .toList()),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final serviceSpecificCredentials = this.serviceSpecificCredentials;
+    final serviceName = this.serviceName;
+    final serviceNamespace = this.serviceNamespace;
+    final lastAuthenticated = this.lastAuthenticated;
+    final lastAuthenticatedEntity = this.lastAuthenticatedEntity;
+    final lastAuthenticatedRegion = this.lastAuthenticatedRegion;
+    final totalAuthenticatedEntities = this.totalAuthenticatedEntities;
+    final trackedActionsLastAccessed = this.trackedActionsLastAccessed;
     return {
-      if (serviceSpecificCredentials != null)
-        'ServiceSpecificCredentials': serviceSpecificCredentials,
+      'ServiceName': serviceName,
+      'ServiceNamespace': serviceNamespace,
+      if (lastAuthenticated != null)
+        'LastAuthenticated': iso8601ToJson(lastAuthenticated),
+      if (lastAuthenticatedEntity != null)
+        'LastAuthenticatedEntity': lastAuthenticatedEntity,
+      if (lastAuthenticatedRegion != null)
+        'LastAuthenticatedRegion': lastAuthenticatedRegion,
+      if (totalAuthenticatedEntities != null)
+        'TotalAuthenticatedEntities': totalAuthenticatedEntities,
+      if (trackedActionsLastAccessed != null)
+        'TrackedActionsLastAccessed': trackedActionsLastAccessed,
     };
   }
 }
 
-/// Contains the response to a successful <a>ListSigningCertificates</a>
-/// request.
-class ListSigningCertificatesResponse {
-  /// A list of the user's signing certificate information.
-  final List<SigningCertificate> certificates;
+/// Contains details about the most recent attempt to access an action within
+/// the service.
+///
+/// This data type is used as a response element in the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServiceLastAccessedDetails.html">GetServiceLastAccessedDetails</a>
+/// operation.
+class TrackedActionLastAccessed {
+  /// The name of the tracked action to which access was attempted. Tracked
+  /// actions are actions that report activity to IAM.
+  final String? actionName;
+  final String? lastAccessedEntity;
 
-  /// A flag that indicates whether there are more items to return. If your
-  /// results were truncated, you can make a subsequent pagination request using
-  /// the <code>Marker</code> request parameter to retrieve more items. Note that
-  /// IAM might return fewer than the <code>MaxItems</code> number of results even
-  /// when there are more results available. We recommend that you check
-  /// <code>IsTruncated</code> after every call to ensure that you receive all
-  /// your results.
-  final bool? isTruncated;
+  /// The Region from which the authenticated entity (user or role) last attempted
+  /// to access the tracked action. Amazon Web Services does not report
+  /// unauthenticated requests.
+  ///
+  /// This field is null if no IAM entities attempted to access the service within
+  /// the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">tracking
+  /// period</a>.
+  final String? lastAccessedRegion;
 
-  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
-  /// and contains the value to use for the <code>Marker</code> parameter in a
-  /// subsequent pagination request.
-  final String? marker;
+  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
+  /// date-time format</a>, when an authenticated entity most recently attempted
+  /// to access the tracked service. Amazon Web Services does not report
+  /// unauthenticated requests.
+  ///
+  /// This field is null if no IAM entities attempted to access the service within
+  /// the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">tracking
+  /// period</a>.
+  final DateTime? lastAccessedTime;
 
-  ListSigningCertificatesResponse({
-    required this.certificates,
-    this.isTruncated,
-    this.marker,
+  TrackedActionLastAccessed({
+    this.actionName,
+    this.lastAccessedEntity,
+    this.lastAccessedRegion,
+    this.lastAccessedTime,
   });
-  factory ListSigningCertificatesResponse.fromXml(_s.XmlElement elem) {
-    return ListSigningCertificatesResponse(
-      certificates: _s
-          .extractXmlChild(elem, 'Certificates')!
-          .findElements('member')
-          .map(SigningCertificate.fromXml)
-          .toList(),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
+  factory TrackedActionLastAccessed.fromXml(_s.XmlElement elem) {
+    return TrackedActionLastAccessed(
+      actionName: _s.extractXmlStringValue(elem, 'ActionName'),
+      lastAccessedEntity: _s.extractXmlStringValue(elem, 'LastAccessedEntity'),
+      lastAccessedRegion: _s.extractXmlStringValue(elem, 'LastAccessedRegion'),
+      lastAccessedTime: _s.extractXmlDateTimeValue(elem, 'LastAccessedTime'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final certificates = this.certificates;
-    final isTruncated = this.isTruncated;
-    final marker = this.marker;
+    final actionName = this.actionName;
+    final lastAccessedEntity = this.lastAccessedEntity;
+    final lastAccessedRegion = this.lastAccessedRegion;
+    final lastAccessedTime = this.lastAccessedTime;
     return {
-      'Certificates': certificates,
-      if (isTruncated != null) 'IsTruncated': isTruncated,
-      if (marker != null) 'Marker': marker,
+      if (actionName != null) 'ActionName': actionName,
+      if (lastAccessedEntity != null) 'LastAccessedEntity': lastAccessedEntity,
+      if (lastAccessedRegion != null) 'LastAccessedRegion': lastAccessedRegion,
+      if (lastAccessedTime != null)
+        'LastAccessedTime': iso8601ToJson(lastAccessedTime),
     };
   }
 }
 
-/// Contains the response to a successful <a>ListUserPolicies</a> request.
-class ListUserPoliciesResponse {
-  /// A list of policy names.
-  final List<String> policyNames;
+/// Contains information about a server certificate.
+///
+/// This data type is used as a response element in the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServerCertificate.html">GetServerCertificate</a>
+/// operation.
+class ServerCertificate {
+  /// The contents of the public key certificate.
+  final String certificateBody;
 
-  /// A flag that indicates whether there are more items to return. If your
-  /// results were truncated, you can make a subsequent pagination request using
-  /// the <code>Marker</code> request parameter to retrieve more items. Note that
-  /// IAM might return fewer than the <code>MaxItems</code> number of results even
-  /// when there are more results available. We recommend that you check
-  /// <code>IsTruncated</code> after every call to ensure that you receive all
-  /// your results.
-  final bool? isTruncated;
+  /// The meta information of the server certificate, such as its name, path, ID,
+  /// and ARN.
+  final ServerCertificateMetadata serverCertificateMetadata;
 
-  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
-  /// and contains the value to use for the <code>Marker</code> parameter in a
-  /// subsequent pagination request.
-  final String? marker;
+  /// The contents of the public key certificate chain.
+  final String? certificateChain;
 
-  ListUserPoliciesResponse({
-    required this.policyNames,
-    this.isTruncated,
-    this.marker,
+  /// A list of tags that are attached to the server certificate. For more
+  /// information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  final List<Tag>? tags;
+
+  ServerCertificate({
+    required this.certificateBody,
+    required this.serverCertificateMetadata,
+    this.certificateChain,
+    this.tags,
   });
-  factory ListUserPoliciesResponse.fromXml(_s.XmlElement elem) {
-    return ListUserPoliciesResponse(
-      policyNames: _s.extractXmlStringListValues(
-          _s.extractXmlChild(elem, 'PolicyNames')!, 'member'),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
+  factory ServerCertificate.fromXml(_s.XmlElement elem) {
+    return ServerCertificate(
+      certificateBody: _s.extractXmlStringValue(elem, 'CertificateBody')!,
+      serverCertificateMetadata: ServerCertificateMetadata.fromXml(
+          _s.extractXmlChild(elem, 'ServerCertificateMetadata')!),
+      certificateChain: _s.extractXmlStringValue(elem, 'CertificateChain'),
+      tags: _s.extractXmlChild(elem, 'Tags')?.let(
+          (elem) => elem.findElements('member').map(Tag.fromXml).toList()),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final policyNames = this.policyNames;
-    final isTruncated = this.isTruncated;
-    final marker = this.marker;
-    return {
-      'PolicyNames': policyNames,
-      if (isTruncated != null) 'IsTruncated': isTruncated,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-class ListUserTagsResponse {
-  /// The list of tags that are currently attached to the user. Each tag consists
-  /// of a key name and an associated value. If no tags are attached to the
-  /// specified resource, the response contains an empty list.
-  final List<Tag> tags;
-
-  /// A flag that indicates whether there are more items to return. If your
-  /// results were truncated, you can make a subsequent pagination request using
-  /// the <code>Marker</code> request parameter to retrieve more items. Note that
-  /// IAM might return fewer than the <code>MaxItems</code> number of results even
-  /// when there are more results available. We recommend that you check
-  /// <code>IsTruncated</code> after every call to ensure that you receive all
-  /// your results.
-  final bool? isTruncated;
-
-  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
-  /// and contains the value to use for the <code>Marker</code> parameter in a
-  /// subsequent pagination request.
-  final String? marker;
-
-  ListUserTagsResponse({
-    required this.tags,
-    this.isTruncated,
-    this.marker,
-  });
-  factory ListUserTagsResponse.fromXml(_s.XmlElement elem) {
-    return ListUserTagsResponse(
-      tags: _s
-          .extractXmlChild(elem, 'Tags')!
-          .findElements('member')
-          .map(Tag.fromXml)
-          .toList(),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
+    final certificateBody = this.certificateBody;
+    final serverCertificateMetadata = this.serverCertificateMetadata;
+    final certificateChain = this.certificateChain;
     final tags = this.tags;
-    final isTruncated = this.isTruncated;
-    final marker = this.marker;
     return {
-      'Tags': tags,
-      if (isTruncated != null) 'IsTruncated': isTruncated,
-      if (marker != null) 'Marker': marker,
+      'CertificateBody': certificateBody,
+      'ServerCertificateMetadata': serverCertificateMetadata,
+      if (certificateChain != null) 'CertificateChain': certificateChain,
+      if (tags != null) 'Tags': tags,
     };
   }
 }
 
-/// Contains the response to a successful <a>ListUsers</a> request.
-class ListUsersResponse {
-  /// A list of users.
-  final List<User> users;
+/// Contains the private keys for the SAML provider.
+///
+/// This data type is used as a response element in the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetSAMLProvider.html">GetSAMLProvider</a>
+/// operation.
+class SAMLPrivateKey {
+  /// The unique identifier for the SAML private key.
+  final String? keyId;
 
-  /// A flag that indicates whether there are more items to return. If your
-  /// results were truncated, you can make a subsequent pagination request using
-  /// the <code>Marker</code> request parameter to retrieve more items. Note that
-  /// IAM might return fewer than the <code>MaxItems</code> number of results even
-  /// when there are more results available. We recommend that you check
-  /// <code>IsTruncated</code> after every call to ensure that you receive all
-  /// your results.
-  final bool? isTruncated;
+  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
+  /// date-time </a> format, when the private key was uploaded.
+  final DateTime? timestamp;
 
-  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
-  /// and contains the value to use for the <code>Marker</code> parameter in a
-  /// subsequent pagination request.
-  final String? marker;
-
-  ListUsersResponse({
-    required this.users,
-    this.isTruncated,
-    this.marker,
+  SAMLPrivateKey({
+    this.keyId,
+    this.timestamp,
   });
-  factory ListUsersResponse.fromXml(_s.XmlElement elem) {
-    return ListUsersResponse(
-      users: _s
-          .extractXmlChild(elem, 'Users')!
-          .findElements('member')
-          .map(User.fromXml)
-          .toList(),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
+  factory SAMLPrivateKey.fromXml(_s.XmlElement elem) {
+    return SAMLPrivateKey(
+      keyId: _s.extractXmlStringValue(elem, 'KeyId'),
+      timestamp: _s.extractXmlDateTimeValue(elem, 'Timestamp'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final users = this.users;
-    final isTruncated = this.isTruncated;
-    final marker = this.marker;
+    final keyId = this.keyId;
+    final timestamp = this.timestamp;
     return {
-      'Users': users,
-      if (isTruncated != null) 'IsTruncated': isTruncated,
-      if (marker != null) 'Marker': marker,
+      if (keyId != null) 'KeyId': keyId,
+      if (timestamp != null) 'Timestamp': iso8601ToJson(timestamp),
     };
   }
 }
 
-/// Contains the response to a successful <a>ListVirtualMFADevices</a> request.
-class ListVirtualMFADevicesResponse {
-  /// The list of virtual MFA devices in the current account that match the
-  /// <code>AssignmentStatus</code> value that was passed in the request.
-  final List<VirtualMFADevice> virtualMFADevices;
+/// An object that contains details about when a principal in the reported
+/// Organizations entity last attempted to access an Amazon Web Services
+/// service. A principal can be an IAM user, an IAM role, or the Amazon Web
+/// Services account root user within the reported Organizations entity.
+///
+/// This data type is a response element in the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetOrganizationsAccessReport.html">GetOrganizationsAccessReport</a>
+/// operation.
+class AccessDetail {
+  /// The name of the service in which access was attempted.
+  final String serviceName;
 
-  /// A flag that indicates whether there are more items to return. If your
-  /// results were truncated, you can make a subsequent pagination request using
-  /// the <code>Marker</code> request parameter to retrieve more items. Note that
-  /// IAM might return fewer than the <code>MaxItems</code> number of results even
-  /// when there are more results available. We recommend that you check
-  /// <code>IsTruncated</code> after every call to ensure that you receive all
-  /// your results.
-  final bool? isTruncated;
+  /// The namespace of the service in which access was attempted.
+  ///
+  /// To learn the service namespace of a service, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html">Actions,
+  /// resources, and condition keys for Amazon Web Services services</a> in the
+  /// <i>Service Authorization Reference</i>. Choose the name of the service to
+  /// view details for that service. In the first paragraph, find the service
+  /// prefix. For example, <code>(service prefix: a4b)</code>. For more
+  /// information about service namespaces, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">Amazon
+  /// Web Services service namespaces</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
+  final String serviceNamespace;
 
-  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
-  /// and contains the value to use for the <code>Marker</code> parameter in a
-  /// subsequent pagination request.
-  final String? marker;
+  /// The path of the Organizations entity (root, organizational unit, or account)
+  /// from which an authenticated principal last attempted to access the service.
+  /// Amazon Web Services does not report unauthenticated requests.
+  ///
+  /// This field is null if no principals (IAM users, IAM roles, or root user) in
+  /// the reported Organizations entity attempted to access the service within the
+  /// <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">tracking
+  /// period</a>.
+  final String? entityPath;
 
-  ListVirtualMFADevicesResponse({
-    required this.virtualMFADevices,
-    this.isTruncated,
-    this.marker,
+  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
+  /// date-time format</a>, when an authenticated principal most recently
+  /// attempted to access the service. Amazon Web Services does not report
+  /// unauthenticated requests.
+  ///
+  /// This field is null if no principals in the reported Organizations entity
+  /// attempted to access the service within the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">tracking
+  /// period</a>.
+  final DateTime? lastAuthenticatedTime;
+
+  /// The Region where the last service access attempt occurred.
+  ///
+  /// This field is null if no principals in the reported Organizations entity
+  /// attempted to access the service within the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">tracking
+  /// period</a>.
+  final String? region;
+
+  /// The number of accounts with authenticated principals (root user, IAM users,
+  /// and IAM roles) that attempted to access the service in the tracking period.
+  final int? totalAuthenticatedEntities;
+
+  AccessDetail({
+    required this.serviceName,
+    required this.serviceNamespace,
+    this.entityPath,
+    this.lastAuthenticatedTime,
+    this.region,
+    this.totalAuthenticatedEntities,
   });
-  factory ListVirtualMFADevicesResponse.fromXml(_s.XmlElement elem) {
-    return ListVirtualMFADevicesResponse(
-      virtualMFADevices: _s
-          .extractXmlChild(elem, 'VirtualMFADevices')!
-          .findElements('member')
-          .map(VirtualMFADevice.fromXml)
-          .toList(),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
+  factory AccessDetail.fromXml(_s.XmlElement elem) {
+    return AccessDetail(
+      serviceName: _s.extractXmlStringValue(elem, 'ServiceName')!,
+      serviceNamespace: _s.extractXmlStringValue(elem, 'ServiceNamespace')!,
+      entityPath: _s.extractXmlStringValue(elem, 'EntityPath'),
+      lastAuthenticatedTime:
+          _s.extractXmlDateTimeValue(elem, 'LastAuthenticatedTime'),
+      region: _s.extractXmlStringValue(elem, 'Region'),
+      totalAuthenticatedEntities:
+          _s.extractXmlIntValue(elem, 'TotalAuthenticatedEntities'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final virtualMFADevices = this.virtualMFADevices;
-    final isTruncated = this.isTruncated;
-    final marker = this.marker;
+    final serviceName = this.serviceName;
+    final serviceNamespace = this.serviceNamespace;
+    final entityPath = this.entityPath;
+    final lastAuthenticatedTime = this.lastAuthenticatedTime;
+    final region = this.region;
+    final totalAuthenticatedEntities = this.totalAuthenticatedEntities;
     return {
-      'VirtualMFADevices': virtualMFADevices,
-      if (isTruncated != null) 'IsTruncated': isTruncated,
-      if (marker != null) 'Marker': marker,
+      'ServiceName': serviceName,
+      'ServiceNamespace': serviceNamespace,
+      if (entityPath != null) 'EntityPath': entityPath,
+      if (lastAuthenticatedTime != null)
+        'LastAuthenticatedTime': iso8601ToJson(lastAuthenticatedTime),
+      if (region != null) 'Region': region,
+      if (totalAuthenticatedEntities != null)
+        'TotalAuthenticatedEntities': totalAuthenticatedEntities,
     };
   }
+}
+
+class SortKeyType {
+  static const serviceNamespaceAscending =
+      SortKeyType._('SERVICE_NAMESPACE_ASCENDING');
+  static const serviceNamespaceDescending =
+      SortKeyType._('SERVICE_NAMESPACE_DESCENDING');
+  static const lastAuthenticatedTimeAscending =
+      SortKeyType._('LAST_AUTHENTICATED_TIME_ASCENDING');
+  static const lastAuthenticatedTimeDescending =
+      SortKeyType._('LAST_AUTHENTICATED_TIME_DESCENDING');
+
+  final String value;
+
+  const SortKeyType._(this.value);
+
+  static const values = [
+    serviceNamespaceAscending,
+    serviceNamespaceDescending,
+    lastAuthenticatedTimeAscending,
+    lastAuthenticatedTimeDescending
+  ];
+
+  static SortKeyType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortKeyType._(value));
+
+  @override
+  bool operator ==(other) => other is SortKeyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the user name and password create date for a user.
 ///
-/// This data type is used as a response element in the
-/// <a>CreateLoginProfile</a> and <a>GetLoginProfile</a> operations.
+/// This data type is used as a response element in the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateLoginProfile.html">CreateLoginProfile</a>
+/// and <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetLoginProfile.html">GetLoginProfile</a>
+/// operations.
 class LoginProfile {
   /// The date when the password for the user was created.
   final DateTime createDate;
@@ -15147,42 +19405,325 @@ class LoginProfile {
   }
 }
 
-/// Contains information about an MFA device.
+class SummaryStateType {
+  static const available = SummaryStateType._('AVAILABLE');
+  static const notAvailable = SummaryStateType._('NOT_AVAILABLE');
+  static const notSupported = SummaryStateType._('NOT_SUPPORTED');
+  static const failed = SummaryStateType._('FAILED');
+
+  final String value;
+
+  const SummaryStateType._(this.value);
+
+  static const values = [available, notAvailable, notSupported, failed];
+
+  static SummaryStateType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SummaryStateType._(value));
+
+  @override
+  bool operator ==(other) => other is SummaryStateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class PermissionCheckStatusType {
+  static const complete = PermissionCheckStatusType._('COMPLETE');
+  static const inProgress = PermissionCheckStatusType._('IN_PROGRESS');
+  static const failed = PermissionCheckStatusType._('FAILED');
+
+  final String value;
+
+  const PermissionCheckStatusType._(this.value);
+
+  static const values = [complete, inProgress, failed];
+
+  static PermissionCheckStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PermissionCheckStatusType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PermissionCheckStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class PermissionCheckResultType {
+  static const allowed = PermissionCheckResultType._('ALLOWED');
+  static const denied = PermissionCheckResultType._('DENIED');
+  static const unsure = PermissionCheckResultType._('UNSURE');
+
+  final String value;
+
+  const PermissionCheckResultType._(this.value);
+
+  static const values = [allowed, denied, unsure];
+
+  static PermissionCheckResultType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PermissionCheckResultType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PermissionCheckResultType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ReportFormatType {
+  static const textCsv = ReportFormatType._('text/csv');
+
+  final String value;
+
+  const ReportFormatType._(this.value);
+
+  static const values = [textCsv];
+
+  static ReportFormatType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReportFormatType._(value));
+
+  @override
+  bool operator ==(other) => other is ReportFormatType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SummaryKeyType {
+  static const users = SummaryKeyType._('Users');
+  static const usersQuota = SummaryKeyType._('UsersQuota');
+  static const groups = SummaryKeyType._('Groups');
+  static const groupsQuota = SummaryKeyType._('GroupsQuota');
+  static const serverCertificates = SummaryKeyType._('ServerCertificates');
+  static const serverCertificatesQuota =
+      SummaryKeyType._('ServerCertificatesQuota');
+  static const userPolicySizeQuota = SummaryKeyType._('UserPolicySizeQuota');
+  static const groupPolicySizeQuota = SummaryKeyType._('GroupPolicySizeQuota');
+  static const groupsPerUserQuota = SummaryKeyType._('GroupsPerUserQuota');
+  static const signingCertificatesPerUserQuota =
+      SummaryKeyType._('SigningCertificatesPerUserQuota');
+  static const accessKeysPerUserQuota =
+      SummaryKeyType._('AccessKeysPerUserQuota');
+  static const mFADevices = SummaryKeyType._('MFADevices');
+  static const mFADevicesInUse = SummaryKeyType._('MFADevicesInUse');
+  static const accountMFAEnabled = SummaryKeyType._('AccountMFAEnabled');
+  static const accountAccessKeysPresent =
+      SummaryKeyType._('AccountAccessKeysPresent');
+  static const accountPasswordPresent =
+      SummaryKeyType._('AccountPasswordPresent');
+  static const accountSigningCertificatesPresent =
+      SummaryKeyType._('AccountSigningCertificatesPresent');
+  static const attachedPoliciesPerGroupQuota =
+      SummaryKeyType._('AttachedPoliciesPerGroupQuota');
+  static const attachedPoliciesPerRoleQuota =
+      SummaryKeyType._('AttachedPoliciesPerRoleQuota');
+  static const attachedPoliciesPerUserQuota =
+      SummaryKeyType._('AttachedPoliciesPerUserQuota');
+  static const policies = SummaryKeyType._('Policies');
+  static const policiesQuota = SummaryKeyType._('PoliciesQuota');
+  static const policySizeQuota = SummaryKeyType._('PolicySizeQuota');
+  static const policyVersionsInUse = SummaryKeyType._('PolicyVersionsInUse');
+  static const policyVersionsInUseQuota =
+      SummaryKeyType._('PolicyVersionsInUseQuota');
+  static const versionsPerPolicyQuota =
+      SummaryKeyType._('VersionsPerPolicyQuota');
+  static const globalEndpointTokenVersion =
+      SummaryKeyType._('GlobalEndpointTokenVersion');
+  static const assumeRolePolicySizeQuota =
+      SummaryKeyType._('AssumeRolePolicySizeQuota');
+  static const instanceProfiles = SummaryKeyType._('InstanceProfiles');
+  static const instanceProfilesQuota =
+      SummaryKeyType._('InstanceProfilesQuota');
+  static const providers = SummaryKeyType._('Providers');
+  static const rolePolicySizeQuota = SummaryKeyType._('RolePolicySizeQuota');
+  static const roles = SummaryKeyType._('Roles');
+  static const rolesQuota = SummaryKeyType._('RolesQuota');
+
+  final String value;
+
+  const SummaryKeyType._(this.value);
+
+  static const values = [
+    users,
+    usersQuota,
+    groups,
+    groupsQuota,
+    serverCertificates,
+    serverCertificatesQuota,
+    userPolicySizeQuota,
+    groupPolicySizeQuota,
+    groupsPerUserQuota,
+    signingCertificatesPerUserQuota,
+    accessKeysPerUserQuota,
+    mFADevices,
+    mFADevicesInUse,
+    accountMFAEnabled,
+    accountAccessKeysPresent,
+    accountPasswordPresent,
+    accountSigningCertificatesPresent,
+    attachedPoliciesPerGroupQuota,
+    attachedPoliciesPerRoleQuota,
+    attachedPoliciesPerUserQuota,
+    policies,
+    policiesQuota,
+    policySizeQuota,
+    policyVersionsInUse,
+    policyVersionsInUseQuota,
+    versionsPerPolicyQuota,
+    globalEndpointTokenVersion,
+    assumeRolePolicySizeQuota,
+    instanceProfiles,
+    instanceProfilesQuota,
+    providers,
+    rolePolicySizeQuota,
+    roles,
+    rolesQuota
+  ];
+
+  static SummaryKeyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SummaryKeyType._(value));
+
+  @override
+  bool operator ==(other) => other is SummaryKeyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about the account password policy.
 ///
-/// This data type is used as a response element in the <a>ListMFADevices</a>
+/// This data type is used as a response element in the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountPasswordPolicy.html">GetAccountPasswordPolicy</a>
 /// operation.
-class MFADevice {
-  /// The date when the MFA device was enabled for the user.
-  final DateTime enableDate;
+class PasswordPolicy {
+  /// Specifies whether IAM users are allowed to change their own password. Gives
+  /// IAM users permissions to <code>iam:ChangePassword</code> for only their user
+  /// and to the <code>iam:GetAccountPasswordPolicy</code> action. This option
+  /// does not attach a permissions policy to each user, rather the permissions
+  /// are applied at the account-level for all users by IAM.
+  final bool? allowUsersToChangePassword;
 
-  /// The serial number that uniquely identifies the MFA device. For virtual MFA
-  /// devices, the serial number is the device ARN.
-  final String serialNumber;
+  /// Indicates whether passwords in the account expire. Returns true if
+  /// <code>MaxPasswordAge</code> contains a value greater than 0. Returns false
+  /// if MaxPasswordAge is 0 or not present.
+  final bool? expirePasswords;
 
-  /// The user with whom the MFA device is associated.
-  final String userName;
+  /// Specifies whether IAM users are prevented from setting a new password via
+  /// the Amazon Web Services Management Console after their password has expired.
+  /// The IAM user cannot access the console until an administrator resets the
+  /// password. IAM users with <code>iam:ChangePassword</code> permission and
+  /// active access keys can reset their own expired console password using the
+  /// CLI or API.
+  final bool? hardExpiry;
 
-  MFADevice({
-    required this.enableDate,
-    required this.serialNumber,
-    required this.userName,
+  /// The number of days that an IAM user password is valid.
+  final int? maxPasswordAge;
+
+  /// Minimum length to require for IAM user passwords.
+  final int? minimumPasswordLength;
+
+  /// Specifies the number of previous passwords that IAM users are prevented from
+  /// reusing.
+  final int? passwordReusePrevention;
+
+  /// Specifies whether IAM user passwords must contain at least one lowercase
+  /// character (a to z).
+  final bool? requireLowercaseCharacters;
+
+  /// Specifies whether IAM user passwords must contain at least one numeric
+  /// character (0 to 9).
+  final bool? requireNumbers;
+
+  /// Specifies whether IAM user passwords must contain at least one of the
+  /// following symbols:
+  ///
+  /// ! @ # $ % ^ & * ( ) _ + - = [ ] { } | '
+  final bool? requireSymbols;
+
+  /// Specifies whether IAM user passwords must contain at least one uppercase
+  /// character (A to Z).
+  final bool? requireUppercaseCharacters;
+
+  PasswordPolicy({
+    this.allowUsersToChangePassword,
+    this.expirePasswords,
+    this.hardExpiry,
+    this.maxPasswordAge,
+    this.minimumPasswordLength,
+    this.passwordReusePrevention,
+    this.requireLowercaseCharacters,
+    this.requireNumbers,
+    this.requireSymbols,
+    this.requireUppercaseCharacters,
   });
-  factory MFADevice.fromXml(_s.XmlElement elem) {
-    return MFADevice(
-      enableDate: _s.extractXmlDateTimeValue(elem, 'EnableDate')!,
-      serialNumber: _s.extractXmlStringValue(elem, 'SerialNumber')!,
-      userName: _s.extractXmlStringValue(elem, 'UserName')!,
+  factory PasswordPolicy.fromXml(_s.XmlElement elem) {
+    return PasswordPolicy(
+      allowUsersToChangePassword:
+          _s.extractXmlBoolValue(elem, 'AllowUsersToChangePassword'),
+      expirePasswords: _s.extractXmlBoolValue(elem, 'ExpirePasswords'),
+      hardExpiry: _s.extractXmlBoolValue(elem, 'HardExpiry'),
+      maxPasswordAge: _s.extractXmlIntValue(elem, 'MaxPasswordAge'),
+      minimumPasswordLength:
+          _s.extractXmlIntValue(elem, 'MinimumPasswordLength'),
+      passwordReusePrevention:
+          _s.extractXmlIntValue(elem, 'PasswordReusePrevention'),
+      requireLowercaseCharacters:
+          _s.extractXmlBoolValue(elem, 'RequireLowercaseCharacters'),
+      requireNumbers: _s.extractXmlBoolValue(elem, 'RequireNumbers'),
+      requireSymbols: _s.extractXmlBoolValue(elem, 'RequireSymbols'),
+      requireUppercaseCharacters:
+          _s.extractXmlBoolValue(elem, 'RequireUppercaseCharacters'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final enableDate = this.enableDate;
-    final serialNumber = this.serialNumber;
-    final userName = this.userName;
+    final allowUsersToChangePassword = this.allowUsersToChangePassword;
+    final expirePasswords = this.expirePasswords;
+    final hardExpiry = this.hardExpiry;
+    final maxPasswordAge = this.maxPasswordAge;
+    final minimumPasswordLength = this.minimumPasswordLength;
+    final passwordReusePrevention = this.passwordReusePrevention;
+    final requireLowercaseCharacters = this.requireLowercaseCharacters;
+    final requireNumbers = this.requireNumbers;
+    final requireSymbols = this.requireSymbols;
+    final requireUppercaseCharacters = this.requireUppercaseCharacters;
     return {
-      'EnableDate': iso8601ToJson(enableDate),
-      'SerialNumber': serialNumber,
-      'UserName': userName,
+      if (allowUsersToChangePassword != null)
+        'AllowUsersToChangePassword': allowUsersToChangePassword,
+      if (expirePasswords != null) 'ExpirePasswords': expirePasswords,
+      if (hardExpiry != null) 'HardExpiry': hardExpiry,
+      if (maxPasswordAge != null) 'MaxPasswordAge': maxPasswordAge,
+      if (minimumPasswordLength != null)
+        'MinimumPasswordLength': minimumPasswordLength,
+      if (passwordReusePrevention != null)
+        'PasswordReusePrevention': passwordReusePrevention,
+      if (requireLowercaseCharacters != null)
+        'RequireLowercaseCharacters': requireLowercaseCharacters,
+      if (requireNumbers != null) 'RequireNumbers': requireNumbers,
+      if (requireSymbols != null) 'RequireSymbols': requireSymbols,
+      if (requireUppercaseCharacters != null)
+        'RequireUppercaseCharacters': requireUppercaseCharacters,
     };
   }
 }
@@ -15191,8 +19732,9 @@ class MFADevice {
 /// versions, and the number of principal entities (users, groups, and roles)
 /// that the policy is attached to.
 ///
-/// This data type is used as a response element in the
-/// <a>GetAccountAuthorizationDetails</a> operation.
+/// This data type is used as a response element in the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountAuthorizationDetails.html">GetAccountAuthorizationDetails</a>
+/// operation.
 ///
 /// For more information about managed policies, see <a
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
@@ -15324,1086 +19866,12 @@ class ManagedPolicyDetail {
   }
 }
 
-/// Contains the Amazon Resource Name (ARN) for an IAM OpenID Connect provider.
-class OpenIDConnectProviderListEntry {
-  final String? arn;
-
-  OpenIDConnectProviderListEntry({
-    this.arn,
-  });
-  factory OpenIDConnectProviderListEntry.fromXml(_s.XmlElement elem) {
-    return OpenIDConnectProviderListEntry(
-      arn: _s.extractXmlStringValue(elem, 'Arn'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    return {
-      if (arn != null) 'Arn': arn,
-    };
-  }
-}
-
-/// Contains information about the effect that Organizations has on a policy
-/// simulation.
-class OrganizationsDecisionDetail {
-  /// Specifies whether the simulated operation is allowed by the Organizations
-  /// service control policies that impact the simulated user's account.
-  final bool? allowedByOrganizations;
-
-  OrganizationsDecisionDetail({
-    this.allowedByOrganizations,
-  });
-  factory OrganizationsDecisionDetail.fromXml(_s.XmlElement elem) {
-    return OrganizationsDecisionDetail(
-      allowedByOrganizations:
-          _s.extractXmlBoolValue(elem, 'AllowedByOrganizations'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final allowedByOrganizations = this.allowedByOrganizations;
-    return {
-      if (allowedByOrganizations != null)
-        'AllowedByOrganizations': allowedByOrganizations,
-    };
-  }
-}
-
-/// Contains information about the account password policy.
-///
-/// This data type is used as a response element in the
-/// <a>GetAccountPasswordPolicy</a> operation.
-class PasswordPolicy {
-  /// Specifies whether IAM users are allowed to change their own password. Gives
-  /// IAM users permissions to <code>iam:ChangePassword</code> for only their user
-  /// and to the <code>iam:GetAccountPasswordPolicy</code> action. This option
-  /// does not attach a permissions policy to each user, rather the permissions
-  /// are applied at the account-level for all users by IAM.
-  final bool? allowUsersToChangePassword;
-
-  /// Indicates whether passwords in the account expire. Returns true if
-  /// <code>MaxPasswordAge</code> contains a value greater than 0. Returns false
-  /// if MaxPasswordAge is 0 or not present.
-  final bool? expirePasswords;
-
-  /// Specifies whether IAM users are prevented from setting a new password via
-  /// the Amazon Web Services Management Console after their password has expired.
-  /// The IAM user cannot access the console until an administrator resets the
-  /// password. IAM users with <code>iam:ChangePassword</code> permission and
-  /// active access keys can reset their own expired console password using the
-  /// CLI or API.
-  final bool? hardExpiry;
-
-  /// The number of days that an IAM user password is valid.
-  final int? maxPasswordAge;
-
-  /// Minimum length to require for IAM user passwords.
-  final int? minimumPasswordLength;
-
-  /// Specifies the number of previous passwords that IAM users are prevented from
-  /// reusing.
-  final int? passwordReusePrevention;
-
-  /// Specifies whether IAM user passwords must contain at least one lowercase
-  /// character (a to z).
-  final bool? requireLowercaseCharacters;
-
-  /// Specifies whether IAM user passwords must contain at least one numeric
-  /// character (0 to 9).
-  final bool? requireNumbers;
-
-  /// Specifies whether IAM user passwords must contain at least one of the
-  /// following symbols:
-  ///
-  /// ! @ # $ % ^ &amp; * ( ) _ + - = [ ] { } | '
-  final bool? requireSymbols;
-
-  /// Specifies whether IAM user passwords must contain at least one uppercase
-  /// character (A to Z).
-  final bool? requireUppercaseCharacters;
-
-  PasswordPolicy({
-    this.allowUsersToChangePassword,
-    this.expirePasswords,
-    this.hardExpiry,
-    this.maxPasswordAge,
-    this.minimumPasswordLength,
-    this.passwordReusePrevention,
-    this.requireLowercaseCharacters,
-    this.requireNumbers,
-    this.requireSymbols,
-    this.requireUppercaseCharacters,
-  });
-  factory PasswordPolicy.fromXml(_s.XmlElement elem) {
-    return PasswordPolicy(
-      allowUsersToChangePassword:
-          _s.extractXmlBoolValue(elem, 'AllowUsersToChangePassword'),
-      expirePasswords: _s.extractXmlBoolValue(elem, 'ExpirePasswords'),
-      hardExpiry: _s.extractXmlBoolValue(elem, 'HardExpiry'),
-      maxPasswordAge: _s.extractXmlIntValue(elem, 'MaxPasswordAge'),
-      minimumPasswordLength:
-          _s.extractXmlIntValue(elem, 'MinimumPasswordLength'),
-      passwordReusePrevention:
-          _s.extractXmlIntValue(elem, 'PasswordReusePrevention'),
-      requireLowercaseCharacters:
-          _s.extractXmlBoolValue(elem, 'RequireLowercaseCharacters'),
-      requireNumbers: _s.extractXmlBoolValue(elem, 'RequireNumbers'),
-      requireSymbols: _s.extractXmlBoolValue(elem, 'RequireSymbols'),
-      requireUppercaseCharacters:
-          _s.extractXmlBoolValue(elem, 'RequireUppercaseCharacters'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final allowUsersToChangePassword = this.allowUsersToChangePassword;
-    final expirePasswords = this.expirePasswords;
-    final hardExpiry = this.hardExpiry;
-    final maxPasswordAge = this.maxPasswordAge;
-    final minimumPasswordLength = this.minimumPasswordLength;
-    final passwordReusePrevention = this.passwordReusePrevention;
-    final requireLowercaseCharacters = this.requireLowercaseCharacters;
-    final requireNumbers = this.requireNumbers;
-    final requireSymbols = this.requireSymbols;
-    final requireUppercaseCharacters = this.requireUppercaseCharacters;
-    return {
-      if (allowUsersToChangePassword != null)
-        'AllowUsersToChangePassword': allowUsersToChangePassword,
-      if (expirePasswords != null) 'ExpirePasswords': expirePasswords,
-      if (hardExpiry != null) 'HardExpiry': hardExpiry,
-      if (maxPasswordAge != null) 'MaxPasswordAge': maxPasswordAge,
-      if (minimumPasswordLength != null)
-        'MinimumPasswordLength': minimumPasswordLength,
-      if (passwordReusePrevention != null)
-        'PasswordReusePrevention': passwordReusePrevention,
-      if (requireLowercaseCharacters != null)
-        'RequireLowercaseCharacters': requireLowercaseCharacters,
-      if (requireNumbers != null) 'RequireNumbers': requireNumbers,
-      if (requireSymbols != null) 'RequireSymbols': requireSymbols,
-      if (requireUppercaseCharacters != null)
-        'RequireUppercaseCharacters': requireUppercaseCharacters,
-    };
-  }
-}
-
-class PermissionsBoundaryAttachmentType {
-  static const permissionsBoundaryPolicy =
-      PermissionsBoundaryAttachmentType._('PermissionsBoundaryPolicy');
-
-  final String value;
-
-  const PermissionsBoundaryAttachmentType._(this.value);
-
-  static const values = [permissionsBoundaryPolicy];
-
-  static PermissionsBoundaryAttachmentType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PermissionsBoundaryAttachmentType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PermissionsBoundaryAttachmentType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains information about the effect that a permissions boundary has on a
-/// policy simulation when the boundary is applied to an IAM entity.
-class PermissionsBoundaryDecisionDetail {
-  /// Specifies whether an action is allowed by a permissions boundary that is
-  /// applied to an IAM entity (user or role). A value of <code>true</code> means
-  /// that the permissions boundary does not deny the action. This means that the
-  /// policy includes an <code>Allow</code> statement that matches the request. In
-  /// this case, if an identity-based policy also allows the action, the request
-  /// is allowed. A value of <code>false</code> means that either the requested
-  /// action is not allowed (implicitly denied) or that the action is explicitly
-  /// denied by the permissions boundary. In both of these cases, the action is
-  /// not allowed, regardless of the identity-based policy.
-  final bool? allowedByPermissionsBoundary;
-
-  PermissionsBoundaryDecisionDetail({
-    this.allowedByPermissionsBoundary,
-  });
-  factory PermissionsBoundaryDecisionDetail.fromXml(_s.XmlElement elem) {
-    return PermissionsBoundaryDecisionDetail(
-      allowedByPermissionsBoundary:
-          _s.extractXmlBoolValue(elem, 'AllowedByPermissionsBoundary'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final allowedByPermissionsBoundary = this.allowedByPermissionsBoundary;
-    return {
-      if (allowedByPermissionsBoundary != null)
-        'AllowedByPermissionsBoundary': allowedByPermissionsBoundary,
-    };
-  }
-}
-
-/// Contains information about a managed policy.
-///
-/// This data type is used as a response element in the <a>CreatePolicy</a>,
-/// <a>GetPolicy</a>, and <a>ListPolicies</a> operations.
-///
-/// For more information about managed policies, refer to <a
-/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-/// policies and inline policies</a> in the <i>IAM User Guide</i>.
-class Policy {
-  final String? arn;
-
-  /// The number of entities (users, groups, and roles) that the policy is
-  /// attached to.
-  final int? attachmentCount;
-
-  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
-  /// date-time format</a>, when the policy was created.
-  final DateTime? createDate;
-
-  /// The identifier for the version of the policy that is set as the default
-  /// version.
-  final String? defaultVersionId;
-
-  /// A friendly description of the policy.
-  ///
-  /// This element is included in the response to the <a>GetPolicy</a> operation.
-  /// It is not included in the response to the <a>ListPolicies</a> operation.
-  final String? description;
-
-  /// Specifies whether the policy can be attached to an IAM user, group, or role.
-  final bool? isAttachable;
-
-  /// The path to the policy.
-  ///
-  /// For more information about paths, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// identifiers</a> in the <i>IAM User Guide</i>.
-  final String? path;
-
-  /// The number of entities (users and roles) for which the policy is used to set
-  /// the permissions boundary.
-  ///
-  /// For more information about permissions boundaries, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
-  /// boundaries for IAM identities </a> in the <i>IAM User Guide</i>.
-  final int? permissionsBoundaryUsageCount;
-
-  /// The stable and unique string identifying the policy.
-  ///
-  /// For more information about IDs, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// identifiers</a> in the <i>IAM User Guide</i>.
-  final String? policyId;
-
-  /// The friendly name (not ARN) identifying the policy.
-  final String? policyName;
-
-  /// A list of tags that are attached to the instance profile. For more
-  /// information about tagging, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
-  /// IAM resources</a> in the <i>IAM User Guide</i>.
-  final List<Tag>? tags;
-
-  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
-  /// date-time format</a>, when the policy was last updated.
-  ///
-  /// When a policy has only one version, this field contains the date and time
-  /// when the policy was created. When a policy has more than one version, this
-  /// field contains the date and time when the most recent policy version was
-  /// created.
-  final DateTime? updateDate;
-
-  Policy({
-    this.arn,
-    this.attachmentCount,
-    this.createDate,
-    this.defaultVersionId,
-    this.description,
-    this.isAttachable,
-    this.path,
-    this.permissionsBoundaryUsageCount,
-    this.policyId,
-    this.policyName,
-    this.tags,
-    this.updateDate,
-  });
-  factory Policy.fromXml(_s.XmlElement elem) {
-    return Policy(
-      arn: _s.extractXmlStringValue(elem, 'Arn'),
-      attachmentCount: _s.extractXmlIntValue(elem, 'AttachmentCount'),
-      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
-      defaultVersionId: _s.extractXmlStringValue(elem, 'DefaultVersionId'),
-      description: _s.extractXmlStringValue(elem, 'Description'),
-      isAttachable: _s.extractXmlBoolValue(elem, 'IsAttachable'),
-      path: _s.extractXmlStringValue(elem, 'Path'),
-      permissionsBoundaryUsageCount:
-          _s.extractXmlIntValue(elem, 'PermissionsBoundaryUsageCount'),
-      policyId: _s.extractXmlStringValue(elem, 'PolicyId'),
-      policyName: _s.extractXmlStringValue(elem, 'PolicyName'),
-      tags: _s.extractXmlChild(elem, 'Tags')?.let(
-          (elem) => elem.findElements('member').map(Tag.fromXml).toList()),
-      updateDate: _s.extractXmlDateTimeValue(elem, 'UpdateDate'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final attachmentCount = this.attachmentCount;
-    final createDate = this.createDate;
-    final defaultVersionId = this.defaultVersionId;
-    final description = this.description;
-    final isAttachable = this.isAttachable;
-    final path = this.path;
-    final permissionsBoundaryUsageCount = this.permissionsBoundaryUsageCount;
-    final policyId = this.policyId;
-    final policyName = this.policyName;
-    final tags = this.tags;
-    final updateDate = this.updateDate;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (attachmentCount != null) 'AttachmentCount': attachmentCount,
-      if (createDate != null) 'CreateDate': iso8601ToJson(createDate),
-      if (defaultVersionId != null) 'DefaultVersionId': defaultVersionId,
-      if (description != null) 'Description': description,
-      if (isAttachable != null) 'IsAttachable': isAttachable,
-      if (path != null) 'Path': path,
-      if (permissionsBoundaryUsageCount != null)
-        'PermissionsBoundaryUsageCount': permissionsBoundaryUsageCount,
-      if (policyId != null) 'PolicyId': policyId,
-      if (policyName != null) 'PolicyName': policyName,
-      if (tags != null) 'Tags': tags,
-      if (updateDate != null) 'UpdateDate': iso8601ToJson(updateDate),
-    };
-  }
-}
-
-/// Contains information about an IAM policy, including the policy document.
-///
-/// This data type is used as a response element in the
-/// <a>GetAccountAuthorizationDetails</a> operation.
-class PolicyDetail {
-  /// The policy document.
-  final String? policyDocument;
-
-  /// The name of the policy.
-  final String? policyName;
-
-  PolicyDetail({
-    this.policyDocument,
-    this.policyName,
-  });
-  factory PolicyDetail.fromXml(_s.XmlElement elem) {
-    return PolicyDetail(
-      policyDocument: _s.extractXmlStringValue(elem, 'PolicyDocument'),
-      policyName: _s.extractXmlStringValue(elem, 'PolicyName'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final policyDocument = this.policyDocument;
-    final policyName = this.policyName;
-    return {
-      if (policyDocument != null) 'PolicyDocument': policyDocument,
-      if (policyName != null) 'PolicyName': policyName,
-    };
-  }
-}
-
-class PolicyEvaluationDecisionType {
-  static const allowed = PolicyEvaluationDecisionType._('allowed');
-  static const explicitDeny = PolicyEvaluationDecisionType._('explicitDeny');
-  static const implicitDeny = PolicyEvaluationDecisionType._('implicitDeny');
-
-  final String value;
-
-  const PolicyEvaluationDecisionType._(this.value);
-
-  static const values = [allowed, explicitDeny, implicitDeny];
-
-  static PolicyEvaluationDecisionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PolicyEvaluationDecisionType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PolicyEvaluationDecisionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains details about the permissions policies that are attached to the
-/// specified identity (user, group, or role).
-///
-/// This data type is an element of the
-/// <a>ListPoliciesGrantingServiceAccessEntry</a> object.
-class PolicyGrantingServiceAccess {
-  /// The policy name.
-  final String policyName;
-
-  /// The policy type. For more information about these policy types, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html">Managed
-  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
-  final PolicyType policyType;
-
-  /// The name of the entity (user or role) to which the inline policy is
-  /// attached.
-  ///
-  /// This field is null for managed policies. For more information about these
-  /// policy types, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html">Managed
-  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
-  final String? entityName;
-
-  /// The type of entity (user or role) that used the policy to access the service
-  /// to which the inline policy is attached.
-  ///
-  /// This field is null for managed policies. For more information about these
-  /// policy types, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html">Managed
-  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
-  final PolicyOwnerEntityType? entityType;
-  final String? policyArn;
-
-  PolicyGrantingServiceAccess({
-    required this.policyName,
-    required this.policyType,
-    this.entityName,
-    this.entityType,
-    this.policyArn,
-  });
-  factory PolicyGrantingServiceAccess.fromXml(_s.XmlElement elem) {
-    return PolicyGrantingServiceAccess(
-      policyName: _s.extractXmlStringValue(elem, 'PolicyName')!,
-      policyType: _s
-          .extractXmlStringValue(elem, 'PolicyType')!
-          .let(PolicyType.fromString),
-      entityName: _s.extractXmlStringValue(elem, 'EntityName'),
-      entityType: _s
-          .extractXmlStringValue(elem, 'EntityType')
-          ?.let(PolicyOwnerEntityType.fromString),
-      policyArn: _s.extractXmlStringValue(elem, 'PolicyArn'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final policyName = this.policyName;
-    final policyType = this.policyType;
-    final entityName = this.entityName;
-    final entityType = this.entityType;
-    final policyArn = this.policyArn;
-    return {
-      'PolicyName': policyName,
-      'PolicyType': policyType.value,
-      if (entityName != null) 'EntityName': entityName,
-      if (entityType != null) 'EntityType': entityType.value,
-      if (policyArn != null) 'PolicyArn': policyArn,
-    };
-  }
-}
-
-/// Contains information about a group that a managed policy is attached to.
-///
-/// This data type is used as a response element in the
-/// <a>ListEntitiesForPolicy</a> operation.
-///
-/// For more information about managed policies, refer to <a
-/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-/// policies and inline policies</a> in the <i>IAM User Guide</i>.
-class PolicyGroup {
-  /// The stable and unique string identifying the group. For more information
-  /// about IDs, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html">IAM
-  /// identifiers</a> in the <i>IAM User Guide</i>.
-  final String? groupId;
-
-  /// The name (friendly name, not ARN) identifying the group.
-  final String? groupName;
-
-  PolicyGroup({
-    this.groupId,
-    this.groupName,
-  });
-  factory PolicyGroup.fromXml(_s.XmlElement elem) {
-    return PolicyGroup(
-      groupId: _s.extractXmlStringValue(elem, 'GroupId'),
-      groupName: _s.extractXmlStringValue(elem, 'GroupName'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final groupId = this.groupId;
-    final groupName = this.groupName;
-    return {
-      if (groupId != null) 'GroupId': groupId,
-      if (groupName != null) 'GroupName': groupName,
-    };
-  }
-}
-
-/// Contains information about a role that a managed policy is attached to.
-///
-/// This data type is used as a response element in the
-/// <a>ListEntitiesForPolicy</a> operation.
-///
-/// For more information about managed policies, refer to <a
-/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-/// policies and inline policies</a> in the <i>IAM User Guide</i>.
-class PolicyRole {
-  /// The stable and unique string identifying the role. For more information
-  /// about IDs, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html">IAM
-  /// identifiers</a> in the <i>IAM User Guide</i>.
-  final String? roleId;
-
-  /// The name (friendly name, not ARN) identifying the role.
-  final String? roleName;
-
-  PolicyRole({
-    this.roleId,
-    this.roleName,
-  });
-  factory PolicyRole.fromXml(_s.XmlElement elem) {
-    return PolicyRole(
-      roleId: _s.extractXmlStringValue(elem, 'RoleId'),
-      roleName: _s.extractXmlStringValue(elem, 'RoleName'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final roleId = this.roleId;
-    final roleName = this.roleName;
-    return {
-      if (roleId != null) 'RoleId': roleId,
-      if (roleName != null) 'RoleName': roleName,
-    };
-  }
-}
-
-class PolicySourceType {
-  static const user = PolicySourceType._('user');
-  static const group = PolicySourceType._('group');
-  static const role = PolicySourceType._('role');
-  static const awsManaged = PolicySourceType._('aws-managed');
-  static const userManaged = PolicySourceType._('user-managed');
-  static const resource = PolicySourceType._('resource');
-  static const none = PolicySourceType._('none');
-
-  final String value;
-
-  const PolicySourceType._(this.value);
-
-  static const values = [
-    user,
-    group,
-    role,
-    awsManaged,
-    userManaged,
-    resource,
-    none
-  ];
-
-  static PolicySourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PolicySourceType._(value));
-
-  @override
-  bool operator ==(other) => other is PolicySourceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The policy usage type that indicates whether the policy is used as a
-/// permissions policy or as the permissions boundary for an entity.
-///
-/// For more information about permissions boundaries, see <a
-/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
-/// boundaries for IAM identities </a> in the <i>IAM User Guide</i>.
-class PolicyUsageType {
-  static const permissionsPolicy = PolicyUsageType._('PermissionsPolicy');
-  static const permissionsBoundary = PolicyUsageType._('PermissionsBoundary');
-
-  final String value;
-
-  const PolicyUsageType._(this.value);
-
-  static const values = [permissionsPolicy, permissionsBoundary];
-
-  static PolicyUsageType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PolicyUsageType._(value));
-
-  @override
-  bool operator ==(other) => other is PolicyUsageType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains information about a user that a managed policy is attached to.
-///
-/// This data type is used as a response element in the
-/// <a>ListEntitiesForPolicy</a> operation.
-///
-/// For more information about managed policies, refer to <a
-/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-/// policies and inline policies</a> in the <i>IAM User Guide</i>.
-class PolicyUser {
-  /// The stable and unique string identifying the user. For more information
-  /// about IDs, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html">IAM
-  /// identifiers</a> in the <i>IAM User Guide</i>.
-  final String? userId;
-
-  /// The name (friendly name, not ARN) identifying the user.
-  final String? userName;
-
-  PolicyUser({
-    this.userId,
-    this.userName,
-  });
-  factory PolicyUser.fromXml(_s.XmlElement elem) {
-    return PolicyUser(
-      userId: _s.extractXmlStringValue(elem, 'UserId'),
-      userName: _s.extractXmlStringValue(elem, 'UserName'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final userId = this.userId;
-    final userName = this.userName;
-    return {
-      if (userId != null) 'UserId': userId,
-      if (userName != null) 'UserName': userName,
-    };
-  }
-}
-
-/// Contains information about a version of a managed policy.
-///
-/// This data type is used as a response element in the
-/// <a>CreatePolicyVersion</a>, <a>GetPolicyVersion</a>,
-/// <a>ListPolicyVersions</a>, and <a>GetAccountAuthorizationDetails</a>
-/// operations.
-///
-/// For more information about managed policies, refer to <a
-/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-/// policies and inline policies</a> in the <i>IAM User Guide</i>.
-class PolicyVersion {
-  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
-  /// date-time format</a>, when the policy version was created.
-  final DateTime? createDate;
-
-  /// The policy document.
-  ///
-  /// The policy document is returned in the response to the
-  /// <a>GetPolicyVersion</a> and <a>GetAccountAuthorizationDetails</a>
-  /// operations. It is not returned in the response to the
-  /// <a>CreatePolicyVersion</a> or <a>ListPolicyVersions</a> operations.
-  ///
-  /// The policy document returned in this structure is URL-encoded compliant with
-  /// <a href="https://tools.ietf.org/html/rfc3986">RFC 3986</a>. You can use a
-  /// URL decoding method to convert the policy back to plain JSON text. For
-  /// example, if you use Java, you can use the <code>decode</code> method of the
-  /// <code>java.net.URLDecoder</code> utility class in the Java SDK. Other
-  /// languages and SDKs provide similar functionality.
-  final String? document;
-
-  /// Specifies whether the policy version is set as the policy's default version.
-  final bool? isDefaultVersion;
-
-  /// The identifier for the policy version.
-  ///
-  /// Policy version identifiers always begin with <code>v</code> (always
-  /// lowercase). When a policy is created, the first policy version is
-  /// <code>v1</code>.
-  final String? versionId;
-
-  PolicyVersion({
-    this.createDate,
-    this.document,
-    this.isDefaultVersion,
-    this.versionId,
-  });
-  factory PolicyVersion.fromXml(_s.XmlElement elem) {
-    return PolicyVersion(
-      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
-      document: _s.extractXmlStringValue(elem, 'Document'),
-      isDefaultVersion: _s.extractXmlBoolValue(elem, 'IsDefaultVersion'),
-      versionId: _s.extractXmlStringValue(elem, 'VersionId'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createDate = this.createDate;
-    final document = this.document;
-    final isDefaultVersion = this.isDefaultVersion;
-    final versionId = this.versionId;
-    return {
-      if (createDate != null) 'CreateDate': iso8601ToJson(createDate),
-      if (document != null) 'Document': document,
-      if (isDefaultVersion != null) 'IsDefaultVersion': isDefaultVersion,
-      if (versionId != null) 'VersionId': versionId,
-    };
-  }
-}
-
-/// Contains the row and column of a location of a <code>Statement</code>
-/// element in a policy document.
-///
-/// This data type is used as a member of the <code> <a>Statement</a> </code>
-/// type.
-class Position {
-  /// The column in the line containing the specified position in the document.
-  final int? column;
-
-  /// The line containing the specified position in the document.
-  final int? line;
-
-  Position({
-    this.column,
-    this.line,
-  });
-  factory Position.fromXml(_s.XmlElement elem) {
-    return Position(
-      column: _s.extractXmlIntValue(elem, 'Column'),
-      line: _s.extractXmlIntValue(elem, 'Line'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final column = this.column;
-    final line = this.line;
-    return {
-      if (column != null) 'Column': column,
-      if (line != null) 'Line': line,
-    };
-  }
-}
-
-class ReportFormatType {
-  static const textCsv = ReportFormatType._('text/csv');
-
-  final String value;
-
-  const ReportFormatType._(this.value);
-
-  static const values = [textCsv];
-
-  static ReportFormatType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ReportFormatType._(value));
-
-  @override
-  bool operator ==(other) => other is ReportFormatType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ReportStateType {
-  static const started = ReportStateType._('STARTED');
-  static const inprogress = ReportStateType._('INPROGRESS');
-  static const complete = ReportStateType._('COMPLETE');
-
-  final String value;
-
-  const ReportStateType._(this.value);
-
-  static const values = [started, inprogress, complete];
-
-  static ReportStateType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ReportStateType._(value));
-
-  @override
-  bool operator ==(other) => other is ReportStateType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ResetServiceSpecificCredentialResponse {
-  /// A structure with details about the updated service-specific credential,
-  /// including the new password.
-  /// <important>
-  /// This is the <b>only</b> time that you can access the password. You cannot
-  /// recover the password later, but you can reset it again.
-  /// </important>
-  final ServiceSpecificCredential? serviceSpecificCredential;
-
-  ResetServiceSpecificCredentialResponse({
-    this.serviceSpecificCredential,
-  });
-  factory ResetServiceSpecificCredentialResponse.fromXml(_s.XmlElement elem) {
-    return ResetServiceSpecificCredentialResponse(
-      serviceSpecificCredential: _s
-          .extractXmlChild(elem, 'ServiceSpecificCredential')
-          ?.let(ServiceSpecificCredential.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final serviceSpecificCredential = this.serviceSpecificCredential;
-    return {
-      if (serviceSpecificCredential != null)
-        'ServiceSpecificCredential': serviceSpecificCredential,
-    };
-  }
-}
-
-/// Contains the result of the simulation of a single API operation call on a
-/// single resource.
-///
-/// This data type is used by a member of the <a>EvaluationResult</a> data type.
-class ResourceSpecificResult {
-  /// The result of the simulation of the simulated API operation on the resource
-  /// specified in <code>EvalResourceName</code>.
-  final PolicyEvaluationDecisionType evalResourceDecision;
-
-  /// The name of the simulated resource, in Amazon Resource Name (ARN) format.
-  final String evalResourceName;
-
-  /// Additional details about the results of the evaluation decision on a single
-  /// resource. This parameter is returned only for cross-account simulations.
-  /// This parameter explains how each policy type contributes to the
-  /// resource-specific evaluation decision.
-  final Map<String, PolicyEvaluationDecisionType>? evalDecisionDetails;
-
-  /// A list of the statements in the input policies that determine the result for
-  /// this part of the simulation. Remember that even if multiple statements allow
-  /// the operation on the resource, if <i>any</i> statement denies that
-  /// operation, then the explicit deny overrides any allow. In addition, the deny
-  /// statement is the only entry included in the result.
-  final List<Statement>? matchedStatements;
-
-  /// A list of context keys that are required by the included input policies but
-  /// that were not provided by one of the input parameters. This list is used
-  /// when a list of ARNs is included in the <code>ResourceArns</code> parameter
-  /// instead of "*". If you do not specify individual resources, by setting
-  /// <code>ResourceArns</code> to "*" or by not including the
-  /// <code>ResourceArns</code> parameter, then any missing context values are
-  /// instead included under the <code>EvaluationResults</code> section. To
-  /// discover the context keys used by a set of policies, you can call
-  /// <a>GetContextKeysForCustomPolicy</a> or
-  /// <a>GetContextKeysForPrincipalPolicy</a>.
-  final List<String>? missingContextValues;
-
-  /// Contains information about the effect that a permissions boundary has on a
-  /// policy simulation when that boundary is applied to an IAM entity.
-  final PermissionsBoundaryDecisionDetail? permissionsBoundaryDecisionDetail;
-
-  ResourceSpecificResult({
-    required this.evalResourceDecision,
-    required this.evalResourceName,
-    this.evalDecisionDetails,
-    this.matchedStatements,
-    this.missingContextValues,
-    this.permissionsBoundaryDecisionDetail,
-  });
-  factory ResourceSpecificResult.fromXml(_s.XmlElement elem) {
-    return ResourceSpecificResult(
-      evalResourceDecision: _s
-          .extractXmlStringValue(elem, 'EvalResourceDecision')!
-          .let(PolicyEvaluationDecisionType.fromString),
-      evalResourceName: _s.extractXmlStringValue(elem, 'EvalResourceName')!,
-      evalDecisionDetails: Map.fromEntries(
-        elem.getElement('EvalDecisionDetails')?.findElements('entry').map(
-                  (c) => MapEntry(
-                    _s.extractXmlStringValue(c, 'key')!,
-                    _s
-                        .extractXmlStringValue(c, 'value')!
-                        .let(PolicyEvaluationDecisionType.fromString),
-                  ),
-                ) ??
-            {},
-      ),
-      matchedStatements: _s.extractXmlChild(elem, 'MatchedStatements')?.let(
-          (elem) =>
-              elem.findElements('member').map(Statement.fromXml).toList()),
-      missingContextValues: _s
-          .extractXmlChild(elem, 'MissingContextValues')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      permissionsBoundaryDecisionDetail: _s
-          .extractXmlChild(elem, 'PermissionsBoundaryDecisionDetail')
-          ?.let(PermissionsBoundaryDecisionDetail.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final evalResourceDecision = this.evalResourceDecision;
-    final evalResourceName = this.evalResourceName;
-    final evalDecisionDetails = this.evalDecisionDetails;
-    final matchedStatements = this.matchedStatements;
-    final missingContextValues = this.missingContextValues;
-    final permissionsBoundaryDecisionDetail =
-        this.permissionsBoundaryDecisionDetail;
-    return {
-      'EvalResourceDecision': evalResourceDecision.value,
-      'EvalResourceName': evalResourceName,
-      if (evalDecisionDetails != null)
-        'EvalDecisionDetails':
-            evalDecisionDetails.map((k, e) => MapEntry(k, e.value)),
-      if (matchedStatements != null) 'MatchedStatements': matchedStatements,
-      if (missingContextValues != null)
-        'MissingContextValues': missingContextValues,
-      if (permissionsBoundaryDecisionDetail != null)
-        'PermissionsBoundaryDecisionDetail': permissionsBoundaryDecisionDetail,
-    };
-  }
-}
-
-/// Contains information about an IAM role. This structure is returned as a
-/// response element in several API operations that interact with roles.
-class Role {
-  /// The Amazon Resource Name (ARN) specifying the role. For more information
-  /// about ARNs and how to use them in policies, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// identifiers</a> in the <i>IAM User Guide</i> guide.
-  final String arn;
-
-  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
-  /// date-time format</a>, when the role was created.
-  final DateTime createDate;
-
-  /// The path to the role. For more information about paths, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// identifiers</a> in the <i>IAM User Guide</i>.
-  final String path;
-
-  /// The stable and unique string identifying the role. For more information
-  /// about IDs, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// identifiers</a> in the <i>IAM User Guide</i>.
-  final String roleId;
-
-  /// The friendly name that identifies the role.
-  final String roleName;
-
-  /// The policy that grants an entity permission to assume the role.
-  final String? assumeRolePolicyDocument;
-
-  /// A description of the role that you provide.
-  final String? description;
-
-  /// The maximum session duration (in seconds) for the specified role. Anyone who
-  /// uses the CLI, or API to assume the role can specify the duration using the
-  /// optional <code>DurationSeconds</code> API parameter or
-  /// <code>duration-seconds</code> CLI parameter.
-  final int? maxSessionDuration;
-
-  /// The ARN of the policy used to set the permissions boundary for the role.
-  ///
-  /// For more information about permissions boundaries, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
-  /// boundaries for IAM identities </a> in the <i>IAM User Guide</i>.
-  final AttachedPermissionsBoundary? permissionsBoundary;
-
-  /// Contains information about the last time that an IAM role was used. This
-  /// includes the date and time and the Region in which the role was last used.
-  /// Activity is only reported for the trailing 400 days. This period can be
-  /// shorter if your Region began supporting these features within the last year.
-  /// The role might have been used more than 400 days ago. For more information,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#access-advisor_tracking-period">Regions
-  /// where data is tracked</a> in the <i>IAM user Guide</i>.
-  final RoleLastUsed? roleLastUsed;
-
-  /// A list of tags that are attached to the role. For more information about
-  /// tagging, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
-  /// IAM resources</a> in the <i>IAM User Guide</i>.
-  final List<Tag>? tags;
-
-  Role({
-    required this.arn,
-    required this.createDate,
-    required this.path,
-    required this.roleId,
-    required this.roleName,
-    this.assumeRolePolicyDocument,
-    this.description,
-    this.maxSessionDuration,
-    this.permissionsBoundary,
-    this.roleLastUsed,
-    this.tags,
-  });
-  factory Role.fromXml(_s.XmlElement elem) {
-    return Role(
-      arn: _s.extractXmlStringValue(elem, 'Arn')!,
-      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate')!,
-      path: _s.extractXmlStringValue(elem, 'Path')!,
-      roleId: _s.extractXmlStringValue(elem, 'RoleId')!,
-      roleName: _s.extractXmlStringValue(elem, 'RoleName')!,
-      assumeRolePolicyDocument:
-          _s.extractXmlStringValue(elem, 'AssumeRolePolicyDocument'),
-      description: _s.extractXmlStringValue(elem, 'Description'),
-      maxSessionDuration: _s.extractXmlIntValue(elem, 'MaxSessionDuration'),
-      permissionsBoundary: _s
-          .extractXmlChild(elem, 'PermissionsBoundary')
-          ?.let(AttachedPermissionsBoundary.fromXml),
-      roleLastUsed:
-          _s.extractXmlChild(elem, 'RoleLastUsed')?.let(RoleLastUsed.fromXml),
-      tags: _s.extractXmlChild(elem, 'Tags')?.let(
-          (elem) => elem.findElements('member').map(Tag.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final createDate = this.createDate;
-    final path = this.path;
-    final roleId = this.roleId;
-    final roleName = this.roleName;
-    final assumeRolePolicyDocument = this.assumeRolePolicyDocument;
-    final description = this.description;
-    final maxSessionDuration = this.maxSessionDuration;
-    final permissionsBoundary = this.permissionsBoundary;
-    final roleLastUsed = this.roleLastUsed;
-    final tags = this.tags;
-    return {
-      'Arn': arn,
-      'CreateDate': iso8601ToJson(createDate),
-      'Path': path,
-      'RoleId': roleId,
-      'RoleName': roleName,
-      if (assumeRolePolicyDocument != null)
-        'AssumeRolePolicyDocument': assumeRolePolicyDocument,
-      if (description != null) 'Description': description,
-      if (maxSessionDuration != null) 'MaxSessionDuration': maxSessionDuration,
-      if (permissionsBoundary != null)
-        'PermissionsBoundary': permissionsBoundary,
-      if (roleLastUsed != null) 'RoleLastUsed': roleLastUsed,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
 /// Contains information about an IAM role, including all of the role's
 /// policies.
 ///
-/// This data type is used as a response element in the
-/// <a>GetAccountAuthorizationDetails</a> operation.
+/// This data type is used as a response element in the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountAuthorizationDetails.html">GetAccountAuthorizationDetails</a>
+/// operation.
 class RoleDetail {
   final String? arn;
 
@@ -16540,1162 +20008,115 @@ class RoleDetail {
   }
 }
 
-/// Contains information about the last time that an IAM role was used. This
-/// includes the date and time and the Region in which the role was last used.
-/// Activity is only reported for the trailing 400 days. This period can be
-/// shorter if your Region began supporting these features within the last year.
-/// The role might have been used more than 400 days ago. For more information,
-/// see <a
-/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#access-advisor_tracking-period">Regions
-/// where data is tracked</a> in the <i>IAM user Guide</i>.
+/// Contains information about an IAM policy, including the policy document.
 ///
-/// This data type is returned as a response element in the <a>GetRole</a> and
-/// <a>GetAccountAuthorizationDetails</a> operations.
-class RoleLastUsed {
-  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
-  /// date-time format</a> that the role was last used.
-  ///
-  /// This field is null if the role has not been used within the IAM tracking
-  /// period. For more information about the tracking period, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#access-advisor_tracking-period">Regions
-  /// where data is tracked</a> in the <i>IAM User Guide</i>.
-  final DateTime? lastUsedDate;
+/// This data type is used as a response element in the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountAuthorizationDetails.html">GetAccountAuthorizationDetails</a>
+/// operation.
+class PolicyDetail {
+  /// The policy document.
+  final String? policyDocument;
 
-  /// The name of the Amazon Web Services Region in which the role was last used.
-  final String? region;
+  /// The name of the policy.
+  final String? policyName;
 
-  RoleLastUsed({
-    this.lastUsedDate,
-    this.region,
+  PolicyDetail({
+    this.policyDocument,
+    this.policyName,
   });
-  factory RoleLastUsed.fromXml(_s.XmlElement elem) {
-    return RoleLastUsed(
-      lastUsedDate: _s.extractXmlDateTimeValue(elem, 'LastUsedDate'),
-      region: _s.extractXmlStringValue(elem, 'Region'),
+  factory PolicyDetail.fromXml(_s.XmlElement elem) {
+    return PolicyDetail(
+      policyDocument: _s.extractXmlStringValue(elem, 'PolicyDocument'),
+      policyName: _s.extractXmlStringValue(elem, 'PolicyName'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final lastUsedDate = this.lastUsedDate;
-    final region = this.region;
+    final policyDocument = this.policyDocument;
+    final policyName = this.policyName;
     return {
-      if (lastUsedDate != null) 'LastUsedDate': iso8601ToJson(lastUsedDate),
-      if (region != null) 'Region': region,
+      if (policyDocument != null) 'PolicyDocument': policyDocument,
+      if (policyName != null) 'PolicyName': policyName,
     };
   }
 }
 
-/// An object that contains details about how a service-linked role is used, if
-/// that information is returned by the service.
+/// Contains information about an IAM group, including all of the group's
+/// policies.
 ///
-/// This data type is used as a response element in the
-/// <a>GetServiceLinkedRoleDeletionStatus</a> operation.
-class RoleUsageType {
-  /// The name of the Region where the service-linked role is being used.
-  final String? region;
-
-  /// The name of the resource that is using the service-linked role.
-  final List<String>? resources;
-
-  RoleUsageType({
-    this.region,
-    this.resources,
-  });
-  factory RoleUsageType.fromXml(_s.XmlElement elem) {
-    return RoleUsageType(
-      region: _s.extractXmlStringValue(elem, 'Region'),
-      resources: _s
-          .extractXmlChild(elem, 'Resources')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final region = this.region;
-    final resources = this.resources;
-    return {
-      if (region != null) 'Region': region,
-      if (resources != null) 'Resources': resources,
-    };
-  }
-}
-
-/// Contains the list of SAML providers for this account.
-class SAMLProviderListEntry {
-  /// The Amazon Resource Name (ARN) of the SAML provider.
+/// This data type is used as a response element in the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountAuthorizationDetails.html">GetAccountAuthorizationDetails</a>
+/// operation.
+class GroupDetail {
   final String? arn;
 
-  /// The date and time when the SAML provider was created.
+  /// A list of the managed policies attached to the group.
+  final List<AttachedPolicy>? attachedManagedPolicies;
+
+  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
+  /// date-time format</a>, when the group was created.
   final DateTime? createDate;
 
-  /// The expiration date and time for the SAML provider.
-  final DateTime? validUntil;
-
-  SAMLProviderListEntry({
-    this.arn,
-    this.createDate,
-    this.validUntil,
-  });
-  factory SAMLProviderListEntry.fromXml(_s.XmlElement elem) {
-    return SAMLProviderListEntry(
-      arn: _s.extractXmlStringValue(elem, 'Arn'),
-      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
-      validUntil: _s.extractXmlDateTimeValue(elem, 'ValidUntil'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final createDate = this.createDate;
-    final validUntil = this.validUntil;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (createDate != null) 'CreateDate': iso8601ToJson(createDate),
-      if (validUntil != null) 'ValidUntil': iso8601ToJson(validUntil),
-    };
-  }
-}
-
-/// Contains information about an SSH public key.
-///
-/// This data type is used as a response element in the <a>GetSSHPublicKey</a>
-/// and <a>UploadSSHPublicKey</a> operations.
-class SSHPublicKey {
-  /// The MD5 message digest of the SSH public key.
-  final String fingerprint;
-
-  /// The SSH public key.
-  final String sSHPublicKeyBody;
-
-  /// The unique identifier for the SSH public key.
-  final String sSHPublicKeyId;
-
-  /// The status of the SSH public key. <code>Active</code> means that the key can
-  /// be used for authentication with an CodeCommit repository.
-  /// <code>Inactive</code> means that the key cannot be used.
-  final StatusType status;
-
-  /// The name of the IAM user associated with the SSH public key.
-  final String userName;
-
-  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
-  /// date-time format</a>, when the SSH public key was uploaded.
-  final DateTime? uploadDate;
-
-  SSHPublicKey({
-    required this.fingerprint,
-    required this.sSHPublicKeyBody,
-    required this.sSHPublicKeyId,
-    required this.status,
-    required this.userName,
-    this.uploadDate,
-  });
-  factory SSHPublicKey.fromXml(_s.XmlElement elem) {
-    return SSHPublicKey(
-      fingerprint: _s.extractXmlStringValue(elem, 'Fingerprint')!,
-      sSHPublicKeyBody: _s.extractXmlStringValue(elem, 'SSHPublicKeyBody')!,
-      sSHPublicKeyId: _s.extractXmlStringValue(elem, 'SSHPublicKeyId')!,
-      status:
-          _s.extractXmlStringValue(elem, 'Status')!.let(StatusType.fromString),
-      userName: _s.extractXmlStringValue(elem, 'UserName')!,
-      uploadDate: _s.extractXmlDateTimeValue(elem, 'UploadDate'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final fingerprint = this.fingerprint;
-    final sSHPublicKeyBody = this.sSHPublicKeyBody;
-    final sSHPublicKeyId = this.sSHPublicKeyId;
-    final status = this.status;
-    final userName = this.userName;
-    final uploadDate = this.uploadDate;
-    return {
-      'Fingerprint': fingerprint,
-      'SSHPublicKeyBody': sSHPublicKeyBody,
-      'SSHPublicKeyId': sSHPublicKeyId,
-      'Status': status.value,
-      'UserName': userName,
-      if (uploadDate != null) 'UploadDate': iso8601ToJson(uploadDate),
-    };
-  }
-}
-
-/// Contains information about an SSH public key, without the key's body or
-/// fingerprint.
-///
-/// This data type is used as a response element in the <a>ListSSHPublicKeys</a>
-/// operation.
-class SSHPublicKeyMetadata {
-  /// The unique identifier for the SSH public key.
-  final String sSHPublicKeyId;
-
-  /// The status of the SSH public key. <code>Active</code> means that the key can
-  /// be used for authentication with an CodeCommit repository.
-  /// <code>Inactive</code> means that the key cannot be used.
-  final StatusType status;
-
-  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
-  /// date-time format</a>, when the SSH public key was uploaded.
-  final DateTime uploadDate;
-
-  /// The name of the IAM user associated with the SSH public key.
-  final String userName;
-
-  SSHPublicKeyMetadata({
-    required this.sSHPublicKeyId,
-    required this.status,
-    required this.uploadDate,
-    required this.userName,
-  });
-  factory SSHPublicKeyMetadata.fromXml(_s.XmlElement elem) {
-    return SSHPublicKeyMetadata(
-      sSHPublicKeyId: _s.extractXmlStringValue(elem, 'SSHPublicKeyId')!,
-      status:
-          _s.extractXmlStringValue(elem, 'Status')!.let(StatusType.fromString),
-      uploadDate: _s.extractXmlDateTimeValue(elem, 'UploadDate')!,
-      userName: _s.extractXmlStringValue(elem, 'UserName')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final sSHPublicKeyId = this.sSHPublicKeyId;
-    final status = this.status;
-    final uploadDate = this.uploadDate;
-    final userName = this.userName;
-    return {
-      'SSHPublicKeyId': sSHPublicKeyId,
-      'Status': status.value,
-      'UploadDate': iso8601ToJson(uploadDate),
-      'UserName': userName,
-    };
-  }
-}
-
-/// Contains information about a server certificate.
-///
-/// This data type is used as a response element in the
-/// <a>GetServerCertificate</a> operation.
-class ServerCertificate {
-  /// The contents of the public key certificate.
-  final String certificateBody;
-
-  /// The meta information of the server certificate, such as its name, path, ID,
-  /// and ARN.
-  final ServerCertificateMetadata serverCertificateMetadata;
-
-  /// The contents of the public key certificate chain.
-  final String? certificateChain;
-
-  /// A list of tags that are attached to the server certificate. For more
-  /// information about tagging, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
-  /// IAM resources</a> in the <i>IAM User Guide</i>.
-  final List<Tag>? tags;
-
-  ServerCertificate({
-    required this.certificateBody,
-    required this.serverCertificateMetadata,
-    this.certificateChain,
-    this.tags,
-  });
-  factory ServerCertificate.fromXml(_s.XmlElement elem) {
-    return ServerCertificate(
-      certificateBody: _s.extractXmlStringValue(elem, 'CertificateBody')!,
-      serverCertificateMetadata: ServerCertificateMetadata.fromXml(
-          _s.extractXmlChild(elem, 'ServerCertificateMetadata')!),
-      certificateChain: _s.extractXmlStringValue(elem, 'CertificateChain'),
-      tags: _s.extractXmlChild(elem, 'Tags')?.let(
-          (elem) => elem.findElements('member').map(Tag.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final certificateBody = this.certificateBody;
-    final serverCertificateMetadata = this.serverCertificateMetadata;
-    final certificateChain = this.certificateChain;
-    final tags = this.tags;
-    return {
-      'CertificateBody': certificateBody,
-      'ServerCertificateMetadata': serverCertificateMetadata,
-      if (certificateChain != null) 'CertificateChain': certificateChain,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-/// Contains information about a server certificate without its certificate
-/// body, certificate chain, and private key.
-///
-/// This data type is used as a response element in the
-/// <a>UploadServerCertificate</a> and <a>ListServerCertificates</a> operations.
-class ServerCertificateMetadata {
-  /// The Amazon Resource Name (ARN) specifying the server certificate. For more
-  /// information about ARNs and how to use them in policies, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// identifiers</a> in the <i>IAM User Guide</i>.
-  final String arn;
-
-  /// The path to the server certificate. For more information about paths, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// identifiers</a> in the <i>IAM User Guide</i>.
-  final String path;
-
-  /// The stable and unique string identifying the server certificate. For more
-  /// information about IDs, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// identifiers</a> in the <i>IAM User Guide</i>.
-  final String serverCertificateId;
-
-  /// The name that identifies the server certificate.
-  final String serverCertificateName;
-
-  /// The date on which the certificate is set to expire.
-  final DateTime? expiration;
-
-  /// The date when the server certificate was uploaded.
-  final DateTime? uploadDate;
-
-  ServerCertificateMetadata({
-    required this.arn,
-    required this.path,
-    required this.serverCertificateId,
-    required this.serverCertificateName,
-    this.expiration,
-    this.uploadDate,
-  });
-  factory ServerCertificateMetadata.fromXml(_s.XmlElement elem) {
-    return ServerCertificateMetadata(
-      arn: _s.extractXmlStringValue(elem, 'Arn')!,
-      path: _s.extractXmlStringValue(elem, 'Path')!,
-      serverCertificateId:
-          _s.extractXmlStringValue(elem, 'ServerCertificateId')!,
-      serverCertificateName:
-          _s.extractXmlStringValue(elem, 'ServerCertificateName')!,
-      expiration: _s.extractXmlDateTimeValue(elem, 'Expiration'),
-      uploadDate: _s.extractXmlDateTimeValue(elem, 'UploadDate'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final path = this.path;
-    final serverCertificateId = this.serverCertificateId;
-    final serverCertificateName = this.serverCertificateName;
-    final expiration = this.expiration;
-    final uploadDate = this.uploadDate;
-    return {
-      'Arn': arn,
-      'Path': path,
-      'ServerCertificateId': serverCertificateId,
-      'ServerCertificateName': serverCertificateName,
-      if (expiration != null) 'Expiration': iso8601ToJson(expiration),
-      if (uploadDate != null) 'UploadDate': iso8601ToJson(uploadDate),
-    };
-  }
-}
-
-/// Contains details about the most recent attempt to access the service.
-///
-/// This data type is used as a response element in the
-/// <a>GetServiceLastAccessedDetails</a> operation.
-class ServiceLastAccessed {
-  /// The name of the service in which access was attempted.
-  final String serviceName;
-
-  /// The namespace of the service in which access was attempted.
-  ///
-  /// To learn the service namespace of a service, see <a
-  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html">Actions,
-  /// resources, and condition keys for Amazon Web Services services</a> in the
-  /// <i>Service Authorization Reference</i>. Choose the name of the service to
-  /// view details for that service. In the first paragraph, find the service
-  /// prefix. For example, <code>(service prefix: a4b)</code>. For more
-  /// information about service namespaces, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">Amazon
-  /// Web Services Service Namespaces</a> in the <i>Amazon Web Services General
-  /// Reference</i>.
-  final String serviceNamespace;
-
-  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
-  /// date-time format</a>, when an authenticated entity most recently attempted
-  /// to access the service. Amazon Web Services does not report unauthenticated
-  /// requests.
-  ///
-  /// This field is null if no IAM entities attempted to access the service within
-  /// the <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">tracking
-  /// period</a>.
-  final DateTime? lastAuthenticated;
-
-  /// The ARN of the authenticated entity (user or role) that last attempted to
-  /// access the service. Amazon Web Services does not report unauthenticated
-  /// requests.
-  ///
-  /// This field is null if no IAM entities attempted to access the service within
-  /// the <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">tracking
-  /// period</a>.
-  final String? lastAuthenticatedEntity;
-
-  /// The Region from which the authenticated entity (user or role) last attempted
-  /// to access the service. Amazon Web Services does not report unauthenticated
-  /// requests.
-  ///
-  /// This field is null if no IAM entities attempted to access the service within
-  /// the <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">tracking
-  /// period</a>.
-  final String? lastAuthenticatedRegion;
-
-  /// The total number of authenticated principals (root user, IAM users, or IAM
-  /// roles) that have attempted to access the service.
-  ///
-  /// This field is null if no principals attempted to access the service within
-  /// the <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">tracking
-  /// period</a>.
-  final int? totalAuthenticatedEntities;
-
-  /// An object that contains details about the most recent attempt to access a
-  /// tracked action within the service.
-  ///
-  /// This field is null if there no tracked actions or if the principal did not
-  /// use the tracked actions within the <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">tracking
-  /// period</a>. This field is also null if the report was generated at the
-  /// service level and not the action level. For more information, see the
-  /// <code>Granularity</code> field in <a>GenerateServiceLastAccessedDetails</a>.
-  final List<TrackedActionLastAccessed>? trackedActionsLastAccessed;
-
-  ServiceLastAccessed({
-    required this.serviceName,
-    required this.serviceNamespace,
-    this.lastAuthenticated,
-    this.lastAuthenticatedEntity,
-    this.lastAuthenticatedRegion,
-    this.totalAuthenticatedEntities,
-    this.trackedActionsLastAccessed,
-  });
-  factory ServiceLastAccessed.fromXml(_s.XmlElement elem) {
-    return ServiceLastAccessed(
-      serviceName: _s.extractXmlStringValue(elem, 'ServiceName')!,
-      serviceNamespace: _s.extractXmlStringValue(elem, 'ServiceNamespace')!,
-      lastAuthenticated: _s.extractXmlDateTimeValue(elem, 'LastAuthenticated'),
-      lastAuthenticatedEntity:
-          _s.extractXmlStringValue(elem, 'LastAuthenticatedEntity'),
-      lastAuthenticatedRegion:
-          _s.extractXmlStringValue(elem, 'LastAuthenticatedRegion'),
-      totalAuthenticatedEntities:
-          _s.extractXmlIntValue(elem, 'TotalAuthenticatedEntities'),
-      trackedActionsLastAccessed: _s
-          .extractXmlChild(elem, 'TrackedActionsLastAccessed')
-          ?.let((elem) => elem
-              .findElements('member')
-              .map(TrackedActionLastAccessed.fromXml)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final serviceName = this.serviceName;
-    final serviceNamespace = this.serviceNamespace;
-    final lastAuthenticated = this.lastAuthenticated;
-    final lastAuthenticatedEntity = this.lastAuthenticatedEntity;
-    final lastAuthenticatedRegion = this.lastAuthenticatedRegion;
-    final totalAuthenticatedEntities = this.totalAuthenticatedEntities;
-    final trackedActionsLastAccessed = this.trackedActionsLastAccessed;
-    return {
-      'ServiceName': serviceName,
-      'ServiceNamespace': serviceNamespace,
-      if (lastAuthenticated != null)
-        'LastAuthenticated': iso8601ToJson(lastAuthenticated),
-      if (lastAuthenticatedEntity != null)
-        'LastAuthenticatedEntity': lastAuthenticatedEntity,
-      if (lastAuthenticatedRegion != null)
-        'LastAuthenticatedRegion': lastAuthenticatedRegion,
-      if (totalAuthenticatedEntities != null)
-        'TotalAuthenticatedEntities': totalAuthenticatedEntities,
-      if (trackedActionsLastAccessed != null)
-        'TrackedActionsLastAccessed': trackedActionsLastAccessed,
-    };
-  }
-}
-
-/// Contains the details of a service-specific credential.
-class ServiceSpecificCredential {
-  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
-  /// date-time format</a>, when the service-specific credential were created.
-  final DateTime createDate;
-
-  /// The name of the service associated with the service-specific credential.
-  final String serviceName;
-
-  /// The generated password for the service-specific credential.
-  final String servicePassword;
-
-  /// The unique identifier for the service-specific credential.
-  final String serviceSpecificCredentialId;
-
-  /// The generated user name for the service-specific credential. This value is
-  /// generated by combining the IAM user's name combined with the ID number of
-  /// the Amazon Web Services account, as in <code>jane-at-123456789012</code>,
-  /// for example. This value cannot be configured by the user.
-  final String serviceUserName;
-
-  /// The status of the service-specific credential. <code>Active</code> means
-  /// that the key is valid for API calls, while <code>Inactive</code> means it is
-  /// not.
-  final StatusType status;
-
-  /// The name of the IAM user associated with the service-specific credential.
-  final String userName;
-
-  ServiceSpecificCredential({
-    required this.createDate,
-    required this.serviceName,
-    required this.servicePassword,
-    required this.serviceSpecificCredentialId,
-    required this.serviceUserName,
-    required this.status,
-    required this.userName,
-  });
-  factory ServiceSpecificCredential.fromXml(_s.XmlElement elem) {
-    return ServiceSpecificCredential(
-      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate')!,
-      serviceName: _s.extractXmlStringValue(elem, 'ServiceName')!,
-      servicePassword: _s.extractXmlStringValue(elem, 'ServicePassword')!,
-      serviceSpecificCredentialId:
-          _s.extractXmlStringValue(elem, 'ServiceSpecificCredentialId')!,
-      serviceUserName: _s.extractXmlStringValue(elem, 'ServiceUserName')!,
-      status:
-          _s.extractXmlStringValue(elem, 'Status')!.let(StatusType.fromString),
-      userName: _s.extractXmlStringValue(elem, 'UserName')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createDate = this.createDate;
-    final serviceName = this.serviceName;
-    final servicePassword = this.servicePassword;
-    final serviceSpecificCredentialId = this.serviceSpecificCredentialId;
-    final serviceUserName = this.serviceUserName;
-    final status = this.status;
-    final userName = this.userName;
-    return {
-      'CreateDate': iso8601ToJson(createDate),
-      'ServiceName': serviceName,
-      'ServicePassword': servicePassword,
-      'ServiceSpecificCredentialId': serviceSpecificCredentialId,
-      'ServiceUserName': serviceUserName,
-      'Status': status.value,
-      'UserName': userName,
-    };
-  }
-}
-
-/// Contains additional details about a service-specific credential.
-class ServiceSpecificCredentialMetadata {
-  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
-  /// date-time format</a>, when the service-specific credential were created.
-  final DateTime createDate;
-
-  /// The name of the service associated with the service-specific credential.
-  final String serviceName;
-
-  /// The unique identifier for the service-specific credential.
-  final String serviceSpecificCredentialId;
-
-  /// The generated user name for the service-specific credential.
-  final String serviceUserName;
-
-  /// The status of the service-specific credential. <code>Active</code> means
-  /// that the key is valid for API calls, while <code>Inactive</code> means it is
-  /// not.
-  final StatusType status;
-
-  /// The name of the IAM user associated with the service-specific credential.
-  final String userName;
-
-  ServiceSpecificCredentialMetadata({
-    required this.createDate,
-    required this.serviceName,
-    required this.serviceSpecificCredentialId,
-    required this.serviceUserName,
-    required this.status,
-    required this.userName,
-  });
-  factory ServiceSpecificCredentialMetadata.fromXml(_s.XmlElement elem) {
-    return ServiceSpecificCredentialMetadata(
-      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate')!,
-      serviceName: _s.extractXmlStringValue(elem, 'ServiceName')!,
-      serviceSpecificCredentialId:
-          _s.extractXmlStringValue(elem, 'ServiceSpecificCredentialId')!,
-      serviceUserName: _s.extractXmlStringValue(elem, 'ServiceUserName')!,
-      status:
-          _s.extractXmlStringValue(elem, 'Status')!.let(StatusType.fromString),
-      userName: _s.extractXmlStringValue(elem, 'UserName')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createDate = this.createDate;
-    final serviceName = this.serviceName;
-    final serviceSpecificCredentialId = this.serviceSpecificCredentialId;
-    final serviceUserName = this.serviceUserName;
-    final status = this.status;
-    final userName = this.userName;
-    return {
-      'CreateDate': iso8601ToJson(createDate),
-      'ServiceName': serviceName,
-      'ServiceSpecificCredentialId': serviceSpecificCredentialId,
-      'ServiceUserName': serviceUserName,
-      'Status': status.value,
-      'UserName': userName,
-    };
-  }
-}
-
-/// Contains information about an X.509 signing certificate.
-///
-/// This data type is used as a response element in the
-/// <a>UploadSigningCertificate</a> and <a>ListSigningCertificates</a>
-/// operations.
-class SigningCertificate {
-  /// The contents of the signing certificate.
-  final String certificateBody;
-
-  /// The ID for the signing certificate.
-  final String certificateId;
-
-  /// The status of the signing certificate. <code>Active</code> means that the
-  /// key is valid for API calls, while <code>Inactive</code> means it is not.
-  final StatusType status;
-
-  /// The name of the user the signing certificate is associated with.
-  final String userName;
-
-  /// The date when the signing certificate was uploaded.
-  final DateTime? uploadDate;
-
-  SigningCertificate({
-    required this.certificateBody,
-    required this.certificateId,
-    required this.status,
-    required this.userName,
-    this.uploadDate,
-  });
-  factory SigningCertificate.fromXml(_s.XmlElement elem) {
-    return SigningCertificate(
-      certificateBody: _s.extractXmlStringValue(elem, 'CertificateBody')!,
-      certificateId: _s.extractXmlStringValue(elem, 'CertificateId')!,
-      status:
-          _s.extractXmlStringValue(elem, 'Status')!.let(StatusType.fromString),
-      userName: _s.extractXmlStringValue(elem, 'UserName')!,
-      uploadDate: _s.extractXmlDateTimeValue(elem, 'UploadDate'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final certificateBody = this.certificateBody;
-    final certificateId = this.certificateId;
-    final status = this.status;
-    final userName = this.userName;
-    final uploadDate = this.uploadDate;
-    return {
-      'CertificateBody': certificateBody,
-      'CertificateId': certificateId,
-      'Status': status.value,
-      'UserName': userName,
-      if (uploadDate != null) 'UploadDate': iso8601ToJson(uploadDate),
-    };
-  }
-}
-
-/// Contains the response to a successful <a>SimulatePrincipalPolicy</a> or
-/// <a>SimulateCustomPolicy</a> request.
-class SimulatePolicyResponse {
-  /// The results of the simulation.
-  final List<EvaluationResult>? evaluationResults;
-
-  /// A flag that indicates whether there are more items to return. If your
-  /// results were truncated, you can make a subsequent pagination request using
-  /// the <code>Marker</code> request parameter to retrieve more items. Note that
-  /// IAM might return fewer than the <code>MaxItems</code> number of results even
-  /// when there are more results available. We recommend that you check
-  /// <code>IsTruncated</code> after every call to ensure that you receive all
-  /// your results.
-  final bool? isTruncated;
-
-  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
-  /// and contains the value to use for the <code>Marker</code> parameter in a
-  /// subsequent pagination request.
-  final String? marker;
-
-  SimulatePolicyResponse({
-    this.evaluationResults,
-    this.isTruncated,
-    this.marker,
-  });
-  factory SimulatePolicyResponse.fromXml(_s.XmlElement elem) {
-    return SimulatePolicyResponse(
-      evaluationResults: _s.extractXmlChild(elem, 'EvaluationResults')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map(EvaluationResult.fromXml)
-              .toList()),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final evaluationResults = this.evaluationResults;
-    final isTruncated = this.isTruncated;
-    final marker = this.marker;
-    return {
-      if (evaluationResults != null) 'EvaluationResults': evaluationResults,
-      if (isTruncated != null) 'IsTruncated': isTruncated,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-/// Contains a reference to a <code>Statement</code> element in a policy
-/// document that determines the result of the simulation.
-///
-/// This data type is used by the <code>MatchedStatements</code> member of the
-/// <code> <a>EvaluationResult</a> </code> type.
-class Statement {
-  /// The row and column of the end of a <code>Statement</code> in an IAM policy.
-  final Position? endPosition;
-
-  /// The identifier of the policy that was provided as an input.
-  final String? sourcePolicyId;
-
-  /// The type of the policy.
-  final PolicySourceType? sourcePolicyType;
-
-  /// The row and column of the beginning of the <code>Statement</code> in an IAM
-  /// policy.
-  final Position? startPosition;
-
-  Statement({
-    this.endPosition,
-    this.sourcePolicyId,
-    this.sourcePolicyType,
-    this.startPosition,
-  });
-  factory Statement.fromXml(_s.XmlElement elem) {
-    return Statement(
-      endPosition:
-          _s.extractXmlChild(elem, 'EndPosition')?.let(Position.fromXml),
-      sourcePolicyId: _s.extractXmlStringValue(elem, 'SourcePolicyId'),
-      sourcePolicyType: _s
-          .extractXmlStringValue(elem, 'SourcePolicyType')
-          ?.let(PolicySourceType.fromString),
-      startPosition:
-          _s.extractXmlChild(elem, 'StartPosition')?.let(Position.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final endPosition = this.endPosition;
-    final sourcePolicyId = this.sourcePolicyId;
-    final sourcePolicyType = this.sourcePolicyType;
-    final startPosition = this.startPosition;
-    return {
-      if (endPosition != null) 'EndPosition': endPosition,
-      if (sourcePolicyId != null) 'SourcePolicyId': sourcePolicyId,
-      if (sourcePolicyType != null) 'SourcePolicyType': sourcePolicyType.value,
-      if (startPosition != null) 'StartPosition': startPosition,
-    };
-  }
-}
-
-/// A structure that represents user-provided metadata that can be associated
-/// with an IAM resource. For more information about tagging, see <a
-/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
-/// IAM resources</a> in the <i>IAM User Guide</i>.
-class Tag {
-  /// The key name that can be used to look up or retrieve the associated value.
-  /// For example, <code>Department</code> or <code>Cost Center</code> are common
-  /// choices.
-  final String key;
-
-  /// The value associated with this tag. For example, tags with a key name of
-  /// <code>Department</code> could have values such as <code>Human
-  /// Resources</code>, <code>Accounting</code>, and <code>Support</code>. Tags
-  /// with a key name of <code>Cost Center</code> might have values that consist
-  /// of the number associated with the different cost centers in your company.
-  /// Typically, many resources have tags with the same key name but with
-  /// different values.
-  /// <note>
-  /// Amazon Web Services always interprets the tag <code>Value</code> as a single
-  /// string. If you need to store an array, you can store comma-separated values
-  /// in the string. However, you must interpret the value in your code.
-  /// </note>
-  final String value;
-
-  Tag({
-    required this.key,
-    required this.value,
-  });
-  factory Tag.fromXml(_s.XmlElement elem) {
-    return Tag(
-      key: _s.extractXmlStringValue(elem, 'Key')!,
-      value: _s.extractXmlStringValue(elem, 'Value')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'Key': key,
-      'Value': value,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'Key': key,
-      'Value': value,
-    };
-  }
-}
-
-/// Contains details about the most recent attempt to access an action within
-/// the service.
-///
-/// This data type is used as a response element in the
-/// <a>GetServiceLastAccessedDetails</a> operation.
-class TrackedActionLastAccessed {
-  /// The name of the tracked action to which access was attempted. Tracked
-  /// actions are actions that report activity to IAM.
-  final String? actionName;
-  final String? lastAccessedEntity;
-
-  /// The Region from which the authenticated entity (user or role) last attempted
-  /// to access the tracked action. Amazon Web Services does not report
-  /// unauthenticated requests.
-  ///
-  /// This field is null if no IAM entities attempted to access the service within
-  /// the <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">tracking
-  /// period</a>.
-  final String? lastAccessedRegion;
-
-  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
-  /// date-time format</a>, when an authenticated entity most recently attempted
-  /// to access the tracked service. Amazon Web Services does not report
-  /// unauthenticated requests.
-  ///
-  /// This field is null if no IAM entities attempted to access the service within
-  /// the <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">tracking
-  /// period</a>.
-  final DateTime? lastAccessedTime;
-
-  TrackedActionLastAccessed({
-    this.actionName,
-    this.lastAccessedEntity,
-    this.lastAccessedRegion,
-    this.lastAccessedTime,
-  });
-  factory TrackedActionLastAccessed.fromXml(_s.XmlElement elem) {
-    return TrackedActionLastAccessed(
-      actionName: _s.extractXmlStringValue(elem, 'ActionName'),
-      lastAccessedEntity: _s.extractXmlStringValue(elem, 'LastAccessedEntity'),
-      lastAccessedRegion: _s.extractXmlStringValue(elem, 'LastAccessedRegion'),
-      lastAccessedTime: _s.extractXmlDateTimeValue(elem, 'LastAccessedTime'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final actionName = this.actionName;
-    final lastAccessedEntity = this.lastAccessedEntity;
-    final lastAccessedRegion = this.lastAccessedRegion;
-    final lastAccessedTime = this.lastAccessedTime;
-    return {
-      if (actionName != null) 'ActionName': actionName,
-      if (lastAccessedEntity != null) 'LastAccessedEntity': lastAccessedEntity,
-      if (lastAccessedRegion != null) 'LastAccessedRegion': lastAccessedRegion,
-      if (lastAccessedTime != null)
-        'LastAccessedTime': iso8601ToJson(lastAccessedTime),
-    };
-  }
-}
-
-class UpdateRoleDescriptionResponse {
-  /// A structure that contains details about the modified role.
-  final Role? role;
-
-  UpdateRoleDescriptionResponse({
-    this.role,
-  });
-  factory UpdateRoleDescriptionResponse.fromXml(_s.XmlElement elem) {
-    return UpdateRoleDescriptionResponse(
-      role: _s.extractXmlChild(elem, 'Role')?.let(Role.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final role = this.role;
-    return {
-      if (role != null) 'Role': role,
-    };
-  }
-}
-
-class UpdateRoleResponse {
-  UpdateRoleResponse();
-  factory UpdateRoleResponse.fromXml(
-      // ignore: avoid_unused_constructor_parameters
-      _s.XmlElement elem) {
-    return UpdateRoleResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Contains the response to a successful <a>UpdateSAMLProvider</a> request.
-class UpdateSAMLProviderResponse {
-  /// The Amazon Resource Name (ARN) of the SAML provider that was updated.
-  final String? sAMLProviderArn;
-
-  UpdateSAMLProviderResponse({
-    this.sAMLProviderArn,
-  });
-  factory UpdateSAMLProviderResponse.fromXml(_s.XmlElement elem) {
-    return UpdateSAMLProviderResponse(
-      sAMLProviderArn: _s.extractXmlStringValue(elem, 'SAMLProviderArn'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final sAMLProviderArn = this.sAMLProviderArn;
-    return {
-      if (sAMLProviderArn != null) 'SAMLProviderArn': sAMLProviderArn,
-    };
-  }
-}
-
-/// Contains the response to a successful <a>UploadSSHPublicKey</a> request.
-class UploadSSHPublicKeyResponse {
-  /// Contains information about the SSH public key.
-  final SSHPublicKey? sSHPublicKey;
-
-  UploadSSHPublicKeyResponse({
-    this.sSHPublicKey,
-  });
-  factory UploadSSHPublicKeyResponse.fromXml(_s.XmlElement elem) {
-    return UploadSSHPublicKeyResponse(
-      sSHPublicKey:
-          _s.extractXmlChild(elem, 'SSHPublicKey')?.let(SSHPublicKey.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final sSHPublicKey = this.sSHPublicKey;
-    return {
-      if (sSHPublicKey != null) 'SSHPublicKey': sSHPublicKey,
-    };
-  }
-}
-
-/// Contains the response to a successful <a>UploadServerCertificate</a>
-/// request.
-class UploadServerCertificateResponse {
-  /// The meta information of the uploaded server certificate without its
-  /// certificate body, certificate chain, and private key.
-  final ServerCertificateMetadata? serverCertificateMetadata;
-
-  /// A list of tags that are attached to the new IAM server certificate. The
-  /// returned list of tags is sorted by tag key. For more information about
-  /// tagging, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
-  /// IAM resources</a> in the <i>IAM User Guide</i>.
-  final List<Tag>? tags;
-
-  UploadServerCertificateResponse({
-    this.serverCertificateMetadata,
-    this.tags,
-  });
-  factory UploadServerCertificateResponse.fromXml(_s.XmlElement elem) {
-    return UploadServerCertificateResponse(
-      serverCertificateMetadata: _s
-          .extractXmlChild(elem, 'ServerCertificateMetadata')
-          ?.let(ServerCertificateMetadata.fromXml),
-      tags: _s.extractXmlChild(elem, 'Tags')?.let(
-          (elem) => elem.findElements('member').map(Tag.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final serverCertificateMetadata = this.serverCertificateMetadata;
-    final tags = this.tags;
-    return {
-      if (serverCertificateMetadata != null)
-        'ServerCertificateMetadata': serverCertificateMetadata,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-/// Contains the response to a successful <a>UploadSigningCertificate</a>
-/// request.
-class UploadSigningCertificateResponse {
-  /// Information about the certificate.
-  final SigningCertificate certificate;
-
-  UploadSigningCertificateResponse({
-    required this.certificate,
-  });
-  factory UploadSigningCertificateResponse.fromXml(_s.XmlElement elem) {
-    return UploadSigningCertificateResponse(
-      certificate:
-          SigningCertificate.fromXml(_s.extractXmlChild(elem, 'Certificate')!),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final certificate = this.certificate;
-    return {
-      'Certificate': certificate,
-    };
-  }
-}
-
-/// Contains information about an IAM user entity.
-///
-/// This data type is used as a response element in the following operations:
-///
-/// <ul>
-/// <li>
-/// <a>CreateUser</a>
-/// </li>
-/// <li>
-/// <a>GetUser</a>
-/// </li>
-/// <li>
-/// <a>ListUsers</a>
-/// </li>
-/// </ul>
-class User {
-  /// The Amazon Resource Name (ARN) that identifies the user. For more
-  /// information about ARNs and how to use ARNs in policies, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// Identifiers</a> in the <i>IAM User Guide</i>.
-  final String arn;
-
-  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
-  /// date-time format</a>, when the user was created.
-  final DateTime createDate;
-
-  /// The path to the user. For more information about paths, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// identifiers</a> in the <i>IAM User Guide</i>.
-  ///
-  /// The ARN of the policy used to set the permissions boundary for the user.
-  final String path;
-
-  /// The stable and unique string identifying the user. For more information
+  /// The stable and unique string identifying the group. For more information
   /// about IDs, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
   /// identifiers</a> in the <i>IAM User Guide</i>.
-  final String userId;
+  final String? groupId;
 
-  /// The friendly name identifying the user.
-  final String userName;
+  /// The friendly name that identifies the group.
+  final String? groupName;
 
-  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
-  /// date-time format</a>, when the user's password was last used to sign in to
-  /// an Amazon Web Services website. For a list of Amazon Web Services websites
-  /// that capture a user's last sign-in time, see the <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/credential-reports.html">Credential
-  /// reports</a> topic in the <i>IAM User Guide</i>. If a password is used more
-  /// than once in a five-minute span, only the first use is returned in this
-  /// field. If the field is null (no value), then it indicates that they never
-  /// signed in with a password. This can be because:
-  ///
-  /// <ul>
-  /// <li>
-  /// The user never had a password.
-  /// </li>
-  /// <li>
-  /// A password exists but has not been used since IAM started tracking this
-  /// information on October 20, 2014.
-  /// </li>
-  /// </ul>
-  /// A null value does not mean that the user <i>never</i> had a password. Also,
-  /// if the user does not currently have a password but had one in the past, then
-  /// this field contains the date and time the most recent password was used.
-  ///
-  /// This value is returned only in the <a>GetUser</a> and <a>ListUsers</a>
-  /// operations.
-  final DateTime? passwordLastUsed;
+  /// A list of the inline policies embedded in the group.
+  final List<PolicyDetail>? groupPolicyList;
 
-  /// For more information about permissions boundaries, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
-  /// boundaries for IAM identities </a> in the <i>IAM User Guide</i>.
-  final AttachedPermissionsBoundary? permissionsBoundary;
+  /// The path to the group. For more information about paths, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
+  /// identifiers</a> in the <i>IAM User Guide</i>.
+  final String? path;
 
-  /// A list of tags that are associated with the user. For more information about
-  /// tagging, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
-  /// IAM resources</a> in the <i>IAM User Guide</i>.
-  final List<Tag>? tags;
-
-  User({
-    required this.arn,
-    required this.createDate,
-    required this.path,
-    required this.userId,
-    required this.userName,
-    this.passwordLastUsed,
-    this.permissionsBoundary,
-    this.tags,
+  GroupDetail({
+    this.arn,
+    this.attachedManagedPolicies,
+    this.createDate,
+    this.groupId,
+    this.groupName,
+    this.groupPolicyList,
+    this.path,
   });
-  factory User.fromXml(_s.XmlElement elem) {
-    return User(
-      arn: _s.extractXmlStringValue(elem, 'Arn')!,
-      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate')!,
-      path: _s.extractXmlStringValue(elem, 'Path')!,
-      userId: _s.extractXmlStringValue(elem, 'UserId')!,
-      userName: _s.extractXmlStringValue(elem, 'UserName')!,
-      passwordLastUsed: _s.extractXmlDateTimeValue(elem, 'PasswordLastUsed'),
-      permissionsBoundary: _s
-          .extractXmlChild(elem, 'PermissionsBoundary')
-          ?.let(AttachedPermissionsBoundary.fromXml),
-      tags: _s.extractXmlChild(elem, 'Tags')?.let(
-          (elem) => elem.findElements('member').map(Tag.fromXml).toList()),
+  factory GroupDetail.fromXml(_s.XmlElement elem) {
+    return GroupDetail(
+      arn: _s.extractXmlStringValue(elem, 'Arn'),
+      attachedManagedPolicies: _s
+          .extractXmlChild(elem, 'AttachedManagedPolicies')
+          ?.let((elem) =>
+              elem.findElements('member').map(AttachedPolicy.fromXml).toList()),
+      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
+      groupId: _s.extractXmlStringValue(elem, 'GroupId'),
+      groupName: _s.extractXmlStringValue(elem, 'GroupName'),
+      groupPolicyList: _s.extractXmlChild(elem, 'GroupPolicyList')?.let(
+          (elem) =>
+              elem.findElements('member').map(PolicyDetail.fromXml).toList()),
+      path: _s.extractXmlStringValue(elem, 'Path'),
     );
   }
 
   Map<String, dynamic> toJson() {
     final arn = this.arn;
+    final attachedManagedPolicies = this.attachedManagedPolicies;
     final createDate = this.createDate;
+    final groupId = this.groupId;
+    final groupName = this.groupName;
+    final groupPolicyList = this.groupPolicyList;
     final path = this.path;
-    final userId = this.userId;
-    final userName = this.userName;
-    final passwordLastUsed = this.passwordLastUsed;
-    final permissionsBoundary = this.permissionsBoundary;
-    final tags = this.tags;
     return {
-      'Arn': arn,
-      'CreateDate': iso8601ToJson(createDate),
-      'Path': path,
-      'UserId': userId,
-      'UserName': userName,
-      if (passwordLastUsed != null)
-        'PasswordLastUsed': iso8601ToJson(passwordLastUsed),
-      if (permissionsBoundary != null)
-        'PermissionsBoundary': permissionsBoundary,
-      if (tags != null) 'Tags': tags,
+      if (arn != null) 'Arn': arn,
+      if (attachedManagedPolicies != null)
+        'AttachedManagedPolicies': attachedManagedPolicies,
+      if (createDate != null) 'CreateDate': iso8601ToJson(createDate),
+      if (groupId != null) 'GroupId': groupId,
+      if (groupName != null) 'GroupName': groupName,
+      if (groupPolicyList != null) 'GroupPolicyList': groupPolicyList,
+      if (path != null) 'Path': path,
     };
   }
 }
@@ -17703,8 +20124,9 @@ class User {
 /// Contains information about an IAM user, including all the user's policies
 /// and all the IAM groups the user is in.
 ///
-/// This data type is used as a response element in the
-/// <a>GetAccountAuthorizationDetails</a> operation.
+/// This data type is used as a response element in the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountAuthorizationDetails.html">GetAccountAuthorizationDetails</a>
+/// operation.
 class UserDetail {
   final String? arn;
 
@@ -17812,116 +20234,111 @@ class UserDetail {
   }
 }
 
-/// Contains information about a virtual MFA device.
-class VirtualMFADevice {
-  /// The serial number associated with <code>VirtualMFADevice</code>.
-  final String serialNumber;
+/// Contains information about the last time an Amazon Web Services access key
+/// was used since IAM began tracking this information on April 22, 2015.
+///
+/// This data type is used as a response element in the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccessKeyLastUsed.html">GetAccessKeyLastUsed</a>
+/// operation.
+class AccessKeyLastUsed {
+  /// The Amazon Web Services Region where this access key was most recently used.
+  /// The value for this field is "N/A" in the following situations:
+  ///
+  /// <ul>
+  /// <li>
+  /// The user does not have an access key.
+  /// </li>
+  /// <li>
+  /// An access key exists but has not been used since IAM began tracking this
+  /// information.
+  /// </li>
+  /// <li>
+  /// There is no sign-in data associated with the user.
+  /// </li>
+  /// </ul>
+  /// For more information about Amazon Web Services Regions, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html">Regions and
+  /// endpoints</a> in the Amazon Web Services General Reference.
+  final String region;
 
-  /// The base32 seed defined as specified in <a
-  /// href="https://tools.ietf.org/html/rfc3548.txt">RFC3548</a>. The
-  /// <code>Base32StringSeed</code> is base32-encoded.
-  final Uint8List? base32StringSeed;
+  /// The name of the Amazon Web Services service with which this access key was
+  /// most recently used. The value of this field is "N/A" in the following
+  /// situations:
+  ///
+  /// <ul>
+  /// <li>
+  /// The user does not have an access key.
+  /// </li>
+  /// <li>
+  /// An access key exists but has not been used since IAM started tracking this
+  /// information.
+  /// </li>
+  /// <li>
+  /// There is no sign-in data associated with the user.
+  /// </li>
+  /// </ul>
+  final String serviceName;
 
-  /// The date and time on which the virtual MFA device was enabled.
-  final DateTime? enableDate;
+  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
+  /// date-time format</a>, when the access key was most recently used. This field
+  /// is null in the following situations:
+  ///
+  /// <ul>
+  /// <li>
+  /// The user does not have an access key.
+  /// </li>
+  /// <li>
+  /// An access key exists but has not been used since IAM began tracking this
+  /// information.
+  /// </li>
+  /// <li>
+  /// There is no sign-in data associated with the user.
+  /// </li>
+  /// </ul>
+  final DateTime? lastUsedDate;
 
-  /// A QR code PNG image that encodes
-  /// <code>otpauth://totp/$virtualMFADeviceName@$AccountName?secret=$Base32String</code>
-  /// where <code>$virtualMFADeviceName</code> is one of the create call
-  /// arguments. <code>AccountName</code> is the user name if set (otherwise, the
-  /// account ID otherwise), and <code>Base32String</code> is the seed in base32
-  /// format. The <code>Base32String</code> value is base64-encoded.
-  final Uint8List? qRCodePNG;
-
-  /// A list of tags that are attached to the virtual MFA device. For more
-  /// information about tagging, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
-  /// IAM resources</a> in the <i>IAM User Guide</i>.
-  final List<Tag>? tags;
-
-  /// The IAM user associated with this virtual MFA device.
-  final User? user;
-
-  VirtualMFADevice({
-    required this.serialNumber,
-    this.base32StringSeed,
-    this.enableDate,
-    this.qRCodePNG,
-    this.tags,
-    this.user,
+  AccessKeyLastUsed({
+    required this.region,
+    required this.serviceName,
+    this.lastUsedDate,
   });
-  factory VirtualMFADevice.fromXml(_s.XmlElement elem) {
-    return VirtualMFADevice(
-      serialNumber: _s.extractXmlStringValue(elem, 'SerialNumber')!,
-      base32StringSeed: _s.extractXmlUint8ListValue(elem, 'Base32StringSeed'),
-      enableDate: _s.extractXmlDateTimeValue(elem, 'EnableDate'),
-      qRCodePNG: _s.extractXmlUint8ListValue(elem, 'QRCodePNG'),
-      tags: _s.extractXmlChild(elem, 'Tags')?.let(
-          (elem) => elem.findElements('member').map(Tag.fromXml).toList()),
-      user: _s.extractXmlChild(elem, 'User')?.let(User.fromXml),
+  factory AccessKeyLastUsed.fromXml(_s.XmlElement elem) {
+    return AccessKeyLastUsed(
+      region: _s.extractXmlStringValue(elem, 'Region')!,
+      serviceName: _s.extractXmlStringValue(elem, 'ServiceName')!,
+      lastUsedDate: _s.extractXmlDateTimeValue(elem, 'LastUsedDate'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final serialNumber = this.serialNumber;
-    final base32StringSeed = this.base32StringSeed;
-    final enableDate = this.enableDate;
-    final qRCodePNG = this.qRCodePNG;
-    final tags = this.tags;
-    final user = this.user;
+    final region = this.region;
+    final serviceName = this.serviceName;
+    final lastUsedDate = this.lastUsedDate;
     return {
-      'SerialNumber': serialNumber,
-      if (base32StringSeed != null)
-        'Base32StringSeed': base64Encode(base32StringSeed),
-      if (enableDate != null) 'EnableDate': iso8601ToJson(enableDate),
-      if (qRCodePNG != null) 'QRCodePNG': base64Encode(qRCodePNG),
-      if (tags != null) 'Tags': tags,
-      if (user != null) 'User': user,
+      'Region': region,
+      'ServiceName': serviceName,
+      if (lastUsedDate != null) 'LastUsedDate': iso8601ToJson(lastUsedDate),
     };
   }
 }
 
-class AssignmentStatusType {
-  static const assigned = AssignmentStatusType._('Assigned');
-  static const unassigned = AssignmentStatusType._('Unassigned');
-  static const any = AssignmentStatusType._('Any');
+class ReportStateType {
+  static const started = ReportStateType._('STARTED');
+  static const inprogress = ReportStateType._('INPROGRESS');
+  static const complete = ReportStateType._('COMPLETE');
 
   final String value;
 
-  const AssignmentStatusType._(this.value);
+  const ReportStateType._(this.value);
 
-  static const values = [assigned, unassigned, any];
+  static const values = [started, inprogress, complete];
 
-  static AssignmentStatusType fromString(String value) =>
+  static ReportStateType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => AssignmentStatusType._(value));
+          orElse: () => ReportStateType._(value));
 
   @override
-  bool operator ==(other) =>
-      other is AssignmentStatusType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class EncodingType {
-  static const ssh = EncodingType._('SSH');
-  static const pem = EncodingType._('PEM');
-
-  final String value;
-
-  const EncodingType._(this.value);
-
-  static const values = [ssh, pem];
-
-  static EncodingType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => EncodingType._(value));
-
-  @override
-  bool operator ==(other) => other is EncodingType && other.value == value;
+  bool operator ==(other) => other is ReportStateType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -17930,271 +20347,87 @@ class EncodingType {
   String toString() => value;
 }
 
-class GlobalEndpointTokenVersion {
-  static const v1Token = GlobalEndpointTokenVersion._('v1Token');
-  static const v2Token = GlobalEndpointTokenVersion._('v2Token');
+/// Contains information about an Amazon Web Services access key.
+///
+/// This data type is used as a response element in the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateAccessKey.html">CreateAccessKey</a>
+/// and <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAccessKeys.html">ListAccessKeys</a>
+/// operations.
+/// <note>
+/// The <code>SecretAccessKey</code> value is returned only in response to <a
+/// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateAccessKey.html">CreateAccessKey</a>.
+/// You can get a secret access key only when you first create an access key;
+/// you cannot recover the secret access key later. If you lose a secret access
+/// key, you must create a new access key.
+/// </note>
+class AccessKey {
+  /// The ID for this access key.
+  final String accessKeyId;
 
-  final String value;
+  /// The secret key used to sign requests.
+  final String secretAccessKey;
 
-  const GlobalEndpointTokenVersion._(this.value);
+  /// The status of the access key. <code>Active</code> means that the key is
+  /// valid for API calls, while <code>Inactive</code> means it is not.
+  final StatusType status;
 
-  static const values = [v1Token, v2Token];
+  /// The name of the IAM user that the access key is associated with.
+  final String userName;
 
-  static GlobalEndpointTokenVersion fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => GlobalEndpointTokenVersion._(value));
+  /// The date when the access key was created.
+  final DateTime? createDate;
 
-  @override
-  bool operator ==(other) =>
-      other is GlobalEndpointTokenVersion && other.value == value;
+  AccessKey({
+    required this.accessKeyId,
+    required this.secretAccessKey,
+    required this.status,
+    required this.userName,
+    this.createDate,
+  });
+  factory AccessKey.fromXml(_s.XmlElement elem) {
+    return AccessKey(
+      accessKeyId: _s.extractXmlStringValue(elem, 'AccessKeyId')!,
+      secretAccessKey: _s.extractXmlStringValue(elem, 'SecretAccessKey')!,
+      status:
+          _s.extractXmlStringValue(elem, 'Status')!.let(StatusType.fromString),
+      userName: _s.extractXmlStringValue(elem, 'UserName')!,
+      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
+    );
+  }
 
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final accessKeyId = this.accessKeyId;
+    final secretAccessKey = this.secretAccessKey;
+    final status = this.status;
+    final userName = this.userName;
+    final createDate = this.createDate;
+    return {
+      'AccessKeyId': accessKeyId,
+      'SecretAccessKey': secretAccessKey,
+      'Status': status.value,
+      'UserName': userName,
+      if (createDate != null) 'CreateDate': iso8601ToJson(createDate),
+    };
+  }
 }
 
-class JobStatusType {
-  static const inProgress = JobStatusType._('IN_PROGRESS');
-  static const completed = JobStatusType._('COMPLETED');
-  static const failed = JobStatusType._('FAILED');
-
-  final String value;
-
-  const JobStatusType._(this.value);
-
-  static const values = [inProgress, completed, failed];
-
-  static JobStatusType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => JobStatusType._(value));
-
-  @override
-  bool operator ==(other) => other is JobStatusType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+class AccountNotManagementOrDelegatedAdministratorException
+    extends _s.GenericAwsException {
+  AccountNotManagementOrDelegatedAdministratorException(
+      {String? type, String? message})
+      : super(
+            type: type,
+            code: 'AccountNotManagementOrDelegatedAdministratorException',
+            message: message);
 }
 
-class PolicyOwnerEntityType {
-  static const user = PolicyOwnerEntityType._('USER');
-  static const role = PolicyOwnerEntityType._('ROLE');
-  static const group = PolicyOwnerEntityType._('GROUP');
-
-  final String value;
-
-  const PolicyOwnerEntityType._(this.value);
-
-  static const values = [user, role, group];
-
-  static PolicyOwnerEntityType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PolicyOwnerEntityType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PolicyOwnerEntityType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class PolicyScopeType {
-  static const all = PolicyScopeType._('All');
-  static const aws = PolicyScopeType._('AWS');
-  static const local = PolicyScopeType._('Local');
-
-  final String value;
-
-  const PolicyScopeType._(this.value);
-
-  static const values = [all, aws, local];
-
-  static PolicyScopeType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PolicyScopeType._(value));
-
-  @override
-  bool operator ==(other) => other is PolicyScopeType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class PolicyType {
-  static const inline = PolicyType._('INLINE');
-  static const managed = PolicyType._('MANAGED');
-
-  final String value;
-
-  const PolicyType._(this.value);
-
-  static const values = [inline, managed];
-
-  static PolicyType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => PolicyType._(value));
-
-  @override
-  bool operator ==(other) => other is PolicyType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class SortKeyType {
-  static const serviceNamespaceAscending =
-      SortKeyType._('SERVICE_NAMESPACE_ASCENDING');
-  static const serviceNamespaceDescending =
-      SortKeyType._('SERVICE_NAMESPACE_DESCENDING');
-  static const lastAuthenticatedTimeAscending =
-      SortKeyType._('LAST_AUTHENTICATED_TIME_ASCENDING');
-  static const lastAuthenticatedTimeDescending =
-      SortKeyType._('LAST_AUTHENTICATED_TIME_DESCENDING');
-
-  final String value;
-
-  const SortKeyType._(this.value);
-
-  static const values = [
-    serviceNamespaceAscending,
-    serviceNamespaceDescending,
-    lastAuthenticatedTimeAscending,
-    lastAuthenticatedTimeDescending
-  ];
-
-  static SortKeyType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SortKeyType._(value));
-
-  @override
-  bool operator ==(other) => other is SortKeyType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class StatusType {
-  static const active = StatusType._('Active');
-  static const inactive = StatusType._('Inactive');
-
-  final String value;
-
-  const StatusType._(this.value);
-
-  static const values = [active, inactive];
-
-  static StatusType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => StatusType._(value));
-
-  @override
-  bool operator ==(other) => other is StatusType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class SummaryKeyType {
-  static const users = SummaryKeyType._('Users');
-  static const usersQuota = SummaryKeyType._('UsersQuota');
-  static const groups = SummaryKeyType._('Groups');
-  static const groupsQuota = SummaryKeyType._('GroupsQuota');
-  static const serverCertificates = SummaryKeyType._('ServerCertificates');
-  static const serverCertificatesQuota =
-      SummaryKeyType._('ServerCertificatesQuota');
-  static const userPolicySizeQuota = SummaryKeyType._('UserPolicySizeQuota');
-  static const groupPolicySizeQuota = SummaryKeyType._('GroupPolicySizeQuota');
-  static const groupsPerUserQuota = SummaryKeyType._('GroupsPerUserQuota');
-  static const signingCertificatesPerUserQuota =
-      SummaryKeyType._('SigningCertificatesPerUserQuota');
-  static const accessKeysPerUserQuota =
-      SummaryKeyType._('AccessKeysPerUserQuota');
-  static const mFADevices = SummaryKeyType._('MFADevices');
-  static const mFADevicesInUse = SummaryKeyType._('MFADevicesInUse');
-  static const accountMFAEnabled = SummaryKeyType._('AccountMFAEnabled');
-  static const accountAccessKeysPresent =
-      SummaryKeyType._('AccountAccessKeysPresent');
-  static const accountSigningCertificatesPresent =
-      SummaryKeyType._('AccountSigningCertificatesPresent');
-  static const attachedPoliciesPerGroupQuota =
-      SummaryKeyType._('AttachedPoliciesPerGroupQuota');
-  static const attachedPoliciesPerRoleQuota =
-      SummaryKeyType._('AttachedPoliciesPerRoleQuota');
-  static const attachedPoliciesPerUserQuota =
-      SummaryKeyType._('AttachedPoliciesPerUserQuota');
-  static const policies = SummaryKeyType._('Policies');
-  static const policiesQuota = SummaryKeyType._('PoliciesQuota');
-  static const policySizeQuota = SummaryKeyType._('PolicySizeQuota');
-  static const policyVersionsInUse = SummaryKeyType._('PolicyVersionsInUse');
-  static const policyVersionsInUseQuota =
-      SummaryKeyType._('PolicyVersionsInUseQuota');
-  static const versionsPerPolicyQuota =
-      SummaryKeyType._('VersionsPerPolicyQuota');
-  static const globalEndpointTokenVersion =
-      SummaryKeyType._('GlobalEndpointTokenVersion');
-
-  final String value;
-
-  const SummaryKeyType._(this.value);
-
-  static const values = [
-    users,
-    usersQuota,
-    groups,
-    groupsQuota,
-    serverCertificates,
-    serverCertificatesQuota,
-    userPolicySizeQuota,
-    groupPolicySizeQuota,
-    groupsPerUserQuota,
-    signingCertificatesPerUserQuota,
-    accessKeysPerUserQuota,
-    mFADevices,
-    mFADevicesInUse,
-    accountMFAEnabled,
-    accountAccessKeysPresent,
-    accountSigningCertificatesPresent,
-    attachedPoliciesPerGroupQuota,
-    attachedPoliciesPerRoleQuota,
-    attachedPoliciesPerUserQuota,
-    policies,
-    policiesQuota,
-    policySizeQuota,
-    policyVersionsInUse,
-    policyVersionsInUseQuota,
-    versionsPerPolicyQuota,
-    globalEndpointTokenVersion
-  ];
-
-  static SummaryKeyType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SummaryKeyType._(value));
-
-  @override
-  bool operator ==(other) => other is SummaryKeyType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+class CallerIsNotManagementAccountException extends _s.GenericAwsException {
+  CallerIsNotManagementAccountException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'CallerIsNotManagementAccountException',
+            message: message);
 }
 
 class ConcurrentModificationException extends _s.GenericAwsException {
@@ -18262,6 +20495,16 @@ class EntityTemporarilyUnmodifiableException extends _s.GenericAwsException {
             type: type,
             code: 'EntityTemporarilyUnmodifiableException',
             message: message);
+}
+
+class FeatureDisabledException extends _s.GenericAwsException {
+  FeatureDisabledException({String? type, String? message})
+      : super(type: type, code: 'FeatureDisabledException', message: message);
+}
+
+class FeatureEnabledException extends _s.GenericAwsException {
+  FeatureEnabledException({String? type, String? message})
+      : super(type: type, code: 'FeatureEnabledException', message: message);
 }
 
 class InvalidAuthenticationCodeException extends _s.GenericAwsException {
@@ -18332,6 +20575,22 @@ class OpenIdIdpCommunicationErrorException extends _s.GenericAwsException {
             message: message);
 }
 
+class OrganizationNotFoundException extends _s.GenericAwsException {
+  OrganizationNotFoundException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'OrganizationNotFoundException',
+            message: message);
+}
+
+class OrganizationNotInAllFeaturesModeException extends _s.GenericAwsException {
+  OrganizationNotInAllFeaturesModeException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'OrganizationNotInAllFeaturesModeException',
+            message: message);
+}
+
 class PasswordPolicyViolationException extends _s.GenericAwsException {
   PasswordPolicyViolationException({String? type, String? message})
       : super(
@@ -18356,6 +20615,14 @@ class ReportGenerationLimitExceededException extends _s.GenericAwsException {
       : super(
             type: type,
             code: 'ReportGenerationLimitExceededException',
+            message: message);
+}
+
+class ServiceAccessNotEnabledException extends _s.GenericAwsException {
+  ServiceAccessNotEnabledException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ServiceAccessNotEnabledException',
             message: message);
 }
 
@@ -18385,6 +20652,11 @@ class UnrecognizedPublicKeyEncodingException extends _s.GenericAwsException {
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
+  'AccountNotManagementOrDelegatedAdministratorException': (type, message) =>
+      AccountNotManagementOrDelegatedAdministratorException(
+          type: type, message: message),
+  'CallerIsNotManagementAccountException': (type, message) =>
+      CallerIsNotManagementAccountException(type: type, message: message),
   'ConcurrentModificationException': (type, message) =>
       ConcurrentModificationException(type: type, message: message),
   'CredentialReportExpiredException': (type, message) =>
@@ -18403,6 +20675,10 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       EntityAlreadyExistsException(type: type, message: message),
   'EntityTemporarilyUnmodifiableException': (type, message) =>
       EntityTemporarilyUnmodifiableException(type: type, message: message),
+  'FeatureDisabledException': (type, message) =>
+      FeatureDisabledException(type: type, message: message),
+  'FeatureEnabledException': (type, message) =>
+      FeatureEnabledException(type: type, message: message),
   'InvalidAuthenticationCodeException': (type, message) =>
       InvalidAuthenticationCodeException(type: type, message: message),
   'InvalidCertificateException': (type, message) =>
@@ -18425,6 +20701,10 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       NoSuchEntityException(type: type, message: message),
   'OpenIdIdpCommunicationErrorException': (type, message) =>
       OpenIdIdpCommunicationErrorException(type: type, message: message),
+  'OrganizationNotFoundException': (type, message) =>
+      OrganizationNotFoundException(type: type, message: message),
+  'OrganizationNotInAllFeaturesModeException': (type, message) =>
+      OrganizationNotInAllFeaturesModeException(type: type, message: message),
   'PasswordPolicyViolationException': (type, message) =>
       PasswordPolicyViolationException(type: type, message: message),
   'PolicyEvaluationException': (type, message) =>
@@ -18433,6 +20713,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       PolicyNotAttachableException(type: type, message: message),
   'ReportGenerationLimitExceededException': (type, message) =>
       ReportGenerationLimitExceededException(type: type, message: message),
+  'ServiceAccessNotEnabledException': (type, message) =>
+      ServiceAccessNotEnabledException(type: type, message: message),
   'ServiceFailureException': (type, message) =>
       ServiceFailureException(type: type, message: message),
   'ServiceNotSupportedException': (type, message) =>

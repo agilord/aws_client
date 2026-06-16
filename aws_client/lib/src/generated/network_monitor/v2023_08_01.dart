@@ -41,9 +41,9 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/what-is-network-monitor.html">Using
 /// Amazon CloudWatch Network Monitor</a> in the <i>Amazon CloudWatch User
 /// Guide</i>.
-class CloudWatchNetworkMonitor {
+class NetworkMonitor {
   final _s.RestJsonProtocol _protocol;
-  CloudWatchNetworkMonitor({
+  NetworkMonitor({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
@@ -53,7 +53,6 @@ class CloudWatchNetworkMonitor {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'networkmonitor',
-            signingName: 'networkmonitor',
           ),
           region: region,
           credentials: credentials,
@@ -68,6 +67,88 @@ class CloudWatchNetworkMonitor {
   /// do so can cause the Dart process to hang.
   void close() {
     _protocol.close();
+  }
+
+  /// Lists the tags assigned to this resource.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The
+  Future<ListTagsForResourceOutput> listTagsForResource({
+    required String resourceArn,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTagsForResourceOutput.fromJson(response);
+  }
+
+  /// Adds key-value pairs to a monitor or probe.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The ARN of the monitor or probe to tag.
+  ///
+  /// Parameter [tags] :
+  /// The list of key-value pairs assigned to the monitor or probe.
+  Future<void> tagResource({
+    required String resourceArn,
+    required Map<String, String> tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Removes a key-value pair from a monitor or probe.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The ARN of the monitor or probe that the tag should be removed from.
+  ///
+  /// Parameter [tagKeys] :
+  /// The key-value pa
+  Future<void> untagResource({
+    required String resourceArn,
+    required List<String> tagKeys,
+  }) async {
+    final $query = <String, List<String>>{
+      'tagKeys': tagKeys,
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// Creates a monitor between a source subnet and destination IP address.
@@ -105,11 +186,11 @@ class CloudWatchNetworkMonitor {
   /// </ul>
   ///
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
-  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [monitorName] :
   /// The name identifying the monitor. It can contain only letters, underscores
@@ -158,119 +239,16 @@ class CloudWatchNetworkMonitor {
     return CreateMonitorOutput.fromJson(response);
   }
 
-  /// Create a probe within a monitor. Once you create a probe, and it begins
-  /// monitoring your network traffic, you'll incur billing charges for that
-  /// probe. This action requires the <code>monitorName</code> parameter. Run
-  /// <code>ListMonitors</code> to get a list of monitor names. Note the name of
-  /// the <code>monitorName</code> you want to create the probe for.
-  ///
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [ServiceQuotaExceededException].
-  ///
-  /// Parameter [monitorName] :
-  /// The name of the monitor to associated with the probe.
-  ///
-  /// Parameter [probe] :
-  /// Describes the details of an individual probe for a monitor.
-  ///
-  /// Parameter [clientToken] :
-  /// Unique, case-sensitive identifier to ensure the idempotency of the
-  /// request. Only returned if a client token was provided in the request.
-  ///
-  /// Parameter [tags] :
-  /// The list of key-value pairs created and assigned to the probe.
-  Future<CreateProbeOutput> createProbe({
-    required String monitorName,
-    required ProbeInput probe,
-    String? clientToken,
-    Map<String, String>? tags,
-  }) async {
-    final $payload = <String, dynamic>{
-      'probe': probe,
-      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
-      if (tags != null) 'tags': tags,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/monitors/${Uri.encodeComponent(monitorName)}/probes',
-      exceptionFnMap: _exceptionFns,
-    );
-    return CreateProbeOutput.fromJson(response);
-  }
-
-  /// Deletes a specified monitor.
-  ///
-  /// This action requires the <code>monitorName</code> parameter. Run
-  /// <code>ListMonitors</code> to get a list of monitor names.
-  ///
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  ///
-  /// Parameter [monitorName] :
-  /// The name of the monitor to delete.
-  Future<void> deleteMonitor({
-    required String monitorName,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'DELETE',
-      requestUri: '/monitors/${Uri.encodeComponent(monitorName)}',
-      exceptionFnMap: _exceptionFns,
-    );
-  }
-
-  /// Deletes the specified probe. Once a probe is deleted you'll no longer
-  /// incur any billing fees for that probe.
-  ///
-  /// This action requires both the <code>monitorName</code> and
-  /// <code>probeId</code> parameters. Run <code>ListMonitors</code> to get a
-  /// list of monitor names. Run <code>GetMonitor</code> to get a list of probes
-  /// and probe IDs. You can only delete a single probe at a time using this
-  /// action.
-  ///
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [ServiceQuotaExceededException].
-  ///
-  /// Parameter [monitorName] :
-  /// The name of the monitor to delete.
-  ///
-  /// Parameter [probeId] :
-  /// The ID of the probe to delete.
-  Future<void> deleteProbe({
-    required String monitorName,
-    required String probeId,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'DELETE',
-      requestUri:
-          '/monitors/${Uri.encodeComponent(monitorName)}/probes/${Uri.encodeComponent(probeId)}',
-      exceptionFnMap: _exceptionFns,
-    );
-  }
-
   /// Returns details about a specific monitor.
   ///
   /// This action requires the <code>monitorName</code> parameter. Run
   /// <code>ListMonitors</code> to get a list of monitor names.
   ///
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [monitorName] :
   /// The name of the monitor that details are returned for.
@@ -286,44 +264,78 @@ class CloudWatchNetworkMonitor {
     return GetMonitorOutput.fromJson(response);
   }
 
-  /// Returns the details about a probe. This action requires both the
-  /// <code>monitorName</code> and <code>probeId</code> parameters. Run
-  /// <code>ListMonitors</code> to get a list of monitor names. Run
-  /// <code>GetMonitor</code> to get a list of probes and probe IDs.
+  /// Updates the <code>aggregationPeriod</code> for a monitor. Monitors support
+  /// an <code>aggregationPeriod</code> of either <code>30</code> or
+  /// <code>60</code> seconds. This action requires the <code>monitorName</code>
+  /// and <code>probeId</code> parameter. Run <code>ListMonitors</code> to get a
+  /// list of monitor names.
   ///
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [aggregationPeriod] :
+  /// The aggregation time, in seconds, to change to. This must be either
+  /// <code>30</code> or <code>60</code>.
+  ///
+  /// Parameter [monitorName] :
+  /// The name of the monitor to update.
+  Future<UpdateMonitorOutput> updateMonitor({
+    required int aggregationPeriod,
+    required String monitorName,
+  }) async {
+    _s.validateNumRange(
+      'aggregationPeriod',
+      aggregationPeriod,
+      30,
+      1152921504606846976,
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'aggregationPeriod': aggregationPeriod,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri: '/monitors/${Uri.encodeComponent(monitorName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateMonitorOutput.fromJson(response);
+  }
+
+  /// Deletes a specified monitor.
+  ///
+  /// This action requires the <code>monitorName</code> parameter. Run
+  /// <code>ListMonitors</code> to get a list of monitor names.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [monitorName] :
-  /// The name of the monitor associated with the probe. Run
-  /// <code>ListMonitors</code> to get a list of monitor names.
-  ///
-  /// Parameter [probeId] :
-  /// The ID of the probe to get information about. Run <code>GetMonitor</code>
-  /// action to get a list of probes and probe IDs for the monitor.
-  Future<GetProbeOutput> getProbe({
+  /// The name of the monitor to delete.
+  Future<void> deleteMonitor({
     required String monitorName,
-    required String probeId,
   }) async {
     final response = await _protocol.send(
       payload: null,
-      method: 'GET',
-      requestUri:
-          '/monitors/${Uri.encodeComponent(monitorName)}/probes/${Uri.encodeComponent(probeId)}',
+      method: 'DELETE',
+      requestUri: '/monitors/${Uri.encodeComponent(monitorName)}',
       exceptionFnMap: _exceptionFns,
     );
-    return GetProbeOutput.fromJson(response);
   }
 
   /// Returns a list of all of your monitors.
   ///
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return with a single call. To retrieve
@@ -364,128 +376,81 @@ class CloudWatchNetworkMonitor {
     return ListMonitorsOutput.fromJson(response);
   }
 
-  /// Lists the tags assigned to this resource.
+  /// Create a probe within a monitor. Once you create a probe, and it begins
+  /// monitoring your network traffic, you'll incur billing charges for that
+  /// probe. This action requires the <code>monitorName</code> parameter. Run
+  /// <code>ListMonitors</code> to get a list of monitor names. Note the name of
+  /// the <code>monitorName</code> you want to create the probe for.
   ///
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
   ///
-  /// Parameter [resourceArn] :
-  /// The
-  Future<ListTagsForResourceOutput> listTagsForResource({
-    required String resourceArn,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListTagsForResourceOutput.fromJson(response);
-  }
-
-  /// Adds key-value pairs to a monitor or probe.
+  /// Parameter [monitorName] :
+  /// The name of the monitor to associated with the probe.
   ///
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
+  /// Parameter [probe] :
+  /// Describes the details of an individual probe for a monitor.
   ///
-  /// Parameter [resourceArn] :
-  /// The ARN of the monitor or probe to tag.
+  /// Parameter [clientToken] :
+  /// Unique, case-sensitive identifier to ensure the idempotency of the
+  /// request. Only returned if a client token was provided in the request.
   ///
   /// Parameter [tags] :
-  /// The list of key-value pairs assigned to the monitor or probe.
-  Future<void> tagResource({
-    required String resourceArn,
-    required Map<String, String> tags,
+  /// The list of key-value pairs created and assigned to the probe.
+  Future<CreateProbeOutput> createProbe({
+    required String monitorName,
+    required ProbeInput probe,
+    String? clientToken,
+    Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
-      'tags': tags,
+      'probe': probe,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      requestUri: '/monitors/${Uri.encodeComponent(monitorName)}/probes',
       exceptionFnMap: _exceptionFns,
     );
+    return CreateProbeOutput.fromJson(response);
   }
 
-  /// Removes a key-value pair from a monitor or probe.
+  /// Returns the details about a probe. This action requires both the
+  /// <code>monitorName</code> and <code>probeId</code> parameters. Run
+  /// <code>ListMonitors</code> to get a list of monitor names. Run
+  /// <code>GetMonitor</code> to get a list of probes and probe IDs.
   ///
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
-  ///
-  /// Parameter [resourceArn] :
-  /// The ARN of the monitor or probe that the tag should be removed from.
-  ///
-  /// Parameter [tagKeys] :
-  /// The key-value pa
-  Future<void> untagResource({
-    required String resourceArn,
-    required List<String> tagKeys,
-  }) async {
-    final $query = <String, List<String>>{
-      'tagKeys': tagKeys,
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'DELETE',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-  }
-
-  /// Updates the <code>aggregationPeriod</code> for a monitor. Monitors support
-  /// an <code>aggregationPeriod</code> of either <code>30</code> or
-  /// <code>60</code> seconds. This action requires the <code>monitorName</code>
-  /// and <code>probeId</code> parameter. Run <code>ListMonitors</code> to get a
-  /// list of monitor names.
-  ///
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [ServiceQuotaExceededException].
-  ///
-  /// Parameter [aggregationPeriod] :
-  /// The aggregation time, in seconds, to change to. This must be either
-  /// <code>30</code> or <code>60</code>.
   ///
   /// Parameter [monitorName] :
-  /// The name of the monitor to update.
-  Future<UpdateMonitorOutput> updateMonitor({
-    required int aggregationPeriod,
+  /// The name of the monitor associated with the probe. Run
+  /// <code>ListMonitors</code> to get a list of monitor names.
+  ///
+  /// Parameter [probeId] :
+  /// The ID of the probe to get information about. Run <code>GetMonitor</code>
+  /// action to get a list of probes and probe IDs for the monitor.
+  Future<GetProbeOutput> getProbe({
     required String monitorName,
+    required String probeId,
   }) async {
-    _s.validateNumRange(
-      'aggregationPeriod',
-      aggregationPeriod,
-      30,
-      1152921504606846976,
-      isRequired: true,
-    );
-    final $payload = <String, dynamic>{
-      'aggregationPeriod': aggregationPeriod,
-    };
     final response = await _protocol.send(
-      payload: $payload,
-      method: 'PATCH',
-      requestUri: '/monitors/${Uri.encodeComponent(monitorName)}',
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/monitors/${Uri.encodeComponent(monitorName)}/probes/${Uri.encodeComponent(probeId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateMonitorOutput.fromJson(response);
+    return GetProbeOutput.fromJson(response);
   }
 
   /// Updates a monitor probe. This action requires both the
@@ -522,11 +487,11 @@ class CloudWatchNetworkMonitor {
   /// </ul>
   ///
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [monitorName] :
   /// The name of the monitor that the probe was updated for.
@@ -592,30 +557,87 @@ class CloudWatchNetworkMonitor {
     );
     return UpdateProbeOutput.fromJson(response);
   }
+
+  /// Deletes the specified probe. Once a probe is deleted you'll no longer
+  /// incur any billing fees for that probe.
+  ///
+  /// This action requires both the <code>monitorName</code> and
+  /// <code>probeId</code> parameters. Run <code>ListMonitors</code> to get a
+  /// list of monitor names. Run <code>GetMonitor</code> to get a list of probes
+  /// and probe IDs. You can only delete a single probe at a time using this
+  /// action.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [monitorName] :
+  /// The name of the monitor to delete.
+  ///
+  /// Parameter [probeId] :
+  /// The ID of the probe to delete.
+  Future<void> deleteProbe({
+    required String monitorName,
+    required String probeId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/monitors/${Uri.encodeComponent(monitorName)}/probes/${Uri.encodeComponent(probeId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
 }
 
-class AddressFamily {
-  static const ipv4 = AddressFamily._('IPV4');
-  static const ipv6 = AddressFamily._('IPV6');
+class ListTagsForResourceOutput {
+  /// Lists the tags assigned to the resource.
+  final Map<String, String>? tags;
 
-  final String value;
+  ListTagsForResourceOutput({
+    this.tags,
+  });
 
-  const AddressFamily._(this.value);
+  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceOutput(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 
-  static const values = [ipv4, ipv6];
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
 
-  static AddressFamily fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AddressFamily._(value));
+class TagResourceOutput {
+  TagResourceOutput();
 
-  @override
-  bool operator ==(other) => other is AddressFamily && other.value == value;
+  factory TagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return TagResourceOutput();
+  }
 
-  @override
-  int get hashCode => value.hashCode;
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
 
-  @override
-  String toString() => value;
+class UntagResourceOutput {
+  UntagResourceOutput();
+
+  factory UntagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return UntagResourceOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 class CreateMonitorOutput {
@@ -670,55 +692,172 @@ class CreateMonitorOutput {
   }
 }
 
-/// Creates a monitor probe.
-class CreateMonitorProbeInput {
-  /// The destination IP address. This must be either <code>IPV4</code> or
-  /// <code>IPV6</code>.
-  final String destination;
+class GetMonitorOutput {
+  /// The aggregation period for the specified monitor.
+  final int aggregationPeriod;
 
-  /// The protocol used for the network traffic between the <code>source</code>
-  /// and <code>destination</code>. This must be either <code>TCP</code> or
-  /// <code>ICMP</code>.
-  final Protocol protocol;
+  /// The time and date when the monitor was created.
+  final DateTime createdAt;
 
-  /// The ARN of the subnet.
-  final String sourceArn;
+  /// The time and date when the monitor was last modified.
+  final DateTime modifiedAt;
 
-  /// The port associated with the <code>destination</code>. This is required only
-  /// if the <code>protocol</code> is <code>TCP</code> and must be a number
-  /// between <code>1</code> and <code>65536</code>.
-  final int? destinationPort;
+  /// The ARN of the selected monitor.
+  final String monitorArn;
 
-  /// The size of the packets sent between the source and destination. This must
-  /// be a number between <code>56</code> and <code>8500</code>.
-  final int? packetSize;
+  /// The name of the monitor.
+  final String monitorName;
 
-  /// The list of key-value pairs created and assigned to the monitor.
-  final Map<String, String>? probeTags;
+  /// Lists the status of the <code>state</code> of each monitor.
+  final MonitorState state;
 
-  CreateMonitorProbeInput({
-    required this.destination,
-    required this.protocol,
-    required this.sourceArn,
-    this.destinationPort,
-    this.packetSize,
-    this.probeTags,
+  /// The details about each probe associated with that monitor.
+  final List<Probe>? probes;
+
+  /// The list of key-value pairs assigned to the monitor.
+  final Map<String, String>? tags;
+
+  GetMonitorOutput({
+    required this.aggregationPeriod,
+    required this.createdAt,
+    required this.modifiedAt,
+    required this.monitorArn,
+    required this.monitorName,
+    required this.state,
+    this.probes,
+    this.tags,
   });
 
+  factory GetMonitorOutput.fromJson(Map<String, dynamic> json) {
+    return GetMonitorOutput(
+      aggregationPeriod: (json['aggregationPeriod'] as int?) ?? 0,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      modifiedAt: nonNullableTimeStampFromJson(json['modifiedAt'] ?? 0),
+      monitorArn: (json['monitorArn'] as String?) ?? '',
+      monitorName: (json['monitorName'] as String?) ?? '',
+      state: MonitorState.fromString((json['state'] as String?) ?? ''),
+      probes: (json['probes'] as List?)
+          ?.nonNulls
+          .map((e) => Probe.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
   Map<String, dynamic> toJson() {
-    final destination = this.destination;
-    final protocol = this.protocol;
-    final sourceArn = this.sourceArn;
-    final destinationPort = this.destinationPort;
-    final packetSize = this.packetSize;
-    final probeTags = this.probeTags;
+    final aggregationPeriod = this.aggregationPeriod;
+    final createdAt = this.createdAt;
+    final modifiedAt = this.modifiedAt;
+    final monitorArn = this.monitorArn;
+    final monitorName = this.monitorName;
+    final state = this.state;
+    final probes = this.probes;
+    final tags = this.tags;
     return {
-      'destination': destination,
-      'protocol': protocol.value,
-      'sourceArn': sourceArn,
-      if (destinationPort != null) 'destinationPort': destinationPort,
-      if (packetSize != null) 'packetSize': packetSize,
-      if (probeTags != null) 'probeTags': probeTags,
+      'aggregationPeriod': aggregationPeriod,
+      'createdAt': unixTimestampToJson(createdAt),
+      'modifiedAt': unixTimestampToJson(modifiedAt),
+      'monitorArn': monitorArn,
+      'monitorName': monitorName,
+      'state': state.value,
+      if (probes != null) 'probes': probes,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+class UpdateMonitorOutput {
+  /// The ARN of the monitor that was updated.
+  final String monitorArn;
+
+  /// The name of the monitor that was updated.
+  final String monitorName;
+
+  /// The state of the updated monitor.
+  final MonitorState state;
+
+  /// The changed aggregation period.
+  final int? aggregationPeriod;
+
+  /// The list of key-value pairs associated with the monitor.
+  final Map<String, String>? tags;
+
+  UpdateMonitorOutput({
+    required this.monitorArn,
+    required this.monitorName,
+    required this.state,
+    this.aggregationPeriod,
+    this.tags,
+  });
+
+  factory UpdateMonitorOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateMonitorOutput(
+      monitorArn: (json['monitorArn'] as String?) ?? '',
+      monitorName: (json['monitorName'] as String?) ?? '',
+      state: MonitorState.fromString((json['state'] as String?) ?? ''),
+      aggregationPeriod: json['aggregationPeriod'] as int?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final monitorArn = this.monitorArn;
+    final monitorName = this.monitorName;
+    final state = this.state;
+    final aggregationPeriod = this.aggregationPeriod;
+    final tags = this.tags;
+    return {
+      'monitorArn': monitorArn,
+      'monitorName': monitorName,
+      'state': state.value,
+      if (aggregationPeriod != null) 'aggregationPeriod': aggregationPeriod,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+class DeleteMonitorOutput {
+  DeleteMonitorOutput();
+
+  factory DeleteMonitorOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteMonitorOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class ListMonitorsOutput {
+  /// Lists individual details about each of your monitors.
+  final List<MonitorSummary> monitors;
+
+  /// The token for the next page of results.
+  final String? nextToken;
+
+  ListMonitorsOutput({
+    required this.monitors,
+    this.nextToken,
+  });
+
+  factory ListMonitorsOutput.fromJson(Map<String, dynamic> json) {
+    return ListMonitorsOutput(
+      monitors: ((json['monitors'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => MonitorSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final monitors = this.monitors;
+    final nextToken = this.nextToken;
+    return {
+      'monitors': monitors,
+      if (nextToken != null) 'nextToken': nextToken,
     };
   }
 }
@@ -837,105 +976,6 @@ class CreateProbeOutput {
   }
 }
 
-class DeleteMonitorOutput {
-  DeleteMonitorOutput();
-
-  factory DeleteMonitorOutput.fromJson(Map<String, dynamic> _) {
-    return DeleteMonitorOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class DeleteProbeOutput {
-  DeleteProbeOutput();
-
-  factory DeleteProbeOutput.fromJson(Map<String, dynamic> _) {
-    return DeleteProbeOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class GetMonitorOutput {
-  /// The aggregation period for the specified monitor.
-  final int aggregationPeriod;
-
-  /// The time and date when the monitor was created.
-  final DateTime createdAt;
-
-  /// The time and date when the monitor was last modified.
-  final DateTime modifiedAt;
-
-  /// The ARN of the selected monitor.
-  final String monitorArn;
-
-  /// The name of the monitor.
-  final String monitorName;
-
-  /// Lists the status of the <code>state</code> of each monitor.
-  final MonitorState state;
-
-  /// The details about each probe associated with that monitor.
-  final List<Probe>? probes;
-
-  /// The list of key-value pairs assigned to the monitor.
-  final Map<String, String>? tags;
-
-  GetMonitorOutput({
-    required this.aggregationPeriod,
-    required this.createdAt,
-    required this.modifiedAt,
-    required this.monitorArn,
-    required this.monitorName,
-    required this.state,
-    this.probes,
-    this.tags,
-  });
-
-  factory GetMonitorOutput.fromJson(Map<String, dynamic> json) {
-    return GetMonitorOutput(
-      aggregationPeriod: (json['aggregationPeriod'] as int?) ?? 0,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
-      modifiedAt: nonNullableTimeStampFromJson(json['modifiedAt'] ?? 0),
-      monitorArn: (json['monitorArn'] as String?) ?? '',
-      monitorName: (json['monitorName'] as String?) ?? '',
-      state: MonitorState.fromString((json['state'] as String?) ?? ''),
-      probes: (json['probes'] as List?)
-          ?.nonNulls
-          .map((e) => Probe.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final aggregationPeriod = this.aggregationPeriod;
-    final createdAt = this.createdAt;
-    final modifiedAt = this.modifiedAt;
-    final monitorArn = this.monitorArn;
-    final monitorName = this.monitorName;
-    final state = this.state;
-    final probes = this.probes;
-    final tags = this.tags;
-    return {
-      'aggregationPeriod': aggregationPeriod,
-      'createdAt': unixTimestampToJson(createdAt),
-      'modifiedAt': unixTimestampToJson(modifiedAt),
-      'monitorArn': monitorArn,
-      'monitorName': monitorName,
-      'state': state.value,
-      if (probes != null) 'probes': probes,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
 class GetProbeOutput {
   /// The destination IP address for the monitor. This must be either an IPv4 or
   /// IPv6 address.
@@ -1050,85 +1090,253 @@ class GetProbeOutput {
   }
 }
 
-class ListMonitorsOutput {
-  /// Lists individual details about each of your monitors.
-  final List<MonitorSummary> monitors;
+class UpdateProbeOutput {
+  /// The updated destination IP address for the probe.
+  final String destination;
 
-  /// The token for the next page of results.
-  final String? nextToken;
+  /// The updated protocol for the probe.
+  final Protocol protocol;
 
-  ListMonitorsOutput({
-    required this.monitors,
-    this.nextToken,
-  });
+  /// The updated ARN of the source subnet.
+  final String sourceArn;
 
-  factory ListMonitorsOutput.fromJson(Map<String, dynamic> json) {
-    return ListMonitorsOutput(
-      monitors: ((json['monitors'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => MonitorSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
+  /// The updated IP address family. This must be either <code>IPV4</code> or
+  /// <code>IPV6</code>.
+  final AddressFamily? addressFamily;
 
-  Map<String, dynamic> toJson() {
-    final monitors = this.monitors;
-    final nextToken = this.nextToken;
-    return {
-      'monitors': monitors,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
+  /// The time and date that the probe was created.
+  final DateTime? createdAt;
 
-class ListTagsForResourceOutput {
-  /// Lists the tags assigned to the resource.
+  /// The updated destination port. This must be a number between <code>1</code>
+  /// and <code>65536</code>.
+  final int? destinationPort;
+
+  /// The time and date that the probe was last updated.
+  final DateTime? modifiedAt;
+
+  /// The updated packet size for the probe.
+  final int? packetSize;
+
+  /// The updated ARN of the probe.
+  final String? probeArn;
+
+  /// The updated ID of the probe.
+  final String? probeId;
+
+  /// The state of the updated probe.
+  final ProbeState? state;
+
+  /// Update tags for a probe.
   final Map<String, String>? tags;
 
-  ListTagsForResourceOutput({
+  /// The updated ID of the source VPC subnet ID.
+  final String? vpcId;
+
+  UpdateProbeOutput({
+    required this.destination,
+    required this.protocol,
+    required this.sourceArn,
+    this.addressFamily,
+    this.createdAt,
+    this.destinationPort,
+    this.modifiedAt,
+    this.packetSize,
+    this.probeArn,
+    this.probeId,
+    this.state,
     this.tags,
+    this.vpcId,
   });
 
-  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
-    return ListTagsForResourceOutput(
+  factory UpdateProbeOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateProbeOutput(
+      destination: (json['destination'] as String?) ?? '',
+      protocol: Protocol.fromString((json['protocol'] as String?) ?? ''),
+      sourceArn: (json['sourceArn'] as String?) ?? '',
+      addressFamily:
+          (json['addressFamily'] as String?)?.let(AddressFamily.fromString),
+      createdAt: timeStampFromJson(json['createdAt']),
+      destinationPort: json['destinationPort'] as int?,
+      modifiedAt: timeStampFromJson(json['modifiedAt']),
+      packetSize: json['packetSize'] as int?,
+      probeArn: json['probeArn'] as String?,
+      probeId: json['probeId'] as String?,
+      state: (json['state'] as String?)?.let(ProbeState.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      vpcId: json['vpcId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final destination = this.destination;
+    final protocol = this.protocol;
+    final sourceArn = this.sourceArn;
+    final addressFamily = this.addressFamily;
+    final createdAt = this.createdAt;
+    final destinationPort = this.destinationPort;
+    final modifiedAt = this.modifiedAt;
+    final packetSize = this.packetSize;
+    final probeArn = this.probeArn;
+    final probeId = this.probeId;
+    final state = this.state;
     final tags = this.tags;
+    final vpcId = this.vpcId;
     return {
+      'destination': destination,
+      'protocol': protocol.value,
+      'sourceArn': sourceArn,
+      if (addressFamily != null) 'addressFamily': addressFamily.value,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (destinationPort != null) 'destinationPort': destinationPort,
+      if (modifiedAt != null) 'modifiedAt': unixTimestampToJson(modifiedAt),
+      if (packetSize != null) 'packetSize': packetSize,
+      if (probeArn != null) 'probeArn': probeArn,
+      if (probeId != null) 'probeId': probeId,
+      if (state != null) 'state': state.value,
       if (tags != null) 'tags': tags,
+      if (vpcId != null) 'vpcId': vpcId,
     };
   }
 }
 
-class MonitorState {
-  static const pending = MonitorState._('PENDING');
-  static const active = MonitorState._('ACTIVE');
-  static const inactive = MonitorState._('INACTIVE');
-  static const error = MonitorState._('ERROR');
-  static const deleting = MonitorState._('DELETING');
+class DeleteProbeOutput {
+  DeleteProbeOutput();
+
+  factory DeleteProbeOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteProbeOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class Protocol {
+  static const tcp = Protocol._('TCP');
+  static const icmp = Protocol._('ICMP');
 
   final String value;
 
-  const MonitorState._(this.value);
+  const Protocol._(this.value);
 
-  static const values = [pending, active, inactive, error, deleting];
+  static const values = [tcp, icmp];
 
-  static MonitorState fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => MonitorState._(value));
+  static Protocol fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Protocol._(value));
 
   @override
-  bool operator ==(other) => other is MonitorState && other.value == value;
+  bool operator ==(other) => other is Protocol && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
+}
+
+class AddressFamily {
+  static const ipv4 = AddressFamily._('IPV4');
+  static const ipv6 = AddressFamily._('IPV6');
+
+  final String value;
+
+  const AddressFamily._(this.value);
+
+  static const values = [ipv4, ipv6];
+
+  static AddressFamily fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AddressFamily._(value));
+
+  @override
+  bool operator ==(other) => other is AddressFamily && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ProbeState {
+  static const pending = ProbeState._('PENDING');
+  static const active = ProbeState._('ACTIVE');
+  static const inactive = ProbeState._('INACTIVE');
+  static const error = ProbeState._('ERROR');
+  static const deleting = ProbeState._('DELETING');
+  static const deleted = ProbeState._('DELETED');
+
+  final String value;
+
+  const ProbeState._(this.value);
+
+  static const values = [pending, active, inactive, error, deleting, deleted];
+
+  static ProbeState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ProbeState._(value));
+
+  @override
+  bool operator ==(other) => other is ProbeState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Defines a probe when creating a probe or monitor.
+class ProbeInput {
+  /// The destination IP address. This must be either <code>IPV4</code> or
+  /// <code>IPV6</code>.
+  final String destination;
+
+  /// The protocol used for the network traffic between the <code>source</code>
+  /// and <code>destination</code>. This must be either <code>TCP</code> or
+  /// <code>ICMP</code>.
+  final Protocol protocol;
+
+  /// The ARN of the subnet.
+  final String sourceArn;
+
+  /// The port associated with the <code>destination</code>. This is required only
+  /// if the <code>protocol</code> is <code>TCP</code> and must be a number
+  /// between <code>1</code> and <code>65536</code>.
+  final int? destinationPort;
+
+  /// The size of the packets sent between the source and destination. This must
+  /// be a number between <code>56</code> and <code>8500</code>.
+  final int? packetSize;
+
+  /// The list of key-value pairs created and assigned to the monitor.
+  final Map<String, String>? tags;
+
+  ProbeInput({
+    required this.destination,
+    required this.protocol,
+    required this.sourceArn,
+    this.destinationPort,
+    this.packetSize,
+    this.tags,
+  });
+
+  Map<String, dynamic> toJson() {
+    final destination = this.destination;
+    final protocol = this.protocol;
+    final sourceArn = this.sourceArn;
+    final destinationPort = this.destinationPort;
+    final packetSize = this.packetSize;
+    final tags = this.tags;
+    return {
+      'destination': destination,
+      'protocol': protocol.value,
+      'sourceArn': sourceArn,
+      if (destinationPort != null) 'destinationPort': destinationPort,
+      if (packetSize != null) 'packetSize': packetSize,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
 /// Displays summary information about a monitor.
@@ -1182,6 +1390,32 @@ class MonitorSummary {
       if (tags != null) 'tags': tags,
     };
   }
+}
+
+class MonitorState {
+  static const pending = MonitorState._('PENDING');
+  static const active = MonitorState._('ACTIVE');
+  static const inactive = MonitorState._('INACTIVE');
+  static const error = MonitorState._('ERROR');
+  static const deleting = MonitorState._('DELETING');
+
+  final String value;
+
+  const MonitorState._(this.value);
+
+  static const values = [pending, active, inactive, error, deleting];
+
+  static MonitorState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MonitorState._(value));
+
+  @override
+  bool operator ==(other) => other is MonitorState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes information about a network monitor probe.
@@ -1299,8 +1533,8 @@ class Probe {
   }
 }
 
-/// Defines a probe when creating a probe or monitor.
-class ProbeInput {
+/// Creates a monitor probe.
+class CreateMonitorProbeInput {
   /// The destination IP address. This must be either <code>IPV4</code> or
   /// <code>IPV6</code>.
   final String destination;
@@ -1323,15 +1557,15 @@ class ProbeInput {
   final int? packetSize;
 
   /// The list of key-value pairs created and assigned to the monitor.
-  final Map<String, String>? tags;
+  final Map<String, String>? probeTags;
 
-  ProbeInput({
+  CreateMonitorProbeInput({
     required this.destination,
     required this.protocol,
     required this.sourceArn,
     this.destinationPort,
     this.packetSize,
-    this.tags,
+    this.probeTags,
   });
 
   Map<String, dynamic> toJson() {
@@ -1340,249 +1574,14 @@ class ProbeInput {
     final sourceArn = this.sourceArn;
     final destinationPort = this.destinationPort;
     final packetSize = this.packetSize;
-    final tags = this.tags;
+    final probeTags = this.probeTags;
     return {
       'destination': destination,
       'protocol': protocol.value,
       'sourceArn': sourceArn,
       if (destinationPort != null) 'destinationPort': destinationPort,
       if (packetSize != null) 'packetSize': packetSize,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-class ProbeState {
-  static const pending = ProbeState._('PENDING');
-  static const active = ProbeState._('ACTIVE');
-  static const inactive = ProbeState._('INACTIVE');
-  static const error = ProbeState._('ERROR');
-  static const deleting = ProbeState._('DELETING');
-  static const deleted = ProbeState._('DELETED');
-
-  final String value;
-
-  const ProbeState._(this.value);
-
-  static const values = [pending, active, inactive, error, deleting, deleted];
-
-  static ProbeState fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ProbeState._(value));
-
-  @override
-  bool operator ==(other) => other is ProbeState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class Protocol {
-  static const tcp = Protocol._('TCP');
-  static const icmp = Protocol._('ICMP');
-
-  final String value;
-
-  const Protocol._(this.value);
-
-  static const values = [tcp, icmp];
-
-  static Protocol fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Protocol._(value));
-
-  @override
-  bool operator ==(other) => other is Protocol && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class TagResourceOutput {
-  TagResourceOutput();
-
-  factory TagResourceOutput.fromJson(Map<String, dynamic> _) {
-    return TagResourceOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UntagResourceOutput {
-  UntagResourceOutput();
-
-  factory UntagResourceOutput.fromJson(Map<String, dynamic> _) {
-    return UntagResourceOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateMonitorOutput {
-  /// The ARN of the monitor that was updated.
-  final String monitorArn;
-
-  /// The name of the monitor that was updated.
-  final String monitorName;
-
-  /// The state of the updated monitor.
-  final MonitorState state;
-
-  /// The changed aggregation period.
-  final int? aggregationPeriod;
-
-  /// The list of key-value pairs associated with the monitor.
-  final Map<String, String>? tags;
-
-  UpdateMonitorOutput({
-    required this.monitorArn,
-    required this.monitorName,
-    required this.state,
-    this.aggregationPeriod,
-    this.tags,
-  });
-
-  factory UpdateMonitorOutput.fromJson(Map<String, dynamic> json) {
-    return UpdateMonitorOutput(
-      monitorArn: (json['monitorArn'] as String?) ?? '',
-      monitorName: (json['monitorName'] as String?) ?? '',
-      state: MonitorState.fromString((json['state'] as String?) ?? ''),
-      aggregationPeriod: json['aggregationPeriod'] as int?,
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final monitorArn = this.monitorArn;
-    final monitorName = this.monitorName;
-    final state = this.state;
-    final aggregationPeriod = this.aggregationPeriod;
-    final tags = this.tags;
-    return {
-      'monitorArn': monitorArn,
-      'monitorName': monitorName,
-      'state': state.value,
-      if (aggregationPeriod != null) 'aggregationPeriod': aggregationPeriod,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-class UpdateProbeOutput {
-  /// The updated destination IP address for the probe.
-  final String destination;
-
-  /// The updated protocol for the probe.
-  final Protocol protocol;
-
-  /// The updated ARN of the source subnet.
-  final String sourceArn;
-
-  /// The updated IP address family. This must be either <code>IPV4</code> or
-  /// <code>IPV6</code>.
-  final AddressFamily? addressFamily;
-
-  /// The time and date that the probe was created.
-  final DateTime? createdAt;
-
-  /// The updated destination port. This must be a number between <code>1</code>
-  /// and <code>65536</code>.
-  final int? destinationPort;
-
-  /// The time and date that the probe was last updated.
-  final DateTime? modifiedAt;
-
-  /// The updated packet size for the probe.
-  final int? packetSize;
-
-  /// The updated ARN of the probe.
-  final String? probeArn;
-
-  /// The updated ID of the probe.
-  final String? probeId;
-
-  /// The state of the updated probe.
-  final ProbeState? state;
-
-  /// Update tags for a probe.
-  final Map<String, String>? tags;
-
-  /// The updated ID of the source VPC subnet ID.
-  final String? vpcId;
-
-  UpdateProbeOutput({
-    required this.destination,
-    required this.protocol,
-    required this.sourceArn,
-    this.addressFamily,
-    this.createdAt,
-    this.destinationPort,
-    this.modifiedAt,
-    this.packetSize,
-    this.probeArn,
-    this.probeId,
-    this.state,
-    this.tags,
-    this.vpcId,
-  });
-
-  factory UpdateProbeOutput.fromJson(Map<String, dynamic> json) {
-    return UpdateProbeOutput(
-      destination: (json['destination'] as String?) ?? '',
-      protocol: Protocol.fromString((json['protocol'] as String?) ?? ''),
-      sourceArn: (json['sourceArn'] as String?) ?? '',
-      addressFamily:
-          (json['addressFamily'] as String?)?.let(AddressFamily.fromString),
-      createdAt: timeStampFromJson(json['createdAt']),
-      destinationPort: json['destinationPort'] as int?,
-      modifiedAt: timeStampFromJson(json['modifiedAt']),
-      packetSize: json['packetSize'] as int?,
-      probeArn: json['probeArn'] as String?,
-      probeId: json['probeId'] as String?,
-      state: (json['state'] as String?)?.let(ProbeState.fromString),
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      vpcId: json['vpcId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final destination = this.destination;
-    final protocol = this.protocol;
-    final sourceArn = this.sourceArn;
-    final addressFamily = this.addressFamily;
-    final createdAt = this.createdAt;
-    final destinationPort = this.destinationPort;
-    final modifiedAt = this.modifiedAt;
-    final packetSize = this.packetSize;
-    final probeArn = this.probeArn;
-    final probeId = this.probeId;
-    final state = this.state;
-    final tags = this.tags;
-    final vpcId = this.vpcId;
-    return {
-      'destination': destination,
-      'protocol': protocol.value,
-      'sourceArn': sourceArn,
-      if (addressFamily != null) 'addressFamily': addressFamily.value,
-      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
-      if (destinationPort != null) 'destinationPort': destinationPort,
-      if (modifiedAt != null) 'modifiedAt': unixTimestampToJson(modifiedAt),
-      if (packetSize != null) 'packetSize': packetSize,
-      if (probeArn != null) 'probeArn': probeArn,
-      if (probeId != null) 'probeId': probeId,
-      if (state != null) 'state': state.value,
-      if (tags != null) 'tags': tags,
-      if (vpcId != null) 'vpcId': vpcId,
+      if (probeTags != null) 'probeTags': probeTags,
     };
   }
 }

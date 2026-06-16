@@ -54,8 +54,8 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// Applying, editing, and removing tags from resource groups
 /// </li>
 /// <li>
-/// Resolving resource group member ARNs so they can be returned as search
-/// results
+/// Resolving resource group member Amazon resource names (ARN)s so they can be
+/// returned as search results
 /// </li>
 /// <li>
 /// Getting data about resources that are members of a group
@@ -76,7 +76,6 @@ class ResourceGroups {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'resource-groups',
-            signingName: 'resource-groups',
           ),
           region: region,
           credentials: credentials,
@@ -91,6 +90,44 @@ class ResourceGroups {
   /// do so can cause the Dart process to hang.
   void close() {
     _protocol.close();
+  }
+
+  /// Cancels the specified tag-sync task.
+  ///
+  /// <b>Minimum permissions</b>
+  ///
+  /// To run this command, you must have the following permissions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>resource-groups:CancelTagSyncTask</code> on the application group
+  /// </li>
+  /// <li>
+  /// <code>resource-groups:DeleteGroup</code>
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [MethodNotAllowedException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [taskArn] :
+  /// The Amazon resource name (ARN) of the tag-sync task.
+  Future<void> cancelTagSyncTask({
+    required String taskArn,
+  }) async {
+    final $payload = <String, dynamic>{
+      'TaskArn': taskArn,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/cancel-tag-sync-task',
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// Creates a resource group with the specified name and description. You can
@@ -115,9 +152,9 @@ class ResourceGroups {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [MethodNotAllowedException].
   /// May throw [TooManyRequestsException].
-  /// May throw [InternalServerErrorException].
   ///
   /// Parameter [name] :
   /// The name of the group, which is the identifier of the group in other
@@ -140,9 +177,21 @@ class ResourceGroups {
   /// <code>ResourceQuery</code>, but not both.
   /// </note>
   ///
+  /// Parameter [criticality] :
+  /// The critical rank of the application group on a scale of 1 to 10, with a
+  /// rank of 1 being the most critical, and a rank of 10 being least critical.
+  ///
   /// Parameter [description] :
   /// The description of the resource group. Descriptions can consist of
   /// letters, numbers, hyphens, underscores, periods, and spaces.
+  ///
+  /// Parameter [displayName] :
+  /// The name of the application group, which you can change at any time.
+  ///
+  /// Parameter [owner] :
+  /// A name, email address or other identifier for the person or group who is
+  /// considered as the owner of this application group within your
+  /// organization.
   ///
   /// Parameter [resourceQuery] :
   /// The resource query that determines which Amazon Web Services resources are
@@ -159,14 +208,26 @@ class ResourceGroups {
   Future<CreateGroupOutput> createGroup({
     required String name,
     List<GroupConfigurationItem>? configuration,
+    int? criticality,
     String? description,
+    String? displayName,
+    String? owner,
     ResourceQuery? resourceQuery,
     Map<String, String>? tags,
   }) async {
+    _s.validateNumRange(
+      'criticality',
+      criticality,
+      1,
+      10,
+    );
     final $payload = <String, dynamic>{
       'Name': name,
       if (configuration != null) 'Configuration': configuration,
+      if (criticality != null) 'Criticality': criticality,
       if (description != null) 'Description': description,
+      if (displayName != null) 'DisplayName': displayName,
+      if (owner != null) 'Owner': owner,
       if (resourceQuery != null) 'ResourceQuery': resourceQuery,
       if (tags != null) 'Tags': tags,
     };
@@ -195,13 +256,14 @@ class ResourceGroups {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [NotFoundException].
-  /// May throw [MethodNotAllowedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalServerErrorException].
+  /// May throw [MethodNotAllowedException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [group] :
-  /// The name or the ARN of the resource group to delete.
+  /// The name or the Amazon resource name (ARN) of the resource group to
+  /// delete.
   ///
   /// Parameter [groupName] :
   /// Deprecated - don't use this parameter. Use <code>Group</code> instead.
@@ -226,9 +288,9 @@ class ResourceGroups {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [MethodNotAllowedException].
   /// May throw [TooManyRequestsException].
-  /// May throw [InternalServerErrorException].
   Future<GetAccountSettingsOutput> getAccountSettings() async {
     final response = await _protocol.send(
       payload: null,
@@ -253,13 +315,14 @@ class ResourceGroups {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [NotFoundException].
-  /// May throw [MethodNotAllowedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalServerErrorException].
+  /// May throw [MethodNotAllowedException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [group] :
-  /// The name or the ARN of the resource group to retrieve.
+  /// The name or the Amazon resource name (ARN) of the resource group to
+  /// retrieve.
   ///
   /// Parameter [groupName] :
   /// Deprecated - don't use this parameter. Use <code>Group</code> instead.
@@ -297,14 +360,14 @@ class ResourceGroups {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [NotFoundException].
-  /// May throw [MethodNotAllowedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalServerErrorException].
+  /// May throw [MethodNotAllowedException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [group] :
-  /// The name or the ARN of the resource group for which you want to retrive
-  /// the service configuration.
+  /// The name or the Amazon resource name (ARN) of the resource group for which
+  /// you want to retrive the service configuration.
   Future<GetGroupConfigurationOutput> getGroupConfiguration({
     String? group,
   }) async {
@@ -337,13 +400,13 @@ class ResourceGroups {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [NotFoundException].
-  /// May throw [MethodNotAllowedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalServerErrorException].
+  /// May throw [MethodNotAllowedException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [group] :
-  /// The name or the ARN of the resource group to query.
+  /// The name or the Amazon resource name (ARN) of the resource group to query.
   ///
   /// Parameter [groupName] :
   /// Don't use this parameter. Use <code>Group</code> instead.
@@ -365,7 +428,7 @@ class ResourceGroups {
   }
 
   /// Returns a list of tags that are associated with a resource group,
-  /// specified by an ARN.
+  /// specified by an Amazon resource name (ARN).
   ///
   /// <b>Minimum permissions</b>
   ///
@@ -379,13 +442,14 @@ class ResourceGroups {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [NotFoundException].
-  /// May throw [MethodNotAllowedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalServerErrorException].
+  /// May throw [MethodNotAllowedException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [arn] :
-  /// The ARN of the resource group whose tags you want to retrieve.
+  /// The Amazon resource name (ARN) of the resource group whose tags you want
+  /// to retrieve.
   Future<GetTagsOutput> getTags({
     required String arn,
   }) async {
@@ -398,10 +462,46 @@ class ResourceGroups {
     return GetTagsOutput.fromJson(response);
   }
 
+  /// Returns information about a specified tag-sync task.
+  ///
+  /// <b>Minimum permissions</b>
+  ///
+  /// To run this command, you must have the following permissions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>resource-groups:GetTagSyncTask</code> on the application group
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [MethodNotAllowedException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [taskArn] :
+  /// The Amazon resource name (ARN) of the tag-sync task.
+  Future<GetTagSyncTaskOutput> getTagSyncTask({
+    required String taskArn,
+  }) async {
+    final $payload = <String, dynamic>{
+      'TaskArn': taskArn,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/get-tag-sync-task',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetTagSyncTaskOutput.fromJson(response);
+  }
+
   /// Adds the specified resources to the specified group.
   /// <important>
-  /// You can use this operation with only resource groups that are configured
-  /// with the following types:
+  /// You can only use this operation with the following groups:
   ///
   /// <ul>
   /// <li>
@@ -410,9 +510,12 @@ class ResourceGroups {
   /// <li>
   /// <code>AWS::EC2::CapacityReservationPool</code>
   /// </li>
+  /// <li>
+  /// <code>AWS::ResourceGroups::ApplicationGroup</code>
+  /// </li>
   /// </ul>
-  /// Other resource group type and resource types aren't currently supported by
-  /// this operation.
+  /// Other resource group types and resource types are not currently supported
+  /// by this operation.
   /// </important>
   /// <b>Minimum permissions</b>
   ///
@@ -426,16 +529,18 @@ class ResourceGroups {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [NotFoundException].
-  /// May throw [MethodNotAllowedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalServerErrorException].
+  /// May throw [MethodNotAllowedException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [group] :
-  /// The name or the ARN of the resource group to add resources to.
+  /// The name or the Amazon resource name (ARN) of the resource group to add
+  /// resources to.
   ///
   /// Parameter [resourceArns] :
-  /// The list of ARNs of the resources to be added to the group.
+  /// The list of Amazon resource names (ARNs) of the resources to be added to
+  /// the group.
   Future<GroupResourcesOutput> groupResources({
     required String group,
     required List<String> resourceArns,
@@ -453,8 +558,63 @@ class ResourceGroups {
     return GroupResourcesOutput.fromJson(response);
   }
 
-  /// Returns a list of ARNs of the resources that are members of a specified
-  /// resource group.
+  /// Returns the status of the last grouping or ungrouping action for each
+  /// resource in the specified application group.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [MethodNotAllowedException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [group] :
+  /// The application group identifier, expressed as an Amazon resource name
+  /// (ARN) or the application group name.
+  ///
+  /// Parameter [filters] :
+  /// The filter name and value pair that is used to return more specific
+  /// results from a list of resources.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of resources and their statuses returned in the
+  /// response.
+  ///
+  /// Parameter [nextToken] :
+  /// The parameter for receiving additional results if you receive a
+  /// <code>NextToken</code> response in a previous request. A
+  /// <code>NextToken</code> response indicates that more output is available.
+  /// Set this parameter to the value provided by a previous call's
+  /// <code>NextToken</code> response to indicate where the output should
+  /// continue from.
+  Future<ListGroupingStatusesOutput> listGroupingStatuses({
+    required String group,
+    List<ListGroupingStatusesFilter>? filters,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final $payload = <String, dynamic>{
+      'Group': group,
+      if (filters != null) 'Filters': filters,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/list-grouping-statuses',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListGroupingStatusesOutput.fromJson(response);
+  }
+
+  /// Returns a list of Amazon resource names (ARNs) of the resources that are
+  /// members of a specified resource group.
   ///
   /// <b>Minimum permissions</b>
   ///
@@ -475,13 +635,13 @@ class ResourceGroups {
   /// </li>
   /// </ul>
   ///
-  /// May throw [UnauthorizedException].
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [NotFoundException].
-  /// May throw [MethodNotAllowedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalServerErrorException].
+  /// May throw [MethodNotAllowedException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [filters] :
   /// Filters, formatted as <a>ResourceFilter</a> objects, that you want to
@@ -518,7 +678,7 @@ class ResourceGroups {
   /// Amazon CloudFront stack-based queries).
   ///
   /// Parameter [group] :
-  /// The name or the ARN of the resource group
+  /// The name or the Amazon resource name (ARN) of the resource group.
   ///
   /// Parameter [groupName] :
   /// <important>
@@ -588,9 +748,9 @@ class ResourceGroups {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [MethodNotAllowedException].
   /// May throw [TooManyRequestsException].
-  /// May throw [InternalServerErrorException].
   ///
   /// Parameter [filters] :
   /// Filters, formatted as <a>GroupFilter</a> objects, that you want to apply
@@ -612,10 +772,13 @@ class ResourceGroups {
   ///
   /// <ul>
   /// <li>
+  /// <code>AWS::ResourceGroups::ApplicationGroup</code>
+  /// </li>
+  /// <li>
   /// <code>AWS::AppRegistry::Application</code>
   /// </li>
   /// <li>
-  /// <code>AWS::AppRegistry::ApplicationResourceGroups</code>
+  /// <code>AWS::AppRegistry::ApplicationResourceGroup</code>
   /// </li>
   /// <li>
   /// <code>AWS::CloudFormation::Stack</code>
@@ -679,6 +842,65 @@ class ResourceGroups {
     return ListGroupsOutput.fromJson(response);
   }
 
+  /// Returns a list of tag-sync tasks.
+  ///
+  /// <b>Minimum permissions</b>
+  ///
+  /// To run this command, you must have the following permissions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>resource-groups:ListTagSyncTasks</code> with the group passed in the
+  /// filters as the resource or * if using no filters
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [MethodNotAllowedException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [filters] :
+  /// The Amazon resource name (ARN) or name of the application group for which
+  /// you want to return a list of tag-sync tasks.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to be included in the response.
+  ///
+  /// Parameter [nextToken] :
+  /// The parameter for receiving additional results if you receive a
+  /// <code>NextToken</code> response in a previous request. A
+  /// <code>NextToken</code> response indicates that more output is available.
+  /// Set this parameter to the value provided by a previous call's
+  /// <code>NextToken</code> response to indicate where the output should
+  /// continue from.
+  Future<ListTagSyncTasksOutput> listTagSyncTasks({
+    List<ListTagSyncTasksFilter>? filters,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final $payload = <String, dynamic>{
+      if (filters != null) 'Filters': filters,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/list-tag-sync-tasks',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTagSyncTasksOutput.fromJson(response);
+  }
+
   /// Attaches a service configuration to the specified group. This occurs
   /// asynchronously, and can take time to complete. You can use
   /// <a>GetGroupConfiguration</a> to check the status of the update.
@@ -695,10 +917,10 @@ class ResourceGroups {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [NotFoundException].
-  /// May throw [MethodNotAllowedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalServerErrorException].
+  /// May throw [MethodNotAllowedException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [configuration] :
   /// The new configuration to associate with the specified group. A
@@ -716,8 +938,8 @@ class ResourceGroups {
   /// </note>
   ///
   /// Parameter [group] :
-  /// The name or ARN of the resource group with the configuration that you want
-  /// to update.
+  /// The name or Amazon resource name (ARN) of the resource group with the
+  /// configuration that you want to update.
   Future<void> putGroupConfiguration({
     List<GroupConfigurationItem>? configuration,
     String? group,
@@ -757,12 +979,12 @@ class ResourceGroups {
   /// </li>
   /// </ul>
   ///
-  /// May throw [UnauthorizedException].
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [MethodNotAllowedException].
   /// May throw [TooManyRequestsException].
-  /// May throw [InternalServerErrorException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [resourceQuery] :
   /// The search query, using the same formats that are supported for resource
@@ -812,9 +1034,132 @@ class ResourceGroups {
     return SearchResourcesOutput.fromJson(response);
   }
 
-  /// Adds tags to a resource group with the specified ARN. Existing tags on a
-  /// resource group are not changed if they are not specified in the request
-  /// parameters.
+  /// Creates a new tag-sync task to onboard and sync resources tagged with a
+  /// specific tag key-value pair to an application. To start a tag-sync task,
+  /// you need a <a
+  /// href="https://docs.aws.amazon.com/servicecatalog/latest/arguide/app-tag-sync.html#tag-sync-role">resource
+  /// tagging role</a>. The resource tagging role grants permissions to tag and
+  /// untag applications resources and must include a trust policy that allows
+  /// Resource Groups to assume the role and perform resource tagging tasks on
+  /// your behalf.
+  ///
+  /// For instructions on creating a tag-sync task, see <a
+  /// href="https://docs.aws.amazon.com/servicecatalog/latest/arguide/app-tag-sync.html#create-tag-sync">Create
+  /// a tag-sync using the Resource Groups API</a> in the <i>Amazon Web Services
+  /// Service Catalog AppRegistry Administrator Guide</i>.
+  ///
+  /// <b>Minimum permissions</b>
+  ///
+  /// To run this command, you must have the following permissions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>resource-groups:StartTagSyncTask</code> on the application group
+  /// </li>
+  /// <li>
+  /// <code>resource-groups:CreateGroup</code>
+  /// </li>
+  /// <li>
+  /// <code>iam:PassRole</code> on the role provided in the request
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [MethodNotAllowedException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [group] :
+  /// The Amazon resource name (ARN) or name of the application group for which
+  /// you want to create a tag-sync task.
+  ///
+  /// Parameter [roleArn] :
+  /// The Amazon resource name (ARN) of the role assumed by the service to tag
+  /// and untag resources on your behalf.
+  ///
+  /// Parameter [resourceQuery] :
+  /// The query you can use to create the tag-sync task. With this method, all
+  /// resources matching the query are added to the specified application group.
+  /// A <code>ResourceQuery</code> specifies both a query <code>Type</code> and
+  /// a <code>Query</code> string as JSON string objects. For more information
+  /// on defining a resource query for a tag-sync task, see the tag-based query
+  /// type in <a
+  /// href="https://docs.aws.amazon.com/ARG/latest/userguide/gettingstarted-query.html#getting_started-query_types">
+  /// Types of resource group queries</a> in <i>Resource Groups User Guide</i>.
+  ///
+  /// When using the <code>ResourceQuery</code> parameter, you cannot use the
+  /// <code>TagKey</code> and <code>TagValue</code> parameters.
+  ///
+  /// When you combine all of the elements together into a single string, any
+  /// double quotes that are embedded inside another double quote pair must be
+  /// escaped by preceding the embedded double quote with a backslash character
+  /// (\). For example, a complete <code>ResourceQuery</code> parameter must be
+  /// formatted like the following CLI parameter example:
+  ///
+  /// <code>--resource-query
+  /// '{"Type":"TAG_FILTERS_1_0","Query":"{\"ResourceTypeFilters\":[\"AWS::AllSupported\"],\"TagFilters\":[{\"Key\":\"Stage\",\"Values\":[\"Test\"]}]}"}'</code>
+  ///
+  /// In the preceding example, all of the double quote characters in the value
+  /// part of the <code>Query</code> element must be escaped because the value
+  /// itself is surrounded by double quotes. For more information, see <a
+  /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-quoting-strings.html">Quoting
+  /// strings</a> in the <i>Command Line Interface User Guide</i>.
+  ///
+  /// For the complete list of resource types that you can use in the array
+  /// value for <code>ResourceTypeFilters</code>, see <a
+  /// href="https://docs.aws.amazon.com/ARG/latest/userguide/supported-resources.html">Resources
+  /// you can use with Resource Groups and Tag Editor</a> in the <i>Resource
+  /// Groups User Guide</i>. For example:
+  ///
+  /// <code>"ResourceTypeFilters":["AWS::S3::Bucket",
+  /// "AWS::EC2::Instance"]</code>
+  ///
+  /// Parameter [tagKey] :
+  /// The tag key. Resources tagged with this tag key-value pair will be added
+  /// to the application. If a resource with this tag is later untagged, the
+  /// tag-sync task removes the resource from the application.
+  ///
+  /// When using the <code>TagKey</code> parameter, you must also specify the
+  /// <code>TagValue</code> parameter. If you specify a tag key-value pair, you
+  /// can't use the <code>ResourceQuery</code> parameter.
+  ///
+  /// Parameter [tagValue] :
+  /// The tag value. Resources tagged with this tag key-value pair will be added
+  /// to the application. If a resource with this tag is later untagged, the
+  /// tag-sync task removes the resource from the application.
+  ///
+  /// When using the <code>TagValue</code> parameter, you must also specify the
+  /// <code>TagKey</code> parameter. If you specify a tag key-value pair, you
+  /// can't use the <code>ResourceQuery</code> parameter.
+  Future<StartTagSyncTaskOutput> startTagSyncTask({
+    required String group,
+    required String roleArn,
+    ResourceQuery? resourceQuery,
+    String? tagKey,
+    String? tagValue,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Group': group,
+      'RoleArn': roleArn,
+      if (resourceQuery != null) 'ResourceQuery': resourceQuery,
+      if (tagKey != null) 'TagKey': tagKey,
+      if (tagValue != null) 'TagValue': tagValue,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/start-tag-sync-task',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartTagSyncTaskOutput.fromJson(response);
+  }
+
+  /// Adds tags to a resource group with the specified Amazon resource name
+  /// (ARN). Existing tags on a resource group are not changed if they are not
+  /// specified in the request parameters.
   /// <important>
   /// Do not store personally identifiable information (PII) or other
   /// confidential or sensitive information in tags. We use tags to provide you
@@ -833,13 +1178,13 @@ class ResourceGroups {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [NotFoundException].
-  /// May throw [MethodNotAllowedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalServerErrorException].
+  /// May throw [MethodNotAllowedException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [arn] :
-  /// The ARN of the resource group to which to add tags.
+  /// The Amazon resource name (ARN) of the resource group to which to add tags.
   ///
   /// Parameter [tags] :
   /// The tags to add to the specified resource group. A tag is a
@@ -878,17 +1223,18 @@ class ResourceGroups {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [NotFoundException].
-  /// May throw [MethodNotAllowedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalServerErrorException].
+  /// May throw [MethodNotAllowedException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [group] :
-  /// The name or the ARN of the resource group from which to remove the
-  /// resources.
+  /// The name or the Amazon resource name (ARN) of the resource group from
+  /// which to remove the resources.
   ///
   /// Parameter [resourceArns] :
-  /// The ARNs of the resources to be removed from the group.
+  /// The Amazon resource names (ARNs) of the resources to be removed from the
+  /// group.
   Future<UngroupResourcesOutput> ungroupResources({
     required String group,
     required List<String> resourceArns,
@@ -920,14 +1266,15 @@ class ResourceGroups {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [NotFoundException].
-  /// May throw [MethodNotAllowedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalServerErrorException].
+  /// May throw [MethodNotAllowedException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [arn] :
-  /// The ARN of the resource group from which to remove tags. The command
-  /// removed both the specified keys and any values associated with those keys.
+  /// The Amazon resource name (ARN) of the resource group from which to remove
+  /// tags. The command removed both the specified keys and any values
+  /// associated with those keys.
   ///
   /// Parameter [keys] :
   /// The keys of the tags to be removed.
@@ -956,14 +1303,17 @@ class ResourceGroups {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [MethodNotAllowedException].
   /// May throw [TooManyRequestsException].
-  /// May throw [InternalServerErrorException].
   ///
   /// Parameter [groupLifecycleEventsDesiredStatus] :
   /// Specifies whether you want to turn <a
   /// href="https://docs.aws.amazon.com/ARG/latest/userguide/monitor-groups.html">group
   /// lifecycle events</a> on or off.
+  ///
+  /// You can't turn on group lifecycle events if your resource groups quota is
+  /// greater than 2,000.
   Future<UpdateAccountSettingsOutput> updateAccountSettings({
     GroupLifecycleEventsDesiredStatus? groupLifecycleEventsDesiredStatus,
   }) async {
@@ -996,30 +1346,54 @@ class ResourceGroups {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [NotFoundException].
-  /// May throw [MethodNotAllowedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalServerErrorException].
+  /// May throw [MethodNotAllowedException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [criticality] :
+  /// The critical rank of the application group on a scale of 1 to 10, with a
+  /// rank of 1 being the most critical, and a rank of 10 being least critical.
   ///
   /// Parameter [description] :
   /// The new description that you want to update the resource group with.
   /// Descriptions can contain letters, numbers, hyphens, underscores, periods,
   /// and spaces.
   ///
+  /// Parameter [displayName] :
+  /// The name of the application group, which you can change at any time.
+  ///
   /// Parameter [group] :
-  /// The name or the ARN of the resource group to modify.
+  /// The name or the ARN of the resource group to update.
   ///
   /// Parameter [groupName] :
   /// Don't use this parameter. Use <code>Group</code> instead.
+  ///
+  /// Parameter [owner] :
+  /// A name, email address or other identifier for the person or group who is
+  /// considered as the owner of this application group within your
+  /// organization.
   Future<UpdateGroupOutput> updateGroup({
+    int? criticality,
     String? description,
+    String? displayName,
     String? group,
     String? groupName,
+    String? owner,
   }) async {
+    _s.validateNumRange(
+      'criticality',
+      criticality,
+      1,
+      10,
+    );
     final $payload = <String, dynamic>{
+      if (criticality != null) 'Criticality': criticality,
       if (description != null) 'Description': description,
+      if (displayName != null) 'DisplayName': displayName,
       if (group != null) 'Group': group,
       if (groupName != null) 'GroupName': groupName,
+      if (owner != null) 'Owner': owner,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1047,10 +1421,10 @@ class ResourceGroups {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [NotFoundException].
-  /// May throw [MethodNotAllowedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalServerErrorException].
+  /// May throw [MethodNotAllowedException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [resourceQuery] :
   /// The resource query to determine which Amazon Web Services resources are
@@ -1061,7 +1435,7 @@ class ResourceGroups {
   /// </note>
   ///
   /// Parameter [group] :
-  /// The name or the ARN of the resource group to query.
+  /// The name or the Amazon resource name (ARN) of the resource group to query.
   ///
   /// Parameter [groupName] :
   /// Don't use this parameter. Use <code>Group</code> instead.
@@ -1082,55 +1456,6 @@ class ResourceGroups {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateGroupQueryOutput.fromJson(response);
-  }
-}
-
-/// The Resource Groups settings for this Amazon Web Services account.
-class AccountSettings {
-  /// The desired target status of the group lifecycle events feature. If
-  final GroupLifecycleEventsDesiredStatus? groupLifecycleEventsDesiredStatus;
-
-  /// The current status of the group lifecycle events feature.
-  final GroupLifecycleEventsStatus? groupLifecycleEventsStatus;
-
-  /// The text of any error message occurs during an attempt to turn group
-  /// lifecycle events on or off.
-  final String? groupLifecycleEventsStatusMessage;
-
-  AccountSettings({
-    this.groupLifecycleEventsDesiredStatus,
-    this.groupLifecycleEventsStatus,
-    this.groupLifecycleEventsStatusMessage,
-  });
-
-  factory AccountSettings.fromJson(Map<String, dynamic> json) {
-    return AccountSettings(
-      groupLifecycleEventsDesiredStatus:
-          (json['GroupLifecycleEventsDesiredStatus'] as String?)
-              ?.let(GroupLifecycleEventsDesiredStatus.fromString),
-      groupLifecycleEventsStatus:
-          (json['GroupLifecycleEventsStatus'] as String?)
-              ?.let(GroupLifecycleEventsStatus.fromString),
-      groupLifecycleEventsStatusMessage:
-          json['GroupLifecycleEventsStatusMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final groupLifecycleEventsDesiredStatus =
-        this.groupLifecycleEventsDesiredStatus;
-    final groupLifecycleEventsStatus = this.groupLifecycleEventsStatus;
-    final groupLifecycleEventsStatusMessage =
-        this.groupLifecycleEventsStatusMessage;
-    return {
-      if (groupLifecycleEventsDesiredStatus != null)
-        'GroupLifecycleEventsDesiredStatus':
-            groupLifecycleEventsDesiredStatus.value,
-      if (groupLifecycleEventsStatus != null)
-        'GroupLifecycleEventsStatus': groupLifecycleEventsStatus.value,
-      if (groupLifecycleEventsStatusMessage != null)
-        'GroupLifecycleEventsStatusMessage': groupLifecycleEventsStatusMessage,
-    };
   }
 }
 
@@ -1216,43 +1541,6 @@ class DeleteGroupOutput {
   }
 }
 
-/// A resource that failed to be added to or removed from a group.
-class FailedResource {
-  /// The error code associated with the failure.
-  final String? errorCode;
-
-  /// The error message text associated with the failure.
-  final String? errorMessage;
-
-  /// The ARN of the resource that failed to be added or removed.
-  final String? resourceArn;
-
-  FailedResource({
-    this.errorCode,
-    this.errorMessage,
-    this.resourceArn,
-  });
-
-  factory FailedResource.fromJson(Map<String, dynamic> json) {
-    return FailedResource(
-      errorCode: json['ErrorCode'] as String?,
-      errorMessage: json['ErrorMessage'] as String?,
-      resourceArn: json['ResourceArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    final resourceArn = this.resourceArn;
-    return {
-      if (errorCode != null) 'ErrorCode': errorCode,
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-      if (resourceArn != null) 'ResourceArn': resourceArn,
-    };
-  }
-}
-
 class GetAccountSettingsOutput {
   /// The current settings for the optional features in Resource Groups.
   final AccountSettings? accountSettings;
@@ -1274,6 +1562,32 @@ class GetAccountSettingsOutput {
     final accountSettings = this.accountSettings;
     return {
       if (accountSettings != null) 'AccountSettings': accountSettings,
+    };
+  }
+}
+
+class GetGroupOutput {
+  /// A structure that contains the metadata details for the specified resource
+  /// group. Use <a>GetGroupQuery</a> and <a>GetGroupConfiguration</a> to get
+  /// those additional details of the resource group.
+  final Group? group;
+
+  GetGroupOutput({
+    this.group,
+  });
+
+  factory GetGroupOutput.fromJson(Map<String, dynamic> json) {
+    return GetGroupOutput(
+      group: json['Group'] != null
+          ? Group.fromJson(json['Group'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final group = this.group;
+    return {
+      if (group != null) 'Group': group,
     };
   }
 }
@@ -1306,32 +1620,6 @@ class GetGroupConfigurationOutput {
   }
 }
 
-class GetGroupOutput {
-  /// A structure that contains the metadata details for the specified resource
-  /// group. Use <a>GetGroupQuery</a> and <a>GetGroupConfiguration</a> to get
-  /// those additional details of the resource group.
-  final Group? group;
-
-  GetGroupOutput({
-    this.group,
-  });
-
-  factory GetGroupOutput.fromJson(Map<String, dynamic> json) {
-    return GetGroupOutput(
-      group: json['Group'] != null
-          ? Group.fromJson(json['Group'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final group = this.group;
-    return {
-      if (group != null) 'Group': group,
-    };
-  }
-}
-
 class GetGroupQueryOutput {
   /// The resource query associated with the specified group. For more information
   /// about resource queries, see <a
@@ -1360,7 +1648,7 @@ class GetGroupQueryOutput {
 }
 
 class GetTagsOutput {
-  /// The ARN of the tagged resource group.
+  /// TheAmazon resource name (ARN) of the tagged resource group.
   final String? arn;
 
   /// The tags associated with the specified resource group.
@@ -1389,414 +1677,129 @@ class GetTagsOutput {
   }
 }
 
-/// A resource group that contains Amazon Web Services resources. You can assign
-/// resources to the group by associating either of the following elements with
-/// the group:
-///
-/// <ul>
-/// <li>
-/// <a>ResourceQuery</a> - Use a resource query to specify a set of tag keys and
-/// values. All resources in the same Amazon Web Services Region and Amazon Web
-/// Services account that have those keys with the same values are included in
-/// the group. You can add a resource query when you create the group, or later
-/// by using the <a>PutGroupConfiguration</a> operation.
-/// </li>
-/// <li>
-/// <a>GroupConfiguration</a> - Use a service configuration to associate the
-/// group with an Amazon Web Services service. The configuration specifies which
-/// resource types can be included in the group.
-/// </li>
-/// </ul>
-class Group {
-  /// The ARN of the resource group.
-  final String groupArn;
+class GetTagSyncTaskOutput {
+  /// The timestamp of when the tag-sync task was created.
+  final DateTime? createdAt;
 
-  /// The name of the resource group.
-  final String name;
+  /// The specific error message in cases where the tag-sync task status is
+  /// <code>ERROR</code>.
+  final String? errorMessage;
 
-  /// The description of the resource group.
-  final String? description;
-
-  Group({
-    required this.groupArn,
-    required this.name,
-    this.description,
-  });
-
-  factory Group.fromJson(Map<String, dynamic> json) {
-    return Group(
-      groupArn: (json['GroupArn'] as String?) ?? '',
-      name: (json['Name'] as String?) ?? '',
-      description: json['Description'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final groupArn = this.groupArn;
-    final name = this.name;
-    final description = this.description;
-    return {
-      'GroupArn': groupArn,
-      'Name': name,
-      if (description != null) 'Description': description,
-    };
-  }
-}
-
-/// A service configuration associated with a resource group. The configuration
-/// options are determined by the Amazon Web Services service that defines the
-/// <code>Type</code>, and specifies which resources can be included in the
-/// group. You can add a service configuration when you create the group by
-/// using <a>CreateGroup</a>, or later by using the <a>PutGroupConfiguration</a>
-/// operation. For details about group service configuration syntax, see <a
-/// href="https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html">Service
-/// configurations for resource groups</a>.
-class GroupConfiguration {
-  /// The configuration currently associated with the group and in effect.
-  final List<GroupConfigurationItem>? configuration;
-
-  /// If present, the reason why a request to update the group configuration
-  /// failed.
-  final String? failureReason;
-
-  /// If present, the new configuration that is in the process of being applied to
-  /// the group.
-  final List<GroupConfigurationItem>? proposedConfiguration;
-
-  /// The current status of an attempt to update the group configuration.
-  final GroupConfigurationStatus? status;
-
-  GroupConfiguration({
-    this.configuration,
-    this.failureReason,
-    this.proposedConfiguration,
-    this.status,
-  });
-
-  factory GroupConfiguration.fromJson(Map<String, dynamic> json) {
-    return GroupConfiguration(
-      configuration: (json['Configuration'] as List?)
-          ?.nonNulls
-          .map(
-              (e) => GroupConfigurationItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      failureReason: json['FailureReason'] as String?,
-      proposedConfiguration: (json['ProposedConfiguration'] as List?)
-          ?.nonNulls
-          .map(
-              (e) => GroupConfigurationItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      status:
-          (json['Status'] as String?)?.let(GroupConfigurationStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final configuration = this.configuration;
-    final failureReason = this.failureReason;
-    final proposedConfiguration = this.proposedConfiguration;
-    final status = this.status;
-    return {
-      if (configuration != null) 'Configuration': configuration,
-      if (failureReason != null) 'FailureReason': failureReason,
-      if (proposedConfiguration != null)
-        'ProposedConfiguration': proposedConfiguration,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-/// An item in a group configuration. A group service configuration can have one
-/// or more items. For details about group service configuration syntax, see <a
-/// href="https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html">Service
-/// configurations for resource groups</a>.
-class GroupConfigurationItem {
-  /// Specifies the type of group configuration item. Each item must have a unique
-  /// value for <code>type</code>. For the list of types that you can specify for
-  /// a configuration item, see <a
-  /// href="https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html#about-slg-types">Supported
-  /// resource types and parameters</a>.
-  final String type;
-
-  /// A collection of parameters for this group configuration item. For the list
-  /// of parameters that you can use with each configuration item type, see <a
-  /// href="https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html#about-slg-types">Supported
-  /// resource types and parameters</a>.
-  final List<GroupConfigurationParameter>? parameters;
-
-  GroupConfigurationItem({
-    required this.type,
-    this.parameters,
-  });
-
-  factory GroupConfigurationItem.fromJson(Map<String, dynamic> json) {
-    return GroupConfigurationItem(
-      type: (json['Type'] as String?) ?? '',
-      parameters: (json['Parameters'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              GroupConfigurationParameter.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final type = this.type;
-    final parameters = this.parameters;
-    return {
-      'Type': type,
-      if (parameters != null) 'Parameters': parameters,
-    };
-  }
-}
-
-/// A parameter for a group configuration item. For details about group service
-/// configuration syntax, see <a
-/// href="https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html">Service
-/// configurations for resource groups</a>.
-class GroupConfigurationParameter {
-  /// The name of the group configuration parameter. For the list of parameters
-  /// that you can use with each configuration item type, see <a
-  /// href="https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html#about-slg-types">Supported
-  /// resource types and parameters</a>.
-  final String name;
-
-  /// The value or values to be used for the specified parameter. For the list of
-  /// values you can use with each parameter, see <a
-  /// href="https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html#about-slg-types">Supported
-  /// resource types and parameters</a>.
-  final List<String>? values;
-
-  GroupConfigurationParameter({
-    required this.name,
-    this.values,
-  });
-
-  factory GroupConfigurationParameter.fromJson(Map<String, dynamic> json) {
-    return GroupConfigurationParameter(
-      name: (json['Name'] as String?) ?? '',
-      values:
-          (json['Values'] as List?)?.nonNulls.map((e) => e as String).toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final values = this.values;
-    return {
-      'Name': name,
-      if (values != null) 'Values': values,
-    };
-  }
-}
-
-class GroupConfigurationStatus {
-  static const updating = GroupConfigurationStatus._('UPDATING');
-  static const updateComplete = GroupConfigurationStatus._('UPDATE_COMPLETE');
-  static const updateFailed = GroupConfigurationStatus._('UPDATE_FAILED');
-
-  final String value;
-
-  const GroupConfigurationStatus._(this.value);
-
-  static const values = [updating, updateComplete, updateFailed];
-
-  static GroupConfigurationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => GroupConfigurationStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is GroupConfigurationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A filter collection that you can use to restrict the results from a
-/// <code>List</code> operation to only those you want to include.
-class GroupFilter {
-  /// The name of the filter. Filter names are case-sensitive.
-  final GroupFilterName name;
-
-  /// One or more filter values. Allowed filter values vary by group filter name,
-  /// and are case-sensitive.
-  final List<String> values;
-
-  GroupFilter({
-    required this.name,
-    required this.values,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final values = this.values;
-    return {
-      'Name': name.value,
-      'Values': values,
-    };
-  }
-}
-
-class GroupFilterName {
-  static const resourceType = GroupFilterName._('resource-type');
-  static const configurationType = GroupFilterName._('configuration-type');
-
-  final String value;
-
-  const GroupFilterName._(this.value);
-
-  static const values = [resourceType, configurationType];
-
-  static GroupFilterName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => GroupFilterName._(value));
-
-  @override
-  bool operator ==(other) => other is GroupFilterName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The unique identifiers for a resource group.
-class GroupIdentifier {
-  /// The ARN of the resource group.
+  /// The Amazon resource name (ARN) of the application group.
   final String? groupArn;
 
-  /// The name of the resource group.
+  /// The name of the application group.
   final String? groupName;
+  final ResourceQuery? resourceQuery;
 
-  GroupIdentifier({
+  /// The Amazon resource name (ARN) of the role assumed by Resource Groups to tag
+  /// and untag resources on your behalf.
+  ///
+  /// For more information about this role, review <a
+  /// href="https://docs.aws.amazon.com/servicecatalog/latest/arguide/app-tag-sync.html#tag-sync-role">Tag-sync
+  /// required permissions</a>.
+  final String? roleArn;
+
+  /// The status of the tag-sync task.
+  ///
+  /// Valid values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code> - The tag-sync task is actively managing resources in
+  /// the application by adding or removing the <code>awsApplication</code> tag
+  /// from resources when they are tagged or untagged with the specified tag
+  /// key-value pair.
+  /// </li>
+  /// <li>
+  /// <code>ERROR</code> - The tag-sync task is not actively managing resources in
+  /// the application. Review the <code>ErrorMessage</code> for more information
+  /// about resolving the error.
+  /// </li>
+  /// </ul>
+  final TagSyncTaskStatus? status;
+
+  /// The tag key.
+  final String? tagKey;
+
+  /// The tag value.
+  final String? tagValue;
+
+  /// The Amazon resource name (ARN) of the tag-sync task.
+  final String? taskArn;
+
+  GetTagSyncTaskOutput({
+    this.createdAt,
+    this.errorMessage,
     this.groupArn,
     this.groupName,
+    this.resourceQuery,
+    this.roleArn,
+    this.status,
+    this.tagKey,
+    this.tagValue,
+    this.taskArn,
   });
 
-  factory GroupIdentifier.fromJson(Map<String, dynamic> json) {
-    return GroupIdentifier(
+  factory GetTagSyncTaskOutput.fromJson(Map<String, dynamic> json) {
+    return GetTagSyncTaskOutput(
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      errorMessage: json['ErrorMessage'] as String?,
       groupArn: json['GroupArn'] as String?,
       groupName: json['GroupName'] as String?,
+      resourceQuery: json['ResourceQuery'] != null
+          ? ResourceQuery.fromJson(
+              json['ResourceQuery'] as Map<String, dynamic>)
+          : null,
+      roleArn: json['RoleArn'] as String?,
+      status: (json['Status'] as String?)?.let(TagSyncTaskStatus.fromString),
+      tagKey: json['TagKey'] as String?,
+      tagValue: json['TagValue'] as String?,
+      taskArn: json['TaskArn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final errorMessage = this.errorMessage;
     final groupArn = this.groupArn;
     final groupName = this.groupName;
+    final resourceQuery = this.resourceQuery;
+    final roleArn = this.roleArn;
+    final status = this.status;
+    final tagKey = this.tagKey;
+    final tagValue = this.tagValue;
+    final taskArn = this.taskArn;
     return {
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
       if (groupArn != null) 'GroupArn': groupArn,
       if (groupName != null) 'GroupName': groupName,
-    };
-  }
-}
-
-class GroupLifecycleEventsDesiredStatus {
-  static const active = GroupLifecycleEventsDesiredStatus._('ACTIVE');
-  static const inactive = GroupLifecycleEventsDesiredStatus._('INACTIVE');
-
-  final String value;
-
-  const GroupLifecycleEventsDesiredStatus._(this.value);
-
-  static const values = [active, inactive];
-
-  static GroupLifecycleEventsDesiredStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => GroupLifecycleEventsDesiredStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is GroupLifecycleEventsDesiredStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class GroupLifecycleEventsStatus {
-  static const active = GroupLifecycleEventsStatus._('ACTIVE');
-  static const inactive = GroupLifecycleEventsStatus._('INACTIVE');
-  static const inProgress = GroupLifecycleEventsStatus._('IN_PROGRESS');
-  static const error = GroupLifecycleEventsStatus._('ERROR');
-
-  final String value;
-
-  const GroupLifecycleEventsStatus._(this.value);
-
-  static const values = [active, inactive, inProgress, error];
-
-  static GroupLifecycleEventsStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => GroupLifecycleEventsStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is GroupLifecycleEventsStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A mapping of a query attached to a resource group that determines the Amazon
-/// Web Services resources that are members of the group.
-class GroupQuery {
-  /// The name of the resource group that is associated with the specified
-  /// resource query.
-  final String groupName;
-
-  /// The resource query that determines which Amazon Web Services resources are
-  /// members of the associated resource group.
-  final ResourceQuery resourceQuery;
-
-  GroupQuery({
-    required this.groupName,
-    required this.resourceQuery,
-  });
-
-  factory GroupQuery.fromJson(Map<String, dynamic> json) {
-    return GroupQuery(
-      groupName: (json['GroupName'] as String?) ?? '',
-      resourceQuery: ResourceQuery.fromJson(
-          (json['ResourceQuery'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final groupName = this.groupName;
-    final resourceQuery = this.resourceQuery;
-    return {
-      'GroupName': groupName,
-      'ResourceQuery': resourceQuery,
+      if (resourceQuery != null) 'ResourceQuery': resourceQuery,
+      if (roleArn != null) 'RoleArn': roleArn,
+      if (status != null) 'Status': status.value,
+      if (tagKey != null) 'TagKey': tagKey,
+      if (tagValue != null) 'TagValue': tagValue,
+      if (taskArn != null) 'TaskArn': taskArn,
     };
   }
 }
 
 class GroupResourcesOutput {
-  /// A list of ARNs of any resources that this operation failed to add to the
-  /// group.
+  /// A list of Amazon resource names (ARNs) of any resources that this operation
+  /// failed to add to the group.
   final List<FailedResource>? failed;
 
-  /// A list of ARNs of any resources that this operation is still in the process
-  /// adding to the group. These pending additions continue asynchronously. You
-  /// can check the status of pending additions by using the <code>
-  /// <a>ListGroupResources</a> </code> operation, and checking the
-  /// <code>Resources</code> array in the response and the <code>Status</code>
+  /// A list of Amazon resource names (ARNs) of any resources that this operation
+  /// is still in the process adding to the group. These pending additions
+  /// continue asynchronously. You can check the status of pending additions by
+  /// using the <code> <a>ListGroupResources</a> </code> operation, and checking
+  /// the <code>Resources</code> array in the response and the <code>Status</code>
   /// field of each object in that array.
   final List<PendingResource>? pending;
 
-  /// A list of ARNs of the resources that this operation successfully added to
-  /// the group.
+  /// A list of Amazon resource names (ARNs) of the resources that this operation
+  /// successfully added to the group.
   final List<String>? succeeded;
 
   GroupResourcesOutput({
@@ -1834,43 +1837,47 @@ class GroupResourcesOutput {
   }
 }
 
-/// A structure returned by the <a>ListGroupResources</a> operation that
-/// contains identity and group membership status information for one of the
-/// resources in the group.
-class ListGroupResourcesItem {
-  final ResourceIdentifier? identifier;
+class ListGroupingStatusesOutput {
+  /// The application group identifier, expressed as an Amazon resource name (ARN)
+  /// or the application group name.
+  final String? group;
 
-  /// A structure that contains the status of this resource's membership in the
-  /// group.
-  /// <note>
-  /// This field is present in the response only if the group is of type
-  /// <code>AWS::EC2::HostManagement</code>.
-  /// </note>
-  final ResourceStatus? status;
+  /// Returns details about the grouping or ungrouping status of the resources in
+  /// the specified application group.
+  final List<GroupingStatusesItem>? groupingStatuses;
 
-  ListGroupResourcesItem({
-    this.identifier,
-    this.status,
+  /// If present, indicates that more output is available than is included in the
+  /// current response. Use this value in the <code>NextToken</code> request
+  /// parameter in a subsequent call to the operation to get the next part of the
+  /// output. You should repeat this until the <code>NextToken</code> response
+  /// element comes back as <code>null</code>.
+  final String? nextToken;
+
+  ListGroupingStatusesOutput({
+    this.group,
+    this.groupingStatuses,
+    this.nextToken,
   });
 
-  factory ListGroupResourcesItem.fromJson(Map<String, dynamic> json) {
-    return ListGroupResourcesItem(
-      identifier: json['Identifier'] != null
-          ? ResourceIdentifier.fromJson(
-              json['Identifier'] as Map<String, dynamic>)
-          : null,
-      status: json['Status'] != null
-          ? ResourceStatus.fromJson(json['Status'] as Map<String, dynamic>)
-          : null,
+  factory ListGroupingStatusesOutput.fromJson(Map<String, dynamic> json) {
+    return ListGroupingStatusesOutput(
+      group: json['Group'] as String?,
+      groupingStatuses: (json['GroupingStatuses'] as List?)
+          ?.nonNulls
+          .map((e) => GroupingStatusesItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final identifier = this.identifier;
-    final status = this.status;
+    final group = this.group;
+    final groupingStatuses = this.groupingStatuses;
+    final nextToken = this.nextToken;
     return {
-      if (identifier != null) 'Identifier': identifier,
-      if (status != null) 'Status': status,
+      if (group != null) 'Group': group,
+      if (groupingStatuses != null) 'GroupingStatuses': groupingStatuses,
+      if (nextToken != null) 'NextToken': nextToken,
     };
   }
 }
@@ -1992,27 +1999,38 @@ class ListGroupsOutput {
   }
 }
 
-/// A structure that identifies a resource that is currently pending addition to
-/// the group as a member. Adding a resource to a resource group happens
-/// asynchronously as a background task and this one isn't completed yet.
-class PendingResource {
-  /// The Amazon resource name (ARN) of the resource that's in a pending state.
-  final String? resourceArn;
+class ListTagSyncTasksOutput {
+  /// If present, indicates that more output is available than is included in the
+  /// current response. Use this value in the <code>NextToken</code> request
+  /// parameter in a subsequent call to the operation to get the next part of the
+  /// output. You should repeat this until the <code>NextToken</code> response
+  /// element comes back as <code>null</code>.
+  final String? nextToken;
 
-  PendingResource({
-    this.resourceArn,
+  /// A list of tag-sync tasks and information about each task.
+  final List<TagSyncTaskItem>? tagSyncTasks;
+
+  ListTagSyncTasksOutput({
+    this.nextToken,
+    this.tagSyncTasks,
   });
 
-  factory PendingResource.fromJson(Map<String, dynamic> json) {
-    return PendingResource(
-      resourceArn: json['ResourceArn'] as String?,
+  factory ListTagSyncTasksOutput.fromJson(Map<String, dynamic> json) {
+    return ListTagSyncTasksOutput(
+      nextToken: json['NextToken'] as String?,
+      tagSyncTasks: (json['TagSyncTasks'] as List?)
+          ?.nonNulls
+          .map((e) => TagSyncTaskItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final resourceArn = this.resourceArn;
+    final nextToken = this.nextToken;
+    final tagSyncTasks = this.tagSyncTasks;
     return {
-      if (resourceArn != null) 'ResourceArn': resourceArn,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (tagSyncTasks != null) 'TagSyncTasks': tagSyncTasks,
     };
   }
 }
@@ -2029,171 +2047,353 @@ class PutGroupConfigurationOutput {
   }
 }
 
-/// A two-part error structure that can occur in <code>ListGroupResources</code>
-/// or <code>SearchResources</code>.
-class QueryError {
-  /// Specifies the error code that was raised.
-  final QueryErrorCode? errorCode;
+class SearchResourcesOutput {
+  /// If present, indicates that more output is available than is included in the
+  /// current response. Use this value in the <code>NextToken</code> request
+  /// parameter in a subsequent call to the operation to get the next part of the
+  /// output. You should repeat this until the <code>NextToken</code> response
+  /// element comes back as <code>null</code>.
+  final String? nextToken;
 
-  /// A message that explains the <code>ErrorCode</code>.
-  final String? message;
+  /// A list of <code>QueryError</code> objects. Each error contains an
+  /// <code>ErrorCode</code> and <code>Message</code>.
+  ///
+  /// Possible values for <code>ErrorCode</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CLOUDFORMATION_STACK_INACTIVE</code>
+  /// </li>
+  /// <li>
+  /// <code>CLOUDFORMATION_STACK_NOT_EXISTING</code>
+  /// </li>
+  /// <li>
+  /// <code>CLOUDFORMATION_STACK_UNASSUMABLE_ROLE </code>
+  /// </li>
+  /// </ul>
+  final List<QueryError>? queryErrors;
 
-  QueryError({
-    this.errorCode,
-    this.message,
+  /// The ARNs and resource types of resources that are members of the group that
+  /// you specified.
+  final List<ResourceIdentifier>? resourceIdentifiers;
+
+  SearchResourcesOutput({
+    this.nextToken,
+    this.queryErrors,
+    this.resourceIdentifiers,
   });
 
-  factory QueryError.fromJson(Map<String, dynamic> json) {
-    return QueryError(
-      errorCode: (json['ErrorCode'] as String?)?.let(QueryErrorCode.fromString),
-      message: json['Message'] as String?,
+  factory SearchResourcesOutput.fromJson(Map<String, dynamic> json) {
+    return SearchResourcesOutput(
+      nextToken: json['NextToken'] as String?,
+      queryErrors: (json['QueryErrors'] as List?)
+          ?.nonNulls
+          .map((e) => QueryError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      resourceIdentifiers: (json['ResourceIdentifiers'] as List?)
+          ?.nonNulls
+          .map((e) => ResourceIdentifier.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final message = this.message;
+    final nextToken = this.nextToken;
+    final queryErrors = this.queryErrors;
+    final resourceIdentifiers = this.resourceIdentifiers;
     return {
-      if (errorCode != null) 'ErrorCode': errorCode.value,
-      if (message != null) 'Message': message,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (queryErrors != null) 'QueryErrors': queryErrors,
+      if (resourceIdentifiers != null)
+        'ResourceIdentifiers': resourceIdentifiers,
     };
   }
 }
 
-class QueryErrorCode {
-  static const cloudformationStackInactive =
-      QueryErrorCode._('CLOUDFORMATION_STACK_INACTIVE');
-  static const cloudformationStackNotExisting =
-      QueryErrorCode._('CLOUDFORMATION_STACK_NOT_EXISTING');
-  static const cloudformationStackUnassumableRole =
-      QueryErrorCode._('CLOUDFORMATION_STACK_UNASSUMABLE_ROLE');
-  static const resourceTypeNotSupported =
-      QueryErrorCode._('RESOURCE_TYPE_NOT_SUPPORTED');
+class StartTagSyncTaskOutput {
+  /// The Amazon resource name (ARN) of the application group for which you want
+  /// to add or remove resources.
+  final String? groupArn;
 
-  final String value;
+  /// The name of the application group to onboard and sync resources.
+  final String? groupName;
+  final ResourceQuery? resourceQuery;
 
-  const QueryErrorCode._(this.value);
+  /// The Amazon resource name (ARN) of the role assumed by the service to tag and
+  /// untag resources on your behalf.
+  final String? roleArn;
 
-  static const values = [
-    cloudformationStackInactive,
-    cloudformationStackNotExisting,
-    cloudformationStackUnassumableRole,
-    resourceTypeNotSupported
-  ];
+  /// The tag key of the tag-sync task.
+  final String? tagKey;
 
-  static QueryErrorCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => QueryErrorCode._(value));
+  /// The tag value of the tag-sync task.
+  final String? tagValue;
 
-  @override
-  bool operator ==(other) => other is QueryErrorCode && other.value == value;
+  /// The Amazon resource name (ARN) of the new tag-sync task.
+  final String? taskArn;
 
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class QueryType {
-  static const tagFilters_1_0 = QueryType._('TAG_FILTERS_1_0');
-  static const cloudformationStack_1_0 =
-      QueryType._('CLOUDFORMATION_STACK_1_0');
-
-  final String value;
-
-  const QueryType._(this.value);
-
-  static const values = [tagFilters_1_0, cloudformationStack_1_0];
-
-  static QueryType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => QueryType._(value));
-
-  @override
-  bool operator ==(other) => other is QueryType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A filter name and value pair that is used to obtain more specific results
-/// from a list of resources.
-class ResourceFilter {
-  /// The name of the filter. Filter names are case-sensitive.
-  final ResourceFilterName name;
-
-  /// One or more filter values. Allowed filter values vary by resource filter
-  /// name, and are case-sensitive.
-  final List<String> values;
-
-  ResourceFilter({
-    required this.name,
-    required this.values,
+  StartTagSyncTaskOutput({
+    this.groupArn,
+    this.groupName,
+    this.resourceQuery,
+    this.roleArn,
+    this.tagKey,
+    this.tagValue,
+    this.taskArn,
   });
 
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final values = this.values;
-    return {
-      'Name': name.value,
-      'Values': values,
-    };
-  }
-}
-
-class ResourceFilterName {
-  static const resourceType = ResourceFilterName._('resource-type');
-
-  final String value;
-
-  const ResourceFilterName._(this.value);
-
-  static const values = [resourceType];
-
-  static ResourceFilterName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ResourceFilterName._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ResourceFilterName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A structure that contains the ARN of a resource and its resource type.
-class ResourceIdentifier {
-  /// The ARN of a resource.
-  final String? resourceArn;
-
-  /// The resource type of a resource, such as <code>AWS::EC2::Instance</code>.
-  final String? resourceType;
-
-  ResourceIdentifier({
-    this.resourceArn,
-    this.resourceType,
-  });
-
-  factory ResourceIdentifier.fromJson(Map<String, dynamic> json) {
-    return ResourceIdentifier(
-      resourceArn: json['ResourceArn'] as String?,
-      resourceType: json['ResourceType'] as String?,
+  factory StartTagSyncTaskOutput.fromJson(Map<String, dynamic> json) {
+    return StartTagSyncTaskOutput(
+      groupArn: json['GroupArn'] as String?,
+      groupName: json['GroupName'] as String?,
+      resourceQuery: json['ResourceQuery'] != null
+          ? ResourceQuery.fromJson(
+              json['ResourceQuery'] as Map<String, dynamic>)
+          : null,
+      roleArn: json['RoleArn'] as String?,
+      tagKey: json['TagKey'] as String?,
+      tagValue: json['TagValue'] as String?,
+      taskArn: json['TaskArn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final resourceArn = this.resourceArn;
-    final resourceType = this.resourceType;
+    final groupArn = this.groupArn;
+    final groupName = this.groupName;
+    final resourceQuery = this.resourceQuery;
+    final roleArn = this.roleArn;
+    final tagKey = this.tagKey;
+    final tagValue = this.tagValue;
+    final taskArn = this.taskArn;
     return {
-      if (resourceArn != null) 'ResourceArn': resourceArn,
-      if (resourceType != null) 'ResourceType': resourceType,
+      if (groupArn != null) 'GroupArn': groupArn,
+      if (groupName != null) 'GroupName': groupName,
+      if (resourceQuery != null) 'ResourceQuery': resourceQuery,
+      if (roleArn != null) 'RoleArn': roleArn,
+      if (tagKey != null) 'TagKey': tagKey,
+      if (tagValue != null) 'TagValue': tagValue,
+      if (taskArn != null) 'TaskArn': taskArn,
+    };
+  }
+}
+
+class TagOutput {
+  /// The Amazon resource name (ARN) of the tagged resource.
+  final String? arn;
+
+  /// The tags that have been added to the specified resource group.
+  final Map<String, String>? tags;
+
+  TagOutput({
+    this.arn,
+    this.tags,
+  });
+
+  factory TagOutput.fromJson(Map<String, dynamic> json) {
+    return TagOutput(
+      arn: json['Arn'] as String?,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+class UngroupResourcesOutput {
+  /// A list of any resources that failed to be removed from the group by this
+  /// operation.
+  final List<FailedResource>? failed;
+
+  /// A list of any resources that are still in the process of being removed from
+  /// the group by this operation. These pending removals continue asynchronously.
+  /// You can check the status of pending removals by using the <code>
+  /// <a>ListGroupResources</a> </code> operation. After the resource is
+  /// successfully removed, it no longer appears in the response.
+  final List<PendingResource>? pending;
+
+  /// A list of resources that were successfully removed from the group by this
+  /// operation.
+  final List<String>? succeeded;
+
+  UngroupResourcesOutput({
+    this.failed,
+    this.pending,
+    this.succeeded,
+  });
+
+  factory UngroupResourcesOutput.fromJson(Map<String, dynamic> json) {
+    return UngroupResourcesOutput(
+      failed: (json['Failed'] as List?)
+          ?.nonNulls
+          .map((e) => FailedResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      pending: (json['Pending'] as List?)
+          ?.nonNulls
+          .map((e) => PendingResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      succeeded: (json['Succeeded'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failed = this.failed;
+    final pending = this.pending;
+    final succeeded = this.succeeded;
+    return {
+      if (failed != null) 'Failed': failed,
+      if (pending != null) 'Pending': pending,
+      if (succeeded != null) 'Succeeded': succeeded,
+    };
+  }
+}
+
+class UntagOutput {
+  /// The Amazon resource name (ARN) of the resource group from which tags have
+  /// been removed.
+  final String? arn;
+
+  /// The keys of the tags that were removed.
+  final List<String>? keys;
+
+  UntagOutput({
+    this.arn,
+    this.keys,
+  });
+
+  factory UntagOutput.fromJson(Map<String, dynamic> json) {
+    return UntagOutput(
+      arn: json['Arn'] as String?,
+      keys: (json['Keys'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final keys = this.keys;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (keys != null) 'Keys': keys,
+    };
+  }
+}
+
+class UpdateAccountSettingsOutput {
+  /// A structure that displays the status of the optional features in the
+  /// account.
+  final AccountSettings? accountSettings;
+
+  UpdateAccountSettingsOutput({
+    this.accountSettings,
+  });
+
+  factory UpdateAccountSettingsOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateAccountSettingsOutput(
+      accountSettings: json['AccountSettings'] != null
+          ? AccountSettings.fromJson(
+              json['AccountSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountSettings = this.accountSettings;
+    return {
+      if (accountSettings != null) 'AccountSettings': accountSettings,
+    };
+  }
+}
+
+class UpdateGroupOutput {
+  /// The update description of the resource group.
+  final Group? group;
+
+  UpdateGroupOutput({
+    this.group,
+  });
+
+  factory UpdateGroupOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateGroupOutput(
+      group: json['Group'] != null
+          ? Group.fromJson(json['Group'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final group = this.group;
+    return {
+      if (group != null) 'Group': group,
+    };
+  }
+}
+
+class UpdateGroupQueryOutput {
+  /// The updated resource query associated with the resource group after the
+  /// update.
+  final GroupQuery? groupQuery;
+
+  UpdateGroupQueryOutput({
+    this.groupQuery,
+  });
+
+  factory UpdateGroupQueryOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateGroupQueryOutput(
+      groupQuery: json['GroupQuery'] != null
+          ? GroupQuery.fromJson(json['GroupQuery'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupQuery = this.groupQuery;
+    return {
+      if (groupQuery != null) 'GroupQuery': groupQuery,
+    };
+  }
+}
+
+/// A mapping of a query attached to a resource group that determines the Amazon
+/// Web Services resources that are members of the group.
+class GroupQuery {
+  /// The name of the resource group that is associated with the specified
+  /// resource query.
+  final String groupName;
+
+  /// The resource query that determines which Amazon Web Services resources are
+  /// members of the associated resource group.
+  final ResourceQuery resourceQuery;
+
+  GroupQuery({
+    required this.groupName,
+    required this.resourceQuery,
+  });
+
+  factory GroupQuery.fromJson(Map<String, dynamic> json) {
+    return GroupQuery(
+      groupName: (json['GroupName'] as String?) ?? '',
+      resourceQuery: ResourceQuery.fromJson(
+          (json['ResourceQuery'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupName = this.groupName;
+    final resourceQuery = this.resourceQuery;
+    return {
+      'GroupName': groupName,
+      'ResourceQuery': resourceQuery,
     };
   }
 }
@@ -2330,7 +2530,7 @@ class ResourceQuery {
   /// <i> <code>CLOUDFORMATION_STACK_1_0:</code> </i> Specifies that you want the
   /// group to contain the members of an CloudFormation stack. The
   /// <code>Query</code> contains a <code>StackIdentifier</code> element with an
-  /// ARN for a CloudFormation stack.
+  /// Amazon resource name (ARN) for a CloudFormation stack.
   /// </li>
   /// <li>
   /// <i> <code>TAG_FILTERS_1_0:</code> </i> Specifies that you want the group to
@@ -2357,6 +2557,772 @@ class ResourceQuery {
     return {
       'Query': query,
       'Type': type.value,
+    };
+  }
+}
+
+class QueryType {
+  static const tagFilters_1_0 = QueryType._('TAG_FILTERS_1_0');
+  static const cloudformationStack_1_0 =
+      QueryType._('CLOUDFORMATION_STACK_1_0');
+
+  final String value;
+
+  const QueryType._(this.value);
+
+  static const values = [tagFilters_1_0, cloudformationStack_1_0];
+
+  static QueryType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => QueryType._(value));
+
+  @override
+  bool operator ==(other) => other is QueryType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A resource group that contains Amazon Web Services resources. You can assign
+/// resources to the group by associating either of the following elements with
+/// the group:
+///
+/// <ul>
+/// <li>
+/// <a>ResourceQuery</a> - Use a resource query to specify a set of tag keys and
+/// values. All resources in the same Amazon Web Services Region and Amazon Web
+/// Services account that have those keys with the same values are included in
+/// the group. You can add a resource query when you create the group, or later
+/// by using the <a>PutGroupConfiguration</a> operation.
+/// </li>
+/// <li>
+/// <a>GroupConfiguration</a> - Use a service configuration to associate the
+/// group with an Amazon Web Services service. The configuration specifies which
+/// resource types can be included in the group.
+/// </li>
+/// </ul>
+class Group {
+  /// The Amazon resource name (ARN) of the resource group.
+  final String groupArn;
+
+  /// The name of the resource group.
+  final String name;
+
+  /// A tag that defines the application group membership. This tag is only
+  /// supported for application groups.
+  final Map<String, String>? applicationTag;
+
+  /// The critical rank of the application group on a scale of 1 to 10, with a
+  /// rank of 1 being the most critical, and a rank of 10 being least critical.
+  final int? criticality;
+
+  /// The description of the resource group.
+  final String? description;
+
+  /// The name of the application group, which you can change at any time.
+  final String? displayName;
+
+  /// A name, email address or other identifier for the person or group who is
+  /// considered as the owner of this application group within your organization.
+  final String? owner;
+
+  Group({
+    required this.groupArn,
+    required this.name,
+    this.applicationTag,
+    this.criticality,
+    this.description,
+    this.displayName,
+    this.owner,
+  });
+
+  factory Group.fromJson(Map<String, dynamic> json) {
+    return Group(
+      groupArn: (json['GroupArn'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      applicationTag: (json['ApplicationTag'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      criticality: json['Criticality'] as int?,
+      description: json['Description'] as String?,
+      displayName: json['DisplayName'] as String?,
+      owner: json['Owner'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupArn = this.groupArn;
+    final name = this.name;
+    final applicationTag = this.applicationTag;
+    final criticality = this.criticality;
+    final description = this.description;
+    final displayName = this.displayName;
+    final owner = this.owner;
+    return {
+      'GroupArn': groupArn,
+      'Name': name,
+      if (applicationTag != null) 'ApplicationTag': applicationTag,
+      if (criticality != null) 'Criticality': criticality,
+      if (description != null) 'Description': description,
+      if (displayName != null) 'DisplayName': displayName,
+      if (owner != null) 'Owner': owner,
+    };
+  }
+}
+
+/// The Resource Groups settings for this Amazon Web Services account.
+class AccountSettings {
+  /// The desired target status of the group lifecycle events feature. If
+  final GroupLifecycleEventsDesiredStatus? groupLifecycleEventsDesiredStatus;
+
+  /// The current status of the group lifecycle events feature.
+  final GroupLifecycleEventsStatus? groupLifecycleEventsStatus;
+
+  /// The text of any error message occurs during an attempt to turn group
+  /// lifecycle events on or off.
+  final String? groupLifecycleEventsStatusMessage;
+
+  AccountSettings({
+    this.groupLifecycleEventsDesiredStatus,
+    this.groupLifecycleEventsStatus,
+    this.groupLifecycleEventsStatusMessage,
+  });
+
+  factory AccountSettings.fromJson(Map<String, dynamic> json) {
+    return AccountSettings(
+      groupLifecycleEventsDesiredStatus:
+          (json['GroupLifecycleEventsDesiredStatus'] as String?)
+              ?.let(GroupLifecycleEventsDesiredStatus.fromString),
+      groupLifecycleEventsStatus:
+          (json['GroupLifecycleEventsStatus'] as String?)
+              ?.let(GroupLifecycleEventsStatus.fromString),
+      groupLifecycleEventsStatusMessage:
+          json['GroupLifecycleEventsStatusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupLifecycleEventsDesiredStatus =
+        this.groupLifecycleEventsDesiredStatus;
+    final groupLifecycleEventsStatus = this.groupLifecycleEventsStatus;
+    final groupLifecycleEventsStatusMessage =
+        this.groupLifecycleEventsStatusMessage;
+    return {
+      if (groupLifecycleEventsDesiredStatus != null)
+        'GroupLifecycleEventsDesiredStatus':
+            groupLifecycleEventsDesiredStatus.value,
+      if (groupLifecycleEventsStatus != null)
+        'GroupLifecycleEventsStatus': groupLifecycleEventsStatus.value,
+      if (groupLifecycleEventsStatusMessage != null)
+        'GroupLifecycleEventsStatusMessage': groupLifecycleEventsStatusMessage,
+    };
+  }
+}
+
+class GroupLifecycleEventsDesiredStatus {
+  static const active = GroupLifecycleEventsDesiredStatus._('ACTIVE');
+  static const inactive = GroupLifecycleEventsDesiredStatus._('INACTIVE');
+
+  final String value;
+
+  const GroupLifecycleEventsDesiredStatus._(this.value);
+
+  static const values = [active, inactive];
+
+  static GroupLifecycleEventsDesiredStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GroupLifecycleEventsDesiredStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GroupLifecycleEventsDesiredStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class GroupLifecycleEventsStatus {
+  static const active = GroupLifecycleEventsStatus._('ACTIVE');
+  static const inactive = GroupLifecycleEventsStatus._('INACTIVE');
+  static const inProgress = GroupLifecycleEventsStatus._('IN_PROGRESS');
+  static const error = GroupLifecycleEventsStatus._('ERROR');
+
+  final String value;
+
+  const GroupLifecycleEventsStatus._(this.value);
+
+  static const values = [active, inactive, inProgress, error];
+
+  static GroupLifecycleEventsStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GroupLifecycleEventsStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GroupLifecycleEventsStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A structure that identifies a resource that is currently pending addition to
+/// the group as a member. Adding a resource to a resource group happens
+/// asynchronously as a background task and this one isn't completed yet.
+class PendingResource {
+  /// The Amazon resource name (ARN) of the resource that's in a pending state.
+  final String? resourceArn;
+
+  PendingResource({
+    this.resourceArn,
+  });
+
+  factory PendingResource.fromJson(Map<String, dynamic> json) {
+    return PendingResource(
+      resourceArn: json['ResourceArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceArn = this.resourceArn;
+    return {
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+    };
+  }
+}
+
+/// A resource that failed to be added to or removed from a group.
+class FailedResource {
+  /// The error code associated with the failure.
+  final String? errorCode;
+
+  /// The error message text associated with the failure.
+  final String? errorMessage;
+
+  /// The Amazon resource name (ARN) of the resource that failed to be added or
+  /// removed.
+  final String? resourceArn;
+
+  FailedResource({
+    this.errorCode,
+    this.errorMessage,
+    this.resourceArn,
+  });
+
+  factory FailedResource.fromJson(Map<String, dynamic> json) {
+    return FailedResource(
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      resourceArn: json['ResourceArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final resourceArn = this.resourceArn;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+    };
+  }
+}
+
+/// A two-part error structure that can occur in <code>ListGroupResources</code>
+/// or <code>SearchResources</code>.
+class QueryError {
+  /// Specifies the error code that was raised.
+  final QueryErrorCode? errorCode;
+
+  /// A message that explains the <code>ErrorCode</code>.
+  final String? message;
+
+  QueryError({
+    this.errorCode,
+    this.message,
+  });
+
+  factory QueryError.fromJson(Map<String, dynamic> json) {
+    return QueryError(
+      errorCode: (json['ErrorCode'] as String?)?.let(QueryErrorCode.fromString),
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final message = this.message;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode.value,
+      if (message != null) 'Message': message,
+    };
+  }
+}
+
+class QueryErrorCode {
+  static const cloudformationStackInactive =
+      QueryErrorCode._('CLOUDFORMATION_STACK_INACTIVE');
+  static const cloudformationStackNotExisting =
+      QueryErrorCode._('CLOUDFORMATION_STACK_NOT_EXISTING');
+  static const cloudformationStackUnassumableRole =
+      QueryErrorCode._('CLOUDFORMATION_STACK_UNASSUMABLE_ROLE');
+  static const resourceTypeNotSupported =
+      QueryErrorCode._('RESOURCE_TYPE_NOT_SUPPORTED');
+
+  final String value;
+
+  const QueryErrorCode._(this.value);
+
+  static const values = [
+    cloudformationStackInactive,
+    cloudformationStackNotExisting,
+    cloudformationStackUnassumableRole,
+    resourceTypeNotSupported
+  ];
+
+  static QueryErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => QueryErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is QueryErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A structure that contains the ARN of a resource and its resource type.
+class ResourceIdentifier {
+  /// The Amazon resource name (ARN) of a resource.
+  final String? resourceArn;
+
+  /// The resource type of a resource, such as <code>AWS::EC2::Instance</code>.
+  final String? resourceType;
+
+  ResourceIdentifier({
+    this.resourceArn,
+    this.resourceType,
+  });
+
+  factory ResourceIdentifier.fromJson(Map<String, dynamic> json) {
+    return ResourceIdentifier(
+      resourceArn: json['ResourceArn'] as String?,
+      resourceType: json['ResourceType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceArn = this.resourceArn;
+    final resourceType = this.resourceType;
+    return {
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+      if (resourceType != null) 'ResourceType': resourceType,
+    };
+  }
+}
+
+/// An item in a group configuration. A group service configuration can have one
+/// or more items. For details about group service configuration syntax, see <a
+/// href="https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html">Service
+/// configurations for resource groups</a>.
+class GroupConfigurationItem {
+  /// Specifies the type of group configuration item. Each item must have a unique
+  /// value for <code>type</code>. For the list of types that you can specify for
+  /// a configuration item, see <a
+  /// href="https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html#about-slg-types">Supported
+  /// resource types and parameters</a>.
+  final String type;
+
+  /// A collection of parameters for this group configuration item. For the list
+  /// of parameters that you can use with each configuration item type, see <a
+  /// href="https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html#about-slg-types">Supported
+  /// resource types and parameters</a>.
+  final List<GroupConfigurationParameter>? parameters;
+
+  GroupConfigurationItem({
+    required this.type,
+    this.parameters,
+  });
+
+  factory GroupConfigurationItem.fromJson(Map<String, dynamic> json) {
+    return GroupConfigurationItem(
+      type: (json['Type'] as String?) ?? '',
+      parameters: (json['Parameters'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              GroupConfigurationParameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final parameters = this.parameters;
+    return {
+      'Type': type,
+      if (parameters != null) 'Parameters': parameters,
+    };
+  }
+}
+
+/// A parameter for a group configuration item. For details about group service
+/// configuration syntax, see <a
+/// href="https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html">Service
+/// configurations for resource groups</a>.
+class GroupConfigurationParameter {
+  /// The name of the group configuration parameter. For the list of parameters
+  /// that you can use with each configuration item type, see <a
+  /// href="https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html#about-slg-types">Supported
+  /// resource types and parameters</a>.
+  final String name;
+
+  /// The value or values to be used for the specified parameter. For the list of
+  /// values you can use with each parameter, see <a
+  /// href="https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html#about-slg-types">Supported
+  /// resource types and parameters</a>.
+  final List<String>? values;
+
+  GroupConfigurationParameter({
+    required this.name,
+    this.values,
+  });
+
+  factory GroupConfigurationParameter.fromJson(Map<String, dynamic> json) {
+    return GroupConfigurationParameter(
+      name: (json['Name'] as String?) ?? '',
+      values:
+          (json['Values'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      'Name': name,
+      if (values != null) 'Values': values,
+    };
+  }
+}
+
+/// The Amazon resource name (ARN) of the tag-sync task.
+class TagSyncTaskItem {
+  /// The timestamp of when the tag-sync task was created.
+  final DateTime? createdAt;
+
+  /// The specific error message in cases where the tag-sync task status is
+  /// <code>Error</code>.
+  final String? errorMessage;
+
+  /// The Amazon resource name (ARN) of the application group.
+  final String? groupArn;
+
+  /// The name of the application group.
+  final String? groupName;
+  final ResourceQuery? resourceQuery;
+
+  /// The Amazon resource name (ARN) of the role assumed by the service to tag and
+  /// untag resources on your behalf.
+  final String? roleArn;
+
+  /// The status of the tag-sync task.
+  ///
+  /// Valid values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code> - The tag-sync task is actively managing resources in
+  /// the application by adding or removing the <code>awsApplication</code> tag
+  /// from resources when they are tagged or untagged with the specified tag
+  /// key-value pair.
+  /// </li>
+  /// <li>
+  /// <code>ERROR</code> - The tag-sync task is not actively managing resources in
+  /// the application. Review the <code>ErrorMessage</code> for more information
+  /// about resolving the error.
+  /// </li>
+  /// </ul>
+  final TagSyncTaskStatus? status;
+
+  /// The tag key.
+  final String? tagKey;
+
+  /// The tag value.
+  final String? tagValue;
+
+  /// The Amazon resource name (ARN) of the tag-sync task.
+  final String? taskArn;
+
+  TagSyncTaskItem({
+    this.createdAt,
+    this.errorMessage,
+    this.groupArn,
+    this.groupName,
+    this.resourceQuery,
+    this.roleArn,
+    this.status,
+    this.tagKey,
+    this.tagValue,
+    this.taskArn,
+  });
+
+  factory TagSyncTaskItem.fromJson(Map<String, dynamic> json) {
+    return TagSyncTaskItem(
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      errorMessage: json['ErrorMessage'] as String?,
+      groupArn: json['GroupArn'] as String?,
+      groupName: json['GroupName'] as String?,
+      resourceQuery: json['ResourceQuery'] != null
+          ? ResourceQuery.fromJson(
+              json['ResourceQuery'] as Map<String, dynamic>)
+          : null,
+      roleArn: json['RoleArn'] as String?,
+      status: (json['Status'] as String?)?.let(TagSyncTaskStatus.fromString),
+      tagKey: json['TagKey'] as String?,
+      tagValue: json['TagValue'] as String?,
+      taskArn: json['TaskArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final errorMessage = this.errorMessage;
+    final groupArn = this.groupArn;
+    final groupName = this.groupName;
+    final resourceQuery = this.resourceQuery;
+    final roleArn = this.roleArn;
+    final status = this.status;
+    final tagKey = this.tagKey;
+    final tagValue = this.tagValue;
+    final taskArn = this.taskArn;
+    return {
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (groupArn != null) 'GroupArn': groupArn,
+      if (groupName != null) 'GroupName': groupName,
+      if (resourceQuery != null) 'ResourceQuery': resourceQuery,
+      if (roleArn != null) 'RoleArn': roleArn,
+      if (status != null) 'Status': status.value,
+      if (tagKey != null) 'TagKey': tagKey,
+      if (tagValue != null) 'TagValue': tagValue,
+      if (taskArn != null) 'TaskArn': taskArn,
+    };
+  }
+}
+
+class TagSyncTaskStatus {
+  static const active = TagSyncTaskStatus._('ACTIVE');
+  static const error = TagSyncTaskStatus._('ERROR');
+
+  final String value;
+
+  const TagSyncTaskStatus._(this.value);
+
+  static const values = [active, error];
+
+  static TagSyncTaskStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TagSyncTaskStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TagSyncTaskStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Returns tag-sync tasks filtered by the Amazon resource name (ARN) or name of
+/// a specified application group.
+class ListTagSyncTasksFilter {
+  /// The Amazon resource name (ARN) of the application group.
+  final String? groupArn;
+
+  /// The name of the application group.
+  final String? groupName;
+
+  ListTagSyncTasksFilter({
+    this.groupArn,
+    this.groupName,
+  });
+
+  Map<String, dynamic> toJson() {
+    final groupArn = this.groupArn;
+    final groupName = this.groupName;
+    return {
+      if (groupArn != null) 'GroupArn': groupArn,
+      if (groupName != null) 'GroupName': groupName,
+    };
+  }
+}
+
+/// The unique identifiers for a resource group.
+class GroupIdentifier {
+  /// The critical rank of the application group on a scale of 1 to 10, with a
+  /// rank of 1 being the most critical, and a rank of 10 being least critical.
+  final int? criticality;
+
+  /// The description of the application group.
+  final String? description;
+
+  /// The name of the application group, which you can change at any time.
+  final String? displayName;
+
+  /// The Amazon resource name (ARN) of the resource group.
+  final String? groupArn;
+
+  /// The name of the resource group.
+  final String? groupName;
+
+  /// A name, email address or other identifier for the person or group who is
+  /// considered as the owner of this group within your organization.
+  final String? owner;
+
+  GroupIdentifier({
+    this.criticality,
+    this.description,
+    this.displayName,
+    this.groupArn,
+    this.groupName,
+    this.owner,
+  });
+
+  factory GroupIdentifier.fromJson(Map<String, dynamic> json) {
+    return GroupIdentifier(
+      criticality: json['Criticality'] as int?,
+      description: json['Description'] as String?,
+      displayName: json['DisplayName'] as String?,
+      groupArn: json['GroupArn'] as String?,
+      groupName: json['GroupName'] as String?,
+      owner: json['Owner'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final criticality = this.criticality;
+    final description = this.description;
+    final displayName = this.displayName;
+    final groupArn = this.groupArn;
+    final groupName = this.groupName;
+    final owner = this.owner;
+    return {
+      if (criticality != null) 'Criticality': criticality,
+      if (description != null) 'Description': description,
+      if (displayName != null) 'DisplayName': displayName,
+      if (groupArn != null) 'GroupArn': groupArn,
+      if (groupName != null) 'GroupName': groupName,
+      if (owner != null) 'Owner': owner,
+    };
+  }
+}
+
+/// A filter collection that you can use to restrict the results from a
+/// <code>List</code> operation to only those you want to include.
+class GroupFilter {
+  /// The name of the filter. Filter names are case-sensitive.
+  final GroupFilterName name;
+
+  /// One or more filter values. Allowed filter values vary by group filter name,
+  /// and are case-sensitive.
+  final List<String> values;
+
+  GroupFilter({
+    required this.name,
+    required this.values,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      'Name': name.value,
+      'Values': values,
+    };
+  }
+}
+
+class GroupFilterName {
+  static const resourceType = GroupFilterName._('resource-type');
+  static const configurationType = GroupFilterName._('configuration-type');
+  static const owner = GroupFilterName._('owner');
+  static const displayName = GroupFilterName._('display-name');
+  static const criticality = GroupFilterName._('criticality');
+
+  final String value;
+
+  const GroupFilterName._(this.value);
+
+  static const values = [
+    resourceType,
+    configurationType,
+    owner,
+    displayName,
+    criticality
+  ];
+
+  static GroupFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GroupFilterName._(value));
+
+  @override
+  bool operator ==(other) => other is GroupFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A structure returned by the <a>ListGroupResources</a> operation that
+/// contains identity and group membership status information for one of the
+/// resources in the group.
+class ListGroupResourcesItem {
+  final ResourceIdentifier? identifier;
+
+  /// A structure that contains the status of this resource's membership in the
+  /// group.
+  /// <note>
+  /// This field is present in the response only if the group is of type
+  /// <code>AWS::EC2::HostManagement</code>.
+  /// </note>
+  final ResourceStatus? status;
+
+  ListGroupResourcesItem({
+    this.identifier,
+    this.status,
+  });
+
+  factory ListGroupResourcesItem.fromJson(Map<String, dynamic> json) {
+    return ListGroupResourcesItem(
+      identifier: json['Identifier'] != null
+          ? ResourceIdentifier.fromJson(
+              json['Identifier'] as Map<String, dynamic>)
+          : null,
+      status: json['Status'] != null
+          ? ResourceStatus.fromJson(json['Status'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final identifier = this.identifier;
+    final status = this.status;
+    return {
+      if (identifier != null) 'Identifier': identifier,
+      if (status != null) 'Status': status,
     };
   }
 }
@@ -2411,252 +3377,301 @@ class ResourceStatusValue {
   String toString() => value;
 }
 
-class SearchResourcesOutput {
-  /// If present, indicates that more output is available than is included in the
-  /// current response. Use this value in the <code>NextToken</code> request
-  /// parameter in a subsequent call to the operation to get the next part of the
-  /// output. You should repeat this until the <code>NextToken</code> response
-  /// element comes back as <code>null</code>.
-  final String? nextToken;
+/// A filter name and value pair that is used to obtain more specific results
+/// from a list of resources.
+class ResourceFilter {
+  /// The name of the filter. Filter names are case-sensitive.
+  final ResourceFilterName name;
 
-  /// A list of <code>QueryError</code> objects. Each error contains an
-  /// <code>ErrorCode</code> and <code>Message</code>.
-  ///
-  /// Possible values for <code>ErrorCode</code>:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>CLOUDFORMATION_STACK_INACTIVE</code>
-  /// </li>
-  /// <li>
-  /// <code>CLOUDFORMATION_STACK_NOT_EXISTING</code>
-  /// </li>
-  /// <li>
-  /// <code>CLOUDFORMATION_STACK_UNASSUMABLE_ROLE </code>
-  /// </li>
-  /// </ul>
-  final List<QueryError>? queryErrors;
+  /// One or more filter values. Allowed filter values vary by resource filter
+  /// name, and are case-sensitive.
+  final List<String> values;
 
-  /// The ARNs and resource types of resources that are members of the group that
-  /// you specified.
-  final List<ResourceIdentifier>? resourceIdentifiers;
-
-  SearchResourcesOutput({
-    this.nextToken,
-    this.queryErrors,
-    this.resourceIdentifiers,
+  ResourceFilter({
+    required this.name,
+    required this.values,
   });
 
-  factory SearchResourcesOutput.fromJson(Map<String, dynamic> json) {
-    return SearchResourcesOutput(
-      nextToken: json['NextToken'] as String?,
-      queryErrors: (json['QueryErrors'] as List?)
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      'Name': name.value,
+      'Values': values,
+    };
+  }
+}
+
+class ResourceFilterName {
+  static const resourceType = ResourceFilterName._('resource-type');
+
+  final String value;
+
+  const ResourceFilterName._(this.value);
+
+  static const values = [resourceType];
+
+  static ResourceFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The information about a grouping or ungrouping resource action.
+class GroupingStatusesItem {
+  /// Describes the resource grouping action with values of <code>GROUP</code> or
+  /// <code>UNGROUP</code>.
+  final GroupingType? action;
+
+  /// Specifies the error code that was raised.
+  final String? errorCode;
+
+  /// A message that explains the <code>ErrorCode</code>.
+  final String? errorMessage;
+
+  /// The Amazon resource name (ARN) of a resource.
+  final String? resourceArn;
+
+  /// Describes the resource grouping status with values of <code>SUCCESS</code>,
+  /// <code>FAILED</code>, <code>IN_PROGRESS</code>, or <code>SKIPPED</code>.
+  final GroupingStatus? status;
+
+  /// A timestamp of when the status was last updated.
+  final DateTime? updatedAt;
+
+  GroupingStatusesItem({
+    this.action,
+    this.errorCode,
+    this.errorMessage,
+    this.resourceArn,
+    this.status,
+    this.updatedAt,
+  });
+
+  factory GroupingStatusesItem.fromJson(Map<String, dynamic> json) {
+    return GroupingStatusesItem(
+      action: (json['Action'] as String?)?.let(GroupingType.fromString),
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      resourceArn: json['ResourceArn'] as String?,
+      status: (json['Status'] as String?)?.let(GroupingStatus.fromString),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final resourceArn = this.resourceArn;
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    return {
+      if (action != null) 'Action': action.value,
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+      if (status != null) 'Status': status.value,
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+class GroupingType {
+  static const group = GroupingType._('GROUP');
+  static const ungroup = GroupingType._('UNGROUP');
+
+  final String value;
+
+  const GroupingType._(this.value);
+
+  static const values = [group, ungroup];
+
+  static GroupingType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => GroupingType._(value));
+
+  @override
+  bool operator ==(other) => other is GroupingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class GroupingStatus {
+  static const success = GroupingStatus._('SUCCESS');
+  static const failed = GroupingStatus._('FAILED');
+  static const inProgress = GroupingStatus._('IN_PROGRESS');
+  static const skipped = GroupingStatus._('SKIPPED');
+
+  final String value;
+
+  const GroupingStatus._(this.value);
+
+  static const values = [success, failed, inProgress, skipped];
+
+  static GroupingStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GroupingStatus._(value));
+
+  @override
+  bool operator ==(other) => other is GroupingStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A filter name and value pair that is used to obtain more specific results
+/// from the list of grouping statuses.
+class ListGroupingStatusesFilter {
+  /// The name of the filter. Filter names are case-sensitive.
+  final ListGroupingStatusesFilterName name;
+
+  /// One or more filter values. Allowed filter values vary by resource filter
+  /// name, and are case-sensitive.
+  final List<String> values;
+
+  ListGroupingStatusesFilter({
+    required this.name,
+    required this.values,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      'Name': name.value,
+      'Values': values,
+    };
+  }
+}
+
+class ListGroupingStatusesFilterName {
+  static const status = ListGroupingStatusesFilterName._('status');
+  static const resourceArn = ListGroupingStatusesFilterName._('resource-arn');
+
+  final String value;
+
+  const ListGroupingStatusesFilterName._(this.value);
+
+  static const values = [status, resourceArn];
+
+  static ListGroupingStatusesFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ListGroupingStatusesFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ListGroupingStatusesFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A service configuration associated with a resource group. The configuration
+/// options are determined by the Amazon Web Services service that defines the
+/// <code>Type</code>, and specifies which resources can be included in the
+/// group. You can add a service configuration when you create the group by
+/// using <a>CreateGroup</a>, or later by using the <a>PutGroupConfiguration</a>
+/// operation. For details about group service configuration syntax, see <a
+/// href="https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html">Service
+/// configurations for resource groups</a>.
+class GroupConfiguration {
+  /// The configuration currently associated with the group and in effect.
+  final List<GroupConfigurationItem>? configuration;
+
+  /// If present, the reason why a request to update the group configuration
+  /// failed.
+  final String? failureReason;
+
+  /// If present, the new configuration that is in the process of being applied to
+  /// the group.
+  final List<GroupConfigurationItem>? proposedConfiguration;
+
+  /// The current status of an attempt to update the group configuration.
+  final GroupConfigurationStatus? status;
+
+  GroupConfiguration({
+    this.configuration,
+    this.failureReason,
+    this.proposedConfiguration,
+    this.status,
+  });
+
+  factory GroupConfiguration.fromJson(Map<String, dynamic> json) {
+    return GroupConfiguration(
+      configuration: (json['Configuration'] as List?)
           ?.nonNulls
-          .map((e) => QueryError.fromJson(e as Map<String, dynamic>))
+          .map(
+              (e) => GroupConfigurationItem.fromJson(e as Map<String, dynamic>))
           .toList(),
-      resourceIdentifiers: (json['ResourceIdentifiers'] as List?)
+      failureReason: json['FailureReason'] as String?,
+      proposedConfiguration: (json['ProposedConfiguration'] as List?)
           ?.nonNulls
-          .map((e) => ResourceIdentifier.fromJson(e as Map<String, dynamic>))
+          .map(
+              (e) => GroupConfigurationItem.fromJson(e as Map<String, dynamic>))
           .toList(),
+      status:
+          (json['Status'] as String?)?.let(GroupConfigurationStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final queryErrors = this.queryErrors;
-    final resourceIdentifiers = this.resourceIdentifiers;
+    final configuration = this.configuration;
+    final failureReason = this.failureReason;
+    final proposedConfiguration = this.proposedConfiguration;
+    final status = this.status;
     return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (queryErrors != null) 'QueryErrors': queryErrors,
-      if (resourceIdentifiers != null)
-        'ResourceIdentifiers': resourceIdentifiers,
+      if (configuration != null) 'Configuration': configuration,
+      if (failureReason != null) 'FailureReason': failureReason,
+      if (proposedConfiguration != null)
+        'ProposedConfiguration': proposedConfiguration,
+      if (status != null) 'Status': status.value,
     };
   }
 }
 
-class TagOutput {
-  /// The ARN of the tagged resource.
-  final String? arn;
+class GroupConfigurationStatus {
+  static const updating = GroupConfigurationStatus._('UPDATING');
+  static const updateComplete = GroupConfigurationStatus._('UPDATE_COMPLETE');
+  static const updateFailed = GroupConfigurationStatus._('UPDATE_FAILED');
 
-  /// The tags that have been added to the specified resource group.
-  final Map<String, String>? tags;
+  final String value;
 
-  TagOutput({
-    this.arn,
-    this.tags,
-  });
+  const GroupConfigurationStatus._(this.value);
 
-  factory TagOutput.fromJson(Map<String, dynamic> json) {
-    return TagOutput(
-      arn: json['Arn'] as String?,
-      tags: (json['Tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
+  static const values = [updating, updateComplete, updateFailed];
 
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final tags = this.tags;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
+  static GroupConfigurationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GroupConfigurationStatus._(value));
 
-class UngroupResourcesOutput {
-  /// A list of any resources that failed to be removed from the group by this
-  /// operation.
-  final List<FailedResource>? failed;
+  @override
+  bool operator ==(other) =>
+      other is GroupConfigurationStatus && other.value == value;
 
-  /// A list of any resources that are still in the process of being removed from
-  /// the group by this operation. These pending removals continue asynchronously.
-  /// You can check the status of pending removals by using the <code>
-  /// <a>ListGroupResources</a> </code> operation. After the resource is
-  /// successfully removed, it no longer appears in the response.
-  final List<PendingResource>? pending;
+  @override
+  int get hashCode => value.hashCode;
 
-  /// A list of resources that were successfully removed from the group by this
-  /// operation.
-  final List<String>? succeeded;
-
-  UngroupResourcesOutput({
-    this.failed,
-    this.pending,
-    this.succeeded,
-  });
-
-  factory UngroupResourcesOutput.fromJson(Map<String, dynamic> json) {
-    return UngroupResourcesOutput(
-      failed: (json['Failed'] as List?)
-          ?.nonNulls
-          .map((e) => FailedResource.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      pending: (json['Pending'] as List?)
-          ?.nonNulls
-          .map((e) => PendingResource.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      succeeded: (json['Succeeded'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final failed = this.failed;
-    final pending = this.pending;
-    final succeeded = this.succeeded;
-    return {
-      if (failed != null) 'Failed': failed,
-      if (pending != null) 'Pending': pending,
-      if (succeeded != null) 'Succeeded': succeeded,
-    };
-  }
-}
-
-class UntagOutput {
-  /// The ARN of the resource group from which tags have been removed.
-  final String? arn;
-
-  /// The keys of the tags that were removed.
-  final List<String>? keys;
-
-  UntagOutput({
-    this.arn,
-    this.keys,
-  });
-
-  factory UntagOutput.fromJson(Map<String, dynamic> json) {
-    return UntagOutput(
-      arn: json['Arn'] as String?,
-      keys: (json['Keys'] as List?)?.nonNulls.map((e) => e as String).toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final keys = this.keys;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (keys != null) 'Keys': keys,
-    };
-  }
-}
-
-class UpdateAccountSettingsOutput {
-  /// A structure that displays the status of the optional features in the
-  /// account.
-  final AccountSettings? accountSettings;
-
-  UpdateAccountSettingsOutput({
-    this.accountSettings,
-  });
-
-  factory UpdateAccountSettingsOutput.fromJson(Map<String, dynamic> json) {
-    return UpdateAccountSettingsOutput(
-      accountSettings: json['AccountSettings'] != null
-          ? AccountSettings.fromJson(
-              json['AccountSettings'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountSettings = this.accountSettings;
-    return {
-      if (accountSettings != null) 'AccountSettings': accountSettings,
-    };
-  }
-}
-
-class UpdateGroupOutput {
-  /// The update description of the resource group.
-  final Group? group;
-
-  UpdateGroupOutput({
-    this.group,
-  });
-
-  factory UpdateGroupOutput.fromJson(Map<String, dynamic> json) {
-    return UpdateGroupOutput(
-      group: json['Group'] != null
-          ? Group.fromJson(json['Group'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final group = this.group;
-    return {
-      if (group != null) 'Group': group,
-    };
-  }
-}
-
-class UpdateGroupQueryOutput {
-  /// The updated resource query associated with the resource group after the
-  /// update.
-  final GroupQuery? groupQuery;
-
-  UpdateGroupQueryOutput({
-    this.groupQuery,
-  });
-
-  factory UpdateGroupQueryOutput.fromJson(Map<String, dynamic> json) {
-    return UpdateGroupQueryOutput(
-      groupQuery: json['GroupQuery'] != null
-          ? GroupQuery.fromJson(json['GroupQuery'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final groupQuery = this.groupQuery;
-    return {
-      if (groupQuery != null) 'GroupQuery': groupQuery,
-    };
-  }
+  @override
+  String toString() => value;
 }
 
 class BadRequestException extends _s.GenericAwsException {

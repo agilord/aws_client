@@ -56,7 +56,7 @@ class ElastiCache {
   /// the exception of global replication group. When you add or remove tags on
   /// replication groups, those actions will be replicated to all nodes in the
   /// replication group. For more information, see <a
-  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/IAM.ResourceLevelPermissions.html">Resource-level
+  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.ResourceLevelPermissions.html">Resource-level
   /// permissions</a>.
   ///
   /// For example, you can use cost-allocation tags to your ElastiCache
@@ -67,7 +67,7 @@ class ElastiCache {
   /// services.
   ///
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Tagging.html">Using
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Tagging.html">Using
   /// Cost Allocation Tags in Amazon ElastiCache</a> in the <i>ElastiCache User
   /// Guide</i>.
   ///
@@ -75,18 +75,18 @@ class ElastiCache {
   /// May throw [CacheParameterGroupNotFoundFault].
   /// May throw [CacheSecurityGroupNotFoundFault].
   /// May throw [CacheSubnetGroupNotFoundFault].
+  /// May throw [InvalidARNFault].
   /// May throw [InvalidReplicationGroupStateFault].
+  /// May throw [InvalidServerlessCacheSnapshotStateFault].
+  /// May throw [InvalidServerlessCacheStateFault].
   /// May throw [ReplicationGroupNotFoundFault].
   /// May throw [ReservedCacheNodeNotFoundFault].
-  /// May throw [SnapshotNotFoundFault].
-  /// May throw [UserNotFoundFault].
-  /// May throw [UserGroupNotFoundFault].
   /// May throw [ServerlessCacheNotFoundFault].
-  /// May throw [InvalidServerlessCacheStateFault].
   /// May throw [ServerlessCacheSnapshotNotFoundFault].
-  /// May throw [InvalidServerlessCacheSnapshotStateFault].
+  /// May throw [SnapshotNotFoundFault].
   /// May throw [TagQuotaPerResourceExceeded].
-  /// May throw [InvalidARNFault].
+  /// May throw [UserGroupNotFoundFault].
+  /// May throw [UserNotFoundFault].
   ///
   /// Parameter [resourceName] :
   /// The Amazon Resource Name (ARN) of the resource to which the tags are to be
@@ -135,11 +135,11 @@ class ElastiCache {
   /// region to an ElastiCache cluster in another region.
   /// </note>
   ///
+  /// May throw [AuthorizationAlreadyExistsFault].
   /// May throw [CacheSecurityGroupNotFoundFault].
   /// May throw [InvalidCacheSecurityGroupStateFault].
-  /// May throw [AuthorizationAlreadyExistsFault].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [cacheSecurityGroupName] :
   /// The cache security group that allows network ingress.
@@ -177,11 +177,11 @@ class ElastiCache {
 
   /// Apply the service update. For more information on service updates and
   /// applying them, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/applying-updates.html">Applying
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/applying-updates.html">Applying
   /// Service Updates</a>.
   ///
-  /// May throw [ServiceUpdateNotFoundFault].
   /// May throw [InvalidParameterValueException].
+  /// May throw [ServiceUpdateNotFoundFault].
   ///
   /// Parameter [serviceUpdateName] :
   /// The unique ID of the service update
@@ -225,11 +225,11 @@ class ElastiCache {
 
   /// Stop the service update. For more information on service updates and
   /// stopping them, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/stopping-self-service-updates.html">Stopping
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/stopping-self-service-updates.html">Stopping
   /// Service Updates</a>.
   ///
-  /// May throw [ServiceUpdateNotFoundFault].
   /// May throw [InvalidParameterValueException].
+  /// May throw [ServiceUpdateNotFoundFault].
   ///
   /// Parameter [serviceUpdateName] :
   /// The unique ID of the service update
@@ -273,8 +273,8 @@ class ElastiCache {
 
   /// Complete the migration of data.
   ///
-  /// May throw [ReplicationGroupNotFoundFault].
   /// May throw [InvalidReplicationGroupStateFault].
+  /// May throw [ReplicationGroupNotFoundFault].
   /// May throw [ReplicationGroupNotUnderMigrationFault].
   ///
   /// Parameter [replicationGroupId] :
@@ -305,33 +305,34 @@ class ElastiCache {
   }
 
   /// Creates a copy of an existing serverless cache’s snapshot. Available for
-  /// Redis OSS and Serverless Memcached only.
+  /// Valkey, Redis OSS and Serverless Memcached only.
   ///
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidServerlessCacheSnapshotStateFault].
   /// May throw [ServerlessCacheSnapshotAlreadyExistsFault].
   /// May throw [ServerlessCacheSnapshotNotFoundFault].
   /// May throw [ServerlessCacheSnapshotQuotaExceededFault].
-  /// May throw [InvalidServerlessCacheSnapshotStateFault].
   /// May throw [ServiceLinkedRoleNotFoundFault].
   /// May throw [TagQuotaPerResourceExceeded].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
   ///
   /// Parameter [sourceServerlessCacheSnapshotName] :
   /// The identifier of the existing serverless cache’s snapshot to be copied.
-  /// Available for Redis OSS and Serverless Memcached only.
+  /// Available for Valkey, Redis OSS and Serverless Memcached only.
   ///
   /// Parameter [targetServerlessCacheSnapshotName] :
-  /// The identifier for the snapshot to be created. Available for Redis OSS and
-  /// Serverless Memcached only.
+  /// The identifier for the snapshot to be created. Available for Valkey, Redis
+  /// OSS and Serverless Memcached only. This value is stored as a lowercase
+  /// string.
   ///
   /// Parameter [kmsKeyId] :
   /// The identifier of the KMS key used to encrypt the target snapshot.
-  /// Available for Redis OSS and Serverless Memcached only.
+  /// Available for Valkey, Redis OSS and Serverless Memcached only.
   ///
   /// Parameter [tags] :
   /// A list of tags to be added to the target snapshot resource. A tag is a
-  /// key-value pair. Available for Redis OSS and Serverless Memcached only.
-  /// Default: NULL
+  /// key-value pair. Available for Valkey, Redis OSS and Serverless Memcached
+  /// only. Default: NULL
   Future<CopyServerlessCacheSnapshotResponse> copyServerlessCacheSnapshot({
     required String sourceServerlessCacheSnapshotName,
     required String targetServerlessCacheSnapshotName,
@@ -364,7 +365,7 @@ class ElastiCache {
 
   /// Makes a copy of an existing snapshot.
   /// <note>
-  /// This operation is valid for Redis OSS only.
+  /// This operation is valid for Valkey or Redis OSS only.
   /// </note> <important>
   /// Users or groups that have permissions to use the <code>CopySnapshot</code>
   /// operation can create their own Amazon S3 buckets and copy snapshots to it.
@@ -372,10 +373,10 @@ class ElastiCache {
   /// the ability to use the <code>CopySnapshot</code> operation. For more
   /// information about using IAM to control the use of ElastiCache operations,
   /// see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html">Exporting
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/backups-exporting.html">Exporting
   /// Snapshots</a> and <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/IAM.html">Authentication
-  /// &amp; Access Control</a>.
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.html">Authentication
+  /// & Access Control</a>.
   /// </important>
   /// You could receive the following error messages.
   /// <p class="title"> <b>Error Messages</b>
@@ -386,7 +387,7 @@ class ElastiCache {
   ///
   /// <b>Solution:</b> Create an Amazon S3 bucket in the same region as your
   /// snapshot. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html#backups-exporting-create-s3-bucket">Step
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/backups-exporting.html#backups-exporting-create-s3-bucket">Step
   /// 1: Create an Amazon S3 Bucket</a> in the ElastiCache User Guide.
   /// </li>
   /// <li>
@@ -394,7 +395,7 @@ class ElastiCache {
   ///
   /// <b>Solution:</b> Create an Amazon S3 bucket in the same region as your
   /// snapshot. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html#backups-exporting-create-s3-bucket">Step
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/backups-exporting.html#backups-exporting-create-s3-bucket">Step
   /// 1: Create an Amazon S3 Bucket</a> in the ElastiCache User Guide.
   /// </li>
   /// <li>
@@ -403,7 +404,7 @@ class ElastiCache {
   ///
   /// <b>Solution:</b> Create an Amazon S3 bucket in the same region as your
   /// snapshot. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html#backups-exporting-create-s3-bucket">Step
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/backups-exporting.html#backups-exporting-create-s3-bucket">Step
   /// 1: Create an Amazon S3 Bucket</a> in the ElastiCache User Guide.
   /// </li>
   /// <li>
@@ -428,7 +429,7 @@ class ElastiCache {
   ///
   /// <b>Solution:</b> Add List and Read permissions on the bucket. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html#backups-exporting-grant-access">Step
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/backups-exporting.html#backups-exporting-grant-access">Step
   /// 2: Grant ElastiCache Access to Your Amazon S3 Bucket</a> in the
   /// ElastiCache User Guide.
   /// </li>
@@ -438,7 +439,7 @@ class ElastiCache {
   ///
   /// <b>Solution:</b> Add Upload/Delete permissions on the bucket. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html#backups-exporting-grant-access">Step
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/backups-exporting.html#backups-exporting-grant-access">Step
   /// 2: Grant ElastiCache Access to Your Amazon S3 Bucket</a> in the
   /// ElastiCache User Guide.
   /// </li>
@@ -448,19 +449,19 @@ class ElastiCache {
   ///
   /// <b>Solution:</b> Add View Permissions on the bucket. For more information,
   /// see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html#backups-exporting-grant-access">Step
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/backups-exporting.html#backups-exporting-grant-access">Step
   /// 2: Grant ElastiCache Access to Your Amazon S3 Bucket</a> in the
   /// ElastiCache User Guide.
   /// </li>
   /// </ul>
   ///
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidSnapshotStateFault].
   /// May throw [SnapshotAlreadyExistsFault].
   /// May throw [SnapshotNotFoundFault].
   /// May throw [SnapshotQuotaExceededFault].
-  /// May throw [InvalidSnapshotStateFault].
   /// May throw [TagQuotaPerResourceExceeded].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
   ///
   /// Parameter [sourceSnapshotName] :
   /// The name of an existing snapshot from which to make a copy.
@@ -468,7 +469,8 @@ class ElastiCache {
   /// Parameter [targetSnapshotName] :
   /// A name for the snapshot copy. ElastiCache does not permit overwriting a
   /// snapshot, therefore this name must be unique within its context -
-  /// ElastiCache or an Amazon S3 bucket if exporting.
+  /// ElastiCache or an Amazon S3 bucket if exporting. This value is stored as a
+  /// lowercase string.
   ///
   /// Parameter [kmsKeyId] :
   /// The ID of the KMS key used to encrypt the target snapshot.
@@ -483,12 +485,12 @@ class ElastiCache {
   ///
   /// When using this parameter to export a snapshot, be sure Amazon ElastiCache
   /// has the needed permissions to this S3 bucket. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html#backups-exporting-grant-access">Step
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/backups-exporting.html#backups-exporting-grant-access">Step
   /// 2: Grant ElastiCache Access to Your Amazon S3 Bucket</a> in the <i>Amazon
   /// ElastiCache User Guide</i>.
   ///
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html">Exporting
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/backups-exporting.html">Exporting
   /// a Snapshot</a> in the <i>Amazon ElastiCache User Guide</i>.
   Future<CopySnapshotResult> copySnapshot({
     required String sourceSnapshotName,
@@ -523,25 +525,26 @@ class ElastiCache {
   }
 
   /// Creates a cluster. All nodes in the cluster run the same
-  /// protocol-compliant cache engine software, either Memcached or Redis OSS.
+  /// protocol-compliant cache engine software, either Memcached, Valkey or
+  /// Redis OSS.
   ///
-  /// This operation is not supported for Redis OSS (cluster mode enabled)
-  /// clusters.
+  /// This operation is not supported for Valkey or Redis OSS (cluster mode
+  /// enabled) clusters.
   ///
-  /// May throw [ReplicationGroupNotFoundFault].
-  /// May throw [InvalidReplicationGroupStateFault].
   /// May throw [CacheClusterAlreadyExistsFault].
-  /// May throw [InsufficientCacheClusterCapacityFault].
+  /// May throw [CacheParameterGroupNotFoundFault].
   /// May throw [CacheSecurityGroupNotFoundFault].
   /// May throw [CacheSubnetGroupNotFoundFault].
   /// May throw [ClusterQuotaForCustomerExceededFault].
+  /// May throw [InsufficientCacheClusterCapacityFault].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidReplicationGroupStateFault].
+  /// May throw [InvalidVPCNetworkStateFault].
   /// May throw [NodeQuotaForClusterExceededFault].
   /// May throw [NodeQuotaForCustomerExceededFault].
-  /// May throw [CacheParameterGroupNotFoundFault].
-  /// May throw [InvalidVPCNetworkStateFault].
+  /// May throw [ReplicationGroupNotFoundFault].
   /// May throw [TagQuotaPerResourceExceeded].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
   ///
   /// Parameter [cacheClusterId] :
   /// The node group (shard) identifier. This parameter is stored as a lowercase
@@ -585,18 +588,19 @@ class ElastiCache {
   /// Must be at least 16 characters and no more than 128 characters in length.
   /// </li>
   /// <li>
-  /// The only permitted printable special characters are !, &amp;, #, $, ^,
-  /// &lt;, &gt;, and -. Other printable special characters cannot be used in
-  /// the AUTH token.
+  /// The only permitted printable special characters are !, &, #, $, ^, <, >,
+  /// and -. Other printable special characters cannot be used in the AUTH
+  /// token.
   /// </li>
   /// </ul>
   /// For more information, see <a href="http://redis.io/commands/AUTH">AUTH
   /// password</a> at http://redis.io/commands/AUTH.
   ///
   /// Parameter [autoMinorVersionUpgrade] :
-  /// If you are running Redis OSS engine version 6.0 or later, set this
-  /// parameter to yes if you want to opt-in to the next auto minor version
-  /// upgrade campaign. This parameter is disabled for previous versions.
+  /// If you are running Valkey 7.2 and above or Redis OSS engine version 6.0
+  /// and above, set this parameter to yes to opt-in to the next auto minor
+  /// version upgrade campaign. This parameter is disabled for previous
+  /// versions.
   ///
   /// Parameter [cacheNodeType] :
   /// The compute and memory capacity of the nodes in the node group (shard).
@@ -620,7 +624,7 @@ class ElastiCache {
   /// <code>cache.m7g.12xlarge</code>, <code>cache.m7g.16xlarge</code>
   /// <note>
   /// For region availability, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
   /// Node Types</a>
   /// </note>
   /// <b>M6g node types</b> (available only for Redis OSS engine version 5.0.6
@@ -689,7 +693,7 @@ class ElastiCache {
   /// <code>cache.r7g.12xlarge</code>, <code>cache.r7g.16xlarge</code>
   /// <note>
   /// For region availability, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
   /// Node Types</a>
   /// </note>
   /// <b>R6g node types</b> (available only for Redis OSS engine version 5.0.6
@@ -730,17 +734,17 @@ class ElastiCache {
   /// default.
   /// </li>
   /// <li>
-  /// Redis OSS append-only files (AOF) are not supported for T1 or T2
+  /// Valkey or Redis OSS append-only files (AOF) are not supported for T1 or T2
   /// instances.
   /// </li>
   /// <li>
-  /// Redis OSS Multi-AZ with automatic failover is not supported on T1
-  /// instances.
+  /// Valkey or Redis OSS Multi-AZ with automatic failover is not supported on
+  /// T1 instances.
   /// </li>
   /// <li>
-  /// Redis OSS configuration variables <code>appendonly</code> and
-  /// <code>appendfsync</code> are not supported on Redis OSS version 2.8.22 and
-  /// later.
+  /// The configuration variables <code>appendonly</code> and
+  /// <code>appendfsync</code> are not supported on Valkey, or on Redis OSS
+  /// version 2.8.22 and later.
   /// </li>
   /// </ul>
   ///
@@ -765,7 +769,7 @@ class ElastiCache {
   /// If you're going to launch your cluster in an Amazon VPC, you need to
   /// create a subnet group before you start creating a cluster. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/SubnetGroups.html">Subnets
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/SubnetGroups.html">Subnets
   /// and Subnet Groups</a>.
   /// </important>
   ///
@@ -781,7 +785,7 @@ class ElastiCache {
   /// DescribeCacheEngineVersions operation.
   ///
   /// <b>Important:</b> You can upgrade to a newer engine version (see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/SelectEngine.html#VersionManagement">Selecting
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/SelectEngine.html#VersionManagement">Selecting
   /// a Cache Engine and Version</a>), but you cannot downgrade to an earlier
   /// engine version. If you want to use an earlier engine version, you must
   /// delete the existing cluster or replication group and create it anew with
@@ -790,8 +794,8 @@ class ElastiCache {
   /// Parameter [ipDiscovery] :
   /// The network type you choose when modifying a cluster, either
   /// <code>ipv4</code> | <code>ipv6</code>. IPv6 is supported for workloads
-  /// using Redis OSS engine version 6.2 onward or Memcached engine version
-  /// 1.6.6 on all instances built on the <a
+  /// using Valkey 7.2 and above, Redis OSS engine version 6.2 to 7.1 and
+  /// Memcached engine version 1.6.6 and above on all instances built on the <a
   /// href="http://aws.amazon.com/ec2/nitro/">Nitro system</a>.
   ///
   /// Parameter [logDeliveryConfigurations] :
@@ -799,10 +803,10 @@ class ElastiCache {
   ///
   /// Parameter [networkType] :
   /// Must be either <code>ipv4</code> | <code>ipv6</code> |
-  /// <code>dual_stack</code>. IPv6 is supported for workloads using Redis OSS
-  /// engine version 6.2 onward or Memcached engine version 1.6.6 on all
-  /// instances built on the <a href="http://aws.amazon.com/ec2/nitro/">Nitro
-  /// system</a>.
+  /// <code>dual_stack</code>. IPv6 is supported for workloads using Valkey 7.2
+  /// and above, Redis OSS engine version 6.2 to 7.1 and Memcached engine
+  /// version 1.6.6 and above on all instances built on the <a
+  /// href="http://aws.amazon.com/ec2/nitro/">Nitro system</a>.
   ///
   /// Parameter [notificationTopicArn] :
   /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service
@@ -814,8 +818,8 @@ class ElastiCache {
   /// Parameter [numCacheNodes] :
   /// The initial number of cache nodes that the cluster has.
   ///
-  /// For clusters running Redis OSS, this value must be 1. For clusters running
-  /// Memcached, this value must be between 1 and 40.
+  /// For clusters running Valkey or Redis OSS, this value must be 1. For
+  /// clusters running Memcached, this value must be between 1 and 40.
   ///
   /// If you need more than 40 nodes for your Memcached cluster, please fill out
   /// the ElastiCache Limit Increase Request form at <a
@@ -891,9 +895,9 @@ class ElastiCache {
   ///
   /// Parameter [snapshotArns] :
   /// A single-element string list containing an Amazon Resource Name (ARN) that
-  /// uniquely identifies a Redis OSS RDB snapshot file stored in Amazon S3. The
-  /// snapshot file is used to populate the node group (shard). The Amazon S3
-  /// object name in the ARN cannot contain any commas.
+  /// uniquely identifies a Valkey or Redis OSS RDB snapshot file stored in
+  /// Amazon S3. The snapshot file is used to populate the node group (shard).
+  /// The Amazon S3 object name in the ARN cannot contain any commas.
   /// <note>
   /// This parameter is only valid if the <code>Engine</code> parameter is
   /// <code>redis</code>.
@@ -902,9 +906,9 @@ class ElastiCache {
   /// <code>arn:aws:s3:::my_bucket/snapshot1.rdb</code>
   ///
   /// Parameter [snapshotName] :
-  /// The name of a Redis OSS snapshot from which to restore data into the new
-  /// node group (shard). The snapshot status changes to <code>restoring</code>
-  /// while the new node group (shard) is being created.
+  /// The name of a Valkey or Redis OSS snapshot from which to restore data into
+  /// the new node group (shard). The snapshot status changes to
+  /// <code>restoring</code> while the new node group (shard) is being created.
   /// <note>
   /// This parameter is only valid if the <code>Engine</code> parameter is
   /// <code>redis</code>.
@@ -1083,29 +1087,31 @@ class ElastiCache {
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ParameterGroups.html">Parameters
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/ParameterGroups.html">Parameters
   /// and Parameter Groups</a> in the ElastiCache User Guide.
   /// </li>
   /// </ul>
   ///
-  /// May throw [CacheParameterGroupQuotaExceededFault].
   /// May throw [CacheParameterGroupAlreadyExistsFault].
+  /// May throw [CacheParameterGroupQuotaExceededFault].
   /// May throw [InvalidCacheParameterGroupStateFault].
-  /// May throw [TagQuotaPerResourceExceeded].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [TagQuotaPerResourceExceeded].
   ///
   /// Parameter [cacheParameterGroupFamily] :
   /// The name of the cache parameter group family that the cache parameter
   /// group can be used with.
   ///
-  /// Valid values are: <code>memcached1.4</code> | <code>memcached1.5</code> |
+  /// Valid values are: <code>valkey8</code> | <code>valkey7</code> |
+  /// <code>memcached1.4</code> | <code>memcached1.5</code> |
   /// <code>memcached1.6</code> | <code>redis2.6</code> | <code>redis2.8</code>
   /// | <code>redis3.2</code> | <code>redis4.0</code> | <code>redis5.0</code> |
   /// <code>redis6.x</code> | <code>redis7</code>
   ///
   /// Parameter [cacheParameterGroupName] :
-  /// A user-specified name for the cache parameter group.
+  /// A user-specified name for the cache parameter group. This value is stored
+  /// as a lowercase string.
   ///
   /// Parameter [description] :
   /// A user-specified description for the cache parameter group.
@@ -1154,9 +1160,9 @@ class ElastiCache {
   ///
   /// May throw [CacheSecurityGroupAlreadyExistsFault].
   /// May throw [CacheSecurityGroupQuotaExceededFault].
-  /// May throw [TagQuotaPerResourceExceeded].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [TagQuotaPerResourceExceeded].
   ///
   /// Parameter [cacheSecurityGroupName] :
   /// A name for the cache security group. This value is stored as a lowercase
@@ -1209,9 +1215,9 @@ class ElastiCache {
   /// May throw [CacheSubnetGroupAlreadyExistsFault].
   /// May throw [CacheSubnetGroupQuotaExceededFault].
   /// May throw [CacheSubnetQuotaExceededFault].
-  /// May throw [TagQuotaPerResourceExceeded].
   /// May throw [InvalidSubnet].
   /// May throw [SubnetNotAllowedFault].
+  /// May throw [TagQuotaPerResourceExceeded].
   ///
   /// Parameter [cacheSubnetGroupDescription] :
   /// A description for the cache subnet group.
@@ -1265,12 +1271,12 @@ class ElastiCache {
     return CreateCacheSubnetGroupResult.fromXml($result);
   }
 
-  /// Global Datastore for Redis OSS offers fully managed, fast, reliable and
-  /// secure cross-region replication. Using Global Datastore for Redis OSS, you
-  /// can create cross-region read replica clusters for ElastiCache (Redis OSS)
-  /// to enable low-latency reads and disaster recovery across regions. For more
+  /// Global Datastore offers fully managed, fast, reliable and secure
+  /// cross-region replication. Using Global Datastore with Valkey or Redis OSS,
+  /// you can create cross-region read replica clusters for ElastiCache to
+  /// enable low-latency reads and disaster recovery across regions. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Redis-Global-Datastore.html">Replication
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Redis-Global-Datastore.html">Replication
   /// Across Regions Using Global Datastore</a>.
   ///
   /// <ul>
@@ -1285,11 +1291,11 @@ class ElastiCache {
   /// </li>
   /// </ul>
   ///
-  /// May throw [ReplicationGroupNotFoundFault].
-  /// May throw [InvalidReplicationGroupStateFault].
   /// May throw [GlobalReplicationGroupAlreadyExistsFault].
-  /// May throw [ServiceLinkedRoleNotFoundFault].
   /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidReplicationGroupStateFault].
+  /// May throw [ReplicationGroupNotFoundFault].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
   ///
   /// Parameter [globalReplicationGroupIdSuffix] :
   /// The suffix name of a Global datastore. Amazon ElastiCache automatically
@@ -1302,12 +1308,13 @@ class ElastiCache {
   ///
   /// For a full list of Amazon Regions and their respective Global datastore iD
   /// prefixes, see <a
-  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Redis-Global-Datastores-CLI.html">Using
+  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Redis-Global-Datastores-CLI.html">Using
   /// the Amazon CLI with Global datastores </a>.
   ///
   /// Parameter [primaryReplicationGroupId] :
   /// The name of the primary cluster that accepts writes and will replicate
-  /// updates to the secondary cluster.
+  /// updates to the secondary cluster. This value is stored as a lowercase
+  /// string.
   ///
   /// Parameter [globalReplicationGroupDescription] :
   /// Provides details of the Global datastore
@@ -1334,32 +1341,32 @@ class ElastiCache {
     return CreateGlobalReplicationGroupResult.fromXml($result);
   }
 
-  /// Creates a Redis OSS (cluster mode disabled) or a Redis OSS (cluster mode
-  /// enabled) replication group.
+  /// Creates a Valkey or Redis OSS (cluster mode disabled) or a Valkey or Redis
+  /// OSS (cluster mode enabled) replication group.
   ///
   /// This API can be used to create a standalone regional replication group or
   /// a secondary replication group associated with a Global datastore.
   ///
-  /// A Redis OSS (cluster mode disabled) replication group is a collection of
-  /// nodes, where one of the nodes is a read/write primary and the others are
-  /// read-only replicas. Writes to the primary are asynchronously propagated to
-  /// the replicas.
+  /// A Valkey or Redis OSS (cluster mode disabled) replication group is a
+  /// collection of nodes, where one of the nodes is a read/write primary and
+  /// the others are read-only replicas. Writes to the primary are
+  /// asynchronously propagated to the replicas.
   ///
-  /// A Redis OSS cluster-mode enabled cluster is comprised of from 1 to 90
-  /// shards (API/CLI: node groups). Each shard has a primary node and up to 5
-  /// read-only replica nodes. The configuration can range from 90 shards and 0
-  /// replicas to 15 shards and 5 replicas, which is the maximum number or
+  /// A Valkey or Redis OSS cluster-mode enabled cluster is comprised of from 1
+  /// to 90 shards (API/CLI: node groups). Each shard has a primary node and up
+  /// to 5 read-only replica nodes. The configuration can range from 90 shards
+  /// and 0 replicas to 15 shards and 5 replicas, which is the maximum number or
   /// replicas allowed.
   ///
   /// The node or shard limit can be increased to a maximum of 500 per cluster
-  /// if the Redis OSS engine version is 5.0.6 or higher. For example, you can
-  /// choose to configure a 500 node cluster that ranges between 83 shards (one
-  /// primary and 5 replicas per shard) and 500 shards (single primary and no
-  /// replicas). Make sure there are enough available IP addresses to
-  /// accommodate the increase. Common pitfalls include the subnets in the
-  /// subnet group have too small a CIDR range or the subnets are shared and
-  /// heavily used by other clusters. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/SubnetGroups.Creating.html">Creating
+  /// if the Valkey or Redis OSS engine version is 5.0.6 or higher. For example,
+  /// you can choose to configure a 500 node cluster that ranges between 83
+  /// shards (one primary and 5 replicas per shard) and 500 shards (single
+  /// primary and no replicas). Make sure there are enough available IP
+  /// addresses to accommodate the increase. Common pitfalls include the subnets
+  /// in the subnet group have too small a CIDR range or the subnets are shared
+  /// and heavily used by other clusters. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/SubnetGroups.Creating.html">Creating
   /// a Subnet Group</a>. For versions below 5.0.6, the limit is 250 per
   /// cluster.
   ///
@@ -1368,36 +1375,36 @@ class ElastiCache {
   /// Service Limits</a> and choose the limit type <b>Nodes per cluster per
   /// instance type</b>.
   ///
-  /// When a Redis OSS (cluster mode disabled) replication group has been
-  /// successfully created, you can add one or more read replicas to it, up to a
-  /// total of 5 read replicas. If you need to increase or decrease the number
-  /// of node groups (console: shards), you can use ElastiCache (Redis OSS)
-  /// scaling. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Scaling.html">Scaling
-  /// ElastiCache (Redis OSS) Clusters</a> in the <i>ElastiCache User Guide</i>.
+  /// When a Valkey or Redis OSS (cluster mode disabled) replication group has
+  /// been successfully created, you can add one or more read replicas to it, up
+  /// to a total of 5 read replicas. If you need to increase or decrease the
+  /// number of node groups (console: shards), you can use scaling. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Scaling.html">Scaling
+  /// self-designed clusters</a> in the <i>ElastiCache User Guide</i>.
   /// <note>
-  /// This operation is valid for Redis OSS only.
+  /// This operation is valid for Valkey and Redis OSS only.
   /// </note>
   ///
   /// May throw [CacheClusterNotFoundFault].
-  /// May throw [InvalidCacheClusterStateFault].
-  /// May throw [ReplicationGroupAlreadyExistsFault].
-  /// May throw [InvalidUserGroupStateFault].
-  /// May throw [UserGroupNotFoundFault].
-  /// May throw [InsufficientCacheClusterCapacityFault].
+  /// May throw [CacheParameterGroupNotFoundFault].
   /// May throw [CacheSecurityGroupNotFoundFault].
   /// May throw [CacheSubnetGroupNotFoundFault].
   /// May throw [ClusterQuotaForCustomerExceededFault].
+  /// May throw [GlobalReplicationGroupNotFoundFault].
+  /// May throw [InsufficientCacheClusterCapacityFault].
+  /// May throw [InvalidCacheClusterStateFault].
+  /// May throw [InvalidGlobalReplicationGroupStateFault].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidUserGroupStateFault].
+  /// May throw [InvalidVPCNetworkStateFault].
+  /// May throw [NodeGroupsPerReplicationGroupQuotaExceededFault].
   /// May throw [NodeQuotaForClusterExceededFault].
   /// May throw [NodeQuotaForCustomerExceededFault].
-  /// May throw [CacheParameterGroupNotFoundFault].
-  /// May throw [InvalidVPCNetworkStateFault].
+  /// May throw [ReplicationGroupAlreadyExistsFault].
   /// May throw [TagQuotaPerResourceExceeded].
-  /// May throw [NodeGroupsPerReplicationGroupQuotaExceededFault].
-  /// May throw [GlobalReplicationGroupNotFoundFault].
-  /// May throw [InvalidGlobalReplicationGroupStateFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
+  /// May throw [UserGroupNotFoundFault].
   ///
   /// Parameter [replicationGroupDescription] :
   /// A user-created description for the replication group.
@@ -1421,18 +1428,16 @@ class ElastiCache {
   /// </ul>
   ///
   /// Parameter [atRestEncryptionEnabled] :
-  /// A flag that enables encryption at rest when set to <code>true</code>.
+  /// A flag that enables encryption at-rest on the replication group when set
+  /// to <code>true</code>. In some cases, encryption at-rest may be enabled
+  /// even when this value is false. Use <code>StorageEncryptionType</code> to
+  /// view the effective encryption state of a cluster.
   ///
   /// You cannot modify the value of <code>AtRestEncryptionEnabled</code> after
-  /// the replication group is created. To enable encryption at rest on a
-  /// replication group you must set <code>AtRestEncryptionEnabled</code> to
-  /// <code>true</code> when you create the replication group.
+  /// the replication group is created.
   ///
-  /// <b>Required:</b> Only available when creating a replication group in an
-  /// Amazon VPC using Redis OSS version <code>3.2.6</code>, <code>4.x</code> or
-  /// later.
-  ///
-  /// Default: <code>false</code>
+  /// Default: <code>true</code> when using Valkey, <code>false</code> when
+  /// using Redis OSS
   ///
   /// Parameter [authToken] :
   /// <b>Reserved parameter.</b> The password used to access a password
@@ -1455,25 +1460,26 @@ class ElastiCache {
   /// Must be at least 16 characters and no more than 128 characters in length.
   /// </li>
   /// <li>
-  /// The only permitted printable special characters are !, &amp;, #, $, ^,
-  /// &lt;, &gt;, and -. Other printable special characters cannot be used in
-  /// the AUTH token.
+  /// The only permitted printable special characters are !, &, #, $, ^, <, >,
+  /// and -. Other printable special characters cannot be used in the AUTH
+  /// token.
   /// </li>
   /// </ul>
   /// For more information, see <a href="http://redis.io/commands/AUTH">AUTH
   /// password</a> at http://redis.io/commands/AUTH.
   ///
   /// Parameter [autoMinorVersionUpgrade] :
-  /// If you are running Redis OSS engine version 6.0 or later, set this
-  /// parameter to yes if you want to opt-in to the next auto minor version
-  /// upgrade campaign. This parameter is disabled for previous versions.
+  /// If you are running Valkey 7.2 and above or Redis OSS engine version 6.0
+  /// and above, set this parameter to yes to opt-in to the next auto minor
+  /// version upgrade campaign. This parameter is disabled for previous
+  /// versions.
   ///
   /// Parameter [automaticFailoverEnabled] :
   /// Specifies whether a read-only replica is automatically promoted to
   /// read/write primary if the existing primary fails.
   ///
-  /// <code>AutomaticFailoverEnabled</code> must be enabled for Redis OSS
-  /// (cluster mode enabled) replication groups.
+  /// <code>AutomaticFailoverEnabled</code> must be enabled for Valkey or Redis
+  /// OSS (cluster mode enabled) replication groups.
   ///
   /// Default: false
   ///
@@ -1499,7 +1505,7 @@ class ElastiCache {
   /// <code>cache.m7g.12xlarge</code>, <code>cache.m7g.16xlarge</code>
   /// <note>
   /// For region availability, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
   /// Node Types</a>
   /// </note>
   /// <b>M6g node types</b> (available only for Redis OSS engine version 5.0.6
@@ -1568,7 +1574,7 @@ class ElastiCache {
   /// <code>cache.r7g.12xlarge</code>, <code>cache.r7g.16xlarge</code>
   /// <note>
   /// For region availability, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
   /// Node Types</a>
   /// </note>
   /// <b>R6g node types</b> (available only for Redis OSS engine version 5.0.6
@@ -1609,17 +1615,17 @@ class ElastiCache {
   /// default.
   /// </li>
   /// <li>
-  /// Redis OSS append-only files (AOF) are not supported for T1 or T2
+  /// Valkey or Redis OSS append-only files (AOF) are not supported for T1 or T2
   /// instances.
   /// </li>
   /// <li>
-  /// Redis OSS Multi-AZ with automatic failover is not supported on T1
-  /// instances.
+  /// Valkey or Redis OSS Multi-AZ with automatic failover is not supported on
+  /// T1 instances.
   /// </li>
   /// <li>
-  /// Redis OSS configuration variables <code>appendonly</code> and
-  /// <code>appendfsync</code> are not supported on Redis OSS version 2.8.22 and
-  /// later.
+  /// The configuration variables <code>appendonly</code> and
+  /// <code>appendfsync</code> are not supported on Valkey, or on Redis OSS
+  /// version 2.8.22 and later.
   /// </li>
   /// </ul>
   ///
@@ -1628,18 +1634,18 @@ class ElastiCache {
   /// If this argument is omitted, the default cache parameter group for the
   /// specified engine is used.
   ///
-  /// If you are running Redis OSS version 3.2.4 or later, only one node group
-  /// (shard), and want to use a default parameter group, we recommend that you
-  /// specify the parameter group by name.
+  /// If you are running Valkey or Redis OSS version 3.2.4 or later, only one
+  /// node group (shard), and want to use a default parameter group, we
+  /// recommend that you specify the parameter group by name.
   ///
   /// <ul>
   /// <li>
-  /// To create a Redis OSS (cluster mode disabled) replication group, use
-  /// <code>CacheParameterGroupName=default.redis3.2</code>.
+  /// To create a Valkey or Redis OSS (cluster mode disabled) replication group,
+  /// use <code>CacheParameterGroupName=default.redis3.2</code>.
   /// </li>
   /// <li>
-  /// To create a Redis OSS (cluster mode enabled) replication group, use
-  /// <code>CacheParameterGroupName=default.redis3.2.cluster.on</code>.
+  /// To create a Valkey or Redis OSS (cluster mode enabled) replication group,
+  /// use <code>CacheParameterGroupName=default.redis3.2.cluster.on</code>.
   /// </li>
   /// </ul>
   ///
@@ -1653,28 +1659,37 @@ class ElastiCache {
   /// If you're going to launch your cluster in an Amazon VPC, you need to
   /// create a subnet group before you start creating a cluster. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/SubnetGroups.html">Subnets
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/SubnetGroups.html">Subnets
   /// and Subnet Groups</a>.
   /// </important>
   ///
   /// Parameter [clusterMode] :
   /// Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you
   /// must first set the cluster mode to Compatible. Compatible mode allows your
-  /// Redis OSS clients to connect using both cluster mode enabled and cluster
-  /// mode disabled. After you migrate all Redis OSS clients to use cluster mode
-  /// enabled, you can then complete cluster mode configuration and set the
-  /// cluster mode to Enabled.
+  /// Valkey or Redis OSS clients to connect using both cluster mode enabled and
+  /// cluster mode disabled. After you migrate all Valkey or Redis OSS clients
+  /// to use cluster mode enabled, you can then complete cluster mode
+  /// configuration and set the cluster mode to Enabled.
   ///
   /// Parameter [dataTieringEnabled] :
   /// Enables data tiering. Data tiering is only supported for replication
   /// groups using the r6gd node type. This parameter must be set to true when
   /// using r6gd nodes. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/data-tiering.html">Data
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/data-tiering.html">Data
   /// tiering</a>.
+  ///
+  /// Parameter [durability] :
+  /// Specifies the durability setting for the replication group. When set to
+  /// <code>default</code>, the service determines the effective durability
+  /// based on the engine version, cluster mode, and other parameters. The
+  /// resolved setting is reflected in the <code>EffectiveDurability</code>
+  /// property of the replication group. For more information, see <a
+  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Durability.html">Durability</a>.
   ///
   /// Parameter [engine] :
   /// The name of the cache engine to be used for the clusters in this
-  /// replication group. The value must be set to <code>Redis</code>.
+  /// replication group. The value must be set to <code>valkey</code> or
+  /// <code>redis</code>.
   ///
   /// Parameter [engineVersion] :
   /// The version number of the cache engine to be used for the clusters in this
@@ -1682,7 +1697,7 @@ class ElastiCache {
   /// <code>DescribeCacheEngineVersions</code> operation.
   ///
   /// <b>Important:</b> You can upgrade to a newer engine version (see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/SelectEngine.html#VersionManagement">Selecting
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/SelectEngine.html#VersionManagement">Selecting
   /// a Cache Engine and Version</a>) in the <i>ElastiCache User Guide</i>, but
   /// you cannot downgrade to an earlier engine version. If you want to use an
   /// earlier engine version, you must delete the existing cluster or
@@ -1694,8 +1709,8 @@ class ElastiCache {
   /// Parameter [ipDiscovery] :
   /// The network type you choose when creating a replication group, either
   /// <code>ipv4</code> | <code>ipv6</code>. IPv6 is supported for workloads
-  /// using Redis OSS engine version 6.2 onward or Memcached engine version
-  /// 1.6.6 on all instances built on the <a
+  /// using Valkey 7.2 and above, Redis OSS engine version 6.2 to 7.1 or
+  /// Memcached engine version 1.6.6 and above on all instances built on the <a
   /// href="http://aws.amazon.com/ec2/nitro/">Nitro system</a>.
   ///
   /// Parameter [kmsKeyId] :
@@ -1707,15 +1722,15 @@ class ElastiCache {
   /// Parameter [multiAZEnabled] :
   /// A flag indicating if you have Multi-AZ enabled to enhance fault tolerance.
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/AutoFailover.html">Minimizing
+  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/AutoFailover.html">Minimizing
   /// Downtime: Multi-AZ</a>.
   ///
   /// Parameter [networkType] :
   /// Must be either <code>ipv4</code> | <code>ipv6</code> |
-  /// <code>dual_stack</code>. IPv6 is supported for workloads using Redis OSS
-  /// engine version 6.2 onward or Memcached engine version 1.6.6 on all
-  /// instances built on the <a href="http://aws.amazon.com/ec2/nitro/">Nitro
-  /// system</a>.
+  /// <code>dual_stack</code>. IPv6 is supported for workloads using Valkey 7.2
+  /// and above, Redis OSS engine version 6.2 to 7.1 and Memcached engine
+  /// version 1.6.6 and above on all instances built on the <a
+  /// href="http://aws.amazon.com/ec2/nitro/">Nitro system</a>.
   ///
   /// Parameter [nodeGroupConfiguration] :
   /// A list of node group (shard) configuration options. Each node group
@@ -1724,13 +1739,13 @@ class ElastiCache {
   /// <code>ReplicaAvailabilityZones</code>, <code>ReplicaCount</code>, and
   /// <code>Slots</code>.
   ///
-  /// If you're creating a Redis OSS (cluster mode disabled) or a Redis OSS
-  /// (cluster mode enabled) replication group, you can use this parameter to
-  /// individually configure each node group (shard), or you can omit this
-  /// parameter. However, it is required when seeding a Redis OSS (cluster mode
-  /// enabled) cluster from a S3 rdb file. You must configure each node group
-  /// (shard) using this parameter because you must specify the slots for each
-  /// node group.
+  /// If you're creating a Valkey or Redis OSS (cluster mode disabled) or a
+  /// Valkey or Redis OSS (cluster mode enabled) replication group, you can use
+  /// this parameter to individually configure each node group (shard), or you
+  /// can omit this parameter. However, it is required when seeding a Valkey or
+  /// Redis OSS (cluster mode enabled) cluster from a S3 rdb file. You must
+  /// configure each node group (shard) using this parameter because you must
+  /// specify the slots for each node group.
   ///
   /// Parameter [notificationTopicArn] :
   /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service
@@ -1756,8 +1771,9 @@ class ElastiCache {
   ///
   /// Parameter [numNodeGroups] :
   /// An optional parameter that specifies the number of node groups (shards)
-  /// for this Redis OSS (cluster mode enabled) replication group. For Redis OSS
-  /// (cluster mode disabled) either omit this parameter or set it to 1.
+  /// for this Valkey or Redis OSS (cluster mode enabled) replication group. For
+  /// Valkey or Redis OSS (cluster mode disabled) either omit this parameter or
+  /// set it to 1.
   ///
   /// Default: 1
   ///
@@ -1838,14 +1854,14 @@ class ElastiCache {
   ///
   /// Parameter [serverlessCacheSnapshotName] :
   /// The name of the snapshot used to create a replication group. Available for
-  /// Redis OSS only.
+  /// Valkey, Redis OSS only.
   ///
   /// Parameter [snapshotArns] :
-  /// A list of Amazon Resource Names (ARN) that uniquely identify the Redis OSS
-  /// RDB snapshot files stored in Amazon S3. The snapshot files are used to
-  /// populate the new replication group. The Amazon S3 object name in the ARN
-  /// cannot contain any commas. The new replication group will have the number
-  /// of node groups (console: shards) specified by the parameter
+  /// A list of Amazon Resource Names (ARN) that uniquely identify the Valkey or
+  /// Redis OSS RDB snapshot files stored in Amazon S3. The snapshot files are
+  /// used to populate the new replication group. The Amazon S3 object name in
+  /// the ARN cannot contain any commas. The new replication group will have the
+  /// number of node groups (console: shards) specified by the parameter
   /// <i>NumNodeGroups</i> or the number of node groups configured by
   /// <i>NodeGroupConfiguration</i> regardless of the number of ARNs specified
   /// here.
@@ -1912,9 +1928,9 @@ class ElastiCache {
   /// When setting <code>TransitEncryptionEnabled</code> to <code>true</code>,
   /// you can set your <code>TransitEncryptionMode</code> to
   /// <code>preferred</code> in the same request, to allow both encrypted and
-  /// unencrypted connections at the same time. Once you migrate all your Redis
-  /// OSS clients to use encrypted connections you can modify the value to
-  /// <code>required</code> to allow encrypted connections only.
+  /// unencrypted connections at the same time. Once you migrate all your Valkey
+  /// or Redis OSS clients to use encrypted connections you can modify the value
+  /// to <code>required</code> to allow encrypted connections only.
   ///
   /// Setting <code>TransitEncryptionMode</code> to <code>required</code> is a
   /// two-step process that requires you to first set the
@@ -1938,6 +1954,7 @@ class ElastiCache {
     String? cacheSubnetGroupName,
     ClusterMode? clusterMode,
     bool? dataTieringEnabled,
+    Durability? durability,
     String? engine,
     String? engineVersion,
     String? globalReplicationGroupId,
@@ -1991,6 +2008,7 @@ class ElastiCache {
       if (clusterMode != null) 'ClusterMode': clusterMode.value,
       if (dataTieringEnabled != null)
         'DataTieringEnabled': dataTieringEnabled.toString(),
+      if (durability != null) 'Durability': durability.value,
       if (engine != null) 'Engine': engine,
       if (engineVersion != null) 'EngineVersion': engineVersion,
       if (globalReplicationGroupId != null)
@@ -2083,17 +2101,17 @@ class ElastiCache {
 
   /// Creates a serverless cache.
   ///
-  /// May throw [ServerlessCacheNotFoundFault].
-  /// May throw [InvalidServerlessCacheStateFault].
-  /// May throw [ServerlessCacheAlreadyExistsFault].
-  /// May throw [ServerlessCacheQuotaForCustomerExceededFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
   /// May throw [InvalidCredentialsException].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidServerlessCacheStateFault].
   /// May throw [InvalidUserGroupStateFault].
-  /// May throw [UserGroupNotFoundFault].
-  /// May throw [TagQuotaPerResourceExceeded].
+  /// May throw [ServerlessCacheAlreadyExistsFault].
+  /// May throw [ServerlessCacheNotFoundFault].
+  /// May throw [ServerlessCacheQuotaForCustomerExceededFault].
   /// May throw [ServiceLinkedRoleNotFoundFault].
+  /// May throw [TagQuotaPerResourceExceeded].
+  /// May throw [UserGroupNotFoundFault].
   ///
   /// Parameter [engine] :
   /// The name of the cache engine to be used for creating the serverless cache.
@@ -2109,8 +2127,8 @@ class ElastiCache {
   /// Parameter [dailySnapshotTime] :
   /// The daily time that snapshots will be created from the new serverless
   /// cache. By default this number is populated with 0, i.e. no snapshots will
-  /// be created on an automatic daily basis. Available for Redis OSS and
-  /// Serverless Memcached only.
+  /// be created on an automatic daily basis. Available for Valkey, Redis OSS
+  /// and Serverless Memcached only.
   ///
   /// Parameter [description] :
   /// User-provided description for the serverless cache. The default is NULL,
@@ -2125,6 +2143,13 @@ class ElastiCache {
   /// The version of the cache engine that will be used to create the serverless
   /// cache.
   ///
+  /// Parameter [networkType] :
+  /// The IP protocol version used by the serverless cache. Must be either
+  /// <code>ipv4</code> | <code>ipv6</code> | <code>dual_stack</code>.
+  /// <code>ipv6</code> is only supported with IPv6-only subnets. If not
+  /// specified, defaults to <code>ipv4</code>, unless all provided subnets are
+  /// IPv6-only, in which case it defaults to <code>ipv6</code>.
+  ///
   /// Parameter [securityGroupIds] :
   /// A list of the one or more VPC security groups to be associated with the
   /// serverless cache. The security group will authorize traffic access for the
@@ -2134,13 +2159,12 @@ class ElastiCache {
   ///
   /// Parameter [snapshotArnsToRestore] :
   /// The ARN(s) of the snapshot that the new serverless cache will be created
-  /// from. Available for Redis OSS and Serverless Memcached only.
+  /// from. Available for Valkey, Redis OSS and Serverless Memcached only.
   ///
   /// Parameter [snapshotRetentionLimit] :
-  /// The number of snapshots that will be retained for the serverless cache
-  /// that is being created. As new snapshots beyond this limit are added, the
-  /// oldest snapshots will be deleted on a rolling basis. Available for Redis
-  /// OSS and Serverless Memcached only.
+  /// The number of days for which ElastiCache retains automatic snapshots
+  /// before deleting them. Available for Valkey, Redis OSS and Serverless
+  /// Memcached only. The maximum value allowed is 35 days.
   ///
   /// Parameter [subnetIds] :
   /// A list of the identifiers of the subnets where the VPC endpoint for the
@@ -2153,7 +2177,7 @@ class ElastiCache {
   ///
   /// Parameter [userGroupId] :
   /// The identifier of the UserGroup to be associated with the serverless
-  /// cache. Available for Redis OSS only. Default is NULL.
+  /// cache. Available for Valkey and Redis OSS only. Default is NULL.
   Future<CreateServerlessCacheResponse> createServerlessCache({
     required String engine,
     required String serverlessCacheName,
@@ -2162,6 +2186,7 @@ class ElastiCache {
     String? description,
     String? kmsKeyId,
     String? majorEngineVersion,
+    NetworkType? networkType,
     List<String>? securityGroupIds,
     List<String>? snapshotArnsToRestore,
     int? snapshotRetentionLimit,
@@ -2179,6 +2204,7 @@ class ElastiCache {
       if (description != null) 'Description': description,
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
       if (majorEngineVersion != null) 'MajorEngineVersion': majorEngineVersion,
+      if (networkType != null) 'NetworkType': networkType.value,
       if (securityGroupIds != null)
         if (securityGroupIds.isEmpty)
           'SecurityGroupIds': ''
@@ -2222,33 +2248,34 @@ class ElastiCache {
   }
 
   /// This API creates a copy of an entire ServerlessCache at a specific moment
-  /// in time. Available for Redis OSS and Serverless Memcached only.
+  /// in time. Available for Valkey, Redis OSS and Serverless Memcached only.
   ///
-  /// May throw [ServerlessCacheSnapshotAlreadyExistsFault].
-  /// May throw [ServerlessCacheNotFoundFault].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidServerlessCacheStateFault].
+  /// May throw [ServerlessCacheNotFoundFault].
+  /// May throw [ServerlessCacheSnapshotAlreadyExistsFault].
   /// May throw [ServerlessCacheSnapshotQuotaExceededFault].
   /// May throw [ServiceLinkedRoleNotFoundFault].
   /// May throw [TagQuotaPerResourceExceeded].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
   ///
   /// Parameter [serverlessCacheName] :
   /// The name of an existing serverless cache. The snapshot is created from
-  /// this cache. Available for Redis OSS and Serverless Memcached only.
+  /// this cache. Available for Valkey, Redis OSS and Serverless Memcached only.
   ///
   /// Parameter [serverlessCacheSnapshotName] :
   /// The name for the snapshot being created. Must be unique for the customer
-  /// account. Available for Redis OSS and Serverless Memcached only. Must be
-  /// between 1 and 255 characters.
+  /// account. Available for Valkey, Redis OSS and Serverless Memcached only.
+  /// Must be between 1 and 255 characters. This value is stored as a lowercase
+  /// string.
   ///
   /// Parameter [kmsKeyId] :
-  /// The ID of the KMS key used to encrypt the snapshot. Available for Redis
-  /// OSS and Serverless Memcached only. Default: NULL
+  /// The ID of the KMS key used to encrypt the snapshot. Available for Valkey,
+  /// Redis OSS and Serverless Memcached only. Default: NULL
   ///
   /// Parameter [tags] :
   /// A list of tags to be added to the snapshot resource. A tag is a key-value
-  /// pair. Available for Redis OSS and Serverless Memcached only.
+  /// pair. Available for Valkey, Redis OSS and Serverless Memcached only.
   Future<CreateServerlessCacheSnapshotResponse> createServerlessCacheSnapshot({
     required String serverlessCacheName,
     required String serverlessCacheSnapshotName,
@@ -2282,22 +2309,23 @@ class ElastiCache {
   /// Creates a copy of an entire cluster or replication group at a specific
   /// moment in time.
   /// <note>
-  /// This operation is valid for Redis OSS only.
+  /// This operation is valid for Valkey or Redis OSS only.
   /// </note>
   ///
-  /// May throw [SnapshotAlreadyExistsFault].
   /// May throw [CacheClusterNotFoundFault].
-  /// May throw [ReplicationGroupNotFoundFault].
   /// May throw [InvalidCacheClusterStateFault].
-  /// May throw [InvalidReplicationGroupStateFault].
-  /// May throw [SnapshotQuotaExceededFault].
-  /// May throw [SnapshotFeatureNotSupportedFault].
-  /// May throw [TagQuotaPerResourceExceeded].
   /// May throw [InvalidParameterCombinationException].
   /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidReplicationGroupStateFault].
+  /// May throw [ReplicationGroupNotFoundFault].
+  /// May throw [SnapshotAlreadyExistsFault].
+  /// May throw [SnapshotFeatureNotSupportedFault].
+  /// May throw [SnapshotQuotaExceededFault].
+  /// May throw [TagQuotaPerResourceExceeded].
   ///
   /// Parameter [snapshotName] :
-  /// A name for the snapshot being created.
+  /// A name for the snapshot being created. This value is stored as a lowercase
+  /// string.
   ///
   /// Parameter [cacheClusterId] :
   /// The identifier of an existing cluster. The snapshot is created from this
@@ -2345,27 +2373,27 @@ class ElastiCache {
     return CreateSnapshotResult.fromXml($result);
   }
 
-  /// For Redis OSS engine version 6.0 onwards: Creates a Redis OSS user. For
-  /// more information, see <a
-  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Clusters.RBAC.html">Using
+  /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 to 7.1: Creates a
+  /// user. For more information, see <a
+  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html">Using
   /// Role Based Access Control (RBAC)</a>.
   ///
+  /// May throw [DuplicateUserNameFault].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
+  /// May throw [TagQuotaPerResourceExceeded].
   /// May throw [UserAlreadyExistsFault].
   /// May throw [UserQuotaExceededFault].
-  /// May throw [DuplicateUserNameFault].
-  /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
-  /// May throw [TagQuotaPerResourceExceeded].
   ///
   /// Parameter [accessString] :
   /// Access permissions string used for this user.
   ///
   /// Parameter [engine] :
-  /// The current supported value is Redis.
+  /// The options are valkey or redis.
   ///
   /// Parameter [userId] :
-  /// The ID of the user.
+  /// The ID of the user. This value is stored as a lowercase string.
   ///
   /// Parameter [userName] :
   /// The username of the user.
@@ -2429,30 +2457,30 @@ class ElastiCache {
     return User.fromXml($result);
   }
 
-  /// For Redis OSS engine version 6.0 onwards: Creates a Redis OSS user group.
-  /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Clusters.RBAC.html">Using
+  /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 to 7.1: Creates a
+  /// user group. For more information, see <a
+  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html">Using
   /// Role Based Access Control (RBAC)</a>
   ///
-  /// May throw [UserNotFoundFault].
-  /// May throw [DuplicateUserNameFault].
-  /// May throw [UserGroupAlreadyExistsFault].
-  /// May throw [ServiceLinkedRoleNotFoundFault].
   /// May throw [DefaultUserRequired].
-  /// May throw [UserGroupQuotaExceededFault].
+  /// May throw [DuplicateUserNameFault].
   /// May throw [InvalidParameterValueException].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
   /// May throw [TagQuotaPerResourceExceeded].
+  /// May throw [UserGroupAlreadyExistsFault].
+  /// May throw [UserGroupQuotaExceededFault].
+  /// May throw [UserNotFoundFault].
   ///
   /// Parameter [engine] :
-  /// The current supported value is Redis user.
+  /// Sets the engine listed in a user group. The options are valkey or redis.
   ///
   /// Parameter [userGroupId] :
-  /// The ID of the user group.
+  /// The ID of the user group. This value is stored as a lowercase string.
   ///
   /// Parameter [tags] :
   /// A list of tags to be added to this resource. A tag is a key-value pair. A
   /// tag key must be accompanied by a tag value, although null is accepted.
-  /// Available for Redis OSS only.
+  /// Available for Valkey and Redis OSS only.
   ///
   /// Parameter [userIds] :
   /// The list of user IDs that belong to the user group.
@@ -2495,8 +2523,8 @@ class ElastiCache {
   ///
   /// May throw [GlobalReplicationGroupNotFoundFault].
   /// May throw [InvalidGlobalReplicationGroupStateFault].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [applyImmediately] :
   /// Indicates that the shard reconfiguration process begins immediately. At
@@ -2513,15 +2541,15 @@ class ElastiCache {
   /// If the value of NodeGroupCount is less than the current number of node
   /// groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is
   /// required. GlobalNodeGroupsToRemove is a list of NodeGroupIds to remove
-  /// from the cluster. ElastiCache (Redis OSS) will attempt to remove all node
-  /// groups listed by GlobalNodeGroupsToRemove from the cluster.
+  /// from the cluster. ElastiCache will attempt to remove all node groups
+  /// listed by GlobalNodeGroupsToRemove from the cluster.
   ///
   /// Parameter [globalNodeGroupsToRetain] :
   /// If the value of NodeGroupCount is less than the current number of node
   /// groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is
   /// required. GlobalNodeGroupsToRetain is a list of NodeGroupIds to retain
-  /// from the cluster. ElastiCache (Redis OSS) will attempt to retain all node
-  /// groups listed by GlobalNodeGroupsToRetain from the cluster.
+  /// from the cluster. ElastiCache will attempt to retain all node groups
+  /// listed by GlobalNodeGroupsToRetain from the cluster.
   Future<DecreaseNodeGroupsInGlobalReplicationGroupResult>
       decreaseNodeGroupsInGlobalReplicationGroup({
     required bool applyImmediately,
@@ -2561,23 +2589,24 @@ class ElastiCache {
     return DecreaseNodeGroupsInGlobalReplicationGroupResult.fromXml($result);
   }
 
-  /// Dynamically decreases the number of replicas in a Redis OSS (cluster mode
-  /// disabled) replication group or the number of replica nodes in one or more
-  /// node groups (shards) of a Redis OSS (cluster mode enabled) replication
-  /// group. This operation is performed with no cluster down time.
+  /// Dynamically decreases the number of replicas in a Valkey or Redis OSS
+  /// (cluster mode disabled) replication group or the number of replica nodes
+  /// in one or more node groups (shards) of a Valkey or Redis OSS (cluster mode
+  /// enabled) replication group. This operation is performed with no cluster
+  /// down time.
   ///
-  /// May throw [ReplicationGroupNotFoundFault].
-  /// May throw [InvalidReplicationGroupStateFault].
-  /// May throw [InvalidCacheClusterStateFault].
-  /// May throw [InvalidVPCNetworkStateFault].
-  /// May throw [InsufficientCacheClusterCapacityFault].
   /// May throw [ClusterQuotaForCustomerExceededFault].
+  /// May throw [InsufficientCacheClusterCapacityFault].
+  /// May throw [InvalidCacheClusterStateFault].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidReplicationGroupStateFault].
+  /// May throw [InvalidVPCNetworkStateFault].
   /// May throw [NodeGroupsPerReplicationGroupQuotaExceededFault].
   /// May throw [NodeQuotaForCustomerExceededFault].
-  /// May throw [ServiceLinkedRoleNotFoundFault].
   /// May throw [NoOperationFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
+  /// May throw [ReplicationGroupNotFoundFault].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
   ///
   /// Parameter [applyImmediately] :
   /// If <code>True</code>, the number of replica nodes is decreased
@@ -2590,16 +2619,16 @@ class ElastiCache {
   ///
   /// Parameter [newReplicaCount] :
   /// The number of read replica nodes you want at the completion of this
-  /// operation. For Redis OSS (cluster mode disabled) replication groups, this
-  /// is the number of replica nodes in the replication group. For Redis OSS
-  /// (cluster mode enabled) replication groups, this is the number of replica
-  /// nodes in each of the replication group's node groups.
+  /// operation. For Valkey or Redis OSS (cluster mode disabled) replication
+  /// groups, this is the number of replica nodes in the replication group. For
+  /// Valkey or Redis OSS (cluster mode enabled) replication groups, this is the
+  /// number of replica nodes in each of the replication group's node groups.
   ///
   /// The minimum number of replicas in a shard or replication group is:
   ///
   /// <ul>
   /// <li>
-  /// Redis OSS (cluster mode disabled)
+  /// Valkey or Redis OSS (cluster mode disabled)
   ///
   /// <ul>
   /// <li>
@@ -2610,15 +2639,15 @@ class ElastiCache {
   /// </li>
   /// </ul> </li>
   /// <li>
-  /// Redis OSS (cluster mode enabled): 0 (though you will not be able to
-  /// failover to a replica if your primary node fails)
+  /// Valkey or Redis OSS (cluster mode enabled): 0 (though you will not be able
+  /// to failover to a replica if your primary node fails)
   /// </li>
   /// </ul>
   ///
   /// Parameter [replicaConfiguration] :
   /// A list of <code>ConfigureShard</code> objects that can be used to
-  /// configure each shard in a Redis OSS (cluster mode enabled) replication
-  /// group. The <code>ConfigureShard</code> has three members:
+  /// configure each shard in a Valkey or Redis OSS replication group. The
+  /// <code>ConfigureShard</code> has three members:
   /// <code>NewReplicaCount</code>, <code>NodeGroupId</code>, and
   /// <code>PreferredAvailabilityZones</code>.
   ///
@@ -2674,10 +2703,10 @@ class ElastiCache {
   ///
   /// <ul>
   /// <li>
-  /// Redis OSS (cluster mode enabled) clusters
+  /// Valkey or Redis OSS (cluster mode enabled) clusters
   /// </li>
   /// <li>
-  /// Redis OSS (cluster mode disabled) clusters
+  /// Valkey or Redis OSS (cluster mode disabled) clusters
   /// </li>
   /// <li>
   /// A cluster that is the last read replica of a replication group
@@ -2689,7 +2718,8 @@ class ElastiCache {
   /// A node group (shard) that has Multi-AZ mode enabled
   /// </li>
   /// <li>
-  /// A cluster from a Redis OSS (cluster mode enabled) replication group
+  /// A cluster from a Valkey or Redis OSS (cluster mode enabled) replication
+  /// group
   /// </li>
   /// <li>
   /// A cluster that is not in the <code>available</code> state
@@ -2698,11 +2728,11 @@ class ElastiCache {
   ///
   /// May throw [CacheClusterNotFoundFault].
   /// May throw [InvalidCacheClusterStateFault].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
   /// May throw [SnapshotAlreadyExistsFault].
   /// May throw [SnapshotFeatureNotSupportedFault].
   /// May throw [SnapshotQuotaExceededFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
   ///
   /// Parameter [cacheClusterId] :
   /// The cluster identifier for the cluster to be deleted. This parameter is
@@ -2737,10 +2767,10 @@ class ElastiCache {
   /// parameter group if it is associated with any cache clusters. You cannot
   /// delete the default cache parameter groups in your account.
   ///
-  /// May throw [InvalidCacheParameterGroupStateFault].
   /// May throw [CacheParameterGroupNotFoundFault].
-  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidCacheParameterGroupStateFault].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [cacheParameterGroupName] :
   /// The name of the cache parameter group to delete.
@@ -2770,10 +2800,10 @@ class ElastiCache {
   /// clusters.
   /// </note>
   ///
-  /// May throw [InvalidCacheSecurityGroupStateFault].
   /// May throw [CacheSecurityGroupNotFoundFault].
-  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidCacheSecurityGroupStateFault].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [cacheSecurityGroupName] :
   /// The name of the cache security group to delete.
@@ -2901,13 +2931,13 @@ class ElastiCache {
   /// </li>
   /// </ul> </note>
   ///
-  /// May throw [ReplicationGroupNotFoundFault].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidReplicationGroupStateFault].
+  /// May throw [ReplicationGroupNotFoundFault].
   /// May throw [SnapshotAlreadyExistsFault].
   /// May throw [SnapshotFeatureNotSupportedFault].
   /// May throw [SnapshotQuotaExceededFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
   ///
   /// Parameter [replicationGroupId] :
   /// The identifier for the cluster to be deleted. This parameter is not case
@@ -2953,12 +2983,12 @@ class ElastiCache {
   /// with an <code>Access Denied</code> exception.
   /// </note>
   ///
-  /// May throw [ServerlessCacheNotFoundFault].
-  /// May throw [InvalidServerlessCacheStateFault].
-  /// May throw [ServerlessCacheSnapshotAlreadyExistsFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
   /// May throw [InvalidCredentialsException].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidServerlessCacheStateFault].
+  /// May throw [ServerlessCacheNotFoundFault].
+  /// May throw [ServerlessCacheSnapshotAlreadyExistsFault].
   /// May throw [ServiceLinkedRoleNotFoundFault].
   ///
   /// Parameter [serverlessCacheName] :
@@ -2966,8 +2996,8 @@ class ElastiCache {
   ///
   /// Parameter [finalSnapshotName] :
   /// Name of the final snapshot to be taken before the serverless cache is
-  /// deleted. Available for Redis OSS and Serverless Memcached only. Default:
-  /// NULL, i.e. a final snapshot is not taken.
+  /// deleted. Available for Valkey, Redis OSS and Serverless Memcached only.
+  /// Default: NULL, i.e. a final snapshot is not taken.
   Future<DeleteServerlessCacheResponse> deleteServerlessCache({
     required String serverlessCacheName,
     String? finalSnapshotName,
@@ -2988,17 +3018,17 @@ class ElastiCache {
     return DeleteServerlessCacheResponse.fromXml($result);
   }
 
-  /// Deletes an existing serverless cache snapshot. Available for Redis OSS and
-  /// Serverless Memcached only.
+  /// Deletes an existing serverless cache snapshot. Available for Valkey, Redis
+  /// OSS and Serverless Memcached only.
   ///
-  /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [ServerlessCacheSnapshotNotFoundFault].
-  /// May throw [InvalidServerlessCacheSnapshotStateFault].
   /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidServerlessCacheSnapshotStateFault].
+  /// May throw [ServerlessCacheSnapshotNotFoundFault].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
   ///
   /// Parameter [serverlessCacheSnapshotName] :
-  /// Idenfitier of the snapshot to be deleted. Available for Redis OSS and
-  /// Serverless Memcached only.
+  /// Idenfitier of the snapshot to be deleted. Available for Valkey, Redis OSS
+  /// and Serverless Memcached only.
   Future<DeleteServerlessCacheSnapshotResponse> deleteServerlessCacheSnapshot({
     required String serverlessCacheSnapshotName,
   }) async {
@@ -3021,13 +3051,13 @@ class ElastiCache {
   /// this operation, ElastiCache immediately begins deleting the snapshot; you
   /// cannot cancel or revert this operation.
   /// <note>
-  /// This operation is valid for Redis OSS only.
+  /// This operation is valid for Valkey or Redis OSS only.
   /// </note>
   ///
-  /// May throw [SnapshotNotFoundFault].
-  /// May throw [InvalidSnapshotStateFault].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidSnapshotStateFault].
+  /// May throw [SnapshotNotFoundFault].
   ///
   /// Parameter [snapshotName] :
   /// The name of the snapshot to be deleted.
@@ -3049,17 +3079,17 @@ class ElastiCache {
     return DeleteSnapshotResult.fromXml($result);
   }
 
-  /// For Redis OSS engine version 6.0 onwards: Deletes a user. The user will be
-  /// removed from all user groups and in turn removed from all replication
-  /// groups. For more information, see <a
-  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Clusters.RBAC.html">Using
+  /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 onwards: Deletes a
+  /// user. The user will be removed from all user groups and in turn removed
+  /// from all replication groups. For more information, see <a
+  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html">Using
   /// Role Based Access Control (RBAC)</a>.
   ///
-  /// May throw [InvalidUserStateFault].
-  /// May throw [UserNotFoundFault].
-  /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [InvalidParameterValueException].
   /// May throw [DefaultUserAssociatedToUserGroupFault].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidUserStateFault].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
+  /// May throw [UserNotFoundFault].
   ///
   /// Parameter [userId] :
   /// The ID of the user.
@@ -3081,16 +3111,16 @@ class ElastiCache {
     return User.fromXml($result);
   }
 
-  /// For Redis OSS engine version 6.0 onwards: Deletes a user group. The user
-  /// group must first be disassociated from the replication group before it can
-  /// be deleted. For more information, see <a
-  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Clusters.RBAC.html">Using
+  /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 onwards: Deletes a
+  /// user group. The user group must first be disassociated from the
+  /// replication group before it can be deleted. For more information, see <a
+  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html">Using
   /// Role Based Access Control (RBAC)</a>.
   ///
-  /// May throw [UserGroupNotFoundFault].
+  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidUserGroupStateFault].
   /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [InvalidParameterValueException].
+  /// May throw [UserGroupNotFoundFault].
   ///
   /// Parameter [userGroupId] :
   /// The ID of the user group.
@@ -3137,8 +3167,8 @@ class ElastiCache {
   /// information for the removed nodes is displayed.
   ///
   /// May throw [CacheClusterNotFoundFault].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [cacheClusterId] :
   /// The user-supplied cluster identifier. If this parameter is specified, only
@@ -3164,7 +3194,7 @@ class ElastiCache {
   /// An optional flag that can be included in the
   /// <code>DescribeCacheCluster</code> request to show only nodes (API/CLI:
   /// clusters) that are not members of a replication group. In practice, this
-  /// mean Memcached and single node Redis OSS clusters.
+  /// means Memcached and single node Valkey or Redis OSS clusters.
   ///
   /// Parameter [showCacheNodeInfo] :
   /// An optional flag that can be included in the
@@ -3207,7 +3237,8 @@ class ElastiCache {
   /// Valid values are: <code>memcached1.4</code> | <code>memcached1.5</code> |
   /// <code>memcached1.6</code> | <code>redis2.6</code> | <code>redis2.8</code>
   /// | <code>redis3.2</code> | <code>redis4.0</code> | <code>redis5.0</code> |
-  /// <code>redis6.x</code> | <code>redis6.2</code> | <code>redis7</code>
+  /// <code>redis6.x</code> | <code>redis6.2</code> | <code>redis7</code> |
+  /// <code>valkey7</code>
   ///
   /// Constraints:
   ///
@@ -3285,8 +3316,8 @@ class ElastiCache {
   /// group.
   ///
   /// May throw [CacheParameterGroupNotFoundFault].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [cacheParameterGroupName] :
   /// The name of a specific cache parameter group to return details for.
@@ -3332,8 +3363,8 @@ class ElastiCache {
   /// group.
   ///
   /// May throw [CacheParameterGroupNotFoundFault].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [cacheParameterGroupName] :
   /// The name of a specific cache parameter group to return details for.
@@ -3387,8 +3418,8 @@ class ElastiCache {
   /// group. This applicable only when you have ElastiCache in Classic setup
   ///
   /// May throw [CacheSecurityGroupNotFoundFault].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [cacheSecurityGroupName] :
   /// The name of the cache security group to return details for.
@@ -3480,8 +3511,8 @@ class ElastiCache {
   /// Returns the default engine and system parameter information for the
   /// specified cache engine.
   ///
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [cacheParameterGroupFamily] :
   /// The name of the cache parameter group family.
@@ -3536,8 +3567,8 @@ class ElastiCache {
   /// By default, only the events occurring within the last hour are returned;
   /// however, you can retrieve up to 14 days' worth of events if necessary.
   ///
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [duration] :
   /// The number of minutes worth of events to retrieve.
@@ -3610,8 +3641,8 @@ class ElastiCache {
   /// identifier is specified, returns information about all Global datastores.
   ///
   /// May throw [GlobalReplicationGroupNotFoundFault].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [globalReplicationGroupId] :
   /// The name of the Global datastore
@@ -3659,12 +3690,12 @@ class ElastiCache {
   /// is specified, <code>DescribeReplicationGroups</code> returns information
   /// about all replication groups.
   /// <note>
-  /// This operation is valid for Redis OSS only.
+  /// This operation is valid for Valkey or Redis OSS only.
   /// </note>
   ///
-  /// May throw [ReplicationGroupNotFoundFault].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ReplicationGroupNotFoundFault].
   ///
   /// Parameter [marker] :
   /// An optional marker returned from a prior request. Use this marker for
@@ -3712,9 +3743,9 @@ class ElastiCache {
   /// Returns information about reserved cache nodes for this account, or about
   /// a specified reserved cache node.
   ///
-  /// May throw [ReservedCacheNodeNotFoundFault].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ReservedCacheNodeNotFoundFault].
   ///
   /// Parameter [cacheNodeType] :
   /// The cache node type filter value. Use this parameter to show only those
@@ -3739,7 +3770,7 @@ class ElastiCache {
   /// <code>cache.m7g.12xlarge</code>, <code>cache.m7g.16xlarge</code>
   /// <note>
   /// For region availability, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
   /// Node Types</a>
   /// </note>
   /// <b>M6g node types</b> (available only for Redis OSS engine version 5.0.6
@@ -3808,7 +3839,7 @@ class ElastiCache {
   /// <code>cache.r7g.12xlarge</code>, <code>cache.r7g.16xlarge</code>
   /// <note>
   /// For region availability, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
   /// Node Types</a>
   /// </note>
   /// <b>R6g node types</b> (available only for Redis OSS engine version 5.0.6
@@ -3849,17 +3880,17 @@ class ElastiCache {
   /// default.
   /// </li>
   /// <li>
-  /// Redis OSS append-only files (AOF) are not supported for T1 or T2
+  /// Valkey or Redis OSS append-only files (AOF) are not supported for T1 or T2
   /// instances.
   /// </li>
   /// <li>
-  /// Redis OSS Multi-AZ with automatic failover is not supported on T1
-  /// instances.
+  /// Valkey or Redis OSS Multi-AZ with automatic failover is not supported on
+  /// T1 instances.
   /// </li>
   /// <li>
-  /// Redis OSS configuration variables <code>appendonly</code> and
-  /// <code>appendfsync</code> are not supported on Redis OSS version 2.8.22 and
-  /// later.
+  /// The configuration variables <code>appendonly</code> and
+  /// <code>appendfsync</code> are not supported on Valkey, or on Redis OSS
+  /// version 2.8.22 and later.
   /// </li>
   /// </ul>
   ///
@@ -3938,9 +3969,9 @@ class ElastiCache {
 
   /// Lists available reserved cache node offerings.
   ///
-  /// May throw [ReservedCacheNodesOfferingNotFoundFault].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ReservedCacheNodesOfferingNotFoundFault].
   ///
   /// Parameter [cacheNodeType] :
   /// The cache node type filter value. Use this parameter to show only the
@@ -3965,7 +3996,7 @@ class ElastiCache {
   /// <code>cache.m7g.12xlarge</code>, <code>cache.m7g.16xlarge</code>
   /// <note>
   /// For region availability, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
   /// Node Types</a>
   /// </note>
   /// <b>M6g node types</b> (available only for Redis OSS engine version 5.0.6
@@ -4034,7 +4065,7 @@ class ElastiCache {
   /// <code>cache.r7g.12xlarge</code>, <code>cache.r7g.16xlarge</code>
   /// <note>
   /// For region availability, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
   /// Node Types</a>
   /// </note>
   /// <b>R6g node types</b> (available only for Redis OSS engine version 5.0.6
@@ -4075,17 +4106,17 @@ class ElastiCache {
   /// default.
   /// </li>
   /// <li>
-  /// Redis OSS append-only files (AOF) are not supported for T1 or T2
+  /// Valkey or Redis OSS append-only files (AOF) are not supported for T1 or T2
   /// instances.
   /// </li>
   /// <li>
-  /// Redis OSS Multi-AZ with automatic failover is not supported on T1
-  /// instances.
+  /// Valkey or Redis OSS Multi-AZ with automatic failover is not supported on
+  /// T1 instances.
   /// </li>
   /// <li>
-  /// Redis OSS configuration variables <code>appendonly</code> and
-  /// <code>appendfsync</code> are not supported on Redis OSS version 2.8.22 and
-  /// later.
+  /// The configuration variables <code>appendonly</code> and
+  /// <code>appendfsync</code> are not supported on Valkey, or on Redis OSS
+  /// version 2.8.22 and later.
   /// </li>
   /// </ul>
   ///
@@ -4158,79 +4189,13 @@ class ElastiCache {
     return ReservedCacheNodesOfferingMessage.fromXml($result);
   }
 
-  /// Returns information about serverless cache snapshots. By default, this API
-  /// lists all of the customer’s serverless cache snapshots. It can also
-  /// describe a single serverless cache snapshot, or the snapshots associated
-  /// with a particular serverless cache. Available for Redis OSS and Serverless
-  /// Memcached only.
-  ///
-  /// May throw [ServerlessCacheNotFoundFault].
-  /// May throw [ServerlessCacheSnapshotNotFoundFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of records to include in the response. If more records
-  /// exist than the specified max-results value, a market is included in the
-  /// response so that remaining results can be retrieved. Available for Redis
-  /// OSS and Serverless Memcached only.The default is 50. The Validation
-  /// Constraints are a maximum of 50.
-  ///
-  /// Parameter [nextToken] :
-  /// An optional marker returned from a prior request to support pagination of
-  /// results from this operation. If this parameter is specified, the response
-  /// includes only records beyond the marker, up to the value specified by
-  /// max-results. Available for Redis OSS and Serverless Memcached only.
-  ///
-  /// Parameter [serverlessCacheName] :
-  /// The identifier of serverless cache. If this parameter is specified, only
-  /// snapshots associated with that specific serverless cache are described.
-  /// Available for Redis OSS and Serverless Memcached only.
-  ///
-  /// Parameter [serverlessCacheSnapshotName] :
-  /// The identifier of the serverless cache’s snapshot. If this parameter is
-  /// specified, only this snapshot is described. Available for Redis OSS and
-  /// Serverless Memcached only.
-  ///
-  /// Parameter [snapshotType] :
-  /// The type of snapshot that is being described. Available for Redis OSS and
-  /// Serverless Memcached only.
-  Future<DescribeServerlessCacheSnapshotsResponse>
-      describeServerlessCacheSnapshots({
-    int? maxResults,
-    String? nextToken,
-    String? serverlessCacheName,
-    String? serverlessCacheSnapshotName,
-    String? snapshotType,
-  }) async {
-    final $request = <String, String>{
-      if (maxResults != null) 'MaxResults': maxResults.toString(),
-      if (nextToken != null) 'NextToken': nextToken,
-      if (serverlessCacheName != null)
-        'ServerlessCacheName': serverlessCacheName,
-      if (serverlessCacheSnapshotName != null)
-        'ServerlessCacheSnapshotName': serverlessCacheSnapshotName,
-      if (snapshotType != null) 'SnapshotType': snapshotType,
-    };
-    final $result = await _protocol.send(
-      $request,
-      action: 'DescribeServerlessCacheSnapshots',
-      version: '2015-02-02',
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      resultWrapper: 'DescribeServerlessCacheSnapshotsResult',
-    );
-    return DescribeServerlessCacheSnapshotsResponse.fromXml($result);
-  }
-
   /// Returns information about a specific serverless cache. If no identifier is
   /// specified, then the API returns information on all the serverless caches
   /// belonging to this Amazon Web Services account.
   ///
-  /// May throw [ServerlessCacheNotFoundFault].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ServerlessCacheNotFoundFault].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of records in the response. If more records exist than
@@ -4270,11 +4235,78 @@ class ElastiCache {
     return DescribeServerlessCachesResponse.fromXml($result);
   }
 
+  /// Returns information about serverless cache snapshots. By default, this API
+  /// lists all of the customer’s serverless cache snapshots. It can also
+  /// describe a single serverless cache snapshot, or the snapshots associated
+  /// with a particular serverless cache. Available for Valkey, Redis OSS and
+  /// Serverless Memcached only.
+  ///
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ServerlessCacheNotFoundFault].
+  /// May throw [ServerlessCacheSnapshotNotFoundFault].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified max-results value, a market is included in the
+  /// response so that remaining results can be retrieved. Available for Valkey,
+  /// Redis OSS and Serverless Memcached only.The default is 50. The Validation
+  /// Constraints are a maximum of 50.
+  ///
+  /// Parameter [nextToken] :
+  /// An optional marker returned from a prior request to support pagination of
+  /// results from this operation. If this parameter is specified, the response
+  /// includes only records beyond the marker, up to the value specified by
+  /// max-results. Available for Valkey, Redis OSS and Serverless Memcached
+  /// only.
+  ///
+  /// Parameter [serverlessCacheName] :
+  /// The identifier of serverless cache. If this parameter is specified, only
+  /// snapshots associated with that specific serverless cache are described.
+  /// Available for Valkey, Redis OSS and Serverless Memcached only.
+  ///
+  /// Parameter [serverlessCacheSnapshotName] :
+  /// The identifier of the serverless cache’s snapshot. If this parameter is
+  /// specified, only this snapshot is described. Available for Valkey, Redis
+  /// OSS and Serverless Memcached only.
+  ///
+  /// Parameter [snapshotType] :
+  /// The type of snapshot that is being described. Available for Valkey, Redis
+  /// OSS and Serverless Memcached only.
+  Future<DescribeServerlessCacheSnapshotsResponse>
+      describeServerlessCacheSnapshots({
+    int? maxResults,
+    String? nextToken,
+    String? serverlessCacheName,
+    String? serverlessCacheSnapshotName,
+    String? snapshotType,
+  }) async {
+    final $request = <String, String>{
+      if (maxResults != null) 'MaxResults': maxResults.toString(),
+      if (nextToken != null) 'NextToken': nextToken,
+      if (serverlessCacheName != null)
+        'ServerlessCacheName': serverlessCacheName,
+      if (serverlessCacheSnapshotName != null)
+        'ServerlessCacheSnapshotName': serverlessCacheSnapshotName,
+      if (snapshotType != null) 'SnapshotType': snapshotType,
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'DescribeServerlessCacheSnapshots',
+      version: '2015-02-02',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'DescribeServerlessCacheSnapshotsResult',
+    );
+    return DescribeServerlessCacheSnapshotsResponse.fromXml($result);
+  }
+
   /// Returns details of the service updates
   ///
-  /// May throw [ServiceUpdateNotFoundFault].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ServiceUpdateNotFoundFault].
   ///
   /// Parameter [marker] :
   /// An optional marker returned from a prior request. Use this marker for
@@ -4325,13 +4357,13 @@ class ElastiCache {
   /// can optionally describe a single snapshot, or just the snapshots
   /// associated with a particular cache cluster.
   /// <note>
-  /// This operation is valid for Redis OSS only.
+  /// This operation is valid for Valkey or Redis OSS only.
   /// </note>
   ///
   /// May throw [CacheClusterNotFoundFault].
-  /// May throw [SnapshotNotFoundFault].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [SnapshotNotFoundFault].
   ///
   /// Parameter [cacheClusterId] :
   /// A user-supplied cluster identifier. If this parameter is specified, only
@@ -4403,15 +4435,15 @@ class ElastiCache {
 
   /// Returns details of the update actions
   ///
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [cacheClusterIds] :
   /// The cache cluster IDs
   ///
   /// Parameter [engine] :
-  /// The Elasticache engine to which the update applies. Either Redis OSS or
-  /// Memcached.
+  /// The Elasticache engine to which the update applies. Either Valkey, Redis
+  /// OSS or Memcached.
   ///
   /// Parameter [marker] :
   /// An optional marker returned from a prior request. Use this marker for
@@ -4502,15 +4534,15 @@ class ElastiCache {
 
   /// Returns a list of user groups.
   ///
-  /// May throw [UserGroupNotFoundFault].
-  /// May throw [ServiceLinkedRoleNotFoundFault].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
+  /// May throw [UserGroupNotFoundFault].
   ///
   /// Parameter [marker] :
   /// An optional marker returned from a prior request. Use this marker for
   /// pagination of results from this operation. If this parameter is specified,
   /// the response includes only records beyond the marker, up to the value
-  /// specified by MaxRecords. &gt;
+  /// specified by MaxRecords. >
   ///
   /// Parameter [maxRecords] :
   /// The maximum number of records to include in the response. If more records
@@ -4543,12 +4575,12 @@ class ElastiCache {
 
   /// Returns a list of users.
   ///
-  /// May throw [UserNotFoundFault].
-  /// May throw [ServiceLinkedRoleNotFoundFault].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
+  /// May throw [UserNotFoundFault].
   ///
   /// Parameter [engine] :
-  /// The Redis OSS engine.
+  /// The engine.
   ///
   /// Parameter [filters] :
   /// Filter to determine the list of User IDs to return.
@@ -4557,7 +4589,7 @@ class ElastiCache {
   /// An optional marker returned from a prior request. Use this marker for
   /// pagination of results from this operation. If this parameter is specified,
   /// the response includes only records beyond the marker, up to the value
-  /// specified by MaxRecords. &gt;
+  /// specified by MaxRecords. >
   ///
   /// Parameter [maxRecords] :
   /// The maximum number of records to include in the response. If more records
@@ -4605,8 +4637,8 @@ class ElastiCache {
   ///
   /// May throw [GlobalReplicationGroupNotFoundFault].
   /// May throw [InvalidGlobalReplicationGroupStateFault].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [globalReplicationGroupId] :
   /// The name of the Global datastore
@@ -4642,21 +4674,21 @@ class ElastiCache {
   }
 
   /// Provides the functionality to export the serverless cache snapshot data to
-  /// Amazon S3. Available for Redis OSS only.
+  /// Amazon S3. Available for Valkey and Redis OSS only.
   ///
-  /// May throw [ServerlessCacheSnapshotNotFoundFault].
-  /// May throw [InvalidServerlessCacheSnapshotStateFault].
-  /// May throw [ServiceLinkedRoleNotFoundFault].
   /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidServerlessCacheSnapshotStateFault].
+  /// May throw [ServerlessCacheSnapshotNotFoundFault].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
   ///
   /// Parameter [s3BucketName] :
   /// Name of the Amazon S3 bucket to export the snapshot to. The Amazon S3
-  /// bucket must also be in same region as the snapshot. Available for Redis
-  /// OSS only.
+  /// bucket must also be in same region as the snapshot. Available for Valkey
+  /// and Redis OSS only.
   ///
   /// Parameter [serverlessCacheSnapshotName] :
   /// The identifier of the serverless cache snapshot to be exported to S3.
-  /// Available for Redis OSS only.
+  /// Available for Valkey and Redis OSS only.
   Future<ExportServerlessCacheSnapshotResponse> exportServerlessCacheSnapshot({
     required String s3BucketName,
     required String serverlessCacheSnapshotName,
@@ -4682,8 +4714,8 @@ class ElastiCache {
   ///
   /// May throw [GlobalReplicationGroupNotFoundFault].
   /// May throw [InvalidGlobalReplicationGroupStateFault].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [globalReplicationGroupId] :
   /// The name of the Global datastore
@@ -4767,23 +4799,24 @@ class ElastiCache {
     return IncreaseNodeGroupsInGlobalReplicationGroupResult.fromXml($result);
   }
 
-  /// Dynamically increases the number of replicas in a Redis OSS (cluster mode
-  /// disabled) replication group or the number of replica nodes in one or more
-  /// node groups (shards) of a Redis OSS (cluster mode enabled) replication
-  /// group. This operation is performed with no cluster down time.
+  /// Dynamically increases the number of replicas in a Valkey or Redis OSS
+  /// (cluster mode disabled) replication group or the number of replica nodes
+  /// in one or more node groups (shards) of a Valkey or Redis OSS (cluster mode
+  /// enabled) replication group. This operation is performed with no cluster
+  /// down time.
   ///
-  /// May throw [ReplicationGroupNotFoundFault].
-  /// May throw [InvalidReplicationGroupStateFault].
-  /// May throw [InvalidCacheClusterStateFault].
-  /// May throw [InvalidVPCNetworkStateFault].
-  /// May throw [InsufficientCacheClusterCapacityFault].
   /// May throw [ClusterQuotaForCustomerExceededFault].
+  /// May throw [InsufficientCacheClusterCapacityFault].
+  /// May throw [InvalidCacheClusterStateFault].
+  /// May throw [InvalidKMSKeyFault].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidReplicationGroupStateFault].
+  /// May throw [InvalidVPCNetworkStateFault].
   /// May throw [NodeGroupsPerReplicationGroupQuotaExceededFault].
   /// May throw [NodeQuotaForCustomerExceededFault].
   /// May throw [NoOperationFault].
-  /// May throw [InvalidKMSKeyFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
+  /// May throw [ReplicationGroupNotFoundFault].
   ///
   /// Parameter [applyImmediately] :
   /// If <code>True</code>, the number of replica nodes is increased
@@ -4795,15 +4828,15 @@ class ElastiCache {
   ///
   /// Parameter [newReplicaCount] :
   /// The number of read replica nodes you want at the completion of this
-  /// operation. For Redis OSS (cluster mode disabled) replication groups, this
-  /// is the number of replica nodes in the replication group. For Redis OSS
-  /// (cluster mode enabled) replication groups, this is the number of replica
-  /// nodes in each of the replication group's node groups.
+  /// operation. For Valkey or Redis OSS (cluster mode disabled) replication
+  /// groups, this is the number of replica nodes in the replication group. For
+  /// Valkey or Redis OSS (cluster mode enabled) replication groups, this is the
+  /// number of replica nodes in each of the replication group's node groups.
   ///
   /// Parameter [replicaConfiguration] :
   /// A list of <code>ConfigureShard</code> objects that can be used to
-  /// configure each shard in a Redis OSS (cluster mode enabled) replication
-  /// group. The <code>ConfigureShard</code> has three members:
+  /// configure each shard in a Valkey or Redis OSS (cluster mode enabled)
+  /// replication group. The <code>ConfigureShard</code> has three members:
   /// <code>NewReplicaCount</code>, <code>NodeGroupId</code>, and
   /// <code>PreferredAvailabilityZones</code>.
   Future<IncreaseReplicaCountResult> increaseReplicaCount({
@@ -4838,8 +4871,8 @@ class ElastiCache {
     return IncreaseReplicaCountResult.fromXml($result);
   }
 
-  /// Lists all available node types that you can scale your Redis OSS cluster's
-  /// or replication group's current node type.
+  /// Lists all available node types that you can scale with your cluster's
+  /// replication group's current node type.
   ///
   /// When you use the <code>ModifyCacheCluster</code> or
   /// <code>ModifyReplicationGroup</code> operations to scale your cluster or
@@ -4847,9 +4880,9 @@ class ElastiCache {
   /// must be one of the node types returned by this operation.
   ///
   /// May throw [CacheClusterNotFoundFault].
-  /// May throw [ReplicationGroupNotFoundFault].
   /// May throw [InvalidParameterCombinationException].
   /// May throw [InvalidParameterValueException].
+  /// May throw [ReplicationGroupNotFoundFault].
   ///
   /// Parameter [cacheClusterId] :
   /// The name of the cluster you want to scale up to a larger node instanced
@@ -4897,7 +4930,7 @@ class ElastiCache {
   /// the exception of global replication group. When you add or remove tags on
   /// replication groups, those actions will be replicated to all nodes in the
   /// replication group. For more information, see <a
-  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/IAM.ResourceLevelPermissions.html">Resource-level
+  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.ResourceLevelPermissions.html">Resource-level
   /// permissions</a>.
   ///
   /// If the cluster is not in the <i>available</i> state,
@@ -4907,17 +4940,17 @@ class ElastiCache {
   /// May throw [CacheParameterGroupNotFoundFault].
   /// May throw [CacheSecurityGroupNotFoundFault].
   /// May throw [CacheSubnetGroupNotFoundFault].
+  /// May throw [InvalidARNFault].
   /// May throw [InvalidReplicationGroupStateFault].
+  /// May throw [InvalidServerlessCacheSnapshotStateFault].
+  /// May throw [InvalidServerlessCacheStateFault].
   /// May throw [ReplicationGroupNotFoundFault].
   /// May throw [ReservedCacheNodeNotFoundFault].
-  /// May throw [SnapshotNotFoundFault].
-  /// May throw [UserNotFoundFault].
-  /// May throw [UserGroupNotFoundFault].
   /// May throw [ServerlessCacheNotFoundFault].
-  /// May throw [InvalidServerlessCacheStateFault].
   /// May throw [ServerlessCacheSnapshotNotFoundFault].
-  /// May throw [InvalidServerlessCacheSnapshotStateFault].
-  /// May throw [InvalidARNFault].
+  /// May throw [SnapshotNotFoundFault].
+  /// May throw [UserGroupNotFoundFault].
+  /// May throw [UserNotFoundFault].
   ///
   /// Parameter [resourceName] :
   /// The Amazon Resource Name (ARN) of the resource for which you want the list
@@ -4950,17 +4983,17 @@ class ElastiCache {
   /// one or more cluster configuration parameters by specifying the parameters
   /// and the new values.
   ///
+  /// May throw [CacheClusterNotFoundFault].
+  /// May throw [CacheParameterGroupNotFoundFault].
+  /// May throw [CacheSecurityGroupNotFoundFault].
+  /// May throw [InsufficientCacheClusterCapacityFault].
   /// May throw [InvalidCacheClusterStateFault].
   /// May throw [InvalidCacheSecurityGroupStateFault].
-  /// May throw [InsufficientCacheClusterCapacityFault].
-  /// May throw [CacheClusterNotFoundFault].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidVPCNetworkStateFault].
   /// May throw [NodeQuotaForClusterExceededFault].
   /// May throw [NodeQuotaForCustomerExceededFault].
-  /// May throw [CacheSecurityGroupNotFoundFault].
-  /// May throw [CacheParameterGroupNotFoundFault].
-  /// May throw [InvalidVPCNetworkStateFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
   ///
   /// Parameter [cacheClusterId] :
   /// The cluster identifier. This value is stored as a lowercase string.
@@ -5035,13 +5068,13 @@ class ElastiCache {
   /// </li>
   /// </ul>
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/auth.html">Authenticating
-  /// Users with Redis OSS AUTH</a>
+  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth.html">Authenticating
+  /// Users with AUTH</a>
   ///
   /// Parameter [autoMinorVersionUpgrade] :
-  /// If you are running Redis OSS engine version 6.0 or later, set this
-  /// parameter to yes if you want to opt-in to the next auto minor version
-  /// upgrade campaign. This parameter is disabled for previous versions.
+  /// If you are running Valkey 7.2 or Redis OSS engine version 6.0 or later,
+  /// set this parameter to yes to opt-in to the next auto minor version upgrade
+  /// campaign. This parameter is disabled for previous versions.
   ///
   /// Parameter [cacheNodeIdsToRemove] :
   /// A list of cache node IDs to be removed. A node ID is a numeric identifier
@@ -5075,11 +5108,15 @@ class ElastiCache {
   /// Constraints: Must contain no more than 255 alphanumeric characters. Must
   /// not be "Default".
   ///
+  /// Parameter [engine] :
+  /// The engine type used by the cache cluster. The options are valkey,
+  /// memcached or redis.
+  ///
   /// Parameter [engineVersion] :
   /// The upgraded version of the cache engine to be run on the cache nodes.
   ///
   /// <b>Important:</b> You can upgrade to a newer engine version (see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/SelectEngine.html#VersionManagement">Selecting
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/SelectEngine.html#VersionManagement">Selecting
   /// a Cache Engine and Version</a>), but you cannot downgrade to an earlier
   /// engine version. If you want to use an earlier engine version, you must
   /// delete the existing cluster and create it anew with the earlier engine
@@ -5088,8 +5125,8 @@ class ElastiCache {
   /// Parameter [ipDiscovery] :
   /// The network type you choose when modifying a cluster, either
   /// <code>ipv4</code> | <code>ipv6</code>. IPv6 is supported for workloads
-  /// using Redis OSS engine version 6.2 onward or Memcached engine version
-  /// 1.6.6 on all instances built on the <a
+  /// using Valkey 7.2 and above, Redis OSS engine version 6.2 to 7.1 or
+  /// Memcached engine version 1.6.6 and above on all instances built on the <a
   /// href="http://aws.amazon.com/ec2/nitro/">Nitro system</a>.
   ///
   /// Parameter [logDeliveryConfigurations] :
@@ -5136,7 +5173,7 @@ class ElastiCache {
   /// in different Availability Zones. For guidance on how to move existing
   /// Memcached nodes to different Availability Zones, see the <b>Availability
   /// Zone Considerations</b> section of <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/mem-ug/CacheNodes.SupportedTypes.html">Cache
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/CacheNodes.SupportedTypes.html">Cache
   /// Node Considerations for Memcached</a>.
   ///
   /// <b>Impact of new add/remove requests upon pending requests</b>
@@ -5230,8 +5267,8 @@ class ElastiCache {
   /// <code>CacheNodeIdsToRemove</code> parameter to provide the IDs of the
   /// specific cache nodes to remove.
   ///
-  /// For clusters running Redis OSS, this value must be 1. For clusters running
-  /// Memcached, this value must be between 1 and 40.
+  /// For clusters running Valkey or Redis OSS, this value must be 1. For
+  /// clusters running Memcached, this value must be between 1 and 40.
   /// <note>
   /// Adding or removing Memcached cache nodes can be applied immediately or as
   /// a pending operation (see <code>ApplyImmediately</code>).
@@ -5288,6 +5325,10 @@ class ElastiCache {
   /// </ul>
   /// Example: <code>sun:23:00-mon:01:30</code>
   ///
+  /// Parameter [scaleConfig] :
+  /// Configures horizontal or vertical scaling for Memcached clusters,
+  /// specifying the scaling percentage and interval.
+  ///
   /// Parameter [securityGroupIds] :
   /// Specifies the VPC Security Groups associated with the cluster.
   ///
@@ -5318,6 +5359,7 @@ class ElastiCache {
     String? cacheNodeType,
     String? cacheParameterGroupName,
     List<String>? cacheSecurityGroupNames,
+    String? engine,
     String? engineVersion,
     IpDiscovery? ipDiscovery,
     List<LogDeliveryConfigurationRequest>? logDeliveryConfigurations,
@@ -5326,6 +5368,7 @@ class ElastiCache {
     String? notificationTopicStatus,
     int? numCacheNodes,
     String? preferredMaintenanceWindow,
+    ScaleConfig? scaleConfig,
     List<String>? securityGroupIds,
     int? snapshotRetentionLimit,
     String? snapshotWindow,
@@ -5357,6 +5400,7 @@ class ElastiCache {
           for (var i1 = 0; i1 < cacheSecurityGroupNames.length; i1++)
             'CacheSecurityGroupNames.CacheSecurityGroupName.${i1 + 1}':
                 cacheSecurityGroupNames[i1],
+      if (engine != null) 'Engine': engine,
       if (engineVersion != null) 'EngineVersion': engineVersion,
       if (ipDiscovery != null) 'IpDiscovery': ipDiscovery.value,
       if (logDeliveryConfigurations != null)
@@ -5381,6 +5425,9 @@ class ElastiCache {
       if (numCacheNodes != null) 'NumCacheNodes': numCacheNodes.toString(),
       if (preferredMaintenanceWindow != null)
         'PreferredMaintenanceWindow': preferredMaintenanceWindow,
+      if (scaleConfig != null)
+        for (var e1 in scaleConfig.toQueryMap().entries)
+          'ScaleConfig.${e1.key}': e1.value,
       if (securityGroupIds != null)
         if (securityGroupIds.isEmpty)
           'SecurityGroupIds': ''
@@ -5409,9 +5456,9 @@ class ElastiCache {
   ///
   /// May throw [CacheParameterGroupNotFoundFault].
   /// May throw [InvalidCacheParameterGroupStateFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
   /// May throw [InvalidGlobalReplicationGroupStateFault].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [cacheParameterGroupName] :
   /// The name of the cache parameter group to modify.
@@ -5450,8 +5497,8 @@ class ElastiCache {
   ///
   /// May throw [CacheSubnetGroupNotFoundFault].
   /// May throw [CacheSubnetQuotaExceededFault].
-  /// May throw [SubnetInUse].
   /// May throw [InvalidSubnet].
+  /// May throw [SubnetInUse].
   /// May throw [SubnetNotAllowedFault].
   ///
   /// Parameter [cacheSubnetGroupName] :
@@ -5523,6 +5570,10 @@ class ElastiCache {
   /// must be compatible with the major engine version used by the Global
   /// datastore.
   ///
+  /// Parameter [engine] :
+  /// Modifies the engine listed in a global replication group message. The
+  /// options are valkey, memcached or redis.
+  ///
   /// Parameter [engineVersion] :
   /// The upgraded version of the cache engine to be run on the clusters in the
   /// Global datastore.
@@ -5535,6 +5586,7 @@ class ElastiCache {
     bool? automaticFailoverEnabled,
     String? cacheNodeType,
     String? cacheParameterGroupName,
+    String? engine,
     String? engineVersion,
     String? globalReplicationGroupDescription,
   }) async {
@@ -5546,6 +5598,7 @@ class ElastiCache {
       if (cacheNodeType != null) 'CacheNodeType': cacheNodeType,
       if (cacheParameterGroupName != null)
         'CacheParameterGroupName': cacheParameterGroupName,
+      if (engine != null) 'Engine': engine,
       if (engineVersion != null) 'EngineVersion': engineVersion,
       if (globalReplicationGroupDescription != null)
         'GlobalReplicationGroupDescription': globalReplicationGroupDescription,
@@ -5562,15 +5615,15 @@ class ElastiCache {
     return ModifyGlobalReplicationGroupResult.fromXml($result);
   }
 
-  /// Modifies the settings for a replication group. This is limited to Redis
-  /// OSS 7 and newer.
+  /// Modifies the settings for a replication group. This is limited to Valkey
+  /// and Redis OSS 7 and above.
   ///
   /// <ul>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/scaling-redis-cluster-mode-enabled.html">Scaling
-  /// for Amazon ElastiCache (Redis OSS) (cluster mode enabled)</a> in the
-  /// ElastiCache User Guide
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/scaling-redis-cluster-mode-enabled.html">Scaling
+  /// for Valkey or Redis OSS (cluster mode enabled)</a> in the ElastiCache User
+  /// Guide
   /// </li>
   /// <li>
   /// <a
@@ -5578,25 +5631,25 @@ class ElastiCache {
   /// in the ElastiCache API Reference
   /// </li>
   /// </ul> <note>
-  /// This operation is valid for Redis OSS only.
+  /// This operation is valid for Valkey or Redis OSS only.
   /// </note>
   ///
-  /// May throw [ReplicationGroupNotFoundFault].
-  /// May throw [InvalidReplicationGroupStateFault].
-  /// May throw [InvalidUserGroupStateFault].
-  /// May throw [UserGroupNotFoundFault].
+  /// May throw [CacheClusterNotFoundFault].
+  /// May throw [CacheParameterGroupNotFoundFault].
+  /// May throw [CacheSecurityGroupNotFoundFault].
+  /// May throw [InsufficientCacheClusterCapacityFault].
   /// May throw [InvalidCacheClusterStateFault].
   /// May throw [InvalidCacheSecurityGroupStateFault].
-  /// May throw [InsufficientCacheClusterCapacityFault].
-  /// May throw [CacheClusterNotFoundFault].
+  /// May throw [InvalidKMSKeyFault].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidReplicationGroupStateFault].
+  /// May throw [InvalidUserGroupStateFault].
+  /// May throw [InvalidVPCNetworkStateFault].
   /// May throw [NodeQuotaForClusterExceededFault].
   /// May throw [NodeQuotaForCustomerExceededFault].
-  /// May throw [CacheSecurityGroupNotFoundFault].
-  /// May throw [CacheParameterGroupNotFoundFault].
-  /// May throw [InvalidVPCNetworkStateFault].
-  /// May throw [InvalidKMSKeyFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
+  /// May throw [ReplicationGroupNotFoundFault].
+  /// May throw [UserGroupNotFoundFault].
   ///
   /// Parameter [replicationGroupId] :
   /// The identifier of the replication group to modify.
@@ -5651,12 +5704,12 @@ class ElastiCache {
   /// </li>
   /// </ul>
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/auth.html">Authenticating
-  /// Users with Redis OSS AUTH</a>
+  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth.html">Authenticating
+  /// Users with AUTH</a>
   ///
   /// Parameter [autoMinorVersionUpgrade] :
-  /// If you are running Redis OSS engine version 6.0 or later, set this
-  /// parameter to yes if you want to opt-in to the next auto minor version
+  /// If you are running Valkey or Redis OSS engine version 6.0 or later, set
+  /// this parameter to yes if you want to opt-in to the next auto minor version
   /// upgrade campaign. This parameter is disabled for previous versions.
   ///
   /// Parameter [automaticFailoverEnabled] :
@@ -5688,17 +5741,28 @@ class ElastiCache {
   /// Parameter [clusterMode] :
   /// Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you
   /// must first set the cluster mode to Compatible. Compatible mode allows your
-  /// Redis OSS clients to connect using both cluster mode enabled and cluster
-  /// mode disabled. After you migrate all Redis OSS clients to use cluster mode
-  /// enabled, you can then complete cluster mode configuration and set the
-  /// cluster mode to Enabled.
+  /// Valkey or Redis OSS clients to connect using both cluster mode enabled and
+  /// cluster mode disabled. After you migrate all Valkey or Redis OSS clients
+  /// to use cluster mode enabled, you can then complete cluster mode
+  /// configuration and set the cluster mode to Enabled.
+  ///
+  /// Parameter [durability] :
+  /// Specifies the durability setting for the replication group. Use this
+  /// parameter to change the durability mode of an existing replication group,
+  /// for example from <code>sync</code> to <code>async</code> or vice versa.
+  /// For more information, see <a
+  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Durability.html">Durability</a>.
+  ///
+  /// Parameter [engine] :
+  /// Modifies the engine listed in a replication group message. The options are
+  /// valkey, memcached or redis.
   ///
   /// Parameter [engineVersion] :
   /// The upgraded version of the cache engine to be run on the clusters in the
   /// replication group.
   ///
   /// <b>Important:</b> You can upgrade to a newer engine version (see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/SelectEngine.html#VersionManagement">Selecting
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/SelectEngine.html#VersionManagement">Selecting
   /// a Cache Engine and Version</a>), but you cannot downgrade to an earlier
   /// engine version. If you want to use an earlier engine version, you must
   /// delete the existing replication group and create it anew with the earlier
@@ -5707,8 +5771,8 @@ class ElastiCache {
   /// Parameter [ipDiscovery] :
   /// The network type you choose when modifying a cluster, either
   /// <code>ipv4</code> | <code>ipv6</code>. IPv6 is supported for workloads
-  /// using Redis OSS engine version 6.2 onward or Memcached engine version
-  /// 1.6.6 on all instances built on the <a
+  /// using Valkey 7.2 and above, Redis OSS engine version 6.2 to 7.1 and
+  /// Memcached engine version 1.6.6 and above on all instances built on the <a
   /// href="http://aws.amazon.com/ec2/nitro/">Nitro system</a>.
   ///
   /// Parameter [logDeliveryConfigurations] :
@@ -5806,8 +5870,8 @@ class ElastiCache {
   ///
   /// Parameter [snapshottingClusterId] :
   /// The cluster ID that is used as the daily snapshot source for the
-  /// replication group. This parameter cannot be set for Redis OSS (cluster
-  /// mode enabled) replication groups.
+  /// replication group. This parameter cannot be set for Valkey or Redis OSS
+  /// (cluster mode enabled) replication groups.
   ///
   /// Parameter [transitEncryptionEnabled] :
   /// A flag that enables in-transit encryption when set to true. If you are
@@ -5821,8 +5885,8 @@ class ElastiCache {
   /// You must set <code>TransitEncryptionEnabled</code> to <code>true</code>,
   /// for your existing cluster, and set <code>TransitEncryptionMode</code> to
   /// <code>preferred</code> in the same request to allow both encrypted and
-  /// unencrypted connections at the same time. Once you migrate all your Redis
-  /// OSS clients to use encrypted connections you can set the value to
+  /// unencrypted connections at the same time. Once you migrate all your Valkey
+  /// or Redis OSS clients to use encrypted connections you can set the value to
   /// <code>required</code> to allow encrypted connections only.
   ///
   /// Setting <code>TransitEncryptionMode</code> to <code>required</code> is a
@@ -5847,6 +5911,8 @@ class ElastiCache {
     String? cacheParameterGroupName,
     List<String>? cacheSecurityGroupNames,
     ClusterMode? clusterMode,
+    Durability? durability,
+    String? engine,
     String? engineVersion,
     IpDiscovery? ipDiscovery,
     List<LogDeliveryConfigurationRequest>? logDeliveryConfigurations,
@@ -5889,6 +5955,8 @@ class ElastiCache {
             'CacheSecurityGroupNames.CacheSecurityGroupName.${i1 + 1}':
                 cacheSecurityGroupNames[i1],
       if (clusterMode != null) 'ClusterMode': clusterMode.value,
+      if (durability != null) 'Durability': durability.value,
+      if (engine != null) 'Engine': engine,
       if (engineVersion != null) 'EngineVersion': engineVersion,
       if (ipDiscovery != null) 'IpDiscovery': ipDiscovery.value,
       if (logDeliveryConfigurations != null)
@@ -5955,16 +6023,16 @@ class ElastiCache {
   /// Modifies a replication group's shards (node groups) by allowing you to add
   /// shards, remove shards, or rebalance the keyspaces among existing shards.
   ///
-  /// May throw [ReplicationGroupNotFoundFault].
-  /// May throw [InvalidReplicationGroupStateFault].
-  /// May throw [InvalidCacheClusterStateFault].
-  /// May throw [InvalidVPCNetworkStateFault].
   /// May throw [InsufficientCacheClusterCapacityFault].
+  /// May throw [InvalidCacheClusterStateFault].
+  /// May throw [InvalidKMSKeyFault].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidReplicationGroupStateFault].
+  /// May throw [InvalidVPCNetworkStateFault].
   /// May throw [NodeGroupsPerReplicationGroupQuotaExceededFault].
   /// May throw [NodeQuotaForCustomerExceededFault].
-  /// May throw [InvalidKMSKeyFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
+  /// May throw [ReplicationGroupNotFoundFault].
   ///
   /// Parameter [applyImmediately] :
   /// Indicates that the shard reconfiguration process begins immediately. At
@@ -5977,8 +6045,8 @@ class ElastiCache {
   /// the shard configuration.
   ///
   /// Parameter [replicationGroupId] :
-  /// The name of the Redis OSS (cluster mode enabled) cluster (replication
-  /// group) on which the shards are to be configured.
+  /// The name of the Valkey or Redis OSS (cluster mode enabled) cluster
+  /// (replication group) on which the shards are to be configured.
   ///
   /// Parameter [nodeGroupsToRemove] :
   /// If the value of <code>NodeGroupCount</code> is less than the current
@@ -5987,7 +6055,7 @@ class ElastiCache {
   /// required. <code>NodeGroupsToRemove</code> is a list of
   /// <code>NodeGroupId</code>s to remove from the cluster.
   ///
-  /// ElastiCache (Redis OSS) will attempt to remove all node groups listed by
+  /// ElastiCache will attempt to remove all node groups listed by
   /// <code>NodeGroupsToRemove</code> from the cluster.
   ///
   /// Parameter [nodeGroupsToRetain] :
@@ -5997,8 +6065,8 @@ class ElastiCache {
   /// required. <code>NodeGroupsToRetain</code> is a list of
   /// <code>NodeGroupId</code>s to retain in the cluster.
   ///
-  /// ElastiCache (Redis OSS) will attempt to remove all node groups except
-  /// those listed by <code>NodeGroupsToRetain</code> from the cluster.
+  /// ElastiCache will attempt to remove all node groups except those listed by
+  /// <code>NodeGroupsToRetain</code> from the cluster.
   ///
   /// Parameter [reshardingConfiguration] :
   /// Specifies the preferred availability zones for each node group in the
@@ -6060,14 +6128,14 @@ class ElastiCache {
 
   /// This API modifies the attributes of a serverless cache.
   ///
-  /// May throw [ServerlessCacheNotFoundFault].
-  /// May throw [InvalidServerlessCacheStateFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
   /// May throw [InvalidCredentialsException].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidServerlessCacheStateFault].
   /// May throw [InvalidUserGroupStateFault].
-  /// May throw [UserGroupNotFoundFault].
+  /// May throw [ServerlessCacheNotFoundFault].
   /// May throw [ServiceLinkedRoleNotFoundFault].
+  /// May throw [UserGroupNotFoundFault].
   ///
   /// Parameter [serverlessCacheName] :
   /// User-provided identifier for the serverless cache to be modified.
@@ -6077,18 +6145,26 @@ class ElastiCache {
   ///
   /// Parameter [dailySnapshotTime] :
   /// The daily time during which Elasticache begins taking a daily snapshot of
-  /// the serverless cache. Available for Redis OSS and Serverless Memcached
-  /// only. The default is NULL, i.e. the existing snapshot time configured for
-  /// the cluster is not removed.
+  /// the serverless cache. Available for Valkey, Redis OSS and Serverless
+  /// Memcached only. The default is NULL, i.e. the existing snapshot time
+  /// configured for the cluster is not removed.
   ///
   /// Parameter [description] :
   /// User provided description for the serverless cache. Default = NULL, i.e.
   /// the existing description is not removed/modified. The description has a
   /// maximum length of 255 characters.
   ///
+  /// Parameter [engine] :
+  /// Modifies the engine listed in a serverless cache request. The options are
+  /// valkey, memcached or redis.
+  ///
+  /// Parameter [majorEngineVersion] :
+  /// Modifies the engine vesion listed in a serverless cache request.
+  ///
   /// Parameter [removeUserGroup] :
   /// The identifier of the UserGroup to be removed from association with the
-  /// Redis OSS serverless cache. Available for Redis OSS only. Default is NULL.
+  /// Valkey and Redis OSS serverless cache. Available for Valkey and Redis OSS
+  /// only. Default is NULL.
   ///
   /// Parameter [securityGroupIds] :
   /// The new list of VPC security groups to be associated with the serverless
@@ -6099,19 +6175,21 @@ class ElastiCache {
   ///
   /// Parameter [snapshotRetentionLimit] :
   /// The number of days for which Elasticache retains automatic snapshots
-  /// before deleting them. Available for Redis OSS and Serverless Memcached
-  /// only. Default = NULL, i.e. the existing snapshot-retention-limit will not
-  /// be removed or modified. The maximum value allowed is 35 days.
+  /// before deleting them. Available for Valkey, Redis OSS and Serverless
+  /// Memcached only. Default = NULL, i.e. the existing snapshot-retention-limit
+  /// will not be removed or modified. The maximum value allowed is 35 days.
   ///
   /// Parameter [userGroupId] :
   /// The identifier of the UserGroup to be associated with the serverless
-  /// cache. Available for Redis OSS only. Default is NULL - the existing
-  /// UserGroup is not removed.
+  /// cache. Available for Valkey and Redis OSS only. Default is NULL - the
+  /// existing UserGroup is not removed.
   Future<ModifyServerlessCacheResponse> modifyServerlessCache({
     required String serverlessCacheName,
     CacheUsageLimits? cacheUsageLimits,
     String? dailySnapshotTime,
     String? description,
+    String? engine,
+    String? majorEngineVersion,
     bool? removeUserGroup,
     List<String>? securityGroupIds,
     int? snapshotRetentionLimit,
@@ -6124,6 +6202,8 @@ class ElastiCache {
           'CacheUsageLimits.${e1.key}': e1.value,
       if (dailySnapshotTime != null) 'DailySnapshotTime': dailySnapshotTime,
       if (description != null) 'Description': description,
+      if (engine != null) 'Engine': engine,
+      if (majorEngineVersion != null) 'MajorEngineVersion': majorEngineVersion,
       if (removeUserGroup != null)
         'RemoveUserGroup': removeUserGroup.toString(),
       if (securityGroupIds != null)
@@ -6150,11 +6230,11 @@ class ElastiCache {
 
   /// Changes user password(s) and/or access string.
   ///
-  /// May throw [UserNotFoundFault].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidUserStateFault].
   /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
+  /// May throw [UserNotFoundFault].
   ///
   /// Parameter [userId] :
   /// The ID of the user.
@@ -6168,6 +6248,9 @@ class ElastiCache {
   /// Parameter [authenticationMode] :
   /// Specifies how to authenticate the user.
   ///
+  /// Parameter [engine] :
+  /// Modifies the engine listed for a user. The options are valkey or redis.
+  ///
   /// Parameter [noPasswordRequired] :
   /// Indicates no password is required for the user.
   ///
@@ -6178,6 +6261,7 @@ class ElastiCache {
     String? accessString,
     String? appendAccessString,
     AuthenticationMode? authenticationMode,
+    String? engine,
     bool? noPasswordRequired,
     List<String>? passwords,
   }) async {
@@ -6188,6 +6272,7 @@ class ElastiCache {
       if (authenticationMode != null)
         for (var e1 in authenticationMode.toQueryMap().entries)
           'AuthenticationMode.${e1.key}': e1.value,
+      if (engine != null) 'Engine': engine,
       if (noPasswordRequired != null)
         'NoPasswordRequired': noPasswordRequired.toString(),
       if (passwords != null)
@@ -6211,17 +6296,21 @@ class ElastiCache {
 
   /// Changes the list of users that belong to the user group.
   ///
+  /// May throw [DefaultUserRequired].
+  /// May throw [DuplicateUserNameFault].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidUserGroupStateFault].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
   /// May throw [UserGroupNotFoundFault].
   /// May throw [UserNotFoundFault].
-  /// May throw [DuplicateUserNameFault].
-  /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [DefaultUserRequired].
-  /// May throw [InvalidUserGroupStateFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
   ///
   /// Parameter [userGroupId] :
   /// The ID of the user group.
+  ///
+  /// Parameter [engine] :
+  /// Modifies the engine listed in a user group. The options are valkey or
+  /// redis.
   ///
   /// Parameter [userIdsToAdd] :
   /// The list of user IDs to add to the user group.
@@ -6230,11 +6319,13 @@ class ElastiCache {
   /// The list of user IDs to remove from the user group.
   Future<UserGroup> modifyUserGroup({
     required String userGroupId,
+    String? engine,
     List<String>? userIdsToAdd,
     List<String>? userIdsToRemove,
   }) async {
     final $request = <String, String>{
       'UserGroupId': userGroupId,
+      if (engine != null) 'Engine': engine,
       if (userIdsToAdd != null)
         if (userIdsToAdd.isEmpty)
           'UserIdsToAdd': ''
@@ -6263,17 +6354,15 @@ class ElastiCache {
   /// Allows you to purchase a reserved cache node offering. Reserved nodes are
   /// not eligible for cancellation and are non-refundable. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/reserved-nodes.html">Managing
-  /// Costs with Reserved Nodes</a> for Redis OSS or <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/mem-ug/reserved-nodes.html">Managing
-  /// Costs with Reserved Nodes</a> for Memcached.
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/reserved-nodes.html">Managing
+  /// Costs with Reserved Nodes</a>.
   ///
-  /// May throw [ReservedCacheNodesOfferingNotFoundFault].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
   /// May throw [ReservedCacheNodeAlreadyExistsFault].
   /// May throw [ReservedCacheNodeQuotaExceededFault].
+  /// May throw [ReservedCacheNodesOfferingNotFoundFault].
   /// May throw [TagQuotaPerResourceExceeded].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
   ///
   /// Parameter [reservedCacheNodesOfferingId] :
   /// The ID of the reserved cache node offering to purchase.
@@ -6373,17 +6462,18 @@ class ElastiCache {
   ///
   /// When the reboot is complete, a cluster event is created.
   ///
-  /// Rebooting a cluster is currently supported on Memcached and Redis OSS
-  /// (cluster mode disabled) clusters. Rebooting is not supported on Redis OSS
-  /// (cluster mode enabled) clusters.
+  /// Rebooting a cluster is currently supported on Memcached, Valkey and Redis
+  /// OSS (cluster mode disabled) clusters. Rebooting is not supported on Valkey
+  /// or Redis OSS (cluster mode enabled) clusters.
   ///
-  /// If you make changes to parameters that require a Redis OSS (cluster mode
-  /// enabled) cluster reboot for the changes to be applied, see <a
-  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/nodes.rebooting.html">Rebooting
+  /// If you make changes to parameters that require a Valkey or Redis OSS
+  /// (cluster mode enabled) cluster reboot for the changes to be applied, see
+  /// <a
+  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/nodes.rebooting.html">Rebooting
   /// a Cluster</a> for an alternate process.
   ///
-  /// May throw [InvalidCacheClusterStateFault].
   /// May throw [CacheClusterNotFoundFault].
+  /// May throw [InvalidCacheClusterStateFault].
   ///
   /// Parameter [cacheClusterId] :
   /// The cluster identifier. This parameter is stored as a lowercase string.
@@ -6424,25 +6514,25 @@ class ElastiCache {
   /// When you add or remove tags on replication groups, those actions will be
   /// replicated to all nodes in the replication group. For more information,
   /// see <a
-  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/IAM.ResourceLevelPermissions.html">Resource-level
+  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.ResourceLevelPermissions.html">Resource-level
   /// permissions</a>.
   ///
   /// May throw [CacheClusterNotFoundFault].
   /// May throw [CacheParameterGroupNotFoundFault].
   /// May throw [CacheSecurityGroupNotFoundFault].
   /// May throw [CacheSubnetGroupNotFoundFault].
+  /// May throw [InvalidARNFault].
   /// May throw [InvalidReplicationGroupStateFault].
+  /// May throw [InvalidServerlessCacheSnapshotStateFault].
+  /// May throw [InvalidServerlessCacheStateFault].
   /// May throw [ReplicationGroupNotFoundFault].
   /// May throw [ReservedCacheNodeNotFoundFault].
-  /// May throw [SnapshotNotFoundFault].
-  /// May throw [UserNotFoundFault].
-  /// May throw [UserGroupNotFoundFault].
   /// May throw [ServerlessCacheNotFoundFault].
-  /// May throw [InvalidServerlessCacheStateFault].
   /// May throw [ServerlessCacheSnapshotNotFoundFault].
-  /// May throw [InvalidServerlessCacheSnapshotStateFault].
-  /// May throw [InvalidARNFault].
+  /// May throw [SnapshotNotFoundFault].
   /// May throw [TagNotFoundFault].
+  /// May throw [UserGroupNotFoundFault].
+  /// May throw [UserNotFoundFault].
   ///
   /// Parameter [resourceName] :
   /// The Amazon Resource Name (ARN) of the resource from which you want the
@@ -6487,11 +6577,11 @@ class ElastiCache {
   /// <code>ResetAllParameters</code> and <code>CacheParameterGroupName</code>
   /// parameters.
   ///
-  /// May throw [InvalidCacheParameterGroupStateFault].
   /// May throw [CacheParameterGroupNotFoundFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidCacheParameterGroupStateFault].
   /// May throw [InvalidGlobalReplicationGroupStateFault].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [cacheParameterGroupName] :
   /// The name of the cache parameter group to reset.
@@ -6544,11 +6634,11 @@ class ElastiCache {
   /// disallow access from an Amazon EC2 security group that had been previously
   /// authorized.
   ///
-  /// May throw [CacheSecurityGroupNotFoundFault].
   /// May throw [AuthorizationNotFoundFault].
+  /// May throw [CacheSecurityGroupNotFoundFault].
   /// May throw [InvalidCacheSecurityGroupStateFault].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [cacheSecurityGroupName] :
   /// The name of the cache security group to revoke ingress from.
@@ -6585,14 +6675,14 @@ class ElastiCache {
 
   /// Start the migration of data.
   ///
-  /// May throw [ReplicationGroupNotFoundFault].
+  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidReplicationGroupStateFault].
   /// May throw [ReplicationGroupAlreadyUnderMigrationFault].
-  /// May throw [InvalidParameterValueException].
+  /// May throw [ReplicationGroupNotFoundFault].
   ///
   /// Parameter [customerNodeEndpointList] :
-  /// List of endpoints from which data should be migrated. For Redis OSS
-  /// (cluster mode disabled), list should have only one element.
+  /// List of endpoints from which data should be migrated. For Valkey or Redis
+  /// OSS (cluster mode disabled), the list should have only one element.
   ///
   /// Parameter [replicationGroupId] :
   /// The ID of the replication group to which data should be migrated.
@@ -6647,8 +6737,8 @@ class ElastiCache {
   /// </li>
   /// <li>
   /// If calling this operation multiple times on different shards in the same
-  /// Redis OSS (cluster mode enabled) replication group, the first node
-  /// replacement must complete before a subsequent call can be made.
+  /// Valkey or Redis OSS (cluster mode enabled) replication group, the first
+  /// node replacement must complete before a subsequent call can be made.
   /// </li>
   /// <li>
   /// To determine whether the node replacement is complete you can check Events
@@ -6658,29 +6748,29 @@ class ElastiCache {
   /// <ol>
   /// <li>
   /// Replication group message: <code>Test Failover API called for node group
-  /// &lt;node-group-id&gt;</code>
+  /// <node-group-id></code>
   /// </li>
   /// <li>
-  /// Cache cluster message: <code>Failover from primary node
-  /// &lt;primary-node-id&gt; to replica node &lt;node-id&gt; completed</code>
+  /// Cache cluster message: <code>Failover from primary node <primary-node-id>
+  /// to replica node <node-id> completed</code>
   /// </li>
   /// <li>
   /// Replication group message: <code>Failover from primary node
-  /// &lt;primary-node-id&gt; to replica node &lt;node-id&gt; completed</code>
+  /// <primary-node-id> to replica node <node-id> completed</code>
   /// </li>
   /// <li>
-  /// Cache cluster message: <code>Recovering cache nodes &lt;node-id&gt;</code>
+  /// Cache cluster message: <code>Recovering cache nodes <node-id></code>
   /// </li>
   /// <li>
   /// Cache cluster message: <code>Finished recovery for cache nodes
-  /// &lt;node-id&gt;</code>
+  /// <node-id></code>
   /// </li> </ol>
   /// For more information see:
   ///
   /// <ul>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ECEvents.Viewing.html">Viewing
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/ECEvents.Viewing.html">Viewing
   /// ElastiCache Events</a> in the <i>ElastiCache User Guide</i>
   /// </li>
   /// <li>
@@ -6691,18 +6781,18 @@ class ElastiCache {
   /// </ul> </li>
   /// </ul>
   /// Also see, <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/AutoFailover.html#auto-failover-test">Testing
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/AutoFailover.html#auto-failover-test">Testing
   /// Multi-AZ </a> in the <i>ElastiCache User Guide</i>.
   ///
   /// May throw [APICallRateForCustomerExceededFault].
   /// May throw [InvalidCacheClusterStateFault].
+  /// May throw [InvalidKMSKeyFault].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidReplicationGroupStateFault].
   /// May throw [NodeGroupNotFoundFault].
   /// May throw [ReplicationGroupNotFoundFault].
   /// May throw [TestFailoverNotAvailableFault].
-  /// May throw [InvalidKMSKeyFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
   ///
   /// Parameter [nodeGroupId] :
   /// The name of the node group (called shard in the console) in this
@@ -6735,10 +6825,10 @@ class ElastiCache {
 
   /// Async API to test connection between source and target replication group.
   ///
-  /// May throw [ReplicationGroupNotFoundFault].
+  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidReplicationGroupStateFault].
   /// May throw [ReplicationGroupAlreadyUnderMigrationFault].
-  /// May throw [InvalidParameterValueException].
+  /// May throw [ReplicationGroupNotFoundFault].
   ///
   /// Parameter [customerNodeEndpointList] :
   /// List of endpoints from which data should be migrated. List should have
@@ -6772,27 +6862,1482 @@ class ElastiCache {
   }
 }
 
-class AZMode {
-  static const singleAz = AZMode._('single-az');
-  static const crossAz = AZMode._('cross-az');
+/// Represents the output from the <code>AddTagsToResource</code>,
+/// <code>ListTagsForResource</code>, and <code>RemoveTagsFromResource</code>
+/// operations.
+class TagListMessage {
+  /// A list of tags as key-value pairs.
+  final List<Tag>? tagList;
 
-  final String value;
+  TagListMessage({
+    this.tagList,
+  });
+  factory TagListMessage.fromXml(_s.XmlElement elem) {
+    return TagListMessage(
+      tagList: _s
+          .extractXmlChild(elem, 'TagList')
+          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
+    );
+  }
 
-  const AZMode._(this.value);
+  Map<String, dynamic> toJson() {
+    final tagList = this.tagList;
+    return {
+      if (tagList != null) 'TagList': tagList,
+    };
+  }
+}
 
-  static const values = [singleAz, crossAz];
+class AuthorizeCacheSecurityGroupIngressResult {
+  final CacheSecurityGroup? cacheSecurityGroup;
 
-  static AZMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => AZMode._(value));
+  AuthorizeCacheSecurityGroupIngressResult({
+    this.cacheSecurityGroup,
+  });
+  factory AuthorizeCacheSecurityGroupIngressResult.fromXml(_s.XmlElement elem) {
+    return AuthorizeCacheSecurityGroupIngressResult(
+      cacheSecurityGroup: _s
+          .extractXmlChild(elem, 'CacheSecurityGroup')
+          ?.let(CacheSecurityGroup.fromXml),
+    );
+  }
 
-  @override
-  bool operator ==(other) => other is AZMode && other.value == value;
+  Map<String, dynamic> toJson() {
+    final cacheSecurityGroup = this.cacheSecurityGroup;
+    return {
+      if (cacheSecurityGroup != null) 'CacheSecurityGroup': cacheSecurityGroup,
+    };
+  }
+}
 
-  @override
-  int get hashCode => value.hashCode;
+class UpdateActionResultsMessage {
+  /// Update actions that have been processed successfully
+  final List<ProcessedUpdateAction>? processedUpdateActions;
 
-  @override
-  String toString() => value;
+  /// Update actions that haven't been processed successfully
+  final List<UnprocessedUpdateAction>? unprocessedUpdateActions;
+
+  UpdateActionResultsMessage({
+    this.processedUpdateActions,
+    this.unprocessedUpdateActions,
+  });
+  factory UpdateActionResultsMessage.fromXml(_s.XmlElement elem) {
+    return UpdateActionResultsMessage(
+      processedUpdateActions: _s
+          .extractXmlChild(elem, 'ProcessedUpdateActions')
+          ?.let((elem) => elem
+              .findElements('ProcessedUpdateAction')
+              .map(ProcessedUpdateAction.fromXml)
+              .toList()),
+      unprocessedUpdateActions: _s
+          .extractXmlChild(elem, 'UnprocessedUpdateActions')
+          ?.let((elem) => elem
+              .findElements('UnprocessedUpdateAction')
+              .map(UnprocessedUpdateAction.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final processedUpdateActions = this.processedUpdateActions;
+    final unprocessedUpdateActions = this.unprocessedUpdateActions;
+    return {
+      if (processedUpdateActions != null)
+        'ProcessedUpdateActions': processedUpdateActions,
+      if (unprocessedUpdateActions != null)
+        'UnprocessedUpdateActions': unprocessedUpdateActions,
+    };
+  }
+}
+
+class CompleteMigrationResponse {
+  final ReplicationGroup? replicationGroup;
+
+  CompleteMigrationResponse({
+    this.replicationGroup,
+  });
+  factory CompleteMigrationResponse.fromXml(_s.XmlElement elem) {
+    return CompleteMigrationResponse(
+      replicationGroup: _s
+          .extractXmlChild(elem, 'ReplicationGroup')
+          ?.let(ReplicationGroup.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationGroup = this.replicationGroup;
+    return {
+      if (replicationGroup != null) 'ReplicationGroup': replicationGroup,
+    };
+  }
+}
+
+class CopyServerlessCacheSnapshotResponse {
+  /// The response for the attempt to copy the serverless cache snapshot.
+  /// Available for Valkey, Redis OSS and Serverless Memcached only.
+  final ServerlessCacheSnapshot? serverlessCacheSnapshot;
+
+  CopyServerlessCacheSnapshotResponse({
+    this.serverlessCacheSnapshot,
+  });
+  factory CopyServerlessCacheSnapshotResponse.fromXml(_s.XmlElement elem) {
+    return CopyServerlessCacheSnapshotResponse(
+      serverlessCacheSnapshot: _s
+          .extractXmlChild(elem, 'ServerlessCacheSnapshot')
+          ?.let(ServerlessCacheSnapshot.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serverlessCacheSnapshot = this.serverlessCacheSnapshot;
+    return {
+      if (serverlessCacheSnapshot != null)
+        'ServerlessCacheSnapshot': serverlessCacheSnapshot,
+    };
+  }
+}
+
+class CopySnapshotResult {
+  final Snapshot? snapshot;
+
+  CopySnapshotResult({
+    this.snapshot,
+  });
+  factory CopySnapshotResult.fromXml(_s.XmlElement elem) {
+    return CopySnapshotResult(
+      snapshot: _s.extractXmlChild(elem, 'Snapshot')?.let(Snapshot.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final snapshot = this.snapshot;
+    return {
+      if (snapshot != null) 'Snapshot': snapshot,
+    };
+  }
+}
+
+class CreateCacheClusterResult {
+  final CacheCluster? cacheCluster;
+
+  CreateCacheClusterResult({
+    this.cacheCluster,
+  });
+  factory CreateCacheClusterResult.fromXml(_s.XmlElement elem) {
+    return CreateCacheClusterResult(
+      cacheCluster:
+          _s.extractXmlChild(elem, 'CacheCluster')?.let(CacheCluster.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cacheCluster = this.cacheCluster;
+    return {
+      if (cacheCluster != null) 'CacheCluster': cacheCluster,
+    };
+  }
+}
+
+class CreateCacheParameterGroupResult {
+  final CacheParameterGroup? cacheParameterGroup;
+
+  CreateCacheParameterGroupResult({
+    this.cacheParameterGroup,
+  });
+  factory CreateCacheParameterGroupResult.fromXml(_s.XmlElement elem) {
+    return CreateCacheParameterGroupResult(
+      cacheParameterGroup: _s
+          .extractXmlChild(elem, 'CacheParameterGroup')
+          ?.let(CacheParameterGroup.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cacheParameterGroup = this.cacheParameterGroup;
+    return {
+      if (cacheParameterGroup != null)
+        'CacheParameterGroup': cacheParameterGroup,
+    };
+  }
+}
+
+class CreateCacheSecurityGroupResult {
+  final CacheSecurityGroup? cacheSecurityGroup;
+
+  CreateCacheSecurityGroupResult({
+    this.cacheSecurityGroup,
+  });
+  factory CreateCacheSecurityGroupResult.fromXml(_s.XmlElement elem) {
+    return CreateCacheSecurityGroupResult(
+      cacheSecurityGroup: _s
+          .extractXmlChild(elem, 'CacheSecurityGroup')
+          ?.let(CacheSecurityGroup.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cacheSecurityGroup = this.cacheSecurityGroup;
+    return {
+      if (cacheSecurityGroup != null) 'CacheSecurityGroup': cacheSecurityGroup,
+    };
+  }
+}
+
+class CreateCacheSubnetGroupResult {
+  final CacheSubnetGroup? cacheSubnetGroup;
+
+  CreateCacheSubnetGroupResult({
+    this.cacheSubnetGroup,
+  });
+  factory CreateCacheSubnetGroupResult.fromXml(_s.XmlElement elem) {
+    return CreateCacheSubnetGroupResult(
+      cacheSubnetGroup: _s
+          .extractXmlChild(elem, 'CacheSubnetGroup')
+          ?.let(CacheSubnetGroup.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cacheSubnetGroup = this.cacheSubnetGroup;
+    return {
+      if (cacheSubnetGroup != null) 'CacheSubnetGroup': cacheSubnetGroup,
+    };
+  }
+}
+
+class CreateGlobalReplicationGroupResult {
+  final GlobalReplicationGroup? globalReplicationGroup;
+
+  CreateGlobalReplicationGroupResult({
+    this.globalReplicationGroup,
+  });
+  factory CreateGlobalReplicationGroupResult.fromXml(_s.XmlElement elem) {
+    return CreateGlobalReplicationGroupResult(
+      globalReplicationGroup: _s
+          .extractXmlChild(elem, 'GlobalReplicationGroup')
+          ?.let(GlobalReplicationGroup.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalReplicationGroup = this.globalReplicationGroup;
+    return {
+      if (globalReplicationGroup != null)
+        'GlobalReplicationGroup': globalReplicationGroup,
+    };
+  }
+}
+
+class CreateReplicationGroupResult {
+  final ReplicationGroup? replicationGroup;
+
+  CreateReplicationGroupResult({
+    this.replicationGroup,
+  });
+  factory CreateReplicationGroupResult.fromXml(_s.XmlElement elem) {
+    return CreateReplicationGroupResult(
+      replicationGroup: _s
+          .extractXmlChild(elem, 'ReplicationGroup')
+          ?.let(ReplicationGroup.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationGroup = this.replicationGroup;
+    return {
+      if (replicationGroup != null) 'ReplicationGroup': replicationGroup,
+    };
+  }
+}
+
+class CreateServerlessCacheResponse {
+  /// The response for the attempt to create the serverless cache.
+  final ServerlessCache? serverlessCache;
+
+  CreateServerlessCacheResponse({
+    this.serverlessCache,
+  });
+  factory CreateServerlessCacheResponse.fromXml(_s.XmlElement elem) {
+    return CreateServerlessCacheResponse(
+      serverlessCache: _s
+          .extractXmlChild(elem, 'ServerlessCache')
+          ?.let(ServerlessCache.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serverlessCache = this.serverlessCache;
+    return {
+      if (serverlessCache != null) 'ServerlessCache': serverlessCache,
+    };
+  }
+}
+
+class CreateServerlessCacheSnapshotResponse {
+  /// The state of a serverless cache snapshot at a specific point in time, to the
+  /// millisecond. Available for Valkey, Redis OSS and Serverless Memcached only.
+  final ServerlessCacheSnapshot? serverlessCacheSnapshot;
+
+  CreateServerlessCacheSnapshotResponse({
+    this.serverlessCacheSnapshot,
+  });
+  factory CreateServerlessCacheSnapshotResponse.fromXml(_s.XmlElement elem) {
+    return CreateServerlessCacheSnapshotResponse(
+      serverlessCacheSnapshot: _s
+          .extractXmlChild(elem, 'ServerlessCacheSnapshot')
+          ?.let(ServerlessCacheSnapshot.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serverlessCacheSnapshot = this.serverlessCacheSnapshot;
+    return {
+      if (serverlessCacheSnapshot != null)
+        'ServerlessCacheSnapshot': serverlessCacheSnapshot,
+    };
+  }
+}
+
+class CreateSnapshotResult {
+  final Snapshot? snapshot;
+
+  CreateSnapshotResult({
+    this.snapshot,
+  });
+  factory CreateSnapshotResult.fromXml(_s.XmlElement elem) {
+    return CreateSnapshotResult(
+      snapshot: _s.extractXmlChild(elem, 'Snapshot')?.let(Snapshot.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final snapshot = this.snapshot;
+    return {
+      if (snapshot != null) 'Snapshot': snapshot,
+    };
+  }
+}
+
+class User {
+  /// The Amazon Resource Name (ARN) of the user.
+  final String? arn;
+
+  /// Access permissions string used for this user.
+  final String? accessString;
+
+  /// Denotes whether the user requires a password to authenticate.
+  final Authentication? authentication;
+
+  /// The options are valkey or redis.
+  final String? engine;
+
+  /// The minimum engine version required, which is Redis OSS 6.0
+  final String? minimumEngineVersion;
+
+  /// Indicates the user status. Can be "active", "modifying" or "deleting".
+  final String? status;
+
+  /// Returns a list of the user group IDs the user belongs to.
+  final List<String>? userGroupIds;
+
+  /// The ID of the user.
+  final String? userId;
+
+  /// The username of the user.
+  final String? userName;
+
+  User({
+    this.arn,
+    this.accessString,
+    this.authentication,
+    this.engine,
+    this.minimumEngineVersion,
+    this.status,
+    this.userGroupIds,
+    this.userId,
+    this.userName,
+  });
+  factory User.fromXml(_s.XmlElement elem) {
+    return User(
+      arn: _s.extractXmlStringValue(elem, 'ARN'),
+      accessString: _s.extractXmlStringValue(elem, 'AccessString'),
+      authentication: _s
+          .extractXmlChild(elem, 'Authentication')
+          ?.let(Authentication.fromXml),
+      engine: _s.extractXmlStringValue(elem, 'Engine'),
+      minimumEngineVersion:
+          _s.extractXmlStringValue(elem, 'MinimumEngineVersion'),
+      status: _s.extractXmlStringValue(elem, 'Status'),
+      userGroupIds: _s
+          .extractXmlChild(elem, 'UserGroupIds')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      userId: _s.extractXmlStringValue(elem, 'UserId'),
+      userName: _s.extractXmlStringValue(elem, 'UserName'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final accessString = this.accessString;
+    final authentication = this.authentication;
+    final engine = this.engine;
+    final minimumEngineVersion = this.minimumEngineVersion;
+    final status = this.status;
+    final userGroupIds = this.userGroupIds;
+    final userId = this.userId;
+    final userName = this.userName;
+    return {
+      if (arn != null) 'ARN': arn,
+      if (accessString != null) 'AccessString': accessString,
+      if (authentication != null) 'Authentication': authentication,
+      if (engine != null) 'Engine': engine,
+      if (minimumEngineVersion != null)
+        'MinimumEngineVersion': minimumEngineVersion,
+      if (status != null) 'Status': status,
+      if (userGroupIds != null) 'UserGroupIds': userGroupIds,
+      if (userId != null) 'UserId': userId,
+      if (userName != null) 'UserName': userName,
+    };
+  }
+}
+
+class UserGroup {
+  /// The Amazon Resource Name (ARN) of the user group.
+  final String? arn;
+
+  /// The options are valkey or redis.
+  final String? engine;
+
+  /// The minimum engine version required, which is Redis OSS 6.0
+  final String? minimumEngineVersion;
+
+  /// A list of updates being applied to the user group.
+  final UserGroupPendingChanges? pendingChanges;
+
+  /// A list of replication groups that the user group can access.
+  final List<String>? replicationGroups;
+
+  /// Indicates which serverless caches the specified user group is associated
+  /// with. Available for Valkey, Redis OSS and Serverless Memcached only.
+  final List<String>? serverlessCaches;
+
+  /// Indicates user group status. Can be "creating", "active", "modifying",
+  /// "deleting".
+  final String? status;
+
+  /// The ID of the user group.
+  final String? userGroupId;
+
+  /// The list of user IDs that belong to the user group.
+  final List<String>? userIds;
+
+  UserGroup({
+    this.arn,
+    this.engine,
+    this.minimumEngineVersion,
+    this.pendingChanges,
+    this.replicationGroups,
+    this.serverlessCaches,
+    this.status,
+    this.userGroupId,
+    this.userIds,
+  });
+  factory UserGroup.fromXml(_s.XmlElement elem) {
+    return UserGroup(
+      arn: _s.extractXmlStringValue(elem, 'ARN'),
+      engine: _s.extractXmlStringValue(elem, 'Engine'),
+      minimumEngineVersion:
+          _s.extractXmlStringValue(elem, 'MinimumEngineVersion'),
+      pendingChanges: _s
+          .extractXmlChild(elem, 'PendingChanges')
+          ?.let(UserGroupPendingChanges.fromXml),
+      replicationGroups: _s
+          .extractXmlChild(elem, 'ReplicationGroups')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      serverlessCaches: _s
+          .extractXmlChild(elem, 'ServerlessCaches')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      status: _s.extractXmlStringValue(elem, 'Status'),
+      userGroupId: _s.extractXmlStringValue(elem, 'UserGroupId'),
+      userIds: _s
+          .extractXmlChild(elem, 'UserIds')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final engine = this.engine;
+    final minimumEngineVersion = this.minimumEngineVersion;
+    final pendingChanges = this.pendingChanges;
+    final replicationGroups = this.replicationGroups;
+    final serverlessCaches = this.serverlessCaches;
+    final status = this.status;
+    final userGroupId = this.userGroupId;
+    final userIds = this.userIds;
+    return {
+      if (arn != null) 'ARN': arn,
+      if (engine != null) 'Engine': engine,
+      if (minimumEngineVersion != null)
+        'MinimumEngineVersion': minimumEngineVersion,
+      if (pendingChanges != null) 'PendingChanges': pendingChanges,
+      if (replicationGroups != null) 'ReplicationGroups': replicationGroups,
+      if (serverlessCaches != null) 'ServerlessCaches': serverlessCaches,
+      if (status != null) 'Status': status,
+      if (userGroupId != null) 'UserGroupId': userGroupId,
+      if (userIds != null) 'UserIds': userIds,
+    };
+  }
+}
+
+class DecreaseNodeGroupsInGlobalReplicationGroupResult {
+  final GlobalReplicationGroup? globalReplicationGroup;
+
+  DecreaseNodeGroupsInGlobalReplicationGroupResult({
+    this.globalReplicationGroup,
+  });
+  factory DecreaseNodeGroupsInGlobalReplicationGroupResult.fromXml(
+      _s.XmlElement elem) {
+    return DecreaseNodeGroupsInGlobalReplicationGroupResult(
+      globalReplicationGroup: _s
+          .extractXmlChild(elem, 'GlobalReplicationGroup')
+          ?.let(GlobalReplicationGroup.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalReplicationGroup = this.globalReplicationGroup;
+    return {
+      if (globalReplicationGroup != null)
+        'GlobalReplicationGroup': globalReplicationGroup,
+    };
+  }
+}
+
+class DecreaseReplicaCountResult {
+  final ReplicationGroup? replicationGroup;
+
+  DecreaseReplicaCountResult({
+    this.replicationGroup,
+  });
+  factory DecreaseReplicaCountResult.fromXml(_s.XmlElement elem) {
+    return DecreaseReplicaCountResult(
+      replicationGroup: _s
+          .extractXmlChild(elem, 'ReplicationGroup')
+          ?.let(ReplicationGroup.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationGroup = this.replicationGroup;
+    return {
+      if (replicationGroup != null) 'ReplicationGroup': replicationGroup,
+    };
+  }
+}
+
+class DeleteCacheClusterResult {
+  final CacheCluster? cacheCluster;
+
+  DeleteCacheClusterResult({
+    this.cacheCluster,
+  });
+  factory DeleteCacheClusterResult.fromXml(_s.XmlElement elem) {
+    return DeleteCacheClusterResult(
+      cacheCluster:
+          _s.extractXmlChild(elem, 'CacheCluster')?.let(CacheCluster.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cacheCluster = this.cacheCluster;
+    return {
+      if (cacheCluster != null) 'CacheCluster': cacheCluster,
+    };
+  }
+}
+
+class DeleteGlobalReplicationGroupResult {
+  final GlobalReplicationGroup? globalReplicationGroup;
+
+  DeleteGlobalReplicationGroupResult({
+    this.globalReplicationGroup,
+  });
+  factory DeleteGlobalReplicationGroupResult.fromXml(_s.XmlElement elem) {
+    return DeleteGlobalReplicationGroupResult(
+      globalReplicationGroup: _s
+          .extractXmlChild(elem, 'GlobalReplicationGroup')
+          ?.let(GlobalReplicationGroup.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalReplicationGroup = this.globalReplicationGroup;
+    return {
+      if (globalReplicationGroup != null)
+        'GlobalReplicationGroup': globalReplicationGroup,
+    };
+  }
+}
+
+class DeleteReplicationGroupResult {
+  final ReplicationGroup? replicationGroup;
+
+  DeleteReplicationGroupResult({
+    this.replicationGroup,
+  });
+  factory DeleteReplicationGroupResult.fromXml(_s.XmlElement elem) {
+    return DeleteReplicationGroupResult(
+      replicationGroup: _s
+          .extractXmlChild(elem, 'ReplicationGroup')
+          ?.let(ReplicationGroup.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationGroup = this.replicationGroup;
+    return {
+      if (replicationGroup != null) 'ReplicationGroup': replicationGroup,
+    };
+  }
+}
+
+class DeleteServerlessCacheResponse {
+  /// Provides the details of the specified serverless cache that is about to be
+  /// deleted.
+  final ServerlessCache? serverlessCache;
+
+  DeleteServerlessCacheResponse({
+    this.serverlessCache,
+  });
+  factory DeleteServerlessCacheResponse.fromXml(_s.XmlElement elem) {
+    return DeleteServerlessCacheResponse(
+      serverlessCache: _s
+          .extractXmlChild(elem, 'ServerlessCache')
+          ?.let(ServerlessCache.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serverlessCache = this.serverlessCache;
+    return {
+      if (serverlessCache != null) 'ServerlessCache': serverlessCache,
+    };
+  }
+}
+
+class DeleteServerlessCacheSnapshotResponse {
+  /// The snapshot to be deleted. Available for Valkey, Redis OSS and Serverless
+  /// Memcached only.
+  final ServerlessCacheSnapshot? serverlessCacheSnapshot;
+
+  DeleteServerlessCacheSnapshotResponse({
+    this.serverlessCacheSnapshot,
+  });
+  factory DeleteServerlessCacheSnapshotResponse.fromXml(_s.XmlElement elem) {
+    return DeleteServerlessCacheSnapshotResponse(
+      serverlessCacheSnapshot: _s
+          .extractXmlChild(elem, 'ServerlessCacheSnapshot')
+          ?.let(ServerlessCacheSnapshot.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serverlessCacheSnapshot = this.serverlessCacheSnapshot;
+    return {
+      if (serverlessCacheSnapshot != null)
+        'ServerlessCacheSnapshot': serverlessCacheSnapshot,
+    };
+  }
+}
+
+class DeleteSnapshotResult {
+  final Snapshot? snapshot;
+
+  DeleteSnapshotResult({
+    this.snapshot,
+  });
+  factory DeleteSnapshotResult.fromXml(_s.XmlElement elem) {
+    return DeleteSnapshotResult(
+      snapshot: _s.extractXmlChild(elem, 'Snapshot')?.let(Snapshot.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final snapshot = this.snapshot;
+    return {
+      if (snapshot != null) 'Snapshot': snapshot,
+    };
+  }
+}
+
+/// Represents the output of a <code>DescribeCacheClusters</code> operation.
+class CacheClusterMessage {
+  /// A list of clusters. Each item in the list contains detailed information
+  /// about one cluster.
+  final List<CacheCluster>? cacheClusters;
+
+  /// Provides an identifier to allow retrieval of paginated results.
+  final String? marker;
+
+  CacheClusterMessage({
+    this.cacheClusters,
+    this.marker,
+  });
+  factory CacheClusterMessage.fromXml(_s.XmlElement elem) {
+    return CacheClusterMessage(
+      cacheClusters: _s.extractXmlChild(elem, 'CacheClusters')?.let((elem) =>
+          elem.findElements('CacheCluster').map(CacheCluster.fromXml).toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cacheClusters = this.cacheClusters;
+    final marker = this.marker;
+    return {
+      if (cacheClusters != null) 'CacheClusters': cacheClusters,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+/// Represents the output of a <a>DescribeCacheEngineVersions</a> operation.
+class CacheEngineVersionMessage {
+  /// A list of cache engine version details. Each element in the list contains
+  /// detailed information about one cache engine version.
+  final List<CacheEngineVersion>? cacheEngineVersions;
+
+  /// Provides an identifier to allow retrieval of paginated results.
+  final String? marker;
+
+  CacheEngineVersionMessage({
+    this.cacheEngineVersions,
+    this.marker,
+  });
+  factory CacheEngineVersionMessage.fromXml(_s.XmlElement elem) {
+    return CacheEngineVersionMessage(
+      cacheEngineVersions: _s.extractXmlChild(elem, 'CacheEngineVersions')?.let(
+          (elem) => elem
+              .findElements('CacheEngineVersion')
+              .map(CacheEngineVersion.fromXml)
+              .toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cacheEngineVersions = this.cacheEngineVersions;
+    final marker = this.marker;
+    return {
+      if (cacheEngineVersions != null)
+        'CacheEngineVersions': cacheEngineVersions,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+/// Represents the output of a <code>DescribeCacheParameterGroups</code>
+/// operation.
+class CacheParameterGroupsMessage {
+  /// A list of cache parameter groups. Each element in the list contains detailed
+  /// information about one cache parameter group.
+  final List<CacheParameterGroup>? cacheParameterGroups;
+
+  /// Provides an identifier to allow retrieval of paginated results.
+  final String? marker;
+
+  CacheParameterGroupsMessage({
+    this.cacheParameterGroups,
+    this.marker,
+  });
+  factory CacheParameterGroupsMessage.fromXml(_s.XmlElement elem) {
+    return CacheParameterGroupsMessage(
+      cacheParameterGroups: _s
+          .extractXmlChild(elem, 'CacheParameterGroups')
+          ?.let((elem) => elem
+              .findElements('CacheParameterGroup')
+              .map(CacheParameterGroup.fromXml)
+              .toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cacheParameterGroups = this.cacheParameterGroups;
+    final marker = this.marker;
+    return {
+      if (cacheParameterGroups != null)
+        'CacheParameterGroups': cacheParameterGroups,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+/// Represents the output of a <code>DescribeCacheParameters</code> operation.
+class CacheParameterGroupDetails {
+  /// A list of parameters specific to a particular cache node type. Each element
+  /// in the list contains detailed information about one parameter.
+  final List<CacheNodeTypeSpecificParameter>? cacheNodeTypeSpecificParameters;
+
+  /// Provides an identifier to allow retrieval of paginated results.
+  final String? marker;
+
+  /// A list of <a>Parameter</a> instances.
+  final List<Parameter>? parameters;
+
+  CacheParameterGroupDetails({
+    this.cacheNodeTypeSpecificParameters,
+    this.marker,
+    this.parameters,
+  });
+  factory CacheParameterGroupDetails.fromXml(_s.XmlElement elem) {
+    return CacheParameterGroupDetails(
+      cacheNodeTypeSpecificParameters: _s
+          .extractXmlChild(elem, 'CacheNodeTypeSpecificParameters')
+          ?.let((elem) => elem
+              .findElements('CacheNodeTypeSpecificParameter')
+              .map(CacheNodeTypeSpecificParameter.fromXml)
+              .toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      parameters: _s.extractXmlChild(elem, 'Parameters')?.let((elem) =>
+          elem.findElements('Parameter').map(Parameter.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cacheNodeTypeSpecificParameters =
+        this.cacheNodeTypeSpecificParameters;
+    final marker = this.marker;
+    final parameters = this.parameters;
+    return {
+      if (cacheNodeTypeSpecificParameters != null)
+        'CacheNodeTypeSpecificParameters': cacheNodeTypeSpecificParameters,
+      if (marker != null) 'Marker': marker,
+      if (parameters != null) 'Parameters': parameters,
+    };
+  }
+}
+
+/// Represents the output of a <code>DescribeCacheSecurityGroups</code>
+/// operation.
+class CacheSecurityGroupMessage {
+  /// A list of cache security groups. Each element in the list contains detailed
+  /// information about one group.
+  final List<CacheSecurityGroup>? cacheSecurityGroups;
+
+  /// Provides an identifier to allow retrieval of paginated results.
+  final String? marker;
+
+  CacheSecurityGroupMessage({
+    this.cacheSecurityGroups,
+    this.marker,
+  });
+  factory CacheSecurityGroupMessage.fromXml(_s.XmlElement elem) {
+    return CacheSecurityGroupMessage(
+      cacheSecurityGroups: _s.extractXmlChild(elem, 'CacheSecurityGroups')?.let(
+          (elem) => elem
+              .findElements('CacheSecurityGroup')
+              .map(CacheSecurityGroup.fromXml)
+              .toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cacheSecurityGroups = this.cacheSecurityGroups;
+    final marker = this.marker;
+    return {
+      if (cacheSecurityGroups != null)
+        'CacheSecurityGroups': cacheSecurityGroups,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+/// Represents the output of a <code>DescribeCacheSubnetGroups</code> operation.
+class CacheSubnetGroupMessage {
+  /// A list of cache subnet groups. Each element in the list contains detailed
+  /// information about one group.
+  final List<CacheSubnetGroup>? cacheSubnetGroups;
+
+  /// Provides an identifier to allow retrieval of paginated results.
+  final String? marker;
+
+  CacheSubnetGroupMessage({
+    this.cacheSubnetGroups,
+    this.marker,
+  });
+  factory CacheSubnetGroupMessage.fromXml(_s.XmlElement elem) {
+    return CacheSubnetGroupMessage(
+      cacheSubnetGroups: _s.extractXmlChild(elem, 'CacheSubnetGroups')?.let(
+          (elem) => elem
+              .findElements('CacheSubnetGroup')
+              .map(CacheSubnetGroup.fromXml)
+              .toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cacheSubnetGroups = this.cacheSubnetGroups;
+    final marker = this.marker;
+    return {
+      if (cacheSubnetGroups != null) 'CacheSubnetGroups': cacheSubnetGroups,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+class DescribeEngineDefaultParametersResult {
+  final EngineDefaults? engineDefaults;
+
+  DescribeEngineDefaultParametersResult({
+    this.engineDefaults,
+  });
+  factory DescribeEngineDefaultParametersResult.fromXml(_s.XmlElement elem) {
+    return DescribeEngineDefaultParametersResult(
+      engineDefaults: _s
+          .extractXmlChild(elem, 'EngineDefaults')
+          ?.let(EngineDefaults.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final engineDefaults = this.engineDefaults;
+    return {
+      if (engineDefaults != null) 'EngineDefaults': engineDefaults,
+    };
+  }
+}
+
+/// Represents the output of a <code>DescribeEvents</code> operation.
+class EventsMessage {
+  /// A list of events. Each element in the list contains detailed information
+  /// about one event.
+  final List<Event>? events;
+
+  /// Provides an identifier to allow retrieval of paginated results.
+  final String? marker;
+
+  EventsMessage({
+    this.events,
+    this.marker,
+  });
+  factory EventsMessage.fromXml(_s.XmlElement elem) {
+    return EventsMessage(
+      events: _s.extractXmlChild(elem, 'Events')?.let(
+          (elem) => elem.findElements('Event').map(Event.fromXml).toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final events = this.events;
+    final marker = this.marker;
+    return {
+      if (events != null) 'Events': events,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+class DescribeGlobalReplicationGroupsResult {
+  /// Indicates the slot configuration and global identifier for each slice group.
+  final List<GlobalReplicationGroup>? globalReplicationGroups;
+
+  /// An optional marker returned from a prior request. Use this marker for
+  /// pagination of results from this operation. If this parameter is specified,
+  /// the response includes only records beyond the marker, up to the value
+  /// specified by MaxRecords. >
+  final String? marker;
+
+  DescribeGlobalReplicationGroupsResult({
+    this.globalReplicationGroups,
+    this.marker,
+  });
+  factory DescribeGlobalReplicationGroupsResult.fromXml(_s.XmlElement elem) {
+    return DescribeGlobalReplicationGroupsResult(
+      globalReplicationGroups: _s
+          .extractXmlChild(elem, 'GlobalReplicationGroups')
+          ?.let((elem) => elem
+              .findElements('GlobalReplicationGroup')
+              .map(GlobalReplicationGroup.fromXml)
+              .toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalReplicationGroups = this.globalReplicationGroups;
+    final marker = this.marker;
+    return {
+      if (globalReplicationGroups != null)
+        'GlobalReplicationGroups': globalReplicationGroups,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+/// Represents the output of a <code>DescribeReplicationGroups</code> operation.
+class ReplicationGroupMessage {
+  /// Provides an identifier to allow retrieval of paginated results.
+  final String? marker;
+
+  /// A list of replication groups. Each item in the list contains detailed
+  /// information about one replication group.
+  final List<ReplicationGroup>? replicationGroups;
+
+  ReplicationGroupMessage({
+    this.marker,
+    this.replicationGroups,
+  });
+  factory ReplicationGroupMessage.fromXml(_s.XmlElement elem) {
+    return ReplicationGroupMessage(
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      replicationGroups: _s.extractXmlChild(elem, 'ReplicationGroups')?.let(
+          (elem) => elem
+              .findElements('ReplicationGroup')
+              .map(ReplicationGroup.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final replicationGroups = this.replicationGroups;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (replicationGroups != null) 'ReplicationGroups': replicationGroups,
+    };
+  }
+}
+
+/// Represents the output of a <code>DescribeReservedCacheNodes</code>
+/// operation.
+class ReservedCacheNodeMessage {
+  /// Provides an identifier to allow retrieval of paginated results.
+  final String? marker;
+
+  /// A list of reserved cache nodes. Each element in the list contains detailed
+  /// information about one node.
+  final List<ReservedCacheNode>? reservedCacheNodes;
+
+  ReservedCacheNodeMessage({
+    this.marker,
+    this.reservedCacheNodes,
+  });
+  factory ReservedCacheNodeMessage.fromXml(_s.XmlElement elem) {
+    return ReservedCacheNodeMessage(
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      reservedCacheNodes: _s.extractXmlChild(elem, 'ReservedCacheNodes')?.let(
+          (elem) => elem
+              .findElements('ReservedCacheNode')
+              .map(ReservedCacheNode.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final reservedCacheNodes = this.reservedCacheNodes;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (reservedCacheNodes != null) 'ReservedCacheNodes': reservedCacheNodes,
+    };
+  }
+}
+
+/// Represents the output of a <code>DescribeReservedCacheNodesOfferings</code>
+/// operation.
+class ReservedCacheNodesOfferingMessage {
+  /// Provides an identifier to allow retrieval of paginated results.
+  final String? marker;
+
+  /// A list of reserved cache node offerings. Each element in the list contains
+  /// detailed information about one offering.
+  final List<ReservedCacheNodesOffering>? reservedCacheNodesOfferings;
+
+  ReservedCacheNodesOfferingMessage({
+    this.marker,
+    this.reservedCacheNodesOfferings,
+  });
+  factory ReservedCacheNodesOfferingMessage.fromXml(_s.XmlElement elem) {
+    return ReservedCacheNodesOfferingMessage(
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      reservedCacheNodesOfferings: _s
+          .extractXmlChild(elem, 'ReservedCacheNodesOfferings')
+          ?.let((elem) => elem
+              .findElements('ReservedCacheNodesOffering')
+              .map(ReservedCacheNodesOffering.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final reservedCacheNodesOfferings = this.reservedCacheNodesOfferings;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (reservedCacheNodesOfferings != null)
+        'ReservedCacheNodesOfferings': reservedCacheNodesOfferings,
+    };
+  }
+}
+
+class DescribeServerlessCachesResponse {
+  /// An optional marker returned from a prior request to support pagination of
+  /// results from this operation. If this parameter is specified, the response
+  /// includes only records beyond the marker, up to the value specified by
+  /// MaxResults.
+  final String? nextToken;
+
+  /// The serverless caches associated with a given description request.
+  final List<ServerlessCache>? serverlessCaches;
+
+  DescribeServerlessCachesResponse({
+    this.nextToken,
+    this.serverlessCaches,
+  });
+  factory DescribeServerlessCachesResponse.fromXml(_s.XmlElement elem) {
+    return DescribeServerlessCachesResponse(
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
+      serverlessCaches: _s.extractXmlChild(elem, 'ServerlessCaches')?.let(
+          (elem) => elem
+              .findElements('member')
+              .map(ServerlessCache.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final serverlessCaches = this.serverlessCaches;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (serverlessCaches != null) 'ServerlessCaches': serverlessCaches,
+    };
+  }
+}
+
+class DescribeServerlessCacheSnapshotsResponse {
+  /// An optional marker returned from a prior request to support pagination of
+  /// results from this operation. If this parameter is specified, the response
+  /// includes only records beyond the marker, up to the value specified by
+  /// max-results. Available for Valkey, Redis OSS and Serverless Memcached only.
+  final String? nextToken;
+
+  /// The serverless caches snapshots associated with a given description request.
+  /// Available for Valkey, Redis OSS and Serverless Memcached only.
+  final List<ServerlessCacheSnapshot>? serverlessCacheSnapshots;
+
+  DescribeServerlessCacheSnapshotsResponse({
+    this.nextToken,
+    this.serverlessCacheSnapshots,
+  });
+  factory DescribeServerlessCacheSnapshotsResponse.fromXml(_s.XmlElement elem) {
+    return DescribeServerlessCacheSnapshotsResponse(
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
+      serverlessCacheSnapshots: _s
+          .extractXmlChild(elem, 'ServerlessCacheSnapshots')
+          ?.let((elem) => elem
+              .findElements('ServerlessCacheSnapshot')
+              .map(ServerlessCacheSnapshot.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final serverlessCacheSnapshots = this.serverlessCacheSnapshots;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (serverlessCacheSnapshots != null)
+        'ServerlessCacheSnapshots': serverlessCacheSnapshots,
+    };
+  }
+}
+
+class ServiceUpdatesMessage {
+  /// An optional marker returned from a prior request. Use this marker for
+  /// pagination of results from this operation. If this parameter is specified,
+  /// the response includes only records beyond the marker, up to the value
+  /// specified by <code>MaxRecords</code>.
+  final String? marker;
+
+  /// A list of service updates
+  final List<ServiceUpdate>? serviceUpdates;
+
+  ServiceUpdatesMessage({
+    this.marker,
+    this.serviceUpdates,
+  });
+  factory ServiceUpdatesMessage.fromXml(_s.XmlElement elem) {
+    return ServiceUpdatesMessage(
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      serviceUpdates: _s.extractXmlChild(elem, 'ServiceUpdates')?.let((elem) =>
+          elem
+              .findElements('ServiceUpdate')
+              .map(ServiceUpdate.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final serviceUpdates = this.serviceUpdates;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (serviceUpdates != null) 'ServiceUpdates': serviceUpdates,
+    };
+  }
+}
+
+/// Represents the output of a <code>DescribeSnapshots</code> operation.
+class DescribeSnapshotsListMessage {
+  /// An optional marker returned from a prior request. Use this marker for
+  /// pagination of results from this operation. If this parameter is specified,
+  /// the response includes only records beyond the marker, up to the value
+  /// specified by <code>MaxRecords</code>.
+  final String? marker;
+
+  /// A list of snapshots. Each item in the list contains detailed information
+  /// about one snapshot.
+  final List<Snapshot>? snapshots;
+
+  DescribeSnapshotsListMessage({
+    this.marker,
+    this.snapshots,
+  });
+  factory DescribeSnapshotsListMessage.fromXml(_s.XmlElement elem) {
+    return DescribeSnapshotsListMessage(
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      snapshots: _s.extractXmlChild(elem, 'Snapshots')?.let((elem) =>
+          elem.findElements('Snapshot').map(Snapshot.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final snapshots = this.snapshots;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (snapshots != null) 'Snapshots': snapshots,
+    };
+  }
+}
+
+class UpdateActionsMessage {
+  /// An optional marker returned from a prior request. Use this marker for
+  /// pagination of results from this operation. If this parameter is specified,
+  /// the response includes only records beyond the marker, up to the value
+  /// specified by <code>MaxRecords</code>.
+  final String? marker;
+
+  /// Returns a list of update actions
+  final List<UpdateAction>? updateActions;
+
+  UpdateActionsMessage({
+    this.marker,
+    this.updateActions,
+  });
+  factory UpdateActionsMessage.fromXml(_s.XmlElement elem) {
+    return UpdateActionsMessage(
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      updateActions: _s.extractXmlChild(elem, 'UpdateActions')?.let((elem) =>
+          elem.findElements('UpdateAction').map(UpdateAction.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final updateActions = this.updateActions;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (updateActions != null) 'UpdateActions': updateActions,
+    };
+  }
+}
+
+class DescribeUserGroupsResult {
+  /// An optional marker returned from a prior request. Use this marker for
+  /// pagination of results from this operation. If this parameter is specified,
+  /// the response includes only records beyond the marker, up to the value
+  /// specified by MaxRecords.>
+  final String? marker;
+
+  /// Returns a list of user groups.
+  final List<UserGroup>? userGroups;
+
+  DescribeUserGroupsResult({
+    this.marker,
+    this.userGroups,
+  });
+  factory DescribeUserGroupsResult.fromXml(_s.XmlElement elem) {
+    return DescribeUserGroupsResult(
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      userGroups: _s.extractXmlChild(elem, 'UserGroups')?.let((elem) =>
+          elem.findElements('member').map(UserGroup.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final userGroups = this.userGroups;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (userGroups != null) 'UserGroups': userGroups,
+    };
+  }
+}
+
+class DescribeUsersResult {
+  /// An optional marker returned from a prior request. Use this marker for
+  /// pagination of results from this operation. If this parameter is specified,
+  /// the response includes only records beyond the marker, up to the value
+  /// specified by MaxRecords. >
+  final String? marker;
+
+  /// A list of users.
+  final List<User>? users;
+
+  DescribeUsersResult({
+    this.marker,
+    this.users,
+  });
+  factory DescribeUsersResult.fromXml(_s.XmlElement elem) {
+    return DescribeUsersResult(
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      users: _s.extractXmlChild(elem, 'Users')?.let(
+          (elem) => elem.findElements('member').map(User.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final users = this.users;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (users != null) 'Users': users,
+    };
+  }
+}
+
+class DisassociateGlobalReplicationGroupResult {
+  final GlobalReplicationGroup? globalReplicationGroup;
+
+  DisassociateGlobalReplicationGroupResult({
+    this.globalReplicationGroup,
+  });
+  factory DisassociateGlobalReplicationGroupResult.fromXml(_s.XmlElement elem) {
+    return DisassociateGlobalReplicationGroupResult(
+      globalReplicationGroup: _s
+          .extractXmlChild(elem, 'GlobalReplicationGroup')
+          ?.let(GlobalReplicationGroup.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalReplicationGroup = this.globalReplicationGroup;
+    return {
+      if (globalReplicationGroup != null)
+        'GlobalReplicationGroup': globalReplicationGroup,
+    };
+  }
+}
+
+class ExportServerlessCacheSnapshotResponse {
+  /// The state of a serverless cache at a specific point in time, to the
+  /// millisecond. Available for Valkey, Redis OSS and Serverless Memcached only.
+  final ServerlessCacheSnapshot? serverlessCacheSnapshot;
+
+  ExportServerlessCacheSnapshotResponse({
+    this.serverlessCacheSnapshot,
+  });
+  factory ExportServerlessCacheSnapshotResponse.fromXml(_s.XmlElement elem) {
+    return ExportServerlessCacheSnapshotResponse(
+      serverlessCacheSnapshot: _s
+          .extractXmlChild(elem, 'ServerlessCacheSnapshot')
+          ?.let(ServerlessCacheSnapshot.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serverlessCacheSnapshot = this.serverlessCacheSnapshot;
+    return {
+      if (serverlessCacheSnapshot != null)
+        'ServerlessCacheSnapshot': serverlessCacheSnapshot,
+    };
+  }
+}
+
+class FailoverGlobalReplicationGroupResult {
+  final GlobalReplicationGroup? globalReplicationGroup;
+
+  FailoverGlobalReplicationGroupResult({
+    this.globalReplicationGroup,
+  });
+  factory FailoverGlobalReplicationGroupResult.fromXml(_s.XmlElement elem) {
+    return FailoverGlobalReplicationGroupResult(
+      globalReplicationGroup: _s
+          .extractXmlChild(elem, 'GlobalReplicationGroup')
+          ?.let(GlobalReplicationGroup.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalReplicationGroup = this.globalReplicationGroup;
+    return {
+      if (globalReplicationGroup != null)
+        'GlobalReplicationGroup': globalReplicationGroup,
+    };
+  }
+}
+
+class IncreaseNodeGroupsInGlobalReplicationGroupResult {
+  final GlobalReplicationGroup? globalReplicationGroup;
+
+  IncreaseNodeGroupsInGlobalReplicationGroupResult({
+    this.globalReplicationGroup,
+  });
+  factory IncreaseNodeGroupsInGlobalReplicationGroupResult.fromXml(
+      _s.XmlElement elem) {
+    return IncreaseNodeGroupsInGlobalReplicationGroupResult(
+      globalReplicationGroup: _s
+          .extractXmlChild(elem, 'GlobalReplicationGroup')
+          ?.let(GlobalReplicationGroup.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalReplicationGroup = this.globalReplicationGroup;
+    return {
+      if (globalReplicationGroup != null)
+        'GlobalReplicationGroup': globalReplicationGroup,
+    };
+  }
+}
+
+class IncreaseReplicaCountResult {
+  final ReplicationGroup? replicationGroup;
+
+  IncreaseReplicaCountResult({
+    this.replicationGroup,
+  });
+  factory IncreaseReplicaCountResult.fromXml(_s.XmlElement elem) {
+    return IncreaseReplicaCountResult(
+      replicationGroup: _s
+          .extractXmlChild(elem, 'ReplicationGroup')
+          ?.let(ReplicationGroup.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationGroup = this.replicationGroup;
+    return {
+      if (replicationGroup != null) 'ReplicationGroup': replicationGroup,
+    };
+  }
 }
 
 /// Represents the allowed node types you can use to modify your cluster or
@@ -6800,7 +8345,7 @@ class AZMode {
 class AllowedNodeTypeModificationsMessage {
   /// A string list, each element of which specifies a cache node type which you
   /// can use to scale your cluster or replication group. When scaling down a
-  /// Redis OSS cluster or replication group using ModifyCacheCluster or
+  /// Valkey or Redis OSS cluster or replication group using ModifyCacheCluster or
   /// ModifyReplicationGroup, use a value from this list for the CacheNodeType
   /// parameter.
   final List<String>? scaleDownModifications;
@@ -6808,7 +8353,7 @@ class AllowedNodeTypeModificationsMessage {
   /// A string list, each element of which specifies a cache node type which you
   /// can use to scale your cluster or replication group.
   ///
-  /// When scaling up a Redis OSS cluster or replication group using
+  /// When scaling up a Valkey or Redis OSS cluster or replication group using
   /// <code>ModifyCacheCluster</code> or <code>ModifyReplicationGroup</code>, use
   /// a value from this list for the <code>CacheNodeType</code> parameter.
   final List<String>? scaleUpModifications;
@@ -6840,161 +8385,248 @@ class AllowedNodeTypeModificationsMessage {
   }
 }
 
-class AuthTokenUpdateStatus {
-  static const setting = AuthTokenUpdateStatus._('SETTING');
-  static const rotating = AuthTokenUpdateStatus._('ROTATING');
+class ModifyCacheClusterResult {
+  final CacheCluster? cacheCluster;
 
-  final String value;
-
-  const AuthTokenUpdateStatus._(this.value);
-
-  static const values = [setting, rotating];
-
-  static AuthTokenUpdateStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AuthTokenUpdateStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AuthTokenUpdateStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class AuthTokenUpdateStrategyType {
-  static const set = AuthTokenUpdateStrategyType._('SET');
-  static const rotate = AuthTokenUpdateStrategyType._('ROTATE');
-  static const delete = AuthTokenUpdateStrategyType._('DELETE');
-
-  final String value;
-
-  const AuthTokenUpdateStrategyType._(this.value);
-
-  static const values = [set, rotate, delete];
-
-  static AuthTokenUpdateStrategyType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AuthTokenUpdateStrategyType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AuthTokenUpdateStrategyType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Indicates whether the user requires a password to authenticate.
-class Authentication {
-  /// The number of passwords belonging to the user. The maximum is two.
-  final int? passwordCount;
-
-  /// Indicates whether the user requires a password to authenticate.
-  final AuthenticationType? type;
-
-  Authentication({
-    this.passwordCount,
-    this.type,
+  ModifyCacheClusterResult({
+    this.cacheCluster,
   });
-  factory Authentication.fromXml(_s.XmlElement elem) {
-    return Authentication(
-      passwordCount: _s.extractXmlIntValue(elem, 'PasswordCount'),
-      type: _s
-          .extractXmlStringValue(elem, 'Type')
-          ?.let(AuthenticationType.fromString),
+  factory ModifyCacheClusterResult.fromXml(_s.XmlElement elem) {
+    return ModifyCacheClusterResult(
+      cacheCluster:
+          _s.extractXmlChild(elem, 'CacheCluster')?.let(CacheCluster.fromXml),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final passwordCount = this.passwordCount;
-    final type = this.type;
+    final cacheCluster = this.cacheCluster;
     return {
-      if (passwordCount != null) 'PasswordCount': passwordCount,
-      if (type != null) 'Type': type.value,
+      if (cacheCluster != null) 'CacheCluster': cacheCluster,
     };
   }
 }
 
-/// Specifies the authentication mode to use.
-class AuthenticationMode {
-  /// Specifies the passwords to use for authentication if <code>Type</code> is
-  /// set to <code>password</code>.
-  final List<String>? passwords;
+/// Represents the output of one of the following operations:
+///
+/// <ul>
+/// <li>
+/// <code>ModifyCacheParameterGroup</code>
+/// </li>
+/// <li>
+/// <code>ResetCacheParameterGroup</code>
+/// </li>
+/// </ul>
+class CacheParameterGroupNameMessage {
+  /// The name of the cache parameter group.
+  final String? cacheParameterGroupName;
 
-  /// Specifies the authentication type. Possible options are IAM authentication,
-  /// password and no password.
-  final InputAuthenticationType? type;
-
-  AuthenticationMode({
-    this.passwords,
-    this.type,
+  CacheParameterGroupNameMessage({
+    this.cacheParameterGroupName,
   });
+  factory CacheParameterGroupNameMessage.fromXml(_s.XmlElement elem) {
+    return CacheParameterGroupNameMessage(
+      cacheParameterGroupName:
+          _s.extractXmlStringValue(elem, 'CacheParameterGroupName'),
+    );
+  }
 
   Map<String, dynamic> toJson() {
-    final passwords = this.passwords;
-    final type = this.type;
+    final cacheParameterGroupName = this.cacheParameterGroupName;
     return {
-      if (passwords != null) 'Passwords': passwords,
-      if (type != null) 'Type': type.value,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final passwords = this.passwords;
-    final type = this.type;
-    return {
-      if (passwords != null)
-        if (passwords.isEmpty)
-          'Passwords': ''
-        else
-          for (var i1 = 0; i1 < passwords.length; i1++)
-            'Passwords.member.${i1 + 1}': passwords[i1],
-      if (type != null) 'Type': type.value,
+      if (cacheParameterGroupName != null)
+        'CacheParameterGroupName': cacheParameterGroupName,
     };
   }
 }
 
-class AuthenticationType {
-  static const password = AuthenticationType._('password');
-  static const noPassword = AuthenticationType._('no-password');
-  static const iam = AuthenticationType._('iam');
+class ModifyCacheSubnetGroupResult {
+  final CacheSubnetGroup? cacheSubnetGroup;
 
-  final String value;
+  ModifyCacheSubnetGroupResult({
+    this.cacheSubnetGroup,
+  });
+  factory ModifyCacheSubnetGroupResult.fromXml(_s.XmlElement elem) {
+    return ModifyCacheSubnetGroupResult(
+      cacheSubnetGroup: _s
+          .extractXmlChild(elem, 'CacheSubnetGroup')
+          ?.let(CacheSubnetGroup.fromXml),
+    );
+  }
 
-  const AuthenticationType._(this.value);
-
-  static const values = [password, noPassword, iam];
-
-  static AuthenticationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AuthenticationType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AuthenticationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final cacheSubnetGroup = this.cacheSubnetGroup;
+    return {
+      if (cacheSubnetGroup != null) 'CacheSubnetGroup': cacheSubnetGroup,
+    };
+  }
 }
 
-class AuthorizeCacheSecurityGroupIngressResult {
+class ModifyGlobalReplicationGroupResult {
+  final GlobalReplicationGroup? globalReplicationGroup;
+
+  ModifyGlobalReplicationGroupResult({
+    this.globalReplicationGroup,
+  });
+  factory ModifyGlobalReplicationGroupResult.fromXml(_s.XmlElement elem) {
+    return ModifyGlobalReplicationGroupResult(
+      globalReplicationGroup: _s
+          .extractXmlChild(elem, 'GlobalReplicationGroup')
+          ?.let(GlobalReplicationGroup.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalReplicationGroup = this.globalReplicationGroup;
+    return {
+      if (globalReplicationGroup != null)
+        'GlobalReplicationGroup': globalReplicationGroup,
+    };
+  }
+}
+
+class ModifyReplicationGroupResult {
+  final ReplicationGroup? replicationGroup;
+
+  ModifyReplicationGroupResult({
+    this.replicationGroup,
+  });
+  factory ModifyReplicationGroupResult.fromXml(_s.XmlElement elem) {
+    return ModifyReplicationGroupResult(
+      replicationGroup: _s
+          .extractXmlChild(elem, 'ReplicationGroup')
+          ?.let(ReplicationGroup.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationGroup = this.replicationGroup;
+    return {
+      if (replicationGroup != null) 'ReplicationGroup': replicationGroup,
+    };
+  }
+}
+
+class ModifyReplicationGroupShardConfigurationResult {
+  final ReplicationGroup? replicationGroup;
+
+  ModifyReplicationGroupShardConfigurationResult({
+    this.replicationGroup,
+  });
+  factory ModifyReplicationGroupShardConfigurationResult.fromXml(
+      _s.XmlElement elem) {
+    return ModifyReplicationGroupShardConfigurationResult(
+      replicationGroup: _s
+          .extractXmlChild(elem, 'ReplicationGroup')
+          ?.let(ReplicationGroup.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationGroup = this.replicationGroup;
+    return {
+      if (replicationGroup != null) 'ReplicationGroup': replicationGroup,
+    };
+  }
+}
+
+class ModifyServerlessCacheResponse {
+  /// The response for the attempt to modify the serverless cache.
+  final ServerlessCache? serverlessCache;
+
+  ModifyServerlessCacheResponse({
+    this.serverlessCache,
+  });
+  factory ModifyServerlessCacheResponse.fromXml(_s.XmlElement elem) {
+    return ModifyServerlessCacheResponse(
+      serverlessCache: _s
+          .extractXmlChild(elem, 'ServerlessCache')
+          ?.let(ServerlessCache.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serverlessCache = this.serverlessCache;
+    return {
+      if (serverlessCache != null) 'ServerlessCache': serverlessCache,
+    };
+  }
+}
+
+class PurchaseReservedCacheNodesOfferingResult {
+  final ReservedCacheNode? reservedCacheNode;
+
+  PurchaseReservedCacheNodesOfferingResult({
+    this.reservedCacheNode,
+  });
+  factory PurchaseReservedCacheNodesOfferingResult.fromXml(_s.XmlElement elem) {
+    return PurchaseReservedCacheNodesOfferingResult(
+      reservedCacheNode: _s
+          .extractXmlChild(elem, 'ReservedCacheNode')
+          ?.let(ReservedCacheNode.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reservedCacheNode = this.reservedCacheNode;
+    return {
+      if (reservedCacheNode != null) 'ReservedCacheNode': reservedCacheNode,
+    };
+  }
+}
+
+class RebalanceSlotsInGlobalReplicationGroupResult {
+  final GlobalReplicationGroup? globalReplicationGroup;
+
+  RebalanceSlotsInGlobalReplicationGroupResult({
+    this.globalReplicationGroup,
+  });
+  factory RebalanceSlotsInGlobalReplicationGroupResult.fromXml(
+      _s.XmlElement elem) {
+    return RebalanceSlotsInGlobalReplicationGroupResult(
+      globalReplicationGroup: _s
+          .extractXmlChild(elem, 'GlobalReplicationGroup')
+          ?.let(GlobalReplicationGroup.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalReplicationGroup = this.globalReplicationGroup;
+    return {
+      if (globalReplicationGroup != null)
+        'GlobalReplicationGroup': globalReplicationGroup,
+    };
+  }
+}
+
+class RebootCacheClusterResult {
+  final CacheCluster? cacheCluster;
+
+  RebootCacheClusterResult({
+    this.cacheCluster,
+  });
+  factory RebootCacheClusterResult.fromXml(_s.XmlElement elem) {
+    return RebootCacheClusterResult(
+      cacheCluster:
+          _s.extractXmlChild(elem, 'CacheCluster')?.let(CacheCluster.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cacheCluster = this.cacheCluster;
+    return {
+      if (cacheCluster != null) 'CacheCluster': cacheCluster,
+    };
+  }
+}
+
+class RevokeCacheSecurityGroupIngressResult {
   final CacheSecurityGroup? cacheSecurityGroup;
 
-  AuthorizeCacheSecurityGroupIngressResult({
+  RevokeCacheSecurityGroupIngressResult({
     this.cacheSecurityGroup,
   });
-  factory AuthorizeCacheSecurityGroupIngressResult.fromXml(_s.XmlElement elem) {
-    return AuthorizeCacheSecurityGroupIngressResult(
+  factory RevokeCacheSecurityGroupIngressResult.fromXml(_s.XmlElement elem) {
+    return RevokeCacheSecurityGroupIngressResult(
       cacheSecurityGroup: _s
           .extractXmlChild(elem, 'CacheSecurityGroup')
           ?.let(CacheSecurityGroup.fromXml),
@@ -7005,6 +8637,626 @@ class AuthorizeCacheSecurityGroupIngressResult {
     final cacheSecurityGroup = this.cacheSecurityGroup;
     return {
       if (cacheSecurityGroup != null) 'CacheSecurityGroup': cacheSecurityGroup,
+    };
+  }
+}
+
+class StartMigrationResponse {
+  final ReplicationGroup? replicationGroup;
+
+  StartMigrationResponse({
+    this.replicationGroup,
+  });
+  factory StartMigrationResponse.fromXml(_s.XmlElement elem) {
+    return StartMigrationResponse(
+      replicationGroup: _s
+          .extractXmlChild(elem, 'ReplicationGroup')
+          ?.let(ReplicationGroup.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationGroup = this.replicationGroup;
+    return {
+      if (replicationGroup != null) 'ReplicationGroup': replicationGroup,
+    };
+  }
+}
+
+class TestFailoverResult {
+  final ReplicationGroup? replicationGroup;
+
+  TestFailoverResult({
+    this.replicationGroup,
+  });
+  factory TestFailoverResult.fromXml(_s.XmlElement elem) {
+    return TestFailoverResult(
+      replicationGroup: _s
+          .extractXmlChild(elem, 'ReplicationGroup')
+          ?.let(ReplicationGroup.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationGroup = this.replicationGroup;
+    return {
+      if (replicationGroup != null) 'ReplicationGroup': replicationGroup,
+    };
+  }
+}
+
+class TestMigrationResponse {
+  final ReplicationGroup? replicationGroup;
+
+  TestMigrationResponse({
+    this.replicationGroup,
+  });
+  factory TestMigrationResponse.fromXml(_s.XmlElement elem) {
+    return TestMigrationResponse(
+      replicationGroup: _s
+          .extractXmlChild(elem, 'ReplicationGroup')
+          ?.let(ReplicationGroup.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationGroup = this.replicationGroup;
+    return {
+      if (replicationGroup != null) 'ReplicationGroup': replicationGroup,
+    };
+  }
+}
+
+/// Contains all of the attributes of a specific Valkey or Redis OSS replication
+/// group.
+class ReplicationGroup {
+  /// The ARN (Amazon Resource Name) of the replication group.
+  final String? arn;
+
+  /// A flag that enables encryption at-rest on the cluster when set to
+  /// <code>true</code>. In some cases, encryption at-rest may be enabled even
+  /// when this value is false. Use <code>StorageEncryptionType</code> to view the
+  /// effective encryption state of a cluster.
+  ///
+  /// You cannot modify the value of <code>AtRestEncryptionEnabled</code> after
+  /// the cluster is created.
+  ///
+  /// Default: <code>true</code> when using Valkey, <code>false</code> when using
+  /// Redis OSS
+  final bool? atRestEncryptionEnabled;
+
+  /// A flag that enables using an <code>AuthToken</code> (password) when issuing
+  /// Valkey or Redis OSS commands.
+  ///
+  /// Default: <code>false</code>
+  final bool? authTokenEnabled;
+
+  /// The date the auth token was last modified
+  final DateTime? authTokenLastModifiedDate;
+
+  /// If you are running Valkey 7.2 and above, or Redis OSS engine version 6.0 and
+  /// above, set this parameter to yes if you want to opt-in to the next auto
+  /// minor version upgrade campaign. This parameter is disabled for previous
+  /// versions.
+  final bool? autoMinorVersionUpgrade;
+
+  /// Indicates the status of automatic failover for this Valkey or Redis OSS
+  /// replication group.
+  final AutomaticFailoverStatus? automaticFailover;
+
+  /// The name of the compute and memory capacity node type for each node in the
+  /// replication group.
+  final String? cacheNodeType;
+
+  /// A flag indicating whether or not this replication group is cluster enabled;
+  /// i.e., whether its data can be partitioned across multiple shards (API/CLI:
+  /// node groups).
+  ///
+  /// Valid values: <code>true</code> | <code>false</code>
+  final bool? clusterEnabled;
+
+  /// Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you
+  /// must first set the cluster mode to Compatible. Compatible mode allows your
+  /// Valkey or Redis OSS clients to connect using both cluster mode enabled and
+  /// cluster mode disabled. After you migrate all Valkey or Redis OSS clients to
+  /// use cluster mode enabled, you can then complete cluster mode configuration
+  /// and set the cluster mode to Enabled.
+  final ClusterMode? clusterMode;
+
+  /// The configuration endpoint for this replication group. Use the configuration
+  /// endpoint to connect to this replication group.
+  final Endpoint? configurationEndpoint;
+
+  /// Enables data tiering. Data tiering is only supported for replication groups
+  /// using the r6gd node type. This parameter must be set to true when using r6gd
+  /// nodes. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/data-tiering.html">Data
+  /// tiering</a>.
+  final DataTieringStatus? dataTiering;
+
+  /// The user supplied description of the replication group.
+  final String? description;
+
+  /// The durability setting of the replication group. For more information, see
+  /// <a
+  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Durability.html">Durability</a>.
+  final Durability? durability;
+
+  /// The effective durability of the replication group. When
+  /// <code>Durability</code> is set to <code>default</code>, the service resolves
+  /// the actual durability based on the engine version, cluster mode, and other
+  /// parameters. This field reflects the resolved value. For more information,
+  /// see <a
+  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/ConfiguringDurability.html">Configuring
+  /// Durability</a>.
+  final EffectiveDurability? effectiveDurability;
+
+  /// The engine used in a replication group. The options are valkey, memcached or
+  /// redis.
+  final String? engine;
+
+  /// The name of the Global datastore and role of this replication group in the
+  /// Global datastore.
+  final GlobalReplicationGroupInfo? globalReplicationGroupInfo;
+
+  /// The network type you choose when modifying a cluster, either
+  /// <code>ipv4</code> | <code>ipv6</code>. IPv6 is supported for workloads using
+  /// Valkey 7.2 and above, Redis OSS engine version 6.2 to 7.1 or Memcached
+  /// engine version 1.6.6 and above on all instances built on the <a
+  /// href="http://aws.amazon.com/ec2/nitro/">Nitro system</a>.
+  final IpDiscovery? ipDiscovery;
+
+  /// The ID of the KMS key used to encrypt the disk in the cluster.
+  final String? kmsKeyId;
+
+  /// Returns the destination, format and type of the logs.
+  final List<LogDeliveryConfiguration>? logDeliveryConfigurations;
+
+  /// The names of all the cache clusters that are part of this replication group.
+  final List<String>? memberClusters;
+
+  /// The outpost ARNs of the replication group's member clusters.
+  final List<String>? memberClustersOutpostArns;
+
+  /// A flag indicating if you have Multi-AZ enabled to enhance fault tolerance.
+  /// For more information, see <a
+  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/AutoFailover.html">Minimizing
+  /// Downtime: Multi-AZ</a>
+  final MultiAZStatus? multiAZ;
+
+  /// Must be either <code>ipv4</code> | <code>ipv6</code> |
+  /// <code>dual_stack</code>. IPv6 is supported for workloads using Valkey 7.2
+  /// and above, Redis OSS engine version 6.2 to 7.1 or Memcached engine version
+  /// 1.6.6 and above on all instances built on the <a
+  /// href="http://aws.amazon.com/ec2/nitro/">Nitro system</a>.
+  final NetworkType? networkType;
+
+  /// A list of node groups in this replication group. For Valkey or Redis OSS
+  /// (cluster mode disabled) replication groups, this is a single-element list.
+  /// For Valkey or Redis OSS (cluster mode enabled) replication groups, the list
+  /// contains an entry for each node group (shard).
+  final List<NodeGroup>? nodeGroups;
+
+  /// A group of settings to be applied to the replication group, either
+  /// immediately or during the next maintenance window.
+  final ReplicationGroupPendingModifiedValues? pendingModifiedValues;
+
+  /// The date and time when the cluster was created.
+  final DateTime? replicationGroupCreateTime;
+
+  /// The identifier for the replication group.
+  final String? replicationGroupId;
+
+  /// The number of days for which ElastiCache retains automatic cluster snapshots
+  /// before deleting them. For example, if you set
+  /// <code>SnapshotRetentionLimit</code> to 5, a snapshot that was taken today is
+  /// retained for 5 days before being deleted.
+  /// <important>
+  /// If the value of <code>SnapshotRetentionLimit</code> is set to zero (0),
+  /// backups are turned off.
+  /// </important>
+  final int? snapshotRetentionLimit;
+
+  /// The daily time range (in UTC) during which ElastiCache begins taking a daily
+  /// snapshot of your node group (shard).
+  ///
+  /// Example: <code>05:00-09:00</code>
+  ///
+  /// If you do not specify this parameter, ElastiCache automatically chooses an
+  /// appropriate time range.
+  /// <note>
+  /// This parameter is only valid if the <code>Engine</code> parameter is
+  /// <code>redis</code>.
+  /// </note>
+  final String? snapshotWindow;
+
+  /// The cluster ID that is used as the daily snapshot source for the replication
+  /// group.
+  final String? snapshottingClusterId;
+
+  /// The current state of this replication group - <code>creating</code>,
+  /// <code>available</code>, <code>modifying</code>, <code>deleting</code>,
+  /// <code>create-failed</code>, <code>snapshotting</code>.
+  final String? status;
+
+  /// Indicates the type of encryption for data stored at rest in the replication
+  /// group. The value is <code>none</code> if at-rest encryption is not enabled,
+  /// <code>sse-elasticache</code> if an ElastiCache service-managed key is used,
+  /// or <code>sse-kms</code> if a customer-managed KMS key is used.
+  final StorageEncryptionType? storageEncryptionType;
+
+  /// A flag that enables in-transit encryption when set to <code>true</code>.
+  ///
+  /// <b>Required:</b> Only available when creating a replication group in an
+  /// Amazon VPC using Redis OSS version <code>3.2.6</code>, <code>4.x</code> or
+  /// later.
+  ///
+  /// Default: <code>false</code>
+  final bool? transitEncryptionEnabled;
+
+  /// A setting that allows you to migrate your clients to use in-transit
+  /// encryption, with no downtime.
+  final TransitEncryptionMode? transitEncryptionMode;
+
+  /// The ID of the user group associated to the replication group.
+  final List<String>? userGroupIds;
+
+  ReplicationGroup({
+    this.arn,
+    this.atRestEncryptionEnabled,
+    this.authTokenEnabled,
+    this.authTokenLastModifiedDate,
+    this.autoMinorVersionUpgrade,
+    this.automaticFailover,
+    this.cacheNodeType,
+    this.clusterEnabled,
+    this.clusterMode,
+    this.configurationEndpoint,
+    this.dataTiering,
+    this.description,
+    this.durability,
+    this.effectiveDurability,
+    this.engine,
+    this.globalReplicationGroupInfo,
+    this.ipDiscovery,
+    this.kmsKeyId,
+    this.logDeliveryConfigurations,
+    this.memberClusters,
+    this.memberClustersOutpostArns,
+    this.multiAZ,
+    this.networkType,
+    this.nodeGroups,
+    this.pendingModifiedValues,
+    this.replicationGroupCreateTime,
+    this.replicationGroupId,
+    this.snapshotRetentionLimit,
+    this.snapshotWindow,
+    this.snapshottingClusterId,
+    this.status,
+    this.storageEncryptionType,
+    this.transitEncryptionEnabled,
+    this.transitEncryptionMode,
+    this.userGroupIds,
+  });
+  factory ReplicationGroup.fromXml(_s.XmlElement elem) {
+    return ReplicationGroup(
+      arn: _s.extractXmlStringValue(elem, 'ARN'),
+      atRestEncryptionEnabled:
+          _s.extractXmlBoolValue(elem, 'AtRestEncryptionEnabled'),
+      authTokenEnabled: _s.extractXmlBoolValue(elem, 'AuthTokenEnabled'),
+      authTokenLastModifiedDate:
+          _s.extractXmlDateTimeValue(elem, 'AuthTokenLastModifiedDate'),
+      autoMinorVersionUpgrade:
+          _s.extractXmlBoolValue(elem, 'AutoMinorVersionUpgrade'),
+      automaticFailover: _s
+          .extractXmlStringValue(elem, 'AutomaticFailover')
+          ?.let(AutomaticFailoverStatus.fromString),
+      cacheNodeType: _s.extractXmlStringValue(elem, 'CacheNodeType'),
+      clusterEnabled: _s.extractXmlBoolValue(elem, 'ClusterEnabled'),
+      clusterMode: _s
+          .extractXmlStringValue(elem, 'ClusterMode')
+          ?.let(ClusterMode.fromString),
+      configurationEndpoint: _s
+          .extractXmlChild(elem, 'ConfigurationEndpoint')
+          ?.let(Endpoint.fromXml),
+      dataTiering: _s
+          .extractXmlStringValue(elem, 'DataTiering')
+          ?.let(DataTieringStatus.fromString),
+      description: _s.extractXmlStringValue(elem, 'Description'),
+      durability: _s
+          .extractXmlStringValue(elem, 'Durability')
+          ?.let(Durability.fromString),
+      effectiveDurability: _s
+          .extractXmlStringValue(elem, 'EffectiveDurability')
+          ?.let(EffectiveDurability.fromString),
+      engine: _s.extractXmlStringValue(elem, 'Engine'),
+      globalReplicationGroupInfo: _s
+          .extractXmlChild(elem, 'GlobalReplicationGroupInfo')
+          ?.let(GlobalReplicationGroupInfo.fromXml),
+      ipDiscovery: _s
+          .extractXmlStringValue(elem, 'IpDiscovery')
+          ?.let(IpDiscovery.fromString),
+      kmsKeyId: _s.extractXmlStringValue(elem, 'KmsKeyId'),
+      logDeliveryConfigurations: _s
+          .extractXmlChild(elem, 'LogDeliveryConfigurations')
+          ?.let((elem) => elem
+              .findElements('LogDeliveryConfiguration')
+              .map(LogDeliveryConfiguration.fromXml)
+              .toList()),
+      memberClusters: _s
+          .extractXmlChild(elem, 'MemberClusters')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'ClusterId')),
+      memberClustersOutpostArns: _s
+          .extractXmlChild(elem, 'MemberClustersOutpostArns')
+          ?.let((elem) => _s.extractXmlStringListValues(
+              elem, 'ReplicationGroupOutpostArn')),
+      multiAZ: _s
+          .extractXmlStringValue(elem, 'MultiAZ')
+          ?.let(MultiAZStatus.fromString),
+      networkType: _s
+          .extractXmlStringValue(elem, 'NetworkType')
+          ?.let(NetworkType.fromString),
+      nodeGroups: _s.extractXmlChild(elem, 'NodeGroups')?.let((elem) =>
+          elem.findElements('NodeGroup').map(NodeGroup.fromXml).toList()),
+      pendingModifiedValues: _s
+          .extractXmlChild(elem, 'PendingModifiedValues')
+          ?.let(ReplicationGroupPendingModifiedValues.fromXml),
+      replicationGroupCreateTime:
+          _s.extractXmlDateTimeValue(elem, 'ReplicationGroupCreateTime'),
+      replicationGroupId: _s.extractXmlStringValue(elem, 'ReplicationGroupId'),
+      snapshotRetentionLimit:
+          _s.extractXmlIntValue(elem, 'SnapshotRetentionLimit'),
+      snapshotWindow: _s.extractXmlStringValue(elem, 'SnapshotWindow'),
+      snapshottingClusterId:
+          _s.extractXmlStringValue(elem, 'SnapshottingClusterId'),
+      status: _s.extractXmlStringValue(elem, 'Status'),
+      storageEncryptionType: _s
+          .extractXmlStringValue(elem, 'StorageEncryptionType')
+          ?.let(StorageEncryptionType.fromString),
+      transitEncryptionEnabled:
+          _s.extractXmlBoolValue(elem, 'TransitEncryptionEnabled'),
+      transitEncryptionMode: _s
+          .extractXmlStringValue(elem, 'TransitEncryptionMode')
+          ?.let(TransitEncryptionMode.fromString),
+      userGroupIds: _s
+          .extractXmlChild(elem, 'UserGroupIds')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final atRestEncryptionEnabled = this.atRestEncryptionEnabled;
+    final authTokenEnabled = this.authTokenEnabled;
+    final authTokenLastModifiedDate = this.authTokenLastModifiedDate;
+    final autoMinorVersionUpgrade = this.autoMinorVersionUpgrade;
+    final automaticFailover = this.automaticFailover;
+    final cacheNodeType = this.cacheNodeType;
+    final clusterEnabled = this.clusterEnabled;
+    final clusterMode = this.clusterMode;
+    final configurationEndpoint = this.configurationEndpoint;
+    final dataTiering = this.dataTiering;
+    final description = this.description;
+    final durability = this.durability;
+    final effectiveDurability = this.effectiveDurability;
+    final engine = this.engine;
+    final globalReplicationGroupInfo = this.globalReplicationGroupInfo;
+    final ipDiscovery = this.ipDiscovery;
+    final kmsKeyId = this.kmsKeyId;
+    final logDeliveryConfigurations = this.logDeliveryConfigurations;
+    final memberClusters = this.memberClusters;
+    final memberClustersOutpostArns = this.memberClustersOutpostArns;
+    final multiAZ = this.multiAZ;
+    final networkType = this.networkType;
+    final nodeGroups = this.nodeGroups;
+    final pendingModifiedValues = this.pendingModifiedValues;
+    final replicationGroupCreateTime = this.replicationGroupCreateTime;
+    final replicationGroupId = this.replicationGroupId;
+    final snapshotRetentionLimit = this.snapshotRetentionLimit;
+    final snapshotWindow = this.snapshotWindow;
+    final snapshottingClusterId = this.snapshottingClusterId;
+    final status = this.status;
+    final storageEncryptionType = this.storageEncryptionType;
+    final transitEncryptionEnabled = this.transitEncryptionEnabled;
+    final transitEncryptionMode = this.transitEncryptionMode;
+    final userGroupIds = this.userGroupIds;
+    return {
+      if (arn != null) 'ARN': arn,
+      if (atRestEncryptionEnabled != null)
+        'AtRestEncryptionEnabled': atRestEncryptionEnabled,
+      if (authTokenEnabled != null) 'AuthTokenEnabled': authTokenEnabled,
+      if (authTokenLastModifiedDate != null)
+        'AuthTokenLastModifiedDate': iso8601ToJson(authTokenLastModifiedDate),
+      if (autoMinorVersionUpgrade != null)
+        'AutoMinorVersionUpgrade': autoMinorVersionUpgrade,
+      if (automaticFailover != null)
+        'AutomaticFailover': automaticFailover.value,
+      if (cacheNodeType != null) 'CacheNodeType': cacheNodeType,
+      if (clusterEnabled != null) 'ClusterEnabled': clusterEnabled,
+      if (clusterMode != null) 'ClusterMode': clusterMode.value,
+      if (configurationEndpoint != null)
+        'ConfigurationEndpoint': configurationEndpoint,
+      if (dataTiering != null) 'DataTiering': dataTiering.value,
+      if (description != null) 'Description': description,
+      if (durability != null) 'Durability': durability.value,
+      if (effectiveDurability != null)
+        'EffectiveDurability': effectiveDurability.value,
+      if (engine != null) 'Engine': engine,
+      if (globalReplicationGroupInfo != null)
+        'GlobalReplicationGroupInfo': globalReplicationGroupInfo,
+      if (ipDiscovery != null) 'IpDiscovery': ipDiscovery.value,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (logDeliveryConfigurations != null)
+        'LogDeliveryConfigurations': logDeliveryConfigurations,
+      if (memberClusters != null) 'MemberClusters': memberClusters,
+      if (memberClustersOutpostArns != null)
+        'MemberClustersOutpostArns': memberClustersOutpostArns,
+      if (multiAZ != null) 'MultiAZ': multiAZ.value,
+      if (networkType != null) 'NetworkType': networkType.value,
+      if (nodeGroups != null) 'NodeGroups': nodeGroups,
+      if (pendingModifiedValues != null)
+        'PendingModifiedValues': pendingModifiedValues,
+      if (replicationGroupCreateTime != null)
+        'ReplicationGroupCreateTime': iso8601ToJson(replicationGroupCreateTime),
+      if (replicationGroupId != null) 'ReplicationGroupId': replicationGroupId,
+      if (snapshotRetentionLimit != null)
+        'SnapshotRetentionLimit': snapshotRetentionLimit,
+      if (snapshotWindow != null) 'SnapshotWindow': snapshotWindow,
+      if (snapshottingClusterId != null)
+        'SnapshottingClusterId': snapshottingClusterId,
+      if (status != null) 'Status': status,
+      if (storageEncryptionType != null)
+        'StorageEncryptionType': storageEncryptionType.value,
+      if (transitEncryptionEnabled != null)
+        'TransitEncryptionEnabled': transitEncryptionEnabled,
+      if (transitEncryptionMode != null)
+        'TransitEncryptionMode': transitEncryptionMode.value,
+      if (userGroupIds != null) 'UserGroupIds': userGroupIds,
+    };
+  }
+}
+
+/// The name of the Global datastore and role of this replication group in the
+/// Global datastore.
+class GlobalReplicationGroupInfo {
+  /// The name of the Global datastore
+  final String? globalReplicationGroupId;
+
+  /// The role of the replication group in a Global datastore. Can be primary or
+  /// secondary.
+  final String? globalReplicationGroupMemberRole;
+
+  GlobalReplicationGroupInfo({
+    this.globalReplicationGroupId,
+    this.globalReplicationGroupMemberRole,
+  });
+  factory GlobalReplicationGroupInfo.fromXml(_s.XmlElement elem) {
+    return GlobalReplicationGroupInfo(
+      globalReplicationGroupId:
+          _s.extractXmlStringValue(elem, 'GlobalReplicationGroupId'),
+      globalReplicationGroupMemberRole:
+          _s.extractXmlStringValue(elem, 'GlobalReplicationGroupMemberRole'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalReplicationGroupId = this.globalReplicationGroupId;
+    final globalReplicationGroupMemberRole =
+        this.globalReplicationGroupMemberRole;
+    return {
+      if (globalReplicationGroupId != null)
+        'GlobalReplicationGroupId': globalReplicationGroupId,
+      if (globalReplicationGroupMemberRole != null)
+        'GlobalReplicationGroupMemberRole': globalReplicationGroupMemberRole,
+    };
+  }
+}
+
+/// The settings to be applied to the Valkey or Redis OSS replication group,
+/// either immediately or during the next maintenance window.
+class ReplicationGroupPendingModifiedValues {
+  /// The auth token status
+  final AuthTokenUpdateStatus? authTokenStatus;
+
+  /// Indicates the status of automatic failover for this Valkey or Redis OSS
+  /// replication group.
+  final PendingAutomaticFailoverStatus? automaticFailoverStatus;
+
+  /// Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you
+  /// must first set the cluster mode to Compatible. Compatible mode allows your
+  /// Valkey or Redis OSS clients to connect using both cluster mode enabled and
+  /// cluster mode disabled. After you migrate all Valkey or Redis OSS clients to
+  /// use cluster mode enabled, you can then complete cluster mode configuration
+  /// and set the cluster mode to Enabled.
+  final ClusterMode? clusterMode;
+
+  /// The log delivery configurations being modified
+  final List<PendingLogDeliveryConfiguration>? logDeliveryConfigurations;
+
+  /// The primary cluster ID that is applied immediately (if
+  /// <code>--apply-immediately</code> was specified), or during the next
+  /// maintenance window.
+  final String? primaryClusterId;
+
+  /// The status of an online resharding operation.
+  final ReshardingStatus? resharding;
+
+  /// A flag that enables in-transit encryption when set to true.
+  final bool? transitEncryptionEnabled;
+
+  /// A setting that allows you to migrate your clients to use in-transit
+  /// encryption, with no downtime.
+  final TransitEncryptionMode? transitEncryptionMode;
+
+  /// The user group being modified.
+  final UserGroupsUpdateStatus? userGroups;
+
+  ReplicationGroupPendingModifiedValues({
+    this.authTokenStatus,
+    this.automaticFailoverStatus,
+    this.clusterMode,
+    this.logDeliveryConfigurations,
+    this.primaryClusterId,
+    this.resharding,
+    this.transitEncryptionEnabled,
+    this.transitEncryptionMode,
+    this.userGroups,
+  });
+  factory ReplicationGroupPendingModifiedValues.fromXml(_s.XmlElement elem) {
+    return ReplicationGroupPendingModifiedValues(
+      authTokenStatus: _s
+          .extractXmlStringValue(elem, 'AuthTokenStatus')
+          ?.let(AuthTokenUpdateStatus.fromString),
+      automaticFailoverStatus: _s
+          .extractXmlStringValue(elem, 'AutomaticFailoverStatus')
+          ?.let(PendingAutomaticFailoverStatus.fromString),
+      clusterMode: _s
+          .extractXmlStringValue(elem, 'ClusterMode')
+          ?.let(ClusterMode.fromString),
+      logDeliveryConfigurations: _s
+          .extractXmlChild(elem, 'LogDeliveryConfigurations')
+          ?.let((elem) => elem
+              .findElements('member')
+              .map(PendingLogDeliveryConfiguration.fromXml)
+              .toList()),
+      primaryClusterId: _s.extractXmlStringValue(elem, 'PrimaryClusterId'),
+      resharding:
+          _s.extractXmlChild(elem, 'Resharding')?.let(ReshardingStatus.fromXml),
+      transitEncryptionEnabled:
+          _s.extractXmlBoolValue(elem, 'TransitEncryptionEnabled'),
+      transitEncryptionMode: _s
+          .extractXmlStringValue(elem, 'TransitEncryptionMode')
+          ?.let(TransitEncryptionMode.fromString),
+      userGroups: _s
+          .extractXmlChild(elem, 'UserGroups')
+          ?.let(UserGroupsUpdateStatus.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authTokenStatus = this.authTokenStatus;
+    final automaticFailoverStatus = this.automaticFailoverStatus;
+    final clusterMode = this.clusterMode;
+    final logDeliveryConfigurations = this.logDeliveryConfigurations;
+    final primaryClusterId = this.primaryClusterId;
+    final resharding = this.resharding;
+    final transitEncryptionEnabled = this.transitEncryptionEnabled;
+    final transitEncryptionMode = this.transitEncryptionMode;
+    final userGroups = this.userGroups;
+    return {
+      if (authTokenStatus != null) 'AuthTokenStatus': authTokenStatus.value,
+      if (automaticFailoverStatus != null)
+        'AutomaticFailoverStatus': automaticFailoverStatus.value,
+      if (clusterMode != null) 'ClusterMode': clusterMode.value,
+      if (logDeliveryConfigurations != null)
+        'LogDeliveryConfigurations': logDeliveryConfigurations,
+      if (primaryClusterId != null) 'PrimaryClusterId': primaryClusterId,
+      if (resharding != null) 'Resharding': resharding,
+      if (transitEncryptionEnabled != null)
+        'TransitEncryptionEnabled': transitEncryptionEnabled,
+      if (transitEncryptionMode != null)
+        'TransitEncryptionMode': transitEncryptionMode.value,
+      if (userGroups != null) 'UserGroups': userGroups,
     };
   }
 }
@@ -7036,24 +9288,1023 @@ class AutomaticFailoverStatus {
   String toString() => value;
 }
 
-/// Describes an Availability Zone in which the cluster is launched.
-class AvailabilityZone {
-  /// The name of the Availability Zone.
-  final String? name;
+class MultiAZStatus {
+  static const enabled = MultiAZStatus._('enabled');
+  static const disabled = MultiAZStatus._('disabled');
 
-  AvailabilityZone({
-    this.name,
+  final String value;
+
+  const MultiAZStatus._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static MultiAZStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MultiAZStatus._(value));
+
+  @override
+  bool operator ==(other) => other is MultiAZStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the information required for client programs to connect to a
+/// cache node. This value is read-only.
+class Endpoint {
+  /// The DNS hostname of the cache node.
+  final String? address;
+
+  /// The port number that the cache engine is listening on.
+  final int? port;
+
+  Endpoint({
+    this.address,
+    this.port,
   });
-  factory AvailabilityZone.fromXml(_s.XmlElement elem) {
-    return AvailabilityZone(
-      name: _s.extractXmlStringValue(elem, 'Name'),
+  factory Endpoint.fromXml(_s.XmlElement elem) {
+    return Endpoint(
+      address: _s.extractXmlStringValue(elem, 'Address'),
+      port: _s.extractXmlIntValue(elem, 'Port'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final name = this.name;
+    final address = this.address;
+    final port = this.port;
     return {
-      if (name != null) 'Name': name,
+      if (address != null) 'Address': address,
+      if (port != null) 'Port': port,
+    };
+  }
+}
+
+class StorageEncryptionType {
+  static const none = StorageEncryptionType._('none');
+  static const sseElasticache = StorageEncryptionType._('sse-elasticache');
+  static const sseKms = StorageEncryptionType._('sse-kms');
+
+  final String value;
+
+  const StorageEncryptionType._(this.value);
+
+  static const values = [none, sseElasticache, sseKms];
+
+  static StorageEncryptionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StorageEncryptionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StorageEncryptionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DataTieringStatus {
+  static const enabled = DataTieringStatus._('enabled');
+  static const disabled = DataTieringStatus._('disabled');
+
+  final String value;
+
+  const DataTieringStatus._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static DataTieringStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataTieringStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DataTieringStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class NetworkType {
+  static const ipv4 = NetworkType._('ipv4');
+  static const ipv6 = NetworkType._('ipv6');
+  static const dualStack = NetworkType._('dual_stack');
+
+  final String value;
+
+  const NetworkType._(this.value);
+
+  static const values = [ipv4, ipv6, dualStack];
+
+  static NetworkType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => NetworkType._(value));
+
+  @override
+  bool operator ==(other) => other is NetworkType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class IpDiscovery {
+  static const ipv4 = IpDiscovery._('ipv4');
+  static const ipv6 = IpDiscovery._('ipv6');
+
+  final String value;
+
+  const IpDiscovery._(this.value);
+
+  static const values = [ipv4, ipv6];
+
+  static IpDiscovery fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IpDiscovery._(value));
+
+  @override
+  bool operator ==(other) => other is IpDiscovery && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TransitEncryptionMode {
+  static const preferred = TransitEncryptionMode._('preferred');
+  static const required = TransitEncryptionMode._('required');
+
+  final String value;
+
+  const TransitEncryptionMode._(this.value);
+
+  static const values = [preferred, required];
+
+  static TransitEncryptionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TransitEncryptionMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TransitEncryptionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ClusterMode {
+  static const enabled = ClusterMode._('enabled');
+  static const disabled = ClusterMode._('disabled');
+  static const compatible = ClusterMode._('compatible');
+
+  final String value;
+
+  const ClusterMode._(this.value);
+
+  static const values = [enabled, disabled, compatible];
+
+  static ClusterMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ClusterMode._(value));
+
+  @override
+  bool operator ==(other) => other is ClusterMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class Durability {
+  static const $default = Durability._('default');
+  static const async = Durability._('async');
+  static const sync = Durability._('sync');
+  static const disabled = Durability._('disabled');
+
+  final String value;
+
+  const Durability._(this.value);
+
+  static const values = [$default, async, sync, disabled];
+
+  static Durability fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Durability._(value));
+
+  @override
+  bool operator ==(other) => other is Durability && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class EffectiveDurability {
+  static const async = EffectiveDurability._('async');
+  static const sync = EffectiveDurability._('sync');
+  static const disabled = EffectiveDurability._('disabled');
+
+  final String value;
+
+  const EffectiveDurability._(this.value);
+
+  static const values = [async, sync, disabled];
+
+  static EffectiveDurability fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EffectiveDurability._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EffectiveDurability && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Returns the destination, format and type of the logs.
+class LogDeliveryConfiguration {
+  /// Configuration details of either a CloudWatch Logs destination or Kinesis
+  /// Data Firehose destination.
+  final DestinationDetails? destinationDetails;
+
+  /// Returns the destination type, either <code>cloudwatch-logs</code> or
+  /// <code>kinesis-firehose</code>.
+  final DestinationType? destinationType;
+
+  /// Returns the log format, either JSON or TEXT.
+  final LogFormat? logFormat;
+
+  /// Refers to <a href="https://redis.io/commands/slowlog">slow-log</a> or
+  /// engine-log.
+  final LogType? logType;
+
+  /// Returns an error message for the log delivery configuration.
+  final String? message;
+
+  /// Returns the log delivery configuration status. Values are one of
+  /// <code>enabling</code> | <code>disabling</code> | <code>modifying</code> |
+  /// <code>active</code> | <code>error</code>
+  final LogDeliveryConfigurationStatus? status;
+
+  LogDeliveryConfiguration({
+    this.destinationDetails,
+    this.destinationType,
+    this.logFormat,
+    this.logType,
+    this.message,
+    this.status,
+  });
+  factory LogDeliveryConfiguration.fromXml(_s.XmlElement elem) {
+    return LogDeliveryConfiguration(
+      destinationDetails: _s
+          .extractXmlChild(elem, 'DestinationDetails')
+          ?.let(DestinationDetails.fromXml),
+      destinationType: _s
+          .extractXmlStringValue(elem, 'DestinationType')
+          ?.let(DestinationType.fromString),
+      logFormat: _s
+          .extractXmlStringValue(elem, 'LogFormat')
+          ?.let(LogFormat.fromString),
+      logType:
+          _s.extractXmlStringValue(elem, 'LogType')?.let(LogType.fromString),
+      message: _s.extractXmlStringValue(elem, 'Message'),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(LogDeliveryConfigurationStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationDetails = this.destinationDetails;
+    final destinationType = this.destinationType;
+    final logFormat = this.logFormat;
+    final logType = this.logType;
+    final message = this.message;
+    final status = this.status;
+    return {
+      if (destinationDetails != null) 'DestinationDetails': destinationDetails,
+      if (destinationType != null) 'DestinationType': destinationType.value,
+      if (logFormat != null) 'LogFormat': logFormat.value,
+      if (logType != null) 'LogType': logType.value,
+      if (message != null) 'Message': message,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class LogType {
+  static const slowLog = LogType._('slow-log');
+  static const engineLog = LogType._('engine-log');
+
+  final String value;
+
+  const LogType._(this.value);
+
+  static const values = [slowLog, engineLog];
+
+  static LogType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LogType._(value));
+
+  @override
+  bool operator ==(other) => other is LogType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DestinationType {
+  static const cloudwatchLogs = DestinationType._('cloudwatch-logs');
+  static const kinesisFirehose = DestinationType._('kinesis-firehose');
+
+  final String value;
+
+  const DestinationType._(this.value);
+
+  static const values = [cloudwatchLogs, kinesisFirehose];
+
+  static DestinationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DestinationType._(value));
+
+  @override
+  bool operator ==(other) => other is DestinationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Configuration details of either a CloudWatch Logs destination or Kinesis
+/// Data Firehose destination.
+class DestinationDetails {
+  /// The configuration details of the CloudWatch Logs destination.
+  final CloudWatchLogsDestinationDetails? cloudWatchLogsDetails;
+
+  /// The configuration details of the Kinesis Data Firehose destination.
+  final KinesisFirehoseDestinationDetails? kinesisFirehoseDetails;
+
+  DestinationDetails({
+    this.cloudWatchLogsDetails,
+    this.kinesisFirehoseDetails,
+  });
+  factory DestinationDetails.fromXml(_s.XmlElement elem) {
+    return DestinationDetails(
+      cloudWatchLogsDetails: _s
+          .extractXmlChild(elem, 'CloudWatchLogsDetails')
+          ?.let(CloudWatchLogsDestinationDetails.fromXml),
+      kinesisFirehoseDetails: _s
+          .extractXmlChild(elem, 'KinesisFirehoseDetails')
+          ?.let(KinesisFirehoseDestinationDetails.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchLogsDetails = this.cloudWatchLogsDetails;
+    final kinesisFirehoseDetails = this.kinesisFirehoseDetails;
+    return {
+      if (cloudWatchLogsDetails != null)
+        'CloudWatchLogsDetails': cloudWatchLogsDetails,
+      if (kinesisFirehoseDetails != null)
+        'KinesisFirehoseDetails': kinesisFirehoseDetails,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final cloudWatchLogsDetails = this.cloudWatchLogsDetails;
+    final kinesisFirehoseDetails = this.kinesisFirehoseDetails;
+    return {
+      if (cloudWatchLogsDetails != null)
+        for (var e1 in cloudWatchLogsDetails.toQueryMap().entries)
+          'CloudWatchLogsDetails.${e1.key}': e1.value,
+      if (kinesisFirehoseDetails != null)
+        for (var e1 in kinesisFirehoseDetails.toQueryMap().entries)
+          'KinesisFirehoseDetails.${e1.key}': e1.value,
+    };
+  }
+}
+
+class LogFormat {
+  static const text = LogFormat._('text');
+  static const json = LogFormat._('json');
+
+  final String value;
+
+  const LogFormat._(this.value);
+
+  static const values = [text, json];
+
+  static LogFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LogFormat._(value));
+
+  @override
+  bool operator ==(other) => other is LogFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class LogDeliveryConfigurationStatus {
+  static const active = LogDeliveryConfigurationStatus._('active');
+  static const enabling = LogDeliveryConfigurationStatus._('enabling');
+  static const modifying = LogDeliveryConfigurationStatus._('modifying');
+  static const disabling = LogDeliveryConfigurationStatus._('disabling');
+  static const error = LogDeliveryConfigurationStatus._('error');
+
+  final String value;
+
+  const LogDeliveryConfigurationStatus._(this.value);
+
+  static const values = [active, enabling, modifying, disabling, error];
+
+  static LogDeliveryConfigurationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LogDeliveryConfigurationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LogDeliveryConfigurationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The configuration details of the CloudWatch Logs destination.
+class CloudWatchLogsDestinationDetails {
+  /// The name of the CloudWatch Logs log group.
+  final String? logGroup;
+
+  CloudWatchLogsDestinationDetails({
+    this.logGroup,
+  });
+  factory CloudWatchLogsDestinationDetails.fromXml(_s.XmlElement elem) {
+    return CloudWatchLogsDestinationDetails(
+      logGroup: _s.extractXmlStringValue(elem, 'LogGroup'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logGroup = this.logGroup;
+    return {
+      if (logGroup != null) 'LogGroup': logGroup,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final logGroup = this.logGroup;
+    return {
+      if (logGroup != null) 'LogGroup': logGroup,
+    };
+  }
+}
+
+/// The configuration details of the Kinesis Data Firehose destination.
+class KinesisFirehoseDestinationDetails {
+  /// The name of the Kinesis Data Firehose delivery stream.
+  final String? deliveryStream;
+
+  KinesisFirehoseDestinationDetails({
+    this.deliveryStream,
+  });
+  factory KinesisFirehoseDestinationDetails.fromXml(_s.XmlElement elem) {
+    return KinesisFirehoseDestinationDetails(
+      deliveryStream: _s.extractXmlStringValue(elem, 'DeliveryStream'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deliveryStream = this.deliveryStream;
+    return {
+      if (deliveryStream != null) 'DeliveryStream': deliveryStream,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final deliveryStream = this.deliveryStream;
+    return {
+      if (deliveryStream != null) 'DeliveryStream': deliveryStream,
+    };
+  }
+}
+
+/// Represents a collection of cache nodes in a replication group. One node in
+/// the node group is the read/write primary node. All the other nodes are
+/// read-only Replica nodes.
+class NodeGroup {
+  /// The identifier for the node group (shard). A Valkey or Redis OSS (cluster
+  /// mode disabled) replication group contains only 1 node group; therefore, the
+  /// node group ID is 0001. A Valkey or Redis OSS (cluster mode enabled)
+  /// replication group contains 1 to 90 node groups numbered 0001 to 0090.
+  /// Optionally, the user can provide the id for a node group.
+  final String? nodeGroupId;
+
+  /// A list containing information about individual nodes within the node group
+  /// (shard).
+  final List<NodeGroupMember>? nodeGroupMembers;
+
+  /// The endpoint of the primary node in this node group (shard).
+  final Endpoint? primaryEndpoint;
+
+  /// The endpoint of the replica nodes in this node group (shard). This value is
+  /// read-only.
+  final Endpoint? readerEndpoint;
+
+  /// The keyspace for this node group (shard).
+  final String? slots;
+
+  /// The current state of this replication group - <code>creating</code>,
+  /// <code>available</code>, <code>modifying</code>, <code>deleting</code>.
+  final String? status;
+
+  NodeGroup({
+    this.nodeGroupId,
+    this.nodeGroupMembers,
+    this.primaryEndpoint,
+    this.readerEndpoint,
+    this.slots,
+    this.status,
+  });
+  factory NodeGroup.fromXml(_s.XmlElement elem) {
+    return NodeGroup(
+      nodeGroupId: _s.extractXmlStringValue(elem, 'NodeGroupId'),
+      nodeGroupMembers: _s.extractXmlChild(elem, 'NodeGroupMembers')?.let(
+          (elem) => elem
+              .findElements('NodeGroupMember')
+              .map(NodeGroupMember.fromXml)
+              .toList()),
+      primaryEndpoint:
+          _s.extractXmlChild(elem, 'PrimaryEndpoint')?.let(Endpoint.fromXml),
+      readerEndpoint:
+          _s.extractXmlChild(elem, 'ReaderEndpoint')?.let(Endpoint.fromXml),
+      slots: _s.extractXmlStringValue(elem, 'Slots'),
+      status: _s.extractXmlStringValue(elem, 'Status'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nodeGroupId = this.nodeGroupId;
+    final nodeGroupMembers = this.nodeGroupMembers;
+    final primaryEndpoint = this.primaryEndpoint;
+    final readerEndpoint = this.readerEndpoint;
+    final slots = this.slots;
+    final status = this.status;
+    return {
+      if (nodeGroupId != null) 'NodeGroupId': nodeGroupId,
+      if (nodeGroupMembers != null) 'NodeGroupMembers': nodeGroupMembers,
+      if (primaryEndpoint != null) 'PrimaryEndpoint': primaryEndpoint,
+      if (readerEndpoint != null) 'ReaderEndpoint': readerEndpoint,
+      if (slots != null) 'Slots': slots,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
+/// Represents a single node within a node group (shard).
+class NodeGroupMember {
+  /// The ID of the cluster to which the node belongs.
+  final String? cacheClusterId;
+
+  /// The ID of the node within its cluster. A node ID is a numeric identifier
+  /// (0001, 0002, etc.).
+  final String? cacheNodeId;
+
+  /// The role that is currently assigned to the node - <code>primary</code> or
+  /// <code>replica</code>. This member is only applicable for Valkey or Redis OSS
+  /// (cluster mode disabled) replication groups.
+  final String? currentRole;
+
+  /// The name of the Availability Zone in which the node is located.
+  final String? preferredAvailabilityZone;
+
+  /// The outpost ARN of the node group member.
+  final String? preferredOutpostArn;
+
+  /// The information required for client programs to connect to a node for read
+  /// operations. The read endpoint is only applicable on Valkey or Redis OSS
+  /// (cluster mode disabled) clusters.
+  final Endpoint? readEndpoint;
+
+  NodeGroupMember({
+    this.cacheClusterId,
+    this.cacheNodeId,
+    this.currentRole,
+    this.preferredAvailabilityZone,
+    this.preferredOutpostArn,
+    this.readEndpoint,
+  });
+  factory NodeGroupMember.fromXml(_s.XmlElement elem) {
+    return NodeGroupMember(
+      cacheClusterId: _s.extractXmlStringValue(elem, 'CacheClusterId'),
+      cacheNodeId: _s.extractXmlStringValue(elem, 'CacheNodeId'),
+      currentRole: _s.extractXmlStringValue(elem, 'CurrentRole'),
+      preferredAvailabilityZone:
+          _s.extractXmlStringValue(elem, 'PreferredAvailabilityZone'),
+      preferredOutpostArn:
+          _s.extractXmlStringValue(elem, 'PreferredOutpostArn'),
+      readEndpoint:
+          _s.extractXmlChild(elem, 'ReadEndpoint')?.let(Endpoint.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cacheClusterId = this.cacheClusterId;
+    final cacheNodeId = this.cacheNodeId;
+    final currentRole = this.currentRole;
+    final preferredAvailabilityZone = this.preferredAvailabilityZone;
+    final preferredOutpostArn = this.preferredOutpostArn;
+    final readEndpoint = this.readEndpoint;
+    return {
+      if (cacheClusterId != null) 'CacheClusterId': cacheClusterId,
+      if (cacheNodeId != null) 'CacheNodeId': cacheNodeId,
+      if (currentRole != null) 'CurrentRole': currentRole,
+      if (preferredAvailabilityZone != null)
+        'PreferredAvailabilityZone': preferredAvailabilityZone,
+      if (preferredOutpostArn != null)
+        'PreferredOutpostArn': preferredOutpostArn,
+      if (readEndpoint != null) 'ReadEndpoint': readEndpoint,
+    };
+  }
+}
+
+class PendingAutomaticFailoverStatus {
+  static const enabled = PendingAutomaticFailoverStatus._('enabled');
+  static const disabled = PendingAutomaticFailoverStatus._('disabled');
+
+  final String value;
+
+  const PendingAutomaticFailoverStatus._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static PendingAutomaticFailoverStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PendingAutomaticFailoverStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PendingAutomaticFailoverStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The status of an online resharding operation.
+class ReshardingStatus {
+  /// Represents the progress of an online resharding operation.
+  final SlotMigration? slotMigration;
+
+  ReshardingStatus({
+    this.slotMigration,
+  });
+  factory ReshardingStatus.fromXml(_s.XmlElement elem) {
+    return ReshardingStatus(
+      slotMigration:
+          _s.extractXmlChild(elem, 'SlotMigration')?.let(SlotMigration.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final slotMigration = this.slotMigration;
+    return {
+      if (slotMigration != null) 'SlotMigration': slotMigration,
+    };
+  }
+}
+
+class AuthTokenUpdateStatus {
+  static const setting = AuthTokenUpdateStatus._('SETTING');
+  static const rotating = AuthTokenUpdateStatus._('ROTATING');
+
+  final String value;
+
+  const AuthTokenUpdateStatus._(this.value);
+
+  static const values = [setting, rotating];
+
+  static AuthTokenUpdateStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AuthTokenUpdateStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AuthTokenUpdateStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The status of the user group update.
+class UserGroupsUpdateStatus {
+  /// The ID of the user group to add.
+  final List<String>? userGroupIdsToAdd;
+
+  /// The ID of the user group to remove.
+  final List<String>? userGroupIdsToRemove;
+
+  UserGroupsUpdateStatus({
+    this.userGroupIdsToAdd,
+    this.userGroupIdsToRemove,
+  });
+  factory UserGroupsUpdateStatus.fromXml(_s.XmlElement elem) {
+    return UserGroupsUpdateStatus(
+      userGroupIdsToAdd: _s
+          .extractXmlChild(elem, 'UserGroupIdsToAdd')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      userGroupIdsToRemove: _s
+          .extractXmlChild(elem, 'UserGroupIdsToRemove')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final userGroupIdsToAdd = this.userGroupIdsToAdd;
+    final userGroupIdsToRemove = this.userGroupIdsToRemove;
+    return {
+      if (userGroupIdsToAdd != null) 'UserGroupIdsToAdd': userGroupIdsToAdd,
+      if (userGroupIdsToRemove != null)
+        'UserGroupIdsToRemove': userGroupIdsToRemove,
+    };
+  }
+}
+
+/// The log delivery configurations being modified
+class PendingLogDeliveryConfiguration {
+  /// Configuration details of either a CloudWatch Logs destination or Kinesis
+  /// Data Firehose destination.
+  final DestinationDetails? destinationDetails;
+
+  /// Returns the destination type, either CloudWatch Logs or Kinesis Data
+  /// Firehose.
+  final DestinationType? destinationType;
+
+  /// Returns the log format, either JSON or TEXT
+  final LogFormat? logFormat;
+
+  /// Refers to <a href="https://redis.io/commands/slowlog">slow-log</a> or
+  /// engine-log..
+  final LogType? logType;
+
+  PendingLogDeliveryConfiguration({
+    this.destinationDetails,
+    this.destinationType,
+    this.logFormat,
+    this.logType,
+  });
+  factory PendingLogDeliveryConfiguration.fromXml(_s.XmlElement elem) {
+    return PendingLogDeliveryConfiguration(
+      destinationDetails: _s
+          .extractXmlChild(elem, 'DestinationDetails')
+          ?.let(DestinationDetails.fromXml),
+      destinationType: _s
+          .extractXmlStringValue(elem, 'DestinationType')
+          ?.let(DestinationType.fromString),
+      logFormat: _s
+          .extractXmlStringValue(elem, 'LogFormat')
+          ?.let(LogFormat.fromString),
+      logType:
+          _s.extractXmlStringValue(elem, 'LogType')?.let(LogType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationDetails = this.destinationDetails;
+    final destinationType = this.destinationType;
+    final logFormat = this.logFormat;
+    final logType = this.logType;
+    return {
+      if (destinationDetails != null) 'DestinationDetails': destinationDetails,
+      if (destinationType != null) 'DestinationType': destinationType.value,
+      if (logFormat != null) 'LogFormat': logFormat.value,
+      if (logType != null) 'LogType': logType.value,
+    };
+  }
+}
+
+/// Represents the progress of an online resharding operation.
+class SlotMigration {
+  /// The percentage of the slot migration that is complete.
+  final double? progressPercentage;
+
+  SlotMigration({
+    this.progressPercentage,
+  });
+  factory SlotMigration.fromXml(_s.XmlElement elem) {
+    return SlotMigration(
+      progressPercentage: _s.extractXmlDoubleValue(elem, 'ProgressPercentage'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final progressPercentage = this.progressPercentage;
+    return {
+      if (progressPercentage != null) 'ProgressPercentage': progressPercentage,
+    };
+  }
+}
+
+/// The endpoint from which data should be migrated.
+class CustomerNodeEndpoint {
+  /// The address of the node endpoint
+  final String? address;
+
+  /// The port of the node endpoint
+  final int? port;
+
+  CustomerNodeEndpoint({
+    this.address,
+    this.port,
+  });
+
+  Map<String, dynamic> toJson() {
+    final address = this.address;
+    final port = this.port;
+    return {
+      if (address != null) 'Address': address,
+      if (port != null) 'Port': port,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final address = this.address;
+    final port = this.port;
+    return {
+      if (address != null) 'Address': address,
+      if (port != null) 'Port': port.toString(),
+    };
+  }
+}
+
+/// Represents the output of one of the following operations:
+///
+/// <ul>
+/// <li>
+/// <code>AuthorizeCacheSecurityGroupIngress</code>
+/// </li>
+/// <li>
+/// <code>CreateCacheSecurityGroup</code>
+/// </li>
+/// <li>
+/// <code>RevokeCacheSecurityGroupIngress</code>
+/// </li>
+/// </ul>
+class CacheSecurityGroup {
+  /// The ARN of the cache security group,
+  final String? arn;
+
+  /// The name of the cache security group.
+  final String? cacheSecurityGroupName;
+
+  /// The description of the cache security group.
+  final String? description;
+
+  /// A list of Amazon EC2 security groups that are associated with this cache
+  /// security group.
+  final List<EC2SecurityGroup>? eC2SecurityGroups;
+
+  /// The Amazon account ID of the cache security group owner.
+  final String? ownerId;
+
+  CacheSecurityGroup({
+    this.arn,
+    this.cacheSecurityGroupName,
+    this.description,
+    this.eC2SecurityGroups,
+    this.ownerId,
+  });
+  factory CacheSecurityGroup.fromXml(_s.XmlElement elem) {
+    return CacheSecurityGroup(
+      arn: _s.extractXmlStringValue(elem, 'ARN'),
+      cacheSecurityGroupName:
+          _s.extractXmlStringValue(elem, 'CacheSecurityGroupName'),
+      description: _s.extractXmlStringValue(elem, 'Description'),
+      eC2SecurityGroups: _s.extractXmlChild(elem, 'EC2SecurityGroups')?.let(
+          (elem) => elem
+              .findElements('EC2SecurityGroup')
+              .map(EC2SecurityGroup.fromXml)
+              .toList()),
+      ownerId: _s.extractXmlStringValue(elem, 'OwnerId'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final cacheSecurityGroupName = this.cacheSecurityGroupName;
+    final description = this.description;
+    final eC2SecurityGroups = this.eC2SecurityGroups;
+    final ownerId = this.ownerId;
+    return {
+      if (arn != null) 'ARN': arn,
+      if (cacheSecurityGroupName != null)
+        'CacheSecurityGroupName': cacheSecurityGroupName,
+      if (description != null) 'Description': description,
+      if (eC2SecurityGroups != null) 'EC2SecurityGroups': eC2SecurityGroups,
+      if (ownerId != null) 'OwnerId': ownerId,
+    };
+  }
+}
+
+/// Provides ownership and status information for an Amazon EC2 security group.
+class EC2SecurityGroup {
+  /// The name of the Amazon EC2 security group.
+  final String? eC2SecurityGroupName;
+
+  /// The Amazon account ID of the Amazon EC2 security group owner.
+  final String? eC2SecurityGroupOwnerId;
+
+  /// The status of the Amazon EC2 security group.
+  final String? status;
+
+  EC2SecurityGroup({
+    this.eC2SecurityGroupName,
+    this.eC2SecurityGroupOwnerId,
+    this.status,
+  });
+  factory EC2SecurityGroup.fromXml(_s.XmlElement elem) {
+    return EC2SecurityGroup(
+      eC2SecurityGroupName:
+          _s.extractXmlStringValue(elem, 'EC2SecurityGroupName'),
+      eC2SecurityGroupOwnerId:
+          _s.extractXmlStringValue(elem, 'EC2SecurityGroupOwnerId'),
+      status: _s.extractXmlStringValue(elem, 'Status'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eC2SecurityGroupName = this.eC2SecurityGroupName;
+    final eC2SecurityGroupOwnerId = this.eC2SecurityGroupOwnerId;
+    final status = this.status;
+    return {
+      if (eC2SecurityGroupName != null)
+        'EC2SecurityGroupName': eC2SecurityGroupName,
+      if (eC2SecurityGroupOwnerId != null)
+        'EC2SecurityGroupOwnerId': eC2SecurityGroupOwnerId,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
+/// Describes a name-value pair that is used to update the value of a parameter.
+class ParameterNameValue {
+  /// The name of the parameter.
+  final String? parameterName;
+
+  /// The value of the parameter.
+  final String? parameterValue;
+
+  ParameterNameValue({
+    this.parameterName,
+    this.parameterValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final parameterName = this.parameterName;
+    final parameterValue = this.parameterValue;
+    return {
+      if (parameterName != null) 'ParameterName': parameterName,
+      if (parameterValue != null) 'ParameterValue': parameterValue,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final parameterName = this.parameterName;
+    final parameterValue = this.parameterValue;
+    return {
+      if (parameterName != null) 'ParameterName': parameterName,
+      if (parameterValue != null) 'ParameterValue': parameterValue,
     };
   }
 }
@@ -7078,7 +10329,7 @@ class CacheCluster {
   final bool? atRestEncryptionEnabled;
 
   /// A flag that enables using an <code>AuthToken</code> (password) when issuing
-  /// Redis OSS commands.
+  /// Valkey or Redis OSS commands.
   ///
   /// Default: <code>false</code>
   final bool? authTokenEnabled;
@@ -7086,9 +10337,9 @@ class CacheCluster {
   /// The date the auth token was last modified
   final DateTime? authTokenLastModifiedDate;
 
-  /// If you are running Redis OSS engine version 6.0 or later, set this parameter
-  /// to yes if you want to opt-in to the next auto minor version upgrade
-  /// campaign. This parameter is disabled for previous versions.
+  /// If you are running Valkey or Redis OSS engine version 6.0 or later, set this
+  /// parameter to yes if you want to opt-in to the next auto minor version
+  /// upgrade campaign. This parameter is disabled for previous versions.
   final bool? autoMinorVersionUpgrade;
 
   /// The date and time when the cluster was created.
@@ -7126,7 +10377,7 @@ class CacheCluster {
   /// <code>cache.m7g.12xlarge</code>, <code>cache.m7g.16xlarge</code>
   /// <note>
   /// For region availability, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
   /// Node Types</a>
   /// </note>
   /// <b>M6g node types</b> (available only for Redis OSS engine version 5.0.6
@@ -7195,7 +10446,7 @@ class CacheCluster {
   /// <code>cache.r7g.12xlarge</code>, <code>cache.r7g.16xlarge</code>
   /// <note>
   /// For region availability, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
   /// Node Types</a>
   /// </note>
   /// <b>R6g node types</b> (available only for Redis OSS engine version 5.0.6
@@ -7235,15 +10486,17 @@ class CacheCluster {
   /// All current generation instance types are created in Amazon VPC by default.
   /// </li>
   /// <li>
-  /// Redis OSS append-only files (AOF) are not supported for T1 or T2 instances.
+  /// Valkey or Redis OSS append-only files (AOF) are not supported for T1 or T2
+  /// instances.
   /// </li>
   /// <li>
-  /// Redis OSS Multi-AZ with automatic failover is not supported on T1 instances.
+  /// Valkey or Redis OSS Multi-AZ with automatic failover is not supported on T1
+  /// instances.
   /// </li>
   /// <li>
-  /// Redis OSS configuration variables <code>appendonly</code> and
-  /// <code>appendfsync</code> are not supported on Redis OSS version 2.8.22 and
-  /// later.
+  /// The configuration variables <code>appendonly</code> and
+  /// <code>appendfsync</code> are not supported on Valkey, or on Redis OSS
+  /// version 2.8.22 and later.
   /// </li>
   /// </ul>
   final String? cacheNodeType;
@@ -7280,18 +10533,20 @@ class CacheCluster {
   final String? engineVersion;
 
   /// The network type associated with the cluster, either <code>ipv4</code> |
-  /// <code>ipv6</code>. IPv6 is supported for workloads using Redis OSS engine
-  /// version 6.2 onward or Memcached engine version 1.6.6 on all instances built
-  /// on the <a href="http://aws.amazon.com/ec2/nitro/">Nitro system</a>.
+  /// <code>ipv6</code>. IPv6 is supported for workloads using Valkey 7.2 and
+  /// above, Redis OSS engine version 6.2 to 7.1 or Memcached engine version 1.6.6
+  /// and above on all instances built on the <a
+  /// href="http://aws.amazon.com/ec2/nitro/">Nitro system</a>.
   final IpDiscovery? ipDiscovery;
 
   /// Returns the destination, format and type of the logs.
   final List<LogDeliveryConfiguration>? logDeliveryConfigurations;
 
   /// Must be either <code>ipv4</code> | <code>ipv6</code> |
-  /// <code>dual_stack</code>. IPv6 is supported for workloads using Redis OSS
-  /// engine version 6.2 onward or Memcached engine version 1.6.6 on all instances
-  /// built on the <a href="http://aws.amazon.com/ec2/nitro/">Nitro system</a>.
+  /// <code>dual_stack</code>. IPv6 is supported for workloads using Valkey 7.2
+  /// and above, Redis OSS engine version 6.2 7.1 or Memcached engine version
+  /// 1.6.6 and above on all instances built on the <a
+  /// href="http://aws.amazon.com/ec2/nitro/">Nitro system</a>.
   final NetworkType? networkType;
 
   /// Describes a notification topic and its status. Notification topics are used
@@ -7301,8 +10556,8 @@ class CacheCluster {
 
   /// The number of cache nodes in the cluster.
   ///
-  /// For clusters running Redis OSS, this value must be 1. For clusters running
-  /// Memcached, this value must be between 1 and 40.
+  /// For clusters running Valkey or Redis OSS, this value must be 1. For clusters
+  /// running Memcached, this value must be between 1 and 40.
   final int? numCacheNodes;
   final PendingModifiedValues? pendingModifiedValues;
 
@@ -7591,137 +10846,217 @@ class CacheCluster {
   }
 }
 
-/// Represents the output of a <code>DescribeCacheClusters</code> operation.
-class CacheClusterMessage {
-  /// A list of clusters. Each item in the list contains detailed information
-  /// about one cluster.
-  final List<CacheCluster>? cacheClusters;
+/// A group of settings that are applied to the cluster in the future, or that
+/// are currently being applied.
+class PendingModifiedValues {
+  /// The auth token status
+  final AuthTokenUpdateStatus? authTokenStatus;
 
-  /// Provides an identifier to allow retrieval of paginated results.
-  final String? marker;
+  /// A list of cache node IDs that are being removed (or will be removed) from
+  /// the cluster. A node ID is a 4-digit numeric identifier (0001, 0002, etc.).
+  final List<String>? cacheNodeIdsToRemove;
 
-  CacheClusterMessage({
-    this.cacheClusters,
-    this.marker,
-  });
-  factory CacheClusterMessage.fromXml(_s.XmlElement elem) {
-    return CacheClusterMessage(
-      cacheClusters: _s.extractXmlChild(elem, 'CacheClusters')?.let((elem) =>
-          elem.findElements('CacheCluster').map(CacheCluster.fromXml).toList()),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
+  /// The cache node type that this cluster or replication group is scaled to.
+  final String? cacheNodeType;
 
-  Map<String, dynamic> toJson() {
-    final cacheClusters = this.cacheClusters;
-    final marker = this.marker;
-    return {
-      if (cacheClusters != null) 'CacheClusters': cacheClusters,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-/// Provides all of the details about a particular cache engine version.
-class CacheEngineVersion {
-  /// The description of the cache engine.
-  final String? cacheEngineDescription;
-
-  /// The description of the cache engine version.
-  final String? cacheEngineVersionDescription;
-
-  /// The name of the cache parameter group family associated with this cache
-  /// engine.
-  ///
-  /// Valid values are: <code>memcached1.4</code> | <code>memcached1.5</code> |
-  /// <code>memcached1.6</code> | <code>redis2.6</code> | <code>redis2.8</code> |
-  /// <code>redis3.2</code> | <code>redis4.0</code> | <code>redis5.0</code> |
-  /// <code>redis6.x</code> | <code>redis7</code>
-  final String? cacheParameterGroupFamily;
-
-  /// The name of the cache engine.
-  final String? engine;
-
-  /// The version number of the cache engine.
+  /// The new cache engine version that the cluster runs.
   final String? engineVersion;
 
-  CacheEngineVersion({
-    this.cacheEngineDescription,
-    this.cacheEngineVersionDescription,
-    this.cacheParameterGroupFamily,
-    this.engine,
+  /// The log delivery configurations being modified
+  final List<PendingLogDeliveryConfiguration>? logDeliveryConfigurations;
+
+  /// The new number of cache nodes for the cluster.
+  ///
+  /// For clusters running Valkey or Redis OSS, this value must be 1. For clusters
+  /// running Memcached, this value must be between 1 and 40.
+  final int? numCacheNodes;
+
+  /// The scaling configuration changes that are pending for the Memcached
+  /// cluster.
+  final ScaleConfig? scaleConfig;
+
+  /// A flag that enables in-transit encryption when set to true.
+  final bool? transitEncryptionEnabled;
+
+  /// A setting that allows you to migrate your clients to use in-transit
+  /// encryption, with no downtime.
+  final TransitEncryptionMode? transitEncryptionMode;
+
+  PendingModifiedValues({
+    this.authTokenStatus,
+    this.cacheNodeIdsToRemove,
+    this.cacheNodeType,
     this.engineVersion,
+    this.logDeliveryConfigurations,
+    this.numCacheNodes,
+    this.scaleConfig,
+    this.transitEncryptionEnabled,
+    this.transitEncryptionMode,
   });
-  factory CacheEngineVersion.fromXml(_s.XmlElement elem) {
-    return CacheEngineVersion(
-      cacheEngineDescription:
-          _s.extractXmlStringValue(elem, 'CacheEngineDescription'),
-      cacheEngineVersionDescription:
-          _s.extractXmlStringValue(elem, 'CacheEngineVersionDescription'),
-      cacheParameterGroupFamily:
-          _s.extractXmlStringValue(elem, 'CacheParameterGroupFamily'),
-      engine: _s.extractXmlStringValue(elem, 'Engine'),
+  factory PendingModifiedValues.fromXml(_s.XmlElement elem) {
+    return PendingModifiedValues(
+      authTokenStatus: _s
+          .extractXmlStringValue(elem, 'AuthTokenStatus')
+          ?.let(AuthTokenUpdateStatus.fromString),
+      cacheNodeIdsToRemove: _s
+          .extractXmlChild(elem, 'CacheNodeIdsToRemove')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'CacheNodeId')),
+      cacheNodeType: _s.extractXmlStringValue(elem, 'CacheNodeType'),
       engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
+      logDeliveryConfigurations: _s
+          .extractXmlChild(elem, 'LogDeliveryConfigurations')
+          ?.let((elem) => elem
+              .findElements('member')
+              .map(PendingLogDeliveryConfiguration.fromXml)
+              .toList()),
+      numCacheNodes: _s.extractXmlIntValue(elem, 'NumCacheNodes'),
+      scaleConfig:
+          _s.extractXmlChild(elem, 'ScaleConfig')?.let(ScaleConfig.fromXml),
+      transitEncryptionEnabled:
+          _s.extractXmlBoolValue(elem, 'TransitEncryptionEnabled'),
+      transitEncryptionMode: _s
+          .extractXmlStringValue(elem, 'TransitEncryptionMode')
+          ?.let(TransitEncryptionMode.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final cacheEngineDescription = this.cacheEngineDescription;
-    final cacheEngineVersionDescription = this.cacheEngineVersionDescription;
-    final cacheParameterGroupFamily = this.cacheParameterGroupFamily;
-    final engine = this.engine;
+    final authTokenStatus = this.authTokenStatus;
+    final cacheNodeIdsToRemove = this.cacheNodeIdsToRemove;
+    final cacheNodeType = this.cacheNodeType;
     final engineVersion = this.engineVersion;
+    final logDeliveryConfigurations = this.logDeliveryConfigurations;
+    final numCacheNodes = this.numCacheNodes;
+    final scaleConfig = this.scaleConfig;
+    final transitEncryptionEnabled = this.transitEncryptionEnabled;
+    final transitEncryptionMode = this.transitEncryptionMode;
     return {
-      if (cacheEngineDescription != null)
-        'CacheEngineDescription': cacheEngineDescription,
-      if (cacheEngineVersionDescription != null)
-        'CacheEngineVersionDescription': cacheEngineVersionDescription,
-      if (cacheParameterGroupFamily != null)
-        'CacheParameterGroupFamily': cacheParameterGroupFamily,
-      if (engine != null) 'Engine': engine,
+      if (authTokenStatus != null) 'AuthTokenStatus': authTokenStatus.value,
+      if (cacheNodeIdsToRemove != null)
+        'CacheNodeIdsToRemove': cacheNodeIdsToRemove,
+      if (cacheNodeType != null) 'CacheNodeType': cacheNodeType,
       if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (logDeliveryConfigurations != null)
+        'LogDeliveryConfigurations': logDeliveryConfigurations,
+      if (numCacheNodes != null) 'NumCacheNodes': numCacheNodes,
+      if (scaleConfig != null) 'ScaleConfig': scaleConfig,
+      if (transitEncryptionEnabled != null)
+        'TransitEncryptionEnabled': transitEncryptionEnabled,
+      if (transitEncryptionMode != null)
+        'TransitEncryptionMode': transitEncryptionMode.value,
     };
   }
 }
 
-/// Represents the output of a <a>DescribeCacheEngineVersions</a> operation.
-class CacheEngineVersionMessage {
-  /// A list of cache engine version details. Each element in the list contains
-  /// detailed information about one cache engine version.
-  final List<CacheEngineVersion>? cacheEngineVersions;
+/// Describes a notification topic and its status. Notification topics are used
+/// for publishing ElastiCache events to subscribers using Amazon Simple
+/// Notification Service (SNS).
+class NotificationConfiguration {
+  /// The Amazon Resource Name (ARN) that identifies the topic.
+  final String? topicArn;
 
-  /// Provides an identifier to allow retrieval of paginated results.
-  final String? marker;
+  /// The current state of the topic.
+  final String? topicStatus;
 
-  CacheEngineVersionMessage({
-    this.cacheEngineVersions,
-    this.marker,
+  NotificationConfiguration({
+    this.topicArn,
+    this.topicStatus,
   });
-  factory CacheEngineVersionMessage.fromXml(_s.XmlElement elem) {
-    return CacheEngineVersionMessage(
-      cacheEngineVersions: _s.extractXmlChild(elem, 'CacheEngineVersions')?.let(
-          (elem) => elem
-              .findElements('CacheEngineVersion')
-              .map(CacheEngineVersion.fromXml)
-              .toList()),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
+  factory NotificationConfiguration.fromXml(_s.XmlElement elem) {
+    return NotificationConfiguration(
+      topicArn: _s.extractXmlStringValue(elem, 'TopicArn'),
+      topicStatus: _s.extractXmlStringValue(elem, 'TopicStatus'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final cacheEngineVersions = this.cacheEngineVersions;
-    final marker = this.marker;
+    final topicArn = this.topicArn;
+    final topicStatus = this.topicStatus;
     return {
-      if (cacheEngineVersions != null)
-        'CacheEngineVersions': cacheEngineVersions,
-      if (marker != null) 'Marker': marker,
+      if (topicArn != null) 'TopicArn': topicArn,
+      if (topicStatus != null) 'TopicStatus': topicStatus,
+    };
+  }
+}
+
+/// Status of the cache parameter group.
+class CacheParameterGroupStatus {
+  /// A list of the cache node IDs which need to be rebooted for parameter changes
+  /// to be applied. A node ID is a numeric identifier (0001, 0002, etc.).
+  final List<String>? cacheNodeIdsToReboot;
+
+  /// The name of the cache parameter group.
+  final String? cacheParameterGroupName;
+
+  /// The status of parameter updates.
+  final String? parameterApplyStatus;
+
+  CacheParameterGroupStatus({
+    this.cacheNodeIdsToReboot,
+    this.cacheParameterGroupName,
+    this.parameterApplyStatus,
+  });
+  factory CacheParameterGroupStatus.fromXml(_s.XmlElement elem) {
+    return CacheParameterGroupStatus(
+      cacheNodeIdsToReboot: _s
+          .extractXmlChild(elem, 'CacheNodeIdsToReboot')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'CacheNodeId')),
+      cacheParameterGroupName:
+          _s.extractXmlStringValue(elem, 'CacheParameterGroupName'),
+      parameterApplyStatus:
+          _s.extractXmlStringValue(elem, 'ParameterApplyStatus'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cacheNodeIdsToReboot = this.cacheNodeIdsToReboot;
+    final cacheParameterGroupName = this.cacheParameterGroupName;
+    final parameterApplyStatus = this.parameterApplyStatus;
+    return {
+      if (cacheNodeIdsToReboot != null)
+        'CacheNodeIdsToReboot': cacheNodeIdsToReboot,
+      if (cacheParameterGroupName != null)
+        'CacheParameterGroupName': cacheParameterGroupName,
+      if (parameterApplyStatus != null)
+        'ParameterApplyStatus': parameterApplyStatus,
+    };
+  }
+}
+
+/// Represents a single cache security group and its status.
+class SecurityGroupMembership {
+  /// The identifier of the cache security group.
+  final String? securityGroupId;
+
+  /// The status of the cache security group membership. The status changes
+  /// whenever a cache security group is modified, or when the cache security
+  /// groups assigned to a cluster are modified.
+  final String? status;
+
+  SecurityGroupMembership({
+    this.securityGroupId,
+    this.status,
+  });
+  factory SecurityGroupMembership.fromXml(_s.XmlElement elem) {
+    return SecurityGroupMembership(
+      securityGroupId: _s.extractXmlStringValue(elem, 'SecurityGroupId'),
+      status: _s.extractXmlStringValue(elem, 'Status'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final securityGroupId = this.securityGroupId;
+    final status = this.status;
+    return {
+      if (securityGroupId != null) 'SecurityGroupId': securityGroupId,
+      if (status != null) 'Status': status,
     };
   }
 }
 
 /// Represents an individual cache node within a cluster. Each cache node runs
 /// its own instance of the cluster's protocol-compliant caching software -
-/// either Memcached or Redis OSS.
+/// either Memcached, Valkey or Redis OSS.
 ///
 /// The following node types are supported by ElastiCache. Generally speaking,
 /// the current generation types provide more memory and computational power at
@@ -7742,7 +11077,7 @@ class CacheEngineVersionMessage {
 /// <code>cache.m7g.12xlarge</code>, <code>cache.m7g.16xlarge</code>
 /// <note>
 /// For region availability, see <a
-/// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
+/// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
 /// Node Types</a>
 /// </note>
 /// <b>M6g node types</b> (available only for Redis OSS engine version 5.0.6
@@ -7811,7 +11146,7 @@ class CacheEngineVersionMessage {
 /// <code>cache.r7g.12xlarge</code>, <code>cache.r7g.16xlarge</code>
 /// <note>
 /// For region availability, see <a
-/// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
+/// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
 /// Node Types</a>
 /// </note>
 /// <b>R6g node types</b> (available only for Redis OSS engine version 5.0.6
@@ -7851,15 +11186,17 @@ class CacheEngineVersionMessage {
 /// All current generation instance types are created in Amazon VPC by default.
 /// </li>
 /// <li>
-/// Redis OSS append-only files (AOF) are not supported for T1 or T2 instances.
+/// Valkey or Redis OSS append-only files (AOF) are not supported for T1 or T2
+/// instances.
 /// </li>
 /// <li>
-/// Redis OSS Multi-AZ with automatic failover is not supported on T1 instances.
+/// Valkey or Redis OSS Multi-AZ with automatic failover is not supported on T1
+/// instances.
 /// </li>
 /// <li>
-/// Redis OSS configuration variables <code>appendonly</code> and
-/// <code>appendfsync</code> are not supported on Redis OSS version 2.8.22 and
-/// later.
+/// The configuration variables <code>appendonly</code> and
+/// <code>appendfsync</code> are not supported on Valkey, or on Redis OSS
+/// version 2.8.22 and later.
 /// </li>
 /// </ul>
 class CacheNode {
@@ -7943,508 +11280,6 @@ class CacheNode {
   }
 }
 
-/// A parameter that has a different value for each cache node type it is
-/// applied to. For example, in a Redis OSS cluster, a
-/// <code>cache.m1.large</code> cache node type would have a larger
-/// <code>maxmemory</code> value than a <code>cache.m1.small</code> type.
-class CacheNodeTypeSpecificParameter {
-  /// The valid range of values for the parameter.
-  final String? allowedValues;
-
-  /// A list of cache node types and their corresponding values for this
-  /// parameter.
-  final List<CacheNodeTypeSpecificValue>? cacheNodeTypeSpecificValues;
-
-  /// Indicates whether a change to the parameter is applied immediately or
-  /// requires a reboot for the change to be applied. You can force a reboot or
-  /// wait until the next maintenance window's reboot. For more information, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Clusters.Rebooting.html">Rebooting
-  /// a Cluster</a>.
-  final ChangeType? changeType;
-
-  /// The valid data type for the parameter.
-  final String? dataType;
-
-  /// A description of the parameter.
-  final String? description;
-
-  /// Indicates whether (<code>true</code>) or not (<code>false</code>) the
-  /// parameter can be modified. Some parameters have security or operational
-  /// implications that prevent them from being changed.
-  final bool? isModifiable;
-
-  /// The earliest cache engine version to which the parameter can apply.
-  final String? minimumEngineVersion;
-
-  /// The name of the parameter.
-  final String? parameterName;
-
-  /// The source of the parameter value.
-  final String? source;
-
-  CacheNodeTypeSpecificParameter({
-    this.allowedValues,
-    this.cacheNodeTypeSpecificValues,
-    this.changeType,
-    this.dataType,
-    this.description,
-    this.isModifiable,
-    this.minimumEngineVersion,
-    this.parameterName,
-    this.source,
-  });
-  factory CacheNodeTypeSpecificParameter.fromXml(_s.XmlElement elem) {
-    return CacheNodeTypeSpecificParameter(
-      allowedValues: _s.extractXmlStringValue(elem, 'AllowedValues'),
-      cacheNodeTypeSpecificValues: _s
-          .extractXmlChild(elem, 'CacheNodeTypeSpecificValues')
-          ?.let((elem) => elem
-              .findElements('CacheNodeTypeSpecificValue')
-              .map(CacheNodeTypeSpecificValue.fromXml)
-              .toList()),
-      changeType: _s
-          .extractXmlStringValue(elem, 'ChangeType')
-          ?.let(ChangeType.fromString),
-      dataType: _s.extractXmlStringValue(elem, 'DataType'),
-      description: _s.extractXmlStringValue(elem, 'Description'),
-      isModifiable: _s.extractXmlBoolValue(elem, 'IsModifiable'),
-      minimumEngineVersion:
-          _s.extractXmlStringValue(elem, 'MinimumEngineVersion'),
-      parameterName: _s.extractXmlStringValue(elem, 'ParameterName'),
-      source: _s.extractXmlStringValue(elem, 'Source'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final allowedValues = this.allowedValues;
-    final cacheNodeTypeSpecificValues = this.cacheNodeTypeSpecificValues;
-    final changeType = this.changeType;
-    final dataType = this.dataType;
-    final description = this.description;
-    final isModifiable = this.isModifiable;
-    final minimumEngineVersion = this.minimumEngineVersion;
-    final parameterName = this.parameterName;
-    final source = this.source;
-    return {
-      if (allowedValues != null) 'AllowedValues': allowedValues,
-      if (cacheNodeTypeSpecificValues != null)
-        'CacheNodeTypeSpecificValues': cacheNodeTypeSpecificValues,
-      if (changeType != null) 'ChangeType': changeType.value,
-      if (dataType != null) 'DataType': dataType,
-      if (description != null) 'Description': description,
-      if (isModifiable != null) 'IsModifiable': isModifiable,
-      if (minimumEngineVersion != null)
-        'MinimumEngineVersion': minimumEngineVersion,
-      if (parameterName != null) 'ParameterName': parameterName,
-      if (source != null) 'Source': source,
-    };
-  }
-}
-
-/// A value that applies only to a certain cache node type.
-class CacheNodeTypeSpecificValue {
-  /// The cache node type for which this value applies.
-  final String? cacheNodeType;
-
-  /// The value for the cache node type.
-  final String? value;
-
-  CacheNodeTypeSpecificValue({
-    this.cacheNodeType,
-    this.value,
-  });
-  factory CacheNodeTypeSpecificValue.fromXml(_s.XmlElement elem) {
-    return CacheNodeTypeSpecificValue(
-      cacheNodeType: _s.extractXmlStringValue(elem, 'CacheNodeType'),
-      value: _s.extractXmlStringValue(elem, 'Value'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cacheNodeType = this.cacheNodeType;
-    final value = this.value;
-    return {
-      if (cacheNodeType != null) 'CacheNodeType': cacheNodeType,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-/// The status of the service update on the cache node
-class CacheNodeUpdateStatus {
-  /// The node ID of the cache cluster
-  final String? cacheNodeId;
-
-  /// The deletion date of the node
-  final DateTime? nodeDeletionDate;
-
-  /// The end date of the update for a node
-  final DateTime? nodeUpdateEndDate;
-
-  /// Reflects whether the update was initiated by the customer or automatically
-  /// applied
-  final NodeUpdateInitiatedBy? nodeUpdateInitiatedBy;
-
-  /// The date when the update is triggered
-  final DateTime? nodeUpdateInitiatedDate;
-
-  /// The start date of the update for a node
-  final DateTime? nodeUpdateStartDate;
-
-  /// The update status of the node
-  final NodeUpdateStatus? nodeUpdateStatus;
-
-  /// The date when the NodeUpdateStatus was last modified&gt;
-  final DateTime? nodeUpdateStatusModifiedDate;
-
-  CacheNodeUpdateStatus({
-    this.cacheNodeId,
-    this.nodeDeletionDate,
-    this.nodeUpdateEndDate,
-    this.nodeUpdateInitiatedBy,
-    this.nodeUpdateInitiatedDate,
-    this.nodeUpdateStartDate,
-    this.nodeUpdateStatus,
-    this.nodeUpdateStatusModifiedDate,
-  });
-  factory CacheNodeUpdateStatus.fromXml(_s.XmlElement elem) {
-    return CacheNodeUpdateStatus(
-      cacheNodeId: _s.extractXmlStringValue(elem, 'CacheNodeId'),
-      nodeDeletionDate: _s.extractXmlDateTimeValue(elem, 'NodeDeletionDate'),
-      nodeUpdateEndDate: _s.extractXmlDateTimeValue(elem, 'NodeUpdateEndDate'),
-      nodeUpdateInitiatedBy: _s
-          .extractXmlStringValue(elem, 'NodeUpdateInitiatedBy')
-          ?.let(NodeUpdateInitiatedBy.fromString),
-      nodeUpdateInitiatedDate:
-          _s.extractXmlDateTimeValue(elem, 'NodeUpdateInitiatedDate'),
-      nodeUpdateStartDate:
-          _s.extractXmlDateTimeValue(elem, 'NodeUpdateStartDate'),
-      nodeUpdateStatus: _s
-          .extractXmlStringValue(elem, 'NodeUpdateStatus')
-          ?.let(NodeUpdateStatus.fromString),
-      nodeUpdateStatusModifiedDate:
-          _s.extractXmlDateTimeValue(elem, 'NodeUpdateStatusModifiedDate'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cacheNodeId = this.cacheNodeId;
-    final nodeDeletionDate = this.nodeDeletionDate;
-    final nodeUpdateEndDate = this.nodeUpdateEndDate;
-    final nodeUpdateInitiatedBy = this.nodeUpdateInitiatedBy;
-    final nodeUpdateInitiatedDate = this.nodeUpdateInitiatedDate;
-    final nodeUpdateStartDate = this.nodeUpdateStartDate;
-    final nodeUpdateStatus = this.nodeUpdateStatus;
-    final nodeUpdateStatusModifiedDate = this.nodeUpdateStatusModifiedDate;
-    return {
-      if (cacheNodeId != null) 'CacheNodeId': cacheNodeId,
-      if (nodeDeletionDate != null)
-        'NodeDeletionDate': iso8601ToJson(nodeDeletionDate),
-      if (nodeUpdateEndDate != null)
-        'NodeUpdateEndDate': iso8601ToJson(nodeUpdateEndDate),
-      if (nodeUpdateInitiatedBy != null)
-        'NodeUpdateInitiatedBy': nodeUpdateInitiatedBy.value,
-      if (nodeUpdateInitiatedDate != null)
-        'NodeUpdateInitiatedDate': iso8601ToJson(nodeUpdateInitiatedDate),
-      if (nodeUpdateStartDate != null)
-        'NodeUpdateStartDate': iso8601ToJson(nodeUpdateStartDate),
-      if (nodeUpdateStatus != null) 'NodeUpdateStatus': nodeUpdateStatus.value,
-      if (nodeUpdateStatusModifiedDate != null)
-        'NodeUpdateStatusModifiedDate':
-            iso8601ToJson(nodeUpdateStatusModifiedDate),
-    };
-  }
-}
-
-/// Represents the output of a <code>CreateCacheParameterGroup</code> operation.
-class CacheParameterGroup {
-  /// The ARN (Amazon Resource Name) of the cache parameter group.
-  final String? arn;
-
-  /// The name of the cache parameter group family that this cache parameter group
-  /// is compatible with.
-  ///
-  /// Valid values are: <code>memcached1.4</code> | <code>memcached1.5</code> |
-  /// <code>memcached1.6</code> | <code>redis2.6</code> | <code>redis2.8</code> |
-  /// <code>redis3.2</code> | <code>redis4.0</code> | <code>redis5.0</code> |
-  /// <code>redis6.x</code> | <code>redis7</code>
-  final String? cacheParameterGroupFamily;
-
-  /// The name of the cache parameter group.
-  final String? cacheParameterGroupName;
-
-  /// The description for this cache parameter group.
-  final String? description;
-
-  /// Indicates whether the parameter group is associated with a Global datastore
-  final bool? isGlobal;
-
-  CacheParameterGroup({
-    this.arn,
-    this.cacheParameterGroupFamily,
-    this.cacheParameterGroupName,
-    this.description,
-    this.isGlobal,
-  });
-  factory CacheParameterGroup.fromXml(_s.XmlElement elem) {
-    return CacheParameterGroup(
-      arn: _s.extractXmlStringValue(elem, 'ARN'),
-      cacheParameterGroupFamily:
-          _s.extractXmlStringValue(elem, 'CacheParameterGroupFamily'),
-      cacheParameterGroupName:
-          _s.extractXmlStringValue(elem, 'CacheParameterGroupName'),
-      description: _s.extractXmlStringValue(elem, 'Description'),
-      isGlobal: _s.extractXmlBoolValue(elem, 'IsGlobal'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final cacheParameterGroupFamily = this.cacheParameterGroupFamily;
-    final cacheParameterGroupName = this.cacheParameterGroupName;
-    final description = this.description;
-    final isGlobal = this.isGlobal;
-    return {
-      if (arn != null) 'ARN': arn,
-      if (cacheParameterGroupFamily != null)
-        'CacheParameterGroupFamily': cacheParameterGroupFamily,
-      if (cacheParameterGroupName != null)
-        'CacheParameterGroupName': cacheParameterGroupName,
-      if (description != null) 'Description': description,
-      if (isGlobal != null) 'IsGlobal': isGlobal,
-    };
-  }
-}
-
-/// Represents the output of a <code>DescribeCacheParameters</code> operation.
-class CacheParameterGroupDetails {
-  /// A list of parameters specific to a particular cache node type. Each element
-  /// in the list contains detailed information about one parameter.
-  final List<CacheNodeTypeSpecificParameter>? cacheNodeTypeSpecificParameters;
-
-  /// Provides an identifier to allow retrieval of paginated results.
-  final String? marker;
-
-  /// A list of <a>Parameter</a> instances.
-  final List<Parameter>? parameters;
-
-  CacheParameterGroupDetails({
-    this.cacheNodeTypeSpecificParameters,
-    this.marker,
-    this.parameters,
-  });
-  factory CacheParameterGroupDetails.fromXml(_s.XmlElement elem) {
-    return CacheParameterGroupDetails(
-      cacheNodeTypeSpecificParameters: _s
-          .extractXmlChild(elem, 'CacheNodeTypeSpecificParameters')
-          ?.let((elem) => elem
-              .findElements('CacheNodeTypeSpecificParameter')
-              .map(CacheNodeTypeSpecificParameter.fromXml)
-              .toList()),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      parameters: _s.extractXmlChild(elem, 'Parameters')?.let((elem) =>
-          elem.findElements('Parameter').map(Parameter.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cacheNodeTypeSpecificParameters =
-        this.cacheNodeTypeSpecificParameters;
-    final marker = this.marker;
-    final parameters = this.parameters;
-    return {
-      if (cacheNodeTypeSpecificParameters != null)
-        'CacheNodeTypeSpecificParameters': cacheNodeTypeSpecificParameters,
-      if (marker != null) 'Marker': marker,
-      if (parameters != null) 'Parameters': parameters,
-    };
-  }
-}
-
-/// Represents the output of one of the following operations:
-///
-/// <ul>
-/// <li>
-/// <code>ModifyCacheParameterGroup</code>
-/// </li>
-/// <li>
-/// <code>ResetCacheParameterGroup</code>
-/// </li>
-/// </ul>
-class CacheParameterGroupNameMessage {
-  /// The name of the cache parameter group.
-  final String? cacheParameterGroupName;
-
-  CacheParameterGroupNameMessage({
-    this.cacheParameterGroupName,
-  });
-  factory CacheParameterGroupNameMessage.fromXml(_s.XmlElement elem) {
-    return CacheParameterGroupNameMessage(
-      cacheParameterGroupName:
-          _s.extractXmlStringValue(elem, 'CacheParameterGroupName'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cacheParameterGroupName = this.cacheParameterGroupName;
-    return {
-      if (cacheParameterGroupName != null)
-        'CacheParameterGroupName': cacheParameterGroupName,
-    };
-  }
-}
-
-/// Status of the cache parameter group.
-class CacheParameterGroupStatus {
-  /// A list of the cache node IDs which need to be rebooted for parameter changes
-  /// to be applied. A node ID is a numeric identifier (0001, 0002, etc.).
-  final List<String>? cacheNodeIdsToReboot;
-
-  /// The name of the cache parameter group.
-  final String? cacheParameterGroupName;
-
-  /// The status of parameter updates.
-  final String? parameterApplyStatus;
-
-  CacheParameterGroupStatus({
-    this.cacheNodeIdsToReboot,
-    this.cacheParameterGroupName,
-    this.parameterApplyStatus,
-  });
-  factory CacheParameterGroupStatus.fromXml(_s.XmlElement elem) {
-    return CacheParameterGroupStatus(
-      cacheNodeIdsToReboot: _s
-          .extractXmlChild(elem, 'CacheNodeIdsToReboot')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'CacheNodeId')),
-      cacheParameterGroupName:
-          _s.extractXmlStringValue(elem, 'CacheParameterGroupName'),
-      parameterApplyStatus:
-          _s.extractXmlStringValue(elem, 'ParameterApplyStatus'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cacheNodeIdsToReboot = this.cacheNodeIdsToReboot;
-    final cacheParameterGroupName = this.cacheParameterGroupName;
-    final parameterApplyStatus = this.parameterApplyStatus;
-    return {
-      if (cacheNodeIdsToReboot != null)
-        'CacheNodeIdsToReboot': cacheNodeIdsToReboot,
-      if (cacheParameterGroupName != null)
-        'CacheParameterGroupName': cacheParameterGroupName,
-      if (parameterApplyStatus != null)
-        'ParameterApplyStatus': parameterApplyStatus,
-    };
-  }
-}
-
-/// Represents the output of a <code>DescribeCacheParameterGroups</code>
-/// operation.
-class CacheParameterGroupsMessage {
-  /// A list of cache parameter groups. Each element in the list contains detailed
-  /// information about one cache parameter group.
-  final List<CacheParameterGroup>? cacheParameterGroups;
-
-  /// Provides an identifier to allow retrieval of paginated results.
-  final String? marker;
-
-  CacheParameterGroupsMessage({
-    this.cacheParameterGroups,
-    this.marker,
-  });
-  factory CacheParameterGroupsMessage.fromXml(_s.XmlElement elem) {
-    return CacheParameterGroupsMessage(
-      cacheParameterGroups: _s
-          .extractXmlChild(elem, 'CacheParameterGroups')
-          ?.let((elem) => elem
-              .findElements('CacheParameterGroup')
-              .map(CacheParameterGroup.fromXml)
-              .toList()),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cacheParameterGroups = this.cacheParameterGroups;
-    final marker = this.marker;
-    return {
-      if (cacheParameterGroups != null)
-        'CacheParameterGroups': cacheParameterGroups,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-/// Represents the output of one of the following operations:
-///
-/// <ul>
-/// <li>
-/// <code>AuthorizeCacheSecurityGroupIngress</code>
-/// </li>
-/// <li>
-/// <code>CreateCacheSecurityGroup</code>
-/// </li>
-/// <li>
-/// <code>RevokeCacheSecurityGroupIngress</code>
-/// </li>
-/// </ul>
-class CacheSecurityGroup {
-  /// The ARN of the cache security group,
-  final String? arn;
-
-  /// The name of the cache security group.
-  final String? cacheSecurityGroupName;
-
-  /// The description of the cache security group.
-  final String? description;
-
-  /// A list of Amazon EC2 security groups that are associated with this cache
-  /// security group.
-  final List<EC2SecurityGroup>? eC2SecurityGroups;
-
-  /// The Amazon account ID of the cache security group owner.
-  final String? ownerId;
-
-  CacheSecurityGroup({
-    this.arn,
-    this.cacheSecurityGroupName,
-    this.description,
-    this.eC2SecurityGroups,
-    this.ownerId,
-  });
-  factory CacheSecurityGroup.fromXml(_s.XmlElement elem) {
-    return CacheSecurityGroup(
-      arn: _s.extractXmlStringValue(elem, 'ARN'),
-      cacheSecurityGroupName:
-          _s.extractXmlStringValue(elem, 'CacheSecurityGroupName'),
-      description: _s.extractXmlStringValue(elem, 'Description'),
-      eC2SecurityGroups: _s.extractXmlChild(elem, 'EC2SecurityGroups')?.let(
-          (elem) => elem
-              .findElements('EC2SecurityGroup')
-              .map(EC2SecurityGroup.fromXml)
-              .toList()),
-      ownerId: _s.extractXmlStringValue(elem, 'OwnerId'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final cacheSecurityGroupName = this.cacheSecurityGroupName;
-    final description = this.description;
-    final eC2SecurityGroups = this.eC2SecurityGroups;
-    final ownerId = this.ownerId;
-    return {
-      if (arn != null) 'ARN': arn,
-      if (cacheSecurityGroupName != null)
-        'CacheSecurityGroupName': cacheSecurityGroupName,
-      if (description != null) 'Description': description,
-      if (eC2SecurityGroups != null) 'EC2SecurityGroups': eC2SecurityGroups,
-      if (ownerId != null) 'OwnerId': ownerId,
-    };
-  }
-}
-
 /// Represents a cluster's status within a particular cache security group.
 class CacheSecurityGroupMembership {
   /// The name of the cache security group.
@@ -8478,1638 +11313,46 @@ class CacheSecurityGroupMembership {
   }
 }
 
-/// Represents the output of a <code>DescribeCacheSecurityGroups</code>
-/// operation.
-class CacheSecurityGroupMessage {
-  /// A list of cache security groups. Each element in the list contains detailed
-  /// information about one group.
-  final List<CacheSecurityGroup>? cacheSecurityGroups;
+/// Configuration settings for horizontal or vertical scaling operations on
+/// Memcached clusters.
+class ScaleConfig {
+  /// The time interval in seconds between scaling operations when performing
+  /// gradual scaling for a Memcached cluster.
+  final int? scaleIntervalMinutes;
 
-  /// Provides an identifier to allow retrieval of paginated results.
-  final String? marker;
+  /// The percentage by which to scale the Memcached cluster, either horizontally
+  /// by adding nodes or vertically by increasing resources.
+  final int? scalePercentage;
 
-  CacheSecurityGroupMessage({
-    this.cacheSecurityGroups,
-    this.marker,
+  ScaleConfig({
+    this.scaleIntervalMinutes,
+    this.scalePercentage,
   });
-  factory CacheSecurityGroupMessage.fromXml(_s.XmlElement elem) {
-    return CacheSecurityGroupMessage(
-      cacheSecurityGroups: _s.extractXmlChild(elem, 'CacheSecurityGroups')?.let(
-          (elem) => elem
-              .findElements('CacheSecurityGroup')
-              .map(CacheSecurityGroup.fromXml)
-              .toList()),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
+  factory ScaleConfig.fromXml(_s.XmlElement elem) {
+    return ScaleConfig(
+      scaleIntervalMinutes: _s.extractXmlIntValue(elem, 'ScaleIntervalMinutes'),
+      scalePercentage: _s.extractXmlIntValue(elem, 'ScalePercentage'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final cacheSecurityGroups = this.cacheSecurityGroups;
-    final marker = this.marker;
+    final scaleIntervalMinutes = this.scaleIntervalMinutes;
+    final scalePercentage = this.scalePercentage;
     return {
-      if (cacheSecurityGroups != null)
-        'CacheSecurityGroups': cacheSecurityGroups,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-/// Represents the output of one of the following operations:
-///
-/// <ul>
-/// <li>
-/// <code>CreateCacheSubnetGroup</code>
-/// </li>
-/// <li>
-/// <code>ModifyCacheSubnetGroup</code>
-/// </li>
-/// </ul>
-class CacheSubnetGroup {
-  /// The ARN (Amazon Resource Name) of the cache subnet group.
-  final String? arn;
-
-  /// The description of the cache subnet group.
-  final String? cacheSubnetGroupDescription;
-
-  /// The name of the cache subnet group.
-  final String? cacheSubnetGroupName;
-
-  /// A list of subnets associated with the cache subnet group.
-  final List<Subnet>? subnets;
-
-  /// Either <code>ipv4</code> | <code>ipv6</code> | <code>dual_stack</code>. IPv6
-  /// is supported for workloads using Redis OSS engine version 6.2 onward or
-  /// Memcached engine version 1.6.6 on all instances built on the <a
-  /// href="http://aws.amazon.com/ec2/nitro/">Nitro system</a>.
-  final List<NetworkType>? supportedNetworkTypes;
-
-  /// The Amazon Virtual Private Cloud identifier (VPC ID) of the cache subnet
-  /// group.
-  final String? vpcId;
-
-  CacheSubnetGroup({
-    this.arn,
-    this.cacheSubnetGroupDescription,
-    this.cacheSubnetGroupName,
-    this.subnets,
-    this.supportedNetworkTypes,
-    this.vpcId,
-  });
-  factory CacheSubnetGroup.fromXml(_s.XmlElement elem) {
-    return CacheSubnetGroup(
-      arn: _s.extractXmlStringValue(elem, 'ARN'),
-      cacheSubnetGroupDescription:
-          _s.extractXmlStringValue(elem, 'CacheSubnetGroupDescription'),
-      cacheSubnetGroupName:
-          _s.extractXmlStringValue(elem, 'CacheSubnetGroupName'),
-      subnets: _s.extractXmlChild(elem, 'Subnets')?.let(
-          (elem) => elem.findElements('Subnet').map(Subnet.fromXml).toList()),
-      supportedNetworkTypes: _s
-          .extractXmlChild(elem, 'SupportedNetworkTypes')
-          ?.let((elem) => _s
-              .extractXmlStringListValues(elem, 'member')
-              .map(NetworkType.fromString)
-              .toList()),
-      vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final cacheSubnetGroupDescription = this.cacheSubnetGroupDescription;
-    final cacheSubnetGroupName = this.cacheSubnetGroupName;
-    final subnets = this.subnets;
-    final supportedNetworkTypes = this.supportedNetworkTypes;
-    final vpcId = this.vpcId;
-    return {
-      if (arn != null) 'ARN': arn,
-      if (cacheSubnetGroupDescription != null)
-        'CacheSubnetGroupDescription': cacheSubnetGroupDescription,
-      if (cacheSubnetGroupName != null)
-        'CacheSubnetGroupName': cacheSubnetGroupName,
-      if (subnets != null) 'Subnets': subnets,
-      if (supportedNetworkTypes != null)
-        'SupportedNetworkTypes':
-            supportedNetworkTypes.map((e) => e.value).toList(),
-      if (vpcId != null) 'VpcId': vpcId,
-    };
-  }
-}
-
-/// Represents the output of a <code>DescribeCacheSubnetGroups</code> operation.
-class CacheSubnetGroupMessage {
-  /// A list of cache subnet groups. Each element in the list contains detailed
-  /// information about one group.
-  final List<CacheSubnetGroup>? cacheSubnetGroups;
-
-  /// Provides an identifier to allow retrieval of paginated results.
-  final String? marker;
-
-  CacheSubnetGroupMessage({
-    this.cacheSubnetGroups,
-    this.marker,
-  });
-  factory CacheSubnetGroupMessage.fromXml(_s.XmlElement elem) {
-    return CacheSubnetGroupMessage(
-      cacheSubnetGroups: _s.extractXmlChild(elem, 'CacheSubnetGroups')?.let(
-          (elem) => elem
-              .findElements('CacheSubnetGroup')
-              .map(CacheSubnetGroup.fromXml)
-              .toList()),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cacheSubnetGroups = this.cacheSubnetGroups;
-    final marker = this.marker;
-    return {
-      if (cacheSubnetGroups != null) 'CacheSubnetGroups': cacheSubnetGroups,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-/// The usage limits for storage and ElastiCache Processing Units for the cache.
-class CacheUsageLimits {
-  /// The maximum data storage limit in the cache, expressed in Gigabytes.
-  final DataStorage? dataStorage;
-  final ECPUPerSecond? eCPUPerSecond;
-
-  CacheUsageLimits({
-    this.dataStorage,
-    this.eCPUPerSecond,
-  });
-  factory CacheUsageLimits.fromXml(_s.XmlElement elem) {
-    return CacheUsageLimits(
-      dataStorage:
-          _s.extractXmlChild(elem, 'DataStorage')?.let(DataStorage.fromXml),
-      eCPUPerSecond:
-          _s.extractXmlChild(elem, 'ECPUPerSecond')?.let(ECPUPerSecond.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataStorage = this.dataStorage;
-    final eCPUPerSecond = this.eCPUPerSecond;
-    return {
-      if (dataStorage != null) 'DataStorage': dataStorage,
-      if (eCPUPerSecond != null) 'ECPUPerSecond': eCPUPerSecond,
+      if (scaleIntervalMinutes != null)
+        'ScaleIntervalMinutes': scaleIntervalMinutes,
+      if (scalePercentage != null) 'ScalePercentage': scalePercentage,
     };
   }
 
   Map<String, String> toQueryMap() {
-    final dataStorage = this.dataStorage;
-    final eCPUPerSecond = this.eCPUPerSecond;
+    final scaleIntervalMinutes = this.scaleIntervalMinutes;
+    final scalePercentage = this.scalePercentage;
     return {
-      if (dataStorage != null)
-        for (var e1 in dataStorage.toQueryMap().entries)
-          'DataStorage.${e1.key}': e1.value,
-      if (eCPUPerSecond != null)
-        for (var e1 in eCPUPerSecond.toQueryMap().entries)
-          'ECPUPerSecond.${e1.key}': e1.value,
-    };
-  }
-}
-
-class ChangeType {
-  static const immediate = ChangeType._('immediate');
-  static const requiresReboot = ChangeType._('requires-reboot');
-
-  final String value;
-
-  const ChangeType._(this.value);
-
-  static const values = [immediate, requiresReboot];
-
-  static ChangeType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ChangeType._(value));
-
-  @override
-  bool operator ==(other) => other is ChangeType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The configuration details of the CloudWatch Logs destination.
-class CloudWatchLogsDestinationDetails {
-  /// The name of the CloudWatch Logs log group.
-  final String? logGroup;
-
-  CloudWatchLogsDestinationDetails({
-    this.logGroup,
-  });
-  factory CloudWatchLogsDestinationDetails.fromXml(_s.XmlElement elem) {
-    return CloudWatchLogsDestinationDetails(
-      logGroup: _s.extractXmlStringValue(elem, 'LogGroup'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final logGroup = this.logGroup;
-    return {
-      if (logGroup != null) 'LogGroup': logGroup,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final logGroup = this.logGroup;
-    return {
-      if (logGroup != null) 'LogGroup': logGroup,
-    };
-  }
-}
-
-class ClusterMode {
-  static const enabled = ClusterMode._('enabled');
-  static const disabled = ClusterMode._('disabled');
-  static const compatible = ClusterMode._('compatible');
-
-  final String value;
-
-  const ClusterMode._(this.value);
-
-  static const values = [enabled, disabled, compatible];
-
-  static ClusterMode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ClusterMode._(value));
-
-  @override
-  bool operator ==(other) => other is ClusterMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class CompleteMigrationResponse {
-  final ReplicationGroup? replicationGroup;
-
-  CompleteMigrationResponse({
-    this.replicationGroup,
-  });
-  factory CompleteMigrationResponse.fromXml(_s.XmlElement elem) {
-    return CompleteMigrationResponse(
-      replicationGroup: _s
-          .extractXmlChild(elem, 'ReplicationGroup')
-          ?.let(ReplicationGroup.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final replicationGroup = this.replicationGroup;
-    return {
-      if (replicationGroup != null) 'ReplicationGroup': replicationGroup,
-    };
-  }
-}
-
-/// Node group (shard) configuration options when adding or removing replicas.
-/// Each node group (shard) configuration has the following members:
-/// NodeGroupId, NewReplicaCount, and PreferredAvailabilityZones.
-class ConfigureShard {
-  /// The number of replicas you want in this node group at the end of this
-  /// operation. The maximum value for <code>NewReplicaCount</code> is 5. The
-  /// minimum value depends upon the type of Redis OSS replication group you are
-  /// working with.
-  ///
-  /// The minimum number of replicas in a shard or replication group is:
-  ///
-  /// <ul>
-  /// <li>
-  /// Redis OSS (cluster mode disabled)
-  ///
-  /// <ul>
-  /// <li>
-  /// If Multi-AZ: 1
-  /// </li>
-  /// <li>
-  /// If Multi-AZ: 0
-  /// </li>
-  /// </ul> </li>
-  /// <li>
-  /// Redis OSS (cluster mode enabled): 0 (though you will not be able to failover
-  /// to a replica if your primary node fails)
-  /// </li>
-  /// </ul>
-  final int newReplicaCount;
-
-  /// The 4-digit id for the node group you are configuring. For Redis OSS
-  /// (cluster mode disabled) replication groups, the node group id is always
-  /// 0001. To find a Redis OSS (cluster mode enabled)'s node group's (shard's)
-  /// id, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/shard-find-id.html">Finding
-  /// a Shard's Id</a>.
-  final String nodeGroupId;
-
-  /// A list of <code>PreferredAvailabilityZone</code> strings that specify which
-  /// availability zones the replication group's nodes are to be in. The nummber
-  /// of <code>PreferredAvailabilityZone</code> values must equal the value of
-  /// <code>NewReplicaCount</code> plus 1 to account for the primary node. If this
-  /// member of <code>ReplicaConfiguration</code> is omitted, ElastiCache (Redis
-  /// OSS) selects the availability zone for each of the replicas.
-  final List<String>? preferredAvailabilityZones;
-
-  /// The outpost ARNs in which the cache cluster is created.
-  final List<String>? preferredOutpostArns;
-
-  ConfigureShard({
-    required this.newReplicaCount,
-    required this.nodeGroupId,
-    this.preferredAvailabilityZones,
-    this.preferredOutpostArns,
-  });
-
-  Map<String, dynamic> toJson() {
-    final newReplicaCount = this.newReplicaCount;
-    final nodeGroupId = this.nodeGroupId;
-    final preferredAvailabilityZones = this.preferredAvailabilityZones;
-    final preferredOutpostArns = this.preferredOutpostArns;
-    return {
-      'NewReplicaCount': newReplicaCount,
-      'NodeGroupId': nodeGroupId,
-      if (preferredAvailabilityZones != null)
-        'PreferredAvailabilityZones': preferredAvailabilityZones,
-      if (preferredOutpostArns != null)
-        'PreferredOutpostArns': preferredOutpostArns,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final newReplicaCount = this.newReplicaCount;
-    final nodeGroupId = this.nodeGroupId;
-    final preferredAvailabilityZones = this.preferredAvailabilityZones;
-    final preferredOutpostArns = this.preferredOutpostArns;
-    return {
-      'NewReplicaCount': newReplicaCount.toString(),
-      'NodeGroupId': nodeGroupId,
-      if (preferredAvailabilityZones != null)
-        if (preferredAvailabilityZones.isEmpty)
-          'PreferredAvailabilityZone': ''
-        else
-          for (var i1 = 0; i1 < preferredAvailabilityZones.length; i1++)
-            'PreferredAvailabilityZone.PreferredAvailabilityZone.${i1 + 1}':
-                preferredAvailabilityZones[i1],
-      if (preferredOutpostArns != null)
-        if (preferredOutpostArns.isEmpty)
-          'PreferredOutpostArn': ''
-        else
-          for (var i1 = 0; i1 < preferredOutpostArns.length; i1++)
-            'PreferredOutpostArn.PreferredOutpostArn.${i1 + 1}':
-                preferredOutpostArns[i1],
-    };
-  }
-}
-
-class CopyServerlessCacheSnapshotResponse {
-  /// The response for the attempt to copy the serverless cache snapshot.
-  /// Available for Redis OSS and Serverless Memcached only.
-  final ServerlessCacheSnapshot? serverlessCacheSnapshot;
-
-  CopyServerlessCacheSnapshotResponse({
-    this.serverlessCacheSnapshot,
-  });
-  factory CopyServerlessCacheSnapshotResponse.fromXml(_s.XmlElement elem) {
-    return CopyServerlessCacheSnapshotResponse(
-      serverlessCacheSnapshot: _s
-          .extractXmlChild(elem, 'ServerlessCacheSnapshot')
-          ?.let(ServerlessCacheSnapshot.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final serverlessCacheSnapshot = this.serverlessCacheSnapshot;
-    return {
-      if (serverlessCacheSnapshot != null)
-        'ServerlessCacheSnapshot': serverlessCacheSnapshot,
-    };
-  }
-}
-
-class CopySnapshotResult {
-  final Snapshot? snapshot;
-
-  CopySnapshotResult({
-    this.snapshot,
-  });
-  factory CopySnapshotResult.fromXml(_s.XmlElement elem) {
-    return CopySnapshotResult(
-      snapshot: _s.extractXmlChild(elem, 'Snapshot')?.let(Snapshot.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final snapshot = this.snapshot;
-    return {
-      if (snapshot != null) 'Snapshot': snapshot,
-    };
-  }
-}
-
-class CreateCacheClusterResult {
-  final CacheCluster? cacheCluster;
-
-  CreateCacheClusterResult({
-    this.cacheCluster,
-  });
-  factory CreateCacheClusterResult.fromXml(_s.XmlElement elem) {
-    return CreateCacheClusterResult(
-      cacheCluster:
-          _s.extractXmlChild(elem, 'CacheCluster')?.let(CacheCluster.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cacheCluster = this.cacheCluster;
-    return {
-      if (cacheCluster != null) 'CacheCluster': cacheCluster,
-    };
-  }
-}
-
-class CreateCacheParameterGroupResult {
-  final CacheParameterGroup? cacheParameterGroup;
-
-  CreateCacheParameterGroupResult({
-    this.cacheParameterGroup,
-  });
-  factory CreateCacheParameterGroupResult.fromXml(_s.XmlElement elem) {
-    return CreateCacheParameterGroupResult(
-      cacheParameterGroup: _s
-          .extractXmlChild(elem, 'CacheParameterGroup')
-          ?.let(CacheParameterGroup.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cacheParameterGroup = this.cacheParameterGroup;
-    return {
-      if (cacheParameterGroup != null)
-        'CacheParameterGroup': cacheParameterGroup,
-    };
-  }
-}
-
-class CreateCacheSecurityGroupResult {
-  final CacheSecurityGroup? cacheSecurityGroup;
-
-  CreateCacheSecurityGroupResult({
-    this.cacheSecurityGroup,
-  });
-  factory CreateCacheSecurityGroupResult.fromXml(_s.XmlElement elem) {
-    return CreateCacheSecurityGroupResult(
-      cacheSecurityGroup: _s
-          .extractXmlChild(elem, 'CacheSecurityGroup')
-          ?.let(CacheSecurityGroup.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cacheSecurityGroup = this.cacheSecurityGroup;
-    return {
-      if (cacheSecurityGroup != null) 'CacheSecurityGroup': cacheSecurityGroup,
-    };
-  }
-}
-
-class CreateCacheSubnetGroupResult {
-  final CacheSubnetGroup? cacheSubnetGroup;
-
-  CreateCacheSubnetGroupResult({
-    this.cacheSubnetGroup,
-  });
-  factory CreateCacheSubnetGroupResult.fromXml(_s.XmlElement elem) {
-    return CreateCacheSubnetGroupResult(
-      cacheSubnetGroup: _s
-          .extractXmlChild(elem, 'CacheSubnetGroup')
-          ?.let(CacheSubnetGroup.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cacheSubnetGroup = this.cacheSubnetGroup;
-    return {
-      if (cacheSubnetGroup != null) 'CacheSubnetGroup': cacheSubnetGroup,
-    };
-  }
-}
-
-class CreateGlobalReplicationGroupResult {
-  final GlobalReplicationGroup? globalReplicationGroup;
-
-  CreateGlobalReplicationGroupResult({
-    this.globalReplicationGroup,
-  });
-  factory CreateGlobalReplicationGroupResult.fromXml(_s.XmlElement elem) {
-    return CreateGlobalReplicationGroupResult(
-      globalReplicationGroup: _s
-          .extractXmlChild(elem, 'GlobalReplicationGroup')
-          ?.let(GlobalReplicationGroup.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final globalReplicationGroup = this.globalReplicationGroup;
-    return {
-      if (globalReplicationGroup != null)
-        'GlobalReplicationGroup': globalReplicationGroup,
-    };
-  }
-}
-
-class CreateReplicationGroupResult {
-  final ReplicationGroup? replicationGroup;
-
-  CreateReplicationGroupResult({
-    this.replicationGroup,
-  });
-  factory CreateReplicationGroupResult.fromXml(_s.XmlElement elem) {
-    return CreateReplicationGroupResult(
-      replicationGroup: _s
-          .extractXmlChild(elem, 'ReplicationGroup')
-          ?.let(ReplicationGroup.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final replicationGroup = this.replicationGroup;
-    return {
-      if (replicationGroup != null) 'ReplicationGroup': replicationGroup,
-    };
-  }
-}
-
-class CreateServerlessCacheResponse {
-  /// The response for the attempt to create the serverless cache.
-  final ServerlessCache? serverlessCache;
-
-  CreateServerlessCacheResponse({
-    this.serverlessCache,
-  });
-  factory CreateServerlessCacheResponse.fromXml(_s.XmlElement elem) {
-    return CreateServerlessCacheResponse(
-      serverlessCache: _s
-          .extractXmlChild(elem, 'ServerlessCache')
-          ?.let(ServerlessCache.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final serverlessCache = this.serverlessCache;
-    return {
-      if (serverlessCache != null) 'ServerlessCache': serverlessCache,
-    };
-  }
-}
-
-class CreateServerlessCacheSnapshotResponse {
-  /// The state of a serverless cache snapshot at a specific point in time, to the
-  /// millisecond. Available for Redis OSS and Serverless Memcached only.
-  final ServerlessCacheSnapshot? serverlessCacheSnapshot;
-
-  CreateServerlessCacheSnapshotResponse({
-    this.serverlessCacheSnapshot,
-  });
-  factory CreateServerlessCacheSnapshotResponse.fromXml(_s.XmlElement elem) {
-    return CreateServerlessCacheSnapshotResponse(
-      serverlessCacheSnapshot: _s
-          .extractXmlChild(elem, 'ServerlessCacheSnapshot')
-          ?.let(ServerlessCacheSnapshot.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final serverlessCacheSnapshot = this.serverlessCacheSnapshot;
-    return {
-      if (serverlessCacheSnapshot != null)
-        'ServerlessCacheSnapshot': serverlessCacheSnapshot,
-    };
-  }
-}
-
-class CreateSnapshotResult {
-  final Snapshot? snapshot;
-
-  CreateSnapshotResult({
-    this.snapshot,
-  });
-  factory CreateSnapshotResult.fromXml(_s.XmlElement elem) {
-    return CreateSnapshotResult(
-      snapshot: _s.extractXmlChild(elem, 'Snapshot')?.let(Snapshot.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final snapshot = this.snapshot;
-    return {
-      if (snapshot != null) 'Snapshot': snapshot,
-    };
-  }
-}
-
-/// The endpoint from which data should be migrated.
-class CustomerNodeEndpoint {
-  /// The address of the node endpoint
-  final String? address;
-
-  /// The port of the node endpoint
-  final int? port;
-
-  CustomerNodeEndpoint({
-    this.address,
-    this.port,
-  });
-
-  Map<String, dynamic> toJson() {
-    final address = this.address;
-    final port = this.port;
-    return {
-      if (address != null) 'Address': address,
-      if (port != null) 'Port': port,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final address = this.address;
-    final port = this.port;
-    return {
-      if (address != null) 'Address': address,
-      if (port != null) 'Port': port.toString(),
-    };
-  }
-}
-
-/// The data storage limit.
-class DataStorage {
-  /// The unit that the storage is measured in, in GB.
-  final DataStorageUnit unit;
-
-  /// The upper limit for data storage the cache is set to use.
-  final int? maximum;
-
-  /// The lower limit for data storage the cache is set to use.
-  final int? minimum;
-
-  DataStorage({
-    required this.unit,
-    this.maximum,
-    this.minimum,
-  });
-  factory DataStorage.fromXml(_s.XmlElement elem) {
-    return DataStorage(
-      unit: _s
-          .extractXmlStringValue(elem, 'Unit')!
-          .let(DataStorageUnit.fromString),
-      maximum: _s.extractXmlIntValue(elem, 'Maximum'),
-      minimum: _s.extractXmlIntValue(elem, 'Minimum'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final unit = this.unit;
-    final maximum = this.maximum;
-    final minimum = this.minimum;
-    return {
-      'Unit': unit.value,
-      if (maximum != null) 'Maximum': maximum,
-      if (minimum != null) 'Minimum': minimum,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final unit = this.unit;
-    final maximum = this.maximum;
-    final minimum = this.minimum;
-    return {
-      'Unit': unit.value,
-      if (maximum != null) 'Maximum': maximum.toString(),
-      if (minimum != null) 'Minimum': minimum.toString(),
-    };
-  }
-}
-
-class DataStorageUnit {
-  static const gb = DataStorageUnit._('GB');
-
-  final String value;
-
-  const DataStorageUnit._(this.value);
-
-  static const values = [gb];
-
-  static DataStorageUnit fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DataStorageUnit._(value));
-
-  @override
-  bool operator ==(other) => other is DataStorageUnit && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DataTieringStatus {
-  static const enabled = DataTieringStatus._('enabled');
-  static const disabled = DataTieringStatus._('disabled');
-
-  final String value;
-
-  const DataTieringStatus._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static DataTieringStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DataTieringStatus._(value));
-
-  @override
-  bool operator ==(other) => other is DataTieringStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DecreaseNodeGroupsInGlobalReplicationGroupResult {
-  final GlobalReplicationGroup? globalReplicationGroup;
-
-  DecreaseNodeGroupsInGlobalReplicationGroupResult({
-    this.globalReplicationGroup,
-  });
-  factory DecreaseNodeGroupsInGlobalReplicationGroupResult.fromXml(
-      _s.XmlElement elem) {
-    return DecreaseNodeGroupsInGlobalReplicationGroupResult(
-      globalReplicationGroup: _s
-          .extractXmlChild(elem, 'GlobalReplicationGroup')
-          ?.let(GlobalReplicationGroup.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final globalReplicationGroup = this.globalReplicationGroup;
-    return {
-      if (globalReplicationGroup != null)
-        'GlobalReplicationGroup': globalReplicationGroup,
-    };
-  }
-}
-
-class DecreaseReplicaCountResult {
-  final ReplicationGroup? replicationGroup;
-
-  DecreaseReplicaCountResult({
-    this.replicationGroup,
-  });
-  factory DecreaseReplicaCountResult.fromXml(_s.XmlElement elem) {
-    return DecreaseReplicaCountResult(
-      replicationGroup: _s
-          .extractXmlChild(elem, 'ReplicationGroup')
-          ?.let(ReplicationGroup.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final replicationGroup = this.replicationGroup;
-    return {
-      if (replicationGroup != null) 'ReplicationGroup': replicationGroup,
-    };
-  }
-}
-
-class DeleteCacheClusterResult {
-  final CacheCluster? cacheCluster;
-
-  DeleteCacheClusterResult({
-    this.cacheCluster,
-  });
-  factory DeleteCacheClusterResult.fromXml(_s.XmlElement elem) {
-    return DeleteCacheClusterResult(
-      cacheCluster:
-          _s.extractXmlChild(elem, 'CacheCluster')?.let(CacheCluster.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cacheCluster = this.cacheCluster;
-    return {
-      if (cacheCluster != null) 'CacheCluster': cacheCluster,
-    };
-  }
-}
-
-class DeleteGlobalReplicationGroupResult {
-  final GlobalReplicationGroup? globalReplicationGroup;
-
-  DeleteGlobalReplicationGroupResult({
-    this.globalReplicationGroup,
-  });
-  factory DeleteGlobalReplicationGroupResult.fromXml(_s.XmlElement elem) {
-    return DeleteGlobalReplicationGroupResult(
-      globalReplicationGroup: _s
-          .extractXmlChild(elem, 'GlobalReplicationGroup')
-          ?.let(GlobalReplicationGroup.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final globalReplicationGroup = this.globalReplicationGroup;
-    return {
-      if (globalReplicationGroup != null)
-        'GlobalReplicationGroup': globalReplicationGroup,
-    };
-  }
-}
-
-class DeleteReplicationGroupResult {
-  final ReplicationGroup? replicationGroup;
-
-  DeleteReplicationGroupResult({
-    this.replicationGroup,
-  });
-  factory DeleteReplicationGroupResult.fromXml(_s.XmlElement elem) {
-    return DeleteReplicationGroupResult(
-      replicationGroup: _s
-          .extractXmlChild(elem, 'ReplicationGroup')
-          ?.let(ReplicationGroup.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final replicationGroup = this.replicationGroup;
-    return {
-      if (replicationGroup != null) 'ReplicationGroup': replicationGroup,
-    };
-  }
-}
-
-class DeleteServerlessCacheResponse {
-  /// Provides the details of the specified serverless cache that is about to be
-  /// deleted.
-  final ServerlessCache? serverlessCache;
-
-  DeleteServerlessCacheResponse({
-    this.serverlessCache,
-  });
-  factory DeleteServerlessCacheResponse.fromXml(_s.XmlElement elem) {
-    return DeleteServerlessCacheResponse(
-      serverlessCache: _s
-          .extractXmlChild(elem, 'ServerlessCache')
-          ?.let(ServerlessCache.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final serverlessCache = this.serverlessCache;
-    return {
-      if (serverlessCache != null) 'ServerlessCache': serverlessCache,
-    };
-  }
-}
-
-class DeleteServerlessCacheSnapshotResponse {
-  /// The snapshot to be deleted. Available for Redis OSS and Serverless Memcached
-  /// only.
-  final ServerlessCacheSnapshot? serverlessCacheSnapshot;
-
-  DeleteServerlessCacheSnapshotResponse({
-    this.serverlessCacheSnapshot,
-  });
-  factory DeleteServerlessCacheSnapshotResponse.fromXml(_s.XmlElement elem) {
-    return DeleteServerlessCacheSnapshotResponse(
-      serverlessCacheSnapshot: _s
-          .extractXmlChild(elem, 'ServerlessCacheSnapshot')
-          ?.let(ServerlessCacheSnapshot.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final serverlessCacheSnapshot = this.serverlessCacheSnapshot;
-    return {
-      if (serverlessCacheSnapshot != null)
-        'ServerlessCacheSnapshot': serverlessCacheSnapshot,
-    };
-  }
-}
-
-class DeleteSnapshotResult {
-  final Snapshot? snapshot;
-
-  DeleteSnapshotResult({
-    this.snapshot,
-  });
-  factory DeleteSnapshotResult.fromXml(_s.XmlElement elem) {
-    return DeleteSnapshotResult(
-      snapshot: _s.extractXmlChild(elem, 'Snapshot')?.let(Snapshot.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final snapshot = this.snapshot;
-    return {
-      if (snapshot != null) 'Snapshot': snapshot,
-    };
-  }
-}
-
-class DescribeEngineDefaultParametersResult {
-  final EngineDefaults? engineDefaults;
-
-  DescribeEngineDefaultParametersResult({
-    this.engineDefaults,
-  });
-  factory DescribeEngineDefaultParametersResult.fromXml(_s.XmlElement elem) {
-    return DescribeEngineDefaultParametersResult(
-      engineDefaults: _s
-          .extractXmlChild(elem, 'EngineDefaults')
-          ?.let(EngineDefaults.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final engineDefaults = this.engineDefaults;
-    return {
-      if (engineDefaults != null) 'EngineDefaults': engineDefaults,
-    };
-  }
-}
-
-class DescribeGlobalReplicationGroupsResult {
-  /// Indicates the slot configuration and global identifier for each slice group.
-  final List<GlobalReplicationGroup>? globalReplicationGroups;
-
-  /// An optional marker returned from a prior request. Use this marker for
-  /// pagination of results from this operation. If this parameter is specified,
-  /// the response includes only records beyond the marker, up to the value
-  /// specified by MaxRecords. &gt;
-  final String? marker;
-
-  DescribeGlobalReplicationGroupsResult({
-    this.globalReplicationGroups,
-    this.marker,
-  });
-  factory DescribeGlobalReplicationGroupsResult.fromXml(_s.XmlElement elem) {
-    return DescribeGlobalReplicationGroupsResult(
-      globalReplicationGroups: _s
-          .extractXmlChild(elem, 'GlobalReplicationGroups')
-          ?.let((elem) => elem
-              .findElements('GlobalReplicationGroup')
-              .map(GlobalReplicationGroup.fromXml)
-              .toList()),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final globalReplicationGroups = this.globalReplicationGroups;
-    final marker = this.marker;
-    return {
-      if (globalReplicationGroups != null)
-        'GlobalReplicationGroups': globalReplicationGroups,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-class DescribeServerlessCacheSnapshotsResponse {
-  /// An optional marker returned from a prior request to support pagination of
-  /// results from this operation. If this parameter is specified, the response
-  /// includes only records beyond the marker, up to the value specified by
-  /// max-results. Available for Redis OSS and Serverless Memcached only.
-  final String? nextToken;
-
-  /// The serverless caches snapshots associated with a given description request.
-  /// Available for Redis OSS and Serverless Memcached only.
-  final List<ServerlessCacheSnapshot>? serverlessCacheSnapshots;
-
-  DescribeServerlessCacheSnapshotsResponse({
-    this.nextToken,
-    this.serverlessCacheSnapshots,
-  });
-  factory DescribeServerlessCacheSnapshotsResponse.fromXml(_s.XmlElement elem) {
-    return DescribeServerlessCacheSnapshotsResponse(
-      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
-      serverlessCacheSnapshots: _s
-          .extractXmlChild(elem, 'ServerlessCacheSnapshots')
-          ?.let((elem) => elem
-              .findElements('ServerlessCacheSnapshot')
-              .map(ServerlessCacheSnapshot.fromXml)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final serverlessCacheSnapshots = this.serverlessCacheSnapshots;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (serverlessCacheSnapshots != null)
-        'ServerlessCacheSnapshots': serverlessCacheSnapshots,
-    };
-  }
-}
-
-class DescribeServerlessCachesResponse {
-  /// An optional marker returned from a prior request to support pagination of
-  /// results from this operation. If this parameter is specified, the response
-  /// includes only records beyond the marker, up to the value specified by
-  /// MaxResults.
-  final String? nextToken;
-
-  /// The serverless caches associated with a given description request.
-  final List<ServerlessCache>? serverlessCaches;
-
-  DescribeServerlessCachesResponse({
-    this.nextToken,
-    this.serverlessCaches,
-  });
-  factory DescribeServerlessCachesResponse.fromXml(_s.XmlElement elem) {
-    return DescribeServerlessCachesResponse(
-      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
-      serverlessCaches: _s.extractXmlChild(elem, 'ServerlessCaches')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map(ServerlessCache.fromXml)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final serverlessCaches = this.serverlessCaches;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (serverlessCaches != null) 'ServerlessCaches': serverlessCaches,
-    };
-  }
-}
-
-/// Represents the output of a <code>DescribeSnapshots</code> operation.
-class DescribeSnapshotsListMessage {
-  /// An optional marker returned from a prior request. Use this marker for
-  /// pagination of results from this operation. If this parameter is specified,
-  /// the response includes only records beyond the marker, up to the value
-  /// specified by <code>MaxRecords</code>.
-  final String? marker;
-
-  /// A list of snapshots. Each item in the list contains detailed information
-  /// about one snapshot.
-  final List<Snapshot>? snapshots;
-
-  DescribeSnapshotsListMessage({
-    this.marker,
-    this.snapshots,
-  });
-  factory DescribeSnapshotsListMessage.fromXml(_s.XmlElement elem) {
-    return DescribeSnapshotsListMessage(
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      snapshots: _s.extractXmlChild(elem, 'Snapshots')?.let((elem) =>
-          elem.findElements('Snapshot').map(Snapshot.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final marker = this.marker;
-    final snapshots = this.snapshots;
-    return {
-      if (marker != null) 'Marker': marker,
-      if (snapshots != null) 'Snapshots': snapshots,
-    };
-  }
-}
-
-class DescribeUserGroupsResult {
-  /// An optional marker returned from a prior request. Use this marker for
-  /// pagination of results from this operation. If this parameter is specified,
-  /// the response includes only records beyond the marker, up to the value
-  /// specified by MaxRecords.&gt;
-  final String? marker;
-
-  /// Returns a list of user groups.
-  final List<UserGroup>? userGroups;
-
-  DescribeUserGroupsResult({
-    this.marker,
-    this.userGroups,
-  });
-  factory DescribeUserGroupsResult.fromXml(_s.XmlElement elem) {
-    return DescribeUserGroupsResult(
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      userGroups: _s.extractXmlChild(elem, 'UserGroups')?.let((elem) =>
-          elem.findElements('member').map(UserGroup.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final marker = this.marker;
-    final userGroups = this.userGroups;
-    return {
-      if (marker != null) 'Marker': marker,
-      if (userGroups != null) 'UserGroups': userGroups,
-    };
-  }
-}
-
-class DescribeUsersResult {
-  /// An optional marker returned from a prior request. Use this marker for
-  /// pagination of results from this operation. If this parameter is specified,
-  /// the response includes only records beyond the marker, up to the value
-  /// specified by MaxRecords. &gt;
-  final String? marker;
-
-  /// A list of users.
-  final List<User>? users;
-
-  DescribeUsersResult({
-    this.marker,
-    this.users,
-  });
-  factory DescribeUsersResult.fromXml(_s.XmlElement elem) {
-    return DescribeUsersResult(
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      users: _s.extractXmlChild(elem, 'Users')?.let(
-          (elem) => elem.findElements('member').map(User.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final marker = this.marker;
-    final users = this.users;
-    return {
-      if (marker != null) 'Marker': marker,
-      if (users != null) 'Users': users,
-    };
-  }
-}
-
-/// Configuration details of either a CloudWatch Logs destination or Kinesis
-/// Data Firehose destination.
-class DestinationDetails {
-  /// The configuration details of the CloudWatch Logs destination.
-  final CloudWatchLogsDestinationDetails? cloudWatchLogsDetails;
-
-  /// The configuration details of the Kinesis Data Firehose destination.
-  final KinesisFirehoseDestinationDetails? kinesisFirehoseDetails;
-
-  DestinationDetails({
-    this.cloudWatchLogsDetails,
-    this.kinesisFirehoseDetails,
-  });
-  factory DestinationDetails.fromXml(_s.XmlElement elem) {
-    return DestinationDetails(
-      cloudWatchLogsDetails: _s
-          .extractXmlChild(elem, 'CloudWatchLogsDetails')
-          ?.let(CloudWatchLogsDestinationDetails.fromXml),
-      kinesisFirehoseDetails: _s
-          .extractXmlChild(elem, 'KinesisFirehoseDetails')
-          ?.let(KinesisFirehoseDestinationDetails.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cloudWatchLogsDetails = this.cloudWatchLogsDetails;
-    final kinesisFirehoseDetails = this.kinesisFirehoseDetails;
-    return {
-      if (cloudWatchLogsDetails != null)
-        'CloudWatchLogsDetails': cloudWatchLogsDetails,
-      if (kinesisFirehoseDetails != null)
-        'KinesisFirehoseDetails': kinesisFirehoseDetails,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final cloudWatchLogsDetails = this.cloudWatchLogsDetails;
-    final kinesisFirehoseDetails = this.kinesisFirehoseDetails;
-    return {
-      if (cloudWatchLogsDetails != null)
-        for (var e1 in cloudWatchLogsDetails.toQueryMap().entries)
-          'CloudWatchLogsDetails.${e1.key}': e1.value,
-      if (kinesisFirehoseDetails != null)
-        for (var e1 in kinesisFirehoseDetails.toQueryMap().entries)
-          'KinesisFirehoseDetails.${e1.key}': e1.value,
-    };
-  }
-}
-
-class DestinationType {
-  static const cloudwatchLogs = DestinationType._('cloudwatch-logs');
-  static const kinesisFirehose = DestinationType._('kinesis-firehose');
-
-  final String value;
-
-  const DestinationType._(this.value);
-
-  static const values = [cloudwatchLogs, kinesisFirehose];
-
-  static DestinationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DestinationType._(value));
-
-  @override
-  bool operator ==(other) => other is DestinationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DisassociateGlobalReplicationGroupResult {
-  final GlobalReplicationGroup? globalReplicationGroup;
-
-  DisassociateGlobalReplicationGroupResult({
-    this.globalReplicationGroup,
-  });
-  factory DisassociateGlobalReplicationGroupResult.fromXml(_s.XmlElement elem) {
-    return DisassociateGlobalReplicationGroupResult(
-      globalReplicationGroup: _s
-          .extractXmlChild(elem, 'GlobalReplicationGroup')
-          ?.let(GlobalReplicationGroup.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final globalReplicationGroup = this.globalReplicationGroup;
-    return {
-      if (globalReplicationGroup != null)
-        'GlobalReplicationGroup': globalReplicationGroup,
-    };
-  }
-}
-
-/// Provides ownership and status information for an Amazon EC2 security group.
-class EC2SecurityGroup {
-  /// The name of the Amazon EC2 security group.
-  final String? eC2SecurityGroupName;
-
-  /// The Amazon account ID of the Amazon EC2 security group owner.
-  final String? eC2SecurityGroupOwnerId;
-
-  /// The status of the Amazon EC2 security group.
-  final String? status;
-
-  EC2SecurityGroup({
-    this.eC2SecurityGroupName,
-    this.eC2SecurityGroupOwnerId,
-    this.status,
-  });
-  factory EC2SecurityGroup.fromXml(_s.XmlElement elem) {
-    return EC2SecurityGroup(
-      eC2SecurityGroupName:
-          _s.extractXmlStringValue(elem, 'EC2SecurityGroupName'),
-      eC2SecurityGroupOwnerId:
-          _s.extractXmlStringValue(elem, 'EC2SecurityGroupOwnerId'),
-      status: _s.extractXmlStringValue(elem, 'Status'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eC2SecurityGroupName = this.eC2SecurityGroupName;
-    final eC2SecurityGroupOwnerId = this.eC2SecurityGroupOwnerId;
-    final status = this.status;
-    return {
-      if (eC2SecurityGroupName != null)
-        'EC2SecurityGroupName': eC2SecurityGroupName,
-      if (eC2SecurityGroupOwnerId != null)
-        'EC2SecurityGroupOwnerId': eC2SecurityGroupOwnerId,
-      if (status != null) 'Status': status,
-    };
-  }
-}
-
-/// The configuration for the number of ElastiCache Processing Units (ECPU) the
-/// cache can consume per second.
-class ECPUPerSecond {
-  /// The configuration for the maximum number of ECPUs the cache can consume per
-  /// second.
-  final int? maximum;
-
-  /// The configuration for the minimum number of ECPUs the cache should be able
-  /// consume per second.
-  final int? minimum;
-
-  ECPUPerSecond({
-    this.maximum,
-    this.minimum,
-  });
-  factory ECPUPerSecond.fromXml(_s.XmlElement elem) {
-    return ECPUPerSecond(
-      maximum: _s.extractXmlIntValue(elem, 'Maximum'),
-      minimum: _s.extractXmlIntValue(elem, 'Minimum'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final maximum = this.maximum;
-    final minimum = this.minimum;
-    return {
-      if (maximum != null) 'Maximum': maximum,
-      if (minimum != null) 'Minimum': minimum,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final maximum = this.maximum;
-    final minimum = this.minimum;
-    return {
-      if (maximum != null) 'Maximum': maximum.toString(),
-      if (minimum != null) 'Minimum': minimum.toString(),
-    };
-  }
-}
-
-/// Represents the information required for client programs to connect to a
-/// cache node. This value is read-only.
-class Endpoint {
-  /// The DNS hostname of the cache node.
-  final String? address;
-
-  /// The port number that the cache engine is listening on.
-  final int? port;
-
-  Endpoint({
-    this.address,
-    this.port,
-  });
-  factory Endpoint.fromXml(_s.XmlElement elem) {
-    return Endpoint(
-      address: _s.extractXmlStringValue(elem, 'Address'),
-      port: _s.extractXmlIntValue(elem, 'Port'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final address = this.address;
-    final port = this.port;
-    return {
-      if (address != null) 'Address': address,
-      if (port != null) 'Port': port,
-    };
-  }
-}
-
-/// Represents the output of a <code>DescribeEngineDefaultParameters</code>
-/// operation.
-class EngineDefaults {
-  /// A list of parameters specific to a particular cache node type. Each element
-  /// in the list contains detailed information about one parameter.
-  final List<CacheNodeTypeSpecificParameter>? cacheNodeTypeSpecificParameters;
-
-  /// Specifies the name of the cache parameter group family to which the engine
-  /// default parameters apply.
-  ///
-  /// Valid values are: <code>memcached1.4</code> | <code>memcached1.5</code> |
-  /// <code>memcached1.6</code> | <code>redis2.6</code> | <code>redis2.8</code> |
-  /// <code>redis3.2</code> | <code>redis4.0</code> | <code>redis5.0</code> |
-  /// <code>redis6.0</code> | <code>redis6.x</code> | <code>redis7</code>
-  final String? cacheParameterGroupFamily;
-
-  /// Provides an identifier to allow retrieval of paginated results.
-  final String? marker;
-
-  /// Contains a list of engine default parameters.
-  final List<Parameter>? parameters;
-
-  EngineDefaults({
-    this.cacheNodeTypeSpecificParameters,
-    this.cacheParameterGroupFamily,
-    this.marker,
-    this.parameters,
-  });
-  factory EngineDefaults.fromXml(_s.XmlElement elem) {
-    return EngineDefaults(
-      cacheNodeTypeSpecificParameters: _s
-          .extractXmlChild(elem, 'CacheNodeTypeSpecificParameters')
-          ?.let((elem) => elem
-              .findElements('CacheNodeTypeSpecificParameter')
-              .map(CacheNodeTypeSpecificParameter.fromXml)
-              .toList()),
-      cacheParameterGroupFamily:
-          _s.extractXmlStringValue(elem, 'CacheParameterGroupFamily'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      parameters: _s.extractXmlChild(elem, 'Parameters')?.let((elem) =>
-          elem.findElements('Parameter').map(Parameter.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cacheNodeTypeSpecificParameters =
-        this.cacheNodeTypeSpecificParameters;
-    final cacheParameterGroupFamily = this.cacheParameterGroupFamily;
-    final marker = this.marker;
-    final parameters = this.parameters;
-    return {
-      if (cacheNodeTypeSpecificParameters != null)
-        'CacheNodeTypeSpecificParameters': cacheNodeTypeSpecificParameters,
-      if (cacheParameterGroupFamily != null)
-        'CacheParameterGroupFamily': cacheParameterGroupFamily,
-      if (marker != null) 'Marker': marker,
-      if (parameters != null) 'Parameters': parameters,
-    };
-  }
-}
-
-/// Represents a single occurrence of something interesting within the system.
-/// Some examples of events are creating a cluster, adding or removing a cache
-/// node, or rebooting a node.
-class Event {
-  /// The date and time when the event occurred.
-  final DateTime? date;
-
-  /// The text of the event.
-  final String? message;
-
-  /// The identifier for the source of the event. For example, if the event
-  /// occurred at the cluster level, the identifier would be the name of the
-  /// cluster.
-  final String? sourceIdentifier;
-
-  /// Specifies the origin of this event - a cluster, a parameter group, a
-  /// security group, etc.
-  final SourceType? sourceType;
-
-  Event({
-    this.date,
-    this.message,
-    this.sourceIdentifier,
-    this.sourceType,
-  });
-  factory Event.fromXml(_s.XmlElement elem) {
-    return Event(
-      date: _s.extractXmlDateTimeValue(elem, 'Date'),
-      message: _s.extractXmlStringValue(elem, 'Message'),
-      sourceIdentifier: _s.extractXmlStringValue(elem, 'SourceIdentifier'),
-      sourceType: _s
-          .extractXmlStringValue(elem, 'SourceType')
-          ?.let(SourceType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final date = this.date;
-    final message = this.message;
-    final sourceIdentifier = this.sourceIdentifier;
-    final sourceType = this.sourceType;
-    return {
-      if (date != null) 'Date': iso8601ToJson(date),
-      if (message != null) 'Message': message,
-      if (sourceIdentifier != null) 'SourceIdentifier': sourceIdentifier,
-      if (sourceType != null) 'SourceType': sourceType.value,
-    };
-  }
-}
-
-/// Represents the output of a <code>DescribeEvents</code> operation.
-class EventsMessage {
-  /// A list of events. Each element in the list contains detailed information
-  /// about one event.
-  final List<Event>? events;
-
-  /// Provides an identifier to allow retrieval of paginated results.
-  final String? marker;
-
-  EventsMessage({
-    this.events,
-    this.marker,
-  });
-  factory EventsMessage.fromXml(_s.XmlElement elem) {
-    return EventsMessage(
-      events: _s.extractXmlChild(elem, 'Events')?.let(
-          (elem) => elem.findElements('Event').map(Event.fromXml).toList()),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final events = this.events;
-    final marker = this.marker;
-    return {
-      if (events != null) 'Events': events,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-class ExportServerlessCacheSnapshotResponse {
-  /// The state of a serverless cache at a specific point in time, to the
-  /// millisecond. Available for Redis OSS and Serverless Memcached only.
-  final ServerlessCacheSnapshot? serverlessCacheSnapshot;
-
-  ExportServerlessCacheSnapshotResponse({
-    this.serverlessCacheSnapshot,
-  });
-  factory ExportServerlessCacheSnapshotResponse.fromXml(_s.XmlElement elem) {
-    return ExportServerlessCacheSnapshotResponse(
-      serverlessCacheSnapshot: _s
-          .extractXmlChild(elem, 'ServerlessCacheSnapshot')
-          ?.let(ServerlessCacheSnapshot.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final serverlessCacheSnapshot = this.serverlessCacheSnapshot;
-    return {
-      if (serverlessCacheSnapshot != null)
-        'ServerlessCacheSnapshot': serverlessCacheSnapshot,
-    };
-  }
-}
-
-class FailoverGlobalReplicationGroupResult {
-  final GlobalReplicationGroup? globalReplicationGroup;
-
-  FailoverGlobalReplicationGroupResult({
-    this.globalReplicationGroup,
-  });
-  factory FailoverGlobalReplicationGroupResult.fromXml(_s.XmlElement elem) {
-    return FailoverGlobalReplicationGroupResult(
-      globalReplicationGroup: _s
-          .extractXmlChild(elem, 'GlobalReplicationGroup')
-          ?.let(GlobalReplicationGroup.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final globalReplicationGroup = this.globalReplicationGroup;
-    return {
-      if (globalReplicationGroup != null)
-        'GlobalReplicationGroup': globalReplicationGroup,
-    };
-  }
-}
-
-/// Used to streamline results of a search based on the property being filtered.
-class Filter {
-  /// The property being filtered. For example, UserId.
-  final String name;
-
-  /// The property values to filter on. For example, "user-123".
-  final List<String> values;
-
-  Filter({
-    required this.name,
-    required this.values,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final values = this.values;
-    return {
-      'Name': name,
-      'Values': values,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final name = this.name;
-    final values = this.values;
-    return {
-      'Name': name,
-      if (values.isEmpty)
-        'Values': ''
-      else
-        for (var i1 = 0; i1 < values.length; i1++)
-          'Values.member.${i1 + 1}': values[i1],
-    };
-  }
-}
-
-/// Indicates the slot configuration and global identifier for a slice group.
-class GlobalNodeGroup {
-  /// The name of the global node group
-  final String? globalNodeGroupId;
-
-  /// The keyspace for this node group
-  final String? slots;
-
-  GlobalNodeGroup({
-    this.globalNodeGroupId,
-    this.slots,
-  });
-  factory GlobalNodeGroup.fromXml(_s.XmlElement elem) {
-    return GlobalNodeGroup(
-      globalNodeGroupId: _s.extractXmlStringValue(elem, 'GlobalNodeGroupId'),
-      slots: _s.extractXmlStringValue(elem, 'Slots'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final globalNodeGroupId = this.globalNodeGroupId;
-    final slots = this.slots;
-    return {
-      if (globalNodeGroupId != null) 'GlobalNodeGroupId': globalNodeGroupId,
-      if (slots != null) 'Slots': slots,
+      if (scaleIntervalMinutes != null)
+        'ScaleIntervalMinutes': scaleIntervalMinutes.toString(),
+      if (scalePercentage != null)
+        'ScalePercentage': scalePercentage.toString(),
     };
   }
 }
@@ -10142,7 +11385,7 @@ class GlobalReplicationGroup {
   final bool? atRestEncryptionEnabled;
 
   /// A flag that enables using an <code>AuthToken</code> (password) when issuing
-  /// Redis OSS commands.
+  /// Valkey or Redis OSS commands.
   ///
   /// Default: <code>false</code>
   final bool? authTokenEnabled;
@@ -10153,10 +11396,10 @@ class GlobalReplicationGroup {
   /// A flag that indicates whether the Global datastore is cluster enabled.
   final bool? clusterEnabled;
 
-  /// The Elasticache engine. For Redis OSS only.
+  /// The ElastiCache engine. For Valkey or Redis OSS only.
   final String? engine;
 
-  /// The Elasticache (Redis OSS) engine version.
+  /// The ElastiCache engine version.
   final String? engineVersion;
 
   /// Indicates the slot configuration and global identifier for each slice group.
@@ -10262,38 +11505,31 @@ class GlobalReplicationGroup {
   }
 }
 
-/// The name of the Global datastore and role of this replication group in the
-/// Global datastore.
-class GlobalReplicationGroupInfo {
-  /// The name of the Global datastore
-  final String? globalReplicationGroupId;
+/// Indicates the slot configuration and global identifier for a slice group.
+class GlobalNodeGroup {
+  /// The name of the global node group
+  final String? globalNodeGroupId;
 
-  /// The role of the replication group in a Global datastore. Can be primary or
-  /// secondary.
-  final String? globalReplicationGroupMemberRole;
+  /// The keyspace for this node group
+  final String? slots;
 
-  GlobalReplicationGroupInfo({
-    this.globalReplicationGroupId,
-    this.globalReplicationGroupMemberRole,
+  GlobalNodeGroup({
+    this.globalNodeGroupId,
+    this.slots,
   });
-  factory GlobalReplicationGroupInfo.fromXml(_s.XmlElement elem) {
-    return GlobalReplicationGroupInfo(
-      globalReplicationGroupId:
-          _s.extractXmlStringValue(elem, 'GlobalReplicationGroupId'),
-      globalReplicationGroupMemberRole:
-          _s.extractXmlStringValue(elem, 'GlobalReplicationGroupMemberRole'),
+  factory GlobalNodeGroup.fromXml(_s.XmlElement elem) {
+    return GlobalNodeGroup(
+      globalNodeGroupId: _s.extractXmlStringValue(elem, 'GlobalNodeGroupId'),
+      slots: _s.extractXmlStringValue(elem, 'Slots'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final globalReplicationGroupId = this.globalReplicationGroupId;
-    final globalReplicationGroupMemberRole =
-        this.globalReplicationGroupMemberRole;
+    final globalNodeGroupId = this.globalNodeGroupId;
+    final slots = this.slots;
     return {
-      if (globalReplicationGroupId != null)
-        'GlobalReplicationGroupId': globalReplicationGroupId,
-      if (globalReplicationGroupMemberRole != null)
-        'GlobalReplicationGroupMemberRole': globalReplicationGroupMemberRole,
+      if (globalNodeGroupId != null) 'GlobalNodeGroupId': globalNodeGroupId,
+      if (slots != null) 'Slots': slots,
     };
   }
 }
@@ -10354,2078 +11590,6 @@ class GlobalReplicationGroupMember {
   }
 }
 
-class IncreaseNodeGroupsInGlobalReplicationGroupResult {
-  final GlobalReplicationGroup? globalReplicationGroup;
-
-  IncreaseNodeGroupsInGlobalReplicationGroupResult({
-    this.globalReplicationGroup,
-  });
-  factory IncreaseNodeGroupsInGlobalReplicationGroupResult.fromXml(
-      _s.XmlElement elem) {
-    return IncreaseNodeGroupsInGlobalReplicationGroupResult(
-      globalReplicationGroup: _s
-          .extractXmlChild(elem, 'GlobalReplicationGroup')
-          ?.let(GlobalReplicationGroup.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final globalReplicationGroup = this.globalReplicationGroup;
-    return {
-      if (globalReplicationGroup != null)
-        'GlobalReplicationGroup': globalReplicationGroup,
-    };
-  }
-}
-
-class IncreaseReplicaCountResult {
-  final ReplicationGroup? replicationGroup;
-
-  IncreaseReplicaCountResult({
-    this.replicationGroup,
-  });
-  factory IncreaseReplicaCountResult.fromXml(_s.XmlElement elem) {
-    return IncreaseReplicaCountResult(
-      replicationGroup: _s
-          .extractXmlChild(elem, 'ReplicationGroup')
-          ?.let(ReplicationGroup.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final replicationGroup = this.replicationGroup;
-    return {
-      if (replicationGroup != null) 'ReplicationGroup': replicationGroup,
-    };
-  }
-}
-
-class InputAuthenticationType {
-  static const password = InputAuthenticationType._('password');
-  static const noPasswordRequired =
-      InputAuthenticationType._('no-password-required');
-  static const iam = InputAuthenticationType._('iam');
-
-  final String value;
-
-  const InputAuthenticationType._(this.value);
-
-  static const values = [password, noPasswordRequired, iam];
-
-  static InputAuthenticationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => InputAuthenticationType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is InputAuthenticationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class IpDiscovery {
-  static const ipv4 = IpDiscovery._('ipv4');
-  static const ipv6 = IpDiscovery._('ipv6');
-
-  final String value;
-
-  const IpDiscovery._(this.value);
-
-  static const values = [ipv4, ipv6];
-
-  static IpDiscovery fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => IpDiscovery._(value));
-
-  @override
-  bool operator ==(other) => other is IpDiscovery && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The configuration details of the Kinesis Data Firehose destination.
-class KinesisFirehoseDestinationDetails {
-  /// The name of the Kinesis Data Firehose delivery stream.
-  final String? deliveryStream;
-
-  KinesisFirehoseDestinationDetails({
-    this.deliveryStream,
-  });
-  factory KinesisFirehoseDestinationDetails.fromXml(_s.XmlElement elem) {
-    return KinesisFirehoseDestinationDetails(
-      deliveryStream: _s.extractXmlStringValue(elem, 'DeliveryStream'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deliveryStream = this.deliveryStream;
-    return {
-      if (deliveryStream != null) 'DeliveryStream': deliveryStream,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final deliveryStream = this.deliveryStream;
-    return {
-      if (deliveryStream != null) 'DeliveryStream': deliveryStream,
-    };
-  }
-}
-
-/// Returns the destination, format and type of the logs.
-class LogDeliveryConfiguration {
-  /// Configuration details of either a CloudWatch Logs destination or Kinesis
-  /// Data Firehose destination.
-  final DestinationDetails? destinationDetails;
-
-  /// Returns the destination type, either <code>cloudwatch-logs</code> or
-  /// <code>kinesis-firehose</code>.
-  final DestinationType? destinationType;
-
-  /// Returns the log format, either JSON or TEXT.
-  final LogFormat? logFormat;
-
-  /// Refers to <a href="https://redis.io/commands/slowlog">slow-log</a> or
-  /// engine-log.
-  final LogType? logType;
-
-  /// Returns an error message for the log delivery configuration.
-  final String? message;
-
-  /// Returns the log delivery configuration status. Values are one of
-  /// <code>enabling</code> | <code>disabling</code> | <code>modifying</code> |
-  /// <code>active</code> | <code>error</code>
-  final LogDeliveryConfigurationStatus? status;
-
-  LogDeliveryConfiguration({
-    this.destinationDetails,
-    this.destinationType,
-    this.logFormat,
-    this.logType,
-    this.message,
-    this.status,
-  });
-  factory LogDeliveryConfiguration.fromXml(_s.XmlElement elem) {
-    return LogDeliveryConfiguration(
-      destinationDetails: _s
-          .extractXmlChild(elem, 'DestinationDetails')
-          ?.let(DestinationDetails.fromXml),
-      destinationType: _s
-          .extractXmlStringValue(elem, 'DestinationType')
-          ?.let(DestinationType.fromString),
-      logFormat: _s
-          .extractXmlStringValue(elem, 'LogFormat')
-          ?.let(LogFormat.fromString),
-      logType:
-          _s.extractXmlStringValue(elem, 'LogType')?.let(LogType.fromString),
-      message: _s.extractXmlStringValue(elem, 'Message'),
-      status: _s
-          .extractXmlStringValue(elem, 'Status')
-          ?.let(LogDeliveryConfigurationStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final destinationDetails = this.destinationDetails;
-    final destinationType = this.destinationType;
-    final logFormat = this.logFormat;
-    final logType = this.logType;
-    final message = this.message;
-    final status = this.status;
-    return {
-      if (destinationDetails != null) 'DestinationDetails': destinationDetails,
-      if (destinationType != null) 'DestinationType': destinationType.value,
-      if (logFormat != null) 'LogFormat': logFormat.value,
-      if (logType != null) 'LogType': logType.value,
-      if (message != null) 'Message': message,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-/// Specifies the destination, format and type of the logs.
-class LogDeliveryConfigurationRequest {
-  /// Configuration details of either a CloudWatch Logs destination or Kinesis
-  /// Data Firehose destination.
-  final DestinationDetails? destinationDetails;
-
-  /// Specify either <code>cloudwatch-logs</code> or <code>kinesis-firehose</code>
-  /// as the destination type.
-  final DestinationType? destinationType;
-
-  /// Specify if log delivery is enabled. Default <code>true</code>.
-  final bool? enabled;
-
-  /// Specifies either JSON or TEXT
-  final LogFormat? logFormat;
-
-  /// Refers to <a href="https://redis.io/commands/slowlog">slow-log</a> or
-  /// engine-log..
-  final LogType? logType;
-
-  LogDeliveryConfigurationRequest({
-    this.destinationDetails,
-    this.destinationType,
-    this.enabled,
-    this.logFormat,
-    this.logType,
-  });
-
-  Map<String, dynamic> toJson() {
-    final destinationDetails = this.destinationDetails;
-    final destinationType = this.destinationType;
-    final enabled = this.enabled;
-    final logFormat = this.logFormat;
-    final logType = this.logType;
-    return {
-      if (destinationDetails != null) 'DestinationDetails': destinationDetails,
-      if (destinationType != null) 'DestinationType': destinationType.value,
-      if (enabled != null) 'Enabled': enabled,
-      if (logFormat != null) 'LogFormat': logFormat.value,
-      if (logType != null) 'LogType': logType.value,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final destinationDetails = this.destinationDetails;
-    final destinationType = this.destinationType;
-    final enabled = this.enabled;
-    final logFormat = this.logFormat;
-    final logType = this.logType;
-    return {
-      if (destinationDetails != null)
-        for (var e1 in destinationDetails.toQueryMap().entries)
-          'DestinationDetails.${e1.key}': e1.value,
-      if (destinationType != null) 'DestinationType': destinationType.value,
-      if (enabled != null) 'Enabled': enabled.toString(),
-      if (logFormat != null) 'LogFormat': logFormat.value,
-      if (logType != null) 'LogType': logType.value,
-    };
-  }
-}
-
-class LogDeliveryConfigurationStatus {
-  static const active = LogDeliveryConfigurationStatus._('active');
-  static const enabling = LogDeliveryConfigurationStatus._('enabling');
-  static const modifying = LogDeliveryConfigurationStatus._('modifying');
-  static const disabling = LogDeliveryConfigurationStatus._('disabling');
-  static const error = LogDeliveryConfigurationStatus._('error');
-
-  final String value;
-
-  const LogDeliveryConfigurationStatus._(this.value);
-
-  static const values = [active, enabling, modifying, disabling, error];
-
-  static LogDeliveryConfigurationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LogDeliveryConfigurationStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is LogDeliveryConfigurationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class LogFormat {
-  static const text = LogFormat._('text');
-  static const json = LogFormat._('json');
-
-  final String value;
-
-  const LogFormat._(this.value);
-
-  static const values = [text, json];
-
-  static LogFormat fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => LogFormat._(value));
-
-  @override
-  bool operator ==(other) => other is LogFormat && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class LogType {
-  static const slowLog = LogType._('slow-log');
-  static const engineLog = LogType._('engine-log');
-
-  final String value;
-
-  const LogType._(this.value);
-
-  static const values = [slowLog, engineLog];
-
-  static LogType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => LogType._(value));
-
-  @override
-  bool operator ==(other) => other is LogType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ModifyCacheClusterResult {
-  final CacheCluster? cacheCluster;
-
-  ModifyCacheClusterResult({
-    this.cacheCluster,
-  });
-  factory ModifyCacheClusterResult.fromXml(_s.XmlElement elem) {
-    return ModifyCacheClusterResult(
-      cacheCluster:
-          _s.extractXmlChild(elem, 'CacheCluster')?.let(CacheCluster.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cacheCluster = this.cacheCluster;
-    return {
-      if (cacheCluster != null) 'CacheCluster': cacheCluster,
-    };
-  }
-}
-
-class ModifyCacheSubnetGroupResult {
-  final CacheSubnetGroup? cacheSubnetGroup;
-
-  ModifyCacheSubnetGroupResult({
-    this.cacheSubnetGroup,
-  });
-  factory ModifyCacheSubnetGroupResult.fromXml(_s.XmlElement elem) {
-    return ModifyCacheSubnetGroupResult(
-      cacheSubnetGroup: _s
-          .extractXmlChild(elem, 'CacheSubnetGroup')
-          ?.let(CacheSubnetGroup.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cacheSubnetGroup = this.cacheSubnetGroup;
-    return {
-      if (cacheSubnetGroup != null) 'CacheSubnetGroup': cacheSubnetGroup,
-    };
-  }
-}
-
-class ModifyGlobalReplicationGroupResult {
-  final GlobalReplicationGroup? globalReplicationGroup;
-
-  ModifyGlobalReplicationGroupResult({
-    this.globalReplicationGroup,
-  });
-  factory ModifyGlobalReplicationGroupResult.fromXml(_s.XmlElement elem) {
-    return ModifyGlobalReplicationGroupResult(
-      globalReplicationGroup: _s
-          .extractXmlChild(elem, 'GlobalReplicationGroup')
-          ?.let(GlobalReplicationGroup.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final globalReplicationGroup = this.globalReplicationGroup;
-    return {
-      if (globalReplicationGroup != null)
-        'GlobalReplicationGroup': globalReplicationGroup,
-    };
-  }
-}
-
-class ModifyReplicationGroupResult {
-  final ReplicationGroup? replicationGroup;
-
-  ModifyReplicationGroupResult({
-    this.replicationGroup,
-  });
-  factory ModifyReplicationGroupResult.fromXml(_s.XmlElement elem) {
-    return ModifyReplicationGroupResult(
-      replicationGroup: _s
-          .extractXmlChild(elem, 'ReplicationGroup')
-          ?.let(ReplicationGroup.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final replicationGroup = this.replicationGroup;
-    return {
-      if (replicationGroup != null) 'ReplicationGroup': replicationGroup,
-    };
-  }
-}
-
-class ModifyReplicationGroupShardConfigurationResult {
-  final ReplicationGroup? replicationGroup;
-
-  ModifyReplicationGroupShardConfigurationResult({
-    this.replicationGroup,
-  });
-  factory ModifyReplicationGroupShardConfigurationResult.fromXml(
-      _s.XmlElement elem) {
-    return ModifyReplicationGroupShardConfigurationResult(
-      replicationGroup: _s
-          .extractXmlChild(elem, 'ReplicationGroup')
-          ?.let(ReplicationGroup.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final replicationGroup = this.replicationGroup;
-    return {
-      if (replicationGroup != null) 'ReplicationGroup': replicationGroup,
-    };
-  }
-}
-
-class ModifyServerlessCacheResponse {
-  /// The response for the attempt to modify the serverless cache.
-  final ServerlessCache? serverlessCache;
-
-  ModifyServerlessCacheResponse({
-    this.serverlessCache,
-  });
-  factory ModifyServerlessCacheResponse.fromXml(_s.XmlElement elem) {
-    return ModifyServerlessCacheResponse(
-      serverlessCache: _s
-          .extractXmlChild(elem, 'ServerlessCache')
-          ?.let(ServerlessCache.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final serverlessCache = this.serverlessCache;
-    return {
-      if (serverlessCache != null) 'ServerlessCache': serverlessCache,
-    };
-  }
-}
-
-class MultiAZStatus {
-  static const enabled = MultiAZStatus._('enabled');
-  static const disabled = MultiAZStatus._('disabled');
-
-  final String value;
-
-  const MultiAZStatus._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static MultiAZStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MultiAZStatus._(value));
-
-  @override
-  bool operator ==(other) => other is MultiAZStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class NetworkType {
-  static const ipv4 = NetworkType._('ipv4');
-  static const ipv6 = NetworkType._('ipv6');
-  static const dualStack = NetworkType._('dual_stack');
-
-  final String value;
-
-  const NetworkType._(this.value);
-
-  static const values = [ipv4, ipv6, dualStack];
-
-  static NetworkType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => NetworkType._(value));
-
-  @override
-  bool operator ==(other) => other is NetworkType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents a collection of cache nodes in a replication group. One node in
-/// the node group is the read/write primary node. All the other nodes are
-/// read-only Replica nodes.
-class NodeGroup {
-  /// The identifier for the node group (shard). A Redis OSS (cluster mode
-  /// disabled) replication group contains only 1 node group; therefore, the node
-  /// group ID is 0001. A Redis OSS (cluster mode enabled) replication group
-  /// contains 1 to 90 node groups numbered 0001 to 0090. Optionally, the user can
-  /// provide the id for a node group.
-  final String? nodeGroupId;
-
-  /// A list containing information about individual nodes within the node group
-  /// (shard).
-  final List<NodeGroupMember>? nodeGroupMembers;
-
-  /// The endpoint of the primary node in this node group (shard).
-  final Endpoint? primaryEndpoint;
-
-  /// The endpoint of the replica nodes in this node group (shard). This value is
-  /// read-only.
-  final Endpoint? readerEndpoint;
-
-  /// The keyspace for this node group (shard).
-  final String? slots;
-
-  /// The current state of this replication group - <code>creating</code>,
-  /// <code>available</code>, <code>modifying</code>, <code>deleting</code>.
-  final String? status;
-
-  NodeGroup({
-    this.nodeGroupId,
-    this.nodeGroupMembers,
-    this.primaryEndpoint,
-    this.readerEndpoint,
-    this.slots,
-    this.status,
-  });
-  factory NodeGroup.fromXml(_s.XmlElement elem) {
-    return NodeGroup(
-      nodeGroupId: _s.extractXmlStringValue(elem, 'NodeGroupId'),
-      nodeGroupMembers: _s.extractXmlChild(elem, 'NodeGroupMembers')?.let(
-          (elem) => elem
-              .findElements('NodeGroupMember')
-              .map(NodeGroupMember.fromXml)
-              .toList()),
-      primaryEndpoint:
-          _s.extractXmlChild(elem, 'PrimaryEndpoint')?.let(Endpoint.fromXml),
-      readerEndpoint:
-          _s.extractXmlChild(elem, 'ReaderEndpoint')?.let(Endpoint.fromXml),
-      slots: _s.extractXmlStringValue(elem, 'Slots'),
-      status: _s.extractXmlStringValue(elem, 'Status'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nodeGroupId = this.nodeGroupId;
-    final nodeGroupMembers = this.nodeGroupMembers;
-    final primaryEndpoint = this.primaryEndpoint;
-    final readerEndpoint = this.readerEndpoint;
-    final slots = this.slots;
-    final status = this.status;
-    return {
-      if (nodeGroupId != null) 'NodeGroupId': nodeGroupId,
-      if (nodeGroupMembers != null) 'NodeGroupMembers': nodeGroupMembers,
-      if (primaryEndpoint != null) 'PrimaryEndpoint': primaryEndpoint,
-      if (readerEndpoint != null) 'ReaderEndpoint': readerEndpoint,
-      if (slots != null) 'Slots': slots,
-      if (status != null) 'Status': status,
-    };
-  }
-}
-
-/// Node group (shard) configuration options. Each node group (shard)
-/// configuration has the following: <code>Slots</code>,
-/// <code>PrimaryAvailabilityZone</code>, <code>ReplicaAvailabilityZones</code>,
-/// <code>ReplicaCount</code>.
-class NodeGroupConfiguration {
-  /// Either the ElastiCache (Redis OSS) supplied 4-digit id or a user supplied id
-  /// for the node group these configuration values apply to.
-  final String? nodeGroupId;
-
-  /// The Availability Zone where the primary node of this node group (shard) is
-  /// launched.
-  final String? primaryAvailabilityZone;
-
-  /// The outpost ARN of the primary node.
-  final String? primaryOutpostArn;
-
-  /// A list of Availability Zones to be used for the read replicas. The number of
-  /// Availability Zones in this list must match the value of
-  /// <code>ReplicaCount</code> or <code>ReplicasPerNodeGroup</code> if not
-  /// specified.
-  final List<String>? replicaAvailabilityZones;
-
-  /// The number of read replica nodes in this node group (shard).
-  final int? replicaCount;
-
-  /// The outpost ARN of the node replicas.
-  final List<String>? replicaOutpostArns;
-
-  /// A string that specifies the keyspace for a particular node group. Keyspaces
-  /// range from 0 to 16,383. The string is in the format
-  /// <code>startkey-endkey</code>.
-  ///
-  /// Example: <code>"0-3999"</code>
-  final String? slots;
-
-  NodeGroupConfiguration({
-    this.nodeGroupId,
-    this.primaryAvailabilityZone,
-    this.primaryOutpostArn,
-    this.replicaAvailabilityZones,
-    this.replicaCount,
-    this.replicaOutpostArns,
-    this.slots,
-  });
-  factory NodeGroupConfiguration.fromXml(_s.XmlElement elem) {
-    return NodeGroupConfiguration(
-      nodeGroupId: _s.extractXmlStringValue(elem, 'NodeGroupId'),
-      primaryAvailabilityZone:
-          _s.extractXmlStringValue(elem, 'PrimaryAvailabilityZone'),
-      primaryOutpostArn: _s.extractXmlStringValue(elem, 'PrimaryOutpostArn'),
-      replicaAvailabilityZones: _s
-          .extractXmlChild(elem, 'ReplicaAvailabilityZones')
-          ?.let((elem) =>
-              _s.extractXmlStringListValues(elem, 'AvailabilityZone')),
-      replicaCount: _s.extractXmlIntValue(elem, 'ReplicaCount'),
-      replicaOutpostArns: _s
-          .extractXmlChild(elem, 'ReplicaOutpostArns')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'OutpostArn')),
-      slots: _s.extractXmlStringValue(elem, 'Slots'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nodeGroupId = this.nodeGroupId;
-    final primaryAvailabilityZone = this.primaryAvailabilityZone;
-    final primaryOutpostArn = this.primaryOutpostArn;
-    final replicaAvailabilityZones = this.replicaAvailabilityZones;
-    final replicaCount = this.replicaCount;
-    final replicaOutpostArns = this.replicaOutpostArns;
-    final slots = this.slots;
-    return {
-      if (nodeGroupId != null) 'NodeGroupId': nodeGroupId,
-      if (primaryAvailabilityZone != null)
-        'PrimaryAvailabilityZone': primaryAvailabilityZone,
-      if (primaryOutpostArn != null) 'PrimaryOutpostArn': primaryOutpostArn,
-      if (replicaAvailabilityZones != null)
-        'ReplicaAvailabilityZones': replicaAvailabilityZones,
-      if (replicaCount != null) 'ReplicaCount': replicaCount,
-      if (replicaOutpostArns != null) 'ReplicaOutpostArns': replicaOutpostArns,
-      if (slots != null) 'Slots': slots,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final nodeGroupId = this.nodeGroupId;
-    final primaryAvailabilityZone = this.primaryAvailabilityZone;
-    final primaryOutpostArn = this.primaryOutpostArn;
-    final replicaAvailabilityZones = this.replicaAvailabilityZones;
-    final replicaCount = this.replicaCount;
-    final replicaOutpostArns = this.replicaOutpostArns;
-    final slots = this.slots;
-    return {
-      if (nodeGroupId != null) 'NodeGroupId': nodeGroupId,
-      if (primaryAvailabilityZone != null)
-        'PrimaryAvailabilityZone': primaryAvailabilityZone,
-      if (primaryOutpostArn != null) 'PrimaryOutpostArn': primaryOutpostArn,
-      if (replicaAvailabilityZones != null)
-        if (replicaAvailabilityZones.isEmpty)
-          'AvailabilityZone': ''
-        else
-          for (var i1 = 0; i1 < replicaAvailabilityZones.length; i1++)
-            'AvailabilityZone.AvailabilityZone.${i1 + 1}':
-                replicaAvailabilityZones[i1],
-      if (replicaCount != null) 'ReplicaCount': replicaCount.toString(),
-      if (replicaOutpostArns != null)
-        if (replicaOutpostArns.isEmpty)
-          'OutpostArn': ''
-        else
-          for (var i1 = 0; i1 < replicaOutpostArns.length; i1++)
-            'OutpostArn.OutpostArn.${i1 + 1}': replicaOutpostArns[i1],
-      if (slots != null) 'Slots': slots,
-    };
-  }
-}
-
-/// Represents a single node within a node group (shard).
-class NodeGroupMember {
-  /// The ID of the cluster to which the node belongs.
-  final String? cacheClusterId;
-
-  /// The ID of the node within its cluster. A node ID is a numeric identifier
-  /// (0001, 0002, etc.).
-  final String? cacheNodeId;
-
-  /// The role that is currently assigned to the node - <code>primary</code> or
-  /// <code>replica</code>. This member is only applicable for Redis OSS (cluster
-  /// mode disabled) replication groups.
-  final String? currentRole;
-
-  /// The name of the Availability Zone in which the node is located.
-  final String? preferredAvailabilityZone;
-
-  /// The outpost ARN of the node group member.
-  final String? preferredOutpostArn;
-
-  /// The information required for client programs to connect to a node for read
-  /// operations. The read endpoint is only applicable on Redis OSS (cluster mode
-  /// disabled) clusters.
-  final Endpoint? readEndpoint;
-
-  NodeGroupMember({
-    this.cacheClusterId,
-    this.cacheNodeId,
-    this.currentRole,
-    this.preferredAvailabilityZone,
-    this.preferredOutpostArn,
-    this.readEndpoint,
-  });
-  factory NodeGroupMember.fromXml(_s.XmlElement elem) {
-    return NodeGroupMember(
-      cacheClusterId: _s.extractXmlStringValue(elem, 'CacheClusterId'),
-      cacheNodeId: _s.extractXmlStringValue(elem, 'CacheNodeId'),
-      currentRole: _s.extractXmlStringValue(elem, 'CurrentRole'),
-      preferredAvailabilityZone:
-          _s.extractXmlStringValue(elem, 'PreferredAvailabilityZone'),
-      preferredOutpostArn:
-          _s.extractXmlStringValue(elem, 'PreferredOutpostArn'),
-      readEndpoint:
-          _s.extractXmlChild(elem, 'ReadEndpoint')?.let(Endpoint.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cacheClusterId = this.cacheClusterId;
-    final cacheNodeId = this.cacheNodeId;
-    final currentRole = this.currentRole;
-    final preferredAvailabilityZone = this.preferredAvailabilityZone;
-    final preferredOutpostArn = this.preferredOutpostArn;
-    final readEndpoint = this.readEndpoint;
-    return {
-      if (cacheClusterId != null) 'CacheClusterId': cacheClusterId,
-      if (cacheNodeId != null) 'CacheNodeId': cacheNodeId,
-      if (currentRole != null) 'CurrentRole': currentRole,
-      if (preferredAvailabilityZone != null)
-        'PreferredAvailabilityZone': preferredAvailabilityZone,
-      if (preferredOutpostArn != null)
-        'PreferredOutpostArn': preferredOutpostArn,
-      if (readEndpoint != null) 'ReadEndpoint': readEndpoint,
-    };
-  }
-}
-
-/// The status of the service update on the node group member
-class NodeGroupMemberUpdateStatus {
-  /// The cache cluster ID
-  final String? cacheClusterId;
-
-  /// The node ID of the cache cluster
-  final String? cacheNodeId;
-
-  /// The deletion date of the node
-  final DateTime? nodeDeletionDate;
-
-  /// The end date of the update for a node
-  final DateTime? nodeUpdateEndDate;
-
-  /// Reflects whether the update was initiated by the customer or automatically
-  /// applied
-  final NodeUpdateInitiatedBy? nodeUpdateInitiatedBy;
-
-  /// The date when the update is triggered
-  final DateTime? nodeUpdateInitiatedDate;
-
-  /// The start date of the update for a node
-  final DateTime? nodeUpdateStartDate;
-
-  /// The update status of the node
-  final NodeUpdateStatus? nodeUpdateStatus;
-
-  /// The date when the NodeUpdateStatus was last modified
-  final DateTime? nodeUpdateStatusModifiedDate;
-
-  NodeGroupMemberUpdateStatus({
-    this.cacheClusterId,
-    this.cacheNodeId,
-    this.nodeDeletionDate,
-    this.nodeUpdateEndDate,
-    this.nodeUpdateInitiatedBy,
-    this.nodeUpdateInitiatedDate,
-    this.nodeUpdateStartDate,
-    this.nodeUpdateStatus,
-    this.nodeUpdateStatusModifiedDate,
-  });
-  factory NodeGroupMemberUpdateStatus.fromXml(_s.XmlElement elem) {
-    return NodeGroupMemberUpdateStatus(
-      cacheClusterId: _s.extractXmlStringValue(elem, 'CacheClusterId'),
-      cacheNodeId: _s.extractXmlStringValue(elem, 'CacheNodeId'),
-      nodeDeletionDate: _s.extractXmlDateTimeValue(elem, 'NodeDeletionDate'),
-      nodeUpdateEndDate: _s.extractXmlDateTimeValue(elem, 'NodeUpdateEndDate'),
-      nodeUpdateInitiatedBy: _s
-          .extractXmlStringValue(elem, 'NodeUpdateInitiatedBy')
-          ?.let(NodeUpdateInitiatedBy.fromString),
-      nodeUpdateInitiatedDate:
-          _s.extractXmlDateTimeValue(elem, 'NodeUpdateInitiatedDate'),
-      nodeUpdateStartDate:
-          _s.extractXmlDateTimeValue(elem, 'NodeUpdateStartDate'),
-      nodeUpdateStatus: _s
-          .extractXmlStringValue(elem, 'NodeUpdateStatus')
-          ?.let(NodeUpdateStatus.fromString),
-      nodeUpdateStatusModifiedDate:
-          _s.extractXmlDateTimeValue(elem, 'NodeUpdateStatusModifiedDate'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cacheClusterId = this.cacheClusterId;
-    final cacheNodeId = this.cacheNodeId;
-    final nodeDeletionDate = this.nodeDeletionDate;
-    final nodeUpdateEndDate = this.nodeUpdateEndDate;
-    final nodeUpdateInitiatedBy = this.nodeUpdateInitiatedBy;
-    final nodeUpdateInitiatedDate = this.nodeUpdateInitiatedDate;
-    final nodeUpdateStartDate = this.nodeUpdateStartDate;
-    final nodeUpdateStatus = this.nodeUpdateStatus;
-    final nodeUpdateStatusModifiedDate = this.nodeUpdateStatusModifiedDate;
-    return {
-      if (cacheClusterId != null) 'CacheClusterId': cacheClusterId,
-      if (cacheNodeId != null) 'CacheNodeId': cacheNodeId,
-      if (nodeDeletionDate != null)
-        'NodeDeletionDate': iso8601ToJson(nodeDeletionDate),
-      if (nodeUpdateEndDate != null)
-        'NodeUpdateEndDate': iso8601ToJson(nodeUpdateEndDate),
-      if (nodeUpdateInitiatedBy != null)
-        'NodeUpdateInitiatedBy': nodeUpdateInitiatedBy.value,
-      if (nodeUpdateInitiatedDate != null)
-        'NodeUpdateInitiatedDate': iso8601ToJson(nodeUpdateInitiatedDate),
-      if (nodeUpdateStartDate != null)
-        'NodeUpdateStartDate': iso8601ToJson(nodeUpdateStartDate),
-      if (nodeUpdateStatus != null) 'NodeUpdateStatus': nodeUpdateStatus.value,
-      if (nodeUpdateStatusModifiedDate != null)
-        'NodeUpdateStatusModifiedDate':
-            iso8601ToJson(nodeUpdateStatusModifiedDate),
-    };
-  }
-}
-
-/// The status of the service update on the node group
-class NodeGroupUpdateStatus {
-  /// The ID of the node group
-  final String? nodeGroupId;
-
-  /// The status of the service update on the node group member
-  final List<NodeGroupMemberUpdateStatus>? nodeGroupMemberUpdateStatus;
-
-  NodeGroupUpdateStatus({
-    this.nodeGroupId,
-    this.nodeGroupMemberUpdateStatus,
-  });
-  factory NodeGroupUpdateStatus.fromXml(_s.XmlElement elem) {
-    return NodeGroupUpdateStatus(
-      nodeGroupId: _s.extractXmlStringValue(elem, 'NodeGroupId'),
-      nodeGroupMemberUpdateStatus: _s
-          .extractXmlChild(elem, 'NodeGroupMemberUpdateStatus')
-          ?.let((elem) => elem
-              .findElements('NodeGroupMemberUpdateStatus')
-              .map(NodeGroupMemberUpdateStatus.fromXml)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nodeGroupId = this.nodeGroupId;
-    final nodeGroupMemberUpdateStatus = this.nodeGroupMemberUpdateStatus;
-    return {
-      if (nodeGroupId != null) 'NodeGroupId': nodeGroupId,
-      if (nodeGroupMemberUpdateStatus != null)
-        'NodeGroupMemberUpdateStatus': nodeGroupMemberUpdateStatus,
-    };
-  }
-}
-
-/// Represents an individual cache node in a snapshot of a cluster.
-class NodeSnapshot {
-  /// A unique identifier for the source cluster.
-  final String? cacheClusterId;
-
-  /// The date and time when the cache node was created in the source cluster.
-  final DateTime? cacheNodeCreateTime;
-
-  /// The cache node identifier for the node in the source cluster.
-  final String? cacheNodeId;
-
-  /// The size of the cache on the source cache node.
-  final String? cacheSize;
-
-  /// The configuration for the source node group (shard).
-  final NodeGroupConfiguration? nodeGroupConfiguration;
-
-  /// A unique identifier for the source node group (shard).
-  final String? nodeGroupId;
-
-  /// The date and time when the source node's metadata and cache data set was
-  /// obtained for the snapshot.
-  final DateTime? snapshotCreateTime;
-
-  NodeSnapshot({
-    this.cacheClusterId,
-    this.cacheNodeCreateTime,
-    this.cacheNodeId,
-    this.cacheSize,
-    this.nodeGroupConfiguration,
-    this.nodeGroupId,
-    this.snapshotCreateTime,
-  });
-  factory NodeSnapshot.fromXml(_s.XmlElement elem) {
-    return NodeSnapshot(
-      cacheClusterId: _s.extractXmlStringValue(elem, 'CacheClusterId'),
-      cacheNodeCreateTime:
-          _s.extractXmlDateTimeValue(elem, 'CacheNodeCreateTime'),
-      cacheNodeId: _s.extractXmlStringValue(elem, 'CacheNodeId'),
-      cacheSize: _s.extractXmlStringValue(elem, 'CacheSize'),
-      nodeGroupConfiguration: _s
-          .extractXmlChild(elem, 'NodeGroupConfiguration')
-          ?.let(NodeGroupConfiguration.fromXml),
-      nodeGroupId: _s.extractXmlStringValue(elem, 'NodeGroupId'),
-      snapshotCreateTime:
-          _s.extractXmlDateTimeValue(elem, 'SnapshotCreateTime'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cacheClusterId = this.cacheClusterId;
-    final cacheNodeCreateTime = this.cacheNodeCreateTime;
-    final cacheNodeId = this.cacheNodeId;
-    final cacheSize = this.cacheSize;
-    final nodeGroupConfiguration = this.nodeGroupConfiguration;
-    final nodeGroupId = this.nodeGroupId;
-    final snapshotCreateTime = this.snapshotCreateTime;
-    return {
-      if (cacheClusterId != null) 'CacheClusterId': cacheClusterId,
-      if (cacheNodeCreateTime != null)
-        'CacheNodeCreateTime': iso8601ToJson(cacheNodeCreateTime),
-      if (cacheNodeId != null) 'CacheNodeId': cacheNodeId,
-      if (cacheSize != null) 'CacheSize': cacheSize,
-      if (nodeGroupConfiguration != null)
-        'NodeGroupConfiguration': nodeGroupConfiguration,
-      if (nodeGroupId != null) 'NodeGroupId': nodeGroupId,
-      if (snapshotCreateTime != null)
-        'SnapshotCreateTime': iso8601ToJson(snapshotCreateTime),
-    };
-  }
-}
-
-class NodeUpdateInitiatedBy {
-  static const system = NodeUpdateInitiatedBy._('system');
-  static const customer = NodeUpdateInitiatedBy._('customer');
-
-  final String value;
-
-  const NodeUpdateInitiatedBy._(this.value);
-
-  static const values = [system, customer];
-
-  static NodeUpdateInitiatedBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => NodeUpdateInitiatedBy._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is NodeUpdateInitiatedBy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class NodeUpdateStatus {
-  static const notApplied = NodeUpdateStatus._('not-applied');
-  static const waitingToStart = NodeUpdateStatus._('waiting-to-start');
-  static const inProgress = NodeUpdateStatus._('in-progress');
-  static const stopping = NodeUpdateStatus._('stopping');
-  static const stopped = NodeUpdateStatus._('stopped');
-  static const complete = NodeUpdateStatus._('complete');
-
-  final String value;
-
-  const NodeUpdateStatus._(this.value);
-
-  static const values = [
-    notApplied,
-    waitingToStart,
-    inProgress,
-    stopping,
-    stopped,
-    complete
-  ];
-
-  static NodeUpdateStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => NodeUpdateStatus._(value));
-
-  @override
-  bool operator ==(other) => other is NodeUpdateStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes a notification topic and its status. Notification topics are used
-/// for publishing ElastiCache events to subscribers using Amazon Simple
-/// Notification Service (SNS).
-class NotificationConfiguration {
-  /// The Amazon Resource Name (ARN) that identifies the topic.
-  final String? topicArn;
-
-  /// The current state of the topic.
-  final String? topicStatus;
-
-  NotificationConfiguration({
-    this.topicArn,
-    this.topicStatus,
-  });
-  factory NotificationConfiguration.fromXml(_s.XmlElement elem) {
-    return NotificationConfiguration(
-      topicArn: _s.extractXmlStringValue(elem, 'TopicArn'),
-      topicStatus: _s.extractXmlStringValue(elem, 'TopicStatus'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final topicArn = this.topicArn;
-    final topicStatus = this.topicStatus;
-    return {
-      if (topicArn != null) 'TopicArn': topicArn,
-      if (topicStatus != null) 'TopicStatus': topicStatus,
-    };
-  }
-}
-
-class OutpostMode {
-  static const singleOutpost = OutpostMode._('single-outpost');
-  static const crossOutpost = OutpostMode._('cross-outpost');
-
-  final String value;
-
-  const OutpostMode._(this.value);
-
-  static const values = [singleOutpost, crossOutpost];
-
-  static OutpostMode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => OutpostMode._(value));
-
-  @override
-  bool operator ==(other) => other is OutpostMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes an individual setting that controls some aspect of ElastiCache
-/// behavior.
-class Parameter {
-  /// The valid range of values for the parameter.
-  final String? allowedValues;
-
-  /// Indicates whether a change to the parameter is applied immediately or
-  /// requires a reboot for the change to be applied. You can force a reboot or
-  /// wait until the next maintenance window's reboot. For more information, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Clusters.Rebooting.html">Rebooting
-  /// a Cluster</a>.
-  final ChangeType? changeType;
-
-  /// The valid data type for the parameter.
-  final String? dataType;
-
-  /// A description of the parameter.
-  final String? description;
-
-  /// Indicates whether (<code>true</code>) or not (<code>false</code>) the
-  /// parameter can be modified. Some parameters have security or operational
-  /// implications that prevent them from being changed.
-  final bool? isModifiable;
-
-  /// The earliest cache engine version to which the parameter can apply.
-  final String? minimumEngineVersion;
-
-  /// The name of the parameter.
-  final String? parameterName;
-
-  /// The value of the parameter.
-  final String? parameterValue;
-
-  /// The source of the parameter.
-  final String? source;
-
-  Parameter({
-    this.allowedValues,
-    this.changeType,
-    this.dataType,
-    this.description,
-    this.isModifiable,
-    this.minimumEngineVersion,
-    this.parameterName,
-    this.parameterValue,
-    this.source,
-  });
-  factory Parameter.fromXml(_s.XmlElement elem) {
-    return Parameter(
-      allowedValues: _s.extractXmlStringValue(elem, 'AllowedValues'),
-      changeType: _s
-          .extractXmlStringValue(elem, 'ChangeType')
-          ?.let(ChangeType.fromString),
-      dataType: _s.extractXmlStringValue(elem, 'DataType'),
-      description: _s.extractXmlStringValue(elem, 'Description'),
-      isModifiable: _s.extractXmlBoolValue(elem, 'IsModifiable'),
-      minimumEngineVersion:
-          _s.extractXmlStringValue(elem, 'MinimumEngineVersion'),
-      parameterName: _s.extractXmlStringValue(elem, 'ParameterName'),
-      parameterValue: _s.extractXmlStringValue(elem, 'ParameterValue'),
-      source: _s.extractXmlStringValue(elem, 'Source'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final allowedValues = this.allowedValues;
-    final changeType = this.changeType;
-    final dataType = this.dataType;
-    final description = this.description;
-    final isModifiable = this.isModifiable;
-    final minimumEngineVersion = this.minimumEngineVersion;
-    final parameterName = this.parameterName;
-    final parameterValue = this.parameterValue;
-    final source = this.source;
-    return {
-      if (allowedValues != null) 'AllowedValues': allowedValues,
-      if (changeType != null) 'ChangeType': changeType.value,
-      if (dataType != null) 'DataType': dataType,
-      if (description != null) 'Description': description,
-      if (isModifiable != null) 'IsModifiable': isModifiable,
-      if (minimumEngineVersion != null)
-        'MinimumEngineVersion': minimumEngineVersion,
-      if (parameterName != null) 'ParameterName': parameterName,
-      if (parameterValue != null) 'ParameterValue': parameterValue,
-      if (source != null) 'Source': source,
-    };
-  }
-}
-
-/// Describes a name-value pair that is used to update the value of a parameter.
-class ParameterNameValue {
-  /// The name of the parameter.
-  final String? parameterName;
-
-  /// The value of the parameter.
-  final String? parameterValue;
-
-  ParameterNameValue({
-    this.parameterName,
-    this.parameterValue,
-  });
-
-  Map<String, dynamic> toJson() {
-    final parameterName = this.parameterName;
-    final parameterValue = this.parameterValue;
-    return {
-      if (parameterName != null) 'ParameterName': parameterName,
-      if (parameterValue != null) 'ParameterValue': parameterValue,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final parameterName = this.parameterName;
-    final parameterValue = this.parameterValue;
-    return {
-      if (parameterName != null) 'ParameterName': parameterName,
-      if (parameterValue != null) 'ParameterValue': parameterValue,
-    };
-  }
-}
-
-class PendingAutomaticFailoverStatus {
-  static const enabled = PendingAutomaticFailoverStatus._('enabled');
-  static const disabled = PendingAutomaticFailoverStatus._('disabled');
-
-  final String value;
-
-  const PendingAutomaticFailoverStatus._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static PendingAutomaticFailoverStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PendingAutomaticFailoverStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PendingAutomaticFailoverStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The log delivery configurations being modified
-class PendingLogDeliveryConfiguration {
-  /// Configuration details of either a CloudWatch Logs destination or Kinesis
-  /// Data Firehose destination.
-  final DestinationDetails? destinationDetails;
-
-  /// Returns the destination type, either CloudWatch Logs or Kinesis Data
-  /// Firehose.
-  final DestinationType? destinationType;
-
-  /// Returns the log format, either JSON or TEXT
-  final LogFormat? logFormat;
-
-  /// Refers to <a href="https://redis.io/commands/slowlog">slow-log</a> or
-  /// engine-log..
-  final LogType? logType;
-
-  PendingLogDeliveryConfiguration({
-    this.destinationDetails,
-    this.destinationType,
-    this.logFormat,
-    this.logType,
-  });
-  factory PendingLogDeliveryConfiguration.fromXml(_s.XmlElement elem) {
-    return PendingLogDeliveryConfiguration(
-      destinationDetails: _s
-          .extractXmlChild(elem, 'DestinationDetails')
-          ?.let(DestinationDetails.fromXml),
-      destinationType: _s
-          .extractXmlStringValue(elem, 'DestinationType')
-          ?.let(DestinationType.fromString),
-      logFormat: _s
-          .extractXmlStringValue(elem, 'LogFormat')
-          ?.let(LogFormat.fromString),
-      logType:
-          _s.extractXmlStringValue(elem, 'LogType')?.let(LogType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final destinationDetails = this.destinationDetails;
-    final destinationType = this.destinationType;
-    final logFormat = this.logFormat;
-    final logType = this.logType;
-    return {
-      if (destinationDetails != null) 'DestinationDetails': destinationDetails,
-      if (destinationType != null) 'DestinationType': destinationType.value,
-      if (logFormat != null) 'LogFormat': logFormat.value,
-      if (logType != null) 'LogType': logType.value,
-    };
-  }
-}
-
-/// A group of settings that are applied to the cluster in the future, or that
-/// are currently being applied.
-class PendingModifiedValues {
-  /// The auth token status
-  final AuthTokenUpdateStatus? authTokenStatus;
-
-  /// A list of cache node IDs that are being removed (or will be removed) from
-  /// the cluster. A node ID is a 4-digit numeric identifier (0001, 0002, etc.).
-  final List<String>? cacheNodeIdsToRemove;
-
-  /// The cache node type that this cluster or replication group is scaled to.
-  final String? cacheNodeType;
-
-  /// The new cache engine version that the cluster runs.
-  final String? engineVersion;
-
-  /// The log delivery configurations being modified
-  final List<PendingLogDeliveryConfiguration>? logDeliveryConfigurations;
-
-  /// The new number of cache nodes for the cluster.
-  ///
-  /// For clusters running Redis OSS, this value must be 1. For clusters running
-  /// Memcached, this value must be between 1 and 40.
-  final int? numCacheNodes;
-
-  /// A flag that enables in-transit encryption when set to true.
-  final bool? transitEncryptionEnabled;
-
-  /// A setting that allows you to migrate your clients to use in-transit
-  /// encryption, with no downtime.
-  final TransitEncryptionMode? transitEncryptionMode;
-
-  PendingModifiedValues({
-    this.authTokenStatus,
-    this.cacheNodeIdsToRemove,
-    this.cacheNodeType,
-    this.engineVersion,
-    this.logDeliveryConfigurations,
-    this.numCacheNodes,
-    this.transitEncryptionEnabled,
-    this.transitEncryptionMode,
-  });
-  factory PendingModifiedValues.fromXml(_s.XmlElement elem) {
-    return PendingModifiedValues(
-      authTokenStatus: _s
-          .extractXmlStringValue(elem, 'AuthTokenStatus')
-          ?.let(AuthTokenUpdateStatus.fromString),
-      cacheNodeIdsToRemove: _s
-          .extractXmlChild(elem, 'CacheNodeIdsToRemove')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'CacheNodeId')),
-      cacheNodeType: _s.extractXmlStringValue(elem, 'CacheNodeType'),
-      engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
-      logDeliveryConfigurations: _s
-          .extractXmlChild(elem, 'PendingLogDeliveryConfiguration')
-          ?.let((elem) => elem
-              .findElements('member')
-              .map(PendingLogDeliveryConfiguration.fromXml)
-              .toList()),
-      numCacheNodes: _s.extractXmlIntValue(elem, 'NumCacheNodes'),
-      transitEncryptionEnabled:
-          _s.extractXmlBoolValue(elem, 'TransitEncryptionEnabled'),
-      transitEncryptionMode: _s
-          .extractXmlStringValue(elem, 'TransitEncryptionMode')
-          ?.let(TransitEncryptionMode.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final authTokenStatus = this.authTokenStatus;
-    final cacheNodeIdsToRemove = this.cacheNodeIdsToRemove;
-    final cacheNodeType = this.cacheNodeType;
-    final engineVersion = this.engineVersion;
-    final logDeliveryConfigurations = this.logDeliveryConfigurations;
-    final numCacheNodes = this.numCacheNodes;
-    final transitEncryptionEnabled = this.transitEncryptionEnabled;
-    final transitEncryptionMode = this.transitEncryptionMode;
-    return {
-      if (authTokenStatus != null) 'AuthTokenStatus': authTokenStatus.value,
-      if (cacheNodeIdsToRemove != null)
-        'CacheNodeIdsToRemove': cacheNodeIdsToRemove,
-      if (cacheNodeType != null) 'CacheNodeType': cacheNodeType,
-      if (engineVersion != null) 'EngineVersion': engineVersion,
-      if (logDeliveryConfigurations != null)
-        'PendingLogDeliveryConfiguration': logDeliveryConfigurations,
-      if (numCacheNodes != null) 'NumCacheNodes': numCacheNodes,
-      if (transitEncryptionEnabled != null)
-        'TransitEncryptionEnabled': transitEncryptionEnabled,
-      if (transitEncryptionMode != null)
-        'TransitEncryptionMode': transitEncryptionMode.value,
-    };
-  }
-}
-
-/// Update action that has been processed for the corresponding apply/stop
-/// request
-class ProcessedUpdateAction {
-  /// The ID of the cache cluster
-  final String? cacheClusterId;
-
-  /// The ID of the replication group
-  final String? replicationGroupId;
-
-  /// The unique ID of the service update
-  final String? serviceUpdateName;
-
-  /// The status of the update action on the Redis OSS cluster
-  final UpdateActionStatus? updateActionStatus;
-
-  ProcessedUpdateAction({
-    this.cacheClusterId,
-    this.replicationGroupId,
-    this.serviceUpdateName,
-    this.updateActionStatus,
-  });
-  factory ProcessedUpdateAction.fromXml(_s.XmlElement elem) {
-    return ProcessedUpdateAction(
-      cacheClusterId: _s.extractXmlStringValue(elem, 'CacheClusterId'),
-      replicationGroupId: _s.extractXmlStringValue(elem, 'ReplicationGroupId'),
-      serviceUpdateName: _s.extractXmlStringValue(elem, 'ServiceUpdateName'),
-      updateActionStatus: _s
-          .extractXmlStringValue(elem, 'UpdateActionStatus')
-          ?.let(UpdateActionStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cacheClusterId = this.cacheClusterId;
-    final replicationGroupId = this.replicationGroupId;
-    final serviceUpdateName = this.serviceUpdateName;
-    final updateActionStatus = this.updateActionStatus;
-    return {
-      if (cacheClusterId != null) 'CacheClusterId': cacheClusterId,
-      if (replicationGroupId != null) 'ReplicationGroupId': replicationGroupId,
-      if (serviceUpdateName != null) 'ServiceUpdateName': serviceUpdateName,
-      if (updateActionStatus != null)
-        'UpdateActionStatus': updateActionStatus.value,
-    };
-  }
-}
-
-class PurchaseReservedCacheNodesOfferingResult {
-  final ReservedCacheNode? reservedCacheNode;
-
-  PurchaseReservedCacheNodesOfferingResult({
-    this.reservedCacheNode,
-  });
-  factory PurchaseReservedCacheNodesOfferingResult.fromXml(_s.XmlElement elem) {
-    return PurchaseReservedCacheNodesOfferingResult(
-      reservedCacheNode: _s
-          .extractXmlChild(elem, 'ReservedCacheNode')
-          ?.let(ReservedCacheNode.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final reservedCacheNode = this.reservedCacheNode;
-    return {
-      if (reservedCacheNode != null) 'ReservedCacheNode': reservedCacheNode,
-    };
-  }
-}
-
-class RebalanceSlotsInGlobalReplicationGroupResult {
-  final GlobalReplicationGroup? globalReplicationGroup;
-
-  RebalanceSlotsInGlobalReplicationGroupResult({
-    this.globalReplicationGroup,
-  });
-  factory RebalanceSlotsInGlobalReplicationGroupResult.fromXml(
-      _s.XmlElement elem) {
-    return RebalanceSlotsInGlobalReplicationGroupResult(
-      globalReplicationGroup: _s
-          .extractXmlChild(elem, 'GlobalReplicationGroup')
-          ?.let(GlobalReplicationGroup.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final globalReplicationGroup = this.globalReplicationGroup;
-    return {
-      if (globalReplicationGroup != null)
-        'GlobalReplicationGroup': globalReplicationGroup,
-    };
-  }
-}
-
-class RebootCacheClusterResult {
-  final CacheCluster? cacheCluster;
-
-  RebootCacheClusterResult({
-    this.cacheCluster,
-  });
-  factory RebootCacheClusterResult.fromXml(_s.XmlElement elem) {
-    return RebootCacheClusterResult(
-      cacheCluster:
-          _s.extractXmlChild(elem, 'CacheCluster')?.let(CacheCluster.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cacheCluster = this.cacheCluster;
-    return {
-      if (cacheCluster != null) 'CacheCluster': cacheCluster,
-    };
-  }
-}
-
-/// Contains the specific price and frequency of a recurring charges for a
-/// reserved cache node, or for a reserved cache node offering.
-class RecurringCharge {
-  /// The monetary amount of the recurring charge.
-  final double? recurringChargeAmount;
-
-  /// The frequency of the recurring charge.
-  final String? recurringChargeFrequency;
-
-  RecurringCharge({
-    this.recurringChargeAmount,
-    this.recurringChargeFrequency,
-  });
-  factory RecurringCharge.fromXml(_s.XmlElement elem) {
-    return RecurringCharge(
-      recurringChargeAmount:
-          _s.extractXmlDoubleValue(elem, 'RecurringChargeAmount'),
-      recurringChargeFrequency:
-          _s.extractXmlStringValue(elem, 'RecurringChargeFrequency'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final recurringChargeAmount = this.recurringChargeAmount;
-    final recurringChargeFrequency = this.recurringChargeFrequency;
-    return {
-      if (recurringChargeAmount != null)
-        'RecurringChargeAmount': recurringChargeAmount,
-      if (recurringChargeFrequency != null)
-        'RecurringChargeFrequency': recurringChargeFrequency,
-    };
-  }
-}
-
-/// A list of the replication groups
-class RegionalConfiguration {
-  /// The name of the secondary cluster
-  final String replicationGroupId;
-
-  /// The Amazon region where the cluster is stored
-  final String replicationGroupRegion;
-
-  /// A list of <code>PreferredAvailabilityZones</code> objects that specifies the
-  /// configuration of a node group in the resharded cluster.
-  final List<ReshardingConfiguration> reshardingConfiguration;
-
-  RegionalConfiguration({
-    required this.replicationGroupId,
-    required this.replicationGroupRegion,
-    required this.reshardingConfiguration,
-  });
-
-  Map<String, dynamic> toJson() {
-    final replicationGroupId = this.replicationGroupId;
-    final replicationGroupRegion = this.replicationGroupRegion;
-    final reshardingConfiguration = this.reshardingConfiguration;
-    return {
-      'ReplicationGroupId': replicationGroupId,
-      'ReplicationGroupRegion': replicationGroupRegion,
-      'ReshardingConfiguration': reshardingConfiguration,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final replicationGroupId = this.replicationGroupId;
-    final replicationGroupRegion = this.replicationGroupRegion;
-    final reshardingConfiguration = this.reshardingConfiguration;
-    return {
-      'ReplicationGroupId': replicationGroupId,
-      'ReplicationGroupRegion': replicationGroupRegion,
-      if (reshardingConfiguration.isEmpty)
-        'ReshardingConfiguration': ''
-      else
-        for (var i1 = 0; i1 < reshardingConfiguration.length; i1++)
-          for (var e3 in reshardingConfiguration[i1].toQueryMap().entries)
-            'ReshardingConfiguration.ReshardingConfiguration.${i1 + 1}.${e3.key}':
-                e3.value,
-    };
-  }
-}
-
-/// Contains all of the attributes of a specific Redis OSS replication group.
-class ReplicationGroup {
-  /// The ARN (Amazon Resource Name) of the replication group.
-  final String? arn;
-
-  /// A flag that enables encryption at-rest when set to <code>true</code>.
-  ///
-  /// You cannot modify the value of <code>AtRestEncryptionEnabled</code> after
-  /// the cluster is created. To enable encryption at-rest on a cluster you must
-  /// set <code>AtRestEncryptionEnabled</code> to <code>true</code> when you
-  /// create a cluster.
-  ///
-  /// <b>Required:</b> Only available when creating a replication group in an
-  /// Amazon VPC using Redis OSS version <code>3.2.6</code>, <code>4.x</code> or
-  /// later.
-  ///
-  /// Default: <code>false</code>
-  final bool? atRestEncryptionEnabled;
-
-  /// A flag that enables using an <code>AuthToken</code> (password) when issuing
-  /// Redis OSS commands.
-  ///
-  /// Default: <code>false</code>
-  final bool? authTokenEnabled;
-
-  /// The date the auth token was last modified
-  final DateTime? authTokenLastModifiedDate;
-
-  /// If you are running Redis OSS engine version 6.0 or later, set this parameter
-  /// to yes if you want to opt-in to the next auto minor version upgrade
-  /// campaign. This parameter is disabled for previous versions.
-  final bool? autoMinorVersionUpgrade;
-
-  /// Indicates the status of automatic failover for this Redis OSS replication
-  /// group.
-  final AutomaticFailoverStatus? automaticFailover;
-
-  /// The name of the compute and memory capacity node type for each node in the
-  /// replication group.
-  final String? cacheNodeType;
-
-  /// A flag indicating whether or not this replication group is cluster enabled;
-  /// i.e., whether its data can be partitioned across multiple shards (API/CLI:
-  /// node groups).
-  ///
-  /// Valid values: <code>true</code> | <code>false</code>
-  final bool? clusterEnabled;
-
-  /// Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you
-  /// must first set the cluster mode to Compatible. Compatible mode allows your
-  /// Redis OSS clients to connect using both cluster mode enabled and cluster
-  /// mode disabled. After you migrate all Redis OSS clients to use cluster mode
-  /// enabled, you can then complete cluster mode configuration and set the
-  /// cluster mode to Enabled.
-  final ClusterMode? clusterMode;
-
-  /// The configuration endpoint for this replication group. Use the configuration
-  /// endpoint to connect to this replication group.
-  final Endpoint? configurationEndpoint;
-
-  /// Enables data tiering. Data tiering is only supported for replication groups
-  /// using the r6gd node type. This parameter must be set to true when using r6gd
-  /// nodes. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/data-tiering.html">Data
-  /// tiering</a>.
-  final DataTieringStatus? dataTiering;
-
-  /// The user supplied description of the replication group.
-  final String? description;
-
-  /// The name of the Global datastore and role of this replication group in the
-  /// Global datastore.
-  final GlobalReplicationGroupInfo? globalReplicationGroupInfo;
-
-  /// The network type you choose when modifying a cluster, either
-  /// <code>ipv4</code> | <code>ipv6</code>. IPv6 is supported for workloads using
-  /// Redis OSS engine version 6.2 onward or Memcached engine version 1.6.6 on all
-  /// instances built on the <a href="http://aws.amazon.com/ec2/nitro/">Nitro
-  /// system</a>.
-  final IpDiscovery? ipDiscovery;
-
-  /// The ID of the KMS key used to encrypt the disk in the cluster.
-  final String? kmsKeyId;
-
-  /// Returns the destination, format and type of the logs.
-  final List<LogDeliveryConfiguration>? logDeliveryConfigurations;
-
-  /// The names of all the cache clusters that are part of this replication group.
-  final List<String>? memberClusters;
-
-  /// The outpost ARNs of the replication group's member clusters.
-  final List<String>? memberClustersOutpostArns;
-
-  /// A flag indicating if you have Multi-AZ enabled to enhance fault tolerance.
-  /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/AutoFailover.html">Minimizing
-  /// Downtime: Multi-AZ</a>
-  final MultiAZStatus? multiAZ;
-
-  /// Must be either <code>ipv4</code> | <code>ipv6</code> |
-  /// <code>dual_stack</code>. IPv6 is supported for workloads using Redis OSS
-  /// engine version 6.2 onward or Memcached engine version 1.6.6 on all instances
-  /// built on the <a href="http://aws.amazon.com/ec2/nitro/">Nitro system</a>.
-  final NetworkType? networkType;
-
-  /// A list of node groups in this replication group. For Redis OSS (cluster mode
-  /// disabled) replication groups, this is a single-element list. For Redis OSS
-  /// (cluster mode enabled) replication groups, the list contains an entry for
-  /// each node group (shard).
-  final List<NodeGroup>? nodeGroups;
-
-  /// A group of settings to be applied to the replication group, either
-  /// immediately or during the next maintenance window.
-  final ReplicationGroupPendingModifiedValues? pendingModifiedValues;
-
-  /// The date and time when the cluster was created.
-  final DateTime? replicationGroupCreateTime;
-
-  /// The identifier for the replication group.
-  final String? replicationGroupId;
-
-  /// The number of days for which ElastiCache retains automatic cluster snapshots
-  /// before deleting them. For example, if you set
-  /// <code>SnapshotRetentionLimit</code> to 5, a snapshot that was taken today is
-  /// retained for 5 days before being deleted.
-  /// <important>
-  /// If the value of <code>SnapshotRetentionLimit</code> is set to zero (0),
-  /// backups are turned off.
-  /// </important>
-  final int? snapshotRetentionLimit;
-
-  /// The daily time range (in UTC) during which ElastiCache begins taking a daily
-  /// snapshot of your node group (shard).
-  ///
-  /// Example: <code>05:00-09:00</code>
-  ///
-  /// If you do not specify this parameter, ElastiCache automatically chooses an
-  /// appropriate time range.
-  /// <note>
-  /// This parameter is only valid if the <code>Engine</code> parameter is
-  /// <code>redis</code>.
-  /// </note>
-  final String? snapshotWindow;
-
-  /// The cluster ID that is used as the daily snapshot source for the replication
-  /// group.
-  final String? snapshottingClusterId;
-
-  /// The current state of this replication group - <code>creating</code>,
-  /// <code>available</code>, <code>modifying</code>, <code>deleting</code>,
-  /// <code>create-failed</code>, <code>snapshotting</code>.
-  final String? status;
-
-  /// A flag that enables in-transit encryption when set to <code>true</code>.
-  ///
-  /// <b>Required:</b> Only available when creating a replication group in an
-  /// Amazon VPC using Redis OSS version <code>3.2.6</code>, <code>4.x</code> or
-  /// later.
-  ///
-  /// Default: <code>false</code>
-  final bool? transitEncryptionEnabled;
-
-  /// A setting that allows you to migrate your clients to use in-transit
-  /// encryption, with no downtime.
-  final TransitEncryptionMode? transitEncryptionMode;
-
-  /// The ID of the user group associated to the replication group.
-  final List<String>? userGroupIds;
-
-  ReplicationGroup({
-    this.arn,
-    this.atRestEncryptionEnabled,
-    this.authTokenEnabled,
-    this.authTokenLastModifiedDate,
-    this.autoMinorVersionUpgrade,
-    this.automaticFailover,
-    this.cacheNodeType,
-    this.clusterEnabled,
-    this.clusterMode,
-    this.configurationEndpoint,
-    this.dataTiering,
-    this.description,
-    this.globalReplicationGroupInfo,
-    this.ipDiscovery,
-    this.kmsKeyId,
-    this.logDeliveryConfigurations,
-    this.memberClusters,
-    this.memberClustersOutpostArns,
-    this.multiAZ,
-    this.networkType,
-    this.nodeGroups,
-    this.pendingModifiedValues,
-    this.replicationGroupCreateTime,
-    this.replicationGroupId,
-    this.snapshotRetentionLimit,
-    this.snapshotWindow,
-    this.snapshottingClusterId,
-    this.status,
-    this.transitEncryptionEnabled,
-    this.transitEncryptionMode,
-    this.userGroupIds,
-  });
-  factory ReplicationGroup.fromXml(_s.XmlElement elem) {
-    return ReplicationGroup(
-      arn: _s.extractXmlStringValue(elem, 'ARN'),
-      atRestEncryptionEnabled:
-          _s.extractXmlBoolValue(elem, 'AtRestEncryptionEnabled'),
-      authTokenEnabled: _s.extractXmlBoolValue(elem, 'AuthTokenEnabled'),
-      authTokenLastModifiedDate:
-          _s.extractXmlDateTimeValue(elem, 'AuthTokenLastModifiedDate'),
-      autoMinorVersionUpgrade:
-          _s.extractXmlBoolValue(elem, 'AutoMinorVersionUpgrade'),
-      automaticFailover: _s
-          .extractXmlStringValue(elem, 'AutomaticFailover')
-          ?.let(AutomaticFailoverStatus.fromString),
-      cacheNodeType: _s.extractXmlStringValue(elem, 'CacheNodeType'),
-      clusterEnabled: _s.extractXmlBoolValue(elem, 'ClusterEnabled'),
-      clusterMode: _s
-          .extractXmlStringValue(elem, 'ClusterMode')
-          ?.let(ClusterMode.fromString),
-      configurationEndpoint: _s
-          .extractXmlChild(elem, 'ConfigurationEndpoint')
-          ?.let(Endpoint.fromXml),
-      dataTiering: _s
-          .extractXmlStringValue(elem, 'DataTiering')
-          ?.let(DataTieringStatus.fromString),
-      description: _s.extractXmlStringValue(elem, 'Description'),
-      globalReplicationGroupInfo: _s
-          .extractXmlChild(elem, 'GlobalReplicationGroupInfo')
-          ?.let(GlobalReplicationGroupInfo.fromXml),
-      ipDiscovery: _s
-          .extractXmlStringValue(elem, 'IpDiscovery')
-          ?.let(IpDiscovery.fromString),
-      kmsKeyId: _s.extractXmlStringValue(elem, 'KmsKeyId'),
-      logDeliveryConfigurations: _s
-          .extractXmlChild(elem, 'LogDeliveryConfigurations')
-          ?.let((elem) => elem
-              .findElements('LogDeliveryConfiguration')
-              .map(LogDeliveryConfiguration.fromXml)
-              .toList()),
-      memberClusters: _s
-          .extractXmlChild(elem, 'MemberClusters')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'ClusterId')),
-      memberClustersOutpostArns: _s
-          .extractXmlChild(elem, 'MemberClustersOutpostArns')
-          ?.let((elem) => _s.extractXmlStringListValues(
-              elem, 'ReplicationGroupOutpostArn')),
-      multiAZ: _s
-          .extractXmlStringValue(elem, 'MultiAZ')
-          ?.let(MultiAZStatus.fromString),
-      networkType: _s
-          .extractXmlStringValue(elem, 'NetworkType')
-          ?.let(NetworkType.fromString),
-      nodeGroups: _s.extractXmlChild(elem, 'NodeGroups')?.let((elem) =>
-          elem.findElements('NodeGroup').map(NodeGroup.fromXml).toList()),
-      pendingModifiedValues: _s
-          .extractXmlChild(elem, 'PendingModifiedValues')
-          ?.let(ReplicationGroupPendingModifiedValues.fromXml),
-      replicationGroupCreateTime:
-          _s.extractXmlDateTimeValue(elem, 'ReplicationGroupCreateTime'),
-      replicationGroupId: _s.extractXmlStringValue(elem, 'ReplicationGroupId'),
-      snapshotRetentionLimit:
-          _s.extractXmlIntValue(elem, 'SnapshotRetentionLimit'),
-      snapshotWindow: _s.extractXmlStringValue(elem, 'SnapshotWindow'),
-      snapshottingClusterId:
-          _s.extractXmlStringValue(elem, 'SnapshottingClusterId'),
-      status: _s.extractXmlStringValue(elem, 'Status'),
-      transitEncryptionEnabled:
-          _s.extractXmlBoolValue(elem, 'TransitEncryptionEnabled'),
-      transitEncryptionMode: _s
-          .extractXmlStringValue(elem, 'TransitEncryptionMode')
-          ?.let(TransitEncryptionMode.fromString),
-      userGroupIds: _s
-          .extractXmlChild(elem, 'UserGroupIds')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final atRestEncryptionEnabled = this.atRestEncryptionEnabled;
-    final authTokenEnabled = this.authTokenEnabled;
-    final authTokenLastModifiedDate = this.authTokenLastModifiedDate;
-    final autoMinorVersionUpgrade = this.autoMinorVersionUpgrade;
-    final automaticFailover = this.automaticFailover;
-    final cacheNodeType = this.cacheNodeType;
-    final clusterEnabled = this.clusterEnabled;
-    final clusterMode = this.clusterMode;
-    final configurationEndpoint = this.configurationEndpoint;
-    final dataTiering = this.dataTiering;
-    final description = this.description;
-    final globalReplicationGroupInfo = this.globalReplicationGroupInfo;
-    final ipDiscovery = this.ipDiscovery;
-    final kmsKeyId = this.kmsKeyId;
-    final logDeliveryConfigurations = this.logDeliveryConfigurations;
-    final memberClusters = this.memberClusters;
-    final memberClustersOutpostArns = this.memberClustersOutpostArns;
-    final multiAZ = this.multiAZ;
-    final networkType = this.networkType;
-    final nodeGroups = this.nodeGroups;
-    final pendingModifiedValues = this.pendingModifiedValues;
-    final replicationGroupCreateTime = this.replicationGroupCreateTime;
-    final replicationGroupId = this.replicationGroupId;
-    final snapshotRetentionLimit = this.snapshotRetentionLimit;
-    final snapshotWindow = this.snapshotWindow;
-    final snapshottingClusterId = this.snapshottingClusterId;
-    final status = this.status;
-    final transitEncryptionEnabled = this.transitEncryptionEnabled;
-    final transitEncryptionMode = this.transitEncryptionMode;
-    final userGroupIds = this.userGroupIds;
-    return {
-      if (arn != null) 'ARN': arn,
-      if (atRestEncryptionEnabled != null)
-        'AtRestEncryptionEnabled': atRestEncryptionEnabled,
-      if (authTokenEnabled != null) 'AuthTokenEnabled': authTokenEnabled,
-      if (authTokenLastModifiedDate != null)
-        'AuthTokenLastModifiedDate': iso8601ToJson(authTokenLastModifiedDate),
-      if (autoMinorVersionUpgrade != null)
-        'AutoMinorVersionUpgrade': autoMinorVersionUpgrade,
-      if (automaticFailover != null)
-        'AutomaticFailover': automaticFailover.value,
-      if (cacheNodeType != null) 'CacheNodeType': cacheNodeType,
-      if (clusterEnabled != null) 'ClusterEnabled': clusterEnabled,
-      if (clusterMode != null) 'ClusterMode': clusterMode.value,
-      if (configurationEndpoint != null)
-        'ConfigurationEndpoint': configurationEndpoint,
-      if (dataTiering != null) 'DataTiering': dataTiering.value,
-      if (description != null) 'Description': description,
-      if (globalReplicationGroupInfo != null)
-        'GlobalReplicationGroupInfo': globalReplicationGroupInfo,
-      if (ipDiscovery != null) 'IpDiscovery': ipDiscovery.value,
-      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-      if (logDeliveryConfigurations != null)
-        'LogDeliveryConfigurations': logDeliveryConfigurations,
-      if (memberClusters != null) 'MemberClusters': memberClusters,
-      if (memberClustersOutpostArns != null)
-        'MemberClustersOutpostArns': memberClustersOutpostArns,
-      if (multiAZ != null) 'MultiAZ': multiAZ.value,
-      if (networkType != null) 'NetworkType': networkType.value,
-      if (nodeGroups != null) 'NodeGroups': nodeGroups,
-      if (pendingModifiedValues != null)
-        'PendingModifiedValues': pendingModifiedValues,
-      if (replicationGroupCreateTime != null)
-        'ReplicationGroupCreateTime': iso8601ToJson(replicationGroupCreateTime),
-      if (replicationGroupId != null) 'ReplicationGroupId': replicationGroupId,
-      if (snapshotRetentionLimit != null)
-        'SnapshotRetentionLimit': snapshotRetentionLimit,
-      if (snapshotWindow != null) 'SnapshotWindow': snapshotWindow,
-      if (snapshottingClusterId != null)
-        'SnapshottingClusterId': snapshottingClusterId,
-      if (status != null) 'Status': status,
-      if (transitEncryptionEnabled != null)
-        'TransitEncryptionEnabled': transitEncryptionEnabled,
-      if (transitEncryptionMode != null)
-        'TransitEncryptionMode': transitEncryptionMode.value,
-      if (userGroupIds != null) 'UserGroupIds': userGroupIds,
-    };
-  }
-}
-
-/// Represents the output of a <code>DescribeReplicationGroups</code> operation.
-class ReplicationGroupMessage {
-  /// Provides an identifier to allow retrieval of paginated results.
-  final String? marker;
-
-  /// A list of replication groups. Each item in the list contains detailed
-  /// information about one replication group.
-  final List<ReplicationGroup>? replicationGroups;
-
-  ReplicationGroupMessage({
-    this.marker,
-    this.replicationGroups,
-  });
-  factory ReplicationGroupMessage.fromXml(_s.XmlElement elem) {
-    return ReplicationGroupMessage(
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      replicationGroups: _s.extractXmlChild(elem, 'ReplicationGroups')?.let(
-          (elem) => elem
-              .findElements('ReplicationGroup')
-              .map(ReplicationGroup.fromXml)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final marker = this.marker;
-    final replicationGroups = this.replicationGroups;
-    return {
-      if (marker != null) 'Marker': marker,
-      if (replicationGroups != null) 'ReplicationGroups': replicationGroups,
-    };
-  }
-}
-
-/// The settings to be applied to the Redis OSS replication group, either
-/// immediately or during the next maintenance window.
-class ReplicationGroupPendingModifiedValues {
-  /// The auth token status
-  final AuthTokenUpdateStatus? authTokenStatus;
-
-  /// Indicates the status of automatic failover for this Redis OSS replication
-  /// group.
-  final PendingAutomaticFailoverStatus? automaticFailoverStatus;
-
-  /// Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you
-  /// must first set the cluster mode to Compatible. Compatible mode allows your
-  /// Redis OSS clients to connect using both cluster mode enabled and cluster
-  /// mode disabled. After you migrate all Redis OSS clients to use cluster mode
-  /// enabled, you can then complete cluster mode configuration and set the
-  /// cluster mode to Enabled.
-  final ClusterMode? clusterMode;
-
-  /// The log delivery configurations being modified
-  final List<PendingLogDeliveryConfiguration>? logDeliveryConfigurations;
-
-  /// The primary cluster ID that is applied immediately (if
-  /// <code>--apply-immediately</code> was specified), or during the next
-  /// maintenance window.
-  final String? primaryClusterId;
-
-  /// The status of an online resharding operation.
-  final ReshardingStatus? resharding;
-
-  /// A flag that enables in-transit encryption when set to true.
-  final bool? transitEncryptionEnabled;
-
-  /// A setting that allows you to migrate your clients to use in-transit
-  /// encryption, with no downtime.
-  final TransitEncryptionMode? transitEncryptionMode;
-
-  /// The user group being modified.
-  final UserGroupsUpdateStatus? userGroups;
-
-  ReplicationGroupPendingModifiedValues({
-    this.authTokenStatus,
-    this.automaticFailoverStatus,
-    this.clusterMode,
-    this.logDeliveryConfigurations,
-    this.primaryClusterId,
-    this.resharding,
-    this.transitEncryptionEnabled,
-    this.transitEncryptionMode,
-    this.userGroups,
-  });
-  factory ReplicationGroupPendingModifiedValues.fromXml(_s.XmlElement elem) {
-    return ReplicationGroupPendingModifiedValues(
-      authTokenStatus: _s
-          .extractXmlStringValue(elem, 'AuthTokenStatus')
-          ?.let(AuthTokenUpdateStatus.fromString),
-      automaticFailoverStatus: _s
-          .extractXmlStringValue(elem, 'AutomaticFailoverStatus')
-          ?.let(PendingAutomaticFailoverStatus.fromString),
-      clusterMode: _s
-          .extractXmlStringValue(elem, 'ClusterMode')
-          ?.let(ClusterMode.fromString),
-      logDeliveryConfigurations: _s
-          .extractXmlChild(elem, 'PendingLogDeliveryConfiguration')
-          ?.let((elem) => elem
-              .findElements('member')
-              .map(PendingLogDeliveryConfiguration.fromXml)
-              .toList()),
-      primaryClusterId: _s.extractXmlStringValue(elem, 'PrimaryClusterId'),
-      resharding:
-          _s.extractXmlChild(elem, 'Resharding')?.let(ReshardingStatus.fromXml),
-      transitEncryptionEnabled:
-          _s.extractXmlBoolValue(elem, 'TransitEncryptionEnabled'),
-      transitEncryptionMode: _s
-          .extractXmlStringValue(elem, 'TransitEncryptionMode')
-          ?.let(TransitEncryptionMode.fromString),
-      userGroups: _s
-          .extractXmlChild(elem, 'UserGroups')
-          ?.let(UserGroupsUpdateStatus.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final authTokenStatus = this.authTokenStatus;
-    final automaticFailoverStatus = this.automaticFailoverStatus;
-    final clusterMode = this.clusterMode;
-    final logDeliveryConfigurations = this.logDeliveryConfigurations;
-    final primaryClusterId = this.primaryClusterId;
-    final resharding = this.resharding;
-    final transitEncryptionEnabled = this.transitEncryptionEnabled;
-    final transitEncryptionMode = this.transitEncryptionMode;
-    final userGroups = this.userGroups;
-    return {
-      if (authTokenStatus != null) 'AuthTokenStatus': authTokenStatus.value,
-      if (automaticFailoverStatus != null)
-        'AutomaticFailoverStatus': automaticFailoverStatus.value,
-      if (clusterMode != null) 'ClusterMode': clusterMode.value,
-      if (logDeliveryConfigurations != null)
-        'PendingLogDeliveryConfiguration': logDeliveryConfigurations,
-      if (primaryClusterId != null) 'PrimaryClusterId': primaryClusterId,
-      if (resharding != null) 'Resharding': resharding,
-      if (transitEncryptionEnabled != null)
-        'TransitEncryptionEnabled': transitEncryptionEnabled,
-      if (transitEncryptionMode != null)
-        'TransitEncryptionMode': transitEncryptionMode.value,
-      if (userGroups != null) 'UserGroups': userGroups,
-    };
-  }
-}
-
 /// Represents the output of a <code>PurchaseReservedCacheNodesOffering</code>
 /// operation.
 class ReservedCacheNode {
@@ -12453,7 +11617,7 @@ class ReservedCacheNode {
   /// <code>cache.m7g.12xlarge</code>, <code>cache.m7g.16xlarge</code>
   /// <note>
   /// For region availability, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
   /// Node Types</a>
   /// </note>
   /// <b>M6g node types</b> (available only for Redis OSS engine version 5.0.6
@@ -12522,7 +11686,7 @@ class ReservedCacheNode {
   /// <code>cache.r7g.12xlarge</code>, <code>cache.r7g.16xlarge</code>
   /// <note>
   /// For region availability, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
   /// Node Types</a>
   /// </note>
   /// <b>R6g node types</b> (available only for Redis OSS engine version 5.0.6
@@ -12562,15 +11726,17 @@ class ReservedCacheNode {
   /// All current generation instance types are created in Amazon VPC by default.
   /// </li>
   /// <li>
-  /// Redis OSS append-only files (AOF) are not supported for T1 or T2 instances.
+  /// Valkey or Redis OSS append-only files (AOF) are not supported for T1 or T2
+  /// instances.
   /// </li>
   /// <li>
-  /// Redis OSS Multi-AZ with automatic failover is not supported on T1 instances.
+  /// Valkey or Redis OSS Multi-AZ with automatic failover is not supported on T1
+  /// instances.
   /// </li>
   /// <li>
-  /// Redis OSS configuration variables <code>appendonly</code> and
-  /// <code>appendfsync</code> are not supported on Redis OSS version 2.8.22 and
-  /// later.
+  /// The configuration variables <code>appendonly</code> and
+  /// <code>appendfsync</code> are not supported on Valkey, or on Redis OSS
+  /// version 2.8.22 and later.
   /// </li>
   /// </ul>
   final String? cacheNodeType;
@@ -12684,300 +11850,486 @@ class ReservedCacheNode {
   }
 }
 
-/// Represents the output of a <code>DescribeReservedCacheNodes</code>
-/// operation.
-class ReservedCacheNodeMessage {
-  /// Provides an identifier to allow retrieval of paginated results.
-  final String? marker;
+/// Contains the specific price and frequency of a recurring charges for a
+/// reserved cache node, or for a reserved cache node offering.
+class RecurringCharge {
+  /// The monetary amount of the recurring charge.
+  final double? recurringChargeAmount;
 
-  /// A list of reserved cache nodes. Each element in the list contains detailed
-  /// information about one node.
-  final List<ReservedCacheNode>? reservedCacheNodes;
+  /// The frequency of the recurring charge.
+  final String? recurringChargeFrequency;
 
-  ReservedCacheNodeMessage({
-    this.marker,
-    this.reservedCacheNodes,
+  RecurringCharge({
+    this.recurringChargeAmount,
+    this.recurringChargeFrequency,
   });
-  factory ReservedCacheNodeMessage.fromXml(_s.XmlElement elem) {
-    return ReservedCacheNodeMessage(
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      reservedCacheNodes: _s.extractXmlChild(elem, 'ReservedCacheNodes')?.let(
-          (elem) => elem
-              .findElements('ReservedCacheNode')
-              .map(ReservedCacheNode.fromXml)
-              .toList()),
+  factory RecurringCharge.fromXml(_s.XmlElement elem) {
+    return RecurringCharge(
+      recurringChargeAmount:
+          _s.extractXmlDoubleValue(elem, 'RecurringChargeAmount'),
+      recurringChargeFrequency:
+          _s.extractXmlStringValue(elem, 'RecurringChargeFrequency'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final marker = this.marker;
-    final reservedCacheNodes = this.reservedCacheNodes;
+    final recurringChargeAmount = this.recurringChargeAmount;
+    final recurringChargeFrequency = this.recurringChargeFrequency;
     return {
-      if (marker != null) 'Marker': marker,
-      if (reservedCacheNodes != null) 'ReservedCacheNodes': reservedCacheNodes,
+      if (recurringChargeAmount != null)
+        'RecurringChargeAmount': recurringChargeAmount,
+      if (recurringChargeFrequency != null)
+        'RecurringChargeFrequency': recurringChargeFrequency,
     };
   }
 }
 
-/// Describes all of the attributes of a reserved cache node offering.
-class ReservedCacheNodesOffering {
-  /// The cache node type for the reserved cache node.
-  ///
-  /// The following node types are supported by ElastiCache. Generally speaking,
-  /// the current generation types provide more memory and computational power at
-  /// lower cost when compared to their equivalent previous generation
-  /// counterparts.
-  ///
-  /// <ul>
-  /// <li>
-  /// General purpose:
-  ///
-  /// <ul>
-  /// <li>
-  /// Current generation:
-  ///
-  /// <b>M7g node types</b>: <code>cache.m7g.large</code>,
-  /// <code>cache.m7g.xlarge</code>, <code>cache.m7g.2xlarge</code>,
-  /// <code>cache.m7g.4xlarge</code>, <code>cache.m7g.8xlarge</code>,
-  /// <code>cache.m7g.12xlarge</code>, <code>cache.m7g.16xlarge</code>
-  /// <note>
-  /// For region availability, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
-  /// Node Types</a>
-  /// </note>
-  /// <b>M6g node types</b> (available only for Redis OSS engine version 5.0.6
-  /// onward and for Memcached engine version 1.5.16 onward):
-  /// <code>cache.m6g.large</code>, <code>cache.m6g.xlarge</code>,
-  /// <code>cache.m6g.2xlarge</code>, <code>cache.m6g.4xlarge</code>,
-  /// <code>cache.m6g.8xlarge</code>, <code>cache.m6g.12xlarge</code>,
-  /// <code>cache.m6g.16xlarge</code>
-  ///
-  /// <b>M5 node types:</b> <code>cache.m5.large</code>,
-  /// <code>cache.m5.xlarge</code>, <code>cache.m5.2xlarge</code>,
-  /// <code>cache.m5.4xlarge</code>, <code>cache.m5.12xlarge</code>,
-  /// <code>cache.m5.24xlarge</code>
-  ///
-  /// <b>M4 node types:</b> <code>cache.m4.large</code>,
-  /// <code>cache.m4.xlarge</code>, <code>cache.m4.2xlarge</code>,
-  /// <code>cache.m4.4xlarge</code>, <code>cache.m4.10xlarge</code>
-  ///
-  /// <b>T4g node types</b> (available only for Redis OSS engine version 5.0.6
-  /// onward and Memcached engine version 1.5.16 onward):
-  /// <code>cache.t4g.micro</code>, <code>cache.t4g.small</code>,
-  /// <code>cache.t4g.medium</code>
-  ///
-  /// <b>T3 node types:</b> <code>cache.t3.micro</code>,
-  /// <code>cache.t3.small</code>, <code>cache.t3.medium</code>
-  ///
-  /// <b>T2 node types:</b> <code>cache.t2.micro</code>,
-  /// <code>cache.t2.small</code>, <code>cache.t2.medium</code>
-  /// </li>
-  /// <li>
-  /// Previous generation: (not recommended. Existing clusters are still supported
-  /// but creation of new clusters is not supported for these types.)
-  ///
-  /// <b>T1 node types:</b> <code>cache.t1.micro</code>
-  ///
-  /// <b>M1 node types:</b> <code>cache.m1.small</code>,
-  /// <code>cache.m1.medium</code>, <code>cache.m1.large</code>,
-  /// <code>cache.m1.xlarge</code>
-  ///
-  /// <b>M3 node types:</b> <code>cache.m3.medium</code>,
-  /// <code>cache.m3.large</code>, <code>cache.m3.xlarge</code>,
-  /// <code>cache.m3.2xlarge</code>
-  /// </li>
-  /// </ul> </li>
-  /// <li>
-  /// Compute optimized:
-  ///
-  /// <ul>
-  /// <li>
-  /// Previous generation: (not recommended. Existing clusters are still supported
-  /// but creation of new clusters is not supported for these types.)
-  ///
-  /// <b>C1 node types:</b> <code>cache.c1.xlarge</code>
-  /// </li>
-  /// </ul> </li>
-  /// <li>
-  /// Memory optimized:
-  ///
-  /// <ul>
-  /// <li>
-  /// Current generation:
-  ///
-  /// <b>R7g node types</b>: <code>cache.r7g.large</code>,
-  /// <code>cache.r7g.xlarge</code>, <code>cache.r7g.2xlarge</code>,
-  /// <code>cache.r7g.4xlarge</code>, <code>cache.r7g.8xlarge</code>,
-  /// <code>cache.r7g.12xlarge</code>, <code>cache.r7g.16xlarge</code>
-  /// <note>
-  /// For region availability, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
-  /// Node Types</a>
-  /// </note>
-  /// <b>R6g node types</b> (available only for Redis OSS engine version 5.0.6
-  /// onward and for Memcached engine version 1.5.16 onward):
-  /// <code>cache.r6g.large</code>, <code>cache.r6g.xlarge</code>,
-  /// <code>cache.r6g.2xlarge</code>, <code>cache.r6g.4xlarge</code>,
-  /// <code>cache.r6g.8xlarge</code>, <code>cache.r6g.12xlarge</code>,
-  /// <code>cache.r6g.16xlarge</code>
-  ///
-  /// <b>R5 node types:</b> <code>cache.r5.large</code>,
-  /// <code>cache.r5.xlarge</code>, <code>cache.r5.2xlarge</code>,
-  /// <code>cache.r5.4xlarge</code>, <code>cache.r5.12xlarge</code>,
-  /// <code>cache.r5.24xlarge</code>
-  ///
-  /// <b>R4 node types:</b> <code>cache.r4.large</code>,
-  /// <code>cache.r4.xlarge</code>, <code>cache.r4.2xlarge</code>,
-  /// <code>cache.r4.4xlarge</code>, <code>cache.r4.8xlarge</code>,
-  /// <code>cache.r4.16xlarge</code>
-  /// </li>
-  /// <li>
-  /// Previous generation: (not recommended. Existing clusters are still supported
-  /// but creation of new clusters is not supported for these types.)
-  ///
-  /// <b>M2 node types:</b> <code>cache.m2.xlarge</code>,
-  /// <code>cache.m2.2xlarge</code>, <code>cache.m2.4xlarge</code>
-  ///
-  /// <b>R3 node types:</b> <code>cache.r3.large</code>,
-  /// <code>cache.r3.xlarge</code>, <code>cache.r3.2xlarge</code>,
-  /// <code>cache.r3.4xlarge</code>, <code>cache.r3.8xlarge</code>
-  /// </li>
-  /// </ul> </li>
-  /// </ul>
-  /// <b>Additional node type info</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// All current generation instance types are created in Amazon VPC by default.
-  /// </li>
-  /// <li>
-  /// Redis OSS append-only files (AOF) are not supported for T1 or T2 instances.
-  /// </li>
-  /// <li>
-  /// Redis OSS Multi-AZ with automatic failover is not supported on T1 instances.
-  /// </li>
-  /// <li>
-  /// Redis OSS configuration variables <code>appendonly</code> and
-  /// <code>appendfsync</code> are not supported on Redis OSS version 2.8.22 and
-  /// later.
-  /// </li>
-  /// </ul>
-  final String? cacheNodeType;
+/// A tag that can be added to an ElastiCache cluster or replication group. Tags
+/// are composed of a Key/Value pair. You can use tags to categorize and track
+/// all your ElastiCache resources, with the exception of global replication
+/// group. When you add or remove tags on replication groups, those actions will
+/// be replicated to all nodes in the replication group. A tag with a null Value
+/// is permitted.
+class Tag {
+  /// The key for the tag. May not be null.
+  final String? key;
 
-  /// The duration of the offering. in seconds.
-  final int? duration;
+  /// The tag's value. May be null.
+  final String? value;
 
-  /// The fixed price charged for this offering.
-  final double? fixedPrice;
-
-  /// The offering type.
-  final String? offeringType;
-
-  /// The cache engine used by the offering.
-  final String? productDescription;
-
-  /// The recurring price charged to run this reserved cache node.
-  final List<RecurringCharge>? recurringCharges;
-
-  /// A unique identifier for the reserved cache node offering.
-  final String? reservedCacheNodesOfferingId;
-
-  /// The hourly price charged for this offering.
-  final double? usagePrice;
-
-  ReservedCacheNodesOffering({
-    this.cacheNodeType,
-    this.duration,
-    this.fixedPrice,
-    this.offeringType,
-    this.productDescription,
-    this.recurringCharges,
-    this.reservedCacheNodesOfferingId,
-    this.usagePrice,
+  Tag({
+    this.key,
+    this.value,
   });
-  factory ReservedCacheNodesOffering.fromXml(_s.XmlElement elem) {
-    return ReservedCacheNodesOffering(
-      cacheNodeType: _s.extractXmlStringValue(elem, 'CacheNodeType'),
-      duration: _s.extractXmlIntValue(elem, 'Duration'),
-      fixedPrice: _s.extractXmlDoubleValue(elem, 'FixedPrice'),
-      offeringType: _s.extractXmlStringValue(elem, 'OfferingType'),
-      productDescription: _s.extractXmlStringValue(elem, 'ProductDescription'),
-      recurringCharges: _s.extractXmlChild(elem, 'RecurringCharges')?.let(
-          (elem) => elem
-              .findElements('RecurringCharge')
-              .map(RecurringCharge.fromXml)
-              .toList()),
-      reservedCacheNodesOfferingId:
-          _s.extractXmlStringValue(elem, 'ReservedCacheNodesOfferingId'),
-      usagePrice: _s.extractXmlDoubleValue(elem, 'UsagePrice'),
+  factory Tag.fromXml(_s.XmlElement elem) {
+    return Tag(
+      key: _s.extractXmlStringValue(elem, 'Key'),
+      value: _s.extractXmlStringValue(elem, 'Value'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final cacheNodeType = this.cacheNodeType;
-    final duration = this.duration;
-    final fixedPrice = this.fixedPrice;
-    final offeringType = this.offeringType;
-    final productDescription = this.productDescription;
-    final recurringCharges = this.recurringCharges;
-    final reservedCacheNodesOfferingId = this.reservedCacheNodesOfferingId;
-    final usagePrice = this.usagePrice;
+    final key = this.key;
+    final value = this.value;
     return {
-      if (cacheNodeType != null) 'CacheNodeType': cacheNodeType,
-      if (duration != null) 'Duration': duration,
-      if (fixedPrice != null) 'FixedPrice': fixedPrice,
-      if (offeringType != null) 'OfferingType': offeringType,
-      if (productDescription != null) 'ProductDescription': productDescription,
-      if (recurringCharges != null) 'RecurringCharges': recurringCharges,
-      if (reservedCacheNodesOfferingId != null)
-        'ReservedCacheNodesOfferingId': reservedCacheNodesOfferingId,
-      if (usagePrice != null) 'UsagePrice': usagePrice,
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
     };
   }
 }
 
-/// Represents the output of a <code>DescribeReservedCacheNodesOfferings</code>
-/// operation.
-class ReservedCacheNodesOfferingMessage {
-  /// Provides an identifier to allow retrieval of paginated results.
-  final String? marker;
+/// Specifies the authentication mode to use.
+class AuthenticationMode {
+  /// Specifies the passwords to use for authentication if <code>Type</code> is
+  /// set to <code>password</code>.
+  final List<String>? passwords;
 
-  /// A list of reserved cache node offerings. Each element in the list contains
-  /// detailed information about one offering.
-  final List<ReservedCacheNodesOffering>? reservedCacheNodesOfferings;
+  /// Specifies the authentication type. Possible options are IAM authentication,
+  /// password and no password.
+  final InputAuthenticationType? type;
 
-  ReservedCacheNodesOfferingMessage({
-    this.marker,
-    this.reservedCacheNodesOfferings,
+  AuthenticationMode({
+    this.passwords,
+    this.type,
   });
-  factory ReservedCacheNodesOfferingMessage.fromXml(_s.XmlElement elem) {
-    return ReservedCacheNodesOfferingMessage(
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      reservedCacheNodesOfferings: _s
-          .extractXmlChild(elem, 'ReservedCacheNodesOfferings')
-          ?.let((elem) => elem
-              .findElements('ReservedCacheNodesOffering')
-              .map(ReservedCacheNodesOffering.fromXml)
-              .toList()),
+
+  Map<String, dynamic> toJson() {
+    final passwords = this.passwords;
+    final type = this.type;
+    return {
+      if (passwords != null) 'Passwords': passwords,
+      if (type != null) 'Type': type.value,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final passwords = this.passwords;
+    final type = this.type;
+    return {
+      if (passwords != null)
+        if (passwords.isEmpty)
+          'Passwords': ''
+        else
+          for (var i1 = 0; i1 < passwords.length; i1++)
+            'Passwords.member.${i1 + 1}': passwords[i1],
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class InputAuthenticationType {
+  static const password = InputAuthenticationType._('password');
+  static const noPasswordRequired =
+      InputAuthenticationType._('no-password-required');
+  static const iam = InputAuthenticationType._('iam');
+
+  final String value;
+
+  const InputAuthenticationType._(this.value);
+
+  static const values = [password, noPasswordRequired, iam];
+
+  static InputAuthenticationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InputAuthenticationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InputAuthenticationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The resource representing a serverless cache.
+class ServerlessCache {
+  /// The Amazon Resource Name (ARN) of the serverless cache.
+  final String? arn;
+
+  /// The cache usage limit for the serverless cache.
+  final CacheUsageLimits? cacheUsageLimits;
+
+  /// When the serverless cache was created.
+  final DateTime? createTime;
+
+  /// The daily time that a cache snapshot will be created. Default is NULL, i.e.
+  /// snapshots will not be created at a specific time on a daily basis. Available
+  /// for Valkey, Redis OSS and Serverless Memcached only.
+  final String? dailySnapshotTime;
+
+  /// A description of the serverless cache.
+  final String? description;
+  final Endpoint? endpoint;
+
+  /// The engine the serverless cache is compatible with.
+  final String? engine;
+
+  /// The name and version number of the engine the serverless cache is compatible
+  /// with.
+  final String? fullEngineVersion;
+
+  /// The ID of the Amazon Web Services Key Management Service (KMS) key that is
+  /// used to encrypt data at rest in the serverless cache.
+  final String? kmsKeyId;
+
+  /// The version number of the engine the serverless cache is compatible with.
+  final String? majorEngineVersion;
+
+  /// The type of IP address protocol used by the serverless cache. Must be either
+  /// <code>ipv4</code> | <code>ipv6</code> | <code>dual_stack</code>.
+  /// <code>ipv6</code> is only supported with IPv6-only subnets. If not
+  /// specified, defaults to <code>ipv4</code>, unless all provided subnets are
+  /// IPv6-only, in which case it defaults to <code>ipv6</code>.
+  final NetworkType? networkType;
+  final Endpoint? readerEndpoint;
+
+  /// The IDs of the EC2 security groups associated with the serverless cache.
+  final List<String>? securityGroupIds;
+
+  /// The unique identifier of the serverless cache.
+  final String? serverlessCacheName;
+
+  /// The number of days for which ElastiCache retains automatic snapshots before
+  /// deleting them. Available for Valkey, Redis OSS and Serverless Memcached
+  /// only. The maximum value allowed is 35 days.
+  final int? snapshotRetentionLimit;
+
+  /// The current status of the serverless cache. The allowed values are CREATING,
+  /// AVAILABLE, DELETING, CREATE-FAILED and MODIFYING.
+  final String? status;
+
+  /// Indicates the type of encryption for data stored at rest in the serverless
+  /// cache. Serverless caches are always encrypted at rest. The value is
+  /// <code>sse-elasticache</code> if an ElastiCache service-managed key is used,
+  /// or <code>sse-kms</code> if a customer-managed KMS key is used.
+  final StorageEncryptionType? storageEncryptionType;
+
+  /// If no subnet IDs are given and your VPC is in us-west-1, then ElastiCache
+  /// will select 2 default subnets across AZs in your VPC. For all other Regions,
+  /// if no subnet IDs are given then ElastiCache will select 3 default subnets
+  /// across AZs in your default VPC.
+  final List<String>? subnetIds;
+
+  /// The identifier of the user group associated with the serverless cache.
+  /// Available for Valkey and Redis OSS only. Default is NULL.
+  final String? userGroupId;
+
+  ServerlessCache({
+    this.arn,
+    this.cacheUsageLimits,
+    this.createTime,
+    this.dailySnapshotTime,
+    this.description,
+    this.endpoint,
+    this.engine,
+    this.fullEngineVersion,
+    this.kmsKeyId,
+    this.majorEngineVersion,
+    this.networkType,
+    this.readerEndpoint,
+    this.securityGroupIds,
+    this.serverlessCacheName,
+    this.snapshotRetentionLimit,
+    this.status,
+    this.storageEncryptionType,
+    this.subnetIds,
+    this.userGroupId,
+  });
+  factory ServerlessCache.fromXml(_s.XmlElement elem) {
+    return ServerlessCache(
+      arn: _s.extractXmlStringValue(elem, 'ARN'),
+      cacheUsageLimits: _s
+          .extractXmlChild(elem, 'CacheUsageLimits')
+          ?.let(CacheUsageLimits.fromXml),
+      createTime: _s.extractXmlDateTimeValue(elem, 'CreateTime'),
+      dailySnapshotTime: _s.extractXmlStringValue(elem, 'DailySnapshotTime'),
+      description: _s.extractXmlStringValue(elem, 'Description'),
+      endpoint: _s.extractXmlChild(elem, 'Endpoint')?.let(Endpoint.fromXml),
+      engine: _s.extractXmlStringValue(elem, 'Engine'),
+      fullEngineVersion: _s.extractXmlStringValue(elem, 'FullEngineVersion'),
+      kmsKeyId: _s.extractXmlStringValue(elem, 'KmsKeyId'),
+      majorEngineVersion: _s.extractXmlStringValue(elem, 'MajorEngineVersion'),
+      networkType: _s
+          .extractXmlStringValue(elem, 'NetworkType')
+          ?.let(NetworkType.fromString),
+      readerEndpoint:
+          _s.extractXmlChild(elem, 'ReaderEndpoint')?.let(Endpoint.fromXml),
+      securityGroupIds: _s.extractXmlChild(elem, 'SecurityGroupIds')?.let(
+          (elem) => _s.extractXmlStringListValues(elem, 'SecurityGroupId')),
+      serverlessCacheName:
+          _s.extractXmlStringValue(elem, 'ServerlessCacheName'),
+      snapshotRetentionLimit:
+          _s.extractXmlIntValue(elem, 'SnapshotRetentionLimit'),
+      status: _s.extractXmlStringValue(elem, 'Status'),
+      storageEncryptionType: _s
+          .extractXmlStringValue(elem, 'StorageEncryptionType')
+          ?.let(StorageEncryptionType.fromString),
+      subnetIds: _s
+          .extractXmlChild(elem, 'SubnetIds')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'SubnetId')),
+      userGroupId: _s.extractXmlStringValue(elem, 'UserGroupId'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final marker = this.marker;
-    final reservedCacheNodesOfferings = this.reservedCacheNodesOfferings;
+    final arn = this.arn;
+    final cacheUsageLimits = this.cacheUsageLimits;
+    final createTime = this.createTime;
+    final dailySnapshotTime = this.dailySnapshotTime;
+    final description = this.description;
+    final endpoint = this.endpoint;
+    final engine = this.engine;
+    final fullEngineVersion = this.fullEngineVersion;
+    final kmsKeyId = this.kmsKeyId;
+    final majorEngineVersion = this.majorEngineVersion;
+    final networkType = this.networkType;
+    final readerEndpoint = this.readerEndpoint;
+    final securityGroupIds = this.securityGroupIds;
+    final serverlessCacheName = this.serverlessCacheName;
+    final snapshotRetentionLimit = this.snapshotRetentionLimit;
+    final status = this.status;
+    final storageEncryptionType = this.storageEncryptionType;
+    final subnetIds = this.subnetIds;
+    final userGroupId = this.userGroupId;
     return {
-      if (marker != null) 'Marker': marker,
-      if (reservedCacheNodesOfferings != null)
-        'ReservedCacheNodesOfferings': reservedCacheNodesOfferings,
+      if (arn != null) 'ARN': arn,
+      if (cacheUsageLimits != null) 'CacheUsageLimits': cacheUsageLimits,
+      if (createTime != null) 'CreateTime': iso8601ToJson(createTime),
+      if (dailySnapshotTime != null) 'DailySnapshotTime': dailySnapshotTime,
+      if (description != null) 'Description': description,
+      if (endpoint != null) 'Endpoint': endpoint,
+      if (engine != null) 'Engine': engine,
+      if (fullEngineVersion != null) 'FullEngineVersion': fullEngineVersion,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (majorEngineVersion != null) 'MajorEngineVersion': majorEngineVersion,
+      if (networkType != null) 'NetworkType': networkType.value,
+      if (readerEndpoint != null) 'ReaderEndpoint': readerEndpoint,
+      if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
+      if (serverlessCacheName != null)
+        'ServerlessCacheName': serverlessCacheName,
+      if (snapshotRetentionLimit != null)
+        'SnapshotRetentionLimit': snapshotRetentionLimit,
+      if (status != null) 'Status': status,
+      if (storageEncryptionType != null)
+        'StorageEncryptionType': storageEncryptionType.value,
+      if (subnetIds != null) 'SubnetIds': subnetIds,
+      if (userGroupId != null) 'UserGroupId': userGroupId,
     };
   }
+}
+
+/// The usage limits for storage and ElastiCache Processing Units for the cache.
+class CacheUsageLimits {
+  /// The maximum data storage limit in the cache, expressed in Gigabytes.
+  final DataStorage? dataStorage;
+  final ECPUPerSecond? eCPUPerSecond;
+
+  CacheUsageLimits({
+    this.dataStorage,
+    this.eCPUPerSecond,
+  });
+  factory CacheUsageLimits.fromXml(_s.XmlElement elem) {
+    return CacheUsageLimits(
+      dataStorage:
+          _s.extractXmlChild(elem, 'DataStorage')?.let(DataStorage.fromXml),
+      eCPUPerSecond:
+          _s.extractXmlChild(elem, 'ECPUPerSecond')?.let(ECPUPerSecond.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataStorage = this.dataStorage;
+    final eCPUPerSecond = this.eCPUPerSecond;
+    return {
+      if (dataStorage != null) 'DataStorage': dataStorage,
+      if (eCPUPerSecond != null) 'ECPUPerSecond': eCPUPerSecond,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final dataStorage = this.dataStorage;
+    final eCPUPerSecond = this.eCPUPerSecond;
+    return {
+      if (dataStorage != null)
+        for (var e1 in dataStorage.toQueryMap().entries)
+          'DataStorage.${e1.key}': e1.value,
+      if (eCPUPerSecond != null)
+        for (var e1 in eCPUPerSecond.toQueryMap().entries)
+          'ECPUPerSecond.${e1.key}': e1.value,
+    };
+  }
+}
+
+/// The data storage limit.
+class DataStorage {
+  /// The unit that the storage is measured in, in GB.
+  final DataStorageUnit unit;
+
+  /// The upper limit for data storage the cache is set to use.
+  final int? maximum;
+
+  /// The lower limit for data storage the cache is set to use.
+  final int? minimum;
+
+  DataStorage({
+    required this.unit,
+    this.maximum,
+    this.minimum,
+  });
+  factory DataStorage.fromXml(_s.XmlElement elem) {
+    return DataStorage(
+      unit: _s
+          .extractXmlStringValue(elem, 'Unit')!
+          .let(DataStorageUnit.fromString),
+      maximum: _s.extractXmlIntValue(elem, 'Maximum'),
+      minimum: _s.extractXmlIntValue(elem, 'Minimum'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final unit = this.unit;
+    final maximum = this.maximum;
+    final minimum = this.minimum;
+    return {
+      'Unit': unit.value,
+      if (maximum != null) 'Maximum': maximum,
+      if (minimum != null) 'Minimum': minimum,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final unit = this.unit;
+    final maximum = this.maximum;
+    final minimum = this.minimum;
+    return {
+      'Unit': unit.value,
+      if (maximum != null) 'Maximum': maximum.toString(),
+      if (minimum != null) 'Minimum': minimum.toString(),
+    };
+  }
+}
+
+/// The configuration for the number of ElastiCache Processing Units (ECPU) the
+/// cache can consume per second.
+class ECPUPerSecond {
+  /// The configuration for the maximum number of ECPUs the cache can consume per
+  /// second.
+  final int? maximum;
+
+  /// The configuration for the minimum number of ECPUs the cache should be able
+  /// consume per second.
+  final int? minimum;
+
+  ECPUPerSecond({
+    this.maximum,
+    this.minimum,
+  });
+  factory ECPUPerSecond.fromXml(_s.XmlElement elem) {
+    return ECPUPerSecond(
+      maximum: _s.extractXmlIntValue(elem, 'Maximum'),
+      minimum: _s.extractXmlIntValue(elem, 'Minimum'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maximum = this.maximum;
+    final minimum = this.minimum;
+    return {
+      if (maximum != null) 'Maximum': maximum,
+      if (minimum != null) 'Minimum': minimum,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final maximum = this.maximum;
+    final minimum = this.minimum;
+    return {
+      if (maximum != null) 'Maximum': maximum.toString(),
+      if (minimum != null) 'Minimum': minimum.toString(),
+    };
+  }
+}
+
+class DataStorageUnit {
+  static const gb = DataStorageUnit._('GB');
+
+  final String value;
+
+  const DataStorageUnit._(this.value);
+
+  static const values = [gb];
+
+  static DataStorageUnit fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataStorageUnit._(value));
+
+  @override
+  bool operator ==(other) => other is DataStorageUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A list of <code>PreferredAvailabilityZones</code> objects that specifies the
 /// configuration of a node group in the resharded cluster.
 class ReshardingConfiguration {
-  /// Either the ElastiCache (Redis OSS) supplied 4-digit id or a user supplied id
-  /// for the node group these configuration values apply to.
+  /// Either the ElastiCache supplied 4-digit id or a user supplied id for the
+  /// node group these configuration values apply to.
   final String? nodeGroupId;
 
   /// A list of preferred availability zones for the nodes in this cluster.
@@ -13014,309 +12366,486 @@ class ReshardingConfiguration {
   }
 }
 
-/// The status of an online resharding operation.
-class ReshardingStatus {
-  /// Represents the progress of an online resharding operation.
-  final SlotMigration? slotMigration;
+class AuthTokenUpdateStrategyType {
+  static const set = AuthTokenUpdateStrategyType._('SET');
+  static const rotate = AuthTokenUpdateStrategyType._('ROTATE');
+  static const delete = AuthTokenUpdateStrategyType._('DELETE');
 
-  ReshardingStatus({
-    this.slotMigration,
+  final String value;
+
+  const AuthTokenUpdateStrategyType._(this.value);
+
+  static const values = [set, rotate, delete];
+
+  static AuthTokenUpdateStrategyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AuthTokenUpdateStrategyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AuthTokenUpdateStrategyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Specifies the destination, format and type of the logs.
+class LogDeliveryConfigurationRequest {
+  /// Configuration details of either a CloudWatch Logs destination or Kinesis
+  /// Data Firehose destination.
+  final DestinationDetails? destinationDetails;
+
+  /// Specify either <code>cloudwatch-logs</code> or <code>kinesis-firehose</code>
+  /// as the destination type.
+  final DestinationType? destinationType;
+
+  /// Specify if log delivery is enabled. Default <code>true</code>.
+  final bool? enabled;
+
+  /// Specifies either JSON or TEXT
+  final LogFormat? logFormat;
+
+  /// Refers to <a href="https://redis.io/commands/slowlog">slow-log</a> or
+  /// engine-log..
+  final LogType? logType;
+
+  LogDeliveryConfigurationRequest({
+    this.destinationDetails,
+    this.destinationType,
+    this.enabled,
+    this.logFormat,
+    this.logType,
   });
-  factory ReshardingStatus.fromXml(_s.XmlElement elem) {
-    return ReshardingStatus(
-      slotMigration:
-          _s.extractXmlChild(elem, 'SlotMigration')?.let(SlotMigration.fromXml),
-    );
-  }
 
   Map<String, dynamic> toJson() {
-    final slotMigration = this.slotMigration;
+    final destinationDetails = this.destinationDetails;
+    final destinationType = this.destinationType;
+    final enabled = this.enabled;
+    final logFormat = this.logFormat;
+    final logType = this.logType;
     return {
-      if (slotMigration != null) 'SlotMigration': slotMigration,
+      if (destinationDetails != null) 'DestinationDetails': destinationDetails,
+      if (destinationType != null) 'DestinationType': destinationType.value,
+      if (enabled != null) 'Enabled': enabled,
+      if (logFormat != null) 'LogFormat': logFormat.value,
+      if (logType != null) 'LogType': logType.value,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final destinationDetails = this.destinationDetails;
+    final destinationType = this.destinationType;
+    final enabled = this.enabled;
+    final logFormat = this.logFormat;
+    final logType = this.logType;
+    return {
+      if (destinationDetails != null)
+        for (var e1 in destinationDetails.toQueryMap().entries)
+          'DestinationDetails.${e1.key}': e1.value,
+      if (destinationType != null) 'DestinationType': destinationType.value,
+      if (enabled != null) 'Enabled': enabled.toString(),
+      if (logFormat != null) 'LogFormat': logFormat.value,
+      if (logType != null) 'LogType': logType.value,
     };
   }
 }
 
-class RevokeCacheSecurityGroupIngressResult {
-  final CacheSecurityGroup? cacheSecurityGroup;
-
-  RevokeCacheSecurityGroupIngressResult({
-    this.cacheSecurityGroup,
-  });
-  factory RevokeCacheSecurityGroupIngressResult.fromXml(_s.XmlElement elem) {
-    return RevokeCacheSecurityGroupIngressResult(
-      cacheSecurityGroup: _s
-          .extractXmlChild(elem, 'CacheSecurityGroup')
-          ?.let(CacheSecurityGroup.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cacheSecurityGroup = this.cacheSecurityGroup;
-    return {
-      if (cacheSecurityGroup != null) 'CacheSecurityGroup': cacheSecurityGroup,
-    };
-  }
-}
-
-/// Represents a single cache security group and its status.
-class SecurityGroupMembership {
-  /// The identifier of the cache security group.
-  final String? securityGroupId;
-
-  /// The status of the cache security group membership. The status changes
-  /// whenever a cache security group is modified, or when the cache security
-  /// groups assigned to a cluster are modified.
-  final String? status;
-
-  SecurityGroupMembership({
-    this.securityGroupId,
-    this.status,
-  });
-  factory SecurityGroupMembership.fromXml(_s.XmlElement elem) {
-    return SecurityGroupMembership(
-      securityGroupId: _s.extractXmlStringValue(elem, 'SecurityGroupId'),
-      status: _s.extractXmlStringValue(elem, 'Status'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final securityGroupId = this.securityGroupId;
-    final status = this.status;
-    return {
-      if (securityGroupId != null) 'SecurityGroupId': securityGroupId,
-      if (status != null) 'Status': status,
-    };
-  }
-}
-
-/// The resource representing a serverless cache.
-class ServerlessCache {
-  /// The Amazon Resource Name (ARN) of the serverless cache.
+/// Represents the output of one of the following operations:
+///
+/// <ul>
+/// <li>
+/// <code>CreateCacheSubnetGroup</code>
+/// </li>
+/// <li>
+/// <code>ModifyCacheSubnetGroup</code>
+/// </li>
+/// </ul>
+class CacheSubnetGroup {
+  /// The ARN (Amazon Resource Name) of the cache subnet group.
   final String? arn;
 
-  /// The cache usage limit for the serverless cache.
-  final CacheUsageLimits? cacheUsageLimits;
+  /// The description of the cache subnet group.
+  final String? cacheSubnetGroupDescription;
 
-  /// When the serverless cache was created.
-  final DateTime? createTime;
+  /// The name of the cache subnet group.
+  final String? cacheSubnetGroupName;
 
-  /// The daily time that a cache snapshot will be created. Default is NULL, i.e.
-  /// snapshots will not be created at a specific time on a daily basis. Available
-  /// for Redis OSS and Serverless Memcached only.
-  final String? dailySnapshotTime;
+  /// A list of subnets associated with the cache subnet group.
+  final List<Subnet>? subnets;
 
-  /// A description of the serverless cache.
-  final String? description;
-  final Endpoint? endpoint;
+  /// Either <code>ipv4</code> | <code>ipv6</code> | <code>dual_stack</code>. IPv6
+  /// is supported for workloads using Valkey 7.2 and above, Redis OSS engine
+  /// version 6.2 to 7.1 or Memcached engine version 1.6.6 and above on all
+  /// instances built on the <a href="http://aws.amazon.com/ec2/nitro/">Nitro
+  /// system</a>.
+  final List<NetworkType>? supportedNetworkTypes;
 
-  /// The engine the serverless cache is compatible with.
-  final String? engine;
+  /// The Amazon Virtual Private Cloud identifier (VPC ID) of the cache subnet
+  /// group.
+  final String? vpcId;
 
-  /// The name and version number of the engine the serverless cache is compatible
-  /// with.
-  final String? fullEngineVersion;
-
-  /// The ID of the Amazon Web Services Key Management Service (KMS) key that is
-  /// used to encrypt data at rest in the serverless cache.
-  final String? kmsKeyId;
-
-  /// The version number of the engine the serverless cache is compatible with.
-  final String? majorEngineVersion;
-  final Endpoint? readerEndpoint;
-
-  /// The IDs of the EC2 security groups associated with the serverless cache.
-  final List<String>? securityGroupIds;
-
-  /// The unique identifier of the serverless cache.
-  final String? serverlessCacheName;
-
-  /// The current setting for the number of serverless cache snapshots the system
-  /// will retain. Available for Redis OSS and Serverless Memcached only.
-  final int? snapshotRetentionLimit;
-
-  /// The current status of the serverless cache. The allowed values are CREATING,
-  /// AVAILABLE, DELETING, CREATE-FAILED and MODIFYING.
-  final String? status;
-
-  /// If no subnet IDs are given and your VPC is in us-west-1, then ElastiCache
-  /// will select 2 default subnets across AZs in your VPC. For all other Regions,
-  /// if no subnet IDs are given then ElastiCache will select 3 default subnets
-  /// across AZs in your default VPC.
-  final List<String>? subnetIds;
-
-  /// The identifier of the user group associated with the serverless cache.
-  /// Available for Redis OSS only. Default is NULL.
-  final String? userGroupId;
-
-  ServerlessCache({
+  CacheSubnetGroup({
     this.arn,
-    this.cacheUsageLimits,
-    this.createTime,
-    this.dailySnapshotTime,
-    this.description,
-    this.endpoint,
-    this.engine,
-    this.fullEngineVersion,
-    this.kmsKeyId,
-    this.majorEngineVersion,
-    this.readerEndpoint,
-    this.securityGroupIds,
-    this.serverlessCacheName,
-    this.snapshotRetentionLimit,
-    this.status,
-    this.subnetIds,
-    this.userGroupId,
+    this.cacheSubnetGroupDescription,
+    this.cacheSubnetGroupName,
+    this.subnets,
+    this.supportedNetworkTypes,
+    this.vpcId,
   });
-  factory ServerlessCache.fromXml(_s.XmlElement elem) {
-    return ServerlessCache(
+  factory CacheSubnetGroup.fromXml(_s.XmlElement elem) {
+    return CacheSubnetGroup(
       arn: _s.extractXmlStringValue(elem, 'ARN'),
-      cacheUsageLimits: _s
-          .extractXmlChild(elem, 'CacheUsageLimits')
-          ?.let(CacheUsageLimits.fromXml),
-      createTime: _s.extractXmlDateTimeValue(elem, 'CreateTime'),
-      dailySnapshotTime: _s.extractXmlStringValue(elem, 'DailySnapshotTime'),
-      description: _s.extractXmlStringValue(elem, 'Description'),
-      endpoint: _s.extractXmlChild(elem, 'Endpoint')?.let(Endpoint.fromXml),
-      engine: _s.extractXmlStringValue(elem, 'Engine'),
-      fullEngineVersion: _s.extractXmlStringValue(elem, 'FullEngineVersion'),
-      kmsKeyId: _s.extractXmlStringValue(elem, 'KmsKeyId'),
-      majorEngineVersion: _s.extractXmlStringValue(elem, 'MajorEngineVersion'),
-      readerEndpoint:
-          _s.extractXmlChild(elem, 'ReaderEndpoint')?.let(Endpoint.fromXml),
-      securityGroupIds: _s.extractXmlChild(elem, 'SecurityGroupIds')?.let(
-          (elem) => _s.extractXmlStringListValues(elem, 'SecurityGroupId')),
-      serverlessCacheName:
-          _s.extractXmlStringValue(elem, 'ServerlessCacheName'),
-      snapshotRetentionLimit:
-          _s.extractXmlIntValue(elem, 'SnapshotRetentionLimit'),
-      status: _s.extractXmlStringValue(elem, 'Status'),
-      subnetIds: _s
-          .extractXmlChild(elem, 'SubnetIds')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'SubnetId')),
-      userGroupId: _s.extractXmlStringValue(elem, 'UserGroupId'),
+      cacheSubnetGroupDescription:
+          _s.extractXmlStringValue(elem, 'CacheSubnetGroupDescription'),
+      cacheSubnetGroupName:
+          _s.extractXmlStringValue(elem, 'CacheSubnetGroupName'),
+      subnets: _s.extractXmlChild(elem, 'Subnets')?.let(
+          (elem) => elem.findElements('Subnet').map(Subnet.fromXml).toList()),
+      supportedNetworkTypes: _s
+          .extractXmlChild(elem, 'SupportedNetworkTypes')
+          ?.let((elem) => _s
+              .extractXmlStringListValues(elem, 'member')
+              .map(NetworkType.fromString)
+              .toList()),
+      vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
     );
   }
 
   Map<String, dynamic> toJson() {
     final arn = this.arn;
-    final cacheUsageLimits = this.cacheUsageLimits;
-    final createTime = this.createTime;
-    final dailySnapshotTime = this.dailySnapshotTime;
-    final description = this.description;
-    final endpoint = this.endpoint;
-    final engine = this.engine;
-    final fullEngineVersion = this.fullEngineVersion;
-    final kmsKeyId = this.kmsKeyId;
-    final majorEngineVersion = this.majorEngineVersion;
-    final readerEndpoint = this.readerEndpoint;
-    final securityGroupIds = this.securityGroupIds;
-    final serverlessCacheName = this.serverlessCacheName;
-    final snapshotRetentionLimit = this.snapshotRetentionLimit;
-    final status = this.status;
-    final subnetIds = this.subnetIds;
-    final userGroupId = this.userGroupId;
+    final cacheSubnetGroupDescription = this.cacheSubnetGroupDescription;
+    final cacheSubnetGroupName = this.cacheSubnetGroupName;
+    final subnets = this.subnets;
+    final supportedNetworkTypes = this.supportedNetworkTypes;
+    final vpcId = this.vpcId;
     return {
       if (arn != null) 'ARN': arn,
-      if (cacheUsageLimits != null) 'CacheUsageLimits': cacheUsageLimits,
-      if (createTime != null) 'CreateTime': iso8601ToJson(createTime),
-      if (dailySnapshotTime != null) 'DailySnapshotTime': dailySnapshotTime,
-      if (description != null) 'Description': description,
-      if (endpoint != null) 'Endpoint': endpoint,
-      if (engine != null) 'Engine': engine,
-      if (fullEngineVersion != null) 'FullEngineVersion': fullEngineVersion,
-      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-      if (majorEngineVersion != null) 'MajorEngineVersion': majorEngineVersion,
-      if (readerEndpoint != null) 'ReaderEndpoint': readerEndpoint,
-      if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
-      if (serverlessCacheName != null)
-        'ServerlessCacheName': serverlessCacheName,
-      if (snapshotRetentionLimit != null)
-        'SnapshotRetentionLimit': snapshotRetentionLimit,
-      if (status != null) 'Status': status,
-      if (subnetIds != null) 'SubnetIds': subnetIds,
-      if (userGroupId != null) 'UserGroupId': userGroupId,
+      if (cacheSubnetGroupDescription != null)
+        'CacheSubnetGroupDescription': cacheSubnetGroupDescription,
+      if (cacheSubnetGroupName != null)
+        'CacheSubnetGroupName': cacheSubnetGroupName,
+      if (subnets != null) 'Subnets': subnets,
+      if (supportedNetworkTypes != null)
+        'SupportedNetworkTypes':
+            supportedNetworkTypes.map((e) => e.value).toList(),
+      if (vpcId != null) 'VpcId': vpcId,
     };
   }
 }
 
-/// The configuration settings for a specific serverless cache.
-class ServerlessCacheConfiguration {
-  /// The engine that the serverless cache is configured with.
-  final String? engine;
+/// Represents the subnet associated with a cluster. This parameter refers to
+/// subnets defined in Amazon Virtual Private Cloud (Amazon VPC) and used with
+/// ElastiCache.
+class Subnet {
+  /// The Availability Zone associated with the subnet.
+  final AvailabilityZone? subnetAvailabilityZone;
 
-  /// The engine version number that the serverless cache is configured with.
-  final String? majorEngineVersion;
+  /// The unique identifier for the subnet.
+  final String? subnetIdentifier;
 
-  /// The identifier of a serverless cache.
-  final String? serverlessCacheName;
+  /// The outpost ARN of the subnet.
+  final SubnetOutpost? subnetOutpost;
 
-  ServerlessCacheConfiguration({
-    this.engine,
-    this.majorEngineVersion,
-    this.serverlessCacheName,
+  /// Either <code>ipv4</code> | <code>ipv6</code> | <code>dual_stack</code>. IPv6
+  /// is supported for workloads using Valkey 7.2 and above, Redis OSS engine
+  /// version 6.2 to 7.1 or Memcached engine version 1.6.6 and above on all
+  /// instances built on the <a href="http://aws.amazon.com/ec2/nitro/">Nitro
+  /// system</a>.
+  final List<NetworkType>? supportedNetworkTypes;
+
+  Subnet({
+    this.subnetAvailabilityZone,
+    this.subnetIdentifier,
+    this.subnetOutpost,
+    this.supportedNetworkTypes,
   });
-  factory ServerlessCacheConfiguration.fromXml(_s.XmlElement elem) {
-    return ServerlessCacheConfiguration(
-      engine: _s.extractXmlStringValue(elem, 'Engine'),
-      majorEngineVersion: _s.extractXmlStringValue(elem, 'MajorEngineVersion'),
-      serverlessCacheName:
-          _s.extractXmlStringValue(elem, 'ServerlessCacheName'),
+  factory Subnet.fromXml(_s.XmlElement elem) {
+    return Subnet(
+      subnetAvailabilityZone: _s
+          .extractXmlChild(elem, 'SubnetAvailabilityZone')
+          ?.let(AvailabilityZone.fromXml),
+      subnetIdentifier: _s.extractXmlStringValue(elem, 'SubnetIdentifier'),
+      subnetOutpost:
+          _s.extractXmlChild(elem, 'SubnetOutpost')?.let(SubnetOutpost.fromXml),
+      supportedNetworkTypes: _s
+          .extractXmlChild(elem, 'SupportedNetworkTypes')
+          ?.let((elem) => _s
+              .extractXmlStringListValues(elem, 'member')
+              .map(NetworkType.fromString)
+              .toList()),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final engine = this.engine;
-    final majorEngineVersion = this.majorEngineVersion;
-    final serverlessCacheName = this.serverlessCacheName;
+    final subnetAvailabilityZone = this.subnetAvailabilityZone;
+    final subnetIdentifier = this.subnetIdentifier;
+    final subnetOutpost = this.subnetOutpost;
+    final supportedNetworkTypes = this.supportedNetworkTypes;
     return {
-      if (engine != null) 'Engine': engine,
-      if (majorEngineVersion != null) 'MajorEngineVersion': majorEngineVersion,
-      if (serverlessCacheName != null)
-        'ServerlessCacheName': serverlessCacheName,
+      if (subnetAvailabilityZone != null)
+        'SubnetAvailabilityZone': subnetAvailabilityZone,
+      if (subnetIdentifier != null) 'SubnetIdentifier': subnetIdentifier,
+      if (subnetOutpost != null) 'SubnetOutpost': subnetOutpost,
+      if (supportedNetworkTypes != null)
+        'SupportedNetworkTypes':
+            supportedNetworkTypes.map((e) => e.value).toList(),
     };
   }
 }
 
-/// The resource representing a serverless cache snapshot. Available for Redis
-/// OSS and Serverless Memcached only.
+/// Describes an Availability Zone in which the cluster is launched.
+class AvailabilityZone {
+  /// The name of the Availability Zone.
+  final String? name;
+
+  AvailabilityZone({
+    this.name,
+  });
+  factory AvailabilityZone.fromXml(_s.XmlElement elem) {
+    return AvailabilityZone(
+      name: _s.extractXmlStringValue(elem, 'Name'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// The ID of the outpost subnet.
+class SubnetOutpost {
+  /// The outpost ARN of the subnet.
+  final String? subnetOutpostArn;
+
+  SubnetOutpost({
+    this.subnetOutpostArn,
+  });
+  factory SubnetOutpost.fromXml(_s.XmlElement elem) {
+    return SubnetOutpost(
+      subnetOutpostArn: _s.extractXmlStringValue(elem, 'SubnetOutpostArn'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final subnetOutpostArn = this.subnetOutpostArn;
+    return {
+      if (subnetOutpostArn != null) 'SubnetOutpostArn': subnetOutpostArn,
+    };
+  }
+}
+
+class AZMode {
+  static const singleAz = AZMode._('single-az');
+  static const crossAz = AZMode._('cross-az');
+
+  final String value;
+
+  const AZMode._(this.value);
+
+  static const values = [singleAz, crossAz];
+
+  static AZMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => AZMode._(value));
+
+  @override
+  bool operator ==(other) => other is AZMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Node group (shard) configuration options when adding or removing replicas.
+/// Each node group (shard) configuration has the following members:
+/// NodeGroupId, NewReplicaCount, and PreferredAvailabilityZones.
+class ConfigureShard {
+  /// The number of replicas you want in this node group at the end of this
+  /// operation. The maximum value for <code>NewReplicaCount</code> is 5. The
+  /// minimum value depends upon the type of Valkey or Redis OSS replication group
+  /// you are working with.
+  ///
+  /// The minimum number of replicas in a shard or replication group is:
+  ///
+  /// <ul>
+  /// <li>
+  /// Valkey or Redis OSS (cluster mode disabled)
+  ///
+  /// <ul>
+  /// <li>
+  /// If Multi-AZ: 1
+  /// </li>
+  /// <li>
+  /// If Multi-AZ: 0
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// Valkey or Redis OSS (cluster mode enabled): 0 (though you will not be able
+  /// to failover to a replica if your primary node fails)
+  /// </li>
+  /// </ul>
+  final int newReplicaCount;
+
+  /// The 4-digit id for the node group you are configuring. For Valkey or Redis
+  /// OSS (cluster mode disabled) replication groups, the node group id is always
+  /// 0001. To find a Valkey or Redis OSS (cluster mode enabled)'s node group's
+  /// (shard's) id, see <a
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/shard-find-id.html">Finding
+  /// a Shard's Id</a>.
+  final String nodeGroupId;
+
+  /// A list of <code>PreferredAvailabilityZone</code> strings that specify which
+  /// availability zones the replication group's nodes are to be in. The nummber
+  /// of <code>PreferredAvailabilityZone</code> values must equal the value of
+  /// <code>NewReplicaCount</code> plus 1 to account for the primary node. If this
+  /// member of <code>ReplicaConfiguration</code> is omitted, ElastiCache selects
+  /// the availability zone for each of the replicas.
+  final List<String>? preferredAvailabilityZones;
+
+  /// The outpost ARNs in which the cache cluster is created.
+  final List<String>? preferredOutpostArns;
+
+  ConfigureShard({
+    required this.newReplicaCount,
+    required this.nodeGroupId,
+    this.preferredAvailabilityZones,
+    this.preferredOutpostArns,
+  });
+
+  Map<String, dynamic> toJson() {
+    final newReplicaCount = this.newReplicaCount;
+    final nodeGroupId = this.nodeGroupId;
+    final preferredAvailabilityZones = this.preferredAvailabilityZones;
+    final preferredOutpostArns = this.preferredOutpostArns;
+    return {
+      'NewReplicaCount': newReplicaCount,
+      'NodeGroupId': nodeGroupId,
+      if (preferredAvailabilityZones != null)
+        'PreferredAvailabilityZones': preferredAvailabilityZones,
+      if (preferredOutpostArns != null)
+        'PreferredOutpostArns': preferredOutpostArns,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final newReplicaCount = this.newReplicaCount;
+    final nodeGroupId = this.nodeGroupId;
+    final preferredAvailabilityZones = this.preferredAvailabilityZones;
+    final preferredOutpostArns = this.preferredOutpostArns;
+    return {
+      'NewReplicaCount': newReplicaCount.toString(),
+      'NodeGroupId': nodeGroupId,
+      if (preferredAvailabilityZones != null)
+        if (preferredAvailabilityZones.isEmpty)
+          'PreferredAvailabilityZone': ''
+        else
+          for (var i1 = 0; i1 < preferredAvailabilityZones.length; i1++)
+            'PreferredAvailabilityZone.PreferredAvailabilityZone.${i1 + 1}':
+                preferredAvailabilityZones[i1],
+      if (preferredOutpostArns != null)
+        if (preferredOutpostArns.isEmpty)
+          'PreferredOutpostArn': ''
+        else
+          for (var i1 = 0; i1 < preferredOutpostArns.length; i1++)
+            'PreferredOutpostArn.PreferredOutpostArn.${i1 + 1}':
+                preferredOutpostArns[i1],
+    };
+  }
+}
+
+/// A list of the replication groups
+class RegionalConfiguration {
+  /// The name of the secondary cluster
+  final String replicationGroupId;
+
+  /// The Amazon region where the cluster is stored
+  final String replicationGroupRegion;
+
+  /// A list of <code>PreferredAvailabilityZones</code> objects that specifies the
+  /// configuration of a node group in the resharded cluster.
+  final List<ReshardingConfiguration> reshardingConfiguration;
+
+  RegionalConfiguration({
+    required this.replicationGroupId,
+    required this.replicationGroupRegion,
+    required this.reshardingConfiguration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final replicationGroupId = this.replicationGroupId;
+    final replicationGroupRegion = this.replicationGroupRegion;
+    final reshardingConfiguration = this.reshardingConfiguration;
+    return {
+      'ReplicationGroupId': replicationGroupId,
+      'ReplicationGroupRegion': replicationGroupRegion,
+      'ReshardingConfiguration': reshardingConfiguration,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final replicationGroupId = this.replicationGroupId;
+    final replicationGroupRegion = this.replicationGroupRegion;
+    final reshardingConfiguration = this.reshardingConfiguration;
+    return {
+      'ReplicationGroupId': replicationGroupId,
+      'ReplicationGroupRegion': replicationGroupRegion,
+      if (reshardingConfiguration.isEmpty)
+        'ReshardingConfiguration': ''
+      else
+        for (var i1 = 0; i1 < reshardingConfiguration.length; i1++)
+          for (var e3 in reshardingConfiguration[i1].toQueryMap().entries)
+            'ReshardingConfiguration.ReshardingConfiguration.${i1 + 1}.${e3.key}':
+                e3.value,
+    };
+  }
+}
+
+/// The resource representing a serverless cache snapshot. Available for Valkey,
+/// Redis OSS and Serverless Memcached only.
 class ServerlessCacheSnapshot {
   /// The Amazon Resource Name (ARN) of a serverless cache snapshot. Available for
-  /// Redis OSS and Serverless Memcached only.
+  /// Valkey, Redis OSS and Serverless Memcached only.
   final String? arn;
 
-  /// The total size of a serverless cache snapshot, in bytes. Available for Redis
-  /// OSS and Serverless Memcached only.
+  /// The total size of a serverless cache snapshot, in bytes. Available for
+  /// Valkey, Redis OSS and Serverless Memcached only.
   final String? bytesUsedForCache;
 
   /// The date and time that the source serverless cache's metadata and cache data
-  /// set was obtained for the snapshot. Available for Redis OSS and Serverless
-  /// Memcached only.
+  /// set was obtained for the snapshot. Available for Valkey, Redis OSS and
+  /// Serverless Memcached only.
   final DateTime? createTime;
 
-  /// The time that the serverless cache snapshot will expire. Available for Redis
-  /// OSS and Serverless Memcached only.
+  /// The time that the serverless cache snapshot will expire. Available for
+  /// Valkey, Redis OSS and Serverless Memcached only.
   final DateTime? expiryTime;
 
   /// The ID of the Amazon Web Services Key Management Service (KMS) key of a
-  /// serverless cache snapshot. Available for Redis OSS and Serverless Memcached
-  /// only.
+  /// serverless cache snapshot. Available for Valkey, Redis OSS and Serverless
+  /// Memcached only.
   final String? kmsKeyId;
 
   /// The configuration of the serverless cache, at the time the snapshot was
-  /// taken. Available for Redis OSS and Serverless Memcached only.
+  /// taken. Available for Valkey, Redis OSS and Serverless Memcached only.
   final ServerlessCacheConfiguration? serverlessCacheConfiguration;
 
-  /// The identifier of a serverless cache snapshot. Available for Redis OSS and
-  /// Serverless Memcached only.
+  /// The identifier of a serverless cache snapshot. Available for Valkey, Redis
+  /// OSS and Serverless Memcached only.
   final String? serverlessCacheSnapshotName;
 
-  /// The type of snapshot of serverless cache. Available for Redis OSS and
-  /// Serverless Memcached only.
+  /// The type of snapshot of serverless cache. Available for Valkey, Redis OSS
+  /// and Serverless Memcached only.
   final String? snapshotType;
 
-  /// The current status of the serverless cache. Available for Redis OSS and
-  /// Serverless Memcached only.
+  /// The current status of the serverless cache. Available for Valkey, Redis OSS
+  /// and Serverless Memcached only.
   final String? status;
 
   ServerlessCacheSnapshot({
@@ -13373,1091 +12902,76 @@ class ServerlessCacheSnapshot {
   }
 }
 
-/// An update that you can apply to your Redis OSS clusters.
-class ServiceUpdate {
-  /// Indicates whether the service update will be automatically applied once the
-  /// recommended apply-by date has expired.
-  final bool? autoUpdateAfterRecommendedApplyByDate;
-
-  /// The Elasticache engine to which the update applies. Either Redis OSS or
-  /// Memcached.
+/// The configuration settings for a specific serverless cache.
+class ServerlessCacheConfiguration {
+  /// The engine that the serverless cache is configured with.
   final String? engine;
 
-  /// The Elasticache engine version to which the update applies. Either Redis OSS
-  /// or Memcached engine version.
-  final String? engineVersion;
+  /// The engine version number that the serverless cache is configured with.
+  final String? majorEngineVersion;
 
-  /// The estimated length of time the service update will take
-  final String? estimatedUpdateTime;
+  /// The identifier of a serverless cache.
+  final String? serverlessCacheName;
 
-  /// Provides details of the service update
-  final String? serviceUpdateDescription;
-
-  /// The date after which the service update is no longer available
-  final DateTime? serviceUpdateEndDate;
-
-  /// The unique ID of the service update
-  final String? serviceUpdateName;
-
-  /// The recommendend date to apply the service update in order to ensure
-  /// compliance. For information on compliance, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/elasticache-compliance.html#elasticache-compliance-self-service">Self-Service
-  /// Security Updates for Compliance</a>.
-  final DateTime? serviceUpdateRecommendedApplyByDate;
-
-  /// The date when the service update is initially available
-  final DateTime? serviceUpdateReleaseDate;
-
-  /// The severity of the service update
-  final ServiceUpdateSeverity? serviceUpdateSeverity;
-
-  /// The status of the service update
-  final ServiceUpdateStatus? serviceUpdateStatus;
-
-  /// Reflects the nature of the service update
-  final ServiceUpdateType? serviceUpdateType;
-
-  ServiceUpdate({
-    this.autoUpdateAfterRecommendedApplyByDate,
+  ServerlessCacheConfiguration({
     this.engine,
-    this.engineVersion,
-    this.estimatedUpdateTime,
-    this.serviceUpdateDescription,
-    this.serviceUpdateEndDate,
-    this.serviceUpdateName,
-    this.serviceUpdateRecommendedApplyByDate,
-    this.serviceUpdateReleaseDate,
-    this.serviceUpdateSeverity,
-    this.serviceUpdateStatus,
-    this.serviceUpdateType,
+    this.majorEngineVersion,
+    this.serverlessCacheName,
   });
-  factory ServiceUpdate.fromXml(_s.XmlElement elem) {
-    return ServiceUpdate(
-      autoUpdateAfterRecommendedApplyByDate:
-          _s.extractXmlBoolValue(elem, 'AutoUpdateAfterRecommendedApplyByDate'),
+  factory ServerlessCacheConfiguration.fromXml(_s.XmlElement elem) {
+    return ServerlessCacheConfiguration(
       engine: _s.extractXmlStringValue(elem, 'Engine'),
-      engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
-      estimatedUpdateTime:
-          _s.extractXmlStringValue(elem, 'EstimatedUpdateTime'),
-      serviceUpdateDescription:
-          _s.extractXmlStringValue(elem, 'ServiceUpdateDescription'),
-      serviceUpdateEndDate:
-          _s.extractXmlDateTimeValue(elem, 'ServiceUpdateEndDate'),
-      serviceUpdateName: _s.extractXmlStringValue(elem, 'ServiceUpdateName'),
-      serviceUpdateRecommendedApplyByDate: _s.extractXmlDateTimeValue(
-          elem, 'ServiceUpdateRecommendedApplyByDate'),
-      serviceUpdateReleaseDate:
-          _s.extractXmlDateTimeValue(elem, 'ServiceUpdateReleaseDate'),
-      serviceUpdateSeverity: _s
-          .extractXmlStringValue(elem, 'ServiceUpdateSeverity')
-          ?.let(ServiceUpdateSeverity.fromString),
-      serviceUpdateStatus: _s
-          .extractXmlStringValue(elem, 'ServiceUpdateStatus')
-          ?.let(ServiceUpdateStatus.fromString),
-      serviceUpdateType: _s
-          .extractXmlStringValue(elem, 'ServiceUpdateType')
-          ?.let(ServiceUpdateType.fromString),
+      majorEngineVersion: _s.extractXmlStringValue(elem, 'MajorEngineVersion'),
+      serverlessCacheName:
+          _s.extractXmlStringValue(elem, 'ServerlessCacheName'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final autoUpdateAfterRecommendedApplyByDate =
-        this.autoUpdateAfterRecommendedApplyByDate;
     final engine = this.engine;
-    final engineVersion = this.engineVersion;
-    final estimatedUpdateTime = this.estimatedUpdateTime;
-    final serviceUpdateDescription = this.serviceUpdateDescription;
-    final serviceUpdateEndDate = this.serviceUpdateEndDate;
-    final serviceUpdateName = this.serviceUpdateName;
-    final serviceUpdateRecommendedApplyByDate =
-        this.serviceUpdateRecommendedApplyByDate;
-    final serviceUpdateReleaseDate = this.serviceUpdateReleaseDate;
-    final serviceUpdateSeverity = this.serviceUpdateSeverity;
-    final serviceUpdateStatus = this.serviceUpdateStatus;
-    final serviceUpdateType = this.serviceUpdateType;
+    final majorEngineVersion = this.majorEngineVersion;
+    final serverlessCacheName = this.serverlessCacheName;
     return {
-      if (autoUpdateAfterRecommendedApplyByDate != null)
-        'AutoUpdateAfterRecommendedApplyByDate':
-            autoUpdateAfterRecommendedApplyByDate,
       if (engine != null) 'Engine': engine,
-      if (engineVersion != null) 'EngineVersion': engineVersion,
-      if (estimatedUpdateTime != null)
-        'EstimatedUpdateTime': estimatedUpdateTime,
-      if (serviceUpdateDescription != null)
-        'ServiceUpdateDescription': serviceUpdateDescription,
-      if (serviceUpdateEndDate != null)
-        'ServiceUpdateEndDate': iso8601ToJson(serviceUpdateEndDate),
-      if (serviceUpdateName != null) 'ServiceUpdateName': serviceUpdateName,
-      if (serviceUpdateRecommendedApplyByDate != null)
-        'ServiceUpdateRecommendedApplyByDate':
-            iso8601ToJson(serviceUpdateRecommendedApplyByDate),
-      if (serviceUpdateReleaseDate != null)
-        'ServiceUpdateReleaseDate': iso8601ToJson(serviceUpdateReleaseDate),
-      if (serviceUpdateSeverity != null)
-        'ServiceUpdateSeverity': serviceUpdateSeverity.value,
-      if (serviceUpdateStatus != null)
-        'ServiceUpdateStatus': serviceUpdateStatus.value,
-      if (serviceUpdateType != null)
-        'ServiceUpdateType': serviceUpdateType.value,
+      if (majorEngineVersion != null) 'MajorEngineVersion': majorEngineVersion,
+      if (serverlessCacheName != null)
+        'ServerlessCacheName': serverlessCacheName,
     };
   }
 }
 
-class ServiceUpdateSeverity {
-  static const critical = ServiceUpdateSeverity._('critical');
-  static const important = ServiceUpdateSeverity._('important');
-  static const medium = ServiceUpdateSeverity._('medium');
-  static const low = ServiceUpdateSeverity._('low');
+/// Used to streamline results of a search based on the property being filtered.
+class Filter {
+  /// The property being filtered. For example, UserId.
+  final String name;
 
-  final String value;
+  /// The property values to filter on. For example, "user-123".
+  final List<String> values;
 
-  const ServiceUpdateSeverity._(this.value);
-
-  static const values = [critical, important, medium, low];
-
-  static ServiceUpdateSeverity fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ServiceUpdateSeverity._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ServiceUpdateSeverity && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ServiceUpdateStatus {
-  static const available = ServiceUpdateStatus._('available');
-  static const cancelled = ServiceUpdateStatus._('cancelled');
-  static const expired = ServiceUpdateStatus._('expired');
-
-  final String value;
-
-  const ServiceUpdateStatus._(this.value);
-
-  static const values = [available, cancelled, expired];
-
-  static ServiceUpdateStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ServiceUpdateStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ServiceUpdateStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ServiceUpdateType {
-  static const securityUpdate = ServiceUpdateType._('security-update');
-
-  final String value;
-
-  const ServiceUpdateType._(this.value);
-
-  static const values = [securityUpdate];
-
-  static ServiceUpdateType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ServiceUpdateType._(value));
-
-  @override
-  bool operator ==(other) => other is ServiceUpdateType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ServiceUpdatesMessage {
-  /// An optional marker returned from a prior request. Use this marker for
-  /// pagination of results from this operation. If this parameter is specified,
-  /// the response includes only records beyond the marker, up to the value
-  /// specified by <code>MaxRecords</code>.
-  final String? marker;
-
-  /// A list of service updates
-  final List<ServiceUpdate>? serviceUpdates;
-
-  ServiceUpdatesMessage({
-    this.marker,
-    this.serviceUpdates,
+  Filter({
+    required this.name,
+    required this.values,
   });
-  factory ServiceUpdatesMessage.fromXml(_s.XmlElement elem) {
-    return ServiceUpdatesMessage(
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      serviceUpdates: _s.extractXmlChild(elem, 'ServiceUpdates')?.let((elem) =>
-          elem
-              .findElements('ServiceUpdate')
-              .map(ServiceUpdate.fromXml)
-              .toList()),
-    );
-  }
 
   Map<String, dynamic> toJson() {
-    final marker = this.marker;
-    final serviceUpdates = this.serviceUpdates;
+    final name = this.name;
+    final values = this.values;
     return {
-      if (marker != null) 'Marker': marker,
-      if (serviceUpdates != null) 'ServiceUpdates': serviceUpdates,
-    };
-  }
-}
-
-class SlaMet {
-  static const yes = SlaMet._('yes');
-  static const no = SlaMet._('no');
-  static const na = SlaMet._('n/a');
-
-  final String value;
-
-  const SlaMet._(this.value);
-
-  static const values = [yes, no, na];
-
-  static SlaMet fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => SlaMet._(value));
-
-  @override
-  bool operator ==(other) => other is SlaMet && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents the progress of an online resharding operation.
-class SlotMigration {
-  /// The percentage of the slot migration that is complete.
-  final double? progressPercentage;
-
-  SlotMigration({
-    this.progressPercentage,
-  });
-  factory SlotMigration.fromXml(_s.XmlElement elem) {
-    return SlotMigration(
-      progressPercentage: _s.extractXmlDoubleValue(elem, 'ProgressPercentage'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final progressPercentage = this.progressPercentage;
-    return {
-      if (progressPercentage != null) 'ProgressPercentage': progressPercentage,
-    };
-  }
-}
-
-/// Represents a copy of an entire Redis OSS cluster as of the time when the
-/// snapshot was taken.
-class Snapshot {
-  /// The ARN (Amazon Resource Name) of the snapshot.
-  final String? arn;
-
-  /// If you are running Redis OSS engine version 6.0 or later, set this parameter
-  /// to yes if you want to opt-in to the next auto minor version upgrade
-  /// campaign. This parameter is disabled for previous versions.
-  final bool? autoMinorVersionUpgrade;
-
-  /// Indicates the status of automatic failover for the source Redis OSS
-  /// replication group.
-  final AutomaticFailoverStatus? automaticFailover;
-
-  /// The date and time when the source cluster was created.
-  final DateTime? cacheClusterCreateTime;
-
-  /// The user-supplied identifier of the source cluster.
-  final String? cacheClusterId;
-
-  /// The name of the compute and memory capacity node type for the source
-  /// cluster.
-  ///
-  /// The following node types are supported by ElastiCache. Generally speaking,
-  /// the current generation types provide more memory and computational power at
-  /// lower cost when compared to their equivalent previous generation
-  /// counterparts.
-  ///
-  /// <ul>
-  /// <li>
-  /// General purpose:
-  ///
-  /// <ul>
-  /// <li>
-  /// Current generation:
-  ///
-  /// <b>M7g node types</b>: <code>cache.m7g.large</code>,
-  /// <code>cache.m7g.xlarge</code>, <code>cache.m7g.2xlarge</code>,
-  /// <code>cache.m7g.4xlarge</code>, <code>cache.m7g.8xlarge</code>,
-  /// <code>cache.m7g.12xlarge</code>, <code>cache.m7g.16xlarge</code>
-  /// <note>
-  /// For region availability, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
-  /// Node Types</a>
-  /// </note>
-  /// <b>M6g node types</b> (available only for Redis OSS engine version 5.0.6
-  /// onward and for Memcached engine version 1.5.16 onward):
-  /// <code>cache.m6g.large</code>, <code>cache.m6g.xlarge</code>,
-  /// <code>cache.m6g.2xlarge</code>, <code>cache.m6g.4xlarge</code>,
-  /// <code>cache.m6g.8xlarge</code>, <code>cache.m6g.12xlarge</code>,
-  /// <code>cache.m6g.16xlarge</code>
-  ///
-  /// <b>M5 node types:</b> <code>cache.m5.large</code>,
-  /// <code>cache.m5.xlarge</code>, <code>cache.m5.2xlarge</code>,
-  /// <code>cache.m5.4xlarge</code>, <code>cache.m5.12xlarge</code>,
-  /// <code>cache.m5.24xlarge</code>
-  ///
-  /// <b>M4 node types:</b> <code>cache.m4.large</code>,
-  /// <code>cache.m4.xlarge</code>, <code>cache.m4.2xlarge</code>,
-  /// <code>cache.m4.4xlarge</code>, <code>cache.m4.10xlarge</code>
-  ///
-  /// <b>T4g node types</b> (available only for Redis OSS engine version 5.0.6
-  /// onward and Memcached engine version 1.5.16 onward):
-  /// <code>cache.t4g.micro</code>, <code>cache.t4g.small</code>,
-  /// <code>cache.t4g.medium</code>
-  ///
-  /// <b>T3 node types:</b> <code>cache.t3.micro</code>,
-  /// <code>cache.t3.small</code>, <code>cache.t3.medium</code>
-  ///
-  /// <b>T2 node types:</b> <code>cache.t2.micro</code>,
-  /// <code>cache.t2.small</code>, <code>cache.t2.medium</code>
-  /// </li>
-  /// <li>
-  /// Previous generation: (not recommended. Existing clusters are still supported
-  /// but creation of new clusters is not supported for these types.)
-  ///
-  /// <b>T1 node types:</b> <code>cache.t1.micro</code>
-  ///
-  /// <b>M1 node types:</b> <code>cache.m1.small</code>,
-  /// <code>cache.m1.medium</code>, <code>cache.m1.large</code>,
-  /// <code>cache.m1.xlarge</code>
-  ///
-  /// <b>M3 node types:</b> <code>cache.m3.medium</code>,
-  /// <code>cache.m3.large</code>, <code>cache.m3.xlarge</code>,
-  /// <code>cache.m3.2xlarge</code>
-  /// </li>
-  /// </ul> </li>
-  /// <li>
-  /// Compute optimized:
-  ///
-  /// <ul>
-  /// <li>
-  /// Previous generation: (not recommended. Existing clusters are still supported
-  /// but creation of new clusters is not supported for these types.)
-  ///
-  /// <b>C1 node types:</b> <code>cache.c1.xlarge</code>
-  /// </li>
-  /// </ul> </li>
-  /// <li>
-  /// Memory optimized:
-  ///
-  /// <ul>
-  /// <li>
-  /// Current generation:
-  ///
-  /// <b>R7g node types</b>: <code>cache.r7g.large</code>,
-  /// <code>cache.r7g.xlarge</code>, <code>cache.r7g.2xlarge</code>,
-  /// <code>cache.r7g.4xlarge</code>, <code>cache.r7g.8xlarge</code>,
-  /// <code>cache.r7g.12xlarge</code>, <code>cache.r7g.16xlarge</code>
-  /// <note>
-  /// For region availability, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
-  /// Node Types</a>
-  /// </note>
-  /// <b>R6g node types</b> (available only for Redis OSS engine version 5.0.6
-  /// onward and for Memcached engine version 1.5.16 onward):
-  /// <code>cache.r6g.large</code>, <code>cache.r6g.xlarge</code>,
-  /// <code>cache.r6g.2xlarge</code>, <code>cache.r6g.4xlarge</code>,
-  /// <code>cache.r6g.8xlarge</code>, <code>cache.r6g.12xlarge</code>,
-  /// <code>cache.r6g.16xlarge</code>
-  ///
-  /// <b>R5 node types:</b> <code>cache.r5.large</code>,
-  /// <code>cache.r5.xlarge</code>, <code>cache.r5.2xlarge</code>,
-  /// <code>cache.r5.4xlarge</code>, <code>cache.r5.12xlarge</code>,
-  /// <code>cache.r5.24xlarge</code>
-  ///
-  /// <b>R4 node types:</b> <code>cache.r4.large</code>,
-  /// <code>cache.r4.xlarge</code>, <code>cache.r4.2xlarge</code>,
-  /// <code>cache.r4.4xlarge</code>, <code>cache.r4.8xlarge</code>,
-  /// <code>cache.r4.16xlarge</code>
-  /// </li>
-  /// <li>
-  /// Previous generation: (not recommended. Existing clusters are still supported
-  /// but creation of new clusters is not supported for these types.)
-  ///
-  /// <b>M2 node types:</b> <code>cache.m2.xlarge</code>,
-  /// <code>cache.m2.2xlarge</code>, <code>cache.m2.4xlarge</code>
-  ///
-  /// <b>R3 node types:</b> <code>cache.r3.large</code>,
-  /// <code>cache.r3.xlarge</code>, <code>cache.r3.2xlarge</code>,
-  /// <code>cache.r3.4xlarge</code>, <code>cache.r3.8xlarge</code>
-  /// </li>
-  /// </ul> </li>
-  /// </ul>
-  /// <b>Additional node type info</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// All current generation instance types are created in Amazon VPC by default.
-  /// </li>
-  /// <li>
-  /// Redis OSS append-only files (AOF) are not supported for T1 or T2 instances.
-  /// </li>
-  /// <li>
-  /// Redis OSS Multi-AZ with automatic failover is not supported on T1 instances.
-  /// </li>
-  /// <li>
-  /// Redis OSS configuration variables <code>appendonly</code> and
-  /// <code>appendfsync</code> are not supported on Redis OSS version 2.8.22 and
-  /// later.
-  /// </li>
-  /// </ul>
-  final String? cacheNodeType;
-
-  /// The cache parameter group that is associated with the source cluster.
-  final String? cacheParameterGroupName;
-
-  /// The name of the cache subnet group associated with the source cluster.
-  final String? cacheSubnetGroupName;
-
-  /// Enables data tiering. Data tiering is only supported for replication groups
-  /// using the r6gd node type. This parameter must be set to true when using r6gd
-  /// nodes. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/data-tiering.html">Data
-  /// tiering</a>.
-  final DataTieringStatus? dataTiering;
-
-  /// The name of the cache engine (<code>memcached</code> or <code>redis</code>)
-  /// used by the source cluster.
-  final String? engine;
-
-  /// The version of the cache engine version that is used by the source cluster.
-  final String? engineVersion;
-
-  /// The ID of the KMS key used to encrypt the snapshot.
-  final String? kmsKeyId;
-
-  /// A list of the cache nodes in the source cluster.
-  final List<NodeSnapshot>? nodeSnapshots;
-
-  /// The number of cache nodes in the source cluster.
-  ///
-  /// For clusters running Redis OSS, this value must be 1. For clusters running
-  /// Memcached, this value must be between 1 and 40.
-  final int? numCacheNodes;
-
-  /// The number of node groups (shards) in this snapshot. When restoring from a
-  /// snapshot, the number of node groups (shards) in the snapshot and in the
-  /// restored replication group must be the same.
-  final int? numNodeGroups;
-
-  /// The port number used by each cache nodes in the source cluster.
-  final int? port;
-
-  /// The name of the Availability Zone in which the source cluster is located.
-  final String? preferredAvailabilityZone;
-
-  /// Specifies the weekly time range during which maintenance on the cluster is
-  /// performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi
-  /// (24H Clock UTC). The minimum maintenance window is a 60 minute period.
-  ///
-  /// Valid values for <code>ddd</code> are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>sun</code>
-  /// </li>
-  /// <li>
-  /// <code>mon</code>
-  /// </li>
-  /// <li>
-  /// <code>tue</code>
-  /// </li>
-  /// <li>
-  /// <code>wed</code>
-  /// </li>
-  /// <li>
-  /// <code>thu</code>
-  /// </li>
-  /// <li>
-  /// <code>fri</code>
-  /// </li>
-  /// <li>
-  /// <code>sat</code>
-  /// </li>
-  /// </ul>
-  /// Example: <code>sun:23:00-mon:01:30</code>
-  final String? preferredMaintenanceWindow;
-
-  /// The ARN (Amazon Resource Name) of the preferred outpost.
-  final String? preferredOutpostArn;
-
-  /// A description of the source replication group.
-  final String? replicationGroupDescription;
-
-  /// The unique identifier of the source replication group.
-  final String? replicationGroupId;
-
-  /// The name of a snapshot. For an automatic snapshot, the name is
-  /// system-generated. For a manual snapshot, this is the user-provided name.
-  final String? snapshotName;
-
-  /// For an automatic snapshot, the number of days for which ElastiCache retains
-  /// the snapshot before deleting it.
-  ///
-  /// For manual snapshots, this field reflects the
-  /// <code>SnapshotRetentionLimit</code> for the source cluster when the snapshot
-  /// was created. This field is otherwise ignored: Manual snapshots do not
-  /// expire, and can only be deleted using the <code>DeleteSnapshot</code>
-  /// operation.
-  ///
-  /// <b>Important</b> If the value of SnapshotRetentionLimit is set to zero (0),
-  /// backups are turned off.
-  final int? snapshotRetentionLimit;
-
-  /// Indicates whether the snapshot is from an automatic backup
-  /// (<code>automated</code>) or was created manually (<code>manual</code>).
-  final String? snapshotSource;
-
-  /// The status of the snapshot. Valid values: <code>creating</code> |
-  /// <code>available</code> | <code>restoring</code> | <code>copying</code> |
-  /// <code>deleting</code>.
-  final String? snapshotStatus;
-
-  /// The daily time range during which ElastiCache takes daily snapshots of the
-  /// source cluster.
-  final String? snapshotWindow;
-
-  /// The Amazon Resource Name (ARN) for the topic used by the source cluster for
-  /// publishing notifications.
-  final String? topicArn;
-
-  /// The Amazon Virtual Private Cloud identifier (VPC ID) of the cache subnet
-  /// group for the source cluster.
-  final String? vpcId;
-
-  Snapshot({
-    this.arn,
-    this.autoMinorVersionUpgrade,
-    this.automaticFailover,
-    this.cacheClusterCreateTime,
-    this.cacheClusterId,
-    this.cacheNodeType,
-    this.cacheParameterGroupName,
-    this.cacheSubnetGroupName,
-    this.dataTiering,
-    this.engine,
-    this.engineVersion,
-    this.kmsKeyId,
-    this.nodeSnapshots,
-    this.numCacheNodes,
-    this.numNodeGroups,
-    this.port,
-    this.preferredAvailabilityZone,
-    this.preferredMaintenanceWindow,
-    this.preferredOutpostArn,
-    this.replicationGroupDescription,
-    this.replicationGroupId,
-    this.snapshotName,
-    this.snapshotRetentionLimit,
-    this.snapshotSource,
-    this.snapshotStatus,
-    this.snapshotWindow,
-    this.topicArn,
-    this.vpcId,
-  });
-  factory Snapshot.fromXml(_s.XmlElement elem) {
-    return Snapshot(
-      arn: _s.extractXmlStringValue(elem, 'ARN'),
-      autoMinorVersionUpgrade:
-          _s.extractXmlBoolValue(elem, 'AutoMinorVersionUpgrade'),
-      automaticFailover: _s
-          .extractXmlStringValue(elem, 'AutomaticFailover')
-          ?.let(AutomaticFailoverStatus.fromString),
-      cacheClusterCreateTime:
-          _s.extractXmlDateTimeValue(elem, 'CacheClusterCreateTime'),
-      cacheClusterId: _s.extractXmlStringValue(elem, 'CacheClusterId'),
-      cacheNodeType: _s.extractXmlStringValue(elem, 'CacheNodeType'),
-      cacheParameterGroupName:
-          _s.extractXmlStringValue(elem, 'CacheParameterGroupName'),
-      cacheSubnetGroupName:
-          _s.extractXmlStringValue(elem, 'CacheSubnetGroupName'),
-      dataTiering: _s
-          .extractXmlStringValue(elem, 'DataTiering')
-          ?.let(DataTieringStatus.fromString),
-      engine: _s.extractXmlStringValue(elem, 'Engine'),
-      engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
-      kmsKeyId: _s.extractXmlStringValue(elem, 'KmsKeyId'),
-      nodeSnapshots: _s.extractXmlChild(elem, 'NodeSnapshots')?.let((elem) =>
-          elem.findElements('NodeSnapshot').map(NodeSnapshot.fromXml).toList()),
-      numCacheNodes: _s.extractXmlIntValue(elem, 'NumCacheNodes'),
-      numNodeGroups: _s.extractXmlIntValue(elem, 'NumNodeGroups'),
-      port: _s.extractXmlIntValue(elem, 'Port'),
-      preferredAvailabilityZone:
-          _s.extractXmlStringValue(elem, 'PreferredAvailabilityZone'),
-      preferredMaintenanceWindow:
-          _s.extractXmlStringValue(elem, 'PreferredMaintenanceWindow'),
-      preferredOutpostArn:
-          _s.extractXmlStringValue(elem, 'PreferredOutpostArn'),
-      replicationGroupDescription:
-          _s.extractXmlStringValue(elem, 'ReplicationGroupDescription'),
-      replicationGroupId: _s.extractXmlStringValue(elem, 'ReplicationGroupId'),
-      snapshotName: _s.extractXmlStringValue(elem, 'SnapshotName'),
-      snapshotRetentionLimit:
-          _s.extractXmlIntValue(elem, 'SnapshotRetentionLimit'),
-      snapshotSource: _s.extractXmlStringValue(elem, 'SnapshotSource'),
-      snapshotStatus: _s.extractXmlStringValue(elem, 'SnapshotStatus'),
-      snapshotWindow: _s.extractXmlStringValue(elem, 'SnapshotWindow'),
-      topicArn: _s.extractXmlStringValue(elem, 'TopicArn'),
-      vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final autoMinorVersionUpgrade = this.autoMinorVersionUpgrade;
-    final automaticFailover = this.automaticFailover;
-    final cacheClusterCreateTime = this.cacheClusterCreateTime;
-    final cacheClusterId = this.cacheClusterId;
-    final cacheNodeType = this.cacheNodeType;
-    final cacheParameterGroupName = this.cacheParameterGroupName;
-    final cacheSubnetGroupName = this.cacheSubnetGroupName;
-    final dataTiering = this.dataTiering;
-    final engine = this.engine;
-    final engineVersion = this.engineVersion;
-    final kmsKeyId = this.kmsKeyId;
-    final nodeSnapshots = this.nodeSnapshots;
-    final numCacheNodes = this.numCacheNodes;
-    final numNodeGroups = this.numNodeGroups;
-    final port = this.port;
-    final preferredAvailabilityZone = this.preferredAvailabilityZone;
-    final preferredMaintenanceWindow = this.preferredMaintenanceWindow;
-    final preferredOutpostArn = this.preferredOutpostArn;
-    final replicationGroupDescription = this.replicationGroupDescription;
-    final replicationGroupId = this.replicationGroupId;
-    final snapshotName = this.snapshotName;
-    final snapshotRetentionLimit = this.snapshotRetentionLimit;
-    final snapshotSource = this.snapshotSource;
-    final snapshotStatus = this.snapshotStatus;
-    final snapshotWindow = this.snapshotWindow;
-    final topicArn = this.topicArn;
-    final vpcId = this.vpcId;
-    return {
-      if (arn != null) 'ARN': arn,
-      if (autoMinorVersionUpgrade != null)
-        'AutoMinorVersionUpgrade': autoMinorVersionUpgrade,
-      if (automaticFailover != null)
-        'AutomaticFailover': automaticFailover.value,
-      if (cacheClusterCreateTime != null)
-        'CacheClusterCreateTime': iso8601ToJson(cacheClusterCreateTime),
-      if (cacheClusterId != null) 'CacheClusterId': cacheClusterId,
-      if (cacheNodeType != null) 'CacheNodeType': cacheNodeType,
-      if (cacheParameterGroupName != null)
-        'CacheParameterGroupName': cacheParameterGroupName,
-      if (cacheSubnetGroupName != null)
-        'CacheSubnetGroupName': cacheSubnetGroupName,
-      if (dataTiering != null) 'DataTiering': dataTiering.value,
-      if (engine != null) 'Engine': engine,
-      if (engineVersion != null) 'EngineVersion': engineVersion,
-      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-      if (nodeSnapshots != null) 'NodeSnapshots': nodeSnapshots,
-      if (numCacheNodes != null) 'NumCacheNodes': numCacheNodes,
-      if (numNodeGroups != null) 'NumNodeGroups': numNodeGroups,
-      if (port != null) 'Port': port,
-      if (preferredAvailabilityZone != null)
-        'PreferredAvailabilityZone': preferredAvailabilityZone,
-      if (preferredMaintenanceWindow != null)
-        'PreferredMaintenanceWindow': preferredMaintenanceWindow,
-      if (preferredOutpostArn != null)
-        'PreferredOutpostArn': preferredOutpostArn,
-      if (replicationGroupDescription != null)
-        'ReplicationGroupDescription': replicationGroupDescription,
-      if (replicationGroupId != null) 'ReplicationGroupId': replicationGroupId,
-      if (snapshotName != null) 'SnapshotName': snapshotName,
-      if (snapshotRetentionLimit != null)
-        'SnapshotRetentionLimit': snapshotRetentionLimit,
-      if (snapshotSource != null) 'SnapshotSource': snapshotSource,
-      if (snapshotStatus != null) 'SnapshotStatus': snapshotStatus,
-      if (snapshotWindow != null) 'SnapshotWindow': snapshotWindow,
-      if (topicArn != null) 'TopicArn': topicArn,
-      if (vpcId != null) 'VpcId': vpcId,
-    };
-  }
-}
-
-class SourceType {
-  static const cacheCluster = SourceType._('cache-cluster');
-  static const cacheParameterGroup = SourceType._('cache-parameter-group');
-  static const cacheSecurityGroup = SourceType._('cache-security-group');
-  static const cacheSubnetGroup = SourceType._('cache-subnet-group');
-  static const replicationGroup = SourceType._('replication-group');
-  static const serverlessCache = SourceType._('serverless-cache');
-  static const serverlessCacheSnapshot =
-      SourceType._('serverless-cache-snapshot');
-  static const user = SourceType._('user');
-  static const userGroup = SourceType._('user-group');
-
-  final String value;
-
-  const SourceType._(this.value);
-
-  static const values = [
-    cacheCluster,
-    cacheParameterGroup,
-    cacheSecurityGroup,
-    cacheSubnetGroup,
-    replicationGroup,
-    serverlessCache,
-    serverlessCacheSnapshot,
-    user,
-    userGroup
-  ];
-
-  static SourceType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SourceType._(value));
-
-  @override
-  bool operator ==(other) => other is SourceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class StartMigrationResponse {
-  final ReplicationGroup? replicationGroup;
-
-  StartMigrationResponse({
-    this.replicationGroup,
-  });
-  factory StartMigrationResponse.fromXml(_s.XmlElement elem) {
-    return StartMigrationResponse(
-      replicationGroup: _s
-          .extractXmlChild(elem, 'ReplicationGroup')
-          ?.let(ReplicationGroup.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final replicationGroup = this.replicationGroup;
-    return {
-      if (replicationGroup != null) 'ReplicationGroup': replicationGroup,
-    };
-  }
-}
-
-/// Represents the subnet associated with a cluster. This parameter refers to
-/// subnets defined in Amazon Virtual Private Cloud (Amazon VPC) and used with
-/// ElastiCache.
-class Subnet {
-  /// The Availability Zone associated with the subnet.
-  final AvailabilityZone? subnetAvailabilityZone;
-
-  /// The unique identifier for the subnet.
-  final String? subnetIdentifier;
-
-  /// The outpost ARN of the subnet.
-  final SubnetOutpost? subnetOutpost;
-
-  /// Either <code>ipv4</code> | <code>ipv6</code> | <code>dual_stack</code>. IPv6
-  /// is supported for workloads using Redis OSS engine version 6.2 onward or
-  /// Memcached engine version 1.6.6 on all instances built on the <a
-  /// href="http://aws.amazon.com/ec2/nitro/">Nitro system</a>.
-  final List<NetworkType>? supportedNetworkTypes;
-
-  Subnet({
-    this.subnetAvailabilityZone,
-    this.subnetIdentifier,
-    this.subnetOutpost,
-    this.supportedNetworkTypes,
-  });
-  factory Subnet.fromXml(_s.XmlElement elem) {
-    return Subnet(
-      subnetAvailabilityZone: _s
-          .extractXmlChild(elem, 'SubnetAvailabilityZone')
-          ?.let(AvailabilityZone.fromXml),
-      subnetIdentifier: _s.extractXmlStringValue(elem, 'SubnetIdentifier'),
-      subnetOutpost:
-          _s.extractXmlChild(elem, 'SubnetOutpost')?.let(SubnetOutpost.fromXml),
-      supportedNetworkTypes: _s
-          .extractXmlChild(elem, 'SupportedNetworkTypes')
-          ?.let((elem) => _s
-              .extractXmlStringListValues(elem, 'member')
-              .map(NetworkType.fromString)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final subnetAvailabilityZone = this.subnetAvailabilityZone;
-    final subnetIdentifier = this.subnetIdentifier;
-    final subnetOutpost = this.subnetOutpost;
-    final supportedNetworkTypes = this.supportedNetworkTypes;
-    return {
-      if (subnetAvailabilityZone != null)
-        'SubnetAvailabilityZone': subnetAvailabilityZone,
-      if (subnetIdentifier != null) 'SubnetIdentifier': subnetIdentifier,
-      if (subnetOutpost != null) 'SubnetOutpost': subnetOutpost,
-      if (supportedNetworkTypes != null)
-        'SupportedNetworkTypes':
-            supportedNetworkTypes.map((e) => e.value).toList(),
-    };
-  }
-}
-
-/// The ID of the outpost subnet.
-class SubnetOutpost {
-  /// The outpost ARN of the subnet.
-  final String? subnetOutpostArn;
-
-  SubnetOutpost({
-    this.subnetOutpostArn,
-  });
-  factory SubnetOutpost.fromXml(_s.XmlElement elem) {
-    return SubnetOutpost(
-      subnetOutpostArn: _s.extractXmlStringValue(elem, 'SubnetOutpostArn'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final subnetOutpostArn = this.subnetOutpostArn;
-    return {
-      if (subnetOutpostArn != null) 'SubnetOutpostArn': subnetOutpostArn,
-    };
-  }
-}
-
-/// A tag that can be added to an ElastiCache cluster or replication group. Tags
-/// are composed of a Key/Value pair. You can use tags to categorize and track
-/// all your ElastiCache resources, with the exception of global replication
-/// group. When you add or remove tags on replication groups, those actions will
-/// be replicated to all nodes in the replication group. A tag with a null Value
-/// is permitted.
-class Tag {
-  /// The key for the tag. May not be null.
-  final String? key;
-
-  /// The tag's value. May be null.
-  final String? value;
-
-  Tag({
-    this.key,
-    this.value,
-  });
-  factory Tag.fromXml(_s.XmlElement elem) {
-    return Tag(
-      key: _s.extractXmlStringValue(elem, 'Key'),
-      value: _s.extractXmlStringValue(elem, 'Value'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      if (key != null) 'Key': key,
-      if (value != null) 'Value': value,
+      'Name': name,
+      'Values': values,
     };
   }
 
   Map<String, String> toQueryMap() {
-    final key = this.key;
-    final value = this.value;
+    final name = this.name;
+    final values = this.values;
     return {
-      if (key != null) 'Key': key,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-/// Represents the output from the <code>AddTagsToResource</code>,
-/// <code>ListTagsForResource</code>, and <code>RemoveTagsFromResource</code>
-/// operations.
-class TagListMessage {
-  /// A list of tags as key-value pairs.
-  final List<Tag>? tagList;
-
-  TagListMessage({
-    this.tagList,
-  });
-  factory TagListMessage.fromXml(_s.XmlElement elem) {
-    return TagListMessage(
-      tagList: _s
-          .extractXmlChild(elem, 'TagList')
-          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tagList = this.tagList;
-    return {
-      if (tagList != null) 'TagList': tagList,
-    };
-  }
-}
-
-class TestFailoverResult {
-  final ReplicationGroup? replicationGroup;
-
-  TestFailoverResult({
-    this.replicationGroup,
-  });
-  factory TestFailoverResult.fromXml(_s.XmlElement elem) {
-    return TestFailoverResult(
-      replicationGroup: _s
-          .extractXmlChild(elem, 'ReplicationGroup')
-          ?.let(ReplicationGroup.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final replicationGroup = this.replicationGroup;
-    return {
-      if (replicationGroup != null) 'ReplicationGroup': replicationGroup,
-    };
-  }
-}
-
-class TestMigrationResponse {
-  final ReplicationGroup? replicationGroup;
-
-  TestMigrationResponse({
-    this.replicationGroup,
-  });
-  factory TestMigrationResponse.fromXml(_s.XmlElement elem) {
-    return TestMigrationResponse(
-      replicationGroup: _s
-          .extractXmlChild(elem, 'ReplicationGroup')
-          ?.let(ReplicationGroup.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final replicationGroup = this.replicationGroup;
-    return {
-      if (replicationGroup != null) 'ReplicationGroup': replicationGroup,
-    };
-  }
-}
-
-/// Filters update actions from the service updates that are in available status
-/// during the time range.
-class TimeRangeFilter {
-  /// The end time of the time range filter
-  final DateTime? endTime;
-
-  /// The start time of the time range filter
-  final DateTime? startTime;
-
-  TimeRangeFilter({
-    this.endTime,
-    this.startTime,
-  });
-
-  Map<String, dynamic> toJson() {
-    final endTime = this.endTime;
-    final startTime = this.startTime;
-    return {
-      if (endTime != null) 'EndTime': iso8601ToJson(endTime),
-      if (startTime != null) 'StartTime': iso8601ToJson(startTime),
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final endTime = this.endTime;
-    final startTime = this.startTime;
-    return {
-      if (endTime != null) 'EndTime': _s.iso8601ToJson(endTime),
-      if (startTime != null) 'StartTime': _s.iso8601ToJson(startTime),
-    };
-  }
-}
-
-class TransitEncryptionMode {
-  static const preferred = TransitEncryptionMode._('preferred');
-  static const required = TransitEncryptionMode._('required');
-
-  final String value;
-
-  const TransitEncryptionMode._(this.value);
-
-  static const values = [preferred, required];
-
-  static TransitEncryptionMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TransitEncryptionMode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is TransitEncryptionMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Update action that has failed to be processed for the corresponding
-/// apply/stop request
-class UnprocessedUpdateAction {
-  /// The ID of the cache cluster
-  final String? cacheClusterId;
-
-  /// The error message that describes the reason the request was not processed
-  final String? errorMessage;
-
-  /// The error type for requests that are not processed
-  final String? errorType;
-
-  /// The replication group ID
-  final String? replicationGroupId;
-
-  /// The unique ID of the service update
-  final String? serviceUpdateName;
-
-  UnprocessedUpdateAction({
-    this.cacheClusterId,
-    this.errorMessage,
-    this.errorType,
-    this.replicationGroupId,
-    this.serviceUpdateName,
-  });
-  factory UnprocessedUpdateAction.fromXml(_s.XmlElement elem) {
-    return UnprocessedUpdateAction(
-      cacheClusterId: _s.extractXmlStringValue(elem, 'CacheClusterId'),
-      errorMessage: _s.extractXmlStringValue(elem, 'ErrorMessage'),
-      errorType: _s.extractXmlStringValue(elem, 'ErrorType'),
-      replicationGroupId: _s.extractXmlStringValue(elem, 'ReplicationGroupId'),
-      serviceUpdateName: _s.extractXmlStringValue(elem, 'ServiceUpdateName'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cacheClusterId = this.cacheClusterId;
-    final errorMessage = this.errorMessage;
-    final errorType = this.errorType;
-    final replicationGroupId = this.replicationGroupId;
-    final serviceUpdateName = this.serviceUpdateName;
-    return {
-      if (cacheClusterId != null) 'CacheClusterId': cacheClusterId,
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-      if (errorType != null) 'ErrorType': errorType,
-      if (replicationGroupId != null) 'ReplicationGroupId': replicationGroupId,
-      if (serviceUpdateName != null) 'ServiceUpdateName': serviceUpdateName,
+      'Name': name,
+      if (values.isEmpty)
+        'Values': ''
+      else
+        for (var i1 = 0; i1 < values.length; i1++)
+          'Values.member.${i1 + 1}': values[i1],
     };
   }
 }
@@ -14470,8 +12984,8 @@ class UpdateAction {
   /// The status of the service update on the cache node
   final List<CacheNodeUpdateStatus>? cacheNodeUpdateStatus;
 
-  /// The Elasticache engine to which the update applies. Either Redis OSS or
-  /// Memcached.
+  /// The Elasticache engine to which the update applies. Either Valkey, Redis OSS
+  /// or Memcached.
   final String? engine;
 
   /// The estimated length of time for the update to complete
@@ -14491,7 +13005,7 @@ class UpdateAction {
 
   /// The recommended date to apply the service update to ensure compliance. For
   /// information on compliance, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/elasticache-compliance.html#elasticache-compliance-self-service">Self-Service
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/elasticache-compliance.html#elasticache-compliance-self-service">Self-Service
   /// Security Updates for Compliance</a>.
   final DateTime? serviceUpdateRecommendedApplyByDate;
 
@@ -14640,44 +13154,80 @@ class UpdateAction {
   }
 }
 
-class UpdateActionResultsMessage {
-  /// Update actions that have been processed successfully
-  final List<ProcessedUpdateAction>? processedUpdateActions;
+class ServiceUpdateSeverity {
+  static const critical = ServiceUpdateSeverity._('critical');
+  static const important = ServiceUpdateSeverity._('important');
+  static const medium = ServiceUpdateSeverity._('medium');
+  static const low = ServiceUpdateSeverity._('low');
 
-  /// Update actions that haven't been processed successfully
-  final List<UnprocessedUpdateAction>? unprocessedUpdateActions;
+  final String value;
 
-  UpdateActionResultsMessage({
-    this.processedUpdateActions,
-    this.unprocessedUpdateActions,
-  });
-  factory UpdateActionResultsMessage.fromXml(_s.XmlElement elem) {
-    return UpdateActionResultsMessage(
-      processedUpdateActions: _s
-          .extractXmlChild(elem, 'ProcessedUpdateActions')
-          ?.let((elem) => elem
-              .findElements('ProcessedUpdateAction')
-              .map(ProcessedUpdateAction.fromXml)
-              .toList()),
-      unprocessedUpdateActions: _s
-          .extractXmlChild(elem, 'UnprocessedUpdateActions')
-          ?.let((elem) => elem
-              .findElements('UnprocessedUpdateAction')
-              .map(UnprocessedUpdateAction.fromXml)
-              .toList()),
-    );
-  }
+  const ServiceUpdateSeverity._(this.value);
 
-  Map<String, dynamic> toJson() {
-    final processedUpdateActions = this.processedUpdateActions;
-    final unprocessedUpdateActions = this.unprocessedUpdateActions;
-    return {
-      if (processedUpdateActions != null)
-        'ProcessedUpdateActions': processedUpdateActions,
-      if (unprocessedUpdateActions != null)
-        'UnprocessedUpdateActions': unprocessedUpdateActions,
-    };
-  }
+  static const values = [critical, important, medium, low];
+
+  static ServiceUpdateSeverity fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ServiceUpdateSeverity._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ServiceUpdateSeverity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ServiceUpdateStatus {
+  static const available = ServiceUpdateStatus._('available');
+  static const cancelled = ServiceUpdateStatus._('cancelled');
+  static const expired = ServiceUpdateStatus._('expired');
+
+  final String value;
+
+  const ServiceUpdateStatus._(this.value);
+
+  static const values = [available, cancelled, expired];
+
+  static ServiceUpdateStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ServiceUpdateStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ServiceUpdateStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ServiceUpdateType {
+  static const securityUpdate = ServiceUpdateType._('security-update');
+
+  final String value;
+
+  const ServiceUpdateType._(this.value);
+
+  static const values = [securityUpdate];
+
+  static ServiceUpdateType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ServiceUpdateType._(value));
+
+  @override
+  bool operator ==(other) => other is ServiceUpdateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class UpdateActionStatus {
@@ -14722,206 +13272,1835 @@ class UpdateActionStatus {
   String toString() => value;
 }
 
-class UpdateActionsMessage {
-  /// An optional marker returned from a prior request. Use this marker for
-  /// pagination of results from this operation. If this parameter is specified,
-  /// the response includes only records beyond the marker, up to the value
-  /// specified by <code>MaxRecords</code>.
+class SlaMet {
+  static const yes = SlaMet._('yes');
+  static const no = SlaMet._('no');
+  static const na = SlaMet._('n/a');
+
+  final String value;
+
+  const SlaMet._(this.value);
+
+  static const values = [yes, no, na];
+
+  static SlaMet fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => SlaMet._(value));
+
+  @override
+  bool operator ==(other) => other is SlaMet && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The status of the service update on the cache node
+class CacheNodeUpdateStatus {
+  /// The node ID of the cache cluster
+  final String? cacheNodeId;
+
+  /// The deletion date of the node
+  final DateTime? nodeDeletionDate;
+
+  /// The end date of the update for a node
+  final DateTime? nodeUpdateEndDate;
+
+  /// Reflects whether the update was initiated by the customer or automatically
+  /// applied
+  final NodeUpdateInitiatedBy? nodeUpdateInitiatedBy;
+
+  /// The date when the update is triggered
+  final DateTime? nodeUpdateInitiatedDate;
+
+  /// The start date of the update for a node
+  final DateTime? nodeUpdateStartDate;
+
+  /// The update status of the node
+  final NodeUpdateStatus? nodeUpdateStatus;
+
+  /// The date when the NodeUpdateStatus was last modified>
+  final DateTime? nodeUpdateStatusModifiedDate;
+
+  CacheNodeUpdateStatus({
+    this.cacheNodeId,
+    this.nodeDeletionDate,
+    this.nodeUpdateEndDate,
+    this.nodeUpdateInitiatedBy,
+    this.nodeUpdateInitiatedDate,
+    this.nodeUpdateStartDate,
+    this.nodeUpdateStatus,
+    this.nodeUpdateStatusModifiedDate,
+  });
+  factory CacheNodeUpdateStatus.fromXml(_s.XmlElement elem) {
+    return CacheNodeUpdateStatus(
+      cacheNodeId: _s.extractXmlStringValue(elem, 'CacheNodeId'),
+      nodeDeletionDate: _s.extractXmlDateTimeValue(elem, 'NodeDeletionDate'),
+      nodeUpdateEndDate: _s.extractXmlDateTimeValue(elem, 'NodeUpdateEndDate'),
+      nodeUpdateInitiatedBy: _s
+          .extractXmlStringValue(elem, 'NodeUpdateInitiatedBy')
+          ?.let(NodeUpdateInitiatedBy.fromString),
+      nodeUpdateInitiatedDate:
+          _s.extractXmlDateTimeValue(elem, 'NodeUpdateInitiatedDate'),
+      nodeUpdateStartDate:
+          _s.extractXmlDateTimeValue(elem, 'NodeUpdateStartDate'),
+      nodeUpdateStatus: _s
+          .extractXmlStringValue(elem, 'NodeUpdateStatus')
+          ?.let(NodeUpdateStatus.fromString),
+      nodeUpdateStatusModifiedDate:
+          _s.extractXmlDateTimeValue(elem, 'NodeUpdateStatusModifiedDate'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cacheNodeId = this.cacheNodeId;
+    final nodeDeletionDate = this.nodeDeletionDate;
+    final nodeUpdateEndDate = this.nodeUpdateEndDate;
+    final nodeUpdateInitiatedBy = this.nodeUpdateInitiatedBy;
+    final nodeUpdateInitiatedDate = this.nodeUpdateInitiatedDate;
+    final nodeUpdateStartDate = this.nodeUpdateStartDate;
+    final nodeUpdateStatus = this.nodeUpdateStatus;
+    final nodeUpdateStatusModifiedDate = this.nodeUpdateStatusModifiedDate;
+    return {
+      if (cacheNodeId != null) 'CacheNodeId': cacheNodeId,
+      if (nodeDeletionDate != null)
+        'NodeDeletionDate': iso8601ToJson(nodeDeletionDate),
+      if (nodeUpdateEndDate != null)
+        'NodeUpdateEndDate': iso8601ToJson(nodeUpdateEndDate),
+      if (nodeUpdateInitiatedBy != null)
+        'NodeUpdateInitiatedBy': nodeUpdateInitiatedBy.value,
+      if (nodeUpdateInitiatedDate != null)
+        'NodeUpdateInitiatedDate': iso8601ToJson(nodeUpdateInitiatedDate),
+      if (nodeUpdateStartDate != null)
+        'NodeUpdateStartDate': iso8601ToJson(nodeUpdateStartDate),
+      if (nodeUpdateStatus != null) 'NodeUpdateStatus': nodeUpdateStatus.value,
+      if (nodeUpdateStatusModifiedDate != null)
+        'NodeUpdateStatusModifiedDate':
+            iso8601ToJson(nodeUpdateStatusModifiedDate),
+    };
+  }
+}
+
+class NodeUpdateStatus {
+  static const notApplied = NodeUpdateStatus._('not-applied');
+  static const waitingToStart = NodeUpdateStatus._('waiting-to-start');
+  static const inProgress = NodeUpdateStatus._('in-progress');
+  static const stopping = NodeUpdateStatus._('stopping');
+  static const stopped = NodeUpdateStatus._('stopped');
+  static const complete = NodeUpdateStatus._('complete');
+
+  final String value;
+
+  const NodeUpdateStatus._(this.value);
+
+  static const values = [
+    notApplied,
+    waitingToStart,
+    inProgress,
+    stopping,
+    stopped,
+    complete
+  ];
+
+  static NodeUpdateStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NodeUpdateStatus._(value));
+
+  @override
+  bool operator ==(other) => other is NodeUpdateStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class NodeUpdateInitiatedBy {
+  static const system = NodeUpdateInitiatedBy._('system');
+  static const customer = NodeUpdateInitiatedBy._('customer');
+
+  final String value;
+
+  const NodeUpdateInitiatedBy._(this.value);
+
+  static const values = [system, customer];
+
+  static NodeUpdateInitiatedBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NodeUpdateInitiatedBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NodeUpdateInitiatedBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The status of the service update on the node group
+class NodeGroupUpdateStatus {
+  /// The ID of the node group
+  final String? nodeGroupId;
+
+  /// The status of the service update on the node group member
+  final List<NodeGroupMemberUpdateStatus>? nodeGroupMemberUpdateStatus;
+
+  NodeGroupUpdateStatus({
+    this.nodeGroupId,
+    this.nodeGroupMemberUpdateStatus,
+  });
+  factory NodeGroupUpdateStatus.fromXml(_s.XmlElement elem) {
+    return NodeGroupUpdateStatus(
+      nodeGroupId: _s.extractXmlStringValue(elem, 'NodeGroupId'),
+      nodeGroupMemberUpdateStatus: _s
+          .extractXmlChild(elem, 'NodeGroupMemberUpdateStatus')
+          ?.let((elem) => elem
+              .findElements('NodeGroupMemberUpdateStatus')
+              .map(NodeGroupMemberUpdateStatus.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nodeGroupId = this.nodeGroupId;
+    final nodeGroupMemberUpdateStatus = this.nodeGroupMemberUpdateStatus;
+    return {
+      if (nodeGroupId != null) 'NodeGroupId': nodeGroupId,
+      if (nodeGroupMemberUpdateStatus != null)
+        'NodeGroupMemberUpdateStatus': nodeGroupMemberUpdateStatus,
+    };
+  }
+}
+
+/// The status of the service update on the node group member
+class NodeGroupMemberUpdateStatus {
+  /// The cache cluster ID
+  final String? cacheClusterId;
+
+  /// The node ID of the cache cluster
+  final String? cacheNodeId;
+
+  /// The deletion date of the node
+  final DateTime? nodeDeletionDate;
+
+  /// The end date of the update for a node
+  final DateTime? nodeUpdateEndDate;
+
+  /// Reflects whether the update was initiated by the customer or automatically
+  /// applied
+  final NodeUpdateInitiatedBy? nodeUpdateInitiatedBy;
+
+  /// The date when the update is triggered
+  final DateTime? nodeUpdateInitiatedDate;
+
+  /// The start date of the update for a node
+  final DateTime? nodeUpdateStartDate;
+
+  /// The update status of the node
+  final NodeUpdateStatus? nodeUpdateStatus;
+
+  /// The date when the NodeUpdateStatus was last modified
+  final DateTime? nodeUpdateStatusModifiedDate;
+
+  NodeGroupMemberUpdateStatus({
+    this.cacheClusterId,
+    this.cacheNodeId,
+    this.nodeDeletionDate,
+    this.nodeUpdateEndDate,
+    this.nodeUpdateInitiatedBy,
+    this.nodeUpdateInitiatedDate,
+    this.nodeUpdateStartDate,
+    this.nodeUpdateStatus,
+    this.nodeUpdateStatusModifiedDate,
+  });
+  factory NodeGroupMemberUpdateStatus.fromXml(_s.XmlElement elem) {
+    return NodeGroupMemberUpdateStatus(
+      cacheClusterId: _s.extractXmlStringValue(elem, 'CacheClusterId'),
+      cacheNodeId: _s.extractXmlStringValue(elem, 'CacheNodeId'),
+      nodeDeletionDate: _s.extractXmlDateTimeValue(elem, 'NodeDeletionDate'),
+      nodeUpdateEndDate: _s.extractXmlDateTimeValue(elem, 'NodeUpdateEndDate'),
+      nodeUpdateInitiatedBy: _s
+          .extractXmlStringValue(elem, 'NodeUpdateInitiatedBy')
+          ?.let(NodeUpdateInitiatedBy.fromString),
+      nodeUpdateInitiatedDate:
+          _s.extractXmlDateTimeValue(elem, 'NodeUpdateInitiatedDate'),
+      nodeUpdateStartDate:
+          _s.extractXmlDateTimeValue(elem, 'NodeUpdateStartDate'),
+      nodeUpdateStatus: _s
+          .extractXmlStringValue(elem, 'NodeUpdateStatus')
+          ?.let(NodeUpdateStatus.fromString),
+      nodeUpdateStatusModifiedDate:
+          _s.extractXmlDateTimeValue(elem, 'NodeUpdateStatusModifiedDate'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cacheClusterId = this.cacheClusterId;
+    final cacheNodeId = this.cacheNodeId;
+    final nodeDeletionDate = this.nodeDeletionDate;
+    final nodeUpdateEndDate = this.nodeUpdateEndDate;
+    final nodeUpdateInitiatedBy = this.nodeUpdateInitiatedBy;
+    final nodeUpdateInitiatedDate = this.nodeUpdateInitiatedDate;
+    final nodeUpdateStartDate = this.nodeUpdateStartDate;
+    final nodeUpdateStatus = this.nodeUpdateStatus;
+    final nodeUpdateStatusModifiedDate = this.nodeUpdateStatusModifiedDate;
+    return {
+      if (cacheClusterId != null) 'CacheClusterId': cacheClusterId,
+      if (cacheNodeId != null) 'CacheNodeId': cacheNodeId,
+      if (nodeDeletionDate != null)
+        'NodeDeletionDate': iso8601ToJson(nodeDeletionDate),
+      if (nodeUpdateEndDate != null)
+        'NodeUpdateEndDate': iso8601ToJson(nodeUpdateEndDate),
+      if (nodeUpdateInitiatedBy != null)
+        'NodeUpdateInitiatedBy': nodeUpdateInitiatedBy.value,
+      if (nodeUpdateInitiatedDate != null)
+        'NodeUpdateInitiatedDate': iso8601ToJson(nodeUpdateInitiatedDate),
+      if (nodeUpdateStartDate != null)
+        'NodeUpdateStartDate': iso8601ToJson(nodeUpdateStartDate),
+      if (nodeUpdateStatus != null) 'NodeUpdateStatus': nodeUpdateStatus.value,
+      if (nodeUpdateStatusModifiedDate != null)
+        'NodeUpdateStatusModifiedDate':
+            iso8601ToJson(nodeUpdateStatusModifiedDate),
+    };
+  }
+}
+
+/// Filters update actions from the service updates that are in available status
+/// during the time range.
+class TimeRangeFilter {
+  /// The end time of the time range filter
+  final DateTime? endTime;
+
+  /// The start time of the time range filter
+  final DateTime? startTime;
+
+  TimeRangeFilter({
+    this.endTime,
+    this.startTime,
+  });
+
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final startTime = this.startTime;
+    return {
+      if (endTime != null) 'EndTime': iso8601ToJson(endTime),
+      if (startTime != null) 'StartTime': iso8601ToJson(startTime),
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final endTime = this.endTime;
+    final startTime = this.startTime;
+    return {
+      if (endTime != null) 'EndTime': _s.iso8601ToJson(endTime),
+      if (startTime != null) 'StartTime': _s.iso8601ToJson(startTime),
+    };
+  }
+}
+
+/// Represents a copy of an entire Valkey or Redis OSS cluster as of the time
+/// when the snapshot was taken.
+class Snapshot {
+  /// The ARN (Amazon Resource Name) of the snapshot.
+  final String? arn;
+
+  /// If you are running Valkey 7.2 and above or Redis OSS engine version 6.0 and
+  /// above, set this parameter to yes if you want to opt-in to the next auto
+  /// minor version upgrade campaign. This parameter is disabled for previous
+  /// versions.
+  final bool? autoMinorVersionUpgrade;
+
+  /// Indicates the status of automatic failover for the source Valkey or Redis
+  /// OSS replication group.
+  final AutomaticFailoverStatus? automaticFailover;
+
+  /// The date and time when the source cluster was created.
+  final DateTime? cacheClusterCreateTime;
+
+  /// The user-supplied identifier of the source cluster.
+  final String? cacheClusterId;
+
+  /// The name of the compute and memory capacity node type for the source
+  /// cluster.
+  ///
+  /// The following node types are supported by ElastiCache. Generally speaking,
+  /// the current generation types provide more memory and computational power at
+  /// lower cost when compared to their equivalent previous generation
+  /// counterparts.
+  ///
+  /// <ul>
+  /// <li>
+  /// General purpose:
+  ///
+  /// <ul>
+  /// <li>
+  /// Current generation:
+  ///
+  /// <b>M7g node types</b>: <code>cache.m7g.large</code>,
+  /// <code>cache.m7g.xlarge</code>, <code>cache.m7g.2xlarge</code>,
+  /// <code>cache.m7g.4xlarge</code>, <code>cache.m7g.8xlarge</code>,
+  /// <code>cache.m7g.12xlarge</code>, <code>cache.m7g.16xlarge</code>
+  /// <note>
+  /// For region availability, see <a
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
+  /// Node Types</a>
+  /// </note>
+  /// <b>M6g node types</b> (available only for Redis OSS engine version 5.0.6
+  /// onward and for Memcached engine version 1.5.16 onward):
+  /// <code>cache.m6g.large</code>, <code>cache.m6g.xlarge</code>,
+  /// <code>cache.m6g.2xlarge</code>, <code>cache.m6g.4xlarge</code>,
+  /// <code>cache.m6g.8xlarge</code>, <code>cache.m6g.12xlarge</code>,
+  /// <code>cache.m6g.16xlarge</code>
+  ///
+  /// <b>M5 node types:</b> <code>cache.m5.large</code>,
+  /// <code>cache.m5.xlarge</code>, <code>cache.m5.2xlarge</code>,
+  /// <code>cache.m5.4xlarge</code>, <code>cache.m5.12xlarge</code>,
+  /// <code>cache.m5.24xlarge</code>
+  ///
+  /// <b>M4 node types:</b> <code>cache.m4.large</code>,
+  /// <code>cache.m4.xlarge</code>, <code>cache.m4.2xlarge</code>,
+  /// <code>cache.m4.4xlarge</code>, <code>cache.m4.10xlarge</code>
+  ///
+  /// <b>T4g node types</b> (available only for Redis OSS engine version 5.0.6
+  /// onward and Memcached engine version 1.5.16 onward):
+  /// <code>cache.t4g.micro</code>, <code>cache.t4g.small</code>,
+  /// <code>cache.t4g.medium</code>
+  ///
+  /// <b>T3 node types:</b> <code>cache.t3.micro</code>,
+  /// <code>cache.t3.small</code>, <code>cache.t3.medium</code>
+  ///
+  /// <b>T2 node types:</b> <code>cache.t2.micro</code>,
+  /// <code>cache.t2.small</code>, <code>cache.t2.medium</code>
+  /// </li>
+  /// <li>
+  /// Previous generation: (not recommended. Existing clusters are still supported
+  /// but creation of new clusters is not supported for these types.)
+  ///
+  /// <b>T1 node types:</b> <code>cache.t1.micro</code>
+  ///
+  /// <b>M1 node types:</b> <code>cache.m1.small</code>,
+  /// <code>cache.m1.medium</code>, <code>cache.m1.large</code>,
+  /// <code>cache.m1.xlarge</code>
+  ///
+  /// <b>M3 node types:</b> <code>cache.m3.medium</code>,
+  /// <code>cache.m3.large</code>, <code>cache.m3.xlarge</code>,
+  /// <code>cache.m3.2xlarge</code>
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// Compute optimized:
+  ///
+  /// <ul>
+  /// <li>
+  /// Previous generation: (not recommended. Existing clusters are still supported
+  /// but creation of new clusters is not supported for these types.)
+  ///
+  /// <b>C1 node types:</b> <code>cache.c1.xlarge</code>
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// Memory optimized:
+  ///
+  /// <ul>
+  /// <li>
+  /// Current generation:
+  ///
+  /// <b>R7g node types</b>: <code>cache.r7g.large</code>,
+  /// <code>cache.r7g.xlarge</code>, <code>cache.r7g.2xlarge</code>,
+  /// <code>cache.r7g.4xlarge</code>, <code>cache.r7g.8xlarge</code>,
+  /// <code>cache.r7g.12xlarge</code>, <code>cache.r7g.16xlarge</code>
+  /// <note>
+  /// For region availability, see <a
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
+  /// Node Types</a>
+  /// </note>
+  /// <b>R6g node types</b> (available only for Redis OSS engine version 5.0.6
+  /// onward and for Memcached engine version 1.5.16 onward):
+  /// <code>cache.r6g.large</code>, <code>cache.r6g.xlarge</code>,
+  /// <code>cache.r6g.2xlarge</code>, <code>cache.r6g.4xlarge</code>,
+  /// <code>cache.r6g.8xlarge</code>, <code>cache.r6g.12xlarge</code>,
+  /// <code>cache.r6g.16xlarge</code>
+  ///
+  /// <b>R5 node types:</b> <code>cache.r5.large</code>,
+  /// <code>cache.r5.xlarge</code>, <code>cache.r5.2xlarge</code>,
+  /// <code>cache.r5.4xlarge</code>, <code>cache.r5.12xlarge</code>,
+  /// <code>cache.r5.24xlarge</code>
+  ///
+  /// <b>R4 node types:</b> <code>cache.r4.large</code>,
+  /// <code>cache.r4.xlarge</code>, <code>cache.r4.2xlarge</code>,
+  /// <code>cache.r4.4xlarge</code>, <code>cache.r4.8xlarge</code>,
+  /// <code>cache.r4.16xlarge</code>
+  /// </li>
+  /// <li>
+  /// Previous generation: (not recommended. Existing clusters are still supported
+  /// but creation of new clusters is not supported for these types.)
+  ///
+  /// <b>M2 node types:</b> <code>cache.m2.xlarge</code>,
+  /// <code>cache.m2.2xlarge</code>, <code>cache.m2.4xlarge</code>
+  ///
+  /// <b>R3 node types:</b> <code>cache.r3.large</code>,
+  /// <code>cache.r3.xlarge</code>, <code>cache.r3.2xlarge</code>,
+  /// <code>cache.r3.4xlarge</code>, <code>cache.r3.8xlarge</code>
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
+  /// <b>Additional node type info</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// All current generation instance types are created in Amazon VPC by default.
+  /// </li>
+  /// <li>
+  /// Valkey or Redis OSS append-only files (AOF) are not supported for T1 or T2
+  /// instances.
+  /// </li>
+  /// <li>
+  /// Valkey or Redis OSS Multi-AZ with automatic failover is not supported on T1
+  /// instances.
+  /// </li>
+  /// <li>
+  /// The configuration variables <code>appendonly</code> and
+  /// <code>appendfsync</code> are not supported on Valkey, or on Redis OSS
+  /// version 2.8.22 and later.
+  /// </li>
+  /// </ul>
+  final String? cacheNodeType;
+
+  /// The cache parameter group that is associated with the source cluster.
+  final String? cacheParameterGroupName;
+
+  /// The name of the cache subnet group associated with the source cluster.
+  final String? cacheSubnetGroupName;
+
+  /// Enables data tiering. Data tiering is only supported for replication groups
+  /// using the r6gd node type. This parameter must be set to true when using r6gd
+  /// nodes. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/data-tiering.html">Data
+  /// tiering</a>.
+  final DataTieringStatus? dataTiering;
+
+  /// The durability setting of the cluster when the snapshot was taken. When
+  /// restoring from this snapshot, the cluster uses this durability setting
+  /// unless overridden in the restore request. For more information, see <a
+  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Durability.html">Durability</a>.
+  final Durability? durability;
+
+  /// The name of the cache engine (<code>memcached</code> or <code>redis</code>)
+  /// used by the source cluster.
+  final String? engine;
+
+  /// The version of the cache engine version that is used by the source cluster.
+  final String? engineVersion;
+
+  /// The ID of the KMS key used to encrypt the snapshot.
+  final String? kmsKeyId;
+
+  /// A list of the cache nodes in the source cluster.
+  final List<NodeSnapshot>? nodeSnapshots;
+
+  /// The number of cache nodes in the source cluster.
+  ///
+  /// For clusters running Valkey or Redis OSS, this value must be 1. For clusters
+  /// running Memcached, this value must be between 1 and 40.
+  final int? numCacheNodes;
+
+  /// The number of node groups (shards) in this snapshot. When restoring from a
+  /// snapshot, the number of node groups (shards) in the snapshot and in the
+  /// restored replication group must be the same.
+  final int? numNodeGroups;
+
+  /// The port number used by each cache nodes in the source cluster.
+  final int? port;
+
+  /// The name of the Availability Zone in which the source cluster is located.
+  final String? preferredAvailabilityZone;
+
+  /// Specifies the weekly time range during which maintenance on the cluster is
+  /// performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi
+  /// (24H Clock UTC). The minimum maintenance window is a 60 minute period.
+  ///
+  /// Valid values for <code>ddd</code> are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>sun</code>
+  /// </li>
+  /// <li>
+  /// <code>mon</code>
+  /// </li>
+  /// <li>
+  /// <code>tue</code>
+  /// </li>
+  /// <li>
+  /// <code>wed</code>
+  /// </li>
+  /// <li>
+  /// <code>thu</code>
+  /// </li>
+  /// <li>
+  /// <code>fri</code>
+  /// </li>
+  /// <li>
+  /// <code>sat</code>
+  /// </li>
+  /// </ul>
+  /// Example: <code>sun:23:00-mon:01:30</code>
+  final String? preferredMaintenanceWindow;
+
+  /// The ARN (Amazon Resource Name) of the preferred outpost.
+  final String? preferredOutpostArn;
+
+  /// A description of the source replication group.
+  final String? replicationGroupDescription;
+
+  /// The unique identifier of the source replication group.
+  final String? replicationGroupId;
+
+  /// The name of a snapshot. For an automatic snapshot, the name is
+  /// system-generated. For a manual snapshot, this is the user-provided name.
+  final String? snapshotName;
+
+  /// For an automatic snapshot, the number of days for which ElastiCache retains
+  /// the snapshot before deleting it.
+  ///
+  /// For manual snapshots, this field reflects the
+  /// <code>SnapshotRetentionLimit</code> for the source cluster when the snapshot
+  /// was created. This field is otherwise ignored: Manual snapshots do not
+  /// expire, and can only be deleted using the <code>DeleteSnapshot</code>
+  /// operation.
+  ///
+  /// <b>Important</b> If the value of SnapshotRetentionLimit is set to zero (0),
+  /// backups are turned off.
+  final int? snapshotRetentionLimit;
+
+  /// Indicates whether the snapshot is from an automatic backup
+  /// (<code>automated</code>) or was created manually (<code>manual</code>).
+  final String? snapshotSource;
+
+  /// The status of the snapshot. Valid values: <code>creating</code> |
+  /// <code>available</code> | <code>restoring</code> | <code>copying</code> |
+  /// <code>deleting</code>.
+  final String? snapshotStatus;
+
+  /// The daily time range during which ElastiCache takes daily snapshots of the
+  /// source cluster.
+  final String? snapshotWindow;
+
+  /// The Amazon Resource Name (ARN) for the topic used by the source cluster for
+  /// publishing notifications.
+  final String? topicArn;
+
+  /// The Amazon Virtual Private Cloud identifier (VPC ID) of the cache subnet
+  /// group for the source cluster.
+  final String? vpcId;
+
+  Snapshot({
+    this.arn,
+    this.autoMinorVersionUpgrade,
+    this.automaticFailover,
+    this.cacheClusterCreateTime,
+    this.cacheClusterId,
+    this.cacheNodeType,
+    this.cacheParameterGroupName,
+    this.cacheSubnetGroupName,
+    this.dataTiering,
+    this.durability,
+    this.engine,
+    this.engineVersion,
+    this.kmsKeyId,
+    this.nodeSnapshots,
+    this.numCacheNodes,
+    this.numNodeGroups,
+    this.port,
+    this.preferredAvailabilityZone,
+    this.preferredMaintenanceWindow,
+    this.preferredOutpostArn,
+    this.replicationGroupDescription,
+    this.replicationGroupId,
+    this.snapshotName,
+    this.snapshotRetentionLimit,
+    this.snapshotSource,
+    this.snapshotStatus,
+    this.snapshotWindow,
+    this.topicArn,
+    this.vpcId,
+  });
+  factory Snapshot.fromXml(_s.XmlElement elem) {
+    return Snapshot(
+      arn: _s.extractXmlStringValue(elem, 'ARN'),
+      autoMinorVersionUpgrade:
+          _s.extractXmlBoolValue(elem, 'AutoMinorVersionUpgrade'),
+      automaticFailover: _s
+          .extractXmlStringValue(elem, 'AutomaticFailover')
+          ?.let(AutomaticFailoverStatus.fromString),
+      cacheClusterCreateTime:
+          _s.extractXmlDateTimeValue(elem, 'CacheClusterCreateTime'),
+      cacheClusterId: _s.extractXmlStringValue(elem, 'CacheClusterId'),
+      cacheNodeType: _s.extractXmlStringValue(elem, 'CacheNodeType'),
+      cacheParameterGroupName:
+          _s.extractXmlStringValue(elem, 'CacheParameterGroupName'),
+      cacheSubnetGroupName:
+          _s.extractXmlStringValue(elem, 'CacheSubnetGroupName'),
+      dataTiering: _s
+          .extractXmlStringValue(elem, 'DataTiering')
+          ?.let(DataTieringStatus.fromString),
+      durability: _s
+          .extractXmlStringValue(elem, 'Durability')
+          ?.let(Durability.fromString),
+      engine: _s.extractXmlStringValue(elem, 'Engine'),
+      engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
+      kmsKeyId: _s.extractXmlStringValue(elem, 'KmsKeyId'),
+      nodeSnapshots: _s.extractXmlChild(elem, 'NodeSnapshots')?.let((elem) =>
+          elem.findElements('NodeSnapshot').map(NodeSnapshot.fromXml).toList()),
+      numCacheNodes: _s.extractXmlIntValue(elem, 'NumCacheNodes'),
+      numNodeGroups: _s.extractXmlIntValue(elem, 'NumNodeGroups'),
+      port: _s.extractXmlIntValue(elem, 'Port'),
+      preferredAvailabilityZone:
+          _s.extractXmlStringValue(elem, 'PreferredAvailabilityZone'),
+      preferredMaintenanceWindow:
+          _s.extractXmlStringValue(elem, 'PreferredMaintenanceWindow'),
+      preferredOutpostArn:
+          _s.extractXmlStringValue(elem, 'PreferredOutpostArn'),
+      replicationGroupDescription:
+          _s.extractXmlStringValue(elem, 'ReplicationGroupDescription'),
+      replicationGroupId: _s.extractXmlStringValue(elem, 'ReplicationGroupId'),
+      snapshotName: _s.extractXmlStringValue(elem, 'SnapshotName'),
+      snapshotRetentionLimit:
+          _s.extractXmlIntValue(elem, 'SnapshotRetentionLimit'),
+      snapshotSource: _s.extractXmlStringValue(elem, 'SnapshotSource'),
+      snapshotStatus: _s.extractXmlStringValue(elem, 'SnapshotStatus'),
+      snapshotWindow: _s.extractXmlStringValue(elem, 'SnapshotWindow'),
+      topicArn: _s.extractXmlStringValue(elem, 'TopicArn'),
+      vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final autoMinorVersionUpgrade = this.autoMinorVersionUpgrade;
+    final automaticFailover = this.automaticFailover;
+    final cacheClusterCreateTime = this.cacheClusterCreateTime;
+    final cacheClusterId = this.cacheClusterId;
+    final cacheNodeType = this.cacheNodeType;
+    final cacheParameterGroupName = this.cacheParameterGroupName;
+    final cacheSubnetGroupName = this.cacheSubnetGroupName;
+    final dataTiering = this.dataTiering;
+    final durability = this.durability;
+    final engine = this.engine;
+    final engineVersion = this.engineVersion;
+    final kmsKeyId = this.kmsKeyId;
+    final nodeSnapshots = this.nodeSnapshots;
+    final numCacheNodes = this.numCacheNodes;
+    final numNodeGroups = this.numNodeGroups;
+    final port = this.port;
+    final preferredAvailabilityZone = this.preferredAvailabilityZone;
+    final preferredMaintenanceWindow = this.preferredMaintenanceWindow;
+    final preferredOutpostArn = this.preferredOutpostArn;
+    final replicationGroupDescription = this.replicationGroupDescription;
+    final replicationGroupId = this.replicationGroupId;
+    final snapshotName = this.snapshotName;
+    final snapshotRetentionLimit = this.snapshotRetentionLimit;
+    final snapshotSource = this.snapshotSource;
+    final snapshotStatus = this.snapshotStatus;
+    final snapshotWindow = this.snapshotWindow;
+    final topicArn = this.topicArn;
+    final vpcId = this.vpcId;
+    return {
+      if (arn != null) 'ARN': arn,
+      if (autoMinorVersionUpgrade != null)
+        'AutoMinorVersionUpgrade': autoMinorVersionUpgrade,
+      if (automaticFailover != null)
+        'AutomaticFailover': automaticFailover.value,
+      if (cacheClusterCreateTime != null)
+        'CacheClusterCreateTime': iso8601ToJson(cacheClusterCreateTime),
+      if (cacheClusterId != null) 'CacheClusterId': cacheClusterId,
+      if (cacheNodeType != null) 'CacheNodeType': cacheNodeType,
+      if (cacheParameterGroupName != null)
+        'CacheParameterGroupName': cacheParameterGroupName,
+      if (cacheSubnetGroupName != null)
+        'CacheSubnetGroupName': cacheSubnetGroupName,
+      if (dataTiering != null) 'DataTiering': dataTiering.value,
+      if (durability != null) 'Durability': durability.value,
+      if (engine != null) 'Engine': engine,
+      if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (nodeSnapshots != null) 'NodeSnapshots': nodeSnapshots,
+      if (numCacheNodes != null) 'NumCacheNodes': numCacheNodes,
+      if (numNodeGroups != null) 'NumNodeGroups': numNodeGroups,
+      if (port != null) 'Port': port,
+      if (preferredAvailabilityZone != null)
+        'PreferredAvailabilityZone': preferredAvailabilityZone,
+      if (preferredMaintenanceWindow != null)
+        'PreferredMaintenanceWindow': preferredMaintenanceWindow,
+      if (preferredOutpostArn != null)
+        'PreferredOutpostArn': preferredOutpostArn,
+      if (replicationGroupDescription != null)
+        'ReplicationGroupDescription': replicationGroupDescription,
+      if (replicationGroupId != null) 'ReplicationGroupId': replicationGroupId,
+      if (snapshotName != null) 'SnapshotName': snapshotName,
+      if (snapshotRetentionLimit != null)
+        'SnapshotRetentionLimit': snapshotRetentionLimit,
+      if (snapshotSource != null) 'SnapshotSource': snapshotSource,
+      if (snapshotStatus != null) 'SnapshotStatus': snapshotStatus,
+      if (snapshotWindow != null) 'SnapshotWindow': snapshotWindow,
+      if (topicArn != null) 'TopicArn': topicArn,
+      if (vpcId != null) 'VpcId': vpcId,
+    };
+  }
+}
+
+/// Represents an individual cache node in a snapshot of a cluster.
+class NodeSnapshot {
+  /// A unique identifier for the source cluster.
+  final String? cacheClusterId;
+
+  /// The date and time when the cache node was created in the source cluster.
+  final DateTime? cacheNodeCreateTime;
+
+  /// The cache node identifier for the node in the source cluster.
+  final String? cacheNodeId;
+
+  /// The size of the cache on the source cache node.
+  final String? cacheSize;
+
+  /// The configuration for the source node group (shard).
+  final NodeGroupConfiguration? nodeGroupConfiguration;
+
+  /// A unique identifier for the source node group (shard).
+  final String? nodeGroupId;
+
+  /// The date and time when the source node's metadata and cache data set was
+  /// obtained for the snapshot.
+  final DateTime? snapshotCreateTime;
+
+  NodeSnapshot({
+    this.cacheClusterId,
+    this.cacheNodeCreateTime,
+    this.cacheNodeId,
+    this.cacheSize,
+    this.nodeGroupConfiguration,
+    this.nodeGroupId,
+    this.snapshotCreateTime,
+  });
+  factory NodeSnapshot.fromXml(_s.XmlElement elem) {
+    return NodeSnapshot(
+      cacheClusterId: _s.extractXmlStringValue(elem, 'CacheClusterId'),
+      cacheNodeCreateTime:
+          _s.extractXmlDateTimeValue(elem, 'CacheNodeCreateTime'),
+      cacheNodeId: _s.extractXmlStringValue(elem, 'CacheNodeId'),
+      cacheSize: _s.extractXmlStringValue(elem, 'CacheSize'),
+      nodeGroupConfiguration: _s
+          .extractXmlChild(elem, 'NodeGroupConfiguration')
+          ?.let(NodeGroupConfiguration.fromXml),
+      nodeGroupId: _s.extractXmlStringValue(elem, 'NodeGroupId'),
+      snapshotCreateTime:
+          _s.extractXmlDateTimeValue(elem, 'SnapshotCreateTime'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cacheClusterId = this.cacheClusterId;
+    final cacheNodeCreateTime = this.cacheNodeCreateTime;
+    final cacheNodeId = this.cacheNodeId;
+    final cacheSize = this.cacheSize;
+    final nodeGroupConfiguration = this.nodeGroupConfiguration;
+    final nodeGroupId = this.nodeGroupId;
+    final snapshotCreateTime = this.snapshotCreateTime;
+    return {
+      if (cacheClusterId != null) 'CacheClusterId': cacheClusterId,
+      if (cacheNodeCreateTime != null)
+        'CacheNodeCreateTime': iso8601ToJson(cacheNodeCreateTime),
+      if (cacheNodeId != null) 'CacheNodeId': cacheNodeId,
+      if (cacheSize != null) 'CacheSize': cacheSize,
+      if (nodeGroupConfiguration != null)
+        'NodeGroupConfiguration': nodeGroupConfiguration,
+      if (nodeGroupId != null) 'NodeGroupId': nodeGroupId,
+      if (snapshotCreateTime != null)
+        'SnapshotCreateTime': iso8601ToJson(snapshotCreateTime),
+    };
+  }
+}
+
+/// Node group (shard) configuration options. Each node group (shard)
+/// configuration has the following: <code>Slots</code>,
+/// <code>PrimaryAvailabilityZone</code>, <code>ReplicaAvailabilityZones</code>,
+/// <code>ReplicaCount</code>.
+class NodeGroupConfiguration {
+  /// Either the ElastiCache supplied 4-digit id or a user supplied id for the
+  /// node group these configuration values apply to.
+  final String? nodeGroupId;
+
+  /// The Availability Zone where the primary node of this node group (shard) is
+  /// launched.
+  final String? primaryAvailabilityZone;
+
+  /// The outpost ARN of the primary node.
+  final String? primaryOutpostArn;
+
+  /// A list of Availability Zones to be used for the read replicas. The number of
+  /// Availability Zones in this list must match the value of
+  /// <code>ReplicaCount</code> or <code>ReplicasPerNodeGroup</code> if not
+  /// specified.
+  final List<String>? replicaAvailabilityZones;
+
+  /// The number of read replica nodes in this node group (shard).
+  final int? replicaCount;
+
+  /// The outpost ARN of the node replicas.
+  final List<String>? replicaOutpostArns;
+
+  /// A string that specifies the keyspace for a particular node group. Keyspaces
+  /// range from 0 to 16,383. The string is in the format
+  /// <code>startkey-endkey</code>.
+  ///
+  /// Example: <code>"0-3999"</code>
+  final String? slots;
+
+  NodeGroupConfiguration({
+    this.nodeGroupId,
+    this.primaryAvailabilityZone,
+    this.primaryOutpostArn,
+    this.replicaAvailabilityZones,
+    this.replicaCount,
+    this.replicaOutpostArns,
+    this.slots,
+  });
+  factory NodeGroupConfiguration.fromXml(_s.XmlElement elem) {
+    return NodeGroupConfiguration(
+      nodeGroupId: _s.extractXmlStringValue(elem, 'NodeGroupId'),
+      primaryAvailabilityZone:
+          _s.extractXmlStringValue(elem, 'PrimaryAvailabilityZone'),
+      primaryOutpostArn: _s.extractXmlStringValue(elem, 'PrimaryOutpostArn'),
+      replicaAvailabilityZones: _s
+          .extractXmlChild(elem, 'ReplicaAvailabilityZones')
+          ?.let((elem) =>
+              _s.extractXmlStringListValues(elem, 'AvailabilityZone')),
+      replicaCount: _s.extractXmlIntValue(elem, 'ReplicaCount'),
+      replicaOutpostArns: _s
+          .extractXmlChild(elem, 'ReplicaOutpostArns')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'OutpostArn')),
+      slots: _s.extractXmlStringValue(elem, 'Slots'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nodeGroupId = this.nodeGroupId;
+    final primaryAvailabilityZone = this.primaryAvailabilityZone;
+    final primaryOutpostArn = this.primaryOutpostArn;
+    final replicaAvailabilityZones = this.replicaAvailabilityZones;
+    final replicaCount = this.replicaCount;
+    final replicaOutpostArns = this.replicaOutpostArns;
+    final slots = this.slots;
+    return {
+      if (nodeGroupId != null) 'NodeGroupId': nodeGroupId,
+      if (primaryAvailabilityZone != null)
+        'PrimaryAvailabilityZone': primaryAvailabilityZone,
+      if (primaryOutpostArn != null) 'PrimaryOutpostArn': primaryOutpostArn,
+      if (replicaAvailabilityZones != null)
+        'ReplicaAvailabilityZones': replicaAvailabilityZones,
+      if (replicaCount != null) 'ReplicaCount': replicaCount,
+      if (replicaOutpostArns != null) 'ReplicaOutpostArns': replicaOutpostArns,
+      if (slots != null) 'Slots': slots,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final nodeGroupId = this.nodeGroupId;
+    final primaryAvailabilityZone = this.primaryAvailabilityZone;
+    final primaryOutpostArn = this.primaryOutpostArn;
+    final replicaAvailabilityZones = this.replicaAvailabilityZones;
+    final replicaCount = this.replicaCount;
+    final replicaOutpostArns = this.replicaOutpostArns;
+    final slots = this.slots;
+    return {
+      if (nodeGroupId != null) 'NodeGroupId': nodeGroupId,
+      if (primaryAvailabilityZone != null)
+        'PrimaryAvailabilityZone': primaryAvailabilityZone,
+      if (primaryOutpostArn != null) 'PrimaryOutpostArn': primaryOutpostArn,
+      if (replicaAvailabilityZones != null)
+        if (replicaAvailabilityZones.isEmpty)
+          'AvailabilityZone': ''
+        else
+          for (var i1 = 0; i1 < replicaAvailabilityZones.length; i1++)
+            'AvailabilityZone.AvailabilityZone.${i1 + 1}':
+                replicaAvailabilityZones[i1],
+      if (replicaCount != null) 'ReplicaCount': replicaCount.toString(),
+      if (replicaOutpostArns != null)
+        if (replicaOutpostArns.isEmpty)
+          'OutpostArn': ''
+        else
+          for (var i1 = 0; i1 < replicaOutpostArns.length; i1++)
+            'OutpostArn.OutpostArn.${i1 + 1}': replicaOutpostArns[i1],
+      if (slots != null) 'Slots': slots,
+    };
+  }
+}
+
+/// An update that you can apply to your Valkey or Redis OSS clusters.
+class ServiceUpdate {
+  /// Indicates whether the service update will be automatically applied once the
+  /// recommended apply-by date has expired.
+  final bool? autoUpdateAfterRecommendedApplyByDate;
+
+  /// The Elasticache engine to which the update applies. Either Valkey, Redis OSS
+  /// or Memcached.
+  final String? engine;
+
+  /// The Elasticache engine version to which the update applies. Either Valkey,
+  /// Redis OSS or Memcached engine version.
+  final String? engineVersion;
+
+  /// The estimated length of time the service update will take
+  final String? estimatedUpdateTime;
+
+  /// Provides details of the service update
+  final String? serviceUpdateDescription;
+
+  /// The date after which the service update is no longer available
+  final DateTime? serviceUpdateEndDate;
+
+  /// The unique ID of the service update
+  final String? serviceUpdateName;
+
+  /// The recommendend date to apply the service update in order to ensure
+  /// compliance. For information on compliance, see <a
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/elasticache-compliance.html#elasticache-compliance-self-service">Self-Service
+  /// Security Updates for Compliance</a>.
+  final DateTime? serviceUpdateRecommendedApplyByDate;
+
+  /// The date when the service update is initially available
+  final DateTime? serviceUpdateReleaseDate;
+
+  /// The severity of the service update
+  final ServiceUpdateSeverity? serviceUpdateSeverity;
+
+  /// The status of the service update
+  final ServiceUpdateStatus? serviceUpdateStatus;
+
+  /// Reflects the nature of the service update
+  final ServiceUpdateType? serviceUpdateType;
+
+  ServiceUpdate({
+    this.autoUpdateAfterRecommendedApplyByDate,
+    this.engine,
+    this.engineVersion,
+    this.estimatedUpdateTime,
+    this.serviceUpdateDescription,
+    this.serviceUpdateEndDate,
+    this.serviceUpdateName,
+    this.serviceUpdateRecommendedApplyByDate,
+    this.serviceUpdateReleaseDate,
+    this.serviceUpdateSeverity,
+    this.serviceUpdateStatus,
+    this.serviceUpdateType,
+  });
+  factory ServiceUpdate.fromXml(_s.XmlElement elem) {
+    return ServiceUpdate(
+      autoUpdateAfterRecommendedApplyByDate:
+          _s.extractXmlBoolValue(elem, 'AutoUpdateAfterRecommendedApplyByDate'),
+      engine: _s.extractXmlStringValue(elem, 'Engine'),
+      engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
+      estimatedUpdateTime:
+          _s.extractXmlStringValue(elem, 'EstimatedUpdateTime'),
+      serviceUpdateDescription:
+          _s.extractXmlStringValue(elem, 'ServiceUpdateDescription'),
+      serviceUpdateEndDate:
+          _s.extractXmlDateTimeValue(elem, 'ServiceUpdateEndDate'),
+      serviceUpdateName: _s.extractXmlStringValue(elem, 'ServiceUpdateName'),
+      serviceUpdateRecommendedApplyByDate: _s.extractXmlDateTimeValue(
+          elem, 'ServiceUpdateRecommendedApplyByDate'),
+      serviceUpdateReleaseDate:
+          _s.extractXmlDateTimeValue(elem, 'ServiceUpdateReleaseDate'),
+      serviceUpdateSeverity: _s
+          .extractXmlStringValue(elem, 'ServiceUpdateSeverity')
+          ?.let(ServiceUpdateSeverity.fromString),
+      serviceUpdateStatus: _s
+          .extractXmlStringValue(elem, 'ServiceUpdateStatus')
+          ?.let(ServiceUpdateStatus.fromString),
+      serviceUpdateType: _s
+          .extractXmlStringValue(elem, 'ServiceUpdateType')
+          ?.let(ServiceUpdateType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoUpdateAfterRecommendedApplyByDate =
+        this.autoUpdateAfterRecommendedApplyByDate;
+    final engine = this.engine;
+    final engineVersion = this.engineVersion;
+    final estimatedUpdateTime = this.estimatedUpdateTime;
+    final serviceUpdateDescription = this.serviceUpdateDescription;
+    final serviceUpdateEndDate = this.serviceUpdateEndDate;
+    final serviceUpdateName = this.serviceUpdateName;
+    final serviceUpdateRecommendedApplyByDate =
+        this.serviceUpdateRecommendedApplyByDate;
+    final serviceUpdateReleaseDate = this.serviceUpdateReleaseDate;
+    final serviceUpdateSeverity = this.serviceUpdateSeverity;
+    final serviceUpdateStatus = this.serviceUpdateStatus;
+    final serviceUpdateType = this.serviceUpdateType;
+    return {
+      if (autoUpdateAfterRecommendedApplyByDate != null)
+        'AutoUpdateAfterRecommendedApplyByDate':
+            autoUpdateAfterRecommendedApplyByDate,
+      if (engine != null) 'Engine': engine,
+      if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (estimatedUpdateTime != null)
+        'EstimatedUpdateTime': estimatedUpdateTime,
+      if (serviceUpdateDescription != null)
+        'ServiceUpdateDescription': serviceUpdateDescription,
+      if (serviceUpdateEndDate != null)
+        'ServiceUpdateEndDate': iso8601ToJson(serviceUpdateEndDate),
+      if (serviceUpdateName != null) 'ServiceUpdateName': serviceUpdateName,
+      if (serviceUpdateRecommendedApplyByDate != null)
+        'ServiceUpdateRecommendedApplyByDate':
+            iso8601ToJson(serviceUpdateRecommendedApplyByDate),
+      if (serviceUpdateReleaseDate != null)
+        'ServiceUpdateReleaseDate': iso8601ToJson(serviceUpdateReleaseDate),
+      if (serviceUpdateSeverity != null)
+        'ServiceUpdateSeverity': serviceUpdateSeverity.value,
+      if (serviceUpdateStatus != null)
+        'ServiceUpdateStatus': serviceUpdateStatus.value,
+      if (serviceUpdateType != null)
+        'ServiceUpdateType': serviceUpdateType.value,
+    };
+  }
+}
+
+/// Describes all of the attributes of a reserved cache node offering.
+class ReservedCacheNodesOffering {
+  /// The cache node type for the reserved cache node.
+  ///
+  /// The following node types are supported by ElastiCache. Generally speaking,
+  /// the current generation types provide more memory and computational power at
+  /// lower cost when compared to their equivalent previous generation
+  /// counterparts.
+  ///
+  /// <ul>
+  /// <li>
+  /// General purpose:
+  ///
+  /// <ul>
+  /// <li>
+  /// Current generation:
+  ///
+  /// <b>M7g node types</b>: <code>cache.m7g.large</code>,
+  /// <code>cache.m7g.xlarge</code>, <code>cache.m7g.2xlarge</code>,
+  /// <code>cache.m7g.4xlarge</code>, <code>cache.m7g.8xlarge</code>,
+  /// <code>cache.m7g.12xlarge</code>, <code>cache.m7g.16xlarge</code>
+  /// <note>
+  /// For region availability, see <a
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
+  /// Node Types</a>
+  /// </note>
+  /// <b>M6g node types</b> (available only for Redis OSS engine version 5.0.6
+  /// onward and for Memcached engine version 1.5.16 onward):
+  /// <code>cache.m6g.large</code>, <code>cache.m6g.xlarge</code>,
+  /// <code>cache.m6g.2xlarge</code>, <code>cache.m6g.4xlarge</code>,
+  /// <code>cache.m6g.8xlarge</code>, <code>cache.m6g.12xlarge</code>,
+  /// <code>cache.m6g.16xlarge</code>
+  ///
+  /// <b>M5 node types:</b> <code>cache.m5.large</code>,
+  /// <code>cache.m5.xlarge</code>, <code>cache.m5.2xlarge</code>,
+  /// <code>cache.m5.4xlarge</code>, <code>cache.m5.12xlarge</code>,
+  /// <code>cache.m5.24xlarge</code>
+  ///
+  /// <b>M4 node types:</b> <code>cache.m4.large</code>,
+  /// <code>cache.m4.xlarge</code>, <code>cache.m4.2xlarge</code>,
+  /// <code>cache.m4.4xlarge</code>, <code>cache.m4.10xlarge</code>
+  ///
+  /// <b>T4g node types</b> (available only for Redis OSS engine version 5.0.6
+  /// onward and Memcached engine version 1.5.16 onward):
+  /// <code>cache.t4g.micro</code>, <code>cache.t4g.small</code>,
+  /// <code>cache.t4g.medium</code>
+  ///
+  /// <b>T3 node types:</b> <code>cache.t3.micro</code>,
+  /// <code>cache.t3.small</code>, <code>cache.t3.medium</code>
+  ///
+  /// <b>T2 node types:</b> <code>cache.t2.micro</code>,
+  /// <code>cache.t2.small</code>, <code>cache.t2.medium</code>
+  /// </li>
+  /// <li>
+  /// Previous generation: (not recommended. Existing clusters are still supported
+  /// but creation of new clusters is not supported for these types.)
+  ///
+  /// <b>T1 node types:</b> <code>cache.t1.micro</code>
+  ///
+  /// <b>M1 node types:</b> <code>cache.m1.small</code>,
+  /// <code>cache.m1.medium</code>, <code>cache.m1.large</code>,
+  /// <code>cache.m1.xlarge</code>
+  ///
+  /// <b>M3 node types:</b> <code>cache.m3.medium</code>,
+  /// <code>cache.m3.large</code>, <code>cache.m3.xlarge</code>,
+  /// <code>cache.m3.2xlarge</code>
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// Compute optimized:
+  ///
+  /// <ul>
+  /// <li>
+  /// Previous generation: (not recommended. Existing clusters are still supported
+  /// but creation of new clusters is not supported for these types.)
+  ///
+  /// <b>C1 node types:</b> <code>cache.c1.xlarge</code>
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// Memory optimized:
+  ///
+  /// <ul>
+  /// <li>
+  /// Current generation:
+  ///
+  /// <b>R7g node types</b>: <code>cache.r7g.large</code>,
+  /// <code>cache.r7g.xlarge</code>, <code>cache.r7g.2xlarge</code>,
+  /// <code>cache.r7g.4xlarge</code>, <code>cache.r7g.8xlarge</code>,
+  /// <code>cache.r7g.12xlarge</code>, <code>cache.r7g.16xlarge</code>
+  /// <note>
+  /// For region availability, see <a
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion">Supported
+  /// Node Types</a>
+  /// </note>
+  /// <b>R6g node types</b> (available only for Redis OSS engine version 5.0.6
+  /// onward and for Memcached engine version 1.5.16 onward):
+  /// <code>cache.r6g.large</code>, <code>cache.r6g.xlarge</code>,
+  /// <code>cache.r6g.2xlarge</code>, <code>cache.r6g.4xlarge</code>,
+  /// <code>cache.r6g.8xlarge</code>, <code>cache.r6g.12xlarge</code>,
+  /// <code>cache.r6g.16xlarge</code>
+  ///
+  /// <b>R5 node types:</b> <code>cache.r5.large</code>,
+  /// <code>cache.r5.xlarge</code>, <code>cache.r5.2xlarge</code>,
+  /// <code>cache.r5.4xlarge</code>, <code>cache.r5.12xlarge</code>,
+  /// <code>cache.r5.24xlarge</code>
+  ///
+  /// <b>R4 node types:</b> <code>cache.r4.large</code>,
+  /// <code>cache.r4.xlarge</code>, <code>cache.r4.2xlarge</code>,
+  /// <code>cache.r4.4xlarge</code>, <code>cache.r4.8xlarge</code>,
+  /// <code>cache.r4.16xlarge</code>
+  /// </li>
+  /// <li>
+  /// Previous generation: (not recommended. Existing clusters are still supported
+  /// but creation of new clusters is not supported for these types.)
+  ///
+  /// <b>M2 node types:</b> <code>cache.m2.xlarge</code>,
+  /// <code>cache.m2.2xlarge</code>, <code>cache.m2.4xlarge</code>
+  ///
+  /// <b>R3 node types:</b> <code>cache.r3.large</code>,
+  /// <code>cache.r3.xlarge</code>, <code>cache.r3.2xlarge</code>,
+  /// <code>cache.r3.4xlarge</code>, <code>cache.r3.8xlarge</code>
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
+  /// <b>Additional node type info</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// All current generation instance types are created in Amazon VPC by default.
+  /// </li>
+  /// <li>
+  /// Valkey or Redis OSS append-only files (AOF) are not supported for T1 or T2
+  /// instances.
+  /// </li>
+  /// <li>
+  /// Valkey or Redis OSS Multi-AZ with automatic failover is not supported on T1
+  /// instances.
+  /// </li>
+  /// <li>
+  /// The configuration variables <code>appendonly</code> and
+  /// <code>appendfsync</code> are not supported on Valkey, or on Redis OSS
+  /// version 2.8.22 and later.
+  /// </li>
+  /// </ul>
+  final String? cacheNodeType;
+
+  /// The duration of the offering. in seconds.
+  final int? duration;
+
+  /// The fixed price charged for this offering.
+  final double? fixedPrice;
+
+  /// The offering type.
+  final String? offeringType;
+
+  /// The cache engine used by the offering.
+  final String? productDescription;
+
+  /// The recurring price charged to run this reserved cache node.
+  final List<RecurringCharge>? recurringCharges;
+
+  /// A unique identifier for the reserved cache node offering.
+  final String? reservedCacheNodesOfferingId;
+
+  /// The hourly price charged for this offering.
+  final double? usagePrice;
+
+  ReservedCacheNodesOffering({
+    this.cacheNodeType,
+    this.duration,
+    this.fixedPrice,
+    this.offeringType,
+    this.productDescription,
+    this.recurringCharges,
+    this.reservedCacheNodesOfferingId,
+    this.usagePrice,
+  });
+  factory ReservedCacheNodesOffering.fromXml(_s.XmlElement elem) {
+    return ReservedCacheNodesOffering(
+      cacheNodeType: _s.extractXmlStringValue(elem, 'CacheNodeType'),
+      duration: _s.extractXmlIntValue(elem, 'Duration'),
+      fixedPrice: _s.extractXmlDoubleValue(elem, 'FixedPrice'),
+      offeringType: _s.extractXmlStringValue(elem, 'OfferingType'),
+      productDescription: _s.extractXmlStringValue(elem, 'ProductDescription'),
+      recurringCharges: _s.extractXmlChild(elem, 'RecurringCharges')?.let(
+          (elem) => elem
+              .findElements('RecurringCharge')
+              .map(RecurringCharge.fromXml)
+              .toList()),
+      reservedCacheNodesOfferingId:
+          _s.extractXmlStringValue(elem, 'ReservedCacheNodesOfferingId'),
+      usagePrice: _s.extractXmlDoubleValue(elem, 'UsagePrice'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cacheNodeType = this.cacheNodeType;
+    final duration = this.duration;
+    final fixedPrice = this.fixedPrice;
+    final offeringType = this.offeringType;
+    final productDescription = this.productDescription;
+    final recurringCharges = this.recurringCharges;
+    final reservedCacheNodesOfferingId = this.reservedCacheNodesOfferingId;
+    final usagePrice = this.usagePrice;
+    return {
+      if (cacheNodeType != null) 'CacheNodeType': cacheNodeType,
+      if (duration != null) 'Duration': duration,
+      if (fixedPrice != null) 'FixedPrice': fixedPrice,
+      if (offeringType != null) 'OfferingType': offeringType,
+      if (productDescription != null) 'ProductDescription': productDescription,
+      if (recurringCharges != null) 'RecurringCharges': recurringCharges,
+      if (reservedCacheNodesOfferingId != null)
+        'ReservedCacheNodesOfferingId': reservedCacheNodesOfferingId,
+      if (usagePrice != null) 'UsagePrice': usagePrice,
+    };
+  }
+}
+
+/// Represents a single occurrence of something interesting within the system.
+/// Some examples of events are creating a cluster, adding or removing a cache
+/// node, or rebooting a node.
+class Event {
+  /// The date and time when the event occurred.
+  final DateTime? date;
+
+  /// The text of the event.
+  final String? message;
+
+  /// The identifier for the source of the event. For example, if the event
+  /// occurred at the cluster level, the identifier would be the name of the
+  /// cluster.
+  final String? sourceIdentifier;
+
+  /// Specifies the origin of this event - a cluster, a parameter group, a
+  /// security group, etc.
+  final SourceType? sourceType;
+
+  Event({
+    this.date,
+    this.message,
+    this.sourceIdentifier,
+    this.sourceType,
+  });
+  factory Event.fromXml(_s.XmlElement elem) {
+    return Event(
+      date: _s.extractXmlDateTimeValue(elem, 'Date'),
+      message: _s.extractXmlStringValue(elem, 'Message'),
+      sourceIdentifier: _s.extractXmlStringValue(elem, 'SourceIdentifier'),
+      sourceType: _s
+          .extractXmlStringValue(elem, 'SourceType')
+          ?.let(SourceType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final date = this.date;
+    final message = this.message;
+    final sourceIdentifier = this.sourceIdentifier;
+    final sourceType = this.sourceType;
+    return {
+      if (date != null) 'Date': iso8601ToJson(date),
+      if (message != null) 'Message': message,
+      if (sourceIdentifier != null) 'SourceIdentifier': sourceIdentifier,
+      if (sourceType != null) 'SourceType': sourceType.value,
+    };
+  }
+}
+
+class SourceType {
+  static const cacheCluster = SourceType._('cache-cluster');
+  static const cacheParameterGroup = SourceType._('cache-parameter-group');
+  static const cacheSecurityGroup = SourceType._('cache-security-group');
+  static const cacheSubnetGroup = SourceType._('cache-subnet-group');
+  static const replicationGroup = SourceType._('replication-group');
+  static const serverlessCache = SourceType._('serverless-cache');
+  static const serverlessCacheSnapshot =
+      SourceType._('serverless-cache-snapshot');
+  static const user = SourceType._('user');
+  static const userGroup = SourceType._('user-group');
+
+  final String value;
+
+  const SourceType._(this.value);
+
+  static const values = [
+    cacheCluster,
+    cacheParameterGroup,
+    cacheSecurityGroup,
+    cacheSubnetGroup,
+    replicationGroup,
+    serverlessCache,
+    serverlessCacheSnapshot,
+    user,
+    userGroup
+  ];
+
+  static SourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SourceType._(value));
+
+  @override
+  bool operator ==(other) => other is SourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the output of a <code>DescribeEngineDefaultParameters</code>
+/// operation.
+class EngineDefaults {
+  /// A list of parameters specific to a particular cache node type. Each element
+  /// in the list contains detailed information about one parameter.
+  final List<CacheNodeTypeSpecificParameter>? cacheNodeTypeSpecificParameters;
+
+  /// Specifies the name of the cache parameter group family to which the engine
+  /// default parameters apply.
+  ///
+  /// Valid values are: <code>memcached1.4</code> | <code>memcached1.5</code> |
+  /// <code>memcached1.6</code> | <code>redis2.6</code> | <code>redis2.8</code> |
+  /// <code>redis3.2</code> | <code>redis4.0</code> | <code>redis5.0</code> |
+  /// <code>redis6.0</code> | <code>redis6.x</code> | <code>redis7</code>
+  final String? cacheParameterGroupFamily;
+
+  /// Provides an identifier to allow retrieval of paginated results.
   final String? marker;
 
-  /// Returns a list of update actions
-  final List<UpdateAction>? updateActions;
+  /// Contains a list of engine default parameters.
+  final List<Parameter>? parameters;
 
-  UpdateActionsMessage({
+  EngineDefaults({
+    this.cacheNodeTypeSpecificParameters,
+    this.cacheParameterGroupFamily,
     this.marker,
-    this.updateActions,
+    this.parameters,
   });
-  factory UpdateActionsMessage.fromXml(_s.XmlElement elem) {
-    return UpdateActionsMessage(
+  factory EngineDefaults.fromXml(_s.XmlElement elem) {
+    return EngineDefaults(
+      cacheNodeTypeSpecificParameters: _s
+          .extractXmlChild(elem, 'CacheNodeTypeSpecificParameters')
+          ?.let((elem) => elem
+              .findElements('CacheNodeTypeSpecificParameter')
+              .map(CacheNodeTypeSpecificParameter.fromXml)
+              .toList()),
+      cacheParameterGroupFamily:
+          _s.extractXmlStringValue(elem, 'CacheParameterGroupFamily'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
-      updateActions: _s.extractXmlChild(elem, 'UpdateActions')?.let((elem) =>
-          elem.findElements('UpdateAction').map(UpdateAction.fromXml).toList()),
+      parameters: _s.extractXmlChild(elem, 'Parameters')?.let((elem) =>
+          elem.findElements('Parameter').map(Parameter.fromXml).toList()),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final cacheNodeTypeSpecificParameters =
+        this.cacheNodeTypeSpecificParameters;
+    final cacheParameterGroupFamily = this.cacheParameterGroupFamily;
     final marker = this.marker;
-    final updateActions = this.updateActions;
+    final parameters = this.parameters;
     return {
+      if (cacheNodeTypeSpecificParameters != null)
+        'CacheNodeTypeSpecificParameters': cacheNodeTypeSpecificParameters,
+      if (cacheParameterGroupFamily != null)
+        'CacheParameterGroupFamily': cacheParameterGroupFamily,
       if (marker != null) 'Marker': marker,
-      if (updateActions != null) 'UpdateActions': updateActions,
+      if (parameters != null) 'Parameters': parameters,
     };
   }
 }
 
-class User {
-  /// The Amazon Resource Name (ARN) of the user.
-  final String? arn;
+/// A parameter that has a different value for each cache node type it is
+/// applied to. For example, in a Valkey or Redis OSS cluster, a
+/// <code>cache.m1.large</code> cache node type would have a larger
+/// <code>maxmemory</code> value than a <code>cache.m1.small</code> type.
+class CacheNodeTypeSpecificParameter {
+  /// The valid range of values for the parameter.
+  final String? allowedValues;
 
-  /// Access permissions string used for this user.
-  final String? accessString;
+  /// A list of cache node types and their corresponding values for this
+  /// parameter.
+  final List<CacheNodeTypeSpecificValue>? cacheNodeTypeSpecificValues;
 
-  /// Denotes whether the user requires a password to authenticate.
-  final Authentication? authentication;
+  /// Indicates whether a change to the parameter is applied immediately or
+  /// requires a reboot for the change to be applied. You can force a reboot or
+  /// wait until the next maintenance window's reboot. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.Rebooting.html">Rebooting
+  /// a Cluster</a>.
+  final ChangeType? changeType;
 
-  /// The current supported value is Redis.
-  final String? engine;
+  /// The valid data type for the parameter.
+  final String? dataType;
 
-  /// The minimum engine version required, which is Redis OSS 6.0
+  /// A description of the parameter.
+  final String? description;
+
+  /// Indicates whether (<code>true</code>) or not (<code>false</code>) the
+  /// parameter can be modified. Some parameters have security or operational
+  /// implications that prevent them from being changed.
+  final bool? isModifiable;
+
+  /// The earliest cache engine version to which the parameter can apply.
   final String? minimumEngineVersion;
 
-  /// Indicates the user status. Can be "active", "modifying" or "deleting".
-  final String? status;
+  /// The name of the parameter.
+  final String? parameterName;
 
-  /// Returns a list of the user group IDs the user belongs to.
-  final List<String>? userGroupIds;
+  /// The source of the parameter value.
+  final String? source;
 
-  /// The ID of the user.
-  final String? userId;
-
-  /// The username of the user.
-  final String? userName;
-
-  User({
-    this.arn,
-    this.accessString,
-    this.authentication,
-    this.engine,
+  CacheNodeTypeSpecificParameter({
+    this.allowedValues,
+    this.cacheNodeTypeSpecificValues,
+    this.changeType,
+    this.dataType,
+    this.description,
+    this.isModifiable,
     this.minimumEngineVersion,
-    this.status,
-    this.userGroupIds,
-    this.userId,
-    this.userName,
+    this.parameterName,
+    this.source,
   });
-  factory User.fromXml(_s.XmlElement elem) {
-    return User(
-      arn: _s.extractXmlStringValue(elem, 'ARN'),
-      accessString: _s.extractXmlStringValue(elem, 'AccessString'),
-      authentication: _s
-          .extractXmlChild(elem, 'Authentication')
-          ?.let(Authentication.fromXml),
-      engine: _s.extractXmlStringValue(elem, 'Engine'),
+  factory CacheNodeTypeSpecificParameter.fromXml(_s.XmlElement elem) {
+    return CacheNodeTypeSpecificParameter(
+      allowedValues: _s.extractXmlStringValue(elem, 'AllowedValues'),
+      cacheNodeTypeSpecificValues: _s
+          .extractXmlChild(elem, 'CacheNodeTypeSpecificValues')
+          ?.let((elem) => elem
+              .findElements('CacheNodeTypeSpecificValue')
+              .map(CacheNodeTypeSpecificValue.fromXml)
+              .toList()),
+      changeType: _s
+          .extractXmlStringValue(elem, 'ChangeType')
+          ?.let(ChangeType.fromString),
+      dataType: _s.extractXmlStringValue(elem, 'DataType'),
+      description: _s.extractXmlStringValue(elem, 'Description'),
+      isModifiable: _s.extractXmlBoolValue(elem, 'IsModifiable'),
       minimumEngineVersion:
           _s.extractXmlStringValue(elem, 'MinimumEngineVersion'),
-      status: _s.extractXmlStringValue(elem, 'Status'),
-      userGroupIds: _s
-          .extractXmlChild(elem, 'UserGroupIds')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      userId: _s.extractXmlStringValue(elem, 'UserId'),
-      userName: _s.extractXmlStringValue(elem, 'UserName'),
+      parameterName: _s.extractXmlStringValue(elem, 'ParameterName'),
+      source: _s.extractXmlStringValue(elem, 'Source'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedValues = this.allowedValues;
+    final cacheNodeTypeSpecificValues = this.cacheNodeTypeSpecificValues;
+    final changeType = this.changeType;
+    final dataType = this.dataType;
+    final description = this.description;
+    final isModifiable = this.isModifiable;
+    final minimumEngineVersion = this.minimumEngineVersion;
+    final parameterName = this.parameterName;
+    final source = this.source;
+    return {
+      if (allowedValues != null) 'AllowedValues': allowedValues,
+      if (cacheNodeTypeSpecificValues != null)
+        'CacheNodeTypeSpecificValues': cacheNodeTypeSpecificValues,
+      if (changeType != null) 'ChangeType': changeType.value,
+      if (dataType != null) 'DataType': dataType,
+      if (description != null) 'Description': description,
+      if (isModifiable != null) 'IsModifiable': isModifiable,
+      if (minimumEngineVersion != null)
+        'MinimumEngineVersion': minimumEngineVersion,
+      if (parameterName != null) 'ParameterName': parameterName,
+      if (source != null) 'Source': source,
+    };
+  }
+}
+
+class ChangeType {
+  static const immediate = ChangeType._('immediate');
+  static const requiresReboot = ChangeType._('requires-reboot');
+
+  final String value;
+
+  const ChangeType._(this.value);
+
+  static const values = [immediate, requiresReboot];
+
+  static ChangeType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChangeType._(value));
+
+  @override
+  bool operator ==(other) => other is ChangeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A value that applies only to a certain cache node type.
+class CacheNodeTypeSpecificValue {
+  /// The cache node type for which this value applies.
+  final String? cacheNodeType;
+
+  /// The value for the cache node type.
+  final String? value;
+
+  CacheNodeTypeSpecificValue({
+    this.cacheNodeType,
+    this.value,
+  });
+  factory CacheNodeTypeSpecificValue.fromXml(_s.XmlElement elem) {
+    return CacheNodeTypeSpecificValue(
+      cacheNodeType: _s.extractXmlStringValue(elem, 'CacheNodeType'),
+      value: _s.extractXmlStringValue(elem, 'Value'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cacheNodeType = this.cacheNodeType;
+    final value = this.value;
+    return {
+      if (cacheNodeType != null) 'CacheNodeType': cacheNodeType,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Describes an individual setting that controls some aspect of ElastiCache
+/// behavior.
+class Parameter {
+  /// The valid range of values for the parameter.
+  final String? allowedValues;
+
+  /// Indicates whether a change to the parameter is applied immediately or
+  /// requires a reboot for the change to be applied. You can force a reboot or
+  /// wait until the next maintenance window's reboot. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.Rebooting.html">Rebooting
+  /// a Cluster</a>.
+  final ChangeType? changeType;
+
+  /// The valid data type for the parameter.
+  final String? dataType;
+
+  /// A description of the parameter.
+  final String? description;
+
+  /// Indicates whether (<code>true</code>) or not (<code>false</code>) the
+  /// parameter can be modified. Some parameters have security or operational
+  /// implications that prevent them from being changed.
+  final bool? isModifiable;
+
+  /// The earliest cache engine version to which the parameter can apply.
+  final String? minimumEngineVersion;
+
+  /// The name of the parameter.
+  final String? parameterName;
+
+  /// The value of the parameter.
+  final String? parameterValue;
+
+  /// The source of the parameter.
+  final String? source;
+
+  Parameter({
+    this.allowedValues,
+    this.changeType,
+    this.dataType,
+    this.description,
+    this.isModifiable,
+    this.minimumEngineVersion,
+    this.parameterName,
+    this.parameterValue,
+    this.source,
+  });
+  factory Parameter.fromXml(_s.XmlElement elem) {
+    return Parameter(
+      allowedValues: _s.extractXmlStringValue(elem, 'AllowedValues'),
+      changeType: _s
+          .extractXmlStringValue(elem, 'ChangeType')
+          ?.let(ChangeType.fromString),
+      dataType: _s.extractXmlStringValue(elem, 'DataType'),
+      description: _s.extractXmlStringValue(elem, 'Description'),
+      isModifiable: _s.extractXmlBoolValue(elem, 'IsModifiable'),
+      minimumEngineVersion:
+          _s.extractXmlStringValue(elem, 'MinimumEngineVersion'),
+      parameterName: _s.extractXmlStringValue(elem, 'ParameterName'),
+      parameterValue: _s.extractXmlStringValue(elem, 'ParameterValue'),
+      source: _s.extractXmlStringValue(elem, 'Source'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedValues = this.allowedValues;
+    final changeType = this.changeType;
+    final dataType = this.dataType;
+    final description = this.description;
+    final isModifiable = this.isModifiable;
+    final minimumEngineVersion = this.minimumEngineVersion;
+    final parameterName = this.parameterName;
+    final parameterValue = this.parameterValue;
+    final source = this.source;
+    return {
+      if (allowedValues != null) 'AllowedValues': allowedValues,
+      if (changeType != null) 'ChangeType': changeType.value,
+      if (dataType != null) 'DataType': dataType,
+      if (description != null) 'Description': description,
+      if (isModifiable != null) 'IsModifiable': isModifiable,
+      if (minimumEngineVersion != null)
+        'MinimumEngineVersion': minimumEngineVersion,
+      if (parameterName != null) 'ParameterName': parameterName,
+      if (parameterValue != null) 'ParameterValue': parameterValue,
+      if (source != null) 'Source': source,
+    };
+  }
+}
+
+/// Represents the output of a <code>CreateCacheParameterGroup</code> operation.
+class CacheParameterGroup {
+  /// The ARN (Amazon Resource Name) of the cache parameter group.
+  final String? arn;
+
+  /// The name of the cache parameter group family that this cache parameter group
+  /// is compatible with.
+  ///
+  /// Valid values are: <code>memcached1.4</code> | <code>memcached1.5</code> |
+  /// <code>memcached1.6</code> | <code>redis2.6</code> | <code>redis2.8</code> |
+  /// <code>redis3.2</code> | <code>redis4.0</code> | <code>redis5.0</code> |
+  /// <code>redis6.x</code> | <code>redis7</code>
+  final String? cacheParameterGroupFamily;
+
+  /// The name of the cache parameter group.
+  final String? cacheParameterGroupName;
+
+  /// The description for this cache parameter group.
+  final String? description;
+
+  /// Indicates whether the parameter group is associated with a Global datastore
+  final bool? isGlobal;
+
+  CacheParameterGroup({
+    this.arn,
+    this.cacheParameterGroupFamily,
+    this.cacheParameterGroupName,
+    this.description,
+    this.isGlobal,
+  });
+  factory CacheParameterGroup.fromXml(_s.XmlElement elem) {
+    return CacheParameterGroup(
+      arn: _s.extractXmlStringValue(elem, 'ARN'),
+      cacheParameterGroupFamily:
+          _s.extractXmlStringValue(elem, 'CacheParameterGroupFamily'),
+      cacheParameterGroupName:
+          _s.extractXmlStringValue(elem, 'CacheParameterGroupName'),
+      description: _s.extractXmlStringValue(elem, 'Description'),
+      isGlobal: _s.extractXmlBoolValue(elem, 'IsGlobal'),
     );
   }
 
   Map<String, dynamic> toJson() {
     final arn = this.arn;
-    final accessString = this.accessString;
-    final authentication = this.authentication;
-    final engine = this.engine;
-    final minimumEngineVersion = this.minimumEngineVersion;
-    final status = this.status;
-    final userGroupIds = this.userGroupIds;
-    final userId = this.userId;
-    final userName = this.userName;
+    final cacheParameterGroupFamily = this.cacheParameterGroupFamily;
+    final cacheParameterGroupName = this.cacheParameterGroupName;
+    final description = this.description;
+    final isGlobal = this.isGlobal;
     return {
       if (arn != null) 'ARN': arn,
-      if (accessString != null) 'AccessString': accessString,
-      if (authentication != null) 'Authentication': authentication,
-      if (engine != null) 'Engine': engine,
-      if (minimumEngineVersion != null)
-        'MinimumEngineVersion': minimumEngineVersion,
-      if (status != null) 'Status': status,
-      if (userGroupIds != null) 'UserGroupIds': userGroupIds,
-      if (userId != null) 'UserId': userId,
-      if (userName != null) 'UserName': userName,
+      if (cacheParameterGroupFamily != null)
+        'CacheParameterGroupFamily': cacheParameterGroupFamily,
+      if (cacheParameterGroupName != null)
+        'CacheParameterGroupName': cacheParameterGroupName,
+      if (description != null) 'Description': description,
+      if (isGlobal != null) 'IsGlobal': isGlobal,
     };
   }
 }
 
-class UserGroup {
-  /// The Amazon Resource Name (ARN) of the user group.
-  final String? arn;
+/// Provides all of the details about a particular cache engine version.
+class CacheEngineVersion {
+  /// The description of the cache engine.
+  final String? cacheEngineDescription;
 
-  /// The current supported value is Redis user.
+  /// The description of the cache engine version.
+  final String? cacheEngineVersionDescription;
+
+  /// The name of the cache parameter group family associated with this cache
+  /// engine.
+  ///
+  /// Valid values are: <code>memcached1.4</code> | <code>memcached1.5</code> |
+  /// <code>memcached1.6</code> | <code>redis2.6</code> | <code>redis2.8</code> |
+  /// <code>redis3.2</code> | <code>redis4.0</code> | <code>redis5.0</code> |
+  /// <code>redis6.x</code> | <code>redis7</code>
+  final String? cacheParameterGroupFamily;
+
+  /// The name of the cache engine.
   final String? engine;
 
-  /// The minimum engine version required, which is Redis OSS 6.0
-  final String? minimumEngineVersion;
+  /// The version number of the cache engine.
+  final String? engineVersion;
 
-  /// A list of updates being applied to the user group.
-  final UserGroupPendingChanges? pendingChanges;
-
-  /// A list of replication groups that the user group can access.
-  final List<String>? replicationGroups;
-
-  /// Indicates which serverless caches the specified user group is associated
-  /// with. Available for Redis OSS and Serverless Memcached only.
-  final List<String>? serverlessCaches;
-
-  /// Indicates user group status. Can be "creating", "active", "modifying",
-  /// "deleting".
-  final String? status;
-
-  /// The ID of the user group.
-  final String? userGroupId;
-
-  /// The list of user IDs that belong to the user group.
-  final List<String>? userIds;
-
-  UserGroup({
-    this.arn,
+  CacheEngineVersion({
+    this.cacheEngineDescription,
+    this.cacheEngineVersionDescription,
+    this.cacheParameterGroupFamily,
     this.engine,
-    this.minimumEngineVersion,
-    this.pendingChanges,
-    this.replicationGroups,
-    this.serverlessCaches,
-    this.status,
-    this.userGroupId,
-    this.userIds,
+    this.engineVersion,
   });
-  factory UserGroup.fromXml(_s.XmlElement elem) {
-    return UserGroup(
-      arn: _s.extractXmlStringValue(elem, 'ARN'),
+  factory CacheEngineVersion.fromXml(_s.XmlElement elem) {
+    return CacheEngineVersion(
+      cacheEngineDescription:
+          _s.extractXmlStringValue(elem, 'CacheEngineDescription'),
+      cacheEngineVersionDescription:
+          _s.extractXmlStringValue(elem, 'CacheEngineVersionDescription'),
+      cacheParameterGroupFamily:
+          _s.extractXmlStringValue(elem, 'CacheParameterGroupFamily'),
       engine: _s.extractXmlStringValue(elem, 'Engine'),
-      minimumEngineVersion:
-          _s.extractXmlStringValue(elem, 'MinimumEngineVersion'),
-      pendingChanges: _s
-          .extractXmlChild(elem, 'PendingChanges')
-          ?.let(UserGroupPendingChanges.fromXml),
-      replicationGroups: _s
-          .extractXmlChild(elem, 'ReplicationGroups')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      serverlessCaches: _s
-          .extractXmlChild(elem, 'ServerlessCaches')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      status: _s.extractXmlStringValue(elem, 'Status'),
-      userGroupId: _s.extractXmlStringValue(elem, 'UserGroupId'),
-      userIds: _s
-          .extractXmlChild(elem, 'UserIds')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final arn = this.arn;
+    final cacheEngineDescription = this.cacheEngineDescription;
+    final cacheEngineVersionDescription = this.cacheEngineVersionDescription;
+    final cacheParameterGroupFamily = this.cacheParameterGroupFamily;
     final engine = this.engine;
-    final minimumEngineVersion = this.minimumEngineVersion;
-    final pendingChanges = this.pendingChanges;
-    final replicationGroups = this.replicationGroups;
-    final serverlessCaches = this.serverlessCaches;
-    final status = this.status;
-    final userGroupId = this.userGroupId;
-    final userIds = this.userIds;
+    final engineVersion = this.engineVersion;
     return {
-      if (arn != null) 'ARN': arn,
+      if (cacheEngineDescription != null)
+        'CacheEngineDescription': cacheEngineDescription,
+      if (cacheEngineVersionDescription != null)
+        'CacheEngineVersionDescription': cacheEngineVersionDescription,
+      if (cacheParameterGroupFamily != null)
+        'CacheParameterGroupFamily': cacheParameterGroupFamily,
       if (engine != null) 'Engine': engine,
-      if (minimumEngineVersion != null)
-        'MinimumEngineVersion': minimumEngineVersion,
-      if (pendingChanges != null) 'PendingChanges': pendingChanges,
-      if (replicationGroups != null) 'ReplicationGroups': replicationGroups,
-      if (serverlessCaches != null) 'ServerlessCaches': serverlessCaches,
-      if (status != null) 'Status': status,
-      if (userGroupId != null) 'UserGroupId': userGroupId,
-      if (userIds != null) 'UserIds': userIds,
+      if (engineVersion != null) 'EngineVersion': engineVersion,
     };
   }
 }
@@ -14959,36 +15138,180 @@ class UserGroupPendingChanges {
   }
 }
 
-/// The status of the user group update.
-class UserGroupsUpdateStatus {
-  /// The ID of the user group to add.
-  final List<String>? userGroupIdsToAdd;
+/// Indicates whether the user requires a password to authenticate.
+class Authentication {
+  /// The number of passwords belonging to the user. The maximum is two.
+  final int? passwordCount;
 
-  /// The ID of the user group to remove.
-  final List<String>? userGroupIdsToRemove;
+  /// Indicates whether the user requires a password to authenticate.
+  final AuthenticationType? type;
 
-  UserGroupsUpdateStatus({
-    this.userGroupIdsToAdd,
-    this.userGroupIdsToRemove,
+  Authentication({
+    this.passwordCount,
+    this.type,
   });
-  factory UserGroupsUpdateStatus.fromXml(_s.XmlElement elem) {
-    return UserGroupsUpdateStatus(
-      userGroupIdsToAdd: _s
-          .extractXmlChild(elem, 'UserGroupIdsToAdd')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      userGroupIdsToRemove: _s
-          .extractXmlChild(elem, 'UserGroupIdsToRemove')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+  factory Authentication.fromXml(_s.XmlElement elem) {
+    return Authentication(
+      passwordCount: _s.extractXmlIntValue(elem, 'PasswordCount'),
+      type: _s
+          .extractXmlStringValue(elem, 'Type')
+          ?.let(AuthenticationType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final userGroupIdsToAdd = this.userGroupIdsToAdd;
-    final userGroupIdsToRemove = this.userGroupIdsToRemove;
+    final passwordCount = this.passwordCount;
+    final type = this.type;
     return {
-      if (userGroupIdsToAdd != null) 'UserGroupIdsToAdd': userGroupIdsToAdd,
-      if (userGroupIdsToRemove != null)
-        'UserGroupIdsToRemove': userGroupIdsToRemove,
+      if (passwordCount != null) 'PasswordCount': passwordCount,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class AuthenticationType {
+  static const password = AuthenticationType._('password');
+  static const noPassword = AuthenticationType._('no-password');
+  static const iam = AuthenticationType._('iam');
+
+  final String value;
+
+  const AuthenticationType._(this.value);
+
+  static const values = [password, noPassword, iam];
+
+  static AuthenticationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AuthenticationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AuthenticationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class OutpostMode {
+  static const singleOutpost = OutpostMode._('single-outpost');
+  static const crossOutpost = OutpostMode._('cross-outpost');
+
+  final String value;
+
+  const OutpostMode._(this.value);
+
+  static const values = [singleOutpost, crossOutpost];
+
+  static OutpostMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OutpostMode._(value));
+
+  @override
+  bool operator ==(other) => other is OutpostMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Update action that has failed to be processed for the corresponding
+/// apply/stop request
+class UnprocessedUpdateAction {
+  /// The ID of the cache cluster
+  final String? cacheClusterId;
+
+  /// The error message that describes the reason the request was not processed
+  final String? errorMessage;
+
+  /// The error type for requests that are not processed
+  final String? errorType;
+
+  /// The replication group ID
+  final String? replicationGroupId;
+
+  /// The unique ID of the service update
+  final String? serviceUpdateName;
+
+  UnprocessedUpdateAction({
+    this.cacheClusterId,
+    this.errorMessage,
+    this.errorType,
+    this.replicationGroupId,
+    this.serviceUpdateName,
+  });
+  factory UnprocessedUpdateAction.fromXml(_s.XmlElement elem) {
+    return UnprocessedUpdateAction(
+      cacheClusterId: _s.extractXmlStringValue(elem, 'CacheClusterId'),
+      errorMessage: _s.extractXmlStringValue(elem, 'ErrorMessage'),
+      errorType: _s.extractXmlStringValue(elem, 'ErrorType'),
+      replicationGroupId: _s.extractXmlStringValue(elem, 'ReplicationGroupId'),
+      serviceUpdateName: _s.extractXmlStringValue(elem, 'ServiceUpdateName'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cacheClusterId = this.cacheClusterId;
+    final errorMessage = this.errorMessage;
+    final errorType = this.errorType;
+    final replicationGroupId = this.replicationGroupId;
+    final serviceUpdateName = this.serviceUpdateName;
+    return {
+      if (cacheClusterId != null) 'CacheClusterId': cacheClusterId,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (errorType != null) 'ErrorType': errorType,
+      if (replicationGroupId != null) 'ReplicationGroupId': replicationGroupId,
+      if (serviceUpdateName != null) 'ServiceUpdateName': serviceUpdateName,
+    };
+  }
+}
+
+/// Update action that has been processed for the corresponding apply/stop
+/// request
+class ProcessedUpdateAction {
+  /// The ID of the cache cluster
+  final String? cacheClusterId;
+
+  /// The ID of the replication group
+  final String? replicationGroupId;
+
+  /// The unique ID of the service update
+  final String? serviceUpdateName;
+
+  /// The status of the update action on the Valkey or Redis OSS cluster
+  final UpdateActionStatus? updateActionStatus;
+
+  ProcessedUpdateAction({
+    this.cacheClusterId,
+    this.replicationGroupId,
+    this.serviceUpdateName,
+    this.updateActionStatus,
+  });
+  factory ProcessedUpdateAction.fromXml(_s.XmlElement elem) {
+    return ProcessedUpdateAction(
+      cacheClusterId: _s.extractXmlStringValue(elem, 'CacheClusterId'),
+      replicationGroupId: _s.extractXmlStringValue(elem, 'ReplicationGroupId'),
+      serviceUpdateName: _s.extractXmlStringValue(elem, 'ServiceUpdateName'),
+      updateActionStatus: _s
+          .extractXmlStringValue(elem, 'UpdateActionStatus')
+          ?.let(UpdateActionStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cacheClusterId = this.cacheClusterId;
+    final replicationGroupId = this.replicationGroupId;
+    final serviceUpdateName = this.serviceUpdateName;
+    final updateActionStatus = this.updateActionStatus;
+    return {
+      if (cacheClusterId != null) 'CacheClusterId': cacheClusterId,
+      if (replicationGroupId != null) 'ReplicationGroupId': replicationGroupId,
+      if (serviceUpdateName != null) 'ServiceUpdateName': serviceUpdateName,
+      if (updateActionStatus != null)
+        'UpdateActionStatus': updateActionStatus.value,
     };
   }
 }

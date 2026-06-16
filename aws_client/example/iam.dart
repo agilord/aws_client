@@ -1,4 +1,4 @@
-import 'package:aws_client/iam_2010_05_08.dart';
+import 'package:aws_client/iam.dart';
 
 void main() async {
   final iam = Iam();

@@ -38,7 +38,6 @@ class GlobalAccelerator {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'globalaccelerator',
-            signingName: 'globalaccelerator',
           ),
           region: region,
           credentials: credentials,
@@ -73,13 +72,13 @@ class GlobalAccelerator {
   /// href="https://docs.aws.amazon.com/global-accelerator/latest/api/API_AllowCustomRoutingTraffic.html">
   /// AllowCustomRoutingTraffic</a> operation.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [EndpointAlreadyExistsException].
   /// May throw [EndpointGroupNotFoundException].
   /// May throw [InternalServiceErrorException].
   /// May throw [InvalidArgumentException].
   /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [endpointConfigurations] :
   /// The list of endpoint objects to add to a custom routing accelerator.
@@ -140,12 +139,12 @@ class GlobalAccelerator {
   /// Endpoints for standard accelerators</a> in the <i>Global Accelerator
   /// Developer Guide</i>.
   ///
-  /// May throw [TransactionInProgressException].
+  /// May throw [AccessDeniedException].
   /// May throw [EndpointGroupNotFoundException].
   /// May throw [InternalServiceErrorException].
   /// May throw [InvalidArgumentException].
   /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
+  /// May throw [TransactionInProgressException].
   ///
   /// Parameter [endpointConfigurations] :
   /// The list of endpoint objects.
@@ -189,11 +188,11 @@ class GlobalAccelerator {
   /// your own IP addresses (BYOIP)</a> in the <i>Global Accelerator Developer
   /// Guide</i>.
   ///
-  /// May throw [InternalServiceErrorException].
-  /// May throw [InvalidArgumentException].
   /// May throw [AccessDeniedException].
   /// May throw [ByoipCidrNotFoundException].
   /// May throw [IncorrectCidrStateException].
+  /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidArgumentException].
   ///
   /// Parameter [cidr] :
   /// The address range, in CIDR notation. This must be the exact range that you
@@ -236,8 +235,8 @@ class GlobalAccelerator {
   /// IN_PROGRESS to DEPLOYED.
   ///
   /// May throw [EndpointGroupNotFoundException].
-  /// May throw [InvalidArgumentException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidArgumentException].
   ///
   /// Parameter [endpointGroupArn] :
   /// The Amazon Resource Name (ARN) of the endpoint group.
@@ -316,10 +315,10 @@ class GlobalAccelerator {
   /// Services CLI commands.
   /// </important>
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServiceErrorException].
   /// May throw [InvalidArgumentException].
   /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
   /// May throw [TransactionInProgressException].
   ///
   /// Parameter [name] :
@@ -433,10 +432,10 @@ class GlobalAccelerator {
   /// Working with cross-account attachments and resources in Global
   /// Accelerator</a> in the <i> Global Accelerator Developer Guide</i>.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServiceErrorException].
   /// May throw [InvalidArgumentException].
   /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
   /// May throw [TransactionInProgressException].
   ///
   /// Parameter [name] :
@@ -512,10 +511,10 @@ class GlobalAccelerator {
   /// Services CLI commands.
   /// </important>
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServiceErrorException].
   /// May throw [InvalidArgumentException].
   /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
   /// May throw [TransactionInProgressException].
   ///
   /// Parameter [name] :
@@ -608,13 +607,13 @@ class GlobalAccelerator {
   /// Web Services Region.
   ///
   /// May throw [AcceleratorNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [EndpointGroupAlreadyExistsException].
-  /// May throw [ListenerNotFoundException].
   /// May throw [InternalServiceErrorException].
   /// May throw [InvalidArgumentException].
   /// May throw [InvalidPortRangeException].
   /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ListenerNotFoundException].
   ///
   /// Parameter [destinationConfigurations] :
   /// Sets the port range and protocol for all endpoints (virtual private cloud
@@ -665,10 +664,10 @@ class GlobalAccelerator {
   /// routing accelerator. Connections arrive to assigned static IP addresses on
   /// the port range that you specify.
   ///
-  /// May throw [InvalidArgumentException].
   /// May throw [AcceleratorNotFoundException].
-  /// May throw [InvalidPortRangeException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidPortRangeException].
   /// May throw [LimitExceededException].
   ///
   /// Parameter [acceleratorArn] :
@@ -723,12 +722,12 @@ class GlobalAccelerator {
   /// Developer Guide</i>.
   ///
   /// May throw [AcceleratorNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [EndpointGroupAlreadyExistsException].
-  /// May throw [ListenerNotFoundException].
   /// May throw [InternalServiceErrorException].
   /// May throw [InvalidArgumentException].
   /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ListenerNotFoundException].
   ///
   /// Parameter [endpointGroupRegion] :
   /// The Amazon Web Services Region where the endpoint group is located. A
@@ -862,10 +861,10 @@ class GlobalAccelerator {
   /// accelerator. Connections arrive to assigned static IP addresses on a port,
   /// port range, or list of port ranges that you specify.
   ///
-  /// May throw [InvalidArgumentException].
   /// May throw [AcceleratorNotFoundException].
-  /// May throw [InvalidPortRangeException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidPortRangeException].
   /// May throw [LimitExceededException].
   ///
   /// Parameter [acceleratorArn] :
@@ -956,8 +955,8 @@ class GlobalAccelerator {
   /// Guide</i>.
   /// </important>
   ///
-  /// May throw [AcceleratorNotFoundException].
   /// May throw [AcceleratorNotDisabledException].
+  /// May throw [AcceleratorNotFoundException].
   /// May throw [AssociatedListenerFoundException].
   /// May throw [InternalServiceErrorException].
   /// May throw [InvalidArgumentException].
@@ -994,8 +993,8 @@ class GlobalAccelerator {
   /// Working with cross-account attachments and resources in Global
   /// Accelerator</a> in the <i> Global Accelerator Developer Guide</i>.
   ///
-  /// May throw [AttachmentNotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [AttachmentNotFoundException].
   /// May throw [InternalServiceErrorException].
   /// May throw [InvalidArgumentException].
   /// May throw [TransactionInProgressException].
@@ -1042,8 +1041,8 @@ class GlobalAccelerator {
   /// Guide</i>.
   /// </important>
   ///
-  /// May throw [AcceleratorNotFoundException].
   /// May throw [AcceleratorNotDisabledException].
+  /// May throw [AcceleratorNotFoundException].
   /// May throw [AssociatedListenerFoundException].
   /// May throw [InternalServiceErrorException].
   /// May throw [InvalidArgumentException].
@@ -1074,9 +1073,9 @@ class GlobalAccelerator {
 
   /// Delete an endpoint group from a listener for a custom routing accelerator.
   ///
-  /// May throw [InvalidArgumentException].
   /// May throw [EndpointGroupNotFoundException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidArgumentException].
   ///
   /// Parameter [endpointGroupArn] :
   /// The Amazon Resource Name (ARN) of the endpoint group to delete.
@@ -1102,10 +1101,10 @@ class GlobalAccelerator {
 
   /// Delete a listener for a custom routing accelerator.
   ///
-  /// May throw [InvalidArgumentException].
-  /// May throw [ListenerNotFoundException].
   /// May throw [AssociatedEndpointGroupFoundException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ListenerNotFoundException].
   ///
   /// Parameter [listenerArn] :
   /// The Amazon Resource Name (ARN) of the listener to delete.
@@ -1130,9 +1129,9 @@ class GlobalAccelerator {
 
   /// Delete an endpoint group from a listener.
   ///
-  /// May throw [InvalidArgumentException].
   /// May throw [EndpointGroupNotFoundException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidArgumentException].
   ///
   /// Parameter [endpointGroupArn] :
   /// The Amazon Resource Name (ARN) of the endpoint group to delete.
@@ -1157,10 +1156,10 @@ class GlobalAccelerator {
 
   /// Delete a listener from an accelerator.
   ///
-  /// May throw [InvalidArgumentException].
-  /// May throw [ListenerNotFoundException].
   /// May throw [AssociatedEndpointGroupFoundException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ListenerNotFoundException].
   ///
   /// Parameter [listenerArn] :
   /// The Amazon Resource Name (ARN) of the listener.
@@ -1195,8 +1194,8 @@ class GlobalAccelerator {
   /// IN_PROGRESS to DEPLOYED.
   ///
   /// May throw [EndpointGroupNotFoundException].
-  /// May throw [InvalidArgumentException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidArgumentException].
   ///
   /// Parameter [endpointGroupArn] :
   /// The Amazon Resource Name (ARN) of the endpoint group.
@@ -1274,11 +1273,11 @@ class GlobalAccelerator {
   /// your own IP addresses (BYOIP)</a> in the <i>Global Accelerator Developer
   /// Guide</i>.
   ///
-  /// May throw [InternalServiceErrorException].
-  /// May throw [InvalidArgumentException].
   /// May throw [AccessDeniedException].
   /// May throw [ByoipCidrNotFoundException].
   /// May throw [IncorrectCidrStateException].
+  /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidArgumentException].
   ///
   /// Parameter [cidr] :
   /// The address range, in CIDR notation. The prefix must be the same prefix
@@ -1371,8 +1370,8 @@ class GlobalAccelerator {
 
   /// Gets configuration information about a cross-account attachment.
   ///
-  /// May throw [AttachmentNotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [AttachmentNotFoundException].
   /// May throw [InternalServiceErrorException].
   /// May throw [InvalidArgumentException].
   ///
@@ -1468,9 +1467,9 @@ class GlobalAccelerator {
 
   /// Describe an endpoint group for a custom routing accelerator.
   ///
-  /// May throw [InvalidArgumentException].
   /// May throw [EndpointGroupNotFoundException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidArgumentException].
   ///
   /// Parameter [endpointGroupArn] :
   /// The Amazon Resource Name (ARN) of the endpoint group to describe.
@@ -1500,9 +1499,9 @@ class GlobalAccelerator {
 
   /// The description of a listener for a custom routing accelerator.
   ///
+  /// May throw [InternalServiceErrorException].
   /// May throw [InvalidArgumentException].
   /// May throw [ListenerNotFoundException].
-  /// May throw [InternalServiceErrorException].
   ///
   /// Parameter [listenerArn] :
   /// The Amazon Resource Name (ARN) of the listener to describe.
@@ -1530,9 +1529,9 @@ class GlobalAccelerator {
 
   /// Describe an endpoint group.
   ///
-  /// May throw [InvalidArgumentException].
   /// May throw [EndpointGroupNotFoundException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidArgumentException].
   ///
   /// Parameter [endpointGroupArn] :
   /// The Amazon Resource Name (ARN) of the endpoint group to describe.
@@ -1559,9 +1558,9 @@ class GlobalAccelerator {
 
   /// Describe a listener.
   ///
+  /// May throw [InternalServiceErrorException].
   /// May throw [InvalidArgumentException].
   /// May throw [ListenerNotFoundException].
-  /// May throw [InternalServiceErrorException].
   ///
   /// Parameter [listenerArn] :
   /// The Amazon Resource Name (ARN) of the listener to describe.
@@ -1588,9 +1587,9 @@ class GlobalAccelerator {
 
   /// List the accelerators for an Amazon Web Services account.
   ///
+  /// May throw [InternalServiceErrorException].
   /// May throw [InvalidArgumentException].
   /// May throw [InvalidNextTokenException].
-  /// May throw [InternalServiceErrorException].
   ///
   /// Parameter [maxResults] :
   /// The number of Global Accelerator objects that you want to return with this
@@ -1632,9 +1631,9 @@ class GlobalAccelerator {
   /// href="https://docs.aws.amazon.com/global-accelerator/latest/api/ProvisionByoipCidr.html">ProvisionByoipCidr</a>,
   /// including the current state and a history of state changes.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServiceErrorException].
   /// May throw [InvalidArgumentException].
-  /// May throw [AccessDeniedException].
   /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [maxResults] :
@@ -1677,9 +1676,9 @@ class GlobalAccelerator {
   /// Accelerator.
   ///
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceErrorException].
   /// May throw [InvalidArgumentException].
   /// May throw [InvalidNextTokenException].
-  /// May throw [InternalServiceErrorException].
   ///
   /// Parameter [maxResults] :
   /// The number of cross-account attachment objects that you want to return
@@ -1746,11 +1745,11 @@ class GlobalAccelerator {
 
   /// List the cross-account resources available to work with.
   ///
+  /// May throw [AcceleratorNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServiceErrorException].
   /// May throw [InvalidArgumentException].
   /// May throw [InvalidNextTokenException].
-  /// May throw [AccessDeniedException].
-  /// May throw [AcceleratorNotFoundException].
   ///
   /// Parameter [resourceOwnerAwsAccountId] :
   /// The account ID of a resource owner in a cross-account attachment.
@@ -1801,9 +1800,9 @@ class GlobalAccelerator {
 
   /// List the custom routing accelerators for an Amazon Web Services account.
   ///
+  /// May throw [InternalServiceErrorException].
   /// May throw [InvalidArgumentException].
   /// May throw [InvalidNextTokenException].
-  /// May throw [InternalServiceErrorException].
   ///
   /// Parameter [maxResults] :
   /// The number of custom routing Global Accelerator objects that you want to
@@ -1845,10 +1844,10 @@ class GlobalAccelerator {
   /// List the endpoint groups that are associated with a listener for a custom
   /// routing accelerator.
   ///
-  /// May throw [ListenerNotFoundException].
-  /// May throw [InvalidNextTokenException].
-  /// May throw [InvalidArgumentException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [ListenerNotFoundException].
   ///
   /// Parameter [listenerArn] :
   /// The Amazon Resource Name (ARN) of the listener to list endpoint groups
@@ -1896,10 +1895,10 @@ class GlobalAccelerator {
 
   /// List the listeners for a custom routing accelerator.
   ///
-  /// May throw [InvalidArgumentException].
   /// May throw [AcceleratorNotFoundException].
-  /// May throw [InvalidNextTokenException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [acceleratorArn] :
   /// The Amazon Resource Name (ARN) of the accelerator to list listeners for.
@@ -1960,11 +1959,11 @@ class GlobalAccelerator {
   /// The mappings also include a flag for each destination denoting which
   /// destination IP addresses and ports are allowed or denied traffic.
   ///
+  /// May throw [AcceleratorNotFoundException].
+  /// May throw [EndpointGroupNotFoundException].
+  /// May throw [InternalServiceErrorException].
   /// May throw [InvalidArgumentException].
   /// May throw [InvalidNextTokenException].
-  /// May throw [EndpointGroupNotFoundException].
-  /// May throw [AcceleratorNotFoundException].
-  /// May throw [InternalServiceErrorException].
   ///
   /// Parameter [acceleratorArn] :
   /// The Amazon Resource Name (ARN) of the accelerator to list the custom
@@ -2022,10 +2021,10 @@ class GlobalAccelerator {
   /// where you only want to list the port mappings for a specific destination
   /// instance.
   ///
-  /// May throw [InvalidArgumentException].
-  /// May throw [InvalidNextTokenException].
   /// May throw [EndpointNotFoundException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [destinationAddress] :
   /// The endpoint IP address in a virtual private cloud (VPC) subnet for which
@@ -2079,10 +2078,10 @@ class GlobalAccelerator {
 
   /// List the endpoint groups that are associated with a listener.
   ///
-  /// May throw [ListenerNotFoundException].
-  /// May throw [InvalidNextTokenException].
-  /// May throw [InvalidArgumentException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [ListenerNotFoundException].
   ///
   /// Parameter [listenerArn] :
   /// The Amazon Resource Name (ARN) of the listener.
@@ -2127,10 +2126,10 @@ class GlobalAccelerator {
 
   /// List the listeners for an accelerator.
   ///
-  /// May throw [InvalidArgumentException].
   /// May throw [AcceleratorNotFoundException].
-  /// May throw [InvalidNextTokenException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [acceleratorArn] :
   /// The Amazon Resource Name (ARN) of the accelerator for which you want to
@@ -2184,9 +2183,9 @@ class GlobalAccelerator {
   /// May throw [AcceleratorNotFoundException].
   /// May throw [AttachmentNotFoundException].
   /// May throw [EndpointGroupNotFoundException].
-  /// May throw [ListenerNotFoundException].
   /// May throw [InternalServiceErrorException].
   /// May throw [InvalidArgumentException].
+  /// May throw [ListenerNotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the accelerator to list tags for. An ARN
@@ -2224,11 +2223,11 @@ class GlobalAccelerator {
   /// your own IP addresses (BYOIP)</a> in the <i>Global Accelerator Developer
   /// Guide</i>.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [IncorrectCidrStateException].
   /// May throw [InternalServiceErrorException].
   /// May throw [InvalidArgumentException].
   /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
-  /// May throw [IncorrectCidrStateException].
   ///
   /// Parameter [cidr] :
   /// The public IPv4 address range, in CIDR notation. The most specific IP
@@ -2269,12 +2268,12 @@ class GlobalAccelerator {
 
   /// Remove endpoints from a custom routing accelerator.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [EndpointGroupNotFoundException].
   /// May throw [EndpointNotFoundException].
   /// May throw [InternalServiceErrorException].
   /// May throw [InvalidArgumentException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [endpointGroupArn] :
   /// The Amazon Resource Name (ARN) of the endpoint group to remove endpoints
@@ -2327,10 +2326,10 @@ class GlobalAccelerator {
   /// </li>
   /// </ul>
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [EndpointGroupNotFoundException].
   /// May throw [InternalServiceErrorException].
   /// May throw [InvalidArgumentException].
-  /// May throw [AccessDeniedException].
   /// May throw [TransactionInProgressException].
   ///
   /// Parameter [endpointGroupArn] :
@@ -2472,10 +2471,10 @@ class GlobalAccelerator {
   ///
   /// May throw [AcceleratorNotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServiceErrorException].
   /// May throw [InvalidArgumentException].
   /// May throw [TransactionInProgressException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [acceleratorArn] :
   /// The Amazon Resource Name (ARN) of the accelerator to update.
@@ -2530,9 +2529,9 @@ class GlobalAccelerator {
   /// Update the attributes for an accelerator.
   ///
   /// May throw [AcceleratorNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServiceErrorException].
   /// May throw [InvalidArgumentException].
-  /// May throw [AccessDeniedException].
   /// May throw [TransactionInProgressException].
   ///
   /// Parameter [acceleratorArn] :
@@ -2599,8 +2598,8 @@ class GlobalAccelerator {
   /// Working with cross-account attachments and resources in Global
   /// Accelerator</a> in the <i> Global Accelerator Developer Guide</i>.
   ///
-  /// May throw [AttachmentNotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [AttachmentNotFoundException].
   /// May throw [InternalServiceErrorException].
   /// May throw [InvalidArgumentException].
   /// May throw [LimitExceededException].
@@ -2677,10 +2676,10 @@ class GlobalAccelerator {
   /// Update a custom routing accelerator.
   ///
   /// May throw [AcceleratorNotFoundException].
+  /// May throw [ConflictException].
   /// May throw [InternalServiceErrorException].
   /// May throw [InvalidArgumentException].
   /// May throw [TransactionInProgressException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [acceleratorArn] :
   /// The Amazon Resource Name (ARN) of the accelerator to update.
@@ -2737,9 +2736,9 @@ class GlobalAccelerator {
   /// Update the attributes for a custom routing accelerator.
   ///
   /// May throw [AcceleratorNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServiceErrorException].
   /// May throw [InvalidArgumentException].
-  /// May throw [AccessDeniedException].
   /// May throw [TransactionInProgressException].
   ///
   /// Parameter [acceleratorArn] :
@@ -2804,11 +2803,11 @@ class GlobalAccelerator {
 
   /// Update a listener for a custom routing accelerator.
   ///
+  /// May throw [InternalServiceErrorException].
   /// May throw [InvalidArgumentException].
   /// May throw [InvalidPortRangeException].
-  /// May throw [ListenerNotFoundException].
-  /// May throw [InternalServiceErrorException].
   /// May throw [LimitExceededException].
+  /// May throw [ListenerNotFoundException].
   ///
   /// Parameter [listenerArn] :
   /// The Amazon Resource Name (ARN) of the listener to update.
@@ -2848,11 +2847,11 @@ class GlobalAccelerator {
   /// Update an endpoint group. A resource must be valid and active when you add
   /// it as an endpoint.
   ///
-  /// May throw [InvalidArgumentException].
+  /// May throw [AccessDeniedException].
   /// May throw [EndpointGroupNotFoundException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidArgumentException].
   /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [endpointGroupArn] :
   /// The Amazon Resource Name (ARN) of the endpoint group.
@@ -2973,11 +2972,11 @@ class GlobalAccelerator {
 
   /// Update a listener.
   ///
+  /// May throw [InternalServiceErrorException].
   /// May throw [InvalidArgumentException].
   /// May throw [InvalidPortRangeException].
-  /// May throw [ListenerNotFoundException].
-  /// May throw [InternalServiceErrorException].
   /// May throw [LimitExceededException].
+  /// May throw [ListenerNotFoundException].
   ///
   /// Parameter [listenerArn] :
   /// The Amazon Resource Name (ARN) of the listener to update.
@@ -3050,11 +3049,11 @@ class GlobalAccelerator {
   /// your own IP addresses (BYOIP)</a> in the <i>Global Accelerator Developer
   /// Guide</i>.
   ///
-  /// May throw [InternalServiceErrorException].
-  /// May throw [InvalidArgumentException].
   /// May throw [AccessDeniedException].
   /// May throw [ByoipCidrNotFoundException].
   /// May throw [IncorrectCidrStateException].
+  /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidArgumentException].
   ///
   /// Parameter [cidr] :
   /// The address range, in CIDR notation.
@@ -3083,261 +3082,6 @@ class GlobalAccelerator {
 
     return WithdrawByoipCidrResponse.fromJson(jsonResponse.body);
   }
-}
-
-/// An accelerator is a complex type that includes one or more listeners that
-/// process inbound connections and then direct traffic to one or more endpoint
-/// groups, each of which includes endpoints, such as load balancers.
-class Accelerator {
-  /// The Amazon Resource Name (ARN) of the accelerator.
-  final String? acceleratorArn;
-
-  /// The date and time that the accelerator was created.
-  final DateTime? createdTime;
-
-  /// The Domain Name System (DNS) name that Global Accelerator creates that
-  /// points to an accelerator's static IPv4 addresses.
-  ///
-  /// The naming convention for the DNS name for an accelerator is the following:
-  /// A lowercase letter a, followed by a 16-bit random hex string, followed by
-  /// .awsglobalaccelerator.com. For example:
-  /// a1234567890abcdef.awsglobalaccelerator.com.
-  ///
-  /// If you have a dual-stack accelerator, you also have a second DNS name,
-  /// <code>DualStackDnsName</code>, that points to both the A record and the AAAA
-  /// record for all four static addresses for the accelerator: two IPv4 addresses
-  /// and two IPv6 addresses.
-  ///
-  /// For more information about the default DNS name, see <a
-  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/dns-addressing-custom-domains.dns-addressing.html">
-  /// Support for DNS addressing in Global Accelerator</a> in the <i>Global
-  /// Accelerator Developer Guide</i>.
-  final String? dnsName;
-
-  /// The Domain Name System (DNS) name that Global Accelerator creates that
-  /// points to a dual-stack accelerator's four static IP addresses: two IPv4
-  /// addresses and two IPv6 addresses.
-  ///
-  /// The naming convention for the dual-stack DNS name is the following: A
-  /// lowercase letter a, followed by a 16-bit random hex string, followed by
-  /// .dualstack.awsglobalaccelerator.com. For example:
-  /// a1234567890abcdef.dualstack.awsglobalaccelerator.com.
-  ///
-  /// Note: Global Accelerator also assigns a default DNS name,
-  /// <code>DnsName</code>, to your accelerator that points just to the static
-  /// IPv4 addresses.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/about-accelerators.html#about-accelerators.dns-addressing">
-  /// Support for DNS addressing in Global Accelerator</a> in the <i>Global
-  /// Accelerator Developer Guide</i>.
-  final String? dualStackDnsName;
-
-  /// Indicates whether the accelerator is enabled. The value is true or false.
-  /// The default value is true.
-  ///
-  /// If the value is set to true, the accelerator cannot be deleted. If set to
-  /// false, accelerator can be deleted.
-  final bool? enabled;
-
-  /// A history of changes that you make to an accelerator in Global Accelerator.
-  final List<AcceleratorEvent>? events;
-
-  /// The IP address type that an accelerator supports. For a standard
-  /// accelerator, the value can be IPV4 or DUAL_STACK.
-  final IpAddressType? ipAddressType;
-
-  /// The static IP addresses that Global Accelerator associates with the
-  /// accelerator.
-  final List<IpSet>? ipSets;
-
-  /// The date and time that the accelerator was last modified.
-  final DateTime? lastModifiedTime;
-
-  /// The name of the accelerator. The name must contain only alphanumeric
-  /// characters or hyphens (-), and must not begin or end with a hyphen.
-  final String? name;
-
-  /// Describes the deployment status of the accelerator.
-  final AcceleratorStatus? status;
-
-  Accelerator({
-    this.acceleratorArn,
-    this.createdTime,
-    this.dnsName,
-    this.dualStackDnsName,
-    this.enabled,
-    this.events,
-    this.ipAddressType,
-    this.ipSets,
-    this.lastModifiedTime,
-    this.name,
-    this.status,
-  });
-
-  factory Accelerator.fromJson(Map<String, dynamic> json) {
-    return Accelerator(
-      acceleratorArn: json['AcceleratorArn'] as String?,
-      createdTime: timeStampFromJson(json['CreatedTime']),
-      dnsName: json['DnsName'] as String?,
-      dualStackDnsName: json['DualStackDnsName'] as String?,
-      enabled: json['Enabled'] as bool?,
-      events: (json['Events'] as List?)
-          ?.nonNulls
-          .map((e) => AcceleratorEvent.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      ipAddressType:
-          (json['IpAddressType'] as String?)?.let(IpAddressType.fromString),
-      ipSets: (json['IpSets'] as List?)
-          ?.nonNulls
-          .map((e) => IpSet.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
-      name: json['Name'] as String?,
-      status: (json['Status'] as String?)?.let(AcceleratorStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final acceleratorArn = this.acceleratorArn;
-    final createdTime = this.createdTime;
-    final dnsName = this.dnsName;
-    final dualStackDnsName = this.dualStackDnsName;
-    final enabled = this.enabled;
-    final events = this.events;
-    final ipAddressType = this.ipAddressType;
-    final ipSets = this.ipSets;
-    final lastModifiedTime = this.lastModifiedTime;
-    final name = this.name;
-    final status = this.status;
-    return {
-      if (acceleratorArn != null) 'AcceleratorArn': acceleratorArn,
-      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
-      if (dnsName != null) 'DnsName': dnsName,
-      if (dualStackDnsName != null) 'DualStackDnsName': dualStackDnsName,
-      if (enabled != null) 'Enabled': enabled,
-      if (events != null) 'Events': events,
-      if (ipAddressType != null) 'IpAddressType': ipAddressType.value,
-      if (ipSets != null) 'IpSets': ipSets,
-      if (lastModifiedTime != null)
-        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
-      if (name != null) 'Name': name,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-/// Attributes of an accelerator.
-class AcceleratorAttributes {
-  /// Indicates whether flow logs are enabled. The default value is false. If the
-  /// value is true, <code>FlowLogsS3Bucket</code> and
-  /// <code>FlowLogsS3Prefix</code> must be specified.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/monitoring-global-accelerator.flow-logs.html">Flow
-  /// logs</a> in the <i>Global Accelerator Developer Guide</i>.
-  final bool? flowLogsEnabled;
-
-  /// The name of the Amazon S3 bucket for the flow logs. Attribute is required if
-  /// <code>FlowLogsEnabled</code> is <code>true</code>. The bucket must exist and
-  /// have a bucket policy that grants Global Accelerator permission to write to
-  /// the bucket.
-  final String? flowLogsS3Bucket;
-
-  /// The prefix for the location in the Amazon S3 bucket for the flow logs.
-  /// Attribute is required if <code>FlowLogsEnabled</code> is <code>true</code>.
-  ///
-  /// If you specify slash (/) for the S3 bucket prefix, the log file bucket
-  /// folder structure will include a double slash (//), like the following:
-  ///
-  /// s3-bucket_name//AWSLogs/aws_account_id
-  final String? flowLogsS3Prefix;
-
-  AcceleratorAttributes({
-    this.flowLogsEnabled,
-    this.flowLogsS3Bucket,
-    this.flowLogsS3Prefix,
-  });
-
-  factory AcceleratorAttributes.fromJson(Map<String, dynamic> json) {
-    return AcceleratorAttributes(
-      flowLogsEnabled: json['FlowLogsEnabled'] as bool?,
-      flowLogsS3Bucket: json['FlowLogsS3Bucket'] as String?,
-      flowLogsS3Prefix: json['FlowLogsS3Prefix'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final flowLogsEnabled = this.flowLogsEnabled;
-    final flowLogsS3Bucket = this.flowLogsS3Bucket;
-    final flowLogsS3Prefix = this.flowLogsS3Prefix;
-    return {
-      if (flowLogsEnabled != null) 'FlowLogsEnabled': flowLogsEnabled,
-      if (flowLogsS3Bucket != null) 'FlowLogsS3Bucket': flowLogsS3Bucket,
-      if (flowLogsS3Prefix != null) 'FlowLogsS3Prefix': flowLogsS3Prefix,
-    };
-  }
-}
-
-/// A complex type that contains a <code>Timestamp</code> value and
-/// <code>Message</code> for changes that you make to an accelerator in Global
-/// Accelerator. Messages stored here provide progress or error information when
-/// you update an accelerator from IPv4 to dual-stack, or from dual-stack to
-/// IPv4. Global Accelerator stores a maximum of ten event messages.
-class AcceleratorEvent {
-  /// A string that contains an <code>Event</code> message describing changes or
-  /// errors when you update an accelerator in Global Accelerator from IPv4 to
-  /// dual-stack, or dual-stack to IPv4.
-  final String? message;
-
-  /// A timestamp for when you update an accelerator in Global Accelerator from
-  /// IPv4 to dual-stack, or dual-stack to IPv4.
-  final DateTime? timestamp;
-
-  AcceleratorEvent({
-    this.message,
-    this.timestamp,
-  });
-
-  factory AcceleratorEvent.fromJson(Map<String, dynamic> json) {
-    return AcceleratorEvent(
-      message: json['Message'] as String?,
-      timestamp: timeStampFromJson(json['Timestamp']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final message = this.message;
-    final timestamp = this.timestamp;
-    return {
-      if (message != null) 'Message': message,
-      if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
-    };
-  }
-}
-
-class AcceleratorStatus {
-  static const deployed = AcceleratorStatus._('DEPLOYED');
-  static const inProgress = AcceleratorStatus._('IN_PROGRESS');
-
-  final String value;
-
-  const AcceleratorStatus._(this.value);
-
-  static const values = [deployed, inProgress];
-
-  static AcceleratorStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AcceleratorStatus._(value));
-
-  @override
-  bool operator ==(other) => other is AcceleratorStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class AddCustomRoutingEndpointsResponse {
@@ -3431,315 +3175,6 @@ class AdvertiseByoipCidrResponse {
       if (byoipCidr != null) 'ByoipCidr': byoipCidr,
     };
   }
-}
-
-/// A cross-account attachment in Global Accelerator. A cross-account attachment
-/// specifies the <i>principals</i> who have permission to work with
-/// <i>resources</i> in your account, which you also list in the attachment.
-class Attachment {
-  /// The Amazon Resource Name (ARN) of the cross-account attachment.
-  final String? attachmentArn;
-
-  /// The date and time that the cross-account attachment was created.
-  final DateTime? createdTime;
-
-  /// The date and time that the cross-account attachment was last modified.
-  final DateTime? lastModifiedTime;
-
-  /// The name of the cross-account attachment.
-  final String? name;
-
-  /// The principals included in the cross-account attachment.
-  final List<String>? principals;
-
-  /// The resources included in the cross-account attachment.
-  final List<Resource>? resources;
-
-  Attachment({
-    this.attachmentArn,
-    this.createdTime,
-    this.lastModifiedTime,
-    this.name,
-    this.principals,
-    this.resources,
-  });
-
-  factory Attachment.fromJson(Map<String, dynamic> json) {
-    return Attachment(
-      attachmentArn: json['AttachmentArn'] as String?,
-      createdTime: timeStampFromJson(json['CreatedTime']),
-      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
-      name: json['Name'] as String?,
-      principals: (json['Principals'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      resources: (json['Resources'] as List?)
-          ?.nonNulls
-          .map((e) => Resource.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attachmentArn = this.attachmentArn;
-    final createdTime = this.createdTime;
-    final lastModifiedTime = this.lastModifiedTime;
-    final name = this.name;
-    final principals = this.principals;
-    final resources = this.resources;
-    return {
-      if (attachmentArn != null) 'AttachmentArn': attachmentArn,
-      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
-      if (lastModifiedTime != null)
-        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
-      if (name != null) 'Name': name,
-      if (principals != null) 'Principals': principals,
-      if (resources != null) 'Resources': resources,
-    };
-  }
-}
-
-/// Information about an IP address range that is provisioned for use with your
-/// Amazon Web Services resources through bring your own IP address (BYOIP).
-///
-/// The following describes each BYOIP <code>State</code> that your IP address
-/// range can be in.
-///
-/// <ul>
-/// <li>
-/// <b>PENDING_PROVISIONING</b> — You’ve submitted a request to provision an IP
-/// address range but it is not yet provisioned with Global Accelerator.
-/// </li>
-/// <li>
-/// <b>READY</b> — The address range is provisioned with Global Accelerator and
-/// can be advertised.
-/// </li>
-/// <li>
-/// <b>PENDING_ADVERTISING</b> — You’ve submitted a request for Global
-/// Accelerator to advertise an address range but it is not yet being
-/// advertised.
-/// </li>
-/// <li>
-/// <b>ADVERTISING</b> — The address range is being advertised by Global
-/// Accelerator.
-/// </li>
-/// <li>
-/// <b>PENDING_WITHDRAWING</b> — You’ve submitted a request to withdraw an
-/// address range from being advertised but it is still being advertised by
-/// Global Accelerator.
-/// </li>
-/// <li>
-/// <b>PENDING_DEPROVISIONING</b> — You’ve submitted a request to deprovision an
-/// address range from Global Accelerator but it is still provisioned.
-/// </li>
-/// <li>
-/// <b>DEPROVISIONED</b> — The address range is deprovisioned from Global
-/// Accelerator.
-/// </li>
-/// <li>
-/// <b>FAILED_PROVISION </b> — The request to provision the address range from
-/// Global Accelerator was not successful. Please make sure that you provide all
-/// of the correct information, and try again. If the request fails a second
-/// time, contact Amazon Web Services support.
-/// </li>
-/// <li>
-/// <b>FAILED_ADVERTISING</b> — The request for Global Accelerator to advertise
-/// the address range was not successful. Please make sure that you provide all
-/// of the correct information, and try again. If the request fails a second
-/// time, contact Amazon Web Services support.
-/// </li>
-/// <li>
-/// <b>FAILED_WITHDRAW</b> — The request to withdraw the address range from
-/// advertising by Global Accelerator was not successful. Please make sure that
-/// you provide all of the correct information, and try again. If the request
-/// fails a second time, contact Amazon Web Services support.
-/// </li>
-/// <li>
-/// <b>FAILED_DEPROVISION </b> — The request to deprovision the address range
-/// from Global Accelerator was not successful. Please make sure that you
-/// provide all of the correct information, and try again. If the request fails
-/// a second time, contact Amazon Web Services support.
-/// </li>
-/// </ul>
-class ByoipCidr {
-  /// The address range, in CIDR notation.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html">Bring
-  /// your own IP addresses (BYOIP)</a> in the Global Accelerator Developer Guide.
-  final String? cidr;
-
-  /// A history of status changes for an IP address range that you bring to Global
-  /// Accelerator through bring your own IP address (BYOIP).
-  final List<ByoipCidrEvent>? events;
-
-  /// The state of the address pool.
-  final ByoipCidrState? state;
-
-  ByoipCidr({
-    this.cidr,
-    this.events,
-    this.state,
-  });
-
-  factory ByoipCidr.fromJson(Map<String, dynamic> json) {
-    return ByoipCidr(
-      cidr: json['Cidr'] as String?,
-      events: (json['Events'] as List?)
-          ?.nonNulls
-          .map((e) => ByoipCidrEvent.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      state: (json['State'] as String?)?.let(ByoipCidrState.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cidr = this.cidr;
-    final events = this.events;
-    final state = this.state;
-    return {
-      if (cidr != null) 'Cidr': cidr,
-      if (events != null) 'Events': events,
-      if (state != null) 'State': state.value,
-    };
-  }
-}
-
-/// A complex type that contains a <code>Message</code> and a
-/// <code>Timestamp</code> value for changes that you make in the status of an
-/// IP address range that you bring to Global Accelerator through bring your own
-/// IP address (BYOIP).
-class ByoipCidrEvent {
-  /// A string that contains an <code>Event</code> message describing changes that
-  /// you make in the status of an IP address range that you bring to Global
-  /// Accelerator through bring your own IP address (BYOIP).
-  final String? message;
-
-  /// A timestamp for when you make a status change for an IP address range that
-  /// you bring to Global Accelerator through bring your own IP address (BYOIP).
-  final DateTime? timestamp;
-
-  ByoipCidrEvent({
-    this.message,
-    this.timestamp,
-  });
-
-  factory ByoipCidrEvent.fromJson(Map<String, dynamic> json) {
-    return ByoipCidrEvent(
-      message: json['Message'] as String?,
-      timestamp: timeStampFromJson(json['Timestamp']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final message = this.message;
-    final timestamp = this.timestamp;
-    return {
-      if (message != null) 'Message': message,
-      if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
-    };
-  }
-}
-
-class ByoipCidrState {
-  static const pendingProvisioning = ByoipCidrState._('PENDING_PROVISIONING');
-  static const ready = ByoipCidrState._('READY');
-  static const pendingAdvertising = ByoipCidrState._('PENDING_ADVERTISING');
-  static const advertising = ByoipCidrState._('ADVERTISING');
-  static const pendingWithdrawing = ByoipCidrState._('PENDING_WITHDRAWING');
-  static const pendingDeprovisioning =
-      ByoipCidrState._('PENDING_DEPROVISIONING');
-  static const deprovisioned = ByoipCidrState._('DEPROVISIONED');
-  static const failedProvision = ByoipCidrState._('FAILED_PROVISION');
-  static const failedAdvertising = ByoipCidrState._('FAILED_ADVERTISING');
-  static const failedWithdraw = ByoipCidrState._('FAILED_WITHDRAW');
-  static const failedDeprovision = ByoipCidrState._('FAILED_DEPROVISION');
-
-  final String value;
-
-  const ByoipCidrState._(this.value);
-
-  static const values = [
-    pendingProvisioning,
-    ready,
-    pendingAdvertising,
-    advertising,
-    pendingWithdrawing,
-    pendingDeprovisioning,
-    deprovisioned,
-    failedProvision,
-    failedAdvertising,
-    failedWithdraw,
-    failedDeprovision
-  ];
-
-  static ByoipCidrState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ByoipCidrState._(value));
-
-  @override
-  bool operator ==(other) => other is ByoipCidrState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides authorization for Amazon to bring a specific IP address range to a
-/// specific Amazon Web Services account using bring your own IP addresses
-/// (BYOIP).
-///
-/// For more information, see <a
-/// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html">Bring
-/// your own IP addresses (BYOIP)</a> in the <i>Global Accelerator Developer
-/// Guide</i>.
-class CidrAuthorizationContext {
-  /// The plain-text authorization message for the prefix and account.
-  final String message;
-
-  /// The signed authorization message for the prefix and account.
-  final String signature;
-
-  CidrAuthorizationContext({
-    required this.message,
-    required this.signature,
-  });
-
-  Map<String, dynamic> toJson() {
-    final message = this.message;
-    final signature = this.signature;
-    return {
-      'Message': message,
-      'Signature': signature,
-    };
-  }
-}
-
-class ClientAffinity {
-  static const none = ClientAffinity._('NONE');
-  static const sourceIp = ClientAffinity._('SOURCE_IP');
-
-  final String value;
-
-  const ClientAffinity._(this.value);
-
-  static const values = [none, sourceIp];
-
-  static ClientAffinity fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ClientAffinity._(value));
-
-  @override
-  bool operator ==(other) => other is ClientAffinity && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class CreateAcceleratorResponse {
@@ -3922,530 +3357,6 @@ class CreateListenerResponse {
   }
 }
 
-/// An endpoint (Amazon Web Services resource) or an IP address range, in CIDR
-/// format, that is listed in a cross-account attachment. A cross-account
-/// resource can be added to an accelerator by specified principals, which are
-/// also listed in the attachment.
-///
-/// For more information, see <a
-/// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/cross-account-resources.html">
-/// Working with cross-account attachments and resources in Global
-/// Accelerator</a> in the <i> Global Accelerator Developer Guide</i>.
-class CrossAccountResource {
-  /// The Amazon Resource Name (ARN) of the cross-account attachment that
-  /// specifies the resources (endpoints or CIDR range) that can be added to
-  /// accelerators and principals that have permission to add them.
-  final String? attachmentArn;
-
-  /// An IP address range, in CIDR format, that is specified as an Amazon Web
-  /// Services resource. The address must be provisioned and advertised in Global
-  /// Accelerator by following the bring your own IP address (BYOIP) process for
-  /// Global Accelerator.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html">Bring
-  /// your own IP addresses (BYOIP)</a> in the Global Accelerator Developer Guide.
-  final String? cidr;
-
-  /// The endpoint ID for the endpoint that is listed in a cross-account
-  /// attachment and can be added to an accelerator by specified principals.
-  final String? endpointId;
-
-  CrossAccountResource({
-    this.attachmentArn,
-    this.cidr,
-    this.endpointId,
-  });
-
-  factory CrossAccountResource.fromJson(Map<String, dynamic> json) {
-    return CrossAccountResource(
-      attachmentArn: json['AttachmentArn'] as String?,
-      cidr: json['Cidr'] as String?,
-      endpointId: json['EndpointId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attachmentArn = this.attachmentArn;
-    final cidr = this.cidr;
-    final endpointId = this.endpointId;
-    return {
-      if (attachmentArn != null) 'AttachmentArn': attachmentArn,
-      if (cidr != null) 'Cidr': cidr,
-      if (endpointId != null) 'EndpointId': endpointId,
-    };
-  }
-}
-
-/// Attributes of a custom routing accelerator.
-class CustomRoutingAccelerator {
-  /// The Amazon Resource Name (ARN) of the custom routing accelerator.
-  final String? acceleratorArn;
-
-  /// The date and time that the accelerator was created.
-  final DateTime? createdTime;
-
-  /// The Domain Name System (DNS) name that Global Accelerator creates that
-  /// points to an accelerator's static IPv4 addresses.
-  ///
-  /// The naming convention for the DNS name is the following: A lowercase letter
-  /// a, followed by a 16-bit random hex string, followed by
-  /// .awsglobalaccelerator.com. For example:
-  /// a1234567890abcdef.awsglobalaccelerator.com.
-  ///
-  /// If you have a dual-stack accelerator, you also have a second DNS name,
-  /// <code>DualStackDnsName</code>, that points to both the A record and the AAAA
-  /// record for all four static addresses for the accelerator: two IPv4 addresses
-  /// and two IPv6 addresses.
-  ///
-  /// For more information about the default DNS name, see <a
-  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/dns-addressing-custom-domains.dns-addressing.html">
-  /// Support for DNS addressing in Global Accelerator</a> in the <i>Global
-  /// Accelerator Developer Guide</i>.
-  final String? dnsName;
-
-  /// Indicates whether the accelerator is enabled. The value is true or false.
-  /// The default value is true.
-  ///
-  /// If the value is set to true, the accelerator cannot be deleted. If set to
-  /// false, accelerator can be deleted.
-  final bool? enabled;
-
-  /// The IP address type that an accelerator supports. For a custom routing
-  /// accelerator, the value must be IPV4.
-  final IpAddressType? ipAddressType;
-
-  /// The static IP addresses that Global Accelerator associates with the
-  /// accelerator.
-  final List<IpSet>? ipSets;
-
-  /// The date and time that the accelerator was last modified.
-  final DateTime? lastModifiedTime;
-
-  /// The name of the accelerator. The name must contain only alphanumeric
-  /// characters or hyphens (-), and must not begin or end with a hyphen.
-  final String? name;
-
-  /// Describes the deployment status of the accelerator.
-  final CustomRoutingAcceleratorStatus? status;
-
-  CustomRoutingAccelerator({
-    this.acceleratorArn,
-    this.createdTime,
-    this.dnsName,
-    this.enabled,
-    this.ipAddressType,
-    this.ipSets,
-    this.lastModifiedTime,
-    this.name,
-    this.status,
-  });
-
-  factory CustomRoutingAccelerator.fromJson(Map<String, dynamic> json) {
-    return CustomRoutingAccelerator(
-      acceleratorArn: json['AcceleratorArn'] as String?,
-      createdTime: timeStampFromJson(json['CreatedTime']),
-      dnsName: json['DnsName'] as String?,
-      enabled: json['Enabled'] as bool?,
-      ipAddressType:
-          (json['IpAddressType'] as String?)?.let(IpAddressType.fromString),
-      ipSets: (json['IpSets'] as List?)
-          ?.nonNulls
-          .map((e) => IpSet.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
-      name: json['Name'] as String?,
-      status: (json['Status'] as String?)
-          ?.let(CustomRoutingAcceleratorStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final acceleratorArn = this.acceleratorArn;
-    final createdTime = this.createdTime;
-    final dnsName = this.dnsName;
-    final enabled = this.enabled;
-    final ipAddressType = this.ipAddressType;
-    final ipSets = this.ipSets;
-    final lastModifiedTime = this.lastModifiedTime;
-    final name = this.name;
-    final status = this.status;
-    return {
-      if (acceleratorArn != null) 'AcceleratorArn': acceleratorArn,
-      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
-      if (dnsName != null) 'DnsName': dnsName,
-      if (enabled != null) 'Enabled': enabled,
-      if (ipAddressType != null) 'IpAddressType': ipAddressType.value,
-      if (ipSets != null) 'IpSets': ipSets,
-      if (lastModifiedTime != null)
-        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
-      if (name != null) 'Name': name,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-/// Attributes of a custom routing accelerator.
-class CustomRoutingAcceleratorAttributes {
-  /// Indicates whether flow logs are enabled. The default value is false. If the
-  /// value is true, <code>FlowLogsS3Bucket</code> and
-  /// <code>FlowLogsS3Prefix</code> must be specified.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/monitoring-global-accelerator.flow-logs.html">Flow
-  /// logs</a> in the <i>Global Accelerator Developer Guide</i>.
-  final bool? flowLogsEnabled;
-
-  /// The name of the Amazon S3 bucket for the flow logs. Attribute is required if
-  /// <code>FlowLogsEnabled</code> is <code>true</code>. The bucket must exist and
-  /// have a bucket policy that grants Global Accelerator permission to write to
-  /// the bucket.
-  final String? flowLogsS3Bucket;
-
-  /// The prefix for the location in the Amazon S3 bucket for the flow logs.
-  /// Attribute is required if <code>FlowLogsEnabled</code> is <code>true</code>.
-  ///
-  /// If you don’t specify a prefix, the flow logs are stored in the root of the
-  /// bucket. If you specify slash (/) for the S3 bucket prefix, the log file
-  /// bucket folder structure will include a double slash (//), like the
-  /// following:
-  ///
-  /// DOC-EXAMPLE-BUCKET//AWSLogs/aws_account_id
-  final String? flowLogsS3Prefix;
-
-  CustomRoutingAcceleratorAttributes({
-    this.flowLogsEnabled,
-    this.flowLogsS3Bucket,
-    this.flowLogsS3Prefix,
-  });
-
-  factory CustomRoutingAcceleratorAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return CustomRoutingAcceleratorAttributes(
-      flowLogsEnabled: json['FlowLogsEnabled'] as bool?,
-      flowLogsS3Bucket: json['FlowLogsS3Bucket'] as String?,
-      flowLogsS3Prefix: json['FlowLogsS3Prefix'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final flowLogsEnabled = this.flowLogsEnabled;
-    final flowLogsS3Bucket = this.flowLogsS3Bucket;
-    final flowLogsS3Prefix = this.flowLogsS3Prefix;
-    return {
-      if (flowLogsEnabled != null) 'FlowLogsEnabled': flowLogsEnabled,
-      if (flowLogsS3Bucket != null) 'FlowLogsS3Bucket': flowLogsS3Bucket,
-      if (flowLogsS3Prefix != null) 'FlowLogsS3Prefix': flowLogsS3Prefix,
-    };
-  }
-}
-
-class CustomRoutingAcceleratorStatus {
-  static const deployed = CustomRoutingAcceleratorStatus._('DEPLOYED');
-  static const inProgress = CustomRoutingAcceleratorStatus._('IN_PROGRESS');
-
-  final String value;
-
-  const CustomRoutingAcceleratorStatus._(this.value);
-
-  static const values = [deployed, inProgress];
-
-  static CustomRoutingAcceleratorStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CustomRoutingAcceleratorStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CustomRoutingAcceleratorStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// For a custom routing accelerator, sets the port range and protocol for all
-/// endpoints (virtual private cloud subnets) in an endpoint group to accept
-/// client traffic on.
-class CustomRoutingDestinationConfiguration {
-  /// The first port, inclusive, in the range of ports for the endpoint group that
-  /// is associated with a custom routing accelerator.
-  final int fromPort;
-
-  /// The protocol for the endpoint group that is associated with a custom routing
-  /// accelerator. The protocol can be either TCP or UDP.
-  final List<CustomRoutingProtocol> protocols;
-
-  /// The last port, inclusive, in the range of ports for the endpoint group that
-  /// is associated with a custom routing accelerator.
-  final int toPort;
-
-  CustomRoutingDestinationConfiguration({
-    required this.fromPort,
-    required this.protocols,
-    required this.toPort,
-  });
-
-  Map<String, dynamic> toJson() {
-    final fromPort = this.fromPort;
-    final protocols = this.protocols;
-    final toPort = this.toPort;
-    return {
-      'FromPort': fromPort,
-      'Protocols': protocols.map((e) => e.value).toList(),
-      'ToPort': toPort,
-    };
-  }
-}
-
-/// For a custom routing accelerator, describes the port range and protocol for
-/// all endpoints (virtual private cloud subnets) in an endpoint group to accept
-/// client traffic on.
-class CustomRoutingDestinationDescription {
-  /// The first port, inclusive, in the range of ports for the endpoint group that
-  /// is associated with a custom routing accelerator.
-  final int? fromPort;
-
-  /// The protocol for the endpoint group that is associated with a custom routing
-  /// accelerator. The protocol can be either TCP or UDP.
-  final List<Protocol>? protocols;
-
-  /// The last port, inclusive, in the range of ports for the endpoint group that
-  /// is associated with a custom routing accelerator.
-  final int? toPort;
-
-  CustomRoutingDestinationDescription({
-    this.fromPort,
-    this.protocols,
-    this.toPort,
-  });
-
-  factory CustomRoutingDestinationDescription.fromJson(
-      Map<String, dynamic> json) {
-    return CustomRoutingDestinationDescription(
-      fromPort: json['FromPort'] as int?,
-      protocols: (json['Protocols'] as List?)
-          ?.nonNulls
-          .map((e) => Protocol.fromString((e as String)))
-          .toList(),
-      toPort: json['ToPort'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final fromPort = this.fromPort;
-    final protocols = this.protocols;
-    final toPort = this.toPort;
-    return {
-      if (fromPort != null) 'FromPort': fromPort,
-      if (protocols != null)
-        'Protocols': protocols.map((e) => e.value).toList(),
-      if (toPort != null) 'ToPort': toPort,
-    };
-  }
-}
-
-class CustomRoutingDestinationTrafficState {
-  static const allow = CustomRoutingDestinationTrafficState._('ALLOW');
-  static const deny = CustomRoutingDestinationTrafficState._('DENY');
-
-  final String value;
-
-  const CustomRoutingDestinationTrafficState._(this.value);
-
-  static const values = [allow, deny];
-
-  static CustomRoutingDestinationTrafficState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CustomRoutingDestinationTrafficState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CustomRoutingDestinationTrafficState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The list of endpoint objects. For custom routing, this is a list of virtual
-/// private cloud (VPC) subnet IDs.
-class CustomRoutingEndpointConfiguration {
-  /// The Amazon Resource Name (ARN) of the cross-account attachment that
-  /// specifies the endpoints (resources) that can be added to accelerators and
-  /// principals that have permission to add the endpoints.
-  final String? attachmentArn;
-
-  /// An ID for the endpoint. For custom routing accelerators, this is the virtual
-  /// private cloud (VPC) subnet ID.
-  final String? endpointId;
-
-  CustomRoutingEndpointConfiguration({
-    this.attachmentArn,
-    this.endpointId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final attachmentArn = this.attachmentArn;
-    final endpointId = this.endpointId;
-    return {
-      if (attachmentArn != null) 'AttachmentArn': attachmentArn,
-      if (endpointId != null) 'EndpointId': endpointId,
-    };
-  }
-}
-
-/// A complex type for an endpoint for a custom routing accelerator. Each
-/// endpoint group can include one or more endpoints, which are virtual private
-/// cloud (VPC) subnets.
-class CustomRoutingEndpointDescription {
-  /// An ID for the endpoint. For custom routing accelerators, this is the virtual
-  /// private cloud (VPC) subnet ID.
-  final String? endpointId;
-
-  CustomRoutingEndpointDescription({
-    this.endpointId,
-  });
-
-  factory CustomRoutingEndpointDescription.fromJson(Map<String, dynamic> json) {
-    return CustomRoutingEndpointDescription(
-      endpointId: json['EndpointId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final endpointId = this.endpointId;
-    return {
-      if (endpointId != null) 'EndpointId': endpointId,
-    };
-  }
-}
-
-/// A complex type for the endpoint group for a custom routing accelerator. An
-/// Amazon Web Services Region can have only one endpoint group for a specific
-/// listener.
-class CustomRoutingEndpointGroup {
-  /// For a custom routing accelerator, describes the port range and protocol for
-  /// all endpoints (virtual private cloud subnets) in an endpoint group to accept
-  /// client traffic on.
-  final List<CustomRoutingDestinationDescription>? destinationDescriptions;
-
-  /// For a custom routing accelerator, describes the endpoints (virtual private
-  /// cloud subnets) in an endpoint group to accept client traffic on.
-  final List<CustomRoutingEndpointDescription>? endpointDescriptions;
-
-  /// The Amazon Resource Name (ARN) of the endpoint group.
-  final String? endpointGroupArn;
-
-  /// The Amazon Web Services Region where the endpoint group is located.
-  final String? endpointGroupRegion;
-
-  CustomRoutingEndpointGroup({
-    this.destinationDescriptions,
-    this.endpointDescriptions,
-    this.endpointGroupArn,
-    this.endpointGroupRegion,
-  });
-
-  factory CustomRoutingEndpointGroup.fromJson(Map<String, dynamic> json) {
-    return CustomRoutingEndpointGroup(
-      destinationDescriptions: (json['DestinationDescriptions'] as List?)
-          ?.nonNulls
-          .map((e) => CustomRoutingDestinationDescription.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-      endpointDescriptions: (json['EndpointDescriptions'] as List?)
-          ?.nonNulls
-          .map((e) => CustomRoutingEndpointDescription.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-      endpointGroupArn: json['EndpointGroupArn'] as String?,
-      endpointGroupRegion: json['EndpointGroupRegion'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final destinationDescriptions = this.destinationDescriptions;
-    final endpointDescriptions = this.endpointDescriptions;
-    final endpointGroupArn = this.endpointGroupArn;
-    final endpointGroupRegion = this.endpointGroupRegion;
-    return {
-      if (destinationDescriptions != null)
-        'DestinationDescriptions': destinationDescriptions,
-      if (endpointDescriptions != null)
-        'EndpointDescriptions': endpointDescriptions,
-      if (endpointGroupArn != null) 'EndpointGroupArn': endpointGroupArn,
-      if (endpointGroupRegion != null)
-        'EndpointGroupRegion': endpointGroupRegion,
-    };
-  }
-}
-
-/// A complex type for a listener for a custom routing accelerator.
-class CustomRoutingListener {
-  /// The Amazon Resource Name (ARN) of the listener.
-  final String? listenerArn;
-
-  /// The port range to support for connections from clients to your accelerator.
-  ///
-  /// Separately, you set port ranges for endpoints. For more information, see <a
-  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/about-custom-routing-endpoints.html">About
-  /// endpoints for custom routing accelerators</a>.
-  final List<PortRange>? portRanges;
-
-  CustomRoutingListener({
-    this.listenerArn,
-    this.portRanges,
-  });
-
-  factory CustomRoutingListener.fromJson(Map<String, dynamic> json) {
-    return CustomRoutingListener(
-      listenerArn: json['ListenerArn'] as String?,
-      portRanges: (json['PortRanges'] as List?)
-          ?.nonNulls
-          .map((e) => PortRange.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final listenerArn = this.listenerArn;
-    final portRanges = this.portRanges;
-    return {
-      if (listenerArn != null) 'ListenerArn': listenerArn,
-      if (portRanges != null) 'PortRanges': portRanges,
-    };
-  }
-}
-
-class CustomRoutingProtocol {
-  static const tcp = CustomRoutingProtocol._('TCP');
-  static const udp = CustomRoutingProtocol._('UDP');
-
-  final String value;
-
-  const CustomRoutingProtocol._(this.value);
-
-  static const values = [tcp, udp];
-
-  static CustomRoutingProtocol fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CustomRoutingProtocol._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CustomRoutingProtocol && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class DeprovisionByoipCidrResponse {
   /// Information about the address range.
   final ByoipCidr? byoipCidr;
@@ -4466,6 +3377,30 @@ class DeprovisionByoipCidrResponse {
     final byoipCidr = this.byoipCidr;
     return {
       if (byoipCidr != null) 'ByoipCidr': byoipCidr,
+    };
+  }
+}
+
+class DescribeAcceleratorResponse {
+  /// The description of the accelerator.
+  final Accelerator? accelerator;
+
+  DescribeAcceleratorResponse({
+    this.accelerator,
+  });
+
+  factory DescribeAcceleratorResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeAcceleratorResponse(
+      accelerator: json['Accelerator'] != null
+          ? Accelerator.fromJson(json['Accelerator'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accelerator = this.accelerator;
+    return {
+      if (accelerator != null) 'Accelerator': accelerator,
     };
   }
 }
@@ -4497,30 +3432,6 @@ class DescribeAcceleratorAttributesResponse {
   }
 }
 
-class DescribeAcceleratorResponse {
-  /// The description of the accelerator.
-  final Accelerator? accelerator;
-
-  DescribeAcceleratorResponse({
-    this.accelerator,
-  });
-
-  factory DescribeAcceleratorResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeAcceleratorResponse(
-      accelerator: json['Accelerator'] != null
-          ? Accelerator.fromJson(json['Accelerator'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accelerator = this.accelerator;
-    return {
-      if (accelerator != null) 'Accelerator': accelerator,
-    };
-  }
-}
-
 class DescribeCrossAccountAttachmentResponse {
   /// Information about the cross-account attachment.
   final Attachment? crossAccountAttachment;
@@ -4548,6 +3459,32 @@ class DescribeCrossAccountAttachmentResponse {
   }
 }
 
+class DescribeCustomRoutingAcceleratorResponse {
+  /// The description of the custom routing accelerator.
+  final CustomRoutingAccelerator? accelerator;
+
+  DescribeCustomRoutingAcceleratorResponse({
+    this.accelerator,
+  });
+
+  factory DescribeCustomRoutingAcceleratorResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeCustomRoutingAcceleratorResponse(
+      accelerator: json['Accelerator'] != null
+          ? CustomRoutingAccelerator.fromJson(
+              json['Accelerator'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accelerator = this.accelerator;
+    return {
+      if (accelerator != null) 'Accelerator': accelerator,
+    };
+  }
+}
+
 class DescribeCustomRoutingAcceleratorAttributesResponse {
   /// The attributes of the custom routing accelerator.
   final CustomRoutingAcceleratorAttributes? acceleratorAttributes;
@@ -4571,32 +3508,6 @@ class DescribeCustomRoutingAcceleratorAttributesResponse {
     return {
       if (acceleratorAttributes != null)
         'AcceleratorAttributes': acceleratorAttributes,
-    };
-  }
-}
-
-class DescribeCustomRoutingAcceleratorResponse {
-  /// The description of the custom routing accelerator.
-  final CustomRoutingAccelerator? accelerator;
-
-  DescribeCustomRoutingAcceleratorResponse({
-    this.accelerator,
-  });
-
-  factory DescribeCustomRoutingAcceleratorResponse.fromJson(
-      Map<String, dynamic> json) {
-    return DescribeCustomRoutingAcceleratorResponse(
-      accelerator: json['Accelerator'] != null
-          ? CustomRoutingAccelerator.fromJson(
-              json['Accelerator'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accelerator = this.accelerator;
-    return {
-      if (accelerator != null) 'Accelerator': accelerator,
     };
   }
 }
@@ -4698,548 +3609,6 @@ class DescribeListenerResponse {
     final listener = this.listener;
     return {
       if (listener != null) 'Listener': listener,
-    };
-  }
-}
-
-/// The port mappings for a specified endpoint IP address (destination).
-class DestinationPortMapping {
-  /// The Amazon Resource Name (ARN) of the custom routing accelerator that you
-  /// have port mappings for.
-  final String? acceleratorArn;
-
-  /// The IP address/port combinations (sockets) that map to a given destination
-  /// socket address.
-  final List<SocketAddress>? acceleratorSocketAddresses;
-
-  /// The endpoint IP address/port combination for traffic received on the
-  /// accelerator socket address.
-  final SocketAddress? destinationSocketAddress;
-
-  /// Indicates whether or not a port mapping destination can receive traffic. The
-  /// value is either ALLOW, if traffic is allowed to the destination, or DENY, if
-  /// traffic is not allowed to the destination.
-  final CustomRoutingDestinationTrafficState? destinationTrafficState;
-
-  /// The Amazon Resource Name (ARN) of the endpoint group.
-  final String? endpointGroupArn;
-
-  /// The Amazon Web Services Region for the endpoint group.
-  final String? endpointGroupRegion;
-
-  /// The ID for the virtual private cloud (VPC) subnet.
-  final String? endpointId;
-
-  /// The IP address type that an accelerator supports. For a custom routing
-  /// accelerator, the value must be IPV4.
-  final IpAddressType? ipAddressType;
-
-  DestinationPortMapping({
-    this.acceleratorArn,
-    this.acceleratorSocketAddresses,
-    this.destinationSocketAddress,
-    this.destinationTrafficState,
-    this.endpointGroupArn,
-    this.endpointGroupRegion,
-    this.endpointId,
-    this.ipAddressType,
-  });
-
-  factory DestinationPortMapping.fromJson(Map<String, dynamic> json) {
-    return DestinationPortMapping(
-      acceleratorArn: json['AcceleratorArn'] as String?,
-      acceleratorSocketAddresses: (json['AcceleratorSocketAddresses'] as List?)
-          ?.nonNulls
-          .map((e) => SocketAddress.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      destinationSocketAddress: json['DestinationSocketAddress'] != null
-          ? SocketAddress.fromJson(
-              json['DestinationSocketAddress'] as Map<String, dynamic>)
-          : null,
-      destinationTrafficState: (json['DestinationTrafficState'] as String?)
-          ?.let(CustomRoutingDestinationTrafficState.fromString),
-      endpointGroupArn: json['EndpointGroupArn'] as String?,
-      endpointGroupRegion: json['EndpointGroupRegion'] as String?,
-      endpointId: json['EndpointId'] as String?,
-      ipAddressType:
-          (json['IpAddressType'] as String?)?.let(IpAddressType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final acceleratorArn = this.acceleratorArn;
-    final acceleratorSocketAddresses = this.acceleratorSocketAddresses;
-    final destinationSocketAddress = this.destinationSocketAddress;
-    final destinationTrafficState = this.destinationTrafficState;
-    final endpointGroupArn = this.endpointGroupArn;
-    final endpointGroupRegion = this.endpointGroupRegion;
-    final endpointId = this.endpointId;
-    final ipAddressType = this.ipAddressType;
-    return {
-      if (acceleratorArn != null) 'AcceleratorArn': acceleratorArn,
-      if (acceleratorSocketAddresses != null)
-        'AcceleratorSocketAddresses': acceleratorSocketAddresses,
-      if (destinationSocketAddress != null)
-        'DestinationSocketAddress': destinationSocketAddress,
-      if (destinationTrafficState != null)
-        'DestinationTrafficState': destinationTrafficState.value,
-      if (endpointGroupArn != null) 'EndpointGroupArn': endpointGroupArn,
-      if (endpointGroupRegion != null)
-        'EndpointGroupRegion': endpointGroupRegion,
-      if (endpointId != null) 'EndpointId': endpointId,
-      if (ipAddressType != null) 'IpAddressType': ipAddressType.value,
-    };
-  }
-}
-
-/// A complex type for endpoints. A resource must be valid and active when you
-/// add it as an endpoint.
-class EndpointConfiguration {
-  /// The Amazon Resource Name (ARN) of the cross-account attachment that
-  /// specifies the endpoints (resources) that can be added to accelerators and
-  /// principals that have permission to add the endpoints.
-  final String? attachmentArn;
-
-  /// Indicates whether client IP address preservation is enabled for an endpoint.
-  /// The value is true or false. The default value is true for Application Load
-  /// Balancer endpoints.
-  ///
-  /// If the value is set to true, the client's IP address is preserved in the
-  /// <code>X-Forwarded-For</code> request header as traffic travels to
-  /// applications on the endpoint fronted by the accelerator.
-  ///
-  /// Client IP address preservation is supported, in specific Amazon Web Services
-  /// Regions, for endpoints that are Application Load Balancers, Amazon EC2
-  /// instances, and Network Load Balancers with security groups. IMPORTANT: You
-  /// cannot use client IP address preservation with Network Load Balancers with
-  /// TLS listeners.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/preserve-client-ip-address.html">
-  /// Preserve client IP addresses in Global Accelerator</a> in the <i>Global
-  /// Accelerator Developer Guide</i>.
-  final bool? clientIPPreservationEnabled;
-
-  /// An ID for the endpoint. If the endpoint is a Network Load Balancer or
-  /// Application Load Balancer, this is the Amazon Resource Name (ARN) of the
-  /// resource. If the endpoint is an Elastic IP address, this is the Elastic IP
-  /// address allocation ID. For Amazon EC2 instances, this is the EC2 instance
-  /// ID. A resource must be valid and active when you add it as an endpoint.
-  ///
-  /// For cross-account endpoints, this must be the ARN of the resource.
-  final String? endpointId;
-
-  /// The weight associated with the endpoint. When you add weights to endpoints,
-  /// you configure Global Accelerator to route traffic based on proportions that
-  /// you specify. For example, you might specify endpoint weights of 4, 5, 5, and
-  /// 6 (sum=20). The result is that 4/20 of your traffic, on average, is routed
-  /// to the first endpoint, 5/20 is routed both to the second and third
-  /// endpoints, and 6/20 is routed to the last endpoint. For more information,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/about-endpoints-endpoint-weights.html">Endpoint
-  /// weights</a> in the <i>Global Accelerator Developer Guide</i>.
-  final int? weight;
-
-  EndpointConfiguration({
-    this.attachmentArn,
-    this.clientIPPreservationEnabled,
-    this.endpointId,
-    this.weight,
-  });
-
-  Map<String, dynamic> toJson() {
-    final attachmentArn = this.attachmentArn;
-    final clientIPPreservationEnabled = this.clientIPPreservationEnabled;
-    final endpointId = this.endpointId;
-    final weight = this.weight;
-    return {
-      if (attachmentArn != null) 'AttachmentArn': attachmentArn,
-      if (clientIPPreservationEnabled != null)
-        'ClientIPPreservationEnabled': clientIPPreservationEnabled,
-      if (endpointId != null) 'EndpointId': endpointId,
-      if (weight != null) 'Weight': weight,
-    };
-  }
-}
-
-/// A complex type for an endpoint. Each endpoint group can include one or more
-/// endpoints, such as load balancers.
-class EndpointDescription {
-  /// Indicates whether client IP address preservation is enabled for an endpoint.
-  /// The value is true or false. The default value is true for Application Load
-  /// Balancers endpoints.
-  ///
-  /// If the value is set to true, the client's IP address is preserved in the
-  /// <code>X-Forwarded-For</code> request header as traffic travels to
-  /// applications on the endpoint fronted by the accelerator.
-  ///
-  /// Client IP address preservation is supported, in specific Amazon Web Services
-  /// Regions, for endpoints that are Application Load Balancers, Amazon EC2
-  /// instances, and Network Load Balancers with security groups. IMPORTANT: You
-  /// cannot use client IP address preservation with Network Load Balancers with
-  /// TLS listeners.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/preserve-client-ip-address.html">
-  /// Preserve client IP addresses in Global Accelerator</a> in the <i>Global
-  /// Accelerator Developer Guide</i>.
-  final bool? clientIPPreservationEnabled;
-
-  /// An ID for the endpoint. If the endpoint is a Network Load Balancer or
-  /// Application Load Balancer, this is the Amazon Resource Name (ARN) of the
-  /// resource. If the endpoint is an Elastic IP address, this is the Elastic IP
-  /// address allocation ID. For Amazon EC2 instances, this is the EC2 instance
-  /// ID.
-  ///
-  /// An Application Load Balancer can be either internal or internet-facing.
-  final String? endpointId;
-
-  /// Returns a null result.
-  final String? healthReason;
-
-  /// The health status of the endpoint.
-  final HealthState? healthState;
-
-  /// The weight associated with the endpoint. When you add weights to endpoints,
-  /// you configure Global Accelerator to route traffic based on proportions that
-  /// you specify. For example, you might specify endpoint weights of 4, 5, 5, and
-  /// 6 (sum=20). The result is that 4/20 of your traffic, on average, is routed
-  /// to the first endpoint, 5/20 is routed both to the second and third
-  /// endpoints, and 6/20 is routed to the last endpoint. For more information,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/about-endpoints-endpoint-weights.html">Endpoint
-  /// weights</a> in the <i>Global Accelerator Developer Guide</i>.
-  final int? weight;
-
-  EndpointDescription({
-    this.clientIPPreservationEnabled,
-    this.endpointId,
-    this.healthReason,
-    this.healthState,
-    this.weight,
-  });
-
-  factory EndpointDescription.fromJson(Map<String, dynamic> json) {
-    return EndpointDescription(
-      clientIPPreservationEnabled: json['ClientIPPreservationEnabled'] as bool?,
-      endpointId: json['EndpointId'] as String?,
-      healthReason: json['HealthReason'] as String?,
-      healthState:
-          (json['HealthState'] as String?)?.let(HealthState.fromString),
-      weight: json['Weight'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clientIPPreservationEnabled = this.clientIPPreservationEnabled;
-    final endpointId = this.endpointId;
-    final healthReason = this.healthReason;
-    final healthState = this.healthState;
-    final weight = this.weight;
-    return {
-      if (clientIPPreservationEnabled != null)
-        'ClientIPPreservationEnabled': clientIPPreservationEnabled,
-      if (endpointId != null) 'EndpointId': endpointId,
-      if (healthReason != null) 'HealthReason': healthReason,
-      if (healthState != null) 'HealthState': healthState.value,
-      if (weight != null) 'Weight': weight,
-    };
-  }
-}
-
-/// A complex type for the endpoint group. An Amazon Web Services Region can
-/// have only one endpoint group for a specific listener.
-class EndpointGroup {
-  /// The list of endpoint objects.
-  final List<EndpointDescription>? endpointDescriptions;
-
-  /// The Amazon Resource Name (ARN) of the endpoint group.
-  final String? endpointGroupArn;
-
-  /// The Amazon Web Services Region where the endpoint group is located.
-  final String? endpointGroupRegion;
-
-  /// The time—10 seconds or 30 seconds—between health checks for each endpoint.
-  /// The default value is 30.
-  final int? healthCheckIntervalSeconds;
-
-  /// If the protocol is HTTP/S, then this value provides the ping path that
-  /// Global Accelerator uses for the destination on the endpoints for health
-  /// checks. The default is slash (/).
-  final String? healthCheckPath;
-
-  /// The port that Global Accelerator uses to perform health checks on endpoints
-  /// that are part of this endpoint group.
-  ///
-  /// The default port is the port for the listener that this endpoint group is
-  /// associated with. If the listener port is a list, Global Accelerator uses the
-  /// first specified port in the list of ports.
-  final int? healthCheckPort;
-
-  /// The protocol that Global Accelerator uses to perform health checks on
-  /// endpoints that are part of this endpoint group. The default value is TCP.
-  final HealthCheckProtocol? healthCheckProtocol;
-
-  /// Allows you to override the destination ports used to route traffic to an
-  /// endpoint. Using a port override lets you map a list of external destination
-  /// ports (that your users send traffic to) to a list of internal destination
-  /// ports that you want an application endpoint to receive traffic on.
-  final List<PortOverride>? portOverrides;
-
-  /// The number of consecutive health checks required to set the state of a
-  /// healthy endpoint to unhealthy, or to set an unhealthy endpoint to healthy.
-  /// The default value is 3.
-  final int? thresholdCount;
-
-  /// The percentage of traffic to send to an Amazon Web Services Region.
-  /// Additional traffic is distributed to other endpoint groups for this
-  /// listener.
-  ///
-  /// Use this action to increase (dial up) or decrease (dial down) traffic to a
-  /// specific Region. The percentage is applied to the traffic that would
-  /// otherwise have been routed to the Region based on optimal routing.
-  ///
-  /// The default value is 100.
-  final double? trafficDialPercentage;
-
-  EndpointGroup({
-    this.endpointDescriptions,
-    this.endpointGroupArn,
-    this.endpointGroupRegion,
-    this.healthCheckIntervalSeconds,
-    this.healthCheckPath,
-    this.healthCheckPort,
-    this.healthCheckProtocol,
-    this.portOverrides,
-    this.thresholdCount,
-    this.trafficDialPercentage,
-  });
-
-  factory EndpointGroup.fromJson(Map<String, dynamic> json) {
-    return EndpointGroup(
-      endpointDescriptions: (json['EndpointDescriptions'] as List?)
-          ?.nonNulls
-          .map((e) => EndpointDescription.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      endpointGroupArn: json['EndpointGroupArn'] as String?,
-      endpointGroupRegion: json['EndpointGroupRegion'] as String?,
-      healthCheckIntervalSeconds: json['HealthCheckIntervalSeconds'] as int?,
-      healthCheckPath: json['HealthCheckPath'] as String?,
-      healthCheckPort: json['HealthCheckPort'] as int?,
-      healthCheckProtocol: (json['HealthCheckProtocol'] as String?)
-          ?.let(HealthCheckProtocol.fromString),
-      portOverrides: (json['PortOverrides'] as List?)
-          ?.nonNulls
-          .map((e) => PortOverride.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      thresholdCount: json['ThresholdCount'] as int?,
-      trafficDialPercentage: json['TrafficDialPercentage'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final endpointDescriptions = this.endpointDescriptions;
-    final endpointGroupArn = this.endpointGroupArn;
-    final endpointGroupRegion = this.endpointGroupRegion;
-    final healthCheckIntervalSeconds = this.healthCheckIntervalSeconds;
-    final healthCheckPath = this.healthCheckPath;
-    final healthCheckPort = this.healthCheckPort;
-    final healthCheckProtocol = this.healthCheckProtocol;
-    final portOverrides = this.portOverrides;
-    final thresholdCount = this.thresholdCount;
-    final trafficDialPercentage = this.trafficDialPercentage;
-    return {
-      if (endpointDescriptions != null)
-        'EndpointDescriptions': endpointDescriptions,
-      if (endpointGroupArn != null) 'EndpointGroupArn': endpointGroupArn,
-      if (endpointGroupRegion != null)
-        'EndpointGroupRegion': endpointGroupRegion,
-      if (healthCheckIntervalSeconds != null)
-        'HealthCheckIntervalSeconds': healthCheckIntervalSeconds,
-      if (healthCheckPath != null) 'HealthCheckPath': healthCheckPath,
-      if (healthCheckPort != null) 'HealthCheckPort': healthCheckPort,
-      if (healthCheckProtocol != null)
-        'HealthCheckProtocol': healthCheckProtocol.value,
-      if (portOverrides != null) 'PortOverrides': portOverrides,
-      if (thresholdCount != null) 'ThresholdCount': thresholdCount,
-      if (trafficDialPercentage != null)
-        'TrafficDialPercentage': trafficDialPercentage,
-    };
-  }
-}
-
-/// A complex type for an endpoint. Specifies information about the endpoint to
-/// remove from the endpoint group.
-class EndpointIdentifier {
-  /// An ID for the endpoint. If the endpoint is a Network Load Balancer or
-  /// Application Load Balancer, this is the Amazon Resource Name (ARN) of the
-  /// resource. If the endpoint is an Elastic IP address, this is the Elastic IP
-  /// address allocation ID. For Amazon EC2 instances, this is the EC2 instance
-  /// ID.
-  ///
-  /// An Application Load Balancer can be either internal or internet-facing.
-  final String endpointId;
-
-  /// Indicates whether client IP address preservation is enabled for an endpoint.
-  /// The value is true or false.
-  ///
-  /// If the value is set to true, the client's IP address is preserved in the
-  /// <code>X-Forwarded-For</code> request header as traffic travels to
-  /// applications on the endpoint fronted by the accelerator.
-  final bool? clientIPPreservationEnabled;
-
-  EndpointIdentifier({
-    required this.endpointId,
-    this.clientIPPreservationEnabled,
-  });
-
-  Map<String, dynamic> toJson() {
-    final endpointId = this.endpointId;
-    final clientIPPreservationEnabled = this.clientIPPreservationEnabled;
-    return {
-      'EndpointId': endpointId,
-      if (clientIPPreservationEnabled != null)
-        'ClientIPPreservationEnabled': clientIPPreservationEnabled,
-    };
-  }
-}
-
-class HealthCheckProtocol {
-  static const tcp = HealthCheckProtocol._('TCP');
-  static const http = HealthCheckProtocol._('HTTP');
-  static const https = HealthCheckProtocol._('HTTPS');
-
-  final String value;
-
-  const HealthCheckProtocol._(this.value);
-
-  static const values = [tcp, http, https];
-
-  static HealthCheckProtocol fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => HealthCheckProtocol._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is HealthCheckProtocol && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class HealthState {
-  static const initial = HealthState._('INITIAL');
-  static const healthy = HealthState._('HEALTHY');
-  static const unhealthy = HealthState._('UNHEALTHY');
-
-  final String value;
-
-  const HealthState._(this.value);
-
-  static const values = [initial, healthy, unhealthy];
-
-  static HealthState fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => HealthState._(value));
-
-  @override
-  bool operator ==(other) => other is HealthState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class IpAddressFamily {
-  static const iPv4 = IpAddressFamily._('IPv4');
-  static const iPv6 = IpAddressFamily._('IPv6');
-
-  final String value;
-
-  const IpAddressFamily._(this.value);
-
-  static const values = [iPv4, iPv6];
-
-  static IpAddressFamily fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => IpAddressFamily._(value));
-
-  @override
-  bool operator ==(other) => other is IpAddressFamily && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class IpAddressType {
-  static const ipv4 = IpAddressType._('IPV4');
-  static const dualStack = IpAddressType._('DUAL_STACK');
-
-  final String value;
-
-  const IpAddressType._(this.value);
-
-  static const values = [ipv4, dualStack];
-
-  static IpAddressType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => IpAddressType._(value));
-
-  @override
-  bool operator ==(other) => other is IpAddressType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A complex type for the set of IP addresses for an accelerator.
-class IpSet {
-  /// The types of IP addresses included in this IP set.
-  final IpAddressFamily? ipAddressFamily;
-
-  /// The array of IP addresses in the IP address set. An IP address set can have
-  /// a maximum of two IP addresses.
-  final List<String>? ipAddresses;
-
-  /// IpFamily is deprecated and has been replaced by IpAddressFamily.
-  final String? ipFamily;
-
-  IpSet({
-    this.ipAddressFamily,
-    this.ipAddresses,
-    this.ipFamily,
-  });
-
-  factory IpSet.fromJson(Map<String, dynamic> json) {
-    return IpSet(
-      ipAddressFamily:
-          (json['IpAddressFamily'] as String?)?.let(IpAddressFamily.fromString),
-      ipAddresses: (json['IpAddresses'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      ipFamily: json['IpFamily'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final ipAddressFamily = this.ipAddressFamily;
-    final ipAddresses = this.ipAddresses;
-    final ipFamily = this.ipFamily;
-    return {
-      if (ipAddressFamily != null) 'IpAddressFamily': ipAddressFamily.value,
-      if (ipAddresses != null) 'IpAddresses': ipAddresses,
-      if (ipFamily != null) 'IpFamily': ipFamily,
     };
   }
 }
@@ -5512,6 +3881,40 @@ class ListCustomRoutingListenersResponse {
   }
 }
 
+class ListCustomRoutingPortMappingsResponse {
+  /// The token for the next set of results. You receive this token from a
+  /// previous call.
+  final String? nextToken;
+
+  /// The port mappings for a custom routing accelerator.
+  final List<PortMapping>? portMappings;
+
+  ListCustomRoutingPortMappingsResponse({
+    this.nextToken,
+    this.portMappings,
+  });
+
+  factory ListCustomRoutingPortMappingsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListCustomRoutingPortMappingsResponse(
+      nextToken: json['NextToken'] as String?,
+      portMappings: (json['PortMappings'] as List?)
+          ?.nonNulls
+          .map((e) => PortMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final portMappings = this.portMappings;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (portMappings != null) 'PortMappings': portMappings,
+    };
+  }
+}
+
 class ListCustomRoutingPortMappingsByDestinationResponse {
   /// The port mappings for the endpoint IP address that you specified in the
   /// request.
@@ -5545,40 +3948,6 @@ class ListCustomRoutingPortMappingsByDestinationResponse {
       if (destinationPortMappings != null)
         'DestinationPortMappings': destinationPortMappings,
       if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListCustomRoutingPortMappingsResponse {
-  /// The token for the next set of results. You receive this token from a
-  /// previous call.
-  final String? nextToken;
-
-  /// The port mappings for a custom routing accelerator.
-  final List<PortMapping>? portMappings;
-
-  ListCustomRoutingPortMappingsResponse({
-    this.nextToken,
-    this.portMappings,
-  });
-
-  factory ListCustomRoutingPortMappingsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListCustomRoutingPortMappingsResponse(
-      nextToken: json['NextToken'] as String?,
-      portMappings: (json['PortMappings'] as List?)
-          ?.nonNulls
-          .map((e) => PortMapping.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final portMappings = this.portMappings;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (portMappings != null) 'PortMappings': portMappings,
     };
   }
 }
@@ -5674,244 +4043,6 @@ class ListTagsForResourceResponse {
   }
 }
 
-/// A complex type for a listener.
-class Listener {
-  /// Client affinity lets you direct all requests from a user to the same
-  /// endpoint, if you have stateful applications, regardless of the port and
-  /// protocol of the client request. Client affinity gives you control over
-  /// whether to always route each client to the same specific endpoint.
-  ///
-  /// Global Accelerator uses a consistent-flow hashing algorithm to choose the
-  /// optimal endpoint for a connection. If client affinity is <code>NONE</code>,
-  /// Global Accelerator uses the "five-tuple" (5-tuple) properties—source IP
-  /// address, source port, destination IP address, destination port, and
-  /// protocol—to select the hash value, and then chooses the best endpoint.
-  /// However, with this setting, if someone uses different ports to connect to
-  /// Global Accelerator, their connections might not be always routed to the same
-  /// endpoint because the hash value changes.
-  ///
-  /// If you want a given client to always be routed to the same endpoint, set
-  /// client affinity to <code>SOURCE_IP</code> instead. When you use the
-  /// <code>SOURCE_IP</code> setting, Global Accelerator uses the "two-tuple"
-  /// (2-tuple) properties— source (client) IP address and destination IP
-  /// address—to select the hash value.
-  ///
-  /// The default value is <code>NONE</code>.
-  final ClientAffinity? clientAffinity;
-
-  /// The Amazon Resource Name (ARN) of the listener.
-  final String? listenerArn;
-
-  /// The list of port ranges for the connections from clients to the accelerator.
-  final List<PortRange>? portRanges;
-
-  /// The protocol for the connections from clients to the accelerator.
-  final Protocol? protocol;
-
-  Listener({
-    this.clientAffinity,
-    this.listenerArn,
-    this.portRanges,
-    this.protocol,
-  });
-
-  factory Listener.fromJson(Map<String, dynamic> json) {
-    return Listener(
-      clientAffinity:
-          (json['ClientAffinity'] as String?)?.let(ClientAffinity.fromString),
-      listenerArn: json['ListenerArn'] as String?,
-      portRanges: (json['PortRanges'] as List?)
-          ?.nonNulls
-          .map((e) => PortRange.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      protocol: (json['Protocol'] as String?)?.let(Protocol.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clientAffinity = this.clientAffinity;
-    final listenerArn = this.listenerArn;
-    final portRanges = this.portRanges;
-    final protocol = this.protocol;
-    return {
-      if (clientAffinity != null) 'ClientAffinity': clientAffinity.value,
-      if (listenerArn != null) 'ListenerArn': listenerArn,
-      if (portRanges != null) 'PortRanges': portRanges,
-      if (protocol != null) 'Protocol': protocol.value,
-    };
-  }
-}
-
-/// Returns the ports and associated IP addresses and ports of Amazon EC2
-/// instances in your virtual private cloud (VPC) subnets. Custom routing is a
-/// port mapping protocol in Global Accelerator that statically associates port
-/// ranges with VPC subnets, which allows Global Accelerator to route to
-/// specific instances and ports within one or more subnets.
-class PortMapping {
-  /// The accelerator port.
-  final int? acceleratorPort;
-
-  /// The EC2 instance IP address and port number in the virtual private cloud
-  /// (VPC) subnet.
-  final SocketAddress? destinationSocketAddress;
-
-  /// Indicates whether or not a port mapping destination can receive traffic. The
-  /// value is either ALLOW, if traffic is allowed to the destination, or DENY, if
-  /// traffic is not allowed to the destination.
-  final CustomRoutingDestinationTrafficState? destinationTrafficState;
-
-  /// The Amazon Resource Name (ARN) of the endpoint group.
-  final String? endpointGroupArn;
-
-  /// The IP address of the VPC subnet (the subnet ID).
-  final String? endpointId;
-
-  /// The protocols supported by the endpoint group.
-  final List<CustomRoutingProtocol>? protocols;
-
-  PortMapping({
-    this.acceleratorPort,
-    this.destinationSocketAddress,
-    this.destinationTrafficState,
-    this.endpointGroupArn,
-    this.endpointId,
-    this.protocols,
-  });
-
-  factory PortMapping.fromJson(Map<String, dynamic> json) {
-    return PortMapping(
-      acceleratorPort: json['AcceleratorPort'] as int?,
-      destinationSocketAddress: json['DestinationSocketAddress'] != null
-          ? SocketAddress.fromJson(
-              json['DestinationSocketAddress'] as Map<String, dynamic>)
-          : null,
-      destinationTrafficState: (json['DestinationTrafficState'] as String?)
-          ?.let(CustomRoutingDestinationTrafficState.fromString),
-      endpointGroupArn: json['EndpointGroupArn'] as String?,
-      endpointId: json['EndpointId'] as String?,
-      protocols: (json['Protocols'] as List?)
-          ?.nonNulls
-          .map((e) => CustomRoutingProtocol.fromString((e as String)))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final acceleratorPort = this.acceleratorPort;
-    final destinationSocketAddress = this.destinationSocketAddress;
-    final destinationTrafficState = this.destinationTrafficState;
-    final endpointGroupArn = this.endpointGroupArn;
-    final endpointId = this.endpointId;
-    final protocols = this.protocols;
-    return {
-      if (acceleratorPort != null) 'AcceleratorPort': acceleratorPort,
-      if (destinationSocketAddress != null)
-        'DestinationSocketAddress': destinationSocketAddress,
-      if (destinationTrafficState != null)
-        'DestinationTrafficState': destinationTrafficState.value,
-      if (endpointGroupArn != null) 'EndpointGroupArn': endpointGroupArn,
-      if (endpointId != null) 'EndpointId': endpointId,
-      if (protocols != null)
-        'Protocols': protocols.map((e) => e.value).toList(),
-    };
-  }
-}
-
-/// Override specific listener ports used to route traffic to endpoints that are
-/// part of an endpoint group. For example, you can create a port override in
-/// which the listener receives user traffic on ports 80 and 443, but your
-/// accelerator routes that traffic to ports 1080 and 1443, respectively, on the
-/// endpoints.
-///
-/// For more information, see <a
-/// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/about-endpoint-groups-port-override.html">
-/// Overriding listener ports</a> in the <i>Global Accelerator Developer
-/// Guide</i>.
-class PortOverride {
-  /// The endpoint port that you want a listener port to be mapped to. This is the
-  /// port on the endpoint, such as the Application Load Balancer or Amazon EC2
-  /// instance.
-  final int? endpointPort;
-
-  /// The listener port that you want to map to a specific endpoint port. This is
-  /// the port that user traffic arrives to the Global Accelerator on.
-  final int? listenerPort;
-
-  PortOverride({
-    this.endpointPort,
-    this.listenerPort,
-  });
-
-  factory PortOverride.fromJson(Map<String, dynamic> json) {
-    return PortOverride(
-      endpointPort: json['EndpointPort'] as int?,
-      listenerPort: json['ListenerPort'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final endpointPort = this.endpointPort;
-    final listenerPort = this.listenerPort;
-    return {
-      if (endpointPort != null) 'EndpointPort': endpointPort,
-      if (listenerPort != null) 'ListenerPort': listenerPort,
-    };
-  }
-}
-
-/// A complex type for a range of ports for a listener.
-class PortRange {
-  /// The first port in the range of ports, inclusive.
-  final int? fromPort;
-
-  /// The last port in the range of ports, inclusive.
-  final int? toPort;
-
-  PortRange({
-    this.fromPort,
-    this.toPort,
-  });
-
-  factory PortRange.fromJson(Map<String, dynamic> json) {
-    return PortRange(
-      fromPort: json['FromPort'] as int?,
-      toPort: json['ToPort'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final fromPort = this.fromPort;
-    final toPort = this.toPort;
-    return {
-      if (fromPort != null) 'FromPort': fromPort,
-      if (toPort != null) 'ToPort': toPort,
-    };
-  }
-}
-
-class Protocol {
-  static const tcp = Protocol._('TCP');
-  static const udp = Protocol._('UDP');
-
-  final String value;
-
-  const Protocol._(this.value);
-
-  static const values = [tcp, udp];
-
-  static Protocol fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Protocol._(value));
-
-  @override
-  bool operator ==(other) => other is Protocol && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class ProvisionByoipCidrResponse {
   /// Information about the address range.
   final ByoipCidr? byoipCidr;
@@ -5932,118 +4063,6 @@ class ProvisionByoipCidrResponse {
     final byoipCidr = this.byoipCidr;
     return {
       if (byoipCidr != null) 'ByoipCidr': byoipCidr,
-    };
-  }
-}
-
-/// A resource is one of the following: the ARN for an Amazon Web Services
-/// resource that is supported by Global Accelerator to be added as an endpoint,
-/// or a CIDR range that specifies a bring your own IP (BYOIP) address pool.
-class Resource {
-  /// An IP address range, in CIDR format, that is specified as resource. The
-  /// address must be provisioned and advertised in Global Accelerator by
-  /// following the bring your own IP address (BYOIP) process for Global
-  /// Accelerator
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html">Bring
-  /// your own IP addresses (BYOIP)</a> in the Global Accelerator Developer Guide.
-  final String? cidr;
-
-  /// The endpoint ID for the endpoint that is specified as a Amazon Web Services
-  /// resource.
-  ///
-  /// An endpoint ID for the cross-account feature is the ARN of an Amazon Web
-  /// Services resource, such as a Network Load Balancer, that Global Accelerator
-  /// supports as an endpoint for an accelerator.
-  final String? endpointId;
-
-  /// The Amazon Web Services Region where a shared endpoint resource is located.
-  final String? region;
-
-  Resource({
-    this.cidr,
-    this.endpointId,
-    this.region,
-  });
-
-  factory Resource.fromJson(Map<String, dynamic> json) {
-    return Resource(
-      cidr: json['Cidr'] as String?,
-      endpointId: json['EndpointId'] as String?,
-      region: json['Region'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cidr = this.cidr;
-    final endpointId = this.endpointId;
-    final region = this.region;
-    return {
-      if (cidr != null) 'Cidr': cidr,
-      if (endpointId != null) 'EndpointId': endpointId,
-      if (region != null) 'Region': region,
-    };
-  }
-}
-
-/// An IP address/port combination.
-class SocketAddress {
-  /// The IP address for the socket address.
-  final String? ipAddress;
-
-  /// The port for the socket address.
-  final int? port;
-
-  SocketAddress({
-    this.ipAddress,
-    this.port,
-  });
-
-  factory SocketAddress.fromJson(Map<String, dynamic> json) {
-    return SocketAddress(
-      ipAddress: json['IpAddress'] as String?,
-      port: json['Port'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final ipAddress = this.ipAddress;
-    final port = this.port;
-    return {
-      if (ipAddress != null) 'IpAddress': ipAddress,
-      if (port != null) 'Port': port,
-    };
-  }
-}
-
-/// A complex type that contains a <code>Tag</code> key and <code>Tag</code>
-/// value.
-class Tag {
-  /// A string that contains a <code>Tag</code> key.
-  final String key;
-
-  /// A string that contains a <code>Tag</code> value.
-  final String value;
-
-  Tag({
-    required this.key,
-    required this.value,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['Key'] as String?) ?? '',
-      value: (json['Value'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'Key': key,
-      'Value': value,
     };
   }
 }
@@ -6072,6 +4091,30 @@ class UntagResourceResponse {
   }
 }
 
+class UpdateAcceleratorResponse {
+  /// Information about the updated accelerator.
+  final Accelerator? accelerator;
+
+  UpdateAcceleratorResponse({
+    this.accelerator,
+  });
+
+  factory UpdateAcceleratorResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateAcceleratorResponse(
+      accelerator: json['Accelerator'] != null
+          ? Accelerator.fromJson(json['Accelerator'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accelerator = this.accelerator;
+    return {
+      if (accelerator != null) 'Accelerator': accelerator,
+    };
+  }
+}
+
 class UpdateAcceleratorAttributesResponse {
   /// Updated attributes for the accelerator.
   final AcceleratorAttributes? acceleratorAttributes;
@@ -6095,30 +4138,6 @@ class UpdateAcceleratorAttributesResponse {
     return {
       if (acceleratorAttributes != null)
         'AcceleratorAttributes': acceleratorAttributes,
-    };
-  }
-}
-
-class UpdateAcceleratorResponse {
-  /// Information about the updated accelerator.
-  final Accelerator? accelerator;
-
-  UpdateAcceleratorResponse({
-    this.accelerator,
-  });
-
-  factory UpdateAcceleratorResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateAcceleratorResponse(
-      accelerator: json['Accelerator'] != null
-          ? Accelerator.fromJson(json['Accelerator'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accelerator = this.accelerator;
-    return {
-      if (accelerator != null) 'Accelerator': accelerator,
     };
   }
 }
@@ -6150,6 +4169,32 @@ class UpdateCrossAccountAttachmentResponse {
   }
 }
 
+class UpdateCustomRoutingAcceleratorResponse {
+  /// Information about the updated custom routing accelerator.
+  final CustomRoutingAccelerator? accelerator;
+
+  UpdateCustomRoutingAcceleratorResponse({
+    this.accelerator,
+  });
+
+  factory UpdateCustomRoutingAcceleratorResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateCustomRoutingAcceleratorResponse(
+      accelerator: json['Accelerator'] != null
+          ? CustomRoutingAccelerator.fromJson(
+              json['Accelerator'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accelerator = this.accelerator;
+    return {
+      if (accelerator != null) 'Accelerator': accelerator,
+    };
+  }
+}
+
 class UpdateCustomRoutingAcceleratorAttributesResponse {
   /// Updated custom routing accelerator.
   final CustomRoutingAcceleratorAttributes? acceleratorAttributes;
@@ -6173,32 +4218,6 @@ class UpdateCustomRoutingAcceleratorAttributesResponse {
     return {
       if (acceleratorAttributes != null)
         'AcceleratorAttributes': acceleratorAttributes,
-    };
-  }
-}
-
-class UpdateCustomRoutingAcceleratorResponse {
-  /// Information about the updated custom routing accelerator.
-  final CustomRoutingAccelerator? accelerator;
-
-  UpdateCustomRoutingAcceleratorResponse({
-    this.accelerator,
-  });
-
-  factory UpdateCustomRoutingAcceleratorResponse.fromJson(
-      Map<String, dynamic> json) {
-    return UpdateCustomRoutingAcceleratorResponse(
-      accelerator: json['Accelerator'] != null
-          ? CustomRoutingAccelerator.fromJson(
-              json['Accelerator'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accelerator = this.accelerator;
-    return {
-      if (accelerator != null) 'Accelerator': accelerator,
     };
   }
 }
@@ -6298,6 +4317,1986 @@ class WithdrawByoipCidrResponse {
     final byoipCidr = this.byoipCidr;
     return {
       if (byoipCidr != null) 'ByoipCidr': byoipCidr,
+    };
+  }
+}
+
+/// Information about an IP address range that is provisioned for use with your
+/// Amazon Web Services resources through bring your own IP address (BYOIP).
+///
+/// The following describes each BYOIP <code>State</code> that your IP address
+/// range can be in.
+///
+/// <ul>
+/// <li>
+/// <b>PENDING_PROVISIONING</b> — You’ve submitted a request to provision an IP
+/// address range but it is not yet provisioned with Global Accelerator.
+/// </li>
+/// <li>
+/// <b>READY</b> — The address range is provisioned with Global Accelerator and
+/// can be advertised.
+/// </li>
+/// <li>
+/// <b>PENDING_ADVERTISING</b> — You’ve submitted a request for Global
+/// Accelerator to advertise an address range but it is not yet being
+/// advertised.
+/// </li>
+/// <li>
+/// <b>ADVERTISING</b> — The address range is being advertised by Global
+/// Accelerator.
+/// </li>
+/// <li>
+/// <b>PENDING_WITHDRAWING</b> — You’ve submitted a request to withdraw an
+/// address range from being advertised but it is still being advertised by
+/// Global Accelerator.
+/// </li>
+/// <li>
+/// <b>PENDING_DEPROVISIONING</b> — You’ve submitted a request to deprovision an
+/// address range from Global Accelerator but it is still provisioned.
+/// </li>
+/// <li>
+/// <b>DEPROVISIONED</b> — The address range is deprovisioned from Global
+/// Accelerator.
+/// </li>
+/// <li>
+/// <b>FAILED_PROVISION </b> — The request to provision the address range from
+/// Global Accelerator was not successful. Please make sure that you provide all
+/// of the correct information, and try again. If the request fails a second
+/// time, contact Amazon Web Services support.
+/// </li>
+/// <li>
+/// <b>FAILED_ADVERTISING</b> — The request for Global Accelerator to advertise
+/// the address range was not successful. Please make sure that you provide all
+/// of the correct information, and try again. If the request fails a second
+/// time, contact Amazon Web Services support.
+/// </li>
+/// <li>
+/// <b>FAILED_WITHDRAW</b> — The request to withdraw the address range from
+/// advertising by Global Accelerator was not successful. Please make sure that
+/// you provide all of the correct information, and try again. If the request
+/// fails a second time, contact Amazon Web Services support.
+/// </li>
+/// <li>
+/// <b>FAILED_DEPROVISION </b> — The request to deprovision the address range
+/// from Global Accelerator was not successful. Please make sure that you
+/// provide all of the correct information, and try again. If the request fails
+/// a second time, contact Amazon Web Services support.
+/// </li>
+/// </ul>
+class ByoipCidr {
+  /// The address range, in CIDR notation.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html">Bring
+  /// your own IP addresses (BYOIP)</a> in the Global Accelerator Developer Guide.
+  final String? cidr;
+
+  /// A history of status changes for an IP address range that you bring to Global
+  /// Accelerator through bring your own IP address (BYOIP).
+  final List<ByoipCidrEvent>? events;
+
+  /// The state of the address pool.
+  final ByoipCidrState? state;
+
+  ByoipCidr({
+    this.cidr,
+    this.events,
+    this.state,
+  });
+
+  factory ByoipCidr.fromJson(Map<String, dynamic> json) {
+    return ByoipCidr(
+      cidr: json['Cidr'] as String?,
+      events: (json['Events'] as List?)
+          ?.nonNulls
+          .map((e) => ByoipCidrEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      state: (json['State'] as String?)?.let(ByoipCidrState.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cidr = this.cidr;
+    final events = this.events;
+    final state = this.state;
+    return {
+      if (cidr != null) 'Cidr': cidr,
+      if (events != null) 'Events': events,
+      if (state != null) 'State': state.value,
+    };
+  }
+}
+
+class ByoipCidrState {
+  static const pendingProvisioning = ByoipCidrState._('PENDING_PROVISIONING');
+  static const ready = ByoipCidrState._('READY');
+  static const pendingAdvertising = ByoipCidrState._('PENDING_ADVERTISING');
+  static const advertising = ByoipCidrState._('ADVERTISING');
+  static const pendingWithdrawing = ByoipCidrState._('PENDING_WITHDRAWING');
+  static const pendingDeprovisioning =
+      ByoipCidrState._('PENDING_DEPROVISIONING');
+  static const deprovisioned = ByoipCidrState._('DEPROVISIONED');
+  static const failedProvision = ByoipCidrState._('FAILED_PROVISION');
+  static const failedAdvertising = ByoipCidrState._('FAILED_ADVERTISING');
+  static const failedWithdraw = ByoipCidrState._('FAILED_WITHDRAW');
+  static const failedDeprovision = ByoipCidrState._('FAILED_DEPROVISION');
+
+  final String value;
+
+  const ByoipCidrState._(this.value);
+
+  static const values = [
+    pendingProvisioning,
+    ready,
+    pendingAdvertising,
+    advertising,
+    pendingWithdrawing,
+    pendingDeprovisioning,
+    deprovisioned,
+    failedProvision,
+    failedAdvertising,
+    failedWithdraw,
+    failedDeprovision
+  ];
+
+  static ByoipCidrState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ByoipCidrState._(value));
+
+  @override
+  bool operator ==(other) => other is ByoipCidrState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A complex type that contains a <code>Message</code> and a
+/// <code>Timestamp</code> value for changes that you make in the status of an
+/// IP address range that you bring to Global Accelerator through bring your own
+/// IP address (BYOIP).
+class ByoipCidrEvent {
+  /// A string that contains an <code>Event</code> message describing changes that
+  /// you make in the status of an IP address range that you bring to Global
+  /// Accelerator through bring your own IP address (BYOIP).
+  final String? message;
+
+  /// A timestamp for when you make a status change for an IP address range that
+  /// you bring to Global Accelerator through bring your own IP address (BYOIP).
+  final DateTime? timestamp;
+
+  ByoipCidrEvent({
+    this.message,
+    this.timestamp,
+  });
+
+  factory ByoipCidrEvent.fromJson(Map<String, dynamic> json) {
+    return ByoipCidrEvent(
+      message: json['Message'] as String?,
+      timestamp: timeStampFromJson(json['Timestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final timestamp = this.timestamp;
+    return {
+      if (message != null) 'Message': message,
+      if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
+    };
+  }
+}
+
+/// A complex type for a listener.
+class Listener {
+  /// Client affinity lets you direct all requests from a user to the same
+  /// endpoint, if you have stateful applications, regardless of the port and
+  /// protocol of the client request. Client affinity gives you control over
+  /// whether to always route each client to the same specific endpoint.
+  ///
+  /// Global Accelerator uses a consistent-flow hashing algorithm to choose the
+  /// optimal endpoint for a connection. If client affinity is <code>NONE</code>,
+  /// Global Accelerator uses the "five-tuple" (5-tuple) properties—source IP
+  /// address, source port, destination IP address, destination port, and
+  /// protocol—to select the hash value, and then chooses the best endpoint.
+  /// However, with this setting, if someone uses different ports to connect to
+  /// Global Accelerator, their connections might not be always routed to the same
+  /// endpoint because the hash value changes.
+  ///
+  /// If you want a given client to always be routed to the same endpoint, set
+  /// client affinity to <code>SOURCE_IP</code> instead. When you use the
+  /// <code>SOURCE_IP</code> setting, Global Accelerator uses the "two-tuple"
+  /// (2-tuple) properties— source (client) IP address and destination IP
+  /// address—to select the hash value.
+  ///
+  /// The default value is <code>NONE</code>.
+  final ClientAffinity? clientAffinity;
+
+  /// The Amazon Resource Name (ARN) of the listener.
+  final String? listenerArn;
+
+  /// The list of port ranges for the connections from clients to the accelerator.
+  final List<PortRange>? portRanges;
+
+  /// The protocol for the connections from clients to the accelerator.
+  final Protocol? protocol;
+
+  Listener({
+    this.clientAffinity,
+    this.listenerArn,
+    this.portRanges,
+    this.protocol,
+  });
+
+  factory Listener.fromJson(Map<String, dynamic> json) {
+    return Listener(
+      clientAffinity:
+          (json['ClientAffinity'] as String?)?.let(ClientAffinity.fromString),
+      listenerArn: json['ListenerArn'] as String?,
+      portRanges: (json['PortRanges'] as List?)
+          ?.nonNulls
+          .map((e) => PortRange.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      protocol: (json['Protocol'] as String?)?.let(Protocol.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clientAffinity = this.clientAffinity;
+    final listenerArn = this.listenerArn;
+    final portRanges = this.portRanges;
+    final protocol = this.protocol;
+    return {
+      if (clientAffinity != null) 'ClientAffinity': clientAffinity.value,
+      if (listenerArn != null) 'ListenerArn': listenerArn,
+      if (portRanges != null) 'PortRanges': portRanges,
+      if (protocol != null) 'Protocol': protocol.value,
+    };
+  }
+}
+
+class Protocol {
+  static const tcp = Protocol._('TCP');
+  static const udp = Protocol._('UDP');
+
+  final String value;
+
+  const Protocol._(this.value);
+
+  static const values = [tcp, udp];
+
+  static Protocol fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Protocol._(value));
+
+  @override
+  bool operator ==(other) => other is Protocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ClientAffinity {
+  static const none = ClientAffinity._('NONE');
+  static const sourceIp = ClientAffinity._('SOURCE_IP');
+
+  final String value;
+
+  const ClientAffinity._(this.value);
+
+  static const values = [none, sourceIp];
+
+  static ClientAffinity fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ClientAffinity._(value));
+
+  @override
+  bool operator ==(other) => other is ClientAffinity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A complex type for a range of ports for a listener.
+class PortRange {
+  /// The first port in the range of ports, inclusive.
+  final int? fromPort;
+
+  /// The last port in the range of ports, inclusive.
+  final int? toPort;
+
+  PortRange({
+    this.fromPort,
+    this.toPort,
+  });
+
+  factory PortRange.fromJson(Map<String, dynamic> json) {
+    return PortRange(
+      fromPort: json['FromPort'] as int?,
+      toPort: json['ToPort'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fromPort = this.fromPort;
+    final toPort = this.toPort;
+    return {
+      if (fromPort != null) 'FromPort': fromPort,
+      if (toPort != null) 'ToPort': toPort,
+    };
+  }
+}
+
+/// A complex type for the endpoint group. An Amazon Web Services Region can
+/// have only one endpoint group for a specific listener.
+class EndpointGroup {
+  /// The list of endpoint objects.
+  final List<EndpointDescription>? endpointDescriptions;
+
+  /// The Amazon Resource Name (ARN) of the endpoint group.
+  final String? endpointGroupArn;
+
+  /// The Amazon Web Services Region where the endpoint group is located.
+  final String? endpointGroupRegion;
+
+  /// The time—10 seconds or 30 seconds—between health checks for each endpoint.
+  /// The default value is 30.
+  final int? healthCheckIntervalSeconds;
+
+  /// If the protocol is HTTP/S, then this value provides the ping path that
+  /// Global Accelerator uses for the destination on the endpoints for health
+  /// checks. The default is slash (/).
+  final String? healthCheckPath;
+
+  /// The port that Global Accelerator uses to perform health checks on endpoints
+  /// that are part of this endpoint group.
+  ///
+  /// The default port is the port for the listener that this endpoint group is
+  /// associated with. If the listener port is a list, Global Accelerator uses the
+  /// first specified port in the list of ports.
+  final int? healthCheckPort;
+
+  /// The protocol that Global Accelerator uses to perform health checks on
+  /// endpoints that are part of this endpoint group. The default value is TCP.
+  final HealthCheckProtocol? healthCheckProtocol;
+
+  /// Allows you to override the destination ports used to route traffic to an
+  /// endpoint. Using a port override lets you map a list of external destination
+  /// ports (that your users send traffic to) to a list of internal destination
+  /// ports that you want an application endpoint to receive traffic on.
+  final List<PortOverride>? portOverrides;
+
+  /// The number of consecutive health checks required to set the state of a
+  /// healthy endpoint to unhealthy, or to set an unhealthy endpoint to healthy.
+  /// The default value is 3.
+  final int? thresholdCount;
+
+  /// The percentage of traffic to send to an Amazon Web Services Region.
+  /// Additional traffic is distributed to other endpoint groups for this
+  /// listener.
+  ///
+  /// Use this action to increase (dial up) or decrease (dial down) traffic to a
+  /// specific Region. The percentage is applied to the traffic that would
+  /// otherwise have been routed to the Region based on optimal routing.
+  ///
+  /// The default value is 100.
+  final double? trafficDialPercentage;
+
+  EndpointGroup({
+    this.endpointDescriptions,
+    this.endpointGroupArn,
+    this.endpointGroupRegion,
+    this.healthCheckIntervalSeconds,
+    this.healthCheckPath,
+    this.healthCheckPort,
+    this.healthCheckProtocol,
+    this.portOverrides,
+    this.thresholdCount,
+    this.trafficDialPercentage,
+  });
+
+  factory EndpointGroup.fromJson(Map<String, dynamic> json) {
+    return EndpointGroup(
+      endpointDescriptions: (json['EndpointDescriptions'] as List?)
+          ?.nonNulls
+          .map((e) => EndpointDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      endpointGroupArn: json['EndpointGroupArn'] as String?,
+      endpointGroupRegion: json['EndpointGroupRegion'] as String?,
+      healthCheckIntervalSeconds: json['HealthCheckIntervalSeconds'] as int?,
+      healthCheckPath: json['HealthCheckPath'] as String?,
+      healthCheckPort: json['HealthCheckPort'] as int?,
+      healthCheckProtocol: (json['HealthCheckProtocol'] as String?)
+          ?.let(HealthCheckProtocol.fromString),
+      portOverrides: (json['PortOverrides'] as List?)
+          ?.nonNulls
+          .map((e) => PortOverride.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      thresholdCount: json['ThresholdCount'] as int?,
+      trafficDialPercentage: json['TrafficDialPercentage'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpointDescriptions = this.endpointDescriptions;
+    final endpointGroupArn = this.endpointGroupArn;
+    final endpointGroupRegion = this.endpointGroupRegion;
+    final healthCheckIntervalSeconds = this.healthCheckIntervalSeconds;
+    final healthCheckPath = this.healthCheckPath;
+    final healthCheckPort = this.healthCheckPort;
+    final healthCheckProtocol = this.healthCheckProtocol;
+    final portOverrides = this.portOverrides;
+    final thresholdCount = this.thresholdCount;
+    final trafficDialPercentage = this.trafficDialPercentage;
+    return {
+      if (endpointDescriptions != null)
+        'EndpointDescriptions': endpointDescriptions,
+      if (endpointGroupArn != null) 'EndpointGroupArn': endpointGroupArn,
+      if (endpointGroupRegion != null)
+        'EndpointGroupRegion': endpointGroupRegion,
+      if (healthCheckIntervalSeconds != null)
+        'HealthCheckIntervalSeconds': healthCheckIntervalSeconds,
+      if (healthCheckPath != null) 'HealthCheckPath': healthCheckPath,
+      if (healthCheckPort != null) 'HealthCheckPort': healthCheckPort,
+      if (healthCheckProtocol != null)
+        'HealthCheckProtocol': healthCheckProtocol.value,
+      if (portOverrides != null) 'PortOverrides': portOverrides,
+      if (thresholdCount != null) 'ThresholdCount': thresholdCount,
+      if (trafficDialPercentage != null)
+        'TrafficDialPercentage': trafficDialPercentage,
+    };
+  }
+}
+
+class HealthCheckProtocol {
+  static const tcp = HealthCheckProtocol._('TCP');
+  static const http = HealthCheckProtocol._('HTTP');
+  static const https = HealthCheckProtocol._('HTTPS');
+
+  final String value;
+
+  const HealthCheckProtocol._(this.value);
+
+  static const values = [tcp, http, https];
+
+  static HealthCheckProtocol fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HealthCheckProtocol._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HealthCheckProtocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Override specific listener ports used to route traffic to endpoints that are
+/// part of an endpoint group. For example, you can create a port override in
+/// which the listener receives user traffic on ports 80 and 443, but your
+/// accelerator routes that traffic to ports 1080 and 1443, respectively, on the
+/// endpoints.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/about-endpoint-groups-port-override.html">
+/// Overriding listener ports</a> in the <i>Global Accelerator Developer
+/// Guide</i>.
+class PortOverride {
+  /// The endpoint port that you want a listener port to be mapped to. This is the
+  /// port on the endpoint, such as the Application Load Balancer or Amazon EC2
+  /// instance.
+  final int? endpointPort;
+
+  /// The listener port that you want to map to a specific endpoint port. This is
+  /// the port that user traffic arrives to the Global Accelerator on.
+  final int? listenerPort;
+
+  PortOverride({
+    this.endpointPort,
+    this.listenerPort,
+  });
+
+  factory PortOverride.fromJson(Map<String, dynamic> json) {
+    return PortOverride(
+      endpointPort: json['EndpointPort'] as int?,
+      listenerPort: json['ListenerPort'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpointPort = this.endpointPort;
+    final listenerPort = this.listenerPort;
+    return {
+      if (endpointPort != null) 'EndpointPort': endpointPort,
+      if (listenerPort != null) 'ListenerPort': listenerPort,
+    };
+  }
+}
+
+/// A complex type for an endpoint. Each endpoint group can include one or more
+/// endpoints, such as load balancers.
+class EndpointDescription {
+  /// Indicates whether client IP address preservation is enabled for an endpoint.
+  /// The value is true or false. The default value is true for Application Load
+  /// Balancers endpoints.
+  ///
+  /// If the value is set to true, the client's IP address is preserved in the
+  /// <code>X-Forwarded-For</code> request header as traffic travels to
+  /// applications on the endpoint fronted by the accelerator.
+  ///
+  /// Client IP address preservation is supported, in specific Amazon Web Services
+  /// Regions, for endpoints that are Application Load Balancers, Amazon EC2
+  /// instances, and Network Load Balancers with security groups. IMPORTANT: You
+  /// cannot use client IP address preservation with Network Load Balancers with
+  /// TLS listeners.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/preserve-client-ip-address.html">
+  /// Preserve client IP addresses in Global Accelerator</a> in the <i>Global
+  /// Accelerator Developer Guide</i>.
+  final bool? clientIPPreservationEnabled;
+
+  /// An ID for the endpoint. If the endpoint is a Network Load Balancer or
+  /// Application Load Balancer, this is the Amazon Resource Name (ARN) of the
+  /// resource. If the endpoint is an Elastic IP address, this is the Elastic IP
+  /// address allocation ID. For Amazon EC2 instances, this is the EC2 instance
+  /// ID.
+  ///
+  /// An Application Load Balancer can be either internal or internet-facing.
+  final String? endpointId;
+
+  /// Returns a null result.
+  final String? healthReason;
+
+  /// The health status of the endpoint.
+  final HealthState? healthState;
+
+  /// The weight associated with the endpoint. When you add weights to endpoints,
+  /// you configure Global Accelerator to route traffic based on proportions that
+  /// you specify. For example, you might specify endpoint weights of 4, 5, 5, and
+  /// 6 (sum=20). The result is that 4/20 of your traffic, on average, is routed
+  /// to the first endpoint, 5/20 is routed both to the second and third
+  /// endpoints, and 6/20 is routed to the last endpoint. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/about-endpoints-endpoint-weights.html">Endpoint
+  /// weights</a> in the <i>Global Accelerator Developer Guide</i>.
+  final int? weight;
+
+  EndpointDescription({
+    this.clientIPPreservationEnabled,
+    this.endpointId,
+    this.healthReason,
+    this.healthState,
+    this.weight,
+  });
+
+  factory EndpointDescription.fromJson(Map<String, dynamic> json) {
+    return EndpointDescription(
+      clientIPPreservationEnabled: json['ClientIPPreservationEnabled'] as bool?,
+      endpointId: json['EndpointId'] as String?,
+      healthReason: json['HealthReason'] as String?,
+      healthState:
+          (json['HealthState'] as String?)?.let(HealthState.fromString),
+      weight: json['Weight'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clientIPPreservationEnabled = this.clientIPPreservationEnabled;
+    final endpointId = this.endpointId;
+    final healthReason = this.healthReason;
+    final healthState = this.healthState;
+    final weight = this.weight;
+    return {
+      if (clientIPPreservationEnabled != null)
+        'ClientIPPreservationEnabled': clientIPPreservationEnabled,
+      if (endpointId != null) 'EndpointId': endpointId,
+      if (healthReason != null) 'HealthReason': healthReason,
+      if (healthState != null) 'HealthState': healthState.value,
+      if (weight != null) 'Weight': weight,
+    };
+  }
+}
+
+class HealthState {
+  static const initial = HealthState._('INITIAL');
+  static const healthy = HealthState._('HEALTHY');
+  static const unhealthy = HealthState._('UNHEALTHY');
+
+  final String value;
+
+  const HealthState._(this.value);
+
+  static const values = [initial, healthy, unhealthy];
+
+  static HealthState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => HealthState._(value));
+
+  @override
+  bool operator ==(other) => other is HealthState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A complex type for endpoints. A resource must be valid and active when you
+/// add it as an endpoint.
+class EndpointConfiguration {
+  /// The Amazon Resource Name (ARN) of the cross-account attachment that
+  /// specifies the endpoints (resources) that can be added to accelerators and
+  /// principals that have permission to add the endpoints.
+  final String? attachmentArn;
+
+  /// Indicates whether client IP address preservation is enabled for an endpoint.
+  /// The value is true or false. The default value is true for Application Load
+  /// Balancer endpoints.
+  ///
+  /// If the value is set to true, the client's IP address is preserved in the
+  /// <code>X-Forwarded-For</code> request header as traffic travels to
+  /// applications on the endpoint fronted by the accelerator.
+  ///
+  /// Client IP address preservation is supported, in specific Amazon Web Services
+  /// Regions, for endpoints that are Application Load Balancers, Amazon EC2
+  /// instances, and Network Load Balancers with security groups. IMPORTANT: You
+  /// cannot use client IP address preservation with Network Load Balancers with
+  /// TLS listeners.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/preserve-client-ip-address.html">
+  /// Preserve client IP addresses in Global Accelerator</a> in the <i>Global
+  /// Accelerator Developer Guide</i>.
+  final bool? clientIPPreservationEnabled;
+
+  /// An ID for the endpoint. If the endpoint is a Network Load Balancer or
+  /// Application Load Balancer, this is the Amazon Resource Name (ARN) of the
+  /// resource. If the endpoint is an Elastic IP address, this is the Elastic IP
+  /// address allocation ID. For Amazon EC2 instances, this is the EC2 instance
+  /// ID. A resource must be valid and active when you add it as an endpoint.
+  ///
+  /// For cross-account endpoints, this must be the ARN of the resource.
+  final String? endpointId;
+
+  /// The weight associated with the endpoint. When you add weights to endpoints,
+  /// you configure Global Accelerator to route traffic based on proportions that
+  /// you specify. For example, you might specify endpoint weights of 4, 5, 5, and
+  /// 6 (sum=20). The result is that 4/20 of your traffic, on average, is routed
+  /// to the first endpoint, 5/20 is routed both to the second and third
+  /// endpoints, and 6/20 is routed to the last endpoint. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/about-endpoints-endpoint-weights.html">Endpoint
+  /// weights</a> in the <i>Global Accelerator Developer Guide</i>.
+  final int? weight;
+
+  EndpointConfiguration({
+    this.attachmentArn,
+    this.clientIPPreservationEnabled,
+    this.endpointId,
+    this.weight,
+  });
+
+  Map<String, dynamic> toJson() {
+    final attachmentArn = this.attachmentArn;
+    final clientIPPreservationEnabled = this.clientIPPreservationEnabled;
+    final endpointId = this.endpointId;
+    final weight = this.weight;
+    return {
+      if (attachmentArn != null) 'AttachmentArn': attachmentArn,
+      if (clientIPPreservationEnabled != null)
+        'ClientIPPreservationEnabled': clientIPPreservationEnabled,
+      if (endpointId != null) 'EndpointId': endpointId,
+      if (weight != null) 'Weight': weight,
+    };
+  }
+}
+
+/// A complex type for a listener for a custom routing accelerator.
+class CustomRoutingListener {
+  /// The Amazon Resource Name (ARN) of the listener.
+  final String? listenerArn;
+
+  /// The port range to support for connections from clients to your accelerator.
+  ///
+  /// Separately, you set port ranges for endpoints. For more information, see <a
+  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/about-custom-routing-endpoints.html">About
+  /// endpoints for custom routing accelerators</a>.
+  final List<PortRange>? portRanges;
+
+  CustomRoutingListener({
+    this.listenerArn,
+    this.portRanges,
+  });
+
+  factory CustomRoutingListener.fromJson(Map<String, dynamic> json) {
+    return CustomRoutingListener(
+      listenerArn: json['ListenerArn'] as String?,
+      portRanges: (json['PortRanges'] as List?)
+          ?.nonNulls
+          .map((e) => PortRange.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final listenerArn = this.listenerArn;
+    final portRanges = this.portRanges;
+    return {
+      if (listenerArn != null) 'ListenerArn': listenerArn,
+      if (portRanges != null) 'PortRanges': portRanges,
+    };
+  }
+}
+
+/// Attributes of a custom routing accelerator.
+class CustomRoutingAcceleratorAttributes {
+  /// Indicates whether flow logs are enabled. The default value is false. If the
+  /// value is true, <code>FlowLogsS3Bucket</code> and
+  /// <code>FlowLogsS3Prefix</code> must be specified.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/monitoring-global-accelerator.flow-logs.html">Flow
+  /// logs</a> in the <i>Global Accelerator Developer Guide</i>.
+  final bool? flowLogsEnabled;
+
+  /// The name of the Amazon S3 bucket for the flow logs. Attribute is required if
+  /// <code>FlowLogsEnabled</code> is <code>true</code>. The bucket must exist and
+  /// have a bucket policy that grants Global Accelerator permission to write to
+  /// the bucket.
+  final String? flowLogsS3Bucket;
+
+  /// The prefix for the location in the Amazon S3 bucket for the flow logs.
+  /// Attribute is required if <code>FlowLogsEnabled</code> is <code>true</code>.
+  ///
+  /// If you don’t specify a prefix, the flow logs are stored in the root of the
+  /// bucket. If you specify slash (/) for the S3 bucket prefix, the log file
+  /// bucket folder structure will include a double slash (//), like the
+  /// following:
+  ///
+  /// DOC-EXAMPLE-BUCKET//AWSLogs/aws_account_id
+  final String? flowLogsS3Prefix;
+
+  CustomRoutingAcceleratorAttributes({
+    this.flowLogsEnabled,
+    this.flowLogsS3Bucket,
+    this.flowLogsS3Prefix,
+  });
+
+  factory CustomRoutingAcceleratorAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return CustomRoutingAcceleratorAttributes(
+      flowLogsEnabled: json['FlowLogsEnabled'] as bool?,
+      flowLogsS3Bucket: json['FlowLogsS3Bucket'] as String?,
+      flowLogsS3Prefix: json['FlowLogsS3Prefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final flowLogsEnabled = this.flowLogsEnabled;
+    final flowLogsS3Bucket = this.flowLogsS3Bucket;
+    final flowLogsS3Prefix = this.flowLogsS3Prefix;
+    return {
+      if (flowLogsEnabled != null) 'FlowLogsEnabled': flowLogsEnabled,
+      if (flowLogsS3Bucket != null) 'FlowLogsS3Bucket': flowLogsS3Bucket,
+      if (flowLogsS3Prefix != null) 'FlowLogsS3Prefix': flowLogsS3Prefix,
+    };
+  }
+}
+
+/// Attributes of a custom routing accelerator.
+class CustomRoutingAccelerator {
+  /// The Amazon Resource Name (ARN) of the custom routing accelerator.
+  final String? acceleratorArn;
+
+  /// The date and time that the accelerator was created.
+  final DateTime? createdTime;
+
+  /// The Domain Name System (DNS) name that Global Accelerator creates that
+  /// points to an accelerator's static IPv4 addresses.
+  ///
+  /// The naming convention for the DNS name is the following: A lowercase letter
+  /// a, followed by a 16-bit random hex string, followed by
+  /// .awsglobalaccelerator.com. For example:
+  /// a1234567890abcdef.awsglobalaccelerator.com.
+  ///
+  /// If you have a dual-stack accelerator, you also have a second DNS name,
+  /// <code>DualStackDnsName</code>, that points to both the A record and the AAAA
+  /// record for all four static addresses for the accelerator: two IPv4 addresses
+  /// and two IPv6 addresses.
+  ///
+  /// For more information about the default DNS name, see <a
+  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/dns-addressing-custom-domains.dns-addressing.html">
+  /// Support for DNS addressing in Global Accelerator</a> in the <i>Global
+  /// Accelerator Developer Guide</i>.
+  final String? dnsName;
+
+  /// Indicates whether the accelerator is enabled. The value is true or false.
+  /// The default value is true.
+  ///
+  /// If the value is set to true, the accelerator cannot be deleted. If set to
+  /// false, accelerator can be deleted.
+  final bool? enabled;
+
+  /// The IP address type that an accelerator supports. For a custom routing
+  /// accelerator, the value must be IPV4.
+  final IpAddressType? ipAddressType;
+
+  /// The static IP addresses that Global Accelerator associates with the
+  /// accelerator.
+  final List<IpSet>? ipSets;
+
+  /// The date and time that the accelerator was last modified.
+  final DateTime? lastModifiedTime;
+
+  /// The name of the accelerator. The name must contain only alphanumeric
+  /// characters or hyphens (-), and must not begin or end with a hyphen.
+  final String? name;
+
+  /// Describes the deployment status of the accelerator.
+  final CustomRoutingAcceleratorStatus? status;
+
+  CustomRoutingAccelerator({
+    this.acceleratorArn,
+    this.createdTime,
+    this.dnsName,
+    this.enabled,
+    this.ipAddressType,
+    this.ipSets,
+    this.lastModifiedTime,
+    this.name,
+    this.status,
+  });
+
+  factory CustomRoutingAccelerator.fromJson(Map<String, dynamic> json) {
+    return CustomRoutingAccelerator(
+      acceleratorArn: json['AcceleratorArn'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      dnsName: json['DnsName'] as String?,
+      enabled: json['Enabled'] as bool?,
+      ipAddressType:
+          (json['IpAddressType'] as String?)?.let(IpAddressType.fromString),
+      ipSets: (json['IpSets'] as List?)
+          ?.nonNulls
+          .map((e) => IpSet.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      name: json['Name'] as String?,
+      status: (json['Status'] as String?)
+          ?.let(CustomRoutingAcceleratorStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final acceleratorArn = this.acceleratorArn;
+    final createdTime = this.createdTime;
+    final dnsName = this.dnsName;
+    final enabled = this.enabled;
+    final ipAddressType = this.ipAddressType;
+    final ipSets = this.ipSets;
+    final lastModifiedTime = this.lastModifiedTime;
+    final name = this.name;
+    final status = this.status;
+    return {
+      if (acceleratorArn != null) 'AcceleratorArn': acceleratorArn,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (dnsName != null) 'DnsName': dnsName,
+      if (enabled != null) 'Enabled': enabled,
+      if (ipAddressType != null) 'IpAddressType': ipAddressType.value,
+      if (ipSets != null) 'IpSets': ipSets,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (name != null) 'Name': name,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class IpAddressType {
+  static const ipv4 = IpAddressType._('IPV4');
+  static const dualStack = IpAddressType._('DUAL_STACK');
+
+  final String value;
+
+  const IpAddressType._(this.value);
+
+  static const values = [ipv4, dualStack];
+
+  static IpAddressType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IpAddressType._(value));
+
+  @override
+  bool operator ==(other) => other is IpAddressType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class CustomRoutingAcceleratorStatus {
+  static const deployed = CustomRoutingAcceleratorStatus._('DEPLOYED');
+  static const inProgress = CustomRoutingAcceleratorStatus._('IN_PROGRESS');
+
+  final String value;
+
+  const CustomRoutingAcceleratorStatus._(this.value);
+
+  static const values = [deployed, inProgress];
+
+  static CustomRoutingAcceleratorStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CustomRoutingAcceleratorStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomRoutingAcceleratorStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A complex type for the set of IP addresses for an accelerator.
+class IpSet {
+  /// The types of IP addresses included in this IP set.
+  final IpAddressFamily? ipAddressFamily;
+
+  /// The array of IP addresses in the IP address set. An IP address set can have
+  /// a maximum of two IP addresses.
+  final List<String>? ipAddresses;
+
+  /// IpFamily is deprecated and has been replaced by IpAddressFamily.
+  final String? ipFamily;
+
+  IpSet({
+    this.ipAddressFamily,
+    this.ipAddresses,
+    this.ipFamily,
+  });
+
+  factory IpSet.fromJson(Map<String, dynamic> json) {
+    return IpSet(
+      ipAddressFamily:
+          (json['IpAddressFamily'] as String?)?.let(IpAddressFamily.fromString),
+      ipAddresses: (json['IpAddresses'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      ipFamily: json['IpFamily'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipAddressFamily = this.ipAddressFamily;
+    final ipAddresses = this.ipAddresses;
+    final ipFamily = this.ipFamily;
+    return {
+      if (ipAddressFamily != null) 'IpAddressFamily': ipAddressFamily.value,
+      if (ipAddresses != null) 'IpAddresses': ipAddresses,
+      if (ipFamily != null) 'IpFamily': ipFamily,
+    };
+  }
+}
+
+class IpAddressFamily {
+  static const iPv4 = IpAddressFamily._('IPv4');
+  static const iPv6 = IpAddressFamily._('IPv6');
+
+  final String value;
+
+  const IpAddressFamily._(this.value);
+
+  static const values = [iPv4, iPv6];
+
+  static IpAddressFamily fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IpAddressFamily._(value));
+
+  @override
+  bool operator ==(other) => other is IpAddressFamily && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A cross-account attachment in Global Accelerator. A cross-account attachment
+/// specifies the <i>principals</i> who have permission to work with
+/// <i>resources</i> in your account, which you also list in the attachment.
+class Attachment {
+  /// The Amazon Resource Name (ARN) of the cross-account attachment.
+  final String? attachmentArn;
+
+  /// The date and time that the cross-account attachment was created.
+  final DateTime? createdTime;
+
+  /// The date and time that the cross-account attachment was last modified.
+  final DateTime? lastModifiedTime;
+
+  /// The name of the cross-account attachment.
+  final String? name;
+
+  /// The principals included in the cross-account attachment.
+  final List<String>? principals;
+
+  /// The resources included in the cross-account attachment.
+  final List<Resource>? resources;
+
+  Attachment({
+    this.attachmentArn,
+    this.createdTime,
+    this.lastModifiedTime,
+    this.name,
+    this.principals,
+    this.resources,
+  });
+
+  factory Attachment.fromJson(Map<String, dynamic> json) {
+    return Attachment(
+      attachmentArn: json['AttachmentArn'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      name: json['Name'] as String?,
+      principals: (json['Principals'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      resources: (json['Resources'] as List?)
+          ?.nonNulls
+          .map((e) => Resource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachmentArn = this.attachmentArn;
+    final createdTime = this.createdTime;
+    final lastModifiedTime = this.lastModifiedTime;
+    final name = this.name;
+    final principals = this.principals;
+    final resources = this.resources;
+    return {
+      if (attachmentArn != null) 'AttachmentArn': attachmentArn,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (name != null) 'Name': name,
+      if (principals != null) 'Principals': principals,
+      if (resources != null) 'Resources': resources,
+    };
+  }
+}
+
+/// A resource is one of the following: the ARN for an Amazon Web Services
+/// resource that is supported by Global Accelerator to be added as an endpoint,
+/// or a CIDR range that specifies a bring your own IP (BYOIP) address pool.
+class Resource {
+  /// An IP address range, in CIDR format, that is specified as resource. The
+  /// address must be provisioned and advertised in Global Accelerator by
+  /// following the bring your own IP address (BYOIP) process for Global
+  /// Accelerator
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html">Bring
+  /// your own IP addresses (BYOIP)</a> in the Global Accelerator Developer Guide.
+  final String? cidr;
+
+  /// The endpoint ID for the endpoint that is specified as a Amazon Web Services
+  /// resource.
+  ///
+  /// An endpoint ID for the cross-account feature is the ARN of an Amazon Web
+  /// Services resource, such as a Network Load Balancer, that Global Accelerator
+  /// supports as an endpoint for an accelerator.
+  final String? endpointId;
+
+  /// The Amazon Web Services Region where a shared endpoint resource is located.
+  final String? region;
+
+  Resource({
+    this.cidr,
+    this.endpointId,
+    this.region,
+  });
+
+  factory Resource.fromJson(Map<String, dynamic> json) {
+    return Resource(
+      cidr: json['Cidr'] as String?,
+      endpointId: json['EndpointId'] as String?,
+      region: json['Region'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cidr = this.cidr;
+    final endpointId = this.endpointId;
+    final region = this.region;
+    return {
+      if (cidr != null) 'Cidr': cidr,
+      if (endpointId != null) 'EndpointId': endpointId,
+      if (region != null) 'Region': region,
+    };
+  }
+}
+
+/// Attributes of an accelerator.
+class AcceleratorAttributes {
+  /// Indicates whether flow logs are enabled. The default value is false. If the
+  /// value is true, <code>FlowLogsS3Bucket</code> and
+  /// <code>FlowLogsS3Prefix</code> must be specified.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/monitoring-global-accelerator.flow-logs.html">Flow
+  /// logs</a> in the <i>Global Accelerator Developer Guide</i>.
+  final bool? flowLogsEnabled;
+
+  /// The name of the Amazon S3 bucket for the flow logs. Attribute is required if
+  /// <code>FlowLogsEnabled</code> is <code>true</code>. The bucket must exist and
+  /// have a bucket policy that grants Global Accelerator permission to write to
+  /// the bucket.
+  final String? flowLogsS3Bucket;
+
+  /// The prefix for the location in the Amazon S3 bucket for the flow logs.
+  /// Attribute is required if <code>FlowLogsEnabled</code> is <code>true</code>.
+  ///
+  /// If you specify slash (/) for the S3 bucket prefix, the log file bucket
+  /// folder structure will include a double slash (//), like the following:
+  ///
+  /// s3-bucket_name//AWSLogs/aws_account_id
+  final String? flowLogsS3Prefix;
+
+  AcceleratorAttributes({
+    this.flowLogsEnabled,
+    this.flowLogsS3Bucket,
+    this.flowLogsS3Prefix,
+  });
+
+  factory AcceleratorAttributes.fromJson(Map<String, dynamic> json) {
+    return AcceleratorAttributes(
+      flowLogsEnabled: json['FlowLogsEnabled'] as bool?,
+      flowLogsS3Bucket: json['FlowLogsS3Bucket'] as String?,
+      flowLogsS3Prefix: json['FlowLogsS3Prefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final flowLogsEnabled = this.flowLogsEnabled;
+    final flowLogsS3Bucket = this.flowLogsS3Bucket;
+    final flowLogsS3Prefix = this.flowLogsS3Prefix;
+    return {
+      if (flowLogsEnabled != null) 'FlowLogsEnabled': flowLogsEnabled,
+      if (flowLogsS3Bucket != null) 'FlowLogsS3Bucket': flowLogsS3Bucket,
+      if (flowLogsS3Prefix != null) 'FlowLogsS3Prefix': flowLogsS3Prefix,
+    };
+  }
+}
+
+/// An accelerator is a complex type that includes one or more listeners that
+/// process inbound connections and then direct traffic to one or more endpoint
+/// groups, each of which includes endpoints, such as load balancers.
+class Accelerator {
+  /// The Amazon Resource Name (ARN) of the accelerator.
+  final String? acceleratorArn;
+
+  /// The date and time that the accelerator was created.
+  final DateTime? createdTime;
+
+  /// The Domain Name System (DNS) name that Global Accelerator creates that
+  /// points to an accelerator's static IPv4 addresses.
+  ///
+  /// The naming convention for the DNS name for an accelerator is the following:
+  /// A lowercase letter a, followed by a 16-bit random hex string, followed by
+  /// .awsglobalaccelerator.com. For example:
+  /// a1234567890abcdef.awsglobalaccelerator.com.
+  ///
+  /// If you have a dual-stack accelerator, you also have a second DNS name,
+  /// <code>DualStackDnsName</code>, that points to both the A record and the AAAA
+  /// record for all four static addresses for the accelerator: two IPv4 addresses
+  /// and two IPv6 addresses.
+  ///
+  /// For more information about the default DNS name, see <a
+  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/dns-addressing-custom-domains.dns-addressing.html">
+  /// Support for DNS addressing in Global Accelerator</a> in the <i>Global
+  /// Accelerator Developer Guide</i>.
+  final String? dnsName;
+
+  /// The Domain Name System (DNS) name that Global Accelerator creates that
+  /// points to a dual-stack accelerator's four static IP addresses: two IPv4
+  /// addresses and two IPv6 addresses.
+  ///
+  /// The naming convention for the dual-stack DNS name is the following: A
+  /// lowercase letter a, followed by a 16-bit random hex string, followed by
+  /// .dualstack.awsglobalaccelerator.com. For example:
+  /// a1234567890abcdef.dualstack.awsglobalaccelerator.com.
+  ///
+  /// Note: Global Accelerator also assigns a default DNS name,
+  /// <code>DnsName</code>, to your accelerator that points just to the static
+  /// IPv4 addresses.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/about-accelerators.html#about-accelerators.dns-addressing">
+  /// Support for DNS addressing in Global Accelerator</a> in the <i>Global
+  /// Accelerator Developer Guide</i>.
+  final String? dualStackDnsName;
+
+  /// Indicates whether the accelerator is enabled. The value is true or false.
+  /// The default value is true.
+  ///
+  /// If the value is set to true, the accelerator cannot be deleted. If set to
+  /// false, accelerator can be deleted.
+  final bool? enabled;
+
+  /// A history of changes that you make to an accelerator in Global Accelerator.
+  final List<AcceleratorEvent>? events;
+
+  /// The IP address type that an accelerator supports. For a standard
+  /// accelerator, the value can be IPV4 or DUAL_STACK.
+  final IpAddressType? ipAddressType;
+
+  /// The static IP addresses that Global Accelerator associates with the
+  /// accelerator.
+  final List<IpSet>? ipSets;
+
+  /// The date and time that the accelerator was last modified.
+  final DateTime? lastModifiedTime;
+
+  /// The name of the accelerator. The name must contain only alphanumeric
+  /// characters or hyphens (-), and must not begin or end with a hyphen.
+  final String? name;
+
+  /// Describes the deployment status of the accelerator.
+  final AcceleratorStatus? status;
+
+  Accelerator({
+    this.acceleratorArn,
+    this.createdTime,
+    this.dnsName,
+    this.dualStackDnsName,
+    this.enabled,
+    this.events,
+    this.ipAddressType,
+    this.ipSets,
+    this.lastModifiedTime,
+    this.name,
+    this.status,
+  });
+
+  factory Accelerator.fromJson(Map<String, dynamic> json) {
+    return Accelerator(
+      acceleratorArn: json['AcceleratorArn'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      dnsName: json['DnsName'] as String?,
+      dualStackDnsName: json['DualStackDnsName'] as String?,
+      enabled: json['Enabled'] as bool?,
+      events: (json['Events'] as List?)
+          ?.nonNulls
+          .map((e) => AcceleratorEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      ipAddressType:
+          (json['IpAddressType'] as String?)?.let(IpAddressType.fromString),
+      ipSets: (json['IpSets'] as List?)
+          ?.nonNulls
+          .map((e) => IpSet.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      name: json['Name'] as String?,
+      status: (json['Status'] as String?)?.let(AcceleratorStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final acceleratorArn = this.acceleratorArn;
+    final createdTime = this.createdTime;
+    final dnsName = this.dnsName;
+    final dualStackDnsName = this.dualStackDnsName;
+    final enabled = this.enabled;
+    final events = this.events;
+    final ipAddressType = this.ipAddressType;
+    final ipSets = this.ipSets;
+    final lastModifiedTime = this.lastModifiedTime;
+    final name = this.name;
+    final status = this.status;
+    return {
+      if (acceleratorArn != null) 'AcceleratorArn': acceleratorArn,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (dnsName != null) 'DnsName': dnsName,
+      if (dualStackDnsName != null) 'DualStackDnsName': dualStackDnsName,
+      if (enabled != null) 'Enabled': enabled,
+      if (events != null) 'Events': events,
+      if (ipAddressType != null) 'IpAddressType': ipAddressType.value,
+      if (ipSets != null) 'IpSets': ipSets,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (name != null) 'Name': name,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class AcceleratorStatus {
+  static const deployed = AcceleratorStatus._('DEPLOYED');
+  static const inProgress = AcceleratorStatus._('IN_PROGRESS');
+
+  final String value;
+
+  const AcceleratorStatus._(this.value);
+
+  static const values = [deployed, inProgress];
+
+  static AcceleratorStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AcceleratorStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AcceleratorStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A complex type that contains a <code>Timestamp</code> value and
+/// <code>Message</code> for changes that you make to an accelerator in Global
+/// Accelerator. Messages stored here provide progress or error information when
+/// you update an accelerator from IPv4 to dual-stack, or from dual-stack to
+/// IPv4. Global Accelerator stores a maximum of ten event messages.
+class AcceleratorEvent {
+  /// A string that contains an <code>Event</code> message describing changes or
+  /// errors when you update an accelerator in Global Accelerator from IPv4 to
+  /// dual-stack, or dual-stack to IPv4.
+  final String? message;
+
+  /// A timestamp for when you update an accelerator in Global Accelerator from
+  /// IPv4 to dual-stack, or dual-stack to IPv4.
+  final DateTime? timestamp;
+
+  AcceleratorEvent({
+    this.message,
+    this.timestamp,
+  });
+
+  factory AcceleratorEvent.fromJson(Map<String, dynamic> json) {
+    return AcceleratorEvent(
+      message: json['Message'] as String?,
+      timestamp: timeStampFromJson(json['Timestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final timestamp = this.timestamp;
+    return {
+      if (message != null) 'Message': message,
+      if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
+    };
+  }
+}
+
+/// A complex type that contains a <code>Tag</code> key and <code>Tag</code>
+/// value.
+class Tag {
+  /// A string that contains a <code>Tag</code> key.
+  final String key;
+
+  /// A string that contains a <code>Tag</code> value.
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
+/// A complex type for an endpoint. Specifies information about the endpoint to
+/// remove from the endpoint group.
+class EndpointIdentifier {
+  /// An ID for the endpoint. If the endpoint is a Network Load Balancer or
+  /// Application Load Balancer, this is the Amazon Resource Name (ARN) of the
+  /// resource. If the endpoint is an Elastic IP address, this is the Elastic IP
+  /// address allocation ID. For Amazon EC2 instances, this is the EC2 instance
+  /// ID.
+  ///
+  /// An Application Load Balancer can be either internal or internet-facing.
+  final String endpointId;
+
+  /// Indicates whether client IP address preservation is enabled for an endpoint.
+  /// The value is true or false.
+  ///
+  /// If the value is set to true, the client's IP address is preserved in the
+  /// <code>X-Forwarded-For</code> request header as traffic travels to
+  /// applications on the endpoint fronted by the accelerator.
+  final bool? clientIPPreservationEnabled;
+
+  EndpointIdentifier({
+    required this.endpointId,
+    this.clientIPPreservationEnabled,
+  });
+
+  Map<String, dynamic> toJson() {
+    final endpointId = this.endpointId;
+    final clientIPPreservationEnabled = this.clientIPPreservationEnabled;
+    return {
+      'EndpointId': endpointId,
+      if (clientIPPreservationEnabled != null)
+        'ClientIPPreservationEnabled': clientIPPreservationEnabled,
+    };
+  }
+}
+
+/// Provides authorization for Amazon to bring a specific IP address range to a
+/// specific Amazon Web Services account using bring your own IP addresses
+/// (BYOIP).
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html">Bring
+/// your own IP addresses (BYOIP)</a> in the <i>Global Accelerator Developer
+/// Guide</i>.
+class CidrAuthorizationContext {
+  /// The plain-text authorization message for the prefix and account.
+  final String message;
+
+  /// The signed authorization message for the prefix and account.
+  final String signature;
+
+  CidrAuthorizationContext({
+    required this.message,
+    required this.signature,
+  });
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final signature = this.signature;
+    return {
+      'Message': message,
+      'Signature': signature,
+    };
+  }
+}
+
+/// The port mappings for a specified endpoint IP address (destination).
+class DestinationPortMapping {
+  /// The Amazon Resource Name (ARN) of the custom routing accelerator that you
+  /// have port mappings for.
+  final String? acceleratorArn;
+
+  /// The IP address/port combinations (sockets) that map to a given destination
+  /// socket address.
+  final List<SocketAddress>? acceleratorSocketAddresses;
+
+  /// The endpoint IP address/port combination for traffic received on the
+  /// accelerator socket address.
+  final SocketAddress? destinationSocketAddress;
+
+  /// Indicates whether or not a port mapping destination can receive traffic. The
+  /// value is either ALLOW, if traffic is allowed to the destination, or DENY, if
+  /// traffic is not allowed to the destination.
+  final CustomRoutingDestinationTrafficState? destinationTrafficState;
+
+  /// The Amazon Resource Name (ARN) of the endpoint group.
+  final String? endpointGroupArn;
+
+  /// The Amazon Web Services Region for the endpoint group.
+  final String? endpointGroupRegion;
+
+  /// The ID for the virtual private cloud (VPC) subnet.
+  final String? endpointId;
+
+  /// The IP address type that an accelerator supports. For a custom routing
+  /// accelerator, the value must be IPV4.
+  final IpAddressType? ipAddressType;
+
+  DestinationPortMapping({
+    this.acceleratorArn,
+    this.acceleratorSocketAddresses,
+    this.destinationSocketAddress,
+    this.destinationTrafficState,
+    this.endpointGroupArn,
+    this.endpointGroupRegion,
+    this.endpointId,
+    this.ipAddressType,
+  });
+
+  factory DestinationPortMapping.fromJson(Map<String, dynamic> json) {
+    return DestinationPortMapping(
+      acceleratorArn: json['AcceleratorArn'] as String?,
+      acceleratorSocketAddresses: (json['AcceleratorSocketAddresses'] as List?)
+          ?.nonNulls
+          .map((e) => SocketAddress.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      destinationSocketAddress: json['DestinationSocketAddress'] != null
+          ? SocketAddress.fromJson(
+              json['DestinationSocketAddress'] as Map<String, dynamic>)
+          : null,
+      destinationTrafficState: (json['DestinationTrafficState'] as String?)
+          ?.let(CustomRoutingDestinationTrafficState.fromString),
+      endpointGroupArn: json['EndpointGroupArn'] as String?,
+      endpointGroupRegion: json['EndpointGroupRegion'] as String?,
+      endpointId: json['EndpointId'] as String?,
+      ipAddressType:
+          (json['IpAddressType'] as String?)?.let(IpAddressType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final acceleratorArn = this.acceleratorArn;
+    final acceleratorSocketAddresses = this.acceleratorSocketAddresses;
+    final destinationSocketAddress = this.destinationSocketAddress;
+    final destinationTrafficState = this.destinationTrafficState;
+    final endpointGroupArn = this.endpointGroupArn;
+    final endpointGroupRegion = this.endpointGroupRegion;
+    final endpointId = this.endpointId;
+    final ipAddressType = this.ipAddressType;
+    return {
+      if (acceleratorArn != null) 'AcceleratorArn': acceleratorArn,
+      if (acceleratorSocketAddresses != null)
+        'AcceleratorSocketAddresses': acceleratorSocketAddresses,
+      if (destinationSocketAddress != null)
+        'DestinationSocketAddress': destinationSocketAddress,
+      if (destinationTrafficState != null)
+        'DestinationTrafficState': destinationTrafficState.value,
+      if (endpointGroupArn != null) 'EndpointGroupArn': endpointGroupArn,
+      if (endpointGroupRegion != null)
+        'EndpointGroupRegion': endpointGroupRegion,
+      if (endpointId != null) 'EndpointId': endpointId,
+      if (ipAddressType != null) 'IpAddressType': ipAddressType.value,
+    };
+  }
+}
+
+/// An IP address/port combination.
+class SocketAddress {
+  /// The IP address for the socket address.
+  final String? ipAddress;
+
+  /// The port for the socket address.
+  final int? port;
+
+  SocketAddress({
+    this.ipAddress,
+    this.port,
+  });
+
+  factory SocketAddress.fromJson(Map<String, dynamic> json) {
+    return SocketAddress(
+      ipAddress: json['IpAddress'] as String?,
+      port: json['Port'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipAddress = this.ipAddress;
+    final port = this.port;
+    return {
+      if (ipAddress != null) 'IpAddress': ipAddress,
+      if (port != null) 'Port': port,
+    };
+  }
+}
+
+class CustomRoutingDestinationTrafficState {
+  static const allow = CustomRoutingDestinationTrafficState._('ALLOW');
+  static const deny = CustomRoutingDestinationTrafficState._('DENY');
+
+  final String value;
+
+  const CustomRoutingDestinationTrafficState._(this.value);
+
+  static const values = [allow, deny];
+
+  static CustomRoutingDestinationTrafficState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CustomRoutingDestinationTrafficState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomRoutingDestinationTrafficState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Returns the ports and associated IP addresses and ports of Amazon EC2
+/// instances in your virtual private cloud (VPC) subnets. Custom routing is a
+/// port mapping protocol in Global Accelerator that statically associates port
+/// ranges with VPC subnets, which allows Global Accelerator to route to
+/// specific instances and ports within one or more subnets.
+class PortMapping {
+  /// The accelerator port.
+  final int? acceleratorPort;
+
+  /// The EC2 instance IP address and port number in the virtual private cloud
+  /// (VPC) subnet.
+  final SocketAddress? destinationSocketAddress;
+
+  /// Indicates whether or not a port mapping destination can receive traffic. The
+  /// value is either ALLOW, if traffic is allowed to the destination, or DENY, if
+  /// traffic is not allowed to the destination.
+  final CustomRoutingDestinationTrafficState? destinationTrafficState;
+
+  /// The Amazon Resource Name (ARN) of the endpoint group.
+  final String? endpointGroupArn;
+
+  /// The IP address of the VPC subnet (the subnet ID).
+  final String? endpointId;
+
+  /// The protocols supported by the endpoint group.
+  final List<CustomRoutingProtocol>? protocols;
+
+  PortMapping({
+    this.acceleratorPort,
+    this.destinationSocketAddress,
+    this.destinationTrafficState,
+    this.endpointGroupArn,
+    this.endpointId,
+    this.protocols,
+  });
+
+  factory PortMapping.fromJson(Map<String, dynamic> json) {
+    return PortMapping(
+      acceleratorPort: json['AcceleratorPort'] as int?,
+      destinationSocketAddress: json['DestinationSocketAddress'] != null
+          ? SocketAddress.fromJson(
+              json['DestinationSocketAddress'] as Map<String, dynamic>)
+          : null,
+      destinationTrafficState: (json['DestinationTrafficState'] as String?)
+          ?.let(CustomRoutingDestinationTrafficState.fromString),
+      endpointGroupArn: json['EndpointGroupArn'] as String?,
+      endpointId: json['EndpointId'] as String?,
+      protocols: (json['Protocols'] as List?)
+          ?.nonNulls
+          .map((e) => CustomRoutingProtocol.fromString((e as String)))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final acceleratorPort = this.acceleratorPort;
+    final destinationSocketAddress = this.destinationSocketAddress;
+    final destinationTrafficState = this.destinationTrafficState;
+    final endpointGroupArn = this.endpointGroupArn;
+    final endpointId = this.endpointId;
+    final protocols = this.protocols;
+    return {
+      if (acceleratorPort != null) 'AcceleratorPort': acceleratorPort,
+      if (destinationSocketAddress != null)
+        'DestinationSocketAddress': destinationSocketAddress,
+      if (destinationTrafficState != null)
+        'DestinationTrafficState': destinationTrafficState.value,
+      if (endpointGroupArn != null) 'EndpointGroupArn': endpointGroupArn,
+      if (endpointId != null) 'EndpointId': endpointId,
+      if (protocols != null)
+        'Protocols': protocols.map((e) => e.value).toList(),
+    };
+  }
+}
+
+class CustomRoutingProtocol {
+  static const tcp = CustomRoutingProtocol._('TCP');
+  static const udp = CustomRoutingProtocol._('UDP');
+
+  final String value;
+
+  const CustomRoutingProtocol._(this.value);
+
+  static const values = [tcp, udp];
+
+  static CustomRoutingProtocol fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CustomRoutingProtocol._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomRoutingProtocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A complex type for the endpoint group for a custom routing accelerator. An
+/// Amazon Web Services Region can have only one endpoint group for a specific
+/// listener.
+class CustomRoutingEndpointGroup {
+  /// For a custom routing accelerator, describes the port range and protocol for
+  /// all endpoints (virtual private cloud subnets) in an endpoint group to accept
+  /// client traffic on.
+  final List<CustomRoutingDestinationDescription>? destinationDescriptions;
+
+  /// For a custom routing accelerator, describes the endpoints (virtual private
+  /// cloud subnets) in an endpoint group to accept client traffic on.
+  final List<CustomRoutingEndpointDescription>? endpointDescriptions;
+
+  /// The Amazon Resource Name (ARN) of the endpoint group.
+  final String? endpointGroupArn;
+
+  /// The Amazon Web Services Region where the endpoint group is located.
+  final String? endpointGroupRegion;
+
+  CustomRoutingEndpointGroup({
+    this.destinationDescriptions,
+    this.endpointDescriptions,
+    this.endpointGroupArn,
+    this.endpointGroupRegion,
+  });
+
+  factory CustomRoutingEndpointGroup.fromJson(Map<String, dynamic> json) {
+    return CustomRoutingEndpointGroup(
+      destinationDescriptions: (json['DestinationDescriptions'] as List?)
+          ?.nonNulls
+          .map((e) => CustomRoutingDestinationDescription.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      endpointDescriptions: (json['EndpointDescriptions'] as List?)
+          ?.nonNulls
+          .map((e) => CustomRoutingEndpointDescription.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      endpointGroupArn: json['EndpointGroupArn'] as String?,
+      endpointGroupRegion: json['EndpointGroupRegion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationDescriptions = this.destinationDescriptions;
+    final endpointDescriptions = this.endpointDescriptions;
+    final endpointGroupArn = this.endpointGroupArn;
+    final endpointGroupRegion = this.endpointGroupRegion;
+    return {
+      if (destinationDescriptions != null)
+        'DestinationDescriptions': destinationDescriptions,
+      if (endpointDescriptions != null)
+        'EndpointDescriptions': endpointDescriptions,
+      if (endpointGroupArn != null) 'EndpointGroupArn': endpointGroupArn,
+      if (endpointGroupRegion != null)
+        'EndpointGroupRegion': endpointGroupRegion,
+    };
+  }
+}
+
+/// A complex type for an endpoint for a custom routing accelerator. Each
+/// endpoint group can include one or more endpoints, which are virtual private
+/// cloud (VPC) subnets.
+class CustomRoutingEndpointDescription {
+  /// An ID for the endpoint. For custom routing accelerators, this is the virtual
+  /// private cloud (VPC) subnet ID.
+  final String? endpointId;
+
+  CustomRoutingEndpointDescription({
+    this.endpointId,
+  });
+
+  factory CustomRoutingEndpointDescription.fromJson(Map<String, dynamic> json) {
+    return CustomRoutingEndpointDescription(
+      endpointId: json['EndpointId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpointId = this.endpointId;
+    return {
+      if (endpointId != null) 'EndpointId': endpointId,
+    };
+  }
+}
+
+/// For a custom routing accelerator, describes the port range and protocol for
+/// all endpoints (virtual private cloud subnets) in an endpoint group to accept
+/// client traffic on.
+class CustomRoutingDestinationDescription {
+  /// The first port, inclusive, in the range of ports for the endpoint group that
+  /// is associated with a custom routing accelerator.
+  final int? fromPort;
+
+  /// The protocol for the endpoint group that is associated with a custom routing
+  /// accelerator. The protocol can be either TCP or UDP.
+  final List<Protocol>? protocols;
+
+  /// The last port, inclusive, in the range of ports for the endpoint group that
+  /// is associated with a custom routing accelerator.
+  final int? toPort;
+
+  CustomRoutingDestinationDescription({
+    this.fromPort,
+    this.protocols,
+    this.toPort,
+  });
+
+  factory CustomRoutingDestinationDescription.fromJson(
+      Map<String, dynamic> json) {
+    return CustomRoutingDestinationDescription(
+      fromPort: json['FromPort'] as int?,
+      protocols: (json['Protocols'] as List?)
+          ?.nonNulls
+          .map((e) => Protocol.fromString((e as String)))
+          .toList(),
+      toPort: json['ToPort'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fromPort = this.fromPort;
+    final protocols = this.protocols;
+    final toPort = this.toPort;
+    return {
+      if (fromPort != null) 'FromPort': fromPort,
+      if (protocols != null)
+        'Protocols': protocols.map((e) => e.value).toList(),
+      if (toPort != null) 'ToPort': toPort,
+    };
+  }
+}
+
+/// An endpoint (Amazon Web Services resource) or an IP address range, in CIDR
+/// format, that is listed in a cross-account attachment. A cross-account
+/// resource can be added to an accelerator by specified principals, which are
+/// also listed in the attachment.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/cross-account-resources.html">
+/// Working with cross-account attachments and resources in Global
+/// Accelerator</a> in the <i> Global Accelerator Developer Guide</i>.
+class CrossAccountResource {
+  /// The Amazon Resource Name (ARN) of the cross-account attachment that
+  /// specifies the resources (endpoints or CIDR range) that can be added to
+  /// accelerators and principals that have permission to add them.
+  final String? attachmentArn;
+
+  /// An IP address range, in CIDR format, that is specified as an Amazon Web
+  /// Services resource. The address must be provisioned and advertised in Global
+  /// Accelerator by following the bring your own IP address (BYOIP) process for
+  /// Global Accelerator.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html">Bring
+  /// your own IP addresses (BYOIP)</a> in the Global Accelerator Developer Guide.
+  final String? cidr;
+
+  /// The endpoint ID for the endpoint that is listed in a cross-account
+  /// attachment and can be added to an accelerator by specified principals.
+  final String? endpointId;
+
+  CrossAccountResource({
+    this.attachmentArn,
+    this.cidr,
+    this.endpointId,
+  });
+
+  factory CrossAccountResource.fromJson(Map<String, dynamic> json) {
+    return CrossAccountResource(
+      attachmentArn: json['AttachmentArn'] as String?,
+      cidr: json['Cidr'] as String?,
+      endpointId: json['EndpointId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachmentArn = this.attachmentArn;
+    final cidr = this.cidr;
+    final endpointId = this.endpointId;
+    return {
+      if (attachmentArn != null) 'AttachmentArn': attachmentArn,
+      if (cidr != null) 'Cidr': cidr,
+      if (endpointId != null) 'EndpointId': endpointId,
+    };
+  }
+}
+
+/// For a custom routing accelerator, sets the port range and protocol for all
+/// endpoints (virtual private cloud subnets) in an endpoint group to accept
+/// client traffic on.
+class CustomRoutingDestinationConfiguration {
+  /// The first port, inclusive, in the range of ports for the endpoint group that
+  /// is associated with a custom routing accelerator.
+  final int fromPort;
+
+  /// The protocol for the endpoint group that is associated with a custom routing
+  /// accelerator. The protocol can be either TCP or UDP.
+  final List<CustomRoutingProtocol> protocols;
+
+  /// The last port, inclusive, in the range of ports for the endpoint group that
+  /// is associated with a custom routing accelerator.
+  final int toPort;
+
+  CustomRoutingDestinationConfiguration({
+    required this.fromPort,
+    required this.protocols,
+    required this.toPort,
+  });
+
+  Map<String, dynamic> toJson() {
+    final fromPort = this.fromPort;
+    final protocols = this.protocols;
+    final toPort = this.toPort;
+    return {
+      'FromPort': fromPort,
+      'Protocols': protocols.map((e) => e.value).toList(),
+      'ToPort': toPort,
+    };
+  }
+}
+
+/// The list of endpoint objects. For custom routing, this is a list of virtual
+/// private cloud (VPC) subnet IDs.
+class CustomRoutingEndpointConfiguration {
+  /// The Amazon Resource Name (ARN) of the cross-account attachment that
+  /// specifies the endpoints (resources) that can be added to accelerators and
+  /// principals that have permission to add the endpoints.
+  final String? attachmentArn;
+
+  /// An ID for the endpoint. For custom routing accelerators, this is the virtual
+  /// private cloud (VPC) subnet ID.
+  final String? endpointId;
+
+  CustomRoutingEndpointConfiguration({
+    this.attachmentArn,
+    this.endpointId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final attachmentArn = this.attachmentArn;
+    final endpointId = this.endpointId;
+    return {
+      if (attachmentArn != null) 'AttachmentArn': attachmentArn,
+      if (endpointId != null) 'EndpointId': endpointId,
     };
   }
 }

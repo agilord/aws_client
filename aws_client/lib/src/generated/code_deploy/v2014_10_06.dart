@@ -141,13 +141,13 @@ class CodeDeploy {
 
   /// Adds tags to on-premises instances.
   ///
+  /// May throw [InstanceLimitExceededException].
   /// May throw [InstanceNameRequiredException].
+  /// May throw [InstanceNotRegisteredException].
   /// May throw [InvalidInstanceNameException].
-  /// May throw [TagRequiredException].
   /// May throw [InvalidTagException].
   /// May throw [TagLimitExceededException].
-  /// May throw [InstanceLimitExceededException].
-  /// May throw [InstanceNotRegisteredException].
+  /// May throw [TagRequiredException].
   ///
   /// Parameter [instanceNames] :
   /// The names of the on-premises instances to which to add tags.
@@ -183,10 +183,10 @@ class CodeDeploy {
   ///
   /// May throw [ApplicationDoesNotExistException].
   /// May throw [ApplicationNameRequiredException].
-  /// May throw [InvalidApplicationNameException].
-  /// May throw [RevisionRequiredException].
-  /// May throw [InvalidRevisionException].
   /// May throw [BatchLimitExceededException].
+  /// May throw [InvalidApplicationNameException].
+  /// May throw [InvalidRevisionException].
+  /// May throw [RevisionRequiredException].
   ///
   /// Parameter [applicationName] :
   /// The name of an CodeDeploy application about which to get revision
@@ -223,10 +223,10 @@ class CodeDeploy {
   /// Gets information about one or more applications. The maximum number of
   /// applications that can be returned is 100.
   ///
-  /// May throw [ApplicationNameRequiredException].
-  /// May throw [InvalidApplicationNameException].
   /// May throw [ApplicationDoesNotExistException].
+  /// May throw [ApplicationNameRequiredException].
   /// May throw [BatchLimitExceededException].
+  /// May throw [InvalidApplicationNameException].
   ///
   /// Parameter [applicationNames] :
   /// A list of application names separated by spaces. The maximum number of
@@ -254,13 +254,13 @@ class CodeDeploy {
 
   /// Gets information about one or more deployment groups.
   ///
-  /// May throw [ApplicationNameRequiredException].
-  /// May throw [InvalidApplicationNameException].
   /// May throw [ApplicationDoesNotExistException].
-  /// May throw [DeploymentGroupNameRequiredException].
-  /// May throw [InvalidDeploymentGroupNameException].
+  /// May throw [ApplicationNameRequiredException].
   /// May throw [BatchLimitExceededException].
   /// May throw [DeploymentConfigDoesNotExistException].
+  /// May throw [DeploymentGroupNameRequiredException].
+  /// May throw [InvalidApplicationNameException].
+  /// May throw [InvalidDeploymentGroupNameException].
   ///
   /// Parameter [applicationName] :
   /// The name of an CodeDeploy application associated with the applicable user
@@ -300,13 +300,13 @@ class CodeDeploy {
   /// newer <code>BatchGetDeploymentTargets</code> works with all compute
   /// platforms. The maximum number of instances that can be returned is 25.
   ///
-  /// May throw [DeploymentIdRequiredException].
+  /// May throw [BatchLimitExceededException].
   /// May throw [DeploymentDoesNotExistException].
+  /// May throw [DeploymentIdRequiredException].
   /// May throw [InstanceIdRequiredException].
+  /// May throw [InvalidComputePlatformException].
   /// May throw [InvalidDeploymentIdException].
   /// May throw [InvalidInstanceNameException].
-  /// May throw [BatchLimitExceededException].
-  /// May throw [InvalidComputePlatformException].
   ///
   /// Parameter [deploymentId] :
   /// The unique ID of a deployment.
@@ -314,8 +314,6 @@ class CodeDeploy {
   /// Parameter [instanceIds] :
   /// The unique IDs of instances used in the deployment. The maximum number of
   /// instance IDs you can specify is 25.
-  @Deprecated(
-      'This operation is deprecated, use BatchGetDeploymentTargets instead.')
   Future<BatchGetDeploymentInstancesOutput> batchGetDeploymentInstances({
     required String deploymentId,
     required List<String> instanceIds,
@@ -337,6 +335,37 @@ class CodeDeploy {
     );
 
     return BatchGetDeploymentInstancesOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Gets information about one or more deployments. The maximum number of
+  /// deployments that can be returned is 25.
+  ///
+  /// May throw [BatchLimitExceededException].
+  /// May throw [DeploymentIdRequiredException].
+  /// May throw [InvalidDeploymentIdException].
+  ///
+  /// Parameter [deploymentIds] :
+  /// A list of deployment IDs, separated by spaces. The maximum number of
+  /// deployment IDs you can specify is 25.
+  Future<BatchGetDeploymentsOutput> batchGetDeployments({
+    required List<String> deploymentIds,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CodeDeploy_20141006.BatchGetDeployments'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'deploymentIds': deploymentIds,
+      },
+    );
+
+    return BatchGetDeploymentsOutput.fromJson(jsonResponse.body);
   }
 
   /// Returns an array of one or more targets associated with a deployment. This
@@ -363,15 +392,15 @@ class CodeDeploy {
   /// </li>
   /// </ul>
   ///
-  /// May throw [InvalidDeploymentIdException].
-  /// May throw [DeploymentIdRequiredException].
   /// May throw [DeploymentDoesNotExistException].
+  /// May throw [DeploymentIdRequiredException].
   /// May throw [DeploymentNotStartedException].
-  /// May throw [DeploymentTargetIdRequiredException].
-  /// May throw [InvalidDeploymentTargetIdException].
   /// May throw [DeploymentTargetDoesNotExistException].
+  /// May throw [DeploymentTargetIdRequiredException].
   /// May throw [DeploymentTargetListSizeExceededException].
   /// May throw [InstanceDoesNotExistException].
+  /// May throw [InvalidDeploymentIdException].
+  /// May throw [InvalidDeploymentTargetIdException].
   ///
   /// Parameter [deploymentId] :
   /// The unique ID of a deployment.
@@ -395,7 +424,7 @@ class CodeDeploy {
   /// <li>
   /// For deployments that use the Amazon ECS compute platform, the target IDs
   /// are pairs of Amazon ECS clusters and services specified using the format
-  /// <code>&lt;clustername&gt;:&lt;servicename&gt;</code>. Their target type is
+  /// <code><clustername>:<servicename></code>. Their target type is
   /// <code>ecsTarget</code>.
   /// </li>
   /// <li>
@@ -427,43 +456,12 @@ class CodeDeploy {
     return BatchGetDeploymentTargetsOutput.fromJson(jsonResponse.body);
   }
 
-  /// Gets information about one or more deployments. The maximum number of
-  /// deployments that can be returned is 25.
-  ///
-  /// May throw [DeploymentIdRequiredException].
-  /// May throw [InvalidDeploymentIdException].
-  /// May throw [BatchLimitExceededException].
-  ///
-  /// Parameter [deploymentIds] :
-  /// A list of deployment IDs, separated by spaces. The maximum number of
-  /// deployment IDs you can specify is 25.
-  Future<BatchGetDeploymentsOutput> batchGetDeployments({
-    required List<String> deploymentIds,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'CodeDeploy_20141006.BatchGetDeployments'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'deploymentIds': deploymentIds,
-      },
-    );
-
-    return BatchGetDeploymentsOutput.fromJson(jsonResponse.body);
-  }
-
   /// Gets information about one or more on-premises instances. The maximum
   /// number of on-premises instances that can be returned is 25.
   ///
+  /// May throw [BatchLimitExceededException].
   /// May throw [InstanceNameRequiredException].
   /// May throw [InvalidInstanceNameException].
-  /// May throw [BatchLimitExceededException].
   ///
   /// Parameter [instanceNames] :
   /// The names of the on-premises instances about which to get information. The
@@ -496,14 +494,14 @@ class CodeDeploy {
   /// environment with the load balancer, can start as soon as all instances
   /// have a status of Ready.)
   ///
-  /// May throw [DeploymentIdRequiredException].
-  /// May throw [DeploymentDoesNotExistException].
   /// May throw [DeploymentAlreadyCompletedException].
-  /// May throw [InvalidDeploymentIdException].
+  /// May throw [DeploymentDoesNotExistException].
+  /// May throw [DeploymentIdRequiredException].
   /// May throw [DeploymentIsNotInReadyStateException].
-  /// May throw [UnsupportedActionForDeploymentTypeException].
-  /// May throw [InvalidDeploymentWaitTypeException].
+  /// May throw [InvalidDeploymentIdException].
   /// May throw [InvalidDeploymentStatusException].
+  /// May throw [InvalidDeploymentWaitTypeException].
+  /// May throw [UnsupportedActionForDeploymentTypeException].
   ///
   /// Parameter [deploymentId] :
   /// The unique ID of a blue/green deployment for which you want to start
@@ -538,10 +536,10 @@ class CodeDeploy {
 
   /// Creates an application.
   ///
-  /// May throw [ApplicationNameRequiredException].
-  /// May throw [InvalidApplicationNameException].
   /// May throw [ApplicationAlreadyExistsException].
   /// May throw [ApplicationLimitExceededException].
+  /// May throw [ApplicationNameRequiredException].
+  /// May throw [InvalidApplicationNameException].
   /// May throw [InvalidComputePlatformException].
   /// May throw [InvalidTagsToAddException].
   ///
@@ -584,32 +582,32 @@ class CodeDeploy {
 
   /// Deploys an application revision through the specified deployment group.
   ///
-  /// May throw [ApplicationNameRequiredException].
-  /// May throw [InvalidApplicationNameException].
-  /// May throw [ApplicationDoesNotExistException].
-  /// May throw [DeploymentGroupNameRequiredException].
-  /// May throw [InvalidDeploymentGroupNameException].
-  /// May throw [DeploymentGroupDoesNotExistException].
-  /// May throw [RevisionRequiredException].
-  /// May throw [RevisionDoesNotExistException].
-  /// May throw [InvalidRevisionException].
-  /// May throw [InvalidDeploymentConfigNameException].
-  /// May throw [DeploymentConfigDoesNotExistException].
-  /// May throw [DescriptionTooLongException].
-  /// May throw [DeploymentLimitExceededException].
-  /// May throw [InvalidTargetInstancesException].
-  /// May throw [InvalidAlarmConfigException].
   /// May throw [AlarmsLimitExceededException].
+  /// May throw [ApplicationDoesNotExistException].
+  /// May throw [ApplicationNameRequiredException].
+  /// May throw [DeploymentConfigDoesNotExistException].
+  /// May throw [DeploymentGroupDoesNotExistException].
+  /// May throw [DeploymentGroupNameRequiredException].
+  /// May throw [DeploymentLimitExceededException].
+  /// May throw [DescriptionTooLongException].
+  /// May throw [InvalidAlarmConfigException].
+  /// May throw [InvalidApplicationNameException].
   /// May throw [InvalidAutoRollbackConfigException].
-  /// May throw [InvalidLoadBalancerInfoException].
-  /// May throw [InvalidFileExistsBehaviorException].
-  /// May throw [InvalidRoleException].
   /// May throw [InvalidAutoScalingGroupException].
-  /// May throw [ThrottlingException].
-  /// May throw [InvalidUpdateOutdatedInstancesOnlyValueException].
-  /// May throw [InvalidIgnoreApplicationStopFailuresValueException].
+  /// May throw [InvalidDeploymentConfigNameException].
+  /// May throw [InvalidDeploymentGroupNameException].
+  /// May throw [InvalidFileExistsBehaviorException].
   /// May throw [InvalidGitHubAccountTokenException].
+  /// May throw [InvalidIgnoreApplicationStopFailuresValueException].
+  /// May throw [InvalidLoadBalancerInfoException].
+  /// May throw [InvalidRevisionException].
+  /// May throw [InvalidRoleException].
+  /// May throw [InvalidTargetInstancesException].
   /// May throw [InvalidTrafficRoutingConfigurationException].
+  /// May throw [InvalidUpdateOutdatedInstancesOnlyValueException].
+  /// May throw [RevisionDoesNotExistException].
+  /// May throw [RevisionRequiredException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [applicationName] :
   /// The name of an CodeDeploy application associated with the user or Amazon
@@ -764,12 +762,12 @@ class CodeDeploy {
 
   /// Creates a deployment configuration.
   ///
-  /// May throw [InvalidDeploymentConfigNameException].
-  /// May throw [DeploymentConfigNameRequiredException].
   /// May throw [DeploymentConfigAlreadyExistsException].
-  /// May throw [InvalidMinimumHealthyHostValueException].
   /// May throw [DeploymentConfigLimitExceededException].
+  /// May throw [DeploymentConfigNameRequiredException].
   /// May throw [InvalidComputePlatformException].
+  /// May throw [InvalidDeploymentConfigNameException].
+  /// May throw [InvalidMinimumHealthyHostValueException].
   /// May throw [InvalidTrafficRoutingConfigurationException].
   /// May throw [InvalidZonalDeploymentConfigurationException].
   ///
@@ -850,39 +848,39 @@ class CodeDeploy {
 
   /// Creates a deployment group to which application revisions are deployed.
   ///
-  /// May throw [ApplicationNameRequiredException].
-  /// May throw [InvalidApplicationNameException].
-  /// May throw [ApplicationDoesNotExistException].
-  /// May throw [DeploymentGroupNameRequiredException].
-  /// May throw [InvalidDeploymentGroupNameException].
-  /// May throw [DeploymentGroupAlreadyExistsException].
-  /// May throw [InvalidEC2TagException].
-  /// May throw [InvalidTagException].
-  /// May throw [InvalidAutoScalingGroupException].
-  /// May throw [InvalidDeploymentConfigNameException].
-  /// May throw [DeploymentConfigDoesNotExistException].
-  /// May throw [RoleRequiredException].
-  /// May throw [InvalidRoleException].
-  /// May throw [DeploymentGroupLimitExceededException].
-  /// May throw [LifecycleHookLimitExceededException].
-  /// May throw [InvalidTriggerConfigException].
-  /// May throw [TriggerTargetsLimitExceededException].
-  /// May throw [InvalidAlarmConfigException].
   /// May throw [AlarmsLimitExceededException].
-  /// May throw [InvalidAutoRollbackConfigException].
-  /// May throw [InvalidLoadBalancerInfoException].
-  /// May throw [InvalidDeploymentStyleException].
-  /// May throw [InvalidBlueGreenDeploymentConfigurationException].
-  /// May throw [InvalidEC2TagCombinationException].
-  /// May throw [InvalidOnPremisesTagCombinationException].
-  /// May throw [TagSetListLimitExceededException].
-  /// May throw [InvalidInputException].
-  /// May throw [ThrottlingException].
-  /// May throw [InvalidECSServiceException].
-  /// May throw [InvalidTargetGroupPairException].
+  /// May throw [ApplicationDoesNotExistException].
+  /// May throw [ApplicationNameRequiredException].
+  /// May throw [DeploymentConfigDoesNotExistException].
+  /// May throw [DeploymentGroupAlreadyExistsException].
+  /// May throw [DeploymentGroupLimitExceededException].
+  /// May throw [DeploymentGroupNameRequiredException].
   /// May throw [ECSServiceMappingLimitExceededException].
+  /// May throw [InvalidAlarmConfigException].
+  /// May throw [InvalidApplicationNameException].
+  /// May throw [InvalidAutoRollbackConfigException].
+  /// May throw [InvalidAutoScalingGroupException].
+  /// May throw [InvalidBlueGreenDeploymentConfigurationException].
+  /// May throw [InvalidDeploymentConfigNameException].
+  /// May throw [InvalidDeploymentGroupNameException].
+  /// May throw [InvalidDeploymentStyleException].
+  /// May throw [InvalidEC2TagCombinationException].
+  /// May throw [InvalidEC2TagException].
+  /// May throw [InvalidECSServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [InvalidLoadBalancerInfoException].
+  /// May throw [InvalidOnPremisesTagCombinationException].
+  /// May throw [InvalidRoleException].
+  /// May throw [InvalidTagException].
   /// May throw [InvalidTagsToAddException].
+  /// May throw [InvalidTargetGroupPairException].
   /// May throw [InvalidTrafficRoutingConfigurationException].
+  /// May throw [InvalidTriggerConfigException].
+  /// May throw [LifecycleHookLimitExceededException].
+  /// May throw [RoleRequiredException].
+  /// May throw [TagSetListLimitExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [TriggerTargetsLimitExceededException].
   ///
   /// Parameter [applicationName] :
   /// The name of an CodeDeploy application associated with the user or Amazon
@@ -944,8 +942,7 @@ class CodeDeploy {
   /// The target Amazon ECS services in the deployment group. This applies only
   /// to deployment groups that use the Amazon ECS compute platform. A target
   /// Amazon ECS service is specified as an Amazon ECS cluster and service name
-  /// pair using the format
-  /// <code>&lt;clustername&gt;:&lt;servicename&gt;</code>.
+  /// pair using the format <code><clustername>:<servicename></code>.
   ///
   /// Parameter [loadBalancerInfo] :
   /// Information about the load balancer used in a deployment.
@@ -1103,9 +1100,9 @@ class CodeDeploy {
   /// Predefined configurations cannot be deleted.
   /// </note>
   ///
-  /// May throw [InvalidDeploymentConfigNameException].
-  /// May throw [DeploymentConfigNameRequiredException].
   /// May throw [DeploymentConfigInUseException].
+  /// May throw [DeploymentConfigNameRequiredException].
+  /// May throw [InvalidDeploymentConfigNameException].
   /// May throw [InvalidOperationException].
   ///
   /// Parameter [deploymentConfigName] :
@@ -1133,8 +1130,8 @@ class CodeDeploy {
   /// Deletes a deployment group.
   ///
   /// May throw [ApplicationNameRequiredException].
-  /// May throw [InvalidApplicationNameException].
   /// May throw [DeploymentGroupNameRequiredException].
+  /// May throw [InvalidApplicationNameException].
   /// May throw [InvalidDeploymentGroupNameException].
   /// May throw [InvalidRoleException].
   ///
@@ -1169,11 +1166,11 @@ class CodeDeploy {
 
   /// Deletes a GitHub account connection.
   ///
-  /// May throw [GitHubAccountTokenNameRequiredException].
   /// May throw [GitHubAccountTokenDoesNotExistException].
+  /// May throw [GitHubAccountTokenNameRequiredException].
   /// May throw [InvalidGitHubAccountTokenNameException].
-  /// May throw [ResourceValidationException].
   /// May throw [OperationNotSupportedException].
+  /// May throw [ResourceValidationException].
   ///
   /// Parameter [tokenName] :
   /// The name of the GitHub account connection to delete.
@@ -1257,9 +1254,9 @@ class CodeDeploy {
 
   /// Gets information about an application.
   ///
+  /// May throw [ApplicationDoesNotExistException].
   /// May throw [ApplicationNameRequiredException].
   /// May throw [InvalidApplicationNameException].
-  /// May throw [ApplicationDoesNotExistException].
   ///
   /// Parameter [applicationName] :
   /// The name of an CodeDeploy application associated with the user or Amazon
@@ -1290,9 +1287,9 @@ class CodeDeploy {
   /// May throw [ApplicationDoesNotExistException].
   /// May throw [ApplicationNameRequiredException].
   /// May throw [InvalidApplicationNameException].
+  /// May throw [InvalidRevisionException].
   /// May throw [RevisionDoesNotExistException].
   /// May throw [RevisionRequiredException].
-  /// May throw [InvalidRevisionException].
   ///
   /// Parameter [applicationName] :
   /// The name of the application that corresponds to the revision.
@@ -1332,9 +1329,9 @@ class CodeDeploy {
   /// the deployment’s AppSpec file.
   /// </note>
   ///
+  /// May throw [DeploymentDoesNotExistException].
   /// May throw [DeploymentIdRequiredException].
   /// May throw [InvalidDeploymentIdException].
-  /// May throw [DeploymentDoesNotExistException].
   ///
   /// Parameter [deploymentId] :
   /// The unique ID of a deployment associated with the user or Amazon Web
@@ -1362,10 +1359,10 @@ class CodeDeploy {
 
   /// Gets information about a deployment configuration.
   ///
-  /// May throw [InvalidDeploymentConfigNameException].
-  /// May throw [DeploymentConfigNameRequiredException].
   /// May throw [DeploymentConfigDoesNotExistException].
+  /// May throw [DeploymentConfigNameRequiredException].
   /// May throw [InvalidComputePlatformException].
+  /// May throw [InvalidDeploymentConfigNameException].
   ///
   /// Parameter [deploymentConfigName] :
   /// The name of a deployment configuration associated with the user or Amazon
@@ -1393,13 +1390,13 @@ class CodeDeploy {
 
   /// Gets information about a deployment group.
   ///
-  /// May throw [ApplicationNameRequiredException].
-  /// May throw [InvalidApplicationNameException].
   /// May throw [ApplicationDoesNotExistException].
-  /// May throw [DeploymentGroupNameRequiredException].
-  /// May throw [InvalidDeploymentGroupNameException].
-  /// May throw [DeploymentGroupDoesNotExistException].
+  /// May throw [ApplicationNameRequiredException].
   /// May throw [DeploymentConfigDoesNotExistException].
+  /// May throw [DeploymentGroupDoesNotExistException].
+  /// May throw [DeploymentGroupNameRequiredException].
+  /// May throw [InvalidApplicationNameException].
+  /// May throw [InvalidDeploymentGroupNameException].
   ///
   /// Parameter [applicationName] :
   /// The name of an CodeDeploy application associated with the user or Amazon
@@ -1432,20 +1429,19 @@ class CodeDeploy {
 
   /// Gets information about an instance as part of a deployment.
   ///
-  /// May throw [DeploymentIdRequiredException].
   /// May throw [DeploymentDoesNotExistException].
-  /// May throw [InstanceIdRequiredException].
-  /// May throw [InvalidDeploymentIdException].
+  /// May throw [DeploymentIdRequiredException].
   /// May throw [InstanceDoesNotExistException].
-  /// May throw [InvalidInstanceNameException].
+  /// May throw [InstanceIdRequiredException].
   /// May throw [InvalidComputePlatformException].
+  /// May throw [InvalidDeploymentIdException].
+  /// May throw [InvalidInstanceNameException].
   ///
   /// Parameter [deploymentId] :
   /// The unique ID of a deployment.
   ///
   /// Parameter [instanceId] :
   /// The unique ID of an instance in the deployment group.
-  @Deprecated('This operation is deprecated, use GetDeploymentTarget instead.')
   Future<GetDeploymentInstanceOutput> getDeploymentInstance({
     required String deploymentId,
     required String instanceId,
@@ -1471,13 +1467,13 @@ class CodeDeploy {
 
   /// Returns information about a deployment target.
   ///
-  /// May throw [InvalidDeploymentIdException].
-  /// May throw [DeploymentIdRequiredException].
   /// May throw [DeploymentDoesNotExistException].
+  /// May throw [DeploymentIdRequiredException].
   /// May throw [DeploymentNotStartedException].
-  /// May throw [DeploymentTargetIdRequiredException].
-  /// May throw [InvalidDeploymentTargetIdException].
   /// May throw [DeploymentTargetDoesNotExistException].
+  /// May throw [DeploymentTargetIdRequiredException].
+  /// May throw [InvalidDeploymentIdException].
+  /// May throw [InvalidDeploymentTargetIdException].
   /// May throw [InvalidInstanceNameException].
   ///
   /// Parameter [deploymentId] :
@@ -1541,14 +1537,14 @@ class CodeDeploy {
   ///
   /// May throw [ApplicationDoesNotExistException].
   /// May throw [ApplicationNameRequiredException].
+  /// May throw [BucketNameFilterRequiredException].
   /// May throw [InvalidApplicationNameException].
+  /// May throw [InvalidBucketNameFilterException].
+  /// May throw [InvalidDeployedStateFilterException].
+  /// May throw [InvalidKeyPrefixFilterException].
+  /// May throw [InvalidNextTokenException].
   /// May throw [InvalidSortByException].
   /// May throw [InvalidSortOrderException].
-  /// May throw [InvalidBucketNameFilterException].
-  /// May throw [InvalidKeyPrefixFilterException].
-  /// May throw [BucketNameFilterRequiredException].
-  /// May throw [InvalidDeployedStateFilterException].
-  /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [applicationName] :
   /// The name of an CodeDeploy application associated with the user or Amazon
@@ -1715,9 +1711,9 @@ class CodeDeploy {
   /// Lists the deployment groups for an application registered with the Amazon
   /// Web Services user or Amazon Web Services account.
   ///
+  /// May throw [ApplicationDoesNotExistException].
   /// May throw [ApplicationNameRequiredException].
   /// May throw [InvalidApplicationNameException].
-  /// May throw [ApplicationDoesNotExistException].
   /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [applicationName] :
@@ -1759,16 +1755,16 @@ class CodeDeploy {
   /// Lists the instance for a deployment associated with the user or Amazon Web
   /// Services account.
   ///
-  /// May throw [DeploymentIdRequiredException].
   /// May throw [DeploymentDoesNotExistException].
+  /// May throw [DeploymentIdRequiredException].
   /// May throw [DeploymentNotStartedException].
-  /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidComputePlatformException].
   /// May throw [InvalidDeploymentIdException].
+  /// May throw [InvalidDeploymentInstanceTypeException].
   /// May throw [InvalidInstanceStatusException].
   /// May throw [InvalidInstanceTypeException].
-  /// May throw [InvalidDeploymentInstanceTypeException].
+  /// May throw [InvalidNextTokenException].
   /// May throw [InvalidTargetFilterNameException].
-  /// May throw [InvalidComputePlatformException].
   ///
   /// Parameter [deploymentId] :
   /// The unique ID of a deployment.
@@ -1808,8 +1804,6 @@ class CodeDeploy {
   /// Parameter [nextToken] :
   /// An identifier returned from the previous list deployment instances call.
   /// It can be used to return the next set of deployment instances in the list.
-  @Deprecated(
-      'This operation is deprecated, use ListDeploymentTargets instead.')
   Future<ListDeploymentInstancesOutput> listDeploymentInstances({
     required String deploymentId,
     List<InstanceStatus>? instanceStatusFilter,
@@ -1840,81 +1834,20 @@ class CodeDeploy {
     return ListDeploymentInstancesOutput.fromJson(jsonResponse.body);
   }
 
-  /// Returns an array of target IDs that are associated a deployment.
-  ///
-  /// May throw [DeploymentIdRequiredException].
-  /// May throw [DeploymentDoesNotExistException].
-  /// May throw [DeploymentNotStartedException].
-  /// May throw [InvalidNextTokenException].
-  /// May throw [InvalidDeploymentIdException].
-  /// May throw [InvalidInstanceStatusException].
-  /// May throw [InvalidInstanceTypeException].
-  /// May throw [InvalidDeploymentInstanceTypeException].
-  /// May throw [InvalidTargetFilterNameException].
-  ///
-  /// Parameter [deploymentId] :
-  /// The unique ID of a deployment.
-  ///
-  /// Parameter [nextToken] :
-  /// A token identifier returned from the previous
-  /// <code>ListDeploymentTargets</code> call. It can be used to return the next
-  /// set of deployment targets in the list.
-  ///
-  /// Parameter [targetFilters] :
-  /// A key used to filter the returned targets. The two valid values are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>TargetStatus</code> - A <code>TargetStatus</code> filter string can
-  /// be <code>Failed</code>, <code>InProgress</code>, <code>Pending</code>,
-  /// <code>Ready</code>, <code>Skipped</code>, <code>Succeeded</code>, or
-  /// <code>Unknown</code>.
-  /// </li>
-  /// <li>
-  /// <code>ServerInstanceLabel</code> - A <code>ServerInstanceLabel</code>
-  /// filter string can be <code>Blue</code> or <code>Green</code>.
-  /// </li>
-  /// </ul>
-  Future<ListDeploymentTargetsOutput> listDeploymentTargets({
-    required String deploymentId,
-    String? nextToken,
-    Map<TargetFilterName, List<String>>? targetFilters,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'CodeDeploy_20141006.ListDeploymentTargets'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'deploymentId': deploymentId,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (targetFilters != null)
-          'targetFilters': targetFilters.map((k, e) => MapEntry(k.value, e)),
-      },
-    );
-
-    return ListDeploymentTargetsOutput.fromJson(jsonResponse.body);
-  }
-
   /// Lists the deployments in a deployment group for an application registered
   /// with the user or Amazon Web Services account.
   ///
-  /// May throw [ApplicationNameRequiredException].
-  /// May throw [InvalidApplicationNameException].
   /// May throw [ApplicationDoesNotExistException].
-  /// May throw [InvalidDeploymentGroupNameException].
+  /// May throw [ApplicationNameRequiredException].
   /// May throw [DeploymentGroupDoesNotExistException].
   /// May throw [DeploymentGroupNameRequiredException].
-  /// May throw [InvalidTimeRangeException].
+  /// May throw [InvalidApplicationNameException].
+  /// May throw [InvalidDeploymentGroupNameException].
   /// May throw [InvalidDeploymentStatusException].
-  /// May throw [InvalidNextTokenException].
   /// May throw [InvalidExternalIdException].
   /// May throw [InvalidInputException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidTimeRangeException].
   ///
   /// Parameter [applicationName] :
   /// The name of an CodeDeploy application associated with the user or Amazon
@@ -2004,11 +1937,72 @@ class CodeDeploy {
     return ListDeploymentsOutput.fromJson(jsonResponse.body);
   }
 
+  /// Returns an array of target IDs that are associated a deployment.
+  ///
+  /// May throw [DeploymentDoesNotExistException].
+  /// May throw [DeploymentIdRequiredException].
+  /// May throw [DeploymentNotStartedException].
+  /// May throw [InvalidDeploymentIdException].
+  /// May throw [InvalidDeploymentInstanceTypeException].
+  /// May throw [InvalidInstanceStatusException].
+  /// May throw [InvalidInstanceTypeException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidTargetFilterNameException].
+  ///
+  /// Parameter [deploymentId] :
+  /// The unique ID of a deployment.
+  ///
+  /// Parameter [nextToken] :
+  /// A token identifier returned from the previous
+  /// <code>ListDeploymentTargets</code> call. It can be used to return the next
+  /// set of deployment targets in the list.
+  ///
+  /// Parameter [targetFilters] :
+  /// A key used to filter the returned targets. The two valid values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>TargetStatus</code> - A <code>TargetStatus</code> filter string can
+  /// be <code>Failed</code>, <code>InProgress</code>, <code>Pending</code>,
+  /// <code>Ready</code>, <code>Skipped</code>, <code>Succeeded</code>, or
+  /// <code>Unknown</code>.
+  /// </li>
+  /// <li>
+  /// <code>ServerInstanceLabel</code> - A <code>ServerInstanceLabel</code>
+  /// filter string can be <code>Blue</code> or <code>Green</code>.
+  /// </li>
+  /// </ul>
+  Future<ListDeploymentTargetsOutput> listDeploymentTargets({
+    required String deploymentId,
+    String? nextToken,
+    Map<TargetFilterName, List<String>>? targetFilters,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CodeDeploy_20141006.ListDeploymentTargets'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'deploymentId': deploymentId,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (targetFilters != null)
+          'targetFilters': targetFilters.map((k, e) => MapEntry(k.value, e)),
+      },
+    );
+
+    return ListDeploymentTargetsOutput.fromJson(jsonResponse.body);
+  }
+
   /// Lists the names of stored connections to GitHub accounts.
   ///
   /// May throw [InvalidNextTokenException].
-  /// May throw [ResourceValidationException].
   /// May throw [OperationNotSupportedException].
+  /// May throw [ResourceValidationException].
   ///
   /// Parameter [nextToken] :
   /// An identifier returned from the previous
@@ -2041,9 +2035,9 @@ class CodeDeploy {
   /// instance names are listed. To list only registered or deregistered
   /// on-premises instance names, use the registration status parameter.
   ///
+  /// May throw [InvalidNextTokenException].
   /// May throw [InvalidRegistrationStatusException].
   /// May throw [InvalidTagFilterException].
-  /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [nextToken] :
   /// An identifier returned from the previous list on-premises instances call.
@@ -2147,12 +2141,12 @@ class CodeDeploy {
   /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/reference-appspec-file-structure-hooks.html#appspec-hooks-ecs">AppSpec
   /// 'hooks' Section for an Amazon ECS Deployment</a>.
   ///
-  /// May throw [InvalidLifecycleEventHookExecutionStatusException].
-  /// May throw [InvalidLifecycleEventHookExecutionIdException].
-  /// May throw [LifecycleEventAlreadyCompletedException].
-  /// May throw [DeploymentIdRequiredException].
   /// May throw [DeploymentDoesNotExistException].
+  /// May throw [DeploymentIdRequiredException].
   /// May throw [InvalidDeploymentIdException].
+  /// May throw [InvalidLifecycleEventHookExecutionIdException].
+  /// May throw [InvalidLifecycleEventHookExecutionStatusException].
+  /// May throw [LifecycleEventAlreadyCompletedException].
   /// May throw [UnsupportedActionForDeploymentTypeException].
   ///
   /// Parameter [deploymentId] :
@@ -2200,10 +2194,10 @@ class CodeDeploy {
   ///
   /// May throw [ApplicationDoesNotExistException].
   /// May throw [ApplicationNameRequiredException].
-  /// May throw [InvalidApplicationNameException].
   /// May throw [DescriptionTooLongException].
-  /// May throw [RevisionRequiredException].
+  /// May throw [InvalidApplicationNameException].
   /// May throw [InvalidRevisionException].
+  /// May throw [RevisionRequiredException].
   ///
   /// Parameter [applicationName] :
   /// The name of an CodeDeploy application associated with the user or Amazon
@@ -2244,15 +2238,15 @@ class CodeDeploy {
   /// request. You cannot use both.
   /// </note>
   ///
-  /// May throw [InstanceNameAlreadyRegisteredException].
   /// May throw [IamArnRequiredException].
   /// May throw [IamSessionArnAlreadyRegisteredException].
   /// May throw [IamUserArnAlreadyRegisteredException].
-  /// May throw [InstanceNameRequiredException].
   /// May throw [IamUserArnRequiredException].
-  /// May throw [InvalidInstanceNameException].
+  /// May throw [InstanceNameAlreadyRegisteredException].
+  /// May throw [InstanceNameRequiredException].
   /// May throw [InvalidIamSessionArnException].
   /// May throw [InvalidIamUserArnException].
+  /// May throw [InvalidInstanceNameException].
   /// May throw [MultipleIamArnsProvidedException].
   ///
   /// Parameter [instanceName] :
@@ -2288,13 +2282,13 @@ class CodeDeploy {
 
   /// Removes one or more tags from one or more on-premises instances.
   ///
+  /// May throw [InstanceLimitExceededException].
   /// May throw [InstanceNameRequiredException].
+  /// May throw [InstanceNotRegisteredException].
   /// May throw [InvalidInstanceNameException].
-  /// May throw [TagRequiredException].
   /// May throw [InvalidTagException].
   /// May throw [TagLimitExceededException].
-  /// May throw [InstanceLimitExceededException].
-  /// May throw [InstanceNotRegisteredException].
+  /// May throw [TagRequiredException].
   ///
   /// Parameter [instanceNames] :
   /// The names of the on-premises instances from which to remove tags.
@@ -2325,18 +2319,16 @@ class CodeDeploy {
   /// In a blue/green deployment, overrides any specified wait time and starts
   /// terminating instances immediately after the traffic routing is complete.
   ///
-  /// May throw [DeploymentIdRequiredException].
-  /// May throw [DeploymentDoesNotExistException].
   /// May throw [DeploymentAlreadyCompletedException].
-  /// May throw [InvalidDeploymentIdException].
+  /// May throw [DeploymentDoesNotExistException].
+  /// May throw [DeploymentIdRequiredException].
   /// May throw [DeploymentNotStartedException].
+  /// May throw [InvalidDeploymentIdException].
   /// May throw [UnsupportedActionForDeploymentTypeException].
   ///
   /// Parameter [deploymentId] :
   /// The unique ID of a blue/green deployment for which you want to skip the
   /// instance termination wait time.
-  @Deprecated(
-      'This operation is deprecated, use ContinueDeployment with DeploymentWaitType instead.')
   Future<void> skipWaitTimeForInstanceTermination({
     String? deploymentId,
   }) async {
@@ -2358,10 +2350,10 @@ class CodeDeploy {
 
   /// Attempts to stop an ongoing deployment.
   ///
-  /// May throw [DeploymentIdRequiredException].
+  /// May throw [DeploymentAlreadyCompletedException].
   /// May throw [DeploymentDoesNotExistException].
   /// May throw [DeploymentGroupDoesNotExistException].
-  /// May throw [DeploymentAlreadyCompletedException].
+  /// May throw [DeploymentIdRequiredException].
   /// May throw [InvalidDeploymentIdException].
   /// May throw [UnsupportedActionForDeploymentTypeException].
   ///
@@ -2399,14 +2391,14 @@ class CodeDeploy {
   /// Associates the list of tags in the input <code>Tags</code> parameter with
   /// the resource identified by the <code>ResourceArn</code> input parameter.
   ///
-  /// May throw [ResourceArnRequiredException].
   /// May throw [ApplicationDoesNotExistException].
-  /// May throw [DeploymentGroupDoesNotExistException].
-  /// May throw [DeploymentConfigDoesNotExistException].
-  /// May throw [TagRequiredException].
-  /// May throw [InvalidTagsToAddException].
   /// May throw [ArnNotSupportedException].
+  /// May throw [DeploymentConfigDoesNotExistException].
+  /// May throw [DeploymentGroupDoesNotExistException].
   /// May throw [InvalidArnException].
+  /// May throw [InvalidTagsToAddException].
+  /// May throw [ResourceArnRequiredException].
+  /// May throw [TagRequiredException].
   ///
   /// Parameter [resourceArn] :
   /// The ARN of a resource, such as a CodeDeploy application or deployment
@@ -2441,14 +2433,14 @@ class CodeDeploy {
   /// by the <code>ResourceArn</code> input parameter. The tags are identified
   /// by the list of keys in the <code>TagKeys</code> input parameter.
   ///
-  /// May throw [ResourceArnRequiredException].
   /// May throw [ApplicationDoesNotExistException].
-  /// May throw [DeploymentGroupDoesNotExistException].
-  /// May throw [DeploymentConfigDoesNotExistException].
-  /// May throw [TagRequiredException].
-  /// May throw [InvalidTagsToAddException].
   /// May throw [ArnNotSupportedException].
+  /// May throw [DeploymentConfigDoesNotExistException].
+  /// May throw [DeploymentGroupDoesNotExistException].
   /// May throw [InvalidArnException].
+  /// May throw [InvalidTagsToAddException].
+  /// May throw [ResourceArnRequiredException].
+  /// May throw [TagRequiredException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) that specifies from which resource to
@@ -2482,10 +2474,10 @@ class CodeDeploy {
 
   /// Changes the name of an application.
   ///
-  /// May throw [ApplicationNameRequiredException].
-  /// May throw [InvalidApplicationNameException].
   /// May throw [ApplicationAlreadyExistsException].
   /// May throw [ApplicationDoesNotExistException].
+  /// May throw [ApplicationNameRequiredException].
+  /// May throw [InvalidApplicationNameException].
   ///
   /// Parameter [applicationName] :
   /// The current name of the application you want to change.
@@ -2516,37 +2508,37 @@ class CodeDeploy {
 
   /// Changes information about a deployment group.
   ///
-  /// May throw [ApplicationNameRequiredException].
-  /// May throw [InvalidApplicationNameException].
-  /// May throw [ApplicationDoesNotExistException].
-  /// May throw [InvalidDeploymentGroupNameException].
-  /// May throw [DeploymentGroupAlreadyExistsException].
-  /// May throw [DeploymentGroupNameRequiredException].
-  /// May throw [DeploymentGroupDoesNotExistException].
-  /// May throw [InvalidEC2TagException].
-  /// May throw [InvalidTagException].
-  /// May throw [InvalidAutoScalingGroupException].
-  /// May throw [InvalidDeploymentConfigNameException].
-  /// May throw [DeploymentConfigDoesNotExistException].
-  /// May throw [InvalidRoleException].
-  /// May throw [LifecycleHookLimitExceededException].
-  /// May throw [InvalidTriggerConfigException].
-  /// May throw [TriggerTargetsLimitExceededException].
-  /// May throw [InvalidAlarmConfigException].
   /// May throw [AlarmsLimitExceededException].
-  /// May throw [InvalidAutoRollbackConfigException].
-  /// May throw [InvalidLoadBalancerInfoException].
-  /// May throw [InvalidDeploymentStyleException].
-  /// May throw [InvalidBlueGreenDeploymentConfigurationException].
-  /// May throw [InvalidEC2TagCombinationException].
-  /// May throw [InvalidOnPremisesTagCombinationException].
-  /// May throw [TagSetListLimitExceededException].
-  /// May throw [InvalidInputException].
-  /// May throw [ThrottlingException].
-  /// May throw [InvalidECSServiceException].
-  /// May throw [InvalidTargetGroupPairException].
+  /// May throw [ApplicationDoesNotExistException].
+  /// May throw [ApplicationNameRequiredException].
+  /// May throw [DeploymentConfigDoesNotExistException].
+  /// May throw [DeploymentGroupAlreadyExistsException].
+  /// May throw [DeploymentGroupDoesNotExistException].
+  /// May throw [DeploymentGroupNameRequiredException].
   /// May throw [ECSServiceMappingLimitExceededException].
+  /// May throw [InvalidAlarmConfigException].
+  /// May throw [InvalidApplicationNameException].
+  /// May throw [InvalidAutoRollbackConfigException].
+  /// May throw [InvalidAutoScalingGroupException].
+  /// May throw [InvalidBlueGreenDeploymentConfigurationException].
+  /// May throw [InvalidDeploymentConfigNameException].
+  /// May throw [InvalidDeploymentGroupNameException].
+  /// May throw [InvalidDeploymentStyleException].
+  /// May throw [InvalidEC2TagCombinationException].
+  /// May throw [InvalidEC2TagException].
+  /// May throw [InvalidECSServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [InvalidLoadBalancerInfoException].
+  /// May throw [InvalidOnPremisesTagCombinationException].
+  /// May throw [InvalidRoleException].
+  /// May throw [InvalidTagException].
+  /// May throw [InvalidTargetGroupPairException].
   /// May throw [InvalidTrafficRoutingConfigurationException].
+  /// May throw [InvalidTriggerConfigException].
+  /// May throw [LifecycleHookLimitExceededException].
+  /// May throw [TagSetListLimitExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [TriggerTargetsLimitExceededException].
   ///
   /// Parameter [applicationName] :
   /// The application name that corresponds to the deployment group to update.
@@ -2608,8 +2600,7 @@ class CodeDeploy {
   /// The target Amazon ECS services in the deployment group. This applies only
   /// to deployment groups that use the Amazon ECS compute platform. A target
   /// Amazon ECS service is specified as an Amazon ECS cluster and service name
-  /// pair using the format
-  /// <code>&lt;clustername&gt;:&lt;servicename&gt;</code>.
+  /// pair using the format <code><clustername>:<servicename></code>.
   ///
   /// Parameter [loadBalancerInfo] :
   /// Information about the load balancer used in a deployment.
@@ -2732,334 +2723,6 @@ class CodeDeploy {
     );
 
     return UpdateDeploymentGroupOutput.fromJson(jsonResponse.body);
-  }
-}
-
-/// Information about an alarm.
-class Alarm {
-  /// The name of the alarm. Maximum length is 255 characters. Each alarm name can
-  /// be used only once in a list of alarms.
-  final String? name;
-
-  Alarm({
-    this.name,
-  });
-
-  factory Alarm.fromJson(Map<String, dynamic> json) {
-    return Alarm(
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    return {
-      if (name != null) 'name': name,
-    };
-  }
-}
-
-/// Information about alarms associated with a deployment or deployment group.
-class AlarmConfiguration {
-  /// A list of alarms configured for the deployment or deployment group. A
-  /// maximum of 10 alarms can be added.
-  final List<Alarm>? alarms;
-
-  /// Indicates whether the alarm configuration is enabled.
-  final bool? enabled;
-
-  /// Indicates whether a deployment should continue if information about the
-  /// current state of alarms cannot be retrieved from Amazon CloudWatch. The
-  /// default value is false.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>true</code>: The deployment proceeds even if alarm status information
-  /// can't be retrieved from Amazon CloudWatch.
-  /// </li>
-  /// <li>
-  /// <code>false</code>: The deployment stops if alarm status information can't
-  /// be retrieved from Amazon CloudWatch.
-  /// </li>
-  /// </ul>
-  final bool? ignorePollAlarmFailure;
-
-  AlarmConfiguration({
-    this.alarms,
-    this.enabled,
-    this.ignorePollAlarmFailure,
-  });
-
-  factory AlarmConfiguration.fromJson(Map<String, dynamic> json) {
-    return AlarmConfiguration(
-      alarms: (json['alarms'] as List?)
-          ?.nonNulls
-          .map((e) => Alarm.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      enabled: json['enabled'] as bool?,
-      ignorePollAlarmFailure: json['ignorePollAlarmFailure'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final alarms = this.alarms;
-    final enabled = this.enabled;
-    final ignorePollAlarmFailure = this.ignorePollAlarmFailure;
-    return {
-      if (alarms != null) 'alarms': alarms,
-      if (enabled != null) 'enabled': enabled,
-      if (ignorePollAlarmFailure != null)
-        'ignorePollAlarmFailure': ignorePollAlarmFailure,
-    };
-  }
-}
-
-/// A revision for an Lambda or Amazon ECS deployment that is a YAML-formatted
-/// or JSON-formatted string. For Lambda and Amazon ECS deployments, the
-/// revision is the same as the AppSpec file. This method replaces the
-/// deprecated <code>RawString</code> data type.
-class AppSpecContent {
-  /// The YAML-formatted or JSON-formatted revision string.
-  ///
-  /// For an Lambda deployment, the content includes a Lambda function name, the
-  /// alias for its original version, and the alias for its replacement version.
-  /// The deployment shifts traffic from the original version of the Lambda
-  /// function to the replacement version.
-  ///
-  /// For an Amazon ECS deployment, the content includes the task name,
-  /// information about the load balancer that serves traffic to the container,
-  /// and more.
-  ///
-  /// For both types of deployments, the content can specify Lambda functions that
-  /// run at specified hooks, such as <code>BeforeInstall</code>, during a
-  /// deployment.
-  final String? content;
-
-  /// The SHA256 hash value of the revision content.
-  final String? sha256;
-
-  AppSpecContent({
-    this.content,
-    this.sha256,
-  });
-
-  factory AppSpecContent.fromJson(Map<String, dynamic> json) {
-    return AppSpecContent(
-      content: json['content'] as String?,
-      sha256: json['sha256'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final content = this.content;
-    final sha256 = this.sha256;
-    return {
-      if (content != null) 'content': content,
-      if (sha256 != null) 'sha256': sha256,
-    };
-  }
-}
-
-/// Information about an application.
-class ApplicationInfo {
-  /// The application ID.
-  final String? applicationId;
-
-  /// The application name.
-  final String? applicationName;
-
-  /// The destination platform type for deployment of the application
-  /// (<code>Lambda</code> or <code>Server</code>).
-  final ComputePlatform? computePlatform;
-
-  /// The time at which the application was created.
-  final DateTime? createTime;
-
-  /// The name for a connection to a GitHub account.
-  final String? gitHubAccountName;
-
-  /// True if the user has authenticated with GitHub for the specified
-  /// application. Otherwise, false.
-  final bool? linkedToGitHub;
-
-  ApplicationInfo({
-    this.applicationId,
-    this.applicationName,
-    this.computePlatform,
-    this.createTime,
-    this.gitHubAccountName,
-    this.linkedToGitHub,
-  });
-
-  factory ApplicationInfo.fromJson(Map<String, dynamic> json) {
-    return ApplicationInfo(
-      applicationId: json['applicationId'] as String?,
-      applicationName: json['applicationName'] as String?,
-      computePlatform:
-          (json['computePlatform'] as String?)?.let(ComputePlatform.fromString),
-      createTime: timeStampFromJson(json['createTime']),
-      gitHubAccountName: json['gitHubAccountName'] as String?,
-      linkedToGitHub: json['linkedToGitHub'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final applicationId = this.applicationId;
-    final applicationName = this.applicationName;
-    final computePlatform = this.computePlatform;
-    final createTime = this.createTime;
-    final gitHubAccountName = this.gitHubAccountName;
-    final linkedToGitHub = this.linkedToGitHub;
-    return {
-      if (applicationId != null) 'applicationId': applicationId,
-      if (applicationName != null) 'applicationName': applicationName,
-      if (computePlatform != null) 'computePlatform': computePlatform.value,
-      if (createTime != null) 'createTime': unixTimestampToJson(createTime),
-      if (gitHubAccountName != null) 'gitHubAccountName': gitHubAccountName,
-      if (linkedToGitHub != null) 'linkedToGitHub': linkedToGitHub,
-    };
-  }
-}
-
-class ApplicationRevisionSortBy {
-  static const registerTime = ApplicationRevisionSortBy._('registerTime');
-  static const firstUsedTime = ApplicationRevisionSortBy._('firstUsedTime');
-  static const lastUsedTime = ApplicationRevisionSortBy._('lastUsedTime');
-
-  final String value;
-
-  const ApplicationRevisionSortBy._(this.value);
-
-  static const values = [registerTime, firstUsedTime, lastUsedTime];
-
-  static ApplicationRevisionSortBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ApplicationRevisionSortBy._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ApplicationRevisionSortBy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about a configuration for automatically rolling back to a
-/// previous version of an application revision when a deployment is not
-/// completed successfully.
-class AutoRollbackConfiguration {
-  /// Indicates whether a defined automatic rollback configuration is currently
-  /// enabled.
-  final bool? enabled;
-
-  /// The event type or types that trigger a rollback.
-  final List<AutoRollbackEvent>? events;
-
-  AutoRollbackConfiguration({
-    this.enabled,
-    this.events,
-  });
-
-  factory AutoRollbackConfiguration.fromJson(Map<String, dynamic> json) {
-    return AutoRollbackConfiguration(
-      enabled: json['enabled'] as bool?,
-      events: (json['events'] as List?)
-          ?.nonNulls
-          .map((e) => AutoRollbackEvent.fromString((e as String)))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final enabled = this.enabled;
-    final events = this.events;
-    return {
-      if (enabled != null) 'enabled': enabled,
-      if (events != null) 'events': events.map((e) => e.value).toList(),
-    };
-  }
-}
-
-class AutoRollbackEvent {
-  static const deploymentFailure = AutoRollbackEvent._('DEPLOYMENT_FAILURE');
-  static const deploymentStopOnAlarm =
-      AutoRollbackEvent._('DEPLOYMENT_STOP_ON_ALARM');
-  static const deploymentStopOnRequest =
-      AutoRollbackEvent._('DEPLOYMENT_STOP_ON_REQUEST');
-
-  final String value;
-
-  const AutoRollbackEvent._(this.value);
-
-  static const values = [
-    deploymentFailure,
-    deploymentStopOnAlarm,
-    deploymentStopOnRequest
-  ];
-
-  static AutoRollbackEvent fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AutoRollbackEvent._(value));
-
-  @override
-  bool operator ==(other) => other is AutoRollbackEvent && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about an Auto Scaling group.
-class AutoScalingGroup {
-  /// The name of the launch hook that CodeDeploy installed into the Auto Scaling
-  /// group.
-  ///
-  /// For more information about the launch hook, see <a
-  /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html#integrations-aws-auto-scaling-behaviors">How
-  /// Amazon EC2 Auto Scaling works with CodeDeploy</a> in the <i>CodeDeploy User
-  /// Guide</i>.
-  final String? hook;
-
-  /// The Auto Scaling group name.
-  final String? name;
-
-  /// The name of the termination hook that CodeDeploy installed into the Auto
-  /// Scaling group.
-  ///
-  /// For more information about the termination hook, see <a
-  /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html#integrations-aws-auto-scaling-behaviors-hook-enable">Enabling
-  /// termination deployments during Auto Scaling scale-in events</a> in the
-  /// <i>CodeDeploy User Guide</i>.
-  final String? terminationHook;
-
-  AutoScalingGroup({
-    this.hook,
-    this.name,
-    this.terminationHook,
-  });
-
-  factory AutoScalingGroup.fromJson(Map<String, dynamic> json) {
-    return AutoScalingGroup(
-      hook: json['hook'] as String?,
-      name: json['name'] as String?,
-      terminationHook: json['terminationHook'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hook = this.hook;
-    final name = this.name;
-    final terminationHook = this.terminationHook;
-    return {
-      if (hook != null) 'hook': hook,
-      if (name != null) 'name': name,
-      if (terminationHook != null) 'terminationHook': terminationHook,
-    };
   }
 }
 
@@ -3200,6 +2863,32 @@ class BatchGetDeploymentInstancesOutput {
   }
 }
 
+/// Represents the output of a <code>BatchGetDeployments</code> operation.
+class BatchGetDeploymentsOutput {
+  /// Information about the deployments.
+  final List<DeploymentInfo>? deploymentsInfo;
+
+  BatchGetDeploymentsOutput({
+    this.deploymentsInfo,
+  });
+
+  factory BatchGetDeploymentsOutput.fromJson(Map<String, dynamic> json) {
+    return BatchGetDeploymentsOutput(
+      deploymentsInfo: (json['deploymentsInfo'] as List?)
+          ?.nonNulls
+          .map((e) => DeploymentInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentsInfo = this.deploymentsInfo;
+    return {
+      if (deploymentsInfo != null) 'deploymentsInfo': deploymentsInfo,
+    };
+  }
+}
+
 class BatchGetDeploymentTargetsOutput {
   /// A list of target objects for a deployment. Each target object contains
   /// details about the target, such as its status and lifecycle events. The type
@@ -3245,32 +2934,6 @@ class BatchGetDeploymentTargetsOutput {
   }
 }
 
-/// Represents the output of a <code>BatchGetDeployments</code> operation.
-class BatchGetDeploymentsOutput {
-  /// Information about the deployments.
-  final List<DeploymentInfo>? deploymentsInfo;
-
-  BatchGetDeploymentsOutput({
-    this.deploymentsInfo,
-  });
-
-  factory BatchGetDeploymentsOutput.fromJson(Map<String, dynamic> json) {
-    return BatchGetDeploymentsOutput(
-      deploymentsInfo: (json['deploymentsInfo'] as List?)
-          ?.nonNulls
-          .map((e) => DeploymentInfo.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deploymentsInfo = this.deploymentsInfo;
-    return {
-      if (deploymentsInfo != null) 'deploymentsInfo': deploymentsInfo,
-    };
-  }
-}
-
 /// Represents the output of a <code>BatchGetOnPremisesInstances</code>
 /// operation.
 class BatchGetOnPremisesInstancesOutput {
@@ -3299,245 +2962,6 @@ class BatchGetOnPremisesInstancesOutput {
   }
 }
 
-/// Information about blue/green deployment options for a deployment group.
-class BlueGreenDeploymentConfiguration {
-  /// Information about the action to take when newly provisioned instances are
-  /// ready to receive traffic in a blue/green deployment.
-  final DeploymentReadyOption? deploymentReadyOption;
-
-  /// Information about how instances are provisioned for a replacement
-  /// environment in a blue/green deployment.
-  final GreenFleetProvisioningOption? greenFleetProvisioningOption;
-
-  /// Information about whether to terminate instances in the original fleet
-  /// during a blue/green deployment.
-  final BlueInstanceTerminationOption?
-      terminateBlueInstancesOnDeploymentSuccess;
-
-  BlueGreenDeploymentConfiguration({
-    this.deploymentReadyOption,
-    this.greenFleetProvisioningOption,
-    this.terminateBlueInstancesOnDeploymentSuccess,
-  });
-
-  factory BlueGreenDeploymentConfiguration.fromJson(Map<String, dynamic> json) {
-    return BlueGreenDeploymentConfiguration(
-      deploymentReadyOption: json['deploymentReadyOption'] != null
-          ? DeploymentReadyOption.fromJson(
-              json['deploymentReadyOption'] as Map<String, dynamic>)
-          : null,
-      greenFleetProvisioningOption: json['greenFleetProvisioningOption'] != null
-          ? GreenFleetProvisioningOption.fromJson(
-              json['greenFleetProvisioningOption'] as Map<String, dynamic>)
-          : null,
-      terminateBlueInstancesOnDeploymentSuccess:
-          json['terminateBlueInstancesOnDeploymentSuccess'] != null
-              ? BlueInstanceTerminationOption.fromJson(
-                  json['terminateBlueInstancesOnDeploymentSuccess']
-                      as Map<String, dynamic>)
-              : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deploymentReadyOption = this.deploymentReadyOption;
-    final greenFleetProvisioningOption = this.greenFleetProvisioningOption;
-    final terminateBlueInstancesOnDeploymentSuccess =
-        this.terminateBlueInstancesOnDeploymentSuccess;
-    return {
-      if (deploymentReadyOption != null)
-        'deploymentReadyOption': deploymentReadyOption,
-      if (greenFleetProvisioningOption != null)
-        'greenFleetProvisioningOption': greenFleetProvisioningOption,
-      if (terminateBlueInstancesOnDeploymentSuccess != null)
-        'terminateBlueInstancesOnDeploymentSuccess':
-            terminateBlueInstancesOnDeploymentSuccess,
-    };
-  }
-}
-
-/// Information about whether instances in the original environment are
-/// terminated when a blue/green deployment is successful.
-/// <code>BlueInstanceTerminationOption</code> does not apply to Lambda
-/// deployments.
-class BlueInstanceTerminationOption {
-  /// The action to take on instances in the original environment after a
-  /// successful blue/green deployment.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>TERMINATE</code>: Instances are terminated after a specified wait
-  /// time.
-  /// </li>
-  /// <li>
-  /// <code>KEEP_ALIVE</code>: Instances are left running after they are
-  /// deregistered from the load balancer and removed from the deployment group.
-  /// </li>
-  /// </ul>
-  final InstanceAction? action;
-
-  /// For an Amazon EC2 deployment, the number of minutes to wait after a
-  /// successful blue/green deployment before terminating instances from the
-  /// original environment.
-  ///
-  /// For an Amazon ECS deployment, the number of minutes before deleting the
-  /// original (blue) task set. During an Amazon ECS deployment, CodeDeploy shifts
-  /// traffic from the original (blue) task set to a replacement (green) task set.
-  ///
-  /// The maximum setting is 2880 minutes (2 days).
-  final int? terminationWaitTimeInMinutes;
-
-  BlueInstanceTerminationOption({
-    this.action,
-    this.terminationWaitTimeInMinutes,
-  });
-
-  factory BlueInstanceTerminationOption.fromJson(Map<String, dynamic> json) {
-    return BlueInstanceTerminationOption(
-      action: (json['action'] as String?)?.let(InstanceAction.fromString),
-      terminationWaitTimeInMinutes:
-          json['terminationWaitTimeInMinutes'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final action = this.action;
-    final terminationWaitTimeInMinutes = this.terminationWaitTimeInMinutes;
-    return {
-      if (action != null) 'action': action.value,
-      if (terminationWaitTimeInMinutes != null)
-        'terminationWaitTimeInMinutes': terminationWaitTimeInMinutes,
-    };
-  }
-}
-
-class BundleType {
-  static const tar = BundleType._('tar');
-  static const tgz = BundleType._('tgz');
-  static const zip = BundleType._('zip');
-  static const yaml = BundleType._('YAML');
-  static const json = BundleType._('JSON');
-
-  final String value;
-
-  const BundleType._(this.value);
-
-  static const values = [tar, tgz, zip, yaml, json];
-
-  static BundleType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => BundleType._(value));
-
-  @override
-  bool operator ==(other) => other is BundleType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about the target to be updated by an CloudFormation blue/green
-/// deployment. This target type is used for all deployments initiated by a
-/// CloudFormation stack update.
-class CloudFormationTarget {
-  /// The unique ID of an CloudFormation blue/green deployment.
-  final String? deploymentId;
-
-  /// The date and time when the target application was updated by an
-  /// CloudFormation blue/green deployment.
-  final DateTime? lastUpdatedAt;
-
-  /// The lifecycle events of the CloudFormation blue/green deployment to this
-  /// target application.
-  final List<LifecycleEvent>? lifecycleEvents;
-
-  /// The resource type for the CloudFormation blue/green deployment.
-  final String? resourceType;
-
-  /// The status of an CloudFormation blue/green deployment's target application.
-  final TargetStatus? status;
-
-  /// The unique ID of a deployment target that has a type
-  /// of <code>CloudFormationTarget</code>.
-  final String? targetId;
-
-  /// The percentage of production traffic that the target version of an
-  /// CloudFormation blue/green deployment receives.
-  final double? targetVersionWeight;
-
-  CloudFormationTarget({
-    this.deploymentId,
-    this.lastUpdatedAt,
-    this.lifecycleEvents,
-    this.resourceType,
-    this.status,
-    this.targetId,
-    this.targetVersionWeight,
-  });
-
-  factory CloudFormationTarget.fromJson(Map<String, dynamic> json) {
-    return CloudFormationTarget(
-      deploymentId: json['deploymentId'] as String?,
-      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
-      lifecycleEvents: (json['lifecycleEvents'] as List?)
-          ?.nonNulls
-          .map((e) => LifecycleEvent.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      resourceType: json['resourceType'] as String?,
-      status: (json['status'] as String?)?.let(TargetStatus.fromString),
-      targetId: json['targetId'] as String?,
-      targetVersionWeight: json['targetVersionWeight'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deploymentId = this.deploymentId;
-    final lastUpdatedAt = this.lastUpdatedAt;
-    final lifecycleEvents = this.lifecycleEvents;
-    final resourceType = this.resourceType;
-    final status = this.status;
-    final targetId = this.targetId;
-    final targetVersionWeight = this.targetVersionWeight;
-    return {
-      if (deploymentId != null) 'deploymentId': deploymentId,
-      if (lastUpdatedAt != null)
-        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
-      if (lifecycleEvents != null) 'lifecycleEvents': lifecycleEvents,
-      if (resourceType != null) 'resourceType': resourceType,
-      if (status != null) 'status': status.value,
-      if (targetId != null) 'targetId': targetId,
-      if (targetVersionWeight != null)
-        'targetVersionWeight': targetVersionWeight,
-    };
-  }
-}
-
-class ComputePlatform {
-  static const server = ComputePlatform._('Server');
-  static const lambda = ComputePlatform._('Lambda');
-  static const ecs = ComputePlatform._('ECS');
-
-  final String value;
-
-  const ComputePlatform._(this.value);
-
-  static const values = [server, lambda, ecs];
-
-  static ComputePlatform fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ComputePlatform._(value));
-
-  @override
-  bool operator ==(other) => other is ComputePlatform && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 /// Represents the output of a <code>CreateApplication</code> operation.
 class CreateApplicationOutput {
   /// A unique application ID.
@@ -3557,6 +2981,29 @@ class CreateApplicationOutput {
     final applicationId = this.applicationId;
     return {
       if (applicationId != null) 'applicationId': applicationId,
+    };
+  }
+}
+
+/// Represents the output of a <code>CreateDeployment</code> operation.
+class CreateDeploymentOutput {
+  /// The unique ID of a deployment.
+  final String? deploymentId;
+
+  CreateDeploymentOutput({
+    this.deploymentId,
+  });
+
+  factory CreateDeploymentOutput.fromJson(Map<String, dynamic> json) {
+    return CreateDeploymentOutput(
+      deploymentId: json['deploymentId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentId = this.deploymentId;
+    return {
+      if (deploymentId != null) 'deploymentId': deploymentId,
     };
   }
 }
@@ -3603,29 +3050,6 @@ class CreateDeploymentGroupOutput {
     final deploymentGroupId = this.deploymentGroupId;
     return {
       if (deploymentGroupId != null) 'deploymentGroupId': deploymentGroupId,
-    };
-  }
-}
-
-/// Represents the output of a <code>CreateDeployment</code> operation.
-class CreateDeploymentOutput {
-  /// The unique ID of a deployment.
-  final String? deploymentId;
-
-  CreateDeploymentOutput({
-    this.deploymentId,
-  });
-
-  factory CreateDeploymentOutput.fromJson(Map<String, dynamic> json) {
-    return CreateDeploymentOutput(
-      deploymentId: json['deploymentId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deploymentId = this.deploymentId;
-    return {
-      if (deploymentId != null) 'deploymentId': deploymentId,
     };
   }
 }
@@ -3696,125 +3120,3469 @@ class DeleteResourcesByExternalIdOutput {
   }
 }
 
-/// Information about a deployment configuration.
-class DeploymentConfigInfo {
-  /// The destination platform type for the deployment (<code>Lambda</code>,
-  /// <code>Server</code>, or <code>ECS</code>).
-  final ComputePlatform? computePlatform;
+/// Represents the output of a <code>GetApplication</code> operation.
+class GetApplicationOutput {
+  /// Information about the application.
+  final ApplicationInfo? application;
 
-  /// The time at which the deployment configuration was created.
-  final DateTime? createTime;
-
-  /// The deployment configuration ID.
-  final String? deploymentConfigId;
-
-  /// The deployment configuration name.
-  final String? deploymentConfigName;
-
-  /// Information about the number or percentage of minimum healthy instances.
-  final MinimumHealthyHosts? minimumHealthyHosts;
-
-  /// The configuration that specifies how the deployment traffic is routed. Used
-  /// for deployments with a Lambda or Amazon ECS compute platform only.
-  final TrafficRoutingConfig? trafficRoutingConfig;
-
-  /// Information about a zonal configuration.
-  final ZonalConfig? zonalConfig;
-
-  DeploymentConfigInfo({
-    this.computePlatform,
-    this.createTime,
-    this.deploymentConfigId,
-    this.deploymentConfigName,
-    this.minimumHealthyHosts,
-    this.trafficRoutingConfig,
-    this.zonalConfig,
+  GetApplicationOutput({
+    this.application,
   });
 
-  factory DeploymentConfigInfo.fromJson(Map<String, dynamic> json) {
-    return DeploymentConfigInfo(
-      computePlatform:
-          (json['computePlatform'] as String?)?.let(ComputePlatform.fromString),
-      createTime: timeStampFromJson(json['createTime']),
-      deploymentConfigId: json['deploymentConfigId'] as String?,
-      deploymentConfigName: json['deploymentConfigName'] as String?,
-      minimumHealthyHosts: json['minimumHealthyHosts'] != null
-          ? MinimumHealthyHosts.fromJson(
-              json['minimumHealthyHosts'] as Map<String, dynamic>)
-          : null,
-      trafficRoutingConfig: json['trafficRoutingConfig'] != null
-          ? TrafficRoutingConfig.fromJson(
-              json['trafficRoutingConfig'] as Map<String, dynamic>)
-          : null,
-      zonalConfig: json['zonalConfig'] != null
-          ? ZonalConfig.fromJson(json['zonalConfig'] as Map<String, dynamic>)
+  factory GetApplicationOutput.fromJson(Map<String, dynamic> json) {
+    return GetApplicationOutput(
+      application: json['application'] != null
+          ? ApplicationInfo.fromJson(
+              json['application'] as Map<String, dynamic>)
           : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final computePlatform = this.computePlatform;
-    final createTime = this.createTime;
-    final deploymentConfigId = this.deploymentConfigId;
-    final deploymentConfigName = this.deploymentConfigName;
-    final minimumHealthyHosts = this.minimumHealthyHosts;
-    final trafficRoutingConfig = this.trafficRoutingConfig;
-    final zonalConfig = this.zonalConfig;
+    final application = this.application;
     return {
-      if (computePlatform != null) 'computePlatform': computePlatform.value,
-      if (createTime != null) 'createTime': unixTimestampToJson(createTime),
-      if (deploymentConfigId != null) 'deploymentConfigId': deploymentConfigId,
-      if (deploymentConfigName != null)
-        'deploymentConfigName': deploymentConfigName,
-      if (minimumHealthyHosts != null)
-        'minimumHealthyHosts': minimumHealthyHosts,
-      if (trafficRoutingConfig != null)
-        'trafficRoutingConfig': trafficRoutingConfig,
-      if (zonalConfig != null) 'zonalConfig': zonalConfig,
+      if (application != null) 'application': application,
     };
   }
 }
 
-class DeploymentCreator {
-  static const user = DeploymentCreator._('user');
-  static const autoscaling = DeploymentCreator._('autoscaling');
-  static const codeDeployRollback = DeploymentCreator._('codeDeployRollback');
-  static const codeDeploy = DeploymentCreator._('CodeDeploy');
-  static const codeDeployAutoUpdate =
-      DeploymentCreator._('CodeDeployAutoUpdate');
-  static const cloudFormation = DeploymentCreator._('CloudFormation');
-  static const cloudFormationRollback =
-      DeploymentCreator._('CloudFormationRollback');
-  static const autoscalingTermination =
-      DeploymentCreator._('autoscalingTermination');
+/// Represents the output of a <code>GetApplicationRevision</code> operation.
+class GetApplicationRevisionOutput {
+  /// The name of the application that corresponds to the revision.
+  final String? applicationName;
+
+  /// Additional information about the revision, including type and location.
+  final RevisionLocation? revision;
+
+  /// General information about the revision.
+  final GenericRevisionInfo? revisionInfo;
+
+  GetApplicationRevisionOutput({
+    this.applicationName,
+    this.revision,
+    this.revisionInfo,
+  });
+
+  factory GetApplicationRevisionOutput.fromJson(Map<String, dynamic> json) {
+    return GetApplicationRevisionOutput(
+      applicationName: json['applicationName'] as String?,
+      revision: json['revision'] != null
+          ? RevisionLocation.fromJson(json['revision'] as Map<String, dynamic>)
+          : null,
+      revisionInfo: json['revisionInfo'] != null
+          ? GenericRevisionInfo.fromJson(
+              json['revisionInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationName = this.applicationName;
+    final revision = this.revision;
+    final revisionInfo = this.revisionInfo;
+    return {
+      if (applicationName != null) 'applicationName': applicationName,
+      if (revision != null) 'revision': revision,
+      if (revisionInfo != null) 'revisionInfo': revisionInfo,
+    };
+  }
+}
+
+/// Represents the output of a <code>GetDeployment</code> operation.
+class GetDeploymentOutput {
+  /// Information about the deployment.
+  final DeploymentInfo? deploymentInfo;
+
+  GetDeploymentOutput({
+    this.deploymentInfo,
+  });
+
+  factory GetDeploymentOutput.fromJson(Map<String, dynamic> json) {
+    return GetDeploymentOutput(
+      deploymentInfo: json['deploymentInfo'] != null
+          ? DeploymentInfo.fromJson(
+              json['deploymentInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentInfo = this.deploymentInfo;
+    return {
+      if (deploymentInfo != null) 'deploymentInfo': deploymentInfo,
+    };
+  }
+}
+
+/// Represents the output of a <code>GetDeploymentConfig</code> operation.
+class GetDeploymentConfigOutput {
+  /// Information about the deployment configuration.
+  final DeploymentConfigInfo? deploymentConfigInfo;
+
+  GetDeploymentConfigOutput({
+    this.deploymentConfigInfo,
+  });
+
+  factory GetDeploymentConfigOutput.fromJson(Map<String, dynamic> json) {
+    return GetDeploymentConfigOutput(
+      deploymentConfigInfo: json['deploymentConfigInfo'] != null
+          ? DeploymentConfigInfo.fromJson(
+              json['deploymentConfigInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentConfigInfo = this.deploymentConfigInfo;
+    return {
+      if (deploymentConfigInfo != null)
+        'deploymentConfigInfo': deploymentConfigInfo,
+    };
+  }
+}
+
+/// Represents the output of a <code>GetDeploymentGroup</code> operation.
+class GetDeploymentGroupOutput {
+  /// Information about the deployment group.
+  final DeploymentGroupInfo? deploymentGroupInfo;
+
+  GetDeploymentGroupOutput({
+    this.deploymentGroupInfo,
+  });
+
+  factory GetDeploymentGroupOutput.fromJson(Map<String, dynamic> json) {
+    return GetDeploymentGroupOutput(
+      deploymentGroupInfo: json['deploymentGroupInfo'] != null
+          ? DeploymentGroupInfo.fromJson(
+              json['deploymentGroupInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentGroupInfo = this.deploymentGroupInfo;
+    return {
+      if (deploymentGroupInfo != null)
+        'deploymentGroupInfo': deploymentGroupInfo,
+    };
+  }
+}
+
+/// Represents the output of a <code>GetDeploymentInstance</code> operation.
+class GetDeploymentInstanceOutput {
+  /// Information about the instance.
+  final InstanceSummary? instanceSummary;
+
+  GetDeploymentInstanceOutput({
+    this.instanceSummary,
+  });
+
+  factory GetDeploymentInstanceOutput.fromJson(Map<String, dynamic> json) {
+    return GetDeploymentInstanceOutput(
+      instanceSummary: json['instanceSummary'] != null
+          ? InstanceSummary.fromJson(
+              json['instanceSummary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceSummary = this.instanceSummary;
+    return {
+      if (instanceSummary != null) 'instanceSummary': instanceSummary,
+    };
+  }
+}
+
+class GetDeploymentTargetOutput {
+  /// A deployment target that contains information about a deployment such as its
+  /// status, lifecycle events, and when it was last updated. It also contains
+  /// metadata about the deployment target. The deployment target metadata depends
+  /// on the deployment target's type (<code>instanceTarget</code>,
+  /// <code>lambdaTarget</code>, or <code>ecsTarget</code>).
+  final DeploymentTarget? deploymentTarget;
+
+  GetDeploymentTargetOutput({
+    this.deploymentTarget,
+  });
+
+  factory GetDeploymentTargetOutput.fromJson(Map<String, dynamic> json) {
+    return GetDeploymentTargetOutput(
+      deploymentTarget: json['deploymentTarget'] != null
+          ? DeploymentTarget.fromJson(
+              json['deploymentTarget'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentTarget = this.deploymentTarget;
+    return {
+      if (deploymentTarget != null) 'deploymentTarget': deploymentTarget,
+    };
+  }
+}
+
+/// Represents the output of a <code>GetOnPremisesInstance</code> operation.
+class GetOnPremisesInstanceOutput {
+  /// Information about the on-premises instance.
+  final InstanceInfo? instanceInfo;
+
+  GetOnPremisesInstanceOutput({
+    this.instanceInfo,
+  });
+
+  factory GetOnPremisesInstanceOutput.fromJson(Map<String, dynamic> json) {
+    return GetOnPremisesInstanceOutput(
+      instanceInfo: json['instanceInfo'] != null
+          ? InstanceInfo.fromJson(json['instanceInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceInfo = this.instanceInfo;
+    return {
+      if (instanceInfo != null) 'instanceInfo': instanceInfo,
+    };
+  }
+}
+
+/// Represents the output of a <code>ListApplicationRevisions</code> operation.
+class ListApplicationRevisionsOutput {
+  /// If a large amount of information is returned, an identifier is also
+  /// returned. It can be used in a subsequent list application revisions call to
+  /// return the next set of application revisions in the list.
+  final String? nextToken;
+
+  /// A list of locations that contain the matching revisions.
+  final List<RevisionLocation>? revisions;
+
+  ListApplicationRevisionsOutput({
+    this.nextToken,
+    this.revisions,
+  });
+
+  factory ListApplicationRevisionsOutput.fromJson(Map<String, dynamic> json) {
+    return ListApplicationRevisionsOutput(
+      nextToken: json['nextToken'] as String?,
+      revisions: (json['revisions'] as List?)
+          ?.nonNulls
+          .map((e) => RevisionLocation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final revisions = this.revisions;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (revisions != null) 'revisions': revisions,
+    };
+  }
+}
+
+/// Represents the output of a ListApplications operation.
+class ListApplicationsOutput {
+  /// A list of application names.
+  final List<String>? applications;
+
+  /// If a large amount of information is returned, an identifier is also
+  /// returned. It can be used in a subsequent list applications call to return
+  /// the next set of applications in the list.
+  final String? nextToken;
+
+  ListApplicationsOutput({
+    this.applications,
+    this.nextToken,
+  });
+
+  factory ListApplicationsOutput.fromJson(Map<String, dynamic> json) {
+    return ListApplicationsOutput(
+      applications: (json['applications'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applications = this.applications;
+    final nextToken = this.nextToken;
+    return {
+      if (applications != null) 'applications': applications,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// Represents the output of a <code>ListDeploymentConfigs</code> operation.
+class ListDeploymentConfigsOutput {
+  /// A list of deployment configurations, including built-in configurations such
+  /// as <code>CodeDeployDefault.OneAtATime</code>.
+  final List<String>? deploymentConfigsList;
+
+  /// If a large amount of information is returned, an identifier is also
+  /// returned. It can be used in a subsequent list deployment configurations call
+  /// to return the next set of deployment configurations in the list.
+  final String? nextToken;
+
+  ListDeploymentConfigsOutput({
+    this.deploymentConfigsList,
+    this.nextToken,
+  });
+
+  factory ListDeploymentConfigsOutput.fromJson(Map<String, dynamic> json) {
+    return ListDeploymentConfigsOutput(
+      deploymentConfigsList: (json['deploymentConfigsList'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentConfigsList = this.deploymentConfigsList;
+    final nextToken = this.nextToken;
+    return {
+      if (deploymentConfigsList != null)
+        'deploymentConfigsList': deploymentConfigsList,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// Represents the output of a <code>ListDeploymentGroups</code> operation.
+class ListDeploymentGroupsOutput {
+  /// The application name.
+  final String? applicationName;
+
+  /// A list of deployment group names.
+  final List<String>? deploymentGroups;
+
+  /// If a large amount of information is returned, an identifier is also
+  /// returned. It can be used in a subsequent list deployment groups call to
+  /// return the next set of deployment groups in the list.
+  final String? nextToken;
+
+  ListDeploymentGroupsOutput({
+    this.applicationName,
+    this.deploymentGroups,
+    this.nextToken,
+  });
+
+  factory ListDeploymentGroupsOutput.fromJson(Map<String, dynamic> json) {
+    return ListDeploymentGroupsOutput(
+      applicationName: json['applicationName'] as String?,
+      deploymentGroups: (json['deploymentGroups'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationName = this.applicationName;
+    final deploymentGroups = this.deploymentGroups;
+    final nextToken = this.nextToken;
+    return {
+      if (applicationName != null) 'applicationName': applicationName,
+      if (deploymentGroups != null) 'deploymentGroups': deploymentGroups,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// Represents the output of a <code>ListDeploymentInstances</code> operation.
+class ListDeploymentInstancesOutput {
+  /// A list of instance IDs.
+  final List<String>? instancesList;
+
+  /// If a large amount of information is returned, an identifier is also
+  /// returned. It can be used in a subsequent list deployment instances call to
+  /// return the next set of deployment instances in the list.
+  final String? nextToken;
+
+  ListDeploymentInstancesOutput({
+    this.instancesList,
+    this.nextToken,
+  });
+
+  factory ListDeploymentInstancesOutput.fromJson(Map<String, dynamic> json) {
+    return ListDeploymentInstancesOutput(
+      instancesList: (json['instancesList'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instancesList = this.instancesList;
+    final nextToken = this.nextToken;
+    return {
+      if (instancesList != null) 'instancesList': instancesList,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// Represents the output of a <code>ListDeployments</code> operation.
+class ListDeploymentsOutput {
+  /// A list of deployment IDs.
+  final List<String>? deployments;
+
+  /// If a large amount of information is returned, an identifier is also
+  /// returned. It can be used in a subsequent list deployments call to return the
+  /// next set of deployments in the list.
+  final String? nextToken;
+
+  ListDeploymentsOutput({
+    this.deployments,
+    this.nextToken,
+  });
+
+  factory ListDeploymentsOutput.fromJson(Map<String, dynamic> json) {
+    return ListDeploymentsOutput(
+      deployments: (json['deployments'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deployments = this.deployments;
+    final nextToken = this.nextToken;
+    return {
+      if (deployments != null) 'deployments': deployments,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListDeploymentTargetsOutput {
+  /// If a large amount of information is returned, a token identifier is also
+  /// returned. It can be used in a subsequent <code>ListDeploymentTargets</code>
+  /// call to return the next set of deployment targets in the list.
+  final String? nextToken;
+
+  /// The unique IDs of deployment targets.
+  final List<String>? targetIds;
+
+  ListDeploymentTargetsOutput({
+    this.nextToken,
+    this.targetIds,
+  });
+
+  factory ListDeploymentTargetsOutput.fromJson(Map<String, dynamic> json) {
+    return ListDeploymentTargetsOutput(
+      nextToken: json['nextToken'] as String?,
+      targetIds: (json['targetIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final targetIds = this.targetIds;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (targetIds != null) 'targetIds': targetIds,
+    };
+  }
+}
+
+/// Represents the output of a <code>ListGitHubAccountTokenNames</code>
+/// operation.
+class ListGitHubAccountTokenNamesOutput {
+  /// If a large amount of information is returned, an identifier is also
+  /// returned. It can be used in a subsequent
+  /// <code>ListGitHubAccountTokenNames</code> call to return the next set of
+  /// names in the list.
+  final String? nextToken;
+
+  /// A list of names of connections to GitHub accounts.
+  final List<String>? tokenNameList;
+
+  ListGitHubAccountTokenNamesOutput({
+    this.nextToken,
+    this.tokenNameList,
+  });
+
+  factory ListGitHubAccountTokenNamesOutput.fromJson(
+      Map<String, dynamic> json) {
+    return ListGitHubAccountTokenNamesOutput(
+      nextToken: json['nextToken'] as String?,
+      tokenNameList: (json['tokenNameList'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final tokenNameList = this.tokenNameList;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (tokenNameList != null) 'tokenNameList': tokenNameList,
+    };
+  }
+}
+
+/// Represents the output of the list on-premises instances operation.
+class ListOnPremisesInstancesOutput {
+  /// The list of matching on-premises instance names.
+  final List<String>? instanceNames;
+
+  /// If a large amount of information is returned, an identifier is also
+  /// returned. It can be used in a subsequent list on-premises instances call to
+  /// return the next set of on-premises instances in the list.
+  final String? nextToken;
+
+  ListOnPremisesInstancesOutput({
+    this.instanceNames,
+    this.nextToken,
+  });
+
+  factory ListOnPremisesInstancesOutput.fromJson(Map<String, dynamic> json) {
+    return ListOnPremisesInstancesOutput(
+      instanceNames: (json['instanceNames'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceNames = this.instanceNames;
+    final nextToken = this.nextToken;
+    return {
+      if (instanceNames != null) 'instanceNames': instanceNames,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListTagsForResourceOutput {
+  /// If a large amount of information is returned, an identifier is also
+  /// returned. It can be used in a subsequent list application revisions call to
+  /// return the next set of application revisions in the list.
+  final String? nextToken;
+
+  /// A list of tags returned by <code>ListTagsForResource</code>. The tags are
+  /// associated with the resource identified by the input
+  /// <code>ResourceArn</code> parameter.
+  final List<Tag>? tags;
+
+  ListTagsForResourceOutput({
+    this.nextToken,
+    this.tags,
+  });
+
+  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceOutput(
+      nextToken: json['NextToken'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final tags = this.tags;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+class PutLifecycleEventHookExecutionStatusOutput {
+  /// The execution ID of the lifecycle event hook. A hook is specified in the
+  /// <code>hooks</code> section of the deployment's AppSpec file.
+  final String? lifecycleEventHookExecutionId;
+
+  PutLifecycleEventHookExecutionStatusOutput({
+    this.lifecycleEventHookExecutionId,
+  });
+
+  factory PutLifecycleEventHookExecutionStatusOutput.fromJson(
+      Map<String, dynamic> json) {
+    return PutLifecycleEventHookExecutionStatusOutput(
+      lifecycleEventHookExecutionId:
+          json['lifecycleEventHookExecutionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lifecycleEventHookExecutionId = this.lifecycleEventHookExecutionId;
+    return {
+      if (lifecycleEventHookExecutionId != null)
+        'lifecycleEventHookExecutionId': lifecycleEventHookExecutionId,
+    };
+  }
+}
+
+/// Represents the output of a <code>StopDeployment</code> operation.
+class StopDeploymentOutput {
+  /// The status of the stop deployment operation:
+  ///
+  /// <ul>
+  /// <li>
+  /// Pending: The stop operation is pending.
+  /// </li>
+  /// <li>
+  /// Succeeded: The stop operation was successful.
+  /// </li>
+  /// </ul>
+  final StopStatus? status;
+
+  /// An accompanying status message.
+  final String? statusMessage;
+
+  StopDeploymentOutput({
+    this.status,
+    this.statusMessage,
+  });
+
+  factory StopDeploymentOutput.fromJson(Map<String, dynamic> json) {
+    return StopDeploymentOutput(
+      status: (json['status'] as String?)?.let(StopStatus.fromString),
+      statusMessage: json['statusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    return {
+      if (status != null) 'status': status.value,
+      if (statusMessage != null) 'statusMessage': statusMessage,
+    };
+  }
+}
+
+class TagResourceOutput {
+  TagResourceOutput();
+
+  factory TagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return TagResourceOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceOutput {
+  UntagResourceOutput();
+
+  factory UntagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return UntagResourceOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Represents the output of an <code>UpdateDeploymentGroup</code> operation.
+class UpdateDeploymentGroupOutput {
+  /// If the output contains no data, and the corresponding deployment group
+  /// contained at least one Auto Scaling group, CodeDeploy successfully removed
+  /// all corresponding Auto Scaling lifecycle event hooks from the Amazon Web
+  /// Services account. If the output contains data, CodeDeploy could not remove
+  /// some Auto Scaling lifecycle event hooks from the Amazon Web Services
+  /// account.
+  final List<AutoScalingGroup>? hooksNotCleanedUp;
+
+  UpdateDeploymentGroupOutput({
+    this.hooksNotCleanedUp,
+  });
+
+  factory UpdateDeploymentGroupOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateDeploymentGroupOutput(
+      hooksNotCleanedUp: (json['hooksNotCleanedUp'] as List?)
+          ?.nonNulls
+          .map((e) => AutoScalingGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hooksNotCleanedUp = this.hooksNotCleanedUp;
+    return {
+      if (hooksNotCleanedUp != null) 'hooksNotCleanedUp': hooksNotCleanedUp,
+    };
+  }
+}
+
+/// Information about an Auto Scaling group.
+class AutoScalingGroup {
+  /// The name of the launch hook that CodeDeploy installed into the Auto Scaling
+  /// group.
+  ///
+  /// For more information about the launch hook, see <a
+  /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html#integrations-aws-auto-scaling-behaviors">How
+  /// Amazon EC2 Auto Scaling works with CodeDeploy</a> in the <i>CodeDeploy User
+  /// Guide</i>.
+  final String? hook;
+
+  /// The Auto Scaling group name.
+  final String? name;
+
+  /// The name of the termination hook that CodeDeploy installed into the Auto
+  /// Scaling group.
+  ///
+  /// For more information about the termination hook, see <a
+  /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html#integrations-aws-auto-scaling-behaviors-hook-enable">Enabling
+  /// termination deployments during Auto Scaling scale-in events</a> in the
+  /// <i>CodeDeploy User Guide</i>.
+  final String? terminationHook;
+
+  AutoScalingGroup({
+    this.hook,
+    this.name,
+    this.terminationHook,
+  });
+
+  factory AutoScalingGroup.fromJson(Map<String, dynamic> json) {
+    return AutoScalingGroup(
+      hook: json['hook'] as String?,
+      name: json['name'] as String?,
+      terminationHook: json['terminationHook'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hook = this.hook;
+    final name = this.name;
+    final terminationHook = this.terminationHook;
+    return {
+      if (hook != null) 'hook': hook,
+      if (name != null) 'name': name,
+      if (terminationHook != null) 'terminationHook': terminationHook,
+    };
+  }
+}
+
+/// Information about alarms associated with a deployment or deployment group.
+class AlarmConfiguration {
+  /// A list of alarms configured for the deployment or deployment group. A
+  /// maximum of 10 alarms can be added.
+  final List<Alarm>? alarms;
+
+  /// Indicates whether the alarm configuration is enabled.
+  final bool? enabled;
+
+  /// Indicates whether a deployment should continue if information about the
+  /// current state of alarms cannot be retrieved from Amazon CloudWatch. The
+  /// default value is false.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>true</code>: The deployment proceeds even if alarm status information
+  /// can't be retrieved from Amazon CloudWatch.
+  /// </li>
+  /// <li>
+  /// <code>false</code>: The deployment stops if alarm status information can't
+  /// be retrieved from Amazon CloudWatch.
+  /// </li>
+  /// </ul>
+  final bool? ignorePollAlarmFailure;
+
+  AlarmConfiguration({
+    this.alarms,
+    this.enabled,
+    this.ignorePollAlarmFailure,
+  });
+
+  factory AlarmConfiguration.fromJson(Map<String, dynamic> json) {
+    return AlarmConfiguration(
+      alarms: (json['alarms'] as List?)
+          ?.nonNulls
+          .map((e) => Alarm.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      enabled: json['enabled'] as bool?,
+      ignorePollAlarmFailure: json['ignorePollAlarmFailure'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final alarms = this.alarms;
+    final enabled = this.enabled;
+    final ignorePollAlarmFailure = this.ignorePollAlarmFailure;
+    return {
+      if (alarms != null) 'alarms': alarms,
+      if (enabled != null) 'enabled': enabled,
+      if (ignorePollAlarmFailure != null)
+        'ignorePollAlarmFailure': ignorePollAlarmFailure,
+    };
+  }
+}
+
+/// Information about a configuration for automatically rolling back to a
+/// previous version of an application revision when a deployment is not
+/// completed successfully.
+class AutoRollbackConfiguration {
+  /// Indicates whether a defined automatic rollback configuration is currently
+  /// enabled.
+  final bool? enabled;
+
+  /// The event type or types that trigger a rollback.
+  final List<AutoRollbackEvent>? events;
+
+  AutoRollbackConfiguration({
+    this.enabled,
+    this.events,
+  });
+
+  factory AutoRollbackConfiguration.fromJson(Map<String, dynamic> json) {
+    return AutoRollbackConfiguration(
+      enabled: json['enabled'] as bool?,
+      events: (json['events'] as List?)
+          ?.nonNulls
+          .map((e) => AutoRollbackEvent.fromString((e as String)))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final events = this.events;
+    return {
+      if (enabled != null) 'enabled': enabled,
+      if (events != null) 'events': events.map((e) => e.value).toList(),
+    };
+  }
+}
+
+class OutdatedInstancesStrategy {
+  static const update = OutdatedInstancesStrategy._('UPDATE');
+  static const ignore = OutdatedInstancesStrategy._('IGNORE');
 
   final String value;
 
-  const DeploymentCreator._(this.value);
+  const OutdatedInstancesStrategy._(this.value);
 
-  static const values = [
-    user,
-    autoscaling,
-    codeDeployRollback,
-    codeDeploy,
-    codeDeployAutoUpdate,
-    cloudFormation,
-    cloudFormationRollback,
-    autoscalingTermination
-  ];
+  static const values = [update, ignore];
 
-  static DeploymentCreator fromString(String value) =>
+  static OutdatedInstancesStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => DeploymentCreator._(value));
+          orElse: () => OutdatedInstancesStrategy._(value));
 
   @override
-  bool operator ==(other) => other is DeploymentCreator && other.value == value;
+  bool operator ==(other) =>
+      other is OutdatedInstancesStrategy && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
+}
+
+/// Information about the type of deployment, either in-place or blue/green, you
+/// want to run and whether to route deployment traffic behind a load balancer.
+class DeploymentStyle {
+  /// Indicates whether to route deployment traffic behind a load balancer.
+  final DeploymentOption? deploymentOption;
+
+  /// Indicates whether to run an in-place deployment or a blue/green deployment.
+  final DeploymentType? deploymentType;
+
+  DeploymentStyle({
+    this.deploymentOption,
+    this.deploymentType,
+  });
+
+  factory DeploymentStyle.fromJson(Map<String, dynamic> json) {
+    return DeploymentStyle(
+      deploymentOption: (json['deploymentOption'] as String?)
+          ?.let(DeploymentOption.fromString),
+      deploymentType:
+          (json['deploymentType'] as String?)?.let(DeploymentType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentOption = this.deploymentOption;
+    final deploymentType = this.deploymentType;
+    return {
+      if (deploymentOption != null) 'deploymentOption': deploymentOption.value,
+      if (deploymentType != null) 'deploymentType': deploymentType.value,
+    };
+  }
+}
+
+/// Information about blue/green deployment options for a deployment group.
+class BlueGreenDeploymentConfiguration {
+  /// Information about the action to take when newly provisioned instances are
+  /// ready to receive traffic in a blue/green deployment.
+  final DeploymentReadyOption? deploymentReadyOption;
+
+  /// Information about how instances are provisioned for a replacement
+  /// environment in a blue/green deployment.
+  final GreenFleetProvisioningOption? greenFleetProvisioningOption;
+
+  /// Information about whether to terminate instances in the original fleet
+  /// during a blue/green deployment.
+  final BlueInstanceTerminationOption?
+      terminateBlueInstancesOnDeploymentSuccess;
+
+  BlueGreenDeploymentConfiguration({
+    this.deploymentReadyOption,
+    this.greenFleetProvisioningOption,
+    this.terminateBlueInstancesOnDeploymentSuccess,
+  });
+
+  factory BlueGreenDeploymentConfiguration.fromJson(Map<String, dynamic> json) {
+    return BlueGreenDeploymentConfiguration(
+      deploymentReadyOption: json['deploymentReadyOption'] != null
+          ? DeploymentReadyOption.fromJson(
+              json['deploymentReadyOption'] as Map<String, dynamic>)
+          : null,
+      greenFleetProvisioningOption: json['greenFleetProvisioningOption'] != null
+          ? GreenFleetProvisioningOption.fromJson(
+              json['greenFleetProvisioningOption'] as Map<String, dynamic>)
+          : null,
+      terminateBlueInstancesOnDeploymentSuccess:
+          json['terminateBlueInstancesOnDeploymentSuccess'] != null
+              ? BlueInstanceTerminationOption.fromJson(
+                  json['terminateBlueInstancesOnDeploymentSuccess']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentReadyOption = this.deploymentReadyOption;
+    final greenFleetProvisioningOption = this.greenFleetProvisioningOption;
+    final terminateBlueInstancesOnDeploymentSuccess =
+        this.terminateBlueInstancesOnDeploymentSuccess;
+    return {
+      if (deploymentReadyOption != null)
+        'deploymentReadyOption': deploymentReadyOption,
+      if (greenFleetProvisioningOption != null)
+        'greenFleetProvisioningOption': greenFleetProvisioningOption,
+      if (terminateBlueInstancesOnDeploymentSuccess != null)
+        'terminateBlueInstancesOnDeploymentSuccess':
+            terminateBlueInstancesOnDeploymentSuccess,
+    };
+  }
+}
+
+/// Information about the Elastic Load Balancing load balancer or target group
+/// used in a deployment.
+///
+/// You can use load balancers and target groups in combination. For example, if
+/// you have two Classic Load Balancers, and five target groups tied to an
+/// Application Load Balancer, you can specify the two Classic Load Balancers in
+/// <code>elbInfoList</code>, and the five target groups in
+/// <code>targetGroupInfoList</code>.
+class LoadBalancerInfo {
+  /// An array that contains information about the load balancers to use for load
+  /// balancing in a deployment. If you're using Classic Load Balancers, specify
+  /// those load balancers in this array.
+  /// <note>
+  /// You can add up to 10 load balancers to the array.
+  /// </note> <note>
+  /// If you're using Application Load Balancers or Network Load Balancers, use
+  /// the <code>targetGroupInfoList</code> array instead of this one.
+  /// </note>
+  final List<ELBInfo>? elbInfoList;
+
+  /// An array that contains information about the target groups to use for load
+  /// balancing in a deployment. If you're using Application Load Balancers and
+  /// Network Load Balancers, specify their associated target groups in this
+  /// array.
+  /// <note>
+  /// You can add up to 10 target groups to the array.
+  /// </note> <note>
+  /// If you're using Classic Load Balancers, use the <code>elbInfoList</code>
+  /// array instead of this one.
+  /// </note>
+  final List<TargetGroupInfo>? targetGroupInfoList;
+
+  /// The target group pair information. This is an array of
+  /// <code>TargeGroupPairInfo</code> objects with a maximum size of one.
+  final List<TargetGroupPairInfo>? targetGroupPairInfoList;
+
+  LoadBalancerInfo({
+    this.elbInfoList,
+    this.targetGroupInfoList,
+    this.targetGroupPairInfoList,
+  });
+
+  factory LoadBalancerInfo.fromJson(Map<String, dynamic> json) {
+    return LoadBalancerInfo(
+      elbInfoList: (json['elbInfoList'] as List?)
+          ?.nonNulls
+          .map((e) => ELBInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      targetGroupInfoList: (json['targetGroupInfoList'] as List?)
+          ?.nonNulls
+          .map((e) => TargetGroupInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      targetGroupPairInfoList: (json['targetGroupPairInfoList'] as List?)
+          ?.nonNulls
+          .map((e) => TargetGroupPairInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final elbInfoList = this.elbInfoList;
+    final targetGroupInfoList = this.targetGroupInfoList;
+    final targetGroupPairInfoList = this.targetGroupPairInfoList;
+    return {
+      if (elbInfoList != null) 'elbInfoList': elbInfoList,
+      if (targetGroupInfoList != null)
+        'targetGroupInfoList': targetGroupInfoList,
+      if (targetGroupPairInfoList != null)
+        'targetGroupPairInfoList': targetGroupPairInfoList,
+    };
+  }
+}
+
+/// Information about groups of Amazon EC2 instance tags.
+class EC2TagSet {
+  /// A list that contains other lists of Amazon EC2 instance tag groups. For an
+  /// instance to be included in the deployment group, it must be identified by
+  /// all of the tag groups in the list.
+  final List<List<EC2TagFilter>>? ec2TagSetList;
+
+  EC2TagSet({
+    this.ec2TagSetList,
+  });
+
+  factory EC2TagSet.fromJson(Map<String, dynamic> json) {
+    return EC2TagSet(
+      ec2TagSetList: (json['ec2TagSetList'] as List?)
+          ?.nonNulls
+          .map((e) => (e as List)
+              .nonNulls
+              .map((e) => EC2TagFilter.fromJson(e as Map<String, dynamic>))
+              .toList())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ec2TagSetList = this.ec2TagSetList;
+    return {
+      if (ec2TagSetList != null) 'ec2TagSetList': ec2TagSetList,
+    };
+  }
+}
+
+/// Information about groups of on-premises instance tags.
+class OnPremisesTagSet {
+  /// A list that contains other lists of on-premises instance tag groups. For an
+  /// instance to be included in the deployment group, it must be identified by
+  /// all of the tag groups in the list.
+  final List<List<TagFilter>>? onPremisesTagSetList;
+
+  OnPremisesTagSet({
+    this.onPremisesTagSetList,
+  });
+
+  factory OnPremisesTagSet.fromJson(Map<String, dynamic> json) {
+    return OnPremisesTagSet(
+      onPremisesTagSetList: (json['onPremisesTagSetList'] as List?)
+          ?.nonNulls
+          .map((e) => (e as List)
+              .nonNulls
+              .map((e) => TagFilter.fromJson(e as Map<String, dynamic>))
+              .toList())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final onPremisesTagSetList = this.onPremisesTagSetList;
+    return {
+      if (onPremisesTagSetList != null)
+        'onPremisesTagSetList': onPremisesTagSetList,
+    };
+  }
+}
+
+/// Contains the service and cluster names used to identify an Amazon ECS
+/// deployment's target.
+class ECSService {
+  /// The name of the cluster that the Amazon ECS service is associated with.
+  final String? clusterName;
+
+  /// The name of the target Amazon ECS service.
+  final String? serviceName;
+
+  ECSService({
+    this.clusterName,
+    this.serviceName,
+  });
+
+  factory ECSService.fromJson(Map<String, dynamic> json) {
+    return ECSService(
+      clusterName: json['clusterName'] as String?,
+      serviceName: json['serviceName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterName = this.clusterName;
+    final serviceName = this.serviceName;
+    return {
+      if (clusterName != null) 'clusterName': clusterName,
+      if (serviceName != null) 'serviceName': serviceName,
+    };
+  }
+}
+
+/// Information about two target groups and how traffic is routed during an
+/// Amazon ECS deployment. An optional test traffic route can be specified.
+class TargetGroupPairInfo {
+  /// The path used by a load balancer to route production traffic when an Amazon
+  /// ECS deployment is complete.
+  final TrafficRoute? prodTrafficRoute;
+
+  /// One pair of target groups. One is associated with the original task set. The
+  /// second is associated with the task set that serves traffic after the
+  /// deployment is complete.
+  final List<TargetGroupInfo>? targetGroups;
+
+  /// An optional path used by a load balancer to route test traffic after an
+  /// Amazon ECS deployment. Validation can occur while test traffic is served
+  /// during a deployment.
+  final TrafficRoute? testTrafficRoute;
+
+  TargetGroupPairInfo({
+    this.prodTrafficRoute,
+    this.targetGroups,
+    this.testTrafficRoute,
+  });
+
+  factory TargetGroupPairInfo.fromJson(Map<String, dynamic> json) {
+    return TargetGroupPairInfo(
+      prodTrafficRoute: json['prodTrafficRoute'] != null
+          ? TrafficRoute.fromJson(
+              json['prodTrafficRoute'] as Map<String, dynamic>)
+          : null,
+      targetGroups: (json['targetGroups'] as List?)
+          ?.nonNulls
+          .map((e) => TargetGroupInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      testTrafficRoute: json['testTrafficRoute'] != null
+          ? TrafficRoute.fromJson(
+              json['testTrafficRoute'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final prodTrafficRoute = this.prodTrafficRoute;
+    final targetGroups = this.targetGroups;
+    final testTrafficRoute = this.testTrafficRoute;
+    return {
+      if (prodTrafficRoute != null) 'prodTrafficRoute': prodTrafficRoute,
+      if (targetGroups != null) 'targetGroups': targetGroups,
+      if (testTrafficRoute != null) 'testTrafficRoute': testTrafficRoute,
+    };
+  }
+}
+
+/// Information about a listener. The listener contains the path used to route
+/// traffic that is received from the load balancer to a target group.
+class TrafficRoute {
+  /// The Amazon Resource Name (ARN) of one listener. The listener identifies the
+  /// route between a target group and a load balancer. This is an array of
+  /// strings with a maximum size of one.
+  final List<String>? listenerArns;
+
+  TrafficRoute({
+    this.listenerArns,
+  });
+
+  factory TrafficRoute.fromJson(Map<String, dynamic> json) {
+    return TrafficRoute(
+      listenerArns: (json['listenerArns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final listenerArns = this.listenerArns;
+    return {
+      if (listenerArns != null) 'listenerArns': listenerArns,
+    };
+  }
+}
+
+/// Information about a target group in Elastic Load Balancing to use in a
+/// deployment. Instances are registered as targets in a target group, and
+/// traffic is routed to the target group.
+class TargetGroupInfo {
+  /// For blue/green deployments, the name of the target group that instances in
+  /// the original environment are deregistered from, and instances in the
+  /// replacement environment are registered with. For in-place deployments, the
+  /// name of the target group that instances are deregistered from, so they are
+  /// not serving traffic during a deployment, and then re-registered with after
+  /// the deployment is complete.
+  final String? name;
+
+  TargetGroupInfo({
+    this.name,
+  });
+
+  factory TargetGroupInfo.fromJson(Map<String, dynamic> json) {
+    return TargetGroupInfo(
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// Information about a Classic Load Balancer in Elastic Load Balancing to use
+/// in a deployment. Instances are registered directly with a load balancer, and
+/// traffic is routed to the load balancer.
+class ELBInfo {
+  /// For blue/green deployments, the name of the Classic Load Balancer that is
+  /// used to route traffic from original instances to replacement instances in a
+  /// blue/green deployment. For in-place deployments, the name of the Classic
+  /// Load Balancer that instances are deregistered from so they are not serving
+  /// traffic during a deployment, and then re-registered with after the
+  /// deployment is complete.
+  final String? name;
+
+  ELBInfo({
+    this.name,
+  });
+
+  factory ELBInfo.fromJson(Map<String, dynamic> json) {
+    return ELBInfo(
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// Information about whether instances in the original environment are
+/// terminated when a blue/green deployment is successful.
+/// <code>BlueInstanceTerminationOption</code> does not apply to Lambda
+/// deployments.
+class BlueInstanceTerminationOption {
+  /// The action to take on instances in the original environment after a
+  /// successful blue/green deployment.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>TERMINATE</code>: Instances are terminated after a specified wait
+  /// time.
+  /// </li>
+  /// <li>
+  /// <code>KEEP_ALIVE</code>: Instances are left running after they are
+  /// deregistered from the load balancer and removed from the deployment group.
+  /// </li>
+  /// </ul>
+  final InstanceAction? action;
+
+  /// For an Amazon EC2 deployment, the number of minutes to wait after a
+  /// successful blue/green deployment before terminating instances from the
+  /// original environment.
+  ///
+  /// For an Amazon ECS deployment, the number of minutes before deleting the
+  /// original (blue) task set. During an Amazon ECS deployment, CodeDeploy shifts
+  /// traffic from the original (blue) task set to a replacement (green) task set.
+  ///
+  /// The maximum setting is 2880 minutes (2 days).
+  final int? terminationWaitTimeInMinutes;
+
+  BlueInstanceTerminationOption({
+    this.action,
+    this.terminationWaitTimeInMinutes,
+  });
+
+  factory BlueInstanceTerminationOption.fromJson(Map<String, dynamic> json) {
+    return BlueInstanceTerminationOption(
+      action: (json['action'] as String?)?.let(InstanceAction.fromString),
+      terminationWaitTimeInMinutes:
+          json['terminationWaitTimeInMinutes'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final terminationWaitTimeInMinutes = this.terminationWaitTimeInMinutes;
+    return {
+      if (action != null) 'action': action.value,
+      if (terminationWaitTimeInMinutes != null)
+        'terminationWaitTimeInMinutes': terminationWaitTimeInMinutes,
+    };
+  }
+}
+
+/// Information about how traffic is rerouted to instances in a replacement
+/// environment in a blue/green deployment.
+class DeploymentReadyOption {
+  /// Information about when to reroute traffic from an original environment to a
+  /// replacement environment in a blue/green deployment.
+  ///
+  /// <ul>
+  /// <li>
+  /// CONTINUE_DEPLOYMENT: Register new instances with the load balancer
+  /// immediately after the new application revision is installed on the instances
+  /// in the replacement environment.
+  /// </li>
+  /// <li>
+  /// STOP_DEPLOYMENT: Do not register new instances with a load balancer unless
+  /// traffic rerouting is started using <a>ContinueDeployment</a>. If traffic
+  /// rerouting is not started before the end of the specified wait period, the
+  /// deployment status is changed to Stopped.
+  /// </li>
+  /// </ul>
+  final DeploymentReadyAction? actionOnTimeout;
+
+  /// The number of minutes to wait before the status of a blue/green deployment
+  /// is changed to Stopped if rerouting is not started manually. Applies only to
+  /// the <code>STOP_DEPLOYMENT</code> option for <code>actionOnTimeout</code>.
+  final int? waitTimeInMinutes;
+
+  DeploymentReadyOption({
+    this.actionOnTimeout,
+    this.waitTimeInMinutes,
+  });
+
+  factory DeploymentReadyOption.fromJson(Map<String, dynamic> json) {
+    return DeploymentReadyOption(
+      actionOnTimeout: (json['actionOnTimeout'] as String?)
+          ?.let(DeploymentReadyAction.fromString),
+      waitTimeInMinutes: json['waitTimeInMinutes'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionOnTimeout = this.actionOnTimeout;
+    final waitTimeInMinutes = this.waitTimeInMinutes;
+    return {
+      if (actionOnTimeout != null) 'actionOnTimeout': actionOnTimeout.value,
+      if (waitTimeInMinutes != null) 'waitTimeInMinutes': waitTimeInMinutes,
+    };
+  }
+}
+
+/// Information about the instances that belong to the replacement environment
+/// in a blue/green deployment.
+class GreenFleetProvisioningOption {
+  /// The method used to add instances to a replacement environment.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>DISCOVER_EXISTING</code>: Use instances that already exist or will be
+  /// created manually.
+  /// </li>
+  /// <li>
+  /// <code>COPY_AUTO_SCALING_GROUP</code>: Use settings from a specified Auto
+  /// Scaling group to define and create instances in a new Auto Scaling group.
+  /// </li>
+  /// </ul>
+  final GreenFleetProvisioningAction? action;
+
+  GreenFleetProvisioningOption({
+    this.action,
+  });
+
+  factory GreenFleetProvisioningOption.fromJson(Map<String, dynamic> json) {
+    return GreenFleetProvisioningOption(
+      action: (json['action'] as String?)
+          ?.let(GreenFleetProvisioningAction.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    return {
+      if (action != null) 'action': action.value,
+    };
+  }
+}
+
+class GreenFleetProvisioningAction {
+  static const discoverExisting =
+      GreenFleetProvisioningAction._('DISCOVER_EXISTING');
+  static const copyAutoScalingGroup =
+      GreenFleetProvisioningAction._('COPY_AUTO_SCALING_GROUP');
+
+  final String value;
+
+  const GreenFleetProvisioningAction._(this.value);
+
+  static const values = [discoverExisting, copyAutoScalingGroup];
+
+  static GreenFleetProvisioningAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GreenFleetProvisioningAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GreenFleetProvisioningAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DeploymentReadyAction {
+  static const continueDeployment =
+      DeploymentReadyAction._('CONTINUE_DEPLOYMENT');
+  static const stopDeployment = DeploymentReadyAction._('STOP_DEPLOYMENT');
+
+  final String value;
+
+  const DeploymentReadyAction._(this.value);
+
+  static const values = [continueDeployment, stopDeployment];
+
+  static DeploymentReadyAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeploymentReadyAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeploymentReadyAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class InstanceAction {
+  static const terminate = InstanceAction._('TERMINATE');
+  static const keepAlive = InstanceAction._('KEEP_ALIVE');
+
+  final String value;
+
+  const InstanceAction._(this.value);
+
+  static const values = [terminate, keepAlive];
+
+  static InstanceAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InstanceAction._(value));
+
+  @override
+  bool operator ==(other) => other is InstanceAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DeploymentType {
+  static const inPlace = DeploymentType._('IN_PLACE');
+  static const blueGreen = DeploymentType._('BLUE_GREEN');
+
+  final String value;
+
+  const DeploymentType._(this.value);
+
+  static const values = [inPlace, blueGreen];
+
+  static DeploymentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeploymentType._(value));
+
+  @override
+  bool operator ==(other) => other is DeploymentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DeploymentOption {
+  static const withTrafficControl = DeploymentOption._('WITH_TRAFFIC_CONTROL');
+  static const withoutTrafficControl =
+      DeploymentOption._('WITHOUT_TRAFFIC_CONTROL');
+
+  final String value;
+
+  const DeploymentOption._(this.value);
+
+  static const values = [withTrafficControl, withoutTrafficControl];
+
+  static DeploymentOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeploymentOption._(value));
+
+  @override
+  bool operator ==(other) => other is DeploymentOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AutoRollbackEvent {
+  static const deploymentFailure = AutoRollbackEvent._('DEPLOYMENT_FAILURE');
+  static const deploymentStopOnAlarm =
+      AutoRollbackEvent._('DEPLOYMENT_STOP_ON_ALARM');
+  static const deploymentStopOnRequest =
+      AutoRollbackEvent._('DEPLOYMENT_STOP_ON_REQUEST');
+
+  final String value;
+
+  const AutoRollbackEvent._(this.value);
+
+  static const values = [
+    deploymentFailure,
+    deploymentStopOnAlarm,
+    deploymentStopOnRequest
+  ];
+
+  static AutoRollbackEvent fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AutoRollbackEvent._(value));
+
+  @override
+  bool operator ==(other) => other is AutoRollbackEvent && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about an alarm.
+class Alarm {
+  /// The name of the alarm. Maximum length is 255 characters. Each alarm name can
+  /// be used only once in a list of alarms.
+  final String? name;
+
+  Alarm({
+    this.name,
+  });
+
+  factory Alarm.fromJson(Map<String, dynamic> json) {
+    return Alarm(
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// Information about notification triggers for the deployment group.
+class TriggerConfig {
+  /// The event type or types for which notifications are triggered.
+  final List<TriggerEventType>? triggerEvents;
+
+  /// The name of the notification trigger.
+  final String? triggerName;
+
+  /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service
+  /// topic through which notifications about deployment or instance events are
+  /// sent.
+  final String? triggerTargetArn;
+
+  TriggerConfig({
+    this.triggerEvents,
+    this.triggerName,
+    this.triggerTargetArn,
+  });
+
+  factory TriggerConfig.fromJson(Map<String, dynamic> json) {
+    return TriggerConfig(
+      triggerEvents: (json['triggerEvents'] as List?)
+          ?.nonNulls
+          .map((e) => TriggerEventType.fromString((e as String)))
+          .toList(),
+      triggerName: json['triggerName'] as String?,
+      triggerTargetArn: json['triggerTargetArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final triggerEvents = this.triggerEvents;
+    final triggerName = this.triggerName;
+    final triggerTargetArn = this.triggerTargetArn;
+    return {
+      if (triggerEvents != null)
+        'triggerEvents': triggerEvents.map((e) => e.value).toList(),
+      if (triggerName != null) 'triggerName': triggerName,
+      if (triggerTargetArn != null) 'triggerTargetArn': triggerTargetArn,
+    };
+  }
+}
+
+class TriggerEventType {
+  static const deploymentStart = TriggerEventType._('DeploymentStart');
+  static const deploymentSuccess = TriggerEventType._('DeploymentSuccess');
+  static const deploymentFailure = TriggerEventType._('DeploymentFailure');
+  static const deploymentStop = TriggerEventType._('DeploymentStop');
+  static const deploymentRollback = TriggerEventType._('DeploymentRollback');
+  static const deploymentReady = TriggerEventType._('DeploymentReady');
+  static const instanceStart = TriggerEventType._('InstanceStart');
+  static const instanceSuccess = TriggerEventType._('InstanceSuccess');
+  static const instanceFailure = TriggerEventType._('InstanceFailure');
+  static const instanceReady = TriggerEventType._('InstanceReady');
+
+  final String value;
+
+  const TriggerEventType._(this.value);
+
+  static const values = [
+    deploymentStart,
+    deploymentSuccess,
+    deploymentFailure,
+    deploymentStop,
+    deploymentRollback,
+    deploymentReady,
+    instanceStart,
+    instanceSuccess,
+    instanceFailure,
+    instanceReady
+  ];
+
+  static TriggerEventType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TriggerEventType._(value));
+
+  @override
+  bool operator ==(other) => other is TriggerEventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about an on-premises instance tag filter.
+class TagFilter {
+  /// The on-premises instance tag filter key.
+  final String? key;
+
+  /// The on-premises instance tag filter type:
+  ///
+  /// <ul>
+  /// <li>
+  /// KEY_ONLY: Key only.
+  /// </li>
+  /// <li>
+  /// VALUE_ONLY: Value only.
+  /// </li>
+  /// <li>
+  /// KEY_AND_VALUE: Key and value.
+  /// </li>
+  /// </ul>
+  final TagFilterType? type;
+
+  /// The on-premises instance tag filter value.
+  final String? value;
+
+  TagFilter({
+    this.key,
+    this.type,
+    this.value,
+  });
+
+  factory TagFilter.fromJson(Map<String, dynamic> json) {
+    return TagFilter(
+      key: json['Key'] as String?,
+      type: (json['Type'] as String?)?.let(TagFilterType.fromString),
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final type = this.type;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (type != null) 'Type': type.value,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+class TagFilterType {
+  static const keyOnly = TagFilterType._('KEY_ONLY');
+  static const valueOnly = TagFilterType._('VALUE_ONLY');
+  static const keyAndValue = TagFilterType._('KEY_AND_VALUE');
+
+  final String value;
+
+  const TagFilterType._(this.value);
+
+  static const values = [keyOnly, valueOnly, keyAndValue];
+
+  static TagFilterType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TagFilterType._(value));
+
+  @override
+  bool operator ==(other) => other is TagFilterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about an EC2 tag filter.
+class EC2TagFilter {
+  /// The tag filter key.
+  final String? key;
+
+  /// The tag filter type:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>KEY_ONLY</code>: Key only.
+  /// </li>
+  /// <li>
+  /// <code>VALUE_ONLY</code>: Value only.
+  /// </li>
+  /// <li>
+  /// <code>KEY_AND_VALUE</code>: Key and value.
+  /// </li>
+  /// </ul>
+  final EC2TagFilterType? type;
+
+  /// The tag filter value.
+  final String? value;
+
+  EC2TagFilter({
+    this.key,
+    this.type,
+    this.value,
+  });
+
+  factory EC2TagFilter.fromJson(Map<String, dynamic> json) {
+    return EC2TagFilter(
+      key: json['Key'] as String?,
+      type: (json['Type'] as String?)?.let(EC2TagFilterType.fromString),
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final type = this.type;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (type != null) 'Type': type.value,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+class EC2TagFilterType {
+  static const keyOnly = EC2TagFilterType._('KEY_ONLY');
+  static const valueOnly = EC2TagFilterType._('VALUE_ONLY');
+  static const keyAndValue = EC2TagFilterType._('KEY_AND_VALUE');
+
+  final String value;
+
+  const EC2TagFilterType._(this.value);
+
+  static const values = [keyOnly, valueOnly, keyAndValue];
+
+  static EC2TagFilterType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EC2TagFilterType._(value));
+
+  @override
+  bool operator ==(other) => other is EC2TagFilterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a tag.
+class Tag {
+  /// The tag's key.
+  final String? key;
+
+  /// The tag's value.
+  final String? value;
+
+  Tag({
+    this.key,
+    this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+class StopStatus {
+  static const pending = StopStatus._('Pending');
+  static const succeeded = StopStatus._('Succeeded');
+
+  final String value;
+
+  const StopStatus._(this.value);
+
+  static const values = [pending, succeeded];
+
+  static StopStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StopStatus._(value));
+
+  @override
+  bool operator ==(other) => other is StopStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about the location of an application revision.
+class RevisionLocation {
+  /// The content of an AppSpec file for an Lambda or Amazon ECS deployment. The
+  /// content is formatted as JSON or YAML and stored as a RawString.
+  final AppSpecContent? appSpecContent;
+
+  /// Information about the location of application artifacts stored in GitHub.
+  final GitHubLocation? gitHubLocation;
+
+  /// The type of application revision:
+  ///
+  /// <ul>
+  /// <li>
+  /// S3: An application revision stored in Amazon S3.
+  /// </li>
+  /// <li>
+  /// GitHub: An application revision stored in GitHub (EC2/On-premises
+  /// deployments only).
+  /// </li>
+  /// <li>
+  /// String: A YAML-formatted or JSON-formatted string (Lambda deployments only).
+  /// </li>
+  /// <li>
+  /// AppSpecContent: An <code>AppSpecContent</code> object that contains the
+  /// contents of an AppSpec file for an Lambda or Amazon ECS deployment. The
+  /// content is formatted as JSON or YAML stored as a RawString.
+  /// </li>
+  /// </ul>
+  final RevisionLocationType? revisionType;
+
+  /// Information about the location of a revision stored in Amazon S3.
+  final S3Location? s3Location;
+
+  /// Information about the location of an Lambda deployment revision stored as a
+  /// RawString.
+  final RawString? string;
+
+  RevisionLocation({
+    this.appSpecContent,
+    this.gitHubLocation,
+    this.revisionType,
+    this.s3Location,
+    this.string,
+  });
+
+  factory RevisionLocation.fromJson(Map<String, dynamic> json) {
+    return RevisionLocation(
+      appSpecContent: json['appSpecContent'] != null
+          ? AppSpecContent.fromJson(
+              json['appSpecContent'] as Map<String, dynamic>)
+          : null,
+      gitHubLocation: json['gitHubLocation'] != null
+          ? GitHubLocation.fromJson(
+              json['gitHubLocation'] as Map<String, dynamic>)
+          : null,
+      revisionType: (json['revisionType'] as String?)
+          ?.let(RevisionLocationType.fromString),
+      s3Location: json['s3Location'] != null
+          ? S3Location.fromJson(json['s3Location'] as Map<String, dynamic>)
+          : null,
+      string: json['string'] != null
+          ? RawString.fromJson(json['string'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appSpecContent = this.appSpecContent;
+    final gitHubLocation = this.gitHubLocation;
+    final revisionType = this.revisionType;
+    final s3Location = this.s3Location;
+    final string = this.string;
+    return {
+      if (appSpecContent != null) 'appSpecContent': appSpecContent,
+      if (gitHubLocation != null) 'gitHubLocation': gitHubLocation,
+      if (revisionType != null) 'revisionType': revisionType.value,
+      if (s3Location != null) 's3Location': s3Location,
+      if (string != null) 'string': string,
+    };
+  }
+}
+
+class RevisionLocationType {
+  static const s3 = RevisionLocationType._('S3');
+  static const gitHub = RevisionLocationType._('GitHub');
+  static const string = RevisionLocationType._('String');
+  static const appSpecContent = RevisionLocationType._('AppSpecContent');
+
+  final String value;
+
+  const RevisionLocationType._(this.value);
+
+  static const values = [s3, gitHub, string, appSpecContent];
+
+  static RevisionLocationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RevisionLocationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RevisionLocationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about the location of application artifacts stored in Amazon S3.
+class S3Location {
+  /// The name of the Amazon S3 bucket where the application revision is stored.
+  final String? bucket;
+
+  /// The file type of the application revision. Must be one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>tar</code>: A tar archive file.
+  /// </li>
+  /// <li>
+  /// <code>tgz</code>: A compressed tar archive file.
+  /// </li>
+  /// <li>
+  /// <code>zip</code>: A zip archive file.
+  /// </li>
+  /// <li>
+  /// <code>YAML</code>: A YAML-formatted file.
+  /// </li>
+  /// <li>
+  /// <code>JSON</code>: A JSON-formatted file.
+  /// </li>
+  /// </ul>
+  final BundleType? bundleType;
+
+  /// The ETag of the Amazon S3 object that represents the bundled artifacts for
+  /// the application revision.
+  ///
+  /// If the ETag is not specified as an input parameter, ETag validation of the
+  /// object is skipped.
+  final String? eTag;
+
+  /// The name of the Amazon S3 object that represents the bundled artifacts for
+  /// the application revision.
+  final String? key;
+
+  /// A specific version of the Amazon S3 object that represents the bundled
+  /// artifacts for the application revision.
+  ///
+  /// If the version is not specified, the system uses the most recent version by
+  /// default.
+  final String? version;
+
+  S3Location({
+    this.bucket,
+    this.bundleType,
+    this.eTag,
+    this.key,
+    this.version,
+  });
+
+  factory S3Location.fromJson(Map<String, dynamic> json) {
+    return S3Location(
+      bucket: json['bucket'] as String?,
+      bundleType: (json['bundleType'] as String?)?.let(BundleType.fromString),
+      eTag: json['eTag'] as String?,
+      key: json['key'] as String?,
+      version: json['version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final bundleType = this.bundleType;
+    final eTag = this.eTag;
+    final key = this.key;
+    final version = this.version;
+    return {
+      if (bucket != null) 'bucket': bucket,
+      if (bundleType != null) 'bundleType': bundleType.value,
+      if (eTag != null) 'eTag': eTag,
+      if (key != null) 'key': key,
+      if (version != null) 'version': version,
+    };
+  }
+}
+
+/// Information about the location of application artifacts stored in GitHub.
+class GitHubLocation {
+  /// The SHA1 commit ID of the GitHub commit that represents the bundled
+  /// artifacts for the application revision.
+  final String? commitId;
+
+  /// The GitHub account and repository pair that stores a reference to the commit
+  /// that represents the bundled artifacts for the application revision.
+  ///
+  /// Specified as account/repository.
+  final String? repository;
+
+  GitHubLocation({
+    this.commitId,
+    this.repository,
+  });
+
+  factory GitHubLocation.fromJson(Map<String, dynamic> json) {
+    return GitHubLocation(
+      commitId: json['commitId'] as String?,
+      repository: json['repository'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final commitId = this.commitId;
+    final repository = this.repository;
+    return {
+      if (commitId != null) 'commitId': commitId,
+      if (repository != null) 'repository': repository,
+    };
+  }
+}
+
+/// A revision for an Lambda deployment that is a YAML-formatted or
+/// JSON-formatted string. For Lambda deployments, the revision is the same as
+/// the AppSpec file.
+class RawString {
+  /// The YAML-formatted or JSON-formatted revision string. It includes
+  /// information about which Lambda function to update and optional Lambda
+  /// functions that validate deployment lifecycle events.
+  final String? content;
+
+  /// The SHA256 hash value of the revision content.
+  final String? sha256;
+
+  RawString({
+    this.content,
+    this.sha256,
+  });
+
+  factory RawString.fromJson(Map<String, dynamic> json) {
+    return RawString(
+      content: json['content'] as String?,
+      sha256: json['sha256'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final sha256 = this.sha256;
+    return {
+      if (content != null) 'content': content,
+      if (sha256 != null) 'sha256': sha256,
+    };
+  }
+}
+
+/// A revision for an Lambda or Amazon ECS deployment that is a YAML-formatted
+/// or JSON-formatted string. For Lambda and Amazon ECS deployments, the
+/// revision is the same as the AppSpec file. This method replaces the
+/// deprecated <code>RawString</code> data type.
+class AppSpecContent {
+  /// The YAML-formatted or JSON-formatted revision string.
+  ///
+  /// For an Lambda deployment, the content includes a Lambda function name, the
+  /// alias for its original version, and the alias for its replacement version.
+  /// The deployment shifts traffic from the original version of the Lambda
+  /// function to the replacement version.
+  ///
+  /// For an Amazon ECS deployment, the content includes the task name,
+  /// information about the load balancer that serves traffic to the container,
+  /// and more.
+  ///
+  /// For both types of deployments, the content can specify Lambda functions that
+  /// run at specified hooks, such as <code>BeforeInstall</code>, during a
+  /// deployment.
+  final String? content;
+
+  /// The SHA256 hash value of the revision content.
+  final String? sha256;
+
+  AppSpecContent({
+    this.content,
+    this.sha256,
+  });
+
+  factory AppSpecContent.fromJson(Map<String, dynamic> json) {
+    return AppSpecContent(
+      content: json['content'] as String?,
+      sha256: json['sha256'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final sha256 = this.sha256;
+    return {
+      if (content != null) 'content': content,
+      if (sha256 != null) 'sha256': sha256,
+    };
+  }
+}
+
+class BundleType {
+  static const tar = BundleType._('tar');
+  static const tgz = BundleType._('tgz');
+  static const zip = BundleType._('zip');
+  static const yaml = BundleType._('YAML');
+  static const json = BundleType._('JSON');
+
+  final String value;
+
+  const BundleType._(this.value);
+
+  static const values = [tar, tgz, zip, yaml, json];
+
+  static BundleType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BundleType._(value));
+
+  @override
+  bool operator ==(other) => other is BundleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class LifecycleEventStatus {
+  static const pending = LifecycleEventStatus._('Pending');
+  static const inProgress = LifecycleEventStatus._('InProgress');
+  static const succeeded = LifecycleEventStatus._('Succeeded');
+  static const failed = LifecycleEventStatus._('Failed');
+  static const skipped = LifecycleEventStatus._('Skipped');
+  static const unknown = LifecycleEventStatus._('Unknown');
+
+  final String value;
+
+  const LifecycleEventStatus._(this.value);
+
+  static const values = [
+    pending,
+    inProgress,
+    succeeded,
+    failed,
+    skipped,
+    unknown
+  ];
+
+  static LifecycleEventStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LifecycleEventStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LifecycleEventStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class RegistrationStatus {
+  static const registered = RegistrationStatus._('Registered');
+  static const deregistered = RegistrationStatus._('Deregistered');
+
+  final String value;
+
+  const RegistrationStatus._(this.value);
+
+  static const values = [registered, deregistered];
+
+  static RegistrationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RegistrationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RegistrationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TargetFilterName {
+  static const targetStatus = TargetFilterName._('TargetStatus');
+  static const serverInstanceLabel = TargetFilterName._('ServerInstanceLabel');
+
+  final String value;
+
+  const TargetFilterName._(this.value);
+
+  static const values = [targetStatus, serverInstanceLabel];
+
+  static TargetFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TargetFilterName._(value));
+
+  @override
+  bool operator ==(other) => other is TargetFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a time range.
+class TimeRange {
+  /// The end time of the time range.
+  /// <note>
+  /// Specify null to leave the end time open-ended.
+  /// </note>
+  final DateTime? end;
+
+  /// The start time of the time range.
+  /// <note>
+  /// Specify null to leave the start time open-ended.
+  /// </note>
+  final DateTime? start;
+
+  TimeRange({
+    this.end,
+    this.start,
+  });
+
+  Map<String, dynamic> toJson() {
+    final end = this.end;
+    final start = this.start;
+    return {
+      if (end != null) 'end': unixTimestampToJson(end),
+      if (start != null) 'start': unixTimestampToJson(start),
+    };
+  }
+}
+
+class DeploymentStatus {
+  static const created = DeploymentStatus._('Created');
+  static const queued = DeploymentStatus._('Queued');
+  static const inProgress = DeploymentStatus._('InProgress');
+  static const baking = DeploymentStatus._('Baking');
+  static const succeeded = DeploymentStatus._('Succeeded');
+  static const failed = DeploymentStatus._('Failed');
+  static const stopped = DeploymentStatus._('Stopped');
+  static const ready = DeploymentStatus._('Ready');
+
+  final String value;
+
+  const DeploymentStatus._(this.value);
+
+  static const values = [
+    created,
+    queued,
+    inProgress,
+    baking,
+    succeeded,
+    failed,
+    stopped,
+    ready
+  ];
+
+  static DeploymentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeploymentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DeploymentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class InstanceType {
+  static const blue = InstanceType._('Blue');
+  static const green = InstanceType._('Green');
+
+  final String value;
+
+  const InstanceType._(this.value);
+
+  static const values = [blue, green];
+
+  static InstanceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => InstanceType._(value));
+
+  @override
+  bool operator ==(other) => other is InstanceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class InstanceStatus {
+  static const pending = InstanceStatus._('Pending');
+  static const inProgress = InstanceStatus._('InProgress');
+  static const succeeded = InstanceStatus._('Succeeded');
+  static const failed = InstanceStatus._('Failed');
+  static const skipped = InstanceStatus._('Skipped');
+  static const unknown = InstanceStatus._('Unknown');
+  static const ready = InstanceStatus._('Ready');
+
+  final String value;
+
+  const InstanceStatus._(this.value);
+
+  static const values = [
+    pending,
+    inProgress,
+    succeeded,
+    failed,
+    skipped,
+    unknown,
+    ready
+  ];
+
+  static InstanceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InstanceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is InstanceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ApplicationRevisionSortBy {
+  static const registerTime = ApplicationRevisionSortBy._('registerTime');
+  static const firstUsedTime = ApplicationRevisionSortBy._('firstUsedTime');
+  static const lastUsedTime = ApplicationRevisionSortBy._('lastUsedTime');
+
+  final String value;
+
+  const ApplicationRevisionSortBy._(this.value);
+
+  static const values = [registerTime, firstUsedTime, lastUsedTime];
+
+  static ApplicationRevisionSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ApplicationRevisionSortBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ApplicationRevisionSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SortOrder {
+  static const ascending = SortOrder._('ascending');
+  static const descending = SortOrder._('descending');
+
+  final String value;
+
+  const SortOrder._(this.value);
+
+  static const values = [ascending, descending];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ListStateFilterAction {
+  static const include = ListStateFilterAction._('include');
+  static const exclude = ListStateFilterAction._('exclude');
+  static const ignore = ListStateFilterAction._('ignore');
+
+  final String value;
+
+  const ListStateFilterAction._(this.value);
+
+  static const values = [include, exclude, ignore];
+
+  static ListStateFilterAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ListStateFilterAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ListStateFilterAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about an on-premises instance.
+class InstanceInfo {
+  /// If the on-premises instance was deregistered, the time at which the
+  /// on-premises instance was deregistered.
+  final DateTime? deregisterTime;
+
+  /// The ARN of the IAM session associated with the on-premises instance.
+  final String? iamSessionArn;
+
+  /// The user ARN associated with the on-premises instance.
+  final String? iamUserArn;
+
+  /// The ARN of the on-premises instance.
+  final String? instanceArn;
+
+  /// The name of the on-premises instance.
+  final String? instanceName;
+
+  /// The time at which the on-premises instance was registered.
+  final DateTime? registerTime;
+
+  /// The tags currently associated with the on-premises instance.
+  final List<Tag>? tags;
+
+  InstanceInfo({
+    this.deregisterTime,
+    this.iamSessionArn,
+    this.iamUserArn,
+    this.instanceArn,
+    this.instanceName,
+    this.registerTime,
+    this.tags,
+  });
+
+  factory InstanceInfo.fromJson(Map<String, dynamic> json) {
+    return InstanceInfo(
+      deregisterTime: timeStampFromJson(json['deregisterTime']),
+      iamSessionArn: json['iamSessionArn'] as String?,
+      iamUserArn: json['iamUserArn'] as String?,
+      instanceArn: json['instanceArn'] as String?,
+      instanceName: json['instanceName'] as String?,
+      registerTime: timeStampFromJson(json['registerTime']),
+      tags: (json['tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deregisterTime = this.deregisterTime;
+    final iamSessionArn = this.iamSessionArn;
+    final iamUserArn = this.iamUserArn;
+    final instanceArn = this.instanceArn;
+    final instanceName = this.instanceName;
+    final registerTime = this.registerTime;
+    final tags = this.tags;
+    return {
+      if (deregisterTime != null)
+        'deregisterTime': unixTimestampToJson(deregisterTime),
+      if (iamSessionArn != null) 'iamSessionArn': iamSessionArn,
+      if (iamUserArn != null) 'iamUserArn': iamUserArn,
+      if (instanceArn != null) 'instanceArn': instanceArn,
+      if (instanceName != null) 'instanceName': instanceName,
+      if (registerTime != null)
+        'registerTime': unixTimestampToJson(registerTime),
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Information about the deployment target.
+class DeploymentTarget {
+  final CloudFormationTarget? cloudFormationTarget;
+
+  /// The deployment type that is specific to the deployment's compute platform or
+  /// deployments initiated by a CloudFormation stack update.
+  final DeploymentTargetType? deploymentTargetType;
+
+  /// Information about the target for a deployment that uses the Amazon ECS
+  /// compute platform.
+  final ECSTarget? ecsTarget;
+
+  /// Information about the target for a deployment that uses the EC2/On-premises
+  /// compute platform.
+  final InstanceTarget? instanceTarget;
+
+  /// Information about the target for a deployment that uses the Lambda compute
+  /// platform.
+  final LambdaTarget? lambdaTarget;
+
+  DeploymentTarget({
+    this.cloudFormationTarget,
+    this.deploymentTargetType,
+    this.ecsTarget,
+    this.instanceTarget,
+    this.lambdaTarget,
+  });
+
+  factory DeploymentTarget.fromJson(Map<String, dynamic> json) {
+    return DeploymentTarget(
+      cloudFormationTarget: json['cloudFormationTarget'] != null
+          ? CloudFormationTarget.fromJson(
+              json['cloudFormationTarget'] as Map<String, dynamic>)
+          : null,
+      deploymentTargetType: (json['deploymentTargetType'] as String?)
+          ?.let(DeploymentTargetType.fromString),
+      ecsTarget: json['ecsTarget'] != null
+          ? ECSTarget.fromJson(json['ecsTarget'] as Map<String, dynamic>)
+          : null,
+      instanceTarget: json['instanceTarget'] != null
+          ? InstanceTarget.fromJson(
+              json['instanceTarget'] as Map<String, dynamic>)
+          : null,
+      lambdaTarget: json['lambdaTarget'] != null
+          ? LambdaTarget.fromJson(json['lambdaTarget'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudFormationTarget = this.cloudFormationTarget;
+    final deploymentTargetType = this.deploymentTargetType;
+    final ecsTarget = this.ecsTarget;
+    final instanceTarget = this.instanceTarget;
+    final lambdaTarget = this.lambdaTarget;
+    return {
+      if (cloudFormationTarget != null)
+        'cloudFormationTarget': cloudFormationTarget,
+      if (deploymentTargetType != null)
+        'deploymentTargetType': deploymentTargetType.value,
+      if (ecsTarget != null) 'ecsTarget': ecsTarget,
+      if (instanceTarget != null) 'instanceTarget': instanceTarget,
+      if (lambdaTarget != null) 'lambdaTarget': lambdaTarget,
+    };
+  }
+}
+
+class DeploymentTargetType {
+  static const instanceTarget = DeploymentTargetType._('InstanceTarget');
+  static const lambdaTarget = DeploymentTargetType._('LambdaTarget');
+  static const eCSTarget = DeploymentTargetType._('ECSTarget');
+  static const cloudFormationTarget =
+      DeploymentTargetType._('CloudFormationTarget');
+
+  final String value;
+
+  const DeploymentTargetType._(this.value);
+
+  static const values = [
+    instanceTarget,
+    lambdaTarget,
+    eCSTarget,
+    cloudFormationTarget
+  ];
+
+  static DeploymentTargetType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeploymentTargetType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeploymentTargetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A target Amazon EC2 or on-premises instance during a deployment that uses
+/// the EC2/On-premises compute platform.
+class InstanceTarget {
+  /// The unique ID of a deployment.
+  final String? deploymentId;
+
+  /// A label that identifies whether the instance is an original target
+  /// (<code>BLUE</code>) or a replacement target (<code>GREEN</code>).
+  final TargetLabel? instanceLabel;
+
+  /// The date and time when the target instance was updated by a deployment.
+  final DateTime? lastUpdatedAt;
+
+  /// The lifecycle events of the deployment to this target instance.
+  final List<LifecycleEvent>? lifecycleEvents;
+
+  /// The status an EC2/On-premises deployment's target instance.
+  final TargetStatus? status;
+
+  /// The Amazon Resource Name (ARN) of the target.
+  final String? targetArn;
+
+  /// The unique ID of a deployment target that has a type of
+  /// <code>instanceTarget</code>.
+  final String? targetId;
+
+  InstanceTarget({
+    this.deploymentId,
+    this.instanceLabel,
+    this.lastUpdatedAt,
+    this.lifecycleEvents,
+    this.status,
+    this.targetArn,
+    this.targetId,
+  });
+
+  factory InstanceTarget.fromJson(Map<String, dynamic> json) {
+    return InstanceTarget(
+      deploymentId: json['deploymentId'] as String?,
+      instanceLabel:
+          (json['instanceLabel'] as String?)?.let(TargetLabel.fromString),
+      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+      lifecycleEvents: (json['lifecycleEvents'] as List?)
+          ?.nonNulls
+          .map((e) => LifecycleEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status: (json['status'] as String?)?.let(TargetStatus.fromString),
+      targetArn: json['targetArn'] as String?,
+      targetId: json['targetId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentId = this.deploymentId;
+    final instanceLabel = this.instanceLabel;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final lifecycleEvents = this.lifecycleEvents;
+    final status = this.status;
+    final targetArn = this.targetArn;
+    final targetId = this.targetId;
+    return {
+      if (deploymentId != null) 'deploymentId': deploymentId,
+      if (instanceLabel != null) 'instanceLabel': instanceLabel.value,
+      if (lastUpdatedAt != null)
+        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (lifecycleEvents != null) 'lifecycleEvents': lifecycleEvents,
+      if (status != null) 'status': status.value,
+      if (targetArn != null) 'targetArn': targetArn,
+      if (targetId != null) 'targetId': targetId,
+    };
+  }
+}
+
+/// Information about the target Lambda function during an Lambda deployment.
+class LambdaTarget {
+  /// The unique ID of a deployment.
+  final String? deploymentId;
+
+  /// A <code>LambdaFunctionInfo</code> object that describes a target Lambda
+  /// function.
+  final LambdaFunctionInfo? lambdaFunctionInfo;
+
+  /// The date and time when the target Lambda function was updated by a
+  /// deployment.
+  final DateTime? lastUpdatedAt;
+
+  /// The lifecycle events of the deployment to this target Lambda function.
+  final List<LifecycleEvent>? lifecycleEvents;
+
+  /// The status an Lambda deployment's target Lambda function.
+  final TargetStatus? status;
+
+  /// The Amazon Resource Name (ARN) of the target.
+  final String? targetArn;
+
+  /// The unique ID of a deployment target that has a type of
+  /// <code>lambdaTarget</code>.
+  final String? targetId;
+
+  LambdaTarget({
+    this.deploymentId,
+    this.lambdaFunctionInfo,
+    this.lastUpdatedAt,
+    this.lifecycleEvents,
+    this.status,
+    this.targetArn,
+    this.targetId,
+  });
+
+  factory LambdaTarget.fromJson(Map<String, dynamic> json) {
+    return LambdaTarget(
+      deploymentId: json['deploymentId'] as String?,
+      lambdaFunctionInfo: json['lambdaFunctionInfo'] != null
+          ? LambdaFunctionInfo.fromJson(
+              json['lambdaFunctionInfo'] as Map<String, dynamic>)
+          : null,
+      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+      lifecycleEvents: (json['lifecycleEvents'] as List?)
+          ?.nonNulls
+          .map((e) => LifecycleEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status: (json['status'] as String?)?.let(TargetStatus.fromString),
+      targetArn: json['targetArn'] as String?,
+      targetId: json['targetId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentId = this.deploymentId;
+    final lambdaFunctionInfo = this.lambdaFunctionInfo;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final lifecycleEvents = this.lifecycleEvents;
+    final status = this.status;
+    final targetArn = this.targetArn;
+    final targetId = this.targetId;
+    return {
+      if (deploymentId != null) 'deploymentId': deploymentId,
+      if (lambdaFunctionInfo != null) 'lambdaFunctionInfo': lambdaFunctionInfo,
+      if (lastUpdatedAt != null)
+        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (lifecycleEvents != null) 'lifecycleEvents': lifecycleEvents,
+      if (status != null) 'status': status.value,
+      if (targetArn != null) 'targetArn': targetArn,
+      if (targetId != null) 'targetId': targetId,
+    };
+  }
+}
+
+/// Information about the target of an Amazon ECS deployment.
+class ECSTarget {
+  /// The unique ID of a deployment.
+  final String? deploymentId;
+
+  /// The date and time when the target Amazon ECS application was updated by a
+  /// deployment.
+  final DateTime? lastUpdatedAt;
+
+  /// The lifecycle events of the deployment to this target Amazon ECS
+  /// application.
+  final List<LifecycleEvent>? lifecycleEvents;
+
+  /// The status an Amazon ECS deployment's target ECS application.
+  final TargetStatus? status;
+
+  /// The Amazon Resource Name (ARN) of the target.
+  final String? targetArn;
+
+  /// The unique ID of a deployment target that has a type of
+  /// <code>ecsTarget</code>.
+  final String? targetId;
+
+  /// The <code>ECSTaskSet</code> objects associated with the ECS target.
+  final List<ECSTaskSet>? taskSetsInfo;
+
+  ECSTarget({
+    this.deploymentId,
+    this.lastUpdatedAt,
+    this.lifecycleEvents,
+    this.status,
+    this.targetArn,
+    this.targetId,
+    this.taskSetsInfo,
+  });
+
+  factory ECSTarget.fromJson(Map<String, dynamic> json) {
+    return ECSTarget(
+      deploymentId: json['deploymentId'] as String?,
+      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+      lifecycleEvents: (json['lifecycleEvents'] as List?)
+          ?.nonNulls
+          .map((e) => LifecycleEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status: (json['status'] as String?)?.let(TargetStatus.fromString),
+      targetArn: json['targetArn'] as String?,
+      targetId: json['targetId'] as String?,
+      taskSetsInfo: (json['taskSetsInfo'] as List?)
+          ?.nonNulls
+          .map((e) => ECSTaskSet.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentId = this.deploymentId;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final lifecycleEvents = this.lifecycleEvents;
+    final status = this.status;
+    final targetArn = this.targetArn;
+    final targetId = this.targetId;
+    final taskSetsInfo = this.taskSetsInfo;
+    return {
+      if (deploymentId != null) 'deploymentId': deploymentId,
+      if (lastUpdatedAt != null)
+        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (lifecycleEvents != null) 'lifecycleEvents': lifecycleEvents,
+      if (status != null) 'status': status.value,
+      if (targetArn != null) 'targetArn': targetArn,
+      if (targetId != null) 'targetId': targetId,
+      if (taskSetsInfo != null) 'taskSetsInfo': taskSetsInfo,
+    };
+  }
+}
+
+/// Information about the target to be updated by an CloudFormation blue/green
+/// deployment. This target type is used for all deployments initiated by a
+/// CloudFormation stack update.
+class CloudFormationTarget {
+  /// The unique ID of an CloudFormation blue/green deployment.
+  final String? deploymentId;
+
+  /// The date and time when the target application was updated by an
+  /// CloudFormation blue/green deployment.
+  final DateTime? lastUpdatedAt;
+
+  /// The lifecycle events of the CloudFormation blue/green deployment to this
+  /// target application.
+  final List<LifecycleEvent>? lifecycleEvents;
+
+  /// The resource type for the CloudFormation blue/green deployment.
+  final String? resourceType;
+
+  /// The status of an CloudFormation blue/green deployment's target application.
+  final TargetStatus? status;
+
+  /// The unique ID of a deployment target that has a type of
+  /// <code>CloudFormationTarget</code>.
+  final String? targetId;
+
+  /// The percentage of production traffic that the target version of an
+  /// CloudFormation blue/green deployment receives.
+  final double? targetVersionWeight;
+
+  CloudFormationTarget({
+    this.deploymentId,
+    this.lastUpdatedAt,
+    this.lifecycleEvents,
+    this.resourceType,
+    this.status,
+    this.targetId,
+    this.targetVersionWeight,
+  });
+
+  factory CloudFormationTarget.fromJson(Map<String, dynamic> json) {
+    return CloudFormationTarget(
+      deploymentId: json['deploymentId'] as String?,
+      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+      lifecycleEvents: (json['lifecycleEvents'] as List?)
+          ?.nonNulls
+          .map((e) => LifecycleEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      resourceType: json['resourceType'] as String?,
+      status: (json['status'] as String?)?.let(TargetStatus.fromString),
+      targetId: json['targetId'] as String?,
+      targetVersionWeight: json['targetVersionWeight'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentId = this.deploymentId;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final lifecycleEvents = this.lifecycleEvents;
+    final resourceType = this.resourceType;
+    final status = this.status;
+    final targetId = this.targetId;
+    final targetVersionWeight = this.targetVersionWeight;
+    return {
+      if (deploymentId != null) 'deploymentId': deploymentId,
+      if (lastUpdatedAt != null)
+        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (lifecycleEvents != null) 'lifecycleEvents': lifecycleEvents,
+      if (resourceType != null) 'resourceType': resourceType,
+      if (status != null) 'status': status.value,
+      if (targetId != null) 'targetId': targetId,
+      if (targetVersionWeight != null)
+        'targetVersionWeight': targetVersionWeight,
+    };
+  }
+}
+
+class TargetStatus {
+  static const pending = TargetStatus._('Pending');
+  static const inProgress = TargetStatus._('InProgress');
+  static const succeeded = TargetStatus._('Succeeded');
+  static const failed = TargetStatus._('Failed');
+  static const skipped = TargetStatus._('Skipped');
+  static const unknown = TargetStatus._('Unknown');
+  static const ready = TargetStatus._('Ready');
+
+  final String value;
+
+  const TargetStatus._(this.value);
+
+  static const values = [
+    pending,
+    inProgress,
+    succeeded,
+    failed,
+    skipped,
+    unknown,
+    ready
+  ];
+
+  static TargetStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TargetStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TargetStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a deployment lifecycle event.
+class LifecycleEvent {
+  /// Diagnostic information about the deployment lifecycle event.
+  final Diagnostics? diagnostics;
+
+  /// A timestamp that indicates when the deployment lifecycle event ended.
+  final DateTime? endTime;
+
+  /// The deployment lifecycle event name, such as <code>ApplicationStop</code>,
+  /// <code>BeforeInstall</code>, <code>AfterInstall</code>,
+  /// <code>ApplicationStart</code>, or <code>ValidateService</code>.
+  final String? lifecycleEventName;
+
+  /// A timestamp that indicates when the deployment lifecycle event started.
+  final DateTime? startTime;
+
+  /// The deployment lifecycle event status:
+  ///
+  /// <ul>
+  /// <li>
+  /// Pending: The deployment lifecycle event is pending.
+  /// </li>
+  /// <li>
+  /// InProgress: The deployment lifecycle event is in progress.
+  /// </li>
+  /// <li>
+  /// Succeeded: The deployment lifecycle event ran successfully.
+  /// </li>
+  /// <li>
+  /// Failed: The deployment lifecycle event has failed.
+  /// </li>
+  /// <li>
+  /// Skipped: The deployment lifecycle event has been skipped.
+  /// </li>
+  /// <li>
+  /// Unknown: The deployment lifecycle event is unknown.
+  /// </li>
+  /// </ul>
+  final LifecycleEventStatus? status;
+
+  LifecycleEvent({
+    this.diagnostics,
+    this.endTime,
+    this.lifecycleEventName,
+    this.startTime,
+    this.status,
+  });
+
+  factory LifecycleEvent.fromJson(Map<String, dynamic> json) {
+    return LifecycleEvent(
+      diagnostics: json['diagnostics'] != null
+          ? Diagnostics.fromJson(json['diagnostics'] as Map<String, dynamic>)
+          : null,
+      endTime: timeStampFromJson(json['endTime']),
+      lifecycleEventName: json['lifecycleEventName'] as String?,
+      startTime: timeStampFromJson(json['startTime']),
+      status: (json['status'] as String?)?.let(LifecycleEventStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final diagnostics = this.diagnostics;
+    final endTime = this.endTime;
+    final lifecycleEventName = this.lifecycleEventName;
+    final startTime = this.startTime;
+    final status = this.status;
+    return {
+      if (diagnostics != null) 'diagnostics': diagnostics,
+      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
+      if (lifecycleEventName != null) 'lifecycleEventName': lifecycleEventName,
+      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+/// Diagnostic information about executable scripts that are part of a
+/// deployment.
+class Diagnostics {
+  /// The associated error code:
+  ///
+  /// <ul>
+  /// <li>
+  /// Success: The specified script ran.
+  /// </li>
+  /// <li>
+  /// ScriptMissing: The specified script was not found in the specified location.
+  /// </li>
+  /// <li>
+  /// ScriptNotExecutable: The specified script is not a recognized executable
+  /// file type.
+  /// </li>
+  /// <li>
+  /// ScriptTimedOut: The specified script did not finish running in the specified
+  /// time period.
+  /// </li>
+  /// <li>
+  /// ScriptFailed: The specified script failed to run as expected.
+  /// </li>
+  /// <li>
+  /// UnknownError: The specified script did not run for an unknown reason.
+  /// </li>
+  /// </ul>
+  final LifecycleErrorCode? errorCode;
+
+  /// The last portion of the diagnostic log.
+  ///
+  /// If available, CodeDeploy returns up to the last 4 KB of the diagnostic log.
+  final String? logTail;
+
+  /// The message associated with the error.
+  final String? message;
+
+  /// The name of the script.
+  final String? scriptName;
+
+  Diagnostics({
+    this.errorCode,
+    this.logTail,
+    this.message,
+    this.scriptName,
+  });
+
+  factory Diagnostics.fromJson(Map<String, dynamic> json) {
+    return Diagnostics(
+      errorCode:
+          (json['errorCode'] as String?)?.let(LifecycleErrorCode.fromString),
+      logTail: json['logTail'] as String?,
+      message: json['message'] as String?,
+      scriptName: json['scriptName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final logTail = this.logTail;
+    final message = this.message;
+    final scriptName = this.scriptName;
+    return {
+      if (errorCode != null) 'errorCode': errorCode.value,
+      if (logTail != null) 'logTail': logTail,
+      if (message != null) 'message': message,
+      if (scriptName != null) 'scriptName': scriptName,
+    };
+  }
+}
+
+class LifecycleErrorCode {
+  static const success = LifecycleErrorCode._('Success');
+  static const scriptMissing = LifecycleErrorCode._('ScriptMissing');
+  static const scriptNotExecutable =
+      LifecycleErrorCode._('ScriptNotExecutable');
+  static const scriptTimedOut = LifecycleErrorCode._('ScriptTimedOut');
+  static const scriptFailed = LifecycleErrorCode._('ScriptFailed');
+  static const unknownError = LifecycleErrorCode._('UnknownError');
+
+  final String value;
+
+  const LifecycleErrorCode._(this.value);
+
+  static const values = [
+    success,
+    scriptMissing,
+    scriptNotExecutable,
+    scriptTimedOut,
+    scriptFailed,
+    unknownError
+  ];
+
+  static LifecycleErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LifecycleErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LifecycleErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a set of Amazon ECS tasks in an CodeDeploy deployment. An
+/// Amazon ECS task set includes details such as the desired number of tasks,
+/// how many tasks are running, and whether the task set serves production
+/// traffic. An CodeDeploy application that uses the Amazon ECS compute platform
+/// deploys a containerized application in an Amazon ECS service as a task set.
+class ECSTaskSet {
+  /// The number of tasks in a task set. During a deployment that uses the Amazon
+  /// ECS compute type, CodeDeploy instructs Amazon ECS to create a new task set
+  /// and uses this value to determine how many tasks to create. After the updated
+  /// task set is created, CodeDeploy shifts traffic to the new task set.
+  final int? desiredCount;
+
+  /// A unique ID of an <code>ECSTaskSet</code>.
+  final String? identifer;
+
+  /// The number of tasks in the task set that are in the <code>PENDING</code>
+  /// status during an Amazon ECS deployment. A task in the <code>PENDING</code>
+  /// state is preparing to enter the <code>RUNNING</code> state. A task set
+  /// enters the <code>PENDING</code> status when it launches for the first time,
+  /// or when it is restarted after being in the <code>STOPPED</code> state.
+  final int? pendingCount;
+
+  /// The number of tasks in the task set that are in the <code>RUNNING</code>
+  /// status during an Amazon ECS deployment. A task in the <code>RUNNING</code>
+  /// state is running and ready for use.
+  final int? runningCount;
+
+  /// The status of the task set. There are three valid task set statuses:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PRIMARY</code>: Indicates the task set is serving production traffic.
+  /// </li>
+  /// <li>
+  /// <code>ACTIVE</code>: Indicates the task set is not serving production
+  /// traffic.
+  /// </li>
+  /// <li>
+  /// <code>DRAINING</code>: Indicates the tasks in the task set are being stopped
+  /// and their corresponding targets are being deregistered from their target
+  /// group.
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  /// The target group associated with the task set. The target group is used by
+  /// CodeDeploy to manage traffic to a task set.
+  final TargetGroupInfo? targetGroup;
+
+  /// A label that identifies whether the ECS task set is an original target
+  /// (<code>BLUE</code>) or a replacement target (<code>GREEN</code>).
+  final TargetLabel? taskSetLabel;
+
+  /// The percentage of traffic served by this task set.
+  final double? trafficWeight;
+
+  ECSTaskSet({
+    this.desiredCount,
+    this.identifer,
+    this.pendingCount,
+    this.runningCount,
+    this.status,
+    this.targetGroup,
+    this.taskSetLabel,
+    this.trafficWeight,
+  });
+
+  factory ECSTaskSet.fromJson(Map<String, dynamic> json) {
+    return ECSTaskSet(
+      desiredCount: json['desiredCount'] as int?,
+      identifer: json['identifer'] as String?,
+      pendingCount: json['pendingCount'] as int?,
+      runningCount: json['runningCount'] as int?,
+      status: json['status'] as String?,
+      targetGroup: json['targetGroup'] != null
+          ? TargetGroupInfo.fromJson(
+              json['targetGroup'] as Map<String, dynamic>)
+          : null,
+      taskSetLabel:
+          (json['taskSetLabel'] as String?)?.let(TargetLabel.fromString),
+      trafficWeight: json['trafficWeight'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final desiredCount = this.desiredCount;
+    final identifer = this.identifer;
+    final pendingCount = this.pendingCount;
+    final runningCount = this.runningCount;
+    final status = this.status;
+    final targetGroup = this.targetGroup;
+    final taskSetLabel = this.taskSetLabel;
+    final trafficWeight = this.trafficWeight;
+    return {
+      if (desiredCount != null) 'desiredCount': desiredCount,
+      if (identifer != null) 'identifer': identifer,
+      if (pendingCount != null) 'pendingCount': pendingCount,
+      if (runningCount != null) 'runningCount': runningCount,
+      if (status != null) 'status': status,
+      if (targetGroup != null) 'targetGroup': targetGroup,
+      if (taskSetLabel != null) 'taskSetLabel': taskSetLabel.value,
+      if (trafficWeight != null) 'trafficWeight': trafficWeight,
+    };
+  }
+}
+
+class TargetLabel {
+  static const blue = TargetLabel._('Blue');
+  static const green = TargetLabel._('Green');
+
+  final String value;
+
+  const TargetLabel._(this.value);
+
+  static const values = [blue, green];
+
+  static TargetLabel fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TargetLabel._(value));
+
+  @override
+  bool operator ==(other) => other is TargetLabel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a Lambda function specified in a deployment.
+class LambdaFunctionInfo {
+  /// The version of a Lambda function that production traffic points to.
+  final String? currentVersion;
+
+  /// The alias of a Lambda function. For more information, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/aliases-intro.html">Lambda
+  /// Function Aliases</a> in the <i>Lambda Developer Guide</i>.
+  final String? functionAlias;
+
+  /// The name of a Lambda function.
+  final String? functionName;
+
+  /// The version of a Lambda function that production traffic points to after the
+  /// Lambda function is deployed.
+  final String? targetVersion;
+
+  /// The percentage of production traffic that the target version of a Lambda
+  /// function receives.
+  final double? targetVersionWeight;
+
+  LambdaFunctionInfo({
+    this.currentVersion,
+    this.functionAlias,
+    this.functionName,
+    this.targetVersion,
+    this.targetVersionWeight,
+  });
+
+  factory LambdaFunctionInfo.fromJson(Map<String, dynamic> json) {
+    return LambdaFunctionInfo(
+      currentVersion: json['currentVersion'] as String?,
+      functionAlias: json['functionAlias'] as String?,
+      functionName: json['functionName'] as String?,
+      targetVersion: json['targetVersion'] as String?,
+      targetVersionWeight: json['targetVersionWeight'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currentVersion = this.currentVersion;
+    final functionAlias = this.functionAlias;
+    final functionName = this.functionName;
+    final targetVersion = this.targetVersion;
+    final targetVersionWeight = this.targetVersionWeight;
+    return {
+      if (currentVersion != null) 'currentVersion': currentVersion,
+      if (functionAlias != null) 'functionAlias': functionAlias,
+      if (functionName != null) 'functionName': functionName,
+      if (targetVersion != null) 'targetVersion': targetVersion,
+      if (targetVersionWeight != null)
+        'targetVersionWeight': targetVersionWeight,
+    };
+  }
+}
+
+/// Information about an instance in a deployment.
+class InstanceSummary {
+  /// The unique ID of a deployment.
+  final String? deploymentId;
+
+  /// The instance ID.
+  final String? instanceId;
+
+  /// Information about which environment an instance belongs to in a blue/green
+  /// deployment.
+  ///
+  /// <ul>
+  /// <li>
+  /// BLUE: The instance is part of the original environment.
+  /// </li>
+  /// <li>
+  /// GREEN: The instance is part of the replacement environment.
+  /// </li>
+  /// </ul>
+  final InstanceType? instanceType;
+
+  /// A timestamp that indicates when the instance information was last updated.
+  final DateTime? lastUpdatedAt;
+
+  /// A list of lifecycle events for this instance.
+  final List<LifecycleEvent>? lifecycleEvents;
+
+  /// The deployment status for this instance:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Pending</code>: The deployment is pending for this instance.
+  /// </li>
+  /// <li>
+  /// <code>In Progress</code>: The deployment is in progress for this instance.
+  /// </li>
+  /// <li>
+  /// <code>Succeeded</code>: The deployment has succeeded for this instance.
+  /// </li>
+  /// <li>
+  /// <code>Failed</code>: The deployment has failed for this instance.
+  /// </li>
+  /// <li>
+  /// <code>Skipped</code>: The deployment has been skipped for this instance.
+  /// </li>
+  /// <li>
+  /// <code>Unknown</code>: The deployment status is unknown for this instance.
+  /// </li>
+  /// </ul>
+  final InstanceStatus? status;
+
+  InstanceSummary({
+    this.deploymentId,
+    this.instanceId,
+    this.instanceType,
+    this.lastUpdatedAt,
+    this.lifecycleEvents,
+    this.status,
+  });
+
+  factory InstanceSummary.fromJson(Map<String, dynamic> json) {
+    return InstanceSummary(
+      deploymentId: json['deploymentId'] as String?,
+      instanceId: json['instanceId'] as String?,
+      instanceType:
+          (json['instanceType'] as String?)?.let(InstanceType.fromString),
+      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+      lifecycleEvents: (json['lifecycleEvents'] as List?)
+          ?.nonNulls
+          .map((e) => LifecycleEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status: (json['status'] as String?)?.let(InstanceStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentId = this.deploymentId;
+    final instanceId = this.instanceId;
+    final instanceType = this.instanceType;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final lifecycleEvents = this.lifecycleEvents;
+    final status = this.status;
+    return {
+      if (deploymentId != null) 'deploymentId': deploymentId,
+      if (instanceId != null) 'instanceId': instanceId,
+      if (instanceType != null) 'instanceType': instanceType.value,
+      if (lastUpdatedAt != null)
+        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (lifecycleEvents != null) 'lifecycleEvents': lifecycleEvents,
+      if (status != null) 'status': status.value,
+    };
+  }
 }
 
 /// Information about a deployment group.
@@ -3864,7 +6632,7 @@ class DeploymentGroupInfo {
   /// The target Amazon ECS services in the deployment group. This applies only to
   /// deployment groups that use the Amazon ECS compute platform. A target Amazon
   /// ECS service is specified as an Amazon ECS cluster and service name pair
-  /// using the format <code>&lt;clustername&gt;:&lt;servicename&gt;</code>.
+  /// using the format <code><clustername>:<servicename></code>.
   final List<ECSService>? ecsServices;
 
   /// Information about the most recent attempted deployment to the deployment
@@ -4086,6 +6854,541 @@ class DeploymentGroupInfo {
         'triggerConfigurations': triggerConfigurations,
     };
   }
+}
+
+/// Information about the most recent attempted or successful deployment to a
+/// deployment group.
+class LastDeploymentInfo {
+  /// A timestamp that indicates when the most recent deployment to the deployment
+  /// group started.
+  final DateTime? createTime;
+
+  /// The unique ID of a deployment.
+  final String? deploymentId;
+
+  /// A timestamp that indicates when the most recent deployment to the deployment
+  /// group was complete.
+  final DateTime? endTime;
+
+  /// The status of the most recent deployment.
+  final DeploymentStatus? status;
+
+  LastDeploymentInfo({
+    this.createTime,
+    this.deploymentId,
+    this.endTime,
+    this.status,
+  });
+
+  factory LastDeploymentInfo.fromJson(Map<String, dynamic> json) {
+    return LastDeploymentInfo(
+      createTime: timeStampFromJson(json['createTime']),
+      deploymentId: json['deploymentId'] as String?,
+      endTime: timeStampFromJson(json['endTime']),
+      status: (json['status'] as String?)?.let(DeploymentStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createTime = this.createTime;
+    final deploymentId = this.deploymentId;
+    final endTime = this.endTime;
+    final status = this.status;
+    return {
+      if (createTime != null) 'createTime': unixTimestampToJson(createTime),
+      if (deploymentId != null) 'deploymentId': deploymentId,
+      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+class ComputePlatform {
+  static const server = ComputePlatform._('Server');
+  static const lambda = ComputePlatform._('Lambda');
+  static const ecs = ComputePlatform._('ECS');
+
+  final String value;
+
+  const ComputePlatform._(this.value);
+
+  static const values = [server, lambda, ecs];
+
+  static ComputePlatform fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ComputePlatform._(value));
+
+  @override
+  bool operator ==(other) => other is ComputePlatform && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a deployment configuration.
+class DeploymentConfigInfo {
+  /// The destination platform type for the deployment (<code>Lambda</code>,
+  /// <code>Server</code>, or <code>ECS</code>).
+  final ComputePlatform? computePlatform;
+
+  /// The time at which the deployment configuration was created.
+  final DateTime? createTime;
+
+  /// The deployment configuration ID.
+  final String? deploymentConfigId;
+
+  /// The deployment configuration name.
+  final String? deploymentConfigName;
+
+  /// Information about the number or percentage of minimum healthy instances.
+  final MinimumHealthyHosts? minimumHealthyHosts;
+
+  /// The configuration that specifies how the deployment traffic is routed. Used
+  /// for deployments with a Lambda or Amazon ECS compute platform only.
+  final TrafficRoutingConfig? trafficRoutingConfig;
+
+  /// Information about a zonal configuration.
+  final ZonalConfig? zonalConfig;
+
+  DeploymentConfigInfo({
+    this.computePlatform,
+    this.createTime,
+    this.deploymentConfigId,
+    this.deploymentConfigName,
+    this.minimumHealthyHosts,
+    this.trafficRoutingConfig,
+    this.zonalConfig,
+  });
+
+  factory DeploymentConfigInfo.fromJson(Map<String, dynamic> json) {
+    return DeploymentConfigInfo(
+      computePlatform:
+          (json['computePlatform'] as String?)?.let(ComputePlatform.fromString),
+      createTime: timeStampFromJson(json['createTime']),
+      deploymentConfigId: json['deploymentConfigId'] as String?,
+      deploymentConfigName: json['deploymentConfigName'] as String?,
+      minimumHealthyHosts: json['minimumHealthyHosts'] != null
+          ? MinimumHealthyHosts.fromJson(
+              json['minimumHealthyHosts'] as Map<String, dynamic>)
+          : null,
+      trafficRoutingConfig: json['trafficRoutingConfig'] != null
+          ? TrafficRoutingConfig.fromJson(
+              json['trafficRoutingConfig'] as Map<String, dynamic>)
+          : null,
+      zonalConfig: json['zonalConfig'] != null
+          ? ZonalConfig.fromJson(json['zonalConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final computePlatform = this.computePlatform;
+    final createTime = this.createTime;
+    final deploymentConfigId = this.deploymentConfigId;
+    final deploymentConfigName = this.deploymentConfigName;
+    final minimumHealthyHosts = this.minimumHealthyHosts;
+    final trafficRoutingConfig = this.trafficRoutingConfig;
+    final zonalConfig = this.zonalConfig;
+    return {
+      if (computePlatform != null) 'computePlatform': computePlatform.value,
+      if (createTime != null) 'createTime': unixTimestampToJson(createTime),
+      if (deploymentConfigId != null) 'deploymentConfigId': deploymentConfigId,
+      if (deploymentConfigName != null)
+        'deploymentConfigName': deploymentConfigName,
+      if (minimumHealthyHosts != null)
+        'minimumHealthyHosts': minimumHealthyHosts,
+      if (trafficRoutingConfig != null)
+        'trafficRoutingConfig': trafficRoutingConfig,
+      if (zonalConfig != null) 'zonalConfig': zonalConfig,
+    };
+  }
+}
+
+/// Information about the minimum number of healthy instances.
+class MinimumHealthyHosts {
+  /// The minimum healthy instance type:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>HOST_COUNT</code>: The minimum number of healthy instances as an
+  /// absolute value.
+  /// </li>
+  /// <li>
+  /// <code>FLEET_PERCENT</code>: The minimum number of healthy instances as a
+  /// percentage of the total number of instances in the deployment.
+  /// </li>
+  /// </ul>
+  /// In an example of nine instances, if a HOST_COUNT of six is specified, deploy
+  /// to up to three instances at a time. The deployment is successful if six or
+  /// more instances are deployed to successfully. Otherwise, the deployment
+  /// fails. If a FLEET_PERCENT of 40 is specified, deploy to up to five instances
+  /// at a time. The deployment is successful if four or more instances are
+  /// deployed to successfully. Otherwise, the deployment fails.
+  /// <note>
+  /// In a call to the <code>GetDeploymentConfig</code>,
+  /// CodeDeployDefault.OneAtATime returns a minimum healthy instance type of
+  /// MOST_CONCURRENCY and a value of 1. This means a deployment to only one
+  /// instance at a time. (You cannot set the type to MOST_CONCURRENCY, only to
+  /// HOST_COUNT or FLEET_PERCENT.) In addition, with
+  /// CodeDeployDefault.OneAtATime, CodeDeploy attempts to ensure that all
+  /// instances but one are kept in a healthy state during the deployment.
+  /// Although this allows one instance at a time to be taken offline for a new
+  /// deployment, it also means that if the deployment to the last instance fails,
+  /// the overall deployment is still successful.
+  /// </note>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/instances-health.html">CodeDeploy
+  /// Instance Health</a> in the <i>CodeDeploy User Guide</i>.
+  final MinimumHealthyHostsType? type;
+
+  /// The minimum healthy instance value.
+  final int? value;
+
+  MinimumHealthyHosts({
+    this.type,
+    this.value,
+  });
+
+  factory MinimumHealthyHosts.fromJson(Map<String, dynamic> json) {
+    return MinimumHealthyHosts(
+      type: (json['type'] as String?)?.let(MinimumHealthyHostsType.fromString),
+      value: json['value'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final value = this.value;
+    return {
+      if (type != null) 'type': type.value,
+      if (value != null) 'value': value,
+    };
+  }
+}
+
+/// The configuration that specifies how traffic is shifted from one version of
+/// a Lambda function to another version during an Lambda deployment, or from
+/// one Amazon ECS task set to another during an Amazon ECS deployment.
+class TrafficRoutingConfig {
+  /// A configuration that shifts traffic from one version of a Lambda function or
+  /// ECS task set to another in two increments. The original and target Lambda
+  /// function versions or ECS task sets are specified in the deployment's AppSpec
+  /// file.
+  final TimeBasedCanary? timeBasedCanary;
+
+  /// A configuration that shifts traffic from one version of a Lambda function or
+  /// Amazon ECS task set to another in equal increments, with an equal number of
+  /// minutes between each increment. The original and target Lambda function
+  /// versions or Amazon ECS task sets are specified in the deployment's AppSpec
+  /// file.
+  final TimeBasedLinear? timeBasedLinear;
+
+  /// The type of traffic shifting (<code>TimeBasedCanary</code> or
+  /// <code>TimeBasedLinear</code>) used by a deployment configuration.
+  final TrafficRoutingType? type;
+
+  TrafficRoutingConfig({
+    this.timeBasedCanary,
+    this.timeBasedLinear,
+    this.type,
+  });
+
+  factory TrafficRoutingConfig.fromJson(Map<String, dynamic> json) {
+    return TrafficRoutingConfig(
+      timeBasedCanary: json['timeBasedCanary'] != null
+          ? TimeBasedCanary.fromJson(
+              json['timeBasedCanary'] as Map<String, dynamic>)
+          : null,
+      timeBasedLinear: json['timeBasedLinear'] != null
+          ? TimeBasedLinear.fromJson(
+              json['timeBasedLinear'] as Map<String, dynamic>)
+          : null,
+      type: (json['type'] as String?)?.let(TrafficRoutingType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timeBasedCanary = this.timeBasedCanary;
+    final timeBasedLinear = this.timeBasedLinear;
+    final type = this.type;
+    return {
+      if (timeBasedCanary != null) 'timeBasedCanary': timeBasedCanary,
+      if (timeBasedLinear != null) 'timeBasedLinear': timeBasedLinear,
+      if (type != null) 'type': type.value,
+    };
+  }
+}
+
+/// Configure the <code>ZonalConfig</code> object if you want CodeDeploy to
+/// deploy your application to one <a
+/// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-availability-zones">Availability
+/// Zone</a> at a time, within an Amazon Web Services Region. By deploying to
+/// one Availability Zone at a time, you can expose your deployment to a
+/// progressively larger audience as confidence in the deployment's performance
+/// and viability grows. If you don't configure the <code>ZonalConfig</code>
+/// object, CodeDeploy deploys your application to a random selection of hosts
+/// across a Region.
+///
+/// For more information about the zonal configuration feature, see <a
+/// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations-create.html#zonal-config">zonal
+/// configuration</a> in the <i>CodeDeploy User Guide</i>.
+class ZonalConfig {
+  /// The period of time, in seconds, that CodeDeploy must wait after completing a
+  /// deployment to the <i>first</i> Availability Zone. CodeDeploy will wait this
+  /// amount of time before starting a deployment to the second Availability Zone.
+  /// You might set this option if you want to allow extra bake time for the first
+  /// Availability Zone. If you don't specify a value for
+  /// <code>firstZoneMonitorDurationInSeconds</code>, then CodeDeploy uses the
+  /// <code>monitorDurationInSeconds</code> value for the first Availability Zone.
+  ///
+  /// For more information about the zonal configuration feature, see <a
+  /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations-create.html#zonal-config">zonal
+  /// configuration</a> in the <i>CodeDeploy User Guide</i>.
+  final int? firstZoneMonitorDurationInSeconds;
+
+  /// The number or percentage of instances that must remain available per
+  /// Availability Zone during a deployment. This option works in conjunction with
+  /// the <code>MinimumHealthyHosts</code> option. For more information, see <a
+  /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/instances-health.html#minimum-healthy-hosts-az">About
+  /// the minimum number of healthy hosts per Availability Zone</a> in the
+  /// <i>CodeDeploy User Guide</i>.
+  ///
+  /// If you don't specify the <code>minimumHealthyHostsPerZone</code> option,
+  /// then CodeDeploy uses a default value of <code>0</code> percent.
+  ///
+  /// For more information about the zonal configuration feature, see <a
+  /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations-create.html#zonal-config">zonal
+  /// configuration</a> in the <i>CodeDeploy User Guide</i>.
+  final MinimumHealthyHostsPerZone? minimumHealthyHostsPerZone;
+
+  /// The period of time, in seconds, that CodeDeploy must wait after completing a
+  /// deployment to an Availability Zone. CodeDeploy will wait this amount of time
+  /// before starting a deployment to the next Availability Zone. Consider adding
+  /// a monitor duration to give the deployment some time to prove itself (or
+  /// 'bake') in one Availability Zone before it is released in the next zone. If
+  /// you don't specify a <code>monitorDurationInSeconds</code>, CodeDeploy starts
+  /// deploying to the next Availability Zone immediately.
+  ///
+  /// For more information about the zonal configuration feature, see <a
+  /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations-create.html#zonal-config">zonal
+  /// configuration</a> in the <i>CodeDeploy User Guide</i>.
+  final int? monitorDurationInSeconds;
+
+  ZonalConfig({
+    this.firstZoneMonitorDurationInSeconds,
+    this.minimumHealthyHostsPerZone,
+    this.monitorDurationInSeconds,
+  });
+
+  factory ZonalConfig.fromJson(Map<String, dynamic> json) {
+    return ZonalConfig(
+      firstZoneMonitorDurationInSeconds:
+          json['firstZoneMonitorDurationInSeconds'] as int?,
+      minimumHealthyHostsPerZone: json['minimumHealthyHostsPerZone'] != null
+          ? MinimumHealthyHostsPerZone.fromJson(
+              json['minimumHealthyHostsPerZone'] as Map<String, dynamic>)
+          : null,
+      monitorDurationInSeconds: json['monitorDurationInSeconds'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final firstZoneMonitorDurationInSeconds =
+        this.firstZoneMonitorDurationInSeconds;
+    final minimumHealthyHostsPerZone = this.minimumHealthyHostsPerZone;
+    final monitorDurationInSeconds = this.monitorDurationInSeconds;
+    return {
+      if (firstZoneMonitorDurationInSeconds != null)
+        'firstZoneMonitorDurationInSeconds': firstZoneMonitorDurationInSeconds,
+      if (minimumHealthyHostsPerZone != null)
+        'minimumHealthyHostsPerZone': minimumHealthyHostsPerZone,
+      if (monitorDurationInSeconds != null)
+        'monitorDurationInSeconds': monitorDurationInSeconds,
+    };
+  }
+}
+
+/// Information about the minimum number of healthy instances per Availability
+/// Zone.
+class MinimumHealthyHostsPerZone {
+  /// The <code>type</code> associated with the
+  /// <code>MinimumHealthyHostsPerZone</code> option.
+  final MinimumHealthyHostsPerZoneType? type;
+
+  /// The <code>value</code> associated with the
+  /// <code>MinimumHealthyHostsPerZone</code> option.
+  final int? value;
+
+  MinimumHealthyHostsPerZone({
+    this.type,
+    this.value,
+  });
+
+  factory MinimumHealthyHostsPerZone.fromJson(Map<String, dynamic> json) {
+    return MinimumHealthyHostsPerZone(
+      type: (json['type'] as String?)
+          ?.let(MinimumHealthyHostsPerZoneType.fromString),
+      value: json['value'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final value = this.value;
+    return {
+      if (type != null) 'type': type.value,
+      if (value != null) 'value': value,
+    };
+  }
+}
+
+class MinimumHealthyHostsPerZoneType {
+  static const hostCount = MinimumHealthyHostsPerZoneType._('HOST_COUNT');
+  static const fleetPercent = MinimumHealthyHostsPerZoneType._('FLEET_PERCENT');
+
+  final String value;
+
+  const MinimumHealthyHostsPerZoneType._(this.value);
+
+  static const values = [hostCount, fleetPercent];
+
+  static MinimumHealthyHostsPerZoneType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MinimumHealthyHostsPerZoneType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MinimumHealthyHostsPerZoneType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TrafficRoutingType {
+  static const timeBasedCanary = TrafficRoutingType._('TimeBasedCanary');
+  static const timeBasedLinear = TrafficRoutingType._('TimeBasedLinear');
+  static const allAtOnce = TrafficRoutingType._('AllAtOnce');
+
+  final String value;
+
+  const TrafficRoutingType._(this.value);
+
+  static const values = [timeBasedCanary, timeBasedLinear, allAtOnce];
+
+  static TrafficRoutingType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TrafficRoutingType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TrafficRoutingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A configuration that shifts traffic from one version of a Lambda function or
+/// Amazon ECS task set to another in two increments. The original and target
+/// Lambda function versions or ECS task sets are specified in the deployment's
+/// AppSpec file.
+class TimeBasedCanary {
+  /// The number of minutes between the first and second traffic shifts of a
+  /// <code>TimeBasedCanary</code> deployment.
+  final int? canaryInterval;
+
+  /// The percentage of traffic to shift in the first increment of a
+  /// <code>TimeBasedCanary</code> deployment.
+  final int? canaryPercentage;
+
+  TimeBasedCanary({
+    this.canaryInterval,
+    this.canaryPercentage,
+  });
+
+  factory TimeBasedCanary.fromJson(Map<String, dynamic> json) {
+    return TimeBasedCanary(
+      canaryInterval: json['canaryInterval'] as int?,
+      canaryPercentage: json['canaryPercentage'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final canaryInterval = this.canaryInterval;
+    final canaryPercentage = this.canaryPercentage;
+    return {
+      if (canaryInterval != null) 'canaryInterval': canaryInterval,
+      if (canaryPercentage != null) 'canaryPercentage': canaryPercentage,
+    };
+  }
+}
+
+/// A configuration that shifts traffic from one version of a Lambda function or
+/// ECS task set to another in equal increments, with an equal number of minutes
+/// between each increment. The original and target Lambda function versions or
+/// ECS task sets are specified in the deployment's AppSpec file.
+class TimeBasedLinear {
+  /// The number of minutes between each incremental traffic shift of a
+  /// <code>TimeBasedLinear</code> deployment.
+  final int? linearInterval;
+
+  /// The percentage of traffic that is shifted at the start of each increment of
+  /// a <code>TimeBasedLinear</code> deployment.
+  final int? linearPercentage;
+
+  TimeBasedLinear({
+    this.linearInterval,
+    this.linearPercentage,
+  });
+
+  factory TimeBasedLinear.fromJson(Map<String, dynamic> json) {
+    return TimeBasedLinear(
+      linearInterval: json['linearInterval'] as int?,
+      linearPercentage: json['linearPercentage'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final linearInterval = this.linearInterval;
+    final linearPercentage = this.linearPercentage;
+    return {
+      if (linearInterval != null) 'linearInterval': linearInterval,
+      if (linearPercentage != null) 'linearPercentage': linearPercentage,
+    };
+  }
+}
+
+class MinimumHealthyHostsType {
+  static const hostCount = MinimumHealthyHostsType._('HOST_COUNT');
+  static const fleetPercent = MinimumHealthyHostsType._('FLEET_PERCENT');
+
+  final String value;
+
+  const MinimumHealthyHostsType._(this.value);
+
+  static const values = [hostCount, fleetPercent];
+
+  static MinimumHealthyHostsType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MinimumHealthyHostsType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MinimumHealthyHostsType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a deployment.
@@ -4447,29 +7750,92 @@ class DeploymentInfo {
   }
 }
 
-class DeploymentOption {
-  static const withTrafficControl = DeploymentOption._('WITH_TRAFFIC_CONTROL');
-  static const withoutTrafficControl =
-      DeploymentOption._('WITHOUT_TRAFFIC_CONTROL');
+/// Information about a deployment error.
+class ErrorInformation {
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/error-codes.html">Error
+  /// Codes for CodeDeploy</a> in the <a
+  /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide">CodeDeploy
+  /// User Guide</a>.
+  ///
+  /// The error code:
+  ///
+  /// <ul>
+  /// <li>
+  /// APPLICATION_MISSING: The application was missing. This error code is most
+  /// likely raised if the application is deleted after the deployment is created,
+  /// but before it is started.
+  /// </li>
+  /// <li>
+  /// DEPLOYMENT_GROUP_MISSING: The deployment group was missing. This error code
+  /// is most likely raised if the deployment group is deleted after the
+  /// deployment is created, but before it is started.
+  /// </li>
+  /// <li>
+  /// HEALTH_CONSTRAINTS: The deployment failed on too many instances to be
+  /// successfully deployed within the instance health constraints specified.
+  /// </li>
+  /// <li>
+  /// HEALTH_CONSTRAINTS_INVALID: The revision cannot be successfully deployed
+  /// within the instance health constraints specified.
+  /// </li>
+  /// <li>
+  /// IAM_ROLE_MISSING: The service role cannot be accessed.
+  /// </li>
+  /// <li>
+  /// IAM_ROLE_PERMISSIONS: The service role does not have the correct
+  /// permissions.
+  /// </li>
+  /// <li>
+  /// INTERNAL_ERROR: There was an internal error.
+  /// </li>
+  /// <li>
+  /// NO_EC2_SUBSCRIPTION: The calling account is not subscribed to Amazon EC2.
+  /// </li>
+  /// <li>
+  /// NO_INSTANCES: No instances were specified, or no instances can be found.
+  /// </li>
+  /// <li>
+  /// OVER_MAX_INSTANCES: The maximum number of instances was exceeded.
+  /// </li>
+  /// <li>
+  /// THROTTLED: The operation was throttled because the calling account exceeded
+  /// the throttling limits of one or more Amazon Web Services services.
+  /// </li>
+  /// <li>
+  /// TIMEOUT: The deployment has timed out.
+  /// </li>
+  /// <li>
+  /// REVISION_MISSING: The revision ID was missing. This error code is most
+  /// likely raised if the revision is deleted after the deployment is created,
+  /// but before it is started.
+  /// </li>
+  /// </ul>
+  final ErrorCode? code;
 
-  final String value;
+  /// An accompanying error message.
+  final String? message;
 
-  const DeploymentOption._(this.value);
+  ErrorInformation({
+    this.code,
+    this.message,
+  });
 
-  static const values = [withTrafficControl, withoutTrafficControl];
+  factory ErrorInformation.fromJson(Map<String, dynamic> json) {
+    return ErrorInformation(
+      code: (json['code'] as String?)?.let(ErrorCode.fromString),
+      message: json['message'] as String?,
+    );
+  }
 
-  static DeploymentOption fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DeploymentOption._(value));
-
-  @override
-  bool operator ==(other) => other is DeploymentOption && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      if (code != null) 'code': code.value,
+      if (message != null) 'message': message,
+    };
+  }
 }
 
 /// Information about the deployment status of the instances in the deployment.
@@ -4532,112 +7898,40 @@ class DeploymentOverview {
   }
 }
 
-class DeploymentReadyAction {
-  static const continueDeployment =
-      DeploymentReadyAction._('CONTINUE_DEPLOYMENT');
-  static const stopDeployment = DeploymentReadyAction._('STOP_DEPLOYMENT');
+class DeploymentCreator {
+  static const user = DeploymentCreator._('user');
+  static const autoscaling = DeploymentCreator._('autoscaling');
+  static const codeDeployRollback = DeploymentCreator._('codeDeployRollback');
+  static const codeDeploy = DeploymentCreator._('CodeDeploy');
+  static const codeDeployAutoUpdate =
+      DeploymentCreator._('CodeDeployAutoUpdate');
+  static const cloudFormation = DeploymentCreator._('CloudFormation');
+  static const cloudFormationRollback =
+      DeploymentCreator._('CloudFormationRollback');
+  static const autoscalingTermination =
+      DeploymentCreator._('autoscalingTermination');
 
   final String value;
 
-  const DeploymentReadyAction._(this.value);
-
-  static const values = [continueDeployment, stopDeployment];
-
-  static DeploymentReadyAction fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DeploymentReadyAction._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DeploymentReadyAction && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about how traffic is rerouted to instances in a replacement
-/// environment in a blue/green deployment.
-class DeploymentReadyOption {
-  /// Information about when to reroute traffic from an original environment to a
-  /// replacement environment in a blue/green deployment.
-  ///
-  /// <ul>
-  /// <li>
-  /// CONTINUE_DEPLOYMENT: Register new instances with the load balancer
-  /// immediately after the new application revision is installed on the instances
-  /// in the replacement environment.
-  /// </li>
-  /// <li>
-  /// STOP_DEPLOYMENT: Do not register new instances with a load balancer unless
-  /// traffic rerouting is started using <a>ContinueDeployment</a>. If traffic
-  /// rerouting is not started before the end of the specified wait period, the
-  /// deployment status is changed to Stopped.
-  /// </li>
-  /// </ul>
-  final DeploymentReadyAction? actionOnTimeout;
-
-  /// The number of minutes to wait before the status of a blue/green deployment
-  /// is changed to Stopped if rerouting is not started manually. Applies only to
-  /// the <code>STOP_DEPLOYMENT</code> option for <code>actionOnTimeout</code>.
-  final int? waitTimeInMinutes;
-
-  DeploymentReadyOption({
-    this.actionOnTimeout,
-    this.waitTimeInMinutes,
-  });
-
-  factory DeploymentReadyOption.fromJson(Map<String, dynamic> json) {
-    return DeploymentReadyOption(
-      actionOnTimeout: (json['actionOnTimeout'] as String?)
-          ?.let(DeploymentReadyAction.fromString),
-      waitTimeInMinutes: json['waitTimeInMinutes'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final actionOnTimeout = this.actionOnTimeout;
-    final waitTimeInMinutes = this.waitTimeInMinutes;
-    return {
-      if (actionOnTimeout != null) 'actionOnTimeout': actionOnTimeout.value,
-      if (waitTimeInMinutes != null) 'waitTimeInMinutes': waitTimeInMinutes,
-    };
-  }
-}
-
-class DeploymentStatus {
-  static const created = DeploymentStatus._('Created');
-  static const queued = DeploymentStatus._('Queued');
-  static const inProgress = DeploymentStatus._('InProgress');
-  static const baking = DeploymentStatus._('Baking');
-  static const succeeded = DeploymentStatus._('Succeeded');
-  static const failed = DeploymentStatus._('Failed');
-  static const stopped = DeploymentStatus._('Stopped');
-  static const ready = DeploymentStatus._('Ready');
-
-  final String value;
-
-  const DeploymentStatus._(this.value);
+  const DeploymentCreator._(this.value);
 
   static const values = [
-    created,
-    queued,
-    inProgress,
-    baking,
-    succeeded,
-    failed,
-    stopped,
-    ready
+    user,
+    autoscaling,
+    codeDeployRollback,
+    codeDeploy,
+    codeDeployAutoUpdate,
+    cloudFormation,
+    cloudFormationRollback,
+    autoscalingTermination
   ];
 
-  static DeploymentStatus fromString(String value) =>
+  static DeploymentCreator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => DeploymentStatus._(value));
+          orElse: () => DeploymentCreator._(value));
 
   @override
-  bool operator ==(other) => other is DeploymentStatus && other.value == value;
+  bool operator ==(other) => other is DeploymentCreator && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -4646,131 +7940,119 @@ class DeploymentStatus {
   String toString() => value;
 }
 
-/// Information about the type of deployment, either in-place or blue/green, you
-/// want to run and whether to route deployment traffic behind a load balancer.
-class DeploymentStyle {
-  /// Indicates whether to route deployment traffic behind a load balancer.
-  final DeploymentOption? deploymentOption;
+/// Information about a deployment rollback.
+class RollbackInfo {
+  /// The ID of the deployment rollback.
+  final String? rollbackDeploymentId;
 
-  /// Indicates whether to run an in-place deployment or a blue/green deployment.
-  final DeploymentType? deploymentType;
+  /// Information that describes the status of a deployment rollback (for example,
+  /// whether the deployment can't be rolled back, is in progress, failed, or
+  /// succeeded).
+  final String? rollbackMessage;
 
-  DeploymentStyle({
-    this.deploymentOption,
-    this.deploymentType,
+  /// The deployment ID of the deployment that was underway and triggered a
+  /// rollback deployment because it failed or was stopped.
+  final String? rollbackTriggeringDeploymentId;
+
+  RollbackInfo({
+    this.rollbackDeploymentId,
+    this.rollbackMessage,
+    this.rollbackTriggeringDeploymentId,
   });
 
-  factory DeploymentStyle.fromJson(Map<String, dynamic> json) {
-    return DeploymentStyle(
-      deploymentOption: (json['deploymentOption'] as String?)
-          ?.let(DeploymentOption.fromString),
-      deploymentType:
-          (json['deploymentType'] as String?)?.let(DeploymentType.fromString),
+  factory RollbackInfo.fromJson(Map<String, dynamic> json) {
+    return RollbackInfo(
+      rollbackDeploymentId: json['rollbackDeploymentId'] as String?,
+      rollbackMessage: json['rollbackMessage'] as String?,
+      rollbackTriggeringDeploymentId:
+          json['rollbackTriggeringDeploymentId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final deploymentOption = this.deploymentOption;
-    final deploymentType = this.deploymentType;
+    final rollbackDeploymentId = this.rollbackDeploymentId;
+    final rollbackMessage = this.rollbackMessage;
+    final rollbackTriggeringDeploymentId = this.rollbackTriggeringDeploymentId;
     return {
-      if (deploymentOption != null) 'deploymentOption': deploymentOption.value,
-      if (deploymentType != null) 'deploymentType': deploymentType.value,
+      if (rollbackDeploymentId != null)
+        'rollbackDeploymentId': rollbackDeploymentId,
+      if (rollbackMessage != null) 'rollbackMessage': rollbackMessage,
+      if (rollbackTriggeringDeploymentId != null)
+        'rollbackTriggeringDeploymentId': rollbackTriggeringDeploymentId,
     };
   }
 }
 
-/// Information about the deployment target.
-class DeploymentTarget {
-  final CloudFormationTarget? cloudFormationTarget;
+/// Information about the instances to be used in the replacement environment in
+/// a blue/green deployment.
+class TargetInstances {
+  /// The names of one or more Auto Scaling groups to identify a replacement
+  /// environment for a blue/green deployment.
+  final List<String>? autoScalingGroups;
 
-  /// The deployment type that is specific to the deployment's compute platform or
-  /// deployments initiated by a CloudFormation stack update.
-  final DeploymentTargetType? deploymentTargetType;
+  /// Information about the groups of Amazon EC2 instance tags that an instance
+  /// must be identified by in order for it to be included in the replacement
+  /// environment for a blue/green deployment. Cannot be used in the same call as
+  /// <code>tagFilters</code>.
+  final EC2TagSet? ec2TagSet;
 
-  /// Information about the target for a deployment that uses the Amazon ECS
-  /// compute platform.
-  final ECSTarget? ecsTarget;
+  /// The tag filter key, type, and value used to identify Amazon EC2 instances in
+  /// a replacement environment for a blue/green deployment. Cannot be used in the
+  /// same call as <code>ec2TagSet</code>.
+  final List<EC2TagFilter>? tagFilters;
 
-  /// Information about the target for a deployment that uses the EC2/On-premises
-  /// compute platform.
-  final InstanceTarget? instanceTarget;
-
-  /// Information about the target for a deployment that uses the Lambda compute
-  /// platform.
-  final LambdaTarget? lambdaTarget;
-
-  DeploymentTarget({
-    this.cloudFormationTarget,
-    this.deploymentTargetType,
-    this.ecsTarget,
-    this.instanceTarget,
-    this.lambdaTarget,
+  TargetInstances({
+    this.autoScalingGroups,
+    this.ec2TagSet,
+    this.tagFilters,
   });
 
-  factory DeploymentTarget.fromJson(Map<String, dynamic> json) {
-    return DeploymentTarget(
-      cloudFormationTarget: json['cloudFormationTarget'] != null
-          ? CloudFormationTarget.fromJson(
-              json['cloudFormationTarget'] as Map<String, dynamic>)
+  factory TargetInstances.fromJson(Map<String, dynamic> json) {
+    return TargetInstances(
+      autoScalingGroups: (json['autoScalingGroups'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      ec2TagSet: json['ec2TagSet'] != null
+          ? EC2TagSet.fromJson(json['ec2TagSet'] as Map<String, dynamic>)
           : null,
-      deploymentTargetType: (json['deploymentTargetType'] as String?)
-          ?.let(DeploymentTargetType.fromString),
-      ecsTarget: json['ecsTarget'] != null
-          ? ECSTarget.fromJson(json['ecsTarget'] as Map<String, dynamic>)
-          : null,
-      instanceTarget: json['instanceTarget'] != null
-          ? InstanceTarget.fromJson(
-              json['instanceTarget'] as Map<String, dynamic>)
-          : null,
-      lambdaTarget: json['lambdaTarget'] != null
-          ? LambdaTarget.fromJson(json['lambdaTarget'] as Map<String, dynamic>)
-          : null,
+      tagFilters: (json['tagFilters'] as List?)
+          ?.nonNulls
+          .map((e) => EC2TagFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final cloudFormationTarget = this.cloudFormationTarget;
-    final deploymentTargetType = this.deploymentTargetType;
-    final ecsTarget = this.ecsTarget;
-    final instanceTarget = this.instanceTarget;
-    final lambdaTarget = this.lambdaTarget;
+    final autoScalingGroups = this.autoScalingGroups;
+    final ec2TagSet = this.ec2TagSet;
+    final tagFilters = this.tagFilters;
     return {
-      if (cloudFormationTarget != null)
-        'cloudFormationTarget': cloudFormationTarget,
-      if (deploymentTargetType != null)
-        'deploymentTargetType': deploymentTargetType.value,
-      if (ecsTarget != null) 'ecsTarget': ecsTarget,
-      if (instanceTarget != null) 'instanceTarget': instanceTarget,
-      if (lambdaTarget != null) 'lambdaTarget': lambdaTarget,
+      if (autoScalingGroups != null) 'autoScalingGroups': autoScalingGroups,
+      if (ec2TagSet != null) 'ec2TagSet': ec2TagSet,
+      if (tagFilters != null) 'tagFilters': tagFilters,
     };
   }
 }
 
-class DeploymentTargetType {
-  static const instanceTarget = DeploymentTargetType._('InstanceTarget');
-  static const lambdaTarget = DeploymentTargetType._('LambdaTarget');
-  static const eCSTarget = DeploymentTargetType._('ECSTarget');
-  static const cloudFormationTarget =
-      DeploymentTargetType._('CloudFormationTarget');
+class FileExistsBehavior {
+  static const disallow = FileExistsBehavior._('DISALLOW');
+  static const overwrite = FileExistsBehavior._('OVERWRITE');
+  static const retain = FileExistsBehavior._('RETAIN');
 
   final String value;
 
-  const DeploymentTargetType._(this.value);
+  const FileExistsBehavior._(this.value);
 
-  static const values = [
-    instanceTarget,
-    lambdaTarget,
-    eCSTarget,
-    cloudFormationTarget
-  ];
+  static const values = [disallow, overwrite, retain];
 
-  static DeploymentTargetType fromString(String value) =>
+  static FileExistsBehavior fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => DeploymentTargetType._(value));
+          orElse: () => FileExistsBehavior._(value));
 
   @override
   bool operator ==(other) =>
-      other is DeploymentTargetType && other.value == value;
+      other is FileExistsBehavior && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -4779,469 +8061,44 @@ class DeploymentTargetType {
   String toString() => value;
 }
 
-class DeploymentType {
-  static const inPlace = DeploymentType._('IN_PLACE');
-  static const blueGreen = DeploymentType._('BLUE_GREEN');
+/// Information about deployments related to the specified deployment.
+class RelatedDeployments {
+  /// The deployment IDs of 'auto-update outdated instances' deployments triggered
+  /// by this deployment.
+  final List<String>? autoUpdateOutdatedInstancesDeploymentIds;
 
-  final String value;
+  /// The deployment ID of the root deployment that triggered this deployment.
+  final String? autoUpdateOutdatedInstancesRootDeploymentId;
 
-  const DeploymentType._(this.value);
-
-  static const values = [inPlace, blueGreen];
-
-  static DeploymentType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DeploymentType._(value));
-
-  @override
-  bool operator ==(other) => other is DeploymentType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DeploymentWaitType {
-  static const readyWait = DeploymentWaitType._('READY_WAIT');
-  static const terminationWait = DeploymentWaitType._('TERMINATION_WAIT');
-
-  final String value;
-
-  const DeploymentWaitType._(this.value);
-
-  static const values = [readyWait, terminationWait];
-
-  static DeploymentWaitType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DeploymentWaitType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DeploymentWaitType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Diagnostic information about executable scripts that are part of a
-/// deployment.
-class Diagnostics {
-  /// The associated error code:
-  ///
-  /// <ul>
-  /// <li>
-  /// Success: The specified script ran.
-  /// </li>
-  /// <li>
-  /// ScriptMissing: The specified script was not found in the specified location.
-  /// </li>
-  /// <li>
-  /// ScriptNotExecutable: The specified script is not a recognized executable
-  /// file type.
-  /// </li>
-  /// <li>
-  /// ScriptTimedOut: The specified script did not finish running in the specified
-  /// time period.
-  /// </li>
-  /// <li>
-  /// ScriptFailed: The specified script failed to run as expected.
-  /// </li>
-  /// <li>
-  /// UnknownError: The specified script did not run for an unknown reason.
-  /// </li>
-  /// </ul>
-  final LifecycleErrorCode? errorCode;
-
-  /// The last portion of the diagnostic log.
-  ///
-  /// If available, CodeDeploy returns up to the last 4 KB of the diagnostic log.
-  final String? logTail;
-
-  /// The message associated with the error.
-  final String? message;
-
-  /// The name of the script.
-  final String? scriptName;
-
-  Diagnostics({
-    this.errorCode,
-    this.logTail,
-    this.message,
-    this.scriptName,
+  RelatedDeployments({
+    this.autoUpdateOutdatedInstancesDeploymentIds,
+    this.autoUpdateOutdatedInstancesRootDeploymentId,
   });
 
-  factory Diagnostics.fromJson(Map<String, dynamic> json) {
-    return Diagnostics(
-      errorCode:
-          (json['errorCode'] as String?)?.let(LifecycleErrorCode.fromString),
-      logTail: json['logTail'] as String?,
-      message: json['message'] as String?,
-      scriptName: json['scriptName'] as String?,
+  factory RelatedDeployments.fromJson(Map<String, dynamic> json) {
+    return RelatedDeployments(
+      autoUpdateOutdatedInstancesDeploymentIds:
+          (json['autoUpdateOutdatedInstancesDeploymentIds'] as List?)
+              ?.nonNulls
+              .map((e) => e as String)
+              .toList(),
+      autoUpdateOutdatedInstancesRootDeploymentId:
+          json['autoUpdateOutdatedInstancesRootDeploymentId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final logTail = this.logTail;
-    final message = this.message;
-    final scriptName = this.scriptName;
+    final autoUpdateOutdatedInstancesDeploymentIds =
+        this.autoUpdateOutdatedInstancesDeploymentIds;
+    final autoUpdateOutdatedInstancesRootDeploymentId =
+        this.autoUpdateOutdatedInstancesRootDeploymentId;
     return {
-      if (errorCode != null) 'errorCode': errorCode.value,
-      if (logTail != null) 'logTail': logTail,
-      if (message != null) 'message': message,
-      if (scriptName != null) 'scriptName': scriptName,
-    };
-  }
-}
-
-/// Information about an EC2 tag filter.
-class EC2TagFilter {
-  /// The tag filter key.
-  final String? key;
-
-  /// The tag filter type:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>KEY_ONLY</code>: Key only.
-  /// </li>
-  /// <li>
-  /// <code>VALUE_ONLY</code>: Value only.
-  /// </li>
-  /// <li>
-  /// <code>KEY_AND_VALUE</code>: Key and value.
-  /// </li>
-  /// </ul>
-  final EC2TagFilterType? type;
-
-  /// The tag filter value.
-  final String? value;
-
-  EC2TagFilter({
-    this.key,
-    this.type,
-    this.value,
-  });
-
-  factory EC2TagFilter.fromJson(Map<String, dynamic> json) {
-    return EC2TagFilter(
-      key: json['Key'] as String?,
-      type: (json['Type'] as String?)?.let(EC2TagFilterType.fromString),
-      value: json['Value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final type = this.type;
-    final value = this.value;
-    return {
-      if (key != null) 'Key': key,
-      if (type != null) 'Type': type.value,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-class EC2TagFilterType {
-  static const keyOnly = EC2TagFilterType._('KEY_ONLY');
-  static const valueOnly = EC2TagFilterType._('VALUE_ONLY');
-  static const keyAndValue = EC2TagFilterType._('KEY_AND_VALUE');
-
-  final String value;
-
-  const EC2TagFilterType._(this.value);
-
-  static const values = [keyOnly, valueOnly, keyAndValue];
-
-  static EC2TagFilterType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EC2TagFilterType._(value));
-
-  @override
-  bool operator ==(other) => other is EC2TagFilterType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about groups of Amazon EC2 instance tags.
-class EC2TagSet {
-  /// A list that contains other lists of Amazon EC2 instance tag groups. For an
-  /// instance to be included in the deployment group, it must be identified by
-  /// all of the tag groups in the list.
-  final List<List<EC2TagFilter>>? ec2TagSetList;
-
-  EC2TagSet({
-    this.ec2TagSetList,
-  });
-
-  factory EC2TagSet.fromJson(Map<String, dynamic> json) {
-    return EC2TagSet(
-      ec2TagSetList: (json['ec2TagSetList'] as List?)
-          ?.nonNulls
-          .map((e) => (e as List)
-              .nonNulls
-              .map((e) => EC2TagFilter.fromJson(e as Map<String, dynamic>))
-              .toList())
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final ec2TagSetList = this.ec2TagSetList;
-    return {
-      if (ec2TagSetList != null) 'ec2TagSetList': ec2TagSetList,
-    };
-  }
-}
-
-/// Contains the service and cluster names used to identify an Amazon ECS
-/// deployment's target.
-class ECSService {
-  /// The name of the cluster that the Amazon ECS service is associated with.
-  final String? clusterName;
-
-  /// The name of the target Amazon ECS service.
-  final String? serviceName;
-
-  ECSService({
-    this.clusterName,
-    this.serviceName,
-  });
-
-  factory ECSService.fromJson(Map<String, dynamic> json) {
-    return ECSService(
-      clusterName: json['clusterName'] as String?,
-      serviceName: json['serviceName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clusterName = this.clusterName;
-    final serviceName = this.serviceName;
-    return {
-      if (clusterName != null) 'clusterName': clusterName,
-      if (serviceName != null) 'serviceName': serviceName,
-    };
-  }
-}
-
-/// Information about the target of an Amazon ECS deployment.
-class ECSTarget {
-  /// The unique ID of a deployment.
-  final String? deploymentId;
-
-  /// The date and time when the target Amazon ECS application was updated by a
-  /// deployment.
-  final DateTime? lastUpdatedAt;
-
-  /// The lifecycle events of the deployment to this target Amazon ECS
-  /// application.
-  final List<LifecycleEvent>? lifecycleEvents;
-
-  /// The status an Amazon ECS deployment's target ECS application.
-  final TargetStatus? status;
-
-  /// The Amazon Resource Name (ARN) of the target.
-  final String? targetArn;
-
-  /// The unique ID of a deployment target that has a type of
-  /// <code>ecsTarget</code>.
-  final String? targetId;
-
-  /// The <code>ECSTaskSet</code> objects associated with the ECS target.
-  final List<ECSTaskSet>? taskSetsInfo;
-
-  ECSTarget({
-    this.deploymentId,
-    this.lastUpdatedAt,
-    this.lifecycleEvents,
-    this.status,
-    this.targetArn,
-    this.targetId,
-    this.taskSetsInfo,
-  });
-
-  factory ECSTarget.fromJson(Map<String, dynamic> json) {
-    return ECSTarget(
-      deploymentId: json['deploymentId'] as String?,
-      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
-      lifecycleEvents: (json['lifecycleEvents'] as List?)
-          ?.nonNulls
-          .map((e) => LifecycleEvent.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      status: (json['status'] as String?)?.let(TargetStatus.fromString),
-      targetArn: json['targetArn'] as String?,
-      targetId: json['targetId'] as String?,
-      taskSetsInfo: (json['taskSetsInfo'] as List?)
-          ?.nonNulls
-          .map((e) => ECSTaskSet.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deploymentId = this.deploymentId;
-    final lastUpdatedAt = this.lastUpdatedAt;
-    final lifecycleEvents = this.lifecycleEvents;
-    final status = this.status;
-    final targetArn = this.targetArn;
-    final targetId = this.targetId;
-    final taskSetsInfo = this.taskSetsInfo;
-    return {
-      if (deploymentId != null) 'deploymentId': deploymentId,
-      if (lastUpdatedAt != null)
-        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
-      if (lifecycleEvents != null) 'lifecycleEvents': lifecycleEvents,
-      if (status != null) 'status': status.value,
-      if (targetArn != null) 'targetArn': targetArn,
-      if (targetId != null) 'targetId': targetId,
-      if (taskSetsInfo != null) 'taskSetsInfo': taskSetsInfo,
-    };
-  }
-}
-
-/// Information about a set of Amazon ECS tasks in an CodeDeploy deployment. An
-/// Amazon ECS task set includes details such as the desired number of tasks,
-/// how many tasks are running, and whether the task set serves production
-/// traffic. An CodeDeploy application that uses the Amazon ECS compute platform
-/// deploys a containerized application in an Amazon ECS service as a task set.
-class ECSTaskSet {
-  /// The number of tasks in a task set. During a deployment that uses the Amazon
-  /// ECS compute type, CodeDeploy instructs Amazon ECS to create a new task set
-  /// and uses this value to determine how many tasks to create. After the updated
-  /// task set is created, CodeDeploy shifts traffic to the new task set.
-  final int? desiredCount;
-
-  /// A unique ID of an <code>ECSTaskSet</code>.
-  final String? identifer;
-
-  /// The number of tasks in the task set that are in the <code>PENDING</code>
-  /// status during an Amazon ECS deployment. A task in the <code>PENDING</code>
-  /// state is preparing to enter the <code>RUNNING</code> state. A task set
-  /// enters the <code>PENDING</code> status when it launches for the first time,
-  /// or when it is restarted after being in the <code>STOPPED</code> state.
-  final int? pendingCount;
-
-  /// The number of tasks in the task set that are in the <code>RUNNING</code>
-  /// status during an Amazon ECS deployment. A task in the <code>RUNNING</code>
-  /// state is running and ready for use.
-  final int? runningCount;
-
-  /// The status of the task set. There are three valid task set statuses:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>PRIMARY</code>: Indicates the task set is serving production traffic.
-  /// </li>
-  /// <li>
-  /// <code>ACTIVE</code>: Indicates the task set is not serving production
-  /// traffic.
-  /// </li>
-  /// <li>
-  /// <code>DRAINING</code>: Indicates the tasks in the task set are being stopped
-  /// and their corresponding targets are being deregistered from their target
-  /// group.
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  /// The target group associated with the task set. The target group is used by
-  /// CodeDeploy to manage traffic to a task set.
-  final TargetGroupInfo? targetGroup;
-
-  /// A label that identifies whether the ECS task set is an original target
-  /// (<code>BLUE</code>) or a replacement target (<code>GREEN</code>).
-  final TargetLabel? taskSetLabel;
-
-  /// The percentage of traffic served by this task set.
-  final double? trafficWeight;
-
-  ECSTaskSet({
-    this.desiredCount,
-    this.identifer,
-    this.pendingCount,
-    this.runningCount,
-    this.status,
-    this.targetGroup,
-    this.taskSetLabel,
-    this.trafficWeight,
-  });
-
-  factory ECSTaskSet.fromJson(Map<String, dynamic> json) {
-    return ECSTaskSet(
-      desiredCount: json['desiredCount'] as int?,
-      identifer: json['identifer'] as String?,
-      pendingCount: json['pendingCount'] as int?,
-      runningCount: json['runningCount'] as int?,
-      status: json['status'] as String?,
-      targetGroup: json['targetGroup'] != null
-          ? TargetGroupInfo.fromJson(
-              json['targetGroup'] as Map<String, dynamic>)
-          : null,
-      taskSetLabel:
-          (json['taskSetLabel'] as String?)?.let(TargetLabel.fromString),
-      trafficWeight: json['trafficWeight'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final desiredCount = this.desiredCount;
-    final identifer = this.identifer;
-    final pendingCount = this.pendingCount;
-    final runningCount = this.runningCount;
-    final status = this.status;
-    final targetGroup = this.targetGroup;
-    final taskSetLabel = this.taskSetLabel;
-    final trafficWeight = this.trafficWeight;
-    return {
-      if (desiredCount != null) 'desiredCount': desiredCount,
-      if (identifer != null) 'identifer': identifer,
-      if (pendingCount != null) 'pendingCount': pendingCount,
-      if (runningCount != null) 'runningCount': runningCount,
-      if (status != null) 'status': status,
-      if (targetGroup != null) 'targetGroup': targetGroup,
-      if (taskSetLabel != null) 'taskSetLabel': taskSetLabel.value,
-      if (trafficWeight != null) 'trafficWeight': trafficWeight,
-    };
-  }
-}
-
-/// Information about a Classic Load Balancer in Elastic Load Balancing to use
-/// in a deployment. Instances are registered directly with a load balancer, and
-/// traffic is routed to the load balancer.
-class ELBInfo {
-  /// For blue/green deployments, the name of the Classic Load Balancer that is
-  /// used to route traffic from original instances to replacement instances in a
-  /// blue/green deployment. For in-place deployments, the name of the Classic
-  /// Load Balancer that instances are deregistered from so they are not serving
-  /// traffic during a deployment, and then re-registered with after the
-  /// deployment is complete.
-  final String? name;
-
-  ELBInfo({
-    this.name,
-  });
-
-  factory ELBInfo.fromJson(Map<String, dynamic> json) {
-    return ELBInfo(
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    return {
-      if (name != null) 'name': name,
+      if (autoUpdateOutdatedInstancesDeploymentIds != null)
+        'autoUpdateOutdatedInstancesDeploymentIds':
+            autoUpdateOutdatedInstancesDeploymentIds,
+      if (autoUpdateOutdatedInstancesRootDeploymentId != null)
+        'autoUpdateOutdatedInstancesRootDeploymentId':
+            autoUpdateOutdatedInstancesRootDeploymentId,
     };
   }
 }
@@ -5346,120 +8203,6 @@ class ErrorCode {
   String toString() => value;
 }
 
-/// Information about a deployment error.
-class ErrorInformation {
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/error-codes.html">Error
-  /// Codes for CodeDeploy</a> in the <a
-  /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide">CodeDeploy
-  /// User Guide</a>.
-  ///
-  /// The error code:
-  ///
-  /// <ul>
-  /// <li>
-  /// APPLICATION_MISSING: The application was missing. This error code is most
-  /// likely raised if the application is deleted after the deployment is created,
-  /// but before it is started.
-  /// </li>
-  /// <li>
-  /// DEPLOYMENT_GROUP_MISSING: The deployment group was missing. This error code
-  /// is most likely raised if the deployment group is deleted after the
-  /// deployment is created, but before it is started.
-  /// </li>
-  /// <li>
-  /// HEALTH_CONSTRAINTS: The deployment failed on too many instances to be
-  /// successfully deployed within the instance health constraints specified.
-  /// </li>
-  /// <li>
-  /// HEALTH_CONSTRAINTS_INVALID: The revision cannot be successfully deployed
-  /// within the instance health constraints specified.
-  /// </li>
-  /// <li>
-  /// IAM_ROLE_MISSING: The service role cannot be accessed.
-  /// </li>
-  /// <li>
-  /// IAM_ROLE_PERMISSIONS: The service role does not have the correct
-  /// permissions.
-  /// </li>
-  /// <li>
-  /// INTERNAL_ERROR: There was an internal error.
-  /// </li>
-  /// <li>
-  /// NO_EC2_SUBSCRIPTION: The calling account is not subscribed to Amazon EC2.
-  /// </li>
-  /// <li>
-  /// NO_INSTANCES: No instances were specified, or no instances can be found.
-  /// </li>
-  /// <li>
-  /// OVER_MAX_INSTANCES: The maximum number of instances was exceeded.
-  /// </li>
-  /// <li>
-  /// THROTTLED: The operation was throttled because the calling account exceeded
-  /// the throttling limits of one or more Amazon Web Services services.
-  /// </li>
-  /// <li>
-  /// TIMEOUT: The deployment has timed out.
-  /// </li>
-  /// <li>
-  /// REVISION_MISSING: The revision ID was missing. This error code is most
-  /// likely raised if the revision is deleted after the deployment is created,
-  /// but before it is started.
-  /// </li>
-  /// </ul>
-  final ErrorCode? code;
-
-  /// An accompanying error message.
-  final String? message;
-
-  ErrorInformation({
-    this.code,
-    this.message,
-  });
-
-  factory ErrorInformation.fromJson(Map<String, dynamic> json) {
-    return ErrorInformation(
-      code: (json['code'] as String?)?.let(ErrorCode.fromString),
-      message: json['message'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final message = this.message;
-    return {
-      if (code != null) 'code': code.value,
-      if (message != null) 'message': message,
-    };
-  }
-}
-
-class FileExistsBehavior {
-  static const disallow = FileExistsBehavior._('DISALLOW');
-  static const overwrite = FileExistsBehavior._('OVERWRITE');
-  static const retain = FileExistsBehavior._('RETAIN');
-
-  final String value;
-
-  const FileExistsBehavior._(this.value);
-
-  static const values = [disallow, overwrite, retain];
-
-  static FileExistsBehavior fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FileExistsBehavior._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is FileExistsBehavior && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 /// Information about an application revision.
 class GenericRevisionInfo {
   /// The deployment groups for which this is the current target revision.
@@ -5517,1773 +8260,90 @@ class GenericRevisionInfo {
   }
 }
 
-/// Represents the output of a <code>GetApplication</code> operation.
-class GetApplicationOutput {
-  /// Information about the application.
-  final ApplicationInfo? application;
+/// Information about an application.
+class ApplicationInfo {
+  /// The application ID.
+  final String? applicationId;
 
-  GetApplicationOutput({
-    this.application,
-  });
-
-  factory GetApplicationOutput.fromJson(Map<String, dynamic> json) {
-    return GetApplicationOutput(
-      application: json['application'] != null
-          ? ApplicationInfo.fromJson(
-              json['application'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final application = this.application;
-    return {
-      if (application != null) 'application': application,
-    };
-  }
-}
-
-/// Represents the output of a <code>GetApplicationRevision</code> operation.
-class GetApplicationRevisionOutput {
-  /// The name of the application that corresponds to the revision.
-  final String? applicationName;
-
-  /// Additional information about the revision, including type and location.
-  final RevisionLocation? revision;
-
-  /// General information about the revision.
-  final GenericRevisionInfo? revisionInfo;
-
-  GetApplicationRevisionOutput({
-    this.applicationName,
-    this.revision,
-    this.revisionInfo,
-  });
-
-  factory GetApplicationRevisionOutput.fromJson(Map<String, dynamic> json) {
-    return GetApplicationRevisionOutput(
-      applicationName: json['applicationName'] as String?,
-      revision: json['revision'] != null
-          ? RevisionLocation.fromJson(json['revision'] as Map<String, dynamic>)
-          : null,
-      revisionInfo: json['revisionInfo'] != null
-          ? GenericRevisionInfo.fromJson(
-              json['revisionInfo'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final applicationName = this.applicationName;
-    final revision = this.revision;
-    final revisionInfo = this.revisionInfo;
-    return {
-      if (applicationName != null) 'applicationName': applicationName,
-      if (revision != null) 'revision': revision,
-      if (revisionInfo != null) 'revisionInfo': revisionInfo,
-    };
-  }
-}
-
-/// Represents the output of a <code>GetDeploymentConfig</code> operation.
-class GetDeploymentConfigOutput {
-  /// Information about the deployment configuration.
-  final DeploymentConfigInfo? deploymentConfigInfo;
-
-  GetDeploymentConfigOutput({
-    this.deploymentConfigInfo,
-  });
-
-  factory GetDeploymentConfigOutput.fromJson(Map<String, dynamic> json) {
-    return GetDeploymentConfigOutput(
-      deploymentConfigInfo: json['deploymentConfigInfo'] != null
-          ? DeploymentConfigInfo.fromJson(
-              json['deploymentConfigInfo'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deploymentConfigInfo = this.deploymentConfigInfo;
-    return {
-      if (deploymentConfigInfo != null)
-        'deploymentConfigInfo': deploymentConfigInfo,
-    };
-  }
-}
-
-/// Represents the output of a <code>GetDeploymentGroup</code> operation.
-class GetDeploymentGroupOutput {
-  /// Information about the deployment group.
-  final DeploymentGroupInfo? deploymentGroupInfo;
-
-  GetDeploymentGroupOutput({
-    this.deploymentGroupInfo,
-  });
-
-  factory GetDeploymentGroupOutput.fromJson(Map<String, dynamic> json) {
-    return GetDeploymentGroupOutput(
-      deploymentGroupInfo: json['deploymentGroupInfo'] != null
-          ? DeploymentGroupInfo.fromJson(
-              json['deploymentGroupInfo'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deploymentGroupInfo = this.deploymentGroupInfo;
-    return {
-      if (deploymentGroupInfo != null)
-        'deploymentGroupInfo': deploymentGroupInfo,
-    };
-  }
-}
-
-/// Represents the output of a <code>GetDeploymentInstance</code> operation.
-class GetDeploymentInstanceOutput {
-  /// Information about the instance.
-  final InstanceSummary? instanceSummary;
-
-  GetDeploymentInstanceOutput({
-    this.instanceSummary,
-  });
-
-  factory GetDeploymentInstanceOutput.fromJson(Map<String, dynamic> json) {
-    return GetDeploymentInstanceOutput(
-      instanceSummary: json['instanceSummary'] != null
-          ? InstanceSummary.fromJson(
-              json['instanceSummary'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final instanceSummary = this.instanceSummary;
-    return {
-      if (instanceSummary != null) 'instanceSummary': instanceSummary,
-    };
-  }
-}
-
-/// Represents the output of a <code>GetDeployment</code> operation.
-class GetDeploymentOutput {
-  /// Information about the deployment.
-  final DeploymentInfo? deploymentInfo;
-
-  GetDeploymentOutput({
-    this.deploymentInfo,
-  });
-
-  factory GetDeploymentOutput.fromJson(Map<String, dynamic> json) {
-    return GetDeploymentOutput(
-      deploymentInfo: json['deploymentInfo'] != null
-          ? DeploymentInfo.fromJson(
-              json['deploymentInfo'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deploymentInfo = this.deploymentInfo;
-    return {
-      if (deploymentInfo != null) 'deploymentInfo': deploymentInfo,
-    };
-  }
-}
-
-class GetDeploymentTargetOutput {
-  /// A deployment target that contains information about a deployment such as its
-  /// status, lifecycle events, and when it was last updated. It also contains
-  /// metadata about the deployment target. The deployment target metadata depends
-  /// on the deployment target's type (<code>instanceTarget</code>,
-  /// <code>lambdaTarget</code>, or <code>ecsTarget</code>).
-  final DeploymentTarget? deploymentTarget;
-
-  GetDeploymentTargetOutput({
-    this.deploymentTarget,
-  });
-
-  factory GetDeploymentTargetOutput.fromJson(Map<String, dynamic> json) {
-    return GetDeploymentTargetOutput(
-      deploymentTarget: json['deploymentTarget'] != null
-          ? DeploymentTarget.fromJson(
-              json['deploymentTarget'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deploymentTarget = this.deploymentTarget;
-    return {
-      if (deploymentTarget != null) 'deploymentTarget': deploymentTarget,
-    };
-  }
-}
-
-/// Represents the output of a <code>GetOnPremisesInstance</code> operation.
-class GetOnPremisesInstanceOutput {
-  /// Information about the on-premises instance.
-  final InstanceInfo? instanceInfo;
-
-  GetOnPremisesInstanceOutput({
-    this.instanceInfo,
-  });
-
-  factory GetOnPremisesInstanceOutput.fromJson(Map<String, dynamic> json) {
-    return GetOnPremisesInstanceOutput(
-      instanceInfo: json['instanceInfo'] != null
-          ? InstanceInfo.fromJson(json['instanceInfo'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final instanceInfo = this.instanceInfo;
-    return {
-      if (instanceInfo != null) 'instanceInfo': instanceInfo,
-    };
-  }
-}
-
-/// Information about the location of application artifacts stored in GitHub.
-class GitHubLocation {
-  /// The SHA1 commit ID of the GitHub commit that represents the bundled
-  /// artifacts for the application revision.
-  final String? commitId;
-
-  /// The GitHub account and repository pair that stores a reference to the commit
-  /// that represents the bundled artifacts for the application revision.
-  ///
-  /// Specified as account/repository.
-  final String? repository;
-
-  GitHubLocation({
-    this.commitId,
-    this.repository,
-  });
-
-  factory GitHubLocation.fromJson(Map<String, dynamic> json) {
-    return GitHubLocation(
-      commitId: json['commitId'] as String?,
-      repository: json['repository'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final commitId = this.commitId;
-    final repository = this.repository;
-    return {
-      if (commitId != null) 'commitId': commitId,
-      if (repository != null) 'repository': repository,
-    };
-  }
-}
-
-class GreenFleetProvisioningAction {
-  static const discoverExisting =
-      GreenFleetProvisioningAction._('DISCOVER_EXISTING');
-  static const copyAutoScalingGroup =
-      GreenFleetProvisioningAction._('COPY_AUTO_SCALING_GROUP');
-
-  final String value;
-
-  const GreenFleetProvisioningAction._(this.value);
-
-  static const values = [discoverExisting, copyAutoScalingGroup];
-
-  static GreenFleetProvisioningAction fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => GreenFleetProvisioningAction._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is GreenFleetProvisioningAction && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about the instances that belong to the replacement environment
-/// in a blue/green deployment.
-class GreenFleetProvisioningOption {
-  /// The method used to add instances to a replacement environment.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>DISCOVER_EXISTING</code>: Use instances that already exist or will be
-  /// created manually.
-  /// </li>
-  /// <li>
-  /// <code>COPY_AUTO_SCALING_GROUP</code>: Use settings from a specified Auto
-  /// Scaling group to define and create instances in a new Auto Scaling group.
-  /// </li>
-  /// </ul>
-  final GreenFleetProvisioningAction? action;
-
-  GreenFleetProvisioningOption({
-    this.action,
-  });
-
-  factory GreenFleetProvisioningOption.fromJson(Map<String, dynamic> json) {
-    return GreenFleetProvisioningOption(
-      action: (json['action'] as String?)
-          ?.let(GreenFleetProvisioningAction.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final action = this.action;
-    return {
-      if (action != null) 'action': action.value,
-    };
-  }
-}
-
-class InstanceAction {
-  static const terminate = InstanceAction._('TERMINATE');
-  static const keepAlive = InstanceAction._('KEEP_ALIVE');
-
-  final String value;
-
-  const InstanceAction._(this.value);
-
-  static const values = [terminate, keepAlive];
-
-  static InstanceAction fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => InstanceAction._(value));
-
-  @override
-  bool operator ==(other) => other is InstanceAction && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about an on-premises instance.
-class InstanceInfo {
-  /// If the on-premises instance was deregistered, the time at which the
-  /// on-premises instance was deregistered.
-  final DateTime? deregisterTime;
-
-  /// The ARN of the IAM session associated with the on-premises instance.
-  final String? iamSessionArn;
-
-  /// The user ARN associated with the on-premises instance.
-  final String? iamUserArn;
-
-  /// The ARN of the on-premises instance.
-  final String? instanceArn;
-
-  /// The name of the on-premises instance.
-  final String? instanceName;
-
-  /// The time at which the on-premises instance was registered.
-  final DateTime? registerTime;
-
-  /// The tags currently associated with the on-premises instance.
-  final List<Tag>? tags;
-
-  InstanceInfo({
-    this.deregisterTime,
-    this.iamSessionArn,
-    this.iamUserArn,
-    this.instanceArn,
-    this.instanceName,
-    this.registerTime,
-    this.tags,
-  });
-
-  factory InstanceInfo.fromJson(Map<String, dynamic> json) {
-    return InstanceInfo(
-      deregisterTime: timeStampFromJson(json['deregisterTime']),
-      iamSessionArn: json['iamSessionArn'] as String?,
-      iamUserArn: json['iamUserArn'] as String?,
-      instanceArn: json['instanceArn'] as String?,
-      instanceName: json['instanceName'] as String?,
-      registerTime: timeStampFromJson(json['registerTime']),
-      tags: (json['tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deregisterTime = this.deregisterTime;
-    final iamSessionArn = this.iamSessionArn;
-    final iamUserArn = this.iamUserArn;
-    final instanceArn = this.instanceArn;
-    final instanceName = this.instanceName;
-    final registerTime = this.registerTime;
-    final tags = this.tags;
-    return {
-      if (deregisterTime != null)
-        'deregisterTime': unixTimestampToJson(deregisterTime),
-      if (iamSessionArn != null) 'iamSessionArn': iamSessionArn,
-      if (iamUserArn != null) 'iamUserArn': iamUserArn,
-      if (instanceArn != null) 'instanceArn': instanceArn,
-      if (instanceName != null) 'instanceName': instanceName,
-      if (registerTime != null)
-        'registerTime': unixTimestampToJson(registerTime),
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-@Deprecated('InstanceStatus is deprecated, use TargetStatus instead.')
-class InstanceStatus {
-  static const pending = InstanceStatus._('Pending');
-  static const inProgress = InstanceStatus._('InProgress');
-  static const succeeded = InstanceStatus._('Succeeded');
-  static const failed = InstanceStatus._('Failed');
-  static const skipped = InstanceStatus._('Skipped');
-  static const unknown = InstanceStatus._('Unknown');
-  static const ready = InstanceStatus._('Ready');
-
-  final String value;
-
-  const InstanceStatus._(this.value);
-
-  static const values = [
-    pending,
-    inProgress,
-    succeeded,
-    failed,
-    skipped,
-    unknown,
-    ready
-  ];
-
-  static InstanceStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => InstanceStatus._(value));
-
-  @override
-  bool operator ==(other) => other is InstanceStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about an instance in a deployment.
-@Deprecated('InstanceSummary is deprecated, use DeploymentTarget instead.')
-class InstanceSummary {
-  /// The unique ID of a deployment.
-  final String? deploymentId;
-
-  /// The instance ID.
-  final String? instanceId;
-
-  /// Information about which environment an instance belongs to in a blue/green
-  /// deployment.
-  ///
-  /// <ul>
-  /// <li>
-  /// BLUE: The instance is part of the original environment.
-  /// </li>
-  /// <li>
-  /// GREEN: The instance is part of the replacement environment.
-  /// </li>
-  /// </ul>
-  final InstanceType? instanceType;
-
-  /// A timestamp that indicates when the instance information was last updated.
-  final DateTime? lastUpdatedAt;
-
-  /// A list of lifecycle events for this instance.
-  final List<LifecycleEvent>? lifecycleEvents;
-
-  /// The deployment status for this instance:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>Pending</code>: The deployment is pending for this instance.
-  /// </li>
-  /// <li>
-  /// <code>In Progress</code>: The deployment is in progress for this instance.
-  /// </li>
-  /// <li>
-  /// <code>Succeeded</code>: The deployment has succeeded for this instance.
-  /// </li>
-  /// <li>
-  /// <code>Failed</code>: The deployment has failed for this instance.
-  /// </li>
-  /// <li>
-  /// <code>Skipped</code>: The deployment has been skipped for this instance.
-  /// </li>
-  /// <li>
-  /// <code>Unknown</code>: The deployment status is unknown for this instance.
-  /// </li>
-  /// </ul>
-  final InstanceStatus? status;
-
-  InstanceSummary({
-    this.deploymentId,
-    this.instanceId,
-    this.instanceType,
-    this.lastUpdatedAt,
-    this.lifecycleEvents,
-    this.status,
-  });
-
-  factory InstanceSummary.fromJson(Map<String, dynamic> json) {
-    return InstanceSummary(
-      deploymentId: json['deploymentId'] as String?,
-      instanceId: json['instanceId'] as String?,
-      instanceType:
-          (json['instanceType'] as String?)?.let(InstanceType.fromString),
-      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
-      lifecycleEvents: (json['lifecycleEvents'] as List?)
-          ?.nonNulls
-          .map((e) => LifecycleEvent.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      status: (json['status'] as String?)?.let(InstanceStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deploymentId = this.deploymentId;
-    final instanceId = this.instanceId;
-    final instanceType = this.instanceType;
-    final lastUpdatedAt = this.lastUpdatedAt;
-    final lifecycleEvents = this.lifecycleEvents;
-    final status = this.status;
-    return {
-      if (deploymentId != null) 'deploymentId': deploymentId,
-      if (instanceId != null) 'instanceId': instanceId,
-      if (instanceType != null) 'instanceType': instanceType.value,
-      if (lastUpdatedAt != null)
-        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
-      if (lifecycleEvents != null) 'lifecycleEvents': lifecycleEvents,
-      if (status != null) 'status': status.value,
-    };
-  }
-}
-
-/// A target Amazon EC2 or on-premises instance during a deployment that uses
-/// the EC2/On-premises compute platform.
-class InstanceTarget {
-  /// The unique ID of a deployment.
-  final String? deploymentId;
-
-  /// A label that identifies whether the instance is an original target
-  /// (<code>BLUE</code>) or a replacement target (<code>GREEN</code>).
-  final TargetLabel? instanceLabel;
-
-  /// The date and time when the target instance was updated by a deployment.
-  final DateTime? lastUpdatedAt;
-
-  /// The lifecycle events of the deployment to this target instance.
-  final List<LifecycleEvent>? lifecycleEvents;
-
-  /// The status an EC2/On-premises deployment's target instance.
-  final TargetStatus? status;
-
-  /// The Amazon Resource Name (ARN) of the target.
-  final String? targetArn;
-
-  /// The unique ID of a deployment target that has a type of
-  /// <code>instanceTarget</code>.
-  final String? targetId;
-
-  InstanceTarget({
-    this.deploymentId,
-    this.instanceLabel,
-    this.lastUpdatedAt,
-    this.lifecycleEvents,
-    this.status,
-    this.targetArn,
-    this.targetId,
-  });
-
-  factory InstanceTarget.fromJson(Map<String, dynamic> json) {
-    return InstanceTarget(
-      deploymentId: json['deploymentId'] as String?,
-      instanceLabel:
-          (json['instanceLabel'] as String?)?.let(TargetLabel.fromString),
-      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
-      lifecycleEvents: (json['lifecycleEvents'] as List?)
-          ?.nonNulls
-          .map((e) => LifecycleEvent.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      status: (json['status'] as String?)?.let(TargetStatus.fromString),
-      targetArn: json['targetArn'] as String?,
-      targetId: json['targetId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deploymentId = this.deploymentId;
-    final instanceLabel = this.instanceLabel;
-    final lastUpdatedAt = this.lastUpdatedAt;
-    final lifecycleEvents = this.lifecycleEvents;
-    final status = this.status;
-    final targetArn = this.targetArn;
-    final targetId = this.targetId;
-    return {
-      if (deploymentId != null) 'deploymentId': deploymentId,
-      if (instanceLabel != null) 'instanceLabel': instanceLabel.value,
-      if (lastUpdatedAt != null)
-        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
-      if (lifecycleEvents != null) 'lifecycleEvents': lifecycleEvents,
-      if (status != null) 'status': status.value,
-      if (targetArn != null) 'targetArn': targetArn,
-      if (targetId != null) 'targetId': targetId,
-    };
-  }
-}
-
-class InstanceType {
-  static const blue = InstanceType._('Blue');
-  static const green = InstanceType._('Green');
-
-  final String value;
-
-  const InstanceType._(this.value);
-
-  static const values = [blue, green];
-
-  static InstanceType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => InstanceType._(value));
-
-  @override
-  bool operator ==(other) => other is InstanceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about a Lambda function specified in a deployment.
-class LambdaFunctionInfo {
-  /// The version of a Lambda function that production traffic points to.
-  final String? currentVersion;
-
-  /// The alias of a Lambda function. For more information, see <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/aliases-intro.html">Lambda
-  /// Function Aliases</a> in the <i>Lambda Developer Guide</i>.
-  final String? functionAlias;
-
-  /// The name of a Lambda function.
-  final String? functionName;
-
-  /// The version of a Lambda function that production traffic points to after the
-  /// Lambda function is deployed.
-  final String? targetVersion;
-
-  /// The percentage of production traffic that the target version of a Lambda
-  /// function receives.
-  final double? targetVersionWeight;
-
-  LambdaFunctionInfo({
-    this.currentVersion,
-    this.functionAlias,
-    this.functionName,
-    this.targetVersion,
-    this.targetVersionWeight,
-  });
-
-  factory LambdaFunctionInfo.fromJson(Map<String, dynamic> json) {
-    return LambdaFunctionInfo(
-      currentVersion: json['currentVersion'] as String?,
-      functionAlias: json['functionAlias'] as String?,
-      functionName: json['functionName'] as String?,
-      targetVersion: json['targetVersion'] as String?,
-      targetVersionWeight: json['targetVersionWeight'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final currentVersion = this.currentVersion;
-    final functionAlias = this.functionAlias;
-    final functionName = this.functionName;
-    final targetVersion = this.targetVersion;
-    final targetVersionWeight = this.targetVersionWeight;
-    return {
-      if (currentVersion != null) 'currentVersion': currentVersion,
-      if (functionAlias != null) 'functionAlias': functionAlias,
-      if (functionName != null) 'functionName': functionName,
-      if (targetVersion != null) 'targetVersion': targetVersion,
-      if (targetVersionWeight != null)
-        'targetVersionWeight': targetVersionWeight,
-    };
-  }
-}
-
-/// Information about the target Lambda function during an Lambda deployment.
-class LambdaTarget {
-  /// The unique ID of a deployment.
-  final String? deploymentId;
-
-  /// A <code>LambdaFunctionInfo</code> object that describes a target Lambda
-  /// function.
-  final LambdaFunctionInfo? lambdaFunctionInfo;
-
-  /// The date and time when the target Lambda function was updated by a
-  /// deployment.
-  final DateTime? lastUpdatedAt;
-
-  /// The lifecycle events of the deployment to this target Lambda function.
-  final List<LifecycleEvent>? lifecycleEvents;
-
-  /// The status an Lambda deployment's target Lambda function.
-  final TargetStatus? status;
-
-  /// The Amazon Resource Name (ARN) of the target.
-  final String? targetArn;
-
-  /// The unique ID of a deployment target that has a type of
-  /// <code>lambdaTarget</code>.
-  final String? targetId;
-
-  LambdaTarget({
-    this.deploymentId,
-    this.lambdaFunctionInfo,
-    this.lastUpdatedAt,
-    this.lifecycleEvents,
-    this.status,
-    this.targetArn,
-    this.targetId,
-  });
-
-  factory LambdaTarget.fromJson(Map<String, dynamic> json) {
-    return LambdaTarget(
-      deploymentId: json['deploymentId'] as String?,
-      lambdaFunctionInfo: json['lambdaFunctionInfo'] != null
-          ? LambdaFunctionInfo.fromJson(
-              json['lambdaFunctionInfo'] as Map<String, dynamic>)
-          : null,
-      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
-      lifecycleEvents: (json['lifecycleEvents'] as List?)
-          ?.nonNulls
-          .map((e) => LifecycleEvent.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      status: (json['status'] as String?)?.let(TargetStatus.fromString),
-      targetArn: json['targetArn'] as String?,
-      targetId: json['targetId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deploymentId = this.deploymentId;
-    final lambdaFunctionInfo = this.lambdaFunctionInfo;
-    final lastUpdatedAt = this.lastUpdatedAt;
-    final lifecycleEvents = this.lifecycleEvents;
-    final status = this.status;
-    final targetArn = this.targetArn;
-    final targetId = this.targetId;
-    return {
-      if (deploymentId != null) 'deploymentId': deploymentId,
-      if (lambdaFunctionInfo != null) 'lambdaFunctionInfo': lambdaFunctionInfo,
-      if (lastUpdatedAt != null)
-        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
-      if (lifecycleEvents != null) 'lifecycleEvents': lifecycleEvents,
-      if (status != null) 'status': status.value,
-      if (targetArn != null) 'targetArn': targetArn,
-      if (targetId != null) 'targetId': targetId,
-    };
-  }
-}
-
-/// Information about the most recent attempted or successful deployment to a
-/// deployment group.
-class LastDeploymentInfo {
-  /// A timestamp that indicates when the most recent deployment to the deployment
-  /// group started.
-  final DateTime? createTime;
-
-  /// The unique ID of a deployment.
-  final String? deploymentId;
-
-  /// A timestamp that indicates when the most recent deployment to the deployment
-  /// group was complete.
-  final DateTime? endTime;
-
-  /// The status of the most recent deployment.
-  final DeploymentStatus? status;
-
-  LastDeploymentInfo({
-    this.createTime,
-    this.deploymentId,
-    this.endTime,
-    this.status,
-  });
-
-  factory LastDeploymentInfo.fromJson(Map<String, dynamic> json) {
-    return LastDeploymentInfo(
-      createTime: timeStampFromJson(json['createTime']),
-      deploymentId: json['deploymentId'] as String?,
-      endTime: timeStampFromJson(json['endTime']),
-      status: (json['status'] as String?)?.let(DeploymentStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createTime = this.createTime;
-    final deploymentId = this.deploymentId;
-    final endTime = this.endTime;
-    final status = this.status;
-    return {
-      if (createTime != null) 'createTime': unixTimestampToJson(createTime),
-      if (deploymentId != null) 'deploymentId': deploymentId,
-      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
-      if (status != null) 'status': status.value,
-    };
-  }
-}
-
-class LifecycleErrorCode {
-  static const success = LifecycleErrorCode._('Success');
-  static const scriptMissing = LifecycleErrorCode._('ScriptMissing');
-  static const scriptNotExecutable =
-      LifecycleErrorCode._('ScriptNotExecutable');
-  static const scriptTimedOut = LifecycleErrorCode._('ScriptTimedOut');
-  static const scriptFailed = LifecycleErrorCode._('ScriptFailed');
-  static const unknownError = LifecycleErrorCode._('UnknownError');
-
-  final String value;
-
-  const LifecycleErrorCode._(this.value);
-
-  static const values = [
-    success,
-    scriptMissing,
-    scriptNotExecutable,
-    scriptTimedOut,
-    scriptFailed,
-    unknownError
-  ];
-
-  static LifecycleErrorCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LifecycleErrorCode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is LifecycleErrorCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about a deployment lifecycle event.
-class LifecycleEvent {
-  /// Diagnostic information about the deployment lifecycle event.
-  final Diagnostics? diagnostics;
-
-  /// A timestamp that indicates when the deployment lifecycle event ended.
-  final DateTime? endTime;
-
-  /// The deployment lifecycle event name, such as <code>ApplicationStop</code>,
-  /// <code>BeforeInstall</code>, <code>AfterInstall</code>,
-  /// <code>ApplicationStart</code>, or <code>ValidateService</code>.
-  final String? lifecycleEventName;
-
-  /// A timestamp that indicates when the deployment lifecycle event started.
-  final DateTime? startTime;
-
-  /// The deployment lifecycle event status:
-  ///
-  /// <ul>
-  /// <li>
-  /// Pending: The deployment lifecycle event is pending.
-  /// </li>
-  /// <li>
-  /// InProgress: The deployment lifecycle event is in progress.
-  /// </li>
-  /// <li>
-  /// Succeeded: The deployment lifecycle event ran successfully.
-  /// </li>
-  /// <li>
-  /// Failed: The deployment lifecycle event has failed.
-  /// </li>
-  /// <li>
-  /// Skipped: The deployment lifecycle event has been skipped.
-  /// </li>
-  /// <li>
-  /// Unknown: The deployment lifecycle event is unknown.
-  /// </li>
-  /// </ul>
-  final LifecycleEventStatus? status;
-
-  LifecycleEvent({
-    this.diagnostics,
-    this.endTime,
-    this.lifecycleEventName,
-    this.startTime,
-    this.status,
-  });
-
-  factory LifecycleEvent.fromJson(Map<String, dynamic> json) {
-    return LifecycleEvent(
-      diagnostics: json['diagnostics'] != null
-          ? Diagnostics.fromJson(json['diagnostics'] as Map<String, dynamic>)
-          : null,
-      endTime: timeStampFromJson(json['endTime']),
-      lifecycleEventName: json['lifecycleEventName'] as String?,
-      startTime: timeStampFromJson(json['startTime']),
-      status: (json['status'] as String?)?.let(LifecycleEventStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final diagnostics = this.diagnostics;
-    final endTime = this.endTime;
-    final lifecycleEventName = this.lifecycleEventName;
-    final startTime = this.startTime;
-    final status = this.status;
-    return {
-      if (diagnostics != null) 'diagnostics': diagnostics,
-      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
-      if (lifecycleEventName != null) 'lifecycleEventName': lifecycleEventName,
-      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
-      if (status != null) 'status': status.value,
-    };
-  }
-}
-
-class LifecycleEventStatus {
-  static const pending = LifecycleEventStatus._('Pending');
-  static const inProgress = LifecycleEventStatus._('InProgress');
-  static const succeeded = LifecycleEventStatus._('Succeeded');
-  static const failed = LifecycleEventStatus._('Failed');
-  static const skipped = LifecycleEventStatus._('Skipped');
-  static const unknown = LifecycleEventStatus._('Unknown');
-
-  final String value;
-
-  const LifecycleEventStatus._(this.value);
-
-  static const values = [
-    pending,
-    inProgress,
-    succeeded,
-    failed,
-    skipped,
-    unknown
-  ];
-
-  static LifecycleEventStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LifecycleEventStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is LifecycleEventStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents the output of a <code>ListApplicationRevisions</code> operation.
-class ListApplicationRevisionsOutput {
-  /// If a large amount of information is returned, an identifier is also
-  /// returned. It can be used in a subsequent list application revisions call to
-  /// return the next set of application revisions in the list.
-  final String? nextToken;
-
-  /// A list of locations that contain the matching revisions.
-  final List<RevisionLocation>? revisions;
-
-  ListApplicationRevisionsOutput({
-    this.nextToken,
-    this.revisions,
-  });
-
-  factory ListApplicationRevisionsOutput.fromJson(Map<String, dynamic> json) {
-    return ListApplicationRevisionsOutput(
-      nextToken: json['nextToken'] as String?,
-      revisions: (json['revisions'] as List?)
-          ?.nonNulls
-          .map((e) => RevisionLocation.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final revisions = this.revisions;
-    return {
-      if (nextToken != null) 'nextToken': nextToken,
-      if (revisions != null) 'revisions': revisions,
-    };
-  }
-}
-
-/// Represents the output of a ListApplications operation.
-class ListApplicationsOutput {
-  /// A list of application names.
-  final List<String>? applications;
-
-  /// If a large amount of information is returned, an identifier is also
-  /// returned. It can be used in a subsequent list applications call to return
-  /// the next set of applications in the list.
-  final String? nextToken;
-
-  ListApplicationsOutput({
-    this.applications,
-    this.nextToken,
-  });
-
-  factory ListApplicationsOutput.fromJson(Map<String, dynamic> json) {
-    return ListApplicationsOutput(
-      applications: (json['applications'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final applications = this.applications;
-    final nextToken = this.nextToken;
-    return {
-      if (applications != null) 'applications': applications,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-/// Represents the output of a <code>ListDeploymentConfigs</code> operation.
-class ListDeploymentConfigsOutput {
-  /// A list of deployment configurations, including built-in configurations such
-  /// as <code>CodeDeployDefault.OneAtATime</code>.
-  final List<String>? deploymentConfigsList;
-
-  /// If a large amount of information is returned, an identifier is also
-  /// returned. It can be used in a subsequent list deployment configurations call
-  /// to return the next set of deployment configurations in the list.
-  final String? nextToken;
-
-  ListDeploymentConfigsOutput({
-    this.deploymentConfigsList,
-    this.nextToken,
-  });
-
-  factory ListDeploymentConfigsOutput.fromJson(Map<String, dynamic> json) {
-    return ListDeploymentConfigsOutput(
-      deploymentConfigsList: (json['deploymentConfigsList'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deploymentConfigsList = this.deploymentConfigsList;
-    final nextToken = this.nextToken;
-    return {
-      if (deploymentConfigsList != null)
-        'deploymentConfigsList': deploymentConfigsList,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-/// Represents the output of a <code>ListDeploymentGroups</code> operation.
-class ListDeploymentGroupsOutput {
   /// The application name.
   final String? applicationName;
 
-  /// A list of deployment group names.
-  final List<String>? deploymentGroups;
+  /// The destination platform type for deployment of the application
+  /// (<code>Lambda</code> or <code>Server</code>).
+  final ComputePlatform? computePlatform;
 
-  /// If a large amount of information is returned, an identifier is also
-  /// returned. It can be used in a subsequent list deployment groups call to
-  /// return the next set of deployment groups in the list.
-  final String? nextToken;
+  /// The time at which the application was created.
+  final DateTime? createTime;
 
-  ListDeploymentGroupsOutput({
+  /// The name for a connection to a GitHub account.
+  final String? gitHubAccountName;
+
+  /// True if the user has authenticated with GitHub for the specified
+  /// application. Otherwise, false.
+  final bool? linkedToGitHub;
+
+  ApplicationInfo({
+    this.applicationId,
     this.applicationName,
-    this.deploymentGroups,
-    this.nextToken,
+    this.computePlatform,
+    this.createTime,
+    this.gitHubAccountName,
+    this.linkedToGitHub,
   });
 
-  factory ListDeploymentGroupsOutput.fromJson(Map<String, dynamic> json) {
-    return ListDeploymentGroupsOutput(
+  factory ApplicationInfo.fromJson(Map<String, dynamic> json) {
+    return ApplicationInfo(
+      applicationId: json['applicationId'] as String?,
       applicationName: json['applicationName'] as String?,
-      deploymentGroups: (json['deploymentGroups'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      nextToken: json['nextToken'] as String?,
+      computePlatform:
+          (json['computePlatform'] as String?)?.let(ComputePlatform.fromString),
+      createTime: timeStampFromJson(json['createTime']),
+      gitHubAccountName: json['gitHubAccountName'] as String?,
+      linkedToGitHub: json['linkedToGitHub'] as bool?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final applicationId = this.applicationId;
     final applicationName = this.applicationName;
-    final deploymentGroups = this.deploymentGroups;
-    final nextToken = this.nextToken;
+    final computePlatform = this.computePlatform;
+    final createTime = this.createTime;
+    final gitHubAccountName = this.gitHubAccountName;
+    final linkedToGitHub = this.linkedToGitHub;
     return {
+      if (applicationId != null) 'applicationId': applicationId,
       if (applicationName != null) 'applicationName': applicationName,
-      if (deploymentGroups != null) 'deploymentGroups': deploymentGroups,
-      if (nextToken != null) 'nextToken': nextToken,
+      if (computePlatform != null) 'computePlatform': computePlatform.value,
+      if (createTime != null) 'createTime': unixTimestampToJson(createTime),
+      if (gitHubAccountName != null) 'gitHubAccountName': gitHubAccountName,
+      if (linkedToGitHub != null) 'linkedToGitHub': linkedToGitHub,
     };
   }
 }
 
-/// Represents the output of a <code>ListDeploymentInstances</code> operation.
-class ListDeploymentInstancesOutput {
-  /// A list of instance IDs.
-  final List<String>? instancesList;
-
-  /// If a large amount of information is returned, an identifier is also
-  /// returned. It can be used in a subsequent list deployment instances call to
-  /// return the next set of deployment instances in the list.
-  final String? nextToken;
-
-  ListDeploymentInstancesOutput({
-    this.instancesList,
-    this.nextToken,
-  });
-
-  factory ListDeploymentInstancesOutput.fromJson(Map<String, dynamic> json) {
-    return ListDeploymentInstancesOutput(
-      instancesList: (json['instancesList'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final instancesList = this.instancesList;
-    final nextToken = this.nextToken;
-    return {
-      if (instancesList != null) 'instancesList': instancesList,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListDeploymentTargetsOutput {
-  /// If a large amount of information is returned, a token identifier is also
-  /// returned. It can be used in a subsequent <code>ListDeploymentTargets</code>
-  /// call to return the next set of deployment targets in the list.
-  final String? nextToken;
-
-  /// The unique IDs of deployment targets.
-  final List<String>? targetIds;
-
-  ListDeploymentTargetsOutput({
-    this.nextToken,
-    this.targetIds,
-  });
-
-  factory ListDeploymentTargetsOutput.fromJson(Map<String, dynamic> json) {
-    return ListDeploymentTargetsOutput(
-      nextToken: json['nextToken'] as String?,
-      targetIds: (json['targetIds'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final targetIds = this.targetIds;
-    return {
-      if (nextToken != null) 'nextToken': nextToken,
-      if (targetIds != null) 'targetIds': targetIds,
-    };
-  }
-}
-
-/// Represents the output of a <code>ListDeployments</code> operation.
-class ListDeploymentsOutput {
-  /// A list of deployment IDs.
-  final List<String>? deployments;
-
-  /// If a large amount of information is returned, an identifier is also
-  /// returned. It can be used in a subsequent list deployments call to return the
-  /// next set of deployments in the list.
-  final String? nextToken;
-
-  ListDeploymentsOutput({
-    this.deployments,
-    this.nextToken,
-  });
-
-  factory ListDeploymentsOutput.fromJson(Map<String, dynamic> json) {
-    return ListDeploymentsOutput(
-      deployments: (json['deployments'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deployments = this.deployments;
-    final nextToken = this.nextToken;
-    return {
-      if (deployments != null) 'deployments': deployments,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-/// Represents the output of a <code>ListGitHubAccountTokenNames</code>
-/// operation.
-class ListGitHubAccountTokenNamesOutput {
-  /// If a large amount of information is returned, an identifier is also
-  /// returned. It can be used in a subsequent
-  /// <code>ListGitHubAccountTokenNames</code> call to return the next set of
-  /// names in the list.
-  final String? nextToken;
-
-  /// A list of names of connections to GitHub accounts.
-  final List<String>? tokenNameList;
-
-  ListGitHubAccountTokenNamesOutput({
-    this.nextToken,
-    this.tokenNameList,
-  });
-
-  factory ListGitHubAccountTokenNamesOutput.fromJson(
-      Map<String, dynamic> json) {
-    return ListGitHubAccountTokenNamesOutput(
-      nextToken: json['nextToken'] as String?,
-      tokenNameList: (json['tokenNameList'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final tokenNameList = this.tokenNameList;
-    return {
-      if (nextToken != null) 'nextToken': nextToken,
-      if (tokenNameList != null) 'tokenNameList': tokenNameList,
-    };
-  }
-}
-
-/// Represents the output of the list on-premises instances operation.
-class ListOnPremisesInstancesOutput {
-  /// The list of matching on-premises instance names.
-  final List<String>? instanceNames;
-
-  /// If a large amount of information is returned, an identifier is also
-  /// returned. It can be used in a subsequent list on-premises instances call to
-  /// return the next set of on-premises instances in the list.
-  final String? nextToken;
-
-  ListOnPremisesInstancesOutput({
-    this.instanceNames,
-    this.nextToken,
-  });
-
-  factory ListOnPremisesInstancesOutput.fromJson(Map<String, dynamic> json) {
-    return ListOnPremisesInstancesOutput(
-      instanceNames: (json['instanceNames'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final instanceNames = this.instanceNames;
-    final nextToken = this.nextToken;
-    return {
-      if (instanceNames != null) 'instanceNames': instanceNames,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListStateFilterAction {
-  static const include = ListStateFilterAction._('include');
-  static const exclude = ListStateFilterAction._('exclude');
-  static const ignore = ListStateFilterAction._('ignore');
+class DeploymentWaitType {
+  static const readyWait = DeploymentWaitType._('READY_WAIT');
+  static const terminationWait = DeploymentWaitType._('TERMINATION_WAIT');
 
   final String value;
 
-  const ListStateFilterAction._(this.value);
+  const DeploymentWaitType._(this.value);
 
-  static const values = [include, exclude, ignore];
+  static const values = [readyWait, terminationWait];
 
-  static ListStateFilterAction fromString(String value) =>
+  static DeploymentWaitType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => ListStateFilterAction._(value));
+          orElse: () => DeploymentWaitType._(value));
 
   @override
   bool operator ==(other) =>
-      other is ListStateFilterAction && other.value == value;
+      other is DeploymentWaitType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
-}
-
-class ListTagsForResourceOutput {
-  /// If a large amount of information is returned, an identifier is also
-  /// returned. It can be used in a subsequent list application revisions call to
-  /// return the next set of application revisions in the list.
-  final String? nextToken;
-
-  /// A list of tags returned by <code>ListTagsForResource</code>. The tags are
-  /// associated with the resource identified by the input
-  /// <code>ResourceArn</code> parameter.
-  final List<Tag>? tags;
-
-  ListTagsForResourceOutput({
-    this.nextToken,
-    this.tags,
-  });
-
-  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
-    return ListTagsForResourceOutput(
-      nextToken: json['NextToken'] as String?,
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final tags = this.tags;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-/// Information about the Elastic Load Balancing load balancer or target group
-/// used in a deployment.
-///
-/// You can use load balancers and target groups in combination. For example, if
-/// you have two Classic Load Balancers, and five target groups tied to an
-/// Application Load Balancer, you can specify the two Classic Load Balancers in
-/// <code>elbInfoList</code>, and the five target groups in
-/// <code>targetGroupInfoList</code>.
-class LoadBalancerInfo {
-  /// An array that contains information about the load balancers to use for load
-  /// balancing in a deployment. If you're using Classic Load Balancers, specify
-  /// those load balancers in this array.
-  /// <note>
-  /// You can add up to 10 load balancers to the array.
-  /// </note> <note>
-  /// If you're using Application Load Balancers or Network Load Balancers, use
-  /// the <code>targetGroupInfoList</code> array instead of this one.
-  /// </note>
-  final List<ELBInfo>? elbInfoList;
-
-  /// An array that contains information about the target groups to use for load
-  /// balancing in a deployment. If you're using Application Load Balancers and
-  /// Network Load Balancers, specify their associated target groups in this
-  /// array.
-  /// <note>
-  /// You can add up to 10 target groups to the array.
-  /// </note> <note>
-  /// If you're using Classic Load Balancers, use the <code>elbInfoList</code>
-  /// array instead of this one.
-  /// </note>
-  final List<TargetGroupInfo>? targetGroupInfoList;
-
-  /// The target group pair information. This is an array of
-  /// <code>TargeGroupPairInfo</code> objects with a maximum size of one.
-  final List<TargetGroupPairInfo>? targetGroupPairInfoList;
-
-  LoadBalancerInfo({
-    this.elbInfoList,
-    this.targetGroupInfoList,
-    this.targetGroupPairInfoList,
-  });
-
-  factory LoadBalancerInfo.fromJson(Map<String, dynamic> json) {
-    return LoadBalancerInfo(
-      elbInfoList: (json['elbInfoList'] as List?)
-          ?.nonNulls
-          .map((e) => ELBInfo.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      targetGroupInfoList: (json['targetGroupInfoList'] as List?)
-          ?.nonNulls
-          .map((e) => TargetGroupInfo.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      targetGroupPairInfoList: (json['targetGroupPairInfoList'] as List?)
-          ?.nonNulls
-          .map((e) => TargetGroupPairInfo.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final elbInfoList = this.elbInfoList;
-    final targetGroupInfoList = this.targetGroupInfoList;
-    final targetGroupPairInfoList = this.targetGroupPairInfoList;
-    return {
-      if (elbInfoList != null) 'elbInfoList': elbInfoList,
-      if (targetGroupInfoList != null)
-        'targetGroupInfoList': targetGroupInfoList,
-      if (targetGroupPairInfoList != null)
-        'targetGroupPairInfoList': targetGroupPairInfoList,
-    };
-  }
-}
-
-/// Information about the minimum number of healthy instances.
-class MinimumHealthyHosts {
-  /// The minimum healthy instance type:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>HOST_COUNT</code>: The minimum number of healthy instances as an
-  /// absolute value.
-  /// </li>
-  /// <li>
-  /// <code>FLEET_PERCENT</code>: The minimum number of healthy instances as a
-  /// percentage of the total number of instances in the deployment.
-  /// </li>
-  /// </ul>
-  /// In an example of nine instances, if a HOST_COUNT of six is specified, deploy
-  /// to up to three instances at a time. The deployment is successful if six or
-  /// more instances are deployed to successfully. Otherwise, the deployment
-  /// fails. If a FLEET_PERCENT of 40 is specified, deploy to up to five instances
-  /// at a time. The deployment is successful if four or more instances are
-  /// deployed to successfully. Otherwise, the deployment fails.
-  /// <note>
-  /// In a call to the <code>GetDeploymentConfig</code>,
-  /// CodeDeployDefault.OneAtATime returns a minimum healthy instance type of
-  /// MOST_CONCURRENCY and a value of 1. This means a deployment to only one
-  /// instance at a time. (You cannot set the type to MOST_CONCURRENCY, only to
-  /// HOST_COUNT or FLEET_PERCENT.) In addition, with
-  /// CodeDeployDefault.OneAtATime, CodeDeploy attempts to ensure that all
-  /// instances but one are kept in a healthy state during the deployment.
-  /// Although this allows one instance at a time to be taken offline for a new
-  /// deployment, it also means that if the deployment to the last instance fails,
-  /// the overall deployment is still successful.
-  /// </note>
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/instances-health.html">CodeDeploy
-  /// Instance Health</a> in the <i>CodeDeploy User Guide</i>.
-  final MinimumHealthyHostsType? type;
-
-  /// The minimum healthy instance value.
-  final int? value;
-
-  MinimumHealthyHosts({
-    this.type,
-    this.value,
-  });
-
-  factory MinimumHealthyHosts.fromJson(Map<String, dynamic> json) {
-    return MinimumHealthyHosts(
-      type: (json['type'] as String?)?.let(MinimumHealthyHostsType.fromString),
-      value: json['value'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final type = this.type;
-    final value = this.value;
-    return {
-      if (type != null) 'type': type.value,
-      if (value != null) 'value': value,
-    };
-  }
-}
-
-/// Information about the minimum number of healthy instances per Availability
-/// Zone.
-class MinimumHealthyHostsPerZone {
-  /// The <code>type</code> associated with the
-  /// <code>MinimumHealthyHostsPerZone</code> option.
-  final MinimumHealthyHostsPerZoneType? type;
-
-  /// The <code>value</code> associated with the
-  /// <code>MinimumHealthyHostsPerZone</code> option.
-  final int? value;
-
-  MinimumHealthyHostsPerZone({
-    this.type,
-    this.value,
-  });
-
-  factory MinimumHealthyHostsPerZone.fromJson(Map<String, dynamic> json) {
-    return MinimumHealthyHostsPerZone(
-      type: (json['type'] as String?)
-          ?.let(MinimumHealthyHostsPerZoneType.fromString),
-      value: json['value'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final type = this.type;
-    final value = this.value;
-    return {
-      if (type != null) 'type': type.value,
-      if (value != null) 'value': value,
-    };
-  }
-}
-
-class MinimumHealthyHostsPerZoneType {
-  static const hostCount = MinimumHealthyHostsPerZoneType._('HOST_COUNT');
-  static const fleetPercent = MinimumHealthyHostsPerZoneType._('FLEET_PERCENT');
-
-  final String value;
-
-  const MinimumHealthyHostsPerZoneType._(this.value);
-
-  static const values = [hostCount, fleetPercent];
-
-  static MinimumHealthyHostsPerZoneType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MinimumHealthyHostsPerZoneType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is MinimumHealthyHostsPerZoneType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class MinimumHealthyHostsType {
-  static const hostCount = MinimumHealthyHostsType._('HOST_COUNT');
-  static const fleetPercent = MinimumHealthyHostsType._('FLEET_PERCENT');
-
-  final String value;
-
-  const MinimumHealthyHostsType._(this.value);
-
-  static const values = [hostCount, fleetPercent];
-
-  static MinimumHealthyHostsType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MinimumHealthyHostsType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is MinimumHealthyHostsType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about groups of on-premises instance tags.
-class OnPremisesTagSet {
-  /// A list that contains other lists of on-premises instance tag groups. For an
-  /// instance to be included in the deployment group, it must be identified by
-  /// all of the tag groups in the list.
-  final List<List<TagFilter>>? onPremisesTagSetList;
-
-  OnPremisesTagSet({
-    this.onPremisesTagSetList,
-  });
-
-  factory OnPremisesTagSet.fromJson(Map<String, dynamic> json) {
-    return OnPremisesTagSet(
-      onPremisesTagSetList: (json['onPremisesTagSetList'] as List?)
-          ?.nonNulls
-          .map((e) => (e as List)
-              .nonNulls
-              .map((e) => TagFilter.fromJson(e as Map<String, dynamic>))
-              .toList())
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final onPremisesTagSetList = this.onPremisesTagSetList;
-    return {
-      if (onPremisesTagSetList != null)
-        'onPremisesTagSetList': onPremisesTagSetList,
-    };
-  }
-}
-
-class OutdatedInstancesStrategy {
-  static const update = OutdatedInstancesStrategy._('UPDATE');
-  static const ignore = OutdatedInstancesStrategy._('IGNORE');
-
-  final String value;
-
-  const OutdatedInstancesStrategy._(this.value);
-
-  static const values = [update, ignore];
-
-  static OutdatedInstancesStrategy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => OutdatedInstancesStrategy._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is OutdatedInstancesStrategy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class PutLifecycleEventHookExecutionStatusOutput {
-  /// The execution ID of the lifecycle event hook. A hook is specified in the
-  /// <code>hooks</code> section of the deployment's AppSpec file.
-  final String? lifecycleEventHookExecutionId;
-
-  PutLifecycleEventHookExecutionStatusOutput({
-    this.lifecycleEventHookExecutionId,
-  });
-
-  factory PutLifecycleEventHookExecutionStatusOutput.fromJson(
-      Map<String, dynamic> json) {
-    return PutLifecycleEventHookExecutionStatusOutput(
-      lifecycleEventHookExecutionId:
-          json['lifecycleEventHookExecutionId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lifecycleEventHookExecutionId = this.lifecycleEventHookExecutionId;
-    return {
-      if (lifecycleEventHookExecutionId != null)
-        'lifecycleEventHookExecutionId': lifecycleEventHookExecutionId,
-    };
-  }
-}
-
-/// A revision for an Lambda deployment that is a YAML-formatted or
-/// JSON-formatted string. For Lambda deployments, the revision is the same as
-/// the AppSpec file.
-@Deprecated(
-    'RawString and String revision type are deprecated, use AppSpecContent type instead.')
-class RawString {
-  /// The YAML-formatted or JSON-formatted revision string. It includes
-  /// information about which Lambda function to update and optional Lambda
-  /// functions that validate deployment lifecycle events.
-  final String? content;
-
-  /// The SHA256 hash value of the revision content.
-  final String? sha256;
-
-  RawString({
-    this.content,
-    this.sha256,
-  });
-
-  factory RawString.fromJson(Map<String, dynamic> json) {
-    return RawString(
-      content: json['content'] as String?,
-      sha256: json['sha256'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final content = this.content;
-    final sha256 = this.sha256;
-    return {
-      if (content != null) 'content': content,
-      if (sha256 != null) 'sha256': sha256,
-    };
-  }
-}
-
-class RegistrationStatus {
-  static const registered = RegistrationStatus._('Registered');
-  static const deregistered = RegistrationStatus._('Deregistered');
-
-  final String value;
-
-  const RegistrationStatus._(this.value);
-
-  static const values = [registered, deregistered];
-
-  static RegistrationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RegistrationStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is RegistrationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about deployments related to the specified deployment.
-class RelatedDeployments {
-  /// The deployment IDs of 'auto-update outdated instances' deployments triggered
-  /// by this deployment.
-  final List<String>? autoUpdateOutdatedInstancesDeploymentIds;
-
-  /// The deployment ID of the root deployment that triggered this deployment.
-  final String? autoUpdateOutdatedInstancesRootDeploymentId;
-
-  RelatedDeployments({
-    this.autoUpdateOutdatedInstancesDeploymentIds,
-    this.autoUpdateOutdatedInstancesRootDeploymentId,
-  });
-
-  factory RelatedDeployments.fromJson(Map<String, dynamic> json) {
-    return RelatedDeployments(
-      autoUpdateOutdatedInstancesDeploymentIds:
-          (json['autoUpdateOutdatedInstancesDeploymentIds'] as List?)
-              ?.nonNulls
-              .map((e) => e as String)
-              .toList(),
-      autoUpdateOutdatedInstancesRootDeploymentId:
-          json['autoUpdateOutdatedInstancesRootDeploymentId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final autoUpdateOutdatedInstancesDeploymentIds =
-        this.autoUpdateOutdatedInstancesDeploymentIds;
-    final autoUpdateOutdatedInstancesRootDeploymentId =
-        this.autoUpdateOutdatedInstancesRootDeploymentId;
-    return {
-      if (autoUpdateOutdatedInstancesDeploymentIds != null)
-        'autoUpdateOutdatedInstancesDeploymentIds':
-            autoUpdateOutdatedInstancesDeploymentIds,
-      if (autoUpdateOutdatedInstancesRootDeploymentId != null)
-        'autoUpdateOutdatedInstancesRootDeploymentId':
-            autoUpdateOutdatedInstancesRootDeploymentId,
-    };
-  }
 }
 
 /// Information about an application revision.
@@ -7320,1079 +8380,6 @@ class RevisionInfo {
       if (genericRevisionInfo != null)
         'genericRevisionInfo': genericRevisionInfo,
       if (revisionLocation != null) 'revisionLocation': revisionLocation,
-    };
-  }
-}
-
-/// Information about the location of an application revision.
-class RevisionLocation {
-  /// The content of an AppSpec file for an Lambda or Amazon ECS deployment. The
-  /// content is formatted as JSON or YAML and stored as a RawString.
-  final AppSpecContent? appSpecContent;
-
-  /// Information about the location of application artifacts stored in GitHub.
-  final GitHubLocation? gitHubLocation;
-
-  /// The type of application revision:
-  ///
-  /// <ul>
-  /// <li>
-  /// S3: An application revision stored in Amazon S3.
-  /// </li>
-  /// <li>
-  /// GitHub: An application revision stored in GitHub (EC2/On-premises
-  /// deployments only).
-  /// </li>
-  /// <li>
-  /// String: A YAML-formatted or JSON-formatted string (Lambda deployments only).
-  /// </li>
-  /// <li>
-  /// AppSpecContent: An <code>AppSpecContent</code> object that contains the
-  /// contents of an AppSpec file for an Lambda or Amazon ECS deployment. The
-  /// content is formatted as JSON or YAML stored as a RawString.
-  /// </li>
-  /// </ul>
-  final RevisionLocationType? revisionType;
-
-  /// Information about the location of a revision stored in Amazon S3.
-  final S3Location? s3Location;
-
-  /// Information about the location of an Lambda deployment revision stored as a
-  /// RawString.
-  final RawString? string;
-
-  RevisionLocation({
-    this.appSpecContent,
-    this.gitHubLocation,
-    this.revisionType,
-    this.s3Location,
-    this.string,
-  });
-
-  factory RevisionLocation.fromJson(Map<String, dynamic> json) {
-    return RevisionLocation(
-      appSpecContent: json['appSpecContent'] != null
-          ? AppSpecContent.fromJson(
-              json['appSpecContent'] as Map<String, dynamic>)
-          : null,
-      gitHubLocation: json['gitHubLocation'] != null
-          ? GitHubLocation.fromJson(
-              json['gitHubLocation'] as Map<String, dynamic>)
-          : null,
-      revisionType: (json['revisionType'] as String?)
-          ?.let(RevisionLocationType.fromString),
-      s3Location: json['s3Location'] != null
-          ? S3Location.fromJson(json['s3Location'] as Map<String, dynamic>)
-          : null,
-      string: json['string'] != null
-          ? RawString.fromJson(json['string'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final appSpecContent = this.appSpecContent;
-    final gitHubLocation = this.gitHubLocation;
-    final revisionType = this.revisionType;
-    final s3Location = this.s3Location;
-    final string = this.string;
-    return {
-      if (appSpecContent != null) 'appSpecContent': appSpecContent,
-      if (gitHubLocation != null) 'gitHubLocation': gitHubLocation,
-      if (revisionType != null) 'revisionType': revisionType.value,
-      if (s3Location != null) 's3Location': s3Location,
-      if (string != null) 'string': string,
-    };
-  }
-}
-
-class RevisionLocationType {
-  static const s3 = RevisionLocationType._('S3');
-  static const gitHub = RevisionLocationType._('GitHub');
-  static const string = RevisionLocationType._('String');
-  static const appSpecContent = RevisionLocationType._('AppSpecContent');
-
-  final String value;
-
-  const RevisionLocationType._(this.value);
-
-  static const values = [s3, gitHub, string, appSpecContent];
-
-  static RevisionLocationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RevisionLocationType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is RevisionLocationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about a deployment rollback.
-class RollbackInfo {
-  /// The ID of the deployment rollback.
-  final String? rollbackDeploymentId;
-
-  /// Information that describes the status of a deployment rollback (for example,
-  /// whether the deployment can't be rolled back, is in progress, failed, or
-  /// succeeded).
-  final String? rollbackMessage;
-
-  /// The deployment ID of the deployment that was underway and triggered a
-  /// rollback deployment because it failed or was stopped.
-  final String? rollbackTriggeringDeploymentId;
-
-  RollbackInfo({
-    this.rollbackDeploymentId,
-    this.rollbackMessage,
-    this.rollbackTriggeringDeploymentId,
-  });
-
-  factory RollbackInfo.fromJson(Map<String, dynamic> json) {
-    return RollbackInfo(
-      rollbackDeploymentId: json['rollbackDeploymentId'] as String?,
-      rollbackMessage: json['rollbackMessage'] as String?,
-      rollbackTriggeringDeploymentId:
-          json['rollbackTriggeringDeploymentId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final rollbackDeploymentId = this.rollbackDeploymentId;
-    final rollbackMessage = this.rollbackMessage;
-    final rollbackTriggeringDeploymentId = this.rollbackTriggeringDeploymentId;
-    return {
-      if (rollbackDeploymentId != null)
-        'rollbackDeploymentId': rollbackDeploymentId,
-      if (rollbackMessage != null) 'rollbackMessage': rollbackMessage,
-      if (rollbackTriggeringDeploymentId != null)
-        'rollbackTriggeringDeploymentId': rollbackTriggeringDeploymentId,
-    };
-  }
-}
-
-/// Information about the location of application artifacts stored in Amazon S3.
-class S3Location {
-  /// The name of the Amazon S3 bucket where the application revision is stored.
-  final String? bucket;
-
-  /// The file type of the application revision. Must be one of the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>tar</code>: A tar archive file.
-  /// </li>
-  /// <li>
-  /// <code>tgz</code>: A compressed tar archive file.
-  /// </li>
-  /// <li>
-  /// <code>zip</code>: A zip archive file.
-  /// </li>
-  /// <li>
-  /// <code>YAML</code>: A YAML-formatted file.
-  /// </li>
-  /// <li>
-  /// <code>JSON</code>: A JSON-formatted file.
-  /// </li>
-  /// </ul>
-  final BundleType? bundleType;
-
-  /// The ETag of the Amazon S3 object that represents the bundled artifacts for
-  /// the application revision.
-  ///
-  /// If the ETag is not specified as an input parameter, ETag validation of the
-  /// object is skipped.
-  final String? eTag;
-
-  /// The name of the Amazon S3 object that represents the bundled artifacts for
-  /// the application revision.
-  final String? key;
-
-  /// A specific version of the Amazon S3 object that represents the bundled
-  /// artifacts for the application revision.
-  ///
-  /// If the version is not specified, the system uses the most recent version by
-  /// default.
-  final String? version;
-
-  S3Location({
-    this.bucket,
-    this.bundleType,
-    this.eTag,
-    this.key,
-    this.version,
-  });
-
-  factory S3Location.fromJson(Map<String, dynamic> json) {
-    return S3Location(
-      bucket: json['bucket'] as String?,
-      bundleType: (json['bundleType'] as String?)?.let(BundleType.fromString),
-      eTag: json['eTag'] as String?,
-      key: json['key'] as String?,
-      version: json['version'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucket = this.bucket;
-    final bundleType = this.bundleType;
-    final eTag = this.eTag;
-    final key = this.key;
-    final version = this.version;
-    return {
-      if (bucket != null) 'bucket': bucket,
-      if (bundleType != null) 'bundleType': bundleType.value,
-      if (eTag != null) 'eTag': eTag,
-      if (key != null) 'key': key,
-      if (version != null) 'version': version,
-    };
-  }
-}
-
-class SortOrder {
-  static const ascending = SortOrder._('ascending');
-  static const descending = SortOrder._('descending');
-
-  final String value;
-
-  const SortOrder._(this.value);
-
-  static const values = [ascending, descending];
-
-  static SortOrder fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
-
-  @override
-  bool operator ==(other) => other is SortOrder && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents the output of a <code>StopDeployment</code> operation.
-class StopDeploymentOutput {
-  /// The status of the stop deployment operation:
-  ///
-  /// <ul>
-  /// <li>
-  /// Pending: The stop operation is pending.
-  /// </li>
-  /// <li>
-  /// Succeeded: The stop operation was successful.
-  /// </li>
-  /// </ul>
-  final StopStatus? status;
-
-  /// An accompanying status message.
-  final String? statusMessage;
-
-  StopDeploymentOutput({
-    this.status,
-    this.statusMessage,
-  });
-
-  factory StopDeploymentOutput.fromJson(Map<String, dynamic> json) {
-    return StopDeploymentOutput(
-      status: (json['status'] as String?)?.let(StopStatus.fromString),
-      statusMessage: json['statusMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final status = this.status;
-    final statusMessage = this.statusMessage;
-    return {
-      if (status != null) 'status': status.value,
-      if (statusMessage != null) 'statusMessage': statusMessage,
-    };
-  }
-}
-
-class StopStatus {
-  static const pending = StopStatus._('Pending');
-  static const succeeded = StopStatus._('Succeeded');
-
-  final String value;
-
-  const StopStatus._(this.value);
-
-  static const values = [pending, succeeded];
-
-  static StopStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => StopStatus._(value));
-
-  @override
-  bool operator ==(other) => other is StopStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about a tag.
-class Tag {
-  /// The tag's key.
-  final String? key;
-
-  /// The tag's value.
-  final String? value;
-
-  Tag({
-    this.key,
-    this.value,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: json['Key'] as String?,
-      value: json['Value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      if (key != null) 'Key': key,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-/// Information about an on-premises instance tag filter.
-class TagFilter {
-  /// The on-premises instance tag filter key.
-  final String? key;
-
-  /// The on-premises instance tag filter type:
-  ///
-  /// <ul>
-  /// <li>
-  /// KEY_ONLY: Key only.
-  /// </li>
-  /// <li>
-  /// VALUE_ONLY: Value only.
-  /// </li>
-  /// <li>
-  /// KEY_AND_VALUE: Key and value.
-  /// </li>
-  /// </ul>
-  final TagFilterType? type;
-
-  /// The on-premises instance tag filter value.
-  final String? value;
-
-  TagFilter({
-    this.key,
-    this.type,
-    this.value,
-  });
-
-  factory TagFilter.fromJson(Map<String, dynamic> json) {
-    return TagFilter(
-      key: json['Key'] as String?,
-      type: (json['Type'] as String?)?.let(TagFilterType.fromString),
-      value: json['Value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final type = this.type;
-    final value = this.value;
-    return {
-      if (key != null) 'Key': key,
-      if (type != null) 'Type': type.value,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-class TagFilterType {
-  static const keyOnly = TagFilterType._('KEY_ONLY');
-  static const valueOnly = TagFilterType._('VALUE_ONLY');
-  static const keyAndValue = TagFilterType._('KEY_AND_VALUE');
-
-  final String value;
-
-  const TagFilterType._(this.value);
-
-  static const values = [keyOnly, valueOnly, keyAndValue];
-
-  static TagFilterType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TagFilterType._(value));
-
-  @override
-  bool operator ==(other) => other is TagFilterType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class TagResourceOutput {
-  TagResourceOutput();
-
-  factory TagResourceOutput.fromJson(Map<String, dynamic> _) {
-    return TagResourceOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class TargetFilterName {
-  static const targetStatus = TargetFilterName._('TargetStatus');
-  static const serverInstanceLabel = TargetFilterName._('ServerInstanceLabel');
-
-  final String value;
-
-  const TargetFilterName._(this.value);
-
-  static const values = [targetStatus, serverInstanceLabel];
-
-  static TargetFilterName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TargetFilterName._(value));
-
-  @override
-  bool operator ==(other) => other is TargetFilterName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about a target group in Elastic Load Balancing to use in a
-/// deployment. Instances are registered as targets in a target group, and
-/// traffic is routed to the target group.
-class TargetGroupInfo {
-  /// For blue/green deployments, the name of the target group that instances in
-  /// the original environment are deregistered from, and instances in the
-  /// replacement environment are registered with. For in-place deployments, the
-  /// name of the target group that instances are deregistered from, so they are
-  /// not serving traffic during a deployment, and then re-registered with after
-  /// the deployment is complete.
-  final String? name;
-
-  TargetGroupInfo({
-    this.name,
-  });
-
-  factory TargetGroupInfo.fromJson(Map<String, dynamic> json) {
-    return TargetGroupInfo(
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    return {
-      if (name != null) 'name': name,
-    };
-  }
-}
-
-/// Information about two target groups and how traffic is routed during an
-/// Amazon ECS deployment. An optional test traffic route can be specified.
-class TargetGroupPairInfo {
-  /// The path used by a load balancer to route production traffic when an Amazon
-  /// ECS deployment is complete.
-  final TrafficRoute? prodTrafficRoute;
-
-  /// One pair of target groups. One is associated with the original task set. The
-  /// second is associated with the task set that serves traffic after the
-  /// deployment is complete.
-  final List<TargetGroupInfo>? targetGroups;
-
-  /// An optional path used by a load balancer to route test traffic after an
-  /// Amazon ECS deployment. Validation can occur while test traffic is served
-  /// during a deployment.
-  final TrafficRoute? testTrafficRoute;
-
-  TargetGroupPairInfo({
-    this.prodTrafficRoute,
-    this.targetGroups,
-    this.testTrafficRoute,
-  });
-
-  factory TargetGroupPairInfo.fromJson(Map<String, dynamic> json) {
-    return TargetGroupPairInfo(
-      prodTrafficRoute: json['prodTrafficRoute'] != null
-          ? TrafficRoute.fromJson(
-              json['prodTrafficRoute'] as Map<String, dynamic>)
-          : null,
-      targetGroups: (json['targetGroups'] as List?)
-          ?.nonNulls
-          .map((e) => TargetGroupInfo.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      testTrafficRoute: json['testTrafficRoute'] != null
-          ? TrafficRoute.fromJson(
-              json['testTrafficRoute'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final prodTrafficRoute = this.prodTrafficRoute;
-    final targetGroups = this.targetGroups;
-    final testTrafficRoute = this.testTrafficRoute;
-    return {
-      if (prodTrafficRoute != null) 'prodTrafficRoute': prodTrafficRoute,
-      if (targetGroups != null) 'targetGroups': targetGroups,
-      if (testTrafficRoute != null) 'testTrafficRoute': testTrafficRoute,
-    };
-  }
-}
-
-/// Information about the instances to be used in the replacement environment in
-/// a blue/green deployment.
-class TargetInstances {
-  /// The names of one or more Auto Scaling groups to identify a replacement
-  /// environment for a blue/green deployment.
-  final List<String>? autoScalingGroups;
-
-  /// Information about the groups of Amazon EC2 instance tags that an instance
-  /// must be identified by in order for it to be included in the replacement
-  /// environment for a blue/green deployment. Cannot be used in the same call as
-  /// <code>tagFilters</code>.
-  final EC2TagSet? ec2TagSet;
-
-  /// The tag filter key, type, and value used to identify Amazon EC2 instances in
-  /// a replacement environment for a blue/green deployment. Cannot be used in the
-  /// same call as <code>ec2TagSet</code>.
-  final List<EC2TagFilter>? tagFilters;
-
-  TargetInstances({
-    this.autoScalingGroups,
-    this.ec2TagSet,
-    this.tagFilters,
-  });
-
-  factory TargetInstances.fromJson(Map<String, dynamic> json) {
-    return TargetInstances(
-      autoScalingGroups: (json['autoScalingGroups'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      ec2TagSet: json['ec2TagSet'] != null
-          ? EC2TagSet.fromJson(json['ec2TagSet'] as Map<String, dynamic>)
-          : null,
-      tagFilters: (json['tagFilters'] as List?)
-          ?.nonNulls
-          .map((e) => EC2TagFilter.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final autoScalingGroups = this.autoScalingGroups;
-    final ec2TagSet = this.ec2TagSet;
-    final tagFilters = this.tagFilters;
-    return {
-      if (autoScalingGroups != null) 'autoScalingGroups': autoScalingGroups,
-      if (ec2TagSet != null) 'ec2TagSet': ec2TagSet,
-      if (tagFilters != null) 'tagFilters': tagFilters,
-    };
-  }
-}
-
-class TargetLabel {
-  static const blue = TargetLabel._('Blue');
-  static const green = TargetLabel._('Green');
-
-  final String value;
-
-  const TargetLabel._(this.value);
-
-  static const values = [blue, green];
-
-  static TargetLabel fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => TargetLabel._(value));
-
-  @override
-  bool operator ==(other) => other is TargetLabel && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class TargetStatus {
-  static const pending = TargetStatus._('Pending');
-  static const inProgress = TargetStatus._('InProgress');
-  static const succeeded = TargetStatus._('Succeeded');
-  static const failed = TargetStatus._('Failed');
-  static const skipped = TargetStatus._('Skipped');
-  static const unknown = TargetStatus._('Unknown');
-  static const ready = TargetStatus._('Ready');
-
-  final String value;
-
-  const TargetStatus._(this.value);
-
-  static const values = [
-    pending,
-    inProgress,
-    succeeded,
-    failed,
-    skipped,
-    unknown,
-    ready
-  ];
-
-  static TargetStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => TargetStatus._(value));
-
-  @override
-  bool operator ==(other) => other is TargetStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A configuration that shifts traffic from one version of a Lambda function or
-/// Amazon ECS task set to another in two increments. The original and target
-/// Lambda function versions or ECS task sets are specified in the deployment's
-/// AppSpec file.
-class TimeBasedCanary {
-  /// The number of minutes between the first and second traffic shifts of a
-  /// <code>TimeBasedCanary</code> deployment.
-  final int? canaryInterval;
-
-  /// The percentage of traffic to shift in the first increment of a
-  /// <code>TimeBasedCanary</code> deployment.
-  final int? canaryPercentage;
-
-  TimeBasedCanary({
-    this.canaryInterval,
-    this.canaryPercentage,
-  });
-
-  factory TimeBasedCanary.fromJson(Map<String, dynamic> json) {
-    return TimeBasedCanary(
-      canaryInterval: json['canaryInterval'] as int?,
-      canaryPercentage: json['canaryPercentage'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final canaryInterval = this.canaryInterval;
-    final canaryPercentage = this.canaryPercentage;
-    return {
-      if (canaryInterval != null) 'canaryInterval': canaryInterval,
-      if (canaryPercentage != null) 'canaryPercentage': canaryPercentage,
-    };
-  }
-}
-
-/// A configuration that shifts traffic from one version of a Lambda function or
-/// ECS task set to another in equal increments, with an equal number of minutes
-/// between each increment. The original and target Lambda function versions or
-/// ECS task sets are specified in the deployment's AppSpec file.
-class TimeBasedLinear {
-  /// The number of minutes between each incremental traffic shift of a
-  /// <code>TimeBasedLinear</code> deployment.
-  final int? linearInterval;
-
-  /// The percentage of traffic that is shifted at the start of each increment of
-  /// a <code>TimeBasedLinear</code> deployment.
-  final int? linearPercentage;
-
-  TimeBasedLinear({
-    this.linearInterval,
-    this.linearPercentage,
-  });
-
-  factory TimeBasedLinear.fromJson(Map<String, dynamic> json) {
-    return TimeBasedLinear(
-      linearInterval: json['linearInterval'] as int?,
-      linearPercentage: json['linearPercentage'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final linearInterval = this.linearInterval;
-    final linearPercentage = this.linearPercentage;
-    return {
-      if (linearInterval != null) 'linearInterval': linearInterval,
-      if (linearPercentage != null) 'linearPercentage': linearPercentage,
-    };
-  }
-}
-
-/// Information about a time range.
-class TimeRange {
-  /// The end time of the time range.
-  /// <note>
-  /// Specify null to leave the end time open-ended.
-  /// </note>
-  final DateTime? end;
-
-  /// The start time of the time range.
-  /// <note>
-  /// Specify null to leave the start time open-ended.
-  /// </note>
-  final DateTime? start;
-
-  TimeRange({
-    this.end,
-    this.start,
-  });
-
-  Map<String, dynamic> toJson() {
-    final end = this.end;
-    final start = this.start;
-    return {
-      if (end != null) 'end': unixTimestampToJson(end),
-      if (start != null) 'start': unixTimestampToJson(start),
-    };
-  }
-}
-
-/// Information about a listener. The listener contains the path used to route
-/// traffic that is received from the load balancer to a target group.
-class TrafficRoute {
-  /// The Amazon Resource Name (ARN) of one listener. The listener identifies the
-  /// route between a target group and a load balancer. This is an array of
-  /// strings with a maximum size of one.
-  final List<String>? listenerArns;
-
-  TrafficRoute({
-    this.listenerArns,
-  });
-
-  factory TrafficRoute.fromJson(Map<String, dynamic> json) {
-    return TrafficRoute(
-      listenerArns: (json['listenerArns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final listenerArns = this.listenerArns;
-    return {
-      if (listenerArns != null) 'listenerArns': listenerArns,
-    };
-  }
-}
-
-/// The configuration that specifies how traffic is shifted from one version of
-/// a Lambda function to another version during an Lambda deployment, or from
-/// one Amazon ECS task set to another during an Amazon ECS deployment.
-class TrafficRoutingConfig {
-  /// A configuration that shifts traffic from one version of a Lambda function or
-  /// ECS task set to another in two increments. The original and target Lambda
-  /// function versions or ECS task sets are specified in the deployment's AppSpec
-  /// file.
-  final TimeBasedCanary? timeBasedCanary;
-
-  /// A configuration that shifts traffic from one version of a Lambda function or
-  /// Amazon ECS task set to another in equal increments, with an equal number of
-  /// minutes between each increment. The original and target Lambda function
-  /// versions or Amazon ECS task sets are specified in the deployment's AppSpec
-  /// file.
-  final TimeBasedLinear? timeBasedLinear;
-
-  /// The type of traffic shifting (<code>TimeBasedCanary</code> or
-  /// <code>TimeBasedLinear</code>) used by a deployment configuration.
-  final TrafficRoutingType? type;
-
-  TrafficRoutingConfig({
-    this.timeBasedCanary,
-    this.timeBasedLinear,
-    this.type,
-  });
-
-  factory TrafficRoutingConfig.fromJson(Map<String, dynamic> json) {
-    return TrafficRoutingConfig(
-      timeBasedCanary: json['timeBasedCanary'] != null
-          ? TimeBasedCanary.fromJson(
-              json['timeBasedCanary'] as Map<String, dynamic>)
-          : null,
-      timeBasedLinear: json['timeBasedLinear'] != null
-          ? TimeBasedLinear.fromJson(
-              json['timeBasedLinear'] as Map<String, dynamic>)
-          : null,
-      type: (json['type'] as String?)?.let(TrafficRoutingType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final timeBasedCanary = this.timeBasedCanary;
-    final timeBasedLinear = this.timeBasedLinear;
-    final type = this.type;
-    return {
-      if (timeBasedCanary != null) 'timeBasedCanary': timeBasedCanary,
-      if (timeBasedLinear != null) 'timeBasedLinear': timeBasedLinear,
-      if (type != null) 'type': type.value,
-    };
-  }
-}
-
-class TrafficRoutingType {
-  static const timeBasedCanary = TrafficRoutingType._('TimeBasedCanary');
-  static const timeBasedLinear = TrafficRoutingType._('TimeBasedLinear');
-  static const allAtOnce = TrafficRoutingType._('AllAtOnce');
-
-  final String value;
-
-  const TrafficRoutingType._(this.value);
-
-  static const values = [timeBasedCanary, timeBasedLinear, allAtOnce];
-
-  static TrafficRoutingType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TrafficRoutingType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is TrafficRoutingType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about notification triggers for the deployment group.
-class TriggerConfig {
-  /// The event type or types for which notifications are triggered.
-  final List<TriggerEventType>? triggerEvents;
-
-  /// The name of the notification trigger.
-  final String? triggerName;
-
-  /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service
-  /// topic through which notifications about deployment or instance events are
-  /// sent.
-  final String? triggerTargetArn;
-
-  TriggerConfig({
-    this.triggerEvents,
-    this.triggerName,
-    this.triggerTargetArn,
-  });
-
-  factory TriggerConfig.fromJson(Map<String, dynamic> json) {
-    return TriggerConfig(
-      triggerEvents: (json['triggerEvents'] as List?)
-          ?.nonNulls
-          .map((e) => TriggerEventType.fromString((e as String)))
-          .toList(),
-      triggerName: json['triggerName'] as String?,
-      triggerTargetArn: json['triggerTargetArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final triggerEvents = this.triggerEvents;
-    final triggerName = this.triggerName;
-    final triggerTargetArn = this.triggerTargetArn;
-    return {
-      if (triggerEvents != null)
-        'triggerEvents': triggerEvents.map((e) => e.value).toList(),
-      if (triggerName != null) 'triggerName': triggerName,
-      if (triggerTargetArn != null) 'triggerTargetArn': triggerTargetArn,
-    };
-  }
-}
-
-class TriggerEventType {
-  static const deploymentStart = TriggerEventType._('DeploymentStart');
-  static const deploymentSuccess = TriggerEventType._('DeploymentSuccess');
-  static const deploymentFailure = TriggerEventType._('DeploymentFailure');
-  static const deploymentStop = TriggerEventType._('DeploymentStop');
-  static const deploymentRollback = TriggerEventType._('DeploymentRollback');
-  static const deploymentReady = TriggerEventType._('DeploymentReady');
-  static const instanceStart = TriggerEventType._('InstanceStart');
-  static const instanceSuccess = TriggerEventType._('InstanceSuccess');
-  static const instanceFailure = TriggerEventType._('InstanceFailure');
-  static const instanceReady = TriggerEventType._('InstanceReady');
-
-  final String value;
-
-  const TriggerEventType._(this.value);
-
-  static const values = [
-    deploymentStart,
-    deploymentSuccess,
-    deploymentFailure,
-    deploymentStop,
-    deploymentRollback,
-    deploymentReady,
-    instanceStart,
-    instanceSuccess,
-    instanceFailure,
-    instanceReady
-  ];
-
-  static TriggerEventType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TriggerEventType._(value));
-
-  @override
-  bool operator ==(other) => other is TriggerEventType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class UntagResourceOutput {
-  UntagResourceOutput();
-
-  factory UntagResourceOutput.fromJson(Map<String, dynamic> _) {
-    return UntagResourceOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Represents the output of an <code>UpdateDeploymentGroup</code> operation.
-class UpdateDeploymentGroupOutput {
-  /// If the output contains no data, and the corresponding deployment group
-  /// contained at least one Auto Scaling group, CodeDeploy successfully removed
-  /// all corresponding Auto Scaling lifecycle event hooks from the Amazon Web
-  /// Services account. If the output contains data, CodeDeploy could not remove
-  /// some Auto Scaling lifecycle event hooks from the Amazon Web Services
-  /// account.
-  final List<AutoScalingGroup>? hooksNotCleanedUp;
-
-  UpdateDeploymentGroupOutput({
-    this.hooksNotCleanedUp,
-  });
-
-  factory UpdateDeploymentGroupOutput.fromJson(Map<String, dynamic> json) {
-    return UpdateDeploymentGroupOutput(
-      hooksNotCleanedUp: (json['hooksNotCleanedUp'] as List?)
-          ?.nonNulls
-          .map((e) => AutoScalingGroup.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hooksNotCleanedUp = this.hooksNotCleanedUp;
-    return {
-      if (hooksNotCleanedUp != null) 'hooksNotCleanedUp': hooksNotCleanedUp,
-    };
-  }
-}
-
-/// Configure the <code>ZonalConfig</code> object if you want CodeDeploy to
-/// deploy your application to one <a
-/// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-availability-zones">Availability
-/// Zone</a> at a time, within an Amazon Web Services Region. By deploying to
-/// one Availability Zone at a time, you can expose your deployment to a
-/// progressively larger audience as confidence in the deployment's performance
-/// and viability grows. If you don't configure the <code>ZonalConfig</code>
-/// object, CodeDeploy deploys your application to a random selection of hosts
-/// across a Region.
-///
-/// For more information about the zonal configuration feature, see <a
-/// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations-create.html#zonal-config">zonal
-/// configuration</a> in the <i>CodeDeploy User Guide</i>.
-class ZonalConfig {
-  /// The period of time, in seconds, that CodeDeploy must wait after completing a
-  /// deployment to the <i>first</i> Availability Zone. CodeDeploy will wait this
-  /// amount of time before starting a deployment to the second Availability Zone.
-  /// You might set this option if you want to allow extra bake time for the first
-  /// Availability Zone. If you don't specify a value for
-  /// <code>firstZoneMonitorDurationInSeconds</code>, then CodeDeploy uses the
-  /// <code>monitorDurationInSeconds</code> value for the first Availability Zone.
-  ///
-  /// For more information about the zonal configuration feature, see <a
-  /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations-create.html#zonal-config">zonal
-  /// configuration</a> in the <i>CodeDeploy User Guide</i>.
-  final int? firstZoneMonitorDurationInSeconds;
-
-  /// The number or percentage of instances that must remain available per
-  /// Availability Zone during a deployment. This option works in conjunction with
-  /// the <code>MinimumHealthyHosts</code> option. For more information, see <a
-  /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/instances-health.html#minimum-healthy-hosts-az">About
-  /// the minimum number of healthy hosts per Availability Zone</a> in the
-  /// <i>CodeDeploy User Guide</i>.
-  ///
-  /// If you don't specify the <code>minimumHealthyHostsPerZone</code> option,
-  /// then CodeDeploy uses a default value of <code>0</code> percent.
-  ///
-  /// For more information about the zonal configuration feature, see <a
-  /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations-create.html#zonal-config">zonal
-  /// configuration</a> in the <i>CodeDeploy User Guide</i>.
-  final MinimumHealthyHostsPerZone? minimumHealthyHostsPerZone;
-
-  /// The period of time, in seconds, that CodeDeploy must wait after completing a
-  /// deployment to an Availability Zone. CodeDeploy will wait this amount of time
-  /// before starting a deployment to the next Availability Zone. Consider adding
-  /// a monitor duration to give the deployment some time to prove itself (or
-  /// 'bake') in one Availability Zone before it is released in the next zone. If
-  /// you don't specify a <code>monitorDurationInSeconds</code>, CodeDeploy starts
-  /// deploying to the next Availability Zone immediately.
-  ///
-  /// For more information about the zonal configuration feature, see <a
-  /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations-create.html#zonal-config">zonal
-  /// configuration</a> in the <i>CodeDeploy User Guide</i>.
-  final int? monitorDurationInSeconds;
-
-  ZonalConfig({
-    this.firstZoneMonitorDurationInSeconds,
-    this.minimumHealthyHostsPerZone,
-    this.monitorDurationInSeconds,
-  });
-
-  factory ZonalConfig.fromJson(Map<String, dynamic> json) {
-    return ZonalConfig(
-      firstZoneMonitorDurationInSeconds:
-          json['firstZoneMonitorDurationInSeconds'] as int?,
-      minimumHealthyHostsPerZone: json['minimumHealthyHostsPerZone'] != null
-          ? MinimumHealthyHostsPerZone.fromJson(
-              json['minimumHealthyHostsPerZone'] as Map<String, dynamic>)
-          : null,
-      monitorDurationInSeconds: json['monitorDurationInSeconds'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final firstZoneMonitorDurationInSeconds =
-        this.firstZoneMonitorDurationInSeconds;
-    final minimumHealthyHostsPerZone = this.minimumHealthyHostsPerZone;
-    final monitorDurationInSeconds = this.monitorDurationInSeconds;
-    return {
-      if (firstZoneMonitorDurationInSeconds != null)
-        'firstZoneMonitorDurationInSeconds': firstZoneMonitorDurationInSeconds,
-      if (minimumHealthyHostsPerZone != null)
-        'minimumHealthyHostsPerZone': minimumHealthyHostsPerZone,
-      if (monitorDurationInSeconds != null)
-        'monitorDurationInSeconds': monitorDurationInSeconds,
     };
   }
 }

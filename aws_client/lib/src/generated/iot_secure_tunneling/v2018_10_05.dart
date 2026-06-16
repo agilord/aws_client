@@ -350,30 +350,6 @@ class IoTSecureTunneling {
   }
 }
 
-class ClientMode {
-  static const source = ClientMode._('SOURCE');
-  static const destination = ClientMode._('DESTINATION');
-  static const all = ClientMode._('ALL');
-
-  final String value;
-
-  const ClientMode._(this.value);
-
-  static const values = [source, destination, all];
-
-  static ClientMode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ClientMode._(value));
-
-  @override
-  bool operator ==(other) => other is ClientMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class CloseTunnelResponse {
   CloseTunnelResponse();
 
@@ -384,62 +360,6 @@ class CloseTunnelResponse {
   Map<String, dynamic> toJson() {
     return {};
   }
-}
-
-/// The state of a connection.
-class ConnectionState {
-  /// The last time the connection status was updated.
-  final DateTime? lastUpdatedAt;
-
-  /// The connection status of the tunnel. Valid values are <code>CONNECTED</code>
-  /// and <code>DISCONNECTED</code>.
-  final ConnectionStatus? status;
-
-  ConnectionState({
-    this.lastUpdatedAt,
-    this.status,
-  });
-
-  factory ConnectionState.fromJson(Map<String, dynamic> json) {
-    return ConnectionState(
-      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
-      status: (json['status'] as String?)?.let(ConnectionStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lastUpdatedAt = this.lastUpdatedAt;
-    final status = this.status;
-    return {
-      if (lastUpdatedAt != null)
-        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
-      if (status != null) 'status': status.value,
-    };
-  }
-}
-
-class ConnectionStatus {
-  static const connected = ConnectionStatus._('CONNECTED');
-  static const disconnected = ConnectionStatus._('DISCONNECTED');
-
-  final String value;
-
-  const ConnectionStatus._(this.value);
-
-  static const values = [connected, disconnected];
-
-  static ConnectionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConnectionStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ConnectionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class DescribeTunnelResponse {
@@ -462,43 +382,6 @@ class DescribeTunnelResponse {
     final tunnel = this.tunnel;
     return {
       if (tunnel != null) 'tunnel': tunnel,
-    };
-  }
-}
-
-/// The destination configuration.
-class DestinationConfig {
-  /// A list of service names that identify the target application. The IoT client
-  /// running on the destination device reads this value and uses it to look up a
-  /// port or an IP address and a port. The IoT client instantiates the local
-  /// proxy, which uses this information to connect to the destination
-  /// application.
-  final List<String> services;
-
-  /// The name of the IoT thing to which you want to connect.
-  final String? thingName;
-
-  DestinationConfig({
-    required this.services,
-    this.thingName,
-  });
-
-  factory DestinationConfig.fromJson(Map<String, dynamic> json) {
-    return DestinationConfig(
-      services: ((json['services'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      thingName: json['thingName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final services = this.services;
-    final thingName = this.thingName;
-    return {
-      'services': services,
-      if (thingName != null) 'thingName': thingName,
     };
   }
 }
@@ -646,6 +529,30 @@ class RotateTunnelAccessTokenResponse {
   }
 }
 
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 /// An arbitary key/value pair used to add searchable metadata to secure tunnel
 /// resources.
 class Tag {
@@ -677,15 +584,64 @@ class Tag {
   }
 }
 
-class TagResourceResponse {
-  TagResourceResponse();
+class ClientMode {
+  static const source = ClientMode._('SOURCE');
+  static const destination = ClientMode._('DESTINATION');
+  static const all = ClientMode._('ALL');
 
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
+  final String value;
+
+  const ClientMode._(this.value);
+
+  static const values = [source, destination, all];
+
+  static ClientMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ClientMode._(value));
+
+  @override
+  bool operator ==(other) => other is ClientMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The destination configuration.
+class DestinationConfig {
+  /// A list of service names that identify the target application. The IoT client
+  /// running on the destination device reads this value and uses it to look up a
+  /// port or an IP address and a port. The IoT client instantiates the local
+  /// proxy, which uses this information to connect to the destination
+  /// application.
+  final List<String> services;
+
+  /// The name of the IoT thing to which you want to connect.
+  final String? thingName;
+
+  DestinationConfig({
+    required this.services,
+    this.thingName,
+  });
+
+  factory DestinationConfig.fromJson(Map<String, dynamic> json) {
+    return DestinationConfig(
+      services: ((json['services'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      thingName: json['thingName'] as String?,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final services = this.services;
+    final thingName = this.thingName;
+    return {
+      'services': services,
+      if (thingName != null) 'thingName': thingName,
+    };
   }
 }
 
@@ -713,6 +669,88 @@ class TimeoutConfig {
         'maxLifetimeTimeoutMinutes': maxLifetimeTimeoutMinutes,
     };
   }
+}
+
+/// Information about the tunnel.
+class TunnelSummary {
+  /// The time the tunnel was created.
+  final DateTime? createdAt;
+
+  /// A description of the tunnel.
+  final String? description;
+
+  /// The time the tunnel was last updated.
+  final DateTime? lastUpdatedAt;
+
+  /// The status of a tunnel. Valid values are: Open and Closed.
+  final TunnelStatus? status;
+
+  /// The Amazon Resource Name of the tunnel.
+  final String? tunnelArn;
+
+  /// The unique alpha-numeric identifier for the tunnel.
+  final String? tunnelId;
+
+  TunnelSummary({
+    this.createdAt,
+    this.description,
+    this.lastUpdatedAt,
+    this.status,
+    this.tunnelArn,
+    this.tunnelId,
+  });
+
+  factory TunnelSummary.fromJson(Map<String, dynamic> json) {
+    return TunnelSummary(
+      createdAt: timeStampFromJson(json['createdAt']),
+      description: json['description'] as String?,
+      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+      status: (json['status'] as String?)?.let(TunnelStatus.fromString),
+      tunnelArn: json['tunnelArn'] as String?,
+      tunnelId: json['tunnelId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final status = this.status;
+    final tunnelArn = this.tunnelArn;
+    final tunnelId = this.tunnelId;
+    return {
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (description != null) 'description': description,
+      if (lastUpdatedAt != null)
+        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (status != null) 'status': status.value,
+      if (tunnelArn != null) 'tunnelArn': tunnelArn,
+      if (tunnelId != null) 'tunnelId': tunnelId,
+    };
+  }
+}
+
+class TunnelStatus {
+  static const open = TunnelStatus._('OPEN');
+  static const closed = TunnelStatus._('CLOSED');
+
+  final String value;
+
+  const TunnelStatus._(this.value);
+
+  static const values = [open, closed];
+
+  static TunnelStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TunnelStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TunnelStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A connection between a source computer and a destination device.
@@ -828,98 +866,60 @@ class Tunnel {
   }
 }
 
-class TunnelStatus {
-  static const open = TunnelStatus._('OPEN');
-  static const closed = TunnelStatus._('CLOSED');
+/// The state of a connection.
+class ConnectionState {
+  /// The last time the connection status was updated.
+  final DateTime? lastUpdatedAt;
+
+  /// The connection status of the tunnel. Valid values are <code>CONNECTED</code>
+  /// and <code>DISCONNECTED</code>.
+  final ConnectionStatus? status;
+
+  ConnectionState({
+    this.lastUpdatedAt,
+    this.status,
+  });
+
+  factory ConnectionState.fromJson(Map<String, dynamic> json) {
+    return ConnectionState(
+      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+      status: (json['status'] as String?)?.let(ConnectionStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final status = this.status;
+    return {
+      if (lastUpdatedAt != null)
+        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+class ConnectionStatus {
+  static const connected = ConnectionStatus._('CONNECTED');
+  static const disconnected = ConnectionStatus._('DISCONNECTED');
 
   final String value;
 
-  const TunnelStatus._(this.value);
+  const ConnectionStatus._(this.value);
 
-  static const values = [open, closed];
+  static const values = [connected, disconnected];
 
-  static TunnelStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => TunnelStatus._(value));
+  static ConnectionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectionStatus._(value));
 
   @override
-  bool operator ==(other) => other is TunnelStatus && other.value == value;
+  bool operator ==(other) => other is ConnectionStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
-}
-
-/// Information about the tunnel.
-class TunnelSummary {
-  /// The time the tunnel was created.
-  final DateTime? createdAt;
-
-  /// A description of the tunnel.
-  final String? description;
-
-  /// The time the tunnel was last updated.
-  final DateTime? lastUpdatedAt;
-
-  /// The status of a tunnel. Valid values are: Open and Closed.
-  final TunnelStatus? status;
-
-  /// The Amazon Resource Name of the tunnel.
-  final String? tunnelArn;
-
-  /// The unique alpha-numeric identifier for the tunnel.
-  final String? tunnelId;
-
-  TunnelSummary({
-    this.createdAt,
-    this.description,
-    this.lastUpdatedAt,
-    this.status,
-    this.tunnelArn,
-    this.tunnelId,
-  });
-
-  factory TunnelSummary.fromJson(Map<String, dynamic> json) {
-    return TunnelSummary(
-      createdAt: timeStampFromJson(json['createdAt']),
-      description: json['description'] as String?,
-      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
-      status: (json['status'] as String?)?.let(TunnelStatus.fromString),
-      tunnelArn: json['tunnelArn'] as String?,
-      tunnelId: json['tunnelId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final description = this.description;
-    final lastUpdatedAt = this.lastUpdatedAt;
-    final status = this.status;
-    final tunnelArn = this.tunnelArn;
-    final tunnelId = this.tunnelId;
-    return {
-      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
-      if (description != null) 'description': description,
-      if (lastUpdatedAt != null)
-        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
-      if (status != null) 'status': status.value,
-      if (tunnelArn != null) 'tunnelArn': tunnelArn,
-      if (tunnelId != null) 'tunnelId': tunnelId,
-    };
-  }
-}
-
-class UntagResourceResponse {
-  UntagResourceResponse();
-
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
 }
 
 class LimitExceededException extends _s.GenericAwsException {

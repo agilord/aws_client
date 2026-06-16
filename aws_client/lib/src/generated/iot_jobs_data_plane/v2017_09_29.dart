@@ -20,22 +20,33 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// AWS IoT Jobs is a service that allows you to define a set of jobs — remote
+/// IoT Jobs is a service that allows you to define a set of jobs — remote
 /// operations that are sent to and executed on one or more devices connected to
-/// AWS IoT. For example, you can define a job that instructs a set of devices
-/// to download and install application or firmware updates, reboot, rotate
-/// certificates, or perform remote troubleshooting operations.
+/// Amazon Web Services IoT Core. For example, you can define a job that
+/// instructs a set of devices to download and install application or firmware
+/// updates, reboot, rotate certificates, or perform remote troubleshooting
+/// operations.
+///
+/// Find the endpoint address for actions in the IoT jobs data plane by running
+/// this CLI command:
+///
+/// <code>aws iot describe-endpoint --endpoint-type iot:Jobs</code>
+///
+/// The service name used by <a
+/// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Amazon
+/// Web Services Signature Version 4</a> to sign requests is:
+/// <i>iot-jobs-data</i>.
 ///
 /// To create a job, you make a job document which is a description of the
 /// remote operations to be performed, and you specify a list of targets that
 /// should perform the operations. The targets can be individual things, thing
 /// groups or both.
 ///
-/// AWS IoT Jobs sends a message to inform the targets that a job is available.
-/// The target starts the execution of the job by downloading the job document,
-/// performing the operations it specifies, and reporting its progress to AWS
-/// IoT. The Jobs service provides commands to track the progress of a job on a
-/// specific target and for all the targets of the job
+/// IoT Jobs sends a message to inform the targets that a job is available. The
+/// target starts the execution of the job by downloading the job document,
+/// performing the operations it specifies, and reporting its progress to Amazon
+/// Web Services IoT Core. The Jobs service provides commands to track the
+/// progress of a job on a specific target and for all the targets of the job
 class IoTJobsDataPlane {
   final _s.RestJsonProtocol _protocol;
   IoTJobsDataPlane({
@@ -67,12 +78,16 @@ class IoTJobsDataPlane {
 
   /// Gets details of a job execution.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DescribeJobExecution</a>
+  /// action.
+  ///
+  /// May throw [CertificateValidationException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [ServiceUnavailableException].
-  /// May throw [CertificateValidationException].
   /// May throw [TerminalStateException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [jobId] :
   /// The unique identifier assigned to this job when it was created.
@@ -85,8 +100,8 @@ class IoTJobsDataPlane {
   /// particular device. If not specified, the latest job execution is returned.
   ///
   /// Parameter [includeJobDocument] :
-  /// Optional. When set to true, the response contains the job document. The
-  /// default is false.
+  /// Optional. Unless set to false, the response contains the job document. The
+  /// default is true.
   Future<DescribeJobExecutionResponse> describeJobExecution({
     required String jobId,
     required String thingName,
@@ -112,11 +127,15 @@ class IoTJobsDataPlane {
 
   /// Gets the list of all jobs for a thing that are not in a terminal status.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">GetPendingJobExecutions</a>
+  /// action.
+  ///
+  /// May throw [CertificateValidationException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [ServiceUnavailableException].
-  /// May throw [CertificateValidationException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [thingName] :
   /// The name of the thing that is executing the job.
@@ -132,14 +151,86 @@ class IoTJobsDataPlane {
     return GetPendingJobExecutionsResponse.fromJson(response);
   }
 
+  /// Using the command created with the <code>CreateCommand</code> API, start a
+  /// command execution on a specific device.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [commandArn] :
+  /// The Amazon Resource Number (ARN) of the command. For example,
+  /// <code>arn:aws:iot:<region>:<accountid>:command/<commandName></code>
+  ///
+  /// Parameter [targetArn] :
+  /// The Amazon Resource Number (ARN) of the device where the command execution
+  /// is occurring.
+  ///
+  /// Parameter [clientToken] :
+  /// The client token is used to implement idempotency. It ensures that the
+  /// request completes no more than one time. If you retry a request with the
+  /// same token and the same parameters, the request will complete
+  /// successfully. However, if you retry the request using the same token but
+  /// different parameters, an HTTP 409 conflict occurs. If you omit this value,
+  /// Amazon Web Services SDKs will automatically generate a unique client
+  /// request.
+  ///
+  /// Parameter [executionTimeoutSeconds] :
+  /// Specifies the amount of time in second the device has to finish the
+  /// command execution. A timer is started as soon as the command execution is
+  /// created. If the command execution status is not set to another terminal
+  /// state before the timer expires, it will automatically update to
+  /// <code>TIMED_OUT</code>.
+  ///
+  /// Parameter [parameters] :
+  /// A list of parameters that are required by the
+  /// <code>StartCommandExecution</code> API when performing the command on a
+  /// device.
+  Future<StartCommandExecutionResponse> startCommandExecution({
+    required String commandArn,
+    required String targetArn,
+    String? clientToken,
+    int? executionTimeoutSeconds,
+    Map<String, CommandParameterValue>? parameters,
+  }) async {
+    _s.validateNumRange(
+      'executionTimeoutSeconds',
+      executionTimeoutSeconds,
+      1,
+      1152921504606846976,
+    );
+    final $payload = <String, dynamic>{
+      'commandArn': commandArn,
+      'targetArn': targetArn,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (executionTimeoutSeconds != null)
+        'executionTimeoutSeconds': executionTimeoutSeconds,
+      if (parameters != null) 'parameters': parameters,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/command-executions',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartCommandExecutionResponse.fromJson(response);
+  }
+
   /// Gets and starts the next pending (status IN_PROGRESS or QUEUED) job
   /// execution for a thing.
   ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">StartNextPendingJobExecution</a>
+  /// action.
+  ///
+  /// May throw [CertificateValidationException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [ServiceUnavailableException].
-  /// May throw [CertificateValidationException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [thingName] :
   /// The name of the thing associated with the device.
@@ -148,17 +239,23 @@ class IoTJobsDataPlane {
   /// A collection of name/value pairs that describe the status of the job
   /// execution. If not specified, the statusDetails are unchanged.
   ///
+  /// The maximum length of the value in the name/value pair is 1,024
+  /// characters.
+  ///
   /// Parameter [stepTimeoutInMinutes] :
   /// Specifies the amount of time this device has to finish execution of this
   /// job. If the job execution status is not set to a terminal state before
   /// this timer expires, or before the timer is reset (by calling
   /// <code>UpdateJobExecution</code>, setting the status to
-  /// <code>IN_PROGRESS</code> and specifying a new timeout value in field
+  /// <code>IN_PROGRESS</code>, and specifying a new timeout value in field
   /// <code>stepTimeoutInMinutes</code>) the job execution status will be
-  /// automatically set to <code>TIMED_OUT</code>. Note that setting this
-  /// timeout has no effect on that job execution timeout which may have been
+  /// automatically set to <code>TIMED_OUT</code>. Note that setting the step
+  /// timeout has no effect on the in progress timeout that may have been
   /// specified when the job was created (<code>CreateJob</code> using field
   /// <code>timeoutConfig</code>).
+  ///
+  /// Valid values for this parameter range from 1 to 10080 (1 minute to 7
+  /// days).
   Future<StartNextPendingJobExecutionResponse> startNextPendingJobExecution({
     required String thingName,
     Map<String, String>? statusDetails,
@@ -180,12 +277,16 @@ class IoTJobsDataPlane {
 
   /// Updates the status of a job execution.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [ServiceUnavailableException].
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiotjobsdataplane.html">UpdateJobExecution</a>
+  /// action.
+  ///
   /// May throw [CertificateValidationException].
+  /// May throw [InvalidRequestException].
   /// May throw [InvalidStateTransitionException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [jobId] :
   /// The unique identifier assigned to this job when it was created.
@@ -222,17 +323,24 @@ class IoTJobsDataPlane {
   /// Optional. A collection of name/value pairs that describe the status of the
   /// job execution. If not specified, the statusDetails are unchanged.
   ///
+  /// The maximum length of the value in the name/value pair is 1,024
+  /// characters.
+  ///
   /// Parameter [stepTimeoutInMinutes] :
   /// Specifies the amount of time this device has to finish execution of this
   /// job. If the job execution status is not set to a terminal state before
   /// this timer expires, or before the timer is reset (by again calling
   /// <code>UpdateJobExecution</code>, setting the status to
-  /// <code>IN_PROGRESS</code> and specifying a new timeout value in this field)
-  /// the job execution status will be automatically set to
-  /// <code>TIMED_OUT</code>. Note that setting or resetting this timeout has no
-  /// effect on that job execution timeout which may have been specified when
+  /// <code>IN_PROGRESS</code>, and specifying a new timeout value in this
+  /// field) the job execution status will be automatically set to
+  /// <code>TIMED_OUT</code>. Note that setting or resetting the step timeout
+  /// has no effect on the in progress timeout that may have been specified when
   /// the job was created (<code>CreateJob</code> using field
   /// <code>timeoutConfig</code>).
+  ///
+  /// Valid values for this parameter range from 1 to 10080 (1 minute to 7
+  /// days). A value of -1 is also valid and will cancel the current step timer
+  /// (created by an earlier use of <code>UpdateJobExecutionRequest</code>).
   Future<UpdateJobExecutionResponse> updateJobExecution({
     required String jobId,
     required JobExecutionStatus status,
@@ -325,108 +433,81 @@ class GetPendingJobExecutionsResponse {
   }
 }
 
-/// Contains data about a job execution.
-class JobExecution {
-  /// The estimated number of seconds that remain before the job execution status
-  /// will be changed to <code>TIMED_OUT</code>.
-  final int? approximateSecondsBeforeTimedOut;
+class StartCommandExecutionResponse {
+  /// A unique identifier for the command execution.
+  final String? executionId;
 
-  /// A number that identifies a particular job execution on a particular device.
-  /// It can be used later in commands that return or update job execution
-  /// information.
-  final int? executionNumber;
-
-  /// The content of the job document.
-  final String? jobDocument;
-
-  /// The unique identifier you assigned to this job when it was created.
-  final String? jobId;
-
-  /// The time, in milliseconds since the epoch, when the job execution was last
-  /// updated.
-  final int? lastUpdatedAt;
-
-  /// The time, in milliseconds since the epoch, when the job execution was
-  /// enqueued.
-  final int? queuedAt;
-
-  /// The time, in milliseconds since the epoch, when the job execution was
-  /// started.
-  final int? startedAt;
-
-  /// The status of the job execution. Can be one of: "QUEUED", "IN_PROGRESS",
-  /// "FAILED", "SUCCESS", "CANCELED", "REJECTED", or "REMOVED".
-  final JobExecutionStatus? status;
-
-  /// A collection of name/value pairs that describe the status of the job
-  /// execution.
-  final Map<String, String>? statusDetails;
-
-  /// The name of the thing that is executing the job.
-  final String? thingName;
-
-  /// The version of the job execution. Job execution versions are incremented
-  /// each time they are updated by a device.
-  final int? versionNumber;
-
-  JobExecution({
-    this.approximateSecondsBeforeTimedOut,
-    this.executionNumber,
-    this.jobDocument,
-    this.jobId,
-    this.lastUpdatedAt,
-    this.queuedAt,
-    this.startedAt,
-    this.status,
-    this.statusDetails,
-    this.thingName,
-    this.versionNumber,
+  StartCommandExecutionResponse({
+    this.executionId,
   });
 
-  factory JobExecution.fromJson(Map<String, dynamic> json) {
-    return JobExecution(
-      approximateSecondsBeforeTimedOut:
-          json['approximateSecondsBeforeTimedOut'] as int?,
-      executionNumber: json['executionNumber'] as int?,
-      jobDocument: json['jobDocument'] as String?,
-      jobId: json['jobId'] as String?,
-      lastUpdatedAt: json['lastUpdatedAt'] as int?,
-      queuedAt: json['queuedAt'] as int?,
-      startedAt: json['startedAt'] as int?,
-      status: (json['status'] as String?)?.let(JobExecutionStatus.fromString),
-      statusDetails: (json['statusDetails'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      thingName: json['thingName'] as String?,
-      versionNumber: json['versionNumber'] as int?,
+  factory StartCommandExecutionResponse.fromJson(Map<String, dynamic> json) {
+    return StartCommandExecutionResponse(
+      executionId: json['executionId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final approximateSecondsBeforeTimedOut =
-        this.approximateSecondsBeforeTimedOut;
-    final executionNumber = this.executionNumber;
-    final jobDocument = this.jobDocument;
-    final jobId = this.jobId;
-    final lastUpdatedAt = this.lastUpdatedAt;
-    final queuedAt = this.queuedAt;
-    final startedAt = this.startedAt;
-    final status = this.status;
-    final statusDetails = this.statusDetails;
-    final thingName = this.thingName;
-    final versionNumber = this.versionNumber;
+    final executionId = this.executionId;
     return {
-      if (approximateSecondsBeforeTimedOut != null)
-        'approximateSecondsBeforeTimedOut': approximateSecondsBeforeTimedOut,
-      if (executionNumber != null) 'executionNumber': executionNumber,
+      if (executionId != null) 'executionId': executionId,
+    };
+  }
+}
+
+class StartNextPendingJobExecutionResponse {
+  /// A JobExecution object.
+  final JobExecution? execution;
+
+  StartNextPendingJobExecutionResponse({
+    this.execution,
+  });
+
+  factory StartNextPendingJobExecutionResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartNextPendingJobExecutionResponse(
+      execution: json['execution'] != null
+          ? JobExecution.fromJson(json['execution'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final execution = this.execution;
+    return {
+      if (execution != null) 'execution': execution,
+    };
+  }
+}
+
+class UpdateJobExecutionResponse {
+  /// A JobExecutionState object.
+  final JobExecutionState? executionState;
+
+  /// The contents of the Job Documents.
+  final String? jobDocument;
+
+  UpdateJobExecutionResponse({
+    this.executionState,
+    this.jobDocument,
+  });
+
+  factory UpdateJobExecutionResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateJobExecutionResponse(
+      executionState: json['executionState'] != null
+          ? JobExecutionState.fromJson(
+              json['executionState'] as Map<String, dynamic>)
+          : null,
+      jobDocument: json['jobDocument'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionState = this.executionState;
+    final jobDocument = this.jobDocument;
+    return {
+      if (executionState != null) 'executionState': executionState,
       if (jobDocument != null) 'jobDocument': jobDocument,
-      if (jobId != null) 'jobId': jobId,
-      if (lastUpdatedAt != null) 'lastUpdatedAt': lastUpdatedAt,
-      if (queuedAt != null) 'queuedAt': queuedAt,
-      if (startedAt != null) 'startedAt': startedAt,
-      if (status != null) 'status': status.value,
-      if (statusDetails != null) 'statusDetails': statusDetails,
-      if (thingName != null) 'thingName': thingName,
-      if (versionNumber != null) 'versionNumber': versionNumber,
     };
   }
 }
@@ -434,11 +515,13 @@ class JobExecution {
 /// Contains data about the state of a job execution.
 class JobExecutionState {
   /// The status of the job execution. Can be one of: "QUEUED", "IN_PROGRESS",
-  /// "FAILED", "SUCCESS", "CANCELED", "REJECTED", or "REMOVED".
+  /// "FAILED", "SUCCESS", "CANCELED", "TIMED_OUT", "REJECTED", or "REMOVED".
   final JobExecutionStatus? status;
 
   /// A collection of name/value pairs that describe the status of the job
   /// execution.
+  ///
+  /// The maximum length of the value in the name/value pair is 1,024 characters.
   final Map<String, String>? statusDetails;
 
   /// The version of the job execution. Job execution versions are incremented
@@ -512,6 +595,170 @@ class JobExecutionStatus {
   String toString() => value;
 }
 
+/// Contains data about a job execution.
+class JobExecution {
+  /// The estimated number of seconds that remain before the job execution status
+  /// will be changed to <code>TIMED_OUT</code>. The actual job execution timeout
+  /// can occur up to 60 seconds later than the estimated duration.
+  final int? approximateSecondsBeforeTimedOut;
+
+  /// A number that identifies a particular job execution on a particular device.
+  /// It can be used later in commands that return or update job execution
+  /// information.
+  final int? executionNumber;
+
+  /// The content of the job document.
+  final String? jobDocument;
+
+  /// The unique identifier you assigned to this job when it was created.
+  final String? jobId;
+
+  /// The time, in seconds since the epoch, when the job execution was last
+  /// updated.
+  final int? lastUpdatedAt;
+
+  /// The time, in seconds since the epoch, when the job execution was enqueued.
+  final int? queuedAt;
+
+  /// The time, in seconds since the epoch, when the job execution was started.
+  final int? startedAt;
+
+  /// The status of the job execution. Can be one of: "QUEUED", "IN_PROGRESS",
+  /// "FAILED", "SUCCESS", "CANCELED", "TIMED_OUT", "REJECTED", or "REMOVED".
+  final JobExecutionStatus? status;
+
+  /// A collection of name/value pairs that describe the status of the job
+  /// execution.
+  ///
+  /// The maximum length of the value in the name/value pair is 1,024 characters.
+  final Map<String, String>? statusDetails;
+
+  /// The name of the thing that is executing the job.
+  final String? thingName;
+
+  /// The version of the job execution. Job execution versions are incremented
+  /// each time they are updated by a device.
+  final int? versionNumber;
+
+  JobExecution({
+    this.approximateSecondsBeforeTimedOut,
+    this.executionNumber,
+    this.jobDocument,
+    this.jobId,
+    this.lastUpdatedAt,
+    this.queuedAt,
+    this.startedAt,
+    this.status,
+    this.statusDetails,
+    this.thingName,
+    this.versionNumber,
+  });
+
+  factory JobExecution.fromJson(Map<String, dynamic> json) {
+    return JobExecution(
+      approximateSecondsBeforeTimedOut:
+          json['approximateSecondsBeforeTimedOut'] as int?,
+      executionNumber: json['executionNumber'] as int?,
+      jobDocument: json['jobDocument'] as String?,
+      jobId: json['jobId'] as String?,
+      lastUpdatedAt: json['lastUpdatedAt'] as int?,
+      queuedAt: json['queuedAt'] as int?,
+      startedAt: json['startedAt'] as int?,
+      status: (json['status'] as String?)?.let(JobExecutionStatus.fromString),
+      statusDetails: (json['statusDetails'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      thingName: json['thingName'] as String?,
+      versionNumber: json['versionNumber'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approximateSecondsBeforeTimedOut =
+        this.approximateSecondsBeforeTimedOut;
+    final executionNumber = this.executionNumber;
+    final jobDocument = this.jobDocument;
+    final jobId = this.jobId;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final queuedAt = this.queuedAt;
+    final startedAt = this.startedAt;
+    final status = this.status;
+    final statusDetails = this.statusDetails;
+    final thingName = this.thingName;
+    final versionNumber = this.versionNumber;
+    return {
+      if (approximateSecondsBeforeTimedOut != null)
+        'approximateSecondsBeforeTimedOut': approximateSecondsBeforeTimedOut,
+      if (executionNumber != null) 'executionNumber': executionNumber,
+      if (jobDocument != null) 'jobDocument': jobDocument,
+      if (jobId != null) 'jobId': jobId,
+      if (lastUpdatedAt != null) 'lastUpdatedAt': lastUpdatedAt,
+      if (queuedAt != null) 'queuedAt': queuedAt,
+      if (startedAt != null) 'startedAt': startedAt,
+      if (status != null) 'status': status.value,
+      if (statusDetails != null) 'statusDetails': statusDetails,
+      if (thingName != null) 'thingName': thingName,
+      if (versionNumber != null) 'versionNumber': versionNumber,
+    };
+  }
+}
+
+/// The list of values used to describe a specific command parameter.
+class CommandParameterValue {
+  /// An attribute of type Boolean. For example:
+  ///
+  /// <code>"BOOL": true</code>
+  final bool? b;
+
+  /// An attribute of type Binary.
+  final Uint8List? bin;
+
+  /// An attribute of type Double (Sixty-Four Bits).
+  final double? d;
+
+  /// An attribute of type Integer (Thirty-Two Bits).
+  final int? i;
+
+  /// An attribute of type Long.
+  final int? l;
+
+  /// An attribute of type String. For example:
+  ///
+  /// <code>"S": "Hello"</code>
+  final String? s;
+
+  /// An attribute of type Unsigned Long.
+  final String? ul;
+
+  CommandParameterValue({
+    this.b,
+    this.bin,
+    this.d,
+    this.i,
+    this.l,
+    this.s,
+    this.ul,
+  });
+
+  Map<String, dynamic> toJson() {
+    final b = this.b;
+    final bin = this.bin;
+    final d = this.d;
+    final i = this.i;
+    final l = this.l;
+    final s = this.s;
+    final ul = this.ul;
+    return {
+      if (b != null) 'B': b,
+      if (bin != null) 'BIN': base64Encode(bin),
+      if (d != null) 'D': d,
+      if (i != null) 'I': i,
+      if (l != null) 'L': l,
+      if (s != null) 'S': s,
+      if (ul != null) 'UL': ul,
+    };
+  }
+}
+
 /// Contains a subset of information about a job execution.
 class JobExecutionSummary {
   /// A number that identifies a particular job execution on a particular device.
@@ -520,19 +767,18 @@ class JobExecutionSummary {
   /// The unique identifier you assigned to this job when it was created.
   final String? jobId;
 
-  /// The time, in milliseconds since the epoch, when the job execution was last
+  /// The time, in seconds since the epoch, when the job execution was last
   /// updated.
   final int? lastUpdatedAt;
 
-  /// The time, in milliseconds since the epoch, when the job execution was
-  /// enqueued.
+  /// The time, in seconds since the epoch, when the job execution was enqueued.
   final int? queuedAt;
 
-  /// The time, in milliseconds since the epoch, when the job execution started.
+  /// The time, in seconds since the epoch, when the job execution started.
   final int? startedAt;
 
   /// The version of the job execution. Job execution versions are incremented
-  /// each time AWS IoT Jobs receives an update from a device.
+  /// each time IoT Jobs receives an update from a device.
   final int? versionNumber;
 
   JobExecutionSummary({
@@ -573,69 +819,22 @@ class JobExecutionSummary {
   }
 }
 
-class StartNextPendingJobExecutionResponse {
-  /// A JobExecution object.
-  final JobExecution? execution;
-
-  StartNextPendingJobExecutionResponse({
-    this.execution,
-  });
-
-  factory StartNextPendingJobExecutionResponse.fromJson(
-      Map<String, dynamic> json) {
-    return StartNextPendingJobExecutionResponse(
-      execution: json['execution'] != null
-          ? JobExecution.fromJson(json['execution'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final execution = this.execution;
-    return {
-      if (execution != null) 'execution': execution,
-    };
-  }
-}
-
-class UpdateJobExecutionResponse {
-  /// A JobExecutionState object.
-  final JobExecutionState? executionState;
-
-  /// The contents of the Job Documents.
-  final String? jobDocument;
-
-  UpdateJobExecutionResponse({
-    this.executionState,
-    this.jobDocument,
-  });
-
-  factory UpdateJobExecutionResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateJobExecutionResponse(
-      executionState: json['executionState'] != null
-          ? JobExecutionState.fromJson(
-              json['executionState'] as Map<String, dynamic>)
-          : null,
-      jobDocument: json['jobDocument'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final executionState = this.executionState;
-    final jobDocument = this.jobDocument;
-    return {
-      if (executionState != null) 'executionState': executionState,
-      if (jobDocument != null) 'jobDocument': jobDocument,
-    };
-  }
-}
-
 class CertificateValidationException extends _s.GenericAwsException {
   CertificateValidationException({String? type, String? message})
       : super(
             type: type,
             code: 'CertificateValidationException',
             message: message);
+}
+
+class ConflictException extends _s.GenericAwsException {
+  ConflictException({String? type, String? message})
+      : super(type: type, code: 'ConflictException', message: message);
+}
+
+class InternalServerException extends _s.GenericAwsException {
+  InternalServerException({String? type, String? message})
+      : super(type: type, code: 'InternalServerException', message: message);
 }
 
 class InvalidRequestException extends _s.GenericAwsException {
@@ -656,6 +855,14 @@ class ResourceNotFoundException extends _s.GenericAwsException {
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+class ServiceQuotaExceededException extends _s.GenericAwsException {
+  ServiceQuotaExceededException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ServiceQuotaExceededException',
+            message: message);
+}
+
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
@@ -672,19 +879,32 @@ class ThrottlingException extends _s.GenericAwsException {
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+class ValidationException extends _s.GenericAwsException {
+  ValidationException({String? type, String? message})
+      : super(type: type, code: 'ValidationException', message: message);
+}
+
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'CertificateValidationException': (type, message) =>
       CertificateValidationException(type: type, message: message),
+  'ConflictException': (type, message) =>
+      ConflictException(type: type, message: message),
+  'InternalServerException': (type, message) =>
+      InternalServerException(type: type, message: message),
   'InvalidRequestException': (type, message) =>
       InvalidRequestException(type: type, message: message),
   'InvalidStateTransitionException': (type, message) =>
       InvalidStateTransitionException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
       ResourceNotFoundException(type: type, message: message),
+  'ServiceQuotaExceededException': (type, message) =>
+      ServiceQuotaExceededException(type: type, message: message),
   'ServiceUnavailableException': (type, message) =>
       ServiceUnavailableException(type: type, message: message),
   'TerminalStateException': (type, message) =>
       TerminalStateException(type: type, message: message),
   'ThrottlingException': (type, message) =>
       ThrottlingException(type: type, message: message),
+  'ValidationException': (type, message) =>
+      ValidationException(type: type, message: message),
 };

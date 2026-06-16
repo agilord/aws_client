@@ -34,7 +34,6 @@ class InspectorScan {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'inspector-scan',
-            signingName: 'inspector-scan',
           ),
           region: region,
           credentials: credentials,
@@ -53,21 +52,30 @@ class InspectorScan {
 
   /// Scans a provided CycloneDX 1.5 SBOM and reports on any vulnerabilities
   /// discovered in that SBOM. You can generate compatible SBOMs for your
-  /// resources using the <a href="">Amazon Inspector SBOM generator</a>.
+  /// resources using the <a
+  /// href="https://docs.aws.amazon.com/inspector/latest/user/sbom-generator.html">Amazon
+  /// Inspector SBOM generator</a>.
+  /// <note>
+  /// The output of this action reports NVD and CVSS scores when NVD and CVSS
+  /// scores are available. Because the output reports both scores, you might
+  /// notice a discrepency between them. However, you can triage the severity of
+  /// either score depending on the vendor of your choosing.
+  /// </note>
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [sbom] :
   /// The JSON file for the SBOM you want to scan. The SBOM must be in CycloneDX
-  /// 1.5 format.
+  /// 1.5 format. This format limits you to passing 2000 components before
+  /// throwing a <code>ValidException</code> error.
   ///
   /// Parameter [outputFormat] :
   /// The output format for the vulnerability report.
   Future<ScanSbomResponse> scanSbom({
-    required Sbom sbom,
+    required Object sbom,
     OutputFormat? outputFormat,
   }) async {
     final $payload = <String, dynamic>{
@@ -84,15 +92,38 @@ class InspectorScan {
   }
 }
 
+class ScanSbomResponse {
+  /// The vulnerability report for the scanned SBOM.
+  final Object? sbom;
+
+  ScanSbomResponse({
+    this.sbom,
+  });
+
+  factory ScanSbomResponse.fromJson(Map<String, dynamic> json) {
+    return ScanSbomResponse(
+      sbom: json['sbom'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sbom = this.sbom;
+    return {
+      if (sbom != null) 'sbom': sbom,
+    };
+  }
+}
+
 class OutputFormat {
   static const cycloneDx_1_5 = OutputFormat._('CYCLONE_DX_1_5');
   static const inspector = OutputFormat._('INSPECTOR');
+  static const inspectorAlt = OutputFormat._('INSPECTOR_ALT');
 
   final String value;
 
   const OutputFormat._(this.value);
 
-  static const values = [cycloneDx_1_5, inspector];
+  static const values = [cycloneDx_1_5, inspector, inspectorAlt];
 
   static OutputFormat fromString(String value) => values
       .firstWhere((e) => e.value == value, orElse: () => OutputFormat._(value));
@@ -105,42 +136,6 @@ class OutputFormat {
 
   @override
   String toString() => value;
-}
-
-class Sbom {
-  Sbom();
-
-  factory Sbom.fromJson(Map<String, dynamic> _) {
-    return Sbom();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class ScanSbomResponse {
-  /// The vulnerability report for the scanned SBOM.
-  final Sbom? sbom;
-
-  ScanSbomResponse({
-    this.sbom,
-  });
-
-  factory ScanSbomResponse.fromJson(Map<String, dynamic> json) {
-    return ScanSbomResponse(
-      sbom: json['sbom'] != null
-          ? Sbom.fromJson(json['sbom'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final sbom = this.sbom;
-    return {
-      if (sbom != null) 'sbom': sbom,
-    };
-  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

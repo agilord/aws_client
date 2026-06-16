@@ -358,7 +358,14 @@ class Rekognition {
   /// Associates one or more faces with an existing UserID. Takes an array of
   /// <code>FaceIds</code>. Each <code>FaceId</code> that are present in the
   /// <code>FaceIds</code> list is associated with the provided UserID. The
-  /// maximum number of total <code>FaceIds</code> per UserID is 100.
+  /// number of FaceIds that can be used as input in a single request is limited
+  /// to 100.
+  ///
+  /// Note that the total number of faces that can be associated with a single
+  /// <code>UserID</code> is also limited to 100. Once a <code>UserID</code> has
+  /// 100 faces associated with it, no additional faces can be added. If more
+  /// API calls are made after the limit is reached, a
+  /// <code>ServiceQuotaExceededException</code> will result.
   ///
   /// The <code>UserMatchThreshold</code> parameter specifies the minimum user
   /// match confidence required for the face to be associated with a UserID that
@@ -394,15 +401,15 @@ class Rekognition {
   /// </li>
   /// </ul>
   ///
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
-  /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
-  /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [IdempotentParameterMismatchException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
+  /// May throw [IdempotentParameterMismatchException].
+  /// May throw [InternalServerError].
+  /// May throw [InvalidParameterException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [collectionId] :
   /// The ID of an existing collection containing the UserID.
@@ -523,14 +530,14 @@ class Rekognition {
   /// This operation requires permissions to perform the
   /// <code>rekognition:CompareFaces</code> action.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ImageTooLargeException].
+  /// May throw [InternalServerError].
+  /// May throw [InvalidImageFormatException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidS3ObjectException].
-  /// May throw [ImageTooLargeException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
   /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [InvalidImageFormatException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [sourceImage] :
   /// The input image as base64-encoded bytes or an S3 object. If you use the
@@ -643,11 +650,11 @@ class Rekognition {
   /// May throw [InternalServerError].
   /// May throw [InvalidParameterException].
   /// May throw [LimitExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [destinationProjectArn] :
   /// The ARN of the project in the trusted AWS account that you want to copy
@@ -749,13 +756,13 @@ class Rekognition {
   /// collection, you also require permission to perform the
   /// <code>rekognition:TagResource</code> operation.
   ///
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
+  /// May throw [InvalidParameterException].
   /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [collectionId] :
   /// ID for the collection that you are creating.
@@ -819,15 +826,15 @@ class Rekognition {
   /// existing dataset, you also require permission to perform the
   /// <code>rekognition:ListDatasetEntries</code> action.
   ///
-  /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
-  /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
-  /// May throw [LimitExceededException].
+  /// May throw [InternalServerError].
+  /// May throw [InvalidParameterException].
   /// May throw [InvalidS3ObjectException].
+  /// May throw [LimitExceededException].
+  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [datasetType] :
   /// The type of the dataset. Specify <code>TRAIN</code> to create a training
@@ -890,8 +897,8 @@ class Rekognition {
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
   /// May throw [InvalidParameterException].
-  /// May throw [ThrottlingException].
   /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [clientRequestToken] :
   /// Idempotent token is used to recognize the Face Liveness request. If the
@@ -942,13 +949,13 @@ class Rekognition {
   /// argument. This operation requires permissions to perform the
   /// <code>rekognition:CreateProject</code> action.
   ///
-  /// May throw [ResourceInUseException].
-  /// May throw [LimitExceededException].
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
+  /// May throw [InvalidParameterException].
+  /// May throw [LimitExceededException].
   /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [projectName] :
   /// The name of the project to create.
@@ -1025,17 +1032,18 @@ class Rekognition {
   /// Instead of training with a project without associated datasets, we
   /// recommend that you use the manifest files to create training and test
   /// datasets for the project.
-  /// </note> <p/>
+  /// </note>
   ///
-  /// May throw [ResourceInUseException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [InvalidParameterException].
+  ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
+  /// May throw [InvalidParameterException].
+  /// May throw [LimitExceededException].
   /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [outputConfig] :
   /// The Amazon S3 bucket location to store the results of training. The bucket
@@ -1184,12 +1192,12 @@ class Rekognition {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
   /// May throw [InvalidParameterException].
   /// May throw [LimitExceededException].
-  /// May throw [ResourceInUseException].
   /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceInUseException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [input] :
   /// Kinesis video stream stream that provides the source streaming video. If
@@ -1305,14 +1313,14 @@ class Rekognition {
   /// This prevents retries after a network error results from making multiple
   /// <code>CreateUser</code> calls.
   ///
-  /// May throw [InvalidParameterException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [IdempotentParameterMismatchException].
+  /// May throw [InternalServerError].
+  /// May throw [InvalidParameterException].
+  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
-  /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [IdempotentParameterMismatchException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerError].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [collectionId] :
@@ -1360,12 +1368,12 @@ class Rekognition {
   /// This operation requires permissions to perform the
   /// <code>rekognition:DeleteCollection</code> action.
   ///
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
+  /// May throw [InvalidParameterException].
   /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [collectionId] :
   /// ID of the collection to delete.
@@ -1406,14 +1414,14 @@ class Rekognition {
   /// This operation requires permissions to perform the
   /// <code>rekognition:DeleteDataset</code> action.
   ///
-  /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
-  /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerError].
+  /// May throw [InvalidParameterException].
   /// May throw [LimitExceededException].
+  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ResourceInUseException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [datasetArn] :
   /// The ARN of the Amazon Rekognition Custom Labels dataset that you want to
@@ -1443,12 +1451,12 @@ class Rekognition {
   /// This operation requires permissions to perform the
   /// <code>rekognition:DeleteFaces</code> action.
   ///
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
+  /// May throw [InvalidParameterException].
   /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [collectionId] :
   /// Collection from which to remove the specific faces.
@@ -1491,13 +1499,13 @@ class Rekognition {
   /// This operation requires permissions to perform the
   /// <code>rekognition:DeleteProject</code> action.
   ///
-  /// May throw [ResourceInUseException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
+  /// May throw [InvalidParameterException].
   /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [projectArn] :
   /// The Amazon Resource Name (ARN) of the project that you want to delete.
@@ -1537,10 +1545,10 @@ class Rekognition {
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
   /// May throw [InvalidParameterException].
+  /// May throw [InvalidPolicyRevisionIdException].
+  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [InvalidPolicyRevisionIdException].
   ///
   /// Parameter [policyName] :
   /// The name of the policy that you want to delete.
@@ -1586,13 +1594,13 @@ class Rekognition {
   /// This operation requires permissions to perform the
   /// <code>rekognition:DeleteProjectVersion</code> action.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
+  /// May throw [InvalidParameterException].
   /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [projectVersionArn] :
   /// The Amazon Resource Name (ARN) of the project version that you want to
@@ -1626,11 +1634,11 @@ class Rekognition {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
   /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
   /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [name] :
   /// The name of the stream processor you want to delete.
@@ -1660,13 +1668,13 @@ class Rekognition {
   /// <code>ResourceNotFoundException</code> will be thrown. If the action is
   /// successful with a 200 response, an empty HTTP body is returned.
   ///
-  /// May throw [InvalidParameterException].
-  /// May throw [ConflictException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [IdempotentParameterMismatchException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [IdempotentParameterMismatchException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidParameterException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [collectionId] :
@@ -1713,12 +1721,12 @@ class Rekognition {
   /// For more information, see Describing a Collection in the Amazon
   /// Rekognition Developer Guide.
   ///
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
+  /// May throw [InvalidParameterException].
   /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [collectionId] :
   /// The ID of the collection to describe.
@@ -1753,12 +1761,12 @@ class Rekognition {
   /// This operation requires permissions to perform the
   /// <code>rekognition:DescribeDataset</code> action.
   ///
-  /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
-  /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerError].
+  /// May throw [InvalidParameterException].
+  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [datasetArn] :
   /// The Amazon Resource Name (ARN) of the dataset that you want to describe.
@@ -1783,6 +1791,69 @@ class Rekognition {
     return DescribeDatasetResponse.fromJson(jsonResponse.body);
   }
 
+  /// Gets information about your Rekognition projects.
+  ///
+  /// This operation requires permissions to perform the
+  /// <code>rekognition:DescribeProjects</code> action.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerError].
+  /// May throw [InvalidPaginationTokenException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [features] :
+  /// Specifies the type of customization to filter projects by. If no value is
+  /// specified, CUSTOM_LABELS is used as a default.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per paginated call. The largest
+  /// value you can specify is 100. If you specify a value greater than 100, a
+  /// ValidationException error occurs. The default value is 100.
+  ///
+  /// Parameter [nextToken] :
+  /// If the previous response was incomplete (because there is more results to
+  /// retrieve), Rekognition returns a pagination token in the response. You can
+  /// use this pagination token to retrieve the next set of results.
+  ///
+  /// Parameter [projectNames] :
+  /// A list of the projects that you want Rekognition to describe. If you don't
+  /// specify a value, the response includes descriptions for all the projects
+  /// in your AWS account.
+  Future<DescribeProjectsResponse> describeProjects({
+    List<CustomizationFeature>? features,
+    int? maxResults,
+    String? nextToken,
+    List<String>? projectNames,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'RekognitionService.DescribeProjects'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (features != null) 'Features': features.map((e) => e.value).toList(),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (projectNames != null) 'ProjectNames': projectNames,
+      },
+    );
+
+    return DescribeProjectsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Lists and describes the versions of an Amazon Rekognition project. You can
   /// specify up to 10 model or adapter versions in
   /// <code>ProjectVersionArns</code>. If you don't specify a value,
@@ -1791,13 +1862,13 @@ class Rekognition {
   /// This operation requires permissions to perform the
   /// <code>rekognition:DescribeProjectVersions</code> action.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidPaginationTokenException].
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
+  /// May throw [InvalidPaginationTokenException].
+  /// May throw [InvalidParameterException].
   /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [projectArn] :
   /// The Amazon Resource Name (ARN) of the project that contains the
@@ -1854,69 +1925,6 @@ class Rekognition {
     return DescribeProjectVersionsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Gets information about your Rekognition projects.
-  ///
-  /// This operation requires permissions to perform the
-  /// <code>rekognition:DescribeProjects</code> action.
-  ///
-  /// May throw [InvalidPaginationTokenException].
-  /// May throw [InvalidParameterException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
-  /// May throw [ProvisionedThroughputExceededException].
-  ///
-  /// Parameter [features] :
-  /// Specifies the type of customization to filter projects by. If no value is
-  /// specified, CUSTOM_LABELS is used as a default.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of results to return per paginated call. The largest
-  /// value you can specify is 100. If you specify a value greater than 100, a
-  /// ValidationException error occurs. The default value is 100.
-  ///
-  /// Parameter [nextToken] :
-  /// If the previous response was incomplete (because there is more results to
-  /// retrieve), Rekognition returns a pagination token in the response. You can
-  /// use this pagination token to retrieve the next set of results.
-  ///
-  /// Parameter [projectNames] :
-  /// A list of the projects that you want Rekognition to describe. If you don't
-  /// specify a value, the response includes descriptions for all the projects
-  /// in your AWS account.
-  Future<DescribeProjectsResponse> describeProjects({
-    List<CustomizationFeature>? features,
-    int? maxResults,
-    String? nextToken,
-    List<String>? projectNames,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'RekognitionService.DescribeProjects'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        if (features != null) 'Features': features.map((e) => e.value).toList(),
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (projectNames != null) 'ProjectNames': projectNames,
-      },
-    );
-
-    return DescribeProjectsResponse.fromJson(jsonResponse.body);
-  }
-
   /// Provides information about a stream processor created by
   /// <a>CreateStreamProcessor</a>. You can get information about the input and
   /// output streams, the input parameters for the face recognition being
@@ -1924,10 +1932,10 @@ class Rekognition {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
   /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [name] :
   /// Name of the stream processor for which you want information.
@@ -1972,9 +1980,7 @@ class Rekognition {
   /// the label name (<code>Name</code>), the level of confidence that the image
   /// contains the object (<code>Confidence</code>), and object location
   /// information, if it exists, for the label on the image
-  /// (<code>Geometry</code>). Note that for the
-  /// <code>DetectCustomLabelsLabels</code> operation, <code>Polygons</code> are
-  /// not returned in the <code>Geometry</code> section of the response.
+  /// (<code>Geometry</code>).
   ///
   /// To filter labels that are returned, specify a value for
   /// <code>MinConfidence</code>. <code>DetectCustomLabelsLabels</code> only
@@ -2004,17 +2010,17 @@ class Rekognition {
   /// For more information, see <i>Analyzing an image</i> in the Amazon
   /// Rekognition Custom Labels Developer Guide.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ImageTooLargeException].
+  /// May throw [InternalServerError].
+  /// May throw [InvalidImageFormatException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidS3ObjectException].
+  /// May throw [LimitExceededException].
+  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ResourceNotReadyException].
-  /// May throw [InvalidS3ObjectException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ImageTooLargeException].
-  /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerError].
   /// May throw [ThrottlingException].
-  /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [InvalidImageFormatException].
   ///
   /// Parameter [projectVersionArn] :
   /// The ARN of the model version that you want to use. Only models associated
@@ -2098,14 +2104,14 @@ class Rekognition {
   /// This operation requires permissions to perform the
   /// <code>rekognition:DetectFaces</code> action.
   ///
-  /// May throw [InvalidS3ObjectException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ImageTooLargeException].
   /// May throw [AccessDeniedException].
+  /// May throw [ImageTooLargeException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
-  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [InvalidImageFormatException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidS3ObjectException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [image] :
   /// The input image as base64-encoded bytes or an S3 object. If you use the
@@ -2287,14 +2293,14 @@ class Rekognition {
   /// This operation requires permissions to perform the
   /// <code>rekognition:DetectLabels</code> action.
   ///
-  /// May throw [InvalidS3ObjectException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ImageTooLargeException].
   /// May throw [AccessDeniedException].
+  /// May throw [ImageTooLargeException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
-  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [InvalidImageFormatException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidS3ObjectException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [image] :
   /// The input image as base64-encoded bytes or an S3 object. If you use the
@@ -2398,17 +2404,17 @@ class Rekognition {
   /// providing a <code>ProjectVersionArn</code> to the
   /// <code>ProjectVersion</code> argument.
   ///
-  /// May throw [InvalidS3ObjectException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ImageTooLargeException].
   /// May throw [AccessDeniedException].
-  /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
-  /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [InvalidImageFormatException].
   /// May throw [HumanLoopQuotaExceededException].
+  /// May throw [ImageTooLargeException].
+  /// May throw [InternalServerError].
+  /// May throw [InvalidImageFormatException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidS3ObjectException].
+  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ResourceNotReadyException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [image] :
   /// The input image as base64-encoded bytes or an S3 object. If you use the
@@ -2519,14 +2525,14 @@ class Rekognition {
   /// This operation requires permissions to perform the
   /// <code>rekognition:DetectProtectiveEquipment</code> action.
   ///
-  /// May throw [InvalidS3ObjectException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ImageTooLargeException].
   /// May throw [AccessDeniedException].
+  /// May throw [ImageTooLargeException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
-  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [InvalidImageFormatException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidS3ObjectException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [image] :
   /// The image in which you want to detect PPE on detected persons. The image
@@ -2596,14 +2602,14 @@ class Rekognition {
   /// For more information, see Detecting text in the Amazon Rekognition
   /// Developer Guide.
   ///
-  /// May throw [InvalidS3ObjectException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ImageTooLargeException].
   /// May throw [AccessDeniedException].
+  /// May throw [ImageTooLargeException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
-  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [InvalidImageFormatException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidS3ObjectException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [image] :
   /// The input image as base64-encoded bytes or an Amazon S3 object. If you use
@@ -2651,14 +2657,14 @@ class Rekognition {
   /// returned as part of <code>UnsuccessfulDisassociations</code>. You can
   /// remove 1 - 100 face IDs from a user at one time.
   ///
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
-  /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
-  /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [IdempotentParameterMismatchException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
+  /// May throw [IdempotentParameterMismatchException].
+  /// May throw [InternalServerError].
+  /// May throw [InvalidParameterException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [collectionId] :
   /// The ID of an existing collection containing the UserID.
@@ -2727,13 +2733,13 @@ class Rekognition {
   /// This operation requires permissions to perform the
   /// <code>rekognition:DistributeDatasetEntries</code> action.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
+  /// May throw [InvalidParameterException].
   /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceNotReadyException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [datasets] :
   /// The ARNS for the training dataset and test dataset that you want to use.
@@ -2769,12 +2775,12 @@ class Rekognition {
   /// This operation requires permissions to perform the
   /// <code>rekognition:GetCelebrityInfo</code> action.
   ///
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
+  /// May throw [InvalidParameterException].
   /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [id] :
   /// The ID for the celebrity. You get the celebrity ID from a call to the
@@ -2861,8 +2867,8 @@ class Rekognition {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
-  /// May throw [InvalidParameterException].
   /// May throw [InvalidPaginationTokenException].
+  /// May throw [InvalidParameterException].
   /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
@@ -2969,8 +2975,8 @@ class Rekognition {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
-  /// May throw [InvalidParameterException].
   /// May throw [InvalidPaginationTokenException].
+  /// May throw [InvalidParameterException].
   /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
@@ -3069,8 +3075,8 @@ class Rekognition {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
-  /// May throw [InvalidParameterException].
   /// May throw [InvalidPaginationTokenException].
+  /// May throw [InvalidParameterException].
   /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
@@ -3136,9 +3142,9 @@ class Rekognition {
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
   /// May throw [InvalidParameterException].
+  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [SessionNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [ProvisionedThroughputExceededException].
   ///
   /// Parameter [sessionId] :
   /// A unique 128-bit UUID. This is used to uniquely identify the session and
@@ -3204,8 +3210,8 @@ class Rekognition {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
-  /// May throw [InvalidParameterException].
   /// May throw [InvalidPaginationTokenException].
+  /// May throw [InvalidParameterException].
   /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
@@ -3357,8 +3363,8 @@ class Rekognition {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
-  /// May throw [InvalidParameterException].
   /// May throw [InvalidPaginationTokenException].
+  /// May throw [InvalidParameterException].
   /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
@@ -3428,10 +3434,10 @@ class Rekognition {
   /// <code>JobId</code> returned by StartMediaAnalysisJob.
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerError].
   /// May throw [InvalidParameterException].
   /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [jobId] :
@@ -3458,6 +3464,14 @@ class Rekognition {
     return GetMediaAnalysisJobResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// <i>End of support notice:</i> On October 31, 2025, AWS will discontinue
+  /// support for Amazon Rekognition People Pathing. After October 31, 2025, you
+  /// will no longer be able to use the Rekognition People Pathing capability.
+  /// For more information, visit this <a
+  /// href="https://aws.amazon.com/blogs/machine-learning/transitioning-from-amazon-rekognition-people-pathing-exploring-other-alternatives/">blog
+  /// post</a>.
+  /// </note>
   /// Gets the path tracking results of a Amazon Rekognition Video analysis
   /// started by <a>StartPersonTracking</a>.
   ///
@@ -3501,8 +3515,8 @@ class Rekognition {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
-  /// May throw [InvalidParameterException].
   /// May throw [InvalidPaginationTokenException].
+  /// May throw [InvalidParameterException].
   /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
@@ -3603,8 +3617,8 @@ class Rekognition {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
-  /// May throw [InvalidParameterException].
   /// May throw [InvalidPaginationTokenException].
+  /// May throw [InvalidParameterException].
   /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
@@ -3687,8 +3701,8 @@ class Rekognition {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
-  /// May throw [InvalidParameterException].
   /// May throw [InvalidPaginationTokenException].
+  /// May throw [InvalidParameterException].
   /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
@@ -3850,7 +3864,9 @@ class Rekognition {
   /// If you provide the same image, specify the same collection, and use the
   /// same external ID in the <code>IndexFaces</code> operation, Amazon
   /// Rekognition doesn't save duplicate face metadata.
-  /// <p/>
+  ///
+  ///
+  ///
   /// The input image is passed either as base64-encoded image bytes, or as a
   /// reference to an image in an Amazon S3 bucket. If you use the AWS CLI to
   /// call Amazon Rekognition operations, passing image bytes isn't supported.
@@ -3859,16 +3875,16 @@ class Rekognition {
   /// This operation requires permissions to perform the
   /// <code>rekognition:IndexFaces</code> action.
   ///
-  /// May throw [InvalidS3ObjectException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ImageTooLargeException].
   /// May throw [AccessDeniedException].
+  /// May throw [ImageTooLargeException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
+  /// May throw [InvalidImageFormatException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidS3ObjectException].
   /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidImageFormatException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [collectionId] :
   /// The ID of an existing collection to which you want to add the faces that
@@ -3985,13 +4001,13 @@ class Rekognition {
   /// This operation requires permissions to perform the
   /// <code>rekognition:ListCollections</code> action.
   ///
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
-  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [InvalidPaginationTokenException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [maxResults] :
   /// Maximum number of collection IDs to return.
@@ -4049,15 +4065,15 @@ class Rekognition {
   /// This operation requires permissions to perform the
   /// <code>rekognition:ListDatasetEntries</code> action.
   ///
-  /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
-  /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerError].
+  /// May throw [InvalidPaginationTokenException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ResourceInUseException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidPaginationTokenException].
   /// May throw [ResourceNotReadyException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [datasetArn] :
   /// The Amazon Resource Name (ARN) for the dataset that you want to use.
@@ -4148,15 +4164,15 @@ class Rekognition {
   /// labels to describe images. For more information, see Labeling images in
   /// the <i>Amazon Rekognition Custom Labels Developer Guide</i>.
   ///
-  /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
-  /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceInUseException].
+  /// May throw [InternalServerError].
   /// May throw [InvalidPaginationTokenException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceInUseException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ResourceNotReadyException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [datasetArn] :
   /// The Amazon Resource Name (ARN) of the dataset that you want to use.
@@ -4210,13 +4226,13 @@ class Rekognition {
   /// This operation requires permissions to perform the
   /// <code>rekognition:ListFaces</code> action.
   ///
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
-  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [InvalidPaginationTokenException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [collectionId] :
   /// ID of the collection from which to list the faces.
@@ -4276,8 +4292,8 @@ class Rekognition {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
-  /// May throw [InvalidParameterException].
   /// May throw [InvalidPaginationTokenException].
+  /// May throw [InvalidParameterException].
   /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ThrottlingException].
   ///
@@ -4331,11 +4347,11 @@ class Rekognition {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidPaginationTokenException].
   /// May throw [InvalidParameterException].
+  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [InvalidPaginationTokenException].
   ///
   /// Parameter [projectArn] :
   /// The ARN of the project for which you want to list the project policies.
@@ -4386,10 +4402,10 @@ class Rekognition {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
-  /// May throw [InvalidParameterException].
   /// May throw [InvalidPaginationTokenException].
+  /// May throw [InvalidParameterException].
   /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [maxResults] :
   /// Maximum number of stream processors you want Amazon Rekognition Video to
@@ -4435,12 +4451,12 @@ class Rekognition {
   /// This operation requires permissions to perform the
   /// <code>rekognition:ListTagsForResource</code> action.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
+  /// May throw [InvalidParameterException].
   /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [resourceArn] :
   /// Amazon Resource Name (ARN) of the model, collection, or stream processor
@@ -4473,12 +4489,12 @@ class Rekognition {
   /// <code>NextToken</code> is returned in the response that can be used in the
   /// subsequent request to retrieve the next set of identities.
   ///
-  /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidPaginationTokenException].
-  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidPaginationTokenException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [collectionId] :
@@ -4552,13 +4568,13 @@ class Rekognition {
   /// May throw [InternalServerError].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidPolicyRevisionIdException].
-  /// May throw [MalformedPolicyDocumentException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceAlreadyExistsException].
-  /// May throw [ThrottlingException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [LimitExceededException].
+  /// May throw [MalformedPolicyDocumentException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [policyDocument] :
   /// A resource policy to add to the model. The policy is a JSON structure that
@@ -4643,15 +4659,14 @@ class Rekognition {
   /// This operation requires permissions to perform the
   /// <code>rekognition:RecognizeCelebrities</code> operation.
   ///
-  /// May throw [InvalidS3ObjectException].
-  /// May throw [InvalidParameterException].
-  /// May throw [InvalidImageFormatException].
-  /// May throw [ImageTooLargeException].
   /// May throw [AccessDeniedException].
+  /// May throw [ImageTooLargeException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
-  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [InvalidImageFormatException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidS3ObjectException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [image] :
   /// The input image as base64-encoded bytes or an S3 object. If you use the
@@ -4704,12 +4719,12 @@ class Rekognition {
   /// This operation requires permissions to perform the
   /// <code>rekognition:SearchFaces</code> action.
   ///
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
+  /// May throw [InvalidParameterException].
   /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [collectionId] :
   /// ID of the collection the face belongs to.
@@ -4813,15 +4828,15 @@ class Rekognition {
   /// This operation requires permissions to perform the
   /// <code>rekognition:SearchFacesByImage</code> action.
   ///
-  /// May throw [InvalidS3ObjectException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ImageTooLargeException].
   /// May throw [AccessDeniedException].
+  /// May throw [ImageTooLargeException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
+  /// May throw [InvalidImageFormatException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidS3ObjectException].
   /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidImageFormatException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [collectionId] :
   /// ID of the collection to search.
@@ -4910,11 +4925,11 @@ class Rekognition {
   /// <code>UserId</code>, ordered by similarity score with the highest
   /// similarity first.
   ///
-  /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidParameterException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [collectionId] :
@@ -4991,14 +5006,14 @@ class Rekognition {
   /// contain an empty <code>UserMatches</code> list and no
   /// <code>SearchedFace</code> object.
   ///
-  /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidImageFormatException].
-  /// May throw [InvalidS3ObjectException].
-  /// May throw [ImageTooLargeException].
-  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [AccessDeniedException].
+  /// May throw [ImageTooLargeException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidImageFormatException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidS3ObjectException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [collectionId] :
@@ -5078,13 +5093,13 @@ class Rekognition {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [IdempotentParameterMismatchException].
+  /// May throw [InternalServerError].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidS3ObjectException].
-  /// May throw [InternalServerError].
-  /// May throw [VideoTooLargeException].
-  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [LimitExceededException].
+  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ThrottlingException].
+  /// May throw [VideoTooLargeException].
   ///
   /// Parameter [video] :
   /// The video in which you want to recognize celebrities. The video must be
@@ -5161,13 +5176,13 @@ class Rekognition {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [IdempotentParameterMismatchException].
+  /// May throw [InternalServerError].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidS3ObjectException].
-  /// May throw [InternalServerError].
-  /// May throw [VideoTooLargeException].
-  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [LimitExceededException].
+  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ThrottlingException].
+  /// May throw [VideoTooLargeException].
   ///
   /// Parameter [video] :
   /// The video in which you want to detect inappropriate, unwanted, or
@@ -5257,13 +5272,13 @@ class Rekognition {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [IdempotentParameterMismatchException].
+  /// May throw [InternalServerError].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidS3ObjectException].
-  /// May throw [InternalServerError].
-  /// May throw [VideoTooLargeException].
-  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [LimitExceededException].
+  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ThrottlingException].
+  /// May throw [VideoTooLargeException].
   ///
   /// Parameter [video] :
   /// The video in which you want to detect faces. The video must be stored in
@@ -5345,14 +5360,14 @@ class Rekognition {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [IdempotentParameterMismatchException].
+  /// May throw [InternalServerError].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidS3ObjectException].
-  /// May throw [InternalServerError].
-  /// May throw [VideoTooLargeException].
-  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [LimitExceededException].
+  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [VideoTooLargeException].
   ///
   /// Parameter [collectionId] :
   /// ID of the collection that contains the faces you want to search for.
@@ -5462,13 +5477,13 @@ class Rekognition {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [IdempotentParameterMismatchException].
+  /// May throw [InternalServerError].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidS3ObjectException].
-  /// May throw [InternalServerError].
-  /// May throw [VideoTooLargeException].
-  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [LimitExceededException].
+  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ThrottlingException].
+  /// May throw [VideoTooLargeException].
   ///
   /// Parameter [video] :
   /// The video in which you want to detect labels. The video must be stored in
@@ -5557,17 +5572,17 @@ class Rekognition {
   /// S3 bucket. The output is a manifest file and a summary of the manifest
   /// stored in the Amazon S3 bucket.
   ///
-  /// May throw [InternalServerError].
   /// May throw [AccessDeniedException].
-  /// May throw [InvalidParameterException].
+  /// May throw [IdempotentParameterMismatchException].
+  /// May throw [InternalServerError].
   /// May throw [InvalidManifestException].
+  /// May throw [InvalidParameterException].
   /// May throw [InvalidS3ObjectException].
+  /// May throw [LimitExceededException].
+  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ResourceNotReadyException].
-  /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [LimitExceededException].
   /// May throw [ThrottlingException].
-  /// May throw [IdempotentParameterMismatchException].
   ///
   /// Parameter [input] :
   /// Input data to be analyzed by the job.
@@ -5624,6 +5639,14 @@ class Rekognition {
     return StartMediaAnalysisJobResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// <i>End of support notice:</i> On October 31, 2025, AWS will discontinue
+  /// support for Amazon Rekognition People Pathing. After October 31, 2025, you
+  /// will no longer be able to use the Rekognition People Pathing capability.
+  /// For more information, visit this <a
+  /// href="https://aws.amazon.com/blogs/machine-learning/transitioning-from-amazon-rekognition-people-pathing-exploring-other-alternatives/">blog
+  /// post</a>.
+  /// </note>
   /// Starts the asynchronous tracking of a person's path in a stored video.
   ///
   /// Amazon Rekognition Video can track the path of people in a video stored in
@@ -5642,13 +5665,13 @@ class Rekognition {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [IdempotentParameterMismatchException].
+  /// May throw [InternalServerError].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidS3ObjectException].
-  /// May throw [InternalServerError].
-  /// May throw [VideoTooLargeException].
-  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [LimitExceededException].
+  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ThrottlingException].
+  /// May throw [VideoTooLargeException].
   ///
   /// Parameter [video] :
   /// The video in which you want to detect people. The video must be stored in
@@ -5716,14 +5739,14 @@ class Rekognition {
   /// This operation requires permissions to perform the
   /// <code>rekognition:StartProjectVersion</code> action.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
-  /// May throw [LimitExceededException].
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
+  /// May throw [InvalidParameterException].
+  /// May throw [LimitExceededException].
   /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [minInferenceUnits] :
   /// The minimum number of inference units to use. A single inference unit
@@ -5805,13 +5828,13 @@ class Rekognition {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [IdempotentParameterMismatchException].
+  /// May throw [InternalServerError].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidS3ObjectException].
-  /// May throw [InternalServerError].
-  /// May throw [VideoTooLargeException].
-  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [LimitExceededException].
+  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ThrottlingException].
+  /// May throw [VideoTooLargeException].
   ///
   /// Parameter [segmentTypes] :
   /// An array of segment types to detect in the video. Valid values are
@@ -5883,11 +5906,11 @@ class Rekognition {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
   /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
   /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [name] :
   /// The name of the stream processor to start processing.
@@ -5951,13 +5974,13 @@ class Rekognition {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [IdempotentParameterMismatchException].
+  /// May throw [InternalServerError].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidS3ObjectException].
-  /// May throw [InternalServerError].
-  /// May throw [VideoTooLargeException].
-  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [LimitExceededException].
+  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ThrottlingException].
+  /// May throw [VideoTooLargeException].
   ///
   /// Parameter [clientRequestToken] :
   /// Idempotent token used to identify the start request. If you use the same
@@ -6015,13 +6038,13 @@ class Rekognition {
   /// This operation requires permissions to perform the
   /// <code>rekognition:StopProjectVersion</code> action.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
+  /// May throw [InvalidParameterException].
   /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [projectVersionArn] :
   /// The Amazon Resource Name (ARN) of the model version that you want to stop.
@@ -6054,11 +6077,11 @@ class Rekognition {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
   /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
   /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [name] :
   /// The name of a stream processor created by <a>CreateStreamProcessor</a>.
@@ -6089,13 +6112,13 @@ class Rekognition {
   /// This operation requires permissions to perform the
   /// <code>rekognition:TagResource</code> action.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
+  /// May throw [InvalidParameterException].
   /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [resourceArn] :
   /// Amazon Resource Name (ARN) of the model, collection, or stream processor
@@ -6130,12 +6153,12 @@ class Rekognition {
   /// This operation requires permissions to perform the
   /// <code>rekognition:UntagResource</code> action.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
+  /// May throw [InvalidParameterException].
   /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [resourceArn] :
   /// Amazon Resource Name (ARN) of the model, collection, or stream processor
@@ -6199,14 +6222,14 @@ class Rekognition {
   /// This operation requires permissions to perform the
   /// <code>rekognition:UpdateDatasetEntries</code> action.
   ///
-  /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
-  /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerError].
+  /// May throw [InvalidParameterException].
   /// May throw [LimitExceededException].
+  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ResourceInUseException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [changes] :
   /// The changes that you want to make to the dataset.
@@ -6239,11 +6262,11 @@ class Rekognition {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
   /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [name] :
   /// Name of the stream processor that you want to update.
@@ -6297,69 +6320,6 @@ class Rekognition {
   }
 }
 
-/// Structure containing the estimated age range, in years, for a face.
-///
-/// Amazon Rekognition estimates an age range for faces detected in the input
-/// image. Estimated age ranges can overlap. A face of a 5-year-old might have
-/// an estimated range of 4-6, while the face of a 6-year-old might have an
-/// estimated range of 4-8.
-class AgeRange {
-  /// The highest estimated age.
-  final int? high;
-
-  /// The lowest estimated age.
-  final int? low;
-
-  AgeRange({
-    this.high,
-    this.low,
-  });
-
-  factory AgeRange.fromJson(Map<String, dynamic> json) {
-    return AgeRange(
-      high: json['High'] as int?,
-      low: json['Low'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final high = this.high;
-    final low = this.low;
-    return {
-      if (high != null) 'High': high,
-      if (low != null) 'Low': low,
-    };
-  }
-}
-
-/// Assets are the images that you use to train and evaluate a model version.
-/// Assets can also contain validation information that you use to debug a
-/// failed model training.
-class Asset {
-  final GroundTruthManifest? groundTruthManifest;
-
-  Asset({
-    this.groundTruthManifest,
-  });
-
-  factory Asset.fromJson(Map<String, dynamic> json) {
-    return Asset(
-      groundTruthManifest: json['GroundTruthManifest'] != null
-          ? GroundTruthManifest.fromJson(
-              json['GroundTruthManifest'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final groundTruthManifest = this.groundTruthManifest;
-    return {
-      if (groundTruthManifest != null)
-        'GroundTruthManifest': groundTruthManifest,
-    };
-  }
-}
-
 class AssociateFacesResponse {
   /// An array of AssociatedFace objects containing FaceIDs that have been
   /// successfully associated with the UserID. Returned if the AssociateFaces
@@ -6406,568 +6366,6 @@ class AssociateFacesResponse {
       if (unsuccessfulFaceAssociations != null)
         'UnsuccessfulFaceAssociations': unsuccessfulFaceAssociations,
       if (userStatus != null) 'UserStatus': userStatus.value,
-    };
-  }
-}
-
-/// Provides face metadata for the faces that are associated to a specific
-/// UserID.
-class AssociatedFace {
-  /// Unique identifier assigned to the face.
-  final String? faceId;
-
-  AssociatedFace({
-    this.faceId,
-  });
-
-  factory AssociatedFace.fromJson(Map<String, dynamic> json) {
-    return AssociatedFace(
-      faceId: json['FaceId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final faceId = this.faceId;
-    return {
-      if (faceId != null) 'FaceId': faceId,
-    };
-  }
-}
-
-class Attribute {
-  static const $default = Attribute._('DEFAULT');
-  static const all = Attribute._('ALL');
-  static const ageRange = Attribute._('AGE_RANGE');
-  static const beard = Attribute._('BEARD');
-  static const emotions = Attribute._('EMOTIONS');
-  static const eyeDirection = Attribute._('EYE_DIRECTION');
-  static const eyeglasses = Attribute._('EYEGLASSES');
-  static const eyesOpen = Attribute._('EYES_OPEN');
-  static const gender = Attribute._('GENDER');
-  static const mouthOpen = Attribute._('MOUTH_OPEN');
-  static const mustache = Attribute._('MUSTACHE');
-  static const faceOccluded = Attribute._('FACE_OCCLUDED');
-  static const smile = Attribute._('SMILE');
-  static const sunglasses = Attribute._('SUNGLASSES');
-
-  final String value;
-
-  const Attribute._(this.value);
-
-  static const values = [
-    $default,
-    all,
-    ageRange,
-    beard,
-    emotions,
-    eyeDirection,
-    eyeglasses,
-    eyesOpen,
-    gender,
-    mouthOpen,
-    mustache,
-    faceOccluded,
-    smile,
-    sunglasses
-  ];
-
-  static Attribute fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Attribute._(value));
-
-  @override
-  bool operator ==(other) => other is Attribute && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Metadata information about an audio stream. An array of
-/// <code>AudioMetadata</code> objects for the audio streams found in a stored
-/// video is returned by <a>GetSegmentDetection</a>.
-class AudioMetadata {
-  /// The audio codec used to encode or decode the audio stream.
-  final String? codec;
-
-  /// The duration of the audio stream in milliseconds.
-  final int? durationMillis;
-
-  /// The number of audio channels in the segment.
-  final int? numberOfChannels;
-
-  /// The sample rate for the audio stream.
-  final int? sampleRate;
-
-  AudioMetadata({
-    this.codec,
-    this.durationMillis,
-    this.numberOfChannels,
-    this.sampleRate,
-  });
-
-  factory AudioMetadata.fromJson(Map<String, dynamic> json) {
-    return AudioMetadata(
-      codec: json['Codec'] as String?,
-      durationMillis: json['DurationMillis'] as int?,
-      numberOfChannels: json['NumberOfChannels'] as int?,
-      sampleRate: json['SampleRate'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final codec = this.codec;
-    final durationMillis = this.durationMillis;
-    final numberOfChannels = this.numberOfChannels;
-    final sampleRate = this.sampleRate;
-    return {
-      if (codec != null) 'Codec': codec,
-      if (durationMillis != null) 'DurationMillis': durationMillis,
-      if (numberOfChannels != null) 'NumberOfChannels': numberOfChannels,
-      if (sampleRate != null) 'SampleRate': sampleRate,
-    };
-  }
-}
-
-/// An image that is picked from the Face Liveness video and returned for audit
-/// trail purposes, returned as Base64-encoded bytes.
-class AuditImage {
-  final BoundingBox? boundingBox;
-
-  /// The Base64-encoded bytes representing an image selected from the Face
-  /// Liveness video and returned for audit purposes.
-  final Uint8List? bytes;
-  final S3Object? s3Object;
-
-  AuditImage({
-    this.boundingBox,
-    this.bytes,
-    this.s3Object,
-  });
-
-  factory AuditImage.fromJson(Map<String, dynamic> json) {
-    return AuditImage(
-      boundingBox: json['BoundingBox'] != null
-          ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
-          : null,
-      bytes: _s.decodeNullableUint8List(json['Bytes'] as String?),
-      s3Object: json['S3Object'] != null
-          ? S3Object.fromJson(json['S3Object'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final boundingBox = this.boundingBox;
-    final bytes = this.bytes;
-    final s3Object = this.s3Object;
-    return {
-      if (boundingBox != null) 'BoundingBox': boundingBox,
-      if (bytes != null) 'Bytes': base64Encode(bytes),
-      if (s3Object != null) 'S3Object': s3Object,
-    };
-  }
-}
-
-/// Indicates whether or not the face has a beard, and the confidence level in
-/// the determination.
-class Beard {
-  /// Level of confidence in the determination.
-  final double? confidence;
-
-  /// Boolean value that indicates whether the face has beard or not.
-  final bool? value;
-
-  Beard({
-    this.confidence,
-    this.value,
-  });
-
-  factory Beard.fromJson(Map<String, dynamic> json) {
-    return Beard(
-      confidence: json['Confidence'] as double?,
-      value: json['Value'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final confidence = this.confidence;
-    final value = this.value;
-    return {
-      if (confidence != null) 'Confidence': confidence,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-/// A filter that allows you to control the black frame detection by specifying
-/// the black levels and pixel coverage of black pixels in a frame. As videos
-/// can come from multiple sources, formats, and time periods, they may contain
-/// different standards and varying noise levels for black frames that need to
-/// be accounted for. For more information, see <a>StartSegmentDetection</a>.
-class BlackFrame {
-  /// A threshold used to determine the maximum luminance value for a pixel to be
-  /// considered black. In a full color range video, luminance values range from
-  /// 0-255. A pixel value of 0 is pure black, and the most strict filter. The
-  /// maximum black pixel value is computed as follows: max_black_pixel_value =
-  /// minimum_luminance + MaxPixelThreshold *luminance_range.
-  ///
-  /// For example, for a full range video with BlackPixelThreshold = 0.1,
-  /// max_black_pixel_value is 0 + 0.1 * (255-0) = 25.5.
-  ///
-  /// The default value of MaxPixelThreshold is 0.2, which maps to a
-  /// max_black_pixel_value of 51 for a full range video. You can lower this
-  /// threshold to be more strict on black levels.
-  final double? maxPixelThreshold;
-
-  /// The minimum percentage of pixels in a frame that need to have a luminance
-  /// below the max_black_pixel_value for a frame to be considered a black frame.
-  /// Luminance is calculated using the BT.709 matrix.
-  ///
-  /// The default value is 99, which means at least 99% of all pixels in the frame
-  /// are black pixels as per the <code>MaxPixelThreshold</code> set. You can
-  /// reduce this value to allow more noise on the black frame.
-  final double? minCoveragePercentage;
-
-  BlackFrame({
-    this.maxPixelThreshold,
-    this.minCoveragePercentage,
-  });
-
-  Map<String, dynamic> toJson() {
-    final maxPixelThreshold = this.maxPixelThreshold;
-    final minCoveragePercentage = this.minCoveragePercentage;
-    return {
-      if (maxPixelThreshold != null) 'MaxPixelThreshold': maxPixelThreshold,
-      if (minCoveragePercentage != null)
-        'MinCoveragePercentage': minCoveragePercentage,
-    };
-  }
-}
-
-class BodyPart {
-  static const face = BodyPart._('FACE');
-  static const head = BodyPart._('HEAD');
-  static const leftHand = BodyPart._('LEFT_HAND');
-  static const rightHand = BodyPart._('RIGHT_HAND');
-
-  final String value;
-
-  const BodyPart._(this.value);
-
-  static const values = [face, head, leftHand, rightHand];
-
-  static BodyPart fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => BodyPart._(value));
-
-  @override
-  bool operator ==(other) => other is BodyPart && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Identifies the bounding box around the label, face, text, object of
-/// interest, or personal protective equipment. The <code>left</code>
-/// (x-coordinate) and <code>top</code> (y-coordinate) are coordinates
-/// representing the top and left sides of the bounding box. Note that the
-/// upper-left corner of the image is the origin (0,0).
-///
-/// The <code>top</code> and <code>left</code> values returned are ratios of the
-/// overall image size. For example, if the input image is 700x200 pixels, and
-/// the top-left coordinate of the bounding box is 350x50 pixels, the API
-/// returns a <code>left</code> value of 0.5 (350/700) and a <code>top</code>
-/// value of 0.25 (50/200).
-///
-/// The <code>width</code> and <code>height</code> values represent the
-/// dimensions of the bounding box as a ratio of the overall image dimension.
-/// For example, if the input image is 700x200 pixels, and the bounding box
-/// width is 70 pixels, the width returned is 0.1.
-/// <note>
-/// The bounding box coordinates can have negative values. For example, if
-/// Amazon Rekognition is able to detect a face that is at the image edge and is
-/// only partially visible, the service can return coordinates that are outside
-/// the image bounds and, depending on the image edge, you might get negative
-/// values or values greater than 1 for the <code>left</code> or
-/// <code>top</code> values.
-/// </note>
-class BoundingBox {
-  /// Height of the bounding box as a ratio of the overall image height.
-  final double? height;
-
-  /// Left coordinate of the bounding box as a ratio of overall image width.
-  final double? left;
-
-  /// Top coordinate of the bounding box as a ratio of overall image height.
-  final double? top;
-
-  /// Width of the bounding box as a ratio of the overall image width.
-  final double? width;
-
-  BoundingBox({
-    this.height,
-    this.left,
-    this.top,
-    this.width,
-  });
-
-  factory BoundingBox.fromJson(Map<String, dynamic> json) {
-    return BoundingBox(
-      height: json['Height'] as double?,
-      left: json['Left'] as double?,
-      top: json['Top'] as double?,
-      width: json['Width'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final height = this.height;
-    final left = this.left;
-    final top = this.top;
-    final width = this.width;
-    return {
-      if (height != null) 'Height': height,
-      if (left != null) 'Left': left,
-      if (top != null) 'Top': top,
-      if (width != null) 'Width': width,
-    };
-  }
-}
-
-/// Provides information about a celebrity recognized by the
-/// <a>RecognizeCelebrities</a> operation.
-class Celebrity {
-  /// Provides information about the celebrity's face, such as its location on the
-  /// image.
-  final ComparedFace? face;
-
-  /// A unique identifier for the celebrity.
-  final String? id;
-  final KnownGender? knownGender;
-
-  /// The confidence, in percentage, that Amazon Rekognition has that the
-  /// recognized face is the celebrity.
-  final double? matchConfidence;
-
-  /// The name of the celebrity.
-  final String? name;
-
-  /// An array of URLs pointing to additional information about the celebrity. If
-  /// there is no additional information about the celebrity, this list is empty.
-  final List<String>? urls;
-
-  Celebrity({
-    this.face,
-    this.id,
-    this.knownGender,
-    this.matchConfidence,
-    this.name,
-    this.urls,
-  });
-
-  factory Celebrity.fromJson(Map<String, dynamic> json) {
-    return Celebrity(
-      face: json['Face'] != null
-          ? ComparedFace.fromJson(json['Face'] as Map<String, dynamic>)
-          : null,
-      id: json['Id'] as String?,
-      knownGender: json['KnownGender'] != null
-          ? KnownGender.fromJson(json['KnownGender'] as Map<String, dynamic>)
-          : null,
-      matchConfidence: json['MatchConfidence'] as double?,
-      name: json['Name'] as String?,
-      urls: (json['Urls'] as List?)?.nonNulls.map((e) => e as String).toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final face = this.face;
-    final id = this.id;
-    final knownGender = this.knownGender;
-    final matchConfidence = this.matchConfidence;
-    final name = this.name;
-    final urls = this.urls;
-    return {
-      if (face != null) 'Face': face,
-      if (id != null) 'Id': id,
-      if (knownGender != null) 'KnownGender': knownGender,
-      if (matchConfidence != null) 'MatchConfidence': matchConfidence,
-      if (name != null) 'Name': name,
-      if (urls != null) 'Urls': urls,
-    };
-  }
-}
-
-/// Information about a recognized celebrity.
-class CelebrityDetail {
-  /// Bounding box around the body of a celebrity.
-  final BoundingBox? boundingBox;
-
-  /// The confidence, in percentage, that Amazon Rekognition has that the
-  /// recognized face is the celebrity.
-  final double? confidence;
-
-  /// Face details for the recognized celebrity.
-  final FaceDetail? face;
-
-  /// The unique identifier for the celebrity.
-  final String? id;
-
-  /// Retrieves the known gender for the celebrity.
-  final KnownGender? knownGender;
-
-  /// The name of the celebrity.
-  final String? name;
-
-  /// An array of URLs pointing to additional celebrity information.
-  final List<String>? urls;
-
-  CelebrityDetail({
-    this.boundingBox,
-    this.confidence,
-    this.face,
-    this.id,
-    this.knownGender,
-    this.name,
-    this.urls,
-  });
-
-  factory CelebrityDetail.fromJson(Map<String, dynamic> json) {
-    return CelebrityDetail(
-      boundingBox: json['BoundingBox'] != null
-          ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
-          : null,
-      confidence: json['Confidence'] as double?,
-      face: json['Face'] != null
-          ? FaceDetail.fromJson(json['Face'] as Map<String, dynamic>)
-          : null,
-      id: json['Id'] as String?,
-      knownGender: json['KnownGender'] != null
-          ? KnownGender.fromJson(json['KnownGender'] as Map<String, dynamic>)
-          : null,
-      name: json['Name'] as String?,
-      urls: (json['Urls'] as List?)?.nonNulls.map((e) => e as String).toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final boundingBox = this.boundingBox;
-    final confidence = this.confidence;
-    final face = this.face;
-    final id = this.id;
-    final knownGender = this.knownGender;
-    final name = this.name;
-    final urls = this.urls;
-    return {
-      if (boundingBox != null) 'BoundingBox': boundingBox,
-      if (confidence != null) 'Confidence': confidence,
-      if (face != null) 'Face': face,
-      if (id != null) 'Id': id,
-      if (knownGender != null) 'KnownGender': knownGender,
-      if (name != null) 'Name': name,
-      if (urls != null) 'Urls': urls,
-    };
-  }
-}
-
-/// Information about a detected celebrity and the time the celebrity was
-/// detected in a stored video. For more information, see
-/// GetCelebrityRecognition in the Amazon Rekognition Developer Guide.
-class CelebrityRecognition {
-  /// Information about a recognized celebrity.
-  final CelebrityDetail? celebrity;
-
-  /// The time, in milliseconds from the start of the video, that the celebrity
-  /// was recognized. Note that <code>Timestamp</code> is not guaranteed to be
-  /// accurate to the individual frame where the celebrity first appears.
-  final int? timestamp;
-
-  CelebrityRecognition({
-    this.celebrity,
-    this.timestamp,
-  });
-
-  factory CelebrityRecognition.fromJson(Map<String, dynamic> json) {
-    return CelebrityRecognition(
-      celebrity: json['Celebrity'] != null
-          ? CelebrityDetail.fromJson(json['Celebrity'] as Map<String, dynamic>)
-          : null,
-      timestamp: json['Timestamp'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final celebrity = this.celebrity;
-    final timestamp = this.timestamp;
-    return {
-      if (celebrity != null) 'Celebrity': celebrity,
-      if (timestamp != null) 'Timestamp': timestamp,
-    };
-  }
-}
-
-class CelebrityRecognitionSortBy {
-  static const id = CelebrityRecognitionSortBy._('ID');
-  static const timestamp = CelebrityRecognitionSortBy._('TIMESTAMP');
-
-  final String value;
-
-  const CelebrityRecognitionSortBy._(this.value);
-
-  static const values = [id, timestamp];
-
-  static CelebrityRecognitionSortBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CelebrityRecognitionSortBy._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CelebrityRecognitionSortBy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides information about a face in a target image that matches the source
-/// image face analyzed by <code>CompareFaces</code>. The <code>Face</code>
-/// property contains the bounding box of the face in the target image. The
-/// <code>Similarity</code> property is the confidence that the source image
-/// face matches the face in the bounding box.
-class CompareFacesMatch {
-  /// Provides face metadata (bounding box and confidence that the bounding box
-  /// actually contains a face).
-  final ComparedFace? face;
-
-  /// Level of confidence that the faces match.
-  final double? similarity;
-
-  CompareFacesMatch({
-    this.face,
-    this.similarity,
-  });
-
-  factory CompareFacesMatch.fromJson(Map<String, dynamic> json) {
-    return CompareFacesMatch(
-      face: json['Face'] != null
-          ? ComparedFace.fromJson(json['Face'] as Map<String, dynamic>)
-          : null,
-      similarity: json['Similarity'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final face = this.face;
-    final similarity = this.similarity;
-    return {
-      if (face != null) 'Face': face,
-      if (similarity != null) 'Similarity': similarity,
     };
   }
 }
@@ -7069,378 +6467,6 @@ class CompareFacesResponse {
   }
 }
 
-/// Provides face metadata for target image faces that are analyzed by
-/// <code>CompareFaces</code> and <code>RecognizeCelebrities</code>.
-class ComparedFace {
-  /// Bounding box of the face.
-  final BoundingBox? boundingBox;
-
-  /// Level of confidence that what the bounding box contains is a face.
-  final double? confidence;
-
-  /// The emotions that appear to be expressed on the face, and the confidence
-  /// level in the determination. Valid values include "Happy", "Sad", "Angry",
-  /// "Confused", "Disgusted", "Surprised", "Calm", "Unknown", and "Fear".
-  final List<Emotion>? emotions;
-
-  /// An array of facial landmarks.
-  final List<Landmark>? landmarks;
-
-  /// Indicates the pose of the face as determined by its pitch, roll, and yaw.
-  final Pose? pose;
-
-  /// Identifies face image brightness and sharpness.
-  final ImageQuality? quality;
-
-  /// Indicates whether or not the face is smiling, and the confidence level in
-  /// the determination.
-  final Smile? smile;
-
-  ComparedFace({
-    this.boundingBox,
-    this.confidence,
-    this.emotions,
-    this.landmarks,
-    this.pose,
-    this.quality,
-    this.smile,
-  });
-
-  factory ComparedFace.fromJson(Map<String, dynamic> json) {
-    return ComparedFace(
-      boundingBox: json['BoundingBox'] != null
-          ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
-          : null,
-      confidence: json['Confidence'] as double?,
-      emotions: (json['Emotions'] as List?)
-          ?.nonNulls
-          .map((e) => Emotion.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      landmarks: (json['Landmarks'] as List?)
-          ?.nonNulls
-          .map((e) => Landmark.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      pose: json['Pose'] != null
-          ? Pose.fromJson(json['Pose'] as Map<String, dynamic>)
-          : null,
-      quality: json['Quality'] != null
-          ? ImageQuality.fromJson(json['Quality'] as Map<String, dynamic>)
-          : null,
-      smile: json['Smile'] != null
-          ? Smile.fromJson(json['Smile'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final boundingBox = this.boundingBox;
-    final confidence = this.confidence;
-    final emotions = this.emotions;
-    final landmarks = this.landmarks;
-    final pose = this.pose;
-    final quality = this.quality;
-    final smile = this.smile;
-    return {
-      if (boundingBox != null) 'BoundingBox': boundingBox,
-      if (confidence != null) 'Confidence': confidence,
-      if (emotions != null) 'Emotions': emotions,
-      if (landmarks != null) 'Landmarks': landmarks,
-      if (pose != null) 'Pose': pose,
-      if (quality != null) 'Quality': quality,
-      if (smile != null) 'Smile': smile,
-    };
-  }
-}
-
-/// Type that describes the face Amazon Rekognition chose to compare with the
-/// faces in the target. This contains a bounding box for the selected face and
-/// confidence level that the bounding box contains a face. Note that Amazon
-/// Rekognition selects the largest face in the source image for this
-/// comparison.
-class ComparedSourceImageFace {
-  /// Bounding box of the face.
-  final BoundingBox? boundingBox;
-
-  /// Confidence level that the selected bounding box contains a face.
-  final double? confidence;
-
-  ComparedSourceImageFace({
-    this.boundingBox,
-    this.confidence,
-  });
-
-  factory ComparedSourceImageFace.fromJson(Map<String, dynamic> json) {
-    return ComparedSourceImageFace(
-      boundingBox: json['BoundingBox'] != null
-          ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
-          : null,
-      confidence: json['Confidence'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final boundingBox = this.boundingBox;
-    final confidence = this.confidence;
-    return {
-      if (boundingBox != null) 'BoundingBox': boundingBox,
-      if (confidence != null) 'Confidence': confidence,
-    };
-  }
-}
-
-/// Label detection settings to use on a streaming video. Defining the settings
-/// is required in the request parameter for <a>CreateStreamProcessor</a>.
-/// Including this setting in the <code>CreateStreamProcessor</code> request
-/// enables you to use the stream processor for label detection. You can then
-/// select what you want the stream processor to detect, such as people or pets.
-/// When the stream processor has started, one notification is sent for each
-/// object class specified. For example, if packages and pets are selected, one
-/// SNS notification is published the first time a package is detected and one
-/// SNS notification is published the first time a pet is detected, as well as
-/// an end-of-session summary.
-class ConnectedHomeSettings {
-  /// Specifies what you want to detect in the video, such as people, packages, or
-  /// pets. The current valid labels you can include in this list are: "PERSON",
-  /// "PET", "PACKAGE", and "ALL".
-  final List<String> labels;
-
-  /// The minimum confidence required to label an object in the video.
-  final double? minConfidence;
-
-  ConnectedHomeSettings({
-    required this.labels,
-    this.minConfidence,
-  });
-
-  factory ConnectedHomeSettings.fromJson(Map<String, dynamic> json) {
-    return ConnectedHomeSettings(
-      labels: ((json['Labels'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      minConfidence: json['MinConfidence'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final labels = this.labels;
-    final minConfidence = this.minConfidence;
-    return {
-      'Labels': labels,
-      if (minConfidence != null) 'MinConfidence': minConfidence,
-    };
-  }
-}
-
-/// The label detection settings you want to use in your stream processor. This
-/// includes the labels you want the stream processor to detect and the minimum
-/// confidence level allowed to label objects.
-class ConnectedHomeSettingsForUpdate {
-  /// Specifies what you want to detect in the video, such as people, packages, or
-  /// pets. The current valid labels you can include in this list are: "PERSON",
-  /// "PET", "PACKAGE", and "ALL".
-  final List<String>? labels;
-
-  /// The minimum confidence required to label an object in the video.
-  final double? minConfidence;
-
-  ConnectedHomeSettingsForUpdate({
-    this.labels,
-    this.minConfidence,
-  });
-
-  Map<String, dynamic> toJson() {
-    final labels = this.labels;
-    final minConfidence = this.minConfidence;
-    return {
-      if (labels != null) 'Labels': labels,
-      if (minConfidence != null) 'MinConfidence': minConfidence,
-    };
-  }
-}
-
-class ContentClassifier {
-  static const freeOfPersonallyIdentifiableInformation =
-      ContentClassifier._('FreeOfPersonallyIdentifiableInformation');
-  static const freeOfAdultContent = ContentClassifier._('FreeOfAdultContent');
-
-  final String value;
-
-  const ContentClassifier._(this.value);
-
-  static const values = [
-    freeOfPersonallyIdentifiableInformation,
-    freeOfAdultContent
-  ];
-
-  static ContentClassifier fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ContentClassifier._(value));
-
-  @override
-  bool operator ==(other) => other is ContentClassifier && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ContentModerationAggregateBy {
-  static const timestamps = ContentModerationAggregateBy._('TIMESTAMPS');
-  static const segments = ContentModerationAggregateBy._('SEGMENTS');
-
-  final String value;
-
-  const ContentModerationAggregateBy._(this.value);
-
-  static const values = [timestamps, segments];
-
-  static ContentModerationAggregateBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ContentModerationAggregateBy._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ContentModerationAggregateBy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about an inappropriate, unwanted, or offensive content label
-/// detection in a stored video.
-class ContentModerationDetection {
-  /// A list of predicted results for the type of content an image contains. For
-  /// example, the image content might be from animation, sports, or a video game.
-  final List<ContentType>? contentTypes;
-
-  /// The time duration of a segment in milliseconds, I.e. time elapsed from
-  /// StartTimestampMillis to EndTimestampMillis.
-  final int? durationMillis;
-
-  /// The time in milliseconds defining the end of the timeline segment containing
-  /// a continuously detected moderation label.
-  final int? endTimestampMillis;
-
-  /// The content moderation label detected by in the stored video.
-  final ModerationLabel? moderationLabel;
-
-  /// The time in milliseconds defining the start of the timeline segment
-  /// containing a continuously detected moderation label.
-  final int? startTimestampMillis;
-
-  /// Time, in milliseconds from the beginning of the video, that the content
-  /// moderation label was detected. Note that <code>Timestamp</code> is not
-  /// guaranteed to be accurate to the individual frame where the moderated
-  /// content first appears.
-  final int? timestamp;
-
-  ContentModerationDetection({
-    this.contentTypes,
-    this.durationMillis,
-    this.endTimestampMillis,
-    this.moderationLabel,
-    this.startTimestampMillis,
-    this.timestamp,
-  });
-
-  factory ContentModerationDetection.fromJson(Map<String, dynamic> json) {
-    return ContentModerationDetection(
-      contentTypes: (json['ContentTypes'] as List?)
-          ?.nonNulls
-          .map((e) => ContentType.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      durationMillis: json['DurationMillis'] as int?,
-      endTimestampMillis: json['EndTimestampMillis'] as int?,
-      moderationLabel: json['ModerationLabel'] != null
-          ? ModerationLabel.fromJson(
-              json['ModerationLabel'] as Map<String, dynamic>)
-          : null,
-      startTimestampMillis: json['StartTimestampMillis'] as int?,
-      timestamp: json['Timestamp'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final contentTypes = this.contentTypes;
-    final durationMillis = this.durationMillis;
-    final endTimestampMillis = this.endTimestampMillis;
-    final moderationLabel = this.moderationLabel;
-    final startTimestampMillis = this.startTimestampMillis;
-    final timestamp = this.timestamp;
-    return {
-      if (contentTypes != null) 'ContentTypes': contentTypes,
-      if (durationMillis != null) 'DurationMillis': durationMillis,
-      if (endTimestampMillis != null) 'EndTimestampMillis': endTimestampMillis,
-      if (moderationLabel != null) 'ModerationLabel': moderationLabel,
-      if (startTimestampMillis != null)
-        'StartTimestampMillis': startTimestampMillis,
-      if (timestamp != null) 'Timestamp': timestamp,
-    };
-  }
-}
-
-class ContentModerationSortBy {
-  static const name = ContentModerationSortBy._('NAME');
-  static const timestamp = ContentModerationSortBy._('TIMESTAMP');
-
-  final String value;
-
-  const ContentModerationSortBy._(this.value);
-
-  static const values = [name, timestamp];
-
-  static ContentModerationSortBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ContentModerationSortBy._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ContentModerationSortBy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains information regarding the confidence and name of a detected content
-/// type.
-class ContentType {
-  /// The confidence level of the label given
-  final double? confidence;
-
-  /// The name of the label
-  final String? name;
-
-  ContentType({
-    this.confidence,
-    this.name,
-  });
-
-  factory ContentType.fromJson(Map<String, dynamic> json) {
-    return ContentType(
-      confidence: json['Confidence'] as double?,
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final confidence = this.confidence;
-    final name = this.name;
-    return {
-      if (confidence != null) 'Confidence': confidence,
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
 class CopyProjectVersionResponse {
   /// The ARN of the copied model version in the destination project.
   final String? projectVersionArn;
@@ -7459,39 +6485,6 @@ class CopyProjectVersionResponse {
     final projectVersionArn = this.projectVersionArn;
     return {
       if (projectVersionArn != null) 'ProjectVersionArn': projectVersionArn,
-    };
-  }
-}
-
-/// Information about an item of Personal Protective Equipment covering a
-/// corresponding body part. For more information, see
-/// <a>DetectProtectiveEquipment</a>.
-class CoversBodyPart {
-  /// The confidence that Amazon Rekognition has in the value of
-  /// <code>Value</code>.
-  final double? confidence;
-
-  /// True if the PPE covers the corresponding body part, otherwise false.
-  final bool? value;
-
-  CoversBodyPart({
-    this.confidence,
-    this.value,
-  });
-
-  factory CoversBodyPart.fromJson(Map<String, dynamic> json) {
-    return CoversBodyPart(
-      confidence: json['Confidence'] as double?,
-      value: json['Value'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final confidence = this.confidence;
-    final value = this.value;
-    return {
-      if (confidence != null) 'Confidence': confidence,
-      if (value != null) 'Value': value,
     };
   }
 }
@@ -7552,38 +6545,6 @@ class CreateDatasetResponse {
     final datasetArn = this.datasetArn;
     return {
       if (datasetArn != null) 'DatasetArn': datasetArn,
-    };
-  }
-}
-
-/// A session settings object. It contains settings for the operation to be
-/// performed. It accepts arguments for OutputConfig and AuditImagesLimit.
-class CreateFaceLivenessSessionRequestSettings {
-  /// Number of audit images to be returned back. Takes an integer between 0-4.
-  /// Any integer less than 0 will return 0, any integer above 4 will return 4
-  /// images in the response. By default, it is set to 0. The limit is best effort
-  /// and is based on the actual duration of the selfie-video.
-  final int? auditImagesLimit;
-
-  /// Can specify the location of an Amazon S3 bucket, where reference and audit
-  /// images will be stored. Note that the Amazon S3 bucket must be located in the
-  /// caller's AWS account and in the same region as the Face Liveness end-point.
-  /// Additionally, the Amazon S3 object keys are auto-generated by the Face
-  /// Liveness system. Requires that the caller has the <code>s3:PutObject</code>
-  /// permission on the Amazon S3 bucket.
-  final LivenessOutputConfig? outputConfig;
-
-  CreateFaceLivenessSessionRequestSettings({
-    this.auditImagesLimit,
-    this.outputConfig,
-  });
-
-  Map<String, dynamic> toJson() {
-    final auditImagesLimit = this.auditImagesLimit;
-    final outputConfig = this.outputConfig;
-    return {
-      if (auditImagesLimit != null) 'AuditImagesLimit': auditImagesLimit,
-      if (outputConfig != null) 'OutputConfig': outputConfig,
     };
   }
 }
@@ -7697,524 +6658,6 @@ class CreateUserResponse {
   }
 }
 
-/// A custom label detected in an image by a call to <a>DetectCustomLabels</a>.
-class CustomLabel {
-  /// The confidence that the model has in the detection of the custom label. The
-  /// range is 0-100. A higher value indicates a higher confidence.
-  final double? confidence;
-
-  /// The location of the detected object on the image that corresponds to the
-  /// custom label. Includes an axis aligned coarse bounding box surrounding the
-  /// object and a finer grain polygon for more accurate spatial information.
-  final Geometry? geometry;
-
-  /// The name of the custom label.
-  final String? name;
-
-  CustomLabel({
-    this.confidence,
-    this.geometry,
-    this.name,
-  });
-
-  factory CustomLabel.fromJson(Map<String, dynamic> json) {
-    return CustomLabel(
-      confidence: json['Confidence'] as double?,
-      geometry: json['Geometry'] != null
-          ? Geometry.fromJson(json['Geometry'] as Map<String, dynamic>)
-          : null,
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final confidence = this.confidence;
-    final geometry = this.geometry;
-    final name = this.name;
-    return {
-      if (confidence != null) 'Confidence': confidence,
-      if (geometry != null) 'Geometry': geometry,
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
-class CustomizationFeature {
-  static const contentModeration = CustomizationFeature._('CONTENT_MODERATION');
-  static const customLabels = CustomizationFeature._('CUSTOM_LABELS');
-
-  final String value;
-
-  const CustomizationFeature._(this.value);
-
-  static const values = [contentModeration, customLabels];
-
-  static CustomizationFeature fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CustomizationFeature._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CustomizationFeature && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Feature specific configuration for the training job. Configuration provided
-/// for the job must match the feature type parameter associated with project.
-/// If configuration and feature type do not match an InvalidParameterException
-/// is returned.
-class CustomizationFeatureConfig {
-  /// Configuration options for Custom Moderation training.
-  final CustomizationFeatureContentModerationConfig? contentModeration;
-
-  CustomizationFeatureConfig({
-    this.contentModeration,
-  });
-
-  factory CustomizationFeatureConfig.fromJson(Map<String, dynamic> json) {
-    return CustomizationFeatureConfig(
-      contentModeration: json['ContentModeration'] != null
-          ? CustomizationFeatureContentModerationConfig.fromJson(
-              json['ContentModeration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final contentModeration = this.contentModeration;
-    return {
-      if (contentModeration != null) 'ContentModeration': contentModeration,
-    };
-  }
-}
-
-/// Configuration options for Content Moderation training.
-class CustomizationFeatureContentModerationConfig {
-  /// The confidence level you plan to use to identify if unsafe content is
-  /// present during inference.
-  final double? confidenceThreshold;
-
-  CustomizationFeatureContentModerationConfig({
-    this.confidenceThreshold,
-  });
-
-  factory CustomizationFeatureContentModerationConfig.fromJson(
-      Map<String, dynamic> json) {
-    return CustomizationFeatureContentModerationConfig(
-      confidenceThreshold: json['ConfidenceThreshold'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final confidenceThreshold = this.confidenceThreshold;
-    return {
-      if (confidenceThreshold != null)
-        'ConfidenceThreshold': confidenceThreshold,
-    };
-  }
-}
-
-/// Describes updates or additions to a dataset. A Single update or addition is
-/// an entry (JSON Line) that provides information about a single image. To
-/// update an existing entry, you match the <code>source-ref</code> field of the
-/// update entry with the <code>source-ref</code> filed of the entry that you
-/// want to update. If the <code>source-ref</code> field doesn't match an
-/// existing entry, the entry is added to dataset as a new entry.
-class DatasetChanges {
-  /// A Base64-encoded binary data object containing one or JSON lines that either
-  /// update the dataset or are additions to the dataset. You change a dataset by
-  /// calling <a>UpdateDatasetEntries</a>. If you are using an AWS SDK to call
-  /// <code>UpdateDatasetEntries</code>, you don't need to encode
-  /// <code>Changes</code> as the SDK encodes the data for you.
-  ///
-  /// For example JSON lines, see Image-Level labels in manifest files and and
-  /// Object localization in manifest files in the <i>Amazon Rekognition Custom
-  /// Labels Developer Guide</i>.
-  final Uint8List groundTruth;
-
-  DatasetChanges({
-    required this.groundTruth,
-  });
-
-  Map<String, dynamic> toJson() {
-    final groundTruth = this.groundTruth;
-    return {
-      'GroundTruth': base64Encode(groundTruth),
-    };
-  }
-}
-
-/// A description for a dataset. For more information, see
-/// <a>DescribeDataset</a>.
-///
-/// The status fields <code>Status</code>, <code>StatusMessage</code>, and
-/// <code>StatusMessageCode</code> reflect the last operation on the dataset.
-class DatasetDescription {
-  /// The Unix timestamp for the time and date that the dataset was created.
-  final DateTime? creationTimestamp;
-
-  /// The status message code for the dataset.
-  final DatasetStats? datasetStats;
-
-  /// The Unix timestamp for the date and time that the dataset was last updated.
-  final DateTime? lastUpdatedTimestamp;
-
-  /// The status of the dataset.
-  final DatasetStatus? status;
-
-  /// The status message for the dataset.
-  final String? statusMessage;
-
-  /// The status message code for the dataset operation. If a service error
-  /// occurs, try the API call again later. If a client error occurs, check the
-  /// input parameters to the dataset API call that failed.
-  final DatasetStatusMessageCode? statusMessageCode;
-
-  DatasetDescription({
-    this.creationTimestamp,
-    this.datasetStats,
-    this.lastUpdatedTimestamp,
-    this.status,
-    this.statusMessage,
-    this.statusMessageCode,
-  });
-
-  factory DatasetDescription.fromJson(Map<String, dynamic> json) {
-    return DatasetDescription(
-      creationTimestamp: timeStampFromJson(json['CreationTimestamp']),
-      datasetStats: json['DatasetStats'] != null
-          ? DatasetStats.fromJson(json['DatasetStats'] as Map<String, dynamic>)
-          : null,
-      lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
-      status: (json['Status'] as String?)?.let(DatasetStatus.fromString),
-      statusMessage: json['StatusMessage'] as String?,
-      statusMessageCode: (json['StatusMessageCode'] as String?)
-          ?.let(DatasetStatusMessageCode.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationTimestamp = this.creationTimestamp;
-    final datasetStats = this.datasetStats;
-    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
-    final status = this.status;
-    final statusMessage = this.statusMessage;
-    final statusMessageCode = this.statusMessageCode;
-    return {
-      if (creationTimestamp != null)
-        'CreationTimestamp': unixTimestampToJson(creationTimestamp),
-      if (datasetStats != null) 'DatasetStats': datasetStats,
-      if (lastUpdatedTimestamp != null)
-        'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
-      if (status != null) 'Status': status.value,
-      if (statusMessage != null) 'StatusMessage': statusMessage,
-      if (statusMessageCode != null)
-        'StatusMessageCode': statusMessageCode.value,
-    };
-  }
-}
-
-/// Describes a dataset label. For more information, see
-/// <a>ListDatasetLabels</a>.
-class DatasetLabelDescription {
-  /// The name of the label.
-  final String? labelName;
-
-  /// Statistics about the label.
-  final DatasetLabelStats? labelStats;
-
-  DatasetLabelDescription({
-    this.labelName,
-    this.labelStats,
-  });
-
-  factory DatasetLabelDescription.fromJson(Map<String, dynamic> json) {
-    return DatasetLabelDescription(
-      labelName: json['LabelName'] as String?,
-      labelStats: json['LabelStats'] != null
-          ? DatasetLabelStats.fromJson(
-              json['LabelStats'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final labelName = this.labelName;
-    final labelStats = this.labelStats;
-    return {
-      if (labelName != null) 'LabelName': labelName,
-      if (labelStats != null) 'LabelStats': labelStats,
-    };
-  }
-}
-
-/// Statistics about a label used in a dataset. For more information, see
-/// <a>DatasetLabelDescription</a>.
-class DatasetLabelStats {
-  /// The total number of images that have the label assigned to a bounding box.
-  final int? boundingBoxCount;
-
-  /// The total number of images that use the label.
-  final int? entryCount;
-
-  DatasetLabelStats({
-    this.boundingBoxCount,
-    this.entryCount,
-  });
-
-  factory DatasetLabelStats.fromJson(Map<String, dynamic> json) {
-    return DatasetLabelStats(
-      boundingBoxCount: json['BoundingBoxCount'] as int?,
-      entryCount: json['EntryCount'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final boundingBoxCount = this.boundingBoxCount;
-    final entryCount = this.entryCount;
-    return {
-      if (boundingBoxCount != null) 'BoundingBoxCount': boundingBoxCount,
-      if (entryCount != null) 'EntryCount': entryCount,
-    };
-  }
-}
-
-/// Summary information for an Amazon Rekognition Custom Labels dataset. For
-/// more information, see <a>ProjectDescription</a>.
-class DatasetMetadata {
-  /// The Unix timestamp for the date and time that the dataset was created.
-  final DateTime? creationTimestamp;
-
-  /// The Amazon Resource Name (ARN) for the dataset.
-  final String? datasetArn;
-
-  /// The type of the dataset.
-  final DatasetType? datasetType;
-
-  /// The status for the dataset.
-  final DatasetStatus? status;
-
-  /// The status message for the dataset.
-  final String? statusMessage;
-
-  /// The status message code for the dataset operation. If a service error
-  /// occurs, try the API call again later. If a client error occurs, check the
-  /// input parameters to the dataset API call that failed.
-  final DatasetStatusMessageCode? statusMessageCode;
-
-  DatasetMetadata({
-    this.creationTimestamp,
-    this.datasetArn,
-    this.datasetType,
-    this.status,
-    this.statusMessage,
-    this.statusMessageCode,
-  });
-
-  factory DatasetMetadata.fromJson(Map<String, dynamic> json) {
-    return DatasetMetadata(
-      creationTimestamp: timeStampFromJson(json['CreationTimestamp']),
-      datasetArn: json['DatasetArn'] as String?,
-      datasetType:
-          (json['DatasetType'] as String?)?.let(DatasetType.fromString),
-      status: (json['Status'] as String?)?.let(DatasetStatus.fromString),
-      statusMessage: json['StatusMessage'] as String?,
-      statusMessageCode: (json['StatusMessageCode'] as String?)
-          ?.let(DatasetStatusMessageCode.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationTimestamp = this.creationTimestamp;
-    final datasetArn = this.datasetArn;
-    final datasetType = this.datasetType;
-    final status = this.status;
-    final statusMessage = this.statusMessage;
-    final statusMessageCode = this.statusMessageCode;
-    return {
-      if (creationTimestamp != null)
-        'CreationTimestamp': unixTimestampToJson(creationTimestamp),
-      if (datasetArn != null) 'DatasetArn': datasetArn,
-      if (datasetType != null) 'DatasetType': datasetType.value,
-      if (status != null) 'Status': status.value,
-      if (statusMessage != null) 'StatusMessage': statusMessage,
-      if (statusMessageCode != null)
-        'StatusMessageCode': statusMessageCode.value,
-    };
-  }
-}
-
-/// The source that Amazon Rekognition Custom Labels uses to create a dataset.
-/// To use an Amazon Sagemaker format manifest file, specify the S3 bucket
-/// location in the <code>GroundTruthManifest</code> field. The S3 bucket must
-/// be in your AWS account. To create a copy of an existing dataset, specify the
-/// Amazon Resource Name (ARN) of an existing dataset in
-/// <code>DatasetArn</code>.
-///
-/// You need to specify a value for <code>DatasetArn</code> or
-/// <code>GroundTruthManifest</code>, but not both. if you supply both values,
-/// or if you don't specify any values, an InvalidParameterException exception
-/// occurs.
-///
-/// For more information, see <a>CreateDataset</a>.
-class DatasetSource {
-  /// The ARN of an Amazon Rekognition Custom Labels dataset that you want to
-  /// copy.
-  final String? datasetArn;
-  final GroundTruthManifest? groundTruthManifest;
-
-  DatasetSource({
-    this.datasetArn,
-    this.groundTruthManifest,
-  });
-
-  Map<String, dynamic> toJson() {
-    final datasetArn = this.datasetArn;
-    final groundTruthManifest = this.groundTruthManifest;
-    return {
-      if (datasetArn != null) 'DatasetArn': datasetArn,
-      if (groundTruthManifest != null)
-        'GroundTruthManifest': groundTruthManifest,
-    };
-  }
-}
-
-/// Provides statistics about a dataset. For more information, see
-/// <a>DescribeDataset</a>.
-class DatasetStats {
-  /// The total number of entries that contain at least one error.
-  final int? errorEntries;
-
-  /// The total number of images in the dataset that have labels.
-  final int? labeledEntries;
-
-  /// The total number of images in the dataset.
-  final int? totalEntries;
-
-  /// The total number of labels declared in the dataset.
-  final int? totalLabels;
-
-  DatasetStats({
-    this.errorEntries,
-    this.labeledEntries,
-    this.totalEntries,
-    this.totalLabels,
-  });
-
-  factory DatasetStats.fromJson(Map<String, dynamic> json) {
-    return DatasetStats(
-      errorEntries: json['ErrorEntries'] as int?,
-      labeledEntries: json['LabeledEntries'] as int?,
-      totalEntries: json['TotalEntries'] as int?,
-      totalLabels: json['TotalLabels'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorEntries = this.errorEntries;
-    final labeledEntries = this.labeledEntries;
-    final totalEntries = this.totalEntries;
-    final totalLabels = this.totalLabels;
-    return {
-      if (errorEntries != null) 'ErrorEntries': errorEntries,
-      if (labeledEntries != null) 'LabeledEntries': labeledEntries,
-      if (totalEntries != null) 'TotalEntries': totalEntries,
-      if (totalLabels != null) 'TotalLabels': totalLabels,
-    };
-  }
-}
-
-class DatasetStatus {
-  static const createInProgress = DatasetStatus._('CREATE_IN_PROGRESS');
-  static const createComplete = DatasetStatus._('CREATE_COMPLETE');
-  static const createFailed = DatasetStatus._('CREATE_FAILED');
-  static const updateInProgress = DatasetStatus._('UPDATE_IN_PROGRESS');
-  static const updateComplete = DatasetStatus._('UPDATE_COMPLETE');
-  static const updateFailed = DatasetStatus._('UPDATE_FAILED');
-  static const deleteInProgress = DatasetStatus._('DELETE_IN_PROGRESS');
-
-  final String value;
-
-  const DatasetStatus._(this.value);
-
-  static const values = [
-    createInProgress,
-    createComplete,
-    createFailed,
-    updateInProgress,
-    updateComplete,
-    updateFailed,
-    deleteInProgress
-  ];
-
-  static DatasetStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DatasetStatus._(value));
-
-  @override
-  bool operator ==(other) => other is DatasetStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DatasetStatusMessageCode {
-  static const success = DatasetStatusMessageCode._('SUCCESS');
-  static const serviceError = DatasetStatusMessageCode._('SERVICE_ERROR');
-  static const clientError = DatasetStatusMessageCode._('CLIENT_ERROR');
-
-  final String value;
-
-  const DatasetStatusMessageCode._(this.value);
-
-  static const values = [success, serviceError, clientError];
-
-  static DatasetStatusMessageCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DatasetStatusMessageCode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DatasetStatusMessageCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DatasetType {
-  static const train = DatasetType._('TRAIN');
-  static const test = DatasetType._('TEST');
-
-  final String value;
-
-  const DatasetType._(this.value);
-
-  static const values = [train, test];
-
-  static DatasetType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => DatasetType._(value));
-
-  @override
-  bool operator ==(other) => other is DatasetType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class DeleteCollectionResponse {
   /// HTTP status code that indicates the result of the operation.
   final int? statusCode;
@@ -8286,18 +6729,6 @@ class DeleteFacesResponse {
   }
 }
 
-class DeleteProjectPolicyResponse {
-  DeleteProjectPolicyResponse();
-
-  factory DeleteProjectPolicyResponse.fromJson(Map<String, dynamic> _) {
-    return DeleteProjectPolicyResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
 class DeleteProjectResponse {
   /// The current status of the delete project operation.
   final ProjectStatus? status;
@@ -8317,6 +6748,18 @@ class DeleteProjectResponse {
     return {
       if (status != null) 'Status': status.value,
     };
+  }
+}
+
+class DeleteProjectPolicyResponse {
+  DeleteProjectPolicyResponse();
+
+  factory DeleteProjectPolicyResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteProjectPolicyResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -8449,6 +6892,42 @@ class DescribeDatasetResponse {
   }
 }
 
+class DescribeProjectsResponse {
+  /// If the previous response was incomplete (because there is more results to
+  /// retrieve), Amazon Rekognition returns a pagination token in the response.
+  /// You can use this pagination token to retrieve the next set of results.
+  final String? nextToken;
+
+  /// A list of project descriptions. The list is sorted by the date and time the
+  /// projects are created.
+  final List<ProjectDescription>? projectDescriptions;
+
+  DescribeProjectsResponse({
+    this.nextToken,
+    this.projectDescriptions,
+  });
+
+  factory DescribeProjectsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeProjectsResponse(
+      nextToken: json['NextToken'] as String?,
+      projectDescriptions: (json['ProjectDescriptions'] as List?)
+          ?.nonNulls
+          .map((e) => ProjectDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final projectDescriptions = this.projectDescriptions;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (projectDescriptions != null)
+        'ProjectDescriptions': projectDescriptions,
+    };
+  }
+}
+
 class DescribeProjectVersionsResponse {
   /// If the previous response was incomplete (because there is more results to
   /// retrieve), Amazon Rekognition returns a pagination token in the response.
@@ -8482,42 +6961,6 @@ class DescribeProjectVersionsResponse {
       if (nextToken != null) 'NextToken': nextToken,
       if (projectVersionDescriptions != null)
         'ProjectVersionDescriptions': projectVersionDescriptions,
-    };
-  }
-}
-
-class DescribeProjectsResponse {
-  /// If the previous response was incomplete (because there is more results to
-  /// retrieve), Amazon Rekognition returns a pagination token in the response.
-  /// You can use this pagination token to retrieve the next set of results.
-  final String? nextToken;
-
-  /// A list of project descriptions. The list is sorted by the date and time the
-  /// projects are created.
-  final List<ProjectDescription>? projectDescriptions;
-
-  DescribeProjectsResponse({
-    this.nextToken,
-    this.projectDescriptions,
-  });
-
-  factory DescribeProjectsResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeProjectsResponse(
-      nextToken: json['NextToken'] as String?,
-      projectDescriptions: (json['ProjectDescriptions'] as List?)
-          ?.nonNulls
-          .map((e) => ProjectDescription.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final projectDescriptions = this.projectDescriptions;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (projectDescriptions != null)
-        'ProjectDescriptions': projectDescriptions,
     };
   }
 }
@@ -8737,231 +7180,6 @@ class DetectFacesResponse {
   }
 }
 
-class DetectLabelsFeatureName {
-  static const generalLabels = DetectLabelsFeatureName._('GENERAL_LABELS');
-  static const imageProperties = DetectLabelsFeatureName._('IMAGE_PROPERTIES');
-
-  final String value;
-
-  const DetectLabelsFeatureName._(this.value);
-
-  static const values = [generalLabels, imageProperties];
-
-  static DetectLabelsFeatureName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DetectLabelsFeatureName._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DetectLabelsFeatureName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The background of the image with regard to image quality and dominant
-/// colors.
-class DetectLabelsImageBackground {
-  /// The dominant colors found in the background of an image, defined with RGB
-  /// values, CSS color name, simplified color name, and PixelPercentage (the
-  /// percentage of image pixels that have a particular color).
-  final List<DominantColor>? dominantColors;
-
-  /// The quality of the image background as defined by brightness and sharpness.
-  final DetectLabelsImageQuality? quality;
-
-  DetectLabelsImageBackground({
-    this.dominantColors,
-    this.quality,
-  });
-
-  factory DetectLabelsImageBackground.fromJson(Map<String, dynamic> json) {
-    return DetectLabelsImageBackground(
-      dominantColors: (json['DominantColors'] as List?)
-          ?.nonNulls
-          .map((e) => DominantColor.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      quality: json['Quality'] != null
-          ? DetectLabelsImageQuality.fromJson(
-              json['Quality'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dominantColors = this.dominantColors;
-    final quality = this.quality;
-    return {
-      if (dominantColors != null) 'DominantColors': dominantColors,
-      if (quality != null) 'Quality': quality,
-    };
-  }
-}
-
-/// The foreground of the image with regard to image quality and dominant
-/// colors.
-class DetectLabelsImageForeground {
-  /// The dominant colors found in the foreground of an image, defined with RGB
-  /// values, CSS color name, simplified color name, and PixelPercentage (the
-  /// percentage of image pixels that have a particular color).
-  final List<DominantColor>? dominantColors;
-
-  /// The quality of the image foreground as defined by brightness and sharpness.
-  final DetectLabelsImageQuality? quality;
-
-  DetectLabelsImageForeground({
-    this.dominantColors,
-    this.quality,
-  });
-
-  factory DetectLabelsImageForeground.fromJson(Map<String, dynamic> json) {
-    return DetectLabelsImageForeground(
-      dominantColors: (json['DominantColors'] as List?)
-          ?.nonNulls
-          .map((e) => DominantColor.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      quality: json['Quality'] != null
-          ? DetectLabelsImageQuality.fromJson(
-              json['Quality'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dominantColors = this.dominantColors;
-    final quality = this.quality;
-    return {
-      if (dominantColors != null) 'DominantColors': dominantColors,
-      if (quality != null) 'Quality': quality,
-    };
-  }
-}
-
-/// Information about the quality and dominant colors of an input image. Quality
-/// and color information is returned for the entire image, foreground, and
-/// background.
-class DetectLabelsImageProperties {
-  /// Information about the properties of an image’s background, including the
-  /// background’s quality and dominant colors, including the quality and dominant
-  /// colors of the image.
-  final DetectLabelsImageBackground? background;
-
-  /// Information about the dominant colors found in an image, described with RGB
-  /// values, CSS color name, simplified color name, and PixelPercentage (the
-  /// percentage of image pixels that have a particular color).
-  final List<DominantColor>? dominantColors;
-
-  /// Information about the properties of an image’s foreground, including the
-  /// foreground’s quality and dominant colors, including the quality and dominant
-  /// colors of the image.
-  final DetectLabelsImageForeground? foreground;
-
-  /// Information about the quality of the image foreground as defined by
-  /// brightness, sharpness, and contrast. The higher the value the greater the
-  /// brightness, sharpness, and contrast respectively.
-  final DetectLabelsImageQuality? quality;
-
-  DetectLabelsImageProperties({
-    this.background,
-    this.dominantColors,
-    this.foreground,
-    this.quality,
-  });
-
-  factory DetectLabelsImageProperties.fromJson(Map<String, dynamic> json) {
-    return DetectLabelsImageProperties(
-      background: json['Background'] != null
-          ? DetectLabelsImageBackground.fromJson(
-              json['Background'] as Map<String, dynamic>)
-          : null,
-      dominantColors: (json['DominantColors'] as List?)
-          ?.nonNulls
-          .map((e) => DominantColor.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      foreground: json['Foreground'] != null
-          ? DetectLabelsImageForeground.fromJson(
-              json['Foreground'] as Map<String, dynamic>)
-          : null,
-      quality: json['Quality'] != null
-          ? DetectLabelsImageQuality.fromJson(
-              json['Quality'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final background = this.background;
-    final dominantColors = this.dominantColors;
-    final foreground = this.foreground;
-    final quality = this.quality;
-    return {
-      if (background != null) 'Background': background,
-      if (dominantColors != null) 'DominantColors': dominantColors,
-      if (foreground != null) 'Foreground': foreground,
-      if (quality != null) 'Quality': quality,
-    };
-  }
-}
-
-/// Settings for the IMAGE_PROPERTIES feature type.
-class DetectLabelsImagePropertiesSettings {
-  /// The maximum number of dominant colors to return when detecting labels in an
-  /// image. The default value is 10.
-  final int? maxDominantColors;
-
-  DetectLabelsImagePropertiesSettings({
-    this.maxDominantColors,
-  });
-
-  Map<String, dynamic> toJson() {
-    final maxDominantColors = this.maxDominantColors;
-    return {
-      if (maxDominantColors != null) 'MaxDominantColors': maxDominantColors,
-    };
-  }
-}
-
-/// The quality of an image provided for label detection, with regard to
-/// brightness, sharpness, and contrast.
-class DetectLabelsImageQuality {
-  /// The brightness of an image provided for label detection.
-  final double? brightness;
-
-  /// The contrast of an image provided for label detection.
-  final double? contrast;
-
-  /// The sharpness of an image provided for label detection.
-  final double? sharpness;
-
-  DetectLabelsImageQuality({
-    this.brightness,
-    this.contrast,
-    this.sharpness,
-  });
-
-  factory DetectLabelsImageQuality.fromJson(Map<String, dynamic> json) {
-    return DetectLabelsImageQuality(
-      brightness: json['Brightness'] as double?,
-      contrast: json['Contrast'] as double?,
-      sharpness: json['Sharpness'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final brightness = this.brightness;
-    final contrast = this.contrast;
-    final sharpness = this.sharpness;
-    return {
-      if (brightness != null) 'Brightness': brightness,
-      if (contrast != null) 'Contrast': contrast,
-      if (sharpness != null) 'Sharpness': sharpness,
-    };
-  }
-}
-
 class DetectLabelsResponse {
   /// Information about the properties of the input image, such as brightness,
   /// sharpness, contrast, and dominant colors.
@@ -9022,33 +7240,6 @@ class DetectLabelsResponse {
       if (labels != null) 'Labels': labels,
       if (orientationCorrection != null)
         'OrientationCorrection': orientationCorrection.value,
-    };
-  }
-}
-
-/// Settings for the DetectLabels request. Settings can include filters for both
-/// GENERAL_LABELS and IMAGE_PROPERTIES. GENERAL_LABELS filters can be inclusive
-/// or exclusive and applied to individual labels or label categories.
-/// IMAGE_PROPERTIES filters allow specification of a maximum number of dominant
-/// colors.
-class DetectLabelsSettings {
-  /// Contains the specified filters for GENERAL_LABELS.
-  final GeneralLabelsSettings? generalLabels;
-
-  /// Contains the chosen number of maximum dominant colors in an image.
-  final DetectLabelsImagePropertiesSettings? imageProperties;
-
-  DetectLabelsSettings({
-    this.generalLabels,
-    this.imageProperties,
-  });
-
-  Map<String, dynamic> toJson() {
-    final generalLabels = this.generalLabels;
-    final imageProperties = this.imageProperties;
-    return {
-      if (generalLabels != null) 'GeneralLabels': generalLabels,
-      if (imageProperties != null) 'ImageProperties': imageProperties,
     };
   }
 }
@@ -9169,32 +7360,6 @@ class DetectProtectiveEquipmentResponse {
   }
 }
 
-/// A set of optional parameters that you can use to set the criteria that the
-/// text must meet to be included in your response. <code>WordFilter</code>
-/// looks at a word’s height, width, and minimum confidence.
-/// <code>RegionOfInterest</code> lets you set a specific region of the image to
-/// look for text in.
-class DetectTextFilters {
-  /// A Filter focusing on a certain area of the image. Uses a
-  /// <code>BoundingBox</code> object to set the region of the image.
-  final List<RegionOfInterest>? regionsOfInterest;
-  final DetectionFilter? wordFilter;
-
-  DetectTextFilters({
-    this.regionsOfInterest,
-    this.wordFilter,
-  });
-
-  Map<String, dynamic> toJson() {
-    final regionsOfInterest = this.regionsOfInterest;
-    final wordFilter = this.wordFilter;
-    return {
-      if (regionsOfInterest != null) 'RegionsOfInterest': regionsOfInterest,
-      if (wordFilter != null) 'WordFilter': wordFilter,
-    };
-  }
-}
-
 class DetectTextResponse {
   /// An array of text that was detected in the input image.
   final List<TextDetection>? textDetections;
@@ -9223,44 +7388,6 @@ class DetectTextResponse {
     return {
       if (textDetections != null) 'TextDetections': textDetections,
       if (textModelVersion != null) 'TextModelVersion': textModelVersion,
-    };
-  }
-}
-
-/// A set of parameters that allow you to filter out certain results from your
-/// returned results.
-class DetectionFilter {
-  /// Sets the minimum height of the word bounding box. Words with bounding box
-  /// heights lesser than this value will be excluded from the result. Value is
-  /// relative to the video frame height.
-  final double? minBoundingBoxHeight;
-
-  /// Sets the minimum width of the word bounding box. Words with bounding boxes
-  /// widths lesser than this value will be excluded from the result. Value is
-  /// relative to the video frame width.
-  final double? minBoundingBoxWidth;
-
-  /// Sets the confidence of word detection. Words with detection confidence below
-  /// this will be excluded from the result. Values should be between 0 and 100.
-  /// The default MinConfidence is 80.
-  final double? minConfidence;
-
-  DetectionFilter({
-    this.minBoundingBoxHeight,
-    this.minBoundingBoxWidth,
-    this.minConfidence,
-  });
-
-  Map<String, dynamic> toJson() {
-    final minBoundingBoxHeight = this.minBoundingBoxHeight;
-    final minBoundingBoxWidth = this.minBoundingBoxWidth;
-    final minConfidence = this.minConfidence;
-    return {
-      if (minBoundingBoxHeight != null)
-        'MinBoundingBoxHeight': minBoundingBoxHeight,
-      if (minBoundingBoxWidth != null)
-        'MinBoundingBoxWidth': minBoundingBoxWidth,
-      if (minConfidence != null) 'MinConfidence': minConfidence,
     };
   }
 }
@@ -9316,48 +7443,6 @@ class DisassociateFacesResponse {
   }
 }
 
-/// Provides face metadata for the faces that are disassociated from a specific
-/// UserID.
-class DisassociatedFace {
-  /// Unique identifier assigned to the face.
-  final String? faceId;
-
-  DisassociatedFace({
-    this.faceId,
-  });
-
-  factory DisassociatedFace.fromJson(Map<String, dynamic> json) {
-    return DisassociatedFace(
-      faceId: json['FaceId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final faceId = this.faceId;
-    return {
-      if (faceId != null) 'FaceId': faceId,
-    };
-  }
-}
-
-/// A training dataset or a test dataset used in a dataset distribution
-/// operation. For more information, see <a>DistributeDatasetEntries</a>.
-class DistributeDataset {
-  /// The Amazon Resource Name (ARN) of the dataset that you want to use.
-  final String arn;
-
-  DistributeDataset({
-    required this.arn,
-  });
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    return {
-      'Arn': arn,
-    };
-  }
-}
-
 class DistributeDatasetEntriesResponse {
   DistributeDatasetEntriesResponse();
 
@@ -9367,1006 +7452,6 @@ class DistributeDatasetEntriesResponse {
 
   Map<String, dynamic> toJson() {
     return {};
-  }
-}
-
-/// A description of the dominant colors in an image.
-class DominantColor {
-  /// The Blue RGB value for a dominant color.
-  final int? blue;
-
-  /// The CSS color name of a dominant color.
-  final String? cSSColor;
-
-  /// The Green RGB value for a dominant color.
-  final int? green;
-
-  /// The Hex code equivalent of the RGB values for a dominant color.
-  final String? hexCode;
-
-  /// The percentage of image pixels that have a given dominant color.
-  final double? pixelPercent;
-
-  /// The Red RGB value for a dominant color.
-  final int? red;
-
-  /// One of 12 simplified color names applied to a dominant color.
-  final String? simplifiedColor;
-
-  DominantColor({
-    this.blue,
-    this.cSSColor,
-    this.green,
-    this.hexCode,
-    this.pixelPercent,
-    this.red,
-    this.simplifiedColor,
-  });
-
-  factory DominantColor.fromJson(Map<String, dynamic> json) {
-    return DominantColor(
-      blue: json['Blue'] as int?,
-      cSSColor: json['CSSColor'] as String?,
-      green: json['Green'] as int?,
-      hexCode: json['HexCode'] as String?,
-      pixelPercent: json['PixelPercent'] as double?,
-      red: json['Red'] as int?,
-      simplifiedColor: json['SimplifiedColor'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final blue = this.blue;
-    final cSSColor = this.cSSColor;
-    final green = this.green;
-    final hexCode = this.hexCode;
-    final pixelPercent = this.pixelPercent;
-    final red = this.red;
-    final simplifiedColor = this.simplifiedColor;
-    return {
-      if (blue != null) 'Blue': blue,
-      if (cSSColor != null) 'CSSColor': cSSColor,
-      if (green != null) 'Green': green,
-      if (hexCode != null) 'HexCode': hexCode,
-      if (pixelPercent != null) 'PixelPercent': pixelPercent,
-      if (red != null) 'Red': red,
-      if (simplifiedColor != null) 'SimplifiedColor': simplifiedColor,
-    };
-  }
-}
-
-/// The emotions that appear to be expressed on the face, and the confidence
-/// level in the determination. The API is only making a determination of the
-/// physical appearance of a person's face. It is not a determination of the
-/// person’s internal emotional state and should not be used in such a way. For
-/// example, a person pretending to have a sad face might not be sad
-/// emotionally.
-class Emotion {
-  /// Level of confidence in the determination.
-  final double? confidence;
-
-  /// Type of emotion detected.
-  final EmotionName? type;
-
-  Emotion({
-    this.confidence,
-    this.type,
-  });
-
-  factory Emotion.fromJson(Map<String, dynamic> json) {
-    return Emotion(
-      confidence: json['Confidence'] as double?,
-      type: (json['Type'] as String?)?.let(EmotionName.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final confidence = this.confidence;
-    final type = this.type;
-    return {
-      if (confidence != null) 'Confidence': confidence,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class EmotionName {
-  static const happy = EmotionName._('HAPPY');
-  static const sad = EmotionName._('SAD');
-  static const angry = EmotionName._('ANGRY');
-  static const confused = EmotionName._('CONFUSED');
-  static const disgusted = EmotionName._('DISGUSTED');
-  static const surprised = EmotionName._('SURPRISED');
-  static const calm = EmotionName._('CALM');
-  static const unknown = EmotionName._('UNKNOWN');
-  static const fear = EmotionName._('FEAR');
-
-  final String value;
-
-  const EmotionName._(this.value);
-
-  static const values = [
-    happy,
-    sad,
-    angry,
-    confused,
-    disgusted,
-    surprised,
-    calm,
-    unknown,
-    fear
-  ];
-
-  static EmotionName fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => EmotionName._(value));
-
-  @override
-  bool operator ==(other) => other is EmotionName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about an item of Personal Protective Equipment (PPE) detected by
-/// <a>DetectProtectiveEquipment</a>. For more information, see
-/// <a>DetectProtectiveEquipment</a>.
-class EquipmentDetection {
-  /// A bounding box surrounding the item of detected PPE.
-  final BoundingBox? boundingBox;
-
-  /// The confidence that Amazon Rekognition has that the bounding box
-  /// (<code>BoundingBox</code>) contains an item of PPE.
-  final double? confidence;
-
-  /// Information about the body part covered by the detected PPE.
-  final CoversBodyPart? coversBodyPart;
-
-  /// The type of detected PPE.
-  final ProtectiveEquipmentType? type;
-
-  EquipmentDetection({
-    this.boundingBox,
-    this.confidence,
-    this.coversBodyPart,
-    this.type,
-  });
-
-  factory EquipmentDetection.fromJson(Map<String, dynamic> json) {
-    return EquipmentDetection(
-      boundingBox: json['BoundingBox'] != null
-          ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
-          : null,
-      confidence: json['Confidence'] as double?,
-      coversBodyPart: json['CoversBodyPart'] != null
-          ? CoversBodyPart.fromJson(
-              json['CoversBodyPart'] as Map<String, dynamic>)
-          : null,
-      type: (json['Type'] as String?)?.let(ProtectiveEquipmentType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final boundingBox = this.boundingBox;
-    final confidence = this.confidence;
-    final coversBodyPart = this.coversBodyPart;
-    final type = this.type;
-    return {
-      if (boundingBox != null) 'BoundingBox': boundingBox,
-      if (confidence != null) 'Confidence': confidence,
-      if (coversBodyPart != null) 'CoversBodyPart': coversBodyPart,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-/// The evaluation results for the training of a model.
-class EvaluationResult {
-  /// The F1 score for the evaluation of all labels. The F1 score metric evaluates
-  /// the overall precision and recall performance of the model as a single value.
-  /// A higher value indicates better precision and recall performance. A lower
-  /// score indicates that precision, recall, or both are performing poorly.
-  final double? f1Score;
-
-  /// The S3 bucket that contains the training summary.
-  final Summary? summary;
-
-  EvaluationResult({
-    this.f1Score,
-    this.summary,
-  });
-
-  factory EvaluationResult.fromJson(Map<String, dynamic> json) {
-    return EvaluationResult(
-      f1Score: json['F1Score'] as double?,
-      summary: json['Summary'] != null
-          ? Summary.fromJson(json['Summary'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final f1Score = this.f1Score;
-    final summary = this.summary;
-    return {
-      if (f1Score != null) 'F1Score': f1Score,
-      if (summary != null) 'Summary': summary,
-    };
-  }
-}
-
-/// Indicates the direction the eyes are gazing in (independent of the head
-/// pose) as determined by its pitch and yaw.
-class EyeDirection {
-  /// The confidence that the service has in its predicted eye direction.
-  final double? confidence;
-
-  /// Value representing eye direction on the pitch axis.
-  final double? pitch;
-
-  /// Value representing eye direction on the yaw axis.
-  final double? yaw;
-
-  EyeDirection({
-    this.confidence,
-    this.pitch,
-    this.yaw,
-  });
-
-  factory EyeDirection.fromJson(Map<String, dynamic> json) {
-    return EyeDirection(
-      confidence: json['Confidence'] as double?,
-      pitch: json['Pitch'] as double?,
-      yaw: json['Yaw'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final confidence = this.confidence;
-    final pitch = this.pitch;
-    final yaw = this.yaw;
-    return {
-      if (confidence != null) 'Confidence': confidence,
-      if (pitch != null) 'Pitch': pitch,
-      if (yaw != null) 'Yaw': yaw,
-    };
-  }
-}
-
-/// Indicates whether or not the eyes on the face are open, and the confidence
-/// level in the determination.
-class EyeOpen {
-  /// Level of confidence in the determination.
-  final double? confidence;
-
-  /// Boolean value that indicates whether the eyes on the face are open.
-  final bool? value;
-
-  EyeOpen({
-    this.confidence,
-    this.value,
-  });
-
-  factory EyeOpen.fromJson(Map<String, dynamic> json) {
-    return EyeOpen(
-      confidence: json['Confidence'] as double?,
-      value: json['Value'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final confidence = this.confidence;
-    final value = this.value;
-    return {
-      if (confidence != null) 'Confidence': confidence,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-/// Indicates whether or not the face is wearing eye glasses, and the confidence
-/// level in the determination.
-class Eyeglasses {
-  /// Level of confidence in the determination.
-  final double? confidence;
-
-  /// Boolean value that indicates whether the face is wearing eye glasses or not.
-  final bool? value;
-
-  Eyeglasses({
-    this.confidence,
-    this.value,
-  });
-
-  factory Eyeglasses.fromJson(Map<String, dynamic> json) {
-    return Eyeglasses(
-      confidence: json['Confidence'] as double?,
-      value: json['Value'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final confidence = this.confidence;
-    final value = this.value;
-    return {
-      if (confidence != null) 'Confidence': confidence,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-/// Describes the face properties such as the bounding box, face ID, image ID of
-/// the input image, and external image ID that you assigned.
-class Face {
-  /// Bounding box of the face.
-  final BoundingBox? boundingBox;
-
-  /// Confidence level that the bounding box contains a face (and not a different
-  /// object such as a tree).
-  final double? confidence;
-
-  /// Identifier that you assign to all the faces in the input image.
-  final String? externalImageId;
-
-  /// Unique identifier that Amazon Rekognition assigns to the face.
-  final String? faceId;
-
-  /// Unique identifier that Amazon Rekognition assigns to the input image.
-  final String? imageId;
-
-  /// The version of the face detect and storage model that was used when indexing
-  /// the face vector.
-  final String? indexFacesModelVersion;
-
-  /// Unique identifier assigned to the user.
-  final String? userId;
-
-  Face({
-    this.boundingBox,
-    this.confidence,
-    this.externalImageId,
-    this.faceId,
-    this.imageId,
-    this.indexFacesModelVersion,
-    this.userId,
-  });
-
-  factory Face.fromJson(Map<String, dynamic> json) {
-    return Face(
-      boundingBox: json['BoundingBox'] != null
-          ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
-          : null,
-      confidence: json['Confidence'] as double?,
-      externalImageId: json['ExternalImageId'] as String?,
-      faceId: json['FaceId'] as String?,
-      imageId: json['ImageId'] as String?,
-      indexFacesModelVersion: json['IndexFacesModelVersion'] as String?,
-      userId: json['UserId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final boundingBox = this.boundingBox;
-    final confidence = this.confidence;
-    final externalImageId = this.externalImageId;
-    final faceId = this.faceId;
-    final imageId = this.imageId;
-    final indexFacesModelVersion = this.indexFacesModelVersion;
-    final userId = this.userId;
-    return {
-      if (boundingBox != null) 'BoundingBox': boundingBox,
-      if (confidence != null) 'Confidence': confidence,
-      if (externalImageId != null) 'ExternalImageId': externalImageId,
-      if (faceId != null) 'FaceId': faceId,
-      if (imageId != null) 'ImageId': imageId,
-      if (indexFacesModelVersion != null)
-        'IndexFacesModelVersion': indexFacesModelVersion,
-      if (userId != null) 'UserId': userId,
-    };
-  }
-}
-
-class FaceAttributes {
-  static const $default = FaceAttributes._('DEFAULT');
-  static const all = FaceAttributes._('ALL');
-
-  final String value;
-
-  const FaceAttributes._(this.value);
-
-  static const values = [$default, all];
-
-  static FaceAttributes fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FaceAttributes._(value));
-
-  @override
-  bool operator ==(other) => other is FaceAttributes && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Structure containing attributes of the face that the algorithm detected.
-///
-/// A <code>FaceDetail</code> object contains either the default facial
-/// attributes or all facial attributes. The default attributes are
-/// <code>BoundingBox</code>, <code>Confidence</code>, <code>Landmarks</code>,
-/// <code>Pose</code>, and <code>Quality</code>.
-///
-/// <a>GetFaceDetection</a> is the only Amazon Rekognition Video stored video
-/// operation that can return a <code>FaceDetail</code> object with all
-/// attributes. To specify which attributes to return, use the
-/// <code>FaceAttributes</code> input parameter for <a>StartFaceDetection</a>.
-/// The following Amazon Rekognition Video operations return only the default
-/// attributes. The corresponding Start operations don't have a
-/// <code>FaceAttributes</code> input parameter:
-///
-/// <ul>
-/// <li>
-/// GetCelebrityRecognition
-/// </li>
-/// <li>
-/// GetPersonTracking
-/// </li>
-/// <li>
-/// GetFaceSearch
-/// </li>
-/// </ul>
-/// The Amazon Rekognition Image <a>DetectFaces</a> and <a>IndexFaces</a>
-/// operations can return all facial attributes. To specify which attributes to
-/// return, use the <code>Attributes</code> input parameter for
-/// <code>DetectFaces</code>. For <code>IndexFaces</code>, use the
-/// <code>DetectAttributes</code> input parameter.
-class FaceDetail {
-  /// The estimated age range, in years, for the face. Low represents the lowest
-  /// estimated age and High represents the highest estimated age.
-  final AgeRange? ageRange;
-
-  /// Indicates whether or not the face has a beard, and the confidence level in
-  /// the determination.
-  final Beard? beard;
-
-  /// Bounding box of the face. Default attribute.
-  final BoundingBox? boundingBox;
-
-  /// Confidence level that the bounding box contains a face (and not a different
-  /// object such as a tree). Default attribute.
-  final double? confidence;
-
-  /// The emotions that appear to be expressed on the face, and the confidence
-  /// level in the determination. The API is only making a determination of the
-  /// physical appearance of a person's face. It is not a determination of the
-  /// person’s internal emotional state and should not be used in such a way. For
-  /// example, a person pretending to have a sad face might not be sad
-  /// emotionally.
-  final List<Emotion>? emotions;
-
-  /// Indicates the direction the eyes are gazing in, as defined by pitch and yaw.
-  final EyeDirection? eyeDirection;
-
-  /// Indicates whether or not the face is wearing eye glasses, and the confidence
-  /// level in the determination.
-  final Eyeglasses? eyeglasses;
-
-  /// Indicates whether or not the eyes on the face are open, and the confidence
-  /// level in the determination.
-  final EyeOpen? eyesOpen;
-
-  /// <code>FaceOccluded</code> should return "true" with a high confidence score
-  /// if a detected face’s eyes, nose, and mouth are partially captured or if they
-  /// are covered by masks, dark sunglasses, cell phones, hands, or other objects.
-  /// <code>FaceOccluded</code> should return "false" with a high confidence score
-  /// if common occurrences that do not impact face verification are detected,
-  /// such as eye glasses, lightly tinted sunglasses, strands of hair, and others.
-  final FaceOccluded? faceOccluded;
-
-  /// The predicted gender of a detected face.
-  final Gender? gender;
-
-  /// Indicates the location of landmarks on the face. Default attribute.
-  final List<Landmark>? landmarks;
-
-  /// Indicates whether or not the mouth on the face is open, and the confidence
-  /// level in the determination.
-  final MouthOpen? mouthOpen;
-
-  /// Indicates whether or not the face has a mustache, and the confidence level
-  /// in the determination.
-  final Mustache? mustache;
-
-  /// Indicates the pose of the face as determined by its pitch, roll, and yaw.
-  /// Default attribute.
-  final Pose? pose;
-
-  /// Identifies image brightness and sharpness. Default attribute.
-  final ImageQuality? quality;
-
-  /// Indicates whether or not the face is smiling, and the confidence level in
-  /// the determination.
-  final Smile? smile;
-
-  /// Indicates whether or not the face is wearing sunglasses, and the confidence
-  /// level in the determination.
-  final Sunglasses? sunglasses;
-
-  FaceDetail({
-    this.ageRange,
-    this.beard,
-    this.boundingBox,
-    this.confidence,
-    this.emotions,
-    this.eyeDirection,
-    this.eyeglasses,
-    this.eyesOpen,
-    this.faceOccluded,
-    this.gender,
-    this.landmarks,
-    this.mouthOpen,
-    this.mustache,
-    this.pose,
-    this.quality,
-    this.smile,
-    this.sunglasses,
-  });
-
-  factory FaceDetail.fromJson(Map<String, dynamic> json) {
-    return FaceDetail(
-      ageRange: json['AgeRange'] != null
-          ? AgeRange.fromJson(json['AgeRange'] as Map<String, dynamic>)
-          : null,
-      beard: json['Beard'] != null
-          ? Beard.fromJson(json['Beard'] as Map<String, dynamic>)
-          : null,
-      boundingBox: json['BoundingBox'] != null
-          ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
-          : null,
-      confidence: json['Confidence'] as double?,
-      emotions: (json['Emotions'] as List?)
-          ?.nonNulls
-          .map((e) => Emotion.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      eyeDirection: json['EyeDirection'] != null
-          ? EyeDirection.fromJson(json['EyeDirection'] as Map<String, dynamic>)
-          : null,
-      eyeglasses: json['Eyeglasses'] != null
-          ? Eyeglasses.fromJson(json['Eyeglasses'] as Map<String, dynamic>)
-          : null,
-      eyesOpen: json['EyesOpen'] != null
-          ? EyeOpen.fromJson(json['EyesOpen'] as Map<String, dynamic>)
-          : null,
-      faceOccluded: json['FaceOccluded'] != null
-          ? FaceOccluded.fromJson(json['FaceOccluded'] as Map<String, dynamic>)
-          : null,
-      gender: json['Gender'] != null
-          ? Gender.fromJson(json['Gender'] as Map<String, dynamic>)
-          : null,
-      landmarks: (json['Landmarks'] as List?)
-          ?.nonNulls
-          .map((e) => Landmark.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      mouthOpen: json['MouthOpen'] != null
-          ? MouthOpen.fromJson(json['MouthOpen'] as Map<String, dynamic>)
-          : null,
-      mustache: json['Mustache'] != null
-          ? Mustache.fromJson(json['Mustache'] as Map<String, dynamic>)
-          : null,
-      pose: json['Pose'] != null
-          ? Pose.fromJson(json['Pose'] as Map<String, dynamic>)
-          : null,
-      quality: json['Quality'] != null
-          ? ImageQuality.fromJson(json['Quality'] as Map<String, dynamic>)
-          : null,
-      smile: json['Smile'] != null
-          ? Smile.fromJson(json['Smile'] as Map<String, dynamic>)
-          : null,
-      sunglasses: json['Sunglasses'] != null
-          ? Sunglasses.fromJson(json['Sunglasses'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final ageRange = this.ageRange;
-    final beard = this.beard;
-    final boundingBox = this.boundingBox;
-    final confidence = this.confidence;
-    final emotions = this.emotions;
-    final eyeDirection = this.eyeDirection;
-    final eyeglasses = this.eyeglasses;
-    final eyesOpen = this.eyesOpen;
-    final faceOccluded = this.faceOccluded;
-    final gender = this.gender;
-    final landmarks = this.landmarks;
-    final mouthOpen = this.mouthOpen;
-    final mustache = this.mustache;
-    final pose = this.pose;
-    final quality = this.quality;
-    final smile = this.smile;
-    final sunglasses = this.sunglasses;
-    return {
-      if (ageRange != null) 'AgeRange': ageRange,
-      if (beard != null) 'Beard': beard,
-      if (boundingBox != null) 'BoundingBox': boundingBox,
-      if (confidence != null) 'Confidence': confidence,
-      if (emotions != null) 'Emotions': emotions,
-      if (eyeDirection != null) 'EyeDirection': eyeDirection,
-      if (eyeglasses != null) 'Eyeglasses': eyeglasses,
-      if (eyesOpen != null) 'EyesOpen': eyesOpen,
-      if (faceOccluded != null) 'FaceOccluded': faceOccluded,
-      if (gender != null) 'Gender': gender,
-      if (landmarks != null) 'Landmarks': landmarks,
-      if (mouthOpen != null) 'MouthOpen': mouthOpen,
-      if (mustache != null) 'Mustache': mustache,
-      if (pose != null) 'Pose': pose,
-      if (quality != null) 'Quality': quality,
-      if (smile != null) 'Smile': smile,
-      if (sunglasses != null) 'Sunglasses': sunglasses,
-    };
-  }
-}
-
-/// Information about a face detected in a video analysis request and the time
-/// the face was detected in the video.
-class FaceDetection {
-  /// The face properties for the detected face.
-  final FaceDetail? face;
-
-  /// Time, in milliseconds from the start of the video, that the face was
-  /// detected. Note that <code>Timestamp</code> is not guaranteed to be accurate
-  /// to the individual frame where the face first appears.
-  final int? timestamp;
-
-  FaceDetection({
-    this.face,
-    this.timestamp,
-  });
-
-  factory FaceDetection.fromJson(Map<String, dynamic> json) {
-    return FaceDetection(
-      face: json['Face'] != null
-          ? FaceDetail.fromJson(json['Face'] as Map<String, dynamic>)
-          : null,
-      timestamp: json['Timestamp'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final face = this.face;
-    final timestamp = this.timestamp;
-    return {
-      if (face != null) 'Face': face,
-      if (timestamp != null) 'Timestamp': timestamp,
-    };
-  }
-}
-
-/// Provides face metadata. In addition, it also provides the confidence in the
-/// match of this face with the input face.
-class FaceMatch {
-  /// Describes the face properties such as the bounding box, face ID, image ID of
-  /// the source image, and external image ID that you assigned.
-  final Face? face;
-
-  /// Confidence in the match of this face with the input face.
-  final double? similarity;
-
-  FaceMatch({
-    this.face,
-    this.similarity,
-  });
-
-  factory FaceMatch.fromJson(Map<String, dynamic> json) {
-    return FaceMatch(
-      face: json['Face'] != null
-          ? Face.fromJson(json['Face'] as Map<String, dynamic>)
-          : null,
-      similarity: json['Similarity'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final face = this.face;
-    final similarity = this.similarity;
-    return {
-      if (face != null) 'Face': face,
-      if (similarity != null) 'Similarity': similarity,
-    };
-  }
-}
-
-/// <code>FaceOccluded</code> should return "true" with a high confidence score
-/// if a detected face’s eyes, nose, and mouth are partially captured or if they
-/// are covered by masks, dark sunglasses, cell phones, hands, or other objects.
-/// <code>FaceOccluded</code> should return "false" with a high confidence score
-/// if common occurrences that do not impact face verification are detected,
-/// such as eye glasses, lightly tinted sunglasses, strands of hair, and others.
-///
-/// You can use <code>FaceOccluded</code> to determine if an obstruction on a
-/// face negatively impacts using the image for face matching.
-class FaceOccluded {
-  /// The confidence that the service has detected the presence of a face
-  /// occlusion.
-  final double? confidence;
-
-  /// True if a detected face’s eyes, nose, and mouth are partially captured or if
-  /// they are covered by masks, dark sunglasses, cell phones, hands, or other
-  /// objects. False if common occurrences that do not impact face verification
-  /// are detected, such as eye glasses, lightly tinted sunglasses, strands of
-  /// hair, and others.
-  final bool? value;
-
-  FaceOccluded({
-    this.confidence,
-    this.value,
-  });
-
-  factory FaceOccluded.fromJson(Map<String, dynamic> json) {
-    return FaceOccluded(
-      confidence: json['Confidence'] as double?,
-      value: json['Value'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final confidence = this.confidence;
-    final value = this.value;
-    return {
-      if (confidence != null) 'Confidence': confidence,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-/// Object containing both the face metadata (stored in the backend database),
-/// and facial attributes that are detected but aren't stored in the database.
-class FaceRecord {
-  /// Describes the face properties such as the bounding box, face ID, image ID of
-  /// the input image, and external image ID that you assigned.
-  final Face? face;
-
-  /// Structure containing attributes of the face that the algorithm detected.
-  final FaceDetail? faceDetail;
-
-  FaceRecord({
-    this.face,
-    this.faceDetail,
-  });
-
-  factory FaceRecord.fromJson(Map<String, dynamic> json) {
-    return FaceRecord(
-      face: json['Face'] != null
-          ? Face.fromJson(json['Face'] as Map<String, dynamic>)
-          : null,
-      faceDetail: json['FaceDetail'] != null
-          ? FaceDetail.fromJson(json['FaceDetail'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final face = this.face;
-    final faceDetail = this.faceDetail;
-    return {
-      if (face != null) 'Face': face,
-      if (faceDetail != null) 'FaceDetail': faceDetail,
-    };
-  }
-}
-
-/// Input face recognition parameters for an Amazon Rekognition stream
-/// processor. Includes the collection to use for face recognition and the face
-/// attributes to detect. Defining the settings is required in the request
-/// parameter for <a>CreateStreamProcessor</a>.
-class FaceSearchSettings {
-  /// The ID of a collection that contains faces that you want to search for.
-  final String? collectionId;
-
-  /// Minimum face match confidence score that must be met to return a result for
-  /// a recognized face. The default is 80. 0 is the lowest confidence. 100 is the
-  /// highest confidence. Values between 0 and 100 are accepted, and values lower
-  /// than 80 are set to 80.
-  final double? faceMatchThreshold;
-
-  FaceSearchSettings({
-    this.collectionId,
-    this.faceMatchThreshold,
-  });
-
-  factory FaceSearchSettings.fromJson(Map<String, dynamic> json) {
-    return FaceSearchSettings(
-      collectionId: json['CollectionId'] as String?,
-      faceMatchThreshold: json['FaceMatchThreshold'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final collectionId = this.collectionId;
-    final faceMatchThreshold = this.faceMatchThreshold;
-    return {
-      if (collectionId != null) 'CollectionId': collectionId,
-      if (faceMatchThreshold != null) 'FaceMatchThreshold': faceMatchThreshold,
-    };
-  }
-}
-
-class FaceSearchSortBy {
-  static const $index = FaceSearchSortBy._('INDEX');
-  static const timestamp = FaceSearchSortBy._('TIMESTAMP');
-
-  final String value;
-
-  const FaceSearchSortBy._(this.value);
-
-  static const values = [$index, timestamp];
-
-  static FaceSearchSortBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FaceSearchSortBy._(value));
-
-  @override
-  bool operator ==(other) => other is FaceSearchSortBy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The predicted gender of a detected face.
-///
-/// Amazon Rekognition makes gender binary (male/female) predictions based on
-/// the physical appearance of a face in a particular image. This kind of
-/// prediction is not designed to categorize a person’s gender identity, and you
-/// shouldn't use Amazon Rekognition to make such a determination. For example,
-/// a male actor wearing a long-haired wig and earrings for a role might be
-/// predicted as female.
-///
-/// Using Amazon Rekognition to make gender binary predictions is best suited
-/// for use cases where aggregate gender distribution statistics need to be
-/// analyzed without identifying specific users. For example, the percentage of
-/// female users compared to male users on a social media platform.
-///
-/// We don't recommend using gender binary predictions to make decisions that
-/// impact an individual's rights, privacy, or access to services.
-class Gender {
-  /// Level of confidence in the prediction.
-  final double? confidence;
-
-  /// The predicted gender of the face.
-  final GenderType? value;
-
-  Gender({
-    this.confidence,
-    this.value,
-  });
-
-  factory Gender.fromJson(Map<String, dynamic> json) {
-    return Gender(
-      confidence: json['Confidence'] as double?,
-      value: (json['Value'] as String?)?.let(GenderType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final confidence = this.confidence;
-    final value = this.value;
-    return {
-      if (confidence != null) 'Confidence': confidence,
-      if (value != null) 'Value': value.value,
-    };
-  }
-}
-
-class GenderType {
-  static const male = GenderType._('Male');
-  static const female = GenderType._('Female');
-
-  final String value;
-
-  const GenderType._(this.value);
-
-  static const values = [male, female];
-
-  static GenderType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => GenderType._(value));
-
-  @override
-  bool operator ==(other) => other is GenderType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains filters for the object labels returned by DetectLabels. Filters can
-/// be inclusive, exclusive, or a combination of both and can be applied to
-/// individual labels or entire label categories. To see a list of label
-/// categories, see <a
-/// href="https://docs.aws.amazon.com/rekognition/latest/dg/labels.html">Detecting
-/// Labels</a>.
-class GeneralLabelsSettings {
-  /// The label categories that should be excluded from the return from
-  /// DetectLabels.
-  final List<String>? labelCategoryExclusionFilters;
-
-  /// The label categories that should be included in the return from
-  /// DetectLabels.
-  final List<String>? labelCategoryInclusionFilters;
-
-  /// The labels that should be excluded from the return from DetectLabels.
-  final List<String>? labelExclusionFilters;
-
-  /// The labels that should be included in the return from DetectLabels.
-  final List<String>? labelInclusionFilters;
-
-  GeneralLabelsSettings({
-    this.labelCategoryExclusionFilters,
-    this.labelCategoryInclusionFilters,
-    this.labelExclusionFilters,
-    this.labelInclusionFilters,
-  });
-
-  Map<String, dynamic> toJson() {
-    final labelCategoryExclusionFilters = this.labelCategoryExclusionFilters;
-    final labelCategoryInclusionFilters = this.labelCategoryInclusionFilters;
-    final labelExclusionFilters = this.labelExclusionFilters;
-    final labelInclusionFilters = this.labelInclusionFilters;
-    return {
-      if (labelCategoryExclusionFilters != null)
-        'LabelCategoryExclusionFilters': labelCategoryExclusionFilters,
-      if (labelCategoryInclusionFilters != null)
-        'LabelCategoryInclusionFilters': labelCategoryInclusionFilters,
-      if (labelExclusionFilters != null)
-        'LabelExclusionFilters': labelExclusionFilters,
-      if (labelInclusionFilters != null)
-        'LabelInclusionFilters': labelInclusionFilters,
-    };
-  }
-}
-
-/// Information about where an object (<a>DetectCustomLabels</a>) or text
-/// (<a>DetectText</a>) is located on an image.
-class Geometry {
-  /// An axis-aligned coarse representation of the detected item's location on the
-  /// image.
-  final BoundingBox? boundingBox;
-
-  /// Within the bounding box, a fine-grained polygon around the detected item.
-  final List<Point>? polygon;
-
-  Geometry({
-    this.boundingBox,
-    this.polygon,
-  });
-
-  factory Geometry.fromJson(Map<String, dynamic> json) {
-    return Geometry(
-      boundingBox: json['BoundingBox'] != null
-          ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
-          : null,
-      polygon: (json['Polygon'] as List?)
-          ?.nonNulls
-          .map((e) => Point.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final boundingBox = this.boundingBox;
-    final polygon = this.polygon;
-    return {
-      if (boundingBox != null) 'BoundingBox': boundingBox,
-      if (polygon != null) 'Polygon': polygon,
-    };
   }
 }
 
@@ -10490,40 +7575,6 @@ class GetCelebrityRecognitionResponse {
       if (statusMessage != null) 'StatusMessage': statusMessage,
       if (video != null) 'Video': video,
       if (videoMetadata != null) 'VideoMetadata': videoMetadata,
-    };
-  }
-}
-
-/// Contains metadata about a content moderation request, including the SortBy
-/// and AggregateBy options.
-class GetContentModerationRequestMetadata {
-  /// The aggregation method chosen for a GetContentModeration request.
-  final ContentModerationAggregateBy? aggregateBy;
-
-  /// The sorting method chosen for a GetContentModeration request.
-  final ContentModerationSortBy? sortBy;
-
-  GetContentModerationRequestMetadata({
-    this.aggregateBy,
-    this.sortBy,
-  });
-
-  factory GetContentModerationRequestMetadata.fromJson(
-      Map<String, dynamic> json) {
-    return GetContentModerationRequestMetadata(
-      aggregateBy: (json['AggregateBy'] as String?)
-          ?.let(ContentModerationAggregateBy.fromString),
-      sortBy:
-          (json['SortBy'] as String?)?.let(ContentModerationSortBy.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final aggregateBy = this.aggregateBy;
-    final sortBy = this.sortBy;
-    return {
-      if (aggregateBy != null) 'AggregateBy': aggregateBy.value,
-      if (sortBy != null) 'SortBy': sortBy.value,
     };
   }
 }
@@ -10739,6 +7790,10 @@ class GetFaceLivenessSessionResultsResponse {
   /// raw bytes are sent instead.
   final List<AuditImage>? auditImages;
 
+  /// Contains information regarding the challenge type used for the Face Liveness
+  /// check.
+  final Challenge? challenge;
+
   /// Probabalistic confidence score for if the person in the given video was
   /// live, represented as a float value between 0 to 100.
   final double? confidence;
@@ -10755,6 +7810,7 @@ class GetFaceLivenessSessionResultsResponse {
     required this.sessionId,
     required this.status,
     this.auditImages,
+    this.challenge,
     this.confidence,
     this.referenceImage,
   });
@@ -10769,6 +7825,9 @@ class GetFaceLivenessSessionResultsResponse {
           ?.nonNulls
           .map((e) => AuditImage.fromJson(e as Map<String, dynamic>))
           .toList(),
+      challenge: json['Challenge'] != null
+          ? Challenge.fromJson(json['Challenge'] as Map<String, dynamic>)
+          : null,
       confidence: json['Confidence'] as double?,
       referenceImage: json['ReferenceImage'] != null
           ? AuditImage.fromJson(json['ReferenceImage'] as Map<String, dynamic>)
@@ -10780,12 +7839,14 @@ class GetFaceLivenessSessionResultsResponse {
     final sessionId = this.sessionId;
     final status = this.status;
     final auditImages = this.auditImages;
+    final challenge = this.challenge;
     final confidence = this.confidence;
     final referenceImage = this.referenceImage;
     return {
       'SessionId': sessionId,
       'Status': status.value,
       if (auditImages != null) 'AuditImages': auditImages,
+      if (challenge != null) 'Challenge': challenge,
       if (confidence != null) 'Confidence': confidence,
       if (referenceImage != null) 'ReferenceImage': referenceImage,
     };
@@ -10881,38 +7942,6 @@ class GetFaceSearchResponse {
       if (statusMessage != null) 'StatusMessage': statusMessage,
       if (video != null) 'Video': video,
       if (videoMetadata != null) 'VideoMetadata': videoMetadata,
-    };
-  }
-}
-
-/// Contains metadata about a label detection request, including the SortBy and
-/// AggregateBy options.
-class GetLabelDetectionRequestMetadata {
-  /// The aggregation method chosen for a GetLabelDetection request.
-  final LabelDetectionAggregateBy? aggregateBy;
-
-  /// The sorting method chosen for a GetLabelDetection request.
-  final LabelDetectionSortBy? sortBy;
-
-  GetLabelDetectionRequestMetadata({
-    this.aggregateBy,
-    this.sortBy,
-  });
-
-  factory GetLabelDetectionRequestMetadata.fromJson(Map<String, dynamic> json) {
-    return GetLabelDetectionRequestMetadata(
-      aggregateBy: (json['AggregateBy'] as String?)
-          ?.let(LabelDetectionAggregateBy.fromString),
-      sortBy: (json['SortBy'] as String?)?.let(LabelDetectionSortBy.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final aggregateBy = this.aggregateBy;
-    final sortBy = this.sortBy;
-    return {
-      if (aggregateBy != null) 'AggregateBy': aggregateBy.value,
-      if (sortBy != null) 'SortBy': sortBy.value,
     };
   }
 }
@@ -11440,220 +8469,6 @@ class GetTextDetectionResponse {
   }
 }
 
-/// The S3 bucket that contains an Amazon Sagemaker Ground Truth format manifest
-/// file.
-class GroundTruthManifest {
-  final S3Object? s3Object;
-
-  GroundTruthManifest({
-    this.s3Object,
-  });
-
-  factory GroundTruthManifest.fromJson(Map<String, dynamic> json) {
-    return GroundTruthManifest(
-      s3Object: json['S3Object'] != null
-          ? S3Object.fromJson(json['S3Object'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final s3Object = this.s3Object;
-    return {
-      if (s3Object != null) 'S3Object': s3Object,
-    };
-  }
-}
-
-/// Shows the results of the human in the loop evaluation. If there is no
-/// HumanLoopArn, the input did not trigger human review.
-class HumanLoopActivationOutput {
-  /// Shows the result of condition evaluations, including those conditions which
-  /// activated a human review.
-  final Object? humanLoopActivationConditionsEvaluationResults;
-
-  /// Shows if and why human review was needed.
-  final List<String>? humanLoopActivationReasons;
-
-  /// The Amazon Resource Name (ARN) of the HumanLoop created.
-  final String? humanLoopArn;
-
-  HumanLoopActivationOutput({
-    this.humanLoopActivationConditionsEvaluationResults,
-    this.humanLoopActivationReasons,
-    this.humanLoopArn,
-  });
-
-  factory HumanLoopActivationOutput.fromJson(Map<String, dynamic> json) {
-    return HumanLoopActivationOutput(
-      humanLoopActivationConditionsEvaluationResults:
-          json['HumanLoopActivationConditionsEvaluationResults'] == null
-              ? null
-              : jsonDecode(
-                  json['HumanLoopActivationConditionsEvaluationResults']
-                      as String),
-      humanLoopActivationReasons: (json['HumanLoopActivationReasons'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      humanLoopArn: json['HumanLoopArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final humanLoopActivationConditionsEvaluationResults =
-        this.humanLoopActivationConditionsEvaluationResults;
-    final humanLoopActivationReasons = this.humanLoopActivationReasons;
-    final humanLoopArn = this.humanLoopArn;
-    return {
-      if (humanLoopActivationConditionsEvaluationResults != null)
-        'HumanLoopActivationConditionsEvaluationResults':
-            jsonEncode(humanLoopActivationConditionsEvaluationResults),
-      if (humanLoopActivationReasons != null)
-        'HumanLoopActivationReasons': humanLoopActivationReasons,
-      if (humanLoopArn != null) 'HumanLoopArn': humanLoopArn,
-    };
-  }
-}
-
-/// Sets up the flow definition the image will be sent to if one of the
-/// conditions is met. You can also set certain attributes of the image before
-/// review.
-class HumanLoopConfig {
-  /// The Amazon Resource Name (ARN) of the flow definition. You can create a flow
-  /// definition by using the Amazon Sagemaker <a
-  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/API_CreateFlowDefinition.html">CreateFlowDefinition</a>
-  /// Operation.
-  final String flowDefinitionArn;
-
-  /// The name of the human review used for this image. This should be kept unique
-  /// within a region.
-  final String humanLoopName;
-
-  /// Sets attributes of the input data.
-  final HumanLoopDataAttributes? dataAttributes;
-
-  HumanLoopConfig({
-    required this.flowDefinitionArn,
-    required this.humanLoopName,
-    this.dataAttributes,
-  });
-
-  Map<String, dynamic> toJson() {
-    final flowDefinitionArn = this.flowDefinitionArn;
-    final humanLoopName = this.humanLoopName;
-    final dataAttributes = this.dataAttributes;
-    return {
-      'FlowDefinitionArn': flowDefinitionArn,
-      'HumanLoopName': humanLoopName,
-      if (dataAttributes != null) 'DataAttributes': dataAttributes,
-    };
-  }
-}
-
-/// Allows you to set attributes of the image. Currently, you can declare an
-/// image as free of personally identifiable information.
-class HumanLoopDataAttributes {
-  /// Sets whether the input image is free of personally identifiable information.
-  final List<ContentClassifier>? contentClassifiers;
-
-  HumanLoopDataAttributes({
-    this.contentClassifiers,
-  });
-
-  Map<String, dynamic> toJson() {
-    final contentClassifiers = this.contentClassifiers;
-    return {
-      if (contentClassifiers != null)
-        'ContentClassifiers': contentClassifiers.map((e) => e.value).toList(),
-    };
-  }
-}
-
-/// Provides the input image either as bytes or an S3 object.
-///
-/// You pass image bytes to an Amazon Rekognition API operation by using the
-/// <code>Bytes</code> property. For example, you would use the
-/// <code>Bytes</code> property to pass an image loaded from a local file
-/// system. Image bytes passed by using the <code>Bytes</code> property must be
-/// base64-encoded. Your code may not need to encode image bytes if you are
-/// using an AWS SDK to call Amazon Rekognition API operations.
-///
-/// For more information, see Analyzing an Image Loaded from a Local File System
-/// in the Amazon Rekognition Developer Guide.
-///
-/// You pass images stored in an S3 bucket to an Amazon Rekognition API
-/// operation by using the <code>S3Object</code> property. Images stored in an
-/// S3 bucket do not need to be base64-encoded.
-///
-/// The region for the S3 bucket containing the S3 object must match the region
-/// you use for Amazon Rekognition operations.
-///
-/// If you use the AWS CLI to call Amazon Rekognition operations, passing image
-/// bytes using the Bytes property is not supported. You must first upload the
-/// image to an Amazon S3 bucket and then call the operation using the S3Object
-/// property.
-///
-/// For Amazon Rekognition to process an S3 object, the user must have
-/// permission to access the S3 object. For more information, see How Amazon
-/// Rekognition works with IAM in the Amazon Rekognition Developer Guide.
-class Image {
-  /// Blob of image bytes up to 5 MBs. Note that the maximum image size you can
-  /// pass to <code>DetectCustomLabels</code> is 4MB.
-  final Uint8List? bytes;
-
-  /// Identifies an S3 object as the image source.
-  final S3Object? s3Object;
-
-  Image({
-    this.bytes,
-    this.s3Object,
-  });
-
-  Map<String, dynamic> toJson() {
-    final bytes = this.bytes;
-    final s3Object = this.s3Object;
-    return {
-      if (bytes != null) 'Bytes': base64Encode(bytes),
-      if (s3Object != null) 'S3Object': s3Object,
-    };
-  }
-}
-
-/// Identifies face image brightness and sharpness.
-class ImageQuality {
-  /// Value representing brightness of the face. The service returns a value
-  /// between 0 and 100 (inclusive). A higher value indicates a brighter face
-  /// image.
-  final double? brightness;
-
-  /// Value representing sharpness of the face. The service returns a value
-  /// between 0 and 100 (inclusive). A higher value indicates a sharper face
-  /// image.
-  final double? sharpness;
-
-  ImageQuality({
-    this.brightness,
-    this.sharpness,
-  });
-
-  factory ImageQuality.fromJson(Map<String, dynamic> json) {
-    return ImageQuality(
-      brightness: json['Brightness'] as double?,
-      sharpness: json['Sharpness'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final brightness = this.brightness;
-    final sharpness = this.sharpness;
-    return {
-      if (brightness != null) 'Brightness': brightness,
-      if (sharpness != null) 'Sharpness': sharpness,
-    };
-  }
-}
-
 class IndexFacesResponse {
   /// The version number of the face detection model that's associated with the
   /// input collection (<code>CollectionId</code>).
@@ -11737,580 +8552,6 @@ class IndexFacesResponse {
       if (unindexedFaces != null) 'UnindexedFaces': unindexedFaces,
     };
   }
-}
-
-/// An instance of a label returned by Amazon Rekognition Image
-/// (<a>DetectLabels</a>) or by Amazon Rekognition Video
-/// (<a>GetLabelDetection</a>).
-class Instance {
-  /// The position of the label instance on the image.
-  final BoundingBox? boundingBox;
-
-  /// The confidence that Amazon Rekognition has in the accuracy of the bounding
-  /// box.
-  final double? confidence;
-
-  /// The dominant colors found in an individual instance of a label.
-  final List<DominantColor>? dominantColors;
-
-  Instance({
-    this.boundingBox,
-    this.confidence,
-    this.dominantColors,
-  });
-
-  factory Instance.fromJson(Map<String, dynamic> json) {
-    return Instance(
-      boundingBox: json['BoundingBox'] != null
-          ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
-          : null,
-      confidence: json['Confidence'] as double?,
-      dominantColors: (json['DominantColors'] as List?)
-          ?.nonNulls
-          .map((e) => DominantColor.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final boundingBox = this.boundingBox;
-    final confidence = this.confidence;
-    final dominantColors = this.dominantColors;
-    return {
-      if (boundingBox != null) 'BoundingBox': boundingBox,
-      if (confidence != null) 'Confidence': confidence,
-      if (dominantColors != null) 'DominantColors': dominantColors,
-    };
-  }
-}
-
-/// The Kinesis data stream Amazon Rekognition to which the analysis results of
-/// a Amazon Rekognition stream processor are streamed. For more information,
-/// see CreateStreamProcessor in the Amazon Rekognition Developer Guide.
-class KinesisDataStream {
-  /// ARN of the output Amazon Kinesis Data Streams stream.
-  final String? arn;
-
-  KinesisDataStream({
-    this.arn,
-  });
-
-  factory KinesisDataStream.fromJson(Map<String, dynamic> json) {
-    return KinesisDataStream(
-      arn: json['Arn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    return {
-      if (arn != null) 'Arn': arn,
-    };
-  }
-}
-
-/// Kinesis video stream stream that provides the source streaming video for a
-/// Amazon Rekognition Video stream processor. For more information, see
-/// CreateStreamProcessor in the Amazon Rekognition Developer Guide.
-class KinesisVideoStream {
-  /// ARN of the Kinesis video stream stream that streams the source video.
-  final String? arn;
-
-  KinesisVideoStream({
-    this.arn,
-  });
-
-  factory KinesisVideoStream.fromJson(Map<String, dynamic> json) {
-    return KinesisVideoStream(
-      arn: json['Arn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    return {
-      if (arn != null) 'Arn': arn,
-    };
-  }
-}
-
-/// Specifies the starting point in a Kinesis stream to start processing. You
-/// can use the producer timestamp or the fragment number. One of either
-/// producer timestamp or fragment number is required. If you use the producer
-/// timestamp, you must put the time in milliseconds. For more information about
-/// fragment numbers, see <a
-/// href="https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_reader_Fragment.html">Fragment</a>.
-class KinesisVideoStreamStartSelector {
-  /// The unique identifier of the fragment. This value monotonically increases
-  /// based on the ingestion order.
-  final String? fragmentNumber;
-
-  /// The timestamp from the producer corresponding to the fragment, in
-  /// milliseconds, expressed in unix time format.
-  final int? producerTimestamp;
-
-  KinesisVideoStreamStartSelector({
-    this.fragmentNumber,
-    this.producerTimestamp,
-  });
-
-  Map<String, dynamic> toJson() {
-    final fragmentNumber = this.fragmentNumber;
-    final producerTimestamp = this.producerTimestamp;
-    return {
-      if (fragmentNumber != null) 'FragmentNumber': fragmentNumber,
-      if (producerTimestamp != null) 'ProducerTimestamp': producerTimestamp,
-    };
-  }
-}
-
-/// The known gender identity for the celebrity that matches the provided ID.
-/// The known gender identity can be Male, Female, Nonbinary, or Unlisted.
-class KnownGender {
-  /// A string value of the KnownGender info about the Celebrity.
-  final KnownGenderType? type;
-
-  KnownGender({
-    this.type,
-  });
-
-  factory KnownGender.fromJson(Map<String, dynamic> json) {
-    return KnownGender(
-      type: (json['Type'] as String?)?.let(KnownGenderType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final type = this.type;
-    return {
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-/// A list of enum string of possible gender values that Celebrity returns.
-class KnownGenderType {
-  static const male = KnownGenderType._('Male');
-  static const female = KnownGenderType._('Female');
-  static const nonbinary = KnownGenderType._('Nonbinary');
-  static const unlisted = KnownGenderType._('Unlisted');
-
-  final String value;
-
-  const KnownGenderType._(this.value);
-
-  static const values = [male, female, nonbinary, unlisted];
-
-  static KnownGenderType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => KnownGenderType._(value));
-
-  @override
-  bool operator ==(other) => other is KnownGenderType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Structure containing details about the detected label, including the name,
-/// detected instances, parent labels, and level of confidence.
-///
-///
-class Label {
-  /// A list of potential aliases for a given label.
-  final List<LabelAlias>? aliases;
-
-  /// A list of the categories associated with a given label.
-  final List<LabelCategory>? categories;
-
-  /// Level of confidence.
-  final double? confidence;
-
-  /// If <code>Label</code> represents an object, <code>Instances</code> contains
-  /// the bounding boxes for each instance of the detected object. Bounding boxes
-  /// are returned for common object labels such as people, cars, furniture,
-  /// apparel or pets.
-  final List<Instance>? instances;
-
-  /// The name (label) of the object or scene.
-  final String? name;
-
-  /// The parent labels for a label. The response includes all ancestor labels.
-  final List<Parent>? parents;
-
-  Label({
-    this.aliases,
-    this.categories,
-    this.confidence,
-    this.instances,
-    this.name,
-    this.parents,
-  });
-
-  factory Label.fromJson(Map<String, dynamic> json) {
-    return Label(
-      aliases: (json['Aliases'] as List?)
-          ?.nonNulls
-          .map((e) => LabelAlias.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      categories: (json['Categories'] as List?)
-          ?.nonNulls
-          .map((e) => LabelCategory.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      confidence: json['Confidence'] as double?,
-      instances: (json['Instances'] as List?)
-          ?.nonNulls
-          .map((e) => Instance.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      name: json['Name'] as String?,
-      parents: (json['Parents'] as List?)
-          ?.nonNulls
-          .map((e) => Parent.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final aliases = this.aliases;
-    final categories = this.categories;
-    final confidence = this.confidence;
-    final instances = this.instances;
-    final name = this.name;
-    final parents = this.parents;
-    return {
-      if (aliases != null) 'Aliases': aliases,
-      if (categories != null) 'Categories': categories,
-      if (confidence != null) 'Confidence': confidence,
-      if (instances != null) 'Instances': instances,
-      if (name != null) 'Name': name,
-      if (parents != null) 'Parents': parents,
-    };
-  }
-}
-
-/// A potential alias of for a given label.
-class LabelAlias {
-  /// The name of an alias for a given label.
-  final String? name;
-
-  LabelAlias({
-    this.name,
-  });
-
-  factory LabelAlias.fromJson(Map<String, dynamic> json) {
-    return LabelAlias(
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    return {
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
-/// The category that applies to a given label.
-class LabelCategory {
-  /// The name of a category that applies to a given label.
-  final String? name;
-
-  LabelCategory({
-    this.name,
-  });
-
-  factory LabelCategory.fromJson(Map<String, dynamic> json) {
-    return LabelCategory(
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    return {
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
-/// Information about a label detected in a video analysis request and the time
-/// the label was detected in the video.
-class LabelDetection {
-  /// The time duration of a segment in milliseconds, I.e. time elapsed from
-  /// StartTimestampMillis to EndTimestampMillis.
-  final int? durationMillis;
-
-  /// The time in milliseconds defining the end of the timeline segment containing
-  /// a continuously detected label.
-  final int? endTimestampMillis;
-
-  /// Details about the detected label.
-  final Label? label;
-
-  /// The time in milliseconds defining the start of the timeline segment
-  /// containing a continuously detected label.
-  final int? startTimestampMillis;
-
-  /// Time, in milliseconds from the start of the video, that the label was
-  /// detected. Note that <code>Timestamp</code> is not guaranteed to be accurate
-  /// to the individual frame where the label first appears.
-  final int? timestamp;
-
-  LabelDetection({
-    this.durationMillis,
-    this.endTimestampMillis,
-    this.label,
-    this.startTimestampMillis,
-    this.timestamp,
-  });
-
-  factory LabelDetection.fromJson(Map<String, dynamic> json) {
-    return LabelDetection(
-      durationMillis: json['DurationMillis'] as int?,
-      endTimestampMillis: json['EndTimestampMillis'] as int?,
-      label: json['Label'] != null
-          ? Label.fromJson(json['Label'] as Map<String, dynamic>)
-          : null,
-      startTimestampMillis: json['StartTimestampMillis'] as int?,
-      timestamp: json['Timestamp'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final durationMillis = this.durationMillis;
-    final endTimestampMillis = this.endTimestampMillis;
-    final label = this.label;
-    final startTimestampMillis = this.startTimestampMillis;
-    final timestamp = this.timestamp;
-    return {
-      if (durationMillis != null) 'DurationMillis': durationMillis,
-      if (endTimestampMillis != null) 'EndTimestampMillis': endTimestampMillis,
-      if (label != null) 'Label': label,
-      if (startTimestampMillis != null)
-        'StartTimestampMillis': startTimestampMillis,
-      if (timestamp != null) 'Timestamp': timestamp,
-    };
-  }
-}
-
-class LabelDetectionAggregateBy {
-  static const timestamps = LabelDetectionAggregateBy._('TIMESTAMPS');
-  static const segments = LabelDetectionAggregateBy._('SEGMENTS');
-
-  final String value;
-
-  const LabelDetectionAggregateBy._(this.value);
-
-  static const values = [timestamps, segments];
-
-  static LabelDetectionAggregateBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LabelDetectionAggregateBy._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is LabelDetectionAggregateBy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class LabelDetectionFeatureName {
-  static const generalLabels = LabelDetectionFeatureName._('GENERAL_LABELS');
-
-  final String value;
-
-  const LabelDetectionFeatureName._(this.value);
-
-  static const values = [generalLabels];
-
-  static LabelDetectionFeatureName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LabelDetectionFeatureName._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is LabelDetectionFeatureName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains the specified filters that should be applied to a list of returned
-/// GENERAL_LABELS.
-class LabelDetectionSettings {
-  final GeneralLabelsSettings? generalLabels;
-
-  LabelDetectionSettings({
-    this.generalLabels,
-  });
-
-  Map<String, dynamic> toJson() {
-    final generalLabels = this.generalLabels;
-    return {
-      if (generalLabels != null) 'GeneralLabels': generalLabels,
-    };
-  }
-}
-
-class LabelDetectionSortBy {
-  static const name = LabelDetectionSortBy._('NAME');
-  static const timestamp = LabelDetectionSortBy._('TIMESTAMP');
-
-  final String value;
-
-  const LabelDetectionSortBy._(this.value);
-
-  static const values = [name, timestamp];
-
-  static LabelDetectionSortBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LabelDetectionSortBy._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is LabelDetectionSortBy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Indicates the location of the landmark on the face.
-class Landmark {
-  /// Type of landmark.
-  final LandmarkType? type;
-
-  /// The x-coordinate of the landmark expressed as a ratio of the width of the
-  /// image. The x-coordinate is measured from the left-side of the image. For
-  /// example, if the image is 700 pixels wide and the x-coordinate of the
-  /// landmark is at 350 pixels, this value is 0.5.
-  final double? x;
-
-  /// The y-coordinate of the landmark expressed as a ratio of the height of the
-  /// image. The y-coordinate is measured from the top of the image. For example,
-  /// if the image height is 200 pixels and the y-coordinate of the landmark is at
-  /// 50 pixels, this value is 0.25.
-  final double? y;
-
-  Landmark({
-    this.type,
-    this.x,
-    this.y,
-  });
-
-  factory Landmark.fromJson(Map<String, dynamic> json) {
-    return Landmark(
-      type: (json['Type'] as String?)?.let(LandmarkType.fromString),
-      x: json['X'] as double?,
-      y: json['Y'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final type = this.type;
-    final x = this.x;
-    final y = this.y;
-    return {
-      if (type != null) 'Type': type.value,
-      if (x != null) 'X': x,
-      if (y != null) 'Y': y,
-    };
-  }
-}
-
-class LandmarkType {
-  static const eyeLeft = LandmarkType._('eyeLeft');
-  static const eyeRight = LandmarkType._('eyeRight');
-  static const nose = LandmarkType._('nose');
-  static const mouthLeft = LandmarkType._('mouthLeft');
-  static const mouthRight = LandmarkType._('mouthRight');
-  static const leftEyeBrowLeft = LandmarkType._('leftEyeBrowLeft');
-  static const leftEyeBrowRight = LandmarkType._('leftEyeBrowRight');
-  static const leftEyeBrowUp = LandmarkType._('leftEyeBrowUp');
-  static const rightEyeBrowLeft = LandmarkType._('rightEyeBrowLeft');
-  static const rightEyeBrowRight = LandmarkType._('rightEyeBrowRight');
-  static const rightEyeBrowUp = LandmarkType._('rightEyeBrowUp');
-  static const leftEyeLeft = LandmarkType._('leftEyeLeft');
-  static const leftEyeRight = LandmarkType._('leftEyeRight');
-  static const leftEyeUp = LandmarkType._('leftEyeUp');
-  static const leftEyeDown = LandmarkType._('leftEyeDown');
-  static const rightEyeLeft = LandmarkType._('rightEyeLeft');
-  static const rightEyeRight = LandmarkType._('rightEyeRight');
-  static const rightEyeUp = LandmarkType._('rightEyeUp');
-  static const rightEyeDown = LandmarkType._('rightEyeDown');
-  static const noseLeft = LandmarkType._('noseLeft');
-  static const noseRight = LandmarkType._('noseRight');
-  static const mouthUp = LandmarkType._('mouthUp');
-  static const mouthDown = LandmarkType._('mouthDown');
-  static const leftPupil = LandmarkType._('leftPupil');
-  static const rightPupil = LandmarkType._('rightPupil');
-  static const upperJawlineLeft = LandmarkType._('upperJawlineLeft');
-  static const midJawlineLeft = LandmarkType._('midJawlineLeft');
-  static const chinBottom = LandmarkType._('chinBottom');
-  static const midJawlineRight = LandmarkType._('midJawlineRight');
-  static const upperJawlineRight = LandmarkType._('upperJawlineRight');
-
-  final String value;
-
-  const LandmarkType._(this.value);
-
-  static const values = [
-    eyeLeft,
-    eyeRight,
-    nose,
-    mouthLeft,
-    mouthRight,
-    leftEyeBrowLeft,
-    leftEyeBrowRight,
-    leftEyeBrowUp,
-    rightEyeBrowLeft,
-    rightEyeBrowRight,
-    rightEyeBrowUp,
-    leftEyeLeft,
-    leftEyeRight,
-    leftEyeUp,
-    leftEyeDown,
-    rightEyeLeft,
-    rightEyeRight,
-    rightEyeUp,
-    rightEyeDown,
-    noseLeft,
-    noseRight,
-    mouthUp,
-    mouthDown,
-    leftPupil,
-    rightPupil,
-    upperJawlineLeft,
-    midJawlineLeft,
-    chinBottom,
-    midJawlineRight,
-    upperJawlineRight
-  ];
-
-  static LandmarkType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => LandmarkType._(value));
-
-  @override
-  bool operator ==(other) => other is LandmarkType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class ListCollectionsResponse {
@@ -12630,1644 +8871,6 @@ class ListUsersResponse {
   }
 }
 
-/// Contains settings that specify the location of an Amazon S3 bucket used to
-/// store the output of a Face Liveness session. Note that the S3 bucket must be
-/// located in the caller's AWS account and in the same region as the Face
-/// Liveness end-point. Additionally, the Amazon S3 object keys are
-/// auto-generated by the Face Liveness system.
-class LivenessOutputConfig {
-  /// The path to an AWS Amazon S3 bucket used to store Face Liveness session
-  /// results.
-  final String s3Bucket;
-
-  /// The prefix prepended to the output files for the Face Liveness session
-  /// results.
-  final String? s3KeyPrefix;
-
-  LivenessOutputConfig({
-    required this.s3Bucket,
-    this.s3KeyPrefix,
-  });
-
-  Map<String, dynamic> toJson() {
-    final s3Bucket = this.s3Bucket;
-    final s3KeyPrefix = this.s3KeyPrefix;
-    return {
-      'S3Bucket': s3Bucket,
-      if (s3KeyPrefix != null) 'S3KeyPrefix': s3KeyPrefix,
-    };
-  }
-}
-
-class LivenessSessionStatus {
-  static const created = LivenessSessionStatus._('CREATED');
-  static const inProgress = LivenessSessionStatus._('IN_PROGRESS');
-  static const succeeded = LivenessSessionStatus._('SUCCEEDED');
-  static const failed = LivenessSessionStatus._('FAILED');
-  static const expired = LivenessSessionStatus._('EXPIRED');
-
-  final String value;
-
-  const LivenessSessionStatus._(this.value);
-
-  static const values = [created, inProgress, succeeded, failed, expired];
-
-  static LivenessSessionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LivenessSessionStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is LivenessSessionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains metadata for a UserID matched with a given face.
-class MatchedUser {
-  /// A provided ID for the UserID. Unique within the collection.
-  final String? userId;
-
-  /// The status of the user matched to a provided FaceID.
-  final UserStatus? userStatus;
-
-  MatchedUser({
-    this.userId,
-    this.userStatus,
-  });
-
-  factory MatchedUser.fromJson(Map<String, dynamic> json) {
-    return MatchedUser(
-      userId: json['UserId'] as String?,
-      userStatus: (json['UserStatus'] as String?)?.let(UserStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final userId = this.userId;
-    final userStatus = this.userStatus;
-    return {
-      if (userId != null) 'UserId': userId,
-      if (userStatus != null) 'UserStatus': userStatus.value,
-    };
-  }
-}
-
-/// Configuration for Moderation Labels Detection.
-class MediaAnalysisDetectModerationLabelsConfig {
-  /// Specifies the minimum confidence level for the moderation labels to return.
-  /// Amazon Rekognition doesn't return any labels with a confidence level lower
-  /// than this specified value.
-  final double? minConfidence;
-
-  /// Specifies the custom moderation model to be used during the label detection
-  /// job. If not provided the pre-trained model is used.
-  final String? projectVersion;
-
-  MediaAnalysisDetectModerationLabelsConfig({
-    this.minConfidence,
-    this.projectVersion,
-  });
-
-  factory MediaAnalysisDetectModerationLabelsConfig.fromJson(
-      Map<String, dynamic> json) {
-    return MediaAnalysisDetectModerationLabelsConfig(
-      minConfidence: json['MinConfidence'] as double?,
-      projectVersion: json['ProjectVersion'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final minConfidence = this.minConfidence;
-    final projectVersion = this.projectVersion;
-    return {
-      if (minConfidence != null) 'MinConfidence': minConfidence,
-      if (projectVersion != null) 'ProjectVersion': projectVersion,
-    };
-  }
-}
-
-/// Contains input information for a media analysis job.
-class MediaAnalysisInput {
-  final S3Object s3Object;
-
-  MediaAnalysisInput({
-    required this.s3Object,
-  });
-
-  factory MediaAnalysisInput.fromJson(Map<String, dynamic> json) {
-    return MediaAnalysisInput(
-      s3Object: S3Object.fromJson((json['S3Object'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final s3Object = this.s3Object;
-    return {
-      'S3Object': s3Object,
-    };
-  }
-}
-
-/// Description for a media analysis job.
-class MediaAnalysisJobDescription {
-  /// The Unix date and time when the job was started.
-  final DateTime creationTimestamp;
-
-  /// Reference to the input manifest that was provided in the job creation
-  /// request.
-  final MediaAnalysisInput input;
-
-  /// The identifier for a media analysis job.
-  final String jobId;
-
-  /// Operation configurations that were provided during job creation.
-  final MediaAnalysisOperationsConfig operationsConfig;
-
-  /// Output configuration that was provided in the creation request.
-  final MediaAnalysisOutputConfig outputConfig;
-
-  /// The status of the media analysis job being retrieved.
-  final MediaAnalysisJobStatus status;
-
-  /// The Unix date and time when the job finished.
-  final DateTime? completionTimestamp;
-
-  /// Details about the error that resulted in failure of the job.
-  final MediaAnalysisJobFailureDetails? failureDetails;
-
-  /// The name of a media analysis job.
-  final String? jobName;
-
-  /// KMS Key that was provided in the creation request.
-  final String? kmsKeyId;
-
-  /// Provides statistics on input manifest and errors identified in the input
-  /// manifest.
-  final MediaAnalysisManifestSummary? manifestSummary;
-
-  /// Output manifest that contains prediction results.
-  final MediaAnalysisResults? results;
-
-  MediaAnalysisJobDescription({
-    required this.creationTimestamp,
-    required this.input,
-    required this.jobId,
-    required this.operationsConfig,
-    required this.outputConfig,
-    required this.status,
-    this.completionTimestamp,
-    this.failureDetails,
-    this.jobName,
-    this.kmsKeyId,
-    this.manifestSummary,
-    this.results,
-  });
-
-  factory MediaAnalysisJobDescription.fromJson(Map<String, dynamic> json) {
-    return MediaAnalysisJobDescription(
-      creationTimestamp:
-          nonNullableTimeStampFromJson(json['CreationTimestamp'] ?? 0),
-      input: MediaAnalysisInput.fromJson(
-          (json['Input'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      jobId: (json['JobId'] as String?) ?? '',
-      operationsConfig: MediaAnalysisOperationsConfig.fromJson(
-          (json['OperationsConfig'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      outputConfig: MediaAnalysisOutputConfig.fromJson(
-          (json['OutputConfig'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      status:
-          MediaAnalysisJobStatus.fromString((json['Status'] as String?) ?? ''),
-      completionTimestamp: timeStampFromJson(json['CompletionTimestamp']),
-      failureDetails: json['FailureDetails'] != null
-          ? MediaAnalysisJobFailureDetails.fromJson(
-              json['FailureDetails'] as Map<String, dynamic>)
-          : null,
-      jobName: json['JobName'] as String?,
-      kmsKeyId: json['KmsKeyId'] as String?,
-      manifestSummary: json['ManifestSummary'] != null
-          ? MediaAnalysisManifestSummary.fromJson(
-              json['ManifestSummary'] as Map<String, dynamic>)
-          : null,
-      results: json['Results'] != null
-          ? MediaAnalysisResults.fromJson(
-              json['Results'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationTimestamp = this.creationTimestamp;
-    final input = this.input;
-    final jobId = this.jobId;
-    final operationsConfig = this.operationsConfig;
-    final outputConfig = this.outputConfig;
-    final status = this.status;
-    final completionTimestamp = this.completionTimestamp;
-    final failureDetails = this.failureDetails;
-    final jobName = this.jobName;
-    final kmsKeyId = this.kmsKeyId;
-    final manifestSummary = this.manifestSummary;
-    final results = this.results;
-    return {
-      'CreationTimestamp': unixTimestampToJson(creationTimestamp),
-      'Input': input,
-      'JobId': jobId,
-      'OperationsConfig': operationsConfig,
-      'OutputConfig': outputConfig,
-      'Status': status.value,
-      if (completionTimestamp != null)
-        'CompletionTimestamp': unixTimestampToJson(completionTimestamp),
-      if (failureDetails != null) 'FailureDetails': failureDetails,
-      if (jobName != null) 'JobName': jobName,
-      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-      if (manifestSummary != null) 'ManifestSummary': manifestSummary,
-      if (results != null) 'Results': results,
-    };
-  }
-}
-
-class MediaAnalysisJobFailureCode {
-  static const internalError = MediaAnalysisJobFailureCode._('INTERNAL_ERROR');
-  static const invalidS3Object =
-      MediaAnalysisJobFailureCode._('INVALID_S3_OBJECT');
-  static const invalidManifest =
-      MediaAnalysisJobFailureCode._('INVALID_MANIFEST');
-  static const invalidOutputConfig =
-      MediaAnalysisJobFailureCode._('INVALID_OUTPUT_CONFIG');
-  static const invalidKmsKey = MediaAnalysisJobFailureCode._('INVALID_KMS_KEY');
-  static const accessDenied = MediaAnalysisJobFailureCode._('ACCESS_DENIED');
-  static const resourceNotFound =
-      MediaAnalysisJobFailureCode._('RESOURCE_NOT_FOUND');
-  static const resourceNotReady =
-      MediaAnalysisJobFailureCode._('RESOURCE_NOT_READY');
-  static const throttled = MediaAnalysisJobFailureCode._('THROTTLED');
-
-  final String value;
-
-  const MediaAnalysisJobFailureCode._(this.value);
-
-  static const values = [
-    internalError,
-    invalidS3Object,
-    invalidManifest,
-    invalidOutputConfig,
-    invalidKmsKey,
-    accessDenied,
-    resourceNotFound,
-    resourceNotReady,
-    throttled
-  ];
-
-  static MediaAnalysisJobFailureCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MediaAnalysisJobFailureCode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is MediaAnalysisJobFailureCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Details about the error that resulted in failure of the job.
-class MediaAnalysisJobFailureDetails {
-  /// Error code for the failed job.
-  final MediaAnalysisJobFailureCode? code;
-
-  /// Human readable error message.
-  final String? message;
-
-  MediaAnalysisJobFailureDetails({
-    this.code,
-    this.message,
-  });
-
-  factory MediaAnalysisJobFailureDetails.fromJson(Map<String, dynamic> json) {
-    return MediaAnalysisJobFailureDetails(
-      code: (json['Code'] as String?)
-          ?.let(MediaAnalysisJobFailureCode.fromString),
-      message: json['Message'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final message = this.message;
-    return {
-      if (code != null) 'Code': code.value,
-      if (message != null) 'Message': message,
-    };
-  }
-}
-
-class MediaAnalysisJobStatus {
-  static const created = MediaAnalysisJobStatus._('CREATED');
-  static const queued = MediaAnalysisJobStatus._('QUEUED');
-  static const inProgress = MediaAnalysisJobStatus._('IN_PROGRESS');
-  static const succeeded = MediaAnalysisJobStatus._('SUCCEEDED');
-  static const failed = MediaAnalysisJobStatus._('FAILED');
-
-  final String value;
-
-  const MediaAnalysisJobStatus._(this.value);
-
-  static const values = [created, queued, inProgress, succeeded, failed];
-
-  static MediaAnalysisJobStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MediaAnalysisJobStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is MediaAnalysisJobStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Summary that provides statistics on input manifest and errors identified in
-/// the input manifest.
-class MediaAnalysisManifestSummary {
-  final S3Object? s3Object;
-
-  MediaAnalysisManifestSummary({
-    this.s3Object,
-  });
-
-  factory MediaAnalysisManifestSummary.fromJson(Map<String, dynamic> json) {
-    return MediaAnalysisManifestSummary(
-      s3Object: json['S3Object'] != null
-          ? S3Object.fromJson(json['S3Object'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final s3Object = this.s3Object;
-    return {
-      if (s3Object != null) 'S3Object': s3Object,
-    };
-  }
-}
-
-/// Object containing information about the model versions of selected features
-/// in a given job.
-class MediaAnalysisModelVersions {
-  /// The Moderation base model version.
-  final String? moderation;
-
-  MediaAnalysisModelVersions({
-    this.moderation,
-  });
-
-  factory MediaAnalysisModelVersions.fromJson(Map<String, dynamic> json) {
-    return MediaAnalysisModelVersions(
-      moderation: json['Moderation'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final moderation = this.moderation;
-    return {
-      if (moderation != null) 'Moderation': moderation,
-    };
-  }
-}
-
-/// Configuration options for a media analysis job. Configuration is
-/// operation-specific.
-class MediaAnalysisOperationsConfig {
-  /// Contains configuration options for a DetectModerationLabels job.
-  final MediaAnalysisDetectModerationLabelsConfig? detectModerationLabels;
-
-  MediaAnalysisOperationsConfig({
-    this.detectModerationLabels,
-  });
-
-  factory MediaAnalysisOperationsConfig.fromJson(Map<String, dynamic> json) {
-    return MediaAnalysisOperationsConfig(
-      detectModerationLabels: json['DetectModerationLabels'] != null
-          ? MediaAnalysisDetectModerationLabelsConfig.fromJson(
-              json['DetectModerationLabels'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final detectModerationLabels = this.detectModerationLabels;
-    return {
-      if (detectModerationLabels != null)
-        'DetectModerationLabels': detectModerationLabels,
-    };
-  }
-}
-
-/// Output configuration provided in the job creation request.
-class MediaAnalysisOutputConfig {
-  /// Specifies the Amazon S3 bucket to contain the output of the media analysis
-  /// job.
-  final String s3Bucket;
-
-  /// Specifies the Amazon S3 key prefix that comes after the name of the bucket
-  /// you have designated for storage.
-  final String? s3KeyPrefix;
-
-  MediaAnalysisOutputConfig({
-    required this.s3Bucket,
-    this.s3KeyPrefix,
-  });
-
-  factory MediaAnalysisOutputConfig.fromJson(Map<String, dynamic> json) {
-    return MediaAnalysisOutputConfig(
-      s3Bucket: (json['S3Bucket'] as String?) ?? '',
-      s3KeyPrefix: json['S3KeyPrefix'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final s3Bucket = this.s3Bucket;
-    final s3KeyPrefix = this.s3KeyPrefix;
-    return {
-      'S3Bucket': s3Bucket,
-      if (s3KeyPrefix != null) 'S3KeyPrefix': s3KeyPrefix,
-    };
-  }
-}
-
-/// Contains the results for a media analysis job created with
-/// StartMediaAnalysisJob.
-class MediaAnalysisResults {
-  /// Information about the model versions for the features selected in a given
-  /// job.
-  final MediaAnalysisModelVersions? modelVersions;
-  final S3Object? s3Object;
-
-  MediaAnalysisResults({
-    this.modelVersions,
-    this.s3Object,
-  });
-
-  factory MediaAnalysisResults.fromJson(Map<String, dynamic> json) {
-    return MediaAnalysisResults(
-      modelVersions: json['ModelVersions'] != null
-          ? MediaAnalysisModelVersions.fromJson(
-              json['ModelVersions'] as Map<String, dynamic>)
-          : null,
-      s3Object: json['S3Object'] != null
-          ? S3Object.fromJson(json['S3Object'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final modelVersions = this.modelVersions;
-    final s3Object = this.s3Object;
-    return {
-      if (modelVersions != null) 'ModelVersions': modelVersions,
-      if (s3Object != null) 'S3Object': s3Object,
-    };
-  }
-}
-
-/// Provides information about a single type of inappropriate, unwanted, or
-/// offensive content found in an image or video. Each type of moderated content
-/// has a label within a hierarchical taxonomy. For more information, see
-/// Content moderation in the Amazon Rekognition Developer Guide.
-class ModerationLabel {
-  /// Specifies the confidence that Amazon Rekognition has that the label has been
-  /// correctly identified.
-  ///
-  /// If you don't specify the <code>MinConfidence</code> parameter in the call to
-  /// <code>DetectModerationLabels</code>, the operation returns labels with a
-  /// confidence value greater than or equal to 50 percent.
-  final double? confidence;
-
-  /// The label name for the type of unsafe content detected in the image.
-  final String? name;
-
-  /// The name for the parent label. Labels at the top level of the hierarchy have
-  /// the parent label <code>""</code>.
-  final String? parentName;
-
-  /// The level of the moderation label with regard to its taxonomy, from 1 to 3.
-  final int? taxonomyLevel;
-
-  ModerationLabel({
-    this.confidence,
-    this.name,
-    this.parentName,
-    this.taxonomyLevel,
-  });
-
-  factory ModerationLabel.fromJson(Map<String, dynamic> json) {
-    return ModerationLabel(
-      confidence: json['Confidence'] as double?,
-      name: json['Name'] as String?,
-      parentName: json['ParentName'] as String?,
-      taxonomyLevel: json['TaxonomyLevel'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final confidence = this.confidence;
-    final name = this.name;
-    final parentName = this.parentName;
-    final taxonomyLevel = this.taxonomyLevel;
-    return {
-      if (confidence != null) 'Confidence': confidence,
-      if (name != null) 'Name': name,
-      if (parentName != null) 'ParentName': parentName,
-      if (taxonomyLevel != null) 'TaxonomyLevel': taxonomyLevel,
-    };
-  }
-}
-
-/// Indicates whether or not the mouth on the face is open, and the confidence
-/// level in the determination.
-class MouthOpen {
-  /// Level of confidence in the determination.
-  final double? confidence;
-
-  /// Boolean value that indicates whether the mouth on the face is open or not.
-  final bool? value;
-
-  MouthOpen({
-    this.confidence,
-    this.value,
-  });
-
-  factory MouthOpen.fromJson(Map<String, dynamic> json) {
-    return MouthOpen(
-      confidence: json['Confidence'] as double?,
-      value: json['Value'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final confidence = this.confidence;
-    final value = this.value;
-    return {
-      if (confidence != null) 'Confidence': confidence,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-/// Indicates whether or not the face has a mustache, and the confidence level
-/// in the determination.
-class Mustache {
-  /// Level of confidence in the determination.
-  final double? confidence;
-
-  /// Boolean value that indicates whether the face has mustache or not.
-  final bool? value;
-
-  Mustache({
-    this.confidence,
-    this.value,
-  });
-
-  factory Mustache.fromJson(Map<String, dynamic> json) {
-    return Mustache(
-      confidence: json['Confidence'] as double?,
-      value: json['Value'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final confidence = this.confidence;
-    final value = this.value;
-    return {
-      if (confidence != null) 'Confidence': confidence,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-/// The Amazon Simple Notification Service topic to which Amazon Rekognition
-/// publishes the completion status of a video analysis operation. For more
-/// information, see <a
-/// href="https://docs.aws.amazon.com/rekognition/latest/dg/api-video.html">Calling
-/// Amazon Rekognition Video operations</a>. Note that the Amazon SNS topic must
-/// have a topic name that begins with <i>AmazonRekognition</i> if you are using
-/// the AmazonRekognitionServiceRole permissions policy to access the topic. For
-/// more information, see <a
-/// href="https://docs.aws.amazon.com/rekognition/latest/dg/api-video-roles.html#api-video-roles-all-topics">Giving
-/// access to multiple Amazon SNS topics</a>.
-class NotificationChannel {
-  /// The ARN of an IAM role that gives Amazon Rekognition publishing permissions
-  /// to the Amazon SNS topic.
-  final String roleArn;
-
-  /// The Amazon SNS topic to which Amazon Rekognition posts the completion
-  /// status.
-  final String sNSTopicArn;
-
-  NotificationChannel({
-    required this.roleArn,
-    required this.sNSTopicArn,
-  });
-
-  Map<String, dynamic> toJson() {
-    final roleArn = this.roleArn;
-    final sNSTopicArn = this.sNSTopicArn;
-    return {
-      'RoleArn': roleArn,
-      'SNSTopicArn': sNSTopicArn,
-    };
-  }
-}
-
-class OrientationCorrection {
-  static const rotate_0 = OrientationCorrection._('ROTATE_0');
-  static const rotate_90 = OrientationCorrection._('ROTATE_90');
-  static const rotate_180 = OrientationCorrection._('ROTATE_180');
-  static const rotate_270 = OrientationCorrection._('ROTATE_270');
-
-  final String value;
-
-  const OrientationCorrection._(this.value);
-
-  static const values = [rotate_0, rotate_90, rotate_180, rotate_270];
-
-  static OrientationCorrection fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => OrientationCorrection._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is OrientationCorrection && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The S3 bucket and folder location where training output is placed.
-class OutputConfig {
-  /// The S3 bucket where training output is placed.
-  final String? s3Bucket;
-
-  /// The prefix applied to the training output files.
-  final String? s3KeyPrefix;
-
-  OutputConfig({
-    this.s3Bucket,
-    this.s3KeyPrefix,
-  });
-
-  factory OutputConfig.fromJson(Map<String, dynamic> json) {
-    return OutputConfig(
-      s3Bucket: json['S3Bucket'] as String?,
-      s3KeyPrefix: json['S3KeyPrefix'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final s3Bucket = this.s3Bucket;
-    final s3KeyPrefix = this.s3KeyPrefix;
-    return {
-      if (s3Bucket != null) 'S3Bucket': s3Bucket,
-      if (s3KeyPrefix != null) 'S3KeyPrefix': s3KeyPrefix,
-    };
-  }
-}
-
-/// A parent label for a label. A label can have 0, 1, or more parents.
-class Parent {
-  /// The name of the parent label.
-  final String? name;
-
-  Parent({
-    this.name,
-  });
-
-  factory Parent.fromJson(Map<String, dynamic> json) {
-    return Parent(
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    return {
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
-/// Details about a person detected in a video analysis request.
-class PersonDetail {
-  /// Bounding box around the detected person.
-  final BoundingBox? boundingBox;
-
-  /// Face details for the detected person.
-  final FaceDetail? face;
-
-  /// Identifier for the person detected person within a video. Use to keep track
-  /// of the person throughout the video. The identifier is not stored by Amazon
-  /// Rekognition.
-  final int? index;
-
-  PersonDetail({
-    this.boundingBox,
-    this.face,
-    this.index,
-  });
-
-  factory PersonDetail.fromJson(Map<String, dynamic> json) {
-    return PersonDetail(
-      boundingBox: json['BoundingBox'] != null
-          ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
-          : null,
-      face: json['Face'] != null
-          ? FaceDetail.fromJson(json['Face'] as Map<String, dynamic>)
-          : null,
-      index: json['Index'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final boundingBox = this.boundingBox;
-    final face = this.face;
-    final index = this.index;
-    return {
-      if (boundingBox != null) 'BoundingBox': boundingBox,
-      if (face != null) 'Face': face,
-      if (index != null) 'Index': index,
-    };
-  }
-}
-
-/// Details and path tracking information for a single time a person's path is
-/// tracked in a video. Amazon Rekognition operations that track people's paths
-/// return an array of <code>PersonDetection</code> objects with elements for
-/// each time a person's path is tracked in a video.
-///
-/// For more information, see GetPersonTracking in the Amazon Rekognition
-/// Developer Guide.
-class PersonDetection {
-  /// Details about a person whose path was tracked in a video.
-  final PersonDetail? person;
-
-  /// The time, in milliseconds from the start of the video, that the person's
-  /// path was tracked. Note that <code>Timestamp</code> is not guaranteed to be
-  /// accurate to the individual frame where the person's path first appears.
-  final int? timestamp;
-
-  PersonDetection({
-    this.person,
-    this.timestamp,
-  });
-
-  factory PersonDetection.fromJson(Map<String, dynamic> json) {
-    return PersonDetection(
-      person: json['Person'] != null
-          ? PersonDetail.fromJson(json['Person'] as Map<String, dynamic>)
-          : null,
-      timestamp: json['Timestamp'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final person = this.person;
-    final timestamp = this.timestamp;
-    return {
-      if (person != null) 'Person': person,
-      if (timestamp != null) 'Timestamp': timestamp,
-    };
-  }
-}
-
-/// Information about a person whose face matches a face(s) in an Amazon
-/// Rekognition collection. Includes information about the faces in the Amazon
-/// Rekognition collection (<a>FaceMatch</a>), information about the person
-/// (<a>PersonDetail</a>), and the time stamp for when the person was detected
-/// in a video. An array of <code>PersonMatch</code> objects is returned by
-/// <a>GetFaceSearch</a>.
-class PersonMatch {
-  /// Information about the faces in the input collection that match the face of a
-  /// person in the video.
-  final List<FaceMatch>? faceMatches;
-
-  /// Information about the matched person.
-  final PersonDetail? person;
-
-  /// The time, in milliseconds from the beginning of the video, that the person
-  /// was matched in the video.
-  final int? timestamp;
-
-  PersonMatch({
-    this.faceMatches,
-    this.person,
-    this.timestamp,
-  });
-
-  factory PersonMatch.fromJson(Map<String, dynamic> json) {
-    return PersonMatch(
-      faceMatches: (json['FaceMatches'] as List?)
-          ?.nonNulls
-          .map((e) => FaceMatch.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      person: json['Person'] != null
-          ? PersonDetail.fromJson(json['Person'] as Map<String, dynamic>)
-          : null,
-      timestamp: json['Timestamp'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final faceMatches = this.faceMatches;
-    final person = this.person;
-    final timestamp = this.timestamp;
-    return {
-      if (faceMatches != null) 'FaceMatches': faceMatches,
-      if (person != null) 'Person': person,
-      if (timestamp != null) 'Timestamp': timestamp,
-    };
-  }
-}
-
-class PersonTrackingSortBy {
-  static const $index = PersonTrackingSortBy._('INDEX');
-  static const timestamp = PersonTrackingSortBy._('TIMESTAMP');
-
-  final String value;
-
-  const PersonTrackingSortBy._(this.value);
-
-  static const values = [$index, timestamp];
-
-  static PersonTrackingSortBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PersonTrackingSortBy._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PersonTrackingSortBy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The X and Y coordinates of a point on an image or video frame. The X and Y
-/// values are ratios of the overall image size or video resolution. For
-/// example, if an input image is 700x200 and the values are X=0.5 and Y=0.25,
-/// then the point is at the (350,50) pixel coordinate on the image.
-///
-/// An array of <code>Point</code> objects makes up a <code>Polygon</code>. A
-/// <code>Polygon</code> is returned by <a>DetectText</a> and by
-/// <a>DetectCustomLabels</a> <code>Polygon</code> represents a fine-grained
-/// polygon around a detected item. For more information, see Geometry in the
-/// Amazon Rekognition Developer Guide.
-class Point {
-  /// The value of the X coordinate for a point on a <code>Polygon</code>.
-  final double? x;
-
-  /// The value of the Y coordinate for a point on a <code>Polygon</code>.
-  final double? y;
-
-  Point({
-    this.x,
-    this.y,
-  });
-
-  factory Point.fromJson(Map<String, dynamic> json) {
-    return Point(
-      x: json['X'] as double?,
-      y: json['Y'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final x = this.x;
-    final y = this.y;
-    return {
-      if (x != null) 'X': x,
-      if (y != null) 'Y': y,
-    };
-  }
-}
-
-/// Indicates the pose of the face as determined by its pitch, roll, and yaw.
-class Pose {
-  /// Value representing the face rotation on the pitch axis.
-  final double? pitch;
-
-  /// Value representing the face rotation on the roll axis.
-  final double? roll;
-
-  /// Value representing the face rotation on the yaw axis.
-  final double? yaw;
-
-  Pose({
-    this.pitch,
-    this.roll,
-    this.yaw,
-  });
-
-  factory Pose.fromJson(Map<String, dynamic> json) {
-    return Pose(
-      pitch: json['Pitch'] as double?,
-      roll: json['Roll'] as double?,
-      yaw: json['Yaw'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final pitch = this.pitch;
-    final roll = this.roll;
-    final yaw = this.yaw;
-    return {
-      if (pitch != null) 'Pitch': pitch,
-      if (roll != null) 'Roll': roll,
-      if (yaw != null) 'Yaw': yaw,
-    };
-  }
-}
-
-class ProjectAutoUpdate {
-  static const enabled = ProjectAutoUpdate._('ENABLED');
-  static const disabled = ProjectAutoUpdate._('DISABLED');
-
-  final String value;
-
-  const ProjectAutoUpdate._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static ProjectAutoUpdate fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ProjectAutoUpdate._(value));
-
-  @override
-  bool operator ==(other) => other is ProjectAutoUpdate && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A description of an Amazon Rekognition Custom Labels project. For more
-/// information, see <a>DescribeProjects</a>.
-class ProjectDescription {
-  /// Indicates whether automatic retraining will be attempted for the versions of
-  /// the project. Applies only to adapters.
-  final ProjectAutoUpdate? autoUpdate;
-
-  /// The Unix timestamp for the date and time that the project was created.
-  final DateTime? creationTimestamp;
-
-  /// Information about the training and test datasets in the project.
-  final List<DatasetMetadata>? datasets;
-
-  /// Specifies the project that is being customized.
-  final CustomizationFeature? feature;
-
-  /// The Amazon Resource Name (ARN) of the project.
-  final String? projectArn;
-
-  /// The current status of the project.
-  final ProjectStatus? status;
-
-  ProjectDescription({
-    this.autoUpdate,
-    this.creationTimestamp,
-    this.datasets,
-    this.feature,
-    this.projectArn,
-    this.status,
-  });
-
-  factory ProjectDescription.fromJson(Map<String, dynamic> json) {
-    return ProjectDescription(
-      autoUpdate:
-          (json['AutoUpdate'] as String?)?.let(ProjectAutoUpdate.fromString),
-      creationTimestamp: timeStampFromJson(json['CreationTimestamp']),
-      datasets: (json['Datasets'] as List?)
-          ?.nonNulls
-          .map((e) => DatasetMetadata.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      feature:
-          (json['Feature'] as String?)?.let(CustomizationFeature.fromString),
-      projectArn: json['ProjectArn'] as String?,
-      status: (json['Status'] as String?)?.let(ProjectStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final autoUpdate = this.autoUpdate;
-    final creationTimestamp = this.creationTimestamp;
-    final datasets = this.datasets;
-    final feature = this.feature;
-    final projectArn = this.projectArn;
-    final status = this.status;
-    return {
-      if (autoUpdate != null) 'AutoUpdate': autoUpdate.value,
-      if (creationTimestamp != null)
-        'CreationTimestamp': unixTimestampToJson(creationTimestamp),
-      if (datasets != null) 'Datasets': datasets,
-      if (feature != null) 'Feature': feature.value,
-      if (projectArn != null) 'ProjectArn': projectArn,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-/// Describes a project policy in the response from <a>ListProjectPolicies</a>.
-///
-///
-class ProjectPolicy {
-  /// The Unix datetime for the creation of the project policy.
-  final DateTime? creationTimestamp;
-
-  /// The Unix datetime for when the project policy was last updated.
-  final DateTime? lastUpdatedTimestamp;
-
-  /// The JSON document for the project policy.
-  final String? policyDocument;
-
-  /// The name of the project policy.
-  final String? policyName;
-
-  /// The revision ID of the project policy.
-  final String? policyRevisionId;
-
-  /// The Amazon Resource Name (ARN) of the project to which the project policy is
-  /// attached.
-  final String? projectArn;
-
-  ProjectPolicy({
-    this.creationTimestamp,
-    this.lastUpdatedTimestamp,
-    this.policyDocument,
-    this.policyName,
-    this.policyRevisionId,
-    this.projectArn,
-  });
-
-  factory ProjectPolicy.fromJson(Map<String, dynamic> json) {
-    return ProjectPolicy(
-      creationTimestamp: timeStampFromJson(json['CreationTimestamp']),
-      lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
-      policyDocument: json['PolicyDocument'] as String?,
-      policyName: json['PolicyName'] as String?,
-      policyRevisionId: json['PolicyRevisionId'] as String?,
-      projectArn: json['ProjectArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationTimestamp = this.creationTimestamp;
-    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
-    final policyDocument = this.policyDocument;
-    final policyName = this.policyName;
-    final policyRevisionId = this.policyRevisionId;
-    final projectArn = this.projectArn;
-    return {
-      if (creationTimestamp != null)
-        'CreationTimestamp': unixTimestampToJson(creationTimestamp),
-      if (lastUpdatedTimestamp != null)
-        'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
-      if (policyDocument != null) 'PolicyDocument': policyDocument,
-      if (policyName != null) 'PolicyName': policyName,
-      if (policyRevisionId != null) 'PolicyRevisionId': policyRevisionId,
-      if (projectArn != null) 'ProjectArn': projectArn,
-    };
-  }
-}
-
-class ProjectStatus {
-  static const creating = ProjectStatus._('CREATING');
-  static const created = ProjectStatus._('CREATED');
-  static const deleting = ProjectStatus._('DELETING');
-
-  final String value;
-
-  const ProjectStatus._(this.value);
-
-  static const values = [creating, created, deleting];
-
-  static ProjectStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ProjectStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ProjectStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A description of a version of a Amazon Rekognition project version.
-class ProjectVersionDescription {
-  /// The base detection model version used to create the project version.
-  final String? baseModelVersion;
-
-  /// The duration, in seconds, that you were billed for a successful training of
-  /// the model version. This value is only returned if the model version has been
-  /// successfully trained.
-  final int? billableTrainingTimeInSeconds;
-
-  /// The Unix datetime for the date and time that training started.
-  final DateTime? creationTimestamp;
-
-  /// The training results. <code>EvaluationResult</code> is only returned if
-  /// training is successful.
-  final EvaluationResult? evaluationResult;
-
-  /// The feature that was customized.
-  final CustomizationFeature? feature;
-
-  /// Feature specific configuration that was applied during training.
-  final CustomizationFeatureConfig? featureConfig;
-
-  /// The identifer for the AWS Key Management Service key (AWS KMS key) that was
-  /// used to encrypt the model during training.
-  final String? kmsKeyId;
-
-  /// The location of the summary manifest. The summary manifest provides
-  /// aggregate data validation results for the training and test datasets.
-  final GroundTruthManifest? manifestSummary;
-
-  /// The maximum number of inference units Amazon Rekognition uses to auto-scale
-  /// the model. Applies only to Custom Labels projects. For more information, see
-  /// <a>StartProjectVersion</a>.
-  final int? maxInferenceUnits;
-
-  /// The minimum number of inference units used by the model. Applies only to
-  /// Custom Labels projects. For more information, see
-  /// <a>StartProjectVersion</a>.
-  final int? minInferenceUnits;
-
-  /// The location where training results are saved.
-  final OutputConfig? outputConfig;
-
-  /// The Amazon Resource Name (ARN) of the project version.
-  final String? projectVersionArn;
-
-  /// If the model version was copied from a different project,
-  /// <code>SourceProjectVersionArn</code> contains the ARN of the source model
-  /// version.
-  final String? sourceProjectVersionArn;
-
-  /// The current status of the model version.
-  final ProjectVersionStatus? status;
-
-  /// A descriptive message for an error or warning that occurred.
-  final String? statusMessage;
-
-  /// Contains information about the testing results.
-  final TestingDataResult? testingDataResult;
-
-  /// Contains information about the training results.
-  final TrainingDataResult? trainingDataResult;
-
-  /// The Unix date and time that training of the model ended.
-  final DateTime? trainingEndTimestamp;
-
-  /// A user-provided description of the project version.
-  final String? versionDescription;
-
-  ProjectVersionDescription({
-    this.baseModelVersion,
-    this.billableTrainingTimeInSeconds,
-    this.creationTimestamp,
-    this.evaluationResult,
-    this.feature,
-    this.featureConfig,
-    this.kmsKeyId,
-    this.manifestSummary,
-    this.maxInferenceUnits,
-    this.minInferenceUnits,
-    this.outputConfig,
-    this.projectVersionArn,
-    this.sourceProjectVersionArn,
-    this.status,
-    this.statusMessage,
-    this.testingDataResult,
-    this.trainingDataResult,
-    this.trainingEndTimestamp,
-    this.versionDescription,
-  });
-
-  factory ProjectVersionDescription.fromJson(Map<String, dynamic> json) {
-    return ProjectVersionDescription(
-      baseModelVersion: json['BaseModelVersion'] as String?,
-      billableTrainingTimeInSeconds:
-          json['BillableTrainingTimeInSeconds'] as int?,
-      creationTimestamp: timeStampFromJson(json['CreationTimestamp']),
-      evaluationResult: json['EvaluationResult'] != null
-          ? EvaluationResult.fromJson(
-              json['EvaluationResult'] as Map<String, dynamic>)
-          : null,
-      feature:
-          (json['Feature'] as String?)?.let(CustomizationFeature.fromString),
-      featureConfig: json['FeatureConfig'] != null
-          ? CustomizationFeatureConfig.fromJson(
-              json['FeatureConfig'] as Map<String, dynamic>)
-          : null,
-      kmsKeyId: json['KmsKeyId'] as String?,
-      manifestSummary: json['ManifestSummary'] != null
-          ? GroundTruthManifest.fromJson(
-              json['ManifestSummary'] as Map<String, dynamic>)
-          : null,
-      maxInferenceUnits: json['MaxInferenceUnits'] as int?,
-      minInferenceUnits: json['MinInferenceUnits'] as int?,
-      outputConfig: json['OutputConfig'] != null
-          ? OutputConfig.fromJson(json['OutputConfig'] as Map<String, dynamic>)
-          : null,
-      projectVersionArn: json['ProjectVersionArn'] as String?,
-      sourceProjectVersionArn: json['SourceProjectVersionArn'] as String?,
-      status: (json['Status'] as String?)?.let(ProjectVersionStatus.fromString),
-      statusMessage: json['StatusMessage'] as String?,
-      testingDataResult: json['TestingDataResult'] != null
-          ? TestingDataResult.fromJson(
-              json['TestingDataResult'] as Map<String, dynamic>)
-          : null,
-      trainingDataResult: json['TrainingDataResult'] != null
-          ? TrainingDataResult.fromJson(
-              json['TrainingDataResult'] as Map<String, dynamic>)
-          : null,
-      trainingEndTimestamp: timeStampFromJson(json['TrainingEndTimestamp']),
-      versionDescription: json['VersionDescription'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final baseModelVersion = this.baseModelVersion;
-    final billableTrainingTimeInSeconds = this.billableTrainingTimeInSeconds;
-    final creationTimestamp = this.creationTimestamp;
-    final evaluationResult = this.evaluationResult;
-    final feature = this.feature;
-    final featureConfig = this.featureConfig;
-    final kmsKeyId = this.kmsKeyId;
-    final manifestSummary = this.manifestSummary;
-    final maxInferenceUnits = this.maxInferenceUnits;
-    final minInferenceUnits = this.minInferenceUnits;
-    final outputConfig = this.outputConfig;
-    final projectVersionArn = this.projectVersionArn;
-    final sourceProjectVersionArn = this.sourceProjectVersionArn;
-    final status = this.status;
-    final statusMessage = this.statusMessage;
-    final testingDataResult = this.testingDataResult;
-    final trainingDataResult = this.trainingDataResult;
-    final trainingEndTimestamp = this.trainingEndTimestamp;
-    final versionDescription = this.versionDescription;
-    return {
-      if (baseModelVersion != null) 'BaseModelVersion': baseModelVersion,
-      if (billableTrainingTimeInSeconds != null)
-        'BillableTrainingTimeInSeconds': billableTrainingTimeInSeconds,
-      if (creationTimestamp != null)
-        'CreationTimestamp': unixTimestampToJson(creationTimestamp),
-      if (evaluationResult != null) 'EvaluationResult': evaluationResult,
-      if (feature != null) 'Feature': feature.value,
-      if (featureConfig != null) 'FeatureConfig': featureConfig,
-      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-      if (manifestSummary != null) 'ManifestSummary': manifestSummary,
-      if (maxInferenceUnits != null) 'MaxInferenceUnits': maxInferenceUnits,
-      if (minInferenceUnits != null) 'MinInferenceUnits': minInferenceUnits,
-      if (outputConfig != null) 'OutputConfig': outputConfig,
-      if (projectVersionArn != null) 'ProjectVersionArn': projectVersionArn,
-      if (sourceProjectVersionArn != null)
-        'SourceProjectVersionArn': sourceProjectVersionArn,
-      if (status != null) 'Status': status.value,
-      if (statusMessage != null) 'StatusMessage': statusMessage,
-      if (testingDataResult != null) 'TestingDataResult': testingDataResult,
-      if (trainingDataResult != null) 'TrainingDataResult': trainingDataResult,
-      if (trainingEndTimestamp != null)
-        'TrainingEndTimestamp': unixTimestampToJson(trainingEndTimestamp),
-      if (versionDescription != null) 'VersionDescription': versionDescription,
-    };
-  }
-}
-
-class ProjectVersionStatus {
-  static const trainingInProgress =
-      ProjectVersionStatus._('TRAINING_IN_PROGRESS');
-  static const trainingCompleted = ProjectVersionStatus._('TRAINING_COMPLETED');
-  static const trainingFailed = ProjectVersionStatus._('TRAINING_FAILED');
-  static const starting = ProjectVersionStatus._('STARTING');
-  static const running = ProjectVersionStatus._('RUNNING');
-  static const failed = ProjectVersionStatus._('FAILED');
-  static const stopping = ProjectVersionStatus._('STOPPING');
-  static const stopped = ProjectVersionStatus._('STOPPED');
-  static const deleting = ProjectVersionStatus._('DELETING');
-  static const copyingInProgress =
-      ProjectVersionStatus._('COPYING_IN_PROGRESS');
-  static const copyingCompleted = ProjectVersionStatus._('COPYING_COMPLETED');
-  static const copyingFailed = ProjectVersionStatus._('COPYING_FAILED');
-  static const deprecated = ProjectVersionStatus._('DEPRECATED');
-  static const expired = ProjectVersionStatus._('EXPIRED');
-
-  final String value;
-
-  const ProjectVersionStatus._(this.value);
-
-  static const values = [
-    trainingInProgress,
-    trainingCompleted,
-    trainingFailed,
-    starting,
-    running,
-    failed,
-    stopping,
-    stopped,
-    deleting,
-    copyingInProgress,
-    copyingCompleted,
-    copyingFailed,
-    deprecated,
-    expired
-  ];
-
-  static ProjectVersionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ProjectVersionStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ProjectVersionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about a body part detected by <a>DetectProtectiveEquipment</a>
-/// that contains PPE. An array of <code>ProtectiveEquipmentBodyPart</code>
-/// objects is returned for each person detected by
-/// <code>DetectProtectiveEquipment</code>.
-class ProtectiveEquipmentBodyPart {
-  /// The confidence that Amazon Rekognition has in the detection accuracy of the
-  /// detected body part.
-  final double? confidence;
-
-  /// An array of Personal Protective Equipment items detected around a body part.
-  final List<EquipmentDetection>? equipmentDetections;
-
-  /// The detected body part.
-  final BodyPart? name;
-
-  ProtectiveEquipmentBodyPart({
-    this.confidence,
-    this.equipmentDetections,
-    this.name,
-  });
-
-  factory ProtectiveEquipmentBodyPart.fromJson(Map<String, dynamic> json) {
-    return ProtectiveEquipmentBodyPart(
-      confidence: json['Confidence'] as double?,
-      equipmentDetections: (json['EquipmentDetections'] as List?)
-          ?.nonNulls
-          .map((e) => EquipmentDetection.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      name: (json['Name'] as String?)?.let(BodyPart.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final confidence = this.confidence;
-    final equipmentDetections = this.equipmentDetections;
-    final name = this.name;
-    return {
-      if (confidence != null) 'Confidence': confidence,
-      if (equipmentDetections != null)
-        'EquipmentDetections': equipmentDetections,
-      if (name != null) 'Name': name.value,
-    };
-  }
-}
-
-/// A person detected by a call to <a>DetectProtectiveEquipment</a>. The API
-/// returns all persons detected in the input image in an array of
-/// <code>ProtectiveEquipmentPerson</code> objects.
-class ProtectiveEquipmentPerson {
-  /// An array of body parts detected on a person's body (including body parts
-  /// without PPE).
-  final List<ProtectiveEquipmentBodyPart>? bodyParts;
-
-  /// A bounding box around the detected person.
-  final BoundingBox? boundingBox;
-
-  /// The confidence that Amazon Rekognition has that the bounding box contains a
-  /// person.
-  final double? confidence;
-
-  /// The identifier for the detected person. The identifier is only unique for a
-  /// single call to <code>DetectProtectiveEquipment</code>.
-  final int? id;
-
-  ProtectiveEquipmentPerson({
-    this.bodyParts,
-    this.boundingBox,
-    this.confidence,
-    this.id,
-  });
-
-  factory ProtectiveEquipmentPerson.fromJson(Map<String, dynamic> json) {
-    return ProtectiveEquipmentPerson(
-      bodyParts: (json['BodyParts'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              ProtectiveEquipmentBodyPart.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      boundingBox: json['BoundingBox'] != null
-          ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
-          : null,
-      confidence: json['Confidence'] as double?,
-      id: json['Id'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bodyParts = this.bodyParts;
-    final boundingBox = this.boundingBox;
-    final confidence = this.confidence;
-    final id = this.id;
-    return {
-      if (bodyParts != null) 'BodyParts': bodyParts,
-      if (boundingBox != null) 'BoundingBox': boundingBox,
-      if (confidence != null) 'Confidence': confidence,
-      if (id != null) 'Id': id,
-    };
-  }
-}
-
-/// Specifies summary attributes to return from a call to
-/// <a>DetectProtectiveEquipment</a>. You can specify which types of PPE to
-/// summarize. You can also specify a minimum confidence value for detections.
-/// Summary information is returned in the <code>Summary</code>
-/// (<a>ProtectiveEquipmentSummary</a>) field of the response from
-/// <code>DetectProtectiveEquipment</code>. The summary includes which persons
-/// in an image were detected wearing the requested types of person protective
-/// equipment (PPE), which persons were detected as not wearing PPE, and the
-/// persons in which a determination could not be made. For more information,
-/// see <a>ProtectiveEquipmentSummary</a>.
-class ProtectiveEquipmentSummarizationAttributes {
-  /// The minimum confidence level for which you want summary information. The
-  /// confidence level applies to person detection, body part detection, equipment
-  /// detection, and body part coverage. Amazon Rekognition doesn't return summary
-  /// information with a confidence than this specified value. There isn't a
-  /// default value.
-  ///
-  /// Specify a <code>MinConfidence</code> value that is between 50-100% as
-  /// <code>DetectProtectiveEquipment</code> returns predictions only where the
-  /// detection confidence is between 50% - 100%. If you specify a value that is
-  /// less than 50%, the results are the same specifying a value of 50%.
-  ///
-  ///
-  final double minConfidence;
-
-  /// An array of personal protective equipment types for which you want summary
-  /// information. If a person is detected wearing a required requipment type, the
-  /// person's ID is added to the <code>PersonsWithRequiredEquipment</code> array
-  /// field returned in <a>ProtectiveEquipmentSummary</a> by
-  /// <code>DetectProtectiveEquipment</code>.
-  final List<ProtectiveEquipmentType> requiredEquipmentTypes;
-
-  ProtectiveEquipmentSummarizationAttributes({
-    required this.minConfidence,
-    required this.requiredEquipmentTypes,
-  });
-
-  Map<String, dynamic> toJson() {
-    final minConfidence = this.minConfidence;
-    final requiredEquipmentTypes = this.requiredEquipmentTypes;
-    return {
-      'MinConfidence': minConfidence,
-      'RequiredEquipmentTypes':
-          requiredEquipmentTypes.map((e) => e.value).toList(),
-    };
-  }
-}
-
-/// Summary information for required items of personal protective equipment
-/// (PPE) detected on persons by a call to <a>DetectProtectiveEquipment</a>. You
-/// specify the required type of PPE in the <code>SummarizationAttributes</code>
-/// (<a>ProtectiveEquipmentSummarizationAttributes</a>) input parameter. The
-/// summary includes which persons were detected wearing the required personal
-/// protective equipment (<code>PersonsWithRequiredEquipment</code>), which
-/// persons were detected as not wearing the required PPE
-/// (<code>PersonsWithoutRequiredEquipment</code>), and the persons in which a
-/// determination could not be made (<code>PersonsIndeterminate</code>).
-///
-/// To get a total for each category, use the size of the field array. For
-/// example, to find out how many people were detected as wearing the specified
-/// PPE, use the size of the <code>PersonsWithRequiredEquipment</code> array. If
-/// you want to find out more about a person, such as the location
-/// (<a>BoundingBox</a>) of the person on the image, use the person ID in each
-/// array element. Each person ID matches the ID field of a
-/// <a>ProtectiveEquipmentPerson</a> object returned in the <code>Persons</code>
-/// array by <code>DetectProtectiveEquipment</code>.
-class ProtectiveEquipmentSummary {
-  /// An array of IDs for persons where it was not possible to determine if they
-  /// are wearing personal protective equipment.
-  final List<int>? personsIndeterminate;
-
-  /// An array of IDs for persons who are wearing detected personal protective
-  /// equipment.
-  final List<int>? personsWithRequiredEquipment;
-
-  /// An array of IDs for persons who are not wearing all of the types of PPE
-  /// specified in the <code>RequiredEquipmentTypes</code> field of the detected
-  /// personal protective equipment.
-  final List<int>? personsWithoutRequiredEquipment;
-
-  ProtectiveEquipmentSummary({
-    this.personsIndeterminate,
-    this.personsWithRequiredEquipment,
-    this.personsWithoutRequiredEquipment,
-  });
-
-  factory ProtectiveEquipmentSummary.fromJson(Map<String, dynamic> json) {
-    return ProtectiveEquipmentSummary(
-      personsIndeterminate: (json['PersonsIndeterminate'] as List?)
-          ?.nonNulls
-          .map((e) => e as int)
-          .toList(),
-      personsWithRequiredEquipment:
-          (json['PersonsWithRequiredEquipment'] as List?)
-              ?.nonNulls
-              .map((e) => e as int)
-              .toList(),
-      personsWithoutRequiredEquipment:
-          (json['PersonsWithoutRequiredEquipment'] as List?)
-              ?.nonNulls
-              .map((e) => e as int)
-              .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final personsIndeterminate = this.personsIndeterminate;
-    final personsWithRequiredEquipment = this.personsWithRequiredEquipment;
-    final personsWithoutRequiredEquipment =
-        this.personsWithoutRequiredEquipment;
-    return {
-      if (personsIndeterminate != null)
-        'PersonsIndeterminate': personsIndeterminate,
-      if (personsWithRequiredEquipment != null)
-        'PersonsWithRequiredEquipment': personsWithRequiredEquipment,
-      if (personsWithoutRequiredEquipment != null)
-        'PersonsWithoutRequiredEquipment': personsWithoutRequiredEquipment,
-    };
-  }
-}
-
-class ProtectiveEquipmentType {
-  static const faceCover = ProtectiveEquipmentType._('FACE_COVER');
-  static const handCover = ProtectiveEquipmentType._('HAND_COVER');
-  static const headCover = ProtectiveEquipmentType._('HEAD_COVER');
-
-  final String value;
-
-  const ProtectiveEquipmentType._(this.value);
-
-  static const values = [faceCover, handCover, headCover];
-
-  static ProtectiveEquipmentType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ProtectiveEquipmentType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ProtectiveEquipmentType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class PutProjectPolicyResponse {
   /// The ID of the project policy.
   final String? policyRevisionId;
@@ -14288,69 +8891,6 @@ class PutProjectPolicyResponse {
       if (policyRevisionId != null) 'PolicyRevisionId': policyRevisionId,
     };
   }
-}
-
-class QualityFilter {
-  static const none = QualityFilter._('NONE');
-  static const auto = QualityFilter._('AUTO');
-  static const low = QualityFilter._('LOW');
-  static const medium = QualityFilter._('MEDIUM');
-  static const high = QualityFilter._('HIGH');
-
-  final String value;
-
-  const QualityFilter._(this.value);
-
-  static const values = [none, auto, low, medium, high];
-
-  static QualityFilter fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => QualityFilter._(value));
-
-  @override
-  bool operator ==(other) => other is QualityFilter && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class Reason {
-  static const exceedsMaxFaces = Reason._('EXCEEDS_MAX_FACES');
-  static const extremePose = Reason._('EXTREME_POSE');
-  static const lowBrightness = Reason._('LOW_BRIGHTNESS');
-  static const lowSharpness = Reason._('LOW_SHARPNESS');
-  static const lowConfidence = Reason._('LOW_CONFIDENCE');
-  static const smallBoundingBox = Reason._('SMALL_BOUNDING_BOX');
-  static const lowFaceQuality = Reason._('LOW_FACE_QUALITY');
-
-  final String value;
-
-  const Reason._(this.value);
-
-  static const values = [
-    exceedsMaxFaces,
-    extremePose,
-    lowBrightness,
-    lowSharpness,
-    lowConfidence,
-    smallBoundingBox,
-    lowFaceQuality
-  ];
-
-  static Reason fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Reason._(value));
-
-  @override
-  bool operator ==(other) => other is Reason && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class RecognizeCelebritiesResponse {
@@ -14421,127 +8961,43 @@ class RecognizeCelebritiesResponse {
   }
 }
 
-/// Specifies a location within the frame that Rekognition checks for objects of
-/// interest such as text, labels, or faces. It uses a <code>BoundingBox</code>
-/// or <code>Polygon</code> to set a region of the screen.
-///
-/// A word, face, or label is included in the region if it is more than half in
-/// that region. If there is more than one region, the word, face, or label is
-/// compared with all regions of the screen. Any object of interest that is more
-/// than half in a region is kept in the results.
-class RegionOfInterest {
-  /// The box representing a region of interest on screen.
-  final BoundingBox? boundingBox;
+class SearchFacesResponse {
+  /// An array of faces that matched the input face, along with the confidence in
+  /// the match.
+  final List<FaceMatch>? faceMatches;
 
-  /// Specifies a shape made up of up to 10 <code>Point</code> objects to define a
-  /// region of interest.
-  final List<Point>? polygon;
+  /// Version number of the face detection model associated with the input
+  /// collection (<code>CollectionId</code>).
+  final String? faceModelVersion;
 
-  RegionOfInterest({
-    this.boundingBox,
-    this.polygon,
+  /// ID of the face that was searched for matches in a collection.
+  final String? searchedFaceId;
+
+  SearchFacesResponse({
+    this.faceMatches,
+    this.faceModelVersion,
+    this.searchedFaceId,
   });
 
-  factory RegionOfInterest.fromJson(Map<String, dynamic> json) {
-    return RegionOfInterest(
-      boundingBox: json['BoundingBox'] != null
-          ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
-          : null,
-      polygon: (json['Polygon'] as List?)
+  factory SearchFacesResponse.fromJson(Map<String, dynamic> json) {
+    return SearchFacesResponse(
+      faceMatches: (json['FaceMatches'] as List?)
           ?.nonNulls
-          .map((e) => Point.fromJson(e as Map<String, dynamic>))
+          .map((e) => FaceMatch.fromJson(e as Map<String, dynamic>))
           .toList(),
+      faceModelVersion: json['FaceModelVersion'] as String?,
+      searchedFaceId: json['SearchedFaceId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final boundingBox = this.boundingBox;
-    final polygon = this.polygon;
+    final faceMatches = this.faceMatches;
+    final faceModelVersion = this.faceModelVersion;
+    final searchedFaceId = this.searchedFaceId;
     return {
-      if (boundingBox != null) 'BoundingBox': boundingBox,
-      if (polygon != null) 'Polygon': polygon,
-    };
-  }
-}
-
-/// The Amazon S3 bucket location to which Amazon Rekognition publishes the
-/// detailed inference results of a video analysis operation. These results
-/// include the name of the stream processor resource, the session ID of the
-/// stream processing session, and labeled timestamps and bounding boxes for
-/// detected labels.
-class S3Destination {
-  /// The name of the Amazon S3 bucket you want to associate with the streaming
-  /// video project. You must be the owner of the Amazon S3 bucket.
-  final String? bucket;
-
-  /// The prefix value of the location within the bucket that you want the
-  /// information to be published to. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-prefixes.html">Using
-  /// prefixes</a>.
-  final String? keyPrefix;
-
-  S3Destination({
-    this.bucket,
-    this.keyPrefix,
-  });
-
-  factory S3Destination.fromJson(Map<String, dynamic> json) {
-    return S3Destination(
-      bucket: json['Bucket'] as String?,
-      keyPrefix: json['KeyPrefix'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucket = this.bucket;
-    final keyPrefix = this.keyPrefix;
-    return {
-      if (bucket != null) 'Bucket': bucket,
-      if (keyPrefix != null) 'KeyPrefix': keyPrefix,
-    };
-  }
-}
-
-/// Provides the S3 bucket name and object name.
-///
-/// The region for the S3 bucket containing the S3 object must match the region
-/// you use for Amazon Rekognition operations.
-///
-/// For Amazon Rekognition to process an S3 object, the user must have
-/// permission to access the S3 object. For more information, see How Amazon
-/// Rekognition works with IAM in the Amazon Rekognition Developer Guide.
-class S3Object {
-  /// Name of the S3 bucket.
-  final String? bucket;
-
-  /// S3 object key name.
-  final String? name;
-
-  /// If the bucket is versioning enabled, you can specify the object version.
-  final String? version;
-
-  S3Object({
-    this.bucket,
-    this.name,
-    this.version,
-  });
-
-  factory S3Object.fromJson(Map<String, dynamic> json) {
-    return S3Object(
-      bucket: json['Bucket'] as String?,
-      name: json['Name'] as String?,
-      version: json['Version'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucket = this.bucket;
-    final name = this.name;
-    final version = this.version;
-    return {
-      if (bucket != null) 'Bucket': bucket,
-      if (name != null) 'Name': name,
-      if (version != null) 'Version': version,
+      if (faceMatches != null) 'FaceMatches': faceMatches,
+      if (faceModelVersion != null) 'FaceModelVersion': faceModelVersion,
+      if (searchedFaceId != null) 'SearchedFaceId': searchedFaceId,
     };
   }
 }
@@ -14601,43 +9057,56 @@ class SearchFacesByImageResponse {
   }
 }
 
-class SearchFacesResponse {
-  /// An array of faces that matched the input face, along with the confidence in
-  /// the match.
-  final List<FaceMatch>? faceMatches;
-
+class SearchUsersResponse {
   /// Version number of the face detection model associated with the input
-  /// collection (<code>CollectionId</code>).
+  /// CollectionId.
   final String? faceModelVersion;
 
-  /// ID of the face that was searched for matches in a collection.
-  final String? searchedFaceId;
+  /// Contains the ID of a face that was used to search for matches in a
+  /// collection.
+  final SearchedFace? searchedFace;
 
-  SearchFacesResponse({
-    this.faceMatches,
+  /// Contains the ID of the UserID that was used to search for matches in a
+  /// collection.
+  final SearchedUser? searchedUser;
+
+  /// An array of UserMatch objects that matched the input face along with the
+  /// confidence in the match. Array will be empty if there are no matches.
+  final List<UserMatch>? userMatches;
+
+  SearchUsersResponse({
     this.faceModelVersion,
-    this.searchedFaceId,
+    this.searchedFace,
+    this.searchedUser,
+    this.userMatches,
   });
 
-  factory SearchFacesResponse.fromJson(Map<String, dynamic> json) {
-    return SearchFacesResponse(
-      faceMatches: (json['FaceMatches'] as List?)
-          ?.nonNulls
-          .map((e) => FaceMatch.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  factory SearchUsersResponse.fromJson(Map<String, dynamic> json) {
+    return SearchUsersResponse(
       faceModelVersion: json['FaceModelVersion'] as String?,
-      searchedFaceId: json['SearchedFaceId'] as String?,
+      searchedFace: json['SearchedFace'] != null
+          ? SearchedFace.fromJson(json['SearchedFace'] as Map<String, dynamic>)
+          : null,
+      searchedUser: json['SearchedUser'] != null
+          ? SearchedUser.fromJson(json['SearchedUser'] as Map<String, dynamic>)
+          : null,
+      userMatches: (json['UserMatches'] as List?)
+          ?.nonNulls
+          .map((e) => UserMatch.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final faceMatches = this.faceMatches;
     final faceModelVersion = this.faceModelVersion;
-    final searchedFaceId = this.searchedFaceId;
+    final searchedFace = this.searchedFace;
+    final searchedUser = this.searchedUser;
+    final userMatches = this.userMatches;
     return {
-      if (faceMatches != null) 'FaceMatches': faceMatches,
       if (faceModelVersion != null) 'FaceModelVersion': faceModelVersion,
-      if (searchedFaceId != null) 'SearchedFaceId': searchedFaceId,
+      if (searchedFace != null) 'SearchedFace': searchedFace,
+      if (searchedUser != null) 'SearchedUser': searchedUser,
+      if (userMatches != null) 'UserMatches': userMatches,
     };
   }
 }
@@ -14698,371 +9167,6 @@ class SearchUsersByImageResponse {
       if (searchedFace != null) 'SearchedFace': searchedFace,
       if (unsearchedFaces != null) 'UnsearchedFaces': unsearchedFaces,
       if (userMatches != null) 'UserMatches': userMatches,
-    };
-  }
-}
-
-class SearchUsersResponse {
-  /// Version number of the face detection model associated with the input
-  /// CollectionId.
-  final String? faceModelVersion;
-
-  /// Contains the ID of a face that was used to search for matches in a
-  /// collection.
-  final SearchedFace? searchedFace;
-
-  /// Contains the ID of the UserID that was used to search for matches in a
-  /// collection.
-  final SearchedUser? searchedUser;
-
-  /// An array of UserMatch objects that matched the input face along with the
-  /// confidence in the match. Array will be empty if there are no matches.
-  final List<UserMatch>? userMatches;
-
-  SearchUsersResponse({
-    this.faceModelVersion,
-    this.searchedFace,
-    this.searchedUser,
-    this.userMatches,
-  });
-
-  factory SearchUsersResponse.fromJson(Map<String, dynamic> json) {
-    return SearchUsersResponse(
-      faceModelVersion: json['FaceModelVersion'] as String?,
-      searchedFace: json['SearchedFace'] != null
-          ? SearchedFace.fromJson(json['SearchedFace'] as Map<String, dynamic>)
-          : null,
-      searchedUser: json['SearchedUser'] != null
-          ? SearchedUser.fromJson(json['SearchedUser'] as Map<String, dynamic>)
-          : null,
-      userMatches: (json['UserMatches'] as List?)
-          ?.nonNulls
-          .map((e) => UserMatch.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final faceModelVersion = this.faceModelVersion;
-    final searchedFace = this.searchedFace;
-    final searchedUser = this.searchedUser;
-    final userMatches = this.userMatches;
-    return {
-      if (faceModelVersion != null) 'FaceModelVersion': faceModelVersion,
-      if (searchedFace != null) 'SearchedFace': searchedFace,
-      if (searchedUser != null) 'SearchedUser': searchedUser,
-      if (userMatches != null) 'UserMatches': userMatches,
-    };
-  }
-}
-
-/// Provides face metadata such as FaceId, BoundingBox, Confidence of the input
-/// face used for search.
-class SearchedFace {
-  /// Unique identifier assigned to the face.
-  final String? faceId;
-
-  SearchedFace({
-    this.faceId,
-  });
-
-  factory SearchedFace.fromJson(Map<String, dynamic> json) {
-    return SearchedFace(
-      faceId: json['FaceId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final faceId = this.faceId;
-    return {
-      if (faceId != null) 'FaceId': faceId,
-    };
-  }
-}
-
-/// Contains data regarding the input face used for a search.
-class SearchedFaceDetails {
-  final FaceDetail? faceDetail;
-
-  SearchedFaceDetails({
-    this.faceDetail,
-  });
-
-  factory SearchedFaceDetails.fromJson(Map<String, dynamic> json) {
-    return SearchedFaceDetails(
-      faceDetail: json['FaceDetail'] != null
-          ? FaceDetail.fromJson(json['FaceDetail'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final faceDetail = this.faceDetail;
-    return {
-      if (faceDetail != null) 'FaceDetail': faceDetail,
-    };
-  }
-}
-
-/// Contains metadata about a User searched for within a collection.
-class SearchedUser {
-  /// A provided ID for the UserID. Unique within the collection.
-  final String? userId;
-
-  SearchedUser({
-    this.userId,
-  });
-
-  factory SearchedUser.fromJson(Map<String, dynamic> json) {
-    return SearchedUser(
-      userId: json['UserId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final userId = this.userId;
-    return {
-      if (userId != null) 'UserId': userId,
-    };
-  }
-}
-
-/// A technical cue or shot detection segment detected in a video. An array of
-/// <code>SegmentDetection</code> objects containing all segments detected in a
-/// stored video is returned by <a>GetSegmentDetection</a>.
-class SegmentDetection {
-  /// The duration of a video segment, expressed in frames.
-  final int? durationFrames;
-
-  /// The duration of the detected segment in milliseconds.
-  final int? durationMillis;
-
-  /// The duration of the timecode for the detected segment in SMPTE format.
-  final String? durationSMPTE;
-
-  /// The frame number at the end of a video segment, using a frame index that
-  /// starts with 0.
-  final int? endFrameNumber;
-
-  /// The frame-accurate SMPTE timecode, from the start of a video, for the end of
-  /// a detected segment. <code>EndTimecode</code> is in <i>HH:MM:SS:fr</i> format
-  /// (and <i>;fr</i> for drop frame-rates).
-  final String? endTimecodeSMPTE;
-
-  /// The end time of the detected segment, in milliseconds, from the start of the
-  /// video. This value is rounded down.
-  final int? endTimestampMillis;
-
-  /// If the segment is a shot detection, contains information about the shot
-  /// detection.
-  final ShotSegment? shotSegment;
-
-  /// The frame number of the start of a video segment, using a frame index that
-  /// starts with 0.
-  final int? startFrameNumber;
-
-  /// The frame-accurate SMPTE timecode, from the start of a video, for the start
-  /// of a detected segment. <code>StartTimecode</code> is in <i>HH:MM:SS:fr</i>
-  /// format (and <i>;fr</i> for drop frame-rates).
-  final String? startTimecodeSMPTE;
-
-  /// The start time of the detected segment in milliseconds from the start of the
-  /// video. This value is rounded down. For example, if the actual timestamp is
-  /// 100.6667 milliseconds, Amazon Rekognition Video returns a value of 100
-  /// millis.
-  final int? startTimestampMillis;
-
-  /// If the segment is a technical cue, contains information about the technical
-  /// cue.
-  final TechnicalCueSegment? technicalCueSegment;
-
-  /// The type of the segment. Valid values are <code>TECHNICAL_CUE</code> and
-  /// <code>SHOT</code>.
-  final SegmentType? type;
-
-  SegmentDetection({
-    this.durationFrames,
-    this.durationMillis,
-    this.durationSMPTE,
-    this.endFrameNumber,
-    this.endTimecodeSMPTE,
-    this.endTimestampMillis,
-    this.shotSegment,
-    this.startFrameNumber,
-    this.startTimecodeSMPTE,
-    this.startTimestampMillis,
-    this.technicalCueSegment,
-    this.type,
-  });
-
-  factory SegmentDetection.fromJson(Map<String, dynamic> json) {
-    return SegmentDetection(
-      durationFrames: json['DurationFrames'] as int?,
-      durationMillis: json['DurationMillis'] as int?,
-      durationSMPTE: json['DurationSMPTE'] as String?,
-      endFrameNumber: json['EndFrameNumber'] as int?,
-      endTimecodeSMPTE: json['EndTimecodeSMPTE'] as String?,
-      endTimestampMillis: json['EndTimestampMillis'] as int?,
-      shotSegment: json['ShotSegment'] != null
-          ? ShotSegment.fromJson(json['ShotSegment'] as Map<String, dynamic>)
-          : null,
-      startFrameNumber: json['StartFrameNumber'] as int?,
-      startTimecodeSMPTE: json['StartTimecodeSMPTE'] as String?,
-      startTimestampMillis: json['StartTimestampMillis'] as int?,
-      technicalCueSegment: json['TechnicalCueSegment'] != null
-          ? TechnicalCueSegment.fromJson(
-              json['TechnicalCueSegment'] as Map<String, dynamic>)
-          : null,
-      type: (json['Type'] as String?)?.let(SegmentType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final durationFrames = this.durationFrames;
-    final durationMillis = this.durationMillis;
-    final durationSMPTE = this.durationSMPTE;
-    final endFrameNumber = this.endFrameNumber;
-    final endTimecodeSMPTE = this.endTimecodeSMPTE;
-    final endTimestampMillis = this.endTimestampMillis;
-    final shotSegment = this.shotSegment;
-    final startFrameNumber = this.startFrameNumber;
-    final startTimecodeSMPTE = this.startTimecodeSMPTE;
-    final startTimestampMillis = this.startTimestampMillis;
-    final technicalCueSegment = this.technicalCueSegment;
-    final type = this.type;
-    return {
-      if (durationFrames != null) 'DurationFrames': durationFrames,
-      if (durationMillis != null) 'DurationMillis': durationMillis,
-      if (durationSMPTE != null) 'DurationSMPTE': durationSMPTE,
-      if (endFrameNumber != null) 'EndFrameNumber': endFrameNumber,
-      if (endTimecodeSMPTE != null) 'EndTimecodeSMPTE': endTimecodeSMPTE,
-      if (endTimestampMillis != null) 'EndTimestampMillis': endTimestampMillis,
-      if (shotSegment != null) 'ShotSegment': shotSegment,
-      if (startFrameNumber != null) 'StartFrameNumber': startFrameNumber,
-      if (startTimecodeSMPTE != null) 'StartTimecodeSMPTE': startTimecodeSMPTE,
-      if (startTimestampMillis != null)
-        'StartTimestampMillis': startTimestampMillis,
-      if (technicalCueSegment != null)
-        'TechnicalCueSegment': technicalCueSegment,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class SegmentType {
-  static const technicalCue = SegmentType._('TECHNICAL_CUE');
-  static const shot = SegmentType._('SHOT');
-
-  final String value;
-
-  const SegmentType._(this.value);
-
-  static const values = [technicalCue, shot];
-
-  static SegmentType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SegmentType._(value));
-
-  @override
-  bool operator ==(other) => other is SegmentType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about the type of a segment requested in a call to
-/// <a>StartSegmentDetection</a>. An array of <code>SegmentTypeInfo</code>
-/// objects is returned by the response from <a>GetSegmentDetection</a>.
-class SegmentTypeInfo {
-  /// The version of the model used to detect segments.
-  final String? modelVersion;
-
-  /// The type of a segment (technical cue or shot detection).
-  final SegmentType? type;
-
-  SegmentTypeInfo({
-    this.modelVersion,
-    this.type,
-  });
-
-  factory SegmentTypeInfo.fromJson(Map<String, dynamic> json) {
-    return SegmentTypeInfo(
-      modelVersion: json['ModelVersion'] as String?,
-      type: (json['Type'] as String?)?.let(SegmentType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final modelVersion = this.modelVersion;
-    final type = this.type;
-    return {
-      if (modelVersion != null) 'ModelVersion': modelVersion,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-/// Information about a shot detection segment detected in a video. For more
-/// information, see <a>SegmentDetection</a>.
-class ShotSegment {
-  /// The confidence that Amazon Rekognition Video has in the accuracy of the
-  /// detected segment.
-  final double? confidence;
-
-  /// An Identifier for a shot detection segment detected in a video.
-  final int? index;
-
-  ShotSegment({
-    this.confidence,
-    this.index,
-  });
-
-  factory ShotSegment.fromJson(Map<String, dynamic> json) {
-    return ShotSegment(
-      confidence: json['Confidence'] as double?,
-      index: json['Index'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final confidence = this.confidence;
-    final index = this.index;
-    return {
-      if (confidence != null) 'Confidence': confidence,
-      if (index != null) 'Index': index,
-    };
-  }
-}
-
-/// Indicates whether or not the face is smiling, and the confidence level in
-/// the determination.
-class Smile {
-  /// Level of confidence in the determination.
-  final double? confidence;
-
-  /// Boolean value that indicates whether the face is smiling or not.
-  final bool? value;
-
-  Smile({
-    this.confidence,
-    this.value,
-  });
-
-  factory Smile.fromJson(Map<String, dynamic> json) {
-    return Smile(
-      confidence: json['Confidence'] as double?,
-      value: json['Value'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final confidence = this.confidence;
-    final value = this.value;
-    return {
-      if (confidence != null) 'Confidence': confidence,
-      if (value != null) 'Value': value,
     };
   }
 }
@@ -15251,30 +9355,6 @@ class StartProjectVersionResponse {
   }
 }
 
-/// Filters applied to the technical cue or shot detection segments. For more
-/// information, see <a>StartSegmentDetection</a>.
-class StartSegmentDetectionFilters {
-  /// Filters that are specific to shot detections.
-  final StartShotDetectionFilter? shotFilter;
-
-  /// Filters that are specific to technical cues.
-  final StartTechnicalCueDetectionFilter? technicalCueFilter;
-
-  StartSegmentDetectionFilters({
-    this.shotFilter,
-    this.technicalCueFilter,
-  });
-
-  Map<String, dynamic> toJson() {
-    final shotFilter = this.shotFilter;
-    final technicalCueFilter = this.technicalCueFilter;
-    return {
-      if (shotFilter != null) 'ShotFilter': shotFilter,
-      if (technicalCueFilter != null) 'TechnicalCueFilter': technicalCueFilter,
-    };
-  }
-}
-
 class StartSegmentDetectionResponse {
   /// Unique identifier for the segment detection job. The <code>JobId</code> is
   /// returned from <code>StartSegmentDetection</code>.
@@ -15298,34 +9378,6 @@ class StartSegmentDetectionResponse {
   }
 }
 
-/// Filters for the shot detection segments returned by
-/// <code>GetSegmentDetection</code>. For more information, see
-/// <a>StartSegmentDetectionFilters</a>.
-class StartShotDetectionFilter {
-  /// Specifies the minimum confidence that Amazon Rekognition Video must have in
-  /// order to return a detected segment. Confidence represents how certain Amazon
-  /// Rekognition is that a segment is correctly identified. 0 is the lowest
-  /// confidence. 100 is the highest confidence. Amazon Rekognition Video doesn't
-  /// return any segments with a confidence level lower than this specified value.
-  ///
-  /// If you don't specify <code>MinSegmentConfidence</code>, the
-  /// <code>GetSegmentDetection</code> returns segments with confidence values
-  /// greater than or equal to 50 percent.
-  final double? minSegmentConfidence;
-
-  StartShotDetectionFilter({
-    this.minSegmentConfidence,
-  });
-
-  Map<String, dynamic> toJson() {
-    final minSegmentConfidence = this.minSegmentConfidence;
-    return {
-      if (minSegmentConfidence != null)
-        'MinSegmentConfidence': minSegmentConfidence,
-    };
-  }
-}
-
 class StartStreamProcessorResponse {
   /// A unique identifier for the stream processing session.
   final String? sessionId;
@@ -15344,70 +9396,6 @@ class StartStreamProcessorResponse {
     final sessionId = this.sessionId;
     return {
       if (sessionId != null) 'SessionId': sessionId,
-    };
-  }
-}
-
-/// Filters for the technical segments returned by <a>GetSegmentDetection</a>.
-/// For more information, see <a>StartSegmentDetectionFilters</a>.
-class StartTechnicalCueDetectionFilter {
-  /// A filter that allows you to control the black frame detection by specifying
-  /// the black levels and pixel coverage of black pixels in a frame. Videos can
-  /// come from multiple sources, formats, and time periods, with different
-  /// standards and varying noise levels for black frames that need to be
-  /// accounted for.
-  final BlackFrame? blackFrame;
-
-  /// Specifies the minimum confidence that Amazon Rekognition Video must have in
-  /// order to return a detected segment. Confidence represents how certain Amazon
-  /// Rekognition is that a segment is correctly identified. 0 is the lowest
-  /// confidence. 100 is the highest confidence. Amazon Rekognition Video doesn't
-  /// return any segments with a confidence level lower than this specified value.
-  ///
-  /// If you don't specify <code>MinSegmentConfidence</code>,
-  /// <code>GetSegmentDetection</code> returns segments with confidence values
-  /// greater than or equal to 50 percent.
-  final double? minSegmentConfidence;
-
-  StartTechnicalCueDetectionFilter({
-    this.blackFrame,
-    this.minSegmentConfidence,
-  });
-
-  Map<String, dynamic> toJson() {
-    final blackFrame = this.blackFrame;
-    final minSegmentConfidence = this.minSegmentConfidence;
-    return {
-      if (blackFrame != null) 'BlackFrame': blackFrame,
-      if (minSegmentConfidence != null)
-        'MinSegmentConfidence': minSegmentConfidence,
-    };
-  }
-}
-
-/// Set of optional parameters that let you set the criteria text must meet to
-/// be included in your response. <code>WordFilter</code> looks at a word's
-/// height, width and minimum confidence. <code>RegionOfInterest</code> lets you
-/// set a specific region of the screen to look for text in.
-class StartTextDetectionFilters {
-  /// Filter focusing on a certain area of the frame. Uses a
-  /// <code>BoundingBox</code> object to set the region of the screen.
-  final List<RegionOfInterest>? regionsOfInterest;
-
-  /// Filters focusing on qualities of the text, such as confidence or size.
-  final DetectionFilter? wordFilter;
-
-  StartTextDetectionFilters({
-    this.regionsOfInterest,
-    this.wordFilter,
-  });
-
-  Map<String, dynamic> toJson() {
-    final regionsOfInterest = this.regionsOfInterest;
-    final wordFilter = this.wordFilter;
-    return {
-      if (regionsOfInterest != null) 'RegionsOfInterest': regionsOfInterest,
-      if (wordFilter != null) 'WordFilter': wordFilter,
     };
   }
 }
@@ -15469,6 +9457,560 @@ class StopStreamProcessorResponse {
   }
 }
 
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateDatasetEntriesResponse {
+  UpdateDatasetEntriesResponse();
+
+  factory UpdateDatasetEntriesResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateDatasetEntriesResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateStreamProcessorResponse {
+  UpdateStreamProcessorResponse();
+
+  factory UpdateStreamProcessorResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateStreamProcessorResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The stream processor settings that you want to update.
+/// <code>ConnectedHome</code> settings can be updated to detect different
+/// labels with a different minimum confidence.
+class StreamProcessorSettingsForUpdate {
+  /// The label detection settings you want to use for your stream processor.
+  final ConnectedHomeSettingsForUpdate? connectedHomeForUpdate;
+
+  StreamProcessorSettingsForUpdate({
+    this.connectedHomeForUpdate,
+  });
+
+  Map<String, dynamic> toJson() {
+    final connectedHomeForUpdate = this.connectedHomeForUpdate;
+    return {
+      if (connectedHomeForUpdate != null)
+        'ConnectedHomeForUpdate': connectedHomeForUpdate,
+    };
+  }
+}
+
+/// Allows you to opt in or opt out to share data with Rekognition to improve
+/// model performance. You can choose this option at the account level or on a
+/// per-stream basis. Note that if you opt out at the account level this setting
+/// is ignored on individual streams.
+class StreamProcessorDataSharingPreference {
+  /// If this option is set to true, you choose to share data with Rekognition to
+  /// improve model performance.
+  final bool optIn;
+
+  StreamProcessorDataSharingPreference({
+    required this.optIn,
+  });
+
+  factory StreamProcessorDataSharingPreference.fromJson(
+      Map<String, dynamic> json) {
+    return StreamProcessorDataSharingPreference(
+      optIn: (json['OptIn'] as bool?) ?? false,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final optIn = this.optIn;
+    return {
+      'OptIn': optIn,
+    };
+  }
+}
+
+class StreamProcessorParameterToDelete {
+  static const connectedHomeMinConfidence =
+      StreamProcessorParameterToDelete._('ConnectedHomeMinConfidence');
+  static const regionsOfInterest =
+      StreamProcessorParameterToDelete._('RegionsOfInterest');
+
+  final String value;
+
+  const StreamProcessorParameterToDelete._(this.value);
+
+  static const values = [connectedHomeMinConfidence, regionsOfInterest];
+
+  static StreamProcessorParameterToDelete fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StreamProcessorParameterToDelete._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StreamProcessorParameterToDelete && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Specifies a location within the frame that Rekognition checks for objects of
+/// interest such as text, labels, or faces. It uses a <code>BoundingBox</code>
+/// or <code>Polygon</code> to set a region of the screen.
+///
+/// A word, face, or label is included in the region if it is more than half in
+/// that region. If there is more than one region, the word, face, or label is
+/// compared with all regions of the screen. Any object of interest that is more
+/// than half in a region is kept in the results.
+class RegionOfInterest {
+  /// The box representing a region of interest on screen.
+  final BoundingBox? boundingBox;
+
+  /// Specifies a shape made up of up to 10 <code>Point</code> objects to define a
+  /// region of interest.
+  final List<Point>? polygon;
+
+  RegionOfInterest({
+    this.boundingBox,
+    this.polygon,
+  });
+
+  factory RegionOfInterest.fromJson(Map<String, dynamic> json) {
+    return RegionOfInterest(
+      boundingBox: json['BoundingBox'] != null
+          ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
+          : null,
+      polygon: (json['Polygon'] as List?)
+          ?.nonNulls
+          .map((e) => Point.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final boundingBox = this.boundingBox;
+    final polygon = this.polygon;
+    return {
+      if (boundingBox != null) 'BoundingBox': boundingBox,
+      if (polygon != null) 'Polygon': polygon,
+    };
+  }
+}
+
+/// Identifies the bounding box around the label, face, text, object of
+/// interest, or personal protective equipment. The <code>left</code>
+/// (x-coordinate) and <code>top</code> (y-coordinate) are coordinates
+/// representing the top and left sides of the bounding box. Note that the
+/// upper-left corner of the image is the origin (0,0).
+///
+/// The <code>top</code> and <code>left</code> values returned are ratios of the
+/// overall image size. For example, if the input image is 700x200 pixels, and
+/// the top-left coordinate of the bounding box is 350x50 pixels, the API
+/// returns a <code>left</code> value of 0.5 (350/700) and a <code>top</code>
+/// value of 0.25 (50/200).
+///
+/// The <code>width</code> and <code>height</code> values represent the
+/// dimensions of the bounding box as a ratio of the overall image dimension.
+/// For example, if the input image is 700x200 pixels, and the bounding box
+/// width is 70 pixels, the width returned is 0.1.
+/// <note>
+/// The bounding box coordinates can have negative values. For example, if
+/// Amazon Rekognition is able to detect a face that is at the image edge and is
+/// only partially visible, the service can return coordinates that are outside
+/// the image bounds and, depending on the image edge, you might get negative
+/// values or values greater than 1 for the <code>left</code> or
+/// <code>top</code> values.
+/// </note>
+class BoundingBox {
+  /// Height of the bounding box as a ratio of the overall image height.
+  final double? height;
+
+  /// Left coordinate of the bounding box as a ratio of overall image width.
+  final double? left;
+
+  /// Top coordinate of the bounding box as a ratio of overall image height.
+  final double? top;
+
+  /// Width of the bounding box as a ratio of the overall image width.
+  final double? width;
+
+  BoundingBox({
+    this.height,
+    this.left,
+    this.top,
+    this.width,
+  });
+
+  factory BoundingBox.fromJson(Map<String, dynamic> json) {
+    return BoundingBox(
+      height: json['Height'] as double?,
+      left: json['Left'] as double?,
+      top: json['Top'] as double?,
+      width: json['Width'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final height = this.height;
+    final left = this.left;
+    final top = this.top;
+    final width = this.width;
+    return {
+      if (height != null) 'Height': height,
+      if (left != null) 'Left': left,
+      if (top != null) 'Top': top,
+      if (width != null) 'Width': width,
+    };
+  }
+}
+
+/// The X and Y coordinates of a point on an image or video frame. The X and Y
+/// values are ratios of the overall image size or video resolution. For
+/// example, if an input image is 700x200 and the values are X=0.5 and Y=0.25,
+/// then the point is at the (350,50) pixel coordinate on the image.
+///
+/// An array of <code>Point</code> objects makes up a <code>Polygon</code>. A
+/// <code>Polygon</code> is returned by <a>DetectText</a> and by
+/// <a>DetectCustomLabels</a> <code>Polygon</code> represents a fine-grained
+/// polygon around a detected item. For more information, see Geometry in the
+/// Amazon Rekognition Developer Guide.
+class Point {
+  /// The value of the X coordinate for a point on a <code>Polygon</code>.
+  final double? x;
+
+  /// The value of the Y coordinate for a point on a <code>Polygon</code>.
+  final double? y;
+
+  Point({
+    this.x,
+    this.y,
+  });
+
+  factory Point.fromJson(Map<String, dynamic> json) {
+    return Point(
+      x: json['X'] as double?,
+      y: json['Y'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final x = this.x;
+    final y = this.y;
+    return {
+      if (x != null) 'X': x,
+      if (y != null) 'Y': y,
+    };
+  }
+}
+
+/// The label detection settings you want to use in your stream processor. This
+/// includes the labels you want the stream processor to detect and the minimum
+/// confidence level allowed to label objects.
+class ConnectedHomeSettingsForUpdate {
+  /// Specifies what you want to detect in the video, such as people, packages, or
+  /// pets. The current valid labels you can include in this list are: "PERSON",
+  /// "PET", "PACKAGE", and "ALL".
+  final List<String>? labels;
+
+  /// The minimum confidence required to label an object in the video.
+  final double? minConfidence;
+
+  ConnectedHomeSettingsForUpdate({
+    this.labels,
+    this.minConfidence,
+  });
+
+  Map<String, dynamic> toJson() {
+    final labels = this.labels;
+    final minConfidence = this.minConfidence;
+    return {
+      if (labels != null) 'Labels': labels,
+      if (minConfidence != null) 'MinConfidence': minConfidence,
+    };
+  }
+}
+
+/// Describes updates or additions to a dataset. A Single update or addition is
+/// an entry (JSON Line) that provides information about a single image. To
+/// update an existing entry, you match the <code>source-ref</code> field of the
+/// update entry with the <code>source-ref</code> filed of the entry that you
+/// want to update. If the <code>source-ref</code> field doesn't match an
+/// existing entry, the entry is added to dataset as a new entry.
+class DatasetChanges {
+  /// A Base64-encoded binary data object containing one or JSON lines that either
+  /// update the dataset or are additions to the dataset. You change a dataset by
+  /// calling <a>UpdateDatasetEntries</a>. If you are using an AWS SDK to call
+  /// <code>UpdateDatasetEntries</code>, you don't need to encode
+  /// <code>Changes</code> as the SDK encodes the data for you.
+  ///
+  /// For example JSON lines, see Image-Level labels in manifest files and and
+  /// Object localization in manifest files in the <i>Amazon Rekognition Custom
+  /// Labels Developer Guide</i>.
+  final Uint8List groundTruth;
+
+  DatasetChanges({
+    required this.groundTruth,
+  });
+
+  Map<String, dynamic> toJson() {
+    final groundTruth = this.groundTruth;
+    return {
+      'GroundTruth': base64Encode(groundTruth),
+    };
+  }
+}
+
+class ProjectVersionStatus {
+  static const trainingInProgress =
+      ProjectVersionStatus._('TRAINING_IN_PROGRESS');
+  static const trainingCompleted = ProjectVersionStatus._('TRAINING_COMPLETED');
+  static const trainingFailed = ProjectVersionStatus._('TRAINING_FAILED');
+  static const starting = ProjectVersionStatus._('STARTING');
+  static const running = ProjectVersionStatus._('RUNNING');
+  static const failed = ProjectVersionStatus._('FAILED');
+  static const stopping = ProjectVersionStatus._('STOPPING');
+  static const stopped = ProjectVersionStatus._('STOPPED');
+  static const deleting = ProjectVersionStatus._('DELETING');
+  static const copyingInProgress =
+      ProjectVersionStatus._('COPYING_IN_PROGRESS');
+  static const copyingCompleted = ProjectVersionStatus._('COPYING_COMPLETED');
+  static const copyingFailed = ProjectVersionStatus._('COPYING_FAILED');
+  static const deprecated = ProjectVersionStatus._('DEPRECATED');
+  static const expired = ProjectVersionStatus._('EXPIRED');
+
+  final String value;
+
+  const ProjectVersionStatus._(this.value);
+
+  static const values = [
+    trainingInProgress,
+    trainingCompleted,
+    trainingFailed,
+    starting,
+    running,
+    failed,
+    stopping,
+    stopped,
+    deleting,
+    copyingInProgress,
+    copyingCompleted,
+    copyingFailed,
+    deprecated,
+    expired
+  ];
+
+  static ProjectVersionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProjectVersionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProjectVersionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Video file stored in an Amazon S3 bucket. Amazon Rekognition video start
+/// operations such as <a>StartLabelDetection</a> use <code>Video</code> to
+/// specify a video for analysis. The supported file formats are .mp4, .mov and
+/// .avi.
+class Video {
+  /// The Amazon S3 bucket name and file name for the video.
+  final S3Object? s3Object;
+
+  Video({
+    this.s3Object,
+  });
+
+  factory Video.fromJson(Map<String, dynamic> json) {
+    return Video(
+      s3Object: json['S3Object'] != null
+          ? S3Object.fromJson(json['S3Object'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Object = this.s3Object;
+    return {
+      if (s3Object != null) 'S3Object': s3Object,
+    };
+  }
+}
+
+/// The Amazon Simple Notification Service topic to which Amazon Rekognition
+/// publishes the completion status of a video analysis operation. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/dg/api-video.html">Calling
+/// Amazon Rekognition Video operations</a>. Note that the Amazon SNS topic must
+/// have a topic name that begins with <i>AmazonRekognition</i> if you are using
+/// the AmazonRekognitionServiceRole permissions policy to access the topic. For
+/// more information, see <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/dg/api-video-roles.html#api-video-roles-all-topics">Giving
+/// access to multiple Amazon SNS topics</a>.
+class NotificationChannel {
+  /// The ARN of an IAM role that gives Amazon Rekognition publishing permissions
+  /// to the Amazon SNS topic.
+  final String roleArn;
+
+  /// The Amazon SNS topic to which Amazon Rekognition posts the completion
+  /// status.
+  final String sNSTopicArn;
+
+  NotificationChannel({
+    required this.roleArn,
+    required this.sNSTopicArn,
+  });
+
+  Map<String, dynamic> toJson() {
+    final roleArn = this.roleArn;
+    final sNSTopicArn = this.sNSTopicArn;
+    return {
+      'RoleArn': roleArn,
+      'SNSTopicArn': sNSTopicArn,
+    };
+  }
+}
+
+/// Set of optional parameters that let you set the criteria text must meet to
+/// be included in your response. <code>WordFilter</code> looks at a word's
+/// height, width and minimum confidence. <code>RegionOfInterest</code> lets you
+/// set a specific region of the screen to look for text in.
+class StartTextDetectionFilters {
+  /// Filter focusing on a certain area of the frame. Uses a
+  /// <code>BoundingBox</code> object to set the region of the screen.
+  final List<RegionOfInterest>? regionsOfInterest;
+
+  /// Filters focusing on qualities of the text, such as confidence or size.
+  final DetectionFilter? wordFilter;
+
+  StartTextDetectionFilters({
+    this.regionsOfInterest,
+    this.wordFilter,
+  });
+
+  Map<String, dynamic> toJson() {
+    final regionsOfInterest = this.regionsOfInterest;
+    final wordFilter = this.wordFilter;
+    return {
+      if (regionsOfInterest != null) 'RegionsOfInterest': regionsOfInterest,
+      if (wordFilter != null) 'WordFilter': wordFilter,
+    };
+  }
+}
+
+/// A set of parameters that allow you to filter out certain results from your
+/// returned results.
+class DetectionFilter {
+  /// Sets the minimum height of the word bounding box. Words with bounding box
+  /// heights lesser than this value will be excluded from the result. Value is
+  /// relative to the video frame height.
+  final double? minBoundingBoxHeight;
+
+  /// Sets the minimum width of the word bounding box. Words with bounding boxes
+  /// widths lesser than this value will be excluded from the result. Value is
+  /// relative to the video frame width.
+  final double? minBoundingBoxWidth;
+
+  /// Sets the confidence of word detection. Words with detection confidence below
+  /// this will be excluded from the result. Values should be between 0 and 100.
+  /// The default MinConfidence is 80.
+  final double? minConfidence;
+
+  DetectionFilter({
+    this.minBoundingBoxHeight,
+    this.minBoundingBoxWidth,
+    this.minConfidence,
+  });
+
+  Map<String, dynamic> toJson() {
+    final minBoundingBoxHeight = this.minBoundingBoxHeight;
+    final minBoundingBoxWidth = this.minBoundingBoxWidth;
+    final minConfidence = this.minConfidence;
+    return {
+      if (minBoundingBoxHeight != null)
+        'MinBoundingBoxHeight': minBoundingBoxHeight,
+      if (minBoundingBoxWidth != null)
+        'MinBoundingBoxWidth': minBoundingBoxWidth,
+      if (minConfidence != null) 'MinConfidence': minConfidence,
+    };
+  }
+}
+
+/// Provides the S3 bucket name and object name.
+///
+/// The region for the S3 bucket containing the S3 object must match the region
+/// you use for Amazon Rekognition operations.
+///
+/// For Amazon Rekognition to process an S3 object, the user must have
+/// permission to access the S3 object. For more information, see How Amazon
+/// Rekognition works with IAM in the Amazon Rekognition Developer Guide.
+class S3Object {
+  /// Name of the S3 bucket.
+  final String? bucket;
+
+  /// S3 object key name.
+  final String? name;
+
+  /// If the bucket is versioning enabled, you can specify the object version.
+  final String? version;
+
+  S3Object({
+    this.bucket,
+    this.name,
+    this.version,
+  });
+
+  factory S3Object.fromJson(Map<String, dynamic> json) {
+    return S3Object(
+      bucket: json['Bucket'] as String?,
+      name: json['Name'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final name = this.name;
+    final version = this.version;
+    return {
+      if (bucket != null) 'Bucket': bucket,
+      if (name != null) 'Name': name,
+      if (version != null) 'Version': version,
+    };
+  }
+}
+
 /// This is a required parameter for label detection stream processors and
 /// should not be used to start a face search stream processor.
 class StreamProcessingStartSelector {
@@ -15510,6 +10052,1985 @@ class StreamProcessingStopSelector {
   }
 }
 
+/// Specifies the starting point in a Kinesis stream to start processing. You
+/// can use the producer timestamp or the fragment number. One of either
+/// producer timestamp or fragment number is required. If you use the producer
+/// timestamp, you must put the time in milliseconds. For more information about
+/// fragment numbers, see <a
+/// href="https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_reader_Fragment.html">Fragment</a>.
+class KinesisVideoStreamStartSelector {
+  /// The unique identifier of the fragment. This value monotonically increases
+  /// based on the ingestion order.
+  final String? fragmentNumber;
+
+  /// The timestamp from the producer corresponding to the fragment, in
+  /// milliseconds, expressed in unix time format.
+  final int? producerTimestamp;
+
+  KinesisVideoStreamStartSelector({
+    this.fragmentNumber,
+    this.producerTimestamp,
+  });
+
+  Map<String, dynamic> toJson() {
+    final fragmentNumber = this.fragmentNumber;
+    final producerTimestamp = this.producerTimestamp;
+    return {
+      if (fragmentNumber != null) 'FragmentNumber': fragmentNumber,
+      if (producerTimestamp != null) 'ProducerTimestamp': producerTimestamp,
+    };
+  }
+}
+
+/// Filters applied to the technical cue or shot detection segments. For more
+/// information, see <a>StartSegmentDetection</a>.
+class StartSegmentDetectionFilters {
+  /// Filters that are specific to shot detections.
+  final StartShotDetectionFilter? shotFilter;
+
+  /// Filters that are specific to technical cues.
+  final StartTechnicalCueDetectionFilter? technicalCueFilter;
+
+  StartSegmentDetectionFilters({
+    this.shotFilter,
+    this.technicalCueFilter,
+  });
+
+  Map<String, dynamic> toJson() {
+    final shotFilter = this.shotFilter;
+    final technicalCueFilter = this.technicalCueFilter;
+    return {
+      if (shotFilter != null) 'ShotFilter': shotFilter,
+      if (technicalCueFilter != null) 'TechnicalCueFilter': technicalCueFilter,
+    };
+  }
+}
+
+class SegmentType {
+  static const technicalCue = SegmentType._('TECHNICAL_CUE');
+  static const shot = SegmentType._('SHOT');
+
+  final String value;
+
+  const SegmentType._(this.value);
+
+  static const values = [technicalCue, shot];
+
+  static SegmentType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SegmentType._(value));
+
+  @override
+  bool operator ==(other) => other is SegmentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Filters for the technical segments returned by <a>GetSegmentDetection</a>.
+/// For more information, see <a>StartSegmentDetectionFilters</a>.
+class StartTechnicalCueDetectionFilter {
+  /// A filter that allows you to control the black frame detection by specifying
+  /// the black levels and pixel coverage of black pixels in a frame. Videos can
+  /// come from multiple sources, formats, and time periods, with different
+  /// standards and varying noise levels for black frames that need to be
+  /// accounted for.
+  final BlackFrame? blackFrame;
+
+  /// Specifies the minimum confidence that Amazon Rekognition Video must have in
+  /// order to return a detected segment. Confidence represents how certain Amazon
+  /// Rekognition is that a segment is correctly identified. 0 is the lowest
+  /// confidence. 100 is the highest confidence. Amazon Rekognition Video doesn't
+  /// return any segments with a confidence level lower than this specified value.
+  ///
+  /// If you don't specify <code>MinSegmentConfidence</code>,
+  /// <code>GetSegmentDetection</code> returns segments with confidence values
+  /// greater than or equal to 50 percent.
+  final double? minSegmentConfidence;
+
+  StartTechnicalCueDetectionFilter({
+    this.blackFrame,
+    this.minSegmentConfidence,
+  });
+
+  Map<String, dynamic> toJson() {
+    final blackFrame = this.blackFrame;
+    final minSegmentConfidence = this.minSegmentConfidence;
+    return {
+      if (blackFrame != null) 'BlackFrame': blackFrame,
+      if (minSegmentConfidence != null)
+        'MinSegmentConfidence': minSegmentConfidence,
+    };
+  }
+}
+
+/// Filters for the shot detection segments returned by
+/// <code>GetSegmentDetection</code>. For more information, see
+/// <a>StartSegmentDetectionFilters</a>.
+class StartShotDetectionFilter {
+  /// Specifies the minimum confidence that Amazon Rekognition Video must have in
+  /// order to return a detected segment. Confidence represents how certain Amazon
+  /// Rekognition is that a segment is correctly identified. 0 is the lowest
+  /// confidence. 100 is the highest confidence. Amazon Rekognition Video doesn't
+  /// return any segments with a confidence level lower than this specified value.
+  ///
+  /// If you don't specify <code>MinSegmentConfidence</code>, the
+  /// <code>GetSegmentDetection</code> returns segments with confidence values
+  /// greater than or equal to 50 percent.
+  final double? minSegmentConfidence;
+
+  StartShotDetectionFilter({
+    this.minSegmentConfidence,
+  });
+
+  Map<String, dynamic> toJson() {
+    final minSegmentConfidence = this.minSegmentConfidence;
+    return {
+      if (minSegmentConfidence != null)
+        'MinSegmentConfidence': minSegmentConfidence,
+    };
+  }
+}
+
+/// A filter that allows you to control the black frame detection by specifying
+/// the black levels and pixel coverage of black pixels in a frame. As videos
+/// can come from multiple sources, formats, and time periods, they may contain
+/// different standards and varying noise levels for black frames that need to
+/// be accounted for. For more information, see <a>StartSegmentDetection</a>.
+class BlackFrame {
+  /// A threshold used to determine the maximum luminance value for a pixel to be
+  /// considered black. In a full color range video, luminance values range from
+  /// 0-255. A pixel value of 0 is pure black, and the most strict filter. The
+  /// maximum black pixel value is computed as follows: max_black_pixel_value =
+  /// minimum_luminance + MaxPixelThreshold *luminance_range.
+  ///
+  /// For example, for a full range video with BlackPixelThreshold = 0.1,
+  /// max_black_pixel_value is 0 + 0.1 * (255-0) = 25.5.
+  ///
+  /// The default value of MaxPixelThreshold is 0.2, which maps to a
+  /// max_black_pixel_value of 51 for a full range video. You can lower this
+  /// threshold to be more strict on black levels.
+  final double? maxPixelThreshold;
+
+  /// The minimum percentage of pixels in a frame that need to have a luminance
+  /// below the max_black_pixel_value for a frame to be considered a black frame.
+  /// Luminance is calculated using the BT.709 matrix.
+  ///
+  /// The default value is 99, which means at least 99% of all pixels in the frame
+  /// are black pixels as per the <code>MaxPixelThreshold</code> set. You can
+  /// reduce this value to allow more noise on the black frame.
+  final double? minCoveragePercentage;
+
+  BlackFrame({
+    this.maxPixelThreshold,
+    this.minCoveragePercentage,
+  });
+
+  Map<String, dynamic> toJson() {
+    final maxPixelThreshold = this.maxPixelThreshold;
+    final minCoveragePercentage = this.minCoveragePercentage;
+    return {
+      if (maxPixelThreshold != null) 'MaxPixelThreshold': maxPixelThreshold,
+      if (minCoveragePercentage != null)
+        'MinCoveragePercentage': minCoveragePercentage,
+    };
+  }
+}
+
+/// Configuration options for a media analysis job. Configuration is
+/// operation-specific.
+class MediaAnalysisOperationsConfig {
+  /// Contains configuration options for a DetectModerationLabels job.
+  final MediaAnalysisDetectModerationLabelsConfig? detectModerationLabels;
+
+  MediaAnalysisOperationsConfig({
+    this.detectModerationLabels,
+  });
+
+  factory MediaAnalysisOperationsConfig.fromJson(Map<String, dynamic> json) {
+    return MediaAnalysisOperationsConfig(
+      detectModerationLabels: json['DetectModerationLabels'] != null
+          ? MediaAnalysisDetectModerationLabelsConfig.fromJson(
+              json['DetectModerationLabels'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final detectModerationLabels = this.detectModerationLabels;
+    return {
+      if (detectModerationLabels != null)
+        'DetectModerationLabels': detectModerationLabels,
+    };
+  }
+}
+
+/// Contains input information for a media analysis job.
+class MediaAnalysisInput {
+  final S3Object s3Object;
+
+  MediaAnalysisInput({
+    required this.s3Object,
+  });
+
+  factory MediaAnalysisInput.fromJson(Map<String, dynamic> json) {
+    return MediaAnalysisInput(
+      s3Object: S3Object.fromJson((json['S3Object'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Object = this.s3Object;
+    return {
+      'S3Object': s3Object,
+    };
+  }
+}
+
+/// Output configuration provided in the job creation request.
+class MediaAnalysisOutputConfig {
+  /// Specifies the Amazon S3 bucket to contain the output of the media analysis
+  /// job.
+  final String s3Bucket;
+
+  /// Specifies the Amazon S3 key prefix that comes after the name of the bucket
+  /// you have designated for storage.
+  final String? s3KeyPrefix;
+
+  MediaAnalysisOutputConfig({
+    required this.s3Bucket,
+    this.s3KeyPrefix,
+  });
+
+  factory MediaAnalysisOutputConfig.fromJson(Map<String, dynamic> json) {
+    return MediaAnalysisOutputConfig(
+      s3Bucket: (json['S3Bucket'] as String?) ?? '',
+      s3KeyPrefix: json['S3KeyPrefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Bucket = this.s3Bucket;
+    final s3KeyPrefix = this.s3KeyPrefix;
+    return {
+      'S3Bucket': s3Bucket,
+      if (s3KeyPrefix != null) 'S3KeyPrefix': s3KeyPrefix,
+    };
+  }
+}
+
+/// Configuration for Moderation Labels Detection.
+class MediaAnalysisDetectModerationLabelsConfig {
+  /// Specifies the minimum confidence level for the moderation labels to return.
+  /// Amazon Rekognition doesn't return any labels with a confidence level lower
+  /// than this specified value.
+  final double? minConfidence;
+
+  /// Specifies the custom moderation model to be used during the label detection
+  /// job. If not provided the pre-trained model is used.
+  final String? projectVersion;
+
+  MediaAnalysisDetectModerationLabelsConfig({
+    this.minConfidence,
+    this.projectVersion,
+  });
+
+  factory MediaAnalysisDetectModerationLabelsConfig.fromJson(
+      Map<String, dynamic> json) {
+    return MediaAnalysisDetectModerationLabelsConfig(
+      minConfidence: json['MinConfidence'] as double?,
+      projectVersion: json['ProjectVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final minConfidence = this.minConfidence;
+    final projectVersion = this.projectVersion;
+    return {
+      if (minConfidence != null) 'MinConfidence': minConfidence,
+      if (projectVersion != null) 'ProjectVersion': projectVersion,
+    };
+  }
+}
+
+/// Contains the specified filters that should be applied to a list of returned
+/// GENERAL_LABELS.
+class LabelDetectionSettings {
+  final GeneralLabelsSettings? generalLabels;
+
+  LabelDetectionSettings({
+    this.generalLabels,
+  });
+
+  Map<String, dynamic> toJson() {
+    final generalLabels = this.generalLabels;
+    return {
+      if (generalLabels != null) 'GeneralLabels': generalLabels,
+    };
+  }
+}
+
+/// Contains filters for the object labels returned by DetectLabels. Filters can
+/// be inclusive, exclusive, or a combination of both and can be applied to
+/// individual labels or entire label categories. To see a list of label
+/// categories, see <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/dg/labels.html">Detecting
+/// Labels</a>.
+class GeneralLabelsSettings {
+  /// The label categories that should be excluded from the return from
+  /// DetectLabels.
+  final List<String>? labelCategoryExclusionFilters;
+
+  /// The label categories that should be included in the return from
+  /// DetectLabels.
+  final List<String>? labelCategoryInclusionFilters;
+
+  /// The labels that should be excluded from the return from DetectLabels.
+  final List<String>? labelExclusionFilters;
+
+  /// The labels that should be included in the return from DetectLabels.
+  final List<String>? labelInclusionFilters;
+
+  GeneralLabelsSettings({
+    this.labelCategoryExclusionFilters,
+    this.labelCategoryInclusionFilters,
+    this.labelExclusionFilters,
+    this.labelInclusionFilters,
+  });
+
+  Map<String, dynamic> toJson() {
+    final labelCategoryExclusionFilters = this.labelCategoryExclusionFilters;
+    final labelCategoryInclusionFilters = this.labelCategoryInclusionFilters;
+    final labelExclusionFilters = this.labelExclusionFilters;
+    final labelInclusionFilters = this.labelInclusionFilters;
+    return {
+      if (labelCategoryExclusionFilters != null)
+        'LabelCategoryExclusionFilters': labelCategoryExclusionFilters,
+      if (labelCategoryInclusionFilters != null)
+        'LabelCategoryInclusionFilters': labelCategoryInclusionFilters,
+      if (labelExclusionFilters != null)
+        'LabelExclusionFilters': labelExclusionFilters,
+      if (labelInclusionFilters != null)
+        'LabelInclusionFilters': labelInclusionFilters,
+    };
+  }
+}
+
+class LabelDetectionFeatureName {
+  static const generalLabels = LabelDetectionFeatureName._('GENERAL_LABELS');
+
+  final String value;
+
+  const LabelDetectionFeatureName._(this.value);
+
+  static const values = [generalLabels];
+
+  static LabelDetectionFeatureName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LabelDetectionFeatureName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LabelDetectionFeatureName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class FaceAttributes {
+  static const $default = FaceAttributes._('DEFAULT');
+  static const all = FaceAttributes._('ALL');
+
+  final String value;
+
+  const FaceAttributes._(this.value);
+
+  static const values = [$default, all];
+
+  static FaceAttributes fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FaceAttributes._(value));
+
+  @override
+  bool operator ==(other) => other is FaceAttributes && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains data regarding the input face used for a search.
+class SearchedFaceDetails {
+  final FaceDetail? faceDetail;
+
+  SearchedFaceDetails({
+    this.faceDetail,
+  });
+
+  factory SearchedFaceDetails.fromJson(Map<String, dynamic> json) {
+    return SearchedFaceDetails(
+      faceDetail: json['FaceDetail'] != null
+          ? FaceDetail.fromJson(json['FaceDetail'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final faceDetail = this.faceDetail;
+    return {
+      if (faceDetail != null) 'FaceDetail': faceDetail,
+    };
+  }
+}
+
+/// Face details inferred from the image but not used for search. The response
+/// attribute contains reasons for why a face wasn't used for Search.
+class UnsearchedFace {
+  final FaceDetail? faceDetails;
+
+  /// Reasons why a face wasn't used for Search.
+  final List<UnsearchedFaceReason>? reasons;
+
+  UnsearchedFace({
+    this.faceDetails,
+    this.reasons,
+  });
+
+  factory UnsearchedFace.fromJson(Map<String, dynamic> json) {
+    return UnsearchedFace(
+      faceDetails: json['FaceDetails'] != null
+          ? FaceDetail.fromJson(json['FaceDetails'] as Map<String, dynamic>)
+          : null,
+      reasons: (json['Reasons'] as List?)
+          ?.nonNulls
+          .map((e) => UnsearchedFaceReason.fromString((e as String)))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final faceDetails = this.faceDetails;
+    final reasons = this.reasons;
+    return {
+      if (faceDetails != null) 'FaceDetails': faceDetails,
+      if (reasons != null) 'Reasons': reasons.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// Structure containing attributes of the face that the algorithm detected.
+///
+/// A <code>FaceDetail</code> object contains either the default facial
+/// attributes or all facial attributes. The default attributes are
+/// <code>BoundingBox</code>, <code>Confidence</code>, <code>Landmarks</code>,
+/// <code>Pose</code>, and <code>Quality</code>.
+///
+/// <a>GetFaceDetection</a> is the only Amazon Rekognition Video stored video
+/// operation that can return a <code>FaceDetail</code> object with all
+/// attributes. To specify which attributes to return, use the
+/// <code>FaceAttributes</code> input parameter for <a>StartFaceDetection</a>.
+/// The following Amazon Rekognition Video operations return only the default
+/// attributes. The corresponding Start operations don't have a
+/// <code>FaceAttributes</code> input parameter:
+///
+/// <ul>
+/// <li>
+/// GetCelebrityRecognition
+/// </li>
+/// <li>
+/// GetPersonTracking
+/// </li>
+/// <li>
+/// GetFaceSearch
+/// </li>
+/// </ul>
+/// The Amazon Rekognition Image <a>DetectFaces</a> and <a>IndexFaces</a>
+/// operations can return all facial attributes. To specify which attributes to
+/// return, use the <code>Attributes</code> input parameter for
+/// <code>DetectFaces</code>. For <code>IndexFaces</code>, use the
+/// <code>DetectAttributes</code> input parameter.
+class FaceDetail {
+  /// The estimated age range, in years, for the face. Low represents the lowest
+  /// estimated age and High represents the highest estimated age.
+  final AgeRange? ageRange;
+
+  /// Indicates whether or not the face has a beard, and the confidence level in
+  /// the determination.
+  final Beard? beard;
+
+  /// Bounding box of the face. Default attribute.
+  final BoundingBox? boundingBox;
+
+  /// Confidence level that the bounding box contains a face (and not a different
+  /// object such as a tree). Default attribute.
+  final double? confidence;
+
+  /// The emotions that appear to be expressed on the face, and the confidence
+  /// level in the determination. The API is only making a determination of the
+  /// physical appearance of a person's face. It is not a determination of the
+  /// person’s internal emotional state and should not be used in such a way. For
+  /// example, a person pretending to have a sad face might not be sad
+  /// emotionally.
+  final List<Emotion>? emotions;
+
+  /// Indicates the direction the eyes are gazing in, as defined by pitch and yaw.
+  final EyeDirection? eyeDirection;
+
+  /// Indicates whether or not the face is wearing eye glasses, and the confidence
+  /// level in the determination.
+  final Eyeglasses? eyeglasses;
+
+  /// Indicates whether or not the eyes on the face are open, and the confidence
+  /// level in the determination.
+  final EyeOpen? eyesOpen;
+
+  /// <code>FaceOccluded</code> should return "true" with a high confidence score
+  /// if a detected face’s eyes, nose, and mouth are partially captured or if they
+  /// are covered by masks, dark sunglasses, cell phones, hands, or other objects.
+  /// <code>FaceOccluded</code> should return "false" with a high confidence score
+  /// if common occurrences that do not impact face verification are detected,
+  /// such as eye glasses, lightly tinted sunglasses, strands of hair, and others.
+  final FaceOccluded? faceOccluded;
+
+  /// The predicted gender of a detected face.
+  final Gender? gender;
+
+  /// Indicates the location of landmarks on the face. Default attribute.
+  final List<Landmark>? landmarks;
+
+  /// Indicates whether or not the mouth on the face is open, and the confidence
+  /// level in the determination.
+  final MouthOpen? mouthOpen;
+
+  /// Indicates whether or not the face has a mustache, and the confidence level
+  /// in the determination.
+  final Mustache? mustache;
+
+  /// Indicates the pose of the face as determined by its pitch, roll, and yaw.
+  /// Default attribute.
+  final Pose? pose;
+
+  /// Identifies image brightness and sharpness. Default attribute.
+  final ImageQuality? quality;
+
+  /// Indicates whether or not the face is smiling, and the confidence level in
+  /// the determination.
+  final Smile? smile;
+
+  /// Indicates whether or not the face is wearing sunglasses, and the confidence
+  /// level in the determination.
+  final Sunglasses? sunglasses;
+
+  FaceDetail({
+    this.ageRange,
+    this.beard,
+    this.boundingBox,
+    this.confidence,
+    this.emotions,
+    this.eyeDirection,
+    this.eyeglasses,
+    this.eyesOpen,
+    this.faceOccluded,
+    this.gender,
+    this.landmarks,
+    this.mouthOpen,
+    this.mustache,
+    this.pose,
+    this.quality,
+    this.smile,
+    this.sunglasses,
+  });
+
+  factory FaceDetail.fromJson(Map<String, dynamic> json) {
+    return FaceDetail(
+      ageRange: json['AgeRange'] != null
+          ? AgeRange.fromJson(json['AgeRange'] as Map<String, dynamic>)
+          : null,
+      beard: json['Beard'] != null
+          ? Beard.fromJson(json['Beard'] as Map<String, dynamic>)
+          : null,
+      boundingBox: json['BoundingBox'] != null
+          ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
+          : null,
+      confidence: json['Confidence'] as double?,
+      emotions: (json['Emotions'] as List?)
+          ?.nonNulls
+          .map((e) => Emotion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      eyeDirection: json['EyeDirection'] != null
+          ? EyeDirection.fromJson(json['EyeDirection'] as Map<String, dynamic>)
+          : null,
+      eyeglasses: json['Eyeglasses'] != null
+          ? Eyeglasses.fromJson(json['Eyeglasses'] as Map<String, dynamic>)
+          : null,
+      eyesOpen: json['EyesOpen'] != null
+          ? EyeOpen.fromJson(json['EyesOpen'] as Map<String, dynamic>)
+          : null,
+      faceOccluded: json['FaceOccluded'] != null
+          ? FaceOccluded.fromJson(json['FaceOccluded'] as Map<String, dynamic>)
+          : null,
+      gender: json['Gender'] != null
+          ? Gender.fromJson(json['Gender'] as Map<String, dynamic>)
+          : null,
+      landmarks: (json['Landmarks'] as List?)
+          ?.nonNulls
+          .map((e) => Landmark.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      mouthOpen: json['MouthOpen'] != null
+          ? MouthOpen.fromJson(json['MouthOpen'] as Map<String, dynamic>)
+          : null,
+      mustache: json['Mustache'] != null
+          ? Mustache.fromJson(json['Mustache'] as Map<String, dynamic>)
+          : null,
+      pose: json['Pose'] != null
+          ? Pose.fromJson(json['Pose'] as Map<String, dynamic>)
+          : null,
+      quality: json['Quality'] != null
+          ? ImageQuality.fromJson(json['Quality'] as Map<String, dynamic>)
+          : null,
+      smile: json['Smile'] != null
+          ? Smile.fromJson(json['Smile'] as Map<String, dynamic>)
+          : null,
+      sunglasses: json['Sunglasses'] != null
+          ? Sunglasses.fromJson(json['Sunglasses'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ageRange = this.ageRange;
+    final beard = this.beard;
+    final boundingBox = this.boundingBox;
+    final confidence = this.confidence;
+    final emotions = this.emotions;
+    final eyeDirection = this.eyeDirection;
+    final eyeglasses = this.eyeglasses;
+    final eyesOpen = this.eyesOpen;
+    final faceOccluded = this.faceOccluded;
+    final gender = this.gender;
+    final landmarks = this.landmarks;
+    final mouthOpen = this.mouthOpen;
+    final mustache = this.mustache;
+    final pose = this.pose;
+    final quality = this.quality;
+    final smile = this.smile;
+    final sunglasses = this.sunglasses;
+    return {
+      if (ageRange != null) 'AgeRange': ageRange,
+      if (beard != null) 'Beard': beard,
+      if (boundingBox != null) 'BoundingBox': boundingBox,
+      if (confidence != null) 'Confidence': confidence,
+      if (emotions != null) 'Emotions': emotions,
+      if (eyeDirection != null) 'EyeDirection': eyeDirection,
+      if (eyeglasses != null) 'Eyeglasses': eyeglasses,
+      if (eyesOpen != null) 'EyesOpen': eyesOpen,
+      if (faceOccluded != null) 'FaceOccluded': faceOccluded,
+      if (gender != null) 'Gender': gender,
+      if (landmarks != null) 'Landmarks': landmarks,
+      if (mouthOpen != null) 'MouthOpen': mouthOpen,
+      if (mustache != null) 'Mustache': mustache,
+      if (pose != null) 'Pose': pose,
+      if (quality != null) 'Quality': quality,
+      if (smile != null) 'Smile': smile,
+      if (sunglasses != null) 'Sunglasses': sunglasses,
+    };
+  }
+}
+
+class UnsearchedFaceReason {
+  static const faceNotLargest = UnsearchedFaceReason._('FACE_NOT_LARGEST');
+  static const exceedsMaxFaces = UnsearchedFaceReason._('EXCEEDS_MAX_FACES');
+  static const extremePose = UnsearchedFaceReason._('EXTREME_POSE');
+  static const lowBrightness = UnsearchedFaceReason._('LOW_BRIGHTNESS');
+  static const lowSharpness = UnsearchedFaceReason._('LOW_SHARPNESS');
+  static const lowConfidence = UnsearchedFaceReason._('LOW_CONFIDENCE');
+  static const smallBoundingBox = UnsearchedFaceReason._('SMALL_BOUNDING_BOX');
+  static const lowFaceQuality = UnsearchedFaceReason._('LOW_FACE_QUALITY');
+
+  final String value;
+
+  const UnsearchedFaceReason._(this.value);
+
+  static const values = [
+    faceNotLargest,
+    exceedsMaxFaces,
+    extremePose,
+    lowBrightness,
+    lowSharpness,
+    lowConfidence,
+    smallBoundingBox,
+    lowFaceQuality
+  ];
+
+  static UnsearchedFaceReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UnsearchedFaceReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UnsearchedFaceReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Structure containing the estimated age range, in years, for a face.
+///
+/// Amazon Rekognition estimates an age range for faces detected in the input
+/// image. Estimated age ranges can overlap. A face of a 5-year-old might have
+/// an estimated range of 4-6, while the face of a 6-year-old might have an
+/// estimated range of 4-8.
+class AgeRange {
+  /// The highest estimated age.
+  final int? high;
+
+  /// The lowest estimated age.
+  final int? low;
+
+  AgeRange({
+    this.high,
+    this.low,
+  });
+
+  factory AgeRange.fromJson(Map<String, dynamic> json) {
+    return AgeRange(
+      high: json['High'] as int?,
+      low: json['Low'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final high = this.high;
+    final low = this.low;
+    return {
+      if (high != null) 'High': high,
+      if (low != null) 'Low': low,
+    };
+  }
+}
+
+/// Indicates whether or not the face is smiling, and the confidence level in
+/// the determination.
+class Smile {
+  /// Level of confidence in the determination.
+  final double? confidence;
+
+  /// Boolean value that indicates whether the face is smiling or not.
+  final bool? value;
+
+  Smile({
+    this.confidence,
+    this.value,
+  });
+
+  factory Smile.fromJson(Map<String, dynamic> json) {
+    return Smile(
+      confidence: json['Confidence'] as double?,
+      value: json['Value'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final confidence = this.confidence;
+    final value = this.value;
+    return {
+      if (confidence != null) 'Confidence': confidence,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Indicates whether or not the face is wearing eye glasses, and the confidence
+/// level in the determination.
+class Eyeglasses {
+  /// Level of confidence in the determination.
+  final double? confidence;
+
+  /// Boolean value that indicates whether the face is wearing eye glasses or not.
+  final bool? value;
+
+  Eyeglasses({
+    this.confidence,
+    this.value,
+  });
+
+  factory Eyeglasses.fromJson(Map<String, dynamic> json) {
+    return Eyeglasses(
+      confidence: json['Confidence'] as double?,
+      value: json['Value'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final confidence = this.confidence;
+    final value = this.value;
+    return {
+      if (confidence != null) 'Confidence': confidence,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Indicates whether or not the face is wearing sunglasses, and the confidence
+/// level in the determination.
+class Sunglasses {
+  /// Level of confidence in the determination.
+  final double? confidence;
+
+  /// Boolean value that indicates whether the face is wearing sunglasses or not.
+  final bool? value;
+
+  Sunglasses({
+    this.confidence,
+    this.value,
+  });
+
+  factory Sunglasses.fromJson(Map<String, dynamic> json) {
+    return Sunglasses(
+      confidence: json['Confidence'] as double?,
+      value: json['Value'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final confidence = this.confidence;
+    final value = this.value;
+    return {
+      if (confidence != null) 'Confidence': confidence,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// The predicted gender of a detected face.
+///
+/// Amazon Rekognition makes gender binary (male/female) predictions based on
+/// the physical appearance of a face in a particular image. This kind of
+/// prediction is not designed to categorize a person’s gender identity, and you
+/// shouldn't use Amazon Rekognition to make such a determination. For example,
+/// a male actor wearing a long-haired wig and earrings for a role might be
+/// predicted as female.
+///
+/// Using Amazon Rekognition to make gender binary predictions is best suited
+/// for use cases where aggregate gender distribution statistics need to be
+/// analyzed without identifying specific users. For example, the percentage of
+/// female users compared to male users on a social media platform.
+///
+/// We don't recommend using gender binary predictions to make decisions that
+/// impact an individual's rights, privacy, or access to services.
+class Gender {
+  /// Level of confidence in the prediction.
+  final double? confidence;
+
+  /// The predicted gender of the face.
+  final GenderType? value;
+
+  Gender({
+    this.confidence,
+    this.value,
+  });
+
+  factory Gender.fromJson(Map<String, dynamic> json) {
+    return Gender(
+      confidence: json['Confidence'] as double?,
+      value: (json['Value'] as String?)?.let(GenderType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final confidence = this.confidence;
+    final value = this.value;
+    return {
+      if (confidence != null) 'Confidence': confidence,
+      if (value != null) 'Value': value.value,
+    };
+  }
+}
+
+/// Indicates whether or not the face has a beard, and the confidence level in
+/// the determination.
+class Beard {
+  /// Level of confidence in the determination.
+  final double? confidence;
+
+  /// Boolean value that indicates whether the face has beard or not.
+  final bool? value;
+
+  Beard({
+    this.confidence,
+    this.value,
+  });
+
+  factory Beard.fromJson(Map<String, dynamic> json) {
+    return Beard(
+      confidence: json['Confidence'] as double?,
+      value: json['Value'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final confidence = this.confidence;
+    final value = this.value;
+    return {
+      if (confidence != null) 'Confidence': confidence,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Indicates whether or not the face has a mustache, and the confidence level
+/// in the determination.
+class Mustache {
+  /// Level of confidence in the determination.
+  final double? confidence;
+
+  /// Boolean value that indicates whether the face has mustache or not.
+  final bool? value;
+
+  Mustache({
+    this.confidence,
+    this.value,
+  });
+
+  factory Mustache.fromJson(Map<String, dynamic> json) {
+    return Mustache(
+      confidence: json['Confidence'] as double?,
+      value: json['Value'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final confidence = this.confidence;
+    final value = this.value;
+    return {
+      if (confidence != null) 'Confidence': confidence,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Indicates whether or not the eyes on the face are open, and the confidence
+/// level in the determination.
+class EyeOpen {
+  /// Level of confidence in the determination.
+  final double? confidence;
+
+  /// Boolean value that indicates whether the eyes on the face are open.
+  final bool? value;
+
+  EyeOpen({
+    this.confidence,
+    this.value,
+  });
+
+  factory EyeOpen.fromJson(Map<String, dynamic> json) {
+    return EyeOpen(
+      confidence: json['Confidence'] as double?,
+      value: json['Value'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final confidence = this.confidence;
+    final value = this.value;
+    return {
+      if (confidence != null) 'Confidence': confidence,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Indicates whether or not the mouth on the face is open, and the confidence
+/// level in the determination.
+class MouthOpen {
+  /// Level of confidence in the determination.
+  final double? confidence;
+
+  /// Boolean value that indicates whether the mouth on the face is open or not.
+  final bool? value;
+
+  MouthOpen({
+    this.confidence,
+    this.value,
+  });
+
+  factory MouthOpen.fromJson(Map<String, dynamic> json) {
+    return MouthOpen(
+      confidence: json['Confidence'] as double?,
+      value: json['Value'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final confidence = this.confidence;
+    final value = this.value;
+    return {
+      if (confidence != null) 'Confidence': confidence,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Indicates the pose of the face as determined by its pitch, roll, and yaw.
+class Pose {
+  /// Value representing the face rotation on the pitch axis.
+  final double? pitch;
+
+  /// Value representing the face rotation on the roll axis.
+  final double? roll;
+
+  /// Value representing the face rotation on the yaw axis.
+  final double? yaw;
+
+  Pose({
+    this.pitch,
+    this.roll,
+    this.yaw,
+  });
+
+  factory Pose.fromJson(Map<String, dynamic> json) {
+    return Pose(
+      pitch: json['Pitch'] as double?,
+      roll: json['Roll'] as double?,
+      yaw: json['Yaw'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pitch = this.pitch;
+    final roll = this.roll;
+    final yaw = this.yaw;
+    return {
+      if (pitch != null) 'Pitch': pitch,
+      if (roll != null) 'Roll': roll,
+      if (yaw != null) 'Yaw': yaw,
+    };
+  }
+}
+
+/// Identifies face image brightness and sharpness.
+class ImageQuality {
+  /// Value representing brightness of the face. The service returns a value
+  /// between 0 and 100 (inclusive). A higher value indicates a brighter face
+  /// image.
+  final double? brightness;
+
+  /// Value representing sharpness of the face. The service returns a value
+  /// between 0 and 100 (inclusive). A higher value indicates a sharper face
+  /// image.
+  final double? sharpness;
+
+  ImageQuality({
+    this.brightness,
+    this.sharpness,
+  });
+
+  factory ImageQuality.fromJson(Map<String, dynamic> json) {
+    return ImageQuality(
+      brightness: json['Brightness'] as double?,
+      sharpness: json['Sharpness'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final brightness = this.brightness;
+    final sharpness = this.sharpness;
+    return {
+      if (brightness != null) 'Brightness': brightness,
+      if (sharpness != null) 'Sharpness': sharpness,
+    };
+  }
+}
+
+/// <code>FaceOccluded</code> should return "true" with a high confidence score
+/// if a detected face’s eyes, nose, and mouth are partially captured or if they
+/// are covered by masks, dark sunglasses, cell phones, hands, or other objects.
+/// <code>FaceOccluded</code> should return "false" with a high confidence score
+/// if common occurrences that do not impact face verification are detected,
+/// such as eye glasses, lightly tinted sunglasses, strands of hair, and others.
+///
+/// You can use <code>FaceOccluded</code> to determine if an obstruction on a
+/// face negatively impacts using the image for face matching.
+class FaceOccluded {
+  /// The confidence that the service has detected the presence of a face
+  /// occlusion.
+  final double? confidence;
+
+  /// True if a detected face’s eyes, nose, and mouth are partially captured or if
+  /// they are covered by masks, dark sunglasses, cell phones, hands, or other
+  /// objects. False if common occurrences that do not impact face verification
+  /// are detected, such as eye glasses, lightly tinted sunglasses, strands of
+  /// hair, and others.
+  final bool? value;
+
+  FaceOccluded({
+    this.confidence,
+    this.value,
+  });
+
+  factory FaceOccluded.fromJson(Map<String, dynamic> json) {
+    return FaceOccluded(
+      confidence: json['Confidence'] as double?,
+      value: json['Value'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final confidence = this.confidence;
+    final value = this.value;
+    return {
+      if (confidence != null) 'Confidence': confidence,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Indicates the direction the eyes are gazing in (independent of the head
+/// pose) as determined by its pitch and yaw.
+class EyeDirection {
+  /// The confidence that the service has in its predicted eye direction.
+  final double? confidence;
+
+  /// Value representing eye direction on the pitch axis.
+  final double? pitch;
+
+  /// Value representing eye direction on the yaw axis.
+  final double? yaw;
+
+  EyeDirection({
+    this.confidence,
+    this.pitch,
+    this.yaw,
+  });
+
+  factory EyeDirection.fromJson(Map<String, dynamic> json) {
+    return EyeDirection(
+      confidence: json['Confidence'] as double?,
+      pitch: json['Pitch'] as double?,
+      yaw: json['Yaw'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final confidence = this.confidence;
+    final pitch = this.pitch;
+    final yaw = this.yaw;
+    return {
+      if (confidence != null) 'Confidence': confidence,
+      if (pitch != null) 'Pitch': pitch,
+      if (yaw != null) 'Yaw': yaw,
+    };
+  }
+}
+
+/// Indicates the location of the landmark on the face.
+class Landmark {
+  /// Type of landmark.
+  final LandmarkType? type;
+
+  /// The x-coordinate of the landmark expressed as a ratio of the width of the
+  /// image. The x-coordinate is measured from the left-side of the image. For
+  /// example, if the image is 700 pixels wide and the x-coordinate of the
+  /// landmark is at 350 pixels, this value is 0.5.
+  final double? x;
+
+  /// The y-coordinate of the landmark expressed as a ratio of the height of the
+  /// image. The y-coordinate is measured from the top of the image. For example,
+  /// if the image height is 200 pixels and the y-coordinate of the landmark is at
+  /// 50 pixels, this value is 0.25.
+  final double? y;
+
+  Landmark({
+    this.type,
+    this.x,
+    this.y,
+  });
+
+  factory Landmark.fromJson(Map<String, dynamic> json) {
+    return Landmark(
+      type: (json['Type'] as String?)?.let(LandmarkType.fromString),
+      x: json['X'] as double?,
+      y: json['Y'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final x = this.x;
+    final y = this.y;
+    return {
+      if (type != null) 'Type': type.value,
+      if (x != null) 'X': x,
+      if (y != null) 'Y': y,
+    };
+  }
+}
+
+class LandmarkType {
+  static const eyeLeft = LandmarkType._('eyeLeft');
+  static const eyeRight = LandmarkType._('eyeRight');
+  static const nose = LandmarkType._('nose');
+  static const mouthLeft = LandmarkType._('mouthLeft');
+  static const mouthRight = LandmarkType._('mouthRight');
+  static const leftEyeBrowLeft = LandmarkType._('leftEyeBrowLeft');
+  static const leftEyeBrowRight = LandmarkType._('leftEyeBrowRight');
+  static const leftEyeBrowUp = LandmarkType._('leftEyeBrowUp');
+  static const rightEyeBrowLeft = LandmarkType._('rightEyeBrowLeft');
+  static const rightEyeBrowRight = LandmarkType._('rightEyeBrowRight');
+  static const rightEyeBrowUp = LandmarkType._('rightEyeBrowUp');
+  static const leftEyeLeft = LandmarkType._('leftEyeLeft');
+  static const leftEyeRight = LandmarkType._('leftEyeRight');
+  static const leftEyeUp = LandmarkType._('leftEyeUp');
+  static const leftEyeDown = LandmarkType._('leftEyeDown');
+  static const rightEyeLeft = LandmarkType._('rightEyeLeft');
+  static const rightEyeRight = LandmarkType._('rightEyeRight');
+  static const rightEyeUp = LandmarkType._('rightEyeUp');
+  static const rightEyeDown = LandmarkType._('rightEyeDown');
+  static const noseLeft = LandmarkType._('noseLeft');
+  static const noseRight = LandmarkType._('noseRight');
+  static const mouthUp = LandmarkType._('mouthUp');
+  static const mouthDown = LandmarkType._('mouthDown');
+  static const leftPupil = LandmarkType._('leftPupil');
+  static const rightPupil = LandmarkType._('rightPupil');
+  static const upperJawlineLeft = LandmarkType._('upperJawlineLeft');
+  static const midJawlineLeft = LandmarkType._('midJawlineLeft');
+  static const chinBottom = LandmarkType._('chinBottom');
+  static const midJawlineRight = LandmarkType._('midJawlineRight');
+  static const upperJawlineRight = LandmarkType._('upperJawlineRight');
+
+  final String value;
+
+  const LandmarkType._(this.value);
+
+  static const values = [
+    eyeLeft,
+    eyeRight,
+    nose,
+    mouthLeft,
+    mouthRight,
+    leftEyeBrowLeft,
+    leftEyeBrowRight,
+    leftEyeBrowUp,
+    rightEyeBrowLeft,
+    rightEyeBrowRight,
+    rightEyeBrowUp,
+    leftEyeLeft,
+    leftEyeRight,
+    leftEyeUp,
+    leftEyeDown,
+    rightEyeLeft,
+    rightEyeRight,
+    rightEyeUp,
+    rightEyeDown,
+    noseLeft,
+    noseRight,
+    mouthUp,
+    mouthDown,
+    leftPupil,
+    rightPupil,
+    upperJawlineLeft,
+    midJawlineLeft,
+    chinBottom,
+    midJawlineRight,
+    upperJawlineRight
+  ];
+
+  static LandmarkType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LandmarkType._(value));
+
+  @override
+  bool operator ==(other) => other is LandmarkType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The API returns a prediction of an emotion based on a person's facial
+/// expressions, along with the confidence level for the predicted emotion. It
+/// is not a determination of the person’s internal emotional state and should
+/// not be used in such a way. For example, a person pretending to have a sad
+/// face might not be sad emotionally. The API is not intended to be used, and
+/// you may not use it, in a manner that violates the EU Artificial Intelligence
+/// Act or any other applicable law.
+class Emotion {
+  /// Level of confidence in the determination.
+  final double? confidence;
+
+  /// Type of emotion detected.
+  final EmotionName? type;
+
+  Emotion({
+    this.confidence,
+    this.type,
+  });
+
+  factory Emotion.fromJson(Map<String, dynamic> json) {
+    return Emotion(
+      confidence: json['Confidence'] as double?,
+      type: (json['Type'] as String?)?.let(EmotionName.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final confidence = this.confidence;
+    final type = this.type;
+    return {
+      if (confidence != null) 'Confidence': confidence,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class EmotionName {
+  static const happy = EmotionName._('HAPPY');
+  static const sad = EmotionName._('SAD');
+  static const angry = EmotionName._('ANGRY');
+  static const confused = EmotionName._('CONFUSED');
+  static const disgusted = EmotionName._('DISGUSTED');
+  static const surprised = EmotionName._('SURPRISED');
+  static const calm = EmotionName._('CALM');
+  static const unknown = EmotionName._('UNKNOWN');
+  static const fear = EmotionName._('FEAR');
+
+  final String value;
+
+  const EmotionName._(this.value);
+
+  static const values = [
+    happy,
+    sad,
+    angry,
+    confused,
+    disgusted,
+    surprised,
+    calm,
+    unknown,
+    fear
+  ];
+
+  static EmotionName fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EmotionName._(value));
+
+  @override
+  bool operator ==(other) => other is EmotionName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class GenderType {
+  static const male = GenderType._('Male');
+  static const female = GenderType._('Female');
+
+  final String value;
+
+  const GenderType._(this.value);
+
+  static const values = [male, female];
+
+  static GenderType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => GenderType._(value));
+
+  @override
+  bool operator ==(other) => other is GenderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides UserID metadata along with the confidence in the match of this
+/// UserID with the input face.
+class UserMatch {
+  /// Describes the UserID metadata.
+  final double? similarity;
+
+  /// Confidence in the match of this UserID with the input face.
+  final MatchedUser? user;
+
+  UserMatch({
+    this.similarity,
+    this.user,
+  });
+
+  factory UserMatch.fromJson(Map<String, dynamic> json) {
+    return UserMatch(
+      similarity: json['Similarity'] as double?,
+      user: json['User'] != null
+          ? MatchedUser.fromJson(json['User'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final similarity = this.similarity;
+    final user = this.user;
+    return {
+      if (similarity != null) 'Similarity': similarity,
+      if (user != null) 'User': user,
+    };
+  }
+}
+
+/// Contains metadata for a UserID matched with a given face.
+class MatchedUser {
+  /// A provided ID for the UserID. Unique within the collection.
+  final String? userId;
+
+  /// The status of the user matched to a provided FaceID.
+  final UserStatus? userStatus;
+
+  MatchedUser({
+    this.userId,
+    this.userStatus,
+  });
+
+  factory MatchedUser.fromJson(Map<String, dynamic> json) {
+    return MatchedUser(
+      userId: json['UserId'] as String?,
+      userStatus: (json['UserStatus'] as String?)?.let(UserStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final userId = this.userId;
+    final userStatus = this.userStatus;
+    return {
+      if (userId != null) 'UserId': userId,
+      if (userStatus != null) 'UserStatus': userStatus.value,
+    };
+  }
+}
+
+class UserStatus {
+  static const active = UserStatus._('ACTIVE');
+  static const updating = UserStatus._('UPDATING');
+  static const creating = UserStatus._('CREATING');
+  static const created = UserStatus._('CREATED');
+
+  final String value;
+
+  const UserStatus._(this.value);
+
+  static const values = [active, updating, creating, created];
+
+  static UserStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UserStatus._(value));
+
+  @override
+  bool operator ==(other) => other is UserStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides the input image either as bytes or an S3 object.
+///
+/// You pass image bytes to an Amazon Rekognition API operation by using the
+/// <code>Bytes</code> property. For example, you would use the
+/// <code>Bytes</code> property to pass an image loaded from a local file
+/// system. Image bytes passed by using the <code>Bytes</code> property must be
+/// base64-encoded. Your code may not need to encode image bytes if you are
+/// using an AWS SDK to call Amazon Rekognition API operations.
+///
+/// For more information, see Analyzing an Image Loaded from a Local File System
+/// in the Amazon Rekognition Developer Guide.
+///
+/// You pass images stored in an S3 bucket to an Amazon Rekognition API
+/// operation by using the <code>S3Object</code> property. Images stored in an
+/// S3 bucket do not need to be base64-encoded.
+///
+/// The region for the S3 bucket containing the S3 object must match the region
+/// you use for Amazon Rekognition operations.
+///
+/// If you use the AWS CLI to call Amazon Rekognition operations, passing image
+/// bytes using the Bytes property is not supported. You must first upload the
+/// image to an Amazon S3 bucket and then call the operation using the S3Object
+/// property.
+///
+/// For Amazon Rekognition to process an S3 object, the user must have
+/// permission to access the S3 object. For more information, see How Amazon
+/// Rekognition works with IAM in the Amazon Rekognition Developer Guide.
+class Image {
+  /// Blob of image bytes up to 5 MBs. Note that the maximum image size you can
+  /// pass to <code>DetectCustomLabels</code> is 4MB.
+  final Uint8List? bytes;
+
+  /// Identifies an S3 object as the image source.
+  final S3Object? s3Object;
+
+  Image({
+    this.bytes,
+    this.s3Object,
+  });
+
+  Map<String, dynamic> toJson() {
+    final bytes = this.bytes;
+    final s3Object = this.s3Object;
+    return {
+      if (bytes != null) 'Bytes': base64Encode(bytes),
+      if (s3Object != null) 'S3Object': s3Object,
+    };
+  }
+}
+
+class QualityFilter {
+  static const none = QualityFilter._('NONE');
+  static const auto = QualityFilter._('AUTO');
+  static const low = QualityFilter._('LOW');
+  static const medium = QualityFilter._('MEDIUM');
+  static const high = QualityFilter._('HIGH');
+
+  final String value;
+
+  const QualityFilter._(this.value);
+
+  static const values = [none, auto, low, medium, high];
+
+  static QualityFilter fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => QualityFilter._(value));
+
+  @override
+  bool operator ==(other) => other is QualityFilter && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides face metadata such as FaceId, BoundingBox, Confidence of the input
+/// face used for search.
+class SearchedFace {
+  /// Unique identifier assigned to the face.
+  final String? faceId;
+
+  SearchedFace({
+    this.faceId,
+  });
+
+  factory SearchedFace.fromJson(Map<String, dynamic> json) {
+    return SearchedFace(
+      faceId: json['FaceId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final faceId = this.faceId;
+    return {
+      if (faceId != null) 'FaceId': faceId,
+    };
+  }
+}
+
+/// Contains metadata about a User searched for within a collection.
+class SearchedUser {
+  /// A provided ID for the UserID. Unique within the collection.
+  final String? userId;
+
+  SearchedUser({
+    this.userId,
+  });
+
+  factory SearchedUser.fromJson(Map<String, dynamic> json) {
+    return SearchedUser(
+      userId: json['UserId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final userId = this.userId;
+    return {
+      if (userId != null) 'UserId': userId,
+    };
+  }
+}
+
+/// Provides face metadata. In addition, it also provides the confidence in the
+/// match of this face with the input face.
+class FaceMatch {
+  /// Describes the face properties such as the bounding box, face ID, image ID of
+  /// the source image, and external image ID that you assigned.
+  final Face? face;
+
+  /// Confidence in the match of this face with the input face.
+  final double? similarity;
+
+  FaceMatch({
+    this.face,
+    this.similarity,
+  });
+
+  factory FaceMatch.fromJson(Map<String, dynamic> json) {
+    return FaceMatch(
+      face: json['Face'] != null
+          ? Face.fromJson(json['Face'] as Map<String, dynamic>)
+          : null,
+      similarity: json['Similarity'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final face = this.face;
+    final similarity = this.similarity;
+    return {
+      if (face != null) 'Face': face,
+      if (similarity != null) 'Similarity': similarity,
+    };
+  }
+}
+
+/// Describes the face properties such as the bounding box, face ID, image ID of
+/// the input image, and external image ID that you assigned.
+class Face {
+  /// Bounding box of the face.
+  final BoundingBox? boundingBox;
+
+  /// Confidence level that the bounding box contains a face (and not a different
+  /// object such as a tree).
+  final double? confidence;
+
+  /// Identifier that you assign to all the faces in the input image.
+  final String? externalImageId;
+
+  /// Unique identifier that Amazon Rekognition assigns to the face.
+  final String? faceId;
+
+  /// Unique identifier that Amazon Rekognition assigns to the input image.
+  final String? imageId;
+
+  /// The version of the face detect and storage model that was used when indexing
+  /// the face vector.
+  final String? indexFacesModelVersion;
+
+  /// Unique identifier assigned to the user.
+  final String? userId;
+
+  Face({
+    this.boundingBox,
+    this.confidence,
+    this.externalImageId,
+    this.faceId,
+    this.imageId,
+    this.indexFacesModelVersion,
+    this.userId,
+  });
+
+  factory Face.fromJson(Map<String, dynamic> json) {
+    return Face(
+      boundingBox: json['BoundingBox'] != null
+          ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
+          : null,
+      confidence: json['Confidence'] as double?,
+      externalImageId: json['ExternalImageId'] as String?,
+      faceId: json['FaceId'] as String?,
+      imageId: json['ImageId'] as String?,
+      indexFacesModelVersion: json['IndexFacesModelVersion'] as String?,
+      userId: json['UserId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final boundingBox = this.boundingBox;
+    final confidence = this.confidence;
+    final externalImageId = this.externalImageId;
+    final faceId = this.faceId;
+    final imageId = this.imageId;
+    final indexFacesModelVersion = this.indexFacesModelVersion;
+    final userId = this.userId;
+    return {
+      if (boundingBox != null) 'BoundingBox': boundingBox,
+      if (confidence != null) 'Confidence': confidence,
+      if (externalImageId != null) 'ExternalImageId': externalImageId,
+      if (faceId != null) 'FaceId': faceId,
+      if (imageId != null) 'ImageId': imageId,
+      if (indexFacesModelVersion != null)
+        'IndexFacesModelVersion': indexFacesModelVersion,
+      if (userId != null) 'UserId': userId,
+    };
+  }
+}
+
+class OrientationCorrection {
+  static const rotate_0 = OrientationCorrection._('ROTATE_0');
+  static const rotate_90 = OrientationCorrection._('ROTATE_90');
+  static const rotate_180 = OrientationCorrection._('ROTATE_180');
+  static const rotate_270 = OrientationCorrection._('ROTATE_270');
+
+  final String value;
+
+  const OrientationCorrection._(this.value);
+
+  static const values = [rotate_0, rotate_90, rotate_180, rotate_270];
+
+  static OrientationCorrection fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OrientationCorrection._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OrientationCorrection && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides face metadata for target image faces that are analyzed by
+/// <code>CompareFaces</code> and <code>RecognizeCelebrities</code>.
+class ComparedFace {
+  /// Bounding box of the face.
+  final BoundingBox? boundingBox;
+
+  /// Level of confidence that what the bounding box contains is a face.
+  final double? confidence;
+
+  /// The emotions that appear to be expressed on the face, and the confidence
+  /// level in the determination. Valid values include "Happy", "Sad", "Angry",
+  /// "Confused", "Disgusted", "Surprised", "Calm", "Unknown", and "Fear".
+  final List<Emotion>? emotions;
+
+  /// An array of facial landmarks.
+  final List<Landmark>? landmarks;
+
+  /// Indicates the pose of the face as determined by its pitch, roll, and yaw.
+  final Pose? pose;
+
+  /// Identifies face image brightness and sharpness.
+  final ImageQuality? quality;
+
+  /// Indicates whether or not the face is smiling, and the confidence level in
+  /// the determination.
+  final Smile? smile;
+
+  ComparedFace({
+    this.boundingBox,
+    this.confidence,
+    this.emotions,
+    this.landmarks,
+    this.pose,
+    this.quality,
+    this.smile,
+  });
+
+  factory ComparedFace.fromJson(Map<String, dynamic> json) {
+    return ComparedFace(
+      boundingBox: json['BoundingBox'] != null
+          ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
+          : null,
+      confidence: json['Confidence'] as double?,
+      emotions: (json['Emotions'] as List?)
+          ?.nonNulls
+          .map((e) => Emotion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      landmarks: (json['Landmarks'] as List?)
+          ?.nonNulls
+          .map((e) => Landmark.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      pose: json['Pose'] != null
+          ? Pose.fromJson(json['Pose'] as Map<String, dynamic>)
+          : null,
+      quality: json['Quality'] != null
+          ? ImageQuality.fromJson(json['Quality'] as Map<String, dynamic>)
+          : null,
+      smile: json['Smile'] != null
+          ? Smile.fromJson(json['Smile'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final boundingBox = this.boundingBox;
+    final confidence = this.confidence;
+    final emotions = this.emotions;
+    final landmarks = this.landmarks;
+    final pose = this.pose;
+    final quality = this.quality;
+    final smile = this.smile;
+    return {
+      if (boundingBox != null) 'BoundingBox': boundingBox,
+      if (confidence != null) 'Confidence': confidence,
+      if (emotions != null) 'Emotions': emotions,
+      if (landmarks != null) 'Landmarks': landmarks,
+      if (pose != null) 'Pose': pose,
+      if (quality != null) 'Quality': quality,
+      if (smile != null) 'Smile': smile,
+    };
+  }
+}
+
+/// Provides information about a celebrity recognized by the
+/// <a>RecognizeCelebrities</a> operation.
+class Celebrity {
+  /// Provides information about the celebrity's face, such as its location on the
+  /// image.
+  final ComparedFace? face;
+
+  /// A unique identifier for the celebrity.
+  final String? id;
+  final KnownGender? knownGender;
+
+  /// The confidence, in percentage, that Amazon Rekognition has that the
+  /// recognized face is the celebrity.
+  final double? matchConfidence;
+
+  /// The name of the celebrity.
+  final String? name;
+
+  /// An array of URLs pointing to additional information about the celebrity. If
+  /// there is no additional information about the celebrity, this list is empty.
+  final List<String>? urls;
+
+  Celebrity({
+    this.face,
+    this.id,
+    this.knownGender,
+    this.matchConfidence,
+    this.name,
+    this.urls,
+  });
+
+  factory Celebrity.fromJson(Map<String, dynamic> json) {
+    return Celebrity(
+      face: json['Face'] != null
+          ? ComparedFace.fromJson(json['Face'] as Map<String, dynamic>)
+          : null,
+      id: json['Id'] as String?,
+      knownGender: json['KnownGender'] != null
+          ? KnownGender.fromJson(json['KnownGender'] as Map<String, dynamic>)
+          : null,
+      matchConfidence: json['MatchConfidence'] as double?,
+      name: json['Name'] as String?,
+      urls: (json['Urls'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final face = this.face;
+    final id = this.id;
+    final knownGender = this.knownGender;
+    final matchConfidence = this.matchConfidence;
+    final name = this.name;
+    final urls = this.urls;
+    return {
+      if (face != null) 'Face': face,
+      if (id != null) 'Id': id,
+      if (knownGender != null) 'KnownGender': knownGender,
+      if (matchConfidence != null) 'MatchConfidence': matchConfidence,
+      if (name != null) 'Name': name,
+      if (urls != null) 'Urls': urls,
+    };
+  }
+}
+
+/// The known gender identity for the celebrity that matches the provided ID.
+/// The known gender identity can be Male, Female, Nonbinary, or Unlisted.
+class KnownGender {
+  /// A string value of the KnownGender info about the Celebrity.
+  final KnownGenderType? type;
+
+  KnownGender({
+    this.type,
+  });
+
+  factory KnownGender.fromJson(Map<String, dynamic> json) {
+    return KnownGender(
+      type: (json['Type'] as String?)?.let(KnownGenderType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    return {
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+/// A list of enum string of possible gender values that Celebrity returns.
+class KnownGenderType {
+  static const male = KnownGenderType._('Male');
+  static const female = KnownGenderType._('Female');
+  static const nonbinary = KnownGenderType._('Nonbinary');
+  static const unlisted = KnownGenderType._('Unlisted');
+
+  final String value;
+
+  const KnownGenderType._(this.value);
+
+  static const values = [male, female, nonbinary, unlisted];
+
+  static KnownGenderType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => KnownGenderType._(value));
+
+  @override
+  bool operator ==(other) => other is KnownGenderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Metadata of the user stored in a collection.
+class User {
+  /// A provided ID for the User. Unique within the collection.
+  final String? userId;
+
+  /// Communicates if the UserID has been updated with latest set of faces to be
+  /// associated with the UserID.
+  final UserStatus? userStatus;
+
+  User({
+    this.userId,
+    this.userStatus,
+  });
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      userId: json['UserId'] as String?,
+      userStatus: (json['UserStatus'] as String?)?.let(UserStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final userId = this.userId;
+    final userStatus = this.userStatus;
+    return {
+      if (userId != null) 'UserId': userId,
+      if (userStatus != null) 'UserStatus': userStatus.value,
+    };
+  }
+}
+
 /// An object that recognizes faces or labels in a streaming video. An Amazon
 /// Rekognition stream processor is created by a call to
 /// <a>CreateStreamProcessor</a>. The request parameters for
@@ -15542,222 +12063,6 @@ class StreamProcessor {
     return {
       if (name != null) 'Name': name,
       if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-/// Allows you to opt in or opt out to share data with Rekognition to improve
-/// model performance. You can choose this option at the account level or on a
-/// per-stream basis. Note that if you opt out at the account level this setting
-/// is ignored on individual streams.
-class StreamProcessorDataSharingPreference {
-  /// If this option is set to true, you choose to share data with Rekognition to
-  /// improve model performance.
-  final bool optIn;
-
-  StreamProcessorDataSharingPreference({
-    required this.optIn,
-  });
-
-  factory StreamProcessorDataSharingPreference.fromJson(
-      Map<String, dynamic> json) {
-    return StreamProcessorDataSharingPreference(
-      optIn: (json['OptIn'] as bool?) ?? false,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final optIn = this.optIn;
-    return {
-      'OptIn': optIn,
-    };
-  }
-}
-
-/// Information about the source streaming video.
-class StreamProcessorInput {
-  /// The Kinesis video stream input stream for the source streaming video.
-  final KinesisVideoStream? kinesisVideoStream;
-
-  StreamProcessorInput({
-    this.kinesisVideoStream,
-  });
-
-  factory StreamProcessorInput.fromJson(Map<String, dynamic> json) {
-    return StreamProcessorInput(
-      kinesisVideoStream: json['KinesisVideoStream'] != null
-          ? KinesisVideoStream.fromJson(
-              json['KinesisVideoStream'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final kinesisVideoStream = this.kinesisVideoStream;
-    return {
-      if (kinesisVideoStream != null) 'KinesisVideoStream': kinesisVideoStream,
-    };
-  }
-}
-
-/// The Amazon Simple Notification Service topic to which Amazon Rekognition
-/// publishes the object detection results and completion status of a video
-/// analysis operation.
-///
-/// Amazon Rekognition publishes a notification the first time an object of
-/// interest or a person is detected in the video stream. For example, if Amazon
-/// Rekognition detects a person at second 2, a pet at second 4, and a person
-/// again at second 5, Amazon Rekognition sends 2 object class detected
-/// notifications, one for a person at second 2 and one for a pet at second 4.
-///
-/// Amazon Rekognition also publishes an an end-of-session notification with a
-/// summary when the stream processing session is complete.
-class StreamProcessorNotificationChannel {
-  /// The Amazon Resource Number (ARN) of the Amazon Amazon Simple Notification
-  /// Service topic to which Amazon Rekognition posts the completion status.
-  final String sNSTopicArn;
-
-  StreamProcessorNotificationChannel({
-    required this.sNSTopicArn,
-  });
-
-  factory StreamProcessorNotificationChannel.fromJson(
-      Map<String, dynamic> json) {
-    return StreamProcessorNotificationChannel(
-      sNSTopicArn: (json['SNSTopicArn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final sNSTopicArn = this.sNSTopicArn;
-    return {
-      'SNSTopicArn': sNSTopicArn,
-    };
-  }
-}
-
-/// Information about the Amazon Kinesis Data Streams stream to which a Amazon
-/// Rekognition Video stream processor streams the results of a video analysis.
-/// For more information, see CreateStreamProcessor in the Amazon Rekognition
-/// Developer Guide.
-class StreamProcessorOutput {
-  /// The Amazon Kinesis Data Streams stream to which the Amazon Rekognition
-  /// stream processor streams the analysis results.
-  final KinesisDataStream? kinesisDataStream;
-
-  /// The Amazon S3 bucket location to which Amazon Rekognition publishes the
-  /// detailed inference results of a video analysis operation.
-  final S3Destination? s3Destination;
-
-  StreamProcessorOutput({
-    this.kinesisDataStream,
-    this.s3Destination,
-  });
-
-  factory StreamProcessorOutput.fromJson(Map<String, dynamic> json) {
-    return StreamProcessorOutput(
-      kinesisDataStream: json['KinesisDataStream'] != null
-          ? KinesisDataStream.fromJson(
-              json['KinesisDataStream'] as Map<String, dynamic>)
-          : null,
-      s3Destination: json['S3Destination'] != null
-          ? S3Destination.fromJson(
-              json['S3Destination'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final kinesisDataStream = this.kinesisDataStream;
-    final s3Destination = this.s3Destination;
-    return {
-      if (kinesisDataStream != null) 'KinesisDataStream': kinesisDataStream,
-      if (s3Destination != null) 'S3Destination': s3Destination,
-    };
-  }
-}
-
-class StreamProcessorParameterToDelete {
-  static const connectedHomeMinConfidence =
-      StreamProcessorParameterToDelete._('ConnectedHomeMinConfidence');
-  static const regionsOfInterest =
-      StreamProcessorParameterToDelete._('RegionsOfInterest');
-
-  final String value;
-
-  const StreamProcessorParameterToDelete._(this.value);
-
-  static const values = [connectedHomeMinConfidence, regionsOfInterest];
-
-  static StreamProcessorParameterToDelete fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => StreamProcessorParameterToDelete._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is StreamProcessorParameterToDelete && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Input parameters used in a streaming video analyzed by a Amazon Rekognition
-/// stream processor. You can use <code>FaceSearch</code> to recognize faces in
-/// a streaming video, or you can use <code>ConnectedHome</code> to detect
-/// labels.
-class StreamProcessorSettings {
-  final ConnectedHomeSettings? connectedHome;
-
-  /// Face search settings to use on a streaming video.
-  final FaceSearchSettings? faceSearch;
-
-  StreamProcessorSettings({
-    this.connectedHome,
-    this.faceSearch,
-  });
-
-  factory StreamProcessorSettings.fromJson(Map<String, dynamic> json) {
-    return StreamProcessorSettings(
-      connectedHome: json['ConnectedHome'] != null
-          ? ConnectedHomeSettings.fromJson(
-              json['ConnectedHome'] as Map<String, dynamic>)
-          : null,
-      faceSearch: json['FaceSearch'] != null
-          ? FaceSearchSettings.fromJson(
-              json['FaceSearch'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connectedHome = this.connectedHome;
-    final faceSearch = this.faceSearch;
-    return {
-      if (connectedHome != null) 'ConnectedHome': connectedHome,
-      if (faceSearch != null) 'FaceSearch': faceSearch,
-    };
-  }
-}
-
-/// The stream processor settings that you want to update.
-/// <code>ConnectedHome</code> settings can be updated to detect different
-/// labels with a different minimum confidence.
-class StreamProcessorSettingsForUpdate {
-  /// The label detection settings you want to use for your stream processor.
-  final ConnectedHomeSettingsForUpdate? connectedHomeForUpdate;
-
-  StreamProcessorSettingsForUpdate({
-    this.connectedHomeForUpdate,
-  });
-
-  Map<String, dynamic> toJson() {
-    final connectedHomeForUpdate = this.connectedHomeForUpdate;
-    return {
-      if (connectedHomeForUpdate != null)
-        'ConnectedHomeForUpdate': connectedHomeForUpdate,
     };
   }
 }
@@ -15798,21 +12103,294 @@ class StreamProcessorStatus {
   String toString() => value;
 }
 
-/// The S3 bucket that contains the training summary. The training summary
-/// includes aggregated evaluation metrics for the entire testing dataset and
-/// metrics for each individual label.
+/// Describes a project policy in the response from <a>ListProjectPolicies</a>.
 ///
-/// You get the training summary S3 bucket location by calling
-/// <a>DescribeProjectVersions</a>.
-class Summary {
+///
+class ProjectPolicy {
+  /// The Unix datetime for the creation of the project policy.
+  final DateTime? creationTimestamp;
+
+  /// The Unix datetime for when the project policy was last updated.
+  final DateTime? lastUpdatedTimestamp;
+
+  /// The JSON document for the project policy.
+  final String? policyDocument;
+
+  /// The name of the project policy.
+  final String? policyName;
+
+  /// The revision ID of the project policy.
+  final String? policyRevisionId;
+
+  /// The Amazon Resource Name (ARN) of the project to which the project policy is
+  /// attached.
+  final String? projectArn;
+
+  ProjectPolicy({
+    this.creationTimestamp,
+    this.lastUpdatedTimestamp,
+    this.policyDocument,
+    this.policyName,
+    this.policyRevisionId,
+    this.projectArn,
+  });
+
+  factory ProjectPolicy.fromJson(Map<String, dynamic> json) {
+    return ProjectPolicy(
+      creationTimestamp: timeStampFromJson(json['CreationTimestamp']),
+      lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
+      policyDocument: json['PolicyDocument'] as String?,
+      policyName: json['PolicyName'] as String?,
+      policyRevisionId: json['PolicyRevisionId'] as String?,
+      projectArn: json['ProjectArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTimestamp = this.creationTimestamp;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final policyDocument = this.policyDocument;
+    final policyName = this.policyName;
+    final policyRevisionId = this.policyRevisionId;
+    final projectArn = this.projectArn;
+    return {
+      if (creationTimestamp != null)
+        'CreationTimestamp': unixTimestampToJson(creationTimestamp),
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
+      if (policyDocument != null) 'PolicyDocument': policyDocument,
+      if (policyName != null) 'PolicyName': policyName,
+      if (policyRevisionId != null) 'PolicyRevisionId': policyRevisionId,
+      if (projectArn != null) 'ProjectArn': projectArn,
+    };
+  }
+}
+
+/// Description for a media analysis job.
+class MediaAnalysisJobDescription {
+  /// The Unix date and time when the job was started.
+  final DateTime creationTimestamp;
+
+  /// Reference to the input manifest that was provided in the job creation
+  /// request.
+  final MediaAnalysisInput input;
+
+  /// The identifier for a media analysis job.
+  final String jobId;
+
+  /// Operation configurations that were provided during job creation.
+  final MediaAnalysisOperationsConfig operationsConfig;
+
+  /// Output configuration that was provided in the creation request.
+  final MediaAnalysisOutputConfig outputConfig;
+
+  /// The status of the media analysis job being retrieved.
+  final MediaAnalysisJobStatus status;
+
+  /// The Unix date and time when the job finished.
+  final DateTime? completionTimestamp;
+
+  /// Details about the error that resulted in failure of the job.
+  final MediaAnalysisJobFailureDetails? failureDetails;
+
+  /// The name of a media analysis job.
+  final String? jobName;
+
+  /// KMS Key that was provided in the creation request.
+  final String? kmsKeyId;
+
+  /// Provides statistics on input manifest and errors identified in the input
+  /// manifest.
+  final MediaAnalysisManifestSummary? manifestSummary;
+
+  /// Output manifest that contains prediction results.
+  final MediaAnalysisResults? results;
+
+  MediaAnalysisJobDescription({
+    required this.creationTimestamp,
+    required this.input,
+    required this.jobId,
+    required this.operationsConfig,
+    required this.outputConfig,
+    required this.status,
+    this.completionTimestamp,
+    this.failureDetails,
+    this.jobName,
+    this.kmsKeyId,
+    this.manifestSummary,
+    this.results,
+  });
+
+  factory MediaAnalysisJobDescription.fromJson(Map<String, dynamic> json) {
+    return MediaAnalysisJobDescription(
+      creationTimestamp:
+          nonNullableTimeStampFromJson(json['CreationTimestamp'] ?? 0),
+      input: MediaAnalysisInput.fromJson(
+          (json['Input'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      jobId: (json['JobId'] as String?) ?? '',
+      operationsConfig: MediaAnalysisOperationsConfig.fromJson(
+          (json['OperationsConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      outputConfig: MediaAnalysisOutputConfig.fromJson(
+          (json['OutputConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      status:
+          MediaAnalysisJobStatus.fromString((json['Status'] as String?) ?? ''),
+      completionTimestamp: timeStampFromJson(json['CompletionTimestamp']),
+      failureDetails: json['FailureDetails'] != null
+          ? MediaAnalysisJobFailureDetails.fromJson(
+              json['FailureDetails'] as Map<String, dynamic>)
+          : null,
+      jobName: json['JobName'] as String?,
+      kmsKeyId: json['KmsKeyId'] as String?,
+      manifestSummary: json['ManifestSummary'] != null
+          ? MediaAnalysisManifestSummary.fromJson(
+              json['ManifestSummary'] as Map<String, dynamic>)
+          : null,
+      results: json['Results'] != null
+          ? MediaAnalysisResults.fromJson(
+              json['Results'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTimestamp = this.creationTimestamp;
+    final input = this.input;
+    final jobId = this.jobId;
+    final operationsConfig = this.operationsConfig;
+    final outputConfig = this.outputConfig;
+    final status = this.status;
+    final completionTimestamp = this.completionTimestamp;
+    final failureDetails = this.failureDetails;
+    final jobName = this.jobName;
+    final kmsKeyId = this.kmsKeyId;
+    final manifestSummary = this.manifestSummary;
+    final results = this.results;
+    return {
+      'CreationTimestamp': unixTimestampToJson(creationTimestamp),
+      'Input': input,
+      'JobId': jobId,
+      'OperationsConfig': operationsConfig,
+      'OutputConfig': outputConfig,
+      'Status': status.value,
+      if (completionTimestamp != null)
+        'CompletionTimestamp': unixTimestampToJson(completionTimestamp),
+      if (failureDetails != null) 'FailureDetails': failureDetails,
+      if (jobName != null) 'JobName': jobName,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (manifestSummary != null) 'ManifestSummary': manifestSummary,
+      if (results != null) 'Results': results,
+    };
+  }
+}
+
+class MediaAnalysisJobStatus {
+  static const created = MediaAnalysisJobStatus._('CREATED');
+  static const queued = MediaAnalysisJobStatus._('QUEUED');
+  static const inProgress = MediaAnalysisJobStatus._('IN_PROGRESS');
+  static const succeeded = MediaAnalysisJobStatus._('SUCCEEDED');
+  static const failed = MediaAnalysisJobStatus._('FAILED');
+
+  final String value;
+
+  const MediaAnalysisJobStatus._(this.value);
+
+  static const values = [created, queued, inProgress, succeeded, failed];
+
+  static MediaAnalysisJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MediaAnalysisJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MediaAnalysisJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Details about the error that resulted in failure of the job.
+class MediaAnalysisJobFailureDetails {
+  /// Error code for the failed job.
+  final MediaAnalysisJobFailureCode? code;
+
+  /// Human readable error message.
+  final String? message;
+
+  MediaAnalysisJobFailureDetails({
+    this.code,
+    this.message,
+  });
+
+  factory MediaAnalysisJobFailureDetails.fromJson(Map<String, dynamic> json) {
+    return MediaAnalysisJobFailureDetails(
+      code: (json['Code'] as String?)
+          ?.let(MediaAnalysisJobFailureCode.fromString),
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      if (code != null) 'Code': code.value,
+      if (message != null) 'Message': message,
+    };
+  }
+}
+
+/// Contains the results for a media analysis job created with
+/// StartMediaAnalysisJob.
+class MediaAnalysisResults {
+  /// Information about the model versions for the features selected in a given
+  /// job.
+  final MediaAnalysisModelVersions? modelVersions;
   final S3Object? s3Object;
 
-  Summary({
+  MediaAnalysisResults({
+    this.modelVersions,
     this.s3Object,
   });
 
-  factory Summary.fromJson(Map<String, dynamic> json) {
-    return Summary(
+  factory MediaAnalysisResults.fromJson(Map<String, dynamic> json) {
+    return MediaAnalysisResults(
+      modelVersions: json['ModelVersions'] != null
+          ? MediaAnalysisModelVersions.fromJson(
+              json['ModelVersions'] as Map<String, dynamic>)
+          : null,
+      s3Object: json['S3Object'] != null
+          ? S3Object.fromJson(json['S3Object'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final modelVersions = this.modelVersions;
+    final s3Object = this.s3Object;
+    return {
+      if (modelVersions != null) 'ModelVersions': modelVersions,
+      if (s3Object != null) 'S3Object': s3Object,
+    };
+  }
+}
+
+/// Summary that provides statistics on input manifest and errors identified in
+/// the input manifest.
+class MediaAnalysisManifestSummary {
+  final S3Object? s3Object;
+
+  MediaAnalysisManifestSummary({
+    this.s3Object,
+  });
+
+  factory MediaAnalysisManifestSummary.fromJson(Map<String, dynamic> json) {
+    return MediaAnalysisManifestSummary(
       s3Object: json['S3Object'] != null
           ? S3Object.fromJson(json['S3Object'] as Map<String, dynamic>)
           : null,
@@ -15827,329 +12405,69 @@ class Summary {
   }
 }
 
-/// Indicates whether or not the face is wearing sunglasses, and the confidence
-/// level in the determination.
-class Sunglasses {
-  /// Level of confidence in the determination.
-  final double? confidence;
+/// Object containing information about the model versions of selected features
+/// in a given job.
+class MediaAnalysisModelVersions {
+  /// The Moderation base model version.
+  final String? moderation;
 
-  /// Boolean value that indicates whether the face is wearing sunglasses or not.
-  final bool? value;
-
-  Sunglasses({
-    this.confidence,
-    this.value,
+  MediaAnalysisModelVersions({
+    this.moderation,
   });
 
-  factory Sunglasses.fromJson(Map<String, dynamic> json) {
-    return Sunglasses(
-      confidence: json['Confidence'] as double?,
-      value: json['Value'] as bool?,
+  factory MediaAnalysisModelVersions.fromJson(Map<String, dynamic> json) {
+    return MediaAnalysisModelVersions(
+      moderation: json['Moderation'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final confidence = this.confidence;
-    final value = this.value;
+    final moderation = this.moderation;
     return {
-      if (confidence != null) 'Confidence': confidence,
-      if (value != null) 'Value': value,
+      if (moderation != null) 'Moderation': moderation,
     };
   }
 }
 
-class TagResourceResponse {
-  TagResourceResponse();
-
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Information about a technical cue segment. For more information, see
-/// <a>SegmentDetection</a>.
-class TechnicalCueSegment {
-  /// The confidence that Amazon Rekognition Video has in the accuracy of the
-  /// detected segment.
-  final double? confidence;
-
-  /// The type of the technical cue.
-  final TechnicalCueType? type;
-
-  TechnicalCueSegment({
-    this.confidence,
-    this.type,
-  });
-
-  factory TechnicalCueSegment.fromJson(Map<String, dynamic> json) {
-    return TechnicalCueSegment(
-      confidence: json['Confidence'] as double?,
-      type: (json['Type'] as String?)?.let(TechnicalCueType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final confidence = this.confidence;
-    final type = this.type;
-    return {
-      if (confidence != null) 'Confidence': confidence,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class TechnicalCueType {
-  static const colorBars = TechnicalCueType._('ColorBars');
-  static const endCredits = TechnicalCueType._('EndCredits');
-  static const blackFrames = TechnicalCueType._('BlackFrames');
-  static const openingCredits = TechnicalCueType._('OpeningCredits');
-  static const studioLogo = TechnicalCueType._('StudioLogo');
-  static const slate = TechnicalCueType._('Slate');
-  static const content = TechnicalCueType._('Content');
+class MediaAnalysisJobFailureCode {
+  static const internalError = MediaAnalysisJobFailureCode._('INTERNAL_ERROR');
+  static const invalidS3Object =
+      MediaAnalysisJobFailureCode._('INVALID_S3_OBJECT');
+  static const invalidManifest =
+      MediaAnalysisJobFailureCode._('INVALID_MANIFEST');
+  static const invalidOutputConfig =
+      MediaAnalysisJobFailureCode._('INVALID_OUTPUT_CONFIG');
+  static const invalidKmsKey = MediaAnalysisJobFailureCode._('INVALID_KMS_KEY');
+  static const accessDenied = MediaAnalysisJobFailureCode._('ACCESS_DENIED');
+  static const resourceNotFound =
+      MediaAnalysisJobFailureCode._('RESOURCE_NOT_FOUND');
+  static const resourceNotReady =
+      MediaAnalysisJobFailureCode._('RESOURCE_NOT_READY');
+  static const throttled = MediaAnalysisJobFailureCode._('THROTTLED');
 
   final String value;
 
-  const TechnicalCueType._(this.value);
+  const MediaAnalysisJobFailureCode._(this.value);
 
   static const values = [
-    colorBars,
-    endCredits,
-    blackFrames,
-    openingCredits,
-    studioLogo,
-    slate,
-    content
+    internalError,
+    invalidS3Object,
+    invalidManifest,
+    invalidOutputConfig,
+    invalidKmsKey,
+    accessDenied,
+    resourceNotFound,
+    resourceNotReady,
+    throttled
   ];
 
-  static TechnicalCueType fromString(String value) =>
+  static MediaAnalysisJobFailureCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => TechnicalCueType._(value));
+          orElse: () => MediaAnalysisJobFailureCode._(value));
 
   @override
-  bool operator ==(other) => other is TechnicalCueType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The dataset used for testing. Optionally, if <code>AutoCreate</code> is set,
-/// Amazon Rekognition uses the training dataset to create a test dataset with a
-/// temporary split of the training dataset.
-class TestingData {
-  /// The assets used for testing.
-  final List<Asset>? assets;
-
-  /// If specified, Rekognition splits training dataset to create a test dataset
-  /// for the training job.
-  final bool? autoCreate;
-
-  TestingData({
-    this.assets,
-    this.autoCreate,
-  });
-
-  factory TestingData.fromJson(Map<String, dynamic> json) {
-    return TestingData(
-      assets: (json['Assets'] as List?)
-          ?.nonNulls
-          .map((e) => Asset.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      autoCreate: json['AutoCreate'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assets = this.assets;
-    final autoCreate = this.autoCreate;
-    return {
-      if (assets != null) 'Assets': assets,
-      if (autoCreate != null) 'AutoCreate': autoCreate,
-    };
-  }
-}
-
-/// Sagemaker Groundtruth format manifest files for the input, output and
-/// validation datasets that are used and created during testing.
-class TestingDataResult {
-  /// The testing dataset that was supplied for training.
-  final TestingData? input;
-
-  /// The subset of the dataset that was actually tested. Some images (assets)
-  /// might not be tested due to file formatting and other issues.
-  final TestingData? output;
-
-  /// The location of the data validation manifest. The data validation manifest
-  /// is created for the test dataset during model training.
-  final ValidationData? validation;
-
-  TestingDataResult({
-    this.input,
-    this.output,
-    this.validation,
-  });
-
-  factory TestingDataResult.fromJson(Map<String, dynamic> json) {
-    return TestingDataResult(
-      input: json['Input'] != null
-          ? TestingData.fromJson(json['Input'] as Map<String, dynamic>)
-          : null,
-      output: json['Output'] != null
-          ? TestingData.fromJson(json['Output'] as Map<String, dynamic>)
-          : null,
-      validation: json['Validation'] != null
-          ? ValidationData.fromJson(json['Validation'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final input = this.input;
-    final output = this.output;
-    final validation = this.validation;
-    return {
-      if (input != null) 'Input': input,
-      if (output != null) 'Output': output,
-      if (validation != null) 'Validation': validation,
-    };
-  }
-}
-
-/// Information about a word or line of text detected by <a>DetectText</a>.
-///
-/// The <code>DetectedText</code> field contains the text that Amazon
-/// Rekognition detected in the image.
-///
-/// Every word and line has an identifier (<code>Id</code>). Each word belongs
-/// to a line and has a parent identifier (<code>ParentId</code>) that
-/// identifies the line of text in which the word appears. The word
-/// <code>Id</code> is also an index for the word within a line of words.
-///
-/// For more information, see Detecting text in the Amazon Rekognition Developer
-/// Guide.
-class TextDetection {
-  /// The confidence that Amazon Rekognition has in the accuracy of the detected
-  /// text and the accuracy of the geometry points around the detected text.
-  final double? confidence;
-
-  /// The word or line of text recognized by Amazon Rekognition.
-  final String? detectedText;
-
-  /// The location of the detected text on the image. Includes an axis aligned
-  /// coarse bounding box surrounding the text and a finer grain polygon for more
-  /// accurate spatial information.
-  final Geometry? geometry;
-
-  /// The identifier for the detected text. The identifier is only unique for a
-  /// single call to <code>DetectText</code>.
-  final int? id;
-
-  /// The Parent identifier for the detected text identified by the value of
-  /// <code>ID</code>. If the type of detected text is <code>LINE</code>, the
-  /// value of <code>ParentId</code> is <code>Null</code>.
-  final int? parentId;
-
-  /// The type of text that was detected.
-  final TextTypes? type;
-
-  TextDetection({
-    this.confidence,
-    this.detectedText,
-    this.geometry,
-    this.id,
-    this.parentId,
-    this.type,
-  });
-
-  factory TextDetection.fromJson(Map<String, dynamic> json) {
-    return TextDetection(
-      confidence: json['Confidence'] as double?,
-      detectedText: json['DetectedText'] as String?,
-      geometry: json['Geometry'] != null
-          ? Geometry.fromJson(json['Geometry'] as Map<String, dynamic>)
-          : null,
-      id: json['Id'] as int?,
-      parentId: json['ParentId'] as int?,
-      type: (json['Type'] as String?)?.let(TextTypes.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final confidence = this.confidence;
-    final detectedText = this.detectedText;
-    final geometry = this.geometry;
-    final id = this.id;
-    final parentId = this.parentId;
-    final type = this.type;
-    return {
-      if (confidence != null) 'Confidence': confidence,
-      if (detectedText != null) 'DetectedText': detectedText,
-      if (geometry != null) 'Geometry': geometry,
-      if (id != null) 'Id': id,
-      if (parentId != null) 'ParentId': parentId,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-/// Information about text detected in a video. Incudes the detected text, the
-/// time in milliseconds from the start of the video that the text was detected,
-/// and where it was detected on the screen.
-class TextDetectionResult {
-  /// Details about text detected in a video.
-  final TextDetection? textDetection;
-
-  /// The time, in milliseconds from the start of the video, that the text was
-  /// detected. Note that <code>Timestamp</code> is not guaranteed to be accurate
-  /// to the individual frame where the text first appears.
-  final int? timestamp;
-
-  TextDetectionResult({
-    this.textDetection,
-    this.timestamp,
-  });
-
-  factory TextDetectionResult.fromJson(Map<String, dynamic> json) {
-    return TextDetectionResult(
-      textDetection: json['TextDetection'] != null
-          ? TextDetection.fromJson(
-              json['TextDetection'] as Map<String, dynamic>)
-          : null,
-      timestamp: json['Timestamp'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final textDetection = this.textDetection;
-    final timestamp = this.timestamp;
-    return {
-      if (textDetection != null) 'TextDetection': textDetection,
-      if (timestamp != null) 'Timestamp': timestamp,
-    };
-  }
-}
-
-class TextTypes {
-  static const line = TextTypes._('LINE');
-  static const word = TextTypes._('WORD');
-
-  final String value;
-
-  const TextTypes._(this.value);
-
-  static const values = [line, word];
-
-  static TextTypes fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => TextTypes._(value));
-
-  @override
-  bool operator ==(other) => other is TextTypes && other.value == value;
+  bool operator ==(other) =>
+      other is MediaAnalysisJobFailureCode && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -16158,75 +12476,67 @@ class TextTypes {
   String toString() => value;
 }
 
-/// The dataset used for training.
-class TrainingData {
-  /// A manifest file that contains references to the training images and
-  /// ground-truth annotations.
-  final List<Asset>? assets;
+/// Describes a dataset label. For more information, see
+/// <a>ListDatasetLabels</a>.
+class DatasetLabelDescription {
+  /// The name of the label.
+  final String? labelName;
 
-  TrainingData({
-    this.assets,
+  /// Statistics about the label.
+  final DatasetLabelStats? labelStats;
+
+  DatasetLabelDescription({
+    this.labelName,
+    this.labelStats,
   });
 
-  factory TrainingData.fromJson(Map<String, dynamic> json) {
-    return TrainingData(
-      assets: (json['Assets'] as List?)
-          ?.nonNulls
-          .map((e) => Asset.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  factory DatasetLabelDescription.fromJson(Map<String, dynamic> json) {
+    return DatasetLabelDescription(
+      labelName: json['LabelName'] as String?,
+      labelStats: json['LabelStats'] != null
+          ? DatasetLabelStats.fromJson(
+              json['LabelStats'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final assets = this.assets;
+    final labelName = this.labelName;
+    final labelStats = this.labelStats;
     return {
-      if (assets != null) 'Assets': assets,
+      if (labelName != null) 'LabelName': labelName,
+      if (labelStats != null) 'LabelStats': labelStats,
     };
   }
 }
 
-/// The data validation manifest created for the training dataset during model
-/// training.
-class TrainingDataResult {
-  /// The training data that you supplied.
-  final TrainingData? input;
+/// Statistics about a label used in a dataset. For more information, see
+/// <a>DatasetLabelDescription</a>.
+class DatasetLabelStats {
+  /// The total number of images that have the label assigned to a bounding box.
+  final int? boundingBoxCount;
 
-  /// Reference to images (assets) that were actually used during training with
-  /// trained model predictions.
-  final TrainingData? output;
+  /// The total number of images that use the label.
+  final int? entryCount;
 
-  /// A manifest that you supplied for training, with validation results for each
-  /// line.
-  final ValidationData? validation;
-
-  TrainingDataResult({
-    this.input,
-    this.output,
-    this.validation,
+  DatasetLabelStats({
+    this.boundingBoxCount,
+    this.entryCount,
   });
 
-  factory TrainingDataResult.fromJson(Map<String, dynamic> json) {
-    return TrainingDataResult(
-      input: json['Input'] != null
-          ? TrainingData.fromJson(json['Input'] as Map<String, dynamic>)
-          : null,
-      output: json['Output'] != null
-          ? TrainingData.fromJson(json['Output'] as Map<String, dynamic>)
-          : null,
-      validation: json['Validation'] != null
-          ? ValidationData.fromJson(json['Validation'] as Map<String, dynamic>)
-          : null,
+  factory DatasetLabelStats.fromJson(Map<String, dynamic> json) {
+    return DatasetLabelStats(
+      boundingBoxCount: json['BoundingBoxCount'] as int?,
+      entryCount: json['EntryCount'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final input = this.input;
-    final output = this.output;
-    final validation = this.validation;
+    final boundingBoxCount = this.boundingBoxCount;
+    final entryCount = this.entryCount;
     return {
-      if (input != null) 'Input': input,
-      if (output != null) 'Output': output,
-      if (validation != null) 'Validation': validation,
+      if (boundingBoxCount != null) 'BoundingBoxCount': boundingBoxCount,
+      if (entryCount != null) 'EntryCount': entryCount,
     };
   }
 }
@@ -16293,57 +12603,20 @@ class UnindexedFace {
   }
 }
 
-/// Face details inferred from the image but not used for search. The response
-/// attribute contains reasons for why a face wasn't used for Search.
-class UnsearchedFace {
-  final FaceDetail? faceDetails;
-
-  /// Reasons why a face wasn't used for Search.
-  final List<UnsearchedFaceReason>? reasons;
-
-  UnsearchedFace({
-    this.faceDetails,
-    this.reasons,
-  });
-
-  factory UnsearchedFace.fromJson(Map<String, dynamic> json) {
-    return UnsearchedFace(
-      faceDetails: json['FaceDetails'] != null
-          ? FaceDetail.fromJson(json['FaceDetails'] as Map<String, dynamic>)
-          : null,
-      reasons: (json['Reasons'] as List?)
-          ?.nonNulls
-          .map((e) => UnsearchedFaceReason.fromString((e as String)))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final faceDetails = this.faceDetails;
-    final reasons = this.reasons;
-    return {
-      if (faceDetails != null) 'FaceDetails': faceDetails,
-      if (reasons != null) 'Reasons': reasons.map((e) => e.value).toList(),
-    };
-  }
-}
-
-class UnsearchedFaceReason {
-  static const faceNotLargest = UnsearchedFaceReason._('FACE_NOT_LARGEST');
-  static const exceedsMaxFaces = UnsearchedFaceReason._('EXCEEDS_MAX_FACES');
-  static const extremePose = UnsearchedFaceReason._('EXTREME_POSE');
-  static const lowBrightness = UnsearchedFaceReason._('LOW_BRIGHTNESS');
-  static const lowSharpness = UnsearchedFaceReason._('LOW_SHARPNESS');
-  static const lowConfidence = UnsearchedFaceReason._('LOW_CONFIDENCE');
-  static const smallBoundingBox = UnsearchedFaceReason._('SMALL_BOUNDING_BOX');
-  static const lowFaceQuality = UnsearchedFaceReason._('LOW_FACE_QUALITY');
+class Reason {
+  static const exceedsMaxFaces = Reason._('EXCEEDS_MAX_FACES');
+  static const extremePose = Reason._('EXTREME_POSE');
+  static const lowBrightness = Reason._('LOW_BRIGHTNESS');
+  static const lowSharpness = Reason._('LOW_SHARPNESS');
+  static const lowConfidence = Reason._('LOW_CONFIDENCE');
+  static const smallBoundingBox = Reason._('SMALL_BOUNDING_BOX');
+  static const lowFaceQuality = Reason._('LOW_FACE_QUALITY');
 
   final String value;
 
-  const UnsearchedFaceReason._(this.value);
+  const Reason._(this.value);
 
   static const values = [
-    faceNotLargest,
     exceedsMaxFaces,
     extremePose,
     lowBrightness,
@@ -16353,13 +12626,11 @@ class UnsearchedFaceReason {
     lowFaceQuality
   ];
 
-  static UnsearchedFaceReason fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => UnsearchedFaceReason._(value));
+  static Reason fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Reason._(value));
 
   @override
-  bool operator ==(other) =>
-      other is UnsearchedFaceReason && other.value == value;
+  bool operator ==(other) => other is Reason && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -16368,434 +12639,84 @@ class UnsearchedFaceReason {
   String toString() => value;
 }
 
-/// Contains metadata like FaceId, UserID, and Reasons, for a face that was
-/// unsuccessfully associated.
-class UnsuccessfulFaceAssociation {
-  /// Match confidence with the UserID, provides information regarding if a face
-  /// association was unsuccessful because it didn't meet UserMatchThreshold.
-  final double? confidence;
+/// Object containing both the face metadata (stored in the backend database),
+/// and facial attributes that are detected but aren't stored in the database.
+class FaceRecord {
+  /// Describes the face properties such as the bounding box, face ID, image ID of
+  /// the input image, and external image ID that you assigned.
+  final Face? face;
 
-  /// A unique identifier assigned to the face.
-  final String? faceId;
+  /// Structure containing attributes of the face that the algorithm detected.
+  final FaceDetail? faceDetail;
 
-  /// The reason why the association was unsuccessful.
-  final List<UnsuccessfulFaceAssociationReason>? reasons;
-
-  /// A provided ID for the UserID. Unique within the collection.
-  final String? userId;
-
-  UnsuccessfulFaceAssociation({
-    this.confidence,
-    this.faceId,
-    this.reasons,
-    this.userId,
+  FaceRecord({
+    this.face,
+    this.faceDetail,
   });
 
-  factory UnsuccessfulFaceAssociation.fromJson(Map<String, dynamic> json) {
-    return UnsuccessfulFaceAssociation(
-      confidence: json['Confidence'] as double?,
-      faceId: json['FaceId'] as String?,
-      reasons: (json['Reasons'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              UnsuccessfulFaceAssociationReason.fromString((e as String)))
-          .toList(),
-      userId: json['UserId'] as String?,
+  factory FaceRecord.fromJson(Map<String, dynamic> json) {
+    return FaceRecord(
+      face: json['Face'] != null
+          ? Face.fromJson(json['Face'] as Map<String, dynamic>)
+          : null,
+      faceDetail: json['FaceDetail'] != null
+          ? FaceDetail.fromJson(json['FaceDetail'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final confidence = this.confidence;
-    final faceId = this.faceId;
-    final reasons = this.reasons;
-    final userId = this.userId;
+    final face = this.face;
+    final faceDetail = this.faceDetail;
     return {
-      if (confidence != null) 'Confidence': confidence,
-      if (faceId != null) 'FaceId': faceId,
-      if (reasons != null) 'Reasons': reasons.map((e) => e.value).toList(),
-      if (userId != null) 'UserId': userId,
+      if (face != null) 'Face': face,
+      if (faceDetail != null) 'FaceDetail': faceDetail,
     };
   }
 }
 
-class UnsuccessfulFaceAssociationReason {
-  static const faceNotFound =
-      UnsuccessfulFaceAssociationReason._('FACE_NOT_FOUND');
-  static const associatedToADifferentUser =
-      UnsuccessfulFaceAssociationReason._('ASSOCIATED_TO_A_DIFFERENT_USER');
-  static const lowMatchConfidence =
-      UnsuccessfulFaceAssociationReason._('LOW_MATCH_CONFIDENCE');
+class Attribute {
+  static const $default = Attribute._('DEFAULT');
+  static const all = Attribute._('ALL');
+  static const ageRange = Attribute._('AGE_RANGE');
+  static const beard = Attribute._('BEARD');
+  static const emotions = Attribute._('EMOTIONS');
+  static const eyeDirection = Attribute._('EYE_DIRECTION');
+  static const eyeglasses = Attribute._('EYEGLASSES');
+  static const eyesOpen = Attribute._('EYES_OPEN');
+  static const gender = Attribute._('GENDER');
+  static const mouthOpen = Attribute._('MOUTH_OPEN');
+  static const mustache = Attribute._('MUSTACHE');
+  static const faceOccluded = Attribute._('FACE_OCCLUDED');
+  static const smile = Attribute._('SMILE');
+  static const sunglasses = Attribute._('SUNGLASSES');
 
   final String value;
 
-  const UnsuccessfulFaceAssociationReason._(this.value);
+  const Attribute._(this.value);
 
   static const values = [
-    faceNotFound,
-    associatedToADifferentUser,
-    lowMatchConfidence
+    $default,
+    all,
+    ageRange,
+    beard,
+    emotions,
+    eyeDirection,
+    eyeglasses,
+    eyesOpen,
+    gender,
+    mouthOpen,
+    mustache,
+    faceOccluded,
+    smile,
+    sunglasses
   ];
 
-  static UnsuccessfulFaceAssociationReason fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => UnsuccessfulFaceAssociationReason._(value));
+  static Attribute fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Attribute._(value));
 
   @override
-  bool operator ==(other) =>
-      other is UnsuccessfulFaceAssociationReason && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains metadata like FaceId, UserID, and Reasons, for a face that was
-/// unsuccessfully deleted.
-class UnsuccessfulFaceDeletion {
-  /// A unique identifier assigned to the face.
-  final String? faceId;
-
-  /// The reason why the deletion was unsuccessful.
-  final List<UnsuccessfulFaceDeletionReason>? reasons;
-
-  /// A provided ID for the UserID. Unique within the collection.
-  final String? userId;
-
-  UnsuccessfulFaceDeletion({
-    this.faceId,
-    this.reasons,
-    this.userId,
-  });
-
-  factory UnsuccessfulFaceDeletion.fromJson(Map<String, dynamic> json) {
-    return UnsuccessfulFaceDeletion(
-      faceId: json['FaceId'] as String?,
-      reasons: (json['Reasons'] as List?)
-          ?.nonNulls
-          .map((e) => UnsuccessfulFaceDeletionReason.fromString((e as String)))
-          .toList(),
-      userId: json['UserId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final faceId = this.faceId;
-    final reasons = this.reasons;
-    final userId = this.userId;
-    return {
-      if (faceId != null) 'FaceId': faceId,
-      if (reasons != null) 'Reasons': reasons.map((e) => e.value).toList(),
-      if (userId != null) 'UserId': userId,
-    };
-  }
-}
-
-class UnsuccessfulFaceDeletionReason {
-  static const associatedToAnExistingUser =
-      UnsuccessfulFaceDeletionReason._('ASSOCIATED_TO_AN_EXISTING_USER');
-  static const faceNotFound =
-      UnsuccessfulFaceDeletionReason._('FACE_NOT_FOUND');
-
-  final String value;
-
-  const UnsuccessfulFaceDeletionReason._(this.value);
-
-  static const values = [associatedToAnExistingUser, faceNotFound];
-
-  static UnsuccessfulFaceDeletionReason fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => UnsuccessfulFaceDeletionReason._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is UnsuccessfulFaceDeletionReason && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains metadata like FaceId, UserID, and Reasons, for a face that was
-/// unsuccessfully disassociated.
-class UnsuccessfulFaceDisassociation {
-  /// A unique identifier assigned to the face.
-  final String? faceId;
-
-  /// The reason why the deletion was unsuccessful.
-  final List<UnsuccessfulFaceDisassociationReason>? reasons;
-
-  /// A provided ID for the UserID. Unique within the collection.
-  final String? userId;
-
-  UnsuccessfulFaceDisassociation({
-    this.faceId,
-    this.reasons,
-    this.userId,
-  });
-
-  factory UnsuccessfulFaceDisassociation.fromJson(Map<String, dynamic> json) {
-    return UnsuccessfulFaceDisassociation(
-      faceId: json['FaceId'] as String?,
-      reasons: (json['Reasons'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              UnsuccessfulFaceDisassociationReason.fromString((e as String)))
-          .toList(),
-      userId: json['UserId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final faceId = this.faceId;
-    final reasons = this.reasons;
-    final userId = this.userId;
-    return {
-      if (faceId != null) 'FaceId': faceId,
-      if (reasons != null) 'Reasons': reasons.map((e) => e.value).toList(),
-      if (userId != null) 'UserId': userId,
-    };
-  }
-}
-
-class UnsuccessfulFaceDisassociationReason {
-  static const faceNotFound =
-      UnsuccessfulFaceDisassociationReason._('FACE_NOT_FOUND');
-  static const associatedToADifferentUser =
-      UnsuccessfulFaceDisassociationReason._('ASSOCIATED_TO_A_DIFFERENT_USER');
-
-  final String value;
-
-  const UnsuccessfulFaceDisassociationReason._(this.value);
-
-  static const values = [faceNotFound, associatedToADifferentUser];
-
-  static UnsuccessfulFaceDisassociationReason fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => UnsuccessfulFaceDisassociationReason._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is UnsuccessfulFaceDisassociationReason && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class UntagResourceResponse {
-  UntagResourceResponse();
-
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateDatasetEntriesResponse {
-  UpdateDatasetEntriesResponse();
-
-  factory UpdateDatasetEntriesResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateDatasetEntriesResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateStreamProcessorResponse {
-  UpdateStreamProcessorResponse();
-
-  factory UpdateStreamProcessorResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateStreamProcessorResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Metadata of the user stored in a collection.
-class User {
-  /// A provided ID for the User. Unique within the collection.
-  final String? userId;
-
-  /// Communicates if the UserID has been updated with latest set of faces to be
-  /// associated with the UserID.
-  final UserStatus? userStatus;
-
-  User({
-    this.userId,
-    this.userStatus,
-  });
-
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      userId: json['UserId'] as String?,
-      userStatus: (json['UserStatus'] as String?)?.let(UserStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final userId = this.userId;
-    final userStatus = this.userStatus;
-    return {
-      if (userId != null) 'UserId': userId,
-      if (userStatus != null) 'UserStatus': userStatus.value,
-    };
-  }
-}
-
-/// Provides UserID metadata along with the confidence in the match of this
-/// UserID with the input face.
-class UserMatch {
-  /// Describes the UserID metadata.
-  final double? similarity;
-
-  /// Confidence in the match of this UserID with the input face.
-  final MatchedUser? user;
-
-  UserMatch({
-    this.similarity,
-    this.user,
-  });
-
-  factory UserMatch.fromJson(Map<String, dynamic> json) {
-    return UserMatch(
-      similarity: json['Similarity'] as double?,
-      user: json['User'] != null
-          ? MatchedUser.fromJson(json['User'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final similarity = this.similarity;
-    final user = this.user;
-    return {
-      if (similarity != null) 'Similarity': similarity,
-      if (user != null) 'User': user,
-    };
-  }
-}
-
-class UserStatus {
-  static const active = UserStatus._('ACTIVE');
-  static const updating = UserStatus._('UPDATING');
-  static const creating = UserStatus._('CREATING');
-  static const created = UserStatus._('CREATED');
-
-  final String value;
-
-  const UserStatus._(this.value);
-
-  static const values = [active, updating, creating, created];
-
-  static UserStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => UserStatus._(value));
-
-  @override
-  bool operator ==(other) => other is UserStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains the Amazon S3 bucket location of the validation data for a model
-/// training job.
-///
-/// The validation data includes error information for individual JSON Lines in
-/// the dataset. For more information, see <i>Debugging a Failed Model
-/// Training</i> in the Amazon Rekognition Custom Labels Developer Guide.
-///
-/// You get the <code>ValidationData</code> object for the training dataset
-/// (<a>TrainingDataResult</a>) and the test dataset (<a>TestingDataResult</a>)
-/// by calling <a>DescribeProjectVersions</a>.
-///
-/// The assets array contains a single <a>Asset</a> object. The
-/// <a>GroundTruthManifest</a> field of the Asset object contains the S3 bucket
-/// location of the validation data.
-class ValidationData {
-  /// The assets that comprise the validation data.
-  final List<Asset>? assets;
-
-  ValidationData({
-    this.assets,
-  });
-
-  factory ValidationData.fromJson(Map<String, dynamic> json) {
-    return ValidationData(
-      assets: (json['Assets'] as List?)
-          ?.nonNulls
-          .map((e) => Asset.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assets = this.assets;
-    return {
-      if (assets != null) 'Assets': assets,
-    };
-  }
-}
-
-/// Video file stored in an Amazon S3 bucket. Amazon Rekognition video start
-/// operations such as <a>StartLabelDetection</a> use <code>Video</code> to
-/// specify a video for analysis. The supported file formats are .mp4, .mov and
-/// .avi.
-class Video {
-  /// The Amazon S3 bucket name and file name for the video.
-  final S3Object? s3Object;
-
-  Video({
-    this.s3Object,
-  });
-
-  factory Video.fromJson(Map<String, dynamic> json) {
-    return Video(
-      s3Object: json['S3Object'] != null
-          ? S3Object.fromJson(json['S3Object'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final s3Object = this.s3Object;
-    return {
-      if (s3Object != null) 'S3Object': s3Object,
-    };
-  }
-}
-
-class VideoColorRange {
-  static const full = VideoColorRange._('FULL');
-  static const limited = VideoColorRange._('LIMITED');
-
-  final String value;
-
-  const VideoColorRange._(this.value);
-
-  static const values = [full, limited];
-
-  static VideoColorRange fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => VideoColorRange._(value));
-
-  @override
-  bool operator ==(other) => other is VideoColorRange && other.value == value;
+  bool operator ==(other) => other is Attribute && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -16894,6 +12815,4231 @@ class VideoMetadata {
       if (frameHeight != null) 'FrameHeight': frameHeight,
       if (frameRate != null) 'FrameRate': frameRate,
       if (frameWidth != null) 'FrameWidth': frameWidth,
+    };
+  }
+}
+
+/// Information about text detected in a video. Incudes the detected text, the
+/// time in milliseconds from the start of the video that the text was detected,
+/// and where it was detected on the screen.
+class TextDetectionResult {
+  /// Details about text detected in a video.
+  final TextDetection? textDetection;
+
+  /// The time, in milliseconds from the start of the video, that the text was
+  /// detected. Note that <code>Timestamp</code> is not guaranteed to be accurate
+  /// to the individual frame where the text first appears.
+  final int? timestamp;
+
+  TextDetectionResult({
+    this.textDetection,
+    this.timestamp,
+  });
+
+  factory TextDetectionResult.fromJson(Map<String, dynamic> json) {
+    return TextDetectionResult(
+      textDetection: json['TextDetection'] != null
+          ? TextDetection.fromJson(
+              json['TextDetection'] as Map<String, dynamic>)
+          : null,
+      timestamp: json['Timestamp'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final textDetection = this.textDetection;
+    final timestamp = this.timestamp;
+    return {
+      if (textDetection != null) 'TextDetection': textDetection,
+      if (timestamp != null) 'Timestamp': timestamp,
+    };
+  }
+}
+
+/// Information about a word or line of text detected by <a>DetectText</a>.
+///
+/// The <code>DetectedText</code> field contains the text that Amazon
+/// Rekognition detected in the image.
+///
+/// Every word and line has an identifier (<code>Id</code>). Each word belongs
+/// to a line and has a parent identifier (<code>ParentId</code>) that
+/// identifies the line of text in which the word appears. The word
+/// <code>Id</code> is also an index for the word within a line of words.
+///
+/// For more information, see Detecting text in the Amazon Rekognition Developer
+/// Guide.
+class TextDetection {
+  /// The confidence that Amazon Rekognition has in the accuracy of the detected
+  /// text and the accuracy of the geometry points around the detected text.
+  final double? confidence;
+
+  /// The word or line of text recognized by Amazon Rekognition.
+  final String? detectedText;
+
+  /// The location of the detected text on the image. Includes an axis aligned
+  /// coarse bounding box surrounding the text and a finer grain polygon for more
+  /// accurate spatial information.
+  final Geometry? geometry;
+
+  /// The identifier for the detected text. The identifier is only unique for a
+  /// single call to <code>DetectText</code>.
+  final int? id;
+
+  /// The Parent identifier for the detected text identified by the value of
+  /// <code>ID</code>. If the type of detected text is <code>LINE</code>, the
+  /// value of <code>ParentId</code> is <code>Null</code>.
+  final int? parentId;
+
+  /// The type of text that was detected.
+  final TextTypes? type;
+
+  TextDetection({
+    this.confidence,
+    this.detectedText,
+    this.geometry,
+    this.id,
+    this.parentId,
+    this.type,
+  });
+
+  factory TextDetection.fromJson(Map<String, dynamic> json) {
+    return TextDetection(
+      confidence: json['Confidence'] as double?,
+      detectedText: json['DetectedText'] as String?,
+      geometry: json['Geometry'] != null
+          ? Geometry.fromJson(json['Geometry'] as Map<String, dynamic>)
+          : null,
+      id: json['Id'] as int?,
+      parentId: json['ParentId'] as int?,
+      type: (json['Type'] as String?)?.let(TextTypes.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final confidence = this.confidence;
+    final detectedText = this.detectedText;
+    final geometry = this.geometry;
+    final id = this.id;
+    final parentId = this.parentId;
+    final type = this.type;
+    return {
+      if (confidence != null) 'Confidence': confidence,
+      if (detectedText != null) 'DetectedText': detectedText,
+      if (geometry != null) 'Geometry': geometry,
+      if (id != null) 'Id': id,
+      if (parentId != null) 'ParentId': parentId,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class TextTypes {
+  static const line = TextTypes._('LINE');
+  static const word = TextTypes._('WORD');
+
+  final String value;
+
+  const TextTypes._(this.value);
+
+  static const values = [line, word];
+
+  static TextTypes fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TextTypes._(value));
+
+  @override
+  bool operator ==(other) => other is TextTypes && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about where an object (<a>DetectCustomLabels</a>) or text
+/// (<a>DetectText</a>) is located on an image.
+class Geometry {
+  /// An axis-aligned coarse representation of the detected item's location on the
+  /// image.
+  final BoundingBox? boundingBox;
+
+  /// Within the bounding box, a fine-grained polygon around the detected item.
+  final List<Point>? polygon;
+
+  Geometry({
+    this.boundingBox,
+    this.polygon,
+  });
+
+  factory Geometry.fromJson(Map<String, dynamic> json) {
+    return Geometry(
+      boundingBox: json['BoundingBox'] != null
+          ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
+          : null,
+      polygon: (json['Polygon'] as List?)
+          ?.nonNulls
+          .map((e) => Point.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final boundingBox = this.boundingBox;
+    final polygon = this.polygon;
+    return {
+      if (boundingBox != null) 'BoundingBox': boundingBox,
+      if (polygon != null) 'Polygon': polygon,
+    };
+  }
+}
+
+class VideoColorRange {
+  static const full = VideoColorRange._('FULL');
+  static const limited = VideoColorRange._('LIMITED');
+
+  final String value;
+
+  const VideoColorRange._(this.value);
+
+  static const values = [full, limited];
+
+  static VideoColorRange fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VideoColorRange._(value));
+
+  @override
+  bool operator ==(other) => other is VideoColorRange && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about the type of a segment requested in a call to
+/// <a>StartSegmentDetection</a>. An array of <code>SegmentTypeInfo</code>
+/// objects is returned by the response from <a>GetSegmentDetection</a>.
+class SegmentTypeInfo {
+  /// The version of the model used to detect segments.
+  final String? modelVersion;
+
+  /// The type of a segment (technical cue or shot detection).
+  final SegmentType? type;
+
+  SegmentTypeInfo({
+    this.modelVersion,
+    this.type,
+  });
+
+  factory SegmentTypeInfo.fromJson(Map<String, dynamic> json) {
+    return SegmentTypeInfo(
+      modelVersion: json['ModelVersion'] as String?,
+      type: (json['Type'] as String?)?.let(SegmentType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final modelVersion = this.modelVersion;
+    final type = this.type;
+    return {
+      if (modelVersion != null) 'ModelVersion': modelVersion,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+/// A technical cue or shot detection segment detected in a video. An array of
+/// <code>SegmentDetection</code> objects containing all segments detected in a
+/// stored video is returned by <a>GetSegmentDetection</a>.
+class SegmentDetection {
+  /// The duration of a video segment, expressed in frames.
+  final int? durationFrames;
+
+  /// The duration of the detected segment in milliseconds.
+  final int? durationMillis;
+
+  /// The duration of the timecode for the detected segment in SMPTE format.
+  final String? durationSMPTE;
+
+  /// The frame number at the end of a video segment, using a frame index that
+  /// starts with 0.
+  final int? endFrameNumber;
+
+  /// The frame-accurate SMPTE timecode, from the start of a video, for the end of
+  /// a detected segment. <code>EndTimecode</code> is in <i>HH:MM:SS:fr</i> format
+  /// (and <i>;fr</i> for drop frame-rates).
+  final String? endTimecodeSMPTE;
+
+  /// The end time of the detected segment, in milliseconds, from the start of the
+  /// video. This value is rounded down.
+  final int? endTimestampMillis;
+
+  /// If the segment is a shot detection, contains information about the shot
+  /// detection.
+  final ShotSegment? shotSegment;
+
+  /// The frame number of the start of a video segment, using a frame index that
+  /// starts with 0.
+  final int? startFrameNumber;
+
+  /// The frame-accurate SMPTE timecode, from the start of a video, for the start
+  /// of a detected segment. <code>StartTimecode</code> is in <i>HH:MM:SS:fr</i>
+  /// format (and <i>;fr</i> for drop frame-rates).
+  final String? startTimecodeSMPTE;
+
+  /// The start time of the detected segment in milliseconds from the start of the
+  /// video. This value is rounded down. For example, if the actual timestamp is
+  /// 100.6667 milliseconds, Amazon Rekognition Video returns a value of 100
+  /// millis.
+  final int? startTimestampMillis;
+
+  /// If the segment is a technical cue, contains information about the technical
+  /// cue.
+  final TechnicalCueSegment? technicalCueSegment;
+
+  /// The type of the segment. Valid values are <code>TECHNICAL_CUE</code> and
+  /// <code>SHOT</code>.
+  final SegmentType? type;
+
+  SegmentDetection({
+    this.durationFrames,
+    this.durationMillis,
+    this.durationSMPTE,
+    this.endFrameNumber,
+    this.endTimecodeSMPTE,
+    this.endTimestampMillis,
+    this.shotSegment,
+    this.startFrameNumber,
+    this.startTimecodeSMPTE,
+    this.startTimestampMillis,
+    this.technicalCueSegment,
+    this.type,
+  });
+
+  factory SegmentDetection.fromJson(Map<String, dynamic> json) {
+    return SegmentDetection(
+      durationFrames: json['DurationFrames'] as int?,
+      durationMillis: json['DurationMillis'] as int?,
+      durationSMPTE: json['DurationSMPTE'] as String?,
+      endFrameNumber: json['EndFrameNumber'] as int?,
+      endTimecodeSMPTE: json['EndTimecodeSMPTE'] as String?,
+      endTimestampMillis: json['EndTimestampMillis'] as int?,
+      shotSegment: json['ShotSegment'] != null
+          ? ShotSegment.fromJson(json['ShotSegment'] as Map<String, dynamic>)
+          : null,
+      startFrameNumber: json['StartFrameNumber'] as int?,
+      startTimecodeSMPTE: json['StartTimecodeSMPTE'] as String?,
+      startTimestampMillis: json['StartTimestampMillis'] as int?,
+      technicalCueSegment: json['TechnicalCueSegment'] != null
+          ? TechnicalCueSegment.fromJson(
+              json['TechnicalCueSegment'] as Map<String, dynamic>)
+          : null,
+      type: (json['Type'] as String?)?.let(SegmentType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final durationFrames = this.durationFrames;
+    final durationMillis = this.durationMillis;
+    final durationSMPTE = this.durationSMPTE;
+    final endFrameNumber = this.endFrameNumber;
+    final endTimecodeSMPTE = this.endTimecodeSMPTE;
+    final endTimestampMillis = this.endTimestampMillis;
+    final shotSegment = this.shotSegment;
+    final startFrameNumber = this.startFrameNumber;
+    final startTimecodeSMPTE = this.startTimecodeSMPTE;
+    final startTimestampMillis = this.startTimestampMillis;
+    final technicalCueSegment = this.technicalCueSegment;
+    final type = this.type;
+    return {
+      if (durationFrames != null) 'DurationFrames': durationFrames,
+      if (durationMillis != null) 'DurationMillis': durationMillis,
+      if (durationSMPTE != null) 'DurationSMPTE': durationSMPTE,
+      if (endFrameNumber != null) 'EndFrameNumber': endFrameNumber,
+      if (endTimecodeSMPTE != null) 'EndTimecodeSMPTE': endTimecodeSMPTE,
+      if (endTimestampMillis != null) 'EndTimestampMillis': endTimestampMillis,
+      if (shotSegment != null) 'ShotSegment': shotSegment,
+      if (startFrameNumber != null) 'StartFrameNumber': startFrameNumber,
+      if (startTimecodeSMPTE != null) 'StartTimecodeSMPTE': startTimecodeSMPTE,
+      if (startTimestampMillis != null)
+        'StartTimestampMillis': startTimestampMillis,
+      if (technicalCueSegment != null)
+        'TechnicalCueSegment': technicalCueSegment,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+/// Information about a technical cue segment. For more information, see
+/// <a>SegmentDetection</a>.
+class TechnicalCueSegment {
+  /// The confidence that Amazon Rekognition Video has in the accuracy of the
+  /// detected segment.
+  final double? confidence;
+
+  /// The type of the technical cue.
+  final TechnicalCueType? type;
+
+  TechnicalCueSegment({
+    this.confidence,
+    this.type,
+  });
+
+  factory TechnicalCueSegment.fromJson(Map<String, dynamic> json) {
+    return TechnicalCueSegment(
+      confidence: json['Confidence'] as double?,
+      type: (json['Type'] as String?)?.let(TechnicalCueType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final confidence = this.confidence;
+    final type = this.type;
+    return {
+      if (confidence != null) 'Confidence': confidence,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+/// Information about a shot detection segment detected in a video. For more
+/// information, see <a>SegmentDetection</a>.
+class ShotSegment {
+  /// The confidence that Amazon Rekognition Video has in the accuracy of the
+  /// detected segment.
+  final double? confidence;
+
+  /// An Identifier for a shot detection segment detected in a video.
+  final int? index;
+
+  ShotSegment({
+    this.confidence,
+    this.index,
+  });
+
+  factory ShotSegment.fromJson(Map<String, dynamic> json) {
+    return ShotSegment(
+      confidence: json['Confidence'] as double?,
+      index: json['Index'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final confidence = this.confidence;
+    final index = this.index;
+    return {
+      if (confidence != null) 'Confidence': confidence,
+      if (index != null) 'Index': index,
+    };
+  }
+}
+
+class TechnicalCueType {
+  static const colorBars = TechnicalCueType._('ColorBars');
+  static const endCredits = TechnicalCueType._('EndCredits');
+  static const blackFrames = TechnicalCueType._('BlackFrames');
+  static const openingCredits = TechnicalCueType._('OpeningCredits');
+  static const studioLogo = TechnicalCueType._('StudioLogo');
+  static const slate = TechnicalCueType._('Slate');
+  static const content = TechnicalCueType._('Content');
+
+  final String value;
+
+  const TechnicalCueType._(this.value);
+
+  static const values = [
+    colorBars,
+    endCredits,
+    blackFrames,
+    openingCredits,
+    studioLogo,
+    slate,
+    content
+  ];
+
+  static TechnicalCueType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TechnicalCueType._(value));
+
+  @override
+  bool operator ==(other) => other is TechnicalCueType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Metadata information about an audio stream. An array of
+/// <code>AudioMetadata</code> objects for the audio streams found in a stored
+/// video is returned by <a>GetSegmentDetection</a>.
+class AudioMetadata {
+  /// The audio codec used to encode or decode the audio stream.
+  final String? codec;
+
+  /// The duration of the audio stream in milliseconds.
+  final int? durationMillis;
+
+  /// The number of audio channels in the segment.
+  final int? numberOfChannels;
+
+  /// The sample rate for the audio stream.
+  final int? sampleRate;
+
+  AudioMetadata({
+    this.codec,
+    this.durationMillis,
+    this.numberOfChannels,
+    this.sampleRate,
+  });
+
+  factory AudioMetadata.fromJson(Map<String, dynamic> json) {
+    return AudioMetadata(
+      codec: json['Codec'] as String?,
+      durationMillis: json['DurationMillis'] as int?,
+      numberOfChannels: json['NumberOfChannels'] as int?,
+      sampleRate: json['SampleRate'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final codec = this.codec;
+    final durationMillis = this.durationMillis;
+    final numberOfChannels = this.numberOfChannels;
+    final sampleRate = this.sampleRate;
+    return {
+      if (codec != null) 'Codec': codec,
+      if (durationMillis != null) 'DurationMillis': durationMillis,
+      if (numberOfChannels != null) 'NumberOfChannels': numberOfChannels,
+      if (sampleRate != null) 'SampleRate': sampleRate,
+    };
+  }
+}
+
+/// Details and path tracking information for a single time a person's path is
+/// tracked in a video. Amazon Rekognition operations that track people's paths
+/// return an array of <code>PersonDetection</code> objects with elements for
+/// each time a person's path is tracked in a video.
+///
+/// For more information, see GetPersonTracking in the Amazon Rekognition
+/// Developer Guide.
+class PersonDetection {
+  /// Details about a person whose path was tracked in a video.
+  final PersonDetail? person;
+
+  /// The time, in milliseconds from the start of the video, that the person's
+  /// path was tracked. Note that <code>Timestamp</code> is not guaranteed to be
+  /// accurate to the individual frame where the person's path first appears.
+  final int? timestamp;
+
+  PersonDetection({
+    this.person,
+    this.timestamp,
+  });
+
+  factory PersonDetection.fromJson(Map<String, dynamic> json) {
+    return PersonDetection(
+      person: json['Person'] != null
+          ? PersonDetail.fromJson(json['Person'] as Map<String, dynamic>)
+          : null,
+      timestamp: json['Timestamp'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final person = this.person;
+    final timestamp = this.timestamp;
+    return {
+      if (person != null) 'Person': person,
+      if (timestamp != null) 'Timestamp': timestamp,
+    };
+  }
+}
+
+/// Details about a person detected in a video analysis request.
+class PersonDetail {
+  /// Bounding box around the detected person.
+  final BoundingBox? boundingBox;
+
+  /// Face details for the detected person.
+  final FaceDetail? face;
+
+  /// Identifier for the person detected person within a video. Use to keep track
+  /// of the person throughout the video. The identifier is not stored by Amazon
+  /// Rekognition.
+  final int? index;
+
+  PersonDetail({
+    this.boundingBox,
+    this.face,
+    this.index,
+  });
+
+  factory PersonDetail.fromJson(Map<String, dynamic> json) {
+    return PersonDetail(
+      boundingBox: json['BoundingBox'] != null
+          ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
+          : null,
+      face: json['Face'] != null
+          ? FaceDetail.fromJson(json['Face'] as Map<String, dynamic>)
+          : null,
+      index: json['Index'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final boundingBox = this.boundingBox;
+    final face = this.face;
+    final index = this.index;
+    return {
+      if (boundingBox != null) 'BoundingBox': boundingBox,
+      if (face != null) 'Face': face,
+      if (index != null) 'Index': index,
+    };
+  }
+}
+
+class PersonTrackingSortBy {
+  static const $index = PersonTrackingSortBy._('INDEX');
+  static const timestamp = PersonTrackingSortBy._('TIMESTAMP');
+
+  final String value;
+
+  const PersonTrackingSortBy._(this.value);
+
+  static const values = [$index, timestamp];
+
+  static PersonTrackingSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PersonTrackingSortBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PersonTrackingSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains metadata about a label detection request, including the SortBy and
+/// AggregateBy options.
+class GetLabelDetectionRequestMetadata {
+  /// The aggregation method chosen for a GetLabelDetection request.
+  final LabelDetectionAggregateBy? aggregateBy;
+
+  /// The sorting method chosen for a GetLabelDetection request.
+  final LabelDetectionSortBy? sortBy;
+
+  GetLabelDetectionRequestMetadata({
+    this.aggregateBy,
+    this.sortBy,
+  });
+
+  factory GetLabelDetectionRequestMetadata.fromJson(Map<String, dynamic> json) {
+    return GetLabelDetectionRequestMetadata(
+      aggregateBy: (json['AggregateBy'] as String?)
+          ?.let(LabelDetectionAggregateBy.fromString),
+      sortBy: (json['SortBy'] as String?)?.let(LabelDetectionSortBy.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aggregateBy = this.aggregateBy;
+    final sortBy = this.sortBy;
+    return {
+      if (aggregateBy != null) 'AggregateBy': aggregateBy.value,
+      if (sortBy != null) 'SortBy': sortBy.value,
+    };
+  }
+}
+
+class LabelDetectionSortBy {
+  static const name = LabelDetectionSortBy._('NAME');
+  static const timestamp = LabelDetectionSortBy._('TIMESTAMP');
+
+  final String value;
+
+  const LabelDetectionSortBy._(this.value);
+
+  static const values = [name, timestamp];
+
+  static LabelDetectionSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LabelDetectionSortBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LabelDetectionSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class LabelDetectionAggregateBy {
+  static const timestamps = LabelDetectionAggregateBy._('TIMESTAMPS');
+  static const segments = LabelDetectionAggregateBy._('SEGMENTS');
+
+  final String value;
+
+  const LabelDetectionAggregateBy._(this.value);
+
+  static const values = [timestamps, segments];
+
+  static LabelDetectionAggregateBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LabelDetectionAggregateBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LabelDetectionAggregateBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a label detected in a video analysis request and the time
+/// the label was detected in the video.
+class LabelDetection {
+  /// The time duration of a segment in milliseconds, I.e. time elapsed from
+  /// StartTimestampMillis to EndTimestampMillis.
+  final int? durationMillis;
+
+  /// The time in milliseconds defining the end of the timeline segment containing
+  /// a continuously detected label.
+  final int? endTimestampMillis;
+
+  /// Details about the detected label.
+  final Label? label;
+
+  /// The time in milliseconds defining the start of the timeline segment
+  /// containing a continuously detected label.
+  final int? startTimestampMillis;
+
+  /// Time, in milliseconds from the start of the video, that the label was
+  /// detected. Note that <code>Timestamp</code> is not guaranteed to be accurate
+  /// to the individual frame where the label first appears.
+  final int? timestamp;
+
+  LabelDetection({
+    this.durationMillis,
+    this.endTimestampMillis,
+    this.label,
+    this.startTimestampMillis,
+    this.timestamp,
+  });
+
+  factory LabelDetection.fromJson(Map<String, dynamic> json) {
+    return LabelDetection(
+      durationMillis: json['DurationMillis'] as int?,
+      endTimestampMillis: json['EndTimestampMillis'] as int?,
+      label: json['Label'] != null
+          ? Label.fromJson(json['Label'] as Map<String, dynamic>)
+          : null,
+      startTimestampMillis: json['StartTimestampMillis'] as int?,
+      timestamp: json['Timestamp'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final durationMillis = this.durationMillis;
+    final endTimestampMillis = this.endTimestampMillis;
+    final label = this.label;
+    final startTimestampMillis = this.startTimestampMillis;
+    final timestamp = this.timestamp;
+    return {
+      if (durationMillis != null) 'DurationMillis': durationMillis,
+      if (endTimestampMillis != null) 'EndTimestampMillis': endTimestampMillis,
+      if (label != null) 'Label': label,
+      if (startTimestampMillis != null)
+        'StartTimestampMillis': startTimestampMillis,
+      if (timestamp != null) 'Timestamp': timestamp,
+    };
+  }
+}
+
+/// Structure containing details about the detected label, including the name,
+/// detected instances, parent labels, and level of confidence.
+///
+///
+class Label {
+  /// A list of potential aliases for a given label.
+  final List<LabelAlias>? aliases;
+
+  /// A list of the categories associated with a given label.
+  final List<LabelCategory>? categories;
+
+  /// Level of confidence.
+  final double? confidence;
+
+  /// If <code>Label</code> represents an object, <code>Instances</code> contains
+  /// the bounding boxes for each instance of the detected object. Bounding boxes
+  /// are returned for common object labels such as people, cars, furniture,
+  /// apparel or pets.
+  final List<Instance>? instances;
+
+  /// The name (label) of the object or scene.
+  final String? name;
+
+  /// The parent labels for a label. The response includes all ancestor labels.
+  final List<Parent>? parents;
+
+  Label({
+    this.aliases,
+    this.categories,
+    this.confidence,
+    this.instances,
+    this.name,
+    this.parents,
+  });
+
+  factory Label.fromJson(Map<String, dynamic> json) {
+    return Label(
+      aliases: (json['Aliases'] as List?)
+          ?.nonNulls
+          .map((e) => LabelAlias.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      categories: (json['Categories'] as List?)
+          ?.nonNulls
+          .map((e) => LabelCategory.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      confidence: json['Confidence'] as double?,
+      instances: (json['Instances'] as List?)
+          ?.nonNulls
+          .map((e) => Instance.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      name: json['Name'] as String?,
+      parents: (json['Parents'] as List?)
+          ?.nonNulls
+          .map((e) => Parent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aliases = this.aliases;
+    final categories = this.categories;
+    final confidence = this.confidence;
+    final instances = this.instances;
+    final name = this.name;
+    final parents = this.parents;
+    return {
+      if (aliases != null) 'Aliases': aliases,
+      if (categories != null) 'Categories': categories,
+      if (confidence != null) 'Confidence': confidence,
+      if (instances != null) 'Instances': instances,
+      if (name != null) 'Name': name,
+      if (parents != null) 'Parents': parents,
+    };
+  }
+}
+
+/// The category that applies to a given label.
+class LabelCategory {
+  /// The name of a category that applies to a given label.
+  final String? name;
+
+  LabelCategory({
+    this.name,
+  });
+
+  factory LabelCategory.fromJson(Map<String, dynamic> json) {
+    return LabelCategory(
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// A potential alias of for a given label.
+class LabelAlias {
+  /// The name of an alias for a given label.
+  final String? name;
+
+  LabelAlias({
+    this.name,
+  });
+
+  factory LabelAlias.fromJson(Map<String, dynamic> json) {
+    return LabelAlias(
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// A parent label for a label. A label can have 0, 1, or more parents.
+class Parent {
+  /// The name of the parent label.
+  final String? name;
+
+  Parent({
+    this.name,
+  });
+
+  factory Parent.fromJson(Map<String, dynamic> json) {
+    return Parent(
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// An instance of a label returned by Amazon Rekognition Image
+/// (<a>DetectLabels</a>) or by Amazon Rekognition Video
+/// (<a>GetLabelDetection</a>).
+class Instance {
+  /// The position of the label instance on the image.
+  final BoundingBox? boundingBox;
+
+  /// The confidence that Amazon Rekognition has in the accuracy of the bounding
+  /// box.
+  final double? confidence;
+
+  /// The dominant colors found in an individual instance of a label.
+  final List<DominantColor>? dominantColors;
+
+  Instance({
+    this.boundingBox,
+    this.confidence,
+    this.dominantColors,
+  });
+
+  factory Instance.fromJson(Map<String, dynamic> json) {
+    return Instance(
+      boundingBox: json['BoundingBox'] != null
+          ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
+          : null,
+      confidence: json['Confidence'] as double?,
+      dominantColors: (json['DominantColors'] as List?)
+          ?.nonNulls
+          .map((e) => DominantColor.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final boundingBox = this.boundingBox;
+    final confidence = this.confidence;
+    final dominantColors = this.dominantColors;
+    return {
+      if (boundingBox != null) 'BoundingBox': boundingBox,
+      if (confidence != null) 'Confidence': confidence,
+      if (dominantColors != null) 'DominantColors': dominantColors,
+    };
+  }
+}
+
+/// A description of the dominant colors in an image.
+class DominantColor {
+  /// The Blue RGB value for a dominant color.
+  final int? blue;
+
+  /// The CSS color name of a dominant color.
+  final String? cSSColor;
+
+  /// The Green RGB value for a dominant color.
+  final int? green;
+
+  /// The Hex code equivalent of the RGB values for a dominant color.
+  final String? hexCode;
+
+  /// The percentage of image pixels that have a given dominant color.
+  final double? pixelPercent;
+
+  /// The Red RGB value for a dominant color.
+  final int? red;
+
+  /// One of 12 simplified color names applied to a dominant color.
+  final String? simplifiedColor;
+
+  DominantColor({
+    this.blue,
+    this.cSSColor,
+    this.green,
+    this.hexCode,
+    this.pixelPercent,
+    this.red,
+    this.simplifiedColor,
+  });
+
+  factory DominantColor.fromJson(Map<String, dynamic> json) {
+    return DominantColor(
+      blue: json['Blue'] as int?,
+      cSSColor: json['CSSColor'] as String?,
+      green: json['Green'] as int?,
+      hexCode: json['HexCode'] as String?,
+      pixelPercent: json['PixelPercent'] as double?,
+      red: json['Red'] as int?,
+      simplifiedColor: json['SimplifiedColor'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blue = this.blue;
+    final cSSColor = this.cSSColor;
+    final green = this.green;
+    final hexCode = this.hexCode;
+    final pixelPercent = this.pixelPercent;
+    final red = this.red;
+    final simplifiedColor = this.simplifiedColor;
+    return {
+      if (blue != null) 'Blue': blue,
+      if (cSSColor != null) 'CSSColor': cSSColor,
+      if (green != null) 'Green': green,
+      if (hexCode != null) 'HexCode': hexCode,
+      if (pixelPercent != null) 'PixelPercent': pixelPercent,
+      if (red != null) 'Red': red,
+      if (simplifiedColor != null) 'SimplifiedColor': simplifiedColor,
+    };
+  }
+}
+
+/// Information about a person whose face matches a face(s) in an Amazon
+/// Rekognition collection. Includes information about the faces in the Amazon
+/// Rekognition collection (<a>FaceMatch</a>), information about the person
+/// (<a>PersonDetail</a>), and the time stamp for when the person was detected
+/// in a video. An array of <code>PersonMatch</code> objects is returned by
+/// <a>GetFaceSearch</a>.
+class PersonMatch {
+  /// Information about the faces in the input collection that match the face of a
+  /// person in the video.
+  final List<FaceMatch>? faceMatches;
+
+  /// Information about the matched person.
+  final PersonDetail? person;
+
+  /// The time, in milliseconds from the beginning of the video, that the person
+  /// was matched in the video.
+  final int? timestamp;
+
+  PersonMatch({
+    this.faceMatches,
+    this.person,
+    this.timestamp,
+  });
+
+  factory PersonMatch.fromJson(Map<String, dynamic> json) {
+    return PersonMatch(
+      faceMatches: (json['FaceMatches'] as List?)
+          ?.nonNulls
+          .map((e) => FaceMatch.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      person: json['Person'] != null
+          ? PersonDetail.fromJson(json['Person'] as Map<String, dynamic>)
+          : null,
+      timestamp: json['Timestamp'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final faceMatches = this.faceMatches;
+    final person = this.person;
+    final timestamp = this.timestamp;
+    return {
+      if (faceMatches != null) 'FaceMatches': faceMatches,
+      if (person != null) 'Person': person,
+      if (timestamp != null) 'Timestamp': timestamp,
+    };
+  }
+}
+
+class FaceSearchSortBy {
+  static const $index = FaceSearchSortBy._('INDEX');
+  static const timestamp = FaceSearchSortBy._('TIMESTAMP');
+
+  final String value;
+
+  const FaceSearchSortBy._(this.value);
+
+  static const values = [$index, timestamp];
+
+  static FaceSearchSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FaceSearchSortBy._(value));
+
+  @override
+  bool operator ==(other) => other is FaceSearchSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class LivenessSessionStatus {
+  static const created = LivenessSessionStatus._('CREATED');
+  static const inProgress = LivenessSessionStatus._('IN_PROGRESS');
+  static const succeeded = LivenessSessionStatus._('SUCCEEDED');
+  static const failed = LivenessSessionStatus._('FAILED');
+  static const expired = LivenessSessionStatus._('EXPIRED');
+
+  final String value;
+
+  const LivenessSessionStatus._(this.value);
+
+  static const values = [created, inProgress, succeeded, failed, expired];
+
+  static LivenessSessionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LivenessSessionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LivenessSessionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An image that is picked from the Face Liveness video and returned for audit
+/// trail purposes, returned as Base64-encoded bytes.
+class AuditImage {
+  final BoundingBox? boundingBox;
+
+  /// The Base64-encoded bytes representing an image selected from the Face
+  /// Liveness video and returned for audit purposes.
+  final Uint8List? bytes;
+  final S3Object? s3Object;
+
+  AuditImage({
+    this.boundingBox,
+    this.bytes,
+    this.s3Object,
+  });
+
+  factory AuditImage.fromJson(Map<String, dynamic> json) {
+    return AuditImage(
+      boundingBox: json['BoundingBox'] != null
+          ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
+          : null,
+      bytes: _s.decodeNullableUint8List(json['Bytes'] as String?),
+      s3Object: json['S3Object'] != null
+          ? S3Object.fromJson(json['S3Object'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final boundingBox = this.boundingBox;
+    final bytes = this.bytes;
+    final s3Object = this.s3Object;
+    return {
+      if (boundingBox != null) 'BoundingBox': boundingBox,
+      if (bytes != null) 'Bytes': base64Encode(bytes),
+      if (s3Object != null) 'S3Object': s3Object,
+    };
+  }
+}
+
+/// Describes the type and version of the challenge being used for the Face
+/// Liveness session.
+class Challenge {
+  /// The type of the challenge being used for the Face Liveness session.
+  final ChallengeType type;
+
+  /// The version of the challenge being used for the Face Liveness session.
+  final String version;
+
+  Challenge({
+    required this.type,
+    required this.version,
+  });
+
+  factory Challenge.fromJson(Map<String, dynamic> json) {
+    return Challenge(
+      type: ChallengeType.fromString((json['Type'] as String?) ?? ''),
+      version: (json['Version'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final version = this.version;
+    return {
+      'Type': type.value,
+      'Version': version,
+    };
+  }
+}
+
+class ChallengeType {
+  static const faceMovementAndLightChallenge =
+      ChallengeType._('FaceMovementAndLightChallenge');
+  static const faceMovementChallenge = ChallengeType._('FaceMovementChallenge');
+
+  final String value;
+
+  const ChallengeType._(this.value);
+
+  static const values = [faceMovementAndLightChallenge, faceMovementChallenge];
+
+  static ChallengeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ChallengeType._(value));
+
+  @override
+  bool operator ==(other) => other is ChallengeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a face detected in a video analysis request and the time
+/// the face was detected in the video.
+class FaceDetection {
+  /// The face properties for the detected face.
+  final FaceDetail? face;
+
+  /// Time, in milliseconds from the start of the video, that the face was
+  /// detected. Note that <code>Timestamp</code> is not guaranteed to be accurate
+  /// to the individual frame where the face first appears.
+  final int? timestamp;
+
+  FaceDetection({
+    this.face,
+    this.timestamp,
+  });
+
+  factory FaceDetection.fromJson(Map<String, dynamic> json) {
+    return FaceDetection(
+      face: json['Face'] != null
+          ? FaceDetail.fromJson(json['Face'] as Map<String, dynamic>)
+          : null,
+      timestamp: json['Timestamp'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final face = this.face;
+    final timestamp = this.timestamp;
+    return {
+      if (face != null) 'Face': face,
+      if (timestamp != null) 'Timestamp': timestamp,
+    };
+  }
+}
+
+/// Contains metadata about a content moderation request, including the SortBy
+/// and AggregateBy options.
+class GetContentModerationRequestMetadata {
+  /// The aggregation method chosen for a GetContentModeration request.
+  final ContentModerationAggregateBy? aggregateBy;
+
+  /// The sorting method chosen for a GetContentModeration request.
+  final ContentModerationSortBy? sortBy;
+
+  GetContentModerationRequestMetadata({
+    this.aggregateBy,
+    this.sortBy,
+  });
+
+  factory GetContentModerationRequestMetadata.fromJson(
+      Map<String, dynamic> json) {
+    return GetContentModerationRequestMetadata(
+      aggregateBy: (json['AggregateBy'] as String?)
+          ?.let(ContentModerationAggregateBy.fromString),
+      sortBy:
+          (json['SortBy'] as String?)?.let(ContentModerationSortBy.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aggregateBy = this.aggregateBy;
+    final sortBy = this.sortBy;
+    return {
+      if (aggregateBy != null) 'AggregateBy': aggregateBy.value,
+      if (sortBy != null) 'SortBy': sortBy.value,
+    };
+  }
+}
+
+class ContentModerationSortBy {
+  static const name = ContentModerationSortBy._('NAME');
+  static const timestamp = ContentModerationSortBy._('TIMESTAMP');
+
+  final String value;
+
+  const ContentModerationSortBy._(this.value);
+
+  static const values = [name, timestamp];
+
+  static ContentModerationSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContentModerationSortBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContentModerationSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ContentModerationAggregateBy {
+  static const timestamps = ContentModerationAggregateBy._('TIMESTAMPS');
+  static const segments = ContentModerationAggregateBy._('SEGMENTS');
+
+  final String value;
+
+  const ContentModerationAggregateBy._(this.value);
+
+  static const values = [timestamps, segments];
+
+  static ContentModerationAggregateBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContentModerationAggregateBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContentModerationAggregateBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about an inappropriate, unwanted, or offensive content label
+/// detection in a stored video.
+class ContentModerationDetection {
+  /// A list of predicted results for the type of content an image contains. For
+  /// example, the image content might be from animation, sports, or a video game.
+  final List<ContentType>? contentTypes;
+
+  /// The time duration of a segment in milliseconds, I.e. time elapsed from
+  /// StartTimestampMillis to EndTimestampMillis.
+  final int? durationMillis;
+
+  /// The time in milliseconds defining the end of the timeline segment containing
+  /// a continuously detected moderation label.
+  final int? endTimestampMillis;
+
+  /// The content moderation label detected by in the stored video.
+  final ModerationLabel? moderationLabel;
+
+  /// The time in milliseconds defining the start of the timeline segment
+  /// containing a continuously detected moderation label.
+  final int? startTimestampMillis;
+
+  /// Time, in milliseconds from the beginning of the video, that the content
+  /// moderation label was detected. Note that <code>Timestamp</code> is not
+  /// guaranteed to be accurate to the individual frame where the moderated
+  /// content first appears.
+  final int? timestamp;
+
+  ContentModerationDetection({
+    this.contentTypes,
+    this.durationMillis,
+    this.endTimestampMillis,
+    this.moderationLabel,
+    this.startTimestampMillis,
+    this.timestamp,
+  });
+
+  factory ContentModerationDetection.fromJson(Map<String, dynamic> json) {
+    return ContentModerationDetection(
+      contentTypes: (json['ContentTypes'] as List?)
+          ?.nonNulls
+          .map((e) => ContentType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      durationMillis: json['DurationMillis'] as int?,
+      endTimestampMillis: json['EndTimestampMillis'] as int?,
+      moderationLabel: json['ModerationLabel'] != null
+          ? ModerationLabel.fromJson(
+              json['ModerationLabel'] as Map<String, dynamic>)
+          : null,
+      startTimestampMillis: json['StartTimestampMillis'] as int?,
+      timestamp: json['Timestamp'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contentTypes = this.contentTypes;
+    final durationMillis = this.durationMillis;
+    final endTimestampMillis = this.endTimestampMillis;
+    final moderationLabel = this.moderationLabel;
+    final startTimestampMillis = this.startTimestampMillis;
+    final timestamp = this.timestamp;
+    return {
+      if (contentTypes != null) 'ContentTypes': contentTypes,
+      if (durationMillis != null) 'DurationMillis': durationMillis,
+      if (endTimestampMillis != null) 'EndTimestampMillis': endTimestampMillis,
+      if (moderationLabel != null) 'ModerationLabel': moderationLabel,
+      if (startTimestampMillis != null)
+        'StartTimestampMillis': startTimestampMillis,
+      if (timestamp != null) 'Timestamp': timestamp,
+    };
+  }
+}
+
+/// Provides information about a single type of inappropriate, unwanted, or
+/// offensive content found in an image or video. Each type of moderated content
+/// has a label within a hierarchical taxonomy. For more information, see
+/// Content moderation in the Amazon Rekognition Developer Guide.
+class ModerationLabel {
+  /// Specifies the confidence that Amazon Rekognition has that the label has been
+  /// correctly identified.
+  ///
+  /// If you don't specify the <code>MinConfidence</code> parameter in the call to
+  /// <code>DetectModerationLabels</code>, the operation returns labels with a
+  /// confidence value greater than or equal to 50 percent.
+  final double? confidence;
+
+  /// The label name for the type of unsafe content detected in the image.
+  final String? name;
+
+  /// The name for the parent label. Labels at the top level of the hierarchy have
+  /// the parent label <code>""</code>.
+  final String? parentName;
+
+  /// The level of the moderation label with regard to its taxonomy, from 1 to 3.
+  final int? taxonomyLevel;
+
+  ModerationLabel({
+    this.confidence,
+    this.name,
+    this.parentName,
+    this.taxonomyLevel,
+  });
+
+  factory ModerationLabel.fromJson(Map<String, dynamic> json) {
+    return ModerationLabel(
+      confidence: json['Confidence'] as double?,
+      name: json['Name'] as String?,
+      parentName: json['ParentName'] as String?,
+      taxonomyLevel: json['TaxonomyLevel'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final confidence = this.confidence;
+    final name = this.name;
+    final parentName = this.parentName;
+    final taxonomyLevel = this.taxonomyLevel;
+    return {
+      if (confidence != null) 'Confidence': confidence,
+      if (name != null) 'Name': name,
+      if (parentName != null) 'ParentName': parentName,
+      if (taxonomyLevel != null) 'TaxonomyLevel': taxonomyLevel,
+    };
+  }
+}
+
+/// Contains information regarding the confidence and name of a detected content
+/// type.
+class ContentType {
+  /// The confidence level of the label given
+  final double? confidence;
+
+  /// The name of the label
+  final String? name;
+
+  ContentType({
+    this.confidence,
+    this.name,
+  });
+
+  factory ContentType.fromJson(Map<String, dynamic> json) {
+    return ContentType(
+      confidence: json['Confidence'] as double?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final confidence = this.confidence;
+    final name = this.name;
+    return {
+      if (confidence != null) 'Confidence': confidence,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// Information about a detected celebrity and the time the celebrity was
+/// detected in a stored video. For more information, see
+/// GetCelebrityRecognition in the Amazon Rekognition Developer Guide.
+class CelebrityRecognition {
+  /// Information about a recognized celebrity.
+  final CelebrityDetail? celebrity;
+
+  /// The time, in milliseconds from the start of the video, that the celebrity
+  /// was recognized. Note that <code>Timestamp</code> is not guaranteed to be
+  /// accurate to the individual frame where the celebrity first appears.
+  final int? timestamp;
+
+  CelebrityRecognition({
+    this.celebrity,
+    this.timestamp,
+  });
+
+  factory CelebrityRecognition.fromJson(Map<String, dynamic> json) {
+    return CelebrityRecognition(
+      celebrity: json['Celebrity'] != null
+          ? CelebrityDetail.fromJson(json['Celebrity'] as Map<String, dynamic>)
+          : null,
+      timestamp: json['Timestamp'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final celebrity = this.celebrity;
+    final timestamp = this.timestamp;
+    return {
+      if (celebrity != null) 'Celebrity': celebrity,
+      if (timestamp != null) 'Timestamp': timestamp,
+    };
+  }
+}
+
+/// Information about a recognized celebrity.
+class CelebrityDetail {
+  /// Bounding box around the body of a celebrity.
+  final BoundingBox? boundingBox;
+
+  /// The confidence, in percentage, that Amazon Rekognition has that the
+  /// recognized face is the celebrity.
+  final double? confidence;
+
+  /// Face details for the recognized celebrity.
+  final FaceDetail? face;
+
+  /// The unique identifier for the celebrity.
+  final String? id;
+
+  /// Retrieves the known gender for the celebrity.
+  final KnownGender? knownGender;
+
+  /// The name of the celebrity.
+  final String? name;
+
+  /// An array of URLs pointing to additional celebrity information.
+  final List<String>? urls;
+
+  CelebrityDetail({
+    this.boundingBox,
+    this.confidence,
+    this.face,
+    this.id,
+    this.knownGender,
+    this.name,
+    this.urls,
+  });
+
+  factory CelebrityDetail.fromJson(Map<String, dynamic> json) {
+    return CelebrityDetail(
+      boundingBox: json['BoundingBox'] != null
+          ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
+          : null,
+      confidence: json['Confidence'] as double?,
+      face: json['Face'] != null
+          ? FaceDetail.fromJson(json['Face'] as Map<String, dynamic>)
+          : null,
+      id: json['Id'] as String?,
+      knownGender: json['KnownGender'] != null
+          ? KnownGender.fromJson(json['KnownGender'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+      urls: (json['Urls'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final boundingBox = this.boundingBox;
+    final confidence = this.confidence;
+    final face = this.face;
+    final id = this.id;
+    final knownGender = this.knownGender;
+    final name = this.name;
+    final urls = this.urls;
+    return {
+      if (boundingBox != null) 'BoundingBox': boundingBox,
+      if (confidence != null) 'Confidence': confidence,
+      if (face != null) 'Face': face,
+      if (id != null) 'Id': id,
+      if (knownGender != null) 'KnownGender': knownGender,
+      if (name != null) 'Name': name,
+      if (urls != null) 'Urls': urls,
+    };
+  }
+}
+
+class CelebrityRecognitionSortBy {
+  static const id = CelebrityRecognitionSortBy._('ID');
+  static const timestamp = CelebrityRecognitionSortBy._('TIMESTAMP');
+
+  final String value;
+
+  const CelebrityRecognitionSortBy._(this.value);
+
+  static const values = [id, timestamp];
+
+  static CelebrityRecognitionSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CelebrityRecognitionSortBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CelebrityRecognitionSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A training dataset or a test dataset used in a dataset distribution
+/// operation. For more information, see <a>DistributeDatasetEntries</a>.
+class DistributeDataset {
+  /// The Amazon Resource Name (ARN) of the dataset that you want to use.
+  final String arn;
+
+  DistributeDataset({
+    required this.arn,
+  });
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
+      'Arn': arn,
+    };
+  }
+}
+
+/// Contains metadata like FaceId, UserID, and Reasons, for a face that was
+/// unsuccessfully disassociated.
+class UnsuccessfulFaceDisassociation {
+  /// A unique identifier assigned to the face.
+  final String? faceId;
+
+  /// The reason why the deletion was unsuccessful.
+  final List<UnsuccessfulFaceDisassociationReason>? reasons;
+
+  /// A provided ID for the UserID. Unique within the collection.
+  final String? userId;
+
+  UnsuccessfulFaceDisassociation({
+    this.faceId,
+    this.reasons,
+    this.userId,
+  });
+
+  factory UnsuccessfulFaceDisassociation.fromJson(Map<String, dynamic> json) {
+    return UnsuccessfulFaceDisassociation(
+      faceId: json['FaceId'] as String?,
+      reasons: (json['Reasons'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              UnsuccessfulFaceDisassociationReason.fromString((e as String)))
+          .toList(),
+      userId: json['UserId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final faceId = this.faceId;
+    final reasons = this.reasons;
+    final userId = this.userId;
+    return {
+      if (faceId != null) 'FaceId': faceId,
+      if (reasons != null) 'Reasons': reasons.map((e) => e.value).toList(),
+      if (userId != null) 'UserId': userId,
+    };
+  }
+}
+
+class UnsuccessfulFaceDisassociationReason {
+  static const faceNotFound =
+      UnsuccessfulFaceDisassociationReason._('FACE_NOT_FOUND');
+  static const associatedToADifferentUser =
+      UnsuccessfulFaceDisassociationReason._('ASSOCIATED_TO_A_DIFFERENT_USER');
+
+  final String value;
+
+  const UnsuccessfulFaceDisassociationReason._(this.value);
+
+  static const values = [faceNotFound, associatedToADifferentUser];
+
+  static UnsuccessfulFaceDisassociationReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UnsuccessfulFaceDisassociationReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UnsuccessfulFaceDisassociationReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides face metadata for the faces that are disassociated from a specific
+/// UserID.
+class DisassociatedFace {
+  /// Unique identifier assigned to the face.
+  final String? faceId;
+
+  DisassociatedFace({
+    this.faceId,
+  });
+
+  factory DisassociatedFace.fromJson(Map<String, dynamic> json) {
+    return DisassociatedFace(
+      faceId: json['FaceId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final faceId = this.faceId;
+    return {
+      if (faceId != null) 'FaceId': faceId,
+    };
+  }
+}
+
+/// A set of optional parameters that you can use to set the criteria that the
+/// text must meet to be included in your response. <code>WordFilter</code>
+/// looks at a word’s height, width, and minimum confidence.
+/// <code>RegionOfInterest</code> lets you set a specific region of the image to
+/// look for text in.
+class DetectTextFilters {
+  /// A Filter focusing on a certain area of the image. Uses a
+  /// <code>BoundingBox</code> object to set the region of the image.
+  final List<RegionOfInterest>? regionsOfInterest;
+  final DetectionFilter? wordFilter;
+
+  DetectTextFilters({
+    this.regionsOfInterest,
+    this.wordFilter,
+  });
+
+  Map<String, dynamic> toJson() {
+    final regionsOfInterest = this.regionsOfInterest;
+    final wordFilter = this.wordFilter;
+    return {
+      if (regionsOfInterest != null) 'RegionsOfInterest': regionsOfInterest,
+      if (wordFilter != null) 'WordFilter': wordFilter,
+    };
+  }
+}
+
+/// Summary information for required items of personal protective equipment
+/// (PPE) detected on persons by a call to <a>DetectProtectiveEquipment</a>. You
+/// specify the required type of PPE in the <code>SummarizationAttributes</code>
+/// (<a>ProtectiveEquipmentSummarizationAttributes</a>) input parameter. The
+/// summary includes which persons were detected wearing the required personal
+/// protective equipment (<code>PersonsWithRequiredEquipment</code>), which
+/// persons were detected as not wearing the required PPE
+/// (<code>PersonsWithoutRequiredEquipment</code>), and the persons in which a
+/// determination could not be made (<code>PersonsIndeterminate</code>).
+///
+/// To get a total for each category, use the size of the field array. For
+/// example, to find out how many people were detected as wearing the specified
+/// PPE, use the size of the <code>PersonsWithRequiredEquipment</code> array. If
+/// you want to find out more about a person, such as the location
+/// (<a>BoundingBox</a>) of the person on the image, use the person ID in each
+/// array element. Each person ID matches the ID field of a
+/// <a>ProtectiveEquipmentPerson</a> object returned in the <code>Persons</code>
+/// array by <code>DetectProtectiveEquipment</code>.
+class ProtectiveEquipmentSummary {
+  /// An array of IDs for persons where it was not possible to determine if they
+  /// are wearing personal protective equipment.
+  final List<int>? personsIndeterminate;
+
+  /// An array of IDs for persons who are wearing detected personal protective
+  /// equipment.
+  final List<int>? personsWithRequiredEquipment;
+
+  /// An array of IDs for persons who are not wearing all of the types of PPE
+  /// specified in the <code>RequiredEquipmentTypes</code> field of the detected
+  /// personal protective equipment.
+  final List<int>? personsWithoutRequiredEquipment;
+
+  ProtectiveEquipmentSummary({
+    this.personsIndeterminate,
+    this.personsWithRequiredEquipment,
+    this.personsWithoutRequiredEquipment,
+  });
+
+  factory ProtectiveEquipmentSummary.fromJson(Map<String, dynamic> json) {
+    return ProtectiveEquipmentSummary(
+      personsIndeterminate: (json['PersonsIndeterminate'] as List?)
+          ?.nonNulls
+          .map((e) => e as int)
+          .toList(),
+      personsWithRequiredEquipment:
+          (json['PersonsWithRequiredEquipment'] as List?)
+              ?.nonNulls
+              .map((e) => e as int)
+              .toList(),
+      personsWithoutRequiredEquipment:
+          (json['PersonsWithoutRequiredEquipment'] as List?)
+              ?.nonNulls
+              .map((e) => e as int)
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final personsIndeterminate = this.personsIndeterminate;
+    final personsWithRequiredEquipment = this.personsWithRequiredEquipment;
+    final personsWithoutRequiredEquipment =
+        this.personsWithoutRequiredEquipment;
+    return {
+      if (personsIndeterminate != null)
+        'PersonsIndeterminate': personsIndeterminate,
+      if (personsWithRequiredEquipment != null)
+        'PersonsWithRequiredEquipment': personsWithRequiredEquipment,
+      if (personsWithoutRequiredEquipment != null)
+        'PersonsWithoutRequiredEquipment': personsWithoutRequiredEquipment,
+    };
+  }
+}
+
+/// A person detected by a call to <a>DetectProtectiveEquipment</a>. The API
+/// returns all persons detected in the input image in an array of
+/// <code>ProtectiveEquipmentPerson</code> objects.
+class ProtectiveEquipmentPerson {
+  /// An array of body parts detected on a person's body (including body parts
+  /// without PPE).
+  final List<ProtectiveEquipmentBodyPart>? bodyParts;
+
+  /// A bounding box around the detected person.
+  final BoundingBox? boundingBox;
+
+  /// The confidence that Amazon Rekognition has that the bounding box contains a
+  /// person.
+  final double? confidence;
+
+  /// The identifier for the detected person. The identifier is only unique for a
+  /// single call to <code>DetectProtectiveEquipment</code>.
+  final int? id;
+
+  ProtectiveEquipmentPerson({
+    this.bodyParts,
+    this.boundingBox,
+    this.confidence,
+    this.id,
+  });
+
+  factory ProtectiveEquipmentPerson.fromJson(Map<String, dynamic> json) {
+    return ProtectiveEquipmentPerson(
+      bodyParts: (json['BodyParts'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ProtectiveEquipmentBodyPart.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      boundingBox: json['BoundingBox'] != null
+          ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
+          : null,
+      confidence: json['Confidence'] as double?,
+      id: json['Id'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bodyParts = this.bodyParts;
+    final boundingBox = this.boundingBox;
+    final confidence = this.confidence;
+    final id = this.id;
+    return {
+      if (bodyParts != null) 'BodyParts': bodyParts,
+      if (boundingBox != null) 'BoundingBox': boundingBox,
+      if (confidence != null) 'Confidence': confidence,
+      if (id != null) 'Id': id,
+    };
+  }
+}
+
+/// Information about a body part detected by <a>DetectProtectiveEquipment</a>
+/// that contains PPE. An array of <code>ProtectiveEquipmentBodyPart</code>
+/// objects is returned for each person detected by
+/// <code>DetectProtectiveEquipment</code>.
+class ProtectiveEquipmentBodyPart {
+  /// The confidence that Amazon Rekognition has in the detection accuracy of the
+  /// detected body part.
+  final double? confidence;
+
+  /// An array of Personal Protective Equipment items detected around a body part.
+  final List<EquipmentDetection>? equipmentDetections;
+
+  /// The detected body part.
+  final BodyPart? name;
+
+  ProtectiveEquipmentBodyPart({
+    this.confidence,
+    this.equipmentDetections,
+    this.name,
+  });
+
+  factory ProtectiveEquipmentBodyPart.fromJson(Map<String, dynamic> json) {
+    return ProtectiveEquipmentBodyPart(
+      confidence: json['Confidence'] as double?,
+      equipmentDetections: (json['EquipmentDetections'] as List?)
+          ?.nonNulls
+          .map((e) => EquipmentDetection.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      name: (json['Name'] as String?)?.let(BodyPart.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final confidence = this.confidence;
+    final equipmentDetections = this.equipmentDetections;
+    final name = this.name;
+    return {
+      if (confidence != null) 'Confidence': confidence,
+      if (equipmentDetections != null)
+        'EquipmentDetections': equipmentDetections,
+      if (name != null) 'Name': name.value,
+    };
+  }
+}
+
+class BodyPart {
+  static const face = BodyPart._('FACE');
+  static const head = BodyPart._('HEAD');
+  static const leftHand = BodyPart._('LEFT_HAND');
+  static const rightHand = BodyPart._('RIGHT_HAND');
+
+  final String value;
+
+  const BodyPart._(this.value);
+
+  static const values = [face, head, leftHand, rightHand];
+
+  static BodyPart fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BodyPart._(value));
+
+  @override
+  bool operator ==(other) => other is BodyPart && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about an item of Personal Protective Equipment (PPE) detected by
+/// <a>DetectProtectiveEquipment</a>. For more information, see
+/// <a>DetectProtectiveEquipment</a>.
+class EquipmentDetection {
+  /// A bounding box surrounding the item of detected PPE.
+  final BoundingBox? boundingBox;
+
+  /// The confidence that Amazon Rekognition has that the bounding box
+  /// (<code>BoundingBox</code>) contains an item of PPE.
+  final double? confidence;
+
+  /// Information about the body part covered by the detected PPE.
+  final CoversBodyPart? coversBodyPart;
+
+  /// The type of detected PPE.
+  final ProtectiveEquipmentType? type;
+
+  EquipmentDetection({
+    this.boundingBox,
+    this.confidence,
+    this.coversBodyPart,
+    this.type,
+  });
+
+  factory EquipmentDetection.fromJson(Map<String, dynamic> json) {
+    return EquipmentDetection(
+      boundingBox: json['BoundingBox'] != null
+          ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
+          : null,
+      confidence: json['Confidence'] as double?,
+      coversBodyPart: json['CoversBodyPart'] != null
+          ? CoversBodyPart.fromJson(
+              json['CoversBodyPart'] as Map<String, dynamic>)
+          : null,
+      type: (json['Type'] as String?)?.let(ProtectiveEquipmentType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final boundingBox = this.boundingBox;
+    final confidence = this.confidence;
+    final coversBodyPart = this.coversBodyPart;
+    final type = this.type;
+    return {
+      if (boundingBox != null) 'BoundingBox': boundingBox,
+      if (confidence != null) 'Confidence': confidence,
+      if (coversBodyPart != null) 'CoversBodyPart': coversBodyPart,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class ProtectiveEquipmentType {
+  static const faceCover = ProtectiveEquipmentType._('FACE_COVER');
+  static const handCover = ProtectiveEquipmentType._('HAND_COVER');
+  static const headCover = ProtectiveEquipmentType._('HEAD_COVER');
+
+  final String value;
+
+  const ProtectiveEquipmentType._(this.value);
+
+  static const values = [faceCover, handCover, headCover];
+
+  static ProtectiveEquipmentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProtectiveEquipmentType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProtectiveEquipmentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about an item of Personal Protective Equipment covering a
+/// corresponding body part. For more information, see
+/// <a>DetectProtectiveEquipment</a>.
+class CoversBodyPart {
+  /// The confidence that Amazon Rekognition has in the value of
+  /// <code>Value</code>.
+  final double? confidence;
+
+  /// True if the PPE covers the corresponding body part, otherwise false.
+  final bool? value;
+
+  CoversBodyPart({
+    this.confidence,
+    this.value,
+  });
+
+  factory CoversBodyPart.fromJson(Map<String, dynamic> json) {
+    return CoversBodyPart(
+      confidence: json['Confidence'] as double?,
+      value: json['Value'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final confidence = this.confidence;
+    final value = this.value;
+    return {
+      if (confidence != null) 'Confidence': confidence,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Specifies summary attributes to return from a call to
+/// <a>DetectProtectiveEquipment</a>. You can specify which types of PPE to
+/// summarize. You can also specify a minimum confidence value for detections.
+/// Summary information is returned in the <code>Summary</code>
+/// (<a>ProtectiveEquipmentSummary</a>) field of the response from
+/// <code>DetectProtectiveEquipment</code>. The summary includes which persons
+/// in an image were detected wearing the requested types of person protective
+/// equipment (PPE), which persons were detected as not wearing PPE, and the
+/// persons in which a determination could not be made. For more information,
+/// see <a>ProtectiveEquipmentSummary</a>.
+class ProtectiveEquipmentSummarizationAttributes {
+  /// The minimum confidence level for which you want summary information. The
+  /// confidence level applies to person detection, body part detection, equipment
+  /// detection, and body part coverage. Amazon Rekognition doesn't return summary
+  /// information with a confidence than this specified value. There isn't a
+  /// default value.
+  ///
+  /// Specify a <code>MinConfidence</code> value that is between 50-100% as
+  /// <code>DetectProtectiveEquipment</code> returns predictions only where the
+  /// detection confidence is between 50% - 100%. If you specify a value that is
+  /// less than 50%, the results are the same specifying a value of 50%.
+  ///
+  ///
+  final double minConfidence;
+
+  /// An array of personal protective equipment types for which you want summary
+  /// information. If a person is detected wearing a required requipment type, the
+  /// person's ID is added to the <code>PersonsWithRequiredEquipment</code> array
+  /// field returned in <a>ProtectiveEquipmentSummary</a> by
+  /// <code>DetectProtectiveEquipment</code>.
+  final List<ProtectiveEquipmentType> requiredEquipmentTypes;
+
+  ProtectiveEquipmentSummarizationAttributes({
+    required this.minConfidence,
+    required this.requiredEquipmentTypes,
+  });
+
+  Map<String, dynamic> toJson() {
+    final minConfidence = this.minConfidence;
+    final requiredEquipmentTypes = this.requiredEquipmentTypes;
+    return {
+      'MinConfidence': minConfidence,
+      'RequiredEquipmentTypes':
+          requiredEquipmentTypes.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// Shows the results of the human in the loop evaluation. If there is no
+/// HumanLoopArn, the input did not trigger human review.
+class HumanLoopActivationOutput {
+  /// Shows the result of condition evaluations, including those conditions which
+  /// activated a human review.
+  final Object? humanLoopActivationConditionsEvaluationResults;
+
+  /// Shows if and why human review was needed.
+  final List<String>? humanLoopActivationReasons;
+
+  /// The Amazon Resource Name (ARN) of the HumanLoop created.
+  final String? humanLoopArn;
+
+  HumanLoopActivationOutput({
+    this.humanLoopActivationConditionsEvaluationResults,
+    this.humanLoopActivationReasons,
+    this.humanLoopArn,
+  });
+
+  factory HumanLoopActivationOutput.fromJson(Map<String, dynamic> json) {
+    return HumanLoopActivationOutput(
+      humanLoopActivationConditionsEvaluationResults:
+          json['HumanLoopActivationConditionsEvaluationResults'] == null
+              ? null
+              : jsonDecode(
+                  json['HumanLoopActivationConditionsEvaluationResults']
+                      as String),
+      humanLoopActivationReasons: (json['HumanLoopActivationReasons'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      humanLoopArn: json['HumanLoopArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final humanLoopActivationConditionsEvaluationResults =
+        this.humanLoopActivationConditionsEvaluationResults;
+    final humanLoopActivationReasons = this.humanLoopActivationReasons;
+    final humanLoopArn = this.humanLoopArn;
+    return {
+      if (humanLoopActivationConditionsEvaluationResults != null)
+        'HumanLoopActivationConditionsEvaluationResults':
+            jsonEncode(humanLoopActivationConditionsEvaluationResults),
+      if (humanLoopActivationReasons != null)
+        'HumanLoopActivationReasons': humanLoopActivationReasons,
+      if (humanLoopArn != null) 'HumanLoopArn': humanLoopArn,
+    };
+  }
+}
+
+/// Sets up the flow definition the image will be sent to if one of the
+/// conditions is met. You can also set certain attributes of the image before
+/// review.
+class HumanLoopConfig {
+  /// The Amazon Resource Name (ARN) of the flow definition. You can create a flow
+  /// definition by using the Amazon Sagemaker <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/API_CreateFlowDefinition.html">CreateFlowDefinition</a>
+  /// Operation.
+  final String flowDefinitionArn;
+
+  /// The name of the human review used for this image. This should be kept unique
+  /// within a region.
+  final String humanLoopName;
+
+  /// Sets attributes of the input data.
+  final HumanLoopDataAttributes? dataAttributes;
+
+  HumanLoopConfig({
+    required this.flowDefinitionArn,
+    required this.humanLoopName,
+    this.dataAttributes,
+  });
+
+  Map<String, dynamic> toJson() {
+    final flowDefinitionArn = this.flowDefinitionArn;
+    final humanLoopName = this.humanLoopName;
+    final dataAttributes = this.dataAttributes;
+    return {
+      'FlowDefinitionArn': flowDefinitionArn,
+      'HumanLoopName': humanLoopName,
+      if (dataAttributes != null) 'DataAttributes': dataAttributes,
+    };
+  }
+}
+
+/// Allows you to set attributes of the image. Currently, you can declare an
+/// image as free of personally identifiable information.
+class HumanLoopDataAttributes {
+  /// Sets whether the input image is free of personally identifiable information.
+  final List<ContentClassifier>? contentClassifiers;
+
+  HumanLoopDataAttributes({
+    this.contentClassifiers,
+  });
+
+  Map<String, dynamic> toJson() {
+    final contentClassifiers = this.contentClassifiers;
+    return {
+      if (contentClassifiers != null)
+        'ContentClassifiers': contentClassifiers.map((e) => e.value).toList(),
+    };
+  }
+}
+
+class ContentClassifier {
+  static const freeOfPersonallyIdentifiableInformation =
+      ContentClassifier._('FreeOfPersonallyIdentifiableInformation');
+  static const freeOfAdultContent = ContentClassifier._('FreeOfAdultContent');
+
+  final String value;
+
+  const ContentClassifier._(this.value);
+
+  static const values = [
+    freeOfPersonallyIdentifiableInformation,
+    freeOfAdultContent
+  ];
+
+  static ContentClassifier fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContentClassifier._(value));
+
+  @override
+  bool operator ==(other) => other is ContentClassifier && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about the quality and dominant colors of an input image. Quality
+/// and color information is returned for the entire image, foreground, and
+/// background.
+class DetectLabelsImageProperties {
+  /// Information about the properties of an image’s background, including the
+  /// background’s quality and dominant colors, including the quality and dominant
+  /// colors of the image.
+  final DetectLabelsImageBackground? background;
+
+  /// Information about the dominant colors found in an image, described with RGB
+  /// values, CSS color name, simplified color name, and PixelPercentage (the
+  /// percentage of image pixels that have a particular color).
+  final List<DominantColor>? dominantColors;
+
+  /// Information about the properties of an image’s foreground, including the
+  /// foreground’s quality and dominant colors, including the quality and dominant
+  /// colors of the image.
+  final DetectLabelsImageForeground? foreground;
+
+  /// Information about the quality of the image foreground as defined by
+  /// brightness, sharpness, and contrast. The higher the value the greater the
+  /// brightness, sharpness, and contrast respectively.
+  final DetectLabelsImageQuality? quality;
+
+  DetectLabelsImageProperties({
+    this.background,
+    this.dominantColors,
+    this.foreground,
+    this.quality,
+  });
+
+  factory DetectLabelsImageProperties.fromJson(Map<String, dynamic> json) {
+    return DetectLabelsImageProperties(
+      background: json['Background'] != null
+          ? DetectLabelsImageBackground.fromJson(
+              json['Background'] as Map<String, dynamic>)
+          : null,
+      dominantColors: (json['DominantColors'] as List?)
+          ?.nonNulls
+          .map((e) => DominantColor.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      foreground: json['Foreground'] != null
+          ? DetectLabelsImageForeground.fromJson(
+              json['Foreground'] as Map<String, dynamic>)
+          : null,
+      quality: json['Quality'] != null
+          ? DetectLabelsImageQuality.fromJson(
+              json['Quality'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final background = this.background;
+    final dominantColors = this.dominantColors;
+    final foreground = this.foreground;
+    final quality = this.quality;
+    return {
+      if (background != null) 'Background': background,
+      if (dominantColors != null) 'DominantColors': dominantColors,
+      if (foreground != null) 'Foreground': foreground,
+      if (quality != null) 'Quality': quality,
+    };
+  }
+}
+
+/// The quality of an image provided for label detection, with regard to
+/// brightness, sharpness, and contrast.
+class DetectLabelsImageQuality {
+  /// The brightness of an image provided for label detection.
+  final double? brightness;
+
+  /// The contrast of an image provided for label detection.
+  final double? contrast;
+
+  /// The sharpness of an image provided for label detection.
+  final double? sharpness;
+
+  DetectLabelsImageQuality({
+    this.brightness,
+    this.contrast,
+    this.sharpness,
+  });
+
+  factory DetectLabelsImageQuality.fromJson(Map<String, dynamic> json) {
+    return DetectLabelsImageQuality(
+      brightness: json['Brightness'] as double?,
+      contrast: json['Contrast'] as double?,
+      sharpness: json['Sharpness'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final brightness = this.brightness;
+    final contrast = this.contrast;
+    final sharpness = this.sharpness;
+    return {
+      if (brightness != null) 'Brightness': brightness,
+      if (contrast != null) 'Contrast': contrast,
+      if (sharpness != null) 'Sharpness': sharpness,
+    };
+  }
+}
+
+/// The foreground of the image with regard to image quality and dominant
+/// colors.
+class DetectLabelsImageForeground {
+  /// The dominant colors found in the foreground of an image, defined with RGB
+  /// values, CSS color name, simplified color name, and PixelPercentage (the
+  /// percentage of image pixels that have a particular color).
+  final List<DominantColor>? dominantColors;
+
+  /// The quality of the image foreground as defined by brightness and sharpness.
+  final DetectLabelsImageQuality? quality;
+
+  DetectLabelsImageForeground({
+    this.dominantColors,
+    this.quality,
+  });
+
+  factory DetectLabelsImageForeground.fromJson(Map<String, dynamic> json) {
+    return DetectLabelsImageForeground(
+      dominantColors: (json['DominantColors'] as List?)
+          ?.nonNulls
+          .map((e) => DominantColor.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      quality: json['Quality'] != null
+          ? DetectLabelsImageQuality.fromJson(
+              json['Quality'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dominantColors = this.dominantColors;
+    final quality = this.quality;
+    return {
+      if (dominantColors != null) 'DominantColors': dominantColors,
+      if (quality != null) 'Quality': quality,
+    };
+  }
+}
+
+/// The background of the image with regard to image quality and dominant
+/// colors.
+class DetectLabelsImageBackground {
+  /// The dominant colors found in the background of an image, defined with RGB
+  /// values, CSS color name, simplified color name, and PixelPercentage (the
+  /// percentage of image pixels that have a particular color).
+  final List<DominantColor>? dominantColors;
+
+  /// The quality of the image background as defined by brightness and sharpness.
+  final DetectLabelsImageQuality? quality;
+
+  DetectLabelsImageBackground({
+    this.dominantColors,
+    this.quality,
+  });
+
+  factory DetectLabelsImageBackground.fromJson(Map<String, dynamic> json) {
+    return DetectLabelsImageBackground(
+      dominantColors: (json['DominantColors'] as List?)
+          ?.nonNulls
+          .map((e) => DominantColor.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      quality: json['Quality'] != null
+          ? DetectLabelsImageQuality.fromJson(
+              json['Quality'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dominantColors = this.dominantColors;
+    final quality = this.quality;
+    return {
+      if (dominantColors != null) 'DominantColors': dominantColors,
+      if (quality != null) 'Quality': quality,
+    };
+  }
+}
+
+/// Settings for the DetectLabels request. Settings can include filters for both
+/// GENERAL_LABELS and IMAGE_PROPERTIES. GENERAL_LABELS filters can be inclusive
+/// or exclusive and applied to individual labels or label categories.
+/// IMAGE_PROPERTIES filters allow specification of a maximum number of dominant
+/// colors.
+class DetectLabelsSettings {
+  /// Contains the specified filters for GENERAL_LABELS.
+  final GeneralLabelsSettings? generalLabels;
+
+  /// Contains the chosen number of maximum dominant colors in an image.
+  final DetectLabelsImagePropertiesSettings? imageProperties;
+
+  DetectLabelsSettings({
+    this.generalLabels,
+    this.imageProperties,
+  });
+
+  Map<String, dynamic> toJson() {
+    final generalLabels = this.generalLabels;
+    final imageProperties = this.imageProperties;
+    return {
+      if (generalLabels != null) 'GeneralLabels': generalLabels,
+      if (imageProperties != null) 'ImageProperties': imageProperties,
+    };
+  }
+}
+
+/// Settings for the IMAGE_PROPERTIES feature type.
+class DetectLabelsImagePropertiesSettings {
+  /// The maximum number of dominant colors to return when detecting labels in an
+  /// image. The default value is 10.
+  final int? maxDominantColors;
+
+  DetectLabelsImagePropertiesSettings({
+    this.maxDominantColors,
+  });
+
+  Map<String, dynamic> toJson() {
+    final maxDominantColors = this.maxDominantColors;
+    return {
+      if (maxDominantColors != null) 'MaxDominantColors': maxDominantColors,
+    };
+  }
+}
+
+class DetectLabelsFeatureName {
+  static const generalLabels = DetectLabelsFeatureName._('GENERAL_LABELS');
+  static const imageProperties = DetectLabelsFeatureName._('IMAGE_PROPERTIES');
+
+  final String value;
+
+  const DetectLabelsFeatureName._(this.value);
+
+  static const values = [generalLabels, imageProperties];
+
+  static DetectLabelsFeatureName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DetectLabelsFeatureName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DetectLabelsFeatureName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A custom label detected in an image by a call to <a>DetectCustomLabels</a>.
+class CustomLabel {
+  /// The confidence that the model has in the detection of the custom label. The
+  /// range is 0-100. A higher value indicates a higher confidence.
+  final double? confidence;
+
+  /// The location of the detected object on the image that corresponds to the
+  /// custom label. Includes an axis aligned coarse bounding box surrounding the
+  /// object and a finer grain polygon for more accurate spatial information.
+  final Geometry? geometry;
+
+  /// The name of the custom label.
+  final String? name;
+
+  CustomLabel({
+    this.confidence,
+    this.geometry,
+    this.name,
+  });
+
+  factory CustomLabel.fromJson(Map<String, dynamic> json) {
+    return CustomLabel(
+      confidence: json['Confidence'] as double?,
+      geometry: json['Geometry'] != null
+          ? Geometry.fromJson(json['Geometry'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final confidence = this.confidence;
+    final geometry = this.geometry;
+    final name = this.name;
+    return {
+      if (confidence != null) 'Confidence': confidence,
+      if (geometry != null) 'Geometry': geometry,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// Information about the source streaming video.
+class StreamProcessorInput {
+  /// The Kinesis video stream input stream for the source streaming video.
+  final KinesisVideoStream? kinesisVideoStream;
+
+  StreamProcessorInput({
+    this.kinesisVideoStream,
+  });
+
+  factory StreamProcessorInput.fromJson(Map<String, dynamic> json) {
+    return StreamProcessorInput(
+      kinesisVideoStream: json['KinesisVideoStream'] != null
+          ? KinesisVideoStream.fromJson(
+              json['KinesisVideoStream'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kinesisVideoStream = this.kinesisVideoStream;
+    return {
+      if (kinesisVideoStream != null) 'KinesisVideoStream': kinesisVideoStream,
+    };
+  }
+}
+
+/// Information about the Amazon Kinesis Data Streams stream to which a Amazon
+/// Rekognition Video stream processor streams the results of a video analysis.
+/// For more information, see CreateStreamProcessor in the Amazon Rekognition
+/// Developer Guide.
+class StreamProcessorOutput {
+  /// The Amazon Kinesis Data Streams stream to which the Amazon Rekognition
+  /// stream processor streams the analysis results.
+  final KinesisDataStream? kinesisDataStream;
+
+  /// The Amazon S3 bucket location to which Amazon Rekognition publishes the
+  /// detailed inference results of a video analysis operation.
+  final S3Destination? s3Destination;
+
+  StreamProcessorOutput({
+    this.kinesisDataStream,
+    this.s3Destination,
+  });
+
+  factory StreamProcessorOutput.fromJson(Map<String, dynamic> json) {
+    return StreamProcessorOutput(
+      kinesisDataStream: json['KinesisDataStream'] != null
+          ? KinesisDataStream.fromJson(
+              json['KinesisDataStream'] as Map<String, dynamic>)
+          : null,
+      s3Destination: json['S3Destination'] != null
+          ? S3Destination.fromJson(
+              json['S3Destination'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kinesisDataStream = this.kinesisDataStream;
+    final s3Destination = this.s3Destination;
+    return {
+      if (kinesisDataStream != null) 'KinesisDataStream': kinesisDataStream,
+      if (s3Destination != null) 'S3Destination': s3Destination,
+    };
+  }
+}
+
+/// Input parameters used in a streaming video analyzed by a Amazon Rekognition
+/// stream processor. You can use <code>FaceSearch</code> to recognize faces in
+/// a streaming video, or you can use <code>ConnectedHome</code> to detect
+/// labels.
+class StreamProcessorSettings {
+  final ConnectedHomeSettings? connectedHome;
+
+  /// Face search settings to use on a streaming video.
+  final FaceSearchSettings? faceSearch;
+
+  StreamProcessorSettings({
+    this.connectedHome,
+    this.faceSearch,
+  });
+
+  factory StreamProcessorSettings.fromJson(Map<String, dynamic> json) {
+    return StreamProcessorSettings(
+      connectedHome: json['ConnectedHome'] != null
+          ? ConnectedHomeSettings.fromJson(
+              json['ConnectedHome'] as Map<String, dynamic>)
+          : null,
+      faceSearch: json['FaceSearch'] != null
+          ? FaceSearchSettings.fromJson(
+              json['FaceSearch'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectedHome = this.connectedHome;
+    final faceSearch = this.faceSearch;
+    return {
+      if (connectedHome != null) 'ConnectedHome': connectedHome,
+      if (faceSearch != null) 'FaceSearch': faceSearch,
+    };
+  }
+}
+
+/// The Amazon Simple Notification Service topic to which Amazon Rekognition
+/// publishes the object detection results and completion status of a video
+/// analysis operation.
+///
+/// Amazon Rekognition publishes a notification the first time an object of
+/// interest or a person is detected in the video stream. For example, if Amazon
+/// Rekognition detects a person at second 2, a pet at second 4, and a person
+/// again at second 5, Amazon Rekognition sends 2 object class detected
+/// notifications, one for a person at second 2 and one for a pet at second 4.
+///
+/// Amazon Rekognition also publishes an an end-of-session notification with a
+/// summary when the stream processing session is complete.
+class StreamProcessorNotificationChannel {
+  /// The Amazon Resource Number (ARN) of the Amazon Amazon Simple Notification
+  /// Service topic to which Amazon Rekognition posts the completion status.
+  final String sNSTopicArn;
+
+  StreamProcessorNotificationChannel({
+    required this.sNSTopicArn,
+  });
+
+  factory StreamProcessorNotificationChannel.fromJson(
+      Map<String, dynamic> json) {
+    return StreamProcessorNotificationChannel(
+      sNSTopicArn: (json['SNSTopicArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sNSTopicArn = this.sNSTopicArn;
+    return {
+      'SNSTopicArn': sNSTopicArn,
+    };
+  }
+}
+
+/// Input face recognition parameters for an Amazon Rekognition stream
+/// processor. Includes the collection to use for face recognition and the face
+/// attributes to detect. Defining the settings is required in the request
+/// parameter for <a>CreateStreamProcessor</a>.
+class FaceSearchSettings {
+  /// The ID of a collection that contains faces that you want to search for.
+  final String? collectionId;
+
+  /// Minimum face match confidence score that must be met to return a result for
+  /// a recognized face. The default is 80. 0 is the lowest confidence. 100 is the
+  /// highest confidence. Values between 0 and 100 are accepted, and values lower
+  /// than 80 are set to 80.
+  final double? faceMatchThreshold;
+
+  FaceSearchSettings({
+    this.collectionId,
+    this.faceMatchThreshold,
+  });
+
+  factory FaceSearchSettings.fromJson(Map<String, dynamic> json) {
+    return FaceSearchSettings(
+      collectionId: json['CollectionId'] as String?,
+      faceMatchThreshold: json['FaceMatchThreshold'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final collectionId = this.collectionId;
+    final faceMatchThreshold = this.faceMatchThreshold;
+    return {
+      if (collectionId != null) 'CollectionId': collectionId,
+      if (faceMatchThreshold != null) 'FaceMatchThreshold': faceMatchThreshold,
+    };
+  }
+}
+
+/// Label detection settings to use on a streaming video. Defining the settings
+/// is required in the request parameter for <a>CreateStreamProcessor</a>.
+/// Including this setting in the <code>CreateStreamProcessor</code> request
+/// enables you to use the stream processor for label detection. You can then
+/// select what you want the stream processor to detect, such as people or pets.
+/// When the stream processor has started, one notification is sent for each
+/// object class specified. For example, if packages and pets are selected, one
+/// SNS notification is published the first time a package is detected and one
+/// SNS notification is published the first time a pet is detected, as well as
+/// an end-of-session summary.
+class ConnectedHomeSettings {
+  /// Specifies what you want to detect in the video, such as people, packages, or
+  /// pets. The current valid labels you can include in this list are: "PERSON",
+  /// "PET", "PACKAGE", and "ALL".
+  final List<String> labels;
+
+  /// The minimum confidence required to label an object in the video.
+  final double? minConfidence;
+
+  ConnectedHomeSettings({
+    required this.labels,
+    this.minConfidence,
+  });
+
+  factory ConnectedHomeSettings.fromJson(Map<String, dynamic> json) {
+    return ConnectedHomeSettings(
+      labels: ((json['Labels'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      minConfidence: json['MinConfidence'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final labels = this.labels;
+    final minConfidence = this.minConfidence;
+    return {
+      'Labels': labels,
+      if (minConfidence != null) 'MinConfidence': minConfidence,
+    };
+  }
+}
+
+/// The Kinesis data stream Amazon Rekognition to which the analysis results of
+/// a Amazon Rekognition stream processor are streamed. For more information,
+/// see CreateStreamProcessor in the Amazon Rekognition Developer Guide.
+class KinesisDataStream {
+  /// ARN of the output Amazon Kinesis Data Streams stream.
+  final String? arn;
+
+  KinesisDataStream({
+    this.arn,
+  });
+
+  factory KinesisDataStream.fromJson(Map<String, dynamic> json) {
+    return KinesisDataStream(
+      arn: json['Arn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
+      if (arn != null) 'Arn': arn,
+    };
+  }
+}
+
+/// The Amazon S3 bucket location to which Amazon Rekognition publishes the
+/// detailed inference results of a video analysis operation. These results
+/// include the name of the stream processor resource, the session ID of the
+/// stream processing session, and labeled timestamps and bounding boxes for
+/// detected labels.
+class S3Destination {
+  /// The name of the Amazon S3 bucket you want to associate with the streaming
+  /// video project. You must be the owner of the Amazon S3 bucket.
+  final String? bucket;
+
+  /// The prefix value of the location within the bucket that you want the
+  /// information to be published to. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-prefixes.html">Using
+  /// prefixes</a>.
+  final String? keyPrefix;
+
+  S3Destination({
+    this.bucket,
+    this.keyPrefix,
+  });
+
+  factory S3Destination.fromJson(Map<String, dynamic> json) {
+    return S3Destination(
+      bucket: json['Bucket'] as String?,
+      keyPrefix: json['KeyPrefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final keyPrefix = this.keyPrefix;
+    return {
+      if (bucket != null) 'Bucket': bucket,
+      if (keyPrefix != null) 'KeyPrefix': keyPrefix,
+    };
+  }
+}
+
+/// Kinesis video stream stream that provides the source streaming video for a
+/// Amazon Rekognition Video stream processor. For more information, see
+/// CreateStreamProcessor in the Amazon Rekognition Developer Guide.
+class KinesisVideoStream {
+  /// ARN of the Kinesis video stream stream that streams the source video.
+  final String? arn;
+
+  KinesisVideoStream({
+    this.arn,
+  });
+
+  factory KinesisVideoStream.fromJson(Map<String, dynamic> json) {
+    return KinesisVideoStream(
+      arn: json['Arn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
+      if (arn != null) 'Arn': arn,
+    };
+  }
+}
+
+/// A description of a version of a Amazon Rekognition project version.
+class ProjectVersionDescription {
+  /// The base detection model version used to create the project version.
+  final String? baseModelVersion;
+
+  /// The duration, in seconds, that you were billed for a successful training of
+  /// the model version. This value is only returned if the model version has been
+  /// successfully trained.
+  final int? billableTrainingTimeInSeconds;
+
+  /// The Unix datetime for the date and time that training started.
+  final DateTime? creationTimestamp;
+
+  /// The training results. <code>EvaluationResult</code> is only returned if
+  /// training is successful.
+  final EvaluationResult? evaluationResult;
+
+  /// The feature that was customized.
+  final CustomizationFeature? feature;
+
+  /// Feature specific configuration that was applied during training.
+  final CustomizationFeatureConfig? featureConfig;
+
+  /// The identifer for the AWS Key Management Service key (AWS KMS key) that was
+  /// used to encrypt the model during training.
+  final String? kmsKeyId;
+
+  /// The location of the summary manifest. The summary manifest provides
+  /// aggregate data validation results for the training and test datasets.
+  final GroundTruthManifest? manifestSummary;
+
+  /// The maximum number of inference units Amazon Rekognition uses to auto-scale
+  /// the model. Applies only to Custom Labels projects. For more information, see
+  /// <a>StartProjectVersion</a>.
+  final int? maxInferenceUnits;
+
+  /// The minimum number of inference units used by the model. Applies only to
+  /// Custom Labels projects. For more information, see
+  /// <a>StartProjectVersion</a>.
+  final int? minInferenceUnits;
+
+  /// The location where training results are saved.
+  final OutputConfig? outputConfig;
+
+  /// The Amazon Resource Name (ARN) of the project version.
+  final String? projectVersionArn;
+
+  /// If the model version was copied from a different project,
+  /// <code>SourceProjectVersionArn</code> contains the ARN of the source model
+  /// version.
+  final String? sourceProjectVersionArn;
+
+  /// The current status of the model version.
+  final ProjectVersionStatus? status;
+
+  /// A descriptive message for an error or warning that occurred.
+  final String? statusMessage;
+
+  /// Contains information about the testing results.
+  final TestingDataResult? testingDataResult;
+
+  /// Contains information about the training results.
+  final TrainingDataResult? trainingDataResult;
+
+  /// The Unix date and time that training of the model ended.
+  final DateTime? trainingEndTimestamp;
+
+  /// A user-provided description of the project version.
+  final String? versionDescription;
+
+  ProjectVersionDescription({
+    this.baseModelVersion,
+    this.billableTrainingTimeInSeconds,
+    this.creationTimestamp,
+    this.evaluationResult,
+    this.feature,
+    this.featureConfig,
+    this.kmsKeyId,
+    this.manifestSummary,
+    this.maxInferenceUnits,
+    this.minInferenceUnits,
+    this.outputConfig,
+    this.projectVersionArn,
+    this.sourceProjectVersionArn,
+    this.status,
+    this.statusMessage,
+    this.testingDataResult,
+    this.trainingDataResult,
+    this.trainingEndTimestamp,
+    this.versionDescription,
+  });
+
+  factory ProjectVersionDescription.fromJson(Map<String, dynamic> json) {
+    return ProjectVersionDescription(
+      baseModelVersion: json['BaseModelVersion'] as String?,
+      billableTrainingTimeInSeconds:
+          json['BillableTrainingTimeInSeconds'] as int?,
+      creationTimestamp: timeStampFromJson(json['CreationTimestamp']),
+      evaluationResult: json['EvaluationResult'] != null
+          ? EvaluationResult.fromJson(
+              json['EvaluationResult'] as Map<String, dynamic>)
+          : null,
+      feature:
+          (json['Feature'] as String?)?.let(CustomizationFeature.fromString),
+      featureConfig: json['FeatureConfig'] != null
+          ? CustomizationFeatureConfig.fromJson(
+              json['FeatureConfig'] as Map<String, dynamic>)
+          : null,
+      kmsKeyId: json['KmsKeyId'] as String?,
+      manifestSummary: json['ManifestSummary'] != null
+          ? GroundTruthManifest.fromJson(
+              json['ManifestSummary'] as Map<String, dynamic>)
+          : null,
+      maxInferenceUnits: json['MaxInferenceUnits'] as int?,
+      minInferenceUnits: json['MinInferenceUnits'] as int?,
+      outputConfig: json['OutputConfig'] != null
+          ? OutputConfig.fromJson(json['OutputConfig'] as Map<String, dynamic>)
+          : null,
+      projectVersionArn: json['ProjectVersionArn'] as String?,
+      sourceProjectVersionArn: json['SourceProjectVersionArn'] as String?,
+      status: (json['Status'] as String?)?.let(ProjectVersionStatus.fromString),
+      statusMessage: json['StatusMessage'] as String?,
+      testingDataResult: json['TestingDataResult'] != null
+          ? TestingDataResult.fromJson(
+              json['TestingDataResult'] as Map<String, dynamic>)
+          : null,
+      trainingDataResult: json['TrainingDataResult'] != null
+          ? TrainingDataResult.fromJson(
+              json['TrainingDataResult'] as Map<String, dynamic>)
+          : null,
+      trainingEndTimestamp: timeStampFromJson(json['TrainingEndTimestamp']),
+      versionDescription: json['VersionDescription'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final baseModelVersion = this.baseModelVersion;
+    final billableTrainingTimeInSeconds = this.billableTrainingTimeInSeconds;
+    final creationTimestamp = this.creationTimestamp;
+    final evaluationResult = this.evaluationResult;
+    final feature = this.feature;
+    final featureConfig = this.featureConfig;
+    final kmsKeyId = this.kmsKeyId;
+    final manifestSummary = this.manifestSummary;
+    final maxInferenceUnits = this.maxInferenceUnits;
+    final minInferenceUnits = this.minInferenceUnits;
+    final outputConfig = this.outputConfig;
+    final projectVersionArn = this.projectVersionArn;
+    final sourceProjectVersionArn = this.sourceProjectVersionArn;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    final testingDataResult = this.testingDataResult;
+    final trainingDataResult = this.trainingDataResult;
+    final trainingEndTimestamp = this.trainingEndTimestamp;
+    final versionDescription = this.versionDescription;
+    return {
+      if (baseModelVersion != null) 'BaseModelVersion': baseModelVersion,
+      if (billableTrainingTimeInSeconds != null)
+        'BillableTrainingTimeInSeconds': billableTrainingTimeInSeconds,
+      if (creationTimestamp != null)
+        'CreationTimestamp': unixTimestampToJson(creationTimestamp),
+      if (evaluationResult != null) 'EvaluationResult': evaluationResult,
+      if (feature != null) 'Feature': feature.value,
+      if (featureConfig != null) 'FeatureConfig': featureConfig,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (manifestSummary != null) 'ManifestSummary': manifestSummary,
+      if (maxInferenceUnits != null) 'MaxInferenceUnits': maxInferenceUnits,
+      if (minInferenceUnits != null) 'MinInferenceUnits': minInferenceUnits,
+      if (outputConfig != null) 'OutputConfig': outputConfig,
+      if (projectVersionArn != null) 'ProjectVersionArn': projectVersionArn,
+      if (sourceProjectVersionArn != null)
+        'SourceProjectVersionArn': sourceProjectVersionArn,
+      if (status != null) 'Status': status.value,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+      if (testingDataResult != null) 'TestingDataResult': testingDataResult,
+      if (trainingDataResult != null) 'TrainingDataResult': trainingDataResult,
+      if (trainingEndTimestamp != null)
+        'TrainingEndTimestamp': unixTimestampToJson(trainingEndTimestamp),
+      if (versionDescription != null) 'VersionDescription': versionDescription,
+    };
+  }
+}
+
+/// The S3 bucket and folder location where training output is placed.
+class OutputConfig {
+  /// The S3 bucket where training output is placed.
+  final String? s3Bucket;
+
+  /// The prefix applied to the training output files.
+  final String? s3KeyPrefix;
+
+  OutputConfig({
+    this.s3Bucket,
+    this.s3KeyPrefix,
+  });
+
+  factory OutputConfig.fromJson(Map<String, dynamic> json) {
+    return OutputConfig(
+      s3Bucket: json['S3Bucket'] as String?,
+      s3KeyPrefix: json['S3KeyPrefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Bucket = this.s3Bucket;
+    final s3KeyPrefix = this.s3KeyPrefix;
+    return {
+      if (s3Bucket != null) 'S3Bucket': s3Bucket,
+      if (s3KeyPrefix != null) 'S3KeyPrefix': s3KeyPrefix,
+    };
+  }
+}
+
+/// The data validation manifest created for the training dataset during model
+/// training.
+class TrainingDataResult {
+  /// The training data that you supplied.
+  final TrainingData? input;
+
+  /// Reference to images (assets) that were actually used during training with
+  /// trained model predictions.
+  final TrainingData? output;
+
+  /// A manifest that you supplied for training, with validation results for each
+  /// line.
+  final ValidationData? validation;
+
+  TrainingDataResult({
+    this.input,
+    this.output,
+    this.validation,
+  });
+
+  factory TrainingDataResult.fromJson(Map<String, dynamic> json) {
+    return TrainingDataResult(
+      input: json['Input'] != null
+          ? TrainingData.fromJson(json['Input'] as Map<String, dynamic>)
+          : null,
+      output: json['Output'] != null
+          ? TrainingData.fromJson(json['Output'] as Map<String, dynamic>)
+          : null,
+      validation: json['Validation'] != null
+          ? ValidationData.fromJson(json['Validation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final input = this.input;
+    final output = this.output;
+    final validation = this.validation;
+    return {
+      if (input != null) 'Input': input,
+      if (output != null) 'Output': output,
+      if (validation != null) 'Validation': validation,
+    };
+  }
+}
+
+/// Sagemaker Groundtruth format manifest files for the input, output and
+/// validation datasets that are used and created during testing.
+class TestingDataResult {
+  /// The testing dataset that was supplied for training.
+  final TestingData? input;
+
+  /// The subset of the dataset that was actually tested. Some images (assets)
+  /// might not be tested due to file formatting and other issues.
+  final TestingData? output;
+
+  /// The location of the data validation manifest. The data validation manifest
+  /// is created for the test dataset during model training.
+  final ValidationData? validation;
+
+  TestingDataResult({
+    this.input,
+    this.output,
+    this.validation,
+  });
+
+  factory TestingDataResult.fromJson(Map<String, dynamic> json) {
+    return TestingDataResult(
+      input: json['Input'] != null
+          ? TestingData.fromJson(json['Input'] as Map<String, dynamic>)
+          : null,
+      output: json['Output'] != null
+          ? TestingData.fromJson(json['Output'] as Map<String, dynamic>)
+          : null,
+      validation: json['Validation'] != null
+          ? ValidationData.fromJson(json['Validation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final input = this.input;
+    final output = this.output;
+    final validation = this.validation;
+    return {
+      if (input != null) 'Input': input,
+      if (output != null) 'Output': output,
+      if (validation != null) 'Validation': validation,
+    };
+  }
+}
+
+/// The evaluation results for the training of a model.
+class EvaluationResult {
+  /// The F1 score for the evaluation of all labels. The F1 score metric evaluates
+  /// the overall precision and recall performance of the model as a single value.
+  /// A higher value indicates better precision and recall performance. A lower
+  /// score indicates that precision, recall, or both are performing poorly.
+  final double? f1Score;
+
+  /// The S3 bucket that contains the training summary.
+  final Summary? summary;
+
+  EvaluationResult({
+    this.f1Score,
+    this.summary,
+  });
+
+  factory EvaluationResult.fromJson(Map<String, dynamic> json) {
+    return EvaluationResult(
+      f1Score: json['F1Score'] as double?,
+      summary: json['Summary'] != null
+          ? Summary.fromJson(json['Summary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final f1Score = this.f1Score;
+    final summary = this.summary;
+    return {
+      if (f1Score != null) 'F1Score': f1Score,
+      if (summary != null) 'Summary': summary,
+    };
+  }
+}
+
+/// The S3 bucket that contains an Amazon Sagemaker Ground Truth format manifest
+/// file.
+class GroundTruthManifest {
+  final S3Object? s3Object;
+
+  GroundTruthManifest({
+    this.s3Object,
+  });
+
+  factory GroundTruthManifest.fromJson(Map<String, dynamic> json) {
+    return GroundTruthManifest(
+      s3Object: json['S3Object'] != null
+          ? S3Object.fromJson(json['S3Object'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Object = this.s3Object;
+    return {
+      if (s3Object != null) 'S3Object': s3Object,
+    };
+  }
+}
+
+class CustomizationFeature {
+  static const contentModeration = CustomizationFeature._('CONTENT_MODERATION');
+  static const customLabels = CustomizationFeature._('CUSTOM_LABELS');
+
+  final String value;
+
+  const CustomizationFeature._(this.value);
+
+  static const values = [contentModeration, customLabels];
+
+  static CustomizationFeature fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CustomizationFeature._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomizationFeature && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Feature specific configuration for the training job. Configuration provided
+/// for the job must match the feature type parameter associated with project.
+/// If configuration and feature type do not match an InvalidParameterException
+/// is returned.
+class CustomizationFeatureConfig {
+  /// Configuration options for Custom Moderation training.
+  final CustomizationFeatureContentModerationConfig? contentModeration;
+
+  CustomizationFeatureConfig({
+    this.contentModeration,
+  });
+
+  factory CustomizationFeatureConfig.fromJson(Map<String, dynamic> json) {
+    return CustomizationFeatureConfig(
+      contentModeration: json['ContentModeration'] != null
+          ? CustomizationFeatureContentModerationConfig.fromJson(
+              json['ContentModeration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contentModeration = this.contentModeration;
+    return {
+      if (contentModeration != null) 'ContentModeration': contentModeration,
+    };
+  }
+}
+
+/// Configuration options for Content Moderation training.
+class CustomizationFeatureContentModerationConfig {
+  /// The confidence level you plan to use to identify if unsafe content is
+  /// present during inference.
+  final double? confidenceThreshold;
+
+  CustomizationFeatureContentModerationConfig({
+    this.confidenceThreshold,
+  });
+
+  factory CustomizationFeatureContentModerationConfig.fromJson(
+      Map<String, dynamic> json) {
+    return CustomizationFeatureContentModerationConfig(
+      confidenceThreshold: json['ConfidenceThreshold'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final confidenceThreshold = this.confidenceThreshold;
+    return {
+      if (confidenceThreshold != null)
+        'ConfidenceThreshold': confidenceThreshold,
+    };
+  }
+}
+
+/// The S3 bucket that contains the training summary. The training summary
+/// includes aggregated evaluation metrics for the entire testing dataset and
+/// metrics for each individual label.
+///
+/// You get the training summary S3 bucket location by calling
+/// <a>DescribeProjectVersions</a>.
+class Summary {
+  final S3Object? s3Object;
+
+  Summary({
+    this.s3Object,
+  });
+
+  factory Summary.fromJson(Map<String, dynamic> json) {
+    return Summary(
+      s3Object: json['S3Object'] != null
+          ? S3Object.fromJson(json['S3Object'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Object = this.s3Object;
+    return {
+      if (s3Object != null) 'S3Object': s3Object,
+    };
+  }
+}
+
+/// The dataset used for testing. Optionally, if <code>AutoCreate</code> is set,
+/// Amazon Rekognition uses the training dataset to create a test dataset with a
+/// temporary split of the training dataset.
+class TestingData {
+  /// The assets used for testing.
+  final List<Asset>? assets;
+
+  /// If specified, Rekognition splits training dataset to create a test dataset
+  /// for the training job.
+  final bool? autoCreate;
+
+  TestingData({
+    this.assets,
+    this.autoCreate,
+  });
+
+  factory TestingData.fromJson(Map<String, dynamic> json) {
+    return TestingData(
+      assets: (json['Assets'] as List?)
+          ?.nonNulls
+          .map((e) => Asset.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      autoCreate: json['AutoCreate'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assets = this.assets;
+    final autoCreate = this.autoCreate;
+    return {
+      if (assets != null) 'Assets': assets,
+      if (autoCreate != null) 'AutoCreate': autoCreate,
+    };
+  }
+}
+
+/// Contains the Amazon S3 bucket location of the validation data for a model
+/// training job.
+///
+/// The validation data includes error information for individual JSON Lines in
+/// the dataset. For more information, see <i>Debugging a Failed Model
+/// Training</i> in the Amazon Rekognition Custom Labels Developer Guide.
+///
+/// You get the <code>ValidationData</code> object for the training dataset
+/// (<a>TrainingDataResult</a>) and the test dataset (<a>TestingDataResult</a>)
+/// by calling <a>DescribeProjectVersions</a>.
+///
+/// The assets array contains a single <a>Asset</a> object. The
+/// <a>GroundTruthManifest</a> field of the Asset object contains the S3 bucket
+/// location of the validation data.
+class ValidationData {
+  /// The assets that comprise the validation data.
+  final List<Asset>? assets;
+
+  ValidationData({
+    this.assets,
+  });
+
+  factory ValidationData.fromJson(Map<String, dynamic> json) {
+    return ValidationData(
+      assets: (json['Assets'] as List?)
+          ?.nonNulls
+          .map((e) => Asset.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assets = this.assets;
+    return {
+      if (assets != null) 'Assets': assets,
+    };
+  }
+}
+
+/// Assets are the images that you use to train and evaluate a model version.
+/// Assets can also contain validation information that you use to debug a
+/// failed model training.
+class Asset {
+  final GroundTruthManifest? groundTruthManifest;
+
+  Asset({
+    this.groundTruthManifest,
+  });
+
+  factory Asset.fromJson(Map<String, dynamic> json) {
+    return Asset(
+      groundTruthManifest: json['GroundTruthManifest'] != null
+          ? GroundTruthManifest.fromJson(
+              json['GroundTruthManifest'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groundTruthManifest = this.groundTruthManifest;
+    return {
+      if (groundTruthManifest != null)
+        'GroundTruthManifest': groundTruthManifest,
+    };
+  }
+}
+
+/// The dataset used for training.
+class TrainingData {
+  /// A manifest file that contains references to the training images and
+  /// ground-truth annotations.
+  final List<Asset>? assets;
+
+  TrainingData({
+    this.assets,
+  });
+
+  factory TrainingData.fromJson(Map<String, dynamic> json) {
+    return TrainingData(
+      assets: (json['Assets'] as List?)
+          ?.nonNulls
+          .map((e) => Asset.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assets = this.assets;
+    return {
+      if (assets != null) 'Assets': assets,
+    };
+  }
+}
+
+/// A description of an Amazon Rekognition Custom Labels project. For more
+/// information, see <a>DescribeProjects</a>.
+class ProjectDescription {
+  /// Indicates whether automatic retraining will be attempted for the versions of
+  /// the project. Applies only to adapters.
+  final ProjectAutoUpdate? autoUpdate;
+
+  /// The Unix timestamp for the date and time that the project was created.
+  final DateTime? creationTimestamp;
+
+  /// Information about the training and test datasets in the project.
+  final List<DatasetMetadata>? datasets;
+
+  /// Specifies the project that is being customized.
+  final CustomizationFeature? feature;
+
+  /// The Amazon Resource Name (ARN) of the project.
+  final String? projectArn;
+
+  /// The current status of the project.
+  final ProjectStatus? status;
+
+  ProjectDescription({
+    this.autoUpdate,
+    this.creationTimestamp,
+    this.datasets,
+    this.feature,
+    this.projectArn,
+    this.status,
+  });
+
+  factory ProjectDescription.fromJson(Map<String, dynamic> json) {
+    return ProjectDescription(
+      autoUpdate:
+          (json['AutoUpdate'] as String?)?.let(ProjectAutoUpdate.fromString),
+      creationTimestamp: timeStampFromJson(json['CreationTimestamp']),
+      datasets: (json['Datasets'] as List?)
+          ?.nonNulls
+          .map((e) => DatasetMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      feature:
+          (json['Feature'] as String?)?.let(CustomizationFeature.fromString),
+      projectArn: json['ProjectArn'] as String?,
+      status: (json['Status'] as String?)?.let(ProjectStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoUpdate = this.autoUpdate;
+    final creationTimestamp = this.creationTimestamp;
+    final datasets = this.datasets;
+    final feature = this.feature;
+    final projectArn = this.projectArn;
+    final status = this.status;
+    return {
+      if (autoUpdate != null) 'AutoUpdate': autoUpdate.value,
+      if (creationTimestamp != null)
+        'CreationTimestamp': unixTimestampToJson(creationTimestamp),
+      if (datasets != null) 'Datasets': datasets,
+      if (feature != null) 'Feature': feature.value,
+      if (projectArn != null) 'ProjectArn': projectArn,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class ProjectStatus {
+  static const creating = ProjectStatus._('CREATING');
+  static const created = ProjectStatus._('CREATED');
+  static const deleting = ProjectStatus._('DELETING');
+
+  final String value;
+
+  const ProjectStatus._(this.value);
+
+  static const values = [creating, created, deleting];
+
+  static ProjectStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProjectStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ProjectStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ProjectAutoUpdate {
+  static const enabled = ProjectAutoUpdate._('ENABLED');
+  static const disabled = ProjectAutoUpdate._('DISABLED');
+
+  final String value;
+
+  const ProjectAutoUpdate._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static ProjectAutoUpdate fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProjectAutoUpdate._(value));
+
+  @override
+  bool operator ==(other) => other is ProjectAutoUpdate && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Summary information for an Amazon Rekognition Custom Labels dataset. For
+/// more information, see <a>ProjectDescription</a>.
+class DatasetMetadata {
+  /// The Unix timestamp for the date and time that the dataset was created.
+  final DateTime? creationTimestamp;
+
+  /// The Amazon Resource Name (ARN) for the dataset.
+  final String? datasetArn;
+
+  /// The type of the dataset.
+  final DatasetType? datasetType;
+
+  /// The status for the dataset.
+  final DatasetStatus? status;
+
+  /// The status message for the dataset.
+  final String? statusMessage;
+
+  /// The status message code for the dataset operation. If a service error
+  /// occurs, try the API call again later. If a client error occurs, check the
+  /// input parameters to the dataset API call that failed.
+  final DatasetStatusMessageCode? statusMessageCode;
+
+  DatasetMetadata({
+    this.creationTimestamp,
+    this.datasetArn,
+    this.datasetType,
+    this.status,
+    this.statusMessage,
+    this.statusMessageCode,
+  });
+
+  factory DatasetMetadata.fromJson(Map<String, dynamic> json) {
+    return DatasetMetadata(
+      creationTimestamp: timeStampFromJson(json['CreationTimestamp']),
+      datasetArn: json['DatasetArn'] as String?,
+      datasetType:
+          (json['DatasetType'] as String?)?.let(DatasetType.fromString),
+      status: (json['Status'] as String?)?.let(DatasetStatus.fromString),
+      statusMessage: json['StatusMessage'] as String?,
+      statusMessageCode: (json['StatusMessageCode'] as String?)
+          ?.let(DatasetStatusMessageCode.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTimestamp = this.creationTimestamp;
+    final datasetArn = this.datasetArn;
+    final datasetType = this.datasetType;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    final statusMessageCode = this.statusMessageCode;
+    return {
+      if (creationTimestamp != null)
+        'CreationTimestamp': unixTimestampToJson(creationTimestamp),
+      if (datasetArn != null) 'DatasetArn': datasetArn,
+      if (datasetType != null) 'DatasetType': datasetType.value,
+      if (status != null) 'Status': status.value,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+      if (statusMessageCode != null)
+        'StatusMessageCode': statusMessageCode.value,
+    };
+  }
+}
+
+class DatasetType {
+  static const train = DatasetType._('TRAIN');
+  static const test = DatasetType._('TEST');
+
+  final String value;
+
+  const DatasetType._(this.value);
+
+  static const values = [train, test];
+
+  static DatasetType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DatasetType._(value));
+
+  @override
+  bool operator ==(other) => other is DatasetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DatasetStatus {
+  static const createInProgress = DatasetStatus._('CREATE_IN_PROGRESS');
+  static const createComplete = DatasetStatus._('CREATE_COMPLETE');
+  static const createFailed = DatasetStatus._('CREATE_FAILED');
+  static const updateInProgress = DatasetStatus._('UPDATE_IN_PROGRESS');
+  static const updateComplete = DatasetStatus._('UPDATE_COMPLETE');
+  static const updateFailed = DatasetStatus._('UPDATE_FAILED');
+  static const deleteInProgress = DatasetStatus._('DELETE_IN_PROGRESS');
+
+  final String value;
+
+  const DatasetStatus._(this.value);
+
+  static const values = [
+    createInProgress,
+    createComplete,
+    createFailed,
+    updateInProgress,
+    updateComplete,
+    updateFailed,
+    deleteInProgress
+  ];
+
+  static DatasetStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DatasetStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DatasetStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DatasetStatusMessageCode {
+  static const success = DatasetStatusMessageCode._('SUCCESS');
+  static const serviceError = DatasetStatusMessageCode._('SERVICE_ERROR');
+  static const clientError = DatasetStatusMessageCode._('CLIENT_ERROR');
+
+  final String value;
+
+  const DatasetStatusMessageCode._(this.value);
+
+  static const values = [success, serviceError, clientError];
+
+  static DatasetStatusMessageCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DatasetStatusMessageCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DatasetStatusMessageCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A description for a dataset. For more information, see
+/// <a>DescribeDataset</a>.
+///
+/// The status fields <code>Status</code>, <code>StatusMessage</code>, and
+/// <code>StatusMessageCode</code> reflect the last operation on the dataset.
+class DatasetDescription {
+  /// The Unix timestamp for the time and date that the dataset was created.
+  final DateTime? creationTimestamp;
+
+  /// The status message code for the dataset.
+  final DatasetStats? datasetStats;
+
+  /// The Unix timestamp for the date and time that the dataset was last updated.
+  final DateTime? lastUpdatedTimestamp;
+
+  /// The status of the dataset.
+  final DatasetStatus? status;
+
+  /// The status message for the dataset.
+  final String? statusMessage;
+
+  /// The status message code for the dataset operation. If a service error
+  /// occurs, try the API call again later. If a client error occurs, check the
+  /// input parameters to the dataset API call that failed.
+  final DatasetStatusMessageCode? statusMessageCode;
+
+  DatasetDescription({
+    this.creationTimestamp,
+    this.datasetStats,
+    this.lastUpdatedTimestamp,
+    this.status,
+    this.statusMessage,
+    this.statusMessageCode,
+  });
+
+  factory DatasetDescription.fromJson(Map<String, dynamic> json) {
+    return DatasetDescription(
+      creationTimestamp: timeStampFromJson(json['CreationTimestamp']),
+      datasetStats: json['DatasetStats'] != null
+          ? DatasetStats.fromJson(json['DatasetStats'] as Map<String, dynamic>)
+          : null,
+      lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
+      status: (json['Status'] as String?)?.let(DatasetStatus.fromString),
+      statusMessage: json['StatusMessage'] as String?,
+      statusMessageCode: (json['StatusMessageCode'] as String?)
+          ?.let(DatasetStatusMessageCode.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTimestamp = this.creationTimestamp;
+    final datasetStats = this.datasetStats;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    final statusMessageCode = this.statusMessageCode;
+    return {
+      if (creationTimestamp != null)
+        'CreationTimestamp': unixTimestampToJson(creationTimestamp),
+      if (datasetStats != null) 'DatasetStats': datasetStats,
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
+      if (status != null) 'Status': status.value,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+      if (statusMessageCode != null)
+        'StatusMessageCode': statusMessageCode.value,
+    };
+  }
+}
+
+/// Provides statistics about a dataset. For more information, see
+/// <a>DescribeDataset</a>.
+class DatasetStats {
+  /// The total number of entries that contain at least one error.
+  final int? errorEntries;
+
+  /// The total number of images in the dataset that have labels.
+  final int? labeledEntries;
+
+  /// The total number of images in the dataset.
+  final int? totalEntries;
+
+  /// The total number of labels declared in the dataset.
+  final int? totalLabels;
+
+  DatasetStats({
+    this.errorEntries,
+    this.labeledEntries,
+    this.totalEntries,
+    this.totalLabels,
+  });
+
+  factory DatasetStats.fromJson(Map<String, dynamic> json) {
+    return DatasetStats(
+      errorEntries: json['ErrorEntries'] as int?,
+      labeledEntries: json['LabeledEntries'] as int?,
+      totalEntries: json['TotalEntries'] as int?,
+      totalLabels: json['TotalLabels'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorEntries = this.errorEntries;
+    final labeledEntries = this.labeledEntries;
+    final totalEntries = this.totalEntries;
+    final totalLabels = this.totalLabels;
+    return {
+      if (errorEntries != null) 'ErrorEntries': errorEntries,
+      if (labeledEntries != null) 'LabeledEntries': labeledEntries,
+      if (totalEntries != null) 'TotalEntries': totalEntries,
+      if (totalLabels != null) 'TotalLabels': totalLabels,
+    };
+  }
+}
+
+/// Contains metadata like FaceId, UserID, and Reasons, for a face that was
+/// unsuccessfully deleted.
+class UnsuccessfulFaceDeletion {
+  /// A unique identifier assigned to the face.
+  final String? faceId;
+
+  /// The reason why the deletion was unsuccessful.
+  final List<UnsuccessfulFaceDeletionReason>? reasons;
+
+  /// A provided ID for the UserID. Unique within the collection.
+  final String? userId;
+
+  UnsuccessfulFaceDeletion({
+    this.faceId,
+    this.reasons,
+    this.userId,
+  });
+
+  factory UnsuccessfulFaceDeletion.fromJson(Map<String, dynamic> json) {
+    return UnsuccessfulFaceDeletion(
+      faceId: json['FaceId'] as String?,
+      reasons: (json['Reasons'] as List?)
+          ?.nonNulls
+          .map((e) => UnsuccessfulFaceDeletionReason.fromString((e as String)))
+          .toList(),
+      userId: json['UserId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final faceId = this.faceId;
+    final reasons = this.reasons;
+    final userId = this.userId;
+    return {
+      if (faceId != null) 'FaceId': faceId,
+      if (reasons != null) 'Reasons': reasons.map((e) => e.value).toList(),
+      if (userId != null) 'UserId': userId,
+    };
+  }
+}
+
+class UnsuccessfulFaceDeletionReason {
+  static const associatedToAnExistingUser =
+      UnsuccessfulFaceDeletionReason._('ASSOCIATED_TO_AN_EXISTING_USER');
+  static const faceNotFound =
+      UnsuccessfulFaceDeletionReason._('FACE_NOT_FOUND');
+
+  final String value;
+
+  const UnsuccessfulFaceDeletionReason._(this.value);
+
+  static const values = [associatedToAnExistingUser, faceNotFound];
+
+  static UnsuccessfulFaceDeletionReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UnsuccessfulFaceDeletionReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UnsuccessfulFaceDeletionReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A session settings object. It contains settings for the operation to be
+/// performed. It accepts arguments for OutputConfig and AuditImagesLimit.
+class CreateFaceLivenessSessionRequestSettings {
+  /// Number of audit images to be returned back. Takes an integer between 0-4.
+  /// Any integer less than 0 will return 0, any integer above 4 will return 4
+  /// images in the response. By default, it is set to 0. The limit is best effort
+  /// and is based on the actual duration of the selfie-video.
+  final int? auditImagesLimit;
+
+  /// Indicates preferred challenge types and versions for the Face Liveness
+  /// session to be created.
+  final List<ChallengePreference>? challengePreferences;
+
+  /// Can specify the location of an Amazon S3 bucket, where reference and audit
+  /// images will be stored. Note that the Amazon S3 bucket must be located in the
+  /// caller's AWS account and in the same region as the Face Liveness end-point.
+  /// Additionally, the Amazon S3 object keys are auto-generated by the Face
+  /// Liveness system. Requires that the caller has the <code>s3:PutObject</code>
+  /// permission on the Amazon S3 bucket.
+  final LivenessOutputConfig? outputConfig;
+
+  CreateFaceLivenessSessionRequestSettings({
+    this.auditImagesLimit,
+    this.challengePreferences,
+    this.outputConfig,
+  });
+
+  Map<String, dynamic> toJson() {
+    final auditImagesLimit = this.auditImagesLimit;
+    final challengePreferences = this.challengePreferences;
+    final outputConfig = this.outputConfig;
+    return {
+      if (auditImagesLimit != null) 'AuditImagesLimit': auditImagesLimit,
+      if (challengePreferences != null)
+        'ChallengePreferences': challengePreferences,
+      if (outputConfig != null) 'OutputConfig': outputConfig,
+    };
+  }
+}
+
+/// Contains settings that specify the location of an Amazon S3 bucket used to
+/// store the output of a Face Liveness session. Note that the S3 bucket must be
+/// located in the caller's AWS account and in the same region as the Face
+/// Liveness end-point. Additionally, the Amazon S3 object keys are
+/// auto-generated by the Face Liveness system.
+class LivenessOutputConfig {
+  /// The path to an AWS Amazon S3 bucket used to store Face Liveness session
+  /// results.
+  final String s3Bucket;
+
+  /// The prefix prepended to the output files for the Face Liveness session
+  /// results.
+  final String? s3KeyPrefix;
+
+  LivenessOutputConfig({
+    required this.s3Bucket,
+    this.s3KeyPrefix,
+  });
+
+  Map<String, dynamic> toJson() {
+    final s3Bucket = this.s3Bucket;
+    final s3KeyPrefix = this.s3KeyPrefix;
+    return {
+      'S3Bucket': s3Bucket,
+      if (s3KeyPrefix != null) 'S3KeyPrefix': s3KeyPrefix,
+    };
+  }
+}
+
+/// An ordered list of preferred challenge type and versions.
+class ChallengePreference {
+  /// The types of challenges that have been selected for the Face Liveness
+  /// session.
+  final ChallengeType type;
+
+  /// The version of the challenges that have been selected for the Face Liveness
+  /// session.
+  final Versions? versions;
+
+  ChallengePreference({
+    required this.type,
+    this.versions,
+  });
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final versions = this.versions;
+    return {
+      'Type': type.value,
+      if (versions != null) 'Versions': versions,
+    };
+  }
+}
+
+/// Object specifying the acceptable range of challenge versions.
+class Versions {
+  /// The desired maximum version for the challenge.
+  final String? maximum;
+
+  /// The desired minimum version for the challenge.
+  final String? minimum;
+
+  Versions({
+    this.maximum,
+    this.minimum,
+  });
+
+  Map<String, dynamic> toJson() {
+    final maximum = this.maximum;
+    final minimum = this.minimum;
+    return {
+      if (maximum != null) 'Maximum': maximum,
+      if (minimum != null) 'Minimum': minimum,
+    };
+  }
+}
+
+/// The source that Amazon Rekognition Custom Labels uses to create a dataset.
+/// To use an Amazon Sagemaker format manifest file, specify the S3 bucket
+/// location in the <code>GroundTruthManifest</code> field. The S3 bucket must
+/// be in your AWS account. To create a copy of an existing dataset, specify the
+/// Amazon Resource Name (ARN) of an existing dataset in
+/// <code>DatasetArn</code>.
+///
+/// You need to specify a value for <code>DatasetArn</code> or
+/// <code>GroundTruthManifest</code>, but not both. if you supply both values,
+/// or if you don't specify any values, an InvalidParameterException exception
+/// occurs.
+///
+/// For more information, see <a>CreateDataset</a>.
+class DatasetSource {
+  /// The ARN of an Amazon Rekognition Custom Labels dataset that you want to
+  /// copy.
+  final String? datasetArn;
+  final GroundTruthManifest? groundTruthManifest;
+
+  DatasetSource({
+    this.datasetArn,
+    this.groundTruthManifest,
+  });
+
+  Map<String, dynamic> toJson() {
+    final datasetArn = this.datasetArn;
+    final groundTruthManifest = this.groundTruthManifest;
+    return {
+      if (datasetArn != null) 'DatasetArn': datasetArn,
+      if (groundTruthManifest != null)
+        'GroundTruthManifest': groundTruthManifest,
+    };
+  }
+}
+
+/// Type that describes the face Amazon Rekognition chose to compare with the
+/// faces in the target. This contains a bounding box for the selected face and
+/// confidence level that the bounding box contains a face. Note that Amazon
+/// Rekognition selects the largest face in the source image for this
+/// comparison.
+class ComparedSourceImageFace {
+  /// Bounding box of the face.
+  final BoundingBox? boundingBox;
+
+  /// Confidence level that the selected bounding box contains a face.
+  final double? confidence;
+
+  ComparedSourceImageFace({
+    this.boundingBox,
+    this.confidence,
+  });
+
+  factory ComparedSourceImageFace.fromJson(Map<String, dynamic> json) {
+    return ComparedSourceImageFace(
+      boundingBox: json['BoundingBox'] != null
+          ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
+          : null,
+      confidence: json['Confidence'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final boundingBox = this.boundingBox;
+    final confidence = this.confidence;
+    return {
+      if (boundingBox != null) 'BoundingBox': boundingBox,
+      if (confidence != null) 'Confidence': confidence,
+    };
+  }
+}
+
+/// Provides information about a face in a target image that matches the source
+/// image face analyzed by <code>CompareFaces</code>. The <code>Face</code>
+/// property contains the bounding box of the face in the target image. The
+/// <code>Similarity</code> property is the confidence that the source image
+/// face matches the face in the bounding box.
+class CompareFacesMatch {
+  /// Provides face metadata (bounding box and confidence that the bounding box
+  /// actually contains a face).
+  final ComparedFace? face;
+
+  /// Level of confidence that the faces match.
+  final double? similarity;
+
+  CompareFacesMatch({
+    this.face,
+    this.similarity,
+  });
+
+  factory CompareFacesMatch.fromJson(Map<String, dynamic> json) {
+    return CompareFacesMatch(
+      face: json['Face'] != null
+          ? ComparedFace.fromJson(json['Face'] as Map<String, dynamic>)
+          : null,
+      similarity: json['Similarity'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final face = this.face;
+    final similarity = this.similarity;
+    return {
+      if (face != null) 'Face': face,
+      if (similarity != null) 'Similarity': similarity,
+    };
+  }
+}
+
+/// Contains metadata like FaceId, UserID, and Reasons, for a face that was
+/// unsuccessfully associated.
+class UnsuccessfulFaceAssociation {
+  /// Match confidence with the UserID, provides information regarding if a face
+  /// association was unsuccessful because it didn't meet UserMatchThreshold.
+  final double? confidence;
+
+  /// A unique identifier assigned to the face.
+  final String? faceId;
+
+  /// The reason why the association was unsuccessful.
+  final List<UnsuccessfulFaceAssociationReason>? reasons;
+
+  /// A provided ID for the UserID. Unique within the collection.
+  final String? userId;
+
+  UnsuccessfulFaceAssociation({
+    this.confidence,
+    this.faceId,
+    this.reasons,
+    this.userId,
+  });
+
+  factory UnsuccessfulFaceAssociation.fromJson(Map<String, dynamic> json) {
+    return UnsuccessfulFaceAssociation(
+      confidence: json['Confidence'] as double?,
+      faceId: json['FaceId'] as String?,
+      reasons: (json['Reasons'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              UnsuccessfulFaceAssociationReason.fromString((e as String)))
+          .toList(),
+      userId: json['UserId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final confidence = this.confidence;
+    final faceId = this.faceId;
+    final reasons = this.reasons;
+    final userId = this.userId;
+    return {
+      if (confidence != null) 'Confidence': confidence,
+      if (faceId != null) 'FaceId': faceId,
+      if (reasons != null) 'Reasons': reasons.map((e) => e.value).toList(),
+      if (userId != null) 'UserId': userId,
+    };
+  }
+}
+
+class UnsuccessfulFaceAssociationReason {
+  static const faceNotFound =
+      UnsuccessfulFaceAssociationReason._('FACE_NOT_FOUND');
+  static const associatedToADifferentUser =
+      UnsuccessfulFaceAssociationReason._('ASSOCIATED_TO_A_DIFFERENT_USER');
+  static const lowMatchConfidence =
+      UnsuccessfulFaceAssociationReason._('LOW_MATCH_CONFIDENCE');
+
+  final String value;
+
+  const UnsuccessfulFaceAssociationReason._(this.value);
+
+  static const values = [
+    faceNotFound,
+    associatedToADifferentUser,
+    lowMatchConfidence
+  ];
+
+  static UnsuccessfulFaceAssociationReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UnsuccessfulFaceAssociationReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UnsuccessfulFaceAssociationReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides face metadata for the faces that are associated to a specific
+/// UserID.
+class AssociatedFace {
+  /// Unique identifier assigned to the face.
+  final String? faceId;
+
+  AssociatedFace({
+    this.faceId,
+  });
+
+  factory AssociatedFace.fromJson(Map<String, dynamic> json) {
+    return AssociatedFace(
+      faceId: json['FaceId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final faceId = this.faceId;
+    return {
+      if (faceId != null) 'FaceId': faceId,
     };
   }
 }

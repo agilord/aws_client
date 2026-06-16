@@ -75,7 +75,6 @@ class AuditManager {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'auditmanager',
-            signingName: 'auditmanager',
           ),
           region: region,
           credentials: credentials,
@@ -95,10 +94,10 @@ class AuditManager {
   /// Associates an evidence folder to an assessment report in an Audit Manager
   /// assessment.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [assessmentId] :
   /// The identifier for the assessment.
@@ -124,10 +123,10 @@ class AuditManager {
   /// Associates a list of evidence to an assessment report in an Audit Manager
   /// assessment.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [assessmentId] :
   /// The identifier for the assessment.
@@ -159,10 +158,10 @@ class AuditManager {
 
   /// Creates a batch of delegations for an assessment in Audit Manager.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [assessmentId] :
   /// The identifier for the assessment.
@@ -189,10 +188,10 @@ class AuditManager {
 
   /// Deletes a batch of delegations for an assessment in Audit Manager.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [assessmentId] :
   /// The identifier for the assessment.
@@ -220,10 +219,10 @@ class AuditManager {
   /// Disassociates a list of evidence from an assessment report in Audit
   /// Manager.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [assessmentId] :
   /// The identifier for the assessment.
@@ -284,11 +283,11 @@ class AuditManager {
   /// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/service-quotas.html">Quotas
   /// and restrictions for Audit Manager</a>.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [assessmentId] :
   /// The identifier for the assessment.
@@ -323,12 +322,12 @@ class AuditManager {
 
   /// Creates an assessment in Audit Manager.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [assessmentReportsDestination] :
   /// The assessment report storage destination for the assessment that's being
@@ -377,14 +376,19 @@ class AuditManager {
 
   /// Creates a custom framework in Audit Manager.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [controlSets] :
   /// The control sets that are associated with the framework.
+  /// <note>
+  /// The <code>Controls</code> object returns a partial response when called
+  /// through Framework APIs. For a complete <code>Controls</code> object, use
+  /// <code>GetControl</code>.
+  /// </note>
   ///
   /// Parameter [name] :
   /// The name of the new custom framework.
@@ -423,10 +427,10 @@ class AuditManager {
 
   /// Creates an assessment report for the specified assessment.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [assessmentId] :
   /// The identifier for the assessment.
@@ -480,11 +484,11 @@ class AuditManager {
 
   /// Creates a new custom control in Audit Manager.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [controlMappingSources] :
   /// The data mapping sources for the control.
@@ -536,10 +540,10 @@ class AuditManager {
 
   /// Deletes an assessment in Audit Manager.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [assessmentId] :
   /// The identifier for the assessment.
@@ -556,10 +560,10 @@ class AuditManager {
 
   /// Deletes a custom framework in Audit Manager.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [frameworkId] :
   /// The identifier for the custom framework.
@@ -576,10 +580,10 @@ class AuditManager {
 
   /// Deletes a share request for a custom framework in Audit Manager.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [requestId] :
   /// The unique identifier for the share request to be deleted.
@@ -636,10 +640,10 @@ class AuditManager {
   /// of Error Codes</a> in the <i>Amazon Simple Storage Service API
   /// Reference</i>.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [assessmentId] :
   /// The unique identifier for the assessment.
@@ -668,10 +672,10 @@ class AuditManager {
   /// before you deleted the custom control.
   /// </important>
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [controlId] :
   /// The unique identifier for the control.
@@ -700,10 +704,10 @@ class AuditManager {
   /// Protection</a> in the <i>Audit Manager User Guide</i>.
   /// </note>
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   Future<DeregisterAccountResponse> deregisterAccount() async {
     final response = await _protocol.send(
       payload: null,
@@ -795,10 +799,10 @@ class AuditManager {
   /// account deregisters Audit Manager, we perform a cleanup for the current
   /// delegated administrator account at the time of deregistration.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [adminAccountId] :
   /// The identifier for the administrator account.
@@ -819,10 +823,10 @@ class AuditManager {
   /// Disassociates an evidence folder from the specified assessment report in
   /// Audit Manager.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [assessmentId] :
   /// The unique identifier for the assessment.
@@ -860,10 +864,10 @@ class AuditManager {
 
   /// Gets information about a specified assessment.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [assessmentId] :
   /// The unique identifier for the assessment.
@@ -881,10 +885,10 @@ class AuditManager {
 
   /// Gets information about a specified framework.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [frameworkId] :
   /// The identifier for the framework.
@@ -902,10 +906,10 @@ class AuditManager {
 
   /// Gets the URL of an assessment report in Audit Manager.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [assessmentId] :
   /// The unique identifier for the assessment.
@@ -929,9 +933,9 @@ class AuditManager {
   /// Gets a list of changelogs from Audit Manager.
   ///
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [assessmentId] :
   /// The unique identifier for the assessment.
@@ -980,10 +984,10 @@ class AuditManager {
 
   /// Gets information about a specified control.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [controlId] :
   /// The identifier for the control.
@@ -1001,9 +1005,9 @@ class AuditManager {
 
   /// Gets a list of delegations from an audit owner to a delegate.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// Represents the maximum number of results on a page or for an API request
@@ -1037,10 +1041,10 @@ class AuditManager {
 
   /// Gets information about a specified evidence item.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [assessmentId] :
   /// The unique identifier for the assessment.
@@ -1071,10 +1075,10 @@ class AuditManager {
 
   /// Gets all evidence from a specified evidence folder in Audit Manager.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [assessmentId] :
   /// The identifier for the assessment.
@@ -1143,10 +1147,10 @@ class AuditManager {
   /// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/service-quotas.html">Quotas
   /// and restrictions for Audit Manager</a>.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [fileName] :
   /// The file that you want to upload. For a list of supported file formats,
@@ -1171,10 +1175,10 @@ class AuditManager {
 
   /// Gets an evidence folder from a specified assessment in Audit Manager.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [assessmentId] :
   /// The unique identifier for the assessment.
@@ -1201,10 +1205,10 @@ class AuditManager {
 
   /// Gets the evidence folders from a specified assessment in Audit Manager.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [assessmentId] :
   /// The unique identifier for the assessment.
@@ -1245,10 +1249,10 @@ class AuditManager {
   /// Gets a list of evidence folders that are associated with a specified
   /// control in an Audit Manager assessment.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [assessmentId] :
   /// The identifier for the assessment.
@@ -1310,10 +1314,10 @@ class AuditManager {
 
   /// Gets the latest analytics data for a specific active assessment.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [assessmentId] :
   /// The unique identifier for the assessment.
@@ -1332,10 +1336,10 @@ class AuditManager {
   /// Gets the name of the delegated Amazon Web Services administrator account
   /// for a specified organization.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   Future<GetOrganizationAdminAccountResponse>
       getOrganizationAdminAccount() async {
     final response = await _protocol.send(
@@ -1347,13 +1351,14 @@ class AuditManager {
     return GetOrganizationAdminAccountResponse.fromJson(response);
   }
 
-  /// Gets a list of the Amazon Web Services from which Audit Manager can
-  /// collect evidence.
+  /// Gets a list of the Amazon Web Services services from which Audit Manager
+  /// can collect evidence.
   ///
-  /// Audit Manager defines which Amazon Web Services are in scope for an
-  /// assessment. Audit Manager infers this scope by examining the assessment’s
-  /// controls and their data sources, and then mapping this information to one
-  /// or more of the corresponding Amazon Web Services that are in this list.
+  /// Audit Manager defines which Amazon Web Services services are in scope for
+  /// an assessment. Audit Manager infers this scope by examining the
+  /// assessment’s controls and their data sources, and then mapping this
+  /// information to one or more of the corresponding Amazon Web Services
+  /// services that are in this list.
   /// <note>
   /// For information about why it's no longer possible to specify services in
   /// scope manually, see <a
@@ -1363,8 +1368,8 @@ class AuditManager {
   /// </note>
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   Future<GetServicesInScopeResponse> getServicesInScope() async {
     final response = await _protocol.send(
       payload: null,
@@ -1404,10 +1409,10 @@ class AuditManager {
   /// are met, no data is listed for that control.
   /// </note>
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [assessmentId] :
   /// The unique identifier for the active assessment.
@@ -1458,12 +1463,54 @@ class AuditManager {
         response);
   }
 
+  /// Returns a list of the frameworks that are available in the Audit Manager
+  /// framework library.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [frameworkType] :
+  /// The type of framework, such as a standard framework or a custom framework.
+  ///
+  /// Parameter [maxResults] :
+  /// Represents the maximum number of results on a page or for an API request
+  /// call.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token that's used to fetch the next set of results.
+  Future<ListAssessmentFrameworksResponse> listAssessmentFrameworks({
+    required FrameworkType frameworkType,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      'frameworkType': [frameworkType.value],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/assessmentFrameworks',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListAssessmentFrameworksResponse.fromJson(response);
+  }
+
   /// Returns a list of sent or received share requests for custom frameworks in
   /// Audit Manager.
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [requestType] :
   /// Specifies whether the share request is a sent request or a received
@@ -1502,53 +1549,11 @@ class AuditManager {
     return ListAssessmentFrameworkShareRequestsResponse.fromJson(response);
   }
 
-  /// Returns a list of the frameworks that are available in the Audit Manager
-  /// framework library.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
-  ///
-  /// Parameter [frameworkType] :
-  /// The type of framework, such as a standard framework or a custom framework.
-  ///
-  /// Parameter [maxResults] :
-  /// Represents the maximum number of results on a page or for an API request
-  /// call.
-  ///
-  /// Parameter [nextToken] :
-  /// The pagination token that's used to fetch the next set of results.
-  Future<ListAssessmentFrameworksResponse> listAssessmentFrameworks({
-    required FrameworkType frameworkType,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
-    final $query = <String, List<String>>{
-      'frameworkType': [frameworkType.value],
-      if (maxResults != null) 'maxResults': [maxResults.toString()],
-      if (nextToken != null) 'nextToken': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/assessmentFrameworks',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListAssessmentFrameworksResponse.fromJson(response);
-  }
-
   /// Returns a list of assessment reports created in Audit Manager.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// Represents the maximum number of results on a page or for an API request
@@ -1583,8 +1588,8 @@ class AuditManager {
   /// Returns a list of current and past assessments from Audit Manager.
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// Represents the maximum number of results on a page or for an API request
@@ -1637,9 +1642,9 @@ class AuditManager {
   /// is listed for that control domain.
   /// </note>
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
@@ -1688,10 +1693,10 @@ class AuditManager {
   /// is listed for that domain.
   /// </note>
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [assessmentId] :
   /// The unique identifier for the active assessment.
@@ -1738,9 +1743,9 @@ class AuditManager {
   /// neither of these conditions are met, no data is listed for that control.
   /// </note>
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
   ///
   /// Parameter [controlDomainId] :
@@ -1789,8 +1794,8 @@ class AuditManager {
   /// Returns a list of controls from Audit Manager.
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [controlType] :
   /// A filter that narrows the list of controls to a specific type.
@@ -1857,8 +1862,8 @@ class AuditManager {
   /// data source.
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [source] :
   /// The control mapping data source that the keywords apply to.
@@ -1898,8 +1903,8 @@ class AuditManager {
   /// Returns a list of all Audit Manager notifications.
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// Represents the maximum number of results on a page or for an API request
@@ -1934,8 +1939,8 @@ class AuditManager {
   /// Returns a list of tags for the specified resource in Audit Manager.
   ///
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource.
@@ -1953,11 +1958,11 @@ class AuditManager {
 
   /// Enables Audit Manager for the specified Amazon Web Services account.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [delegatedAdminAccount] :
   /// The delegated administrator account for Audit Manager.
@@ -1985,10 +1990,11 @@ class AuditManager {
   /// Enables an Amazon Web Services account within the organization as the
   /// delegated administrator for Audit Manager.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [adminAccountId] :
   /// The identifier for the delegated administrator account.
@@ -2057,10 +2063,10 @@ class AuditManager {
   /// sharing eligibility</a> in the <i>Audit Manager User Guide</i>.
   /// </important>
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [destinationAccount] :
   /// The Amazon Web Services account of the recipient.
@@ -2097,8 +2103,8 @@ class AuditManager {
   /// Tags the specified resource in Audit Manager.
   ///
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource.
@@ -2123,8 +2129,8 @@ class AuditManager {
   /// Removes a tag from a resource in Audit Manager.
   ///
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the specified resource.
@@ -2149,11 +2155,12 @@ class AuditManager {
 
   /// Edits an Audit Manager assessment.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [assessmentId] :
   /// The unique identifier for the assessment.
@@ -2201,10 +2208,10 @@ class AuditManager {
 
   /// Updates a control within an assessment in Audit Manager.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [assessmentId] :
   /// The unique identifier for the assessment.
@@ -2243,10 +2250,10 @@ class AuditManager {
 
   /// Updates the status of a control set in an Audit Manager assessment.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [assessmentId] :
   /// The unique identifier for the assessment.
@@ -2282,13 +2289,19 @@ class AuditManager {
 
   /// Updates a custom framework in Audit Manager.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [controlSets] :
   /// The control sets that are associated with the framework.
+  /// <note>
+  /// The <code>Controls</code> object returns a partial response when called
+  /// through Framework APIs. For a complete <code>Controls</code> object, use
+  /// <code>GetControl</code>.
+  /// </note>
   ///
   /// Parameter [frameworkId] :
   /// The unique identifier for the framework.
@@ -2326,11 +2339,11 @@ class AuditManager {
 
   /// Updates a share request for a custom framework in Audit Manager.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [action] :
   /// Specifies the update action for the share request.
@@ -2363,11 +2376,11 @@ class AuditManager {
 
   /// Updates the status of an assessment in Audit Manager.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [assessmentId] :
   /// The unique identifier for the assessment.
@@ -2392,10 +2405,10 @@ class AuditManager {
 
   /// Updates a custom control in Audit Manager.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [controlId] :
   /// The identifier for the control.
@@ -2446,9 +2459,9 @@ class AuditManager {
 
   /// Updates Audit Manager settings for the current account.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [defaultAssessmentReportsDestination] :
   /// The default S3 destination bucket for storing assessment reports.
@@ -2519,10 +2532,10 @@ class AuditManager {
 
   /// Validates the integrity of an assessment report in Audit Manager.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [s3RelativePath] :
   /// The relative path of the Amazon S3 bucket that the assessment report is
@@ -2542,1317 +2555,6 @@ class AuditManager {
     );
     return ValidateAssessmentReportIntegrityResponse.fromJson(response);
   }
-}
-
-/// The wrapper of Amazon Web Services account details, such as account ID or
-/// email address.
-class AWSAccount {
-  /// The email address that's associated with the Amazon Web Services account.
-  final String? emailAddress;
-
-  /// The identifier for the Amazon Web Services account.
-  final String? id;
-
-  /// The name of the Amazon Web Services account.
-  final String? name;
-
-  AWSAccount({
-    this.emailAddress,
-    this.id,
-    this.name,
-  });
-
-  factory AWSAccount.fromJson(Map<String, dynamic> json) {
-    return AWSAccount(
-      emailAddress: json['emailAddress'] as String?,
-      id: json['id'] as String?,
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final emailAddress = this.emailAddress;
-    final id = this.id;
-    final name = this.name;
-    return {
-      if (emailAddress != null) 'emailAddress': emailAddress,
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-    };
-  }
-}
-
-/// An Amazon Web Service such as Amazon S3 or CloudTrail.
-///
-/// For an example of how to find an Amazon Web Service name and how to define
-/// it in your assessment scope, see the following:
-///
-/// <ul>
-/// <li>
-/// <a
-/// href="https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_GetServicesInScope.html#API_GetServicesInScope_Example_2">Finding
-/// an Amazon Web Service name to use in your assessment scope</a>
-/// </li>
-/// <li>
-/// <a
-/// href="https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_GetServicesInScope.html#API_GetServicesInScope_Example_3">Defining
-/// an Amazon Web Service name in your assessment scope</a>
-/// </li>
-/// </ul>
-class AWSService {
-  /// The name of the Amazon Web Service.
-  final String? serviceName;
-
-  AWSService({
-    this.serviceName,
-  });
-
-  factory AWSService.fromJson(Map<String, dynamic> json) {
-    return AWSService(
-      serviceName: json['serviceName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final serviceName = this.serviceName;
-    return {
-      if (serviceName != null) 'serviceName': serviceName,
-    };
-  }
-}
-
-class AccountStatus {
-  static const active = AccountStatus._('ACTIVE');
-  static const inactive = AccountStatus._('INACTIVE');
-  static const pendingActivation = AccountStatus._('PENDING_ACTIVATION');
-
-  final String value;
-
-  const AccountStatus._(this.value);
-
-  static const values = [active, inactive, pendingActivation];
-
-  static AccountStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AccountStatus._(value));
-
-  @override
-  bool operator ==(other) => other is AccountStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ActionEnum {
-  static const create = ActionEnum._('CREATE');
-  static const updateMetadata = ActionEnum._('UPDATE_METADATA');
-  static const active = ActionEnum._('ACTIVE');
-  static const inactive = ActionEnum._('INACTIVE');
-  static const delete = ActionEnum._('DELETE');
-  static const underReview = ActionEnum._('UNDER_REVIEW');
-  static const reviewed = ActionEnum._('REVIEWED');
-  static const importEvidence = ActionEnum._('IMPORT_EVIDENCE');
-
-  final String value;
-
-  const ActionEnum._(this.value);
-
-  static const values = [
-    create,
-    updateMetadata,
-    active,
-    inactive,
-    delete,
-    underReview,
-    reviewed,
-    importEvidence
-  ];
-
-  static ActionEnum fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ActionEnum._(value));
-
-  @override
-  bool operator ==(other) => other is ActionEnum && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An entity that defines the scope of audit evidence collected by Audit
-/// Manager. An Audit Manager assessment is an implementation of an Audit
-/// Manager framework.
-class Assessment {
-  /// The Amazon Resource Name (ARN) of the assessment.
-  final String? arn;
-
-  /// The Amazon Web Services account that's associated with the assessment.
-  final AWSAccount? awsAccount;
-
-  /// The framework that the assessment was created from.
-  final AssessmentFramework? framework;
-
-  /// The metadata for the assessment.
-  final AssessmentMetadata? metadata;
-
-  /// The tags that are associated with the assessment.
-  final Map<String, String>? tags;
-
-  Assessment({
-    this.arn,
-    this.awsAccount,
-    this.framework,
-    this.metadata,
-    this.tags,
-  });
-
-  factory Assessment.fromJson(Map<String, dynamic> json) {
-    return Assessment(
-      arn: json['arn'] as String?,
-      awsAccount: json['awsAccount'] != null
-          ? AWSAccount.fromJson(json['awsAccount'] as Map<String, dynamic>)
-          : null,
-      framework: json['framework'] != null
-          ? AssessmentFramework.fromJson(
-              json['framework'] as Map<String, dynamic>)
-          : null,
-      metadata: json['metadata'] != null
-          ? AssessmentMetadata.fromJson(
-              json['metadata'] as Map<String, dynamic>)
-          : null,
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final awsAccount = this.awsAccount;
-    final framework = this.framework;
-    final metadata = this.metadata;
-    final tags = this.tags;
-    return {
-      if (arn != null) 'arn': arn,
-      if (awsAccount != null) 'awsAccount': awsAccount,
-      if (framework != null) 'framework': framework,
-      if (metadata != null) 'metadata': metadata,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-/// The control entity that represents a standard control or a custom control in
-/// an Audit Manager assessment.
-class AssessmentControl {
-  /// The amount of evidence in the assessment report.
-  final int? assessmentReportEvidenceCount;
-
-  /// The list of comments that's attached to the control.
-  final List<ControlComment>? comments;
-
-  /// The description of the control.
-  final String? description;
-
-  /// The amount of evidence that's collected for the control.
-  final int? evidenceCount;
-
-  /// The list of data sources for the evidence.
-  final List<String>? evidenceSources;
-
-  /// The identifier for the control.
-  final String? id;
-
-  /// The name of the control.
-  final String? name;
-
-  /// The response of the control.
-  final ControlResponse? response;
-
-  /// The status of the control.
-  final ControlStatus? status;
-
-  AssessmentControl({
-    this.assessmentReportEvidenceCount,
-    this.comments,
-    this.description,
-    this.evidenceCount,
-    this.evidenceSources,
-    this.id,
-    this.name,
-    this.response,
-    this.status,
-  });
-
-  factory AssessmentControl.fromJson(Map<String, dynamic> json) {
-    return AssessmentControl(
-      assessmentReportEvidenceCount:
-          json['assessmentReportEvidenceCount'] as int?,
-      comments: (json['comments'] as List?)
-          ?.nonNulls
-          .map((e) => ControlComment.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      description: json['description'] as String?,
-      evidenceCount: json['evidenceCount'] as int?,
-      evidenceSources: (json['evidenceSources'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      id: json['id'] as String?,
-      name: json['name'] as String?,
-      response: (json['response'] as String?)?.let(ControlResponse.fromString),
-      status: (json['status'] as String?)?.let(ControlStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assessmentReportEvidenceCount = this.assessmentReportEvidenceCount;
-    final comments = this.comments;
-    final description = this.description;
-    final evidenceCount = this.evidenceCount;
-    final evidenceSources = this.evidenceSources;
-    final id = this.id;
-    final name = this.name;
-    final response = this.response;
-    final status = this.status;
-    return {
-      if (assessmentReportEvidenceCount != null)
-        'assessmentReportEvidenceCount': assessmentReportEvidenceCount,
-      if (comments != null) 'comments': comments,
-      if (description != null) 'description': description,
-      if (evidenceCount != null) 'evidenceCount': evidenceCount,
-      if (evidenceSources != null) 'evidenceSources': evidenceSources,
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-      if (response != null) 'response': response.value,
-      if (status != null) 'status': status.value,
-    };
-  }
-}
-
-/// Represents a set of controls in an Audit Manager assessment.
-class AssessmentControlSet {
-  /// The list of controls that's contained with the control set.
-  final List<AssessmentControl>? controls;
-
-  /// The delegations that are associated with the control set.
-  final List<Delegation>? delegations;
-
-  /// The description for the control set.
-  final String? description;
-
-  /// The identifier of the control set in the assessment. This is the control set
-  /// name in a plain string format.
-  final String? id;
-
-  /// The total number of evidence objects that are uploaded manually to the
-  /// control set.
-  final int? manualEvidenceCount;
-
-  /// The roles that are associated with the control set.
-  final List<Role>? roles;
-
-  /// The current status of the control set.
-  final ControlSetStatus? status;
-
-  /// The total number of evidence objects that are retrieved automatically for
-  /// the control set.
-  final int? systemEvidenceCount;
-
-  AssessmentControlSet({
-    this.controls,
-    this.delegations,
-    this.description,
-    this.id,
-    this.manualEvidenceCount,
-    this.roles,
-    this.status,
-    this.systemEvidenceCount,
-  });
-
-  factory AssessmentControlSet.fromJson(Map<String, dynamic> json) {
-    return AssessmentControlSet(
-      controls: (json['controls'] as List?)
-          ?.nonNulls
-          .map((e) => AssessmentControl.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      delegations: (json['delegations'] as List?)
-          ?.nonNulls
-          .map((e) => Delegation.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      description: json['description'] as String?,
-      id: json['id'] as String?,
-      manualEvidenceCount: json['manualEvidenceCount'] as int?,
-      roles: (json['roles'] as List?)
-          ?.nonNulls
-          .map((e) => Role.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      status: (json['status'] as String?)?.let(ControlSetStatus.fromString),
-      systemEvidenceCount: json['systemEvidenceCount'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final controls = this.controls;
-    final delegations = this.delegations;
-    final description = this.description;
-    final id = this.id;
-    final manualEvidenceCount = this.manualEvidenceCount;
-    final roles = this.roles;
-    final status = this.status;
-    final systemEvidenceCount = this.systemEvidenceCount;
-    return {
-      if (controls != null) 'controls': controls,
-      if (delegations != null) 'delegations': delegations,
-      if (description != null) 'description': description,
-      if (id != null) 'id': id,
-      if (manualEvidenceCount != null)
-        'manualEvidenceCount': manualEvidenceCount,
-      if (roles != null) 'roles': roles,
-      if (status != null) 'status': status.value,
-      if (systemEvidenceCount != null)
-        'systemEvidenceCount': systemEvidenceCount,
-    };
-  }
-}
-
-/// The folder where Audit Manager stores evidence for an assessment.
-class AssessmentEvidenceFolder {
-  /// The identifier for the assessment.
-  final String? assessmentId;
-
-  /// The total count of evidence that's included in the assessment report.
-  final int? assessmentReportSelectionCount;
-
-  /// The name of the user who created the evidence folder.
-  final String? author;
-
-  /// The unique identifier for the control.
-  final String? controlId;
-
-  /// The name of the control.
-  final String? controlName;
-
-  /// The identifier for the control set.
-  final String? controlSetId;
-
-  /// The Amazon Web Service that the evidence was collected from.
-  final String? dataSource;
-
-  /// The date when the first evidence was added to the evidence folder.
-  final DateTime? date;
-
-  /// The total number of Amazon Web Services resources that were assessed to
-  /// generate the evidence.
-  final int? evidenceAwsServiceSourceCount;
-
-  /// The number of evidence that falls under the compliance check category. This
-  /// evidence is collected from Config or Security Hub.
-  final int? evidenceByTypeComplianceCheckCount;
-
-  /// The total number of issues that were reported directly from Security Hub,
-  /// Config, or both.
-  final int? evidenceByTypeComplianceCheckIssuesCount;
-
-  /// The number of evidence that falls under the configuration data category.
-  /// This evidence is collected from configuration snapshots of other Amazon Web
-  /// Services such as Amazon EC2, Amazon S3, or IAM.
-  final int? evidenceByTypeConfigurationDataCount;
-
-  /// The number of evidence that falls under the manual category. This evidence
-  /// is imported manually.
-  final int? evidenceByTypeManualCount;
-
-  /// The number of evidence that falls under the user activity category. This
-  /// evidence is collected from CloudTrail logs.
-  final int? evidenceByTypeUserActivityCount;
-
-  /// The amount of evidence that's included in the evidence folder.
-  final int? evidenceResourcesIncludedCount;
-
-  /// The identifier for the folder that the evidence is stored in.
-  final String? id;
-
-  /// The name of the evidence folder.
-  final String? name;
-
-  /// The total amount of evidence in the evidence folder.
-  final int? totalEvidence;
-
-  AssessmentEvidenceFolder({
-    this.assessmentId,
-    this.assessmentReportSelectionCount,
-    this.author,
-    this.controlId,
-    this.controlName,
-    this.controlSetId,
-    this.dataSource,
-    this.date,
-    this.evidenceAwsServiceSourceCount,
-    this.evidenceByTypeComplianceCheckCount,
-    this.evidenceByTypeComplianceCheckIssuesCount,
-    this.evidenceByTypeConfigurationDataCount,
-    this.evidenceByTypeManualCount,
-    this.evidenceByTypeUserActivityCount,
-    this.evidenceResourcesIncludedCount,
-    this.id,
-    this.name,
-    this.totalEvidence,
-  });
-
-  factory AssessmentEvidenceFolder.fromJson(Map<String, dynamic> json) {
-    return AssessmentEvidenceFolder(
-      assessmentId: json['assessmentId'] as String?,
-      assessmentReportSelectionCount:
-          json['assessmentReportSelectionCount'] as int?,
-      author: json['author'] as String?,
-      controlId: json['controlId'] as String?,
-      controlName: json['controlName'] as String?,
-      controlSetId: json['controlSetId'] as String?,
-      dataSource: json['dataSource'] as String?,
-      date: timeStampFromJson(json['date']),
-      evidenceAwsServiceSourceCount:
-          json['evidenceAwsServiceSourceCount'] as int?,
-      evidenceByTypeComplianceCheckCount:
-          json['evidenceByTypeComplianceCheckCount'] as int?,
-      evidenceByTypeComplianceCheckIssuesCount:
-          json['evidenceByTypeComplianceCheckIssuesCount'] as int?,
-      evidenceByTypeConfigurationDataCount:
-          json['evidenceByTypeConfigurationDataCount'] as int?,
-      evidenceByTypeManualCount: json['evidenceByTypeManualCount'] as int?,
-      evidenceByTypeUserActivityCount:
-          json['evidenceByTypeUserActivityCount'] as int?,
-      evidenceResourcesIncludedCount:
-          json['evidenceResourcesIncludedCount'] as int?,
-      id: json['id'] as String?,
-      name: json['name'] as String?,
-      totalEvidence: json['totalEvidence'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assessmentId = this.assessmentId;
-    final assessmentReportSelectionCount = this.assessmentReportSelectionCount;
-    final author = this.author;
-    final controlId = this.controlId;
-    final controlName = this.controlName;
-    final controlSetId = this.controlSetId;
-    final dataSource = this.dataSource;
-    final date = this.date;
-    final evidenceAwsServiceSourceCount = this.evidenceAwsServiceSourceCount;
-    final evidenceByTypeComplianceCheckCount =
-        this.evidenceByTypeComplianceCheckCount;
-    final evidenceByTypeComplianceCheckIssuesCount =
-        this.evidenceByTypeComplianceCheckIssuesCount;
-    final evidenceByTypeConfigurationDataCount =
-        this.evidenceByTypeConfigurationDataCount;
-    final evidenceByTypeManualCount = this.evidenceByTypeManualCount;
-    final evidenceByTypeUserActivityCount =
-        this.evidenceByTypeUserActivityCount;
-    final evidenceResourcesIncludedCount = this.evidenceResourcesIncludedCount;
-    final id = this.id;
-    final name = this.name;
-    final totalEvidence = this.totalEvidence;
-    return {
-      if (assessmentId != null) 'assessmentId': assessmentId,
-      if (assessmentReportSelectionCount != null)
-        'assessmentReportSelectionCount': assessmentReportSelectionCount,
-      if (author != null) 'author': author,
-      if (controlId != null) 'controlId': controlId,
-      if (controlName != null) 'controlName': controlName,
-      if (controlSetId != null) 'controlSetId': controlSetId,
-      if (dataSource != null) 'dataSource': dataSource,
-      if (date != null) 'date': unixTimestampToJson(date),
-      if (evidenceAwsServiceSourceCount != null)
-        'evidenceAwsServiceSourceCount': evidenceAwsServiceSourceCount,
-      if (evidenceByTypeComplianceCheckCount != null)
-        'evidenceByTypeComplianceCheckCount':
-            evidenceByTypeComplianceCheckCount,
-      if (evidenceByTypeComplianceCheckIssuesCount != null)
-        'evidenceByTypeComplianceCheckIssuesCount':
-            evidenceByTypeComplianceCheckIssuesCount,
-      if (evidenceByTypeConfigurationDataCount != null)
-        'evidenceByTypeConfigurationDataCount':
-            evidenceByTypeConfigurationDataCount,
-      if (evidenceByTypeManualCount != null)
-        'evidenceByTypeManualCount': evidenceByTypeManualCount,
-      if (evidenceByTypeUserActivityCount != null)
-        'evidenceByTypeUserActivityCount': evidenceByTypeUserActivityCount,
-      if (evidenceResourcesIncludedCount != null)
-        'evidenceResourcesIncludedCount': evidenceResourcesIncludedCount,
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-      if (totalEvidence != null) 'totalEvidence': totalEvidence,
-    };
-  }
-}
-
-/// The file used to structure and automate Audit Manager assessments for a
-/// given compliance standard.
-class AssessmentFramework {
-  /// The Amazon Resource Name (ARN) of the framework.
-  final String? arn;
-
-  /// The control sets that are associated with the framework.
-  final List<AssessmentControlSet>? controlSets;
-
-  /// The unique identifier for the framework.
-  final String? id;
-  final FrameworkMetadata? metadata;
-
-  AssessmentFramework({
-    this.arn,
-    this.controlSets,
-    this.id,
-    this.metadata,
-  });
-
-  factory AssessmentFramework.fromJson(Map<String, dynamic> json) {
-    return AssessmentFramework(
-      arn: json['arn'] as String?,
-      controlSets: (json['controlSets'] as List?)
-          ?.nonNulls
-          .map((e) => AssessmentControlSet.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      id: json['id'] as String?,
-      metadata: json['metadata'] != null
-          ? FrameworkMetadata.fromJson(json['metadata'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final controlSets = this.controlSets;
-    final id = this.id;
-    final metadata = this.metadata;
-    return {
-      if (arn != null) 'arn': arn,
-      if (controlSets != null) 'controlSets': controlSets,
-      if (id != null) 'id': id,
-      if (metadata != null) 'metadata': metadata,
-    };
-  }
-}
-
-/// The metadata that's associated with a standard framework or a custom
-/// framework.
-class AssessmentFrameworkMetadata {
-  /// The Amazon Resource Name (ARN) of the framework.
-  final String? arn;
-
-  /// The compliance type that the new custom framework supports, such as CIS or
-  /// HIPAA.
-  final String? complianceType;
-
-  /// The number of control sets that are associated with the framework.
-  final int? controlSetsCount;
-
-  /// The number of controls that are associated with the framework.
-  final int? controlsCount;
-
-  /// The time when the framework was created.
-  final DateTime? createdAt;
-
-  /// The description of the framework.
-  final String? description;
-
-  /// The unique identifier for the framework.
-  final String? id;
-
-  /// The time when the framework was most recently updated.
-  final DateTime? lastUpdatedAt;
-
-  /// The logo that's associated with the framework.
-  final String? logo;
-
-  /// The name of the framework.
-  final String? name;
-
-  /// The framework type, such as a standard framework or a custom framework.
-  final FrameworkType? type;
-
-  AssessmentFrameworkMetadata({
-    this.arn,
-    this.complianceType,
-    this.controlSetsCount,
-    this.controlsCount,
-    this.createdAt,
-    this.description,
-    this.id,
-    this.lastUpdatedAt,
-    this.logo,
-    this.name,
-    this.type,
-  });
-
-  factory AssessmentFrameworkMetadata.fromJson(Map<String, dynamic> json) {
-    return AssessmentFrameworkMetadata(
-      arn: json['arn'] as String?,
-      complianceType: json['complianceType'] as String?,
-      controlSetsCount: json['controlSetsCount'] as int?,
-      controlsCount: json['controlsCount'] as int?,
-      createdAt: timeStampFromJson(json['createdAt']),
-      description: json['description'] as String?,
-      id: json['id'] as String?,
-      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
-      logo: json['logo'] as String?,
-      name: json['name'] as String?,
-      type: (json['type'] as String?)?.let(FrameworkType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final complianceType = this.complianceType;
-    final controlSetsCount = this.controlSetsCount;
-    final controlsCount = this.controlsCount;
-    final createdAt = this.createdAt;
-    final description = this.description;
-    final id = this.id;
-    final lastUpdatedAt = this.lastUpdatedAt;
-    final logo = this.logo;
-    final name = this.name;
-    final type = this.type;
-    return {
-      if (arn != null) 'arn': arn,
-      if (complianceType != null) 'complianceType': complianceType,
-      if (controlSetsCount != null) 'controlSetsCount': controlSetsCount,
-      if (controlsCount != null) 'controlsCount': controlsCount,
-      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
-      if (description != null) 'description': description,
-      if (id != null) 'id': id,
-      if (lastUpdatedAt != null)
-        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
-      if (logo != null) 'logo': logo,
-      if (name != null) 'name': name,
-      if (type != null) 'type': type.value,
-    };
-  }
-}
-
-/// Represents a share request for a custom framework in Audit Manager.
-class AssessmentFrameworkShareRequest {
-  /// An optional comment from the sender about the share request.
-  final String? comment;
-
-  /// The compliance type that the shared custom framework supports, such as CIS
-  /// or HIPAA.
-  final String? complianceType;
-
-  /// The time when the share request was created.
-  final DateTime? creationTime;
-
-  /// The number of custom controls that are part of the shared custom framework.
-  final int? customControlsCount;
-
-  /// The Amazon Web Services account of the recipient.
-  final String? destinationAccount;
-
-  /// The Amazon Web Services Region of the recipient.
-  final String? destinationRegion;
-
-  /// The time when the share request expires.
-  final DateTime? expirationTime;
-
-  /// The description of the shared custom framework.
-  final String? frameworkDescription;
-
-  /// The unique identifier for the shared custom framework.
-  final String? frameworkId;
-
-  /// The name of the custom framework that the share request is for.
-  final String? frameworkName;
-
-  /// The unique identifier for the share request.
-  final String? id;
-
-  /// Specifies when the share request was last updated.
-  final DateTime? lastUpdated;
-
-  /// The Amazon Web Services account of the sender.
-  final String? sourceAccount;
-
-  /// The number of standard controls that are part of the shared custom
-  /// framework.
-  final int? standardControlsCount;
-
-  /// The status of the share request.
-  final ShareRequestStatus? status;
-
-  AssessmentFrameworkShareRequest({
-    this.comment,
-    this.complianceType,
-    this.creationTime,
-    this.customControlsCount,
-    this.destinationAccount,
-    this.destinationRegion,
-    this.expirationTime,
-    this.frameworkDescription,
-    this.frameworkId,
-    this.frameworkName,
-    this.id,
-    this.lastUpdated,
-    this.sourceAccount,
-    this.standardControlsCount,
-    this.status,
-  });
-
-  factory AssessmentFrameworkShareRequest.fromJson(Map<String, dynamic> json) {
-    return AssessmentFrameworkShareRequest(
-      comment: json['comment'] as String?,
-      complianceType: json['complianceType'] as String?,
-      creationTime: timeStampFromJson(json['creationTime']),
-      customControlsCount: json['customControlsCount'] as int?,
-      destinationAccount: json['destinationAccount'] as String?,
-      destinationRegion: json['destinationRegion'] as String?,
-      expirationTime: timeStampFromJson(json['expirationTime']),
-      frameworkDescription: json['frameworkDescription'] as String?,
-      frameworkId: json['frameworkId'] as String?,
-      frameworkName: json['frameworkName'] as String?,
-      id: json['id'] as String?,
-      lastUpdated: timeStampFromJson(json['lastUpdated']),
-      sourceAccount: json['sourceAccount'] as String?,
-      standardControlsCount: json['standardControlsCount'] as int?,
-      status: (json['status'] as String?)?.let(ShareRequestStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final comment = this.comment;
-    final complianceType = this.complianceType;
-    final creationTime = this.creationTime;
-    final customControlsCount = this.customControlsCount;
-    final destinationAccount = this.destinationAccount;
-    final destinationRegion = this.destinationRegion;
-    final expirationTime = this.expirationTime;
-    final frameworkDescription = this.frameworkDescription;
-    final frameworkId = this.frameworkId;
-    final frameworkName = this.frameworkName;
-    final id = this.id;
-    final lastUpdated = this.lastUpdated;
-    final sourceAccount = this.sourceAccount;
-    final standardControlsCount = this.standardControlsCount;
-    final status = this.status;
-    return {
-      if (comment != null) 'comment': comment,
-      if (complianceType != null) 'complianceType': complianceType,
-      if (creationTime != null)
-        'creationTime': unixTimestampToJson(creationTime),
-      if (customControlsCount != null)
-        'customControlsCount': customControlsCount,
-      if (destinationAccount != null) 'destinationAccount': destinationAccount,
-      if (destinationRegion != null) 'destinationRegion': destinationRegion,
-      if (expirationTime != null)
-        'expirationTime': unixTimestampToJson(expirationTime),
-      if (frameworkDescription != null)
-        'frameworkDescription': frameworkDescription,
-      if (frameworkId != null) 'frameworkId': frameworkId,
-      if (frameworkName != null) 'frameworkName': frameworkName,
-      if (id != null) 'id': id,
-      if (lastUpdated != null) 'lastUpdated': unixTimestampToJson(lastUpdated),
-      if (sourceAccount != null) 'sourceAccount': sourceAccount,
-      if (standardControlsCount != null)
-        'standardControlsCount': standardControlsCount,
-      if (status != null) 'status': status.value,
-    };
-  }
-}
-
-/// The metadata that's associated with the specified assessment.
-class AssessmentMetadata {
-  /// The destination that evidence reports are stored in for the assessment.
-  final AssessmentReportsDestination? assessmentReportsDestination;
-
-  /// The name of the compliance standard that's related to the assessment, such
-  /// as PCI-DSS.
-  final String? complianceType;
-
-  /// Specifies when the assessment was created.
-  final DateTime? creationTime;
-
-  /// The delegations that are associated with the assessment.
-  final List<Delegation>? delegations;
-
-  /// The description of the assessment.
-  final String? description;
-
-  /// The unique identifier for the assessment.
-  final String? id;
-
-  /// The time of the most recent update.
-  final DateTime? lastUpdated;
-
-  /// The name of the assessment.
-  final String? name;
-
-  /// The roles that are associated with the assessment.
-  final List<Role>? roles;
-
-  /// The wrapper of Amazon Web Services accounts and services that are in scope
-  /// for the assessment.
-  final Scope? scope;
-
-  /// The overall status of the assessment.
-  final AssessmentStatus? status;
-
-  AssessmentMetadata({
-    this.assessmentReportsDestination,
-    this.complianceType,
-    this.creationTime,
-    this.delegations,
-    this.description,
-    this.id,
-    this.lastUpdated,
-    this.name,
-    this.roles,
-    this.scope,
-    this.status,
-  });
-
-  factory AssessmentMetadata.fromJson(Map<String, dynamic> json) {
-    return AssessmentMetadata(
-      assessmentReportsDestination: json['assessmentReportsDestination'] != null
-          ? AssessmentReportsDestination.fromJson(
-              json['assessmentReportsDestination'] as Map<String, dynamic>)
-          : null,
-      complianceType: json['complianceType'] as String?,
-      creationTime: timeStampFromJson(json['creationTime']),
-      delegations: (json['delegations'] as List?)
-          ?.nonNulls
-          .map((e) => Delegation.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      description: json['description'] as String?,
-      id: json['id'] as String?,
-      lastUpdated: timeStampFromJson(json['lastUpdated']),
-      name: json['name'] as String?,
-      roles: (json['roles'] as List?)
-          ?.nonNulls
-          .map((e) => Role.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      scope: json['scope'] != null
-          ? Scope.fromJson(json['scope'] as Map<String, dynamic>)
-          : null,
-      status: (json['status'] as String?)?.let(AssessmentStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assessmentReportsDestination = this.assessmentReportsDestination;
-    final complianceType = this.complianceType;
-    final creationTime = this.creationTime;
-    final delegations = this.delegations;
-    final description = this.description;
-    final id = this.id;
-    final lastUpdated = this.lastUpdated;
-    final name = this.name;
-    final roles = this.roles;
-    final scope = this.scope;
-    final status = this.status;
-    return {
-      if (assessmentReportsDestination != null)
-        'assessmentReportsDestination': assessmentReportsDestination,
-      if (complianceType != null) 'complianceType': complianceType,
-      if (creationTime != null)
-        'creationTime': unixTimestampToJson(creationTime),
-      if (delegations != null) 'delegations': delegations,
-      if (description != null) 'description': description,
-      if (id != null) 'id': id,
-      if (lastUpdated != null) 'lastUpdated': unixTimestampToJson(lastUpdated),
-      if (name != null) 'name': name,
-      if (roles != null) 'roles': roles,
-      if (scope != null) 'scope': scope,
-      if (status != null) 'status': status.value,
-    };
-  }
-}
-
-/// A metadata object that's associated with an assessment in Audit Manager.
-class AssessmentMetadataItem {
-  /// The name of the compliance standard that's related to the assessment, such
-  /// as PCI-DSS.
-  final String? complianceType;
-
-  /// Specifies when the assessment was created.
-  final DateTime? creationTime;
-
-  /// The delegations that are associated with the assessment.
-  final List<Delegation>? delegations;
-
-  /// The unique identifier for the assessment.
-  final String? id;
-
-  /// The time of the most recent update.
-  final DateTime? lastUpdated;
-
-  /// The name of the assessment.
-  final String? name;
-
-  /// The roles that are associated with the assessment.
-  final List<Role>? roles;
-
-  /// The current status of the assessment.
-  final AssessmentStatus? status;
-
-  AssessmentMetadataItem({
-    this.complianceType,
-    this.creationTime,
-    this.delegations,
-    this.id,
-    this.lastUpdated,
-    this.name,
-    this.roles,
-    this.status,
-  });
-
-  factory AssessmentMetadataItem.fromJson(Map<String, dynamic> json) {
-    return AssessmentMetadataItem(
-      complianceType: json['complianceType'] as String?,
-      creationTime: timeStampFromJson(json['creationTime']),
-      delegations: (json['delegations'] as List?)
-          ?.nonNulls
-          .map((e) => Delegation.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      id: json['id'] as String?,
-      lastUpdated: timeStampFromJson(json['lastUpdated']),
-      name: json['name'] as String?,
-      roles: (json['roles'] as List?)
-          ?.nonNulls
-          .map((e) => Role.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      status: (json['status'] as String?)?.let(AssessmentStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final complianceType = this.complianceType;
-    final creationTime = this.creationTime;
-    final delegations = this.delegations;
-    final id = this.id;
-    final lastUpdated = this.lastUpdated;
-    final name = this.name;
-    final roles = this.roles;
-    final status = this.status;
-    return {
-      if (complianceType != null) 'complianceType': complianceType,
-      if (creationTime != null)
-        'creationTime': unixTimestampToJson(creationTime),
-      if (delegations != null) 'delegations': delegations,
-      if (id != null) 'id': id,
-      if (lastUpdated != null) 'lastUpdated': unixTimestampToJson(lastUpdated),
-      if (name != null) 'name': name,
-      if (roles != null) 'roles': roles,
-      if (status != null) 'status': status.value,
-    };
-  }
-}
-
-/// A finalized document that's generated from an Audit Manager assessment.
-/// These reports summarize the relevant evidence that was collected for your
-/// audit, and link to the relevant evidence folders. These evidence folders are
-/// named and organized according to the controls that are specified in your
-/// assessment.
-class AssessmentReport {
-  /// The identifier for the specified assessment.
-  final String? assessmentId;
-
-  /// The name of the associated assessment.
-  final String? assessmentName;
-
-  /// The name of the user who created the assessment report.
-  final String? author;
-
-  /// The identifier for the specified Amazon Web Services account.
-  final String? awsAccountId;
-
-  /// Specifies when the assessment report was created.
-  final DateTime? creationTime;
-
-  /// The description of the specified assessment report.
-  final String? description;
-
-  /// The unique identifier for the assessment report.
-  final String? id;
-
-  /// The name that's given to the assessment report.
-  final String? name;
-
-  /// The current status of the specified assessment report.
-  final AssessmentReportStatus? status;
-
-  AssessmentReport({
-    this.assessmentId,
-    this.assessmentName,
-    this.author,
-    this.awsAccountId,
-    this.creationTime,
-    this.description,
-    this.id,
-    this.name,
-    this.status,
-  });
-
-  factory AssessmentReport.fromJson(Map<String, dynamic> json) {
-    return AssessmentReport(
-      assessmentId: json['assessmentId'] as String?,
-      assessmentName: json['assessmentName'] as String?,
-      author: json['author'] as String?,
-      awsAccountId: json['awsAccountId'] as String?,
-      creationTime: timeStampFromJson(json['creationTime']),
-      description: json['description'] as String?,
-      id: json['id'] as String?,
-      name: json['name'] as String?,
-      status:
-          (json['status'] as String?)?.let(AssessmentReportStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assessmentId = this.assessmentId;
-    final assessmentName = this.assessmentName;
-    final author = this.author;
-    final awsAccountId = this.awsAccountId;
-    final creationTime = this.creationTime;
-    final description = this.description;
-    final id = this.id;
-    final name = this.name;
-    final status = this.status;
-    return {
-      if (assessmentId != null) 'assessmentId': assessmentId,
-      if (assessmentName != null) 'assessmentName': assessmentName,
-      if (author != null) 'author': author,
-      if (awsAccountId != null) 'awsAccountId': awsAccountId,
-      if (creationTime != null)
-        'creationTime': unixTimestampToJson(creationTime),
-      if (description != null) 'description': description,
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-      if (status != null) 'status': status.value,
-    };
-  }
-}
-
-class AssessmentReportDestinationType {
-  static const s3 = AssessmentReportDestinationType._('S3');
-
-  final String value;
-
-  const AssessmentReportDestinationType._(this.value);
-
-  static const values = [s3];
-
-  static AssessmentReportDestinationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AssessmentReportDestinationType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AssessmentReportDestinationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An error entity for assessment report evidence errors. This is used to
-/// provide more meaningful errors than a simple string message.
-class AssessmentReportEvidenceError {
-  /// The error code that was returned.
-  final String? errorCode;
-
-  /// The error message that was returned.
-  final String? errorMessage;
-
-  /// The identifier for the evidence.
-  final String? evidenceId;
-
-  AssessmentReportEvidenceError({
-    this.errorCode,
-    this.errorMessage,
-    this.evidenceId,
-  });
-
-  factory AssessmentReportEvidenceError.fromJson(Map<String, dynamic> json) {
-    return AssessmentReportEvidenceError(
-      errorCode: json['errorCode'] as String?,
-      errorMessage: json['errorMessage'] as String?,
-      evidenceId: json['evidenceId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    final evidenceId = this.evidenceId;
-    return {
-      if (errorCode != null) 'errorCode': errorCode,
-      if (errorMessage != null) 'errorMessage': errorMessage,
-      if (evidenceId != null) 'evidenceId': evidenceId,
-    };
-  }
-}
-
-/// The metadata objects that are associated with the specified assessment
-/// report.
-class AssessmentReportMetadata {
-  /// The unique identifier for the associated assessment.
-  final String? assessmentId;
-
-  /// The name of the associated assessment.
-  final String? assessmentName;
-
-  /// The name of the user who created the assessment report.
-  final String? author;
-
-  /// Specifies when the assessment report was created.
-  final DateTime? creationTime;
-
-  /// The description of the assessment report.
-  final String? description;
-
-  /// The unique identifier for the assessment report.
-  final String? id;
-
-  /// The name of the assessment report.
-  final String? name;
-
-  /// The current status of the assessment report.
-  final AssessmentReportStatus? status;
-
-  AssessmentReportMetadata({
-    this.assessmentId,
-    this.assessmentName,
-    this.author,
-    this.creationTime,
-    this.description,
-    this.id,
-    this.name,
-    this.status,
-  });
-
-  factory AssessmentReportMetadata.fromJson(Map<String, dynamic> json) {
-    return AssessmentReportMetadata(
-      assessmentId: json['assessmentId'] as String?,
-      assessmentName: json['assessmentName'] as String?,
-      author: json['author'] as String?,
-      creationTime: timeStampFromJson(json['creationTime']),
-      description: json['description'] as String?,
-      id: json['id'] as String?,
-      name: json['name'] as String?,
-      status:
-          (json['status'] as String?)?.let(AssessmentReportStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assessmentId = this.assessmentId;
-    final assessmentName = this.assessmentName;
-    final author = this.author;
-    final creationTime = this.creationTime;
-    final description = this.description;
-    final id = this.id;
-    final name = this.name;
-    final status = this.status;
-    return {
-      if (assessmentId != null) 'assessmentId': assessmentId,
-      if (assessmentName != null) 'assessmentName': assessmentName,
-      if (author != null) 'author': author,
-      if (creationTime != null)
-        'creationTime': unixTimestampToJson(creationTime),
-      if (description != null) 'description': description,
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-      if (status != null) 'status': status.value,
-    };
-  }
-}
-
-class AssessmentReportStatus {
-  static const complete = AssessmentReportStatus._('COMPLETE');
-  static const inProgress = AssessmentReportStatus._('IN_PROGRESS');
-  static const failed = AssessmentReportStatus._('FAILED');
-
-  final String value;
-
-  const AssessmentReportStatus._(this.value);
-
-  static const values = [complete, inProgress, failed];
-
-  static AssessmentReportStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AssessmentReportStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AssessmentReportStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The location where Audit Manager saves assessment reports for the given
-/// assessment.
-class AssessmentReportsDestination {
-  /// The destination bucket where Audit Manager stores assessment reports.
-  final String? destination;
-
-  /// The destination type, such as Amazon S3.
-  final AssessmentReportDestinationType? destinationType;
-
-  AssessmentReportsDestination({
-    this.destination,
-    this.destinationType,
-  });
-
-  factory AssessmentReportsDestination.fromJson(Map<String, dynamic> json) {
-    return AssessmentReportsDestination(
-      destination: json['destination'] as String?,
-      destinationType: (json['destinationType'] as String?)
-          ?.let(AssessmentReportDestinationType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final destination = this.destination;
-    final destinationType = this.destinationType;
-    return {
-      if (destination != null) 'destination': destination,
-      if (destinationType != null) 'destinationType': destinationType.value,
-    };
-  }
-}
-
-class AssessmentStatus {
-  static const active = AssessmentStatus._('ACTIVE');
-  static const inactive = AssessmentStatus._('INACTIVE');
-
-  final String value;
-
-  const AssessmentStatus._(this.value);
-
-  static const values = [active, inactive];
-
-  static AssessmentStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AssessmentStatus._(value));
-
-  @override
-  bool operator ==(other) => other is AssessmentStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class AssociateAssessmentReportEvidenceFolderResponse {
@@ -3906,51 +2608,6 @@ class BatchAssociateAssessmentReportEvidenceResponse {
   }
 }
 
-/// An error entity for the <code>BatchCreateDelegationByAssessment</code> API.
-/// This is used to provide more meaningful errors than a simple string message.
-class BatchCreateDelegationByAssessmentError {
-  /// The API request to batch create delegations in Audit Manager.
-  final CreateDelegationRequest? createDelegationRequest;
-
-  /// The error code that the <code>BatchCreateDelegationByAssessment</code> API
-  /// returned.
-  final String? errorCode;
-
-  /// The error message that the <code>BatchCreateDelegationByAssessment</code>
-  /// API returned.
-  final String? errorMessage;
-
-  BatchCreateDelegationByAssessmentError({
-    this.createDelegationRequest,
-    this.errorCode,
-    this.errorMessage,
-  });
-
-  factory BatchCreateDelegationByAssessmentError.fromJson(
-      Map<String, dynamic> json) {
-    return BatchCreateDelegationByAssessmentError(
-      createDelegationRequest: json['createDelegationRequest'] != null
-          ? CreateDelegationRequest.fromJson(
-              json['createDelegationRequest'] as Map<String, dynamic>)
-          : null,
-      errorCode: json['errorCode'] as String?,
-      errorMessage: json['errorMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createDelegationRequest = this.createDelegationRequest;
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    return {
-      if (createDelegationRequest != null)
-        'createDelegationRequest': createDelegationRequest,
-      if (errorCode != null) 'errorCode': errorCode,
-      if (errorMessage != null) 'errorMessage': errorMessage,
-    };
-  }
-}
-
 class BatchCreateDelegationByAssessmentResponse {
   /// The delegations that are associated with the assessment.
   final List<Delegation>? delegations;
@@ -3985,47 +2642,6 @@ class BatchCreateDelegationByAssessmentResponse {
     return {
       if (delegations != null) 'delegations': delegations,
       if (errors != null) 'errors': errors,
-    };
-  }
-}
-
-/// An error entity for the <code>BatchDeleteDelegationByAssessment</code> API.
-/// This is used to provide more meaningful errors than a simple string message.
-class BatchDeleteDelegationByAssessmentError {
-  /// The identifier for the delegation.
-  final String? delegationId;
-
-  /// The error code that the <code>BatchDeleteDelegationByAssessment</code> API
-  /// returned.
-  final String? errorCode;
-
-  /// The error message that the <code>BatchDeleteDelegationByAssessment</code>
-  /// API returned.
-  final String? errorMessage;
-
-  BatchDeleteDelegationByAssessmentError({
-    this.delegationId,
-    this.errorCode,
-    this.errorMessage,
-  });
-
-  factory BatchDeleteDelegationByAssessmentError.fromJson(
-      Map<String, dynamic> json) {
-    return BatchDeleteDelegationByAssessmentError(
-      delegationId: json['delegationId'] as String?,
-      errorCode: json['errorCode'] as String?,
-      errorMessage: json['errorMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final delegationId = this.delegationId;
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    return {
-      if (delegationId != null) 'delegationId': delegationId,
-      if (errorCode != null) 'errorCode': errorCode,
-      if (errorMessage != null) 'errorMessage': errorMessage,
     };
   }
 }
@@ -4096,51 +2712,6 @@ class BatchDisassociateAssessmentReportEvidenceResponse {
   }
 }
 
-/// An error entity for the <code>BatchImportEvidenceToAssessmentControl</code>
-/// API. This is used to provide more meaningful errors than a simple string
-/// message.
-class BatchImportEvidenceToAssessmentControlError {
-  /// The error code that the <code>BatchImportEvidenceToAssessmentControl</code>
-  /// API returned.
-  final String? errorCode;
-
-  /// The error message that the
-  /// <code>BatchImportEvidenceToAssessmentControl</code> API returned.
-  final String? errorMessage;
-
-  /// Manual evidence that can't be collected automatically by Audit Manager.
-  final ManualEvidence? manualEvidence;
-
-  BatchImportEvidenceToAssessmentControlError({
-    this.errorCode,
-    this.errorMessage,
-    this.manualEvidence,
-  });
-
-  factory BatchImportEvidenceToAssessmentControlError.fromJson(
-      Map<String, dynamic> json) {
-    return BatchImportEvidenceToAssessmentControlError(
-      errorCode: json['errorCode'] as String?,
-      errorMessage: json['errorMessage'] as String?,
-      manualEvidence: json['manualEvidence'] != null
-          ? ManualEvidence.fromJson(
-              json['manualEvidence'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    final manualEvidence = this.manualEvidence;
-    return {
-      if (errorCode != null) 'errorCode': errorCode,
-      if (errorMessage != null) 'errorMessage': errorMessage,
-      if (manualEvidence != null) 'manualEvidence': manualEvidence,
-    };
-  }
-}
-
 class BatchImportEvidenceToAssessmentControlResponse {
   /// A list of errors that the
   /// <code>BatchImportEvidenceToAssessmentControl</code> API returned.
@@ -4169,791 +2740,32 @@ class BatchImportEvidenceToAssessmentControlResponse {
   }
 }
 
-/// The record of a change within Audit Manager. For example, this could be the
-/// status change of an assessment or the delegation of a control set.
-class ChangeLog {
-  /// The action that was performed.
-  final ActionEnum? action;
+class CreateAssessmentResponse {
+  final Assessment? assessment;
 
-  /// The time when the action was performed and the changelog record was created.
-  final DateTime? createdAt;
-
-  /// The user or role that performed the action.
-  final String? createdBy;
-
-  /// The name of the object that changed. This could be the name of an
-  /// assessment, control, or control set.
-  final String? objectName;
-
-  /// The object that was changed, such as an assessment, control, or control set.
-  final ObjectTypeEnum? objectType;
-
-  ChangeLog({
-    this.action,
-    this.createdAt,
-    this.createdBy,
-    this.objectName,
-    this.objectType,
+  CreateAssessmentResponse({
+    this.assessment,
   });
 
-  factory ChangeLog.fromJson(Map<String, dynamic> json) {
-    return ChangeLog(
-      action: (json['action'] as String?)?.let(ActionEnum.fromString),
-      createdAt: timeStampFromJson(json['createdAt']),
-      createdBy: json['createdBy'] as String?,
-      objectName: json['objectName'] as String?,
-      objectType:
-          (json['objectType'] as String?)?.let(ObjectTypeEnum.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final action = this.action;
-    final createdAt = this.createdAt;
-    final createdBy = this.createdBy;
-    final objectName = this.objectName;
-    final objectType = this.objectType;
-    return {
-      if (action != null) 'action': action.value,
-      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
-      if (createdBy != null) 'createdBy': createdBy,
-      if (objectName != null) 'objectName': objectName,
-      if (objectType != null) 'objectType': objectType.value,
-    };
-  }
-}
-
-/// A control in Audit Manager.
-class Control {
-  /// The recommended actions to carry out if the control isn't fulfilled.
-  final String? actionPlanInstructions;
-
-  /// The title of the action plan for remediating the control.
-  final String? actionPlanTitle;
-
-  /// The Amazon Resource Name (ARN) of the control.
-  final String? arn;
-
-  /// The data mapping sources for the control.
-  final List<ControlMappingSource>? controlMappingSources;
-
-  /// The data source types that determine where Audit Manager collects evidence
-  /// from for the control.
-  final String? controlSources;
-
-  /// The time when the control was created.
-  final DateTime? createdAt;
-
-  /// The user or role that created the control.
-  final String? createdBy;
-
-  /// The description of the control.
-  final String? description;
-
-  /// The unique identifier for the control.
-  final String? id;
-
-  /// The time when the control was most recently updated.
-  final DateTime? lastUpdatedAt;
-
-  /// The user or role that most recently updated the control.
-  final String? lastUpdatedBy;
-
-  /// The name of the control.
-  final String? name;
-
-  /// The state of the control. The <code>END_OF_SUPPORT</code> state is
-  /// applicable to standard controls only. This state indicates that the standard
-  /// control can still be used to collect evidence, but Audit Manager is no
-  /// longer updating or maintaining that control.
-  final ControlState? state;
-
-  /// The tags associated with the control.
-  final Map<String, String>? tags;
-
-  /// The steps that you should follow to determine if the control has been
-  /// satisfied.
-  final String? testingInformation;
-
-  /// Specifies whether the control is a standard control or a custom control.
-  final ControlType? type;
-
-  Control({
-    this.actionPlanInstructions,
-    this.actionPlanTitle,
-    this.arn,
-    this.controlMappingSources,
-    this.controlSources,
-    this.createdAt,
-    this.createdBy,
-    this.description,
-    this.id,
-    this.lastUpdatedAt,
-    this.lastUpdatedBy,
-    this.name,
-    this.state,
-    this.tags,
-    this.testingInformation,
-    this.type,
-  });
-
-  factory Control.fromJson(Map<String, dynamic> json) {
-    return Control(
-      actionPlanInstructions: json['actionPlanInstructions'] as String?,
-      actionPlanTitle: json['actionPlanTitle'] as String?,
-      arn: json['arn'] as String?,
-      controlMappingSources: (json['controlMappingSources'] as List?)
-          ?.nonNulls
-          .map((e) => ControlMappingSource.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      controlSources: json['controlSources'] as String?,
-      createdAt: timeStampFromJson(json['createdAt']),
-      createdBy: json['createdBy'] as String?,
-      description: json['description'] as String?,
-      id: json['id'] as String?,
-      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
-      lastUpdatedBy: json['lastUpdatedBy'] as String?,
-      name: json['name'] as String?,
-      state: (json['state'] as String?)?.let(ControlState.fromString),
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      testingInformation: json['testingInformation'] as String?,
-      type: (json['type'] as String?)?.let(ControlType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final actionPlanInstructions = this.actionPlanInstructions;
-    final actionPlanTitle = this.actionPlanTitle;
-    final arn = this.arn;
-    final controlMappingSources = this.controlMappingSources;
-    final controlSources = this.controlSources;
-    final createdAt = this.createdAt;
-    final createdBy = this.createdBy;
-    final description = this.description;
-    final id = this.id;
-    final lastUpdatedAt = this.lastUpdatedAt;
-    final lastUpdatedBy = this.lastUpdatedBy;
-    final name = this.name;
-    final state = this.state;
-    final tags = this.tags;
-    final testingInformation = this.testingInformation;
-    final type = this.type;
-    return {
-      if (actionPlanInstructions != null)
-        'actionPlanInstructions': actionPlanInstructions,
-      if (actionPlanTitle != null) 'actionPlanTitle': actionPlanTitle,
-      if (arn != null) 'arn': arn,
-      if (controlMappingSources != null)
-        'controlMappingSources': controlMappingSources,
-      if (controlSources != null) 'controlSources': controlSources,
-      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
-      if (createdBy != null) 'createdBy': createdBy,
-      if (description != null) 'description': description,
-      if (id != null) 'id': id,
-      if (lastUpdatedAt != null)
-        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
-      if (lastUpdatedBy != null) 'lastUpdatedBy': lastUpdatedBy,
-      if (name != null) 'name': name,
-      if (state != null) 'state': state.value,
-      if (tags != null) 'tags': tags,
-      if (testingInformation != null) 'testingInformation': testingInformation,
-      if (type != null) 'type': type.value,
-    };
-  }
-}
-
-/// A comment that's posted by a user on a control. This includes the author's
-/// name, the comment text, and a timestamp.
-class ControlComment {
-  /// The name of the user who authored the comment.
-  final String? authorName;
-
-  /// The body text of a control comment.
-  final String? commentBody;
-
-  /// The time when the comment was posted.
-  final DateTime? postedDate;
-
-  ControlComment({
-    this.authorName,
-    this.commentBody,
-    this.postedDate,
-  });
-
-  factory ControlComment.fromJson(Map<String, dynamic> json) {
-    return ControlComment(
-      authorName: json['authorName'] as String?,
-      commentBody: json['commentBody'] as String?,
-      postedDate: timeStampFromJson(json['postedDate']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final authorName = this.authorName;
-    final commentBody = this.commentBody;
-    final postedDate = this.postedDate;
-    return {
-      if (authorName != null) 'authorName': authorName,
-      if (commentBody != null) 'commentBody': commentBody,
-      if (postedDate != null) 'postedDate': unixTimestampToJson(postedDate),
-    };
-  }
-}
-
-/// A summary of the latest analytics data for a specific control domain.
-///
-/// Control domain insights are grouped by control domain, and ranked by the
-/// highest total count of non-compliant evidence.
-class ControlDomainInsights {
-  /// The number of controls in the control domain that collected non-compliant
-  /// evidence on the <code>lastUpdated</code> date.
-  final int? controlsCountByNoncompliantEvidence;
-
-  /// A breakdown of the compliance check status for the evidence that’s
-  /// associated with the control domain.
-  final EvidenceInsights? evidenceInsights;
-
-  /// The unique identifier for the control domain. Audit Manager supports the
-  /// control domains that are provided by Amazon Web Services Control Catalog.
-  /// For information about how to find a list of available control domains, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html">
-  /// <code>ListDomains</code> </a> in the Amazon Web Services Control Catalog API
-  /// Reference.
-  final String? id;
-
-  /// The time when the control domain insights were last updated.
-  final DateTime? lastUpdated;
-
-  /// The name of the control domain.
-  final String? name;
-
-  /// The total number of controls in the control domain.
-  final int? totalControlsCount;
-
-  ControlDomainInsights({
-    this.controlsCountByNoncompliantEvidence,
-    this.evidenceInsights,
-    this.id,
-    this.lastUpdated,
-    this.name,
-    this.totalControlsCount,
-  });
-
-  factory ControlDomainInsights.fromJson(Map<String, dynamic> json) {
-    return ControlDomainInsights(
-      controlsCountByNoncompliantEvidence:
-          json['controlsCountByNoncompliantEvidence'] as int?,
-      evidenceInsights: json['evidenceInsights'] != null
-          ? EvidenceInsights.fromJson(
-              json['evidenceInsights'] as Map<String, dynamic>)
+  factory CreateAssessmentResponse.fromJson(Map<String, dynamic> json) {
+    return CreateAssessmentResponse(
+      assessment: json['assessment'] != null
+          ? Assessment.fromJson(json['assessment'] as Map<String, dynamic>)
           : null,
-      id: json['id'] as String?,
-      lastUpdated: timeStampFromJson(json['lastUpdated']),
-      name: json['name'] as String?,
-      totalControlsCount: json['totalControlsCount'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final controlsCountByNoncompliantEvidence =
-        this.controlsCountByNoncompliantEvidence;
-    final evidenceInsights = this.evidenceInsights;
-    final id = this.id;
-    final lastUpdated = this.lastUpdated;
-    final name = this.name;
-    final totalControlsCount = this.totalControlsCount;
+    final assessment = this.assessment;
     return {
-      if (controlsCountByNoncompliantEvidence != null)
-        'controlsCountByNoncompliantEvidence':
-            controlsCountByNoncompliantEvidence,
-      if (evidenceInsights != null) 'evidenceInsights': evidenceInsights,
-      if (id != null) 'id': id,
-      if (lastUpdated != null) 'lastUpdated': unixTimestampToJson(lastUpdated),
-      if (name != null) 'name': name,
-      if (totalControlsCount != null) 'totalControlsCount': totalControlsCount,
-    };
-  }
-}
-
-/// A summary of the latest analytics data for a specific control in a specific
-/// active assessment.
-///
-/// Control insights are grouped by control domain, and ranked by the highest
-/// total count of non-compliant evidence.
-class ControlInsightsMetadataByAssessmentItem {
-  /// The name of the control set that the assessment control belongs to.
-  final String? controlSetName;
-
-  /// A breakdown of the compliance check status for the evidence that’s
-  /// associated with the assessment control.
-  final EvidenceInsights? evidenceInsights;
-
-  /// The unique identifier for the assessment control.
-  final String? id;
-
-  /// The time when the assessment control insights were last updated.
-  final DateTime? lastUpdated;
-
-  /// The name of the assessment control.
-  final String? name;
-
-  ControlInsightsMetadataByAssessmentItem({
-    this.controlSetName,
-    this.evidenceInsights,
-    this.id,
-    this.lastUpdated,
-    this.name,
-  });
-
-  factory ControlInsightsMetadataByAssessmentItem.fromJson(
-      Map<String, dynamic> json) {
-    return ControlInsightsMetadataByAssessmentItem(
-      controlSetName: json['controlSetName'] as String?,
-      evidenceInsights: json['evidenceInsights'] != null
-          ? EvidenceInsights.fromJson(
-              json['evidenceInsights'] as Map<String, dynamic>)
-          : null,
-      id: json['id'] as String?,
-      lastUpdated: timeStampFromJson(json['lastUpdated']),
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final controlSetName = this.controlSetName;
-    final evidenceInsights = this.evidenceInsights;
-    final id = this.id;
-    final lastUpdated = this.lastUpdated;
-    final name = this.name;
-    return {
-      if (controlSetName != null) 'controlSetName': controlSetName,
-      if (evidenceInsights != null) 'evidenceInsights': evidenceInsights,
-      if (id != null) 'id': id,
-      if (lastUpdated != null) 'lastUpdated': unixTimestampToJson(lastUpdated),
-      if (name != null) 'name': name,
-    };
-  }
-}
-
-/// A summary of the latest analytics data for a specific control.
-///
-/// This data reflects the total counts for the specified control across all
-/// active assessments. Control insights are grouped by control domain, and
-/// ranked by the highest total count of non-compliant evidence.
-class ControlInsightsMetadataItem {
-  /// A breakdown of the compliance check status for the evidence that’s
-  /// associated with the control.
-  final EvidenceInsights? evidenceInsights;
-
-  /// The unique identifier for the control.
-  final String? id;
-
-  /// The time when the control insights were last updated.
-  final DateTime? lastUpdated;
-
-  /// The name of the control.
-  final String? name;
-
-  ControlInsightsMetadataItem({
-    this.evidenceInsights,
-    this.id,
-    this.lastUpdated,
-    this.name,
-  });
-
-  factory ControlInsightsMetadataItem.fromJson(Map<String, dynamic> json) {
-    return ControlInsightsMetadataItem(
-      evidenceInsights: json['evidenceInsights'] != null
-          ? EvidenceInsights.fromJson(
-              json['evidenceInsights'] as Map<String, dynamic>)
-          : null,
-      id: json['id'] as String?,
-      lastUpdated: timeStampFromJson(json['lastUpdated']),
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final evidenceInsights = this.evidenceInsights;
-    final id = this.id;
-    final lastUpdated = this.lastUpdated;
-    final name = this.name;
-    return {
-      if (evidenceInsights != null) 'evidenceInsights': evidenceInsights,
-      if (id != null) 'id': id,
-      if (lastUpdated != null) 'lastUpdated': unixTimestampToJson(lastUpdated),
-      if (name != null) 'name': name,
-    };
-  }
-}
-
-/// The data source that determines where Audit Manager collects evidence from
-/// for the control.
-class ControlMappingSource {
-  /// The description of the source.
-  final String? sourceDescription;
-
-  /// Specifies how often evidence is collected from the control mapping source.
-  final SourceFrequency? sourceFrequency;
-
-  /// The unique identifier for the source.
-  final String? sourceId;
-  final SourceKeyword? sourceKeyword;
-
-  /// The name of the source.
-  final String? sourceName;
-
-  /// The setup option for the data source. This option reflects if the evidence
-  /// collection method is automated or manual. If you don’t provide a value for
-  /// <code>sourceSetUpOption</code>, Audit Manager automatically infers and
-  /// populates the correct value based on the <code>sourceType</code> that you
-  /// specify.
-  final SourceSetUpOption? sourceSetUpOption;
-
-  /// Specifies which type of data source is used to collect evidence.
-  ///
-  /// <ul>
-  /// <li>
-  /// The source can be an individual data source type, such as
-  /// <code>AWS_Cloudtrail</code>, <code>AWS_Config</code>,
-  /// <code>AWS_Security_Hub</code>, <code>AWS_API_Call</code>, or
-  /// <code>MANUAL</code>.
-  /// </li>
-  /// <li>
-  /// The source can also be a managed grouping of data sources, such as a
-  /// <code>Core_Control</code> or a <code>Common_Control</code>.
-  /// </li>
-  /// </ul>
-  final SourceType? sourceType;
-
-  /// The instructions for troubleshooting the control.
-  final String? troubleshootingText;
-
-  ControlMappingSource({
-    this.sourceDescription,
-    this.sourceFrequency,
-    this.sourceId,
-    this.sourceKeyword,
-    this.sourceName,
-    this.sourceSetUpOption,
-    this.sourceType,
-    this.troubleshootingText,
-  });
-
-  factory ControlMappingSource.fromJson(Map<String, dynamic> json) {
-    return ControlMappingSource(
-      sourceDescription: json['sourceDescription'] as String?,
-      sourceFrequency:
-          (json['sourceFrequency'] as String?)?.let(SourceFrequency.fromString),
-      sourceId: json['sourceId'] as String?,
-      sourceKeyword: json['sourceKeyword'] != null
-          ? SourceKeyword.fromJson(
-              json['sourceKeyword'] as Map<String, dynamic>)
-          : null,
-      sourceName: json['sourceName'] as String?,
-      sourceSetUpOption: (json['sourceSetUpOption'] as String?)
-          ?.let(SourceSetUpOption.fromString),
-      sourceType: (json['sourceType'] as String?)?.let(SourceType.fromString),
-      troubleshootingText: json['troubleshootingText'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final sourceDescription = this.sourceDescription;
-    final sourceFrequency = this.sourceFrequency;
-    final sourceId = this.sourceId;
-    final sourceKeyword = this.sourceKeyword;
-    final sourceName = this.sourceName;
-    final sourceSetUpOption = this.sourceSetUpOption;
-    final sourceType = this.sourceType;
-    final troubleshootingText = this.troubleshootingText;
-    return {
-      if (sourceDescription != null) 'sourceDescription': sourceDescription,
-      if (sourceFrequency != null) 'sourceFrequency': sourceFrequency.value,
-      if (sourceId != null) 'sourceId': sourceId,
-      if (sourceKeyword != null) 'sourceKeyword': sourceKeyword,
-      if (sourceName != null) 'sourceName': sourceName,
-      if (sourceSetUpOption != null)
-        'sourceSetUpOption': sourceSetUpOption.value,
-      if (sourceType != null) 'sourceType': sourceType.value,
-      if (troubleshootingText != null)
-        'troubleshootingText': troubleshootingText,
-    };
-  }
-}
-
-/// The metadata that's associated with the standard control or custom control.
-class ControlMetadata {
-  /// The Amazon Resource Name (ARN) of the control.
-  final String? arn;
-
-  /// The data source that determines where Audit Manager collects evidence from
-  /// for the control.
-  final String? controlSources;
-
-  /// The time when the control was created.
-  final DateTime? createdAt;
-
-  /// The unique identifier for the control.
-  final String? id;
-
-  /// The time when the control was most recently updated.
-  final DateTime? lastUpdatedAt;
-
-  /// The name of the control.
-  final String? name;
-
-  ControlMetadata({
-    this.arn,
-    this.controlSources,
-    this.createdAt,
-    this.id,
-    this.lastUpdatedAt,
-    this.name,
-  });
-
-  factory ControlMetadata.fromJson(Map<String, dynamic> json) {
-    return ControlMetadata(
-      arn: json['arn'] as String?,
-      controlSources: json['controlSources'] as String?,
-      createdAt: timeStampFromJson(json['createdAt']),
-      id: json['id'] as String?,
-      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final controlSources = this.controlSources;
-    final createdAt = this.createdAt;
-    final id = this.id;
-    final lastUpdatedAt = this.lastUpdatedAt;
-    final name = this.name;
-    return {
-      if (arn != null) 'arn': arn,
-      if (controlSources != null) 'controlSources': controlSources,
-      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
-      if (id != null) 'id': id,
-      if (lastUpdatedAt != null)
-        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
-      if (name != null) 'name': name,
-    };
-  }
-}
-
-class ControlResponse {
-  static const manual = ControlResponse._('MANUAL');
-  static const automate = ControlResponse._('AUTOMATE');
-  static const defer = ControlResponse._('DEFER');
-  static const ignore = ControlResponse._('IGNORE');
-
-  final String value;
-
-  const ControlResponse._(this.value);
-
-  static const values = [manual, automate, defer, ignore];
-
-  static ControlResponse fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ControlResponse._(value));
-
-  @override
-  bool operator ==(other) => other is ControlResponse && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A set of controls in Audit Manager.
-class ControlSet {
-  /// The list of controls within the control set.
-  final List<Control>? controls;
-
-  /// The identifier of the control set in the assessment. This is the control set
-  /// name in a plain string format.
-  final String? id;
-
-  /// The name of the control set.
-  final String? name;
-
-  ControlSet({
-    this.controls,
-    this.id,
-    this.name,
-  });
-
-  factory ControlSet.fromJson(Map<String, dynamic> json) {
-    return ControlSet(
-      controls: (json['controls'] as List?)
-          ?.nonNulls
-          .map((e) => Control.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      id: json['id'] as String?,
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final controls = this.controls;
-    final id = this.id;
-    final name = this.name;
-    return {
-      if (controls != null) 'controls': controls,
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-    };
-  }
-}
-
-class ControlSetStatus {
-  static const active = ControlSetStatus._('ACTIVE');
-  static const underReview = ControlSetStatus._('UNDER_REVIEW');
-  static const reviewed = ControlSetStatus._('REVIEWED');
-
-  final String value;
-
-  const ControlSetStatus._(this.value);
-
-  static const values = [active, underReview, reviewed];
-
-  static ControlSetStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ControlSetStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ControlSetStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ControlState {
-  static const active = ControlState._('ACTIVE');
-  static const endOfSupport = ControlState._('END_OF_SUPPORT');
-
-  final String value;
-
-  const ControlState._(this.value);
-
-  static const values = [active, endOfSupport];
-
-  static ControlState fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ControlState._(value));
-
-  @override
-  bool operator ==(other) => other is ControlState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ControlStatus {
-  static const underReview = ControlStatus._('UNDER_REVIEW');
-  static const reviewed = ControlStatus._('REVIEWED');
-  static const inactive = ControlStatus._('INACTIVE');
-
-  final String value;
-
-  const ControlStatus._(this.value);
-
-  static const values = [underReview, reviewed, inactive];
-
-  static ControlStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ControlStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ControlStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ControlType {
-  static const standard = ControlType._('Standard');
-  static const custom = ControlType._('Custom');
-  static const core = ControlType._('Core');
-
-  final String value;
-
-  const ControlType._(this.value);
-
-  static const values = [standard, custom, core];
-
-  static ControlType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ControlType._(value));
-
-  @override
-  bool operator ==(other) => other is ControlType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The control entity attributes that uniquely identify an existing control to
-/// be added to a framework in Audit Manager.
-class CreateAssessmentFrameworkControl {
-  /// The unique identifier of the control.
-  final String id;
-
-  CreateAssessmentFrameworkControl({
-    required this.id,
-  });
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    return {
-      'id': id,
-    };
-  }
-}
-
-/// A <code>controlSet</code> entity that represents a collection of controls in
-/// Audit Manager. This doesn't contain the control set ID.
-class CreateAssessmentFrameworkControlSet {
-  /// The name of the control set.
-  final String name;
-
-  /// The list of controls within the control set. This doesn't contain the
-  /// control set ID.
-  final List<CreateAssessmentFrameworkControl>? controls;
-
-  CreateAssessmentFrameworkControlSet({
-    required this.name,
-    this.controls,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final controls = this.controls;
-    return {
-      'name': name,
-      if (controls != null) 'controls': controls,
+      if (assessment != null) 'assessment': assessment,
     };
   }
 }
 
 class CreateAssessmentFrameworkResponse {
-  /// The name of the new framework that the
-  /// <code>CreateAssessmentFramework</code> API returned.
+  /// The new framework object that the <code>CreateAssessmentFramework</code> API
+  /// returned.
   final Framework? framework;
 
   CreateAssessmentFrameworkResponse({
@@ -5003,102 +2815,6 @@ class CreateAssessmentReportResponse {
   }
 }
 
-class CreateAssessmentResponse {
-  final Assessment? assessment;
-
-  CreateAssessmentResponse({
-    this.assessment,
-  });
-
-  factory CreateAssessmentResponse.fromJson(Map<String, dynamic> json) {
-    return CreateAssessmentResponse(
-      assessment: json['assessment'] != null
-          ? Assessment.fromJson(json['assessment'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assessment = this.assessment;
-    return {
-      if (assessment != null) 'assessment': assessment,
-    };
-  }
-}
-
-/// The mapping attributes that determine the evidence source for a given
-/// control, along with related parameters and metadata. This doesn't contain
-/// <code>mappingID</code>.
-class CreateControlMappingSource {
-  /// The description of the data source that determines where Audit Manager
-  /// collects evidence from for the control.
-  final String? sourceDescription;
-
-  /// Specifies how often evidence is collected from the control mapping source.
-  final SourceFrequency? sourceFrequency;
-  final SourceKeyword? sourceKeyword;
-
-  /// The name of the control mapping data source.
-  final String? sourceName;
-
-  /// The setup option for the data source. This option reflects if the evidence
-  /// collection method is automated or manual. If you don’t provide a value for
-  /// <code>sourceSetUpOption</code>, Audit Manager automatically infers and
-  /// populates the correct value based on the <code>sourceType</code> that you
-  /// specify.
-  final SourceSetUpOption? sourceSetUpOption;
-
-  /// Specifies which type of data source is used to collect evidence.
-  ///
-  /// <ul>
-  /// <li>
-  /// The source can be an individual data source type, such as
-  /// <code>AWS_Cloudtrail</code>, <code>AWS_Config</code>,
-  /// <code>AWS_Security_Hub</code>, <code>AWS_API_Call</code>, or
-  /// <code>MANUAL</code>.
-  /// </li>
-  /// <li>
-  /// The source can also be a managed grouping of data sources, such as a
-  /// <code>Core_Control</code> or a <code>Common_Control</code>.
-  /// </li>
-  /// </ul>
-  final SourceType? sourceType;
-
-  /// The instructions for troubleshooting the control.
-  final String? troubleshootingText;
-
-  CreateControlMappingSource({
-    this.sourceDescription,
-    this.sourceFrequency,
-    this.sourceKeyword,
-    this.sourceName,
-    this.sourceSetUpOption,
-    this.sourceType,
-    this.troubleshootingText,
-  });
-
-  Map<String, dynamic> toJson() {
-    final sourceDescription = this.sourceDescription;
-    final sourceFrequency = this.sourceFrequency;
-    final sourceKeyword = this.sourceKeyword;
-    final sourceName = this.sourceName;
-    final sourceSetUpOption = this.sourceSetUpOption;
-    final sourceType = this.sourceType;
-    final troubleshootingText = this.troubleshootingText;
-    return {
-      if (sourceDescription != null) 'sourceDescription': sourceDescription,
-      if (sourceFrequency != null) 'sourceFrequency': sourceFrequency.value,
-      if (sourceKeyword != null) 'sourceKeyword': sourceKeyword,
-      if (sourceName != null) 'sourceName': sourceName,
-      if (sourceSetUpOption != null)
-        'sourceSetUpOption': sourceSetUpOption.value,
-      if (sourceType != null) 'sourceType': sourceType.value,
-      if (troubleshootingText != null)
-        'troubleshootingText': troubleshootingText,
-    };
-  }
-}
-
 class CreateControlResponse {
   /// The new control that the <code>CreateControl</code> API returned.
   final Control? control;
@@ -5123,319 +2839,16 @@ class CreateControlResponse {
   }
 }
 
-/// A collection of attributes that's used to create a delegation for an
-/// assessment in Audit Manager.
-class CreateDelegationRequest {
-  /// A comment that's related to the delegation request.
-  final String? comment;
+class DeleteAssessmentResponse {
+  DeleteAssessmentResponse();
 
-  /// The unique identifier for the control set.
-  final String? controlSetId;
-
-  /// The Amazon Resource Name (ARN) of the IAM role.
-  final String? roleArn;
-
-  /// The type of customer persona.
-  /// <note>
-  /// In <code>CreateAssessment</code>, <code>roleType</code> can only be
-  /// <code>PROCESS_OWNER</code>.
-  ///
-  /// In <code>UpdateSettings</code>, <code>roleType</code> can only be
-  /// <code>PROCESS_OWNER</code>.
-  ///
-  /// In <code>BatchCreateDelegationByAssessment</code>, <code>roleType</code> can
-  /// only be <code>RESOURCE_OWNER</code>.
-  /// </note>
-  final RoleType? roleType;
-
-  CreateDelegationRequest({
-    this.comment,
-    this.controlSetId,
-    this.roleArn,
-    this.roleType,
-  });
-
-  factory CreateDelegationRequest.fromJson(Map<String, dynamic> json) {
-    return CreateDelegationRequest(
-      comment: json['comment'] as String?,
-      controlSetId: json['controlSetId'] as String?,
-      roleArn: json['roleArn'] as String?,
-      roleType: (json['roleType'] as String?)?.let(RoleType.fromString),
-    );
+  factory DeleteAssessmentResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteAssessmentResponse();
   }
 
   Map<String, dynamic> toJson() {
-    final comment = this.comment;
-    final controlSetId = this.controlSetId;
-    final roleArn = this.roleArn;
-    final roleType = this.roleType;
-    return {
-      if (comment != null) 'comment': comment,
-      if (controlSetId != null) 'controlSetId': controlSetId,
-      if (roleArn != null) 'roleArn': roleArn,
-      if (roleType != null) 'roleType': roleType.value,
-    };
+    return {};
   }
-}
-
-class DataSourceType {
-  static const awsCloudtrail = DataSourceType._('AWS_Cloudtrail');
-  static const awsConfig = DataSourceType._('AWS_Config');
-  static const awsSecurityHub = DataSourceType._('AWS_Security_Hub');
-  static const awsApiCall = DataSourceType._('AWS_API_Call');
-  static const manual = DataSourceType._('MANUAL');
-
-  final String value;
-
-  const DataSourceType._(this.value);
-
-  static const values = [
-    awsCloudtrail,
-    awsConfig,
-    awsSecurityHub,
-    awsApiCall,
-    manual
-  ];
-
-  static DataSourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DataSourceType._(value));
-
-  @override
-  bool operator ==(other) => other is DataSourceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The default s3 bucket where Audit Manager saves the files that you export
-/// from evidence finder.
-class DefaultExportDestination {
-  /// The destination bucket where Audit Manager stores exported files.
-  final String? destination;
-
-  /// The destination type, such as Amazon S3.
-  final ExportDestinationType? destinationType;
-
-  DefaultExportDestination({
-    this.destination,
-    this.destinationType,
-  });
-
-  factory DefaultExportDestination.fromJson(Map<String, dynamic> json) {
-    return DefaultExportDestination(
-      destination: json['destination'] as String?,
-      destinationType: (json['destinationType'] as String?)
-          ?.let(ExportDestinationType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final destination = this.destination;
-    final destinationType = this.destinationType;
-    return {
-      if (destination != null) 'destination': destination,
-      if (destinationType != null) 'destinationType': destinationType.value,
-    };
-  }
-}
-
-/// The assignment of a control set to a delegate for review.
-class Delegation {
-  /// The identifier for the assessment that's associated with the delegation.
-  final String? assessmentId;
-
-  /// The name of the assessment that's associated with the delegation.
-  final String? assessmentName;
-
-  /// The comment that's related to the delegation.
-  final String? comment;
-
-  /// The identifier for the control set that's associated with the delegation.
-  final String? controlSetId;
-
-  /// The user or role that created the delegation.
-  final String? createdBy;
-
-  /// Specifies when the delegation was created.
-  final DateTime? creationTime;
-
-  /// The unique identifier for the delegation.
-  final String? id;
-
-  /// Specifies when the delegation was last updated.
-  final DateTime? lastUpdated;
-
-  /// The Amazon Resource Name (ARN) of the IAM role.
-  final String? roleArn;
-
-  /// The type of customer persona.
-  /// <note>
-  /// In <code>CreateAssessment</code>, <code>roleType</code> can only be
-  /// <code>PROCESS_OWNER</code>.
-  ///
-  /// In <code>UpdateSettings</code>, <code>roleType</code> can only be
-  /// <code>PROCESS_OWNER</code>.
-  ///
-  /// In <code>BatchCreateDelegationByAssessment</code>, <code>roleType</code> can
-  /// only be <code>RESOURCE_OWNER</code>.
-  /// </note>
-  final RoleType? roleType;
-
-  /// The status of the delegation.
-  final DelegationStatus? status;
-
-  Delegation({
-    this.assessmentId,
-    this.assessmentName,
-    this.comment,
-    this.controlSetId,
-    this.createdBy,
-    this.creationTime,
-    this.id,
-    this.lastUpdated,
-    this.roleArn,
-    this.roleType,
-    this.status,
-  });
-
-  factory Delegation.fromJson(Map<String, dynamic> json) {
-    return Delegation(
-      assessmentId: json['assessmentId'] as String?,
-      assessmentName: json['assessmentName'] as String?,
-      comment: json['comment'] as String?,
-      controlSetId: json['controlSetId'] as String?,
-      createdBy: json['createdBy'] as String?,
-      creationTime: timeStampFromJson(json['creationTime']),
-      id: json['id'] as String?,
-      lastUpdated: timeStampFromJson(json['lastUpdated']),
-      roleArn: json['roleArn'] as String?,
-      roleType: (json['roleType'] as String?)?.let(RoleType.fromString),
-      status: (json['status'] as String?)?.let(DelegationStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assessmentId = this.assessmentId;
-    final assessmentName = this.assessmentName;
-    final comment = this.comment;
-    final controlSetId = this.controlSetId;
-    final createdBy = this.createdBy;
-    final creationTime = this.creationTime;
-    final id = this.id;
-    final lastUpdated = this.lastUpdated;
-    final roleArn = this.roleArn;
-    final roleType = this.roleType;
-    final status = this.status;
-    return {
-      if (assessmentId != null) 'assessmentId': assessmentId,
-      if (assessmentName != null) 'assessmentName': assessmentName,
-      if (comment != null) 'comment': comment,
-      if (controlSetId != null) 'controlSetId': controlSetId,
-      if (createdBy != null) 'createdBy': createdBy,
-      if (creationTime != null)
-        'creationTime': unixTimestampToJson(creationTime),
-      if (id != null) 'id': id,
-      if (lastUpdated != null) 'lastUpdated': unixTimestampToJson(lastUpdated),
-      if (roleArn != null) 'roleArn': roleArn,
-      if (roleType != null) 'roleType': roleType.value,
-      if (status != null) 'status': status.value,
-    };
-  }
-}
-
-/// The metadata that's associated with the delegation.
-class DelegationMetadata {
-  /// The unique identifier for the assessment.
-  final String? assessmentId;
-
-  /// The name of the associated assessment.
-  final String? assessmentName;
-
-  /// Specifies the name of the control set that was delegated for review.
-  final String? controlSetName;
-
-  /// Specifies when the delegation was created.
-  final DateTime? creationTime;
-
-  /// The unique identifier for the delegation.
-  final String? id;
-
-  /// The Amazon Resource Name (ARN) of the IAM role.
-  final String? roleArn;
-
-  /// The current status of the delegation.
-  final DelegationStatus? status;
-
-  DelegationMetadata({
-    this.assessmentId,
-    this.assessmentName,
-    this.controlSetName,
-    this.creationTime,
-    this.id,
-    this.roleArn,
-    this.status,
-  });
-
-  factory DelegationMetadata.fromJson(Map<String, dynamic> json) {
-    return DelegationMetadata(
-      assessmentId: json['assessmentId'] as String?,
-      assessmentName: json['assessmentName'] as String?,
-      controlSetName: json['controlSetName'] as String?,
-      creationTime: timeStampFromJson(json['creationTime']),
-      id: json['id'] as String?,
-      roleArn: json['roleArn'] as String?,
-      status: (json['status'] as String?)?.let(DelegationStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assessmentId = this.assessmentId;
-    final assessmentName = this.assessmentName;
-    final controlSetName = this.controlSetName;
-    final creationTime = this.creationTime;
-    final id = this.id;
-    final roleArn = this.roleArn;
-    final status = this.status;
-    return {
-      if (assessmentId != null) 'assessmentId': assessmentId,
-      if (assessmentName != null) 'assessmentName': assessmentName,
-      if (controlSetName != null) 'controlSetName': controlSetName,
-      if (creationTime != null)
-        'creationTime': unixTimestampToJson(creationTime),
-      if (id != null) 'id': id,
-      if (roleArn != null) 'roleArn': roleArn,
-      if (status != null) 'status': status.value,
-    };
-  }
-}
-
-class DelegationStatus {
-  static const inProgress = DelegationStatus._('IN_PROGRESS');
-  static const underReview = DelegationStatus._('UNDER_REVIEW');
-  static const complete = DelegationStatus._('COMPLETE');
-
-  final String value;
-
-  const DelegationStatus._(this.value);
-
-  static const values = [inProgress, underReview, complete];
-
-  static DelegationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DelegationStatus._(value));
-
-  @override
-  bool operator ==(other) => other is DelegationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class DeleteAssessmentFrameworkResponse {
@@ -5475,18 +2888,6 @@ class DeleteAssessmentReportResponse {
   }
 }
 
-class DeleteAssessmentResponse {
-  DeleteAssessmentResponse();
-
-  factory DeleteAssessmentResponse.fromJson(Map<String, dynamic> _) {
-    return DeleteAssessmentResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
 class DeleteControlResponse {
   DeleteControlResponse();
 
@@ -5497,30 +2898,6 @@ class DeleteControlResponse {
   Map<String, dynamic> toJson() {
     return {};
   }
-}
-
-class DeleteResources {
-  static const all = DeleteResources._('ALL');
-  static const $default = DeleteResources._('DEFAULT');
-
-  final String value;
-
-  const DeleteResources._(this.value);
-
-  static const values = [all, $default];
-
-  static DeleteResources fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DeleteResources._(value));
-
-  @override
-  bool operator ==(other) => other is DeleteResources && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class DeregisterAccountResponse {
@@ -5558,65 +2935,6 @@ class DeregisterOrganizationAdminAccountResponse {
   }
 }
 
-/// The deregistration policy for the data that's stored in Audit Manager. You
-/// can use this attribute to determine how your data is handled when you <a
-/// href="https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_DeregisterAccount.html">deregister
-/// Audit Manager</a>.
-///
-/// By default, Audit Manager retains evidence data for two years from the time
-/// of its creation. Other Audit Manager resources (including assessments,
-/// custom controls, and custom frameworks) remain in Audit Manager
-/// indefinitely, and are available if you <a
-/// href="https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_RegisterAccount.html">re-register
-/// Audit Manager</a> in the future. For more information about data retention,
-/// see <a
-/// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/data-protection.html">Data
-/// Protection</a> in the <i>Audit Manager User Guide</i>.
-/// <important>
-/// If you choose to delete all data, this action permanently deletes all
-/// evidence data in your account within seven days. It also deletes all of the
-/// Audit Manager resources that you created, including assessments, custom
-/// controls, and custom frameworks. Your data will not be available if you
-/// re-register Audit Manager in the future.
-/// </important>
-class DeregistrationPolicy {
-  /// Specifies which Audit Manager data will be deleted when you deregister Audit
-  /// Manager.
-  ///
-  /// <ul>
-  /// <li>
-  /// If you set the value to <code>ALL</code>, all of your data is deleted within
-  /// seven days of deregistration.
-  /// </li>
-  /// <li>
-  /// If you set the value to <code>DEFAULT</code>, none of your data is deleted
-  /// at the time of deregistration. However, keep in mind that the Audit Manager
-  /// data retention policy still applies. As a result, any evidence data will be
-  /// deleted two years after its creation date. Your other Audit Manager
-  /// resources will continue to exist indefinitely.
-  /// </li>
-  /// </ul>
-  final DeleteResources? deleteResources;
-
-  DeregistrationPolicy({
-    this.deleteResources,
-  });
-
-  factory DeregistrationPolicy.fromJson(Map<String, dynamic> json) {
-    return DeregistrationPolicy(
-      deleteResources:
-          (json['deleteResources'] as String?)?.let(DeleteResources.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deleteResources = this.deleteResources;
-    return {
-      if (deleteResources != null) 'deleteResources': deleteResources.value,
-    };
-  }
-}
-
 class DisassociateAssessmentReportEvidenceFolderResponse {
   DisassociateAssessmentReportEvidenceFolderResponse();
 
@@ -5628,584 +2946,6 @@ class DisassociateAssessmentReportEvidenceFolderResponse {
   Map<String, dynamic> toJson() {
     return {};
   }
-}
-
-/// A record that contains the information needed to demonstrate compliance with
-/// the requirements specified by a control. Examples of evidence include change
-/// activity invoked by a user, or a system configuration snapshot.
-class Evidence {
-  /// Specifies whether the evidence is included in the assessment report.
-  final String? assessmentReportSelection;
-
-  /// The names and values that are used by the evidence event. This includes an
-  /// attribute name (such as <code>allowUsersToChangePassword</code>) and value
-  /// (such as <code>true</code> or <code>false</code>).
-  final Map<String, String>? attributes;
-
-  /// The identifier for the Amazon Web Services account.
-  final String? awsAccountId;
-
-  /// The Amazon Web Services account that the evidence is collected from, and its
-  /// organization path.
-  final String? awsOrganization;
-
-  /// The evaluation status for automated evidence that falls under the compliance
-  /// check category.
-  ///
-  /// <ul>
-  /// <li>
-  /// Audit Manager classes evidence as non-compliant if Security Hub reports a
-  /// <i>Fail</i> result, or if Config reports a <i>Non-compliant</i> result.
-  /// </li>
-  /// <li>
-  /// Audit Manager classes evidence as compliant if Security Hub reports a
-  /// <i>Pass</i> result, or if Config reports a <i>Compliant</i> result.
-  /// </li>
-  /// <li>
-  /// If a compliance check isn't available or applicable, then no compliance
-  /// evaluation can be made for that evidence. This is the case if the evidence
-  /// uses Config or Security Hub as the underlying data source type, but those
-  /// services aren't enabled. This is also the case if the evidence uses an
-  /// underlying data source type that doesn't support compliance checks (such as
-  /// manual evidence, Amazon Web Services API calls, or CloudTrail).
-  /// </li>
-  /// </ul>
-  final String? complianceCheck;
-
-  /// The data source where the evidence was collected from.
-  final String? dataSource;
-
-  /// The name of the evidence event.
-  final String? eventName;
-
-  /// The Amazon Web Service that the evidence is collected from.
-  final String? eventSource;
-
-  /// The identifier for the Amazon Web Services account.
-  final String? evidenceAwsAccountId;
-
-  /// The type of automated evidence.
-  final String? evidenceByType;
-
-  /// The identifier for the folder that the evidence is stored in.
-  final String? evidenceFolderId;
-
-  /// The unique identifier for the user or role that's associated with the
-  /// evidence.
-  final String? iamId;
-
-  /// The identifier for the evidence.
-  final String? id;
-
-  /// The list of resources that are assessed to generate the evidence.
-  final List<Resource>? resourcesIncluded;
-
-  /// The timestamp that represents when the evidence was collected.
-  final DateTime? time;
-
-  Evidence({
-    this.assessmentReportSelection,
-    this.attributes,
-    this.awsAccountId,
-    this.awsOrganization,
-    this.complianceCheck,
-    this.dataSource,
-    this.eventName,
-    this.eventSource,
-    this.evidenceAwsAccountId,
-    this.evidenceByType,
-    this.evidenceFolderId,
-    this.iamId,
-    this.id,
-    this.resourcesIncluded,
-    this.time,
-  });
-
-  factory Evidence.fromJson(Map<String, dynamic> json) {
-    return Evidence(
-      assessmentReportSelection: json['assessmentReportSelection'] as String?,
-      attributes: (json['attributes'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      awsAccountId: json['awsAccountId'] as String?,
-      awsOrganization: json['awsOrganization'] as String?,
-      complianceCheck: json['complianceCheck'] as String?,
-      dataSource: json['dataSource'] as String?,
-      eventName: json['eventName'] as String?,
-      eventSource: json['eventSource'] as String?,
-      evidenceAwsAccountId: json['evidenceAwsAccountId'] as String?,
-      evidenceByType: json['evidenceByType'] as String?,
-      evidenceFolderId: json['evidenceFolderId'] as String?,
-      iamId: json['iamId'] as String?,
-      id: json['id'] as String?,
-      resourcesIncluded: (json['resourcesIncluded'] as List?)
-          ?.nonNulls
-          .map((e) => Resource.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      time: timeStampFromJson(json['time']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assessmentReportSelection = this.assessmentReportSelection;
-    final attributes = this.attributes;
-    final awsAccountId = this.awsAccountId;
-    final awsOrganization = this.awsOrganization;
-    final complianceCheck = this.complianceCheck;
-    final dataSource = this.dataSource;
-    final eventName = this.eventName;
-    final eventSource = this.eventSource;
-    final evidenceAwsAccountId = this.evidenceAwsAccountId;
-    final evidenceByType = this.evidenceByType;
-    final evidenceFolderId = this.evidenceFolderId;
-    final iamId = this.iamId;
-    final id = this.id;
-    final resourcesIncluded = this.resourcesIncluded;
-    final time = this.time;
-    return {
-      if (assessmentReportSelection != null)
-        'assessmentReportSelection': assessmentReportSelection,
-      if (attributes != null) 'attributes': attributes,
-      if (awsAccountId != null) 'awsAccountId': awsAccountId,
-      if (awsOrganization != null) 'awsOrganization': awsOrganization,
-      if (complianceCheck != null) 'complianceCheck': complianceCheck,
-      if (dataSource != null) 'dataSource': dataSource,
-      if (eventName != null) 'eventName': eventName,
-      if (eventSource != null) 'eventSource': eventSource,
-      if (evidenceAwsAccountId != null)
-        'evidenceAwsAccountId': evidenceAwsAccountId,
-      if (evidenceByType != null) 'evidenceByType': evidenceByType,
-      if (evidenceFolderId != null) 'evidenceFolderId': evidenceFolderId,
-      if (iamId != null) 'iamId': iamId,
-      if (id != null) 'id': id,
-      if (resourcesIncluded != null) 'resourcesIncluded': resourcesIncluded,
-      if (time != null) 'time': unixTimestampToJson(time),
-    };
-  }
-}
-
-class EvidenceFinderBackfillStatus {
-  static const notStarted = EvidenceFinderBackfillStatus._('NOT_STARTED');
-  static const inProgress = EvidenceFinderBackfillStatus._('IN_PROGRESS');
-  static const completed = EvidenceFinderBackfillStatus._('COMPLETED');
-
-  final String value;
-
-  const EvidenceFinderBackfillStatus._(this.value);
-
-  static const values = [notStarted, inProgress, completed];
-
-  static EvidenceFinderBackfillStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EvidenceFinderBackfillStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is EvidenceFinderBackfillStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The settings object that specifies whether evidence finder is enabled. This
-/// object also describes the related event data store, and the backfill status
-/// for populating the event data store with evidence data.
-class EvidenceFinderEnablement {
-  /// The current status of the evidence data backfill process.
-  ///
-  /// The backfill starts after you enable evidence finder. During this task,
-  /// Audit Manager populates an event data store with your past two years’ worth
-  /// of evidence data so that your evidence can be queried.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>NOT_STARTED</code> means that the backfill hasn’t started yet.
-  /// </li>
-  /// <li>
-  /// <code>IN_PROGRESS</code> means that the backfill is in progress. This can
-  /// take up to 7 days to complete, depending on the amount of evidence data.
-  /// </li>
-  /// <li>
-  /// <code>COMPLETED</code> means that the backfill is complete. All of your past
-  /// evidence is now queryable.
-  /// </li>
-  /// </ul>
-  final EvidenceFinderBackfillStatus? backfillStatus;
-
-  /// The current status of the evidence finder feature and the related event data
-  /// store.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ENABLE_IN_PROGRESS</code> means that you requested to enable evidence
-  /// finder. An event data store is currently being created to support evidence
-  /// finder queries.
-  /// </li>
-  /// <li>
-  /// <code>ENABLED</code> means that an event data store was successfully created
-  /// and evidence finder is enabled. We recommend that you wait 7 days until the
-  /// event data store is backfilled with your past two years’ worth of evidence
-  /// data. You can use evidence finder in the meantime, but not all data might be
-  /// available until the backfill is complete.
-  /// </li>
-  /// <li>
-  /// <code>DISABLE_IN_PROGRESS</code> means that you requested to disable
-  /// evidence finder, and your request is pending the deletion of the event data
-  /// store.
-  /// </li>
-  /// <li>
-  /// <code>DISABLED</code> means that you have permanently disabled evidence
-  /// finder and the event data store has been deleted. You can't re-enable
-  /// evidence finder after this point.
-  /// </li>
-  /// </ul>
-  final EvidenceFinderEnablementStatus? enablementStatus;
-
-  /// Represents any errors that occurred when enabling or disabling evidence
-  /// finder.
-  final String? error;
-
-  /// The Amazon Resource Name (ARN) of the CloudTrail Lake event data store
-  /// that’s used by evidence finder. The event data store is the lake of evidence
-  /// data that evidence finder runs queries against.
-  final String? eventDataStoreArn;
-
-  EvidenceFinderEnablement({
-    this.backfillStatus,
-    this.enablementStatus,
-    this.error,
-    this.eventDataStoreArn,
-  });
-
-  factory EvidenceFinderEnablement.fromJson(Map<String, dynamic> json) {
-    return EvidenceFinderEnablement(
-      backfillStatus: (json['backfillStatus'] as String?)
-          ?.let(EvidenceFinderBackfillStatus.fromString),
-      enablementStatus: (json['enablementStatus'] as String?)
-          ?.let(EvidenceFinderEnablementStatus.fromString),
-      error: json['error'] as String?,
-      eventDataStoreArn: json['eventDataStoreArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final backfillStatus = this.backfillStatus;
-    final enablementStatus = this.enablementStatus;
-    final error = this.error;
-    final eventDataStoreArn = this.eventDataStoreArn;
-    return {
-      if (backfillStatus != null) 'backfillStatus': backfillStatus.value,
-      if (enablementStatus != null) 'enablementStatus': enablementStatus.value,
-      if (error != null) 'error': error,
-      if (eventDataStoreArn != null) 'eventDataStoreArn': eventDataStoreArn,
-    };
-  }
-}
-
-class EvidenceFinderEnablementStatus {
-  static const enabled = EvidenceFinderEnablementStatus._('ENABLED');
-  static const disabled = EvidenceFinderEnablementStatus._('DISABLED');
-  static const enableInProgress =
-      EvidenceFinderEnablementStatus._('ENABLE_IN_PROGRESS');
-  static const disableInProgress =
-      EvidenceFinderEnablementStatus._('DISABLE_IN_PROGRESS');
-
-  final String value;
-
-  const EvidenceFinderEnablementStatus._(this.value);
-
-  static const values = [
-    enabled,
-    disabled,
-    enableInProgress,
-    disableInProgress
-  ];
-
-  static EvidenceFinderEnablementStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EvidenceFinderEnablementStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is EvidenceFinderEnablementStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A breakdown of the latest compliance check status for the evidence in your
-/// Audit Manager assessments.
-class EvidenceInsights {
-  /// The number of compliance check evidence that Audit Manager classified as
-  /// compliant. This includes evidence that was collected from Security Hub with
-  /// a <i>Pass</i> ruling, or collected from Config with a <i>Compliant</i>
-  /// ruling.
-  final int? compliantEvidenceCount;
-
-  /// The number of evidence that a compliance check ruling isn't available for.
-  /// Evidence is inconclusive when the associated control uses Security Hub or
-  /// Config as a data source but you didn't enable those services. This is also
-  /// the case when a control uses a data source that doesn’t support compliance
-  /// checks (for example, manual evidence, API calls, or CloudTrail).
-  /// <note>
-  /// If evidence has a compliance check status of <i>not applicable</i> in the
-  /// console, it's classified as <i>inconclusive</i> in
-  /// <code>EvidenceInsights</code> data.
-  /// </note>
-  final int? inconclusiveEvidenceCount;
-
-  /// The number of compliance check evidence that Audit Manager classified as
-  /// non-compliant. This includes evidence that was collected from Security Hub
-  /// with a <i>Fail</i> ruling, or collected from Config with a
-  /// <i>Non-compliant</i> ruling.
-  final int? noncompliantEvidenceCount;
-
-  EvidenceInsights({
-    this.compliantEvidenceCount,
-    this.inconclusiveEvidenceCount,
-    this.noncompliantEvidenceCount,
-  });
-
-  factory EvidenceInsights.fromJson(Map<String, dynamic> json) {
-    return EvidenceInsights(
-      compliantEvidenceCount: json['compliantEvidenceCount'] as int?,
-      inconclusiveEvidenceCount: json['inconclusiveEvidenceCount'] as int?,
-      noncompliantEvidenceCount: json['noncompliantEvidenceCount'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final compliantEvidenceCount = this.compliantEvidenceCount;
-    final inconclusiveEvidenceCount = this.inconclusiveEvidenceCount;
-    final noncompliantEvidenceCount = this.noncompliantEvidenceCount;
-    return {
-      if (compliantEvidenceCount != null)
-        'compliantEvidenceCount': compliantEvidenceCount,
-      if (inconclusiveEvidenceCount != null)
-        'inconclusiveEvidenceCount': inconclusiveEvidenceCount,
-      if (noncompliantEvidenceCount != null)
-        'noncompliantEvidenceCount': noncompliantEvidenceCount,
-    };
-  }
-}
-
-class ExportDestinationType {
-  static const s3 = ExportDestinationType._('S3');
-
-  final String value;
-
-  const ExportDestinationType._(this.value);
-
-  static const values = [s3];
-
-  static ExportDestinationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ExportDestinationType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ExportDestinationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The file that's used to structure and automate Audit Manager assessments for
-/// a given compliance standard.
-class Framework {
-  /// The Amazon Resource Name (ARN) of the framework.
-  final String? arn;
-
-  /// The compliance type that the framework supports, such as CIS or HIPAA.
-  final String? complianceType;
-
-  /// The control sets that are associated with the framework.
-  final List<ControlSet>? controlSets;
-
-  /// The control data sources where Audit Manager collects evidence from.
-  final String? controlSources;
-
-  /// The time when the framework was created.
-  final DateTime? createdAt;
-
-  /// The user or role that created the framework.
-  final String? createdBy;
-
-  /// The description of the framework.
-  final String? description;
-
-  /// The unique identifier for the framework.
-  final String? id;
-
-  /// The time when the framework was most recently updated.
-  final DateTime? lastUpdatedAt;
-
-  /// The user or role that most recently updated the framework.
-  final String? lastUpdatedBy;
-
-  /// The logo that's associated with the framework.
-  final String? logo;
-
-  /// The name of the framework.
-  final String? name;
-
-  /// The tags that are associated with the framework.
-  final Map<String, String>? tags;
-
-  /// Specifies whether the framework is a standard framework or a custom
-  /// framework.
-  final FrameworkType? type;
-
-  Framework({
-    this.arn,
-    this.complianceType,
-    this.controlSets,
-    this.controlSources,
-    this.createdAt,
-    this.createdBy,
-    this.description,
-    this.id,
-    this.lastUpdatedAt,
-    this.lastUpdatedBy,
-    this.logo,
-    this.name,
-    this.tags,
-    this.type,
-  });
-
-  factory Framework.fromJson(Map<String, dynamic> json) {
-    return Framework(
-      arn: json['arn'] as String?,
-      complianceType: json['complianceType'] as String?,
-      controlSets: (json['controlSets'] as List?)
-          ?.nonNulls
-          .map((e) => ControlSet.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      controlSources: json['controlSources'] as String?,
-      createdAt: timeStampFromJson(json['createdAt']),
-      createdBy: json['createdBy'] as String?,
-      description: json['description'] as String?,
-      id: json['id'] as String?,
-      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
-      lastUpdatedBy: json['lastUpdatedBy'] as String?,
-      logo: json['logo'] as String?,
-      name: json['name'] as String?,
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      type: (json['type'] as String?)?.let(FrameworkType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final complianceType = this.complianceType;
-    final controlSets = this.controlSets;
-    final controlSources = this.controlSources;
-    final createdAt = this.createdAt;
-    final createdBy = this.createdBy;
-    final description = this.description;
-    final id = this.id;
-    final lastUpdatedAt = this.lastUpdatedAt;
-    final lastUpdatedBy = this.lastUpdatedBy;
-    final logo = this.logo;
-    final name = this.name;
-    final tags = this.tags;
-    final type = this.type;
-    return {
-      if (arn != null) 'arn': arn,
-      if (complianceType != null) 'complianceType': complianceType,
-      if (controlSets != null) 'controlSets': controlSets,
-      if (controlSources != null) 'controlSources': controlSources,
-      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
-      if (createdBy != null) 'createdBy': createdBy,
-      if (description != null) 'description': description,
-      if (id != null) 'id': id,
-      if (lastUpdatedAt != null)
-        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
-      if (lastUpdatedBy != null) 'lastUpdatedBy': lastUpdatedBy,
-      if (logo != null) 'logo': logo,
-      if (name != null) 'name': name,
-      if (tags != null) 'tags': tags,
-      if (type != null) 'type': type.value,
-    };
-  }
-}
-
-/// The metadata of a framework, such as the name, ID, or description.
-class FrameworkMetadata {
-  /// The compliance standard that's associated with the framework. For example,
-  /// this could be PCI DSS or HIPAA.
-  final String? complianceType;
-
-  /// The description of the framework.
-  final String? description;
-
-  /// The logo that's associated with the framework.
-  final String? logo;
-
-  /// The name of the framework.
-  final String? name;
-
-  FrameworkMetadata({
-    this.complianceType,
-    this.description,
-    this.logo,
-    this.name,
-  });
-
-  factory FrameworkMetadata.fromJson(Map<String, dynamic> json) {
-    return FrameworkMetadata(
-      complianceType: json['complianceType'] as String?,
-      description: json['description'] as String?,
-      logo: json['logo'] as String?,
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final complianceType = this.complianceType;
-    final description = this.description;
-    final logo = this.logo;
-    final name = this.name;
-    return {
-      if (complianceType != null) 'complianceType': complianceType,
-      if (description != null) 'description': description,
-      if (logo != null) 'logo': logo,
-      if (name != null) 'name': name,
-    };
-  }
-}
-
-class FrameworkType {
-  static const standard = FrameworkType._('Standard');
-  static const custom = FrameworkType._('Custom');
-
-  final String value;
-
-  const FrameworkType._(this.value);
-
-  static const values = [standard, custom];
-
-  static FrameworkType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FrameworkType._(value));
-
-  @override
-  bool operator ==(other) => other is FrameworkType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class GetAccountStatusResponse {
@@ -6230,8 +2970,43 @@ class GetAccountStatusResponse {
   }
 }
 
+class GetAssessmentResponse {
+  final Assessment? assessment;
+  final Role? userRole;
+
+  GetAssessmentResponse({
+    this.assessment,
+    this.userRole,
+  });
+
+  factory GetAssessmentResponse.fromJson(Map<String, dynamic> json) {
+    return GetAssessmentResponse(
+      assessment: json['assessment'] != null
+          ? Assessment.fromJson(json['assessment'] as Map<String, dynamic>)
+          : null,
+      userRole: json['userRole'] != null
+          ? Role.fromJson(json['userRole'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assessment = this.assessment;
+    final userRole = this.userRole;
+    return {
+      if (assessment != null) 'assessment': assessment,
+      if (userRole != null) 'userRole': userRole,
+    };
+  }
+}
+
 class GetAssessmentFrameworkResponse {
   /// The framework that the <code>GetAssessmentFramework</code> API returned.
+  /// <note>
+  /// The <code>Controls</code> object returns a partial response when called
+  /// through Framework APIs. For a complete <code>Controls</code> object, use
+  /// <code>GetControl</code>.
+  /// </note>
   final Framework? framework;
 
   GetAssessmentFrameworkResponse({
@@ -6273,36 +3048,6 @@ class GetAssessmentReportUrlResponse {
     final preSignedUrl = this.preSignedUrl;
     return {
       if (preSignedUrl != null) 'preSignedUrl': preSignedUrl,
-    };
-  }
-}
-
-class GetAssessmentResponse {
-  final Assessment? assessment;
-  final Role? userRole;
-
-  GetAssessmentResponse({
-    this.assessment,
-    this.userRole,
-  });
-
-  factory GetAssessmentResponse.fromJson(Map<String, dynamic> json) {
-    return GetAssessmentResponse(
-      assessment: json['assessment'] != null
-          ? Assessment.fromJson(json['assessment'] as Map<String, dynamic>)
-          : null,
-      userRole: json['userRole'] != null
-          ? Role.fromJson(json['userRole'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assessment = this.assessment;
-    final userRole = this.userRole;
-    return {
-      if (assessment != null) 'assessment': assessment,
-      if (userRole != null) 'userRole': userRole,
     };
   }
 }
@@ -6391,6 +3136,30 @@ class GetDelegationsResponse {
     return {
       if (delegations != null) 'delegations': delegations,
       if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class GetEvidenceResponse {
+  /// The evidence that the <code>GetEvidence</code> API returned.
+  final Evidence? evidence;
+
+  GetEvidenceResponse({
+    this.evidence,
+  });
+
+  factory GetEvidenceResponse.fromJson(Map<String, dynamic> json) {
+    return GetEvidenceResponse(
+      evidence: json['evidence'] != null
+          ? Evidence.fromJson(json['evidence'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final evidence = this.evidence;
+    return {
+      if (evidence != null) 'evidence': evidence,
     };
   }
 }
@@ -6484,41 +3253,6 @@ class GetEvidenceFolderResponse {
   }
 }
 
-class GetEvidenceFoldersByAssessmentControlResponse {
-  /// The list of evidence folders that the
-  /// <code>GetEvidenceFoldersByAssessmentControl</code> API returned.
-  final List<AssessmentEvidenceFolder>? evidenceFolders;
-
-  /// The pagination token that's used to fetch the next set of results.
-  final String? nextToken;
-
-  GetEvidenceFoldersByAssessmentControlResponse({
-    this.evidenceFolders,
-    this.nextToken,
-  });
-
-  factory GetEvidenceFoldersByAssessmentControlResponse.fromJson(
-      Map<String, dynamic> json) {
-    return GetEvidenceFoldersByAssessmentControlResponse(
-      evidenceFolders: (json['evidenceFolders'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              AssessmentEvidenceFolder.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final evidenceFolders = this.evidenceFolders;
-    final nextToken = this.nextToken;
-    return {
-      if (evidenceFolders != null) 'evidenceFolders': evidenceFolders,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
 class GetEvidenceFoldersByAssessmentResponse {
   /// The list of evidence folders that the
   /// <code>GetEvidenceFoldersByAssessment</code> API returned.
@@ -6554,26 +3288,61 @@ class GetEvidenceFoldersByAssessmentResponse {
   }
 }
 
-class GetEvidenceResponse {
-  /// The evidence that the <code>GetEvidence</code> API returned.
-  final Evidence? evidence;
+class GetEvidenceFoldersByAssessmentControlResponse {
+  /// The list of evidence folders that the
+  /// <code>GetEvidenceFoldersByAssessmentControl</code> API returned.
+  final List<AssessmentEvidenceFolder>? evidenceFolders;
 
-  GetEvidenceResponse({
-    this.evidence,
+  /// The pagination token that's used to fetch the next set of results.
+  final String? nextToken;
+
+  GetEvidenceFoldersByAssessmentControlResponse({
+    this.evidenceFolders,
+    this.nextToken,
   });
 
-  factory GetEvidenceResponse.fromJson(Map<String, dynamic> json) {
-    return GetEvidenceResponse(
-      evidence: json['evidence'] != null
-          ? Evidence.fromJson(json['evidence'] as Map<String, dynamic>)
+  factory GetEvidenceFoldersByAssessmentControlResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetEvidenceFoldersByAssessmentControlResponse(
+      evidenceFolders: (json['evidenceFolders'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              AssessmentEvidenceFolder.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final evidenceFolders = this.evidenceFolders;
+    final nextToken = this.nextToken;
+    return {
+      if (evidenceFolders != null) 'evidenceFolders': evidenceFolders,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class GetInsightsResponse {
+  /// The analytics data that the <code>GetInsights</code> API returned.
+  final Insights? insights;
+
+  GetInsightsResponse({
+    this.insights,
+  });
+
+  factory GetInsightsResponse.fromJson(Map<String, dynamic> json) {
+    return GetInsightsResponse(
+      insights: json['insights'] != null
+          ? Insights.fromJson(json['insights'] as Map<String, dynamic>)
           : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final evidence = this.evidence;
+    final insights = this.insights;
     return {
-      if (evidence != null) 'evidence': evidence,
+      if (insights != null) 'insights': insights,
     };
   }
 }
@@ -6592,30 +3361,6 @@ class GetInsightsByAssessmentResponse {
       insights: json['insights'] != null
           ? InsightsByAssessment.fromJson(
               json['insights'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final insights = this.insights;
-    return {
-      if (insights != null) 'insights': insights,
-    };
-  }
-}
-
-class GetInsightsResponse {
-  /// The analytics data that the <code>GetInsights</code> API returned.
-  final Insights? insights;
-
-  GetInsightsResponse({
-    this.insights,
-  });
-
-  factory GetInsightsResponse.fromJson(Map<String, dynamic> json) {
-    return GetInsightsResponse(
-      insights: json['insights'] != null
-          ? Insights.fromJson(json['insights'] as Map<String, dynamic>)
           : null,
     );
   }
@@ -6659,7 +3404,7 @@ class GetOrganizationAdminAccountResponse {
 }
 
 class GetServicesInScopeResponse {
-  /// The metadata that's associated with the Amazon Web Service.
+  /// The metadata that's associated with the Amazon Web Services service.
   final List<ServiceMetadata>? serviceMetadata;
 
   GetServicesInScopeResponse({
@@ -6707,259 +3452,6 @@ class GetSettingsResponse {
   }
 }
 
-/// A summary of the latest analytics data for all your active assessments.
-///
-/// This summary is a snapshot of the data that your active assessments
-/// collected on the <code>lastUpdated</code> date. It’s important to understand
-/// that the following totals are daily counts based on this date — they aren’t
-/// a total sum to date.
-///
-/// The <code>Insights</code> data is eventually consistent. This means that,
-/// when you read data from <code>Insights</code>, the response might not
-/// instantly reflect the results of a recently completed write or update
-/// operation. If you repeat your read request after a few hours, the response
-/// should return the latest data.
-/// <note>
-/// If you delete an assessment or change its status to inactive,
-/// <code>InsightsByAssessment</code> includes data for that assessment as
-/// follows.
-///
-/// <ul>
-/// <li>
-/// <b>Inactive assessments</b> - If Audit Manager collected evidence for your
-/// assessment before you changed it inactive, that evidence is included in the
-/// <code>InsightsByAssessment</code> counts for that day.
-/// </li>
-/// <li>
-/// <b>Deleted assessments</b> - If Audit Manager collected evidence for your
-/// assessment before you deleted it, that evidence isn't included in the
-/// <code>InsightsByAssessment</code> counts for that day.
-/// </li>
-/// </ul> </note>
-class Insights {
-  /// The number of active assessments in Audit Manager.
-  final int? activeAssessmentsCount;
-
-  /// The number of assessment controls that collected non-compliant evidence on
-  /// the <code>lastUpdated</code> date.
-  final int? assessmentControlsCountByNoncompliantEvidence;
-
-  /// The number of compliance check evidence that Audit Manager classified as
-  /// compliant on the <code>lastUpdated</code> date. This includes evidence that
-  /// was collected from Security Hub with a <i>Pass</i> ruling, or collected from
-  /// Config with a <i>Compliant</i> ruling.
-  final int? compliantEvidenceCount;
-
-  /// The number of evidence without a compliance check ruling. Evidence is
-  /// inconclusive when the associated control uses Security Hub or Config as a
-  /// data source but you didn't enable those services. This is also the case when
-  /// a control uses a data source that doesn’t support compliance checks (for
-  /// example: manual evidence, API calls, or CloudTrail).
-  /// <note>
-  /// If evidence has a compliance check status of <i>not applicable</i>, it's
-  /// classed as <i>inconclusive</i> in <code>Insights</code> data.
-  /// </note>
-  final int? inconclusiveEvidenceCount;
-
-  /// The time when the cross-assessment insights were last updated.
-  final DateTime? lastUpdated;
-
-  /// The number of compliance check evidence that Audit Manager classified as
-  /// non-compliant on the <code>lastUpdated</code> date. This includes evidence
-  /// that was collected from Security Hub with a <i>Fail</i> ruling, or collected
-  /// from Config with a <i>Non-compliant</i> ruling.
-  final int? noncompliantEvidenceCount;
-
-  /// The total number of controls across all active assessments.
-  final int? totalAssessmentControlsCount;
-
-  Insights({
-    this.activeAssessmentsCount,
-    this.assessmentControlsCountByNoncompliantEvidence,
-    this.compliantEvidenceCount,
-    this.inconclusiveEvidenceCount,
-    this.lastUpdated,
-    this.noncompliantEvidenceCount,
-    this.totalAssessmentControlsCount,
-  });
-
-  factory Insights.fromJson(Map<String, dynamic> json) {
-    return Insights(
-      activeAssessmentsCount: json['activeAssessmentsCount'] as int?,
-      assessmentControlsCountByNoncompliantEvidence:
-          json['assessmentControlsCountByNoncompliantEvidence'] as int?,
-      compliantEvidenceCount: json['compliantEvidenceCount'] as int?,
-      inconclusiveEvidenceCount: json['inconclusiveEvidenceCount'] as int?,
-      lastUpdated: timeStampFromJson(json['lastUpdated']),
-      noncompliantEvidenceCount: json['noncompliantEvidenceCount'] as int?,
-      totalAssessmentControlsCount:
-          json['totalAssessmentControlsCount'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final activeAssessmentsCount = this.activeAssessmentsCount;
-    final assessmentControlsCountByNoncompliantEvidence =
-        this.assessmentControlsCountByNoncompliantEvidence;
-    final compliantEvidenceCount = this.compliantEvidenceCount;
-    final inconclusiveEvidenceCount = this.inconclusiveEvidenceCount;
-    final lastUpdated = this.lastUpdated;
-    final noncompliantEvidenceCount = this.noncompliantEvidenceCount;
-    final totalAssessmentControlsCount = this.totalAssessmentControlsCount;
-    return {
-      if (activeAssessmentsCount != null)
-        'activeAssessmentsCount': activeAssessmentsCount,
-      if (assessmentControlsCountByNoncompliantEvidence != null)
-        'assessmentControlsCountByNoncompliantEvidence':
-            assessmentControlsCountByNoncompliantEvidence,
-      if (compliantEvidenceCount != null)
-        'compliantEvidenceCount': compliantEvidenceCount,
-      if (inconclusiveEvidenceCount != null)
-        'inconclusiveEvidenceCount': inconclusiveEvidenceCount,
-      if (lastUpdated != null) 'lastUpdated': unixTimestampToJson(lastUpdated),
-      if (noncompliantEvidenceCount != null)
-        'noncompliantEvidenceCount': noncompliantEvidenceCount,
-      if (totalAssessmentControlsCount != null)
-        'totalAssessmentControlsCount': totalAssessmentControlsCount,
-    };
-  }
-}
-
-/// A summary of the latest analytics data for a specific active assessment.
-///
-/// This summary is a snapshot of the data that was collected on the
-/// <code>lastUpdated</code> date. It’s important to understand that the totals
-/// in <code>InsightsByAssessment</code> are daily counts based on this date —
-/// they aren’t a total sum to date.
-///
-/// The <code>InsightsByAssessment</code> data is eventually consistent. This
-/// means that when you read data from <code>InsightsByAssessment</code>, the
-/// response might not instantly reflect the results of a recently completed
-/// write or update operation. If you repeat your read request after a few
-/// hours, the response returns the latest data.
-/// <note>
-/// If you delete an assessment or change its status to inactive,
-/// <code>InsightsByAssessment</code> includes data for that assessment as
-/// follows.
-///
-/// <ul>
-/// <li>
-/// <b>Inactive assessments</b> - If Audit Manager collected evidence for your
-/// assessment before you changed it inactive, that evidence is included in the
-/// <code>InsightsByAssessment</code> counts for that day.
-/// </li>
-/// <li>
-/// <b>Deleted assessments</b> - If Audit Manager collected evidence for your
-/// assessment before you deleted it, that evidence isn't included in the
-/// <code>InsightsByAssessment</code> counts for that day.
-/// </li>
-/// </ul> </note>
-class InsightsByAssessment {
-  /// The number of assessment controls that collected non-compliant evidence on
-  /// the <code>lastUpdated</code> date.
-  final int? assessmentControlsCountByNoncompliantEvidence;
-
-  /// The number of compliance check evidence that Audit Manager classified as
-  /// compliant. This includes evidence that was collected from Security Hub with
-  /// a <i>Pass</i> ruling, or collected from Config with a <i>Compliant</i>
-  /// ruling.
-  final int? compliantEvidenceCount;
-
-  /// The amount of evidence without a compliance check ruling. Evidence is
-  /// inconclusive if the associated control uses Security Hub or Config as a data
-  /// source and you didn't enable those services. This is also the case if a
-  /// control uses a data source that doesn’t support compliance checks (for
-  /// example, manual evidence, API calls, or CloudTrail).
-  /// <note>
-  /// If evidence has a compliance check status of <i>not applicable</i>, it's
-  /// classified as <i>inconclusive</i> in <code>InsightsByAssessment</code> data.
-  /// </note>
-  final int? inconclusiveEvidenceCount;
-
-  /// The time when the assessment insights were last updated.
-  final DateTime? lastUpdated;
-
-  /// The number of compliance check evidence that Audit Manager classified as
-  /// non-compliant. This includes evidence that was collected from Security Hub
-  /// with a <i>Fail</i> ruling, or collected from Config with a
-  /// <i>Non-compliant</i> ruling.
-  final int? noncompliantEvidenceCount;
-
-  /// The total number of controls in the assessment.
-  final int? totalAssessmentControlsCount;
-
-  InsightsByAssessment({
-    this.assessmentControlsCountByNoncompliantEvidence,
-    this.compliantEvidenceCount,
-    this.inconclusiveEvidenceCount,
-    this.lastUpdated,
-    this.noncompliantEvidenceCount,
-    this.totalAssessmentControlsCount,
-  });
-
-  factory InsightsByAssessment.fromJson(Map<String, dynamic> json) {
-    return InsightsByAssessment(
-      assessmentControlsCountByNoncompliantEvidence:
-          json['assessmentControlsCountByNoncompliantEvidence'] as int?,
-      compliantEvidenceCount: json['compliantEvidenceCount'] as int?,
-      inconclusiveEvidenceCount: json['inconclusiveEvidenceCount'] as int?,
-      lastUpdated: timeStampFromJson(json['lastUpdated']),
-      noncompliantEvidenceCount: json['noncompliantEvidenceCount'] as int?,
-      totalAssessmentControlsCount:
-          json['totalAssessmentControlsCount'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assessmentControlsCountByNoncompliantEvidence =
-        this.assessmentControlsCountByNoncompliantEvidence;
-    final compliantEvidenceCount = this.compliantEvidenceCount;
-    final inconclusiveEvidenceCount = this.inconclusiveEvidenceCount;
-    final lastUpdated = this.lastUpdated;
-    final noncompliantEvidenceCount = this.noncompliantEvidenceCount;
-    final totalAssessmentControlsCount = this.totalAssessmentControlsCount;
-    return {
-      if (assessmentControlsCountByNoncompliantEvidence != null)
-        'assessmentControlsCountByNoncompliantEvidence':
-            assessmentControlsCountByNoncompliantEvidence,
-      if (compliantEvidenceCount != null)
-        'compliantEvidenceCount': compliantEvidenceCount,
-      if (inconclusiveEvidenceCount != null)
-        'inconclusiveEvidenceCount': inconclusiveEvidenceCount,
-      if (lastUpdated != null) 'lastUpdated': unixTimestampToJson(lastUpdated),
-      if (noncompliantEvidenceCount != null)
-        'noncompliantEvidenceCount': noncompliantEvidenceCount,
-      if (totalAssessmentControlsCount != null)
-        'totalAssessmentControlsCount': totalAssessmentControlsCount,
-    };
-  }
-}
-
-class KeywordInputType {
-  static const selectFromList = KeywordInputType._('SELECT_FROM_LIST');
-  static const uploadFile = KeywordInputType._('UPLOAD_FILE');
-  static const inputText = KeywordInputType._('INPUT_TEXT');
-
-  final String value;
-
-  const KeywordInputType._(this.value);
-
-  static const values = [selectFromList, uploadFile, inputText];
-
-  static KeywordInputType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => KeywordInputType._(value));
-
-  @override
-  bool operator ==(other) => other is KeywordInputType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class ListAssessmentControlInsightsByControlDomainResponse {
   /// The assessment control analytics data that the
   /// <code>ListAssessmentControlInsightsByControlDomain</code> API returned.
@@ -6998,6 +3490,41 @@ class ListAssessmentControlInsightsByControlDomainResponse {
   }
 }
 
+class ListAssessmentFrameworksResponse {
+  /// A list of metadata that the <code>ListAssessmentFrameworks</code> API
+  /// returns for each framework.
+  final List<AssessmentFrameworkMetadata>? frameworkMetadataList;
+
+  /// The pagination token that's used to fetch the next set of results.
+  final String? nextToken;
+
+  ListAssessmentFrameworksResponse({
+    this.frameworkMetadataList,
+    this.nextToken,
+  });
+
+  factory ListAssessmentFrameworksResponse.fromJson(Map<String, dynamic> json) {
+    return ListAssessmentFrameworksResponse(
+      frameworkMetadataList: (json['frameworkMetadataList'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              AssessmentFrameworkMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final frameworkMetadataList = this.frameworkMetadataList;
+    final nextToken = this.nextToken;
+    return {
+      if (frameworkMetadataList != null)
+        'frameworkMetadataList': frameworkMetadataList,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 class ListAssessmentFrameworkShareRequestsResponse {
   /// The list of share requests that the
   /// <code>ListAssessmentFrameworkShareRequests</code> API returned.
@@ -7031,41 +3558,6 @@ class ListAssessmentFrameworkShareRequestsResponse {
     return {
       if (assessmentFrameworkShareRequests != null)
         'assessmentFrameworkShareRequests': assessmentFrameworkShareRequests,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListAssessmentFrameworksResponse {
-  /// A list of metadata that the <code>ListAssessmentFrameworks</code> API
-  /// returns for each framework.
-  final List<AssessmentFrameworkMetadata>? frameworkMetadataList;
-
-  /// The pagination token that's used to fetch the next set of results.
-  final String? nextToken;
-
-  ListAssessmentFrameworksResponse({
-    this.frameworkMetadataList,
-    this.nextToken,
-  });
-
-  factory ListAssessmentFrameworksResponse.fromJson(Map<String, dynamic> json) {
-    return ListAssessmentFrameworksResponse(
-      frameworkMetadataList: (json['frameworkMetadataList'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              AssessmentFrameworkMetadata.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final frameworkMetadataList = this.frameworkMetadataList;
-    final nextToken = this.nextToken;
-    return {
-      if (frameworkMetadataList != null)
-        'frameworkMetadataList': frameworkMetadataList,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
@@ -7139,22 +3631,22 @@ class ListAssessmentsResponse {
   }
 }
 
-class ListControlDomainInsightsByAssessmentResponse {
+class ListControlDomainInsightsResponse {
   /// The control domain analytics data that the
-  /// <code>ListControlDomainInsightsByAssessment</code> API returned.
+  /// <code>ListControlDomainInsights</code> API returned.
   final List<ControlDomainInsights>? controlDomainInsights;
 
   /// The pagination token that's used to fetch the next set of results.
   final String? nextToken;
 
-  ListControlDomainInsightsByAssessmentResponse({
+  ListControlDomainInsightsResponse({
     this.controlDomainInsights,
     this.nextToken,
   });
 
-  factory ListControlDomainInsightsByAssessmentResponse.fromJson(
+  factory ListControlDomainInsightsResponse.fromJson(
       Map<String, dynamic> json) {
-    return ListControlDomainInsightsByAssessmentResponse(
+    return ListControlDomainInsightsResponse(
       controlDomainInsights: (json['controlDomainInsights'] as List?)
           ?.nonNulls
           .map((e) => ControlDomainInsights.fromJson(e as Map<String, dynamic>))
@@ -7174,22 +3666,22 @@ class ListControlDomainInsightsByAssessmentResponse {
   }
 }
 
-class ListControlDomainInsightsResponse {
+class ListControlDomainInsightsByAssessmentResponse {
   /// The control domain analytics data that the
-  /// <code>ListControlDomainInsights</code> API returned.
+  /// <code>ListControlDomainInsightsByAssessment</code> API returned.
   final List<ControlDomainInsights>? controlDomainInsights;
 
   /// The pagination token that's used to fetch the next set of results.
   final String? nextToken;
 
-  ListControlDomainInsightsResponse({
+  ListControlDomainInsightsByAssessmentResponse({
     this.controlDomainInsights,
     this.nextToken,
   });
 
-  factory ListControlDomainInsightsResponse.fromJson(
+  factory ListControlDomainInsightsByAssessmentResponse.fromJson(
       Map<String, dynamic> json) {
-    return ListControlDomainInsightsResponse(
+    return ListControlDomainInsightsByAssessmentResponse(
       controlDomainInsights: (json['controlDomainInsights'] as List?)
           ?.nonNulls
           .map((e) => ControlDomainInsights.fromJson(e as Map<String, dynamic>))
@@ -7367,156 +3859,6 @@ class ListTagsForResourceResponse {
   }
 }
 
-/// Evidence that's manually added to a control in Audit Manager.
-/// <code>manualEvidence</code> can be one of the following:
-/// <code>evidenceFileName</code>, <code>s3ResourcePath</code>, or
-/// <code>textResponse</code>.
-class ManualEvidence {
-  /// The name of the file that's uploaded as manual evidence. This name is
-  /// populated using the <code>evidenceFileName</code> value from the <a
-  /// href="https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_GetEvidenceFileUploadUrl.html">
-  /// <code>GetEvidenceFileUploadUrl</code> </a> API response.
-  final String? evidenceFileName;
-
-  /// The S3 URL of the object that's imported as manual evidence.
-  final String? s3ResourcePath;
-
-  /// The plain text response that's entered and saved as manual evidence.
-  final String? textResponse;
-
-  ManualEvidence({
-    this.evidenceFileName,
-    this.s3ResourcePath,
-    this.textResponse,
-  });
-
-  factory ManualEvidence.fromJson(Map<String, dynamic> json) {
-    return ManualEvidence(
-      evidenceFileName: json['evidenceFileName'] as String?,
-      s3ResourcePath: json['s3ResourcePath'] as String?,
-      textResponse: json['textResponse'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final evidenceFileName = this.evidenceFileName;
-    final s3ResourcePath = this.s3ResourcePath;
-    final textResponse = this.textResponse;
-    return {
-      if (evidenceFileName != null) 'evidenceFileName': evidenceFileName,
-      if (s3ResourcePath != null) 's3ResourcePath': s3ResourcePath,
-      if (textResponse != null) 'textResponse': textResponse,
-    };
-  }
-}
-
-/// The notification that informs a user of an update in Audit Manager. For
-/// example, this includes the notification that's sent when a control set is
-/// delegated for review.
-class Notification {
-  /// The identifier for the assessment.
-  final String? assessmentId;
-
-  /// The name of the related assessment.
-  final String? assessmentName;
-
-  /// The identifier for the control set.
-  final String? controlSetId;
-
-  /// Specifies the name of the control set that the notification is about.
-  final String? controlSetName;
-
-  /// The description of the notification.
-  final String? description;
-
-  /// The time when the notification was sent.
-  final DateTime? eventTime;
-
-  /// The unique identifier for the notification.
-  final String? id;
-
-  /// The sender of the notification.
-  final String? source;
-
-  Notification({
-    this.assessmentId,
-    this.assessmentName,
-    this.controlSetId,
-    this.controlSetName,
-    this.description,
-    this.eventTime,
-    this.id,
-    this.source,
-  });
-
-  factory Notification.fromJson(Map<String, dynamic> json) {
-    return Notification(
-      assessmentId: json['assessmentId'] as String?,
-      assessmentName: json['assessmentName'] as String?,
-      controlSetId: json['controlSetId'] as String?,
-      controlSetName: json['controlSetName'] as String?,
-      description: json['description'] as String?,
-      eventTime: timeStampFromJson(json['eventTime']),
-      id: json['id'] as String?,
-      source: json['source'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assessmentId = this.assessmentId;
-    final assessmentName = this.assessmentName;
-    final controlSetId = this.controlSetId;
-    final controlSetName = this.controlSetName;
-    final description = this.description;
-    final eventTime = this.eventTime;
-    final id = this.id;
-    final source = this.source;
-    return {
-      if (assessmentId != null) 'assessmentId': assessmentId,
-      if (assessmentName != null) 'assessmentName': assessmentName,
-      if (controlSetId != null) 'controlSetId': controlSetId,
-      if (controlSetName != null) 'controlSetName': controlSetName,
-      if (description != null) 'description': description,
-      if (eventTime != null) 'eventTime': unixTimestampToJson(eventTime),
-      if (id != null) 'id': id,
-      if (source != null) 'source': source,
-    };
-  }
-}
-
-class ObjectTypeEnum {
-  static const assessment = ObjectTypeEnum._('ASSESSMENT');
-  static const controlSet = ObjectTypeEnum._('CONTROL_SET');
-  static const control = ObjectTypeEnum._('CONTROL');
-  static const delegation = ObjectTypeEnum._('DELEGATION');
-  static const assessmentReport = ObjectTypeEnum._('ASSESSMENT_REPORT');
-
-  final String value;
-
-  const ObjectTypeEnum._(this.value);
-
-  static const values = [
-    assessment,
-    controlSet,
-    control,
-    delegation,
-    assessmentReport
-  ];
-
-  static ObjectTypeEnum fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ObjectTypeEnum._(value));
-
-  @override
-  bool operator ==(other) => other is ObjectTypeEnum && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class RegisterAccountResponse {
   /// The status of the account registration request.
   final AccountStatus? status;
@@ -7569,762 +3911,6 @@ class RegisterOrganizationAdminAccountResponse {
   }
 }
 
-/// A system asset that's evaluated in an Audit Manager assessment.
-class Resource {
-  /// The Amazon Resource Name (ARN) for the resource.
-  final String? arn;
-
-  /// The evaluation status for a resource that was assessed when collecting
-  /// compliance check evidence.
-  ///
-  /// <ul>
-  /// <li>
-  /// Audit Manager classes the resource as non-compliant if Security Hub reports
-  /// a <i>Fail</i> result, or if Config reports a <i>Non-compliant</i> result.
-  /// </li>
-  /// <li>
-  /// Audit Manager classes the resource as compliant if Security Hub reports a
-  /// <i>Pass</i> result, or if Config reports a <i>Compliant</i> result.
-  /// </li>
-  /// <li>
-  /// If a compliance check isn't available or applicable, then no compliance
-  /// evaluation can be made for that resource. This is the case if a resource
-  /// assessment uses Config or Security Hub as the underlying data source type,
-  /// but those services aren't enabled. This is also the case if the resource
-  /// assessment uses an underlying data source type that doesn't support
-  /// compliance checks (such as manual evidence, Amazon Web Services API calls,
-  /// or CloudTrail).
-  /// </li>
-  /// </ul>
-  final String? complianceCheck;
-
-  /// The value of the resource.
-  final String? value;
-
-  Resource({
-    this.arn,
-    this.complianceCheck,
-    this.value,
-  });
-
-  factory Resource.fromJson(Map<String, dynamic> json) {
-    return Resource(
-      arn: json['arn'] as String?,
-      complianceCheck: json['complianceCheck'] as String?,
-      value: json['value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final complianceCheck = this.complianceCheck;
-    final value = this.value;
-    return {
-      if (arn != null) 'arn': arn,
-      if (complianceCheck != null) 'complianceCheck': complianceCheck,
-      if (value != null) 'value': value,
-    };
-  }
-}
-
-/// The wrapper that contains the Audit Manager role information of the current
-/// user. This includes the role type and IAM Amazon Resource Name (ARN).
-class Role {
-  /// The Amazon Resource Name (ARN) of the IAM role.
-  final String roleArn;
-
-  /// The type of customer persona.
-  /// <note>
-  /// In <code>CreateAssessment</code>, <code>roleType</code> can only be
-  /// <code>PROCESS_OWNER</code>.
-  ///
-  /// In <code>UpdateSettings</code>, <code>roleType</code> can only be
-  /// <code>PROCESS_OWNER</code>.
-  ///
-  /// In <code>BatchCreateDelegationByAssessment</code>, <code>roleType</code> can
-  /// only be <code>RESOURCE_OWNER</code>.
-  /// </note>
-  final RoleType roleType;
-
-  Role({
-    required this.roleArn,
-    required this.roleType,
-  });
-
-  factory Role.fromJson(Map<String, dynamic> json) {
-    return Role(
-      roleArn: (json['roleArn'] as String?) ?? '',
-      roleType: RoleType.fromString((json['roleType'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final roleArn = this.roleArn;
-    final roleType = this.roleType;
-    return {
-      'roleArn': roleArn,
-      'roleType': roleType.value,
-    };
-  }
-}
-
-class RoleType {
-  static const processOwner = RoleType._('PROCESS_OWNER');
-  static const resourceOwner = RoleType._('RESOURCE_OWNER');
-
-  final String value;
-
-  const RoleType._(this.value);
-
-  static const values = [processOwner, resourceOwner];
-
-  static RoleType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => RoleType._(value));
-
-  @override
-  bool operator ==(other) => other is RoleType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The wrapper that contains the Amazon Web Services accounts that are in scope
-/// for the assessment.
-/// <note>
-/// You no longer need to specify which Amazon Web Services are in scope when
-/// you create or update an assessment. Audit Manager infers the services in
-/// scope by examining your assessment controls and their data sources, and then
-/// mapping this information to the relevant Amazon Web Services.
-///
-/// If an underlying data source changes for your assessment, we automatically
-/// update the services scope as needed to reflect the correct Amazon Web
-/// Services. This ensures that your assessment collects accurate and
-/// comprehensive evidence about all of the relevant services in your AWS
-/// environment.
-/// </note>
-class Scope {
-  /// The Amazon Web Services accounts that are included in the scope of the
-  /// assessment.
-  final List<AWSAccount>? awsAccounts;
-
-  /// The Amazon Web Services services that are included in the scope of the
-  /// assessment.
-  /// <important>
-  /// This API parameter is no longer supported. If you use this parameter to
-  /// specify one or more Amazon Web Services, Audit Manager ignores this input.
-  /// Instead, the value for <code>awsServices</code> will show as empty.
-  /// </important>
-  final List<AWSService>? awsServices;
-
-  Scope({
-    this.awsAccounts,
-    this.awsServices,
-  });
-
-  factory Scope.fromJson(Map<String, dynamic> json) {
-    return Scope(
-      awsAccounts: (json['awsAccounts'] as List?)
-          ?.nonNulls
-          .map((e) => AWSAccount.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      awsServices: (json['awsServices'] as List?)
-          ?.nonNulls
-          .map((e) => AWSService.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final awsAccounts = this.awsAccounts;
-    final awsServices = this.awsServices;
-    return {
-      if (awsAccounts != null) 'awsAccounts': awsAccounts,
-      if (awsServices != null) 'awsServices': awsServices,
-    };
-  }
-}
-
-/// The metadata that's associated with the Amazon Web Service.
-class ServiceMetadata {
-  /// The category that the Amazon Web Service belongs to, such as compute,
-  /// storage, or database.
-  final String? category;
-
-  /// The description of the Amazon Web Service.
-  final String? description;
-
-  /// The display name of the Amazon Web Service.
-  final String? displayName;
-
-  /// The name of the Amazon Web Service.
-  final String? name;
-
-  ServiceMetadata({
-    this.category,
-    this.description,
-    this.displayName,
-    this.name,
-  });
-
-  factory ServiceMetadata.fromJson(Map<String, dynamic> json) {
-    return ServiceMetadata(
-      category: json['category'] as String?,
-      description: json['description'] as String?,
-      displayName: json['displayName'] as String?,
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final category = this.category;
-    final description = this.description;
-    final displayName = this.displayName;
-    final name = this.name;
-    return {
-      if (category != null) 'category': category,
-      if (description != null) 'description': description,
-      if (displayName != null) 'displayName': displayName,
-      if (name != null) 'name': name,
-    };
-  }
-}
-
-class SettingAttribute {
-  static const all = SettingAttribute._('ALL');
-  static const isAwsOrgEnabled = SettingAttribute._('IS_AWS_ORG_ENABLED');
-  static const snsTopic = SettingAttribute._('SNS_TOPIC');
-  static const defaultAssessmentReportsDestination =
-      SettingAttribute._('DEFAULT_ASSESSMENT_REPORTS_DESTINATION');
-  static const defaultProcessOwners =
-      SettingAttribute._('DEFAULT_PROCESS_OWNERS');
-  static const evidenceFinderEnablement =
-      SettingAttribute._('EVIDENCE_FINDER_ENABLEMENT');
-  static const deregistrationPolicy =
-      SettingAttribute._('DEREGISTRATION_POLICY');
-  static const defaultExportDestination =
-      SettingAttribute._('DEFAULT_EXPORT_DESTINATION');
-
-  final String value;
-
-  const SettingAttribute._(this.value);
-
-  static const values = [
-    all,
-    isAwsOrgEnabled,
-    snsTopic,
-    defaultAssessmentReportsDestination,
-    defaultProcessOwners,
-    evidenceFinderEnablement,
-    deregistrationPolicy,
-    defaultExportDestination
-  ];
-
-  static SettingAttribute fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SettingAttribute._(value));
-
-  @override
-  bool operator ==(other) => other is SettingAttribute && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The settings object that holds all supported Audit Manager settings.
-class Settings {
-  /// The default S3 destination bucket for storing assessment reports.
-  final AssessmentReportsDestination? defaultAssessmentReportsDestination;
-
-  /// The default S3 destination bucket for storing evidence finder exports.
-  final DefaultExportDestination? defaultExportDestination;
-
-  /// The designated default audit owners.
-  final List<Role>? defaultProcessOwners;
-
-  /// The deregistration policy for your Audit Manager data. You can use this
-  /// attribute to determine how your data is handled when you deregister Audit
-  /// Manager.
-  final DeregistrationPolicy? deregistrationPolicy;
-
-  /// The current evidence finder status and event data store details.
-  final EvidenceFinderEnablement? evidenceFinderEnablement;
-
-  /// Specifies whether Organizations is enabled.
-  final bool? isAwsOrgEnabled;
-
-  /// The KMS key details.
-  final String? kmsKey;
-
-  /// The designated Amazon Simple Notification Service (Amazon SNS) topic.
-  final String? snsTopic;
-
-  Settings({
-    this.defaultAssessmentReportsDestination,
-    this.defaultExportDestination,
-    this.defaultProcessOwners,
-    this.deregistrationPolicy,
-    this.evidenceFinderEnablement,
-    this.isAwsOrgEnabled,
-    this.kmsKey,
-    this.snsTopic,
-  });
-
-  factory Settings.fromJson(Map<String, dynamic> json) {
-    return Settings(
-      defaultAssessmentReportsDestination:
-          json['defaultAssessmentReportsDestination'] != null
-              ? AssessmentReportsDestination.fromJson(
-                  json['defaultAssessmentReportsDestination']
-                      as Map<String, dynamic>)
-              : null,
-      defaultExportDestination: json['defaultExportDestination'] != null
-          ? DefaultExportDestination.fromJson(
-              json['defaultExportDestination'] as Map<String, dynamic>)
-          : null,
-      defaultProcessOwners: (json['defaultProcessOwners'] as List?)
-          ?.nonNulls
-          .map((e) => Role.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      deregistrationPolicy: json['deregistrationPolicy'] != null
-          ? DeregistrationPolicy.fromJson(
-              json['deregistrationPolicy'] as Map<String, dynamic>)
-          : null,
-      evidenceFinderEnablement: json['evidenceFinderEnablement'] != null
-          ? EvidenceFinderEnablement.fromJson(
-              json['evidenceFinderEnablement'] as Map<String, dynamic>)
-          : null,
-      isAwsOrgEnabled: json['isAwsOrgEnabled'] as bool?,
-      kmsKey: json['kmsKey'] as String?,
-      snsTopic: json['snsTopic'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final defaultAssessmentReportsDestination =
-        this.defaultAssessmentReportsDestination;
-    final defaultExportDestination = this.defaultExportDestination;
-    final defaultProcessOwners = this.defaultProcessOwners;
-    final deregistrationPolicy = this.deregistrationPolicy;
-    final evidenceFinderEnablement = this.evidenceFinderEnablement;
-    final isAwsOrgEnabled = this.isAwsOrgEnabled;
-    final kmsKey = this.kmsKey;
-    final snsTopic = this.snsTopic;
-    return {
-      if (defaultAssessmentReportsDestination != null)
-        'defaultAssessmentReportsDestination':
-            defaultAssessmentReportsDestination,
-      if (defaultExportDestination != null)
-        'defaultExportDestination': defaultExportDestination,
-      if (defaultProcessOwners != null)
-        'defaultProcessOwners': defaultProcessOwners,
-      if (deregistrationPolicy != null)
-        'deregistrationPolicy': deregistrationPolicy,
-      if (evidenceFinderEnablement != null)
-        'evidenceFinderEnablement': evidenceFinderEnablement,
-      if (isAwsOrgEnabled != null) 'isAwsOrgEnabled': isAwsOrgEnabled,
-      if (kmsKey != null) 'kmsKey': kmsKey,
-      if (snsTopic != null) 'snsTopic': snsTopic,
-    };
-  }
-}
-
-class ShareRequestAction {
-  static const accept = ShareRequestAction._('ACCEPT');
-  static const decline = ShareRequestAction._('DECLINE');
-  static const revoke = ShareRequestAction._('REVOKE');
-
-  final String value;
-
-  const ShareRequestAction._(this.value);
-
-  static const values = [accept, decline, revoke];
-
-  static ShareRequestAction fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ShareRequestAction._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ShareRequestAction && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ShareRequestStatus {
-  static const active = ShareRequestStatus._('ACTIVE');
-  static const replicating = ShareRequestStatus._('REPLICATING');
-  static const shared = ShareRequestStatus._('SHARED');
-  static const expiring = ShareRequestStatus._('EXPIRING');
-  static const failed = ShareRequestStatus._('FAILED');
-  static const expired = ShareRequestStatus._('EXPIRED');
-  static const declined = ShareRequestStatus._('DECLINED');
-  static const revoked = ShareRequestStatus._('REVOKED');
-
-  final String value;
-
-  const ShareRequestStatus._(this.value);
-
-  static const values = [
-    active,
-    replicating,
-    shared,
-    expiring,
-    failed,
-    expired,
-    declined,
-    revoked
-  ];
-
-  static ShareRequestStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ShareRequestStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ShareRequestStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ShareRequestType {
-  static const sent = ShareRequestType._('SENT');
-  static const received = ShareRequestType._('RECEIVED');
-
-  final String value;
-
-  const ShareRequestType._(this.value);
-
-  static const values = [sent, received];
-
-  static ShareRequestType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ShareRequestType._(value));
-
-  @override
-  bool operator ==(other) => other is ShareRequestType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class SourceFrequency {
-  static const daily = SourceFrequency._('DAILY');
-  static const weekly = SourceFrequency._('WEEKLY');
-  static const monthly = SourceFrequency._('MONTHLY');
-
-  final String value;
-
-  const SourceFrequency._(this.value);
-
-  static const values = [daily, weekly, monthly];
-
-  static SourceFrequency fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SourceFrequency._(value));
-
-  @override
-  bool operator ==(other) => other is SourceFrequency && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A keyword that relates to the control data source.
-///
-/// For manual evidence, this keyword indicates if the manual evidence is a file
-/// or text.
-///
-/// For automated evidence, this keyword identifies a specific CloudTrail event,
-/// Config rule, Security Hub control, or Amazon Web Services API name.
-///
-/// To learn more about the supported keywords that you can use when mapping a
-/// control data source, see the following pages in the <i>Audit Manager User
-/// Guide</i>:
-///
-/// <ul>
-/// <li>
-/// <a
-/// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-config.html">Config
-/// rules supported by Audit Manager</a>
-/// </li>
-/// <li>
-/// <a
-/// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-ash.html">Security
-/// Hub controls supported by Audit Manager</a>
-/// </li>
-/// <li>
-/// <a
-/// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-api.html">API
-/// calls supported by Audit Manager</a>
-/// </li>
-/// <li>
-/// <a
-/// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-cloudtrail.html">CloudTrail
-/// event names supported by Audit Manager</a>
-/// </li>
-/// </ul>
-class SourceKeyword {
-  /// The input method for the keyword.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>SELECT_FROM_LIST</code> is used when mapping a data source for
-  /// automated evidence.
-  ///
-  /// <ul>
-  /// <li>
-  /// When <code>keywordInputType</code> is <code>SELECT_FROM_LIST</code>, a
-  /// keyword must be selected to collect automated evidence. For example, this
-  /// keyword can be a CloudTrail event name, a rule name for Config, a Security
-  /// Hub control, or the name of an Amazon Web Services API call.
-  /// </li>
-  /// </ul> </li>
-  /// <li>
-  /// <code>UPLOAD_FILE</code> and <code>INPUT_TEXT</code> are only used when
-  /// mapping a data source for manual evidence.
-  ///
-  /// <ul>
-  /// <li>
-  /// When <code>keywordInputType</code> is <code>UPLOAD_FILE</code>, a file must
-  /// be uploaded as manual evidence.
-  /// </li>
-  /// <li>
-  /// When <code>keywordInputType</code> is <code>INPUT_TEXT</code>, text must be
-  /// entered as manual evidence.
-  /// </li>
-  /// </ul> </li>
-  /// </ul>
-  final KeywordInputType? keywordInputType;
-
-  /// The value of the keyword that's used when mapping a control data source. For
-  /// example, this can be a CloudTrail event name, a rule name for Config, a
-  /// Security Hub control, or the name of an Amazon Web Services API call.
-  ///
-  /// If you’re mapping a data source to a rule in Config, the
-  /// <code>keywordValue</code> that you specify depends on the type of rule:
-  ///
-  /// <ul>
-  /// <li>
-  /// For <a
-  /// href="https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config_use-managed-rules.html">managed
-  /// rules</a>, you can use the rule identifier as the <code>keywordValue</code>.
-  /// You can find the rule identifier from the <a
-  /// href="https://docs.aws.amazon.com/config/latest/developerguide/managed-rules-by-aws-config.html">list
-  /// of Config managed rules</a>. For some rules, the rule identifier is
-  /// different from the rule name. For example, the rule name
-  /// <code>restricted-ssh</code> has the following rule identifier:
-  /// <code>INCOMING_SSH_DISABLED</code>. Make sure to use the rule identifier,
-  /// not the rule name.
-  ///
-  /// Keyword example for managed rules:
-  ///
-  /// <ul>
-  /// <li>
-  /// Managed rule name: <a
-  /// href="https://docs.aws.amazon.com/config/latest/developerguide/s3-bucket-acl-prohibited.html">s3-bucket-acl-prohibited</a>
-  ///
-  /// <code>keywordValue</code>: <code>S3_BUCKET_ACL_PROHIBITED</code>
-  /// </li>
-  /// </ul> </li>
-  /// <li>
-  /// For <a
-  /// href="https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config_develop-rules.html">custom
-  /// rules</a>, you form the <code>keywordValue</code> by adding the
-  /// <code>Custom_</code> prefix to the rule name. This prefix distinguishes the
-  /// custom rule from a managed rule.
-  ///
-  /// Keyword example for custom rules:
-  ///
-  /// <ul>
-  /// <li>
-  /// Custom rule name: my-custom-config-rule
-  ///
-  /// <code>keywordValue</code>: <code>Custom_my-custom-config-rule</code>
-  /// </li>
-  /// </ul> </li>
-  /// <li>
-  /// For <a
-  /// href="https://docs.aws.amazon.com/config/latest/developerguide/service-linked-awsconfig-rules.html">service-linked
-  /// rules</a>, you form the <code>keywordValue</code> by adding the
-  /// <code>Custom_</code> prefix to the rule name. In addition, you remove the
-  /// suffix ID that appears at the end of the rule name.
-  ///
-  /// Keyword examples for service-linked rules:
-  ///
-  /// <ul>
-  /// <li>
-  /// Service-linked rule name: CustomRuleForAccount-conformance-pack-szsm1uv0w
-  ///
-  /// <code>keywordValue</code>:
-  /// <code>Custom_CustomRuleForAccount-conformance-pack</code>
-  /// </li>
-  /// <li>
-  /// Service-linked rule name:
-  /// OrgConfigRule-s3-bucket-versioning-enabled-dbgzf8ba
-  ///
-  /// <code>keywordValue</code>:
-  /// <code>Custom_OrgConfigRule-s3-bucket-versioning-enabled</code>
-  /// </li>
-  /// </ul> </li>
-  /// </ul> <important>
-  /// The <code>keywordValue</code> is case sensitive. If you enter a value
-  /// incorrectly, Audit Manager might not recognize the data source mapping. As a
-  /// result, you might not successfully collect evidence from that data source as
-  /// intended.
-  ///
-  /// Keep in mind the following requirements, depending on the data source type
-  /// that you're using.
-  /// <ol>
-  /// <li>
-  /// For Config:
-  ///
-  /// <ul>
-  /// <li>
-  /// For managed rules, make sure that the <code>keywordValue</code> is the rule
-  /// identifier in <code>ALL_CAPS_WITH_UNDERSCORES</code>. For example,
-  /// <code>CLOUDWATCH_LOG_GROUP_ENCRYPTED</code>. For accuracy, we recommend that
-  /// you reference the list of <a
-  /// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-config.html">supported
-  /// Config managed rules</a>.
-  /// </li>
-  /// <li>
-  /// For custom rules, make sure that the <code>keywordValue</code> has the
-  /// <code>Custom_</code> prefix followed by the custom rule name. The format of
-  /// the custom rule name itself may vary. For accuracy, we recommend that you
-  /// visit the <a href="https://console.aws.amazon.com/config/">Config
-  /// console</a> to verify your custom rule name.
-  /// </li>
-  /// </ul> </li>
-  /// <li>
-  /// For Security Hub: The format varies for Security Hub control names. For
-  /// accuracy, we recommend that you reference the list of <a
-  /// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-ash.html">supported
-  /// Security Hub controls</a>.
-  /// </li>
-  /// <li>
-  /// For Amazon Web Services API calls: Make sure that the
-  /// <code>keywordValue</code> is written as
-  /// <code>serviceprefix_ActionName</code>. For example,
-  /// <code>iam_ListGroups</code>. For accuracy, we recommend that you reference
-  /// the list of <a
-  /// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-api.html">supported
-  /// API calls</a>.
-  /// </li>
-  /// <li>
-  /// For CloudTrail: Make sure that the <code>keywordValue</code> is written as
-  /// <code>serviceprefix_ActionName</code>. For example,
-  /// <code>cloudtrail_StartLogging</code>. For accuracy, we recommend that you
-  /// review the Amazon Web Service prefix and action names in the <a
-  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html">Service
-  /// Authorization Reference</a>.
-  /// </li> </ol> </important>
-  final String? keywordValue;
-
-  SourceKeyword({
-    this.keywordInputType,
-    this.keywordValue,
-  });
-
-  factory SourceKeyword.fromJson(Map<String, dynamic> json) {
-    return SourceKeyword(
-      keywordInputType: (json['keywordInputType'] as String?)
-          ?.let(KeywordInputType.fromString),
-      keywordValue: json['keywordValue'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final keywordInputType = this.keywordInputType;
-    final keywordValue = this.keywordValue;
-    return {
-      if (keywordInputType != null) 'keywordInputType': keywordInputType.value,
-      if (keywordValue != null) 'keywordValue': keywordValue,
-    };
-  }
-}
-
-class SourceSetUpOption {
-  static const systemControlsMapping =
-      SourceSetUpOption._('System_Controls_Mapping');
-  static const proceduralControlsMapping =
-      SourceSetUpOption._('Procedural_Controls_Mapping');
-
-  final String value;
-
-  const SourceSetUpOption._(this.value);
-
-  static const values = [systemControlsMapping, proceduralControlsMapping];
-
-  static SourceSetUpOption fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SourceSetUpOption._(value));
-
-  @override
-  bool operator ==(other) => other is SourceSetUpOption && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class SourceType {
-  static const awsCloudtrail = SourceType._('AWS_Cloudtrail');
-  static const awsConfig = SourceType._('AWS_Config');
-  static const awsSecurityHub = SourceType._('AWS_Security_Hub');
-  static const awsApiCall = SourceType._('AWS_API_Call');
-  static const manual = SourceType._('MANUAL');
-  static const commonControl = SourceType._('Common_Control');
-  static const coreControl = SourceType._('Core_Control');
-
-  final String value;
-
-  const SourceType._(this.value);
-
-  static const values = [
-    awsCloudtrail,
-    awsConfig,
-    awsSecurityHub,
-    awsApiCall,
-    manual,
-    commonControl,
-    coreControl
-  ];
-
-  static SourceType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SourceType._(value));
-
-  @override
-  bool operator ==(other) => other is SourceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class StartAssessmentFrameworkShareResponse {
   /// The share request that's created by the
   /// <code>StartAssessmentFrameworkShare</code> API.
@@ -8368,37 +3954,6 @@ class TagResourceResponse {
   }
 }
 
-/// Short for uniform resource locator. A URL is used as a unique identifier to
-/// locate a resource on the internet.
-class URL {
-  /// The name or word that's used as a hyperlink to the URL.
-  final String? hyperlinkName;
-
-  /// The unique identifier for the internet resource.
-  final String? link;
-
-  URL({
-    this.hyperlinkName,
-    this.link,
-  });
-
-  factory URL.fromJson(Map<String, dynamic> json) {
-    return URL(
-      hyperlinkName: json['hyperlinkName'] as String?,
-      link: json['link'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hyperlinkName = this.hyperlinkName;
-    final link = this.link;
-    return {
-      if (hyperlinkName != null) 'hyperlinkName': hyperlinkName,
-      if (link != null) 'link': link,
-    };
-  }
-}
-
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -8408,6 +3963,31 @@ class UntagResourceResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+class UpdateAssessmentResponse {
+  /// The response object for the <code>UpdateAssessment</code> API. This is the
+  /// name of the updated assessment.
+  final Assessment? assessment;
+
+  UpdateAssessmentResponse({
+    this.assessment,
+  });
+
+  factory UpdateAssessmentResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateAssessmentResponse(
+      assessment: json['assessment'] != null
+          ? Assessment.fromJson(json['assessment'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assessment = this.assessment;
+    return {
+      if (assessment != null) 'assessment': assessment,
+    };
   }
 }
 
@@ -8463,38 +4043,8 @@ class UpdateAssessmentControlSetStatusResponse {
   }
 }
 
-/// A <code>controlSet</code> entity that represents a collection of controls in
-/// Audit Manager. This doesn't contain the control set ID.
-class UpdateAssessmentFrameworkControlSet {
-  /// The list of controls that are contained within the control set.
-  final List<CreateAssessmentFrameworkControl> controls;
-
-  /// The name of the control set.
-  final String name;
-
-  /// The unique identifier for the control set.
-  final String? id;
-
-  UpdateAssessmentFrameworkControlSet({
-    required this.controls,
-    required this.name,
-    this.id,
-  });
-
-  Map<String, dynamic> toJson() {
-    final controls = this.controls;
-    final name = this.name;
-    final id = this.id;
-    return {
-      'controls': controls,
-      'name': name,
-      if (id != null) 'id': id,
-    };
-  }
-}
-
 class UpdateAssessmentFrameworkResponse {
-  /// The name of the framework.
+  /// The framework object.
   final Framework? framework;
 
   UpdateAssessmentFrameworkResponse({
@@ -8545,31 +4095,6 @@ class UpdateAssessmentFrameworkShareResponse {
     return {
       if (assessmentFrameworkShareRequest != null)
         'assessmentFrameworkShareRequest': assessmentFrameworkShareRequest,
-    };
-  }
-}
-
-class UpdateAssessmentResponse {
-  /// The response object for the <code>UpdateAssessment</code> API. This is the
-  /// name of the updated assessment.
-  final Assessment? assessment;
-
-  UpdateAssessmentResponse({
-    this.assessment,
-  });
-
-  factory UpdateAssessmentResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateAssessmentResponse(
-      assessment: json['assessment'] != null
-          ? Assessment.fromJson(json['assessment'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assessment = this.assessment;
-    return {
-      if (assessment != null) 'assessment': assessment,
     };
   }
 }
@@ -8699,6 +4224,4509 @@ class ValidateAssessmentReportIntegrityResponse {
       if (signatureKeyId != null) 'signatureKeyId': signatureKeyId,
       if (signatureValid != null) 'signatureValid': signatureValid,
       if (validationErrors != null) 'validationErrors': validationErrors,
+    };
+  }
+}
+
+/// The settings object that holds all supported Audit Manager settings.
+class Settings {
+  /// The default S3 destination bucket for storing assessment reports.
+  final AssessmentReportsDestination? defaultAssessmentReportsDestination;
+
+  /// The default S3 destination bucket for storing evidence finder exports.
+  final DefaultExportDestination? defaultExportDestination;
+
+  /// The designated default audit owners.
+  final List<Role>? defaultProcessOwners;
+
+  /// The deregistration policy for your Audit Manager data. You can use this
+  /// attribute to determine how your data is handled when you deregister Audit
+  /// Manager.
+  final DeregistrationPolicy? deregistrationPolicy;
+
+  /// The current evidence finder status and event data store details.
+  final EvidenceFinderEnablement? evidenceFinderEnablement;
+
+  /// Specifies whether Organizations is enabled.
+  final bool? isAwsOrgEnabled;
+
+  /// The KMS key details.
+  final String? kmsKey;
+
+  /// The designated Amazon Simple Notification Service (Amazon SNS) topic.
+  final String? snsTopic;
+
+  Settings({
+    this.defaultAssessmentReportsDestination,
+    this.defaultExportDestination,
+    this.defaultProcessOwners,
+    this.deregistrationPolicy,
+    this.evidenceFinderEnablement,
+    this.isAwsOrgEnabled,
+    this.kmsKey,
+    this.snsTopic,
+  });
+
+  factory Settings.fromJson(Map<String, dynamic> json) {
+    return Settings(
+      defaultAssessmentReportsDestination:
+          json['defaultAssessmentReportsDestination'] != null
+              ? AssessmentReportsDestination.fromJson(
+                  json['defaultAssessmentReportsDestination']
+                      as Map<String, dynamic>)
+              : null,
+      defaultExportDestination: json['defaultExportDestination'] != null
+          ? DefaultExportDestination.fromJson(
+              json['defaultExportDestination'] as Map<String, dynamic>)
+          : null,
+      defaultProcessOwners: (json['defaultProcessOwners'] as List?)
+          ?.nonNulls
+          .map((e) => Role.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      deregistrationPolicy: json['deregistrationPolicy'] != null
+          ? DeregistrationPolicy.fromJson(
+              json['deregistrationPolicy'] as Map<String, dynamic>)
+          : null,
+      evidenceFinderEnablement: json['evidenceFinderEnablement'] != null
+          ? EvidenceFinderEnablement.fromJson(
+              json['evidenceFinderEnablement'] as Map<String, dynamic>)
+          : null,
+      isAwsOrgEnabled: json['isAwsOrgEnabled'] as bool?,
+      kmsKey: json['kmsKey'] as String?,
+      snsTopic: json['snsTopic'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultAssessmentReportsDestination =
+        this.defaultAssessmentReportsDestination;
+    final defaultExportDestination = this.defaultExportDestination;
+    final defaultProcessOwners = this.defaultProcessOwners;
+    final deregistrationPolicy = this.deregistrationPolicy;
+    final evidenceFinderEnablement = this.evidenceFinderEnablement;
+    final isAwsOrgEnabled = this.isAwsOrgEnabled;
+    final kmsKey = this.kmsKey;
+    final snsTopic = this.snsTopic;
+    return {
+      if (defaultAssessmentReportsDestination != null)
+        'defaultAssessmentReportsDestination':
+            defaultAssessmentReportsDestination,
+      if (defaultExportDestination != null)
+        'defaultExportDestination': defaultExportDestination,
+      if (defaultProcessOwners != null)
+        'defaultProcessOwners': defaultProcessOwners,
+      if (deregistrationPolicy != null)
+        'deregistrationPolicy': deregistrationPolicy,
+      if (evidenceFinderEnablement != null)
+        'evidenceFinderEnablement': evidenceFinderEnablement,
+      if (isAwsOrgEnabled != null) 'isAwsOrgEnabled': isAwsOrgEnabled,
+      if (kmsKey != null) 'kmsKey': kmsKey,
+      if (snsTopic != null) 'snsTopic': snsTopic,
+    };
+  }
+}
+
+/// The location where Audit Manager saves assessment reports for the given
+/// assessment.
+class AssessmentReportsDestination {
+  /// The destination bucket where Audit Manager stores assessment reports.
+  final String? destination;
+
+  /// The destination type, such as Amazon S3.
+  final AssessmentReportDestinationType? destinationType;
+
+  AssessmentReportsDestination({
+    this.destination,
+    this.destinationType,
+  });
+
+  factory AssessmentReportsDestination.fromJson(Map<String, dynamic> json) {
+    return AssessmentReportsDestination(
+      destination: json['destination'] as String?,
+      destinationType: (json['destinationType'] as String?)
+          ?.let(AssessmentReportDestinationType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destination = this.destination;
+    final destinationType = this.destinationType;
+    return {
+      if (destination != null) 'destination': destination,
+      if (destinationType != null) 'destinationType': destinationType.value,
+    };
+  }
+}
+
+/// The settings object that specifies whether evidence finder is enabled. This
+/// object also describes the related event data store, and the backfill status
+/// for populating the event data store with evidence data.
+class EvidenceFinderEnablement {
+  /// The current status of the evidence data backfill process.
+  ///
+  /// The backfill starts after you enable evidence finder. During this task,
+  /// Audit Manager populates an event data store with your past two years’ worth
+  /// of evidence data so that your evidence can be queried.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>NOT_STARTED</code> means that the backfill hasn’t started yet.
+  /// </li>
+  /// <li>
+  /// <code>IN_PROGRESS</code> means that the backfill is in progress. This can
+  /// take up to 7 days to complete, depending on the amount of evidence data.
+  /// </li>
+  /// <li>
+  /// <code>COMPLETED</code> means that the backfill is complete. All of your past
+  /// evidence is now queryable.
+  /// </li>
+  /// </ul>
+  final EvidenceFinderBackfillStatus? backfillStatus;
+
+  /// The current status of the evidence finder feature and the related event data
+  /// store.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ENABLE_IN_PROGRESS</code> means that you requested to enable evidence
+  /// finder. An event data store is currently being created to support evidence
+  /// finder queries.
+  /// </li>
+  /// <li>
+  /// <code>ENABLED</code> means that an event data store was successfully created
+  /// and evidence finder is enabled. We recommend that you wait 7 days until the
+  /// event data store is backfilled with your past two years’ worth of evidence
+  /// data. You can use evidence finder in the meantime, but not all data might be
+  /// available until the backfill is complete.
+  /// </li>
+  /// <li>
+  /// <code>DISABLE_IN_PROGRESS</code> means that you requested to disable
+  /// evidence finder, and your request is pending the deletion of the event data
+  /// store.
+  /// </li>
+  /// <li>
+  /// <code>DISABLED</code> means that you have permanently disabled evidence
+  /// finder and the event data store has been deleted. You can't re-enable
+  /// evidence finder after this point.
+  /// </li>
+  /// </ul>
+  final EvidenceFinderEnablementStatus? enablementStatus;
+
+  /// Represents any errors that occurred when enabling or disabling evidence
+  /// finder.
+  final String? error;
+
+  /// The Amazon Resource Name (ARN) of the CloudTrail Lake event data store
+  /// that’s used by evidence finder. The event data store is the lake of evidence
+  /// data that evidence finder runs queries against.
+  final String? eventDataStoreArn;
+
+  EvidenceFinderEnablement({
+    this.backfillStatus,
+    this.enablementStatus,
+    this.error,
+    this.eventDataStoreArn,
+  });
+
+  factory EvidenceFinderEnablement.fromJson(Map<String, dynamic> json) {
+    return EvidenceFinderEnablement(
+      backfillStatus: (json['backfillStatus'] as String?)
+          ?.let(EvidenceFinderBackfillStatus.fromString),
+      enablementStatus: (json['enablementStatus'] as String?)
+          ?.let(EvidenceFinderEnablementStatus.fromString),
+      error: json['error'] as String?,
+      eventDataStoreArn: json['eventDataStoreArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final backfillStatus = this.backfillStatus;
+    final enablementStatus = this.enablementStatus;
+    final error = this.error;
+    final eventDataStoreArn = this.eventDataStoreArn;
+    return {
+      if (backfillStatus != null) 'backfillStatus': backfillStatus.value,
+      if (enablementStatus != null) 'enablementStatus': enablementStatus.value,
+      if (error != null) 'error': error,
+      if (eventDataStoreArn != null) 'eventDataStoreArn': eventDataStoreArn,
+    };
+  }
+}
+
+/// The deregistration policy for the data that's stored in Audit Manager. You
+/// can use this attribute to determine how your data is handled when you <a
+/// href="https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_DeregisterAccount.html">deregister
+/// Audit Manager</a>.
+///
+/// By default, Audit Manager retains evidence data for two years from the time
+/// of its creation. Other Audit Manager resources (including assessments,
+/// custom controls, and custom frameworks) remain in Audit Manager
+/// indefinitely, and are available if you <a
+/// href="https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_RegisterAccount.html">re-register
+/// Audit Manager</a> in the future. For more information about data retention,
+/// see <a
+/// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/data-protection.html">Data
+/// Protection</a> in the <i>Audit Manager User Guide</i>.
+/// <important>
+/// If you choose to delete all data, this action permanently deletes all
+/// evidence data in your account within seven days. It also deletes all of the
+/// Audit Manager resources that you created, including assessments, custom
+/// controls, and custom frameworks. Your data will not be available if you
+/// re-register Audit Manager in the future.
+/// </important>
+class DeregistrationPolicy {
+  /// Specifies which Audit Manager data will be deleted when you deregister Audit
+  /// Manager.
+  ///
+  /// <ul>
+  /// <li>
+  /// If you set the value to <code>ALL</code>, all of your data is deleted within
+  /// seven days of deregistration.
+  /// </li>
+  /// <li>
+  /// If you set the value to <code>DEFAULT</code>, none of your data is deleted
+  /// at the time of deregistration. However, keep in mind that the Audit Manager
+  /// data retention policy still applies. As a result, any evidence data will be
+  /// deleted two years after its creation date. Your other Audit Manager
+  /// resources will continue to exist indefinitely.
+  /// </li>
+  /// </ul>
+  final DeleteResources? deleteResources;
+
+  DeregistrationPolicy({
+    this.deleteResources,
+  });
+
+  factory DeregistrationPolicy.fromJson(Map<String, dynamic> json) {
+    return DeregistrationPolicy(
+      deleteResources:
+          (json['deleteResources'] as String?)?.let(DeleteResources.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deleteResources = this.deleteResources;
+    return {
+      if (deleteResources != null) 'deleteResources': deleteResources.value,
+    };
+  }
+}
+
+/// The default s3 bucket where Audit Manager saves the files that you export
+/// from evidence finder.
+class DefaultExportDestination {
+  /// The destination bucket where Audit Manager stores exported files.
+  final String? destination;
+
+  /// The destination type, such as Amazon S3.
+  final ExportDestinationType? destinationType;
+
+  DefaultExportDestination({
+    this.destination,
+    this.destinationType,
+  });
+
+  factory DefaultExportDestination.fromJson(Map<String, dynamic> json) {
+    return DefaultExportDestination(
+      destination: json['destination'] as String?,
+      destinationType: (json['destinationType'] as String?)
+          ?.let(ExportDestinationType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destination = this.destination;
+    final destinationType = this.destinationType;
+    return {
+      if (destination != null) 'destination': destination,
+      if (destinationType != null) 'destinationType': destinationType.value,
+    };
+  }
+}
+
+class ExportDestinationType {
+  static const s3 = ExportDestinationType._('S3');
+
+  final String value;
+
+  const ExportDestinationType._(this.value);
+
+  static const values = [s3];
+
+  static ExportDestinationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExportDestinationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExportDestinationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DeleteResources {
+  static const all = DeleteResources._('ALL');
+  static const $default = DeleteResources._('DEFAULT');
+
+  final String value;
+
+  const DeleteResources._(this.value);
+
+  static const values = [all, $default];
+
+  static DeleteResources fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeleteResources._(value));
+
+  @override
+  bool operator ==(other) => other is DeleteResources && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class EvidenceFinderEnablementStatus {
+  static const enabled = EvidenceFinderEnablementStatus._('ENABLED');
+  static const disabled = EvidenceFinderEnablementStatus._('DISABLED');
+  static const enableInProgress =
+      EvidenceFinderEnablementStatus._('ENABLE_IN_PROGRESS');
+  static const disableInProgress =
+      EvidenceFinderEnablementStatus._('DISABLE_IN_PROGRESS');
+
+  final String value;
+
+  const EvidenceFinderEnablementStatus._(this.value);
+
+  static const values = [
+    enabled,
+    disabled,
+    enableInProgress,
+    disableInProgress
+  ];
+
+  static EvidenceFinderEnablementStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EvidenceFinderEnablementStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EvidenceFinderEnablementStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class EvidenceFinderBackfillStatus {
+  static const notStarted = EvidenceFinderBackfillStatus._('NOT_STARTED');
+  static const inProgress = EvidenceFinderBackfillStatus._('IN_PROGRESS');
+  static const completed = EvidenceFinderBackfillStatus._('COMPLETED');
+
+  final String value;
+
+  const EvidenceFinderBackfillStatus._(this.value);
+
+  static const values = [notStarted, inProgress, completed];
+
+  static EvidenceFinderBackfillStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EvidenceFinderBackfillStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EvidenceFinderBackfillStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The wrapper that contains the Audit Manager role information of the current
+/// user. This includes the role type and IAM Amazon Resource Name (ARN).
+class Role {
+  /// The Amazon Resource Name (ARN) of the IAM role.
+  final String roleArn;
+
+  /// The type of customer persona.
+  /// <note>
+  /// In <code>CreateAssessment</code>, <code>roleType</code> can only be
+  /// <code>PROCESS_OWNER</code>.
+  ///
+  /// In <code>UpdateSettings</code>, <code>roleType</code> can only be
+  /// <code>PROCESS_OWNER</code>.
+  ///
+  /// In <code>BatchCreateDelegationByAssessment</code>, <code>roleType</code> can
+  /// only be <code>RESOURCE_OWNER</code>.
+  /// </note>
+  final RoleType roleType;
+
+  Role({
+    required this.roleArn,
+    required this.roleType,
+  });
+
+  factory Role.fromJson(Map<String, dynamic> json) {
+    return Role(
+      roleArn: (json['roleArn'] as String?) ?? '',
+      roleType: RoleType.fromString((json['roleType'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roleArn = this.roleArn;
+    final roleType = this.roleType;
+    return {
+      'roleArn': roleArn,
+      'roleType': roleType.value,
+    };
+  }
+}
+
+class RoleType {
+  static const processOwner = RoleType._('PROCESS_OWNER');
+  static const resourceOwner = RoleType._('RESOURCE_OWNER');
+
+  final String value;
+
+  const RoleType._(this.value);
+
+  static const values = [processOwner, resourceOwner];
+
+  static RoleType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RoleType._(value));
+
+  @override
+  bool operator ==(other) => other is RoleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AssessmentReportDestinationType {
+  static const s3 = AssessmentReportDestinationType._('S3');
+
+  final String value;
+
+  const AssessmentReportDestinationType._(this.value);
+
+  static const values = [s3];
+
+  static AssessmentReportDestinationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AssessmentReportDestinationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AssessmentReportDestinationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A control in Audit Manager.
+class Control {
+  /// The recommended actions to carry out if the control isn't fulfilled.
+  final String? actionPlanInstructions;
+
+  /// The title of the action plan for remediating the control.
+  final String? actionPlanTitle;
+
+  /// The Amazon Resource Name (ARN) of the control.
+  final String? arn;
+
+  /// The data mapping sources for the control.
+  final List<ControlMappingSource>? controlMappingSources;
+
+  /// The data source types that determine where Audit Manager collects evidence
+  /// from for the control.
+  final String? controlSources;
+
+  /// The time when the control was created.
+  final DateTime? createdAt;
+
+  /// The user or role that created the control.
+  final String? createdBy;
+
+  /// The description of the control.
+  final String? description;
+
+  /// The unique identifier for the control.
+  final String? id;
+
+  /// The time when the control was most recently updated.
+  final DateTime? lastUpdatedAt;
+
+  /// The user or role that most recently updated the control.
+  final String? lastUpdatedBy;
+
+  /// The name of the control.
+  final String? name;
+
+  /// The state of the control. The <code>END_OF_SUPPORT</code> state is
+  /// applicable to standard controls only. This state indicates that the standard
+  /// control can still be used to collect evidence, but Audit Manager is no
+  /// longer updating or maintaining that control.
+  final ControlState? state;
+
+  /// The tags associated with the control.
+  final Map<String, String>? tags;
+
+  /// The steps that you should follow to determine if the control has been
+  /// satisfied.
+  final String? testingInformation;
+
+  /// Specifies whether the control is a standard control or a custom control.
+  final ControlType? type;
+
+  Control({
+    this.actionPlanInstructions,
+    this.actionPlanTitle,
+    this.arn,
+    this.controlMappingSources,
+    this.controlSources,
+    this.createdAt,
+    this.createdBy,
+    this.description,
+    this.id,
+    this.lastUpdatedAt,
+    this.lastUpdatedBy,
+    this.name,
+    this.state,
+    this.tags,
+    this.testingInformation,
+    this.type,
+  });
+
+  factory Control.fromJson(Map<String, dynamic> json) {
+    return Control(
+      actionPlanInstructions: json['actionPlanInstructions'] as String?,
+      actionPlanTitle: json['actionPlanTitle'] as String?,
+      arn: json['arn'] as String?,
+      controlMappingSources: (json['controlMappingSources'] as List?)
+          ?.nonNulls
+          .map((e) => ControlMappingSource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      controlSources: json['controlSources'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      createdBy: json['createdBy'] as String?,
+      description: json['description'] as String?,
+      id: json['id'] as String?,
+      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+      lastUpdatedBy: json['lastUpdatedBy'] as String?,
+      name: json['name'] as String?,
+      state: (json['state'] as String?)?.let(ControlState.fromString),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      testingInformation: json['testingInformation'] as String?,
+      type: (json['type'] as String?)?.let(ControlType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionPlanInstructions = this.actionPlanInstructions;
+    final actionPlanTitle = this.actionPlanTitle;
+    final arn = this.arn;
+    final controlMappingSources = this.controlMappingSources;
+    final controlSources = this.controlSources;
+    final createdAt = this.createdAt;
+    final createdBy = this.createdBy;
+    final description = this.description;
+    final id = this.id;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final lastUpdatedBy = this.lastUpdatedBy;
+    final name = this.name;
+    final state = this.state;
+    final tags = this.tags;
+    final testingInformation = this.testingInformation;
+    final type = this.type;
+    return {
+      if (actionPlanInstructions != null)
+        'actionPlanInstructions': actionPlanInstructions,
+      if (actionPlanTitle != null) 'actionPlanTitle': actionPlanTitle,
+      if (arn != null) 'arn': arn,
+      if (controlMappingSources != null)
+        'controlMappingSources': controlMappingSources,
+      if (controlSources != null) 'controlSources': controlSources,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (createdBy != null) 'createdBy': createdBy,
+      if (description != null) 'description': description,
+      if (id != null) 'id': id,
+      if (lastUpdatedAt != null)
+        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (lastUpdatedBy != null) 'lastUpdatedBy': lastUpdatedBy,
+      if (name != null) 'name': name,
+      if (state != null) 'state': state.value,
+      if (tags != null) 'tags': tags,
+      if (testingInformation != null) 'testingInformation': testingInformation,
+      if (type != null) 'type': type.value,
+    };
+  }
+}
+
+class ControlType {
+  static const standard = ControlType._('Standard');
+  static const custom = ControlType._('Custom');
+  static const core = ControlType._('Core');
+
+  final String value;
+
+  const ControlType._(this.value);
+
+  static const values = [standard, custom, core];
+
+  static ControlType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ControlType._(value));
+
+  @override
+  bool operator ==(other) => other is ControlType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ControlState {
+  static const active = ControlState._('ACTIVE');
+  static const endOfSupport = ControlState._('END_OF_SUPPORT');
+
+  final String value;
+
+  const ControlState._(this.value);
+
+  static const values = [active, endOfSupport];
+
+  static ControlState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ControlState._(value));
+
+  @override
+  bool operator ==(other) => other is ControlState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The data source that determines where Audit Manager collects evidence from
+/// for the control.
+class ControlMappingSource {
+  /// The description of the source.
+  final String? sourceDescription;
+
+  /// Specifies how often evidence is collected from the control mapping source.
+  final SourceFrequency? sourceFrequency;
+
+  /// The unique identifier for the source.
+  final String? sourceId;
+  final SourceKeyword? sourceKeyword;
+
+  /// The name of the source.
+  final String? sourceName;
+
+  /// The setup option for the data source. This option reflects if the evidence
+  /// collection method is automated or manual. If you don’t provide a value for
+  /// <code>sourceSetUpOption</code>, Audit Manager automatically infers and
+  /// populates the correct value based on the <code>sourceType</code> that you
+  /// specify.
+  final SourceSetUpOption? sourceSetUpOption;
+
+  /// Specifies which type of data source is used to collect evidence.
+  ///
+  /// <ul>
+  /// <li>
+  /// The source can be an individual data source type, such as
+  /// <code>AWS_Cloudtrail</code>, <code>AWS_Config</code>,
+  /// <code>AWS_Security_Hub</code>, <code>AWS_API_Call</code>, or
+  /// <code>MANUAL</code>.
+  /// </li>
+  /// <li>
+  /// The source can also be a managed grouping of data sources, such as a
+  /// <code>Core_Control</code> or a <code>Common_Control</code>.
+  /// </li>
+  /// </ul>
+  final SourceType? sourceType;
+
+  /// The instructions for troubleshooting the control.
+  final String? troubleshootingText;
+
+  ControlMappingSource({
+    this.sourceDescription,
+    this.sourceFrequency,
+    this.sourceId,
+    this.sourceKeyword,
+    this.sourceName,
+    this.sourceSetUpOption,
+    this.sourceType,
+    this.troubleshootingText,
+  });
+
+  factory ControlMappingSource.fromJson(Map<String, dynamic> json) {
+    return ControlMappingSource(
+      sourceDescription: json['sourceDescription'] as String?,
+      sourceFrequency:
+          (json['sourceFrequency'] as String?)?.let(SourceFrequency.fromString),
+      sourceId: json['sourceId'] as String?,
+      sourceKeyword: json['sourceKeyword'] != null
+          ? SourceKeyword.fromJson(
+              json['sourceKeyword'] as Map<String, dynamic>)
+          : null,
+      sourceName: json['sourceName'] as String?,
+      sourceSetUpOption: (json['sourceSetUpOption'] as String?)
+          ?.let(SourceSetUpOption.fromString),
+      sourceType: (json['sourceType'] as String?)?.let(SourceType.fromString),
+      troubleshootingText: json['troubleshootingText'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sourceDescription = this.sourceDescription;
+    final sourceFrequency = this.sourceFrequency;
+    final sourceId = this.sourceId;
+    final sourceKeyword = this.sourceKeyword;
+    final sourceName = this.sourceName;
+    final sourceSetUpOption = this.sourceSetUpOption;
+    final sourceType = this.sourceType;
+    final troubleshootingText = this.troubleshootingText;
+    return {
+      if (sourceDescription != null) 'sourceDescription': sourceDescription,
+      if (sourceFrequency != null) 'sourceFrequency': sourceFrequency.value,
+      if (sourceId != null) 'sourceId': sourceId,
+      if (sourceKeyword != null) 'sourceKeyword': sourceKeyword,
+      if (sourceName != null) 'sourceName': sourceName,
+      if (sourceSetUpOption != null)
+        'sourceSetUpOption': sourceSetUpOption.value,
+      if (sourceType != null) 'sourceType': sourceType.value,
+      if (troubleshootingText != null)
+        'troubleshootingText': troubleshootingText,
+    };
+  }
+}
+
+class SourceSetUpOption {
+  static const systemControlsMapping =
+      SourceSetUpOption._('System_Controls_Mapping');
+  static const proceduralControlsMapping =
+      SourceSetUpOption._('Procedural_Controls_Mapping');
+
+  final String value;
+
+  const SourceSetUpOption._(this.value);
+
+  static const values = [systemControlsMapping, proceduralControlsMapping];
+
+  static SourceSetUpOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SourceSetUpOption._(value));
+
+  @override
+  bool operator ==(other) => other is SourceSetUpOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SourceType {
+  static const awsCloudtrail = SourceType._('AWS_Cloudtrail');
+  static const awsConfig = SourceType._('AWS_Config');
+  static const awsSecurityHub = SourceType._('AWS_Security_Hub');
+  static const awsApiCall = SourceType._('AWS_API_Call');
+  static const manual = SourceType._('MANUAL');
+  static const commonControl = SourceType._('Common_Control');
+  static const coreControl = SourceType._('Core_Control');
+
+  final String value;
+
+  const SourceType._(this.value);
+
+  static const values = [
+    awsCloudtrail,
+    awsConfig,
+    awsSecurityHub,
+    awsApiCall,
+    manual,
+    commonControl,
+    coreControl
+  ];
+
+  static SourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SourceType._(value));
+
+  @override
+  bool operator ==(other) => other is SourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A keyword that relates to the control data source.
+///
+/// For manual evidence, this keyword indicates if the manual evidence is a file
+/// or text.
+///
+/// For automated evidence, this keyword identifies a specific CloudTrail event,
+/// Config rule, Security Hub CSPM control, or Amazon Web Services API name.
+///
+/// To learn more about the supported keywords that you can use when mapping a
+/// control data source, see the following pages in the <i>Audit Manager User
+/// Guide</i>:
+///
+/// <ul>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-config.html">Config
+/// rules supported by Audit Manager</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-ash.html">Security
+/// Hub CSPM controls supported by Audit Manager</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-api.html">API
+/// calls supported by Audit Manager</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-cloudtrail.html">CloudTrail
+/// event names supported by Audit Manager</a>
+/// </li>
+/// </ul>
+class SourceKeyword {
+  /// The input method for the keyword.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>SELECT_FROM_LIST</code> is used when mapping a data source for
+  /// automated evidence.
+  ///
+  /// <ul>
+  /// <li>
+  /// When <code>keywordInputType</code> is <code>SELECT_FROM_LIST</code>, a
+  /// keyword must be selected to collect automated evidence. For example, this
+  /// keyword can be a CloudTrail event name, a rule name for Config, a Security
+  /// Hub CSPM control, or the name of an Amazon Web Services API call.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>UPLOAD_FILE</code> and <code>INPUT_TEXT</code> are only used when
+  /// mapping a data source for manual evidence.
+  ///
+  /// <ul>
+  /// <li>
+  /// When <code>keywordInputType</code> is <code>UPLOAD_FILE</code>, a file must
+  /// be uploaded as manual evidence.
+  /// </li>
+  /// <li>
+  /// When <code>keywordInputType</code> is <code>INPUT_TEXT</code>, text must be
+  /// entered as manual evidence.
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
+  final KeywordInputType? keywordInputType;
+
+  /// The value of the keyword that's used when mapping a control data source. For
+  /// example, this can be a CloudTrail event name, a rule name for Config, a
+  /// Security Hub CSPM control, or the name of an Amazon Web Services API call.
+  ///
+  /// If you’re mapping a data source to a rule in Config, the
+  /// <code>keywordValue</code> that you specify depends on the type of rule:
+  ///
+  /// <ul>
+  /// <li>
+  /// For <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config_use-managed-rules.html">managed
+  /// rules</a>, you can use the rule identifier as the <code>keywordValue</code>.
+  /// You can find the rule identifier from the <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/managed-rules-by-aws-config.html">list
+  /// of Config managed rules</a>. For some rules, the rule identifier is
+  /// different from the rule name. For example, the rule name
+  /// <code>restricted-ssh</code> has the following rule identifier:
+  /// <code>INCOMING_SSH_DISABLED</code>. Make sure to use the rule identifier,
+  /// not the rule name.
+  ///
+  /// Keyword example for managed rules:
+  ///
+  /// <ul>
+  /// <li>
+  /// Managed rule name: <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/s3-bucket-acl-prohibited.html">s3-bucket-acl-prohibited</a>
+  ///
+  /// <code>keywordValue</code>: <code>S3_BUCKET_ACL_PROHIBITED</code>
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// For <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config_develop-rules.html">custom
+  /// rules</a>, you form the <code>keywordValue</code> by adding the
+  /// <code>Custom_</code> prefix to the rule name. This prefix distinguishes the
+  /// custom rule from a managed rule.
+  ///
+  /// Keyword example for custom rules:
+  ///
+  /// <ul>
+  /// <li>
+  /// Custom rule name: my-custom-config-rule
+  ///
+  /// <code>keywordValue</code>: <code>Custom_my-custom-config-rule</code>
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// For <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/service-linked-awsconfig-rules.html">service-linked
+  /// rules</a>, you form the <code>keywordValue</code> by adding the
+  /// <code>Custom_</code> prefix to the rule name. In addition, you remove the
+  /// suffix ID that appears at the end of the rule name.
+  ///
+  /// Keyword examples for service-linked rules:
+  ///
+  /// <ul>
+  /// <li>
+  /// Service-linked rule name: CustomRuleForAccount-conformance-pack-szsm1uv0w
+  ///
+  /// <code>keywordValue</code>:
+  /// <code>Custom_CustomRuleForAccount-conformance-pack</code>
+  /// </li>
+  /// <li>
+  /// Service-linked rule name:
+  /// OrgConfigRule-s3-bucket-versioning-enabled-dbgzf8ba
+  ///
+  /// <code>keywordValue</code>:
+  /// <code>Custom_OrgConfigRule-s3-bucket-versioning-enabled</code>
+  /// </li>
+  /// </ul> </li>
+  /// </ul> <important>
+  /// The <code>keywordValue</code> is case sensitive. If you enter a value
+  /// incorrectly, Audit Manager might not recognize the data source mapping. As a
+  /// result, you might not successfully collect evidence from that data source as
+  /// intended.
+  ///
+  /// Keep in mind the following requirements, depending on the data source type
+  /// that you're using.
+  /// <ol>
+  /// <li>
+  /// For Config:
+  ///
+  /// <ul>
+  /// <li>
+  /// For managed rules, make sure that the <code>keywordValue</code> is the rule
+  /// identifier in <code>ALL_CAPS_WITH_UNDERSCORES</code>. For example,
+  /// <code>CLOUDWATCH_LOG_GROUP_ENCRYPTED</code>. For accuracy, we recommend that
+  /// you reference the list of <a
+  /// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-config.html">supported
+  /// Config managed rules</a>.
+  /// </li>
+  /// <li>
+  /// For custom rules, make sure that the <code>keywordValue</code> has the
+  /// <code>Custom_</code> prefix followed by the custom rule name. The format of
+  /// the custom rule name itself may vary. For accuracy, we recommend that you
+  /// visit the <a href="https://console.aws.amazon.com/config/">Config
+  /// console</a> to verify your custom rule name.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// For Security Hub CSPM: The format varies for Security Hub CSPM control
+  /// names. For accuracy, we recommend that you reference the list of <a
+  /// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-ash.html">supported
+  /// Security Hub CSPM controls</a>.
+  /// </li>
+  /// <li>
+  /// For Amazon Web Services API calls: Make sure that the
+  /// <code>keywordValue</code> is written as
+  /// <code>serviceprefix_ActionName</code>. For example,
+  /// <code>iam_ListGroups</code>. For accuracy, we recommend that you reference
+  /// the list of <a
+  /// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-api.html">supported
+  /// API calls</a>.
+  /// </li>
+  /// <li>
+  /// For CloudTrail: Make sure that the <code>keywordValue</code> is written as
+  /// <code>serviceprefix_ActionName</code>. For example,
+  /// <code>cloudtrail_StartLogging</code>. For accuracy, we recommend that you
+  /// review the Amazon Web Services service prefix and action names in the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html">Service
+  /// Authorization Reference</a>.
+  /// </li> </ol> </important>
+  final String? keywordValue;
+
+  SourceKeyword({
+    this.keywordInputType,
+    this.keywordValue,
+  });
+
+  factory SourceKeyword.fromJson(Map<String, dynamic> json) {
+    return SourceKeyword(
+      keywordInputType: (json['keywordInputType'] as String?)
+          ?.let(KeywordInputType.fromString),
+      keywordValue: json['keywordValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final keywordInputType = this.keywordInputType;
+    final keywordValue = this.keywordValue;
+    return {
+      if (keywordInputType != null) 'keywordInputType': keywordInputType.value,
+      if (keywordValue != null) 'keywordValue': keywordValue,
+    };
+  }
+}
+
+class SourceFrequency {
+  static const daily = SourceFrequency._('DAILY');
+  static const weekly = SourceFrequency._('WEEKLY');
+  static const monthly = SourceFrequency._('MONTHLY');
+
+  final String value;
+
+  const SourceFrequency._(this.value);
+
+  static const values = [daily, weekly, monthly];
+
+  static SourceFrequency fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SourceFrequency._(value));
+
+  @override
+  bool operator ==(other) => other is SourceFrequency && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class KeywordInputType {
+  static const selectFromList = KeywordInputType._('SELECT_FROM_LIST');
+  static const uploadFile = KeywordInputType._('UPLOAD_FILE');
+  static const inputText = KeywordInputType._('INPUT_TEXT');
+
+  final String value;
+
+  const KeywordInputType._(this.value);
+
+  static const values = [selectFromList, uploadFile, inputText];
+
+  static KeywordInputType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => KeywordInputType._(value));
+
+  @override
+  bool operator ==(other) => other is KeywordInputType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An entity that defines the scope of audit evidence collected by Audit
+/// Manager. An Audit Manager assessment is an implementation of an Audit
+/// Manager framework.
+class Assessment {
+  /// The Amazon Resource Name (ARN) of the assessment.
+  final String? arn;
+
+  /// The Amazon Web Services account that's associated with the assessment.
+  final AWSAccount? awsAccount;
+
+  /// The framework that the assessment was created from.
+  final AssessmentFramework? framework;
+
+  /// The metadata for the assessment.
+  final AssessmentMetadata? metadata;
+
+  /// The tags that are associated with the assessment.
+  final Map<String, String>? tags;
+
+  Assessment({
+    this.arn,
+    this.awsAccount,
+    this.framework,
+    this.metadata,
+    this.tags,
+  });
+
+  factory Assessment.fromJson(Map<String, dynamic> json) {
+    return Assessment(
+      arn: json['arn'] as String?,
+      awsAccount: json['awsAccount'] != null
+          ? AWSAccount.fromJson(json['awsAccount'] as Map<String, dynamic>)
+          : null,
+      framework: json['framework'] != null
+          ? AssessmentFramework.fromJson(
+              json['framework'] as Map<String, dynamic>)
+          : null,
+      metadata: json['metadata'] != null
+          ? AssessmentMetadata.fromJson(
+              json['metadata'] as Map<String, dynamic>)
+          : null,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final awsAccount = this.awsAccount;
+    final framework = this.framework;
+    final metadata = this.metadata;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'arn': arn,
+      if (awsAccount != null) 'awsAccount': awsAccount,
+      if (framework != null) 'framework': framework,
+      if (metadata != null) 'metadata': metadata,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// The wrapper of Amazon Web Services account details, such as account ID or
+/// email address.
+class AWSAccount {
+  /// The email address that's associated with the Amazon Web Services account.
+  final String? emailAddress;
+
+  /// The identifier for the Amazon Web Services account.
+  final String? id;
+
+  /// The name of the Amazon Web Services account.
+  final String? name;
+
+  AWSAccount({
+    this.emailAddress,
+    this.id,
+    this.name,
+  });
+
+  factory AWSAccount.fromJson(Map<String, dynamic> json) {
+    return AWSAccount(
+      emailAddress: json['emailAddress'] as String?,
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final emailAddress = this.emailAddress;
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (emailAddress != null) 'emailAddress': emailAddress,
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// The metadata that's associated with the specified assessment.
+class AssessmentMetadata {
+  /// The destination that evidence reports are stored in for the assessment.
+  final AssessmentReportsDestination? assessmentReportsDestination;
+
+  /// The name of the compliance standard that's related to the assessment, such
+  /// as PCI-DSS.
+  final String? complianceType;
+
+  /// Specifies when the assessment was created.
+  final DateTime? creationTime;
+
+  /// The delegations that are associated with the assessment.
+  final List<Delegation>? delegations;
+
+  /// The description of the assessment.
+  final String? description;
+
+  /// The unique identifier for the assessment.
+  final String? id;
+
+  /// The time of the most recent update.
+  final DateTime? lastUpdated;
+
+  /// The name of the assessment.
+  final String? name;
+
+  /// The roles that are associated with the assessment.
+  final List<Role>? roles;
+
+  /// The wrapper of Amazon Web Services accounts and services that are in scope
+  /// for the assessment.
+  final Scope? scope;
+
+  /// The overall status of the assessment.
+  final AssessmentStatus? status;
+
+  AssessmentMetadata({
+    this.assessmentReportsDestination,
+    this.complianceType,
+    this.creationTime,
+    this.delegations,
+    this.description,
+    this.id,
+    this.lastUpdated,
+    this.name,
+    this.roles,
+    this.scope,
+    this.status,
+  });
+
+  factory AssessmentMetadata.fromJson(Map<String, dynamic> json) {
+    return AssessmentMetadata(
+      assessmentReportsDestination: json['assessmentReportsDestination'] != null
+          ? AssessmentReportsDestination.fromJson(
+              json['assessmentReportsDestination'] as Map<String, dynamic>)
+          : null,
+      complianceType: json['complianceType'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      delegations: (json['delegations'] as List?)
+          ?.nonNulls
+          .map((e) => Delegation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      description: json['description'] as String?,
+      id: json['id'] as String?,
+      lastUpdated: timeStampFromJson(json['lastUpdated']),
+      name: json['name'] as String?,
+      roles: (json['roles'] as List?)
+          ?.nonNulls
+          .map((e) => Role.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      scope: json['scope'] != null
+          ? Scope.fromJson(json['scope'] as Map<String, dynamic>)
+          : null,
+      status: (json['status'] as String?)?.let(AssessmentStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assessmentReportsDestination = this.assessmentReportsDestination;
+    final complianceType = this.complianceType;
+    final creationTime = this.creationTime;
+    final delegations = this.delegations;
+    final description = this.description;
+    final id = this.id;
+    final lastUpdated = this.lastUpdated;
+    final name = this.name;
+    final roles = this.roles;
+    final scope = this.scope;
+    final status = this.status;
+    return {
+      if (assessmentReportsDestination != null)
+        'assessmentReportsDestination': assessmentReportsDestination,
+      if (complianceType != null) 'complianceType': complianceType,
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (delegations != null) 'delegations': delegations,
+      if (description != null) 'description': description,
+      if (id != null) 'id': id,
+      if (lastUpdated != null) 'lastUpdated': unixTimestampToJson(lastUpdated),
+      if (name != null) 'name': name,
+      if (roles != null) 'roles': roles,
+      if (scope != null) 'scope': scope,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+/// The file used to structure and automate Audit Manager assessments for a
+/// given compliance standard.
+class AssessmentFramework {
+  /// The Amazon Resource Name (ARN) of the framework.
+  final String? arn;
+
+  /// The control sets that are associated with the framework.
+  final List<AssessmentControlSet>? controlSets;
+
+  /// The unique identifier for the framework.
+  final String? id;
+  final FrameworkMetadata? metadata;
+
+  AssessmentFramework({
+    this.arn,
+    this.controlSets,
+    this.id,
+    this.metadata,
+  });
+
+  factory AssessmentFramework.fromJson(Map<String, dynamic> json) {
+    return AssessmentFramework(
+      arn: json['arn'] as String?,
+      controlSets: (json['controlSets'] as List?)
+          ?.nonNulls
+          .map((e) => AssessmentControlSet.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      id: json['id'] as String?,
+      metadata: json['metadata'] != null
+          ? FrameworkMetadata.fromJson(json['metadata'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final controlSets = this.controlSets;
+    final id = this.id;
+    final metadata = this.metadata;
+    return {
+      if (arn != null) 'arn': arn,
+      if (controlSets != null) 'controlSets': controlSets,
+      if (id != null) 'id': id,
+      if (metadata != null) 'metadata': metadata,
+    };
+  }
+}
+
+/// The metadata of a framework, such as the name, ID, or description.
+class FrameworkMetadata {
+  /// The compliance standard that's associated with the framework. For example,
+  /// this could be PCI DSS or HIPAA.
+  final String? complianceType;
+
+  /// The description of the framework.
+  final String? description;
+
+  /// The logo that's associated with the framework.
+  final String? logo;
+
+  /// The name of the framework.
+  final String? name;
+
+  FrameworkMetadata({
+    this.complianceType,
+    this.description,
+    this.logo,
+    this.name,
+  });
+
+  factory FrameworkMetadata.fromJson(Map<String, dynamic> json) {
+    return FrameworkMetadata(
+      complianceType: json['complianceType'] as String?,
+      description: json['description'] as String?,
+      logo: json['logo'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final complianceType = this.complianceType;
+    final description = this.description;
+    final logo = this.logo;
+    final name = this.name;
+    return {
+      if (complianceType != null) 'complianceType': complianceType,
+      if (description != null) 'description': description,
+      if (logo != null) 'logo': logo,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// Represents a set of controls in an Audit Manager assessment.
+class AssessmentControlSet {
+  /// The list of controls that's contained with the control set.
+  final List<AssessmentControl>? controls;
+
+  /// The delegations that are associated with the control set.
+  final List<Delegation>? delegations;
+
+  /// The description for the control set.
+  final String? description;
+
+  /// The identifier of the control set in the assessment. This is the control set
+  /// name in a plain string format.
+  final String? id;
+
+  /// The total number of evidence objects that are uploaded manually to the
+  /// control set.
+  final int? manualEvidenceCount;
+
+  /// The roles that are associated with the control set.
+  final List<Role>? roles;
+
+  /// The current status of the control set.
+  final ControlSetStatus? status;
+
+  /// The total number of evidence objects that are retrieved automatically for
+  /// the control set.
+  final int? systemEvidenceCount;
+
+  AssessmentControlSet({
+    this.controls,
+    this.delegations,
+    this.description,
+    this.id,
+    this.manualEvidenceCount,
+    this.roles,
+    this.status,
+    this.systemEvidenceCount,
+  });
+
+  factory AssessmentControlSet.fromJson(Map<String, dynamic> json) {
+    return AssessmentControlSet(
+      controls: (json['controls'] as List?)
+          ?.nonNulls
+          .map((e) => AssessmentControl.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      delegations: (json['delegations'] as List?)
+          ?.nonNulls
+          .map((e) => Delegation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      description: json['description'] as String?,
+      id: json['id'] as String?,
+      manualEvidenceCount: json['manualEvidenceCount'] as int?,
+      roles: (json['roles'] as List?)
+          ?.nonNulls
+          .map((e) => Role.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status: (json['status'] as String?)?.let(ControlSetStatus.fromString),
+      systemEvidenceCount: json['systemEvidenceCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final controls = this.controls;
+    final delegations = this.delegations;
+    final description = this.description;
+    final id = this.id;
+    final manualEvidenceCount = this.manualEvidenceCount;
+    final roles = this.roles;
+    final status = this.status;
+    final systemEvidenceCount = this.systemEvidenceCount;
+    return {
+      if (controls != null) 'controls': controls,
+      if (delegations != null) 'delegations': delegations,
+      if (description != null) 'description': description,
+      if (id != null) 'id': id,
+      if (manualEvidenceCount != null)
+        'manualEvidenceCount': manualEvidenceCount,
+      if (roles != null) 'roles': roles,
+      if (status != null) 'status': status.value,
+      if (systemEvidenceCount != null)
+        'systemEvidenceCount': systemEvidenceCount,
+    };
+  }
+}
+
+class ControlSetStatus {
+  static const active = ControlSetStatus._('ACTIVE');
+  static const underReview = ControlSetStatus._('UNDER_REVIEW');
+  static const reviewed = ControlSetStatus._('REVIEWED');
+
+  final String value;
+
+  const ControlSetStatus._(this.value);
+
+  static const values = [active, underReview, reviewed];
+
+  static ControlSetStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ControlSetStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ControlSetStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The assignment of a control set to a delegate for review.
+class Delegation {
+  /// The identifier for the assessment that's associated with the delegation.
+  final String? assessmentId;
+
+  /// The name of the assessment that's associated with the delegation.
+  final String? assessmentName;
+
+  /// The comment that's related to the delegation.
+  final String? comment;
+
+  /// The identifier for the control set that's associated with the delegation.
+  final String? controlSetId;
+
+  /// The user or role that created the delegation.
+  final String? createdBy;
+
+  /// Specifies when the delegation was created.
+  final DateTime? creationTime;
+
+  /// The unique identifier for the delegation.
+  final String? id;
+
+  /// Specifies when the delegation was last updated.
+  final DateTime? lastUpdated;
+
+  /// The Amazon Resource Name (ARN) of the IAM role.
+  final String? roleArn;
+
+  /// The type of customer persona.
+  /// <note>
+  /// In <code>CreateAssessment</code>, <code>roleType</code> can only be
+  /// <code>PROCESS_OWNER</code>.
+  ///
+  /// In <code>UpdateSettings</code>, <code>roleType</code> can only be
+  /// <code>PROCESS_OWNER</code>.
+  ///
+  /// In <code>BatchCreateDelegationByAssessment</code>, <code>roleType</code> can
+  /// only be <code>RESOURCE_OWNER</code>.
+  /// </note>
+  final RoleType? roleType;
+
+  /// The status of the delegation.
+  final DelegationStatus? status;
+
+  Delegation({
+    this.assessmentId,
+    this.assessmentName,
+    this.comment,
+    this.controlSetId,
+    this.createdBy,
+    this.creationTime,
+    this.id,
+    this.lastUpdated,
+    this.roleArn,
+    this.roleType,
+    this.status,
+  });
+
+  factory Delegation.fromJson(Map<String, dynamic> json) {
+    return Delegation(
+      assessmentId: json['assessmentId'] as String?,
+      assessmentName: json['assessmentName'] as String?,
+      comment: json['comment'] as String?,
+      controlSetId: json['controlSetId'] as String?,
+      createdBy: json['createdBy'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      id: json['id'] as String?,
+      lastUpdated: timeStampFromJson(json['lastUpdated']),
+      roleArn: json['roleArn'] as String?,
+      roleType: (json['roleType'] as String?)?.let(RoleType.fromString),
+      status: (json['status'] as String?)?.let(DelegationStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assessmentId = this.assessmentId;
+    final assessmentName = this.assessmentName;
+    final comment = this.comment;
+    final controlSetId = this.controlSetId;
+    final createdBy = this.createdBy;
+    final creationTime = this.creationTime;
+    final id = this.id;
+    final lastUpdated = this.lastUpdated;
+    final roleArn = this.roleArn;
+    final roleType = this.roleType;
+    final status = this.status;
+    return {
+      if (assessmentId != null) 'assessmentId': assessmentId,
+      if (assessmentName != null) 'assessmentName': assessmentName,
+      if (comment != null) 'comment': comment,
+      if (controlSetId != null) 'controlSetId': controlSetId,
+      if (createdBy != null) 'createdBy': createdBy,
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (id != null) 'id': id,
+      if (lastUpdated != null) 'lastUpdated': unixTimestampToJson(lastUpdated),
+      if (roleArn != null) 'roleArn': roleArn,
+      if (roleType != null) 'roleType': roleType.value,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+class DelegationStatus {
+  static const inProgress = DelegationStatus._('IN_PROGRESS');
+  static const underReview = DelegationStatus._('UNDER_REVIEW');
+  static const complete = DelegationStatus._('COMPLETE');
+
+  final String value;
+
+  const DelegationStatus._(this.value);
+
+  static const values = [inProgress, underReview, complete];
+
+  static DelegationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DelegationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DelegationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The control entity that represents a standard control or a custom control in
+/// an Audit Manager assessment.
+class AssessmentControl {
+  /// The amount of evidence in the assessment report.
+  final int? assessmentReportEvidenceCount;
+
+  /// The list of comments that's attached to the control.
+  final List<ControlComment>? comments;
+
+  /// The description of the control.
+  final String? description;
+
+  /// The amount of evidence that's collected for the control.
+  final int? evidenceCount;
+
+  /// The list of data sources for the evidence.
+  final List<String>? evidenceSources;
+
+  /// The identifier for the control.
+  final String? id;
+
+  /// The name of the control.
+  final String? name;
+
+  /// The response of the control.
+  final ControlResponse? response;
+
+  /// The status of the control.
+  final ControlStatus? status;
+
+  AssessmentControl({
+    this.assessmentReportEvidenceCount,
+    this.comments,
+    this.description,
+    this.evidenceCount,
+    this.evidenceSources,
+    this.id,
+    this.name,
+    this.response,
+    this.status,
+  });
+
+  factory AssessmentControl.fromJson(Map<String, dynamic> json) {
+    return AssessmentControl(
+      assessmentReportEvidenceCount:
+          json['assessmentReportEvidenceCount'] as int?,
+      comments: (json['comments'] as List?)
+          ?.nonNulls
+          .map((e) => ControlComment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      description: json['description'] as String?,
+      evidenceCount: json['evidenceCount'] as int?,
+      evidenceSources: (json['evidenceSources'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      response: (json['response'] as String?)?.let(ControlResponse.fromString),
+      status: (json['status'] as String?)?.let(ControlStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assessmentReportEvidenceCount = this.assessmentReportEvidenceCount;
+    final comments = this.comments;
+    final description = this.description;
+    final evidenceCount = this.evidenceCount;
+    final evidenceSources = this.evidenceSources;
+    final id = this.id;
+    final name = this.name;
+    final response = this.response;
+    final status = this.status;
+    return {
+      if (assessmentReportEvidenceCount != null)
+        'assessmentReportEvidenceCount': assessmentReportEvidenceCount,
+      if (comments != null) 'comments': comments,
+      if (description != null) 'description': description,
+      if (evidenceCount != null) 'evidenceCount': evidenceCount,
+      if (evidenceSources != null) 'evidenceSources': evidenceSources,
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (response != null) 'response': response.value,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+class ControlStatus {
+  static const underReview = ControlStatus._('UNDER_REVIEW');
+  static const reviewed = ControlStatus._('REVIEWED');
+  static const inactive = ControlStatus._('INACTIVE');
+
+  final String value;
+
+  const ControlStatus._(this.value);
+
+  static const values = [underReview, reviewed, inactive];
+
+  static ControlStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ControlStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ControlStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ControlResponse {
+  static const manual = ControlResponse._('MANUAL');
+  static const automate = ControlResponse._('AUTOMATE');
+  static const defer = ControlResponse._('DEFER');
+  static const ignore = ControlResponse._('IGNORE');
+
+  final String value;
+
+  const ControlResponse._(this.value);
+
+  static const values = [manual, automate, defer, ignore];
+
+  static ControlResponse fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ControlResponse._(value));
+
+  @override
+  bool operator ==(other) => other is ControlResponse && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A comment that's posted by a user on a control. This includes the author's
+/// name, the comment text, and a timestamp.
+class ControlComment {
+  /// The name of the user who authored the comment.
+  final String? authorName;
+
+  /// The body text of a control comment.
+  final String? commentBody;
+
+  /// The time when the comment was posted.
+  final DateTime? postedDate;
+
+  ControlComment({
+    this.authorName,
+    this.commentBody,
+    this.postedDate,
+  });
+
+  factory ControlComment.fromJson(Map<String, dynamic> json) {
+    return ControlComment(
+      authorName: json['authorName'] as String?,
+      commentBody: json['commentBody'] as String?,
+      postedDate: timeStampFromJson(json['postedDate']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authorName = this.authorName;
+    final commentBody = this.commentBody;
+    final postedDate = this.postedDate;
+    return {
+      if (authorName != null) 'authorName': authorName,
+      if (commentBody != null) 'commentBody': commentBody,
+      if (postedDate != null) 'postedDate': unixTimestampToJson(postedDate),
+    };
+  }
+}
+
+class AssessmentStatus {
+  static const active = AssessmentStatus._('ACTIVE');
+  static const inactive = AssessmentStatus._('INACTIVE');
+
+  final String value;
+
+  const AssessmentStatus._(this.value);
+
+  static const values = [active, inactive];
+
+  static AssessmentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AssessmentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AssessmentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The wrapper that contains the Amazon Web Services accounts that are in scope
+/// for the assessment.
+/// <note>
+/// You no longer need to specify which Amazon Web Services services are in
+/// scope when you create or update an assessment. Audit Manager infers the
+/// services in scope by examining your assessment controls and their data
+/// sources, and then mapping this information to the relevant Amazon Web
+/// Services services.
+///
+/// If an underlying data source changes for your assessment, we automatically
+/// update the services scope as needed to reflect the correct Amazon Web
+/// Services services. This ensures that your assessment collects accurate and
+/// comprehensive evidence about all of the relevant services in your AWS
+/// environment.
+/// </note>
+class Scope {
+  /// The Amazon Web Services accounts that are included in the scope of the
+  /// assessment.
+  final List<AWSAccount>? awsAccounts;
+
+  /// The Amazon Web Services services that are included in the scope of the
+  /// assessment.
+  /// <important>
+  /// This API parameter is no longer supported. If you use this parameter to
+  /// specify one or more Amazon Web Services services, Audit Manager ignores this
+  /// input. Instead, the value for <code>awsServices</code> will show as empty.
+  /// </important>
+  final List<AWSService>? awsServices;
+
+  Scope({
+    this.awsAccounts,
+    this.awsServices,
+  });
+
+  factory Scope.fromJson(Map<String, dynamic> json) {
+    return Scope(
+      awsAccounts: (json['awsAccounts'] as List?)
+          ?.nonNulls
+          .map((e) => AWSAccount.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      awsServices: (json['awsServices'] as List?)
+          ?.nonNulls
+          .map((e) => AWSService.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsAccounts = this.awsAccounts;
+    final awsServices = this.awsServices;
+    return {
+      if (awsAccounts != null) 'awsAccounts': awsAccounts,
+      if (awsServices != null) 'awsServices': awsServices,
+    };
+  }
+}
+
+/// An Amazon Web Services service such as Amazon S3 or CloudTrail.
+///
+/// For an example of how to find an Amazon Web Services service name and how to
+/// define it in your assessment scope, see the following:
+///
+/// <ul>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_GetServicesInScope.html#API_GetServicesInScope_Example_2">Finding
+/// an Amazon Web Services service name to use in your assessment scope</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_GetServicesInScope.html#API_GetServicesInScope_Example_3">Defining
+/// an Amazon Web Services service name in your assessment scope</a>
+/// </li>
+/// </ul>
+class AWSService {
+  /// The name of the Amazon Web Services service.
+  final String? serviceName;
+
+  AWSService({
+    this.serviceName,
+  });
+
+  factory AWSService.fromJson(Map<String, dynamic> json) {
+    return AWSService(
+      serviceName: json['serviceName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceName = this.serviceName;
+    return {
+      if (serviceName != null) 'serviceName': serviceName,
+    };
+  }
+}
+
+/// Represents a share request for a custom framework in Audit Manager.
+class AssessmentFrameworkShareRequest {
+  /// An optional comment from the sender about the share request.
+  final String? comment;
+
+  /// The compliance type that the shared custom framework supports, such as CIS
+  /// or HIPAA.
+  final String? complianceType;
+
+  /// The time when the share request was created.
+  final DateTime? creationTime;
+
+  /// The number of custom controls that are part of the shared custom framework.
+  final int? customControlsCount;
+
+  /// The Amazon Web Services account of the recipient.
+  final String? destinationAccount;
+
+  /// The Amazon Web Services Region of the recipient.
+  final String? destinationRegion;
+
+  /// The time when the share request expires.
+  final DateTime? expirationTime;
+
+  /// The description of the shared custom framework.
+  final String? frameworkDescription;
+
+  /// The unique identifier for the shared custom framework.
+  final String? frameworkId;
+
+  /// The name of the custom framework that the share request is for.
+  final String? frameworkName;
+
+  /// The unique identifier for the share request.
+  final String? id;
+
+  /// Specifies when the share request was last updated.
+  final DateTime? lastUpdated;
+
+  /// The Amazon Web Services account of the sender.
+  final String? sourceAccount;
+
+  /// The number of standard controls that are part of the shared custom
+  /// framework.
+  final int? standardControlsCount;
+
+  /// The status of the share request.
+  final ShareRequestStatus? status;
+
+  AssessmentFrameworkShareRequest({
+    this.comment,
+    this.complianceType,
+    this.creationTime,
+    this.customControlsCount,
+    this.destinationAccount,
+    this.destinationRegion,
+    this.expirationTime,
+    this.frameworkDescription,
+    this.frameworkId,
+    this.frameworkName,
+    this.id,
+    this.lastUpdated,
+    this.sourceAccount,
+    this.standardControlsCount,
+    this.status,
+  });
+
+  factory AssessmentFrameworkShareRequest.fromJson(Map<String, dynamic> json) {
+    return AssessmentFrameworkShareRequest(
+      comment: json['comment'] as String?,
+      complianceType: json['complianceType'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      customControlsCount: json['customControlsCount'] as int?,
+      destinationAccount: json['destinationAccount'] as String?,
+      destinationRegion: json['destinationRegion'] as String?,
+      expirationTime: timeStampFromJson(json['expirationTime']),
+      frameworkDescription: json['frameworkDescription'] as String?,
+      frameworkId: json['frameworkId'] as String?,
+      frameworkName: json['frameworkName'] as String?,
+      id: json['id'] as String?,
+      lastUpdated: timeStampFromJson(json['lastUpdated']),
+      sourceAccount: json['sourceAccount'] as String?,
+      standardControlsCount: json['standardControlsCount'] as int?,
+      status: (json['status'] as String?)?.let(ShareRequestStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final comment = this.comment;
+    final complianceType = this.complianceType;
+    final creationTime = this.creationTime;
+    final customControlsCount = this.customControlsCount;
+    final destinationAccount = this.destinationAccount;
+    final destinationRegion = this.destinationRegion;
+    final expirationTime = this.expirationTime;
+    final frameworkDescription = this.frameworkDescription;
+    final frameworkId = this.frameworkId;
+    final frameworkName = this.frameworkName;
+    final id = this.id;
+    final lastUpdated = this.lastUpdated;
+    final sourceAccount = this.sourceAccount;
+    final standardControlsCount = this.standardControlsCount;
+    final status = this.status;
+    return {
+      if (comment != null) 'comment': comment,
+      if (complianceType != null) 'complianceType': complianceType,
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (customControlsCount != null)
+        'customControlsCount': customControlsCount,
+      if (destinationAccount != null) 'destinationAccount': destinationAccount,
+      if (destinationRegion != null) 'destinationRegion': destinationRegion,
+      if (expirationTime != null)
+        'expirationTime': unixTimestampToJson(expirationTime),
+      if (frameworkDescription != null)
+        'frameworkDescription': frameworkDescription,
+      if (frameworkId != null) 'frameworkId': frameworkId,
+      if (frameworkName != null) 'frameworkName': frameworkName,
+      if (id != null) 'id': id,
+      if (lastUpdated != null) 'lastUpdated': unixTimestampToJson(lastUpdated),
+      if (sourceAccount != null) 'sourceAccount': sourceAccount,
+      if (standardControlsCount != null)
+        'standardControlsCount': standardControlsCount,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+class ShareRequestStatus {
+  static const active = ShareRequestStatus._('ACTIVE');
+  static const replicating = ShareRequestStatus._('REPLICATING');
+  static const shared = ShareRequestStatus._('SHARED');
+  static const expiring = ShareRequestStatus._('EXPIRING');
+  static const failed = ShareRequestStatus._('FAILED');
+  static const expired = ShareRequestStatus._('EXPIRED');
+  static const declined = ShareRequestStatus._('DECLINED');
+  static const revoked = ShareRequestStatus._('REVOKED');
+
+  final String value;
+
+  const ShareRequestStatus._(this.value);
+
+  static const values = [
+    active,
+    replicating,
+    shared,
+    expiring,
+    failed,
+    expired,
+    declined,
+    revoked
+  ];
+
+  static ShareRequestStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ShareRequestStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ShareRequestStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ShareRequestType {
+  static const sent = ShareRequestType._('SENT');
+  static const received = ShareRequestType._('RECEIVED');
+
+  final String value;
+
+  const ShareRequestType._(this.value);
+
+  static const values = [sent, received];
+
+  static ShareRequestType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ShareRequestType._(value));
+
+  @override
+  bool operator ==(other) => other is ShareRequestType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ShareRequestAction {
+  static const accept = ShareRequestAction._('ACCEPT');
+  static const decline = ShareRequestAction._('DECLINE');
+  static const revoke = ShareRequestAction._('REVOKE');
+
+  final String value;
+
+  const ShareRequestAction._(this.value);
+
+  static const values = [accept, decline, revoke];
+
+  static ShareRequestAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ShareRequestAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ShareRequestAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The file that's used to structure and automate Audit Manager assessments for
+/// a given compliance standard.
+class Framework {
+  /// The Amazon Resource Name (ARN) of the framework.
+  final String? arn;
+
+  /// The compliance type that the framework supports, such as CIS or HIPAA.
+  final String? complianceType;
+
+  /// The control sets that are associated with the framework.
+  /// <note>
+  /// The <code>Controls</code> object returns a partial response when called
+  /// through Framework APIs. For a complete <code>Controls</code> object, use
+  /// <code>GetControl</code>.
+  /// </note>
+  final List<ControlSet>? controlSets;
+
+  /// The control data sources where Audit Manager collects evidence from.
+  /// <important>
+  /// This API parameter is no longer supported.
+  /// </important>
+  final String? controlSources;
+
+  /// The time when the framework was created.
+  final DateTime? createdAt;
+
+  /// The user or role that created the framework.
+  final String? createdBy;
+
+  /// The description of the framework.
+  final String? description;
+
+  /// The unique identifier for the framework.
+  final String? id;
+
+  /// The time when the framework was most recently updated.
+  final DateTime? lastUpdatedAt;
+
+  /// The user or role that most recently updated the framework.
+  final String? lastUpdatedBy;
+
+  /// The logo that's associated with the framework.
+  final String? logo;
+
+  /// The name of the framework.
+  final String? name;
+
+  /// The tags that are associated with the framework.
+  final Map<String, String>? tags;
+
+  /// Specifies whether the framework is a standard framework or a custom
+  /// framework.
+  final FrameworkType? type;
+
+  Framework({
+    this.arn,
+    this.complianceType,
+    this.controlSets,
+    this.controlSources,
+    this.createdAt,
+    this.createdBy,
+    this.description,
+    this.id,
+    this.lastUpdatedAt,
+    this.lastUpdatedBy,
+    this.logo,
+    this.name,
+    this.tags,
+    this.type,
+  });
+
+  factory Framework.fromJson(Map<String, dynamic> json) {
+    return Framework(
+      arn: json['arn'] as String?,
+      complianceType: json['complianceType'] as String?,
+      controlSets: (json['controlSets'] as List?)
+          ?.nonNulls
+          .map((e) => ControlSet.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      controlSources: json['controlSources'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      createdBy: json['createdBy'] as String?,
+      description: json['description'] as String?,
+      id: json['id'] as String?,
+      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+      lastUpdatedBy: json['lastUpdatedBy'] as String?,
+      logo: json['logo'] as String?,
+      name: json['name'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      type: (json['type'] as String?)?.let(FrameworkType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final complianceType = this.complianceType;
+    final controlSets = this.controlSets;
+    final controlSources = this.controlSources;
+    final createdAt = this.createdAt;
+    final createdBy = this.createdBy;
+    final description = this.description;
+    final id = this.id;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final lastUpdatedBy = this.lastUpdatedBy;
+    final logo = this.logo;
+    final name = this.name;
+    final tags = this.tags;
+    final type = this.type;
+    return {
+      if (arn != null) 'arn': arn,
+      if (complianceType != null) 'complianceType': complianceType,
+      if (controlSets != null) 'controlSets': controlSets,
+      if (controlSources != null) 'controlSources': controlSources,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (createdBy != null) 'createdBy': createdBy,
+      if (description != null) 'description': description,
+      if (id != null) 'id': id,
+      if (lastUpdatedAt != null)
+        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (lastUpdatedBy != null) 'lastUpdatedBy': lastUpdatedBy,
+      if (logo != null) 'logo': logo,
+      if (name != null) 'name': name,
+      if (tags != null) 'tags': tags,
+      if (type != null) 'type': type.value,
+    };
+  }
+}
+
+class FrameworkType {
+  static const standard = FrameworkType._('Standard');
+  static const custom = FrameworkType._('Custom');
+
+  final String value;
+
+  const FrameworkType._(this.value);
+
+  static const values = [standard, custom];
+
+  static FrameworkType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FrameworkType._(value));
+
+  @override
+  bool operator ==(other) => other is FrameworkType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A set of controls in Audit Manager.
+class ControlSet {
+  /// The list of controls within the control set.
+  final List<Control>? controls;
+
+  /// The identifier of the control set in the assessment. This is the control set
+  /// name in a plain string format.
+  final String? id;
+
+  /// The name of the control set.
+  final String? name;
+
+  ControlSet({
+    this.controls,
+    this.id,
+    this.name,
+  });
+
+  factory ControlSet.fromJson(Map<String, dynamic> json) {
+    return ControlSet(
+      controls: (json['controls'] as List?)
+          ?.nonNulls
+          .map((e) => Control.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final controls = this.controls;
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (controls != null) 'controls': controls,
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// A <code>controlSet</code> entity that represents a collection of controls in
+/// Audit Manager. This doesn't contain the control set ID.
+class UpdateAssessmentFrameworkControlSet {
+  /// The list of controls that are contained within the control set.
+  final List<CreateAssessmentFrameworkControl> controls;
+
+  /// The name of the control set.
+  final String name;
+
+  /// The unique identifier for the control set.
+  final String? id;
+
+  UpdateAssessmentFrameworkControlSet({
+    required this.controls,
+    required this.name,
+    this.id,
+  });
+
+  Map<String, dynamic> toJson() {
+    final controls = this.controls;
+    final name = this.name;
+    final id = this.id;
+    return {
+      'controls': controls,
+      'name': name,
+      if (id != null) 'id': id,
+    };
+  }
+}
+
+/// The control entity attributes that uniquely identify an existing control to
+/// be added to a framework in Audit Manager.
+class CreateAssessmentFrameworkControl {
+  /// The unique identifier of the control.
+  final String id;
+
+  CreateAssessmentFrameworkControl({
+    required this.id,
+  });
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    return {
+      'id': id,
+    };
+  }
+}
+
+class AccountStatus {
+  static const active = AccountStatus._('ACTIVE');
+  static const inactive = AccountStatus._('INACTIVE');
+  static const pendingActivation = AccountStatus._('PENDING_ACTIVATION');
+
+  final String value;
+
+  const AccountStatus._(this.value);
+
+  static const values = [active, inactive, pendingActivation];
+
+  static AccountStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AccountStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AccountStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The notification that informs a user of an update in Audit Manager. For
+/// example, this includes the notification that's sent when a control set is
+/// delegated for review.
+class Notification {
+  /// The identifier for the assessment.
+  final String? assessmentId;
+
+  /// The name of the related assessment.
+  final String? assessmentName;
+
+  /// The identifier for the control set.
+  final String? controlSetId;
+
+  /// Specifies the name of the control set that the notification is about.
+  final String? controlSetName;
+
+  /// The description of the notification.
+  final String? description;
+
+  /// The time when the notification was sent.
+  final DateTime? eventTime;
+
+  /// The unique identifier for the notification.
+  final String? id;
+
+  /// The sender of the notification.
+  final String? source;
+
+  Notification({
+    this.assessmentId,
+    this.assessmentName,
+    this.controlSetId,
+    this.controlSetName,
+    this.description,
+    this.eventTime,
+    this.id,
+    this.source,
+  });
+
+  factory Notification.fromJson(Map<String, dynamic> json) {
+    return Notification(
+      assessmentId: json['assessmentId'] as String?,
+      assessmentName: json['assessmentName'] as String?,
+      controlSetId: json['controlSetId'] as String?,
+      controlSetName: json['controlSetName'] as String?,
+      description: json['description'] as String?,
+      eventTime: timeStampFromJson(json['eventTime']),
+      id: json['id'] as String?,
+      source: json['source'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assessmentId = this.assessmentId;
+    final assessmentName = this.assessmentName;
+    final controlSetId = this.controlSetId;
+    final controlSetName = this.controlSetName;
+    final description = this.description;
+    final eventTime = this.eventTime;
+    final id = this.id;
+    final source = this.source;
+    return {
+      if (assessmentId != null) 'assessmentId': assessmentId,
+      if (assessmentName != null) 'assessmentName': assessmentName,
+      if (controlSetId != null) 'controlSetId': controlSetId,
+      if (controlSetName != null) 'controlSetName': controlSetName,
+      if (description != null) 'description': description,
+      if (eventTime != null) 'eventTime': unixTimestampToJson(eventTime),
+      if (id != null) 'id': id,
+      if (source != null) 'source': source,
+    };
+  }
+}
+
+class DataSourceType {
+  static const awsCloudtrail = DataSourceType._('AWS_Cloudtrail');
+  static const awsConfig = DataSourceType._('AWS_Config');
+  static const awsSecurityHub = DataSourceType._('AWS_Security_Hub');
+  static const awsApiCall = DataSourceType._('AWS_API_Call');
+  static const manual = DataSourceType._('MANUAL');
+
+  final String value;
+
+  const DataSourceType._(this.value);
+
+  static const values = [
+    awsCloudtrail,
+    awsConfig,
+    awsSecurityHub,
+    awsApiCall,
+    manual
+  ];
+
+  static DataSourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataSourceType._(value));
+
+  @override
+  bool operator ==(other) => other is DataSourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The metadata that's associated with the standard control or custom control.
+class ControlMetadata {
+  /// The Amazon Resource Name (ARN) of the control.
+  final String? arn;
+
+  /// The data source that determines where Audit Manager collects evidence from
+  /// for the control.
+  final String? controlSources;
+
+  /// The time when the control was created.
+  final DateTime? createdAt;
+
+  /// The unique identifier for the control.
+  final String? id;
+
+  /// The time when the control was most recently updated.
+  final DateTime? lastUpdatedAt;
+
+  /// The name of the control.
+  final String? name;
+
+  ControlMetadata({
+    this.arn,
+    this.controlSources,
+    this.createdAt,
+    this.id,
+    this.lastUpdatedAt,
+    this.name,
+  });
+
+  factory ControlMetadata.fromJson(Map<String, dynamic> json) {
+    return ControlMetadata(
+      arn: json['arn'] as String?,
+      controlSources: json['controlSources'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      id: json['id'] as String?,
+      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final controlSources = this.controlSources;
+    final createdAt = this.createdAt;
+    final id = this.id;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final name = this.name;
+    return {
+      if (arn != null) 'arn': arn,
+      if (controlSources != null) 'controlSources': controlSources,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (id != null) 'id': id,
+      if (lastUpdatedAt != null)
+        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// A summary of the latest analytics data for a specific control.
+///
+/// This data reflects the total counts for the specified control across all
+/// active assessments. Control insights are grouped by control domain, and
+/// ranked by the highest total count of non-compliant evidence.
+class ControlInsightsMetadataItem {
+  /// A breakdown of the compliance check status for the evidence that’s
+  /// associated with the control.
+  final EvidenceInsights? evidenceInsights;
+
+  /// The unique identifier for the control.
+  final String? id;
+
+  /// The time when the control insights were last updated.
+  final DateTime? lastUpdated;
+
+  /// The name of the control.
+  final String? name;
+
+  ControlInsightsMetadataItem({
+    this.evidenceInsights,
+    this.id,
+    this.lastUpdated,
+    this.name,
+  });
+
+  factory ControlInsightsMetadataItem.fromJson(Map<String, dynamic> json) {
+    return ControlInsightsMetadataItem(
+      evidenceInsights: json['evidenceInsights'] != null
+          ? EvidenceInsights.fromJson(
+              json['evidenceInsights'] as Map<String, dynamic>)
+          : null,
+      id: json['id'] as String?,
+      lastUpdated: timeStampFromJson(json['lastUpdated']),
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final evidenceInsights = this.evidenceInsights;
+    final id = this.id;
+    final lastUpdated = this.lastUpdated;
+    final name = this.name;
+    return {
+      if (evidenceInsights != null) 'evidenceInsights': evidenceInsights,
+      if (id != null) 'id': id,
+      if (lastUpdated != null) 'lastUpdated': unixTimestampToJson(lastUpdated),
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// A breakdown of the latest compliance check status for the evidence in your
+/// Audit Manager assessments.
+class EvidenceInsights {
+  /// The number of compliance check evidence that Audit Manager classified as
+  /// compliant. This includes evidence that was collected from Security Hub CSPM
+  /// with a <i>Pass</i> ruling, or collected from Config with a <i>Compliant</i>
+  /// ruling.
+  final int? compliantEvidenceCount;
+
+  /// The number of evidence that a compliance check ruling isn't available for.
+  /// Evidence is inconclusive when the associated control uses Security Hub CSPM
+  /// or Config as a data source but you didn't enable those services. This is
+  /// also the case when a control uses a data source that doesn’t support
+  /// compliance checks (for example, manual evidence, API calls, or CloudTrail).
+  /// <note>
+  /// If evidence has a compliance check status of <i>not applicable</i> in the
+  /// console, it's classified as <i>inconclusive</i> in
+  /// <code>EvidenceInsights</code> data.
+  /// </note>
+  final int? inconclusiveEvidenceCount;
+
+  /// The number of compliance check evidence that Audit Manager classified as
+  /// non-compliant. This includes evidence that was collected from Security Hub
+  /// CSPM with a <i>Fail</i> ruling, or collected from Config with a
+  /// <i>Non-compliant</i> ruling.
+  final int? noncompliantEvidenceCount;
+
+  EvidenceInsights({
+    this.compliantEvidenceCount,
+    this.inconclusiveEvidenceCount,
+    this.noncompliantEvidenceCount,
+  });
+
+  factory EvidenceInsights.fromJson(Map<String, dynamic> json) {
+    return EvidenceInsights(
+      compliantEvidenceCount: json['compliantEvidenceCount'] as int?,
+      inconclusiveEvidenceCount: json['inconclusiveEvidenceCount'] as int?,
+      noncompliantEvidenceCount: json['noncompliantEvidenceCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final compliantEvidenceCount = this.compliantEvidenceCount;
+    final inconclusiveEvidenceCount = this.inconclusiveEvidenceCount;
+    final noncompliantEvidenceCount = this.noncompliantEvidenceCount;
+    return {
+      if (compliantEvidenceCount != null)
+        'compliantEvidenceCount': compliantEvidenceCount,
+      if (inconclusiveEvidenceCount != null)
+        'inconclusiveEvidenceCount': inconclusiveEvidenceCount,
+      if (noncompliantEvidenceCount != null)
+        'noncompliantEvidenceCount': noncompliantEvidenceCount,
+    };
+  }
+}
+
+/// A summary of the latest analytics data for a specific control domain.
+///
+/// Control domain insights are grouped by control domain, and ranked by the
+/// highest total count of non-compliant evidence.
+class ControlDomainInsights {
+  /// The number of controls in the control domain that collected non-compliant
+  /// evidence on the <code>lastUpdated</code> date.
+  final int? controlsCountByNoncompliantEvidence;
+
+  /// A breakdown of the compliance check status for the evidence that’s
+  /// associated with the control domain.
+  final EvidenceInsights? evidenceInsights;
+
+  /// The unique identifier for the control domain. Audit Manager supports the
+  /// control domains that are provided by Amazon Web Services Control Catalog.
+  /// For information about how to find a list of available control domains, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html">
+  /// <code>ListDomains</code> </a> in the Amazon Web Services Control Catalog API
+  /// Reference.
+  final String? id;
+
+  /// The time when the control domain insights were last updated.
+  final DateTime? lastUpdated;
+
+  /// The name of the control domain.
+  final String? name;
+
+  /// The total number of controls in the control domain.
+  final int? totalControlsCount;
+
+  ControlDomainInsights({
+    this.controlsCountByNoncompliantEvidence,
+    this.evidenceInsights,
+    this.id,
+    this.lastUpdated,
+    this.name,
+    this.totalControlsCount,
+  });
+
+  factory ControlDomainInsights.fromJson(Map<String, dynamic> json) {
+    return ControlDomainInsights(
+      controlsCountByNoncompliantEvidence:
+          json['controlsCountByNoncompliantEvidence'] as int?,
+      evidenceInsights: json['evidenceInsights'] != null
+          ? EvidenceInsights.fromJson(
+              json['evidenceInsights'] as Map<String, dynamic>)
+          : null,
+      id: json['id'] as String?,
+      lastUpdated: timeStampFromJson(json['lastUpdated']),
+      name: json['name'] as String?,
+      totalControlsCount: json['totalControlsCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final controlsCountByNoncompliantEvidence =
+        this.controlsCountByNoncompliantEvidence;
+    final evidenceInsights = this.evidenceInsights;
+    final id = this.id;
+    final lastUpdated = this.lastUpdated;
+    final name = this.name;
+    final totalControlsCount = this.totalControlsCount;
+    return {
+      if (controlsCountByNoncompliantEvidence != null)
+        'controlsCountByNoncompliantEvidence':
+            controlsCountByNoncompliantEvidence,
+      if (evidenceInsights != null) 'evidenceInsights': evidenceInsights,
+      if (id != null) 'id': id,
+      if (lastUpdated != null) 'lastUpdated': unixTimestampToJson(lastUpdated),
+      if (name != null) 'name': name,
+      if (totalControlsCount != null) 'totalControlsCount': totalControlsCount,
+    };
+  }
+}
+
+/// A metadata object that's associated with an assessment in Audit Manager.
+class AssessmentMetadataItem {
+  /// The name of the compliance standard that's related to the assessment, such
+  /// as PCI-DSS.
+  final String? complianceType;
+
+  /// Specifies when the assessment was created.
+  final DateTime? creationTime;
+
+  /// The delegations that are associated with the assessment.
+  final List<Delegation>? delegations;
+
+  /// The unique identifier for the assessment.
+  final String? id;
+
+  /// The time of the most recent update.
+  final DateTime? lastUpdated;
+
+  /// The name of the assessment.
+  final String? name;
+
+  /// The roles that are associated with the assessment.
+  final List<Role>? roles;
+
+  /// The current status of the assessment.
+  final AssessmentStatus? status;
+
+  AssessmentMetadataItem({
+    this.complianceType,
+    this.creationTime,
+    this.delegations,
+    this.id,
+    this.lastUpdated,
+    this.name,
+    this.roles,
+    this.status,
+  });
+
+  factory AssessmentMetadataItem.fromJson(Map<String, dynamic> json) {
+    return AssessmentMetadataItem(
+      complianceType: json['complianceType'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      delegations: (json['delegations'] as List?)
+          ?.nonNulls
+          .map((e) => Delegation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      id: json['id'] as String?,
+      lastUpdated: timeStampFromJson(json['lastUpdated']),
+      name: json['name'] as String?,
+      roles: (json['roles'] as List?)
+          ?.nonNulls
+          .map((e) => Role.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status: (json['status'] as String?)?.let(AssessmentStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final complianceType = this.complianceType;
+    final creationTime = this.creationTime;
+    final delegations = this.delegations;
+    final id = this.id;
+    final lastUpdated = this.lastUpdated;
+    final name = this.name;
+    final roles = this.roles;
+    final status = this.status;
+    return {
+      if (complianceType != null) 'complianceType': complianceType,
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (delegations != null) 'delegations': delegations,
+      if (id != null) 'id': id,
+      if (lastUpdated != null) 'lastUpdated': unixTimestampToJson(lastUpdated),
+      if (name != null) 'name': name,
+      if (roles != null) 'roles': roles,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+/// The metadata objects that are associated with the specified assessment
+/// report.
+class AssessmentReportMetadata {
+  /// The unique identifier for the associated assessment.
+  final String? assessmentId;
+
+  /// The name of the associated assessment.
+  final String? assessmentName;
+
+  /// The name of the user who created the assessment report.
+  final String? author;
+
+  /// Specifies when the assessment report was created.
+  final DateTime? creationTime;
+
+  /// The description of the assessment report.
+  final String? description;
+
+  /// The unique identifier for the assessment report.
+  final String? id;
+
+  /// The name of the assessment report.
+  final String? name;
+
+  /// The current status of the assessment report.
+  final AssessmentReportStatus? status;
+
+  AssessmentReportMetadata({
+    this.assessmentId,
+    this.assessmentName,
+    this.author,
+    this.creationTime,
+    this.description,
+    this.id,
+    this.name,
+    this.status,
+  });
+
+  factory AssessmentReportMetadata.fromJson(Map<String, dynamic> json) {
+    return AssessmentReportMetadata(
+      assessmentId: json['assessmentId'] as String?,
+      assessmentName: json['assessmentName'] as String?,
+      author: json['author'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      description: json['description'] as String?,
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      status:
+          (json['status'] as String?)?.let(AssessmentReportStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assessmentId = this.assessmentId;
+    final assessmentName = this.assessmentName;
+    final author = this.author;
+    final creationTime = this.creationTime;
+    final description = this.description;
+    final id = this.id;
+    final name = this.name;
+    final status = this.status;
+    return {
+      if (assessmentId != null) 'assessmentId': assessmentId,
+      if (assessmentName != null) 'assessmentName': assessmentName,
+      if (author != null) 'author': author,
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (description != null) 'description': description,
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+class AssessmentReportStatus {
+  static const complete = AssessmentReportStatus._('COMPLETE');
+  static const inProgress = AssessmentReportStatus._('IN_PROGRESS');
+  static const failed = AssessmentReportStatus._('FAILED');
+
+  final String value;
+
+  const AssessmentReportStatus._(this.value);
+
+  static const values = [complete, inProgress, failed];
+
+  static AssessmentReportStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AssessmentReportStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AssessmentReportStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The metadata that's associated with a standard framework or a custom
+/// framework.
+class AssessmentFrameworkMetadata {
+  /// The Amazon Resource Name (ARN) of the framework.
+  final String? arn;
+
+  /// The compliance type that the new custom framework supports, such as CIS or
+  /// HIPAA.
+  final String? complianceType;
+
+  /// The number of control sets that are associated with the framework.
+  final int? controlSetsCount;
+
+  /// The number of controls that are associated with the framework.
+  final int? controlsCount;
+
+  /// The time when the framework was created.
+  final DateTime? createdAt;
+
+  /// The description of the framework.
+  final String? description;
+
+  /// The unique identifier for the framework.
+  final String? id;
+
+  /// The time when the framework was most recently updated.
+  final DateTime? lastUpdatedAt;
+
+  /// The logo that's associated with the framework.
+  final String? logo;
+
+  /// The name of the framework.
+  final String? name;
+
+  /// The framework type, such as a standard framework or a custom framework.
+  final FrameworkType? type;
+
+  AssessmentFrameworkMetadata({
+    this.arn,
+    this.complianceType,
+    this.controlSetsCount,
+    this.controlsCount,
+    this.createdAt,
+    this.description,
+    this.id,
+    this.lastUpdatedAt,
+    this.logo,
+    this.name,
+    this.type,
+  });
+
+  factory AssessmentFrameworkMetadata.fromJson(Map<String, dynamic> json) {
+    return AssessmentFrameworkMetadata(
+      arn: json['arn'] as String?,
+      complianceType: json['complianceType'] as String?,
+      controlSetsCount: json['controlSetsCount'] as int?,
+      controlsCount: json['controlsCount'] as int?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      description: json['description'] as String?,
+      id: json['id'] as String?,
+      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+      logo: json['logo'] as String?,
+      name: json['name'] as String?,
+      type: (json['type'] as String?)?.let(FrameworkType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final complianceType = this.complianceType;
+    final controlSetsCount = this.controlSetsCount;
+    final controlsCount = this.controlsCount;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final id = this.id;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final logo = this.logo;
+    final name = this.name;
+    final type = this.type;
+    return {
+      if (arn != null) 'arn': arn,
+      if (complianceType != null) 'complianceType': complianceType,
+      if (controlSetsCount != null) 'controlSetsCount': controlSetsCount,
+      if (controlsCount != null) 'controlsCount': controlsCount,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (description != null) 'description': description,
+      if (id != null) 'id': id,
+      if (lastUpdatedAt != null)
+        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (logo != null) 'logo': logo,
+      if (name != null) 'name': name,
+      if (type != null) 'type': type.value,
+    };
+  }
+}
+
+/// A summary of the latest analytics data for a specific control in a specific
+/// active assessment.
+///
+/// Control insights are grouped by control domain, and ranked by the highest
+/// total count of non-compliant evidence.
+class ControlInsightsMetadataByAssessmentItem {
+  /// The name of the control set that the assessment control belongs to.
+  final String? controlSetName;
+
+  /// A breakdown of the compliance check status for the evidence that’s
+  /// associated with the assessment control.
+  final EvidenceInsights? evidenceInsights;
+
+  /// The unique identifier for the assessment control.
+  final String? id;
+
+  /// The time when the assessment control insights were last updated.
+  final DateTime? lastUpdated;
+
+  /// The name of the assessment control.
+  final String? name;
+
+  ControlInsightsMetadataByAssessmentItem({
+    this.controlSetName,
+    this.evidenceInsights,
+    this.id,
+    this.lastUpdated,
+    this.name,
+  });
+
+  factory ControlInsightsMetadataByAssessmentItem.fromJson(
+      Map<String, dynamic> json) {
+    return ControlInsightsMetadataByAssessmentItem(
+      controlSetName: json['controlSetName'] as String?,
+      evidenceInsights: json['evidenceInsights'] != null
+          ? EvidenceInsights.fromJson(
+              json['evidenceInsights'] as Map<String, dynamic>)
+          : null,
+      id: json['id'] as String?,
+      lastUpdated: timeStampFromJson(json['lastUpdated']),
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final controlSetName = this.controlSetName;
+    final evidenceInsights = this.evidenceInsights;
+    final id = this.id;
+    final lastUpdated = this.lastUpdated;
+    final name = this.name;
+    return {
+      if (controlSetName != null) 'controlSetName': controlSetName,
+      if (evidenceInsights != null) 'evidenceInsights': evidenceInsights,
+      if (id != null) 'id': id,
+      if (lastUpdated != null) 'lastUpdated': unixTimestampToJson(lastUpdated),
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+class SettingAttribute {
+  static const all = SettingAttribute._('ALL');
+  static const isAwsOrgEnabled = SettingAttribute._('IS_AWS_ORG_ENABLED');
+  static const snsTopic = SettingAttribute._('SNS_TOPIC');
+  static const defaultAssessmentReportsDestination =
+      SettingAttribute._('DEFAULT_ASSESSMENT_REPORTS_DESTINATION');
+  static const defaultProcessOwners =
+      SettingAttribute._('DEFAULT_PROCESS_OWNERS');
+  static const evidenceFinderEnablement =
+      SettingAttribute._('EVIDENCE_FINDER_ENABLEMENT');
+  static const deregistrationPolicy =
+      SettingAttribute._('DEREGISTRATION_POLICY');
+  static const defaultExportDestination =
+      SettingAttribute._('DEFAULT_EXPORT_DESTINATION');
+
+  final String value;
+
+  const SettingAttribute._(this.value);
+
+  static const values = [
+    all,
+    isAwsOrgEnabled,
+    snsTopic,
+    defaultAssessmentReportsDestination,
+    defaultProcessOwners,
+    evidenceFinderEnablement,
+    deregistrationPolicy,
+    defaultExportDestination
+  ];
+
+  static SettingAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SettingAttribute._(value));
+
+  @override
+  bool operator ==(other) => other is SettingAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The metadata that's associated with the Amazon Web Services service.
+class ServiceMetadata {
+  /// The category that the Amazon Web Services service belongs to, such as
+  /// compute, storage, or database.
+  final String? category;
+
+  /// The description of the Amazon Web Services service.
+  final String? description;
+
+  /// The display name of the Amazon Web Services service.
+  final String? displayName;
+
+  /// The name of the Amazon Web Services service.
+  final String? name;
+
+  ServiceMetadata({
+    this.category,
+    this.description,
+    this.displayName,
+    this.name,
+  });
+
+  factory ServiceMetadata.fromJson(Map<String, dynamic> json) {
+    return ServiceMetadata(
+      category: json['category'] as String?,
+      description: json['description'] as String?,
+      displayName: json['displayName'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final category = this.category;
+    final description = this.description;
+    final displayName = this.displayName;
+    final name = this.name;
+    return {
+      if (category != null) 'category': category,
+      if (description != null) 'description': description,
+      if (displayName != null) 'displayName': displayName,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// A summary of the latest analytics data for a specific active assessment.
+///
+/// This summary is a snapshot of the data that was collected on the
+/// <code>lastUpdated</code> date. It’s important to understand that the totals
+/// in <code>InsightsByAssessment</code> are daily counts based on this date —
+/// they aren’t a total sum to date.
+///
+/// The <code>InsightsByAssessment</code> data is eventually consistent. This
+/// means that when you read data from <code>InsightsByAssessment</code>, the
+/// response might not instantly reflect the results of a recently completed
+/// write or update operation. If you repeat your read request after a few
+/// hours, the response returns the latest data.
+/// <note>
+/// If you delete an assessment or change its status to inactive,
+/// <code>InsightsByAssessment</code> includes data for that assessment as
+/// follows.
+///
+/// <ul>
+/// <li>
+/// <b>Inactive assessments</b> - If Audit Manager collected evidence for your
+/// assessment before you changed it inactive, that evidence is included in the
+/// <code>InsightsByAssessment</code> counts for that day.
+/// </li>
+/// <li>
+/// <b>Deleted assessments</b> - If Audit Manager collected evidence for your
+/// assessment before you deleted it, that evidence isn't included in the
+/// <code>InsightsByAssessment</code> counts for that day.
+/// </li>
+/// </ul> </note>
+class InsightsByAssessment {
+  /// The number of assessment controls that collected non-compliant evidence on
+  /// the <code>lastUpdated</code> date.
+  final int? assessmentControlsCountByNoncompliantEvidence;
+
+  /// The number of compliance check evidence that Audit Manager classified as
+  /// compliant. This includes evidence that was collected from Security Hub CSPM
+  /// with a <i>Pass</i> ruling, or collected from Config with a <i>Compliant</i>
+  /// ruling.
+  final int? compliantEvidenceCount;
+
+  /// The amount of evidence without a compliance check ruling. Evidence is
+  /// inconclusive if the associated control uses Security Hub CSPM or Config as a
+  /// data source and you didn't enable those services. This is also the case if a
+  /// control uses a data source that doesn’t support compliance checks (for
+  /// example, manual evidence, API calls, or CloudTrail).
+  /// <note>
+  /// If evidence has a compliance check status of <i>not applicable</i>, it's
+  /// classified as <i>inconclusive</i> in <code>InsightsByAssessment</code> data.
+  /// </note>
+  final int? inconclusiveEvidenceCount;
+
+  /// The time when the assessment insights were last updated.
+  final DateTime? lastUpdated;
+
+  /// The number of compliance check evidence that Audit Manager classified as
+  /// non-compliant. This includes evidence that was collected from Security Hub
+  /// CSPM with a <i>Fail</i> ruling, or collected from Config with a
+  /// <i>Non-compliant</i> ruling.
+  final int? noncompliantEvidenceCount;
+
+  /// The total number of controls in the assessment.
+  final int? totalAssessmentControlsCount;
+
+  InsightsByAssessment({
+    this.assessmentControlsCountByNoncompliantEvidence,
+    this.compliantEvidenceCount,
+    this.inconclusiveEvidenceCount,
+    this.lastUpdated,
+    this.noncompliantEvidenceCount,
+    this.totalAssessmentControlsCount,
+  });
+
+  factory InsightsByAssessment.fromJson(Map<String, dynamic> json) {
+    return InsightsByAssessment(
+      assessmentControlsCountByNoncompliantEvidence:
+          json['assessmentControlsCountByNoncompliantEvidence'] as int?,
+      compliantEvidenceCount: json['compliantEvidenceCount'] as int?,
+      inconclusiveEvidenceCount: json['inconclusiveEvidenceCount'] as int?,
+      lastUpdated: timeStampFromJson(json['lastUpdated']),
+      noncompliantEvidenceCount: json['noncompliantEvidenceCount'] as int?,
+      totalAssessmentControlsCount:
+          json['totalAssessmentControlsCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assessmentControlsCountByNoncompliantEvidence =
+        this.assessmentControlsCountByNoncompliantEvidence;
+    final compliantEvidenceCount = this.compliantEvidenceCount;
+    final inconclusiveEvidenceCount = this.inconclusiveEvidenceCount;
+    final lastUpdated = this.lastUpdated;
+    final noncompliantEvidenceCount = this.noncompliantEvidenceCount;
+    final totalAssessmentControlsCount = this.totalAssessmentControlsCount;
+    return {
+      if (assessmentControlsCountByNoncompliantEvidence != null)
+        'assessmentControlsCountByNoncompliantEvidence':
+            assessmentControlsCountByNoncompliantEvidence,
+      if (compliantEvidenceCount != null)
+        'compliantEvidenceCount': compliantEvidenceCount,
+      if (inconclusiveEvidenceCount != null)
+        'inconclusiveEvidenceCount': inconclusiveEvidenceCount,
+      if (lastUpdated != null) 'lastUpdated': unixTimestampToJson(lastUpdated),
+      if (noncompliantEvidenceCount != null)
+        'noncompliantEvidenceCount': noncompliantEvidenceCount,
+      if (totalAssessmentControlsCount != null)
+        'totalAssessmentControlsCount': totalAssessmentControlsCount,
+    };
+  }
+}
+
+/// A summary of the latest analytics data for all your active assessments.
+///
+/// This summary is a snapshot of the data that your active assessments
+/// collected on the <code>lastUpdated</code> date. It’s important to understand
+/// that the following totals are daily counts based on this date — they aren’t
+/// a total sum to date.
+///
+/// The <code>Insights</code> data is eventually consistent. This means that,
+/// when you read data from <code>Insights</code>, the response might not
+/// instantly reflect the results of a recently completed write or update
+/// operation. If you repeat your read request after a few hours, the response
+/// should return the latest data.
+/// <note>
+/// If you delete an assessment or change its status to inactive,
+/// <code>InsightsByAssessment</code> includes data for that assessment as
+/// follows.
+///
+/// <ul>
+/// <li>
+/// <b>Inactive assessments</b> - If Audit Manager collected evidence for your
+/// assessment before you changed it inactive, that evidence is included in the
+/// <code>InsightsByAssessment</code> counts for that day.
+/// </li>
+/// <li>
+/// <b>Deleted assessments</b> - If Audit Manager collected evidence for your
+/// assessment before you deleted it, that evidence isn't included in the
+/// <code>InsightsByAssessment</code> counts for that day.
+/// </li>
+/// </ul> </note>
+class Insights {
+  /// The number of active assessments in Audit Manager.
+  final int? activeAssessmentsCount;
+
+  /// The number of assessment controls that collected non-compliant evidence on
+  /// the <code>lastUpdated</code> date.
+  final int? assessmentControlsCountByNoncompliantEvidence;
+
+  /// The number of compliance check evidence that Audit Manager classified as
+  /// compliant on the <code>lastUpdated</code> date. This includes evidence that
+  /// was collected from Security Hub CSPM with a <i>Pass</i> ruling, or collected
+  /// from Config with a <i>Compliant</i> ruling.
+  final int? compliantEvidenceCount;
+
+  /// The number of evidence without a compliance check ruling. Evidence is
+  /// inconclusive when the associated control uses Security Hub CSPM or Config as
+  /// a data source but you didn't enable those services. This is also the case
+  /// when a control uses a data source that doesn’t support compliance checks
+  /// (for example: manual evidence, API calls, or CloudTrail).
+  /// <note>
+  /// If evidence has a compliance check status of <i>not applicable</i>, it's
+  /// classed as <i>inconclusive</i> in <code>Insights</code> data.
+  /// </note>
+  final int? inconclusiveEvidenceCount;
+
+  /// The time when the cross-assessment insights were last updated.
+  final DateTime? lastUpdated;
+
+  /// The number of compliance check evidence that Audit Manager classified as
+  /// non-compliant on the <code>lastUpdated</code> date. This includes evidence
+  /// that was collected from Security Hub CSPM with a <i>Fail</i> ruling, or
+  /// collected from Config with a <i>Non-compliant</i> ruling.
+  final int? noncompliantEvidenceCount;
+
+  /// The total number of controls across all active assessments.
+  final int? totalAssessmentControlsCount;
+
+  Insights({
+    this.activeAssessmentsCount,
+    this.assessmentControlsCountByNoncompliantEvidence,
+    this.compliantEvidenceCount,
+    this.inconclusiveEvidenceCount,
+    this.lastUpdated,
+    this.noncompliantEvidenceCount,
+    this.totalAssessmentControlsCount,
+  });
+
+  factory Insights.fromJson(Map<String, dynamic> json) {
+    return Insights(
+      activeAssessmentsCount: json['activeAssessmentsCount'] as int?,
+      assessmentControlsCountByNoncompliantEvidence:
+          json['assessmentControlsCountByNoncompliantEvidence'] as int?,
+      compliantEvidenceCount: json['compliantEvidenceCount'] as int?,
+      inconclusiveEvidenceCount: json['inconclusiveEvidenceCount'] as int?,
+      lastUpdated: timeStampFromJson(json['lastUpdated']),
+      noncompliantEvidenceCount: json['noncompliantEvidenceCount'] as int?,
+      totalAssessmentControlsCount:
+          json['totalAssessmentControlsCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activeAssessmentsCount = this.activeAssessmentsCount;
+    final assessmentControlsCountByNoncompliantEvidence =
+        this.assessmentControlsCountByNoncompliantEvidence;
+    final compliantEvidenceCount = this.compliantEvidenceCount;
+    final inconclusiveEvidenceCount = this.inconclusiveEvidenceCount;
+    final lastUpdated = this.lastUpdated;
+    final noncompliantEvidenceCount = this.noncompliantEvidenceCount;
+    final totalAssessmentControlsCount = this.totalAssessmentControlsCount;
+    return {
+      if (activeAssessmentsCount != null)
+        'activeAssessmentsCount': activeAssessmentsCount,
+      if (assessmentControlsCountByNoncompliantEvidence != null)
+        'assessmentControlsCountByNoncompliantEvidence':
+            assessmentControlsCountByNoncompliantEvidence,
+      if (compliantEvidenceCount != null)
+        'compliantEvidenceCount': compliantEvidenceCount,
+      if (inconclusiveEvidenceCount != null)
+        'inconclusiveEvidenceCount': inconclusiveEvidenceCount,
+      if (lastUpdated != null) 'lastUpdated': unixTimestampToJson(lastUpdated),
+      if (noncompliantEvidenceCount != null)
+        'noncompliantEvidenceCount': noncompliantEvidenceCount,
+      if (totalAssessmentControlsCount != null)
+        'totalAssessmentControlsCount': totalAssessmentControlsCount,
+    };
+  }
+}
+
+/// The folder where Audit Manager stores evidence for an assessment.
+class AssessmentEvidenceFolder {
+  /// The identifier for the assessment.
+  final String? assessmentId;
+
+  /// The total count of evidence that's included in the assessment report.
+  final int? assessmentReportSelectionCount;
+
+  /// The name of the user who created the evidence folder.
+  final String? author;
+
+  /// The unique identifier for the control.
+  final String? controlId;
+
+  /// The name of the control.
+  final String? controlName;
+
+  /// The identifier for the control set.
+  final String? controlSetId;
+
+  /// The Amazon Web Services service that the evidence was collected from.
+  final String? dataSource;
+
+  /// The date when the first evidence was added to the evidence folder.
+  final DateTime? date;
+
+  /// The total number of Amazon Web Services resources that were assessed to
+  /// generate the evidence.
+  final int? evidenceAwsServiceSourceCount;
+
+  /// The number of evidence that falls under the compliance check category. This
+  /// evidence is collected from Config or Security Hub CSPM.
+  final int? evidenceByTypeComplianceCheckCount;
+
+  /// The total number of issues that were reported directly from Security Hub
+  /// CSPM, Config, or both.
+  final int? evidenceByTypeComplianceCheckIssuesCount;
+
+  /// The number of evidence that falls under the configuration data category.
+  /// This evidence is collected from configuration snapshots of other Amazon Web
+  /// Services services such as Amazon EC2, Amazon S3, or IAM.
+  final int? evidenceByTypeConfigurationDataCount;
+
+  /// The number of evidence that falls under the manual category. This evidence
+  /// is imported manually.
+  final int? evidenceByTypeManualCount;
+
+  /// The number of evidence that falls under the user activity category. This
+  /// evidence is collected from CloudTrail logs.
+  final int? evidenceByTypeUserActivityCount;
+
+  /// The amount of evidence that's included in the evidence folder.
+  final int? evidenceResourcesIncludedCount;
+
+  /// The identifier for the folder that the evidence is stored in.
+  final String? id;
+
+  /// The name of the evidence folder.
+  final String? name;
+
+  /// The total amount of evidence in the evidence folder.
+  final int? totalEvidence;
+
+  AssessmentEvidenceFolder({
+    this.assessmentId,
+    this.assessmentReportSelectionCount,
+    this.author,
+    this.controlId,
+    this.controlName,
+    this.controlSetId,
+    this.dataSource,
+    this.date,
+    this.evidenceAwsServiceSourceCount,
+    this.evidenceByTypeComplianceCheckCount,
+    this.evidenceByTypeComplianceCheckIssuesCount,
+    this.evidenceByTypeConfigurationDataCount,
+    this.evidenceByTypeManualCount,
+    this.evidenceByTypeUserActivityCount,
+    this.evidenceResourcesIncludedCount,
+    this.id,
+    this.name,
+    this.totalEvidence,
+  });
+
+  factory AssessmentEvidenceFolder.fromJson(Map<String, dynamic> json) {
+    return AssessmentEvidenceFolder(
+      assessmentId: json['assessmentId'] as String?,
+      assessmentReportSelectionCount:
+          json['assessmentReportSelectionCount'] as int?,
+      author: json['author'] as String?,
+      controlId: json['controlId'] as String?,
+      controlName: json['controlName'] as String?,
+      controlSetId: json['controlSetId'] as String?,
+      dataSource: json['dataSource'] as String?,
+      date: timeStampFromJson(json['date']),
+      evidenceAwsServiceSourceCount:
+          json['evidenceAwsServiceSourceCount'] as int?,
+      evidenceByTypeComplianceCheckCount:
+          json['evidenceByTypeComplianceCheckCount'] as int?,
+      evidenceByTypeComplianceCheckIssuesCount:
+          json['evidenceByTypeComplianceCheckIssuesCount'] as int?,
+      evidenceByTypeConfigurationDataCount:
+          json['evidenceByTypeConfigurationDataCount'] as int?,
+      evidenceByTypeManualCount: json['evidenceByTypeManualCount'] as int?,
+      evidenceByTypeUserActivityCount:
+          json['evidenceByTypeUserActivityCount'] as int?,
+      evidenceResourcesIncludedCount:
+          json['evidenceResourcesIncludedCount'] as int?,
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      totalEvidence: json['totalEvidence'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assessmentId = this.assessmentId;
+    final assessmentReportSelectionCount = this.assessmentReportSelectionCount;
+    final author = this.author;
+    final controlId = this.controlId;
+    final controlName = this.controlName;
+    final controlSetId = this.controlSetId;
+    final dataSource = this.dataSource;
+    final date = this.date;
+    final evidenceAwsServiceSourceCount = this.evidenceAwsServiceSourceCount;
+    final evidenceByTypeComplianceCheckCount =
+        this.evidenceByTypeComplianceCheckCount;
+    final evidenceByTypeComplianceCheckIssuesCount =
+        this.evidenceByTypeComplianceCheckIssuesCount;
+    final evidenceByTypeConfigurationDataCount =
+        this.evidenceByTypeConfigurationDataCount;
+    final evidenceByTypeManualCount = this.evidenceByTypeManualCount;
+    final evidenceByTypeUserActivityCount =
+        this.evidenceByTypeUserActivityCount;
+    final evidenceResourcesIncludedCount = this.evidenceResourcesIncludedCount;
+    final id = this.id;
+    final name = this.name;
+    final totalEvidence = this.totalEvidence;
+    return {
+      if (assessmentId != null) 'assessmentId': assessmentId,
+      if (assessmentReportSelectionCount != null)
+        'assessmentReportSelectionCount': assessmentReportSelectionCount,
+      if (author != null) 'author': author,
+      if (controlId != null) 'controlId': controlId,
+      if (controlName != null) 'controlName': controlName,
+      if (controlSetId != null) 'controlSetId': controlSetId,
+      if (dataSource != null) 'dataSource': dataSource,
+      if (date != null) 'date': unixTimestampToJson(date),
+      if (evidenceAwsServiceSourceCount != null)
+        'evidenceAwsServiceSourceCount': evidenceAwsServiceSourceCount,
+      if (evidenceByTypeComplianceCheckCount != null)
+        'evidenceByTypeComplianceCheckCount':
+            evidenceByTypeComplianceCheckCount,
+      if (evidenceByTypeComplianceCheckIssuesCount != null)
+        'evidenceByTypeComplianceCheckIssuesCount':
+            evidenceByTypeComplianceCheckIssuesCount,
+      if (evidenceByTypeConfigurationDataCount != null)
+        'evidenceByTypeConfigurationDataCount':
+            evidenceByTypeConfigurationDataCount,
+      if (evidenceByTypeManualCount != null)
+        'evidenceByTypeManualCount': evidenceByTypeManualCount,
+      if (evidenceByTypeUserActivityCount != null)
+        'evidenceByTypeUserActivityCount': evidenceByTypeUserActivityCount,
+      if (evidenceResourcesIncludedCount != null)
+        'evidenceResourcesIncludedCount': evidenceResourcesIncludedCount,
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (totalEvidence != null) 'totalEvidence': totalEvidence,
+    };
+  }
+}
+
+/// A record that contains the information needed to demonstrate compliance with
+/// the requirements specified by a control. Examples of evidence include change
+/// activity invoked by a user, or a system configuration snapshot.
+class Evidence {
+  /// Specifies whether the evidence is included in the assessment report.
+  final String? assessmentReportSelection;
+
+  /// The names and values that are used by the evidence event. This includes an
+  /// attribute name (such as <code>allowUsersToChangePassword</code>) and value
+  /// (such as <code>true</code> or <code>false</code>).
+  final Map<String, String>? attributes;
+
+  /// The identifier for the Amazon Web Services account.
+  final String? awsAccountId;
+
+  /// The Amazon Web Services account that the evidence is collected from, and its
+  /// organization path.
+  final String? awsOrganization;
+
+  /// The evaluation status for automated evidence that falls under the compliance
+  /// check category.
+  ///
+  /// <ul>
+  /// <li>
+  /// Audit Manager classes evidence as non-compliant if Security Hub CSPM reports
+  /// a <i>Fail</i> result, or if Config reports a <i>Non-compliant</i> result.
+  /// </li>
+  /// <li>
+  /// Audit Manager classes evidence as compliant if Security Hub CSPM reports a
+  /// <i>Pass</i> result, or if Config reports a <i>Compliant</i> result.
+  /// </li>
+  /// <li>
+  /// If a compliance check isn't available or applicable, then no compliance
+  /// evaluation can be made for that evidence. This is the case if the evidence
+  /// uses Config or Security Hub CSPM as the underlying data source type, but
+  /// those services aren't enabled. This is also the case if the evidence uses an
+  /// underlying data source type that doesn't support compliance checks (such as
+  /// manual evidence, Amazon Web Services API calls, or CloudTrail).
+  /// </li>
+  /// </ul>
+  final String? complianceCheck;
+
+  /// The data source where the evidence was collected from.
+  final String? dataSource;
+
+  /// The name of the evidence event.
+  final String? eventName;
+
+  /// The Amazon Web Services service that the evidence is collected from.
+  final String? eventSource;
+
+  /// The identifier for the Amazon Web Services account.
+  final String? evidenceAwsAccountId;
+
+  /// The type of automated evidence.
+  final String? evidenceByType;
+
+  /// The identifier for the folder that the evidence is stored in.
+  final String? evidenceFolderId;
+
+  /// The unique identifier for the user or role that's associated with the
+  /// evidence.
+  final String? iamId;
+
+  /// The identifier for the evidence.
+  final String? id;
+
+  /// The list of resources that are assessed to generate the evidence.
+  final List<Resource>? resourcesIncluded;
+
+  /// The timestamp that represents when the evidence was collected.
+  final DateTime? time;
+
+  Evidence({
+    this.assessmentReportSelection,
+    this.attributes,
+    this.awsAccountId,
+    this.awsOrganization,
+    this.complianceCheck,
+    this.dataSource,
+    this.eventName,
+    this.eventSource,
+    this.evidenceAwsAccountId,
+    this.evidenceByType,
+    this.evidenceFolderId,
+    this.iamId,
+    this.id,
+    this.resourcesIncluded,
+    this.time,
+  });
+
+  factory Evidence.fromJson(Map<String, dynamic> json) {
+    return Evidence(
+      assessmentReportSelection: json['assessmentReportSelection'] as String?,
+      attributes: (json['attributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      awsAccountId: json['awsAccountId'] as String?,
+      awsOrganization: json['awsOrganization'] as String?,
+      complianceCheck: json['complianceCheck'] as String?,
+      dataSource: json['dataSource'] as String?,
+      eventName: json['eventName'] as String?,
+      eventSource: json['eventSource'] as String?,
+      evidenceAwsAccountId: json['evidenceAwsAccountId'] as String?,
+      evidenceByType: json['evidenceByType'] as String?,
+      evidenceFolderId: json['evidenceFolderId'] as String?,
+      iamId: json['iamId'] as String?,
+      id: json['id'] as String?,
+      resourcesIncluded: (json['resourcesIncluded'] as List?)
+          ?.nonNulls
+          .map((e) => Resource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      time: timeStampFromJson(json['time']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assessmentReportSelection = this.assessmentReportSelection;
+    final attributes = this.attributes;
+    final awsAccountId = this.awsAccountId;
+    final awsOrganization = this.awsOrganization;
+    final complianceCheck = this.complianceCheck;
+    final dataSource = this.dataSource;
+    final eventName = this.eventName;
+    final eventSource = this.eventSource;
+    final evidenceAwsAccountId = this.evidenceAwsAccountId;
+    final evidenceByType = this.evidenceByType;
+    final evidenceFolderId = this.evidenceFolderId;
+    final iamId = this.iamId;
+    final id = this.id;
+    final resourcesIncluded = this.resourcesIncluded;
+    final time = this.time;
+    return {
+      if (assessmentReportSelection != null)
+        'assessmentReportSelection': assessmentReportSelection,
+      if (attributes != null) 'attributes': attributes,
+      if (awsAccountId != null) 'awsAccountId': awsAccountId,
+      if (awsOrganization != null) 'awsOrganization': awsOrganization,
+      if (complianceCheck != null) 'complianceCheck': complianceCheck,
+      if (dataSource != null) 'dataSource': dataSource,
+      if (eventName != null) 'eventName': eventName,
+      if (eventSource != null) 'eventSource': eventSource,
+      if (evidenceAwsAccountId != null)
+        'evidenceAwsAccountId': evidenceAwsAccountId,
+      if (evidenceByType != null) 'evidenceByType': evidenceByType,
+      if (evidenceFolderId != null) 'evidenceFolderId': evidenceFolderId,
+      if (iamId != null) 'iamId': iamId,
+      if (id != null) 'id': id,
+      if (resourcesIncluded != null) 'resourcesIncluded': resourcesIncluded,
+      if (time != null) 'time': unixTimestampToJson(time),
+    };
+  }
+}
+
+/// A system asset that's evaluated in an Audit Manager assessment.
+class Resource {
+  /// The Amazon Resource Name (ARN) for the resource.
+  final String? arn;
+
+  /// The evaluation status for a resource that was assessed when collecting
+  /// compliance check evidence.
+  ///
+  /// <ul>
+  /// <li>
+  /// Audit Manager classes the resource as non-compliant if Security Hub CSPM
+  /// reports a <i>Fail</i> result, or if Config reports a <i>Non-compliant</i>
+  /// result.
+  /// </li>
+  /// <li>
+  /// Audit Manager classes the resource as compliant if Security Hub CSPM reports
+  /// a <i>Pass</i> result, or if Config reports a <i>Compliant</i> result.
+  /// </li>
+  /// <li>
+  /// If a compliance check isn't available or applicable, then no compliance
+  /// evaluation can be made for that resource. This is the case if a resource
+  /// assessment uses Config or Security Hub CSPM as the underlying data source
+  /// type, but those services aren't enabled. This is also the case if the
+  /// resource assessment uses an underlying data source type that doesn't support
+  /// compliance checks (such as manual evidence, Amazon Web Services API calls,
+  /// or CloudTrail).
+  /// </li>
+  /// </ul>
+  final String? complianceCheck;
+
+  /// The value of the resource.
+  final String? value;
+
+  Resource({
+    this.arn,
+    this.complianceCheck,
+    this.value,
+  });
+
+  factory Resource.fromJson(Map<String, dynamic> json) {
+    return Resource(
+      arn: json['arn'] as String?,
+      complianceCheck: json['complianceCheck'] as String?,
+      value: json['value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final complianceCheck = this.complianceCheck;
+    final value = this.value;
+    return {
+      if (arn != null) 'arn': arn,
+      if (complianceCheck != null) 'complianceCheck': complianceCheck,
+      if (value != null) 'value': value,
+    };
+  }
+}
+
+/// The metadata that's associated with the delegation.
+class DelegationMetadata {
+  /// The unique identifier for the assessment.
+  final String? assessmentId;
+
+  /// The name of the associated assessment.
+  final String? assessmentName;
+
+  /// Specifies the name of the control set that was delegated for review.
+  final String? controlSetName;
+
+  /// Specifies when the delegation was created.
+  final DateTime? creationTime;
+
+  /// The unique identifier for the delegation.
+  final String? id;
+
+  /// The Amazon Resource Name (ARN) of the IAM role.
+  final String? roleArn;
+
+  /// The current status of the delegation.
+  final DelegationStatus? status;
+
+  DelegationMetadata({
+    this.assessmentId,
+    this.assessmentName,
+    this.controlSetName,
+    this.creationTime,
+    this.id,
+    this.roleArn,
+    this.status,
+  });
+
+  factory DelegationMetadata.fromJson(Map<String, dynamic> json) {
+    return DelegationMetadata(
+      assessmentId: json['assessmentId'] as String?,
+      assessmentName: json['assessmentName'] as String?,
+      controlSetName: json['controlSetName'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      id: json['id'] as String?,
+      roleArn: json['roleArn'] as String?,
+      status: (json['status'] as String?)?.let(DelegationStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assessmentId = this.assessmentId;
+    final assessmentName = this.assessmentName;
+    final controlSetName = this.controlSetName;
+    final creationTime = this.creationTime;
+    final id = this.id;
+    final roleArn = this.roleArn;
+    final status = this.status;
+    return {
+      if (assessmentId != null) 'assessmentId': assessmentId,
+      if (assessmentName != null) 'assessmentName': assessmentName,
+      if (controlSetName != null) 'controlSetName': controlSetName,
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (id != null) 'id': id,
+      if (roleArn != null) 'roleArn': roleArn,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+/// The record of a change within Audit Manager. For example, this could be the
+/// status change of an assessment or the delegation of a control set.
+class ChangeLog {
+  /// The action that was performed.
+  final ActionEnum? action;
+
+  /// The time when the action was performed and the changelog record was created.
+  final DateTime? createdAt;
+
+  /// The user or role that performed the action.
+  final String? createdBy;
+
+  /// The name of the object that changed. This could be the name of an
+  /// assessment, control, or control set.
+  final String? objectName;
+
+  /// The object that was changed, such as an assessment, control, or control set.
+  final ObjectTypeEnum? objectType;
+
+  ChangeLog({
+    this.action,
+    this.createdAt,
+    this.createdBy,
+    this.objectName,
+    this.objectType,
+  });
+
+  factory ChangeLog.fromJson(Map<String, dynamic> json) {
+    return ChangeLog(
+      action: (json['action'] as String?)?.let(ActionEnum.fromString),
+      createdAt: timeStampFromJson(json['createdAt']),
+      createdBy: json['createdBy'] as String?,
+      objectName: json['objectName'] as String?,
+      objectType:
+          (json['objectType'] as String?)?.let(ObjectTypeEnum.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final createdAt = this.createdAt;
+    final createdBy = this.createdBy;
+    final objectName = this.objectName;
+    final objectType = this.objectType;
+    return {
+      if (action != null) 'action': action.value,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (createdBy != null) 'createdBy': createdBy,
+      if (objectName != null) 'objectName': objectName,
+      if (objectType != null) 'objectType': objectType.value,
+    };
+  }
+}
+
+class ObjectTypeEnum {
+  static const assessment = ObjectTypeEnum._('ASSESSMENT');
+  static const controlSet = ObjectTypeEnum._('CONTROL_SET');
+  static const control = ObjectTypeEnum._('CONTROL');
+  static const delegation = ObjectTypeEnum._('DELEGATION');
+  static const assessmentReport = ObjectTypeEnum._('ASSESSMENT_REPORT');
+
+  final String value;
+
+  const ObjectTypeEnum._(this.value);
+
+  static const values = [
+    assessment,
+    controlSet,
+    control,
+    delegation,
+    assessmentReport
+  ];
+
+  static ObjectTypeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ObjectTypeEnum._(value));
+
+  @override
+  bool operator ==(other) => other is ObjectTypeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ActionEnum {
+  static const create = ActionEnum._('CREATE');
+  static const updateMetadata = ActionEnum._('UPDATE_METADATA');
+  static const active = ActionEnum._('ACTIVE');
+  static const inactive = ActionEnum._('INACTIVE');
+  static const delete = ActionEnum._('DELETE');
+  static const underReview = ActionEnum._('UNDER_REVIEW');
+  static const reviewed = ActionEnum._('REVIEWED');
+  static const importEvidence = ActionEnum._('IMPORT_EVIDENCE');
+
+  final String value;
+
+  const ActionEnum._(this.value);
+
+  static const values = [
+    create,
+    updateMetadata,
+    active,
+    inactive,
+    delete,
+    underReview,
+    reviewed,
+    importEvidence
+  ];
+
+  static ActionEnum fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ActionEnum._(value));
+
+  @override
+  bool operator ==(other) => other is ActionEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Short for uniform resource locator. A URL is used as a unique identifier to
+/// locate a resource on the internet.
+class URL {
+  /// The name or word that's used as a hyperlink to the URL.
+  final String? hyperlinkName;
+
+  /// The unique identifier for the internet resource.
+  final String? link;
+
+  URL({
+    this.hyperlinkName,
+    this.link,
+  });
+
+  factory URL.fromJson(Map<String, dynamic> json) {
+    return URL(
+      hyperlinkName: json['hyperlinkName'] as String?,
+      link: json['link'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hyperlinkName = this.hyperlinkName;
+    final link = this.link;
+    return {
+      if (hyperlinkName != null) 'hyperlinkName': hyperlinkName,
+      if (link != null) 'link': link,
+    };
+  }
+}
+
+/// The mapping attributes that determine the evidence source for a given
+/// control, along with related parameters and metadata. This doesn't contain
+/// <code>mappingID</code>.
+class CreateControlMappingSource {
+  /// The description of the data source that determines where Audit Manager
+  /// collects evidence from for the control.
+  final String? sourceDescription;
+
+  /// Specifies how often evidence is collected from the control mapping source.
+  final SourceFrequency? sourceFrequency;
+  final SourceKeyword? sourceKeyword;
+
+  /// The name of the control mapping data source.
+  final String? sourceName;
+
+  /// The setup option for the data source. This option reflects if the evidence
+  /// collection method is automated or manual. If you don’t provide a value for
+  /// <code>sourceSetUpOption</code>, Audit Manager automatically infers and
+  /// populates the correct value based on the <code>sourceType</code> that you
+  /// specify.
+  final SourceSetUpOption? sourceSetUpOption;
+
+  /// Specifies which type of data source is used to collect evidence.
+  ///
+  /// <ul>
+  /// <li>
+  /// The source can be an individual data source type, such as
+  /// <code>AWS_Cloudtrail</code>, <code>AWS_Config</code>,
+  /// <code>AWS_Security_Hub</code>, <code>AWS_API_Call</code>, or
+  /// <code>MANUAL</code>.
+  /// </li>
+  /// <li>
+  /// The source can also be a managed grouping of data sources, such as a
+  /// <code>Core_Control</code> or a <code>Common_Control</code>.
+  /// </li>
+  /// </ul>
+  final SourceType? sourceType;
+
+  /// The instructions for troubleshooting the control.
+  final String? troubleshootingText;
+
+  CreateControlMappingSource({
+    this.sourceDescription,
+    this.sourceFrequency,
+    this.sourceKeyword,
+    this.sourceName,
+    this.sourceSetUpOption,
+    this.sourceType,
+    this.troubleshootingText,
+  });
+
+  Map<String, dynamic> toJson() {
+    final sourceDescription = this.sourceDescription;
+    final sourceFrequency = this.sourceFrequency;
+    final sourceKeyword = this.sourceKeyword;
+    final sourceName = this.sourceName;
+    final sourceSetUpOption = this.sourceSetUpOption;
+    final sourceType = this.sourceType;
+    final troubleshootingText = this.troubleshootingText;
+    return {
+      if (sourceDescription != null) 'sourceDescription': sourceDescription,
+      if (sourceFrequency != null) 'sourceFrequency': sourceFrequency.value,
+      if (sourceKeyword != null) 'sourceKeyword': sourceKeyword,
+      if (sourceName != null) 'sourceName': sourceName,
+      if (sourceSetUpOption != null)
+        'sourceSetUpOption': sourceSetUpOption.value,
+      if (sourceType != null) 'sourceType': sourceType.value,
+      if (troubleshootingText != null)
+        'troubleshootingText': troubleshootingText,
+    };
+  }
+}
+
+/// A finalized document that's generated from an Audit Manager assessment.
+/// These reports summarize the relevant evidence that was collected for your
+/// audit, and link to the relevant evidence folders. These evidence folders are
+/// named and organized according to the controls that are specified in your
+/// assessment.
+class AssessmentReport {
+  /// The identifier for the specified assessment.
+  final String? assessmentId;
+
+  /// The name of the associated assessment.
+  final String? assessmentName;
+
+  /// The name of the user who created the assessment report.
+  final String? author;
+
+  /// The identifier for the specified Amazon Web Services account.
+  final String? awsAccountId;
+
+  /// Specifies when the assessment report was created.
+  final DateTime? creationTime;
+
+  /// The description of the specified assessment report.
+  final String? description;
+
+  /// The unique identifier for the assessment report.
+  final String? id;
+
+  /// The name that's given to the assessment report.
+  final String? name;
+
+  /// The current status of the specified assessment report.
+  final AssessmentReportStatus? status;
+
+  AssessmentReport({
+    this.assessmentId,
+    this.assessmentName,
+    this.author,
+    this.awsAccountId,
+    this.creationTime,
+    this.description,
+    this.id,
+    this.name,
+    this.status,
+  });
+
+  factory AssessmentReport.fromJson(Map<String, dynamic> json) {
+    return AssessmentReport(
+      assessmentId: json['assessmentId'] as String?,
+      assessmentName: json['assessmentName'] as String?,
+      author: json['author'] as String?,
+      awsAccountId: json['awsAccountId'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      description: json['description'] as String?,
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      status:
+          (json['status'] as String?)?.let(AssessmentReportStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assessmentId = this.assessmentId;
+    final assessmentName = this.assessmentName;
+    final author = this.author;
+    final awsAccountId = this.awsAccountId;
+    final creationTime = this.creationTime;
+    final description = this.description;
+    final id = this.id;
+    final name = this.name;
+    final status = this.status;
+    return {
+      if (assessmentId != null) 'assessmentId': assessmentId,
+      if (assessmentName != null) 'assessmentName': assessmentName,
+      if (author != null) 'author': author,
+      if (awsAccountId != null) 'awsAccountId': awsAccountId,
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (description != null) 'description': description,
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+/// A <code>controlSet</code> entity that represents a collection of controls in
+/// Audit Manager. This doesn't contain the control set ID.
+class CreateAssessmentFrameworkControlSet {
+  /// The name of the control set.
+  final String name;
+
+  /// The list of controls within the control set. This doesn't contain the
+  /// control set ID.
+  final List<CreateAssessmentFrameworkControl>? controls;
+
+  CreateAssessmentFrameworkControlSet({
+    required this.name,
+    this.controls,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final controls = this.controls;
+    return {
+      'name': name,
+      if (controls != null) 'controls': controls,
+    };
+  }
+}
+
+/// An error entity for the <code>BatchImportEvidenceToAssessmentControl</code>
+/// API. This is used to provide more meaningful errors than a simple string
+/// message.
+class BatchImportEvidenceToAssessmentControlError {
+  /// The error code that the <code>BatchImportEvidenceToAssessmentControl</code>
+  /// API returned.
+  final String? errorCode;
+
+  /// The error message that the
+  /// <code>BatchImportEvidenceToAssessmentControl</code> API returned.
+  final String? errorMessage;
+
+  /// Manual evidence that can't be collected automatically by Audit Manager.
+  final ManualEvidence? manualEvidence;
+
+  BatchImportEvidenceToAssessmentControlError({
+    this.errorCode,
+    this.errorMessage,
+    this.manualEvidence,
+  });
+
+  factory BatchImportEvidenceToAssessmentControlError.fromJson(
+      Map<String, dynamic> json) {
+    return BatchImportEvidenceToAssessmentControlError(
+      errorCode: json['errorCode'] as String?,
+      errorMessage: json['errorMessage'] as String?,
+      manualEvidence: json['manualEvidence'] != null
+          ? ManualEvidence.fromJson(
+              json['manualEvidence'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final manualEvidence = this.manualEvidence;
+    return {
+      if (errorCode != null) 'errorCode': errorCode,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (manualEvidence != null) 'manualEvidence': manualEvidence,
+    };
+  }
+}
+
+/// Evidence that's manually added to a control in Audit Manager.
+/// <code>manualEvidence</code> can be one of the following:
+/// <code>evidenceFileName</code>, <code>s3ResourcePath</code>, or
+/// <code>textResponse</code>.
+class ManualEvidence {
+  /// The name of the file that's uploaded as manual evidence. This name is
+  /// populated using the <code>evidenceFileName</code> value from the <a
+  /// href="https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_GetEvidenceFileUploadUrl.html">
+  /// <code>GetEvidenceFileUploadUrl</code> </a> API response.
+  final String? evidenceFileName;
+
+  /// The S3 URL of the object that's imported as manual evidence.
+  final String? s3ResourcePath;
+
+  /// The plain text response that's entered and saved as manual evidence.
+  final String? textResponse;
+
+  ManualEvidence({
+    this.evidenceFileName,
+    this.s3ResourcePath,
+    this.textResponse,
+  });
+
+  factory ManualEvidence.fromJson(Map<String, dynamic> json) {
+    return ManualEvidence(
+      evidenceFileName: json['evidenceFileName'] as String?,
+      s3ResourcePath: json['s3ResourcePath'] as String?,
+      textResponse: json['textResponse'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final evidenceFileName = this.evidenceFileName;
+    final s3ResourcePath = this.s3ResourcePath;
+    final textResponse = this.textResponse;
+    return {
+      if (evidenceFileName != null) 'evidenceFileName': evidenceFileName,
+      if (s3ResourcePath != null) 's3ResourcePath': s3ResourcePath,
+      if (textResponse != null) 'textResponse': textResponse,
+    };
+  }
+}
+
+/// An error entity for assessment report evidence errors. This is used to
+/// provide more meaningful errors than a simple string message.
+class AssessmentReportEvidenceError {
+  /// The error code that was returned.
+  final String? errorCode;
+
+  /// The error message that was returned.
+  final String? errorMessage;
+
+  /// The identifier for the evidence.
+  final String? evidenceId;
+
+  AssessmentReportEvidenceError({
+    this.errorCode,
+    this.errorMessage,
+    this.evidenceId,
+  });
+
+  factory AssessmentReportEvidenceError.fromJson(Map<String, dynamic> json) {
+    return AssessmentReportEvidenceError(
+      errorCode: json['errorCode'] as String?,
+      errorMessage: json['errorMessage'] as String?,
+      evidenceId: json['evidenceId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final evidenceId = this.evidenceId;
+    return {
+      if (errorCode != null) 'errorCode': errorCode,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (evidenceId != null) 'evidenceId': evidenceId,
+    };
+  }
+}
+
+/// An error entity for the <code>BatchDeleteDelegationByAssessment</code> API.
+/// This is used to provide more meaningful errors than a simple string message.
+class BatchDeleteDelegationByAssessmentError {
+  /// The identifier for the delegation.
+  final String? delegationId;
+
+  /// The error code that the <code>BatchDeleteDelegationByAssessment</code> API
+  /// returned.
+  final String? errorCode;
+
+  /// The error message that the <code>BatchDeleteDelegationByAssessment</code>
+  /// API returned.
+  final String? errorMessage;
+
+  BatchDeleteDelegationByAssessmentError({
+    this.delegationId,
+    this.errorCode,
+    this.errorMessage,
+  });
+
+  factory BatchDeleteDelegationByAssessmentError.fromJson(
+      Map<String, dynamic> json) {
+    return BatchDeleteDelegationByAssessmentError(
+      delegationId: json['delegationId'] as String?,
+      errorCode: json['errorCode'] as String?,
+      errorMessage: json['errorMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final delegationId = this.delegationId;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    return {
+      if (delegationId != null) 'delegationId': delegationId,
+      if (errorCode != null) 'errorCode': errorCode,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+    };
+  }
+}
+
+/// An error entity for the <code>BatchCreateDelegationByAssessment</code> API.
+/// This is used to provide more meaningful errors than a simple string message.
+class BatchCreateDelegationByAssessmentError {
+  /// The API request to batch create delegations in Audit Manager.
+  final CreateDelegationRequest? createDelegationRequest;
+
+  /// The error code that the <code>BatchCreateDelegationByAssessment</code> API
+  /// returned.
+  final String? errorCode;
+
+  /// The error message that the <code>BatchCreateDelegationByAssessment</code>
+  /// API returned.
+  final String? errorMessage;
+
+  BatchCreateDelegationByAssessmentError({
+    this.createDelegationRequest,
+    this.errorCode,
+    this.errorMessage,
+  });
+
+  factory BatchCreateDelegationByAssessmentError.fromJson(
+      Map<String, dynamic> json) {
+    return BatchCreateDelegationByAssessmentError(
+      createDelegationRequest: json['createDelegationRequest'] != null
+          ? CreateDelegationRequest.fromJson(
+              json['createDelegationRequest'] as Map<String, dynamic>)
+          : null,
+      errorCode: json['errorCode'] as String?,
+      errorMessage: json['errorMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createDelegationRequest = this.createDelegationRequest;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    return {
+      if (createDelegationRequest != null)
+        'createDelegationRequest': createDelegationRequest,
+      if (errorCode != null) 'errorCode': errorCode,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+    };
+  }
+}
+
+/// A collection of attributes that's used to create a delegation for an
+/// assessment in Audit Manager.
+class CreateDelegationRequest {
+  /// A comment that's related to the delegation request.
+  final String? comment;
+
+  /// The unique identifier for the control set.
+  final String? controlSetId;
+
+  /// The Amazon Resource Name (ARN) of the IAM role.
+  final String? roleArn;
+
+  /// The type of customer persona.
+  /// <note>
+  /// In <code>CreateAssessment</code>, <code>roleType</code> can only be
+  /// <code>PROCESS_OWNER</code>.
+  ///
+  /// In <code>UpdateSettings</code>, <code>roleType</code> can only be
+  /// <code>PROCESS_OWNER</code>.
+  ///
+  /// In <code>BatchCreateDelegationByAssessment</code>, <code>roleType</code> can
+  /// only be <code>RESOURCE_OWNER</code>.
+  /// </note>
+  final RoleType? roleType;
+
+  CreateDelegationRequest({
+    this.comment,
+    this.controlSetId,
+    this.roleArn,
+    this.roleType,
+  });
+
+  factory CreateDelegationRequest.fromJson(Map<String, dynamic> json) {
+    return CreateDelegationRequest(
+      comment: json['comment'] as String?,
+      controlSetId: json['controlSetId'] as String?,
+      roleArn: json['roleArn'] as String?,
+      roleType: (json['roleType'] as String?)?.let(RoleType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final comment = this.comment;
+    final controlSetId = this.controlSetId;
+    final roleArn = this.roleArn;
+    final roleType = this.roleType;
+    return {
+      if (comment != null) 'comment': comment,
+      if (controlSetId != null) 'controlSetId': controlSetId,
+      if (roleArn != null) 'roleArn': roleArn,
+      if (roleType != null) 'roleType': roleType.value,
     };
   }
 }

@@ -34,7 +34,6 @@ class KendraRanking {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'kendra-ranking',
-            signingName: 'kendra-ranking',
           ),
           region: region,
           credentials: credentials,
@@ -64,10 +63,10 @@ class KendraRanking {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [name] :
   /// A name for the rescore execution plan.
@@ -131,11 +130,11 @@ class KendraRanking {
   /// <code>Rescore</code> API.
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The identifier of the rescore execution plan that you want to delete.
@@ -163,11 +162,11 @@ class KendraRanking {
   /// is an Amazon Kendra Intelligent Ranking resource used for provisioning the
   /// <code>Rescore</code> API.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The identifier of the rescore execution plan that you want to get
@@ -198,10 +197,10 @@ class KendraRanking {
   /// Kendra Intelligent Ranking resource used for provisioning the
   /// <code>Rescore</code> API.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of rescore execution plans to return.
@@ -244,11 +243,11 @@ class KendraRanking {
   /// execution plan is an example of a resource that can have tags associated
   /// with it.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceUnavailableException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceUnavailableException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceARN] :
   /// The Amazon Resource Name (ARN) of the rescore execution plan to get a list
@@ -278,12 +277,12 @@ class KendraRanking {
   /// OpenSearch (self managed). You use the semantic search capabilities of
   /// Amazon Kendra Intelligent Ranking to improve the search service's results.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [documents] :
   /// The list of documents for Amazon Kendra Intelligent Ranking to rescore or
@@ -326,11 +325,11 @@ class KendraRanking {
   /// provisioning the <code>Rescore</code> API. If the tag already exists, the
   /// existing value is replaced with the new value.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceUnavailableException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceUnavailableException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceARN] :
   /// The Amazon Resource Name (ARN) of the rescore execution plan to tag.
@@ -363,11 +362,11 @@ class KendraRanking {
   /// an Amazon Kendra Intelligent Ranking resource used for provisioning the
   /// <code>Rescore</code> operation.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceUnavailableException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceUnavailableException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceARN] :
   /// The Amazon Resource Name (ARN) of the rescore execution plan to remove the
@@ -403,13 +402,13 @@ class KendraRanking {
   /// require for Amazon Kendra Intelligent Ranking to rescore or re-rank a
   /// search service's results.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The identifier of the rescore execution plan that you want to update.
@@ -452,35 +451,6 @@ class KendraRanking {
         if (name != null) 'Name': name,
       },
     );
-  }
-}
-
-/// Sets additional capacity units configured for your rescore execution plan. A
-/// rescore execution plan is an Amazon Kendra Intelligent Ranking resource used
-/// for provisioning the <code>Rescore</code> API. You can add and remove
-/// capacity units to fit your usage requirements.
-class CapacityUnitsConfiguration {
-  /// The amount of extra capacity for your rescore execution plan.
-  ///
-  /// A single extra capacity unit for a rescore execution plan provides 0.01
-  /// rescore requests per second. You can add up to 1000 extra capacity units.
-  final int rescoreCapacityUnits;
-
-  CapacityUnitsConfiguration({
-    required this.rescoreCapacityUnits,
-  });
-
-  factory CapacityUnitsConfiguration.fromJson(Map<String, dynamic> json) {
-    return CapacityUnitsConfiguration(
-      rescoreCapacityUnits: (json['RescoreCapacityUnits'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final rescoreCapacityUnits = this.rescoreCapacityUnits;
-    return {
-      'RescoreCapacityUnits': rescoreCapacityUnits,
-    };
   }
 }
 
@@ -606,6 +576,226 @@ class DescribeRescoreExecutionPlanResponse {
   }
 }
 
+class ListRescoreExecutionPlansResponse {
+  /// If the response is truncated, Amazon Kendra Intelligent Ranking returns a
+  /// pagination token in the response.
+  final String? nextToken;
+
+  /// An array of summary information for one or more rescore execution plans.
+  final List<RescoreExecutionPlanSummary>? summaryItems;
+
+  ListRescoreExecutionPlansResponse({
+    this.nextToken,
+    this.summaryItems,
+  });
+
+  factory ListRescoreExecutionPlansResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListRescoreExecutionPlansResponse(
+      nextToken: json['NextToken'] as String?,
+      summaryItems: (json['SummaryItems'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              RescoreExecutionPlanSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final summaryItems = this.summaryItems;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (summaryItems != null) 'SummaryItems': summaryItems,
+    };
+  }
+}
+
+/// If the action is successful, the service sends back an HTTP 200 response.
+class ListTagsForResourceResponse {
+  /// A list of tags associated with the rescore execution plan.
+  final List<Tag>? tags;
+
+  ListTagsForResourceResponse({
+    this.tags,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+class RescoreResult {
+  /// The identifier associated with the scores that Amazon Kendra Intelligent
+  /// Ranking gives to the results. Amazon Kendra Intelligent Ranking rescores or
+  /// re-ranks the results for the search service.
+  final String? rescoreId;
+
+  /// A list of result items for documents with new relevancy scores. The results
+  /// are in descending order.
+  final List<RescoreResultItem>? resultItems;
+
+  RescoreResult({
+    this.rescoreId,
+    this.resultItems,
+  });
+
+  factory RescoreResult.fromJson(Map<String, dynamic> json) {
+    return RescoreResult(
+      rescoreId: json['RescoreId'] as String?,
+      resultItems: (json['ResultItems'] as List?)
+          ?.nonNulls
+          .map((e) => RescoreResultItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rescoreId = this.rescoreId;
+    final resultItems = this.resultItems;
+    return {
+      if (rescoreId != null) 'RescoreId': rescoreId,
+      if (resultItems != null) 'ResultItems': resultItems,
+    };
+  }
+}
+
+/// If the action is successful, the service sends back an HTTP 200 response
+/// with an empty HTTP body.
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// If the action is successful, the service sends back an HTTP 200 response
+/// with an empty HTTP body.
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Sets additional capacity units configured for your rescore execution plan. A
+/// rescore execution plan is an Amazon Kendra Intelligent Ranking resource used
+/// for provisioning the <code>Rescore</code> API. You can add and remove
+/// capacity units to fit your usage requirements.
+class CapacityUnitsConfiguration {
+  /// The amount of extra capacity for your rescore execution plan.
+  ///
+  /// A single extra capacity unit for a rescore execution plan provides 0.01
+  /// rescore requests per second. You can add up to 1000 extra capacity units.
+  final int rescoreCapacityUnits;
+
+  CapacityUnitsConfiguration({
+    required this.rescoreCapacityUnits,
+  });
+
+  factory CapacityUnitsConfiguration.fromJson(Map<String, dynamic> json) {
+    return CapacityUnitsConfiguration(
+      rescoreCapacityUnits: (json['RescoreCapacityUnits'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rescoreCapacityUnits = this.rescoreCapacityUnits;
+    return {
+      'RescoreCapacityUnits': rescoreCapacityUnits,
+    };
+  }
+}
+
+/// A key-value pair that identifies or categorizes a rescore execution plan. A
+/// rescore execution plan is an Amazon Kendra Intelligent Ranking resource used
+/// for provisioning the <code>Rescore</code> API. You can also use a tag to
+/// help control access to a rescore execution plan. A tag key and value can
+/// consist of Unicode letters, digits, white space, and any of the following
+/// symbols: _ . : / = + - @.
+class Tag {
+  /// The key for the tag. Keys are not case sensitive and must be unique.
+  final String key;
+
+  /// The value associated with the tag. The value can be an empty string but it
+  /// can't be null.
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
+/// A result item for a document with a new relevancy score.
+class RescoreResultItem {
+  /// The identifier of the document from the search service.
+  final String? documentId;
+
+  /// The relevancy score or rank that Amazon Kendra Intelligent Ranking gives to
+  /// the result.
+  final double? score;
+
+  RescoreResultItem({
+    this.documentId,
+    this.score,
+  });
+
+  factory RescoreResultItem.fromJson(Map<String, dynamic> json) {
+    return RescoreResultItem(
+      documentId: json['DocumentId'] as String?,
+      score: json['Score'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final documentId = this.documentId;
+    final score = this.score;
+    return {
+      if (documentId != null) 'DocumentId': documentId,
+      if (score != null) 'Score': score,
+    };
+  }
+}
+
 /// Information about a document from a search service such as OpenSearch (self
 /// managed). Amazon Kendra Intelligent Ranking uses this information to rank
 /// and score on.
@@ -669,95 +859,6 @@ class Document {
   }
 }
 
-class ListRescoreExecutionPlansResponse {
-  /// If the response is truncated, Amazon Kendra Intelligent Ranking returns a
-  /// pagination token in the response.
-  final String? nextToken;
-
-  /// An array of summary information for one or more rescore execution plans.
-  final List<RescoreExecutionPlanSummary>? summaryItems;
-
-  ListRescoreExecutionPlansResponse({
-    this.nextToken,
-    this.summaryItems,
-  });
-
-  factory ListRescoreExecutionPlansResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListRescoreExecutionPlansResponse(
-      nextToken: json['NextToken'] as String?,
-      summaryItems: (json['SummaryItems'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              RescoreExecutionPlanSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final summaryItems = this.summaryItems;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (summaryItems != null) 'SummaryItems': summaryItems,
-    };
-  }
-}
-
-/// If the action is successful, the service sends back an HTTP 200 response.
-class ListTagsForResourceResponse {
-  /// A list of tags associated with the rescore execution plan.
-  final List<Tag>? tags;
-
-  ListTagsForResourceResponse({
-    this.tags,
-  });
-
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
-    return ListTagsForResourceResponse(
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tags = this.tags;
-    return {
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-class RescoreExecutionPlanStatus {
-  static const creating = RescoreExecutionPlanStatus._('CREATING');
-  static const updating = RescoreExecutionPlanStatus._('UPDATING');
-  static const active = RescoreExecutionPlanStatus._('ACTIVE');
-  static const deleting = RescoreExecutionPlanStatus._('DELETING');
-  static const failed = RescoreExecutionPlanStatus._('FAILED');
-
-  final String value;
-
-  const RescoreExecutionPlanStatus._(this.value);
-
-  static const values = [creating, updating, active, deleting, failed];
-
-  static RescoreExecutionPlanStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RescoreExecutionPlanStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is RescoreExecutionPlanStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 /// Summary information for a rescore execution plan. A rescore execution plan
 /// is an Amazon Kendra Intelligent Ranking resource used for provisioning the
 /// <code>Rescore</code> API.
@@ -813,134 +914,32 @@ class RescoreExecutionPlanSummary {
   }
 }
 
-class RescoreResult {
-  /// The identifier associated with the scores that Amazon Kendra Intelligent
-  /// Ranking gives to the results. Amazon Kendra Intelligent Ranking rescores or
-  /// re-ranks the results for the search service.
-  final String? rescoreId;
+class RescoreExecutionPlanStatus {
+  static const creating = RescoreExecutionPlanStatus._('CREATING');
+  static const updating = RescoreExecutionPlanStatus._('UPDATING');
+  static const active = RescoreExecutionPlanStatus._('ACTIVE');
+  static const deleting = RescoreExecutionPlanStatus._('DELETING');
+  static const failed = RescoreExecutionPlanStatus._('FAILED');
 
-  /// A list of result items for documents with new relevancy scores. The results
-  /// are in descending order.
-  final List<RescoreResultItem>? resultItems;
-
-  RescoreResult({
-    this.rescoreId,
-    this.resultItems,
-  });
-
-  factory RescoreResult.fromJson(Map<String, dynamic> json) {
-    return RescoreResult(
-      rescoreId: json['RescoreId'] as String?,
-      resultItems: (json['ResultItems'] as List?)
-          ?.nonNulls
-          .map((e) => RescoreResultItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final rescoreId = this.rescoreId;
-    final resultItems = this.resultItems;
-    return {
-      if (rescoreId != null) 'RescoreId': rescoreId,
-      if (resultItems != null) 'ResultItems': resultItems,
-    };
-  }
-}
-
-/// A result item for a document with a new relevancy score.
-class RescoreResultItem {
-  /// The identifier of the document from the search service.
-  final String? documentId;
-
-  /// The relevancy score or rank that Amazon Kendra Intelligent Ranking gives to
-  /// the result.
-  final double? score;
-
-  RescoreResultItem({
-    this.documentId,
-    this.score,
-  });
-
-  factory RescoreResultItem.fromJson(Map<String, dynamic> json) {
-    return RescoreResultItem(
-      documentId: json['DocumentId'] as String?,
-      score: json['Score'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final documentId = this.documentId;
-    final score = this.score;
-    return {
-      if (documentId != null) 'DocumentId': documentId,
-      if (score != null) 'Score': score,
-    };
-  }
-}
-
-/// A key-value pair that identifies or categorizes a rescore execution plan. A
-/// rescore execution plan is an Amazon Kendra Intelligent Ranking resource used
-/// for provisioning the <code>Rescore</code> API. You can also use a tag to
-/// help control access to a rescore execution plan. A tag key and value can
-/// consist of Unicode letters, digits, white space, and any of the following
-/// symbols: _ . : / = + - @.
-class Tag {
-  /// The key for the tag. Keys are not case sensitive and must be unique.
-  final String key;
-
-  /// The value associated with the tag. The value can be an empty string but it
-  /// can't be null.
   final String value;
 
-  Tag({
-    required this.key,
-    required this.value,
-  });
+  const RescoreExecutionPlanStatus._(this.value);
 
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['Key'] as String?) ?? '',
-      value: (json['Value'] as String?) ?? '',
-    );
-  }
+  static const values = [creating, updating, active, deleting, failed];
 
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'Key': key,
-      'Value': value,
-    };
-  }
-}
+  static RescoreExecutionPlanStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RescoreExecutionPlanStatus._(value));
 
-/// If the action is successful, the service sends back an HTTP 200 response
-/// with an empty HTTP body.
-class TagResourceResponse {
-  TagResourceResponse();
+  @override
+  bool operator ==(other) =>
+      other is RescoreExecutionPlanStatus && other.value == value;
 
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
+  @override
+  int get hashCode => value.hashCode;
 
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// If the action is successful, the service sends back an HTTP 200 response
-/// with an empty HTTP body.
-class UntagResourceResponse {
-  UntagResourceResponse();
-
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

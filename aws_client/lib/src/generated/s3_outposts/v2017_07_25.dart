@@ -33,7 +33,6 @@ class S3Outposts {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 's3-outposts',
-            signingName: 's3-outposts',
           ),
           region: region,
           credentials: credentials,
@@ -53,7 +52,9 @@ class S3Outposts {
   /// Creates an endpoint and associates it with the specified Outpost.
   /// <note>
   /// It can take up to 5 minutes for this action to finish.
-  /// </note> <p/>
+  /// </note>
+  ///
+  ///
   /// Related actions include:
   ///
   /// <ul>
@@ -67,13 +68,13 @@ class S3Outposts {
   /// </li>
   /// </ul>
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
   /// May throw [OutpostOfflineException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [outpostId] :
   /// The ID of the Outposts.
@@ -126,7 +127,9 @@ class S3Outposts {
   /// Deletes an endpoint.
   /// <note>
   /// It can take up to 5 minutes for this action to finish.
-  /// </note> <p/>
+  /// </note>
+  ///
+  ///
   /// Related actions include:
   ///
   /// <ul>
@@ -140,12 +143,12 @@ class S3Outposts {
   /// </li>
   /// </ul>
   ///
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
   /// May throw [OutpostOfflineException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [endpointId] :
   /// The ID of the endpoint.
@@ -184,11 +187,11 @@ class S3Outposts {
   /// </li>
   /// </ul>
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of endpoints that will be returned in the response.
@@ -225,10 +228,10 @@ class S3Outposts {
   /// Services account. Includes S3 on Outposts that you have access to as the
   /// Outposts owner, or as a shared user from Resource Access Manager (RAM).
   ///
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of Outposts to return. The limit is 100.
@@ -279,11 +282,11 @@ class S3Outposts {
   /// </li>
   /// </ul>
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [outpostId] :
   /// The ID of the Amazon Web Services Outpost.
@@ -340,6 +343,121 @@ class CreateEndpointResult {
     final endpointArn = this.endpointArn;
     return {
       if (endpointArn != null) 'EndpointArn': endpointArn,
+    };
+  }
+}
+
+class ListEndpointsResult {
+  /// The list of endpoints associated with the specified Outpost.
+  final List<Endpoint>? endpoints;
+
+  /// If the number of endpoints associated with the specified Outpost exceeds
+  /// <code>MaxResults</code>, you can include this value in subsequent calls to
+  /// this operation to retrieve more results.
+  final String? nextToken;
+
+  ListEndpointsResult({
+    this.endpoints,
+    this.nextToken,
+  });
+
+  factory ListEndpointsResult.fromJson(Map<String, dynamic> json) {
+    return ListEndpointsResult(
+      endpoints: (json['Endpoints'] as List?)
+          ?.nonNulls
+          .map((e) => Endpoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpoints = this.endpoints;
+    final nextToken = this.nextToken;
+    return {
+      if (endpoints != null) 'Endpoints': endpoints,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListOutpostsWithS3Result {
+  /// Returns a token that you can use to call <code>ListOutpostsWithS3</code>
+  /// again and receive additional results, if there are any.
+  final String? nextToken;
+
+  /// Returns the list of Outposts that have the following characteristics:
+  ///
+  /// <ul>
+  /// <li>
+  /// outposts that have S3 provisioned
+  /// </li>
+  /// <li>
+  /// outposts that are <code>Active</code> (not pending any provisioning nor
+  /// decommissioned)
+  /// </li>
+  /// <li>
+  /// outposts to which the the calling Amazon Web Services account has access
+  /// </li>
+  /// </ul>
+  final List<Outpost>? outposts;
+
+  ListOutpostsWithS3Result({
+    this.nextToken,
+    this.outposts,
+  });
+
+  factory ListOutpostsWithS3Result.fromJson(Map<String, dynamic> json) {
+    return ListOutpostsWithS3Result(
+      nextToken: json['NextToken'] as String?,
+      outposts: (json['Outposts'] as List?)
+          ?.nonNulls
+          .map((e) => Outpost.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final outposts = this.outposts;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (outposts != null) 'Outposts': outposts,
+    };
+  }
+}
+
+class ListSharedEndpointsResult {
+  /// The list of endpoints associated with the specified Outpost that have been
+  /// shared by Amazon Web Services Resource Access Manager (RAM).
+  final List<Endpoint>? endpoints;
+
+  /// If the number of endpoints associated with the specified Outpost exceeds
+  /// <code>MaxResults</code>, you can include this value in subsequent calls to
+  /// this operation to retrieve more results.
+  final String? nextToken;
+
+  ListSharedEndpointsResult({
+    this.endpoints,
+    this.nextToken,
+  });
+
+  factory ListSharedEndpointsResult.fromJson(Map<String, dynamic> json) {
+    return ListSharedEndpointsResult(
+      endpoints: (json['Endpoints'] as List?)
+          ?.nonNulls
+          .map((e) => Endpoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpoints = this.endpoints;
+    final nextToken = this.nextToken;
+    return {
+      if (endpoints != null) 'Endpoints': endpoints,
+      if (nextToken != null) 'NextToken': nextToken,
     };
   }
 }
@@ -458,31 +576,6 @@ class Endpoint {
   }
 }
 
-class EndpointAccessType {
-  static const private = EndpointAccessType._('Private');
-  static const customerOwnedIp = EndpointAccessType._('CustomerOwnedIp');
-
-  final String value;
-
-  const EndpointAccessType._(this.value);
-
-  static const values = [private, customerOwnedIp];
-
-  static EndpointAccessType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EndpointAccessType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is EndpointAccessType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class EndpointStatus {
   static const pending = EndpointStatus._('Pending');
   static const available = EndpointStatus._('Available');
@@ -508,6 +601,31 @@ class EndpointStatus {
 
   @override
   bool operator ==(other) => other is EndpointStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class EndpointAccessType {
+  static const private = EndpointAccessType._('Private');
+  static const customerOwnedIp = EndpointAccessType._('CustomerOwnedIp');
+
+  final String value;
+
+  const EndpointAccessType._(this.value);
+
+  static const values = [private, customerOwnedIp];
+
+  static EndpointAccessType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EndpointAccessType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EndpointAccessType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -543,121 +661,6 @@ class FailedReason {
     return {
       if (errorCode != null) 'ErrorCode': errorCode,
       if (message != null) 'Message': message,
-    };
-  }
-}
-
-class ListEndpointsResult {
-  /// The list of endpoints associated with the specified Outpost.
-  final List<Endpoint>? endpoints;
-
-  /// If the number of endpoints associated with the specified Outpost exceeds
-  /// <code>MaxResults</code>, you can include this value in subsequent calls to
-  /// this operation to retrieve more results.
-  final String? nextToken;
-
-  ListEndpointsResult({
-    this.endpoints,
-    this.nextToken,
-  });
-
-  factory ListEndpointsResult.fromJson(Map<String, dynamic> json) {
-    return ListEndpointsResult(
-      endpoints: (json['Endpoints'] as List?)
-          ?.nonNulls
-          .map((e) => Endpoint.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final endpoints = this.endpoints;
-    final nextToken = this.nextToken;
-    return {
-      if (endpoints != null) 'Endpoints': endpoints,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListOutpostsWithS3Result {
-  /// Returns a token that you can use to call <code>ListOutpostsWithS3</code>
-  /// again and receive additional results, if there are any.
-  final String? nextToken;
-
-  /// Returns the list of Outposts that have the following characteristics:
-  ///
-  /// <ul>
-  /// <li>
-  /// outposts that have S3 provisioned
-  /// </li>
-  /// <li>
-  /// outposts that are <code>Active</code> (not pending any provisioning nor
-  /// decommissioned)
-  /// </li>
-  /// <li>
-  /// outposts to which the the calling Amazon Web Services account has access
-  /// </li>
-  /// </ul>
-  final List<Outpost>? outposts;
-
-  ListOutpostsWithS3Result({
-    this.nextToken,
-    this.outposts,
-  });
-
-  factory ListOutpostsWithS3Result.fromJson(Map<String, dynamic> json) {
-    return ListOutpostsWithS3Result(
-      nextToken: json['NextToken'] as String?,
-      outposts: (json['Outposts'] as List?)
-          ?.nonNulls
-          .map((e) => Outpost.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final outposts = this.outposts;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (outposts != null) 'Outposts': outposts,
-    };
-  }
-}
-
-class ListSharedEndpointsResult {
-  /// The list of endpoints associated with the specified Outpost that have been
-  /// shared by Amazon Web Services Resource Access Manager (RAM).
-  final List<Endpoint>? endpoints;
-
-  /// If the number of endpoints associated with the specified Outpost exceeds
-  /// <code>MaxResults</code>, you can include this value in subsequent calls to
-  /// this operation to retrieve more results.
-  final String? nextToken;
-
-  ListSharedEndpointsResult({
-    this.endpoints,
-    this.nextToken,
-  });
-
-  factory ListSharedEndpointsResult.fromJson(Map<String, dynamic> json) {
-    return ListSharedEndpointsResult(
-      endpoints: (json['Endpoints'] as List?)
-          ?.nonNulls
-          .map((e) => Endpoint.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final endpoints = this.endpoints;
-    final nextToken = this.nextToken;
-    return {
-      if (endpoints != null) 'Endpoints': endpoints,
-      if (nextToken != null) 'NextToken': nextToken,
     };
   }
 }

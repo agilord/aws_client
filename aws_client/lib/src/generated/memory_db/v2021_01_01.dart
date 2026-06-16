@@ -61,8 +61,8 @@ class MemoryDB {
   /// href="https://docs.aws.amazon.com/MemoryDB/latest/devguide/managing-updates.html#applying-updates">Applying
   /// the service updates</a>.
   ///
-  /// May throw [ServiceUpdateNotFoundFault].
   /// May throw [InvalidParameterValueException].
+  /// May throw [ServiceUpdateNotFoundFault].
   ///
   /// Parameter [clusterNames] :
   /// The cluster names to apply the updates.
@@ -94,13 +94,13 @@ class MemoryDB {
 
   /// Makes a copy of an existing snapshot.
   ///
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidSnapshotStateFault].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
   /// May throw [SnapshotAlreadyExistsFault].
   /// May throw [SnapshotNotFoundFault].
   /// May throw [SnapshotQuotaExceededFault].
-  /// May throw [InvalidSnapshotStateFault].
-  /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
   /// May throw [TagQuotaPerResourceExceeded].
   ///
   /// Parameter [sourceSnapshotName] :
@@ -158,13 +158,13 @@ class MemoryDB {
   /// href="https://docs.aws.amazon.com/MemoryDB/latest/devguide/clusters.acls.html">Authenticating
   /// users with Access Contol Lists (ACLs)</a>.
   ///
-  /// May throw [UserNotFoundFault].
-  /// May throw [DuplicateUserNameFault].
   /// May throw [ACLAlreadyExistsFault].
-  /// May throw [DefaultUserRequired].
   /// May throw [ACLQuotaExceededFault].
+  /// May throw [DefaultUserRequired].
+  /// May throw [DuplicateUserNameFault].
   /// May throw [InvalidParameterValueException].
   /// May throw [TagQuotaPerResourceExceeded].
+  /// May throw [UserNotFoundFault].
   ///
   /// Parameter [aCLName] :
   /// The name of the Access Control List.
@@ -203,22 +203,24 @@ class MemoryDB {
   /// Creates a cluster. All nodes in the cluster run the same
   /// protocol-compliant engine software.
   ///
+  /// May throw [ACLNotFoundFault].
   /// May throw [ClusterAlreadyExistsFault].
-  /// May throw [SubnetGroupNotFoundFault].
   /// May throw [ClusterQuotaForCustomerExceededFault].
+  /// May throw [InsufficientClusterCapacityFault].
+  /// May throw [InvalidACLStateFault].
+  /// May throw [InvalidCredentialsException].
+  /// May throw [InvalidMultiRegionClusterStateFault].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidVPCNetworkStateFault].
+  /// May throw [MultiRegionClusterNotFoundFault].
   /// May throw [NodeQuotaForClusterExceededFault].
   /// May throw [NodeQuotaForCustomerExceededFault].
   /// May throw [ParameterGroupNotFoundFault].
-  /// May throw [InsufficientClusterCapacityFault].
-  /// May throw [InvalidVPCNetworkStateFault].
   /// May throw [ServiceLinkedRoleNotFoundFault].
   /// May throw [ShardsPerClusterQuotaExceededFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
-  /// May throw [InvalidCredentialsException].
+  /// May throw [SubnetGroupNotFoundFault].
   /// May throw [TagQuotaPerResourceExceeded].
-  /// May throw [ACLNotFoundFault].
-  /// May throw [InvalidACLStateFault].
   ///
   /// Parameter [aCLName] :
   /// The name of the Access Control List to associate with the cluster.
@@ -244,8 +246,20 @@ class MemoryDB {
   /// Parameter [description] :
   /// An optional description of the cluster.
   ///
+  /// Parameter [engine] :
+  /// The name of the engine to be used for the cluster.
+  ///
   /// Parameter [engineVersion] :
   /// The version number of the Redis OSS engine to be used for the cluster.
+  ///
+  /// Parameter [ipDiscovery] :
+  /// The mechanism for discovering IP addresses for the cluster discovery
+  /// protocol. Valid values are 'ipv4' or 'ipv6'. When set to 'ipv4', cluster
+  /// discovery functions such as cluster slots, cluster shards, and cluster
+  /// nodes return IPv4 addresses for cluster nodes. When set to 'ipv6', the
+  /// cluster discovery functions return IPv6 addresses for cluster nodes. The
+  /// value must be compatible with the NetworkType parameter. If not specified,
+  /// the default is 'ipv4'.
   ///
   /// Parameter [kmsKeyId] :
   /// The ID of the KMS key used to encrypt the cluster.
@@ -282,6 +296,17 @@ class MemoryDB {
   /// </li>
   /// </ul>
   /// Example: <code>sun:23:00-mon:01:30</code>
+  ///
+  /// Parameter [multiRegionClusterName] :
+  /// The name of the multi-Region cluster to be created.
+  ///
+  /// Parameter [networkType] :
+  /// Specifies the IP address type for the cluster. Valid values are 'ipv4',
+  /// 'ipv6', or 'dual_stack'. When set to 'ipv4', the cluster will only be
+  /// accessible via IPv4 addresses. When set to 'ipv6', the cluster will only
+  /// be accessible via IPv6 addresses. When set to 'dual_stack', the cluster
+  /// will be accessible via both IPv4 and IPv6 addresses. If not specified, the
+  /// default is 'ipv4'.
   ///
   /// Parameter [numReplicasPerShard] :
   /// The number of replicas to apply to each shard. The default value is 1. The
@@ -346,9 +371,13 @@ class MemoryDB {
     bool? autoMinorVersionUpgrade,
     bool? dataTiering,
     String? description,
+    String? engine,
     String? engineVersion,
+    IpDiscovery? ipDiscovery,
     String? kmsKeyId,
     String? maintenanceWindow,
+    String? multiRegionClusterName,
+    NetworkType? networkType,
     int? numReplicasPerShard,
     int? numShards,
     String? parameterGroupName,
@@ -381,9 +410,14 @@ class MemoryDB {
           'AutoMinorVersionUpgrade': autoMinorVersionUpgrade,
         if (dataTiering != null) 'DataTiering': dataTiering,
         if (description != null) 'Description': description,
+        if (engine != null) 'Engine': engine,
         if (engineVersion != null) 'EngineVersion': engineVersion,
+        if (ipDiscovery != null) 'IpDiscovery': ipDiscovery.value,
         if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
         if (maintenanceWindow != null) 'MaintenanceWindow': maintenanceWindow,
+        if (multiRegionClusterName != null)
+          'MultiRegionClusterName': multiRegionClusterName,
+        if (networkType != null) 'NetworkType': networkType.value,
         if (numReplicasPerShard != null)
           'NumReplicasPerShard': numReplicasPerShard,
         if (numShards != null) 'NumShards': numShards,
@@ -406,19 +440,98 @@ class MemoryDB {
     return CreateClusterResponse.fromJson(jsonResponse.body);
   }
 
+  /// Creates a new multi-Region cluster.
+  ///
+  /// May throw [ClusterQuotaForCustomerExceededFault].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [MultiRegionClusterAlreadyExistsFault].
+  /// May throw [MultiRegionParameterGroupNotFoundFault].
+  /// May throw [TagQuotaPerResourceExceeded].
+  ///
+  /// Parameter [multiRegionClusterNameSuffix] :
+  /// A suffix to be added to the Multi-Region cluster name. Amazon MemoryDB
+  /// automatically applies a prefix to the Multi-Region cluster Name when it is
+  /// created. Each Amazon Region has its own prefix. For instance, a
+  /// Multi-Region cluster Name created in the US-West-1 region will begin with
+  /// "virxk", along with the suffix name you provide. The suffix guarantees
+  /// uniqueness of the Multi-Region cluster name across multiple regions.
+  ///
+  /// Parameter [nodeType] :
+  /// The node type to be used for the multi-Region cluster.
+  ///
+  /// Parameter [description] :
+  /// A description for the multi-Region cluster.
+  ///
+  /// Parameter [engine] :
+  /// The name of the engine to be used for the multi-Region cluster.
+  ///
+  /// Parameter [engineVersion] :
+  /// The version of the engine to be used for the multi-Region cluster.
+  ///
+  /// Parameter [multiRegionParameterGroupName] :
+  /// The name of the multi-Region parameter group to be associated with the
+  /// cluster.
+  ///
+  /// Parameter [numShards] :
+  /// The number of shards for the multi-Region cluster.
+  ///
+  /// Parameter [tLSEnabled] :
+  /// Whether to enable TLS encryption for the multi-Region cluster.
+  ///
+  /// Parameter [tags] :
+  /// A list of tags to be applied to the multi-Region cluster.
+  Future<CreateMultiRegionClusterResponse> createMultiRegionCluster({
+    required String multiRegionClusterNameSuffix,
+    required String nodeType,
+    String? description,
+    String? engine,
+    String? engineVersion,
+    String? multiRegionParameterGroupName,
+    int? numShards,
+    bool? tLSEnabled,
+    List<Tag>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonMemoryDB.CreateMultiRegionCluster'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MultiRegionClusterNameSuffix': multiRegionClusterNameSuffix,
+        'NodeType': nodeType,
+        if (description != null) 'Description': description,
+        if (engine != null) 'Engine': engine,
+        if (engineVersion != null) 'EngineVersion': engineVersion,
+        if (multiRegionParameterGroupName != null)
+          'MultiRegionParameterGroupName': multiRegionParameterGroupName,
+        if (numShards != null) 'NumShards': numShards,
+        if (tLSEnabled != null) 'TLSEnabled': tLSEnabled,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return CreateMultiRegionClusterResponse.fromJson(jsonResponse.body);
+  }
+
   /// Creates a new MemoryDB parameter group. A parameter group is a collection
   /// of parameters and their values that are applied to all of the nodes in any
   /// cluster. For more information, see <a
   /// href="https://docs.aws.amazon.com/MemoryDB/latest/devguide/parametergroups.html">Configuring
   /// engine parameters using parameter groups</a>.
   ///
-  /// May throw [ParameterGroupQuotaExceededFault].
-  /// May throw [ParameterGroupAlreadyExistsFault].
+  /// May throw [InvalidParameterCombinationException].
   /// May throw [InvalidParameterGroupStateFault].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ParameterGroupAlreadyExistsFault].
+  /// May throw [ParameterGroupQuotaExceededFault].
   /// May throw [ServiceLinkedRoleNotFoundFault].
   /// May throw [TagQuotaPerResourceExceeded].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
   ///
   /// Parameter [family] :
   /// The name of the parameter group family that the parameter group can be
@@ -462,13 +575,13 @@ class MemoryDB {
 
   /// Creates a copy of an entire cluster at a specific moment in time.
   ///
-  /// May throw [SnapshotAlreadyExistsFault].
   /// May throw [ClusterNotFoundFault].
   /// May throw [InvalidClusterStateFault].
-  /// May throw [SnapshotQuotaExceededFault].
-  /// May throw [ServiceLinkedRoleNotFoundFault].
   /// May throw [InvalidParameterCombinationException].
   /// May throw [InvalidParameterValueException].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
+  /// May throw [SnapshotAlreadyExistsFault].
+  /// May throw [SnapshotQuotaExceededFault].
   /// May throw [TagQuotaPerResourceExceeded].
   ///
   /// Parameter [clusterName] :
@@ -519,12 +632,12 @@ class MemoryDB {
   /// href="https://docs.aws.amazon.com/MemoryDB/latest/devguide/subnetgroups.html">Subnets
   /// and subnet groups</a>.
   ///
-  /// May throw [SubnetGroupAlreadyExistsFault].
-  /// May throw [SubnetGroupQuotaExceededFault].
-  /// May throw [SubnetQuotaExceededFault].
   /// May throw [InvalidSubnet].
   /// May throw [ServiceLinkedRoleNotFoundFault].
+  /// May throw [SubnetGroupAlreadyExistsFault].
+  /// May throw [SubnetGroupQuotaExceededFault].
   /// May throw [SubnetNotAllowedFault].
+  /// May throw [SubnetQuotaExceededFault].
   /// May throw [TagQuotaPerResourceExceeded].
   ///
   /// Parameter [subnetGroupName] :
@@ -570,12 +683,12 @@ class MemoryDB {
   /// href="https://docs.aws.amazon.com/MemoryDB/latest/devguide/clusters.acls.html">Authenticating
   /// users with Access Contol Lists (ACLs)</a>.
   ///
+  /// May throw [DuplicateUserNameFault].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [TagQuotaPerResourceExceeded].
   /// May throw [UserAlreadyExistsFault].
   /// May throw [UserQuotaExceededFault].
-  /// May throw [DuplicateUserNameFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
-  /// May throw [TagQuotaPerResourceExceeded].
   ///
   /// Parameter [accessString] :
   /// Access permissions string used for this user.
@@ -628,7 +741,7 @@ class MemoryDB {
   /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [aCLName] :
-  /// The name of the Access Control List to delete
+  /// The name of the Access Control List to delete.
   Future<DeleteACLResponse> deleteACL({
     required String aCLName,
   }) async {
@@ -650,7 +763,8 @@ class MemoryDB {
     return DeleteACLResponse.fromJson(jsonResponse.body);
   }
 
-  /// Deletes a cluster. It also deletes all associated nodes and node endpoints
+  /// Deletes a cluster. It also deletes all associated nodes and node
+  /// endpoints.
   /// <note>
   /// <code>CreateSnapshot</code> permission is required to create a final
   /// snapshot. Without this permission, the API call will fail with an
@@ -659,10 +773,10 @@ class MemoryDB {
   ///
   /// May throw [ClusterNotFoundFault].
   /// May throw [InvalidClusterStateFault].
-  /// May throw [SnapshotAlreadyExistsFault].
-  /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
+  /// May throw [SnapshotAlreadyExistsFault].
   ///
   /// Parameter [clusterName] :
   /// The name of the cluster to be deleted
@@ -671,9 +785,13 @@ class MemoryDB {
   /// The user-supplied name of a final cluster snapshot. This is the unique
   /// name that identifies the snapshot. MemoryDB creates the snapshot, and then
   /// deletes the cluster immediately afterward.
+  ///
+  /// Parameter [multiRegionClusterName] :
+  /// The name of the multi-Region cluster to be deleted.
   Future<DeleteClusterResponse> deleteCluster({
     required String clusterName,
     String? finalSnapshotName,
+    String? multiRegionClusterName,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -688,21 +806,52 @@ class MemoryDB {
       payload: {
         'ClusterName': clusterName,
         if (finalSnapshotName != null) 'FinalSnapshotName': finalSnapshotName,
+        if (multiRegionClusterName != null)
+          'MultiRegionClusterName': multiRegionClusterName,
       },
     );
 
     return DeleteClusterResponse.fromJson(jsonResponse.body);
   }
 
+  /// Deletes an existing multi-Region cluster.
+  ///
+  /// May throw [InvalidMultiRegionClusterStateFault].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [MultiRegionClusterNotFoundFault].
+  ///
+  /// Parameter [multiRegionClusterName] :
+  /// The name of the multi-Region cluster to be deleted.
+  Future<DeleteMultiRegionClusterResponse> deleteMultiRegionCluster({
+    required String multiRegionClusterName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonMemoryDB.DeleteMultiRegionCluster'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MultiRegionClusterName': multiRegionClusterName,
+      },
+    );
+
+    return DeleteMultiRegionClusterResponse.fromJson(jsonResponse.body);
+  }
+
   /// Deletes the specified parameter group. You cannot delete a parameter group
   /// if it is associated with any clusters. You cannot delete the default
   /// parameter groups in your account.
   ///
+  /// May throw [InvalidParameterCombinationException].
   /// May throw [InvalidParameterGroupStateFault].
+  /// May throw [InvalidParameterValueException].
   /// May throw [ParameterGroupNotFoundFault].
   /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
   ///
   /// Parameter [parameterGroupName] :
   /// The name of the parameter group to delete.
@@ -731,14 +880,14 @@ class MemoryDB {
   /// this operation, MemoryDB immediately begins deleting the snapshot; you
   /// cannot cancel or revert this operation.
   ///
-  /// May throw [SnapshotNotFoundFault].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidSnapshotStateFault].
   /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
+  /// May throw [SnapshotNotFoundFault].
   ///
   /// Parameter [snapshotName] :
-  /// The name of the snapshot to delete
+  /// The name of the snapshot to delete.
   Future<DeleteSnapshotResponse> deleteSnapshot({
     required String snapshotName,
   }) async {
@@ -763,12 +912,12 @@ class MemoryDB {
   /// Deletes a subnet group. You cannot delete a default subnet group or one
   /// that is associated with any clusters.
   ///
+  /// May throw [ServiceLinkedRoleNotFoundFault].
   /// May throw [SubnetGroupInUseFault].
   /// May throw [SubnetGroupNotFoundFault].
-  /// May throw [ServiceLinkedRoleNotFoundFault].
   ///
   /// Parameter [subnetGroupName] :
-  /// The name of the subnet group to delete
+  /// The name of the subnet group to delete.
   Future<DeleteSubnetGroupResponse> deleteSubnetGroup({
     required String subnetGroupName,
   }) async {
@@ -793,9 +942,9 @@ class MemoryDB {
   /// Deletes a user. The user will be removed from all ACLs and in turn removed
   /// from all clusters.
   ///
+  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidUserStateFault].
   /// May throw [UserNotFoundFault].
-  /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [userName] :
   /// The name of the user to delete
@@ -820,13 +969,13 @@ class MemoryDB {
     return DeleteUserResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns a list of ACLs
+  /// Returns a list of ACLs.
   ///
   /// May throw [ACLNotFoundFault].
   /// May throw [InvalidParameterCombinationException].
   ///
   /// Parameter [aCLName] :
-  /// The name of the ACL
+  /// The name of the ACL.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of records to include in the response. If more records
@@ -869,12 +1018,12 @@ class MemoryDB {
   /// supplied.
   ///
   /// May throw [ClusterNotFoundFault].
-  /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
   ///
   /// Parameter [clusterName] :
-  /// The name of the cluster
+  /// The name of the cluster.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of records to include in the response. If more records
@@ -920,13 +1069,16 @@ class MemoryDB {
 
   /// Returns a list of the available Redis OSS engine versions.
   ///
-  /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
   ///
   /// Parameter [defaultOnly] :
   /// If true, specifies that only the default version of the specified engine
   /// or engine and major version combination is to be returned.
+  ///
+  /// Parameter [engine] :
+  /// The name of the engine for which to list available versions.
   ///
   /// Parameter [engineVersion] :
   /// The Redis OSS engine version
@@ -947,6 +1099,7 @@ class MemoryDB {
   /// The name of a specific parameter group family to return details for.
   Future<DescribeEngineVersionsResponse> describeEngineVersions({
     bool? defaultOnly,
+    String? engine,
     String? engineVersion,
     int? maxResults,
     String? nextToken,
@@ -964,6 +1117,7 @@ class MemoryDB {
       headers: headers,
       payload: {
         if (defaultOnly != null) 'DefaultOnly': defaultOnly,
+        if (engine != null) 'Engine': engine,
         if (engineVersion != null) 'EngineVersion': engineVersion,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
@@ -981,9 +1135,9 @@ class MemoryDB {
   /// events occurring within the last hour are returned; however, you can
   /// retrieve up to 14 days' worth of events if necessary.
   ///
-  /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
   ///
   /// Parameter [duration] :
   /// The number of minutes worth of events to retrieve.
@@ -1048,13 +1202,160 @@ class MemoryDB {
     return DescribeEventsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Returns details about one or more multi-Region clusters.
+  ///
+  /// May throw [ClusterNotFoundFault].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [MultiRegionClusterNotFoundFault].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return.
+  ///
+  /// Parameter [multiRegionClusterName] :
+  /// The name of a specific multi-Region cluster to describe.
+  ///
+  /// Parameter [nextToken] :
+  /// A token to specify where to start paginating.
+  ///
+  /// Parameter [showClusterDetails] :
+  /// Details about the multi-Region cluster.
+  Future<DescribeMultiRegionClustersResponse> describeMultiRegionClusters({
+    int? maxResults,
+    String? multiRegionClusterName,
+    String? nextToken,
+    bool? showClusterDetails,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonMemoryDB.DescribeMultiRegionClusters'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (multiRegionClusterName != null)
+          'MultiRegionClusterName': multiRegionClusterName,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (showClusterDetails != null)
+          'ShowClusterDetails': showClusterDetails,
+      },
+    );
+
+    return DescribeMultiRegionClustersResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns a list of multi-region parameter groups.
+  ///
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [MultiRegionParameterGroupNotFoundFault].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified MaxResults value, a token is included in the
+  /// response so that the remaining results can be retrieved.
+  ///
+  /// Parameter [multiRegionParameterGroupName] :
+  /// The request for information on a specific multi-region parameter group.
+  ///
+  /// Parameter [nextToken] :
+  /// An optional token returned from a prior request. Use this token for
+  /// pagination of results from this action. If this parameter is specified,
+  /// the response includes only results beyond the token, up to the value
+  /// specified by MaxResults.
+  Future<DescribeMultiRegionParameterGroupsResponse>
+      describeMultiRegionParameterGroups({
+    int? maxResults,
+    String? multiRegionParameterGroupName,
+    String? nextToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonMemoryDB.DescribeMultiRegionParameterGroups'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (multiRegionParameterGroupName != null)
+          'MultiRegionParameterGroupName': multiRegionParameterGroupName,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return DescribeMultiRegionParameterGroupsResponse.fromJson(
+        jsonResponse.body);
+  }
+
+  /// Returns the detailed parameter list for a particular multi-region
+  /// parameter group.
+  ///
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [MultiRegionParameterGroupNotFoundFault].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
+  ///
+  /// Parameter [multiRegionParameterGroupName] :
+  /// The name of the multi-region parameter group to return details for.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified MaxResults value, a token is included in the
+  /// response so that the remaining results can be retrieved.
+  ///
+  /// Parameter [nextToken] :
+  /// An optional token returned from a prior request. Use this token for
+  /// pagination of results from this action. If this parameter is specified,
+  /// the response includes only results beyond the token, up to the value
+  /// specified by MaxResults.
+  ///
+  /// Parameter [source] :
+  /// The parameter types to return. Valid values: user | system |
+  /// engine-default
+  Future<DescribeMultiRegionParametersResponse> describeMultiRegionParameters({
+    required String multiRegionParameterGroupName,
+    int? maxResults,
+    String? nextToken,
+    String? source,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonMemoryDB.DescribeMultiRegionParameters'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MultiRegionParameterGroupName': multiRegionParameterGroupName,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (source != null) 'Source': source,
+      },
+    );
+
+    return DescribeMultiRegionParametersResponse.fromJson(jsonResponse.body);
+  }
+
   /// Returns a list of parameter group descriptions. If a parameter group name
   /// is specified, the list contains only the descriptions for that group.
   ///
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
   /// May throw [ParameterGroupNotFoundFault].
   /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of records to include in the response. If more records
@@ -1098,10 +1399,10 @@ class MemoryDB {
 
   /// Returns the detailed parameter list for a particular parameter group.
   ///
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
   /// May throw [ParameterGroupNotFoundFault].
   /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
   ///
   /// Parameter [parameterGroupName] :
   /// he name of a specific parameter group to return details for.
@@ -1145,10 +1446,10 @@ class MemoryDB {
   /// Returns information about reserved nodes for this account, or about a
   /// specified reserved node.
   ///
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
   /// May throw [ReservedNodeNotFoundFault].
   /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
   ///
   /// Parameter [duration] :
   /// The duration filter value, specified in years or seconds. Use this
@@ -1220,10 +1521,10 @@ class MemoryDB {
 
   /// Lists available reserved node offerings.
   ///
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
   /// May throw [ReservedNodesOfferingNotFoundFault].
   /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
   ///
   /// Parameter [duration] :
   /// Duration filter value, specified in years or seconds. Use this parameter
@@ -1286,13 +1587,13 @@ class MemoryDB {
     return DescribeReservedNodesOfferingsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns details of the service updates
+  /// Returns details of the service updates.
   ///
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [clusterNames] :
-  /// The list of cluster names to identify service updates to apply
+  /// The list of cluster names to identify service updates to apply.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of records to include in the response. If more records
@@ -1310,7 +1611,7 @@ class MemoryDB {
   /// The unique ID of the service update to describe.
   ///
   /// Parameter [status] :
-  /// The status(es) of the service updates to filter on
+  /// The status(es) of the service updates to filter on.
   Future<DescribeServiceUpdatesResponse> describeServiceUpdates({
     List<String>? clusterNames,
     int? maxResults,
@@ -1344,10 +1645,10 @@ class MemoryDB {
   /// lists all of your snapshots; it can optionally describe a single snapshot,
   /// or just the snapshots associated with a particular cluster.
   ///
-  /// May throw [SnapshotNotFoundFault].
-  /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
+  /// May throw [SnapshotNotFoundFault].
   ///
   /// Parameter [clusterName] :
   /// A user-supplied cluster identifier. If this parameter is specified, only
@@ -1412,8 +1713,8 @@ class MemoryDB {
   /// Returns a list of subnet group descriptions. If a subnet group name is
   /// specified, the list contains only the description of that group.
   ///
-  /// May throw [SubnetGroupNotFoundFault].
   /// May throw [ServiceLinkedRoleNotFoundFault].
+  /// May throw [SubnetGroupNotFoundFault].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of records to include in the response. If more records
@@ -1456,8 +1757,8 @@ class MemoryDB {
 
   /// Returns a list of users.
   ///
-  /// May throw [UserNotFoundFault].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [UserNotFoundFault].
   ///
   /// Parameter [filters] :
   /// Filter to determine the list of users to return.
@@ -1475,7 +1776,7 @@ class MemoryDB {
   /// page. Keep all other arguments unchanged.
   ///
   /// Parameter [userName] :
-  /// The name of the user
+  /// The name of the user.
   Future<DescribeUsersResponse> describeUsers({
     List<Filter>? filters,
     int? maxResults,
@@ -1510,19 +1811,19 @@ class MemoryDB {
   /// such as large scale operational events, Amazon may block this API.
   ///
   /// May throw [APICallRateForCustomerExceededFault].
-  /// May throw [InvalidClusterStateFault].
-  /// May throw [ShardNotFoundFault].
   /// May throw [ClusterNotFoundFault].
-  /// May throw [TestFailoverNotAvailableFault].
+  /// May throw [InvalidClusterStateFault].
   /// May throw [InvalidKMSKeyFault].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ShardNotFoundFault].
+  /// May throw [TestFailoverNotAvailableFault].
   ///
   /// Parameter [clusterName] :
-  /// The cluster being failed over
+  /// The cluster being failed over.
   ///
   /// Parameter [shardName] :
-  /// The name of the shard
+  /// The name of the shard.
   Future<FailoverShardResponse> failoverShard({
     required String clusterName,
     required String shardName,
@@ -1546,15 +1847,46 @@ class MemoryDB {
     return FailoverShardResponse.fromJson(jsonResponse.body);
   }
 
+  /// Lists the allowed updates for a multi-Region cluster.
+  ///
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [MultiRegionClusterNotFoundFault].
+  ///
+  /// Parameter [multiRegionClusterName] :
+  /// The name of the multi-Region cluster.
+  Future<ListAllowedMultiRegionClusterUpdatesResponse>
+      listAllowedMultiRegionClusterUpdates({
+    required String multiRegionClusterName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonMemoryDB.ListAllowedMultiRegionClusterUpdates'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MultiRegionClusterName': multiRegionClusterName,
+      },
+    );
+
+    return ListAllowedMultiRegionClusterUpdatesResponse.fromJson(
+        jsonResponse.body);
+  }
+
   /// Lists all available node types that you can scale to from your cluster's
   /// current node type. When you use the UpdateCluster operation to scale your
   /// cluster, the value of the NodeType parameter must be one of the node types
   /// returned by this operation.
   ///
   /// May throw [ClusterNotFoundFault].
-  /// May throw [ServiceLinkedRoleNotFoundFault].
   /// May throw [InvalidParameterCombinationException].
   /// May throw [InvalidParameterValueException].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
   ///
   /// Parameter [clusterName] :
   /// The name of the cluster you want to scale. MemoryDB uses the cluster name
@@ -1585,21 +1917,32 @@ class MemoryDB {
   /// where the key and value are case-sensitive. You can use tags to categorize
   /// and track your MemoryDB resources. For more information, see <a
   /// href="https://docs.aws.amazon.com/MemoryDB/latest/devguide/Tagging-Resources.html">Tagging
-  /// your MemoryDB resources</a>
+  /// your MemoryDB resources</a>.
   ///
-  /// May throw [ClusterNotFoundFault].
-  /// May throw [InvalidClusterStateFault].
-  /// May throw [ParameterGroupNotFoundFault].
-  /// May throw [SubnetGroupNotFoundFault].
-  /// May throw [SnapshotNotFoundFault].
-  /// May throw [InvalidARNFault].
-  /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [UserNotFoundFault].
+  /// When you add or remove tags from multi region clusters, you might not
+  /// immediately see the latest effective tags in the ListTags API response due
+  /// to it being eventually consistent specifically for multi region clusters.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/MemoryDB/latest/devguide/Tagging-Resources.html">Tagging
+  /// your MemoryDB resources</a>.
+  ///
+  ///
+  ///
   /// May throw [ACLNotFoundFault].
+  /// May throw [ClusterNotFoundFault].
+  /// May throw [InvalidARNFault].
+  /// May throw [InvalidClusterStateFault].
+  /// May throw [MultiRegionClusterNotFoundFault].
+  /// May throw [MultiRegionParameterGroupNotFoundFault].
+  /// May throw [ParameterGroupNotFoundFault].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
+  /// May throw [SnapshotNotFoundFault].
+  /// May throw [SubnetGroupNotFoundFault].
+  /// May throw [UserNotFoundFault].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource for which you want the list
-  /// of tags
+  /// of tags.
   Future<ListTagsResponse> listTags({
     required String resourceArn,
   }) async {
@@ -1624,13 +1967,13 @@ class MemoryDB {
   /// Allows you to purchase a reserved node offering. Reserved nodes are not
   /// eligible for cancellation and are non-refundable.
   ///
-  /// May throw [ReservedNodesOfferingNotFoundFault].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
   /// May throw [ReservedNodeAlreadyExistsFault].
   /// May throw [ReservedNodeQuotaExceededFault].
+  /// May throw [ReservedNodesOfferingNotFoundFault].
   /// May throw [ServiceLinkedRoleNotFoundFault].
   /// May throw [TagQuotaPerResourceExceeded].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
   ///
   /// Parameter [reservedNodesOfferingId] :
   /// The ID of the reserved node offering to purchase.
@@ -1676,11 +2019,11 @@ class MemoryDB {
   /// parameter names. To reset the entire parameter group, specify the
   /// AllParameters and ParameterGroupName parameters.
   ///
+  /// May throw [InvalidParameterCombinationException].
   /// May throw [InvalidParameterGroupStateFault].
+  /// May throw [InvalidParameterValueException].
   /// May throw [ParameterGroupNotFoundFault].
   /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
   ///
   /// Parameter [parameterGroupName] :
   /// The name of the parameter group to reset.
@@ -1719,36 +2062,45 @@ class MemoryDB {
     return ResetParameterGroupResponse.fromJson(jsonResponse.body);
   }
 
-  /// A tag is a key-value pair where the key and value are case-sensitive. You
-  /// can use tags to categorize and track all your MemoryDB resources. When you
-  /// add or remove tags on clusters, those actions will be replicated to all
-  /// nodes in the cluster. For more information, see <a
-  /// href="https://docs.aws.amazon.com/MemoryDB/latest/devguide/iam.resourcelevelpermissions.html">Resource-level
-  /// permissions</a>.
+  /// Use this operation to add tags to a resource. A tag is a key-value pair
+  /// where the key and value are case-sensitive. You can use tags to categorize
+  /// and track all your MemoryDB resources. For more information, see <a
+  /// href="https://docs.aws.amazon.com/MemoryDB/latest/devguide/Tagging-Resources.html">Tagging
+  /// your MemoryDB resources</a>.
   ///
-  /// For example, you can use cost-allocation tags to your MemoryDB resources,
-  /// Amazon generates a cost allocation report as a comma-separated value (CSV)
-  /// file with your usage and costs aggregated by your tags. You can apply tags
-  /// that represent business categories (such as cost centers, application
-  /// names, or owners) to organize your costs across multiple services. For
-  /// more information, see <a
+  /// When you add tags to multi region clusters, you might not immediately see
+  /// the latest effective tags in the ListTags API response due to it being
+  /// eventually consistent specifically for multi region clusters. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/MemoryDB/latest/devguide/Tagging-Resources.html">Tagging
+  /// your MemoryDB resources</a>.
+  ///
+  /// You can specify cost-allocation tags for your MemoryDB resources, Amazon
+  /// generates a cost allocation report as a comma-separated value (CSV) file
+  /// with your usage and costs aggregated by your tags. You can apply tags that
+  /// represent business categories (such as cost centers, application names, or
+  /// owners) to organize your costs across multiple services. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/MemoryDB/latest/devguide/tagging.html">Using
   /// Cost Allocation Tags</a>.
   ///
-  /// May throw [ClusterNotFoundFault].
-  /// May throw [ParameterGroupNotFoundFault].
-  /// May throw [SubnetGroupNotFoundFault].
-  /// May throw [InvalidClusterStateFault].
-  /// May throw [SnapshotNotFoundFault].
-  /// May throw [UserNotFoundFault].
   /// May throw [ACLNotFoundFault].
-  /// May throw [TagQuotaPerResourceExceeded].
+  /// May throw [ClusterNotFoundFault].
   /// May throw [InvalidARNFault].
+  /// May throw [InvalidClusterStateFault].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [MultiRegionClusterNotFoundFault].
+  /// May throw [MultiRegionParameterGroupNotFoundFault].
+  /// May throw [ParameterGroupNotFoundFault].
   /// May throw [ServiceLinkedRoleNotFoundFault].
+  /// May throw [SnapshotNotFoundFault].
+  /// May throw [SubnetGroupNotFoundFault].
+  /// May throw [TagQuotaPerResourceExceeded].
+  /// May throw [UserNotFoundFault].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource to which the tags are to be
-  /// added
+  /// added.
   ///
   /// Parameter [tags] :
   /// A list of tags to be added to this resource. A tag is a key-value pair. A
@@ -1776,25 +2128,48 @@ class MemoryDB {
     return TagResourceResponse.fromJson(jsonResponse.body);
   }
 
-  /// Use this operation to remove tags on a resource
+  /// Use this operation to remove tags on a resource. A tag is a key-value pair
+  /// where the key and value are case-sensitive. You can use tags to categorize
+  /// and track all your MemoryDB resources. For more information, see <a
+  /// href="https://docs.aws.amazon.com/MemoryDB/latest/devguide/Tagging-Resources.html">Tagging
+  /// your MemoryDB resources</a>.
   ///
-  /// May throw [ClusterNotFoundFault].
-  /// May throw [InvalidClusterStateFault].
-  /// May throw [ParameterGroupNotFoundFault].
-  /// May throw [SubnetGroupNotFoundFault].
-  /// May throw [SnapshotNotFoundFault].
-  /// May throw [InvalidARNFault].
-  /// May throw [TagNotFoundFault].
-  /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [UserNotFoundFault].
+  /// When you remove tags from multi region clusters, you might not immediately
+  /// see the latest effective tags in the ListTags API response due to it being
+  /// eventually consistent specifically for multi region clusters. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/MemoryDB/latest/devguide/Tagging-Resources.html">Tagging
+  /// your MemoryDB resources</a>.
+  ///
+  /// You can specify cost-allocation tags for your MemoryDB resources, Amazon
+  /// generates a cost allocation report as a comma-separated value (CSV) file
+  /// with your usage and costs aggregated by your tags. You can apply tags that
+  /// represent business categories (such as cost centers, application names, or
+  /// owners) to organize your costs across multiple services. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/MemoryDB/latest/devguide/tagging.html">Using
+  /// Cost Allocation Tags</a>.
+  ///
   /// May throw [ACLNotFoundFault].
+  /// May throw [ClusterNotFoundFault].
+  /// May throw [InvalidARNFault].
+  /// May throw [InvalidClusterStateFault].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [MultiRegionClusterNotFoundFault].
+  /// May throw [MultiRegionParameterGroupNotFoundFault].
+  /// May throw [ParameterGroupNotFoundFault].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
+  /// May throw [SnapshotNotFoundFault].
+  /// May throw [SubnetGroupNotFoundFault].
+  /// May throw [TagNotFoundFault].
+  /// May throw [UserNotFoundFault].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource to which the tags are to be
-  /// removed
+  /// removed.
   ///
   /// Parameter [tagKeys] :
-  /// The list of keys of the tags that are to be removed
+  /// The list of keys of the tags that are to be removed.
   Future<UntagResourceResponse> untagResource({
     required String resourceArn,
     required List<String> tagKeys,
@@ -1821,21 +2196,21 @@ class MemoryDB {
   /// Changes the list of users that belong to the Access Control List.
   ///
   /// May throw [ACLNotFoundFault].
-  /// May throw [UserNotFoundFault].
-  /// May throw [DuplicateUserNameFault].
   /// May throw [DefaultUserRequired].
+  /// May throw [DuplicateUserNameFault].
   /// May throw [InvalidACLStateFault].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [UserNotFoundFault].
   ///
   /// Parameter [aCLName] :
-  /// The name of the Access Control List
+  /// The name of the Access Control List.
   ///
   /// Parameter [userNamesToAdd] :
-  /// The list of users to add to the Access Control List
+  /// The list of users to add to the Access Control List.
   ///
   /// Parameter [userNamesToRemove] :
-  /// The list of users to remove from the Access Control List
+  /// The list of users to remove from the Access Control List.
   Future<UpdateACLResponse> updateACL({
     required String aCLName,
     List<String>? userNamesToAdd,
@@ -1865,37 +2240,49 @@ class MemoryDB {
   /// one or more cluster configuration settings by specifying the settings and
   /// the new values.
   ///
+  /// May throw [ACLNotFoundFault].
   /// May throw [ClusterNotFoundFault].
-  /// May throw [InvalidClusterStateFault].
-  /// May throw [InvalidNodeStateFault].
-  /// May throw [ParameterGroupNotFoundFault].
-  /// May throw [InvalidVPCNetworkStateFault].
-  /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [InvalidKMSKeyFault].
-  /// May throw [NodeQuotaForClusterExceededFault].
   /// May throw [ClusterQuotaForCustomerExceededFault].
-  /// May throw [ShardsPerClusterQuotaExceededFault].
+  /// May throw [InvalidACLStateFault].
+  /// May throw [InvalidClusterStateFault].
+  /// May throw [InvalidKMSKeyFault].
+  /// May throw [InvalidNodeStateFault].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidVPCNetworkStateFault].
+  /// May throw [NodeQuotaForClusterExceededFault].
   /// May throw [NodeQuotaForCustomerExceededFault].
   /// May throw [NoOperationFault].
-  /// May throw [InvalidACLStateFault].
-  /// May throw [ACLNotFoundFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidParameterCombinationException].
+  /// May throw [ParameterGroupNotFoundFault].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
+  /// May throw [ShardsPerClusterQuotaExceededFault].
   ///
   /// Parameter [clusterName] :
-  /// The name of the cluster to update
+  /// The name of the cluster to update.
   ///
   /// Parameter [aCLName] :
-  /// The Access Control List that is associated with the cluster
+  /// The Access Control List that is associated with the cluster.
   ///
   /// Parameter [description] :
-  /// The description of the cluster to update
+  /// The description of the cluster to update.
+  ///
+  /// Parameter [engine] :
+  /// The name of the engine to be used for the cluster.
   ///
   /// Parameter [engineVersion] :
   /// The upgraded version of the engine to be run on the nodes. You can upgrade
   /// to a newer engine version, but you cannot downgrade to an earlier engine
   /// version. If you want to use an earlier engine version, you must delete the
   /// existing cluster and create it anew with the earlier engine version.
+  ///
+  /// Parameter [ipDiscovery] :
+  /// The mechanism for discovering IP addresses for the cluster discovery
+  /// protocol. Valid values are 'ipv4' or 'ipv6'. When set to 'ipv4', cluster
+  /// discovery functions such as cluster slots, cluster shards, and cluster
+  /// nodes will return IPv4 addresses for cluster nodes. When set to 'ipv6',
+  /// the cluster discovery functions return IPv6 addresses for cluster nodes.
+  /// The value must be compatible with the NetworkType parameter. If not
+  /// specified, the default is 'ipv4'.
   ///
   /// Parameter [maintenanceWindow] :
   /// Specifies the weekly time range during which maintenance on the cluster is
@@ -1934,16 +2321,16 @@ class MemoryDB {
   /// A valid node type that you want to scale this cluster up or down to.
   ///
   /// Parameter [parameterGroupName] :
-  /// The name of the parameter group to update
+  /// The name of the parameter group to update.
   ///
   /// Parameter [replicaConfiguration] :
-  /// The number of replicas that will reside in each shard
+  /// The number of replicas that will reside in each shard.
   ///
   /// Parameter [securityGroupIds] :
-  /// The SecurityGroupIds to update
+  /// The SecurityGroupIds to update.
   ///
   /// Parameter [shardConfiguration] :
-  /// The number of shards in the cluster
+  /// The number of shards in the cluster.
   ///
   /// Parameter [snapshotRetentionLimit] :
   /// The number of days for which MemoryDB retains automatic cluster snapshots
@@ -1956,7 +2343,7 @@ class MemoryDB {
   /// snapshot of your cluster.
   ///
   /// Parameter [snsTopicArn] :
-  /// The SNS topic ARN to update
+  /// The SNS topic ARN to update.
   ///
   /// Parameter [snsTopicStatus] :
   /// The status of the Amazon SNS notification topic. Notifications are sent
@@ -1965,7 +2352,9 @@ class MemoryDB {
     required String clusterName,
     String? aCLName,
     String? description,
+    String? engine,
     String? engineVersion,
+    IpDiscovery? ipDiscovery,
     String? maintenanceWindow,
     String? nodeType,
     String? parameterGroupName,
@@ -1991,7 +2380,9 @@ class MemoryDB {
         'ClusterName': clusterName,
         if (aCLName != null) 'ACLName': aCLName,
         if (description != null) 'Description': description,
+        if (engine != null) 'Engine': engine,
         if (engineVersion != null) 'EngineVersion': engineVersion,
+        if (ipDiscovery != null) 'IpDiscovery': ipDiscovery.value,
         if (maintenanceWindow != null) 'MaintenanceWindow': maintenanceWindow,
         if (nodeType != null) 'NodeType': nodeType,
         if (parameterGroupName != null)
@@ -2012,15 +2403,76 @@ class MemoryDB {
     return UpdateClusterResponse.fromJson(jsonResponse.body);
   }
 
+  /// Updates the configuration of an existing multi-Region cluster.
+  ///
+  /// May throw [InvalidMultiRegionClusterStateFault].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [MultiRegionClusterNotFoundFault].
+  /// May throw [MultiRegionParameterGroupNotFoundFault].
+  ///
+  /// Parameter [multiRegionClusterName] :
+  /// The name of the multi-Region cluster to be updated.
+  ///
+  /// Parameter [description] :
+  /// A new description for the multi-Region cluster.
+  ///
+  /// Parameter [engineVersion] :
+  /// The new engine version to be used for the multi-Region cluster.
+  ///
+  /// Parameter [multiRegionParameterGroupName] :
+  /// The new multi-Region parameter group to be associated with the cluster.
+  ///
+  /// Parameter [nodeType] :
+  /// The new node type to be used for the multi-Region cluster.
+  ///
+  /// Parameter [updateStrategy] :
+  /// The strategy to use for the update operation. Supported values are
+  /// "coordinated" or "uncoordinated".
+  Future<UpdateMultiRegionClusterResponse> updateMultiRegionCluster({
+    required String multiRegionClusterName,
+    String? description,
+    String? engineVersion,
+    String? multiRegionParameterGroupName,
+    String? nodeType,
+    ShardConfigurationRequest? shardConfiguration,
+    UpdateStrategy? updateStrategy,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonMemoryDB.UpdateMultiRegionCluster'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MultiRegionClusterName': multiRegionClusterName,
+        if (description != null) 'Description': description,
+        if (engineVersion != null) 'EngineVersion': engineVersion,
+        if (multiRegionParameterGroupName != null)
+          'MultiRegionParameterGroupName': multiRegionParameterGroupName,
+        if (nodeType != null) 'NodeType': nodeType,
+        if (shardConfiguration != null)
+          'ShardConfiguration': shardConfiguration,
+        if (updateStrategy != null) 'UpdateStrategy': updateStrategy.value,
+      },
+    );
+
+    return UpdateMultiRegionClusterResponse.fromJson(jsonResponse.body);
+  }
+
   /// Updates the parameters of a parameter group. You can modify up to 20
   /// parameters in a single request by submitting a list parameter name and
   /// value pairs.
   ///
-  /// May throw [ParameterGroupNotFoundFault].
-  /// May throw [InvalidParameterGroupStateFault].
-  /// May throw [ServiceLinkedRoleNotFoundFault].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterGroupStateFault].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ParameterGroupNotFoundFault].
+  /// May throw [ServiceLinkedRoleNotFoundFault].
   ///
   /// Parameter [parameterGroupName] :
   /// The name of the parameter group to update.
@@ -2056,12 +2508,12 @@ class MemoryDB {
   /// href="https://docs.aws.amazon.com/MemoryDB/latest/devguide/ubnetGroups.Modifying.html">Updating
   /// a subnet group</a>
   ///
-  /// May throw [SubnetGroupNotFoundFault].
-  /// May throw [SubnetQuotaExceededFault].
-  /// May throw [SubnetInUse].
   /// May throw [InvalidSubnet].
   /// May throw [ServiceLinkedRoleNotFoundFault].
+  /// May throw [SubnetGroupNotFoundFault].
+  /// May throw [SubnetInUse].
   /// May throw [SubnetNotAllowedFault].
+  /// May throw [SubnetQuotaExceededFault].
   ///
   /// Parameter [subnetGroupName] :
   /// The name of the subnet group
@@ -2098,10 +2550,10 @@ class MemoryDB {
 
   /// Changes user password(s) and/or access string.
   ///
-  /// May throw [UserNotFoundFault].
-  /// May throw [InvalidUserStateFault].
-  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidUserStateFault].
+  /// May throw [UserNotFoundFault].
   ///
   /// Parameter [userName] :
   /// The name of the user
@@ -2139,271 +2591,6 @@ class MemoryDB {
   }
 }
 
-/// An Access Control List. You can authenticate users with Access Contol Lists.
-/// ACLs enable you to control cluster access by grouping users. These Access
-/// control lists are designed as a way to organize access to clusters.
-class ACL {
-  /// The Amazon Resource Name (ARN) of the ACL
-  final String? arn;
-
-  /// A list of clusters associated with the ACL.
-  final List<String>? clusters;
-
-  /// The minimum engine version supported for the ACL
-  final String? minimumEngineVersion;
-
-  /// The name of the Access Control List
-  final String? name;
-
-  /// A list of updates being applied to the ACL.
-  final ACLPendingChanges? pendingChanges;
-
-  /// Indicates ACL status. Can be "creating", "active", "modifying", "deleting".
-  final String? status;
-
-  /// The list of user names that belong to the ACL.
-  final List<String>? userNames;
-
-  ACL({
-    this.arn,
-    this.clusters,
-    this.minimumEngineVersion,
-    this.name,
-    this.pendingChanges,
-    this.status,
-    this.userNames,
-  });
-
-  factory ACL.fromJson(Map<String, dynamic> json) {
-    return ACL(
-      arn: json['ARN'] as String?,
-      clusters: (json['Clusters'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      minimumEngineVersion: json['MinimumEngineVersion'] as String?,
-      name: json['Name'] as String?,
-      pendingChanges: json['PendingChanges'] != null
-          ? ACLPendingChanges.fromJson(
-              json['PendingChanges'] as Map<String, dynamic>)
-          : null,
-      status: json['Status'] as String?,
-      userNames: (json['UserNames'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final clusters = this.clusters;
-    final minimumEngineVersion = this.minimumEngineVersion;
-    final name = this.name;
-    final pendingChanges = this.pendingChanges;
-    final status = this.status;
-    final userNames = this.userNames;
-    return {
-      if (arn != null) 'ARN': arn,
-      if (clusters != null) 'Clusters': clusters,
-      if (minimumEngineVersion != null)
-        'MinimumEngineVersion': minimumEngineVersion,
-      if (name != null) 'Name': name,
-      if (pendingChanges != null) 'PendingChanges': pendingChanges,
-      if (status != null) 'Status': status,
-      if (userNames != null) 'UserNames': userNames,
-    };
-  }
-}
-
-/// Returns the updates being applied to the ACL.
-class ACLPendingChanges {
-  /// A list of users being added to the ACL
-  final List<String>? userNamesToAdd;
-
-  /// A list of user names being removed from the ACL
-  final List<String>? userNamesToRemove;
-
-  ACLPendingChanges({
-    this.userNamesToAdd,
-    this.userNamesToRemove,
-  });
-
-  factory ACLPendingChanges.fromJson(Map<String, dynamic> json) {
-    return ACLPendingChanges(
-      userNamesToAdd: (json['UserNamesToAdd'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      userNamesToRemove: (json['UserNamesToRemove'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final userNamesToAdd = this.userNamesToAdd;
-    final userNamesToRemove = this.userNamesToRemove;
-    return {
-      if (userNamesToAdd != null) 'UserNamesToAdd': userNamesToAdd,
-      if (userNamesToRemove != null) 'UserNamesToRemove': userNamesToRemove,
-    };
-  }
-}
-
-/// The status of the ACL update
-class ACLsUpdateStatus {
-  /// A list of ACLs pending to be applied.
-  final String? aCLToApply;
-
-  ACLsUpdateStatus({
-    this.aCLToApply,
-  });
-
-  factory ACLsUpdateStatus.fromJson(Map<String, dynamic> json) {
-    return ACLsUpdateStatus(
-      aCLToApply: json['ACLToApply'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final aCLToApply = this.aCLToApply;
-    return {
-      if (aCLToApply != null) 'ACLToApply': aCLToApply,
-    };
-  }
-}
-
-class AZStatus {
-  static const singleaz = AZStatus._('singleaz');
-  static const multiaz = AZStatus._('multiaz');
-
-  final String value;
-
-  const AZStatus._(this.value);
-
-  static const values = [singleaz, multiaz];
-
-  static AZStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => AZStatus._(value));
-
-  @override
-  bool operator ==(other) => other is AZStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Denotes the user's authentication properties, such as whether it requires a
-/// password to authenticate. Used in output responses.
-class Authentication {
-  /// The number of passwords belonging to the user. The maximum is two.
-  final int? passwordCount;
-
-  /// Indicates whether the user requires a password to authenticate.
-  final AuthenticationType? type;
-
-  Authentication({
-    this.passwordCount,
-    this.type,
-  });
-
-  factory Authentication.fromJson(Map<String, dynamic> json) {
-    return Authentication(
-      passwordCount: json['PasswordCount'] as int?,
-      type: (json['Type'] as String?)?.let(AuthenticationType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final passwordCount = this.passwordCount;
-    final type = this.type;
-    return {
-      if (passwordCount != null) 'PasswordCount': passwordCount,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-/// Denotes the user's authentication properties, such as whether it requires a
-/// password to authenticate. Used in output responses.
-class AuthenticationMode {
-  /// The password(s) used for authentication
-  final List<String>? passwords;
-
-  /// Indicates whether the user requires a password to authenticate. All
-  /// newly-created users require a password.
-  final InputAuthenticationType? type;
-
-  AuthenticationMode({
-    this.passwords,
-    this.type,
-  });
-
-  Map<String, dynamic> toJson() {
-    final passwords = this.passwords;
-    final type = this.type;
-    return {
-      if (passwords != null) 'Passwords': passwords,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class AuthenticationType {
-  static const password = AuthenticationType._('password');
-  static const noPassword = AuthenticationType._('no-password');
-  static const iam = AuthenticationType._('iam');
-
-  final String value;
-
-  const AuthenticationType._(this.value);
-
-  static const values = [password, noPassword, iam];
-
-  static AuthenticationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AuthenticationType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AuthenticationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Indicates if the cluster has a Multi-AZ configuration (multiaz) or not
-/// (singleaz).
-class AvailabilityZone {
-  /// The name of the Availability Zone.
-  final String? name;
-
-  AvailabilityZone({
-    this.name,
-  });
-
-  factory AvailabilityZone.fromJson(Map<String, dynamic> json) {
-    return AvailabilityZone(
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    return {
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
 class BatchUpdateClusterResponse {
   /// The list of clusters that have been updated.
   final List<Cluster>? processedClusters;
@@ -2436,399 +2623,6 @@ class BatchUpdateClusterResponse {
       if (processedClusters != null) 'ProcessedClusters': processedClusters,
       if (unprocessedClusters != null)
         'UnprocessedClusters': unprocessedClusters,
-    };
-  }
-}
-
-/// Contains all of the attributes of a specific cluster.
-class Cluster {
-  /// The name of the Access Control List associated with this cluster.
-  final String? aCLName;
-
-  /// The Amazon Resource Name (ARN) of the cluster.
-  final String? arn;
-
-  /// When set to true, the cluster will automatically receive minor engine
-  /// version upgrades after launch.
-  final bool? autoMinorVersionUpgrade;
-
-  /// Indicates if the cluster has a Multi-AZ configuration (multiaz) or not
-  /// (singleaz).
-  final AZStatus? availabilityMode;
-
-  /// The cluster's configuration endpoint
-  final Endpoint? clusterEndpoint;
-
-  /// Enables data tiering. Data tiering is only supported for clusters using the
-  /// r6gd node type. This parameter must be set when using r6gd nodes. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/memorydb/latest/devguide/data-tiering.html">Data
-  /// tiering</a>.
-  final DataTieringStatus? dataTiering;
-
-  /// A description of the cluster
-  final String? description;
-
-  /// The Redis OSS engine patch version used by the cluster
-  final String? enginePatchVersion;
-
-  /// The Redis OSS engine version used by the cluster
-  final String? engineVersion;
-
-  /// The ID of the KMS key used to encrypt the cluster
-  final String? kmsKeyId;
-
-  /// Specifies the weekly time range during which maintenance on the cluster is
-  /// performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi
-  /// (24H Clock UTC). The minimum maintenance window is a 60 minute period.
-  final String? maintenanceWindow;
-
-  /// The user-supplied name of the cluster. This identifier is a unique key that
-  /// identifies a cluster.
-  final String? name;
-
-  /// The cluster's node type
-  final String? nodeType;
-
-  /// The number of shards in the cluster
-  final int? numberOfShards;
-
-  /// The name of the parameter group used by the cluster
-  final String? parameterGroupName;
-
-  /// The status of the parameter group used by the cluster, for example 'active'
-  /// or 'applying'.
-  final String? parameterGroupStatus;
-
-  /// A group of settings that are currently being applied.
-  final ClusterPendingUpdates? pendingUpdates;
-
-  /// A list of security groups used by the cluster
-  final List<SecurityGroupMembership>? securityGroups;
-
-  /// A list of shards that are members of the cluster.
-  final List<Shard>? shards;
-
-  /// The number of days for which MemoryDB retains automatic snapshots before
-  /// deleting them. For example, if you set SnapshotRetentionLimit to 5, a
-  /// snapshot that was taken today is retained for 5 days before being deleted.
-  final int? snapshotRetentionLimit;
-
-  /// The daily time range (in UTC) during which MemoryDB begins taking a daily
-  /// snapshot of your shard. Example: 05:00-09:00 If you do not specify this
-  /// parameter, MemoryDB automatically chooses an appropriate time range.
-  final String? snapshotWindow;
-
-  /// The Amazon Resource Name (ARN) of the SNS notification topic
-  final String? snsTopicArn;
-
-  /// The SNS topic must be in Active status to receive notifications
-  final String? snsTopicStatus;
-
-  /// The status of the cluster. For example, Available, Updating, Creating.
-  final String? status;
-
-  /// The name of the subnet group used by the cluster
-  final String? subnetGroupName;
-
-  /// A flag to indicate if In-transit encryption is enabled
-  final bool? tLSEnabled;
-
-  Cluster({
-    this.aCLName,
-    this.arn,
-    this.autoMinorVersionUpgrade,
-    this.availabilityMode,
-    this.clusterEndpoint,
-    this.dataTiering,
-    this.description,
-    this.enginePatchVersion,
-    this.engineVersion,
-    this.kmsKeyId,
-    this.maintenanceWindow,
-    this.name,
-    this.nodeType,
-    this.numberOfShards,
-    this.parameterGroupName,
-    this.parameterGroupStatus,
-    this.pendingUpdates,
-    this.securityGroups,
-    this.shards,
-    this.snapshotRetentionLimit,
-    this.snapshotWindow,
-    this.snsTopicArn,
-    this.snsTopicStatus,
-    this.status,
-    this.subnetGroupName,
-    this.tLSEnabled,
-  });
-
-  factory Cluster.fromJson(Map<String, dynamic> json) {
-    return Cluster(
-      aCLName: json['ACLName'] as String?,
-      arn: json['ARN'] as String?,
-      autoMinorVersionUpgrade: json['AutoMinorVersionUpgrade'] as bool?,
-      availabilityMode:
-          (json['AvailabilityMode'] as String?)?.let(AZStatus.fromString),
-      clusterEndpoint: json['ClusterEndpoint'] != null
-          ? Endpoint.fromJson(json['ClusterEndpoint'] as Map<String, dynamic>)
-          : null,
-      dataTiering:
-          (json['DataTiering'] as String?)?.let(DataTieringStatus.fromString),
-      description: json['Description'] as String?,
-      enginePatchVersion: json['EnginePatchVersion'] as String?,
-      engineVersion: json['EngineVersion'] as String?,
-      kmsKeyId: json['KmsKeyId'] as String?,
-      maintenanceWindow: json['MaintenanceWindow'] as String?,
-      name: json['Name'] as String?,
-      nodeType: json['NodeType'] as String?,
-      numberOfShards: json['NumberOfShards'] as int?,
-      parameterGroupName: json['ParameterGroupName'] as String?,
-      parameterGroupStatus: json['ParameterGroupStatus'] as String?,
-      pendingUpdates: json['PendingUpdates'] != null
-          ? ClusterPendingUpdates.fromJson(
-              json['PendingUpdates'] as Map<String, dynamic>)
-          : null,
-      securityGroups: (json['SecurityGroups'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              SecurityGroupMembership.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      shards: (json['Shards'] as List?)
-          ?.nonNulls
-          .map((e) => Shard.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      snapshotRetentionLimit: json['SnapshotRetentionLimit'] as int?,
-      snapshotWindow: json['SnapshotWindow'] as String?,
-      snsTopicArn: json['SnsTopicArn'] as String?,
-      snsTopicStatus: json['SnsTopicStatus'] as String?,
-      status: json['Status'] as String?,
-      subnetGroupName: json['SubnetGroupName'] as String?,
-      tLSEnabled: json['TLSEnabled'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final aCLName = this.aCLName;
-    final arn = this.arn;
-    final autoMinorVersionUpgrade = this.autoMinorVersionUpgrade;
-    final availabilityMode = this.availabilityMode;
-    final clusterEndpoint = this.clusterEndpoint;
-    final dataTiering = this.dataTiering;
-    final description = this.description;
-    final enginePatchVersion = this.enginePatchVersion;
-    final engineVersion = this.engineVersion;
-    final kmsKeyId = this.kmsKeyId;
-    final maintenanceWindow = this.maintenanceWindow;
-    final name = this.name;
-    final nodeType = this.nodeType;
-    final numberOfShards = this.numberOfShards;
-    final parameterGroupName = this.parameterGroupName;
-    final parameterGroupStatus = this.parameterGroupStatus;
-    final pendingUpdates = this.pendingUpdates;
-    final securityGroups = this.securityGroups;
-    final shards = this.shards;
-    final snapshotRetentionLimit = this.snapshotRetentionLimit;
-    final snapshotWindow = this.snapshotWindow;
-    final snsTopicArn = this.snsTopicArn;
-    final snsTopicStatus = this.snsTopicStatus;
-    final status = this.status;
-    final subnetGroupName = this.subnetGroupName;
-    final tLSEnabled = this.tLSEnabled;
-    return {
-      if (aCLName != null) 'ACLName': aCLName,
-      if (arn != null) 'ARN': arn,
-      if (autoMinorVersionUpgrade != null)
-        'AutoMinorVersionUpgrade': autoMinorVersionUpgrade,
-      if (availabilityMode != null) 'AvailabilityMode': availabilityMode.value,
-      if (clusterEndpoint != null) 'ClusterEndpoint': clusterEndpoint,
-      if (dataTiering != null) 'DataTiering': dataTiering.value,
-      if (description != null) 'Description': description,
-      if (enginePatchVersion != null) 'EnginePatchVersion': enginePatchVersion,
-      if (engineVersion != null) 'EngineVersion': engineVersion,
-      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-      if (maintenanceWindow != null) 'MaintenanceWindow': maintenanceWindow,
-      if (name != null) 'Name': name,
-      if (nodeType != null) 'NodeType': nodeType,
-      if (numberOfShards != null) 'NumberOfShards': numberOfShards,
-      if (parameterGroupName != null) 'ParameterGroupName': parameterGroupName,
-      if (parameterGroupStatus != null)
-        'ParameterGroupStatus': parameterGroupStatus,
-      if (pendingUpdates != null) 'PendingUpdates': pendingUpdates,
-      if (securityGroups != null) 'SecurityGroups': securityGroups,
-      if (shards != null) 'Shards': shards,
-      if (snapshotRetentionLimit != null)
-        'SnapshotRetentionLimit': snapshotRetentionLimit,
-      if (snapshotWindow != null) 'SnapshotWindow': snapshotWindow,
-      if (snsTopicArn != null) 'SnsTopicArn': snsTopicArn,
-      if (snsTopicStatus != null) 'SnsTopicStatus': snsTopicStatus,
-      if (status != null) 'Status': status,
-      if (subnetGroupName != null) 'SubnetGroupName': subnetGroupName,
-      if (tLSEnabled != null) 'TLSEnabled': tLSEnabled,
-    };
-  }
-}
-
-/// A list of cluster configuration options.
-class ClusterConfiguration {
-  /// The description of the cluster configuration
-  final String? description;
-
-  /// The Redis OSS engine version used by the cluster
-  final String? engineVersion;
-
-  /// The specified maintenance window for the cluster
-  final String? maintenanceWindow;
-
-  /// The name of the cluster
-  final String? name;
-
-  /// The node type used for the cluster
-  final String? nodeType;
-
-  /// The number of shards in the cluster
-  final int? numShards;
-
-  /// The name of parameter group used by the cluster
-  final String? parameterGroupName;
-
-  /// The port used by the cluster
-  final int? port;
-
-  /// The list of shards in the cluster
-  final List<ShardDetail>? shards;
-
-  /// The snapshot retention limit set by the cluster
-  final int? snapshotRetentionLimit;
-
-  /// The snapshot window set by the cluster
-  final String? snapshotWindow;
-
-  /// The name of the subnet group used by the cluster
-  final String? subnetGroupName;
-
-  /// The Amazon Resource Name (ARN) of the SNS notification topic for the cluster
-  final String? topicArn;
-
-  /// The ID of the VPC the cluster belongs to
-  final String? vpcId;
-
-  ClusterConfiguration({
-    this.description,
-    this.engineVersion,
-    this.maintenanceWindow,
-    this.name,
-    this.nodeType,
-    this.numShards,
-    this.parameterGroupName,
-    this.port,
-    this.shards,
-    this.snapshotRetentionLimit,
-    this.snapshotWindow,
-    this.subnetGroupName,
-    this.topicArn,
-    this.vpcId,
-  });
-
-  factory ClusterConfiguration.fromJson(Map<String, dynamic> json) {
-    return ClusterConfiguration(
-      description: json['Description'] as String?,
-      engineVersion: json['EngineVersion'] as String?,
-      maintenanceWindow: json['MaintenanceWindow'] as String?,
-      name: json['Name'] as String?,
-      nodeType: json['NodeType'] as String?,
-      numShards: json['NumShards'] as int?,
-      parameterGroupName: json['ParameterGroupName'] as String?,
-      port: json['Port'] as int?,
-      shards: (json['Shards'] as List?)
-          ?.nonNulls
-          .map((e) => ShardDetail.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      snapshotRetentionLimit: json['SnapshotRetentionLimit'] as int?,
-      snapshotWindow: json['SnapshotWindow'] as String?,
-      subnetGroupName: json['SubnetGroupName'] as String?,
-      topicArn: json['TopicArn'] as String?,
-      vpcId: json['VpcId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final engineVersion = this.engineVersion;
-    final maintenanceWindow = this.maintenanceWindow;
-    final name = this.name;
-    final nodeType = this.nodeType;
-    final numShards = this.numShards;
-    final parameterGroupName = this.parameterGroupName;
-    final port = this.port;
-    final shards = this.shards;
-    final snapshotRetentionLimit = this.snapshotRetentionLimit;
-    final snapshotWindow = this.snapshotWindow;
-    final subnetGroupName = this.subnetGroupName;
-    final topicArn = this.topicArn;
-    final vpcId = this.vpcId;
-    return {
-      if (description != null) 'Description': description,
-      if (engineVersion != null) 'EngineVersion': engineVersion,
-      if (maintenanceWindow != null) 'MaintenanceWindow': maintenanceWindow,
-      if (name != null) 'Name': name,
-      if (nodeType != null) 'NodeType': nodeType,
-      if (numShards != null) 'NumShards': numShards,
-      if (parameterGroupName != null) 'ParameterGroupName': parameterGroupName,
-      if (port != null) 'Port': port,
-      if (shards != null) 'Shards': shards,
-      if (snapshotRetentionLimit != null)
-        'SnapshotRetentionLimit': snapshotRetentionLimit,
-      if (snapshotWindow != null) 'SnapshotWindow': snapshotWindow,
-      if (subnetGroupName != null) 'SubnetGroupName': subnetGroupName,
-      if (topicArn != null) 'TopicArn': topicArn,
-      if (vpcId != null) 'VpcId': vpcId,
-    };
-  }
-}
-
-/// A list of updates being applied to the cluster
-class ClusterPendingUpdates {
-  /// A list of ACLs associated with the cluster that are being updated
-  final ACLsUpdateStatus? aCLs;
-
-  /// The status of an online resharding operation.
-  final ReshardingStatus? resharding;
-
-  /// A list of service updates being applied to the cluster
-  final List<PendingModifiedServiceUpdate>? serviceUpdates;
-
-  ClusterPendingUpdates({
-    this.aCLs,
-    this.resharding,
-    this.serviceUpdates,
-  });
-
-  factory ClusterPendingUpdates.fromJson(Map<String, dynamic> json) {
-    return ClusterPendingUpdates(
-      aCLs: json['ACLs'] != null
-          ? ACLsUpdateStatus.fromJson(json['ACLs'] as Map<String, dynamic>)
-          : null,
-      resharding: json['Resharding'] != null
-          ? ReshardingStatus.fromJson(
-              json['Resharding'] as Map<String, dynamic>)
-          : null,
-      serviceUpdates: (json['ServiceUpdates'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              PendingModifiedServiceUpdate.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final aCLs = this.aCLs;
-    final resharding = this.resharding;
-    final serviceUpdates = this.serviceUpdates;
-    return {
-      if (aCLs != null) 'ACLs': aCLs,
-      if (resharding != null) 'Resharding': resharding,
-      if (serviceUpdates != null) 'ServiceUpdates': serviceUpdates,
     };
   }
 }
@@ -2906,6 +2700,31 @@ class CreateClusterResponse {
   }
 }
 
+class CreateMultiRegionClusterResponse {
+  /// Details about the newly created multi-Region cluster.
+  final MultiRegionCluster? multiRegionCluster;
+
+  CreateMultiRegionClusterResponse({
+    this.multiRegionCluster,
+  });
+
+  factory CreateMultiRegionClusterResponse.fromJson(Map<String, dynamic> json) {
+    return CreateMultiRegionClusterResponse(
+      multiRegionCluster: json['MultiRegionCluster'] != null
+          ? MultiRegionCluster.fromJson(
+              json['MultiRegionCluster'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final multiRegionCluster = this.multiRegionCluster;
+    return {
+      if (multiRegionCluster != null) 'MultiRegionCluster': multiRegionCluster,
+    };
+  }
+}
+
 class CreateParameterGroupResponse {
   /// The newly-created parameter group.
   final ParameterGroup? parameterGroup;
@@ -2956,7 +2775,7 @@ class CreateSnapshotResponse {
 }
 
 class CreateSubnetGroupResponse {
-  /// The newly-created subnet group
+  /// The newly-created subnet group.
   final SubnetGroup? subnetGroup;
 
   CreateSubnetGroupResponse({
@@ -3003,30 +2822,6 @@ class CreateUserResponse {
   }
 }
 
-class DataTieringStatus {
-  static const $true = DataTieringStatus._('true');
-  static const $false = DataTieringStatus._('false');
-
-  final String value;
-
-  const DataTieringStatus._(this.value);
-
-  static const values = [$true, $false];
-
-  static DataTieringStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DataTieringStatus._(value));
-
-  @override
-  bool operator ==(other) => other is DataTieringStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class DeleteACLResponse {
   /// The Access Control List object that has been deleted.
   final ACL? acl;
@@ -3052,7 +2847,7 @@ class DeleteACLResponse {
 }
 
 class DeleteClusterResponse {
-  /// The cluster object that has been deleted
+  /// The cluster object that has been deleted.
   final Cluster? cluster;
 
   DeleteClusterResponse({
@@ -3071,6 +2866,31 @@ class DeleteClusterResponse {
     final cluster = this.cluster;
     return {
       if (cluster != null) 'Cluster': cluster,
+    };
+  }
+}
+
+class DeleteMultiRegionClusterResponse {
+  /// Details about the deleted multi-Region cluster.
+  final MultiRegionCluster? multiRegionCluster;
+
+  DeleteMultiRegionClusterResponse({
+    this.multiRegionCluster,
+  });
+
+  factory DeleteMultiRegionClusterResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteMultiRegionClusterResponse(
+      multiRegionCluster: json['MultiRegionCluster'] != null
+          ? MultiRegionCluster.fromJson(
+              json['MultiRegionCluster'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final multiRegionCluster = this.multiRegionCluster;
+    return {
+      if (multiRegionCluster != null) 'MultiRegionCluster': multiRegionCluster,
     };
   }
 }
@@ -3173,7 +2993,7 @@ class DeleteUserResponse {
 }
 
 class DescribeACLsResponse {
-  /// The list of ACLs
+  /// The list of ACLs.
   final List<ACL>? aCLs;
 
   /// If nextToken is returned, there are more results available. The value of
@@ -3317,6 +3137,115 @@ class DescribeEventsResponse {
   }
 }
 
+class DescribeMultiRegionClustersResponse {
+  /// A list of multi-Region clusters.
+  final List<MultiRegionCluster>? multiRegionClusters;
+
+  /// A token to use to retrieve the next page of results.
+  final String? nextToken;
+
+  DescribeMultiRegionClustersResponse({
+    this.multiRegionClusters,
+    this.nextToken,
+  });
+
+  factory DescribeMultiRegionClustersResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeMultiRegionClustersResponse(
+      multiRegionClusters: (json['MultiRegionClusters'] as List?)
+          ?.nonNulls
+          .map((e) => MultiRegionCluster.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final multiRegionClusters = this.multiRegionClusters;
+    final nextToken = this.nextToken;
+    return {
+      if (multiRegionClusters != null)
+        'MultiRegionClusters': multiRegionClusters,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class DescribeMultiRegionParameterGroupsResponse {
+  /// A list of multi-region parameter groups. Each element in the list contains
+  /// detailed information about one parameter group.
+  final List<MultiRegionParameterGroup>? multiRegionParameterGroups;
+
+  /// An optional token to include in the response. If this token is provided, the
+  /// response includes only results beyond the token, up to the value specified
+  /// by MaxResults.
+  final String? nextToken;
+
+  DescribeMultiRegionParameterGroupsResponse({
+    this.multiRegionParameterGroups,
+    this.nextToken,
+  });
+
+  factory DescribeMultiRegionParameterGroupsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeMultiRegionParameterGroupsResponse(
+      multiRegionParameterGroups: (json['MultiRegionParameterGroups'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              MultiRegionParameterGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final multiRegionParameterGroups = this.multiRegionParameterGroups;
+    final nextToken = this.nextToken;
+    return {
+      if (multiRegionParameterGroups != null)
+        'MultiRegionParameterGroups': multiRegionParameterGroups,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class DescribeMultiRegionParametersResponse {
+  /// A list of parameters specific to a particular multi-region parameter group.
+  /// Each element in the list contains detailed information about one parameter.
+  final List<MultiRegionParameter>? multiRegionParameters;
+
+  /// An optional token to include in the response. If this token is provided, the
+  /// response includes only results beyond the token, up to the value specified
+  /// by MaxResults.
+  final String? nextToken;
+
+  DescribeMultiRegionParametersResponse({
+    this.multiRegionParameters,
+    this.nextToken,
+  });
+
+  factory DescribeMultiRegionParametersResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeMultiRegionParametersResponse(
+      multiRegionParameters: (json['MultiRegionParameters'] as List?)
+          ?.nonNulls
+          .map((e) => MultiRegionParameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final multiRegionParameters = this.multiRegionParameters;
+    final nextToken = this.nextToken;
+    return {
+      if (multiRegionParameters != null)
+        'MultiRegionParameters': multiRegionParameters,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 class DescribeParameterGroupsResponse {
   /// An optional argument to pass in case the total number of records exceeds the
   /// value of MaxResults. If nextToken is returned, there are more results
@@ -3391,6 +3320,42 @@ class DescribeParametersResponse {
   }
 }
 
+class DescribeReservedNodesResponse {
+  /// An optional marker returned from a prior request. Use this marker for
+  /// pagination of results from this operation. If this parameter is specified,
+  /// the response includes only records beyond the marker, up to the value
+  /// specified by MaxRecords.
+  final String? nextToken;
+
+  /// Returns information about reserved nodes for this account, or about a
+  /// specified reserved node.
+  final List<ReservedNode>? reservedNodes;
+
+  DescribeReservedNodesResponse({
+    this.nextToken,
+    this.reservedNodes,
+  });
+
+  factory DescribeReservedNodesResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeReservedNodesResponse(
+      nextToken: json['NextToken'] as String?,
+      reservedNodes: (json['ReservedNodes'] as List?)
+          ?.nonNulls
+          .map((e) => ReservedNode.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final reservedNodes = this.reservedNodes;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (reservedNodes != null) 'ReservedNodes': reservedNodes,
+    };
+  }
+}
+
 class DescribeReservedNodesOfferingsResponse {
   /// An optional marker returned from a prior request. Use this marker for
   /// pagination of results from this operation. If this parameter is specified,
@@ -3424,42 +3389,6 @@ class DescribeReservedNodesOfferingsResponse {
       if (nextToken != null) 'NextToken': nextToken,
       if (reservedNodesOfferings != null)
         'ReservedNodesOfferings': reservedNodesOfferings,
-    };
-  }
-}
-
-class DescribeReservedNodesResponse {
-  /// An optional marker returned from a prior request. Use this marker for
-  /// pagination of results from this operation. If this parameter is specified,
-  /// the response includes only records beyond the marker, up to the value
-  /// specified by MaxRecords.
-  final String? nextToken;
-
-  /// Returns information about reserved nodes for this account, or about a
-  /// specified reserved node.
-  final List<ReservedNode>? reservedNodes;
-
-  DescribeReservedNodesResponse({
-    this.nextToken,
-    this.reservedNodes,
-  });
-
-  factory DescribeReservedNodesResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeReservedNodesResponse(
-      nextToken: json['NextToken'] as String?,
-      reservedNodes: (json['ReservedNodes'] as List?)
-          ?.nonNulls
-          .map((e) => ReservedNode.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final reservedNodes = this.reservedNodes;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (reservedNodes != null) 'ReservedNodes': reservedNodes,
     };
   }
 }
@@ -3610,125 +3539,8 @@ class DescribeUsersResponse {
   }
 }
 
-/// Represents the information required for client programs to connect to the
-/// cluster and its nodes.
-class Endpoint {
-  /// The DNS hostname of the node.
-  final String? address;
-
-  /// The port number that the engine is listening on.
-  final int? port;
-
-  Endpoint({
-    this.address,
-    this.port,
-  });
-
-  factory Endpoint.fromJson(Map<String, dynamic> json) {
-    return Endpoint(
-      address: json['Address'] as String?,
-      port: json['Port'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final address = this.address;
-    final port = this.port;
-    return {
-      if (address != null) 'Address': address,
-      if (port != null) 'Port': port,
-    };
-  }
-}
-
-/// Provides details of the Redis OSS engine version
-class EngineVersionInfo {
-  /// The patched engine version
-  final String? enginePatchVersion;
-
-  /// The engine version
-  final String? engineVersion;
-
-  /// Specifies the name of the parameter group family to which the engine default
-  /// parameters apply.
-  final String? parameterGroupFamily;
-
-  EngineVersionInfo({
-    this.enginePatchVersion,
-    this.engineVersion,
-    this.parameterGroupFamily,
-  });
-
-  factory EngineVersionInfo.fromJson(Map<String, dynamic> json) {
-    return EngineVersionInfo(
-      enginePatchVersion: json['EnginePatchVersion'] as String?,
-      engineVersion: json['EngineVersion'] as String?,
-      parameterGroupFamily: json['ParameterGroupFamily'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final enginePatchVersion = this.enginePatchVersion;
-    final engineVersion = this.engineVersion;
-    final parameterGroupFamily = this.parameterGroupFamily;
-    return {
-      if (enginePatchVersion != null) 'EnginePatchVersion': enginePatchVersion,
-      if (engineVersion != null) 'EngineVersion': engineVersion,
-      if (parameterGroupFamily != null)
-        'ParameterGroupFamily': parameterGroupFamily,
-    };
-  }
-}
-
-/// Represents a single occurrence of something interesting within the system.
-/// Some examples of events are creating a cluster or adding or removing a node.
-class Event {
-  /// The date and time when the event occurred.
-  final DateTime? date;
-
-  /// The text of the event.
-  final String? message;
-
-  /// The name for the source of the event. For example, if the event occurred at
-  /// the cluster level, the identifier would be the name of the cluster.
-  final String? sourceName;
-
-  /// Specifies the origin of this event - a cluster, a parameter group, a
-  /// security group, etc.
-  final SourceType? sourceType;
-
-  Event({
-    this.date,
-    this.message,
-    this.sourceName,
-    this.sourceType,
-  });
-
-  factory Event.fromJson(Map<String, dynamic> json) {
-    return Event(
-      date: timeStampFromJson(json['Date']),
-      message: json['Message'] as String?,
-      sourceName: json['SourceName'] as String?,
-      sourceType: (json['SourceType'] as String?)?.let(SourceType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final date = this.date;
-    final message = this.message;
-    final sourceName = this.sourceName;
-    final sourceType = this.sourceType;
-    return {
-      if (date != null) 'Date': unixTimestampToJson(date),
-      if (message != null) 'Message': message,
-      if (sourceName != null) 'SourceName': sourceName,
-      if (sourceType != null) 'SourceType': sourceType.value,
-    };
-  }
-}
-
 class FailoverShardResponse {
-  /// The cluster being failed over
+  /// The cluster being failed over.
   final Cluster? cluster;
 
   FailoverShardResponse({
@@ -3751,52 +3563,40 @@ class FailoverShardResponse {
   }
 }
 
-/// Used to streamline results of a search based on the property being filtered.
-class Filter {
-  /// The property being filtered. For example, UserName.
-  final String name;
+class ListAllowedMultiRegionClusterUpdatesResponse {
+  /// The node types that the cluster can be scaled down to.
+  final List<String>? scaleDownNodeTypes;
 
-  /// The property values to filter on. For example, "user-123".
-  final List<String> values;
+  /// The node types that the cluster can be scaled up to.
+  final List<String>? scaleUpNodeTypes;
 
-  Filter({
-    required this.name,
-    required this.values,
+  ListAllowedMultiRegionClusterUpdatesResponse({
+    this.scaleDownNodeTypes,
+    this.scaleUpNodeTypes,
   });
 
+  factory ListAllowedMultiRegionClusterUpdatesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListAllowedMultiRegionClusterUpdatesResponse(
+      scaleDownNodeTypes: (json['ScaleDownNodeTypes'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      scaleUpNodeTypes: (json['ScaleUpNodeTypes'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
   Map<String, dynamic> toJson() {
-    final name = this.name;
-    final values = this.values;
+    final scaleDownNodeTypes = this.scaleDownNodeTypes;
+    final scaleUpNodeTypes = this.scaleUpNodeTypes;
     return {
-      'Name': name,
-      'Values': values,
+      if (scaleDownNodeTypes != null) 'ScaleDownNodeTypes': scaleDownNodeTypes,
+      if (scaleUpNodeTypes != null) 'ScaleUpNodeTypes': scaleUpNodeTypes,
     };
   }
-}
-
-class InputAuthenticationType {
-  static const password = InputAuthenticationType._('password');
-  static const iam = InputAuthenticationType._('iam');
-
-  final String value;
-
-  const InputAuthenticationType._(this.value);
-
-  static const values = [password, iam];
-
-  static InputAuthenticationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => InputAuthenticationType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is InputAuthenticationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class ListAllowedNodeTypeUpdatesResponse {
@@ -3860,223 +3660,6 @@ class ListTagsResponse {
   }
 }
 
-/// Represents an individual node within a cluster. Each node runs its own
-/// instance of the cluster's protocol-compliant caching software.
-class Node {
-  /// The Availability Zone in which the node resides
-  final String? availabilityZone;
-
-  /// The date and time when the node was created.
-  final DateTime? createTime;
-
-  /// The hostname for connecting to this node.
-  final Endpoint? endpoint;
-
-  /// The node identifier. A node name is a numeric identifier (0001, 0002, etc.).
-  /// The combination of cluster name, shard name and node name uniquely
-  /// identifies every node used in a customer's Amazon account.
-  final String? name;
-
-  /// The status of the service update on the node
-  final String? status;
-
-  Node({
-    this.availabilityZone,
-    this.createTime,
-    this.endpoint,
-    this.name,
-    this.status,
-  });
-
-  factory Node.fromJson(Map<String, dynamic> json) {
-    return Node(
-      availabilityZone: json['AvailabilityZone'] as String?,
-      createTime: timeStampFromJson(json['CreateTime']),
-      endpoint: json['Endpoint'] != null
-          ? Endpoint.fromJson(json['Endpoint'] as Map<String, dynamic>)
-          : null,
-      name: json['Name'] as String?,
-      status: json['Status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final availabilityZone = this.availabilityZone;
-    final createTime = this.createTime;
-    final endpoint = this.endpoint;
-    final name = this.name;
-    final status = this.status;
-    return {
-      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
-      if (createTime != null) 'CreateTime': unixTimestampToJson(createTime),
-      if (endpoint != null) 'Endpoint': endpoint,
-      if (name != null) 'Name': name,
-      if (status != null) 'Status': status,
-    };
-  }
-}
-
-/// Describes an individual setting that controls some aspect of MemoryDB
-/// behavior.
-class Parameter {
-  /// The valid range of values for the parameter.
-  final String? allowedValues;
-
-  /// The parameter's data type
-  final String? dataType;
-
-  /// A description of the parameter
-  final String? description;
-
-  /// The earliest engine version to which the parameter can apply.
-  final String? minimumEngineVersion;
-
-  /// The name of the parameter
-  final String? name;
-
-  /// The value of the parameter
-  final String? value;
-
-  Parameter({
-    this.allowedValues,
-    this.dataType,
-    this.description,
-    this.minimumEngineVersion,
-    this.name,
-    this.value,
-  });
-
-  factory Parameter.fromJson(Map<String, dynamic> json) {
-    return Parameter(
-      allowedValues: json['AllowedValues'] as String?,
-      dataType: json['DataType'] as String?,
-      description: json['Description'] as String?,
-      minimumEngineVersion: json['MinimumEngineVersion'] as String?,
-      name: json['Name'] as String?,
-      value: json['Value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final allowedValues = this.allowedValues;
-    final dataType = this.dataType;
-    final description = this.description;
-    final minimumEngineVersion = this.minimumEngineVersion;
-    final name = this.name;
-    final value = this.value;
-    return {
-      if (allowedValues != null) 'AllowedValues': allowedValues,
-      if (dataType != null) 'DataType': dataType,
-      if (description != null) 'Description': description,
-      if (minimumEngineVersion != null)
-        'MinimumEngineVersion': minimumEngineVersion,
-      if (name != null) 'Name': name,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-/// Represents the output of a CreateParameterGroup operation. A parameter group
-/// represents a combination of specific values for the parameters that are
-/// passed to the engine software during startup.
-class ParameterGroup {
-  /// The Amazon Resource Name (ARN) of the parameter group
-  final String? arn;
-
-  /// A description of the parameter group
-  final String? description;
-
-  /// The name of the parameter group family that this parameter group is
-  /// compatible with.
-  final String? family;
-
-  /// The name of the parameter group
-  final String? name;
-
-  ParameterGroup({
-    this.arn,
-    this.description,
-    this.family,
-    this.name,
-  });
-
-  factory ParameterGroup.fromJson(Map<String, dynamic> json) {
-    return ParameterGroup(
-      arn: json['ARN'] as String?,
-      description: json['Description'] as String?,
-      family: json['Family'] as String?,
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final description = this.description;
-    final family = this.family;
-    final name = this.name;
-    return {
-      if (arn != null) 'ARN': arn,
-      if (description != null) 'Description': description,
-      if (family != null) 'Family': family,
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
-/// Describes a name-value pair that is used to update the value of a parameter.
-class ParameterNameValue {
-  /// The name of the parameter
-  final String? parameterName;
-
-  /// The value of the parameter
-  final String? parameterValue;
-
-  ParameterNameValue({
-    this.parameterName,
-    this.parameterValue,
-  });
-
-  Map<String, dynamic> toJson() {
-    final parameterName = this.parameterName;
-    final parameterValue = this.parameterValue;
-    return {
-      if (parameterName != null) 'ParameterName': parameterName,
-      if (parameterValue != null) 'ParameterValue': parameterValue,
-    };
-  }
-}
-
-/// Update action that has yet to be processed for the corresponding apply/stop
-/// request
-class PendingModifiedServiceUpdate {
-  /// The unique ID of the service update
-  final String? serviceUpdateName;
-
-  /// The status of the service update
-  final ServiceUpdateStatus? status;
-
-  PendingModifiedServiceUpdate({
-    this.serviceUpdateName,
-    this.status,
-  });
-
-  factory PendingModifiedServiceUpdate.fromJson(Map<String, dynamic> json) {
-    return PendingModifiedServiceUpdate(
-      serviceUpdateName: json['ServiceUpdateName'] as String?,
-      status: (json['Status'] as String?)?.let(ServiceUpdateStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final serviceUpdateName = this.serviceUpdateName;
-    final status = this.status;
-    return {
-      if (serviceUpdateName != null) 'ServiceUpdateName': serviceUpdateName,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
 class PurchaseReservedNodesOfferingResponse {
   /// Represents the output of a <code>PurchaseReservedNodesOffering</code>
   /// operation.
@@ -4099,217 +3682,6 @@ class PurchaseReservedNodesOfferingResponse {
     final reservedNode = this.reservedNode;
     return {
       if (reservedNode != null) 'ReservedNode': reservedNode,
-    };
-  }
-}
-
-/// The recurring charge to run this reserved node.
-class RecurringCharge {
-  /// The amount of the recurring charge to run this reserved node.
-  final double? recurringChargeAmount;
-
-  /// The frequency of the recurring price charged to run this reserved node.
-  final String? recurringChargeFrequency;
-
-  RecurringCharge({
-    this.recurringChargeAmount,
-    this.recurringChargeFrequency,
-  });
-
-  factory RecurringCharge.fromJson(Map<String, dynamic> json) {
-    return RecurringCharge(
-      recurringChargeAmount: json['RecurringChargeAmount'] as double?,
-      recurringChargeFrequency: json['RecurringChargeFrequency'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final recurringChargeAmount = this.recurringChargeAmount;
-    final recurringChargeFrequency = this.recurringChargeFrequency;
-    return {
-      if (recurringChargeAmount != null)
-        'RecurringChargeAmount': recurringChargeAmount,
-      if (recurringChargeFrequency != null)
-        'RecurringChargeFrequency': recurringChargeFrequency,
-    };
-  }
-}
-
-/// A request to configure the number of replicas in a shard
-class ReplicaConfigurationRequest {
-  /// The number of replicas to scale up or down to
-  final int? replicaCount;
-
-  ReplicaConfigurationRequest({
-    this.replicaCount,
-  });
-
-  Map<String, dynamic> toJson() {
-    final replicaCount = this.replicaCount;
-    return {
-      if (replicaCount != null) 'ReplicaCount': replicaCount,
-    };
-  }
-}
-
-/// Represents the output of a <code>PurchaseReservedNodesOffering</code>
-/// operation.
-class ReservedNode {
-  /// The Amazon Resource Name (ARN) of the reserved node.
-  final String? arn;
-
-  /// The duration of the reservation in seconds.
-  final int? duration;
-
-  /// The fixed price charged for this reserved node.
-  final double? fixedPrice;
-
-  /// The number of nodes that have been reserved.
-  final int? nodeCount;
-
-  /// The node type for the reserved nodes.
-  final String? nodeType;
-
-  /// The offering type of this reserved node.
-  final String? offeringType;
-
-  /// The recurring price charged to run this reserved node.
-  final List<RecurringCharge>? recurringCharges;
-
-  /// A customer-specified identifier to track this reservation.
-  final String? reservationId;
-
-  /// The ID of the reserved node offering to purchase.
-  final String? reservedNodesOfferingId;
-
-  /// The time the reservation started.
-  final DateTime? startTime;
-
-  /// The state of the reserved node.
-  final String? state;
-
-  ReservedNode({
-    this.arn,
-    this.duration,
-    this.fixedPrice,
-    this.nodeCount,
-    this.nodeType,
-    this.offeringType,
-    this.recurringCharges,
-    this.reservationId,
-    this.reservedNodesOfferingId,
-    this.startTime,
-    this.state,
-  });
-
-  factory ReservedNode.fromJson(Map<String, dynamic> json) {
-    return ReservedNode(
-      arn: json['ARN'] as String?,
-      duration: json['Duration'] as int?,
-      fixedPrice: json['FixedPrice'] as double?,
-      nodeCount: json['NodeCount'] as int?,
-      nodeType: json['NodeType'] as String?,
-      offeringType: json['OfferingType'] as String?,
-      recurringCharges: (json['RecurringCharges'] as List?)
-          ?.nonNulls
-          .map((e) => RecurringCharge.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      reservationId: json['ReservationId'] as String?,
-      reservedNodesOfferingId: json['ReservedNodesOfferingId'] as String?,
-      startTime: timeStampFromJson(json['StartTime']),
-      state: json['State'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final duration = this.duration;
-    final fixedPrice = this.fixedPrice;
-    final nodeCount = this.nodeCount;
-    final nodeType = this.nodeType;
-    final offeringType = this.offeringType;
-    final recurringCharges = this.recurringCharges;
-    final reservationId = this.reservationId;
-    final reservedNodesOfferingId = this.reservedNodesOfferingId;
-    final startTime = this.startTime;
-    final state = this.state;
-    return {
-      if (arn != null) 'ARN': arn,
-      if (duration != null) 'Duration': duration,
-      if (fixedPrice != null) 'FixedPrice': fixedPrice,
-      if (nodeCount != null) 'NodeCount': nodeCount,
-      if (nodeType != null) 'NodeType': nodeType,
-      if (offeringType != null) 'OfferingType': offeringType,
-      if (recurringCharges != null) 'RecurringCharges': recurringCharges,
-      if (reservationId != null) 'ReservationId': reservationId,
-      if (reservedNodesOfferingId != null)
-        'ReservedNodesOfferingId': reservedNodesOfferingId,
-      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (state != null) 'State': state,
-    };
-  }
-}
-
-/// The offering type of this node.
-class ReservedNodesOffering {
-  /// The duration of the reservation in seconds.
-  final int? duration;
-
-  /// The fixed price charged for this reserved node.
-  final double? fixedPrice;
-
-  /// The node type for the reserved nodes. For more information, see <a
-  /// href="https://docs.aws.amazon.com/memorydb/latest/devguide/nodes.reserved.html#reserved-nodes-supported">Supported
-  /// node types</a>.
-  final String? nodeType;
-
-  /// The offering type of this reserved node.
-  final String? offeringType;
-
-  /// The recurring price charged to run this reserved node.
-  final List<RecurringCharge>? recurringCharges;
-
-  /// The offering identifier.
-  final String? reservedNodesOfferingId;
-
-  ReservedNodesOffering({
-    this.duration,
-    this.fixedPrice,
-    this.nodeType,
-    this.offeringType,
-    this.recurringCharges,
-    this.reservedNodesOfferingId,
-  });
-
-  factory ReservedNodesOffering.fromJson(Map<String, dynamic> json) {
-    return ReservedNodesOffering(
-      duration: json['Duration'] as int?,
-      fixedPrice: json['FixedPrice'] as double?,
-      nodeType: json['NodeType'] as String?,
-      offeringType: json['OfferingType'] as String?,
-      recurringCharges: (json['RecurringCharges'] as List?)
-          ?.nonNulls
-          .map((e) => RecurringCharge.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      reservedNodesOfferingId: json['ReservedNodesOfferingId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final duration = this.duration;
-    final fixedPrice = this.fixedPrice;
-    final nodeType = this.nodeType;
-    final offeringType = this.offeringType;
-    final recurringCharges = this.recurringCharges;
-    final reservedNodesOfferingId = this.reservedNodesOfferingId;
-    return {
-      if (duration != null) 'Duration': duration,
-      if (fixedPrice != null) 'FixedPrice': fixedPrice,
-      if (nodeType != null) 'NodeType': nodeType,
-      if (offeringType != null) 'OfferingType': offeringType,
-      if (recurringCharges != null) 'RecurringCharges': recurringCharges,
-      if (reservedNodesOfferingId != null)
-        'ReservedNodesOfferingId': reservedNodesOfferingId,
     };
   }
 }
@@ -4339,623 +3711,6 @@ class ResetParameterGroupResponse {
   }
 }
 
-/// The status of the online resharding
-class ReshardingStatus {
-  /// The status of the online resharding slot migration
-  final SlotMigration? slotMigration;
-
-  ReshardingStatus({
-    this.slotMigration,
-  });
-
-  factory ReshardingStatus.fromJson(Map<String, dynamic> json) {
-    return ReshardingStatus(
-      slotMigration: json['SlotMigration'] != null
-          ? SlotMigration.fromJson(
-              json['SlotMigration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final slotMigration = this.slotMigration;
-    return {
-      if (slotMigration != null) 'SlotMigration': slotMigration,
-    };
-  }
-}
-
-/// Represents a single security group and its status.
-class SecurityGroupMembership {
-  /// The identifier of the security group.
-  final String? securityGroupId;
-
-  /// The status of the security group membership. The status changes whenever a
-  /// security group is modified, or when the security groups assigned to a
-  /// cluster are modified.
-  final String? status;
-
-  SecurityGroupMembership({
-    this.securityGroupId,
-    this.status,
-  });
-
-  factory SecurityGroupMembership.fromJson(Map<String, dynamic> json) {
-    return SecurityGroupMembership(
-      securityGroupId: json['SecurityGroupId'] as String?,
-      status: json['Status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final securityGroupId = this.securityGroupId;
-    final status = this.status;
-    return {
-      if (securityGroupId != null) 'SecurityGroupId': securityGroupId,
-      if (status != null) 'Status': status,
-    };
-  }
-}
-
-/// An update that you can apply to your MemoryDB clusters.
-class ServiceUpdate {
-  /// The date at which the service update will be automatically applied
-  final DateTime? autoUpdateStartDate;
-
-  /// The name of the cluster to which the service update applies
-  final String? clusterName;
-
-  /// Provides details of the service update
-  final String? description;
-
-  /// A list of nodes updated by the service update
-  final String? nodesUpdated;
-
-  /// The date when the service update is initially available
-  final DateTime? releaseDate;
-
-  /// The unique ID of the service update
-  final String? serviceUpdateName;
-
-  /// The status of the service update
-  final ServiceUpdateStatus? status;
-
-  /// Reflects the nature of the service update
-  final ServiceUpdateType? type;
-
-  ServiceUpdate({
-    this.autoUpdateStartDate,
-    this.clusterName,
-    this.description,
-    this.nodesUpdated,
-    this.releaseDate,
-    this.serviceUpdateName,
-    this.status,
-    this.type,
-  });
-
-  factory ServiceUpdate.fromJson(Map<String, dynamic> json) {
-    return ServiceUpdate(
-      autoUpdateStartDate: timeStampFromJson(json['AutoUpdateStartDate']),
-      clusterName: json['ClusterName'] as String?,
-      description: json['Description'] as String?,
-      nodesUpdated: json['NodesUpdated'] as String?,
-      releaseDate: timeStampFromJson(json['ReleaseDate']),
-      serviceUpdateName: json['ServiceUpdateName'] as String?,
-      status: (json['Status'] as String?)?.let(ServiceUpdateStatus.fromString),
-      type: (json['Type'] as String?)?.let(ServiceUpdateType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final autoUpdateStartDate = this.autoUpdateStartDate;
-    final clusterName = this.clusterName;
-    final description = this.description;
-    final nodesUpdated = this.nodesUpdated;
-    final releaseDate = this.releaseDate;
-    final serviceUpdateName = this.serviceUpdateName;
-    final status = this.status;
-    final type = this.type;
-    return {
-      if (autoUpdateStartDate != null)
-        'AutoUpdateStartDate': unixTimestampToJson(autoUpdateStartDate),
-      if (clusterName != null) 'ClusterName': clusterName,
-      if (description != null) 'Description': description,
-      if (nodesUpdated != null) 'NodesUpdated': nodesUpdated,
-      if (releaseDate != null) 'ReleaseDate': unixTimestampToJson(releaseDate),
-      if (serviceUpdateName != null) 'ServiceUpdateName': serviceUpdateName,
-      if (status != null) 'Status': status.value,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-/// A request to apply a service update
-class ServiceUpdateRequest {
-  /// The unique ID of the service update
-  final String? serviceUpdateNameToApply;
-
-  ServiceUpdateRequest({
-    this.serviceUpdateNameToApply,
-  });
-
-  Map<String, dynamic> toJson() {
-    final serviceUpdateNameToApply = this.serviceUpdateNameToApply;
-    return {
-      if (serviceUpdateNameToApply != null)
-        'ServiceUpdateNameToApply': serviceUpdateNameToApply,
-    };
-  }
-}
-
-class ServiceUpdateStatus {
-  static const available = ServiceUpdateStatus._('available');
-  static const inProgress = ServiceUpdateStatus._('in-progress');
-  static const complete = ServiceUpdateStatus._('complete');
-  static const scheduled = ServiceUpdateStatus._('scheduled');
-
-  final String value;
-
-  const ServiceUpdateStatus._(this.value);
-
-  static const values = [available, inProgress, complete, scheduled];
-
-  static ServiceUpdateStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ServiceUpdateStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ServiceUpdateStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ServiceUpdateType {
-  static const securityUpdate = ServiceUpdateType._('security-update');
-
-  final String value;
-
-  const ServiceUpdateType._(this.value);
-
-  static const values = [securityUpdate];
-
-  static ServiceUpdateType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ServiceUpdateType._(value));
-
-  @override
-  bool operator ==(other) => other is ServiceUpdateType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents a collection of nodes in a cluster. One node in the node group is
-/// the read/write primary node. All the other nodes are read-only Replica
-/// nodes.
-class Shard {
-  /// The name of the shard
-  final String? name;
-
-  /// A list containing information about individual nodes within the shard
-  final List<Node>? nodes;
-
-  /// The number of nodes in the shard
-  final int? numberOfNodes;
-
-  /// The keyspace for this shard.
-  final String? slots;
-
-  /// The current state of this replication group - creating, available,
-  /// modifying, deleting.
-  final String? status;
-
-  Shard({
-    this.name,
-    this.nodes,
-    this.numberOfNodes,
-    this.slots,
-    this.status,
-  });
-
-  factory Shard.fromJson(Map<String, dynamic> json) {
-    return Shard(
-      name: json['Name'] as String?,
-      nodes: (json['Nodes'] as List?)
-          ?.nonNulls
-          .map((e) => Node.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      numberOfNodes: json['NumberOfNodes'] as int?,
-      slots: json['Slots'] as String?,
-      status: json['Status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final nodes = this.nodes;
-    final numberOfNodes = this.numberOfNodes;
-    final slots = this.slots;
-    final status = this.status;
-    return {
-      if (name != null) 'Name': name,
-      if (nodes != null) 'Nodes': nodes,
-      if (numberOfNodes != null) 'NumberOfNodes': numberOfNodes,
-      if (slots != null) 'Slots': slots,
-      if (status != null) 'Status': status,
-    };
-  }
-}
-
-/// Shard configuration options. Each shard configuration has the following:
-/// Slots and ReplicaCount.
-class ShardConfiguration {
-  /// The number of read replica nodes in this shard.
-  final int? replicaCount;
-
-  /// A string that specifies the keyspace for a particular node group. Keyspaces
-  /// range from 0 to 16,383. The string is in the format startkey-endkey.
-  final String? slots;
-
-  ShardConfiguration({
-    this.replicaCount,
-    this.slots,
-  });
-
-  factory ShardConfiguration.fromJson(Map<String, dynamic> json) {
-    return ShardConfiguration(
-      replicaCount: json['ReplicaCount'] as int?,
-      slots: json['Slots'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final replicaCount = this.replicaCount;
-    final slots = this.slots;
-    return {
-      if (replicaCount != null) 'ReplicaCount': replicaCount,
-      if (slots != null) 'Slots': slots,
-    };
-  }
-}
-
-/// A request to configure the sharding properties of a cluster
-class ShardConfigurationRequest {
-  /// The number of shards in the cluster
-  final int? shardCount;
-
-  ShardConfigurationRequest({
-    this.shardCount,
-  });
-
-  Map<String, dynamic> toJson() {
-    final shardCount = this.shardCount;
-    return {
-      if (shardCount != null) 'ShardCount': shardCount,
-    };
-  }
-}
-
-/// Provides details of a shard in a snapshot
-class ShardDetail {
-  /// The configuration details of the shard
-  final ShardConfiguration? configuration;
-
-  /// The name of the shard
-  final String? name;
-
-  /// The size of the shard's snapshot
-  final String? size;
-
-  /// The date and time that the shard's snapshot was created
-  final DateTime? snapshotCreationTime;
-
-  ShardDetail({
-    this.configuration,
-    this.name,
-    this.size,
-    this.snapshotCreationTime,
-  });
-
-  factory ShardDetail.fromJson(Map<String, dynamic> json) {
-    return ShardDetail(
-      configuration: json['Configuration'] != null
-          ? ShardConfiguration.fromJson(
-              json['Configuration'] as Map<String, dynamic>)
-          : null,
-      name: json['Name'] as String?,
-      size: json['Size'] as String?,
-      snapshotCreationTime: timeStampFromJson(json['SnapshotCreationTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final configuration = this.configuration;
-    final name = this.name;
-    final size = this.size;
-    final snapshotCreationTime = this.snapshotCreationTime;
-    return {
-      if (configuration != null) 'Configuration': configuration,
-      if (name != null) 'Name': name,
-      if (size != null) 'Size': size,
-      if (snapshotCreationTime != null)
-        'SnapshotCreationTime': unixTimestampToJson(snapshotCreationTime),
-    };
-  }
-}
-
-/// Represents the progress of an online resharding operation.
-class SlotMigration {
-  /// The percentage of the slot migration that is complete.
-  final double? progressPercentage;
-
-  SlotMigration({
-    this.progressPercentage,
-  });
-
-  factory SlotMigration.fromJson(Map<String, dynamic> json) {
-    return SlotMigration(
-      progressPercentage: json['ProgressPercentage'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final progressPercentage = this.progressPercentage;
-    return {
-      if (progressPercentage != null) 'ProgressPercentage': progressPercentage,
-    };
-  }
-}
-
-/// Represents a copy of an entire cluster as of the time when the snapshot was
-/// taken.
-class Snapshot {
-  /// The ARN (Amazon Resource Name) of the snapshot.
-  final String? arn;
-
-  /// The configuration of the cluster from which the snapshot was taken
-  final ClusterConfiguration? clusterConfiguration;
-
-  /// Enables data tiering. Data tiering is only supported for clusters using the
-  /// r6gd node type. This parameter must be set when using r6gd nodes. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/memorydb/latest/devguide/data-tiering.html">Data
-  /// tiering</a>.
-  final DataTieringStatus? dataTiering;
-
-  /// The ID of the KMS key used to encrypt the snapshot.
-  final String? kmsKeyId;
-
-  /// The name of the snapshot
-  final String? name;
-
-  /// Indicates whether the snapshot is from an automatic backup (automated) or
-  /// was created manually (manual).
-  final String? source;
-
-  /// The status of the snapshot. Valid values: creating | available | restoring |
-  /// copying | deleting.
-  final String? status;
-
-  Snapshot({
-    this.arn,
-    this.clusterConfiguration,
-    this.dataTiering,
-    this.kmsKeyId,
-    this.name,
-    this.source,
-    this.status,
-  });
-
-  factory Snapshot.fromJson(Map<String, dynamic> json) {
-    return Snapshot(
-      arn: json['ARN'] as String?,
-      clusterConfiguration: json['ClusterConfiguration'] != null
-          ? ClusterConfiguration.fromJson(
-              json['ClusterConfiguration'] as Map<String, dynamic>)
-          : null,
-      dataTiering:
-          (json['DataTiering'] as String?)?.let(DataTieringStatus.fromString),
-      kmsKeyId: json['KmsKeyId'] as String?,
-      name: json['Name'] as String?,
-      source: json['Source'] as String?,
-      status: json['Status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final clusterConfiguration = this.clusterConfiguration;
-    final dataTiering = this.dataTiering;
-    final kmsKeyId = this.kmsKeyId;
-    final name = this.name;
-    final source = this.source;
-    final status = this.status;
-    return {
-      if (arn != null) 'ARN': arn,
-      if (clusterConfiguration != null)
-        'ClusterConfiguration': clusterConfiguration,
-      if (dataTiering != null) 'DataTiering': dataTiering.value,
-      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-      if (name != null) 'Name': name,
-      if (source != null) 'Source': source,
-      if (status != null) 'Status': status,
-    };
-  }
-}
-
-class SourceType {
-  static const node = SourceType._('node');
-  static const parameterGroup = SourceType._('parameter-group');
-  static const subnetGroup = SourceType._('subnet-group');
-  static const cluster = SourceType._('cluster');
-  static const user = SourceType._('user');
-  static const acl = SourceType._('acl');
-
-  final String value;
-
-  const SourceType._(this.value);
-
-  static const values = [node, parameterGroup, subnetGroup, cluster, user, acl];
-
-  static SourceType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SourceType._(value));
-
-  @override
-  bool operator ==(other) => other is SourceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents the subnet associated with a cluster. This parameter refers to
-/// subnets defined in Amazon Virtual Private Cloud (Amazon VPC) and used with
-/// MemoryDB.
-class Subnet {
-  /// The Availability Zone where the subnet resides
-  final AvailabilityZone? availabilityZone;
-
-  /// The unique identifier for the subnet.
-  final String? identifier;
-
-  Subnet({
-    this.availabilityZone,
-    this.identifier,
-  });
-
-  factory Subnet.fromJson(Map<String, dynamic> json) {
-    return Subnet(
-      availabilityZone: json['AvailabilityZone'] != null
-          ? AvailabilityZone.fromJson(
-              json['AvailabilityZone'] as Map<String, dynamic>)
-          : null,
-      identifier: json['Identifier'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final availabilityZone = this.availabilityZone;
-    final identifier = this.identifier;
-    return {
-      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
-      if (identifier != null) 'Identifier': identifier,
-    };
-  }
-}
-
-/// Represents the output of one of the following operations:
-///
-/// <ul>
-/// <li>
-/// CreateSubnetGroup
-/// </li>
-/// <li>
-/// UpdateSubnetGroup
-/// </li>
-/// </ul>
-/// A subnet group is a collection of subnets (typically private) that you can
-/// designate for your clusters running in an Amazon Virtual Private Cloud (VPC)
-/// environment.
-class SubnetGroup {
-  /// The ARN (Amazon Resource Name) of the subnet group.
-  final String? arn;
-
-  /// A description of the subnet group
-  final String? description;
-
-  /// The name of the subnet group
-  final String? name;
-
-  /// A list of subnets associated with the subnet group.
-  final List<Subnet>? subnets;
-
-  /// The Amazon Virtual Private Cloud identifier (VPC ID) of the subnet group.
-  final String? vpcId;
-
-  SubnetGroup({
-    this.arn,
-    this.description,
-    this.name,
-    this.subnets,
-    this.vpcId,
-  });
-
-  factory SubnetGroup.fromJson(Map<String, dynamic> json) {
-    return SubnetGroup(
-      arn: json['ARN'] as String?,
-      description: json['Description'] as String?,
-      name: json['Name'] as String?,
-      subnets: (json['Subnets'] as List?)
-          ?.nonNulls
-          .map((e) => Subnet.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      vpcId: json['VpcId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final description = this.description;
-    final name = this.name;
-    final subnets = this.subnets;
-    final vpcId = this.vpcId;
-    return {
-      if (arn != null) 'ARN': arn,
-      if (description != null) 'Description': description,
-      if (name != null) 'Name': name,
-      if (subnets != null) 'Subnets': subnets,
-      if (vpcId != null) 'VpcId': vpcId,
-    };
-  }
-}
-
-/// A tag that can be added to an MemoryDB resource. Tags are composed of a
-/// Key/Value pair. You can use tags to categorize and track all your MemoryDB
-/// resources. When you add or remove tags on clusters, those actions will be
-/// replicated to all nodes in the cluster. A tag with a null Value is
-/// permitted. For more information, see <a
-/// href="https://docs.aws.amazon.com/MemoryDB/latest/devguide/tagging-resources.html">Tagging
-/// your MemoryDB resources</a>
-class Tag {
-  /// The key for the tag. May not be null.
-  final String? key;
-
-  /// The tag's value. May be null.
-  final String? value;
-
-  Tag({
-    this.key,
-    this.value,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: json['Key'] as String?,
-      value: json['Value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      if (key != null) 'Key': key,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
 class TagResourceResponse {
   /// A list of tags as key-value pairs.
   final List<Tag>? tagList;
@@ -4981,45 +3736,8 @@ class TagResourceResponse {
   }
 }
 
-/// A cluster whose updates have failed
-class UnprocessedCluster {
-  /// The name of the cluster
-  final String? clusterName;
-
-  /// The error message associated with the update failure
-  final String? errorMessage;
-
-  /// The error type associated with the update failure
-  final String? errorType;
-
-  UnprocessedCluster({
-    this.clusterName,
-    this.errorMessage,
-    this.errorType,
-  });
-
-  factory UnprocessedCluster.fromJson(Map<String, dynamic> json) {
-    return UnprocessedCluster(
-      clusterName: json['ClusterName'] as String?,
-      errorMessage: json['ErrorMessage'] as String?,
-      errorType: json['ErrorType'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clusterName = this.clusterName;
-    final errorMessage = this.errorMessage;
-    final errorType = this.errorType;
-    return {
-      if (clusterName != null) 'ClusterName': clusterName,
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-      if (errorType != null) 'ErrorType': errorType,
-    };
-  }
-}
-
 class UntagResourceResponse {
-  /// The list of tags removed
+  /// The list of tags removed.
   final List<Tag>? tagList;
 
   UntagResourceResponse({
@@ -5044,7 +3762,7 @@ class UntagResourceResponse {
 }
 
 class UpdateACLResponse {
-  /// The updated Access Control List
+  /// The updated Access Control List.
   final ACL? acl;
 
   UpdateACLResponse({
@@ -5068,7 +3786,7 @@ class UpdateACLResponse {
 }
 
 class UpdateClusterResponse {
-  /// The updated cluster
+  /// The updated cluster.
   final Cluster? cluster;
 
   UpdateClusterResponse({
@@ -5087,6 +3805,31 @@ class UpdateClusterResponse {
     final cluster = this.cluster;
     return {
       if (cluster != null) 'Cluster': cluster,
+    };
+  }
+}
+
+class UpdateMultiRegionClusterResponse {
+  /// The status of updating the multi-Region cluster.
+  final MultiRegionCluster? multiRegionCluster;
+
+  UpdateMultiRegionClusterResponse({
+    this.multiRegionCluster,
+  });
+
+  factory UpdateMultiRegionClusterResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateMultiRegionClusterResponse(
+      multiRegionCluster: json['MultiRegionCluster'] != null
+          ? MultiRegionCluster.fromJson(
+              json['MultiRegionCluster'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final multiRegionCluster = this.multiRegionCluster;
+    return {
+      if (multiRegionCluster != null) 'MultiRegionCluster': multiRegionCluster,
     };
   }
 }
@@ -5239,6 +3982,2367 @@ class User {
   }
 }
 
+/// Denotes the user's authentication properties, such as whether it requires a
+/// password to authenticate. Used in output responses.
+class Authentication {
+  /// The number of passwords belonging to the user. The maximum is two.
+  final int? passwordCount;
+
+  /// Indicates whether the user requires a password to authenticate.
+  final AuthenticationType? type;
+
+  Authentication({
+    this.passwordCount,
+    this.type,
+  });
+
+  factory Authentication.fromJson(Map<String, dynamic> json) {
+    return Authentication(
+      passwordCount: json['PasswordCount'] as int?,
+      type: (json['Type'] as String?)?.let(AuthenticationType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final passwordCount = this.passwordCount;
+    final type = this.type;
+    return {
+      if (passwordCount != null) 'PasswordCount': passwordCount,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class AuthenticationType {
+  static const password = AuthenticationType._('password');
+  static const noPassword = AuthenticationType._('no-password');
+  static const iam = AuthenticationType._('iam');
+
+  final String value;
+
+  const AuthenticationType._(this.value);
+
+  static const values = [password, noPassword, iam];
+
+  static AuthenticationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AuthenticationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AuthenticationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Denotes the user's authentication properties, such as whether it requires a
+/// password to authenticate. Used in output responses.
+class AuthenticationMode {
+  /// The password(s) used for authentication
+  final List<String>? passwords;
+
+  /// Indicates whether the user requires a password to authenticate. All
+  /// newly-created users require a password.
+  final InputAuthenticationType? type;
+
+  AuthenticationMode({
+    this.passwords,
+    this.type,
+  });
+
+  Map<String, dynamic> toJson() {
+    final passwords = this.passwords;
+    final type = this.type;
+    return {
+      if (passwords != null) 'Passwords': passwords,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class InputAuthenticationType {
+  static const password = InputAuthenticationType._('password');
+  static const iam = InputAuthenticationType._('iam');
+
+  final String value;
+
+  const InputAuthenticationType._(this.value);
+
+  static const values = [password, iam];
+
+  static InputAuthenticationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InputAuthenticationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InputAuthenticationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the output of one of the following operations:
+///
+/// <ul>
+/// <li>
+/// CreateSubnetGroup
+/// </li>
+/// <li>
+/// UpdateSubnetGroup
+/// </li>
+/// </ul>
+/// A subnet group is a collection of subnets (typically private) that you can
+/// designate for your clusters running in an Amazon Virtual Private Cloud (VPC)
+/// environment.
+class SubnetGroup {
+  /// The ARN (Amazon Resource Name) of the subnet group.
+  final String? arn;
+
+  /// A description of the subnet group
+  final String? description;
+
+  /// The name of the subnet group
+  final String? name;
+
+  /// A list of subnets associated with the subnet group.
+  final List<Subnet>? subnets;
+
+  /// The network types supported by this subnet group. Returns an array of
+  /// strings that can include 'ipv4', 'ipv6', or both, indicating the IP address
+  /// types that can be used for clusters deployed in this subnet group.
+  final List<NetworkType>? supportedNetworkTypes;
+
+  /// The Amazon Virtual Private Cloud identifier (VPC ID) of the subnet group.
+  final String? vpcId;
+
+  SubnetGroup({
+    this.arn,
+    this.description,
+    this.name,
+    this.subnets,
+    this.supportedNetworkTypes,
+    this.vpcId,
+  });
+
+  factory SubnetGroup.fromJson(Map<String, dynamic> json) {
+    return SubnetGroup(
+      arn: json['ARN'] as String?,
+      description: json['Description'] as String?,
+      name: json['Name'] as String?,
+      subnets: (json['Subnets'] as List?)
+          ?.nonNulls
+          .map((e) => Subnet.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      supportedNetworkTypes: (json['SupportedNetworkTypes'] as List?)
+          ?.nonNulls
+          .map((e) => NetworkType.fromString((e as String)))
+          .toList(),
+      vpcId: json['VpcId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final description = this.description;
+    final name = this.name;
+    final subnets = this.subnets;
+    final supportedNetworkTypes = this.supportedNetworkTypes;
+    final vpcId = this.vpcId;
+    return {
+      if (arn != null) 'ARN': arn,
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
+      if (subnets != null) 'Subnets': subnets,
+      if (supportedNetworkTypes != null)
+        'SupportedNetworkTypes':
+            supportedNetworkTypes.map((e) => e.value).toList(),
+      if (vpcId != null) 'VpcId': vpcId,
+    };
+  }
+}
+
+class NetworkType {
+  static const ipv4 = NetworkType._('ipv4');
+  static const ipv6 = NetworkType._('ipv6');
+  static const dualStack = NetworkType._('dual_stack');
+
+  final String value;
+
+  const NetworkType._(this.value);
+
+  static const values = [ipv4, ipv6, dualStack];
+
+  static NetworkType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => NetworkType._(value));
+
+  @override
+  bool operator ==(other) => other is NetworkType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the subnet associated with a cluster. This parameter refers to
+/// subnets defined in Amazon Virtual Private Cloud (Amazon VPC) and used with
+/// MemoryDB.
+class Subnet {
+  /// The Availability Zone where the subnet resides
+  final AvailabilityZone? availabilityZone;
+
+  /// The unique identifier for the subnet.
+  final String? identifier;
+
+  /// The network types supported by this subnet. Returns an array of strings that
+  /// can include 'ipv4', 'ipv6', or both, indicating whether the subnet supports
+  /// IPv4 only, IPv6 only, or dual-stack deployments.
+  final List<NetworkType>? supportedNetworkTypes;
+
+  Subnet({
+    this.availabilityZone,
+    this.identifier,
+    this.supportedNetworkTypes,
+  });
+
+  factory Subnet.fromJson(Map<String, dynamic> json) {
+    return Subnet(
+      availabilityZone: json['AvailabilityZone'] != null
+          ? AvailabilityZone.fromJson(
+              json['AvailabilityZone'] as Map<String, dynamic>)
+          : null,
+      identifier: json['Identifier'] as String?,
+      supportedNetworkTypes: (json['SupportedNetworkTypes'] as List?)
+          ?.nonNulls
+          .map((e) => NetworkType.fromString((e as String)))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZone = this.availabilityZone;
+    final identifier = this.identifier;
+    final supportedNetworkTypes = this.supportedNetworkTypes;
+    return {
+      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+      if (identifier != null) 'Identifier': identifier,
+      if (supportedNetworkTypes != null)
+        'SupportedNetworkTypes':
+            supportedNetworkTypes.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// Indicates if the cluster has a Multi-AZ configuration (multiaz) or not
+/// (singleaz).
+class AvailabilityZone {
+  /// The name of the Availability Zone.
+  final String? name;
+
+  AvailabilityZone({
+    this.name,
+  });
+
+  factory AvailabilityZone.fromJson(Map<String, dynamic> json) {
+    return AvailabilityZone(
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// Represents the output of a CreateParameterGroup operation. A parameter group
+/// represents a combination of specific values for the parameters that are
+/// passed to the engine software during startup.
+class ParameterGroup {
+  /// The Amazon Resource Name (ARN) of the parameter group
+  final String? arn;
+
+  /// A description of the parameter group
+  final String? description;
+
+  /// The name of the parameter group family that this parameter group is
+  /// compatible with.
+  final String? family;
+
+  /// The name of the parameter group
+  final String? name;
+
+  ParameterGroup({
+    this.arn,
+    this.description,
+    this.family,
+    this.name,
+  });
+
+  factory ParameterGroup.fromJson(Map<String, dynamic> json) {
+    return ParameterGroup(
+      arn: json['ARN'] as String?,
+      description: json['Description'] as String?,
+      family: json['Family'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final description = this.description;
+    final family = this.family;
+    final name = this.name;
+    return {
+      if (arn != null) 'ARN': arn,
+      if (description != null) 'Description': description,
+      if (family != null) 'Family': family,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// Describes a name-value pair that is used to update the value of a parameter.
+class ParameterNameValue {
+  /// The name of the parameter
+  final String? parameterName;
+
+  /// The value of the parameter
+  final String? parameterValue;
+
+  ParameterNameValue({
+    this.parameterName,
+    this.parameterValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final parameterName = this.parameterName;
+    final parameterValue = this.parameterValue;
+    return {
+      if (parameterName != null) 'ParameterName': parameterName,
+      if (parameterValue != null) 'ParameterValue': parameterValue,
+    };
+  }
+}
+
+/// Represents a multi-Region cluster.
+class MultiRegionCluster {
+  /// The Amazon Resource Name (ARN) of the multi-Region cluster.
+  final String? arn;
+
+  /// The clusters in this multi-Region cluster.
+  final List<RegionalCluster>? clusters;
+
+  /// The description of the multi-Region cluster.
+  final String? description;
+
+  /// The name of the engine used by the multi-Region cluster.
+  final String? engine;
+
+  /// The version of the engine used by the multi-Region cluster.
+  final String? engineVersion;
+
+  /// The name of the multi-Region cluster.
+  final String? multiRegionClusterName;
+
+  /// The name of the multi-Region parameter group associated with the cluster.
+  final String? multiRegionParameterGroupName;
+
+  /// The node type used by the multi-Region cluster.
+  final String? nodeType;
+
+  /// The number of shards in the multi-Region cluster.
+  final int? numberOfShards;
+
+  /// The current status of the multi-Region cluster.
+  final String? status;
+
+  /// Indiciates if the multi-Region cluster is TLS enabled.
+  final bool? tLSEnabled;
+
+  MultiRegionCluster({
+    this.arn,
+    this.clusters,
+    this.description,
+    this.engine,
+    this.engineVersion,
+    this.multiRegionClusterName,
+    this.multiRegionParameterGroupName,
+    this.nodeType,
+    this.numberOfShards,
+    this.status,
+    this.tLSEnabled,
+  });
+
+  factory MultiRegionCluster.fromJson(Map<String, dynamic> json) {
+    return MultiRegionCluster(
+      arn: json['ARN'] as String?,
+      clusters: (json['Clusters'] as List?)
+          ?.nonNulls
+          .map((e) => RegionalCluster.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      description: json['Description'] as String?,
+      engine: json['Engine'] as String?,
+      engineVersion: json['EngineVersion'] as String?,
+      multiRegionClusterName: json['MultiRegionClusterName'] as String?,
+      multiRegionParameterGroupName:
+          json['MultiRegionParameterGroupName'] as String?,
+      nodeType: json['NodeType'] as String?,
+      numberOfShards: json['NumberOfShards'] as int?,
+      status: json['Status'] as String?,
+      tLSEnabled: json['TLSEnabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final clusters = this.clusters;
+    final description = this.description;
+    final engine = this.engine;
+    final engineVersion = this.engineVersion;
+    final multiRegionClusterName = this.multiRegionClusterName;
+    final multiRegionParameterGroupName = this.multiRegionParameterGroupName;
+    final nodeType = this.nodeType;
+    final numberOfShards = this.numberOfShards;
+    final status = this.status;
+    final tLSEnabled = this.tLSEnabled;
+    return {
+      if (arn != null) 'ARN': arn,
+      if (clusters != null) 'Clusters': clusters,
+      if (description != null) 'Description': description,
+      if (engine != null) 'Engine': engine,
+      if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (multiRegionClusterName != null)
+        'MultiRegionClusterName': multiRegionClusterName,
+      if (multiRegionParameterGroupName != null)
+        'MultiRegionParameterGroupName': multiRegionParameterGroupName,
+      if (nodeType != null) 'NodeType': nodeType,
+      if (numberOfShards != null) 'NumberOfShards': numberOfShards,
+      if (status != null) 'Status': status,
+      if (tLSEnabled != null) 'TLSEnabled': tLSEnabled,
+    };
+  }
+}
+
+/// Represents a Regional cluster
+class RegionalCluster {
+  /// The Amazon Resource Name (ARN) the Regional cluster
+  final String? arn;
+
+  /// The name of the Regional cluster
+  final String? clusterName;
+
+  /// The Region the current Regional cluster is assigned to.
+  final String? region;
+
+  /// The status of the Regional cluster.
+  final String? status;
+
+  RegionalCluster({
+    this.arn,
+    this.clusterName,
+    this.region,
+    this.status,
+  });
+
+  factory RegionalCluster.fromJson(Map<String, dynamic> json) {
+    return RegionalCluster(
+      arn: json['ARN'] as String?,
+      clusterName: json['ClusterName'] as String?,
+      region: json['Region'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final clusterName = this.clusterName;
+    final region = this.region;
+    final status = this.status;
+    return {
+      if (arn != null) 'ARN': arn,
+      if (clusterName != null) 'ClusterName': clusterName,
+      if (region != null) 'Region': region,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
+/// A request to configure the sharding properties of a cluster
+class ShardConfigurationRequest {
+  /// The number of shards in the cluster
+  final int? shardCount;
+
+  ShardConfigurationRequest({
+    this.shardCount,
+  });
+
+  Map<String, dynamic> toJson() {
+    final shardCount = this.shardCount;
+    return {
+      if (shardCount != null) 'ShardCount': shardCount,
+    };
+  }
+}
+
+class UpdateStrategy {
+  static const coordinated = UpdateStrategy._('coordinated');
+  static const uncoordinated = UpdateStrategy._('uncoordinated');
+
+  final String value;
+
+  const UpdateStrategy._(this.value);
+
+  static const values = [coordinated, uncoordinated];
+
+  static UpdateStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UpdateStrategy._(value));
+
+  @override
+  bool operator ==(other) => other is UpdateStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains all of the attributes of a specific cluster.
+class Cluster {
+  /// The name of the Access Control List associated with this cluster.
+  final String? aCLName;
+
+  /// The Amazon Resource Name (ARN) of the cluster.
+  final String? arn;
+
+  /// When set to true, the cluster will automatically receive minor engine
+  /// version upgrades after launch.
+  final bool? autoMinorVersionUpgrade;
+
+  /// Indicates if the cluster has a Multi-AZ configuration (multiaz) or not
+  /// (singleaz).
+  final AZStatus? availabilityMode;
+
+  /// The cluster's configuration endpoint
+  final Endpoint? clusterEndpoint;
+
+  /// Enables data tiering. Data tiering is only supported for clusters using the
+  /// r6gd node type. This parameter must be set when using r6gd nodes. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/memorydb/latest/devguide/data-tiering.html">Data
+  /// tiering</a>.
+  final DataTieringStatus? dataTiering;
+
+  /// A description of the cluster
+  final String? description;
+
+  /// The name of the engine used by the cluster.
+  final String? engine;
+
+  /// The Redis OSS engine patch version used by the cluster
+  final String? enginePatchVersion;
+
+  /// The Redis OSS engine version used by the cluster
+  final String? engineVersion;
+
+  /// The mechanism that the cluster uses to discover IP addresses. Returns 'ipv4'
+  /// when DNS endpoints resolve to IPv4 addresses, or 'ipv6' when DNS endpoints
+  /// resolve to IPv6 addresses.
+  final IpDiscovery? ipDiscovery;
+
+  /// The ID of the KMS key used to encrypt the cluster
+  final String? kmsKeyId;
+
+  /// Specifies the weekly time range during which maintenance on the cluster is
+  /// performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi
+  /// (24H Clock UTC). The minimum maintenance window is a 60 minute period.
+  final String? maintenanceWindow;
+
+  /// The name of the multi-Region cluster that this cluster belongs to.
+  final String? multiRegionClusterName;
+
+  /// The user-supplied name of the cluster. This identifier is a unique key that
+  /// identifies a cluster.
+  final String? name;
+
+  /// The IP address type for the cluster. Returns 'ipv4' for IPv4 only, 'ipv6'
+  /// for IPv6 only, or 'dual-stack' if the cluster supports both IPv4 and IPv6
+  /// addressing.
+  final NetworkType? networkType;
+
+  /// The cluster's node type
+  final String? nodeType;
+
+  /// The number of shards in the cluster
+  final int? numberOfShards;
+
+  /// The name of the parameter group used by the cluster
+  final String? parameterGroupName;
+
+  /// The status of the parameter group used by the cluster, for example 'active'
+  /// or 'applying'.
+  final String? parameterGroupStatus;
+
+  /// A group of settings that are currently being applied.
+  final ClusterPendingUpdates? pendingUpdates;
+
+  /// A list of security groups used by the cluster
+  final List<SecurityGroupMembership>? securityGroups;
+
+  /// A list of shards that are members of the cluster.
+  final List<Shard>? shards;
+
+  /// The number of days for which MemoryDB retains automatic snapshots before
+  /// deleting them. For example, if you set SnapshotRetentionLimit to 5, a
+  /// snapshot that was taken today is retained for 5 days before being deleted.
+  final int? snapshotRetentionLimit;
+
+  /// The daily time range (in UTC) during which MemoryDB begins taking a daily
+  /// snapshot of your shard. Example: 05:00-09:00 If you do not specify this
+  /// parameter, MemoryDB automatically chooses an appropriate time range.
+  final String? snapshotWindow;
+
+  /// The Amazon Resource Name (ARN) of the SNS notification topic
+  final String? snsTopicArn;
+
+  /// The SNS topic must be in Active status to receive notifications
+  final String? snsTopicStatus;
+
+  /// The status of the cluster. For example, Available, Updating, Creating.
+  final String? status;
+
+  /// The name of the subnet group used by the cluster
+  final String? subnetGroupName;
+
+  /// A flag to indicate if In-transit encryption is enabled
+  final bool? tLSEnabled;
+
+  Cluster({
+    this.aCLName,
+    this.arn,
+    this.autoMinorVersionUpgrade,
+    this.availabilityMode,
+    this.clusterEndpoint,
+    this.dataTiering,
+    this.description,
+    this.engine,
+    this.enginePatchVersion,
+    this.engineVersion,
+    this.ipDiscovery,
+    this.kmsKeyId,
+    this.maintenanceWindow,
+    this.multiRegionClusterName,
+    this.name,
+    this.networkType,
+    this.nodeType,
+    this.numberOfShards,
+    this.parameterGroupName,
+    this.parameterGroupStatus,
+    this.pendingUpdates,
+    this.securityGroups,
+    this.shards,
+    this.snapshotRetentionLimit,
+    this.snapshotWindow,
+    this.snsTopicArn,
+    this.snsTopicStatus,
+    this.status,
+    this.subnetGroupName,
+    this.tLSEnabled,
+  });
+
+  factory Cluster.fromJson(Map<String, dynamic> json) {
+    return Cluster(
+      aCLName: json['ACLName'] as String?,
+      arn: json['ARN'] as String?,
+      autoMinorVersionUpgrade: json['AutoMinorVersionUpgrade'] as bool?,
+      availabilityMode:
+          (json['AvailabilityMode'] as String?)?.let(AZStatus.fromString),
+      clusterEndpoint: json['ClusterEndpoint'] != null
+          ? Endpoint.fromJson(json['ClusterEndpoint'] as Map<String, dynamic>)
+          : null,
+      dataTiering:
+          (json['DataTiering'] as String?)?.let(DataTieringStatus.fromString),
+      description: json['Description'] as String?,
+      engine: json['Engine'] as String?,
+      enginePatchVersion: json['EnginePatchVersion'] as String?,
+      engineVersion: json['EngineVersion'] as String?,
+      ipDiscovery:
+          (json['IpDiscovery'] as String?)?.let(IpDiscovery.fromString),
+      kmsKeyId: json['KmsKeyId'] as String?,
+      maintenanceWindow: json['MaintenanceWindow'] as String?,
+      multiRegionClusterName: json['MultiRegionClusterName'] as String?,
+      name: json['Name'] as String?,
+      networkType:
+          (json['NetworkType'] as String?)?.let(NetworkType.fromString),
+      nodeType: json['NodeType'] as String?,
+      numberOfShards: json['NumberOfShards'] as int?,
+      parameterGroupName: json['ParameterGroupName'] as String?,
+      parameterGroupStatus: json['ParameterGroupStatus'] as String?,
+      pendingUpdates: json['PendingUpdates'] != null
+          ? ClusterPendingUpdates.fromJson(
+              json['PendingUpdates'] as Map<String, dynamic>)
+          : null,
+      securityGroups: (json['SecurityGroups'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              SecurityGroupMembership.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      shards: (json['Shards'] as List?)
+          ?.nonNulls
+          .map((e) => Shard.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      snapshotRetentionLimit: json['SnapshotRetentionLimit'] as int?,
+      snapshotWindow: json['SnapshotWindow'] as String?,
+      snsTopicArn: json['SnsTopicArn'] as String?,
+      snsTopicStatus: json['SnsTopicStatus'] as String?,
+      status: json['Status'] as String?,
+      subnetGroupName: json['SubnetGroupName'] as String?,
+      tLSEnabled: json['TLSEnabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aCLName = this.aCLName;
+    final arn = this.arn;
+    final autoMinorVersionUpgrade = this.autoMinorVersionUpgrade;
+    final availabilityMode = this.availabilityMode;
+    final clusterEndpoint = this.clusterEndpoint;
+    final dataTiering = this.dataTiering;
+    final description = this.description;
+    final engine = this.engine;
+    final enginePatchVersion = this.enginePatchVersion;
+    final engineVersion = this.engineVersion;
+    final ipDiscovery = this.ipDiscovery;
+    final kmsKeyId = this.kmsKeyId;
+    final maintenanceWindow = this.maintenanceWindow;
+    final multiRegionClusterName = this.multiRegionClusterName;
+    final name = this.name;
+    final networkType = this.networkType;
+    final nodeType = this.nodeType;
+    final numberOfShards = this.numberOfShards;
+    final parameterGroupName = this.parameterGroupName;
+    final parameterGroupStatus = this.parameterGroupStatus;
+    final pendingUpdates = this.pendingUpdates;
+    final securityGroups = this.securityGroups;
+    final shards = this.shards;
+    final snapshotRetentionLimit = this.snapshotRetentionLimit;
+    final snapshotWindow = this.snapshotWindow;
+    final snsTopicArn = this.snsTopicArn;
+    final snsTopicStatus = this.snsTopicStatus;
+    final status = this.status;
+    final subnetGroupName = this.subnetGroupName;
+    final tLSEnabled = this.tLSEnabled;
+    return {
+      if (aCLName != null) 'ACLName': aCLName,
+      if (arn != null) 'ARN': arn,
+      if (autoMinorVersionUpgrade != null)
+        'AutoMinorVersionUpgrade': autoMinorVersionUpgrade,
+      if (availabilityMode != null) 'AvailabilityMode': availabilityMode.value,
+      if (clusterEndpoint != null) 'ClusterEndpoint': clusterEndpoint,
+      if (dataTiering != null) 'DataTiering': dataTiering.value,
+      if (description != null) 'Description': description,
+      if (engine != null) 'Engine': engine,
+      if (enginePatchVersion != null) 'EnginePatchVersion': enginePatchVersion,
+      if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (ipDiscovery != null) 'IpDiscovery': ipDiscovery.value,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (maintenanceWindow != null) 'MaintenanceWindow': maintenanceWindow,
+      if (multiRegionClusterName != null)
+        'MultiRegionClusterName': multiRegionClusterName,
+      if (name != null) 'Name': name,
+      if (networkType != null) 'NetworkType': networkType.value,
+      if (nodeType != null) 'NodeType': nodeType,
+      if (numberOfShards != null) 'NumberOfShards': numberOfShards,
+      if (parameterGroupName != null) 'ParameterGroupName': parameterGroupName,
+      if (parameterGroupStatus != null)
+        'ParameterGroupStatus': parameterGroupStatus,
+      if (pendingUpdates != null) 'PendingUpdates': pendingUpdates,
+      if (securityGroups != null) 'SecurityGroups': securityGroups,
+      if (shards != null) 'Shards': shards,
+      if (snapshotRetentionLimit != null)
+        'SnapshotRetentionLimit': snapshotRetentionLimit,
+      if (snapshotWindow != null) 'SnapshotWindow': snapshotWindow,
+      if (snsTopicArn != null) 'SnsTopicArn': snsTopicArn,
+      if (snsTopicStatus != null) 'SnsTopicStatus': snsTopicStatus,
+      if (status != null) 'Status': status,
+      if (subnetGroupName != null) 'SubnetGroupName': subnetGroupName,
+      if (tLSEnabled != null) 'TLSEnabled': tLSEnabled,
+    };
+  }
+}
+
+/// A list of updates being applied to the cluster
+class ClusterPendingUpdates {
+  /// A list of ACLs associated with the cluster that are being updated
+  final ACLsUpdateStatus? aCLs;
+
+  /// The status of an online resharding operation.
+  final ReshardingStatus? resharding;
+
+  /// A list of service updates being applied to the cluster
+  final List<PendingModifiedServiceUpdate>? serviceUpdates;
+
+  ClusterPendingUpdates({
+    this.aCLs,
+    this.resharding,
+    this.serviceUpdates,
+  });
+
+  factory ClusterPendingUpdates.fromJson(Map<String, dynamic> json) {
+    return ClusterPendingUpdates(
+      aCLs: json['ACLs'] != null
+          ? ACLsUpdateStatus.fromJson(json['ACLs'] as Map<String, dynamic>)
+          : null,
+      resharding: json['Resharding'] != null
+          ? ReshardingStatus.fromJson(
+              json['Resharding'] as Map<String, dynamic>)
+          : null,
+      serviceUpdates: (json['ServiceUpdates'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              PendingModifiedServiceUpdate.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aCLs = this.aCLs;
+    final resharding = this.resharding;
+    final serviceUpdates = this.serviceUpdates;
+    return {
+      if (aCLs != null) 'ACLs': aCLs,
+      if (resharding != null) 'Resharding': resharding,
+      if (serviceUpdates != null) 'ServiceUpdates': serviceUpdates,
+    };
+  }
+}
+
+class AZStatus {
+  static const singleaz = AZStatus._('singleaz');
+  static const multiaz = AZStatus._('multiaz');
+
+  final String value;
+
+  const AZStatus._(this.value);
+
+  static const values = [singleaz, multiaz];
+
+  static AZStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AZStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AZStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the information required for client programs to connect to the
+/// cluster and its nodes.
+class Endpoint {
+  /// The DNS hostname of the node.
+  final String? address;
+
+  /// The port number that the engine is listening on.
+  final int? port;
+
+  Endpoint({
+    this.address,
+    this.port,
+  });
+
+  factory Endpoint.fromJson(Map<String, dynamic> json) {
+    return Endpoint(
+      address: json['Address'] as String?,
+      port: json['Port'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final address = this.address;
+    final port = this.port;
+    return {
+      if (address != null) 'Address': address,
+      if (port != null) 'Port': port,
+    };
+  }
+}
+
+class DataTieringStatus {
+  static const $true = DataTieringStatus._('true');
+  static const $false = DataTieringStatus._('false');
+
+  final String value;
+
+  const DataTieringStatus._(this.value);
+
+  static const values = [$true, $false];
+
+  static DataTieringStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataTieringStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DataTieringStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class IpDiscovery {
+  static const ipv4 = IpDiscovery._('ipv4');
+  static const ipv6 = IpDiscovery._('ipv6');
+
+  final String value;
+
+  const IpDiscovery._(this.value);
+
+  static const values = [ipv4, ipv6];
+
+  static IpDiscovery fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IpDiscovery._(value));
+
+  @override
+  bool operator ==(other) => other is IpDiscovery && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents a single security group and its status.
+class SecurityGroupMembership {
+  /// The identifier of the security group.
+  final String? securityGroupId;
+
+  /// The status of the security group membership. The status changes whenever a
+  /// security group is modified, or when the security groups assigned to a
+  /// cluster are modified.
+  final String? status;
+
+  SecurityGroupMembership({
+    this.securityGroupId,
+    this.status,
+  });
+
+  factory SecurityGroupMembership.fromJson(Map<String, dynamic> json) {
+    return SecurityGroupMembership(
+      securityGroupId: json['SecurityGroupId'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final securityGroupId = this.securityGroupId;
+    final status = this.status;
+    return {
+      if (securityGroupId != null) 'SecurityGroupId': securityGroupId,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
+/// Represents a collection of nodes in a cluster. One node in the node group is
+/// the read/write primary node. All the other nodes are read-only Replica
+/// nodes.
+class Shard {
+  /// The name of the shard
+  final String? name;
+
+  /// A list containing information about individual nodes within the shard
+  final List<Node>? nodes;
+
+  /// The number of nodes in the shard
+  final int? numberOfNodes;
+
+  /// The keyspace for this shard.
+  final String? slots;
+
+  /// The current state of this replication group - creating, available,
+  /// modifying, deleting.
+  final String? status;
+
+  Shard({
+    this.name,
+    this.nodes,
+    this.numberOfNodes,
+    this.slots,
+    this.status,
+  });
+
+  factory Shard.fromJson(Map<String, dynamic> json) {
+    return Shard(
+      name: json['Name'] as String?,
+      nodes: (json['Nodes'] as List?)
+          ?.nonNulls
+          .map((e) => Node.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      numberOfNodes: json['NumberOfNodes'] as int?,
+      slots: json['Slots'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final nodes = this.nodes;
+    final numberOfNodes = this.numberOfNodes;
+    final slots = this.slots;
+    final status = this.status;
+    return {
+      if (name != null) 'Name': name,
+      if (nodes != null) 'Nodes': nodes,
+      if (numberOfNodes != null) 'NumberOfNodes': numberOfNodes,
+      if (slots != null) 'Slots': slots,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
+/// Represents an individual node within a cluster. Each node runs its own
+/// instance of the cluster's protocol-compliant caching software.
+class Node {
+  /// The Availability Zone in which the node resides
+  final String? availabilityZone;
+
+  /// The date and time when the node was created.
+  final DateTime? createTime;
+
+  /// The hostname for connecting to this node.
+  final Endpoint? endpoint;
+
+  /// The node identifier. A node name is a numeric identifier (0001, 0002, etc.).
+  /// The combination of cluster name, shard name and node name uniquely
+  /// identifies every node used in a customer's Amazon account.
+  final String? name;
+
+  /// The status of the service update on the node
+  final String? status;
+
+  Node({
+    this.availabilityZone,
+    this.createTime,
+    this.endpoint,
+    this.name,
+    this.status,
+  });
+
+  factory Node.fromJson(Map<String, dynamic> json) {
+    return Node(
+      availabilityZone: json['AvailabilityZone'] as String?,
+      createTime: timeStampFromJson(json['CreateTime']),
+      endpoint: json['Endpoint'] != null
+          ? Endpoint.fromJson(json['Endpoint'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZone = this.availabilityZone;
+    final createTime = this.createTime;
+    final endpoint = this.endpoint;
+    final name = this.name;
+    final status = this.status;
+    return {
+      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+      if (createTime != null) 'CreateTime': unixTimestampToJson(createTime),
+      if (endpoint != null) 'Endpoint': endpoint,
+      if (name != null) 'Name': name,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
+/// The status of the online resharding
+class ReshardingStatus {
+  /// The status of the online resharding slot migration
+  final SlotMigration? slotMigration;
+
+  ReshardingStatus({
+    this.slotMigration,
+  });
+
+  factory ReshardingStatus.fromJson(Map<String, dynamic> json) {
+    return ReshardingStatus(
+      slotMigration: json['SlotMigration'] != null
+          ? SlotMigration.fromJson(
+              json['SlotMigration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final slotMigration = this.slotMigration;
+    return {
+      if (slotMigration != null) 'SlotMigration': slotMigration,
+    };
+  }
+}
+
+/// The status of the ACL update
+class ACLsUpdateStatus {
+  /// A list of ACLs pending to be applied.
+  final String? aCLToApply;
+
+  ACLsUpdateStatus({
+    this.aCLToApply,
+  });
+
+  factory ACLsUpdateStatus.fromJson(Map<String, dynamic> json) {
+    return ACLsUpdateStatus(
+      aCLToApply: json['ACLToApply'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aCLToApply = this.aCLToApply;
+    return {
+      if (aCLToApply != null) 'ACLToApply': aCLToApply,
+    };
+  }
+}
+
+/// Update action that has yet to be processed for the corresponding apply/stop
+/// request
+class PendingModifiedServiceUpdate {
+  /// The unique ID of the service update
+  final String? serviceUpdateName;
+
+  /// The status of the service update
+  final ServiceUpdateStatus? status;
+
+  PendingModifiedServiceUpdate({
+    this.serviceUpdateName,
+    this.status,
+  });
+
+  factory PendingModifiedServiceUpdate.fromJson(Map<String, dynamic> json) {
+    return PendingModifiedServiceUpdate(
+      serviceUpdateName: json['ServiceUpdateName'] as String?,
+      status: (json['Status'] as String?)?.let(ServiceUpdateStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceUpdateName = this.serviceUpdateName;
+    final status = this.status;
+    return {
+      if (serviceUpdateName != null) 'ServiceUpdateName': serviceUpdateName,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class ServiceUpdateStatus {
+  static const available = ServiceUpdateStatus._('available');
+  static const inProgress = ServiceUpdateStatus._('in-progress');
+  static const complete = ServiceUpdateStatus._('complete');
+  static const scheduled = ServiceUpdateStatus._('scheduled');
+
+  final String value;
+
+  const ServiceUpdateStatus._(this.value);
+
+  static const values = [available, inProgress, complete, scheduled];
+
+  static ServiceUpdateStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ServiceUpdateStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ServiceUpdateStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the progress of an online resharding operation.
+class SlotMigration {
+  /// The percentage of the slot migration that is complete.
+  final double? progressPercentage;
+
+  SlotMigration({
+    this.progressPercentage,
+  });
+
+  factory SlotMigration.fromJson(Map<String, dynamic> json) {
+    return SlotMigration(
+      progressPercentage: json['ProgressPercentage'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final progressPercentage = this.progressPercentage;
+    return {
+      if (progressPercentage != null) 'ProgressPercentage': progressPercentage,
+    };
+  }
+}
+
+/// A request to configure the number of replicas in a shard
+class ReplicaConfigurationRequest {
+  /// The number of replicas to scale up or down to
+  final int? replicaCount;
+
+  ReplicaConfigurationRequest({
+    this.replicaCount,
+  });
+
+  Map<String, dynamic> toJson() {
+    final replicaCount = this.replicaCount;
+    return {
+      if (replicaCount != null) 'ReplicaCount': replicaCount,
+    };
+  }
+}
+
+/// An Access Control List. You can authenticate users with Access Contol Lists.
+/// ACLs enable you to control cluster access by grouping users. These Access
+/// control lists are designed as a way to organize access to clusters.
+class ACL {
+  /// The Amazon Resource Name (ARN) of the ACL
+  final String? arn;
+
+  /// A list of clusters associated with the ACL.
+  final List<String>? clusters;
+
+  /// The minimum engine version supported for the ACL
+  final String? minimumEngineVersion;
+
+  /// The name of the Access Control List
+  final String? name;
+
+  /// A list of updates being applied to the ACL.
+  final ACLPendingChanges? pendingChanges;
+
+  /// Indicates ACL status. Can be "creating", "active", "modifying", "deleting".
+  final String? status;
+
+  /// The list of user names that belong to the ACL.
+  final List<String>? userNames;
+
+  ACL({
+    this.arn,
+    this.clusters,
+    this.minimumEngineVersion,
+    this.name,
+    this.pendingChanges,
+    this.status,
+    this.userNames,
+  });
+
+  factory ACL.fromJson(Map<String, dynamic> json) {
+    return ACL(
+      arn: json['ARN'] as String?,
+      clusters: (json['Clusters'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      minimumEngineVersion: json['MinimumEngineVersion'] as String?,
+      name: json['Name'] as String?,
+      pendingChanges: json['PendingChanges'] != null
+          ? ACLPendingChanges.fromJson(
+              json['PendingChanges'] as Map<String, dynamic>)
+          : null,
+      status: json['Status'] as String?,
+      userNames: (json['UserNames'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final clusters = this.clusters;
+    final minimumEngineVersion = this.minimumEngineVersion;
+    final name = this.name;
+    final pendingChanges = this.pendingChanges;
+    final status = this.status;
+    final userNames = this.userNames;
+    return {
+      if (arn != null) 'ARN': arn,
+      if (clusters != null) 'Clusters': clusters,
+      if (minimumEngineVersion != null)
+        'MinimumEngineVersion': minimumEngineVersion,
+      if (name != null) 'Name': name,
+      if (pendingChanges != null) 'PendingChanges': pendingChanges,
+      if (status != null) 'Status': status,
+      if (userNames != null) 'UserNames': userNames,
+    };
+  }
+}
+
+/// Returns the updates being applied to the ACL.
+class ACLPendingChanges {
+  /// A list of users being added to the ACL
+  final List<String>? userNamesToAdd;
+
+  /// A list of user names being removed from the ACL
+  final List<String>? userNamesToRemove;
+
+  ACLPendingChanges({
+    this.userNamesToAdd,
+    this.userNamesToRemove,
+  });
+
+  factory ACLPendingChanges.fromJson(Map<String, dynamic> json) {
+    return ACLPendingChanges(
+      userNamesToAdd: (json['UserNamesToAdd'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      userNamesToRemove: (json['UserNamesToRemove'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final userNamesToAdd = this.userNamesToAdd;
+    final userNamesToRemove = this.userNamesToRemove;
+    return {
+      if (userNamesToAdd != null) 'UserNamesToAdd': userNamesToAdd,
+      if (userNamesToRemove != null) 'UserNamesToRemove': userNamesToRemove,
+    };
+  }
+}
+
+/// A tag that can be added to an MemoryDB resource. Tags are composed of a
+/// Key/Value pair. You can use tags to categorize and track all your MemoryDB
+/// resources. When you add or remove tags on clusters, those actions will be
+/// replicated to all nodes in the cluster. A tag with a null Value is
+/// permitted. For more information, see <a
+/// href="https://docs.aws.amazon.com/MemoryDB/latest/devguide/tagging-resources.html">Tagging
+/// your MemoryDB resources</a>
+class Tag {
+  /// The key for the tag. May not be null.
+  final String? key;
+
+  /// The tag's value. May be null.
+  final String? value;
+
+  Tag({
+    this.key,
+    this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Represents the output of a <code>PurchaseReservedNodesOffering</code>
+/// operation.
+class ReservedNode {
+  /// The Amazon Resource Name (ARN) of the reserved node.
+  final String? arn;
+
+  /// The duration of the reservation in seconds.
+  final int? duration;
+
+  /// The fixed price charged for this reserved node.
+  final double? fixedPrice;
+
+  /// The number of nodes that have been reserved.
+  final int? nodeCount;
+
+  /// The node type for the reserved nodes.
+  final String? nodeType;
+
+  /// The offering type of this reserved node.
+  final String? offeringType;
+
+  /// The recurring price charged to run this reserved node.
+  final List<RecurringCharge>? recurringCharges;
+
+  /// A customer-specified identifier to track this reservation.
+  final String? reservationId;
+
+  /// The ID of the reserved node offering to purchase.
+  final String? reservedNodesOfferingId;
+
+  /// The time the reservation started.
+  final DateTime? startTime;
+
+  /// The state of the reserved node.
+  final String? state;
+
+  ReservedNode({
+    this.arn,
+    this.duration,
+    this.fixedPrice,
+    this.nodeCount,
+    this.nodeType,
+    this.offeringType,
+    this.recurringCharges,
+    this.reservationId,
+    this.reservedNodesOfferingId,
+    this.startTime,
+    this.state,
+  });
+
+  factory ReservedNode.fromJson(Map<String, dynamic> json) {
+    return ReservedNode(
+      arn: json['ARN'] as String?,
+      duration: json['Duration'] as int?,
+      fixedPrice: json['FixedPrice'] as double?,
+      nodeCount: json['NodeCount'] as int?,
+      nodeType: json['NodeType'] as String?,
+      offeringType: json['OfferingType'] as String?,
+      recurringCharges: (json['RecurringCharges'] as List?)
+          ?.nonNulls
+          .map((e) => RecurringCharge.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      reservationId: json['ReservationId'] as String?,
+      reservedNodesOfferingId: json['ReservedNodesOfferingId'] as String?,
+      startTime: timeStampFromJson(json['StartTime']),
+      state: json['State'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final duration = this.duration;
+    final fixedPrice = this.fixedPrice;
+    final nodeCount = this.nodeCount;
+    final nodeType = this.nodeType;
+    final offeringType = this.offeringType;
+    final recurringCharges = this.recurringCharges;
+    final reservationId = this.reservationId;
+    final reservedNodesOfferingId = this.reservedNodesOfferingId;
+    final startTime = this.startTime;
+    final state = this.state;
+    return {
+      if (arn != null) 'ARN': arn,
+      if (duration != null) 'Duration': duration,
+      if (fixedPrice != null) 'FixedPrice': fixedPrice,
+      if (nodeCount != null) 'NodeCount': nodeCount,
+      if (nodeType != null) 'NodeType': nodeType,
+      if (offeringType != null) 'OfferingType': offeringType,
+      if (recurringCharges != null) 'RecurringCharges': recurringCharges,
+      if (reservationId != null) 'ReservationId': reservationId,
+      if (reservedNodesOfferingId != null)
+        'ReservedNodesOfferingId': reservedNodesOfferingId,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (state != null) 'State': state,
+    };
+  }
+}
+
+/// The recurring charge to run this reserved node.
+class RecurringCharge {
+  /// The amount of the recurring charge to run this reserved node.
+  final double? recurringChargeAmount;
+
+  /// The frequency of the recurring price charged to run this reserved node.
+  final String? recurringChargeFrequency;
+
+  RecurringCharge({
+    this.recurringChargeAmount,
+    this.recurringChargeFrequency,
+  });
+
+  factory RecurringCharge.fromJson(Map<String, dynamic> json) {
+    return RecurringCharge(
+      recurringChargeAmount: json['RecurringChargeAmount'] as double?,
+      recurringChargeFrequency: json['RecurringChargeFrequency'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recurringChargeAmount = this.recurringChargeAmount;
+    final recurringChargeFrequency = this.recurringChargeFrequency;
+    return {
+      if (recurringChargeAmount != null)
+        'RecurringChargeAmount': recurringChargeAmount,
+      if (recurringChargeFrequency != null)
+        'RecurringChargeFrequency': recurringChargeFrequency,
+    };
+  }
+}
+
+/// Used to streamline results of a search based on the property being filtered.
+class Filter {
+  /// The property being filtered. For example, UserName.
+  final String name;
+
+  /// The property values to filter on. For example, "user-123".
+  final List<String> values;
+
+  Filter({
+    required this.name,
+    required this.values,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      'Name': name,
+      'Values': values,
+    };
+  }
+}
+
+/// Represents a copy of an entire cluster as of the time when the snapshot was
+/// taken.
+class Snapshot {
+  /// The ARN (Amazon Resource Name) of the snapshot.
+  final String? arn;
+
+  /// The configuration of the cluster from which the snapshot was taken
+  final ClusterConfiguration? clusterConfiguration;
+
+  /// Enables data tiering. Data tiering is only supported for clusters using the
+  /// r6gd node type. This parameter must be set when using r6gd nodes. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/memorydb/latest/devguide/data-tiering.html">Data
+  /// tiering</a>.
+  final DataTieringStatus? dataTiering;
+
+  /// The ID of the KMS key used to encrypt the snapshot.
+  final String? kmsKeyId;
+
+  /// The name of the snapshot
+  final String? name;
+
+  /// Indicates whether the snapshot is from an automatic backup (automated) or
+  /// was created manually (manual).
+  final String? source;
+
+  /// The status of the snapshot. Valid values: creating | available | restoring |
+  /// copying | deleting.
+  final String? status;
+
+  Snapshot({
+    this.arn,
+    this.clusterConfiguration,
+    this.dataTiering,
+    this.kmsKeyId,
+    this.name,
+    this.source,
+    this.status,
+  });
+
+  factory Snapshot.fromJson(Map<String, dynamic> json) {
+    return Snapshot(
+      arn: json['ARN'] as String?,
+      clusterConfiguration: json['ClusterConfiguration'] != null
+          ? ClusterConfiguration.fromJson(
+              json['ClusterConfiguration'] as Map<String, dynamic>)
+          : null,
+      dataTiering:
+          (json['DataTiering'] as String?)?.let(DataTieringStatus.fromString),
+      kmsKeyId: json['KmsKeyId'] as String?,
+      name: json['Name'] as String?,
+      source: json['Source'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final clusterConfiguration = this.clusterConfiguration;
+    final dataTiering = this.dataTiering;
+    final kmsKeyId = this.kmsKeyId;
+    final name = this.name;
+    final source = this.source;
+    final status = this.status;
+    return {
+      if (arn != null) 'ARN': arn,
+      if (clusterConfiguration != null)
+        'ClusterConfiguration': clusterConfiguration,
+      if (dataTiering != null) 'DataTiering': dataTiering.value,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (name != null) 'Name': name,
+      if (source != null) 'Source': source,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
+/// A list of cluster configuration options.
+class ClusterConfiguration {
+  /// The description of the cluster configuration
+  final String? description;
+
+  /// The name of the engine used by the cluster configuration.
+  final String? engine;
+
+  /// The Redis OSS engine version used by the cluster
+  final String? engineVersion;
+
+  /// The specified maintenance window for the cluster
+  final String? maintenanceWindow;
+
+  /// The name for the multi-Region cluster associated with the cluster
+  /// configuration.
+  final String? multiRegionClusterName;
+
+  /// The name of the multi-Region parameter group associated with the cluster
+  /// configuration.
+  final String? multiRegionParameterGroupName;
+
+  /// The name of the cluster
+  final String? name;
+
+  /// The node type used for the cluster
+  final String? nodeType;
+
+  /// The number of shards in the cluster
+  final int? numShards;
+
+  /// The name of parameter group used by the cluster
+  final String? parameterGroupName;
+
+  /// The port used by the cluster
+  final int? port;
+
+  /// The list of shards in the cluster
+  final List<ShardDetail>? shards;
+
+  /// The snapshot retention limit set by the cluster
+  final int? snapshotRetentionLimit;
+
+  /// The snapshot window set by the cluster
+  final String? snapshotWindow;
+
+  /// The name of the subnet group used by the cluster
+  final String? subnetGroupName;
+
+  /// The Amazon Resource Name (ARN) of the SNS notification topic for the cluster
+  final String? topicArn;
+
+  /// The ID of the VPC the cluster belongs to
+  final String? vpcId;
+
+  ClusterConfiguration({
+    this.description,
+    this.engine,
+    this.engineVersion,
+    this.maintenanceWindow,
+    this.multiRegionClusterName,
+    this.multiRegionParameterGroupName,
+    this.name,
+    this.nodeType,
+    this.numShards,
+    this.parameterGroupName,
+    this.port,
+    this.shards,
+    this.snapshotRetentionLimit,
+    this.snapshotWindow,
+    this.subnetGroupName,
+    this.topicArn,
+    this.vpcId,
+  });
+
+  factory ClusterConfiguration.fromJson(Map<String, dynamic> json) {
+    return ClusterConfiguration(
+      description: json['Description'] as String?,
+      engine: json['Engine'] as String?,
+      engineVersion: json['EngineVersion'] as String?,
+      maintenanceWindow: json['MaintenanceWindow'] as String?,
+      multiRegionClusterName: json['MultiRegionClusterName'] as String?,
+      multiRegionParameterGroupName:
+          json['MultiRegionParameterGroupName'] as String?,
+      name: json['Name'] as String?,
+      nodeType: json['NodeType'] as String?,
+      numShards: json['NumShards'] as int?,
+      parameterGroupName: json['ParameterGroupName'] as String?,
+      port: json['Port'] as int?,
+      shards: (json['Shards'] as List?)
+          ?.nonNulls
+          .map((e) => ShardDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      snapshotRetentionLimit: json['SnapshotRetentionLimit'] as int?,
+      snapshotWindow: json['SnapshotWindow'] as String?,
+      subnetGroupName: json['SubnetGroupName'] as String?,
+      topicArn: json['TopicArn'] as String?,
+      vpcId: json['VpcId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final engine = this.engine;
+    final engineVersion = this.engineVersion;
+    final maintenanceWindow = this.maintenanceWindow;
+    final multiRegionClusterName = this.multiRegionClusterName;
+    final multiRegionParameterGroupName = this.multiRegionParameterGroupName;
+    final name = this.name;
+    final nodeType = this.nodeType;
+    final numShards = this.numShards;
+    final parameterGroupName = this.parameterGroupName;
+    final port = this.port;
+    final shards = this.shards;
+    final snapshotRetentionLimit = this.snapshotRetentionLimit;
+    final snapshotWindow = this.snapshotWindow;
+    final subnetGroupName = this.subnetGroupName;
+    final topicArn = this.topicArn;
+    final vpcId = this.vpcId;
+    return {
+      if (description != null) 'Description': description,
+      if (engine != null) 'Engine': engine,
+      if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (maintenanceWindow != null) 'MaintenanceWindow': maintenanceWindow,
+      if (multiRegionClusterName != null)
+        'MultiRegionClusterName': multiRegionClusterName,
+      if (multiRegionParameterGroupName != null)
+        'MultiRegionParameterGroupName': multiRegionParameterGroupName,
+      if (name != null) 'Name': name,
+      if (nodeType != null) 'NodeType': nodeType,
+      if (numShards != null) 'NumShards': numShards,
+      if (parameterGroupName != null) 'ParameterGroupName': parameterGroupName,
+      if (port != null) 'Port': port,
+      if (shards != null) 'Shards': shards,
+      if (snapshotRetentionLimit != null)
+        'SnapshotRetentionLimit': snapshotRetentionLimit,
+      if (snapshotWindow != null) 'SnapshotWindow': snapshotWindow,
+      if (subnetGroupName != null) 'SubnetGroupName': subnetGroupName,
+      if (topicArn != null) 'TopicArn': topicArn,
+      if (vpcId != null) 'VpcId': vpcId,
+    };
+  }
+}
+
+/// Provides details of a shard in a snapshot
+class ShardDetail {
+  /// The configuration details of the shard
+  final ShardConfiguration? configuration;
+
+  /// The name of the shard
+  final String? name;
+
+  /// The size of the shard's snapshot
+  final String? size;
+
+  /// The date and time that the shard's snapshot was created
+  final DateTime? snapshotCreationTime;
+
+  ShardDetail({
+    this.configuration,
+    this.name,
+    this.size,
+    this.snapshotCreationTime,
+  });
+
+  factory ShardDetail.fromJson(Map<String, dynamic> json) {
+    return ShardDetail(
+      configuration: json['Configuration'] != null
+          ? ShardConfiguration.fromJson(
+              json['Configuration'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+      size: json['Size'] as String?,
+      snapshotCreationTime: timeStampFromJson(json['SnapshotCreationTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configuration = this.configuration;
+    final name = this.name;
+    final size = this.size;
+    final snapshotCreationTime = this.snapshotCreationTime;
+    return {
+      if (configuration != null) 'Configuration': configuration,
+      if (name != null) 'Name': name,
+      if (size != null) 'Size': size,
+      if (snapshotCreationTime != null)
+        'SnapshotCreationTime': unixTimestampToJson(snapshotCreationTime),
+    };
+  }
+}
+
+/// Shard configuration options. Each shard configuration has the following:
+/// Slots and ReplicaCount.
+class ShardConfiguration {
+  /// The number of read replica nodes in this shard.
+  final int? replicaCount;
+
+  /// A string that specifies the keyspace for a particular node group. Keyspaces
+  /// range from 0 to 16,383. The string is in the format startkey-endkey.
+  final String? slots;
+
+  ShardConfiguration({
+    this.replicaCount,
+    this.slots,
+  });
+
+  factory ShardConfiguration.fromJson(Map<String, dynamic> json) {
+    return ShardConfiguration(
+      replicaCount: json['ReplicaCount'] as int?,
+      slots: json['Slots'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicaCount = this.replicaCount;
+    final slots = this.slots;
+    return {
+      if (replicaCount != null) 'ReplicaCount': replicaCount,
+      if (slots != null) 'Slots': slots,
+    };
+  }
+}
+
+/// An update that you can apply to your MemoryDB clusters.
+class ServiceUpdate {
+  /// The date at which the service update will be automatically applied
+  final DateTime? autoUpdateStartDate;
+
+  /// The name of the cluster to which the service update applies
+  final String? clusterName;
+
+  /// Provides details of the service update
+  final String? description;
+
+  /// The name of the engine for which a service update is available.
+  final String? engine;
+
+  /// A list of nodes updated by the service update
+  final String? nodesUpdated;
+
+  /// The date when the service update is initially available
+  final DateTime? releaseDate;
+
+  /// The unique ID of the service update
+  final String? serviceUpdateName;
+
+  /// The status of the service update
+  final ServiceUpdateStatus? status;
+
+  /// Reflects the nature of the service update
+  final ServiceUpdateType? type;
+
+  ServiceUpdate({
+    this.autoUpdateStartDate,
+    this.clusterName,
+    this.description,
+    this.engine,
+    this.nodesUpdated,
+    this.releaseDate,
+    this.serviceUpdateName,
+    this.status,
+    this.type,
+  });
+
+  factory ServiceUpdate.fromJson(Map<String, dynamic> json) {
+    return ServiceUpdate(
+      autoUpdateStartDate: timeStampFromJson(json['AutoUpdateStartDate']),
+      clusterName: json['ClusterName'] as String?,
+      description: json['Description'] as String?,
+      engine: json['Engine'] as String?,
+      nodesUpdated: json['NodesUpdated'] as String?,
+      releaseDate: timeStampFromJson(json['ReleaseDate']),
+      serviceUpdateName: json['ServiceUpdateName'] as String?,
+      status: (json['Status'] as String?)?.let(ServiceUpdateStatus.fromString),
+      type: (json['Type'] as String?)?.let(ServiceUpdateType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoUpdateStartDate = this.autoUpdateStartDate;
+    final clusterName = this.clusterName;
+    final description = this.description;
+    final engine = this.engine;
+    final nodesUpdated = this.nodesUpdated;
+    final releaseDate = this.releaseDate;
+    final serviceUpdateName = this.serviceUpdateName;
+    final status = this.status;
+    final type = this.type;
+    return {
+      if (autoUpdateStartDate != null)
+        'AutoUpdateStartDate': unixTimestampToJson(autoUpdateStartDate),
+      if (clusterName != null) 'ClusterName': clusterName,
+      if (description != null) 'Description': description,
+      if (engine != null) 'Engine': engine,
+      if (nodesUpdated != null) 'NodesUpdated': nodesUpdated,
+      if (releaseDate != null) 'ReleaseDate': unixTimestampToJson(releaseDate),
+      if (serviceUpdateName != null) 'ServiceUpdateName': serviceUpdateName,
+      if (status != null) 'Status': status.value,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class ServiceUpdateType {
+  static const securityUpdate = ServiceUpdateType._('security-update');
+
+  final String value;
+
+  const ServiceUpdateType._(this.value);
+
+  static const values = [securityUpdate];
+
+  static ServiceUpdateType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ServiceUpdateType._(value));
+
+  @override
+  bool operator ==(other) => other is ServiceUpdateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The offering type of this node.
+class ReservedNodesOffering {
+  /// The duration of the reservation in seconds.
+  final int? duration;
+
+  /// The fixed price charged for this reserved node.
+  final double? fixedPrice;
+
+  /// The node type for the reserved nodes. For more information, see <a
+  /// href="https://docs.aws.amazon.com/memorydb/latest/devguide/nodes.reserved.html#reserved-nodes-supported">Supported
+  /// node types</a>.
+  final String? nodeType;
+
+  /// The offering type of this reserved node.
+  final String? offeringType;
+
+  /// The recurring price charged to run this reserved node.
+  final List<RecurringCharge>? recurringCharges;
+
+  /// The offering identifier.
+  final String? reservedNodesOfferingId;
+
+  ReservedNodesOffering({
+    this.duration,
+    this.fixedPrice,
+    this.nodeType,
+    this.offeringType,
+    this.recurringCharges,
+    this.reservedNodesOfferingId,
+  });
+
+  factory ReservedNodesOffering.fromJson(Map<String, dynamic> json) {
+    return ReservedNodesOffering(
+      duration: json['Duration'] as int?,
+      fixedPrice: json['FixedPrice'] as double?,
+      nodeType: json['NodeType'] as String?,
+      offeringType: json['OfferingType'] as String?,
+      recurringCharges: (json['RecurringCharges'] as List?)
+          ?.nonNulls
+          .map((e) => RecurringCharge.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      reservedNodesOfferingId: json['ReservedNodesOfferingId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final duration = this.duration;
+    final fixedPrice = this.fixedPrice;
+    final nodeType = this.nodeType;
+    final offeringType = this.offeringType;
+    final recurringCharges = this.recurringCharges;
+    final reservedNodesOfferingId = this.reservedNodesOfferingId;
+    return {
+      if (duration != null) 'Duration': duration,
+      if (fixedPrice != null) 'FixedPrice': fixedPrice,
+      if (nodeType != null) 'NodeType': nodeType,
+      if (offeringType != null) 'OfferingType': offeringType,
+      if (recurringCharges != null) 'RecurringCharges': recurringCharges,
+      if (reservedNodesOfferingId != null)
+        'ReservedNodesOfferingId': reservedNodesOfferingId,
+    };
+  }
+}
+
+/// Describes an individual setting that controls some aspect of MemoryDB
+/// behavior.
+class Parameter {
+  /// The valid range of values for the parameter.
+  final String? allowedValues;
+
+  /// The parameter's data type
+  final String? dataType;
+
+  /// A description of the parameter
+  final String? description;
+
+  /// The earliest engine version to which the parameter can apply.
+  final String? minimumEngineVersion;
+
+  /// The name of the parameter
+  final String? name;
+
+  /// The value of the parameter
+  final String? value;
+
+  Parameter({
+    this.allowedValues,
+    this.dataType,
+    this.description,
+    this.minimumEngineVersion,
+    this.name,
+    this.value,
+  });
+
+  factory Parameter.fromJson(Map<String, dynamic> json) {
+    return Parameter(
+      allowedValues: json['AllowedValues'] as String?,
+      dataType: json['DataType'] as String?,
+      description: json['Description'] as String?,
+      minimumEngineVersion: json['MinimumEngineVersion'] as String?,
+      name: json['Name'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedValues = this.allowedValues;
+    final dataType = this.dataType;
+    final description = this.description;
+    final minimumEngineVersion = this.minimumEngineVersion;
+    final name = this.name;
+    final value = this.value;
+    return {
+      if (allowedValues != null) 'AllowedValues': allowedValues,
+      if (dataType != null) 'DataType': dataType,
+      if (description != null) 'Description': description,
+      if (minimumEngineVersion != null)
+        'MinimumEngineVersion': minimumEngineVersion,
+      if (name != null) 'Name': name,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Describes an individual setting that controls some aspect of MemoryDB
+/// behavior across multiple regions.
+class MultiRegionParameter {
+  /// The valid range of values for the parameter.
+  final String? allowedValues;
+
+  /// The valid data type for the parameter.
+  final String? dataType;
+
+  /// A description of the parameter.
+  final String? description;
+
+  /// The earliest engine version to which the parameter can apply.
+  final String? minimumEngineVersion;
+
+  /// The name of the parameter.
+  final String? name;
+
+  /// Indicates the source of the parameter value. Valid values: user | system |
+  /// engine-default
+  final String? source;
+
+  /// The value of the parameter.
+  final String? value;
+
+  MultiRegionParameter({
+    this.allowedValues,
+    this.dataType,
+    this.description,
+    this.minimumEngineVersion,
+    this.name,
+    this.source,
+    this.value,
+  });
+
+  factory MultiRegionParameter.fromJson(Map<String, dynamic> json) {
+    return MultiRegionParameter(
+      allowedValues: json['AllowedValues'] as String?,
+      dataType: json['DataType'] as String?,
+      description: json['Description'] as String?,
+      minimumEngineVersion: json['MinimumEngineVersion'] as String?,
+      name: json['Name'] as String?,
+      source: json['Source'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedValues = this.allowedValues;
+    final dataType = this.dataType;
+    final description = this.description;
+    final minimumEngineVersion = this.minimumEngineVersion;
+    final name = this.name;
+    final source = this.source;
+    final value = this.value;
+    return {
+      if (allowedValues != null) 'AllowedValues': allowedValues,
+      if (dataType != null) 'DataType': dataType,
+      if (description != null) 'Description': description,
+      if (minimumEngineVersion != null)
+        'MinimumEngineVersion': minimumEngineVersion,
+      if (name != null) 'Name': name,
+      if (source != null) 'Source': source,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Represents the output of a CreateMultiRegionParameterGroup operation. A
+/// multi-region parameter group represents a collection of parameters that can
+/// be applied to clusters across multiple regions.
+class MultiRegionParameterGroup {
+  /// The Amazon Resource Name (ARN) of the multi-region parameter group.
+  final String? arn;
+
+  /// A description of the multi-region parameter group.
+  final String? description;
+
+  /// The name of the parameter group family that this multi-region parameter
+  /// group is compatible with.
+  final String? family;
+
+  /// The name of the multi-region parameter group.
+  final String? name;
+
+  MultiRegionParameterGroup({
+    this.arn,
+    this.description,
+    this.family,
+    this.name,
+  });
+
+  factory MultiRegionParameterGroup.fromJson(Map<String, dynamic> json) {
+    return MultiRegionParameterGroup(
+      arn: json['ARN'] as String?,
+      description: json['Description'] as String?,
+      family: json['Family'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final description = this.description;
+    final family = this.family;
+    final name = this.name;
+    return {
+      if (arn != null) 'ARN': arn,
+      if (description != null) 'Description': description,
+      if (family != null) 'Family': family,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// Represents a single occurrence of something interesting within the system.
+/// Some examples of events are creating a cluster or adding or removing a node.
+class Event {
+  /// The date and time when the event occurred.
+  final DateTime? date;
+
+  /// The text of the event.
+  final String? message;
+
+  /// The name for the source of the event. For example, if the event occurred at
+  /// the cluster level, the identifier would be the name of the cluster.
+  final String? sourceName;
+
+  /// Specifies the origin of this event - a cluster, a parameter group, a
+  /// security group, etc.
+  final SourceType? sourceType;
+
+  Event({
+    this.date,
+    this.message,
+    this.sourceName,
+    this.sourceType,
+  });
+
+  factory Event.fromJson(Map<String, dynamic> json) {
+    return Event(
+      date: timeStampFromJson(json['Date']),
+      message: json['Message'] as String?,
+      sourceName: json['SourceName'] as String?,
+      sourceType: (json['SourceType'] as String?)?.let(SourceType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final date = this.date;
+    final message = this.message;
+    final sourceName = this.sourceName;
+    final sourceType = this.sourceType;
+    return {
+      if (date != null) 'Date': unixTimestampToJson(date),
+      if (message != null) 'Message': message,
+      if (sourceName != null) 'SourceName': sourceName,
+      if (sourceType != null) 'SourceType': sourceType.value,
+    };
+  }
+}
+
+class SourceType {
+  static const node = SourceType._('node');
+  static const parameterGroup = SourceType._('parameter-group');
+  static const subnetGroup = SourceType._('subnet-group');
+  static const cluster = SourceType._('cluster');
+  static const user = SourceType._('user');
+  static const acl = SourceType._('acl');
+
+  final String value;
+
+  const SourceType._(this.value);
+
+  static const values = [node, parameterGroup, subnetGroup, cluster, user, acl];
+
+  static SourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SourceType._(value));
+
+  @override
+  bool operator ==(other) => other is SourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides details of the Redis OSS engine version
+class EngineVersionInfo {
+  /// The name of the engine for which version information is provided.
+  final String? engine;
+
+  /// The patched engine version
+  final String? enginePatchVersion;
+
+  /// The engine version
+  final String? engineVersion;
+
+  /// Specifies the name of the parameter group family to which the engine default
+  /// parameters apply.
+  final String? parameterGroupFamily;
+
+  EngineVersionInfo({
+    this.engine,
+    this.enginePatchVersion,
+    this.engineVersion,
+    this.parameterGroupFamily,
+  });
+
+  factory EngineVersionInfo.fromJson(Map<String, dynamic> json) {
+    return EngineVersionInfo(
+      engine: json['Engine'] as String?,
+      enginePatchVersion: json['EnginePatchVersion'] as String?,
+      engineVersion: json['EngineVersion'] as String?,
+      parameterGroupFamily: json['ParameterGroupFamily'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final engine = this.engine;
+    final enginePatchVersion = this.enginePatchVersion;
+    final engineVersion = this.engineVersion;
+    final parameterGroupFamily = this.parameterGroupFamily;
+    return {
+      if (engine != null) 'Engine': engine,
+      if (enginePatchVersion != null) 'EnginePatchVersion': enginePatchVersion,
+      if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (parameterGroupFamily != null)
+        'ParameterGroupFamily': parameterGroupFamily,
+    };
+  }
+}
+
+/// A cluster whose updates have failed
+class UnprocessedCluster {
+  /// The name of the cluster
+  final String? clusterName;
+
+  /// The error message associated with the update failure
+  final String? errorMessage;
+
+  /// The error type associated with the update failure
+  final String? errorType;
+
+  UnprocessedCluster({
+    this.clusterName,
+    this.errorMessage,
+    this.errorType,
+  });
+
+  factory UnprocessedCluster.fromJson(Map<String, dynamic> json) {
+    return UnprocessedCluster(
+      clusterName: json['ClusterName'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      errorType: json['ErrorType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterName = this.clusterName;
+    final errorMessage = this.errorMessage;
+    final errorType = this.errorType;
+    return {
+      if (clusterName != null) 'ClusterName': clusterName,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (errorType != null) 'ErrorType': errorType,
+    };
+  }
+}
+
+/// A request to apply a service update
+class ServiceUpdateRequest {
+  /// The unique ID of the service update
+  final String? serviceUpdateNameToApply;
+
+  ServiceUpdateRequest({
+    this.serviceUpdateNameToApply,
+  });
+
+  Map<String, dynamic> toJson() {
+    final serviceUpdateNameToApply = this.serviceUpdateNameToApply;
+    return {
+      if (serviceUpdateNameToApply != null)
+        'ServiceUpdateNameToApply': serviceUpdateNameToApply,
+    };
+  }
+}
+
 class ACLAlreadyExistsFault extends _s.GenericAwsException {
   ACLAlreadyExistsFault({String? type, String? message})
       : super(type: type, code: 'ACLAlreadyExistsFault', message: message);
@@ -5324,6 +6428,14 @@ class InvalidKMSKeyFault extends _s.GenericAwsException {
       : super(type: type, code: 'InvalidKMSKeyFault', message: message);
 }
 
+class InvalidMultiRegionClusterStateFault extends _s.GenericAwsException {
+  InvalidMultiRegionClusterStateFault({String? type, String? message})
+      : super(
+            type: type,
+            code: 'InvalidMultiRegionClusterStateFault',
+            message: message);
+}
+
 class InvalidNodeStateFault extends _s.GenericAwsException {
   InvalidNodeStateFault({String? type, String? message})
       : super(type: type, code: 'InvalidNodeStateFault', message: message);
@@ -5372,6 +6484,30 @@ class InvalidVPCNetworkStateFault extends _s.GenericAwsException {
   InvalidVPCNetworkStateFault({String? type, String? message})
       : super(
             type: type, code: 'InvalidVPCNetworkStateFault', message: message);
+}
+
+class MultiRegionClusterAlreadyExistsFault extends _s.GenericAwsException {
+  MultiRegionClusterAlreadyExistsFault({String? type, String? message})
+      : super(
+            type: type,
+            code: 'MultiRegionClusterAlreadyExistsFault',
+            message: message);
+}
+
+class MultiRegionClusterNotFoundFault extends _s.GenericAwsException {
+  MultiRegionClusterNotFoundFault({String? type, String? message})
+      : super(
+            type: type,
+            code: 'MultiRegionClusterNotFoundFault',
+            message: message);
+}
+
+class MultiRegionParameterGroupNotFoundFault extends _s.GenericAwsException {
+  MultiRegionParameterGroupNotFoundFault({String? type, String? message})
+      : super(
+            type: type,
+            code: 'MultiRegionParameterGroupNotFoundFault',
+            message: message);
 }
 
 class NoOperationFault extends _s.GenericAwsException {
@@ -5593,6 +6729,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InvalidCredentialsException(type: type, message: message),
   'InvalidKMSKeyFault': (type, message) =>
       InvalidKMSKeyFault(type: type, message: message),
+  'InvalidMultiRegionClusterStateFault': (type, message) =>
+      InvalidMultiRegionClusterStateFault(type: type, message: message),
   'InvalidNodeStateFault': (type, message) =>
       InvalidNodeStateFault(type: type, message: message),
   'InvalidParameterCombinationException': (type, message) =>
@@ -5609,6 +6747,12 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InvalidUserStateFault(type: type, message: message),
   'InvalidVPCNetworkStateFault': (type, message) =>
       InvalidVPCNetworkStateFault(type: type, message: message),
+  'MultiRegionClusterAlreadyExistsFault': (type, message) =>
+      MultiRegionClusterAlreadyExistsFault(type: type, message: message),
+  'MultiRegionClusterNotFoundFault': (type, message) =>
+      MultiRegionClusterNotFoundFault(type: type, message: message),
+  'MultiRegionParameterGroupNotFoundFault': (type, message) =>
+      MultiRegionParameterGroupNotFoundFault(type: type, message: message),
   'NoOperationFault': (type, message) =>
       NoOperationFault(type: type, message: message),
   'NodeQuotaForClusterExceededFault': (type, message) =>

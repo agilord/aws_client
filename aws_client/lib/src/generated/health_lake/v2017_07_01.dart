@@ -20,9 +20,10 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// AWS HealthLake is a HIPAA eligibile service that allows customers to store,
-/// transform, query, and analyze their FHIR-formatted data in a consistent
-/// fashion in the cloud.
+/// This is the <i>AWS HealthLake API Reference</i>. For an introduction to the
+/// service, see <a
+/// href="https://docs.aws.amazon.com/healthlake/latest/devguide/what-is.html">What
+/// is AWS HealthLake?</a> in the <i>AWS HealthLake Developer Guide</i>.
 class HealthLake {
   final _s.JsonProtocol _protocol;
   HealthLake({
@@ -35,7 +36,6 @@ class HealthLake {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'healthlake',
-            signingName: 'healthlake',
           ),
           region: region,
           credentials: credentials,
@@ -52,37 +52,36 @@ class HealthLake {
     _protocol.close();
   }
 
-  /// Creates a data store that can ingest and export FHIR formatted data.
+  /// Create a FHIR-enabled data store.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [datastoreTypeVersion] :
-  /// The FHIR version of the data store. The only supported version is R4.
+  /// The FHIR release version supported by the data store. Current support is
+  /// for version <code>R4</code>.
   ///
   /// Parameter [clientToken] :
-  /// Optional user provided token used for ensuring idempotency.
+  /// An optional user-provided token to ensure API idempotency.
   ///
   /// Parameter [datastoreName] :
-  /// The user generated name for the data store.
+  /// The data store name (user-generated).
   ///
   /// Parameter [identityProviderConfiguration] :
-  /// The configuration of the identity provider that you want to use for your
-  /// data store.
+  /// The identity provider configuration to use for the data store.
   ///
   /// Parameter [preloadDataConfig] :
-  /// Optional parameter to preload data upon creation of the data store.
-  /// Currently, the only supported preloaded data is synthetic data generated
-  /// from Synthea.
+  /// An optional parameter to preload (import) open source Synthea FHIR data
+  /// upon creation of the data store.
   ///
   /// Parameter [sseConfiguration] :
-  /// The server-side encryption key configuration for a customer provided
+  /// The server-side encryption key configuration for a customer-provided
   /// encryption key specified for creating a data store.
   ///
   /// Parameter [tags] :
-  /// Resource tags that are applied to a data store when it is created.
+  /// The resource tags applied to a data store when it is created.
   Future<CreateFHIRDatastoreResponse> createFHIRDatastore({
     required FHIRVersion datastoreTypeVersion,
     String? clientToken,
@@ -117,17 +116,17 @@ class HealthLake {
     return CreateFHIRDatastoreResponse.fromJson(jsonResponse.body);
   }
 
-  /// Deletes a data store.
+  /// Delete a FHIR-enabled data store.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
-  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [datastoreId] :
-  /// The AWS-generated ID for the data store to be deleted.
+  /// The AWS-generated identifier for the data store to be deleted.
   Future<DeleteFHIRDatastoreResponse> deleteFHIRDatastore({
     required String datastoreId,
   }) async {
@@ -149,18 +148,15 @@ class HealthLake {
     return DeleteFHIRDatastoreResponse.fromJson(jsonResponse.body);
   }
 
-  /// Gets the properties associated with the FHIR data store, including the
-  /// data store ID, data store ARN, data store name, data store status, when
-  /// the data store was created, data store type version, and the data store's
-  /// endpoint.
+  /// Get properties for a FHIR-enabled data store.
   ///
-  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [datastoreId] :
-  /// The AWS-generated data store ID.
+  /// The data store identifier.
   Future<DescribeFHIRDatastoreResponse> describeFHIRDatastore({
     required String datastoreId,
   }) async {
@@ -182,20 +178,18 @@ class HealthLake {
     return DescribeFHIRDatastoreResponse.fromJson(jsonResponse.body);
   }
 
-  /// Displays the properties of a FHIR export job, including the ID, ARN, name,
-  /// and the status of the job.
+  /// Get FHIR export job properties.
   ///
-  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [datastoreId] :
-  /// The AWS generated ID for the data store from which files are being
-  /// exported from for an export job.
+  /// The data store identifier from which FHIR data is being exported from.
   ///
   /// Parameter [jobId] :
-  /// The AWS generated ID for an export job.
+  /// The export job identifier.
   Future<DescribeFHIRExportJobResponse> describeFHIRExportJob({
     required String datastoreId,
     required String jobId,
@@ -219,19 +213,18 @@ class HealthLake {
     return DescribeFHIRExportJobResponse.fromJson(jsonResponse.body);
   }
 
-  /// Displays the properties of a FHIR import job, including the ID, ARN, name,
-  /// and the status of the job.
+  /// Get the import job properties to learn more about the job or job progress.
   ///
-  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [datastoreId] :
-  /// The AWS-generated ID of the data store.
+  /// The data store identifier.
   ///
   /// Parameter [jobId] :
-  /// The AWS-generated job ID.
+  /// The import job identifier.
   Future<DescribeFHIRImportJobResponse> describeFHIRImportJob({
     required String datastoreId,
     required String jobId,
@@ -255,22 +248,22 @@ class HealthLake {
     return DescribeFHIRImportJobResponse.fromJson(jsonResponse.body);
   }
 
-  /// Lists all FHIR data stores that are in the user’s account, regardless of
-  /// data store status.
+  /// List all FHIR-enabled data stores in a user’s account, regardless of data
+  /// store status.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [filter] :
-  /// Lists all filters associated with a FHIR data store request.
+  /// List all filters associated with a FHIR data store request.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of data stores returned in a single page of a
-  /// ListFHIRDatastoresRequest call.
+  /// The maximum number of data stores returned on a page.
   ///
   /// Parameter [nextToken] :
-  /// Fetches the next page of data stores when results are paginated.
+  /// The token used to retrieve the next page of data stores when results are
+  /// paginated.
   Future<ListFHIRDatastoresResponse> listFHIRDatastores({
     DatastoreFilter? filter,
     int? maxResults,
@@ -304,39 +297,35 @@ class HealthLake {
 
   /// Lists all FHIR export jobs associated with an account and their statuses.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [datastoreId] :
-  /// This parameter limits the response to the export job with the specified
-  /// data store ID.
+  /// Limits the response to the export job with the specified data store ID.
   ///
   /// Parameter [jobName] :
-  /// This parameter limits the response to the export job with the specified
-  /// job name.
+  /// Limits the response to the export job with the specified job name.
   ///
   /// Parameter [jobStatus] :
-  /// This parameter limits the response to the export jobs with the specified
-  /// job status.
+  /// Limits the response to export jobs with the specified job status.
   ///
   /// Parameter [maxResults] :
-  /// This parameter limits the number of results returned for a
-  /// ListFHIRExportJobs to a maximum quantity specified by the user.
+  /// Limits the number of results returned for a ListFHIRExportJobs to a
+  /// maximum quantity specified by the user.
   ///
   /// Parameter [nextToken] :
-  /// A pagination token used to identify the next page of results to return for
-  /// a ListFHIRExportJobs query.
+  /// A pagination token used to identify the next page of results to return.
   ///
   /// Parameter [submittedAfter] :
-  /// This parameter limits the response to FHIR export jobs submitted after a
-  /// user specified date.
+  /// Limits the response to FHIR export jobs submitted after a user-specified
+  /// date.
   ///
   /// Parameter [submittedBefore] :
-  /// This parameter limits the response to FHIR export jobs submitted before a
-  /// user specified date.
+  /// Limits the response to FHIR export jobs submitted before a user- specified
+  /// date.
   Future<ListFHIRExportJobsResponse> listFHIRExportJobs({
     required String datastoreId,
     String? jobName,
@@ -378,41 +367,37 @@ class HealthLake {
     return ListFHIRExportJobsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Lists all FHIR import jobs associated with an account and their statuses.
+  /// List all FHIR import jobs associated with an account and their statuses.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [datastoreId] :
-  /// This parameter limits the response to the import job with the specified
-  /// data store ID.
+  /// Limits the response to the import job with the specified data store ID.
   ///
   /// Parameter [jobName] :
-  /// This parameter limits the response to the import job with the specified
-  /// job name.
+  /// Limits the response to the import job with the specified job name.
   ///
   /// Parameter [jobStatus] :
-  /// This parameter limits the response to the import job with the specified
-  /// job status.
+  /// Limits the response to the import job with the specified job status.
   ///
   /// Parameter [maxResults] :
-  /// This parameter limits the number of results returned for a
-  /// ListFHIRImportJobs to a maximum quantity specified by the user.
+  /// Limits the number of results returned for <code>ListFHIRImportJobs</code>
+  /// to a maximum quantity specified by the user.
   ///
   /// Parameter [nextToken] :
-  /// A pagination token used to identify the next page of results to return for
-  /// a ListFHIRImportJobs query.
+  /// The pagination token used to identify the next page of results to return.
   ///
   /// Parameter [submittedAfter] :
-  /// This parameter limits the response to FHIR import jobs submitted after a
-  /// user specified date.
+  /// Limits the response to FHIR import jobs submitted after a user-specified
+  /// date.
   ///
   /// Parameter [submittedBefore] :
-  /// This parameter limits the response to FHIR import jobs submitted before a
-  /// user specified date.
+  /// Limits the response to FHIR import jobs submitted before a user- specified
+  /// date.
   Future<ListFHIRImportJobsResponse> listFHIRImportJobs({
     required String datastoreId,
     String? jobName,
@@ -456,11 +441,11 @@ class HealthLake {
 
   /// Returns a list of all existing tags associated with a data store.
   ///
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceARN] :
-  /// The Amazon Resource Name(ARN) of the data store for which tags are being
+  /// The Amazon Resource Name (ARN) of the data store to which tags are being
   /// added.
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceARN,
@@ -483,30 +468,28 @@ class HealthLake {
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
   }
 
-  /// Begins a FHIR export job.
+  /// Start a FHIR export job.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [dataAccessRoleArn] :
-  /// The Amazon Resource Name used during the initiation of the job.
+  /// The Amazon Resource Name (ARN) used during initiation of the export job.
   ///
   /// Parameter [datastoreId] :
-  /// The AWS generated ID for the data store from which files are being
-  /// exported for an export job.
+  /// The data store identifier from which files are being exported.
   ///
   /// Parameter [outputDataConfig] :
-  /// The output data configuration that was supplied when the export job was
-  /// created.
+  /// The output data configuration supplied when the export job was started.
   ///
   /// Parameter [clientToken] :
-  /// An optional user provided token used for ensuring idempotency.
+  /// An optional user provided token used for ensuring API idempotency.
   ///
   /// Parameter [jobName] :
-  /// The user generated name for an export job.
+  /// The export job name.
   Future<StartFHIRExportJobResponse> startFHIRExportJob({
     required String dataAccessRoleArn,
     required String datastoreId,
@@ -536,30 +519,34 @@ class HealthLake {
     return StartFHIRExportJobResponse.fromJson(jsonResponse.body);
   }
 
-  /// Begins a FHIR Import job.
+  /// Start importing bulk FHIR data into an ACTIVE data store. The import job
+  /// imports FHIR data found in the <code>InputDataConfig</code> object and
+  /// stores processing results in the <code>JobOutputDataConfig</code> object.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [dataAccessRoleArn] :
-  /// The Amazon Resource Name (ARN) that gives AWS HealthLake access
-  /// permission.
+  /// The Amazon Resource Name (ARN) that grants access permission to AWS
+  /// HealthLake.
   ///
   /// Parameter [datastoreId] :
-  /// The AWS-generated data store ID.
+  /// The data store identifier.
   ///
   /// Parameter [inputDataConfig] :
-  /// The input properties of the FHIR Import job in the StartFHIRImport job
-  /// request.
+  /// The input properties for the import job request.
   ///
   /// Parameter [clientToken] :
-  /// Optional user provided token used for ensuring idempotency.
+  /// The optional user-provided token used for ensuring API idempotency.
   ///
   /// Parameter [jobName] :
-  /// The name of the FHIR Import job in the StartFHIRImport job request.
+  /// The import job name.
+  ///
+  /// Parameter [validationLevel] :
+  /// The validation level of the import job.
   Future<StartFHIRImportJobResponse> startFHIRImportJob({
     required String dataAccessRoleArn,
     required String datastoreId,
@@ -567,6 +554,7 @@ class HealthLake {
     required OutputDataConfig jobOutputDataConfig,
     String? clientToken,
     String? jobName,
+    ValidationLevel? validationLevel,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -585,23 +573,24 @@ class HealthLake {
         'JobOutputDataConfig': jobOutputDataConfig,
         'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (jobName != null) 'JobName': jobName,
+        if (validationLevel != null) 'ValidationLevel': validationLevel.value,
       },
     );
 
     return StartFHIRImportJobResponse.fromJson(jsonResponse.body);
   }
 
-  /// Adds a user specified key and value tag to a data store.
+  /// Add a user-specifed key and value tag to a data store.
   ///
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceARN] :
-  /// The Amazon Resource Name(ARN)that gives AWS HealthLake access to the data
-  /// store which tags are being added to.
+  /// The Amazon Resource Name (ARN) that grants access to the data store tags
+  /// are being added to.
   ///
   /// Parameter [tags] :
-  /// The user specified key and value pair tags being added to a data store.
+  /// The user-specified key and value pair tags being added to a data store.
   Future<void> tagResource({
     required String resourceARN,
     required List<Tag> tags,
@@ -623,17 +612,17 @@ class HealthLake {
     );
   }
 
-  /// Removes tags from a data store.
+  /// Remove a user-specifed key and value tag from a data store.
   ///
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceARN] :
-  /// The Amazon Resource Name(ARN) of the data store for which tags are being
+  /// The Amazon Resource Name (ARN) of the data store from which tags are being
   /// removed.
   ///
   /// Parameter [tagKeys] :
-  /// The keys for the tags to be removed from the HealthLake data store.
+  /// The keys for the tags to be removed from the data store.
   Future<void> untagResource({
     required String resourceARN,
     required List<String> tagKeys,
@@ -656,67 +645,17 @@ class HealthLake {
   }
 }
 
-class AuthorizationStrategy {
-  static const smartOnFhirV1 = AuthorizationStrategy._('SMART_ON_FHIR_V1');
-  static const awsAuth = AuthorizationStrategy._('AWS_AUTH');
-
-  final String value;
-
-  const AuthorizationStrategy._(this.value);
-
-  static const values = [smartOnFhirV1, awsAuth];
-
-  static AuthorizationStrategy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AuthorizationStrategy._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AuthorizationStrategy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class CmkType {
-  static const customerManagedKmsKey = CmkType._('CUSTOMER_MANAGED_KMS_KEY');
-  static const awsOwnedKmsKey = CmkType._('AWS_OWNED_KMS_KEY');
-
-  final String value;
-
-  const CmkType._(this.value);
-
-  static const values = [customerManagedKmsKey, awsOwnedKmsKey];
-
-  static CmkType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => CmkType._(value));
-
-  @override
-  bool operator ==(other) => other is CmkType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class CreateFHIRDatastoreResponse {
-  /// The data store ARN is generated during the creation of the data store and
-  /// can be found in the output from the initial data store creation call.
+  /// The Amazon Resource Name (ARN) for the data store.
   final String datastoreArn;
 
-  /// The AWS endpoint for the created data store.
+  /// The AWS endpoint created for the data store.
   final String datastoreEndpoint;
 
-  /// The AWS-generated data store id. This id is in the output from the initial
-  /// data store creation call.
+  /// The data store identifier.
   final String datastoreId;
 
-  /// The status of the FHIR data store.
+  /// The data store status.
   final DatastoreStatus datastoreStatus;
 
   CreateFHIRDatastoreResponse({
@@ -750,82 +689,839 @@ class CreateFHIRDatastoreResponse {
   }
 }
 
-/// The filters applied to data store query.
-class DatastoreFilter {
-  /// A filter that allows the user to set cutoff dates for records. All data
-  /// stores created after the specified date will be included in the results.
-  final DateTime? createdAfter;
+class DeleteFHIRDatastoreResponse {
+  /// The Amazon Resource Name (ARN) that grants access permission to AWS
+  /// HealthLake.
+  final String datastoreArn;
 
-  /// A filter that allows the user to set cutoff dates for records. All data
-  /// stores created before the specified date will be included in the results.
-  final DateTime? createdBefore;
+  /// The AWS endpoint of the data store to be deleted.
+  final String datastoreEndpoint;
 
-  /// Allows the user to filter data store results by name.
-  final String? datastoreName;
+  /// The AWS-generated ID for the deleted data store.
+  final String datastoreId;
 
-  /// Allows the user to filter data store results by status.
-  final DatastoreStatus? datastoreStatus;
+  /// The data store status.
+  final DatastoreStatus datastoreStatus;
 
-  DatastoreFilter({
-    this.createdAfter,
-    this.createdBefore,
-    this.datastoreName,
-    this.datastoreStatus,
+  DeleteFHIRDatastoreResponse({
+    required this.datastoreArn,
+    required this.datastoreEndpoint,
+    required this.datastoreId,
+    required this.datastoreStatus,
   });
 
+  factory DeleteFHIRDatastoreResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteFHIRDatastoreResponse(
+      datastoreArn: (json['DatastoreArn'] as String?) ?? '',
+      datastoreEndpoint: (json['DatastoreEndpoint'] as String?) ?? '',
+      datastoreId: (json['DatastoreId'] as String?) ?? '',
+      datastoreStatus: DatastoreStatus.fromString(
+          (json['DatastoreStatus'] as String?) ?? ''),
+    );
+  }
+
   Map<String, dynamic> toJson() {
-    final createdAfter = this.createdAfter;
-    final createdBefore = this.createdBefore;
-    final datastoreName = this.datastoreName;
+    final datastoreArn = this.datastoreArn;
+    final datastoreEndpoint = this.datastoreEndpoint;
+    final datastoreId = this.datastoreId;
     final datastoreStatus = this.datastoreStatus;
     return {
-      if (createdAfter != null)
-        'CreatedAfter': unixTimestampToJson(createdAfter),
-      if (createdBefore != null)
-        'CreatedBefore': unixTimestampToJson(createdBefore),
-      if (datastoreName != null) 'DatastoreName': datastoreName,
-      if (datastoreStatus != null) 'DatastoreStatus': datastoreStatus.value,
+      'DatastoreArn': datastoreArn,
+      'DatastoreEndpoint': datastoreEndpoint,
+      'DatastoreId': datastoreId,
+      'DatastoreStatus': datastoreStatus.value,
     };
   }
 }
 
-/// Displays the properties of the data store, including the ID, ARN, name, and
-/// the status of the data store.
-class DatastoreProperties {
-  /// The Amazon Resource Name used in the creation of the data store.
-  final String datastoreArn;
+class DescribeFHIRDatastoreResponse {
+  /// The data store properties.
+  final DatastoreProperties datastoreProperties;
 
-  /// The AWS endpoint for the data store. Each data store will have it's own
-  /// endpoint with data store ID in the endpoint URL.
-  final String datastoreEndpoint;
+  DescribeFHIRDatastoreResponse({
+    required this.datastoreProperties,
+  });
 
-  /// The AWS-generated ID number for the data store.
+  factory DescribeFHIRDatastoreResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeFHIRDatastoreResponse(
+      datastoreProperties: DatastoreProperties.fromJson(
+          (json['DatastoreProperties'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datastoreProperties = this.datastoreProperties;
+    return {
+      'DatastoreProperties': datastoreProperties,
+    };
+  }
+}
+
+class DescribeFHIRExportJobResponse {
+  /// The export job properties.
+  final ExportJobProperties exportJobProperties;
+
+  DescribeFHIRExportJobResponse({
+    required this.exportJobProperties,
+  });
+
+  factory DescribeFHIRExportJobResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeFHIRExportJobResponse(
+      exportJobProperties: ExportJobProperties.fromJson(
+          (json['ExportJobProperties'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final exportJobProperties = this.exportJobProperties;
+    return {
+      'ExportJobProperties': exportJobProperties,
+    };
+  }
+}
+
+class DescribeFHIRImportJobResponse {
+  /// The import job properties.
+  final ImportJobProperties importJobProperties;
+
+  DescribeFHIRImportJobResponse({
+    required this.importJobProperties,
+  });
+
+  factory DescribeFHIRImportJobResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeFHIRImportJobResponse(
+      importJobProperties: ImportJobProperties.fromJson(
+          (json['ImportJobProperties'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final importJobProperties = this.importJobProperties;
+    return {
+      'ImportJobProperties': importJobProperties,
+    };
+  }
+}
+
+class ListFHIRDatastoresResponse {
+  /// The properties associated with all listed data stores.
+  final List<DatastoreProperties> datastorePropertiesList;
+
+  /// The pagination token used to retrieve the next page of results.
+  final String? nextToken;
+
+  ListFHIRDatastoresResponse({
+    required this.datastorePropertiesList,
+    this.nextToken,
+  });
+
+  factory ListFHIRDatastoresResponse.fromJson(Map<String, dynamic> json) {
+    return ListFHIRDatastoresResponse(
+      datastorePropertiesList: ((json['DatastorePropertiesList'] as List?) ??
+              const [])
+          .nonNulls
+          .map((e) => DatastoreProperties.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datastorePropertiesList = this.datastorePropertiesList;
+    final nextToken = this.nextToken;
+    return {
+      'DatastorePropertiesList': datastorePropertiesList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListFHIRExportJobsResponse {
+  /// The properties of listed FHIR export jobs.
+  final List<ExportJobProperties> exportJobPropertiesList;
+
+  /// The pagination token used to identify the next page of results to return.
+  final String? nextToken;
+
+  ListFHIRExportJobsResponse({
+    required this.exportJobPropertiesList,
+    this.nextToken,
+  });
+
+  factory ListFHIRExportJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListFHIRExportJobsResponse(
+      exportJobPropertiesList: ((json['ExportJobPropertiesList'] as List?) ??
+              const [])
+          .nonNulls
+          .map((e) => ExportJobProperties.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final exportJobPropertiesList = this.exportJobPropertiesList;
+    final nextToken = this.nextToken;
+    return {
+      'ExportJobPropertiesList': exportJobPropertiesList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListFHIRImportJobsResponse {
+  /// The properties for listed import jobs.
+  final List<ImportJobProperties> importJobPropertiesList;
+
+  /// The pagination token used to identify the next page of results to return.
+  final String? nextToken;
+
+  ListFHIRImportJobsResponse({
+    required this.importJobPropertiesList,
+    this.nextToken,
+  });
+
+  factory ListFHIRImportJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListFHIRImportJobsResponse(
+      importJobPropertiesList: ((json['ImportJobPropertiesList'] as List?) ??
+              const [])
+          .nonNulls
+          .map((e) => ImportJobProperties.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final importJobPropertiesList = this.importJobPropertiesList;
+    final nextToken = this.nextToken;
+    return {
+      'ImportJobPropertiesList': importJobPropertiesList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListTagsForResourceResponse {
+  /// Returns a list of tags associated with a data store.
+  final List<Tag>? tags;
+
+  ListTagsForResourceResponse({
+    this.tags,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+class StartFHIRExportJobResponse {
+  /// The export job identifier.
+  final String jobId;
+
+  /// The export job status.
+  final JobStatus jobStatus;
+
+  /// The data store identifier from which files are being exported.
+  final String? datastoreId;
+
+  StartFHIRExportJobResponse({
+    required this.jobId,
+    required this.jobStatus,
+    this.datastoreId,
+  });
+
+  factory StartFHIRExportJobResponse.fromJson(Map<String, dynamic> json) {
+    return StartFHIRExportJobResponse(
+      jobId: (json['JobId'] as String?) ?? '',
+      jobStatus: JobStatus.fromString((json['JobStatus'] as String?) ?? ''),
+      datastoreId: json['DatastoreId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    final jobStatus = this.jobStatus;
+    final datastoreId = this.datastoreId;
+    return {
+      'JobId': jobId,
+      'JobStatus': jobStatus.value,
+      if (datastoreId != null) 'DatastoreId': datastoreId,
+    };
+  }
+}
+
+class StartFHIRImportJobResponse {
+  /// The import job identifier.
+  final String jobId;
+
+  /// The import job status.
+  final JobStatus jobStatus;
+
+  /// The data store identifier.
+  final String? datastoreId;
+
+  StartFHIRImportJobResponse({
+    required this.jobId,
+    required this.jobStatus,
+    this.datastoreId,
+  });
+
+  factory StartFHIRImportJobResponse.fromJson(Map<String, dynamic> json) {
+    return StartFHIRImportJobResponse(
+      jobId: (json['JobId'] as String?) ?? '',
+      jobStatus: JobStatus.fromString((json['JobStatus'] as String?) ?? ''),
+      datastoreId: json['DatastoreId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    final jobStatus = this.jobStatus;
+    final datastoreId = this.datastoreId;
+    return {
+      'JobId': jobId,
+      'JobStatus': jobStatus.value,
+      if (datastoreId != null) 'DatastoreId': datastoreId,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// A label consisting of a user-defined key and value. The form for tags is
+/// {"Key", "Value"}
+class Tag {
+  /// The key portion of a tag. Tag keys are case sensitive.
+  final String key;
+
+  /// The value portion of a tag. Tag values are case-sensitive.
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
+class JobStatus {
+  static const submitted = JobStatus._('SUBMITTED');
+  static const queued = JobStatus._('QUEUED');
+  static const inProgress = JobStatus._('IN_PROGRESS');
+  static const completedWithErrors = JobStatus._('COMPLETED_WITH_ERRORS');
+  static const completed = JobStatus._('COMPLETED');
+  static const failed = JobStatus._('FAILED');
+  static const cancelSubmitted = JobStatus._('CANCEL_SUBMITTED');
+  static const cancelInProgress = JobStatus._('CANCEL_IN_PROGRESS');
+  static const cancelCompleted = JobStatus._('CANCEL_COMPLETED');
+  static const cancelFailed = JobStatus._('CANCEL_FAILED');
+
+  final String value;
+
+  const JobStatus._(this.value);
+
+  static const values = [
+    submitted,
+    queued,
+    inProgress,
+    completedWithErrors,
+    completed,
+    failed,
+    cancelSubmitted,
+    cancelInProgress,
+    cancelCompleted,
+    cancelFailed
+  ];
+
+  static JobStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobStatus._(value));
+
+  @override
+  bool operator ==(other) => other is JobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The import job input properties.
+class InputDataConfig {
+  /// The <code>S3Uri</code> is the user-specified S3 location of the FHIR data to
+  /// be imported into AWS HealthLake.
+  final String? s3Uri;
+
+  InputDataConfig({
+    this.s3Uri,
+  });
+
+  factory InputDataConfig.fromJson(Map<String, dynamic> json) {
+    return InputDataConfig(
+      s3Uri: json['S3Uri'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Uri = this.s3Uri;
+    return {
+      if (s3Uri != null) 'S3Uri': s3Uri,
+    };
+  }
+}
+
+/// The output data configuration supplied when the export job was created.
+class OutputDataConfig {
+  /// The output data configuration supplied when the export job was created.
+  final S3Configuration? s3Configuration;
+
+  OutputDataConfig({
+    this.s3Configuration,
+  });
+
+  factory OutputDataConfig.fromJson(Map<String, dynamic> json) {
+    return OutputDataConfig(
+      s3Configuration: json['S3Configuration'] != null
+          ? S3Configuration.fromJson(
+              json['S3Configuration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Configuration = this.s3Configuration;
+    return {
+      if (s3Configuration != null) 'S3Configuration': s3Configuration,
+    };
+  }
+}
+
+class ValidationLevel {
+  static const strict = ValidationLevel._('strict');
+  static const structureOnly = ValidationLevel._('structure-only');
+  static const minimal = ValidationLevel._('minimal');
+
+  final String value;
+
+  const ValidationLevel._(this.value);
+
+  static const values = [strict, structureOnly, minimal];
+
+  static ValidationLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ValidationLevel._(value));
+
+  @override
+  bool operator ==(other) => other is ValidationLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The configuration of the S3 bucket for either an import or export job. This
+/// includes assigning access permissions.
+class S3Configuration {
+  /// The Key Management Service (KMS) key ID used to access the S3 bucket.
+  final String kmsKeyId;
+
+  /// The <code>S3Uri</code> is the user-specified S3 location of the FHIR data to
+  /// be imported into AWS HealthLake.
+  final String s3Uri;
+
+  S3Configuration({
+    required this.kmsKeyId,
+    required this.s3Uri,
+  });
+
+  factory S3Configuration.fromJson(Map<String, dynamic> json) {
+    return S3Configuration(
+      kmsKeyId: (json['KmsKeyId'] as String?) ?? '',
+      s3Uri: (json['S3Uri'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kmsKeyId = this.kmsKeyId;
+    final s3Uri = this.s3Uri;
+    return {
+      'KmsKeyId': kmsKeyId,
+      'S3Uri': s3Uri,
+    };
+  }
+}
+
+/// The import job properties.
+class ImportJobProperties {
+  /// The data store identifier.
   final String datastoreId;
 
-  /// The status of the data store.
+  /// The input data configuration supplied when the import job was created.
+  final InputDataConfig inputDataConfig;
+
+  /// The import job identifier.
+  final String jobId;
+
+  /// The import job status.
+  final JobStatus jobStatus;
+
+  /// The time the import job was submitted for processing.
+  final DateTime submitTime;
+
+  /// The Amazon Resource Name (ARN) that grants AWS HealthLake access to the
+  /// input data.
+  final String? dataAccessRoleArn;
+
+  /// The time the import job was completed.
+  final DateTime? endTime;
+
+  /// The import job name.
+  final String? jobName;
+  final OutputDataConfig? jobOutputDataConfig;
+
+  /// Displays the progress of the import job, including total resources scanned,
+  /// total resources imported, and total size of data imported.
+  final JobProgressReport? jobProgressReport;
+
+  /// An explanation of any errors that might have occurred during the FHIR import
+  /// job.
+  final String? message;
+
+  /// The validation level of the import job.
+  final ValidationLevel? validationLevel;
+
+  ImportJobProperties({
+    required this.datastoreId,
+    required this.inputDataConfig,
+    required this.jobId,
+    required this.jobStatus,
+    required this.submitTime,
+    this.dataAccessRoleArn,
+    this.endTime,
+    this.jobName,
+    this.jobOutputDataConfig,
+    this.jobProgressReport,
+    this.message,
+    this.validationLevel,
+  });
+
+  factory ImportJobProperties.fromJson(Map<String, dynamic> json) {
+    return ImportJobProperties(
+      datastoreId: (json['DatastoreId'] as String?) ?? '',
+      inputDataConfig: InputDataConfig.fromJson(
+          (json['InputDataConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      jobId: (json['JobId'] as String?) ?? '',
+      jobStatus: JobStatus.fromString((json['JobStatus'] as String?) ?? ''),
+      submitTime: nonNullableTimeStampFromJson(json['SubmitTime'] ?? 0),
+      dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
+      endTime: timeStampFromJson(json['EndTime']),
+      jobName: json['JobName'] as String?,
+      jobOutputDataConfig: json['JobOutputDataConfig'] != null
+          ? OutputDataConfig.fromJson(
+              json['JobOutputDataConfig'] as Map<String, dynamic>)
+          : null,
+      jobProgressReport: json['JobProgressReport'] != null
+          ? JobProgressReport.fromJson(
+              json['JobProgressReport'] as Map<String, dynamic>)
+          : null,
+      message: json['Message'] as String?,
+      validationLevel:
+          (json['ValidationLevel'] as String?)?.let(ValidationLevel.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datastoreId = this.datastoreId;
+    final inputDataConfig = this.inputDataConfig;
+    final jobId = this.jobId;
+    final jobStatus = this.jobStatus;
+    final submitTime = this.submitTime;
+    final dataAccessRoleArn = this.dataAccessRoleArn;
+    final endTime = this.endTime;
+    final jobName = this.jobName;
+    final jobOutputDataConfig = this.jobOutputDataConfig;
+    final jobProgressReport = this.jobProgressReport;
+    final message = this.message;
+    final validationLevel = this.validationLevel;
+    return {
+      'DatastoreId': datastoreId,
+      'InputDataConfig': inputDataConfig,
+      'JobId': jobId,
+      'JobStatus': jobStatus.value,
+      'SubmitTime': unixTimestampToJson(submitTime),
+      if (dataAccessRoleArn != null) 'DataAccessRoleArn': dataAccessRoleArn,
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (jobName != null) 'JobName': jobName,
+      if (jobOutputDataConfig != null)
+        'JobOutputDataConfig': jobOutputDataConfig,
+      if (jobProgressReport != null) 'JobProgressReport': jobProgressReport,
+      if (message != null) 'Message': message,
+      if (validationLevel != null) 'ValidationLevel': validationLevel.value,
+    };
+  }
+}
+
+/// The progress report for the import job.
+class JobProgressReport {
+  /// The transaction rate the import job is processed at.
+  final double? throughput;
+
+  /// The number of files that failed to be read from the S3 input bucket due to
+  /// customer error.
+  final int? totalNumberOfFilesReadWithCustomerError;
+
+  /// The number of files imported.
+  final int? totalNumberOfImportedFiles;
+
+  /// The number of resources imported.
+  final int? totalNumberOfResourcesImported;
+
+  /// The number of resources scanned from the S3 input bucket.
+  final int? totalNumberOfResourcesScanned;
+
+  /// The number of resources that failed due to customer error.
+  final int? totalNumberOfResourcesWithCustomerError;
+
+  /// The number of files scanned from the S3 input bucket.
+  final int? totalNumberOfScannedFiles;
+
+  /// The size (in MB) of files scanned from the S3 input bucket.
+  final double? totalSizeOfScannedFilesInMB;
+
+  JobProgressReport({
+    this.throughput,
+    this.totalNumberOfFilesReadWithCustomerError,
+    this.totalNumberOfImportedFiles,
+    this.totalNumberOfResourcesImported,
+    this.totalNumberOfResourcesScanned,
+    this.totalNumberOfResourcesWithCustomerError,
+    this.totalNumberOfScannedFiles,
+    this.totalSizeOfScannedFilesInMB,
+  });
+
+  factory JobProgressReport.fromJson(Map<String, dynamic> json) {
+    return JobProgressReport(
+      throughput: json['Throughput'] as double?,
+      totalNumberOfFilesReadWithCustomerError:
+          json['TotalNumberOfFilesReadWithCustomerError'] as int?,
+      totalNumberOfImportedFiles: json['TotalNumberOfImportedFiles'] as int?,
+      totalNumberOfResourcesImported:
+          json['TotalNumberOfResourcesImported'] as int?,
+      totalNumberOfResourcesScanned:
+          json['TotalNumberOfResourcesScanned'] as int?,
+      totalNumberOfResourcesWithCustomerError:
+          json['TotalNumberOfResourcesWithCustomerError'] as int?,
+      totalNumberOfScannedFiles: json['TotalNumberOfScannedFiles'] as int?,
+      totalSizeOfScannedFilesInMB:
+          json['TotalSizeOfScannedFilesInMB'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final throughput = this.throughput;
+    final totalNumberOfFilesReadWithCustomerError =
+        this.totalNumberOfFilesReadWithCustomerError;
+    final totalNumberOfImportedFiles = this.totalNumberOfImportedFiles;
+    final totalNumberOfResourcesImported = this.totalNumberOfResourcesImported;
+    final totalNumberOfResourcesScanned = this.totalNumberOfResourcesScanned;
+    final totalNumberOfResourcesWithCustomerError =
+        this.totalNumberOfResourcesWithCustomerError;
+    final totalNumberOfScannedFiles = this.totalNumberOfScannedFiles;
+    final totalSizeOfScannedFilesInMB = this.totalSizeOfScannedFilesInMB;
+    return {
+      if (throughput != null) 'Throughput': throughput,
+      if (totalNumberOfFilesReadWithCustomerError != null)
+        'TotalNumberOfFilesReadWithCustomerError':
+            totalNumberOfFilesReadWithCustomerError,
+      if (totalNumberOfImportedFiles != null)
+        'TotalNumberOfImportedFiles': totalNumberOfImportedFiles,
+      if (totalNumberOfResourcesImported != null)
+        'TotalNumberOfResourcesImported': totalNumberOfResourcesImported,
+      if (totalNumberOfResourcesScanned != null)
+        'TotalNumberOfResourcesScanned': totalNumberOfResourcesScanned,
+      if (totalNumberOfResourcesWithCustomerError != null)
+        'TotalNumberOfResourcesWithCustomerError':
+            totalNumberOfResourcesWithCustomerError,
+      if (totalNumberOfScannedFiles != null)
+        'TotalNumberOfScannedFiles': totalNumberOfScannedFiles,
+      if (totalSizeOfScannedFilesInMB != null)
+        'TotalSizeOfScannedFilesInMB': totalSizeOfScannedFilesInMB,
+    };
+  }
+}
+
+/// The properties of a FHIR export job.
+class ExportJobProperties {
+  /// The data store identifier from which files are being exported.
+  final String datastoreId;
+
+  /// The export job identifier.
+  final String jobId;
+
+  /// The export job status.
+  final JobStatus jobStatus;
+
+  /// The output data configuration supplied when the export job was created.
+  final OutputDataConfig outputDataConfig;
+
+  /// The time the export job was initiated.
+  final DateTime submitTime;
+
+  /// The Amazon Resource Name (ARN) used during the initiation of the export job.
+  final String? dataAccessRoleArn;
+
+  /// The time the export job completed.
+  final DateTime? endTime;
+
+  /// The export job name.
+  final String? jobName;
+
+  /// An explanation of any errors that might have occurred during the export job.
+  final String? message;
+
+  ExportJobProperties({
+    required this.datastoreId,
+    required this.jobId,
+    required this.jobStatus,
+    required this.outputDataConfig,
+    required this.submitTime,
+    this.dataAccessRoleArn,
+    this.endTime,
+    this.jobName,
+    this.message,
+  });
+
+  factory ExportJobProperties.fromJson(Map<String, dynamic> json) {
+    return ExportJobProperties(
+      datastoreId: (json['DatastoreId'] as String?) ?? '',
+      jobId: (json['JobId'] as String?) ?? '',
+      jobStatus: JobStatus.fromString((json['JobStatus'] as String?) ?? ''),
+      outputDataConfig: OutputDataConfig.fromJson(
+          (json['OutputDataConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      submitTime: nonNullableTimeStampFromJson(json['SubmitTime'] ?? 0),
+      dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
+      endTime: timeStampFromJson(json['EndTime']),
+      jobName: json['JobName'] as String?,
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datastoreId = this.datastoreId;
+    final jobId = this.jobId;
+    final jobStatus = this.jobStatus;
+    final outputDataConfig = this.outputDataConfig;
+    final submitTime = this.submitTime;
+    final dataAccessRoleArn = this.dataAccessRoleArn;
+    final endTime = this.endTime;
+    final jobName = this.jobName;
+    final message = this.message;
+    return {
+      'DatastoreId': datastoreId,
+      'JobId': jobId,
+      'JobStatus': jobStatus.value,
+      'OutputDataConfig': outputDataConfig,
+      'SubmitTime': unixTimestampToJson(submitTime),
+      if (dataAccessRoleArn != null) 'DataAccessRoleArn': dataAccessRoleArn,
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (jobName != null) 'JobName': jobName,
+      if (message != null) 'Message': message,
+    };
+  }
+}
+
+/// The data store properties.
+class DatastoreProperties {
+  /// The Amazon Resource Name (ARN) used in the creation of the data store.
+  final String datastoreArn;
+
+  /// The AWS endpoint for the data store.
+  final String datastoreEndpoint;
+
+  /// The data store identifier.
+  final String datastoreId;
+
+  /// The data store status.
   final DatastoreStatus datastoreStatus;
 
-  /// The FHIR version. Only R4 version data is supported.
+  /// The FHIR release version supported by the data store. Current support is for
+  /// version <code>R4</code>.
   final FHIRVersion datastoreTypeVersion;
 
-  /// The time that a data store was created.
+  /// The time the data store was created.
   final DateTime? createdAt;
 
-  /// The user-generated name for the data store.
+  /// The data store name.
   final String? datastoreName;
 
   /// The error cause for the current data store operation.
   final ErrorCause? errorCause;
 
-  /// The identity provider that you selected when you created the data store.
+  /// The identity provider selected during data store creation.
   final IdentityProviderConfiguration? identityProviderConfiguration;
 
-  /// The preloaded data configuration for the data store. Only data preloaded
-  /// from Synthea is supported.
+  /// The preloaded Synthea data configuration for the data store.
   final PreloadDataConfig? preloadDataConfig;
 
   /// The server-side encryption key configuration for a customer provided
-  /// encryption key (CMK).
+  /// encryption key.
   final SseConfiguration? sseConfiguration;
 
   DatastoreProperties({
@@ -928,267 +1624,6 @@ class DatastoreStatus {
   String toString() => value;
 }
 
-class DeleteFHIRDatastoreResponse {
-  /// The Amazon Resource Name (ARN) that gives AWS HealthLake access permission.
-  final String datastoreArn;
-
-  /// The AWS endpoint for the data store the user has requested to be deleted.
-  final String datastoreEndpoint;
-
-  /// The AWS-generated ID for the data store to be deleted.
-  final String datastoreId;
-
-  /// The status of the data store that the user has requested to be deleted.
-  final DatastoreStatus datastoreStatus;
-
-  DeleteFHIRDatastoreResponse({
-    required this.datastoreArn,
-    required this.datastoreEndpoint,
-    required this.datastoreId,
-    required this.datastoreStatus,
-  });
-
-  factory DeleteFHIRDatastoreResponse.fromJson(Map<String, dynamic> json) {
-    return DeleteFHIRDatastoreResponse(
-      datastoreArn: (json['DatastoreArn'] as String?) ?? '',
-      datastoreEndpoint: (json['DatastoreEndpoint'] as String?) ?? '',
-      datastoreId: (json['DatastoreId'] as String?) ?? '',
-      datastoreStatus: DatastoreStatus.fromString(
-          (json['DatastoreStatus'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final datastoreArn = this.datastoreArn;
-    final datastoreEndpoint = this.datastoreEndpoint;
-    final datastoreId = this.datastoreId;
-    final datastoreStatus = this.datastoreStatus;
-    return {
-      'DatastoreArn': datastoreArn,
-      'DatastoreEndpoint': datastoreEndpoint,
-      'DatastoreId': datastoreId,
-      'DatastoreStatus': datastoreStatus.value,
-    };
-  }
-}
-
-class DescribeFHIRDatastoreResponse {
-  /// All properties associated with a data store, including the data store ID,
-  /// data store ARN, data store name, data store status, when the data store was
-  /// created, data store type version, and the data store's endpoint.
-  final DatastoreProperties datastoreProperties;
-
-  DescribeFHIRDatastoreResponse({
-    required this.datastoreProperties,
-  });
-
-  factory DescribeFHIRDatastoreResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeFHIRDatastoreResponse(
-      datastoreProperties: DatastoreProperties.fromJson(
-          (json['DatastoreProperties'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final datastoreProperties = this.datastoreProperties;
-    return {
-      'DatastoreProperties': datastoreProperties,
-    };
-  }
-}
-
-class DescribeFHIRExportJobResponse {
-  /// Displays the properties of the export job, including the ID, Arn, Name, and
-  /// the status of the job.
-  final ExportJobProperties exportJobProperties;
-
-  DescribeFHIRExportJobResponse({
-    required this.exportJobProperties,
-  });
-
-  factory DescribeFHIRExportJobResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeFHIRExportJobResponse(
-      exportJobProperties: ExportJobProperties.fromJson(
-          (json['ExportJobProperties'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final exportJobProperties = this.exportJobProperties;
-    return {
-      'ExportJobProperties': exportJobProperties,
-    };
-  }
-}
-
-class DescribeFHIRImportJobResponse {
-  /// The properties of the Import job request, including the ID, ARN, name,
-  /// status of the job, and the progress report of the job.
-  final ImportJobProperties importJobProperties;
-
-  DescribeFHIRImportJobResponse({
-    required this.importJobProperties,
-  });
-
-  factory DescribeFHIRImportJobResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeFHIRImportJobResponse(
-      importJobProperties: ImportJobProperties.fromJson(
-          (json['ImportJobProperties'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final importJobProperties = this.importJobProperties;
-    return {
-      'ImportJobProperties': importJobProperties,
-    };
-  }
-}
-
-class ErrorCategory {
-  static const retryableError = ErrorCategory._('RETRYABLE_ERROR');
-  static const nonRetryableError = ErrorCategory._('NON_RETRYABLE_ERROR');
-
-  final String value;
-
-  const ErrorCategory._(this.value);
-
-  static const values = [retryableError, nonRetryableError];
-
-  static ErrorCategory fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ErrorCategory._(value));
-
-  @override
-  bool operator ==(other) => other is ErrorCategory && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The error info of the create/delete data store operation.
-class ErrorCause {
-  /// The error category of the create/delete data store operation. Possible
-  /// statuses are RETRYABLE_ERROR or NON_RETRYABLE_ERROR.
-  final ErrorCategory? errorCategory;
-
-  /// The text of the error message.
-  final String? errorMessage;
-
-  ErrorCause({
-    this.errorCategory,
-    this.errorMessage,
-  });
-
-  factory ErrorCause.fromJson(Map<String, dynamic> json) {
-    return ErrorCause(
-      errorCategory:
-          (json['ErrorCategory'] as String?)?.let(ErrorCategory.fromString),
-      errorMessage: json['ErrorMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCategory = this.errorCategory;
-    final errorMessage = this.errorMessage;
-    return {
-      if (errorCategory != null) 'ErrorCategory': errorCategory.value,
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-    };
-  }
-}
-
-/// The properties of a FHIR export job, including the ID, ARN, name, and the
-/// status of the job.
-class ExportJobProperties {
-  /// The AWS generated ID for the data store from which files are being exported
-  /// for an export job.
-  final String datastoreId;
-
-  /// The AWS generated ID for an export job.
-  final String jobId;
-
-  /// The status of a FHIR export job. Possible statuses are SUBMITTED,
-  /// IN_PROGRESS, COMPLETED, or FAILED.
-  final JobStatus jobStatus;
-
-  /// The output data configuration that was supplied when the export job was
-  /// created.
-  final OutputDataConfig outputDataConfig;
-
-  /// The time an export job was initiated.
-  final DateTime submitTime;
-
-  /// The Amazon Resource Name used during the initiation of the job.
-  final String? dataAccessRoleArn;
-
-  /// The time an export job completed.
-  final DateTime? endTime;
-
-  /// The user generated name for an export job.
-  final String? jobName;
-
-  /// An explanation of any errors that may have occurred during the export job.
-  final String? message;
-
-  ExportJobProperties({
-    required this.datastoreId,
-    required this.jobId,
-    required this.jobStatus,
-    required this.outputDataConfig,
-    required this.submitTime,
-    this.dataAccessRoleArn,
-    this.endTime,
-    this.jobName,
-    this.message,
-  });
-
-  factory ExportJobProperties.fromJson(Map<String, dynamic> json) {
-    return ExportJobProperties(
-      datastoreId: (json['DatastoreId'] as String?) ?? '',
-      jobId: (json['JobId'] as String?) ?? '',
-      jobStatus: JobStatus.fromString((json['JobStatus'] as String?) ?? ''),
-      outputDataConfig: OutputDataConfig.fromJson(
-          (json['OutputDataConfig'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      submitTime: nonNullableTimeStampFromJson(json['SubmitTime'] ?? 0),
-      dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
-      endTime: timeStampFromJson(json['EndTime']),
-      jobName: json['JobName'] as String?,
-      message: json['Message'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final datastoreId = this.datastoreId;
-    final jobId = this.jobId;
-    final jobStatus = this.jobStatus;
-    final outputDataConfig = this.outputDataConfig;
-    final submitTime = this.submitTime;
-    final dataAccessRoleArn = this.dataAccessRoleArn;
-    final endTime = this.endTime;
-    final jobName = this.jobName;
-    final message = this.message;
-    return {
-      'DatastoreId': datastoreId,
-      'JobId': jobId,
-      'JobStatus': jobStatus.value,
-      'OutputDataConfig': outputDataConfig,
-      'SubmitTime': unixTimestampToJson(submitTime),
-      if (dataAccessRoleArn != null) 'DataAccessRoleArn': dataAccessRoleArn,
-      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
-      if (jobName != null) 'JobName': jobName,
-      if (message != null) 'Message': message,
-    };
-  }
-}
-
 class FHIRVersion {
   static const r4 = FHIRVersion._('R4');
 
@@ -1211,24 +1646,95 @@ class FHIRVersion {
   String toString() => value;
 }
 
-/// The identity provider configuration that you gave when the data store was
+/// The server-side encryption key configuration for a customer-provided
+/// encryption key.
+class SseConfiguration {
+  /// The Key Management Service (KMS) encryption configuration used to provide
+  /// details for data encryption.
+  final KmsEncryptionConfig kmsEncryptionConfig;
+
+  SseConfiguration({
+    required this.kmsEncryptionConfig,
+  });
+
+  factory SseConfiguration.fromJson(Map<String, dynamic> json) {
+    return SseConfiguration(
+      kmsEncryptionConfig: KmsEncryptionConfig.fromJson(
+          (json['KmsEncryptionConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kmsEncryptionConfig = this.kmsEncryptionConfig;
+    return {
+      'KmsEncryptionConfig': kmsEncryptionConfig,
+    };
+  }
+}
+
+/// The input properties for the preloaded (Synthea) data store.
+class PreloadDataConfig {
+  /// The type of preloaded data. Only Synthea preloaded data is supported.
+  final PreloadDataType preloadDataType;
+
+  PreloadDataConfig({
+    required this.preloadDataType,
+  });
+
+  factory PreloadDataConfig.fromJson(Map<String, dynamic> json) {
+    return PreloadDataConfig(
+      preloadDataType: PreloadDataType.fromString(
+          (json['PreloadDataType'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final preloadDataType = this.preloadDataType;
+    return {
+      'PreloadDataType': preloadDataType.value,
+    };
+  }
+}
+
+/// The identity provider configuration selected when the data store was
 /// created.
 class IdentityProviderConfiguration {
-  /// The authorization strategy that you selected when you created the data
-  /// store.
+  /// The authorization strategy selected when the HealthLake data store is
+  /// created.
+  /// <note>
+  /// HealthLake provides support for both SMART on FHIR V1 and V2 as described
+  /// below.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>SMART_ON_FHIR_V1</code> – Support for only SMART on FHIR V1, which
+  /// includes <code>read</code> (read/search) and <code>write</code>
+  /// (create/update/delete) permissions.
+  /// </li>
+  /// <li>
+  /// <code>SMART_ON_FHIR</code> – Support for both SMART on FHIR V1 and V2, which
+  /// includes <code>create</code>, <code>read</code>, <code>update</code>,
+  /// <code>delete</code>, and <code>search</code> permissions.
+  /// </li>
+  /// <li>
+  /// <code>AWS_AUTH</code> – The default HealthLake authorization strategy; not
+  /// affiliated with SMART on FHIR.
+  /// </li>
+  /// </ul> </note>
   final AuthorizationStrategy authorizationStrategy;
 
-  /// If you enabled fine-grained authorization when you created the data store.
+  /// The parameter to enable SMART on FHIR fine-grained authorization for the
+  /// data store.
   final bool? fineGrainedAuthorizationEnabled;
 
-  /// The Amazon Resource Name (ARN) of the Lambda function that you want to use
-  /// to decode the access token created by the authorization server.
+  /// The Amazon Resource Name (ARN) of the Lambda function to use to decode the
+  /// access token created by the authorization server.
   final String? idpLambdaArn;
 
-  /// The JSON metadata elements that you want to use in your identity provider
-  /// configuration. Required elements are listed based on the launch
-  /// specification of the SMART application. For more information on all possible
-  /// elements, see <a
+  /// The JSON metadata elements to use in your identity provider configuration.
+  /// Required elements are listed based on the launch specification of the SMART
+  /// application. For more information on all possible elements, see <a
   /// href="https://build.fhir.org/ig/HL7/smart-app-launch/conformance.html#metadata">Metadata</a>
   /// in SMART's App Launch specification.
   ///
@@ -1284,257 +1790,54 @@ class IdentityProviderConfiguration {
   }
 }
 
-/// Displays the properties of the import job, including the ID, Arn, Name, the
-/// status of the job, and the progress report of the job.
-class ImportJobProperties {
-  /// The datastore id used when the Import job was created.
-  final String datastoreId;
+/// The error information for <code>CreateFHIRDatastore</code> and
+/// <code>DeleteFHIRDatastore</code> actions.
+class ErrorCause {
+  /// The error category for <code>ErrorCause</code>.
+  final ErrorCategory? errorCategory;
 
-  /// The input data configuration that was supplied when the Import job was
-  /// created.
-  final InputDataConfig inputDataConfig;
+  /// The error message text for <code>ErrorCause</code>.
+  final String? errorMessage;
 
-  /// The AWS-generated id number for the Import job.
-  final String jobId;
-
-  /// The job status for an Import job. Possible statuses are SUBMITTED,
-  /// IN_PROGRESS, COMPLETED_WITH_ERRORS, COMPLETED, FAILED.
-  final JobStatus jobStatus;
-
-  /// The time that the Import job was submitted for processing.
-  final DateTime submitTime;
-
-  /// The Amazon Resource Name (ARN) that gives AWS HealthLake access to your
-  /// input data.
-  final String? dataAccessRoleArn;
-
-  /// The time that the Import job was completed.
-  final DateTime? endTime;
-
-  /// The user-generated name for an Import job.
-  final String? jobName;
-  final OutputDataConfig? jobOutputDataConfig;
-
-  /// Displays the progress of the import job, including total resources scanned,
-  /// total resources ingested, and total size of data ingested.
-  final JobProgressReport? jobProgressReport;
-
-  /// An explanation of any errors that may have occurred during the FHIR import
-  /// job.
-  final String? message;
-
-  ImportJobProperties({
-    required this.datastoreId,
-    required this.inputDataConfig,
-    required this.jobId,
-    required this.jobStatus,
-    required this.submitTime,
-    this.dataAccessRoleArn,
-    this.endTime,
-    this.jobName,
-    this.jobOutputDataConfig,
-    this.jobProgressReport,
-    this.message,
+  ErrorCause({
+    this.errorCategory,
+    this.errorMessage,
   });
 
-  factory ImportJobProperties.fromJson(Map<String, dynamic> json) {
-    return ImportJobProperties(
-      datastoreId: (json['DatastoreId'] as String?) ?? '',
-      inputDataConfig: InputDataConfig.fromJson(
-          (json['InputDataConfig'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      jobId: (json['JobId'] as String?) ?? '',
-      jobStatus: JobStatus.fromString((json['JobStatus'] as String?) ?? ''),
-      submitTime: nonNullableTimeStampFromJson(json['SubmitTime'] ?? 0),
-      dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
-      endTime: timeStampFromJson(json['EndTime']),
-      jobName: json['JobName'] as String?,
-      jobOutputDataConfig: json['JobOutputDataConfig'] != null
-          ? OutputDataConfig.fromJson(
-              json['JobOutputDataConfig'] as Map<String, dynamic>)
-          : null,
-      jobProgressReport: json['JobProgressReport'] != null
-          ? JobProgressReport.fromJson(
-              json['JobProgressReport'] as Map<String, dynamic>)
-          : null,
-      message: json['Message'] as String?,
+  factory ErrorCause.fromJson(Map<String, dynamic> json) {
+    return ErrorCause(
+      errorCategory:
+          (json['ErrorCategory'] as String?)?.let(ErrorCategory.fromString),
+      errorMessage: json['ErrorMessage'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final datastoreId = this.datastoreId;
-    final inputDataConfig = this.inputDataConfig;
-    final jobId = this.jobId;
-    final jobStatus = this.jobStatus;
-    final submitTime = this.submitTime;
-    final dataAccessRoleArn = this.dataAccessRoleArn;
-    final endTime = this.endTime;
-    final jobName = this.jobName;
-    final jobOutputDataConfig = this.jobOutputDataConfig;
-    final jobProgressReport = this.jobProgressReport;
-    final message = this.message;
+    final errorCategory = this.errorCategory;
+    final errorMessage = this.errorMessage;
     return {
-      'DatastoreId': datastoreId,
-      'InputDataConfig': inputDataConfig,
-      'JobId': jobId,
-      'JobStatus': jobStatus.value,
-      'SubmitTime': unixTimestampToJson(submitTime),
-      if (dataAccessRoleArn != null) 'DataAccessRoleArn': dataAccessRoleArn,
-      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
-      if (jobName != null) 'JobName': jobName,
-      if (jobOutputDataConfig != null)
-        'JobOutputDataConfig': jobOutputDataConfig,
-      if (jobProgressReport != null) 'JobProgressReport': jobProgressReport,
-      if (message != null) 'Message': message,
+      if (errorCategory != null) 'ErrorCategory': errorCategory.value,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
     };
   }
 }
 
-/// The input properties for an import job.
-class InputDataConfig {
-  /// The S3Uri is the user specified S3 location of the FHIR data to be imported
-  /// into AWS HealthLake.
-  final String? s3Uri;
-
-  InputDataConfig({
-    this.s3Uri,
-  });
-
-  factory InputDataConfig.fromJson(Map<String, dynamic> json) {
-    return InputDataConfig(
-      s3Uri: json['S3Uri'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final s3Uri = this.s3Uri;
-    return {
-      if (s3Uri != null) 'S3Uri': s3Uri,
-    };
-  }
-}
-
-/// The progress report of an import job.
-class JobProgressReport {
-  /// The throughput (in MB/sec) of the import job.
-  final double? throughput;
-
-  /// The number of files that failed to be read from the input S3 bucket due to
-  /// customer error.
-  final int? totalNumberOfFilesReadWithCustomerError;
-
-  /// The number of files imported so far.
-  final int? totalNumberOfImportedFiles;
-
-  /// The number of resources imported so far.
-  final int? totalNumberOfResourcesImported;
-
-  /// The number of resources scanned from the input S3 bucket.
-  final int? totalNumberOfResourcesScanned;
-
-  /// The number of resources that failed due to customer error.
-  final int? totalNumberOfResourcesWithCustomerError;
-
-  /// The number of files scanned from input S3 bucket.
-  final int? totalNumberOfScannedFiles;
-
-  /// The size (in MB) of the files scanned from the input S3 bucket.
-  final double? totalSizeOfScannedFilesInMB;
-
-  JobProgressReport({
-    this.throughput,
-    this.totalNumberOfFilesReadWithCustomerError,
-    this.totalNumberOfImportedFiles,
-    this.totalNumberOfResourcesImported,
-    this.totalNumberOfResourcesScanned,
-    this.totalNumberOfResourcesWithCustomerError,
-    this.totalNumberOfScannedFiles,
-    this.totalSizeOfScannedFilesInMB,
-  });
-
-  factory JobProgressReport.fromJson(Map<String, dynamic> json) {
-    return JobProgressReport(
-      throughput: json['Throughput'] as double?,
-      totalNumberOfFilesReadWithCustomerError:
-          json['TotalNumberOfFilesReadWithCustomerError'] as int?,
-      totalNumberOfImportedFiles: json['TotalNumberOfImportedFiles'] as int?,
-      totalNumberOfResourcesImported:
-          json['TotalNumberOfResourcesImported'] as int?,
-      totalNumberOfResourcesScanned:
-          json['TotalNumberOfResourcesScanned'] as int?,
-      totalNumberOfResourcesWithCustomerError:
-          json['TotalNumberOfResourcesWithCustomerError'] as int?,
-      totalNumberOfScannedFiles: json['TotalNumberOfScannedFiles'] as int?,
-      totalSizeOfScannedFilesInMB:
-          json['TotalSizeOfScannedFilesInMB'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final throughput = this.throughput;
-    final totalNumberOfFilesReadWithCustomerError =
-        this.totalNumberOfFilesReadWithCustomerError;
-    final totalNumberOfImportedFiles = this.totalNumberOfImportedFiles;
-    final totalNumberOfResourcesImported = this.totalNumberOfResourcesImported;
-    final totalNumberOfResourcesScanned = this.totalNumberOfResourcesScanned;
-    final totalNumberOfResourcesWithCustomerError =
-        this.totalNumberOfResourcesWithCustomerError;
-    final totalNumberOfScannedFiles = this.totalNumberOfScannedFiles;
-    final totalSizeOfScannedFilesInMB = this.totalSizeOfScannedFilesInMB;
-    return {
-      if (throughput != null) 'Throughput': throughput,
-      if (totalNumberOfFilesReadWithCustomerError != null)
-        'TotalNumberOfFilesReadWithCustomerError':
-            totalNumberOfFilesReadWithCustomerError,
-      if (totalNumberOfImportedFiles != null)
-        'TotalNumberOfImportedFiles': totalNumberOfImportedFiles,
-      if (totalNumberOfResourcesImported != null)
-        'TotalNumberOfResourcesImported': totalNumberOfResourcesImported,
-      if (totalNumberOfResourcesScanned != null)
-        'TotalNumberOfResourcesScanned': totalNumberOfResourcesScanned,
-      if (totalNumberOfResourcesWithCustomerError != null)
-        'TotalNumberOfResourcesWithCustomerError':
-            totalNumberOfResourcesWithCustomerError,
-      if (totalNumberOfScannedFiles != null)
-        'TotalNumberOfScannedFiles': totalNumberOfScannedFiles,
-      if (totalSizeOfScannedFilesInMB != null)
-        'TotalSizeOfScannedFilesInMB': totalSizeOfScannedFilesInMB,
-    };
-  }
-}
-
-class JobStatus {
-  static const submitted = JobStatus._('SUBMITTED');
-  static const inProgress = JobStatus._('IN_PROGRESS');
-  static const completedWithErrors = JobStatus._('COMPLETED_WITH_ERRORS');
-  static const completed = JobStatus._('COMPLETED');
-  static const failed = JobStatus._('FAILED');
-  static const cancelSubmitted = JobStatus._('CANCEL_SUBMITTED');
-  static const cancelInProgress = JobStatus._('CANCEL_IN_PROGRESS');
-  static const cancelCompleted = JobStatus._('CANCEL_COMPLETED');
-  static const cancelFailed = JobStatus._('CANCEL_FAILED');
+class ErrorCategory {
+  static const retryableError = ErrorCategory._('RETRYABLE_ERROR');
+  static const nonRetryableError = ErrorCategory._('NON_RETRYABLE_ERROR');
 
   final String value;
 
-  const JobStatus._(this.value);
+  const ErrorCategory._(this.value);
 
-  static const values = [
-    submitted,
-    inProgress,
-    completedWithErrors,
-    completed,
-    failed,
-    cancelSubmitted,
-    cancelInProgress,
-    cancelCompleted,
-    cancelFailed
-  ];
+  static const values = [retryableError, nonRetryableError];
 
-  static JobStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => JobStatus._(value));
+  static ErrorCategory fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ErrorCategory._(value));
 
   @override
-  bool operator ==(other) => other is JobStatus && other.value == value;
+  bool operator ==(other) => other is ErrorCategory && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -1543,218 +1846,30 @@ class JobStatus {
   String toString() => value;
 }
 
-/// The customer-managed-key(CMK) used when creating a data store. If a customer
-/// owned key is not specified, an AWS owned key will be used for encryption.
-class KmsEncryptionConfig {
-  /// The type of customer-managed-key(CMK) used for encryption. The two types of
-  /// supported CMKs are customer owned CMKs and AWS owned CMKs.
-  final CmkType cmkType;
+class AuthorizationStrategy {
+  static const smartOnFhirV1 = AuthorizationStrategy._('SMART_ON_FHIR_V1');
+  static const smartOnFhir = AuthorizationStrategy._('SMART_ON_FHIR');
+  static const awsAuth = AuthorizationStrategy._('AWS_AUTH');
 
-  /// The KMS encryption key id/alias used to encrypt the data store contents at
-  /// rest.
-  final String? kmsKeyId;
+  final String value;
 
-  KmsEncryptionConfig({
-    required this.cmkType,
-    this.kmsKeyId,
-  });
+  const AuthorizationStrategy._(this.value);
 
-  factory KmsEncryptionConfig.fromJson(Map<String, dynamic> json) {
-    return KmsEncryptionConfig(
-      cmkType: CmkType.fromString((json['CmkType'] as String?) ?? ''),
-      kmsKeyId: json['KmsKeyId'] as String?,
-    );
-  }
+  static const values = [smartOnFhirV1, smartOnFhir, awsAuth];
 
-  Map<String, dynamic> toJson() {
-    final cmkType = this.cmkType;
-    final kmsKeyId = this.kmsKeyId;
-    return {
-      'CmkType': cmkType.value,
-      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-    };
-  }
-}
+  static AuthorizationStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AuthorizationStrategy._(value));
 
-class ListFHIRDatastoresResponse {
-  /// All properties associated with the listed data stores.
-  final List<DatastoreProperties> datastorePropertiesList;
+  @override
+  bool operator ==(other) =>
+      other is AuthorizationStrategy && other.value == value;
 
-  /// Pagination token that can be used to retrieve the next page of results.
-  final String? nextToken;
+  @override
+  int get hashCode => value.hashCode;
 
-  ListFHIRDatastoresResponse({
-    required this.datastorePropertiesList,
-    this.nextToken,
-  });
-
-  factory ListFHIRDatastoresResponse.fromJson(Map<String, dynamic> json) {
-    return ListFHIRDatastoresResponse(
-      datastorePropertiesList: ((json['DatastorePropertiesList'] as List?) ??
-              const [])
-          .nonNulls
-          .map((e) => DatastoreProperties.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final datastorePropertiesList = this.datastorePropertiesList;
-    final nextToken = this.nextToken;
-    return {
-      'DatastorePropertiesList': datastorePropertiesList,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListFHIRExportJobsResponse {
-  /// The properties of listed FHIR export jobs, including the ID, ARN, name, and
-  /// the status of the job.
-  final List<ExportJobProperties> exportJobPropertiesList;
-
-  /// A pagination token used to identify the next page of results to return for a
-  /// ListFHIRExportJobs query.
-  final String? nextToken;
-
-  ListFHIRExportJobsResponse({
-    required this.exportJobPropertiesList,
-    this.nextToken,
-  });
-
-  factory ListFHIRExportJobsResponse.fromJson(Map<String, dynamic> json) {
-    return ListFHIRExportJobsResponse(
-      exportJobPropertiesList: ((json['ExportJobPropertiesList'] as List?) ??
-              const [])
-          .nonNulls
-          .map((e) => ExportJobProperties.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final exportJobPropertiesList = this.exportJobPropertiesList;
-    final nextToken = this.nextToken;
-    return {
-      'ExportJobPropertiesList': exportJobPropertiesList,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListFHIRImportJobsResponse {
-  /// The properties of a listed FHIR import jobs, including the ID, ARN, name,
-  /// the status of the job, and the progress report of the job.
-  final List<ImportJobProperties> importJobPropertiesList;
-
-  /// A pagination token used to identify the next page of results to return for a
-  /// ListFHIRImportJobs query.
-  final String? nextToken;
-
-  ListFHIRImportJobsResponse({
-    required this.importJobPropertiesList,
-    this.nextToken,
-  });
-
-  factory ListFHIRImportJobsResponse.fromJson(Map<String, dynamic> json) {
-    return ListFHIRImportJobsResponse(
-      importJobPropertiesList: ((json['ImportJobPropertiesList'] as List?) ??
-              const [])
-          .nonNulls
-          .map((e) => ImportJobProperties.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final importJobPropertiesList = this.importJobPropertiesList;
-    final nextToken = this.nextToken;
-    return {
-      'ImportJobPropertiesList': importJobPropertiesList,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListTagsForResourceResponse {
-  /// Returns a list of tags associated with a data store.
-  final List<Tag>? tags;
-
-  ListTagsForResourceResponse({
-    this.tags,
-  });
-
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
-    return ListTagsForResourceResponse(
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tags = this.tags;
-    return {
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-/// The output data configuration that was supplied when the export job was
-/// created.
-class OutputDataConfig {
-  /// The output data configuration that was supplied when the export job was
-  /// created.
-  final S3Configuration? s3Configuration;
-
-  OutputDataConfig({
-    this.s3Configuration,
-  });
-
-  factory OutputDataConfig.fromJson(Map<String, dynamic> json) {
-    return OutputDataConfig(
-      s3Configuration: json['S3Configuration'] != null
-          ? S3Configuration.fromJson(
-              json['S3Configuration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final s3Configuration = this.s3Configuration;
-    return {
-      if (s3Configuration != null) 'S3Configuration': s3Configuration,
-    };
-  }
-}
-
-/// The input properties for the preloaded data store. Only data preloaded from
-/// Synthea is supported.
-class PreloadDataConfig {
-  /// The type of preloaded data. Only Synthea preloaded data is supported.
-  final PreloadDataType preloadDataType;
-
-  PreloadDataConfig({
-    required this.preloadDataType,
-  });
-
-  factory PreloadDataConfig.fromJson(Map<String, dynamic> json) {
-    return PreloadDataConfig(
-      preloadDataType: PreloadDataType.fromString(
-          (json['PreloadDataType'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final preloadDataType = this.preloadDataType;
-    return {
-      'PreloadDataType': preloadDataType.value,
-    };
-  }
+  @override
+  String toString() => value;
 }
 
 class PreloadDataType {
@@ -1780,191 +1895,98 @@ class PreloadDataType {
   String toString() => value;
 }
 
-/// The configuration of the S3 bucket for either an import or export job. This
-/// includes assigning permissions for access.
-class S3Configuration {
-  /// The KMS key ID used to access the S3 bucket.
-  final String kmsKeyId;
+/// The customer-managed-key (CMK) used when creating a data store. If a
+/// customer-owned key is not specified, an AWS-owned key is used for
+/// encryption.
+class KmsEncryptionConfig {
+  /// The type of customer-managed-key (CMK) used for encryption.
+  final CmkType cmkType;
 
-  /// The S3Uri is the user specified S3 location of the FHIR data to be imported
-  /// into AWS HealthLake.
-  final String s3Uri;
+  /// The Key Management Service (KMS) encryption key id/alias used to encrypt the
+  /// data store contents at rest.
+  final String? kmsKeyId;
 
-  S3Configuration({
-    required this.kmsKeyId,
-    required this.s3Uri,
+  KmsEncryptionConfig({
+    required this.cmkType,
+    this.kmsKeyId,
   });
 
-  factory S3Configuration.fromJson(Map<String, dynamic> json) {
-    return S3Configuration(
-      kmsKeyId: (json['KmsKeyId'] as String?) ?? '',
-      s3Uri: (json['S3Uri'] as String?) ?? '',
+  factory KmsEncryptionConfig.fromJson(Map<String, dynamic> json) {
+    return KmsEncryptionConfig(
+      cmkType: CmkType.fromString((json['CmkType'] as String?) ?? ''),
+      kmsKeyId: json['KmsKeyId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final cmkType = this.cmkType;
     final kmsKeyId = this.kmsKeyId;
-    final s3Uri = this.s3Uri;
     return {
-      'KmsKeyId': kmsKeyId,
-      'S3Uri': s3Uri,
+      'CmkType': cmkType.value,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
     };
   }
 }
 
-/// The server-side encryption key configuration for a customer provided
-/// encryption key.
-class SseConfiguration {
-  /// The KMS encryption configuration used to provide details for data
-  /// encryption.
-  final KmsEncryptionConfig kmsEncryptionConfig;
+class CmkType {
+  static const customerManagedKmsKey = CmkType._('CUSTOMER_MANAGED_KMS_KEY');
+  static const awsOwnedKmsKey = CmkType._('AWS_OWNED_KMS_KEY');
 
-  SseConfiguration({
-    required this.kmsEncryptionConfig,
-  });
-
-  factory SseConfiguration.fromJson(Map<String, dynamic> json) {
-    return SseConfiguration(
-      kmsEncryptionConfig: KmsEncryptionConfig.fromJson(
-          (json['KmsEncryptionConfig'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final kmsEncryptionConfig = this.kmsEncryptionConfig;
-    return {
-      'KmsEncryptionConfig': kmsEncryptionConfig,
-    };
-  }
-}
-
-class StartFHIRExportJobResponse {
-  /// The AWS generated ID for an export job.
-  final String jobId;
-
-  /// The status of a FHIR export job. Possible statuses are SUBMITTED,
-  /// IN_PROGRESS, COMPLETED, or FAILED.
-  final JobStatus jobStatus;
-
-  /// The AWS generated ID for the data store from which files are being exported
-  /// for an export job.
-  final String? datastoreId;
-
-  StartFHIRExportJobResponse({
-    required this.jobId,
-    required this.jobStatus,
-    this.datastoreId,
-  });
-
-  factory StartFHIRExportJobResponse.fromJson(Map<String, dynamic> json) {
-    return StartFHIRExportJobResponse(
-      jobId: (json['JobId'] as String?) ?? '',
-      jobStatus: JobStatus.fromString((json['JobStatus'] as String?) ?? ''),
-      datastoreId: json['DatastoreId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final jobId = this.jobId;
-    final jobStatus = this.jobStatus;
-    final datastoreId = this.datastoreId;
-    return {
-      'JobId': jobId,
-      'JobStatus': jobStatus.value,
-      if (datastoreId != null) 'DatastoreId': datastoreId,
-    };
-  }
-}
-
-class StartFHIRImportJobResponse {
-  /// The AWS-generated job ID.
-  final String jobId;
-
-  /// The status of an import job.
-  final JobStatus jobStatus;
-
-  /// The AWS-generated data store ID.
-  final String? datastoreId;
-
-  StartFHIRImportJobResponse({
-    required this.jobId,
-    required this.jobStatus,
-    this.datastoreId,
-  });
-
-  factory StartFHIRImportJobResponse.fromJson(Map<String, dynamic> json) {
-    return StartFHIRImportJobResponse(
-      jobId: (json['JobId'] as String?) ?? '',
-      jobStatus: JobStatus.fromString((json['JobStatus'] as String?) ?? ''),
-      datastoreId: json['DatastoreId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final jobId = this.jobId;
-    final jobStatus = this.jobStatus;
-    final datastoreId = this.datastoreId;
-    return {
-      'JobId': jobId,
-      'JobStatus': jobStatus.value,
-      if (datastoreId != null) 'DatastoreId': datastoreId,
-    };
-  }
-}
-
-/// A tag is a label consisting of a user-defined key and value. The form for
-/// tags is {"Key", "Value"}
-class Tag {
-  /// The key portion of a tag. Tag keys are case sensitive.
-  final String key;
-
-  /// The value portion of a tag. Tag values are case sensitive.
   final String value;
 
-  Tag({
-    required this.key,
-    required this.value,
+  const CmkType._(this.value);
+
+  static const values = [customerManagedKmsKey, awsOwnedKmsKey];
+
+  static CmkType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CmkType._(value));
+
+  @override
+  bool operator ==(other) => other is CmkType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The filters applied to a data store query.
+class DatastoreFilter {
+  /// Filter to set cutoff dates for records. All data stores created after the
+  /// specified date are included in the results.
+  final DateTime? createdAfter;
+
+  /// Filter to set cutoff dates for records. All data stores created before the
+  /// specified date are included in the results.
+  final DateTime? createdBefore;
+
+  /// Filter data store results by name.
+  final String? datastoreName;
+
+  /// Filter data store results by status.
+  final DatastoreStatus? datastoreStatus;
+
+  DatastoreFilter({
+    this.createdAfter,
+    this.createdBefore,
+    this.datastoreName,
+    this.datastoreStatus,
   });
 
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['Key'] as String?) ?? '',
-      value: (json['Value'] as String?) ?? '',
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
+    final createdAfter = this.createdAfter;
+    final createdBefore = this.createdBefore;
+    final datastoreName = this.datastoreName;
+    final datastoreStatus = this.datastoreStatus;
     return {
-      'Key': key,
-      'Value': value,
+      if (createdAfter != null)
+        'CreatedAfter': unixTimestampToJson(createdAfter),
+      if (createdBefore != null)
+        'CreatedBefore': unixTimestampToJson(createdBefore),
+      if (datastoreName != null) 'DatastoreName': datastoreName,
+      if (datastoreStatus != null) 'DatastoreStatus': datastoreStatus.value,
     };
-  }
-}
-
-class TagResourceResponse {
-  TagResourceResponse();
-
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UntagResourceResponse {
-  UntagResourceResponse();
-
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
   }
 }
 

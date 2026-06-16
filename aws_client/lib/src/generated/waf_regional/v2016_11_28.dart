@@ -186,8 +186,8 @@ class WafRegional {
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidAccountException].
   /// May throw [WAFInvalidParameterException].
-  /// May throw [WAFStaleDataException].
   /// May throw [WAFLimitsExceededException].
+  /// May throw [WAFStaleDataException].
   ///
   /// Parameter [changeToken] :
   /// The value returned by the most recent call to <a>GetChangeToken</a>.
@@ -261,12 +261,12 @@ class WafRegional {
   /// href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF
   /// Developer Guide</a>.
   ///
-  /// May throw [WAFStaleDataException].
+  /// May throw [WAFDisallowedNameException].
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidAccountException].
-  /// May throw [WAFDisallowedNameException].
   /// May throw [WAFInvalidParameterException].
   /// May throw [WAFLimitsExceededException].
+  /// May throw [WAFStaleDataException].
   ///
   /// Parameter [changeToken] :
   /// The value returned by the most recent call to <a>GetChangeToken</a>.
@@ -340,12 +340,12 @@ class WafRegional {
   /// href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF
   /// Developer Guide</a>.
   ///
-  /// May throw [WAFStaleDataException].
+  /// May throw [WAFDisallowedNameException].
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidAccountException].
-  /// May throw [WAFDisallowedNameException].
   /// May throw [WAFInvalidParameterException].
   /// May throw [WAFLimitsExceededException].
+  /// May throw [WAFStaleDataException].
   ///
   /// Parameter [changeToken] :
   /// The value returned by the most recent call to <a>GetChangeToken</a>.
@@ -476,14 +476,14 @@ class WafRegional {
   /// href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF
   /// Developer Guide</a>.
   ///
-  /// May throw [WAFStaleDataException].
-  /// May throw [WAFInternalErrorException].
+  /// May throw [WAFBadRequestException].
   /// May throw [WAFDisallowedNameException].
+  /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidParameterException].
   /// May throw [WAFLimitsExceededException].
+  /// May throw [WAFStaleDataException].
   /// May throw [WAFTagOperationException].
   /// May throw [WAFTagOperationInternalErrorException].
-  /// May throw [WAFBadRequestException].
   ///
   /// Parameter [changeToken] :
   /// The <code>ChangeToken</code> that you used to submit the
@@ -519,7 +519,7 @@ class WafRegional {
   /// the action that is specified for this rule.
   ///
   /// Parameter [tags] :
-  /// <p/>
+  ///
   Future<CreateRateBasedRuleResponse> createRateBasedRule({
     required String changeToken,
     required String metricName,
@@ -605,10 +605,10 @@ class WafRegional {
   /// href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF
   /// Developer Guide</a>.
   ///
-  /// May throw [WAFStaleDataException].
-  /// May throw [WAFInternalErrorException].
   /// May throw [WAFDisallowedNameException].
+  /// May throw [WAFInternalErrorException].
   /// May throw [WAFLimitsExceededException].
+  /// May throw [WAFStaleDataException].
   ///
   /// Parameter [changeToken] :
   /// The value returned by the most recent call to <a>GetChangeToken</a>.
@@ -681,10 +681,10 @@ class WafRegional {
   /// href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF
   /// Developer Guide</a>.
   ///
-  /// May throw [WAFStaleDataException].
-  /// May throw [WAFInternalErrorException].
   /// May throw [WAFDisallowedNameException].
+  /// May throw [WAFInternalErrorException].
   /// May throw [WAFLimitsExceededException].
+  /// May throw [WAFStaleDataException].
   ///
   /// Parameter [changeToken] :
   /// The value returned by the most recent call to <a>GetChangeToken</a>.
@@ -780,14 +780,14 @@ class WafRegional {
   /// href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF
   /// Developer Guide</a>.
   ///
-  /// May throw [WAFStaleDataException].
-  /// May throw [WAFInternalErrorException].
+  /// May throw [WAFBadRequestException].
   /// May throw [WAFDisallowedNameException].
+  /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidParameterException].
   /// May throw [WAFLimitsExceededException].
+  /// May throw [WAFStaleDataException].
   /// May throw [WAFTagOperationException].
   /// May throw [WAFTagOperationInternalErrorException].
-  /// May throw [WAFBadRequestException].
   ///
   /// Parameter [changeToken] :
   /// The value returned by the most recent call to <a>GetChangeToken</a>.
@@ -805,7 +805,7 @@ class WafRegional {
   /// name of a <code>Rule</code> after you create it.
   ///
   /// Parameter [tags] :
-  /// <p/>
+  ///
   Future<CreateRuleResponse> createRule({
     required String changeToken,
     required String metricName,
@@ -867,13 +867,13 @@ class WafRegional {
   /// href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF
   /// Developer Guide</a>.
   ///
-  /// May throw [WAFStaleDataException].
-  /// May throw [WAFInternalErrorException].
+  /// May throw [WAFBadRequestException].
   /// May throw [WAFDisallowedNameException].
+  /// May throw [WAFInternalErrorException].
   /// May throw [WAFLimitsExceededException].
+  /// May throw [WAFStaleDataException].
   /// May throw [WAFTagOperationException].
   /// May throw [WAFTagOperationInternalErrorException].
-  /// May throw [WAFBadRequestException].
   ///
   /// Parameter [changeToken] :
   /// The value returned by the most recent call to <a>GetChangeToken</a>.
@@ -891,7 +891,7 @@ class WafRegional {
   /// <code>Name</code> after you create a <code>RuleGroup</code>.
   ///
   /// Parameter [tags] :
-  /// <p/>
+  ///
   Future<CreateRuleGroupResponse> createRuleGroup({
     required String changeToken,
     required String metricName,
@@ -964,12 +964,12 @@ class WafRegional {
   /// href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF
   /// Developer Guide</a>.
   ///
-  /// May throw [WAFStaleDataException].
+  /// May throw [WAFDisallowedNameException].
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidAccountException].
-  /// May throw [WAFDisallowedNameException].
   /// May throw [WAFInvalidParameterException].
   /// May throw [WAFLimitsExceededException].
+  /// May throw [WAFStaleDataException].
   ///
   /// Parameter [changeToken] :
   /// The value returned by the most recent call to <a>GetChangeToken</a>.
@@ -1047,8 +1047,8 @@ class WafRegional {
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidAccountException].
   /// May throw [WAFInvalidParameterException].
-  /// May throw [WAFStaleDataException].
   /// May throw [WAFLimitsExceededException].
+  /// May throw [WAFStaleDataException].
   ///
   /// Parameter [changeToken] :
   /// The value returned by the most recent call to <a>GetChangeToken</a>.
@@ -1138,15 +1138,15 @@ class WafRegional {
   /// href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF
   /// Developer Guide</a>.
   ///
-  /// May throw [WAFStaleDataException].
+  /// May throw [WAFBadRequestException].
+  /// May throw [WAFDisallowedNameException].
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidAccountException].
-  /// May throw [WAFDisallowedNameException].
   /// May throw [WAFInvalidParameterException].
   /// May throw [WAFLimitsExceededException].
+  /// May throw [WAFStaleDataException].
   /// May throw [WAFTagOperationException].
   /// May throw [WAFTagOperationInternalErrorException].
-  /// May throw [WAFBadRequestException].
   ///
   /// Parameter [changeToken] :
   /// The value returned by the most recent call to <a>GetChangeToken</a>.
@@ -1169,7 +1169,7 @@ class WafRegional {
   /// <code>Name</code> after you create the <code>WebACL</code>.
   ///
   /// Parameter [tags] :
-  /// <p/>
+  ///
   Future<CreateWebACLResponse> createWebACL({
     required String changeToken,
     required WafAction defaultAction,
@@ -1214,11 +1214,11 @@ class WafRegional {
   /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
   /// WAF Developer Guide</a>.
   ///
-  /// May throw [WAFInternalErrorException].
-  /// May throw [WAFInvalidParameterException].
-  /// May throw [WAFInvalidOperationException].
-  /// May throw [WAFNonexistentItemException].
   /// May throw [WAFEntityMigrationException].
+  /// May throw [WAFInternalErrorException].
+  /// May throw [WAFInvalidOperationException].
+  /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFNonexistentItemException].
   ///
   /// Parameter [ignoreUnsupportedType] :
   /// Indicates whether to exclude entities that can't be migrated or to stop
@@ -1319,8 +1319,8 @@ class WafRegional {
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidAccountException].
   /// May throw [WAFInvalidParameterException].
-  /// May throw [WAFStaleDataException].
   /// May throw [WAFLimitsExceededException].
+  /// May throw [WAFStaleDataException].
   ///
   /// Parameter [changeToken] :
   /// The value returned by the most recent call to <a>GetChangeToken</a>.
@@ -1388,10 +1388,10 @@ class WafRegional {
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidAccountException].
+  /// May throw [WAFNonEmptyEntityException].
   /// May throw [WAFNonexistentItemException].
   /// May throw [WAFReferencedItemException].
   /// May throw [WAFStaleDataException].
-  /// May throw [WAFNonEmptyEntityException].
   ///
   /// Parameter [byteMatchSetId] :
   /// The <code>ByteMatchSetId</code> of the <a>ByteMatchSet</a> that you want
@@ -1457,12 +1457,12 @@ class WafRegional {
   /// Submit a <code>DeleteGeoMatchSet</code> request.
   /// </li> </ol>
   ///
-  /// May throw [WAFStaleDataException].
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidAccountException].
+  /// May throw [WAFNonEmptyEntityException].
   /// May throw [WAFNonexistentItemException].
   /// May throw [WAFReferencedItemException].
-  /// May throw [WAFNonEmptyEntityException].
+  /// May throw [WAFStaleDataException].
   ///
   /// Parameter [changeToken] :
   /// The value returned by the most recent call to <a>GetChangeToken</a>.
@@ -1527,12 +1527,12 @@ class WafRegional {
   /// Submit a <code>DeleteIPSet</code> request.
   /// </li> </ol>
   ///
-  /// May throw [WAFStaleDataException].
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidAccountException].
+  /// May throw [WAFNonEmptyEntityException].
   /// May throw [WAFNonexistentItemException].
   /// May throw [WAFReferencedItemException].
-  /// May throw [WAFNonEmptyEntityException].
+  /// May throw [WAFStaleDataException].
   ///
   /// Parameter [changeToken] :
   /// The value returned by the most recent call to <a>GetChangeToken</a>.
@@ -1620,8 +1620,8 @@ class WafRegional {
   /// The user making the request must be the owner of the RuleGroup.
   ///
   /// May throw [WAFInternalErrorException].
-  /// May throw [WAFStaleDataException].
   /// May throw [WAFNonexistentItemException].
+  /// May throw [WAFStaleDataException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the RuleGroup from which you want to
@@ -1681,12 +1681,12 @@ class WafRegional {
   /// Submit a <code>DeleteRateBasedRule</code> request.
   /// </li> </ol>
   ///
-  /// May throw [WAFStaleDataException].
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidAccountException].
+  /// May throw [WAFNonEmptyEntityException].
   /// May throw [WAFNonexistentItemException].
   /// May throw [WAFReferencedItemException].
-  /// May throw [WAFNonEmptyEntityException].
+  /// May throw [WAFStaleDataException].
   /// May throw [WAFTagOperationException].
   /// May throw [WAFTagOperationInternalErrorException].
   ///
@@ -1757,10 +1757,10 @@ class WafRegional {
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidAccountException].
+  /// May throw [WAFNonEmptyEntityException].
   /// May throw [WAFNonexistentItemException].
   /// May throw [WAFReferencedItemException].
   /// May throw [WAFStaleDataException].
-  /// May throw [WAFNonEmptyEntityException].
   ///
   /// Parameter [changeToken] :
   /// The value returned by the most recent call to <a>GetChangeToken</a>.
@@ -1810,10 +1810,10 @@ class WafRegional {
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidAccountException].
+  /// May throw [WAFNonEmptyEntityException].
   /// May throw [WAFNonexistentItemException].
   /// May throw [WAFReferencedItemException].
   /// May throw [WAFStaleDataException].
-  /// May throw [WAFNonEmptyEntityException].
   ///
   /// Parameter [changeToken] :
   /// The value returned by the most recent call to <a>GetChangeToken</a>.
@@ -1878,12 +1878,12 @@ class WafRegional {
   /// Submit a <code>DeleteRule</code> request.
   /// </li> </ol>
   ///
-  /// May throw [WAFStaleDataException].
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidAccountException].
+  /// May throw [WAFNonEmptyEntityException].
   /// May throw [WAFNonexistentItemException].
   /// May throw [WAFReferencedItemException].
-  /// May throw [WAFNonEmptyEntityException].
+  /// May throw [WAFStaleDataException].
   /// May throw [WAFTagOperationException].
   /// May throw [WAFTagOperationInternalErrorException].
   ///
@@ -1951,12 +1951,12 @@ class WafRegional {
   /// Submit a <code>DeleteRuleGroup</code> request.
   /// </li> </ol>
   ///
-  /// May throw [WAFStaleDataException].
   /// May throw [WAFInternalErrorException].
+  /// May throw [WAFInvalidOperationException].
+  /// May throw [WAFNonEmptyEntityException].
   /// May throw [WAFNonexistentItemException].
   /// May throw [WAFReferencedItemException].
-  /// May throw [WAFNonEmptyEntityException].
-  /// May throw [WAFInvalidOperationException].
+  /// May throw [WAFStaleDataException].
   /// May throw [WAFTagOperationException].
   /// May throw [WAFTagOperationInternalErrorException].
   ///
@@ -2025,12 +2025,12 @@ class WafRegional {
   /// Submit a <code>DeleteSizeConstraintSet</code> request.
   /// </li> </ol>
   ///
-  /// May throw [WAFStaleDataException].
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidAccountException].
+  /// May throw [WAFNonEmptyEntityException].
   /// May throw [WAFNonexistentItemException].
   /// May throw [WAFReferencedItemException].
-  /// May throw [WAFNonEmptyEntityException].
+  /// May throw [WAFStaleDataException].
   ///
   /// Parameter [changeToken] :
   /// The value returned by the most recent call to <a>GetChangeToken</a>.
@@ -2099,10 +2099,10 @@ class WafRegional {
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidAccountException].
+  /// May throw [WAFNonEmptyEntityException].
   /// May throw [WAFNonexistentItemException].
   /// May throw [WAFReferencedItemException].
   /// May throw [WAFStaleDataException].
-  /// May throw [WAFNonEmptyEntityException].
   ///
   /// Parameter [changeToken] :
   /// The value returned by the most recent call to <a>GetChangeToken</a>.
@@ -2163,12 +2163,12 @@ class WafRegional {
   /// Submit a <code>DeleteWebACL</code> request.
   /// </li> </ol>
   ///
-  /// May throw [WAFStaleDataException].
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidAccountException].
+  /// May throw [WAFNonEmptyEntityException].
   /// May throw [WAFNonexistentItemException].
   /// May throw [WAFReferencedItemException].
-  /// May throw [WAFNonEmptyEntityException].
+  /// May throw [WAFStaleDataException].
   /// May throw [WAFTagOperationException].
   /// May throw [WAFTagOperationInternalErrorException].
   ///
@@ -2238,10 +2238,10 @@ class WafRegional {
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidAccountException].
+  /// May throw [WAFNonEmptyEntityException].
   /// May throw [WAFNonexistentItemException].
   /// May throw [WAFReferencedItemException].
   /// May throw [WAFStaleDataException].
-  /// May throw [WAFNonEmptyEntityException].
   ///
   /// Parameter [changeToken] :
   /// The value returned by the most recent call to <a>GetChangeToken</a>.
@@ -2449,8 +2449,8 @@ class WafRegional {
   /// </li>
   /// </ul>
   ///
-  /// May throw [WAFNonexistentItemException].
   /// May throw [WAFInternalErrorException].
+  /// May throw [WAFNonexistentItemException].
   ///
   /// Parameter [changeToken] :
   /// The change token for which you want to get the status. This change token
@@ -2704,8 +2704,8 @@ class WafRegional {
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidAccountException].
-  /// May throw [WAFNonexistentItemException].
   /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFNonexistentItemException].
   ///
   /// Parameter [ruleId] :
   /// The <code>RuleId</code> of the <a>RateBasedRule</a> for which you want to
@@ -2936,8 +2936,8 @@ class WafRegional {
   /// range. This new time range indicates the actual period during which AWS
   /// WAF selected the requests in the sample.
   ///
-  /// May throw [WAFNonexistentItemException].
   /// May throw [WAFInternalErrorException].
+  /// May throw [WAFNonexistentItemException].
   ///
   /// Parameter [maxItems] :
   /// The number of requests that you want AWS WAF to return from among the
@@ -3152,8 +3152,8 @@ class WafRegional {
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidAccountException].
-  /// May throw [WAFNonexistentItemException].
   /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFNonexistentItemException].
   /// May throw [WAFUnavailableEntityException].
   ///
   /// Parameter [resourceArn] :
@@ -3252,8 +3252,8 @@ class WafRegional {
   /// Returns an array of <a>ActivatedRule</a> objects.
   ///
   /// May throw [WAFInternalErrorException].
-  /// May throw [WAFNonexistentItemException].
   /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFNonexistentItemException].
   ///
   /// Parameter [limit] :
   /// Specifies the number of <code>ActivatedRules</code> that you want AWS WAF
@@ -3498,8 +3498,8 @@ class WafRegional {
   /// Returns an array of <a>LoggingConfiguration</a> objects.
   ///
   /// May throw [WAFInternalErrorException].
-  /// May throw [WAFNonexistentItemException].
   /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFNonexistentItemException].
   ///
   /// Parameter [limit] :
   /// Specifies the number of <code>LoggingConfigurations</code> that you want
@@ -3746,8 +3746,8 @@ class WafRegional {
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidAccountException].
-  /// May throw [WAFNonexistentItemException].
   /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFNonexistentItemException].
   ///
   /// Parameter [webACLId] :
   /// The unique identifier (ID) of the web ACL for which to list the associated
@@ -4033,8 +4033,8 @@ class WafRegional {
   /// </note>
   /// Returns an array of <a>RuleGroup</a> objects that you are subscribed to.
   ///
-  /// May throw [WAFNonexistentItemException].
   /// May throw [WAFInternalErrorException].
+  /// May throw [WAFNonexistentItemException].
   ///
   /// Parameter [limit] :
   /// Specifies the number of subscribed rule groups that you want AWS WAF to
@@ -4102,21 +4102,21 @@ class WafRegional {
   /// resources that you manage through AWS WAF Classic: web ACLs, rule groups,
   /// and rules.
   ///
+  /// May throw [WAFBadRequestException].
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidParameterException].
   /// May throw [WAFNonexistentItemException].
-  /// May throw [WAFBadRequestException].
   /// May throw [WAFTagOperationException].
   /// May throw [WAFTagOperationInternalErrorException].
   ///
   /// Parameter [resourceARN] :
-  /// <p/>
+  ///
   ///
   /// Parameter [limit] :
-  /// <p/>
+  ///
   ///
   /// Parameter [nextMarker] :
-  /// <p/>
+  ///
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceARN,
     int? limit,
@@ -4307,8 +4307,8 @@ class WafRegional {
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFNonexistentItemException].
-  /// May throw [WAFStaleDataException].
   /// May throw [WAFServiceLinkedRoleErrorException].
+  /// May throw [WAFStaleDataException].
   ///
   /// Parameter [loggingConfiguration] :
   /// The Amazon Kinesis Data Firehose that contains the inspected traffic
@@ -4397,9 +4397,9 @@ class WafRegional {
   /// below.
   ///
   /// May throw [WAFInternalErrorException].
-  /// May throw [WAFStaleDataException].
-  /// May throw [WAFNonexistentItemException].
   /// May throw [WAFInvalidPermissionPolicyException].
+  /// May throw [WAFNonexistentItemException].
+  /// May throw [WAFStaleDataException].
   ///
   /// Parameter [policy] :
   /// The policy to attach to the specified RuleGroup.
@@ -4450,19 +4450,19 @@ class WafRegional {
   /// to tag the AWS resources that you manage through AWS WAF Classic: web
   /// ACLs, rule groups, and rules.
   ///
+  /// May throw [WAFBadRequestException].
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidParameterException].
   /// May throw [WAFLimitsExceededException].
   /// May throw [WAFNonexistentItemException].
-  /// May throw [WAFBadRequestException].
   /// May throw [WAFTagOperationException].
   /// May throw [WAFTagOperationInternalErrorException].
   ///
   /// Parameter [resourceARN] :
-  /// <p/>
+  ///
   ///
   /// Parameter [tags] :
-  /// <p/>
+  ///
   Future<void> tagResource({
     required String resourceARN,
     required List<Tag> tags,
@@ -4494,20 +4494,21 @@ class WafRegional {
   /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
   /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
   /// of endpoints for regional and global use.
-  /// </note> <p/>
+  /// </note>
   ///
+  ///
+  /// May throw [WAFBadRequestException].
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidParameterException].
   /// May throw [WAFNonexistentItemException].
-  /// May throw [WAFBadRequestException].
   /// May throw [WAFTagOperationException].
   /// May throw [WAFTagOperationInternalErrorException].
   ///
   /// Parameter [resourceARN] :
-  /// <p/>
+  ///
   ///
   /// Parameter [tagKeys] :
-  /// <p/>
+  ///
   Future<void> untagResource({
     required String resourceARN,
     required List<String> tagKeys,
@@ -4599,10 +4600,10 @@ class WafRegional {
   /// May throw [WAFInvalidAccountException].
   /// May throw [WAFInvalidOperationException].
   /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFLimitsExceededException].
   /// May throw [WAFNonexistentContainerException].
   /// May throw [WAFNonexistentItemException].
   /// May throw [WAFStaleDataException].
-  /// May throw [WAFLimitsExceededException].
   ///
   /// Parameter [byteMatchSetId] :
   /// The <code>ByteMatchSetId</code> of the <a>ByteMatchSet</a> that you want
@@ -4710,15 +4711,15 @@ class WafRegional {
   /// href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF
   /// Developer Guide</a>.
   ///
-  /// May throw [WAFStaleDataException].
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidAccountException].
   /// May throw [WAFInvalidOperationException].
   /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFLimitsExceededException].
   /// May throw [WAFNonexistentContainerException].
   /// May throw [WAFNonexistentItemException].
   /// May throw [WAFReferencedItemException].
-  /// May throw [WAFLimitsExceededException].
+  /// May throw [WAFStaleDataException].
   ///
   /// Parameter [changeToken] :
   /// The value returned by the most recent call to <a>GetChangeToken</a>.
@@ -4858,15 +4859,15 @@ class WafRegional {
   /// href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF
   /// Developer Guide</a>.
   ///
-  /// May throw [WAFStaleDataException].
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidAccountException].
   /// May throw [WAFInvalidOperationException].
   /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFLimitsExceededException].
   /// May throw [WAFNonexistentContainerException].
   /// May throw [WAFNonexistentItemException].
   /// May throw [WAFReferencedItemException].
-  /// May throw [WAFLimitsExceededException].
+  /// May throw [WAFStaleDataException].
   ///
   /// Parameter [changeToken] :
   /// The value returned by the most recent call to <a>GetChangeToken</a>.
@@ -4983,15 +4984,15 @@ class WafRegional {
   /// could limit requests to your login page without affecting the rest of your
   /// site.
   ///
-  /// May throw [WAFStaleDataException].
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidAccountException].
   /// May throw [WAFInvalidOperationException].
   /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFLimitsExceededException].
   /// May throw [WAFNonexistentContainerException].
   /// May throw [WAFNonexistentItemException].
   /// May throw [WAFReferencedItemException].
-  /// May throw [WAFLimitsExceededException].
+  /// May throw [WAFStaleDataException].
   ///
   /// Parameter [changeToken] :
   /// The value returned by the most recent call to <a>GetChangeToken</a>.
@@ -5107,14 +5108,14 @@ class WafRegional {
   /// href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF
   /// Developer Guide</a>.
   ///
-  /// May throw [WAFStaleDataException].
-  /// May throw [WAFInternalErrorException].
   /// May throw [WAFDisallowedNameException].
-  /// May throw [WAFLimitsExceededException].
-  /// May throw [WAFNonexistentItemException].
-  /// May throw [WAFNonexistentContainerException].
-  /// May throw [WAFInvalidOperationException].
+  /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidAccountException].
+  /// May throw [WAFInvalidOperationException].
+  /// May throw [WAFLimitsExceededException].
+  /// May throw [WAFNonexistentContainerException].
+  /// May throw [WAFNonexistentItemException].
+  /// May throw [WAFStaleDataException].
   ///
   /// Parameter [changeToken] :
   /// The value returned by the most recent call to <a>GetChangeToken</a>.
@@ -5216,14 +5217,14 @@ class WafRegional {
   /// href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF
   /// Developer Guide</a>.
   ///
-  /// May throw [WAFStaleDataException].
   /// May throw [WAFInternalErrorException].
-  /// May throw [WAFLimitsExceededException].
-  /// May throw [WAFNonexistentItemException].
-  /// May throw [WAFNonexistentContainerException].
-  /// May throw [WAFInvalidOperationException].
   /// May throw [WAFInvalidAccountException].
+  /// May throw [WAFInvalidOperationException].
   /// May throw [WAFInvalidRegexPatternException].
+  /// May throw [WAFLimitsExceededException].
+  /// May throw [WAFNonexistentContainerException].
+  /// May throw [WAFNonexistentItemException].
+  /// May throw [WAFStaleDataException].
   ///
   /// Parameter [changeToken] :
   /// The value returned by the most recent call to <a>GetChangeToken</a>.
@@ -5324,15 +5325,15 @@ class WafRegional {
   /// href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF
   /// Developer Guide</a>.
   ///
-  /// May throw [WAFStaleDataException].
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidAccountException].
   /// May throw [WAFInvalidOperationException].
   /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFLimitsExceededException].
   /// May throw [WAFNonexistentContainerException].
   /// May throw [WAFNonexistentItemException].
   /// May throw [WAFReferencedItemException].
-  /// May throw [WAFLimitsExceededException].
+  /// May throw [WAFStaleDataException].
   ///
   /// Parameter [changeToken] :
   /// The value returned by the most recent call to <a>GetChangeToken</a>.
@@ -5430,13 +5431,13 @@ class WafRegional {
   /// href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF
   /// Developer Guide</a>.
   ///
-  /// May throw [WAFStaleDataException].
   /// May throw [WAFInternalErrorException].
+  /// May throw [WAFInvalidOperationException].
+  /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFLimitsExceededException].
   /// May throw [WAFNonexistentContainerException].
   /// May throw [WAFNonexistentItemException].
-  /// May throw [WAFInvalidOperationException].
-  /// May throw [WAFLimitsExceededException].
-  /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFStaleDataException].
   ///
   /// Parameter [changeToken] :
   /// The value returned by the most recent call to <a>GetChangeToken</a>.
@@ -5553,15 +5554,15 @@ class WafRegional {
   /// href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF
   /// Developer Guide</a>.
   ///
-  /// May throw [WAFStaleDataException].
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidAccountException].
   /// May throw [WAFInvalidOperationException].
   /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFLimitsExceededException].
   /// May throw [WAFNonexistentContainerException].
   /// May throw [WAFNonexistentItemException].
   /// May throw [WAFReferencedItemException].
-  /// May throw [WAFLimitsExceededException].
+  /// May throw [WAFStaleDataException].
   ///
   /// Parameter [changeToken] :
   /// The value returned by the most recent call to <a>GetChangeToken</a>.
@@ -5680,10 +5681,10 @@ class WafRegional {
   /// May throw [WAFInvalidAccountException].
   /// May throw [WAFInvalidOperationException].
   /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFLimitsExceededException].
   /// May throw [WAFNonexistentContainerException].
   /// May throw [WAFNonexistentItemException].
   /// May throw [WAFStaleDataException].
-  /// May throw [WAFLimitsExceededException].
   ///
   /// Parameter [changeToken] :
   /// The value returned by the most recent call to <a>GetChangeToken</a>.
@@ -5832,15 +5833,15 @@ class WafRegional {
   /// href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF
   /// Developer Guide</a>.
   ///
-  /// May throw [WAFStaleDataException].
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidAccountException].
   /// May throw [WAFInvalidOperationException].
   /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFLimitsExceededException].
   /// May throw [WAFNonexistentContainerException].
   /// May throw [WAFNonexistentItemException].
   /// May throw [WAFReferencedItemException].
-  /// May throw [WAFLimitsExceededException].
+  /// May throw [WAFStaleDataException].
   /// May throw [WAFSubscriptionNotFoundException].
   ///
   /// Parameter [changeToken] :
@@ -5974,10 +5975,10 @@ class WafRegional {
   /// May throw [WAFInvalidAccountException].
   /// May throw [WAFInvalidOperationException].
   /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFLimitsExceededException].
   /// May throw [WAFNonexistentContainerException].
   /// May throw [WAFNonexistentItemException].
   /// May throw [WAFStaleDataException].
-  /// May throw [WAFLimitsExceededException].
   ///
   /// Parameter [changeToken] :
   /// The value returned by the most recent call to <a>GetChangeToken</a>.
@@ -6031,191 +6032,6 @@ class WafRegional {
   }
 }
 
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// The <code>ActivatedRule</code> object in an <a>UpdateWebACL</a> request
-/// specifies a <code>Rule</code> that you want to insert or delete, the
-/// priority of the <code>Rule</code> in the <code>WebACL</code>, and the action
-/// that you want AWS WAF to take when a web request matches the
-/// <code>Rule</code> (<code>ALLOW</code>, <code>BLOCK</code>, or
-/// <code>COUNT</code>).
-///
-/// To specify whether to insert or delete a <code>Rule</code>, use the
-/// <code>Action</code> parameter in the <a>WebACLUpdate</a> data type.
-class ActivatedRule {
-  /// Specifies the order in which the <code>Rules</code> in a <code>WebACL</code>
-  /// are evaluated. Rules with a lower value for <code>Priority</code> are
-  /// evaluated before <code>Rules</code> with a higher value. The value must be a
-  /// unique integer. If you add multiple <code>Rules</code> to a
-  /// <code>WebACL</code>, the values don't need to be consecutive.
-  final int priority;
-
-  /// The <code>RuleId</code> for a <code>Rule</code>. You use <code>RuleId</code>
-  /// to get more information about a <code>Rule</code> (see <a>GetRule</a>),
-  /// update a <code>Rule</code> (see <a>UpdateRule</a>), insert a
-  /// <code>Rule</code> into a <code>WebACL</code> or delete a one from a
-  /// <code>WebACL</code> (see <a>UpdateWebACL</a>), or delete a <code>Rule</code>
-  /// from AWS WAF (see <a>DeleteRule</a>).
-  ///
-  /// <code>RuleId</code> is returned by <a>CreateRule</a> and by
-  /// <a>ListRules</a>.
-  final String ruleId;
-
-  /// Specifies the action that CloudFront or AWS WAF takes when a web request
-  /// matches the conditions in the <code>Rule</code>. Valid values for
-  /// <code>Action</code> include the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ALLOW</code>: CloudFront responds with the requested object.
-  /// </li>
-  /// <li>
-  /// <code>BLOCK</code>: CloudFront responds with an HTTP 403 (Forbidden) status
-  /// code.
-  /// </li>
-  /// <li>
-  /// <code>COUNT</code>: AWS WAF increments a counter of requests that match the
-  /// conditions in the rule and then continues to inspect the web request based
-  /// on the remaining rules in the web ACL.
-  /// </li>
-  /// </ul>
-  /// <code>ActivatedRule|OverrideAction</code> applies only when updating or
-  /// adding a <code>RuleGroup</code> to a <code>WebACL</code>. In this case, you
-  /// do not use <code>ActivatedRule|Action</code>. For all other update requests,
-  /// <code>ActivatedRule|Action</code> is used instead of
-  /// <code>ActivatedRule|OverrideAction</code>.
-  final WafAction? action;
-
-  /// An array of rules to exclude from a rule group. This is applicable only when
-  /// the <code>ActivatedRule</code> refers to a <code>RuleGroup</code>.
-  ///
-  /// Sometimes it is necessary to troubleshoot rule groups that are blocking
-  /// traffic unexpectedly (false positives). One troubleshooting technique is to
-  /// identify the specific rule within the rule group that is blocking the
-  /// legitimate traffic and then disable (exclude) that particular rule. You can
-  /// exclude rules from both your own rule groups and AWS Marketplace rule groups
-  /// that have been associated with a web ACL.
-  ///
-  /// Specifying <code>ExcludedRules</code> does not remove those rules from the
-  /// rule group. Rather, it changes the action for the rules to
-  /// <code>COUNT</code>. Therefore, requests that match an
-  /// <code>ExcludedRule</code> are counted but not blocked. The
-  /// <code>RuleGroup</code> owner will receive COUNT metrics for each
-  /// <code>ExcludedRule</code>.
-  ///
-  /// If you want to exclude rules from a rule group that is already associated
-  /// with a web ACL, perform the following steps:
-  /// <ol>
-  /// <li>
-  /// Use the AWS WAF logs to identify the IDs of the rules that you want to
-  /// exclude. For more information about the logs, see <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/logging.html">Logging
-  /// Web ACL Traffic Information</a>.
-  /// </li>
-  /// <li>
-  /// Submit an <a>UpdateWebACL</a> request that has two actions:
-  ///
-  /// <ul>
-  /// <li>
-  /// The first action deletes the existing rule group from the web ACL. That is,
-  /// in the <a>UpdateWebACL</a> request, the first <code>Updates:Action</code>
-  /// should be <code>DELETE</code> and <code>Updates:ActivatedRule:RuleId</code>
-  /// should be the rule group that contains the rules that you want to exclude.
-  /// </li>
-  /// <li>
-  /// The second action inserts the same rule group back in, but specifying the
-  /// rules to exclude. That is, the second <code>Updates:Action</code> should be
-  /// <code>INSERT</code>, <code>Updates:ActivatedRule:RuleId</code> should be the
-  /// rule group that you just removed, and <code>ExcludedRules</code> should
-  /// contain the rules that you want to exclude.
-  /// </li>
-  /// </ul> </li> </ol>
-  final List<ExcludedRule>? excludedRules;
-
-  /// Use the <code>OverrideAction</code> to test your <code>RuleGroup</code>.
-  ///
-  /// Any rule in a <code>RuleGroup</code> can potentially block a request. If you
-  /// set the <code>OverrideAction</code> to <code>None</code>, the
-  /// <code>RuleGroup</code> will block a request if any individual rule in the
-  /// <code>RuleGroup</code> matches the request and is configured to block that
-  /// request. However if you first want to test the <code>RuleGroup</code>, set
-  /// the <code>OverrideAction</code> to <code>Count</code>. The
-  /// <code>RuleGroup</code> will then override any block action specified by
-  /// individual rules contained within the group. Instead of blocking matching
-  /// requests, those requests will be counted. You can view a record of counted
-  /// requests using <a>GetSampledRequests</a>.
-  ///
-  /// <code>ActivatedRule|OverrideAction</code> applies only when updating or
-  /// adding a <code>RuleGroup</code> to a <code>WebACL</code>. In this case you
-  /// do not use <code>ActivatedRule|Action</code>. For all other update requests,
-  /// <code>ActivatedRule|Action</code> is used instead of
-  /// <code>ActivatedRule|OverrideAction</code>.
-  final WafOverrideAction? overrideAction;
-
-  /// The rule type, either <code>REGULAR</code>, as defined by <a>Rule</a>,
-  /// <code>RATE_BASED</code>, as defined by <a>RateBasedRule</a>, or
-  /// <code>GROUP</code>, as defined by <a>RuleGroup</a>. The default is REGULAR.
-  /// Although this field is optional, be aware that if you try to add a
-  /// RATE_BASED rule to a web ACL without setting the type, the
-  /// <a>UpdateWebACL</a> request will fail because the request tries to add a
-  /// REGULAR rule with the specified ID, which does not exist.
-  final WafRuleType? type;
-
-  ActivatedRule({
-    required this.priority,
-    required this.ruleId,
-    this.action,
-    this.excludedRules,
-    this.overrideAction,
-    this.type,
-  });
-
-  factory ActivatedRule.fromJson(Map<String, dynamic> json) {
-    return ActivatedRule(
-      priority: (json['Priority'] as int?) ?? 0,
-      ruleId: (json['RuleId'] as String?) ?? '',
-      action: json['Action'] != null
-          ? WafAction.fromJson(json['Action'] as Map<String, dynamic>)
-          : null,
-      excludedRules: (json['ExcludedRules'] as List?)
-          ?.nonNulls
-          .map((e) => ExcludedRule.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      overrideAction: json['OverrideAction'] != null
-          ? WafOverrideAction.fromJson(
-              json['OverrideAction'] as Map<String, dynamic>)
-          : null,
-      type: (json['Type'] as String?)?.let(WafRuleType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final priority = this.priority;
-    final ruleId = this.ruleId;
-    final action = this.action;
-    final excludedRules = this.excludedRules;
-    final overrideAction = this.overrideAction;
-    final type = this.type;
-    return {
-      'Priority': priority,
-      'RuleId': ruleId,
-      if (action != null) 'Action': action,
-      if (excludedRules != null) 'ExcludedRules': excludedRules,
-      if (overrideAction != null) 'OverrideAction': overrideAction,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
 class AssociateWebACLResponse {
   AssociateWebACLResponse();
 
@@ -6226,528 +6042,6 @@ class AssociateWebACLResponse {
   Map<String, dynamic> toJson() {
     return {};
   }
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// In a <a>GetByteMatchSet</a> request, <code>ByteMatchSet</code> is a complex
-/// type that contains the <code>ByteMatchSetId</code> and <code>Name</code> of
-/// a <code>ByteMatchSet</code>, and the values that you specified when you
-/// updated the <code>ByteMatchSet</code>.
-///
-/// A complex type that contains <code>ByteMatchTuple</code> objects, which
-/// specify the parts of web requests that you want AWS WAF to inspect and the
-/// values that you want AWS WAF to search for. If a <code>ByteMatchSet</code>
-/// contains more than one <code>ByteMatchTuple</code> object, a request needs
-/// to match the settings in only one <code>ByteMatchTuple</code> to be
-/// considered a match.
-class ByteMatchSet {
-  /// The <code>ByteMatchSetId</code> for a <code>ByteMatchSet</code>. You use
-  /// <code>ByteMatchSetId</code> to get information about a
-  /// <code>ByteMatchSet</code> (see <a>GetByteMatchSet</a>), update a
-  /// <code>ByteMatchSet</code> (see <a>UpdateByteMatchSet</a>), insert a
-  /// <code>ByteMatchSet</code> into a <code>Rule</code> or delete one from a
-  /// <code>Rule</code> (see <a>UpdateRule</a>), and delete a
-  /// <code>ByteMatchSet</code> from AWS WAF (see <a>DeleteByteMatchSet</a>).
-  ///
-  /// <code>ByteMatchSetId</code> is returned by <a>CreateByteMatchSet</a> and by
-  /// <a>ListByteMatchSets</a>.
-  final String byteMatchSetId;
-
-  /// Specifies the bytes (typically a string that corresponds with ASCII
-  /// characters) that you want AWS WAF to search for in web requests, the
-  /// location in requests that you want AWS WAF to search, and other settings.
-  final List<ByteMatchTuple> byteMatchTuples;
-
-  /// A friendly name or description of the <a>ByteMatchSet</a>. You can't change
-  /// <code>Name</code> after you create a <code>ByteMatchSet</code>.
-  final String? name;
-
-  ByteMatchSet({
-    required this.byteMatchSetId,
-    required this.byteMatchTuples,
-    this.name,
-  });
-
-  factory ByteMatchSet.fromJson(Map<String, dynamic> json) {
-    return ByteMatchSet(
-      byteMatchSetId: (json['ByteMatchSetId'] as String?) ?? '',
-      byteMatchTuples: ((json['ByteMatchTuples'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => ByteMatchTuple.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final byteMatchSetId = this.byteMatchSetId;
-    final byteMatchTuples = this.byteMatchTuples;
-    final name = this.name;
-    return {
-      'ByteMatchSetId': byteMatchSetId,
-      'ByteMatchTuples': byteMatchTuples,
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// Returned by <a>ListByteMatchSets</a>. Each <code>ByteMatchSetSummary</code>
-/// object includes the <code>Name</code> and <code>ByteMatchSetId</code> for
-/// one <a>ByteMatchSet</a>.
-class ByteMatchSetSummary {
-  /// The <code>ByteMatchSetId</code> for a <code>ByteMatchSet</code>. You use
-  /// <code>ByteMatchSetId</code> to get information about a
-  /// <code>ByteMatchSet</code>, update a <code>ByteMatchSet</code>, remove a
-  /// <code>ByteMatchSet</code> from a <code>Rule</code>, and delete a
-  /// <code>ByteMatchSet</code> from AWS WAF.
-  ///
-  /// <code>ByteMatchSetId</code> is returned by <a>CreateByteMatchSet</a> and by
-  /// <a>ListByteMatchSets</a>.
-  final String byteMatchSetId;
-
-  /// A friendly name or description of the <a>ByteMatchSet</a>. You can't change
-  /// <code>Name</code> after you create a <code>ByteMatchSet</code>.
-  final String name;
-
-  ByteMatchSetSummary({
-    required this.byteMatchSetId,
-    required this.name,
-  });
-
-  factory ByteMatchSetSummary.fromJson(Map<String, dynamic> json) {
-    return ByteMatchSetSummary(
-      byteMatchSetId: (json['ByteMatchSetId'] as String?) ?? '',
-      name: (json['Name'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final byteMatchSetId = this.byteMatchSetId;
-    final name = this.name;
-    return {
-      'ByteMatchSetId': byteMatchSetId,
-      'Name': name,
-    };
-  }
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// In an <a>UpdateByteMatchSet</a> request, <code>ByteMatchSetUpdate</code>
-/// specifies whether to insert or delete a <a>ByteMatchTuple</a> and includes
-/// the settings for the <code>ByteMatchTuple</code>.
-class ByteMatchSetUpdate {
-  /// Specifies whether to insert or delete a <a>ByteMatchTuple</a>.
-  final ChangeAction action;
-
-  /// Information about the part of a web request that you want AWS WAF to inspect
-  /// and the value that you want AWS WAF to search for. If you specify
-  /// <code>DELETE</code> for the value of <code>Action</code>, the
-  /// <code>ByteMatchTuple</code> values must exactly match the values in the
-  /// <code>ByteMatchTuple</code> that you want to delete from the
-  /// <code>ByteMatchSet</code>.
-  final ByteMatchTuple byteMatchTuple;
-
-  ByteMatchSetUpdate({
-    required this.action,
-    required this.byteMatchTuple,
-  });
-
-  Map<String, dynamic> toJson() {
-    final action = this.action;
-    final byteMatchTuple = this.byteMatchTuple;
-    return {
-      'Action': action.value,
-      'ByteMatchTuple': byteMatchTuple,
-    };
-  }
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// The bytes (typically a string that corresponds with ASCII characters) that
-/// you want AWS WAF to search for in web requests, the location in requests
-/// that you want AWS WAF to search, and other settings.
-class ByteMatchTuple {
-  /// The part of a web request that you want AWS WAF to search, such as a
-  /// specified header or a query string. For more information, see
-  /// <a>FieldToMatch</a>.
-  final FieldToMatch fieldToMatch;
-
-  /// Within the portion of a web request that you want to search (for example, in
-  /// the query string, if any), specify where you want AWS WAF to search. Valid
-  /// values include the following:
-  ///
-  /// <b>CONTAINS</b>
-  ///
-  /// The specified part of the web request must include the value of
-  /// <code>TargetString</code>, but the location doesn't matter.
-  ///
-  /// <b>CONTAINS_WORD</b>
-  ///
-  /// The specified part of the web request must include the value of
-  /// <code>TargetString</code>, and <code>TargetString</code> must contain only
-  /// alphanumeric characters or underscore (A-Z, a-z, 0-9, or _). In addition,
-  /// <code>TargetString</code> must be a word, which means one of the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>TargetString</code> exactly matches the value of the specified part of
-  /// the web request, such as the value of a header.
-  /// </li>
-  /// <li>
-  /// <code>TargetString</code> is at the beginning of the specified part of the
-  /// web request and is followed by a character other than an alphanumeric
-  /// character or underscore (_), for example, <code>BadBot;</code>.
-  /// </li>
-  /// <li>
-  /// <code>TargetString</code> is at the end of the specified part of the web
-  /// request and is preceded by a character other than an alphanumeric character
-  /// or underscore (_), for example, <code>;BadBot</code>.
-  /// </li>
-  /// <li>
-  /// <code>TargetString</code> is in the middle of the specified part of the web
-  /// request and is preceded and followed by characters other than alphanumeric
-  /// characters or underscore (_), for example, <code>-BadBot;</code>.
-  /// </li>
-  /// </ul>
-  /// <b>EXACTLY</b>
-  ///
-  /// The value of the specified part of the web request must exactly match the
-  /// value of <code>TargetString</code>.
-  ///
-  /// <b>STARTS_WITH</b>
-  ///
-  /// The value of <code>TargetString</code> must appear at the beginning of the
-  /// specified part of the web request.
-  ///
-  /// <b>ENDS_WITH</b>
-  ///
-  /// The value of <code>TargetString</code> must appear at the end of the
-  /// specified part of the web request.
-  final PositionalConstraint positionalConstraint;
-
-  /// The value that you want AWS WAF to search for. AWS WAF searches for the
-  /// specified string in the part of web requests that you specified in
-  /// <code>FieldToMatch</code>. The maximum length of the value is 50 bytes.
-  ///
-  /// Valid values depend on the values that you specified for
-  /// <code>FieldToMatch</code>:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>HEADER</code>: The value that you want AWS WAF to search for in the
-  /// request header that you specified in <a>FieldToMatch</a>, for example, the
-  /// value of the <code>User-Agent</code> or <code>Referer</code> header.
-  /// </li>
-  /// <li>
-  /// <code>METHOD</code>: The HTTP method, which indicates the type of operation
-  /// specified in the request. CloudFront supports the following methods:
-  /// <code>DELETE</code>, <code>GET</code>, <code>HEAD</code>,
-  /// <code>OPTIONS</code>, <code>PATCH</code>, <code>POST</code>, and
-  /// <code>PUT</code>.
-  /// </li>
-  /// <li>
-  /// <code>QUERY_STRING</code>: The value that you want AWS WAF to search for in
-  /// the query string, which is the part of a URL that appears after a
-  /// <code>?</code> character.
-  /// </li>
-  /// <li>
-  /// <code>URI</code>: The value that you want AWS WAF to search for in the part
-  /// of a URL that identifies a resource, for example,
-  /// <code>/images/daily-ad.jpg</code>.
-  /// </li>
-  /// <li>
-  /// <code>BODY</code>: The part of a request that contains any additional data
-  /// that you want to send to your web server as the HTTP request body, such as
-  /// data from a form. The request body immediately follows the request headers.
-  /// Note that only the first <code>8192</code> bytes of the request body are
-  /// forwarded to AWS WAF for inspection. To allow or block requests based on the
-  /// length of the body, you can create a size constraint set. For more
-  /// information, see <a>CreateSizeConstraintSet</a>.
-  /// </li>
-  /// <li>
-  /// <code>SINGLE_QUERY_ARG</code>: The parameter in the query string that you
-  /// will inspect, such as <i>UserName</i> or <i>SalesRegion</i>. The maximum
-  /// length for <code>SINGLE_QUERY_ARG</code> is 30 characters.
-  /// </li>
-  /// <li>
-  /// <code>ALL_QUERY_ARGS</code>: Similar to <code>SINGLE_QUERY_ARG</code>, but
-  /// instead of inspecting a single parameter, AWS WAF inspects all parameters
-  /// within the query string for the value or regex pattern that you specify in
-  /// <code>TargetString</code>.
-  /// </li>
-  /// </ul>
-  /// If <code>TargetString</code> includes alphabetic characters A-Z and a-z,
-  /// note that the value is case sensitive.
-  ///
-  /// <b>If you're using the AWS WAF API</b>
-  ///
-  /// Specify a base64-encoded version of the value. The maximum length of the
-  /// value before you base64-encode it is 50 bytes.
-  ///
-  /// For example, suppose the value of <code>Type</code> is <code>HEADER</code>
-  /// and the value of <code>Data</code> is <code>User-Agent</code>. If you want
-  /// to search the <code>User-Agent</code> header for the value
-  /// <code>BadBot</code>, you base64-encode <code>BadBot</code> using MIME
-  /// base64-encoding and include the resulting value, <code>QmFkQm90</code>, in
-  /// the value of <code>TargetString</code>.
-  ///
-  /// <b>If you're using the AWS CLI or one of the AWS SDKs</b>
-  ///
-  /// The value that you want AWS WAF to search for. The SDK automatically base64
-  /// encodes the value.
-  final Uint8List targetString;
-
-  /// Text transformations eliminate some of the unusual formatting that attackers
-  /// use in web requests in an effort to bypass AWS WAF. If you specify a
-  /// transformation, AWS WAF performs the transformation on
-  /// <code>FieldToMatch</code> before inspecting it for a match.
-  ///
-  /// You can only specify a single type of TextTransformation.
-  ///
-  /// <b>CMD_LINE</b>
-  ///
-  /// When you're concerned that attackers are injecting an operating system
-  /// command line command and using unusual formatting to disguise some or all of
-  /// the command, use this option to perform the following transformations:
-  ///
-  /// <ul>
-  /// <li>
-  /// Delete the following characters: \ " ' ^
-  /// </li>
-  /// <li>
-  /// Delete spaces before the following characters: / (
-  /// </li>
-  /// <li>
-  /// Replace the following characters with a space: , ;
-  /// </li>
-  /// <li>
-  /// Replace multiple spaces with one space
-  /// </li>
-  /// <li>
-  /// Convert uppercase letters (A-Z) to lowercase (a-z)
-  /// </li>
-  /// </ul>
-  /// <b>COMPRESS_WHITE_SPACE</b>
-  ///
-  /// Use this option to replace the following characters with a space character
-  /// (decimal 32):
-  ///
-  /// <ul>
-  /// <li>
-  /// \f, formfeed, decimal 12
-  /// </li>
-  /// <li>
-  /// \t, tab, decimal 9
-  /// </li>
-  /// <li>
-  /// \n, newline, decimal 10
-  /// </li>
-  /// <li>
-  /// \r, carriage return, decimal 13
-  /// </li>
-  /// <li>
-  /// \v, vertical tab, decimal 11
-  /// </li>
-  /// <li>
-  /// non-breaking space, decimal 160
-  /// </li>
-  /// </ul>
-  /// <code>COMPRESS_WHITE_SPACE</code> also replaces multiple spaces with one
-  /// space.
-  ///
-  /// <b>HTML_ENTITY_DECODE</b>
-  ///
-  /// Use this option to replace HTML-encoded characters with unencoded
-  /// characters. <code>HTML_ENTITY_DECODE</code> performs the following
-  /// operations:
-  ///
-  /// <ul>
-  /// <li>
-  /// Replaces <code>(ampersand)quot;</code> with <code>"</code>
-  /// </li>
-  /// <li>
-  /// Replaces <code>(ampersand)nbsp;</code> with a non-breaking space, decimal
-  /// 160
-  /// </li>
-  /// <li>
-  /// Replaces <code>(ampersand)lt;</code> with a "less than" symbol
-  /// </li>
-  /// <li>
-  /// Replaces <code>(ampersand)gt;</code> with <code>&gt;</code>
-  /// </li>
-  /// <li>
-  /// Replaces characters that are represented in hexadecimal format,
-  /// <code>(ampersand)#xhhhh;</code>, with the corresponding characters
-  /// </li>
-  /// <li>
-  /// Replaces characters that are represented in decimal format,
-  /// <code>(ampersand)#nnnn;</code>, with the corresponding characters
-  /// </li>
-  /// </ul>
-  /// <b>LOWERCASE</b>
-  ///
-  /// Use this option to convert uppercase letters (A-Z) to lowercase (a-z).
-  ///
-  /// <b>URL_DECODE</b>
-  ///
-  /// Use this option to decode a URL-encoded value.
-  ///
-  /// <b>NONE</b>
-  ///
-  /// Specify <code>NONE</code> if you don't want to perform any text
-  /// transformations.
-  final TextTransformation textTransformation;
-
-  ByteMatchTuple({
-    required this.fieldToMatch,
-    required this.positionalConstraint,
-    required this.targetString,
-    required this.textTransformation,
-  });
-
-  factory ByteMatchTuple.fromJson(Map<String, dynamic> json) {
-    return ByteMatchTuple(
-      fieldToMatch: FieldToMatch.fromJson(
-          (json['FieldToMatch'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      positionalConstraint: PositionalConstraint.fromString(
-          (json['PositionalConstraint'] as String?) ?? ''),
-      targetString: _s.decodeUint8List((json['TargetString'] as String?) ?? ''),
-      textTransformation: TextTransformation.fromString(
-          (json['TextTransformation'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final fieldToMatch = this.fieldToMatch;
-    final positionalConstraint = this.positionalConstraint;
-    final targetString = this.targetString;
-    final textTransformation = this.textTransformation;
-    return {
-      'FieldToMatch': fieldToMatch,
-      'PositionalConstraint': positionalConstraint.value,
-      'TargetString': base64Encode(targetString),
-      'TextTransformation': textTransformation.value,
-    };
-  }
-}
-
-class ChangeAction {
-  static const insert = ChangeAction._('INSERT');
-  static const delete = ChangeAction._('DELETE');
-
-  final String value;
-
-  const ChangeAction._(this.value);
-
-  static const values = [insert, delete];
-
-  static ChangeAction fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ChangeAction._(value));
-
-  @override
-  bool operator ==(other) => other is ChangeAction && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ChangeTokenStatus {
-  static const provisioned = ChangeTokenStatus._('PROVISIONED');
-  static const pending = ChangeTokenStatus._('PENDING');
-  static const insync = ChangeTokenStatus._('INSYNC');
-
-  final String value;
-
-  const ChangeTokenStatus._(this.value);
-
-  static const values = [provisioned, pending, insync];
-
-  static ChangeTokenStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ChangeTokenStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ChangeTokenStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ComparisonOperator {
-  static const eq = ComparisonOperator._('EQ');
-  static const ne = ComparisonOperator._('NE');
-  static const le = ComparisonOperator._('LE');
-  static const lt = ComparisonOperator._('LT');
-  static const ge = ComparisonOperator._('GE');
-  static const gt = ComparisonOperator._('GT');
-
-  final String value;
-
-  const ComparisonOperator._(this.value);
-
-  static const values = [eq, ne, le, lt, ge, gt];
-
-  static ComparisonOperator fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ComparisonOperator._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ComparisonOperator && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class CreateByteMatchSetResponse {
@@ -6960,40 +6254,6 @@ class CreateRegexPatternSetResponse {
   }
 }
 
-class CreateRuleGroupResponse {
-  /// The <code>ChangeToken</code> that you used to submit the
-  /// <code>CreateRuleGroup</code> request. You can also use this value to query
-  /// the status of the request. For more information, see
-  /// <a>GetChangeTokenStatus</a>.
-  final String? changeToken;
-
-  /// An empty <a>RuleGroup</a>.
-  final RuleGroup? ruleGroup;
-
-  CreateRuleGroupResponse({
-    this.changeToken,
-    this.ruleGroup,
-  });
-
-  factory CreateRuleGroupResponse.fromJson(Map<String, dynamic> json) {
-    return CreateRuleGroupResponse(
-      changeToken: json['ChangeToken'] as String?,
-      ruleGroup: json['RuleGroup'] != null
-          ? RuleGroup.fromJson(json['RuleGroup'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final changeToken = this.changeToken;
-    final ruleGroup = this.ruleGroup;
-    return {
-      if (changeToken != null) 'ChangeToken': changeToken,
-      if (ruleGroup != null) 'RuleGroup': ruleGroup,
-    };
-  }
-}
-
 class CreateRuleResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>CreateRule</code> request. You can also use this value to query the
@@ -7024,6 +6284,40 @@ class CreateRuleResponse {
     return {
       if (changeToken != null) 'ChangeToken': changeToken,
       if (rule != null) 'Rule': rule,
+    };
+  }
+}
+
+class CreateRuleGroupResponse {
+  /// The <code>ChangeToken</code> that you used to submit the
+  /// <code>CreateRuleGroup</code> request. You can also use this value to query
+  /// the status of the request. For more information, see
+  /// <a>GetChangeTokenStatus</a>.
+  final String? changeToken;
+
+  /// An empty <a>RuleGroup</a>.
+  final RuleGroup? ruleGroup;
+
+  CreateRuleGroupResponse({
+    this.changeToken,
+    this.ruleGroup,
+  });
+
+  factory CreateRuleGroupResponse.fromJson(Map<String, dynamic> json) {
+    return CreateRuleGroupResponse(
+      changeToken: json['ChangeToken'] as String?,
+      ruleGroup: json['RuleGroup'] != null
+          ? RuleGroup.fromJson(json['RuleGroup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeToken = this.changeToken;
+    final ruleGroup = this.ruleGroup;
+    return {
+      if (changeToken != null) 'ChangeToken': changeToken,
+      if (ruleGroup != null) 'RuleGroup': ruleGroup,
     };
   }
 }
@@ -7102,29 +6396,6 @@ class CreateSqlInjectionMatchSetResponse {
   }
 }
 
-class CreateWebACLMigrationStackResponse {
-  /// The URL of the template created in Amazon S3.
-  final String s3ObjectUrl;
-
-  CreateWebACLMigrationStackResponse({
-    required this.s3ObjectUrl,
-  });
-
-  factory CreateWebACLMigrationStackResponse.fromJson(
-      Map<String, dynamic> json) {
-    return CreateWebACLMigrationStackResponse(
-      s3ObjectUrl: (json['S3ObjectUrl'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final s3ObjectUrl = this.s3ObjectUrl;
-    return {
-      'S3ObjectUrl': s3ObjectUrl,
-    };
-  }
-}
-
 class CreateWebACLResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>CreateWebACL</code> request. You can also use this value to query the
@@ -7155,6 +6426,29 @@ class CreateWebACLResponse {
     return {
       if (changeToken != null) 'ChangeToken': changeToken,
       if (webACL != null) 'WebACL': webACL,
+    };
+  }
+}
+
+class CreateWebACLMigrationStackResponse {
+  /// The URL of the template created in Amazon S3.
+  final String s3ObjectUrl;
+
+  CreateWebACLMigrationStackResponse({
+    required this.s3ObjectUrl,
+  });
+
+  factory CreateWebACLMigrationStackResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateWebACLMigrationStackResponse(
+      s3ObjectUrl: (json['S3ObjectUrl'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3ObjectUrl = this.s3ObjectUrl;
+    return {
+      'S3ObjectUrl': s3ObjectUrl,
     };
   }
 }
@@ -7368,31 +6662,6 @@ class DeleteRegexPatternSetResponse {
   }
 }
 
-class DeleteRuleGroupResponse {
-  /// The <code>ChangeToken</code> that you used to submit the
-  /// <code>DeleteRuleGroup</code> request. You can also use this value to query
-  /// the status of the request. For more information, see
-  /// <a>GetChangeTokenStatus</a>.
-  final String? changeToken;
-
-  DeleteRuleGroupResponse({
-    this.changeToken,
-  });
-
-  factory DeleteRuleGroupResponse.fromJson(Map<String, dynamic> json) {
-    return DeleteRuleGroupResponse(
-      changeToken: json['ChangeToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final changeToken = this.changeToken;
-    return {
-      if (changeToken != null) 'ChangeToken': changeToken,
-    };
-  }
-}
-
 class DeleteRuleResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>DeleteRule</code> request. You can also use this value to query the
@@ -7406,6 +6675,31 @@ class DeleteRuleResponse {
 
   factory DeleteRuleResponse.fromJson(Map<String, dynamic> json) {
     return DeleteRuleResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeToken = this.changeToken;
+    return {
+      if (changeToken != null) 'ChangeToken': changeToken,
+    };
+  }
+}
+
+class DeleteRuleGroupResponse {
+  /// The <code>ChangeToken</code> that you used to submit the
+  /// <code>DeleteRuleGroup</code> request. You can also use this value to query
+  /// the status of the request. For more information, see
+  /// <a>GetChangeTokenStatus</a>.
+  final String? changeToken;
+
+  DeleteRuleGroupResponse({
+    this.changeToken,
+  });
+
+  factory DeleteRuleGroupResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteRuleGroupResponse(
       changeToken: json['ChangeToken'] as String?,
     );
   }
@@ -7534,6 +6828,1627 @@ class DisassociateWebACLResponse {
   }
 }
 
+class GetByteMatchSetResponse {
+  /// Information about the <a>ByteMatchSet</a> that you specified in the
+  /// <code>GetByteMatchSet</code> request. For more information, see the
+  /// following topics:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>ByteMatchSet</a>: Contains <code>ByteMatchSetId</code>,
+  /// <code>ByteMatchTuples</code>, and <code>Name</code>
+  /// </li>
+  /// <li>
+  /// <code>ByteMatchTuples</code>: Contains an array of <a>ByteMatchTuple</a>
+  /// objects. Each <code>ByteMatchTuple</code> object contains
+  /// <a>FieldToMatch</a>, <code>PositionalConstraint</code>,
+  /// <code>TargetString</code>, and <code>TextTransformation</code>
+  /// </li>
+  /// <li>
+  /// <a>FieldToMatch</a>: Contains <code>Data</code> and <code>Type</code>
+  /// </li>
+  /// </ul>
+  final ByteMatchSet? byteMatchSet;
+
+  GetByteMatchSetResponse({
+    this.byteMatchSet,
+  });
+
+  factory GetByteMatchSetResponse.fromJson(Map<String, dynamic> json) {
+    return GetByteMatchSetResponse(
+      byteMatchSet: json['ByteMatchSet'] != null
+          ? ByteMatchSet.fromJson(json['ByteMatchSet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final byteMatchSet = this.byteMatchSet;
+    return {
+      if (byteMatchSet != null) 'ByteMatchSet': byteMatchSet,
+    };
+  }
+}
+
+class GetChangeTokenResponse {
+  /// The <code>ChangeToken</code> that you used in the request. Use this value in
+  /// a <code>GetChangeTokenStatus</code> request to get the current status of the
+  /// request.
+  final String? changeToken;
+
+  GetChangeTokenResponse({
+    this.changeToken,
+  });
+
+  factory GetChangeTokenResponse.fromJson(Map<String, dynamic> json) {
+    return GetChangeTokenResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeToken = this.changeToken;
+    return {
+      if (changeToken != null) 'ChangeToken': changeToken,
+    };
+  }
+}
+
+class GetChangeTokenStatusResponse {
+  /// The status of the change token.
+  final ChangeTokenStatus? changeTokenStatus;
+
+  GetChangeTokenStatusResponse({
+    this.changeTokenStatus,
+  });
+
+  factory GetChangeTokenStatusResponse.fromJson(Map<String, dynamic> json) {
+    return GetChangeTokenStatusResponse(
+      changeTokenStatus: (json['ChangeTokenStatus'] as String?)
+          ?.let(ChangeTokenStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeTokenStatus = this.changeTokenStatus;
+    return {
+      if (changeTokenStatus != null)
+        'ChangeTokenStatus': changeTokenStatus.value,
+    };
+  }
+}
+
+class GetGeoMatchSetResponse {
+  /// Information about the <a>GeoMatchSet</a> that you specified in the
+  /// <code>GetGeoMatchSet</code> request. This includes the <code>Type</code>,
+  /// which for a <code>GeoMatchContraint</code> is always <code>Country</code>,
+  /// as well as the <code>Value</code>, which is the identifier for a specific
+  /// country.
+  final GeoMatchSet? geoMatchSet;
+
+  GetGeoMatchSetResponse({
+    this.geoMatchSet,
+  });
+
+  factory GetGeoMatchSetResponse.fromJson(Map<String, dynamic> json) {
+    return GetGeoMatchSetResponse(
+      geoMatchSet: json['GeoMatchSet'] != null
+          ? GeoMatchSet.fromJson(json['GeoMatchSet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final geoMatchSet = this.geoMatchSet;
+    return {
+      if (geoMatchSet != null) 'GeoMatchSet': geoMatchSet,
+    };
+  }
+}
+
+class GetIPSetResponse {
+  /// Information about the <a>IPSet</a> that you specified in the
+  /// <code>GetIPSet</code> request. For more information, see the following
+  /// topics:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>IPSet</a>: Contains <code>IPSetDescriptors</code>, <code>IPSetId</code>,
+  /// and <code>Name</code>
+  /// </li>
+  /// <li>
+  /// <code>IPSetDescriptors</code>: Contains an array of <a>IPSetDescriptor</a>
+  /// objects. Each <code>IPSetDescriptor</code> object contains <code>Type</code>
+  /// and <code>Value</code>
+  /// </li>
+  /// </ul>
+  final IPSet? iPSet;
+
+  GetIPSetResponse({
+    this.iPSet,
+  });
+
+  factory GetIPSetResponse.fromJson(Map<String, dynamic> json) {
+    return GetIPSetResponse(
+      iPSet: json['IPSet'] != null
+          ? IPSet.fromJson(json['IPSet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final iPSet = this.iPSet;
+    return {
+      if (iPSet != null) 'IPSet': iPSet,
+    };
+  }
+}
+
+class GetLoggingConfigurationResponse {
+  /// The <a>LoggingConfiguration</a> for the specified web ACL.
+  final LoggingConfiguration? loggingConfiguration;
+
+  GetLoggingConfigurationResponse({
+    this.loggingConfiguration,
+  });
+
+  factory GetLoggingConfigurationResponse.fromJson(Map<String, dynamic> json) {
+    return GetLoggingConfigurationResponse(
+      loggingConfiguration: json['LoggingConfiguration'] != null
+          ? LoggingConfiguration.fromJson(
+              json['LoggingConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final loggingConfiguration = this.loggingConfiguration;
+    return {
+      if (loggingConfiguration != null)
+        'LoggingConfiguration': loggingConfiguration,
+    };
+  }
+}
+
+class GetPermissionPolicyResponse {
+  /// The IAM policy attached to the specified RuleGroup.
+  final String? policy;
+
+  GetPermissionPolicyResponse({
+    this.policy,
+  });
+
+  factory GetPermissionPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return GetPermissionPolicyResponse(
+      policy: json['Policy'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policy = this.policy;
+    return {
+      if (policy != null) 'Policy': policy,
+    };
+  }
+}
+
+class GetRateBasedRuleResponse {
+  /// Information about the <a>RateBasedRule</a> that you specified in the
+  /// <code>GetRateBasedRule</code> request.
+  final RateBasedRule? rule;
+
+  GetRateBasedRuleResponse({
+    this.rule,
+  });
+
+  factory GetRateBasedRuleResponse.fromJson(Map<String, dynamic> json) {
+    return GetRateBasedRuleResponse(
+      rule: json['Rule'] != null
+          ? RateBasedRule.fromJson(json['Rule'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rule = this.rule;
+    return {
+      if (rule != null) 'Rule': rule,
+    };
+  }
+}
+
+class GetRateBasedRuleManagedKeysResponse {
+  /// An array of IP addresses that currently are blocked by the specified
+  /// <a>RateBasedRule</a>.
+  final List<String>? managedKeys;
+
+  /// A null value and not currently used.
+  final String? nextMarker;
+
+  GetRateBasedRuleManagedKeysResponse({
+    this.managedKeys,
+    this.nextMarker,
+  });
+
+  factory GetRateBasedRuleManagedKeysResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetRateBasedRuleManagedKeysResponse(
+      managedKeys: (json['ManagedKeys'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final managedKeys = this.managedKeys;
+    final nextMarker = this.nextMarker;
+    return {
+      if (managedKeys != null) 'ManagedKeys': managedKeys,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
+  }
+}
+
+class GetRegexMatchSetResponse {
+  /// Information about the <a>RegexMatchSet</a> that you specified in the
+  /// <code>GetRegexMatchSet</code> request. For more information, see
+  /// <a>RegexMatchTuple</a>.
+  final RegexMatchSet? regexMatchSet;
+
+  GetRegexMatchSetResponse({
+    this.regexMatchSet,
+  });
+
+  factory GetRegexMatchSetResponse.fromJson(Map<String, dynamic> json) {
+    return GetRegexMatchSetResponse(
+      regexMatchSet: json['RegexMatchSet'] != null
+          ? RegexMatchSet.fromJson(
+              json['RegexMatchSet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final regexMatchSet = this.regexMatchSet;
+    return {
+      if (regexMatchSet != null) 'RegexMatchSet': regexMatchSet,
+    };
+  }
+}
+
+class GetRegexPatternSetResponse {
+  /// Information about the <a>RegexPatternSet</a> that you specified in the
+  /// <code>GetRegexPatternSet</code> request, including the identifier of the
+  /// pattern set and the regular expression patterns you want AWS WAF to search
+  /// for.
+  final RegexPatternSet? regexPatternSet;
+
+  GetRegexPatternSetResponse({
+    this.regexPatternSet,
+  });
+
+  factory GetRegexPatternSetResponse.fromJson(Map<String, dynamic> json) {
+    return GetRegexPatternSetResponse(
+      regexPatternSet: json['RegexPatternSet'] != null
+          ? RegexPatternSet.fromJson(
+              json['RegexPatternSet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final regexPatternSet = this.regexPatternSet;
+    return {
+      if (regexPatternSet != null) 'RegexPatternSet': regexPatternSet,
+    };
+  }
+}
+
+class GetRuleResponse {
+  /// Information about the <a>Rule</a> that you specified in the
+  /// <code>GetRule</code> request. For more information, see the following
+  /// topics:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>Rule</a>: Contains <code>MetricName</code>, <code>Name</code>, an array
+  /// of <code>Predicate</code> objects, and <code>RuleId</code>
+  /// </li>
+  /// <li>
+  /// <a>Predicate</a>: Each <code>Predicate</code> object contains
+  /// <code>DataId</code>, <code>Negated</code>, and <code>Type</code>
+  /// </li>
+  /// </ul>
+  final Rule? rule;
+
+  GetRuleResponse({
+    this.rule,
+  });
+
+  factory GetRuleResponse.fromJson(Map<String, dynamic> json) {
+    return GetRuleResponse(
+      rule: json['Rule'] != null
+          ? Rule.fromJson(json['Rule'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rule = this.rule;
+    return {
+      if (rule != null) 'Rule': rule,
+    };
+  }
+}
+
+class GetRuleGroupResponse {
+  /// Information about the <a>RuleGroup</a> that you specified in the
+  /// <code>GetRuleGroup</code> request.
+  final RuleGroup? ruleGroup;
+
+  GetRuleGroupResponse({
+    this.ruleGroup,
+  });
+
+  factory GetRuleGroupResponse.fromJson(Map<String, dynamic> json) {
+    return GetRuleGroupResponse(
+      ruleGroup: json['RuleGroup'] != null
+          ? RuleGroup.fromJson(json['RuleGroup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ruleGroup = this.ruleGroup;
+    return {
+      if (ruleGroup != null) 'RuleGroup': ruleGroup,
+    };
+  }
+}
+
+class GetSampledRequestsResponse {
+  /// The total number of requests from which <code>GetSampledRequests</code> got
+  /// a sample of <code>MaxItems</code> requests. If <code>PopulationSize</code>
+  /// is less than <code>MaxItems</code>, the sample includes every request that
+  /// your AWS resource received during the specified time range.
+  final int? populationSize;
+
+  /// A complex type that contains detailed information about each of the requests
+  /// in the sample.
+  final List<SampledHTTPRequest>? sampledRequests;
+
+  /// Usually, <code>TimeWindow</code> is the time range that you specified in the
+  /// <code>GetSampledRequests</code> request. However, if your AWS resource
+  /// received more than 5,000 requests during the time range that you specified
+  /// in the request, <code>GetSampledRequests</code> returns the time range for
+  /// the first 5,000 requests. Times are in Coordinated Universal Time (UTC)
+  /// format.
+  final TimeWindow? timeWindow;
+
+  GetSampledRequestsResponse({
+    this.populationSize,
+    this.sampledRequests,
+    this.timeWindow,
+  });
+
+  factory GetSampledRequestsResponse.fromJson(Map<String, dynamic> json) {
+    return GetSampledRequestsResponse(
+      populationSize: json['PopulationSize'] as int?,
+      sampledRequests: (json['SampledRequests'] as List?)
+          ?.nonNulls
+          .map((e) => SampledHTTPRequest.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      timeWindow: json['TimeWindow'] != null
+          ? TimeWindow.fromJson(json['TimeWindow'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final populationSize = this.populationSize;
+    final sampledRequests = this.sampledRequests;
+    final timeWindow = this.timeWindow;
+    return {
+      if (populationSize != null) 'PopulationSize': populationSize,
+      if (sampledRequests != null) 'SampledRequests': sampledRequests,
+      if (timeWindow != null) 'TimeWindow': timeWindow,
+    };
+  }
+}
+
+class GetSizeConstraintSetResponse {
+  /// Information about the <a>SizeConstraintSet</a> that you specified in the
+  /// <code>GetSizeConstraintSet</code> request. For more information, see the
+  /// following topics:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>SizeConstraintSet</a>: Contains <code>SizeConstraintSetId</code>,
+  /// <code>SizeConstraints</code>, and <code>Name</code>
+  /// </li>
+  /// <li>
+  /// <code>SizeConstraints</code>: Contains an array of <a>SizeConstraint</a>
+  /// objects. Each <code>SizeConstraint</code> object contains
+  /// <a>FieldToMatch</a>, <code>TextTransformation</code>,
+  /// <code>ComparisonOperator</code>, and <code>Size</code>
+  /// </li>
+  /// <li>
+  /// <a>FieldToMatch</a>: Contains <code>Data</code> and <code>Type</code>
+  /// </li>
+  /// </ul>
+  final SizeConstraintSet? sizeConstraintSet;
+
+  GetSizeConstraintSetResponse({
+    this.sizeConstraintSet,
+  });
+
+  factory GetSizeConstraintSetResponse.fromJson(Map<String, dynamic> json) {
+    return GetSizeConstraintSetResponse(
+      sizeConstraintSet: json['SizeConstraintSet'] != null
+          ? SizeConstraintSet.fromJson(
+              json['SizeConstraintSet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sizeConstraintSet = this.sizeConstraintSet;
+    return {
+      if (sizeConstraintSet != null) 'SizeConstraintSet': sizeConstraintSet,
+    };
+  }
+}
+
+/// The response to a <a>GetSqlInjectionMatchSet</a> request.
+class GetSqlInjectionMatchSetResponse {
+  /// Information about the <a>SqlInjectionMatchSet</a> that you specified in the
+  /// <code>GetSqlInjectionMatchSet</code> request. For more information, see the
+  /// following topics:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>SqlInjectionMatchSet</a>: Contains <code>Name</code>,
+  /// <code>SqlInjectionMatchSetId</code>, and an array of
+  /// <code>SqlInjectionMatchTuple</code> objects
+  /// </li>
+  /// <li>
+  /// <a>SqlInjectionMatchTuple</a>: Each <code>SqlInjectionMatchTuple</code>
+  /// object contains <code>FieldToMatch</code> and
+  /// <code>TextTransformation</code>
+  /// </li>
+  /// <li>
+  /// <a>FieldToMatch</a>: Contains <code>Data</code> and <code>Type</code>
+  /// </li>
+  /// </ul>
+  final SqlInjectionMatchSet? sqlInjectionMatchSet;
+
+  GetSqlInjectionMatchSetResponse({
+    this.sqlInjectionMatchSet,
+  });
+
+  factory GetSqlInjectionMatchSetResponse.fromJson(Map<String, dynamic> json) {
+    return GetSqlInjectionMatchSetResponse(
+      sqlInjectionMatchSet: json['SqlInjectionMatchSet'] != null
+          ? SqlInjectionMatchSet.fromJson(
+              json['SqlInjectionMatchSet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sqlInjectionMatchSet = this.sqlInjectionMatchSet;
+    return {
+      if (sqlInjectionMatchSet != null)
+        'SqlInjectionMatchSet': sqlInjectionMatchSet,
+    };
+  }
+}
+
+class GetWebACLResponse {
+  /// Information about the <a>WebACL</a> that you specified in the
+  /// <code>GetWebACL</code> request. For more information, see the following
+  /// topics:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>WebACL</a>: Contains <code>DefaultAction</code>, <code>MetricName</code>,
+  /// <code>Name</code>, an array of <code>Rule</code> objects, and
+  /// <code>WebACLId</code>
+  /// </li>
+  /// <li>
+  /// <code>DefaultAction</code> (Data type is <a>WafAction</a>): Contains
+  /// <code>Type</code>
+  /// </li>
+  /// <li>
+  /// <code>Rules</code>: Contains an array of <code>ActivatedRule</code> objects,
+  /// which contain <code>Action</code>, <code>Priority</code>, and
+  /// <code>RuleId</code>
+  /// </li>
+  /// <li>
+  /// <code>Action</code>: Contains <code>Type</code>
+  /// </li>
+  /// </ul>
+  final WebACL? webACL;
+
+  GetWebACLResponse({
+    this.webACL,
+  });
+
+  factory GetWebACLResponse.fromJson(Map<String, dynamic> json) {
+    return GetWebACLResponse(
+      webACL: json['WebACL'] != null
+          ? WebACL.fromJson(json['WebACL'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final webACL = this.webACL;
+    return {
+      if (webACL != null) 'WebACL': webACL,
+    };
+  }
+}
+
+class GetWebACLForResourceResponse {
+  /// Information about the web ACL that you specified in the
+  /// <code>GetWebACLForResource</code> request. If there is no associated
+  /// resource, a null WebACLSummary is returned.
+  final WebACLSummary? webACLSummary;
+
+  GetWebACLForResourceResponse({
+    this.webACLSummary,
+  });
+
+  factory GetWebACLForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return GetWebACLForResourceResponse(
+      webACLSummary: json['WebACLSummary'] != null
+          ? WebACLSummary.fromJson(
+              json['WebACLSummary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final webACLSummary = this.webACLSummary;
+    return {
+      if (webACLSummary != null) 'WebACLSummary': webACLSummary,
+    };
+  }
+}
+
+/// The response to a <a>GetXssMatchSet</a> request.
+class GetXssMatchSetResponse {
+  /// Information about the <a>XssMatchSet</a> that you specified in the
+  /// <code>GetXssMatchSet</code> request. For more information, see the following
+  /// topics:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>XssMatchSet</a>: Contains <code>Name</code>, <code>XssMatchSetId</code>,
+  /// and an array of <code>XssMatchTuple</code> objects
+  /// </li>
+  /// <li>
+  /// <a>XssMatchTuple</a>: Each <code>XssMatchTuple</code> object contains
+  /// <code>FieldToMatch</code> and <code>TextTransformation</code>
+  /// </li>
+  /// <li>
+  /// <a>FieldToMatch</a>: Contains <code>Data</code> and <code>Type</code>
+  /// </li>
+  /// </ul>
+  final XssMatchSet? xssMatchSet;
+
+  GetXssMatchSetResponse({
+    this.xssMatchSet,
+  });
+
+  factory GetXssMatchSetResponse.fromJson(Map<String, dynamic> json) {
+    return GetXssMatchSetResponse(
+      xssMatchSet: json['XssMatchSet'] != null
+          ? XssMatchSet.fromJson(json['XssMatchSet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final xssMatchSet = this.xssMatchSet;
+    return {
+      if (xssMatchSet != null) 'XssMatchSet': xssMatchSet,
+    };
+  }
+}
+
+class ListActivatedRulesInRuleGroupResponse {
+  /// An array of <code>ActivatedRules</code> objects.
+  final List<ActivatedRule>? activatedRules;
+
+  /// If you have more <code>ActivatedRules</code> than the number that you
+  /// specified for <code>Limit</code> in the request, the response includes a
+  /// <code>NextMarker</code> value. To list more <code>ActivatedRules</code>,
+  /// submit another <code>ListActivatedRulesInRuleGroup</code> request, and
+  /// specify the <code>NextMarker</code> value from the response in the
+  /// <code>NextMarker</code> value in the next request.
+  final String? nextMarker;
+
+  ListActivatedRulesInRuleGroupResponse({
+    this.activatedRules,
+    this.nextMarker,
+  });
+
+  factory ListActivatedRulesInRuleGroupResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListActivatedRulesInRuleGroupResponse(
+      activatedRules: (json['ActivatedRules'] as List?)
+          ?.nonNulls
+          .map((e) => ActivatedRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activatedRules = this.activatedRules;
+    final nextMarker = this.nextMarker;
+    return {
+      if (activatedRules != null) 'ActivatedRules': activatedRules,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
+  }
+}
+
+class ListByteMatchSetsResponse {
+  /// An array of <a>ByteMatchSetSummary</a> objects.
+  final List<ByteMatchSetSummary>? byteMatchSets;
+
+  /// If you have more <code>ByteMatchSet</code> objects than the number that you
+  /// specified for <code>Limit</code> in the request, the response includes a
+  /// <code>NextMarker</code> value. To list more <code>ByteMatchSet</code>
+  /// objects, submit another <code>ListByteMatchSets</code> request, and specify
+  /// the <code>NextMarker</code> value from the response in the
+  /// <code>NextMarker</code> value in the next request.
+  final String? nextMarker;
+
+  ListByteMatchSetsResponse({
+    this.byteMatchSets,
+    this.nextMarker,
+  });
+
+  factory ListByteMatchSetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListByteMatchSetsResponse(
+      byteMatchSets: (json['ByteMatchSets'] as List?)
+          ?.nonNulls
+          .map((e) => ByteMatchSetSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final byteMatchSets = this.byteMatchSets;
+    final nextMarker = this.nextMarker;
+    return {
+      if (byteMatchSets != null) 'ByteMatchSets': byteMatchSets,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
+  }
+}
+
+class ListGeoMatchSetsResponse {
+  /// An array of <a>GeoMatchSetSummary</a> objects.
+  final List<GeoMatchSetSummary>? geoMatchSets;
+
+  /// If you have more <code>GeoMatchSet</code> objects than the number that you
+  /// specified for <code>Limit</code> in the request, the response includes a
+  /// <code>NextMarker</code> value. To list more <code>GeoMatchSet</code>
+  /// objects, submit another <code>ListGeoMatchSets</code> request, and specify
+  /// the <code>NextMarker</code> value from the response in the
+  /// <code>NextMarker</code> value in the next request.
+  final String? nextMarker;
+
+  ListGeoMatchSetsResponse({
+    this.geoMatchSets,
+    this.nextMarker,
+  });
+
+  factory ListGeoMatchSetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListGeoMatchSetsResponse(
+      geoMatchSets: (json['GeoMatchSets'] as List?)
+          ?.nonNulls
+          .map((e) => GeoMatchSetSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final geoMatchSets = this.geoMatchSets;
+    final nextMarker = this.nextMarker;
+    return {
+      if (geoMatchSets != null) 'GeoMatchSets': geoMatchSets,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
+  }
+}
+
+class ListIPSetsResponse {
+  /// An array of <a>IPSetSummary</a> objects.
+  final List<IPSetSummary>? iPSets;
+
+  /// To list more <code>IPSet</code> objects, submit another
+  /// <code>ListIPSets</code> request, and in the next request use the
+  /// <code>NextMarker</code> response value as the <code>NextMarker</code> value.
+  final String? nextMarker;
+
+  ListIPSetsResponse({
+    this.iPSets,
+    this.nextMarker,
+  });
+
+  factory ListIPSetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListIPSetsResponse(
+      iPSets: (json['IPSets'] as List?)
+          ?.nonNulls
+          .map((e) => IPSetSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final iPSets = this.iPSets;
+    final nextMarker = this.nextMarker;
+    return {
+      if (iPSets != null) 'IPSets': iPSets,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
+  }
+}
+
+class ListLoggingConfigurationsResponse {
+  /// An array of <a>LoggingConfiguration</a> objects.
+  final List<LoggingConfiguration>? loggingConfigurations;
+
+  /// If you have more <code>LoggingConfigurations</code> than the number that you
+  /// specified for <code>Limit</code> in the request, the response includes a
+  /// <code>NextMarker</code> value. To list more
+  /// <code>LoggingConfigurations</code>, submit another
+  /// <code>ListLoggingConfigurations</code> request, and specify the
+  /// <code>NextMarker</code> value from the response in the
+  /// <code>NextMarker</code> value in the next request.
+  final String? nextMarker;
+
+  ListLoggingConfigurationsResponse({
+    this.loggingConfigurations,
+    this.nextMarker,
+  });
+
+  factory ListLoggingConfigurationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListLoggingConfigurationsResponse(
+      loggingConfigurations: (json['LoggingConfigurations'] as List?)
+          ?.nonNulls
+          .map((e) => LoggingConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final loggingConfigurations = this.loggingConfigurations;
+    final nextMarker = this.nextMarker;
+    return {
+      if (loggingConfigurations != null)
+        'LoggingConfigurations': loggingConfigurations,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
+  }
+}
+
+class ListRateBasedRulesResponse {
+  /// If you have more <code>Rules</code> than the number that you specified for
+  /// <code>Limit</code> in the request, the response includes a
+  /// <code>NextMarker</code> value. To list more <code>Rules</code>, submit
+  /// another <code>ListRateBasedRules</code> request, and specify the
+  /// <code>NextMarker</code> value from the response in the
+  /// <code>NextMarker</code> value in the next request.
+  final String? nextMarker;
+
+  /// An array of <a>RuleSummary</a> objects.
+  final List<RuleSummary>? rules;
+
+  ListRateBasedRulesResponse({
+    this.nextMarker,
+    this.rules,
+  });
+
+  factory ListRateBasedRulesResponse.fromJson(Map<String, dynamic> json) {
+    return ListRateBasedRulesResponse(
+      nextMarker: json['NextMarker'] as String?,
+      rules: (json['Rules'] as List?)
+          ?.nonNulls
+          .map((e) => RuleSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextMarker = this.nextMarker;
+    final rules = this.rules;
+    return {
+      if (nextMarker != null) 'NextMarker': nextMarker,
+      if (rules != null) 'Rules': rules,
+    };
+  }
+}
+
+class ListRegexMatchSetsResponse {
+  /// If you have more <code>RegexMatchSet</code> objects than the number that you
+  /// specified for <code>Limit</code> in the request, the response includes a
+  /// <code>NextMarker</code> value. To list more <code>RegexMatchSet</code>
+  /// objects, submit another <code>ListRegexMatchSets</code> request, and specify
+  /// the <code>NextMarker</code> value from the response in the
+  /// <code>NextMarker</code> value in the next request.
+  final String? nextMarker;
+
+  /// An array of <a>RegexMatchSetSummary</a> objects.
+  final List<RegexMatchSetSummary>? regexMatchSets;
+
+  ListRegexMatchSetsResponse({
+    this.nextMarker,
+    this.regexMatchSets,
+  });
+
+  factory ListRegexMatchSetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListRegexMatchSetsResponse(
+      nextMarker: json['NextMarker'] as String?,
+      regexMatchSets: (json['RegexMatchSets'] as List?)
+          ?.nonNulls
+          .map((e) => RegexMatchSetSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextMarker = this.nextMarker;
+    final regexMatchSets = this.regexMatchSets;
+    return {
+      if (nextMarker != null) 'NextMarker': nextMarker,
+      if (regexMatchSets != null) 'RegexMatchSets': regexMatchSets,
+    };
+  }
+}
+
+class ListRegexPatternSetsResponse {
+  /// If you have more <code>RegexPatternSet</code> objects than the number that
+  /// you specified for <code>Limit</code> in the request, the response includes a
+  /// <code>NextMarker</code> value. To list more <code>RegexPatternSet</code>
+  /// objects, submit another <code>ListRegexPatternSets</code> request, and
+  /// specify the <code>NextMarker</code> value from the response in the
+  /// <code>NextMarker</code> value in the next request.
+  final String? nextMarker;
+
+  /// An array of <a>RegexPatternSetSummary</a> objects.
+  final List<RegexPatternSetSummary>? regexPatternSets;
+
+  ListRegexPatternSetsResponse({
+    this.nextMarker,
+    this.regexPatternSets,
+  });
+
+  factory ListRegexPatternSetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListRegexPatternSetsResponse(
+      nextMarker: json['NextMarker'] as String?,
+      regexPatternSets: (json['RegexPatternSets'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => RegexPatternSetSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextMarker = this.nextMarker;
+    final regexPatternSets = this.regexPatternSets;
+    return {
+      if (nextMarker != null) 'NextMarker': nextMarker,
+      if (regexPatternSets != null) 'RegexPatternSets': regexPatternSets,
+    };
+  }
+}
+
+class ListResourcesForWebACLResponse {
+  /// An array of ARNs (Amazon Resource Names) of the resources associated with
+  /// the specified web ACL. An array with zero elements is returned if there are
+  /// no resources associated with the web ACL.
+  final List<String>? resourceArns;
+
+  ListResourcesForWebACLResponse({
+    this.resourceArns,
+  });
+
+  factory ListResourcesForWebACLResponse.fromJson(Map<String, dynamic> json) {
+    return ListResourcesForWebACLResponse(
+      resourceArns: (json['ResourceArns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceArns = this.resourceArns;
+    return {
+      if (resourceArns != null) 'ResourceArns': resourceArns,
+    };
+  }
+}
+
+class ListRuleGroupsResponse {
+  /// If you have more <code>RuleGroups</code> than the number that you specified
+  /// for <code>Limit</code> in the request, the response includes a
+  /// <code>NextMarker</code> value. To list more <code>RuleGroups</code>, submit
+  /// another <code>ListRuleGroups</code> request, and specify the
+  /// <code>NextMarker</code> value from the response in the
+  /// <code>NextMarker</code> value in the next request.
+  final String? nextMarker;
+
+  /// An array of <a>RuleGroup</a> objects.
+  final List<RuleGroupSummary>? ruleGroups;
+
+  ListRuleGroupsResponse({
+    this.nextMarker,
+    this.ruleGroups,
+  });
+
+  factory ListRuleGroupsResponse.fromJson(Map<String, dynamic> json) {
+    return ListRuleGroupsResponse(
+      nextMarker: json['NextMarker'] as String?,
+      ruleGroups: (json['RuleGroups'] as List?)
+          ?.nonNulls
+          .map((e) => RuleGroupSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextMarker = this.nextMarker;
+    final ruleGroups = this.ruleGroups;
+    return {
+      if (nextMarker != null) 'NextMarker': nextMarker,
+      if (ruleGroups != null) 'RuleGroups': ruleGroups,
+    };
+  }
+}
+
+class ListRulesResponse {
+  /// If you have more <code>Rules</code> than the number that you specified for
+  /// <code>Limit</code> in the request, the response includes a
+  /// <code>NextMarker</code> value. To list more <code>Rules</code>, submit
+  /// another <code>ListRules</code> request, and specify the
+  /// <code>NextMarker</code> value from the response in the
+  /// <code>NextMarker</code> value in the next request.
+  final String? nextMarker;
+
+  /// An array of <a>RuleSummary</a> objects.
+  final List<RuleSummary>? rules;
+
+  ListRulesResponse({
+    this.nextMarker,
+    this.rules,
+  });
+
+  factory ListRulesResponse.fromJson(Map<String, dynamic> json) {
+    return ListRulesResponse(
+      nextMarker: json['NextMarker'] as String?,
+      rules: (json['Rules'] as List?)
+          ?.nonNulls
+          .map((e) => RuleSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextMarker = this.nextMarker;
+    final rules = this.rules;
+    return {
+      if (nextMarker != null) 'NextMarker': nextMarker,
+      if (rules != null) 'Rules': rules,
+    };
+  }
+}
+
+class ListSizeConstraintSetsResponse {
+  /// If you have more <code>SizeConstraintSet</code> objects than the number that
+  /// you specified for <code>Limit</code> in the request, the response includes a
+  /// <code>NextMarker</code> value. To list more <code>SizeConstraintSet</code>
+  /// objects, submit another <code>ListSizeConstraintSets</code> request, and
+  /// specify the <code>NextMarker</code> value from the response in the
+  /// <code>NextMarker</code> value in the next request.
+  final String? nextMarker;
+
+  /// An array of <a>SizeConstraintSetSummary</a> objects.
+  final List<SizeConstraintSetSummary>? sizeConstraintSets;
+
+  ListSizeConstraintSetsResponse({
+    this.nextMarker,
+    this.sizeConstraintSets,
+  });
+
+  factory ListSizeConstraintSetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListSizeConstraintSetsResponse(
+      nextMarker: json['NextMarker'] as String?,
+      sizeConstraintSets: (json['SizeConstraintSets'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              SizeConstraintSetSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextMarker = this.nextMarker;
+    final sizeConstraintSets = this.sizeConstraintSets;
+    return {
+      if (nextMarker != null) 'NextMarker': nextMarker,
+      if (sizeConstraintSets != null) 'SizeConstraintSets': sizeConstraintSets,
+    };
+  }
+}
+
+/// The response to a <a>ListSqlInjectionMatchSets</a> request.
+class ListSqlInjectionMatchSetsResponse {
+  /// If you have more <a>SqlInjectionMatchSet</a> objects than the number that
+  /// you specified for <code>Limit</code> in the request, the response includes a
+  /// <code>NextMarker</code> value. To list more
+  /// <code>SqlInjectionMatchSet</code> objects, submit another
+  /// <code>ListSqlInjectionMatchSets</code> request, and specify the
+  /// <code>NextMarker</code> value from the response in the
+  /// <code>NextMarker</code> value in the next request.
+  final String? nextMarker;
+
+  /// An array of <a>SqlInjectionMatchSetSummary</a> objects.
+  final List<SqlInjectionMatchSetSummary>? sqlInjectionMatchSets;
+
+  ListSqlInjectionMatchSetsResponse({
+    this.nextMarker,
+    this.sqlInjectionMatchSets,
+  });
+
+  factory ListSqlInjectionMatchSetsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListSqlInjectionMatchSetsResponse(
+      nextMarker: json['NextMarker'] as String?,
+      sqlInjectionMatchSets: (json['SqlInjectionMatchSets'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              SqlInjectionMatchSetSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextMarker = this.nextMarker;
+    final sqlInjectionMatchSets = this.sqlInjectionMatchSets;
+    return {
+      if (nextMarker != null) 'NextMarker': nextMarker,
+      if (sqlInjectionMatchSets != null)
+        'SqlInjectionMatchSets': sqlInjectionMatchSets,
+    };
+  }
+}
+
+class ListSubscribedRuleGroupsResponse {
+  /// If you have more objects than the number that you specified for
+  /// <code>Limit</code> in the request, the response includes a
+  /// <code>NextMarker</code> value. To list more objects, submit another
+  /// <code>ListSubscribedRuleGroups</code> request, and specify the
+  /// <code>NextMarker</code> value from the response in the
+  /// <code>NextMarker</code> value in the next request.
+  final String? nextMarker;
+
+  /// An array of <a>RuleGroup</a> objects.
+  final List<SubscribedRuleGroupSummary>? ruleGroups;
+
+  ListSubscribedRuleGroupsResponse({
+    this.nextMarker,
+    this.ruleGroups,
+  });
+
+  factory ListSubscribedRuleGroupsResponse.fromJson(Map<String, dynamic> json) {
+    return ListSubscribedRuleGroupsResponse(
+      nextMarker: json['NextMarker'] as String?,
+      ruleGroups: (json['RuleGroups'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              SubscribedRuleGroupSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextMarker = this.nextMarker;
+    final ruleGroups = this.ruleGroups;
+    return {
+      if (nextMarker != null) 'NextMarker': nextMarker,
+      if (ruleGroups != null) 'RuleGroups': ruleGroups,
+    };
+  }
+}
+
+class ListTagsForResourceResponse {
+  ///
+  final String? nextMarker;
+
+  ///
+  final TagInfoForResource? tagInfoForResource;
+
+  ListTagsForResourceResponse({
+    this.nextMarker,
+    this.tagInfoForResource,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      nextMarker: json['NextMarker'] as String?,
+      tagInfoForResource: json['TagInfoForResource'] != null
+          ? TagInfoForResource.fromJson(
+              json['TagInfoForResource'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextMarker = this.nextMarker;
+    final tagInfoForResource = this.tagInfoForResource;
+    return {
+      if (nextMarker != null) 'NextMarker': nextMarker,
+      if (tagInfoForResource != null) 'TagInfoForResource': tagInfoForResource,
+    };
+  }
+}
+
+class ListWebACLsResponse {
+  /// If you have more <code>WebACL</code> objects than the number that you
+  /// specified for <code>Limit</code> in the request, the response includes a
+  /// <code>NextMarker</code> value. To list more <code>WebACL</code> objects,
+  /// submit another <code>ListWebACLs</code> request, and specify the
+  /// <code>NextMarker</code> value from the response in the
+  /// <code>NextMarker</code> value in the next request.
+  final String? nextMarker;
+
+  /// An array of <a>WebACLSummary</a> objects.
+  final List<WebACLSummary>? webACLs;
+
+  ListWebACLsResponse({
+    this.nextMarker,
+    this.webACLs,
+  });
+
+  factory ListWebACLsResponse.fromJson(Map<String, dynamic> json) {
+    return ListWebACLsResponse(
+      nextMarker: json['NextMarker'] as String?,
+      webACLs: (json['WebACLs'] as List?)
+          ?.nonNulls
+          .map((e) => WebACLSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextMarker = this.nextMarker;
+    final webACLs = this.webACLs;
+    return {
+      if (nextMarker != null) 'NextMarker': nextMarker,
+      if (webACLs != null) 'WebACLs': webACLs,
+    };
+  }
+}
+
+/// The response to a <a>ListXssMatchSets</a> request.
+class ListXssMatchSetsResponse {
+  /// If you have more <a>XssMatchSet</a> objects than the number that you
+  /// specified for <code>Limit</code> in the request, the response includes a
+  /// <code>NextMarker</code> value. To list more <code>XssMatchSet</code>
+  /// objects, submit another <code>ListXssMatchSets</code> request, and specify
+  /// the <code>NextMarker</code> value from the response in the
+  /// <code>NextMarker</code> value in the next request.
+  final String? nextMarker;
+
+  /// An array of <a>XssMatchSetSummary</a> objects.
+  final List<XssMatchSetSummary>? xssMatchSets;
+
+  ListXssMatchSetsResponse({
+    this.nextMarker,
+    this.xssMatchSets,
+  });
+
+  factory ListXssMatchSetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListXssMatchSetsResponse(
+      nextMarker: json['NextMarker'] as String?,
+      xssMatchSets: (json['XssMatchSets'] as List?)
+          ?.nonNulls
+          .map((e) => XssMatchSetSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextMarker = this.nextMarker;
+    final xssMatchSets = this.xssMatchSets;
+    return {
+      if (nextMarker != null) 'NextMarker': nextMarker,
+      if (xssMatchSets != null) 'XssMatchSets': xssMatchSets,
+    };
+  }
+}
+
+class PutLoggingConfigurationResponse {
+  /// The <a>LoggingConfiguration</a> that you submitted in the request.
+  final LoggingConfiguration? loggingConfiguration;
+
+  PutLoggingConfigurationResponse({
+    this.loggingConfiguration,
+  });
+
+  factory PutLoggingConfigurationResponse.fromJson(Map<String, dynamic> json) {
+    return PutLoggingConfigurationResponse(
+      loggingConfiguration: json['LoggingConfiguration'] != null
+          ? LoggingConfiguration.fromJson(
+              json['LoggingConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final loggingConfiguration = this.loggingConfiguration;
+    return {
+      if (loggingConfiguration != null)
+        'LoggingConfiguration': loggingConfiguration,
+    };
+  }
+}
+
+class PutPermissionPolicyResponse {
+  PutPermissionPolicyResponse();
+
+  factory PutPermissionPolicyResponse.fromJson(Map<String, dynamic> _) {
+    return PutPermissionPolicyResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateByteMatchSetResponse {
+  /// The <code>ChangeToken</code> that you used to submit the
+  /// <code>UpdateByteMatchSet</code> request. You can also use this value to
+  /// query the status of the request. For more information, see
+  /// <a>GetChangeTokenStatus</a>.
+  final String? changeToken;
+
+  UpdateByteMatchSetResponse({
+    this.changeToken,
+  });
+
+  factory UpdateByteMatchSetResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateByteMatchSetResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeToken = this.changeToken;
+    return {
+      if (changeToken != null) 'ChangeToken': changeToken,
+    };
+  }
+}
+
+class UpdateGeoMatchSetResponse {
+  /// The <code>ChangeToken</code> that you used to submit the
+  /// <code>UpdateGeoMatchSet</code> request. You can also use this value to query
+  /// the status of the request. For more information, see
+  /// <a>GetChangeTokenStatus</a>.
+  final String? changeToken;
+
+  UpdateGeoMatchSetResponse({
+    this.changeToken,
+  });
+
+  factory UpdateGeoMatchSetResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateGeoMatchSetResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeToken = this.changeToken;
+    return {
+      if (changeToken != null) 'ChangeToken': changeToken,
+    };
+  }
+}
+
+class UpdateIPSetResponse {
+  /// The <code>ChangeToken</code> that you used to submit the
+  /// <code>UpdateIPSet</code> request. You can also use this value to query the
+  /// status of the request. For more information, see
+  /// <a>GetChangeTokenStatus</a>.
+  final String? changeToken;
+
+  UpdateIPSetResponse({
+    this.changeToken,
+  });
+
+  factory UpdateIPSetResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateIPSetResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeToken = this.changeToken;
+    return {
+      if (changeToken != null) 'ChangeToken': changeToken,
+    };
+  }
+}
+
+class UpdateRateBasedRuleResponse {
+  /// The <code>ChangeToken</code> that you used to submit the
+  /// <code>UpdateRateBasedRule</code> request. You can also use this value to
+  /// query the status of the request. For more information, see
+  /// <a>GetChangeTokenStatus</a>.
+  final String? changeToken;
+
+  UpdateRateBasedRuleResponse({
+    this.changeToken,
+  });
+
+  factory UpdateRateBasedRuleResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateRateBasedRuleResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeToken = this.changeToken;
+    return {
+      if (changeToken != null) 'ChangeToken': changeToken,
+    };
+  }
+}
+
+class UpdateRegexMatchSetResponse {
+  /// The <code>ChangeToken</code> that you used to submit the
+  /// <code>UpdateRegexMatchSet</code> request. You can also use this value to
+  /// query the status of the request. For more information, see
+  /// <a>GetChangeTokenStatus</a>.
+  final String? changeToken;
+
+  UpdateRegexMatchSetResponse({
+    this.changeToken,
+  });
+
+  factory UpdateRegexMatchSetResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateRegexMatchSetResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeToken = this.changeToken;
+    return {
+      if (changeToken != null) 'ChangeToken': changeToken,
+    };
+  }
+}
+
+class UpdateRegexPatternSetResponse {
+  /// The <code>ChangeToken</code> that you used to submit the
+  /// <code>UpdateRegexPatternSet</code> request. You can also use this value to
+  /// query the status of the request. For more information, see
+  /// <a>GetChangeTokenStatus</a>.
+  final String? changeToken;
+
+  UpdateRegexPatternSetResponse({
+    this.changeToken,
+  });
+
+  factory UpdateRegexPatternSetResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateRegexPatternSetResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeToken = this.changeToken;
+    return {
+      if (changeToken != null) 'ChangeToken': changeToken,
+    };
+  }
+}
+
+class UpdateRuleResponse {
+  /// The <code>ChangeToken</code> that you used to submit the
+  /// <code>UpdateRule</code> request. You can also use this value to query the
+  /// status of the request. For more information, see
+  /// <a>GetChangeTokenStatus</a>.
+  final String? changeToken;
+
+  UpdateRuleResponse({
+    this.changeToken,
+  });
+
+  factory UpdateRuleResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateRuleResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeToken = this.changeToken;
+    return {
+      if (changeToken != null) 'ChangeToken': changeToken,
+    };
+  }
+}
+
+class UpdateRuleGroupResponse {
+  /// The <code>ChangeToken</code> that you used to submit the
+  /// <code>UpdateRuleGroup</code> request. You can also use this value to query
+  /// the status of the request. For more information, see
+  /// <a>GetChangeTokenStatus</a>.
+  final String? changeToken;
+
+  UpdateRuleGroupResponse({
+    this.changeToken,
+  });
+
+  factory UpdateRuleGroupResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateRuleGroupResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeToken = this.changeToken;
+    return {
+      if (changeToken != null) 'ChangeToken': changeToken,
+    };
+  }
+}
+
+class UpdateSizeConstraintSetResponse {
+  /// The <code>ChangeToken</code> that you used to submit the
+  /// <code>UpdateSizeConstraintSet</code> request. You can also use this value to
+  /// query the status of the request. For more information, see
+  /// <a>GetChangeTokenStatus</a>.
+  final String? changeToken;
+
+  UpdateSizeConstraintSetResponse({
+    this.changeToken,
+  });
+
+  factory UpdateSizeConstraintSetResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateSizeConstraintSetResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeToken = this.changeToken;
+    return {
+      if (changeToken != null) 'ChangeToken': changeToken,
+    };
+  }
+}
+
+/// The response to an <a>UpdateSqlInjectionMatchSets</a> request.
+class UpdateSqlInjectionMatchSetResponse {
+  /// The <code>ChangeToken</code> that you used to submit the
+  /// <code>UpdateSqlInjectionMatchSet</code> request. You can also use this value
+  /// to query the status of the request. For more information, see
+  /// <a>GetChangeTokenStatus</a>.
+  final String? changeToken;
+
+  UpdateSqlInjectionMatchSetResponse({
+    this.changeToken,
+  });
+
+  factory UpdateSqlInjectionMatchSetResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateSqlInjectionMatchSetResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeToken = this.changeToken;
+    return {
+      if (changeToken != null) 'ChangeToken': changeToken,
+    };
+  }
+}
+
+class UpdateWebACLResponse {
+  /// The <code>ChangeToken</code> that you used to submit the
+  /// <code>UpdateWebACL</code> request. You can also use this value to query the
+  /// status of the request. For more information, see
+  /// <a>GetChangeTokenStatus</a>.
+  final String? changeToken;
+
+  UpdateWebACLResponse({
+    this.changeToken,
+  });
+
+  factory UpdateWebACLResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateWebACLResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeToken = this.changeToken;
+    return {
+      if (changeToken != null) 'ChangeToken': changeToken,
+    };
+  }
+}
+
+/// The response to an <a>UpdateXssMatchSets</a> request.
+class UpdateXssMatchSetResponse {
+  /// The <code>ChangeToken</code> that you used to submit the
+  /// <code>UpdateXssMatchSet</code> request. You can also use this value to query
+  /// the status of the request. For more information, see
+  /// <a>GetChangeTokenStatus</a>.
+  final String? changeToken;
+
+  UpdateXssMatchSetResponse({
+    this.changeToken,
+  });
+
+  factory UpdateXssMatchSetResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateXssMatchSetResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeToken = this.changeToken;
+    return {
+      if (changeToken != null) 'ChangeToken': changeToken,
+    };
+  }
+}
+
 /// <note>
 /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
 /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
@@ -7545,28 +8460,198 @@ class DisassociateWebACLResponse {
 /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
 /// of endpoints for regional and global use.
 /// </note>
-/// The rule to exclude from a rule group. This is applicable only when the
-/// <code>ActivatedRule</code> refers to a <code>RuleGroup</code>. The rule must
-/// belong to the <code>RuleGroup</code> that is specified by the
-/// <code>ActivatedRule</code>.
-class ExcludedRule {
-  /// The unique identifier for the rule to exclude from the rule group.
-  final String ruleId;
+/// Specifies the part of a web request that you want to inspect for cross-site
+/// scripting attacks and indicates whether you want to add the specification to
+/// an <a>XssMatchSet</a> or delete it from an <code>XssMatchSet</code>.
+class XssMatchSetUpdate {
+  /// Specify <code>INSERT</code> to add an <a>XssMatchSetUpdate</a> to an
+  /// <a>XssMatchSet</a>. Use <code>DELETE</code> to remove an
+  /// <code>XssMatchSetUpdate</code> from an <code>XssMatchSet</code>.
+  final ChangeAction action;
 
-  ExcludedRule({
-    required this.ruleId,
+  /// Specifies the part of a web request that you want AWS WAF to inspect for
+  /// cross-site scripting attacks and, if you want AWS WAF to inspect a header,
+  /// the name of the header.
+  final XssMatchTuple xssMatchTuple;
+
+  XssMatchSetUpdate({
+    required this.action,
+    required this.xssMatchTuple,
   });
 
-  factory ExcludedRule.fromJson(Map<String, dynamic> json) {
-    return ExcludedRule(
-      ruleId: (json['RuleId'] as String?) ?? '',
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final xssMatchTuple = this.xssMatchTuple;
+    return {
+      'Action': action.value,
+      'XssMatchTuple': xssMatchTuple,
+    };
+  }
+}
+
+class ChangeAction {
+  static const insert = ChangeAction._('INSERT');
+  static const delete = ChangeAction._('DELETE');
+
+  final String value;
+
+  const ChangeAction._(this.value);
+
+  static const values = [insert, delete];
+
+  static ChangeAction fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChangeAction._(value));
+
+  @override
+  bool operator ==(other) => other is ChangeAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// Specifies the part of a web request that you want AWS WAF to inspect for
+/// cross-site scripting attacks and, if you want AWS WAF to inspect a header,
+/// the name of the header.
+class XssMatchTuple {
+  /// Specifies where in a web request to look for cross-site scripting attacks.
+  final FieldToMatch fieldToMatch;
+
+  /// Text transformations eliminate some of the unusual formatting that attackers
+  /// use in web requests in an effort to bypass AWS WAF. If you specify a
+  /// transformation, AWS WAF performs the transformation on
+  /// <code>FieldToMatch</code> before inspecting it for a match.
+  ///
+  /// You can only specify a single type of TextTransformation.
+  ///
+  /// <b>CMD_LINE</b>
+  ///
+  /// When you're concerned that attackers are injecting an operating system
+  /// command line command and using unusual formatting to disguise some or all of
+  /// the command, use this option to perform the following transformations:
+  ///
+  /// <ul>
+  /// <li>
+  /// Delete the following characters: \ " ' ^
+  /// </li>
+  /// <li>
+  /// Delete spaces before the following characters: / (
+  /// </li>
+  /// <li>
+  /// Replace the following characters with a space: , ;
+  /// </li>
+  /// <li>
+  /// Replace multiple spaces with one space
+  /// </li>
+  /// <li>
+  /// Convert uppercase letters (A-Z) to lowercase (a-z)
+  /// </li>
+  /// </ul>
+  /// <b>COMPRESS_WHITE_SPACE</b>
+  ///
+  /// Use this option to replace the following characters with a space character
+  /// (decimal 32):
+  ///
+  /// <ul>
+  /// <li>
+  /// \f, formfeed, decimal 12
+  /// </li>
+  /// <li>
+  /// \t, tab, decimal 9
+  /// </li>
+  /// <li>
+  /// \n, newline, decimal 10
+  /// </li>
+  /// <li>
+  /// \r, carriage return, decimal 13
+  /// </li>
+  /// <li>
+  /// \v, vertical tab, decimal 11
+  /// </li>
+  /// <li>
+  /// non-breaking space, decimal 160
+  /// </li>
+  /// </ul>
+  /// <code>COMPRESS_WHITE_SPACE</code> also replaces multiple spaces with one
+  /// space.
+  ///
+  /// <b>HTML_ENTITY_DECODE</b>
+  ///
+  /// Use this option to replace HTML-encoded characters with unencoded
+  /// characters. <code>HTML_ENTITY_DECODE</code> performs the following
+  /// operations:
+  ///
+  /// <ul>
+  /// <li>
+  /// Replaces <code>(ampersand)quot;</code> with <code>"</code>
+  /// </li>
+  /// <li>
+  /// Replaces <code>(ampersand)nbsp;</code> with a non-breaking space, decimal
+  /// 160
+  /// </li>
+  /// <li>
+  /// Replaces <code>(ampersand)lt;</code> with a "less than" symbol
+  /// </li>
+  /// <li>
+  /// Replaces <code>(ampersand)gt;</code> with <code>></code>
+  /// </li>
+  /// <li>
+  /// Replaces characters that are represented in hexadecimal format,
+  /// <code>(ampersand)#xhhhh;</code>, with the corresponding characters
+  /// </li>
+  /// <li>
+  /// Replaces characters that are represented in decimal format,
+  /// <code>(ampersand)#nnnn;</code>, with the corresponding characters
+  /// </li>
+  /// </ul>
+  /// <b>LOWERCASE</b>
+  ///
+  /// Use this option to convert uppercase letters (A-Z) to lowercase (a-z).
+  ///
+  /// <b>URL_DECODE</b>
+  ///
+  /// Use this option to decode a URL-encoded value.
+  ///
+  /// <b>NONE</b>
+  ///
+  /// Specify <code>NONE</code> if you don't want to perform any text
+  /// transformations.
+  final TextTransformation textTransformation;
+
+  XssMatchTuple({
+    required this.fieldToMatch,
+    required this.textTransformation,
+  });
+
+  factory XssMatchTuple.fromJson(Map<String, dynamic> json) {
+    return XssMatchTuple(
+      fieldToMatch: FieldToMatch.fromJson(
+          (json['FieldToMatch'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      textTransformation: TextTransformation.fromString(
+          (json['TextTransformation'] as String?) ?? ''),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final ruleId = this.ruleId;
+    final fieldToMatch = this.fieldToMatch;
+    final textTransformation = this.textTransformation;
     return {
-      'RuleId': ruleId,
+      'FieldToMatch': fieldToMatch,
+      'TextTransformation': textTransformation.value,
     };
   }
 }
@@ -7664,6 +8749,1583 @@ class FieldToMatch {
     return {
       'Type': type.value,
       if (data != null) 'Data': data,
+    };
+  }
+}
+
+class TextTransformation {
+  static const none = TextTransformation._('NONE');
+  static const compressWhiteSpace =
+      TextTransformation._('COMPRESS_WHITE_SPACE');
+  static const htmlEntityDecode = TextTransformation._('HTML_ENTITY_DECODE');
+  static const lowercase = TextTransformation._('LOWERCASE');
+  static const cmdLine = TextTransformation._('CMD_LINE');
+  static const urlDecode = TextTransformation._('URL_DECODE');
+
+  final String value;
+
+  const TextTransformation._(this.value);
+
+  static const values = [
+    none,
+    compressWhiteSpace,
+    htmlEntityDecode,
+    lowercase,
+    cmdLine,
+    urlDecode
+  ];
+
+  static TextTransformation fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TextTransformation._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TextTransformation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class MatchFieldType {
+  static const uri = MatchFieldType._('URI');
+  static const queryString = MatchFieldType._('QUERY_STRING');
+  static const header = MatchFieldType._('HEADER');
+  static const method = MatchFieldType._('METHOD');
+  static const body = MatchFieldType._('BODY');
+  static const singleQueryArg = MatchFieldType._('SINGLE_QUERY_ARG');
+  static const allQueryArgs = MatchFieldType._('ALL_QUERY_ARGS');
+
+  final String value;
+
+  const MatchFieldType._(this.value);
+
+  static const values = [
+    uri,
+    queryString,
+    header,
+    method,
+    body,
+    singleQueryArg,
+    allQueryArgs
+  ];
+
+  static MatchFieldType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MatchFieldType._(value));
+
+  @override
+  bool operator ==(other) => other is MatchFieldType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// For the action that is associated with a rule in a <code>WebACL</code>,
+/// specifies the action that you want AWS WAF to perform when a web request
+/// matches all of the conditions in a rule. For the default action in a
+/// <code>WebACL</code>, specifies the action that you want AWS WAF to take when
+/// a web request doesn't match all of the conditions in any of the rules in a
+/// <code>WebACL</code>.
+class WafAction {
+  /// Specifies how you want AWS WAF to respond to requests that match the
+  /// settings in a <code>Rule</code>. Valid settings include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ALLOW</code>: AWS WAF allows requests
+  /// </li>
+  /// <li>
+  /// <code>BLOCK</code>: AWS WAF blocks requests
+  /// </li>
+  /// <li>
+  /// <code>COUNT</code>: AWS WAF increments a counter of the requests that match
+  /// all of the conditions in the rule. AWS WAF then continues to inspect the web
+  /// request based on the remaining rules in the web ACL. You can't specify
+  /// <code>COUNT</code> for the default action for a <code>WebACL</code>.
+  /// </li>
+  /// </ul>
+  final WafActionType type;
+
+  WafAction({
+    required this.type,
+  });
+
+  factory WafAction.fromJson(Map<String, dynamic> json) {
+    return WafAction(
+      type: WafActionType.fromString((json['Type'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    return {
+      'Type': type.value,
+    };
+  }
+}
+
+class WafActionType {
+  static const block = WafActionType._('BLOCK');
+  static const allow = WafActionType._('ALLOW');
+  static const count = WafActionType._('COUNT');
+
+  final String value;
+
+  const WafActionType._(this.value);
+
+  static const values = [block, allow, count];
+
+  static WafActionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WafActionType._(value));
+
+  @override
+  bool operator ==(other) => other is WafActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// Specifies whether to insert a <code>Rule</code> into or delete a
+/// <code>Rule</code> from a <code>WebACL</code>.
+class WebACLUpdate {
+  /// Specifies whether to insert a <code>Rule</code> into or delete a
+  /// <code>Rule</code> from a <code>WebACL</code>.
+  final ChangeAction action;
+
+  /// The <code>ActivatedRule</code> object in an <a>UpdateWebACL</a> request
+  /// specifies a <code>Rule</code> that you want to insert or delete, the
+  /// priority of the <code>Rule</code> in the <code>WebACL</code>, and the action
+  /// that you want AWS WAF to take when a web request matches the
+  /// <code>Rule</code> (<code>ALLOW</code>, <code>BLOCK</code>, or
+  /// <code>COUNT</code>).
+  final ActivatedRule activatedRule;
+
+  WebACLUpdate({
+    required this.action,
+    required this.activatedRule,
+  });
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final activatedRule = this.activatedRule;
+    return {
+      'Action': action.value,
+      'ActivatedRule': activatedRule,
+    };
+  }
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// The <code>ActivatedRule</code> object in an <a>UpdateWebACL</a> request
+/// specifies a <code>Rule</code> that you want to insert or delete, the
+/// priority of the <code>Rule</code> in the <code>WebACL</code>, and the action
+/// that you want AWS WAF to take when a web request matches the
+/// <code>Rule</code> (<code>ALLOW</code>, <code>BLOCK</code>, or
+/// <code>COUNT</code>).
+///
+/// To specify whether to insert or delete a <code>Rule</code>, use the
+/// <code>Action</code> parameter in the <a>WebACLUpdate</a> data type.
+class ActivatedRule {
+  /// Specifies the order in which the <code>Rules</code> in a <code>WebACL</code>
+  /// are evaluated. Rules with a lower value for <code>Priority</code> are
+  /// evaluated before <code>Rules</code> with a higher value. The value must be a
+  /// unique integer. If you add multiple <code>Rules</code> to a
+  /// <code>WebACL</code>, the values don't need to be consecutive.
+  final int priority;
+
+  /// The <code>RuleId</code> for a <code>Rule</code>. You use <code>RuleId</code>
+  /// to get more information about a <code>Rule</code> (see <a>GetRule</a>),
+  /// update a <code>Rule</code> (see <a>UpdateRule</a>), insert a
+  /// <code>Rule</code> into a <code>WebACL</code> or delete a one from a
+  /// <code>WebACL</code> (see <a>UpdateWebACL</a>), or delete a <code>Rule</code>
+  /// from AWS WAF (see <a>DeleteRule</a>).
+  ///
+  /// <code>RuleId</code> is returned by <a>CreateRule</a> and by
+  /// <a>ListRules</a>.
+  final String ruleId;
+
+  /// Specifies the action that CloudFront or AWS WAF takes when a web request
+  /// matches the conditions in the <code>Rule</code>. Valid values for
+  /// <code>Action</code> include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ALLOW</code>: CloudFront responds with the requested object.
+  /// </li>
+  /// <li>
+  /// <code>BLOCK</code>: CloudFront responds with an HTTP 403 (Forbidden) status
+  /// code.
+  /// </li>
+  /// <li>
+  /// <code>COUNT</code>: AWS WAF increments a counter of requests that match the
+  /// conditions in the rule and then continues to inspect the web request based
+  /// on the remaining rules in the web ACL.
+  /// </li>
+  /// </ul>
+  /// <code>ActivatedRule|OverrideAction</code> applies only when updating or
+  /// adding a <code>RuleGroup</code> to a <code>WebACL</code>. In this case, you
+  /// do not use <code>ActivatedRule|Action</code>. For all other update requests,
+  /// <code>ActivatedRule|Action</code> is used instead of
+  /// <code>ActivatedRule|OverrideAction</code>.
+  final WafAction? action;
+
+  /// An array of rules to exclude from a rule group. This is applicable only when
+  /// the <code>ActivatedRule</code> refers to a <code>RuleGroup</code>.
+  ///
+  /// Sometimes it is necessary to troubleshoot rule groups that are blocking
+  /// traffic unexpectedly (false positives). One troubleshooting technique is to
+  /// identify the specific rule within the rule group that is blocking the
+  /// legitimate traffic and then disable (exclude) that particular rule. You can
+  /// exclude rules from both your own rule groups and AWS Marketplace rule groups
+  /// that have been associated with a web ACL.
+  ///
+  /// Specifying <code>ExcludedRules</code> does not remove those rules from the
+  /// rule group. Rather, it changes the action for the rules to
+  /// <code>COUNT</code>. Therefore, requests that match an
+  /// <code>ExcludedRule</code> are counted but not blocked. The
+  /// <code>RuleGroup</code> owner will receive COUNT metrics for each
+  /// <code>ExcludedRule</code>.
+  ///
+  /// If you want to exclude rules from a rule group that is already associated
+  /// with a web ACL, perform the following steps:
+  /// <ol>
+  /// <li>
+  /// Use the AWS WAF logs to identify the IDs of the rules that you want to
+  /// exclude. For more information about the logs, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/logging.html">Logging
+  /// Web ACL Traffic Information</a>.
+  /// </li>
+  /// <li>
+  /// Submit an <a>UpdateWebACL</a> request that has two actions:
+  ///
+  /// <ul>
+  /// <li>
+  /// The first action deletes the existing rule group from the web ACL. That is,
+  /// in the <a>UpdateWebACL</a> request, the first <code>Updates:Action</code>
+  /// should be <code>DELETE</code> and <code>Updates:ActivatedRule:RuleId</code>
+  /// should be the rule group that contains the rules that you want to exclude.
+  /// </li>
+  /// <li>
+  /// The second action inserts the same rule group back in, but specifying the
+  /// rules to exclude. That is, the second <code>Updates:Action</code> should be
+  /// <code>INSERT</code>, <code>Updates:ActivatedRule:RuleId</code> should be the
+  /// rule group that you just removed, and <code>ExcludedRules</code> should
+  /// contain the rules that you want to exclude.
+  /// </li>
+  /// </ul> </li> </ol>
+  final List<ExcludedRule>? excludedRules;
+
+  /// Use the <code>OverrideAction</code> to test your <code>RuleGroup</code>.
+  ///
+  /// Any rule in a <code>RuleGroup</code> can potentially block a request. If you
+  /// set the <code>OverrideAction</code> to <code>None</code>, the
+  /// <code>RuleGroup</code> will block a request if any individual rule in the
+  /// <code>RuleGroup</code> matches the request and is configured to block that
+  /// request. However if you first want to test the <code>RuleGroup</code>, set
+  /// the <code>OverrideAction</code> to <code>Count</code>. The
+  /// <code>RuleGroup</code> will then override any block action specified by
+  /// individual rules contained within the group. Instead of blocking matching
+  /// requests, those requests will be counted. You can view a record of counted
+  /// requests using <a>GetSampledRequests</a>.
+  ///
+  /// <code>ActivatedRule|OverrideAction</code> applies only when updating or
+  /// adding a <code>RuleGroup</code> to a <code>WebACL</code>. In this case you
+  /// do not use <code>ActivatedRule|Action</code>. For all other update requests,
+  /// <code>ActivatedRule|Action</code> is used instead of
+  /// <code>ActivatedRule|OverrideAction</code>.
+  final WafOverrideAction? overrideAction;
+
+  /// The rule type, either <code>REGULAR</code>, as defined by <a>Rule</a>,
+  /// <code>RATE_BASED</code>, as defined by <a>RateBasedRule</a>, or
+  /// <code>GROUP</code>, as defined by <a>RuleGroup</a>. The default is REGULAR.
+  /// Although this field is optional, be aware that if you try to add a
+  /// RATE_BASED rule to a web ACL without setting the type, the
+  /// <a>UpdateWebACL</a> request will fail because the request tries to add a
+  /// REGULAR rule with the specified ID, which does not exist.
+  final WafRuleType? type;
+
+  ActivatedRule({
+    required this.priority,
+    required this.ruleId,
+    this.action,
+    this.excludedRules,
+    this.overrideAction,
+    this.type,
+  });
+
+  factory ActivatedRule.fromJson(Map<String, dynamic> json) {
+    return ActivatedRule(
+      priority: (json['Priority'] as int?) ?? 0,
+      ruleId: (json['RuleId'] as String?) ?? '',
+      action: json['Action'] != null
+          ? WafAction.fromJson(json['Action'] as Map<String, dynamic>)
+          : null,
+      excludedRules: (json['ExcludedRules'] as List?)
+          ?.nonNulls
+          .map((e) => ExcludedRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      overrideAction: json['OverrideAction'] != null
+          ? WafOverrideAction.fromJson(
+              json['OverrideAction'] as Map<String, dynamic>)
+          : null,
+      type: (json['Type'] as String?)?.let(WafRuleType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final priority = this.priority;
+    final ruleId = this.ruleId;
+    final action = this.action;
+    final excludedRules = this.excludedRules;
+    final overrideAction = this.overrideAction;
+    final type = this.type;
+    return {
+      'Priority': priority,
+      'RuleId': ruleId,
+      if (action != null) 'Action': action,
+      if (excludedRules != null) 'ExcludedRules': excludedRules,
+      if (overrideAction != null) 'OverrideAction': overrideAction,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// The action to take if any rule within the <code>RuleGroup</code> matches a
+/// request.
+class WafOverrideAction {
+  /// <code>COUNT</code> overrides the action specified by the individual rule
+  /// within a <code>RuleGroup</code> . If set to <code>NONE</code>, the rule's
+  /// action will take place.
+  final WafOverrideActionType type;
+
+  WafOverrideAction({
+    required this.type,
+  });
+
+  factory WafOverrideAction.fromJson(Map<String, dynamic> json) {
+    return WafOverrideAction(
+      type: WafOverrideActionType.fromString((json['Type'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    return {
+      'Type': type.value,
+    };
+  }
+}
+
+class WafRuleType {
+  static const regular = WafRuleType._('REGULAR');
+  static const rateBased = WafRuleType._('RATE_BASED');
+  static const group = WafRuleType._('GROUP');
+
+  final String value;
+
+  const WafRuleType._(this.value);
+
+  static const values = [regular, rateBased, group];
+
+  static WafRuleType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => WafRuleType._(value));
+
+  @override
+  bool operator ==(other) => other is WafRuleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// The rule to exclude from a rule group. This is applicable only when the
+/// <code>ActivatedRule</code> refers to a <code>RuleGroup</code>. The rule must
+/// belong to the <code>RuleGroup</code> that is specified by the
+/// <code>ActivatedRule</code>.
+class ExcludedRule {
+  /// The unique identifier for the rule to exclude from the rule group.
+  final String ruleId;
+
+  ExcludedRule({
+    required this.ruleId,
+  });
+
+  factory ExcludedRule.fromJson(Map<String, dynamic> json) {
+    return ExcludedRule(
+      ruleId: (json['RuleId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ruleId = this.ruleId;
+    return {
+      'RuleId': ruleId,
+    };
+  }
+}
+
+class WafOverrideActionType {
+  static const none = WafOverrideActionType._('NONE');
+  static const count = WafOverrideActionType._('COUNT');
+
+  final String value;
+
+  const WafOverrideActionType._(this.value);
+
+  static const values = [none, count];
+
+  static WafOverrideActionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WafOverrideActionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WafOverrideActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// Specifies the part of a web request that you want to inspect for snippets of
+/// malicious SQL code and indicates whether you want to add the specification
+/// to a <a>SqlInjectionMatchSet</a> or delete it from a
+/// <code>SqlInjectionMatchSet</code>.
+class SqlInjectionMatchSetUpdate {
+  /// Specify <code>INSERT</code> to add a <a>SqlInjectionMatchSetUpdate</a> to a
+  /// <a>SqlInjectionMatchSet</a>. Use <code>DELETE</code> to remove a
+  /// <code>SqlInjectionMatchSetUpdate</code> from a
+  /// <code>SqlInjectionMatchSet</code>.
+  final ChangeAction action;
+
+  /// Specifies the part of a web request that you want AWS WAF to inspect for
+  /// snippets of malicious SQL code and, if you want AWS WAF to inspect a header,
+  /// the name of the header.
+  final SqlInjectionMatchTuple sqlInjectionMatchTuple;
+
+  SqlInjectionMatchSetUpdate({
+    required this.action,
+    required this.sqlInjectionMatchTuple,
+  });
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final sqlInjectionMatchTuple = this.sqlInjectionMatchTuple;
+    return {
+      'Action': action.value,
+      'SqlInjectionMatchTuple': sqlInjectionMatchTuple,
+    };
+  }
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// Specifies the part of a web request that you want AWS WAF to inspect for
+/// snippets of malicious SQL code and, if you want AWS WAF to inspect a header,
+/// the name of the header.
+class SqlInjectionMatchTuple {
+  /// Specifies where in a web request to look for snippets of malicious SQL code.
+  final FieldToMatch fieldToMatch;
+
+  /// Text transformations eliminate some of the unusual formatting that attackers
+  /// use in web requests in an effort to bypass AWS WAF. If you specify a
+  /// transformation, AWS WAF performs the transformation on
+  /// <code>FieldToMatch</code> before inspecting it for a match.
+  ///
+  /// You can only specify a single type of TextTransformation.
+  ///
+  /// <b>CMD_LINE</b>
+  ///
+  /// When you're concerned that attackers are injecting an operating system
+  /// command line command and using unusual formatting to disguise some or all of
+  /// the command, use this option to perform the following transformations:
+  ///
+  /// <ul>
+  /// <li>
+  /// Delete the following characters: \ " ' ^
+  /// </li>
+  /// <li>
+  /// Delete spaces before the following characters: / (
+  /// </li>
+  /// <li>
+  /// Replace the following characters with a space: , ;
+  /// </li>
+  /// <li>
+  /// Replace multiple spaces with one space
+  /// </li>
+  /// <li>
+  /// Convert uppercase letters (A-Z) to lowercase (a-z)
+  /// </li>
+  /// </ul>
+  /// <b>COMPRESS_WHITE_SPACE</b>
+  ///
+  /// Use this option to replace the following characters with a space character
+  /// (decimal 32):
+  ///
+  /// <ul>
+  /// <li>
+  /// \f, formfeed, decimal 12
+  /// </li>
+  /// <li>
+  /// \t, tab, decimal 9
+  /// </li>
+  /// <li>
+  /// \n, newline, decimal 10
+  /// </li>
+  /// <li>
+  /// \r, carriage return, decimal 13
+  /// </li>
+  /// <li>
+  /// \v, vertical tab, decimal 11
+  /// </li>
+  /// <li>
+  /// non-breaking space, decimal 160
+  /// </li>
+  /// </ul>
+  /// <code>COMPRESS_WHITE_SPACE</code> also replaces multiple spaces with one
+  /// space.
+  ///
+  /// <b>HTML_ENTITY_DECODE</b>
+  ///
+  /// Use this option to replace HTML-encoded characters with unencoded
+  /// characters. <code>HTML_ENTITY_DECODE</code> performs the following
+  /// operations:
+  ///
+  /// <ul>
+  /// <li>
+  /// Replaces <code>(ampersand)quot;</code> with <code>"</code>
+  /// </li>
+  /// <li>
+  /// Replaces <code>(ampersand)nbsp;</code> with a non-breaking space, decimal
+  /// 160
+  /// </li>
+  /// <li>
+  /// Replaces <code>(ampersand)lt;</code> with a "less than" symbol
+  /// </li>
+  /// <li>
+  /// Replaces <code>(ampersand)gt;</code> with <code>></code>
+  /// </li>
+  /// <li>
+  /// Replaces characters that are represented in hexadecimal format,
+  /// <code>(ampersand)#xhhhh;</code>, with the corresponding characters
+  /// </li>
+  /// <li>
+  /// Replaces characters that are represented in decimal format,
+  /// <code>(ampersand)#nnnn;</code>, with the corresponding characters
+  /// </li>
+  /// </ul>
+  /// <b>LOWERCASE</b>
+  ///
+  /// Use this option to convert uppercase letters (A-Z) to lowercase (a-z).
+  ///
+  /// <b>URL_DECODE</b>
+  ///
+  /// Use this option to decode a URL-encoded value.
+  ///
+  /// <b>NONE</b>
+  ///
+  /// Specify <code>NONE</code> if you don't want to perform any text
+  /// transformations.
+  final TextTransformation textTransformation;
+
+  SqlInjectionMatchTuple({
+    required this.fieldToMatch,
+    required this.textTransformation,
+  });
+
+  factory SqlInjectionMatchTuple.fromJson(Map<String, dynamic> json) {
+    return SqlInjectionMatchTuple(
+      fieldToMatch: FieldToMatch.fromJson(
+          (json['FieldToMatch'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      textTransformation: TextTransformation.fromString(
+          (json['TextTransformation'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fieldToMatch = this.fieldToMatch;
+    final textTransformation = this.textTransformation;
+    return {
+      'FieldToMatch': fieldToMatch,
+      'TextTransformation': textTransformation.value,
+    };
+  }
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// Specifies the part of a web request that you want to inspect the size of and
+/// indicates whether you want to add the specification to a
+/// <a>SizeConstraintSet</a> or delete it from a <code>SizeConstraintSet</code>.
+class SizeConstraintSetUpdate {
+  /// Specify <code>INSERT</code> to add a <a>SizeConstraintSetUpdate</a> to a
+  /// <a>SizeConstraintSet</a>. Use <code>DELETE</code> to remove a
+  /// <code>SizeConstraintSetUpdate</code> from a <code>SizeConstraintSet</code>.
+  final ChangeAction action;
+
+  /// Specifies a constraint on the size of a part of the web request. AWS WAF
+  /// uses the <code>Size</code>, <code>ComparisonOperator</code>, and
+  /// <code>FieldToMatch</code> to build an expression in the form of
+  /// "<code>Size</code> <code>ComparisonOperator</code> size in bytes of
+  /// <code>FieldToMatch</code>". If that expression is true, the
+  /// <code>SizeConstraint</code> is considered to match.
+  final SizeConstraint sizeConstraint;
+
+  SizeConstraintSetUpdate({
+    required this.action,
+    required this.sizeConstraint,
+  });
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final sizeConstraint = this.sizeConstraint;
+    return {
+      'Action': action.value,
+      'SizeConstraint': sizeConstraint,
+    };
+  }
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// Specifies a constraint on the size of a part of the web request. AWS WAF
+/// uses the <code>Size</code>, <code>ComparisonOperator</code>, and
+/// <code>FieldToMatch</code> to build an expression in the form of
+/// "<code>Size</code> <code>ComparisonOperator</code> size in bytes of
+/// <code>FieldToMatch</code>". If that expression is true, the
+/// <code>SizeConstraint</code> is considered to match.
+class SizeConstraint {
+  /// The type of comparison you want AWS WAF to perform. AWS WAF uses this in
+  /// combination with the provided <code>Size</code> and
+  /// <code>FieldToMatch</code> to build an expression in the form of
+  /// "<code>Size</code> <code>ComparisonOperator</code> size in bytes of
+  /// <code>FieldToMatch</code>". If that expression is true, the
+  /// <code>SizeConstraint</code> is considered to match.
+  ///
+  /// <b>EQ</b>: Used to test if the <code>Size</code> is equal to the size of the
+  /// <code>FieldToMatch</code>
+  ///
+  /// <b>NE</b>: Used to test if the <code>Size</code> is not equal to the size of
+  /// the <code>FieldToMatch</code>
+  ///
+  /// <b>LE</b>: Used to test if the <code>Size</code> is less than or equal to
+  /// the size of the <code>FieldToMatch</code>
+  ///
+  /// <b>LT</b>: Used to test if the <code>Size</code> is strictly less than the
+  /// size of the <code>FieldToMatch</code>
+  ///
+  /// <b>GE</b>: Used to test if the <code>Size</code> is greater than or equal to
+  /// the size of the <code>FieldToMatch</code>
+  ///
+  /// <b>GT</b>: Used to test if the <code>Size</code> is strictly greater than
+  /// the size of the <code>FieldToMatch</code>
+  final ComparisonOperator comparisonOperator;
+
+  /// Specifies where in a web request to look for the size constraint.
+  final FieldToMatch fieldToMatch;
+
+  /// The size in bytes that you want AWS WAF to compare against the size of the
+  /// specified <code>FieldToMatch</code>. AWS WAF uses this in combination with
+  /// <code>ComparisonOperator</code> and <code>FieldToMatch</code> to build an
+  /// expression in the form of "<code>Size</code> <code>ComparisonOperator</code>
+  /// size in bytes of <code>FieldToMatch</code>". If that expression is true, the
+  /// <code>SizeConstraint</code> is considered to match.
+  ///
+  /// Valid values for size are 0 - 21474836480 bytes (0 - 20 GB).
+  ///
+  /// If you specify <code>URI</code> for the value of <code>Type</code>, the / in
+  /// the URI counts as one character. For example, the URI <code>/logo.jpg</code>
+  /// is nine characters long.
+  final int size;
+
+  /// Text transformations eliminate some of the unusual formatting that attackers
+  /// use in web requests in an effort to bypass AWS WAF. If you specify a
+  /// transformation, AWS WAF performs the transformation on
+  /// <code>FieldToMatch</code> before inspecting it for a match.
+  ///
+  /// You can only specify a single type of TextTransformation.
+  ///
+  /// Note that if you choose <code>BODY</code> for the value of
+  /// <code>Type</code>, you must choose <code>NONE</code> for
+  /// <code>TextTransformation</code> because CloudFront forwards only the first
+  /// 8192 bytes for inspection.
+  ///
+  /// <b>NONE</b>
+  ///
+  /// Specify <code>NONE</code> if you don't want to perform any text
+  /// transformations.
+  ///
+  /// <b>CMD_LINE</b>
+  ///
+  /// When you're concerned that attackers are injecting an operating system
+  /// command line command and using unusual formatting to disguise some or all of
+  /// the command, use this option to perform the following transformations:
+  ///
+  /// <ul>
+  /// <li>
+  /// Delete the following characters: \ " ' ^
+  /// </li>
+  /// <li>
+  /// Delete spaces before the following characters: / (
+  /// </li>
+  /// <li>
+  /// Replace the following characters with a space: , ;
+  /// </li>
+  /// <li>
+  /// Replace multiple spaces with one space
+  /// </li>
+  /// <li>
+  /// Convert uppercase letters (A-Z) to lowercase (a-z)
+  /// </li>
+  /// </ul>
+  /// <b>COMPRESS_WHITE_SPACE</b>
+  ///
+  /// Use this option to replace the following characters with a space character
+  /// (decimal 32):
+  ///
+  /// <ul>
+  /// <li>
+  /// \f, formfeed, decimal 12
+  /// </li>
+  /// <li>
+  /// \t, tab, decimal 9
+  /// </li>
+  /// <li>
+  /// \n, newline, decimal 10
+  /// </li>
+  /// <li>
+  /// \r, carriage return, decimal 13
+  /// </li>
+  /// <li>
+  /// \v, vertical tab, decimal 11
+  /// </li>
+  /// <li>
+  /// non-breaking space, decimal 160
+  /// </li>
+  /// </ul>
+  /// <code>COMPRESS_WHITE_SPACE</code> also replaces multiple spaces with one
+  /// space.
+  ///
+  /// <b>HTML_ENTITY_DECODE</b>
+  ///
+  /// Use this option to replace HTML-encoded characters with unencoded
+  /// characters. <code>HTML_ENTITY_DECODE</code> performs the following
+  /// operations:
+  ///
+  /// <ul>
+  /// <li>
+  /// Replaces <code>(ampersand)quot;</code> with <code>"</code>
+  /// </li>
+  /// <li>
+  /// Replaces <code>(ampersand)nbsp;</code> with a non-breaking space, decimal
+  /// 160
+  /// </li>
+  /// <li>
+  /// Replaces <code>(ampersand)lt;</code> with a "less than" symbol
+  /// </li>
+  /// <li>
+  /// Replaces <code>(ampersand)gt;</code> with <code>></code>
+  /// </li>
+  /// <li>
+  /// Replaces characters that are represented in hexadecimal format,
+  /// <code>(ampersand)#xhhhh;</code>, with the corresponding characters
+  /// </li>
+  /// <li>
+  /// Replaces characters that are represented in decimal format,
+  /// <code>(ampersand)#nnnn;</code>, with the corresponding characters
+  /// </li>
+  /// </ul>
+  /// <b>LOWERCASE</b>
+  ///
+  /// Use this option to convert uppercase letters (A-Z) to lowercase (a-z).
+  ///
+  /// <b>URL_DECODE</b>
+  ///
+  /// Use this option to decode a URL-encoded value.
+  final TextTransformation textTransformation;
+
+  SizeConstraint({
+    required this.comparisonOperator,
+    required this.fieldToMatch,
+    required this.size,
+    required this.textTransformation,
+  });
+
+  factory SizeConstraint.fromJson(Map<String, dynamic> json) {
+    return SizeConstraint(
+      comparisonOperator: ComparisonOperator.fromString(
+          (json['ComparisonOperator'] as String?) ?? ''),
+      fieldToMatch: FieldToMatch.fromJson(
+          (json['FieldToMatch'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      size: (json['Size'] as int?) ?? 0,
+      textTransformation: TextTransformation.fromString(
+          (json['TextTransformation'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final comparisonOperator = this.comparisonOperator;
+    final fieldToMatch = this.fieldToMatch;
+    final size = this.size;
+    final textTransformation = this.textTransformation;
+    return {
+      'ComparisonOperator': comparisonOperator.value,
+      'FieldToMatch': fieldToMatch,
+      'Size': size,
+      'TextTransformation': textTransformation.value,
+    };
+  }
+}
+
+class ComparisonOperator {
+  static const eq = ComparisonOperator._('EQ');
+  static const ne = ComparisonOperator._('NE');
+  static const le = ComparisonOperator._('LE');
+  static const lt = ComparisonOperator._('LT');
+  static const ge = ComparisonOperator._('GE');
+  static const gt = ComparisonOperator._('GT');
+
+  final String value;
+
+  const ComparisonOperator._(this.value);
+
+  static const values = [eq, ne, le, lt, ge, gt];
+
+  static ComparisonOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ComparisonOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ComparisonOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// Specifies an <code>ActivatedRule</code> and indicates whether you want to
+/// add it to a <code>RuleGroup</code> or delete it from a
+/// <code>RuleGroup</code>.
+class RuleGroupUpdate {
+  /// Specify <code>INSERT</code> to add an <code>ActivatedRule</code> to a
+  /// <code>RuleGroup</code>. Use <code>DELETE</code> to remove an
+  /// <code>ActivatedRule</code> from a <code>RuleGroup</code>.
+  final ChangeAction action;
+
+  /// The <code>ActivatedRule</code> object specifies a <code>Rule</code> that you
+  /// want to insert or delete, the priority of the <code>Rule</code> in the
+  /// <code>WebACL</code>, and the action that you want AWS WAF to take when a web
+  /// request matches the <code>Rule</code> (<code>ALLOW</code>,
+  /// <code>BLOCK</code>, or <code>COUNT</code>).
+  final ActivatedRule activatedRule;
+
+  RuleGroupUpdate({
+    required this.action,
+    required this.activatedRule,
+  });
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final activatedRule = this.activatedRule;
+    return {
+      'Action': action.value,
+      'ActivatedRule': activatedRule,
+    };
+  }
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// Specifies a <code>Predicate</code> (such as an <code>IPSet</code>) and
+/// indicates whether you want to add it to a <code>Rule</code> or delete it
+/// from a <code>Rule</code>.
+class RuleUpdate {
+  /// Specify <code>INSERT</code> to add a <code>Predicate</code> to a
+  /// <code>Rule</code>. Use <code>DELETE</code> to remove a
+  /// <code>Predicate</code> from a <code>Rule</code>.
+  final ChangeAction action;
+
+  /// The ID of the <code>Predicate</code> (such as an <code>IPSet</code>) that
+  /// you want to add to a <code>Rule</code>.
+  final Predicate predicate;
+
+  RuleUpdate({
+    required this.action,
+    required this.predicate,
+  });
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final predicate = this.predicate;
+    return {
+      'Action': action.value,
+      'Predicate': predicate,
+    };
+  }
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// Specifies the <a>ByteMatchSet</a>, <a>IPSet</a>,
+/// <a>SqlInjectionMatchSet</a>, <a>XssMatchSet</a>, <a>RegexMatchSet</a>,
+/// <a>GeoMatchSet</a>, and <a>SizeConstraintSet</a> objects that you want to
+/// add to a <code>Rule</code> and, for each object, indicates whether you want
+/// to negate the settings, for example, requests that do NOT originate from the
+/// IP address 192.0.2.44.
+class Predicate {
+  /// A unique identifier for a predicate in a <code>Rule</code>, such as
+  /// <code>ByteMatchSetId</code> or <code>IPSetId</code>. The ID is returned by
+  /// the corresponding <code>Create</code> or <code>List</code> command.
+  final String dataId;
+
+  /// Set <code>Negated</code> to <code>False</code> if you want AWS WAF to allow,
+  /// block, or count requests based on the settings in the specified
+  /// <a>ByteMatchSet</a>, <a>IPSet</a>, <a>SqlInjectionMatchSet</a>,
+  /// <a>XssMatchSet</a>, <a>RegexMatchSet</a>, <a>GeoMatchSet</a>, or
+  /// <a>SizeConstraintSet</a>. For example, if an <code>IPSet</code> includes the
+  /// IP address <code>192.0.2.44</code>, AWS WAF will allow or block requests
+  /// based on that IP address.
+  ///
+  /// Set <code>Negated</code> to <code>True</code> if you want AWS WAF to allow
+  /// or block a request based on the negation of the settings in the
+  /// <a>ByteMatchSet</a>, <a>IPSet</a>, <a>SqlInjectionMatchSet</a>,
+  /// <a>XssMatchSet</a>, <a>RegexMatchSet</a>, <a>GeoMatchSet</a>, or
+  /// <a>SizeConstraintSet</a>. For example, if an <code>IPSet</code> includes the
+  /// IP address <code>192.0.2.44</code>, AWS WAF will allow, block, or count
+  /// requests based on all IP addresses <i>except</i> <code>192.0.2.44</code>.
+  final bool negated;
+
+  /// The type of predicate in a <code>Rule</code>, such as <code>ByteMatch</code>
+  /// or <code>IPSet</code>.
+  final PredicateType type;
+
+  Predicate({
+    required this.dataId,
+    required this.negated,
+    required this.type,
+  });
+
+  factory Predicate.fromJson(Map<String, dynamic> json) {
+    return Predicate(
+      dataId: (json['DataId'] as String?) ?? '',
+      negated: (json['Negated'] as bool?) ?? false,
+      type: PredicateType.fromString((json['Type'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataId = this.dataId;
+    final negated = this.negated;
+    final type = this.type;
+    return {
+      'DataId': dataId,
+      'Negated': negated,
+      'Type': type.value,
+    };
+  }
+}
+
+class PredicateType {
+  static const iPMatch = PredicateType._('IPMatch');
+  static const byteMatch = PredicateType._('ByteMatch');
+  static const sqlInjectionMatch = PredicateType._('SqlInjectionMatch');
+  static const geoMatch = PredicateType._('GeoMatch');
+  static const sizeConstraint = PredicateType._('SizeConstraint');
+  static const xssMatch = PredicateType._('XssMatch');
+  static const regexMatch = PredicateType._('RegexMatch');
+
+  final String value;
+
+  const PredicateType._(this.value);
+
+  static const values = [
+    iPMatch,
+    byteMatch,
+    sqlInjectionMatch,
+    geoMatch,
+    sizeConstraint,
+    xssMatch,
+    regexMatch
+  ];
+
+  static PredicateType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PredicateType._(value));
+
+  @override
+  bool operator ==(other) => other is PredicateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// In an <a>UpdateRegexPatternSet</a> request,
+/// <code>RegexPatternSetUpdate</code> specifies whether to insert or delete a
+/// <code>RegexPatternString</code> and includes the settings for the
+/// <code>RegexPatternString</code>.
+class RegexPatternSetUpdate {
+  /// Specifies whether to insert or delete a <code>RegexPatternString</code>.
+  final ChangeAction action;
+
+  /// Specifies the regular expression (regex) pattern that you want AWS WAF to
+  /// search for, such as <code>B[a@]dB[o0]t</code>.
+  final String regexPatternString;
+
+  RegexPatternSetUpdate({
+    required this.action,
+    required this.regexPatternString,
+  });
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final regexPatternString = this.regexPatternString;
+    return {
+      'Action': action.value,
+      'RegexPatternString': regexPatternString,
+    };
+  }
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// In an <a>UpdateRegexMatchSet</a> request, <code>RegexMatchSetUpdate</code>
+/// specifies whether to insert or delete a <a>RegexMatchTuple</a> and includes
+/// the settings for the <code>RegexMatchTuple</code>.
+class RegexMatchSetUpdate {
+  /// Specifies whether to insert or delete a <a>RegexMatchTuple</a>.
+  final ChangeAction action;
+
+  /// Information about the part of a web request that you want AWS WAF to inspect
+  /// and the identifier of the regular expression (regex) pattern that you want
+  /// AWS WAF to search for. If you specify <code>DELETE</code> for the value of
+  /// <code>Action</code>, the <code>RegexMatchTuple</code> values must exactly
+  /// match the values in the <code>RegexMatchTuple</code> that you want to delete
+  /// from the <code>RegexMatchSet</code>.
+  final RegexMatchTuple regexMatchTuple;
+
+  RegexMatchSetUpdate({
+    required this.action,
+    required this.regexMatchTuple,
+  });
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final regexMatchTuple = this.regexMatchTuple;
+    return {
+      'Action': action.value,
+      'RegexMatchTuple': regexMatchTuple,
+    };
+  }
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// The regular expression pattern that you want AWS WAF to search for in web
+/// requests, the location in requests that you want AWS WAF to search, and
+/// other settings. Each <code>RegexMatchTuple</code> object contains:
+///
+/// <ul>
+/// <li>
+/// The part of a web request that you want AWS WAF to inspect, such as a query
+/// string or the value of the <code>User-Agent</code> header.
+/// </li>
+/// <li>
+/// The identifier of the pattern (a regular expression) that you want AWS WAF
+/// to look for. For more information, see <a>RegexPatternSet</a>.
+/// </li>
+/// <li>
+/// Whether to perform any conversions on the request, such as converting it to
+/// lowercase, before inspecting it for the specified string.
+/// </li>
+/// </ul>
+class RegexMatchTuple {
+  /// Specifies where in a web request to look for the
+  /// <code>RegexPatternSet</code>.
+  final FieldToMatch fieldToMatch;
+
+  /// The <code>RegexPatternSetId</code> for a <code>RegexPatternSet</code>. You
+  /// use <code>RegexPatternSetId</code> to get information about a
+  /// <code>RegexPatternSet</code> (see <a>GetRegexPatternSet</a>), update a
+  /// <code>RegexPatternSet</code> (see <a>UpdateRegexPatternSet</a>), insert a
+  /// <code>RegexPatternSet</code> into a <code>RegexMatchSet</code> or delete one
+  /// from a <code>RegexMatchSet</code> (see <a>UpdateRegexMatchSet</a>), and
+  /// delete an <code>RegexPatternSet</code> from AWS WAF (see
+  /// <a>DeleteRegexPatternSet</a>).
+  ///
+  /// <code>RegexPatternSetId</code> is returned by <a>CreateRegexPatternSet</a>
+  /// and by <a>ListRegexPatternSets</a>.
+  final String regexPatternSetId;
+
+  /// Text transformations eliminate some of the unusual formatting that attackers
+  /// use in web requests in an effort to bypass AWS WAF. If you specify a
+  /// transformation, AWS WAF performs the transformation on
+  /// <code>RegexPatternSet</code> before inspecting a request for a match.
+  ///
+  /// You can only specify a single type of TextTransformation.
+  ///
+  /// <b>CMD_LINE</b>
+  ///
+  /// When you're concerned that attackers are injecting an operating system
+  /// commandline command and using unusual formatting to disguise some or all of
+  /// the command, use this option to perform the following transformations:
+  ///
+  /// <ul>
+  /// <li>
+  /// Delete the following characters: \ " ' ^
+  /// </li>
+  /// <li>
+  /// Delete spaces before the following characters: / (
+  /// </li>
+  /// <li>
+  /// Replace the following characters with a space: , ;
+  /// </li>
+  /// <li>
+  /// Replace multiple spaces with one space
+  /// </li>
+  /// <li>
+  /// Convert uppercase letters (A-Z) to lowercase (a-z)
+  /// </li>
+  /// </ul>
+  /// <b>COMPRESS_WHITE_SPACE</b>
+  ///
+  /// Use this option to replace the following characters with a space character
+  /// (decimal 32):
+  ///
+  /// <ul>
+  /// <li>
+  /// \f, formfeed, decimal 12
+  /// </li>
+  /// <li>
+  /// \t, tab, decimal 9
+  /// </li>
+  /// <li>
+  /// \n, newline, decimal 10
+  /// </li>
+  /// <li>
+  /// \r, carriage return, decimal 13
+  /// </li>
+  /// <li>
+  /// \v, vertical tab, decimal 11
+  /// </li>
+  /// <li>
+  /// non-breaking space, decimal 160
+  /// </li>
+  /// </ul>
+  /// <code>COMPRESS_WHITE_SPACE</code> also replaces multiple spaces with one
+  /// space.
+  ///
+  /// <b>HTML_ENTITY_DECODE</b>
+  ///
+  /// Use this option to replace HTML-encoded characters with unencoded
+  /// characters. <code>HTML_ENTITY_DECODE</code> performs the following
+  /// operations:
+  ///
+  /// <ul>
+  /// <li>
+  /// Replaces <code>(ampersand)quot;</code> with <code>"</code>
+  /// </li>
+  /// <li>
+  /// Replaces <code>(ampersand)nbsp;</code> with a non-breaking space, decimal
+  /// 160
+  /// </li>
+  /// <li>
+  /// Replaces <code>(ampersand)lt;</code> with a "less than" symbol
+  /// </li>
+  /// <li>
+  /// Replaces <code>(ampersand)gt;</code> with <code>></code>
+  /// </li>
+  /// <li>
+  /// Replaces characters that are represented in hexadecimal format,
+  /// <code>(ampersand)#xhhhh;</code>, with the corresponding characters
+  /// </li>
+  /// <li>
+  /// Replaces characters that are represented in decimal format,
+  /// <code>(ampersand)#nnnn;</code>, with the corresponding characters
+  /// </li>
+  /// </ul>
+  /// <b>LOWERCASE</b>
+  ///
+  /// Use this option to convert uppercase letters (A-Z) to lowercase (a-z).
+  ///
+  /// <b>URL_DECODE</b>
+  ///
+  /// Use this option to decode a URL-encoded value.
+  ///
+  /// <b>NONE</b>
+  ///
+  /// Specify <code>NONE</code> if you don't want to perform any text
+  /// transformations.
+  final TextTransformation textTransformation;
+
+  RegexMatchTuple({
+    required this.fieldToMatch,
+    required this.regexPatternSetId,
+    required this.textTransformation,
+  });
+
+  factory RegexMatchTuple.fromJson(Map<String, dynamic> json) {
+    return RegexMatchTuple(
+      fieldToMatch: FieldToMatch.fromJson(
+          (json['FieldToMatch'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      regexPatternSetId: (json['RegexPatternSetId'] as String?) ?? '',
+      textTransformation: TextTransformation.fromString(
+          (json['TextTransformation'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fieldToMatch = this.fieldToMatch;
+    final regexPatternSetId = this.regexPatternSetId;
+    final textTransformation = this.textTransformation;
+    return {
+      'FieldToMatch': fieldToMatch,
+      'RegexPatternSetId': regexPatternSetId,
+      'TextTransformation': textTransformation.value,
+    };
+  }
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// Specifies the type of update to perform to an <a>IPSet</a> with
+/// <a>UpdateIPSet</a>.
+class IPSetUpdate {
+  /// Specifies whether to insert or delete an IP address with <a>UpdateIPSet</a>.
+  final ChangeAction action;
+
+  /// The IP address type (<code>IPV4</code> or <code>IPV6</code>) and the IP
+  /// address range (in CIDR notation) that web requests originate from.
+  final IPSetDescriptor iPSetDescriptor;
+
+  IPSetUpdate({
+    required this.action,
+    required this.iPSetDescriptor,
+  });
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final iPSetDescriptor = this.iPSetDescriptor;
+    return {
+      'Action': action.value,
+      'IPSetDescriptor': iPSetDescriptor,
+    };
+  }
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// Specifies the IP address type (<code>IPV4</code> or <code>IPV6</code>) and
+/// the IP address range (in CIDR format) that web requests originate from.
+class IPSetDescriptor {
+  /// Specify <code>IPV4</code> or <code>IPV6</code>.
+  final IPSetDescriptorType type;
+
+  /// Specify an IPv4 address by using CIDR notation. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// To configure AWS WAF to allow, block, or count requests that originated from
+  /// the IP address 192.0.2.44, specify <code>192.0.2.44/32</code>.
+  /// </li>
+  /// <li>
+  /// To configure AWS WAF to allow, block, or count requests that originated from
+  /// IP addresses from 192.0.2.0 to 192.0.2.255, specify
+  /// <code>192.0.2.0/24</code>.
+  /// </li>
+  /// </ul>
+  /// For more information about CIDR notation, see the Wikipedia entry <a
+  /// href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">Classless
+  /// Inter-Domain Routing</a>.
+  ///
+  /// Specify an IPv6 address by using CIDR notation. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// To configure AWS WAF to allow, block, or count requests that originated from
+  /// the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify
+  /// <code>1111:0000:0000:0000:0000:0000:0000:0111/128</code>.
+  /// </li>
+  /// <li>
+  /// To configure AWS WAF to allow, block, or count requests that originated from
+  /// IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to
+  /// 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify
+  /// <code>1111:0000:0000:0000:0000:0000:0000:0000/64</code>.
+  /// </li>
+  /// </ul>
+  final String value;
+
+  IPSetDescriptor({
+    required this.type,
+    required this.value,
+  });
+
+  factory IPSetDescriptor.fromJson(Map<String, dynamic> json) {
+    return IPSetDescriptor(
+      type: IPSetDescriptorType.fromString((json['Type'] as String?) ?? ''),
+      value: (json['Value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final value = this.value;
+    return {
+      'Type': type.value,
+      'Value': value,
+    };
+  }
+}
+
+class IPSetDescriptorType {
+  static const ipv4 = IPSetDescriptorType._('IPV4');
+  static const ipv6 = IPSetDescriptorType._('IPV6');
+
+  final String value;
+
+  const IPSetDescriptorType._(this.value);
+
+  static const values = [ipv4, ipv6];
+
+  static IPSetDescriptorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IPSetDescriptorType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IPSetDescriptorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// Specifies the type of update to perform to an <a>GeoMatchSet</a> with
+/// <a>UpdateGeoMatchSet</a>.
+class GeoMatchSetUpdate {
+  /// Specifies whether to insert or delete a country with
+  /// <a>UpdateGeoMatchSet</a>.
+  final ChangeAction action;
+
+  /// The country from which web requests originate that you want AWS WAF to
+  /// search for.
+  final GeoMatchConstraint geoMatchConstraint;
+
+  GeoMatchSetUpdate({
+    required this.action,
+    required this.geoMatchConstraint,
+  });
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final geoMatchConstraint = this.geoMatchConstraint;
+    return {
+      'Action': action.value,
+      'GeoMatchConstraint': geoMatchConstraint,
     };
   }
 }
@@ -8269,53 +10931,1034 @@ class GeoMatchConstraintValue {
 /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
 /// of endpoints for regional and global use.
 /// </note>
-/// Contains one or more countries that AWS WAF will search for.
-class GeoMatchSet {
-  /// An array of <a>GeoMatchConstraint</a> objects, which contain the country
-  /// that you want AWS WAF to search for.
-  final List<GeoMatchConstraint> geoMatchConstraints;
+/// In an <a>UpdateByteMatchSet</a> request, <code>ByteMatchSetUpdate</code>
+/// specifies whether to insert or delete a <a>ByteMatchTuple</a> and includes
+/// the settings for the <code>ByteMatchTuple</code>.
+class ByteMatchSetUpdate {
+  /// Specifies whether to insert or delete a <a>ByteMatchTuple</a>.
+  final ChangeAction action;
 
-  /// The <code>GeoMatchSetId</code> for an <code>GeoMatchSet</code>. You use
-  /// <code>GeoMatchSetId</code> to get information about a
-  /// <code>GeoMatchSet</code> (see <a>GeoMatchSet</a>), update a
-  /// <code>GeoMatchSet</code> (see <a>UpdateGeoMatchSet</a>), insert a
-  /// <code>GeoMatchSet</code> into a <code>Rule</code> or delete one from a
-  /// <code>Rule</code> (see <a>UpdateRule</a>), and delete a
-  /// <code>GeoMatchSet</code> from AWS WAF (see <a>DeleteGeoMatchSet</a>).
-  ///
-  /// <code>GeoMatchSetId</code> is returned by <a>CreateGeoMatchSet</a> and by
-  /// <a>ListGeoMatchSets</a>.
-  final String geoMatchSetId;
+  /// Information about the part of a web request that you want AWS WAF to inspect
+  /// and the value that you want AWS WAF to search for. If you specify
+  /// <code>DELETE</code> for the value of <code>Action</code>, the
+  /// <code>ByteMatchTuple</code> values must exactly match the values in the
+  /// <code>ByteMatchTuple</code> that you want to delete from the
+  /// <code>ByteMatchSet</code>.
+  final ByteMatchTuple byteMatchTuple;
 
-  /// A friendly name or description of the <a>GeoMatchSet</a>. You can't change
-  /// the name of an <code>GeoMatchSet</code> after you create it.
-  final String? name;
-
-  GeoMatchSet({
-    required this.geoMatchConstraints,
-    required this.geoMatchSetId,
-    this.name,
+  ByteMatchSetUpdate({
+    required this.action,
+    required this.byteMatchTuple,
   });
 
-  factory GeoMatchSet.fromJson(Map<String, dynamic> json) {
-    return GeoMatchSet(
-      geoMatchConstraints: ((json['GeoMatchConstraints'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => GeoMatchConstraint.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      geoMatchSetId: (json['GeoMatchSetId'] as String?) ?? '',
-      name: json['Name'] as String?,
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final byteMatchTuple = this.byteMatchTuple;
+    return {
+      'Action': action.value,
+      'ByteMatchTuple': byteMatchTuple,
+    };
+  }
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// The bytes (typically a string that corresponds with ASCII characters) that
+/// you want AWS WAF to search for in web requests, the location in requests
+/// that you want AWS WAF to search, and other settings.
+class ByteMatchTuple {
+  /// The part of a web request that you want AWS WAF to search, such as a
+  /// specified header or a query string. For more information, see
+  /// <a>FieldToMatch</a>.
+  final FieldToMatch fieldToMatch;
+
+  /// Within the portion of a web request that you want to search (for example, in
+  /// the query string, if any), specify where you want AWS WAF to search. Valid
+  /// values include the following:
+  ///
+  /// <b>CONTAINS</b>
+  ///
+  /// The specified part of the web request must include the value of
+  /// <code>TargetString</code>, but the location doesn't matter.
+  ///
+  /// <b>CONTAINS_WORD</b>
+  ///
+  /// The specified part of the web request must include the value of
+  /// <code>TargetString</code>, and <code>TargetString</code> must contain only
+  /// alphanumeric characters or underscore (A-Z, a-z, 0-9, or _). In addition,
+  /// <code>TargetString</code> must be a word, which means one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>TargetString</code> exactly matches the value of the specified part of
+  /// the web request, such as the value of a header.
+  /// </li>
+  /// <li>
+  /// <code>TargetString</code> is at the beginning of the specified part of the
+  /// web request and is followed by a character other than an alphanumeric
+  /// character or underscore (_), for example, <code>BadBot;</code>.
+  /// </li>
+  /// <li>
+  /// <code>TargetString</code> is at the end of the specified part of the web
+  /// request and is preceded by a character other than an alphanumeric character
+  /// or underscore (_), for example, <code>;BadBot</code>.
+  /// </li>
+  /// <li>
+  /// <code>TargetString</code> is in the middle of the specified part of the web
+  /// request and is preceded and followed by characters other than alphanumeric
+  /// characters or underscore (_), for example, <code>-BadBot;</code>.
+  /// </li>
+  /// </ul>
+  /// <b>EXACTLY</b>
+  ///
+  /// The value of the specified part of the web request must exactly match the
+  /// value of <code>TargetString</code>.
+  ///
+  /// <b>STARTS_WITH</b>
+  ///
+  /// The value of <code>TargetString</code> must appear at the beginning of the
+  /// specified part of the web request.
+  ///
+  /// <b>ENDS_WITH</b>
+  ///
+  /// The value of <code>TargetString</code> must appear at the end of the
+  /// specified part of the web request.
+  final PositionalConstraint positionalConstraint;
+
+  /// The value that you want AWS WAF to search for. AWS WAF searches for the
+  /// specified string in the part of web requests that you specified in
+  /// <code>FieldToMatch</code>. The maximum length of the value is 50 bytes.
+  ///
+  /// Valid values depend on the values that you specified for
+  /// <code>FieldToMatch</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>HEADER</code>: The value that you want AWS WAF to search for in the
+  /// request header that you specified in <a>FieldToMatch</a>, for example, the
+  /// value of the <code>User-Agent</code> or <code>Referer</code> header.
+  /// </li>
+  /// <li>
+  /// <code>METHOD</code>: The HTTP method, which indicates the type of operation
+  /// specified in the request. CloudFront supports the following methods:
+  /// <code>DELETE</code>, <code>GET</code>, <code>HEAD</code>,
+  /// <code>OPTIONS</code>, <code>PATCH</code>, <code>POST</code>, and
+  /// <code>PUT</code>.
+  /// </li>
+  /// <li>
+  /// <code>QUERY_STRING</code>: The value that you want AWS WAF to search for in
+  /// the query string, which is the part of a URL that appears after a
+  /// <code>?</code> character.
+  /// </li>
+  /// <li>
+  /// <code>URI</code>: The value that you want AWS WAF to search for in the part
+  /// of a URL that identifies a resource, for example,
+  /// <code>/images/daily-ad.jpg</code>.
+  /// </li>
+  /// <li>
+  /// <code>BODY</code>: The part of a request that contains any additional data
+  /// that you want to send to your web server as the HTTP request body, such as
+  /// data from a form. The request body immediately follows the request headers.
+  /// Note that only the first <code>8192</code> bytes of the request body are
+  /// forwarded to AWS WAF for inspection. To allow or block requests based on the
+  /// length of the body, you can create a size constraint set. For more
+  /// information, see <a>CreateSizeConstraintSet</a>.
+  /// </li>
+  /// <li>
+  /// <code>SINGLE_QUERY_ARG</code>: The parameter in the query string that you
+  /// will inspect, such as <i>UserName</i> or <i>SalesRegion</i>. The maximum
+  /// length for <code>SINGLE_QUERY_ARG</code> is 30 characters.
+  /// </li>
+  /// <li>
+  /// <code>ALL_QUERY_ARGS</code>: Similar to <code>SINGLE_QUERY_ARG</code>, but
+  /// instead of inspecting a single parameter, AWS WAF inspects all parameters
+  /// within the query string for the value or regex pattern that you specify in
+  /// <code>TargetString</code>.
+  /// </li>
+  /// </ul>
+  /// If <code>TargetString</code> includes alphabetic characters A-Z and a-z,
+  /// note that the value is case sensitive.
+  ///
+  /// <b>If you're using the AWS WAF API</b>
+  ///
+  /// Specify a base64-encoded version of the value. The maximum length of the
+  /// value before you base64-encode it is 50 bytes.
+  ///
+  /// For example, suppose the value of <code>Type</code> is <code>HEADER</code>
+  /// and the value of <code>Data</code> is <code>User-Agent</code>. If you want
+  /// to search the <code>User-Agent</code> header for the value
+  /// <code>BadBot</code>, you base64-encode <code>BadBot</code> using MIME
+  /// base64-encoding and include the resulting value, <code>QmFkQm90</code>, in
+  /// the value of <code>TargetString</code>.
+  ///
+  /// <b>If you're using the AWS CLI or one of the AWS SDKs</b>
+  ///
+  /// The value that you want AWS WAF to search for. The SDK automatically base64
+  /// encodes the value.
+  final Uint8List targetString;
+
+  /// Text transformations eliminate some of the unusual formatting that attackers
+  /// use in web requests in an effort to bypass AWS WAF. If you specify a
+  /// transformation, AWS WAF performs the transformation on
+  /// <code>FieldToMatch</code> before inspecting it for a match.
+  ///
+  /// You can only specify a single type of TextTransformation.
+  ///
+  /// <b>CMD_LINE</b>
+  ///
+  /// When you're concerned that attackers are injecting an operating system
+  /// command line command and using unusual formatting to disguise some or all of
+  /// the command, use this option to perform the following transformations:
+  ///
+  /// <ul>
+  /// <li>
+  /// Delete the following characters: \ " ' ^
+  /// </li>
+  /// <li>
+  /// Delete spaces before the following characters: / (
+  /// </li>
+  /// <li>
+  /// Replace the following characters with a space: , ;
+  /// </li>
+  /// <li>
+  /// Replace multiple spaces with one space
+  /// </li>
+  /// <li>
+  /// Convert uppercase letters (A-Z) to lowercase (a-z)
+  /// </li>
+  /// </ul>
+  /// <b>COMPRESS_WHITE_SPACE</b>
+  ///
+  /// Use this option to replace the following characters with a space character
+  /// (decimal 32):
+  ///
+  /// <ul>
+  /// <li>
+  /// \f, formfeed, decimal 12
+  /// </li>
+  /// <li>
+  /// \t, tab, decimal 9
+  /// </li>
+  /// <li>
+  /// \n, newline, decimal 10
+  /// </li>
+  /// <li>
+  /// \r, carriage return, decimal 13
+  /// </li>
+  /// <li>
+  /// \v, vertical tab, decimal 11
+  /// </li>
+  /// <li>
+  /// non-breaking space, decimal 160
+  /// </li>
+  /// </ul>
+  /// <code>COMPRESS_WHITE_SPACE</code> also replaces multiple spaces with one
+  /// space.
+  ///
+  /// <b>HTML_ENTITY_DECODE</b>
+  ///
+  /// Use this option to replace HTML-encoded characters with unencoded
+  /// characters. <code>HTML_ENTITY_DECODE</code> performs the following
+  /// operations:
+  ///
+  /// <ul>
+  /// <li>
+  /// Replaces <code>(ampersand)quot;</code> with <code>"</code>
+  /// </li>
+  /// <li>
+  /// Replaces <code>(ampersand)nbsp;</code> with a non-breaking space, decimal
+  /// 160
+  /// </li>
+  /// <li>
+  /// Replaces <code>(ampersand)lt;</code> with a "less than" symbol
+  /// </li>
+  /// <li>
+  /// Replaces <code>(ampersand)gt;</code> with <code>></code>
+  /// </li>
+  /// <li>
+  /// Replaces characters that are represented in hexadecimal format,
+  /// <code>(ampersand)#xhhhh;</code>, with the corresponding characters
+  /// </li>
+  /// <li>
+  /// Replaces characters that are represented in decimal format,
+  /// <code>(ampersand)#nnnn;</code>, with the corresponding characters
+  /// </li>
+  /// </ul>
+  /// <b>LOWERCASE</b>
+  ///
+  /// Use this option to convert uppercase letters (A-Z) to lowercase (a-z).
+  ///
+  /// <b>URL_DECODE</b>
+  ///
+  /// Use this option to decode a URL-encoded value.
+  ///
+  /// <b>NONE</b>
+  ///
+  /// Specify <code>NONE</code> if you don't want to perform any text
+  /// transformations.
+  final TextTransformation textTransformation;
+
+  ByteMatchTuple({
+    required this.fieldToMatch,
+    required this.positionalConstraint,
+    required this.targetString,
+    required this.textTransformation,
+  });
+
+  factory ByteMatchTuple.fromJson(Map<String, dynamic> json) {
+    return ByteMatchTuple(
+      fieldToMatch: FieldToMatch.fromJson(
+          (json['FieldToMatch'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      positionalConstraint: PositionalConstraint.fromString(
+          (json['PositionalConstraint'] as String?) ?? ''),
+      targetString: _s.decodeUint8List((json['TargetString'] as String?) ?? ''),
+      textTransformation: TextTransformation.fromString(
+          (json['TextTransformation'] as String?) ?? ''),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final geoMatchConstraints = this.geoMatchConstraints;
-    final geoMatchSetId = this.geoMatchSetId;
+    final fieldToMatch = this.fieldToMatch;
+    final positionalConstraint = this.positionalConstraint;
+    final targetString = this.targetString;
+    final textTransformation = this.textTransformation;
+    return {
+      'FieldToMatch': fieldToMatch,
+      'PositionalConstraint': positionalConstraint.value,
+      'TargetString': base64Encode(targetString),
+      'TextTransformation': textTransformation.value,
+    };
+  }
+}
+
+class PositionalConstraint {
+  static const exactly = PositionalConstraint._('EXACTLY');
+  static const startsWith = PositionalConstraint._('STARTS_WITH');
+  static const endsWith = PositionalConstraint._('ENDS_WITH');
+  static const contains = PositionalConstraint._('CONTAINS');
+  static const containsWord = PositionalConstraint._('CONTAINS_WORD');
+
+  final String value;
+
+  const PositionalConstraint._(this.value);
+
+  static const values = [exactly, startsWith, endsWith, contains, containsWord];
+
+  static PositionalConstraint fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PositionalConstraint._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PositionalConstraint && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// A tag associated with an AWS resource. Tags are key:value pairs that you can
+/// use to categorize and manage your resources, for purposes like billing. For
+/// example, you might set the tag key to "customer" and the value to the
+/// customer name or ID. You can specify one or more tags to add to each AWS
+/// resource, up to 50 tags for a resource.
+///
+/// Tagging is only available through the API, SDKs, and CLI. You can't manage
+/// or view tags through the AWS WAF Classic console. You can tag the AWS
+/// resources that you manage through AWS WAF Classic: web ACLs, rule groups,
+/// and rules.
+class Tag {
+  ///
+  final String key;
+
+  ///
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// The Amazon Kinesis Data Firehose, <code>RedactedFields</code> information,
+/// and the web ACL Amazon Resource Name (ARN).
+class LoggingConfiguration {
+  /// An array of Amazon Kinesis Data Firehose ARNs.
+  final List<String> logDestinationConfigs;
+
+  /// The Amazon Resource Name (ARN) of the web ACL that you want to associate
+  /// with <code>LogDestinationConfigs</code>.
+  final String resourceArn;
+
+  /// The parts of the request that you want redacted from the logs. For example,
+  /// if you redact the cookie field, the cookie field in the firehose will be
+  /// <code>xxx</code>.
+  final List<FieldToMatch>? redactedFields;
+
+  LoggingConfiguration({
+    required this.logDestinationConfigs,
+    required this.resourceArn,
+    this.redactedFields,
+  });
+
+  factory LoggingConfiguration.fromJson(Map<String, dynamic> json) {
+    return LoggingConfiguration(
+      logDestinationConfigs:
+          ((json['LogDestinationConfigs'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => e as String)
+              .toList(),
+      resourceArn: (json['ResourceArn'] as String?) ?? '',
+      redactedFields: (json['RedactedFields'] as List?)
+          ?.nonNulls
+          .map((e) => FieldToMatch.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logDestinationConfigs = this.logDestinationConfigs;
+    final resourceArn = this.resourceArn;
+    final redactedFields = this.redactedFields;
+    return {
+      'LogDestinationConfigs': logDestinationConfigs,
+      'ResourceArn': resourceArn,
+      if (redactedFields != null) 'RedactedFields': redactedFields,
+    };
+  }
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// The <code>Id</code> and <code>Name</code> of an <code>XssMatchSet</code>.
+class XssMatchSetSummary {
+  /// The name of the <code>XssMatchSet</code>, if any, specified by
+  /// <code>Id</code>.
+  final String name;
+
+  /// A unique identifier for an <code>XssMatchSet</code>. You use
+  /// <code>XssMatchSetId</code> to get information about a
+  /// <code>XssMatchSet</code> (see <a>GetXssMatchSet</a>), update an
+  /// <code>XssMatchSet</code> (see <a>UpdateXssMatchSet</a>), insert an
+  /// <code>XssMatchSet</code> into a <code>Rule</code> or delete one from a
+  /// <code>Rule</code> (see <a>UpdateRule</a>), and delete an
+  /// <code>XssMatchSet</code> from AWS WAF (see <a>DeleteXssMatchSet</a>).
+  ///
+  /// <code>XssMatchSetId</code> is returned by <a>CreateXssMatchSet</a> and by
+  /// <a>ListXssMatchSets</a>.
+  final String xssMatchSetId;
+
+  XssMatchSetSummary({
+    required this.name,
+    required this.xssMatchSetId,
+  });
+
+  factory XssMatchSetSummary.fromJson(Map<String, dynamic> json) {
+    return XssMatchSetSummary(
+      name: (json['Name'] as String?) ?? '',
+      xssMatchSetId: (json['XssMatchSetId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final xssMatchSetId = this.xssMatchSetId;
+    return {
+      'Name': name,
+      'XssMatchSetId': xssMatchSetId,
+    };
+  }
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// Contains the identifier and the name or description of the <a>WebACL</a>.
+class WebACLSummary {
+  /// A friendly name or description of the <a>WebACL</a>. You can't change the
+  /// name of a <code>WebACL</code> after you create it.
+  final String name;
+
+  /// A unique identifier for a <code>WebACL</code>. You use <code>WebACLId</code>
+  /// to get information about a <code>WebACL</code> (see <a>GetWebACL</a>),
+  /// update a <code>WebACL</code> (see <a>UpdateWebACL</a>), and delete a
+  /// <code>WebACL</code> from AWS WAF (see <a>DeleteWebACL</a>).
+  ///
+  /// <code>WebACLId</code> is returned by <a>CreateWebACL</a> and by
+  /// <a>ListWebACLs</a>.
+  final String webACLId;
+
+  WebACLSummary({
+    required this.name,
+    required this.webACLId,
+  });
+
+  factory WebACLSummary.fromJson(Map<String, dynamic> json) {
+    return WebACLSummary(
+      name: (json['Name'] as String?) ?? '',
+      webACLId: (json['WebACLId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final webACLId = this.webACLId;
+    return {
+      'Name': name,
+      'WebACLId': webACLId,
+    };
+  }
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// Information for a tag associated with an AWS resource. Tags are key:value
+/// pairs that you can use to categorize and manage your resources, for purposes
+/// like billing. For example, you might set the tag key to "customer" and the
+/// value to the customer name or ID. You can specify one or more tags to add to
+/// each AWS resource, up to 50 tags for a resource.
+///
+/// Tagging is only available through the API, SDKs, and CLI. You can't manage
+/// or view tags through the AWS WAF Classic console. You can tag the AWS
+/// resources that you manage through AWS WAF Classic: web ACLs, rule groups,
+/// and rules.
+class TagInfoForResource {
+  ///
+  final String? resourceARN;
+
+  ///
+  final List<Tag>? tagList;
+
+  TagInfoForResource({
+    this.resourceARN,
+    this.tagList,
+  });
+
+  factory TagInfoForResource.fromJson(Map<String, dynamic> json) {
+    return TagInfoForResource(
+      resourceARN: json['ResourceARN'] as String?,
+      tagList: (json['TagList'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceARN = this.resourceARN;
+    final tagList = this.tagList;
+    return {
+      if (resourceARN != null) 'ResourceARN': resourceARN,
+      if (tagList != null) 'TagList': tagList,
+    };
+  }
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// A summary of the rule groups you are subscribed to.
+class SubscribedRuleGroupSummary {
+  /// A friendly name or description for the metrics for this
+  /// <code>RuleGroup</code>. The name can contain only alphanumeric characters
+  /// (A-Z, a-z, 0-9), with maximum length 128 and minimum length one. It can't
+  /// contain whitespace or metric names reserved for AWS WAF, including "All" and
+  /// "Default_Action." You can't change the name of the metric after you create
+  /// the <code>RuleGroup</code>.
+  final String metricName;
+
+  /// A friendly name or description of the <code>RuleGroup</code>. You can't
+  /// change the name of a <code>RuleGroup</code> after you create it.
+  final String name;
+
+  /// A unique identifier for a <code>RuleGroup</code>.
+  final String ruleGroupId;
+
+  SubscribedRuleGroupSummary({
+    required this.metricName,
+    required this.name,
+    required this.ruleGroupId,
+  });
+
+  factory SubscribedRuleGroupSummary.fromJson(Map<String, dynamic> json) {
+    return SubscribedRuleGroupSummary(
+      metricName: (json['MetricName'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      ruleGroupId: (json['RuleGroupId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricName = this.metricName;
+    final name = this.name;
+    final ruleGroupId = this.ruleGroupId;
+    return {
+      'MetricName': metricName,
+      'Name': name,
+      'RuleGroupId': ruleGroupId,
+    };
+  }
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// The <code>Id</code> and <code>Name</code> of a
+/// <code>SqlInjectionMatchSet</code>.
+class SqlInjectionMatchSetSummary {
+  /// The name of the <code>SqlInjectionMatchSet</code>, if any, specified by
+  /// <code>Id</code>.
+  final String name;
+
+  /// A unique identifier for a <code>SqlInjectionMatchSet</code>. You use
+  /// <code>SqlInjectionMatchSetId</code> to get information about a
+  /// <code>SqlInjectionMatchSet</code> (see <a>GetSqlInjectionMatchSet</a>),
+  /// update a <code>SqlInjectionMatchSet</code> (see
+  /// <a>UpdateSqlInjectionMatchSet</a>), insert a
+  /// <code>SqlInjectionMatchSet</code> into a <code>Rule</code> or delete one
+  /// from a <code>Rule</code> (see <a>UpdateRule</a>), and delete a
+  /// <code>SqlInjectionMatchSet</code> from AWS WAF (see
+  /// <a>DeleteSqlInjectionMatchSet</a>).
+  ///
+  /// <code>SqlInjectionMatchSetId</code> is returned by
+  /// <a>CreateSqlInjectionMatchSet</a> and by <a>ListSqlInjectionMatchSets</a>.
+  final String sqlInjectionMatchSetId;
+
+  SqlInjectionMatchSetSummary({
+    required this.name,
+    required this.sqlInjectionMatchSetId,
+  });
+
+  factory SqlInjectionMatchSetSummary.fromJson(Map<String, dynamic> json) {
+    return SqlInjectionMatchSetSummary(
+      name: (json['Name'] as String?) ?? '',
+      sqlInjectionMatchSetId: (json['SqlInjectionMatchSetId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final sqlInjectionMatchSetId = this.sqlInjectionMatchSetId;
+    return {
+      'Name': name,
+      'SqlInjectionMatchSetId': sqlInjectionMatchSetId,
+    };
+  }
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// The <code>Id</code> and <code>Name</code> of a
+/// <code>SizeConstraintSet</code>.
+class SizeConstraintSetSummary {
+  /// The name of the <code>SizeConstraintSet</code>, if any.
+  final String name;
+
+  /// A unique identifier for a <code>SizeConstraintSet</code>. You use
+  /// <code>SizeConstraintSetId</code> to get information about a
+  /// <code>SizeConstraintSet</code> (see <a>GetSizeConstraintSet</a>), update a
+  /// <code>SizeConstraintSet</code> (see <a>UpdateSizeConstraintSet</a>), insert
+  /// a <code>SizeConstraintSet</code> into a <code>Rule</code> or delete one from
+  /// a <code>Rule</code> (see <a>UpdateRule</a>), and delete a
+  /// <code>SizeConstraintSet</code> from AWS WAF (see
+  /// <a>DeleteSizeConstraintSet</a>).
+  ///
+  /// <code>SizeConstraintSetId</code> is returned by
+  /// <a>CreateSizeConstraintSet</a> and by <a>ListSizeConstraintSets</a>.
+  final String sizeConstraintSetId;
+
+  SizeConstraintSetSummary({
+    required this.name,
+    required this.sizeConstraintSetId,
+  });
+
+  factory SizeConstraintSetSummary.fromJson(Map<String, dynamic> json) {
+    return SizeConstraintSetSummary(
+      name: (json['Name'] as String?) ?? '',
+      sizeConstraintSetId: (json['SizeConstraintSetId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final sizeConstraintSetId = this.sizeConstraintSetId;
+    return {
+      'Name': name,
+      'SizeConstraintSetId': sizeConstraintSetId,
+    };
+  }
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// Contains the identifier and the friendly name or description of the
+/// <code>Rule</code>.
+class RuleSummary {
+  /// A friendly name or description of the <a>Rule</a>. You can't change the name
+  /// of a <code>Rule</code> after you create it.
+  final String name;
+
+  /// A unique identifier for a <code>Rule</code>. You use <code>RuleId</code> to
+  /// get more information about a <code>Rule</code> (see <a>GetRule</a>), update
+  /// a <code>Rule</code> (see <a>UpdateRule</a>), insert a <code>Rule</code> into
+  /// a <code>WebACL</code> or delete one from a <code>WebACL</code> (see
+  /// <a>UpdateWebACL</a>), or delete a <code>Rule</code> from AWS WAF (see
+  /// <a>DeleteRule</a>).
+  ///
+  /// <code>RuleId</code> is returned by <a>CreateRule</a> and by
+  /// <a>ListRules</a>.
+  final String ruleId;
+
+  RuleSummary({
+    required this.name,
+    required this.ruleId,
+  });
+
+  factory RuleSummary.fromJson(Map<String, dynamic> json) {
+    return RuleSummary(
+      name: (json['Name'] as String?) ?? '',
+      ruleId: (json['RuleId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final ruleId = this.ruleId;
+    return {
+      'Name': name,
+      'RuleId': ruleId,
+    };
+  }
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// Contains the identifier and the friendly name or description of the
+/// <code>RuleGroup</code>.
+class RuleGroupSummary {
+  /// A friendly name or description of the <a>RuleGroup</a>. You can't change the
+  /// name of a <code>RuleGroup</code> after you create it.
+  final String name;
+
+  /// A unique identifier for a <code>RuleGroup</code>. You use
+  /// <code>RuleGroupId</code> to get more information about a
+  /// <code>RuleGroup</code> (see <a>GetRuleGroup</a>), update a
+  /// <code>RuleGroup</code> (see <a>UpdateRuleGroup</a>), insert a
+  /// <code>RuleGroup</code> into a <code>WebACL</code> or delete one from a
+  /// <code>WebACL</code> (see <a>UpdateWebACL</a>), or delete a
+  /// <code>RuleGroup</code> from AWS WAF (see <a>DeleteRuleGroup</a>).
+  ///
+  /// <code>RuleGroupId</code> is returned by <a>CreateRuleGroup</a> and by
+  /// <a>ListRuleGroups</a>.
+  final String ruleGroupId;
+
+  RuleGroupSummary({
+    required this.name,
+    required this.ruleGroupId,
+  });
+
+  factory RuleGroupSummary.fromJson(Map<String, dynamic> json) {
+    return RuleGroupSummary(
+      name: (json['Name'] as String?) ?? '',
+      ruleGroupId: (json['RuleGroupId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final ruleGroupId = this.ruleGroupId;
+    return {
+      'Name': name,
+      'RuleGroupId': ruleGroupId,
+    };
+  }
+}
+
+class ResourceType {
+  static const applicationLoadBalancer =
+      ResourceType._('APPLICATION_LOAD_BALANCER');
+  static const apiGateway = ResourceType._('API_GATEWAY');
+
+  final String value;
+
+  const ResourceType._(this.value);
+
+  static const values = [applicationLoadBalancer, apiGateway];
+
+  static ResourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// Returned by <a>ListRegexPatternSets</a>. Each
+/// <code>RegexPatternSetSummary</code> object includes the <code>Name</code>
+/// and <code>RegexPatternSetId</code> for one <a>RegexPatternSet</a>.
+class RegexPatternSetSummary {
+  /// A friendly name or description of the <a>RegexPatternSet</a>. You can't
+  /// change <code>Name</code> after you create a <code>RegexPatternSet</code>.
+  final String name;
+
+  /// The <code>RegexPatternSetId</code> for a <code>RegexPatternSet</code>. You
+  /// use <code>RegexPatternSetId</code> to get information about a
+  /// <code>RegexPatternSet</code>, update a <code>RegexPatternSet</code>, remove
+  /// a <code>RegexPatternSet</code> from a <code>RegexMatchSet</code>, and delete
+  /// a <code>RegexPatternSet</code> from AWS WAF.
+  ///
+  /// <code>RegexPatternSetId</code> is returned by <a>CreateRegexPatternSet</a>
+  /// and by <a>ListRegexPatternSets</a>.
+  final String regexPatternSetId;
+
+  RegexPatternSetSummary({
+    required this.name,
+    required this.regexPatternSetId,
+  });
+
+  factory RegexPatternSetSummary.fromJson(Map<String, dynamic> json) {
+    return RegexPatternSetSummary(
+      name: (json['Name'] as String?) ?? '',
+      regexPatternSetId: (json['RegexPatternSetId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final regexPatternSetId = this.regexPatternSetId;
+    return {
+      'Name': name,
+      'RegexPatternSetId': regexPatternSetId,
+    };
+  }
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// Returned by <a>ListRegexMatchSets</a>. Each
+/// <code>RegexMatchSetSummary</code> object includes the <code>Name</code> and
+/// <code>RegexMatchSetId</code> for one <a>RegexMatchSet</a>.
+class RegexMatchSetSummary {
+  /// A friendly name or description of the <a>RegexMatchSet</a>. You can't change
+  /// <code>Name</code> after you create a <code>RegexMatchSet</code>.
+  final String name;
+
+  /// The <code>RegexMatchSetId</code> for a <code>RegexMatchSet</code>. You use
+  /// <code>RegexMatchSetId</code> to get information about a
+  /// <code>RegexMatchSet</code>, update a <code>RegexMatchSet</code>, remove a
+  /// <code>RegexMatchSet</code> from a <code>Rule</code>, and delete a
+  /// <code>RegexMatchSet</code> from AWS WAF.
+  ///
+  /// <code>RegexMatchSetId</code> is returned by <a>CreateRegexMatchSet</a> and
+  /// by <a>ListRegexMatchSets</a>.
+  final String regexMatchSetId;
+
+  RegexMatchSetSummary({
+    required this.name,
+    required this.regexMatchSetId,
+  });
+
+  factory RegexMatchSetSummary.fromJson(Map<String, dynamic> json) {
+    return RegexMatchSetSummary(
+      name: (json['Name'] as String?) ?? '',
+      regexMatchSetId: (json['RegexMatchSetId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final regexMatchSetId = this.regexMatchSetId;
+    return {
+      'Name': name,
+      'RegexMatchSetId': regexMatchSetId,
+    };
+  }
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// Contains the identifier and the name of the <code>IPSet</code>.
+class IPSetSummary {
+  /// The <code>IPSetId</code> for an <a>IPSet</a>. You can use
+  /// <code>IPSetId</code> in a <a>GetIPSet</a> request to get detailed
+  /// information about an <a>IPSet</a>.
+  final String iPSetId;
+
+  /// A friendly name or description of the <a>IPSet</a>. You can't change the
+  /// name of an <code>IPSet</code> after you create it.
+  final String name;
+
+  IPSetSummary({
+    required this.iPSetId,
+    required this.name,
+  });
+
+  factory IPSetSummary.fromJson(Map<String, dynamic> json) {
+    return IPSetSummary(
+      iPSetId: (json['IPSetId'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final iPSetId = this.iPSetId;
     final name = this.name;
     return {
-      'GeoMatchConstraints': geoMatchConstraints,
-      'GeoMatchSetId': geoMatchSetId,
-      if (name != null) 'Name': name,
+      'IPSetId': iPSetId,
+      'Name': name,
     };
   }
 }
@@ -8375,660 +12018,42 @@ class GeoMatchSetSummary {
 /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
 /// of endpoints for regional and global use.
 /// </note>
-/// Specifies the type of update to perform to an <a>GeoMatchSet</a> with
-/// <a>UpdateGeoMatchSet</a>.
-class GeoMatchSetUpdate {
-  /// Specifies whether to insert or delete a country with
-  /// <a>UpdateGeoMatchSet</a>.
-  final ChangeAction action;
-
-  /// The country from which web requests originate that you want AWS WAF to
-  /// search for.
-  final GeoMatchConstraint geoMatchConstraint;
-
-  GeoMatchSetUpdate({
-    required this.action,
-    required this.geoMatchConstraint,
-  });
-
-  Map<String, dynamic> toJson() {
-    final action = this.action;
-    final geoMatchConstraint = this.geoMatchConstraint;
-    return {
-      'Action': action.value,
-      'GeoMatchConstraint': geoMatchConstraint,
-    };
-  }
-}
-
-class GetByteMatchSetResponse {
-  /// Information about the <a>ByteMatchSet</a> that you specified in the
-  /// <code>GetByteMatchSet</code> request. For more information, see the
-  /// following topics:
+/// Returned by <a>ListByteMatchSets</a>. Each <code>ByteMatchSetSummary</code>
+/// object includes the <code>Name</code> and <code>ByteMatchSetId</code> for
+/// one <a>ByteMatchSet</a>.
+class ByteMatchSetSummary {
+  /// The <code>ByteMatchSetId</code> for a <code>ByteMatchSet</code>. You use
+  /// <code>ByteMatchSetId</code> to get information about a
+  /// <code>ByteMatchSet</code>, update a <code>ByteMatchSet</code>, remove a
+  /// <code>ByteMatchSet</code> from a <code>Rule</code>, and delete a
+  /// <code>ByteMatchSet</code> from AWS WAF.
   ///
-  /// <ul>
-  /// <li>
-  /// <a>ByteMatchSet</a>: Contains <code>ByteMatchSetId</code>,
-  /// <code>ByteMatchTuples</code>, and <code>Name</code>
-  /// </li>
-  /// <li>
-  /// <code>ByteMatchTuples</code>: Contains an array of <a>ByteMatchTuple</a>
-  /// objects. Each <code>ByteMatchTuple</code> object contains
-  /// <a>FieldToMatch</a>, <code>PositionalConstraint</code>,
-  /// <code>TargetString</code>, and <code>TextTransformation</code>
-  /// </li>
-  /// <li>
-  /// <a>FieldToMatch</a>: Contains <code>Data</code> and <code>Type</code>
-  /// </li>
-  /// </ul>
-  final ByteMatchSet? byteMatchSet;
+  /// <code>ByteMatchSetId</code> is returned by <a>CreateByteMatchSet</a> and by
+  /// <a>ListByteMatchSets</a>.
+  final String byteMatchSetId;
 
-  GetByteMatchSetResponse({
-    this.byteMatchSet,
+  /// A friendly name or description of the <a>ByteMatchSet</a>. You can't change
+  /// <code>Name</code> after you create a <code>ByteMatchSet</code>.
+  final String name;
+
+  ByteMatchSetSummary({
+    required this.byteMatchSetId,
+    required this.name,
   });
 
-  factory GetByteMatchSetResponse.fromJson(Map<String, dynamic> json) {
-    return GetByteMatchSetResponse(
-      byteMatchSet: json['ByteMatchSet'] != null
-          ? ByteMatchSet.fromJson(json['ByteMatchSet'] as Map<String, dynamic>)
-          : null,
+  factory ByteMatchSetSummary.fromJson(Map<String, dynamic> json) {
+    return ByteMatchSetSummary(
+      byteMatchSetId: (json['ByteMatchSetId'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    final byteMatchSet = this.byteMatchSet;
+    final byteMatchSetId = this.byteMatchSetId;
+    final name = this.name;
     return {
-      if (byteMatchSet != null) 'ByteMatchSet': byteMatchSet,
-    };
-  }
-}
-
-class GetChangeTokenResponse {
-  /// The <code>ChangeToken</code> that you used in the request. Use this value in
-  /// a <code>GetChangeTokenStatus</code> request to get the current status of the
-  /// request.
-  final String? changeToken;
-
-  GetChangeTokenResponse({
-    this.changeToken,
-  });
-
-  factory GetChangeTokenResponse.fromJson(Map<String, dynamic> json) {
-    return GetChangeTokenResponse(
-      changeToken: json['ChangeToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final changeToken = this.changeToken;
-    return {
-      if (changeToken != null) 'ChangeToken': changeToken,
-    };
-  }
-}
-
-class GetChangeTokenStatusResponse {
-  /// The status of the change token.
-  final ChangeTokenStatus? changeTokenStatus;
-
-  GetChangeTokenStatusResponse({
-    this.changeTokenStatus,
-  });
-
-  factory GetChangeTokenStatusResponse.fromJson(Map<String, dynamic> json) {
-    return GetChangeTokenStatusResponse(
-      changeTokenStatus: (json['ChangeTokenStatus'] as String?)
-          ?.let(ChangeTokenStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final changeTokenStatus = this.changeTokenStatus;
-    return {
-      if (changeTokenStatus != null)
-        'ChangeTokenStatus': changeTokenStatus.value,
-    };
-  }
-}
-
-class GetGeoMatchSetResponse {
-  /// Information about the <a>GeoMatchSet</a> that you specified in the
-  /// <code>GetGeoMatchSet</code> request. This includes the <code>Type</code>,
-  /// which for a <code>GeoMatchContraint</code> is always <code>Country</code>,
-  /// as well as the <code>Value</code>, which is the identifier for a specific
-  /// country.
-  final GeoMatchSet? geoMatchSet;
-
-  GetGeoMatchSetResponse({
-    this.geoMatchSet,
-  });
-
-  factory GetGeoMatchSetResponse.fromJson(Map<String, dynamic> json) {
-    return GetGeoMatchSetResponse(
-      geoMatchSet: json['GeoMatchSet'] != null
-          ? GeoMatchSet.fromJson(json['GeoMatchSet'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final geoMatchSet = this.geoMatchSet;
-    return {
-      if (geoMatchSet != null) 'GeoMatchSet': geoMatchSet,
-    };
-  }
-}
-
-class GetIPSetResponse {
-  /// Information about the <a>IPSet</a> that you specified in the
-  /// <code>GetIPSet</code> request. For more information, see the following
-  /// topics:
-  ///
-  /// <ul>
-  /// <li>
-  /// <a>IPSet</a>: Contains <code>IPSetDescriptors</code>, <code>IPSetId</code>,
-  /// and <code>Name</code>
-  /// </li>
-  /// <li>
-  /// <code>IPSetDescriptors</code>: Contains an array of <a>IPSetDescriptor</a>
-  /// objects. Each <code>IPSetDescriptor</code> object contains <code>Type</code>
-  /// and <code>Value</code>
-  /// </li>
-  /// </ul>
-  final IPSet? iPSet;
-
-  GetIPSetResponse({
-    this.iPSet,
-  });
-
-  factory GetIPSetResponse.fromJson(Map<String, dynamic> json) {
-    return GetIPSetResponse(
-      iPSet: json['IPSet'] != null
-          ? IPSet.fromJson(json['IPSet'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final iPSet = this.iPSet;
-    return {
-      if (iPSet != null) 'IPSet': iPSet,
-    };
-  }
-}
-
-class GetLoggingConfigurationResponse {
-  /// The <a>LoggingConfiguration</a> for the specified web ACL.
-  final LoggingConfiguration? loggingConfiguration;
-
-  GetLoggingConfigurationResponse({
-    this.loggingConfiguration,
-  });
-
-  factory GetLoggingConfigurationResponse.fromJson(Map<String, dynamic> json) {
-    return GetLoggingConfigurationResponse(
-      loggingConfiguration: json['LoggingConfiguration'] != null
-          ? LoggingConfiguration.fromJson(
-              json['LoggingConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final loggingConfiguration = this.loggingConfiguration;
-    return {
-      if (loggingConfiguration != null)
-        'LoggingConfiguration': loggingConfiguration,
-    };
-  }
-}
-
-class GetPermissionPolicyResponse {
-  /// The IAM policy attached to the specified RuleGroup.
-  final String? policy;
-
-  GetPermissionPolicyResponse({
-    this.policy,
-  });
-
-  factory GetPermissionPolicyResponse.fromJson(Map<String, dynamic> json) {
-    return GetPermissionPolicyResponse(
-      policy: json['Policy'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final policy = this.policy;
-    return {
-      if (policy != null) 'Policy': policy,
-    };
-  }
-}
-
-class GetRateBasedRuleManagedKeysResponse {
-  /// An array of IP addresses that currently are blocked by the specified
-  /// <a>RateBasedRule</a>.
-  final List<String>? managedKeys;
-
-  /// A null value and not currently used.
-  final String? nextMarker;
-
-  GetRateBasedRuleManagedKeysResponse({
-    this.managedKeys,
-    this.nextMarker,
-  });
-
-  factory GetRateBasedRuleManagedKeysResponse.fromJson(
-      Map<String, dynamic> json) {
-    return GetRateBasedRuleManagedKeysResponse(
-      managedKeys: (json['ManagedKeys'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      nextMarker: json['NextMarker'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final managedKeys = this.managedKeys;
-    final nextMarker = this.nextMarker;
-    return {
-      if (managedKeys != null) 'ManagedKeys': managedKeys,
-      if (nextMarker != null) 'NextMarker': nextMarker,
-    };
-  }
-}
-
-class GetRateBasedRuleResponse {
-  /// Information about the <a>RateBasedRule</a> that you specified in the
-  /// <code>GetRateBasedRule</code> request.
-  final RateBasedRule? rule;
-
-  GetRateBasedRuleResponse({
-    this.rule,
-  });
-
-  factory GetRateBasedRuleResponse.fromJson(Map<String, dynamic> json) {
-    return GetRateBasedRuleResponse(
-      rule: json['Rule'] != null
-          ? RateBasedRule.fromJson(json['Rule'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final rule = this.rule;
-    return {
-      if (rule != null) 'Rule': rule,
-    };
-  }
-}
-
-class GetRegexMatchSetResponse {
-  /// Information about the <a>RegexMatchSet</a> that you specified in the
-  /// <code>GetRegexMatchSet</code> request. For more information, see
-  /// <a>RegexMatchTuple</a>.
-  final RegexMatchSet? regexMatchSet;
-
-  GetRegexMatchSetResponse({
-    this.regexMatchSet,
-  });
-
-  factory GetRegexMatchSetResponse.fromJson(Map<String, dynamic> json) {
-    return GetRegexMatchSetResponse(
-      regexMatchSet: json['RegexMatchSet'] != null
-          ? RegexMatchSet.fromJson(
-              json['RegexMatchSet'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final regexMatchSet = this.regexMatchSet;
-    return {
-      if (regexMatchSet != null) 'RegexMatchSet': regexMatchSet,
-    };
-  }
-}
-
-class GetRegexPatternSetResponse {
-  /// Information about the <a>RegexPatternSet</a> that you specified in the
-  /// <code>GetRegexPatternSet</code> request, including the identifier of the
-  /// pattern set and the regular expression patterns you want AWS WAF to search
-  /// for.
-  final RegexPatternSet? regexPatternSet;
-
-  GetRegexPatternSetResponse({
-    this.regexPatternSet,
-  });
-
-  factory GetRegexPatternSetResponse.fromJson(Map<String, dynamic> json) {
-    return GetRegexPatternSetResponse(
-      regexPatternSet: json['RegexPatternSet'] != null
-          ? RegexPatternSet.fromJson(
-              json['RegexPatternSet'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final regexPatternSet = this.regexPatternSet;
-    return {
-      if (regexPatternSet != null) 'RegexPatternSet': regexPatternSet,
-    };
-  }
-}
-
-class GetRuleGroupResponse {
-  /// Information about the <a>RuleGroup</a> that you specified in the
-  /// <code>GetRuleGroup</code> request.
-  final RuleGroup? ruleGroup;
-
-  GetRuleGroupResponse({
-    this.ruleGroup,
-  });
-
-  factory GetRuleGroupResponse.fromJson(Map<String, dynamic> json) {
-    return GetRuleGroupResponse(
-      ruleGroup: json['RuleGroup'] != null
-          ? RuleGroup.fromJson(json['RuleGroup'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final ruleGroup = this.ruleGroup;
-    return {
-      if (ruleGroup != null) 'RuleGroup': ruleGroup,
-    };
-  }
-}
-
-class GetRuleResponse {
-  /// Information about the <a>Rule</a> that you specified in the
-  /// <code>GetRule</code> request. For more information, see the following
-  /// topics:
-  ///
-  /// <ul>
-  /// <li>
-  /// <a>Rule</a>: Contains <code>MetricName</code>, <code>Name</code>, an array
-  /// of <code>Predicate</code> objects, and <code>RuleId</code>
-  /// </li>
-  /// <li>
-  /// <a>Predicate</a>: Each <code>Predicate</code> object contains
-  /// <code>DataId</code>, <code>Negated</code>, and <code>Type</code>
-  /// </li>
-  /// </ul>
-  final Rule? rule;
-
-  GetRuleResponse({
-    this.rule,
-  });
-
-  factory GetRuleResponse.fromJson(Map<String, dynamic> json) {
-    return GetRuleResponse(
-      rule: json['Rule'] != null
-          ? Rule.fromJson(json['Rule'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final rule = this.rule;
-    return {
-      if (rule != null) 'Rule': rule,
-    };
-  }
-}
-
-class GetSampledRequestsResponse {
-  /// The total number of requests from which <code>GetSampledRequests</code> got
-  /// a sample of <code>MaxItems</code> requests. If <code>PopulationSize</code>
-  /// is less than <code>MaxItems</code>, the sample includes every request that
-  /// your AWS resource received during the specified time range.
-  final int? populationSize;
-
-  /// A complex type that contains detailed information about each of the requests
-  /// in the sample.
-  final List<SampledHTTPRequest>? sampledRequests;
-
-  /// Usually, <code>TimeWindow</code> is the time range that you specified in the
-  /// <code>GetSampledRequests</code> request. However, if your AWS resource
-  /// received more than 5,000 requests during the time range that you specified
-  /// in the request, <code>GetSampledRequests</code> returns the time range for
-  /// the first 5,000 requests. Times are in Coordinated Universal Time (UTC)
-  /// format.
-  final TimeWindow? timeWindow;
-
-  GetSampledRequestsResponse({
-    this.populationSize,
-    this.sampledRequests,
-    this.timeWindow,
-  });
-
-  factory GetSampledRequestsResponse.fromJson(Map<String, dynamic> json) {
-    return GetSampledRequestsResponse(
-      populationSize: json['PopulationSize'] as int?,
-      sampledRequests: (json['SampledRequests'] as List?)
-          ?.nonNulls
-          .map((e) => SampledHTTPRequest.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      timeWindow: json['TimeWindow'] != null
-          ? TimeWindow.fromJson(json['TimeWindow'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final populationSize = this.populationSize;
-    final sampledRequests = this.sampledRequests;
-    final timeWindow = this.timeWindow;
-    return {
-      if (populationSize != null) 'PopulationSize': populationSize,
-      if (sampledRequests != null) 'SampledRequests': sampledRequests,
-      if (timeWindow != null) 'TimeWindow': timeWindow,
-    };
-  }
-}
-
-class GetSizeConstraintSetResponse {
-  /// Information about the <a>SizeConstraintSet</a> that you specified in the
-  /// <code>GetSizeConstraintSet</code> request. For more information, see the
-  /// following topics:
-  ///
-  /// <ul>
-  /// <li>
-  /// <a>SizeConstraintSet</a>: Contains <code>SizeConstraintSetId</code>,
-  /// <code>SizeConstraints</code>, and <code>Name</code>
-  /// </li>
-  /// <li>
-  /// <code>SizeConstraints</code>: Contains an array of <a>SizeConstraint</a>
-  /// objects. Each <code>SizeConstraint</code> object contains
-  /// <a>FieldToMatch</a>, <code>TextTransformation</code>,
-  /// <code>ComparisonOperator</code>, and <code>Size</code>
-  /// </li>
-  /// <li>
-  /// <a>FieldToMatch</a>: Contains <code>Data</code> and <code>Type</code>
-  /// </li>
-  /// </ul>
-  final SizeConstraintSet? sizeConstraintSet;
-
-  GetSizeConstraintSetResponse({
-    this.sizeConstraintSet,
-  });
-
-  factory GetSizeConstraintSetResponse.fromJson(Map<String, dynamic> json) {
-    return GetSizeConstraintSetResponse(
-      sizeConstraintSet: json['SizeConstraintSet'] != null
-          ? SizeConstraintSet.fromJson(
-              json['SizeConstraintSet'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final sizeConstraintSet = this.sizeConstraintSet;
-    return {
-      if (sizeConstraintSet != null) 'SizeConstraintSet': sizeConstraintSet,
-    };
-  }
-}
-
-/// The response to a <a>GetSqlInjectionMatchSet</a> request.
-class GetSqlInjectionMatchSetResponse {
-  /// Information about the <a>SqlInjectionMatchSet</a> that you specified in the
-  /// <code>GetSqlInjectionMatchSet</code> request. For more information, see the
-  /// following topics:
-  ///
-  /// <ul>
-  /// <li>
-  /// <a>SqlInjectionMatchSet</a>: Contains <code>Name</code>,
-  /// <code>SqlInjectionMatchSetId</code>, and an array of
-  /// <code>SqlInjectionMatchTuple</code> objects
-  /// </li>
-  /// <li>
-  /// <a>SqlInjectionMatchTuple</a>: Each <code>SqlInjectionMatchTuple</code>
-  /// object contains <code>FieldToMatch</code> and
-  /// <code>TextTransformation</code>
-  /// </li>
-  /// <li>
-  /// <a>FieldToMatch</a>: Contains <code>Data</code> and <code>Type</code>
-  /// </li>
-  /// </ul>
-  final SqlInjectionMatchSet? sqlInjectionMatchSet;
-
-  GetSqlInjectionMatchSetResponse({
-    this.sqlInjectionMatchSet,
-  });
-
-  factory GetSqlInjectionMatchSetResponse.fromJson(Map<String, dynamic> json) {
-    return GetSqlInjectionMatchSetResponse(
-      sqlInjectionMatchSet: json['SqlInjectionMatchSet'] != null
-          ? SqlInjectionMatchSet.fromJson(
-              json['SqlInjectionMatchSet'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final sqlInjectionMatchSet = this.sqlInjectionMatchSet;
-    return {
-      if (sqlInjectionMatchSet != null)
-        'SqlInjectionMatchSet': sqlInjectionMatchSet,
-    };
-  }
-}
-
-class GetWebACLForResourceResponse {
-  /// Information about the web ACL that you specified in the
-  /// <code>GetWebACLForResource</code> request. If there is no associated
-  /// resource, a null WebACLSummary is returned.
-  final WebACLSummary? webACLSummary;
-
-  GetWebACLForResourceResponse({
-    this.webACLSummary,
-  });
-
-  factory GetWebACLForResourceResponse.fromJson(Map<String, dynamic> json) {
-    return GetWebACLForResourceResponse(
-      webACLSummary: json['WebACLSummary'] != null
-          ? WebACLSummary.fromJson(
-              json['WebACLSummary'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final webACLSummary = this.webACLSummary;
-    return {
-      if (webACLSummary != null) 'WebACLSummary': webACLSummary,
-    };
-  }
-}
-
-class GetWebACLResponse {
-  /// Information about the <a>WebACL</a> that you specified in the
-  /// <code>GetWebACL</code> request. For more information, see the following
-  /// topics:
-  ///
-  /// <ul>
-  /// <li>
-  /// <a>WebACL</a>: Contains <code>DefaultAction</code>, <code>MetricName</code>,
-  /// <code>Name</code>, an array of <code>Rule</code> objects, and
-  /// <code>WebACLId</code>
-  /// </li>
-  /// <li>
-  /// <code>DefaultAction</code> (Data type is <a>WafAction</a>): Contains
-  /// <code>Type</code>
-  /// </li>
-  /// <li>
-  /// <code>Rules</code>: Contains an array of <code>ActivatedRule</code> objects,
-  /// which contain <code>Action</code>, <code>Priority</code>, and
-  /// <code>RuleId</code>
-  /// </li>
-  /// <li>
-  /// <code>Action</code>: Contains <code>Type</code>
-  /// </li>
-  /// </ul>
-  final WebACL? webACL;
-
-  GetWebACLResponse({
-    this.webACL,
-  });
-
-  factory GetWebACLResponse.fromJson(Map<String, dynamic> json) {
-    return GetWebACLResponse(
-      webACL: json['WebACL'] != null
-          ? WebACL.fromJson(json['WebACL'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final webACL = this.webACL;
-    return {
-      if (webACL != null) 'WebACL': webACL,
-    };
-  }
-}
-
-/// The response to a <a>GetXssMatchSet</a> request.
-class GetXssMatchSetResponse {
-  /// Information about the <a>XssMatchSet</a> that you specified in the
-  /// <code>GetXssMatchSet</code> request. For more information, see the following
-  /// topics:
-  ///
-  /// <ul>
-  /// <li>
-  /// <a>XssMatchSet</a>: Contains <code>Name</code>, <code>XssMatchSetId</code>,
-  /// and an array of <code>XssMatchTuple</code> objects
-  /// </li>
-  /// <li>
-  /// <a>XssMatchTuple</a>: Each <code>XssMatchTuple</code> object contains
-  /// <code>FieldToMatch</code> and <code>TextTransformation</code>
-  /// </li>
-  /// <li>
-  /// <a>FieldToMatch</a>: Contains <code>Data</code> and <code>Type</code>
-  /// </li>
-  /// </ul>
-  final XssMatchSet? xssMatchSet;
-
-  GetXssMatchSetResponse({
-    this.xssMatchSet,
-  });
-
-  factory GetXssMatchSetResponse.fromJson(Map<String, dynamic> json) {
-    return GetXssMatchSetResponse(
-      xssMatchSet: json['XssMatchSet'] != null
-          ? XssMatchSet.fromJson(json['XssMatchSet'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final xssMatchSet = this.xssMatchSet;
-    return {
-      if (xssMatchSet != null) 'XssMatchSet': xssMatchSet,
+      'ByteMatchSetId': byteMatchSetId,
+      'Name': name,
     };
   }
 }
@@ -9044,36 +12069,438 @@ class GetXssMatchSetResponse {
 /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
 /// of endpoints for regional and global use.
 /// </note>
-/// The response from a <a>GetSampledRequests</a> request includes an
-/// <code>HTTPHeader</code> complex type that appears as <code>Headers</code> in
-/// the response syntax. <code>HTTPHeader</code> contains the names and values
-/// of all of the headers that appear in one of the web requests that were
-/// returned by <code>GetSampledRequests</code>.
-class HTTPHeader {
-  /// The name of one of the headers in the sampled web request.
+/// A complex type that contains <code>XssMatchTuple</code> objects, which
+/// specify the parts of web requests that you want AWS WAF to inspect for
+/// cross-site scripting attacks and, if you want AWS WAF to inspect a header,
+/// the name of the header. If a <code>XssMatchSet</code> contains more than one
+/// <code>XssMatchTuple</code> object, a request needs to include cross-site
+/// scripting attacks in only one of the specified parts of the request to be
+/// considered a match.
+class XssMatchSet {
+  /// A unique identifier for an <code>XssMatchSet</code>. You use
+  /// <code>XssMatchSetId</code> to get information about an
+  /// <code>XssMatchSet</code> (see <a>GetXssMatchSet</a>), update an
+  /// <code>XssMatchSet</code> (see <a>UpdateXssMatchSet</a>), insert an
+  /// <code>XssMatchSet</code> into a <code>Rule</code> or delete one from a
+  /// <code>Rule</code> (see <a>UpdateRule</a>), and delete an
+  /// <code>XssMatchSet</code> from AWS WAF (see <a>DeleteXssMatchSet</a>).
+  ///
+  /// <code>XssMatchSetId</code> is returned by <a>CreateXssMatchSet</a> and by
+  /// <a>ListXssMatchSets</a>.
+  final String xssMatchSetId;
+
+  /// Specifies the parts of web requests that you want to inspect for cross-site
+  /// scripting attacks.
+  final List<XssMatchTuple> xssMatchTuples;
+
+  /// The name, if any, of the <code>XssMatchSet</code>.
   final String? name;
 
-  /// The value of one of the headers in the sampled web request.
-  final String? value;
-
-  HTTPHeader({
+  XssMatchSet({
+    required this.xssMatchSetId,
+    required this.xssMatchTuples,
     this.name,
-    this.value,
   });
 
-  factory HTTPHeader.fromJson(Map<String, dynamic> json) {
-    return HTTPHeader(
+  factory XssMatchSet.fromJson(Map<String, dynamic> json) {
+    return XssMatchSet(
+      xssMatchSetId: (json['XssMatchSetId'] as String?) ?? '',
+      xssMatchTuples: ((json['XssMatchTuples'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => XssMatchTuple.fromJson(e as Map<String, dynamic>))
+          .toList(),
       name: json['Name'] as String?,
-      value: json['Value'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final xssMatchSetId = this.xssMatchSetId;
+    final xssMatchTuples = this.xssMatchTuples;
     final name = this.name;
-    final value = this.value;
     return {
+      'XssMatchSetId': xssMatchSetId,
+      'XssMatchTuples': xssMatchTuples,
       if (name != null) 'Name': name,
-      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// Contains the <code>Rules</code> that identify the requests that you want to
+/// allow, block, or count. In a <code>WebACL</code>, you also specify a default
+/// action (<code>ALLOW</code> or <code>BLOCK</code>), and the action for each
+/// <code>Rule</code> that you add to a <code>WebACL</code>, for example, block
+/// requests from specified IP addresses or block requests from specified
+/// referrers. You also associate the <code>WebACL</code> with a CloudFront
+/// distribution to identify the requests that you want AWS WAF to filter. If
+/// you add more than one <code>Rule</code> to a <code>WebACL</code>, a request
+/// needs to match only one of the specifications to be allowed, blocked, or
+/// counted. For more information, see <a>UpdateWebACL</a>.
+class WebACL {
+  /// The action to perform if none of the <code>Rules</code> contained in the
+  /// <code>WebACL</code> match. The action is specified by the <a>WafAction</a>
+  /// object.
+  final WafAction defaultAction;
+
+  /// An array that contains the action for each <code>Rule</code> in a
+  /// <code>WebACL</code>, the priority of the <code>Rule</code>, and the ID of
+  /// the <code>Rule</code>.
+  final List<ActivatedRule> rules;
+
+  /// A unique identifier for a <code>WebACL</code>. You use <code>WebACLId</code>
+  /// to get information about a <code>WebACL</code> (see <a>GetWebACL</a>),
+  /// update a <code>WebACL</code> (see <a>UpdateWebACL</a>), and delete a
+  /// <code>WebACL</code> from AWS WAF (see <a>DeleteWebACL</a>).
+  ///
+  /// <code>WebACLId</code> is returned by <a>CreateWebACL</a> and by
+  /// <a>ListWebACLs</a>.
+  final String webACLId;
+
+  /// A friendly name or description for the metrics for this <code>WebACL</code>.
+  /// The name can contain only alphanumeric characters (A-Z, a-z, 0-9), with
+  /// maximum length 128 and minimum length one. It can't contain whitespace or
+  /// metric names reserved for AWS WAF, including "All" and "Default_Action." You
+  /// can't change <code>MetricName</code> after you create the
+  /// <code>WebACL</code>.
+  final String? metricName;
+
+  /// A friendly name or description of the <code>WebACL</code>. You can't change
+  /// the name of a <code>WebACL</code> after you create it.
+  final String? name;
+
+  /// Tha Amazon Resource Name (ARN) of the web ACL.
+  final String? webACLArn;
+
+  WebACL({
+    required this.defaultAction,
+    required this.rules,
+    required this.webACLId,
+    this.metricName,
+    this.name,
+    this.webACLArn,
+  });
+
+  factory WebACL.fromJson(Map<String, dynamic> json) {
+    return WebACL(
+      defaultAction: WafAction.fromJson(
+          (json['DefaultAction'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      rules: ((json['Rules'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => ActivatedRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      webACLId: (json['WebACLId'] as String?) ?? '',
+      metricName: json['MetricName'] as String?,
+      name: json['Name'] as String?,
+      webACLArn: json['WebACLArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultAction = this.defaultAction;
+    final rules = this.rules;
+    final webACLId = this.webACLId;
+    final metricName = this.metricName;
+    final name = this.name;
+    final webACLArn = this.webACLArn;
+    return {
+      'DefaultAction': defaultAction,
+      'Rules': rules,
+      'WebACLId': webACLId,
+      if (metricName != null) 'MetricName': metricName,
+      if (name != null) 'Name': name,
+      if (webACLArn != null) 'WebACLArn': webACLArn,
+    };
+  }
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// A complex type that contains <code>SqlInjectionMatchTuple</code> objects,
+/// which specify the parts of web requests that you want AWS WAF to inspect for
+/// snippets of malicious SQL code and, if you want AWS WAF to inspect a header,
+/// the name of the header. If a <code>SqlInjectionMatchSet</code> contains more
+/// than one <code>SqlInjectionMatchTuple</code> object, a request needs to
+/// include snippets of SQL code in only one of the specified parts of the
+/// request to be considered a match.
+class SqlInjectionMatchSet {
+  /// A unique identifier for a <code>SqlInjectionMatchSet</code>. You use
+  /// <code>SqlInjectionMatchSetId</code> to get information about a
+  /// <code>SqlInjectionMatchSet</code> (see <a>GetSqlInjectionMatchSet</a>),
+  /// update a <code>SqlInjectionMatchSet</code> (see
+  /// <a>UpdateSqlInjectionMatchSet</a>), insert a
+  /// <code>SqlInjectionMatchSet</code> into a <code>Rule</code> or delete one
+  /// from a <code>Rule</code> (see <a>UpdateRule</a>), and delete a
+  /// <code>SqlInjectionMatchSet</code> from AWS WAF (see
+  /// <a>DeleteSqlInjectionMatchSet</a>).
+  ///
+  /// <code>SqlInjectionMatchSetId</code> is returned by
+  /// <a>CreateSqlInjectionMatchSet</a> and by <a>ListSqlInjectionMatchSets</a>.
+  final String sqlInjectionMatchSetId;
+
+  /// Specifies the parts of web requests that you want to inspect for snippets of
+  /// malicious SQL code.
+  final List<SqlInjectionMatchTuple> sqlInjectionMatchTuples;
+
+  /// The name, if any, of the <code>SqlInjectionMatchSet</code>.
+  final String? name;
+
+  SqlInjectionMatchSet({
+    required this.sqlInjectionMatchSetId,
+    required this.sqlInjectionMatchTuples,
+    this.name,
+  });
+
+  factory SqlInjectionMatchSet.fromJson(Map<String, dynamic> json) {
+    return SqlInjectionMatchSet(
+      sqlInjectionMatchSetId: (json['SqlInjectionMatchSetId'] as String?) ?? '',
+      sqlInjectionMatchTuples: ((json['SqlInjectionMatchTuples'] as List?) ??
+              const [])
+          .nonNulls
+          .map(
+              (e) => SqlInjectionMatchTuple.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sqlInjectionMatchSetId = this.sqlInjectionMatchSetId;
+    final sqlInjectionMatchTuples = this.sqlInjectionMatchTuples;
+    final name = this.name;
+    return {
+      'SqlInjectionMatchSetId': sqlInjectionMatchSetId,
+      'SqlInjectionMatchTuples': sqlInjectionMatchTuples,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// A complex type that contains <code>SizeConstraint</code> objects, which
+/// specify the parts of web requests that you want AWS WAF to inspect the size
+/// of. If a <code>SizeConstraintSet</code> contains more than one
+/// <code>SizeConstraint</code> object, a request only needs to match one
+/// constraint to be considered a match.
+class SizeConstraintSet {
+  /// A unique identifier for a <code>SizeConstraintSet</code>. You use
+  /// <code>SizeConstraintSetId</code> to get information about a
+  /// <code>SizeConstraintSet</code> (see <a>GetSizeConstraintSet</a>), update a
+  /// <code>SizeConstraintSet</code> (see <a>UpdateSizeConstraintSet</a>), insert
+  /// a <code>SizeConstraintSet</code> into a <code>Rule</code> or delete one from
+  /// a <code>Rule</code> (see <a>UpdateRule</a>), and delete a
+  /// <code>SizeConstraintSet</code> from AWS WAF (see
+  /// <a>DeleteSizeConstraintSet</a>).
+  ///
+  /// <code>SizeConstraintSetId</code> is returned by
+  /// <a>CreateSizeConstraintSet</a> and by <a>ListSizeConstraintSets</a>.
+  final String sizeConstraintSetId;
+
+  /// Specifies the parts of web requests that you want to inspect the size of.
+  final List<SizeConstraint> sizeConstraints;
+
+  /// The name, if any, of the <code>SizeConstraintSet</code>.
+  final String? name;
+
+  SizeConstraintSet({
+    required this.sizeConstraintSetId,
+    required this.sizeConstraints,
+    this.name,
+  });
+
+  factory SizeConstraintSet.fromJson(Map<String, dynamic> json) {
+    return SizeConstraintSet(
+      sizeConstraintSetId: (json['SizeConstraintSetId'] as String?) ?? '',
+      sizeConstraints: ((json['SizeConstraints'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => SizeConstraint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sizeConstraintSetId = this.sizeConstraintSetId;
+    final sizeConstraints = this.sizeConstraints;
+    final name = this.name;
+    return {
+      'SizeConstraintSetId': sizeConstraintSetId,
+      'SizeConstraints': sizeConstraints,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// In a <a>GetSampledRequests</a> request, the <code>StartTime</code> and
+/// <code>EndTime</code> objects specify the time range for which you want AWS
+/// WAF to return a sample of web requests.
+///
+/// You must specify the times in Coordinated Universal Time (UTC) format. UTC
+/// format includes the special designator, <code>Z</code>. For example,
+/// <code>"2016-09-27T14:50Z"</code>.
+///
+/// In a <a>GetSampledRequests</a> response, the <code>StartTime</code> and
+/// <code>EndTime</code> objects specify the time range for which AWS WAF
+/// actually returned a sample of web requests. AWS WAF gets the specified
+/// number of requests from among the first 5,000 requests that your AWS
+/// resource receives during the specified time period. If your resource
+/// receives more than 5,000 requests during that period, AWS WAF stops sampling
+/// after the 5,000th request. In that case, <code>EndTime</code> is the time
+/// that AWS WAF received the 5,000th request.
+class TimeWindow {
+  /// The end of the time range from which you want
+  /// <code>GetSampledRequests</code> to return a sample of the requests that your
+  /// AWS resource received. You must specify the date and time in Coordinated
+  /// Universal Time (UTC) format. UTC format includes the special designator,
+  /// <code>Z</code>. For example, <code>"2016-09-27T14:50Z"</code>. You can
+  /// specify any time range in the previous three hours.
+  final DateTime endTime;
+
+  /// The beginning of the time range from which you want
+  /// <code>GetSampledRequests</code> to return a sample of the requests that your
+  /// AWS resource received. You must specify the date and time in Coordinated
+  /// Universal Time (UTC) format. UTC format includes the special designator,
+  /// <code>Z</code>. For example, <code>"2016-09-27T14:50Z"</code>. You can
+  /// specify any time range in the previous three hours.
+  final DateTime startTime;
+
+  TimeWindow({
+    required this.endTime,
+    required this.startTime,
+  });
+
+  factory TimeWindow.fromJson(Map<String, dynamic> json) {
+    return TimeWindow(
+      endTime: nonNullableTimeStampFromJson(json['EndTime'] ?? 0),
+      startTime: nonNullableTimeStampFromJson(json['StartTime'] ?? 0),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final startTime = this.startTime;
+    return {
+      'EndTime': unixTimestampToJson(endTime),
+      'StartTime': unixTimestampToJson(startTime),
+    };
+  }
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// The response from a <a>GetSampledRequests</a> request includes a
+/// <code>SampledHTTPRequests</code> complex type that appears as
+/// <code>SampledRequests</code> in the response syntax.
+/// <code>SampledHTTPRequests</code> contains one
+/// <code>SampledHTTPRequest</code> object for each web request that is returned
+/// by <code>GetSampledRequests</code>.
+class SampledHTTPRequest {
+  /// A complex type that contains detailed information about the request.
+  final HTTPRequest request;
+
+  /// A value that indicates how one result in the response relates proportionally
+  /// to other results in the response. A result that has a weight of
+  /// <code>2</code> represents roughly twice as many CloudFront web requests as a
+  /// result that has a weight of <code>1</code>.
+  final int weight;
+
+  /// The action for the <code>Rule</code> that the request matched:
+  /// <code>ALLOW</code>, <code>BLOCK</code>, or <code>COUNT</code>.
+  final String? action;
+
+  /// This value is returned if the <code>GetSampledRequests</code> request
+  /// specifies the ID of a <code>RuleGroup</code> rather than the ID of an
+  /// individual rule. <code>RuleWithinRuleGroup</code> is the rule within the
+  /// specified <code>RuleGroup</code> that matched the request listed in the
+  /// response.
+  final String? ruleWithinRuleGroup;
+
+  /// The time at which AWS WAF received the request from your AWS resource, in
+  /// Unix time format (in seconds).
+  final DateTime? timestamp;
+
+  SampledHTTPRequest({
+    required this.request,
+    required this.weight,
+    this.action,
+    this.ruleWithinRuleGroup,
+    this.timestamp,
+  });
+
+  factory SampledHTTPRequest.fromJson(Map<String, dynamic> json) {
+    return SampledHTTPRequest(
+      request: HTTPRequest.fromJson(
+          (json['Request'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      weight: (json['Weight'] as int?) ?? 0,
+      action: json['Action'] as String?,
+      ruleWithinRuleGroup: json['RuleWithinRuleGroup'] as String?,
+      timestamp: timeStampFromJson(json['Timestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final request = this.request;
+    final weight = this.weight;
+    final action = this.action;
+    final ruleWithinRuleGroup = this.ruleWithinRuleGroup;
+    final timestamp = this.timestamp;
+    return {
+      'Request': request,
+      'Weight': weight,
+      if (action != null) 'Action': action,
+      if (ruleWithinRuleGroup != null)
+        'RuleWithinRuleGroup': ruleWithinRuleGroup,
+      if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
     };
   }
 }
@@ -9187,65 +12614,113 @@ class HTTPRequest {
 /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
 /// of endpoints for regional and global use.
 /// </note>
-/// Contains one or more IP addresses or blocks of IP addresses specified in
-/// Classless Inter-Domain Routing (CIDR) notation. AWS WAF supports IPv4
-/// address ranges: /8 and any range between /16 through /32. AWS WAF supports
-/// IPv6 address ranges: /24, /32, /48, /56, /64, and /128.
-///
-/// To specify an individual IP address, you specify the four-part IP address
-/// followed by a <code>/32</code>, for example, 192.0.2.0/32. To block a range
-/// of IP addresses, you can specify /8 or any range between /16 through /32
-/// (for IPv4) or /24, /32, /48, /56, /64, or /128 (for IPv6). For more
-/// information about CIDR notation, see the Wikipedia entry <a
-/// href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">Classless
-/// Inter-Domain Routing</a>.
-class IPSet {
-  /// The IP address type (<code>IPV4</code> or <code>IPV6</code>) and the IP
-  /// address range (in CIDR notation) that web requests originate from. If the
-  /// <code>WebACL</code> is associated with a CloudFront distribution and the
-  /// viewer did not use an HTTP proxy or a load balancer to send the request,
-  /// this is the value of the c-ip field in the CloudFront access logs.
-  final List<IPSetDescriptor> iPSetDescriptors;
-
-  /// The <code>IPSetId</code> for an <code>IPSet</code>. You use
-  /// <code>IPSetId</code> to get information about an <code>IPSet</code> (see
-  /// <a>GetIPSet</a>), update an <code>IPSet</code> (see <a>UpdateIPSet</a>),
-  /// insert an <code>IPSet</code> into a <code>Rule</code> or delete one from a
-  /// <code>Rule</code> (see <a>UpdateRule</a>), and delete an <code>IPSet</code>
-  /// from AWS WAF (see <a>DeleteIPSet</a>).
-  ///
-  /// <code>IPSetId</code> is returned by <a>CreateIPSet</a> and by
-  /// <a>ListIPSets</a>.
-  final String iPSetId;
-
-  /// A friendly name or description of the <a>IPSet</a>. You can't change the
-  /// name of an <code>IPSet</code> after you create it.
+/// The response from a <a>GetSampledRequests</a> request includes an
+/// <code>HTTPHeader</code> complex type that appears as <code>Headers</code> in
+/// the response syntax. <code>HTTPHeader</code> contains the names and values
+/// of all of the headers that appear in one of the web requests that were
+/// returned by <code>GetSampledRequests</code>.
+class HTTPHeader {
+  /// The name of one of the headers in the sampled web request.
   final String? name;
 
-  IPSet({
-    required this.iPSetDescriptors,
-    required this.iPSetId,
+  /// The value of one of the headers in the sampled web request.
+  final String? value;
+
+  HTTPHeader({
+    this.name,
+    this.value,
+  });
+
+  factory HTTPHeader.fromJson(Map<String, dynamic> json) {
+    return HTTPHeader(
+      name: json['Name'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      if (name != null) 'Name': name,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// A collection of predefined rules that you can add to a web ACL.
+///
+/// Rule groups are subject to the following limits:
+///
+/// <ul>
+/// <li>
+/// Three rule groups per account. You can request an increase to this limit by
+/// contacting customer support.
+/// </li>
+/// <li>
+/// One rule group per web ACL.
+/// </li>
+/// <li>
+/// Ten rules per rule group.
+/// </li>
+/// </ul>
+class RuleGroup {
+  /// A unique identifier for a <code>RuleGroup</code>. You use
+  /// <code>RuleGroupId</code> to get more information about a
+  /// <code>RuleGroup</code> (see <a>GetRuleGroup</a>), update a
+  /// <code>RuleGroup</code> (see <a>UpdateRuleGroup</a>), insert a
+  /// <code>RuleGroup</code> into a <code>WebACL</code> or delete a one from a
+  /// <code>WebACL</code> (see <a>UpdateWebACL</a>), or delete a
+  /// <code>RuleGroup</code> from AWS WAF (see <a>DeleteRuleGroup</a>).
+  ///
+  /// <code>RuleGroupId</code> is returned by <a>CreateRuleGroup</a> and by
+  /// <a>ListRuleGroups</a>.
+  final String ruleGroupId;
+
+  /// A friendly name or description for the metrics for this
+  /// <code>RuleGroup</code>. The name can contain only alphanumeric characters
+  /// (A-Z, a-z, 0-9), with maximum length 128 and minimum length one. It can't
+  /// contain whitespace or metric names reserved for AWS WAF, including "All" and
+  /// "Default_Action." You can't change the name of the metric after you create
+  /// the <code>RuleGroup</code>.
+  final String? metricName;
+
+  /// The friendly name or description for the <code>RuleGroup</code>. You can't
+  /// change the name of a <code>RuleGroup</code> after you create it.
+  final String? name;
+
+  RuleGroup({
+    required this.ruleGroupId,
+    this.metricName,
     this.name,
   });
 
-  factory IPSet.fromJson(Map<String, dynamic> json) {
-    return IPSet(
-      iPSetDescriptors: ((json['IPSetDescriptors'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => IPSetDescriptor.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      iPSetId: (json['IPSetId'] as String?) ?? '',
+  factory RuleGroup.fromJson(Map<String, dynamic> json) {
+    return RuleGroup(
+      ruleGroupId: (json['RuleGroupId'] as String?) ?? '',
+      metricName: json['MetricName'] as String?,
       name: json['Name'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final iPSetDescriptors = this.iPSetDescriptors;
-    final iPSetId = this.iPSetId;
+    final ruleGroupId = this.ruleGroupId;
+    final metricName = this.metricName;
     final name = this.name;
     return {
-      'IPSetDescriptors': iPSetDescriptors,
-      'IPSetId': iPSetId,
+      'RuleGroupId': ruleGroupId,
+      if (metricName != null) 'MetricName': metricName,
       if (name != null) 'Name': name,
     };
   }
@@ -9262,133 +12737,83 @@ class IPSet {
 /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
 /// of endpoints for regional and global use.
 /// </note>
-/// Specifies the IP address type (<code>IPV4</code> or <code>IPV6</code>) and
-/// the IP address range (in CIDR format) that web requests originate from.
-class IPSetDescriptor {
-  /// Specify <code>IPV4</code> or <code>IPV6</code>.
-  final IPSetDescriptorType type;
-
-  /// Specify an IPv4 address by using CIDR notation. For example:
-  ///
-  /// <ul>
-  /// <li>
-  /// To configure AWS WAF to allow, block, or count requests that originated from
-  /// the IP address 192.0.2.44, specify <code>192.0.2.44/32</code>.
-  /// </li>
-  /// <li>
-  /// To configure AWS WAF to allow, block, or count requests that originated from
-  /// IP addresses from 192.0.2.0 to 192.0.2.255, specify
-  /// <code>192.0.2.0/24</code>.
-  /// </li>
-  /// </ul>
-  /// For more information about CIDR notation, see the Wikipedia entry <a
-  /// href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">Classless
-  /// Inter-Domain Routing</a>.
-  ///
-  /// Specify an IPv6 address by using CIDR notation. For example:
-  ///
-  /// <ul>
-  /// <li>
-  /// To configure AWS WAF to allow, block, or count requests that originated from
-  /// the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify
-  /// <code>1111:0000:0000:0000:0000:0000:0000:0111/128</code>.
-  /// </li>
-  /// <li>
-  /// To configure AWS WAF to allow, block, or count requests that originated from
-  /// IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to
-  /// 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify
-  /// <code>1111:0000:0000:0000:0000:0000:0000:0000/64</code>.
-  /// </li>
-  /// </ul>
-  final String value;
-
-  IPSetDescriptor({
-    required this.type,
-    required this.value,
-  });
-
-  factory IPSetDescriptor.fromJson(Map<String, dynamic> json) {
-    return IPSetDescriptor(
-      type: IPSetDescriptorType.fromString((json['Type'] as String?) ?? ''),
-      value: (json['Value'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final type = this.type;
-    final value = this.value;
-    return {
-      'Type': type.value,
-      'Value': value,
-    };
-  }
-}
-
-class IPSetDescriptorType {
-  static const ipv4 = IPSetDescriptorType._('IPV4');
-  static const ipv6 = IPSetDescriptorType._('IPV6');
-
-  final String value;
-
-  const IPSetDescriptorType._(this.value);
-
-  static const values = [ipv4, ipv6];
-
-  static IPSetDescriptorType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => IPSetDescriptorType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is IPSetDescriptorType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
+/// A combination of <a>ByteMatchSet</a>, <a>IPSet</a>, and/or
+/// <a>SqlInjectionMatchSet</a> objects that identify the web requests that you
+/// want to allow, block, or count. For example, you might create a
+/// <code>Rule</code> that includes the following predicates:
 ///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// Contains the identifier and the name of the <code>IPSet</code>.
-class IPSetSummary {
-  /// The <code>IPSetId</code> for an <a>IPSet</a>. You can use
-  /// <code>IPSetId</code> in a <a>GetIPSet</a> request to get detailed
-  /// information about an <a>IPSet</a>.
-  final String iPSetId;
+/// <ul>
+/// <li>
+/// An <code>IPSet</code> that causes AWS WAF to search for web requests that
+/// originate from the IP address <code>192.0.2.44</code>
+/// </li>
+/// <li>
+/// A <code>ByteMatchSet</code> that causes AWS WAF to search for web requests
+/// for which the value of the <code>User-Agent</code> header is
+/// <code>BadBot</code>.
+/// </li>
+/// </ul>
+/// To match the settings in this <code>Rule</code>, a request must originate
+/// from <code>192.0.2.44</code> AND include a <code>User-Agent</code> header
+/// for which the value is <code>BadBot</code>.
+class Rule {
+  /// The <code>Predicates</code> object contains one <code>Predicate</code>
+  /// element for each <a>ByteMatchSet</a>, <a>IPSet</a>, or
+  /// <a>SqlInjectionMatchSet</a> object that you want to include in a
+  /// <code>Rule</code>.
+  final List<Predicate> predicates;
 
-  /// A friendly name or description of the <a>IPSet</a>. You can't change the
-  /// name of an <code>IPSet</code> after you create it.
-  final String name;
+  /// A unique identifier for a <code>Rule</code>. You use <code>RuleId</code> to
+  /// get more information about a <code>Rule</code> (see <a>GetRule</a>), update
+  /// a <code>Rule</code> (see <a>UpdateRule</a>), insert a <code>Rule</code> into
+  /// a <code>WebACL</code> or delete a one from a <code>WebACL</code> (see
+  /// <a>UpdateWebACL</a>), or delete a <code>Rule</code> from AWS WAF (see
+  /// <a>DeleteRule</a>).
+  ///
+  /// <code>RuleId</code> is returned by <a>CreateRule</a> and by
+  /// <a>ListRules</a>.
+  final String ruleId;
 
-  IPSetSummary({
-    required this.iPSetId,
-    required this.name,
+  /// A friendly name or description for the metrics for this <code>Rule</code>.
+  /// The name can contain only alphanumeric characters (A-Z, a-z, 0-9), with
+  /// maximum length 128 and minimum length one. It can't contain whitespace or
+  /// metric names reserved for AWS WAF, including "All" and "Default_Action." You
+  /// can't change <code>MetricName</code> after you create the <code>Rule</code>.
+  final String? metricName;
+
+  /// The friendly name or description for the <code>Rule</code>. You can't change
+  /// the name of a <code>Rule</code> after you create it.
+  final String? name;
+
+  Rule({
+    required this.predicates,
+    required this.ruleId,
+    this.metricName,
+    this.name,
   });
 
-  factory IPSetSummary.fromJson(Map<String, dynamic> json) {
-    return IPSetSummary(
-      iPSetId: (json['IPSetId'] as String?) ?? '',
-      name: (json['Name'] as String?) ?? '',
+  factory Rule.fromJson(Map<String, dynamic> json) {
+    return Rule(
+      predicates: ((json['Predicates'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Predicate.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      ruleId: (json['RuleId'] as String?) ?? '',
+      metricName: json['MetricName'] as String?,
+      name: json['Name'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final iPSetId = this.iPSetId;
+    final predicates = this.predicates;
+    final ruleId = this.ruleId;
+    final metricName = this.metricName;
     final name = this.name;
     return {
-      'IPSetId': iPSetId,
-      'Name': name,
+      'Predicates': predicates,
+      'RuleId': ruleId,
+      if (metricName != null) 'MetricName': metricName,
+      if (name != null) 'Name': name,
     };
   }
 }
@@ -9404,651 +12829,54 @@ class IPSetSummary {
 /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
 /// of endpoints for regional and global use.
 /// </note>
-/// Specifies the type of update to perform to an <a>IPSet</a> with
-/// <a>UpdateIPSet</a>.
-class IPSetUpdate {
-  /// Specifies whether to insert or delete an IP address with <a>UpdateIPSet</a>.
-  final ChangeAction action;
+/// The <code>RegexPatternSet</code> specifies the regular expression (regex)
+/// pattern that you want AWS WAF to search for, such as
+/// <code>B[a@]dB[o0]t</code>. You can then configure AWS WAF to reject those
+/// requests.
+class RegexPatternSet {
+  /// The identifier for the <code>RegexPatternSet</code>. You use
+  /// <code>RegexPatternSetId</code> to get information about a
+  /// <code>RegexPatternSet</code>, update a <code>RegexPatternSet</code>, remove
+  /// a <code>RegexPatternSet</code> from a <code>RegexMatchSet</code>, and delete
+  /// a <code>RegexPatternSet</code> from AWS WAF.
+  ///
+  /// <code>RegexMatchSetId</code> is returned by <a>CreateRegexPatternSet</a> and
+  /// by <a>ListRegexPatternSets</a>.
+  final String regexPatternSetId;
 
-  /// The IP address type (<code>IPV4</code> or <code>IPV6</code>) and the IP
-  /// address range (in CIDR notation) that web requests originate from.
-  final IPSetDescriptor iPSetDescriptor;
+  /// Specifies the regular expression (regex) patterns that you want AWS WAF to
+  /// search for, such as <code>B[a@]dB[o0]t</code>.
+  final List<String> regexPatternStrings;
 
-  IPSetUpdate({
-    required this.action,
-    required this.iPSetDescriptor,
+  /// A friendly name or description of the <a>RegexPatternSet</a>. You can't
+  /// change <code>Name</code> after you create a <code>RegexPatternSet</code>.
+  final String? name;
+
+  RegexPatternSet({
+    required this.regexPatternSetId,
+    required this.regexPatternStrings,
+    this.name,
   });
 
-  Map<String, dynamic> toJson() {
-    final action = this.action;
-    final iPSetDescriptor = this.iPSetDescriptor;
-    return {
-      'Action': action.value,
-      'IPSetDescriptor': iPSetDescriptor,
-    };
-  }
-}
-
-class ListActivatedRulesInRuleGroupResponse {
-  /// An array of <code>ActivatedRules</code> objects.
-  final List<ActivatedRule>? activatedRules;
-
-  /// If you have more <code>ActivatedRules</code> than the number that you
-  /// specified for <code>Limit</code> in the request, the response includes a
-  /// <code>NextMarker</code> value. To list more <code>ActivatedRules</code>,
-  /// submit another <code>ListActivatedRulesInRuleGroup</code> request, and
-  /// specify the <code>NextMarker</code> value from the response in the
-  /// <code>NextMarker</code> value in the next request.
-  final String? nextMarker;
-
-  ListActivatedRulesInRuleGroupResponse({
-    this.activatedRules,
-    this.nextMarker,
-  });
-
-  factory ListActivatedRulesInRuleGroupResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListActivatedRulesInRuleGroupResponse(
-      activatedRules: (json['ActivatedRules'] as List?)
-          ?.nonNulls
-          .map((e) => ActivatedRule.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextMarker: json['NextMarker'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final activatedRules = this.activatedRules;
-    final nextMarker = this.nextMarker;
-    return {
-      if (activatedRules != null) 'ActivatedRules': activatedRules,
-      if (nextMarker != null) 'NextMarker': nextMarker,
-    };
-  }
-}
-
-class ListByteMatchSetsResponse {
-  /// An array of <a>ByteMatchSetSummary</a> objects.
-  final List<ByteMatchSetSummary>? byteMatchSets;
-
-  /// If you have more <code>ByteMatchSet</code> objects than the number that you
-  /// specified for <code>Limit</code> in the request, the response includes a
-  /// <code>NextMarker</code> value. To list more <code>ByteMatchSet</code>
-  /// objects, submit another <code>ListByteMatchSets</code> request, and specify
-  /// the <code>NextMarker</code> value from the response in the
-  /// <code>NextMarker</code> value in the next request.
-  final String? nextMarker;
-
-  ListByteMatchSetsResponse({
-    this.byteMatchSets,
-    this.nextMarker,
-  });
-
-  factory ListByteMatchSetsResponse.fromJson(Map<String, dynamic> json) {
-    return ListByteMatchSetsResponse(
-      byteMatchSets: (json['ByteMatchSets'] as List?)
-          ?.nonNulls
-          .map((e) => ByteMatchSetSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextMarker: json['NextMarker'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final byteMatchSets = this.byteMatchSets;
-    final nextMarker = this.nextMarker;
-    return {
-      if (byteMatchSets != null) 'ByteMatchSets': byteMatchSets,
-      if (nextMarker != null) 'NextMarker': nextMarker,
-    };
-  }
-}
-
-class ListGeoMatchSetsResponse {
-  /// An array of <a>GeoMatchSetSummary</a> objects.
-  final List<GeoMatchSetSummary>? geoMatchSets;
-
-  /// If you have more <code>GeoMatchSet</code> objects than the number that you
-  /// specified for <code>Limit</code> in the request, the response includes a
-  /// <code>NextMarker</code> value. To list more <code>GeoMatchSet</code>
-  /// objects, submit another <code>ListGeoMatchSets</code> request, and specify
-  /// the <code>NextMarker</code> value from the response in the
-  /// <code>NextMarker</code> value in the next request.
-  final String? nextMarker;
-
-  ListGeoMatchSetsResponse({
-    this.geoMatchSets,
-    this.nextMarker,
-  });
-
-  factory ListGeoMatchSetsResponse.fromJson(Map<String, dynamic> json) {
-    return ListGeoMatchSetsResponse(
-      geoMatchSets: (json['GeoMatchSets'] as List?)
-          ?.nonNulls
-          .map((e) => GeoMatchSetSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextMarker: json['NextMarker'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final geoMatchSets = this.geoMatchSets;
-    final nextMarker = this.nextMarker;
-    return {
-      if (geoMatchSets != null) 'GeoMatchSets': geoMatchSets,
-      if (nextMarker != null) 'NextMarker': nextMarker,
-    };
-  }
-}
-
-class ListIPSetsResponse {
-  /// An array of <a>IPSetSummary</a> objects.
-  final List<IPSetSummary>? iPSets;
-
-  /// To list more <code>IPSet</code> objects, submit another
-  /// <code>ListIPSets</code> request, and in the next request use the
-  /// <code>NextMarker</code> response value as the <code>NextMarker</code> value.
-  final String? nextMarker;
-
-  ListIPSetsResponse({
-    this.iPSets,
-    this.nextMarker,
-  });
-
-  factory ListIPSetsResponse.fromJson(Map<String, dynamic> json) {
-    return ListIPSetsResponse(
-      iPSets: (json['IPSets'] as List?)
-          ?.nonNulls
-          .map((e) => IPSetSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextMarker: json['NextMarker'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final iPSets = this.iPSets;
-    final nextMarker = this.nextMarker;
-    return {
-      if (iPSets != null) 'IPSets': iPSets,
-      if (nextMarker != null) 'NextMarker': nextMarker,
-    };
-  }
-}
-
-class ListLoggingConfigurationsResponse {
-  /// An array of <a>LoggingConfiguration</a> objects.
-  final List<LoggingConfiguration>? loggingConfigurations;
-
-  /// If you have more <code>LoggingConfigurations</code> than the number that you
-  /// specified for <code>Limit</code> in the request, the response includes a
-  /// <code>NextMarker</code> value. To list more
-  /// <code>LoggingConfigurations</code>, submit another
-  /// <code>ListLoggingConfigurations</code> request, and specify the
-  /// <code>NextMarker</code> value from the response in the
-  /// <code>NextMarker</code> value in the next request.
-  final String? nextMarker;
-
-  ListLoggingConfigurationsResponse({
-    this.loggingConfigurations,
-    this.nextMarker,
-  });
-
-  factory ListLoggingConfigurationsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListLoggingConfigurationsResponse(
-      loggingConfigurations: (json['LoggingConfigurations'] as List?)
-          ?.nonNulls
-          .map((e) => LoggingConfiguration.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextMarker: json['NextMarker'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final loggingConfigurations = this.loggingConfigurations;
-    final nextMarker = this.nextMarker;
-    return {
-      if (loggingConfigurations != null)
-        'LoggingConfigurations': loggingConfigurations,
-      if (nextMarker != null) 'NextMarker': nextMarker,
-    };
-  }
-}
-
-class ListRateBasedRulesResponse {
-  /// If you have more <code>Rules</code> than the number that you specified for
-  /// <code>Limit</code> in the request, the response includes a
-  /// <code>NextMarker</code> value. To list more <code>Rules</code>, submit
-  /// another <code>ListRateBasedRules</code> request, and specify the
-  /// <code>NextMarker</code> value from the response in the
-  /// <code>NextMarker</code> value in the next request.
-  final String? nextMarker;
-
-  /// An array of <a>RuleSummary</a> objects.
-  final List<RuleSummary>? rules;
-
-  ListRateBasedRulesResponse({
-    this.nextMarker,
-    this.rules,
-  });
-
-  factory ListRateBasedRulesResponse.fromJson(Map<String, dynamic> json) {
-    return ListRateBasedRulesResponse(
-      nextMarker: json['NextMarker'] as String?,
-      rules: (json['Rules'] as List?)
-          ?.nonNulls
-          .map((e) => RuleSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextMarker = this.nextMarker;
-    final rules = this.rules;
-    return {
-      if (nextMarker != null) 'NextMarker': nextMarker,
-      if (rules != null) 'Rules': rules,
-    };
-  }
-}
-
-class ListRegexMatchSetsResponse {
-  /// If you have more <code>RegexMatchSet</code> objects than the number that you
-  /// specified for <code>Limit</code> in the request, the response includes a
-  /// <code>NextMarker</code> value. To list more <code>RegexMatchSet</code>
-  /// objects, submit another <code>ListRegexMatchSets</code> request, and specify
-  /// the <code>NextMarker</code> value from the response in the
-  /// <code>NextMarker</code> value in the next request.
-  final String? nextMarker;
-
-  /// An array of <a>RegexMatchSetSummary</a> objects.
-  final List<RegexMatchSetSummary>? regexMatchSets;
-
-  ListRegexMatchSetsResponse({
-    this.nextMarker,
-    this.regexMatchSets,
-  });
-
-  factory ListRegexMatchSetsResponse.fromJson(Map<String, dynamic> json) {
-    return ListRegexMatchSetsResponse(
-      nextMarker: json['NextMarker'] as String?,
-      regexMatchSets: (json['RegexMatchSets'] as List?)
-          ?.nonNulls
-          .map((e) => RegexMatchSetSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextMarker = this.nextMarker;
-    final regexMatchSets = this.regexMatchSets;
-    return {
-      if (nextMarker != null) 'NextMarker': nextMarker,
-      if (regexMatchSets != null) 'RegexMatchSets': regexMatchSets,
-    };
-  }
-}
-
-class ListRegexPatternSetsResponse {
-  /// If you have more <code>RegexPatternSet</code> objects than the number that
-  /// you specified for <code>Limit</code> in the request, the response includes a
-  /// <code>NextMarker</code> value. To list more <code>RegexPatternSet</code>
-  /// objects, submit another <code>ListRegexPatternSets</code> request, and
-  /// specify the <code>NextMarker</code> value from the response in the
-  /// <code>NextMarker</code> value in the next request.
-  final String? nextMarker;
-
-  /// An array of <a>RegexPatternSetSummary</a> objects.
-  final List<RegexPatternSetSummary>? regexPatternSets;
-
-  ListRegexPatternSetsResponse({
-    this.nextMarker,
-    this.regexPatternSets,
-  });
-
-  factory ListRegexPatternSetsResponse.fromJson(Map<String, dynamic> json) {
-    return ListRegexPatternSetsResponse(
-      nextMarker: json['NextMarker'] as String?,
-      regexPatternSets: (json['RegexPatternSets'] as List?)
-          ?.nonNulls
-          .map(
-              (e) => RegexPatternSetSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextMarker = this.nextMarker;
-    final regexPatternSets = this.regexPatternSets;
-    return {
-      if (nextMarker != null) 'NextMarker': nextMarker,
-      if (regexPatternSets != null) 'RegexPatternSets': regexPatternSets,
-    };
-  }
-}
-
-class ListResourcesForWebACLResponse {
-  /// An array of ARNs (Amazon Resource Names) of the resources associated with
-  /// the specified web ACL. An array with zero elements is returned if there are
-  /// no resources associated with the web ACL.
-  final List<String>? resourceArns;
-
-  ListResourcesForWebACLResponse({
-    this.resourceArns,
-  });
-
-  factory ListResourcesForWebACLResponse.fromJson(Map<String, dynamic> json) {
-    return ListResourcesForWebACLResponse(
-      resourceArns: (json['ResourceArns'] as List?)
-          ?.nonNulls
+  factory RegexPatternSet.fromJson(Map<String, dynamic> json) {
+    return RegexPatternSet(
+      regexPatternSetId: (json['RegexPatternSetId'] as String?) ?? '',
+      regexPatternStrings: ((json['RegexPatternStrings'] as List?) ?? const [])
+          .nonNulls
           .map((e) => e as String)
           .toList(),
+      name: json['Name'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final resourceArns = this.resourceArns;
+    final regexPatternSetId = this.regexPatternSetId;
+    final regexPatternStrings = this.regexPatternStrings;
+    final name = this.name;
     return {
-      if (resourceArns != null) 'ResourceArns': resourceArns,
-    };
-  }
-}
-
-class ListRuleGroupsResponse {
-  /// If you have more <code>RuleGroups</code> than the number that you specified
-  /// for <code>Limit</code> in the request, the response includes a
-  /// <code>NextMarker</code> value. To list more <code>RuleGroups</code>, submit
-  /// another <code>ListRuleGroups</code> request, and specify the
-  /// <code>NextMarker</code> value from the response in the
-  /// <code>NextMarker</code> value in the next request.
-  final String? nextMarker;
-
-  /// An array of <a>RuleGroup</a> objects.
-  final List<RuleGroupSummary>? ruleGroups;
-
-  ListRuleGroupsResponse({
-    this.nextMarker,
-    this.ruleGroups,
-  });
-
-  factory ListRuleGroupsResponse.fromJson(Map<String, dynamic> json) {
-    return ListRuleGroupsResponse(
-      nextMarker: json['NextMarker'] as String?,
-      ruleGroups: (json['RuleGroups'] as List?)
-          ?.nonNulls
-          .map((e) => RuleGroupSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextMarker = this.nextMarker;
-    final ruleGroups = this.ruleGroups;
-    return {
-      if (nextMarker != null) 'NextMarker': nextMarker,
-      if (ruleGroups != null) 'RuleGroups': ruleGroups,
-    };
-  }
-}
-
-class ListRulesResponse {
-  /// If you have more <code>Rules</code> than the number that you specified for
-  /// <code>Limit</code> in the request, the response includes a
-  /// <code>NextMarker</code> value. To list more <code>Rules</code>, submit
-  /// another <code>ListRules</code> request, and specify the
-  /// <code>NextMarker</code> value from the response in the
-  /// <code>NextMarker</code> value in the next request.
-  final String? nextMarker;
-
-  /// An array of <a>RuleSummary</a> objects.
-  final List<RuleSummary>? rules;
-
-  ListRulesResponse({
-    this.nextMarker,
-    this.rules,
-  });
-
-  factory ListRulesResponse.fromJson(Map<String, dynamic> json) {
-    return ListRulesResponse(
-      nextMarker: json['NextMarker'] as String?,
-      rules: (json['Rules'] as List?)
-          ?.nonNulls
-          .map((e) => RuleSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextMarker = this.nextMarker;
-    final rules = this.rules;
-    return {
-      if (nextMarker != null) 'NextMarker': nextMarker,
-      if (rules != null) 'Rules': rules,
-    };
-  }
-}
-
-class ListSizeConstraintSetsResponse {
-  /// If you have more <code>SizeConstraintSet</code> objects than the number that
-  /// you specified for <code>Limit</code> in the request, the response includes a
-  /// <code>NextMarker</code> value. To list more <code>SizeConstraintSet</code>
-  /// objects, submit another <code>ListSizeConstraintSets</code> request, and
-  /// specify the <code>NextMarker</code> value from the response in the
-  /// <code>NextMarker</code> value in the next request.
-  final String? nextMarker;
-
-  /// An array of <a>SizeConstraintSetSummary</a> objects.
-  final List<SizeConstraintSetSummary>? sizeConstraintSets;
-
-  ListSizeConstraintSetsResponse({
-    this.nextMarker,
-    this.sizeConstraintSets,
-  });
-
-  factory ListSizeConstraintSetsResponse.fromJson(Map<String, dynamic> json) {
-    return ListSizeConstraintSetsResponse(
-      nextMarker: json['NextMarker'] as String?,
-      sizeConstraintSets: (json['SizeConstraintSets'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              SizeConstraintSetSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextMarker = this.nextMarker;
-    final sizeConstraintSets = this.sizeConstraintSets;
-    return {
-      if (nextMarker != null) 'NextMarker': nextMarker,
-      if (sizeConstraintSets != null) 'SizeConstraintSets': sizeConstraintSets,
-    };
-  }
-}
-
-/// The response to a <a>ListSqlInjectionMatchSets</a> request.
-class ListSqlInjectionMatchSetsResponse {
-  /// If you have more <a>SqlInjectionMatchSet</a> objects than the number that
-  /// you specified for <code>Limit</code> in the request, the response includes a
-  /// <code>NextMarker</code> value. To list more
-  /// <code>SqlInjectionMatchSet</code> objects, submit another
-  /// <code>ListSqlInjectionMatchSets</code> request, and specify the
-  /// <code>NextMarker</code> value from the response in the
-  /// <code>NextMarker</code> value in the next request.
-  final String? nextMarker;
-
-  /// An array of <a>SqlInjectionMatchSetSummary</a> objects.
-  final List<SqlInjectionMatchSetSummary>? sqlInjectionMatchSets;
-
-  ListSqlInjectionMatchSetsResponse({
-    this.nextMarker,
-    this.sqlInjectionMatchSets,
-  });
-
-  factory ListSqlInjectionMatchSetsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListSqlInjectionMatchSetsResponse(
-      nextMarker: json['NextMarker'] as String?,
-      sqlInjectionMatchSets: (json['SqlInjectionMatchSets'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              SqlInjectionMatchSetSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextMarker = this.nextMarker;
-    final sqlInjectionMatchSets = this.sqlInjectionMatchSets;
-    return {
-      if (nextMarker != null) 'NextMarker': nextMarker,
-      if (sqlInjectionMatchSets != null)
-        'SqlInjectionMatchSets': sqlInjectionMatchSets,
-    };
-  }
-}
-
-class ListSubscribedRuleGroupsResponse {
-  /// If you have more objects than the number that you specified for
-  /// <code>Limit</code> in the request, the response includes a
-  /// <code>NextMarker</code> value. To list more objects, submit another
-  /// <code>ListSubscribedRuleGroups</code> request, and specify the
-  /// <code>NextMarker</code> value from the response in the
-  /// <code>NextMarker</code> value in the next request.
-  final String? nextMarker;
-
-  /// An array of <a>RuleGroup</a> objects.
-  final List<SubscribedRuleGroupSummary>? ruleGroups;
-
-  ListSubscribedRuleGroupsResponse({
-    this.nextMarker,
-    this.ruleGroups,
-  });
-
-  factory ListSubscribedRuleGroupsResponse.fromJson(Map<String, dynamic> json) {
-    return ListSubscribedRuleGroupsResponse(
-      nextMarker: json['NextMarker'] as String?,
-      ruleGroups: (json['RuleGroups'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              SubscribedRuleGroupSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextMarker = this.nextMarker;
-    final ruleGroups = this.ruleGroups;
-    return {
-      if (nextMarker != null) 'NextMarker': nextMarker,
-      if (ruleGroups != null) 'RuleGroups': ruleGroups,
-    };
-  }
-}
-
-class ListTagsForResourceResponse {
-  /// <p/>
-  final String? nextMarker;
-
-  /// <p/>
-  final TagInfoForResource? tagInfoForResource;
-
-  ListTagsForResourceResponse({
-    this.nextMarker,
-    this.tagInfoForResource,
-  });
-
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
-    return ListTagsForResourceResponse(
-      nextMarker: json['NextMarker'] as String?,
-      tagInfoForResource: json['TagInfoForResource'] != null
-          ? TagInfoForResource.fromJson(
-              json['TagInfoForResource'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextMarker = this.nextMarker;
-    final tagInfoForResource = this.tagInfoForResource;
-    return {
-      if (nextMarker != null) 'NextMarker': nextMarker,
-      if (tagInfoForResource != null) 'TagInfoForResource': tagInfoForResource,
-    };
-  }
-}
-
-class ListWebACLsResponse {
-  /// If you have more <code>WebACL</code> objects than the number that you
-  /// specified for <code>Limit</code> in the request, the response includes a
-  /// <code>NextMarker</code> value. To list more <code>WebACL</code> objects,
-  /// submit another <code>ListWebACLs</code> request, and specify the
-  /// <code>NextMarker</code> value from the response in the
-  /// <code>NextMarker</code> value in the next request.
-  final String? nextMarker;
-
-  /// An array of <a>WebACLSummary</a> objects.
-  final List<WebACLSummary>? webACLs;
-
-  ListWebACLsResponse({
-    this.nextMarker,
-    this.webACLs,
-  });
-
-  factory ListWebACLsResponse.fromJson(Map<String, dynamic> json) {
-    return ListWebACLsResponse(
-      nextMarker: json['NextMarker'] as String?,
-      webACLs: (json['WebACLs'] as List?)
-          ?.nonNulls
-          .map((e) => WebACLSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextMarker = this.nextMarker;
-    final webACLs = this.webACLs;
-    return {
-      if (nextMarker != null) 'NextMarker': nextMarker,
-      if (webACLs != null) 'WebACLs': webACLs,
-    };
-  }
-}
-
-/// The response to a <a>ListXssMatchSets</a> request.
-class ListXssMatchSetsResponse {
-  /// If you have more <a>XssMatchSet</a> objects than the number that you
-  /// specified for <code>Limit</code> in the request, the response includes a
-  /// <code>NextMarker</code> value. To list more <code>XssMatchSet</code>
-  /// objects, submit another <code>ListXssMatchSets</code> request, and specify
-  /// the <code>NextMarker</code> value from the response in the
-  /// <code>NextMarker</code> value in the next request.
-  final String? nextMarker;
-
-  /// An array of <a>XssMatchSetSummary</a> objects.
-  final List<XssMatchSetSummary>? xssMatchSets;
-
-  ListXssMatchSetsResponse({
-    this.nextMarker,
-    this.xssMatchSets,
-  });
-
-  factory ListXssMatchSetsResponse.fromJson(Map<String, dynamic> json) {
-    return ListXssMatchSetsResponse(
-      nextMarker: json['NextMarker'] as String?,
-      xssMatchSets: (json['XssMatchSets'] as List?)
-          ?.nonNulls
-          .map((e) => XssMatchSetSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextMarker = this.nextMarker;
-    final xssMatchSets = this.xssMatchSets;
-    return {
-      if (nextMarker != null) 'NextMarker': nextMarker,
-      if (xssMatchSets != null) 'XssMatchSets': xssMatchSets,
+      'RegexPatternSetId': regexPatternSetId,
+      'RegexPatternStrings': regexPatternStrings,
+      if (name != null) 'Name': name,
     };
   }
 }
@@ -10064,261 +12892,79 @@ class ListXssMatchSetsResponse {
 /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
 /// of endpoints for regional and global use.
 /// </note>
-/// The Amazon Kinesis Data Firehose, <code>RedactedFields</code> information,
-/// and the web ACL Amazon Resource Name (ARN).
-class LoggingConfiguration {
-  /// An array of Amazon Kinesis Data Firehose ARNs.
-  final List<String> logDestinationConfigs;
-
-  /// The Amazon Resource Name (ARN) of the web ACL that you want to associate
-  /// with <code>LogDestinationConfigs</code>.
-  final String resourceArn;
-
-  /// The parts of the request that you want redacted from the logs. For example,
-  /// if you redact the cookie field, the cookie field in the firehose will be
-  /// <code>xxx</code>.
-  final List<FieldToMatch>? redactedFields;
-
-  LoggingConfiguration({
-    required this.logDestinationConfigs,
-    required this.resourceArn,
-    this.redactedFields,
-  });
-
-  factory LoggingConfiguration.fromJson(Map<String, dynamic> json) {
-    return LoggingConfiguration(
-      logDestinationConfigs:
-          ((json['LogDestinationConfigs'] as List?) ?? const [])
-              .nonNulls
-              .map((e) => e as String)
-              .toList(),
-      resourceArn: (json['ResourceArn'] as String?) ?? '',
-      redactedFields: (json['RedactedFields'] as List?)
-          ?.nonNulls
-          .map((e) => FieldToMatch.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final logDestinationConfigs = this.logDestinationConfigs;
-    final resourceArn = this.resourceArn;
-    final redactedFields = this.redactedFields;
-    return {
-      'LogDestinationConfigs': logDestinationConfigs,
-      'ResourceArn': resourceArn,
-      if (redactedFields != null) 'RedactedFields': redactedFields,
-    };
-  }
-}
-
-class MatchFieldType {
-  static const uri = MatchFieldType._('URI');
-  static const queryString = MatchFieldType._('QUERY_STRING');
-  static const header = MatchFieldType._('HEADER');
-  static const method = MatchFieldType._('METHOD');
-  static const body = MatchFieldType._('BODY');
-  static const singleQueryArg = MatchFieldType._('SINGLE_QUERY_ARG');
-  static const allQueryArgs = MatchFieldType._('ALL_QUERY_ARGS');
-
-  final String value;
-
-  const MatchFieldType._(this.value);
-
-  static const values = [
-    uri,
-    queryString,
-    header,
-    method,
-    body,
-    singleQueryArg,
-    allQueryArgs
-  ];
-
-  static MatchFieldType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MatchFieldType._(value));
-
-  @override
-  bool operator ==(other) => other is MatchFieldType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class PositionalConstraint {
-  static const exactly = PositionalConstraint._('EXACTLY');
-  static const startsWith = PositionalConstraint._('STARTS_WITH');
-  static const endsWith = PositionalConstraint._('ENDS_WITH');
-  static const contains = PositionalConstraint._('CONTAINS');
-  static const containsWord = PositionalConstraint._('CONTAINS_WORD');
-
-  final String value;
-
-  const PositionalConstraint._(this.value);
-
-  static const values = [exactly, startsWith, endsWith, contains, containsWord];
-
-  static PositionalConstraint fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PositionalConstraint._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PositionalConstraint && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
+/// In a <a>GetRegexMatchSet</a> request, <code>RegexMatchSet</code> is a
+/// complex type that contains the <code>RegexMatchSetId</code> and
+/// <code>Name</code> of a <code>RegexMatchSet</code>, and the values that you
+/// specified when you updated the <code>RegexMatchSet</code>.
 ///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// Specifies the <a>ByteMatchSet</a>, <a>IPSet</a>,
-/// <a>SqlInjectionMatchSet</a>, <a>XssMatchSet</a>, <a>RegexMatchSet</a>,
-/// <a>GeoMatchSet</a>, and <a>SizeConstraintSet</a> objects that you want to
-/// add to a <code>Rule</code> and, for each object, indicates whether you want
-/// to negate the settings, for example, requests that do NOT originate from the
-/// IP address 192.0.2.44.
-class Predicate {
-  /// A unique identifier for a predicate in a <code>Rule</code>, such as
-  /// <code>ByteMatchSetId</code> or <code>IPSetId</code>. The ID is returned by
-  /// the corresponding <code>Create</code> or <code>List</code> command.
-  final String dataId;
+/// The values are contained in a <code>RegexMatchTuple</code> object, which
+/// specify the parts of web requests that you want AWS WAF to inspect and the
+/// values that you want AWS WAF to search for. If a <code>RegexMatchSet</code>
+/// contains more than one <code>RegexMatchTuple</code> object, a request needs
+/// to match the settings in only one <code>ByteMatchTuple</code> to be
+/// considered a match.
+class RegexMatchSet {
+  /// A friendly name or description of the <a>RegexMatchSet</a>. You can't change
+  /// <code>Name</code> after you create a <code>RegexMatchSet</code>.
+  final String? name;
 
-  /// Set <code>Negated</code> to <code>False</code> if you want AWS WAF to allow,
-  /// block, or count requests based on the settings in the specified
-  /// <a>ByteMatchSet</a>, <a>IPSet</a>, <a>SqlInjectionMatchSet</a>,
-  /// <a>XssMatchSet</a>, <a>RegexMatchSet</a>, <a>GeoMatchSet</a>, or
-  /// <a>SizeConstraintSet</a>. For example, if an <code>IPSet</code> includes the
-  /// IP address <code>192.0.2.44</code>, AWS WAF will allow or block requests
-  /// based on that IP address.
+  /// The <code>RegexMatchSetId</code> for a <code>RegexMatchSet</code>. You use
+  /// <code>RegexMatchSetId</code> to get information about a
+  /// <code>RegexMatchSet</code> (see <a>GetRegexMatchSet</a>), update a
+  /// <code>RegexMatchSet</code> (see <a>UpdateRegexMatchSet</a>), insert a
+  /// <code>RegexMatchSet</code> into a <code>Rule</code> or delete one from a
+  /// <code>Rule</code> (see <a>UpdateRule</a>), and delete a
+  /// <code>RegexMatchSet</code> from AWS WAF (see <a>DeleteRegexMatchSet</a>).
   ///
-  /// Set <code>Negated</code> to <code>True</code> if you want AWS WAF to allow
-  /// or block a request based on the negation of the settings in the
-  /// <a>ByteMatchSet</a>, <a>IPSet</a>, <a>SqlInjectionMatchSet</a>,
-  /// <a>XssMatchSet</a>, <a>RegexMatchSet</a>, <a>GeoMatchSet</a>, or
-  /// <a>SizeConstraintSet</a>. For example, if an <code>IPSet</code> includes the
-  /// IP address <code>192.0.2.44</code>, AWS WAF will allow, block, or count
-  /// requests based on all IP addresses <i>except</i> <code>192.0.2.44</code>.
-  final bool negated;
+  /// <code>RegexMatchSetId</code> is returned by <a>CreateRegexMatchSet</a> and
+  /// by <a>ListRegexMatchSets</a>.
+  final String? regexMatchSetId;
 
-  /// The type of predicate in a <code>Rule</code>, such as <code>ByteMatch</code>
-  /// or <code>IPSet</code>.
-  final PredicateType type;
+  /// Contains an array of <a>RegexMatchTuple</a> objects. Each
+  /// <code>RegexMatchTuple</code> object contains:
+  ///
+  /// <ul>
+  /// <li>
+  /// The part of a web request that you want AWS WAF to inspect, such as a query
+  /// string or the value of the <code>User-Agent</code> header.
+  /// </li>
+  /// <li>
+  /// The identifier of the pattern (a regular expression) that you want AWS WAF
+  /// to look for. For more information, see <a>RegexPatternSet</a>.
+  /// </li>
+  /// <li>
+  /// Whether to perform any conversions on the request, such as converting it to
+  /// lowercase, before inspecting it for the specified string.
+  /// </li>
+  /// </ul>
+  final List<RegexMatchTuple>? regexMatchTuples;
 
-  Predicate({
-    required this.dataId,
-    required this.negated,
-    required this.type,
+  RegexMatchSet({
+    this.name,
+    this.regexMatchSetId,
+    this.regexMatchTuples,
   });
 
-  factory Predicate.fromJson(Map<String, dynamic> json) {
-    return Predicate(
-      dataId: (json['DataId'] as String?) ?? '',
-      negated: (json['Negated'] as bool?) ?? false,
-      type: PredicateType.fromString((json['Type'] as String?) ?? ''),
+  factory RegexMatchSet.fromJson(Map<String, dynamic> json) {
+    return RegexMatchSet(
+      name: json['Name'] as String?,
+      regexMatchSetId: json['RegexMatchSetId'] as String?,
+      regexMatchTuples: (json['RegexMatchTuples'] as List?)
+          ?.nonNulls
+          .map((e) => RegexMatchTuple.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final dataId = this.dataId;
-    final negated = this.negated;
-    final type = this.type;
+    final name = this.name;
+    final regexMatchSetId = this.regexMatchSetId;
+    final regexMatchTuples = this.regexMatchTuples;
     return {
-      'DataId': dataId,
-      'Negated': negated,
-      'Type': type.value,
+      if (name != null) 'Name': name,
+      if (regexMatchSetId != null) 'RegexMatchSetId': regexMatchSetId,
+      if (regexMatchTuples != null) 'RegexMatchTuples': regexMatchTuples,
     };
-  }
-}
-
-class PredicateType {
-  static const iPMatch = PredicateType._('IPMatch');
-  static const byteMatch = PredicateType._('ByteMatch');
-  static const sqlInjectionMatch = PredicateType._('SqlInjectionMatch');
-  static const geoMatch = PredicateType._('GeoMatch');
-  static const sizeConstraint = PredicateType._('SizeConstraint');
-  static const xssMatch = PredicateType._('XssMatch');
-  static const regexMatch = PredicateType._('RegexMatch');
-
-  final String value;
-
-  const PredicateType._(this.value);
-
-  static const values = [
-    iPMatch,
-    byteMatch,
-    sqlInjectionMatch,
-    geoMatch,
-    sizeConstraint,
-    xssMatch,
-    regexMatch
-  ];
-
-  static PredicateType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PredicateType._(value));
-
-  @override
-  bool operator ==(other) => other is PredicateType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class PutLoggingConfigurationResponse {
-  /// The <a>LoggingConfiguration</a> that you submitted in the request.
-  final LoggingConfiguration? loggingConfiguration;
-
-  PutLoggingConfigurationResponse({
-    this.loggingConfiguration,
-  });
-
-  factory PutLoggingConfigurationResponse.fromJson(Map<String, dynamic> json) {
-    return PutLoggingConfigurationResponse(
-      loggingConfiguration: json['LoggingConfiguration'] != null
-          ? LoggingConfiguration.fromJson(
-              json['LoggingConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final loggingConfiguration = this.loggingConfiguration;
-    return {
-      if (loggingConfiguration != null)
-        'LoggingConfiguration': loggingConfiguration,
-    };
-  }
-}
-
-class PutPermissionPolicyResponse {
-  PutPermissionPolicyResponse();
-
-  factory PutPermissionPolicyResponse.fromJson(Map<String, dynamic> _) {
-    return PutPermissionPolicyResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
   }
 }
 
@@ -10469,2871 +13115,226 @@ class RateKey {
 /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
 /// of endpoints for regional and global use.
 /// </note>
-/// In a <a>GetRegexMatchSet</a> request, <code>RegexMatchSet</code> is a
-/// complex type that contains the <code>RegexMatchSetId</code> and
-/// <code>Name</code> of a <code>RegexMatchSet</code>, and the values that you
-/// specified when you updated the <code>RegexMatchSet</code>.
+/// Contains one or more IP addresses or blocks of IP addresses specified in
+/// Classless Inter-Domain Routing (CIDR) notation. AWS WAF supports IPv4
+/// address ranges: /8 and any range between /16 through /32. AWS WAF supports
+/// IPv6 address ranges: /24, /32, /48, /56, /64, and /128.
 ///
-/// The values are contained in a <code>RegexMatchTuple</code> object, which
+/// To specify an individual IP address, you specify the four-part IP address
+/// followed by a <code>/32</code>, for example, 192.0.2.0/32. To block a range
+/// of IP addresses, you can specify /8 or any range between /16 through /32
+/// (for IPv4) or /24, /32, /48, /56, /64, or /128 (for IPv6). For more
+/// information about CIDR notation, see the Wikipedia entry <a
+/// href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">Classless
+/// Inter-Domain Routing</a>.
+class IPSet {
+  /// The IP address type (<code>IPV4</code> or <code>IPV6</code>) and the IP
+  /// address range (in CIDR notation) that web requests originate from. If the
+  /// <code>WebACL</code> is associated with a CloudFront distribution and the
+  /// viewer did not use an HTTP proxy or a load balancer to send the request,
+  /// this is the value of the c-ip field in the CloudFront access logs.
+  final List<IPSetDescriptor> iPSetDescriptors;
+
+  /// The <code>IPSetId</code> for an <code>IPSet</code>. You use
+  /// <code>IPSetId</code> to get information about an <code>IPSet</code> (see
+  /// <a>GetIPSet</a>), update an <code>IPSet</code> (see <a>UpdateIPSet</a>),
+  /// insert an <code>IPSet</code> into a <code>Rule</code> or delete one from a
+  /// <code>Rule</code> (see <a>UpdateRule</a>), and delete an <code>IPSet</code>
+  /// from AWS WAF (see <a>DeleteIPSet</a>).
+  ///
+  /// <code>IPSetId</code> is returned by <a>CreateIPSet</a> and by
+  /// <a>ListIPSets</a>.
+  final String iPSetId;
+
+  /// A friendly name or description of the <a>IPSet</a>. You can't change the
+  /// name of an <code>IPSet</code> after you create it.
+  final String? name;
+
+  IPSet({
+    required this.iPSetDescriptors,
+    required this.iPSetId,
+    this.name,
+  });
+
+  factory IPSet.fromJson(Map<String, dynamic> json) {
+    return IPSet(
+      iPSetDescriptors: ((json['IPSetDescriptors'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => IPSetDescriptor.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      iPSetId: (json['IPSetId'] as String?) ?? '',
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final iPSetDescriptors = this.iPSetDescriptors;
+    final iPSetId = this.iPSetId;
+    final name = this.name;
+    return {
+      'IPSetDescriptors': iPSetDescriptors,
+      'IPSetId': iPSetId,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// Contains one or more countries that AWS WAF will search for.
+class GeoMatchSet {
+  /// An array of <a>GeoMatchConstraint</a> objects, which contain the country
+  /// that you want AWS WAF to search for.
+  final List<GeoMatchConstraint> geoMatchConstraints;
+
+  /// The <code>GeoMatchSetId</code> for an <code>GeoMatchSet</code>. You use
+  /// <code>GeoMatchSetId</code> to get information about a
+  /// <code>GeoMatchSet</code> (see <a>GeoMatchSet</a>), update a
+  /// <code>GeoMatchSet</code> (see <a>UpdateGeoMatchSet</a>), insert a
+  /// <code>GeoMatchSet</code> into a <code>Rule</code> or delete one from a
+  /// <code>Rule</code> (see <a>UpdateRule</a>), and delete a
+  /// <code>GeoMatchSet</code> from AWS WAF (see <a>DeleteGeoMatchSet</a>).
+  ///
+  /// <code>GeoMatchSetId</code> is returned by <a>CreateGeoMatchSet</a> and by
+  /// <a>ListGeoMatchSets</a>.
+  final String geoMatchSetId;
+
+  /// A friendly name or description of the <a>GeoMatchSet</a>. You can't change
+  /// the name of an <code>GeoMatchSet</code> after you create it.
+  final String? name;
+
+  GeoMatchSet({
+    required this.geoMatchConstraints,
+    required this.geoMatchSetId,
+    this.name,
+  });
+
+  factory GeoMatchSet.fromJson(Map<String, dynamic> json) {
+    return GeoMatchSet(
+      geoMatchConstraints: ((json['GeoMatchConstraints'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => GeoMatchConstraint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      geoMatchSetId: (json['GeoMatchSetId'] as String?) ?? '',
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final geoMatchConstraints = this.geoMatchConstraints;
+    final geoMatchSetId = this.geoMatchSetId;
+    final name = this.name;
+    return {
+      'GeoMatchConstraints': geoMatchConstraints,
+      'GeoMatchSetId': geoMatchSetId,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+class ChangeTokenStatus {
+  static const provisioned = ChangeTokenStatus._('PROVISIONED');
+  static const pending = ChangeTokenStatus._('PENDING');
+  static const insync = ChangeTokenStatus._('INSYNC');
+
+  final String value;
+
+  const ChangeTokenStatus._(this.value);
+
+  static const values = [provisioned, pending, insync];
+
+  static ChangeTokenStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ChangeTokenStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ChangeTokenStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// In a <a>GetByteMatchSet</a> request, <code>ByteMatchSet</code> is a complex
+/// type that contains the <code>ByteMatchSetId</code> and <code>Name</code> of
+/// a <code>ByteMatchSet</code>, and the values that you specified when you
+/// updated the <code>ByteMatchSet</code>.
+///
+/// A complex type that contains <code>ByteMatchTuple</code> objects, which
 /// specify the parts of web requests that you want AWS WAF to inspect and the
-/// values that you want AWS WAF to search for. If a <code>RegexMatchSet</code>
-/// contains more than one <code>RegexMatchTuple</code> object, a request needs
+/// values that you want AWS WAF to search for. If a <code>ByteMatchSet</code>
+/// contains more than one <code>ByteMatchTuple</code> object, a request needs
 /// to match the settings in only one <code>ByteMatchTuple</code> to be
 /// considered a match.
-class RegexMatchSet {
-  /// A friendly name or description of the <a>RegexMatchSet</a>. You can't change
-  /// <code>Name</code> after you create a <code>RegexMatchSet</code>.
-  final String? name;
-
-  /// The <code>RegexMatchSetId</code> for a <code>RegexMatchSet</code>. You use
-  /// <code>RegexMatchSetId</code> to get information about a
-  /// <code>RegexMatchSet</code> (see <a>GetRegexMatchSet</a>), update a
-  /// <code>RegexMatchSet</code> (see <a>UpdateRegexMatchSet</a>), insert a
-  /// <code>RegexMatchSet</code> into a <code>Rule</code> or delete one from a
+class ByteMatchSet {
+  /// The <code>ByteMatchSetId</code> for a <code>ByteMatchSet</code>. You use
+  /// <code>ByteMatchSetId</code> to get information about a
+  /// <code>ByteMatchSet</code> (see <a>GetByteMatchSet</a>), update a
+  /// <code>ByteMatchSet</code> (see <a>UpdateByteMatchSet</a>), insert a
+  /// <code>ByteMatchSet</code> into a <code>Rule</code> or delete one from a
   /// <code>Rule</code> (see <a>UpdateRule</a>), and delete a
-  /// <code>RegexMatchSet</code> from AWS WAF (see <a>DeleteRegexMatchSet</a>).
+  /// <code>ByteMatchSet</code> from AWS WAF (see <a>DeleteByteMatchSet</a>).
   ///
-  /// <code>RegexMatchSetId</code> is returned by <a>CreateRegexMatchSet</a> and
-  /// by <a>ListRegexMatchSets</a>.
-  final String? regexMatchSetId;
+  /// <code>ByteMatchSetId</code> is returned by <a>CreateByteMatchSet</a> and by
+  /// <a>ListByteMatchSets</a>.
+  final String byteMatchSetId;
 
-  /// Contains an array of <a>RegexMatchTuple</a> objects. Each
-  /// <code>RegexMatchTuple</code> object contains:
-  ///
-  /// <ul>
-  /// <li>
-  /// The part of a web request that you want AWS WAF to inspect, such as a query
-  /// string or the value of the <code>User-Agent</code> header.
-  /// </li>
-  /// <li>
-  /// The identifier of the pattern (a regular expression) that you want AWS WAF
-  /// to look for. For more information, see <a>RegexPatternSet</a>.
-  /// </li>
-  /// <li>
-  /// Whether to perform any conversions on the request, such as converting it to
-  /// lowercase, before inspecting it for the specified string.
-  /// </li>
-  /// </ul>
-  final List<RegexMatchTuple>? regexMatchTuples;
+  /// Specifies the bytes (typically a string that corresponds with ASCII
+  /// characters) that you want AWS WAF to search for in web requests, the
+  /// location in requests that you want AWS WAF to search, and other settings.
+  final List<ByteMatchTuple> byteMatchTuples;
 
-  RegexMatchSet({
-    this.name,
-    this.regexMatchSetId,
-    this.regexMatchTuples,
-  });
-
-  factory RegexMatchSet.fromJson(Map<String, dynamic> json) {
-    return RegexMatchSet(
-      name: json['Name'] as String?,
-      regexMatchSetId: json['RegexMatchSetId'] as String?,
-      regexMatchTuples: (json['RegexMatchTuples'] as List?)
-          ?.nonNulls
-          .map((e) => RegexMatchTuple.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final regexMatchSetId = this.regexMatchSetId;
-    final regexMatchTuples = this.regexMatchTuples;
-    return {
-      if (name != null) 'Name': name,
-      if (regexMatchSetId != null) 'RegexMatchSetId': regexMatchSetId,
-      if (regexMatchTuples != null) 'RegexMatchTuples': regexMatchTuples,
-    };
-  }
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// Returned by <a>ListRegexMatchSets</a>. Each
-/// <code>RegexMatchSetSummary</code> object includes the <code>Name</code> and
-/// <code>RegexMatchSetId</code> for one <a>RegexMatchSet</a>.
-class RegexMatchSetSummary {
-  /// A friendly name or description of the <a>RegexMatchSet</a>. You can't change
-  /// <code>Name</code> after you create a <code>RegexMatchSet</code>.
-  final String name;
-
-  /// The <code>RegexMatchSetId</code> for a <code>RegexMatchSet</code>. You use
-  /// <code>RegexMatchSetId</code> to get information about a
-  /// <code>RegexMatchSet</code>, update a <code>RegexMatchSet</code>, remove a
-  /// <code>RegexMatchSet</code> from a <code>Rule</code>, and delete a
-  /// <code>RegexMatchSet</code> from AWS WAF.
-  ///
-  /// <code>RegexMatchSetId</code> is returned by <a>CreateRegexMatchSet</a> and
-  /// by <a>ListRegexMatchSets</a>.
-  final String regexMatchSetId;
-
-  RegexMatchSetSummary({
-    required this.name,
-    required this.regexMatchSetId,
-  });
-
-  factory RegexMatchSetSummary.fromJson(Map<String, dynamic> json) {
-    return RegexMatchSetSummary(
-      name: (json['Name'] as String?) ?? '',
-      regexMatchSetId: (json['RegexMatchSetId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final regexMatchSetId = this.regexMatchSetId;
-    return {
-      'Name': name,
-      'RegexMatchSetId': regexMatchSetId,
-    };
-  }
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// In an <a>UpdateRegexMatchSet</a> request, <code>RegexMatchSetUpdate</code>
-/// specifies whether to insert or delete a <a>RegexMatchTuple</a> and includes
-/// the settings for the <code>RegexMatchTuple</code>.
-class RegexMatchSetUpdate {
-  /// Specifies whether to insert or delete a <a>RegexMatchTuple</a>.
-  final ChangeAction action;
-
-  /// Information about the part of a web request that you want AWS WAF to inspect
-  /// and the identifier of the regular expression (regex) pattern that you want
-  /// AWS WAF to search for. If you specify <code>DELETE</code> for the value of
-  /// <code>Action</code>, the <code>RegexMatchTuple</code> values must exactly
-  /// match the values in the <code>RegexMatchTuple</code> that you want to delete
-  /// from the <code>RegexMatchSet</code>.
-  final RegexMatchTuple regexMatchTuple;
-
-  RegexMatchSetUpdate({
-    required this.action,
-    required this.regexMatchTuple,
-  });
-
-  Map<String, dynamic> toJson() {
-    final action = this.action;
-    final regexMatchTuple = this.regexMatchTuple;
-    return {
-      'Action': action.value,
-      'RegexMatchTuple': regexMatchTuple,
-    };
-  }
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// The regular expression pattern that you want AWS WAF to search for in web
-/// requests, the location in requests that you want AWS WAF to search, and
-/// other settings. Each <code>RegexMatchTuple</code> object contains:
-///
-/// <ul>
-/// <li>
-/// The part of a web request that you want AWS WAF to inspect, such as a query
-/// string or the value of the <code>User-Agent</code> header.
-/// </li>
-/// <li>
-/// The identifier of the pattern (a regular expression) that you want AWS WAF
-/// to look for. For more information, see <a>RegexPatternSet</a>.
-/// </li>
-/// <li>
-/// Whether to perform any conversions on the request, such as converting it to
-/// lowercase, before inspecting it for the specified string.
-/// </li>
-/// </ul>
-class RegexMatchTuple {
-  /// Specifies where in a web request to look for the
-  /// <code>RegexPatternSet</code>.
-  final FieldToMatch fieldToMatch;
-
-  /// The <code>RegexPatternSetId</code> for a <code>RegexPatternSet</code>. You
-  /// use <code>RegexPatternSetId</code> to get information about a
-  /// <code>RegexPatternSet</code> (see <a>GetRegexPatternSet</a>), update a
-  /// <code>RegexPatternSet</code> (see <a>UpdateRegexPatternSet</a>), insert a
-  /// <code>RegexPatternSet</code> into a <code>RegexMatchSet</code> or delete one
-  /// from a <code>RegexMatchSet</code> (see <a>UpdateRegexMatchSet</a>), and
-  /// delete an <code>RegexPatternSet</code> from AWS WAF (see
-  /// <a>DeleteRegexPatternSet</a>).
-  ///
-  /// <code>RegexPatternSetId</code> is returned by <a>CreateRegexPatternSet</a>
-  /// and by <a>ListRegexPatternSets</a>.
-  final String regexPatternSetId;
-
-  /// Text transformations eliminate some of the unusual formatting that attackers
-  /// use in web requests in an effort to bypass AWS WAF. If you specify a
-  /// transformation, AWS WAF performs the transformation on
-  /// <code>RegexPatternSet</code> before inspecting a request for a match.
-  ///
-  /// You can only specify a single type of TextTransformation.
-  ///
-  /// <b>CMD_LINE</b>
-  ///
-  /// When you're concerned that attackers are injecting an operating system
-  /// commandline command and using unusual formatting to disguise some or all of
-  /// the command, use this option to perform the following transformations:
-  ///
-  /// <ul>
-  /// <li>
-  /// Delete the following characters: \ " ' ^
-  /// </li>
-  /// <li>
-  /// Delete spaces before the following characters: / (
-  /// </li>
-  /// <li>
-  /// Replace the following characters with a space: , ;
-  /// </li>
-  /// <li>
-  /// Replace multiple spaces with one space
-  /// </li>
-  /// <li>
-  /// Convert uppercase letters (A-Z) to lowercase (a-z)
-  /// </li>
-  /// </ul>
-  /// <b>COMPRESS_WHITE_SPACE</b>
-  ///
-  /// Use this option to replace the following characters with a space character
-  /// (decimal 32):
-  ///
-  /// <ul>
-  /// <li>
-  /// \f, formfeed, decimal 12
-  /// </li>
-  /// <li>
-  /// \t, tab, decimal 9
-  /// </li>
-  /// <li>
-  /// \n, newline, decimal 10
-  /// </li>
-  /// <li>
-  /// \r, carriage return, decimal 13
-  /// </li>
-  /// <li>
-  /// \v, vertical tab, decimal 11
-  /// </li>
-  /// <li>
-  /// non-breaking space, decimal 160
-  /// </li>
-  /// </ul>
-  /// <code>COMPRESS_WHITE_SPACE</code> also replaces multiple spaces with one
-  /// space.
-  ///
-  /// <b>HTML_ENTITY_DECODE</b>
-  ///
-  /// Use this option to replace HTML-encoded characters with unencoded
-  /// characters. <code>HTML_ENTITY_DECODE</code> performs the following
-  /// operations:
-  ///
-  /// <ul>
-  /// <li>
-  /// Replaces <code>(ampersand)quot;</code> with <code>"</code>
-  /// </li>
-  /// <li>
-  /// Replaces <code>(ampersand)nbsp;</code> with a non-breaking space, decimal
-  /// 160
-  /// </li>
-  /// <li>
-  /// Replaces <code>(ampersand)lt;</code> with a "less than" symbol
-  /// </li>
-  /// <li>
-  /// Replaces <code>(ampersand)gt;</code> with <code>&gt;</code>
-  /// </li>
-  /// <li>
-  /// Replaces characters that are represented in hexadecimal format,
-  /// <code>(ampersand)#xhhhh;</code>, with the corresponding characters
-  /// </li>
-  /// <li>
-  /// Replaces characters that are represented in decimal format,
-  /// <code>(ampersand)#nnnn;</code>, with the corresponding characters
-  /// </li>
-  /// </ul>
-  /// <b>LOWERCASE</b>
-  ///
-  /// Use this option to convert uppercase letters (A-Z) to lowercase (a-z).
-  ///
-  /// <b>URL_DECODE</b>
-  ///
-  /// Use this option to decode a URL-encoded value.
-  ///
-  /// <b>NONE</b>
-  ///
-  /// Specify <code>NONE</code> if you don't want to perform any text
-  /// transformations.
-  final TextTransformation textTransformation;
-
-  RegexMatchTuple({
-    required this.fieldToMatch,
-    required this.regexPatternSetId,
-    required this.textTransformation,
-  });
-
-  factory RegexMatchTuple.fromJson(Map<String, dynamic> json) {
-    return RegexMatchTuple(
-      fieldToMatch: FieldToMatch.fromJson(
-          (json['FieldToMatch'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      regexPatternSetId: (json['RegexPatternSetId'] as String?) ?? '',
-      textTransformation: TextTransformation.fromString(
-          (json['TextTransformation'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final fieldToMatch = this.fieldToMatch;
-    final regexPatternSetId = this.regexPatternSetId;
-    final textTransformation = this.textTransformation;
-    return {
-      'FieldToMatch': fieldToMatch,
-      'RegexPatternSetId': regexPatternSetId,
-      'TextTransformation': textTransformation.value,
-    };
-  }
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// The <code>RegexPatternSet</code> specifies the regular expression (regex)
-/// pattern that you want AWS WAF to search for, such as
-/// <code>B[a@]dB[o0]t</code>. You can then configure AWS WAF to reject those
-/// requests.
-class RegexPatternSet {
-  /// The identifier for the <code>RegexPatternSet</code>. You use
-  /// <code>RegexPatternSetId</code> to get information about a
-  /// <code>RegexPatternSet</code>, update a <code>RegexPatternSet</code>, remove
-  /// a <code>RegexPatternSet</code> from a <code>RegexMatchSet</code>, and delete
-  /// a <code>RegexPatternSet</code> from AWS WAF.
-  ///
-  /// <code>RegexMatchSetId</code> is returned by <a>CreateRegexPatternSet</a> and
-  /// by <a>ListRegexPatternSets</a>.
-  final String regexPatternSetId;
-
-  /// Specifies the regular expression (regex) patterns that you want AWS WAF to
-  /// search for, such as <code>B[a@]dB[o0]t</code>.
-  final List<String> regexPatternStrings;
-
-  /// A friendly name or description of the <a>RegexPatternSet</a>. You can't
-  /// change <code>Name</code> after you create a <code>RegexPatternSet</code>.
+  /// A friendly name or description of the <a>ByteMatchSet</a>. You can't change
+  /// <code>Name</code> after you create a <code>ByteMatchSet</code>.
   final String? name;
 
-  RegexPatternSet({
-    required this.regexPatternSetId,
-    required this.regexPatternStrings,
+  ByteMatchSet({
+    required this.byteMatchSetId,
+    required this.byteMatchTuples,
     this.name,
   });
 
-  factory RegexPatternSet.fromJson(Map<String, dynamic> json) {
-    return RegexPatternSet(
-      regexPatternSetId: (json['RegexPatternSetId'] as String?) ?? '',
-      regexPatternStrings: ((json['RegexPatternStrings'] as List?) ?? const [])
+  factory ByteMatchSet.fromJson(Map<String, dynamic> json) {
+    return ByteMatchSet(
+      byteMatchSetId: (json['ByteMatchSetId'] as String?) ?? '',
+      byteMatchTuples: ((json['ByteMatchTuples'] as List?) ?? const [])
           .nonNulls
-          .map((e) => e as String)
+          .map((e) => ByteMatchTuple.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['Name'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final regexPatternSetId = this.regexPatternSetId;
-    final regexPatternStrings = this.regexPatternStrings;
+    final byteMatchSetId = this.byteMatchSetId;
+    final byteMatchTuples = this.byteMatchTuples;
     final name = this.name;
     return {
-      'RegexPatternSetId': regexPatternSetId,
-      'RegexPatternStrings': regexPatternStrings,
+      'ByteMatchSetId': byteMatchSetId,
+      'ByteMatchTuples': byteMatchTuples,
       if (name != null) 'Name': name,
-    };
-  }
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// Returned by <a>ListRegexPatternSets</a>. Each
-/// <code>RegexPatternSetSummary</code> object includes the <code>Name</code>
-/// and <code>RegexPatternSetId</code> for one <a>RegexPatternSet</a>.
-class RegexPatternSetSummary {
-  /// A friendly name or description of the <a>RegexPatternSet</a>. You can't
-  /// change <code>Name</code> after you create a <code>RegexPatternSet</code>.
-  final String name;
-
-  /// The <code>RegexPatternSetId</code> for a <code>RegexPatternSet</code>. You
-  /// use <code>RegexPatternSetId</code> to get information about a
-  /// <code>RegexPatternSet</code>, update a <code>RegexPatternSet</code>, remove
-  /// a <code>RegexPatternSet</code> from a <code>RegexMatchSet</code>, and delete
-  /// a <code>RegexPatternSet</code> from AWS WAF.
-  ///
-  /// <code>RegexPatternSetId</code> is returned by <a>CreateRegexPatternSet</a>
-  /// and by <a>ListRegexPatternSets</a>.
-  final String regexPatternSetId;
-
-  RegexPatternSetSummary({
-    required this.name,
-    required this.regexPatternSetId,
-  });
-
-  factory RegexPatternSetSummary.fromJson(Map<String, dynamic> json) {
-    return RegexPatternSetSummary(
-      name: (json['Name'] as String?) ?? '',
-      regexPatternSetId: (json['RegexPatternSetId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final regexPatternSetId = this.regexPatternSetId;
-    return {
-      'Name': name,
-      'RegexPatternSetId': regexPatternSetId,
-    };
-  }
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// In an <a>UpdateRegexPatternSet</a> request,
-/// <code>RegexPatternSetUpdate</code> specifies whether to insert or delete a
-/// <code>RegexPatternString</code> and includes the settings for the
-/// <code>RegexPatternString</code>.
-class RegexPatternSetUpdate {
-  /// Specifies whether to insert or delete a <code>RegexPatternString</code>.
-  final ChangeAction action;
-
-  /// Specifies the regular expression (regex) pattern that you want AWS WAF to
-  /// search for, such as <code>B[a@]dB[o0]t</code>.
-  final String regexPatternString;
-
-  RegexPatternSetUpdate({
-    required this.action,
-    required this.regexPatternString,
-  });
-
-  Map<String, dynamic> toJson() {
-    final action = this.action;
-    final regexPatternString = this.regexPatternString;
-    return {
-      'Action': action.value,
-      'RegexPatternString': regexPatternString,
-    };
-  }
-}
-
-class ResourceType {
-  static const applicationLoadBalancer =
-      ResourceType._('APPLICATION_LOAD_BALANCER');
-  static const apiGateway = ResourceType._('API_GATEWAY');
-
-  final String value;
-
-  const ResourceType._(this.value);
-
-  static const values = [applicationLoadBalancer, apiGateway];
-
-  static ResourceType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ResourceType._(value));
-
-  @override
-  bool operator ==(other) => other is ResourceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// A combination of <a>ByteMatchSet</a>, <a>IPSet</a>, and/or
-/// <a>SqlInjectionMatchSet</a> objects that identify the web requests that you
-/// want to allow, block, or count. For example, you might create a
-/// <code>Rule</code> that includes the following predicates:
-///
-/// <ul>
-/// <li>
-/// An <code>IPSet</code> that causes AWS WAF to search for web requests that
-/// originate from the IP address <code>192.0.2.44</code>
-/// </li>
-/// <li>
-/// A <code>ByteMatchSet</code> that causes AWS WAF to search for web requests
-/// for which the value of the <code>User-Agent</code> header is
-/// <code>BadBot</code>.
-/// </li>
-/// </ul>
-/// To match the settings in this <code>Rule</code>, a request must originate
-/// from <code>192.0.2.44</code> AND include a <code>User-Agent</code> header
-/// for which the value is <code>BadBot</code>.
-class Rule {
-  /// The <code>Predicates</code> object contains one <code>Predicate</code>
-  /// element for each <a>ByteMatchSet</a>, <a>IPSet</a>, or
-  /// <a>SqlInjectionMatchSet</a> object that you want to include in a
-  /// <code>Rule</code>.
-  final List<Predicate> predicates;
-
-  /// A unique identifier for a <code>Rule</code>. You use <code>RuleId</code> to
-  /// get more information about a <code>Rule</code> (see <a>GetRule</a>), update
-  /// a <code>Rule</code> (see <a>UpdateRule</a>), insert a <code>Rule</code> into
-  /// a <code>WebACL</code> or delete a one from a <code>WebACL</code> (see
-  /// <a>UpdateWebACL</a>), or delete a <code>Rule</code> from AWS WAF (see
-  /// <a>DeleteRule</a>).
-  ///
-  /// <code>RuleId</code> is returned by <a>CreateRule</a> and by
-  /// <a>ListRules</a>.
-  final String ruleId;
-
-  /// A friendly name or description for the metrics for this <code>Rule</code>.
-  /// The name can contain only alphanumeric characters (A-Z, a-z, 0-9), with
-  /// maximum length 128 and minimum length one. It can't contain whitespace or
-  /// metric names reserved for AWS WAF, including "All" and "Default_Action." You
-  /// can't change <code>MetricName</code> after you create the <code>Rule</code>.
-  final String? metricName;
-
-  /// The friendly name or description for the <code>Rule</code>. You can't change
-  /// the name of a <code>Rule</code> after you create it.
-  final String? name;
-
-  Rule({
-    required this.predicates,
-    required this.ruleId,
-    this.metricName,
-    this.name,
-  });
-
-  factory Rule.fromJson(Map<String, dynamic> json) {
-    return Rule(
-      predicates: ((json['Predicates'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => Predicate.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      ruleId: (json['RuleId'] as String?) ?? '',
-      metricName: json['MetricName'] as String?,
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final predicates = this.predicates;
-    final ruleId = this.ruleId;
-    final metricName = this.metricName;
-    final name = this.name;
-    return {
-      'Predicates': predicates,
-      'RuleId': ruleId,
-      if (metricName != null) 'MetricName': metricName,
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// A collection of predefined rules that you can add to a web ACL.
-///
-/// Rule groups are subject to the following limits:
-///
-/// <ul>
-/// <li>
-/// Three rule groups per account. You can request an increase to this limit by
-/// contacting customer support.
-/// </li>
-/// <li>
-/// One rule group per web ACL.
-/// </li>
-/// <li>
-/// Ten rules per rule group.
-/// </li>
-/// </ul>
-class RuleGroup {
-  /// A unique identifier for a <code>RuleGroup</code>. You use
-  /// <code>RuleGroupId</code> to get more information about a
-  /// <code>RuleGroup</code> (see <a>GetRuleGroup</a>), update a
-  /// <code>RuleGroup</code> (see <a>UpdateRuleGroup</a>), insert a
-  /// <code>RuleGroup</code> into a <code>WebACL</code> or delete a one from a
-  /// <code>WebACL</code> (see <a>UpdateWebACL</a>), or delete a
-  /// <code>RuleGroup</code> from AWS WAF (see <a>DeleteRuleGroup</a>).
-  ///
-  /// <code>RuleGroupId</code> is returned by <a>CreateRuleGroup</a> and by
-  /// <a>ListRuleGroups</a>.
-  final String ruleGroupId;
-
-  /// A friendly name or description for the metrics for this
-  /// <code>RuleGroup</code>. The name can contain only alphanumeric characters
-  /// (A-Z, a-z, 0-9), with maximum length 128 and minimum length one. It can't
-  /// contain whitespace or metric names reserved for AWS WAF, including "All" and
-  /// "Default_Action." You can't change the name of the metric after you create
-  /// the <code>RuleGroup</code>.
-  final String? metricName;
-
-  /// The friendly name or description for the <code>RuleGroup</code>. You can't
-  /// change the name of a <code>RuleGroup</code> after you create it.
-  final String? name;
-
-  RuleGroup({
-    required this.ruleGroupId,
-    this.metricName,
-    this.name,
-  });
-
-  factory RuleGroup.fromJson(Map<String, dynamic> json) {
-    return RuleGroup(
-      ruleGroupId: (json['RuleGroupId'] as String?) ?? '',
-      metricName: json['MetricName'] as String?,
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final ruleGroupId = this.ruleGroupId;
-    final metricName = this.metricName;
-    final name = this.name;
-    return {
-      'RuleGroupId': ruleGroupId,
-      if (metricName != null) 'MetricName': metricName,
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// Contains the identifier and the friendly name or description of the
-/// <code>RuleGroup</code>.
-class RuleGroupSummary {
-  /// A friendly name or description of the <a>RuleGroup</a>. You can't change the
-  /// name of a <code>RuleGroup</code> after you create it.
-  final String name;
-
-  /// A unique identifier for a <code>RuleGroup</code>. You use
-  /// <code>RuleGroupId</code> to get more information about a
-  /// <code>RuleGroup</code> (see <a>GetRuleGroup</a>), update a
-  /// <code>RuleGroup</code> (see <a>UpdateRuleGroup</a>), insert a
-  /// <code>RuleGroup</code> into a <code>WebACL</code> or delete one from a
-  /// <code>WebACL</code> (see <a>UpdateWebACL</a>), or delete a
-  /// <code>RuleGroup</code> from AWS WAF (see <a>DeleteRuleGroup</a>).
-  ///
-  /// <code>RuleGroupId</code> is returned by <a>CreateRuleGroup</a> and by
-  /// <a>ListRuleGroups</a>.
-  final String ruleGroupId;
-
-  RuleGroupSummary({
-    required this.name,
-    required this.ruleGroupId,
-  });
-
-  factory RuleGroupSummary.fromJson(Map<String, dynamic> json) {
-    return RuleGroupSummary(
-      name: (json['Name'] as String?) ?? '',
-      ruleGroupId: (json['RuleGroupId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final ruleGroupId = this.ruleGroupId;
-    return {
-      'Name': name,
-      'RuleGroupId': ruleGroupId,
-    };
-  }
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// Specifies an <code>ActivatedRule</code> and indicates whether you want to
-/// add it to a <code>RuleGroup</code> or delete it from a
-/// <code>RuleGroup</code>.
-class RuleGroupUpdate {
-  /// Specify <code>INSERT</code> to add an <code>ActivatedRule</code> to a
-  /// <code>RuleGroup</code>. Use <code>DELETE</code> to remove an
-  /// <code>ActivatedRule</code> from a <code>RuleGroup</code>.
-  final ChangeAction action;
-
-  /// The <code>ActivatedRule</code> object specifies a <code>Rule</code> that you
-  /// want to insert or delete, the priority of the <code>Rule</code> in the
-  /// <code>WebACL</code>, and the action that you want AWS WAF to take when a web
-  /// request matches the <code>Rule</code> (<code>ALLOW</code>,
-  /// <code>BLOCK</code>, or <code>COUNT</code>).
-  final ActivatedRule activatedRule;
-
-  RuleGroupUpdate({
-    required this.action,
-    required this.activatedRule,
-  });
-
-  Map<String, dynamic> toJson() {
-    final action = this.action;
-    final activatedRule = this.activatedRule;
-    return {
-      'Action': action.value,
-      'ActivatedRule': activatedRule,
-    };
-  }
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// Contains the identifier and the friendly name or description of the
-/// <code>Rule</code>.
-class RuleSummary {
-  /// A friendly name or description of the <a>Rule</a>. You can't change the name
-  /// of a <code>Rule</code> after you create it.
-  final String name;
-
-  /// A unique identifier for a <code>Rule</code>. You use <code>RuleId</code> to
-  /// get more information about a <code>Rule</code> (see <a>GetRule</a>), update
-  /// a <code>Rule</code> (see <a>UpdateRule</a>), insert a <code>Rule</code> into
-  /// a <code>WebACL</code> or delete one from a <code>WebACL</code> (see
-  /// <a>UpdateWebACL</a>), or delete a <code>Rule</code> from AWS WAF (see
-  /// <a>DeleteRule</a>).
-  ///
-  /// <code>RuleId</code> is returned by <a>CreateRule</a> and by
-  /// <a>ListRules</a>.
-  final String ruleId;
-
-  RuleSummary({
-    required this.name,
-    required this.ruleId,
-  });
-
-  factory RuleSummary.fromJson(Map<String, dynamic> json) {
-    return RuleSummary(
-      name: (json['Name'] as String?) ?? '',
-      ruleId: (json['RuleId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final ruleId = this.ruleId;
-    return {
-      'Name': name,
-      'RuleId': ruleId,
-    };
-  }
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// Specifies a <code>Predicate</code> (such as an <code>IPSet</code>) and
-/// indicates whether you want to add it to a <code>Rule</code> or delete it
-/// from a <code>Rule</code>.
-class RuleUpdate {
-  /// Specify <code>INSERT</code> to add a <code>Predicate</code> to a
-  /// <code>Rule</code>. Use <code>DELETE</code> to remove a
-  /// <code>Predicate</code> from a <code>Rule</code>.
-  final ChangeAction action;
-
-  /// The ID of the <code>Predicate</code> (such as an <code>IPSet</code>) that
-  /// you want to add to a <code>Rule</code>.
-  final Predicate predicate;
-
-  RuleUpdate({
-    required this.action,
-    required this.predicate,
-  });
-
-  Map<String, dynamic> toJson() {
-    final action = this.action;
-    final predicate = this.predicate;
-    return {
-      'Action': action.value,
-      'Predicate': predicate,
-    };
-  }
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// The response from a <a>GetSampledRequests</a> request includes a
-/// <code>SampledHTTPRequests</code> complex type that appears as
-/// <code>SampledRequests</code> in the response syntax.
-/// <code>SampledHTTPRequests</code> contains one
-/// <code>SampledHTTPRequest</code> object for each web request that is returned
-/// by <code>GetSampledRequests</code>.
-class SampledHTTPRequest {
-  /// A complex type that contains detailed information about the request.
-  final HTTPRequest request;
-
-  /// A value that indicates how one result in the response relates proportionally
-  /// to other results in the response. A result that has a weight of
-  /// <code>2</code> represents roughly twice as many CloudFront web requests as a
-  /// result that has a weight of <code>1</code>.
-  final int weight;
-
-  /// The action for the <code>Rule</code> that the request matched:
-  /// <code>ALLOW</code>, <code>BLOCK</code>, or <code>COUNT</code>.
-  final String? action;
-
-  /// This value is returned if the <code>GetSampledRequests</code> request
-  /// specifies the ID of a <code>RuleGroup</code> rather than the ID of an
-  /// individual rule. <code>RuleWithinRuleGroup</code> is the rule within the
-  /// specified <code>RuleGroup</code> that matched the request listed in the
-  /// response.
-  final String? ruleWithinRuleGroup;
-
-  /// The time at which AWS WAF received the request from your AWS resource, in
-  /// Unix time format (in seconds).
-  final DateTime? timestamp;
-
-  SampledHTTPRequest({
-    required this.request,
-    required this.weight,
-    this.action,
-    this.ruleWithinRuleGroup,
-    this.timestamp,
-  });
-
-  factory SampledHTTPRequest.fromJson(Map<String, dynamic> json) {
-    return SampledHTTPRequest(
-      request: HTTPRequest.fromJson(
-          (json['Request'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      weight: (json['Weight'] as int?) ?? 0,
-      action: json['Action'] as String?,
-      ruleWithinRuleGroup: json['RuleWithinRuleGroup'] as String?,
-      timestamp: timeStampFromJson(json['Timestamp']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final request = this.request;
-    final weight = this.weight;
-    final action = this.action;
-    final ruleWithinRuleGroup = this.ruleWithinRuleGroup;
-    final timestamp = this.timestamp;
-    return {
-      'Request': request,
-      'Weight': weight,
-      if (action != null) 'Action': action,
-      if (ruleWithinRuleGroup != null)
-        'RuleWithinRuleGroup': ruleWithinRuleGroup,
-      if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
-    };
-  }
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// Specifies a constraint on the size of a part of the web request. AWS WAF
-/// uses the <code>Size</code>, <code>ComparisonOperator</code>, and
-/// <code>FieldToMatch</code> to build an expression in the form of
-/// "<code>Size</code> <code>ComparisonOperator</code> size in bytes of
-/// <code>FieldToMatch</code>". If that expression is true, the
-/// <code>SizeConstraint</code> is considered to match.
-class SizeConstraint {
-  /// The type of comparison you want AWS WAF to perform. AWS WAF uses this in
-  /// combination with the provided <code>Size</code> and
-  /// <code>FieldToMatch</code> to build an expression in the form of
-  /// "<code>Size</code> <code>ComparisonOperator</code> size in bytes of
-  /// <code>FieldToMatch</code>". If that expression is true, the
-  /// <code>SizeConstraint</code> is considered to match.
-  ///
-  /// <b>EQ</b>: Used to test if the <code>Size</code> is equal to the size of the
-  /// <code>FieldToMatch</code>
-  ///
-  /// <b>NE</b>: Used to test if the <code>Size</code> is not equal to the size of
-  /// the <code>FieldToMatch</code>
-  ///
-  /// <b>LE</b>: Used to test if the <code>Size</code> is less than or equal to
-  /// the size of the <code>FieldToMatch</code>
-  ///
-  /// <b>LT</b>: Used to test if the <code>Size</code> is strictly less than the
-  /// size of the <code>FieldToMatch</code>
-  ///
-  /// <b>GE</b>: Used to test if the <code>Size</code> is greater than or equal to
-  /// the size of the <code>FieldToMatch</code>
-  ///
-  /// <b>GT</b>: Used to test if the <code>Size</code> is strictly greater than
-  /// the size of the <code>FieldToMatch</code>
-  final ComparisonOperator comparisonOperator;
-
-  /// Specifies where in a web request to look for the size constraint.
-  final FieldToMatch fieldToMatch;
-
-  /// The size in bytes that you want AWS WAF to compare against the size of the
-  /// specified <code>FieldToMatch</code>. AWS WAF uses this in combination with
-  /// <code>ComparisonOperator</code> and <code>FieldToMatch</code> to build an
-  /// expression in the form of "<code>Size</code> <code>ComparisonOperator</code>
-  /// size in bytes of <code>FieldToMatch</code>". If that expression is true, the
-  /// <code>SizeConstraint</code> is considered to match.
-  ///
-  /// Valid values for size are 0 - 21474836480 bytes (0 - 20 GB).
-  ///
-  /// If you specify <code>URI</code> for the value of <code>Type</code>, the / in
-  /// the URI counts as one character. For example, the URI <code>/logo.jpg</code>
-  /// is nine characters long.
-  final int size;
-
-  /// Text transformations eliminate some of the unusual formatting that attackers
-  /// use in web requests in an effort to bypass AWS WAF. If you specify a
-  /// transformation, AWS WAF performs the transformation on
-  /// <code>FieldToMatch</code> before inspecting it for a match.
-  ///
-  /// You can only specify a single type of TextTransformation.
-  ///
-  /// Note that if you choose <code>BODY</code> for the value of
-  /// <code>Type</code>, you must choose <code>NONE</code> for
-  /// <code>TextTransformation</code> because CloudFront forwards only the first
-  /// 8192 bytes for inspection.
-  ///
-  /// <b>NONE</b>
-  ///
-  /// Specify <code>NONE</code> if you don't want to perform any text
-  /// transformations.
-  ///
-  /// <b>CMD_LINE</b>
-  ///
-  /// When you're concerned that attackers are injecting an operating system
-  /// command line command and using unusual formatting to disguise some or all of
-  /// the command, use this option to perform the following transformations:
-  ///
-  /// <ul>
-  /// <li>
-  /// Delete the following characters: \ " ' ^
-  /// </li>
-  /// <li>
-  /// Delete spaces before the following characters: / (
-  /// </li>
-  /// <li>
-  /// Replace the following characters with a space: , ;
-  /// </li>
-  /// <li>
-  /// Replace multiple spaces with one space
-  /// </li>
-  /// <li>
-  /// Convert uppercase letters (A-Z) to lowercase (a-z)
-  /// </li>
-  /// </ul>
-  /// <b>COMPRESS_WHITE_SPACE</b>
-  ///
-  /// Use this option to replace the following characters with a space character
-  /// (decimal 32):
-  ///
-  /// <ul>
-  /// <li>
-  /// \f, formfeed, decimal 12
-  /// </li>
-  /// <li>
-  /// \t, tab, decimal 9
-  /// </li>
-  /// <li>
-  /// \n, newline, decimal 10
-  /// </li>
-  /// <li>
-  /// \r, carriage return, decimal 13
-  /// </li>
-  /// <li>
-  /// \v, vertical tab, decimal 11
-  /// </li>
-  /// <li>
-  /// non-breaking space, decimal 160
-  /// </li>
-  /// </ul>
-  /// <code>COMPRESS_WHITE_SPACE</code> also replaces multiple spaces with one
-  /// space.
-  ///
-  /// <b>HTML_ENTITY_DECODE</b>
-  ///
-  /// Use this option to replace HTML-encoded characters with unencoded
-  /// characters. <code>HTML_ENTITY_DECODE</code> performs the following
-  /// operations:
-  ///
-  /// <ul>
-  /// <li>
-  /// Replaces <code>(ampersand)quot;</code> with <code>"</code>
-  /// </li>
-  /// <li>
-  /// Replaces <code>(ampersand)nbsp;</code> with a non-breaking space, decimal
-  /// 160
-  /// </li>
-  /// <li>
-  /// Replaces <code>(ampersand)lt;</code> with a "less than" symbol
-  /// </li>
-  /// <li>
-  /// Replaces <code>(ampersand)gt;</code> with <code>&gt;</code>
-  /// </li>
-  /// <li>
-  /// Replaces characters that are represented in hexadecimal format,
-  /// <code>(ampersand)#xhhhh;</code>, with the corresponding characters
-  /// </li>
-  /// <li>
-  /// Replaces characters that are represented in decimal format,
-  /// <code>(ampersand)#nnnn;</code>, with the corresponding characters
-  /// </li>
-  /// </ul>
-  /// <b>LOWERCASE</b>
-  ///
-  /// Use this option to convert uppercase letters (A-Z) to lowercase (a-z).
-  ///
-  /// <b>URL_DECODE</b>
-  ///
-  /// Use this option to decode a URL-encoded value.
-  final TextTransformation textTransformation;
-
-  SizeConstraint({
-    required this.comparisonOperator,
-    required this.fieldToMatch,
-    required this.size,
-    required this.textTransformation,
-  });
-
-  factory SizeConstraint.fromJson(Map<String, dynamic> json) {
-    return SizeConstraint(
-      comparisonOperator: ComparisonOperator.fromString(
-          (json['ComparisonOperator'] as String?) ?? ''),
-      fieldToMatch: FieldToMatch.fromJson(
-          (json['FieldToMatch'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      size: (json['Size'] as int?) ?? 0,
-      textTransformation: TextTransformation.fromString(
-          (json['TextTransformation'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final comparisonOperator = this.comparisonOperator;
-    final fieldToMatch = this.fieldToMatch;
-    final size = this.size;
-    final textTransformation = this.textTransformation;
-    return {
-      'ComparisonOperator': comparisonOperator.value,
-      'FieldToMatch': fieldToMatch,
-      'Size': size,
-      'TextTransformation': textTransformation.value,
-    };
-  }
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// A complex type that contains <code>SizeConstraint</code> objects, which
-/// specify the parts of web requests that you want AWS WAF to inspect the size
-/// of. If a <code>SizeConstraintSet</code> contains more than one
-/// <code>SizeConstraint</code> object, a request only needs to match one
-/// constraint to be considered a match.
-class SizeConstraintSet {
-  /// A unique identifier for a <code>SizeConstraintSet</code>. You use
-  /// <code>SizeConstraintSetId</code> to get information about a
-  /// <code>SizeConstraintSet</code> (see <a>GetSizeConstraintSet</a>), update a
-  /// <code>SizeConstraintSet</code> (see <a>UpdateSizeConstraintSet</a>), insert
-  /// a <code>SizeConstraintSet</code> into a <code>Rule</code> or delete one from
-  /// a <code>Rule</code> (see <a>UpdateRule</a>), and delete a
-  /// <code>SizeConstraintSet</code> from AWS WAF (see
-  /// <a>DeleteSizeConstraintSet</a>).
-  ///
-  /// <code>SizeConstraintSetId</code> is returned by
-  /// <a>CreateSizeConstraintSet</a> and by <a>ListSizeConstraintSets</a>.
-  final String sizeConstraintSetId;
-
-  /// Specifies the parts of web requests that you want to inspect the size of.
-  final List<SizeConstraint> sizeConstraints;
-
-  /// The name, if any, of the <code>SizeConstraintSet</code>.
-  final String? name;
-
-  SizeConstraintSet({
-    required this.sizeConstraintSetId,
-    required this.sizeConstraints,
-    this.name,
-  });
-
-  factory SizeConstraintSet.fromJson(Map<String, dynamic> json) {
-    return SizeConstraintSet(
-      sizeConstraintSetId: (json['SizeConstraintSetId'] as String?) ?? '',
-      sizeConstraints: ((json['SizeConstraints'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => SizeConstraint.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final sizeConstraintSetId = this.sizeConstraintSetId;
-    final sizeConstraints = this.sizeConstraints;
-    final name = this.name;
-    return {
-      'SizeConstraintSetId': sizeConstraintSetId,
-      'SizeConstraints': sizeConstraints,
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// The <code>Id</code> and <code>Name</code> of a
-/// <code>SizeConstraintSet</code>.
-class SizeConstraintSetSummary {
-  /// The name of the <code>SizeConstraintSet</code>, if any.
-  final String name;
-
-  /// A unique identifier for a <code>SizeConstraintSet</code>. You use
-  /// <code>SizeConstraintSetId</code> to get information about a
-  /// <code>SizeConstraintSet</code> (see <a>GetSizeConstraintSet</a>), update a
-  /// <code>SizeConstraintSet</code> (see <a>UpdateSizeConstraintSet</a>), insert
-  /// a <code>SizeConstraintSet</code> into a <code>Rule</code> or delete one from
-  /// a <code>Rule</code> (see <a>UpdateRule</a>), and delete a
-  /// <code>SizeConstraintSet</code> from AWS WAF (see
-  /// <a>DeleteSizeConstraintSet</a>).
-  ///
-  /// <code>SizeConstraintSetId</code> is returned by
-  /// <a>CreateSizeConstraintSet</a> and by <a>ListSizeConstraintSets</a>.
-  final String sizeConstraintSetId;
-
-  SizeConstraintSetSummary({
-    required this.name,
-    required this.sizeConstraintSetId,
-  });
-
-  factory SizeConstraintSetSummary.fromJson(Map<String, dynamic> json) {
-    return SizeConstraintSetSummary(
-      name: (json['Name'] as String?) ?? '',
-      sizeConstraintSetId: (json['SizeConstraintSetId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final sizeConstraintSetId = this.sizeConstraintSetId;
-    return {
-      'Name': name,
-      'SizeConstraintSetId': sizeConstraintSetId,
-    };
-  }
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// Specifies the part of a web request that you want to inspect the size of and
-/// indicates whether you want to add the specification to a
-/// <a>SizeConstraintSet</a> or delete it from a <code>SizeConstraintSet</code>.
-class SizeConstraintSetUpdate {
-  /// Specify <code>INSERT</code> to add a <a>SizeConstraintSetUpdate</a> to a
-  /// <a>SizeConstraintSet</a>. Use <code>DELETE</code> to remove a
-  /// <code>SizeConstraintSetUpdate</code> from a <code>SizeConstraintSet</code>.
-  final ChangeAction action;
-
-  /// Specifies a constraint on the size of a part of the web request. AWS WAF
-  /// uses the <code>Size</code>, <code>ComparisonOperator</code>, and
-  /// <code>FieldToMatch</code> to build an expression in the form of
-  /// "<code>Size</code> <code>ComparisonOperator</code> size in bytes of
-  /// <code>FieldToMatch</code>". If that expression is true, the
-  /// <code>SizeConstraint</code> is considered to match.
-  final SizeConstraint sizeConstraint;
-
-  SizeConstraintSetUpdate({
-    required this.action,
-    required this.sizeConstraint,
-  });
-
-  Map<String, dynamic> toJson() {
-    final action = this.action;
-    final sizeConstraint = this.sizeConstraint;
-    return {
-      'Action': action.value,
-      'SizeConstraint': sizeConstraint,
-    };
-  }
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// A complex type that contains <code>SqlInjectionMatchTuple</code> objects,
-/// which specify the parts of web requests that you want AWS WAF to inspect for
-/// snippets of malicious SQL code and, if you want AWS WAF to inspect a header,
-/// the name of the header. If a <code>SqlInjectionMatchSet</code> contains more
-/// than one <code>SqlInjectionMatchTuple</code> object, a request needs to
-/// include snippets of SQL code in only one of the specified parts of the
-/// request to be considered a match.
-class SqlInjectionMatchSet {
-  /// A unique identifier for a <code>SqlInjectionMatchSet</code>. You use
-  /// <code>SqlInjectionMatchSetId</code> to get information about a
-  /// <code>SqlInjectionMatchSet</code> (see <a>GetSqlInjectionMatchSet</a>),
-  /// update a <code>SqlInjectionMatchSet</code> (see
-  /// <a>UpdateSqlInjectionMatchSet</a>), insert a
-  /// <code>SqlInjectionMatchSet</code> into a <code>Rule</code> or delete one
-  /// from a <code>Rule</code> (see <a>UpdateRule</a>), and delete a
-  /// <code>SqlInjectionMatchSet</code> from AWS WAF (see
-  /// <a>DeleteSqlInjectionMatchSet</a>).
-  ///
-  /// <code>SqlInjectionMatchSetId</code> is returned by
-  /// <a>CreateSqlInjectionMatchSet</a> and by <a>ListSqlInjectionMatchSets</a>.
-  final String sqlInjectionMatchSetId;
-
-  /// Specifies the parts of web requests that you want to inspect for snippets of
-  /// malicious SQL code.
-  final List<SqlInjectionMatchTuple> sqlInjectionMatchTuples;
-
-  /// The name, if any, of the <code>SqlInjectionMatchSet</code>.
-  final String? name;
-
-  SqlInjectionMatchSet({
-    required this.sqlInjectionMatchSetId,
-    required this.sqlInjectionMatchTuples,
-    this.name,
-  });
-
-  factory SqlInjectionMatchSet.fromJson(Map<String, dynamic> json) {
-    return SqlInjectionMatchSet(
-      sqlInjectionMatchSetId: (json['SqlInjectionMatchSetId'] as String?) ?? '',
-      sqlInjectionMatchTuples: ((json['SqlInjectionMatchTuples'] as List?) ??
-              const [])
-          .nonNulls
-          .map(
-              (e) => SqlInjectionMatchTuple.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final sqlInjectionMatchSetId = this.sqlInjectionMatchSetId;
-    final sqlInjectionMatchTuples = this.sqlInjectionMatchTuples;
-    final name = this.name;
-    return {
-      'SqlInjectionMatchSetId': sqlInjectionMatchSetId,
-      'SqlInjectionMatchTuples': sqlInjectionMatchTuples,
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// The <code>Id</code> and <code>Name</code> of a
-/// <code>SqlInjectionMatchSet</code>.
-class SqlInjectionMatchSetSummary {
-  /// The name of the <code>SqlInjectionMatchSet</code>, if any, specified by
-  /// <code>Id</code>.
-  final String name;
-
-  /// A unique identifier for a <code>SqlInjectionMatchSet</code>. You use
-  /// <code>SqlInjectionMatchSetId</code> to get information about a
-  /// <code>SqlInjectionMatchSet</code> (see <a>GetSqlInjectionMatchSet</a>),
-  /// update a <code>SqlInjectionMatchSet</code> (see
-  /// <a>UpdateSqlInjectionMatchSet</a>), insert a
-  /// <code>SqlInjectionMatchSet</code> into a <code>Rule</code> or delete one
-  /// from a <code>Rule</code> (see <a>UpdateRule</a>), and delete a
-  /// <code>SqlInjectionMatchSet</code> from AWS WAF (see
-  /// <a>DeleteSqlInjectionMatchSet</a>).
-  ///
-  /// <code>SqlInjectionMatchSetId</code> is returned by
-  /// <a>CreateSqlInjectionMatchSet</a> and by <a>ListSqlInjectionMatchSets</a>.
-  final String sqlInjectionMatchSetId;
-
-  SqlInjectionMatchSetSummary({
-    required this.name,
-    required this.sqlInjectionMatchSetId,
-  });
-
-  factory SqlInjectionMatchSetSummary.fromJson(Map<String, dynamic> json) {
-    return SqlInjectionMatchSetSummary(
-      name: (json['Name'] as String?) ?? '',
-      sqlInjectionMatchSetId: (json['SqlInjectionMatchSetId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final sqlInjectionMatchSetId = this.sqlInjectionMatchSetId;
-    return {
-      'Name': name,
-      'SqlInjectionMatchSetId': sqlInjectionMatchSetId,
-    };
-  }
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// Specifies the part of a web request that you want to inspect for snippets of
-/// malicious SQL code and indicates whether you want to add the specification
-/// to a <a>SqlInjectionMatchSet</a> or delete it from a
-/// <code>SqlInjectionMatchSet</code>.
-class SqlInjectionMatchSetUpdate {
-  /// Specify <code>INSERT</code> to add a <a>SqlInjectionMatchSetUpdate</a> to a
-  /// <a>SqlInjectionMatchSet</a>. Use <code>DELETE</code> to remove a
-  /// <code>SqlInjectionMatchSetUpdate</code> from a
-  /// <code>SqlInjectionMatchSet</code>.
-  final ChangeAction action;
-
-  /// Specifies the part of a web request that you want AWS WAF to inspect for
-  /// snippets of malicious SQL code and, if you want AWS WAF to inspect a header,
-  /// the name of the header.
-  final SqlInjectionMatchTuple sqlInjectionMatchTuple;
-
-  SqlInjectionMatchSetUpdate({
-    required this.action,
-    required this.sqlInjectionMatchTuple,
-  });
-
-  Map<String, dynamic> toJson() {
-    final action = this.action;
-    final sqlInjectionMatchTuple = this.sqlInjectionMatchTuple;
-    return {
-      'Action': action.value,
-      'SqlInjectionMatchTuple': sqlInjectionMatchTuple,
-    };
-  }
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// Specifies the part of a web request that you want AWS WAF to inspect for
-/// snippets of malicious SQL code and, if you want AWS WAF to inspect a header,
-/// the name of the header.
-class SqlInjectionMatchTuple {
-  /// Specifies where in a web request to look for snippets of malicious SQL code.
-  final FieldToMatch fieldToMatch;
-
-  /// Text transformations eliminate some of the unusual formatting that attackers
-  /// use in web requests in an effort to bypass AWS WAF. If you specify a
-  /// transformation, AWS WAF performs the transformation on
-  /// <code>FieldToMatch</code> before inspecting it for a match.
-  ///
-  /// You can only specify a single type of TextTransformation.
-  ///
-  /// <b>CMD_LINE</b>
-  ///
-  /// When you're concerned that attackers are injecting an operating system
-  /// command line command and using unusual formatting to disguise some or all of
-  /// the command, use this option to perform the following transformations:
-  ///
-  /// <ul>
-  /// <li>
-  /// Delete the following characters: \ " ' ^
-  /// </li>
-  /// <li>
-  /// Delete spaces before the following characters: / (
-  /// </li>
-  /// <li>
-  /// Replace the following characters with a space: , ;
-  /// </li>
-  /// <li>
-  /// Replace multiple spaces with one space
-  /// </li>
-  /// <li>
-  /// Convert uppercase letters (A-Z) to lowercase (a-z)
-  /// </li>
-  /// </ul>
-  /// <b>COMPRESS_WHITE_SPACE</b>
-  ///
-  /// Use this option to replace the following characters with a space character
-  /// (decimal 32):
-  ///
-  /// <ul>
-  /// <li>
-  /// \f, formfeed, decimal 12
-  /// </li>
-  /// <li>
-  /// \t, tab, decimal 9
-  /// </li>
-  /// <li>
-  /// \n, newline, decimal 10
-  /// </li>
-  /// <li>
-  /// \r, carriage return, decimal 13
-  /// </li>
-  /// <li>
-  /// \v, vertical tab, decimal 11
-  /// </li>
-  /// <li>
-  /// non-breaking space, decimal 160
-  /// </li>
-  /// </ul>
-  /// <code>COMPRESS_WHITE_SPACE</code> also replaces multiple spaces with one
-  /// space.
-  ///
-  /// <b>HTML_ENTITY_DECODE</b>
-  ///
-  /// Use this option to replace HTML-encoded characters with unencoded
-  /// characters. <code>HTML_ENTITY_DECODE</code> performs the following
-  /// operations:
-  ///
-  /// <ul>
-  /// <li>
-  /// Replaces <code>(ampersand)quot;</code> with <code>"</code>
-  /// </li>
-  /// <li>
-  /// Replaces <code>(ampersand)nbsp;</code> with a non-breaking space, decimal
-  /// 160
-  /// </li>
-  /// <li>
-  /// Replaces <code>(ampersand)lt;</code> with a "less than" symbol
-  /// </li>
-  /// <li>
-  /// Replaces <code>(ampersand)gt;</code> with <code>&gt;</code>
-  /// </li>
-  /// <li>
-  /// Replaces characters that are represented in hexadecimal format,
-  /// <code>(ampersand)#xhhhh;</code>, with the corresponding characters
-  /// </li>
-  /// <li>
-  /// Replaces characters that are represented in decimal format,
-  /// <code>(ampersand)#nnnn;</code>, with the corresponding characters
-  /// </li>
-  /// </ul>
-  /// <b>LOWERCASE</b>
-  ///
-  /// Use this option to convert uppercase letters (A-Z) to lowercase (a-z).
-  ///
-  /// <b>URL_DECODE</b>
-  ///
-  /// Use this option to decode a URL-encoded value.
-  ///
-  /// <b>NONE</b>
-  ///
-  /// Specify <code>NONE</code> if you don't want to perform any text
-  /// transformations.
-  final TextTransformation textTransformation;
-
-  SqlInjectionMatchTuple({
-    required this.fieldToMatch,
-    required this.textTransformation,
-  });
-
-  factory SqlInjectionMatchTuple.fromJson(Map<String, dynamic> json) {
-    return SqlInjectionMatchTuple(
-      fieldToMatch: FieldToMatch.fromJson(
-          (json['FieldToMatch'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      textTransformation: TextTransformation.fromString(
-          (json['TextTransformation'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final fieldToMatch = this.fieldToMatch;
-    final textTransformation = this.textTransformation;
-    return {
-      'FieldToMatch': fieldToMatch,
-      'TextTransformation': textTransformation.value,
-    };
-  }
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// A summary of the rule groups you are subscribed to.
-class SubscribedRuleGroupSummary {
-  /// A friendly name or description for the metrics for this
-  /// <code>RuleGroup</code>. The name can contain only alphanumeric characters
-  /// (A-Z, a-z, 0-9), with maximum length 128 and minimum length one. It can't
-  /// contain whitespace or metric names reserved for AWS WAF, including "All" and
-  /// "Default_Action." You can't change the name of the metric after you create
-  /// the <code>RuleGroup</code>.
-  final String metricName;
-
-  /// A friendly name or description of the <code>RuleGroup</code>. You can't
-  /// change the name of a <code>RuleGroup</code> after you create it.
-  final String name;
-
-  /// A unique identifier for a <code>RuleGroup</code>.
-  final String ruleGroupId;
-
-  SubscribedRuleGroupSummary({
-    required this.metricName,
-    required this.name,
-    required this.ruleGroupId,
-  });
-
-  factory SubscribedRuleGroupSummary.fromJson(Map<String, dynamic> json) {
-    return SubscribedRuleGroupSummary(
-      metricName: (json['MetricName'] as String?) ?? '',
-      name: (json['Name'] as String?) ?? '',
-      ruleGroupId: (json['RuleGroupId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final metricName = this.metricName;
-    final name = this.name;
-    final ruleGroupId = this.ruleGroupId;
-    return {
-      'MetricName': metricName,
-      'Name': name,
-      'RuleGroupId': ruleGroupId,
-    };
-  }
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// A tag associated with an AWS resource. Tags are key:value pairs that you can
-/// use to categorize and manage your resources, for purposes like billing. For
-/// example, you might set the tag key to "customer" and the value to the
-/// customer name or ID. You can specify one or more tags to add to each AWS
-/// resource, up to 50 tags for a resource.
-///
-/// Tagging is only available through the API, SDKs, and CLI. You can't manage
-/// or view tags through the AWS WAF Classic console. You can tag the AWS
-/// resources that you manage through AWS WAF Classic: web ACLs, rule groups,
-/// and rules.
-class Tag {
-  /// <p/>
-  final String key;
-
-  /// <p/>
-  final String value;
-
-  Tag({
-    required this.key,
-    required this.value,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['Key'] as String?) ?? '',
-      value: (json['Value'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'Key': key,
-      'Value': value,
-    };
-  }
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// Information for a tag associated with an AWS resource. Tags are key:value
-/// pairs that you can use to categorize and manage your resources, for purposes
-/// like billing. For example, you might set the tag key to "customer" and the
-/// value to the customer name or ID. You can specify one or more tags to add to
-/// each AWS resource, up to 50 tags for a resource.
-///
-/// Tagging is only available through the API, SDKs, and CLI. You can't manage
-/// or view tags through the AWS WAF Classic console. You can tag the AWS
-/// resources that you manage through AWS WAF Classic: web ACLs, rule groups,
-/// and rules.
-class TagInfoForResource {
-  /// <p/>
-  final String? resourceARN;
-
-  /// <p/>
-  final List<Tag>? tagList;
-
-  TagInfoForResource({
-    this.resourceARN,
-    this.tagList,
-  });
-
-  factory TagInfoForResource.fromJson(Map<String, dynamic> json) {
-    return TagInfoForResource(
-      resourceARN: json['ResourceARN'] as String?,
-      tagList: (json['TagList'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resourceARN = this.resourceARN;
-    final tagList = this.tagList;
-    return {
-      if (resourceARN != null) 'ResourceARN': resourceARN,
-      if (tagList != null) 'TagList': tagList,
-    };
-  }
-}
-
-class TagResourceResponse {
-  TagResourceResponse();
-
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class TextTransformation {
-  static const none = TextTransformation._('NONE');
-  static const compressWhiteSpace =
-      TextTransformation._('COMPRESS_WHITE_SPACE');
-  static const htmlEntityDecode = TextTransformation._('HTML_ENTITY_DECODE');
-  static const lowercase = TextTransformation._('LOWERCASE');
-  static const cmdLine = TextTransformation._('CMD_LINE');
-  static const urlDecode = TextTransformation._('URL_DECODE');
-
-  final String value;
-
-  const TextTransformation._(this.value);
-
-  static const values = [
-    none,
-    compressWhiteSpace,
-    htmlEntityDecode,
-    lowercase,
-    cmdLine,
-    urlDecode
-  ];
-
-  static TextTransformation fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TextTransformation._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is TextTransformation && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// In a <a>GetSampledRequests</a> request, the <code>StartTime</code> and
-/// <code>EndTime</code> objects specify the time range for which you want AWS
-/// WAF to return a sample of web requests.
-///
-/// You must specify the times in Coordinated Universal Time (UTC) format. UTC
-/// format includes the special designator, <code>Z</code>. For example,
-/// <code>"2016-09-27T14:50Z"</code>.
-///
-/// In a <a>GetSampledRequests</a> response, the <code>StartTime</code> and
-/// <code>EndTime</code> objects specify the time range for which AWS WAF
-/// actually returned a sample of web requests. AWS WAF gets the specified
-/// number of requests from among the first 5,000 requests that your AWS
-/// resource receives during the specified time period. If your resource
-/// receives more than 5,000 requests during that period, AWS WAF stops sampling
-/// after the 5,000th request. In that case, <code>EndTime</code> is the time
-/// that AWS WAF received the 5,000th request.
-class TimeWindow {
-  /// The end of the time range from which you want
-  /// <code>GetSampledRequests</code> to return a sample of the requests that your
-  /// AWS resource received. You must specify the date and time in Coordinated
-  /// Universal Time (UTC) format. UTC format includes the special designator,
-  /// <code>Z</code>. For example, <code>"2016-09-27T14:50Z"</code>. You can
-  /// specify any time range in the previous three hours.
-  final DateTime endTime;
-
-  /// The beginning of the time range from which you want
-  /// <code>GetSampledRequests</code> to return a sample of the requests that your
-  /// AWS resource received. You must specify the date and time in Coordinated
-  /// Universal Time (UTC) format. UTC format includes the special designator,
-  /// <code>Z</code>. For example, <code>"2016-09-27T14:50Z"</code>. You can
-  /// specify any time range in the previous three hours.
-  final DateTime startTime;
-
-  TimeWindow({
-    required this.endTime,
-    required this.startTime,
-  });
-
-  factory TimeWindow.fromJson(Map<String, dynamic> json) {
-    return TimeWindow(
-      endTime: nonNullableTimeStampFromJson(json['EndTime'] ?? 0),
-      startTime: nonNullableTimeStampFromJson(json['StartTime'] ?? 0),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final endTime = this.endTime;
-    final startTime = this.startTime;
-    return {
-      'EndTime': unixTimestampToJson(endTime),
-      'StartTime': unixTimestampToJson(startTime),
-    };
-  }
-}
-
-class UntagResourceResponse {
-  UntagResourceResponse();
-
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateByteMatchSetResponse {
-  /// The <code>ChangeToken</code> that you used to submit the
-  /// <code>UpdateByteMatchSet</code> request. You can also use this value to
-  /// query the status of the request. For more information, see
-  /// <a>GetChangeTokenStatus</a>.
-  final String? changeToken;
-
-  UpdateByteMatchSetResponse({
-    this.changeToken,
-  });
-
-  factory UpdateByteMatchSetResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateByteMatchSetResponse(
-      changeToken: json['ChangeToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final changeToken = this.changeToken;
-    return {
-      if (changeToken != null) 'ChangeToken': changeToken,
-    };
-  }
-}
-
-class UpdateGeoMatchSetResponse {
-  /// The <code>ChangeToken</code> that you used to submit the
-  /// <code>UpdateGeoMatchSet</code> request. You can also use this value to query
-  /// the status of the request. For more information, see
-  /// <a>GetChangeTokenStatus</a>.
-  final String? changeToken;
-
-  UpdateGeoMatchSetResponse({
-    this.changeToken,
-  });
-
-  factory UpdateGeoMatchSetResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateGeoMatchSetResponse(
-      changeToken: json['ChangeToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final changeToken = this.changeToken;
-    return {
-      if (changeToken != null) 'ChangeToken': changeToken,
-    };
-  }
-}
-
-class UpdateIPSetResponse {
-  /// The <code>ChangeToken</code> that you used to submit the
-  /// <code>UpdateIPSet</code> request. You can also use this value to query the
-  /// status of the request. For more information, see
-  /// <a>GetChangeTokenStatus</a>.
-  final String? changeToken;
-
-  UpdateIPSetResponse({
-    this.changeToken,
-  });
-
-  factory UpdateIPSetResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateIPSetResponse(
-      changeToken: json['ChangeToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final changeToken = this.changeToken;
-    return {
-      if (changeToken != null) 'ChangeToken': changeToken,
-    };
-  }
-}
-
-class UpdateRateBasedRuleResponse {
-  /// The <code>ChangeToken</code> that you used to submit the
-  /// <code>UpdateRateBasedRule</code> request. You can also use this value to
-  /// query the status of the request. For more information, see
-  /// <a>GetChangeTokenStatus</a>.
-  final String? changeToken;
-
-  UpdateRateBasedRuleResponse({
-    this.changeToken,
-  });
-
-  factory UpdateRateBasedRuleResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateRateBasedRuleResponse(
-      changeToken: json['ChangeToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final changeToken = this.changeToken;
-    return {
-      if (changeToken != null) 'ChangeToken': changeToken,
-    };
-  }
-}
-
-class UpdateRegexMatchSetResponse {
-  /// The <code>ChangeToken</code> that you used to submit the
-  /// <code>UpdateRegexMatchSet</code> request. You can also use this value to
-  /// query the status of the request. For more information, see
-  /// <a>GetChangeTokenStatus</a>.
-  final String? changeToken;
-
-  UpdateRegexMatchSetResponse({
-    this.changeToken,
-  });
-
-  factory UpdateRegexMatchSetResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateRegexMatchSetResponse(
-      changeToken: json['ChangeToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final changeToken = this.changeToken;
-    return {
-      if (changeToken != null) 'ChangeToken': changeToken,
-    };
-  }
-}
-
-class UpdateRegexPatternSetResponse {
-  /// The <code>ChangeToken</code> that you used to submit the
-  /// <code>UpdateRegexPatternSet</code> request. You can also use this value to
-  /// query the status of the request. For more information, see
-  /// <a>GetChangeTokenStatus</a>.
-  final String? changeToken;
-
-  UpdateRegexPatternSetResponse({
-    this.changeToken,
-  });
-
-  factory UpdateRegexPatternSetResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateRegexPatternSetResponse(
-      changeToken: json['ChangeToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final changeToken = this.changeToken;
-    return {
-      if (changeToken != null) 'ChangeToken': changeToken,
-    };
-  }
-}
-
-class UpdateRuleGroupResponse {
-  /// The <code>ChangeToken</code> that you used to submit the
-  /// <code>UpdateRuleGroup</code> request. You can also use this value to query
-  /// the status of the request. For more information, see
-  /// <a>GetChangeTokenStatus</a>.
-  final String? changeToken;
-
-  UpdateRuleGroupResponse({
-    this.changeToken,
-  });
-
-  factory UpdateRuleGroupResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateRuleGroupResponse(
-      changeToken: json['ChangeToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final changeToken = this.changeToken;
-    return {
-      if (changeToken != null) 'ChangeToken': changeToken,
-    };
-  }
-}
-
-class UpdateRuleResponse {
-  /// The <code>ChangeToken</code> that you used to submit the
-  /// <code>UpdateRule</code> request. You can also use this value to query the
-  /// status of the request. For more information, see
-  /// <a>GetChangeTokenStatus</a>.
-  final String? changeToken;
-
-  UpdateRuleResponse({
-    this.changeToken,
-  });
-
-  factory UpdateRuleResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateRuleResponse(
-      changeToken: json['ChangeToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final changeToken = this.changeToken;
-    return {
-      if (changeToken != null) 'ChangeToken': changeToken,
-    };
-  }
-}
-
-class UpdateSizeConstraintSetResponse {
-  /// The <code>ChangeToken</code> that you used to submit the
-  /// <code>UpdateSizeConstraintSet</code> request. You can also use this value to
-  /// query the status of the request. For more information, see
-  /// <a>GetChangeTokenStatus</a>.
-  final String? changeToken;
-
-  UpdateSizeConstraintSetResponse({
-    this.changeToken,
-  });
-
-  factory UpdateSizeConstraintSetResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateSizeConstraintSetResponse(
-      changeToken: json['ChangeToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final changeToken = this.changeToken;
-    return {
-      if (changeToken != null) 'ChangeToken': changeToken,
-    };
-  }
-}
-
-/// The response to an <a>UpdateSqlInjectionMatchSets</a> request.
-class UpdateSqlInjectionMatchSetResponse {
-  /// The <code>ChangeToken</code> that you used to submit the
-  /// <code>UpdateSqlInjectionMatchSet</code> request. You can also use this value
-  /// to query the status of the request. For more information, see
-  /// <a>GetChangeTokenStatus</a>.
-  final String? changeToken;
-
-  UpdateSqlInjectionMatchSetResponse({
-    this.changeToken,
-  });
-
-  factory UpdateSqlInjectionMatchSetResponse.fromJson(
-      Map<String, dynamic> json) {
-    return UpdateSqlInjectionMatchSetResponse(
-      changeToken: json['ChangeToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final changeToken = this.changeToken;
-    return {
-      if (changeToken != null) 'ChangeToken': changeToken,
-    };
-  }
-}
-
-class UpdateWebACLResponse {
-  /// The <code>ChangeToken</code> that you used to submit the
-  /// <code>UpdateWebACL</code> request. You can also use this value to query the
-  /// status of the request. For more information, see
-  /// <a>GetChangeTokenStatus</a>.
-  final String? changeToken;
-
-  UpdateWebACLResponse({
-    this.changeToken,
-  });
-
-  factory UpdateWebACLResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateWebACLResponse(
-      changeToken: json['ChangeToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final changeToken = this.changeToken;
-    return {
-      if (changeToken != null) 'ChangeToken': changeToken,
-    };
-  }
-}
-
-/// The response to an <a>UpdateXssMatchSets</a> request.
-class UpdateXssMatchSetResponse {
-  /// The <code>ChangeToken</code> that you used to submit the
-  /// <code>UpdateXssMatchSet</code> request. You can also use this value to query
-  /// the status of the request. For more information, see
-  /// <a>GetChangeTokenStatus</a>.
-  final String? changeToken;
-
-  UpdateXssMatchSetResponse({
-    this.changeToken,
-  });
-
-  factory UpdateXssMatchSetResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateXssMatchSetResponse(
-      changeToken: json['ChangeToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final changeToken = this.changeToken;
-    return {
-      if (changeToken != null) 'ChangeToken': changeToken,
-    };
-  }
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// For the action that is associated with a rule in a <code>WebACL</code>,
-/// specifies the action that you want AWS WAF to perform when a web request
-/// matches all of the conditions in a rule. For the default action in a
-/// <code>WebACL</code>, specifies the action that you want AWS WAF to take when
-/// a web request doesn't match all of the conditions in any of the rules in a
-/// <code>WebACL</code>.
-class WafAction {
-  /// Specifies how you want AWS WAF to respond to requests that match the
-  /// settings in a <code>Rule</code>. Valid settings include the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ALLOW</code>: AWS WAF allows requests
-  /// </li>
-  /// <li>
-  /// <code>BLOCK</code>: AWS WAF blocks requests
-  /// </li>
-  /// <li>
-  /// <code>COUNT</code>: AWS WAF increments a counter of the requests that match
-  /// all of the conditions in the rule. AWS WAF then continues to inspect the web
-  /// request based on the remaining rules in the web ACL. You can't specify
-  /// <code>COUNT</code> for the default action for a <code>WebACL</code>.
-  /// </li>
-  /// </ul>
-  final WafActionType type;
-
-  WafAction({
-    required this.type,
-  });
-
-  factory WafAction.fromJson(Map<String, dynamic> json) {
-    return WafAction(
-      type: WafActionType.fromString((json['Type'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final type = this.type;
-    return {
-      'Type': type.value,
-    };
-  }
-}
-
-class WafActionType {
-  static const block = WafActionType._('BLOCK');
-  static const allow = WafActionType._('ALLOW');
-  static const count = WafActionType._('COUNT');
-
-  final String value;
-
-  const WafActionType._(this.value);
-
-  static const values = [block, allow, count];
-
-  static WafActionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => WafActionType._(value));
-
-  @override
-  bool operator ==(other) => other is WafActionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// The action to take if any rule within the <code>RuleGroup</code> matches a
-/// request.
-class WafOverrideAction {
-  /// <code>COUNT</code> overrides the action specified by the individual rule
-  /// within a <code>RuleGroup</code> . If set to <code>NONE</code>, the rule's
-  /// action will take place.
-  final WafOverrideActionType type;
-
-  WafOverrideAction({
-    required this.type,
-  });
-
-  factory WafOverrideAction.fromJson(Map<String, dynamic> json) {
-    return WafOverrideAction(
-      type: WafOverrideActionType.fromString((json['Type'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final type = this.type;
-    return {
-      'Type': type.value,
-    };
-  }
-}
-
-class WafOverrideActionType {
-  static const none = WafOverrideActionType._('NONE');
-  static const count = WafOverrideActionType._('COUNT');
-
-  final String value;
-
-  const WafOverrideActionType._(this.value);
-
-  static const values = [none, count];
-
-  static WafOverrideActionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => WafOverrideActionType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is WafOverrideActionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class WafRuleType {
-  static const regular = WafRuleType._('REGULAR');
-  static const rateBased = WafRuleType._('RATE_BASED');
-  static const group = WafRuleType._('GROUP');
-
-  final String value;
-
-  const WafRuleType._(this.value);
-
-  static const values = [regular, rateBased, group];
-
-  static WafRuleType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => WafRuleType._(value));
-
-  @override
-  bool operator ==(other) => other is WafRuleType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// Contains the <code>Rules</code> that identify the requests that you want to
-/// allow, block, or count. In a <code>WebACL</code>, you also specify a default
-/// action (<code>ALLOW</code> or <code>BLOCK</code>), and the action for each
-/// <code>Rule</code> that you add to a <code>WebACL</code>, for example, block
-/// requests from specified IP addresses or block requests from specified
-/// referrers. You also associate the <code>WebACL</code> with a CloudFront
-/// distribution to identify the requests that you want AWS WAF to filter. If
-/// you add more than one <code>Rule</code> to a <code>WebACL</code>, a request
-/// needs to match only one of the specifications to be allowed, blocked, or
-/// counted. For more information, see <a>UpdateWebACL</a>.
-class WebACL {
-  /// The action to perform if none of the <code>Rules</code> contained in the
-  /// <code>WebACL</code> match. The action is specified by the <a>WafAction</a>
-  /// object.
-  final WafAction defaultAction;
-
-  /// An array that contains the action for each <code>Rule</code> in a
-  /// <code>WebACL</code>, the priority of the <code>Rule</code>, and the ID of
-  /// the <code>Rule</code>.
-  final List<ActivatedRule> rules;
-
-  /// A unique identifier for a <code>WebACL</code>. You use <code>WebACLId</code>
-  /// to get information about a <code>WebACL</code> (see <a>GetWebACL</a>),
-  /// update a <code>WebACL</code> (see <a>UpdateWebACL</a>), and delete a
-  /// <code>WebACL</code> from AWS WAF (see <a>DeleteWebACL</a>).
-  ///
-  /// <code>WebACLId</code> is returned by <a>CreateWebACL</a> and by
-  /// <a>ListWebACLs</a>.
-  final String webACLId;
-
-  /// A friendly name or description for the metrics for this <code>WebACL</code>.
-  /// The name can contain only alphanumeric characters (A-Z, a-z, 0-9), with
-  /// maximum length 128 and minimum length one. It can't contain whitespace or
-  /// metric names reserved for AWS WAF, including "All" and "Default_Action." You
-  /// can't change <code>MetricName</code> after you create the
-  /// <code>WebACL</code>.
-  final String? metricName;
-
-  /// A friendly name or description of the <code>WebACL</code>. You can't change
-  /// the name of a <code>WebACL</code> after you create it.
-  final String? name;
-
-  /// Tha Amazon Resource Name (ARN) of the web ACL.
-  final String? webACLArn;
-
-  WebACL({
-    required this.defaultAction,
-    required this.rules,
-    required this.webACLId,
-    this.metricName,
-    this.name,
-    this.webACLArn,
-  });
-
-  factory WebACL.fromJson(Map<String, dynamic> json) {
-    return WebACL(
-      defaultAction: WafAction.fromJson(
-          (json['DefaultAction'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      rules: ((json['Rules'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => ActivatedRule.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      webACLId: (json['WebACLId'] as String?) ?? '',
-      metricName: json['MetricName'] as String?,
-      name: json['Name'] as String?,
-      webACLArn: json['WebACLArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final defaultAction = this.defaultAction;
-    final rules = this.rules;
-    final webACLId = this.webACLId;
-    final metricName = this.metricName;
-    final name = this.name;
-    final webACLArn = this.webACLArn;
-    return {
-      'DefaultAction': defaultAction,
-      'Rules': rules,
-      'WebACLId': webACLId,
-      if (metricName != null) 'MetricName': metricName,
-      if (name != null) 'Name': name,
-      if (webACLArn != null) 'WebACLArn': webACLArn,
-    };
-  }
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// Contains the identifier and the name or description of the <a>WebACL</a>.
-class WebACLSummary {
-  /// A friendly name or description of the <a>WebACL</a>. You can't change the
-  /// name of a <code>WebACL</code> after you create it.
-  final String name;
-
-  /// A unique identifier for a <code>WebACL</code>. You use <code>WebACLId</code>
-  /// to get information about a <code>WebACL</code> (see <a>GetWebACL</a>),
-  /// update a <code>WebACL</code> (see <a>UpdateWebACL</a>), and delete a
-  /// <code>WebACL</code> from AWS WAF (see <a>DeleteWebACL</a>).
-  ///
-  /// <code>WebACLId</code> is returned by <a>CreateWebACL</a> and by
-  /// <a>ListWebACLs</a>.
-  final String webACLId;
-
-  WebACLSummary({
-    required this.name,
-    required this.webACLId,
-  });
-
-  factory WebACLSummary.fromJson(Map<String, dynamic> json) {
-    return WebACLSummary(
-      name: (json['Name'] as String?) ?? '',
-      webACLId: (json['WebACLId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final webACLId = this.webACLId;
-    return {
-      'Name': name,
-      'WebACLId': webACLId,
-    };
-  }
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// Specifies whether to insert a <code>Rule</code> into or delete a
-/// <code>Rule</code> from a <code>WebACL</code>.
-class WebACLUpdate {
-  /// Specifies whether to insert a <code>Rule</code> into or delete a
-  /// <code>Rule</code> from a <code>WebACL</code>.
-  final ChangeAction action;
-
-  /// The <code>ActivatedRule</code> object in an <a>UpdateWebACL</a> request
-  /// specifies a <code>Rule</code> that you want to insert or delete, the
-  /// priority of the <code>Rule</code> in the <code>WebACL</code>, and the action
-  /// that you want AWS WAF to take when a web request matches the
-  /// <code>Rule</code> (<code>ALLOW</code>, <code>BLOCK</code>, or
-  /// <code>COUNT</code>).
-  final ActivatedRule activatedRule;
-
-  WebACLUpdate({
-    required this.action,
-    required this.activatedRule,
-  });
-
-  Map<String, dynamic> toJson() {
-    final action = this.action;
-    final activatedRule = this.activatedRule;
-    return {
-      'Action': action.value,
-      'ActivatedRule': activatedRule,
-    };
-  }
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// A complex type that contains <code>XssMatchTuple</code> objects, which
-/// specify the parts of web requests that you want AWS WAF to inspect for
-/// cross-site scripting attacks and, if you want AWS WAF to inspect a header,
-/// the name of the header. If a <code>XssMatchSet</code> contains more than one
-/// <code>XssMatchTuple</code> object, a request needs to include cross-site
-/// scripting attacks in only one of the specified parts of the request to be
-/// considered a match.
-class XssMatchSet {
-  /// A unique identifier for an <code>XssMatchSet</code>. You use
-  /// <code>XssMatchSetId</code> to get information about an
-  /// <code>XssMatchSet</code> (see <a>GetXssMatchSet</a>), update an
-  /// <code>XssMatchSet</code> (see <a>UpdateXssMatchSet</a>), insert an
-  /// <code>XssMatchSet</code> into a <code>Rule</code> or delete one from a
-  /// <code>Rule</code> (see <a>UpdateRule</a>), and delete an
-  /// <code>XssMatchSet</code> from AWS WAF (see <a>DeleteXssMatchSet</a>).
-  ///
-  /// <code>XssMatchSetId</code> is returned by <a>CreateXssMatchSet</a> and by
-  /// <a>ListXssMatchSets</a>.
-  final String xssMatchSetId;
-
-  /// Specifies the parts of web requests that you want to inspect for cross-site
-  /// scripting attacks.
-  final List<XssMatchTuple> xssMatchTuples;
-
-  /// The name, if any, of the <code>XssMatchSet</code>.
-  final String? name;
-
-  XssMatchSet({
-    required this.xssMatchSetId,
-    required this.xssMatchTuples,
-    this.name,
-  });
-
-  factory XssMatchSet.fromJson(Map<String, dynamic> json) {
-    return XssMatchSet(
-      xssMatchSetId: (json['XssMatchSetId'] as String?) ?? '',
-      xssMatchTuples: ((json['XssMatchTuples'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => XssMatchTuple.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final xssMatchSetId = this.xssMatchSetId;
-    final xssMatchTuples = this.xssMatchTuples;
-    final name = this.name;
-    return {
-      'XssMatchSetId': xssMatchSetId,
-      'XssMatchTuples': xssMatchTuples,
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// The <code>Id</code> and <code>Name</code> of an <code>XssMatchSet</code>.
-class XssMatchSetSummary {
-  /// The name of the <code>XssMatchSet</code>, if any, specified by
-  /// <code>Id</code>.
-  final String name;
-
-  /// A unique identifier for an <code>XssMatchSet</code>. You use
-  /// <code>XssMatchSetId</code> to get information about a
-  /// <code>XssMatchSet</code> (see <a>GetXssMatchSet</a>), update an
-  /// <code>XssMatchSet</code> (see <a>UpdateXssMatchSet</a>), insert an
-  /// <code>XssMatchSet</code> into a <code>Rule</code> or delete one from a
-  /// <code>Rule</code> (see <a>UpdateRule</a>), and delete an
-  /// <code>XssMatchSet</code> from AWS WAF (see <a>DeleteXssMatchSet</a>).
-  ///
-  /// <code>XssMatchSetId</code> is returned by <a>CreateXssMatchSet</a> and by
-  /// <a>ListXssMatchSets</a>.
-  final String xssMatchSetId;
-
-  XssMatchSetSummary({
-    required this.name,
-    required this.xssMatchSetId,
-  });
-
-  factory XssMatchSetSummary.fromJson(Map<String, dynamic> json) {
-    return XssMatchSetSummary(
-      name: (json['Name'] as String?) ?? '',
-      xssMatchSetId: (json['XssMatchSetId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final xssMatchSetId = this.xssMatchSetId;
-    return {
-      'Name': name,
-      'XssMatchSetId': xssMatchSetId,
-    };
-  }
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// Specifies the part of a web request that you want to inspect for cross-site
-/// scripting attacks and indicates whether you want to add the specification to
-/// an <a>XssMatchSet</a> or delete it from an <code>XssMatchSet</code>.
-class XssMatchSetUpdate {
-  /// Specify <code>INSERT</code> to add an <a>XssMatchSetUpdate</a> to an
-  /// <a>XssMatchSet</a>. Use <code>DELETE</code> to remove an
-  /// <code>XssMatchSetUpdate</code> from an <code>XssMatchSet</code>.
-  final ChangeAction action;
-
-  /// Specifies the part of a web request that you want AWS WAF to inspect for
-  /// cross-site scripting attacks and, if you want AWS WAF to inspect a header,
-  /// the name of the header.
-  final XssMatchTuple xssMatchTuple;
-
-  XssMatchSetUpdate({
-    required this.action,
-    required this.xssMatchTuple,
-  });
-
-  Map<String, dynamic> toJson() {
-    final action = this.action;
-    final xssMatchTuple = this.xssMatchTuple;
-    return {
-      'Action': action.value,
-      'XssMatchTuple': xssMatchTuple,
-    };
-  }
-}
-
-/// <note>
-/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
-/// WAF Classic</a> in the developer guide.
-///
-/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
-/// <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
-/// of endpoints for regional and global use.
-/// </note>
-/// Specifies the part of a web request that you want AWS WAF to inspect for
-/// cross-site scripting attacks and, if you want AWS WAF to inspect a header,
-/// the name of the header.
-class XssMatchTuple {
-  /// Specifies where in a web request to look for cross-site scripting attacks.
-  final FieldToMatch fieldToMatch;
-
-  /// Text transformations eliminate some of the unusual formatting that attackers
-  /// use in web requests in an effort to bypass AWS WAF. If you specify a
-  /// transformation, AWS WAF performs the transformation on
-  /// <code>FieldToMatch</code> before inspecting it for a match.
-  ///
-  /// You can only specify a single type of TextTransformation.
-  ///
-  /// <b>CMD_LINE</b>
-  ///
-  /// When you're concerned that attackers are injecting an operating system
-  /// command line command and using unusual formatting to disguise some or all of
-  /// the command, use this option to perform the following transformations:
-  ///
-  /// <ul>
-  /// <li>
-  /// Delete the following characters: \ " ' ^
-  /// </li>
-  /// <li>
-  /// Delete spaces before the following characters: / (
-  /// </li>
-  /// <li>
-  /// Replace the following characters with a space: , ;
-  /// </li>
-  /// <li>
-  /// Replace multiple spaces with one space
-  /// </li>
-  /// <li>
-  /// Convert uppercase letters (A-Z) to lowercase (a-z)
-  /// </li>
-  /// </ul>
-  /// <b>COMPRESS_WHITE_SPACE</b>
-  ///
-  /// Use this option to replace the following characters with a space character
-  /// (decimal 32):
-  ///
-  /// <ul>
-  /// <li>
-  /// \f, formfeed, decimal 12
-  /// </li>
-  /// <li>
-  /// \t, tab, decimal 9
-  /// </li>
-  /// <li>
-  /// \n, newline, decimal 10
-  /// </li>
-  /// <li>
-  /// \r, carriage return, decimal 13
-  /// </li>
-  /// <li>
-  /// \v, vertical tab, decimal 11
-  /// </li>
-  /// <li>
-  /// non-breaking space, decimal 160
-  /// </li>
-  /// </ul>
-  /// <code>COMPRESS_WHITE_SPACE</code> also replaces multiple spaces with one
-  /// space.
-  ///
-  /// <b>HTML_ENTITY_DECODE</b>
-  ///
-  /// Use this option to replace HTML-encoded characters with unencoded
-  /// characters. <code>HTML_ENTITY_DECODE</code> performs the following
-  /// operations:
-  ///
-  /// <ul>
-  /// <li>
-  /// Replaces <code>(ampersand)quot;</code> with <code>"</code>
-  /// </li>
-  /// <li>
-  /// Replaces <code>(ampersand)nbsp;</code> with a non-breaking space, decimal
-  /// 160
-  /// </li>
-  /// <li>
-  /// Replaces <code>(ampersand)lt;</code> with a "less than" symbol
-  /// </li>
-  /// <li>
-  /// Replaces <code>(ampersand)gt;</code> with <code>&gt;</code>
-  /// </li>
-  /// <li>
-  /// Replaces characters that are represented in hexadecimal format,
-  /// <code>(ampersand)#xhhhh;</code>, with the corresponding characters
-  /// </li>
-  /// <li>
-  /// Replaces characters that are represented in decimal format,
-  /// <code>(ampersand)#nnnn;</code>, with the corresponding characters
-  /// </li>
-  /// </ul>
-  /// <b>LOWERCASE</b>
-  ///
-  /// Use this option to convert uppercase letters (A-Z) to lowercase (a-z).
-  ///
-  /// <b>URL_DECODE</b>
-  ///
-  /// Use this option to decode a URL-encoded value.
-  ///
-  /// <b>NONE</b>
-  ///
-  /// Specify <code>NONE</code> if you don't want to perform any text
-  /// transformations.
-  final TextTransformation textTransformation;
-
-  XssMatchTuple({
-    required this.fieldToMatch,
-    required this.textTransformation,
-  });
-
-  factory XssMatchTuple.fromJson(Map<String, dynamic> json) {
-    return XssMatchTuple(
-      fieldToMatch: FieldToMatch.fromJson(
-          (json['FieldToMatch'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      textTransformation: TextTransformation.fromString(
-          (json['TextTransformation'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final fieldToMatch = this.fieldToMatch;
-    final textTransformation = this.textTransformation;
-    return {
-      'FieldToMatch': fieldToMatch,
-      'TextTransformation': textTransformation.value,
     };
   }
 }

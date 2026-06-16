@@ -58,7 +58,6 @@ class Chatbot {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'chatbot',
-            signingName: 'chatbot',
           ),
           region: region,
           credentials: credentials,
@@ -75,13 +74,41 @@ class Chatbot {
     _protocol.close();
   }
 
+  /// Links a resource (for example, a custom action) to a channel
+  /// configuration.
+  ///
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [chatConfiguration] :
+  /// The channel configuration to associate with the resource.
+  ///
+  /// Parameter [resource] :
+  /// The resource Amazon Resource Name (ARN) to link.
+  Future<void> associateToConfiguration({
+    required String chatConfiguration,
+    required String resource,
+  }) async {
+    final $payload = <String, dynamic>{
+      'ChatConfiguration': chatConfiguration,
+      'Resource': resource,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/associate-to-configuration',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Creates an AWS Chatbot configuration for Amazon Chime.
   ///
+  /// May throw [ConflictException].
+  /// May throw [CreateChimeWebhookConfigurationException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
-  /// May throw [ConflictException].
   /// May throw [LimitExceededException].
-  /// May throw [CreateChimeWebhookConfigurationException].
   ///
   /// Parameter [configurationName] :
   /// The name of the configuration.
@@ -148,11 +175,11 @@ class Chatbot {
 
   /// Creates an AWS Chatbot configuration for Microsoft Teams.
   ///
+  /// May throw [ConflictException].
+  /// May throw [CreateTeamsChannelConfigurationException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
-  /// May throw [ConflictException].
   /// May throw [LimitExceededException].
-  /// May throw [CreateTeamsChannelConfigurationException].
   ///
   /// Parameter [channelId] :
   /// The ID of the Microsoft Teams channel.
@@ -249,11 +276,11 @@ class Chatbot {
 
   /// Creates an AWS Chatbot confugration for Slack.
   ///
+  /// May throw [ConflictException].
+  /// May throw [CreateSlackChannelConfigurationException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
-  /// May throw [ConflictException].
   /// May throw [LimitExceededException].
-  /// May throw [CreateSlackChannelConfigurationException].
   ///
   /// Parameter [configurationName] :
   /// The name of the configuration.
@@ -337,10 +364,10 @@ class Chatbot {
 
   /// Deletes a Amazon Chime webhook configuration for AWS Chatbot.
   ///
+  /// May throw [DeleteChimeWebhookConfigurationException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [DeleteChimeWebhookConfigurationException].
   ///
   /// Parameter [chatConfigurationArn] :
   /// The Amazon Resource Name (ARN) of the ChimeWebhookConfiguration to delete.
@@ -360,10 +387,10 @@ class Chatbot {
 
   /// Deletes a Microsoft Teams channel configuration for AWS Chatbot
   ///
+  /// May throw [DeleteTeamsChannelConfigurationException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [DeleteTeamsChannelConfigurationException].
   ///
   /// Parameter [chatConfigurationArn] :
   /// The Amazon Resource Name (ARN) of the MicrosoftTeamsChannelConfiguration
@@ -386,8 +413,8 @@ class Chatbot {
   /// configured in that Microsoft Teams team. Note that the Microsoft Teams
   /// team must have no channels configured to remove it.
   ///
-  /// May throw [InvalidParameterException].
   /// May throw [DeleteTeamsConfiguredTeamException].
+  /// May throw [InvalidParameterException].
   ///
   /// Parameter [teamId] :
   /// The ID of the Microsoft Teams team authorized with AWS Chatbot.
@@ -414,9 +441,9 @@ class Chatbot {
 
   /// Identifes a user level permission for a channel configuration.
   ///
+  /// May throw [DeleteMicrosoftTeamsUserIdentityException].
   /// May throw [InvalidParameterException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [DeleteMicrosoftTeamsUserIdentityException].
   ///
   /// Parameter [chatConfigurationArn] :
   /// The ARN of the MicrosoftTeamsChannelConfiguration associated with the user
@@ -442,9 +469,9 @@ class Chatbot {
 
   /// Deletes a Slack channel configuration for AWS Chatbot
   ///
+  /// May throw [DeleteSlackChannelConfigurationException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
-  /// May throw [DeleteSlackChannelConfigurationException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [chatConfigurationArn] :
@@ -465,8 +492,8 @@ class Chatbot {
 
   /// Deletes a user level permission for a Slack channel configuration.
   ///
-  /// May throw [InvalidParameterException].
   /// May throw [DeleteSlackUserIdentityException].
+  /// May throw [InvalidParameterException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [chatConfigurationArn] :
@@ -500,8 +527,8 @@ class Chatbot {
   /// configured in that workspace. This requires all configured channels in the
   /// workspace to be deleted.
   ///
-  /// May throw [InvalidParameterException].
   /// May throw [DeleteSlackWorkspaceAuthorizationFault].
+  /// May throw [InvalidParameterException].
   ///
   /// Parameter [slackTeamId] :
   /// The ID of the Slack workspace authorized with AWS Chatbot.
@@ -522,12 +549,12 @@ class Chatbot {
   /// Lists Amazon Chime webhook configurations optionally filtered by
   /// ChatConfigurationArn
   ///
+  /// May throw [DescribeChimeWebhookConfigurationsException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
-  /// May throw [DescribeChimeWebhookConfigurationsException].
   ///
   /// Parameter [chatConfigurationArn] :
-  /// An optional Amazon Resource Number (ARN) of a ChimeWebhookConfiguration to
+  /// An optional Amazon Resource Name (ARN) of a ChimeWebhookConfiguration to
   /// describe.
   ///
   /// Parameter [maxResults] :
@@ -570,12 +597,12 @@ class Chatbot {
   /// Lists Slack channel configurations optionally filtered by
   /// ChatConfigurationArn
   ///
+  /// May throw [DescribeSlackChannelConfigurationsException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
-  /// May throw [DescribeSlackChannelConfigurationsException].
   ///
   /// Parameter [chatConfigurationArn] :
-  /// An optional Amazon Resource Number (ARN) of a SlackChannelConfiguration to
+  /// An optional Amazon Resource Name (ARN) of a SlackChannelConfiguration to
   /// describe.
   ///
   /// Parameter [maxResults] :
@@ -617,13 +644,13 @@ class Chatbot {
 
   /// Lists all Slack user identities with a mapped role.
   ///
+  /// May throw [DescribeSlackUserIdentitiesException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
-  /// May throw [DescribeSlackUserIdentitiesException].
   ///
   /// Parameter [chatConfigurationArn] :
-  /// The Amazon Resource Number (ARN) of the SlackChannelConfiguration
-  /// associated with the user identities to describe.
+  /// The Amazon Resource Name (ARN) of the SlackChannelConfiguration associated
+  /// with the user identities to describe.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to include in the response. If more results
@@ -664,8 +691,8 @@ class Chatbot {
   /// List all authorized Slack workspaces connected to the AWS Account
   /// onboarded with AWS Chatbot.
   ///
-  /// May throw [InvalidParameterException].
   /// May throw [DescribeSlackWorkspacesException].
+  /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
   ///
   /// Parameter [maxResults] :
@@ -701,10 +728,39 @@ class Chatbot {
     return DescribeSlackWorkspacesResult.fromJson(response);
   }
 
+  /// Unlink a resource, for example a custom action, from a channel
+  /// configuration.
+  ///
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [chatConfiguration] :
+  /// The channel configuration the resource is being disassociated from.
+  ///
+  /// Parameter [resource] :
+  /// The resource (for example, a custom action) Amazon Resource Name (ARN) to
+  /// unlink.
+  Future<void> disassociateFromConfiguration({
+    required String chatConfiguration,
+    required String resource,
+  }) async {
+    final $payload = <String, dynamic>{
+      'ChatConfiguration': chatConfiguration,
+      'Resource': resource,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/disassociate-from-configuration',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Returns AWS Chatbot account preferences.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [GetAccountPreferencesException].
+  /// May throw [InvalidRequestException].
   Future<GetAccountPreferencesResult> getAccountPreferences() async {
     final response = await _protocol.send(
       payload: null,
@@ -717,12 +773,12 @@ class Chatbot {
 
   /// Returns a Microsoft Teams channel configuration in an AWS account.
   ///
+  /// May throw [GetTeamsChannelConfigurationException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
-  /// May throw [GetTeamsChannelConfigurationException].
   ///
   /// Parameter [chatConfigurationArn] :
-  /// The Amazon Resource Number (ARN) of the MicrosoftTeamsChannelConfiguration
+  /// The Amazon Resource Name (ARN) of the MicrosoftTeamsChannelConfiguration
   /// to retrieve.
   Future<GetTeamsChannelConfigurationResult>
       getMicrosoftTeamsChannelConfiguration({
@@ -740,12 +796,46 @@ class Chatbot {
     return GetTeamsChannelConfigurationResult.fromJson(response);
   }
 
+  /// Lists resources associated with a channel configuration.
+  ///
+  /// Parameter [chatConfiguration] :
+  /// The channel configuration to list associations for.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to include in the response. If more results
+  /// exist than the specified MaxResults value, a token is included in the
+  /// response so that the remaining results can be retrieved.
+  ///
+  /// Parameter [nextToken] :
+  /// An optional token returned from a prior request. Use this token for
+  /// pagination of results from this action. If this parameter is specified,
+  /// the response includes only results beyond the token, up to the value
+  /// specified by MaxResults.
+  Future<ListAssociationsResult> listAssociations({
+    required String chatConfiguration,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      'ChatConfiguration': chatConfiguration,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/list-associations',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListAssociationsResult.fromJson(response);
+  }
+
   /// Lists all AWS Chatbot Microsoft Teams channel configurations in an AWS
   /// account.
   ///
   /// May throw [InvalidParameterException].
-  /// May throw [ListTeamsChannelConfigurationsException].
   /// May throw [InvalidRequestException].
+  /// May throw [ListTeamsChannelConfigurationsException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to include in the response. If more results
@@ -840,7 +930,7 @@ class Chatbot {
   /// May throw [ListMicrosoftTeamsUserIdentitiesException].
   ///
   /// Parameter [chatConfigurationArn] :
-  /// The Amazon Resource Number (ARN) of the MicrosoftTeamsChannelConfiguration
+  /// The Amazon Resource Name (ARN) of the MicrosoftTeamsChannelConfiguration
   /// associated with the user identities to list.
   ///
   /// Parameter [maxResults] :
@@ -883,12 +973,12 @@ class Chatbot {
   /// Lists all of the tags associated with the Amazon Resource Name (ARN) that
   /// you specify. The resource can be a user, server, or role.
   ///
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServiceError].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [resourceARN] :
-  /// The ARN you specified to list the tags of.
+  /// The ARN of the resource to list tags for.
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceARN,
   }) async {
@@ -908,9 +998,9 @@ class Chatbot {
   /// Resource Name (ARN). Resources are users, servers, roles, and other
   /// entities.
   ///
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServiceError].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [TooManyTagsException].
   ///
   /// Parameter [resourceARN] :
@@ -938,9 +1028,9 @@ class Chatbot {
   /// Resource Name (ARN). Resources are users, servers, roles, and other
   /// entities.
   ///
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServiceError].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [resourceARN] :
   /// The value of the resource that will have the tag removed. An Amazon
@@ -1011,12 +1101,11 @@ class Chatbot {
   ///
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
-  /// May throw [UpdateChimeWebhookConfigurationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [UpdateChimeWebhookConfigurationException].
   ///
   /// Parameter [chatConfigurationArn] :
-  /// The Amazon Resource Number (ARN) of the ChimeWebhookConfiguration to
-  /// update.
+  /// The Amazon Resource Name (ARN) of the ChimeWebhookConfiguration to update.
   ///
   /// Parameter [iamRoleArn] :
   /// A user-defined role that AWS Chatbot assumes. This is not the
@@ -1082,8 +1171,7 @@ class Chatbot {
   /// The ID of the Microsoft Teams channel.
   ///
   /// Parameter [chatConfigurationArn] :
-  /// The Amazon Resource Number (ARN) of the TeamsChannelConfiguration to
-  /// update.
+  /// The Amazon Resource Name (ARN) of the TeamsChannelConfiguration to update.
   ///
   /// Parameter [channelName] :
   /// The name of the Microsoft Teams channel.
@@ -1152,8 +1240,7 @@ class Chatbot {
   /// May throw [UpdateSlackChannelConfigurationException].
   ///
   /// Parameter [chatConfigurationArn] :
-  /// The Amazon Resource Number (ARN) of the SlackChannelConfiguration to
-  /// update.
+  /// The Amazon Resource Name (ARN) of the SlackChannelConfiguration to update.
   ///
   /// Parameter [slackChannelId] :
   /// The ID of the Slack channel.
@@ -1220,177 +1307,202 @@ class Chatbot {
     );
     return UpdateSlackChannelConfigurationResult.fromJson(response);
   }
-}
 
-/// Preferences related to AWS Chatbot usage in the calling AWS account.
-class AccountPreferences {
-  /// Turns on training data collection.
+  /// Creates a custom action that can be invoked as an alias or as a button on
+  /// a notification.
   ///
-  /// This helps improve the AWS Chatbot experience by allowing AWS Chatbot to
-  /// store and use your customer information, such as AWS Chatbot configurations,
-  /// notifications, user inputs, AWS Chatbot generated responses, and interaction
-  /// data. This data helps us to continuously improve and develop Artificial
-  /// Intelligence (AI) technologies. Your data is not shared with any third
-  /// parties and is protected using sophisticated controls to prevent
-  /// unauthorized access and misuse. AWS Chatbot does not store or use
-  /// interactions in chat channels with Amazon Q for training AI technologies for
-  /// AWS Chatbot.
-  final bool? trainingDataCollectionEnabled;
-
-  /// Enables use of a user role requirement in your chat configuration.
-  final bool? userAuthorizationRequired;
-
-  AccountPreferences({
-    this.trainingDataCollectionEnabled,
-    this.userAuthorizationRequired,
-  });
-
-  factory AccountPreferences.fromJson(Map<String, dynamic> json) {
-    return AccountPreferences(
-      trainingDataCollectionEnabled:
-          json['TrainingDataCollectionEnabled'] as bool?,
-      userAuthorizationRequired: json['UserAuthorizationRequired'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final trainingDataCollectionEnabled = this.trainingDataCollectionEnabled;
-    final userAuthorizationRequired = this.userAuthorizationRequired;
-    return {
-      if (trainingDataCollectionEnabled != null)
-        'TrainingDataCollectionEnabled': trainingDataCollectionEnabled,
-      if (userAuthorizationRequired != null)
-        'UserAuthorizationRequired': userAuthorizationRequired,
-    };
-  }
-}
-
-/// An AWS Chatbot configuration for Amazon Chime.
-class ChimeWebhookConfiguration {
-  /// The Amazon Resource Number (ARN) of the ChimeWebhookConfiguration.
-  final String chatConfigurationArn;
-
-  /// A user-defined role that AWS Chatbot assumes. This is not the service-linked
-  /// role.
+  /// May throw [ConflictException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [UnauthorizedException].
   ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/chatbot/latest/adminguide/chatbot-iam-policies.html">IAM
-  /// policies for AWS Chatbot</a> in the <i> AWS Chatbot Administrator Guide</i>.
-  final String iamRoleArn;
-
-  /// The Amazon Resource Names (ARNs) of the SNS topics that deliver
-  /// notifications to AWS Chatbot.
-  final List<String> snsTopicArns;
-
-  /// A description of the webhook. We recommend using the convention
-  /// <code>RoomName/WebhookName</code>.
+  /// Parameter [actionName] :
+  /// The name of the custom action. This name is included in the Amazon
+  /// Resource Name (ARN).
   ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/chatbot/latest/adminguide/chime-setup.html">Tutorial:
-  /// Get started with Amazon Chime</a> in the <i> AWS Chatbot Administrator
-  /// Guide</i>.
-  final String webhookDescription;
-
-  /// The name of the configuration.
-  final String? configurationName;
-
-  /// Logging levels include <code>ERROR</code>, <code>INFO</code>, or
-  /// <code>NONE</code>.
-  final String? loggingLevel;
-
+  /// Parameter [definition] :
+  /// The definition of the command to run when invoked as an alias or as an
+  /// action button.
+  ///
+  /// Parameter [aliasName] :
+  /// The name used to invoke this action in a chat channel. For example,
+  /// <code>@aws run my-alias</code>.
+  ///
+  /// Parameter [attachments] :
+  /// Defines when this custom action button should be attached to a
+  /// notification.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request. Idempotency ensures that an API request
+  /// completes only once. With an idempotent request, if the original request
+  /// completes successfully, subsequent retries with the same client token
+  /// returns the result from the original successful request.
+  ///
+  /// If you do not specify a client token, one is automatically generated by
+  /// the SDK.
+  ///
+  /// Parameter [tags] :
   /// A map of tags assigned to a resource. A tag is a string-to-string map of
   /// key-value pairs.
-  final List<Tag>? tags;
+  Future<CreateCustomActionResult> createCustomAction({
+    required String actionName,
+    required CustomActionDefinition definition,
+    String? aliasName,
+    List<CustomActionAttachment>? attachments,
+    String? clientToken,
+    List<Tag>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'ActionName': actionName,
+      'Definition': definition,
+      if (aliasName != null) 'AliasName': aliasName,
+      if (attachments != null) 'Attachments': attachments,
+      'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/create-custom-action',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateCustomActionResult.fromJson(response);
+  }
 
-  ChimeWebhookConfiguration({
-    required this.chatConfigurationArn,
-    required this.iamRoleArn,
-    required this.snsTopicArns,
-    required this.webhookDescription,
-    this.configurationName,
-    this.loggingLevel,
-    this.tags,
-  });
+  /// Returns a custom action.
+  ///
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [customActionArn] :
+  /// Returns the fully defined Amazon Resource Name (ARN) of the custom action.
+  Future<GetCustomActionResult> getCustomAction({
+    required String customActionArn,
+  }) async {
+    final $payload = <String, dynamic>{
+      'CustomActionArn': customActionArn,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/get-custom-action',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetCustomActionResult.fromJson(response);
+  }
 
-  factory ChimeWebhookConfiguration.fromJson(Map<String, dynamic> json) {
-    return ChimeWebhookConfiguration(
-      chatConfigurationArn: (json['ChatConfigurationArn'] as String?) ?? '',
-      iamRoleArn: (json['IamRoleArn'] as String?) ?? '',
-      snsTopicArns: ((json['SnsTopicArns'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      webhookDescription: (json['WebhookDescription'] as String?) ?? '',
-      configurationName: json['ConfigurationName'] as String?,
-      loggingLevel: json['LoggingLevel'] as String?,
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  /// Updates a custom action.
+  ///
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [customActionArn] :
+  /// The fully defined Amazon Resource Name (ARN) of the custom action.
+  ///
+  /// Parameter [definition] :
+  /// The definition of the command to run when invoked as an alias or as an
+  /// action button.
+  ///
+  /// Parameter [aliasName] :
+  /// The name used to invoke this action in the chat channel. For example,
+  /// <code>@aws run my-alias</code>.
+  ///
+  /// Parameter [attachments] :
+  /// Defines when this custom action button should be attached to a
+  /// notification.
+  Future<UpdateCustomActionResult> updateCustomAction({
+    required String customActionArn,
+    required CustomActionDefinition definition,
+    String? aliasName,
+    List<CustomActionAttachment>? attachments,
+  }) async {
+    final $payload = <String, dynamic>{
+      'CustomActionArn': customActionArn,
+      'Definition': definition,
+      if (aliasName != null) 'AliasName': aliasName,
+      if (attachments != null) 'Attachments': attachments,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/update-custom-action',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateCustomActionResult.fromJson(response);
+  }
+
+  /// Deletes a custom action.
+  ///
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [customActionArn] :
+  /// The fully defined ARN of the custom action.
+  Future<void> deleteCustomAction({
+    required String customActionArn,
+  }) async {
+    final $payload = <String, dynamic>{
+      'CustomActionArn': customActionArn,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/delete-custom-action',
+      exceptionFnMap: _exceptionFns,
     );
   }
 
-  Map<String, dynamic> toJson() {
-    final chatConfigurationArn = this.chatConfigurationArn;
-    final iamRoleArn = this.iamRoleArn;
-    final snsTopicArns = this.snsTopicArns;
-    final webhookDescription = this.webhookDescription;
-    final configurationName = this.configurationName;
-    final loggingLevel = this.loggingLevel;
-    final tags = this.tags;
-    return {
-      'ChatConfigurationArn': chatConfigurationArn,
-      'IamRoleArn': iamRoleArn,
-      'SnsTopicArns': snsTopicArns,
-      'WebhookDescription': webhookDescription,
-      if (configurationName != null) 'ConfigurationName': configurationName,
-      if (loggingLevel != null) 'LoggingLevel': loggingLevel,
-      if (tags != null) 'Tags': tags,
+  /// Lists custom actions defined in this account.
+  ///
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to include in the response. If more results
+  /// exist than the specified MaxResults value, a token is included in the
+  /// response so that the remaining results can be retrieved.
+  ///
+  /// Parameter [nextToken] :
+  /// An optional token returned from a prior request. Use this token for
+  /// pagination of results from this action. If this parameter is specified,
+  /// the response includes only results beyond the token, up to the value
+  /// specified by MaxResults.
+  Future<ListCustomActionsResult> listCustomActions({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
     };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/list-custom-actions',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListCustomActionsResult.fromJson(response);
   }
 }
 
-/// A Microsoft Teams team that is authorized with AWS Chatbot.
-class ConfiguredTeam {
-  /// The ID of the Microsoft Teams authorized with AWS Chatbot.
-  ///
-  /// To get the team ID, you must perform the initial authorization flow with
-  /// Microsoft Teams in the AWS Chatbot console. Then you can copy and paste the
-  /// team ID from the console. For more information, see <a
-  /// href="https://docs.aws.amazon.com/chatbot/latest/adminguide/teams-setup.html#teams-client-setup">Step
-  /// 1: Configure a Microsoft Teams client</a> in the <i> AWS Chatbot
-  /// Administrator Guide</i>.
-  final String teamId;
+class AssociateToConfigurationResult {
+  AssociateToConfigurationResult();
 
-  /// The ID of the Microsoft Teams tenant.
-  final String tenantId;
-
-  /// The name of the Microsoft Teams Team.
-  final String? teamName;
-
-  ConfiguredTeam({
-    required this.teamId,
-    required this.tenantId,
-    this.teamName,
-  });
-
-  factory ConfiguredTeam.fromJson(Map<String, dynamic> json) {
-    return ConfiguredTeam(
-      teamId: (json['TeamId'] as String?) ?? '',
-      tenantId: (json['TenantId'] as String?) ?? '',
-      teamName: json['TeamName'] as String?,
-    );
+  factory AssociateToConfigurationResult.fromJson(Map<String, dynamic> _) {
+    return AssociateToConfigurationResult();
   }
 
   Map<String, dynamic> toJson() {
-    final teamId = this.teamId;
-    final tenantId = this.tenantId;
-    final teamName = this.teamName;
-    return {
-      'TeamId': teamId,
-      'TenantId': tenantId,
-      if (teamName != null) 'TeamName': teamName,
-    };
+    return {};
   }
 }
 
@@ -1417,33 +1529,6 @@ class CreateChimeWebhookConfigurationResult {
     return {
       if (webhookConfiguration != null)
         'WebhookConfiguration': webhookConfiguration,
-    };
-  }
-}
-
-class CreateSlackChannelConfigurationResult {
-  /// The configuration for a Slack channel configured with AWS Chatbot.
-  final SlackChannelConfiguration? channelConfiguration;
-
-  CreateSlackChannelConfigurationResult({
-    this.channelConfiguration,
-  });
-
-  factory CreateSlackChannelConfigurationResult.fromJson(
-      Map<String, dynamic> json) {
-    return CreateSlackChannelConfigurationResult(
-      channelConfiguration: json['ChannelConfiguration'] != null
-          ? SlackChannelConfiguration.fromJson(
-              json['ChannelConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final channelConfiguration = this.channelConfiguration;
-    return {
-      if (channelConfiguration != null)
-        'ChannelConfiguration': channelConfiguration,
     };
   }
 }
@@ -1475,12 +1560,64 @@ class CreateTeamsChannelConfigurationResult {
   }
 }
 
+class CreateSlackChannelConfigurationResult {
+  /// The configuration for a Slack channel configured with AWS Chatbot.
+  final SlackChannelConfiguration? channelConfiguration;
+
+  CreateSlackChannelConfigurationResult({
+    this.channelConfiguration,
+  });
+
+  factory CreateSlackChannelConfigurationResult.fromJson(
+      Map<String, dynamic> json) {
+    return CreateSlackChannelConfigurationResult(
+      channelConfiguration: json['ChannelConfiguration'] != null
+          ? SlackChannelConfiguration.fromJson(
+              json['ChannelConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelConfiguration = this.channelConfiguration;
+    return {
+      if (channelConfiguration != null)
+        'ChannelConfiguration': channelConfiguration,
+    };
+  }
+}
+
 class DeleteChimeWebhookConfigurationResult {
   DeleteChimeWebhookConfigurationResult();
 
   factory DeleteChimeWebhookConfigurationResult.fromJson(
       Map<String, dynamic> _) {
     return DeleteChimeWebhookConfigurationResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DeleteTeamsChannelConfigurationResult {
+  DeleteTeamsChannelConfigurationResult();
+
+  factory DeleteTeamsChannelConfigurationResult.fromJson(
+      Map<String, dynamic> _) {
+    return DeleteTeamsChannelConfigurationResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DeleteTeamsConfiguredTeamResult {
+  DeleteTeamsConfiguredTeamResult();
+
+  factory DeleteTeamsConfiguredTeamResult.fromJson(Map<String, dynamic> _) {
+    return DeleteTeamsConfiguredTeamResult();
   }
 
   Map<String, dynamic> toJson() {
@@ -1532,31 +1669,6 @@ class DeleteSlackWorkspaceAuthorizationResult {
   factory DeleteSlackWorkspaceAuthorizationResult.fromJson(
       Map<String, dynamic> _) {
     return DeleteSlackWorkspaceAuthorizationResult();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class DeleteTeamsChannelConfigurationResult {
-  DeleteTeamsChannelConfigurationResult();
-
-  factory DeleteTeamsChannelConfigurationResult.fromJson(
-      Map<String, dynamic> _) {
-    return DeleteTeamsChannelConfigurationResult();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class DeleteTeamsConfiguredTeamResult {
-  DeleteTeamsConfiguredTeamResult();
-
-  factory DeleteTeamsConfiguredTeamResult.fromJson(Map<String, dynamic> _) {
-    return DeleteTeamsConfiguredTeamResult();
   }
 
   Map<String, dynamic> toJson() {
@@ -1712,6 +1824,18 @@ class DescribeSlackWorkspacesResult {
   }
 }
 
+class DisassociateFromConfigurationResult {
+  DisassociateFromConfigurationResult();
+
+  factory DisassociateFromConfigurationResult.fromJson(Map<String, dynamic> _) {
+    return DisassociateFromConfigurationResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class GetAccountPreferencesResult {
   /// The preferences related to AWS Chatbot usage in the calling AWS account.
   final AccountPreferences? accountPreferences;
@@ -1760,6 +1884,79 @@ class GetTeamsChannelConfigurationResult {
     return {
       if (channelConfiguration != null)
         'ChannelConfiguration': channelConfiguration,
+    };
+  }
+}
+
+class ListAssociationsResult {
+  /// The resources associated with this channel configuration.
+  final List<AssociationListing> associations;
+
+  /// An optional token returned from a prior request. Use this token for
+  /// pagination of results from this action. If this parameter is specified, the
+  /// response includes only results beyond the token, up to the value specified
+  /// by MaxResults.
+  final String? nextToken;
+
+  ListAssociationsResult({
+    required this.associations,
+    this.nextToken,
+  });
+
+  factory ListAssociationsResult.fromJson(Map<String, dynamic> json) {
+    return ListAssociationsResult(
+      associations: ((json['Associations'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => AssociationListing.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associations = this.associations;
+    final nextToken = this.nextToken;
+    return {
+      'Associations': associations,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListTeamsChannelConfigurationsResult {
+  /// An optional token returned from a prior request. Use this token for
+  /// pagination of results from this action. If this parameter is specified, the
+  /// response includes only results beyond the token, up to the value specified
+  /// by MaxResults.
+  final String? nextToken;
+
+  /// A list of AWS Chatbot channel configurations for Microsoft Teams.
+  final List<TeamsChannelConfiguration>? teamChannelConfigurations;
+
+  ListTeamsChannelConfigurationsResult({
+    this.nextToken,
+    this.teamChannelConfigurations,
+  });
+
+  factory ListTeamsChannelConfigurationsResult.fromJson(
+      Map<String, dynamic> json) {
+    return ListTeamsChannelConfigurationsResult(
+      nextToken: json['NextToken'] as String?,
+      teamChannelConfigurations: (json['TeamChannelConfigurations'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              TeamsChannelConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final teamChannelConfigurations = this.teamChannelConfigurations;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (teamChannelConfigurations != null)
+        'TeamChannelConfigurations': teamChannelConfigurations,
     };
   }
 }
@@ -1863,252 +2060,447 @@ class ListTagsForResourceResponse {
   }
 }
 
-class ListTeamsChannelConfigurationsResult {
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateAccountPreferencesResult {
+  /// Preferences related to AWS Chatbot usage in the calling AWS account.
+  final AccountPreferences? accountPreferences;
+
+  UpdateAccountPreferencesResult({
+    this.accountPreferences,
+  });
+
+  factory UpdateAccountPreferencesResult.fromJson(Map<String, dynamic> json) {
+    return UpdateAccountPreferencesResult(
+      accountPreferences: json['AccountPreferences'] != null
+          ? AccountPreferences.fromJson(
+              json['AccountPreferences'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountPreferences = this.accountPreferences;
+    return {
+      if (accountPreferences != null) 'AccountPreferences': accountPreferences,
+    };
+  }
+}
+
+class UpdateChimeWebhookConfigurationResult {
+  /// A Amazon Chime webhook configuration.
+  final ChimeWebhookConfiguration? webhookConfiguration;
+
+  UpdateChimeWebhookConfigurationResult({
+    this.webhookConfiguration,
+  });
+
+  factory UpdateChimeWebhookConfigurationResult.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateChimeWebhookConfigurationResult(
+      webhookConfiguration: json['WebhookConfiguration'] != null
+          ? ChimeWebhookConfiguration.fromJson(
+              json['WebhookConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final webhookConfiguration = this.webhookConfiguration;
+    return {
+      if (webhookConfiguration != null)
+        'WebhookConfiguration': webhookConfiguration,
+    };
+  }
+}
+
+class UpdateTeamsChannelConfigurationResult {
+  /// The configuration for a Microsoft Teams channel configured with AWS Chatbot.
+  final TeamsChannelConfiguration? channelConfiguration;
+
+  UpdateTeamsChannelConfigurationResult({
+    this.channelConfiguration,
+  });
+
+  factory UpdateTeamsChannelConfigurationResult.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateTeamsChannelConfigurationResult(
+      channelConfiguration: json['ChannelConfiguration'] != null
+          ? TeamsChannelConfiguration.fromJson(
+              json['ChannelConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelConfiguration = this.channelConfiguration;
+    return {
+      if (channelConfiguration != null)
+        'ChannelConfiguration': channelConfiguration,
+    };
+  }
+}
+
+class UpdateSlackChannelConfigurationResult {
+  /// The configuration for a Slack channel configured with AWS Chatbot.
+  final SlackChannelConfiguration? channelConfiguration;
+
+  UpdateSlackChannelConfigurationResult({
+    this.channelConfiguration,
+  });
+
+  factory UpdateSlackChannelConfigurationResult.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateSlackChannelConfigurationResult(
+      channelConfiguration: json['ChannelConfiguration'] != null
+          ? SlackChannelConfiguration.fromJson(
+              json['ChannelConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelConfiguration = this.channelConfiguration;
+    return {
+      if (channelConfiguration != null)
+        'ChannelConfiguration': channelConfiguration,
+    };
+  }
+}
+
+class CreateCustomActionResult {
+  /// The fully defined ARN of the custom action.
+  final String customActionArn;
+
+  CreateCustomActionResult({
+    required this.customActionArn,
+  });
+
+  factory CreateCustomActionResult.fromJson(Map<String, dynamic> json) {
+    return CreateCustomActionResult(
+      customActionArn: (json['CustomActionArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customActionArn = this.customActionArn;
+    return {
+      'CustomActionArn': customActionArn,
+    };
+  }
+}
+
+class GetCustomActionResult {
+  /// Returns the custom action.
+  final CustomAction? customAction;
+
+  GetCustomActionResult({
+    this.customAction,
+  });
+
+  factory GetCustomActionResult.fromJson(Map<String, dynamic> json) {
+    return GetCustomActionResult(
+      customAction: json['CustomAction'] != null
+          ? CustomAction.fromJson(json['CustomAction'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customAction = this.customAction;
+    return {
+      if (customAction != null) 'CustomAction': customAction,
+    };
+  }
+}
+
+class UpdateCustomActionResult {
+  /// The fully defined ARN of the custom action.
+  final String customActionArn;
+
+  UpdateCustomActionResult({
+    required this.customActionArn,
+  });
+
+  factory UpdateCustomActionResult.fromJson(Map<String, dynamic> json) {
+    return UpdateCustomActionResult(
+      customActionArn: (json['CustomActionArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customActionArn = this.customActionArn;
+    return {
+      'CustomActionArn': customActionArn,
+    };
+  }
+}
+
+class DeleteCustomActionResult {
+  DeleteCustomActionResult();
+
+  factory DeleteCustomActionResult.fromJson(Map<String, dynamic> _) {
+    return DeleteCustomActionResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class ListCustomActionsResult {
+  /// A list of custom actions.
+  final List<String> customActions;
+
   /// An optional token returned from a prior request. Use this token for
   /// pagination of results from this action. If this parameter is specified, the
   /// response includes only results beyond the token, up to the value specified
   /// by MaxResults.
   final String? nextToken;
 
-  /// A list of AWS Chatbot channel configurations for Microsoft Teams.
-  final List<TeamsChannelConfiguration>? teamChannelConfigurations;
-
-  ListTeamsChannelConfigurationsResult({
+  ListCustomActionsResult({
+    required this.customActions,
     this.nextToken,
-    this.teamChannelConfigurations,
   });
 
-  factory ListTeamsChannelConfigurationsResult.fromJson(
-      Map<String, dynamic> json) {
-    return ListTeamsChannelConfigurationsResult(
-      nextToken: json['NextToken'] as String?,
-      teamChannelConfigurations: (json['TeamChannelConfigurations'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              TeamsChannelConfiguration.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final teamChannelConfigurations = this.teamChannelConfigurations;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (teamChannelConfigurations != null)
-        'TeamChannelConfigurations': teamChannelConfigurations,
-    };
-  }
-}
-
-/// An AWS Chatbot configuration for Slack.
-class SlackChannelConfiguration {
-  /// The Amazon Resource Number (ARN) of the SlackChannelConfiguration.
-  final String chatConfigurationArn;
-
-  /// A user-defined role that AWS Chatbot assumes. This is not the service-linked
-  /// role.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/chatbot/latest/adminguide/chatbot-iam-policies.html">IAM
-  /// policies for AWS Chatbot</a> in the <i> AWS Chatbot Administrator Guide</i>.
-  final String iamRoleArn;
-
-  /// The ID of the Slack channel.
-  ///
-  /// To get this ID, open Slack, right click on the channel name in the left
-  /// pane, then choose Copy Link. The channel ID is the 9-character string at the
-  /// end of the URL. For example, ABCBBLZZZ.
-  final String slackChannelId;
-
-  /// The name of the Slack channel.
-  final String slackChannelName;
-
-  /// The ID of the Slack workspace authorized with Amazon Chime.
-  final String slackTeamId;
-
-  /// Name of the Slack workspace.
-  final String slackTeamName;
-
-  /// The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
-  final List<String> snsTopicArns;
-
-  /// The name of the configuration.
-  final String? configurationName;
-
-  /// The list of IAM policy ARNs that are applied as channel guardrails. The AWS
-  /// managed <code>AdministratorAccess</code> policy is applied by default if
-  /// this is not set.
-  final List<String>? guardrailPolicyArns;
-
-  /// Logging levels include <code>ERROR</code>, <code>INFO</code>, or
-  /// <code>NONE</code>.
-  final String? loggingLevel;
-
-  /// A map of tags assigned to a resource. A tag is a string-to-string map of
-  /// key-value pairs.
-  final List<Tag>? tags;
-
-  /// Enables use of a user role requirement in your chat configuration.
-  final bool? userAuthorizationRequired;
-
-  SlackChannelConfiguration({
-    required this.chatConfigurationArn,
-    required this.iamRoleArn,
-    required this.slackChannelId,
-    required this.slackChannelName,
-    required this.slackTeamId,
-    required this.slackTeamName,
-    required this.snsTopicArns,
-    this.configurationName,
-    this.guardrailPolicyArns,
-    this.loggingLevel,
-    this.tags,
-    this.userAuthorizationRequired,
-  });
-
-  factory SlackChannelConfiguration.fromJson(Map<String, dynamic> json) {
-    return SlackChannelConfiguration(
-      chatConfigurationArn: (json['ChatConfigurationArn'] as String?) ?? '',
-      iamRoleArn: (json['IamRoleArn'] as String?) ?? '',
-      slackChannelId: (json['SlackChannelId'] as String?) ?? '',
-      slackChannelName: (json['SlackChannelName'] as String?) ?? '',
-      slackTeamId: (json['SlackTeamId'] as String?) ?? '',
-      slackTeamName: (json['SlackTeamName'] as String?) ?? '',
-      snsTopicArns: ((json['SnsTopicArns'] as List?) ?? const [])
+  factory ListCustomActionsResult.fromJson(Map<String, dynamic> json) {
+    return ListCustomActionsResult(
+      customActions: ((json['CustomActions'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      configurationName: json['ConfigurationName'] as String?,
-      guardrailPolicyArns: (json['GuardrailPolicyArns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      loggingLevel: json['LoggingLevel'] as String?,
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      userAuthorizationRequired: json['UserAuthorizationRequired'] as bool?,
+      nextToken: json['NextToken'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final chatConfigurationArn = this.chatConfigurationArn;
-    final iamRoleArn = this.iamRoleArn;
-    final slackChannelId = this.slackChannelId;
-    final slackChannelName = this.slackChannelName;
-    final slackTeamId = this.slackTeamId;
-    final slackTeamName = this.slackTeamName;
-    final snsTopicArns = this.snsTopicArns;
-    final configurationName = this.configurationName;
-    final guardrailPolicyArns = this.guardrailPolicyArns;
-    final loggingLevel = this.loggingLevel;
-    final tags = this.tags;
-    final userAuthorizationRequired = this.userAuthorizationRequired;
+    final customActions = this.customActions;
+    final nextToken = this.nextToken;
     return {
-      'ChatConfigurationArn': chatConfigurationArn,
-      'IamRoleArn': iamRoleArn,
-      'SlackChannelId': slackChannelId,
-      'SlackChannelName': slackChannelName,
-      'SlackTeamId': slackTeamId,
-      'SlackTeamName': slackTeamName,
-      'SnsTopicArns': snsTopicArns,
-      if (configurationName != null) 'ConfigurationName': configurationName,
-      if (guardrailPolicyArns != null)
-        'GuardrailPolicyArns': guardrailPolicyArns,
-      if (loggingLevel != null) 'LoggingLevel': loggingLevel,
-      if (tags != null) 'Tags': tags,
-      if (userAuthorizationRequired != null)
-        'UserAuthorizationRequired': userAuthorizationRequired,
+      'CustomActions': customActions,
+      if (nextToken != null) 'NextToken': nextToken,
     };
   }
 }
 
-/// Identifes a user level permission for a channel configuration.
-class SlackUserIdentity {
-  /// The Amazon Resource Number (ARN) of the SlackChannelConfiguration associated
-  /// with the user identity to delete.
-  final String chatConfigurationArn;
+/// The definition of the command to run when invoked as an alias or as an
+/// action button.
+class CustomActionDefinition {
+  /// The command string to run which may include variables by prefixing with a
+  /// dollar sign ($).
+  final String commandText;
 
-  /// A user-defined role that AWS Chatbot assumes. This is not the service-linked
-  /// role.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/chatbot/latest/adminguide/chatbot-iam-policies.html">IAM
-  /// policies for AWS Chatbot</a> in the <i> AWS Chatbot Administrator Guide</i>.
-  final String iamRoleArn;
-
-  /// The ID of the Slack workspace authorized with AWS Chatbot.
-  final String slackTeamId;
-
-  /// The ID of the user in Slack
-  final String slackUserId;
-
-  /// The AWS user identity ARN used to associate a Slack user ID with an IAM
-  /// Role.
-  final String? awsUserIdentity;
-
-  SlackUserIdentity({
-    required this.chatConfigurationArn,
-    required this.iamRoleArn,
-    required this.slackTeamId,
-    required this.slackUserId,
-    this.awsUserIdentity,
+  CustomActionDefinition({
+    required this.commandText,
   });
 
-  factory SlackUserIdentity.fromJson(Map<String, dynamic> json) {
-    return SlackUserIdentity(
-      chatConfigurationArn: (json['ChatConfigurationArn'] as String?) ?? '',
-      iamRoleArn: (json['IamRoleArn'] as String?) ?? '',
-      slackTeamId: (json['SlackTeamId'] as String?) ?? '',
-      slackUserId: (json['SlackUserId'] as String?) ?? '',
-      awsUserIdentity: json['AwsUserIdentity'] as String?,
+  factory CustomActionDefinition.fromJson(Map<String, dynamic> json) {
+    return CustomActionDefinition(
+      commandText: (json['CommandText'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    final chatConfigurationArn = this.chatConfigurationArn;
-    final iamRoleArn = this.iamRoleArn;
-    final slackTeamId = this.slackTeamId;
-    final slackUserId = this.slackUserId;
-    final awsUserIdentity = this.awsUserIdentity;
+    final commandText = this.commandText;
     return {
-      'ChatConfigurationArn': chatConfigurationArn,
-      'IamRoleArn': iamRoleArn,
-      'SlackTeamId': slackTeamId,
-      'SlackUserId': slackUserId,
-      if (awsUserIdentity != null) 'AwsUserIdentity': awsUserIdentity,
+      'CommandText': commandText,
     };
   }
 }
 
-/// A Slack workspace.
-class SlackWorkspace {
-  /// The ID of the Slack workspace authorized with AWS Chatbot.
-  final String slackTeamId;
+/// Defines when a custom action button should be attached to a notification.
+class CustomActionAttachment {
+  /// The text of the button that appears on the notification.
+  final String? buttonText;
 
-  /// The name of the Slack workspace.
-  final String slackTeamName;
+  /// The criteria for when a button should be shown based on values in the
+  /// notification.
+  final List<CustomActionAttachmentCriteria>? criteria;
 
-  SlackWorkspace({
-    required this.slackTeamId,
-    required this.slackTeamName,
+  /// The type of notification that the custom action should be attached to.
+  final String? notificationType;
+
+  /// The variables to extract from the notification.
+  final Map<String, String>? variables;
+
+  CustomActionAttachment({
+    this.buttonText,
+    this.criteria,
+    this.notificationType,
+    this.variables,
   });
 
-  factory SlackWorkspace.fromJson(Map<String, dynamic> json) {
-    return SlackWorkspace(
-      slackTeamId: (json['SlackTeamId'] as String?) ?? '',
-      slackTeamName: (json['SlackTeamName'] as String?) ?? '',
+  factory CustomActionAttachment.fromJson(Map<String, dynamic> json) {
+    return CustomActionAttachment(
+      buttonText: json['ButtonText'] as String?,
+      criteria: (json['Criteria'] as List?)
+          ?.nonNulls
+          .map((e) => CustomActionAttachmentCriteria.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      notificationType: json['NotificationType'] as String?,
+      variables: (json['Variables'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final slackTeamId = this.slackTeamId;
-    final slackTeamName = this.slackTeamName;
+    final buttonText = this.buttonText;
+    final criteria = this.criteria;
+    final notificationType = this.notificationType;
+    final variables = this.variables;
     return {
-      'SlackTeamId': slackTeamId,
-      'SlackTeamName': slackTeamName,
+      if (buttonText != null) 'ButtonText': buttonText,
+      if (criteria != null) 'Criteria': criteria,
+      if (notificationType != null) 'NotificationType': notificationType,
+      if (variables != null) 'Variables': variables,
+    };
+  }
+}
+
+/// A criteria for when a button should be shown based on values in the
+/// notification
+class CustomActionAttachmentCriteria {
+  /// The operation to perform on the named variable.
+  final CustomActionAttachmentCriteriaOperator operator;
+
+  /// The name of the variable to operate on.
+  final String variableName;
+
+  /// A value that is compared with the actual value of the variable based on the
+  /// behavior of the operator.
+  final String? value;
+
+  CustomActionAttachmentCriteria({
+    required this.operator,
+    required this.variableName,
+    this.value,
+  });
+
+  factory CustomActionAttachmentCriteria.fromJson(Map<String, dynamic> json) {
+    return CustomActionAttachmentCriteria(
+      operator: CustomActionAttachmentCriteriaOperator.fromString(
+          (json['Operator'] as String?) ?? ''),
+      variableName: (json['VariableName'] as String?) ?? '',
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operator = this.operator;
+    final variableName = this.variableName;
+    final value = this.value;
+    return {
+      'Operator': operator.value,
+      'VariableName': variableName,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+class CustomActionAttachmentCriteriaOperator {
+  static const hasValue = CustomActionAttachmentCriteriaOperator._('HAS_VALUE');
+  static const equals = CustomActionAttachmentCriteriaOperator._('EQUALS');
+
+  final String value;
+
+  const CustomActionAttachmentCriteriaOperator._(this.value);
+
+  static const values = [hasValue, equals];
+
+  static CustomActionAttachmentCriteriaOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CustomActionAttachmentCriteriaOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomActionAttachmentCriteriaOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents a parameterized command that can be invoked as an alias or as a
+/// notification button in the chat client.
+class CustomAction {
+  /// The fully defined Amazon Resource Name (ARN) of the custom action.
+  final String customActionArn;
+
+  /// The definition of the command to run when invoked an alias or as an action
+  /// button.
+  final CustomActionDefinition definition;
+
+  /// The name of the custom action that is included in the ARN.
+  final String? actionName;
+
+  /// The name used to invoke this action in the chat channel. For example,
+  /// <code>@aws run my-alias</code>.
+  final String? aliasName;
+
+  /// Defines when this custom action button should be attached to a notification.
+  final List<CustomActionAttachment>? attachments;
+
+  CustomAction({
+    required this.customActionArn,
+    required this.definition,
+    this.actionName,
+    this.aliasName,
+    this.attachments,
+  });
+
+  factory CustomAction.fromJson(Map<String, dynamic> json) {
+    return CustomAction(
+      customActionArn: (json['CustomActionArn'] as String?) ?? '',
+      definition: CustomActionDefinition.fromJson(
+          (json['Definition'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      actionName: json['ActionName'] as String?,
+      aliasName: json['AliasName'] as String?,
+      attachments: (json['Attachments'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => CustomActionAttachment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customActionArn = this.customActionArn;
+    final definition = this.definition;
+    final actionName = this.actionName;
+    final aliasName = this.aliasName;
+    final attachments = this.attachments;
+    return {
+      'CustomActionArn': customActionArn,
+      'Definition': definition,
+      if (actionName != null) 'ActionName': actionName,
+      if (aliasName != null) 'AliasName': aliasName,
+      if (attachments != null) 'Attachments': attachments,
     };
   }
 }
@@ -2151,15 +2543,145 @@ class Tag {
   }
 }
 
-class TagResourceResponse {
-  TagResourceResponse();
+/// An AWS Chatbot configuration for Slack.
+class SlackChannelConfiguration {
+  /// The Amazon Resource Name (ARN) of the SlackChannelConfiguration.
+  final String chatConfigurationArn;
 
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
+  /// A user-defined role that AWS Chatbot assumes. This is not the service-linked
+  /// role.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/chatbot/latest/adminguide/chatbot-iam-policies.html">IAM
+  /// policies for AWS Chatbot</a> in the <i> AWS Chatbot Administrator Guide</i>.
+  final String iamRoleArn;
+
+  /// The ID of the Slack channel.
+  ///
+  /// To get this ID, open Slack, right click on the channel name in the left
+  /// pane, then choose Copy Link. The channel ID is the 9-character string at the
+  /// end of the URL. For example, ABCBBLZZZ.
+  final String slackChannelId;
+
+  /// The name of the Slack channel.
+  final String slackChannelName;
+
+  /// The ID of the Slack workspace authorized with Amazon Chime.
+  final String slackTeamId;
+
+  /// Name of the Slack workspace.
+  final String slackTeamName;
+
+  /// The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
+  final List<String> snsTopicArns;
+
+  /// The name of the configuration.
+  final String? configurationName;
+
+  /// The list of IAM policy ARNs that are applied as channel guardrails. The AWS
+  /// managed <code>AdministratorAccess</code> policy is applied by default if
+  /// this is not set.
+  final List<String>? guardrailPolicyArns;
+
+  /// Logging levels include <code>ERROR</code>, <code>INFO</code>, or
+  /// <code>NONE</code>.
+  final String? loggingLevel;
+
+  /// Either <code>ENABLED</code> or <code>DISABLED</code>. The resource returns
+  /// <code>DISABLED</code> if the organization's AWS Chatbot policy has
+  /// explicitly denied that configuration. For example, if Amazon Chime is
+  /// disabled.
+  final String? state;
+
+  /// Provided if State is <code>DISABLED</code>. Provides context as to why the
+  /// resource is disabled.
+  final String? stateReason;
+
+  /// A map of tags assigned to a resource. A tag is a string-to-string map of
+  /// key-value pairs.
+  final List<Tag>? tags;
+
+  /// Enables use of a user role requirement in your chat configuration.
+  final bool? userAuthorizationRequired;
+
+  SlackChannelConfiguration({
+    required this.chatConfigurationArn,
+    required this.iamRoleArn,
+    required this.slackChannelId,
+    required this.slackChannelName,
+    required this.slackTeamId,
+    required this.slackTeamName,
+    required this.snsTopicArns,
+    this.configurationName,
+    this.guardrailPolicyArns,
+    this.loggingLevel,
+    this.state,
+    this.stateReason,
+    this.tags,
+    this.userAuthorizationRequired,
+  });
+
+  factory SlackChannelConfiguration.fromJson(Map<String, dynamic> json) {
+    return SlackChannelConfiguration(
+      chatConfigurationArn: (json['ChatConfigurationArn'] as String?) ?? '',
+      iamRoleArn: (json['IamRoleArn'] as String?) ?? '',
+      slackChannelId: (json['SlackChannelId'] as String?) ?? '',
+      slackChannelName: (json['SlackChannelName'] as String?) ?? '',
+      slackTeamId: (json['SlackTeamId'] as String?) ?? '',
+      slackTeamName: (json['SlackTeamName'] as String?) ?? '',
+      snsTopicArns: ((json['SnsTopicArns'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      configurationName: json['ConfigurationName'] as String?,
+      guardrailPolicyArns: (json['GuardrailPolicyArns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      loggingLevel: json['LoggingLevel'] as String?,
+      state: json['State'] as String?,
+      stateReason: json['StateReason'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      userAuthorizationRequired: json['UserAuthorizationRequired'] as bool?,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final chatConfigurationArn = this.chatConfigurationArn;
+    final iamRoleArn = this.iamRoleArn;
+    final slackChannelId = this.slackChannelId;
+    final slackChannelName = this.slackChannelName;
+    final slackTeamId = this.slackTeamId;
+    final slackTeamName = this.slackTeamName;
+    final snsTopicArns = this.snsTopicArns;
+    final configurationName = this.configurationName;
+    final guardrailPolicyArns = this.guardrailPolicyArns;
+    final loggingLevel = this.loggingLevel;
+    final state = this.state;
+    final stateReason = this.stateReason;
+    final tags = this.tags;
+    final userAuthorizationRequired = this.userAuthorizationRequired;
+    return {
+      'ChatConfigurationArn': chatConfigurationArn,
+      'IamRoleArn': iamRoleArn,
+      'SlackChannelId': slackChannelId,
+      'SlackChannelName': slackChannelName,
+      'SlackTeamId': slackTeamId,
+      'SlackTeamName': slackTeamName,
+      'SnsTopicArns': snsTopicArns,
+      if (configurationName != null) 'ConfigurationName': configurationName,
+      if (guardrailPolicyArns != null)
+        'GuardrailPolicyArns': guardrailPolicyArns,
+      if (loggingLevel != null) 'LoggingLevel': loggingLevel,
+      if (state != null) 'State': state,
+      if (stateReason != null) 'StateReason': stateReason,
+      if (tags != null) 'Tags': tags,
+      if (userAuthorizationRequired != null)
+        'UserAuthorizationRequired': userAuthorizationRequired,
+    };
   }
 }
 
@@ -2212,6 +2734,16 @@ class TeamsChannelConfiguration {
   /// <code>NONE</code>.
   final String? loggingLevel;
 
+  /// Either <code>ENABLED</code> or <code>DISABLED</code>. The resource returns
+  /// <code>DISABLED</code> if the organization's AWS Chatbot policy has
+  /// explicitly denied that configuration. For example, if Amazon Chime is
+  /// disabled.
+  final String? state;
+
+  /// Provided if State is <code>DISABLED</code>. Provides context as to why the
+  /// resource is disabled.
+  final String? stateReason;
+
   /// A map of tags assigned to a resource. A tag is a string-to-string map of
   /// key-value pairs.
   final List<Tag>? tags;
@@ -2233,6 +2765,8 @@ class TeamsChannelConfiguration {
     this.configurationName,
     this.guardrailPolicyArns,
     this.loggingLevel,
+    this.state,
+    this.stateReason,
     this.tags,
     this.teamName,
     this.userAuthorizationRequired,
@@ -2256,6 +2790,8 @@ class TeamsChannelConfiguration {
           .map((e) => e as String)
           .toList(),
       loggingLevel: json['LoggingLevel'] as String?,
+      state: json['State'] as String?,
+      stateReason: json['StateReason'] as String?,
       tags: (json['Tags'] as List?)
           ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -2276,6 +2812,8 @@ class TeamsChannelConfiguration {
     final configurationName = this.configurationName;
     final guardrailPolicyArns = this.guardrailPolicyArns;
     final loggingLevel = this.loggingLevel;
+    final state = this.state;
+    final stateReason = this.stateReason;
     final tags = this.tags;
     final teamName = this.teamName;
     final userAuthorizationRequired = this.userAuthorizationRequired;
@@ -2291,8 +2829,156 @@ class TeamsChannelConfiguration {
       if (guardrailPolicyArns != null)
         'GuardrailPolicyArns': guardrailPolicyArns,
       if (loggingLevel != null) 'LoggingLevel': loggingLevel,
+      if (state != null) 'State': state,
+      if (stateReason != null) 'StateReason': stateReason,
       if (tags != null) 'Tags': tags,
       if (teamName != null) 'TeamName': teamName,
+      if (userAuthorizationRequired != null)
+        'UserAuthorizationRequired': userAuthorizationRequired,
+    };
+  }
+}
+
+/// An AWS Chatbot configuration for Amazon Chime.
+class ChimeWebhookConfiguration {
+  /// The Amazon Resource Name (ARN) of the ChimeWebhookConfiguration.
+  final String chatConfigurationArn;
+
+  /// A user-defined role that AWS Chatbot assumes. This is not the service-linked
+  /// role.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/chatbot/latest/adminguide/chatbot-iam-policies.html">IAM
+  /// policies for AWS Chatbot</a> in the <i> AWS Chatbot Administrator Guide</i>.
+  final String iamRoleArn;
+
+  /// The Amazon Resource Names (ARNs) of the SNS topics that deliver
+  /// notifications to AWS Chatbot.
+  final List<String> snsTopicArns;
+
+  /// A description of the webhook. We recommend using the convention
+  /// <code>RoomName/WebhookName</code>.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/chatbot/latest/adminguide/chime-setup.html">Tutorial:
+  /// Get started with Amazon Chime</a> in the <i> AWS Chatbot Administrator
+  /// Guide</i>.
+  final String webhookDescription;
+
+  /// The name of the configuration.
+  final String? configurationName;
+
+  /// Logging levels include <code>ERROR</code>, <code>INFO</code>, or
+  /// <code>NONE</code>.
+  final String? loggingLevel;
+
+  /// Either <code>ENABLED</code> or <code>DISABLED</code>. The resource returns
+  /// <code>DISABLED</code> if the organization's AWS Chatbot policy has
+  /// explicitly denied that configuration. For example, if Amazon Chime is
+  /// disabled.
+  final String? state;
+
+  /// Provided if State is <code>DISABLED</code>. Provides context as to why the
+  /// resource is disabled.
+  final String? stateReason;
+
+  /// A map of tags assigned to a resource. A tag is a string-to-string map of
+  /// key-value pairs.
+  final List<Tag>? tags;
+
+  ChimeWebhookConfiguration({
+    required this.chatConfigurationArn,
+    required this.iamRoleArn,
+    required this.snsTopicArns,
+    required this.webhookDescription,
+    this.configurationName,
+    this.loggingLevel,
+    this.state,
+    this.stateReason,
+    this.tags,
+  });
+
+  factory ChimeWebhookConfiguration.fromJson(Map<String, dynamic> json) {
+    return ChimeWebhookConfiguration(
+      chatConfigurationArn: (json['ChatConfigurationArn'] as String?) ?? '',
+      iamRoleArn: (json['IamRoleArn'] as String?) ?? '',
+      snsTopicArns: ((json['SnsTopicArns'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      webhookDescription: (json['WebhookDescription'] as String?) ?? '',
+      configurationName: json['ConfigurationName'] as String?,
+      loggingLevel: json['LoggingLevel'] as String?,
+      state: json['State'] as String?,
+      stateReason: json['StateReason'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final chatConfigurationArn = this.chatConfigurationArn;
+    final iamRoleArn = this.iamRoleArn;
+    final snsTopicArns = this.snsTopicArns;
+    final webhookDescription = this.webhookDescription;
+    final configurationName = this.configurationName;
+    final loggingLevel = this.loggingLevel;
+    final state = this.state;
+    final stateReason = this.stateReason;
+    final tags = this.tags;
+    return {
+      'ChatConfigurationArn': chatConfigurationArn,
+      'IamRoleArn': iamRoleArn,
+      'SnsTopicArns': snsTopicArns,
+      'WebhookDescription': webhookDescription,
+      if (configurationName != null) 'ConfigurationName': configurationName,
+      if (loggingLevel != null) 'LoggingLevel': loggingLevel,
+      if (state != null) 'State': state,
+      if (stateReason != null) 'StateReason': stateReason,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// Preferences related to AWS Chatbot usage in the calling AWS account.
+class AccountPreferences {
+  /// Turns on training data collection.
+  ///
+  /// This helps improve the AWS Chatbot experience by allowing AWS Chatbot to
+  /// store and use your customer information, such as AWS Chatbot configurations,
+  /// notifications, user inputs, AWS Chatbot generated responses, and interaction
+  /// data. This data helps us to continuously improve and develop Artificial
+  /// Intelligence (AI) technologies. Your data is not shared with any third
+  /// parties and is protected using sophisticated controls to prevent
+  /// unauthorized access and misuse. AWS Chatbot does not store or use
+  /// interactions in chat channels with Amazon Q for training AI technologies for
+  /// AWS Chatbot.
+  final bool? trainingDataCollectionEnabled;
+
+  /// Enables use of a user role requirement in your chat configuration.
+  final bool? userAuthorizationRequired;
+
+  AccountPreferences({
+    this.trainingDataCollectionEnabled,
+    this.userAuthorizationRequired,
+  });
+
+  factory AccountPreferences.fromJson(Map<String, dynamic> json) {
+    return AccountPreferences(
+      trainingDataCollectionEnabled:
+          json['TrainingDataCollectionEnabled'] as bool?,
+      userAuthorizationRequired: json['UserAuthorizationRequired'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final trainingDataCollectionEnabled = this.trainingDataCollectionEnabled;
+    final userAuthorizationRequired = this.userAuthorizationRequired;
+    return {
+      if (trainingDataCollectionEnabled != null)
+        'TrainingDataCollectionEnabled': trainingDataCollectionEnabled,
       if (userAuthorizationRequired != null)
         'UserAuthorizationRequired': userAuthorizationRequired,
     };
@@ -2378,120 +3064,194 @@ class TeamsUserIdentity {
   }
 }
 
-class UntagResourceResponse {
-  UntagResourceResponse();
+/// A Microsoft Teams team that is authorized with AWS Chatbot.
+class ConfiguredTeam {
+  /// The ID of the Microsoft Teams authorized with AWS Chatbot.
+  ///
+  /// To get the team ID, you must perform the initial authorization flow with
+  /// Microsoft Teams in the AWS Chatbot console. Then you can copy and paste the
+  /// team ID from the console. For more information, see <a
+  /// href="https://docs.aws.amazon.com/chatbot/latest/adminguide/teams-setup.html#teams-client-setup">Step
+  /// 1: Configure a Microsoft Teams client</a> in the <i> AWS Chatbot
+  /// Administrator Guide</i>.
+  final String teamId;
 
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
+  /// The ID of the Microsoft Teams tenant.
+  final String tenantId;
 
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
+  /// Either <code>ENABLED</code> or <code>DISABLED</code>. The resource returns
+  /// <code>DISABLED</code> if the organization's AWS Chatbot policy has
+  /// explicitly denied that configuration. For example, if Amazon Chime is
+  /// disabled.
+  final String? state;
 
-class UpdateAccountPreferencesResult {
-  /// Preferences related to AWS Chatbot usage in the calling AWS account.
-  final AccountPreferences? accountPreferences;
+  /// Provided if State is <code>DISABLED</code>. Provides context as to why the
+  /// resource is disabled.
+  final String? stateReason;
 
-  UpdateAccountPreferencesResult({
-    this.accountPreferences,
+  /// The name of the Microsoft Teams Team.
+  final String? teamName;
+
+  ConfiguredTeam({
+    required this.teamId,
+    required this.tenantId,
+    this.state,
+    this.stateReason,
+    this.teamName,
   });
 
-  factory UpdateAccountPreferencesResult.fromJson(Map<String, dynamic> json) {
-    return UpdateAccountPreferencesResult(
-      accountPreferences: json['AccountPreferences'] != null
-          ? AccountPreferences.fromJson(
-              json['AccountPreferences'] as Map<String, dynamic>)
-          : null,
+  factory ConfiguredTeam.fromJson(Map<String, dynamic> json) {
+    return ConfiguredTeam(
+      teamId: (json['TeamId'] as String?) ?? '',
+      tenantId: (json['TenantId'] as String?) ?? '',
+      state: json['State'] as String?,
+      stateReason: json['StateReason'] as String?,
+      teamName: json['TeamName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final accountPreferences = this.accountPreferences;
+    final teamId = this.teamId;
+    final tenantId = this.tenantId;
+    final state = this.state;
+    final stateReason = this.stateReason;
+    final teamName = this.teamName;
     return {
-      if (accountPreferences != null) 'AccountPreferences': accountPreferences,
+      'TeamId': teamId,
+      'TenantId': tenantId,
+      if (state != null) 'State': state,
+      if (stateReason != null) 'StateReason': stateReason,
+      if (teamName != null) 'TeamName': teamName,
     };
   }
 }
 
-class UpdateChimeWebhookConfigurationResult {
-  /// A Amazon Chime webhook configuration.
-  final ChimeWebhookConfiguration? webhookConfiguration;
+/// A listing of an association with a channel configuration.
+class AssociationListing {
+  /// The Amazon Resource Name (ARN) of the resource (for example, a custom
+  /// action).
+  final String resource;
 
-  UpdateChimeWebhookConfigurationResult({
-    this.webhookConfiguration,
+  AssociationListing({
+    required this.resource,
   });
 
-  factory UpdateChimeWebhookConfigurationResult.fromJson(
-      Map<String, dynamic> json) {
-    return UpdateChimeWebhookConfigurationResult(
-      webhookConfiguration: json['WebhookConfiguration'] != null
-          ? ChimeWebhookConfiguration.fromJson(
-              json['WebhookConfiguration'] as Map<String, dynamic>)
-          : null,
+  factory AssociationListing.fromJson(Map<String, dynamic> json) {
+    return AssociationListing(
+      resource: (json['Resource'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    final webhookConfiguration = this.webhookConfiguration;
+    final resource = this.resource;
     return {
-      if (webhookConfiguration != null)
-        'WebhookConfiguration': webhookConfiguration,
+      'Resource': resource,
     };
   }
 }
 
-class UpdateSlackChannelConfigurationResult {
-  /// The configuration for a Slack channel configured with AWS Chatbot.
-  final SlackChannelConfiguration? channelConfiguration;
+/// A Slack workspace.
+class SlackWorkspace {
+  /// The ID of the Slack workspace authorized with AWS Chatbot.
+  final String slackTeamId;
 
-  UpdateSlackChannelConfigurationResult({
-    this.channelConfiguration,
+  /// The name of the Slack workspace.
+  final String slackTeamName;
+
+  /// Either <code>ENABLED</code> or <code>DISABLED</code>. The resource returns
+  /// <code>DISABLED</code> if the organization's AWS Chatbot policy has
+  /// explicitly denied that configuration. For example, if Amazon Chime is
+  /// disabled.
+  final String? state;
+
+  /// Provided if State is <code>DISABLED</code>. Provides context as to why the
+  /// resource is disabled.
+  final String? stateReason;
+
+  SlackWorkspace({
+    required this.slackTeamId,
+    required this.slackTeamName,
+    this.state,
+    this.stateReason,
   });
 
-  factory UpdateSlackChannelConfigurationResult.fromJson(
-      Map<String, dynamic> json) {
-    return UpdateSlackChannelConfigurationResult(
-      channelConfiguration: json['ChannelConfiguration'] != null
-          ? SlackChannelConfiguration.fromJson(
-              json['ChannelConfiguration'] as Map<String, dynamic>)
-          : null,
+  factory SlackWorkspace.fromJson(Map<String, dynamic> json) {
+    return SlackWorkspace(
+      slackTeamId: (json['SlackTeamId'] as String?) ?? '',
+      slackTeamName: (json['SlackTeamName'] as String?) ?? '',
+      state: json['State'] as String?,
+      stateReason: json['StateReason'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final channelConfiguration = this.channelConfiguration;
+    final slackTeamId = this.slackTeamId;
+    final slackTeamName = this.slackTeamName;
+    final state = this.state;
+    final stateReason = this.stateReason;
     return {
-      if (channelConfiguration != null)
-        'ChannelConfiguration': channelConfiguration,
+      'SlackTeamId': slackTeamId,
+      'SlackTeamName': slackTeamName,
+      if (state != null) 'State': state,
+      if (stateReason != null) 'StateReason': stateReason,
     };
   }
 }
 
-class UpdateTeamsChannelConfigurationResult {
-  /// The configuration for a Microsoft Teams channel configured with AWS Chatbot.
-  final TeamsChannelConfiguration? channelConfiguration;
+/// Identifes a user level permission for a channel configuration.
+class SlackUserIdentity {
+  /// The Amazon Resource Name (ARN) of the SlackChannelConfiguration associated
+  /// with the user identity to delete.
+  final String chatConfigurationArn;
 
-  UpdateTeamsChannelConfigurationResult({
-    this.channelConfiguration,
+  /// A user-defined role that AWS Chatbot assumes. This is not the service-linked
+  /// role.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/chatbot/latest/adminguide/chatbot-iam-policies.html">IAM
+  /// policies for AWS Chatbot</a> in the <i> AWS Chatbot Administrator Guide</i>.
+  final String iamRoleArn;
+
+  /// The ID of the Slack workspace authorized with AWS Chatbot.
+  final String slackTeamId;
+
+  /// The ID of the user in Slack
+  final String slackUserId;
+
+  /// The AWS user identity ARN used to associate a Slack user ID with an IAM
+  /// Role.
+  final String? awsUserIdentity;
+
+  SlackUserIdentity({
+    required this.chatConfigurationArn,
+    required this.iamRoleArn,
+    required this.slackTeamId,
+    required this.slackUserId,
+    this.awsUserIdentity,
   });
 
-  factory UpdateTeamsChannelConfigurationResult.fromJson(
-      Map<String, dynamic> json) {
-    return UpdateTeamsChannelConfigurationResult(
-      channelConfiguration: json['ChannelConfiguration'] != null
-          ? TeamsChannelConfiguration.fromJson(
-              json['ChannelConfiguration'] as Map<String, dynamic>)
-          : null,
+  factory SlackUserIdentity.fromJson(Map<String, dynamic> json) {
+    return SlackUserIdentity(
+      chatConfigurationArn: (json['ChatConfigurationArn'] as String?) ?? '',
+      iamRoleArn: (json['IamRoleArn'] as String?) ?? '',
+      slackTeamId: (json['SlackTeamId'] as String?) ?? '',
+      slackUserId: (json['SlackUserId'] as String?) ?? '',
+      awsUserIdentity: json['AwsUserIdentity'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final channelConfiguration = this.channelConfiguration;
+    final chatConfigurationArn = this.chatConfigurationArn;
+    final iamRoleArn = this.iamRoleArn;
+    final slackTeamId = this.slackTeamId;
+    final slackUserId = this.slackUserId;
+    final awsUserIdentity = this.awsUserIdentity;
     return {
-      if (channelConfiguration != null)
-        'ChannelConfiguration': channelConfiguration,
+      'ChatConfigurationArn': chatConfigurationArn,
+      'IamRoleArn': iamRoleArn,
+      'SlackTeamId': slackTeamId,
+      'SlackUserId': slackUserId,
+      if (awsUserIdentity != null) 'AwsUserIdentity': awsUserIdentity,
     };
   }
 }
@@ -2692,6 +3452,11 @@ class TooManyTagsException extends _s.GenericAwsException {
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
+class UnauthorizedException extends _s.GenericAwsException {
+  UnauthorizedException({String? type, String? message})
+      : super(type: type, code: 'UnauthorizedException', message: message);
+}
+
 class UpdateAccountPreferencesException extends _s.GenericAwsException {
   UpdateAccountPreferencesException({String? type, String? message})
       : super(
@@ -2779,6 +3544,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ServiceUnavailableException(type: type, message: message),
   'TooManyTagsException': (type, message) =>
       TooManyTagsException(type: type, message: message),
+  'UnauthorizedException': (type, message) =>
+      UnauthorizedException(type: type, message: message),
   'UpdateAccountPreferencesException': (type, message) =>
       UpdateAccountPreferencesException(type: type, message: message),
   'UpdateChimeWebhookConfigurationException': (type, message) =>

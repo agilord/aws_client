@@ -20,7 +20,7 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// <p/>
+///
 class KinesisVideoArchivedMedia {
   final _s.RestJsonProtocol _protocol;
   KinesisVideoArchivedMedia({
@@ -57,7 +57,7 @@ class KinesisVideoArchivedMedia {
   /// operation.
   ///
   /// As a prerequisite to using GetCLip API, you must obtain an endpoint using
-  /// <code>GetDataEndpoint</code>, specifying GET_CLIP for<code/> the
+  /// <code>GetDataEndpoint</code>, specifying GET_CLIP for<code></code> the
   /// <code>APIName</code> parameter.
   ///
   /// An Amazon Kinesis video stream has the following requirements for
@@ -104,15 +104,15 @@ class KinesisVideoArchivedMedia {
   /// href="https://aws.amazon.com/pricing/"> Amazon Web Services Pricing</a>.
   /// Charges for outgoing Amazon Web Services data apply.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidArgumentException].
   /// May throw [ClientLimitExceededException].
-  /// May throw [NotAuthorizedException].
-  /// May throw [UnsupportedStreamMediaTypeException].
-  /// May throw [MissingCodecPrivateDataException].
+  /// May throw [InvalidArgumentException].
   /// May throw [InvalidCodecPrivateDataException].
   /// May throw [InvalidMediaFrameException].
+  /// May throw [MissingCodecPrivateDataException].
   /// May throw [NoDataRetentionException].
+  /// May throw [NotAuthorizedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [UnsupportedStreamMediaTypeException].
   ///
   /// Parameter [clipFragmentSelector] :
   /// The time range of the requested clip and the source of the timestamps.
@@ -311,21 +311,21 @@ class KinesisVideoArchivedMedia {
   /// Errors</a>.
   /// </important>
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidArgumentException].
   /// May throw [ClientLimitExceededException].
-  /// May throw [NotAuthorizedException].
-  /// May throw [UnsupportedStreamMediaTypeException].
-  /// May throw [NoDataRetentionException].
-  /// May throw [MissingCodecPrivateDataException].
+  /// May throw [InvalidArgumentException].
   /// May throw [InvalidCodecPrivateDataException].
+  /// May throw [MissingCodecPrivateDataException].
+  /// May throw [NoDataRetentionException].
+  /// May throw [NotAuthorizedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [UnsupportedStreamMediaTypeException].
   ///
   /// Parameter [dASHFragmentSelector] :
   /// The time range of the requested fragment and the source of the timestamps.
   ///
   /// This parameter is required if <code>PlaybackMode</code> is
   /// <code>ON_DEMAND</code> or <code>LIVE_REPLAY</code>. This parameter is
-  /// optional if PlaybackMode is<code/> <code>LIVE</code>. If
+  /// optional if PlaybackMode is<code></code> <code>LIVE</code>. If
   /// <code>PlaybackMode</code> is <code>LIVE</code>, the
   /// <code>FragmentSelectorType</code> can be set, but the
   /// <code>TimestampRange</code> should not be set. If
@@ -711,14 +711,14 @@ class KinesisVideoArchivedMedia {
   /// Errors</a>.
   /// </important>
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidArgumentException].
   /// May throw [ClientLimitExceededException].
-  /// May throw [NotAuthorizedException].
-  /// May throw [UnsupportedStreamMediaTypeException].
-  /// May throw [NoDataRetentionException].
-  /// May throw [MissingCodecPrivateDataException].
+  /// May throw [InvalidArgumentException].
   /// May throw [InvalidCodecPrivateDataException].
+  /// May throw [MissingCodecPrivateDataException].
+  /// May throw [NoDataRetentionException].
+  /// May throw [NotAuthorizedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [UnsupportedStreamMediaTypeException].
   ///
   /// Parameter [containerFormat] :
   /// Specifies which format should be used for packaging the media. Specifying
@@ -805,7 +805,7 @@ class KinesisVideoArchivedMedia {
   ///
   /// This parameter is required if <code>PlaybackMode</code> is
   /// <code>ON_DEMAND</code> or <code>LIVE_REPLAY</code>. This parameter is
-  /// optional if PlaybackMode is<code/> <code>LIVE</code>. If
+  /// optional if PlaybackMode is<code></code> <code>LIVE</code>. If
   /// <code>PlaybackMode</code> is <code>LIVE</code>, the
   /// <code>FragmentSelectorType</code> can be set, but the
   /// <code>TimestampRange</code> should not be set. If
@@ -957,11 +957,11 @@ class KinesisVideoArchivedMedia {
   /// Retrieves a list of images corresponding to each timestamp for a given
   /// time range, sampling interval, and image format configuration.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidArgumentException].
   /// May throw [ClientLimitExceededException].
-  /// May throw [NotAuthorizedException].
+  /// May throw [InvalidArgumentException].
   /// May throw [NoDataRetentionException].
+  /// May throw [NotAuthorizedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [endTimestamp] :
   /// The end timestamp for the range of images to be generated. If the time
@@ -1134,10 +1134,10 @@ class KinesisVideoArchivedMedia {
   /// Errors</a>.
   /// </important>
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidArgumentException].
   /// May throw [ClientLimitExceededException].
+  /// May throw [InvalidArgumentException].
   /// May throw [NotAuthorizedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [fragments] :
   /// A list of the numbers of fragments for which to retrieve media. You
@@ -1215,10 +1215,10 @@ class KinesisVideoArchivedMedia {
   /// Errors</a>.
   /// </important>
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidArgumentException].
   /// May throw [ClientLimitExceededException].
+  /// May throw [InvalidArgumentException].
   /// May throw [NotAuthorizedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [fragmentSelector] :
   /// Describes the timestamp range and timestamp origin for the range of
@@ -1274,524 +1274,6 @@ class KinesisVideoArchivedMedia {
     );
     return ListFragmentsOutput.fromJson(response);
   }
-}
-
-/// Describes the timestamp range and timestamp origin of a range of fragments.
-///
-/// Fragments that have duplicate producer timestamps are deduplicated. This
-/// means that if producers are producing a stream of fragments with producer
-/// timestamps that are approximately equal to the true clock time, the clip
-/// will contain all of the fragments within the requested timestamp range. If
-/// some fragments are ingested within the same time range and very different
-/// points in time, only the oldest ingested collection of fragments are
-/// returned.
-class ClipFragmentSelector {
-  /// The origin of the timestamps to use (Server or Producer).
-  final ClipFragmentSelectorType fragmentSelectorType;
-
-  /// The range of timestamps to return.
-  final ClipTimestampRange timestampRange;
-
-  ClipFragmentSelector({
-    required this.fragmentSelectorType,
-    required this.timestampRange,
-  });
-
-  Map<String, dynamic> toJson() {
-    final fragmentSelectorType = this.fragmentSelectorType;
-    final timestampRange = this.timestampRange;
-    return {
-      'FragmentSelectorType': fragmentSelectorType.value,
-      'TimestampRange': timestampRange,
-    };
-  }
-}
-
-class ClipFragmentSelectorType {
-  static const producerTimestamp =
-      ClipFragmentSelectorType._('PRODUCER_TIMESTAMP');
-  static const serverTimestamp = ClipFragmentSelectorType._('SERVER_TIMESTAMP');
-
-  final String value;
-
-  const ClipFragmentSelectorType._(this.value);
-
-  static const values = [producerTimestamp, serverTimestamp];
-
-  static ClipFragmentSelectorType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ClipFragmentSelectorType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ClipFragmentSelectorType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The range of timestamps for which to return fragments.
-class ClipTimestampRange {
-  /// The end of the timestamp range for the requested media.
-  ///
-  /// This value must be within 24 hours of the specified
-  /// <code>StartTimestamp</code>, and it must be later than the
-  /// <code>StartTimestamp</code> value. If <code>FragmentSelectorType</code> for
-  /// the request is <code>SERVER_TIMESTAMP</code>, this value must be in the
-  /// past.
-  ///
-  /// This value is inclusive. The <code>EndTimestamp</code> is compared to the
-  /// (starting) timestamp of the fragment. Fragments that start before the
-  /// <code>EndTimestamp</code> value and continue past it are included in the
-  /// session.
-  final DateTime endTimestamp;
-
-  /// The starting timestamp in the range of timestamps for which to return
-  /// fragments.
-  ///
-  /// Only fragments that start exactly at or after <code>StartTimestamp</code>
-  /// are included in the session. Fragments that start before
-  /// <code>StartTimestamp</code> and continue past it aren't included in the
-  /// session. If <code>FragmentSelectorType</code> is
-  /// <code>SERVER_TIMESTAMP</code>, the <code>StartTimestamp</code> must be later
-  /// than the stream head.
-  final DateTime startTimestamp;
-
-  ClipTimestampRange({
-    required this.endTimestamp,
-    required this.startTimestamp,
-  });
-
-  Map<String, dynamic> toJson() {
-    final endTimestamp = this.endTimestamp;
-    final startTimestamp = this.startTimestamp;
-    return {
-      'EndTimestamp': unixTimestampToJson(endTimestamp),
-      'StartTimestamp': unixTimestampToJson(startTimestamp),
-    };
-  }
-}
-
-class ContainerFormat {
-  static const fragmentedMp4 = ContainerFormat._('FRAGMENTED_MP4');
-  static const mpegTs = ContainerFormat._('MPEG_TS');
-
-  final String value;
-
-  const ContainerFormat._(this.value);
-
-  static const values = [fragmentedMp4, mpegTs];
-
-  static ContainerFormat fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ContainerFormat._(value));
-
-  @override
-  bool operator ==(other) => other is ContainerFormat && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DASHDisplayFragmentNumber {
-  static const always = DASHDisplayFragmentNumber._('ALWAYS');
-  static const never = DASHDisplayFragmentNumber._('NEVER');
-
-  final String value;
-
-  const DASHDisplayFragmentNumber._(this.value);
-
-  static const values = [always, never];
-
-  static DASHDisplayFragmentNumber fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DASHDisplayFragmentNumber._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DASHDisplayFragmentNumber && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DASHDisplayFragmentTimestamp {
-  static const always = DASHDisplayFragmentTimestamp._('ALWAYS');
-  static const never = DASHDisplayFragmentTimestamp._('NEVER');
-
-  final String value;
-
-  const DASHDisplayFragmentTimestamp._(this.value);
-
-  static const values = [always, never];
-
-  static DASHDisplayFragmentTimestamp fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DASHDisplayFragmentTimestamp._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DASHDisplayFragmentTimestamp && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains the range of timestamps for the requested media, and the source of
-/// the timestamps.
-class DASHFragmentSelector {
-  /// The source of the timestamps for the requested media.
-  ///
-  /// When <code>FragmentSelectorType</code> is set to
-  /// <code>PRODUCER_TIMESTAMP</code> and
-  /// <a>GetDASHStreamingSessionURLInput$PlaybackMode</a> is
-  /// <code>ON_DEMAND</code> or <code>LIVE_REPLAY</code>, the first fragment
-  /// ingested with a producer timestamp within the specified
-  /// <a>FragmentSelector$TimestampRange</a> is included in the media playlist. In
-  /// addition, the fragments with producer timestamps within the
-  /// <code>TimestampRange</code> ingested immediately following the first
-  /// fragment (up to the
-  /// <a>GetDASHStreamingSessionURLInput$MaxManifestFragmentResults</a> value) are
-  /// included.
-  ///
-  /// Fragments that have duplicate producer timestamps are deduplicated. This
-  /// means that if producers are producing a stream of fragments with producer
-  /// timestamps that are approximately equal to the true clock time, the
-  /// MPEG-DASH manifest will contain all of the fragments within the requested
-  /// timestamp range. If some fragments are ingested within the same time range
-  /// and very different points in time, only the oldest ingested collection of
-  /// fragments are returned.
-  ///
-  /// When <code>FragmentSelectorType</code> is set to
-  /// <code>PRODUCER_TIMESTAMP</code> and
-  /// <a>GetDASHStreamingSessionURLInput$PlaybackMode</a> is <code>LIVE</code>,
-  /// the producer timestamps are used in the MP4 fragments and for deduplication.
-  /// But the most recently ingested fragments based on server timestamps are
-  /// included in the MPEG-DASH manifest. This means that even if fragments
-  /// ingested in the past have producer timestamps with values now, they are not
-  /// included in the HLS media playlist.
-  ///
-  /// The default is <code>SERVER_TIMESTAMP</code>.
-  final DASHFragmentSelectorType? fragmentSelectorType;
-
-  /// The start and end of the timestamp range for the requested media.
-  ///
-  /// This value should not be present if <code>PlaybackType</code> is
-  /// <code>LIVE</code>.
-  final DASHTimestampRange? timestampRange;
-
-  DASHFragmentSelector({
-    this.fragmentSelectorType,
-    this.timestampRange,
-  });
-
-  Map<String, dynamic> toJson() {
-    final fragmentSelectorType = this.fragmentSelectorType;
-    final timestampRange = this.timestampRange;
-    return {
-      if (fragmentSelectorType != null)
-        'FragmentSelectorType': fragmentSelectorType.value,
-      if (timestampRange != null) 'TimestampRange': timestampRange,
-    };
-  }
-}
-
-class DASHFragmentSelectorType {
-  static const producerTimestamp =
-      DASHFragmentSelectorType._('PRODUCER_TIMESTAMP');
-  static const serverTimestamp = DASHFragmentSelectorType._('SERVER_TIMESTAMP');
-
-  final String value;
-
-  const DASHFragmentSelectorType._(this.value);
-
-  static const values = [producerTimestamp, serverTimestamp];
-
-  static DASHFragmentSelectorType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DASHFragmentSelectorType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DASHFragmentSelectorType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DASHPlaybackMode {
-  static const live = DASHPlaybackMode._('LIVE');
-  static const liveReplay = DASHPlaybackMode._('LIVE_REPLAY');
-  static const onDemand = DASHPlaybackMode._('ON_DEMAND');
-
-  final String value;
-
-  const DASHPlaybackMode._(this.value);
-
-  static const values = [live, liveReplay, onDemand];
-
-  static DASHPlaybackMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DASHPlaybackMode._(value));
-
-  @override
-  bool operator ==(other) => other is DASHPlaybackMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The start and end of the timestamp range for the requested media.
-///
-/// This value should not be present if <code>PlaybackType</code> is
-/// <code>LIVE</code>.
-///
-/// The values in <code>DASHimestampRange</code> are inclusive. Fragments that
-/// start exactly at or after the start time are included in the session.
-/// Fragments that start before the start time and continue past it are not
-/// included in the session.
-class DASHTimestampRange {
-  /// The end of the timestamp range for the requested media. This value must be
-  /// within 24 hours of the specified <code>StartTimestamp</code>, and it must be
-  /// later than the <code>StartTimestamp</code> value.
-  ///
-  /// If <code>FragmentSelectorType</code> for the request is
-  /// <code>SERVER_TIMESTAMP</code>, this value must be in the past.
-  ///
-  /// The <code>EndTimestamp</code> value is required for <code>ON_DEMAND</code>
-  /// mode, but optional for <code>LIVE_REPLAY</code> mode. If the
-  /// <code>EndTimestamp</code> is not set for <code>LIVE_REPLAY</code> mode then
-  /// the session will continue to include newly ingested fragments until the
-  /// session expires.
-  /// <note>
-  /// This value is inclusive. The <code>EndTimestamp</code> is compared to the
-  /// (starting) timestamp of the fragment. Fragments that start before the
-  /// <code>EndTimestamp</code> value and continue past it are included in the
-  /// session.
-  /// </note>
-  final DateTime? endTimestamp;
-
-  /// The start of the timestamp range for the requested media.
-  ///
-  /// If the <code>DASHTimestampRange</code> value is specified, the
-  /// <code>StartTimestamp</code> value is required.
-  ///
-  /// Only fragments that start exactly at or after <code>StartTimestamp</code>
-  /// are included in the session. Fragments that start before
-  /// <code>StartTimestamp</code> and continue past it aren't included in the
-  /// session. If <code>FragmentSelectorType</code> is
-  /// <code>SERVER_TIMESTAMP</code>, the <code>StartTimestamp</code> must be later
-  /// than the stream head.
-  final DateTime? startTimestamp;
-
-  DASHTimestampRange({
-    this.endTimestamp,
-    this.startTimestamp,
-  });
-
-  Map<String, dynamic> toJson() {
-    final endTimestamp = this.endTimestamp;
-    final startTimestamp = this.startTimestamp;
-    return {
-      if (endTimestamp != null)
-        'EndTimestamp': unixTimestampToJson(endTimestamp),
-      if (startTimestamp != null)
-        'StartTimestamp': unixTimestampToJson(startTimestamp),
-    };
-  }
-}
-
-class Format {
-  static const jpeg = Format._('JPEG');
-  static const png = Format._('PNG');
-
-  final String value;
-
-  const Format._(this.value);
-
-  static const values = [jpeg, png];
-
-  static Format fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Format._(value));
-
-  @override
-  bool operator ==(other) => other is Format && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class FormatConfigKey {
-  static const jPEGQuality = FormatConfigKey._('JPEGQuality');
-
-  final String value;
-
-  const FormatConfigKey._(this.value);
-
-  static const values = [jPEGQuality];
-
-  static FormatConfigKey fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FormatConfigKey._(value));
-
-  @override
-  bool operator ==(other) => other is FormatConfigKey && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents a segment of video or other time-delimited data.
-class Fragment {
-  /// The playback duration or other time value associated with the fragment.
-  final int? fragmentLengthInMilliseconds;
-
-  /// The unique identifier of the fragment. This value monotonically increases
-  /// based on the ingestion order.
-  final String? fragmentNumber;
-
-  /// The total fragment size, including information about the fragment and
-  /// contained media data.
-  final int? fragmentSizeInBytes;
-
-  /// The timestamp from the producer corresponding to the fragment.
-  final DateTime? producerTimestamp;
-
-  /// The timestamp from the Amazon Web Services server corresponding to the
-  /// fragment.
-  final DateTime? serverTimestamp;
-
-  Fragment({
-    this.fragmentLengthInMilliseconds,
-    this.fragmentNumber,
-    this.fragmentSizeInBytes,
-    this.producerTimestamp,
-    this.serverTimestamp,
-  });
-
-  factory Fragment.fromJson(Map<String, dynamic> json) {
-    return Fragment(
-      fragmentLengthInMilliseconds:
-          json['FragmentLengthInMilliseconds'] as int?,
-      fragmentNumber: json['FragmentNumber'] as String?,
-      fragmentSizeInBytes: json['FragmentSizeInBytes'] as int?,
-      producerTimestamp: timeStampFromJson(json['ProducerTimestamp']),
-      serverTimestamp: timeStampFromJson(json['ServerTimestamp']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final fragmentLengthInMilliseconds = this.fragmentLengthInMilliseconds;
-    final fragmentNumber = this.fragmentNumber;
-    final fragmentSizeInBytes = this.fragmentSizeInBytes;
-    final producerTimestamp = this.producerTimestamp;
-    final serverTimestamp = this.serverTimestamp;
-    return {
-      if (fragmentLengthInMilliseconds != null)
-        'FragmentLengthInMilliseconds': fragmentLengthInMilliseconds,
-      if (fragmentNumber != null) 'FragmentNumber': fragmentNumber,
-      if (fragmentSizeInBytes != null)
-        'FragmentSizeInBytes': fragmentSizeInBytes,
-      if (producerTimestamp != null)
-        'ProducerTimestamp': unixTimestampToJson(producerTimestamp),
-      if (serverTimestamp != null)
-        'ServerTimestamp': unixTimestampToJson(serverTimestamp),
-    };
-  }
-}
-
-/// Describes the timestamp range and timestamp origin of a range of fragments.
-///
-/// Only fragments with a start timestamp greater than or equal to the given
-/// start time and less than or equal to the end time are returned. For example,
-/// if a stream contains fragments with the following start timestamps:
-///
-/// <ul>
-/// <li>
-/// 00:00:00
-/// </li>
-/// <li>
-/// 00:00:02
-/// </li>
-/// <li>
-/// 00:00:04
-/// </li>
-/// <li>
-/// 00:00:06
-/// </li>
-/// </ul>
-/// A fragment selector range with a start time of 00:00:01 and end time of
-/// 00:00:04 would return the fragments with start times of 00:00:02 and
-/// 00:00:04.
-class FragmentSelector {
-  /// The origin of the timestamps to use (Server or Producer).
-  final FragmentSelectorType fragmentSelectorType;
-
-  /// The range of timestamps to return.
-  final TimestampRange timestampRange;
-
-  FragmentSelector({
-    required this.fragmentSelectorType,
-    required this.timestampRange,
-  });
-
-  Map<String, dynamic> toJson() {
-    final fragmentSelectorType = this.fragmentSelectorType;
-    final timestampRange = this.timestampRange;
-    return {
-      'FragmentSelectorType': fragmentSelectorType.value,
-      'TimestampRange': timestampRange,
-    };
-  }
-}
-
-class FragmentSelectorType {
-  static const producerTimestamp = FragmentSelectorType._('PRODUCER_TIMESTAMP');
-  static const serverTimestamp = FragmentSelectorType._('SERVER_TIMESTAMP');
-
-  final String value;
-
-  const FragmentSelectorType._(this.value);
-
-  static const values = [producerTimestamp, serverTimestamp];
-
-  static FragmentSelectorType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FragmentSelectorType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is FragmentSelectorType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class GetClipOutput {
@@ -1957,133 +1439,162 @@ class GetMediaForFragmentListOutput {
   }
 }
 
-class HLSDiscontinuityMode {
-  static const always = HLSDiscontinuityMode._('ALWAYS');
-  static const never = HLSDiscontinuityMode._('NEVER');
-  static const onDiscontinuity = HLSDiscontinuityMode._('ON_DISCONTINUITY');
+class ListFragmentsOutput {
+  /// A list of archived <a>Fragment</a> objects from the stream that meet the
+  /// selector criteria. Results are in no specific order, even across pages.
+  final List<Fragment>? fragments;
 
-  final String value;
+  /// If the returned list is truncated, the operation returns this token to use
+  /// to retrieve the next page of results. This value is <code>null</code> when
+  /// there are no more results to return.
+  final String? nextToken;
 
-  const HLSDiscontinuityMode._(this.value);
+  ListFragmentsOutput({
+    this.fragments,
+    this.nextToken,
+  });
 
-  static const values = [always, never, onDiscontinuity];
+  factory ListFragmentsOutput.fromJson(Map<String, dynamic> json) {
+    return ListFragmentsOutput(
+      fragments: (json['Fragments'] as List?)
+          ?.nonNulls
+          .map((e) => Fragment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 
-  static HLSDiscontinuityMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => HLSDiscontinuityMode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is HLSDiscontinuityMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final fragments = this.fragments;
+    final nextToken = this.nextToken;
+    return {
+      if (fragments != null) 'Fragments': fragments,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-class HLSDisplayFragmentTimestamp {
-  static const always = HLSDisplayFragmentTimestamp._('ALWAYS');
-  static const never = HLSDisplayFragmentTimestamp._('NEVER');
+/// Represents a segment of video or other time-delimited data.
+class Fragment {
+  /// The playback duration or other time value associated with the fragment.
+  final int? fragmentLengthInMilliseconds;
 
-  final String value;
+  /// The unique identifier of the fragment. This value monotonically increases
+  /// based on the ingestion order.
+  final String? fragmentNumber;
 
-  const HLSDisplayFragmentTimestamp._(this.value);
+  /// The total fragment size, including information about the fragment and
+  /// contained media data.
+  final int? fragmentSizeInBytes;
 
-  static const values = [always, never];
+  /// The timestamp from the producer corresponding to the fragment.
+  final DateTime? producerTimestamp;
 
-  static HLSDisplayFragmentTimestamp fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => HLSDisplayFragmentTimestamp._(value));
+  /// The timestamp from the Amazon Web Services server corresponding to the
+  /// fragment.
+  final DateTime? serverTimestamp;
 
-  @override
-  bool operator ==(other) =>
-      other is HLSDisplayFragmentTimestamp && other.value == value;
+  Fragment({
+    this.fragmentLengthInMilliseconds,
+    this.fragmentNumber,
+    this.fragmentSizeInBytes,
+    this.producerTimestamp,
+    this.serverTimestamp,
+  });
 
-  @override
-  int get hashCode => value.hashCode;
+  factory Fragment.fromJson(Map<String, dynamic> json) {
+    return Fragment(
+      fragmentLengthInMilliseconds:
+          json['FragmentLengthInMilliseconds'] as int?,
+      fragmentNumber: json['FragmentNumber'] as String?,
+      fragmentSizeInBytes: json['FragmentSizeInBytes'] as int?,
+      producerTimestamp: timeStampFromJson(json['ProducerTimestamp']),
+      serverTimestamp: timeStampFromJson(json['ServerTimestamp']),
+    );
+  }
 
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final fragmentLengthInMilliseconds = this.fragmentLengthInMilliseconds;
+    final fragmentNumber = this.fragmentNumber;
+    final fragmentSizeInBytes = this.fragmentSizeInBytes;
+    final producerTimestamp = this.producerTimestamp;
+    final serverTimestamp = this.serverTimestamp;
+    return {
+      if (fragmentLengthInMilliseconds != null)
+        'FragmentLengthInMilliseconds': fragmentLengthInMilliseconds,
+      if (fragmentNumber != null) 'FragmentNumber': fragmentNumber,
+      if (fragmentSizeInBytes != null)
+        'FragmentSizeInBytes': fragmentSizeInBytes,
+      if (producerTimestamp != null)
+        'ProducerTimestamp': unixTimestampToJson(producerTimestamp),
+      if (serverTimestamp != null)
+        'ServerTimestamp': unixTimestampToJson(serverTimestamp),
+    };
+  }
 }
 
-/// Contains the range of timestamps for the requested media, and the source of
-/// the timestamps.
-class HLSFragmentSelector {
-  /// The source of the timestamps for the requested media.
-  ///
-  /// When <code>FragmentSelectorType</code> is set to
-  /// <code>PRODUCER_TIMESTAMP</code> and
-  /// <a>GetHLSStreamingSessionURLInput$PlaybackMode</a> is <code>ON_DEMAND</code>
-  /// or <code>LIVE_REPLAY</code>, the first fragment ingested with a producer
-  /// timestamp within the specified <a>FragmentSelector$TimestampRange</a> is
-  /// included in the media playlist. In addition, the fragments with producer
-  /// timestamps within the <code>TimestampRange</code> ingested immediately
-  /// following the first fragment (up to the
-  /// <a>GetHLSStreamingSessionURLInput$MaxMediaPlaylistFragmentResults</a> value)
-  /// are included.
-  ///
-  /// Fragments that have duplicate producer timestamps are deduplicated. This
-  /// means that if producers are producing a stream of fragments with producer
-  /// timestamps that are approximately equal to the true clock time, the HLS
-  /// media playlists will contain all of the fragments within the requested
-  /// timestamp range. If some fragments are ingested within the same time range
-  /// and very different points in time, only the oldest ingested collection of
-  /// fragments are returned.
-  ///
-  /// When <code>FragmentSelectorType</code> is set to
-  /// <code>PRODUCER_TIMESTAMP</code> and
-  /// <a>GetHLSStreamingSessionURLInput$PlaybackMode</a> is <code>LIVE</code>, the
-  /// producer timestamps are used in the MP4 fragments and for deduplication. But
-  /// the most recently ingested fragments based on server timestamps are included
-  /// in the HLS media playlist. This means that even if fragments ingested in the
-  /// past have producer timestamps with values now, they are not included in the
-  /// HLS media playlist.
-  ///
-  /// The default is <code>SERVER_TIMESTAMP</code>.
-  final HLSFragmentSelectorType? fragmentSelectorType;
+/// Describes the timestamp range and timestamp origin of a range of fragments.
+///
+/// Only fragments with a start timestamp greater than or equal to the given
+/// start time and less than or equal to the end time are returned. For example,
+/// if a stream contains fragments with the following start timestamps:
+///
+/// <ul>
+/// <li>
+/// 00:00:00
+/// </li>
+/// <li>
+/// 00:00:02
+/// </li>
+/// <li>
+/// 00:00:04
+/// </li>
+/// <li>
+/// 00:00:06
+/// </li>
+/// </ul>
+/// A fragment selector range with a start time of 00:00:01 and end time of
+/// 00:00:04 would return the fragments with start times of 00:00:02 and
+/// 00:00:04.
+class FragmentSelector {
+  /// The origin of the timestamps to use (Server or Producer).
+  final FragmentSelectorType fragmentSelectorType;
 
-  /// The start and end of the timestamp range for the requested media.
-  ///
-  /// This value should not be present if <code>PlaybackType</code> is
-  /// <code>LIVE</code>.
-  final HLSTimestampRange? timestampRange;
+  /// The range of timestamps to return.
+  final TimestampRange timestampRange;
 
-  HLSFragmentSelector({
-    this.fragmentSelectorType,
-    this.timestampRange,
+  FragmentSelector({
+    required this.fragmentSelectorType,
+    required this.timestampRange,
   });
 
   Map<String, dynamic> toJson() {
     final fragmentSelectorType = this.fragmentSelectorType;
     final timestampRange = this.timestampRange;
     return {
-      if (fragmentSelectorType != null)
-        'FragmentSelectorType': fragmentSelectorType.value,
-      if (timestampRange != null) 'TimestampRange': timestampRange,
+      'FragmentSelectorType': fragmentSelectorType.value,
+      'TimestampRange': timestampRange,
     };
   }
 }
 
-class HLSFragmentSelectorType {
-  static const producerTimestamp =
-      HLSFragmentSelectorType._('PRODUCER_TIMESTAMP');
-  static const serverTimestamp = HLSFragmentSelectorType._('SERVER_TIMESTAMP');
+class FragmentSelectorType {
+  static const producerTimestamp = FragmentSelectorType._('PRODUCER_TIMESTAMP');
+  static const serverTimestamp = FragmentSelectorType._('SERVER_TIMESTAMP');
 
   final String value;
 
-  const HLSFragmentSelectorType._(this.value);
+  const FragmentSelectorType._(this.value);
 
   static const values = [producerTimestamp, serverTimestamp];
 
-  static HLSFragmentSelectorType fromString(String value) =>
+  static FragmentSelectorType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => HLSFragmentSelectorType._(value));
+          orElse: () => FragmentSelectorType._(value));
 
   @override
   bool operator ==(other) =>
-      other is HLSFragmentSelectorType && other.value == value;
+      other is FragmentSelectorType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -2092,82 +1603,27 @@ class HLSFragmentSelectorType {
   String toString() => value;
 }
 
-class HLSPlaybackMode {
-  static const live = HLSPlaybackMode._('LIVE');
-  static const liveReplay = HLSPlaybackMode._('LIVE_REPLAY');
-  static const onDemand = HLSPlaybackMode._('ON_DEMAND');
+/// The range of timestamps for which to return fragments.
+class TimestampRange {
+  /// The ending timestamp in the range of timestamps for which to return
+  /// fragments.
+  final DateTime endTimestamp;
 
-  final String value;
+  /// The starting timestamp in the range of timestamps for which to return
+  /// fragments.
+  final DateTime startTimestamp;
 
-  const HLSPlaybackMode._(this.value);
-
-  static const values = [live, liveReplay, onDemand];
-
-  static HLSPlaybackMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => HLSPlaybackMode._(value));
-
-  @override
-  bool operator ==(other) => other is HLSPlaybackMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The start and end of the timestamp range for the requested media.
-///
-/// This value should not be present if <code>PlaybackType</code> is
-/// <code>LIVE</code>.
-class HLSTimestampRange {
-  /// The end of the timestamp range for the requested media. This value must be
-  /// within 24 hours of the specified <code>StartTimestamp</code>, and it must be
-  /// later than the <code>StartTimestamp</code> value.
-  ///
-  /// If <code>FragmentSelectorType</code> for the request is
-  /// <code>SERVER_TIMESTAMP</code>, this value must be in the past.
-  ///
-  /// The <code>EndTimestamp</code> value is required for <code>ON_DEMAND</code>
-  /// mode, but optional for <code>LIVE_REPLAY</code> mode. If the
-  /// <code>EndTimestamp</code> is not set for <code>LIVE_REPLAY</code> mode then
-  /// the session will continue to include newly ingested fragments until the
-  /// session expires.
-  /// <note>
-  /// This value is inclusive. The <code>EndTimestamp</code> is compared to the
-  /// (starting) timestamp of the fragment. Fragments that start before the
-  /// <code>EndTimestamp</code> value and continue past it are included in the
-  /// session.
-  /// </note>
-  final DateTime? endTimestamp;
-
-  /// The start of the timestamp range for the requested media.
-  ///
-  /// If the <code>HLSTimestampRange</code> value is specified, the
-  /// <code>StartTimestamp</code> value is required.
-  ///
-  /// Only fragments that start exactly at or after <code>StartTimestamp</code>
-  /// are included in the session. Fragments that start before
-  /// <code>StartTimestamp</code> and continue past it aren't included in the
-  /// session. If <code>FragmentSelectorType</code> is
-  /// <code>SERVER_TIMESTAMP</code>, the <code>StartTimestamp</code> must be later
-  /// than the stream head.
-  final DateTime? startTimestamp;
-
-  HLSTimestampRange({
-    this.endTimestamp,
-    this.startTimestamp,
+  TimestampRange({
+    required this.endTimestamp,
+    required this.startTimestamp,
   });
 
   Map<String, dynamic> toJson() {
     final endTimestamp = this.endTimestamp;
     final startTimestamp = this.startTimestamp;
     return {
-      if (endTimestamp != null)
-        'EndTimestamp': unixTimestampToJson(endTimestamp),
-      if (startTimestamp != null)
-        'StartTimestamp': unixTimestampToJson(startTimestamp),
+      'EndTimestamp': unixTimestampToJson(endTimestamp),
+      'StartTimestamp': unixTimestampToJson(startTimestamp),
     };
   }
 }
@@ -2272,52 +1728,596 @@ class ImageSelectorType {
   String toString() => value;
 }
 
-class ListFragmentsOutput {
-  /// A list of archived <a>Fragment</a> objects from the stream that meet the
-  /// selector criteria. Results are in no specific order, even across pages.
-  final List<Fragment>? fragments;
+class Format {
+  static const jpeg = Format._('JPEG');
+  static const png = Format._('PNG');
 
-  /// If the returned list is truncated, the operation returns this token to use
-  /// to retrieve the next page of results. This value is <code>null</code> when
-  /// there are no more results to return.
-  final String? nextToken;
+  final String value;
 
-  ListFragmentsOutput({
-    this.fragments,
-    this.nextToken,
+  const Format._(this.value);
+
+  static const values = [jpeg, png];
+
+  static Format fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Format._(value));
+
+  @override
+  bool operator ==(other) => other is Format && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class FormatConfigKey {
+  static const jPEGQuality = FormatConfigKey._('JPEGQuality');
+
+  final String value;
+
+  const FormatConfigKey._(this.value);
+
+  static const values = [jPEGQuality];
+
+  static FormatConfigKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FormatConfigKey._(value));
+
+  @override
+  bool operator ==(other) => other is FormatConfigKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class HLSPlaybackMode {
+  static const live = HLSPlaybackMode._('LIVE');
+  static const liveReplay = HLSPlaybackMode._('LIVE_REPLAY');
+  static const onDemand = HLSPlaybackMode._('ON_DEMAND');
+
+  final String value;
+
+  const HLSPlaybackMode._(this.value);
+
+  static const values = [live, liveReplay, onDemand];
+
+  static HLSPlaybackMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HLSPlaybackMode._(value));
+
+  @override
+  bool operator ==(other) => other is HLSPlaybackMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains the range of timestamps for the requested media, and the source of
+/// the timestamps.
+class HLSFragmentSelector {
+  /// The source of the timestamps for the requested media.
+  ///
+  /// When <code>FragmentSelectorType</code> is set to
+  /// <code>PRODUCER_TIMESTAMP</code> and
+  /// <a>GetHLSStreamingSessionURLInput$PlaybackMode</a> is <code>ON_DEMAND</code>
+  /// or <code>LIVE_REPLAY</code>, the first fragment ingested with a producer
+  /// timestamp within the specified <a>FragmentSelector$TimestampRange</a> is
+  /// included in the media playlist. In addition, the fragments with producer
+  /// timestamps within the <code>TimestampRange</code> ingested immediately
+  /// following the first fragment (up to the
+  /// <a>GetHLSStreamingSessionURLInput$MaxMediaPlaylistFragmentResults</a> value)
+  /// are included.
+  ///
+  /// Fragments that have duplicate producer timestamps are deduplicated. This
+  /// means that if producers are producing a stream of fragments with producer
+  /// timestamps that are approximately equal to the true clock time, the HLS
+  /// media playlists will contain all of the fragments within the requested
+  /// timestamp range. If some fragments are ingested within the same time range
+  /// and very different points in time, only the oldest ingested collection of
+  /// fragments are returned.
+  ///
+  /// When <code>FragmentSelectorType</code> is set to
+  /// <code>PRODUCER_TIMESTAMP</code> and
+  /// <a>GetHLSStreamingSessionURLInput$PlaybackMode</a> is <code>LIVE</code>, the
+  /// producer timestamps are used in the MP4 fragments and for deduplication. But
+  /// the most recently ingested fragments based on server timestamps are included
+  /// in the HLS media playlist. This means that even if fragments ingested in the
+  /// past have producer timestamps with values now, they are not included in the
+  /// HLS media playlist.
+  ///
+  /// The default is <code>SERVER_TIMESTAMP</code>.
+  final HLSFragmentSelectorType? fragmentSelectorType;
+
+  /// The start and end of the timestamp range for the requested media.
+  ///
+  /// This value should not be present if <code>PlaybackType</code> is
+  /// <code>LIVE</code>.
+  final HLSTimestampRange? timestampRange;
+
+  HLSFragmentSelector({
+    this.fragmentSelectorType,
+    this.timestampRange,
   });
 
-  factory ListFragmentsOutput.fromJson(Map<String, dynamic> json) {
-    return ListFragmentsOutput(
-      fragments: (json['Fragments'] as List?)
-          ?.nonNulls
-          .map((e) => Fragment.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final fragments = this.fragments;
-    final nextToken = this.nextToken;
+    final fragmentSelectorType = this.fragmentSelectorType;
+    final timestampRange = this.timestampRange;
     return {
-      if (fragments != null) 'Fragments': fragments,
-      if (nextToken != null) 'NextToken': nextToken,
+      if (fragmentSelectorType != null)
+        'FragmentSelectorType': fragmentSelectorType.value,
+      if (timestampRange != null) 'TimestampRange': timestampRange,
     };
   }
 }
 
+class ContainerFormat {
+  static const fragmentedMp4 = ContainerFormat._('FRAGMENTED_MP4');
+  static const mpegTs = ContainerFormat._('MPEG_TS');
+
+  final String value;
+
+  const ContainerFormat._(this.value);
+
+  static const values = [fragmentedMp4, mpegTs];
+
+  static ContainerFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContainerFormat._(value));
+
+  @override
+  bool operator ==(other) => other is ContainerFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class HLSDiscontinuityMode {
+  static const always = HLSDiscontinuityMode._('ALWAYS');
+  static const never = HLSDiscontinuityMode._('NEVER');
+  static const onDiscontinuity = HLSDiscontinuityMode._('ON_DISCONTINUITY');
+
+  final String value;
+
+  const HLSDiscontinuityMode._(this.value);
+
+  static const values = [always, never, onDiscontinuity];
+
+  static HLSDiscontinuityMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HLSDiscontinuityMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HLSDiscontinuityMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class HLSDisplayFragmentTimestamp {
+  static const always = HLSDisplayFragmentTimestamp._('ALWAYS');
+  static const never = HLSDisplayFragmentTimestamp._('NEVER');
+
+  final String value;
+
+  const HLSDisplayFragmentTimestamp._(this.value);
+
+  static const values = [always, never];
+
+  static HLSDisplayFragmentTimestamp fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HLSDisplayFragmentTimestamp._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HLSDisplayFragmentTimestamp && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class HLSFragmentSelectorType {
+  static const producerTimestamp =
+      HLSFragmentSelectorType._('PRODUCER_TIMESTAMP');
+  static const serverTimestamp = HLSFragmentSelectorType._('SERVER_TIMESTAMP');
+
+  final String value;
+
+  const HLSFragmentSelectorType._(this.value);
+
+  static const values = [producerTimestamp, serverTimestamp];
+
+  static HLSFragmentSelectorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HLSFragmentSelectorType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HLSFragmentSelectorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The start and end of the timestamp range for the requested media.
+///
+/// This value should not be present if <code>PlaybackType</code> is
+/// <code>LIVE</code>.
+class HLSTimestampRange {
+  /// The end of the timestamp range for the requested media. This value must be
+  /// within 24 hours of the specified <code>StartTimestamp</code>, and it must be
+  /// later than the <code>StartTimestamp</code> value.
+  ///
+  /// If <code>FragmentSelectorType</code> for the request is
+  /// <code>SERVER_TIMESTAMP</code>, this value must be in the past.
+  ///
+  /// The <code>EndTimestamp</code> value is required for <code>ON_DEMAND</code>
+  /// mode, but optional for <code>LIVE_REPLAY</code> mode. If the
+  /// <code>EndTimestamp</code> is not set for <code>LIVE_REPLAY</code> mode then
+  /// the session will continue to include newly ingested fragments until the
+  /// session expires.
+  /// <note>
+  /// This value is inclusive. The <code>EndTimestamp</code> is compared to the
+  /// (starting) timestamp of the fragment. Fragments that start before the
+  /// <code>EndTimestamp</code> value and continue past it are included in the
+  /// session.
+  /// </note>
+  final DateTime? endTimestamp;
+
+  /// The start of the timestamp range for the requested media.
+  ///
+  /// If the <code>HLSTimestampRange</code> value is specified, the
+  /// <code>StartTimestamp</code> value is required.
+  ///
+  /// Only fragments that start exactly at or after <code>StartTimestamp</code>
+  /// are included in the session. Fragments that start before
+  /// <code>StartTimestamp</code> and continue past it aren't included in the
+  /// session. If <code>FragmentSelectorType</code> is
+  /// <code>SERVER_TIMESTAMP</code>, the <code>StartTimestamp</code> must be later
+  /// than the stream head.
+  final DateTime? startTimestamp;
+
+  HLSTimestampRange({
+    this.endTimestamp,
+    this.startTimestamp,
+  });
+
+  Map<String, dynamic> toJson() {
+    final endTimestamp = this.endTimestamp;
+    final startTimestamp = this.startTimestamp;
+    return {
+      if (endTimestamp != null)
+        'EndTimestamp': unixTimestampToJson(endTimestamp),
+      if (startTimestamp != null)
+        'StartTimestamp': unixTimestampToJson(startTimestamp),
+    };
+  }
+}
+
+class DASHPlaybackMode {
+  static const live = DASHPlaybackMode._('LIVE');
+  static const liveReplay = DASHPlaybackMode._('LIVE_REPLAY');
+  static const onDemand = DASHPlaybackMode._('ON_DEMAND');
+
+  final String value;
+
+  const DASHPlaybackMode._(this.value);
+
+  static const values = [live, liveReplay, onDemand];
+
+  static DASHPlaybackMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DASHPlaybackMode._(value));
+
+  @override
+  bool operator ==(other) => other is DASHPlaybackMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DASHDisplayFragmentTimestamp {
+  static const always = DASHDisplayFragmentTimestamp._('ALWAYS');
+  static const never = DASHDisplayFragmentTimestamp._('NEVER');
+
+  final String value;
+
+  const DASHDisplayFragmentTimestamp._(this.value);
+
+  static const values = [always, never];
+
+  static DASHDisplayFragmentTimestamp fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DASHDisplayFragmentTimestamp._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DASHDisplayFragmentTimestamp && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DASHDisplayFragmentNumber {
+  static const always = DASHDisplayFragmentNumber._('ALWAYS');
+  static const never = DASHDisplayFragmentNumber._('NEVER');
+
+  final String value;
+
+  const DASHDisplayFragmentNumber._(this.value);
+
+  static const values = [always, never];
+
+  static DASHDisplayFragmentNumber fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DASHDisplayFragmentNumber._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DASHDisplayFragmentNumber && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains the range of timestamps for the requested media, and the source of
+/// the timestamps.
+class DASHFragmentSelector {
+  /// The source of the timestamps for the requested media.
+  ///
+  /// When <code>FragmentSelectorType</code> is set to
+  /// <code>PRODUCER_TIMESTAMP</code> and
+  /// <a>GetDASHStreamingSessionURLInput$PlaybackMode</a> is
+  /// <code>ON_DEMAND</code> or <code>LIVE_REPLAY</code>, the first fragment
+  /// ingested with a producer timestamp within the specified
+  /// <a>FragmentSelector$TimestampRange</a> is included in the media playlist. In
+  /// addition, the fragments with producer timestamps within the
+  /// <code>TimestampRange</code> ingested immediately following the first
+  /// fragment (up to the
+  /// <a>GetDASHStreamingSessionURLInput$MaxManifestFragmentResults</a> value) are
+  /// included.
+  ///
+  /// Fragments that have duplicate producer timestamps are deduplicated. This
+  /// means that if producers are producing a stream of fragments with producer
+  /// timestamps that are approximately equal to the true clock time, the
+  /// MPEG-DASH manifest will contain all of the fragments within the requested
+  /// timestamp range. If some fragments are ingested within the same time range
+  /// and very different points in time, only the oldest ingested collection of
+  /// fragments are returned.
+  ///
+  /// When <code>FragmentSelectorType</code> is set to
+  /// <code>PRODUCER_TIMESTAMP</code> and
+  /// <a>GetDASHStreamingSessionURLInput$PlaybackMode</a> is <code>LIVE</code>,
+  /// the producer timestamps are used in the MP4 fragments and for deduplication.
+  /// But the most recently ingested fragments based on server timestamps are
+  /// included in the MPEG-DASH manifest. This means that even if fragments
+  /// ingested in the past have producer timestamps with values now, they are not
+  /// included in the HLS media playlist.
+  ///
+  /// The default is <code>SERVER_TIMESTAMP</code>.
+  final DASHFragmentSelectorType? fragmentSelectorType;
+
+  /// The start and end of the timestamp range for the requested media.
+  ///
+  /// This value should not be present if <code>PlaybackType</code> is
+  /// <code>LIVE</code>.
+  final DASHTimestampRange? timestampRange;
+
+  DASHFragmentSelector({
+    this.fragmentSelectorType,
+    this.timestampRange,
+  });
+
+  Map<String, dynamic> toJson() {
+    final fragmentSelectorType = this.fragmentSelectorType;
+    final timestampRange = this.timestampRange;
+    return {
+      if (fragmentSelectorType != null)
+        'FragmentSelectorType': fragmentSelectorType.value,
+      if (timestampRange != null) 'TimestampRange': timestampRange,
+    };
+  }
+}
+
+class DASHFragmentSelectorType {
+  static const producerTimestamp =
+      DASHFragmentSelectorType._('PRODUCER_TIMESTAMP');
+  static const serverTimestamp = DASHFragmentSelectorType._('SERVER_TIMESTAMP');
+
+  final String value;
+
+  const DASHFragmentSelectorType._(this.value);
+
+  static const values = [producerTimestamp, serverTimestamp];
+
+  static DASHFragmentSelectorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DASHFragmentSelectorType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DASHFragmentSelectorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The start and end of the timestamp range for the requested media.
+///
+/// This value should not be present if <code>PlaybackType</code> is
+/// <code>LIVE</code>.
+///
+/// The values in <code>DASHimestampRange</code> are inclusive. Fragments that
+/// start exactly at or after the start time are included in the session.
+/// Fragments that start before the start time and continue past it are not
+/// included in the session.
+class DASHTimestampRange {
+  /// The end of the timestamp range for the requested media. This value must be
+  /// within 24 hours of the specified <code>StartTimestamp</code>, and it must be
+  /// later than the <code>StartTimestamp</code> value.
+  ///
+  /// If <code>FragmentSelectorType</code> for the request is
+  /// <code>SERVER_TIMESTAMP</code>, this value must be in the past.
+  ///
+  /// The <code>EndTimestamp</code> value is required for <code>ON_DEMAND</code>
+  /// mode, but optional for <code>LIVE_REPLAY</code> mode. If the
+  /// <code>EndTimestamp</code> is not set for <code>LIVE_REPLAY</code> mode then
+  /// the session will continue to include newly ingested fragments until the
+  /// session expires.
+  /// <note>
+  /// This value is inclusive. The <code>EndTimestamp</code> is compared to the
+  /// (starting) timestamp of the fragment. Fragments that start before the
+  /// <code>EndTimestamp</code> value and continue past it are included in the
+  /// session.
+  /// </note>
+  final DateTime? endTimestamp;
+
+  /// The start of the timestamp range for the requested media.
+  ///
+  /// If the <code>DASHTimestampRange</code> value is specified, the
+  /// <code>StartTimestamp</code> value is required.
+  ///
+  /// Only fragments that start exactly at or after <code>StartTimestamp</code>
+  /// are included in the session. Fragments that start before
+  /// <code>StartTimestamp</code> and continue past it aren't included in the
+  /// session. If <code>FragmentSelectorType</code> is
+  /// <code>SERVER_TIMESTAMP</code>, the <code>StartTimestamp</code> must be later
+  /// than the stream head.
+  final DateTime? startTimestamp;
+
+  DASHTimestampRange({
+    this.endTimestamp,
+    this.startTimestamp,
+  });
+
+  Map<String, dynamic> toJson() {
+    final endTimestamp = this.endTimestamp;
+    final startTimestamp = this.startTimestamp;
+    return {
+      if (endTimestamp != null)
+        'EndTimestamp': unixTimestampToJson(endTimestamp),
+      if (startTimestamp != null)
+        'StartTimestamp': unixTimestampToJson(startTimestamp),
+    };
+  }
+}
+
+/// Describes the timestamp range and timestamp origin of a range of fragments.
+///
+/// Fragments that have duplicate producer timestamps are deduplicated. This
+/// means that if producers are producing a stream of fragments with producer
+/// timestamps that are approximately equal to the true clock time, the clip
+/// will contain all of the fragments within the requested timestamp range. If
+/// some fragments are ingested within the same time range and very different
+/// points in time, only the oldest ingested collection of fragments are
+/// returned.
+class ClipFragmentSelector {
+  /// The origin of the timestamps to use (Server or Producer).
+  final ClipFragmentSelectorType fragmentSelectorType;
+
+  /// The range of timestamps to return.
+  final ClipTimestampRange timestampRange;
+
+  ClipFragmentSelector({
+    required this.fragmentSelectorType,
+    required this.timestampRange,
+  });
+
+  Map<String, dynamic> toJson() {
+    final fragmentSelectorType = this.fragmentSelectorType;
+    final timestampRange = this.timestampRange;
+    return {
+      'FragmentSelectorType': fragmentSelectorType.value,
+      'TimestampRange': timestampRange,
+    };
+  }
+}
+
+class ClipFragmentSelectorType {
+  static const producerTimestamp =
+      ClipFragmentSelectorType._('PRODUCER_TIMESTAMP');
+  static const serverTimestamp = ClipFragmentSelectorType._('SERVER_TIMESTAMP');
+
+  final String value;
+
+  const ClipFragmentSelectorType._(this.value);
+
+  static const values = [producerTimestamp, serverTimestamp];
+
+  static ClipFragmentSelectorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ClipFragmentSelectorType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ClipFragmentSelectorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// The range of timestamps for which to return fragments.
-class TimestampRange {
-  /// The ending timestamp in the range of timestamps for which to return
-  /// fragments.
+class ClipTimestampRange {
+  /// The end of the timestamp range for the requested media.
+  ///
+  /// This value must be within 24 hours of the specified
+  /// <code>StartTimestamp</code>, and it must be later than the
+  /// <code>StartTimestamp</code> value. If <code>FragmentSelectorType</code> for
+  /// the request is <code>SERVER_TIMESTAMP</code>, this value must be in the
+  /// past.
+  ///
+  /// This value is inclusive. The <code>EndTimestamp</code> is compared to the
+  /// (starting) timestamp of the fragment. Fragments that start before the
+  /// <code>EndTimestamp</code> value and continue past it are included in the
+  /// session.
   final DateTime endTimestamp;
 
   /// The starting timestamp in the range of timestamps for which to return
   /// fragments.
+  ///
+  /// Only fragments that start exactly at or after <code>StartTimestamp</code>
+  /// are included in the session. Fragments that start before
+  /// <code>StartTimestamp</code> and continue past it aren't included in the
+  /// session. If <code>FragmentSelectorType</code> is
+  /// <code>SERVER_TIMESTAMP</code>, the <code>StartTimestamp</code> must be later
+  /// than the stream head.
   final DateTime startTimestamp;
 
-  TimestampRange({
+  ClipTimestampRange({
     required this.endTimestamp,
     required this.startTimestamp,
   });

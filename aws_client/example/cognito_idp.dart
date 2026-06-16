@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:aws_client/cognito_identity_provider_2016_04_18.dart';
+import 'package:aws_client/cognito_identity_provider.dart';
 import 'package:crypto/crypto.dart';
 
 void main() async {

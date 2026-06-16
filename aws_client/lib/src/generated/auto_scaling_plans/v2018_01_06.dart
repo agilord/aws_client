@@ -34,7 +34,6 @@ class AutoScalingPlans {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'autoscaling-plans',
-            signingName: 'autoscaling-plans',
           ),
           region: region,
           credentials: credentials,
@@ -53,10 +52,10 @@ class AutoScalingPlans {
 
   /// Creates a scaling plan.
   ///
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
   /// May throw [ConcurrentUpdateException].
   /// May throw [InternalServiceException].
+  /// May throw [LimitExceededException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [applicationSource] :
   /// A CloudFormation stack or set of tags. You can create one scaling plan per
@@ -109,10 +108,10 @@ class AutoScalingPlans {
   /// If the plan has launched resources or has scaling activities in progress,
   /// you must delete those resources separately.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ObjectNotFoundException].
   /// May throw [ConcurrentUpdateException].
   /// May throw [InternalServiceException].
+  /// May throw [ObjectNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [scalingPlanName] :
   /// The name of the scaling plan.
@@ -143,10 +142,10 @@ class AutoScalingPlans {
 
   /// Describes the scalable resources in the specified scaling plan.
   ///
-  /// May throw [ValidationException].
-  /// May throw [InvalidNextTokenException].
   /// May throw [ConcurrentUpdateException].
   /// May throw [InternalServiceException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [scalingPlanName] :
   /// The name of the scaling plan.
@@ -191,10 +190,10 @@ class AutoScalingPlans {
 
   /// Describes one or more of your scaling plans.
   ///
-  /// May throw [ValidationException].
-  /// May throw [InvalidNextTokenException].
   /// May throw [ConcurrentUpdateException].
   /// May throw [InternalServiceException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [applicationSources] :
   /// The sources for the applications (up to 10). If you specify scaling plan
@@ -256,8 +255,8 @@ class AutoScalingPlans {
   /// that are calculated using historical data points from a specified
   /// CloudWatch load metric. Data points are available for up to 56 days.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServiceException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [endTime] :
   /// The exclusive end time of the time range for the forecast data to get. The
@@ -358,10 +357,10 @@ class AutoScalingPlans {
   /// You cannot update a scaling plan if it is in the process of being created,
   /// updated, or deleted.
   ///
-  /// May throw [ValidationException].
   /// May throw [ConcurrentUpdateException].
   /// May throw [InternalServiceException].
   /// May throw [ObjectNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [scalingPlanName] :
   /// The name of the scaling plan.
@@ -410,40 +409,6 @@ class AutoScalingPlans {
   }
 }
 
-/// Represents an application source.
-class ApplicationSource {
-  /// The Amazon Resource Name (ARN) of a AWS CloudFormation stack.
-  final String? cloudFormationStackARN;
-
-  /// A set of tags (up to 50).
-  final List<TagFilter>? tagFilters;
-
-  ApplicationSource({
-    this.cloudFormationStackARN,
-    this.tagFilters,
-  });
-
-  factory ApplicationSource.fromJson(Map<String, dynamic> json) {
-    return ApplicationSource(
-      cloudFormationStackARN: json['CloudFormationStackARN'] as String?,
-      tagFilters: (json['TagFilters'] as List?)
-          ?.nonNulls
-          .map((e) => TagFilter.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cloudFormationStackARN = this.cloudFormationStackARN;
-    final tagFilters = this.tagFilters;
-    return {
-      if (cloudFormationStackARN != null)
-        'CloudFormationStackARN': cloudFormationStackARN,
-      if (tagFilters != null) 'TagFilters': tagFilters,
-    };
-  }
-}
-
 class CreateScalingPlanResponse {
   /// The version number of the scaling plan. This value is always <code>1</code>.
   /// Currently, you cannot have multiple scaling plan versions.
@@ -463,213 +428,6 @@ class CreateScalingPlanResponse {
     final scalingPlanVersion = this.scalingPlanVersion;
     return {
       'ScalingPlanVersion': scalingPlanVersion,
-    };
-  }
-}
-
-/// Represents a CloudWatch metric of your choosing that can be used for
-/// predictive scaling.
-///
-/// For predictive scaling to work with a customized load metric specification,
-/// AWS Auto Scaling needs access to the <code>Sum</code> and
-/// <code>Average</code> statistics that CloudWatch computes from metric data.
-///
-/// When you choose a load metric, make sure that the required <code>Sum</code>
-/// and <code>Average</code> statistics for your metric are available in
-/// CloudWatch and that they provide relevant data for predictive scaling. The
-/// <code>Sum</code> statistic must represent the total load on the resource,
-/// and the <code>Average</code> statistic must represent the average load per
-/// capacity unit of the resource. For example, there is a metric that counts
-/// the number of requests processed by your Auto Scaling group. If the
-/// <code>Sum</code> statistic represents the total request count processed by
-/// the group, then the <code>Average</code> statistic for the specified metric
-/// must represent the average request count processed by each instance of the
-/// group.
-///
-/// If you publish your own metrics, you can aggregate the data points at a
-/// given interval and then publish the aggregated data points to CloudWatch.
-/// Before AWS Auto Scaling generates the forecast, it sums up all the metric
-/// data points that occurred within each hour to match the granularity period
-/// that is used in the forecast (60 minutes).
-///
-/// For information about terminology, available metrics, or how to publish new
-/// metrics, see <a
-/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html">Amazon
-/// CloudWatch Concepts</a> in the <i>Amazon CloudWatch User Guide</i>.
-///
-/// After creating your scaling plan, you can use the AWS Auto Scaling console
-/// to visualize forecasts for the specified metric. For more information, see
-/// <a
-/// href="https://docs.aws.amazon.com/autoscaling/plans/userguide/gs-create-scaling-plan.html#gs-view-resource">View
-/// Scaling Information for a Resource</a> in the <i>AWS Auto Scaling User
-/// Guide</i>.
-class CustomizedLoadMetricSpecification {
-  /// The name of the metric.
-  final String metricName;
-
-  /// The namespace of the metric.
-  final String namespace;
-
-  /// The statistic of the metric. The only valid value is <code>Sum</code>.
-  final MetricStatistic statistic;
-
-  /// The dimensions of the metric.
-  ///
-  /// Conditional: If you published your metric with dimensions, you must specify
-  /// the same dimensions in your customized load metric specification.
-  final List<MetricDimension>? dimensions;
-
-  /// The unit of the metric.
-  final String? unit;
-
-  CustomizedLoadMetricSpecification({
-    required this.metricName,
-    required this.namespace,
-    required this.statistic,
-    this.dimensions,
-    this.unit,
-  });
-
-  factory CustomizedLoadMetricSpecification.fromJson(
-      Map<String, dynamic> json) {
-    return CustomizedLoadMetricSpecification(
-      metricName: (json['MetricName'] as String?) ?? '',
-      namespace: (json['Namespace'] as String?) ?? '',
-      statistic:
-          MetricStatistic.fromString((json['Statistic'] as String?) ?? ''),
-      dimensions: (json['Dimensions'] as List?)
-          ?.nonNulls
-          .map((e) => MetricDimension.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      unit: json['Unit'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final metricName = this.metricName;
-    final namespace = this.namespace;
-    final statistic = this.statistic;
-    final dimensions = this.dimensions;
-    final unit = this.unit;
-    return {
-      'MetricName': metricName,
-      'Namespace': namespace,
-      'Statistic': statistic.value,
-      if (dimensions != null) 'Dimensions': dimensions,
-      if (unit != null) 'Unit': unit,
-    };
-  }
-}
-
-/// Represents a CloudWatch metric of your choosing that can be used for dynamic
-/// scaling as part of a target tracking scaling policy.
-///
-/// To create your customized scaling metric specification:
-///
-/// <ul>
-/// <li>
-/// Add values for each required parameter from CloudWatch. You can use an
-/// existing metric, or a new metric that you create. To use your own metric,
-/// you must first publish the metric to CloudWatch. For more information, see
-/// <a
-/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/publishingMetrics.html">Publish
-/// Custom Metrics</a> in the <i>Amazon CloudWatch User Guide</i>.
-/// </li>
-/// <li>
-/// Choose a metric that changes proportionally with capacity. The value of the
-/// metric should increase or decrease in inverse proportion to the number of
-/// capacity units. That is, the value of the metric should decrease when
-/// capacity increases.
-/// </li>
-/// </ul>
-/// For information about terminology, available metrics, or how to publish new
-/// metrics, see <a
-/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html">Amazon
-/// CloudWatch Concepts</a> in the <i>Amazon CloudWatch User Guide</i>.
-class CustomizedScalingMetricSpecification {
-  /// The name of the metric.
-  final String metricName;
-
-  /// The namespace of the metric.
-  final String namespace;
-
-  /// The statistic of the metric.
-  final MetricStatistic statistic;
-
-  /// The dimensions of the metric.
-  ///
-  /// Conditional: If you published your metric with dimensions, you must specify
-  /// the same dimensions in your customized scaling metric specification.
-  final List<MetricDimension>? dimensions;
-
-  /// The unit of the metric.
-  final String? unit;
-
-  CustomizedScalingMetricSpecification({
-    required this.metricName,
-    required this.namespace,
-    required this.statistic,
-    this.dimensions,
-    this.unit,
-  });
-
-  factory CustomizedScalingMetricSpecification.fromJson(
-      Map<String, dynamic> json) {
-    return CustomizedScalingMetricSpecification(
-      metricName: (json['MetricName'] as String?) ?? '',
-      namespace: (json['Namespace'] as String?) ?? '',
-      statistic:
-          MetricStatistic.fromString((json['Statistic'] as String?) ?? ''),
-      dimensions: (json['Dimensions'] as List?)
-          ?.nonNulls
-          .map((e) => MetricDimension.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      unit: json['Unit'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final metricName = this.metricName;
-    final namespace = this.namespace;
-    final statistic = this.statistic;
-    final dimensions = this.dimensions;
-    final unit = this.unit;
-    return {
-      'MetricName': metricName,
-      'Namespace': namespace,
-      'Statistic': statistic.value,
-      if (dimensions != null) 'Dimensions': dimensions,
-      if (unit != null) 'Unit': unit,
-    };
-  }
-}
-
-/// Represents a single value in the forecast data used for predictive scaling.
-class Datapoint {
-  /// The time stamp for the data point in UTC format.
-  final DateTime? timestamp;
-
-  /// The value of the data point.
-  final double? value;
-
-  Datapoint({
-    this.timestamp,
-    this.value,
-  });
-
-  factory Datapoint.fromJson(Map<String, dynamic> json) {
-    return Datapoint(
-      timestamp: timeStampFromJson(json['Timestamp']),
-      value: json['Value'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final timestamp = this.timestamp;
-    final value = this.value;
-    return {
-      if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
-      if (value != null) 'Value': value,
     };
   }
 }
@@ -754,39 +512,6 @@ class DescribeScalingPlansResponse {
   }
 }
 
-class ForecastDataType {
-  static const capacityForecast = ForecastDataType._('CapacityForecast');
-  static const loadForecast = ForecastDataType._('LoadForecast');
-  static const scheduledActionMinCapacity =
-      ForecastDataType._('ScheduledActionMinCapacity');
-  static const scheduledActionMaxCapacity =
-      ForecastDataType._('ScheduledActionMaxCapacity');
-
-  final String value;
-
-  const ForecastDataType._(this.value);
-
-  static const values = [
-    capacityForecast,
-    loadForecast,
-    scheduledActionMinCapacity,
-    scheduledActionMaxCapacity
-  ];
-
-  static ForecastDataType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ForecastDataType._(value));
-
-  @override
-  bool operator ==(other) => other is ForecastDataType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class GetScalingPlanResourceForecastDataResponse {
   /// The data points to return.
   final List<Datapoint> datapoints;
@@ -813,354 +538,50 @@ class GetScalingPlanResourceForecastDataResponse {
   }
 }
 
-class LoadMetricType {
-  static const aSGTotalCPUUtilization =
-      LoadMetricType._('ASGTotalCPUUtilization');
-  static const aSGTotalNetworkIn = LoadMetricType._('ASGTotalNetworkIn');
-  static const aSGTotalNetworkOut = LoadMetricType._('ASGTotalNetworkOut');
-  static const aLBTargetGroupRequestCount =
-      LoadMetricType._('ALBTargetGroupRequestCount');
+class UpdateScalingPlanResponse {
+  UpdateScalingPlanResponse();
 
-  final String value;
+  factory UpdateScalingPlanResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateScalingPlanResponse();
+  }
 
-  const LoadMetricType._(this.value);
-
-  static const values = [
-    aSGTotalCPUUtilization,
-    aSGTotalNetworkIn,
-    aSGTotalNetworkOut,
-    aLBTargetGroupRequestCount
-  ];
-
-  static LoadMetricType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LoadMetricType._(value));
-
-  @override
-  bool operator ==(other) => other is LoadMetricType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-/// Represents a dimension for a customized metric.
-class MetricDimension {
-  /// The name of the dimension.
-  final String name;
+/// Represents an application source.
+class ApplicationSource {
+  /// The Amazon Resource Name (ARN) of a AWS CloudFormation stack.
+  final String? cloudFormationStackARN;
 
-  /// The value of the dimension.
-  final String value;
+  /// A set of tags (up to 50).
+  final List<TagFilter>? tagFilters;
 
-  MetricDimension({
-    required this.name,
-    required this.value,
+  ApplicationSource({
+    this.cloudFormationStackARN,
+    this.tagFilters,
   });
 
-  factory MetricDimension.fromJson(Map<String, dynamic> json) {
-    return MetricDimension(
-      name: (json['Name'] as String?) ?? '',
-      value: (json['Value'] as String?) ?? '',
+  factory ApplicationSource.fromJson(Map<String, dynamic> json) {
+    return ApplicationSource(
+      cloudFormationStackARN: json['CloudFormationStackARN'] as String?,
+      tagFilters: (json['TagFilters'] as List?)
+          ?.nonNulls
+          .map((e) => TagFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final name = this.name;
-    final value = this.value;
+    final cloudFormationStackARN = this.cloudFormationStackARN;
+    final tagFilters = this.tagFilters;
     return {
-      'Name': name,
-      'Value': value,
+      if (cloudFormationStackARN != null)
+        'CloudFormationStackARN': cloudFormationStackARN,
+      if (tagFilters != null) 'TagFilters': tagFilters,
     };
   }
-}
-
-class MetricStatistic {
-  static const average = MetricStatistic._('Average');
-  static const minimum = MetricStatistic._('Minimum');
-  static const maximum = MetricStatistic._('Maximum');
-  static const sampleCount = MetricStatistic._('SampleCount');
-  static const sum = MetricStatistic._('Sum');
-
-  final String value;
-
-  const MetricStatistic._(this.value);
-
-  static const values = [average, minimum, maximum, sampleCount, sum];
-
-  static MetricStatistic fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MetricStatistic._(value));
-
-  @override
-  bool operator ==(other) => other is MetricStatistic && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class PolicyType {
-  static const targetTrackingScaling = PolicyType._('TargetTrackingScaling');
-
-  final String value;
-
-  const PolicyType._(this.value);
-
-  static const values = [targetTrackingScaling];
-
-  static PolicyType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => PolicyType._(value));
-
-  @override
-  bool operator ==(other) => other is PolicyType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents a predefined metric that can be used for predictive scaling.
-///
-/// After creating your scaling plan, you can use the AWS Auto Scaling console
-/// to visualize forecasts for the specified metric. For more information, see
-/// <a
-/// href="https://docs.aws.amazon.com/autoscaling/plans/userguide/gs-create-scaling-plan.html#gs-view-resource">View
-/// Scaling Information for a Resource</a> in the <i>AWS Auto Scaling User
-/// Guide</i>.
-class PredefinedLoadMetricSpecification {
-  /// The metric type.
-  final LoadMetricType predefinedLoadMetricType;
-
-  /// Identifies the resource associated with the metric type. You can't specify a
-  /// resource label unless the metric type is
-  /// <code>ALBTargetGroupRequestCount</code> and there is a target group for an
-  /// Application Load Balancer attached to the Auto Scaling group.
-  ///
-  /// You create the resource label by appending the final portion of the load
-  /// balancer ARN and the final portion of the target group ARN into a single
-  /// value, separated by a forward slash (/). The format is
-  /// app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt;/targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt;,
-  /// where:
-  ///
-  /// <ul>
-  /// <li>
-  /// app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt; is the final portion
-  /// of the load balancer ARN
-  /// </li>
-  /// <li>
-  /// targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt; is the final
-  /// portion of the target group ARN.
-  /// </li>
-  /// </ul>
-  /// This is an example:
-  /// app/EC2Co-EcsEl-1TKLTMITMM0EO/f37c06a68c1748aa/targetgroup/EC2Co-Defau-LDNM7Q3ZH1ZN/6d4ea56ca2d6a18d.
-  ///
-  /// To find the ARN for an Application Load Balancer, use the <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeLoadBalancers.html">DescribeLoadBalancers</a>
-  /// API operation. To find the ARN for the target group, use the <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeTargetGroups.html">DescribeTargetGroups</a>
-  /// API operation.
-  final String? resourceLabel;
-
-  PredefinedLoadMetricSpecification({
-    required this.predefinedLoadMetricType,
-    this.resourceLabel,
-  });
-
-  factory PredefinedLoadMetricSpecification.fromJson(
-      Map<String, dynamic> json) {
-    return PredefinedLoadMetricSpecification(
-      predefinedLoadMetricType: LoadMetricType.fromString(
-          (json['PredefinedLoadMetricType'] as String?) ?? ''),
-      resourceLabel: json['ResourceLabel'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final predefinedLoadMetricType = this.predefinedLoadMetricType;
-    final resourceLabel = this.resourceLabel;
-    return {
-      'PredefinedLoadMetricType': predefinedLoadMetricType.value,
-      if (resourceLabel != null) 'ResourceLabel': resourceLabel,
-    };
-  }
-}
-
-/// Represents a predefined metric that can be used for dynamic scaling as part
-/// of a target tracking scaling policy.
-class PredefinedScalingMetricSpecification {
-  /// The metric type. The <code>ALBRequestCountPerTarget</code> metric type
-  /// applies only to Auto Scaling groups, Spot Fleet requests, and ECS services.
-  final ScalingMetricType predefinedScalingMetricType;
-
-  /// Identifies the resource associated with the metric type. You can't specify a
-  /// resource label unless the metric type is
-  /// <code>ALBRequestCountPerTarget</code> and there is a target group for an
-  /// Application Load Balancer attached to the Auto Scaling group, Spot Fleet
-  /// request, or ECS service.
-  ///
-  /// You create the resource label by appending the final portion of the load
-  /// balancer ARN and the final portion of the target group ARN into a single
-  /// value, separated by a forward slash (/). The format is
-  /// app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt;/targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt;,
-  /// where:
-  ///
-  /// <ul>
-  /// <li>
-  /// app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt; is the final portion
-  /// of the load balancer ARN
-  /// </li>
-  /// <li>
-  /// targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt; is the final
-  /// portion of the target group ARN.
-  /// </li>
-  /// </ul>
-  /// This is an example:
-  /// app/EC2Co-EcsEl-1TKLTMITMM0EO/f37c06a68c1748aa/targetgroup/EC2Co-Defau-LDNM7Q3ZH1ZN/6d4ea56ca2d6a18d.
-  ///
-  /// To find the ARN for an Application Load Balancer, use the <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeLoadBalancers.html">DescribeLoadBalancers</a>
-  /// API operation. To find the ARN for the target group, use the <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeTargetGroups.html">DescribeTargetGroups</a>
-  /// API operation.
-  final String? resourceLabel;
-
-  PredefinedScalingMetricSpecification({
-    required this.predefinedScalingMetricType,
-    this.resourceLabel,
-  });
-
-  factory PredefinedScalingMetricSpecification.fromJson(
-      Map<String, dynamic> json) {
-    return PredefinedScalingMetricSpecification(
-      predefinedScalingMetricType: ScalingMetricType.fromString(
-          (json['PredefinedScalingMetricType'] as String?) ?? ''),
-      resourceLabel: json['ResourceLabel'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final predefinedScalingMetricType = this.predefinedScalingMetricType;
-    final resourceLabel = this.resourceLabel;
-    return {
-      'PredefinedScalingMetricType': predefinedScalingMetricType.value,
-      if (resourceLabel != null) 'ResourceLabel': resourceLabel,
-    };
-  }
-}
-
-class PredictiveScalingMaxCapacityBehavior {
-  static const setForecastCapacityToMaxCapacity =
-      PredictiveScalingMaxCapacityBehavior._(
-          'SetForecastCapacityToMaxCapacity');
-  static const setMaxCapacityToForecastCapacity =
-      PredictiveScalingMaxCapacityBehavior._(
-          'SetMaxCapacityToForecastCapacity');
-  static const setMaxCapacityAboveForecastCapacity =
-      PredictiveScalingMaxCapacityBehavior._(
-          'SetMaxCapacityAboveForecastCapacity');
-
-  final String value;
-
-  const PredictiveScalingMaxCapacityBehavior._(this.value);
-
-  static const values = [
-    setForecastCapacityToMaxCapacity,
-    setMaxCapacityToForecastCapacity,
-    setMaxCapacityAboveForecastCapacity
-  ];
-
-  static PredictiveScalingMaxCapacityBehavior fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PredictiveScalingMaxCapacityBehavior._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PredictiveScalingMaxCapacityBehavior && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class PredictiveScalingMode {
-  static const forecastAndScale = PredictiveScalingMode._('ForecastAndScale');
-  static const forecastOnly = PredictiveScalingMode._('ForecastOnly');
-
-  final String value;
-
-  const PredictiveScalingMode._(this.value);
-
-  static const values = [forecastAndScale, forecastOnly];
-
-  static PredictiveScalingMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PredictiveScalingMode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PredictiveScalingMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ScalableDimension {
-  static const autoscalingAutoScalingGroupDesiredCapacity =
-      ScalableDimension._('autoscaling:autoScalingGroup:DesiredCapacity');
-  static const ecsServiceDesiredCount =
-      ScalableDimension._('ecs:service:DesiredCount');
-  static const ec2SpotFleetRequestTargetCapacity =
-      ScalableDimension._('ec2:spot-fleet-request:TargetCapacity');
-  static const rdsClusterReadReplicaCount =
-      ScalableDimension._('rds:cluster:ReadReplicaCount');
-  static const dynamodbTableReadCapacityUnits =
-      ScalableDimension._('dynamodb:table:ReadCapacityUnits');
-  static const dynamodbTableWriteCapacityUnits =
-      ScalableDimension._('dynamodb:table:WriteCapacityUnits');
-  static const dynamodbIndexReadCapacityUnits =
-      ScalableDimension._('dynamodb:index:ReadCapacityUnits');
-  static const dynamodbIndexWriteCapacityUnits =
-      ScalableDimension._('dynamodb:index:WriteCapacityUnits');
-
-  final String value;
-
-  const ScalableDimension._(this.value);
-
-  static const values = [
-    autoscalingAutoScalingGroupDesiredCapacity,
-    ecsServiceDesiredCount,
-    ec2SpotFleetRequestTargetCapacity,
-    rdsClusterReadReplicaCount,
-    dynamodbTableReadCapacityUnits,
-    dynamodbTableWriteCapacityUnits,
-    dynamodbIndexReadCapacityUnits,
-    dynamodbIndexWriteCapacityUnits
-  ];
-
-  static ScalableDimension fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ScalableDimension._(value));
-
-  @override
-  bool operator ==(other) => other is ScalableDimension && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// Describes a scaling instruction for a scalable resource in a scaling plan.
@@ -1480,6 +901,679 @@ class ScalingInstruction {
   }
 }
 
+class ServiceNamespace {
+  static const autoscaling = ServiceNamespace._('autoscaling');
+  static const ecs = ServiceNamespace._('ecs');
+  static const ec2 = ServiceNamespace._('ec2');
+  static const rds = ServiceNamespace._('rds');
+  static const dynamodb = ServiceNamespace._('dynamodb');
+
+  final String value;
+
+  const ServiceNamespace._(this.value);
+
+  static const values = [autoscaling, ecs, ec2, rds, dynamodb];
+
+  static ServiceNamespace fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ServiceNamespace._(value));
+
+  @override
+  bool operator ==(other) => other is ServiceNamespace && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ScalableDimension {
+  static const autoscalingAutoScalingGroupDesiredCapacity =
+      ScalableDimension._('autoscaling:autoScalingGroup:DesiredCapacity');
+  static const ecsServiceDesiredCount =
+      ScalableDimension._('ecs:service:DesiredCount');
+  static const ec2SpotFleetRequestTargetCapacity =
+      ScalableDimension._('ec2:spot-fleet-request:TargetCapacity');
+  static const rdsClusterReadReplicaCount =
+      ScalableDimension._('rds:cluster:ReadReplicaCount');
+  static const dynamodbTableReadCapacityUnits =
+      ScalableDimension._('dynamodb:table:ReadCapacityUnits');
+  static const dynamodbTableWriteCapacityUnits =
+      ScalableDimension._('dynamodb:table:WriteCapacityUnits');
+  static const dynamodbIndexReadCapacityUnits =
+      ScalableDimension._('dynamodb:index:ReadCapacityUnits');
+  static const dynamodbIndexWriteCapacityUnits =
+      ScalableDimension._('dynamodb:index:WriteCapacityUnits');
+
+  final String value;
+
+  const ScalableDimension._(this.value);
+
+  static const values = [
+    autoscalingAutoScalingGroupDesiredCapacity,
+    ecsServiceDesiredCount,
+    ec2SpotFleetRequestTargetCapacity,
+    rdsClusterReadReplicaCount,
+    dynamodbTableReadCapacityUnits,
+    dynamodbTableWriteCapacityUnits,
+    dynamodbIndexReadCapacityUnits,
+    dynamodbIndexWriteCapacityUnits
+  ];
+
+  static ScalableDimension fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ScalableDimension._(value));
+
+  @override
+  bool operator ==(other) => other is ScalableDimension && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents a predefined metric that can be used for predictive scaling.
+///
+/// After creating your scaling plan, you can use the AWS Auto Scaling console
+/// to visualize forecasts for the specified metric. For more information, see
+/// <a
+/// href="https://docs.aws.amazon.com/autoscaling/plans/userguide/gs-create-scaling-plan.html#gs-view-resource">View
+/// Scaling Information for a Resource</a> in the <i>AWS Auto Scaling User
+/// Guide</i>.
+class PredefinedLoadMetricSpecification {
+  /// The metric type.
+  final LoadMetricType predefinedLoadMetricType;
+
+  /// Identifies the resource associated with the metric type. You can't specify a
+  /// resource label unless the metric type is
+  /// <code>ALBTargetGroupRequestCount</code> and there is a target group for an
+  /// Application Load Balancer attached to the Auto Scaling group.
+  ///
+  /// You create the resource label by appending the final portion of the load
+  /// balancer ARN and the final portion of the target group ARN into a single
+  /// value, separated by a forward slash (/). The format is
+  /// app/<load-balancer-name>/<load-balancer-id>/targetgroup/<target-group-name>/<target-group-id>,
+  /// where:
+  ///
+  /// <ul>
+  /// <li>
+  /// app/<load-balancer-name>/<load-balancer-id> is the final portion of the load
+  /// balancer ARN
+  /// </li>
+  /// <li>
+  /// targetgroup/<target-group-name>/<target-group-id> is the final portion of
+  /// the target group ARN.
+  /// </li>
+  /// </ul>
+  /// This is an example:
+  /// app/EC2Co-EcsEl-1TKLTMITMM0EO/f37c06a68c1748aa/targetgroup/EC2Co-Defau-LDNM7Q3ZH1ZN/6d4ea56ca2d6a18d.
+  ///
+  /// To find the ARN for an Application Load Balancer, use the <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeLoadBalancers.html">DescribeLoadBalancers</a>
+  /// API operation. To find the ARN for the target group, use the <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeTargetGroups.html">DescribeTargetGroups</a>
+  /// API operation.
+  final String? resourceLabel;
+
+  PredefinedLoadMetricSpecification({
+    required this.predefinedLoadMetricType,
+    this.resourceLabel,
+  });
+
+  factory PredefinedLoadMetricSpecification.fromJson(
+      Map<String, dynamic> json) {
+    return PredefinedLoadMetricSpecification(
+      predefinedLoadMetricType: LoadMetricType.fromString(
+          (json['PredefinedLoadMetricType'] as String?) ?? ''),
+      resourceLabel: json['ResourceLabel'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final predefinedLoadMetricType = this.predefinedLoadMetricType;
+    final resourceLabel = this.resourceLabel;
+    return {
+      'PredefinedLoadMetricType': predefinedLoadMetricType.value,
+      if (resourceLabel != null) 'ResourceLabel': resourceLabel,
+    };
+  }
+}
+
+/// Represents a CloudWatch metric of your choosing that can be used for
+/// predictive scaling.
+///
+/// For predictive scaling to work with a customized load metric specification,
+/// AWS Auto Scaling needs access to the <code>Sum</code> and
+/// <code>Average</code> statistics that CloudWatch computes from metric data.
+///
+/// When you choose a load metric, make sure that the required <code>Sum</code>
+/// and <code>Average</code> statistics for your metric are available in
+/// CloudWatch and that they provide relevant data for predictive scaling. The
+/// <code>Sum</code> statistic must represent the total load on the resource,
+/// and the <code>Average</code> statistic must represent the average load per
+/// capacity unit of the resource. For example, there is a metric that counts
+/// the number of requests processed by your Auto Scaling group. If the
+/// <code>Sum</code> statistic represents the total request count processed by
+/// the group, then the <code>Average</code> statistic for the specified metric
+/// must represent the average request count processed by each instance of the
+/// group.
+///
+/// If you publish your own metrics, you can aggregate the data points at a
+/// given interval and then publish the aggregated data points to CloudWatch.
+/// Before AWS Auto Scaling generates the forecast, it sums up all the metric
+/// data points that occurred within each hour to match the granularity period
+/// that is used in the forecast (60 minutes).
+///
+/// For information about terminology, available metrics, or how to publish new
+/// metrics, see <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html">Amazon
+/// CloudWatch Concepts</a> in the <i>Amazon CloudWatch User Guide</i>.
+///
+/// After creating your scaling plan, you can use the AWS Auto Scaling console
+/// to visualize forecasts for the specified metric. For more information, see
+/// <a
+/// href="https://docs.aws.amazon.com/autoscaling/plans/userguide/gs-create-scaling-plan.html#gs-view-resource">View
+/// Scaling Information for a Resource</a> in the <i>AWS Auto Scaling User
+/// Guide</i>.
+class CustomizedLoadMetricSpecification {
+  /// The name of the metric.
+  final String metricName;
+
+  /// The namespace of the metric.
+  final String namespace;
+
+  /// The statistic of the metric. The only valid value is <code>Sum</code>.
+  final MetricStatistic statistic;
+
+  /// The dimensions of the metric.
+  ///
+  /// Conditional: If you published your metric with dimensions, you must specify
+  /// the same dimensions in your customized load metric specification.
+  final List<MetricDimension>? dimensions;
+
+  /// The unit of the metric.
+  final String? unit;
+
+  CustomizedLoadMetricSpecification({
+    required this.metricName,
+    required this.namespace,
+    required this.statistic,
+    this.dimensions,
+    this.unit,
+  });
+
+  factory CustomizedLoadMetricSpecification.fromJson(
+      Map<String, dynamic> json) {
+    return CustomizedLoadMetricSpecification(
+      metricName: (json['MetricName'] as String?) ?? '',
+      namespace: (json['Namespace'] as String?) ?? '',
+      statistic:
+          MetricStatistic.fromString((json['Statistic'] as String?) ?? ''),
+      dimensions: (json['Dimensions'] as List?)
+          ?.nonNulls
+          .map((e) => MetricDimension.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      unit: json['Unit'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricName = this.metricName;
+    final namespace = this.namespace;
+    final statistic = this.statistic;
+    final dimensions = this.dimensions;
+    final unit = this.unit;
+    return {
+      'MetricName': metricName,
+      'Namespace': namespace,
+      'Statistic': statistic.value,
+      if (dimensions != null) 'Dimensions': dimensions,
+      if (unit != null) 'Unit': unit,
+    };
+  }
+}
+
+class PredictiveScalingMaxCapacityBehavior {
+  static const setForecastCapacityToMaxCapacity =
+      PredictiveScalingMaxCapacityBehavior._(
+          'SetForecastCapacityToMaxCapacity');
+  static const setMaxCapacityToForecastCapacity =
+      PredictiveScalingMaxCapacityBehavior._(
+          'SetMaxCapacityToForecastCapacity');
+  static const setMaxCapacityAboveForecastCapacity =
+      PredictiveScalingMaxCapacityBehavior._(
+          'SetMaxCapacityAboveForecastCapacity');
+
+  final String value;
+
+  const PredictiveScalingMaxCapacityBehavior._(this.value);
+
+  static const values = [
+    setForecastCapacityToMaxCapacity,
+    setMaxCapacityToForecastCapacity,
+    setMaxCapacityAboveForecastCapacity
+  ];
+
+  static PredictiveScalingMaxCapacityBehavior fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PredictiveScalingMaxCapacityBehavior._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PredictiveScalingMaxCapacityBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class PredictiveScalingMode {
+  static const forecastAndScale = PredictiveScalingMode._('ForecastAndScale');
+  static const forecastOnly = PredictiveScalingMode._('ForecastOnly');
+
+  final String value;
+
+  const PredictiveScalingMode._(this.value);
+
+  static const values = [forecastAndScale, forecastOnly];
+
+  static PredictiveScalingMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PredictiveScalingMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PredictiveScalingMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ScalingPolicyUpdateBehavior {
+  static const keepExternalPolicies =
+      ScalingPolicyUpdateBehavior._('KeepExternalPolicies');
+  static const replaceExternalPolicies =
+      ScalingPolicyUpdateBehavior._('ReplaceExternalPolicies');
+
+  final String value;
+
+  const ScalingPolicyUpdateBehavior._(this.value);
+
+  static const values = [keepExternalPolicies, replaceExternalPolicies];
+
+  static ScalingPolicyUpdateBehavior fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ScalingPolicyUpdateBehavior._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ScalingPolicyUpdateBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class MetricStatistic {
+  static const average = MetricStatistic._('Average');
+  static const minimum = MetricStatistic._('Minimum');
+  static const maximum = MetricStatistic._('Maximum');
+  static const sampleCount = MetricStatistic._('SampleCount');
+  static const sum = MetricStatistic._('Sum');
+
+  final String value;
+
+  const MetricStatistic._(this.value);
+
+  static const values = [average, minimum, maximum, sampleCount, sum];
+
+  static MetricStatistic fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MetricStatistic._(value));
+
+  @override
+  bool operator ==(other) => other is MetricStatistic && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents a dimension for a customized metric.
+class MetricDimension {
+  /// The name of the dimension.
+  final String name;
+
+  /// The value of the dimension.
+  final String value;
+
+  MetricDimension({
+    required this.name,
+    required this.value,
+  });
+
+  factory MetricDimension.fromJson(Map<String, dynamic> json) {
+    return MetricDimension(
+      name: (json['Name'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name,
+      'Value': value,
+    };
+  }
+}
+
+class LoadMetricType {
+  static const aSGTotalCPUUtilization =
+      LoadMetricType._('ASGTotalCPUUtilization');
+  static const aSGTotalNetworkIn = LoadMetricType._('ASGTotalNetworkIn');
+  static const aSGTotalNetworkOut = LoadMetricType._('ASGTotalNetworkOut');
+  static const aLBTargetGroupRequestCount =
+      LoadMetricType._('ALBTargetGroupRequestCount');
+
+  final String value;
+
+  const LoadMetricType._(this.value);
+
+  static const values = [
+    aSGTotalCPUUtilization,
+    aSGTotalNetworkIn,
+    aSGTotalNetworkOut,
+    aLBTargetGroupRequestCount
+  ];
+
+  static LoadMetricType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LoadMetricType._(value));
+
+  @override
+  bool operator ==(other) => other is LoadMetricType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a target tracking configuration to use with AWS Auto Scaling. Used
+/// with <a>ScalingInstruction</a> and <a>ScalingPolicy</a>.
+class TargetTrackingConfiguration {
+  /// The target value for the metric. Although this property accepts numbers of
+  /// type Double, it won't accept values that are either too small or too large.
+  /// Values must be in the range of -2^360 to 2^360.
+  final double targetValue;
+
+  /// A customized metric. You can specify either a predefined metric or a
+  /// customized metric.
+  final CustomizedScalingMetricSpecification?
+      customizedScalingMetricSpecification;
+
+  /// Indicates whether scale in by the target tracking scaling policy is
+  /// disabled. If the value is <code>true</code>, scale in is disabled and the
+  /// target tracking scaling policy doesn't remove capacity from the scalable
+  /// resource. Otherwise, scale in is enabled and the target tracking scaling
+  /// policy can remove capacity from the scalable resource.
+  ///
+  /// The default value is <code>false</code>.
+  final bool? disableScaleIn;
+
+  /// The estimated time, in seconds, until a newly launched instance can
+  /// contribute to the CloudWatch metrics. This value is used only if the
+  /// resource is an Auto Scaling group.
+  final int? estimatedInstanceWarmup;
+
+  /// A predefined metric. You can specify either a predefined metric or a
+  /// customized metric.
+  final PredefinedScalingMetricSpecification?
+      predefinedScalingMetricSpecification;
+
+  /// The amount of time, in seconds, after a scale-in activity completes before
+  /// another scale-in activity can start. This property is not used if the
+  /// scalable resource is an Auto Scaling group.
+  ///
+  /// With the <i>scale-in cooldown period</i>, the intention is to scale in
+  /// conservatively to protect your application’s availability, so scale-in
+  /// activities are blocked until the cooldown period has expired. However, if
+  /// another alarm triggers a scale-out activity during the scale-in cooldown
+  /// period, Auto Scaling scales out the target immediately. In this case, the
+  /// scale-in cooldown period stops and doesn't complete.
+  final int? scaleInCooldown;
+
+  /// The amount of time, in seconds, to wait for a previous scale-out activity to
+  /// take effect. This property is not used if the scalable resource is an Auto
+  /// Scaling group.
+  ///
+  /// With the <i>scale-out cooldown period</i>, the intention is to continuously
+  /// (but not excessively) scale out. After Auto Scaling successfully scales out
+  /// using a target tracking scaling policy, it starts to calculate the cooldown
+  /// time. The scaling policy won't increase the desired capacity again unless
+  /// either a larger scale out is triggered or the cooldown period ends.
+  final int? scaleOutCooldown;
+
+  TargetTrackingConfiguration({
+    required this.targetValue,
+    this.customizedScalingMetricSpecification,
+    this.disableScaleIn,
+    this.estimatedInstanceWarmup,
+    this.predefinedScalingMetricSpecification,
+    this.scaleInCooldown,
+    this.scaleOutCooldown,
+  });
+
+  factory TargetTrackingConfiguration.fromJson(Map<String, dynamic> json) {
+    return TargetTrackingConfiguration(
+      targetValue: (json['TargetValue'] as double?) ?? 0,
+      customizedScalingMetricSpecification:
+          json['CustomizedScalingMetricSpecification'] != null
+              ? CustomizedScalingMetricSpecification.fromJson(
+                  json['CustomizedScalingMetricSpecification']
+                      as Map<String, dynamic>)
+              : null,
+      disableScaleIn: json['DisableScaleIn'] as bool?,
+      estimatedInstanceWarmup: json['EstimatedInstanceWarmup'] as int?,
+      predefinedScalingMetricSpecification:
+          json['PredefinedScalingMetricSpecification'] != null
+              ? PredefinedScalingMetricSpecification.fromJson(
+                  json['PredefinedScalingMetricSpecification']
+                      as Map<String, dynamic>)
+              : null,
+      scaleInCooldown: json['ScaleInCooldown'] as int?,
+      scaleOutCooldown: json['ScaleOutCooldown'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final targetValue = this.targetValue;
+    final customizedScalingMetricSpecification =
+        this.customizedScalingMetricSpecification;
+    final disableScaleIn = this.disableScaleIn;
+    final estimatedInstanceWarmup = this.estimatedInstanceWarmup;
+    final predefinedScalingMetricSpecification =
+        this.predefinedScalingMetricSpecification;
+    final scaleInCooldown = this.scaleInCooldown;
+    final scaleOutCooldown = this.scaleOutCooldown;
+    return {
+      'TargetValue': targetValue,
+      if (customizedScalingMetricSpecification != null)
+        'CustomizedScalingMetricSpecification':
+            customizedScalingMetricSpecification,
+      if (disableScaleIn != null) 'DisableScaleIn': disableScaleIn,
+      if (estimatedInstanceWarmup != null)
+        'EstimatedInstanceWarmup': estimatedInstanceWarmup,
+      if (predefinedScalingMetricSpecification != null)
+        'PredefinedScalingMetricSpecification':
+            predefinedScalingMetricSpecification,
+      if (scaleInCooldown != null) 'ScaleInCooldown': scaleInCooldown,
+      if (scaleOutCooldown != null) 'ScaleOutCooldown': scaleOutCooldown,
+    };
+  }
+}
+
+/// Represents a predefined metric that can be used for dynamic scaling as part
+/// of a target tracking scaling policy.
+class PredefinedScalingMetricSpecification {
+  /// The metric type. The <code>ALBRequestCountPerTarget</code> metric type
+  /// applies only to Auto Scaling groups, Spot Fleet requests, and ECS services.
+  final ScalingMetricType predefinedScalingMetricType;
+
+  /// Identifies the resource associated with the metric type. You can't specify a
+  /// resource label unless the metric type is
+  /// <code>ALBRequestCountPerTarget</code> and there is a target group for an
+  /// Application Load Balancer attached to the Auto Scaling group, Spot Fleet
+  /// request, or ECS service.
+  ///
+  /// You create the resource label by appending the final portion of the load
+  /// balancer ARN and the final portion of the target group ARN into a single
+  /// value, separated by a forward slash (/). The format is
+  /// app/<load-balancer-name>/<load-balancer-id>/targetgroup/<target-group-name>/<target-group-id>,
+  /// where:
+  ///
+  /// <ul>
+  /// <li>
+  /// app/<load-balancer-name>/<load-balancer-id> is the final portion of the load
+  /// balancer ARN
+  /// </li>
+  /// <li>
+  /// targetgroup/<target-group-name>/<target-group-id> is the final portion of
+  /// the target group ARN.
+  /// </li>
+  /// </ul>
+  /// This is an example:
+  /// app/EC2Co-EcsEl-1TKLTMITMM0EO/f37c06a68c1748aa/targetgroup/EC2Co-Defau-LDNM7Q3ZH1ZN/6d4ea56ca2d6a18d.
+  ///
+  /// To find the ARN for an Application Load Balancer, use the <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeLoadBalancers.html">DescribeLoadBalancers</a>
+  /// API operation. To find the ARN for the target group, use the <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeTargetGroups.html">DescribeTargetGroups</a>
+  /// API operation.
+  final String? resourceLabel;
+
+  PredefinedScalingMetricSpecification({
+    required this.predefinedScalingMetricType,
+    this.resourceLabel,
+  });
+
+  factory PredefinedScalingMetricSpecification.fromJson(
+      Map<String, dynamic> json) {
+    return PredefinedScalingMetricSpecification(
+      predefinedScalingMetricType: ScalingMetricType.fromString(
+          (json['PredefinedScalingMetricType'] as String?) ?? ''),
+      resourceLabel: json['ResourceLabel'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final predefinedScalingMetricType = this.predefinedScalingMetricType;
+    final resourceLabel = this.resourceLabel;
+    return {
+      'PredefinedScalingMetricType': predefinedScalingMetricType.value,
+      if (resourceLabel != null) 'ResourceLabel': resourceLabel,
+    };
+  }
+}
+
+/// Represents a CloudWatch metric of your choosing that can be used for dynamic
+/// scaling as part of a target tracking scaling policy.
+///
+/// To create your customized scaling metric specification:
+///
+/// <ul>
+/// <li>
+/// Add values for each required parameter from CloudWatch. You can use an
+/// existing metric, or a new metric that you create. To use your own metric,
+/// you must first publish the metric to CloudWatch. For more information, see
+/// <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/publishingMetrics.html">Publish
+/// Custom Metrics</a> in the <i>Amazon CloudWatch User Guide</i>.
+/// </li>
+/// <li>
+/// Choose a metric that changes proportionally with capacity. The value of the
+/// metric should increase or decrease in inverse proportion to the number of
+/// capacity units. That is, the value of the metric should decrease when
+/// capacity increases.
+/// </li>
+/// </ul>
+/// For information about terminology, available metrics, or how to publish new
+/// metrics, see <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html">Amazon
+/// CloudWatch Concepts</a> in the <i>Amazon CloudWatch User Guide</i>.
+class CustomizedScalingMetricSpecification {
+  /// The name of the metric.
+  final String metricName;
+
+  /// The namespace of the metric.
+  final String namespace;
+
+  /// The statistic of the metric.
+  final MetricStatistic statistic;
+
+  /// The dimensions of the metric.
+  ///
+  /// Conditional: If you published your metric with dimensions, you must specify
+  /// the same dimensions in your customized scaling metric specification.
+  final List<MetricDimension>? dimensions;
+
+  /// The unit of the metric.
+  final String? unit;
+
+  CustomizedScalingMetricSpecification({
+    required this.metricName,
+    required this.namespace,
+    required this.statistic,
+    this.dimensions,
+    this.unit,
+  });
+
+  factory CustomizedScalingMetricSpecification.fromJson(
+      Map<String, dynamic> json) {
+    return CustomizedScalingMetricSpecification(
+      metricName: (json['MetricName'] as String?) ?? '',
+      namespace: (json['Namespace'] as String?) ?? '',
+      statistic:
+          MetricStatistic.fromString((json['Statistic'] as String?) ?? ''),
+      dimensions: (json['Dimensions'] as List?)
+          ?.nonNulls
+          .map((e) => MetricDimension.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      unit: json['Unit'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricName = this.metricName;
+    final namespace = this.namespace;
+    final statistic = this.statistic;
+    final dimensions = this.dimensions;
+    final unit = this.unit;
+    return {
+      'MetricName': metricName,
+      'Namespace': namespace,
+      'Statistic': statistic.value,
+      if (dimensions != null) 'Dimensions': dimensions,
+      if (unit != null) 'Unit': unit,
+    };
+  }
+}
+
 class ScalingMetricType {
   static const aSGAverageCPUUtilization =
       ScalingMetricType._('ASGAverageCPUUtilization');
@@ -1533,6 +1627,100 @@ class ScalingMetricType {
 
   @override
   bool operator ==(other) => other is ScalingMetricType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents a tag.
+class TagFilter {
+  /// The tag key.
+  final String? key;
+
+  /// The tag values (0 to 20).
+  final List<String>? values;
+
+  TagFilter({
+    this.key,
+    this.values,
+  });
+
+  factory TagFilter.fromJson(Map<String, dynamic> json) {
+    return TagFilter(
+      key: json['Key'] as String?,
+      values:
+          (json['Values'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final values = this.values;
+    return {
+      if (key != null) 'Key': key,
+      if (values != null) 'Values': values,
+    };
+  }
+}
+
+/// Represents a single value in the forecast data used for predictive scaling.
+class Datapoint {
+  /// The time stamp for the data point in UTC format.
+  final DateTime? timestamp;
+
+  /// The value of the data point.
+  final double? value;
+
+  Datapoint({
+    this.timestamp,
+    this.value,
+  });
+
+  factory Datapoint.fromJson(Map<String, dynamic> json) {
+    return Datapoint(
+      timestamp: timeStampFromJson(json['Timestamp']),
+      value: json['Value'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timestamp = this.timestamp;
+    final value = this.value;
+    return {
+      if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+class ForecastDataType {
+  static const capacityForecast = ForecastDataType._('CapacityForecast');
+  static const loadForecast = ForecastDataType._('LoadForecast');
+  static const scheduledActionMinCapacity =
+      ForecastDataType._('ScheduledActionMinCapacity');
+  static const scheduledActionMaxCapacity =
+      ForecastDataType._('ScheduledActionMaxCapacity');
+
+  final String value;
+
+  const ForecastDataType._(this.value);
+
+  static const values = [
+    capacityForecast,
+    loadForecast,
+    scheduledActionMinCapacity,
+    scheduledActionMaxCapacity
+  ];
+
+  static ForecastDataType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ForecastDataType._(value));
+
+  @override
+  bool operator ==(other) => other is ForecastDataType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -1648,6 +1836,49 @@ class ScalingPlan {
         'StatusStartTime': unixTimestampToJson(statusStartTime),
     };
   }
+}
+
+class ScalingPlanStatusCode {
+  static const active = ScalingPlanStatusCode._('Active');
+  static const activeWithProblems =
+      ScalingPlanStatusCode._('ActiveWithProblems');
+  static const creationInProgress =
+      ScalingPlanStatusCode._('CreationInProgress');
+  static const creationFailed = ScalingPlanStatusCode._('CreationFailed');
+  static const deletionInProgress =
+      ScalingPlanStatusCode._('DeletionInProgress');
+  static const deletionFailed = ScalingPlanStatusCode._('DeletionFailed');
+  static const updateInProgress = ScalingPlanStatusCode._('UpdateInProgress');
+  static const updateFailed = ScalingPlanStatusCode._('UpdateFailed');
+
+  final String value;
+
+  const ScalingPlanStatusCode._(this.value);
+
+  static const values = [
+    active,
+    activeWithProblems,
+    creationInProgress,
+    creationFailed,
+    deletionInProgress,
+    deletionFailed,
+    updateInProgress,
+    updateFailed
+  ];
+
+  static ScalingPlanStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ScalingPlanStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ScalingPlanStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a scalable resource.
@@ -1814,41 +2045,23 @@ class ScalingPlanResource {
   }
 }
 
-class ScalingPlanStatusCode {
-  static const active = ScalingPlanStatusCode._('Active');
-  static const activeWithProblems =
-      ScalingPlanStatusCode._('ActiveWithProblems');
-  static const creationInProgress =
-      ScalingPlanStatusCode._('CreationInProgress');
-  static const creationFailed = ScalingPlanStatusCode._('CreationFailed');
-  static const deletionInProgress =
-      ScalingPlanStatusCode._('DeletionInProgress');
-  static const deletionFailed = ScalingPlanStatusCode._('DeletionFailed');
-  static const updateInProgress = ScalingPlanStatusCode._('UpdateInProgress');
-  static const updateFailed = ScalingPlanStatusCode._('UpdateFailed');
+class ScalingStatusCode {
+  static const inactive = ScalingStatusCode._('Inactive');
+  static const partiallyActive = ScalingStatusCode._('PartiallyActive');
+  static const active = ScalingStatusCode._('Active');
 
   final String value;
 
-  const ScalingPlanStatusCode._(this.value);
+  const ScalingStatusCode._(this.value);
 
-  static const values = [
-    active,
-    activeWithProblems,
-    creationInProgress,
-    creationFailed,
-    deletionInProgress,
-    deletionFailed,
-    updateInProgress,
-    updateFailed
-  ];
+  static const values = [inactive, partiallyActive, active];
 
-  static ScalingPlanStatusCode fromString(String value) =>
+  static ScalingStatusCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => ScalingPlanStatusCode._(value));
+          orElse: () => ScalingStatusCode._(value));
 
   @override
-  bool operator ==(other) =>
-      other is ScalingPlanStatusCode && other.value == value;
+  bool operator ==(other) => other is ScalingStatusCode && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -1899,240 +2112,26 @@ class ScalingPolicy {
   }
 }
 
-class ScalingPolicyUpdateBehavior {
-  static const keepExternalPolicies =
-      ScalingPolicyUpdateBehavior._('KeepExternalPolicies');
-  static const replaceExternalPolicies =
-      ScalingPolicyUpdateBehavior._('ReplaceExternalPolicies');
+class PolicyType {
+  static const targetTrackingScaling = PolicyType._('TargetTrackingScaling');
 
   final String value;
 
-  const ScalingPolicyUpdateBehavior._(this.value);
+  const PolicyType._(this.value);
 
-  static const values = [keepExternalPolicies, replaceExternalPolicies];
+  static const values = [targetTrackingScaling];
 
-  static ScalingPolicyUpdateBehavior fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ScalingPolicyUpdateBehavior._(value));
+  static PolicyType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PolicyType._(value));
 
   @override
-  bool operator ==(other) =>
-      other is ScalingPolicyUpdateBehavior && other.value == value;
+  bool operator ==(other) => other is PolicyType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
-}
-
-class ScalingStatusCode {
-  static const inactive = ScalingStatusCode._('Inactive');
-  static const partiallyActive = ScalingStatusCode._('PartiallyActive');
-  static const active = ScalingStatusCode._('Active');
-
-  final String value;
-
-  const ScalingStatusCode._(this.value);
-
-  static const values = [inactive, partiallyActive, active];
-
-  static ScalingStatusCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ScalingStatusCode._(value));
-
-  @override
-  bool operator ==(other) => other is ScalingStatusCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ServiceNamespace {
-  static const autoscaling = ServiceNamespace._('autoscaling');
-  static const ecs = ServiceNamespace._('ecs');
-  static const ec2 = ServiceNamespace._('ec2');
-  static const rds = ServiceNamespace._('rds');
-  static const dynamodb = ServiceNamespace._('dynamodb');
-
-  final String value;
-
-  const ServiceNamespace._(this.value);
-
-  static const values = [autoscaling, ecs, ec2, rds, dynamodb];
-
-  static ServiceNamespace fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ServiceNamespace._(value));
-
-  @override
-  bool operator ==(other) => other is ServiceNamespace && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents a tag.
-class TagFilter {
-  /// The tag key.
-  final String? key;
-
-  /// The tag values (0 to 20).
-  final List<String>? values;
-
-  TagFilter({
-    this.key,
-    this.values,
-  });
-
-  factory TagFilter.fromJson(Map<String, dynamic> json) {
-    return TagFilter(
-      key: json['Key'] as String?,
-      values:
-          (json['Values'] as List?)?.nonNulls.map((e) => e as String).toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final values = this.values;
-    return {
-      if (key != null) 'Key': key,
-      if (values != null) 'Values': values,
-    };
-  }
-}
-
-/// Describes a target tracking configuration to use with AWS Auto Scaling. Used
-/// with <a>ScalingInstruction</a> and <a>ScalingPolicy</a>.
-class TargetTrackingConfiguration {
-  /// The target value for the metric. Although this property accepts numbers of
-  /// type Double, it won't accept values that are either too small or too large.
-  /// Values must be in the range of -2^360 to 2^360.
-  final double targetValue;
-
-  /// A customized metric. You can specify either a predefined metric or a
-  /// customized metric.
-  final CustomizedScalingMetricSpecification?
-      customizedScalingMetricSpecification;
-
-  /// Indicates whether scale in by the target tracking scaling policy is
-  /// disabled. If the value is <code>true</code>, scale in is disabled and the
-  /// target tracking scaling policy doesn't remove capacity from the scalable
-  /// resource. Otherwise, scale in is enabled and the target tracking scaling
-  /// policy can remove capacity from the scalable resource.
-  ///
-  /// The default value is <code>false</code>.
-  final bool? disableScaleIn;
-
-  /// The estimated time, in seconds, until a newly launched instance can
-  /// contribute to the CloudWatch metrics. This value is used only if the
-  /// resource is an Auto Scaling group.
-  final int? estimatedInstanceWarmup;
-
-  /// A predefined metric. You can specify either a predefined metric or a
-  /// customized metric.
-  final PredefinedScalingMetricSpecification?
-      predefinedScalingMetricSpecification;
-
-  /// The amount of time, in seconds, after a scale-in activity completes before
-  /// another scale-in activity can start. This property is not used if the
-  /// scalable resource is an Auto Scaling group.
-  ///
-  /// With the <i>scale-in cooldown period</i>, the intention is to scale in
-  /// conservatively to protect your application’s availability, so scale-in
-  /// activities are blocked until the cooldown period has expired. However, if
-  /// another alarm triggers a scale-out activity during the scale-in cooldown
-  /// period, Auto Scaling scales out the target immediately. In this case, the
-  /// scale-in cooldown period stops and doesn't complete.
-  final int? scaleInCooldown;
-
-  /// The amount of time, in seconds, to wait for a previous scale-out activity to
-  /// take effect. This property is not used if the scalable resource is an Auto
-  /// Scaling group.
-  ///
-  /// With the <i>scale-out cooldown period</i>, the intention is to continuously
-  /// (but not excessively) scale out. After Auto Scaling successfully scales out
-  /// using a target tracking scaling policy, it starts to calculate the cooldown
-  /// time. The scaling policy won't increase the desired capacity again unless
-  /// either a larger scale out is triggered or the cooldown period ends.
-  final int? scaleOutCooldown;
-
-  TargetTrackingConfiguration({
-    required this.targetValue,
-    this.customizedScalingMetricSpecification,
-    this.disableScaleIn,
-    this.estimatedInstanceWarmup,
-    this.predefinedScalingMetricSpecification,
-    this.scaleInCooldown,
-    this.scaleOutCooldown,
-  });
-
-  factory TargetTrackingConfiguration.fromJson(Map<String, dynamic> json) {
-    return TargetTrackingConfiguration(
-      targetValue: (json['TargetValue'] as double?) ?? 0,
-      customizedScalingMetricSpecification:
-          json['CustomizedScalingMetricSpecification'] != null
-              ? CustomizedScalingMetricSpecification.fromJson(
-                  json['CustomizedScalingMetricSpecification']
-                      as Map<String, dynamic>)
-              : null,
-      disableScaleIn: json['DisableScaleIn'] as bool?,
-      estimatedInstanceWarmup: json['EstimatedInstanceWarmup'] as int?,
-      predefinedScalingMetricSpecification:
-          json['PredefinedScalingMetricSpecification'] != null
-              ? PredefinedScalingMetricSpecification.fromJson(
-                  json['PredefinedScalingMetricSpecification']
-                      as Map<String, dynamic>)
-              : null,
-      scaleInCooldown: json['ScaleInCooldown'] as int?,
-      scaleOutCooldown: json['ScaleOutCooldown'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final targetValue = this.targetValue;
-    final customizedScalingMetricSpecification =
-        this.customizedScalingMetricSpecification;
-    final disableScaleIn = this.disableScaleIn;
-    final estimatedInstanceWarmup = this.estimatedInstanceWarmup;
-    final predefinedScalingMetricSpecification =
-        this.predefinedScalingMetricSpecification;
-    final scaleInCooldown = this.scaleInCooldown;
-    final scaleOutCooldown = this.scaleOutCooldown;
-    return {
-      'TargetValue': targetValue,
-      if (customizedScalingMetricSpecification != null)
-        'CustomizedScalingMetricSpecification':
-            customizedScalingMetricSpecification,
-      if (disableScaleIn != null) 'DisableScaleIn': disableScaleIn,
-      if (estimatedInstanceWarmup != null)
-        'EstimatedInstanceWarmup': estimatedInstanceWarmup,
-      if (predefinedScalingMetricSpecification != null)
-        'PredefinedScalingMetricSpecification':
-            predefinedScalingMetricSpecification,
-      if (scaleInCooldown != null) 'ScaleInCooldown': scaleInCooldown,
-      if (scaleOutCooldown != null) 'ScaleOutCooldown': scaleOutCooldown,
-    };
-  }
-}
-
-class UpdateScalingPlanResponse {
-  UpdateScalingPlanResponse();
-
-  factory UpdateScalingPlanResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateScalingPlanResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
 }
 
 class ConcurrentUpdateException extends _s.GenericAwsException {

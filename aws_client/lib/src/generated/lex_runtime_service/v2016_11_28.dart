@@ -62,11 +62,11 @@ class LexRuntime {
 
   /// Removes session information for a specified bot, alias, and user ID.
   ///
-  /// May throw [NotFoundException].
   /// May throw [BadRequestException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [botAlias] :
   /// The alias in use for the bot that contains the session data.
@@ -93,10 +93,10 @@ class LexRuntime {
 
   /// Returns session information for a specified bot, alias, and user ID.
   ///
-  /// May throw [NotFoundException].
   /// May throw [BadRequestException].
-  /// May throw [LimitExceededException].
   /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [botAlias] :
   /// The alias in use for the bot that contains the session data.
@@ -128,7 +128,7 @@ class LexRuntime {
       payload: null,
       method: 'GET',
       requestUri:
-          '/bot/${Uri.encodeComponent(botName)}/alias/${Uri.encodeComponent(botAlias)}/user/${Uri.encodeComponent(userId)}/session/',
+          '/bot/${Uri.encodeComponent(botName)}/alias/${Uri.encodeComponent(botAlias)}/user/${Uri.encodeComponent(userId)}/session',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
@@ -211,17 +211,17 @@ class LexRuntime {
   /// href="https://docs.aws.amazon.com/lex/latest/dg/context-mgmt.html">Managing
   /// Conversation Context</a>.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [BadRequestException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
-  /// May throw [ConflictException].
-  /// May throw [UnsupportedMediaTypeException].
-  /// May throw [NotAcceptableException].
-  /// May throw [RequestTimeoutException].
-  /// May throw [DependencyFailedException].
   /// May throw [BadGatewayException].
+  /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [DependencyFailedException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   /// May throw [LoopDetectedException].
+  /// May throw [NotAcceptableException].
+  /// May throw [NotFoundException].
+  /// May throw [RequestTimeoutException].
+  /// May throw [UnsupportedMediaTypeException].
   ///
   /// Parameter [botAlias] :
   /// Alias of the Amazon Lex bot.
@@ -539,14 +539,14 @@ class LexRuntime {
   /// href="https://docs.aws.amazon.com/lex/latest/dg/context-mgmt.html">Managing
   /// Conversation Context</a>.
   ///
-  /// May throw [NotFoundException].
+  /// May throw [BadGatewayException].
   /// May throw [BadRequestException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [ConflictException].
   /// May throw [DependencyFailedException].
-  /// May throw [BadGatewayException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   /// May throw [LoopDetectedException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [botAlias] :
   /// The alias of the Amazon Lex bot.
@@ -650,14 +650,14 @@ class LexRuntime {
   /// href="https://docs.aws.amazon.com/lex/latest/dg/how-session-api.html">Managing
   /// Sessions</a>.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [BadRequestException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
-  /// May throw [ConflictException].
-  /// May throw [NotAcceptableException].
-  /// May throw [DependencyFailedException].
   /// May throw [BadGatewayException].
+  /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [DependencyFailedException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotAcceptableException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [botAlias] :
   /// The alias in use for the bot that contains the session data.
@@ -813,169 +813,6 @@ class LexRuntime {
   }
 }
 
-/// A context is a variable that contains information about the current state of
-/// the conversation between a user and Amazon Lex. Context can be set
-/// automatically by Amazon Lex when an intent is fulfilled, or it can be set at
-/// runtime using the <code>PutContent</code>, <code>PutText</code>, or
-/// <code>PutSession</code> operation.
-class ActiveContext {
-  /// The name of the context.
-  final String name;
-
-  /// State variables for the current context. You can use these values as default
-  /// values for slots in subsequent events.
-  final Map<String, String> parameters;
-
-  /// The length of time or number of turns that a context remains active.
-  final ActiveContextTimeToLive timeToLive;
-
-  ActiveContext({
-    required this.name,
-    required this.parameters,
-    required this.timeToLive,
-  });
-
-  factory ActiveContext.fromJson(Map<String, dynamic> json) {
-    return ActiveContext(
-      name: (json['name'] as String?) ?? '',
-      parameters: ((json['parameters'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{})
-          .map((k, e) => MapEntry(k, e as String)),
-      timeToLive: ActiveContextTimeToLive.fromJson(
-          (json['timeToLive'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final parameters = this.parameters;
-    final timeToLive = this.timeToLive;
-    return {
-      'name': name,
-      'parameters': parameters,
-      'timeToLive': timeToLive,
-    };
-  }
-}
-
-/// The length of time or number of turns that a context remains active.
-class ActiveContextTimeToLive {
-  /// The number of seconds that the context should be active after it is first
-  /// sent in a <code>PostContent</code> or <code>PostText</code> response. You
-  /// can set the value between 5 and 86,400 seconds (24 hours).
-  final int? timeToLiveInSeconds;
-
-  /// The number of conversation turns that the context should be active. A
-  /// conversation turn is one <code>PostContent</code> or <code>PostText</code>
-  /// request and the corresponding response from Amazon Lex.
-  final int? turnsToLive;
-
-  ActiveContextTimeToLive({
-    this.timeToLiveInSeconds,
-    this.turnsToLive,
-  });
-
-  factory ActiveContextTimeToLive.fromJson(Map<String, dynamic> json) {
-    return ActiveContextTimeToLive(
-      timeToLiveInSeconds: json['timeToLiveInSeconds'] as int?,
-      turnsToLive: json['turnsToLive'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final timeToLiveInSeconds = this.timeToLiveInSeconds;
-    final turnsToLive = this.turnsToLive;
-    return {
-      if (timeToLiveInSeconds != null)
-        'timeToLiveInSeconds': timeToLiveInSeconds,
-      if (turnsToLive != null) 'turnsToLive': turnsToLive,
-    };
-  }
-}
-
-/// Represents an option to be shown on the client platform (Facebook, Slack,
-/// etc.)
-class Button {
-  /// Text that is visible to the user on the button.
-  final String text;
-
-  /// The value sent to Amazon Lex when a user chooses the button. For example,
-  /// consider button text "NYC." When the user chooses the button, the value sent
-  /// can be "New York City."
-  final String value;
-
-  Button({
-    required this.text,
-    required this.value,
-  });
-
-  factory Button.fromJson(Map<String, dynamic> json) {
-    return Button(
-      text: (json['text'] as String?) ?? '',
-      value: (json['value'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final text = this.text;
-    final value = this.value;
-    return {
-      'text': text,
-      'value': value,
-    };
-  }
-}
-
-class ConfirmationStatus {
-  static const none = ConfirmationStatus._('None');
-  static const confirmed = ConfirmationStatus._('Confirmed');
-  static const denied = ConfirmationStatus._('Denied');
-
-  final String value;
-
-  const ConfirmationStatus._(this.value);
-
-  static const values = [none, confirmed, denied];
-
-  static ConfirmationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConfirmationStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ConfirmationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ContentType {
-  static const applicationVndAmazonawsCardGeneric =
-      ContentType._('application/vnd.amazonaws.card.generic');
-
-  final String value;
-
-  const ContentType._(this.value);
-
-  static const values = [applicationVndAmazonawsCardGeneric];
-
-  static ContentType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ContentType._(value));
-
-  @override
-  bool operator ==(other) => other is ContentType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class DeleteSessionResponse {
   /// The alias in use for the bot associated with the session data.
   final String? botAlias;
@@ -1015,283 +852,6 @@ class DeleteSessionResponse {
       if (botName != null) 'botName': botName,
       if (sessionId != null) 'sessionId': sessionId,
       if (userId != null) 'userId': userId,
-    };
-  }
-}
-
-/// Describes the next action that the bot should take in its interaction with
-/// the user and provides information about the context in which the action
-/// takes place. Use the <code>DialogAction</code> data type to set the
-/// interaction to a specific state, or to return the interaction to a previous
-/// state.
-class DialogAction {
-  /// The next action that the bot should take in its interaction with the user.
-  /// The possible values are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ConfirmIntent</code> - The next action is asking the user if the
-  /// intent is complete and ready to be fulfilled. This is a yes/no question such
-  /// as "Place the order?"
-  /// </li>
-  /// <li>
-  /// <code>Close</code> - Indicates that the there will not be a response from
-  /// the user. For example, the statement "Your order has been placed" does not
-  /// require a response.
-  /// </li>
-  /// <li>
-  /// <code>Delegate</code> - The next action is determined by Amazon Lex.
-  /// </li>
-  /// <li>
-  /// <code>ElicitIntent</code> - The next action is to determine the intent that
-  /// the user wants to fulfill.
-  /// </li>
-  /// <li>
-  /// <code>ElicitSlot</code> - The next action is to elicit a slot value from the
-  /// user.
-  /// </li>
-  /// </ul>
-  final DialogActionType type;
-
-  /// The fulfillment state of the intent. The possible values are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>Failed</code> - The Lambda function associated with the intent failed
-  /// to fulfill the intent.
-  /// </li>
-  /// <li>
-  /// <code>Fulfilled</code> - The intent has fulfilled by the Lambda function
-  /// associated with the intent.
-  /// </li>
-  /// <li>
-  /// <code>ReadyForFulfillment</code> - All of the information necessary for the
-  /// intent is present and the intent ready to be fulfilled by the client
-  /// application.
-  /// </li>
-  /// </ul>
-  final FulfillmentState? fulfillmentState;
-
-  /// The name of the intent.
-  final String? intentName;
-
-  /// The message that should be shown to the user. If you don't specify a
-  /// message, Amazon Lex will use the message configured for the intent.
-  final String? message;
-
-  /// <ul>
-  /// <li>
-  /// <code>PlainText</code> - The message contains plain UTF-8 text.
-  /// </li>
-  /// <li>
-  /// <code>CustomPayload</code> - The message is a custom format for the client.
-  /// </li>
-  /// <li>
-  /// <code>SSML</code> - The message contains text formatted for voice output.
-  /// </li>
-  /// <li>
-  /// <code>Composite</code> - The message contains an escaped JSON object
-  /// containing one or more messages. For more information, see <a
-  /// href="https://docs.aws.amazon.com/lex/latest/dg/howitworks-manage-prompts.html">Message
-  /// Groups</a>.
-  /// </li>
-  /// </ul>
-  final MessageFormatType? messageFormat;
-
-  /// The name of the slot that should be elicited from the user.
-  final String? slotToElicit;
-
-  /// Map of the slots that have been gathered and their values.
-  final Map<String, String>? slots;
-
-  DialogAction({
-    required this.type,
-    this.fulfillmentState,
-    this.intentName,
-    this.message,
-    this.messageFormat,
-    this.slotToElicit,
-    this.slots,
-  });
-
-  factory DialogAction.fromJson(Map<String, dynamic> json) {
-    return DialogAction(
-      type: DialogActionType.fromString((json['type'] as String?) ?? ''),
-      fulfillmentState: (json['fulfillmentState'] as String?)
-          ?.let(FulfillmentState.fromString),
-      intentName: json['intentName'] as String?,
-      message: json['message'] as String?,
-      messageFormat:
-          (json['messageFormat'] as String?)?.let(MessageFormatType.fromString),
-      slotToElicit: json['slotToElicit'] as String?,
-      slots: (json['slots'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final type = this.type;
-    final fulfillmentState = this.fulfillmentState;
-    final intentName = this.intentName;
-    final message = this.message;
-    final messageFormat = this.messageFormat;
-    final slotToElicit = this.slotToElicit;
-    final slots = this.slots;
-    return {
-      'type': type.value,
-      if (fulfillmentState != null) 'fulfillmentState': fulfillmentState.value,
-      if (intentName != null) 'intentName': intentName,
-      if (message != null) 'message': message,
-      if (messageFormat != null) 'messageFormat': messageFormat.value,
-      if (slotToElicit != null) 'slotToElicit': slotToElicit,
-      if (slots != null) 'slots': slots,
-    };
-  }
-}
-
-class DialogActionType {
-  static const elicitIntent = DialogActionType._('ElicitIntent');
-  static const confirmIntent = DialogActionType._('ConfirmIntent');
-  static const elicitSlot = DialogActionType._('ElicitSlot');
-  static const close = DialogActionType._('Close');
-  static const delegate = DialogActionType._('Delegate');
-
-  final String value;
-
-  const DialogActionType._(this.value);
-
-  static const values = [
-    elicitIntent,
-    confirmIntent,
-    elicitSlot,
-    close,
-    delegate
-  ];
-
-  static DialogActionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DialogActionType._(value));
-
-  @override
-  bool operator ==(other) => other is DialogActionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DialogState {
-  static const elicitIntent = DialogState._('ElicitIntent');
-  static const confirmIntent = DialogState._('ConfirmIntent');
-  static const elicitSlot = DialogState._('ElicitSlot');
-  static const fulfilled = DialogState._('Fulfilled');
-  static const readyForFulfillment = DialogState._('ReadyForFulfillment');
-  static const failed = DialogState._('Failed');
-
-  final String value;
-
-  const DialogState._(this.value);
-
-  static const values = [
-    elicitIntent,
-    confirmIntent,
-    elicitSlot,
-    fulfilled,
-    readyForFulfillment,
-    failed
-  ];
-
-  static DialogState fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => DialogState._(value));
-
-  @override
-  bool operator ==(other) => other is DialogState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class FulfillmentState {
-  static const fulfilled = FulfillmentState._('Fulfilled');
-  static const failed = FulfillmentState._('Failed');
-  static const readyForFulfillment = FulfillmentState._('ReadyForFulfillment');
-
-  final String value;
-
-  const FulfillmentState._(this.value);
-
-  static const values = [fulfilled, failed, readyForFulfillment];
-
-  static FulfillmentState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FulfillmentState._(value));
-
-  @override
-  bool operator ==(other) => other is FulfillmentState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents an option rendered to the user when a prompt is shown. It could
-/// be an image, a button, a link, or text.
-class GenericAttachment {
-  /// The URL of an attachment to the response card.
-  final String? attachmentLinkUrl;
-
-  /// The list of options to show to the user.
-  final List<Button>? buttons;
-
-  /// The URL of an image that is displayed to the user.
-  final String? imageUrl;
-
-  /// The subtitle shown below the title.
-  final String? subTitle;
-
-  /// The title of the option.
-  final String? title;
-
-  GenericAttachment({
-    this.attachmentLinkUrl,
-    this.buttons,
-    this.imageUrl,
-    this.subTitle,
-    this.title,
-  });
-
-  factory GenericAttachment.fromJson(Map<String, dynamic> json) {
-    return GenericAttachment(
-      attachmentLinkUrl: json['attachmentLinkUrl'] as String?,
-      buttons: (json['buttons'] as List?)
-          ?.nonNulls
-          .map((e) => Button.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      imageUrl: json['imageUrl'] as String?,
-      subTitle: json['subTitle'] as String?,
-      title: json['title'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attachmentLinkUrl = this.attachmentLinkUrl;
-    final buttons = this.buttons;
-    final imageUrl = this.imageUrl;
-    final subTitle = this.subTitle;
-    final title = this.title;
-    return {
-      if (attachmentLinkUrl != null) 'attachmentLinkUrl': attachmentLinkUrl,
-      if (buttons != null) 'buttons': buttons,
-      if (imageUrl != null) 'imageUrl': imageUrl,
-      if (subTitle != null) 'subTitle': subTitle,
-      if (title != null) 'title': title,
     };
   }
 }
@@ -1367,193 +927,6 @@ class GetSessionResponse {
       if (sessionId != null) 'sessionId': sessionId,
     };
   }
-}
-
-/// Provides a score that indicates the confidence that Amazon Lex has that an
-/// intent is the one that satisfies the user's intent.
-class IntentConfidence {
-  /// A score that indicates how confident Amazon Lex is that an intent satisfies
-  /// the user's intent. Ranges between 0.00 and 1.00. Higher scores indicate
-  /// higher confidence.
-  final double? score;
-
-  IntentConfidence({
-    this.score,
-  });
-
-  factory IntentConfidence.fromJson(Map<String, dynamic> json) {
-    return IntentConfidence(
-      score: json['score'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final score = this.score;
-    return {
-      if (score != null) 'score': score,
-    };
-  }
-}
-
-/// Provides information about the state of an intent. You can use this
-/// information to get the current state of an intent so that you can process
-/// the intent, or so that you can return the intent to its previous state.
-class IntentSummary {
-  /// The next action that the bot should take in its interaction with the user.
-  /// The possible values are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ConfirmIntent</code> - The next action is asking the user if the
-  /// intent is complete and ready to be fulfilled. This is a yes/no question such
-  /// as "Place the order?"
-  /// </li>
-  /// <li>
-  /// <code>Close</code> - Indicates that the there will not be a response from
-  /// the user. For example, the statement "Your order has been placed" does not
-  /// require a response.
-  /// </li>
-  /// <li>
-  /// <code>ElicitIntent</code> - The next action is to determine the intent that
-  /// the user wants to fulfill.
-  /// </li>
-  /// <li>
-  /// <code>ElicitSlot</code> - The next action is to elicit a slot value from the
-  /// user.
-  /// </li>
-  /// </ul>
-  final DialogActionType dialogActionType;
-
-  /// A user-defined label that identifies a particular intent. You can use this
-  /// label to return to a previous intent.
-  ///
-  /// Use the <code>checkpointLabelFilter</code> parameter of the
-  /// <code>GetSessionRequest</code> operation to filter the intents returned by
-  /// the operation to those with only the specified label.
-  final String? checkpointLabel;
-
-  /// The status of the intent after the user responds to the confirmation prompt.
-  /// If the user confirms the intent, Amazon Lex sets this field to
-  /// <code>Confirmed</code>. If the user denies the intent, Amazon Lex sets this
-  /// value to <code>Denied</code>. The possible values are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>Confirmed</code> - The user has responded "Yes" to the confirmation
-  /// prompt, confirming that the intent is complete and that it is ready to be
-  /// fulfilled.
-  /// </li>
-  /// <li>
-  /// <code>Denied</code> - The user has responded "No" to the confirmation
-  /// prompt.
-  /// </li>
-  /// <li>
-  /// <code>None</code> - The user has never been prompted for confirmation; or,
-  /// the user was prompted but did not confirm or deny the prompt.
-  /// </li>
-  /// </ul>
-  final ConfirmationStatus? confirmationStatus;
-
-  /// The fulfillment state of the intent. The possible values are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>Failed</code> - The Lambda function associated with the intent failed
-  /// to fulfill the intent.
-  /// </li>
-  /// <li>
-  /// <code>Fulfilled</code> - The intent has fulfilled by the Lambda function
-  /// associated with the intent.
-  /// </li>
-  /// <li>
-  /// <code>ReadyForFulfillment</code> - All of the information necessary for the
-  /// intent is present and the intent ready to be fulfilled by the client
-  /// application.
-  /// </li>
-  /// </ul>
-  final FulfillmentState? fulfillmentState;
-
-  /// The name of the intent.
-  final String? intentName;
-
-  /// The next slot to elicit from the user. If there is not slot to elicit, the
-  /// field is blank.
-  final String? slotToElicit;
-
-  /// Map of the slots that have been gathered and their values.
-  final Map<String, String>? slots;
-
-  IntentSummary({
-    required this.dialogActionType,
-    this.checkpointLabel,
-    this.confirmationStatus,
-    this.fulfillmentState,
-    this.intentName,
-    this.slotToElicit,
-    this.slots,
-  });
-
-  factory IntentSummary.fromJson(Map<String, dynamic> json) {
-    return IntentSummary(
-      dialogActionType: DialogActionType.fromString(
-          (json['dialogActionType'] as String?) ?? ''),
-      checkpointLabel: json['checkpointLabel'] as String?,
-      confirmationStatus: (json['confirmationStatus'] as String?)
-          ?.let(ConfirmationStatus.fromString),
-      fulfillmentState: (json['fulfillmentState'] as String?)
-          ?.let(FulfillmentState.fromString),
-      intentName: json['intentName'] as String?,
-      slotToElicit: json['slotToElicit'] as String?,
-      slots: (json['slots'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dialogActionType = this.dialogActionType;
-    final checkpointLabel = this.checkpointLabel;
-    final confirmationStatus = this.confirmationStatus;
-    final fulfillmentState = this.fulfillmentState;
-    final intentName = this.intentName;
-    final slotToElicit = this.slotToElicit;
-    final slots = this.slots;
-    return {
-      'dialogActionType': dialogActionType.value,
-      if (checkpointLabel != null) 'checkpointLabel': checkpointLabel,
-      if (confirmationStatus != null)
-        'confirmationStatus': confirmationStatus.value,
-      if (fulfillmentState != null) 'fulfillmentState': fulfillmentState.value,
-      if (intentName != null) 'intentName': intentName,
-      if (slotToElicit != null) 'slotToElicit': slotToElicit,
-      if (slots != null) 'slots': slots,
-    };
-  }
-}
-
-class MessageFormatType {
-  static const plainText = MessageFormatType._('PlainText');
-  static const customPayload = MessageFormatType._('CustomPayload');
-  static const ssml = MessageFormatType._('SSML');
-  static const composite = MessageFormatType._('Composite');
-
-  final String value;
-
-  const MessageFormatType._(this.value);
-
-  static const values = [plainText, customPayload, ssml, composite];
-
-  static MessageFormatType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MessageFormatType._(value));
-
-  @override
-  bool operator ==(other) => other is MessageFormatType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class PostContentResponse {
@@ -2087,51 +1460,6 @@ class PostTextResponse {
   }
 }
 
-/// An intent that Amazon Lex suggests satisfies the user's intent. Includes the
-/// name of the intent, the confidence that Amazon Lex has that the user's
-/// intent is satisfied, and the slots defined for the intent.
-class PredictedIntent {
-  /// The name of the intent that Amazon Lex suggests satisfies the user's intent.
-  final String? intentName;
-
-  /// Indicates how confident Amazon Lex is that an intent satisfies the user's
-  /// intent.
-  final IntentConfidence? nluIntentConfidence;
-
-  /// The slot and slot values associated with the predicted intent.
-  final Map<String, String>? slots;
-
-  PredictedIntent({
-    this.intentName,
-    this.nluIntentConfidence,
-    this.slots,
-  });
-
-  factory PredictedIntent.fromJson(Map<String, dynamic> json) {
-    return PredictedIntent(
-      intentName: json['intentName'] as String?,
-      nluIntentConfidence: json['nluIntentConfidence'] != null
-          ? IntentConfidence.fromJson(
-              json['nluIntentConfidence'] as Map<String, dynamic>)
-          : null,
-      slots: (json['slots'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final intentName = this.intentName;
-    final nluIntentConfidence = this.nluIntentConfidence;
-    final slots = this.slots;
-    return {
-      if (intentName != null) 'intentName': intentName,
-      if (nluIntentConfidence != null)
-        'nluIntentConfidence': nluIntentConfidence,
-      if (slots != null) 'slots': slots,
-    };
-  }
-}
-
 class PutSessionResponse {
   /// A list of active contexts for the session.
   final Object? activeContexts;
@@ -2143,7 +1471,8 @@ class PutSessionResponse {
   /// request.
   final String? contentType;
 
-  /// <p/>
+  ///
+  ///
   /// <ul>
   /// <li>
   /// <code>ConfirmIntent</code> - Amazon Lex is expecting a "yes" or "no"
@@ -2270,6 +1599,556 @@ class PutSessionResponse {
   }
 }
 
+class MessageFormatType {
+  static const plainText = MessageFormatType._('PlainText');
+  static const customPayload = MessageFormatType._('CustomPayload');
+  static const ssml = MessageFormatType._('SSML');
+  static const composite = MessageFormatType._('Composite');
+
+  final String value;
+
+  const MessageFormatType._(this.value);
+
+  static const values = [plainText, customPayload, ssml, composite];
+
+  static MessageFormatType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MessageFormatType._(value));
+
+  @override
+  bool operator ==(other) => other is MessageFormatType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DialogState {
+  static const elicitIntent = DialogState._('ElicitIntent');
+  static const confirmIntent = DialogState._('ConfirmIntent');
+  static const elicitSlot = DialogState._('ElicitSlot');
+  static const fulfilled = DialogState._('Fulfilled');
+  static const readyForFulfillment = DialogState._('ReadyForFulfillment');
+  static const failed = DialogState._('Failed');
+
+  final String value;
+
+  const DialogState._(this.value);
+
+  static const values = [
+    elicitIntent,
+    confirmIntent,
+    elicitSlot,
+    fulfilled,
+    readyForFulfillment,
+    failed
+  ];
+
+  static DialogState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DialogState._(value));
+
+  @override
+  bool operator ==(other) => other is DialogState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the next action that the bot should take in its interaction with
+/// the user and provides information about the context in which the action
+/// takes place. Use the <code>DialogAction</code> data type to set the
+/// interaction to a specific state, or to return the interaction to a previous
+/// state.
+class DialogAction {
+  /// The next action that the bot should take in its interaction with the user.
+  /// The possible values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ConfirmIntent</code> - The next action is asking the user if the
+  /// intent is complete and ready to be fulfilled. This is a yes/no question such
+  /// as "Place the order?"
+  /// </li>
+  /// <li>
+  /// <code>Close</code> - Indicates that the there will not be a response from
+  /// the user. For example, the statement "Your order has been placed" does not
+  /// require a response.
+  /// </li>
+  /// <li>
+  /// <code>Delegate</code> - The next action is determined by Amazon Lex.
+  /// </li>
+  /// <li>
+  /// <code>ElicitIntent</code> - The next action is to determine the intent that
+  /// the user wants to fulfill.
+  /// </li>
+  /// <li>
+  /// <code>ElicitSlot</code> - The next action is to elicit a slot value from the
+  /// user.
+  /// </li>
+  /// </ul>
+  final DialogActionType type;
+
+  /// The fulfillment state of the intent. The possible values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Failed</code> - The Lambda function associated with the intent failed
+  /// to fulfill the intent.
+  /// </li>
+  /// <li>
+  /// <code>Fulfilled</code> - The intent has fulfilled by the Lambda function
+  /// associated with the intent.
+  /// </li>
+  /// <li>
+  /// <code>ReadyForFulfillment</code> - All of the information necessary for the
+  /// intent is present and the intent ready to be fulfilled by the client
+  /// application.
+  /// </li>
+  /// </ul>
+  final FulfillmentState? fulfillmentState;
+
+  /// The name of the intent.
+  final String? intentName;
+
+  /// The message that should be shown to the user. If you don't specify a
+  /// message, Amazon Lex will use the message configured for the intent.
+  final String? message;
+
+  /// <ul>
+  /// <li>
+  /// <code>PlainText</code> - The message contains plain UTF-8 text.
+  /// </li>
+  /// <li>
+  /// <code>CustomPayload</code> - The message is a custom format for the client.
+  /// </li>
+  /// <li>
+  /// <code>SSML</code> - The message contains text formatted for voice output.
+  /// </li>
+  /// <li>
+  /// <code>Composite</code> - The message contains an escaped JSON object
+  /// containing one or more messages. For more information, see <a
+  /// href="https://docs.aws.amazon.com/lex/latest/dg/howitworks-manage-prompts.html">Message
+  /// Groups</a>.
+  /// </li>
+  /// </ul>
+  final MessageFormatType? messageFormat;
+
+  /// The name of the slot that should be elicited from the user.
+  final String? slotToElicit;
+
+  /// Map of the slots that have been gathered and their values.
+  final Map<String, String>? slots;
+
+  DialogAction({
+    required this.type,
+    this.fulfillmentState,
+    this.intentName,
+    this.message,
+    this.messageFormat,
+    this.slotToElicit,
+    this.slots,
+  });
+
+  factory DialogAction.fromJson(Map<String, dynamic> json) {
+    return DialogAction(
+      type: DialogActionType.fromString((json['type'] as String?) ?? ''),
+      fulfillmentState: (json['fulfillmentState'] as String?)
+          ?.let(FulfillmentState.fromString),
+      intentName: json['intentName'] as String?,
+      message: json['message'] as String?,
+      messageFormat:
+          (json['messageFormat'] as String?)?.let(MessageFormatType.fromString),
+      slotToElicit: json['slotToElicit'] as String?,
+      slots: (json['slots'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final fulfillmentState = this.fulfillmentState;
+    final intentName = this.intentName;
+    final message = this.message;
+    final messageFormat = this.messageFormat;
+    final slotToElicit = this.slotToElicit;
+    final slots = this.slots;
+    return {
+      'type': type.value,
+      if (fulfillmentState != null) 'fulfillmentState': fulfillmentState.value,
+      if (intentName != null) 'intentName': intentName,
+      if (message != null) 'message': message,
+      if (messageFormat != null) 'messageFormat': messageFormat.value,
+      if (slotToElicit != null) 'slotToElicit': slotToElicit,
+      if (slots != null) 'slots': slots,
+    };
+  }
+}
+
+/// A context is a variable that contains information about the current state of
+/// the conversation between a user and Amazon Lex. Context can be set
+/// automatically by Amazon Lex when an intent is fulfilled, or it can be set at
+/// runtime using the <code>PutContent</code>, <code>PutText</code>, or
+/// <code>PutSession</code> operation.
+class ActiveContext {
+  /// The name of the context.
+  final String name;
+
+  /// State variables for the current context. You can use these values as default
+  /// values for slots in subsequent events.
+  final Map<String, String> parameters;
+
+  /// The length of time or number of turns that a context remains active.
+  final ActiveContextTimeToLive timeToLive;
+
+  ActiveContext({
+    required this.name,
+    required this.parameters,
+    required this.timeToLive,
+  });
+
+  factory ActiveContext.fromJson(Map<String, dynamic> json) {
+    return ActiveContext(
+      name: (json['name'] as String?) ?? '',
+      parameters: ((json['parameters'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) => MapEntry(k, e as String)),
+      timeToLive: ActiveContextTimeToLive.fromJson(
+          (json['timeToLive'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final parameters = this.parameters;
+    final timeToLive = this.timeToLive;
+    return {
+      'name': name,
+      'parameters': parameters,
+      'timeToLive': timeToLive,
+    };
+  }
+}
+
+/// The length of time or number of turns that a context remains active.
+class ActiveContextTimeToLive {
+  /// The number of seconds that the context should be active after it is first
+  /// sent in a <code>PostContent</code> or <code>PostText</code> response. You
+  /// can set the value between 5 and 86,400 seconds (24 hours).
+  final int? timeToLiveInSeconds;
+
+  /// The number of conversation turns that the context should be active. A
+  /// conversation turn is one <code>PostContent</code> or <code>PostText</code>
+  /// request and the corresponding response from Amazon Lex.
+  final int? turnsToLive;
+
+  ActiveContextTimeToLive({
+    this.timeToLiveInSeconds,
+    this.turnsToLive,
+  });
+
+  factory ActiveContextTimeToLive.fromJson(Map<String, dynamic> json) {
+    return ActiveContextTimeToLive(
+      timeToLiveInSeconds: json['timeToLiveInSeconds'] as int?,
+      turnsToLive: json['turnsToLive'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timeToLiveInSeconds = this.timeToLiveInSeconds;
+    final turnsToLive = this.turnsToLive;
+    return {
+      if (timeToLiveInSeconds != null)
+        'timeToLiveInSeconds': timeToLiveInSeconds,
+      if (turnsToLive != null) 'turnsToLive': turnsToLive,
+    };
+  }
+}
+
+/// Provides information about the state of an intent. You can use this
+/// information to get the current state of an intent so that you can process
+/// the intent, or so that you can return the intent to its previous state.
+class IntentSummary {
+  /// The next action that the bot should take in its interaction with the user.
+  /// The possible values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ConfirmIntent</code> - The next action is asking the user if the
+  /// intent is complete and ready to be fulfilled. This is a yes/no question such
+  /// as "Place the order?"
+  /// </li>
+  /// <li>
+  /// <code>Close</code> - Indicates that the there will not be a response from
+  /// the user. For example, the statement "Your order has been placed" does not
+  /// require a response.
+  /// </li>
+  /// <li>
+  /// <code>ElicitIntent</code> - The next action is to determine the intent that
+  /// the user wants to fulfill.
+  /// </li>
+  /// <li>
+  /// <code>ElicitSlot</code> - The next action is to elicit a slot value from the
+  /// user.
+  /// </li>
+  /// </ul>
+  final DialogActionType dialogActionType;
+
+  /// A user-defined label that identifies a particular intent. You can use this
+  /// label to return to a previous intent.
+  ///
+  /// Use the <code>checkpointLabelFilter</code> parameter of the
+  /// <code>GetSessionRequest</code> operation to filter the intents returned by
+  /// the operation to those with only the specified label.
+  final String? checkpointLabel;
+
+  /// The status of the intent after the user responds to the confirmation prompt.
+  /// If the user confirms the intent, Amazon Lex sets this field to
+  /// <code>Confirmed</code>. If the user denies the intent, Amazon Lex sets this
+  /// value to <code>Denied</code>. The possible values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Confirmed</code> - The user has responded "Yes" to the confirmation
+  /// prompt, confirming that the intent is complete and that it is ready to be
+  /// fulfilled.
+  /// </li>
+  /// <li>
+  /// <code>Denied</code> - The user has responded "No" to the confirmation
+  /// prompt.
+  /// </li>
+  /// <li>
+  /// <code>None</code> - The user has never been prompted for confirmation; or,
+  /// the user was prompted but did not confirm or deny the prompt.
+  /// </li>
+  /// </ul>
+  final ConfirmationStatus? confirmationStatus;
+
+  /// The fulfillment state of the intent. The possible values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Failed</code> - The Lambda function associated with the intent failed
+  /// to fulfill the intent.
+  /// </li>
+  /// <li>
+  /// <code>Fulfilled</code> - The intent has fulfilled by the Lambda function
+  /// associated with the intent.
+  /// </li>
+  /// <li>
+  /// <code>ReadyForFulfillment</code> - All of the information necessary for the
+  /// intent is present and the intent ready to be fulfilled by the client
+  /// application.
+  /// </li>
+  /// </ul>
+  final FulfillmentState? fulfillmentState;
+
+  /// The name of the intent.
+  final String? intentName;
+
+  /// The next slot to elicit from the user. If there is not slot to elicit, the
+  /// field is blank.
+  final String? slotToElicit;
+
+  /// Map of the slots that have been gathered and their values.
+  final Map<String, String>? slots;
+
+  IntentSummary({
+    required this.dialogActionType,
+    this.checkpointLabel,
+    this.confirmationStatus,
+    this.fulfillmentState,
+    this.intentName,
+    this.slotToElicit,
+    this.slots,
+  });
+
+  factory IntentSummary.fromJson(Map<String, dynamic> json) {
+    return IntentSummary(
+      dialogActionType: DialogActionType.fromString(
+          (json['dialogActionType'] as String?) ?? ''),
+      checkpointLabel: json['checkpointLabel'] as String?,
+      confirmationStatus: (json['confirmationStatus'] as String?)
+          ?.let(ConfirmationStatus.fromString),
+      fulfillmentState: (json['fulfillmentState'] as String?)
+          ?.let(FulfillmentState.fromString),
+      intentName: json['intentName'] as String?,
+      slotToElicit: json['slotToElicit'] as String?,
+      slots: (json['slots'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dialogActionType = this.dialogActionType;
+    final checkpointLabel = this.checkpointLabel;
+    final confirmationStatus = this.confirmationStatus;
+    final fulfillmentState = this.fulfillmentState;
+    final intentName = this.intentName;
+    final slotToElicit = this.slotToElicit;
+    final slots = this.slots;
+    return {
+      'dialogActionType': dialogActionType.value,
+      if (checkpointLabel != null) 'checkpointLabel': checkpointLabel,
+      if (confirmationStatus != null)
+        'confirmationStatus': confirmationStatus.value,
+      if (fulfillmentState != null) 'fulfillmentState': fulfillmentState.value,
+      if (intentName != null) 'intentName': intentName,
+      if (slotToElicit != null) 'slotToElicit': slotToElicit,
+      if (slots != null) 'slots': slots,
+    };
+  }
+}
+
+class ConfirmationStatus {
+  static const none = ConfirmationStatus._('None');
+  static const confirmed = ConfirmationStatus._('Confirmed');
+  static const denied = ConfirmationStatus._('Denied');
+
+  final String value;
+
+  const ConfirmationStatus._(this.value);
+
+  static const values = [none, confirmed, denied];
+
+  static ConfirmationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConfirmationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConfirmationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DialogActionType {
+  static const elicitIntent = DialogActionType._('ElicitIntent');
+  static const confirmIntent = DialogActionType._('ConfirmIntent');
+  static const elicitSlot = DialogActionType._('ElicitSlot');
+  static const close = DialogActionType._('Close');
+  static const delegate = DialogActionType._('Delegate');
+
+  final String value;
+
+  const DialogActionType._(this.value);
+
+  static const values = [
+    elicitIntent,
+    confirmIntent,
+    elicitSlot,
+    close,
+    delegate
+  ];
+
+  static DialogActionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DialogActionType._(value));
+
+  @override
+  bool operator ==(other) => other is DialogActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class FulfillmentState {
+  static const fulfilled = FulfillmentState._('Fulfilled');
+  static const failed = FulfillmentState._('Failed');
+  static const readyForFulfillment = FulfillmentState._('ReadyForFulfillment');
+
+  final String value;
+
+  const FulfillmentState._(this.value);
+
+  static const values = [fulfilled, failed, readyForFulfillment];
+
+  static FulfillmentState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FulfillmentState._(value));
+
+  @override
+  bool operator ==(other) => other is FulfillmentState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides a score that indicates the confidence that Amazon Lex has that an
+/// intent is the one that satisfies the user's intent.
+class IntentConfidence {
+  /// A score that indicates how confident Amazon Lex is that an intent satisfies
+  /// the user's intent. Ranges between 0.00 and 1.00. Higher scores indicate
+  /// higher confidence.
+  final double? score;
+
+  IntentConfidence({
+    this.score,
+  });
+
+  factory IntentConfidence.fromJson(Map<String, dynamic> json) {
+    return IntentConfidence(
+      score: json['score'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final score = this.score;
+    return {
+      if (score != null) 'score': score,
+    };
+  }
+}
+
+/// The sentiment expressed in an utterance.
+///
+/// When the bot is configured to send utterances to Amazon Comprehend for
+/// sentiment analysis, this field structure contains the result of the
+/// analysis.
+class SentimentResponse {
+  /// The inferred sentiment that Amazon Comprehend has the highest confidence in.
+  final String? sentimentLabel;
+
+  /// The likelihood that the sentiment was correctly inferred.
+  final String? sentimentScore;
+
+  SentimentResponse({
+    this.sentimentLabel,
+    this.sentimentScore,
+  });
+
+  factory SentimentResponse.fromJson(Map<String, dynamic> json) {
+    return SentimentResponse(
+      sentimentLabel: json['sentimentLabel'] as String?,
+      sentimentScore: json['sentimentScore'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sentimentLabel = this.sentimentLabel;
+    final sentimentScore = this.sentimentScore;
+    return {
+      if (sentimentLabel != null) 'sentimentLabel': sentimentLabel,
+      if (sentimentScore != null) 'sentimentScore': sentimentScore,
+    };
+  }
+}
+
 /// If you configure a response card when creating your bots, Amazon Lex
 /// substitutes the session attributes and slot values that are available, and
 /// then returns it. The response card can also come from a Lambda function (
@@ -2315,36 +2194,158 @@ class ResponseCard {
   }
 }
 
-/// The sentiment expressed in an utterance.
-///
-/// When the bot is configured to send utterances to Amazon Comprehend for
-/// sentiment analysis, this field structure contains the result of the
-/// analysis.
-class SentimentResponse {
-  /// The inferred sentiment that Amazon Comprehend has the highest confidence in.
-  final String? sentimentLabel;
+class ContentType {
+  static const applicationVndAmazonawsCardGeneric =
+      ContentType._('application/vnd.amazonaws.card.generic');
 
-  /// The likelihood that the sentiment was correctly inferred.
-  final String? sentimentScore;
+  final String value;
 
-  SentimentResponse({
-    this.sentimentLabel,
-    this.sentimentScore,
+  const ContentType._(this.value);
+
+  static const values = [applicationVndAmazonawsCardGeneric];
+
+  static ContentType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ContentType._(value));
+
+  @override
+  bool operator ==(other) => other is ContentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents an option rendered to the user when a prompt is shown. It could
+/// be an image, a button, a link, or text.
+class GenericAttachment {
+  /// The URL of an attachment to the response card.
+  final String? attachmentLinkUrl;
+
+  /// The list of options to show to the user.
+  final List<Button>? buttons;
+
+  /// The URL of an image that is displayed to the user.
+  final String? imageUrl;
+
+  /// The subtitle shown below the title.
+  final String? subTitle;
+
+  /// The title of the option.
+  final String? title;
+
+  GenericAttachment({
+    this.attachmentLinkUrl,
+    this.buttons,
+    this.imageUrl,
+    this.subTitle,
+    this.title,
   });
 
-  factory SentimentResponse.fromJson(Map<String, dynamic> json) {
-    return SentimentResponse(
-      sentimentLabel: json['sentimentLabel'] as String?,
-      sentimentScore: json['sentimentScore'] as String?,
+  factory GenericAttachment.fromJson(Map<String, dynamic> json) {
+    return GenericAttachment(
+      attachmentLinkUrl: json['attachmentLinkUrl'] as String?,
+      buttons: (json['buttons'] as List?)
+          ?.nonNulls
+          .map((e) => Button.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      imageUrl: json['imageUrl'] as String?,
+      subTitle: json['subTitle'] as String?,
+      title: json['title'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final sentimentLabel = this.sentimentLabel;
-    final sentimentScore = this.sentimentScore;
+    final attachmentLinkUrl = this.attachmentLinkUrl;
+    final buttons = this.buttons;
+    final imageUrl = this.imageUrl;
+    final subTitle = this.subTitle;
+    final title = this.title;
     return {
-      if (sentimentLabel != null) 'sentimentLabel': sentimentLabel,
-      if (sentimentScore != null) 'sentimentScore': sentimentScore,
+      if (attachmentLinkUrl != null) 'attachmentLinkUrl': attachmentLinkUrl,
+      if (buttons != null) 'buttons': buttons,
+      if (imageUrl != null) 'imageUrl': imageUrl,
+      if (subTitle != null) 'subTitle': subTitle,
+      if (title != null) 'title': title,
+    };
+  }
+}
+
+/// Represents an option to be shown on the client platform (Facebook, Slack,
+/// etc.)
+class Button {
+  /// Text that is visible to the user on the button.
+  final String text;
+
+  /// The value sent to Amazon Lex when a user chooses the button. For example,
+  /// consider button text "NYC." When the user chooses the button, the value sent
+  /// can be "New York City."
+  final String value;
+
+  Button({
+    required this.text,
+    required this.value,
+  });
+
+  factory Button.fromJson(Map<String, dynamic> json) {
+    return Button(
+      text: (json['text'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final text = this.text;
+    final value = this.value;
+    return {
+      'text': text,
+      'value': value,
+    };
+  }
+}
+
+/// An intent that Amazon Lex suggests satisfies the user's intent. Includes the
+/// name of the intent, the confidence that Amazon Lex has that the user's
+/// intent is satisfied, and the slots defined for the intent.
+class PredictedIntent {
+  /// The name of the intent that Amazon Lex suggests satisfies the user's intent.
+  final String? intentName;
+
+  /// Indicates how confident Amazon Lex is that an intent satisfies the user's
+  /// intent.
+  final IntentConfidence? nluIntentConfidence;
+
+  /// The slot and slot values associated with the predicted intent.
+  final Map<String, String>? slots;
+
+  PredictedIntent({
+    this.intentName,
+    this.nluIntentConfidence,
+    this.slots,
+  });
+
+  factory PredictedIntent.fromJson(Map<String, dynamic> json) {
+    return PredictedIntent(
+      intentName: json['intentName'] as String?,
+      nluIntentConfidence: json['nluIntentConfidence'] != null
+          ? IntentConfidence.fromJson(
+              json['nluIntentConfidence'] as Map<String, dynamic>)
+          : null,
+      slots: (json['slots'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final intentName = this.intentName;
+    final nluIntentConfidence = this.nluIntentConfidence;
+    final slots = this.slots;
+    return {
+      if (intentName != null) 'intentName': intentName,
+      if (nluIntentConfidence != null)
+        'nluIntentConfidence': nluIntentConfidence,
+      if (slots != null) 'slots': slots,
     };
   }
 }

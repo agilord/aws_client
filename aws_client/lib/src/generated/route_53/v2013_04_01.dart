@@ -20,10 +20,10 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// Amazon Route 53 is a highly available and scalable Domain Name System (DNS)
+/// Amazon Route 53 is a highly available and scalable Domain Name System (DNS)
 /// web service.
 ///
-/// You can use Route 53 to:
+/// You can use Route 53 to:
 ///
 /// <ul>
 /// <li>
@@ -45,7 +45,7 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 ///
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/welcome-health-checks.html">How
-/// Route 53 checks the health of your resources</a>.
+/// Route 53 checks the health of your resources</a>.
 /// </li>
 /// </ul>
 class Route53 {
@@ -80,11 +80,11 @@ class Route53 {
   /// DNSSEC. This operation changes the KSK status to <code>ACTIVE</code>.
   ///
   /// May throw [ConcurrentModification].
-  /// May throw [NoSuchKeySigningKey].
-  /// May throw [InvalidKeySigningKeyStatus].
-  /// May throw [InvalidSigningStatus].
-  /// May throw [InvalidKMSArn].
   /// May throw [InvalidInput].
+  /// May throw [InvalidKeySigningKeyStatus].
+  /// May throw [InvalidKMSArn].
+  /// May throw [InvalidSigningStatus].
+  /// May throw [NoSuchKeySigningKey].
   ///
   /// Parameter [hostedZoneId] :
   /// A unique string used to identify a hosted zone.
@@ -142,14 +142,14 @@ class Route53 {
   /// Management</a> in the <i>Amazon Web Services General Reference</i>.
   /// </note>
   ///
+  /// May throw [ConflictingDomainExists].
+  /// May throw [InvalidInput].
+  /// May throw [InvalidVPCId].
+  /// May throw [LimitsExceeded].
   /// May throw [NoSuchHostedZone].
   /// May throw [NotAuthorizedException].
-  /// May throw [InvalidVPCId].
-  /// May throw [InvalidInput].
-  /// May throw [PublicZoneVPCAssociation].
-  /// May throw [ConflictingDomainExists].
-  /// May throw [LimitsExceeded].
   /// May throw [PriorRequestNotComplete].
+  /// May throw [PublicZoneVPCAssociation].
   ///
   /// Parameter [hostedZoneId] :
   /// The ID of the private hosted zone that you want to associate an Amazon VPC
@@ -175,13 +175,7 @@ class Route53 {
           '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId)}/associatevpc',
       payload: AssociateVPCWithHostedZoneRequest(
               hostedZoneId: hostedZoneId, vpc: vpc, comment: comment)
-          .toXml(
-        'AssociateVPCWithHostedZoneRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'https://route53.amazonaws.com/doc/2013-04-01/'),
-        ],
-      ),
+          .toXml('AssociateVPCWithHostedZoneRequest'),
       exceptionFnMap: _exceptionFns,
     );
     return AssociateVPCWithHostedZoneResponse.fromXml($result.body);
@@ -213,12 +207,12 @@ class Route53 {
   /// </li>
   /// </ul>
   ///
-  /// May throw [NoSuchCidrCollectionException].
-  /// May throw [CidrCollectionVersionMismatchException].
-  /// May throw [InvalidInput].
   /// May throw [CidrBlockInUseException].
-  /// May throw [LimitsExceeded].
+  /// May throw [CidrCollectionVersionMismatchException].
   /// May throw [ConcurrentModification].
+  /// May throw [InvalidInput].
+  /// May throw [LimitsExceeded].
+  /// May throw [NoSuchCidrCollectionException].
   ///
   /// Parameter [changes] :
   /// Information about changes to a CIDR collection.
@@ -227,24 +221,24 @@ class Route53 {
   /// The UUID of the CIDR collection to update.
   ///
   /// Parameter [collectionVersion] :
-  /// A sequential counter that Amazon Route 53 sets to 1 when you create a
+  /// A sequential counter that Amazon Route 53 sets to 1 when you create a
   /// collection and increments it by 1 each time you update the collection.
   ///
   /// We recommend that you use <code>ListCidrCollection</code> to get the
   /// current value of <code>CollectionVersion</code> for the collection that
   /// you want to update, and then include that value with the change request.
-  /// This prevents Route 53 from overwriting an intervening update:
+  /// This prevents Route 53 from overwriting an intervening update:
   ///
   /// <ul>
   /// <li>
   /// If the value in the request matches the value of
-  /// <code>CollectionVersion</code> in the collection, Route 53 updates the
+  /// <code>CollectionVersion</code> in the collection, Route 53 updates the
   /// collection.
   /// </li>
   /// <li>
   /// If the value of <code>CollectionVersion</code> in the collection is
   /// greater than the value in the request, the collection was changed after
-  /// you got the version number. Route 53 does not update the collection, and
+  /// you got the version number. Route 53 does not update the collection, and
   /// it returns a <code>CidrCollectionVersionMismatch</code> error.
   /// </li>
   /// </ul>
@@ -264,13 +258,7 @@ class Route53 {
       requestUri: '/2013-04-01/cidrcollection/${Uri.encodeComponent(id)}',
       payload: ChangeCidrCollectionRequest(
               changes: changes, id: id, collectionVersion: collectionVersion)
-          .toXml(
-        'ChangeCidrCollectionRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'https://route53.amazonaws.com/doc/2013-04-01/'),
-        ],
-      ),
+          .toXml('ChangeCidrCollectionRequest'),
       exceptionFnMap: _exceptionFns,
     );
     return ChangeCidrCollectionResponse.fromXml($result.body);
@@ -377,10 +365,10 @@ class Route53 {
   /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html">Limits</a>
   /// in the <i>Amazon Route 53 Developer Guide</i>.
   ///
-  /// May throw [NoSuchHostedZone].
-  /// May throw [NoSuchHealthCheck].
   /// May throw [InvalidChangeBatch].
   /// May throw [InvalidInput].
+  /// May throw [NoSuchHealthCheck].
+  /// May throw [NoSuchHostedZone].
   /// May throw [PriorRequestNotComplete].
   ///
   /// Parameter [changeBatch] :
@@ -397,16 +385,10 @@ class Route53 {
     final $result = await _protocol.send(
       method: 'POST',
       requestUri:
-          '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId)}/rrset/',
+          '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId)}/rrset',
       payload: ChangeResourceRecordSetsRequest(
               changeBatch: changeBatch, hostedZoneId: hostedZoneId)
-          .toXml(
-        'ChangeResourceRecordSetsRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'https://route53.amazonaws.com/doc/2013-04-01/'),
-        ],
-      ),
+          .toXml('ChangeResourceRecordSetsRequest'),
       exceptionFnMap: _exceptionFns,
     );
     return ChangeResourceRecordSetsResponse.fromXml($result.body);
@@ -466,23 +448,17 @@ class Route53 {
               resourceType: resourceType,
               addTags: addTags,
               removeTagKeys: removeTagKeys)
-          .toXml(
-        'ChangeTagsForResourceRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'https://route53.amazonaws.com/doc/2013-04-01/'),
-        ],
-      ),
+          .toXml('ChangeTagsForResourceRequest'),
       exceptionFnMap: _exceptionFns,
     );
   }
 
   /// Creates a CIDR collection in the current Amazon Web Services account.
   ///
-  /// May throw [LimitsExceeded].
-  /// May throw [InvalidInput].
   /// May throw [CidrCollectionAlreadyExistsException].
   /// May throw [ConcurrentModification].
+  /// May throw [InvalidInput].
+  /// May throw [LimitsExceeded].
   ///
   /// Parameter [callerReference] :
   /// A client-specific token that allows requests to be securely retried so
@@ -501,13 +477,7 @@ class Route53 {
       requestUri: '/2013-04-01/cidrcollection',
       payload: CreateCidrCollectionRequest(
               callerReference: callerReference, name: name)
-          .toXml(
-        'CreateCidrCollectionRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'https://route53.amazonaws.com/doc/2013-04-01/'),
-        ],
-      ),
+          .toXml('CreateCidrCollectionRequest'),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -561,9 +531,9 @@ class Route53 {
   /// </li>
   /// </ul>
   ///
-  /// May throw [TooManyHealthChecks].
   /// May throw [HealthCheckAlreadyExists].
   /// May throw [InvalidInput].
+  /// May throw [TooManyHealthChecks].
   ///
   /// Parameter [callerReference] :
   /// A unique string that identifies the request and that allows you to retry a
@@ -575,8 +545,8 @@ class Route53 {
   /// If you send a <code>CreateHealthCheck</code> request with the same
   /// <code>CallerReference</code> and settings as a previous request, and if
   /// the health check doesn't exist, Amazon Route 53 creates the health check.
-  /// If the health check does exist, Route 53 returns the settings for the
-  /// existing health check.
+  /// If the health check does exist, Route 53 returns the health check
+  /// configuration in the response.
   /// </li>
   /// <li>
   /// If you send a <code>CreateHealthCheck</code> request with the same
@@ -611,13 +581,7 @@ class Route53 {
       payload: CreateHealthCheckRequest(
               callerReference: callerReference,
               healthCheckConfig: healthCheckConfig)
-          .toXml(
-        'CreateHealthCheckRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'https://route53.amazonaws.com/doc/2013-04-01/'),
-        ],
-      ),
+          .toXml('CreateHealthCheckRequest'),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -640,7 +604,7 @@ class Route53 {
   /// create new resource record sets.
   /// </important>
   /// For more information about charges for hosted zones, see <a
-  /// href="http://aws.amazon.com/route53/pricing/">Amazon Route 53 Pricing</a>.
+  /// href="http://aws.amazon.com/route53/pricing/">Amazon Route 53 Pricing</a>.
   ///
   /// Note the following:
   ///
@@ -653,7 +617,7 @@ class Route53 {
   /// record and four NS records for the zone. For more information about SOA
   /// and NS records, see <a
   /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/SOA-NSrecords.html">NS
-  /// and SOA Records that Route 53 Creates for a Hosted Zone</a> in the
+  /// and SOA Records that Route 53 Creates for a Hosted Zone</a> in the
   /// <i>Amazon Route 53 Developer Guide</i>.
   ///
   /// If you want to use the same name servers for multiple public hosted zones,
@@ -661,18 +625,18 @@ class Route53 {
   /// zone. See the <code>DelegationSetId</code> element.
   /// </li>
   /// <li>
-  /// If your domain is registered with a registrar other than Route 53, you
+  /// If your domain is registered with a registrar other than Route 53, you
   /// must update the name servers with your registrar to make Route 53 the DNS
   /// service for the domain. For more information, see <a
   /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/MigratingDNS.html">Migrating
-  /// DNS Service for an Existing Domain to Amazon Route 53</a> in the <i>Amazon
+  /// DNS Service for an Existing Domain to Amazon Route 53</a> in the <i>Amazon
   /// Route 53 Developer Guide</i>.
   /// </li>
   /// </ul>
   /// When you submit a <code>CreateHostedZone</code> request, the initial
   /// status of the hosted zone is <code>PENDING</code>. For public hosted
   /// zones, this means that the NS and SOA records are not yet available on all
-  /// Route 53 DNS servers. When the NS and SOA records are available, the
+  /// Route 53 DNS servers. When the NS and SOA records are available, the
   /// status of the zone changes to <code>INSYNC</code>.
   ///
   /// The <code>CreateHostedZone</code> request requires the caller to have an
@@ -701,15 +665,15 @@ class Route53 {
   /// Management</a> in the <i>Amazon Web Services General Reference</i>.
   /// </note>
   ///
-  /// May throw [InvalidDomainName].
-  /// May throw [HostedZoneAlreadyExists].
-  /// May throw [TooManyHostedZones].
-  /// May throw [InvalidVPCId].
-  /// May throw [InvalidInput].
-  /// May throw [DelegationSetNotAvailable].
   /// May throw [ConflictingDomainExists].
-  /// May throw [NoSuchDelegationSet].
+  /// May throw [DelegationSetNotAvailable].
   /// May throw [DelegationSetNotReusable].
+  /// May throw [HostedZoneAlreadyExists].
+  /// May throw [InvalidDomainName].
+  /// May throw [InvalidInput].
+  /// May throw [InvalidVPCId].
+  /// May throw [NoSuchDelegationSet].
+  /// May throw [TooManyHostedZones].
   ///
   /// Parameter [callerReference] :
   /// A unique string that identifies the request and that allows failed
@@ -722,19 +686,19 @@ class Route53 {
   /// Parameter [name] :
   /// The name of the domain. Specify a fully qualified domain name, for
   /// example, <i>www.example.com</i>. The trailing dot is optional; Amazon
-  /// Route 53 assumes that the domain name is fully qualified. This means that
-  /// Route 53 treats <i>www.example.com</i> (without a trailing dot) and
+  /// Route 53 assumes that the domain name is fully qualified. This means that
+  /// Route 53 treats <i>www.example.com</i> (without a trailing dot) and
   /// <i>www.example.com.</i> (with a trailing dot) as identical.
   ///
   /// If you're creating a public hosted zone, this is the name you have
   /// registered with your DNS registrar. If your domain name is registered with
-  /// a registrar other than Route 53, change the name servers for your domain
+  /// a registrar other than Route 53, change the name servers for your domain
   /// to the set of <code>NameServers</code> that <code>CreateHostedZone</code>
   /// returns in <code>DelegationSet</code>.
   ///
   /// Parameter [delegationSetId] :
   /// If you want to associate a reusable delegation set with this hosted zone,
-  /// the ID that Amazon Route 53 assigned to the reusable delegation set when
+  /// the ID that Amazon Route 53 assigned to the reusable delegation set when
   /// you created it. For more information about reusable delegation sets, see
   /// <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateReusableDelegationSet.html">CreateReusableDelegationSet</a>.
@@ -786,13 +750,7 @@ class Route53 {
               delegationSetId: delegationSetId,
               hostedZoneConfig: hostedZoneConfig,
               vpc: vpc)
-          .toXml(
-        'CreateHostedZoneRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'https://route53.amazonaws.com/doc/2013-04-01/'),
-        ],
-      ),
+          .toXml('CreateHostedZoneRequest'),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -809,16 +767,16 @@ class Route53 {
   /// Creates a new key-signing key (KSK) associated with a hosted zone. You can
   /// only have two KSKs per hosted zone.
   ///
-  /// May throw [NoSuchHostedZone].
+  /// May throw [ConcurrentModification].
   /// May throw [InvalidArgument].
   /// May throw [InvalidInput].
-  /// May throw [InvalidKMSArn].
-  /// May throw [InvalidKeySigningKeyStatus].
-  /// May throw [InvalidSigningStatus].
   /// May throw [InvalidKeySigningKeyName].
+  /// May throw [InvalidKeySigningKeyStatus].
+  /// May throw [InvalidKMSArn].
+  /// May throw [InvalidSigningStatus].
   /// May throw [KeySigningKeyAlreadyExists].
+  /// May throw [NoSuchHostedZone].
   /// May throw [TooManyKeySigningKeys].
-  /// May throw [ConcurrentModification].
   ///
   /// Parameter [callerReference] :
   /// A unique string that identifies the request.
@@ -891,13 +849,7 @@ class Route53 {
               keyManagementServiceArn: keyManagementServiceArn,
               name: name,
               status: status)
-          .toXml(
-        'CreateKeySigningKeyRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'https://route53.amazonaws.com/doc/2013-04-01/'),
-        ],
-      ),
+          .toXml('CreateKeySigningKeyRequest'),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -965,11 +917,12 @@ class Route53 {
   /// <li>
   /// Create a CloudWatch Logs resource policy, and give it the permissions that
   /// Route 53 needs to create log streams and to send query logs to log
-  /// streams. For the value of <code>Resource</code>, specify the ARN for the
-  /// log group that you created in the previous step. To use the same resource
-  /// policy for all the CloudWatch Logs log groups that you created for query
-  /// logging configurations, replace the hosted zone name with <code>*</code>,
-  /// for example:
+  /// streams. You must create the CloudWatch Logs resource policy in the
+  /// us-east-1 region. For the value of <code>Resource</code>, specify the ARN
+  /// for the log group that you created in the previous step. To use the same
+  /// resource policy for all the CloudWatch Logs log groups that you created
+  /// for query logging configurations, replace the hosted zone name with
+  /// <code>*</code>, for example:
   ///
   /// <code>arn:aws:logs:us-east-1:123412341234:log-group:/aws/route53/*</code>
   ///
@@ -1054,11 +1007,11 @@ class Route53 {
   /// </dd> </dl>
   ///
   /// May throw [ConcurrentModification].
-  /// May throw [NoSuchHostedZone].
-  /// May throw [NoSuchCloudWatchLogsLogGroup].
-  /// May throw [InvalidInput].
-  /// May throw [QueryLoggingConfigAlreadyExists].
   /// May throw [InsufficientCloudWatchLogsResourcePolicy].
+  /// May throw [InvalidInput].
+  /// May throw [NoSuchCloudWatchLogsLogGroup].
+  /// May throw [NoSuchHostedZone].
+  /// May throw [QueryLoggingConfigAlreadyExists].
   ///
   /// Parameter [cloudWatchLogsLogGroupArn] :
   /// The Amazon Resource Name (ARN) for the log group that you want to Amazon
@@ -1085,13 +1038,7 @@ class Route53 {
       payload: CreateQueryLoggingConfigRequest(
               cloudWatchLogsLogGroupArn: cloudWatchLogsLogGroupArn,
               hostedZoneId: hostedZoneId)
-          .toXml(
-        'CreateQueryLoggingConfigRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'https://route53.amazonaws.com/doc/2013-04-01/'),
-        ],
-      ),
+          .toXml('CreateQueryLoggingConfigRequest'),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -1166,12 +1113,12 @@ class Route53 {
   /// </ul>
   ///
   /// May throw [DelegationSetAlreadyCreated].
-  /// May throw [LimitsExceeded].
+  /// May throw [DelegationSetAlreadyReusable].
+  /// May throw [DelegationSetNotAvailable].
   /// May throw [HostedZoneNotFound].
   /// May throw [InvalidArgument].
   /// May throw [InvalidInput].
-  /// May throw [DelegationSetNotAvailable].
-  /// May throw [DelegationSetAlreadyReusable].
+  /// May throw [LimitsExceeded].
   ///
   /// Parameter [callerReference] :
   /// A unique string that identifies the request, and that allows you to retry
@@ -1194,13 +1141,7 @@ class Route53 {
       requestUri: '/2013-04-01/delegationset',
       payload: CreateReusableDelegationSetRequest(
               callerReference: callerReference, hostedZoneId: hostedZoneId)
-          .toXml(
-        'CreateReusableDelegationSetRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'https://route53.amazonaws.com/doc/2013-04-01/'),
-        ],
-      ),
+          .toXml('CreateReusableDelegationSetRequest'),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -1216,9 +1157,9 @@ class Route53 {
   /// name (such as www.example.com).
   ///
   /// May throw [InvalidInput].
+  /// May throw [InvalidTrafficPolicyDocument].
   /// May throw [TooManyTrafficPolicies].
   /// May throw [TrafficPolicyAlreadyExists].
-  /// May throw [InvalidTrafficPolicyDocument].
   ///
   /// Parameter [document] :
   /// The definition of this traffic policy in JSON format. For more
@@ -1241,13 +1182,7 @@ class Route53 {
       requestUri: '/2013-04-01/trafficpolicy',
       payload: CreateTrafficPolicyRequest(
               document: document, name: name, comment: comment)
-          .toXml(
-        'CreateTrafficPolicyRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'https://route53.amazonaws.com/doc/2013-04-01/'),
-        ],
-      ),
+          .toXml('CreateTrafficPolicyRequest'),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -1275,10 +1210,10 @@ class Route53 {
   /// For more information, see the <code>State</code> response element.
   /// </note>
   ///
-  /// May throw [NoSuchHostedZone].
   /// May throw [InvalidInput].
-  /// May throw [TooManyTrafficPolicyInstances].
+  /// May throw [NoSuchHostedZone].
   /// May throw [NoSuchTrafficPolicy].
+  /// May throw [TooManyTrafficPolicyInstances].
   /// May throw [TrafficPolicyInstanceAlreadyExists].
   ///
   /// Parameter [hostedZoneId] :
@@ -1332,13 +1267,7 @@ class Route53 {
               ttl: ttl,
               trafficPolicyId: trafficPolicyId,
               trafficPolicyVersion: trafficPolicyVersion)
-          .toXml(
-        'CreateTrafficPolicyInstanceRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'https://route53.amazonaws.com/doc/2013-04-01/'),
-        ],
-      ),
+          .toXml('CreateTrafficPolicyInstanceRequest'),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -1358,11 +1287,11 @@ class Route53 {
   /// traffic policy. If you reach the limit and need to create another version,
   /// you'll need to start a new traffic policy.
   ///
-  /// May throw [NoSuchTrafficPolicy].
-  /// May throw [InvalidInput].
-  /// May throw [TooManyTrafficPolicyVersionsForCurrentPolicy].
   /// May throw [ConcurrentModification].
+  /// May throw [InvalidInput].
   /// May throw [InvalidTrafficPolicyDocument].
+  /// May throw [NoSuchTrafficPolicy].
+  /// May throw [TooManyTrafficPolicyVersionsForCurrentPolicy].
   ///
   /// Parameter [document] :
   /// The definition of this version of the traffic policy, in JSON format. You
@@ -1386,13 +1315,7 @@ class Route53 {
       requestUri: '/2013-04-01/trafficpolicy/${Uri.encodeComponent(id)}',
       payload: CreateTrafficPolicyVersionRequest(
               document: document, id: id, comment: comment)
-          .toXml(
-        'CreateTrafficPolicyVersionRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'https://route53.amazonaws.com/doc/2013-04-01/'),
-        ],
-      ),
+          .toXml('CreateTrafficPolicyVersionRequest'),
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -1417,10 +1340,10 @@ class Route53 {
   /// </note>
   ///
   /// May throw [ConcurrentModification].
-  /// May throw [TooManyVPCAssociationAuthorizations].
-  /// May throw [NoSuchHostedZone].
-  /// May throw [InvalidVPCId].
   /// May throw [InvalidInput].
+  /// May throw [InvalidVPCId].
+  /// May throw [NoSuchHostedZone].
+  /// May throw [TooManyVPCAssociationAuthorizations].
   ///
   /// Parameter [hostedZoneId] :
   /// The ID of the private hosted zone that you want to authorize associating a
@@ -1440,13 +1363,7 @@ class Route53 {
           '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId)}/authorizevpcassociation',
       payload: CreateVPCAssociationAuthorizationRequest(
               hostedZoneId: hostedZoneId, vpc: vpc)
-          .toXml(
-        'CreateVPCAssociationAuthorizationRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'https://route53.amazonaws.com/doc/2013-04-01/'),
-        ],
-      ),
+          .toXml('CreateVPCAssociationAuthorizationRequest'),
       exceptionFnMap: _exceptionFns,
     );
     return CreateVPCAssociationAuthorizationResponse.fromXml($result.body);
@@ -1457,12 +1374,12 @@ class Route53 {
   /// <code>INACTIVE</code>.
   ///
   /// May throw [ConcurrentModification].
-  /// May throw [NoSuchKeySigningKey].
+  /// May throw [InvalidInput].
   /// May throw [InvalidKeySigningKeyStatus].
   /// May throw [InvalidSigningStatus].
-  /// May throw [KeySigningKeyInUse].
   /// May throw [KeySigningKeyInParentDSRecord].
-  /// May throw [InvalidInput].
+  /// May throw [KeySigningKeyInUse].
+  /// May throw [NoSuchKeySigningKey].
   ///
   /// Parameter [hostedZoneId] :
   /// A unique string used to identify a hosted zone.
@@ -1485,10 +1402,10 @@ class Route53 {
   /// Deletes a CIDR collection in the current Amazon Web Services account. The
   /// collection must be empty before it can be deleted.
   ///
-  /// May throw [NoSuchCidrCollectionException].
   /// May throw [CidrCollectionInUseException].
-  /// May throw [InvalidInput].
   /// May throw [ConcurrentModification].
+  /// May throw [InvalidInput].
+  /// May throw [NoSuchCidrCollectionException].
   ///
   /// Parameter [id] :
   /// The UUID of the collection to delete.
@@ -1521,9 +1438,9 @@ class Route53 {
   /// there can be a delay of several hours before the health check is deleted
   /// from Route 53.
   ///
-  /// May throw [NoSuchHealthCheck].
   /// May throw [HealthCheckInUse].
   /// May throw [InvalidInput].
+  /// May throw [NoSuchHealthCheck].
   ///
   /// Parameter [healthCheckId] :
   /// The ID of the health check that you want to delete.
@@ -1544,7 +1461,7 @@ class Route53 {
   /// <a
   /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DeleteHostedZone.html#delete-public-hosted-zone-created-by-another-service">Deleting
   /// Public Hosted Zones That Were Created by Another Service</a> in the
-  /// <i>Amazon Route 53 Developer Guide</i> for information about how to delete
+  /// <i>Amazon Route 53 Developer Guide</i> for information about how to delete
   /// it. (The process is the same for public and private hosted zones that were
   /// created by another service.)
   ///
@@ -1564,21 +1481,21 @@ class Route53 {
   /// If you want to avoid the monthly charge for the hosted zone, you can
   /// transfer DNS service for the domain to a free DNS service. When you
   /// transfer DNS service, you have to update the name servers for the domain
-  /// registration. If the domain is registered with Route 53, see <a
+  /// registration. If the domain is registered with Route 53, see <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_UpdateDomainNameservers.html">UpdateDomainNameservers</a>
-  /// for information about how to replace Route 53 name servers with name
+  /// for information about how to replace Route 53 name servers with name
   /// servers for the new DNS service. If the domain is registered with another
   /// registrar, use the method provided by the registrar to update name servers
   /// for the domain registration. For more information, perform an internet
   /// search on "free DNS service."
   ///
-  /// You can delete a hosted zone only if it contains only the default SOA
-  /// record and NS resource record sets. If the hosted zone contains other
-  /// resource record sets, you must delete them before you can delete the
-  /// hosted zone. If you try to delete a hosted zone that contains other
-  /// resource record sets, the request fails, and Route 53 returns a
+  /// You can delete a hosted zone only if it contains only the default SOA and
+  /// NS records and has DNSSEC signing disabled. If the hosted zone contains
+  /// other records or has DNSSEC enabled, you must delete the records and
+  /// disable DNSSEC before deletion. Attempting to delete a hosted zone with
+  /// additional records or DNSSEC enabled returns a
   /// <code>HostedZoneNotEmpty</code> error. For information about deleting
-  /// records from your hosted zone, see <a
+  /// records, see <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_ChangeResourceRecordSets.html">ChangeResourceRecordSets</a>.
   ///
   /// To verify that the hosted zone has been deleted, do one of the following:
@@ -1594,11 +1511,11 @@ class Route53 {
   /// </li>
   /// </ul>
   ///
-  /// May throw [NoSuchHostedZone].
   /// May throw [HostedZoneNotEmpty].
-  /// May throw [PriorRequestNotComplete].
-  /// May throw [InvalidInput].
   /// May throw [InvalidDomainName].
+  /// May throw [InvalidInput].
+  /// May throw [NoSuchHostedZone].
+  /// May throw [PriorRequestNotComplete].
   ///
   /// Parameter [id] :
   /// The ID of the hosted zone you want to delete.
@@ -1626,11 +1543,11 @@ class Route53 {
   /// to verify that the KSK is in an <code>INACTIVE</code> status.
   ///
   /// May throw [ConcurrentModification].
-  /// May throw [NoSuchKeySigningKey].
-  /// May throw [InvalidKeySigningKeyStatus].
-  /// May throw [InvalidSigningStatus].
-  /// May throw [InvalidKMSArn].
   /// May throw [InvalidInput].
+  /// May throw [InvalidKeySigningKeyStatus].
+  /// May throw [InvalidKMSArn].
+  /// May throw [InvalidSigningStatus].
+  /// May throw [NoSuchKeySigningKey].
   ///
   /// Parameter [hostedZoneId] :
   /// A unique string used to identify a hosted zone.
@@ -1659,8 +1576,8 @@ class Route53 {
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateQueryLoggingConfig.html">CreateQueryLoggingConfig</a>.
   ///
   /// May throw [ConcurrentModification].
-  /// May throw [NoSuchQueryLoggingConfig].
   /// May throw [InvalidInput].
+  /// May throw [NoSuchQueryLoggingConfig].
   ///
   /// Parameter [id] :
   /// The ID of the configuration that you want to delete.
@@ -1685,10 +1602,10 @@ class Route53 {
   /// request and specify the ID of the reusable delegation set that you want to
   /// delete.
   ///
-  /// May throw [NoSuchDelegationSet].
   /// May throw [DelegationSetInUse].
   /// May throw [DelegationSetNotReusable].
   /// May throw [InvalidInput].
+  /// May throw [NoSuchDelegationSet].
   ///
   /// Parameter [id] :
   /// The ID of the reusable delegation set that you want to delete.
@@ -1723,10 +1640,10 @@ class Route53 {
   /// </li>
   /// </ul>
   ///
-  /// May throw [NoSuchTrafficPolicy].
-  /// May throw [InvalidInput].
-  /// May throw [TrafficPolicyInUse].
   /// May throw [ConcurrentModification].
+  /// May throw [InvalidInput].
+  /// May throw [NoSuchTrafficPolicy].
+  /// May throw [TrafficPolicyInUse].
   ///
   /// Parameter [id] :
   /// The ID of the traffic policy that you want to delete.
@@ -1759,8 +1676,8 @@ class Route53 {
   /// records.
   /// </note>
   ///
-  /// May throw [NoSuchTrafficPolicyInstance].
   /// May throw [InvalidInput].
+  /// May throw [NoSuchTrafficPolicyInstance].
   /// May throw [PriorRequestNotComplete].
   ///
   /// Parameter [id] :
@@ -1795,10 +1712,10 @@ class Route53 {
   /// </important>
   ///
   /// May throw [ConcurrentModification].
-  /// May throw [VPCAssociationAuthorizationNotFound].
-  /// May throw [NoSuchHostedZone].
-  /// May throw [InvalidVPCId].
   /// May throw [InvalidInput].
+  /// May throw [InvalidVPCId].
+  /// May throw [NoSuchHostedZone].
+  /// May throw [VPCAssociationAuthorizationNotFound].
   ///
   /// Parameter [hostedZoneId] :
   /// When removing authorization to associate a VPC that was created by one
@@ -1820,13 +1737,7 @@ class Route53 {
           '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId)}/deauthorizevpcassociation',
       payload: DeleteVPCAssociationAuthorizationRequest(
               hostedZoneId: hostedZoneId, vpc: vpc)
-          .toXml(
-        'DeleteVPCAssociationAuthorizationRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'https://route53.amazonaws.com/doc/2013-04-01/'),
-        ],
-      ),
+          .toXml('DeleteVPCAssociationAuthorizationRequest'),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1834,14 +1745,14 @@ class Route53 {
   /// Disables DNSSEC signing in a specific hosted zone. This action does not
   /// deactivate any key-signing keys (KSKs) that are active in the hosted zone.
   ///
-  /// May throw [NoSuchHostedZone].
-  /// May throw [InvalidArgument].
   /// May throw [ConcurrentModification].
-  /// May throw [KeySigningKeyInParentDSRecord].
   /// May throw [DNSSECNotFound].
+  /// May throw [InvalidArgument].
+  /// May throw [InvalidInput].
   /// May throw [InvalidKeySigningKeyStatus].
   /// May throw [InvalidKMSArn].
-  /// May throw [InvalidInput].
+  /// May throw [KeySigningKeyInParentDSRecord].
+  /// May throw [NoSuchHostedZone].
   ///
   /// Parameter [hostedZoneId] :
   /// A unique string used to identify a hosted zone.
@@ -1909,11 +1820,11 @@ class Route53 {
   /// Management</a> in the <i>Amazon Web Services General Reference</i>.
   /// </note>
   ///
-  /// May throw [NoSuchHostedZone].
-  /// May throw [InvalidVPCId].
-  /// May throw [VPCAssociationNotFound].
-  /// May throw [LastVPCAssociation].
   /// May throw [InvalidInput].
+  /// May throw [InvalidVPCId].
+  /// May throw [LastVPCAssociation].
+  /// May throw [NoSuchHostedZone].
+  /// May throw [VPCAssociationNotFound].
   ///
   /// Parameter [hostedZoneId] :
   /// The ID of the private hosted zone that you want to disassociate a VPC
@@ -1936,13 +1847,7 @@ class Route53 {
           '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId)}/disassociatevpc',
       payload: DisassociateVPCFromHostedZoneRequest(
               hostedZoneId: hostedZoneId, vpc: vpc, comment: comment)
-          .toXml(
-        'DisassociateVPCFromHostedZoneRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'https://route53.amazonaws.com/doc/2013-04-01/'),
-        ],
-      ),
+          .toXml('DisassociateVPCFromHostedZoneRequest'),
       exceptionFnMap: _exceptionFns,
     );
     return DisassociateVPCFromHostedZoneResponse.fromXml($result.body);
@@ -1950,15 +1855,15 @@ class Route53 {
 
   /// Enables DNSSEC signing in a specific hosted zone.
   ///
-  /// May throw [NoSuchHostedZone].
-  /// May throw [InvalidArgument].
   /// May throw [ConcurrentModification].
-  /// May throw [KeySigningKeyWithActiveStatusNotFound].
-  /// May throw [InvalidKMSArn].
-  /// May throw [HostedZonePartiallyDelegated].
   /// May throw [DNSSECNotFound].
-  /// May throw [InvalidKeySigningKeyStatus].
+  /// May throw [HostedZonePartiallyDelegated].
+  /// May throw [InvalidArgument].
   /// May throw [InvalidInput].
+  /// May throw [InvalidKeySigningKeyStatus].
+  /// May throw [InvalidKMSArn].
+  /// May throw [KeySigningKeyWithActiveStatusNotFound].
+  /// May throw [NoSuchHostedZone].
   ///
   /// Parameter [hostedZoneId] :
   /// A unique string used to identify a hosted zone.
@@ -1981,7 +1886,7 @@ class Route53 {
   /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html">Limits</a>
   /// in the <i>Amazon Route 53 Developer Guide</i>. To request a higher limit,
   /// <a
-  /// href="https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&amp;limitType=service-code-route53">open
+  /// href="https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&limitType=service-code-route53">open
   /// a case</a>.
   /// <note>
   /// You can also view account limits in Amazon Web Services Trusted Advisor.
@@ -2046,8 +1951,8 @@ class Route53 {
   /// </li>
   /// </ul>
   ///
-  /// May throw [NoSuchChange].
   /// May throw [InvalidInput].
+  /// May throw [NoSuchChange].
   ///
   /// Parameter [id] :
   /// The ID of the change batch request. The value that you specify here is the
@@ -2086,9 +1991,9 @@ class Route53 {
   /// Returns information about DNSSEC for a specific hosted zone, including the
   /// key-signing keys (KSKs) in the hosted zone.
   ///
-  /// May throw [NoSuchHostedZone].
   /// May throw [InvalidArgument].
   /// May throw [InvalidInput].
+  /// May throw [NoSuchHostedZone].
   ///
   /// Parameter [hostedZoneId] :
   /// A unique string used to identify a hosted zone.
@@ -2126,10 +2031,10 @@ class Route53 {
   /// is supported for geolocation:
   ///
   /// <code>GET /2013-04-01/geolocation?countrycode=<i>two-character country
-  /// code</i>&amp;subdivisioncode=<i>subdivision code</i> </code>
+  /// code</i>&subdivisioncode=<i>subdivision code</i> </code>
   ///
-  /// May throw [NoSuchGeoLocation].
   /// May throw [InvalidInput].
+  /// May throw [NoSuchGeoLocation].
   ///
   /// Parameter [continentCode] :
   /// For geolocation resource record sets, a two-letter abbreviation that
@@ -2196,9 +2101,9 @@ class Route53 {
 
   /// Gets information about a specified health check.
   ///
-  /// May throw [NoSuchHealthCheck].
-  /// May throw [InvalidInput].
   /// May throw [IncompatibleVersion].
+  /// May throw [InvalidInput].
+  /// May throw [NoSuchHealthCheck].
   ///
   /// Parameter [healthCheckId] :
   /// The identifier that Amazon Route 53 assigned to the health check when you
@@ -2230,8 +2135,8 @@ class Route53 {
 
   /// Gets the reason that a specified health check failed most recently.
   ///
-  /// May throw [NoSuchHealthCheck].
   /// May throw [InvalidInput].
+  /// May throw [NoSuchHealthCheck].
   ///
   /// Parameter [healthCheckId] :
   /// The ID for the health check for which you want the last failure reason.
@@ -2263,8 +2168,8 @@ class Route53 {
   /// immediate and actionable responses.
   /// </important>
   ///
-  /// May throw [NoSuchHealthCheck].
   /// May throw [InvalidInput].
+  /// May throw [NoSuchHealthCheck].
   ///
   /// Parameter [healthCheckId] :
   /// The ID for the health check that you want the current status for. When you
@@ -2291,8 +2196,14 @@ class Route53 {
   /// Gets information about a specified hosted zone including the four name
   /// servers assigned to the hosted zone.
   ///
-  /// May throw [NoSuchHostedZone].
+  /// <code></code> returns the VPCs associated with the specified hosted zone
+  /// and does not reflect the VPC associations by Route 53 Profiles. To get the
+  /// associations to a Profile, call the <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53profiles_ListProfileAssociations.html">ListProfileAssociations</a>
+  /// API.
+  ///
   /// May throw [InvalidInput].
+  /// May throw [NoSuchHostedZone].
   ///
   /// Parameter [id] :
   /// The ID of the hosted zone that you want to get information about.
@@ -2327,12 +2238,12 @@ class Route53 {
   /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html">Limits</a>
   /// in the <i>Amazon Route 53 Developer Guide</i>. To request a higher limit,
   /// <a
-  /// href="https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&amp;limitType=service-code-route53">open
+  /// href="https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&limitType=service-code-route53">open
   /// a case</a>.
   ///
-  /// May throw [NoSuchHostedZone].
-  /// May throw [InvalidInput].
   /// May throw [HostedZoneNotPrivate].
+  /// May throw [InvalidInput].
+  /// May throw [NoSuchHostedZone].
   ///
   /// Parameter [hostedZoneId] :
   /// The ID of the hosted zone that you want to get a limit for.
@@ -2371,8 +2282,8 @@ class Route53 {
   /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/query-logs.html">Logging
   /// DNS Queries</a>.
   ///
-  /// May throw [NoSuchQueryLoggingConfig].
   /// May throw [InvalidInput].
+  /// May throw [NoSuchQueryLoggingConfig].
   ///
   /// Parameter [id] :
   /// The ID of the configuration for DNS query logging that you want to get
@@ -2391,9 +2302,9 @@ class Route53 {
   /// Retrieves information about a specified reusable delegation set, including
   /// the four name servers that are assigned to the delegation set.
   ///
-  /// May throw [NoSuchDelegationSet].
   /// May throw [DelegationSetNotReusable].
   /// May throw [InvalidInput].
+  /// May throw [NoSuchDelegationSet].
   ///
   /// Parameter [id] :
   /// The ID of the reusable delegation set that you want to get a list of name
@@ -2416,7 +2327,7 @@ class Route53 {
   /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html">Limits</a>
   /// in the <i>Amazon Route 53 Developer Guide</i>. To request a higher limit,
   /// <a
-  /// href="https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&amp;limitType=service-code-route53">open
+  /// href="https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&limitType=service-code-route53">open
   /// a case</a>.
   ///
   /// May throw [InvalidInput].
@@ -2448,8 +2359,8 @@ class Route53 {
   /// response from <code>GetTrafficPolicy</code>, see <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_DeleteTrafficPolicy.html">DeleteTrafficPolicy</a>.
   ///
-  /// May throw [NoSuchTrafficPolicy].
   /// May throw [InvalidInput].
+  /// May throw [NoSuchTrafficPolicy].
   ///
   /// Parameter [id] :
   /// The ID of the traffic policy that you want to get information about.
@@ -2489,8 +2400,8 @@ class Route53 {
   /// records.
   /// </note>
   ///
-  /// May throw [NoSuchTrafficPolicyInstance].
   /// May throw [InvalidInput].
+  /// May throw [NoSuchTrafficPolicyInstance].
   ///
   /// Parameter [id] :
   /// The ID of the traffic policy instance that you want to get information
@@ -2521,9 +2432,9 @@ class Route53 {
 
   /// Returns a paginated list of location objects and their CIDR blocks.
   ///
+  /// May throw [InvalidInput].
   /// May throw [NoSuchCidrCollectionException].
   /// May throw [NoSuchCidrLocationException].
-  /// May throw [InvalidInput].
   ///
   /// Parameter [collectionId] :
   /// The UUID of the CIDR collection.
@@ -2540,12 +2451,12 @@ class Route53 {
   Future<ListCidrBlocksResponse> listCidrBlocks({
     required String collectionId,
     String? locationName,
-    String? maxResults,
+    int? maxResults,
     String? nextToken,
   }) async {
     final $query = <String, List<String>>{
       if (locationName != null) 'location': [locationName],
-      if (maxResults != null) 'maxresults': [maxResults],
+      if (maxResults != null) 'maxresults': [maxResults.toString()],
       if (nextToken != null) 'nexttoken': [nextToken],
     };
     final $result = await _protocol.send(
@@ -2572,11 +2483,11 @@ class Route53 {
   ///
   /// If no value is provided, the listing of results starts from the beginning.
   Future<ListCidrCollectionsResponse> listCidrCollections({
-    String? maxResults,
+    int? maxResults,
     String? nextToken,
   }) async {
     final $query = <String, List<String>>{
-      if (maxResults != null) 'maxresults': [maxResults],
+      if (maxResults != null) 'maxresults': [maxResults.toString()],
       if (nextToken != null) 'nexttoken': [nextToken],
     };
     final $result = await _protocol.send(
@@ -2591,8 +2502,8 @@ class Route53 {
   /// Returns a paginated list of CIDR locations for the given collection
   /// (metadata only, does not include CIDR blocks).
   ///
-  /// May throw [NoSuchCidrCollectionException].
   /// May throw [InvalidInput].
+  /// May throw [NoSuchCidrCollectionException].
   ///
   /// Parameter [collectionId] :
   /// The CIDR collection ID.
@@ -2607,11 +2518,11 @@ class Route53 {
   /// If no value is provided, the listing of results starts from the beginning.
   Future<ListCidrLocationsResponse> listCidrLocations({
     required String collectionId,
-    String? maxResults,
+    int? maxResults,
     String? nextToken,
   }) async {
     final $query = <String, List<String>>{
-      if (maxResults != null) 'maxresults': [maxResults],
+      if (maxResults != null) 'maxresults': [maxResults.toString()],
       if (nextToken != null) 'nexttoken': [nextToken],
     };
     final $result = await _protocol.send(
@@ -2678,13 +2589,13 @@ class Route53 {
   /// To list subdivisions (U.S. states), you must include both
   /// <code>startcountrycode</code> and <code>startsubdivisioncode</code>.
   Future<ListGeoLocationsResponse> listGeoLocations({
-    String? maxItems,
+    int? maxItems,
     String? startContinentCode,
     String? startCountryCode,
     String? startSubdivisionCode,
   }) async {
     final $query = <String, List<String>>{
-      if (maxItems != null) 'maxitems': [maxItems],
+      if (maxItems != null) 'maxitems': [maxItems.toString()],
       if (startContinentCode != null)
         'startcontinentcode': [startContinentCode],
       if (startCountryCode != null) 'startcountrycode': [startCountryCode],
@@ -2703,8 +2614,8 @@ class Route53 {
   /// Retrieve a list of the health checks that are associated with the current
   /// Amazon Web Services account.
   ///
-  /// May throw [InvalidInput].
   /// May throw [IncompatibleVersion].
+  /// May throw [InvalidInput].
   ///
   /// Parameter [marker] :
   /// If the value of <code>IsTruncated</code> in the previous response was
@@ -2727,11 +2638,11 @@ class Route53 {
   /// the first 1000 health checks.
   Future<ListHealthChecksResponse> listHealthChecks({
     String? marker,
-    String? maxItems,
+    int? maxItems,
   }) async {
     final $query = <String, List<String>>{
       if (marker != null) 'marker': [marker],
-      if (maxItems != null) 'maxitems': [maxItems],
+      if (maxItems != null) 'maxitems': [maxItems.toString()],
     };
     final $result = await _protocol.send(
       method: 'GET',
@@ -2750,9 +2661,9 @@ class Route53 {
   /// have a lot of hosted zones, you can use the <code>maxitems</code>
   /// parameter to list them in groups of up to 100.
   ///
+  /// May throw [DelegationSetNotReusable].
   /// May throw [InvalidInput].
   /// May throw [NoSuchDelegationSet].
-  /// May throw [DelegationSetNotReusable].
   ///
   /// Parameter [delegationSetId] :
   /// If you're using reusable delegation sets and you want to list all of the
@@ -2786,13 +2697,13 @@ class Route53 {
     String? delegationSetId,
     HostedZoneType? hostedZoneType,
     String? marker,
-    String? maxItems,
+    int? maxItems,
   }) async {
     final $query = <String, List<String>>{
       if (delegationSetId != null) 'delegationsetid': [delegationSetId],
       if (hostedZoneType != null) 'hostedzonetype': [hostedZoneType.value],
       if (marker != null) 'marker': [marker],
-      if (maxItems != null) 'maxitems': [maxItems],
+      if (maxItems != null) 'maxitems': [maxItems.toString()],
     };
     final $result = await _protocol.send(
       method: 'GET',
@@ -2869,8 +2780,8 @@ class Route53 {
   /// </li>
   /// </ul>
   ///
-  /// May throw [InvalidInput].
   /// May throw [InvalidDomainName].
+  /// May throw [InvalidInput].
   ///
   /// Parameter [dNSName] :
   /// (Optional) For your first request to <code>ListHostedZonesByName</code>,
@@ -2905,12 +2816,12 @@ class Route53 {
   Future<ListHostedZonesByNameResponse> listHostedZonesByName({
     String? dNSName,
     String? hostedZoneId,
-    String? maxItems,
+    int? maxItems,
   }) async {
     final $query = <String, List<String>>{
       if (dNSName != null) 'dnsname': [dNSName],
       if (hostedZoneId != null) 'hostedzoneid': [hostedZoneId],
-      if (maxItems != null) 'maxitems': [maxItems],
+      if (maxItems != null) 'maxitems': [maxItems.toString()],
     };
     final $result = await _protocol.send(
       method: 'GET',
@@ -2939,7 +2850,14 @@ class Route53 {
   /// hosted zone was created by Amazon Elastic File System (Amazon EFS), the
   /// value of <code>Owner</code> is <code>efs.amazonaws.com</code>.
   /// </li>
-  /// </ul> <note>
+  /// </ul>
+  /// <code>ListHostedZonesByVPC</code> returns the hosted zones associated with
+  /// the specified VPC and does not reflect the hosted zone associations to
+  /// VPCs via Route 53 Profiles. To get the associations to a Profile, call the
+  /// <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53profiles_ListProfileResourceAssociations.html">ListProfileResourceAssociations</a>
+  /// API.
+  /// <note>
   /// When listing private hosted zones, the hosted zone and the Amazon VPC must
   /// belong to the same partition where the hosted zones were created. A
   /// partition is a group of Amazon Web Services Regions. Each Amazon Web
@@ -2994,13 +2912,13 @@ class Route53 {
   Future<ListHostedZonesByVPCResponse> listHostedZonesByVPC({
     required String vPCId,
     required VPCRegion vPCRegion,
-    String? maxItems,
+    int? maxItems,
     String? nextToken,
   }) async {
     final $query = <String, List<String>>{
       'vpcid': [vPCId],
       'vpcregion': [vPCRegion.value],
-      if (maxItems != null) 'maxitems': [maxItems],
+      if (maxItems != null) 'maxitems': [maxItems.toString()],
       if (nextToken != null) 'nexttoken': [nextToken],
     };
     final $result = await _protocol.send(
@@ -3060,12 +2978,12 @@ class Route53 {
   /// for <code>NextToken</code> in the request.
   Future<ListQueryLoggingConfigsResponse> listQueryLoggingConfigs({
     String? hostedZoneId,
-    String? maxResults,
+    int? maxResults,
     String? nextToken,
   }) async {
     final $query = <String, List<String>>{
       if (hostedZoneId != null) 'hostedzoneid': [hostedZoneId],
-      if (maxResults != null) 'maxresults': [maxResults],
+      if (maxResults != null) 'maxresults': [maxResults.toString()],
       if (nextToken != null) 'nexttoken': [nextToken],
     };
     final $result = await _protocol.send(
@@ -3092,8 +3010,8 @@ class Route53 {
   ///
   /// Note the trailing dot, which can change the sort order when the record
   /// name contains characters that appear before <code>.</code> (decimal 46) in
-  /// the ASCII table. These characters include the following: <code>! " # $ %
-  /// &amp; ' ( ) * + , -</code>
+  /// the ASCII table. These characters include the following: <code>! " # $ % &
+  /// ' ( ) * + , -</code>
   ///
   /// When multiple records have the same DNS name,
   /// <code>ListResourceRecordSets</code> sorts results by the record type.
@@ -3114,7 +3032,9 @@ class Route53 {
   /// The results begin with the first resource record set in the list whose
   /// name is greater than or equal to <code>Name</code>, and whose type is
   /// greater than or equal to <code>Type</code>.
-  /// </dd> </dl>
+  /// <note>
+  /// Type is only used to sort between records with the same record Name.
+  /// </note> </dd> </dl>
   /// <b>Resource record sets that are PENDING</b>
   ///
   /// This action returns the most current version of the records. This includes
@@ -3141,8 +3061,8 @@ class Route53 {
   /// values for <code>StartRecordName</code>, <code>StartRecordType</code>, and
   /// <code>StartRecordIdentifier</code>.
   ///
-  /// May throw [NoSuchHostedZone].
   /// May throw [InvalidInput].
+  /// May throw [NoSuchHostedZone].
   ///
   /// Parameter [hostedZoneId] :
   /// The ID of the hosted zone that contains the resource record sets that you
@@ -3214,13 +3134,13 @@ class Route53 {
   /// <code>name</code> returns an <code>InvalidInput</code> error.
   Future<ListResourceRecordSetsResponse> listResourceRecordSets({
     required String hostedZoneId,
-    String? maxItems,
+    int? maxItems,
     String? startRecordIdentifier,
     String? startRecordName,
     RRType? startRecordType,
   }) async {
     final $query = <String, List<String>>{
-      if (maxItems != null) 'maxitems': [maxItems],
+      if (maxItems != null) 'maxitems': [maxItems.toString()],
       if (startRecordIdentifier != null) 'identifier': [startRecordIdentifier],
       if (startRecordName != null) 'name': [startRecordName],
       if (startRecordType != null) 'type': [startRecordType.value],
@@ -3259,11 +3179,11 @@ class Route53 {
   /// than 100, Route 53 returns only the first 100 reusable delegation sets.
   Future<ListReusableDelegationSetsResponse> listReusableDelegationSets({
     String? marker,
-    String? maxItems,
+    int? maxItems,
   }) async {
     final $query = <String, List<String>>{
       if (marker != null) 'marker': [marker],
-      if (maxItems != null) 'maxitems': [maxItems],
+      if (maxItems != null) 'maxitems': [maxItems.toString()],
     };
     final $result = await _protocol.send(
       method: 'GET',
@@ -3351,13 +3271,7 @@ class Route53 {
       requestUri: '/2013-04-01/tags/${Uri.encodeComponent(resourceType.value)}',
       payload: ListTagsForResourcesRequest(
               resourceIds: resourceIds, resourceType: resourceType)
-          .toXml(
-        'ListTagsForResourcesRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'https://route53.amazonaws.com/doc/2013-04-01/'),
-        ],
-      ),
+          .toXml('ListTagsForResourcesRequest'),
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourcesResponse.fromXml($result.body);
@@ -3393,11 +3307,11 @@ class Route53 {
   /// <code>TrafficPolicyIdMarker</code> that was returned in the previous
   /// response.
   Future<ListTrafficPoliciesResponse> listTrafficPolicies({
-    String? maxItems,
+    int? maxItems,
     String? trafficPolicyIdMarker,
   }) async {
     final $query = <String, List<String>>{
-      if (maxItems != null) 'maxitems': [maxItems],
+      if (maxItems != null) 'maxitems': [maxItems.toString()],
       if (trafficPolicyIdMarker != null)
         'trafficpolicyid': [trafficPolicyIdMarker],
     };
@@ -3477,13 +3391,13 @@ class Route53 {
   /// <code>false</code>, there are no more traffic policy instances to get.
   Future<ListTrafficPolicyInstancesResponse> listTrafficPolicyInstances({
     String? hostedZoneIdMarker,
-    String? maxItems,
+    int? maxItems,
     String? trafficPolicyInstanceNameMarker,
     RRType? trafficPolicyInstanceTypeMarker,
   }) async {
     final $query = <String, List<String>>{
       if (hostedZoneIdMarker != null) 'hostedzoneid': [hostedZoneIdMarker],
-      if (maxItems != null) 'maxitems': [maxItems],
+      if (maxItems != null) 'maxitems': [maxItems.toString()],
       if (trafficPolicyInstanceNameMarker != null)
         'trafficpolicyinstancename': [trafficPolicyInstanceNameMarker],
       if (trafficPolicyInstanceTypeMarker != null)
@@ -3512,8 +3426,8 @@ class Route53 {
   /// parameter to list them in groups of up to 100.
   ///
   /// May throw [InvalidInput].
-  /// May throw [NoSuchTrafficPolicyInstance].
   /// May throw [NoSuchHostedZone].
+  /// May throw [NoSuchTrafficPolicyInstance].
   ///
   /// Parameter [hostedZoneId] :
   /// The ID of the hosted zone that you want to list traffic policy instances
@@ -3556,13 +3470,13 @@ class Route53 {
   Future<ListTrafficPolicyInstancesByHostedZoneResponse>
       listTrafficPolicyInstancesByHostedZone({
     required String hostedZoneId,
-    String? maxItems,
+    int? maxItems,
     String? trafficPolicyInstanceNameMarker,
     RRType? trafficPolicyInstanceTypeMarker,
   }) async {
     final $query = <String, List<String>>{
       'id': [hostedZoneId],
-      if (maxItems != null) 'maxitems': [maxItems],
+      if (maxItems != null) 'maxitems': [maxItems.toString()],
       if (trafficPolicyInstanceNameMarker != null)
         'trafficpolicyinstancename': [trafficPolicyInstanceNameMarker],
       if (trafficPolicyInstanceTypeMarker != null)
@@ -3591,8 +3505,8 @@ class Route53 {
   /// parameter to list them in groups of up to 100.
   ///
   /// May throw [InvalidInput].
-  /// May throw [NoSuchTrafficPolicyInstance].
   /// May throw [NoSuchTrafficPolicy].
+  /// May throw [NoSuchTrafficPolicyInstance].
   ///
   /// Parameter [trafficPolicyId] :
   /// The ID of the traffic policy for which you want to list traffic policy
@@ -3660,7 +3574,7 @@ class Route53 {
     required String trafficPolicyId,
     required int trafficPolicyVersion,
     String? hostedZoneIdMarker,
-    String? maxItems,
+    int? maxItems,
     String? trafficPolicyInstanceNameMarker,
     RRType? trafficPolicyInstanceTypeMarker,
   }) async {
@@ -3675,7 +3589,7 @@ class Route53 {
       'id': [trafficPolicyId],
       'version': [trafficPolicyVersion.toString()],
       if (hostedZoneIdMarker != null) 'hostedzoneid': [hostedZoneIdMarker],
-      if (maxItems != null) 'maxitems': [maxItems],
+      if (maxItems != null) 'maxitems': [maxItems.toString()],
       if (trafficPolicyInstanceNameMarker != null)
         'trafficpolicyinstancename': [trafficPolicyInstanceNameMarker],
       if (trafficPolicyInstanceTypeMarker != null)
@@ -3723,11 +3637,11 @@ class Route53 {
   /// response.
   Future<ListTrafficPolicyVersionsResponse> listTrafficPolicyVersions({
     required String id,
-    String? maxItems,
+    int? maxItems,
     String? trafficPolicyVersionMarker,
   }) async {
     final $query = <String, List<String>>{
-      if (maxItems != null) 'maxitems': [maxItems],
+      if (maxItems != null) 'maxitems': [maxItems.toString()],
       if (trafficPolicyVersionMarker != null)
         'trafficpolicyversion': [trafficPolicyVersionMarker],
     };
@@ -3748,9 +3662,9 @@ class Route53 {
   /// The response includes a <code>VPCs</code> element with a <code>VPC</code>
   /// child element for each VPC that can be associated with the hosted zone.
   ///
-  /// May throw [NoSuchHostedZone].
   /// May throw [InvalidInput].
   /// May throw [InvalidPaginationToken].
+  /// May throw [NoSuchHostedZone].
   ///
   /// Parameter [hostedZoneId] :
   /// The ID of the hosted zone for which you want a list of VPCs that can be
@@ -3771,11 +3685,11 @@ class Route53 {
   Future<ListVPCAssociationAuthorizationsResponse>
       listVPCAssociationAuthorizations({
     required String hostedZoneId,
-    String? maxResults,
+    int? maxResults,
     String? nextToken,
   }) async {
     final $query = <String, List<String>>{
-      if (maxResults != null) 'maxresults': [maxResults],
+      if (maxResults != null) 'maxresults': [maxResults.toString()],
       if (nextToken != null) 'nexttoken': [nextToken],
     };
     final $result = await _protocol.send(
@@ -3801,8 +3715,8 @@ class Route53 {
   /// the parent name servers, those will not be returned.
   /// </note>
   ///
-  /// May throw [NoSuchHostedZone].
   /// May throw [InvalidInput].
+  /// May throw [NoSuchHostedZone].
   ///
   /// Parameter [hostedZoneId] :
   /// The ID of the hosted zone that you want Amazon Route 53 to simulate a
@@ -3881,9 +3795,9 @@ class Route53 {
   /// Updating, and Deleting Health Checks</a> in the <i>Amazon Route 53
   /// Developer Guide</i>.
   ///
-  /// May throw [NoSuchHealthCheck].
-  /// May throw [InvalidInput].
   /// May throw [HealthCheckVersionMismatch].
+  /// May throw [InvalidInput].
+  /// May throw [NoSuchHealthCheck].
   ///
   /// Parameter [healthCheckId] :
   /// The ID for the health check for which you want detailed information. When
@@ -3920,8 +3834,9 @@ class Route53 {
   /// </ul>
   /// After you disable a health check, Route 53 considers the status of the
   /// health check to always be healthy. If you configured DNS failover, Route
-  /// 53 continues to route traffic to the corresponding resources. If you want
-  /// to stop routing traffic to a resource, change the value of <a
+  /// 53 continues to route traffic to the corresponding resources.
+  /// Additionally, in disabled state, you can also invert the status of the
+  /// health check to route traffic differently. For more information, see <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_UpdateHealthCheck.html#Route53-UpdateHealthCheck-request-Inverted">Inverted</a>.
   ///
   /// Charges for a health check still apply when the health check is disabled.
@@ -3962,8 +3877,8 @@ class Route53 {
   /// Amazon Route 53 Determines Whether an Endpoint Is Healthy</a> in the
   /// <i>Amazon Route 53 Developer Guide</i>.
   ///
-  /// If you don't specify a value for <code>FailureThreshold</code>, the
-  /// default value is three health checks.
+  /// Otherwise, if you don't specify a value for <code>FailureThreshold</code>,
+  /// the default value is three health checks.
   ///
   /// Parameter [fullyQualifiedDomainName] :
   /// Amazon Route 53 behavior depends on whether you specify a value for
@@ -4241,7 +4156,7 @@ class Route53 {
   /// HTTP status code of 2xx or 3xx when the endpoint is healthy, for example
   /// the file /docs/route53-health-check.html. You can also include query
   /// string parameters, for example,
-  /// <code>/welcome.html?language=jp&amp;login=y</code>.
+  /// <code>/welcome.html?language=jp&login=y</code>.
   ///
   /// Specify this value only if you want to change it.
   ///
@@ -4317,13 +4232,7 @@ class Route53 {
               resetElements: resetElements,
               resourcePath: resourcePath,
               searchString: searchString)
-          .toXml(
-        'UpdateHealthCheckRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'https://route53.amazonaws.com/doc/2013-04-01/'),
-        ],
-      ),
+          .toXml('UpdateHealthCheckRequest'),
       exceptionFnMap: _exceptionFns,
     );
     return UpdateHealthCheckResponse.fromXml($result.body);
@@ -4331,8 +4240,8 @@ class Route53 {
 
   /// Updates the comment for a specified hosted zone.
   ///
-  /// May throw [NoSuchHostedZone].
   /// May throw [InvalidInput].
+  /// May throw [NoSuchHostedZone].
   /// May throw [PriorRequestNotComplete].
   ///
   /// Parameter [id] :
@@ -4349,23 +4258,54 @@ class Route53 {
     final $result = await _protocol.send(
       method: 'POST',
       requestUri: '/2013-04-01/hostedzone/${Uri.encodeComponent(id)}',
-      payload: UpdateHostedZoneCommentRequest(id: id, comment: comment).toXml(
-        'UpdateHostedZoneCommentRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'https://route53.amazonaws.com/doc/2013-04-01/'),
-        ],
-      ),
+      payload: UpdateHostedZoneCommentRequest(id: id, comment: comment)
+          .toXml('UpdateHostedZoneCommentRequest'),
       exceptionFnMap: _exceptionFns,
     );
     return UpdateHostedZoneCommentResponse.fromXml($result.body);
   }
 
-  /// Updates the comment for a specified traffic policy version.
+  /// Updates the features configuration for a hosted zone. This operation
+  /// allows you to enable or disable specific features for your hosted zone,
+  /// such as accelerated recovery.
+  ///
+  /// Accelerated recovery enables you to update DNS records in your public
+  /// hosted zone even when the us-east-1 region is unavailable.
   ///
   /// May throw [InvalidInput].
-  /// May throw [NoSuchTrafficPolicy].
+  /// May throw [LimitsExceeded].
+  /// May throw [NoSuchHostedZone].
+  /// May throw [PriorRequestNotComplete].
+  ///
+  /// Parameter [hostedZoneId] :
+  /// The ID of the hosted zone for which you want to update features. This is
+  /// the unique identifier for your hosted zone.
+  ///
+  /// Parameter [enableAcceleratedRecovery] :
+  /// Specifies whether to enable accelerated recovery for the hosted zone. Set
+  /// to <code>true</code> to enable accelerated recovery, or <code>false</code>
+  /// to disable it.
+  Future<void> updateHostedZoneFeatures({
+    required String hostedZoneId,
+    bool? enableAcceleratedRecovery,
+  }) async {
+    await _protocol.send(
+      method: 'POST',
+      requestUri:
+          '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId)}/features',
+      payload: UpdateHostedZoneFeaturesRequest(
+              hostedZoneId: hostedZoneId,
+              enableAcceleratedRecovery: enableAcceleratedRecovery)
+          .toXml('UpdateHostedZoneFeaturesRequest'),
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Updates the comment for a specified traffic policy version.
+  ///
   /// May throw [ConcurrentModification].
+  /// May throw [InvalidInput].
+  /// May throw [NoSuchTrafficPolicy].
   ///
   /// Parameter [comment] :
   /// The new comment for the specified traffic policy and version.
@@ -4395,13 +4335,7 @@ class Route53 {
           '/2013-04-01/trafficpolicy/${Uri.encodeComponent(id)}/${Uri.encodeComponent(version.toString())}',
       payload: UpdateTrafficPolicyCommentRequest(
               comment: comment, id: id, version: version)
-          .toXml(
-        'UpdateTrafficPolicyCommentRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'https://route53.amazonaws.com/doc/2013-04-01/'),
-        ],
-      ),
+          .toXml('UpdateTrafficPolicyCommentRequest'),
       exceptionFnMap: _exceptionFns,
     );
     return UpdateTrafficPolicyCommentResponse.fromXml($result.body);
@@ -4409,7 +4343,7 @@ class Route53 {
 
   /// <note>
   /// After you submit a <code>UpdateTrafficPolicyInstance</code> request,
-  /// there's a brief delay while Route 53 creates the resource record sets that
+  /// there's a brief delay while Route 53 creates the resource record sets that
   /// are specified in the traffic policy definition. Use
   /// <code>GetTrafficPolicyInstance</code> with the <code>id</code> of updated
   /// traffic policy instance confirm that the
@@ -4440,11 +4374,11 @@ class Route53 {
   /// with the root resource record set name.
   /// </li> </ol>
   ///
+  /// May throw [ConflictingTypes].
   /// May throw [InvalidInput].
   /// May throw [NoSuchTrafficPolicy].
   /// May throw [NoSuchTrafficPolicyInstance].
   /// May throw [PriorRequestNotComplete].
-  /// May throw [ConflictingTypes].
   ///
   /// Parameter [id] :
   /// The ID of the traffic policy instance that you want to update.
@@ -4489,113 +4423,11 @@ class Route53 {
               ttl: ttl,
               trafficPolicyId: trafficPolicyId,
               trafficPolicyVersion: trafficPolicyVersion)
-          .toXml(
-        'UpdateTrafficPolicyInstanceRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
-              'https://route53.amazonaws.com/doc/2013-04-01/'),
-        ],
-      ),
+          .toXml('UpdateTrafficPolicyInstanceRequest'),
       exceptionFnMap: _exceptionFns,
     );
     return UpdateTrafficPolicyInstanceResponse.fromXml($result.body);
   }
-}
-
-/// A complex type that contains the type of limit that you specified in the
-/// request and the current value for that limit.
-class AccountLimit {
-  /// The limit that you requested. Valid values include the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>MAX_HEALTH_CHECKS_BY_OWNER</b>: The maximum number of health checks that
-  /// you can create using the current account.
-  /// </li>
-  /// <li>
-  /// <b>MAX_HOSTED_ZONES_BY_OWNER</b>: The maximum number of hosted zones that
-  /// you can create using the current account.
-  /// </li>
-  /// <li>
-  /// <b>MAX_REUSABLE_DELEGATION_SETS_BY_OWNER</b>: The maximum number of reusable
-  /// delegation sets that you can create using the current account.
-  /// </li>
-  /// <li>
-  /// <b>MAX_TRAFFIC_POLICIES_BY_OWNER</b>: The maximum number of traffic policies
-  /// that you can create using the current account.
-  /// </li>
-  /// <li>
-  /// <b>MAX_TRAFFIC_POLICY_INSTANCES_BY_OWNER</b>: The maximum number of traffic
-  /// policy instances that you can create using the current account. (Traffic
-  /// policy instances are referred to as traffic flow policy records in the
-  /// Amazon Route 53 console.)
-  /// </li>
-  /// </ul>
-  final AccountLimitType type;
-
-  /// The current value for the limit that is specified by <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_AccountLimit.html#Route53-Type-AccountLimit-Type">Type</a>.
-  final int value;
-
-  AccountLimit({
-    required this.type,
-    required this.value,
-  });
-  factory AccountLimit.fromXml(_s.XmlElement elem) {
-    return AccountLimit(
-      type: _s
-          .extractXmlStringValue(elem, 'Type')!
-          .let(AccountLimitType.fromString),
-      value: _s.extractXmlIntValue(elem, 'Value')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final type = this.type;
-    final value = this.value;
-    return {
-      'Type': type.value,
-      'Value': value,
-    };
-  }
-}
-
-class AccountLimitType {
-  static const maxHealthChecksByOwner =
-      AccountLimitType._('MAX_HEALTH_CHECKS_BY_OWNER');
-  static const maxHostedZonesByOwner =
-      AccountLimitType._('MAX_HOSTED_ZONES_BY_OWNER');
-  static const maxTrafficPolicyInstancesByOwner =
-      AccountLimitType._('MAX_TRAFFIC_POLICY_INSTANCES_BY_OWNER');
-  static const maxReusableDelegationSetsByOwner =
-      AccountLimitType._('MAX_REUSABLE_DELEGATION_SETS_BY_OWNER');
-  static const maxTrafficPoliciesByOwner =
-      AccountLimitType._('MAX_TRAFFIC_POLICIES_BY_OWNER');
-
-  final String value;
-
-  const AccountLimitType._(this.value);
-
-  static const values = [
-    maxHealthChecksByOwner,
-    maxHostedZonesByOwner,
-    maxTrafficPolicyInstancesByOwner,
-    maxReusableDelegationSetsByOwner,
-    maxTrafficPoliciesByOwner
-  ];
-
-  static AccountLimitType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AccountLimitType._(value));
-
-  @override
-  bool operator ==(other) => other is AccountLimitType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class ActivateKeySigningKeyResponse {
@@ -4615,488 +4447,6 @@ class ActivateKeySigningKeyResponse {
     return {
       'ChangeInfo': changeInfo,
     };
-  }
-}
-
-/// A complex type that identifies the CloudWatch alarm that you want Amazon
-/// Route 53 health checkers to use to determine whether the specified health
-/// check is healthy.
-class AlarmIdentifier {
-  /// The name of the CloudWatch alarm that you want Amazon Route 53 health
-  /// checkers to use to determine whether this health check is healthy.
-  /// <note>
-  /// Route 53 supports CloudWatch alarms with the following features:
-  ///
-  /// <ul>
-  /// <li>
-  /// Standard-resolution metrics. High-resolution metrics aren't supported. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/publishingMetrics.html#high-resolution-metrics">High-Resolution
-  /// Metrics</a> in the <i>Amazon CloudWatch User Guide</i>.
-  /// </li>
-  /// <li>
-  /// Statistics: Average, Minimum, Maximum, Sum, and SampleCount. Extended
-  /// statistics aren't supported.
-  /// </li>
-  /// </ul> </note>
-  final String name;
-
-  /// For the CloudWatch alarm that you want Route 53 health checkers to use to
-  /// determine whether this health check is healthy, the region that the alarm
-  /// was created in.
-  ///
-  /// For the current list of CloudWatch regions, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/cw_region.html">Amazon
-  /// CloudWatch endpoints and quotas</a> in the <i>Amazon Web Services General
-  /// Reference</i>.
-  final CloudWatchRegion region;
-
-  AlarmIdentifier({
-    required this.name,
-    required this.region,
-  });
-  factory AlarmIdentifier.fromXml(_s.XmlElement elem) {
-    return AlarmIdentifier(
-      name: _s.extractXmlStringValue(elem, 'Name')!,
-      region: _s
-          .extractXmlStringValue(elem, 'Region')!
-          .let(CloudWatchRegion.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final region = this.region;
-    return {
-      'Name': name,
-      'Region': region.value,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final name = this.name;
-    final region = this.region;
-    final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Region', region.value),
-      _s.encodeXmlStringValue('Name', name),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// <i>Alias resource record sets only:</i> Information about the Amazon Web
-/// Services resource, such as a CloudFront distribution or an Amazon S3 bucket,
-/// that you want to route traffic to.
-///
-/// When creating resource record sets for a private hosted zone, note the
-/// following:
-///
-/// <ul>
-/// <li>
-/// For information about creating failover resource record sets in a private
-/// hosted zone, see <a
-/// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-private-hosted-zones.html">Configuring
-/// Failover in a Private Hosted Zone</a>.
-/// </li>
-/// </ul>
-class AliasTarget {
-  /// <i>Alias resource record sets only:</i> The value that you specify depends
-  /// on where you want to route queries:
-  /// <dl> <dt>Amazon API Gateway custom regional APIs and edge-optimized
-  /// APIs</dt> <dd>
-  /// Specify the applicable domain name for your API. You can get the applicable
-  /// value using the CLI command <a
-  /// href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/get-domain-names.html">get-domain-names</a>:
-  ///
-  /// <ul>
-  /// <li>
-  /// For regional APIs, specify the value of <code>regionalDomainName</code>.
-  /// </li>
-  /// <li>
-  /// For edge-optimized APIs, specify the value of
-  /// <code>distributionDomainName</code>. This is the name of the associated
-  /// CloudFront distribution, such as <code>da1b2c3d4e5.cloudfront.net</code>.
-  /// </li>
-  /// </ul> <note>
-  /// The name of the record that you're creating must match a custom domain name
-  /// for your API, such as <code>api.example.com</code>.
-  /// </note> </dd> <dt>Amazon Virtual Private Cloud interface VPC endpoint</dt>
-  /// <dd>
-  /// Enter the API endpoint for the interface endpoint, such as
-  /// <code>vpce-123456789abcdef01-example-us-east-1a.elasticloadbalancing.us-east-1.vpce.amazonaws.com</code>.
-  /// For edge-optimized APIs, this is the domain name for the corresponding
-  /// CloudFront distribution. You can get the value of <code>DnsName</code> using
-  /// the CLI command <a
-  /// href="https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-vpc-endpoints.html">describe-vpc-endpoints</a>.
-  /// </dd> <dt>CloudFront distribution</dt> <dd>
-  /// Specify the domain name that CloudFront assigned when you created your
-  /// distribution.
-  ///
-  /// Your CloudFront distribution must include an alternate domain name that
-  /// matches the name of the resource record set. For example, if the name of the
-  /// resource record set is <i>acme.example.com</i>, your CloudFront distribution
-  /// must include <i>acme.example.com</i> as one of the alternate domain names.
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html">Using
-  /// Alternate Domain Names (CNAMEs)</a> in the <i>Amazon CloudFront Developer
-  /// Guide</i>.
-  ///
-  /// You can't create a resource record set in a private hosted zone to route
-  /// traffic to a CloudFront distribution.
-  /// <note>
-  /// For failover alias records, you can't specify a CloudFront distribution for
-  /// both the primary and secondary records. A distribution must include an
-  /// alternate domain name that matches the name of the record. However, the
-  /// primary and secondary records have the same name, and you can't include the
-  /// same alternate domain name in more than one distribution.
-  /// </note> </dd> <dt>Elastic Beanstalk environment</dt> <dd>
-  /// If the domain name for your Elastic Beanstalk environment includes the
-  /// region that you deployed the environment in, you can create an alias record
-  /// that routes traffic to the environment. For example, the domain name
-  /// <code>my-environment.<i>us-west-2</i>.elasticbeanstalk.com</code> is a
-  /// regionalized domain name.
-  /// <important>
-  /// For environments that were created before early 2016, the domain name
-  /// doesn't include the region. To route traffic to these environments, you must
-  /// create a CNAME record instead of an alias record. Note that you can't create
-  /// a CNAME record for the root domain name. For example, if your domain name is
-  /// example.com, you can create a record that routes traffic for
-  /// acme.example.com to your Elastic Beanstalk environment, but you can't create
-  /// a record that routes traffic for example.com to your Elastic Beanstalk
-  /// environment.
-  /// </important>
-  /// For Elastic Beanstalk environments that have regionalized subdomains,
-  /// specify the <code>CNAME</code> attribute for the environment. You can use
-  /// the following methods to get the value of the CNAME attribute:
-  ///
-  /// <ul>
-  /// <li>
-  /// <i>Amazon Web Services Management Console</i>: For information about how to
-  /// get the value by using the console, see <a
-  /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/customdomains.html">Using
-  /// Custom Domains with Elastic Beanstalk</a> in the <i>Elastic Beanstalk
-  /// Developer Guide</i>.
-  /// </li>
-  /// <li>
-  /// <i>Elastic Beanstalk API</i>: Use the <code>DescribeEnvironments</code>
-  /// action to get the value of the <code>CNAME</code> attribute. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/api/API_DescribeEnvironments.html">DescribeEnvironments</a>
-  /// in the <i>Elastic Beanstalk API Reference</i>.
-  /// </li>
-  /// <li>
-  /// <i>CLI</i>: Use the <code>describe-environments</code> command to get the
-  /// value of the <code>CNAME</code> attribute. For more information, see <a
-  /// href="https://docs.aws.amazon.com/cli/latest/reference/elasticbeanstalk/describe-environments.html">describe-environments</a>
-  /// in the <i>CLI Command Reference</i>.
-  /// </li>
-  /// </ul> </dd> <dt>ELB load balancer</dt> <dd>
-  /// Specify the DNS name that is associated with the load balancer. Get the DNS
-  /// name by using the Amazon Web Services Management Console, the ELB API, or
-  /// the CLI.
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>Amazon Web Services Management Console</b>: Go to the EC2 page, choose
-  /// <b>Load Balancers</b> in the navigation pane, choose the load balancer,
-  /// choose the <b>Description</b> tab, and get the value of the <b>DNS name</b>
-  /// field.
-  ///
-  /// If you're routing traffic to a Classic Load Balancer, get the value that
-  /// begins with <b>dualstack</b>. If you're routing traffic to another type of
-  /// load balancer, get the value that applies to the record type, A or AAAA.
-  /// </li>
-  /// <li>
-  /// <b>Elastic Load Balancing API</b>: Use <code>DescribeLoadBalancers</code> to
-  /// get the value of <code>DNSName</code>. For more information, see the
-  /// applicable guide:
-  ///
-  /// <ul>
-  /// <li>
-  /// Classic Load Balancers: <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/2012-06-01/APIReference/API_DescribeLoadBalancers.html">DescribeLoadBalancers</a>
-  /// </li>
-  /// <li>
-  /// Application and Network Load Balancers: <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeLoadBalancers.html">DescribeLoadBalancers</a>
-  /// </li>
-  /// </ul> </li>
-  /// <li>
-  /// <b>CLI</b>: Use <code>describe-load-balancers</code> to get the value of
-  /// <code>DNSName</code>. For more information, see the applicable guide:
-  ///
-  /// <ul>
-  /// <li>
-  /// Classic Load Balancers: <a
-  /// href="http://docs.aws.amazon.com/cli/latest/reference/elb/describe-load-balancers.html">describe-load-balancers</a>
-  /// </li>
-  /// <li>
-  /// Application and Network Load Balancers: <a
-  /// href="http://docs.aws.amazon.com/cli/latest/reference/elbv2/describe-load-balancers.html">describe-load-balancers</a>
-  /// </li>
-  /// </ul> </li>
-  /// </ul> </dd> <dt>Global Accelerator accelerator</dt> <dd>
-  /// Specify the DNS name for your accelerator:
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>Global Accelerator API:</b> To get the DNS name, use <a
-  /// href="https://docs.aws.amazon.com/global-accelerator/latest/api/API_DescribeAccelerator.html">DescribeAccelerator</a>.
-  /// </li>
-  /// <li>
-  /// <b>CLI:</b> To get the DNS name, use <a
-  /// href="https://docs.aws.amazon.com/cli/latest/reference/globalaccelerator/describe-accelerator.html">describe-accelerator</a>.
-  /// </li>
-  /// </ul> </dd> <dt>Amazon S3 bucket that is configured as a static website</dt>
-  /// <dd>
-  /// Specify the domain name of the Amazon S3 website endpoint that you created
-  /// the bucket in, for example, <code>s3-website.us-east-2.amazonaws.com</code>.
-  /// For more information about valid values, see the table <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/s3.html#s3_website_region_endpoints">Amazon
-  /// S3 Website Endpoints</a> in the <i>Amazon Web Services General
-  /// Reference</i>. For more information about using S3 buckets for websites, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/getting-started.html">Getting
-  /// Started with Amazon Route 53</a> in the <i>Amazon Route 53 Developer
-  /// Guide.</i>
-  /// </dd> <dt>Another Route 53 resource record set</dt> <dd>
-  /// Specify the value of the <code>Name</code> element for a resource record set
-  /// in the current hosted zone.
-  /// <note>
-  /// If you're creating an alias record that has the same name as the hosted zone
-  /// (known as the zone apex), you can't specify the domain name for a record for
-  /// which the value of <code>Type</code> is <code>CNAME</code>. This is because
-  /// the alias record must have the same type as the record that you're routing
-  /// traffic to, and creating a CNAME record for the zone apex isn't supported
-  /// even for an alias record.
-  /// </note> </dd> </dl>
-  final String dNSName;
-
-  /// <i>Applies only to alias, failover alias, geolocation alias, latency alias,
-  /// and weighted alias resource record sets:</i> When
-  /// <code>EvaluateTargetHealth</code> is <code>true</code>, an alias resource
-  /// record set inherits the health of the referenced Amazon Web Services
-  /// resource, such as an ELB load balancer or another resource record set in the
-  /// hosted zone.
-  ///
-  /// Note the following:
-  /// <dl> <dt>CloudFront distributions</dt> <dd>
-  /// You can't set <code>EvaluateTargetHealth</code> to <code>true</code> when
-  /// the alias target is a CloudFront distribution.
-  /// </dd> <dt>Elastic Beanstalk environments that have regionalized
-  /// subdomains</dt> <dd>
-  /// If you specify an Elastic Beanstalk environment in <code>DNSName</code> and
-  /// the environment contains an ELB load balancer, Elastic Load Balancing routes
-  /// queries only to the healthy Amazon EC2 instances that are registered with
-  /// the load balancer. (An environment automatically contains an ELB load
-  /// balancer if it includes more than one Amazon EC2 instance.) If you set
-  /// <code>EvaluateTargetHealth</code> to <code>true</code> and either no Amazon
-  /// EC2 instances are healthy or the load balancer itself is unhealthy, Route 53
-  /// routes queries to other available resources that are healthy, if any.
-  ///
-  /// If the environment contains a single Amazon EC2 instance, there are no
-  /// special requirements.
-  /// </dd> <dt>ELB load balancers</dt> <dd>
-  /// Health checking behavior depends on the type of load balancer:
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>Classic Load Balancers</b>: If you specify an ELB Classic Load Balancer
-  /// in <code>DNSName</code>, Elastic Load Balancing routes queries only to the
-  /// healthy Amazon EC2 instances that are registered with the load balancer. If
-  /// you set <code>EvaluateTargetHealth</code> to <code>true</code> and either no
-  /// EC2 instances are healthy or the load balancer itself is unhealthy, Route 53
-  /// routes queries to other resources.
-  /// </li>
-  /// <li>
-  /// <b>Application and Network Load Balancers</b>: If you specify an ELB
-  /// Application or Network Load Balancer and you set
-  /// <code>EvaluateTargetHealth</code> to <code>true</code>, Route 53 routes
-  /// queries to the load balancer based on the health of the target groups that
-  /// are associated with the load balancer:
-  ///
-  /// <ul>
-  /// <li>
-  /// For an Application or Network Load Balancer to be considered healthy, every
-  /// target group that contains targets must contain at least one healthy target.
-  /// If any target group contains only unhealthy targets, the load balancer is
-  /// considered unhealthy, and Route 53 routes queries to other resources.
-  /// </li>
-  /// <li>
-  /// A target group that has no registered targets is considered unhealthy.
-  /// </li>
-  /// </ul> </li>
-  /// </ul> <note>
-  /// When you create a load balancer, you configure settings for Elastic Load
-  /// Balancing health checks; they're not Route 53 health checks, but they
-  /// perform a similar function. Do not create Route 53 health checks for the EC2
-  /// instances that you register with an ELB load balancer.
-  /// </note> </dd> <dt>S3 buckets</dt> <dd>
-  /// There are no special requirements for setting
-  /// <code>EvaluateTargetHealth</code> to <code>true</code> when the alias target
-  /// is an S3 bucket.
-  /// </dd> <dt>Other records in the same hosted zone</dt> <dd>
-  /// If the Amazon Web Services resource that you specify in <code>DNSName</code>
-  /// is a record or a group of records (for example, a group of weighted records)
-  /// but is not another alias record, we recommend that you associate a health
-  /// check with all of the records in the alias target. For more information, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-complex-configs.html#dns-failover-complex-configs-hc-omitting">What
-  /// Happens When You Omit Health Checks?</a> in the <i>Amazon Route 53 Developer
-  /// Guide</i>.
-  /// </dd> </dl>
-  /// For more information and examples, see <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html">Amazon
-  /// Route 53 Health Checks and DNS Failover</a> in the <i>Amazon Route 53
-  /// Developer Guide</i>.
-  final bool evaluateTargetHealth;
-
-  /// <i>Alias resource records sets only</i>: The value used depends on where you
-  /// want to route traffic:
-  /// <dl> <dt>Amazon API Gateway custom regional APIs and edge-optimized
-  /// APIs</dt> <dd>
-  /// Specify the hosted zone ID for your API. You can get the applicable value
-  /// using the CLI command <a
-  /// href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/get-domain-names.html">get-domain-names</a>:
-  ///
-  /// <ul>
-  /// <li>
-  /// For regional APIs, specify the value of <code>regionalHostedZoneId</code>.
-  /// </li>
-  /// <li>
-  /// For edge-optimized APIs, specify the value of
-  /// <code>distributionHostedZoneId</code>.
-  /// </li>
-  /// </ul> </dd> <dt>Amazon Virtual Private Cloud interface VPC endpoint</dt>
-  /// <dd>
-  /// Specify the hosted zone ID for your interface endpoint. You can get the
-  /// value of <code>HostedZoneId</code> using the CLI command <a
-  /// href="https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-vpc-endpoints.html">describe-vpc-endpoints</a>.
-  /// </dd> <dt>CloudFront distribution</dt> <dd>
-  /// Specify <code>Z2FDTNDATAQYW2</code>.
-  /// <note>
-  /// Alias resource record sets for CloudFront can't be created in a private
-  /// zone.
-  /// </note> </dd> <dt>Elastic Beanstalk environment</dt> <dd>
-  /// Specify the hosted zone ID for the region that you created the environment
-  /// in. The environment must have a regionalized subdomain. For a list of
-  /// regions and the corresponding hosted zone IDs, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/elasticbeanstalk.html">Elastic
-  /// Beanstalk endpoints and quotas</a> in the <i>Amazon Web Services General
-  /// Reference</i>.
-  /// </dd> <dt>ELB load balancer</dt> <dd>
-  /// Specify the value of the hosted zone ID for the load balancer. Use the
-  /// following methods to get the hosted zone ID:
-  ///
-  /// <ul>
-  /// <li>
-  /// <a href="https://docs.aws.amazon.com/general/latest/gr/elb.html">Elastic
-  /// Load Balancing endpoints and quotas</a> topic in the <i>Amazon Web Services
-  /// General Reference</i>: Use the value that corresponds with the region that
-  /// you created your load balancer in. Note that there are separate columns for
-  /// Application and Classic Load Balancers and for Network Load Balancers.
-  /// </li>
-  /// <li>
-  /// <b>Amazon Web Services Management Console</b>: Go to the Amazon EC2 page,
-  /// choose <b>Load Balancers</b> in the navigation pane, select the load
-  /// balancer, and get the value of the <b>Hosted zone</b> field on the
-  /// <b>Description</b> tab.
-  /// </li>
-  /// <li>
-  /// <b>Elastic Load Balancing API</b>: Use <code>DescribeLoadBalancers</code> to
-  /// get the applicable value. For more information, see the applicable guide:
-  ///
-  /// <ul>
-  /// <li>
-  /// Classic Load Balancers: Use <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/2012-06-01/APIReference/API_DescribeLoadBalancers.html">DescribeLoadBalancers</a>
-  /// to get the value of <code>CanonicalHostedZoneNameId</code>.
-  /// </li>
-  /// <li>
-  /// Application and Network Load Balancers: Use <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeLoadBalancers.html">DescribeLoadBalancers</a>
-  /// to get the value of <code>CanonicalHostedZoneId</code>.
-  /// </li>
-  /// </ul> </li>
-  /// <li>
-  /// <b>CLI</b>: Use <code>describe-load-balancers</code> to get the applicable
-  /// value. For more information, see the applicable guide:
-  ///
-  /// <ul>
-  /// <li>
-  /// Classic Load Balancers: Use <a
-  /// href="http://docs.aws.amazon.com/cli/latest/reference/elb/describe-load-balancers.html">describe-load-balancers</a>
-  /// to get the value of <code>CanonicalHostedZoneNameId</code>.
-  /// </li>
-  /// <li>
-  /// Application and Network Load Balancers: Use <a
-  /// href="http://docs.aws.amazon.com/cli/latest/reference/elbv2/describe-load-balancers.html">describe-load-balancers</a>
-  /// to get the value of <code>CanonicalHostedZoneId</code>.
-  /// </li>
-  /// </ul> </li>
-  /// </ul> </dd> <dt>Global Accelerator accelerator</dt> <dd>
-  /// Specify <code>Z2BJ6XQ5FK7U4H</code>.
-  /// </dd> <dt>An Amazon S3 bucket configured as a static website</dt> <dd>
-  /// Specify the hosted zone ID for the region that you created the bucket in.
-  /// For more information about valid values, see the table <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/s3.html#s3_website_region_endpoints">Amazon
-  /// S3 Website Endpoints</a> in the <i>Amazon Web Services General
-  /// Reference</i>.
-  /// </dd> <dt>Another Route 53 resource record set in your hosted zone</dt> <dd>
-  /// Specify the hosted zone ID of your hosted zone. (An alias resource record
-  /// set can't reference a resource record set in a different hosted zone.)
-  /// </dd> </dl>
-  final String hostedZoneId;
-
-  AliasTarget({
-    required this.dNSName,
-    required this.evaluateTargetHealth,
-    required this.hostedZoneId,
-  });
-  factory AliasTarget.fromXml(_s.XmlElement elem) {
-    return AliasTarget(
-      dNSName: _s.extractXmlStringValue(elem, 'DNSName')!,
-      evaluateTargetHealth:
-          _s.extractXmlBoolValue(elem, 'EvaluateTargetHealth')!,
-      hostedZoneId: _s.extractXmlStringValue(elem, 'HostedZoneId')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dNSName = this.dNSName;
-    final evaluateTargetHealth = this.evaluateTargetHealth;
-    final hostedZoneId = this.hostedZoneId;
-    return {
-      'DNSName': dNSName,
-      'EvaluateTargetHealth': evaluateTargetHealth,
-      'HostedZoneId': hostedZoneId,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final dNSName = this.dNSName;
-    final evaluateTargetHealth = this.evaluateTargetHealth;
-    final hostedZoneId = this.hostedZoneId;
-    final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('HostedZoneId', hostedZoneId),
-      _s.encodeXmlStringValue('DNSName', dNSName),
-      _s.encodeXmlBoolValue('EvaluateTargetHealth', evaluateTargetHealth),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
   }
 }
 
@@ -5175,136 +4525,6 @@ class AssociateVPCWithHostedZoneResponse {
   }
 }
 
-/// The information for each resource record set that you want to change.
-class Change {
-  /// The action to perform:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>CREATE</code>: Creates a resource record set that has the specified
-  /// values.
-  /// </li>
-  /// <li>
-  /// <code>DELETE</code>: Deletes a existing resource record set.
-  /// <important>
-  /// To delete the resource record set that is associated with a traffic policy
-  /// instance, use <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_DeleteTrafficPolicyInstance.html">DeleteTrafficPolicyInstance</a>.
-  /// Amazon Route 53 will delete the resource record set automatically. If you
-  /// delete the resource record set by using
-  /// <code>ChangeResourceRecordSets</code>, Route 53 doesn't automatically delete
-  /// the traffic policy instance, and you'll continue to be charged for it even
-  /// though it's no longer in use.
-  /// </important> </li>
-  /// <li>
-  /// <code>UPSERT</code>: If a resource record set doesn't already exist, Route
-  /// 53 creates it. If a resource record set does exist, Route 53 updates it with
-  /// the values in the request.
-  /// </li>
-  /// </ul>
-  final ChangeAction action;
-
-  /// Information about the resource record set to create, delete, or update.
-  final ResourceRecordSet resourceRecordSet;
-
-  Change({
-    required this.action,
-    required this.resourceRecordSet,
-  });
-
-  Map<String, dynamic> toJson() {
-    final action = this.action;
-    final resourceRecordSet = this.resourceRecordSet;
-    return {
-      'Action': action.value,
-      'ResourceRecordSet': resourceRecordSet,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final action = this.action;
-    final resourceRecordSet = this.resourceRecordSet;
-    final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Action', action.value),
-      resourceRecordSet.toXml('ResourceRecordSet'),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-class ChangeAction {
-  static const create = ChangeAction._('CREATE');
-  static const delete = ChangeAction._('DELETE');
-  static const upsert = ChangeAction._('UPSERT');
-
-  final String value;
-
-  const ChangeAction._(this.value);
-
-  static const values = [create, delete, upsert];
-
-  static ChangeAction fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ChangeAction._(value));
-
-  @override
-  bool operator ==(other) => other is ChangeAction && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The information for a change request.
-class ChangeBatch {
-  /// Information about the changes to make to the record sets.
-  final List<Change> changes;
-
-  /// <i>Optional:</i> Any comments you want to include about a change batch
-  /// request.
-  final String? comment;
-
-  ChangeBatch({
-    required this.changes,
-    this.comment,
-  });
-
-  Map<String, dynamic> toJson() {
-    final changes = this.changes;
-    final comment = this.comment;
-    return {
-      'Changes': changes,
-      if (comment != null) 'Comment': comment,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final changes = this.changes;
-    final comment = this.comment;
-    final $children = <_s.XmlNode>[
-      if (comment != null) _s.encodeXmlStringValue('Comment', comment),
-      _s.XmlElement(_s.XmlName.parts('Changes'), [],
-          changes.map((e) => e.toXml('Change'))),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
 class ChangeCidrCollectionRequest {
   /// Information about changes to a CIDR collection.
   final List<CidrCollectionChange> changes;
@@ -5312,24 +4532,24 @@ class ChangeCidrCollectionRequest {
   /// The UUID of the CIDR collection to update.
   final String id;
 
-  /// A sequential counter that Amazon Route 53 sets to 1 when you create a
+  /// A sequential counter that Amazon Route 53 sets to 1 when you create a
   /// collection and increments it by 1 each time you update the collection.
   ///
   /// We recommend that you use <code>ListCidrCollection</code> to get the current
   /// value of <code>CollectionVersion</code> for the collection that you want to
   /// update, and then include that value with the change request. This prevents
-  /// Route 53 from overwriting an intervening update:
+  /// Route 53 from overwriting an intervening update:
   ///
   /// <ul>
   /// <li>
   /// If the value in the request matches the value of
-  /// <code>CollectionVersion</code> in the collection, Route 53 updates the
+  /// <code>CollectionVersion</code> in the collection, Route 53 updates the
   /// collection.
   /// </li>
   /// <li>
   /// If the value of <code>CollectionVersion</code> in the collection is greater
   /// than the value in the request, the collection was changed after you got the
-  /// version number. Route 53 does not update the collection, and it returns a
+  /// version number. Route 53 does not update the collection, and it returns a
   /// <code>CidrCollectionVersionMismatch</code> error.
   /// </li>
   /// </ul>
@@ -5391,59 +4611,6 @@ class ChangeCidrCollectionResponse {
     final id = this.id;
     return {
       'Id': id,
-    };
-  }
-}
-
-/// A complex type that describes change information about changes made to your
-/// hosted zone.
-class ChangeInfo {
-  /// This element contains an ID that you use when performing a <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetChange.html">GetChange</a>
-  /// action to get detailed information about the change.
-  final String id;
-
-  /// The current state of the request. <code>PENDING</code> indicates that this
-  /// request has not yet been applied to all Amazon Route 53 DNS servers.
-  final ChangeStatus status;
-
-  /// The date and time that the change request was submitted in <a
-  /// href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601 format</a> and
-  /// Coordinated Universal Time (UTC). For example, the value
-  /// <code>2017-03-27T17:48:16.751Z</code> represents March 27, 2017 at
-  /// 17:48:16.751 UTC.
-  final DateTime submittedAt;
-
-  /// A comment you can provide.
-  final String? comment;
-
-  ChangeInfo({
-    required this.id,
-    required this.status,
-    required this.submittedAt,
-    this.comment,
-  });
-  factory ChangeInfo.fromXml(_s.XmlElement elem) {
-    return ChangeInfo(
-      id: _s.extractXmlStringValue(elem, 'Id')!,
-      status: _s
-          .extractXmlStringValue(elem, 'Status')!
-          .let(ChangeStatus.fromString),
-      submittedAt: _s.extractXmlDateTimeValue(elem, 'SubmittedAt')!,
-      comment: _s.extractXmlStringValue(elem, 'Comment'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final status = this.status;
-    final submittedAt = this.submittedAt;
-    final comment = this.comment;
-    return {
-      'Id': id,
-      'Status': status.value,
-      'SubmittedAt': iso8601ToJson(submittedAt),
-      if (comment != null) 'Comment': comment,
     };
   }
 }
@@ -5513,29 +4680,6 @@ class ChangeResourceRecordSetsResponse {
       'ChangeInfo': changeInfo,
     };
   }
-}
-
-class ChangeStatus {
-  static const pending = ChangeStatus._('PENDING');
-  static const insync = ChangeStatus._('INSYNC');
-
-  final String value;
-
-  const ChangeStatus._(this.value);
-
-  static const values = [pending, insync];
-
-  static ChangeStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ChangeStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ChangeStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// A complex type that contains information about the tags that you want to
@@ -5623,527 +4767,6 @@ class ChangeTagsForResourceResponse {
   }
 }
 
-/// A complex type that lists the CIDR blocks.
-class CidrBlockSummary {
-  /// Value for the CIDR block.
-  final String? cidrBlock;
-
-  /// The location name of the CIDR block.
-  final String? locationName;
-
-  CidrBlockSummary({
-    this.cidrBlock,
-    this.locationName,
-  });
-  factory CidrBlockSummary.fromXml(_s.XmlElement elem) {
-    return CidrBlockSummary(
-      cidrBlock: _s.extractXmlStringValue(elem, 'CidrBlock'),
-      locationName: _s.extractXmlStringValue(elem, 'LocationName'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cidrBlock = this.cidrBlock;
-    final locationName = this.locationName;
-    return {
-      if (cidrBlock != null) 'CidrBlock': cidrBlock,
-      if (locationName != null) 'LocationName': locationName,
-    };
-  }
-}
-
-/// A complex type that identifies a CIDR collection.
-class CidrCollection {
-  /// The ARN of the collection. Can be used to reference the collection in IAM
-  /// policy or in another Amazon Web Services account.
-  final String? arn;
-
-  /// The unique ID of the CIDR collection.
-  final String? id;
-
-  /// The name of a CIDR collection.
-  final String? name;
-
-  /// A sequential counter that Route 53 sets to 1 when you create a CIDR
-  /// collection and increments by 1 each time you update settings for the CIDR
-  /// collection.
-  final int? version;
-
-  CidrCollection({
-    this.arn,
-    this.id,
-    this.name,
-    this.version,
-  });
-  factory CidrCollection.fromXml(_s.XmlElement elem) {
-    return CidrCollection(
-      arn: _s.extractXmlStringValue(elem, 'Arn'),
-      id: _s.extractXmlStringValue(elem, 'Id'),
-      name: _s.extractXmlStringValue(elem, 'Name'),
-      version: _s.extractXmlIntValue(elem, 'Version'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final id = this.id;
-    final name = this.name;
-    final version = this.version;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (id != null) 'Id': id,
-      if (name != null) 'Name': name,
-      if (version != null) 'Version': version,
-    };
-  }
-}
-
-/// A complex type that contains information about the CIDR collection change.
-class CidrCollectionChange {
-  /// CIDR collection change action.
-  final CidrCollectionChangeAction action;
-
-  /// List of CIDR blocks.
-  final List<String> cidrList;
-
-  /// Name of the location that is associated with the CIDR collection.
-  final String locationName;
-
-  CidrCollectionChange({
-    required this.action,
-    required this.cidrList,
-    required this.locationName,
-  });
-
-  Map<String, dynamic> toJson() {
-    final action = this.action;
-    final cidrList = this.cidrList;
-    final locationName = this.locationName;
-    return {
-      'Action': action.value,
-      'CidrList': cidrList,
-      'LocationName': locationName,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final action = this.action;
-    final cidrList = this.cidrList;
-    final locationName = this.locationName;
-    final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('LocationName', locationName),
-      _s.encodeXmlStringValue('Action', action.value),
-      _s.XmlElement(_s.XmlName.parts('CidrList'), [],
-          cidrList.map((e) => _s.encodeXmlStringValue('Cidr', e))),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-class CidrCollectionChangeAction {
-  static const put = CidrCollectionChangeAction._('PUT');
-  static const deleteIfExists =
-      CidrCollectionChangeAction._('DELETE_IF_EXISTS');
-
-  final String value;
-
-  const CidrCollectionChangeAction._(this.value);
-
-  static const values = [put, deleteIfExists];
-
-  static CidrCollectionChangeAction fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CidrCollectionChangeAction._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CidrCollectionChangeAction && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The object that is specified in resource record set object when you are
-/// linking a resource record set to a CIDR location.
-///
-/// A <code>LocationName</code> with an asterisk “*” can be used to create a
-/// default CIDR record. <code>CollectionId</code> is still required for default
-/// record.
-class CidrRoutingConfig {
-  /// The CIDR collection ID.
-  final String collectionId;
-
-  /// The CIDR collection location name.
-  final String locationName;
-
-  CidrRoutingConfig({
-    required this.collectionId,
-    required this.locationName,
-  });
-  factory CidrRoutingConfig.fromXml(_s.XmlElement elem) {
-    return CidrRoutingConfig(
-      collectionId: _s.extractXmlStringValue(elem, 'CollectionId')!,
-      locationName: _s.extractXmlStringValue(elem, 'LocationName')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final collectionId = this.collectionId;
-    final locationName = this.locationName;
-    return {
-      'CollectionId': collectionId,
-      'LocationName': locationName,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final collectionId = this.collectionId;
-    final locationName = this.locationName;
-    final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('CollectionId', collectionId),
-      _s.encodeXmlStringValue('LocationName', locationName),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// A complex type that contains information about the CloudWatch alarm that
-/// Amazon Route 53 is monitoring for this health check.
-class CloudWatchAlarmConfiguration {
-  /// For the metric that the CloudWatch alarm is associated with, the arithmetic
-  /// operation that is used for the comparison.
-  final ComparisonOperator comparisonOperator;
-
-  /// For the metric that the CloudWatch alarm is associated with, the number of
-  /// periods that the metric is compared to the threshold.
-  final int evaluationPeriods;
-
-  /// The name of the CloudWatch metric that the alarm is associated with.
-  final String metricName;
-
-  /// The namespace of the metric that the alarm is associated with. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/CW_Support_For_AWS.html">Amazon
-  /// CloudWatch Namespaces, Dimensions, and Metrics Reference</a> in the
-  /// <i>Amazon CloudWatch User Guide</i>.
-  final String namespace;
-
-  /// For the metric that the CloudWatch alarm is associated with, the duration of
-  /// one evaluation period in seconds.
-  final int period;
-
-  /// For the metric that the CloudWatch alarm is associated with, the statistic
-  /// that is applied to the metric.
-  final Statistic statistic;
-
-  /// For the metric that the CloudWatch alarm is associated with, the value the
-  /// metric is compared with.
-  final double threshold;
-
-  /// For the metric that the CloudWatch alarm is associated with, a complex type
-  /// that contains information about the dimensions for the metric. For
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/CW_Support_For_AWS.html">Amazon
-  /// CloudWatch Namespaces, Dimensions, and Metrics Reference</a> in the
-  /// <i>Amazon CloudWatch User Guide</i>.
-  final List<Dimension>? dimensions;
-
-  CloudWatchAlarmConfiguration({
-    required this.comparisonOperator,
-    required this.evaluationPeriods,
-    required this.metricName,
-    required this.namespace,
-    required this.period,
-    required this.statistic,
-    required this.threshold,
-    this.dimensions,
-  });
-  factory CloudWatchAlarmConfiguration.fromXml(_s.XmlElement elem) {
-    return CloudWatchAlarmConfiguration(
-      comparisonOperator: _s
-          .extractXmlStringValue(elem, 'ComparisonOperator')!
-          .let(ComparisonOperator.fromString),
-      evaluationPeriods: _s.extractXmlIntValue(elem, 'EvaluationPeriods')!,
-      metricName: _s.extractXmlStringValue(elem, 'MetricName')!,
-      namespace: _s.extractXmlStringValue(elem, 'Namespace')!,
-      period: _s.extractXmlIntValue(elem, 'Period')!,
-      statistic: _s
-          .extractXmlStringValue(elem, 'Statistic')!
-          .let(Statistic.fromString),
-      threshold: _s.extractXmlDoubleValue(elem, 'Threshold')!,
-      dimensions: _s.extractXmlChild(elem, 'Dimensions')?.let((elem) =>
-          elem.findElements('Dimension').map(Dimension.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final comparisonOperator = this.comparisonOperator;
-    final evaluationPeriods = this.evaluationPeriods;
-    final metricName = this.metricName;
-    final namespace = this.namespace;
-    final period = this.period;
-    final statistic = this.statistic;
-    final threshold = this.threshold;
-    final dimensions = this.dimensions;
-    return {
-      'ComparisonOperator': comparisonOperator.value,
-      'EvaluationPeriods': evaluationPeriods,
-      'MetricName': metricName,
-      'Namespace': namespace,
-      'Period': period,
-      'Statistic': statistic.value,
-      'Threshold': threshold,
-      if (dimensions != null) 'Dimensions': dimensions,
-    };
-  }
-}
-
-class CloudWatchRegion {
-  static const usEast_1 = CloudWatchRegion._('us-east-1');
-  static const usEast_2 = CloudWatchRegion._('us-east-2');
-  static const usWest_1 = CloudWatchRegion._('us-west-1');
-  static const usWest_2 = CloudWatchRegion._('us-west-2');
-  static const caCentral_1 = CloudWatchRegion._('ca-central-1');
-  static const euCentral_1 = CloudWatchRegion._('eu-central-1');
-  static const euCentral_2 = CloudWatchRegion._('eu-central-2');
-  static const euWest_1 = CloudWatchRegion._('eu-west-1');
-  static const euWest_2 = CloudWatchRegion._('eu-west-2');
-  static const euWest_3 = CloudWatchRegion._('eu-west-3');
-  static const apEast_1 = CloudWatchRegion._('ap-east-1');
-  static const meSouth_1 = CloudWatchRegion._('me-south-1');
-  static const meCentral_1 = CloudWatchRegion._('me-central-1');
-  static const apSouth_1 = CloudWatchRegion._('ap-south-1');
-  static const apSouth_2 = CloudWatchRegion._('ap-south-2');
-  static const apSoutheast_1 = CloudWatchRegion._('ap-southeast-1');
-  static const apSoutheast_2 = CloudWatchRegion._('ap-southeast-2');
-  static const apSoutheast_3 = CloudWatchRegion._('ap-southeast-3');
-  static const apNortheast_1 = CloudWatchRegion._('ap-northeast-1');
-  static const apNortheast_2 = CloudWatchRegion._('ap-northeast-2');
-  static const apNortheast_3 = CloudWatchRegion._('ap-northeast-3');
-  static const euNorth_1 = CloudWatchRegion._('eu-north-1');
-  static const saEast_1 = CloudWatchRegion._('sa-east-1');
-  static const cnNorthwest_1 = CloudWatchRegion._('cn-northwest-1');
-  static const cnNorth_1 = CloudWatchRegion._('cn-north-1');
-  static const afSouth_1 = CloudWatchRegion._('af-south-1');
-  static const euSouth_1 = CloudWatchRegion._('eu-south-1');
-  static const euSouth_2 = CloudWatchRegion._('eu-south-2');
-  static const usGovWest_1 = CloudWatchRegion._('us-gov-west-1');
-  static const usGovEast_1 = CloudWatchRegion._('us-gov-east-1');
-  static const usIsoEast_1 = CloudWatchRegion._('us-iso-east-1');
-  static const usIsoWest_1 = CloudWatchRegion._('us-iso-west-1');
-  static const usIsobEast_1 = CloudWatchRegion._('us-isob-east-1');
-  static const apSoutheast_4 = CloudWatchRegion._('ap-southeast-4');
-  static const ilCentral_1 = CloudWatchRegion._('il-central-1');
-  static const caWest_1 = CloudWatchRegion._('ca-west-1');
-  static const apSoutheast_5 = CloudWatchRegion._('ap-southeast-5');
-
-  final String value;
-
-  const CloudWatchRegion._(this.value);
-
-  static const values = [
-    usEast_1,
-    usEast_2,
-    usWest_1,
-    usWest_2,
-    caCentral_1,
-    euCentral_1,
-    euCentral_2,
-    euWest_1,
-    euWest_2,
-    euWest_3,
-    apEast_1,
-    meSouth_1,
-    meCentral_1,
-    apSouth_1,
-    apSouth_2,
-    apSoutheast_1,
-    apSoutheast_2,
-    apSoutheast_3,
-    apNortheast_1,
-    apNortheast_2,
-    apNortheast_3,
-    euNorth_1,
-    saEast_1,
-    cnNorthwest_1,
-    cnNorth_1,
-    afSouth_1,
-    euSouth_1,
-    euSouth_2,
-    usGovWest_1,
-    usGovEast_1,
-    usIsoEast_1,
-    usIsoWest_1,
-    usIsobEast_1,
-    apSoutheast_4,
-    ilCentral_1,
-    caWest_1,
-    apSoutheast_5
-  ];
-
-  static CloudWatchRegion fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CloudWatchRegion._(value));
-
-  @override
-  bool operator ==(other) => other is CloudWatchRegion && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A complex type that is an entry in an <a
-/// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CidrCollection.html">CidrCollection</a>
-/// array.
-class CollectionSummary {
-  /// The ARN of the collection summary. Can be used to reference the collection
-  /// in IAM policy or cross-account.
-  final String? arn;
-
-  /// Unique ID for the CIDR collection.
-  final String? id;
-
-  /// The name of a CIDR collection.
-  final String? name;
-
-  /// A sequential counter that Route 53 sets to 1 when you create a CIDR
-  /// collection and increments by 1 each time you update settings for the CIDR
-  /// collection.
-  final int? version;
-
-  CollectionSummary({
-    this.arn,
-    this.id,
-    this.name,
-    this.version,
-  });
-  factory CollectionSummary.fromXml(_s.XmlElement elem) {
-    return CollectionSummary(
-      arn: _s.extractXmlStringValue(elem, 'Arn'),
-      id: _s.extractXmlStringValue(elem, 'Id'),
-      name: _s.extractXmlStringValue(elem, 'Name'),
-      version: _s.extractXmlIntValue(elem, 'Version'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final id = this.id;
-    final name = this.name;
-    final version = this.version;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (id != null) 'Id': id,
-      if (name != null) 'Name': name,
-      if (version != null) 'Version': version,
-    };
-  }
-}
-
-class ComparisonOperator {
-  static const greaterThanOrEqualToThreshold =
-      ComparisonOperator._('GreaterThanOrEqualToThreshold');
-  static const greaterThanThreshold =
-      ComparisonOperator._('GreaterThanThreshold');
-  static const lessThanThreshold = ComparisonOperator._('LessThanThreshold');
-  static const lessThanOrEqualToThreshold =
-      ComparisonOperator._('LessThanOrEqualToThreshold');
-
-  final String value;
-
-  const ComparisonOperator._(this.value);
-
-  static const values = [
-    greaterThanOrEqualToThreshold,
-    greaterThanThreshold,
-    lessThanThreshold,
-    lessThanOrEqualToThreshold
-  ];
-
-  static ComparisonOperator fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ComparisonOperator._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ComparisonOperator && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A complex type that lists the coordinates for a geoproximity resource
-/// record.
-class Coordinates {
-  /// Specifies a coordinate of the north–south position of a geographic point on
-  /// the surface of the Earth (-90 - 90).
-  final String latitude;
-
-  /// Specifies a coordinate of the east–west position of a geographic point on
-  /// the surface of the Earth (-180 - 180).
-  final String longitude;
-
-  Coordinates({
-    required this.latitude,
-    required this.longitude,
-  });
-  factory Coordinates.fromXml(_s.XmlElement elem) {
-    return Coordinates(
-      latitude: _s.extractXmlStringValue(elem, 'Latitude')!,
-      longitude: _s.extractXmlStringValue(elem, 'Longitude')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final latitude = this.latitude;
-    final longitude = this.longitude;
-    return {
-      'Latitude': latitude,
-      'Longitude': longitude,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final latitude = this.latitude;
-    final longitude = this.longitude;
-    final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Latitude', latitude),
-      _s.encodeXmlStringValue('Longitude', longitude),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
 class CreateCidrCollectionRequest {
   /// A client-specific token that allows requests to be securely retried so that
   /// the intended outcome will only occur once, retries receive a similar
@@ -6218,8 +4841,8 @@ class CreateHealthCheckRequest {
   /// If you send a <code>CreateHealthCheck</code> request with the same
   /// <code>CallerReference</code> and settings as a previous request, and if the
   /// health check doesn't exist, Amazon Route 53 creates the health check. If the
-  /// health check does exist, Route 53 returns the settings for the existing
-  /// health check.
+  /// health check does exist, Route 53 returns the health check configuration in
+  /// the response.
   /// </li>
   /// <li>
   /// If you send a <code>CreateHealthCheck</code> request with the same
@@ -6311,20 +4934,20 @@ class CreateHostedZoneRequest {
   final String callerReference;
 
   /// The name of the domain. Specify a fully qualified domain name, for example,
-  /// <i>www.example.com</i>. The trailing dot is optional; Amazon Route 53
-  /// assumes that the domain name is fully qualified. This means that Route 53
+  /// <i>www.example.com</i>. The trailing dot is optional; Amazon Route 53
+  /// assumes that the domain name is fully qualified. This means that Route 53
   /// treats <i>www.example.com</i> (without a trailing dot) and
   /// <i>www.example.com.</i> (with a trailing dot) as identical.
   ///
   /// If you're creating a public hosted zone, this is the name you have
   /// registered with your DNS registrar. If your domain name is registered with a
-  /// registrar other than Route 53, change the name servers for your domain to
+  /// registrar other than Route 53, change the name servers for your domain to
   /// the set of <code>NameServers</code> that <code>CreateHostedZone</code>
   /// returns in <code>DelegationSet</code>.
   final String name;
 
   /// If you want to associate a reusable delegation set with this hosted zone,
-  /// the ID that Amazon Route 53 assigned to the reusable delegation set when you
+  /// the ID that Amazon Route 53 assigned to the reusable delegation set when you
   /// created it. For more information about reusable delegation sets, see <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateReusableDelegationSet.html">CreateReusableDelegationSet</a>.
   ///
@@ -6722,6 +5345,81 @@ class CreateReusableDelegationSetResponse {
   }
 }
 
+/// A complex type that contains information about the traffic policy that you
+/// want to create.
+class CreateTrafficPolicyRequest {
+  /// The definition of this traffic policy in JSON format. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/api-policies-traffic-policy-document-format.html">Traffic
+  /// Policy Document Format</a>.
+  final String document;
+
+  /// The name of the traffic policy.
+  final String name;
+
+  /// (Optional) Any comments that you want to include about the traffic policy.
+  final String? comment;
+
+  CreateTrafficPolicyRequest({
+    required this.document,
+    required this.name,
+    this.comment,
+  });
+
+  Map<String, dynamic> toJson() {
+    final document = this.document;
+    final name = this.name;
+    final comment = this.comment;
+    return {
+      'Document': document,
+      'Name': name,
+      if (comment != null) 'Comment': comment,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final document = this.document;
+    final name = this.name;
+    final comment = this.comment;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Name', name),
+      _s.encodeXmlStringValue('Document', document),
+      if (comment != null) _s.encodeXmlStringValue('Comment', comment),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A complex type that contains the response information for the
+/// <code>CreateTrafficPolicy</code> request.
+class CreateTrafficPolicyResponse {
+  /// A unique URL that represents a new traffic policy.
+  final String location;
+
+  /// A complex type that contains settings for the new traffic policy.
+  final TrafficPolicy trafficPolicy;
+
+  CreateTrafficPolicyResponse({
+    required this.location,
+    required this.trafficPolicy,
+  });
+
+  Map<String, dynamic> toJson() {
+    final location = this.location;
+    final trafficPolicy = this.trafficPolicy;
+    return {
+      'TrafficPolicy': trafficPolicy,
+    };
+  }
+}
+
 /// A complex type that contains information about the resource record sets that
 /// you want to create based on a specified traffic policy.
 class CreateTrafficPolicyInstanceRequest {
@@ -6813,81 +5511,6 @@ class CreateTrafficPolicyInstanceResponse {
     final trafficPolicyInstance = this.trafficPolicyInstance;
     return {
       'TrafficPolicyInstance': trafficPolicyInstance,
-    };
-  }
-}
-
-/// A complex type that contains information about the traffic policy that you
-/// want to create.
-class CreateTrafficPolicyRequest {
-  /// The definition of this traffic policy in JSON format. For more information,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/api-policies-traffic-policy-document-format.html">Traffic
-  /// Policy Document Format</a>.
-  final String document;
-
-  /// The name of the traffic policy.
-  final String name;
-
-  /// (Optional) Any comments that you want to include about the traffic policy.
-  final String? comment;
-
-  CreateTrafficPolicyRequest({
-    required this.document,
-    required this.name,
-    this.comment,
-  });
-
-  Map<String, dynamic> toJson() {
-    final document = this.document;
-    final name = this.name;
-    final comment = this.comment;
-    return {
-      'Document': document,
-      'Name': name,
-      if (comment != null) 'Comment': comment,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final document = this.document;
-    final name = this.name;
-    final comment = this.comment;
-    final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Name', name),
-      _s.encodeXmlStringValue('Document', document),
-      if (comment != null) _s.encodeXmlStringValue('Comment', comment),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// A complex type that contains the response information for the
-/// <code>CreateTrafficPolicy</code> request.
-class CreateTrafficPolicyResponse {
-  /// A unique URL that represents a new traffic policy.
-  final String location;
-
-  /// A complex type that contains settings for the new traffic policy.
-  final TrafficPolicy trafficPolicy;
-
-  CreateTrafficPolicyResponse({
-    required this.location,
-    required this.trafficPolicy,
-  });
-
-  Map<String, dynamic> toJson() {
-    final location = this.location;
-    final trafficPolicy = this.trafficPolicy;
-    return {
-      'TrafficPolicy': trafficPolicy,
     };
   }
 }
@@ -7041,55 +5664,6 @@ class CreateVPCAssociationAuthorizationResponse {
   }
 }
 
-/// A string representing the status of DNSSEC signing.
-class DNSSECStatus {
-  /// A string that represents the current hosted zone signing status.
-  ///
-  /// Status can have one of the following values:
-  /// <dl> <dt>SIGNING</dt> <dd>
-  /// DNSSEC signing is enabled for the hosted zone.
-  /// </dd> <dt>NOT_SIGNING</dt> <dd>
-  /// DNSSEC signing is not enabled for the hosted zone.
-  /// </dd> <dt>DELETING</dt> <dd>
-  /// DNSSEC signing is in the process of being removed for the hosted zone.
-  /// </dd> <dt>ACTION_NEEDED</dt> <dd>
-  /// There is a problem with signing in the hosted zone that requires you to take
-  /// action to resolve. For example, the customer managed key might have been
-  /// deleted, or the permissions for the customer managed key might have been
-  /// changed.
-  /// </dd> <dt>INTERNAL_FAILURE</dt> <dd>
-  /// There was an error during a request. Before you can continue to work with
-  /// DNSSEC signing, including with key-signing keys (KSKs), you must correct the
-  /// problem by enabling or disabling DNSSEC signing for the hosted zone.
-  /// </dd> </dl>
-  final String? serveSignature;
-
-  /// The status message provided for the following DNSSEC signing status:
-  /// <code>INTERNAL_FAILURE</code>. The status message includes information about
-  /// what the problem might be and steps that you can take to correct the issue.
-  final String? statusMessage;
-
-  DNSSECStatus({
-    this.serveSignature,
-    this.statusMessage,
-  });
-  factory DNSSECStatus.fromXml(_s.XmlElement elem) {
-    return DNSSECStatus(
-      serveSignature: _s.extractXmlStringValue(elem, 'ServeSignature'),
-      statusMessage: _s.extractXmlStringValue(elem, 'StatusMessage'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final serveSignature = this.serveSignature;
-    final statusMessage = this.statusMessage;
-    return {
-      if (serveSignature != null) 'ServeSignature': serveSignature,
-      if (statusMessage != null) 'StatusMessage': statusMessage,
-    };
-  }
-}
-
 class DeactivateKeySigningKeyResponse {
   final ChangeInfo changeInfo;
 
@@ -7106,47 +5680,6 @@ class DeactivateKeySigningKeyResponse {
     final changeInfo = this.changeInfo;
     return {
       'ChangeInfo': changeInfo,
-    };
-  }
-}
-
-/// A complex type that lists the name servers in a delegation set, as well as
-/// the <code>CallerReference</code> and the <code>ID</code> for the delegation
-/// set.
-class DelegationSet {
-  /// A complex type that contains a list of the authoritative name servers for a
-  /// hosted zone or for a reusable delegation set.
-  final List<String> nameServers;
-
-  /// The value that you specified for <code>CallerReference</code> when you
-  /// created the reusable delegation set.
-  final String? callerReference;
-
-  /// The ID that Amazon Route 53 assigns to a reusable delegation set.
-  final String? id;
-
-  DelegationSet({
-    required this.nameServers,
-    this.callerReference,
-    this.id,
-  });
-  factory DelegationSet.fromXml(_s.XmlElement elem) {
-    return DelegationSet(
-      nameServers: _s.extractXmlStringListValues(
-          _s.extractXmlChild(elem, 'NameServers')!, 'NameServer'),
-      callerReference: _s.extractXmlStringValue(elem, 'CallerReference'),
-      id: _s.extractXmlStringValue(elem, 'Id'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nameServers = this.nameServers;
-    final callerReference = this.callerReference;
-    final id = this.id;
-    return {
-      'NameServers': nameServers,
-      if (callerReference != null) 'CallerReference': callerReference,
-      if (id != null) 'Id': id,
     };
   }
 }
@@ -7250,12 +5783,12 @@ class DeleteReusableDelegationSetResponse {
 }
 
 /// An empty element.
-class DeleteTrafficPolicyInstanceResponse {
-  DeleteTrafficPolicyInstanceResponse();
-  factory DeleteTrafficPolicyInstanceResponse.fromXml(
+class DeleteTrafficPolicyResponse {
+  DeleteTrafficPolicyResponse();
+  factory DeleteTrafficPolicyResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
-    return DeleteTrafficPolicyInstanceResponse();
+    return DeleteTrafficPolicyResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -7264,12 +5797,12 @@ class DeleteTrafficPolicyInstanceResponse {
 }
 
 /// An empty element.
-class DeleteTrafficPolicyResponse {
-  DeleteTrafficPolicyResponse();
-  factory DeleteTrafficPolicyResponse.fromXml(
+class DeleteTrafficPolicyInstanceResponse {
+  DeleteTrafficPolicyInstanceResponse();
+  factory DeleteTrafficPolicyInstanceResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
-    return DeleteTrafficPolicyResponse();
+    return DeleteTrafficPolicyInstanceResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -7334,38 +5867,6 @@ class DeleteVPCAssociationAuthorizationResponse {
 
   Map<String, dynamic> toJson() {
     return {};
-  }
-}
-
-/// For the metric that the CloudWatch alarm is associated with, a complex type
-/// that contains information about one dimension.
-class Dimension {
-  /// For the metric that the CloudWatch alarm is associated with, the name of one
-  /// dimension.
-  final String name;
-
-  /// For the metric that the CloudWatch alarm is associated with, the value of
-  /// one dimension.
-  final String value;
-
-  Dimension({
-    required this.name,
-    required this.value,
-  });
-  factory Dimension.fromXml(_s.XmlElement elem) {
-    return Dimension(
-      name: _s.extractXmlStringValue(elem, 'Name')!,
-      value: _s.extractXmlStringValue(elem, 'Value')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final value = this.value;
-    return {
-      'Name': name,
-      'Value': value,
-    };
   }
 }
 
@@ -7478,276 +5979,6 @@ class EnableHostedZoneDNSSECResponse {
     return {
       'ChangeInfo': changeInfo,
     };
-  }
-}
-
-/// A complex type that contains information about a geographic location.
-class GeoLocation {
-  /// The two-letter code for the continent.
-  ///
-  /// Amazon Route 53 supports the following continent codes:
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>AF</b>: Africa
-  /// </li>
-  /// <li>
-  /// <b>AN</b>: Antarctica
-  /// </li>
-  /// <li>
-  /// <b>AS</b>: Asia
-  /// </li>
-  /// <li>
-  /// <b>EU</b>: Europe
-  /// </li>
-  /// <li>
-  /// <b>OC</b>: Oceania
-  /// </li>
-  /// <li>
-  /// <b>NA</b>: North America
-  /// </li>
-  /// <li>
-  /// <b>SA</b>: South America
-  /// </li>
-  /// </ul>
-  /// Constraint: Specifying <code>ContinentCode</code> with either
-  /// <code>CountryCode</code> or <code>SubdivisionCode</code> returns an
-  /// <code>InvalidInput</code> error.
-  final String? continentCode;
-
-  /// For geolocation resource record sets, the two-letter code for a country.
-  ///
-  /// Amazon Route 53 uses the two-letter country codes that are specified in <a
-  /// href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO standard 3166-1
-  /// alpha-2</a>.
-  ///
-  /// Route 53 also supports the country code <b>UA</b> for Ukraine.
-  final String? countryCode;
-
-  /// For geolocation resource record sets, the two-letter code for a state of the
-  /// United States. Route 53 doesn't support any other values for
-  /// <code>SubdivisionCode</code>. For a list of state abbreviations, see <a
-  /// href="https://pe.usps.com/text/pub28/28apb.htm">Appendix B: Two–Letter State
-  /// and Possession Abbreviations</a> on the United States Postal Service
-  /// website.
-  ///
-  /// If you specify <code>subdivisioncode</code>, you must also specify
-  /// <code>US</code> for <code>CountryCode</code>.
-  final String? subdivisionCode;
-
-  GeoLocation({
-    this.continentCode,
-    this.countryCode,
-    this.subdivisionCode,
-  });
-  factory GeoLocation.fromXml(_s.XmlElement elem) {
-    return GeoLocation(
-      continentCode: _s.extractXmlStringValue(elem, 'ContinentCode'),
-      countryCode: _s.extractXmlStringValue(elem, 'CountryCode'),
-      subdivisionCode: _s.extractXmlStringValue(elem, 'SubdivisionCode'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final continentCode = this.continentCode;
-    final countryCode = this.countryCode;
-    final subdivisionCode = this.subdivisionCode;
-    return {
-      if (continentCode != null) 'ContinentCode': continentCode,
-      if (countryCode != null) 'CountryCode': countryCode,
-      if (subdivisionCode != null) 'SubdivisionCode': subdivisionCode,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final continentCode = this.continentCode;
-    final countryCode = this.countryCode;
-    final subdivisionCode = this.subdivisionCode;
-    final $children = <_s.XmlNode>[
-      if (continentCode != null)
-        _s.encodeXmlStringValue('ContinentCode', continentCode),
-      if (countryCode != null)
-        _s.encodeXmlStringValue('CountryCode', countryCode),
-      if (subdivisionCode != null)
-        _s.encodeXmlStringValue('SubdivisionCode', subdivisionCode),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// A complex type that contains the codes and full continent, country, and
-/// subdivision names for the specified <code>geolocation</code> code.
-class GeoLocationDetails {
-  /// The two-letter code for the continent.
-  final String? continentCode;
-
-  /// The full name of the continent.
-  final String? continentName;
-
-  /// The two-letter code for the country.
-  final String? countryCode;
-
-  /// The name of the country.
-  final String? countryName;
-
-  /// The code for the subdivision, such as a particular state within the United
-  /// States. For a list of US state abbreviations, see <a
-  /// href="https://pe.usps.com/text/pub28/28apb.htm">Appendix B: Two–Letter State
-  /// and Possession Abbreviations</a> on the United States Postal Service
-  /// website. For a list of all supported subdivision codes, use the <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_ListGeoLocations.html">ListGeoLocations</a>
-  /// API.
-  final String? subdivisionCode;
-
-  /// The full name of the subdivision. Route 53 currently supports only states in
-  /// the United States.
-  final String? subdivisionName;
-
-  GeoLocationDetails({
-    this.continentCode,
-    this.continentName,
-    this.countryCode,
-    this.countryName,
-    this.subdivisionCode,
-    this.subdivisionName,
-  });
-  factory GeoLocationDetails.fromXml(_s.XmlElement elem) {
-    return GeoLocationDetails(
-      continentCode: _s.extractXmlStringValue(elem, 'ContinentCode'),
-      continentName: _s.extractXmlStringValue(elem, 'ContinentName'),
-      countryCode: _s.extractXmlStringValue(elem, 'CountryCode'),
-      countryName: _s.extractXmlStringValue(elem, 'CountryName'),
-      subdivisionCode: _s.extractXmlStringValue(elem, 'SubdivisionCode'),
-      subdivisionName: _s.extractXmlStringValue(elem, 'SubdivisionName'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final continentCode = this.continentCode;
-    final continentName = this.continentName;
-    final countryCode = this.countryCode;
-    final countryName = this.countryName;
-    final subdivisionCode = this.subdivisionCode;
-    final subdivisionName = this.subdivisionName;
-    return {
-      if (continentCode != null) 'ContinentCode': continentCode,
-      if (continentName != null) 'ContinentName': continentName,
-      if (countryCode != null) 'CountryCode': countryCode,
-      if (countryName != null) 'CountryName': countryName,
-      if (subdivisionCode != null) 'SubdivisionCode': subdivisionCode,
-      if (subdivisionName != null) 'SubdivisionName': subdivisionName,
-    };
-  }
-}
-
-/// (Resource record sets only): A complex type that lets you specify where your
-/// resources are located. Only one of <code>LocalZoneGroup</code>,
-/// <code>Coordinates</code>, or <code>Amazon Web ServicesRegion</code> is
-/// allowed per request at a time.
-///
-/// For more information about geoproximity routing, see <a
-/// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy-geoproximity.html">Geoproximity
-/// routing</a> in the <i>Amazon Route 53 Developer Guide</i>.
-class GeoProximityLocation {
-  /// The Amazon Web Services Region the resource you are directing DNS traffic
-  /// to, is in.
-  final String? awsRegion;
-
-  /// The bias increases or decreases the size of the geographic region from which
-  /// Route 53 routes traffic to a resource.
-  ///
-  /// To use <code>Bias</code> to change the size of the geographic region,
-  /// specify the applicable value for the bias:
-  ///
-  /// <ul>
-  /// <li>
-  /// To expand the size of the geographic region from which Route 53 routes
-  /// traffic to a resource, specify a positive integer from 1 to 99 for the bias.
-  /// Route 53 shrinks the size of adjacent regions.
-  /// </li>
-  /// <li>
-  /// To shrink the size of the geographic region from which Route 53 routes
-  /// traffic to a resource, specify a negative bias of -1 to -99. Route 53
-  /// expands the size of adjacent regions.
-  /// </li>
-  /// </ul>
-  final int? bias;
-
-  /// Contains the longitude and latitude for a geographic region.
-  final Coordinates? coordinates;
-
-  /// Specifies an Amazon Web Services Local Zone Group.
-  ///
-  /// A local Zone Group is usually the Local Zone code without the ending
-  /// character. For example, if the Local Zone is <code>us-east-1-bue-1a</code>
-  /// the Local Zone Group is <code>us-east-1-bue-1</code>.
-  ///
-  /// You can identify the Local Zones Group for a specific Local Zone by using
-  /// the <a
-  /// href="https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-availability-zones.html">describe-availability-zones</a>
-  /// CLI command:
-  ///
-  /// This command returns: <code>"GroupName": "us-west-2-den-1"</code>,
-  /// specifying that the Local Zone <code>us-west-2-den-1a</code> belongs to the
-  /// Local Zone Group <code>us-west-2-den-1</code>.
-  final String? localZoneGroup;
-
-  GeoProximityLocation({
-    this.awsRegion,
-    this.bias,
-    this.coordinates,
-    this.localZoneGroup,
-  });
-  factory GeoProximityLocation.fromXml(_s.XmlElement elem) {
-    return GeoProximityLocation(
-      awsRegion: _s.extractXmlStringValue(elem, 'AWSRegion'),
-      bias: _s.extractXmlIntValue(elem, 'Bias'),
-      coordinates:
-          _s.extractXmlChild(elem, 'Coordinates')?.let(Coordinates.fromXml),
-      localZoneGroup: _s.extractXmlStringValue(elem, 'LocalZoneGroup'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final awsRegion = this.awsRegion;
-    final bias = this.bias;
-    final coordinates = this.coordinates;
-    final localZoneGroup = this.localZoneGroup;
-    return {
-      if (awsRegion != null) 'AWSRegion': awsRegion,
-      if (bias != null) 'Bias': bias,
-      if (coordinates != null) 'Coordinates': coordinates,
-      if (localZoneGroup != null) 'LocalZoneGroup': localZoneGroup,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final awsRegion = this.awsRegion;
-    final bias = this.bias;
-    final coordinates = this.coordinates;
-    final localZoneGroup = this.localZoneGroup;
-    final $children = <_s.XmlNode>[
-      if (awsRegion != null) _s.encodeXmlStringValue('AWSRegion', awsRegion),
-      if (localZoneGroup != null)
-        _s.encodeXmlStringValue('LocalZoneGroup', localZoneGroup),
-      if (coordinates != null) coordinates.toXml('Coordinates'),
-      if (bias != null) _s.encodeXmlIntValue('Bias', bias),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
   }
 }
 
@@ -7890,6 +6121,31 @@ class GetGeoLocationResponse {
   }
 }
 
+/// A complex type that contains the response to a <code>GetHealthCheck</code>
+/// request.
+class GetHealthCheckResponse {
+  /// A complex type that contains information about one health check that is
+  /// associated with the current Amazon Web Services account.
+  final HealthCheck healthCheck;
+
+  GetHealthCheckResponse({
+    required this.healthCheck,
+  });
+  factory GetHealthCheckResponse.fromXml(_s.XmlElement elem) {
+    return GetHealthCheckResponse(
+      healthCheck:
+          HealthCheck.fromXml(_s.extractXmlChild(elem, 'HealthCheck')!),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final healthCheck = this.healthCheck;
+    return {
+      'HealthCheck': healthCheck,
+    };
+  }
+}
+
 /// A complex type that contains the response to a
 /// <code>GetHealthCheckCount</code> request.
 class GetHealthCheckCountResponse {
@@ -7944,31 +6200,6 @@ class GetHealthCheckLastFailureReasonResponse {
 
 /// A complex type that contains the response to a <code>GetHealthCheck</code>
 /// request.
-class GetHealthCheckResponse {
-  /// A complex type that contains information about one health check that is
-  /// associated with the current Amazon Web Services account.
-  final HealthCheck healthCheck;
-
-  GetHealthCheckResponse({
-    required this.healthCheck,
-  });
-  factory GetHealthCheckResponse.fromXml(_s.XmlElement elem) {
-    return GetHealthCheckResponse(
-      healthCheck:
-          HealthCheck.fromXml(_s.extractXmlChild(elem, 'HealthCheck')!),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final healthCheck = this.healthCheck;
-    return {
-      'HealthCheck': healthCheck,
-    };
-  }
-}
-
-/// A complex type that contains the response to a <code>GetHealthCheck</code>
-/// request.
 class GetHealthCheckStatusResponse {
   /// A list that contains one <code>HealthCheckObservation</code> element for
   /// each Amazon Route 53 health checker that is reporting a status about the
@@ -7992,6 +6223,49 @@ class GetHealthCheckStatusResponse {
     final healthCheckObservations = this.healthCheckObservations;
     return {
       'HealthCheckObservations': healthCheckObservations,
+    };
+  }
+}
+
+/// A complex type that contain the response to a <code>GetHostedZone</code>
+/// request.
+class GetHostedZoneResponse {
+  /// A complex type that contains general information about the specified hosted
+  /// zone.
+  final HostedZone hostedZone;
+
+  /// A complex type that lists the Amazon Route 53 name servers for the specified
+  /// hosted zone.
+  final DelegationSet? delegationSet;
+
+  /// A complex type that contains information about the VPCs that are associated
+  /// with the specified hosted zone.
+  final List<VPC>? vPCs;
+
+  GetHostedZoneResponse({
+    required this.hostedZone,
+    this.delegationSet,
+    this.vPCs,
+  });
+  factory GetHostedZoneResponse.fromXml(_s.XmlElement elem) {
+    return GetHostedZoneResponse(
+      hostedZone: HostedZone.fromXml(_s.extractXmlChild(elem, 'HostedZone')!),
+      delegationSet:
+          _s.extractXmlChild(elem, 'DelegationSet')?.let(DelegationSet.fromXml),
+      vPCs: _s
+          .extractXmlChild(elem, 'VPCs')
+          ?.let((elem) => elem.findElements('VPC').map(VPC.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostedZone = this.hostedZone;
+    final delegationSet = this.delegationSet;
+    final vPCs = this.vPCs;
+    return {
+      'HostedZone': hostedZone,
+      if (delegationSet != null) 'DelegationSet': delegationSet,
+      if (vPCs != null) 'VPCs': vPCs,
     };
   }
 }
@@ -8056,49 +6330,6 @@ class GetHostedZoneLimitResponse {
   }
 }
 
-/// A complex type that contain the response to a <code>GetHostedZone</code>
-/// request.
-class GetHostedZoneResponse {
-  /// A complex type that contains general information about the specified hosted
-  /// zone.
-  final HostedZone hostedZone;
-
-  /// A complex type that lists the Amazon Route 53 name servers for the specified
-  /// hosted zone.
-  final DelegationSet? delegationSet;
-
-  /// A complex type that contains information about the VPCs that are associated
-  /// with the specified hosted zone.
-  final List<VPC>? vPCs;
-
-  GetHostedZoneResponse({
-    required this.hostedZone,
-    this.delegationSet,
-    this.vPCs,
-  });
-  factory GetHostedZoneResponse.fromXml(_s.XmlElement elem) {
-    return GetHostedZoneResponse(
-      hostedZone: HostedZone.fromXml(_s.extractXmlChild(elem, 'HostedZone')!),
-      delegationSet:
-          _s.extractXmlChild(elem, 'DelegationSet')?.let(DelegationSet.fromXml),
-      vPCs: _s
-          .extractXmlChild(elem, 'VPCs')
-          ?.let((elem) => elem.findElements('VPC').map(VPC.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hostedZone = this.hostedZone;
-    final delegationSet = this.delegationSet;
-    final vPCs = this.vPCs;
-    return {
-      'HostedZone': hostedZone,
-      if (delegationSet != null) 'DelegationSet': delegationSet,
-      if (vPCs != null) 'VPCs': vPCs,
-    };
-  }
-}
-
 class GetQueryLoggingConfigResponse {
   /// A complex type that contains information about the query logging
   /// configuration that you specified in a <a
@@ -8120,6 +6351,30 @@ class GetQueryLoggingConfigResponse {
     final queryLoggingConfig = this.queryLoggingConfig;
     return {
       'QueryLoggingConfig': queryLoggingConfig,
+    };
+  }
+}
+
+/// A complex type that contains the response to the
+/// <code>GetReusableDelegationSet</code> request.
+class GetReusableDelegationSetResponse {
+  /// A complex type that contains information about the reusable delegation set.
+  final DelegationSet delegationSet;
+
+  GetReusableDelegationSetResponse({
+    required this.delegationSet,
+  });
+  factory GetReusableDelegationSetResponse.fromXml(_s.XmlElement elem) {
+    return GetReusableDelegationSetResponse(
+      delegationSet:
+          DelegationSet.fromXml(_s.extractXmlChild(elem, 'DelegationSet')!),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final delegationSet = this.delegationSet;
+    return {
+      'DelegationSet': delegationSet,
     };
   }
 }
@@ -8156,26 +6411,49 @@ class GetReusableDelegationSetLimitResponse {
   }
 }
 
-/// A complex type that contains the response to the
-/// <code>GetReusableDelegationSet</code> request.
-class GetReusableDelegationSetResponse {
-  /// A complex type that contains information about the reusable delegation set.
-  final DelegationSet delegationSet;
+/// A complex type that contains the response information for the request.
+class GetTrafficPolicyResponse {
+  /// A complex type that contains settings for the specified traffic policy.
+  final TrafficPolicy trafficPolicy;
 
-  GetReusableDelegationSetResponse({
-    required this.delegationSet,
+  GetTrafficPolicyResponse({
+    required this.trafficPolicy,
   });
-  factory GetReusableDelegationSetResponse.fromXml(_s.XmlElement elem) {
-    return GetReusableDelegationSetResponse(
-      delegationSet:
-          DelegationSet.fromXml(_s.extractXmlChild(elem, 'DelegationSet')!),
+  factory GetTrafficPolicyResponse.fromXml(_s.XmlElement elem) {
+    return GetTrafficPolicyResponse(
+      trafficPolicy:
+          TrafficPolicy.fromXml(_s.extractXmlChild(elem, 'TrafficPolicy')!),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final delegationSet = this.delegationSet;
+    final trafficPolicy = this.trafficPolicy;
     return {
-      'DelegationSet': delegationSet,
+      'TrafficPolicy': trafficPolicy,
+    };
+  }
+}
+
+/// A complex type that contains information about the resource record sets that
+/// Amazon Route 53 created based on a specified traffic policy.
+class GetTrafficPolicyInstanceResponse {
+  /// A complex type that contains settings for the traffic policy instance.
+  final TrafficPolicyInstance trafficPolicyInstance;
+
+  GetTrafficPolicyInstanceResponse({
+    required this.trafficPolicyInstance,
+  });
+  factory GetTrafficPolicyInstanceResponse.fromXml(_s.XmlElement elem) {
+    return GetTrafficPolicyInstanceResponse(
+      trafficPolicyInstance: TrafficPolicyInstance.fromXml(
+          _s.extractXmlChild(elem, 'TrafficPolicyInstance')!),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final trafficPolicyInstance = this.trafficPolicyInstance;
+    return {
+      'TrafficPolicyInstance': trafficPolicyInstance,
     };
   }
 }
@@ -8205,17 +6483,2014 @@ class GetTrafficPolicyInstanceCountResponse {
   }
 }
 
+class ListCidrBlocksResponse {
+  /// A complex type that contains information about the CIDR blocks.
+  final List<CidrBlockSummary>? cidrBlocks;
+
+  /// An opaque pagination token to indicate where the service is to begin
+  /// enumerating results.
+  ///
+  /// If no value is provided, the listing of results starts from the beginning.
+  final String? nextToken;
+
+  ListCidrBlocksResponse({
+    this.cidrBlocks,
+    this.nextToken,
+  });
+  factory ListCidrBlocksResponse.fromXml(_s.XmlElement elem) {
+    return ListCidrBlocksResponse(
+      cidrBlocks: _s.extractXmlChild(elem, 'CidrBlocks')?.let((elem) =>
+          elem.findElements('member').map(CidrBlockSummary.fromXml).toList()),
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cidrBlocks = this.cidrBlocks;
+    final nextToken = this.nextToken;
+    return {
+      if (cidrBlocks != null) 'CidrBlocks': cidrBlocks,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListCidrCollectionsResponse {
+  /// A complex type with information about the CIDR collection.
+  final List<CollectionSummary>? cidrCollections;
+
+  /// An opaque pagination token to indicate where the service is to begin
+  /// enumerating results.
+  ///
+  /// If no value is provided, the listing of results starts from the beginning.
+  final String? nextToken;
+
+  ListCidrCollectionsResponse({
+    this.cidrCollections,
+    this.nextToken,
+  });
+  factory ListCidrCollectionsResponse.fromXml(_s.XmlElement elem) {
+    return ListCidrCollectionsResponse(
+      cidrCollections: _s.extractXmlChild(elem, 'CidrCollections')?.let(
+          (elem) => elem
+              .findElements('member')
+              .map(CollectionSummary.fromXml)
+              .toList()),
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cidrCollections = this.cidrCollections;
+    final nextToken = this.nextToken;
+    return {
+      if (cidrCollections != null) 'CidrCollections': cidrCollections,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListCidrLocationsResponse {
+  /// A complex type that contains information about the list of CIDR locations.
+  final List<LocationSummary>? cidrLocations;
+
+  /// An opaque pagination token to indicate where the service is to begin
+  /// enumerating results.
+  ///
+  /// If no value is provided, the listing of results starts from the beginning.
+  final String? nextToken;
+
+  ListCidrLocationsResponse({
+    this.cidrLocations,
+    this.nextToken,
+  });
+  factory ListCidrLocationsResponse.fromXml(_s.XmlElement elem) {
+    return ListCidrLocationsResponse(
+      cidrLocations: _s.extractXmlChild(elem, 'CidrLocations')?.let((elem) =>
+          elem.findElements('member').map(LocationSummary.fromXml).toList()),
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cidrLocations = this.cidrLocations;
+    final nextToken = this.nextToken;
+    return {
+      if (cidrLocations != null) 'CidrLocations': cidrLocations,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// A complex type containing the response information for the request.
+class ListGeoLocationsResponse {
+  /// A complex type that contains one <code>GeoLocationDetails</code> element for
+  /// each location that Amazon Route 53 supports for geolocation.
+  final List<GeoLocationDetails> geoLocationDetailsList;
+
+  /// A value that indicates whether more locations remain to be listed after the
+  /// last location in this response. If so, the value of <code>IsTruncated</code>
+  /// is <code>true</code>. To get more values, submit another request and include
+  /// the values of <code>NextContinentCode</code>, <code>NextCountryCode</code>,
+  /// and <code>NextSubdivisionCode</code> in the <code>startcontinentcode</code>,
+  /// <code>startcountrycode</code>, and <code>startsubdivisioncode</code>, as
+  /// applicable.
+  final bool isTruncated;
+
+  /// The value that you specified for <code>MaxItems</code> in the request.
+  final int maxItems;
+
+  /// If <code>IsTruncated</code> is <code>true</code>, you can make a follow-up
+  /// request to display more locations. Enter the value of
+  /// <code>NextContinentCode</code> in the <code>startcontinentcode</code>
+  /// parameter in another <code>ListGeoLocations</code> request.
+  final String? nextContinentCode;
+
+  /// If <code>IsTruncated</code> is <code>true</code>, you can make a follow-up
+  /// request to display more locations. Enter the value of
+  /// <code>NextCountryCode</code> in the <code>startcountrycode</code> parameter
+  /// in another <code>ListGeoLocations</code> request.
+  final String? nextCountryCode;
+
+  /// If <code>IsTruncated</code> is <code>true</code>, you can make a follow-up
+  /// request to display more locations. Enter the value of
+  /// <code>NextSubdivisionCode</code> in the <code>startsubdivisioncode</code>
+  /// parameter in another <code>ListGeoLocations</code> request.
+  final String? nextSubdivisionCode;
+
+  ListGeoLocationsResponse({
+    required this.geoLocationDetailsList,
+    required this.isTruncated,
+    required this.maxItems,
+    this.nextContinentCode,
+    this.nextCountryCode,
+    this.nextSubdivisionCode,
+  });
+  factory ListGeoLocationsResponse.fromXml(_s.XmlElement elem) {
+    return ListGeoLocationsResponse(
+      geoLocationDetailsList: _s
+          .extractXmlChild(elem, 'GeoLocationDetailsList')!
+          .findElements('GeoLocationDetails')
+          .map(GeoLocationDetails.fromXml)
+          .toList(),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
+      maxItems: _s.extractXmlIntValue(elem, 'MaxItems')!,
+      nextContinentCode: _s.extractXmlStringValue(elem, 'NextContinentCode'),
+      nextCountryCode: _s.extractXmlStringValue(elem, 'NextCountryCode'),
+      nextSubdivisionCode:
+          _s.extractXmlStringValue(elem, 'NextSubdivisionCode'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final geoLocationDetailsList = this.geoLocationDetailsList;
+    final isTruncated = this.isTruncated;
+    final maxItems = this.maxItems;
+    final nextContinentCode = this.nextContinentCode;
+    final nextCountryCode = this.nextCountryCode;
+    final nextSubdivisionCode = this.nextSubdivisionCode;
+    return {
+      'GeoLocationDetailsList': geoLocationDetailsList,
+      'IsTruncated': isTruncated,
+      'MaxItems': maxItems,
+      if (nextContinentCode != null) 'NextContinentCode': nextContinentCode,
+      if (nextCountryCode != null) 'NextCountryCode': nextCountryCode,
+      if (nextSubdivisionCode != null)
+        'NextSubdivisionCode': nextSubdivisionCode,
+    };
+  }
+}
+
+/// A complex type that contains the response to a <code>ListHealthChecks</code>
+/// request.
+class ListHealthChecksResponse {
+  /// A complex type that contains one <code>HealthCheck</code> element for each
+  /// health check that is associated with the current Amazon Web Services
+  /// account.
+  final List<HealthCheck> healthChecks;
+
+  /// A flag that indicates whether there are more health checks to be listed. If
+  /// the response was truncated, you can get the next group of health checks by
+  /// submitting another <code>ListHealthChecks</code> request and specifying the
+  /// value of <code>NextMarker</code> in the <code>marker</code> parameter.
+  final bool isTruncated;
+
+  /// For the second and subsequent calls to <code>ListHealthChecks</code>,
+  /// <code>Marker</code> is the value that you specified for the
+  /// <code>marker</code> parameter in the previous request.
+  final String marker;
+
+  /// The value that you specified for the <code>maxitems</code> parameter in the
+  /// call to <code>ListHealthChecks</code> that produced the current response.
+  final int maxItems;
+
+  /// If <code>IsTruncated</code> is <code>true</code>, the value of
+  /// <code>NextMarker</code> identifies the first health check that Amazon Route
+  /// 53 returns if you submit another <code>ListHealthChecks</code> request and
+  /// specify the value of <code>NextMarker</code> in the <code>marker</code>
+  /// parameter.
+  final String? nextMarker;
+
+  ListHealthChecksResponse({
+    required this.healthChecks,
+    required this.isTruncated,
+    required this.marker,
+    required this.maxItems,
+    this.nextMarker,
+  });
+  factory ListHealthChecksResponse.fromXml(_s.XmlElement elem) {
+    return ListHealthChecksResponse(
+      healthChecks: _s
+          .extractXmlChild(elem, 'HealthChecks')!
+          .findElements('HealthCheck')
+          .map(HealthCheck.fromXml)
+          .toList(),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
+      marker: _s.extractXmlStringValue(elem, 'Marker')!,
+      maxItems: _s.extractXmlIntValue(elem, 'MaxItems')!,
+      nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final healthChecks = this.healthChecks;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    final maxItems = this.maxItems;
+    final nextMarker = this.nextMarker;
+    return {
+      'HealthChecks': healthChecks,
+      'IsTruncated': isTruncated,
+      'Marker': marker,
+      'MaxItems': maxItems,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
+  }
+}
+
+class ListHostedZonesResponse {
+  /// A complex type that contains general information about the hosted zone.
+  final List<HostedZone> hostedZones;
+
+  /// A flag indicating whether there are more hosted zones to be listed. If the
+  /// response was truncated, you can get more hosted zones by submitting another
+  /// <code>ListHostedZones</code> request and specifying the value of
+  /// <code>NextMarker</code> in the <code>marker</code> parameter.
+  final bool isTruncated;
+
+  /// For the second and subsequent calls to <code>ListHostedZones</code>,
+  /// <code>Marker</code> is the value that you specified for the
+  /// <code>marker</code> parameter in the request that produced the current
+  /// response.
+  final String marker;
+
+  /// The value that you specified for the <code>maxitems</code> parameter in the
+  /// call to <code>ListHostedZones</code> that produced the current response.
+  final int maxItems;
+
+  /// If <code>IsTruncated</code> is <code>true</code>, the value of
+  /// <code>NextMarker</code> identifies the first hosted zone in the next group
+  /// of hosted zones. Submit another <code>ListHostedZones</code> request, and
+  /// specify the value of <code>NextMarker</code> from the response in the
+  /// <code>marker</code> parameter.
+  ///
+  /// This element is present only if <code>IsTruncated</code> is
+  /// <code>true</code>.
+  final String? nextMarker;
+
+  ListHostedZonesResponse({
+    required this.hostedZones,
+    required this.isTruncated,
+    required this.marker,
+    required this.maxItems,
+    this.nextMarker,
+  });
+  factory ListHostedZonesResponse.fromXml(_s.XmlElement elem) {
+    return ListHostedZonesResponse(
+      hostedZones: _s
+          .extractXmlChild(elem, 'HostedZones')!
+          .findElements('HostedZone')
+          .map(HostedZone.fromXml)
+          .toList(),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
+      marker: _s.extractXmlStringValue(elem, 'Marker')!,
+      maxItems: _s.extractXmlIntValue(elem, 'MaxItems')!,
+      nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostedZones = this.hostedZones;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    final maxItems = this.maxItems;
+    final nextMarker = this.nextMarker;
+    return {
+      'HostedZones': hostedZones,
+      'IsTruncated': isTruncated,
+      'Marker': marker,
+      'MaxItems': maxItems,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
+  }
+}
+
+/// A complex type that contains the response information for the request.
+class ListHostedZonesByNameResponse {
+  /// A complex type that contains general information about the hosted zone.
+  final List<HostedZone> hostedZones;
+
+  /// A flag that indicates whether there are more hosted zones to be listed. If
+  /// the response was truncated, you can get the next group of
+  /// <code>maxitems</code> hosted zones by calling
+  /// <code>ListHostedZonesByName</code> again and specifying the values of
+  /// <code>NextDNSName</code> and <code>NextHostedZoneId</code> elements in the
+  /// <code>dnsname</code> and <code>hostedzoneid</code> parameters.
+  final bool isTruncated;
+
+  /// The value that you specified for the <code>maxitems</code> parameter in the
+  /// call to <code>ListHostedZonesByName</code> that produced the current
+  /// response.
+  final int maxItems;
+
+  /// For the second and subsequent calls to <code>ListHostedZonesByName</code>,
+  /// <code>DNSName</code> is the value that you specified for the
+  /// <code>dnsname</code> parameter in the request that produced the current
+  /// response.
+  final String? dNSName;
+
+  /// The ID that Amazon Route 53 assigned to the hosted zone when you created it.
+  final String? hostedZoneId;
+
+  /// If <code>IsTruncated</code> is true, the value of <code>NextDNSName</code>
+  /// is the name of the first hosted zone in the next group of
+  /// <code>maxitems</code> hosted zones. Call <code>ListHostedZonesByName</code>
+  /// again and specify the value of <code>NextDNSName</code> and
+  /// <code>NextHostedZoneId</code> in the <code>dnsname</code> and
+  /// <code>hostedzoneid</code> parameters, respectively.
+  ///
+  /// This element is present only if <code>IsTruncated</code> is
+  /// <code>true</code>.
+  final String? nextDNSName;
+
+  /// If <code>IsTruncated</code> is <code>true</code>, the value of
+  /// <code>NextHostedZoneId</code> identifies the first hosted zone in the next
+  /// group of <code>maxitems</code> hosted zones. Call
+  /// <code>ListHostedZonesByName</code> again and specify the value of
+  /// <code>NextDNSName</code> and <code>NextHostedZoneId</code> in the
+  /// <code>dnsname</code> and <code>hostedzoneid</code> parameters, respectively.
+  ///
+  /// This element is present only if <code>IsTruncated</code> is
+  /// <code>true</code>.
+  final String? nextHostedZoneId;
+
+  ListHostedZonesByNameResponse({
+    required this.hostedZones,
+    required this.isTruncated,
+    required this.maxItems,
+    this.dNSName,
+    this.hostedZoneId,
+    this.nextDNSName,
+    this.nextHostedZoneId,
+  });
+  factory ListHostedZonesByNameResponse.fromXml(_s.XmlElement elem) {
+    return ListHostedZonesByNameResponse(
+      hostedZones: _s
+          .extractXmlChild(elem, 'HostedZones')!
+          .findElements('HostedZone')
+          .map(HostedZone.fromXml)
+          .toList(),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
+      maxItems: _s.extractXmlIntValue(elem, 'MaxItems')!,
+      dNSName: _s.extractXmlStringValue(elem, 'DNSName'),
+      hostedZoneId: _s.extractXmlStringValue(elem, 'HostedZoneId'),
+      nextDNSName: _s.extractXmlStringValue(elem, 'NextDNSName'),
+      nextHostedZoneId: _s.extractXmlStringValue(elem, 'NextHostedZoneId'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostedZones = this.hostedZones;
+    final isTruncated = this.isTruncated;
+    final maxItems = this.maxItems;
+    final dNSName = this.dNSName;
+    final hostedZoneId = this.hostedZoneId;
+    final nextDNSName = this.nextDNSName;
+    final nextHostedZoneId = this.nextHostedZoneId;
+    return {
+      'HostedZones': hostedZones,
+      'IsTruncated': isTruncated,
+      'MaxItems': maxItems,
+      if (dNSName != null) 'DNSName': dNSName,
+      if (hostedZoneId != null) 'HostedZoneId': hostedZoneId,
+      if (nextDNSName != null) 'NextDNSName': nextDNSName,
+      if (nextHostedZoneId != null) 'NextHostedZoneId': nextHostedZoneId,
+    };
+  }
+}
+
+class ListHostedZonesByVPCResponse {
+  /// A list that contains one <code>HostedZoneSummary</code> element for each
+  /// hosted zone that the specified Amazon VPC is associated with. Each
+  /// <code>HostedZoneSummary</code> element contains the hosted zone name and ID,
+  /// and information about who owns the hosted zone.
+  final List<HostedZoneSummary> hostedZoneSummaries;
+
+  /// The value that you specified for <code>MaxItems</code> in the most recent
+  /// <code>ListHostedZonesByVPC</code> request.
+  final int maxItems;
+
+  /// The value that you will use for <code>NextToken</code> in the next
+  /// <code>ListHostedZonesByVPC</code> request.
+  final String? nextToken;
+
+  ListHostedZonesByVPCResponse({
+    required this.hostedZoneSummaries,
+    required this.maxItems,
+    this.nextToken,
+  });
+  factory ListHostedZonesByVPCResponse.fromXml(_s.XmlElement elem) {
+    return ListHostedZonesByVPCResponse(
+      hostedZoneSummaries: _s
+          .extractXmlChild(elem, 'HostedZoneSummaries')!
+          .findElements('HostedZoneSummary')
+          .map(HostedZoneSummary.fromXml)
+          .toList(),
+      maxItems: _s.extractXmlIntValue(elem, 'MaxItems')!,
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostedZoneSummaries = this.hostedZoneSummaries;
+    final maxItems = this.maxItems;
+    final nextToken = this.nextToken;
+    return {
+      'HostedZoneSummaries': hostedZoneSummaries,
+      'MaxItems': maxItems,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListQueryLoggingConfigsResponse {
+  /// An array that contains one <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_QueryLoggingConfig.html">QueryLoggingConfig</a>
+  /// element for each configuration for DNS query logging that is associated with
+  /// the current Amazon Web Services account.
+  final List<QueryLoggingConfig> queryLoggingConfigs;
+
+  /// If a response includes the last of the query logging configurations that are
+  /// associated with the current Amazon Web Services account,
+  /// <code>NextToken</code> doesn't appear in the response.
+  ///
+  /// If a response doesn't include the last of the configurations, you can get
+  /// more configurations by submitting another <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_ListQueryLoggingConfigs.html">ListQueryLoggingConfigs</a>
+  /// request. Get the value of <code>NextToken</code> that Amazon Route 53
+  /// returned in the previous response and include it in <code>NextToken</code>
+  /// in the next request.
+  final String? nextToken;
+
+  ListQueryLoggingConfigsResponse({
+    required this.queryLoggingConfigs,
+    this.nextToken,
+  });
+  factory ListQueryLoggingConfigsResponse.fromXml(_s.XmlElement elem) {
+    return ListQueryLoggingConfigsResponse(
+      queryLoggingConfigs: _s
+          .extractXmlChild(elem, 'QueryLoggingConfigs')!
+          .findElements('QueryLoggingConfig')
+          .map(QueryLoggingConfig.fromXml)
+          .toList(),
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final queryLoggingConfigs = this.queryLoggingConfigs;
+    final nextToken = this.nextToken;
+    return {
+      'QueryLoggingConfigs': queryLoggingConfigs,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// A complex type that contains list information for the resource record set.
+class ListResourceRecordSetsResponse {
+  /// A flag that indicates whether more resource record sets remain to be listed.
+  /// If your results were truncated, you can make a follow-up pagination request
+  /// by using the <code>NextRecordName</code> element.
+  final bool isTruncated;
+
+  /// The maximum number of records you requested.
+  final int maxItems;
+
+  /// Information about multiple resource record sets.
+  final List<ResourceRecordSet> resourceRecordSets;
+
+  /// <i>Resource record sets that have a routing policy other than simple:</i> If
+  /// results were truncated for a given DNS name and type, the value of
+  /// <code>SetIdentifier</code> for the next resource record set that has the
+  /// current DNS name and type.
+  ///
+  /// For information about routing policies, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html">Choosing
+  /// a Routing Policy</a> in the <i>Amazon Route 53 Developer Guide</i>.
+  final String? nextRecordIdentifier;
+
+  /// If the results were truncated, the name of the next record in the list.
+  ///
+  /// This element is present only if <code>IsTruncated</code> is true.
+  final String? nextRecordName;
+
+  /// If the results were truncated, the type of the next record in the list.
+  ///
+  /// This element is present only if <code>IsTruncated</code> is true.
+  final RRType? nextRecordType;
+
+  ListResourceRecordSetsResponse({
+    required this.isTruncated,
+    required this.maxItems,
+    required this.resourceRecordSets,
+    this.nextRecordIdentifier,
+    this.nextRecordName,
+    this.nextRecordType,
+  });
+  factory ListResourceRecordSetsResponse.fromXml(_s.XmlElement elem) {
+    return ListResourceRecordSetsResponse(
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
+      maxItems: _s.extractXmlIntValue(elem, 'MaxItems')!,
+      resourceRecordSets: _s
+          .extractXmlChild(elem, 'ResourceRecordSets')!
+          .findElements('ResourceRecordSet')
+          .map(ResourceRecordSet.fromXml)
+          .toList(),
+      nextRecordIdentifier:
+          _s.extractXmlStringValue(elem, 'NextRecordIdentifier'),
+      nextRecordName: _s.extractXmlStringValue(elem, 'NextRecordName'),
+      nextRecordType: _s
+          .extractXmlStringValue(elem, 'NextRecordType')
+          ?.let(RRType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isTruncated = this.isTruncated;
+    final maxItems = this.maxItems;
+    final resourceRecordSets = this.resourceRecordSets;
+    final nextRecordIdentifier = this.nextRecordIdentifier;
+    final nextRecordName = this.nextRecordName;
+    final nextRecordType = this.nextRecordType;
+    return {
+      'IsTruncated': isTruncated,
+      'MaxItems': maxItems,
+      'ResourceRecordSets': resourceRecordSets,
+      if (nextRecordIdentifier != null)
+        'NextRecordIdentifier': nextRecordIdentifier,
+      if (nextRecordName != null) 'NextRecordName': nextRecordName,
+      if (nextRecordType != null) 'NextRecordType': nextRecordType.value,
+    };
+  }
+}
+
+/// A complex type that contains information about the reusable delegation sets
+/// that are associated with the current Amazon Web Services account.
+class ListReusableDelegationSetsResponse {
+  /// A complex type that contains one <code>DelegationSet</code> element for each
+  /// reusable delegation set that was created by the current Amazon Web Services
+  /// account.
+  final List<DelegationSet> delegationSets;
+
+  /// A flag that indicates whether there are more reusable delegation sets to be
+  /// listed.
+  final bool isTruncated;
+
+  /// For the second and subsequent calls to
+  /// <code>ListReusableDelegationSets</code>, <code>Marker</code> is the value
+  /// that you specified for the <code>marker</code> parameter in the request that
+  /// produced the current response.
+  final String marker;
+
+  /// The value that you specified for the <code>maxitems</code> parameter in the
+  /// call to <code>ListReusableDelegationSets</code> that produced the current
+  /// response.
+  final int maxItems;
+
+  /// If <code>IsTruncated</code> is <code>true</code>, the value of
+  /// <code>NextMarker</code> identifies the next reusable delegation set that
+  /// Amazon Route 53 will return if you submit another
+  /// <code>ListReusableDelegationSets</code> request and specify the value of
+  /// <code>NextMarker</code> in the <code>marker</code> parameter.
+  final String? nextMarker;
+
+  ListReusableDelegationSetsResponse({
+    required this.delegationSets,
+    required this.isTruncated,
+    required this.marker,
+    required this.maxItems,
+    this.nextMarker,
+  });
+  factory ListReusableDelegationSetsResponse.fromXml(_s.XmlElement elem) {
+    return ListReusableDelegationSetsResponse(
+      delegationSets: _s
+          .extractXmlChild(elem, 'DelegationSets')!
+          .findElements('DelegationSet')
+          .map(DelegationSet.fromXml)
+          .toList(),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
+      marker: _s.extractXmlStringValue(elem, 'Marker')!,
+      maxItems: _s.extractXmlIntValue(elem, 'MaxItems')!,
+      nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final delegationSets = this.delegationSets;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    final maxItems = this.maxItems;
+    final nextMarker = this.nextMarker;
+    return {
+      'DelegationSets': delegationSets,
+      'IsTruncated': isTruncated,
+      'Marker': marker,
+      'MaxItems': maxItems,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
+  }
+}
+
+/// A complex type that contains information about the health checks or hosted
+/// zones for which you want to list tags.
+class ListTagsForResourceResponse {
+  /// A <code>ResourceTagSet</code> containing tags associated with the specified
+  /// resource.
+  final ResourceTagSet resourceTagSet;
+
+  ListTagsForResourceResponse({
+    required this.resourceTagSet,
+  });
+  factory ListTagsForResourceResponse.fromXml(_s.XmlElement elem) {
+    return ListTagsForResourceResponse(
+      resourceTagSet:
+          ResourceTagSet.fromXml(_s.extractXmlChild(elem, 'ResourceTagSet')!),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceTagSet = this.resourceTagSet;
+    return {
+      'ResourceTagSet': resourceTagSet,
+    };
+  }
+}
+
+/// A complex type that contains information about the health checks or hosted
+/// zones for which you want to list tags.
+class ListTagsForResourcesRequest {
+  /// A complex type that contains the ResourceId element for each resource for
+  /// which you want to get a list of tags.
+  final List<String> resourceIds;
+
+  /// The type of the resources.
+  ///
+  /// <ul>
+  /// <li>
+  /// The resource type for health checks is <code>healthcheck</code>.
+  /// </li>
+  /// <li>
+  /// The resource type for hosted zones is <code>hostedzone</code>.
+  /// </li>
+  /// </ul>
+  final TagResourceType resourceType;
+
+  ListTagsForResourcesRequest({
+    required this.resourceIds,
+    required this.resourceType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final resourceIds = this.resourceIds;
+    final resourceType = this.resourceType;
+    return {
+      'ResourceIds': resourceIds,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final resourceIds = this.resourceIds;
+    final resourceType = this.resourceType;
+    final $children = <_s.XmlNode>[
+      _s.XmlElement(_s.XmlName.parts('ResourceIds'), [],
+          resourceIds.map((e) => _s.encodeXmlStringValue('ResourceId', e))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A complex type containing tags for the specified resources.
+class ListTagsForResourcesResponse {
+  /// A list of <code>ResourceTagSet</code>s containing tags associated with the
+  /// specified resources.
+  final List<ResourceTagSet> resourceTagSets;
+
+  ListTagsForResourcesResponse({
+    required this.resourceTagSets,
+  });
+  factory ListTagsForResourcesResponse.fromXml(_s.XmlElement elem) {
+    return ListTagsForResourcesResponse(
+      resourceTagSets: _s
+          .extractXmlChild(elem, 'ResourceTagSets')!
+          .findElements('ResourceTagSet')
+          .map(ResourceTagSet.fromXml)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceTagSets = this.resourceTagSets;
+    return {
+      'ResourceTagSets': resourceTagSets,
+    };
+  }
+}
+
+/// A complex type that contains the response information for the request.
+class ListTrafficPoliciesResponse {
+  /// A flag that indicates whether there are more traffic policies to be listed.
+  /// If the response was truncated, you can get the next group of traffic
+  /// policies by submitting another <code>ListTrafficPolicies</code> request and
+  /// specifying the value of <code>TrafficPolicyIdMarker</code> in the
+  /// <code>TrafficPolicyIdMarker</code> request parameter.
+  final bool isTruncated;
+
+  /// The value that you specified for the <code>MaxItems</code> parameter in the
+  /// <code>ListTrafficPolicies</code> request that produced the current response.
+  final int maxItems;
+
+  /// If the value of <code>IsTruncated</code> is <code>true</code>,
+  /// <code>TrafficPolicyIdMarker</code> is the ID of the first traffic policy in
+  /// the next group of <code>MaxItems</code> traffic policies.
+  final String trafficPolicyIdMarker;
+
+  /// A list that contains one <code>TrafficPolicySummary</code> element for each
+  /// traffic policy that was created by the current Amazon Web Services account.
+  final List<TrafficPolicySummary> trafficPolicySummaries;
+
+  ListTrafficPoliciesResponse({
+    required this.isTruncated,
+    required this.maxItems,
+    required this.trafficPolicyIdMarker,
+    required this.trafficPolicySummaries,
+  });
+  factory ListTrafficPoliciesResponse.fromXml(_s.XmlElement elem) {
+    return ListTrafficPoliciesResponse(
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
+      maxItems: _s.extractXmlIntValue(elem, 'MaxItems')!,
+      trafficPolicyIdMarker:
+          _s.extractXmlStringValue(elem, 'TrafficPolicyIdMarker')!,
+      trafficPolicySummaries: _s
+          .extractXmlChild(elem, 'TrafficPolicySummaries')!
+          .findElements('TrafficPolicySummary')
+          .map(TrafficPolicySummary.fromXml)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isTruncated = this.isTruncated;
+    final maxItems = this.maxItems;
+    final trafficPolicyIdMarker = this.trafficPolicyIdMarker;
+    final trafficPolicySummaries = this.trafficPolicySummaries;
+    return {
+      'IsTruncated': isTruncated,
+      'MaxItems': maxItems,
+      'TrafficPolicyIdMarker': trafficPolicyIdMarker,
+      'TrafficPolicySummaries': trafficPolicySummaries,
+    };
+  }
+}
+
+/// A complex type that contains the response information for the request.
+class ListTrafficPolicyInstancesResponse {
+  /// A flag that indicates whether there are more traffic policy instances to be
+  /// listed. If the response was truncated, you can get more traffic policy
+  /// instances by calling <code>ListTrafficPolicyInstances</code> again and
+  /// specifying the values of the <code>HostedZoneIdMarker</code>,
+  /// <code>TrafficPolicyInstanceNameMarker</code>, and
+  /// <code>TrafficPolicyInstanceTypeMarker</code> in the corresponding request
+  /// parameters.
+  final bool isTruncated;
+
+  /// The value that you specified for the <code>MaxItems</code> parameter in the
+  /// call to <code>ListTrafficPolicyInstances</code> that produced the current
+  /// response.
+  final int maxItems;
+
+  /// A list that contains one <code>TrafficPolicyInstance</code> element for each
+  /// traffic policy instance that matches the elements in the request.
+  final List<TrafficPolicyInstance> trafficPolicyInstances;
+
+  /// If <code>IsTruncated</code> is <code>true</code>,
+  /// <code>HostedZoneIdMarker</code> is the ID of the hosted zone of the first
+  /// traffic policy instance that Route 53 will return if you submit another
+  /// <code>ListTrafficPolicyInstances</code> request.
+  final String? hostedZoneIdMarker;
+
+  /// If <code>IsTruncated</code> is <code>true</code>,
+  /// <code>TrafficPolicyInstanceNameMarker</code> is the name of the first
+  /// traffic policy instance that Route 53 will return if you submit another
+  /// <code>ListTrafficPolicyInstances</code> request.
+  final String? trafficPolicyInstanceNameMarker;
+
+  /// If <code>IsTruncated</code> is <code>true</code>,
+  /// <code>TrafficPolicyInstanceTypeMarker</code> is the DNS type of the resource
+  /// record sets that are associated with the first traffic policy instance that
+  /// Amazon Route 53 will return if you submit another
+  /// <code>ListTrafficPolicyInstances</code> request.
+  final RRType? trafficPolicyInstanceTypeMarker;
+
+  ListTrafficPolicyInstancesResponse({
+    required this.isTruncated,
+    required this.maxItems,
+    required this.trafficPolicyInstances,
+    this.hostedZoneIdMarker,
+    this.trafficPolicyInstanceNameMarker,
+    this.trafficPolicyInstanceTypeMarker,
+  });
+  factory ListTrafficPolicyInstancesResponse.fromXml(_s.XmlElement elem) {
+    return ListTrafficPolicyInstancesResponse(
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
+      maxItems: _s.extractXmlIntValue(elem, 'MaxItems')!,
+      trafficPolicyInstances: _s
+          .extractXmlChild(elem, 'TrafficPolicyInstances')!
+          .findElements('TrafficPolicyInstance')
+          .map(TrafficPolicyInstance.fromXml)
+          .toList(),
+      hostedZoneIdMarker: _s.extractXmlStringValue(elem, 'HostedZoneIdMarker'),
+      trafficPolicyInstanceNameMarker:
+          _s.extractXmlStringValue(elem, 'TrafficPolicyInstanceNameMarker'),
+      trafficPolicyInstanceTypeMarker: _s
+          .extractXmlStringValue(elem, 'TrafficPolicyInstanceTypeMarker')
+          ?.let(RRType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isTruncated = this.isTruncated;
+    final maxItems = this.maxItems;
+    final trafficPolicyInstances = this.trafficPolicyInstances;
+    final hostedZoneIdMarker = this.hostedZoneIdMarker;
+    final trafficPolicyInstanceNameMarker =
+        this.trafficPolicyInstanceNameMarker;
+    final trafficPolicyInstanceTypeMarker =
+        this.trafficPolicyInstanceTypeMarker;
+    return {
+      'IsTruncated': isTruncated,
+      'MaxItems': maxItems,
+      'TrafficPolicyInstances': trafficPolicyInstances,
+      if (hostedZoneIdMarker != null) 'HostedZoneIdMarker': hostedZoneIdMarker,
+      if (trafficPolicyInstanceNameMarker != null)
+        'TrafficPolicyInstanceNameMarker': trafficPolicyInstanceNameMarker,
+      if (trafficPolicyInstanceTypeMarker != null)
+        'TrafficPolicyInstanceTypeMarker':
+            trafficPolicyInstanceTypeMarker.value,
+    };
+  }
+}
+
+/// A complex type that contains the response information for the request.
+class ListTrafficPolicyInstancesByHostedZoneResponse {
+  /// A flag that indicates whether there are more traffic policy instances to be
+  /// listed. If the response was truncated, you can get the next group of traffic
+  /// policy instances by submitting another
+  /// <code>ListTrafficPolicyInstancesByHostedZone</code> request and specifying
+  /// the values of <code>HostedZoneIdMarker</code>,
+  /// <code>TrafficPolicyInstanceNameMarker</code>, and
+  /// <code>TrafficPolicyInstanceTypeMarker</code> in the corresponding request
+  /// parameters.
+  final bool isTruncated;
+
+  /// The value that you specified for the <code>MaxItems</code> parameter in the
+  /// <code>ListTrafficPolicyInstancesByHostedZone</code> request that produced
+  /// the current response.
+  final int maxItems;
+
+  /// A list that contains one <code>TrafficPolicyInstance</code> element for each
+  /// traffic policy instance that matches the elements in the request.
+  final List<TrafficPolicyInstance> trafficPolicyInstances;
+
+  /// If <code>IsTruncated</code> is <code>true</code>,
+  /// <code>TrafficPolicyInstanceNameMarker</code> is the name of the first
+  /// traffic policy instance in the next group of traffic policy instances.
+  final String? trafficPolicyInstanceNameMarker;
+
+  /// If <code>IsTruncated</code> is true,
+  /// <code>TrafficPolicyInstanceTypeMarker</code> is the DNS type of the resource
+  /// record sets that are associated with the first traffic policy instance in
+  /// the next group of traffic policy instances.
+  final RRType? trafficPolicyInstanceTypeMarker;
+
+  ListTrafficPolicyInstancesByHostedZoneResponse({
+    required this.isTruncated,
+    required this.maxItems,
+    required this.trafficPolicyInstances,
+    this.trafficPolicyInstanceNameMarker,
+    this.trafficPolicyInstanceTypeMarker,
+  });
+  factory ListTrafficPolicyInstancesByHostedZoneResponse.fromXml(
+      _s.XmlElement elem) {
+    return ListTrafficPolicyInstancesByHostedZoneResponse(
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
+      maxItems: _s.extractXmlIntValue(elem, 'MaxItems')!,
+      trafficPolicyInstances: _s
+          .extractXmlChild(elem, 'TrafficPolicyInstances')!
+          .findElements('TrafficPolicyInstance')
+          .map(TrafficPolicyInstance.fromXml)
+          .toList(),
+      trafficPolicyInstanceNameMarker:
+          _s.extractXmlStringValue(elem, 'TrafficPolicyInstanceNameMarker'),
+      trafficPolicyInstanceTypeMarker: _s
+          .extractXmlStringValue(elem, 'TrafficPolicyInstanceTypeMarker')
+          ?.let(RRType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isTruncated = this.isTruncated;
+    final maxItems = this.maxItems;
+    final trafficPolicyInstances = this.trafficPolicyInstances;
+    final trafficPolicyInstanceNameMarker =
+        this.trafficPolicyInstanceNameMarker;
+    final trafficPolicyInstanceTypeMarker =
+        this.trafficPolicyInstanceTypeMarker;
+    return {
+      'IsTruncated': isTruncated,
+      'MaxItems': maxItems,
+      'TrafficPolicyInstances': trafficPolicyInstances,
+      if (trafficPolicyInstanceNameMarker != null)
+        'TrafficPolicyInstanceNameMarker': trafficPolicyInstanceNameMarker,
+      if (trafficPolicyInstanceTypeMarker != null)
+        'TrafficPolicyInstanceTypeMarker':
+            trafficPolicyInstanceTypeMarker.value,
+    };
+  }
+}
+
+/// A complex type that contains the response information for the request.
+class ListTrafficPolicyInstancesByPolicyResponse {
+  /// A flag that indicates whether there are more traffic policy instances to be
+  /// listed. If the response was truncated, you can get the next group of traffic
+  /// policy instances by calling <code>ListTrafficPolicyInstancesByPolicy</code>
+  /// again and specifying the values of the <code>HostedZoneIdMarker</code>,
+  /// <code>TrafficPolicyInstanceNameMarker</code>, and
+  /// <code>TrafficPolicyInstanceTypeMarker</code> elements in the corresponding
+  /// request parameters.
+  final bool isTruncated;
+
+  /// The value that you specified for the <code>MaxItems</code> parameter in the
+  /// call to <code>ListTrafficPolicyInstancesByPolicy</code> that produced the
+  /// current response.
+  final int maxItems;
+
+  /// A list that contains one <code>TrafficPolicyInstance</code> element for each
+  /// traffic policy instance that matches the elements in the request.
+  final List<TrafficPolicyInstance> trafficPolicyInstances;
+
+  /// If <code>IsTruncated</code> is <code>true</code>,
+  /// <code>HostedZoneIdMarker</code> is the ID of the hosted zone of the first
+  /// traffic policy instance in the next group of traffic policy instances.
+  final String? hostedZoneIdMarker;
+
+  /// If <code>IsTruncated</code> is <code>true</code>,
+  /// <code>TrafficPolicyInstanceNameMarker</code> is the name of the first
+  /// traffic policy instance in the next group of <code>MaxItems</code> traffic
+  /// policy instances.
+  final String? trafficPolicyInstanceNameMarker;
+
+  /// If <code>IsTruncated</code> is <code>true</code>,
+  /// <code>TrafficPolicyInstanceTypeMarker</code> is the DNS type of the resource
+  /// record sets that are associated with the first traffic policy instance in
+  /// the next group of <code>MaxItems</code> traffic policy instances.
+  final RRType? trafficPolicyInstanceTypeMarker;
+
+  ListTrafficPolicyInstancesByPolicyResponse({
+    required this.isTruncated,
+    required this.maxItems,
+    required this.trafficPolicyInstances,
+    this.hostedZoneIdMarker,
+    this.trafficPolicyInstanceNameMarker,
+    this.trafficPolicyInstanceTypeMarker,
+  });
+  factory ListTrafficPolicyInstancesByPolicyResponse.fromXml(
+      _s.XmlElement elem) {
+    return ListTrafficPolicyInstancesByPolicyResponse(
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
+      maxItems: _s.extractXmlIntValue(elem, 'MaxItems')!,
+      trafficPolicyInstances: _s
+          .extractXmlChild(elem, 'TrafficPolicyInstances')!
+          .findElements('TrafficPolicyInstance')
+          .map(TrafficPolicyInstance.fromXml)
+          .toList(),
+      hostedZoneIdMarker: _s.extractXmlStringValue(elem, 'HostedZoneIdMarker'),
+      trafficPolicyInstanceNameMarker:
+          _s.extractXmlStringValue(elem, 'TrafficPolicyInstanceNameMarker'),
+      trafficPolicyInstanceTypeMarker: _s
+          .extractXmlStringValue(elem, 'TrafficPolicyInstanceTypeMarker')
+          ?.let(RRType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isTruncated = this.isTruncated;
+    final maxItems = this.maxItems;
+    final trafficPolicyInstances = this.trafficPolicyInstances;
+    final hostedZoneIdMarker = this.hostedZoneIdMarker;
+    final trafficPolicyInstanceNameMarker =
+        this.trafficPolicyInstanceNameMarker;
+    final trafficPolicyInstanceTypeMarker =
+        this.trafficPolicyInstanceTypeMarker;
+    return {
+      'IsTruncated': isTruncated,
+      'MaxItems': maxItems,
+      'TrafficPolicyInstances': trafficPolicyInstances,
+      if (hostedZoneIdMarker != null) 'HostedZoneIdMarker': hostedZoneIdMarker,
+      if (trafficPolicyInstanceNameMarker != null)
+        'TrafficPolicyInstanceNameMarker': trafficPolicyInstanceNameMarker,
+      if (trafficPolicyInstanceTypeMarker != null)
+        'TrafficPolicyInstanceTypeMarker':
+            trafficPolicyInstanceTypeMarker.value,
+    };
+  }
+}
+
+/// A complex type that contains the response information for the request.
+class ListTrafficPolicyVersionsResponse {
+  /// A flag that indicates whether there are more traffic policies to be listed.
+  /// If the response was truncated, you can get the next group of traffic
+  /// policies by submitting another <code>ListTrafficPolicyVersions</code>
+  /// request and specifying the value of <code>NextMarker</code> in the
+  /// <code>marker</code> parameter.
+  final bool isTruncated;
+
+  /// The value that you specified for the <code>maxitems</code> parameter in the
+  /// <code>ListTrafficPolicyVersions</code> request that produced the current
+  /// response.
+  final int maxItems;
+
+  /// A list that contains one <code>TrafficPolicy</code> element for each traffic
+  /// policy version that is associated with the specified traffic policy.
+  final List<TrafficPolicy> trafficPolicies;
+
+  /// If <code>IsTruncated</code> is <code>true</code>, the value of
+  /// <code>TrafficPolicyVersionMarker</code> identifies the first traffic policy
+  /// that Amazon Route 53 will return if you submit another request. Call
+  /// <code>ListTrafficPolicyVersions</code> again and specify the value of
+  /// <code>TrafficPolicyVersionMarker</code> in the
+  /// <code>TrafficPolicyVersionMarker</code> request parameter.
+  ///
+  /// This element is present only if <code>IsTruncated</code> is
+  /// <code>true</code>.
+  final String trafficPolicyVersionMarker;
+
+  ListTrafficPolicyVersionsResponse({
+    required this.isTruncated,
+    required this.maxItems,
+    required this.trafficPolicies,
+    required this.trafficPolicyVersionMarker,
+  });
+  factory ListTrafficPolicyVersionsResponse.fromXml(_s.XmlElement elem) {
+    return ListTrafficPolicyVersionsResponse(
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
+      maxItems: _s.extractXmlIntValue(elem, 'MaxItems')!,
+      trafficPolicies: _s
+          .extractXmlChild(elem, 'TrafficPolicies')!
+          .findElements('TrafficPolicy')
+          .map(TrafficPolicy.fromXml)
+          .toList(),
+      trafficPolicyVersionMarker:
+          _s.extractXmlStringValue(elem, 'TrafficPolicyVersionMarker')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isTruncated = this.isTruncated;
+    final maxItems = this.maxItems;
+    final trafficPolicies = this.trafficPolicies;
+    final trafficPolicyVersionMarker = this.trafficPolicyVersionMarker;
+    return {
+      'IsTruncated': isTruncated,
+      'MaxItems': maxItems,
+      'TrafficPolicies': trafficPolicies,
+      'TrafficPolicyVersionMarker': trafficPolicyVersionMarker,
+    };
+  }
+}
+
+/// A complex type that contains the response information for the request.
+class ListVPCAssociationAuthorizationsResponse {
+  /// The ID of the hosted zone that you can associate the listed VPCs with.
+  final String hostedZoneId;
+
+  /// The list of VPCs that are authorized to be associated with the specified
+  /// hosted zone.
+  final List<VPC> vPCs;
+
+  /// When the response includes a <code>NextToken</code> element, there are more
+  /// VPCs that can be associated with the specified hosted zone. To get the next
+  /// page of VPCs, submit another <code>ListVPCAssociationAuthorizations</code>
+  /// request, and include the value of the <code>NextToken</code> element from
+  /// the response in the <code>nexttoken</code> request parameter.
+  final String? nextToken;
+
+  ListVPCAssociationAuthorizationsResponse({
+    required this.hostedZoneId,
+    required this.vPCs,
+    this.nextToken,
+  });
+  factory ListVPCAssociationAuthorizationsResponse.fromXml(_s.XmlElement elem) {
+    return ListVPCAssociationAuthorizationsResponse(
+      hostedZoneId: _s.extractXmlStringValue(elem, 'HostedZoneId')!,
+      vPCs: _s
+          .extractXmlChild(elem, 'VPCs')!
+          .findElements('VPC')
+          .map(VPC.fromXml)
+          .toList(),
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostedZoneId = this.hostedZoneId;
+    final vPCs = this.vPCs;
+    final nextToken = this.nextToken;
+    return {
+      'HostedZoneId': hostedZoneId,
+      'VPCs': vPCs,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// A complex type that contains the response to a <code>TestDNSAnswer</code>
+/// request.
+class TestDNSAnswerResponse {
+  /// The Amazon Route 53 name server used to respond to the request.
+  final String nameserver;
+
+  /// The protocol that Amazon Route 53 used to respond to the request, either
+  /// <code>UDP</code> or <code>TCP</code>.
+  final String protocol;
+
+  /// A list that contains values that Amazon Route 53 returned for this resource
+  /// record set.
+  final List<String> recordData;
+
+  /// The name of the resource record set that you submitted a request for.
+  final String recordName;
+
+  /// The type of the resource record set that you submitted a request for.
+  final RRType recordType;
+
+  /// A code that indicates whether the request is valid or not. The most common
+  /// response code is <code>NOERROR</code>, meaning that the request is valid. If
+  /// the response is not valid, Amazon Route 53 returns a response code that
+  /// describes the error. For a list of possible response codes, see <a
+  /// href="http://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-6">DNS
+  /// RCODES</a> on the IANA website.
+  final String responseCode;
+
+  TestDNSAnswerResponse({
+    required this.nameserver,
+    required this.protocol,
+    required this.recordData,
+    required this.recordName,
+    required this.recordType,
+    required this.responseCode,
+  });
+  factory TestDNSAnswerResponse.fromXml(_s.XmlElement elem) {
+    return TestDNSAnswerResponse(
+      nameserver: _s.extractXmlStringValue(elem, 'Nameserver')!,
+      protocol: _s.extractXmlStringValue(elem, 'Protocol')!,
+      recordData: _s.extractXmlStringListValues(
+          _s.extractXmlChild(elem, 'RecordData')!, 'RecordDataEntry'),
+      recordName: _s.extractXmlStringValue(elem, 'RecordName')!,
+      recordType:
+          _s.extractXmlStringValue(elem, 'RecordType')!.let(RRType.fromString),
+      responseCode: _s.extractXmlStringValue(elem, 'ResponseCode')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nameserver = this.nameserver;
+    final protocol = this.protocol;
+    final recordData = this.recordData;
+    final recordName = this.recordName;
+    final recordType = this.recordType;
+    final responseCode = this.responseCode;
+    return {
+      'Nameserver': nameserver,
+      'Protocol': protocol,
+      'RecordData': recordData,
+      'RecordName': recordName,
+      'RecordType': recordType.value,
+      'ResponseCode': responseCode,
+    };
+  }
+}
+
+/// A complex type that contains information about a request to update a health
+/// check.
+class UpdateHealthCheckRequest {
+  /// The ID for the health check for which you want detailed information. When
+  /// you created the health check, <code>CreateHealthCheck</code> returned the ID
+  /// in the response, in the <code>HealthCheckId</code> element.
+  final String healthCheckId;
+
+  /// A complex type that identifies the CloudWatch alarm that you want Amazon
+  /// Route 53 health checkers to use to determine whether the specified health
+  /// check is healthy.
+  final AlarmIdentifier? alarmIdentifier;
+
+  /// A complex type that contains one <code>ChildHealthCheck</code> element for
+  /// each health check that you want to associate with a <code>CALCULATED</code>
+  /// health check.
+  final List<String>? childHealthChecks;
+
+  /// Stops Route 53 from performing health checks. When you disable a health
+  /// check, here's what happens:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Health checks that check the health of endpoints:</b> Route 53 stops
+  /// submitting requests to your application, server, or other resource.
+  /// </li>
+  /// <li>
+  /// <b>Calculated health checks:</b> Route 53 stops aggregating the status of
+  /// the referenced health checks.
+  /// </li>
+  /// <li>
+  /// <b>Health checks that monitor CloudWatch alarms:</b> Route 53 stops
+  /// monitoring the corresponding CloudWatch metrics.
+  /// </li>
+  /// </ul>
+  /// After you disable a health check, Route 53 considers the status of the
+  /// health check to always be healthy. If you configured DNS failover, Route 53
+  /// continues to route traffic to the corresponding resources. Additionally, in
+  /// disabled state, you can also invert the status of the health check to route
+  /// traffic differently. For more information, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_UpdateHealthCheck.html#Route53-UpdateHealthCheck-request-Inverted">Inverted</a>.
+  ///
+  /// Charges for a health check still apply when the health check is disabled.
+  /// For more information, see <a
+  /// href="http://aws.amazon.com/route53/pricing/">Amazon Route 53 Pricing</a>.
+  final bool? disabled;
+
+  /// Specify whether you want Amazon Route 53 to send the value of
+  /// <code>FullyQualifiedDomainName</code> to the endpoint in the
+  /// <code>client_hello</code> message during <code>TLS</code> negotiation. This
+  /// allows the endpoint to respond to <code>HTTPS</code> health check requests
+  /// with the applicable SSL/TLS certificate.
+  ///
+  /// Some endpoints require that HTTPS requests include the host name in the
+  /// <code>client_hello</code> message. If you don't enable SNI, the status of
+  /// the health check will be SSL alert <code>handshake_failure</code>. A health
+  /// check can also have that status for other reasons. If SNI is enabled and
+  /// you're still getting the error, check the SSL/TLS configuration on your
+  /// endpoint and confirm that your certificate is valid.
+  ///
+  /// The SSL/TLS certificate on your endpoint includes a domain name in the
+  /// <code>Common Name</code> field and possibly several more in the
+  /// <code>Subject Alternative Names</code> field. One of the domain names in the
+  /// certificate should match the value that you specify for
+  /// <code>FullyQualifiedDomainName</code>. If the endpoint responds to the
+  /// <code>client_hello</code> message with a certificate that does not include
+  /// the domain name that you specified in <code>FullyQualifiedDomainName</code>,
+  /// a health checker will retry the handshake. In the second attempt, the health
+  /// checker will omit <code>FullyQualifiedDomainName</code> from the
+  /// <code>client_hello</code> message.
+  final bool? enableSNI;
+
+  /// The number of consecutive health checks that an endpoint must pass or fail
+  /// for Amazon Route 53 to change the current status of the endpoint from
+  /// unhealthy to healthy or vice versa. For more information, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-determining-health-of-endpoints.html">How
+  /// Amazon Route 53 Determines Whether an Endpoint Is Healthy</a> in the
+  /// <i>Amazon Route 53 Developer Guide</i>.
+  ///
+  /// Otherwise, if you don't specify a value for <code>FailureThreshold</code>,
+  /// the default value is three health checks.
+  final int? failureThreshold;
+
+  /// Amazon Route 53 behavior depends on whether you specify a value for
+  /// <code>IPAddress</code>.
+  /// <note>
+  /// If a health check already has a value for <code>IPAddress</code>, you can
+  /// change the value. However, you can't update an existing health check to add
+  /// or remove the value of <code>IPAddress</code>.
+  /// </note>
+  /// <b>If you specify a value for</b> <code>IPAddress</code>:
+  ///
+  /// Route 53 sends health check requests to the specified IPv4 or IPv6 address
+  /// and passes the value of <code>FullyQualifiedDomainName</code> in the
+  /// <code>Host</code> header for all health checks except TCP health checks.
+  /// This is typically the fully qualified DNS name of the endpoint on which you
+  /// want Route 53 to perform health checks.
+  ///
+  /// When Route 53 checks the health of an endpoint, here is how it constructs
+  /// the <code>Host</code> header:
+  ///
+  /// <ul>
+  /// <li>
+  /// If you specify a value of <code>80</code> for <code>Port</code> and
+  /// <code>HTTP</code> or <code>HTTP_STR_MATCH</code> for <code>Type</code>,
+  /// Route 53 passes the value of <code>FullyQualifiedDomainName</code> to the
+  /// endpoint in the <code>Host</code> header.
+  /// </li>
+  /// <li>
+  /// If you specify a value of <code>443</code> for <code>Port</code> and
+  /// <code>HTTPS</code> or <code>HTTPS_STR_MATCH</code> for <code>Type</code>,
+  /// Route 53 passes the value of <code>FullyQualifiedDomainName</code> to the
+  /// endpoint in the <code>Host</code> header.
+  /// </li>
+  /// <li>
+  /// If you specify another value for <code>Port</code> and any value except
+  /// <code>TCP</code> for <code>Type</code>, Route 53 passes <i>
+  /// <code>FullyQualifiedDomainName</code>:<code>Port</code> </i> to the endpoint
+  /// in the <code>Host</code> header.
+  /// </li>
+  /// </ul>
+  /// If you don't specify a value for <code>FullyQualifiedDomainName</code>,
+  /// Route 53 substitutes the value of <code>IPAddress</code> in the
+  /// <code>Host</code> header in each of the above cases.
+  ///
+  /// <b>If you don't specify a value for</b> <code>IPAddress</code>:
+  ///
+  /// If you don't specify a value for <code>IPAddress</code>, Route 53 sends a
+  /// DNS request to the domain that you specify in
+  /// <code>FullyQualifiedDomainName</code> at the interval you specify in
+  /// <code>RequestInterval</code>. Using an IPv4 address that is returned by DNS,
+  /// Route 53 then checks the health of the endpoint.
+  ///
+  /// If you don't specify a value for <code>IPAddress</code>, you can’t update
+  /// the health check to remove the <code>FullyQualifiedDomainName</code>; if you
+  /// don’t specify a value for <code>IPAddress</code> on creation, a
+  /// <code>FullyQualifiedDomainName</code> is required.
+  /// <note>
+  /// If you don't specify a value for <code>IPAddress</code>, Route 53 uses only
+  /// IPv4 to send health checks to the endpoint. If there's no resource record
+  /// set with a type of A for the name that you specify for
+  /// <code>FullyQualifiedDomainName</code>, the health check fails with a "DNS
+  /// resolution failed" error.
+  /// </note>
+  /// If you want to check the health of weighted, latency, or failover resource
+  /// record sets and you choose to specify the endpoint only by
+  /// <code>FullyQualifiedDomainName</code>, we recommend that you create a
+  /// separate health check for each endpoint. For example, create a health check
+  /// for each HTTP server that is serving content for www.example.com. For the
+  /// value of <code>FullyQualifiedDomainName</code>, specify the domain name of
+  /// the server (such as <code>us-east-2-www.example.com</code>), not the name of
+  /// the resource record sets (www.example.com).
+  /// <important>
+  /// In this configuration, if the value of <code>FullyQualifiedDomainName</code>
+  /// matches the name of the resource record sets and you then associate the
+  /// health check with those resource record sets, health check results will be
+  /// unpredictable.
+  /// </important>
+  /// In addition, if the value of <code>Type</code> is <code>HTTP</code>,
+  /// <code>HTTPS</code>, <code>HTTP_STR_MATCH</code>, or
+  /// <code>HTTPS_STR_MATCH</code>, Route 53 passes the value of
+  /// <code>FullyQualifiedDomainName</code> in the <code>Host</code> header, as it
+  /// does when you specify a value for <code>IPAddress</code>. If the value of
+  /// <code>Type</code> is <code>TCP</code>, Route 53 doesn't pass a
+  /// <code>Host</code> header.
+  final String? fullyQualifiedDomainName;
+
+  /// A sequential counter that Amazon Route 53 sets to <code>1</code> when you
+  /// create a health check and increments by 1 each time you update settings for
+  /// the health check.
+  ///
+  /// We recommend that you use <code>GetHealthCheck</code> or
+  /// <code>ListHealthChecks</code> to get the current value of
+  /// <code>HealthCheckVersion</code> for the health check that you want to
+  /// update, and that you include that value in your
+  /// <code>UpdateHealthCheck</code> request. This prevents Route 53 from
+  /// overwriting an intervening update:
+  ///
+  /// <ul>
+  /// <li>
+  /// If the value in the <code>UpdateHealthCheck</code> request matches the value
+  /// of <code>HealthCheckVersion</code> in the health check, Route 53 updates the
+  /// health check with the new settings.
+  /// </li>
+  /// <li>
+  /// If the value of <code>HealthCheckVersion</code> in the health check is
+  /// greater, the health check was changed after you got the version number.
+  /// Route 53 does not update the health check, and it returns a
+  /// <code>HealthCheckVersionMismatch</code> error.
+  /// </li>
+  /// </ul>
+  final int? healthCheckVersion;
+
+  /// The number of child health checks that are associated with a
+  /// <code>CALCULATED</code> health that Amazon Route 53 must consider healthy
+  /// for the <code>CALCULATED</code> health check to be considered healthy. To
+  /// specify the child health checks that you want to associate with a
+  /// <code>CALCULATED</code> health check, use the <code>ChildHealthChecks</code>
+  /// and <code>ChildHealthCheck</code> elements.
+  ///
+  /// Note the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// If you specify a number greater than the number of child health checks,
+  /// Route 53 always considers this health check to be unhealthy.
+  /// </li>
+  /// <li>
+  /// If you specify <code>0</code>, Route 53 always considers this health check
+  /// to be healthy.
+  /// </li>
+  /// </ul>
+  final int? healthThreshold;
+
+  /// The IPv4 or IPv6 IP address for the endpoint that you want Amazon Route 53
+  /// to perform health checks on. If you don't specify a value for
+  /// <code>IPAddress</code>, Route 53 sends a DNS request to resolve the domain
+  /// name that you specify in <code>FullyQualifiedDomainName</code> at the
+  /// interval that you specify in <code>RequestInterval</code>. Using an IP
+  /// address that is returned by DNS, Route 53 then checks the health of the
+  /// endpoint.
+  ///
+  /// Use one of the following formats for the value of <code>IPAddress</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>IPv4 address</b>: four values between 0 and 255, separated by periods
+  /// (.), for example, <code>192.0.2.44</code>.
+  /// </li>
+  /// <li>
+  /// <b>IPv6 address</b>: eight groups of four hexadecimal values, separated by
+  /// colons (:), for example,
+  /// <code>2001:0db8:85a3:0000:0000:abcd:0001:2345</code>. You can also shorten
+  /// IPv6 addresses as described in RFC 5952, for example,
+  /// <code>2001:db8:85a3::abcd:1:2345</code>.
+  /// </li>
+  /// </ul>
+  /// If the endpoint is an EC2 instance, we recommend that you create an Elastic
+  /// IP address, associate it with your EC2 instance, and specify the Elastic IP
+  /// address for <code>IPAddress</code>. This ensures that the IP address of your
+  /// instance never changes. For more information, see the applicable
+  /// documentation:
+  ///
+  /// <ul>
+  /// <li>
+  /// Linux: <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html">Elastic
+  /// IP Addresses (EIP)</a> in the <i>Amazon EC2 User Guide for Linux
+  /// Instances</i>
+  /// </li>
+  /// <li>
+  /// Windows: <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/elastic-ip-addresses-eip.html">Elastic
+  /// IP Addresses (EIP)</a> in the <i>Amazon EC2 User Guide for Windows
+  /// Instances</i>
+  /// </li>
+  /// </ul> <note>
+  /// If a health check already has a value for <code>IPAddress</code>, you can
+  /// change the value. However, you can't update an existing health check to add
+  /// or remove the value of <code>IPAddress</code>.
+  /// </note>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_UpdateHealthCheck.html#Route53-UpdateHealthCheck-request-FullyQualifiedDomainName">FullyQualifiedDomainName</a>.
+  ///
+  /// Constraints: Route 53 can't check the health of endpoints for which the IP
+  /// address is in local, private, non-routable, or multicast ranges. For more
+  /// information about IP addresses for which you can't create health checks, see
+  /// the following documents:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a href="https://tools.ietf.org/html/rfc5735">RFC 5735, Special Use IPv4
+  /// Addresses</a>
+  /// </li>
+  /// <li>
+  /// <a href="https://tools.ietf.org/html/rfc6598">RFC 6598, IANA-Reserved IPv4
+  /// Prefix for Shared Address Space</a>
+  /// </li>
+  /// <li>
+  /// <a href="https://tools.ietf.org/html/rfc5156">RFC 5156, Special-Use IPv6
+  /// Addresses</a>
+  /// </li>
+  /// </ul>
+  final String? iPAddress;
+
+  /// When CloudWatch has insufficient data about the metric to determine the
+  /// alarm state, the status that you want Amazon Route 53 to assign to the
+  /// health check:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Healthy</code>: Route 53 considers the health check to be healthy.
+  /// </li>
+  /// <li>
+  /// <code>Unhealthy</code>: Route 53 considers the health check to be unhealthy.
+  /// </li>
+  /// <li>
+  /// <code>LastKnownStatus</code>: By default, Route 53 uses the status of the
+  /// health check from the last time CloudWatch had sufficient data to determine
+  /// the alarm state. For new health checks that have no last known status, the
+  /// status for the health check is healthy.
+  /// </li>
+  /// </ul>
+  final InsufficientDataHealthStatus? insufficientDataHealthStatus;
+
+  /// Specify whether you want Amazon Route 53 to invert the status of a health
+  /// check, for example, to consider a health check unhealthy when it otherwise
+  /// would be considered healthy.
+  final bool? inverted;
+
+  /// The port on the endpoint that you want Amazon Route 53 to perform health
+  /// checks on.
+  /// <note>
+  /// Don't specify a value for <code>Port</code> when you specify a value for
+  /// <code>Type</code> of <code>CLOUDWATCH_METRIC</code> or
+  /// <code>CALCULATED</code>.
+  /// </note>
+  final int? port;
+
+  /// A complex type that contains one <code>Region</code> element for each region
+  /// that you want Amazon Route 53 health checkers to check the specified
+  /// endpoint from.
+  final List<HealthCheckRegion>? regions;
+
+  /// A complex type that contains one <code>ResettableElementName</code> element
+  /// for each element that you want to reset to the default value. Valid values
+  /// for <code>ResettableElementName</code> include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ChildHealthChecks</code>: Amazon Route 53 resets <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_HealthCheckConfig.html#Route53-Type-HealthCheckConfig-ChildHealthChecks">ChildHealthChecks</a>
+  /// to null.
+  /// </li>
+  /// <li>
+  /// <code>FullyQualifiedDomainName</code>: Route 53 resets <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_UpdateHealthCheck.html#Route53-UpdateHealthCheck-request-FullyQualifiedDomainName">FullyQualifiedDomainName</a>.
+  /// to null.
+  /// </li>
+  /// <li>
+  /// <code>Regions</code>: Route 53 resets the <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_HealthCheckConfig.html#Route53-Type-HealthCheckConfig-Regions">Regions</a>
+  /// list to the default set of regions.
+  /// </li>
+  /// <li>
+  /// <code>ResourcePath</code>: Route 53 resets <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_HealthCheckConfig.html#Route53-Type-HealthCheckConfig-ResourcePath">ResourcePath</a>
+  /// to null.
+  /// </li>
+  /// </ul>
+  final List<ResettableElementName>? resetElements;
+
+  /// The path that you want Amazon Route 53 to request when performing health
+  /// checks. The path can be any value for which your endpoint will return an
+  /// HTTP status code of 2xx or 3xx when the endpoint is healthy, for example the
+  /// file /docs/route53-health-check.html. You can also include query string
+  /// parameters, for example, <code>/welcome.html?language=jp&login=y</code>.
+  ///
+  /// Specify this value only if you want to change it.
+  final String? resourcePath;
+
+  /// If the value of <code>Type</code> is <code>HTTP_STR_MATCH</code> or
+  /// <code>HTTPS_STR_MATCH</code>, the string that you want Amazon Route 53 to
+  /// search for in the response body from the specified resource. If the string
+  /// appears in the response body, Route 53 considers the resource healthy. (You
+  /// can't change the value of <code>Type</code> when you update a health check.)
+  final String? searchString;
+
+  UpdateHealthCheckRequest({
+    required this.healthCheckId,
+    this.alarmIdentifier,
+    this.childHealthChecks,
+    this.disabled,
+    this.enableSNI,
+    this.failureThreshold,
+    this.fullyQualifiedDomainName,
+    this.healthCheckVersion,
+    this.healthThreshold,
+    this.iPAddress,
+    this.insufficientDataHealthStatus,
+    this.inverted,
+    this.port,
+    this.regions,
+    this.resetElements,
+    this.resourcePath,
+    this.searchString,
+  });
+
+  Map<String, dynamic> toJson() {
+    final healthCheckId = this.healthCheckId;
+    final alarmIdentifier = this.alarmIdentifier;
+    final childHealthChecks = this.childHealthChecks;
+    final disabled = this.disabled;
+    final enableSNI = this.enableSNI;
+    final failureThreshold = this.failureThreshold;
+    final fullyQualifiedDomainName = this.fullyQualifiedDomainName;
+    final healthCheckVersion = this.healthCheckVersion;
+    final healthThreshold = this.healthThreshold;
+    final iPAddress = this.iPAddress;
+    final insufficientDataHealthStatus = this.insufficientDataHealthStatus;
+    final inverted = this.inverted;
+    final port = this.port;
+    final regions = this.regions;
+    final resetElements = this.resetElements;
+    final resourcePath = this.resourcePath;
+    final searchString = this.searchString;
+    return {
+      if (alarmIdentifier != null) 'AlarmIdentifier': alarmIdentifier,
+      if (childHealthChecks != null) 'ChildHealthChecks': childHealthChecks,
+      if (disabled != null) 'Disabled': disabled,
+      if (enableSNI != null) 'EnableSNI': enableSNI,
+      if (failureThreshold != null) 'FailureThreshold': failureThreshold,
+      if (fullyQualifiedDomainName != null)
+        'FullyQualifiedDomainName': fullyQualifiedDomainName,
+      if (healthCheckVersion != null) 'HealthCheckVersion': healthCheckVersion,
+      if (healthThreshold != null) 'HealthThreshold': healthThreshold,
+      if (iPAddress != null) 'IPAddress': iPAddress,
+      if (insufficientDataHealthStatus != null)
+        'InsufficientDataHealthStatus': insufficientDataHealthStatus.value,
+      if (inverted != null) 'Inverted': inverted,
+      if (port != null) 'Port': port,
+      if (regions != null) 'Regions': regions.map((e) => e.value).toList(),
+      if (resetElements != null)
+        'ResetElements': resetElements.map((e) => e.value).toList(),
+      if (resourcePath != null) 'ResourcePath': resourcePath,
+      if (searchString != null) 'SearchString': searchString,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final healthCheckId = this.healthCheckId;
+    final alarmIdentifier = this.alarmIdentifier;
+    final childHealthChecks = this.childHealthChecks;
+    final disabled = this.disabled;
+    final enableSNI = this.enableSNI;
+    final failureThreshold = this.failureThreshold;
+    final fullyQualifiedDomainName = this.fullyQualifiedDomainName;
+    final healthCheckVersion = this.healthCheckVersion;
+    final healthThreshold = this.healthThreshold;
+    final iPAddress = this.iPAddress;
+    final insufficientDataHealthStatus = this.insufficientDataHealthStatus;
+    final inverted = this.inverted;
+    final port = this.port;
+    final regions = this.regions;
+    final resetElements = this.resetElements;
+    final resourcePath = this.resourcePath;
+    final searchString = this.searchString;
+    final $children = <_s.XmlNode>[
+      if (healthCheckVersion != null)
+        _s.encodeXmlIntValue('HealthCheckVersion', healthCheckVersion),
+      if (iPAddress != null) _s.encodeXmlStringValue('IPAddress', iPAddress),
+      if (port != null) _s.encodeXmlIntValue('Port', port),
+      if (resourcePath != null)
+        _s.encodeXmlStringValue('ResourcePath', resourcePath),
+      if (fullyQualifiedDomainName != null)
+        _s.encodeXmlStringValue(
+            'FullyQualifiedDomainName', fullyQualifiedDomainName),
+      if (searchString != null)
+        _s.encodeXmlStringValue('SearchString', searchString),
+      if (failureThreshold != null)
+        _s.encodeXmlIntValue('FailureThreshold', failureThreshold),
+      if (inverted != null) _s.encodeXmlBoolValue('Inverted', inverted),
+      if (disabled != null) _s.encodeXmlBoolValue('Disabled', disabled),
+      if (healthThreshold != null)
+        _s.encodeXmlIntValue('HealthThreshold', healthThreshold),
+      if (childHealthChecks != null)
+        _s.XmlElement(
+            _s.XmlName.parts('ChildHealthChecks'),
+            [],
+            childHealthChecks
+                .map((e) => _s.encodeXmlStringValue('ChildHealthCheck', e))),
+      if (enableSNI != null) _s.encodeXmlBoolValue('EnableSNI', enableSNI),
+      if (regions != null)
+        _s.XmlElement(_s.XmlName.parts('Regions'), [],
+            regions.map((e) => _s.encodeXmlStringValue('Region', e.value))),
+      if (alarmIdentifier != null) alarmIdentifier.toXml('AlarmIdentifier'),
+      if (insufficientDataHealthStatus != null)
+        _s.encodeXmlStringValue(
+            'InsufficientDataHealthStatus', insufficientDataHealthStatus.value),
+      if (resetElements != null)
+        _s.XmlElement(
+            _s.XmlName.parts('ResetElements'),
+            [],
+            resetElements.map((e) =>
+                _s.encodeXmlStringValue('ResettableElementName', e.value))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A complex type that contains the response to the
+/// <code>UpdateHealthCheck</code> request.
+class UpdateHealthCheckResponse {
+  /// A complex type that contains the response to an
+  /// <code>UpdateHealthCheck</code> request.
+  final HealthCheck healthCheck;
+
+  UpdateHealthCheckResponse({
+    required this.healthCheck,
+  });
+  factory UpdateHealthCheckResponse.fromXml(_s.XmlElement elem) {
+    return UpdateHealthCheckResponse(
+      healthCheck:
+          HealthCheck.fromXml(_s.extractXmlChild(elem, 'HealthCheck')!),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final healthCheck = this.healthCheck;
+    return {
+      'HealthCheck': healthCheck,
+    };
+  }
+}
+
+/// A request to update the comment for a hosted zone.
+class UpdateHostedZoneCommentRequest {
+  /// The ID for the hosted zone that you want to update the comment for.
+  final String id;
+
+  /// The new comment for the hosted zone. If you don't specify a value for
+  /// <code>Comment</code>, Amazon Route 53 deletes the existing value of the
+  /// <code>Comment</code> element, if any.
+  final String? comment;
+
+  UpdateHostedZoneCommentRequest({
+    required this.id,
+    this.comment,
+  });
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final comment = this.comment;
+    return {
+      if (comment != null) 'Comment': comment,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final id = this.id;
+    final comment = this.comment;
+    final $children = <_s.XmlNode>[
+      if (comment != null) _s.encodeXmlStringValue('Comment', comment),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A complex type that contains the response to the
+/// <code>UpdateHostedZoneComment</code> request.
+class UpdateHostedZoneCommentResponse {
+  /// A complex type that contains the response to the
+  /// <code>UpdateHostedZoneComment</code> request.
+  final HostedZone hostedZone;
+
+  UpdateHostedZoneCommentResponse({
+    required this.hostedZone,
+  });
+  factory UpdateHostedZoneCommentResponse.fromXml(_s.XmlElement elem) {
+    return UpdateHostedZoneCommentResponse(
+      hostedZone: HostedZone.fromXml(_s.extractXmlChild(elem, 'HostedZone')!),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostedZone = this.hostedZone;
+    return {
+      'HostedZone': hostedZone,
+    };
+  }
+}
+
+class UpdateHostedZoneFeaturesRequest {
+  /// The ID of the hosted zone for which you want to update features. This is the
+  /// unique identifier for your hosted zone.
+  final String hostedZoneId;
+
+  /// Specifies whether to enable accelerated recovery for the hosted zone. Set to
+  /// <code>true</code> to enable accelerated recovery, or <code>false</code> to
+  /// disable it.
+  final bool? enableAcceleratedRecovery;
+
+  UpdateHostedZoneFeaturesRequest({
+    required this.hostedZoneId,
+    this.enableAcceleratedRecovery,
+  });
+
+  Map<String, dynamic> toJson() {
+    final hostedZoneId = this.hostedZoneId;
+    final enableAcceleratedRecovery = this.enableAcceleratedRecovery;
+    return {
+      if (enableAcceleratedRecovery != null)
+        'EnableAcceleratedRecovery': enableAcceleratedRecovery,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final hostedZoneId = this.hostedZoneId;
+    final enableAcceleratedRecovery = this.enableAcceleratedRecovery;
+    final $children = <_s.XmlNode>[
+      if (enableAcceleratedRecovery != null)
+        _s.encodeXmlBoolValue(
+            'EnableAcceleratedRecovery', enableAcceleratedRecovery),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class UpdateHostedZoneFeaturesResponse {
+  UpdateHostedZoneFeaturesResponse();
+  factory UpdateHostedZoneFeaturesResponse.fromXml(
+      // ignore: avoid_unused_constructor_parameters
+      _s.XmlElement elem) {
+    return UpdateHostedZoneFeaturesResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// A complex type that contains information about the traffic policy that you
+/// want to update the comment for.
+class UpdateTrafficPolicyCommentRequest {
+  /// The new comment for the specified traffic policy and version.
+  final String comment;
+
+  /// The value of <code>Id</code> for the traffic policy that you want to update
+  /// the comment for.
+  final String id;
+
+  /// The value of <code>Version</code> for the traffic policy that you want to
+  /// update the comment for.
+  final int version;
+
+  UpdateTrafficPolicyCommentRequest({
+    required this.comment,
+    required this.id,
+    required this.version,
+  });
+
+  Map<String, dynamic> toJson() {
+    final comment = this.comment;
+    final id = this.id;
+    final version = this.version;
+    return {
+      'Comment': comment,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final comment = this.comment;
+    final id = this.id;
+    final version = this.version;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Comment', comment),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A complex type that contains the response information for the traffic
+/// policy.
+class UpdateTrafficPolicyCommentResponse {
+  /// A complex type that contains settings for the specified traffic policy.
+  final TrafficPolicy trafficPolicy;
+
+  UpdateTrafficPolicyCommentResponse({
+    required this.trafficPolicy,
+  });
+  factory UpdateTrafficPolicyCommentResponse.fromXml(_s.XmlElement elem) {
+    return UpdateTrafficPolicyCommentResponse(
+      trafficPolicy:
+          TrafficPolicy.fromXml(_s.extractXmlChild(elem, 'TrafficPolicy')!),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final trafficPolicy = this.trafficPolicy;
+    return {
+      'TrafficPolicy': trafficPolicy,
+    };
+  }
+}
+
+/// A complex type that contains information about the resource record sets that
+/// you want to update based on a specified traffic policy instance.
+class UpdateTrafficPolicyInstanceRequest {
+  /// The ID of the traffic policy instance that you want to update.
+  final String id;
+
+  /// The TTL that you want Amazon Route 53 to assign to all of the updated
+  /// resource record sets.
+  final int ttl;
+
+  /// The ID of the traffic policy that you want Amazon Route 53 to use to update
+  /// resource record sets for the specified traffic policy instance.
+  final String trafficPolicyId;
+
+  /// The version of the traffic policy that you want Amazon Route 53 to use to
+  /// update resource record sets for the specified traffic policy instance.
+  final int trafficPolicyVersion;
+
+  UpdateTrafficPolicyInstanceRequest({
+    required this.id,
+    required this.ttl,
+    required this.trafficPolicyId,
+    required this.trafficPolicyVersion,
+  });
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final ttl = this.ttl;
+    final trafficPolicyId = this.trafficPolicyId;
+    final trafficPolicyVersion = this.trafficPolicyVersion;
+    return {
+      'TTL': ttl,
+      'TrafficPolicyId': trafficPolicyId,
+      'TrafficPolicyVersion': trafficPolicyVersion,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final id = this.id;
+    final ttl = this.ttl;
+    final trafficPolicyId = this.trafficPolicyId;
+    final trafficPolicyVersion = this.trafficPolicyVersion;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlIntValue('TTL', ttl),
+      _s.encodeXmlStringValue('TrafficPolicyId', trafficPolicyId),
+      _s.encodeXmlIntValue('TrafficPolicyVersion', trafficPolicyVersion),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
 /// A complex type that contains information about the resource record sets that
 /// Amazon Route 53 created based on a specified traffic policy.
-class GetTrafficPolicyInstanceResponse {
-  /// A complex type that contains settings for the traffic policy instance.
+class UpdateTrafficPolicyInstanceResponse {
+  /// A complex type that contains settings for the updated traffic policy
+  /// instance.
   final TrafficPolicyInstance trafficPolicyInstance;
 
-  GetTrafficPolicyInstanceResponse({
+  UpdateTrafficPolicyInstanceResponse({
     required this.trafficPolicyInstance,
   });
-  factory GetTrafficPolicyInstanceResponse.fromXml(_s.XmlElement elem) {
-    return GetTrafficPolicyInstanceResponse(
+  factory UpdateTrafficPolicyInstanceResponse.fromXml(_s.XmlElement elem) {
+    return UpdateTrafficPolicyInstanceResponse(
       trafficPolicyInstance: TrafficPolicyInstance.fromXml(
           _s.extractXmlChild(elem, 'TrafficPolicyInstance')!),
     );
@@ -8229,25 +8504,498 @@ class GetTrafficPolicyInstanceResponse {
   }
 }
 
-/// A complex type that contains the response information for the request.
-class GetTrafficPolicyResponse {
-  /// A complex type that contains settings for the specified traffic policy.
-  final TrafficPolicy trafficPolicy;
+/// A complex type that contains settings for the new traffic policy instance.
+class TrafficPolicyInstance {
+  /// The ID of the hosted zone that Amazon Route 53 created resource record sets
+  /// in.
+  final String hostedZoneId;
 
-  GetTrafficPolicyResponse({
-    required this.trafficPolicy,
+  /// The ID that Amazon Route 53 assigned to the new traffic policy instance.
+  final String id;
+
+  /// If <code>State</code> is <code>Failed</code>, an explanation of the reason
+  /// for the failure. If <code>State</code> is another value,
+  /// <code>Message</code> is empty.
+  final String message;
+
+  /// The DNS name, such as www.example.com, for which Amazon Route 53 responds to
+  /// queries by using the resource record sets that are associated with this
+  /// traffic policy instance.
+  final String name;
+
+  /// The value of <code>State</code> is one of the following values:
+  /// <dl> <dt>Applied</dt> <dd>
+  /// Amazon Route 53 has finished creating resource record sets, and changes have
+  /// propagated to all Route 53 edge locations.
+  /// </dd> <dt>Creating</dt> <dd>
+  /// Route 53 is creating the resource record sets. Use
+  /// <code>GetTrafficPolicyInstance</code> to confirm that the
+  /// <code>CreateTrafficPolicyInstance</code> request completed successfully.
+  /// </dd> <dt>Failed</dt> <dd>
+  /// Route 53 wasn't able to create or update the resource record sets. When the
+  /// value of <code>State</code> is <code>Failed</code>, see <code>Message</code>
+  /// for an explanation of what caused the request to fail.
+  /// </dd> </dl>
+  final String state;
+
+  /// The TTL that Amazon Route 53 assigned to all of the resource record sets
+  /// that it created in the specified hosted zone.
+  final int ttl;
+
+  /// The ID of the traffic policy that Amazon Route 53 used to create resource
+  /// record sets in the specified hosted zone.
+  final String trafficPolicyId;
+
+  /// The DNS type that Amazon Route 53 assigned to all of the resource record
+  /// sets that it created for this traffic policy instance.
+  final RRType trafficPolicyType;
+
+  /// The version of the traffic policy that Amazon Route 53 used to create
+  /// resource record sets in the specified hosted zone.
+  final int trafficPolicyVersion;
+
+  TrafficPolicyInstance({
+    required this.hostedZoneId,
+    required this.id,
+    required this.message,
+    required this.name,
+    required this.state,
+    required this.ttl,
+    required this.trafficPolicyId,
+    required this.trafficPolicyType,
+    required this.trafficPolicyVersion,
   });
-  factory GetTrafficPolicyResponse.fromXml(_s.XmlElement elem) {
-    return GetTrafficPolicyResponse(
-      trafficPolicy:
-          TrafficPolicy.fromXml(_s.extractXmlChild(elem, 'TrafficPolicy')!),
+  factory TrafficPolicyInstance.fromXml(_s.XmlElement elem) {
+    return TrafficPolicyInstance(
+      hostedZoneId: _s.extractXmlStringValue(elem, 'HostedZoneId')!,
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      message: _s.extractXmlStringValue(elem, 'Message')!,
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      state: _s.extractXmlStringValue(elem, 'State')!,
+      ttl: _s.extractXmlIntValue(elem, 'TTL')!,
+      trafficPolicyId: _s.extractXmlStringValue(elem, 'TrafficPolicyId')!,
+      trafficPolicyType: _s
+          .extractXmlStringValue(elem, 'TrafficPolicyType')!
+          .let(RRType.fromString),
+      trafficPolicyVersion:
+          _s.extractXmlIntValue(elem, 'TrafficPolicyVersion')!,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final trafficPolicy = this.trafficPolicy;
+    final hostedZoneId = this.hostedZoneId;
+    final id = this.id;
+    final message = this.message;
+    final name = this.name;
+    final state = this.state;
+    final ttl = this.ttl;
+    final trafficPolicyId = this.trafficPolicyId;
+    final trafficPolicyType = this.trafficPolicyType;
+    final trafficPolicyVersion = this.trafficPolicyVersion;
     return {
-      'TrafficPolicy': trafficPolicy,
+      'HostedZoneId': hostedZoneId,
+      'Id': id,
+      'Message': message,
+      'Name': name,
+      'State': state,
+      'TTL': ttl,
+      'TrafficPolicyId': trafficPolicyId,
+      'TrafficPolicyType': trafficPolicyType.value,
+      'TrafficPolicyVersion': trafficPolicyVersion,
+    };
+  }
+}
+
+class RRType {
+  static const soa = RRType._('SOA');
+  static const a = RRType._('A');
+  static const txt = RRType._('TXT');
+  static const ns = RRType._('NS');
+  static const cname = RRType._('CNAME');
+  static const mx = RRType._('MX');
+  static const naptr = RRType._('NAPTR');
+  static const ptr = RRType._('PTR');
+  static const srv = RRType._('SRV');
+  static const spf = RRType._('SPF');
+  static const aaaa = RRType._('AAAA');
+  static const caa = RRType._('CAA');
+  static const ds = RRType._('DS');
+  static const tlsa = RRType._('TLSA');
+  static const sshfp = RRType._('SSHFP');
+  static const svcb = RRType._('SVCB');
+  static const https = RRType._('HTTPS');
+
+  final String value;
+
+  const RRType._(this.value);
+
+  static const values = [
+    soa,
+    a,
+    txt,
+    ns,
+    cname,
+    mx,
+    naptr,
+    ptr,
+    srv,
+    spf,
+    aaaa,
+    caa,
+    ds,
+    tlsa,
+    sshfp,
+    svcb,
+    https
+  ];
+
+  static RRType fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => RRType._(value));
+
+  @override
+  bool operator ==(other) => other is RRType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A complex type that contains settings for a traffic policy.
+class TrafficPolicy {
+  /// The definition of a traffic policy in JSON format. You specify the JSON
+  /// document to use for a new traffic policy in the
+  /// <code>CreateTrafficPolicy</code> request. For more information about the
+  /// JSON format, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/api-policies-traffic-policy-document-format.html">Traffic
+  /// Policy Document Format</a>.
+  final String document;
+
+  /// The ID that Amazon Route 53 assigned to a traffic policy when you created
+  /// it.
+  final String id;
+
+  /// The name that you specified when you created the traffic policy.
+  final String name;
+
+  /// The DNS type of the resource record sets that Amazon Route 53 creates when
+  /// you use a traffic policy to create a traffic policy instance.
+  final RRType type;
+
+  /// The version number that Amazon Route 53 assigns to a traffic policy. For a
+  /// new traffic policy, the value of <code>Version</code> is always 1.
+  final int version;
+
+  /// The comment that you specify in the <code>CreateTrafficPolicy</code>
+  /// request, if any.
+  final String? comment;
+
+  TrafficPolicy({
+    required this.document,
+    required this.id,
+    required this.name,
+    required this.type,
+    required this.version,
+    this.comment,
+  });
+  factory TrafficPolicy.fromXml(_s.XmlElement elem) {
+    return TrafficPolicy(
+      document: _s.extractXmlStringValue(elem, 'Document')!,
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      type: _s.extractXmlStringValue(elem, 'Type')!.let(RRType.fromString),
+      version: _s.extractXmlIntValue(elem, 'Version')!,
+      comment: _s.extractXmlStringValue(elem, 'Comment'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final document = this.document;
+    final id = this.id;
+    final name = this.name;
+    final type = this.type;
+    final version = this.version;
+    final comment = this.comment;
+    return {
+      'Document': document,
+      'Id': id,
+      'Name': name,
+      'Type': type.value,
+      'Version': version,
+      if (comment != null) 'Comment': comment,
+    };
+  }
+}
+
+/// A complex type that contains general information about the hosted zone.
+class HostedZone {
+  /// The value that you specified for <code>CallerReference</code> when you
+  /// created the hosted zone.
+  final String callerReference;
+
+  /// The ID that Amazon Route 53 assigned to the hosted zone when you created it.
+  final String id;
+
+  /// The name of the domain. For public hosted zones, this is the name that you
+  /// have registered with your DNS registrar.
+  ///
+  /// For information about how to specify characters other than <code>a-z</code>,
+  /// <code>0-9</code>, and <code>-</code> (hyphen) and how to specify
+  /// internationalized domain names, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateHostedZone.html">CreateHostedZone</a>.
+  final String name;
+
+  /// A complex type that includes the <code>Comment</code> and
+  /// <code>PrivateZone</code> elements. If you omitted the
+  /// <code>HostedZoneConfig</code> and <code>Comment</code> elements from the
+  /// request, the <code>Config</code> and <code>Comment</code> elements don't
+  /// appear in the response.
+  final HostedZoneConfig? config;
+
+  /// The features configuration for the hosted zone, including accelerated
+  /// recovery settings and status information.
+  final HostedZoneFeatures? features;
+
+  /// If the hosted zone was created by another service, the service that created
+  /// the hosted zone. When a hosted zone is created by another service, you can't
+  /// edit or delete it using Route 53.
+  final LinkedService? linkedService;
+
+  /// The number of resource record sets in the hosted zone.
+  final int? resourceRecordSetCount;
+
+  HostedZone({
+    required this.callerReference,
+    required this.id,
+    required this.name,
+    this.config,
+    this.features,
+    this.linkedService,
+    this.resourceRecordSetCount,
+  });
+  factory HostedZone.fromXml(_s.XmlElement elem) {
+    return HostedZone(
+      callerReference: _s.extractXmlStringValue(elem, 'CallerReference')!,
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      config: _s.extractXmlChild(elem, 'Config')?.let(HostedZoneConfig.fromXml),
+      features:
+          _s.extractXmlChild(elem, 'Features')?.let(HostedZoneFeatures.fromXml),
+      linkedService:
+          _s.extractXmlChild(elem, 'LinkedService')?.let(LinkedService.fromXml),
+      resourceRecordSetCount:
+          _s.extractXmlIntValue(elem, 'ResourceRecordSetCount'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final callerReference = this.callerReference;
+    final id = this.id;
+    final name = this.name;
+    final config = this.config;
+    final features = this.features;
+    final linkedService = this.linkedService;
+    final resourceRecordSetCount = this.resourceRecordSetCount;
+    return {
+      'CallerReference': callerReference,
+      'Id': id,
+      'Name': name,
+      if (config != null) 'Config': config,
+      if (features != null) 'Features': features,
+      if (linkedService != null) 'LinkedService': linkedService,
+      if (resourceRecordSetCount != null)
+        'ResourceRecordSetCount': resourceRecordSetCount,
+    };
+  }
+}
+
+/// A complex type that contains an optional comment about your hosted zone. If
+/// you don't want to specify a comment, omit both the
+/// <code>HostedZoneConfig</code> and <code>Comment</code> elements.
+class HostedZoneConfig {
+  /// Any comments that you want to include about the hosted zone.
+  final String? comment;
+
+  /// A value that indicates whether this is a private hosted zone.
+  final bool? privateZone;
+
+  HostedZoneConfig({
+    this.comment,
+    this.privateZone,
+  });
+  factory HostedZoneConfig.fromXml(_s.XmlElement elem) {
+    return HostedZoneConfig(
+      comment: _s.extractXmlStringValue(elem, 'Comment'),
+      privateZone: _s.extractXmlBoolValue(elem, 'PrivateZone'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final comment = this.comment;
+    final privateZone = this.privateZone;
+    return {
+      if (comment != null) 'Comment': comment,
+      if (privateZone != null) 'PrivateZone': privateZone,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final comment = this.comment;
+    final privateZone = this.privateZone;
+    final $children = <_s.XmlNode>[
+      if (comment != null) _s.encodeXmlStringValue('Comment', comment),
+      if (privateZone != null)
+        _s.encodeXmlBoolValue('PrivateZone', privateZone),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// If a health check or hosted zone was created by another service,
+/// <code>LinkedService</code> is a complex type that describes the service that
+/// created the resource. When a resource is created by another service, you
+/// can't edit or delete it using Amazon Route 53.
+class LinkedService {
+  /// If the health check or hosted zone was created by another service, an
+  /// optional description that can be provided by the other service. When a
+  /// resource is created by another service, you can't edit or delete it using
+  /// Amazon Route 53.
+  final String? description;
+
+  /// If the health check or hosted zone was created by another service, the
+  /// service that created the resource. When a resource is created by another
+  /// service, you can't edit or delete it using Amazon Route 53.
+  final String? servicePrincipal;
+
+  LinkedService({
+    this.description,
+    this.servicePrincipal,
+  });
+  factory LinkedService.fromXml(_s.XmlElement elem) {
+    return LinkedService(
+      description: _s.extractXmlStringValue(elem, 'Description'),
+      servicePrincipal: _s.extractXmlStringValue(elem, 'ServicePrincipal'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final servicePrincipal = this.servicePrincipal;
+    return {
+      if (description != null) 'Description': description,
+      if (servicePrincipal != null) 'ServicePrincipal': servicePrincipal,
+    };
+  }
+}
+
+/// Represents the features configuration for a hosted zone, including the
+/// status of various features and any associated failure reasons.
+class HostedZoneFeatures {
+  /// The current status of accelerated recovery for the hosted zone.
+  final AcceleratedRecoveryStatus? acceleratedRecoveryStatus;
+
+  /// Information about any failures that occurred when attempting to enable or
+  /// configure features for the hosted zone.
+  final HostedZoneFailureReasons? failureReasons;
+
+  HostedZoneFeatures({
+    this.acceleratedRecoveryStatus,
+    this.failureReasons,
+  });
+  factory HostedZoneFeatures.fromXml(_s.XmlElement elem) {
+    return HostedZoneFeatures(
+      acceleratedRecoveryStatus: _s
+          .extractXmlStringValue(elem, 'AcceleratedRecoveryStatus')
+          ?.let(AcceleratedRecoveryStatus.fromString),
+      failureReasons: _s
+          .extractXmlChild(elem, 'FailureReasons')
+          ?.let(HostedZoneFailureReasons.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final acceleratedRecoveryStatus = this.acceleratedRecoveryStatus;
+    final failureReasons = this.failureReasons;
+    return {
+      if (acceleratedRecoveryStatus != null)
+        'AcceleratedRecoveryStatus': acceleratedRecoveryStatus.value,
+      if (failureReasons != null) 'FailureReasons': failureReasons,
+    };
+  }
+}
+
+class AcceleratedRecoveryStatus {
+  static const enabling = AcceleratedRecoveryStatus._('ENABLING');
+  static const enableFailed = AcceleratedRecoveryStatus._('ENABLE_FAILED');
+  static const enablingHostedZoneLocked =
+      AcceleratedRecoveryStatus._('ENABLING_HOSTED_ZONE_LOCKED');
+  static const enabled = AcceleratedRecoveryStatus._('ENABLED');
+  static const disabling = AcceleratedRecoveryStatus._('DISABLING');
+  static const disableFailed = AcceleratedRecoveryStatus._('DISABLE_FAILED');
+  static const disabled = AcceleratedRecoveryStatus._('DISABLED');
+  static const disablingHostedZoneLocked =
+      AcceleratedRecoveryStatus._('DISABLING_HOSTED_ZONE_LOCKED');
+
+  final String value;
+
+  const AcceleratedRecoveryStatus._(this.value);
+
+  static const values = [
+    enabling,
+    enableFailed,
+    enablingHostedZoneLocked,
+    enabled,
+    disabling,
+    disableFailed,
+    disabled,
+    disablingHostedZoneLocked
+  ];
+
+  static AcceleratedRecoveryStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AcceleratedRecoveryStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AcceleratedRecoveryStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about why certain features failed to be enabled or
+/// configured for the hosted zone.
+class HostedZoneFailureReasons {
+  /// The reason why accelerated recovery failed to be enabled or disabled for the
+  /// hosted zone, if applicable.
+  final String? acceleratedRecovery;
+
+  HostedZoneFailureReasons({
+    this.acceleratedRecovery,
+  });
+  factory HostedZoneFailureReasons.fromXml(_s.XmlElement elem) {
+    return HostedZoneFailureReasons(
+      acceleratedRecovery:
+          _s.extractXmlStringValue(elem, 'AcceleratedRecovery'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final acceleratedRecovery = this.acceleratedRecovery;
+    return {
+      if (acceleratedRecovery != null)
+        'AcceleratedRecovery': acceleratedRecovery,
     };
   }
 }
@@ -8345,7 +9093,7 @@ class HealthCheckConfig {
   /// or greater and less than 400.
   /// <important>
   /// If you specify <code>HTTPS</code> for the value of <code>Type</code>, the
-  /// endpoint must support TLS v1.0 or later.
+  /// endpoint must support TLS v1.0, v1.1, or v1.2.
   /// </important> </li>
   /// <li>
   /// <b>HTTP_STR_MATCH</b>: Route 53 tries to establish a TCP connection. If
@@ -8461,8 +9209,11 @@ class HealthCheckConfig {
   /// Amazon Route 53 Determines Whether an Endpoint Is Healthy</a> in the
   /// <i>Amazon Route 53 Developer Guide</i>.
   ///
-  /// If you don't specify a value for <code>FailureThreshold</code>, the default
-  /// value is three health checks.
+  /// <code>FailureThreshold</code> is not supported when you specify a value for
+  /// <code>Type</code> of <code>RECOVERY_CONTROL</code>.
+  ///
+  /// Otherwise, if you don't specify a value for <code>FailureThreshold</code>,
+  /// the default value is three health checks.
   final int? failureThreshold;
 
   /// Amazon Route 53 behavior depends on whether you specify a value for
@@ -8643,6 +9394,9 @@ class HealthCheckConfig {
   /// health checkers in multiple Amazon Web Services regions and your endpoint,
   /// and to display CloudWatch latency graphs on the <b>Health Checks</b> page in
   /// the Route 53 console.
+  ///
+  /// <code>MeasureLatency</code> is not supported when you specify a value for
+  /// <code>Type</code> of <code>RECOVERY_CONTROL</code>.
   /// <important>
   /// You can't change the value of <code>MeasureLatency</code> after you create a
   /// health check.
@@ -8675,6 +9429,9 @@ class HealthCheckConfig {
   /// The number of seconds between the time that Amazon Route 53 gets a response
   /// from your endpoint and the time that it sends the next health check request.
   /// Each Route 53 health checker makes requests at this interval.
+  ///
+  /// <code>RequestInterval</code> is not supported when you specify a value for
+  /// <code>Type</code> of <code>RECOVERY_CONTROL</code>.
   /// <important>
   /// You can't change the value of <code>RequestInterval</code> after you create
   /// a health check.
@@ -8687,7 +9444,7 @@ class HealthCheckConfig {
   /// health checks. The path can be any value for which your endpoint will return
   /// an HTTP status code of 2xx or 3xx when the endpoint is healthy, for example,
   /// the file /docs/route53-health-check.html. You can also include query string
-  /// parameters, for example, <code>/welcome.html?language=jp&amp;login=y</code>.
+  /// parameters, for example, <code>/welcome.html?language=jp&login=y</code>.
   final String? resourcePath;
 
   /// The Amazon Resource Name (ARN) for the Route 53 Application Recovery
@@ -8872,86 +9629,188 @@ class HealthCheckConfig {
   }
 }
 
-/// A complex type that contains the last failure reason as reported by one
-/// Amazon Route 53 health checker.
-class HealthCheckObservation {
-  /// The IP address of the Amazon Route 53 health checker that provided the
-  /// failure reason in <code>StatusReport</code>.
-  final String? iPAddress;
+/// A complex type that contains information about the CloudWatch alarm that
+/// Amazon Route 53 is monitoring for this health check.
+class CloudWatchAlarmConfiguration {
+  /// For the metric that the CloudWatch alarm is associated with, the arithmetic
+  /// operation that is used for the comparison.
+  final ComparisonOperator comparisonOperator;
 
-  /// The region of the Amazon Route 53 health checker that provided the status in
-  /// <code>StatusReport</code>.
-  final HealthCheckRegion? region;
+  /// For the metric that the CloudWatch alarm is associated with, the number of
+  /// periods that the metric is compared to the threshold.
+  final int evaluationPeriods;
 
-  /// A complex type that contains the last failure reason as reported by one
-  /// Amazon Route 53 health checker and the time of the failed health check.
-  final StatusReport? statusReport;
+  /// The name of the CloudWatch metric that the alarm is associated with.
+  final String metricName;
 
-  HealthCheckObservation({
-    this.iPAddress,
-    this.region,
-    this.statusReport,
+  /// The namespace of the metric that the alarm is associated with. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/CW_Support_For_AWS.html">Amazon
+  /// CloudWatch Namespaces, Dimensions, and Metrics Reference</a> in the
+  /// <i>Amazon CloudWatch User Guide</i>.
+  final String namespace;
+
+  /// For the metric that the CloudWatch alarm is associated with, the duration of
+  /// one evaluation period in seconds.
+  final int period;
+
+  /// For the metric that the CloudWatch alarm is associated with, the statistic
+  /// that is applied to the metric.
+  final Statistic statistic;
+
+  /// For the metric that the CloudWatch alarm is associated with, the value the
+  /// metric is compared with.
+  final double threshold;
+
+  /// For the metric that the CloudWatch alarm is associated with, a complex type
+  /// that contains information about the dimensions for the metric. For
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/CW_Support_For_AWS.html">Amazon
+  /// CloudWatch Namespaces, Dimensions, and Metrics Reference</a> in the
+  /// <i>Amazon CloudWatch User Guide</i>.
+  final List<Dimension>? dimensions;
+
+  CloudWatchAlarmConfiguration({
+    required this.comparisonOperator,
+    required this.evaluationPeriods,
+    required this.metricName,
+    required this.namespace,
+    required this.period,
+    required this.statistic,
+    required this.threshold,
+    this.dimensions,
   });
-  factory HealthCheckObservation.fromXml(_s.XmlElement elem) {
-    return HealthCheckObservation(
-      iPAddress: _s.extractXmlStringValue(elem, 'IPAddress'),
-      region: _s
-          .extractXmlStringValue(elem, 'Region')
-          ?.let(HealthCheckRegion.fromString),
-      statusReport:
-          _s.extractXmlChild(elem, 'StatusReport')?.let(StatusReport.fromXml),
+  factory CloudWatchAlarmConfiguration.fromXml(_s.XmlElement elem) {
+    return CloudWatchAlarmConfiguration(
+      comparisonOperator: _s
+          .extractXmlStringValue(elem, 'ComparisonOperator')!
+          .let(ComparisonOperator.fromString),
+      evaluationPeriods: _s.extractXmlIntValue(elem, 'EvaluationPeriods')!,
+      metricName: _s.extractXmlStringValue(elem, 'MetricName')!,
+      namespace: _s.extractXmlStringValue(elem, 'Namespace')!,
+      period: _s.extractXmlIntValue(elem, 'Period')!,
+      statistic: _s
+          .extractXmlStringValue(elem, 'Statistic')!
+          .let(Statistic.fromString),
+      threshold: _s.extractXmlDoubleValue(elem, 'Threshold')!,
+      dimensions: _s.extractXmlChild(elem, 'Dimensions')?.let((elem) =>
+          elem.findElements('Dimension').map(Dimension.fromXml).toList()),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final iPAddress = this.iPAddress;
-    final region = this.region;
-    final statusReport = this.statusReport;
+    final comparisonOperator = this.comparisonOperator;
+    final evaluationPeriods = this.evaluationPeriods;
+    final metricName = this.metricName;
+    final namespace = this.namespace;
+    final period = this.period;
+    final statistic = this.statistic;
+    final threshold = this.threshold;
+    final dimensions = this.dimensions;
     return {
-      if (iPAddress != null) 'IPAddress': iPAddress,
-      if (region != null) 'Region': region.value,
-      if (statusReport != null) 'StatusReport': statusReport,
+      'ComparisonOperator': comparisonOperator.value,
+      'EvaluationPeriods': evaluationPeriods,
+      'MetricName': metricName,
+      'Namespace': namespace,
+      'Period': period,
+      'Statistic': statistic.value,
+      'Threshold': threshold,
+      if (dimensions != null) 'Dimensions': dimensions,
     };
   }
 }
 
-class HealthCheckRegion {
-  static const usEast_1 = HealthCheckRegion._('us-east-1');
-  static const usWest_1 = HealthCheckRegion._('us-west-1');
-  static const usWest_2 = HealthCheckRegion._('us-west-2');
-  static const euWest_1 = HealthCheckRegion._('eu-west-1');
-  static const apSoutheast_1 = HealthCheckRegion._('ap-southeast-1');
-  static const apSoutheast_2 = HealthCheckRegion._('ap-southeast-2');
-  static const apNortheast_1 = HealthCheckRegion._('ap-northeast-1');
-  static const saEast_1 = HealthCheckRegion._('sa-east-1');
+class ComparisonOperator {
+  static const greaterThanOrEqualToThreshold =
+      ComparisonOperator._('GreaterThanOrEqualToThreshold');
+  static const greaterThanThreshold =
+      ComparisonOperator._('GreaterThanThreshold');
+  static const lessThanThreshold = ComparisonOperator._('LessThanThreshold');
+  static const lessThanOrEqualToThreshold =
+      ComparisonOperator._('LessThanOrEqualToThreshold');
 
   final String value;
 
-  const HealthCheckRegion._(this.value);
+  const ComparisonOperator._(this.value);
 
   static const values = [
-    usEast_1,
-    usWest_1,
-    usWest_2,
-    euWest_1,
-    apSoutheast_1,
-    apSoutheast_2,
-    apNortheast_1,
-    saEast_1
+    greaterThanOrEqualToThreshold,
+    greaterThanThreshold,
+    lessThanThreshold,
+    lessThanOrEqualToThreshold
   ];
 
-  static HealthCheckRegion fromString(String value) =>
+  static ComparisonOperator fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => HealthCheckRegion._(value));
+          orElse: () => ComparisonOperator._(value));
 
   @override
-  bool operator ==(other) => other is HealthCheckRegion && other.value == value;
+  bool operator ==(other) =>
+      other is ComparisonOperator && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
+}
+
+class Statistic {
+  static const average = Statistic._('Average');
+  static const sum = Statistic._('Sum');
+  static const sampleCount = Statistic._('SampleCount');
+  static const maximum = Statistic._('Maximum');
+  static const minimum = Statistic._('Minimum');
+
+  final String value;
+
+  const Statistic._(this.value);
+
+  static const values = [average, sum, sampleCount, maximum, minimum];
+
+  static Statistic fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Statistic._(value));
+
+  @override
+  bool operator ==(other) => other is Statistic && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// For the metric that the CloudWatch alarm is associated with, a complex type
+/// that contains information about one dimension.
+class Dimension {
+  /// For the metric that the CloudWatch alarm is associated with, the name of one
+  /// dimension.
+  final String name;
+
+  /// For the metric that the CloudWatch alarm is associated with, the value of
+  /// one dimension.
+  final String value;
+
+  Dimension({
+    required this.name,
+    required this.value,
+  });
+  factory Dimension.fromXml(_s.XmlElement elem) {
+    return Dimension(
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      value: _s.extractXmlStringValue(elem, 'Value')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name,
+      'Value': value,
+    };
+  }
 }
 
 class HealthCheckType {
@@ -8993,116 +9852,67 @@ class HealthCheckType {
   String toString() => value;
 }
 
-/// A complex type that contains general information about the hosted zone.
-class HostedZone {
-  /// The value that you specified for <code>CallerReference</code> when you
-  /// created the hosted zone.
-  final String callerReference;
-
-  /// The ID that Amazon Route 53 assigned to the hosted zone when you created it.
-  final String id;
-
-  /// The name of the domain. For public hosted zones, this is the name that you
-  /// have registered with your DNS registrar.
+/// A complex type that identifies the CloudWatch alarm that you want Amazon
+/// Route 53 health checkers to use to determine whether the specified health
+/// check is healthy.
+class AlarmIdentifier {
+  /// The name of the CloudWatch alarm that you want Amazon Route 53 health
+  /// checkers to use to determine whether this health check is healthy.
+  /// <note>
+  /// Route 53 supports CloudWatch alarms with the following features:
   ///
-  /// For information about how to specify characters other than <code>a-z</code>,
-  /// <code>0-9</code>, and <code>-</code> (hyphen) and how to specify
-  /// internationalized domain names, see <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateHostedZone.html">CreateHostedZone</a>.
+  /// <ul>
+  /// <li>
+  /// Standard-resolution metrics. High-resolution metrics aren't supported. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/publishingMetrics.html#high-resolution-metrics">High-Resolution
+  /// Metrics</a> in the <i>Amazon CloudWatch User Guide</i>.
+  /// </li>
+  /// <li>
+  /// Statistics: Average, Minimum, Maximum, Sum, and SampleCount. Extended
+  /// statistics aren't supported.
+  /// </li>
+  /// </ul> </note>
   final String name;
 
-  /// A complex type that includes the <code>Comment</code> and
-  /// <code>PrivateZone</code> elements. If you omitted the
-  /// <code>HostedZoneConfig</code> and <code>Comment</code> elements from the
-  /// request, the <code>Config</code> and <code>Comment</code> elements don't
-  /// appear in the response.
-  final HostedZoneConfig? config;
+  /// For the CloudWatch alarm that you want Route 53 health checkers to use to
+  /// determine whether this health check is healthy, the region that the alarm
+  /// was created in.
+  ///
+  /// For the current list of CloudWatch regions, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/cw_region.html">Amazon
+  /// CloudWatch endpoints and quotas</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
+  final CloudWatchRegion region;
 
-  /// If the hosted zone was created by another service, the service that created
-  /// the hosted zone. When a hosted zone is created by another service, you can't
-  /// edit or delete it using Route 53.
-  final LinkedService? linkedService;
-
-  /// The number of resource record sets in the hosted zone.
-  final int? resourceRecordSetCount;
-
-  HostedZone({
-    required this.callerReference,
-    required this.id,
+  AlarmIdentifier({
     required this.name,
-    this.config,
-    this.linkedService,
-    this.resourceRecordSetCount,
+    required this.region,
   });
-  factory HostedZone.fromXml(_s.XmlElement elem) {
-    return HostedZone(
-      callerReference: _s.extractXmlStringValue(elem, 'CallerReference')!,
-      id: _s.extractXmlStringValue(elem, 'Id')!,
+  factory AlarmIdentifier.fromXml(_s.XmlElement elem) {
+    return AlarmIdentifier(
       name: _s.extractXmlStringValue(elem, 'Name')!,
-      config: _s.extractXmlChild(elem, 'Config')?.let(HostedZoneConfig.fromXml),
-      linkedService:
-          _s.extractXmlChild(elem, 'LinkedService')?.let(LinkedService.fromXml),
-      resourceRecordSetCount:
-          _s.extractXmlIntValue(elem, 'ResourceRecordSetCount'),
+      region: _s
+          .extractXmlStringValue(elem, 'Region')!
+          .let(CloudWatchRegion.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final callerReference = this.callerReference;
-    final id = this.id;
     final name = this.name;
-    final config = this.config;
-    final linkedService = this.linkedService;
-    final resourceRecordSetCount = this.resourceRecordSetCount;
+    final region = this.region;
     return {
-      'CallerReference': callerReference,
-      'Id': id,
       'Name': name,
-      if (config != null) 'Config': config,
-      if (linkedService != null) 'LinkedService': linkedService,
-      if (resourceRecordSetCount != null)
-        'ResourceRecordSetCount': resourceRecordSetCount,
-    };
-  }
-}
-
-/// A complex type that contains an optional comment about your hosted zone. If
-/// you don't want to specify a comment, omit both the
-/// <code>HostedZoneConfig</code> and <code>Comment</code> elements.
-class HostedZoneConfig {
-  /// Any comments that you want to include about the hosted zone.
-  final String? comment;
-
-  /// A value that indicates whether this is a private hosted zone.
-  final bool? privateZone;
-
-  HostedZoneConfig({
-    this.comment,
-    this.privateZone,
-  });
-  factory HostedZoneConfig.fromXml(_s.XmlElement elem) {
-    return HostedZoneConfig(
-      comment: _s.extractXmlStringValue(elem, 'Comment'),
-      privateZone: _s.extractXmlBoolValue(elem, 'PrivateZone'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final comment = this.comment;
-    final privateZone = this.privateZone;
-    return {
-      if (comment != null) 'Comment': comment,
-      if (privateZone != null) 'PrivateZone': privateZone,
+      'Region': region.value,
     };
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final comment = this.comment;
-    final privateZone = this.privateZone;
+    final name = this.name;
+    final region = this.region;
     final $children = <_s.XmlNode>[
-      if (comment != null) _s.encodeXmlStringValue('Comment', comment),
-      if (privateZone != null)
-        _s.encodeXmlBoolValue('PrivateZone', privateZone),
+      _s.encodeXmlStringValue('Region', region.value),
+      _s.encodeXmlStringValue('Name', name),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -9113,184 +9923,6 @@ class HostedZoneConfig {
       $children,
     );
   }
-}
-
-/// A complex type that contains the type of limit that you specified in the
-/// request and the current value for that limit.
-class HostedZoneLimit {
-  /// The limit that you requested. Valid values include the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>MAX_RRSETS_BY_ZONE</b>: The maximum number of records that you can create
-  /// in the specified hosted zone.
-  /// </li>
-  /// <li>
-  /// <b>MAX_VPCS_ASSOCIATED_BY_ZONE</b>: The maximum number of Amazon VPCs that
-  /// you can associate with the specified private hosted zone.
-  /// </li>
-  /// </ul>
-  final HostedZoneLimitType type;
-
-  /// The current value for the limit that is specified by <code>Type</code>.
-  final int value;
-
-  HostedZoneLimit({
-    required this.type,
-    required this.value,
-  });
-  factory HostedZoneLimit.fromXml(_s.XmlElement elem) {
-    return HostedZoneLimit(
-      type: _s
-          .extractXmlStringValue(elem, 'Type')!
-          .let(HostedZoneLimitType.fromString),
-      value: _s.extractXmlIntValue(elem, 'Value')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final type = this.type;
-    final value = this.value;
-    return {
-      'Type': type.value,
-      'Value': value,
-    };
-  }
-}
-
-class HostedZoneLimitType {
-  static const maxRrsetsByZone = HostedZoneLimitType._('MAX_RRSETS_BY_ZONE');
-  static const maxVpcsAssociatedByZone =
-      HostedZoneLimitType._('MAX_VPCS_ASSOCIATED_BY_ZONE');
-
-  final String value;
-
-  const HostedZoneLimitType._(this.value);
-
-  static const values = [maxRrsetsByZone, maxVpcsAssociatedByZone];
-
-  static HostedZoneLimitType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => HostedZoneLimitType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is HostedZoneLimitType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A complex type that identifies a hosted zone that a specified Amazon VPC is
-/// associated with and the owner of the hosted zone. If there is a value for
-/// <code>OwningAccount</code>, there is no value for
-/// <code>OwningService</code>, and vice versa.
-class HostedZoneOwner {
-  /// If the hosted zone was created by an Amazon Web Services account, or was
-  /// created by an Amazon Web Services service that creates hosted zones using
-  /// the current account, <code>OwningAccount</code> contains the account ID of
-  /// that account. For example, when you use Cloud Map to create a hosted zone,
-  /// Cloud Map creates the hosted zone using the current Amazon Web Services
-  /// account.
-  final String? owningAccount;
-
-  /// If an Amazon Web Services service uses its own account to create a hosted
-  /// zone and associate the specified VPC with that hosted zone,
-  /// <code>OwningService</code> contains an abbreviation that identifies the
-  /// service. For example, if Amazon Elastic File System (Amazon EFS) created a
-  /// hosted zone and associated a VPC with the hosted zone, the value of
-  /// <code>OwningService</code> is <code>efs.amazonaws.com</code>.
-  final String? owningService;
-
-  HostedZoneOwner({
-    this.owningAccount,
-    this.owningService,
-  });
-  factory HostedZoneOwner.fromXml(_s.XmlElement elem) {
-    return HostedZoneOwner(
-      owningAccount: _s.extractXmlStringValue(elem, 'OwningAccount'),
-      owningService: _s.extractXmlStringValue(elem, 'OwningService'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final owningAccount = this.owningAccount;
-    final owningService = this.owningService;
-    return {
-      if (owningAccount != null) 'OwningAccount': owningAccount,
-      if (owningService != null) 'OwningService': owningService,
-    };
-  }
-}
-
-/// In the response to a <code>ListHostedZonesByVPC</code> request, the
-/// <code>HostedZoneSummaries</code> element contains one
-/// <code>HostedZoneSummary</code> element for each hosted zone that the
-/// specified Amazon VPC is associated with. Each <code>HostedZoneSummary</code>
-/// element contains the hosted zone name and ID, and information about who owns
-/// the hosted zone.
-class HostedZoneSummary {
-  /// The Route 53 hosted zone ID of a private hosted zone that the specified VPC
-  /// is associated with.
-  final String hostedZoneId;
-
-  /// The name of the private hosted zone, such as <code>example.com</code>.
-  final String name;
-
-  /// The owner of a private hosted zone that the specified VPC is associated
-  /// with. The owner can be either an Amazon Web Services account or an Amazon
-  /// Web Services service.
-  final HostedZoneOwner owner;
-
-  HostedZoneSummary({
-    required this.hostedZoneId,
-    required this.name,
-    required this.owner,
-  });
-  factory HostedZoneSummary.fromXml(_s.XmlElement elem) {
-    return HostedZoneSummary(
-      hostedZoneId: _s.extractXmlStringValue(elem, 'HostedZoneId')!,
-      name: _s.extractXmlStringValue(elem, 'Name')!,
-      owner: HostedZoneOwner.fromXml(_s.extractXmlChild(elem, 'Owner')!),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hostedZoneId = this.hostedZoneId;
-    final name = this.name;
-    final owner = this.owner;
-    return {
-      'HostedZoneId': hostedZoneId,
-      'Name': name,
-      'Owner': owner,
-    };
-  }
-}
-
-class HostedZoneType {
-  static const privateHostedZone = HostedZoneType._('PrivateHostedZone');
-
-  final String value;
-
-  const HostedZoneType._(this.value);
-
-  static const values = [privateHostedZone];
-
-  static HostedZoneType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => HostedZoneType._(value));
-
-  @override
-  bool operator ==(other) => other is HostedZoneType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class InsufficientDataHealthStatus {
@@ -9320,1517 +9952,152 @@ class InsufficientDataHealthStatus {
   String toString() => value;
 }
 
-/// A key-signing key (KSK) is a complex type that represents a public/private
-/// key pair. The private key is used to generate a digital signature for the
-/// zone signing key (ZSK). The public key is stored in the DNS and is used to
-/// authenticate the ZSK. A KSK is always associated with a hosted zone; it
-/// cannot exist by itself.
-class KeySigningKey {
-  /// The date when the key-signing key (KSK) was created.
-  final DateTime? createdDate;
-
-  /// A string that represents a DNSKEY record.
-  final String? dNSKEYRecord;
-
-  /// A string that represents a delegation signer (DS) record.
-  final String? dSRecord;
-
-  /// A string used to represent the delegation signer digest algorithm. This
-  /// value must follow the guidelines provided by <a
-  /// href="https://tools.ietf.org/html/rfc8624#section-3.3">RFC-8624 Section
-  /// 3.3</a>.
-  final String? digestAlgorithmMnemonic;
-
-  /// An integer used to represent the delegation signer digest algorithm. This
-  /// value must follow the guidelines provided by <a
-  /// href="https://tools.ietf.org/html/rfc8624#section-3.3">RFC-8624 Section
-  /// 3.3</a>.
-  final int? digestAlgorithmType;
-
-  /// A cryptographic digest of a DNSKEY resource record (RR). DNSKEY records are
-  /// used to publish the public key that resolvers can use to verify DNSSEC
-  /// signatures that are used to secure certain kinds of information provided by
-  /// the DNS system.
-  final String? digestValue;
-
-  /// An integer that specifies how the key is used. For key-signing key (KSK),
-  /// this value is always 257.
-  final int? flag;
-
-  /// An integer used to identify the DNSSEC record for the domain name. The
-  /// process used to calculate the value is described in <a
-  /// href="https://tools.ietf.org/rfc/rfc4034.txt">RFC-4034 Appendix B</a>.
-  final int? keyTag;
-
-  /// The Amazon resource name (ARN) used to identify the customer managed key in
-  /// Key Management Service (KMS). The <code>KmsArn</code> must be unique for
-  /// each key-signing key (KSK) in a single hosted zone.
-  ///
-  /// You must configure the customer managed key as follows:
-  /// <dl> <dt>Status</dt> <dd>
-  /// Enabled
-  /// </dd> <dt>Key spec</dt> <dd>
-  /// ECC_NIST_P256
-  /// </dd> <dt>Key usage</dt> <dd>
-  /// Sign and verify
-  /// </dd> <dt>Key policy</dt> <dd>
-  /// The key policy must give permission for the following actions:
-  ///
-  /// <ul>
-  /// <li>
-  /// DescribeKey
-  /// </li>
-  /// <li>
-  /// GetPublicKey
-  /// </li>
-  /// <li>
-  /// Sign
-  /// </li>
-  /// </ul>
-  /// The key policy must also include the Amazon Route 53 service in the
-  /// principal for your account. Specify the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>"Service": "dnssec-route53.amazonaws.com"</code>
-  /// </li>
-  /// </ul> </dd> </dl>
-  /// For more information about working with the customer managed key in KMS, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html">Key
-  /// Management Service concepts</a>.
-  final String? kmsArn;
-
-  /// The last time that the key-signing key (KSK) was changed.
-  final DateTime? lastModifiedDate;
-
-  /// A string used to identify a key-signing key (KSK). <code>Name</code> can
-  /// include numbers, letters, and underscores (_). <code>Name</code> must be
-  /// unique for each key-signing key in the same hosted zone.
-  final String? name;
-
-  /// The public key, represented as a Base64 encoding, as required by <a
-  /// href="https://tools.ietf.org/rfc/rfc4034.txt"> RFC-4034 Page 5</a>.
-  final String? publicKey;
-
-  /// A string used to represent the signing algorithm. This value must follow the
-  /// guidelines provided by <a
-  /// href="https://tools.ietf.org/html/rfc8624#section-3.1">RFC-8624 Section
-  /// 3.1</a>.
-  final String? signingAlgorithmMnemonic;
-
-  /// An integer used to represent the signing algorithm. This value must follow
-  /// the guidelines provided by <a
-  /// href="https://tools.ietf.org/html/rfc8624#section-3.1">RFC-8624 Section
-  /// 3.1</a>.
-  final int? signingAlgorithmType;
-
-  /// A string that represents the current key-signing key (KSK) status.
-  ///
-  /// Status can have one of the following values:
-  /// <dl> <dt>ACTIVE</dt> <dd>
-  /// The KSK is being used for signing.
-  /// </dd> <dt>INACTIVE</dt> <dd>
-  /// The KSK is not being used for signing.
-  /// </dd> <dt>DELETING</dt> <dd>
-  /// The KSK is in the process of being deleted.
-  /// </dd> <dt>ACTION_NEEDED</dt> <dd>
-  /// There is a problem with the KSK that requires you to take action to resolve.
-  /// For example, the customer managed key might have been deleted, or the
-  /// permissions for the customer managed key might have been changed.
-  /// </dd> <dt>INTERNAL_FAILURE</dt> <dd>
-  /// There was an error during a request. Before you can continue to work with
-  /// DNSSEC signing, including actions that involve this KSK, you must correct
-  /// the problem. For example, you may need to activate or deactivate the KSK.
-  /// </dd> </dl>
-  final String? status;
-
-  /// The status message provided for the following key-signing key (KSK)
-  /// statuses: <code>ACTION_NEEDED</code> or <code>INTERNAL_FAILURE</code>. The
-  /// status message includes information about what the problem might be and
-  /// steps that you can take to correct the issue.
-  final String? statusMessage;
-
-  KeySigningKey({
-    this.createdDate,
-    this.dNSKEYRecord,
-    this.dSRecord,
-    this.digestAlgorithmMnemonic,
-    this.digestAlgorithmType,
-    this.digestValue,
-    this.flag,
-    this.keyTag,
-    this.kmsArn,
-    this.lastModifiedDate,
-    this.name,
-    this.publicKey,
-    this.signingAlgorithmMnemonic,
-    this.signingAlgorithmType,
-    this.status,
-    this.statusMessage,
-  });
-  factory KeySigningKey.fromXml(_s.XmlElement elem) {
-    return KeySigningKey(
-      createdDate: _s.extractXmlDateTimeValue(elem, 'CreatedDate'),
-      dNSKEYRecord: _s.extractXmlStringValue(elem, 'DNSKEYRecord'),
-      dSRecord: _s.extractXmlStringValue(elem, 'DSRecord'),
-      digestAlgorithmMnemonic:
-          _s.extractXmlStringValue(elem, 'DigestAlgorithmMnemonic'),
-      digestAlgorithmType: _s.extractXmlIntValue(elem, 'DigestAlgorithmType'),
-      digestValue: _s.extractXmlStringValue(elem, 'DigestValue'),
-      flag: _s.extractXmlIntValue(elem, 'Flag'),
-      keyTag: _s.extractXmlIntValue(elem, 'KeyTag'),
-      kmsArn: _s.extractXmlStringValue(elem, 'KmsArn'),
-      lastModifiedDate: _s.extractXmlDateTimeValue(elem, 'LastModifiedDate'),
-      name: _s.extractXmlStringValue(elem, 'Name'),
-      publicKey: _s.extractXmlStringValue(elem, 'PublicKey'),
-      signingAlgorithmMnemonic:
-          _s.extractXmlStringValue(elem, 'SigningAlgorithmMnemonic'),
-      signingAlgorithmType: _s.extractXmlIntValue(elem, 'SigningAlgorithmType'),
-      status: _s.extractXmlStringValue(elem, 'Status'),
-      statusMessage: _s.extractXmlStringValue(elem, 'StatusMessage'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdDate = this.createdDate;
-    final dNSKEYRecord = this.dNSKEYRecord;
-    final dSRecord = this.dSRecord;
-    final digestAlgorithmMnemonic = this.digestAlgorithmMnemonic;
-    final digestAlgorithmType = this.digestAlgorithmType;
-    final digestValue = this.digestValue;
-    final flag = this.flag;
-    final keyTag = this.keyTag;
-    final kmsArn = this.kmsArn;
-    final lastModifiedDate = this.lastModifiedDate;
-    final name = this.name;
-    final publicKey = this.publicKey;
-    final signingAlgorithmMnemonic = this.signingAlgorithmMnemonic;
-    final signingAlgorithmType = this.signingAlgorithmType;
-    final status = this.status;
-    final statusMessage = this.statusMessage;
-    return {
-      if (createdDate != null) 'CreatedDate': iso8601ToJson(createdDate),
-      if (dNSKEYRecord != null) 'DNSKEYRecord': dNSKEYRecord,
-      if (dSRecord != null) 'DSRecord': dSRecord,
-      if (digestAlgorithmMnemonic != null)
-        'DigestAlgorithmMnemonic': digestAlgorithmMnemonic,
-      if (digestAlgorithmType != null)
-        'DigestAlgorithmType': digestAlgorithmType,
-      if (digestValue != null) 'DigestValue': digestValue,
-      if (flag != null) 'Flag': flag,
-      if (keyTag != null) 'KeyTag': keyTag,
-      if (kmsArn != null) 'KmsArn': kmsArn,
-      if (lastModifiedDate != null)
-        'LastModifiedDate': iso8601ToJson(lastModifiedDate),
-      if (name != null) 'Name': name,
-      if (publicKey != null) 'PublicKey': publicKey,
-      if (signingAlgorithmMnemonic != null)
-        'SigningAlgorithmMnemonic': signingAlgorithmMnemonic,
-      if (signingAlgorithmType != null)
-        'SigningAlgorithmType': signingAlgorithmType,
-      if (status != null) 'Status': status,
-      if (statusMessage != null) 'StatusMessage': statusMessage,
-    };
-  }
-}
-
-/// If a health check or hosted zone was created by another service,
-/// <code>LinkedService</code> is a complex type that describes the service that
-/// created the resource. When a resource is created by another service, you
-/// can't edit or delete it using Amazon Route 53.
-class LinkedService {
-  /// If the health check or hosted zone was created by another service, an
-  /// optional description that can be provided by the other service. When a
-  /// resource is created by another service, you can't edit or delete it using
-  /// Amazon Route 53.
-  final String? description;
-
-  /// If the health check or hosted zone was created by another service, the
-  /// service that created the resource. When a resource is created by another
-  /// service, you can't edit or delete it using Amazon Route 53.
-  final String? servicePrincipal;
-
-  LinkedService({
-    this.description,
-    this.servicePrincipal,
-  });
-  factory LinkedService.fromXml(_s.XmlElement elem) {
-    return LinkedService(
-      description: _s.extractXmlStringValue(elem, 'Description'),
-      servicePrincipal: _s.extractXmlStringValue(elem, 'ServicePrincipal'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final servicePrincipal = this.servicePrincipal;
-    return {
-      if (description != null) 'Description': description,
-      if (servicePrincipal != null) 'ServicePrincipal': servicePrincipal,
-    };
-  }
-}
-
-class ListCidrBlocksResponse {
-  /// A complex type that contains information about the CIDR blocks.
-  final List<CidrBlockSummary>? cidrBlocks;
-
-  /// An opaque pagination token to indicate where the service is to begin
-  /// enumerating results.
-  ///
-  /// If no value is provided, the listing of results starts from the beginning.
-  final String? nextToken;
-
-  ListCidrBlocksResponse({
-    this.cidrBlocks,
-    this.nextToken,
-  });
-  factory ListCidrBlocksResponse.fromXml(_s.XmlElement elem) {
-    return ListCidrBlocksResponse(
-      cidrBlocks: _s.extractXmlChild(elem, 'CidrBlocks')?.let((elem) =>
-          elem.findElements('member').map(CidrBlockSummary.fromXml).toList()),
-      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cidrBlocks = this.cidrBlocks;
-    final nextToken = this.nextToken;
-    return {
-      if (cidrBlocks != null) 'CidrBlocks': cidrBlocks,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListCidrCollectionsResponse {
-  /// A complex type with information about the CIDR collection.
-  final List<CollectionSummary>? cidrCollections;
-
-  /// An opaque pagination token to indicate where the service is to begin
-  /// enumerating results.
-  ///
-  /// If no value is provided, the listing of results starts from the beginning.
-  final String? nextToken;
-
-  ListCidrCollectionsResponse({
-    this.cidrCollections,
-    this.nextToken,
-  });
-  factory ListCidrCollectionsResponse.fromXml(_s.XmlElement elem) {
-    return ListCidrCollectionsResponse(
-      cidrCollections: _s.extractXmlChild(elem, 'CidrCollections')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map(CollectionSummary.fromXml)
-              .toList()),
-      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cidrCollections = this.cidrCollections;
-    final nextToken = this.nextToken;
-    return {
-      if (cidrCollections != null) 'CidrCollections': cidrCollections,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListCidrLocationsResponse {
-  /// A complex type that contains information about the list of CIDR locations.
-  final List<LocationSummary>? cidrLocations;
-
-  /// An opaque pagination token to indicate where the service is to begin
-  /// enumerating results.
-  ///
-  /// If no value is provided, the listing of results starts from the beginning.
-  final String? nextToken;
-
-  ListCidrLocationsResponse({
-    this.cidrLocations,
-    this.nextToken,
-  });
-  factory ListCidrLocationsResponse.fromXml(_s.XmlElement elem) {
-    return ListCidrLocationsResponse(
-      cidrLocations: _s.extractXmlChild(elem, 'CidrLocations')?.let((elem) =>
-          elem.findElements('member').map(LocationSummary.fromXml).toList()),
-      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cidrLocations = this.cidrLocations;
-    final nextToken = this.nextToken;
-    return {
-      if (cidrLocations != null) 'CidrLocations': cidrLocations,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-/// A complex type containing the response information for the request.
-class ListGeoLocationsResponse {
-  /// A complex type that contains one <code>GeoLocationDetails</code> element for
-  /// each location that Amazon Route 53 supports for geolocation.
-  final List<GeoLocationDetails> geoLocationDetailsList;
-
-  /// A value that indicates whether more locations remain to be listed after the
-  /// last location in this response. If so, the value of <code>IsTruncated</code>
-  /// is <code>true</code>. To get more values, submit another request and include
-  /// the values of <code>NextContinentCode</code>, <code>NextCountryCode</code>,
-  /// and <code>NextSubdivisionCode</code> in the <code>startcontinentcode</code>,
-  /// <code>startcountrycode</code>, and <code>startsubdivisioncode</code>, as
-  /// applicable.
-  final bool isTruncated;
-
-  /// The value that you specified for <code>MaxItems</code> in the request.
-  final String maxItems;
-
-  /// If <code>IsTruncated</code> is <code>true</code>, you can make a follow-up
-  /// request to display more locations. Enter the value of
-  /// <code>NextContinentCode</code> in the <code>startcontinentcode</code>
-  /// parameter in another <code>ListGeoLocations</code> request.
-  final String? nextContinentCode;
-
-  /// If <code>IsTruncated</code> is <code>true</code>, you can make a follow-up
-  /// request to display more locations. Enter the value of
-  /// <code>NextCountryCode</code> in the <code>startcountrycode</code> parameter
-  /// in another <code>ListGeoLocations</code> request.
-  final String? nextCountryCode;
-
-  /// If <code>IsTruncated</code> is <code>true</code>, you can make a follow-up
-  /// request to display more locations. Enter the value of
-  /// <code>NextSubdivisionCode</code> in the <code>startsubdivisioncode</code>
-  /// parameter in another <code>ListGeoLocations</code> request.
-  final String? nextSubdivisionCode;
-
-  ListGeoLocationsResponse({
-    required this.geoLocationDetailsList,
-    required this.isTruncated,
-    required this.maxItems,
-    this.nextContinentCode,
-    this.nextCountryCode,
-    this.nextSubdivisionCode,
-  });
-  factory ListGeoLocationsResponse.fromXml(_s.XmlElement elem) {
-    return ListGeoLocationsResponse(
-      geoLocationDetailsList: _s
-          .extractXmlChild(elem, 'GeoLocationDetailsList')!
-          .findElements('GeoLocationDetails')
-          .map(GeoLocationDetails.fromXml)
-          .toList(),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
-      maxItems: _s.extractXmlStringValue(elem, 'MaxItems')!,
-      nextContinentCode: _s.extractXmlStringValue(elem, 'NextContinentCode'),
-      nextCountryCode: _s.extractXmlStringValue(elem, 'NextCountryCode'),
-      nextSubdivisionCode:
-          _s.extractXmlStringValue(elem, 'NextSubdivisionCode'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final geoLocationDetailsList = this.geoLocationDetailsList;
-    final isTruncated = this.isTruncated;
-    final maxItems = this.maxItems;
-    final nextContinentCode = this.nextContinentCode;
-    final nextCountryCode = this.nextCountryCode;
-    final nextSubdivisionCode = this.nextSubdivisionCode;
-    return {
-      'GeoLocationDetailsList': geoLocationDetailsList,
-      'IsTruncated': isTruncated,
-      'MaxItems': maxItems,
-      if (nextContinentCode != null) 'NextContinentCode': nextContinentCode,
-      if (nextCountryCode != null) 'NextCountryCode': nextCountryCode,
-      if (nextSubdivisionCode != null)
-        'NextSubdivisionCode': nextSubdivisionCode,
-    };
-  }
-}
-
-/// A complex type that contains the response to a <code>ListHealthChecks</code>
-/// request.
-class ListHealthChecksResponse {
-  /// A complex type that contains one <code>HealthCheck</code> element for each
-  /// health check that is associated with the current Amazon Web Services
-  /// account.
-  final List<HealthCheck> healthChecks;
-
-  /// A flag that indicates whether there are more health checks to be listed. If
-  /// the response was truncated, you can get the next group of health checks by
-  /// submitting another <code>ListHealthChecks</code> request and specifying the
-  /// value of <code>NextMarker</code> in the <code>marker</code> parameter.
-  final bool isTruncated;
-
-  /// For the second and subsequent calls to <code>ListHealthChecks</code>,
-  /// <code>Marker</code> is the value that you specified for the
-  /// <code>marker</code> parameter in the previous request.
-  final String marker;
-
-  /// The value that you specified for the <code>maxitems</code> parameter in the
-  /// call to <code>ListHealthChecks</code> that produced the current response.
-  final String maxItems;
-
-  /// If <code>IsTruncated</code> is <code>true</code>, the value of
-  /// <code>NextMarker</code> identifies the first health check that Amazon Route
-  /// 53 returns if you submit another <code>ListHealthChecks</code> request and
-  /// specify the value of <code>NextMarker</code> in the <code>marker</code>
-  /// parameter.
-  final String? nextMarker;
-
-  ListHealthChecksResponse({
-    required this.healthChecks,
-    required this.isTruncated,
-    required this.marker,
-    required this.maxItems,
-    this.nextMarker,
-  });
-  factory ListHealthChecksResponse.fromXml(_s.XmlElement elem) {
-    return ListHealthChecksResponse(
-      healthChecks: _s
-          .extractXmlChild(elem, 'HealthChecks')!
-          .findElements('HealthCheck')
-          .map(HealthCheck.fromXml)
-          .toList(),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
-      marker: _s.extractXmlStringValue(elem, 'Marker')!,
-      maxItems: _s.extractXmlStringValue(elem, 'MaxItems')!,
-      nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final healthChecks = this.healthChecks;
-    final isTruncated = this.isTruncated;
-    final marker = this.marker;
-    final maxItems = this.maxItems;
-    final nextMarker = this.nextMarker;
-    return {
-      'HealthChecks': healthChecks,
-      'IsTruncated': isTruncated,
-      'Marker': marker,
-      'MaxItems': maxItems,
-      if (nextMarker != null) 'NextMarker': nextMarker,
-    };
-  }
-}
-
-/// A complex type that contains the response information for the request.
-class ListHostedZonesByNameResponse {
-  /// A complex type that contains general information about the hosted zone.
-  final List<HostedZone> hostedZones;
-
-  /// A flag that indicates whether there are more hosted zones to be listed. If
-  /// the response was truncated, you can get the next group of
-  /// <code>maxitems</code> hosted zones by calling
-  /// <code>ListHostedZonesByName</code> again and specifying the values of
-  /// <code>NextDNSName</code> and <code>NextHostedZoneId</code> elements in the
-  /// <code>dnsname</code> and <code>hostedzoneid</code> parameters.
-  final bool isTruncated;
-
-  /// The value that you specified for the <code>maxitems</code> parameter in the
-  /// call to <code>ListHostedZonesByName</code> that produced the current
-  /// response.
-  final String maxItems;
-
-  /// For the second and subsequent calls to <code>ListHostedZonesByName</code>,
-  /// <code>DNSName</code> is the value that you specified for the
-  /// <code>dnsname</code> parameter in the request that produced the current
-  /// response.
-  final String? dNSName;
-
-  /// The ID that Amazon Route 53 assigned to the hosted zone when you created it.
-  final String? hostedZoneId;
-
-  /// If <code>IsTruncated</code> is true, the value of <code>NextDNSName</code>
-  /// is the name of the first hosted zone in the next group of
-  /// <code>maxitems</code> hosted zones. Call <code>ListHostedZonesByName</code>
-  /// again and specify the value of <code>NextDNSName</code> and
-  /// <code>NextHostedZoneId</code> in the <code>dnsname</code> and
-  /// <code>hostedzoneid</code> parameters, respectively.
-  ///
-  /// This element is present only if <code>IsTruncated</code> is
-  /// <code>true</code>.
-  final String? nextDNSName;
-
-  /// If <code>IsTruncated</code> is <code>true</code>, the value of
-  /// <code>NextHostedZoneId</code> identifies the first hosted zone in the next
-  /// group of <code>maxitems</code> hosted zones. Call
-  /// <code>ListHostedZonesByName</code> again and specify the value of
-  /// <code>NextDNSName</code> and <code>NextHostedZoneId</code> in the
-  /// <code>dnsname</code> and <code>hostedzoneid</code> parameters, respectively.
-  ///
-  /// This element is present only if <code>IsTruncated</code> is
-  /// <code>true</code>.
-  final String? nextHostedZoneId;
-
-  ListHostedZonesByNameResponse({
-    required this.hostedZones,
-    required this.isTruncated,
-    required this.maxItems,
-    this.dNSName,
-    this.hostedZoneId,
-    this.nextDNSName,
-    this.nextHostedZoneId,
-  });
-  factory ListHostedZonesByNameResponse.fromXml(_s.XmlElement elem) {
-    return ListHostedZonesByNameResponse(
-      hostedZones: _s
-          .extractXmlChild(elem, 'HostedZones')!
-          .findElements('HostedZone')
-          .map(HostedZone.fromXml)
-          .toList(),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
-      maxItems: _s.extractXmlStringValue(elem, 'MaxItems')!,
-      dNSName: _s.extractXmlStringValue(elem, 'DNSName'),
-      hostedZoneId: _s.extractXmlStringValue(elem, 'HostedZoneId'),
-      nextDNSName: _s.extractXmlStringValue(elem, 'NextDNSName'),
-      nextHostedZoneId: _s.extractXmlStringValue(elem, 'NextHostedZoneId'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hostedZones = this.hostedZones;
-    final isTruncated = this.isTruncated;
-    final maxItems = this.maxItems;
-    final dNSName = this.dNSName;
-    final hostedZoneId = this.hostedZoneId;
-    final nextDNSName = this.nextDNSName;
-    final nextHostedZoneId = this.nextHostedZoneId;
-    return {
-      'HostedZones': hostedZones,
-      'IsTruncated': isTruncated,
-      'MaxItems': maxItems,
-      if (dNSName != null) 'DNSName': dNSName,
-      if (hostedZoneId != null) 'HostedZoneId': hostedZoneId,
-      if (nextDNSName != null) 'NextDNSName': nextDNSName,
-      if (nextHostedZoneId != null) 'NextHostedZoneId': nextHostedZoneId,
-    };
-  }
-}
-
-class ListHostedZonesByVPCResponse {
-  /// A list that contains one <code>HostedZoneSummary</code> element for each
-  /// hosted zone that the specified Amazon VPC is associated with. Each
-  /// <code>HostedZoneSummary</code> element contains the hosted zone name and ID,
-  /// and information about who owns the hosted zone.
-  final List<HostedZoneSummary> hostedZoneSummaries;
-
-  /// The value that you specified for <code>MaxItems</code> in the most recent
-  /// <code>ListHostedZonesByVPC</code> request.
-  final String maxItems;
-
-  /// The value that you will use for <code>NextToken</code> in the next
-  /// <code>ListHostedZonesByVPC</code> request.
-  final String? nextToken;
-
-  ListHostedZonesByVPCResponse({
-    required this.hostedZoneSummaries,
-    required this.maxItems,
-    this.nextToken,
-  });
-  factory ListHostedZonesByVPCResponse.fromXml(_s.XmlElement elem) {
-    return ListHostedZonesByVPCResponse(
-      hostedZoneSummaries: _s
-          .extractXmlChild(elem, 'HostedZoneSummaries')!
-          .findElements('HostedZoneSummary')
-          .map(HostedZoneSummary.fromXml)
-          .toList(),
-      maxItems: _s.extractXmlStringValue(elem, 'MaxItems')!,
-      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hostedZoneSummaries = this.hostedZoneSummaries;
-    final maxItems = this.maxItems;
-    final nextToken = this.nextToken;
-    return {
-      'HostedZoneSummaries': hostedZoneSummaries,
-      'MaxItems': maxItems,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListHostedZonesResponse {
-  /// A complex type that contains general information about the hosted zone.
-  final List<HostedZone> hostedZones;
-
-  /// A flag indicating whether there are more hosted zones to be listed. If the
-  /// response was truncated, you can get more hosted zones by submitting another
-  /// <code>ListHostedZones</code> request and specifying the value of
-  /// <code>NextMarker</code> in the <code>marker</code> parameter.
-  final bool isTruncated;
-
-  /// For the second and subsequent calls to <code>ListHostedZones</code>,
-  /// <code>Marker</code> is the value that you specified for the
-  /// <code>marker</code> parameter in the request that produced the current
-  /// response.
-  final String marker;
-
-  /// The value that you specified for the <code>maxitems</code> parameter in the
-  /// call to <code>ListHostedZones</code> that produced the current response.
-  final String maxItems;
-
-  /// If <code>IsTruncated</code> is <code>true</code>, the value of
-  /// <code>NextMarker</code> identifies the first hosted zone in the next group
-  /// of hosted zones. Submit another <code>ListHostedZones</code> request, and
-  /// specify the value of <code>NextMarker</code> from the response in the
-  /// <code>marker</code> parameter.
-  ///
-  /// This element is present only if <code>IsTruncated</code> is
-  /// <code>true</code>.
-  final String? nextMarker;
-
-  ListHostedZonesResponse({
-    required this.hostedZones,
-    required this.isTruncated,
-    required this.marker,
-    required this.maxItems,
-    this.nextMarker,
-  });
-  factory ListHostedZonesResponse.fromXml(_s.XmlElement elem) {
-    return ListHostedZonesResponse(
-      hostedZones: _s
-          .extractXmlChild(elem, 'HostedZones')!
-          .findElements('HostedZone')
-          .map(HostedZone.fromXml)
-          .toList(),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
-      marker: _s.extractXmlStringValue(elem, 'Marker')!,
-      maxItems: _s.extractXmlStringValue(elem, 'MaxItems')!,
-      nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hostedZones = this.hostedZones;
-    final isTruncated = this.isTruncated;
-    final marker = this.marker;
-    final maxItems = this.maxItems;
-    final nextMarker = this.nextMarker;
-    return {
-      'HostedZones': hostedZones,
-      'IsTruncated': isTruncated,
-      'Marker': marker,
-      'MaxItems': maxItems,
-      if (nextMarker != null) 'NextMarker': nextMarker,
-    };
-  }
-}
-
-class ListQueryLoggingConfigsResponse {
-  /// An array that contains one <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_QueryLoggingConfig.html">QueryLoggingConfig</a>
-  /// element for each configuration for DNS query logging that is associated with
-  /// the current Amazon Web Services account.
-  final List<QueryLoggingConfig> queryLoggingConfigs;
-
-  /// If a response includes the last of the query logging configurations that are
-  /// associated with the current Amazon Web Services account,
-  /// <code>NextToken</code> doesn't appear in the response.
-  ///
-  /// If a response doesn't include the last of the configurations, you can get
-  /// more configurations by submitting another <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_ListQueryLoggingConfigs.html">ListQueryLoggingConfigs</a>
-  /// request. Get the value of <code>NextToken</code> that Amazon Route 53
-  /// returned in the previous response and include it in <code>NextToken</code>
-  /// in the next request.
-  final String? nextToken;
-
-  ListQueryLoggingConfigsResponse({
-    required this.queryLoggingConfigs,
-    this.nextToken,
-  });
-  factory ListQueryLoggingConfigsResponse.fromXml(_s.XmlElement elem) {
-    return ListQueryLoggingConfigsResponse(
-      queryLoggingConfigs: _s
-          .extractXmlChild(elem, 'QueryLoggingConfigs')!
-          .findElements('QueryLoggingConfig')
-          .map(QueryLoggingConfig.fromXml)
-          .toList(),
-      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final queryLoggingConfigs = this.queryLoggingConfigs;
-    final nextToken = this.nextToken;
-    return {
-      'QueryLoggingConfigs': queryLoggingConfigs,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-/// A complex type that contains list information for the resource record set.
-class ListResourceRecordSetsResponse {
-  /// A flag that indicates whether more resource record sets remain to be listed.
-  /// If your results were truncated, you can make a follow-up pagination request
-  /// by using the <code>NextRecordName</code> element.
-  final bool isTruncated;
-
-  /// The maximum number of records you requested.
-  final String maxItems;
-
-  /// Information about multiple resource record sets.
-  final List<ResourceRecordSet> resourceRecordSets;
-
-  /// <i>Resource record sets that have a routing policy other than simple:</i> If
-  /// results were truncated for a given DNS name and type, the value of
-  /// <code>SetIdentifier</code> for the next resource record set that has the
-  /// current DNS name and type.
-  ///
-  /// For information about routing policies, see <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html">Choosing
-  /// a Routing Policy</a> in the <i>Amazon Route 53 Developer Guide</i>.
-  final String? nextRecordIdentifier;
-
-  /// If the results were truncated, the name of the next record in the list.
-  ///
-  /// This element is present only if <code>IsTruncated</code> is true.
-  final String? nextRecordName;
-
-  /// If the results were truncated, the type of the next record in the list.
-  ///
-  /// This element is present only if <code>IsTruncated</code> is true.
-  final RRType? nextRecordType;
-
-  ListResourceRecordSetsResponse({
-    required this.isTruncated,
-    required this.maxItems,
-    required this.resourceRecordSets,
-    this.nextRecordIdentifier,
-    this.nextRecordName,
-    this.nextRecordType,
-  });
-  factory ListResourceRecordSetsResponse.fromXml(_s.XmlElement elem) {
-    return ListResourceRecordSetsResponse(
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
-      maxItems: _s.extractXmlStringValue(elem, 'MaxItems')!,
-      resourceRecordSets: _s
-          .extractXmlChild(elem, 'ResourceRecordSets')!
-          .findElements('ResourceRecordSet')
-          .map(ResourceRecordSet.fromXml)
-          .toList(),
-      nextRecordIdentifier:
-          _s.extractXmlStringValue(elem, 'NextRecordIdentifier'),
-      nextRecordName: _s.extractXmlStringValue(elem, 'NextRecordName'),
-      nextRecordType: _s
-          .extractXmlStringValue(elem, 'NextRecordType')
-          ?.let(RRType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final isTruncated = this.isTruncated;
-    final maxItems = this.maxItems;
-    final resourceRecordSets = this.resourceRecordSets;
-    final nextRecordIdentifier = this.nextRecordIdentifier;
-    final nextRecordName = this.nextRecordName;
-    final nextRecordType = this.nextRecordType;
-    return {
-      'IsTruncated': isTruncated,
-      'MaxItems': maxItems,
-      'ResourceRecordSets': resourceRecordSets,
-      if (nextRecordIdentifier != null)
-        'NextRecordIdentifier': nextRecordIdentifier,
-      if (nextRecordName != null) 'NextRecordName': nextRecordName,
-      if (nextRecordType != null) 'NextRecordType': nextRecordType.value,
-    };
-  }
-}
-
-/// A complex type that contains information about the reusable delegation sets
-/// that are associated with the current Amazon Web Services account.
-class ListReusableDelegationSetsResponse {
-  /// A complex type that contains one <code>DelegationSet</code> element for each
-  /// reusable delegation set that was created by the current Amazon Web Services
-  /// account.
-  final List<DelegationSet> delegationSets;
-
-  /// A flag that indicates whether there are more reusable delegation sets to be
-  /// listed.
-  final bool isTruncated;
-
-  /// For the second and subsequent calls to
-  /// <code>ListReusableDelegationSets</code>, <code>Marker</code> is the value
-  /// that you specified for the <code>marker</code> parameter in the request that
-  /// produced the current response.
-  final String marker;
-
-  /// The value that you specified for the <code>maxitems</code> parameter in the
-  /// call to <code>ListReusableDelegationSets</code> that produced the current
-  /// response.
-  final String maxItems;
-
-  /// If <code>IsTruncated</code> is <code>true</code>, the value of
-  /// <code>NextMarker</code> identifies the next reusable delegation set that
-  /// Amazon Route 53 will return if you submit another
-  /// <code>ListReusableDelegationSets</code> request and specify the value of
-  /// <code>NextMarker</code> in the <code>marker</code> parameter.
-  final String? nextMarker;
-
-  ListReusableDelegationSetsResponse({
-    required this.delegationSets,
-    required this.isTruncated,
-    required this.marker,
-    required this.maxItems,
-    this.nextMarker,
-  });
-  factory ListReusableDelegationSetsResponse.fromXml(_s.XmlElement elem) {
-    return ListReusableDelegationSetsResponse(
-      delegationSets: _s
-          .extractXmlChild(elem, 'DelegationSets')!
-          .findElements('DelegationSet')
-          .map(DelegationSet.fromXml)
-          .toList(),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
-      marker: _s.extractXmlStringValue(elem, 'Marker')!,
-      maxItems: _s.extractXmlStringValue(elem, 'MaxItems')!,
-      nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final delegationSets = this.delegationSets;
-    final isTruncated = this.isTruncated;
-    final marker = this.marker;
-    final maxItems = this.maxItems;
-    final nextMarker = this.nextMarker;
-    return {
-      'DelegationSets': delegationSets,
-      'IsTruncated': isTruncated,
-      'Marker': marker,
-      'MaxItems': maxItems,
-      if (nextMarker != null) 'NextMarker': nextMarker,
-    };
-  }
-}
-
-/// A complex type that contains information about the health checks or hosted
-/// zones for which you want to list tags.
-class ListTagsForResourceResponse {
-  /// A <code>ResourceTagSet</code> containing tags associated with the specified
-  /// resource.
-  final ResourceTagSet resourceTagSet;
-
-  ListTagsForResourceResponse({
-    required this.resourceTagSet,
-  });
-  factory ListTagsForResourceResponse.fromXml(_s.XmlElement elem) {
-    return ListTagsForResourceResponse(
-      resourceTagSet:
-          ResourceTagSet.fromXml(_s.extractXmlChild(elem, 'ResourceTagSet')!),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resourceTagSet = this.resourceTagSet;
-    return {
-      'ResourceTagSet': resourceTagSet,
-    };
-  }
-}
-
-/// A complex type that contains information about the health checks or hosted
-/// zones for which you want to list tags.
-class ListTagsForResourcesRequest {
-  /// A complex type that contains the ResourceId element for each resource for
-  /// which you want to get a list of tags.
-  final List<String> resourceIds;
-
-  /// The type of the resources.
-  ///
-  /// <ul>
-  /// <li>
-  /// The resource type for health checks is <code>healthcheck</code>.
-  /// </li>
-  /// <li>
-  /// The resource type for hosted zones is <code>hostedzone</code>.
-  /// </li>
-  /// </ul>
-  final TagResourceType resourceType;
-
-  ListTagsForResourcesRequest({
-    required this.resourceIds,
-    required this.resourceType,
-  });
-
-  Map<String, dynamic> toJson() {
-    final resourceIds = this.resourceIds;
-    final resourceType = this.resourceType;
-    return {
-      'ResourceIds': resourceIds,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final resourceIds = this.resourceIds;
-    final resourceType = this.resourceType;
-    final $children = <_s.XmlNode>[
-      _s.XmlElement(_s.XmlName.parts('ResourceIds'), [],
-          resourceIds.map((e) => _s.encodeXmlStringValue('ResourceId', e))),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// A complex type containing tags for the specified resources.
-class ListTagsForResourcesResponse {
-  /// A list of <code>ResourceTagSet</code>s containing tags associated with the
-  /// specified resources.
-  final List<ResourceTagSet> resourceTagSets;
-
-  ListTagsForResourcesResponse({
-    required this.resourceTagSets,
-  });
-  factory ListTagsForResourcesResponse.fromXml(_s.XmlElement elem) {
-    return ListTagsForResourcesResponse(
-      resourceTagSets: _s
-          .extractXmlChild(elem, 'ResourceTagSets')!
-          .findElements('ResourceTagSet')
-          .map(ResourceTagSet.fromXml)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resourceTagSets = this.resourceTagSets;
-    return {
-      'ResourceTagSets': resourceTagSets,
-    };
-  }
-}
-
-/// A complex type that contains the response information for the request.
-class ListTrafficPoliciesResponse {
-  /// A flag that indicates whether there are more traffic policies to be listed.
-  /// If the response was truncated, you can get the next group of traffic
-  /// policies by submitting another <code>ListTrafficPolicies</code> request and
-  /// specifying the value of <code>TrafficPolicyIdMarker</code> in the
-  /// <code>TrafficPolicyIdMarker</code> request parameter.
-  final bool isTruncated;
-
-  /// The value that you specified for the <code>MaxItems</code> parameter in the
-  /// <code>ListTrafficPolicies</code> request that produced the current response.
-  final String maxItems;
-
-  /// If the value of <code>IsTruncated</code> is <code>true</code>,
-  /// <code>TrafficPolicyIdMarker</code> is the ID of the first traffic policy in
-  /// the next group of <code>MaxItems</code> traffic policies.
-  final String trafficPolicyIdMarker;
-
-  /// A list that contains one <code>TrafficPolicySummary</code> element for each
-  /// traffic policy that was created by the current Amazon Web Services account.
-  final List<TrafficPolicySummary> trafficPolicySummaries;
-
-  ListTrafficPoliciesResponse({
-    required this.isTruncated,
-    required this.maxItems,
-    required this.trafficPolicyIdMarker,
-    required this.trafficPolicySummaries,
-  });
-  factory ListTrafficPoliciesResponse.fromXml(_s.XmlElement elem) {
-    return ListTrafficPoliciesResponse(
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
-      maxItems: _s.extractXmlStringValue(elem, 'MaxItems')!,
-      trafficPolicyIdMarker:
-          _s.extractXmlStringValue(elem, 'TrafficPolicyIdMarker')!,
-      trafficPolicySummaries: _s
-          .extractXmlChild(elem, 'TrafficPolicySummaries')!
-          .findElements('TrafficPolicySummary')
-          .map(TrafficPolicySummary.fromXml)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final isTruncated = this.isTruncated;
-    final maxItems = this.maxItems;
-    final trafficPolicyIdMarker = this.trafficPolicyIdMarker;
-    final trafficPolicySummaries = this.trafficPolicySummaries;
-    return {
-      'IsTruncated': isTruncated,
-      'MaxItems': maxItems,
-      'TrafficPolicyIdMarker': trafficPolicyIdMarker,
-      'TrafficPolicySummaries': trafficPolicySummaries,
-    };
-  }
-}
-
-/// A complex type that contains the response information for the request.
-class ListTrafficPolicyInstancesByHostedZoneResponse {
-  /// A flag that indicates whether there are more traffic policy instances to be
-  /// listed. If the response was truncated, you can get the next group of traffic
-  /// policy instances by submitting another
-  /// <code>ListTrafficPolicyInstancesByHostedZone</code> request and specifying
-  /// the values of <code>HostedZoneIdMarker</code>,
-  /// <code>TrafficPolicyInstanceNameMarker</code>, and
-  /// <code>TrafficPolicyInstanceTypeMarker</code> in the corresponding request
-  /// parameters.
-  final bool isTruncated;
-
-  /// The value that you specified for the <code>MaxItems</code> parameter in the
-  /// <code>ListTrafficPolicyInstancesByHostedZone</code> request that produced
-  /// the current response.
-  final String maxItems;
-
-  /// A list that contains one <code>TrafficPolicyInstance</code> element for each
-  /// traffic policy instance that matches the elements in the request.
-  final List<TrafficPolicyInstance> trafficPolicyInstances;
-
-  /// If <code>IsTruncated</code> is <code>true</code>,
-  /// <code>TrafficPolicyInstanceNameMarker</code> is the name of the first
-  /// traffic policy instance in the next group of traffic policy instances.
-  final String? trafficPolicyInstanceNameMarker;
-
-  /// If <code>IsTruncated</code> is true,
-  /// <code>TrafficPolicyInstanceTypeMarker</code> is the DNS type of the resource
-  /// record sets that are associated with the first traffic policy instance in
-  /// the next group of traffic policy instances.
-  final RRType? trafficPolicyInstanceTypeMarker;
-
-  ListTrafficPolicyInstancesByHostedZoneResponse({
-    required this.isTruncated,
-    required this.maxItems,
-    required this.trafficPolicyInstances,
-    this.trafficPolicyInstanceNameMarker,
-    this.trafficPolicyInstanceTypeMarker,
-  });
-  factory ListTrafficPolicyInstancesByHostedZoneResponse.fromXml(
-      _s.XmlElement elem) {
-    return ListTrafficPolicyInstancesByHostedZoneResponse(
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
-      maxItems: _s.extractXmlStringValue(elem, 'MaxItems')!,
-      trafficPolicyInstances: _s
-          .extractXmlChild(elem, 'TrafficPolicyInstances')!
-          .findElements('TrafficPolicyInstance')
-          .map(TrafficPolicyInstance.fromXml)
-          .toList(),
-      trafficPolicyInstanceNameMarker:
-          _s.extractXmlStringValue(elem, 'TrafficPolicyInstanceNameMarker'),
-      trafficPolicyInstanceTypeMarker: _s
-          .extractXmlStringValue(elem, 'TrafficPolicyInstanceTypeMarker')
-          ?.let(RRType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final isTruncated = this.isTruncated;
-    final maxItems = this.maxItems;
-    final trafficPolicyInstances = this.trafficPolicyInstances;
-    final trafficPolicyInstanceNameMarker =
-        this.trafficPolicyInstanceNameMarker;
-    final trafficPolicyInstanceTypeMarker =
-        this.trafficPolicyInstanceTypeMarker;
-    return {
-      'IsTruncated': isTruncated,
-      'MaxItems': maxItems,
-      'TrafficPolicyInstances': trafficPolicyInstances,
-      if (trafficPolicyInstanceNameMarker != null)
-        'TrafficPolicyInstanceNameMarker': trafficPolicyInstanceNameMarker,
-      if (trafficPolicyInstanceTypeMarker != null)
-        'TrafficPolicyInstanceTypeMarker':
-            trafficPolicyInstanceTypeMarker.value,
-    };
-  }
-}
-
-/// A complex type that contains the response information for the request.
-class ListTrafficPolicyInstancesByPolicyResponse {
-  /// A flag that indicates whether there are more traffic policy instances to be
-  /// listed. If the response was truncated, you can get the next group of traffic
-  /// policy instances by calling <code>ListTrafficPolicyInstancesByPolicy</code>
-  /// again and specifying the values of the <code>HostedZoneIdMarker</code>,
-  /// <code>TrafficPolicyInstanceNameMarker</code>, and
-  /// <code>TrafficPolicyInstanceTypeMarker</code> elements in the corresponding
-  /// request parameters.
-  final bool isTruncated;
-
-  /// The value that you specified for the <code>MaxItems</code> parameter in the
-  /// call to <code>ListTrafficPolicyInstancesByPolicy</code> that produced the
-  /// current response.
-  final String maxItems;
-
-  /// A list that contains one <code>TrafficPolicyInstance</code> element for each
-  /// traffic policy instance that matches the elements in the request.
-  final List<TrafficPolicyInstance> trafficPolicyInstances;
-
-  /// If <code>IsTruncated</code> is <code>true</code>,
-  /// <code>HostedZoneIdMarker</code> is the ID of the hosted zone of the first
-  /// traffic policy instance in the next group of traffic policy instances.
-  final String? hostedZoneIdMarker;
-
-  /// If <code>IsTruncated</code> is <code>true</code>,
-  /// <code>TrafficPolicyInstanceNameMarker</code> is the name of the first
-  /// traffic policy instance in the next group of <code>MaxItems</code> traffic
-  /// policy instances.
-  final String? trafficPolicyInstanceNameMarker;
-
-  /// If <code>IsTruncated</code> is <code>true</code>,
-  /// <code>TrafficPolicyInstanceTypeMarker</code> is the DNS type of the resource
-  /// record sets that are associated with the first traffic policy instance in
-  /// the next group of <code>MaxItems</code> traffic policy instances.
-  final RRType? trafficPolicyInstanceTypeMarker;
-
-  ListTrafficPolicyInstancesByPolicyResponse({
-    required this.isTruncated,
-    required this.maxItems,
-    required this.trafficPolicyInstances,
-    this.hostedZoneIdMarker,
-    this.trafficPolicyInstanceNameMarker,
-    this.trafficPolicyInstanceTypeMarker,
-  });
-  factory ListTrafficPolicyInstancesByPolicyResponse.fromXml(
-      _s.XmlElement elem) {
-    return ListTrafficPolicyInstancesByPolicyResponse(
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
-      maxItems: _s.extractXmlStringValue(elem, 'MaxItems')!,
-      trafficPolicyInstances: _s
-          .extractXmlChild(elem, 'TrafficPolicyInstances')!
-          .findElements('TrafficPolicyInstance')
-          .map(TrafficPolicyInstance.fromXml)
-          .toList(),
-      hostedZoneIdMarker: _s.extractXmlStringValue(elem, 'HostedZoneIdMarker'),
-      trafficPolicyInstanceNameMarker:
-          _s.extractXmlStringValue(elem, 'TrafficPolicyInstanceNameMarker'),
-      trafficPolicyInstanceTypeMarker: _s
-          .extractXmlStringValue(elem, 'TrafficPolicyInstanceTypeMarker')
-          ?.let(RRType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final isTruncated = this.isTruncated;
-    final maxItems = this.maxItems;
-    final trafficPolicyInstances = this.trafficPolicyInstances;
-    final hostedZoneIdMarker = this.hostedZoneIdMarker;
-    final trafficPolicyInstanceNameMarker =
-        this.trafficPolicyInstanceNameMarker;
-    final trafficPolicyInstanceTypeMarker =
-        this.trafficPolicyInstanceTypeMarker;
-    return {
-      'IsTruncated': isTruncated,
-      'MaxItems': maxItems,
-      'TrafficPolicyInstances': trafficPolicyInstances,
-      if (hostedZoneIdMarker != null) 'HostedZoneIdMarker': hostedZoneIdMarker,
-      if (trafficPolicyInstanceNameMarker != null)
-        'TrafficPolicyInstanceNameMarker': trafficPolicyInstanceNameMarker,
-      if (trafficPolicyInstanceTypeMarker != null)
-        'TrafficPolicyInstanceTypeMarker':
-            trafficPolicyInstanceTypeMarker.value,
-    };
-  }
-}
-
-/// A complex type that contains the response information for the request.
-class ListTrafficPolicyInstancesResponse {
-  /// A flag that indicates whether there are more traffic policy instances to be
-  /// listed. If the response was truncated, you can get more traffic policy
-  /// instances by calling <code>ListTrafficPolicyInstances</code> again and
-  /// specifying the values of the <code>HostedZoneIdMarker</code>,
-  /// <code>TrafficPolicyInstanceNameMarker</code>, and
-  /// <code>TrafficPolicyInstanceTypeMarker</code> in the corresponding request
-  /// parameters.
-  final bool isTruncated;
-
-  /// The value that you specified for the <code>MaxItems</code> parameter in the
-  /// call to <code>ListTrafficPolicyInstances</code> that produced the current
-  /// response.
-  final String maxItems;
-
-  /// A list that contains one <code>TrafficPolicyInstance</code> element for each
-  /// traffic policy instance that matches the elements in the request.
-  final List<TrafficPolicyInstance> trafficPolicyInstances;
-
-  /// If <code>IsTruncated</code> is <code>true</code>,
-  /// <code>HostedZoneIdMarker</code> is the ID of the hosted zone of the first
-  /// traffic policy instance that Route 53 will return if you submit another
-  /// <code>ListTrafficPolicyInstances</code> request.
-  final String? hostedZoneIdMarker;
-
-  /// If <code>IsTruncated</code> is <code>true</code>,
-  /// <code>TrafficPolicyInstanceNameMarker</code> is the name of the first
-  /// traffic policy instance that Route 53 will return if you submit another
-  /// <code>ListTrafficPolicyInstances</code> request.
-  final String? trafficPolicyInstanceNameMarker;
-
-  /// If <code>IsTruncated</code> is <code>true</code>,
-  /// <code>TrafficPolicyInstanceTypeMarker</code> is the DNS type of the resource
-  /// record sets that are associated with the first traffic policy instance that
-  /// Amazon Route 53 will return if you submit another
-  /// <code>ListTrafficPolicyInstances</code> request.
-  final RRType? trafficPolicyInstanceTypeMarker;
-
-  ListTrafficPolicyInstancesResponse({
-    required this.isTruncated,
-    required this.maxItems,
-    required this.trafficPolicyInstances,
-    this.hostedZoneIdMarker,
-    this.trafficPolicyInstanceNameMarker,
-    this.trafficPolicyInstanceTypeMarker,
-  });
-  factory ListTrafficPolicyInstancesResponse.fromXml(_s.XmlElement elem) {
-    return ListTrafficPolicyInstancesResponse(
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
-      maxItems: _s.extractXmlStringValue(elem, 'MaxItems')!,
-      trafficPolicyInstances: _s
-          .extractXmlChild(elem, 'TrafficPolicyInstances')!
-          .findElements('TrafficPolicyInstance')
-          .map(TrafficPolicyInstance.fromXml)
-          .toList(),
-      hostedZoneIdMarker: _s.extractXmlStringValue(elem, 'HostedZoneIdMarker'),
-      trafficPolicyInstanceNameMarker:
-          _s.extractXmlStringValue(elem, 'TrafficPolicyInstanceNameMarker'),
-      trafficPolicyInstanceTypeMarker: _s
-          .extractXmlStringValue(elem, 'TrafficPolicyInstanceTypeMarker')
-          ?.let(RRType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final isTruncated = this.isTruncated;
-    final maxItems = this.maxItems;
-    final trafficPolicyInstances = this.trafficPolicyInstances;
-    final hostedZoneIdMarker = this.hostedZoneIdMarker;
-    final trafficPolicyInstanceNameMarker =
-        this.trafficPolicyInstanceNameMarker;
-    final trafficPolicyInstanceTypeMarker =
-        this.trafficPolicyInstanceTypeMarker;
-    return {
-      'IsTruncated': isTruncated,
-      'MaxItems': maxItems,
-      'TrafficPolicyInstances': trafficPolicyInstances,
-      if (hostedZoneIdMarker != null) 'HostedZoneIdMarker': hostedZoneIdMarker,
-      if (trafficPolicyInstanceNameMarker != null)
-        'TrafficPolicyInstanceNameMarker': trafficPolicyInstanceNameMarker,
-      if (trafficPolicyInstanceTypeMarker != null)
-        'TrafficPolicyInstanceTypeMarker':
-            trafficPolicyInstanceTypeMarker.value,
-    };
-  }
-}
-
-/// A complex type that contains the response information for the request.
-class ListTrafficPolicyVersionsResponse {
-  /// A flag that indicates whether there are more traffic policies to be listed.
-  /// If the response was truncated, you can get the next group of traffic
-  /// policies by submitting another <code>ListTrafficPolicyVersions</code>
-  /// request and specifying the value of <code>NextMarker</code> in the
-  /// <code>marker</code> parameter.
-  final bool isTruncated;
-
-  /// The value that you specified for the <code>maxitems</code> parameter in the
-  /// <code>ListTrafficPolicyVersions</code> request that produced the current
-  /// response.
-  final String maxItems;
-
-  /// A list that contains one <code>TrafficPolicy</code> element for each traffic
-  /// policy version that is associated with the specified traffic policy.
-  final List<TrafficPolicy> trafficPolicies;
-
-  /// If <code>IsTruncated</code> is <code>true</code>, the value of
-  /// <code>TrafficPolicyVersionMarker</code> identifies the first traffic policy
-  /// that Amazon Route 53 will return if you submit another request. Call
-  /// <code>ListTrafficPolicyVersions</code> again and specify the value of
-  /// <code>TrafficPolicyVersionMarker</code> in the
-  /// <code>TrafficPolicyVersionMarker</code> request parameter.
-  ///
-  /// This element is present only if <code>IsTruncated</code> is
-  /// <code>true</code>.
-  final String trafficPolicyVersionMarker;
-
-  ListTrafficPolicyVersionsResponse({
-    required this.isTruncated,
-    required this.maxItems,
-    required this.trafficPolicies,
-    required this.trafficPolicyVersionMarker,
-  });
-  factory ListTrafficPolicyVersionsResponse.fromXml(_s.XmlElement elem) {
-    return ListTrafficPolicyVersionsResponse(
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
-      maxItems: _s.extractXmlStringValue(elem, 'MaxItems')!,
-      trafficPolicies: _s
-          .extractXmlChild(elem, 'TrafficPolicies')!
-          .findElements('TrafficPolicy')
-          .map(TrafficPolicy.fromXml)
-          .toList(),
-      trafficPolicyVersionMarker:
-          _s.extractXmlStringValue(elem, 'TrafficPolicyVersionMarker')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final isTruncated = this.isTruncated;
-    final maxItems = this.maxItems;
-    final trafficPolicies = this.trafficPolicies;
-    final trafficPolicyVersionMarker = this.trafficPolicyVersionMarker;
-    return {
-      'IsTruncated': isTruncated,
-      'MaxItems': maxItems,
-      'TrafficPolicies': trafficPolicies,
-      'TrafficPolicyVersionMarker': trafficPolicyVersionMarker,
-    };
-  }
-}
-
-/// A complex type that contains the response information for the request.
-class ListVPCAssociationAuthorizationsResponse {
-  /// The ID of the hosted zone that you can associate the listed VPCs with.
-  final String hostedZoneId;
-
-  /// The list of VPCs that are authorized to be associated with the specified
-  /// hosted zone.
-  final List<VPC> vPCs;
-
-  /// When the response includes a <code>NextToken</code> element, there are more
-  /// VPCs that can be associated with the specified hosted zone. To get the next
-  /// page of VPCs, submit another <code>ListVPCAssociationAuthorizations</code>
-  /// request, and include the value of the <code>NextToken</code> element from
-  /// the response in the <code>nexttoken</code> request parameter.
-  final String? nextToken;
-
-  ListVPCAssociationAuthorizationsResponse({
-    required this.hostedZoneId,
-    required this.vPCs,
-    this.nextToken,
-  });
-  factory ListVPCAssociationAuthorizationsResponse.fromXml(_s.XmlElement elem) {
-    return ListVPCAssociationAuthorizationsResponse(
-      hostedZoneId: _s.extractXmlStringValue(elem, 'HostedZoneId')!,
-      vPCs: _s
-          .extractXmlChild(elem, 'VPCs')!
-          .findElements('VPC')
-          .map(VPC.fromXml)
-          .toList(),
-      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hostedZoneId = this.hostedZoneId;
-    final vPCs = this.vPCs;
-    final nextToken = this.nextToken;
-    return {
-      'HostedZoneId': hostedZoneId,
-      'VPCs': vPCs,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-/// A complex type that contains information about the CIDR location.
-class LocationSummary {
-  /// A string that specifies a location name.
-  final String? locationName;
-
-  LocationSummary({
-    this.locationName,
-  });
-  factory LocationSummary.fromXml(_s.XmlElement elem) {
-    return LocationSummary(
-      locationName: _s.extractXmlStringValue(elem, 'LocationName'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final locationName = this.locationName;
-    return {
-      if (locationName != null) 'LocationName': locationName,
-    };
-  }
-}
-
-/// A complex type that contains information about a configuration for DNS query
-/// logging.
-class QueryLoggingConfig {
-  /// The Amazon Resource Name (ARN) of the CloudWatch Logs log group that Amazon
-  /// Route 53 is publishing logs to.
-  final String cloudWatchLogsLogGroupArn;
-
-  /// The ID of the hosted zone that CloudWatch Logs is logging queries for.
-  final String hostedZoneId;
-
-  /// The ID for a configuration for DNS query logging.
-  final String id;
-
-  QueryLoggingConfig({
-    required this.cloudWatchLogsLogGroupArn,
-    required this.hostedZoneId,
-    required this.id,
-  });
-  factory QueryLoggingConfig.fromXml(_s.XmlElement elem) {
-    return QueryLoggingConfig(
-      cloudWatchLogsLogGroupArn:
-          _s.extractXmlStringValue(elem, 'CloudWatchLogsLogGroupArn')!,
-      hostedZoneId: _s.extractXmlStringValue(elem, 'HostedZoneId')!,
-      id: _s.extractXmlStringValue(elem, 'Id')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cloudWatchLogsLogGroupArn = this.cloudWatchLogsLogGroupArn;
-    final hostedZoneId = this.hostedZoneId;
-    final id = this.id;
-    return {
-      'CloudWatchLogsLogGroupArn': cloudWatchLogsLogGroupArn,
-      'HostedZoneId': hostedZoneId,
-      'Id': id,
-    };
-  }
-}
-
-class RRType {
-  static const soa = RRType._('SOA');
-  static const a = RRType._('A');
-  static const txt = RRType._('TXT');
-  static const ns = RRType._('NS');
-  static const cname = RRType._('CNAME');
-  static const mx = RRType._('MX');
-  static const naptr = RRType._('NAPTR');
-  static const ptr = RRType._('PTR');
-  static const srv = RRType._('SRV');
-  static const spf = RRType._('SPF');
-  static const aaaa = RRType._('AAAA');
-  static const caa = RRType._('CAA');
-  static const ds = RRType._('DS');
+class CloudWatchRegion {
+  static const usEast_1 = CloudWatchRegion._('us-east-1');
+  static const usEast_2 = CloudWatchRegion._('us-east-2');
+  static const usWest_1 = CloudWatchRegion._('us-west-1');
+  static const usWest_2 = CloudWatchRegion._('us-west-2');
+  static const caCentral_1 = CloudWatchRegion._('ca-central-1');
+  static const euCentral_1 = CloudWatchRegion._('eu-central-1');
+  static const euCentral_2 = CloudWatchRegion._('eu-central-2');
+  static const euWest_1 = CloudWatchRegion._('eu-west-1');
+  static const euWest_2 = CloudWatchRegion._('eu-west-2');
+  static const euWest_3 = CloudWatchRegion._('eu-west-3');
+  static const apEast_1 = CloudWatchRegion._('ap-east-1');
+  static const meSouth_1 = CloudWatchRegion._('me-south-1');
+  static const meCentral_1 = CloudWatchRegion._('me-central-1');
+  static const apSouth_1 = CloudWatchRegion._('ap-south-1');
+  static const apSouth_2 = CloudWatchRegion._('ap-south-2');
+  static const apSoutheast_1 = CloudWatchRegion._('ap-southeast-1');
+  static const apSoutheast_2 = CloudWatchRegion._('ap-southeast-2');
+  static const apSoutheast_3 = CloudWatchRegion._('ap-southeast-3');
+  static const apNortheast_1 = CloudWatchRegion._('ap-northeast-1');
+  static const apNortheast_2 = CloudWatchRegion._('ap-northeast-2');
+  static const apNortheast_3 = CloudWatchRegion._('ap-northeast-3');
+  static const euNorth_1 = CloudWatchRegion._('eu-north-1');
+  static const saEast_1 = CloudWatchRegion._('sa-east-1');
+  static const cnNorthwest_1 = CloudWatchRegion._('cn-northwest-1');
+  static const cnNorth_1 = CloudWatchRegion._('cn-north-1');
+  static const afSouth_1 = CloudWatchRegion._('af-south-1');
+  static const euSouth_1 = CloudWatchRegion._('eu-south-1');
+  static const euSouth_2 = CloudWatchRegion._('eu-south-2');
+  static const usGovWest_1 = CloudWatchRegion._('us-gov-west-1');
+  static const usGovEast_1 = CloudWatchRegion._('us-gov-east-1');
+  static const usIsoEast_1 = CloudWatchRegion._('us-iso-east-1');
+  static const usIsoWest_1 = CloudWatchRegion._('us-iso-west-1');
+  static const usIsobEast_1 = CloudWatchRegion._('us-isob-east-1');
+  static const apSoutheast_4 = CloudWatchRegion._('ap-southeast-4');
+  static const ilCentral_1 = CloudWatchRegion._('il-central-1');
+  static const caWest_1 = CloudWatchRegion._('ca-west-1');
+  static const apSoutheast_5 = CloudWatchRegion._('ap-southeast-5');
+  static const mxCentral_1 = CloudWatchRegion._('mx-central-1');
+  static const usIsofSouth_1 = CloudWatchRegion._('us-isof-south-1');
+  static const usIsofEast_1 = CloudWatchRegion._('us-isof-east-1');
+  static const apSoutheast_7 = CloudWatchRegion._('ap-southeast-7');
+  static const apEast_2 = CloudWatchRegion._('ap-east-2');
+  static const euIsoeWest_1 = CloudWatchRegion._('eu-isoe-west-1');
+  static const apSoutheast_6 = CloudWatchRegion._('ap-southeast-6');
+  static const usIsobWest_1 = CloudWatchRegion._('us-isob-west-1');
+  static const euscDeEast_1 = CloudWatchRegion._('eusc-de-east-1');
 
   final String value;
 
-  const RRType._(this.value);
+  const CloudWatchRegion._(this.value);
 
   static const values = [
-    soa,
-    a,
-    txt,
-    ns,
-    cname,
-    mx,
-    naptr,
-    ptr,
-    srv,
-    spf,
-    aaaa,
-    caa,
-    ds
+    usEast_1,
+    usEast_2,
+    usWest_1,
+    usWest_2,
+    caCentral_1,
+    euCentral_1,
+    euCentral_2,
+    euWest_1,
+    euWest_2,
+    euWest_3,
+    apEast_1,
+    meSouth_1,
+    meCentral_1,
+    apSouth_1,
+    apSouth_2,
+    apSoutheast_1,
+    apSoutheast_2,
+    apSoutheast_3,
+    apNortheast_1,
+    apNortheast_2,
+    apNortheast_3,
+    euNorth_1,
+    saEast_1,
+    cnNorthwest_1,
+    cnNorth_1,
+    afSouth_1,
+    euSouth_1,
+    euSouth_2,
+    usGovWest_1,
+    usGovEast_1,
+    usIsoEast_1,
+    usIsoWest_1,
+    usIsobEast_1,
+    apSoutheast_4,
+    ilCentral_1,
+    caWest_1,
+    apSoutheast_5,
+    mxCentral_1,
+    usIsofSouth_1,
+    usIsofEast_1,
+    apSoutheast_7,
+    apEast_2,
+    euIsoeWest_1,
+    apSoutheast_6,
+    usIsobWest_1,
+    euscDeEast_1
   ];
 
-  static RRType fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => RRType._(value));
+  static CloudWatchRegion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CloudWatchRegion._(value));
 
   @override
-  bool operator ==(other) => other is RRType && other.value == value;
+  bool operator ==(other) => other is CloudWatchRegion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class HealthCheckRegion {
+  static const usEast_1 = HealthCheckRegion._('us-east-1');
+  static const usWest_1 = HealthCheckRegion._('us-west-1');
+  static const usWest_2 = HealthCheckRegion._('us-west-2');
+  static const euWest_1 = HealthCheckRegion._('eu-west-1');
+  static const apSoutheast_1 = HealthCheckRegion._('ap-southeast-1');
+  static const apSoutheast_2 = HealthCheckRegion._('ap-southeast-2');
+  static const apNortheast_1 = HealthCheckRegion._('ap-northeast-1');
+  static const saEast_1 = HealthCheckRegion._('sa-east-1');
+
+  final String value;
+
+  const HealthCheckRegion._(this.value);
+
+  static const values = [
+    usEast_1,
+    usWest_1,
+    usWest_2,
+    euWest_1,
+    apSoutheast_1,
+    apSoutheast_2,
+    apNortheast_1,
+    saEast_1
+  ];
+
+  static HealthCheckRegion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HealthCheckRegion._(value));
+
+  @override
+  bool operator ==(other) => other is HealthCheckRegion && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -10872,46 +10139,47 @@ class ResettableElementName {
   String toString() => value;
 }
 
-/// Information specific to the resource record.
-/// <note>
-/// If you're creating an alias resource record set, omit
-/// <code>ResourceRecord</code>.
-/// </note>
-class ResourceRecord {
-  /// The current or new DNS record value, not to exceed 4,000 characters. In the
-  /// case of a <code>DELETE</code> action, if the current value does not match
-  /// the actual value, an error is returned. For descriptions about how to format
-  /// <code>Value</code> for different record types, see <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/ResourceRecordTypes.html">Supported
-  /// DNS Resource Record Types</a> in the <i>Amazon Route 53 Developer Guide</i>.
-  ///
-  /// You can specify more than one value for all record types except
-  /// <code>CNAME</code> and <code>SOA</code>.
-  /// <note>
-  /// If you're creating an alias resource record set, omit <code>Value</code>.
-  /// </note>
-  final String value;
+/// (Private hosted zones only) A complex type that contains information about
+/// an Amazon VPC.
+///
+/// If you associate a private hosted zone with an Amazon VPC when you make a <a
+/// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateHostedZone.html">CreateHostedZone</a>
+/// request, the following parameters are also required.
+class VPC {
+  final String? vPCId;
 
-  ResourceRecord({
-    required this.value,
+  /// (Private hosted zones only) The region that an Amazon VPC was created in.
+  final VPCRegion? vPCRegion;
+
+  VPC({
+    this.vPCId,
+    this.vPCRegion,
   });
-  factory ResourceRecord.fromXml(_s.XmlElement elem) {
-    return ResourceRecord(
-      value: _s.extractXmlStringValue(elem, 'Value')!,
+  factory VPC.fromXml(_s.XmlElement elem) {
+    return VPC(
+      vPCId: _s.extractXmlStringValue(elem, 'VPCId'),
+      vPCRegion: _s
+          .extractXmlStringValue(elem, 'VPCRegion')
+          ?.let(VPCRegion.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final value = this.value;
+    final vPCId = this.vPCId;
+    final vPCRegion = this.vPCRegion;
     return {
-      'Value': value,
+      if (vPCId != null) 'VPCId': vPCId,
+      if (vPCRegion != null) 'VPCRegion': vPCRegion.value,
     };
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final value = this.value;
+    final vPCId = this.vPCId;
+    final vPCRegion = this.vPCRegion;
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Value', value),
+      if (vPCRegion != null)
+        _s.encodeXmlStringValue('VPCRegion', vPCRegion.value),
+      if (vPCId != null) _s.encodeXmlStringValue('VPCId', vPCId),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -10921,6 +10189,370 @@ class ResourceRecord {
       $attributes,
       $children,
     );
+  }
+}
+
+class VPCRegion {
+  static const usEast_1 = VPCRegion._('us-east-1');
+  static const usEast_2 = VPCRegion._('us-east-2');
+  static const usWest_1 = VPCRegion._('us-west-1');
+  static const usWest_2 = VPCRegion._('us-west-2');
+  static const euWest_1 = VPCRegion._('eu-west-1');
+  static const euWest_2 = VPCRegion._('eu-west-2');
+  static const euWest_3 = VPCRegion._('eu-west-3');
+  static const euCentral_1 = VPCRegion._('eu-central-1');
+  static const euCentral_2 = VPCRegion._('eu-central-2');
+  static const apEast_1 = VPCRegion._('ap-east-1');
+  static const meSouth_1 = VPCRegion._('me-south-1');
+  static const usGovWest_1 = VPCRegion._('us-gov-west-1');
+  static const usGovEast_1 = VPCRegion._('us-gov-east-1');
+  static const usIsoEast_1 = VPCRegion._('us-iso-east-1');
+  static const usIsoWest_1 = VPCRegion._('us-iso-west-1');
+  static const usIsobEast_1 = VPCRegion._('us-isob-east-1');
+  static const meCentral_1 = VPCRegion._('me-central-1');
+  static const apSoutheast_1 = VPCRegion._('ap-southeast-1');
+  static const apSoutheast_2 = VPCRegion._('ap-southeast-2');
+  static const apSoutheast_3 = VPCRegion._('ap-southeast-3');
+  static const apSouth_1 = VPCRegion._('ap-south-1');
+  static const apSouth_2 = VPCRegion._('ap-south-2');
+  static const apNortheast_1 = VPCRegion._('ap-northeast-1');
+  static const apNortheast_2 = VPCRegion._('ap-northeast-2');
+  static const apNortheast_3 = VPCRegion._('ap-northeast-3');
+  static const euNorth_1 = VPCRegion._('eu-north-1');
+  static const saEast_1 = VPCRegion._('sa-east-1');
+  static const caCentral_1 = VPCRegion._('ca-central-1');
+  static const cnNorth_1 = VPCRegion._('cn-north-1');
+  static const cnNorthwest_1 = VPCRegion._('cn-northwest-1');
+  static const afSouth_1 = VPCRegion._('af-south-1');
+  static const euSouth_1 = VPCRegion._('eu-south-1');
+  static const euSouth_2 = VPCRegion._('eu-south-2');
+  static const apSoutheast_4 = VPCRegion._('ap-southeast-4');
+  static const ilCentral_1 = VPCRegion._('il-central-1');
+  static const caWest_1 = VPCRegion._('ca-west-1');
+  static const apSoutheast_5 = VPCRegion._('ap-southeast-5');
+  static const mxCentral_1 = VPCRegion._('mx-central-1');
+  static const usIsofSouth_1 = VPCRegion._('us-isof-south-1');
+  static const usIsofEast_1 = VPCRegion._('us-isof-east-1');
+  static const apSoutheast_7 = VPCRegion._('ap-southeast-7');
+  static const apEast_2 = VPCRegion._('ap-east-2');
+  static const euIsoeWest_1 = VPCRegion._('eu-isoe-west-1');
+  static const apSoutheast_6 = VPCRegion._('ap-southeast-6');
+  static const usIsobWest_1 = VPCRegion._('us-isob-west-1');
+  static const euscDeEast_1 = VPCRegion._('eusc-de-east-1');
+
+  final String value;
+
+  const VPCRegion._(this.value);
+
+  static const values = [
+    usEast_1,
+    usEast_2,
+    usWest_1,
+    usWest_2,
+    euWest_1,
+    euWest_2,
+    euWest_3,
+    euCentral_1,
+    euCentral_2,
+    apEast_1,
+    meSouth_1,
+    usGovWest_1,
+    usGovEast_1,
+    usIsoEast_1,
+    usIsoWest_1,
+    usIsobEast_1,
+    meCentral_1,
+    apSoutheast_1,
+    apSoutheast_2,
+    apSoutheast_3,
+    apSouth_1,
+    apSouth_2,
+    apNortheast_1,
+    apNortheast_2,
+    apNortheast_3,
+    euNorth_1,
+    saEast_1,
+    caCentral_1,
+    cnNorth_1,
+    cnNorthwest_1,
+    afSouth_1,
+    euSouth_1,
+    euSouth_2,
+    apSoutheast_4,
+    ilCentral_1,
+    caWest_1,
+    apSoutheast_5,
+    mxCentral_1,
+    usIsofSouth_1,
+    usIsofEast_1,
+    apSoutheast_7,
+    apEast_2,
+    euIsoeWest_1,
+    apSoutheast_6,
+    usIsobWest_1,
+    euscDeEast_1
+  ];
+
+  static VPCRegion fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => VPCRegion._(value));
+
+  @override
+  bool operator ==(other) => other is VPCRegion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A complex type that contains information about the latest version of one
+/// traffic policy that is associated with the current Amazon Web Services
+/// account.
+class TrafficPolicySummary {
+  /// The ID that Amazon Route 53 assigned to the traffic policy when you created
+  /// it.
+  final String id;
+
+  /// The version number of the latest version of the traffic policy.
+  final int latestVersion;
+
+  /// The name that you specified for the traffic policy when you created it.
+  final String name;
+
+  /// The number of traffic policies that are associated with the current Amazon
+  /// Web Services account.
+  final int trafficPolicyCount;
+
+  /// The DNS type of the resource record sets that Amazon Route 53 creates when
+  /// you use a traffic policy to create a traffic policy instance.
+  final RRType type;
+
+  TrafficPolicySummary({
+    required this.id,
+    required this.latestVersion,
+    required this.name,
+    required this.trafficPolicyCount,
+    required this.type,
+  });
+  factory TrafficPolicySummary.fromXml(_s.XmlElement elem) {
+    return TrafficPolicySummary(
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      latestVersion: _s.extractXmlIntValue(elem, 'LatestVersion')!,
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      trafficPolicyCount: _s.extractXmlIntValue(elem, 'TrafficPolicyCount')!,
+      type: _s.extractXmlStringValue(elem, 'Type')!.let(RRType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final latestVersion = this.latestVersion;
+    final name = this.name;
+    final trafficPolicyCount = this.trafficPolicyCount;
+    final type = this.type;
+    return {
+      'Id': id,
+      'LatestVersion': latestVersion,
+      'Name': name,
+      'TrafficPolicyCount': trafficPolicyCount,
+      'Type': type.value,
+    };
+  }
+}
+
+/// A complex type containing a resource and its associated tags.
+class ResourceTagSet {
+  /// The ID for the specified resource.
+  final String? resourceId;
+
+  /// The type of the resource.
+  ///
+  /// <ul>
+  /// <li>
+  /// The resource type for health checks is <code>healthcheck</code>.
+  /// </li>
+  /// <li>
+  /// The resource type for hosted zones is <code>hostedzone</code>.
+  /// </li>
+  /// </ul>
+  final TagResourceType? resourceType;
+
+  /// The tags associated with the specified resource.
+  final List<Tag>? tags;
+
+  ResourceTagSet({
+    this.resourceId,
+    this.resourceType,
+    this.tags,
+  });
+  factory ResourceTagSet.fromXml(_s.XmlElement elem) {
+    return ResourceTagSet(
+      resourceId: _s.extractXmlStringValue(elem, 'ResourceId'),
+      resourceType: _s
+          .extractXmlStringValue(elem, 'ResourceType')
+          ?.let(TagResourceType.fromString),
+      tags: _s
+          .extractXmlChild(elem, 'Tags')
+          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceId = this.resourceId;
+    final resourceType = this.resourceType;
+    final tags = this.tags;
+    return {
+      if (resourceId != null) 'ResourceId': resourceId,
+      if (resourceType != null) 'ResourceType': resourceType.value,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+class TagResourceType {
+  static const healthcheck = TagResourceType._('healthcheck');
+  static const hostedzone = TagResourceType._('hostedzone');
+
+  final String value;
+
+  const TagResourceType._(this.value);
+
+  static const values = [healthcheck, hostedzone];
+
+  static TagResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TagResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is TagResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A complex type that contains information about a tag that you want to add or
+/// edit for the specified health check or hosted zone.
+class Tag {
+  /// The value of <code>Key</code> depends on the operation that you want to
+  /// perform:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Add a tag to a health check or hosted zone</b>: <code>Key</code> is the
+  /// name that you want to give the new tag.
+  /// </li>
+  /// <li>
+  /// <b>Edit a tag</b>: <code>Key</code> is the name of the tag that you want to
+  /// change the <code>Value</code> for.
+  /// </li>
+  /// <li>
+  /// <b> Delete a key</b>: <code>Key</code> is the name of the tag you want to
+  /// remove.
+  /// </li>
+  /// <li>
+  /// <b>Give a name to a health check</b>: Edit the default <code>Name</code>
+  /// tag. In the Amazon Route 53 console, the list of your health checks includes
+  /// a <b>Name</b> column that lets you see the name that you've given to each
+  /// health check.
+  /// </li>
+  /// </ul>
+  final String? key;
+
+  /// The value of <code>Value</code> depends on the operation that you want to
+  /// perform:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Add a tag to a health check or hosted zone</b>: <code>Value</code> is the
+  /// value that you want to give the new tag.
+  /// </li>
+  /// <li>
+  /// <b>Edit a tag</b>: <code>Value</code> is the new value that you want to
+  /// assign the tag.
+  /// </li>
+  /// </ul>
+  final String? value;
+
+  Tag({
+    this.key,
+    this.value,
+  });
+  factory Tag.fromXml(_s.XmlElement elem) {
+    return Tag(
+      key: _s.extractXmlStringValue(elem, 'Key'),
+      value: _s.extractXmlStringValue(elem, 'Value'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final key = this.key;
+    final value = this.value;
+    final $children = <_s.XmlNode>[
+      if (key != null) _s.encodeXmlStringValue('Key', key),
+      if (value != null) _s.encodeXmlStringValue('Value', value),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A complex type that lists the name servers in a delegation set, as well as
+/// the <code>CallerReference</code> and the <code>ID</code> for the delegation
+/// set.
+class DelegationSet {
+  /// A complex type that contains a list of the authoritative name servers for a
+  /// hosted zone or for a reusable delegation set.
+  final List<String> nameServers;
+
+  /// The value that you specified for <code>CallerReference</code> when you
+  /// created the reusable delegation set.
+  final String? callerReference;
+
+  /// The ID that Amazon Route 53 assigns to a reusable delegation set.
+  final String? id;
+
+  DelegationSet({
+    required this.nameServers,
+    this.callerReference,
+    this.id,
+  });
+  factory DelegationSet.fromXml(_s.XmlElement elem) {
+    return DelegationSet(
+      nameServers: _s.extractXmlStringListValues(
+          _s.extractXmlChild(elem, 'NameServers')!, 'NameServer'),
+      callerReference: _s.extractXmlStringValue(elem, 'CallerReference'),
+      id: _s.extractXmlStringValue(elem, 'Id'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nameServers = this.nameServers;
+    final callerReference = this.callerReference;
+    final id = this.id;
+    return {
+      'NameServers': nameServers,
+      if (callerReference != null) 'CallerReference': callerReference,
+      if (id != null) 'Id': id,
+    };
   }
 }
 
@@ -10976,18 +10608,21 @@ class ResourceRecordSet {
   /// Valid values for basic resource record sets: <code>A</code> |
   /// <code>AAAA</code> | <code>CAA</code> | <code>CNAME</code> | <code>DS</code>
   /// |<code>MX</code> | <code>NAPTR</code> | <code>NS</code> | <code>PTR</code> |
-  /// <code>SOA</code> | <code>SPF</code> | <code>SRV</code> | <code>TXT</code>
+  /// <code>SOA</code> | <code>SPF</code> | <code>SRV</code> | <code>TXT</code>|
+  /// <code>TLSA</code>| <code>SSHFP</code>| <code>SVCB</code>| <code>HTTPS</code>
   ///
   /// Values for weighted, latency, geolocation, and failover resource record
   /// sets: <code>A</code> | <code>AAAA</code> | <code>CAA</code> |
   /// <code>CNAME</code> | <code>MX</code> | <code>NAPTR</code> | <code>PTR</code>
-  /// | <code>SPF</code> | <code>SRV</code> | <code>TXT</code>. When creating a
+  /// | <code>SPF</code> | <code>SRV</code> | <code>TXT</code>| <code>TLSA</code>|
+  /// <code>SSHFP</code>| <code>SVCB</code>| <code>HTTPS</code>. When creating a
   /// group of weighted, latency, geolocation, or failover resource record sets,
   /// specify the same value for all of the resource record sets in the group.
   ///
   /// Valid values for multivalue answer resource record sets: <code>A</code> |
   /// <code>AAAA</code> | <code>MX</code> | <code>NAPTR</code> | <code>PTR</code>
-  /// | <code>SPF</code> | <code>SRV</code> | <code>TXT</code>
+  /// | <code>SPF</code> | <code>SRV</code> | <code>TXT</code>| <code>CAA</code>|
+  /// <code>TLSA</code>| <code>SSHFP</code>| <code>SVCB</code>| <code>HTTPS</code>
   /// <note>
   /// SPF records were formerly used to verify the identity of the sender of email
   /// messages. However, we no longer recommend that you create resource record
@@ -11165,7 +10800,7 @@ class ResourceRecordSet {
   final GeoLocation? geoLocation;
 
   /// <i> GeoproximityLocation resource record sets only:</i> A complex type that
-  /// lets you control how Route 53 responds to DNS queries based on the
+  /// lets you control how Route 53 responds to DNS queries based on the
   /// geographic origin of the query and your resources.
   final GeoProximityLocation? geoProximityLocation;
 
@@ -11642,31 +11277,6 @@ class ResourceRecordSet {
   }
 }
 
-class ResourceRecordSetFailover {
-  static const primary = ResourceRecordSetFailover._('PRIMARY');
-  static const secondary = ResourceRecordSetFailover._('SECONDARY');
-
-  final String value;
-
-  const ResourceRecordSetFailover._(this.value);
-
-  static const values = [primary, secondary];
-
-  static ResourceRecordSetFailover fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ResourceRecordSetFailover._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ResourceRecordSetFailover && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class ResourceRecordSetRegion {
   static const usEast_1 = ResourceRecordSetRegion._('us-east-1');
   static const usEast_2 = ResourceRecordSetRegion._('us-east-2');
@@ -11700,6 +11310,13 @@ class ResourceRecordSetRegion {
   static const ilCentral_1 = ResourceRecordSetRegion._('il-central-1');
   static const caWest_1 = ResourceRecordSetRegion._('ca-west-1');
   static const apSoutheast_5 = ResourceRecordSetRegion._('ap-southeast-5');
+  static const mxCentral_1 = ResourceRecordSetRegion._('mx-central-1');
+  static const apSoutheast_7 = ResourceRecordSetRegion._('ap-southeast-7');
+  static const usGovEast_1 = ResourceRecordSetRegion._('us-gov-east-1');
+  static const usGovWest_1 = ResourceRecordSetRegion._('us-gov-west-1');
+  static const apEast_2 = ResourceRecordSetRegion._('ap-east-2');
+  static const apSoutheast_6 = ResourceRecordSetRegion._('ap-southeast-6');
+  static const euscDeEast_1 = ResourceRecordSetRegion._('eusc-de-east-1');
 
   final String value;
 
@@ -11737,7 +11354,14 @@ class ResourceRecordSetRegion {
     apSoutheast_4,
     ilCentral_1,
     caWest_1,
-    apSoutheast_5
+    apSoutheast_5,
+    mxCentral_1,
+    apSoutheast_7,
+    usGovEast_1,
+    usGovWest_1,
+    apEast_2,
+    apSoutheast_6,
+    euscDeEast_1
   ];
 
   static ResourceRecordSetRegion fromString(String value) =>
@@ -11755,51 +11379,1133 @@ class ResourceRecordSetRegion {
   String toString() => value;
 }
 
-/// A complex type containing a resource and its associated tags.
-class ResourceTagSet {
-  /// The ID for the specified resource.
-  final String? resourceId;
-
-  /// The type of the resource.
+/// A complex type that contains information about a geographic location.
+class GeoLocation {
+  /// The two-letter code for the continent.
+  ///
+  /// Amazon Route 53 supports the following continent codes:
   ///
   /// <ul>
   /// <li>
-  /// The resource type for health checks is <code>healthcheck</code>.
+  /// <b>AF</b>: Africa
   /// </li>
   /// <li>
-  /// The resource type for hosted zones is <code>hostedzone</code>.
+  /// <b>AN</b>: Antarctica
+  /// </li>
+  /// <li>
+  /// <b>AS</b>: Asia
+  /// </li>
+  /// <li>
+  /// <b>EU</b>: Europe
+  /// </li>
+  /// <li>
+  /// <b>OC</b>: Oceania
+  /// </li>
+  /// <li>
+  /// <b>NA</b>: North America
+  /// </li>
+  /// <li>
+  /// <b>SA</b>: South America
   /// </li>
   /// </ul>
-  final TagResourceType? resourceType;
+  /// Constraint: Specifying <code>ContinentCode</code> with either
+  /// <code>CountryCode</code> or <code>SubdivisionCode</code> returns an
+  /// <code>InvalidInput</code> error.
+  final String? continentCode;
 
-  /// The tags associated with the specified resource.
-  final List<Tag>? tags;
+  /// For geolocation resource record sets, the two-letter code for a country.
+  ///
+  /// Amazon Route 53 uses the two-letter country codes that are specified in <a
+  /// href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO standard 3166-1
+  /// alpha-2</a>.
+  ///
+  /// Route 53 also supports the country code <b>UA</b> for Ukraine.
+  final String? countryCode;
 
-  ResourceTagSet({
-    this.resourceId,
-    this.resourceType,
-    this.tags,
+  /// For geolocation resource record sets, the two-letter code for a state of the
+  /// United States. Route 53 doesn't support any other values for
+  /// <code>SubdivisionCode</code>. For a list of state abbreviations, see <a
+  /// href="https://pe.usps.com/text/pub28/28apb.htm">Appendix B: Two–Letter State
+  /// and Possession Abbreviations</a> on the United States Postal Service
+  /// website.
+  ///
+  /// If you specify <code>subdivisioncode</code>, you must also specify
+  /// <code>US</code> for <code>CountryCode</code>.
+  final String? subdivisionCode;
+
+  GeoLocation({
+    this.continentCode,
+    this.countryCode,
+    this.subdivisionCode,
   });
-  factory ResourceTagSet.fromXml(_s.XmlElement elem) {
-    return ResourceTagSet(
-      resourceId: _s.extractXmlStringValue(elem, 'ResourceId'),
-      resourceType: _s
-          .extractXmlStringValue(elem, 'ResourceType')
-          ?.let(TagResourceType.fromString),
-      tags: _s
-          .extractXmlChild(elem, 'Tags')
-          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
+  factory GeoLocation.fromXml(_s.XmlElement elem) {
+    return GeoLocation(
+      continentCode: _s.extractXmlStringValue(elem, 'ContinentCode'),
+      countryCode: _s.extractXmlStringValue(elem, 'CountryCode'),
+      subdivisionCode: _s.extractXmlStringValue(elem, 'SubdivisionCode'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final resourceId = this.resourceId;
-    final resourceType = this.resourceType;
-    final tags = this.tags;
+    final continentCode = this.continentCode;
+    final countryCode = this.countryCode;
+    final subdivisionCode = this.subdivisionCode;
     return {
-      if (resourceId != null) 'ResourceId': resourceId,
-      if (resourceType != null) 'ResourceType': resourceType.value,
-      if (tags != null) 'Tags': tags,
+      if (continentCode != null) 'ContinentCode': continentCode,
+      if (countryCode != null) 'CountryCode': countryCode,
+      if (subdivisionCode != null) 'SubdivisionCode': subdivisionCode,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final continentCode = this.continentCode;
+    final countryCode = this.countryCode;
+    final subdivisionCode = this.subdivisionCode;
+    final $children = <_s.XmlNode>[
+      if (continentCode != null)
+        _s.encodeXmlStringValue('ContinentCode', continentCode),
+      if (countryCode != null)
+        _s.encodeXmlStringValue('CountryCode', countryCode),
+      if (subdivisionCode != null)
+        _s.encodeXmlStringValue('SubdivisionCode', subdivisionCode),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class ResourceRecordSetFailover {
+  static const primary = ResourceRecordSetFailover._('PRIMARY');
+  static const secondary = ResourceRecordSetFailover._('SECONDARY');
+
+  final String value;
+
+  const ResourceRecordSetFailover._(this.value);
+
+  static const values = [primary, secondary];
+
+  static ResourceRecordSetFailover fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceRecordSetFailover._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceRecordSetFailover && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// <i>Alias resource record sets only:</i> Information about the Amazon Web
+/// Services resource, such as a CloudFront distribution or an Amazon S3 bucket,
+/// that you want to route traffic to.
+///
+/// When creating resource record sets for a private hosted zone, note the
+/// following:
+///
+/// <ul>
+/// <li>
+/// For information about creating failover resource record sets in a private
+/// hosted zone, see <a
+/// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-private-hosted-zones.html">Configuring
+/// Failover in a Private Hosted Zone</a>.
+/// </li>
+/// </ul>
+class AliasTarget {
+  /// <i>Alias resource record sets only:</i> The value that you specify depends
+  /// on where you want to route queries:
+  /// <dl> <dt>Amazon API Gateway custom regional APIs and edge-optimized
+  /// APIs</dt> <dd>
+  /// Specify the applicable domain name for your API. You can get the applicable
+  /// value using the CLI command <a
+  /// href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/get-domain-names.html">get-domain-names</a>:
+  ///
+  /// <ul>
+  /// <li>
+  /// For regional APIs, specify the value of <code>regionalDomainName</code>.
+  /// </li>
+  /// <li>
+  /// For edge-optimized APIs, specify the value of
+  /// <code>distributionDomainName</code>. This is the name of the associated
+  /// CloudFront distribution, such as <code>da1b2c3d4e5.cloudfront.net</code>.
+  /// </li>
+  /// </ul> <note>
+  /// The name of the record that you're creating must match a custom domain name
+  /// for your API, such as <code>api.example.com</code>.
+  /// </note> </dd> <dt>Amazon Virtual Private Cloud interface VPC endpoint</dt>
+  /// <dd>
+  /// Enter the API endpoint for the interface endpoint, such as
+  /// <code>vpce-123456789abcdef01-example-us-east-1a.elasticloadbalancing.us-east-1.vpce.amazonaws.com</code>.
+  /// For edge-optimized APIs, this is the domain name for the corresponding
+  /// CloudFront distribution. You can get the value of <code>DnsName</code> using
+  /// the CLI command <a
+  /// href="https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-vpc-endpoints.html">describe-vpc-endpoints</a>.
+  /// </dd> <dt>CloudFront distribution</dt> <dd>
+  /// Specify the domain name that CloudFront assigned when you created your
+  /// distribution.
+  ///
+  /// Your CloudFront distribution must include an alternate domain name that
+  /// matches the name of the resource record set. For example, if the name of the
+  /// resource record set is <i>acme.example.com</i>, your CloudFront distribution
+  /// must include <i>acme.example.com</i> as one of the alternate domain names.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html">Using
+  /// Alternate Domain Names (CNAMEs)</a> in the <i>Amazon CloudFront Developer
+  /// Guide</i>.
+  ///
+  /// You can't create a resource record set in a private hosted zone to route
+  /// traffic to a CloudFront distribution.
+  /// <note>
+  /// For failover alias records, you can't specify a CloudFront distribution for
+  /// both the primary and secondary records. A distribution must include an
+  /// alternate domain name that matches the name of the record. However, the
+  /// primary and secondary records have the same name, and you can't include the
+  /// same alternate domain name in more than one distribution.
+  /// </note> </dd> <dt>Elastic Beanstalk environment</dt> <dd>
+  /// If the domain name for your Elastic Beanstalk environment includes the
+  /// region that you deployed the environment in, you can create an alias record
+  /// that routes traffic to the environment. For example, the domain name
+  /// <code>my-environment.<i>us-west-2</i>.elasticbeanstalk.com</code> is a
+  /// regionalized domain name.
+  /// <important>
+  /// For environments that were created before early 2016, the domain name
+  /// doesn't include the region. To route traffic to these environments, you must
+  /// create a CNAME record instead of an alias record. Note that you can't create
+  /// a CNAME record for the root domain name. For example, if your domain name is
+  /// example.com, you can create a record that routes traffic for
+  /// acme.example.com to your Elastic Beanstalk environment, but you can't create
+  /// a record that routes traffic for example.com to your Elastic Beanstalk
+  /// environment.
+  /// </important>
+  /// For Elastic Beanstalk environments that have regionalized subdomains,
+  /// specify the <code>CNAME</code> attribute for the environment. You can use
+  /// the following methods to get the value of the CNAME attribute:
+  ///
+  /// <ul>
+  /// <li>
+  /// <i>Amazon Web Services Management Console</i>: For information about how to
+  /// get the value by using the console, see <a
+  /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/customdomains.html">Using
+  /// Custom Domains with Elastic Beanstalk</a> in the <i>Elastic Beanstalk
+  /// Developer Guide</i>.
+  /// </li>
+  /// <li>
+  /// <i>Elastic Beanstalk API</i>: Use the <code>DescribeEnvironments</code>
+  /// action to get the value of the <code>CNAME</code> attribute. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/api/API_DescribeEnvironments.html">DescribeEnvironments</a>
+  /// in the <i>Elastic Beanstalk API Reference</i>.
+  /// </li>
+  /// <li>
+  /// <i>CLI</i>: Use the <code>describe-environments</code> command to get the
+  /// value of the <code>CNAME</code> attribute. For more information, see <a
+  /// href="https://docs.aws.amazon.com/cli/latest/reference/elasticbeanstalk/describe-environments.html">describe-environments</a>
+  /// in the <i>CLI Command Reference</i>.
+  /// </li>
+  /// </ul> </dd> <dt>ELB load balancer</dt> <dd>
+  /// Specify the DNS name that is associated with the load balancer. Get the DNS
+  /// name by using the Amazon Web Services Management Console, the ELB API, or
+  /// the CLI.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Amazon Web Services Management Console</b>: Go to the EC2 page, choose
+  /// <b>Load Balancers</b> in the navigation pane, choose the load balancer,
+  /// choose the <b>Description</b> tab, and get the value of the <b>DNS name</b>
+  /// field.
+  ///
+  /// If you're routing traffic to a Classic Load Balancer, get the value that
+  /// begins with <b>dualstack</b>. If you're routing traffic to another type of
+  /// load balancer, get the value that applies to the record type, A or AAAA.
+  /// </li>
+  /// <li>
+  /// <b>Elastic Load Balancing API</b>: Use <code>DescribeLoadBalancers</code> to
+  /// get the value of <code>DNSName</code>. For more information, see the
+  /// applicable guide:
+  ///
+  /// <ul>
+  /// <li>
+  /// Classic Load Balancers: <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/2012-06-01/APIReference/API_DescribeLoadBalancers.html">DescribeLoadBalancers</a>
+  /// </li>
+  /// <li>
+  /// Application and Network Load Balancers: <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeLoadBalancers.html">DescribeLoadBalancers</a>
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <b>CLI</b>: Use <code>describe-load-balancers</code> to get the value of
+  /// <code>DNSName</code>. For more information, see the applicable guide:
+  ///
+  /// <ul>
+  /// <li>
+  /// Classic Load Balancers: <a
+  /// href="http://docs.aws.amazon.com/cli/latest/reference/elb/describe-load-balancers.html">describe-load-balancers</a>
+  /// </li>
+  /// <li>
+  /// Application and Network Load Balancers: <a
+  /// href="http://docs.aws.amazon.com/cli/latest/reference/elbv2/describe-load-balancers.html">describe-load-balancers</a>
+  /// </li>
+  /// </ul> </li>
+  /// </ul> </dd> <dt>Global Accelerator accelerator</dt> <dd>
+  /// Specify the DNS name for your accelerator:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Global Accelerator API:</b> To get the DNS name, use <a
+  /// href="https://docs.aws.amazon.com/global-accelerator/latest/api/API_DescribeAccelerator.html">DescribeAccelerator</a>.
+  /// </li>
+  /// <li>
+  /// <b>CLI:</b> To get the DNS name, use <a
+  /// href="https://docs.aws.amazon.com/cli/latest/reference/globalaccelerator/describe-accelerator.html">describe-accelerator</a>.
+  /// </li>
+  /// </ul> </dd> <dt>Amazon S3 bucket that is configured as a static website</dt>
+  /// <dd>
+  /// Specify the domain name of the Amazon S3 website endpoint that you created
+  /// the bucket in, for example, <code>s3-website.us-east-2.amazonaws.com</code>.
+  /// For more information about valid values, see the table <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/s3.html#s3_website_region_endpoints">Amazon
+  /// S3 Website Endpoints</a> in the <i>Amazon Web Services General
+  /// Reference</i>. For more information about using S3 buckets for websites, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/getting-started.html">Getting
+  /// Started with Amazon Route 53</a> in the <i>Amazon Route 53 Developer
+  /// Guide.</i>
+  /// </dd> <dt>Another Route 53 resource record set</dt> <dd>
+  /// Specify the value of the <code>Name</code> element for a resource record set
+  /// in the current hosted zone.
+  /// <note>
+  /// If you're creating an alias record that has the same name as the hosted zone
+  /// (known as the zone apex), you can't specify the domain name for a record for
+  /// which the value of <code>Type</code> is <code>CNAME</code>. This is because
+  /// the alias record must have the same type as the record that you're routing
+  /// traffic to, and creating a CNAME record for the zone apex isn't supported
+  /// even for an alias record.
+  /// </note> </dd> </dl>
+  final String dNSName;
+
+  /// <i>Applies only to alias, failover alias, geolocation alias, latency alias,
+  /// and weighted alias resource record sets:</i> When
+  /// <code>EvaluateTargetHealth</code> is <code>true</code>, an alias resource
+  /// record set inherits the health of the referenced Amazon Web Services
+  /// resource, such as an ELB load balancer or another resource record set in the
+  /// hosted zone.
+  ///
+  /// Note the following:
+  /// <dl> <dt>CloudFront distributions</dt> <dd>
+  /// You can't set <code>EvaluateTargetHealth</code> to <code>true</code> when
+  /// the alias target is a CloudFront distribution.
+  /// </dd> <dt>Elastic Beanstalk environments that have regionalized
+  /// subdomains</dt> <dd>
+  /// If you specify an Elastic Beanstalk environment in <code>DNSName</code> and
+  /// the environment contains an ELB load balancer, Elastic Load Balancing routes
+  /// queries only to the healthy Amazon EC2 instances that are registered with
+  /// the load balancer. (An environment automatically contains an ELB load
+  /// balancer if it includes more than one Amazon EC2 instance.) If you set
+  /// <code>EvaluateTargetHealth</code> to <code>true</code> and either no Amazon
+  /// EC2 instances are healthy or the load balancer itself is unhealthy, Route 53
+  /// routes queries to other available resources that are healthy, if any.
+  ///
+  /// If the environment contains a single Amazon EC2 instance, there are no
+  /// special requirements.
+  /// </dd> <dt>ELB load balancers</dt> <dd>
+  /// Health checking behavior depends on the type of load balancer:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Classic Load Balancers</b>: If you specify an ELB Classic Load Balancer
+  /// in <code>DNSName</code>, Elastic Load Balancing routes queries only to the
+  /// healthy Amazon EC2 instances that are registered with the load balancer. If
+  /// you set <code>EvaluateTargetHealth</code> to <code>true</code> and either no
+  /// EC2 instances are healthy or the load balancer itself is unhealthy, Route 53
+  /// routes queries to other resources.
+  /// </li>
+  /// <li>
+  /// <b>Application and Network Load Balancers</b>: If you specify an ELB
+  /// Application or Network Load Balancer and you set
+  /// <code>EvaluateTargetHealth</code> to <code>true</code>, Route 53 routes
+  /// queries to the load balancer based on the health of the target groups that
+  /// are associated with the load balancer:
+  ///
+  /// <ul>
+  /// <li>
+  /// For an Application or Network Load Balancer to be considered healthy, every
+  /// target group that contains targets must contain at least one healthy target.
+  /// If any target group contains only unhealthy targets, the load balancer is
+  /// considered unhealthy, and Route 53 routes queries to other resources.
+  /// </li>
+  /// <li>
+  /// A target group that has no registered targets is considered unhealthy.
+  /// </li>
+  /// </ul> </li>
+  /// </ul> <note>
+  /// When you create a load balancer, you configure settings for Elastic Load
+  /// Balancing health checks; they're not Route 53 health checks, but they
+  /// perform a similar function. Do not create Route 53 health checks for the EC2
+  /// instances that you register with an ELB load balancer.
+  /// </note> </dd> <dt>API Gateway APIs</dt> <dd>
+  /// There are no special requirements for setting
+  /// <code>EvaluateTargetHealth</code> to <code>true</code> when the alias target
+  /// is an API Gateway API. However, because API Gateway is highly available by
+  /// design, <code>EvaluateTargetHealth</code> provides no operational benefit
+  /// and <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html">Route
+  /// 53 health checks</a> are recommended instead for failover scenarios.
+  /// </dd> <dt>S3 buckets</dt> <dd>
+  /// There are no special requirements for setting
+  /// <code>EvaluateTargetHealth</code> to <code>true</code> when the alias target
+  /// is an S3 bucket. However, because S3 buckets are highly available by design,
+  /// <code>EvaluateTargetHealth</code> provides no operational benefit and <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html">Route
+  /// 53 health checks</a> are recommended instead for failover scenarios.
+  /// </dd> <dt>VPC interface endpoints</dt> <dd>
+  /// There are no special requirements for setting
+  /// <code>EvaluateTargetHealth</code> to <code>true</code> when the alias target
+  /// is a VPC interface endpoint. However, because VPC interface endpoints are
+  /// highly available by design, <code>EvaluateTargetHealth</code> provides no
+  /// operational benefit and <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html">Route
+  /// 53 health checks</a> are recommended instead for failover scenarios.
+  /// </dd> <dt>Other records in the same hosted zone</dt> <dd>
+  /// If the Amazon Web Services resource that you specify in <code>DNSName</code>
+  /// is a record or a group of records (for example, a group of weighted records)
+  /// but is not another alias record, we recommend that you associate a health
+  /// check with all of the records in the alias target. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-complex-configs.html#dns-failover-complex-configs-hc-omitting">What
+  /// Happens When You Omit Health Checks?</a> in the <i>Amazon Route 53 Developer
+  /// Guide</i>.
+  /// </dd> </dl> <note>
+  /// While <code>EvaluateTargetHealth</code> can be set to <code>true</code> for
+  /// highly available Amazon Web Services services (such as S3 buckets, VPC
+  /// interface endpoints, and API Gateway), these services are designed for high
+  /// availability and rarely experience outages that would be detected by this
+  /// feature. For failover scenarios with these services, consider using <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html">Route
+  /// 53 health checks</a> that monitor your application's ability to access the
+  /// service instead.
+  /// </note>
+  /// For more information and examples, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html">Amazon
+  /// Route 53 Health Checks and DNS Failover</a> in the <i>Amazon Route 53
+  /// Developer Guide</i>.
+  final bool evaluateTargetHealth;
+
+  /// <i>Alias resource records sets only</i>: The value used depends on where you
+  /// want to route traffic:
+  /// <dl> <dt>Amazon API Gateway custom regional APIs and edge-optimized
+  /// APIs</dt> <dd>
+  /// Specify the hosted zone ID for your API. You can get the applicable value
+  /// using the CLI command <a
+  /// href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/get-domain-names.html">get-domain-names</a>:
+  ///
+  /// <ul>
+  /// <li>
+  /// For regional APIs, specify the value of <code>regionalHostedZoneId</code>.
+  /// </li>
+  /// <li>
+  /// For edge-optimized APIs, specify the value of
+  /// <code>distributionHostedZoneId</code>.
+  /// </li>
+  /// </ul> </dd> <dt>Amazon Virtual Private Cloud interface VPC endpoint</dt>
+  /// <dd>
+  /// Specify the hosted zone ID for your interface endpoint. You can get the
+  /// value of <code>HostedZoneId</code> using the CLI command <a
+  /// href="https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-vpc-endpoints.html">describe-vpc-endpoints</a>.
+  /// </dd> <dt>CloudFront distribution</dt> <dd>
+  /// Specify <code>Z2FDTNDATAQYW2</code>.
+  /// <note>
+  /// Alias resource record sets for CloudFront can't be created in a private
+  /// zone.
+  /// </note> </dd> <dt>Elastic Beanstalk environment</dt> <dd>
+  /// Specify the hosted zone ID for the region that you created the environment
+  /// in. The environment must have a regionalized subdomain. For a list of
+  /// regions and the corresponding hosted zone IDs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/elasticbeanstalk.html">Elastic
+  /// Beanstalk endpoints and quotas</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
+  /// </dd> <dt>ELB load balancer</dt> <dd>
+  /// Specify the value of the hosted zone ID for the load balancer. Use the
+  /// following methods to get the hosted zone ID:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a href="https://docs.aws.amazon.com/general/latest/gr/elb.html">Elastic
+  /// Load Balancing endpoints and quotas</a> topic in the <i>Amazon Web Services
+  /// General Reference</i>: Use the value that corresponds with the region that
+  /// you created your load balancer in. Note that there are separate columns for
+  /// Application and Classic Load Balancers and for Network Load Balancers.
+  /// </li>
+  /// <li>
+  /// <b>Amazon Web Services Management Console</b>: Go to the Amazon EC2 page,
+  /// choose <b>Load Balancers</b> in the navigation pane, select the load
+  /// balancer, and get the value of the <b>Hosted zone</b> field on the
+  /// <b>Description</b> tab.
+  /// </li>
+  /// <li>
+  /// <b>Elastic Load Balancing API</b>: Use <code>DescribeLoadBalancers</code> to
+  /// get the applicable value. For more information, see the applicable guide:
+  ///
+  /// <ul>
+  /// <li>
+  /// Classic Load Balancers: Use <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/2012-06-01/APIReference/API_DescribeLoadBalancers.html">DescribeLoadBalancers</a>
+  /// to get the value of <code>CanonicalHostedZoneNameId</code>.
+  /// </li>
+  /// <li>
+  /// Application and Network Load Balancers: Use <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeLoadBalancers.html">DescribeLoadBalancers</a>
+  /// to get the value of <code>CanonicalHostedZoneId</code>.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <b>CLI</b>: Use <code>describe-load-balancers</code> to get the applicable
+  /// value. For more information, see the applicable guide:
+  ///
+  /// <ul>
+  /// <li>
+  /// Classic Load Balancers: Use <a
+  /// href="http://docs.aws.amazon.com/cli/latest/reference/elb/describe-load-balancers.html">describe-load-balancers</a>
+  /// to get the value of <code>CanonicalHostedZoneNameId</code>.
+  /// </li>
+  /// <li>
+  /// Application and Network Load Balancers: Use <a
+  /// href="http://docs.aws.amazon.com/cli/latest/reference/elbv2/describe-load-balancers.html">describe-load-balancers</a>
+  /// to get the value of <code>CanonicalHostedZoneId</code>.
+  /// </li>
+  /// </ul> </li>
+  /// </ul> </dd> <dt>Global Accelerator accelerator</dt> <dd>
+  /// Specify <code>Z2BJ6XQ5FK7U4H</code>.
+  /// </dd> <dt>An Amazon S3 bucket configured as a static website</dt> <dd>
+  /// Specify the hosted zone ID for the region that you created the bucket in.
+  /// For more information about valid values, see the table <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/s3.html#s3_website_region_endpoints">Amazon
+  /// S3 Website Endpoints</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
+  /// </dd> <dt>Another Route 53 resource record set in your hosted zone</dt> <dd>
+  /// Specify the hosted zone ID of your hosted zone. (An alias resource record
+  /// set can't reference a resource record set in a different hosted zone.)
+  /// </dd> </dl>
+  final String hostedZoneId;
+
+  AliasTarget({
+    required this.dNSName,
+    required this.evaluateTargetHealth,
+    required this.hostedZoneId,
+  });
+  factory AliasTarget.fromXml(_s.XmlElement elem) {
+    return AliasTarget(
+      dNSName: _s.extractXmlStringValue(elem, 'DNSName')!,
+      evaluateTargetHealth:
+          _s.extractXmlBoolValue(elem, 'EvaluateTargetHealth')!,
+      hostedZoneId: _s.extractXmlStringValue(elem, 'HostedZoneId')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dNSName = this.dNSName;
+    final evaluateTargetHealth = this.evaluateTargetHealth;
+    final hostedZoneId = this.hostedZoneId;
+    return {
+      'DNSName': dNSName,
+      'EvaluateTargetHealth': evaluateTargetHealth,
+      'HostedZoneId': hostedZoneId,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final dNSName = this.dNSName;
+    final evaluateTargetHealth = this.evaluateTargetHealth;
+    final hostedZoneId = this.hostedZoneId;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('HostedZoneId', hostedZoneId),
+      _s.encodeXmlStringValue('DNSName', dNSName),
+      _s.encodeXmlBoolValue('EvaluateTargetHealth', evaluateTargetHealth),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// The object that is specified in resource record set object when you are
+/// linking a resource record set to a CIDR location.
+///
+/// A <code>LocationName</code> with an asterisk “*” can be used to create a
+/// default CIDR record. <code>CollectionId</code> is still required for default
+/// record.
+class CidrRoutingConfig {
+  /// The CIDR collection ID.
+  final String collectionId;
+
+  /// The CIDR collection location name.
+  final String locationName;
+
+  CidrRoutingConfig({
+    required this.collectionId,
+    required this.locationName,
+  });
+  factory CidrRoutingConfig.fromXml(_s.XmlElement elem) {
+    return CidrRoutingConfig(
+      collectionId: _s.extractXmlStringValue(elem, 'CollectionId')!,
+      locationName: _s.extractXmlStringValue(elem, 'LocationName')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final collectionId = this.collectionId;
+    final locationName = this.locationName;
+    return {
+      'CollectionId': collectionId,
+      'LocationName': locationName,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final collectionId = this.collectionId;
+    final locationName = this.locationName;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('CollectionId', collectionId),
+      _s.encodeXmlStringValue('LocationName', locationName),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// (Resource record sets only): A complex type that lets you specify where your
+/// resources are located. Only one of <code>LocalZoneGroup</code>,
+/// <code>Coordinates</code>, or <code>Amazon Web ServicesRegion</code> is
+/// allowed per request at a time.
+///
+/// For more information about geoproximity routing, see <a
+/// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy-geoproximity.html">Geoproximity
+/// routing</a> in the <i>Amazon Route 53 Developer Guide</i>.
+class GeoProximityLocation {
+  /// The Amazon Web Services Region the resource you are directing DNS traffic
+  /// to, is in.
+  final String? awsRegion;
+
+  /// The bias increases or decreases the size of the geographic region from which
+  /// Route 53 routes traffic to a resource.
+  ///
+  /// To use <code>Bias</code> to change the size of the geographic region,
+  /// specify the applicable value for the bias:
+  ///
+  /// <ul>
+  /// <li>
+  /// To expand the size of the geographic region from which Route 53 routes
+  /// traffic to a resource, specify a positive integer from 1 to 99 for the bias.
+  /// Route 53 shrinks the size of adjacent regions.
+  /// </li>
+  /// <li>
+  /// To shrink the size of the geographic region from which Route 53 routes
+  /// traffic to a resource, specify a negative bias of -1 to -99. Route 53
+  /// expands the size of adjacent regions.
+  /// </li>
+  /// </ul>
+  final int? bias;
+
+  /// Contains the longitude and latitude for a geographic region.
+  final Coordinates? coordinates;
+
+  /// Specifies an Amazon Web Services Local Zone Group.
+  ///
+  /// A local Zone Group is usually the Local Zone code without the ending
+  /// character. For example, if the Local Zone is <code>us-east-1-bue-1a</code>
+  /// the Local Zone Group is <code>us-east-1-bue-1</code>.
+  ///
+  /// You can identify the Local Zones Group for a specific Local Zone by using
+  /// the <a
+  /// href="https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-availability-zones.html">describe-availability-zones</a>
+  /// CLI command:
+  ///
+  /// This command returns: <code>"GroupName": "us-west-2-den-1"</code>,
+  /// specifying that the Local Zone <code>us-west-2-den-1a</code> belongs to the
+  /// Local Zone Group <code>us-west-2-den-1</code>.
+  final String? localZoneGroup;
+
+  GeoProximityLocation({
+    this.awsRegion,
+    this.bias,
+    this.coordinates,
+    this.localZoneGroup,
+  });
+  factory GeoProximityLocation.fromXml(_s.XmlElement elem) {
+    return GeoProximityLocation(
+      awsRegion: _s.extractXmlStringValue(elem, 'AWSRegion'),
+      bias: _s.extractXmlIntValue(elem, 'Bias'),
+      coordinates:
+          _s.extractXmlChild(elem, 'Coordinates')?.let(Coordinates.fromXml),
+      localZoneGroup: _s.extractXmlStringValue(elem, 'LocalZoneGroup'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsRegion = this.awsRegion;
+    final bias = this.bias;
+    final coordinates = this.coordinates;
+    final localZoneGroup = this.localZoneGroup;
+    return {
+      if (awsRegion != null) 'AWSRegion': awsRegion,
+      if (bias != null) 'Bias': bias,
+      if (coordinates != null) 'Coordinates': coordinates,
+      if (localZoneGroup != null) 'LocalZoneGroup': localZoneGroup,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final awsRegion = this.awsRegion;
+    final bias = this.bias;
+    final coordinates = this.coordinates;
+    final localZoneGroup = this.localZoneGroup;
+    final $children = <_s.XmlNode>[
+      if (awsRegion != null) _s.encodeXmlStringValue('AWSRegion', awsRegion),
+      if (localZoneGroup != null)
+        _s.encodeXmlStringValue('LocalZoneGroup', localZoneGroup),
+      if (coordinates != null) coordinates.toXml('Coordinates'),
+      if (bias != null) _s.encodeXmlIntValue('Bias', bias),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A complex type that lists the coordinates for a geoproximity resource
+/// record.
+class Coordinates {
+  /// Specifies a coordinate of the north–south position of a geographic point on
+  /// the surface of the Earth (-90 - 90).
+  final String latitude;
+
+  /// Specifies a coordinate of the east–west position of a geographic point on
+  /// the surface of the Earth (-180 - 180).
+  final String longitude;
+
+  Coordinates({
+    required this.latitude,
+    required this.longitude,
+  });
+  factory Coordinates.fromXml(_s.XmlElement elem) {
+    return Coordinates(
+      latitude: _s.extractXmlStringValue(elem, 'Latitude')!,
+      longitude: _s.extractXmlStringValue(elem, 'Longitude')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final latitude = this.latitude;
+    final longitude = this.longitude;
+    return {
+      'Latitude': latitude,
+      'Longitude': longitude,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final latitude = this.latitude;
+    final longitude = this.longitude;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Latitude', latitude),
+      _s.encodeXmlStringValue('Longitude', longitude),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Information specific to the resource record.
+/// <note>
+/// If you're creating an alias resource record set, omit
+/// <code>ResourceRecord</code>.
+/// </note>
+class ResourceRecord {
+  /// The current or new DNS record value, not to exceed 4,000 characters. In the
+  /// case of a <code>DELETE</code> action, if the current value does not match
+  /// the actual value, an error is returned. For descriptions about how to format
+  /// <code>Value</code> for different record types, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/ResourceRecordTypes.html">Supported
+  /// DNS Resource Record Types</a> in the <i>Amazon Route 53 Developer Guide</i>.
+  ///
+  /// You can specify more than one value for all record types except
+  /// <code>CNAME</code> and <code>SOA</code>.
+  /// <note>
+  /// If you're creating an alias resource record set, omit <code>Value</code>.
+  /// </note>
+  final String value;
+
+  ResourceRecord({
+    required this.value,
+  });
+  factory ResourceRecord.fromXml(_s.XmlElement elem) {
+    return ResourceRecord(
+      value: _s.extractXmlStringValue(elem, 'Value')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final value = this.value;
+    return {
+      'Value': value,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final value = this.value;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Value', value),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A complex type that contains information about a configuration for DNS query
+/// logging.
+class QueryLoggingConfig {
+  /// The Amazon Resource Name (ARN) of the CloudWatch Logs log group that Amazon
+  /// Route 53 is publishing logs to.
+  final String cloudWatchLogsLogGroupArn;
+
+  /// The ID of the hosted zone that CloudWatch Logs is logging queries for.
+  final String hostedZoneId;
+
+  /// The ID for a configuration for DNS query logging.
+  final String id;
+
+  QueryLoggingConfig({
+    required this.cloudWatchLogsLogGroupArn,
+    required this.hostedZoneId,
+    required this.id,
+  });
+  factory QueryLoggingConfig.fromXml(_s.XmlElement elem) {
+    return QueryLoggingConfig(
+      cloudWatchLogsLogGroupArn:
+          _s.extractXmlStringValue(elem, 'CloudWatchLogsLogGroupArn')!,
+      hostedZoneId: _s.extractXmlStringValue(elem, 'HostedZoneId')!,
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchLogsLogGroupArn = this.cloudWatchLogsLogGroupArn;
+    final hostedZoneId = this.hostedZoneId;
+    final id = this.id;
+    return {
+      'CloudWatchLogsLogGroupArn': cloudWatchLogsLogGroupArn,
+      'HostedZoneId': hostedZoneId,
+      'Id': id,
+    };
+  }
+}
+
+/// In the response to a <code>ListHostedZonesByVPC</code> request, the
+/// <code>HostedZoneSummaries</code> element contains one
+/// <code>HostedZoneSummary</code> element for each hosted zone that the
+/// specified Amazon VPC is associated with. Each <code>HostedZoneSummary</code>
+/// element contains the hosted zone name and ID, and information about who owns
+/// the hosted zone.
+class HostedZoneSummary {
+  /// The Route 53 hosted zone ID of a private hosted zone that the specified VPC
+  /// is associated with.
+  final String hostedZoneId;
+
+  /// The name of the private hosted zone, such as <code>example.com</code>.
+  final String name;
+
+  /// The owner of a private hosted zone that the specified VPC is associated
+  /// with. The owner can be either an Amazon Web Services account or an Amazon
+  /// Web Services service.
+  final HostedZoneOwner owner;
+
+  HostedZoneSummary({
+    required this.hostedZoneId,
+    required this.name,
+    required this.owner,
+  });
+  factory HostedZoneSummary.fromXml(_s.XmlElement elem) {
+    return HostedZoneSummary(
+      hostedZoneId: _s.extractXmlStringValue(elem, 'HostedZoneId')!,
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      owner: HostedZoneOwner.fromXml(_s.extractXmlChild(elem, 'Owner')!),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostedZoneId = this.hostedZoneId;
+    final name = this.name;
+    final owner = this.owner;
+    return {
+      'HostedZoneId': hostedZoneId,
+      'Name': name,
+      'Owner': owner,
+    };
+  }
+}
+
+/// A complex type that identifies a hosted zone that a specified Amazon VPC is
+/// associated with and the owner of the hosted zone. If there is a value for
+/// <code>OwningAccount</code>, there is no value for
+/// <code>OwningService</code>, and vice versa.
+class HostedZoneOwner {
+  /// If the hosted zone was created by an Amazon Web Services account, or was
+  /// created by an Amazon Web Services service that creates hosted zones using
+  /// the current account, <code>OwningAccount</code> contains the account ID of
+  /// that account. For example, when you use Cloud Map to create a hosted zone,
+  /// Cloud Map creates the hosted zone using the current Amazon Web Services
+  /// account.
+  final String? owningAccount;
+
+  /// If an Amazon Web Services service uses its own account to create a hosted
+  /// zone and associate the specified VPC with that hosted zone,
+  /// <code>OwningService</code> contains an abbreviation that identifies the
+  /// service. For example, if Amazon Elastic File System (Amazon EFS) created a
+  /// hosted zone and associated a VPC with the hosted zone, the value of
+  /// <code>OwningService</code> is <code>efs.amazonaws.com</code>.
+  final String? owningService;
+
+  HostedZoneOwner({
+    this.owningAccount,
+    this.owningService,
+  });
+  factory HostedZoneOwner.fromXml(_s.XmlElement elem) {
+    return HostedZoneOwner(
+      owningAccount: _s.extractXmlStringValue(elem, 'OwningAccount'),
+      owningService: _s.extractXmlStringValue(elem, 'OwningService'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final owningAccount = this.owningAccount;
+    final owningService = this.owningService;
+    return {
+      if (owningAccount != null) 'OwningAccount': owningAccount,
+      if (owningService != null) 'OwningService': owningService,
+    };
+  }
+}
+
+class HostedZoneType {
+  static const privateHostedZone = HostedZoneType._('PrivateHostedZone');
+
+  final String value;
+
+  const HostedZoneType._(this.value);
+
+  static const values = [privateHostedZone];
+
+  static HostedZoneType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HostedZoneType._(value));
+
+  @override
+  bool operator ==(other) => other is HostedZoneType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A complex type that contains the codes and full continent, country, and
+/// subdivision names for the specified <code>geolocation</code> code.
+class GeoLocationDetails {
+  /// The two-letter code for the continent.
+  final String? continentCode;
+
+  /// The full name of the continent.
+  final String? continentName;
+
+  /// The two-letter code for the country.
+  final String? countryCode;
+
+  /// The name of the country.
+  final String? countryName;
+
+  /// The code for the subdivision, such as a particular state within the United
+  /// States. For a list of US state abbreviations, see <a
+  /// href="https://pe.usps.com/text/pub28/28apb.htm">Appendix B: Two–Letter State
+  /// and Possession Abbreviations</a> on the United States Postal Service
+  /// website. For a list of all supported subdivision codes, use the <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_ListGeoLocations.html">ListGeoLocations</a>
+  /// API.
+  final String? subdivisionCode;
+
+  /// The full name of the subdivision. Route 53 currently supports only states in
+  /// the United States.
+  final String? subdivisionName;
+
+  GeoLocationDetails({
+    this.continentCode,
+    this.continentName,
+    this.countryCode,
+    this.countryName,
+    this.subdivisionCode,
+    this.subdivisionName,
+  });
+  factory GeoLocationDetails.fromXml(_s.XmlElement elem) {
+    return GeoLocationDetails(
+      continentCode: _s.extractXmlStringValue(elem, 'ContinentCode'),
+      continentName: _s.extractXmlStringValue(elem, 'ContinentName'),
+      countryCode: _s.extractXmlStringValue(elem, 'CountryCode'),
+      countryName: _s.extractXmlStringValue(elem, 'CountryName'),
+      subdivisionCode: _s.extractXmlStringValue(elem, 'SubdivisionCode'),
+      subdivisionName: _s.extractXmlStringValue(elem, 'SubdivisionName'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final continentCode = this.continentCode;
+    final continentName = this.continentName;
+    final countryCode = this.countryCode;
+    final countryName = this.countryName;
+    final subdivisionCode = this.subdivisionCode;
+    final subdivisionName = this.subdivisionName;
+    return {
+      if (continentCode != null) 'ContinentCode': continentCode,
+      if (continentName != null) 'ContinentName': continentName,
+      if (countryCode != null) 'CountryCode': countryCode,
+      if (countryName != null) 'CountryName': countryName,
+      if (subdivisionCode != null) 'SubdivisionCode': subdivisionCode,
+      if (subdivisionName != null) 'SubdivisionName': subdivisionName,
+    };
+  }
+}
+
+/// A complex type that contains information about the CIDR location.
+class LocationSummary {
+  /// A string that specifies a location name.
+  final String? locationName;
+
+  LocationSummary({
+    this.locationName,
+  });
+  factory LocationSummary.fromXml(_s.XmlElement elem) {
+    return LocationSummary(
+      locationName: _s.extractXmlStringValue(elem, 'LocationName'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final locationName = this.locationName;
+    return {
+      if (locationName != null) 'LocationName': locationName,
+    };
+  }
+}
+
+/// A complex type that is an entry in an <a
+/// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CidrCollection.html">CidrCollection</a>
+/// array.
+class CollectionSummary {
+  /// The ARN of the collection summary. Can be used to reference the collection
+  /// in IAM policy or cross-account.
+  final String? arn;
+
+  /// Unique ID for the CIDR collection.
+  final String? id;
+
+  /// The name of a CIDR collection.
+  final String? name;
+
+  /// A sequential counter that Route 53 sets to 1 when you create a CIDR
+  /// collection and increments by 1 each time you update settings for the CIDR
+  /// collection.
+  final int? version;
+
+  CollectionSummary({
+    this.arn,
+    this.id,
+    this.name,
+    this.version,
+  });
+  factory CollectionSummary.fromXml(_s.XmlElement elem) {
+    return CollectionSummary(
+      arn: _s.extractXmlStringValue(elem, 'Arn'),
+      id: _s.extractXmlStringValue(elem, 'Id'),
+      name: _s.extractXmlStringValue(elem, 'Name'),
+      version: _s.extractXmlIntValue(elem, 'Version'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final name = this.name;
+    final version = this.version;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (version != null) 'Version': version,
+    };
+  }
+}
+
+/// A complex type that lists the CIDR blocks.
+class CidrBlockSummary {
+  /// Value for the CIDR block.
+  final String? cidrBlock;
+
+  /// The location name of the CIDR block.
+  final String? locationName;
+
+  CidrBlockSummary({
+    this.cidrBlock,
+    this.locationName,
+  });
+  factory CidrBlockSummary.fromXml(_s.XmlElement elem) {
+    return CidrBlockSummary(
+      cidrBlock: _s.extractXmlStringValue(elem, 'CidrBlock'),
+      locationName: _s.extractXmlStringValue(elem, 'LocationName'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cidrBlock = this.cidrBlock;
+    final locationName = this.locationName;
+    return {
+      if (cidrBlock != null) 'CidrBlock': cidrBlock,
+      if (locationName != null) 'LocationName': locationName,
     };
   }
 }
@@ -11865,30 +12571,116 @@ class ReusableDelegationSetLimitType {
   String toString() => value;
 }
 
-class Statistic {
-  static const average = Statistic._('Average');
-  static const sum = Statistic._('Sum');
-  static const sampleCount = Statistic._('SampleCount');
-  static const maximum = Statistic._('Maximum');
-  static const minimum = Statistic._('Minimum');
+/// A complex type that contains the type of limit that you specified in the
+/// request and the current value for that limit.
+class HostedZoneLimit {
+  /// The limit that you requested. Valid values include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>MAX_RRSETS_BY_ZONE</b>: The maximum number of records that you can create
+  /// in the specified hosted zone.
+  /// </li>
+  /// <li>
+  /// <b>MAX_VPCS_ASSOCIATED_BY_ZONE</b>: The maximum number of Amazon VPCs that
+  /// you can associate with the specified private hosted zone.
+  /// </li>
+  /// </ul>
+  final HostedZoneLimitType type;
+
+  /// The current value for the limit that is specified by <code>Type</code>.
+  final int value;
+
+  HostedZoneLimit({
+    required this.type,
+    required this.value,
+  });
+  factory HostedZoneLimit.fromXml(_s.XmlElement elem) {
+    return HostedZoneLimit(
+      type: _s
+          .extractXmlStringValue(elem, 'Type')!
+          .let(HostedZoneLimitType.fromString),
+      value: _s.extractXmlIntValue(elem, 'Value')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final value = this.value;
+    return {
+      'Type': type.value,
+      'Value': value,
+    };
+  }
+}
+
+class HostedZoneLimitType {
+  static const maxRrsetsByZone = HostedZoneLimitType._('MAX_RRSETS_BY_ZONE');
+  static const maxVpcsAssociatedByZone =
+      HostedZoneLimitType._('MAX_VPCS_ASSOCIATED_BY_ZONE');
 
   final String value;
 
-  const Statistic._(this.value);
+  const HostedZoneLimitType._(this.value);
 
-  static const values = [average, sum, sampleCount, maximum, minimum];
+  static const values = [maxRrsetsByZone, maxVpcsAssociatedByZone];
 
-  static Statistic fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Statistic._(value));
+  static HostedZoneLimitType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HostedZoneLimitType._(value));
 
   @override
-  bool operator ==(other) => other is Statistic && other.value == value;
+  bool operator ==(other) =>
+      other is HostedZoneLimitType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
+}
+
+/// A complex type that contains the last failure reason as reported by one
+/// Amazon Route 53 health checker.
+class HealthCheckObservation {
+  /// The IP address of the Amazon Route 53 health checker that provided the
+  /// failure reason in <code>StatusReport</code>.
+  final String? iPAddress;
+
+  /// The region of the Amazon Route 53 health checker that provided the status in
+  /// <code>StatusReport</code>.
+  final HealthCheckRegion? region;
+
+  /// A complex type that contains the last failure reason as reported by one
+  /// Amazon Route 53 health checker and the time of the failed health check.
+  final StatusReport? statusReport;
+
+  HealthCheckObservation({
+    this.iPAddress,
+    this.region,
+    this.statusReport,
+  });
+  factory HealthCheckObservation.fromXml(_s.XmlElement elem) {
+    return HealthCheckObservation(
+      iPAddress: _s.extractXmlStringValue(elem, 'IPAddress'),
+      region: _s
+          .extractXmlStringValue(elem, 'Region')
+          ?.let(HealthCheckRegion.fromString),
+      statusReport:
+          _s.extractXmlChild(elem, 'StatusReport')?.let(StatusReport.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final iPAddress = this.iPAddress;
+    final region = this.region;
+    final statusReport = this.statusReport;
+    return {
+      if (iPAddress != null) 'IPAddress': iPAddress,
+      if (region != null) 'Region': region.value,
+      if (statusReport != null) 'StatusReport': statusReport,
+    };
+  }
 }
 
 /// A complex type that contains the status that one Amazon Route 53 health
@@ -11926,103 +12718,338 @@ class StatusReport {
   }
 }
 
-/// A complex type that contains information about a tag that you want to add or
-/// edit for the specified health check or hosted zone.
-class Tag {
-  /// The value of <code>Key</code> depends on the operation that you want to
-  /// perform:
+/// A string representing the status of DNSSEC signing.
+class DNSSECStatus {
+  /// A string that represents the current hosted zone signing status.
   ///
-  /// <ul>
-  /// <li>
-  /// <b>Add a tag to a health check or hosted zone</b>: <code>Key</code> is the
-  /// name that you want to give the new tag.
-  /// </li>
-  /// <li>
-  /// <b>Edit a tag</b>: <code>Key</code> is the name of the tag that you want to
-  /// change the <code>Value</code> for.
-  /// </li>
-  /// <li>
-  /// <b> Delete a key</b>: <code>Key</code> is the name of the tag you want to
-  /// remove.
-  /// </li>
-  /// <li>
-  /// <b>Give a name to a health check</b>: Edit the default <code>Name</code>
-  /// tag. In the Amazon Route 53 console, the list of your health checks includes
-  /// a <b>Name</b> column that lets you see the name that you've given to each
-  /// health check.
-  /// </li>
-  /// </ul>
-  final String? key;
+  /// Status can have one of the following values:
+  /// <dl> <dt>SIGNING</dt> <dd>
+  /// DNSSEC signing is enabled for the hosted zone.
+  /// </dd> <dt>NOT_SIGNING</dt> <dd>
+  /// DNSSEC signing is not enabled for the hosted zone.
+  /// </dd> <dt>DELETING</dt> <dd>
+  /// DNSSEC signing is in the process of being removed for the hosted zone.
+  /// </dd> <dt>ACTION_NEEDED</dt> <dd>
+  /// There is a problem with signing in the hosted zone that requires you to take
+  /// action to resolve. For example, the customer managed key might have been
+  /// deleted, or the permissions for the customer managed key might have been
+  /// changed.
+  /// </dd> <dt>INTERNAL_FAILURE</dt> <dd>
+  /// There was an error during a request. Before you can continue to work with
+  /// DNSSEC signing, including with key-signing keys (KSKs), you must correct the
+  /// problem by enabling or disabling DNSSEC signing for the hosted zone.
+  /// </dd> </dl>
+  final String? serveSignature;
 
-  /// The value of <code>Value</code> depends on the operation that you want to
-  /// perform:
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>Add a tag to a health check or hosted zone</b>: <code>Value</code> is the
-  /// value that you want to give the new tag.
-  /// </li>
-  /// <li>
-  /// <b>Edit a tag</b>: <code>Value</code> is the new value that you want to
-  /// assign the tag.
-  /// </li>
-  /// </ul>
-  final String? value;
+  /// The status message provided for the following DNSSEC signing status:
+  /// <code>INTERNAL_FAILURE</code>. The status message includes information about
+  /// what the problem might be and steps that you can take to correct the issue.
+  final String? statusMessage;
 
-  Tag({
-    this.key,
-    this.value,
+  DNSSECStatus({
+    this.serveSignature,
+    this.statusMessage,
   });
-  factory Tag.fromXml(_s.XmlElement elem) {
-    return Tag(
-      key: _s.extractXmlStringValue(elem, 'Key'),
-      value: _s.extractXmlStringValue(elem, 'Value'),
+  factory DNSSECStatus.fromXml(_s.XmlElement elem) {
+    return DNSSECStatus(
+      serveSignature: _s.extractXmlStringValue(elem, 'ServeSignature'),
+      statusMessage: _s.extractXmlStringValue(elem, 'StatusMessage'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
+    final serveSignature = this.serveSignature;
+    final statusMessage = this.statusMessage;
     return {
-      if (key != null) 'Key': key,
-      if (value != null) 'Value': value,
+      if (serveSignature != null) 'ServeSignature': serveSignature,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
     };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final key = this.key;
-    final value = this.value;
-    final $children = <_s.XmlNode>[
-      if (key != null) _s.encodeXmlStringValue('Key', key),
-      if (value != null) _s.encodeXmlStringValue('Value', value),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
   }
 }
 
-class TagResourceType {
-  static const healthcheck = TagResourceType._('healthcheck');
-  static const hostedzone = TagResourceType._('hostedzone');
+/// A key-signing key (KSK) is a complex type that represents a public/private
+/// key pair. The private key is used to generate a digital signature for the
+/// zone signing key (ZSK). The public key is stored in the DNS and is used to
+/// authenticate the ZSK. A KSK is always associated with a hosted zone; it
+/// cannot exist by itself.
+class KeySigningKey {
+  /// The date when the key-signing key (KSK) was created.
+  final DateTime? createdDate;
+
+  /// A string that represents a DNSKEY record.
+  final String? dNSKEYRecord;
+
+  /// A string that represents a delegation signer (DS) record.
+  final String? dSRecord;
+
+  /// A string used to represent the delegation signer digest algorithm. This
+  /// value must follow the guidelines provided by <a
+  /// href="https://tools.ietf.org/html/rfc8624#section-3.3">RFC-8624 Section
+  /// 3.3</a>.
+  final String? digestAlgorithmMnemonic;
+
+  /// An integer used to represent the delegation signer digest algorithm. This
+  /// value must follow the guidelines provided by <a
+  /// href="https://tools.ietf.org/html/rfc8624#section-3.3">RFC-8624 Section
+  /// 3.3</a>.
+  final int? digestAlgorithmType;
+
+  /// A cryptographic digest of a DNSKEY resource record (RR). DNSKEY records are
+  /// used to publish the public key that resolvers can use to verify DNSSEC
+  /// signatures that are used to secure certain kinds of information provided by
+  /// the DNS system.
+  final String? digestValue;
+
+  /// An integer that specifies how the key is used. For key-signing key (KSK),
+  /// this value is always 257.
+  final int? flag;
+
+  /// An integer used to identify the DNSSEC record for the domain name. The
+  /// process used to calculate the value is described in <a
+  /// href="https://tools.ietf.org/rfc/rfc4034.txt">RFC-4034 Appendix B</a>.
+  final int? keyTag;
+
+  /// The Amazon resource name (ARN) used to identify the customer managed key in
+  /// Key Management Service (KMS). The <code>KmsArn</code> must be unique for
+  /// each key-signing key (KSK) in a single hosted zone.
+  ///
+  /// You must configure the customer managed key as follows:
+  /// <dl> <dt>Status</dt> <dd>
+  /// Enabled
+  /// </dd> <dt>Key spec</dt> <dd>
+  /// ECC_NIST_P256
+  /// </dd> <dt>Key usage</dt> <dd>
+  /// Sign and verify
+  /// </dd> <dt>Key policy</dt> <dd>
+  /// The key policy must give permission for the following actions:
+  ///
+  /// <ul>
+  /// <li>
+  /// DescribeKey
+  /// </li>
+  /// <li>
+  /// GetPublicKey
+  /// </li>
+  /// <li>
+  /// Sign
+  /// </li>
+  /// </ul>
+  /// The key policy must also include the Amazon Route 53 service in the
+  /// principal for your account. Specify the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>"Service": "dnssec-route53.amazonaws.com"</code>
+  /// </li>
+  /// </ul> </dd> </dl>
+  /// For more information about working with the customer managed key in KMS, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html">Key
+  /// Management Service concepts</a>.
+  final String? kmsArn;
+
+  /// The last time that the key-signing key (KSK) was changed.
+  final DateTime? lastModifiedDate;
+
+  /// A string used to identify a key-signing key (KSK). <code>Name</code> can
+  /// include numbers, letters, and underscores (_). <code>Name</code> must be
+  /// unique for each key-signing key in the same hosted zone.
+  final String? name;
+
+  /// The public key, represented as a Base64 encoding, as required by <a
+  /// href="https://tools.ietf.org/rfc/rfc4034.txt"> RFC-4034 Page 5</a>.
+  final String? publicKey;
+
+  /// A string used to represent the signing algorithm. This value must follow the
+  /// guidelines provided by <a
+  /// href="https://tools.ietf.org/html/rfc8624#section-3.1">RFC-8624 Section
+  /// 3.1</a>.
+  final String? signingAlgorithmMnemonic;
+
+  /// An integer used to represent the signing algorithm. This value must follow
+  /// the guidelines provided by <a
+  /// href="https://tools.ietf.org/html/rfc8624#section-3.1">RFC-8624 Section
+  /// 3.1</a>.
+  final int? signingAlgorithmType;
+
+  /// A string that represents the current key-signing key (KSK) status.
+  ///
+  /// Status can have one of the following values:
+  /// <dl> <dt>ACTIVE</dt> <dd>
+  /// The KSK is being used for signing.
+  /// </dd> <dt>INACTIVE</dt> <dd>
+  /// The KSK is not being used for signing.
+  /// </dd> <dt>DELETING</dt> <dd>
+  /// The KSK is in the process of being deleted.
+  /// </dd> <dt>ACTION_NEEDED</dt> <dd>
+  /// There is a problem with the KSK that requires you to take action to resolve.
+  /// For example, the customer managed key might have been deleted, or the
+  /// permissions for the customer managed key might have been changed.
+  /// </dd> <dt>INTERNAL_FAILURE</dt> <dd>
+  /// There was an error during a request. Before you can continue to work with
+  /// DNSSEC signing, including actions that involve this KSK, you must correct
+  /// the problem. For example, you may need to activate or deactivate the KSK.
+  /// </dd> </dl>
+  final String? status;
+
+  /// The status message provided for the following key-signing key (KSK)
+  /// statuses: <code>ACTION_NEEDED</code> or <code>INTERNAL_FAILURE</code>. The
+  /// status message includes information about what the problem might be and
+  /// steps that you can take to correct the issue.
+  final String? statusMessage;
+
+  KeySigningKey({
+    this.createdDate,
+    this.dNSKEYRecord,
+    this.dSRecord,
+    this.digestAlgorithmMnemonic,
+    this.digestAlgorithmType,
+    this.digestValue,
+    this.flag,
+    this.keyTag,
+    this.kmsArn,
+    this.lastModifiedDate,
+    this.name,
+    this.publicKey,
+    this.signingAlgorithmMnemonic,
+    this.signingAlgorithmType,
+    this.status,
+    this.statusMessage,
+  });
+  factory KeySigningKey.fromXml(_s.XmlElement elem) {
+    return KeySigningKey(
+      createdDate: _s.extractXmlDateTimeValue(elem, 'CreatedDate'),
+      dNSKEYRecord: _s.extractXmlStringValue(elem, 'DNSKEYRecord'),
+      dSRecord: _s.extractXmlStringValue(elem, 'DSRecord'),
+      digestAlgorithmMnemonic:
+          _s.extractXmlStringValue(elem, 'DigestAlgorithmMnemonic'),
+      digestAlgorithmType: _s.extractXmlIntValue(elem, 'DigestAlgorithmType'),
+      digestValue: _s.extractXmlStringValue(elem, 'DigestValue'),
+      flag: _s.extractXmlIntValue(elem, 'Flag'),
+      keyTag: _s.extractXmlIntValue(elem, 'KeyTag'),
+      kmsArn: _s.extractXmlStringValue(elem, 'KmsArn'),
+      lastModifiedDate: _s.extractXmlDateTimeValue(elem, 'LastModifiedDate'),
+      name: _s.extractXmlStringValue(elem, 'Name'),
+      publicKey: _s.extractXmlStringValue(elem, 'PublicKey'),
+      signingAlgorithmMnemonic:
+          _s.extractXmlStringValue(elem, 'SigningAlgorithmMnemonic'),
+      signingAlgorithmType: _s.extractXmlIntValue(elem, 'SigningAlgorithmType'),
+      status: _s.extractXmlStringValue(elem, 'Status'),
+      statusMessage: _s.extractXmlStringValue(elem, 'StatusMessage'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdDate = this.createdDate;
+    final dNSKEYRecord = this.dNSKEYRecord;
+    final dSRecord = this.dSRecord;
+    final digestAlgorithmMnemonic = this.digestAlgorithmMnemonic;
+    final digestAlgorithmType = this.digestAlgorithmType;
+    final digestValue = this.digestValue;
+    final flag = this.flag;
+    final keyTag = this.keyTag;
+    final kmsArn = this.kmsArn;
+    final lastModifiedDate = this.lastModifiedDate;
+    final name = this.name;
+    final publicKey = this.publicKey;
+    final signingAlgorithmMnemonic = this.signingAlgorithmMnemonic;
+    final signingAlgorithmType = this.signingAlgorithmType;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    return {
+      if (createdDate != null) 'CreatedDate': iso8601ToJson(createdDate),
+      if (dNSKEYRecord != null) 'DNSKEYRecord': dNSKEYRecord,
+      if (dSRecord != null) 'DSRecord': dSRecord,
+      if (digestAlgorithmMnemonic != null)
+        'DigestAlgorithmMnemonic': digestAlgorithmMnemonic,
+      if (digestAlgorithmType != null)
+        'DigestAlgorithmType': digestAlgorithmType,
+      if (digestValue != null) 'DigestValue': digestValue,
+      if (flag != null) 'Flag': flag,
+      if (keyTag != null) 'KeyTag': keyTag,
+      if (kmsArn != null) 'KmsArn': kmsArn,
+      if (lastModifiedDate != null)
+        'LastModifiedDate': iso8601ToJson(lastModifiedDate),
+      if (name != null) 'Name': name,
+      if (publicKey != null) 'PublicKey': publicKey,
+      if (signingAlgorithmMnemonic != null)
+        'SigningAlgorithmMnemonic': signingAlgorithmMnemonic,
+      if (signingAlgorithmType != null)
+        'SigningAlgorithmType': signingAlgorithmType,
+      if (status != null) 'Status': status,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+    };
+  }
+}
+
+/// A complex type that describes change information about changes made to your
+/// hosted zone.
+class ChangeInfo {
+  /// This element contains an ID that you use when performing a <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetChange.html">GetChange</a>
+  /// action to get detailed information about the change.
+  final String id;
+
+  /// The current state of the request. <code>PENDING</code> indicates that this
+  /// request has not yet been applied to all Amazon Route 53 DNS servers.
+  final ChangeStatus status;
+
+  /// The date and time that the change request was submitted in <a
+  /// href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601 format</a> and
+  /// Coordinated Universal Time (UTC). For example, the value
+  /// <code>2017-03-27T17:48:16.751Z</code> represents March 27, 2017 at
+  /// 17:48:16.751 UTC.
+  final DateTime submittedAt;
+
+  /// A comment you can provide.
+  final String? comment;
+
+  ChangeInfo({
+    required this.id,
+    required this.status,
+    required this.submittedAt,
+    this.comment,
+  });
+  factory ChangeInfo.fromXml(_s.XmlElement elem) {
+    return ChangeInfo(
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      status: _s
+          .extractXmlStringValue(elem, 'Status')!
+          .let(ChangeStatus.fromString),
+      submittedAt: _s.extractXmlDateTimeValue(elem, 'SubmittedAt')!,
+      comment: _s.extractXmlStringValue(elem, 'Comment'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final status = this.status;
+    final submittedAt = this.submittedAt;
+    final comment = this.comment;
+    return {
+      'Id': id,
+      'Status': status.value,
+      'SubmittedAt': iso8601ToJson(submittedAt),
+      if (comment != null) 'Comment': comment,
+    };
+  }
+}
+
+class ChangeStatus {
+  static const pending = ChangeStatus._('PENDING');
+  static const insync = ChangeStatus._('INSYNC');
 
   final String value;
 
-  const TagResourceType._(this.value);
+  const ChangeStatus._(this.value);
 
-  static const values = [healthcheck, hostedzone];
+  static const values = [pending, insync];
 
-  static TagResourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TagResourceType._(value));
+  static ChangeStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChangeStatus._(value));
 
   @override
-  bool operator ==(other) => other is TagResourceType && other.value == value;
+  bool operator ==(other) => other is ChangeStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -12031,1174 +13058,345 @@ class TagResourceType {
   String toString() => value;
 }
 
-/// A complex type that contains the response to a <code>TestDNSAnswer</code>
-/// request.
-class TestDNSAnswerResponse {
-  /// The Amazon Route 53 name server used to respond to the request.
-  final String nameserver;
+/// A complex type that contains the type of limit that you specified in the
+/// request and the current value for that limit.
+class AccountLimit {
+  /// The limit that you requested. Valid values include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>MAX_HEALTH_CHECKS_BY_OWNER</b>: The maximum number of health checks that
+  /// you can create using the current account.
+  /// </li>
+  /// <li>
+  /// <b>MAX_HOSTED_ZONES_BY_OWNER</b>: The maximum number of hosted zones that
+  /// you can create using the current account.
+  /// </li>
+  /// <li>
+  /// <b>MAX_REUSABLE_DELEGATION_SETS_BY_OWNER</b>: The maximum number of reusable
+  /// delegation sets that you can create using the current account.
+  /// </li>
+  /// <li>
+  /// <b>MAX_TRAFFIC_POLICIES_BY_OWNER</b>: The maximum number of traffic policies
+  /// that you can create using the current account.
+  /// </li>
+  /// <li>
+  /// <b>MAX_TRAFFIC_POLICY_INSTANCES_BY_OWNER</b>: The maximum number of traffic
+  /// policy instances that you can create using the current account. (Traffic
+  /// policy instances are referred to as traffic flow policy records in the
+  /// Amazon Route 53 console.)
+  /// </li>
+  /// </ul>
+  final AccountLimitType type;
 
-  /// The protocol that Amazon Route 53 used to respond to the request, either
-  /// <code>UDP</code> or <code>TCP</code>.
-  final String protocol;
+  /// The current value for the limit that is specified by <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_AccountLimit.html#Route53-Type-AccountLimit-Type">Type</a>.
+  final int value;
 
-  /// A list that contains values that Amazon Route 53 returned for this resource
-  /// record set.
-  final List<String> recordData;
-
-  /// The name of the resource record set that you submitted a request for.
-  final String recordName;
-
-  /// The type of the resource record set that you submitted a request for.
-  final RRType recordType;
-
-  /// A code that indicates whether the request is valid or not. The most common
-  /// response code is <code>NOERROR</code>, meaning that the request is valid. If
-  /// the response is not valid, Amazon Route 53 returns a response code that
-  /// describes the error. For a list of possible response codes, see <a
-  /// href="http://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-6">DNS
-  /// RCODES</a> on the IANA website.
-  final String responseCode;
-
-  TestDNSAnswerResponse({
-    required this.nameserver,
-    required this.protocol,
-    required this.recordData,
-    required this.recordName,
-    required this.recordType,
-    required this.responseCode,
-  });
-  factory TestDNSAnswerResponse.fromXml(_s.XmlElement elem) {
-    return TestDNSAnswerResponse(
-      nameserver: _s.extractXmlStringValue(elem, 'Nameserver')!,
-      protocol: _s.extractXmlStringValue(elem, 'Protocol')!,
-      recordData: _s.extractXmlStringListValues(
-          _s.extractXmlChild(elem, 'RecordData')!, 'RecordDataEntry'),
-      recordName: _s.extractXmlStringValue(elem, 'RecordName')!,
-      recordType:
-          _s.extractXmlStringValue(elem, 'RecordType')!.let(RRType.fromString),
-      responseCode: _s.extractXmlStringValue(elem, 'ResponseCode')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nameserver = this.nameserver;
-    final protocol = this.protocol;
-    final recordData = this.recordData;
-    final recordName = this.recordName;
-    final recordType = this.recordType;
-    final responseCode = this.responseCode;
-    return {
-      'Nameserver': nameserver,
-      'Protocol': protocol,
-      'RecordData': recordData,
-      'RecordName': recordName,
-      'RecordType': recordType.value,
-      'ResponseCode': responseCode,
-    };
-  }
-}
-
-/// A complex type that contains settings for a traffic policy.
-class TrafficPolicy {
-  /// The definition of a traffic policy in JSON format. You specify the JSON
-  /// document to use for a new traffic policy in the
-  /// <code>CreateTrafficPolicy</code> request. For more information about the
-  /// JSON format, see <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/api-policies-traffic-policy-document-format.html">Traffic
-  /// Policy Document Format</a>.
-  final String document;
-
-  /// The ID that Amazon Route 53 assigned to a traffic policy when you created
-  /// it.
-  final String id;
-
-  /// The name that you specified when you created the traffic policy.
-  final String name;
-
-  /// The DNS type of the resource record sets that Amazon Route 53 creates when
-  /// you use a traffic policy to create a traffic policy instance.
-  final RRType type;
-
-  /// The version number that Amazon Route 53 assigns to a traffic policy. For a
-  /// new traffic policy, the value of <code>Version</code> is always 1.
-  final int version;
-
-  /// The comment that you specify in the <code>CreateTrafficPolicy</code>
-  /// request, if any.
-  final String? comment;
-
-  TrafficPolicy({
-    required this.document,
-    required this.id,
-    required this.name,
+  AccountLimit({
     required this.type,
-    required this.version,
-    this.comment,
+    required this.value,
   });
-  factory TrafficPolicy.fromXml(_s.XmlElement elem) {
-    return TrafficPolicy(
-      document: _s.extractXmlStringValue(elem, 'Document')!,
-      id: _s.extractXmlStringValue(elem, 'Id')!,
-      name: _s.extractXmlStringValue(elem, 'Name')!,
-      type: _s.extractXmlStringValue(elem, 'Type')!.let(RRType.fromString),
-      version: _s.extractXmlIntValue(elem, 'Version')!,
-      comment: _s.extractXmlStringValue(elem, 'Comment'),
+  factory AccountLimit.fromXml(_s.XmlElement elem) {
+    return AccountLimit(
+      type: _s
+          .extractXmlStringValue(elem, 'Type')!
+          .let(AccountLimitType.fromString),
+      value: _s.extractXmlIntValue(elem, 'Value')!,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final document = this.document;
-    final id = this.id;
-    final name = this.name;
     final type = this.type;
-    final version = this.version;
-    final comment = this.comment;
+    final value = this.value;
     return {
-      'Document': document,
-      'Id': id,
-      'Name': name,
       'Type': type.value,
-      'Version': version,
-      if (comment != null) 'Comment': comment,
+      'Value': value,
     };
   }
 }
 
-/// A complex type that contains settings for the new traffic policy instance.
-class TrafficPolicyInstance {
-  /// The ID of the hosted zone that Amazon Route 53 created resource record sets
-  /// in.
-  final String hostedZoneId;
-
-  /// The ID that Amazon Route 53 assigned to the new traffic policy instance.
-  final String id;
-
-  /// If <code>State</code> is <code>Failed</code>, an explanation of the reason
-  /// for the failure. If <code>State</code> is another value,
-  /// <code>Message</code> is empty.
-  final String message;
-
-  /// The DNS name, such as www.example.com, for which Amazon Route 53 responds to
-  /// queries by using the resource record sets that are associated with this
-  /// traffic policy instance.
-  final String name;
-
-  /// The value of <code>State</code> is one of the following values:
-  /// <dl> <dt>Applied</dt> <dd>
-  /// Amazon Route 53 has finished creating resource record sets, and changes have
-  /// propagated to all Route 53 edge locations.
-  /// </dd> <dt>Creating</dt> <dd>
-  /// Route 53 is creating the resource record sets. Use
-  /// <code>GetTrafficPolicyInstance</code> to confirm that the
-  /// <code>CreateTrafficPolicyInstance</code> request completed successfully.
-  /// </dd> <dt>Failed</dt> <dd>
-  /// Route 53 wasn't able to create or update the resource record sets. When the
-  /// value of <code>State</code> is <code>Failed</code>, see <code>Message</code>
-  /// for an explanation of what caused the request to fail.
-  /// </dd> </dl>
-  final String state;
-
-  /// The TTL that Amazon Route 53 assigned to all of the resource record sets
-  /// that it created in the specified hosted zone.
-  final int ttl;
-
-  /// The ID of the traffic policy that Amazon Route 53 used to create resource
-  /// record sets in the specified hosted zone.
-  final String trafficPolicyId;
-
-  /// The DNS type that Amazon Route 53 assigned to all of the resource record
-  /// sets that it created for this traffic policy instance.
-  final RRType trafficPolicyType;
-
-  /// The version of the traffic policy that Amazon Route 53 used to create
-  /// resource record sets in the specified hosted zone.
-  final int trafficPolicyVersion;
-
-  TrafficPolicyInstance({
-    required this.hostedZoneId,
-    required this.id,
-    required this.message,
-    required this.name,
-    required this.state,
-    required this.ttl,
-    required this.trafficPolicyId,
-    required this.trafficPolicyType,
-    required this.trafficPolicyVersion,
-  });
-  factory TrafficPolicyInstance.fromXml(_s.XmlElement elem) {
-    return TrafficPolicyInstance(
-      hostedZoneId: _s.extractXmlStringValue(elem, 'HostedZoneId')!,
-      id: _s.extractXmlStringValue(elem, 'Id')!,
-      message: _s.extractXmlStringValue(elem, 'Message')!,
-      name: _s.extractXmlStringValue(elem, 'Name')!,
-      state: _s.extractXmlStringValue(elem, 'State')!,
-      ttl: _s.extractXmlIntValue(elem, 'TTL')!,
-      trafficPolicyId: _s.extractXmlStringValue(elem, 'TrafficPolicyId')!,
-      trafficPolicyType: _s
-          .extractXmlStringValue(elem, 'TrafficPolicyType')!
-          .let(RRType.fromString),
-      trafficPolicyVersion:
-          _s.extractXmlIntValue(elem, 'TrafficPolicyVersion')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hostedZoneId = this.hostedZoneId;
-    final id = this.id;
-    final message = this.message;
-    final name = this.name;
-    final state = this.state;
-    final ttl = this.ttl;
-    final trafficPolicyId = this.trafficPolicyId;
-    final trafficPolicyType = this.trafficPolicyType;
-    final trafficPolicyVersion = this.trafficPolicyVersion;
-    return {
-      'HostedZoneId': hostedZoneId,
-      'Id': id,
-      'Message': message,
-      'Name': name,
-      'State': state,
-      'TTL': ttl,
-      'TrafficPolicyId': trafficPolicyId,
-      'TrafficPolicyType': trafficPolicyType.value,
-      'TrafficPolicyVersion': trafficPolicyVersion,
-    };
-  }
-}
-
-/// A complex type that contains information about the latest version of one
-/// traffic policy that is associated with the current Amazon Web Services
-/// account.
-class TrafficPolicySummary {
-  /// The ID that Amazon Route 53 assigned to the traffic policy when you created
-  /// it.
-  final String id;
-
-  /// The version number of the latest version of the traffic policy.
-  final int latestVersion;
-
-  /// The name that you specified for the traffic policy when you created it.
-  final String name;
-
-  /// The number of traffic policies that are associated with the current Amazon
-  /// Web Services account.
-  final int trafficPolicyCount;
-
-  /// The DNS type of the resource record sets that Amazon Route 53 creates when
-  /// you use a traffic policy to create a traffic policy instance.
-  final RRType type;
-
-  TrafficPolicySummary({
-    required this.id,
-    required this.latestVersion,
-    required this.name,
-    required this.trafficPolicyCount,
-    required this.type,
-  });
-  factory TrafficPolicySummary.fromXml(_s.XmlElement elem) {
-    return TrafficPolicySummary(
-      id: _s.extractXmlStringValue(elem, 'Id')!,
-      latestVersion: _s.extractXmlIntValue(elem, 'LatestVersion')!,
-      name: _s.extractXmlStringValue(elem, 'Name')!,
-      trafficPolicyCount: _s.extractXmlIntValue(elem, 'TrafficPolicyCount')!,
-      type: _s.extractXmlStringValue(elem, 'Type')!.let(RRType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final latestVersion = this.latestVersion;
-    final name = this.name;
-    final trafficPolicyCount = this.trafficPolicyCount;
-    final type = this.type;
-    return {
-      'Id': id,
-      'LatestVersion': latestVersion,
-      'Name': name,
-      'TrafficPolicyCount': trafficPolicyCount,
-      'Type': type.value,
-    };
-  }
-}
-
-/// A complex type that contains information about a request to update a health
-/// check.
-class UpdateHealthCheckRequest {
-  /// The ID for the health check for which you want detailed information. When
-  /// you created the health check, <code>CreateHealthCheck</code> returned the ID
-  /// in the response, in the <code>HealthCheckId</code> element.
-  final String healthCheckId;
-
-  /// A complex type that identifies the CloudWatch alarm that you want Amazon
-  /// Route 53 health checkers to use to determine whether the specified health
-  /// check is healthy.
-  final AlarmIdentifier? alarmIdentifier;
-
-  /// A complex type that contains one <code>ChildHealthCheck</code> element for
-  /// each health check that you want to associate with a <code>CALCULATED</code>
-  /// health check.
-  final List<String>? childHealthChecks;
-
-  /// Stops Route 53 from performing health checks. When you disable a health
-  /// check, here's what happens:
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>Health checks that check the health of endpoints:</b> Route 53 stops
-  /// submitting requests to your application, server, or other resource.
-  /// </li>
-  /// <li>
-  /// <b>Calculated health checks:</b> Route 53 stops aggregating the status of
-  /// the referenced health checks.
-  /// </li>
-  /// <li>
-  /// <b>Health checks that monitor CloudWatch alarms:</b> Route 53 stops
-  /// monitoring the corresponding CloudWatch metrics.
-  /// </li>
-  /// </ul>
-  /// After you disable a health check, Route 53 considers the status of the
-  /// health check to always be healthy. If you configured DNS failover, Route 53
-  /// continues to route traffic to the corresponding resources. If you want to
-  /// stop routing traffic to a resource, change the value of <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_UpdateHealthCheck.html#Route53-UpdateHealthCheck-request-Inverted">Inverted</a>.
-  ///
-  /// Charges for a health check still apply when the health check is disabled.
-  /// For more information, see <a
-  /// href="http://aws.amazon.com/route53/pricing/">Amazon Route 53 Pricing</a>.
-  final bool? disabled;
-
-  /// Specify whether you want Amazon Route 53 to send the value of
-  /// <code>FullyQualifiedDomainName</code> to the endpoint in the
-  /// <code>client_hello</code> message during <code>TLS</code> negotiation. This
-  /// allows the endpoint to respond to <code>HTTPS</code> health check requests
-  /// with the applicable SSL/TLS certificate.
-  ///
-  /// Some endpoints require that HTTPS requests include the host name in the
-  /// <code>client_hello</code> message. If you don't enable SNI, the status of
-  /// the health check will be SSL alert <code>handshake_failure</code>. A health
-  /// check can also have that status for other reasons. If SNI is enabled and
-  /// you're still getting the error, check the SSL/TLS configuration on your
-  /// endpoint and confirm that your certificate is valid.
-  ///
-  /// The SSL/TLS certificate on your endpoint includes a domain name in the
-  /// <code>Common Name</code> field and possibly several more in the
-  /// <code>Subject Alternative Names</code> field. One of the domain names in the
-  /// certificate should match the value that you specify for
-  /// <code>FullyQualifiedDomainName</code>. If the endpoint responds to the
-  /// <code>client_hello</code> message with a certificate that does not include
-  /// the domain name that you specified in <code>FullyQualifiedDomainName</code>,
-  /// a health checker will retry the handshake. In the second attempt, the health
-  /// checker will omit <code>FullyQualifiedDomainName</code> from the
-  /// <code>client_hello</code> message.
-  final bool? enableSNI;
-
-  /// The number of consecutive health checks that an endpoint must pass or fail
-  /// for Amazon Route 53 to change the current status of the endpoint from
-  /// unhealthy to healthy or vice versa. For more information, see <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-determining-health-of-endpoints.html">How
-  /// Amazon Route 53 Determines Whether an Endpoint Is Healthy</a> in the
-  /// <i>Amazon Route 53 Developer Guide</i>.
-  ///
-  /// If you don't specify a value for <code>FailureThreshold</code>, the default
-  /// value is three health checks.
-  final int? failureThreshold;
-
-  /// Amazon Route 53 behavior depends on whether you specify a value for
-  /// <code>IPAddress</code>.
-  /// <note>
-  /// If a health check already has a value for <code>IPAddress</code>, you can
-  /// change the value. However, you can't update an existing health check to add
-  /// or remove the value of <code>IPAddress</code>.
-  /// </note>
-  /// <b>If you specify a value for</b> <code>IPAddress</code>:
-  ///
-  /// Route 53 sends health check requests to the specified IPv4 or IPv6 address
-  /// and passes the value of <code>FullyQualifiedDomainName</code> in the
-  /// <code>Host</code> header for all health checks except TCP health checks.
-  /// This is typically the fully qualified DNS name of the endpoint on which you
-  /// want Route 53 to perform health checks.
-  ///
-  /// When Route 53 checks the health of an endpoint, here is how it constructs
-  /// the <code>Host</code> header:
-  ///
-  /// <ul>
-  /// <li>
-  /// If you specify a value of <code>80</code> for <code>Port</code> and
-  /// <code>HTTP</code> or <code>HTTP_STR_MATCH</code> for <code>Type</code>,
-  /// Route 53 passes the value of <code>FullyQualifiedDomainName</code> to the
-  /// endpoint in the <code>Host</code> header.
-  /// </li>
-  /// <li>
-  /// If you specify a value of <code>443</code> for <code>Port</code> and
-  /// <code>HTTPS</code> or <code>HTTPS_STR_MATCH</code> for <code>Type</code>,
-  /// Route 53 passes the value of <code>FullyQualifiedDomainName</code> to the
-  /// endpoint in the <code>Host</code> header.
-  /// </li>
-  /// <li>
-  /// If you specify another value for <code>Port</code> and any value except
-  /// <code>TCP</code> for <code>Type</code>, Route 53 passes <i>
-  /// <code>FullyQualifiedDomainName</code>:<code>Port</code> </i> to the endpoint
-  /// in the <code>Host</code> header.
-  /// </li>
-  /// </ul>
-  /// If you don't specify a value for <code>FullyQualifiedDomainName</code>,
-  /// Route 53 substitutes the value of <code>IPAddress</code> in the
-  /// <code>Host</code> header in each of the above cases.
-  ///
-  /// <b>If you don't specify a value for</b> <code>IPAddress</code>:
-  ///
-  /// If you don't specify a value for <code>IPAddress</code>, Route 53 sends a
-  /// DNS request to the domain that you specify in
-  /// <code>FullyQualifiedDomainName</code> at the interval you specify in
-  /// <code>RequestInterval</code>. Using an IPv4 address that is returned by DNS,
-  /// Route 53 then checks the health of the endpoint.
-  ///
-  /// If you don't specify a value for <code>IPAddress</code>, you can’t update
-  /// the health check to remove the <code>FullyQualifiedDomainName</code>; if you
-  /// don’t specify a value for <code>IPAddress</code> on creation, a
-  /// <code>FullyQualifiedDomainName</code> is required.
-  /// <note>
-  /// If you don't specify a value for <code>IPAddress</code>, Route 53 uses only
-  /// IPv4 to send health checks to the endpoint. If there's no resource record
-  /// set with a type of A for the name that you specify for
-  /// <code>FullyQualifiedDomainName</code>, the health check fails with a "DNS
-  /// resolution failed" error.
-  /// </note>
-  /// If you want to check the health of weighted, latency, or failover resource
-  /// record sets and you choose to specify the endpoint only by
-  /// <code>FullyQualifiedDomainName</code>, we recommend that you create a
-  /// separate health check for each endpoint. For example, create a health check
-  /// for each HTTP server that is serving content for www.example.com. For the
-  /// value of <code>FullyQualifiedDomainName</code>, specify the domain name of
-  /// the server (such as <code>us-east-2-www.example.com</code>), not the name of
-  /// the resource record sets (www.example.com).
-  /// <important>
-  /// In this configuration, if the value of <code>FullyQualifiedDomainName</code>
-  /// matches the name of the resource record sets and you then associate the
-  /// health check with those resource record sets, health check results will be
-  /// unpredictable.
-  /// </important>
-  /// In addition, if the value of <code>Type</code> is <code>HTTP</code>,
-  /// <code>HTTPS</code>, <code>HTTP_STR_MATCH</code>, or
-  /// <code>HTTPS_STR_MATCH</code>, Route 53 passes the value of
-  /// <code>FullyQualifiedDomainName</code> in the <code>Host</code> header, as it
-  /// does when you specify a value for <code>IPAddress</code>. If the value of
-  /// <code>Type</code> is <code>TCP</code>, Route 53 doesn't pass a
-  /// <code>Host</code> header.
-  final String? fullyQualifiedDomainName;
-
-  /// A sequential counter that Amazon Route 53 sets to <code>1</code> when you
-  /// create a health check and increments by 1 each time you update settings for
-  /// the health check.
-  ///
-  /// We recommend that you use <code>GetHealthCheck</code> or
-  /// <code>ListHealthChecks</code> to get the current value of
-  /// <code>HealthCheckVersion</code> for the health check that you want to
-  /// update, and that you include that value in your
-  /// <code>UpdateHealthCheck</code> request. This prevents Route 53 from
-  /// overwriting an intervening update:
-  ///
-  /// <ul>
-  /// <li>
-  /// If the value in the <code>UpdateHealthCheck</code> request matches the value
-  /// of <code>HealthCheckVersion</code> in the health check, Route 53 updates the
-  /// health check with the new settings.
-  /// </li>
-  /// <li>
-  /// If the value of <code>HealthCheckVersion</code> in the health check is
-  /// greater, the health check was changed after you got the version number.
-  /// Route 53 does not update the health check, and it returns a
-  /// <code>HealthCheckVersionMismatch</code> error.
-  /// </li>
-  /// </ul>
-  final int? healthCheckVersion;
-
-  /// The number of child health checks that are associated with a
-  /// <code>CALCULATED</code> health that Amazon Route 53 must consider healthy
-  /// for the <code>CALCULATED</code> health check to be considered healthy. To
-  /// specify the child health checks that you want to associate with a
-  /// <code>CALCULATED</code> health check, use the <code>ChildHealthChecks</code>
-  /// and <code>ChildHealthCheck</code> elements.
-  ///
-  /// Note the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// If you specify a number greater than the number of child health checks,
-  /// Route 53 always considers this health check to be unhealthy.
-  /// </li>
-  /// <li>
-  /// If you specify <code>0</code>, Route 53 always considers this health check
-  /// to be healthy.
-  /// </li>
-  /// </ul>
-  final int? healthThreshold;
-
-  /// The IPv4 or IPv6 IP address for the endpoint that you want Amazon Route 53
-  /// to perform health checks on. If you don't specify a value for
-  /// <code>IPAddress</code>, Route 53 sends a DNS request to resolve the domain
-  /// name that you specify in <code>FullyQualifiedDomainName</code> at the
-  /// interval that you specify in <code>RequestInterval</code>. Using an IP
-  /// address that is returned by DNS, Route 53 then checks the health of the
-  /// endpoint.
-  ///
-  /// Use one of the following formats for the value of <code>IPAddress</code>:
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>IPv4 address</b>: four values between 0 and 255, separated by periods
-  /// (.), for example, <code>192.0.2.44</code>.
-  /// </li>
-  /// <li>
-  /// <b>IPv6 address</b>: eight groups of four hexadecimal values, separated by
-  /// colons (:), for example,
-  /// <code>2001:0db8:85a3:0000:0000:abcd:0001:2345</code>. You can also shorten
-  /// IPv6 addresses as described in RFC 5952, for example,
-  /// <code>2001:db8:85a3::abcd:1:2345</code>.
-  /// </li>
-  /// </ul>
-  /// If the endpoint is an EC2 instance, we recommend that you create an Elastic
-  /// IP address, associate it with your EC2 instance, and specify the Elastic IP
-  /// address for <code>IPAddress</code>. This ensures that the IP address of your
-  /// instance never changes. For more information, see the applicable
-  /// documentation:
-  ///
-  /// <ul>
-  /// <li>
-  /// Linux: <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html">Elastic
-  /// IP Addresses (EIP)</a> in the <i>Amazon EC2 User Guide for Linux
-  /// Instances</i>
-  /// </li>
-  /// <li>
-  /// Windows: <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/elastic-ip-addresses-eip.html">Elastic
-  /// IP Addresses (EIP)</a> in the <i>Amazon EC2 User Guide for Windows
-  /// Instances</i>
-  /// </li>
-  /// </ul> <note>
-  /// If a health check already has a value for <code>IPAddress</code>, you can
-  /// change the value. However, you can't update an existing health check to add
-  /// or remove the value of <code>IPAddress</code>.
-  /// </note>
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_UpdateHealthCheck.html#Route53-UpdateHealthCheck-request-FullyQualifiedDomainName">FullyQualifiedDomainName</a>.
-  ///
-  /// Constraints: Route 53 can't check the health of endpoints for which the IP
-  /// address is in local, private, non-routable, or multicast ranges. For more
-  /// information about IP addresses for which you can't create health checks, see
-  /// the following documents:
-  ///
-  /// <ul>
-  /// <li>
-  /// <a href="https://tools.ietf.org/html/rfc5735">RFC 5735, Special Use IPv4
-  /// Addresses</a>
-  /// </li>
-  /// <li>
-  /// <a href="https://tools.ietf.org/html/rfc6598">RFC 6598, IANA-Reserved IPv4
-  /// Prefix for Shared Address Space</a>
-  /// </li>
-  /// <li>
-  /// <a href="https://tools.ietf.org/html/rfc5156">RFC 5156, Special-Use IPv6
-  /// Addresses</a>
-  /// </li>
-  /// </ul>
-  final String? iPAddress;
-
-  /// When CloudWatch has insufficient data about the metric to determine the
-  /// alarm state, the status that you want Amazon Route 53 to assign to the
-  /// health check:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>Healthy</code>: Route 53 considers the health check to be healthy.
-  /// </li>
-  /// <li>
-  /// <code>Unhealthy</code>: Route 53 considers the health check to be unhealthy.
-  /// </li>
-  /// <li>
-  /// <code>LastKnownStatus</code>: By default, Route 53 uses the status of the
-  /// health check from the last time CloudWatch had sufficient data to determine
-  /// the alarm state. For new health checks that have no last known status, the
-  /// status for the health check is healthy.
-  /// </li>
-  /// </ul>
-  final InsufficientDataHealthStatus? insufficientDataHealthStatus;
-
-  /// Specify whether you want Amazon Route 53 to invert the status of a health
-  /// check, for example, to consider a health check unhealthy when it otherwise
-  /// would be considered healthy.
-  final bool? inverted;
-
-  /// The port on the endpoint that you want Amazon Route 53 to perform health
-  /// checks on.
-  /// <note>
-  /// Don't specify a value for <code>Port</code> when you specify a value for
-  /// <code>Type</code> of <code>CLOUDWATCH_METRIC</code> or
-  /// <code>CALCULATED</code>.
-  /// </note>
-  final int? port;
-
-  /// A complex type that contains one <code>Region</code> element for each region
-  /// that you want Amazon Route 53 health checkers to check the specified
-  /// endpoint from.
-  final List<HealthCheckRegion>? regions;
-
-  /// A complex type that contains one <code>ResettableElementName</code> element
-  /// for each element that you want to reset to the default value. Valid values
-  /// for <code>ResettableElementName</code> include the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ChildHealthChecks</code>: Amazon Route 53 resets <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_HealthCheckConfig.html#Route53-Type-HealthCheckConfig-ChildHealthChecks">ChildHealthChecks</a>
-  /// to null.
-  /// </li>
-  /// <li>
-  /// <code>FullyQualifiedDomainName</code>: Route 53 resets <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_UpdateHealthCheck.html#Route53-UpdateHealthCheck-request-FullyQualifiedDomainName">FullyQualifiedDomainName</a>.
-  /// to null.
-  /// </li>
-  /// <li>
-  /// <code>Regions</code>: Route 53 resets the <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_HealthCheckConfig.html#Route53-Type-HealthCheckConfig-Regions">Regions</a>
-  /// list to the default set of regions.
-  /// </li>
-  /// <li>
-  /// <code>ResourcePath</code>: Route 53 resets <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_HealthCheckConfig.html#Route53-Type-HealthCheckConfig-ResourcePath">ResourcePath</a>
-  /// to null.
-  /// </li>
-  /// </ul>
-  final List<ResettableElementName>? resetElements;
-
-  /// The path that you want Amazon Route 53 to request when performing health
-  /// checks. The path can be any value for which your endpoint will return an
-  /// HTTP status code of 2xx or 3xx when the endpoint is healthy, for example the
-  /// file /docs/route53-health-check.html. You can also include query string
-  /// parameters, for example, <code>/welcome.html?language=jp&amp;login=y</code>.
-  ///
-  /// Specify this value only if you want to change it.
-  final String? resourcePath;
-
-  /// If the value of <code>Type</code> is <code>HTTP_STR_MATCH</code> or
-  /// <code>HTTPS_STR_MATCH</code>, the string that you want Amazon Route 53 to
-  /// search for in the response body from the specified resource. If the string
-  /// appears in the response body, Route 53 considers the resource healthy. (You
-  /// can't change the value of <code>Type</code> when you update a health check.)
-  final String? searchString;
-
-  UpdateHealthCheckRequest({
-    required this.healthCheckId,
-    this.alarmIdentifier,
-    this.childHealthChecks,
-    this.disabled,
-    this.enableSNI,
-    this.failureThreshold,
-    this.fullyQualifiedDomainName,
-    this.healthCheckVersion,
-    this.healthThreshold,
-    this.iPAddress,
-    this.insufficientDataHealthStatus,
-    this.inverted,
-    this.port,
-    this.regions,
-    this.resetElements,
-    this.resourcePath,
-    this.searchString,
-  });
-
-  Map<String, dynamic> toJson() {
-    final healthCheckId = this.healthCheckId;
-    final alarmIdentifier = this.alarmIdentifier;
-    final childHealthChecks = this.childHealthChecks;
-    final disabled = this.disabled;
-    final enableSNI = this.enableSNI;
-    final failureThreshold = this.failureThreshold;
-    final fullyQualifiedDomainName = this.fullyQualifiedDomainName;
-    final healthCheckVersion = this.healthCheckVersion;
-    final healthThreshold = this.healthThreshold;
-    final iPAddress = this.iPAddress;
-    final insufficientDataHealthStatus = this.insufficientDataHealthStatus;
-    final inverted = this.inverted;
-    final port = this.port;
-    final regions = this.regions;
-    final resetElements = this.resetElements;
-    final resourcePath = this.resourcePath;
-    final searchString = this.searchString;
-    return {
-      if (alarmIdentifier != null) 'AlarmIdentifier': alarmIdentifier,
-      if (childHealthChecks != null) 'ChildHealthChecks': childHealthChecks,
-      if (disabled != null) 'Disabled': disabled,
-      if (enableSNI != null) 'EnableSNI': enableSNI,
-      if (failureThreshold != null) 'FailureThreshold': failureThreshold,
-      if (fullyQualifiedDomainName != null)
-        'FullyQualifiedDomainName': fullyQualifiedDomainName,
-      if (healthCheckVersion != null) 'HealthCheckVersion': healthCheckVersion,
-      if (healthThreshold != null) 'HealthThreshold': healthThreshold,
-      if (iPAddress != null) 'IPAddress': iPAddress,
-      if (insufficientDataHealthStatus != null)
-        'InsufficientDataHealthStatus': insufficientDataHealthStatus.value,
-      if (inverted != null) 'Inverted': inverted,
-      if (port != null) 'Port': port,
-      if (regions != null) 'Regions': regions.map((e) => e.value).toList(),
-      if (resetElements != null)
-        'ResetElements': resetElements.map((e) => e.value).toList(),
-      if (resourcePath != null) 'ResourcePath': resourcePath,
-      if (searchString != null) 'SearchString': searchString,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final healthCheckId = this.healthCheckId;
-    final alarmIdentifier = this.alarmIdentifier;
-    final childHealthChecks = this.childHealthChecks;
-    final disabled = this.disabled;
-    final enableSNI = this.enableSNI;
-    final failureThreshold = this.failureThreshold;
-    final fullyQualifiedDomainName = this.fullyQualifiedDomainName;
-    final healthCheckVersion = this.healthCheckVersion;
-    final healthThreshold = this.healthThreshold;
-    final iPAddress = this.iPAddress;
-    final insufficientDataHealthStatus = this.insufficientDataHealthStatus;
-    final inverted = this.inverted;
-    final port = this.port;
-    final regions = this.regions;
-    final resetElements = this.resetElements;
-    final resourcePath = this.resourcePath;
-    final searchString = this.searchString;
-    final $children = <_s.XmlNode>[
-      if (healthCheckVersion != null)
-        _s.encodeXmlIntValue('HealthCheckVersion', healthCheckVersion),
-      if (iPAddress != null) _s.encodeXmlStringValue('IPAddress', iPAddress),
-      if (port != null) _s.encodeXmlIntValue('Port', port),
-      if (resourcePath != null)
-        _s.encodeXmlStringValue('ResourcePath', resourcePath),
-      if (fullyQualifiedDomainName != null)
-        _s.encodeXmlStringValue(
-            'FullyQualifiedDomainName', fullyQualifiedDomainName),
-      if (searchString != null)
-        _s.encodeXmlStringValue('SearchString', searchString),
-      if (failureThreshold != null)
-        _s.encodeXmlIntValue('FailureThreshold', failureThreshold),
-      if (inverted != null) _s.encodeXmlBoolValue('Inverted', inverted),
-      if (disabled != null) _s.encodeXmlBoolValue('Disabled', disabled),
-      if (healthThreshold != null)
-        _s.encodeXmlIntValue('HealthThreshold', healthThreshold),
-      if (childHealthChecks != null)
-        _s.XmlElement(
-            _s.XmlName.parts('ChildHealthChecks'),
-            [],
-            childHealthChecks
-                .map((e) => _s.encodeXmlStringValue('ChildHealthCheck', e))),
-      if (enableSNI != null) _s.encodeXmlBoolValue('EnableSNI', enableSNI),
-      if (regions != null)
-        _s.XmlElement(_s.XmlName.parts('Regions'), [],
-            regions.map((e) => _s.encodeXmlStringValue('Region', e.value))),
-      if (alarmIdentifier != null) alarmIdentifier.toXml('AlarmIdentifier'),
-      if (insufficientDataHealthStatus != null)
-        _s.encodeXmlStringValue(
-            'InsufficientDataHealthStatus', insufficientDataHealthStatus.value),
-      if (resetElements != null)
-        _s.XmlElement(
-            _s.XmlName.parts('ResetElements'),
-            [],
-            resetElements.map((e) =>
-                _s.encodeXmlStringValue('ResettableElementName', e.value))),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// A complex type that contains the response to the
-/// <code>UpdateHealthCheck</code> request.
-class UpdateHealthCheckResponse {
-  /// A complex type that contains the response to an
-  /// <code>UpdateHealthCheck</code> request.
-  final HealthCheck healthCheck;
-
-  UpdateHealthCheckResponse({
-    required this.healthCheck,
-  });
-  factory UpdateHealthCheckResponse.fromXml(_s.XmlElement elem) {
-    return UpdateHealthCheckResponse(
-      healthCheck:
-          HealthCheck.fromXml(_s.extractXmlChild(elem, 'HealthCheck')!),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final healthCheck = this.healthCheck;
-    return {
-      'HealthCheck': healthCheck,
-    };
-  }
-}
-
-/// A request to update the comment for a hosted zone.
-class UpdateHostedZoneCommentRequest {
-  /// The ID for the hosted zone that you want to update the comment for.
-  final String id;
-
-  /// The new comment for the hosted zone. If you don't specify a value for
-  /// <code>Comment</code>, Amazon Route 53 deletes the existing value of the
-  /// <code>Comment</code> element, if any.
-  final String? comment;
-
-  UpdateHostedZoneCommentRequest({
-    required this.id,
-    this.comment,
-  });
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final comment = this.comment;
-    return {
-      if (comment != null) 'Comment': comment,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final id = this.id;
-    final comment = this.comment;
-    final $children = <_s.XmlNode>[
-      if (comment != null) _s.encodeXmlStringValue('Comment', comment),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// A complex type that contains the response to the
-/// <code>UpdateHostedZoneComment</code> request.
-class UpdateHostedZoneCommentResponse {
-  /// A complex type that contains the response to the
-  /// <code>UpdateHostedZoneComment</code> request.
-  final HostedZone hostedZone;
-
-  UpdateHostedZoneCommentResponse({
-    required this.hostedZone,
-  });
-  factory UpdateHostedZoneCommentResponse.fromXml(_s.XmlElement elem) {
-    return UpdateHostedZoneCommentResponse(
-      hostedZone: HostedZone.fromXml(_s.extractXmlChild(elem, 'HostedZone')!),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hostedZone = this.hostedZone;
-    return {
-      'HostedZone': hostedZone,
-    };
-  }
-}
-
-/// A complex type that contains information about the traffic policy that you
-/// want to update the comment for.
-class UpdateTrafficPolicyCommentRequest {
-  /// The new comment for the specified traffic policy and version.
-  final String comment;
-
-  /// The value of <code>Id</code> for the traffic policy that you want to update
-  /// the comment for.
-  final String id;
-
-  /// The value of <code>Version</code> for the traffic policy that you want to
-  /// update the comment for.
-  final int version;
-
-  UpdateTrafficPolicyCommentRequest({
-    required this.comment,
-    required this.id,
-    required this.version,
-  });
-
-  Map<String, dynamic> toJson() {
-    final comment = this.comment;
-    final id = this.id;
-    final version = this.version;
-    return {
-      'Comment': comment,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final comment = this.comment;
-    final id = this.id;
-    final version = this.version;
-    final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Comment', comment),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// A complex type that contains the response information for the traffic
-/// policy.
-class UpdateTrafficPolicyCommentResponse {
-  /// A complex type that contains settings for the specified traffic policy.
-  final TrafficPolicy trafficPolicy;
-
-  UpdateTrafficPolicyCommentResponse({
-    required this.trafficPolicy,
-  });
-  factory UpdateTrafficPolicyCommentResponse.fromXml(_s.XmlElement elem) {
-    return UpdateTrafficPolicyCommentResponse(
-      trafficPolicy:
-          TrafficPolicy.fromXml(_s.extractXmlChild(elem, 'TrafficPolicy')!),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final trafficPolicy = this.trafficPolicy;
-    return {
-      'TrafficPolicy': trafficPolicy,
-    };
-  }
-}
-
-/// A complex type that contains information about the resource record sets that
-/// you want to update based on a specified traffic policy instance.
-class UpdateTrafficPolicyInstanceRequest {
-  /// The ID of the traffic policy instance that you want to update.
-  final String id;
-
-  /// The TTL that you want Amazon Route 53 to assign to all of the updated
-  /// resource record sets.
-  final int ttl;
-
-  /// The ID of the traffic policy that you want Amazon Route 53 to use to update
-  /// resource record sets for the specified traffic policy instance.
-  final String trafficPolicyId;
-
-  /// The version of the traffic policy that you want Amazon Route 53 to use to
-  /// update resource record sets for the specified traffic policy instance.
-  final int trafficPolicyVersion;
-
-  UpdateTrafficPolicyInstanceRequest({
-    required this.id,
-    required this.ttl,
-    required this.trafficPolicyId,
-    required this.trafficPolicyVersion,
-  });
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final ttl = this.ttl;
-    final trafficPolicyId = this.trafficPolicyId;
-    final trafficPolicyVersion = this.trafficPolicyVersion;
-    return {
-      'TTL': ttl,
-      'TrafficPolicyId': trafficPolicyId,
-      'TrafficPolicyVersion': trafficPolicyVersion,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final id = this.id;
-    final ttl = this.ttl;
-    final trafficPolicyId = this.trafficPolicyId;
-    final trafficPolicyVersion = this.trafficPolicyVersion;
-    final $children = <_s.XmlNode>[
-      _s.encodeXmlIntValue('TTL', ttl),
-      _s.encodeXmlStringValue('TrafficPolicyId', trafficPolicyId),
-      _s.encodeXmlIntValue('TrafficPolicyVersion', trafficPolicyVersion),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-/// A complex type that contains information about the resource record sets that
-/// Amazon Route 53 created based on a specified traffic policy.
-class UpdateTrafficPolicyInstanceResponse {
-  /// A complex type that contains settings for the updated traffic policy
-  /// instance.
-  final TrafficPolicyInstance trafficPolicyInstance;
-
-  UpdateTrafficPolicyInstanceResponse({
-    required this.trafficPolicyInstance,
-  });
-  factory UpdateTrafficPolicyInstanceResponse.fromXml(_s.XmlElement elem) {
-    return UpdateTrafficPolicyInstanceResponse(
-      trafficPolicyInstance: TrafficPolicyInstance.fromXml(
-          _s.extractXmlChild(elem, 'TrafficPolicyInstance')!),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final trafficPolicyInstance = this.trafficPolicyInstance;
-    return {
-      'TrafficPolicyInstance': trafficPolicyInstance,
-    };
-  }
-}
-
-/// (Private hosted zones only) A complex type that contains information about
-/// an Amazon VPC.
-///
-/// If you associate a private hosted zone with an Amazon VPC when you make a <a
-/// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateHostedZone.html">CreateHostedZone</a>
-/// request, the following parameters are also required.
-class VPC {
-  final String? vPCId;
-
-  /// (Private hosted zones only) The region that an Amazon VPC was created in.
-  final VPCRegion? vPCRegion;
-
-  VPC({
-    this.vPCId,
-    this.vPCRegion,
-  });
-  factory VPC.fromXml(_s.XmlElement elem) {
-    return VPC(
-      vPCId: _s.extractXmlStringValue(elem, 'VPCId'),
-      vPCRegion: _s
-          .extractXmlStringValue(elem, 'VPCRegion')
-          ?.let(VPCRegion.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final vPCId = this.vPCId;
-    final vPCRegion = this.vPCRegion;
-    return {
-      if (vPCId != null) 'VPCId': vPCId,
-      if (vPCRegion != null) 'VPCRegion': vPCRegion.value,
-    };
-  }
-
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
-    final vPCId = this.vPCId;
-    final vPCRegion = this.vPCRegion;
-    final $children = <_s.XmlNode>[
-      if (vPCRegion != null)
-        _s.encodeXmlStringValue('VPCRegion', vPCRegion.value),
-      if (vPCId != null) _s.encodeXmlStringValue('VPCId', vPCId),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName.parts(elemName),
-      $attributes,
-      $children,
-    );
-  }
-}
-
-class VPCRegion {
-  static const usEast_1 = VPCRegion._('us-east-1');
-  static const usEast_2 = VPCRegion._('us-east-2');
-  static const usWest_1 = VPCRegion._('us-west-1');
-  static const usWest_2 = VPCRegion._('us-west-2');
-  static const euWest_1 = VPCRegion._('eu-west-1');
-  static const euWest_2 = VPCRegion._('eu-west-2');
-  static const euWest_3 = VPCRegion._('eu-west-3');
-  static const euCentral_1 = VPCRegion._('eu-central-1');
-  static const euCentral_2 = VPCRegion._('eu-central-2');
-  static const apEast_1 = VPCRegion._('ap-east-1');
-  static const meSouth_1 = VPCRegion._('me-south-1');
-  static const usGovWest_1 = VPCRegion._('us-gov-west-1');
-  static const usGovEast_1 = VPCRegion._('us-gov-east-1');
-  static const usIsoEast_1 = VPCRegion._('us-iso-east-1');
-  static const usIsoWest_1 = VPCRegion._('us-iso-west-1');
-  static const usIsobEast_1 = VPCRegion._('us-isob-east-1');
-  static const meCentral_1 = VPCRegion._('me-central-1');
-  static const apSoutheast_1 = VPCRegion._('ap-southeast-1');
-  static const apSoutheast_2 = VPCRegion._('ap-southeast-2');
-  static const apSoutheast_3 = VPCRegion._('ap-southeast-3');
-  static const apSouth_1 = VPCRegion._('ap-south-1');
-  static const apSouth_2 = VPCRegion._('ap-south-2');
-  static const apNortheast_1 = VPCRegion._('ap-northeast-1');
-  static const apNortheast_2 = VPCRegion._('ap-northeast-2');
-  static const apNortheast_3 = VPCRegion._('ap-northeast-3');
-  static const euNorth_1 = VPCRegion._('eu-north-1');
-  static const saEast_1 = VPCRegion._('sa-east-1');
-  static const caCentral_1 = VPCRegion._('ca-central-1');
-  static const cnNorth_1 = VPCRegion._('cn-north-1');
-  static const afSouth_1 = VPCRegion._('af-south-1');
-  static const euSouth_1 = VPCRegion._('eu-south-1');
-  static const euSouth_2 = VPCRegion._('eu-south-2');
-  static const apSoutheast_4 = VPCRegion._('ap-southeast-4');
-  static const ilCentral_1 = VPCRegion._('il-central-1');
-  static const caWest_1 = VPCRegion._('ca-west-1');
-  static const apSoutheast_5 = VPCRegion._('ap-southeast-5');
+class AccountLimitType {
+  static const maxHealthChecksByOwner =
+      AccountLimitType._('MAX_HEALTH_CHECKS_BY_OWNER');
+  static const maxHostedZonesByOwner =
+      AccountLimitType._('MAX_HOSTED_ZONES_BY_OWNER');
+  static const maxTrafficPolicyInstancesByOwner =
+      AccountLimitType._('MAX_TRAFFIC_POLICY_INSTANCES_BY_OWNER');
+  static const maxReusableDelegationSetsByOwner =
+      AccountLimitType._('MAX_REUSABLE_DELEGATION_SETS_BY_OWNER');
+  static const maxTrafficPoliciesByOwner =
+      AccountLimitType._('MAX_TRAFFIC_POLICIES_BY_OWNER');
 
   final String value;
 
-  const VPCRegion._(this.value);
+  const AccountLimitType._(this.value);
 
   static const values = [
-    usEast_1,
-    usEast_2,
-    usWest_1,
-    usWest_2,
-    euWest_1,
-    euWest_2,
-    euWest_3,
-    euCentral_1,
-    euCentral_2,
-    apEast_1,
-    meSouth_1,
-    usGovWest_1,
-    usGovEast_1,
-    usIsoEast_1,
-    usIsoWest_1,
-    usIsobEast_1,
-    meCentral_1,
-    apSoutheast_1,
-    apSoutheast_2,
-    apSoutheast_3,
-    apSouth_1,
-    apSouth_2,
-    apNortheast_1,
-    apNortheast_2,
-    apNortheast_3,
-    euNorth_1,
-    saEast_1,
-    caCentral_1,
-    cnNorth_1,
-    afSouth_1,
-    euSouth_1,
-    euSouth_2,
-    apSoutheast_4,
-    ilCentral_1,
-    caWest_1,
-    apSoutheast_5
+    maxHealthChecksByOwner,
+    maxHostedZonesByOwner,
+    maxTrafficPolicyInstancesByOwner,
+    maxReusableDelegationSetsByOwner,
+    maxTrafficPoliciesByOwner
   ];
 
-  static VPCRegion fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => VPCRegion._(value));
+  static AccountLimitType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AccountLimitType._(value));
 
   @override
-  bool operator ==(other) => other is VPCRegion && other.value == value;
+  bool operator ==(other) => other is AccountLimitType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A complex type that identifies a CIDR collection.
+class CidrCollection {
+  /// The ARN of the collection. Can be used to reference the collection in IAM
+  /// policy or in another Amazon Web Services account.
+  final String? arn;
+
+  /// The unique ID of the CIDR collection.
+  final String? id;
+
+  /// The name of a CIDR collection.
+  final String? name;
+
+  /// A sequential counter that Route 53 sets to 1 when you create a CIDR
+  /// collection and increments by 1 each time you update settings for the CIDR
+  /// collection.
+  final int? version;
+
+  CidrCollection({
+    this.arn,
+    this.id,
+    this.name,
+    this.version,
+  });
+  factory CidrCollection.fromXml(_s.XmlElement elem) {
+    return CidrCollection(
+      arn: _s.extractXmlStringValue(elem, 'Arn'),
+      id: _s.extractXmlStringValue(elem, 'Id'),
+      name: _s.extractXmlStringValue(elem, 'Name'),
+      version: _s.extractXmlIntValue(elem, 'Version'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final name = this.name;
+    final version = this.version;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (version != null) 'Version': version,
+    };
+  }
+}
+
+/// The information for a change request.
+class ChangeBatch {
+  /// Information about the changes to make to the record sets.
+  final List<Change> changes;
+
+  /// <i>Optional:</i> Any comments you want to include about a change batch
+  /// request.
+  final String? comment;
+
+  ChangeBatch({
+    required this.changes,
+    this.comment,
+  });
+
+  Map<String, dynamic> toJson() {
+    final changes = this.changes;
+    final comment = this.comment;
+    return {
+      'Changes': changes,
+      if (comment != null) 'Comment': comment,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final changes = this.changes;
+    final comment = this.comment;
+    final $children = <_s.XmlNode>[
+      if (comment != null) _s.encodeXmlStringValue('Comment', comment),
+      _s.XmlElement(_s.XmlName.parts('Changes'), [],
+          changes.map((e) => e.toXml('Change'))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// The information for each resource record set that you want to change.
+class Change {
+  /// The action to perform:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATE</code>: Creates a resource record set that has the specified
+  /// values.
+  /// </li>
+  /// <li>
+  /// <code>DELETE</code>: Deletes a existing resource record set.
+  /// <important>
+  /// To delete the resource record set that is associated with a traffic policy
+  /// instance, use <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_DeleteTrafficPolicyInstance.html">DeleteTrafficPolicyInstance</a>.
+  /// Amazon Route 53 will delete the resource record set automatically. If you
+  /// delete the resource record set by using
+  /// <code>ChangeResourceRecordSets</code>, Route 53 doesn't automatically delete
+  /// the traffic policy instance, and you'll continue to be charged for it even
+  /// though it's no longer in use.
+  /// </important> </li>
+  /// <li>
+  /// <code>UPSERT</code>: If a resource record set doesn't already exist, Route
+  /// 53 creates it. If a resource record set does exist, Route 53 updates it with
+  /// the values in the request.
+  /// </li>
+  /// </ul>
+  final ChangeAction action;
+
+  /// Information about the resource record set to create, delete, or update.
+  final ResourceRecordSet resourceRecordSet;
+
+  Change({
+    required this.action,
+    required this.resourceRecordSet,
+  });
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final resourceRecordSet = this.resourceRecordSet;
+    return {
+      'Action': action.value,
+      'ResourceRecordSet': resourceRecordSet,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final action = this.action;
+    final resourceRecordSet = this.resourceRecordSet;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Action', action.value),
+      resourceRecordSet.toXml('ResourceRecordSet'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class ChangeAction {
+  static const create = ChangeAction._('CREATE');
+  static const delete = ChangeAction._('DELETE');
+  static const upsert = ChangeAction._('UPSERT');
+
+  final String value;
+
+  const ChangeAction._(this.value);
+
+  static const values = [create, delete, upsert];
+
+  static ChangeAction fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChangeAction._(value));
+
+  @override
+  bool operator ==(other) => other is ChangeAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A complex type that contains information about the CIDR collection change.
+class CidrCollectionChange {
+  /// CIDR collection change action.
+  final CidrCollectionChangeAction action;
+
+  /// List of CIDR blocks.
+  final List<String> cidrList;
+
+  /// Name of the location that is associated with the CIDR collection.
+  final String locationName;
+
+  CidrCollectionChange({
+    required this.action,
+    required this.cidrList,
+    required this.locationName,
+  });
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final cidrList = this.cidrList;
+    final locationName = this.locationName;
+    return {
+      'Action': action.value,
+      'CidrList': cidrList,
+      'LocationName': locationName,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final action = this.action;
+    final cidrList = this.cidrList;
+    final locationName = this.locationName;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('LocationName', locationName),
+      _s.encodeXmlStringValue('Action', action.value),
+      _s.XmlElement(_s.XmlName.parts('CidrList'), [],
+          cidrList.map((e) => _s.encodeXmlStringValue('Cidr', e))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class CidrCollectionChangeAction {
+  static const put = CidrCollectionChangeAction._('PUT');
+  static const deleteIfExists =
+      CidrCollectionChangeAction._('DELETE_IF_EXISTS');
+
+  final String value;
+
+  const CidrCollectionChangeAction._(this.value);
+
+  static const values = [put, deleteIfExists];
+
+  static CidrCollectionChangeAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CidrCollectionChangeAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CidrCollectionChangeAction && other.value == value;
 
   @override
   int get hashCode => value.hashCode;

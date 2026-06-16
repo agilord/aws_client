@@ -34,7 +34,6 @@ class SecretsManager {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'secretsmanager',
-            signingName: 'secretsmanager',
           ),
           region: region,
           credentials: credentials,
@@ -81,12 +80,12 @@ class SecretsManager {
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
   /// and access control in Secrets Manager</a>.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidParameterException].
-  /// May throw [InvalidRequestException].
   /// May throw [DecryptionFailure].
   /// May throw [InternalServiceError].
   /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [filters] :
   /// The filters to choose which secrets to retrieve. You must include
@@ -173,10 +172,10 @@ class SecretsManager {
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
   /// and access control in Secrets Manager</a>.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidParameterException].
   /// May throw [InternalServiceError].
+  /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [secretId] :
   /// The ARN or name of the secret.
@@ -279,16 +278,16 @@ class SecretsManager {
   /// secrets</a>.
   /// </important>
   ///
+  /// May throw [DecryptionFailure].
+  /// May throw [EncryptionFailure].
+  /// May throw [InternalServiceError].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
   /// May throw [LimitExceededException].
-  /// May throw [EncryptionFailure].
+  /// May throw [MalformedPolicyDocumentException].
+  /// May throw [PreconditionNotMetException].
   /// May throw [ResourceExistsException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [MalformedPolicyDocumentException].
-  /// May throw [InternalServiceError].
-  /// May throw [PreconditionNotMetException].
-  /// May throw [DecryptionFailure].
   ///
   /// Parameter [name] :
   /// The name of the new secret.
@@ -434,6 +433,12 @@ class SecretsManager {
   /// href="https://docs.aws.amazon.com/general/latest/gr/arg.html#taged-reference-quotas">Service
   /// quotas for Tagging</a> in the <i>Amazon Web Services General Reference
   /// guide</i>.
+  ///
+  /// Parameter [type] :
+  /// The exact string that identifies the partner that holds the external
+  /// secret. For more information, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/managed-external-secrets.html">Using
+  /// Secrets Manager managed external secrets</a>.
   Future<CreateSecretResponse> createSecret({
     required String name,
     List<ReplicaRegionType>? addReplicaRegions,
@@ -444,6 +449,7 @@ class SecretsManager {
     Uint8List? secretBinary,
     String? secretString,
     List<Tag>? tags,
+    String? type,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -467,6 +473,7 @@ class SecretsManager {
         if (secretBinary != null) 'SecretBinary': base64Encode(secretBinary),
         if (secretString != null) 'SecretString': secretString,
         if (tags != null) 'Tags': tags,
+        if (type != null) 'Type': type,
       },
     );
 
@@ -490,10 +497,10 @@ class SecretsManager {
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
   /// and access control in Secrets Manager</a>.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServiceError].
-  /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [secretId] :
   /// The ARN or name of the secret to delete the attached resource-based policy
@@ -573,10 +580,10 @@ class SecretsManager {
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
   /// and access control in Secrets Manager</a>.
   ///
-  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceError].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
-  /// May throw [InternalServiceError].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [secretId] :
   /// The ARN or name of the secret to delete.
@@ -657,9 +664,9 @@ class SecretsManager {
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
   /// and access control in Secrets Manager</a>.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServiceError].
   /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [secretId] :
   /// The ARN or name of the secret.
@@ -693,7 +700,7 @@ class SecretsManager {
   /// length and include every character type that the system you are generating
   /// a password for can support. By default, Secrets Manager uses uppercase and
   /// lowercase letters, numbers, and the following characters in passwords:
-  /// <code>!\"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~</code>
+  /// <code>!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~</code>
   ///
   /// Secrets Manager generates a CloudTrail log entry when you call this
   /// action.
@@ -706,9 +713,9 @@ class SecretsManager {
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
   /// and access control in Secrets Manager</a>.
   ///
+  /// May throw [InternalServiceError].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
-  /// May throw [InternalServiceError].
   ///
   /// Parameter [excludeCharacters] :
   /// A string of the characters that you don't want in the password.
@@ -723,9 +730,9 @@ class SecretsManager {
   ///
   /// Parameter [excludePunctuation] :
   /// Specifies whether to exclude the following punctuation characters from the
-  /// password: <code>! " # $ % &amp; ' ( ) * + , - . / : ; &lt; = &gt; ? @ [ \
-  /// ] ^ _ ` { | } ~</code>. If you don't include this switch, the password can
-  /// contain punctuation.
+  /// password: <code>! " # $ % & ' ( ) * + , - . / : ; < = > ? @ [ \ ] ^ _ ` {
+  /// | } ~</code>. If you don't include this switch, the password can contain
+  /// punctuation.
   ///
   /// Parameter [excludeUppercase] :
   /// Specifies whether to exclude uppercase letters from the password. If you
@@ -806,10 +813,10 @@ class SecretsManager {
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
   /// and access control in Secrets Manager</a>.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServiceError].
-  /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [secretId] :
   /// The ARN or name of the secret to retrieve the attached resource-based
@@ -874,11 +881,11 @@ class SecretsManager {
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
   /// and access control in Secrets Manager</a>.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidParameterException].
-  /// May throw [InvalidRequestException].
   /// May throw [DecryptionFailure].
   /// May throw [InternalServiceError].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [secretId] :
   /// The ARN or name of the secret to retrieve. To retrieve a secret from
@@ -934,6 +941,103 @@ class SecretsManager {
     return GetSecretValueResponse.fromJson(jsonResponse.body);
   }
 
+  /// Lists the secrets that are stored by Secrets Manager in the Amazon Web
+  /// Services account, not including secrets that are marked for deletion. To
+  /// see secrets marked for deletion, use the Secrets Manager console.
+  ///
+  /// All Secrets Manager operations are eventually consistent. ListSecrets
+  /// might not reflect changes from the last five minutes. You can get more
+  /// recent information for a specific secret by calling <a>DescribeSecret</a>.
+  ///
+  /// To list the versions of a secret, use <a>ListSecretVersionIds</a>.
+  ///
+  /// To retrieve the values for the secrets, call <a>BatchGetSecretValue</a> or
+  /// <a>GetSecretValue</a>.
+  ///
+  /// For information about finding secrets in the console, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/manage_search-secret.html">Find
+  /// secrets in Secrets Manager</a>.
+  ///
+  /// Secrets Manager generates a CloudTrail log entry when you call this
+  /// action. Do not include sensitive information in request parameters because
+  /// it might be logged. For more information, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieve-ct-entries.html">Logging
+  /// Secrets Manager events with CloudTrail</a>.
+  ///
+  /// <b>Required permissions: </b> <code>secretsmanager:ListSecrets</code>. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions">
+  /// IAM policy actions for Secrets Manager</a> and <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
+  /// and access control in Secrets Manager</a>.
+  ///
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidRequestException].
+  ///
+  /// Parameter [filters] :
+  /// The filters to apply to the list of secrets.
+  ///
+  /// Parameter [includePlannedDeletion] :
+  /// Specifies whether to include secrets scheduled for deletion. By default,
+  /// secrets scheduled for deletion aren't included.
+  ///
+  /// Parameter [maxResults] :
+  /// The number of results to include in the response.
+  ///
+  /// If there are more results available, in the response, Secrets Manager
+  /// includes <code>NextToken</code>. To get the next results, call
+  /// <code>ListSecrets</code> again with the value from <code>NextToken</code>.
+  ///
+  /// Parameter [nextToken] :
+  /// A token that indicates where the output should continue from, if a
+  /// previous call did not show all results. To get the next results, call
+  /// <code>ListSecrets</code> again with this value.
+  ///
+  /// Parameter [sortBy] :
+  /// If not specified, secrets are listed by <code>CreatedDate</code>.
+  ///
+  /// Parameter [sortOrder] :
+  /// Secrets are listed by <code>CreatedDate</code>.
+  Future<ListSecretsResponse> listSecrets({
+    List<Filter>? filters,
+    bool? includePlannedDeletion,
+    int? maxResults,
+    String? nextToken,
+    SortByType? sortBy,
+    SortOrderType? sortOrder,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'secretsmanager.ListSecrets'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filters != null) 'Filters': filters,
+        if (includePlannedDeletion != null)
+          'IncludePlannedDeletion': includePlannedDeletion,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
+      },
+    );
+
+    return ListSecretsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Lists the versions of a secret. Secrets Manager uses staging labels to
   /// indicate the different versions of a secret. For more information, see <a
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/getting-started.html#term_version">
@@ -955,10 +1059,10 @@ class SecretsManager {
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
   /// and access control in Secrets Manager</a>.
   ///
-  /// May throw [InvalidNextTokenException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServiceError].
+  /// May throw [InvalidNextTokenException].
   /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [secretId] :
   /// The ARN or name of the secret whose versions you want to list.
@@ -1019,98 +1123,6 @@ class SecretsManager {
     return ListSecretVersionIdsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Lists the secrets that are stored by Secrets Manager in the Amazon Web
-  /// Services account, not including secrets that are marked for deletion. To
-  /// see secrets marked for deletion, use the Secrets Manager console.
-  ///
-  /// All Secrets Manager operations are eventually consistent. ListSecrets
-  /// might not reflect changes from the last five minutes. You can get more
-  /// recent information for a specific secret by calling <a>DescribeSecret</a>.
-  ///
-  /// To list the versions of a secret, use <a>ListSecretVersionIds</a>.
-  ///
-  /// To retrieve the values for the secrets, call <a>BatchGetSecretValue</a> or
-  /// <a>GetSecretValue</a>.
-  ///
-  /// For information about finding secrets in the console, see <a
-  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/manage_search-secret.html">Find
-  /// secrets in Secrets Manager</a>.
-  ///
-  /// Secrets Manager generates a CloudTrail log entry when you call this
-  /// action. Do not include sensitive information in request parameters because
-  /// it might be logged. For more information, see <a
-  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieve-ct-entries.html">Logging
-  /// Secrets Manager events with CloudTrail</a>.
-  ///
-  /// <b>Required permissions: </b> <code>secretsmanager:ListSecrets</code>. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions">
-  /// IAM policy actions for Secrets Manager</a> and <a
-  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
-  /// and access control in Secrets Manager</a>.
-  ///
-  /// May throw [InvalidParameterException].
-  /// May throw [InvalidRequestException].
-  /// May throw [InvalidNextTokenException].
-  /// May throw [InternalServiceError].
-  ///
-  /// Parameter [filters] :
-  /// The filters to apply to the list of secrets.
-  ///
-  /// Parameter [includePlannedDeletion] :
-  /// Specifies whether to include secrets scheduled for deletion. By default,
-  /// secrets scheduled for deletion aren't included.
-  ///
-  /// Parameter [maxResults] :
-  /// The number of results to include in the response.
-  ///
-  /// If there are more results available, in the response, Secrets Manager
-  /// includes <code>NextToken</code>. To get the next results, call
-  /// <code>ListSecrets</code> again with the value from <code>NextToken</code>.
-  ///
-  /// Parameter [nextToken] :
-  /// A token that indicates where the output should continue from, if a
-  /// previous call did not show all results. To get the next results, call
-  /// <code>ListSecrets</code> again with this value.
-  ///
-  /// Parameter [sortOrder] :
-  /// Secrets are listed by <code>CreatedDate</code>.
-  Future<ListSecretsResponse> listSecrets({
-    List<Filter>? filters,
-    bool? includePlannedDeletion,
-    int? maxResults,
-    String? nextToken,
-    SortOrderType? sortOrder,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'secretsmanager.ListSecrets'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (includePlannedDeletion != null)
-          'IncludePlannedDeletion': includePlannedDeletion,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortOrder != null) 'SortOrder': sortOrder.value,
-      },
-    );
-
-    return ListSecretsResponse.fromJson(jsonResponse.body);
-  }
-
   /// Attaches a resource-based permission policy to a secret. A resource-based
   /// policy is optional. For more information, see <a
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
@@ -1134,12 +1146,12 @@ class SecretsManager {
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
   /// and access control in Secrets Manager</a>.
   ///
-  /// May throw [MalformedPolicyDocumentException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidParameterException].
   /// May throw [InternalServiceError].
+  /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
+  /// May throw [MalformedPolicyDocumentException].
   /// May throw [PublicPolicyException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourcePolicy] :
   /// A JSON-formatted string for an Amazon Web Services resource-based policy.
@@ -1205,18 +1217,17 @@ class SecretsManager {
     return PutResourcePolicyResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates a new version with a new encrypted secret value and attaches it to
-  /// the secret. The version can contain a new <code>SecretString</code> value
-  /// or a new <code>SecretBinary</code> value.
+  /// Creates a new version of your secret by creating a new encrypted value and
+  /// attaching it to the secret. version can contain a new
+  /// <code>SecretString</code> value or a new <code>SecretBinary</code> value.
   ///
-  /// We recommend you avoid calling <code>PutSecretValue</code> at a sustained
-  /// rate of more than once every 10 minutes. When you update the secret value,
-  /// Secrets Manager creates a new version of the secret. Secrets Manager
-  /// removes outdated versions when there are more than 100, but it does not
-  /// remove versions created less than 24 hours ago. If you call
-  /// <code>PutSecretValue</code> more than once every 10 minutes, you create
-  /// more versions than Secrets Manager removes, and you will reach the quota
-  /// for secret versions.
+  /// Do not call <code>PutSecretValue</code> at a sustained rate of more than
+  /// once every 10 minutes. When you update the secret value, Secrets Manager
+  /// creates a new version of the secret. Secrets Manager keeps 100 of the most
+  /// recent versions, but it keeps <i>all</i> secret versions created in the
+  /// last 24 hours. If you call <code>PutSecretValue</code> more than once
+  /// every 10 minutes, you will create more versions than Secrets Manager
+  /// removes, and you will reach the quota for secret versions.
   ///
   /// You can specify the staging labels to attach to the new version in
   /// <code>VersionStages</code>. If you don't include
@@ -1260,14 +1271,14 @@ class SecretsManager {
   /// secrets</a>.
   /// </important>
   ///
+  /// May throw [DecryptionFailure].
+  /// May throw [EncryptionFailure].
+  /// May throw [InternalServiceError].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
   /// May throw [LimitExceededException].
-  /// May throw [EncryptionFailure].
   /// May throw [ResourceExistsException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServiceError].
-  /// May throw [DecryptionFailure].
   ///
   /// Parameter [secretId] :
   /// The ARN or name of the secret to add a new version to.
@@ -1321,14 +1332,16 @@ class SecretsManager {
   /// This value becomes the <code>VersionId</code> of the new version.
   ///
   /// Parameter [rotationToken] :
-  /// A unique identifier that indicates the source of the request. For
-  /// cross-account rotation (when you rotate a secret in one account by using a
-  /// Lambda rotation function in another account) and the Lambda rotation
-  /// function assumes an IAM role to call Secrets Manager, Secrets Manager
-  /// validates the identity with the rotation token. For more information, see
-  /// <a
+  /// A unique identifier that indicates the source of the request. Required for
+  /// secret rotations using an IAM assumed role or cross-account rotation, in
+  /// which you rotate a secret in one account by using a Lambda rotation
+  /// function in another account. In both cases, the rotation function assumes
+  /// an IAM role to call Secrets Manager, and then Secrets Manager validates
+  /// the identity using the token. For more information, see <a
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotating-secrets.html">How
-  /// rotation works</a>.
+  /// rotation works</a> and <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_lambda">Rotation
+  /// by Lambda functions</a>.
   ///
   /// Sensitive: This field contains sensitive information, so the service does
   /// not include it in CloudTrail log entries. If you create your own log
@@ -1426,10 +1439,10 @@ class SecretsManager {
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
   /// and access control in Secrets Manager</a>.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidRequestException].
-  /// May throw [InvalidParameterException].
   /// May throw [InternalServiceError].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [removeReplicaRegions] :
   /// The Regions of the replicas to remove.
@@ -1482,10 +1495,10 @@ class SecretsManager {
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
   /// and access control in Secrets Manager</a>.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidRequestException].
-  /// May throw [InvalidParameterException].
   /// May throw [InternalServiceError].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [addReplicaRegions] :
   /// A list of Regions in which to replicate the secret.
@@ -1539,10 +1552,10 @@ class SecretsManager {
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
   /// and access control in Secrets Manager</a>.
   ///
-  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceError].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
-  /// May throw [InternalServiceError].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [secretId] :
   /// The ARN or name of the secret to restore.
@@ -1610,10 +1623,10 @@ class SecretsManager {
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotating-secrets-required-permissions-function.html">
   /// Permissions for rotation</a>.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidParameterException].
   /// May throw [InternalServiceError].
+  /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [secretId] :
   /// The ARN or name of the secret to rotate.
@@ -1645,20 +1658,53 @@ class SecretsManager {
   /// href="https://wikipedia.org/wiki/Universally_unique_identifier">UUID-type</a>
   /// value to ensure uniqueness of your versions within the specified secret.
   ///
+  /// Parameter [externalSecretRotationMetadata] :
+  /// The metadata needed to successfully rotate a managed external secret. A
+  /// list of key value pairs in JSON format specified by the partner. For more
+  /// information about the required information, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/managed-external-secrets.html">Using
+  /// Secrets Manager managed external secrets</a>
+  ///
+  /// Parameter [externalSecretRotationRoleArn] :
+  /// The Amazon Resource Name (ARN) of the role that allows Secrets Manager to
+  /// rotate a secret held by a third-party partner. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/mes-security.html">Security
+  /// and permissions</a>.
+  ///
   /// Parameter [rotateImmediately] :
   /// Specifies whether to rotate the secret immediately or wait until the next
   /// scheduled rotation window. The rotation schedule is defined in
   /// <a>RotateSecretRequest$RotationRules</a>.
   ///
-  /// For secrets that use a Lambda rotation function to rotate, if you don't
-  /// immediately rotate the secret, Secrets Manager tests the rotation
-  /// configuration by running the <a
-  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_lambda-functions.html#rotate-secrets_lambda-functions-code">
-  /// <code>testSecret</code> step</a> of the Lambda rotation function. The test
-  /// creates an <code>AWSPENDING</code> version of the secret and then removes
-  /// it.
+  /// The default for <code>RotateImmediately</code> is <code>true</code>. If
+  /// you don't specify this value, Secrets Manager rotates the secret
+  /// immediately.
   ///
-  /// By default, Secrets Manager rotates the secret immediately.
+  /// If you set <code>RotateImmediately</code> to <code>false</code>, Secrets
+  /// Manager tests the rotation configuration by running the <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_how.html">
+  /// <code>testSecret</code> step</a> of the Lambda rotation function. This
+  /// test creates an <code>AWSPENDING</code> version of the secret and then
+  /// removes it.
+  ///
+  /// When changing an existing rotation schedule and setting
+  /// <code>RotateImmediately</code> to <code>false</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// If using <code>AutomaticallyAfterDays</code> or a
+  /// <code>ScheduleExpression</code> with <code>rate()</code>, the previously
+  /// scheduled rotation might still occur.
+  /// </li>
+  /// <li>
+  /// To prevent unintended rotations, use a <code>ScheduleExpression</code>
+  /// with <code>cron()</code> for granular control over rotation windows.
+  /// </li>
+  /// </ul>
+  /// Rotation is an asynchronous process. For more information, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_how.html">How
+  /// rotation works</a>.
   ///
   /// Parameter [rotationLambdaARN] :
   /// For secrets that use a Lambda rotation function to rotate, the ARN of the
@@ -1671,9 +1717,26 @@ class SecretsManager {
   ///
   /// Parameter [rotationRules] :
   /// A structure that defines the rotation configuration for this secret.
+  /// <important>
+  /// When changing an existing rotation schedule and setting
+  /// <code>RotateImmediately</code> to <code>false</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// If using <code>AutomaticallyAfterDays</code> or a
+  /// <code>ScheduleExpression</code> with <code>rate()</code>, the previously
+  /// scheduled rotation might still occur.
+  /// </li>
+  /// <li>
+  /// To prevent unintended rotations, use a <code>ScheduleExpression</code>
+  /// with <code>cron()</code> for granular control over rotation windows.
+  /// </li>
+  /// </ul> </important>
   Future<RotateSecretResponse> rotateSecret({
     required String secretId,
     String? clientRequestToken,
+    List<ExternalSecretRotationMetadataItem>? externalSecretRotationMetadata,
+    String? externalSecretRotationRoleArn,
     bool? rotateImmediately,
     String? rotationLambdaARN,
     RotationRulesType? rotationRules,
@@ -1692,6 +1755,10 @@ class SecretsManager {
         'SecretId': secretId,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
+        if (externalSecretRotationMetadata != null)
+          'ExternalSecretRotationMetadata': externalSecretRotationMetadata,
+        if (externalSecretRotationRoleArn != null)
+          'ExternalSecretRotationRoleArn': externalSecretRotationRoleArn,
         if (rotateImmediately != null) 'RotateImmediately': rotateImmediately,
         if (rotationLambdaARN != null) 'RotationLambdaARN': rotationLambdaARN,
         if (rotationRules != null) 'RotationRules': rotationRules,
@@ -1721,13 +1788,15 @@ class SecretsManager {
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
   /// and access control in Secrets Manager</a>.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidRequestException].
-  /// May throw [InvalidParameterException].
   /// May throw [InternalServiceError].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [secretId] :
-  /// The ARN of the primary secret.
+  /// The name of the secret or the replica ARN. The replica ARN is the same as
+  /// the original primary secret ARN expect the Region is changed to the
+  /// replica Region.
   Future<StopReplicationToReplicaResponse> stopReplicationToReplica({
     required String secretId,
   }) async {
@@ -1777,10 +1846,10 @@ class SecretsManager {
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
   /// and access control in Secrets Manager</a>.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidRequestException].
-  /// May throw [InvalidParameterException].
   /// May throw [InternalServiceError].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [secretId] :
   /// The identifier for the secret to attach tags to. You can specify either
@@ -1845,10 +1914,10 @@ class SecretsManager {
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
   /// and access control in Secrets Manager</a>.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidRequestException].
-  /// May throw [InvalidParameterException].
   /// May throw [InternalServiceError].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [secretId] :
   /// The ARN or name of the secret.
@@ -1952,16 +2021,16 @@ class SecretsManager {
   /// secrets</a>.
   /// </important>
   ///
+  /// May throw [DecryptionFailure].
+  /// May throw [EncryptionFailure].
+  /// May throw [InternalServiceError].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
   /// May throw [LimitExceededException].
-  /// May throw [EncryptionFailure].
+  /// May throw [MalformedPolicyDocumentException].
+  /// May throw [PreconditionNotMetException].
   /// May throw [ResourceExistsException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [MalformedPolicyDocumentException].
-  /// May throw [InternalServiceError].
-  /// May throw [PreconditionNotMetException].
-  /// May throw [DecryptionFailure].
   ///
   /// Parameter [secretId] :
   /// The ARN or name of the secret.
@@ -2053,6 +2122,12 @@ class SecretsManager {
   /// Sensitive: This field contains sensitive information, so the service does
   /// not include it in CloudTrail log entries. If you create your own log
   /// entries, you must also avoid logging the information in this field.
+  ///
+  /// Parameter [type] :
+  /// The exact string that identifies the third-party partner that holds the
+  /// external secret. For more information, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/mes-partners.html">Managed
+  /// external secret partners</a>.
   Future<UpdateSecretResponse> updateSecret({
     required String secretId,
     String? clientRequestToken,
@@ -2060,6 +2135,7 @@ class SecretsManager {
     String? kmsKeyId,
     Uint8List? secretBinary,
     String? secretString,
+    String? type,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2079,6 +2155,7 @@ class SecretsManager {
         if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
         if (secretBinary != null) 'SecretBinary': base64Encode(secretBinary),
         if (secretString != null) 'SecretString': secretString,
+        if (type != null) 'Type': type,
       },
     );
 
@@ -2124,11 +2201,11 @@ class SecretsManager {
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
   /// and access control in Secrets Manager</a>.
   ///
-  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceError].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
   /// May throw [LimitExceededException].
-  /// May throw [InternalServiceError].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [secretId] :
   /// The ARN or the name of the secret with the version and staging labelsto
@@ -2220,11 +2297,11 @@ class SecretsManager {
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
   /// and access control in Secrets Manager</a>.
   ///
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidRequestException].
   /// May throw [MalformedPolicyDocumentException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidParameterException].
-  /// May throw [InternalServiceError].
-  /// May throw [InvalidRequestException].
   ///
   /// Parameter [resourcePolicy] :
   /// A JSON-formatted string that contains an Amazon Web Services
@@ -2257,48 +2334,6 @@ class SecretsManager {
     );
 
     return ValidateResourcePolicyResponse.fromJson(jsonResponse.body);
-  }
-}
-
-/// The error Secrets Manager encountered while retrieving an individual secret
-/// as part of <a>BatchGetSecretValue</a>.
-class APIErrorType {
-  /// The error Secrets Manager encountered while retrieving an individual secret
-  /// as part of <a>BatchGetSecretValue</a>, for example
-  /// <code>ResourceNotFoundException</code>,<code>InvalidParameterException</code>,
-  /// <code>InvalidRequestException</code>, <code>DecryptionFailure</code>, or
-  /// <code>AccessDeniedException</code>.
-  final String? errorCode;
-
-  /// A message describing the error.
-  final String? message;
-
-  /// The ARN or name of the secret.
-  final String? secretId;
-
-  APIErrorType({
-    this.errorCode,
-    this.message,
-    this.secretId,
-  });
-
-  factory APIErrorType.fromJson(Map<String, dynamic> json) {
-    return APIErrorType(
-      errorCode: json['ErrorCode'] as String?,
-      message: json['Message'] as String?,
-      secretId: json['SecretId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final message = this.message;
-    final secretId = this.secretId;
-    return {
-      if (errorCode != null) 'ErrorCode': errorCode,
-      if (message != null) 'Message': message,
-      if (secretId != null) 'SecretId': secretId,
-    };
   }
 }
 
@@ -2542,6 +2577,20 @@ class DescribeSecretResponse {
   /// The description of the secret.
   final String? description;
 
+  /// The metadata needed to successfully rotate a managed external secret. A list
+  /// of key value pairs in JSON format specified by the partner. For more
+  /// information about the required information, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/mes-partners.html">Managed
+  /// external secrets partners</a>.
+  final List<ExternalSecretRotationMetadataItem>?
+      externalSecretRotationMetadata;
+
+  /// The Amazon Resource Name (ARN) of the role that allows Secrets Manager to
+  /// rotate a secret held by a third-party partner. For more information, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/mes-security.html">Security
+  /// and permissions</a>.
+  final String? externalSecretRotationRoleArn;
+
   /// The key ID or alias ARN of the KMS key that Secrets Manager uses to encrypt
   /// the secret value. If the secret is encrypted with the Amazon Web Services
   /// managed key <code>aws/secretsmanager</code>, this field is omitted. Secrets
@@ -2621,6 +2670,12 @@ class DescribeSecretResponse {
   /// <a>TagResource</a>. To remove tags, use <a>UntagResource</a>.
   final List<Tag>? tags;
 
+  /// The exact string that identifies the partner that holds the external secret.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/managed-external-secrets.html">Using
+  /// Secrets Manager managed external secrets</a>.
+  final String? type;
+
   /// A list of the versions of the secret that have staging labels attached.
   /// Versions that don't have staging labels are considered deprecated and
   /// Secrets Manager can delete them.
@@ -2656,6 +2711,8 @@ class DescribeSecretResponse {
     this.createdDate,
     this.deletedDate,
     this.description,
+    this.externalSecretRotationMetadata,
+    this.externalSecretRotationRoleArn,
     this.kmsKeyId,
     this.lastAccessedDate,
     this.lastChangedDate,
@@ -2669,6 +2726,7 @@ class DescribeSecretResponse {
     this.rotationLambdaARN,
     this.rotationRules,
     this.tags,
+    this.type,
     this.versionIdsToStages,
   });
 
@@ -2678,6 +2736,14 @@ class DescribeSecretResponse {
       createdDate: timeStampFromJson(json['CreatedDate']),
       deletedDate: timeStampFromJson(json['DeletedDate']),
       description: json['Description'] as String?,
+      externalSecretRotationMetadata:
+          (json['ExternalSecretRotationMetadata'] as List?)
+              ?.nonNulls
+              .map((e) => ExternalSecretRotationMetadataItem.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      externalSecretRotationRoleArn:
+          json['ExternalSecretRotationRoleArn'] as String?,
       kmsKeyId: json['KmsKeyId'] as String?,
       lastAccessedDate: timeStampFromJson(json['LastAccessedDate']),
       lastChangedDate: timeStampFromJson(json['LastChangedDate']),
@@ -2700,6 +2766,7 @@ class DescribeSecretResponse {
           ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
+      type: json['Type'] as String?,
       versionIdsToStages: (json['VersionIdsToStages'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(
               k, (e as List).nonNulls.map((e) => e as String).toList())),
@@ -2711,6 +2778,8 @@ class DescribeSecretResponse {
     final createdDate = this.createdDate;
     final deletedDate = this.deletedDate;
     final description = this.description;
+    final externalSecretRotationMetadata = this.externalSecretRotationMetadata;
+    final externalSecretRotationRoleArn = this.externalSecretRotationRoleArn;
     final kmsKeyId = this.kmsKeyId;
     final lastAccessedDate = this.lastAccessedDate;
     final lastChangedDate = this.lastChangedDate;
@@ -2724,12 +2793,17 @@ class DescribeSecretResponse {
     final rotationLambdaARN = this.rotationLambdaARN;
     final rotationRules = this.rotationRules;
     final tags = this.tags;
+    final type = this.type;
     final versionIdsToStages = this.versionIdsToStages;
     return {
       if (arn != null) 'ARN': arn,
       if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
       if (deletedDate != null) 'DeletedDate': unixTimestampToJson(deletedDate),
       if (description != null) 'Description': description,
+      if (externalSecretRotationMetadata != null)
+        'ExternalSecretRotationMetadata': externalSecretRotationMetadata,
+      if (externalSecretRotationRoleArn != null)
+        'ExternalSecretRotationRoleArn': externalSecretRotationRoleArn,
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
       if (lastAccessedDate != null)
         'LastAccessedDate': unixTimestampToJson(lastAccessedDate),
@@ -2747,101 +2821,10 @@ class DescribeSecretResponse {
       if (rotationLambdaARN != null) 'RotationLambdaARN': rotationLambdaARN,
       if (rotationRules != null) 'RotationRules': rotationRules,
       if (tags != null) 'Tags': tags,
+      if (type != null) 'Type': type,
       if (versionIdsToStages != null) 'VersionIdsToStages': versionIdsToStages,
     };
   }
-}
-
-/// Allows you to add filters when you use the search function in Secrets
-/// Manager. For more information, see <a
-/// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/manage_search-secret.html">Find
-/// secrets in Secrets Manager</a>.
-class Filter {
-  /// The following are keys you can use:
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>description</b>: Prefix match, not case-sensitive.
-  /// </li>
-  /// <li>
-  /// <b>name</b>: Prefix match, case-sensitive.
-  /// </li>
-  /// <li>
-  /// <b>tag-key</b>: Prefix match, case-sensitive.
-  /// </li>
-  /// <li>
-  /// <b>tag-value</b>: Prefix match, case-sensitive.
-  /// </li>
-  /// <li>
-  /// <b>primary-region</b>: Prefix match, case-sensitive.
-  /// </li>
-  /// <li>
-  /// <b>owning-service</b>: Prefix match, case-sensitive.
-  /// </li>
-  /// <li>
-  /// <b>all</b>: Breaks the filter value string into words and then searches all
-  /// attributes for matches. Not case-sensitive.
-  /// </li>
-  /// </ul>
-  final FilterNameStringType? key;
-
-  /// The keyword to filter for.
-  ///
-  /// You can prefix your search value with an exclamation mark (<code>!</code>)
-  /// in order to perform negation filters.
-  final List<String>? values;
-
-  Filter({
-    this.key,
-    this.values,
-  });
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final values = this.values;
-    return {
-      if (key != null) 'Key': key.value,
-      if (values != null) 'Values': values,
-    };
-  }
-}
-
-class FilterNameStringType {
-  static const description = FilterNameStringType._('description');
-  static const name = FilterNameStringType._('name');
-  static const tagKey = FilterNameStringType._('tag-key');
-  static const tagValue = FilterNameStringType._('tag-value');
-  static const primaryRegion = FilterNameStringType._('primary-region');
-  static const owningService = FilterNameStringType._('owning-service');
-  static const all = FilterNameStringType._('all');
-
-  final String value;
-
-  const FilterNameStringType._(this.value);
-
-  static const values = [
-    description,
-    name,
-    tagKey,
-    tagValue,
-    primaryRegion,
-    owningService,
-    all
-  ];
-
-  static FilterNameStringType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FilterNameStringType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is FilterNameStringType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class GetRandomPasswordResponse {
@@ -2995,6 +2978,42 @@ class GetSecretValueResponse {
   }
 }
 
+class ListSecretsResponse {
+  /// Secrets Manager includes this value if there's more output available than
+  /// what is included in the current response. This can occur even when the
+  /// response includes no values at all, such as when you ask for a filtered view
+  /// of a long list. To get the next results, call <code>ListSecrets</code> again
+  /// with this value.
+  final String? nextToken;
+
+  /// A list of the secrets in the account.
+  final List<SecretListEntry>? secretList;
+
+  ListSecretsResponse({
+    this.nextToken,
+    this.secretList,
+  });
+
+  factory ListSecretsResponse.fromJson(Map<String, dynamic> json) {
+    return ListSecretsResponse(
+      nextToken: json['NextToken'] as String?,
+      secretList: (json['SecretList'] as List?)
+          ?.nonNulls
+          .map((e) => SecretListEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final secretList = this.secretList;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (secretList != null) 'SecretList': secretList,
+    };
+  }
+}
+
 class ListSecretVersionIdsResponse {
   /// The ARN of the secret.
   final String? arn;
@@ -3042,42 +3061,6 @@ class ListSecretVersionIdsResponse {
       if (name != null) 'Name': name,
       if (nextToken != null) 'NextToken': nextToken,
       if (versions != null) 'Versions': versions,
-    };
-  }
-}
-
-class ListSecretsResponse {
-  /// Secrets Manager includes this value if there's more output available than
-  /// what is included in the current response. This can occur even when the
-  /// response includes no values at all, such as when you ask for a filtered view
-  /// of a long list. To get the next results, call <code>ListSecrets</code> again
-  /// with this value.
-  final String? nextToken;
-
-  /// A list of the secrets in the account.
-  final List<SecretListEntry>? secretList;
-
-  ListSecretsResponse({
-    this.nextToken,
-    this.secretList,
-  });
-
-  factory ListSecretsResponse.fromJson(Map<String, dynamic> json) {
-    return ListSecretsResponse(
-      nextToken: json['NextToken'] as String?,
-      secretList: (json['SecretList'] as List?)
-          ?.nonNulls
-          .map((e) => SecretListEntry.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final secretList = this.secretList;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (secretList != null) 'SecretList': secretList,
     };
   }
 }
@@ -3192,33 +3175,6 @@ class RemoveRegionsFromReplicationResponse {
   }
 }
 
-/// A custom type that specifies a <code>Region</code> and the
-/// <code>KmsKeyId</code> for a replica secret.
-class ReplicaRegionType {
-  /// The ARN, key ID, or alias of the KMS key to encrypt the secret. If you don't
-  /// include this field, Secrets Manager uses <code>aws/secretsmanager</code>.
-  final String? kmsKeyId;
-
-  /// A Region code. For a list of Region codes, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints">Name
-  /// and code of Regions</a>.
-  final String? region;
-
-  ReplicaRegionType({
-    this.kmsKeyId,
-    this.region,
-  });
-
-  Map<String, dynamic> toJson() {
-    final kmsKeyId = this.kmsKeyId;
-    final region = this.region;
-    return {
-      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-      if (region != null) 'Region': region,
-    };
-  }
-}
-
 class ReplicateSecretToRegionsResponse {
   /// The ARN of the primary secret.
   final String? arn;
@@ -3247,62 +3203,6 @@ class ReplicateSecretToRegionsResponse {
     return {
       if (arn != null) 'ARN': arn,
       if (replicationStatus != null) 'ReplicationStatus': replicationStatus,
-    };
-  }
-}
-
-/// A replication object consisting of a <code>RegionReplicationStatus</code>
-/// object and includes a Region, KMSKeyId, status, and status message.
-class ReplicationStatusType {
-  /// Can be an <code>ARN</code>, <code>Key ID</code>, or <code>Alias</code>.
-  final String? kmsKeyId;
-
-  /// The date that the secret was last accessed in the Region. This field is
-  /// omitted if the secret has never been retrieved in the Region.
-  final DateTime? lastAccessedDate;
-
-  /// The Region where replication occurs.
-  final String? region;
-
-  /// The status can be <code>InProgress</code>, <code>Failed</code>, or
-  /// <code>InSync</code>.
-  final StatusType? status;
-
-  /// Status message such as "<i>Secret with this name already exists in this
-  /// region</i>".
-  final String? statusMessage;
-
-  ReplicationStatusType({
-    this.kmsKeyId,
-    this.lastAccessedDate,
-    this.region,
-    this.status,
-    this.statusMessage,
-  });
-
-  factory ReplicationStatusType.fromJson(Map<String, dynamic> json) {
-    return ReplicationStatusType(
-      kmsKeyId: json['KmsKeyId'] as String?,
-      lastAccessedDate: timeStampFromJson(json['LastAccessedDate']),
-      region: json['Region'] as String?,
-      status: (json['Status'] as String?)?.let(StatusType.fromString),
-      statusMessage: json['StatusMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final kmsKeyId = this.kmsKeyId;
-    final lastAccessedDate = this.lastAccessedDate;
-    final region = this.region;
-    final status = this.status;
-    final statusMessage = this.statusMessage;
-    return {
-      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-      if (lastAccessedDate != null)
-        'LastAccessedDate': unixTimestampToJson(lastAccessedDate),
-      if (region != null) 'Region': region,
-      if (status != null) 'Status': status.value,
-      if (statusMessage != null) 'StatusMessage': statusMessage,
     };
   }
 }
@@ -3372,457 +3272,6 @@ class RotateSecretResponse {
   }
 }
 
-/// A structure that defines the rotation configuration for the secret.
-class RotationRulesType {
-  /// The number of days between rotations of the secret. You can use this value
-  /// to check that your secret meets your compliance guidelines for how often
-  /// secrets must be rotated. If you use this field to set the rotation schedule,
-  /// Secrets Manager calculates the next rotation date based on the previous
-  /// rotation. Manually updating the secret value by calling
-  /// <code>PutSecretValue</code> or <code>UpdateSecret</code> is considered a
-  /// valid rotation.
-  ///
-  /// In <code>DescribeSecret</code> and <code>ListSecrets</code>, this value is
-  /// calculated from the rotation schedule after every successful rotation. In
-  /// <code>RotateSecret</code>, you can set the rotation schedule in
-  /// <code>RotationRules</code> with <code>AutomaticallyAfterDays</code> or
-  /// <code>ScheduleExpression</code>, but not both. To set a rotation schedule in
-  /// hours, use <code>ScheduleExpression</code>.
-  final int? automaticallyAfterDays;
-
-  /// The length of the rotation window in hours, for example <code>3h</code> for
-  /// a three hour window. Secrets Manager rotates your secret at any time during
-  /// this window. The window must not extend into the next rotation window or the
-  /// next UTC day. The window starts according to the
-  /// <code>ScheduleExpression</code>. If you don't specify a
-  /// <code>Duration</code>, for a <code>ScheduleExpression</code> in hours, the
-  /// window automatically closes after one hour. For a
-  /// <code>ScheduleExpression</code> in days, the window automatically closes at
-  /// the end of the UTC day. For more information, including examples, see <a
-  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_schedule.html">Schedule
-  /// expressions in Secrets Manager rotation</a> in the <i>Secrets Manager Users
-  /// Guide</i>.
-  final String? duration;
-
-  /// A <code>cron()</code> or <code>rate()</code> expression that defines the
-  /// schedule for rotating your secret. Secrets Manager rotation schedules use
-  /// UTC time zone. Secrets Manager rotates your secret any time during a
-  /// rotation window.
-  ///
-  /// Secrets Manager <code>rate()</code> expressions represent the interval in
-  /// hours or days that you want to rotate your secret, for example <code>rate(12
-  /// hours)</code> or <code>rate(10 days)</code>. You can rotate a secret as
-  /// often as every four hours. If you use a <code>rate()</code> expression, the
-  /// rotation window starts at midnight. For a rate in hours, the default
-  /// rotation window closes after one hour. For a rate in days, the default
-  /// rotation window closes at the end of the day. You can set the
-  /// <code>Duration</code> to change the rotation window. The rotation window
-  /// must not extend into the next UTC day or into the next rotation window.
-  ///
-  /// You can use a <code>cron()</code> expression to create a rotation schedule
-  /// that is more detailed than a rotation interval. For more information,
-  /// including examples, see <a
-  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_schedule.html">Schedule
-  /// expressions in Secrets Manager rotation</a> in the <i>Secrets Manager Users
-  /// Guide</i>. For a cron expression that represents a schedule in hours, the
-  /// default rotation window closes after one hour. For a cron expression that
-  /// represents a schedule in days, the default rotation window closes at the end
-  /// of the day. You can set the <code>Duration</code> to change the rotation
-  /// window. The rotation window must not extend into the next UTC day or into
-  /// the next rotation window.
-  final String? scheduleExpression;
-
-  RotationRulesType({
-    this.automaticallyAfterDays,
-    this.duration,
-    this.scheduleExpression,
-  });
-
-  factory RotationRulesType.fromJson(Map<String, dynamic> json) {
-    return RotationRulesType(
-      automaticallyAfterDays: json['AutomaticallyAfterDays'] as int?,
-      duration: json['Duration'] as String?,
-      scheduleExpression: json['ScheduleExpression'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final automaticallyAfterDays = this.automaticallyAfterDays;
-    final duration = this.duration;
-    final scheduleExpression = this.scheduleExpression;
-    return {
-      if (automaticallyAfterDays != null)
-        'AutomaticallyAfterDays': automaticallyAfterDays,
-      if (duration != null) 'Duration': duration,
-      if (scheduleExpression != null) 'ScheduleExpression': scheduleExpression,
-    };
-  }
-}
-
-/// A structure that contains the details about a secret. It does not include
-/// the encrypted <code>SecretString</code> and <code>SecretBinary</code>
-/// values. To get those values, use <a
-/// href="https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html">GetSecretValue</a>
-/// .
-class SecretListEntry {
-  /// The Amazon Resource Name (ARN) of the secret.
-  final String? arn;
-
-  /// The date and time when a secret was created.
-  final DateTime? createdDate;
-
-  /// The date and time the deletion of the secret occurred. Not present on active
-  /// secrets. The secret can be recovered until the number of days in the
-  /// recovery window has passed, as specified in the
-  /// <code>RecoveryWindowInDays</code> parameter of the <a
-  /// href="https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_DeleteSecret.html">
-  /// <code>DeleteSecret</code> </a> operation.
-  final DateTime? deletedDate;
-
-  /// The user-provided description of the secret.
-  final String? description;
-
-  /// The ARN of the KMS key that Secrets Manager uses to encrypt the secret
-  /// value. If the secret is encrypted with the Amazon Web Services managed key
-  /// <code>aws/secretsmanager</code>, this field is omitted.
-  final String? kmsKeyId;
-
-  /// The date that the secret was last accessed in the Region. This field is
-  /// omitted if the secret has never been retrieved in the Region.
-  final DateTime? lastAccessedDate;
-
-  /// The last date and time that this secret was modified in any way.
-  final DateTime? lastChangedDate;
-
-  /// The most recent date and time that the Secrets Manager rotation process was
-  /// successfully completed. This value is null if the secret hasn't ever
-  /// rotated.
-  final DateTime? lastRotatedDate;
-
-  /// The friendly name of the secret.
-  final String? name;
-
-  /// The next rotation is scheduled to occur on or before this date. If the
-  /// secret isn't configured for rotation or rotation has been disabled, Secrets
-  /// Manager returns null.
-  final DateTime? nextRotationDate;
-
-  /// Returns the name of the service that created the secret.
-  final String? owningService;
-
-  /// The Region where Secrets Manager originated the secret.
-  final String? primaryRegion;
-
-  /// Indicates whether automatic, scheduled rotation is enabled for this secret.
-  final bool? rotationEnabled;
-
-  /// The ARN of an Amazon Web Services Lambda function invoked by Secrets Manager
-  /// to rotate and expire the secret either automatically per the schedule or
-  /// manually by a call to <a
-  /// href="https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_RotateSecret.html">
-  /// <code>RotateSecret</code> </a>.
-  final String? rotationLambdaARN;
-
-  /// A structure that defines the rotation configuration for the secret.
-  final RotationRulesType? rotationRules;
-
-  /// A list of all of the currently assigned <code>SecretVersionStage</code>
-  /// staging labels and the <code>SecretVersionId</code> attached to each one.
-  /// Staging labels are used to keep track of the different versions during the
-  /// rotation process.
-  /// <note>
-  /// A version that does not have any <code>SecretVersionStage</code> is
-  /// considered deprecated and subject to deletion. Such versions are not
-  /// included in this list.
-  /// </note>
-  final Map<String, List<String>>? secretVersionsToStages;
-
-  /// The list of user-defined tags associated with the secret. To add tags to a
-  /// secret, use <a
-  /// href="https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_TagResource.html">
-  /// <code>TagResource</code> </a>. To remove tags, use <a
-  /// href="https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_UntagResource.html">
-  /// <code>UntagResource</code> </a>.
-  final List<Tag>? tags;
-
-  SecretListEntry({
-    this.arn,
-    this.createdDate,
-    this.deletedDate,
-    this.description,
-    this.kmsKeyId,
-    this.lastAccessedDate,
-    this.lastChangedDate,
-    this.lastRotatedDate,
-    this.name,
-    this.nextRotationDate,
-    this.owningService,
-    this.primaryRegion,
-    this.rotationEnabled,
-    this.rotationLambdaARN,
-    this.rotationRules,
-    this.secretVersionsToStages,
-    this.tags,
-  });
-
-  factory SecretListEntry.fromJson(Map<String, dynamic> json) {
-    return SecretListEntry(
-      arn: json['ARN'] as String?,
-      createdDate: timeStampFromJson(json['CreatedDate']),
-      deletedDate: timeStampFromJson(json['DeletedDate']),
-      description: json['Description'] as String?,
-      kmsKeyId: json['KmsKeyId'] as String?,
-      lastAccessedDate: timeStampFromJson(json['LastAccessedDate']),
-      lastChangedDate: timeStampFromJson(json['LastChangedDate']),
-      lastRotatedDate: timeStampFromJson(json['LastRotatedDate']),
-      name: json['Name'] as String?,
-      nextRotationDate: timeStampFromJson(json['NextRotationDate']),
-      owningService: json['OwningService'] as String?,
-      primaryRegion: json['PrimaryRegion'] as String?,
-      rotationEnabled: json['RotationEnabled'] as bool?,
-      rotationLambdaARN: json['RotationLambdaARN'] as String?,
-      rotationRules: json['RotationRules'] != null
-          ? RotationRulesType.fromJson(
-              json['RotationRules'] as Map<String, dynamic>)
-          : null,
-      secretVersionsToStages:
-          (json['SecretVersionsToStages'] as Map<String, dynamic>?)?.map(
-              (k, e) => MapEntry(
-                  k, (e as List).nonNulls.map((e) => e as String).toList())),
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final createdDate = this.createdDate;
-    final deletedDate = this.deletedDate;
-    final description = this.description;
-    final kmsKeyId = this.kmsKeyId;
-    final lastAccessedDate = this.lastAccessedDate;
-    final lastChangedDate = this.lastChangedDate;
-    final lastRotatedDate = this.lastRotatedDate;
-    final name = this.name;
-    final nextRotationDate = this.nextRotationDate;
-    final owningService = this.owningService;
-    final primaryRegion = this.primaryRegion;
-    final rotationEnabled = this.rotationEnabled;
-    final rotationLambdaARN = this.rotationLambdaARN;
-    final rotationRules = this.rotationRules;
-    final secretVersionsToStages = this.secretVersionsToStages;
-    final tags = this.tags;
-    return {
-      if (arn != null) 'ARN': arn,
-      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
-      if (deletedDate != null) 'DeletedDate': unixTimestampToJson(deletedDate),
-      if (description != null) 'Description': description,
-      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-      if (lastAccessedDate != null)
-        'LastAccessedDate': unixTimestampToJson(lastAccessedDate),
-      if (lastChangedDate != null)
-        'LastChangedDate': unixTimestampToJson(lastChangedDate),
-      if (lastRotatedDate != null)
-        'LastRotatedDate': unixTimestampToJson(lastRotatedDate),
-      if (name != null) 'Name': name,
-      if (nextRotationDate != null)
-        'NextRotationDate': unixTimestampToJson(nextRotationDate),
-      if (owningService != null) 'OwningService': owningService,
-      if (primaryRegion != null) 'PrimaryRegion': primaryRegion,
-      if (rotationEnabled != null) 'RotationEnabled': rotationEnabled,
-      if (rotationLambdaARN != null) 'RotationLambdaARN': rotationLambdaARN,
-      if (rotationRules != null) 'RotationRules': rotationRules,
-      if (secretVersionsToStages != null)
-        'SecretVersionsToStages': secretVersionsToStages,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-/// A structure that contains the secret value and other details for a secret.
-class SecretValueEntry {
-  /// The Amazon Resource Name (ARN) of the secret.
-  final String? arn;
-
-  /// The date the secret was created.
-  final DateTime? createdDate;
-
-  /// The friendly name of the secret.
-  final String? name;
-
-  /// The decrypted secret value, if the secret value was originally provided as
-  /// binary data in the form of a byte array. The parameter represents the binary
-  /// data as a <a
-  /// href="https://tools.ietf.org/html/rfc4648#section-4">base64-encoded</a>
-  /// string.
-  final Uint8List? secretBinary;
-
-  /// The decrypted secret value, if the secret value was originally provided as a
-  /// string or through the Secrets Manager console.
-  final String? secretString;
-
-  /// The unique version identifier of this version of the secret.
-  final String? versionId;
-
-  /// A list of all of the staging labels currently attached to this version of
-  /// the secret.
-  final List<String>? versionStages;
-
-  SecretValueEntry({
-    this.arn,
-    this.createdDate,
-    this.name,
-    this.secretBinary,
-    this.secretString,
-    this.versionId,
-    this.versionStages,
-  });
-
-  factory SecretValueEntry.fromJson(Map<String, dynamic> json) {
-    return SecretValueEntry(
-      arn: json['ARN'] as String?,
-      createdDate: timeStampFromJson(json['CreatedDate']),
-      name: json['Name'] as String?,
-      secretBinary: _s.decodeNullableUint8List(json['SecretBinary'] as String?),
-      secretString: json['SecretString'] as String?,
-      versionId: json['VersionId'] as String?,
-      versionStages: (json['VersionStages'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final createdDate = this.createdDate;
-    final name = this.name;
-    final secretBinary = this.secretBinary;
-    final secretString = this.secretString;
-    final versionId = this.versionId;
-    final versionStages = this.versionStages;
-    return {
-      if (arn != null) 'ARN': arn,
-      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
-      if (name != null) 'Name': name,
-      if (secretBinary != null) 'SecretBinary': base64Encode(secretBinary),
-      if (secretString != null) 'SecretString': secretString,
-      if (versionId != null) 'VersionId': versionId,
-      if (versionStages != null) 'VersionStages': versionStages,
-    };
-  }
-}
-
-/// A structure that contains information about one version of a secret.
-class SecretVersionsListEntry {
-  /// The date and time this version of the secret was created.
-  final DateTime? createdDate;
-
-  /// The KMS keys used to encrypt the secret version.
-  final List<String>? kmsKeyIds;
-
-  /// The date that this version of the secret was last accessed. Note that the
-  /// resolution of this field is at the date level and does not include the time.
-  final DateTime? lastAccessedDate;
-
-  /// The unique version identifier of this version of the secret.
-  final String? versionId;
-
-  /// An array of staging labels that are currently associated with this version
-  /// of the secret.
-  final List<String>? versionStages;
-
-  SecretVersionsListEntry({
-    this.createdDate,
-    this.kmsKeyIds,
-    this.lastAccessedDate,
-    this.versionId,
-    this.versionStages,
-  });
-
-  factory SecretVersionsListEntry.fromJson(Map<String, dynamic> json) {
-    return SecretVersionsListEntry(
-      createdDate: timeStampFromJson(json['CreatedDate']),
-      kmsKeyIds: (json['KmsKeyIds'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      lastAccessedDate: timeStampFromJson(json['LastAccessedDate']),
-      versionId: json['VersionId'] as String?,
-      versionStages: (json['VersionStages'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdDate = this.createdDate;
-    final kmsKeyIds = this.kmsKeyIds;
-    final lastAccessedDate = this.lastAccessedDate;
-    final versionId = this.versionId;
-    final versionStages = this.versionStages;
-    return {
-      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
-      if (kmsKeyIds != null) 'KmsKeyIds': kmsKeyIds,
-      if (lastAccessedDate != null)
-        'LastAccessedDate': unixTimestampToJson(lastAccessedDate),
-      if (versionId != null) 'VersionId': versionId,
-      if (versionStages != null) 'VersionStages': versionStages,
-    };
-  }
-}
-
-class SortOrderType {
-  static const asc = SortOrderType._('asc');
-  static const desc = SortOrderType._('desc');
-
-  final String value;
-
-  const SortOrderType._(this.value);
-
-  static const values = [asc, desc];
-
-  static SortOrderType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SortOrderType._(value));
-
-  @override
-  bool operator ==(other) => other is SortOrderType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class StatusType {
-  static const inSync = StatusType._('InSync');
-  static const failed = StatusType._('Failed');
-  static const inProgress = StatusType._('InProgress');
-
-  final String value;
-
-  const StatusType._(this.value);
-
-  static const values = [inSync, failed, inProgress];
-
-  static StatusType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => StatusType._(value));
-
-  @override
-  bool operator ==(other) => other is StatusType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class StopReplicationToReplicaResponse {
   /// The ARN of the promoted secret. The ARN is the same as the original primary
   /// secret except the Region is changed.
@@ -3842,36 +3291,6 @@ class StopReplicationToReplicaResponse {
     final arn = this.arn;
     return {
       if (arn != null) 'ARN': arn,
-    };
-  }
-}
-
-/// A structure that contains information about a tag.
-class Tag {
-  /// The key identifier, or name, of the tag.
-  final String? key;
-
-  /// The string value associated with the key of the tag.
-  final String? value;
-
-  Tag({
-    this.key,
-    this.value,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: json['Key'] as String?,
-      value: json['Value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      if (key != null) 'Key': key,
-      if (value != null) 'Value': value,
     };
   }
 }
@@ -4003,6 +3422,804 @@ class ValidationErrorsEntry {
     return {
       if (checkName != null) 'CheckName': checkName,
       if (errorMessage != null) 'ErrorMessage': errorMessage,
+    };
+  }
+}
+
+/// A structure that contains information about a tag.
+class Tag {
+  /// The key identifier, or name, of the tag.
+  final String? key;
+
+  /// The string value associated with the key of the tag.
+  final String? value;
+
+  Tag({
+    this.key,
+    this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// A structure that defines the rotation configuration for the secret.
+class RotationRulesType {
+  /// The number of days between rotations of the secret. You can use this value
+  /// to check that your secret meets your compliance guidelines for how often
+  /// secrets must be rotated. If you use this field to set the rotation schedule,
+  /// Secrets Manager calculates the next rotation date based on the previous
+  /// rotation. Manually updating the secret value by calling
+  /// <code>PutSecretValue</code> or <code>UpdateSecret</code> is considered a
+  /// valid rotation.
+  ///
+  /// In <code>DescribeSecret</code> and <code>ListSecrets</code>, this value is
+  /// calculated from the rotation schedule after every successful rotation. In
+  /// <code>RotateSecret</code>, you can set the rotation schedule in
+  /// <code>RotationRules</code> with <code>AutomaticallyAfterDays</code> or
+  /// <code>ScheduleExpression</code>, but not both. To set a rotation schedule in
+  /// hours, use <code>ScheduleExpression</code>.
+  final int? automaticallyAfterDays;
+
+  /// The length of the rotation window in hours, for example <code>3h</code> for
+  /// a three hour window. Secrets Manager rotates your secret at any time during
+  /// this window. The window must not extend into the next rotation window or the
+  /// next UTC day. The window starts according to the
+  /// <code>ScheduleExpression</code>. If you don't specify a
+  /// <code>Duration</code>, for a <code>ScheduleExpression</code> in hours, the
+  /// window automatically closes after one hour. For a
+  /// <code>ScheduleExpression</code> in days, the window automatically closes at
+  /// the end of the UTC day. For more information, including examples, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_schedule.html">Schedule
+  /// expressions in Secrets Manager rotation</a> in the <i>Secrets Manager Users
+  /// Guide</i>.
+  final String? duration;
+
+  /// A <code>cron()</code> or <code>rate()</code> expression that defines the
+  /// schedule for rotating your secret. Secrets Manager rotation schedules use
+  /// UTC time zone. Secrets Manager rotates your secret any time during a
+  /// rotation window.
+  ///
+  /// Secrets Manager <code>rate()</code> expressions represent the interval in
+  /// hours or days that you want to rotate your secret, for example <code>rate(12
+  /// hours)</code> or <code>rate(10 days)</code>. You can rotate a secret as
+  /// often as every four hours. If you use a <code>rate()</code> expression, the
+  /// rotation window starts at midnight. For a rate in hours, the default
+  /// rotation window closes after one hour. For a rate in days, the default
+  /// rotation window closes at the end of the day. You can set the
+  /// <code>Duration</code> to change the rotation window. The rotation window
+  /// must not extend into the next UTC day or into the next rotation window.
+  ///
+  /// You can use a <code>cron()</code> expression to create a rotation schedule
+  /// that is more detailed than a rotation interval. For more information,
+  /// including examples, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_schedule.html">Schedule
+  /// expressions in Secrets Manager rotation</a> in the <i>Secrets Manager Users
+  /// Guide</i>. For a cron expression that represents a schedule in hours, the
+  /// default rotation window closes after one hour. For a cron expression that
+  /// represents a schedule in days, the default rotation window closes at the end
+  /// of the day. You can set the <code>Duration</code> to change the rotation
+  /// window. The rotation window must not extend into the next UTC day or into
+  /// the next rotation window.
+  final String? scheduleExpression;
+
+  RotationRulesType({
+    this.automaticallyAfterDays,
+    this.duration,
+    this.scheduleExpression,
+  });
+
+  factory RotationRulesType.fromJson(Map<String, dynamic> json) {
+    return RotationRulesType(
+      automaticallyAfterDays: json['AutomaticallyAfterDays'] as int?,
+      duration: json['Duration'] as String?,
+      scheduleExpression: json['ScheduleExpression'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final automaticallyAfterDays = this.automaticallyAfterDays;
+    final duration = this.duration;
+    final scheduleExpression = this.scheduleExpression;
+    return {
+      if (automaticallyAfterDays != null)
+        'AutomaticallyAfterDays': automaticallyAfterDays,
+      if (duration != null) 'Duration': duration,
+      if (scheduleExpression != null) 'ScheduleExpression': scheduleExpression,
+    };
+  }
+}
+
+/// The metadata needed to successfully rotate a managed external secret. A list
+/// of key value pairs in JSON format specified by the partner. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/mes-partners.html">Managed
+/// external secret partners</a>.
+class ExternalSecretRotationMetadataItem {
+  /// The key that identifies the item.
+  final String? key;
+
+  /// The value of the specified item.
+  final String? value;
+
+  ExternalSecretRotationMetadataItem({
+    this.key,
+    this.value,
+  });
+
+  factory ExternalSecretRotationMetadataItem.fromJson(
+      Map<String, dynamic> json) {
+    return ExternalSecretRotationMetadataItem(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// A replication object consisting of a <code>RegionReplicationStatus</code>
+/// object and includes a Region, KMSKeyId, status, and status message.
+class ReplicationStatusType {
+  /// Can be an <code>ARN</code>, <code>Key ID</code>, or <code>Alias</code>.
+  final String? kmsKeyId;
+
+  /// The date that the secret was last accessed in the Region. This field is
+  /// omitted if the secret has never been retrieved in the Region.
+  final DateTime? lastAccessedDate;
+
+  /// The Region where replication occurs.
+  final String? region;
+
+  /// The status can be <code>InProgress</code>, <code>Failed</code>, or
+  /// <code>InSync</code>.
+  final StatusType? status;
+
+  /// Status message such as "<i>Secret with this name already exists in this
+  /// region</i>".
+  final String? statusMessage;
+
+  ReplicationStatusType({
+    this.kmsKeyId,
+    this.lastAccessedDate,
+    this.region,
+    this.status,
+    this.statusMessage,
+  });
+
+  factory ReplicationStatusType.fromJson(Map<String, dynamic> json) {
+    return ReplicationStatusType(
+      kmsKeyId: json['KmsKeyId'] as String?,
+      lastAccessedDate: timeStampFromJson(json['LastAccessedDate']),
+      region: json['Region'] as String?,
+      status: (json['Status'] as String?)?.let(StatusType.fromString),
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kmsKeyId = this.kmsKeyId;
+    final lastAccessedDate = this.lastAccessedDate;
+    final region = this.region;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    return {
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (lastAccessedDate != null)
+        'LastAccessedDate': unixTimestampToJson(lastAccessedDate),
+      if (region != null) 'Region': region,
+      if (status != null) 'Status': status.value,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+    };
+  }
+}
+
+class StatusType {
+  static const inSync = StatusType._('InSync');
+  static const failed = StatusType._('Failed');
+  static const inProgress = StatusType._('InProgress');
+
+  final String value;
+
+  const StatusType._(this.value);
+
+  static const values = [inSync, failed, inProgress];
+
+  static StatusType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StatusType._(value));
+
+  @override
+  bool operator ==(other) => other is StatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A custom type that specifies a <code>Region</code> and the
+/// <code>KmsKeyId</code> for a replica secret.
+class ReplicaRegionType {
+  /// The ARN, key ID, or alias of the KMS key to encrypt the secret. If you don't
+  /// include this field, Secrets Manager uses <code>aws/secretsmanager</code>.
+  final String? kmsKeyId;
+
+  /// A Region code. For a list of Region codes, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints">Name
+  /// and code of Regions</a>.
+  final String? region;
+
+  ReplicaRegionType({
+    this.kmsKeyId,
+    this.region,
+  });
+
+  Map<String, dynamic> toJson() {
+    final kmsKeyId = this.kmsKeyId;
+    final region = this.region;
+    return {
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (region != null) 'Region': region,
+    };
+  }
+}
+
+/// A structure that contains information about one version of a secret.
+class SecretVersionsListEntry {
+  /// The date and time this version of the secret was created.
+  final DateTime? createdDate;
+
+  /// The KMS keys used to encrypt the secret version.
+  final List<String>? kmsKeyIds;
+
+  /// The date that this version of the secret was last accessed. Note that the
+  /// resolution of this field is at the date level and does not include the time.
+  final DateTime? lastAccessedDate;
+
+  /// The unique version identifier of this version of the secret.
+  final String? versionId;
+
+  /// An array of staging labels that are currently associated with this version
+  /// of the secret.
+  final List<String>? versionStages;
+
+  SecretVersionsListEntry({
+    this.createdDate,
+    this.kmsKeyIds,
+    this.lastAccessedDate,
+    this.versionId,
+    this.versionStages,
+  });
+
+  factory SecretVersionsListEntry.fromJson(Map<String, dynamic> json) {
+    return SecretVersionsListEntry(
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      kmsKeyIds: (json['KmsKeyIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      lastAccessedDate: timeStampFromJson(json['LastAccessedDate']),
+      versionId: json['VersionId'] as String?,
+      versionStages: (json['VersionStages'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdDate = this.createdDate;
+    final kmsKeyIds = this.kmsKeyIds;
+    final lastAccessedDate = this.lastAccessedDate;
+    final versionId = this.versionId;
+    final versionStages = this.versionStages;
+    return {
+      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
+      if (kmsKeyIds != null) 'KmsKeyIds': kmsKeyIds,
+      if (lastAccessedDate != null)
+        'LastAccessedDate': unixTimestampToJson(lastAccessedDate),
+      if (versionId != null) 'VersionId': versionId,
+      if (versionStages != null) 'VersionStages': versionStages,
+    };
+  }
+}
+
+/// A structure that contains the details about a secret. It does not include
+/// the encrypted <code>SecretString</code> and <code>SecretBinary</code>
+/// values. To get those values, use <a
+/// href="https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html">GetSecretValue</a>
+/// .
+class SecretListEntry {
+  /// The Amazon Resource Name (ARN) of the secret.
+  final String? arn;
+
+  /// The date and time when a secret was created.
+  final DateTime? createdDate;
+
+  /// The date and time the deletion of the secret occurred. Not present on active
+  /// secrets. The secret can be recovered until the number of days in the
+  /// recovery window has passed, as specified in the
+  /// <code>RecoveryWindowInDays</code> parameter of the <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_DeleteSecret.html">
+  /// <code>DeleteSecret</code> </a> operation.
+  final DateTime? deletedDate;
+
+  /// The user-provided description of the secret.
+  final String? description;
+
+  /// The metadata needed to successfully rotate a managed external secret. A list
+  /// of key value pairs in JSON format specified by the partner. For more
+  /// information about the required information, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/mes-partners.html">Managed
+  /// external secrets partners</a>.
+  final List<ExternalSecretRotationMetadataItem>?
+      externalSecretRotationMetadata;
+
+  /// The role that Secrets Manager assumes to call APIs required to perform the
+  /// rotation. For more information about the required information, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/mes-partners.html">Managed
+  /// external secrets partners</a>.
+  final String? externalSecretRotationRoleArn;
+
+  /// The ARN of the KMS key that Secrets Manager uses to encrypt the secret
+  /// value. If the secret is encrypted with the Amazon Web Services managed key
+  /// <code>aws/secretsmanager</code>, this field is omitted.
+  final String? kmsKeyId;
+
+  /// The date that the secret was last accessed in the Region. This field is
+  /// omitted if the secret has never been retrieved in the Region.
+  final DateTime? lastAccessedDate;
+
+  /// The last date and time that this secret was modified in any way.
+  final DateTime? lastChangedDate;
+
+  /// The most recent date and time that the Secrets Manager rotation process was
+  /// successfully completed. This value is null if the secret hasn't ever
+  /// rotated.
+  final DateTime? lastRotatedDate;
+
+  /// The friendly name of the secret.
+  final String? name;
+
+  /// The next rotation is scheduled to occur on or before this date. If the
+  /// secret isn't configured for rotation or rotation has been disabled, Secrets
+  /// Manager returns null.
+  final DateTime? nextRotationDate;
+
+  /// Returns the name of the service that created the secret.
+  final String? owningService;
+
+  /// The Region where Secrets Manager originated the secret.
+  final String? primaryRegion;
+
+  /// Indicates whether automatic, scheduled rotation is enabled for this secret.
+  final bool? rotationEnabled;
+
+  /// The ARN of an Amazon Web Services Lambda function invoked by Secrets Manager
+  /// to rotate and expire the secret either automatically per the schedule or
+  /// manually by a call to <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_RotateSecret.html">
+  /// <code>RotateSecret</code> </a>.
+  final String? rotationLambdaARN;
+
+  /// A structure that defines the rotation configuration for the secret.
+  final RotationRulesType? rotationRules;
+
+  /// A list of all of the currently assigned <code>SecretVersionStage</code>
+  /// staging labels and the <code>SecretVersionId</code> attached to each one.
+  /// Staging labels are used to keep track of the different versions during the
+  /// rotation process.
+  /// <note>
+  /// A version that does not have any <code>SecretVersionStage</code> is
+  /// considered deprecated and subject to deletion. Such versions are not
+  /// included in this list.
+  /// </note>
+  final Map<String, List<String>>? secretVersionsToStages;
+
+  /// The list of user-defined tags associated with the secret. To add tags to a
+  /// secret, use <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_TagResource.html">
+  /// <code>TagResource</code> </a>. To remove tags, use <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_UntagResource.html">
+  /// <code>UntagResource</code> </a>.
+  final List<Tag>? tags;
+
+  /// The exact string that identifies the third-party partner that holds the
+  /// external secret. For more information, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/mes-partners.html">Managed
+  /// external secret partners</a>.
+  final String? type;
+
+  SecretListEntry({
+    this.arn,
+    this.createdDate,
+    this.deletedDate,
+    this.description,
+    this.externalSecretRotationMetadata,
+    this.externalSecretRotationRoleArn,
+    this.kmsKeyId,
+    this.lastAccessedDate,
+    this.lastChangedDate,
+    this.lastRotatedDate,
+    this.name,
+    this.nextRotationDate,
+    this.owningService,
+    this.primaryRegion,
+    this.rotationEnabled,
+    this.rotationLambdaARN,
+    this.rotationRules,
+    this.secretVersionsToStages,
+    this.tags,
+    this.type,
+  });
+
+  factory SecretListEntry.fromJson(Map<String, dynamic> json) {
+    return SecretListEntry(
+      arn: json['ARN'] as String?,
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      deletedDate: timeStampFromJson(json['DeletedDate']),
+      description: json['Description'] as String?,
+      externalSecretRotationMetadata:
+          (json['ExternalSecretRotationMetadata'] as List?)
+              ?.nonNulls
+              .map((e) => ExternalSecretRotationMetadataItem.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      externalSecretRotationRoleArn:
+          json['ExternalSecretRotationRoleArn'] as String?,
+      kmsKeyId: json['KmsKeyId'] as String?,
+      lastAccessedDate: timeStampFromJson(json['LastAccessedDate']),
+      lastChangedDate: timeStampFromJson(json['LastChangedDate']),
+      lastRotatedDate: timeStampFromJson(json['LastRotatedDate']),
+      name: json['Name'] as String?,
+      nextRotationDate: timeStampFromJson(json['NextRotationDate']),
+      owningService: json['OwningService'] as String?,
+      primaryRegion: json['PrimaryRegion'] as String?,
+      rotationEnabled: json['RotationEnabled'] as bool?,
+      rotationLambdaARN: json['RotationLambdaARN'] as String?,
+      rotationRules: json['RotationRules'] != null
+          ? RotationRulesType.fromJson(
+              json['RotationRules'] as Map<String, dynamic>)
+          : null,
+      secretVersionsToStages:
+          (json['SecretVersionsToStages'] as Map<String, dynamic>?)?.map(
+              (k, e) => MapEntry(
+                  k, (e as List).nonNulls.map((e) => e as String).toList())),
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdDate = this.createdDate;
+    final deletedDate = this.deletedDate;
+    final description = this.description;
+    final externalSecretRotationMetadata = this.externalSecretRotationMetadata;
+    final externalSecretRotationRoleArn = this.externalSecretRotationRoleArn;
+    final kmsKeyId = this.kmsKeyId;
+    final lastAccessedDate = this.lastAccessedDate;
+    final lastChangedDate = this.lastChangedDate;
+    final lastRotatedDate = this.lastRotatedDate;
+    final name = this.name;
+    final nextRotationDate = this.nextRotationDate;
+    final owningService = this.owningService;
+    final primaryRegion = this.primaryRegion;
+    final rotationEnabled = this.rotationEnabled;
+    final rotationLambdaARN = this.rotationLambdaARN;
+    final rotationRules = this.rotationRules;
+    final secretVersionsToStages = this.secretVersionsToStages;
+    final tags = this.tags;
+    final type = this.type;
+    return {
+      if (arn != null) 'ARN': arn,
+      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
+      if (deletedDate != null) 'DeletedDate': unixTimestampToJson(deletedDate),
+      if (description != null) 'Description': description,
+      if (externalSecretRotationMetadata != null)
+        'ExternalSecretRotationMetadata': externalSecretRotationMetadata,
+      if (externalSecretRotationRoleArn != null)
+        'ExternalSecretRotationRoleArn': externalSecretRotationRoleArn,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (lastAccessedDate != null)
+        'LastAccessedDate': unixTimestampToJson(lastAccessedDate),
+      if (lastChangedDate != null)
+        'LastChangedDate': unixTimestampToJson(lastChangedDate),
+      if (lastRotatedDate != null)
+        'LastRotatedDate': unixTimestampToJson(lastRotatedDate),
+      if (name != null) 'Name': name,
+      if (nextRotationDate != null)
+        'NextRotationDate': unixTimestampToJson(nextRotationDate),
+      if (owningService != null) 'OwningService': owningService,
+      if (primaryRegion != null) 'PrimaryRegion': primaryRegion,
+      if (rotationEnabled != null) 'RotationEnabled': rotationEnabled,
+      if (rotationLambdaARN != null) 'RotationLambdaARN': rotationLambdaARN,
+      if (rotationRules != null) 'RotationRules': rotationRules,
+      if (secretVersionsToStages != null)
+        'SecretVersionsToStages': secretVersionsToStages,
+      if (tags != null) 'Tags': tags,
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+class SortOrderType {
+  static const asc = SortOrderType._('asc');
+  static const desc = SortOrderType._('desc');
+
+  final String value;
+
+  const SortOrderType._(this.value);
+
+  static const values = [asc, desc];
+
+  static SortOrderType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SortOrderType._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SortByType {
+  static const createdDate = SortByType._('created-date');
+  static const lastAccessedDate = SortByType._('last-accessed-date');
+  static const lastChangedDate = SortByType._('last-changed-date');
+  static const name = SortByType._('name');
+
+  final String value;
+
+  const SortByType._(this.value);
+
+  static const values = [createdDate, lastAccessedDate, lastChangedDate, name];
+
+  static SortByType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortByType._(value));
+
+  @override
+  bool operator ==(other) => other is SortByType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Allows you to add filters when you use the search function in Secrets
+/// Manager. For more information, see <a
+/// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/manage_search-secret.html">Find
+/// secrets in Secrets Manager</a>.
+class Filter {
+  /// The following are keys you can use:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>description</b>: Prefix match, not case-sensitive.
+  /// </li>
+  /// <li>
+  /// <b>name</b>: Prefix match, case-sensitive.
+  /// </li>
+  /// <li>
+  /// <b>tag-key</b>: Prefix match, case-sensitive.
+  /// </li>
+  /// <li>
+  /// <b>tag-value</b>: Prefix match, case-sensitive.
+  /// </li>
+  /// <li>
+  /// <b>primary-region</b>: Prefix match, case-sensitive.
+  /// </li>
+  /// <li>
+  /// <b>owning-service</b>: Prefix match, case-sensitive.
+  /// </li>
+  /// <li>
+  /// <b>all</b>: Breaks the filter value string into words and then searches all
+  /// attributes for matches. Not case-sensitive.
+  /// </li>
+  /// </ul>
+  final FilterNameStringType? key;
+
+  /// The keyword to filter for.
+  ///
+  /// You can prefix your search value with an exclamation mark (<code>!</code>)
+  /// in order to perform negation filters.
+  final List<String>? values;
+
+  Filter({
+    this.key,
+    this.values,
+  });
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final values = this.values;
+    return {
+      if (key != null) 'Key': key.value,
+      if (values != null) 'Values': values,
+    };
+  }
+}
+
+class FilterNameStringType {
+  static const description = FilterNameStringType._('description');
+  static const name = FilterNameStringType._('name');
+  static const tagKey = FilterNameStringType._('tag-key');
+  static const tagValue = FilterNameStringType._('tag-value');
+  static const primaryRegion = FilterNameStringType._('primary-region');
+  static const owningService = FilterNameStringType._('owning-service');
+  static const all = FilterNameStringType._('all');
+
+  final String value;
+
+  const FilterNameStringType._(this.value);
+
+  static const values = [
+    description,
+    name,
+    tagKey,
+    tagValue,
+    primaryRegion,
+    owningService,
+    all
+  ];
+
+  static FilterNameStringType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FilterNameStringType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FilterNameStringType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The error Secrets Manager encountered while retrieving an individual secret
+/// as part of <a>BatchGetSecretValue</a>.
+class APIErrorType {
+  /// The error Secrets Manager encountered while retrieving an individual secret
+  /// as part of <a>BatchGetSecretValue</a>, for example
+  /// <code>ResourceNotFoundException</code>,<code>InvalidParameterException</code>,
+  /// <code>InvalidRequestException</code>, <code>DecryptionFailure</code>, or
+  /// <code>AccessDeniedException</code>.
+  final String? errorCode;
+
+  /// A message describing the error.
+  final String? message;
+
+  /// The ARN or name of the secret.
+  final String? secretId;
+
+  APIErrorType({
+    this.errorCode,
+    this.message,
+    this.secretId,
+  });
+
+  factory APIErrorType.fromJson(Map<String, dynamic> json) {
+    return APIErrorType(
+      errorCode: json['ErrorCode'] as String?,
+      message: json['Message'] as String?,
+      secretId: json['SecretId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final message = this.message;
+    final secretId = this.secretId;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (message != null) 'Message': message,
+      if (secretId != null) 'SecretId': secretId,
+    };
+  }
+}
+
+/// A structure that contains the secret value and other details for a secret.
+class SecretValueEntry {
+  /// The Amazon Resource Name (ARN) of the secret.
+  final String? arn;
+
+  /// The date the secret was created.
+  final DateTime? createdDate;
+
+  /// The friendly name of the secret.
+  final String? name;
+
+  /// The decrypted secret value, if the secret value was originally provided as
+  /// binary data in the form of a byte array. The parameter represents the binary
+  /// data as a <a
+  /// href="https://tools.ietf.org/html/rfc4648#section-4">base64-encoded</a>
+  /// string.
+  final Uint8List? secretBinary;
+
+  /// The decrypted secret value, if the secret value was originally provided as a
+  /// string or through the Secrets Manager console.
+  final String? secretString;
+
+  /// The unique version identifier of this version of the secret.
+  final String? versionId;
+
+  /// A list of all of the staging labels currently attached to this version of
+  /// the secret.
+  final List<String>? versionStages;
+
+  SecretValueEntry({
+    this.arn,
+    this.createdDate,
+    this.name,
+    this.secretBinary,
+    this.secretString,
+    this.versionId,
+    this.versionStages,
+  });
+
+  factory SecretValueEntry.fromJson(Map<String, dynamic> json) {
+    return SecretValueEntry(
+      arn: json['ARN'] as String?,
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      name: json['Name'] as String?,
+      secretBinary: _s.decodeNullableUint8List(json['SecretBinary'] as String?),
+      secretString: json['SecretString'] as String?,
+      versionId: json['VersionId'] as String?,
+      versionStages: (json['VersionStages'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdDate = this.createdDate;
+    final name = this.name;
+    final secretBinary = this.secretBinary;
+    final secretString = this.secretString;
+    final versionId = this.versionId;
+    final versionStages = this.versionStages;
+    return {
+      if (arn != null) 'ARN': arn,
+      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
+      if (name != null) 'Name': name,
+      if (secretBinary != null) 'SecretBinary': base64Encode(secretBinary),
+      if (secretString != null) 'SecretString': secretString,
+      if (versionId != null) 'VersionId': versionId,
+      if (versionStages != null) 'VersionStages': versionStages,
     };
   }
 }

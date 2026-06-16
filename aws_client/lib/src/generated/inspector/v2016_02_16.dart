@@ -55,9 +55,9 @@ class Inspector {
   /// Assigns attributes (key and value pairs) to the findings that are
   /// specified by the ARNs of the findings.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
-  /// May throw [AccessDeniedException].
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceTemporarilyUnavailableException].
   ///
@@ -102,12 +102,12 @@ class Inspector {
   /// href="https://docs.aws.amazon.com/inspector/latest/userguide/inspector_applications.html">
   /// Amazon Inspector Assessment Targets</a>.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalException].
+  /// May throw [InvalidCrossAccountRoleException].
   /// May throw [InvalidInputException].
   /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
   /// May throw [NoSuchEntityException].
-  /// May throw [InvalidCrossAccountRoleException].
   /// May throw [ServiceTemporarilyUnavailableException].
   ///
   /// Parameter [assessmentTargetName] :
@@ -149,10 +149,10 @@ class Inspector {
   /// a service-linked role to grant Amazon Inspector access to AWS Services
   /// needed to perform security assessments.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
   /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceTemporarilyUnavailableException].
   ///
@@ -220,11 +220,11 @@ class Inspector {
   /// (ExclusionPreview) that Inspector can detect before it runs the
   /// assessment.
   ///
-  /// May throw [InvalidInputException].
-  /// May throw [PreviewGenerationInProgressException].
-  /// May throw [InternalException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalException].
+  /// May throw [InvalidInputException].
   /// May throw [NoSuchEntityException].
+  /// May throw [PreviewGenerationInProgressException].
   /// May throw [ServiceTemporarilyUnavailableException].
   ///
   /// Parameter [assessmentTemplateArn] :
@@ -257,10 +257,10 @@ class Inspector {
   /// used to create an Amazon Inspector assessment target. For more
   /// information, see <a>CreateAssessmentTarget</a>.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
   /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
   /// May throw [ServiceTemporarilyUnavailableException].
   ///
   /// Parameter [resourceGroupTags] :
@@ -292,10 +292,10 @@ class Inspector {
   /// Deletes the assessment run that is specified by the ARN of the assessment
   /// run.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [AssessmentRunInProgressException].
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
-  /// May throw [AssessmentRunInProgressException].
-  /// May throw [AccessDeniedException].
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceTemporarilyUnavailableException].
   ///
@@ -323,10 +323,10 @@ class Inspector {
   /// Deletes the assessment target that is specified by the ARN of the
   /// assessment target.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [AssessmentRunInProgressException].
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
-  /// May throw [AssessmentRunInProgressException].
-  /// May throw [AccessDeniedException].
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceTemporarilyUnavailableException].
   ///
@@ -354,10 +354,10 @@ class Inspector {
   /// Deletes the assessment template that is specified by the ARN of the
   /// assessment template.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [AssessmentRunInProgressException].
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
-  /// May throw [AssessmentRunInProgressException].
-  /// May throw [AccessDeniedException].
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceTemporarilyUnavailableException].
   ///
@@ -621,13 +621,13 @@ class Inspector {
   /// Produces an assessment report that includes detailed and comprehensive
   /// results of a specified assessment run.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [AssessmentRunInProgressException].
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
-  /// May throw [AccessDeniedException].
   /// May throw [NoSuchEntityException].
-  /// May throw [AssessmentRunInProgressException].
-  /// May throw [UnsupportedFeatureException].
   /// May throw [ServiceTemporarilyUnavailableException].
+  /// May throw [UnsupportedFeatureException].
   ///
   /// Parameter [assessmentRunArn] :
   /// The ARN that specifies the assessment run for which you want to generate a
@@ -672,9 +672,9 @@ class Inspector {
   /// specified by the preview token. You can obtain the preview token by
   /// running the CreateExclusionsPreview API.
   ///
-  /// May throw [InvalidInputException].
-  /// May throw [InternalException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalException].
+  /// May throw [InvalidInputException].
   /// May throw [NoSuchEntityException].
   ///
   /// Parameter [assessmentTemplateArn] :
@@ -730,9 +730,9 @@ class Inspector {
   /// Information about the data that is collected for the specified assessment
   /// run.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
-  /// May throw [AccessDeniedException].
   /// May throw [NoSuchEntityException].
   ///
   /// Parameter [assessmentRunArn] :
@@ -762,9 +762,9 @@ class Inspector {
   /// Lists the agents of the assessment runs that are specified by the ARNs of
   /// the assessment runs.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
-  /// May throw [AccessDeniedException].
   /// May throw [NoSuchEntityException].
   ///
   /// Parameter [assessmentRunArn] :
@@ -819,9 +819,9 @@ class Inspector {
   /// Lists the assessment runs that correspond to the assessment templates that
   /// are specified by the ARNs of the assessment templates.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
-  /// May throw [AccessDeniedException].
   /// May throw [NoSuchEntityException].
   ///
   /// Parameter [assessmentTemplateArns] :
@@ -880,9 +880,9 @@ class Inspector {
   /// href="https://docs.aws.amazon.com/inspector/latest/userguide/inspector_applications.html">Amazon
   /// Inspector Assessment Targets</a>.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [filter] :
   /// You can use this parameter to specify a subset of data to be included in
@@ -930,9 +930,9 @@ class Inspector {
   /// Lists the assessment templates that correspond to the assessment targets
   /// that are specified by the ARNs of the assessment targets.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
-  /// May throw [AccessDeniedException].
   /// May throw [NoSuchEntityException].
   ///
   /// Parameter [assessmentTargetArns] :
@@ -989,9 +989,9 @@ class Inspector {
   /// specified by the ARN of the assessment template. For more information, see
   /// <a>SubscribeToEvent</a> and <a>UnsubscribeFromEvent</a>.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
-  /// May throw [AccessDeniedException].
   /// May throw [NoSuchEntityException].
   ///
   /// Parameter [maxResults] :
@@ -1035,9 +1035,9 @@ class Inspector {
 
   /// List exclusions that are generated by the assessment run.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
-  /// May throw [AccessDeniedException].
   /// May throw [NoSuchEntityException].
   ///
   /// Parameter [assessmentRunArn] :
@@ -1081,9 +1081,9 @@ class Inspector {
   /// Lists findings that are generated by the assessment runs that are
   /// specified by the ARNs of the assessment runs.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
-  /// May throw [AccessDeniedException].
   /// May throw [NoSuchEntityException].
   ///
   /// Parameter [assessmentRunArns] :
@@ -1137,9 +1137,9 @@ class Inspector {
 
   /// Lists all available Amazon Inspector rules packages.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [maxResults] :
   /// You can use this parameter to indicate the maximum number of items you
@@ -1176,9 +1176,9 @@ class Inspector {
 
   /// Lists all tags associated with an assessment template.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
-  /// May throw [AccessDeniedException].
   /// May throw [NoSuchEntityException].
   ///
   /// Parameter [resourceArn] :
@@ -1208,11 +1208,11 @@ class Inspector {
   /// Previews the agents installed on the EC2 instances that are part of the
   /// specified assessment target.
   ///
-  /// May throw [InternalException].
-  /// May throw [InvalidInputException].
   /// May throw [AccessDeniedException].
-  /// May throw [NoSuchEntityException].
+  /// May throw [InternalException].
   /// May throw [InvalidCrossAccountRoleException].
+  /// May throw [InvalidInputException].
+  /// May throw [NoSuchEntityException].
   ///
   /// Parameter [previewAgentsArn] :
   /// The ARN of the assessment target whose agents you want to preview.
@@ -1255,10 +1255,10 @@ class Inspector {
   /// Registers the IAM role that grants Amazon Inspector access to AWS Services
   /// needed to perform security assessments.
   ///
-  /// May throw [InternalException].
-  /// May throw [InvalidInputException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalException].
   /// May throw [InvalidCrossAccountRoleException].
+  /// May throw [InvalidInputException].
   /// May throw [ServiceTemporarilyUnavailableException].
   ///
   /// Parameter [roleArn] :
@@ -1287,9 +1287,9 @@ class Inspector {
   /// specified by the ARNs of the findings where an attribute with the
   /// specified key exists.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
-  /// May throw [AccessDeniedException].
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceTemporarilyUnavailableException].
   ///
@@ -1326,9 +1326,9 @@ class Inspector {
   /// Sets tags (key and value pairs) to the assessment template that is
   /// specified by the ARN of the assessment template.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
-  /// May throw [AccessDeniedException].
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceTemporarilyUnavailableException].
   ///
@@ -1363,13 +1363,13 @@ class Inspector {
   /// For this API to function properly, you must not exceed the limit of
   /// running up to 500 concurrent agents per AWS account.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [AgentsAlreadyRunningAssessmentException].
   /// May throw [InternalException].
+  /// May throw [InvalidCrossAccountRoleException].
   /// May throw [InvalidInputException].
   /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
   /// May throw [NoSuchEntityException].
-  /// May throw [InvalidCrossAccountRoleException].
-  /// May throw [AgentsAlreadyRunningAssessmentException].
   /// May throw [ServiceTemporarilyUnavailableException].
   ///
   /// Parameter [assessmentTemplateArn] :
@@ -1405,9 +1405,9 @@ class Inspector {
   /// Stops the assessment run that is specified by the ARN of the assessment
   /// run.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
-  /// May throw [AccessDeniedException].
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceTemporarilyUnavailableException].
   ///
@@ -1444,10 +1444,10 @@ class Inspector {
   /// Enables the process of sending Amazon Simple Notification Service (SNS)
   /// notifications about a specified event to a specified SNS topic.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
   /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceTemporarilyUnavailableException].
   ///
@@ -1486,9 +1486,9 @@ class Inspector {
   /// Disables the process of sending Amazon Simple Notification Service (SNS)
   /// notifications about a specified event to a specified SNS topic.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
-  /// May throw [AccessDeniedException].
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceTemporarilyUnavailableException].
   ///
@@ -1530,9 +1530,9 @@ class Inspector {
   /// If resourceGroupArn is not specified, all EC2 instances in the current AWS
   /// account and region are included in the assessment target.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
-  /// May throw [AccessDeniedException].
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceTemporarilyUnavailableException].
   ///
@@ -1591,987 +1591,6 @@ class AddAttributesToFindingsResponse {
     final failedItems = this.failedItems;
     return {
       'failedItems': failedItems,
-    };
-  }
-}
-
-/// Contains information about an Amazon Inspector agent. This data type is used
-/// as a request parameter in the <a>ListAssessmentRunAgents</a> action.
-class AgentFilter {
-  /// The detailed health state of the agent. Values can be set to <b>IDLE</b>,
-  /// <b>RUNNING</b>, <b>SHUTDOWN</b>, <b>UNHEALTHY</b>, <b>THROTTLED</b>, and
-  /// <b>UNKNOWN</b>.
-  final List<AgentHealthCode> agentHealthCodes;
-
-  /// The current health state of the agent. Values can be set to <b>HEALTHY</b>
-  /// or <b>UNHEALTHY</b>.
-  final List<AgentHealth> agentHealths;
-
-  AgentFilter({
-    required this.agentHealthCodes,
-    required this.agentHealths,
-  });
-
-  Map<String, dynamic> toJson() {
-    final agentHealthCodes = this.agentHealthCodes;
-    final agentHealths = this.agentHealths;
-    return {
-      'agentHealthCodes': agentHealthCodes.map((e) => e.value).toList(),
-      'agentHealths': agentHealths.map((e) => e.value).toList(),
-    };
-  }
-}
-
-class AgentHealth {
-  static const healthy = AgentHealth._('HEALTHY');
-  static const unhealthy = AgentHealth._('UNHEALTHY');
-  static const unknown = AgentHealth._('UNKNOWN');
-
-  final String value;
-
-  const AgentHealth._(this.value);
-
-  static const values = [healthy, unhealthy, unknown];
-
-  static AgentHealth fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => AgentHealth._(value));
-
-  @override
-  bool operator ==(other) => other is AgentHealth && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class AgentHealthCode {
-  static const idle = AgentHealthCode._('IDLE');
-  static const running = AgentHealthCode._('RUNNING');
-  static const shutdown = AgentHealthCode._('SHUTDOWN');
-  static const unhealthy = AgentHealthCode._('UNHEALTHY');
-  static const throttled = AgentHealthCode._('THROTTLED');
-  static const unknown = AgentHealthCode._('UNKNOWN');
-
-  final String value;
-
-  const AgentHealthCode._(this.value);
-
-  static const values = [
-    idle,
-    running,
-    shutdown,
-    unhealthy,
-    throttled,
-    unknown
-  ];
-
-  static AgentHealthCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AgentHealthCode._(value));
-
-  @override
-  bool operator ==(other) => other is AgentHealthCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Used as a response element in the <a>PreviewAgents</a> action.
-class AgentPreview {
-  /// The ID of the EC2 instance where the agent is installed.
-  final String agentId;
-
-  /// The health status of the Amazon Inspector Agent.
-  final AgentHealth? agentHealth;
-
-  /// The version of the Amazon Inspector Agent.
-  final String? agentVersion;
-
-  /// The Auto Scaling group for the EC2 instance where the agent is installed.
-  final String? autoScalingGroup;
-
-  /// The hostname of the EC2 instance on which the Amazon Inspector Agent is
-  /// installed.
-  final String? hostname;
-
-  /// The IP address of the EC2 instance on which the Amazon Inspector Agent is
-  /// installed.
-  final String? ipv4Address;
-
-  /// The kernel version of the operating system running on the EC2 instance on
-  /// which the Amazon Inspector Agent is installed.
-  final String? kernelVersion;
-
-  /// The operating system running on the EC2 instance on which the Amazon
-  /// Inspector Agent is installed.
-  final String? operatingSystem;
-
-  AgentPreview({
-    required this.agentId,
-    this.agentHealth,
-    this.agentVersion,
-    this.autoScalingGroup,
-    this.hostname,
-    this.ipv4Address,
-    this.kernelVersion,
-    this.operatingSystem,
-  });
-
-  factory AgentPreview.fromJson(Map<String, dynamic> json) {
-    return AgentPreview(
-      agentId: (json['agentId'] as String?) ?? '',
-      agentHealth:
-          (json['agentHealth'] as String?)?.let(AgentHealth.fromString),
-      agentVersion: json['agentVersion'] as String?,
-      autoScalingGroup: json['autoScalingGroup'] as String?,
-      hostname: json['hostname'] as String?,
-      ipv4Address: json['ipv4Address'] as String?,
-      kernelVersion: json['kernelVersion'] as String?,
-      operatingSystem: json['operatingSystem'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final agentId = this.agentId;
-    final agentHealth = this.agentHealth;
-    final agentVersion = this.agentVersion;
-    final autoScalingGroup = this.autoScalingGroup;
-    final hostname = this.hostname;
-    final ipv4Address = this.ipv4Address;
-    final kernelVersion = this.kernelVersion;
-    final operatingSystem = this.operatingSystem;
-    return {
-      'agentId': agentId,
-      if (agentHealth != null) 'agentHealth': agentHealth.value,
-      if (agentVersion != null) 'agentVersion': agentVersion,
-      if (autoScalingGroup != null) 'autoScalingGroup': autoScalingGroup,
-      if (hostname != null) 'hostname': hostname,
-      if (ipv4Address != null) 'ipv4Address': ipv4Address,
-      if (kernelVersion != null) 'kernelVersion': kernelVersion,
-      if (operatingSystem != null) 'operatingSystem': operatingSystem,
-    };
-  }
-}
-
-/// A snapshot of an Amazon Inspector assessment run that contains the findings
-/// of the assessment run .
-///
-/// Used as the response element in the <a>DescribeAssessmentRuns</a> action.
-class AssessmentRun {
-  /// The ARN of the assessment run.
-  final String arn;
-
-  /// The ARN of the assessment template that is associated with the assessment
-  /// run.
-  final String assessmentTemplateArn;
-
-  /// The time when <a>StartAssessmentRun</a> was called.
-  final DateTime createdAt;
-
-  /// A Boolean value (true or false) that specifies whether the process of
-  /// collecting data from the agents is completed.
-  final bool dataCollected;
-
-  /// The duration of the assessment run.
-  final int durationInSeconds;
-
-  /// Provides a total count of generated findings per severity.
-  final Map<Severity, int> findingCounts;
-
-  /// The auto-generated name for the assessment run.
-  final String name;
-
-  /// A list of notifications for the event subscriptions. A notification about a
-  /// particular generated finding is added to this list only once.
-  final List<AssessmentRunNotification> notifications;
-
-  /// The rules packages selected for the assessment run.
-  final List<String> rulesPackageArns;
-
-  /// The state of the assessment run.
-  final AssessmentRunState state;
-
-  /// The last time when the assessment run's state changed.
-  final DateTime stateChangedAt;
-
-  /// A list of the assessment run state changes.
-  final List<AssessmentRunStateChange> stateChanges;
-
-  /// The user-defined attributes that are assigned to every generated finding.
-  final List<Attribute> userAttributesForFindings;
-
-  /// The assessment run completion time that corresponds to the rules packages
-  /// evaluation completion time or failure.
-  final DateTime? completedAt;
-
-  /// The time when <a>StartAssessmentRun</a> was called.
-  final DateTime? startedAt;
-
-  AssessmentRun({
-    required this.arn,
-    required this.assessmentTemplateArn,
-    required this.createdAt,
-    required this.dataCollected,
-    required this.durationInSeconds,
-    required this.findingCounts,
-    required this.name,
-    required this.notifications,
-    required this.rulesPackageArns,
-    required this.state,
-    required this.stateChangedAt,
-    required this.stateChanges,
-    required this.userAttributesForFindings,
-    this.completedAt,
-    this.startedAt,
-  });
-
-  factory AssessmentRun.fromJson(Map<String, dynamic> json) {
-    return AssessmentRun(
-      arn: (json['arn'] as String?) ?? '',
-      assessmentTemplateArn: (json['assessmentTemplateArn'] as String?) ?? '',
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
-      dataCollected: (json['dataCollected'] as bool?) ?? false,
-      durationInSeconds: (json['durationInSeconds'] as int?) ?? 0,
-      findingCounts: ((json['findingCounts'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{})
-          .map((k, e) => MapEntry(Severity.fromString(k), e as int)),
-      name: (json['name'] as String?) ?? '',
-      notifications: ((json['notifications'] as List?) ?? const [])
-          .nonNulls
-          .map((e) =>
-              AssessmentRunNotification.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      rulesPackageArns: ((json['rulesPackageArns'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      state: AssessmentRunState.fromString((json['state'] as String?) ?? ''),
-      stateChangedAt: nonNullableTimeStampFromJson(json['stateChangedAt'] ?? 0),
-      stateChanges: ((json['stateChanges'] as List?) ?? const [])
-          .nonNulls
-          .map((e) =>
-              AssessmentRunStateChange.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      userAttributesForFindings:
-          ((json['userAttributesForFindings'] as List?) ?? const [])
-              .nonNulls
-              .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
-              .toList(),
-      completedAt: timeStampFromJson(json['completedAt']),
-      startedAt: timeStampFromJson(json['startedAt']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final assessmentTemplateArn = this.assessmentTemplateArn;
-    final createdAt = this.createdAt;
-    final dataCollected = this.dataCollected;
-    final durationInSeconds = this.durationInSeconds;
-    final findingCounts = this.findingCounts;
-    final name = this.name;
-    final notifications = this.notifications;
-    final rulesPackageArns = this.rulesPackageArns;
-    final state = this.state;
-    final stateChangedAt = this.stateChangedAt;
-    final stateChanges = this.stateChanges;
-    final userAttributesForFindings = this.userAttributesForFindings;
-    final completedAt = this.completedAt;
-    final startedAt = this.startedAt;
-    return {
-      'arn': arn,
-      'assessmentTemplateArn': assessmentTemplateArn,
-      'createdAt': unixTimestampToJson(createdAt),
-      'dataCollected': dataCollected,
-      'durationInSeconds': durationInSeconds,
-      'findingCounts': findingCounts.map((k, e) => MapEntry(k.value, e)),
-      'name': name,
-      'notifications': notifications,
-      'rulesPackageArns': rulesPackageArns,
-      'state': state.value,
-      'stateChangedAt': unixTimestampToJson(stateChangedAt),
-      'stateChanges': stateChanges,
-      'userAttributesForFindings': userAttributesForFindings,
-      if (completedAt != null) 'completedAt': unixTimestampToJson(completedAt),
-      if (startedAt != null) 'startedAt': unixTimestampToJson(startedAt),
-    };
-  }
-}
-
-/// Contains information about an Amazon Inspector agent. This data type is used
-/// as a response element in the <a>ListAssessmentRunAgents</a> action.
-class AssessmentRunAgent {
-  /// The current health state of the agent.
-  final AgentHealth agentHealth;
-
-  /// The detailed health state of the agent.
-  final AgentHealthCode agentHealthCode;
-
-  /// The AWS account of the EC2 instance where the agent is installed.
-  final String agentId;
-
-  /// The ARN of the assessment run that is associated with the agent.
-  final String assessmentRunArn;
-
-  /// The Amazon Inspector application data metrics that are collected by the
-  /// agent.
-  final List<TelemetryMetadata> telemetryMetadata;
-
-  /// The description for the agent health code.
-  final String? agentHealthDetails;
-
-  /// The Auto Scaling group of the EC2 instance that is specified by the agent
-  /// ID.
-  final String? autoScalingGroup;
-
-  AssessmentRunAgent({
-    required this.agentHealth,
-    required this.agentHealthCode,
-    required this.agentId,
-    required this.assessmentRunArn,
-    required this.telemetryMetadata,
-    this.agentHealthDetails,
-    this.autoScalingGroup,
-  });
-
-  factory AssessmentRunAgent.fromJson(Map<String, dynamic> json) {
-    return AssessmentRunAgent(
-      agentHealth:
-          AgentHealth.fromString((json['agentHealth'] as String?) ?? ''),
-      agentHealthCode: AgentHealthCode.fromString(
-          (json['agentHealthCode'] as String?) ?? ''),
-      agentId: (json['agentId'] as String?) ?? '',
-      assessmentRunArn: (json['assessmentRunArn'] as String?) ?? '',
-      telemetryMetadata: ((json['telemetryMetadata'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => TelemetryMetadata.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      agentHealthDetails: json['agentHealthDetails'] as String?,
-      autoScalingGroup: json['autoScalingGroup'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final agentHealth = this.agentHealth;
-    final agentHealthCode = this.agentHealthCode;
-    final agentId = this.agentId;
-    final assessmentRunArn = this.assessmentRunArn;
-    final telemetryMetadata = this.telemetryMetadata;
-    final agentHealthDetails = this.agentHealthDetails;
-    final autoScalingGroup = this.autoScalingGroup;
-    return {
-      'agentHealth': agentHealth.value,
-      'agentHealthCode': agentHealthCode.value,
-      'agentId': agentId,
-      'assessmentRunArn': assessmentRunArn,
-      'telemetryMetadata': telemetryMetadata,
-      if (agentHealthDetails != null) 'agentHealthDetails': agentHealthDetails,
-      if (autoScalingGroup != null) 'autoScalingGroup': autoScalingGroup,
-    };
-  }
-}
-
-/// Used as the request parameter in the <a>ListAssessmentRuns</a> action.
-class AssessmentRunFilter {
-  /// For a record to match a filter, the value that is specified for this data
-  /// type property must inclusively match any value between the specified minimum
-  /// and maximum values of the <b>completedAt</b> property of the
-  /// <a>AssessmentRun</a> data type.
-  final TimestampRange? completionTimeRange;
-
-  /// For a record to match a filter, the value that is specified for this data
-  /// type property must inclusively match any value between the specified minimum
-  /// and maximum values of the <b>durationInSeconds</b> property of the
-  /// <a>AssessmentRun</a> data type.
-  final DurationRange? durationRange;
-
-  /// For a record to match a filter, an explicit value or a string containing a
-  /// wildcard that is specified for this data type property must match the value
-  /// of the <b>assessmentRunName</b> property of the <a>AssessmentRun</a> data
-  /// type.
-  final String? namePattern;
-
-  /// For a record to match a filter, the value that is specified for this data
-  /// type property must be contained in the list of values of the
-  /// <b>rulesPackages</b> property of the <a>AssessmentRun</a> data type.
-  final List<String>? rulesPackageArns;
-
-  /// For a record to match a filter, the value that is specified for this data
-  /// type property must inclusively match any value between the specified minimum
-  /// and maximum values of the <b>startTime</b> property of the
-  /// <a>AssessmentRun</a> data type.
-  final TimestampRange? startTimeRange;
-
-  /// For a record to match a filter, the value that is specified for this data
-  /// type property must match the <b>stateChangedAt</b> property of the
-  /// <a>AssessmentRun</a> data type.
-  final TimestampRange? stateChangeTimeRange;
-
-  /// For a record to match a filter, one of the values specified for this data
-  /// type property must be the exact match of the value of the
-  /// <b>assessmentRunState</b> property of the <a>AssessmentRun</a> data type.
-  final List<AssessmentRunState>? states;
-
-  AssessmentRunFilter({
-    this.completionTimeRange,
-    this.durationRange,
-    this.namePattern,
-    this.rulesPackageArns,
-    this.startTimeRange,
-    this.stateChangeTimeRange,
-    this.states,
-  });
-
-  Map<String, dynamic> toJson() {
-    final completionTimeRange = this.completionTimeRange;
-    final durationRange = this.durationRange;
-    final namePattern = this.namePattern;
-    final rulesPackageArns = this.rulesPackageArns;
-    final startTimeRange = this.startTimeRange;
-    final stateChangeTimeRange = this.stateChangeTimeRange;
-    final states = this.states;
-    return {
-      if (completionTimeRange != null)
-        'completionTimeRange': completionTimeRange,
-      if (durationRange != null) 'durationRange': durationRange,
-      if (namePattern != null) 'namePattern': namePattern,
-      if (rulesPackageArns != null) 'rulesPackageArns': rulesPackageArns,
-      if (startTimeRange != null) 'startTimeRange': startTimeRange,
-      if (stateChangeTimeRange != null)
-        'stateChangeTimeRange': stateChangeTimeRange,
-      if (states != null) 'states': states.map((e) => e.value).toList(),
-    };
-  }
-}
-
-/// Used as one of the elements of the <a>AssessmentRun</a> data type.
-class AssessmentRunNotification {
-  /// The date of the notification.
-  final DateTime date;
-
-  /// The Boolean value that specifies whether the notification represents an
-  /// error.
-  final bool error;
-
-  /// The event for which a notification is sent.
-  final InspectorEvent event;
-
-  /// The message included in the notification.
-  final String? message;
-
-  /// The status code of the SNS notification.
-  final AssessmentRunNotificationSnsStatusCode? snsPublishStatusCode;
-
-  /// The SNS topic to which the SNS notification is sent.
-  final String? snsTopicArn;
-
-  AssessmentRunNotification({
-    required this.date,
-    required this.error,
-    required this.event,
-    this.message,
-    this.snsPublishStatusCode,
-    this.snsTopicArn,
-  });
-
-  factory AssessmentRunNotification.fromJson(Map<String, dynamic> json) {
-    return AssessmentRunNotification(
-      date: nonNullableTimeStampFromJson(json['date'] ?? 0),
-      error: (json['error'] as bool?) ?? false,
-      event: InspectorEvent.fromString((json['event'] as String?) ?? ''),
-      message: json['message'] as String?,
-      snsPublishStatusCode: (json['snsPublishStatusCode'] as String?)
-          ?.let(AssessmentRunNotificationSnsStatusCode.fromString),
-      snsTopicArn: json['snsTopicArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final date = this.date;
-    final error = this.error;
-    final event = this.event;
-    final message = this.message;
-    final snsPublishStatusCode = this.snsPublishStatusCode;
-    final snsTopicArn = this.snsTopicArn;
-    return {
-      'date': unixTimestampToJson(date),
-      'error': error,
-      'event': event.value,
-      if (message != null) 'message': message,
-      if (snsPublishStatusCode != null)
-        'snsPublishStatusCode': snsPublishStatusCode.value,
-      if (snsTopicArn != null) 'snsTopicArn': snsTopicArn,
-    };
-  }
-}
-
-class AssessmentRunNotificationSnsStatusCode {
-  static const success = AssessmentRunNotificationSnsStatusCode._('SUCCESS');
-  static const topicDoesNotExist =
-      AssessmentRunNotificationSnsStatusCode._('TOPIC_DOES_NOT_EXIST');
-  static const accessDenied =
-      AssessmentRunNotificationSnsStatusCode._('ACCESS_DENIED');
-  static const internalError =
-      AssessmentRunNotificationSnsStatusCode._('INTERNAL_ERROR');
-
-  final String value;
-
-  const AssessmentRunNotificationSnsStatusCode._(this.value);
-
-  static const values = [
-    success,
-    topicDoesNotExist,
-    accessDenied,
-    internalError
-  ];
-
-  static AssessmentRunNotificationSnsStatusCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AssessmentRunNotificationSnsStatusCode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AssessmentRunNotificationSnsStatusCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class AssessmentRunState {
-  static const created = AssessmentRunState._('CREATED');
-  static const startDataCollectionPending =
-      AssessmentRunState._('START_DATA_COLLECTION_PENDING');
-  static const startDataCollectionInProgress =
-      AssessmentRunState._('START_DATA_COLLECTION_IN_PROGRESS');
-  static const collectingData = AssessmentRunState._('COLLECTING_DATA');
-  static const stopDataCollectionPending =
-      AssessmentRunState._('STOP_DATA_COLLECTION_PENDING');
-  static const dataCollected = AssessmentRunState._('DATA_COLLECTED');
-  static const startEvaluatingRulesPending =
-      AssessmentRunState._('START_EVALUATING_RULES_PENDING');
-  static const evaluatingRules = AssessmentRunState._('EVALUATING_RULES');
-  static const failed = AssessmentRunState._('FAILED');
-  static const error = AssessmentRunState._('ERROR');
-  static const completed = AssessmentRunState._('COMPLETED');
-  static const completedWithErrors =
-      AssessmentRunState._('COMPLETED_WITH_ERRORS');
-  static const canceled = AssessmentRunState._('CANCELED');
-
-  final String value;
-
-  const AssessmentRunState._(this.value);
-
-  static const values = [
-    created,
-    startDataCollectionPending,
-    startDataCollectionInProgress,
-    collectingData,
-    stopDataCollectionPending,
-    dataCollected,
-    startEvaluatingRulesPending,
-    evaluatingRules,
-    failed,
-    error,
-    completed,
-    completedWithErrors,
-    canceled
-  ];
-
-  static AssessmentRunState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AssessmentRunState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AssessmentRunState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Used as one of the elements of the <a>AssessmentRun</a> data type.
-class AssessmentRunStateChange {
-  /// The assessment run state.
-  final AssessmentRunState state;
-
-  /// The last time the assessment run state changed.
-  final DateTime stateChangedAt;
-
-  AssessmentRunStateChange({
-    required this.state,
-    required this.stateChangedAt,
-  });
-
-  factory AssessmentRunStateChange.fromJson(Map<String, dynamic> json) {
-    return AssessmentRunStateChange(
-      state: AssessmentRunState.fromString((json['state'] as String?) ?? ''),
-      stateChangedAt: nonNullableTimeStampFromJson(json['stateChangedAt'] ?? 0),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final state = this.state;
-    final stateChangedAt = this.stateChangedAt;
-    return {
-      'state': state.value,
-      'stateChangedAt': unixTimestampToJson(stateChangedAt),
-    };
-  }
-}
-
-/// Contains information about an Amazon Inspector application. This data type
-/// is used as the response element in the <a>DescribeAssessmentTargets</a>
-/// action.
-class AssessmentTarget {
-  /// The ARN that specifies the Amazon Inspector assessment target.
-  final String arn;
-
-  /// The time at which the assessment target is created.
-  final DateTime createdAt;
-
-  /// The name of the Amazon Inspector assessment target.
-  final String name;
-
-  /// The time at which <a>UpdateAssessmentTarget</a> is called.
-  final DateTime updatedAt;
-
-  /// The ARN that specifies the resource group that is associated with the
-  /// assessment target.
-  final String? resourceGroupArn;
-
-  AssessmentTarget({
-    required this.arn,
-    required this.createdAt,
-    required this.name,
-    required this.updatedAt,
-    this.resourceGroupArn,
-  });
-
-  factory AssessmentTarget.fromJson(Map<String, dynamic> json) {
-    return AssessmentTarget(
-      arn: (json['arn'] as String?) ?? '',
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
-      name: (json['name'] as String?) ?? '',
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
-      resourceGroupArn: json['resourceGroupArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final createdAt = this.createdAt;
-    final name = this.name;
-    final updatedAt = this.updatedAt;
-    final resourceGroupArn = this.resourceGroupArn;
-    return {
-      'arn': arn,
-      'createdAt': unixTimestampToJson(createdAt),
-      'name': name,
-      'updatedAt': unixTimestampToJson(updatedAt),
-      if (resourceGroupArn != null) 'resourceGroupArn': resourceGroupArn,
-    };
-  }
-}
-
-/// Used as the request parameter in the <a>ListAssessmentTargets</a> action.
-class AssessmentTargetFilter {
-  /// For a record to match a filter, an explicit value or a string that contains
-  /// a wildcard that is specified for this data type property must match the
-  /// value of the <b>assessmentTargetName</b> property of the
-  /// <a>AssessmentTarget</a> data type.
-  final String? assessmentTargetNamePattern;
-
-  AssessmentTargetFilter({
-    this.assessmentTargetNamePattern,
-  });
-
-  Map<String, dynamic> toJson() {
-    final assessmentTargetNamePattern = this.assessmentTargetNamePattern;
-    return {
-      if (assessmentTargetNamePattern != null)
-        'assessmentTargetNamePattern': assessmentTargetNamePattern,
-    };
-  }
-}
-
-/// Contains information about an Amazon Inspector assessment template. This
-/// data type is used as the response element in the
-/// <a>DescribeAssessmentTemplates</a> action.
-class AssessmentTemplate {
-  /// The ARN of the assessment template.
-  final String arn;
-
-  /// The number of existing assessment runs associated with this assessment
-  /// template. This value can be zero or a positive integer.
-  final int assessmentRunCount;
-
-  /// The ARN of the assessment target that corresponds to this assessment
-  /// template.
-  final String assessmentTargetArn;
-
-  /// The time at which the assessment template is created.
-  final DateTime createdAt;
-
-  /// The duration in seconds specified for this assessment template. The default
-  /// value is 3600 seconds (one hour). The maximum value is 86400 seconds (one
-  /// day).
-  final int durationInSeconds;
-
-  /// The name of the assessment template.
-  final String name;
-
-  /// The rules packages that are specified for this assessment template.
-  final List<String> rulesPackageArns;
-
-  /// The user-defined attributes that are assigned to every generated finding
-  /// from the assessment run that uses this assessment template.
-  final List<Attribute> userAttributesForFindings;
-
-  /// The Amazon Resource Name (ARN) of the most recent assessment run associated
-  /// with this assessment template. This value exists only when the value of
-  /// assessmentRunCount is greaterpa than zero.
-  final String? lastAssessmentRunArn;
-
-  AssessmentTemplate({
-    required this.arn,
-    required this.assessmentRunCount,
-    required this.assessmentTargetArn,
-    required this.createdAt,
-    required this.durationInSeconds,
-    required this.name,
-    required this.rulesPackageArns,
-    required this.userAttributesForFindings,
-    this.lastAssessmentRunArn,
-  });
-
-  factory AssessmentTemplate.fromJson(Map<String, dynamic> json) {
-    return AssessmentTemplate(
-      arn: (json['arn'] as String?) ?? '',
-      assessmentRunCount: (json['assessmentRunCount'] as int?) ?? 0,
-      assessmentTargetArn: (json['assessmentTargetArn'] as String?) ?? '',
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
-      durationInSeconds: (json['durationInSeconds'] as int?) ?? 0,
-      name: (json['name'] as String?) ?? '',
-      rulesPackageArns: ((json['rulesPackageArns'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      userAttributesForFindings:
-          ((json['userAttributesForFindings'] as List?) ?? const [])
-              .nonNulls
-              .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
-              .toList(),
-      lastAssessmentRunArn: json['lastAssessmentRunArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final assessmentRunCount = this.assessmentRunCount;
-    final assessmentTargetArn = this.assessmentTargetArn;
-    final createdAt = this.createdAt;
-    final durationInSeconds = this.durationInSeconds;
-    final name = this.name;
-    final rulesPackageArns = this.rulesPackageArns;
-    final userAttributesForFindings = this.userAttributesForFindings;
-    final lastAssessmentRunArn = this.lastAssessmentRunArn;
-    return {
-      'arn': arn,
-      'assessmentRunCount': assessmentRunCount,
-      'assessmentTargetArn': assessmentTargetArn,
-      'createdAt': unixTimestampToJson(createdAt),
-      'durationInSeconds': durationInSeconds,
-      'name': name,
-      'rulesPackageArns': rulesPackageArns,
-      'userAttributesForFindings': userAttributesForFindings,
-      if (lastAssessmentRunArn != null)
-        'lastAssessmentRunArn': lastAssessmentRunArn,
-    };
-  }
-}
-
-/// Used as the request parameter in the <a>ListAssessmentTemplates</a> action.
-class AssessmentTemplateFilter {
-  /// For a record to match a filter, the value specified for this data type
-  /// property must inclusively match any value between the specified minimum and
-  /// maximum values of the <b>durationInSeconds</b> property of the
-  /// <a>AssessmentTemplate</a> data type.
-  final DurationRange? durationRange;
-
-  /// For a record to match a filter, an explicit value or a string that contains
-  /// a wildcard that is specified for this data type property must match the
-  /// value of the <b>assessmentTemplateName</b> property of the
-  /// <a>AssessmentTemplate</a> data type.
-  final String? namePattern;
-
-  /// For a record to match a filter, the values that are specified for this data
-  /// type property must be contained in the list of values of the
-  /// <b>rulesPackageArns</b> property of the <a>AssessmentTemplate</a> data type.
-  final List<String>? rulesPackageArns;
-
-  AssessmentTemplateFilter({
-    this.durationRange,
-    this.namePattern,
-    this.rulesPackageArns,
-  });
-
-  Map<String, dynamic> toJson() {
-    final durationRange = this.durationRange;
-    final namePattern = this.namePattern;
-    final rulesPackageArns = this.rulesPackageArns;
-    return {
-      if (durationRange != null) 'durationRange': durationRange,
-      if (namePattern != null) 'namePattern': namePattern,
-      if (rulesPackageArns != null) 'rulesPackageArns': rulesPackageArns,
-    };
-  }
-}
-
-/// A collection of attributes of the host from which the finding is generated.
-class AssetAttributes {
-  /// The schema version of this data type.
-  final int schemaVersion;
-
-  /// The ID of the agent that is installed on the EC2 instance where the finding
-  /// is generated.
-  final String? agentId;
-
-  /// The ID of the Amazon Machine Image (AMI) that is installed on the EC2
-  /// instance where the finding is generated.
-  final String? amiId;
-
-  /// The Auto Scaling group of the EC2 instance where the finding is generated.
-  final String? autoScalingGroup;
-
-  /// The hostname of the EC2 instance where the finding is generated.
-  final String? hostname;
-
-  /// The list of IP v4 addresses of the EC2 instance where the finding is
-  /// generated.
-  final List<String>? ipv4Addresses;
-
-  /// An array of the network interfaces interacting with the EC2 instance where
-  /// the finding is generated.
-  final List<NetworkInterface>? networkInterfaces;
-
-  /// The tags related to the EC2 instance where the finding is generated.
-  final List<Tag>? tags;
-
-  AssetAttributes({
-    required this.schemaVersion,
-    this.agentId,
-    this.amiId,
-    this.autoScalingGroup,
-    this.hostname,
-    this.ipv4Addresses,
-    this.networkInterfaces,
-    this.tags,
-  });
-
-  factory AssetAttributes.fromJson(Map<String, dynamic> json) {
-    return AssetAttributes(
-      schemaVersion: (json['schemaVersion'] as int?) ?? 0,
-      agentId: json['agentId'] as String?,
-      amiId: json['amiId'] as String?,
-      autoScalingGroup: json['autoScalingGroup'] as String?,
-      hostname: json['hostname'] as String?,
-      ipv4Addresses: (json['ipv4Addresses'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      networkInterfaces: (json['networkInterfaces'] as List?)
-          ?.nonNulls
-          .map((e) => NetworkInterface.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      tags: (json['tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final schemaVersion = this.schemaVersion;
-    final agentId = this.agentId;
-    final amiId = this.amiId;
-    final autoScalingGroup = this.autoScalingGroup;
-    final hostname = this.hostname;
-    final ipv4Addresses = this.ipv4Addresses;
-    final networkInterfaces = this.networkInterfaces;
-    final tags = this.tags;
-    return {
-      'schemaVersion': schemaVersion,
-      if (agentId != null) 'agentId': agentId,
-      if (amiId != null) 'amiId': amiId,
-      if (autoScalingGroup != null) 'autoScalingGroup': autoScalingGroup,
-      if (hostname != null) 'hostname': hostname,
-      if (ipv4Addresses != null) 'ipv4Addresses': ipv4Addresses,
-      if (networkInterfaces != null) 'networkInterfaces': networkInterfaces,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-class AssetType {
-  static const ec2Instance = AssetType._('ec2-instance');
-
-  final String value;
-
-  const AssetType._(this.value);
-
-  static const values = [ec2Instance];
-
-  static AssetType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => AssetType._(value));
-
-  @override
-  bool operator ==(other) => other is AssetType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// This data type is used as a request parameter in the
-/// <a>AddAttributesToFindings</a> and <a>CreateAssessmentTemplate</a> actions.
-class Attribute {
-  /// The attribute key.
-  final String key;
-
-  /// The value assigned to the attribute key.
-  final String? value;
-
-  Attribute({
-    required this.key,
-    this.value,
-  });
-
-  factory Attribute.fromJson(Map<String, dynamic> json) {
-    return Attribute(
-      key: (json['key'] as String?) ?? '',
-      value: json['value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'key': key,
-      if (value != null) 'value': value,
     };
   }
 }
@@ -2959,483 +1978,6 @@ class DescribeRulesPackagesResponse {
   }
 }
 
-/// This data type is used in the <a>AssessmentTemplateFilter</a> data type.
-class DurationRange {
-  /// The maximum value of the duration range. Must be less than or equal to
-  /// 604800 seconds (1 week).
-  final int? maxSeconds;
-
-  /// The minimum value of the duration range. Must be greater than zero.
-  final int? minSeconds;
-
-  DurationRange({
-    this.maxSeconds,
-    this.minSeconds,
-  });
-
-  Map<String, dynamic> toJson() {
-    final maxSeconds = this.maxSeconds;
-    final minSeconds = this.minSeconds;
-    return {
-      if (maxSeconds != null) 'maxSeconds': maxSeconds,
-      if (minSeconds != null) 'minSeconds': minSeconds,
-    };
-  }
-}
-
-/// This data type is used in the <a>Subscription</a> data type.
-class EventSubscription {
-  /// The event for which Amazon Simple Notification Service (SNS) notifications
-  /// are sent.
-  final InspectorEvent event;
-
-  /// The time at which <a>SubscribeToEvent</a> is called.
-  final DateTime subscribedAt;
-
-  EventSubscription({
-    required this.event,
-    required this.subscribedAt,
-  });
-
-  factory EventSubscription.fromJson(Map<String, dynamic> json) {
-    return EventSubscription(
-      event: InspectorEvent.fromString((json['event'] as String?) ?? ''),
-      subscribedAt: nonNullableTimeStampFromJson(json['subscribedAt'] ?? 0),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final event = this.event;
-    final subscribedAt = this.subscribedAt;
-    return {
-      'event': event.value,
-      'subscribedAt': unixTimestampToJson(subscribedAt),
-    };
-  }
-}
-
-/// Contains information about what was excluded from an assessment run.
-class Exclusion {
-  /// The ARN that specifies the exclusion.
-  final String arn;
-
-  /// The description of the exclusion.
-  final String description;
-
-  /// The recommendation for the exclusion.
-  final String recommendation;
-
-  /// The AWS resources for which the exclusion pertains.
-  final List<Scope> scopes;
-
-  /// The name of the exclusion.
-  final String title;
-
-  /// The system-defined attributes for the exclusion.
-  final List<Attribute>? attributes;
-
-  Exclusion({
-    required this.arn,
-    required this.description,
-    required this.recommendation,
-    required this.scopes,
-    required this.title,
-    this.attributes,
-  });
-
-  factory Exclusion.fromJson(Map<String, dynamic> json) {
-    return Exclusion(
-      arn: (json['arn'] as String?) ?? '',
-      description: (json['description'] as String?) ?? '',
-      recommendation: (json['recommendation'] as String?) ?? '',
-      scopes: ((json['scopes'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => Scope.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      title: (json['title'] as String?) ?? '',
-      attributes: (json['attributes'] as List?)
-          ?.nonNulls
-          .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final description = this.description;
-    final recommendation = this.recommendation;
-    final scopes = this.scopes;
-    final title = this.title;
-    final attributes = this.attributes;
-    return {
-      'arn': arn,
-      'description': description,
-      'recommendation': recommendation,
-      'scopes': scopes,
-      'title': title,
-      if (attributes != null) 'attributes': attributes,
-    };
-  }
-}
-
-/// Contains information about what is excluded from an assessment run given the
-/// current state of the assessment template.
-class ExclusionPreview {
-  /// The description of the exclusion preview.
-  final String description;
-
-  /// The recommendation for the exclusion preview.
-  final String recommendation;
-
-  /// The AWS resources for which the exclusion preview pertains.
-  final List<Scope> scopes;
-
-  /// The name of the exclusion preview.
-  final String title;
-
-  /// The system-defined attributes for the exclusion preview.
-  final List<Attribute>? attributes;
-
-  ExclusionPreview({
-    required this.description,
-    required this.recommendation,
-    required this.scopes,
-    required this.title,
-    this.attributes,
-  });
-
-  factory ExclusionPreview.fromJson(Map<String, dynamic> json) {
-    return ExclusionPreview(
-      description: (json['description'] as String?) ?? '',
-      recommendation: (json['recommendation'] as String?) ?? '',
-      scopes: ((json['scopes'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => Scope.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      title: (json['title'] as String?) ?? '',
-      attributes: (json['attributes'] as List?)
-          ?.nonNulls
-          .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final recommendation = this.recommendation;
-    final scopes = this.scopes;
-    final title = this.title;
-    final attributes = this.attributes;
-    return {
-      'description': description,
-      'recommendation': recommendation,
-      'scopes': scopes,
-      'title': title,
-      if (attributes != null) 'attributes': attributes,
-    };
-  }
-}
-
-/// Includes details about the failed items.
-class FailedItemDetails {
-  /// The status code of a failed item.
-  final FailedItemErrorCode failureCode;
-
-  /// Indicates whether you can immediately retry a request for this item for a
-  /// specified resource.
-  final bool retryable;
-
-  FailedItemDetails({
-    required this.failureCode,
-    required this.retryable,
-  });
-
-  factory FailedItemDetails.fromJson(Map<String, dynamic> json) {
-    return FailedItemDetails(
-      failureCode: FailedItemErrorCode.fromString(
-          (json['failureCode'] as String?) ?? ''),
-      retryable: (json['retryable'] as bool?) ?? false,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final failureCode = this.failureCode;
-    final retryable = this.retryable;
-    return {
-      'failureCode': failureCode.value,
-      'retryable': retryable,
-    };
-  }
-}
-
-class FailedItemErrorCode {
-  static const invalidArn = FailedItemErrorCode._('INVALID_ARN');
-  static const duplicateArn = FailedItemErrorCode._('DUPLICATE_ARN');
-  static const itemDoesNotExist = FailedItemErrorCode._('ITEM_DOES_NOT_EXIST');
-  static const accessDenied = FailedItemErrorCode._('ACCESS_DENIED');
-  static const limitExceeded = FailedItemErrorCode._('LIMIT_EXCEEDED');
-  static const internalError = FailedItemErrorCode._('INTERNAL_ERROR');
-
-  final String value;
-
-  const FailedItemErrorCode._(this.value);
-
-  static const values = [
-    invalidArn,
-    duplicateArn,
-    itemDoesNotExist,
-    accessDenied,
-    limitExceeded,
-    internalError
-  ];
-
-  static FailedItemErrorCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FailedItemErrorCode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is FailedItemErrorCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains information about an Amazon Inspector finding. This data type is
-/// used as the response element in the <a>DescribeFindings</a> action.
-class Finding {
-  /// The ARN that specifies the finding.
-  final String arn;
-
-  /// The system-defined attributes for the finding.
-  final List<Attribute> attributes;
-
-  /// The time when the finding was generated.
-  final DateTime createdAt;
-
-  /// The time when <a>AddAttributesToFindings</a> is called.
-  final DateTime updatedAt;
-
-  /// The user-defined attributes that are assigned to the finding.
-  final List<Attribute> userAttributes;
-
-  /// A collection of attributes of the host from which the finding is generated.
-  final AssetAttributes? assetAttributes;
-
-  /// The type of the host from which the finding is generated.
-  final AssetType? assetType;
-
-  /// This data element is currently not used.
-  final int? confidence;
-
-  /// The description of the finding.
-  final String? description;
-
-  /// The ID of the finding.
-  final String? id;
-
-  /// This data element is currently not used.
-  final bool? indicatorOfCompromise;
-
-  /// The numeric value of the finding severity.
-  final double? numericSeverity;
-
-  /// The recommendation for the finding.
-  final String? recommendation;
-
-  /// The schema version of this data type.
-  final int? schemaVersion;
-
-  /// The data element is set to "Inspector".
-  final String? service;
-
-  /// This data type is used in the <a>Finding</a> data type.
-  final InspectorServiceAttributes? serviceAttributes;
-
-  /// The finding severity. Values can be set to High, Medium, Low, and
-  /// Informational.
-  final Severity? severity;
-
-  /// The name of the finding.
-  final String? title;
-
-  Finding({
-    required this.arn,
-    required this.attributes,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.userAttributes,
-    this.assetAttributes,
-    this.assetType,
-    this.confidence,
-    this.description,
-    this.id,
-    this.indicatorOfCompromise,
-    this.numericSeverity,
-    this.recommendation,
-    this.schemaVersion,
-    this.service,
-    this.serviceAttributes,
-    this.severity,
-    this.title,
-  });
-
-  factory Finding.fromJson(Map<String, dynamic> json) {
-    return Finding(
-      arn: (json['arn'] as String?) ?? '',
-      attributes: ((json['attributes'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
-      userAttributes: ((json['userAttributes'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      assetAttributes: json['assetAttributes'] != null
-          ? AssetAttributes.fromJson(
-              json['assetAttributes'] as Map<String, dynamic>)
-          : null,
-      assetType: (json['assetType'] as String?)?.let(AssetType.fromString),
-      confidence: json['confidence'] as int?,
-      description: json['description'] as String?,
-      id: json['id'] as String?,
-      indicatorOfCompromise: json['indicatorOfCompromise'] as bool?,
-      numericSeverity: json['numericSeverity'] as double?,
-      recommendation: json['recommendation'] as String?,
-      schemaVersion: json['schemaVersion'] as int?,
-      service: json['service'] as String?,
-      serviceAttributes: json['serviceAttributes'] != null
-          ? InspectorServiceAttributes.fromJson(
-              json['serviceAttributes'] as Map<String, dynamic>)
-          : null,
-      severity: (json['severity'] as String?)?.let(Severity.fromString),
-      title: json['title'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final attributes = this.attributes;
-    final createdAt = this.createdAt;
-    final updatedAt = this.updatedAt;
-    final userAttributes = this.userAttributes;
-    final assetAttributes = this.assetAttributes;
-    final assetType = this.assetType;
-    final confidence = this.confidence;
-    final description = this.description;
-    final id = this.id;
-    final indicatorOfCompromise = this.indicatorOfCompromise;
-    final numericSeverity = this.numericSeverity;
-    final recommendation = this.recommendation;
-    final schemaVersion = this.schemaVersion;
-    final service = this.service;
-    final serviceAttributes = this.serviceAttributes;
-    final severity = this.severity;
-    final title = this.title;
-    return {
-      'arn': arn,
-      'attributes': attributes,
-      'createdAt': unixTimestampToJson(createdAt),
-      'updatedAt': unixTimestampToJson(updatedAt),
-      'userAttributes': userAttributes,
-      if (assetAttributes != null) 'assetAttributes': assetAttributes,
-      if (assetType != null) 'assetType': assetType.value,
-      if (confidence != null) 'confidence': confidence,
-      if (description != null) 'description': description,
-      if (id != null) 'id': id,
-      if (indicatorOfCompromise != null)
-        'indicatorOfCompromise': indicatorOfCompromise,
-      if (numericSeverity != null) 'numericSeverity': numericSeverity,
-      if (recommendation != null) 'recommendation': recommendation,
-      if (schemaVersion != null) 'schemaVersion': schemaVersion,
-      if (service != null) 'service': service,
-      if (serviceAttributes != null) 'serviceAttributes': serviceAttributes,
-      if (severity != null) 'severity': severity.value,
-      if (title != null) 'title': title,
-    };
-  }
-}
-
-/// This data type is used as a request parameter in the <a>ListFindings</a>
-/// action.
-class FindingFilter {
-  /// For a record to match a filter, one of the values that is specified for this
-  /// data type property must be the exact match of the value of the
-  /// <b>agentId</b> property of the <a>Finding</a> data type.
-  final List<String>? agentIds;
-
-  /// For a record to match a filter, the list of values that are specified for
-  /// this data type property must be contained in the list of values of the
-  /// <b>attributes</b> property of the <a>Finding</a> data type.
-  final List<Attribute>? attributes;
-
-  /// For a record to match a filter, one of the values that is specified for this
-  /// data type property must be the exact match of the value of the
-  /// <b>autoScalingGroup</b> property of the <a>Finding</a> data type.
-  final List<String>? autoScalingGroups;
-
-  /// The time range during which the finding is generated.
-  final TimestampRange? creationTimeRange;
-
-  /// For a record to match a filter, one of the values that is specified for this
-  /// data type property must be the exact match of the value of the
-  /// <b>ruleName</b> property of the <a>Finding</a> data type.
-  final List<String>? ruleNames;
-
-  /// For a record to match a filter, one of the values that is specified for this
-  /// data type property must be the exact match of the value of the
-  /// <b>rulesPackageArn</b> property of the <a>Finding</a> data type.
-  final List<String>? rulesPackageArns;
-
-  /// For a record to match a filter, one of the values that is specified for this
-  /// data type property must be the exact match of the value of the
-  /// <b>severity</b> property of the <a>Finding</a> data type.
-  final List<Severity>? severities;
-
-  /// For a record to match a filter, the value that is specified for this data
-  /// type property must be contained in the list of values of the
-  /// <b>userAttributes</b> property of the <a>Finding</a> data type.
-  final List<Attribute>? userAttributes;
-
-  FindingFilter({
-    this.agentIds,
-    this.attributes,
-    this.autoScalingGroups,
-    this.creationTimeRange,
-    this.ruleNames,
-    this.rulesPackageArns,
-    this.severities,
-    this.userAttributes,
-  });
-
-  Map<String, dynamic> toJson() {
-    final agentIds = this.agentIds;
-    final attributes = this.attributes;
-    final autoScalingGroups = this.autoScalingGroups;
-    final creationTimeRange = this.creationTimeRange;
-    final ruleNames = this.ruleNames;
-    final rulesPackageArns = this.rulesPackageArns;
-    final severities = this.severities;
-    final userAttributes = this.userAttributes;
-    return {
-      if (agentIds != null) 'agentIds': agentIds,
-      if (attributes != null) 'attributes': attributes,
-      if (autoScalingGroups != null) 'autoScalingGroups': autoScalingGroups,
-      if (creationTimeRange != null) 'creationTimeRange': creationTimeRange,
-      if (ruleNames != null) 'ruleNames': ruleNames,
-      if (rulesPackageArns != null) 'rulesPackageArns': rulesPackageArns,
-      if (severities != null)
-        'severities': severities.map((e) => e.value).toList(),
-      if (userAttributes != null) 'userAttributes': userAttributes,
-    };
-  }
-}
-
 class GetAssessmentReportResponse {
   /// Specifies the status of the request to generate an assessment report.
   final ReportStatus status;
@@ -3530,79 +2072,6 @@ class GetTelemetryMetadataResponse {
     final telemetryMetadata = this.telemetryMetadata;
     return {
       'telemetryMetadata': telemetryMetadata,
-    };
-  }
-}
-
-class InspectorEvent {
-  static const assessmentRunStarted =
-      InspectorEvent._('ASSESSMENT_RUN_STARTED');
-  static const assessmentRunCompleted =
-      InspectorEvent._('ASSESSMENT_RUN_COMPLETED');
-  static const assessmentRunStateChanged =
-      InspectorEvent._('ASSESSMENT_RUN_STATE_CHANGED');
-  static const findingReported = InspectorEvent._('FINDING_REPORTED');
-  static const other = InspectorEvent._('OTHER');
-
-  final String value;
-
-  const InspectorEvent._(this.value);
-
-  static const values = [
-    assessmentRunStarted,
-    assessmentRunCompleted,
-    assessmentRunStateChanged,
-    findingReported,
-    other
-  ];
-
-  static InspectorEvent fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => InspectorEvent._(value));
-
-  @override
-  bool operator ==(other) => other is InspectorEvent && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// This data type is used in the <a>Finding</a> data type.
-class InspectorServiceAttributes {
-  /// The schema version of this data type.
-  final int schemaVersion;
-
-  /// The ARN of the assessment run during which the finding is generated.
-  final String? assessmentRunArn;
-
-  /// The ARN of the rules package that is used to generate the finding.
-  final String? rulesPackageArn;
-
-  InspectorServiceAttributes({
-    required this.schemaVersion,
-    this.assessmentRunArn,
-    this.rulesPackageArn,
-  });
-
-  factory InspectorServiceAttributes.fromJson(Map<String, dynamic> json) {
-    return InspectorServiceAttributes(
-      schemaVersion: (json['schemaVersion'] as int?) ?? 0,
-      assessmentRunArn: json['assessmentRunArn'] as String?,
-      rulesPackageArn: json['rulesPackageArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final schemaVersion = this.schemaVersion;
-    final assessmentRunArn = this.assessmentRunArn;
-    final rulesPackageArn = this.rulesPackageArn;
-    return {
-      'schemaVersion': schemaVersion,
-      if (assessmentRunArn != null) 'assessmentRunArn': assessmentRunArn,
-      if (rulesPackageArn != null) 'rulesPackageArn': rulesPackageArn,
     };
   }
 }
@@ -3917,6 +2386,1100 @@ class ListTagsForResourceResponse {
   }
 }
 
+class PreviewAgentsResponse {
+  /// The resulting list of agents.
+  final List<AgentPreview> agentPreviews;
+
+  /// When a response is generated, if there is more data to be listed, this
+  /// parameter is present in the response and contains the value to use for the
+  /// <b>nextToken</b> parameter in a subsequent pagination request. If there is
+  /// no more data to be listed, this parameter is set to null.
+  final String? nextToken;
+
+  PreviewAgentsResponse({
+    required this.agentPreviews,
+    this.nextToken,
+  });
+
+  factory PreviewAgentsResponse.fromJson(Map<String, dynamic> json) {
+    return PreviewAgentsResponse(
+      agentPreviews: ((json['agentPreviews'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => AgentPreview.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agentPreviews = this.agentPreviews;
+    final nextToken = this.nextToken;
+    return {
+      'agentPreviews': agentPreviews,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class RemoveAttributesFromFindingsResponse {
+  /// Attributes details that cannot be described. An error code is provided for
+  /// each failed item.
+  final Map<String, FailedItemDetails> failedItems;
+
+  RemoveAttributesFromFindingsResponse({
+    required this.failedItems,
+  });
+
+  factory RemoveAttributesFromFindingsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return RemoveAttributesFromFindingsResponse(
+      failedItems: ((json['failedItems'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) => MapEntry(
+              k, FailedItemDetails.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failedItems = this.failedItems;
+    return {
+      'failedItems': failedItems,
+    };
+  }
+}
+
+class StartAssessmentRunResponse {
+  /// The ARN of the assessment run that has been started.
+  final String assessmentRunArn;
+
+  StartAssessmentRunResponse({
+    required this.assessmentRunArn,
+  });
+
+  factory StartAssessmentRunResponse.fromJson(Map<String, dynamic> json) {
+    return StartAssessmentRunResponse(
+      assessmentRunArn: (json['assessmentRunArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assessmentRunArn = this.assessmentRunArn;
+    return {
+      'assessmentRunArn': assessmentRunArn,
+    };
+  }
+}
+
+class InspectorEvent {
+  static const assessmentRunStarted =
+      InspectorEvent._('ASSESSMENT_RUN_STARTED');
+  static const assessmentRunCompleted =
+      InspectorEvent._('ASSESSMENT_RUN_COMPLETED');
+  static const assessmentRunStateChanged =
+      InspectorEvent._('ASSESSMENT_RUN_STATE_CHANGED');
+  static const findingReported = InspectorEvent._('FINDING_REPORTED');
+  static const other = InspectorEvent._('OTHER');
+
+  final String value;
+
+  const InspectorEvent._(this.value);
+
+  static const values = [
+    assessmentRunStarted,
+    assessmentRunCompleted,
+    assessmentRunStateChanged,
+    findingReported,
+    other
+  ];
+
+  static InspectorEvent fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InspectorEvent._(value));
+
+  @override
+  bool operator ==(other) => other is InspectorEvent && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class StopAction {
+  static const startEvaluation = StopAction._('START_EVALUATION');
+  static const skipEvaluation = StopAction._('SKIP_EVALUATION');
+
+  final String value;
+
+  const StopAction._(this.value);
+
+  static const values = [startEvaluation, skipEvaluation];
+
+  static StopAction fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StopAction._(value));
+
+  @override
+  bool operator ==(other) => other is StopAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A key and value pair. This data type is used as a request parameter in the
+/// <a>SetTagsForResource</a> action and a response element in the
+/// <a>ListTagsForResource</a> action.
+class Tag {
+  /// A tag key.
+  final String key;
+
+  /// A value assigned to a tag key.
+  final String? value;
+
+  Tag({
+    required this.key,
+    this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['key'] as String?) ?? '',
+      value: json['value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key,
+      if (value != null) 'value': value,
+    };
+  }
+}
+
+/// Includes details about the failed items.
+class FailedItemDetails {
+  /// The status code of a failed item.
+  final FailedItemErrorCode failureCode;
+
+  /// Indicates whether you can immediately retry a request for this item for a
+  /// specified resource.
+  final bool retryable;
+
+  FailedItemDetails({
+    required this.failureCode,
+    required this.retryable,
+  });
+
+  factory FailedItemDetails.fromJson(Map<String, dynamic> json) {
+    return FailedItemDetails(
+      failureCode: FailedItemErrorCode.fromString(
+          (json['failureCode'] as String?) ?? ''),
+      retryable: (json['retryable'] as bool?) ?? false,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failureCode = this.failureCode;
+    final retryable = this.retryable;
+    return {
+      'failureCode': failureCode.value,
+      'retryable': retryable,
+    };
+  }
+}
+
+class FailedItemErrorCode {
+  static const invalidArn = FailedItemErrorCode._('INVALID_ARN');
+  static const duplicateArn = FailedItemErrorCode._('DUPLICATE_ARN');
+  static const itemDoesNotExist = FailedItemErrorCode._('ITEM_DOES_NOT_EXIST');
+  static const accessDenied = FailedItemErrorCode._('ACCESS_DENIED');
+  static const limitExceeded = FailedItemErrorCode._('LIMIT_EXCEEDED');
+  static const internalError = FailedItemErrorCode._('INTERNAL_ERROR');
+
+  final String value;
+
+  const FailedItemErrorCode._(this.value);
+
+  static const values = [
+    invalidArn,
+    duplicateArn,
+    itemDoesNotExist,
+    accessDenied,
+    limitExceeded,
+    internalError
+  ];
+
+  static FailedItemErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FailedItemErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FailedItemErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Used as a response element in the <a>PreviewAgents</a> action.
+class AgentPreview {
+  /// The ID of the EC2 instance where the agent is installed.
+  final String agentId;
+
+  /// The health status of the Amazon Inspector Agent.
+  final AgentHealth? agentHealth;
+
+  /// The version of the Amazon Inspector Agent.
+  final String? agentVersion;
+
+  /// The Auto Scaling group for the EC2 instance where the agent is installed.
+  final String? autoScalingGroup;
+
+  /// The hostname of the EC2 instance on which the Amazon Inspector Agent is
+  /// installed.
+  final String? hostname;
+
+  /// The IP address of the EC2 instance on which the Amazon Inspector Agent is
+  /// installed.
+  final String? ipv4Address;
+
+  /// The kernel version of the operating system running on the EC2 instance on
+  /// which the Amazon Inspector Agent is installed.
+  final String? kernelVersion;
+
+  /// The operating system running on the EC2 instance on which the Amazon
+  /// Inspector Agent is installed.
+  final String? operatingSystem;
+
+  AgentPreview({
+    required this.agentId,
+    this.agentHealth,
+    this.agentVersion,
+    this.autoScalingGroup,
+    this.hostname,
+    this.ipv4Address,
+    this.kernelVersion,
+    this.operatingSystem,
+  });
+
+  factory AgentPreview.fromJson(Map<String, dynamic> json) {
+    return AgentPreview(
+      agentId: (json['agentId'] as String?) ?? '',
+      agentHealth:
+          (json['agentHealth'] as String?)?.let(AgentHealth.fromString),
+      agentVersion: json['agentVersion'] as String?,
+      autoScalingGroup: json['autoScalingGroup'] as String?,
+      hostname: json['hostname'] as String?,
+      ipv4Address: json['ipv4Address'] as String?,
+      kernelVersion: json['kernelVersion'] as String?,
+      operatingSystem: json['operatingSystem'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agentId = this.agentId;
+    final agentHealth = this.agentHealth;
+    final agentVersion = this.agentVersion;
+    final autoScalingGroup = this.autoScalingGroup;
+    final hostname = this.hostname;
+    final ipv4Address = this.ipv4Address;
+    final kernelVersion = this.kernelVersion;
+    final operatingSystem = this.operatingSystem;
+    return {
+      'agentId': agentId,
+      if (agentHealth != null) 'agentHealth': agentHealth.value,
+      if (agentVersion != null) 'agentVersion': agentVersion,
+      if (autoScalingGroup != null) 'autoScalingGroup': autoScalingGroup,
+      if (hostname != null) 'hostname': hostname,
+      if (ipv4Address != null) 'ipv4Address': ipv4Address,
+      if (kernelVersion != null) 'kernelVersion': kernelVersion,
+      if (operatingSystem != null) 'operatingSystem': operatingSystem,
+    };
+  }
+}
+
+class AgentHealth {
+  static const healthy = AgentHealth._('HEALTHY');
+  static const unhealthy = AgentHealth._('UNHEALTHY');
+  static const unknown = AgentHealth._('UNKNOWN');
+
+  final String value;
+
+  const AgentHealth._(this.value);
+
+  static const values = [healthy, unhealthy, unknown];
+
+  static AgentHealth fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AgentHealth._(value));
+
+  @override
+  bool operator ==(other) => other is AgentHealth && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// This data type is used as a request parameter in the <a>ListFindings</a>
+/// action.
+class FindingFilter {
+  /// For a record to match a filter, one of the values that is specified for this
+  /// data type property must be the exact match of the value of the
+  /// <b>agentId</b> property of the <a>Finding</a> data type.
+  final List<String>? agentIds;
+
+  /// For a record to match a filter, the list of values that are specified for
+  /// this data type property must be contained in the list of values of the
+  /// <b>attributes</b> property of the <a>Finding</a> data type.
+  final List<Attribute>? attributes;
+
+  /// For a record to match a filter, one of the values that is specified for this
+  /// data type property must be the exact match of the value of the
+  /// <b>autoScalingGroup</b> property of the <a>Finding</a> data type.
+  final List<String>? autoScalingGroups;
+
+  /// The time range during which the finding is generated.
+  final TimestampRange? creationTimeRange;
+
+  /// For a record to match a filter, one of the values that is specified for this
+  /// data type property must be the exact match of the value of the
+  /// <b>ruleName</b> property of the <a>Finding</a> data type.
+  final List<String>? ruleNames;
+
+  /// For a record to match a filter, one of the values that is specified for this
+  /// data type property must be the exact match of the value of the
+  /// <b>rulesPackageArn</b> property of the <a>Finding</a> data type.
+  final List<String>? rulesPackageArns;
+
+  /// For a record to match a filter, one of the values that is specified for this
+  /// data type property must be the exact match of the value of the
+  /// <b>severity</b> property of the <a>Finding</a> data type.
+  final List<Severity>? severities;
+
+  /// For a record to match a filter, the value that is specified for this data
+  /// type property must be contained in the list of values of the
+  /// <b>userAttributes</b> property of the <a>Finding</a> data type.
+  final List<Attribute>? userAttributes;
+
+  FindingFilter({
+    this.agentIds,
+    this.attributes,
+    this.autoScalingGroups,
+    this.creationTimeRange,
+    this.ruleNames,
+    this.rulesPackageArns,
+    this.severities,
+    this.userAttributes,
+  });
+
+  Map<String, dynamic> toJson() {
+    final agentIds = this.agentIds;
+    final attributes = this.attributes;
+    final autoScalingGroups = this.autoScalingGroups;
+    final creationTimeRange = this.creationTimeRange;
+    final ruleNames = this.ruleNames;
+    final rulesPackageArns = this.rulesPackageArns;
+    final severities = this.severities;
+    final userAttributes = this.userAttributes;
+    return {
+      if (agentIds != null) 'agentIds': agentIds,
+      if (attributes != null) 'attributes': attributes,
+      if (autoScalingGroups != null) 'autoScalingGroups': autoScalingGroups,
+      if (creationTimeRange != null) 'creationTimeRange': creationTimeRange,
+      if (ruleNames != null) 'ruleNames': ruleNames,
+      if (rulesPackageArns != null) 'rulesPackageArns': rulesPackageArns,
+      if (severities != null)
+        'severities': severities.map((e) => e.value).toList(),
+      if (userAttributes != null) 'userAttributes': userAttributes,
+    };
+  }
+}
+
+/// This data type is used in the <a>AssessmentRunFilter</a> data type.
+class TimestampRange {
+  /// The minimum value of the timestamp range.
+  final DateTime? beginDate;
+
+  /// The maximum value of the timestamp range.
+  final DateTime? endDate;
+
+  TimestampRange({
+    this.beginDate,
+    this.endDate,
+  });
+
+  Map<String, dynamic> toJson() {
+    final beginDate = this.beginDate;
+    final endDate = this.endDate;
+    return {
+      if (beginDate != null) 'beginDate': unixTimestampToJson(beginDate),
+      if (endDate != null) 'endDate': unixTimestampToJson(endDate),
+    };
+  }
+}
+
+/// This data type is used as a request parameter in the
+/// <a>AddAttributesToFindings</a> and <a>CreateAssessmentTemplate</a> actions.
+class Attribute {
+  /// The attribute key.
+  final String key;
+
+  /// The value assigned to the attribute key.
+  final String? value;
+
+  Attribute({
+    required this.key,
+    this.value,
+  });
+
+  factory Attribute.fromJson(Map<String, dynamic> json) {
+    return Attribute(
+      key: (json['key'] as String?) ?? '',
+      value: json['value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key,
+      if (value != null) 'value': value,
+    };
+  }
+}
+
+class Severity {
+  static const low = Severity._('Low');
+  static const medium = Severity._('Medium');
+  static const high = Severity._('High');
+  static const informational = Severity._('Informational');
+  static const undefined = Severity._('Undefined');
+
+  final String value;
+
+  const Severity._(this.value);
+
+  static const values = [low, medium, high, informational, undefined];
+
+  static Severity fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Severity._(value));
+
+  @override
+  bool operator ==(other) => other is Severity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// This data type is used as a response element in the
+/// <a>ListEventSubscriptions</a> action.
+class Subscription {
+  /// The list of existing event subscriptions.
+  final List<EventSubscription> eventSubscriptions;
+
+  /// The ARN of the assessment template that is used during the event for which
+  /// the SNS notification is sent.
+  final String resourceArn;
+
+  /// The ARN of the Amazon Simple Notification Service (SNS) topic to which the
+  /// SNS notifications are sent.
+  final String topicArn;
+
+  Subscription({
+    required this.eventSubscriptions,
+    required this.resourceArn,
+    required this.topicArn,
+  });
+
+  factory Subscription.fromJson(Map<String, dynamic> json) {
+    return Subscription(
+      eventSubscriptions: ((json['eventSubscriptions'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => EventSubscription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      resourceArn: (json['resourceArn'] as String?) ?? '',
+      topicArn: (json['topicArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventSubscriptions = this.eventSubscriptions;
+    final resourceArn = this.resourceArn;
+    final topicArn = this.topicArn;
+    return {
+      'eventSubscriptions': eventSubscriptions,
+      'resourceArn': resourceArn,
+      'topicArn': topicArn,
+    };
+  }
+}
+
+/// This data type is used in the <a>Subscription</a> data type.
+class EventSubscription {
+  /// The event for which Amazon Simple Notification Service (SNS) notifications
+  /// are sent.
+  final InspectorEvent event;
+
+  /// The time at which <a>SubscribeToEvent</a> is called.
+  final DateTime subscribedAt;
+
+  EventSubscription({
+    required this.event,
+    required this.subscribedAt,
+  });
+
+  factory EventSubscription.fromJson(Map<String, dynamic> json) {
+    return EventSubscription(
+      event: InspectorEvent.fromString((json['event'] as String?) ?? ''),
+      subscribedAt: nonNullableTimeStampFromJson(json['subscribedAt'] ?? 0),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final event = this.event;
+    final subscribedAt = this.subscribedAt;
+    return {
+      'event': event.value,
+      'subscribedAt': unixTimestampToJson(subscribedAt),
+    };
+  }
+}
+
+/// Used as the request parameter in the <a>ListAssessmentTemplates</a> action.
+class AssessmentTemplateFilter {
+  /// For a record to match a filter, the value specified for this data type
+  /// property must inclusively match any value between the specified minimum and
+  /// maximum values of the <b>durationInSeconds</b> property of the
+  /// <a>AssessmentTemplate</a> data type.
+  final DurationRange? durationRange;
+
+  /// For a record to match a filter, an explicit value or a string that contains
+  /// a wildcard that is specified for this data type property must match the
+  /// value of the <b>assessmentTemplateName</b> property of the
+  /// <a>AssessmentTemplate</a> data type.
+  final String? namePattern;
+
+  /// For a record to match a filter, the values that are specified for this data
+  /// type property must be contained in the list of values of the
+  /// <b>rulesPackageArns</b> property of the <a>AssessmentTemplate</a> data type.
+  final List<String>? rulesPackageArns;
+
+  AssessmentTemplateFilter({
+    this.durationRange,
+    this.namePattern,
+    this.rulesPackageArns,
+  });
+
+  Map<String, dynamic> toJson() {
+    final durationRange = this.durationRange;
+    final namePattern = this.namePattern;
+    final rulesPackageArns = this.rulesPackageArns;
+    return {
+      if (durationRange != null) 'durationRange': durationRange,
+      if (namePattern != null) 'namePattern': namePattern,
+      if (rulesPackageArns != null) 'rulesPackageArns': rulesPackageArns,
+    };
+  }
+}
+
+/// This data type is used in the <a>AssessmentTemplateFilter</a> data type.
+class DurationRange {
+  /// The maximum value of the duration range. Must be less than or equal to
+  /// 604800 seconds (1 week).
+  final int? maxSeconds;
+
+  /// The minimum value of the duration range. Must be greater than zero.
+  final int? minSeconds;
+
+  DurationRange({
+    this.maxSeconds,
+    this.minSeconds,
+  });
+
+  Map<String, dynamic> toJson() {
+    final maxSeconds = this.maxSeconds;
+    final minSeconds = this.minSeconds;
+    return {
+      if (maxSeconds != null) 'maxSeconds': maxSeconds,
+      if (minSeconds != null) 'minSeconds': minSeconds,
+    };
+  }
+}
+
+/// Used as the request parameter in the <a>ListAssessmentTargets</a> action.
+class AssessmentTargetFilter {
+  /// For a record to match a filter, an explicit value or a string that contains
+  /// a wildcard that is specified for this data type property must match the
+  /// value of the <b>assessmentTargetName</b> property of the
+  /// <a>AssessmentTarget</a> data type.
+  final String? assessmentTargetNamePattern;
+
+  AssessmentTargetFilter({
+    this.assessmentTargetNamePattern,
+  });
+
+  Map<String, dynamic> toJson() {
+    final assessmentTargetNamePattern = this.assessmentTargetNamePattern;
+    return {
+      if (assessmentTargetNamePattern != null)
+        'assessmentTargetNamePattern': assessmentTargetNamePattern,
+    };
+  }
+}
+
+/// Used as the request parameter in the <a>ListAssessmentRuns</a> action.
+class AssessmentRunFilter {
+  /// For a record to match a filter, the value that is specified for this data
+  /// type property must inclusively match any value between the specified minimum
+  /// and maximum values of the <b>completedAt</b> property of the
+  /// <a>AssessmentRun</a> data type.
+  final TimestampRange? completionTimeRange;
+
+  /// For a record to match a filter, the value that is specified for this data
+  /// type property must inclusively match any value between the specified minimum
+  /// and maximum values of the <b>durationInSeconds</b> property of the
+  /// <a>AssessmentRun</a> data type.
+  final DurationRange? durationRange;
+
+  /// For a record to match a filter, an explicit value or a string containing a
+  /// wildcard that is specified for this data type property must match the value
+  /// of the <b>assessmentRunName</b> property of the <a>AssessmentRun</a> data
+  /// type.
+  final String? namePattern;
+
+  /// For a record to match a filter, the value that is specified for this data
+  /// type property must be contained in the list of values of the
+  /// <b>rulesPackages</b> property of the <a>AssessmentRun</a> data type.
+  final List<String>? rulesPackageArns;
+
+  /// For a record to match a filter, the value that is specified for this data
+  /// type property must inclusively match any value between the specified minimum
+  /// and maximum values of the <b>startTime</b> property of the
+  /// <a>AssessmentRun</a> data type.
+  final TimestampRange? startTimeRange;
+
+  /// For a record to match a filter, the value that is specified for this data
+  /// type property must match the <b>stateChangedAt</b> property of the
+  /// <a>AssessmentRun</a> data type.
+  final TimestampRange? stateChangeTimeRange;
+
+  /// For a record to match a filter, one of the values specified for this data
+  /// type property must be the exact match of the value of the
+  /// <b>assessmentRunState</b> property of the <a>AssessmentRun</a> data type.
+  final List<AssessmentRunState>? states;
+
+  AssessmentRunFilter({
+    this.completionTimeRange,
+    this.durationRange,
+    this.namePattern,
+    this.rulesPackageArns,
+    this.startTimeRange,
+    this.stateChangeTimeRange,
+    this.states,
+  });
+
+  Map<String, dynamic> toJson() {
+    final completionTimeRange = this.completionTimeRange;
+    final durationRange = this.durationRange;
+    final namePattern = this.namePattern;
+    final rulesPackageArns = this.rulesPackageArns;
+    final startTimeRange = this.startTimeRange;
+    final stateChangeTimeRange = this.stateChangeTimeRange;
+    final states = this.states;
+    return {
+      if (completionTimeRange != null)
+        'completionTimeRange': completionTimeRange,
+      if (durationRange != null) 'durationRange': durationRange,
+      if (namePattern != null) 'namePattern': namePattern,
+      if (rulesPackageArns != null) 'rulesPackageArns': rulesPackageArns,
+      if (startTimeRange != null) 'startTimeRange': startTimeRange,
+      if (stateChangeTimeRange != null)
+        'stateChangeTimeRange': stateChangeTimeRange,
+      if (states != null) 'states': states.map((e) => e.value).toList(),
+    };
+  }
+}
+
+class AssessmentRunState {
+  static const created = AssessmentRunState._('CREATED');
+  static const startDataCollectionPending =
+      AssessmentRunState._('START_DATA_COLLECTION_PENDING');
+  static const startDataCollectionInProgress =
+      AssessmentRunState._('START_DATA_COLLECTION_IN_PROGRESS');
+  static const collectingData = AssessmentRunState._('COLLECTING_DATA');
+  static const stopDataCollectionPending =
+      AssessmentRunState._('STOP_DATA_COLLECTION_PENDING');
+  static const dataCollected = AssessmentRunState._('DATA_COLLECTED');
+  static const startEvaluatingRulesPending =
+      AssessmentRunState._('START_EVALUATING_RULES_PENDING');
+  static const evaluatingRules = AssessmentRunState._('EVALUATING_RULES');
+  static const failed = AssessmentRunState._('FAILED');
+  static const error = AssessmentRunState._('ERROR');
+  static const completed = AssessmentRunState._('COMPLETED');
+  static const completedWithErrors =
+      AssessmentRunState._('COMPLETED_WITH_ERRORS');
+  static const canceled = AssessmentRunState._('CANCELED');
+
+  final String value;
+
+  const AssessmentRunState._(this.value);
+
+  static const values = [
+    created,
+    startDataCollectionPending,
+    startDataCollectionInProgress,
+    collectingData,
+    stopDataCollectionPending,
+    dataCollected,
+    startEvaluatingRulesPending,
+    evaluatingRules,
+    failed,
+    error,
+    completed,
+    completedWithErrors,
+    canceled
+  ];
+
+  static AssessmentRunState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AssessmentRunState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AssessmentRunState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about an Amazon Inspector agent. This data type is used
+/// as a response element in the <a>ListAssessmentRunAgents</a> action.
+class AssessmentRunAgent {
+  /// The current health state of the agent.
+  final AgentHealth agentHealth;
+
+  /// The detailed health state of the agent.
+  final AgentHealthCode agentHealthCode;
+
+  /// The AWS account of the EC2 instance where the agent is installed.
+  final String agentId;
+
+  /// The ARN of the assessment run that is associated with the agent.
+  final String assessmentRunArn;
+
+  /// The Amazon Inspector application data metrics that are collected by the
+  /// agent.
+  final List<TelemetryMetadata> telemetryMetadata;
+
+  /// The description for the agent health code.
+  final String? agentHealthDetails;
+
+  /// The Auto Scaling group of the EC2 instance that is specified by the agent
+  /// ID.
+  final String? autoScalingGroup;
+
+  AssessmentRunAgent({
+    required this.agentHealth,
+    required this.agentHealthCode,
+    required this.agentId,
+    required this.assessmentRunArn,
+    required this.telemetryMetadata,
+    this.agentHealthDetails,
+    this.autoScalingGroup,
+  });
+
+  factory AssessmentRunAgent.fromJson(Map<String, dynamic> json) {
+    return AssessmentRunAgent(
+      agentHealth:
+          AgentHealth.fromString((json['agentHealth'] as String?) ?? ''),
+      agentHealthCode: AgentHealthCode.fromString(
+          (json['agentHealthCode'] as String?) ?? ''),
+      agentId: (json['agentId'] as String?) ?? '',
+      assessmentRunArn: (json['assessmentRunArn'] as String?) ?? '',
+      telemetryMetadata: ((json['telemetryMetadata'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => TelemetryMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      agentHealthDetails: json['agentHealthDetails'] as String?,
+      autoScalingGroup: json['autoScalingGroup'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agentHealth = this.agentHealth;
+    final agentHealthCode = this.agentHealthCode;
+    final agentId = this.agentId;
+    final assessmentRunArn = this.assessmentRunArn;
+    final telemetryMetadata = this.telemetryMetadata;
+    final agentHealthDetails = this.agentHealthDetails;
+    final autoScalingGroup = this.autoScalingGroup;
+    return {
+      'agentHealth': agentHealth.value,
+      'agentHealthCode': agentHealthCode.value,
+      'agentId': agentId,
+      'assessmentRunArn': assessmentRunArn,
+      'telemetryMetadata': telemetryMetadata,
+      if (agentHealthDetails != null) 'agentHealthDetails': agentHealthDetails,
+      if (autoScalingGroup != null) 'autoScalingGroup': autoScalingGroup,
+    };
+  }
+}
+
+class AgentHealthCode {
+  static const idle = AgentHealthCode._('IDLE');
+  static const running = AgentHealthCode._('RUNNING');
+  static const shutdown = AgentHealthCode._('SHUTDOWN');
+  static const unhealthy = AgentHealthCode._('UNHEALTHY');
+  static const throttled = AgentHealthCode._('THROTTLED');
+  static const unknown = AgentHealthCode._('UNKNOWN');
+
+  final String value;
+
+  const AgentHealthCode._(this.value);
+
+  static const values = [
+    idle,
+    running,
+    shutdown,
+    unhealthy,
+    throttled,
+    unknown
+  ];
+
+  static AgentHealthCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AgentHealthCode._(value));
+
+  @override
+  bool operator ==(other) => other is AgentHealthCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The metadata about the Amazon Inspector application data metrics collected
+/// by the agent. This data type is used as the response element in the
+/// <a>GetTelemetryMetadata</a> action.
+class TelemetryMetadata {
+  /// The count of messages that the agent sends to the Amazon Inspector service.
+  final int count;
+
+  /// A specific type of behavioral data that is collected by the agent.
+  final String messageType;
+
+  /// The data size of messages that the agent sends to the Amazon Inspector
+  /// service.
+  final int? dataSize;
+
+  TelemetryMetadata({
+    required this.count,
+    required this.messageType,
+    this.dataSize,
+  });
+
+  factory TelemetryMetadata.fromJson(Map<String, dynamic> json) {
+    return TelemetryMetadata(
+      count: (json['count'] as int?) ?? 0,
+      messageType: (json['messageType'] as String?) ?? '',
+      dataSize: json['dataSize'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final count = this.count;
+    final messageType = this.messageType;
+    final dataSize = this.dataSize;
+    return {
+      'count': count,
+      'messageType': messageType,
+      if (dataSize != null) 'dataSize': dataSize,
+    };
+  }
+}
+
+/// Contains information about an Amazon Inspector agent. This data type is used
+/// as a request parameter in the <a>ListAssessmentRunAgents</a> action.
+class AgentFilter {
+  /// The detailed health state of the agent. Values can be set to <b>IDLE</b>,
+  /// <b>RUNNING</b>, <b>SHUTDOWN</b>, <b>UNHEALTHY</b>, <b>THROTTLED</b>, and
+  /// <b>UNKNOWN</b>.
+  final List<AgentHealthCode> agentHealthCodes;
+
+  /// The current health state of the agent. Values can be set to <b>HEALTHY</b>
+  /// or <b>UNHEALTHY</b>.
+  final List<AgentHealth> agentHealths;
+
+  AgentFilter({
+    required this.agentHealthCodes,
+    required this.agentHealths,
+  });
+
+  Map<String, dynamic> toJson() {
+    final agentHealthCodes = this.agentHealthCodes;
+    final agentHealths = this.agentHealths;
+    return {
+      'agentHealthCodes': agentHealthCodes.map((e) => e.value).toList(),
+      'agentHealths': agentHealths.map((e) => e.value).toList(),
+    };
+  }
+}
+
+class PreviewStatus {
+  static const workInProgress = PreviewStatus._('WORK_IN_PROGRESS');
+  static const completed = PreviewStatus._('COMPLETED');
+
+  final String value;
+
+  const PreviewStatus._(this.value);
+
+  static const values = [workInProgress, completed];
+
+  static PreviewStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PreviewStatus._(value));
+
+  @override
+  bool operator ==(other) => other is PreviewStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about what is excluded from an assessment run given the
+/// current state of the assessment template.
+class ExclusionPreview {
+  /// The description of the exclusion preview.
+  final String description;
+
+  /// The recommendation for the exclusion preview.
+  final String recommendation;
+
+  /// The AWS resources for which the exclusion preview pertains.
+  final List<Scope> scopes;
+
+  /// The name of the exclusion preview.
+  final String title;
+
+  /// The system-defined attributes for the exclusion preview.
+  final List<Attribute>? attributes;
+
+  ExclusionPreview({
+    required this.description,
+    required this.recommendation,
+    required this.scopes,
+    required this.title,
+    this.attributes,
+  });
+
+  factory ExclusionPreview.fromJson(Map<String, dynamic> json) {
+    return ExclusionPreview(
+      description: (json['description'] as String?) ?? '',
+      recommendation: (json['recommendation'] as String?) ?? '',
+      scopes: ((json['scopes'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Scope.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      title: (json['title'] as String?) ?? '',
+      attributes: (json['attributes'] as List?)
+          ?.nonNulls
+          .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final recommendation = this.recommendation;
+    final scopes = this.scopes;
+    final title = this.title;
+    final attributes = this.attributes;
+    return {
+      'description': description,
+      'recommendation': recommendation,
+      'scopes': scopes,
+      'title': title,
+      if (attributes != null) 'attributes': attributes,
+    };
+  }
+}
+
+/// This data type contains key-value pairs that identify various Amazon
+/// resources.
+class Scope {
+  /// The type of the scope.
+  final ScopeType? key;
+
+  /// The resource identifier for the specified scope type.
+  final String? value;
+
+  Scope({
+    this.key,
+    this.value,
+  });
+
+  factory Scope.fromJson(Map<String, dynamic> json) {
+    return Scope(
+      key: (json['key'] as String?)?.let(ScopeType.fromString),
+      value: json['value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'key': key.value,
+      if (value != null) 'value': value,
+    };
+  }
+}
+
+class ScopeType {
+  static const instanceId = ScopeType._('INSTANCE_ID');
+  static const rulesPackageArn = ScopeType._('RULES_PACKAGE_ARN');
+
+  final String value;
+
+  const ScopeType._(this.value);
+
+  static const values = [instanceId, rulesPackageArn];
+
+  static ScopeType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ScopeType._(value));
+
+  @override
+  bool operator ==(other) => other is ScopeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 class Locale {
   static const enUs = Locale._('EN_US');
 
@@ -3937,6 +3500,505 @@ class Locale {
 
   @override
   String toString() => value;
+}
+
+class ReportStatus {
+  static const workInProgress = ReportStatus._('WORK_IN_PROGRESS');
+  static const failed = ReportStatus._('FAILED');
+  static const completed = ReportStatus._('COMPLETED');
+
+  final String value;
+
+  const ReportStatus._(this.value);
+
+  static const values = [workInProgress, failed, completed];
+
+  static ReportStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ReportStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ReportStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ReportFileFormat {
+  static const html = ReportFileFormat._('HTML');
+  static const pdf = ReportFileFormat._('PDF');
+
+  final String value;
+
+  const ReportFileFormat._(this.value);
+
+  static const values = [html, pdf];
+
+  static ReportFileFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReportFileFormat._(value));
+
+  @override
+  bool operator ==(other) => other is ReportFileFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ReportType {
+  static const finding = ReportType._('FINDING');
+  static const full = ReportType._('FULL');
+
+  final String value;
+
+  const ReportType._(this.value);
+
+  static const values = [finding, full];
+
+  static ReportType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ReportType._(value));
+
+  @override
+  bool operator ==(other) => other is ReportType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about an Amazon Inspector rules package. This data type
+/// is used as the response element in the <a>DescribeRulesPackages</a> action.
+class RulesPackage {
+  /// The ARN of the rules package.
+  final String arn;
+
+  /// The name of the rules package.
+  final String name;
+
+  /// The provider of the rules package.
+  final String provider;
+
+  /// The version ID of the rules package.
+  final String version;
+
+  /// The description of the rules package.
+  final String? description;
+
+  RulesPackage({
+    required this.arn,
+    required this.name,
+    required this.provider,
+    required this.version,
+    this.description,
+  });
+
+  factory RulesPackage.fromJson(Map<String, dynamic> json) {
+    return RulesPackage(
+      arn: (json['arn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      provider: (json['provider'] as String?) ?? '',
+      version: (json['version'] as String?) ?? '',
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    final provider = this.provider;
+    final version = this.version;
+    final description = this.description;
+    return {
+      'arn': arn,
+      'name': name,
+      'provider': provider,
+      'version': version,
+      if (description != null) 'description': description,
+    };
+  }
+}
+
+/// Contains information about a resource group. The resource group defines a
+/// set of tags that, when queried, identify the AWS resources that make up the
+/// assessment target. This data type is used as the response element in the
+/// <a>DescribeResourceGroups</a> action.
+class ResourceGroup {
+  /// The ARN of the resource group.
+  final String arn;
+
+  /// The time at which resource group is created.
+  final DateTime createdAt;
+
+  /// The tags (key and value pairs) of the resource group. This data type
+  /// property is used in the <a>CreateResourceGroup</a> action.
+  final List<ResourceGroupTag> tags;
+
+  ResourceGroup({
+    required this.arn,
+    required this.createdAt,
+    required this.tags,
+  });
+
+  factory ResourceGroup.fromJson(Map<String, dynamic> json) {
+    return ResourceGroup(
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      tags: ((json['tags'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => ResourceGroupTag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final tags = this.tags;
+    return {
+      'arn': arn,
+      'createdAt': unixTimestampToJson(createdAt),
+      'tags': tags,
+    };
+  }
+}
+
+/// This data type is used as one of the elements of the <a>ResourceGroup</a>
+/// data type.
+class ResourceGroupTag {
+  /// A tag key.
+  final String key;
+
+  /// The value assigned to a tag key.
+  final String? value;
+
+  ResourceGroupTag({
+    required this.key,
+    this.value,
+  });
+
+  factory ResourceGroupTag.fromJson(Map<String, dynamic> json) {
+    return ResourceGroupTag(
+      key: (json['key'] as String?) ?? '',
+      value: json['value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key,
+      if (value != null) 'value': value,
+    };
+  }
+}
+
+/// Contains information about an Amazon Inspector finding. This data type is
+/// used as the response element in the <a>DescribeFindings</a> action.
+class Finding {
+  /// The ARN that specifies the finding.
+  final String arn;
+
+  /// The system-defined attributes for the finding.
+  final List<Attribute> attributes;
+
+  /// The time when the finding was generated.
+  final DateTime createdAt;
+
+  /// The time when <a>AddAttributesToFindings</a> is called.
+  final DateTime updatedAt;
+
+  /// The user-defined attributes that are assigned to the finding.
+  final List<Attribute> userAttributes;
+
+  /// A collection of attributes of the host from which the finding is generated.
+  final AssetAttributes? assetAttributes;
+
+  /// The type of the host from which the finding is generated.
+  final AssetType? assetType;
+
+  /// This data element is currently not used.
+  final int? confidence;
+
+  /// The description of the finding.
+  final String? description;
+
+  /// The ID of the finding.
+  final String? id;
+
+  /// This data element is currently not used.
+  final bool? indicatorOfCompromise;
+
+  /// The numeric value of the finding severity.
+  final double? numericSeverity;
+
+  /// The recommendation for the finding.
+  final String? recommendation;
+
+  /// The schema version of this data type.
+  final int? schemaVersion;
+
+  /// The data element is set to "Inspector".
+  final String? service;
+
+  /// This data type is used in the <a>Finding</a> data type.
+  final InspectorServiceAttributes? serviceAttributes;
+
+  /// The finding severity. Values can be set to High, Medium, Low, and
+  /// Informational.
+  final Severity? severity;
+
+  /// The name of the finding.
+  final String? title;
+
+  Finding({
+    required this.arn,
+    required this.attributes,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.userAttributes,
+    this.assetAttributes,
+    this.assetType,
+    this.confidence,
+    this.description,
+    this.id,
+    this.indicatorOfCompromise,
+    this.numericSeverity,
+    this.recommendation,
+    this.schemaVersion,
+    this.service,
+    this.serviceAttributes,
+    this.severity,
+    this.title,
+  });
+
+  factory Finding.fromJson(Map<String, dynamic> json) {
+    return Finding(
+      arn: (json['arn'] as String?) ?? '',
+      attributes: ((json['attributes'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      userAttributes: ((json['userAttributes'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      assetAttributes: json['assetAttributes'] != null
+          ? AssetAttributes.fromJson(
+              json['assetAttributes'] as Map<String, dynamic>)
+          : null,
+      assetType: (json['assetType'] as String?)?.let(AssetType.fromString),
+      confidence: json['confidence'] as int?,
+      description: json['description'] as String?,
+      id: json['id'] as String?,
+      indicatorOfCompromise: json['indicatorOfCompromise'] as bool?,
+      numericSeverity: json['numericSeverity'] as double?,
+      recommendation: json['recommendation'] as String?,
+      schemaVersion: json['schemaVersion'] as int?,
+      service: json['service'] as String?,
+      serviceAttributes: json['serviceAttributes'] != null
+          ? InspectorServiceAttributes.fromJson(
+              json['serviceAttributes'] as Map<String, dynamic>)
+          : null,
+      severity: (json['severity'] as String?)?.let(Severity.fromString),
+      title: json['title'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final attributes = this.attributes;
+    final createdAt = this.createdAt;
+    final updatedAt = this.updatedAt;
+    final userAttributes = this.userAttributes;
+    final assetAttributes = this.assetAttributes;
+    final assetType = this.assetType;
+    final confidence = this.confidence;
+    final description = this.description;
+    final id = this.id;
+    final indicatorOfCompromise = this.indicatorOfCompromise;
+    final numericSeverity = this.numericSeverity;
+    final recommendation = this.recommendation;
+    final schemaVersion = this.schemaVersion;
+    final service = this.service;
+    final serviceAttributes = this.serviceAttributes;
+    final severity = this.severity;
+    final title = this.title;
+    return {
+      'arn': arn,
+      'attributes': attributes,
+      'createdAt': unixTimestampToJson(createdAt),
+      'updatedAt': unixTimestampToJson(updatedAt),
+      'userAttributes': userAttributes,
+      if (assetAttributes != null) 'assetAttributes': assetAttributes,
+      if (assetType != null) 'assetType': assetType.value,
+      if (confidence != null) 'confidence': confidence,
+      if (description != null) 'description': description,
+      if (id != null) 'id': id,
+      if (indicatorOfCompromise != null)
+        'indicatorOfCompromise': indicatorOfCompromise,
+      if (numericSeverity != null) 'numericSeverity': numericSeverity,
+      if (recommendation != null) 'recommendation': recommendation,
+      if (schemaVersion != null) 'schemaVersion': schemaVersion,
+      if (service != null) 'service': service,
+      if (serviceAttributes != null) 'serviceAttributes': serviceAttributes,
+      if (severity != null) 'severity': severity.value,
+      if (title != null) 'title': title,
+    };
+  }
+}
+
+/// This data type is used in the <a>Finding</a> data type.
+class InspectorServiceAttributes {
+  /// The schema version of this data type.
+  final int schemaVersion;
+
+  /// The ARN of the assessment run during which the finding is generated.
+  final String? assessmentRunArn;
+
+  /// The ARN of the rules package that is used to generate the finding.
+  final String? rulesPackageArn;
+
+  InspectorServiceAttributes({
+    required this.schemaVersion,
+    this.assessmentRunArn,
+    this.rulesPackageArn,
+  });
+
+  factory InspectorServiceAttributes.fromJson(Map<String, dynamic> json) {
+    return InspectorServiceAttributes(
+      schemaVersion: (json['schemaVersion'] as int?) ?? 0,
+      assessmentRunArn: json['assessmentRunArn'] as String?,
+      rulesPackageArn: json['rulesPackageArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final schemaVersion = this.schemaVersion;
+    final assessmentRunArn = this.assessmentRunArn;
+    final rulesPackageArn = this.rulesPackageArn;
+    return {
+      'schemaVersion': schemaVersion,
+      if (assessmentRunArn != null) 'assessmentRunArn': assessmentRunArn,
+      if (rulesPackageArn != null) 'rulesPackageArn': rulesPackageArn,
+    };
+  }
+}
+
+class AssetType {
+  static const ec2Instance = AssetType._('ec2-instance');
+
+  final String value;
+
+  const AssetType._(this.value);
+
+  static const values = [ec2Instance];
+
+  static AssetType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AssetType._(value));
+
+  @override
+  bool operator ==(other) => other is AssetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A collection of attributes of the host from which the finding is generated.
+class AssetAttributes {
+  /// The schema version of this data type.
+  final int schemaVersion;
+
+  /// The ID of the agent that is installed on the EC2 instance where the finding
+  /// is generated.
+  final String? agentId;
+
+  /// The ID of the Amazon Machine Image (AMI) that is installed on the EC2
+  /// instance where the finding is generated.
+  final String? amiId;
+
+  /// The Auto Scaling group of the EC2 instance where the finding is generated.
+  final String? autoScalingGroup;
+
+  /// The hostname of the EC2 instance where the finding is generated.
+  final String? hostname;
+
+  /// The list of IP v4 addresses of the EC2 instance where the finding is
+  /// generated.
+  final List<String>? ipv4Addresses;
+
+  /// An array of the network interfaces interacting with the EC2 instance where
+  /// the finding is generated.
+  final List<NetworkInterface>? networkInterfaces;
+
+  /// The tags related to the EC2 instance where the finding is generated.
+  final List<Tag>? tags;
+
+  AssetAttributes({
+    required this.schemaVersion,
+    this.agentId,
+    this.amiId,
+    this.autoScalingGroup,
+    this.hostname,
+    this.ipv4Addresses,
+    this.networkInterfaces,
+    this.tags,
+  });
+
+  factory AssetAttributes.fromJson(Map<String, dynamic> json) {
+    return AssetAttributes(
+      schemaVersion: (json['schemaVersion'] as int?) ?? 0,
+      agentId: json['agentId'] as String?,
+      amiId: json['amiId'] as String?,
+      autoScalingGroup: json['autoScalingGroup'] as String?,
+      hostname: json['hostname'] as String?,
+      ipv4Addresses: (json['ipv4Addresses'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      networkInterfaces: (json['networkInterfaces'] as List?)
+          ?.nonNulls
+          .map((e) => NetworkInterface.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tags: (json['tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final schemaVersion = this.schemaVersion;
+    final agentId = this.agentId;
+    final amiId = this.amiId;
+    final autoScalingGroup = this.autoScalingGroup;
+    final hostname = this.hostname;
+    final ipv4Addresses = this.ipv4Addresses;
+    final networkInterfaces = this.networkInterfaces;
+    final tags = this.tags;
+    return {
+      'schemaVersion': schemaVersion,
+      if (agentId != null) 'agentId': agentId,
+      if (amiId != null) 'amiId': amiId,
+      if (autoScalingGroup != null) 'autoScalingGroup': autoScalingGroup,
+      if (hostname != null) 'hostname': hostname,
+      if (ipv4Addresses != null) 'ipv4Addresses': ipv4Addresses,
+      if (networkInterfaces != null) 'networkInterfaces': networkInterfaces,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
 /// Contains information about the network interfaces interacting with an EC2
@@ -4038,63 +4100,36 @@ class NetworkInterface {
   }
 }
 
-class PreviewAgentsResponse {
-  /// The resulting list of agents.
-  final List<AgentPreview> agentPreviews;
+/// Contains information about a security group associated with a network
+/// interface. This data type is used as one of the elements of the
+/// <a>NetworkInterface</a> data type.
+class SecurityGroup {
+  /// The ID of the security group.
+  final String? groupId;
 
-  /// When a response is generated, if there is more data to be listed, this
-  /// parameter is present in the response and contains the value to use for the
-  /// <b>nextToken</b> parameter in a subsequent pagination request. If there is
-  /// no more data to be listed, this parameter is set to null.
-  final String? nextToken;
+  /// The name of the security group.
+  final String? groupName;
 
-  PreviewAgentsResponse({
-    required this.agentPreviews,
-    this.nextToken,
+  SecurityGroup({
+    this.groupId,
+    this.groupName,
   });
 
-  factory PreviewAgentsResponse.fromJson(Map<String, dynamic> json) {
-    return PreviewAgentsResponse(
-      agentPreviews: ((json['agentPreviews'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => AgentPreview.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
+  factory SecurityGroup.fromJson(Map<String, dynamic> json) {
+    return SecurityGroup(
+      groupId: json['groupId'] as String?,
+      groupName: json['groupName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final agentPreviews = this.agentPreviews;
-    final nextToken = this.nextToken;
+    final groupId = this.groupId;
+    final groupName = this.groupName;
     return {
-      'agentPreviews': agentPreviews,
-      if (nextToken != null) 'nextToken': nextToken,
+      if (groupId != null) 'groupId': groupId,
+      if (groupName != null) 'groupName': groupName,
     };
   }
-}
-
-class PreviewStatus {
-  static const workInProgress = PreviewStatus._('WORK_IN_PROGRESS');
-  static const completed = PreviewStatus._('COMPLETED');
-
-  final String value;
-
-  const PreviewStatus._(this.value);
-
-  static const values = [workInProgress, completed];
-
-  static PreviewStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PreviewStatus._(value));
-
-  @override
-  bool operator ==(other) => other is PreviewStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// Contains information about a private IP address associated with a network
@@ -4129,277 +4164,453 @@ class PrivateIp {
   }
 }
 
-class RemoveAttributesFromFindingsResponse {
-  /// Attributes details that cannot be described. An error code is provided for
-  /// each failed item.
-  final Map<String, FailedItemDetails> failedItems;
+/// Contains information about what was excluded from an assessment run.
+class Exclusion {
+  /// The ARN that specifies the exclusion.
+  final String arn;
 
-  RemoveAttributesFromFindingsResponse({
-    required this.failedItems,
+  /// The description of the exclusion.
+  final String description;
+
+  /// The recommendation for the exclusion.
+  final String recommendation;
+
+  /// The AWS resources for which the exclusion pertains.
+  final List<Scope> scopes;
+
+  /// The name of the exclusion.
+  final String title;
+
+  /// The system-defined attributes for the exclusion.
+  final List<Attribute>? attributes;
+
+  Exclusion({
+    required this.arn,
+    required this.description,
+    required this.recommendation,
+    required this.scopes,
+    required this.title,
+    this.attributes,
   });
 
-  factory RemoveAttributesFromFindingsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return RemoveAttributesFromFindingsResponse(
-      failedItems: ((json['failedItems'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{})
-          .map((k, e) => MapEntry(
-              k, FailedItemDetails.fromJson(e as Map<String, dynamic>))),
+  factory Exclusion.fromJson(Map<String, dynamic> json) {
+    return Exclusion(
+      arn: (json['arn'] as String?) ?? '',
+      description: (json['description'] as String?) ?? '',
+      recommendation: (json['recommendation'] as String?) ?? '',
+      scopes: ((json['scopes'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Scope.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      title: (json['title'] as String?) ?? '',
+      attributes: (json['attributes'] as List?)
+          ?.nonNulls
+          .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final failedItems = this.failedItems;
+    final arn = this.arn;
+    final description = this.description;
+    final recommendation = this.recommendation;
+    final scopes = this.scopes;
+    final title = this.title;
+    final attributes = this.attributes;
     return {
-      'failedItems': failedItems,
+      'arn': arn,
+      'description': description,
+      'recommendation': recommendation,
+      'scopes': scopes,
+      'title': title,
+      if (attributes != null) 'attributes': attributes,
     };
   }
 }
 
-class ReportFileFormat {
-  static const html = ReportFileFormat._('HTML');
-  static const pdf = ReportFileFormat._('PDF');
-
-  final String value;
-
-  const ReportFileFormat._(this.value);
-
-  static const values = [html, pdf];
-
-  static ReportFileFormat fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ReportFileFormat._(value));
-
-  @override
-  bool operator ==(other) => other is ReportFileFormat && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ReportStatus {
-  static const workInProgress = ReportStatus._('WORK_IN_PROGRESS');
-  static const failed = ReportStatus._('FAILED');
-  static const completed = ReportStatus._('COMPLETED');
-
-  final String value;
-
-  const ReportStatus._(this.value);
-
-  static const values = [workInProgress, failed, completed];
-
-  static ReportStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ReportStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ReportStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ReportType {
-  static const finding = ReportType._('FINDING');
-  static const full = ReportType._('FULL');
-
-  final String value;
-
-  const ReportType._(this.value);
-
-  static const values = [finding, full];
-
-  static ReportType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ReportType._(value));
-
-  @override
-  bool operator ==(other) => other is ReportType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains information about a resource group. The resource group defines a
-/// set of tags that, when queried, identify the AWS resources that make up the
-/// assessment target. This data type is used as the response element in the
-/// <a>DescribeResourceGroups</a> action.
-class ResourceGroup {
-  /// The ARN of the resource group.
+/// Contains information about an Amazon Inspector assessment template. This
+/// data type is used as the response element in the
+/// <a>DescribeAssessmentTemplates</a> action.
+class AssessmentTemplate {
+  /// The ARN of the assessment template.
   final String arn;
 
-  /// The time at which resource group is created.
+  /// The number of existing assessment runs associated with this assessment
+  /// template. This value can be zero or a positive integer.
+  final int assessmentRunCount;
+
+  /// The ARN of the assessment target that corresponds to this assessment
+  /// template.
+  final String assessmentTargetArn;
+
+  /// The time at which the assessment template is created.
   final DateTime createdAt;
 
-  /// The tags (key and value pairs) of the resource group. This data type
-  /// property is used in the <a>CreateResourceGroup</a> action.
-  final List<ResourceGroupTag> tags;
+  /// The duration in seconds specified for this assessment template. The default
+  /// value is 3600 seconds (one hour). The maximum value is 86400 seconds (one
+  /// day).
+  final int durationInSeconds;
 
-  ResourceGroup({
+  /// The name of the assessment template.
+  final String name;
+
+  /// The rules packages that are specified for this assessment template.
+  final List<String> rulesPackageArns;
+
+  /// The user-defined attributes that are assigned to every generated finding
+  /// from the assessment run that uses this assessment template.
+  final List<Attribute> userAttributesForFindings;
+
+  /// The Amazon Resource Name (ARN) of the most recent assessment run associated
+  /// with this assessment template. This value exists only when the value of
+  /// assessmentRunCount is greaterpa than zero.
+  final String? lastAssessmentRunArn;
+
+  AssessmentTemplate({
     required this.arn,
+    required this.assessmentRunCount,
+    required this.assessmentTargetArn,
     required this.createdAt,
-    required this.tags,
+    required this.durationInSeconds,
+    required this.name,
+    required this.rulesPackageArns,
+    required this.userAttributesForFindings,
+    this.lastAssessmentRunArn,
   });
 
-  factory ResourceGroup.fromJson(Map<String, dynamic> json) {
-    return ResourceGroup(
+  factory AssessmentTemplate.fromJson(Map<String, dynamic> json) {
+    return AssessmentTemplate(
+      arn: (json['arn'] as String?) ?? '',
+      assessmentRunCount: (json['assessmentRunCount'] as int?) ?? 0,
+      assessmentTargetArn: (json['assessmentTargetArn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      durationInSeconds: (json['durationInSeconds'] as int?) ?? 0,
+      name: (json['name'] as String?) ?? '',
+      rulesPackageArns: ((json['rulesPackageArns'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      userAttributesForFindings:
+          ((json['userAttributesForFindings'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      lastAssessmentRunArn: json['lastAssessmentRunArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final assessmentRunCount = this.assessmentRunCount;
+    final assessmentTargetArn = this.assessmentTargetArn;
+    final createdAt = this.createdAt;
+    final durationInSeconds = this.durationInSeconds;
+    final name = this.name;
+    final rulesPackageArns = this.rulesPackageArns;
+    final userAttributesForFindings = this.userAttributesForFindings;
+    final lastAssessmentRunArn = this.lastAssessmentRunArn;
+    return {
+      'arn': arn,
+      'assessmentRunCount': assessmentRunCount,
+      'assessmentTargetArn': assessmentTargetArn,
+      'createdAt': unixTimestampToJson(createdAt),
+      'durationInSeconds': durationInSeconds,
+      'name': name,
+      'rulesPackageArns': rulesPackageArns,
+      'userAttributesForFindings': userAttributesForFindings,
+      if (lastAssessmentRunArn != null)
+        'lastAssessmentRunArn': lastAssessmentRunArn,
+    };
+  }
+}
+
+/// Contains information about an Amazon Inspector application. This data type
+/// is used as the response element in the <a>DescribeAssessmentTargets</a>
+/// action.
+class AssessmentTarget {
+  /// The ARN that specifies the Amazon Inspector assessment target.
+  final String arn;
+
+  /// The time at which the assessment target is created.
+  final DateTime createdAt;
+
+  /// The name of the Amazon Inspector assessment target.
+  final String name;
+
+  /// The time at which <a>UpdateAssessmentTarget</a> is called.
+  final DateTime updatedAt;
+
+  /// The ARN that specifies the resource group that is associated with the
+  /// assessment target.
+  final String? resourceGroupArn;
+
+  AssessmentTarget({
+    required this.arn,
+    required this.createdAt,
+    required this.name,
+    required this.updatedAt,
+    this.resourceGroupArn,
+  });
+
+  factory AssessmentTarget.fromJson(Map<String, dynamic> json) {
+    return AssessmentTarget(
       arn: (json['arn'] as String?) ?? '',
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
-      tags: ((json['tags'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => ResourceGroupTag.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      name: (json['name'] as String?) ?? '',
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      resourceGroupArn: json['resourceGroupArn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final arn = this.arn;
     final createdAt = this.createdAt;
-    final tags = this.tags;
+    final name = this.name;
+    final updatedAt = this.updatedAt;
+    final resourceGroupArn = this.resourceGroupArn;
     return {
       'arn': arn,
       'createdAt': unixTimestampToJson(createdAt),
-      'tags': tags,
+      'name': name,
+      'updatedAt': unixTimestampToJson(updatedAt),
+      if (resourceGroupArn != null) 'resourceGroupArn': resourceGroupArn,
     };
   }
 }
 
-/// This data type is used as one of the elements of the <a>ResourceGroup</a>
-/// data type.
-class ResourceGroupTag {
-  /// A tag key.
-  final String key;
-
-  /// The value assigned to a tag key.
-  final String? value;
-
-  ResourceGroupTag({
-    required this.key,
-    this.value,
-  });
-
-  factory ResourceGroupTag.fromJson(Map<String, dynamic> json) {
-    return ResourceGroupTag(
-      key: (json['key'] as String?) ?? '',
-      value: json['value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'key': key,
-      if (value != null) 'value': value,
-    };
-  }
-}
-
-/// Contains information about an Amazon Inspector rules package. This data type
-/// is used as the response element in the <a>DescribeRulesPackages</a> action.
-class RulesPackage {
-  /// The ARN of the rules package.
+/// A snapshot of an Amazon Inspector assessment run that contains the findings
+/// of the assessment run .
+///
+/// Used as the response element in the <a>DescribeAssessmentRuns</a> action.
+class AssessmentRun {
+  /// The ARN of the assessment run.
   final String arn;
 
-  /// The name of the rules package.
+  /// The ARN of the assessment template that is associated with the assessment
+  /// run.
+  final String assessmentTemplateArn;
+
+  /// The time when <a>StartAssessmentRun</a> was called.
+  final DateTime createdAt;
+
+  /// A Boolean value (true or false) that specifies whether the process of
+  /// collecting data from the agents is completed.
+  final bool dataCollected;
+
+  /// The duration of the assessment run.
+  final int durationInSeconds;
+
+  /// Provides a total count of generated findings per severity.
+  final Map<Severity, int> findingCounts;
+
+  /// The auto-generated name for the assessment run.
   final String name;
 
-  /// The provider of the rules package.
-  final String provider;
+  /// A list of notifications for the event subscriptions. A notification about a
+  /// particular generated finding is added to this list only once.
+  final List<AssessmentRunNotification> notifications;
 
-  /// The version ID of the rules package.
-  final String version;
+  /// The rules packages selected for the assessment run.
+  final List<String> rulesPackageArns;
 
-  /// The description of the rules package.
-  final String? description;
+  /// The state of the assessment run.
+  final AssessmentRunState state;
 
-  RulesPackage({
+  /// The last time when the assessment run's state changed.
+  final DateTime stateChangedAt;
+
+  /// A list of the assessment run state changes.
+  final List<AssessmentRunStateChange> stateChanges;
+
+  /// The user-defined attributes that are assigned to every generated finding.
+  final List<Attribute> userAttributesForFindings;
+
+  /// The assessment run completion time that corresponds to the rules packages
+  /// evaluation completion time or failure.
+  final DateTime? completedAt;
+
+  /// The time when <a>StartAssessmentRun</a> was called.
+  final DateTime? startedAt;
+
+  AssessmentRun({
     required this.arn,
+    required this.assessmentTemplateArn,
+    required this.createdAt,
+    required this.dataCollected,
+    required this.durationInSeconds,
+    required this.findingCounts,
     required this.name,
-    required this.provider,
-    required this.version,
-    this.description,
+    required this.notifications,
+    required this.rulesPackageArns,
+    required this.state,
+    required this.stateChangedAt,
+    required this.stateChanges,
+    required this.userAttributesForFindings,
+    this.completedAt,
+    this.startedAt,
   });
 
-  factory RulesPackage.fromJson(Map<String, dynamic> json) {
-    return RulesPackage(
+  factory AssessmentRun.fromJson(Map<String, dynamic> json) {
+    return AssessmentRun(
       arn: (json['arn'] as String?) ?? '',
+      assessmentTemplateArn: (json['assessmentTemplateArn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      dataCollected: (json['dataCollected'] as bool?) ?? false,
+      durationInSeconds: (json['durationInSeconds'] as int?) ?? 0,
+      findingCounts: ((json['findingCounts'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) => MapEntry(Severity.fromString(k), e as int)),
       name: (json['name'] as String?) ?? '',
-      provider: (json['provider'] as String?) ?? '',
-      version: (json['version'] as String?) ?? '',
-      description: json['description'] as String?,
+      notifications: ((json['notifications'] as List?) ?? const [])
+          .nonNulls
+          .map((e) =>
+              AssessmentRunNotification.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      rulesPackageArns: ((json['rulesPackageArns'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      state: AssessmentRunState.fromString((json['state'] as String?) ?? ''),
+      stateChangedAt: nonNullableTimeStampFromJson(json['stateChangedAt'] ?? 0),
+      stateChanges: ((json['stateChanges'] as List?) ?? const [])
+          .nonNulls
+          .map((e) =>
+              AssessmentRunStateChange.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      userAttributesForFindings:
+          ((json['userAttributesForFindings'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      completedAt: timeStampFromJson(json['completedAt']),
+      startedAt: timeStampFromJson(json['startedAt']),
     );
   }
 
   Map<String, dynamic> toJson() {
     final arn = this.arn;
+    final assessmentTemplateArn = this.assessmentTemplateArn;
+    final createdAt = this.createdAt;
+    final dataCollected = this.dataCollected;
+    final durationInSeconds = this.durationInSeconds;
+    final findingCounts = this.findingCounts;
     final name = this.name;
-    final provider = this.provider;
-    final version = this.version;
-    final description = this.description;
+    final notifications = this.notifications;
+    final rulesPackageArns = this.rulesPackageArns;
+    final state = this.state;
+    final stateChangedAt = this.stateChangedAt;
+    final stateChanges = this.stateChanges;
+    final userAttributesForFindings = this.userAttributesForFindings;
+    final completedAt = this.completedAt;
+    final startedAt = this.startedAt;
     return {
       'arn': arn,
+      'assessmentTemplateArn': assessmentTemplateArn,
+      'createdAt': unixTimestampToJson(createdAt),
+      'dataCollected': dataCollected,
+      'durationInSeconds': durationInSeconds,
+      'findingCounts': findingCounts.map((k, e) => MapEntry(k.value, e)),
       'name': name,
-      'provider': provider,
-      'version': version,
-      if (description != null) 'description': description,
+      'notifications': notifications,
+      'rulesPackageArns': rulesPackageArns,
+      'state': state.value,
+      'stateChangedAt': unixTimestampToJson(stateChangedAt),
+      'stateChanges': stateChanges,
+      'userAttributesForFindings': userAttributesForFindings,
+      if (completedAt != null) 'completedAt': unixTimestampToJson(completedAt),
+      if (startedAt != null) 'startedAt': unixTimestampToJson(startedAt),
     };
   }
 }
 
-/// This data type contains key-value pairs that identify various Amazon
-/// resources.
-class Scope {
-  /// The type of the scope.
-  final ScopeType? key;
+/// Used as one of the elements of the <a>AssessmentRun</a> data type.
+class AssessmentRunNotification {
+  /// The date of the notification.
+  final DateTime date;
 
-  /// The resource identifier for the specified scope type.
-  final String? value;
+  /// The Boolean value that specifies whether the notification represents an
+  /// error.
+  final bool error;
 
-  Scope({
-    this.key,
-    this.value,
+  /// The event for which a notification is sent.
+  final InspectorEvent event;
+
+  /// The message included in the notification.
+  final String? message;
+
+  /// The status code of the SNS notification.
+  final AssessmentRunNotificationSnsStatusCode? snsPublishStatusCode;
+
+  /// The SNS topic to which the SNS notification is sent.
+  final String? snsTopicArn;
+
+  AssessmentRunNotification({
+    required this.date,
+    required this.error,
+    required this.event,
+    this.message,
+    this.snsPublishStatusCode,
+    this.snsTopicArn,
   });
 
-  factory Scope.fromJson(Map<String, dynamic> json) {
-    return Scope(
-      key: (json['key'] as String?)?.let(ScopeType.fromString),
-      value: json['value'] as String?,
+  factory AssessmentRunNotification.fromJson(Map<String, dynamic> json) {
+    return AssessmentRunNotification(
+      date: nonNullableTimeStampFromJson(json['date'] ?? 0),
+      error: (json['error'] as bool?) ?? false,
+      event: InspectorEvent.fromString((json['event'] as String?) ?? ''),
+      message: json['message'] as String?,
+      snsPublishStatusCode: (json['snsPublishStatusCode'] as String?)
+          ?.let(AssessmentRunNotificationSnsStatusCode.fromString),
+      snsTopicArn: json['snsTopicArn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
+    final date = this.date;
+    final error = this.error;
+    final event = this.event;
+    final message = this.message;
+    final snsPublishStatusCode = this.snsPublishStatusCode;
+    final snsTopicArn = this.snsTopicArn;
     return {
-      if (key != null) 'key': key.value,
-      if (value != null) 'value': value,
+      'date': unixTimestampToJson(date),
+      'error': error,
+      'event': event.value,
+      if (message != null) 'message': message,
+      if (snsPublishStatusCode != null)
+        'snsPublishStatusCode': snsPublishStatusCode.value,
+      if (snsTopicArn != null) 'snsTopicArn': snsTopicArn,
     };
   }
 }
 
-class ScopeType {
-  static const instanceId = ScopeType._('INSTANCE_ID');
-  static const rulesPackageArn = ScopeType._('RULES_PACKAGE_ARN');
+class AssessmentRunNotificationSnsStatusCode {
+  static const success = AssessmentRunNotificationSnsStatusCode._('SUCCESS');
+  static const topicDoesNotExist =
+      AssessmentRunNotificationSnsStatusCode._('TOPIC_DOES_NOT_EXIST');
+  static const accessDenied =
+      AssessmentRunNotificationSnsStatusCode._('ACCESS_DENIED');
+  static const internalError =
+      AssessmentRunNotificationSnsStatusCode._('INTERNAL_ERROR');
 
   final String value;
 
-  const ScopeType._(this.value);
+  const AssessmentRunNotificationSnsStatusCode._(this.value);
 
-  static const values = [instanceId, rulesPackageArn];
+  static const values = [
+    success,
+    topicDoesNotExist,
+    accessDenied,
+    internalError
+  ];
 
-  static ScopeType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ScopeType._(value));
+  static AssessmentRunNotificationSnsStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AssessmentRunNotificationSnsStatusCode._(value));
 
   @override
-  bool operator ==(other) => other is ScopeType && other.value == value;
+  bool operator ==(other) =>
+      other is AssessmentRunNotificationSnsStatusCode && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -4408,243 +4619,32 @@ class ScopeType {
   String toString() => value;
 }
 
-/// Contains information about a security group associated with a network
-/// interface. This data type is used as one of the elements of the
-/// <a>NetworkInterface</a> data type.
-class SecurityGroup {
-  /// The ID of the security group.
-  final String? groupId;
+/// Used as one of the elements of the <a>AssessmentRun</a> data type.
+class AssessmentRunStateChange {
+  /// The assessment run state.
+  final AssessmentRunState state;
 
-  /// The name of the security group.
-  final String? groupName;
+  /// The last time the assessment run state changed.
+  final DateTime stateChangedAt;
 
-  SecurityGroup({
-    this.groupId,
-    this.groupName,
+  AssessmentRunStateChange({
+    required this.state,
+    required this.stateChangedAt,
   });
 
-  factory SecurityGroup.fromJson(Map<String, dynamic> json) {
-    return SecurityGroup(
-      groupId: json['groupId'] as String?,
-      groupName: json['groupName'] as String?,
+  factory AssessmentRunStateChange.fromJson(Map<String, dynamic> json) {
+    return AssessmentRunStateChange(
+      state: AssessmentRunState.fromString((json['state'] as String?) ?? ''),
+      stateChangedAt: nonNullableTimeStampFromJson(json['stateChangedAt'] ?? 0),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final groupId = this.groupId;
-    final groupName = this.groupName;
+    final state = this.state;
+    final stateChangedAt = this.stateChangedAt;
     return {
-      if (groupId != null) 'groupId': groupId,
-      if (groupName != null) 'groupName': groupName,
-    };
-  }
-}
-
-class Severity {
-  static const low = Severity._('Low');
-  static const medium = Severity._('Medium');
-  static const high = Severity._('High');
-  static const informational = Severity._('Informational');
-  static const undefined = Severity._('Undefined');
-
-  final String value;
-
-  const Severity._(this.value);
-
-  static const values = [low, medium, high, informational, undefined];
-
-  static Severity fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Severity._(value));
-
-  @override
-  bool operator ==(other) => other is Severity && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class StartAssessmentRunResponse {
-  /// The ARN of the assessment run that has been started.
-  final String assessmentRunArn;
-
-  StartAssessmentRunResponse({
-    required this.assessmentRunArn,
-  });
-
-  factory StartAssessmentRunResponse.fromJson(Map<String, dynamic> json) {
-    return StartAssessmentRunResponse(
-      assessmentRunArn: (json['assessmentRunArn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assessmentRunArn = this.assessmentRunArn;
-    return {
-      'assessmentRunArn': assessmentRunArn,
-    };
-  }
-}
-
-class StopAction {
-  static const startEvaluation = StopAction._('START_EVALUATION');
-  static const skipEvaluation = StopAction._('SKIP_EVALUATION');
-
-  final String value;
-
-  const StopAction._(this.value);
-
-  static const values = [startEvaluation, skipEvaluation];
-
-  static StopAction fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => StopAction._(value));
-
-  @override
-  bool operator ==(other) => other is StopAction && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// This data type is used as a response element in the
-/// <a>ListEventSubscriptions</a> action.
-class Subscription {
-  /// The list of existing event subscriptions.
-  final List<EventSubscription> eventSubscriptions;
-
-  /// The ARN of the assessment template that is used during the event for which
-  /// the SNS notification is sent.
-  final String resourceArn;
-
-  /// The ARN of the Amazon Simple Notification Service (SNS) topic to which the
-  /// SNS notifications are sent.
-  final String topicArn;
-
-  Subscription({
-    required this.eventSubscriptions,
-    required this.resourceArn,
-    required this.topicArn,
-  });
-
-  factory Subscription.fromJson(Map<String, dynamic> json) {
-    return Subscription(
-      eventSubscriptions: ((json['eventSubscriptions'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => EventSubscription.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      resourceArn: (json['resourceArn'] as String?) ?? '',
-      topicArn: (json['topicArn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eventSubscriptions = this.eventSubscriptions;
-    final resourceArn = this.resourceArn;
-    final topicArn = this.topicArn;
-    return {
-      'eventSubscriptions': eventSubscriptions,
-      'resourceArn': resourceArn,
-      'topicArn': topicArn,
-    };
-  }
-}
-
-/// A key and value pair. This data type is used as a request parameter in the
-/// <a>SetTagsForResource</a> action and a response element in the
-/// <a>ListTagsForResource</a> action.
-class Tag {
-  /// A tag key.
-  final String key;
-
-  /// A value assigned to a tag key.
-  final String? value;
-
-  Tag({
-    required this.key,
-    this.value,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['key'] as String?) ?? '',
-      value: json['value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'key': key,
-      if (value != null) 'value': value,
-    };
-  }
-}
-
-/// The metadata about the Amazon Inspector application data metrics collected
-/// by the agent. This data type is used as the response element in the
-/// <a>GetTelemetryMetadata</a> action.
-class TelemetryMetadata {
-  /// The count of messages that the agent sends to the Amazon Inspector service.
-  final int count;
-
-  /// A specific type of behavioral data that is collected by the agent.
-  final String messageType;
-
-  /// The data size of messages that the agent sends to the Amazon Inspector
-  /// service.
-  final int? dataSize;
-
-  TelemetryMetadata({
-    required this.count,
-    required this.messageType,
-    this.dataSize,
-  });
-
-  factory TelemetryMetadata.fromJson(Map<String, dynamic> json) {
-    return TelemetryMetadata(
-      count: (json['count'] as int?) ?? 0,
-      messageType: (json['messageType'] as String?) ?? '',
-      dataSize: json['dataSize'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final count = this.count;
-    final messageType = this.messageType;
-    final dataSize = this.dataSize;
-    return {
-      'count': count,
-      'messageType': messageType,
-      if (dataSize != null) 'dataSize': dataSize,
-    };
-  }
-}
-
-/// This data type is used in the <a>AssessmentRunFilter</a> data type.
-class TimestampRange {
-  /// The minimum value of the timestamp range.
-  final DateTime? beginDate;
-
-  /// The maximum value of the timestamp range.
-  final DateTime? endDate;
-
-  TimestampRange({
-    this.beginDate,
-    this.endDate,
-  });
-
-  Map<String, dynamic> toJson() {
-    final beginDate = this.beginDate;
-    final endDate = this.endDate;
-    return {
-      if (beginDate != null) 'beginDate': unixTimestampToJson(beginDate),
-      if (endDate != null) 'endDate': unixTimestampToJson(endDate),
+      'state': state.value,
+      'stateChangedAt': unixTimestampToJson(stateChangedAt),
     };
   }
 }

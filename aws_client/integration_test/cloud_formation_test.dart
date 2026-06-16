@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:aws_client/cloud_formation_2010_05_15.dart';
+import 'package:aws_client/cloud_formation.dart';
 import 'package:test/test.dart';
 
 import 'harness.dart';

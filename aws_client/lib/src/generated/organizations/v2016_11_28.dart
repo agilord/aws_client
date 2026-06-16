@@ -31,12 +31,10 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 ///
 /// <b>Support and feedback for Organizations</b>
 ///
-/// We welcome your feedback. Send your comments to <a
-/// href="mailto:feedback-awsorganizations@amazon.com">feedback-awsorganizations@amazon.com</a>
-/// or post your feedback and questions in the <a
-/// href="http://forums.aws.amazon.com/forum.jspa?forumID=219">Organizations
+/// We welcome your feedback. You can post your feedback and questions in the <a
+/// href="https://forums.aws.amazon.com/forum.jspa?forumID=219">Organizations
 /// support forum</a>. For more information about the Amazon Web Services
-/// support forums, see <a href="http://forums.aws.amazon.com/help.jspa">Forums
+/// Support forums, see <a href="https://forums.aws.amazon.com/help.jspa">Forums
 /// Help</a>.
 ///
 /// <b>Endpoint to call When using the CLI or the Amazon Web Services SDK</b>
@@ -128,57 +126,71 @@ class Organizations {
     _protocol.close();
   }
 
-  /// Sends a response to the originator of a handshake agreeing to the action
-  /// proposed by the handshake request.
+  /// Accepts a handshake by sending an <code>ACCEPTED</code> response to the
+  /// sender. You can view accepted handshakes in API responses for 30 days
+  /// before they are deleted.
   ///
-  /// You can only call this operation by the following principals when they
-  /// also have the relevant IAM permissions:
+  /// <b>Only the management account can accept the following handshakes</b>:
   ///
   /// <ul>
   /// <li>
-  /// <b>Invitation to join</b> or <b>Approve all features request</b>
-  /// handshakes: only a principal from the member account.
-  ///
-  /// The user who calls the API for an invitation to join must have the
-  /// <code>organizations:AcceptHandshake</code> permission. If you enabled all
-  /// features in the organization, the user must also have the
-  /// <code>iam:CreateServiceLinkedRole</code> permission so that Organizations
-  /// can create the required service-linked role named
-  /// <code>AWSServiceRoleForOrganizations</code>. For more information, see <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integration_services.html#orgs_integrate_services-using_slrs">Organizations
-  /// and service-linked roles</a> in the <i>Organizations User Guide</i>.
+  /// Enable all features final confirmation (<code>APPROVE_ALL_FEATURES</code>)
   /// </li>
   /// <li>
-  /// <b>Enable all features final confirmation</b> handshake: only a principal
-  /// from the management account.
-  ///
-  /// For more information about invitations, see <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_invites.html">Inviting
-  /// an Amazon Web Services account to join your organization</a> in the
-  /// <i>Organizations User Guide</i>. For more information about requests to
-  /// enable all features in the organization, see <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">Enabling
-  /// all features in your organization</a> in the <i>Organizations User
-  /// Guide</i>.
+  /// Billing transfer (<code>TRANSFER_RESPONSIBILITY</code>)
   /// </li>
   /// </ul>
-  /// After you accept a handshake, it continues to appear in the results of
-  /// relevant APIs for only 30 days. After that, it's deleted.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/manage-begin-all-features-standard-migration.html#manage-approve-all-features-invite">Enabling
+  /// all features</a> and <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_transfer_billing-respond-invitation.html">Responding
+  /// to a billing transfer invitation</a> in the <i>Organizations User
+  /// Guide</i>.
+  ///
+  /// <b>Only a member account can accept the following handshakes</b>:
+  ///
+  /// <ul>
+  /// <li>
+  /// Invitation to join (<code>INVITE</code>)
+  /// </li>
+  /// <li>
+  /// Approve all features request (<code>ENABLE_ALL_FEATURES</code>)
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_accept-decline-invite.html">Responding
+  /// to invitations</a> and <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/manage-begin-all-features-standard-migration.html#manage-approve-all-features-invite">Enabling
+  /// all features</a> in the <i>Organizations User Guide</i>.
+  ///
+  /// When a handshake is accepted, Organizations logs membership events in
+  /// CloudTrail, available only in the management account's event history. If
+  /// the account was standalone and joined a new organization, an
+  /// <code>AccountJoinedOrganization</code> event is logged with
+  /// <code>joinedMethod:Invited</code> and <code>joinedTime</code> fields. If
+  /// the account departed one organization and joined another, both an
+  /// <code>AccountDepartedOrganization</code> event with
+  /// <code>departedMethod:Left</code> and <code>departedTime</code> and an
+  /// <code>AccountJoinedOrganization</code> event with
+  /// <code>joinedMethod:Invited</code> and <code>joinedTime</code> are logged
+  /// in their respective management accounts.
   ///
   /// May throw [AccessDeniedException].
+  /// May throw [AccessDeniedForDependencyException].
   /// May throw [AWSOrganizationsNotInUseException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ConstraintViolationException].
+  /// May throw [HandshakeAlreadyInStateException].
   /// May throw [HandshakeConstraintViolationException].
   /// May throw [HandshakeNotFoundException].
   /// May throw [InvalidHandshakeTransitionException].
-  /// May throw [HandshakeAlreadyInStateException].
   /// May throw [InvalidInputException].
-  /// May throw [ConcurrentModificationException].
+  /// May throw [MasterCannotLeaveOrganizationException].
   /// May throw [ServiceException].
   /// May throw [TooManyRequestsException].
-  /// May throw [AccessDeniedForDependencyException].
   ///
   /// Parameter [handshakeId] :
-  /// The unique identifier (ID) of the handshake that you want to accept.
+  /// ID for the handshake that you want to accept.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for
   /// handshake ID string requires "h-" followed by from 8 to 32 lowercase
@@ -212,7 +224,15 @@ class Organizations {
   /// <ul>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html">AISERVICES_OPT_OUT_POLICY</a>
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html">SERVICE_CONTROL_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html">RESOURCE_CONTROL_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html">DECLARATIVE_POLICY_EC2</a>
   /// </li>
   /// <li>
   /// <a
@@ -220,16 +240,43 @@ class Organizations {
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html">SERVICE_CONTROL_POLICY</a>
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html">TAG_POLICY</a>
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html">TAG_POLICY</a>
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html">CHATBOT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html">AISERVICES_OPT_OUT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html">SECURITYHUB_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html">UPGRADE_ROLLOUT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html">INSPECTOR_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html">BEDROCK_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html">S3_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html">NETWORK_SECURITY_DIRECTOR_POLICY</a>
   /// </li>
   /// </ul>
-  /// This operation can be called only from the organization's management
-  /// account or by a member account that is a delegated administrator for an
-  /// Amazon Web Services service.
+  /// You can only call this operation from the management account or a member
+  /// account that is a delegated administrator.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -237,26 +284,25 @@ class Organizations {
   /// May throw [ConstraintViolationException].
   /// May throw [DuplicatePolicyAttachmentException].
   /// May throw [InvalidInputException].
+  /// May throw [PolicyChangesInProgressException].
   /// May throw [PolicyNotFoundException].
   /// May throw [PolicyTypeNotEnabledException].
   /// May throw [ServiceException].
   /// May throw [TargetNotFoundException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnsupportedAPIEndpointException].
-  /// May throw [PolicyChangesInProgressException].
   ///
   /// Parameter [policyId] :
-  /// The unique identifier (ID) of the policy that you want to attach to the
-  /// target. You can get the ID for the policy by calling the
-  /// <a>ListPolicies</a> operation.
+  /// ID for the policy that you want to attach to the target. You can get the
+  /// ID for the policy by calling the <a>ListPolicies</a> operation.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a
   /// policy ID string requires "p-" followed by from 8 to 128 lowercase or
   /// uppercase letters, digits, or the underscore character (_).
   ///
   /// Parameter [targetId] :
-  /// The unique identifier (ID) of the root, OU, or account that you want to
-  /// attach the policy to. You can get the ID by calling the <a>ListRoots</a>,
+  /// ID for the root, OU, or account that you want to attach the policy to. You
+  /// can get the ID by calling the <a>ListRoots</a>,
   /// <a>ListOrganizationalUnitsForParent</a>, or <a>ListAccounts</a>
   /// operations.
   ///
@@ -299,29 +345,28 @@ class Organizations {
     );
   }
 
-  /// Cancels a handshake. Canceling a handshake sets the handshake state to
-  /// <code>CANCELED</code>.
+  /// Cancels a <a>Handshake</a>.
   ///
-  /// This operation can be called only from the account that originated the
-  /// handshake. The recipient of the handshake can't cancel it, but can use
-  /// <a>DeclineHandshake</a> instead. After a handshake is canceled, the
-  /// recipient can no longer respond to that handshake.
+  /// Only the account that sent a handshake can call this operation. The
+  /// recipient of the handshake can't cancel it, but can use
+  /// <a>DeclineHandshake</a> to decline. After a handshake is canceled, the
+  /// recipient can no longer respond to the handshake.
   ///
-  /// After you cancel a handshake, it continues to appear in the results of
-  /// relevant APIs for only 30 days. After that, it's deleted.
+  /// You can view canceled handshakes in API responses for 30 days before they
+  /// are deleted.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [HandshakeAlreadyInStateException].
   /// May throw [HandshakeNotFoundException].
   /// May throw [InvalidHandshakeTransitionException].
-  /// May throw [HandshakeAlreadyInStateException].
   /// May throw [InvalidInputException].
   /// May throw [ServiceException].
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [handshakeId] :
-  /// The unique identifier (ID) of the handshake that you want to cancel. You
-  /// can get the ID from the <a>ListHandshakesForOrganization</a> operation.
+  /// ID for the handshake that you want to cancel. You can get the ID from the
+  /// <a>ListHandshakesForOrganization</a> operation.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for
   /// handshake ID string requires "h-" followed by from 8 to 32 lowercase
@@ -379,14 +424,24 @@ class Organizations {
   /// </ul> <note>
   /// <ul>
   /// <li>
-  /// You can close only 10% of member accounts, between 10 and 1000, within a
-  /// rolling 30 day period. This quota is not bound by a calendar month, but
-  /// starts when you close an account. After you reach this limit, you can
-  /// close additional accounts. For more information, see <a
+  /// Resources remaining within the account after closing will be automatically
+  /// deleted after 90 days. During this 90-day period, the resources won't be
+  /// available unless you contact Amazon Web Services Support to reopen the
+  /// account. After 90 days, you can't reopen an account. You might still
+  /// receive a <a
+  /// href="https://repost.aws/knowledge-center/closed-account-bill">bill after
+  /// account closure</a>.
+  /// </li>
+  /// <li>
+  /// Within a rolling 30 day period you can close the higher of either 250 or
+  /// 20% of the member accounts in your organization, up to a maximum of 1,000.
+  /// This quota is not bound by a calendar month, but starts when you close an
+  /// account. After you reach this limit, you can't close additional accounts.
+  /// For more information, see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_close.html">Closing
   /// a member account in your organization</a> and <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Quotas
-  /// for Organizations</a>in the <i>Organizations User Guide</i>.
+  /// for Organizations</a> in the <i>Organizations User Guide</i>.
   /// </li>
   /// <li>
   /// To reinstate a closed account, contact Amazon Web Services Support within
@@ -402,6 +457,11 @@ class Organizations {
   /// Web Services GovCloud User Guide</i>.
   /// </li>
   /// </ul> </note>
+  /// After the permanent termination of the account after the 90-day waiting
+  /// period, Organizations logs a membership event in CloudTrail. The event is
+  /// an <code>AccountDepartedOrganization</code> event with
+  /// <code>departedMethod:Cleaned</code> and <code>departedTime</code>. This
+  /// event is available only in the management account's event history.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AccountAlreadyClosedException].
@@ -460,6 +520,12 @@ class Organizations {
   /// Guide</i>.
   /// </li>
   /// </ul>
+  /// Additionally, the <code>AccountJoinedOrganization</code> event is logged
+  /// in CloudTrail and is available only in the management account's event
+  /// history. This event includes <code>joinedMethod:Created</code> and
+  /// <code>joinedTime</code> fields to provide context on how and when the
+  /// account joined the organization.
+  ///
   /// The user who calls the API to create an account must have the
   /// <code>organizations:CreateAccount</code> permission. If you enabled all
   /// features in the organization, Organizations creates the required
@@ -478,8 +544,7 @@ class Organizations {
   /// Organizations clones the company name and address information for the new
   /// account from the organization's management account.
   ///
-  /// This operation can be called only from the organization's management
-  /// account.
+  /// You can only call this operation from the management account.
   ///
   /// For more information about creating accounts, see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_create.html">Creating
@@ -512,10 +577,10 @@ class Organizations {
   /// Support</a>.
   /// </li>
   /// <li>
-  /// Using <code>CreateAccount</code> to create multiple temporary accounts
-  /// isn't recommended. You can only close an account from the Billing and Cost
-  /// Management console, and you must be signed in as the root user. For
-  /// information on the requirements and process for closing an account, see <a
+  /// It isn't recommended to use <code>CreateAccount</code> to create multiple
+  /// temporary accounts, and using the <code>CreateAccount</code> API to close
+  /// accounts is subject to a 30-day usage quota. For information on the
+  /// requirements and process for closing an account, see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_close.html">Closing
   /// a member account in your organization</a> in the <i>Organizations User
   /// Guide</i>.
@@ -536,8 +601,8 @@ class Organizations {
   /// May throw [AWSOrganizationsNotInUseException].
   /// May throw [ConcurrentModificationException].
   /// May throw [ConstraintViolationException].
-  /// May throw [InvalidInputException].
   /// May throw [FinalizingOrganizationException].
+  /// May throw [InvalidInputException].
   /// May throw [ServiceException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnsupportedAPIEndpointException].
@@ -567,7 +632,7 @@ class Organizations {
   /// <li>
   /// The local name can't contain any of the following characters:
   ///
-  /// whitespace, " ' ( ) &lt; &gt; [ ] : ; , \ | % &amp;
+  /// whitespace, " ' ( ) < > [ ] : ; , \ | % &
   /// </li>
   /// <li>
   /// The local name can't begin with a dot (.)
@@ -755,7 +820,15 @@ class Organizations {
   /// and monitoring in Organizations</a> in the <i>Organizations User
   /// Guide</i>.
   /// </li>
-  /// </ul> <p/>
+  /// </ul>
+  /// Additionally, the <code>AccountJoinedOrganization</code> event is logged
+  /// in CloudTrail and is available only in the management account's event
+  /// history only for the linked commercial account. This event includes
+  /// <code>joinedMethod:Created</code> and <code>joinedTime</code> fields to
+  /// provide context on how and when the account joined the organization.
+  ///
+  ///
+  ///
   /// When you call the <code>CreateGovCloudAccount</code> action, you create
   /// two accounts: a standalone account in the Amazon Web Services GovCloud
   /// (US) Region and an associated account in the commercial Region for billing
@@ -832,8 +905,8 @@ class Organizations {
   /// May throw [AWSOrganizationsNotInUseException].
   /// May throw [ConcurrentModificationException].
   /// May throw [ConstraintViolationException].
-  /// May throw [InvalidInputException].
   /// May throw [FinalizingOrganizationException].
+  /// May throw [InvalidInputException].
   /// May throw [ServiceException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnsupportedAPIEndpointException].
@@ -866,7 +939,7 @@ class Organizations {
   /// <li>
   /// The local name can't contain any of the following characters:
   ///
-  /// whitespace, " ' ( ) &lt; &gt; [ ] : ; , \ | % &amp;
+  /// whitespace, " ' ( ) < > [ ] : ; , \ | % &
   /// </li>
   /// <li>
   /// The local name can't begin with a dot (.)
@@ -1002,14 +1075,20 @@ class Organizations {
   /// parameter to <code>CONSOLIDATED_BILLING</code>, no policy types are
   /// enabled by default and you can't use organization policies.
   ///
+  /// The <code>AccountJoinedOrganization</code> event is logged in CloudTrail
+  /// and is available only in the management account's event history. This
+  /// event includes <code>joinedMethod:Invited</code> and
+  /// <code>joinedTime</code> fields to provide context on how and when the
+  /// account joined the organization.
+  ///
   /// May throw [AccessDeniedException].
+  /// May throw [AccessDeniedForDependencyException].
   /// May throw [AlreadyInOrganizationException].
   /// May throw [ConcurrentModificationException].
   /// May throw [ConstraintViolationException].
   /// May throw [InvalidInputException].
   /// May throw [ServiceException].
   /// May throw [TooManyRequestsException].
-  /// May throw [AccessDeniedForDependencyException].
   ///
   /// Parameter [featureSet] :
   /// Specifies the feature set supported by the new organization. Each feature
@@ -1069,8 +1148,7 @@ class Organizations {
   /// If the request includes tags, then the requester must have the
   /// <code>organizations:TagResource</code> permission.
   ///
-  /// This operation can be called only from the organization's management
-  /// account.
+  /// You can only call this operation from the management account.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -1086,8 +1164,7 @@ class Organizations {
   /// The friendly name to assign to the new OU.
   ///
   /// Parameter [parentId] :
-  /// The unique identifier (ID) of the parent root or OU that you want to
-  /// create the new OU in.
+  /// ID for the parent root or OU that you want to create the new OU in.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a
   /// parent ID string requires one of the following:
@@ -1151,9 +1228,8 @@ class Organizations {
   /// If the request includes tags, then the requester must have the
   /// <code>organizations:TagResource</code> permission.
   ///
-  /// This operation can be called only from the organization's management
-  /// account or by a member account that is a delegated administrator for an
-  /// Amazon Web Services service.
+  /// You can only call this operation from the management account or a member
+  /// account that is a delegated administrator.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -1193,7 +1269,15 @@ class Organizations {
   /// <ul>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html">AISERVICES_OPT_OUT_POLICY</a>
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html">SERVICE_CONTROL_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html">RESOURCE_CONTROL_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html">DECLARATIVE_POLICY_EC2</a>
   /// </li>
   /// <li>
   /// <a
@@ -1201,11 +1285,39 @@ class Organizations {
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html">SERVICE_CONTROL_POLICY</a>
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html">TAG_POLICY</a>
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html">TAG_POLICY</a>
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html">CHATBOT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html">AISERVICES_OPT_OUT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html">SECURITYHUB_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html">UPGRADE_ROLLOUT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html">INSPECTOR_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html">BEDROCK_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html">S3_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html">NETWORK_SECURITY_DIRECTOR_POLICY</a>
   /// </li>
   /// </ul>
   ///
@@ -1250,29 +1362,27 @@ class Organizations {
     return CreatePolicyResponse.fromJson(jsonResponse.body);
   }
 
-  /// Declines a handshake request. This sets the handshake state to
-  /// <code>DECLINED</code> and effectively deactivates the request.
+  /// Declines a <a>Handshake</a>.
   ///
-  /// This operation can be called only from the account that received the
-  /// handshake. The originator of the handshake can use <a>CancelHandshake</a>
-  /// instead. The originator can't reactivate a declined request, but can
-  /// reinitiate the process with a new handshake request.
+  /// Only the account that receives a handshake can call this operation. The
+  /// sender of the handshake can use <a>CancelHandshake</a> to cancel if the
+  /// handshake hasn't yet been responded to.
   ///
-  /// After you decline a handshake, it continues to appear in the results of
-  /// relevant APIs for only 30 days. After that, it's deleted.
+  /// You can view canceled handshakes in API responses for 30 days before they
+  /// are deleted.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [HandshakeAlreadyInStateException].
   /// May throw [HandshakeNotFoundException].
   /// May throw [InvalidHandshakeTransitionException].
-  /// May throw [HandshakeAlreadyInStateException].
   /// May throw [InvalidInputException].
   /// May throw [ServiceException].
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [handshakeId] :
-  /// The unique identifier (ID) of the handshake that you want to decline. You
-  /// can get the ID from the <a>ListHandshakesForAccount</a> operation.
+  /// ID for the handshake that you want to decline. You can get the ID from the
+  /// <a>ListHandshakesForAccount</a> operation.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for
   /// handshake ID string requires "h-" followed by from 8 to 32 lowercase
@@ -1302,9 +1412,15 @@ class Organizations {
   /// credentials from the management account. The organization must be empty of
   /// member accounts.
   ///
+  /// When an organization is deleted, Organizations logs a membership event in
+  /// CloudTrail. The event is an <code>AccountDepartedOrganization</code> event
+  /// with <code>departedMethod:Left</code> and <code>departedTime</code>. This
+  /// event is available only in the management account's event history.
+  ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [ConstraintViolationException].
   /// May throw [InvalidInputException].
   /// May throw [OrganizationNotEmptyException].
   /// May throw [ServiceException].
@@ -1327,8 +1443,7 @@ class Organizations {
   /// first remove all accounts and child OUs from the OU that you want to
   /// delete.
   ///
-  /// This operation can be called only from the organization's management
-  /// account.
+  /// You can only call this operation from the management account.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -1340,9 +1455,8 @@ class Organizations {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [organizationalUnitId] :
-  /// The unique identifier (ID) of the organizational unit that you want to
-  /// delete. You can get the ID from the
-  /// <a>ListOrganizationalUnitsForParent</a> operation.
+  /// ID for the organizational unit that you want to delete. You can get the ID
+  /// from the <a>ListOrganizationalUnitsForParent</a> operation.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for an
   /// organizational unit ID string requires "ou-" followed by from 4 to 32
@@ -1372,9 +1486,8 @@ class Organizations {
   /// this operation, you must first detach the policy from all organizational
   /// units (OUs), roots, and accounts.
   ///
-  /// This operation can be called only from the organization's management
-  /// account or by a member account that is a delegated administrator for an
-  /// Amazon Web Services service.
+  /// You can only call this operation from the management account or a member
+  /// account that is a delegated administrator.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -1387,9 +1500,8 @@ class Organizations {
   /// May throw [UnsupportedAPIEndpointException].
   ///
   /// Parameter [policyId] :
-  /// The unique identifier (ID) of the policy that you want to delete. You can
-  /// get the ID from the <a>ListPolicies</a> or <a>ListPoliciesForTarget</a>
-  /// operations.
+  /// ID for the policy that you want to delete. You can get the ID from the
+  /// <a>ListPolicies</a> or <a>ListPoliciesForTarget</a> operations.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a
   /// policy ID string requires "p-" followed by from 8 to 128 lowercase or
@@ -1415,17 +1527,16 @@ class Organizations {
 
   /// Deletes the resource policy from your organization.
   ///
-  /// You can only call this operation from the organization's management
-  /// account.
+  /// You can only call this operation from the management account.
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ServiceException].
-  /// May throw [UnsupportedAPIEndpointException].
-  /// May throw [TooManyRequestsException].
+  /// May throw [AWSOrganizationsNotInUseException].
   /// May throw [ConcurrentModificationException].
   /// May throw [ConstraintViolationException].
-  /// May throw [AWSOrganizationsNotInUseException].
   /// May throw [ResourcePolicyNotFoundException].
+  /// May throw [ServiceException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedAPIEndpointException].
   Future<void> deleteResourcePolicy() async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1455,8 +1566,7 @@ class Organizations {
   /// Web Services Services that you can use with Organizations</a> in the
   /// <i>Organizations User Guide.</i>
   ///
-  /// This operation can be called only from the organization's management
-  /// account.
+  /// You can only call this operation from the management account.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AccountNotFoundException].
@@ -1465,8 +1575,8 @@ class Organizations {
   /// May throw [ConcurrentModificationException].
   /// May throw [ConstraintViolationException].
   /// May throw [InvalidInputException].
-  /// May throw [TooManyRequestsException].
   /// May throw [ServiceException].
+  /// May throw [TooManyRequestsException].
   /// May throw [UnsupportedAPIEndpointException].
   ///
   /// Parameter [accountId] :
@@ -1506,9 +1616,8 @@ class Organizations {
 
   /// Retrieves Organizations-related information about the specified account.
   ///
-  /// This operation can be called only from the organization's management
-  /// account or by a member account that is a delegated administrator for an
-  /// Amazon Web Services service.
+  /// You can only call this operation from the management account or a member
+  /// account that is a delegated administrator.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AccountNotFoundException].
@@ -1548,9 +1657,8 @@ class Organizations {
   /// Retrieves the current status of an asynchronous request to create an
   /// account.
   ///
-  /// This operation can be called only from the organization's management
-  /// account or by a member account that is a delegated administrator for an
-  /// Amazon Web Services service.
+  /// You can only call this operation from the management account or a member
+  /// account that is a delegated administrator.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -1596,23 +1704,24 @@ class Organizations {
   /// specified type that the account inherits, plus any policy of that type
   /// that is directly attached to the account.
   ///
-  /// This operation applies only to policy types <i>other</i> than service
-  /// control policies (SCPs).
+  /// This operation applies only to management policies. It does not apply to
+  /// authorization policies: service control policies (SCPs) and resource
+  /// control policies (RCPs).
   ///
   /// For more information about policy inheritance, see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inheritance_mgmt.html">Understanding
   /// management policy inheritance</a> in the <i>Organizations User Guide</i>.
   ///
-  /// This operation can be called from any account in the organization.
+  /// You can call this operation from any account in a organization.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
   /// May throw [ConstraintViolationException].
-  /// May throw [ServiceException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [TargetNotFoundException].
   /// May throw [EffectivePolicyNotFoundException].
   /// May throw [InvalidInputException].
+  /// May throw [ServiceException].
+  /// May throw [TargetNotFoundException].
+  /// May throw [TooManyRequestsException].
   /// May throw [UnsupportedAPIEndpointException].
   ///
   /// Parameter [policyType] :
@@ -1622,7 +1731,7 @@ class Organizations {
   /// <ul>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html">AISERVICES_OPT_OUT_POLICY</a>
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html">DECLARATIVE_POLICY_EC2</a>
   /// </li>
   /// <li>
   /// <a
@@ -1631,6 +1740,38 @@ class Organizations {
   /// <li>
   /// <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html">TAG_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html">CHATBOT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html">AISERVICES_OPT_OUT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html">SECURITYHUB_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html">UPGRADE_ROLLOUT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html">INSPECTOR_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html">BEDROCK_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html">S3_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html">NETWORK_SECURITY_DIRECTOR_POLICY</a>
   /// </li>
   /// </ul>
   ///
@@ -1661,15 +1802,15 @@ class Organizations {
     return DescribeEffectivePolicyResponse.fromJson(jsonResponse.body);
   }
 
-  /// Retrieves information about a previously requested handshake. The
-  /// handshake ID comes from the response to the original
-  /// <a>InviteAccountToOrganization</a> operation that generated the handshake.
+  /// Returns details for a handshake. A handshake is the secure exchange of
+  /// information between two Amazon Web Services accounts: a sender and a
+  /// recipient.
   ///
-  /// You can access handshakes that are <code>ACCEPTED</code>,
-  /// <code>DECLINED</code>, or <code>CANCELED</code> for only 30 days after
-  /// they change to that state. They're then deleted and no longer accessible.
+  /// You can view <code>ACCEPTED</code>, <code>DECLINED</code>, or
+  /// <code>CANCELED</code> handshakes in API Responses for 30 days before they
+  /// are deleted.
   ///
-  /// This operation can be called from any account in the organization.
+  /// You can call this operation from any account in a organization.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConcurrentModificationException].
@@ -1679,10 +1820,7 @@ class Organizations {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [handshakeId] :
-  /// The unique identifier (ID) of the handshake that you want information
-  /// about. You can get the ID from the original call to
-  /// <a>InviteAccountToOrganization</a>, or from a call to
-  /// <a>ListHandshakesForAccount</a> or <a>ListHandshakesForOrganization</a>.
+  /// ID for the handshake that you want information about.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for
   /// handshake ID string requires "h-" followed by from 8 to 32 lowercase
@@ -1711,7 +1849,7 @@ class Organizations {
   /// Retrieves information about the organization that the user's account
   /// belongs to.
   ///
-  /// This operation can be called from any account in the organization.
+  /// You can call this operation from any account in a organization.
   /// <note>
   /// Even if a policy type is shown as available in the organization, you can
   /// disable it separately at the root level with <a>DisablePolicyType</a>. Use
@@ -1741,9 +1879,8 @@ class Organizations {
 
   /// Retrieves information about an organizational unit (OU).
   ///
-  /// This operation can be called only from the organization's management
-  /// account or by a member account that is a delegated administrator for an
-  /// Amazon Web Services service.
+  /// You can only call this operation from the management account or a member
+  /// account that is a delegated administrator.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -1753,9 +1890,8 @@ class Organizations {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [organizationalUnitId] :
-  /// The unique identifier (ID) of the organizational unit that you want
-  /// details about. You can get the ID from the
-  /// <a>ListOrganizationalUnitsForParent</a> operation.
+  /// ID for the organizational unit that you want details about. You can get
+  /// the ID from the <a>ListOrganizationalUnitsForParent</a> operation.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for an
   /// organizational unit ID string requires "ou-" followed by from 4 to 32
@@ -1785,9 +1921,8 @@ class Organizations {
 
   /// Retrieves information about a policy.
   ///
-  /// This operation can be called only from the organization's management
-  /// account or by a member account that is a delegated administrator for an
-  /// Amazon Web Services service.
+  /// You can only call this operation from the management account or a member
+  /// account that is a delegated administrator.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -1798,9 +1933,8 @@ class Organizations {
   /// May throw [UnsupportedAPIEndpointException].
   ///
   /// Parameter [policyId] :
-  /// The unique identifier (ID) of the policy that you want details about. You
-  /// can get the ID from the <a>ListPolicies</a> or
-  /// <a>ListPoliciesForTarget</a> operations.
+  /// ID for the policy that you want details about. You can get the ID from the
+  /// <a>ListPolicies</a> or <a>ListPoliciesForTarget</a> operations.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a
   /// policy ID string requires "p-" followed by from 8 to 128 lowercase or
@@ -1828,17 +1962,16 @@ class Organizations {
 
   /// Retrieves information about a resource policy.
   ///
-  /// This operation can be called only from the organization's management
-  /// account or by a member account that is a delegated administrator for an
-  /// Amazon Web Services service.
+  /// You can only call this operation from the management account or a member
+  /// account that is a delegated administrator.
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ServiceException].
-  /// May throw [UnsupportedAPIEndpointException].
-  /// May throw [TooManyRequestsException].
   /// May throw [AWSOrganizationsNotInUseException].
-  /// May throw [ResourcePolicyNotFoundException].
   /// May throw [ConstraintViolationException].
+  /// May throw [ResourcePolicyNotFoundException].
+  /// May throw [ServiceException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedAPIEndpointException].
   Future<DescribeResourcePolicyResponse> describeResourcePolicy() async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1853,6 +1986,42 @@ class Organizations {
     );
 
     return DescribeResourcePolicyResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns details for a transfer. A <i>transfer</i> is an arrangement
+  /// between two management accounts where one account designates the other
+  /// with specified responsibilities for their organization.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [AWSOrganizationsNotInUseException].
+  /// May throw [InvalidInputException].
+  /// May throw [ResponsibilityTransferNotFoundException].
+  /// May throw [ServiceException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedAPIEndpointException].
+  ///
+  /// Parameter [id] :
+  /// ID for the transfer.
+  Future<DescribeResponsibilityTransferResponse>
+      describeResponsibilityTransfer({
+    required String id,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSOrganizationsV20161128.DescribeResponsibilityTransfer'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Id': id,
+      },
+    );
+
+    return DescribeResponsibilityTransferResponse.fromJson(jsonResponse.body);
   }
 
   /// Detaches a policy from a target root, organizational unit (OU), or
@@ -1876,35 +2045,33 @@ class Organizations {
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/SCP_strategies.html#orgs_policies_denylist">deny
   /// list</a>".
   ///
-  /// This operation can be called only from the organization's management
-  /// account or by a member account that is a delegated administrator for an
-  /// Amazon Web Services service.
+  /// You can only call this operation from the management account or a member
+  /// account that is a delegated administrator.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
   /// May throw [ConcurrentModificationException].
   /// May throw [ConstraintViolationException].
   /// May throw [InvalidInputException].
+  /// May throw [PolicyChangesInProgressException].
   /// May throw [PolicyNotAttachedException].
   /// May throw [PolicyNotFoundException].
   /// May throw [ServiceException].
   /// May throw [TargetNotFoundException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnsupportedAPIEndpointException].
-  /// May throw [PolicyChangesInProgressException].
   ///
   /// Parameter [policyId] :
-  /// The unique identifier (ID) of the policy you want to detach. You can get
-  /// the ID from the <a>ListPolicies</a> or <a>ListPoliciesForTarget</a>
-  /// operations.
+  /// ID for the policy you want to detach. You can get the ID from the
+  /// <a>ListPolicies</a> or <a>ListPoliciesForTarget</a> operations.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a
   /// policy ID string requires "p-" followed by from 8 to 128 lowercase or
   /// uppercase letters, digits, or the underscore character (_).
   ///
   /// Parameter [targetId] :
-  /// The unique identifier (ID) of the root, OU, or account that you want to
-  /// detach the policy from. You can get the ID from the <a>ListRoots</a>,
+  /// ID for the root, OU, or account that you want to detach the policy from.
+  /// You can get the ID from the <a>ListRoots</a>,
   /// <a>ListOrganizationalUnitsForParent</a>, or <a>ListAccounts</a>
   /// operations.
   ///
@@ -2014,8 +2181,7 @@ class Organizations {
   /// Organizations with other Amazon Web Services services</a> in the
   /// <i>Organizations User Guide</i>.
   ///
-  /// This operation can be called only from the organization's management
-  /// account.
+  /// You can only call this operation from the management account.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -2065,24 +2231,23 @@ class Organizations {
   /// recommends that you first use <a>ListRoots</a> to see the status of policy
   /// types for a specified root, and then use this operation.
   ///
-  /// This operation can be called only from the organization's management
-  /// account or by a member account that is a delegated administrator for an
-  /// Amazon Web Services service.
+  /// You can only call this operation from the management account or a member
+  /// account that is a delegated administrator.
   ///
   /// To view the status of available policy types in the organization, use
-  /// <a>DescribeOrganization</a>.
+  /// <a>ListRoots</a>.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
   /// May throw [ConcurrentModificationException].
   /// May throw [ConstraintViolationException].
   /// May throw [InvalidInputException].
+  /// May throw [PolicyChangesInProgressException].
   /// May throw [PolicyTypeNotEnabledException].
   /// May throw [RootNotFoundException].
   /// May throw [ServiceException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnsupportedAPIEndpointException].
-  /// May throw [PolicyChangesInProgressException].
   ///
   /// Parameter [policyType] :
   /// The policy type that you want to disable in this root. You can specify one
@@ -2091,7 +2256,15 @@ class Organizations {
   /// <ul>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html">AISERVICES_OPT_OUT_POLICY</a>
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html">SERVICE_CONTROL_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html">RESOURCE_CONTROL_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html">DECLARATIVE_POLICY_EC2</a>
   /// </li>
   /// <li>
   /// <a
@@ -2099,17 +2272,45 @@ class Organizations {
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html">SERVICE_CONTROL_POLICY</a>
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html">TAG_POLICY</a>
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html">TAG_POLICY</a>
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html">CHATBOT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html">AISERVICES_OPT_OUT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html">SECURITYHUB_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html">UPGRADE_ROLLOUT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html">INSPECTOR_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html">BEDROCK_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html">S3_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html">NETWORK_SECURITY_DIRECTOR_POLICY</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [rootId] :
-  /// The unique identifier (ID) of the root in which you want to disable a
-  /// policy type. You can get the ID from the <a>ListRoots</a> operation.
+  /// ID for the root in which you want to disable a policy type. You can get
+  /// the ID from the <a>ListRoots</a> operation.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a root
   /// ID string requires "r-" followed by from 4 to 32 lowercase letters or
@@ -2135,67 +2336,6 @@ class Organizations {
     );
 
     return DisablePolicyTypeResponse.fromJson(jsonResponse.body);
-  }
-
-  /// Enables the integration of an Amazon Web Services service (the service
-  /// that is specified by <code>ServicePrincipal</code>) with Organizations.
-  /// When you enable integration, you allow the specified service to create a
-  /// <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html">service-linked
-  /// role</a> in all the accounts in your organization. This allows the service
-  /// to perform operations on your behalf in your organization and its
-  /// accounts.
-  /// <important>
-  /// We recommend that you enable integration between Organizations and the
-  /// specified Amazon Web Services service by using the console or commands
-  /// that are provided by the specified service. Doing so ensures that the
-  /// service is aware that it can create the resources that are required for
-  /// the integration. How the service creates those resources in the
-  /// organization's accounts depends on that service. For more information, see
-  /// the documentation for the other Amazon Web Services service.
-  /// </important>
-  /// For more information about enabling services to integrate with
-  /// Organizations, see <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html">Using
-  /// Organizations with other Amazon Web Services services</a> in the
-  /// <i>Organizations User Guide</i>.
-  ///
-  /// You can only call this operation from the organization's management
-  /// account and only if the organization has <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">enabled
-  /// all features</a>.
-  ///
-  /// May throw [AccessDeniedException].
-  /// May throw [AWSOrganizationsNotInUseException].
-  /// May throw [ConcurrentModificationException].
-  /// May throw [ConstraintViolationException].
-  /// May throw [InvalidInputException].
-  /// May throw [ServiceException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [UnsupportedAPIEndpointException].
-  ///
-  /// Parameter [servicePrincipal] :
-  /// The service principal name of the Amazon Web Services service for which
-  /// you want to enable integration with your organization. This is typically
-  /// in the form of a URL, such as <code>
-  /// <i>service-abbreviation</i>.amazonaws.com</code>.
-  Future<void> enableAWSServiceAccess({
-    required String servicePrincipal,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AWSOrganizationsV20161128.EnableAWSServiceAccess'
-    };
-    await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'ServicePrincipal': servicePrincipal,
-      },
-    );
   }
 
   /// Enables all features in an organization. This enables the use of
@@ -2231,12 +2371,12 @@ class Organizations {
   /// from leaving the organization. Ensure that your account administrators are
   /// aware of this.
   ///
-  /// This operation can be called only from the organization's management
-  /// account.
+  /// You can only call this operation from the management account.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [ConstraintViolationException].
   /// May throw [HandshakeConstraintViolationException].
   /// May throw [InvalidInputException].
   /// May throw [ServiceException].
@@ -2257,6 +2397,64 @@ class Organizations {
     return EnableAllFeaturesResponse.fromJson(jsonResponse.body);
   }
 
+  /// Provides an Amazon Web Services service (the service that is specified by
+  /// <code>ServicePrincipal</code>) with permissions to view the structure of
+  /// an organization, create a <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html">service-linked
+  /// role</a> in all the accounts in the organization, and allow the service to
+  /// perform operations on behalf of the organization and its accounts.
+  /// Establishing these permissions can be a first step in enabling the
+  /// integration of an Amazon Web Services service with Organizations.
+  /// <important>
+  /// We recommend that you enable integration between Organizations and the
+  /// specified Amazon Web Services service by using the console or commands
+  /// that are provided by the specified service. Doing so ensures that the
+  /// service is aware that it can create the resources that are required for
+  /// the integration. How the service creates those resources in the
+  /// organization's accounts depends on that service. For more information, see
+  /// the documentation for the other Amazon Web Services service.
+  /// </important>
+  /// For more information about enabling services to integrate with
+  /// Organizations, see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html">Using
+  /// Organizations with other Amazon Web Services services</a> in the
+  /// <i>Organizations User Guide</i>.
+  ///
+  /// You can only call this operation from the management account.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [AWSOrganizationsNotInUseException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ConstraintViolationException].
+  /// May throw [InvalidInputException].
+  /// May throw [ServiceException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedAPIEndpointException].
+  ///
+  /// Parameter [servicePrincipal] :
+  /// The service principal name of the Amazon Web Services service for which
+  /// you want to enable integration with your organization. This is typically
+  /// in the form of a URL, such as <code>
+  /// <i>service-abbreviation</i>.amazonaws.com</code>.
+  Future<void> enableAWSServiceAccess({
+    required String servicePrincipal,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSOrganizationsV20161128.EnableAWSServiceAccess'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ServicePrincipal': servicePrincipal,
+      },
+    );
+  }
+
   /// Enables a policy type in a root. After you enable a policy type in a root,
   /// you can attach policies of that type to the root, any organizational unit
   /// (OU), or account in that root. You can undo this by using the
@@ -2267,26 +2465,25 @@ class Organizations {
   /// <a>ListRoots</a> to see the status of policy types for a specified root,
   /// and then use this operation.
   ///
-  /// This operation can be called only from the organization's management
-  /// account or by a member account that is a delegated administrator for an
-  /// Amazon Web Services service.
+  /// You can only call this operation from the management account or a member
+  /// account that is a delegated administrator.
   ///
   /// You can enable a policy type in a root only if that policy type is
   /// available in the organization. To view the status of available policy
-  /// types in the organization, use <a>DescribeOrganization</a>.
+  /// types in the organization, use <a>ListRoots</a>.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
   /// May throw [ConcurrentModificationException].
   /// May throw [ConstraintViolationException].
   /// May throw [InvalidInputException].
+  /// May throw [PolicyChangesInProgressException].
   /// May throw [PolicyTypeAlreadyEnabledException].
+  /// May throw [PolicyTypeNotAvailableForOrganizationException].
   /// May throw [RootNotFoundException].
   /// May throw [ServiceException].
   /// May throw [TooManyRequestsException].
-  /// May throw [PolicyTypeNotAvailableForOrganizationException].
   /// May throw [UnsupportedAPIEndpointException].
-  /// May throw [PolicyChangesInProgressException].
   ///
   /// Parameter [policyType] :
   /// The policy type that you want to enable. You can specify one of the
@@ -2295,7 +2492,15 @@ class Organizations {
   /// <ul>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html">AISERVICES_OPT_OUT_POLICY</a>
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html">SERVICE_CONTROL_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html">RESOURCE_CONTROL_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html">DECLARATIVE_POLICY_EC2</a>
   /// </li>
   /// <li>
   /// <a
@@ -2303,17 +2508,45 @@ class Organizations {
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html">SERVICE_CONTROL_POLICY</a>
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html">TAG_POLICY</a>
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html">TAG_POLICY</a>
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html">CHATBOT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html">AISERVICES_OPT_OUT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html">SECURITYHUB_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html">UPGRADE_ROLLOUT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html">INSPECTOR_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html">BEDROCK_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html">S3_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html">NETWORK_SECURITY_DIRECTOR_POLICY</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [rootId] :
-  /// The unique identifier (ID) of the root in which you want to enable a
-  /// policy type. You can get the ID from the <a>ListRoots</a> operation.
+  /// ID for the root in which you want to enable a policy type. You can get the
+  /// ID from the <a>ListRoots</a> operation.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a root
   /// ID string requires "r-" followed by from 4 to 32 lowercase letters or
@@ -2346,42 +2579,27 @@ class Organizations {
   /// address that is associated with the other account's owner. The invitation
   /// is implemented as a <a>Handshake</a> whose details are in the response.
   /// <important>
-  /// <ul>
-  /// <li>
-  /// You can invite Amazon Web Services accounts only from the same seller as
-  /// the management account. For example, if your organization's management
-  /// account was created by Amazon Internet Services Pvt. Ltd (AISPL), an
-  /// Amazon Web Services seller in India, you can invite only other AISPL
-  /// accounts to your organization. You can't combine accounts from AISPL and
-  /// Amazon Web Services or from any other Amazon Web Services seller. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/useconsolidatedbilling-India.html">Consolidated
-  /// billing in India</a>.
-  /// </li>
-  /// <li>
   /// If you receive an exception that indicates that you exceeded your account
   /// limits for the organization or that the operation failed because your
   /// organization is still initializing, wait one hour and then try again. If
   /// the error persists after an hour, contact <a
   /// href="https://console.aws.amazon.com/support/home#/">Amazon Web Services
   /// Support</a>.
-  /// </li>
-  /// </ul> </important>
+  /// </important>
   /// If the request includes tags, then the requester must have the
   /// <code>organizations:TagResource</code> permission.
   ///
-  /// This operation can be called only from the organization's management
-  /// account.
+  /// You can only call this operation from the management account.
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [AWSOrganizationsNotInUseException].
   /// May throw [AccountOwnerNotVerifiedException].
+  /// May throw [AWSOrganizationsNotInUseException].
   /// May throw [ConcurrentModificationException].
-  /// May throw [HandshakeConstraintViolationException].
-  /// May throw [DuplicateHandshakeException].
   /// May throw [ConstraintViolationException].
-  /// May throw [InvalidInputException].
+  /// May throw [DuplicateHandshakeException].
   /// May throw [FinalizingOrganizationException].
+  /// May throw [HandshakeConstraintViolationException].
+  /// May throw [InvalidInputException].
   /// May throw [ServiceException].
   /// May throw [TooManyRequestsException].
   ///
@@ -2390,8 +2608,8 @@ class Organizations {
   /// invite to join your organization. This is a JSON object that contains the
   /// following elements:
   ///
-  /// <code>{ "Type": "ACCOUNT", "Id": "&lt;<i> <b>account id number</b>
-  /// </i>&gt;" }</code>
+  /// <code>{ "Type": "ACCOUNT", "Id": "<<i> <b>account id number</b> </i>>"
+  /// }</code>
   ///
   /// If you use the CLI, you can submit this as a single string, similar to the
   /// following example:
@@ -2455,13 +2673,109 @@ class Organizations {
     return InviteAccountToOrganizationResponse.fromJson(jsonResponse.body);
   }
 
+  /// Sends an invitation to another organization's management account to
+  /// designate your account with the specified responsibilities for their
+  /// organization. The invitation is implemented as a <a>Handshake</a> whose
+  /// details are in the response.
+  ///
+  /// You can only call this operation from the management account.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [AWSOrganizationsNotInUseException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ConstraintViolationException].
+  /// May throw [DuplicateHandshakeException].
+  /// May throw [HandshakeConstraintViolationException].
+  /// May throw [InvalidInputException].
+  /// May throw [ServiceException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedAPIEndpointException].
+  ///
+  /// Parameter [sourceName] :
+  /// Name you want to assign to the transfer.
+  ///
+  /// Parameter [startTimestamp] :
+  /// Timestamp when the recipient will begin managing the specified
+  /// responsibilities.
+  ///
+  /// Parameter [target] :
+  /// A <code>HandshakeParty</code> object. Contains details for the account you
+  /// want to invite. Currently, only <code>ACCOUNT</code> and
+  /// <code>EMAIL</code> are supported.
+  ///
+  /// Parameter [type] :
+  /// The type of responsibility you want to designate to your organization.
+  /// Currently, only <code>BILLING</code> is supported.
+  ///
+  /// Parameter [notes] :
+  /// Additional information that you want to include in the invitation.
+  ///
+  /// Parameter [tags] :
+  /// A list of tags that you want to attach to the transfer. For each tag in
+  /// the list, you must specify both a tag key and a value. You can set the
+  /// value to an empty string, but you can't set it to <code>null</code>. For
+  /// more information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html">Tagging
+  /// Organizations resources</a> in the Organizations User Guide.
+  /// <important>
+  /// Any tags in the request are checked for compliance with any applicable tag
+  /// policies when the request is made. The request is rejected if the tags in
+  /// the request don't match the requirements of the policy at that time. Tag
+  /// policy compliance is <i> <b>not</b> </i> checked again when the invitation
+  /// is accepted and the tags are actually attached to the transfer. That means
+  /// that if the tag policy changes between the invitation and the acceptance,
+  /// then that tags could potentially be non-compliant.
+  /// </important> <note>
+  /// If any one of the tags is not valid or if you exceed the allowed number of
+  /// tags for a transfer, then the entire request fails and invitations are not
+  /// sent.
+  /// </note>
+  Future<InviteOrganizationToTransferResponsibilityResponse>
+      inviteOrganizationToTransferResponsibility({
+    required String sourceName,
+    required DateTime startTimestamp,
+    required HandshakeParty target,
+    required ResponsibilityTransferType type,
+    String? notes,
+    List<Tag>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWSOrganizationsV20161128.InviteOrganizationToTransferResponsibility'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'SourceName': sourceName,
+        'StartTimestamp': unixTimestampToJson(startTimestamp),
+        'Target': target,
+        'Type': type.value,
+        if (notes != null) 'Notes': notes,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return InviteOrganizationToTransferResponsibilityResponse.fromJson(
+        jsonResponse.body);
+  }
+
   /// Removes a member account from its parent organization. This version of the
   /// operation is performed by the account that wants to leave. To remove a
   /// member account as a user in the management account, use
   /// <a>RemoveAccountFromOrganization</a> instead.
   ///
-  /// This operation can be called only from a member account in the
-  /// organization.
+  /// You can only call from operation from a member account.
+  ///
+  /// When an account leaves an organization, Organizations logs a membership
+  /// event in CloudTrail. The event is an
+  /// <code>AccountDepartedOrganization</code> event with
+  /// <code>departedMethod:Left</code> and <code>departedTime</code>. This event
+  /// is available only in the management account's event history.
   /// <important>
   /// <ul>
   /// <li>
@@ -2506,21 +2820,14 @@ class Organizations {
   /// the organization.
   /// </li>
   /// <li>
-  /// You can leave an organization only after you enable IAM user access to
-  /// billing in your account. For more information, see <a
-  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/grantaccess.html#ControllingAccessWebsite-Activate">About
-  /// IAM access to the Billing and Cost Management console</a> in the <i>Amazon
-  /// Web Services Billing and Cost Management User Guide</i>.
-  /// </li>
-  /// <li>
   /// After the account leaves the organization, all tags that were attached to
   /// the account object in the organization are deleted. Amazon Web Services
   /// accounts outside of an organization do not support tags.
   /// </li>
   /// <li>
   /// A newly created account has a waiting period before it can be removed from
-  /// its organization. If you get an error that indicates that a wait period is
-  /// required, then try again in a few days.
+  /// its organization. You must wait until at least four days after the account
+  /// was created. Invited accounts aren't subject to this waiting period.
   /// </li>
   /// <li>
   /// If you are using an organization principal to call
@@ -2552,95 +2859,19 @@ class Organizations {
     );
   }
 
-  /// Returns a list of the Amazon Web Services services that you enabled to
-  /// integrate with your organization. After a service on this list creates the
-  /// resources that it requires for the integration, it can perform operations
-  /// on your organization and its accounts.
-  ///
-  /// For more information about integrating other services with Organizations,
-  /// including the list of services that currently work with Organizations, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html">Using
-  /// Organizations with other Amazon Web Services services</a> in the
-  /// <i>Organizations User Guide</i>.
-  ///
-  /// This operation can be called only from the organization's management
-  /// account or by a member account that is a delegated administrator for an
-  /// Amazon Web Services service.
-  ///
-  /// May throw [AccessDeniedException].
-  /// May throw [AWSOrganizationsNotInUseException].
-  /// May throw [ConstraintViolationException].
-  /// May throw [InvalidInputException].
-  /// May throw [ServiceException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [UnsupportedAPIEndpointException].
-  ///
-  /// Parameter [maxResults] :
-  /// The total number of results that you want included on each page of the
-  /// response. If you do not include this parameter, it defaults to a value
-  /// that is specific to the operation. If additional items exist beyond the
-  /// maximum you specify, the <code>NextToken</code> response element is
-  /// present and has a value (is not null). Include that value as the
-  /// <code>NextToken</code> request parameter in the next call to the operation
-  /// to get the next part of the results. Note that Organizations might return
-  /// fewer results than the maximum even when there are more results available.
-  /// You should check <code>NextToken</code> after every operation to ensure
-  /// that you receive all of the results.
-  ///
-  /// Parameter [nextToken] :
-  /// The parameter for receiving additional results if you receive a
-  /// <code>NextToken</code> response in a previous request. A
-  /// <code>NextToken</code> response indicates that more output is available.
-  /// Set this parameter to the value of the previous call's
-  /// <code>NextToken</code> response to indicate where the output should
-  /// continue from.
-  Future<ListAWSServiceAccessForOrganizationResponse>
-      listAWSServiceAccessForOrganization({
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      20,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target':
-          'AWSOrganizationsV20161128.ListAWSServiceAccessForOrganization'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
-    );
-
-    return ListAWSServiceAccessForOrganizationResponse.fromJson(
-        jsonResponse.body);
-  }
-
   /// Lists all the accounts in the organization. To request only the accounts
   /// in a specified root or organizational unit (OU), use the
   /// <a>ListAccountsForParent</a> operation instead.
   /// <note>
-  /// Always check the <code>NextToken</code> response parameter for a
-  /// <code>null</code> value when calling a <code>List*</code> operation. These
-  /// operations can occasionally return an empty set of results even when there
-  /// are more results available. The <code>NextToken</code> response parameter
-  /// value is <code>null</code> <i>only</i> when there are no more results to
-  /// display.
+  /// When calling List* operations, always check the <code>NextToken</code>
+  /// response parameter value, even if you receive an empty result set. These
+  /// operations can occasionally return an empty set of results even when more
+  /// results are available. Continue making requests until
+  /// <code>NextToken</code> returns null. A null <code>NextToken</code> value
+  /// indicates that you have retrieved all available results.
   /// </note>
-  /// This operation can be called only from the organization's management
-  /// account or by a member account that is a delegated administrator for an
-  /// Amazon Web Services service.
+  /// You can only call this operation from the management account or a member
+  /// account that is a delegated administrator.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -2649,16 +2880,9 @@ class Organizations {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [maxResults] :
-  /// The total number of results that you want included on each page of the
-  /// response. If you do not include this parameter, it defaults to a value
-  /// that is specific to the operation. If additional items exist beyond the
-  /// maximum you specify, the <code>NextToken</code> response element is
-  /// present and has a value (is not null). Include that value as the
-  /// <code>NextToken</code> request parameter in the next call to the operation
-  /// to get the next part of the results. Note that Organizations might return
-  /// fewer results than the maximum even when there are more results available.
-  /// You should check <code>NextToken</code> after every operation to ensure
-  /// that you receive all of the results.
+  /// The maximum number of items to return in the response. If more results
+  /// exist than the specified <code>MaxResults</code> value, a token is
+  /// included in the response so that you can retrieve the remaining results.
   ///
   /// Parameter [nextToken] :
   /// The parameter for receiving additional results if you receive a
@@ -2703,16 +2927,15 @@ class Organizations {
   /// OUs. To get a list of all accounts in the organization, use the
   /// <a>ListAccounts</a> operation.
   /// <note>
-  /// Always check the <code>NextToken</code> response parameter for a
-  /// <code>null</code> value when calling a <code>List*</code> operation. These
-  /// operations can occasionally return an empty set of results even when there
-  /// are more results available. The <code>NextToken</code> response parameter
-  /// value is <code>null</code> <i>only</i> when there are no more results to
-  /// display.
+  /// When calling List* operations, always check the <code>NextToken</code>
+  /// response parameter value, even if you receive an empty result set. These
+  /// operations can occasionally return an empty set of results even when more
+  /// results are available. Continue making requests until
+  /// <code>NextToken</code> returns null. A null <code>NextToken</code> value
+  /// indicates that you have retrieved all available results.
   /// </note>
-  /// This operation can be called only from the organization's management
-  /// account or by a member account that is a delegated administrator for an
-  /// Amazon Web Services service.
+  /// You can only call this operation from the management account or a member
+  /// account that is a delegated administrator.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -2726,16 +2949,9 @@ class Organizations {
   /// whose accounts you want to list.
   ///
   /// Parameter [maxResults] :
-  /// The total number of results that you want included on each page of the
-  /// response. If you do not include this parameter, it defaults to a value
-  /// that is specific to the operation. If additional items exist beyond the
-  /// maximum you specify, the <code>NextToken</code> response element is
-  /// present and has a value (is not null). Include that value as the
-  /// <code>NextToken</code> request parameter in the next call to the operation
-  /// to get the next part of the results. Note that Organizations might return
-  /// fewer results than the maximum even when there are more results available.
-  /// You should check <code>NextToken</code> after every operation to ensure
-  /// that you receive all of the results.
+  /// The maximum number of items to return in the response. If more results
+  /// exist than the specified <code>MaxResults</code> value, a token is
+  /// included in the response so that you can retrieve the remaining results.
   ///
   /// Parameter [nextToken] :
   /// The parameter for receiving additional results if you receive a
@@ -2775,21 +2991,203 @@ class Organizations {
     return ListAccountsForParentResponse.fromJson(jsonResponse.body);
   }
 
+  /// Lists all the accounts in an organization that have invalid effective
+  /// policies. An <i>invalid effective policy</i> is an <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_effective.html">effective
+  /// policy</a> that fails validation checks, resulting in the effective policy
+  /// not being fully enforced on all the intended accounts within an
+  /// organization.
+  ///
+  /// You can only call this operation from the management account or a member
+  /// account that is a delegated administrator.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [AWSOrganizationsNotInUseException].
+  /// May throw [ConstraintViolationException].
+  /// May throw [EffectivePolicyNotFoundException].
+  /// May throw [InvalidInputException].
+  /// May throw [ServiceException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedAPIEndpointException].
+  ///
+  /// Parameter [policyType] :
+  /// The type of policy that you want information about. You can specify one of
+  /// the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html">DECLARATIVE_POLICY_EC2</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html">BACKUP_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html">TAG_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html">CHATBOT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html">AISERVICES_OPT_OUT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html">SECURITYHUB_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html">UPGRADE_ROLLOUT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html">INSPECTOR_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html">BEDROCK_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html">S3_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html">NETWORK_SECURITY_DIRECTOR_POLICY</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return in the response. If more results
+  /// exist than the specified <code>MaxResults</code> value, a token is
+  /// included in the response so that you can retrieve the remaining results.
+  ///
+  /// Parameter [nextToken] :
+  /// The parameter for receiving additional results if you receive a
+  /// <code>NextToken</code> response in a previous request. A
+  /// <code>NextToken</code> response indicates that more output is available.
+  /// Set this parameter to the value of the previous call's
+  /// <code>NextToken</code> response to indicate where the output should
+  /// continue from.
+  Future<ListAccountsWithInvalidEffectivePolicyResponse>
+      listAccountsWithInvalidEffectivePolicy({
+    required EffectivePolicyType policyType,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      20,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWSOrganizationsV20161128.ListAccountsWithInvalidEffectivePolicy'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'PolicyType': policyType.value,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListAccountsWithInvalidEffectivePolicyResponse.fromJson(
+        jsonResponse.body);
+  }
+
+  /// Returns a list of the Amazon Web Services services that you enabled to
+  /// integrate with your organization. After a service on this list creates the
+  /// resources that it requires for the integration, it can perform operations
+  /// on your organization and its accounts.
+  ///
+  /// For more information about integrating other services with Organizations,
+  /// including the list of services that currently work with Organizations, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html">Using
+  /// Organizations with other Amazon Web Services services</a> in the
+  /// <i>Organizations User Guide</i>.
+  ///
+  /// You can only call this operation from the management account or a member
+  /// account that is a delegated administrator.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [AWSOrganizationsNotInUseException].
+  /// May throw [ConstraintViolationException].
+  /// May throw [InvalidInputException].
+  /// May throw [ServiceException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedAPIEndpointException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return in the response. If more results
+  /// exist than the specified <code>MaxResults</code> value, a token is
+  /// included in the response so that you can retrieve the remaining results.
+  ///
+  /// Parameter [nextToken] :
+  /// The parameter for receiving additional results if you receive a
+  /// <code>NextToken</code> response in a previous request. A
+  /// <code>NextToken</code> response indicates that more output is available.
+  /// Set this parameter to the value of the previous call's
+  /// <code>NextToken</code> response to indicate where the output should
+  /// continue from.
+  Future<ListAWSServiceAccessForOrganizationResponse>
+      listAWSServiceAccessForOrganization({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      20,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWSOrganizationsV20161128.ListAWSServiceAccessForOrganization'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListAWSServiceAccessForOrganizationResponse.fromJson(
+        jsonResponse.body);
+  }
+
   /// Lists all of the organizational units (OUs) or accounts that are contained
   /// in the specified parent OU or root. This operation, along with
   /// <a>ListParents</a> enables you to traverse the tree structure that makes
   /// up this root.
   /// <note>
-  /// Always check the <code>NextToken</code> response parameter for a
-  /// <code>null</code> value when calling a <code>List*</code> operation. These
-  /// operations can occasionally return an empty set of results even when there
-  /// are more results available. The <code>NextToken</code> response parameter
-  /// value is <code>null</code> <i>only</i> when there are no more results to
-  /// display.
+  /// When calling List* operations, always check the <code>NextToken</code>
+  /// response parameter value, even if you receive an empty result set. These
+  /// operations can occasionally return an empty set of results even when more
+  /// results are available. Continue making requests until
+  /// <code>NextToken</code> returns null. A null <code>NextToken</code> value
+  /// indicates that you have retrieved all available results.
   /// </note>
-  /// This operation can be called only from the organization's management
-  /// account or by a member account that is a delegated administrator for an
-  /// Amazon Web Services service.
+  /// You can only call this operation from the management account or a member
+  /// account that is a delegated administrator.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -2822,16 +3220,9 @@ class Organizations {
   /// </ul>
   ///
   /// Parameter [maxResults] :
-  /// The total number of results that you want included on each page of the
-  /// response. If you do not include this parameter, it defaults to a value
-  /// that is specific to the operation. If additional items exist beyond the
-  /// maximum you specify, the <code>NextToken</code> response element is
-  /// present and has a value (is not null). Include that value as the
-  /// <code>NextToken</code> request parameter in the next call to the operation
-  /// to get the next part of the results. Note that Organizations might return
-  /// fewer results than the maximum even when there are more results available.
-  /// You should check <code>NextToken</code> after every operation to ensure
-  /// that you receive all of the results.
+  /// The maximum number of items to return in the response. If more results
+  /// exist than the specified <code>MaxResults</code> value, a token is
+  /// included in the response so that you can retrieve the remaining results.
   ///
   /// Parameter [nextToken] :
   /// The parameter for receiving additional results if you receive a
@@ -2876,16 +3267,15 @@ class Organizations {
   /// Lists the account creation requests that match the specified status that
   /// is currently being tracked for the organization.
   /// <note>
-  /// Always check the <code>NextToken</code> response parameter for a
-  /// <code>null</code> value when calling a <code>List*</code> operation. These
-  /// operations can occasionally return an empty set of results even when there
-  /// are more results available. The <code>NextToken</code> response parameter
-  /// value is <code>null</code> <i>only</i> when there are no more results to
-  /// display.
+  /// When calling List* operations, always check the <code>NextToken</code>
+  /// response parameter value, even if you receive an empty result set. These
+  /// operations can occasionally return an empty set of results even when more
+  /// results are available. Continue making requests until
+  /// <code>NextToken</code> returns null. A null <code>NextToken</code> value
+  /// indicates that you have retrieved all available results.
   /// </note>
-  /// This operation can be called only from the organization's management
-  /// account or by a member account that is a delegated administrator for an
-  /// Amazon Web Services service.
+  /// You can only call this operation from the management account or a member
+  /// account that is a delegated administrator.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -2895,16 +3285,9 @@ class Organizations {
   /// May throw [UnsupportedAPIEndpointException].
   ///
   /// Parameter [maxResults] :
-  /// The total number of results that you want included on each page of the
-  /// response. If you do not include this parameter, it defaults to a value
-  /// that is specific to the operation. If additional items exist beyond the
-  /// maximum you specify, the <code>NextToken</code> response element is
-  /// present and has a value (is not null). Include that value as the
-  /// <code>NextToken</code> request parameter in the next call to the operation
-  /// to get the next part of the results. Note that Organizations might return
-  /// fewer results than the maximum even when there are more results available.
-  /// You should check <code>NextToken</code> after every operation to ensure
-  /// that you receive all of the results.
+  /// The maximum number of items to return in the response. If more results
+  /// exist than the specified <code>MaxResults</code> value, a token is
+  /// included in the response so that you can retrieve the remaining results.
   ///
   /// Parameter [nextToken] :
   /// The parameter for receiving additional results if you receive a
@@ -2951,29 +3334,21 @@ class Organizations {
   /// Lists the Amazon Web Services accounts that are designated as delegated
   /// administrators in this organization.
   ///
-  /// This operation can be called only from the organization's management
-  /// account or by a member account that is a delegated administrator for an
-  /// Amazon Web Services service.
+  /// You can only call this operation from the management account or a member
+  /// account that is a delegated administrator.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
   /// May throw [ConstraintViolationException].
   /// May throw [InvalidInputException].
-  /// May throw [TooManyRequestsException].
   /// May throw [ServiceException].
+  /// May throw [TooManyRequestsException].
   /// May throw [UnsupportedAPIEndpointException].
   ///
   /// Parameter [maxResults] :
-  /// The total number of results that you want included on each page of the
-  /// response. If you do not include this parameter, it defaults to a value
-  /// that is specific to the operation. If additional items exist beyond the
-  /// maximum you specify, the <code>NextToken</code> response element is
-  /// present and has a value (is not null). Include that value as the
-  /// <code>NextToken</code> request parameter in the next call to the operation
-  /// to get the next part of the results. Note that Organizations might return
-  /// fewer results than the maximum even when there are more results available.
-  /// You should check <code>NextToken</code> after every operation to ensure
-  /// that you receive all of the results.
+  /// The maximum number of items to return in the response. If more results
+  /// exist than the specified <code>MaxResults</code> value, a token is
+  /// included in the response so that you can retrieve the remaining results.
   ///
   /// Parameter [nextToken] :
   /// The parameter for receiving additional results if you receive a
@@ -3023,9 +3398,8 @@ class Organizations {
   /// List the Amazon Web Services services for which the specified account is a
   /// delegated administrator.
   ///
-  /// This operation can be called only from the organization's management
-  /// account or by a member account that is a delegated administrator for an
-  /// Amazon Web Services service.
+  /// You can only call this operation from the management account or a member
+  /// account that is a delegated administrator.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AccountNotFoundException].
@@ -3033,8 +3407,8 @@ class Organizations {
   /// May throw [AWSOrganizationsNotInUseException].
   /// May throw [ConstraintViolationException].
   /// May throw [InvalidInputException].
-  /// May throw [TooManyRequestsException].
   /// May throw [ServiceException].
+  /// May throw [TooManyRequestsException].
   /// May throw [UnsupportedAPIEndpointException].
   ///
   /// Parameter [accountId] :
@@ -3042,16 +3416,9 @@ class Organizations {
   /// organization.
   ///
   /// Parameter [maxResults] :
-  /// The total number of results that you want included on each page of the
-  /// response. If you do not include this parameter, it defaults to a value
-  /// that is specific to the operation. If additional items exist beyond the
-  /// maximum you specify, the <code>NextToken</code> response element is
-  /// present and has a value (is not null). Include that value as the
-  /// <code>NextToken</code> request parameter in the next call to the operation
-  /// to get the next part of the results. Note that Organizations might return
-  /// fewer results than the maximum even when there are more results available.
-  /// You should check <code>NextToken</code> after every operation to ensure
-  /// that you receive all of the results.
+  /// The maximum number of items to return in the response. If more results
+  /// exist than the specified <code>MaxResults</code> value, a token is
+  /// included in the response so that you can retrieve the remaining results.
   ///
   /// Parameter [nextToken] :
   /// The parameter for receiving additional results if you receive a
@@ -3093,22 +3460,142 @@ class Organizations {
     return ListDelegatedServicesForAccountResponse.fromJson(jsonResponse.body);
   }
 
-  /// Lists the current handshakes that are associated with the account of the
-  /// requesting user.
+  /// Lists all the validation errors on an <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_effective.html">effective
+  /// policy</a> for a specified account and policy type.
   ///
-  /// Handshakes that are <code>ACCEPTED</code>, <code>DECLINED</code>,
-  /// <code>CANCELED</code>, or <code>EXPIRED</code> appear in the results of
-  /// this API for only 30 days after changing to that state. After that,
-  /// they're deleted and no longer accessible.
+  /// You can only call this operation from the management account or a member
+  /// account that is a delegated administrator.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [AccountNotFoundException].
+  /// May throw [AWSOrganizationsNotInUseException].
+  /// May throw [ConstraintViolationException].
+  /// May throw [EffectivePolicyNotFoundException].
+  /// May throw [InvalidInputException].
+  /// May throw [ServiceException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedAPIEndpointException].
+  ///
+  /// Parameter [accountId] :
+  /// The ID of the account that you want details about. Specifying an
+  /// organization root or organizational unit (OU) as the target is not
+  /// supported.
+  ///
+  /// Parameter [policyType] :
+  /// The type of policy that you want information about. You can specify one of
+  /// the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html">DECLARATIVE_POLICY_EC2</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html">BACKUP_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html">TAG_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html">CHATBOT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html">AISERVICES_OPT_OUT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html">SECURITYHUB_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html">UPGRADE_ROLLOUT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html">INSPECTOR_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html">BEDROCK_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html">S3_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html">NETWORK_SECURITY_DIRECTOR_POLICY</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return in the response. If more results
+  /// exist than the specified <code>MaxResults</code> value, a token is
+  /// included in the response so that you can retrieve the remaining results.
+  ///
+  /// Parameter [nextToken] :
+  /// The parameter for receiving additional results if you receive a
+  /// <code>NextToken</code> response in a previous request. A
+  /// <code>NextToken</code> response indicates that more output is available.
+  /// Set this parameter to the value of the previous call's
+  /// <code>NextToken</code> response to indicate where the output should
+  /// continue from.
+  Future<ListEffectivePolicyValidationErrorsResponse>
+      listEffectivePolicyValidationErrors({
+    required String accountId,
+    required EffectivePolicyType policyType,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      20,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWSOrganizationsV20161128.ListEffectivePolicyValidationErrors'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AccountId': accountId,
+        'PolicyType': policyType.value,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListEffectivePolicyValidationErrorsResponse.fromJson(
+        jsonResponse.body);
+  }
+
+  /// Lists the recent handshakes that you have received.
+  ///
+  /// You can view <code>CANCELED</code>, <code>ACCEPTED</code>,
+  /// <code>DECLINED</code>, or <code>EXPIRED</code> handshakes in API responses
+  /// for 30 days before they are deleted.
+  ///
+  /// You can call this operation from any account in a organization.
   /// <note>
-  /// Always check the <code>NextToken</code> response parameter for a
-  /// <code>null</code> value when calling a <code>List*</code> operation. These
-  /// operations can occasionally return an empty set of results even when there
-  /// are more results available. The <code>NextToken</code> response parameter
-  /// value is <code>null</code> <i>only</i> when there are no more results to
-  /// display.
+  /// When calling List* operations, always check the <code>NextToken</code>
+  /// response parameter value, even if you receive an empty result set. These
+  /// operations can occasionally return an empty set of results even when more
+  /// results are available. Continue making requests until
+  /// <code>NextToken</code> returns null. A null <code>NextToken</code> value
+  /// indicates that you have retrieved all available results.
   /// </note>
-  /// This operation can be called from any account in the organization.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConcurrentModificationException].
@@ -3117,26 +3604,13 @@ class Organizations {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [filter] :
-  /// Filters the handshakes that you want included in the response. The default
-  /// is all types. Use the <code>ActionType</code> element to limit the output
-  /// to only a specified type, such as <code>INVITE</code>,
-  /// <code>ENABLE_ALL_FEATURES</code>, or <code>APPROVE_ALL_FEATURES</code>.
-  /// Alternatively, for the <code>ENABLE_ALL_FEATURES</code> handshake that
-  /// generates a separate child handshake for each member account, you can
-  /// specify <code>ParentHandshakeId</code> to see only the handshakes that
-  /// were generated by that parent request.
+  /// A <code>HandshakeFilter</code> object. Contains the filer used to select
+  /// the handshakes for an operation.
   ///
   /// Parameter [maxResults] :
-  /// The total number of results that you want included on each page of the
-  /// response. If you do not include this parameter, it defaults to a value
-  /// that is specific to the operation. If additional items exist beyond the
-  /// maximum you specify, the <code>NextToken</code> response element is
-  /// present and has a value (is not null). Include that value as the
-  /// <code>NextToken</code> request parameter in the next call to the operation
-  /// to get the next part of the results. Note that Organizations might return
-  /// fewer results than the maximum even when there are more results available.
-  /// You should check <code>NextToken</code> after every operation to ensure
-  /// that you receive all of the results.
+  /// The maximum number of items to return in the response. If more results
+  /// exist than the specified <code>MaxResults</code> value, a token is
+  /// included in the response so that you can retrieve the remaining results.
   ///
   /// Parameter [nextToken] :
   /// The parameter for receiving additional results if you receive a
@@ -3176,26 +3650,22 @@ class Organizations {
     return ListHandshakesForAccountResponse.fromJson(jsonResponse.body);
   }
 
-  /// Lists the handshakes that are associated with the organization that the
-  /// requesting user is part of. The <code>ListHandshakesForOrganization</code>
-  /// operation returns a list of handshake structures. Each structure contains
-  /// details and status about a handshake.
+  /// Lists the recent handshakes that you have sent.
   ///
-  /// Handshakes that are <code>ACCEPTED</code>, <code>DECLINED</code>,
-  /// <code>CANCELED</code>, or <code>EXPIRED</code> appear in the results of
-  /// this API for only 30 days after changing to that state. After that,
-  /// they're deleted and no longer accessible.
+  /// You can view <code>CANCELED</code>, <code>ACCEPTED</code>,
+  /// <code>DECLINED</code>, or <code>EXPIRED</code> handshakes in API responses
+  /// for 30 days before they are deleted.
+  ///
+  /// You can only call this operation from the management account or a member
+  /// account that is a delegated administrator.
   /// <note>
-  /// Always check the <code>NextToken</code> response parameter for a
-  /// <code>null</code> value when calling a <code>List*</code> operation. These
-  /// operations can occasionally return an empty set of results even when there
-  /// are more results available. The <code>NextToken</code> response parameter
-  /// value is <code>null</code> <i>only</i> when there are no more results to
-  /// display.
+  /// When calling List* operations, always check the <code>NextToken</code>
+  /// response parameter value, even if you receive an empty result set. These
+  /// operations can occasionally return an empty set of results even when more
+  /// results are available. Continue making requests until
+  /// <code>NextToken</code> returns null. A null <code>NextToken</code> value
+  /// indicates that you have retrieved all available results.
   /// </note>
-  /// This operation can be called only from the organization's management
-  /// account or by a member account that is a delegated administrator for an
-  /// Amazon Web Services service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -3205,26 +3675,13 @@ class Organizations {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [filter] :
-  /// A filter of the handshakes that you want included in the response. The
-  /// default is all types. Use the <code>ActionType</code> element to limit the
-  /// output to only a specified type, such as <code>INVITE</code>,
-  /// <code>ENABLE-ALL-FEATURES</code>, or <code>APPROVE-ALL-FEATURES</code>.
-  /// Alternatively, for the <code>ENABLE-ALL-FEATURES</code> handshake that
-  /// generates a separate child handshake for each member account, you can
-  /// specify the <code>ParentHandshakeId</code> to see only the handshakes that
-  /// were generated by that parent request.
+  /// A <code>HandshakeFilter</code> object. Contains the filer used to select
+  /// the handshakes for an operation.
   ///
   /// Parameter [maxResults] :
-  /// The total number of results that you want included on each page of the
-  /// response. If you do not include this parameter, it defaults to a value
-  /// that is specific to the operation. If additional items exist beyond the
-  /// maximum you specify, the <code>NextToken</code> response element is
-  /// present and has a value (is not null). Include that value as the
-  /// <code>NextToken</code> request parameter in the next call to the operation
-  /// to get the next part of the results. Note that Organizations might return
-  /// fewer results than the maximum even when there are more results available.
-  /// You should check <code>NextToken</code> after every operation to ensure
-  /// that you receive all of the results.
+  /// The maximum number of items to return in the response. If more results
+  /// exist than the specified <code>MaxResults</code> value, a token is
+  /// included in the response so that you can retrieve the remaining results.
   ///
   /// Parameter [nextToken] :
   /// The parameter for receiving additional results if you receive a
@@ -3264,19 +3721,94 @@ class Organizations {
     return ListHandshakesForOrganizationResponse.fromJson(jsonResponse.body);
   }
 
+  /// Lists transfers that allow you to manage the specified responsibilities
+  /// for another organization. This operation returns both transfer invitations
+  /// and transfers.
+  /// <note>
+  /// When calling List* operations, always check the <code>NextToken</code>
+  /// response parameter value, even if you receive an empty result set. These
+  /// operations can occasionally return an empty set of results even when more
+  /// results are available. Continue making requests until
+  /// <code>NextToken</code> returns null. A null <code>NextToken</code> value
+  /// indicates that you have retrieved all available results.
+  /// </note>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [AWSOrganizationsNotInUseException].
+  /// May throw [ConstraintViolationException].
+  /// May throw [InvalidInputException].
+  /// May throw [ResponsibilityTransferNotFoundException].
+  /// May throw [ServiceException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedAPIEndpointException].
+  ///
+  /// Parameter [type] :
+  /// The type of responsibility. Currently, only <code>BILLING</code> is
+  /// supported.
+  ///
+  /// Parameter [id] :
+  /// ID for the transfer.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return in the response. If more results
+  /// exist than the specified <code>MaxResults</code> value, a token is
+  /// included in the response so that you can retrieve the remaining results.
+  ///
+  /// Parameter [nextToken] :
+  /// The parameter for receiving additional results if you receive a
+  /// <code>NextToken</code> response in a previous request. A
+  /// <code>NextToken</code> response indicates that more output is available.
+  /// Set this parameter to the value of the previous call's
+  /// <code>NextToken</code> response to indicate where the output should
+  /// continue from.
+  Future<ListInboundResponsibilityTransfersResponse>
+      listInboundResponsibilityTransfers({
+    required ResponsibilityTransferType type,
+    String? id,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      20,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWSOrganizationsV20161128.ListInboundResponsibilityTransfers'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Type': type.value,
+        if (id != null) 'Id': id,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListInboundResponsibilityTransfersResponse.fromJson(
+        jsonResponse.body);
+  }
+
   /// Lists the organizational units (OUs) in a parent organizational unit or
   /// root.
   /// <note>
-  /// Always check the <code>NextToken</code> response parameter for a
-  /// <code>null</code> value when calling a <code>List*</code> operation. These
-  /// operations can occasionally return an empty set of results even when there
-  /// are more results available. The <code>NextToken</code> response parameter
-  /// value is <code>null</code> <i>only</i> when there are no more results to
-  /// display.
+  /// When calling List* operations, always check the <code>NextToken</code>
+  /// response parameter value, even if you receive an empty result set. These
+  /// operations can occasionally return an empty set of results even when more
+  /// results are available. Continue making requests until
+  /// <code>NextToken</code> returns null. A null <code>NextToken</code> value
+  /// indicates that you have retrieved all available results.
   /// </note>
-  /// This operation can be called only from the organization's management
-  /// account or by a member account that is a delegated administrator for an
-  /// Amazon Web Services service.
+  /// You can only call this operation from the management account or a member
+  /// account that is a delegated administrator.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -3286,8 +3818,7 @@ class Organizations {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [parentId] :
-  /// The unique identifier (ID) of the root or OU whose child OUs you want to
-  /// list.
+  /// ID for the root or OU whose child OUs you want to list.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a
   /// parent ID string requires one of the following:
@@ -3306,16 +3837,9 @@ class Organizations {
   /// </ul>
   ///
   /// Parameter [maxResults] :
-  /// The total number of results that you want included on each page of the
-  /// response. If you do not include this parameter, it defaults to a value
-  /// that is specific to the operation. If additional items exist beyond the
-  /// maximum you specify, the <code>NextToken</code> response element is
-  /// present and has a value (is not null). Include that value as the
-  /// <code>NextToken</code> request parameter in the next call to the operation
-  /// to get the next part of the results. Note that Organizations might return
-  /// fewer results than the maximum even when there are more results available.
-  /// You should check <code>NextToken</code> after every operation to ensure
-  /// that you receive all of the results.
+  /// The maximum number of items to return in the response. If more results
+  /// exist than the specified <code>MaxResults</code> value, a token is
+  /// included in the response so that you can retrieve the remaining results.
   ///
   /// Parameter [nextToken] :
   /// The parameter for receiving additional results if you receive a
@@ -3357,21 +3881,90 @@ class Organizations {
     return ListOrganizationalUnitsForParentResponse.fromJson(jsonResponse.body);
   }
 
+  /// Lists transfers that allow an account outside your organization to manage
+  /// the specified responsibilities for your organization. This operation
+  /// returns both transfer invitations and transfers.
+  /// <note>
+  /// When calling List* operations, always check the <code>NextToken</code>
+  /// response parameter value, even if you receive an empty result set. These
+  /// operations can occasionally return an empty set of results even when more
+  /// results are available. Continue making requests until
+  /// <code>NextToken</code> returns null. A null <code>NextToken</code> value
+  /// indicates that you have retrieved all available results.
+  /// </note>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [AWSOrganizationsNotInUseException].
+  /// May throw [ConstraintViolationException].
+  /// May throw [InvalidInputException].
+  /// May throw [ServiceException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedAPIEndpointException].
+  ///
+  /// Parameter [type] :
+  /// The type of responsibility. Currently, only <code>BILLING</code> is
+  /// supported.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return in the response. If more results
+  /// exist than the specified <code>MaxResults</code> value, a token is
+  /// included in the response so that you can retrieve the remaining results.
+  ///
+  /// Parameter [nextToken] :
+  /// The parameter for receiving additional results if you receive a
+  /// <code>NextToken</code> response in a previous request. A
+  /// <code>NextToken</code> response indicates that more output is available.
+  /// Set this parameter to the value of the previous call's
+  /// <code>NextToken</code> response to indicate where the output should
+  /// continue from.
+  Future<ListOutboundResponsibilityTransfersResponse>
+      listOutboundResponsibilityTransfers({
+    required ResponsibilityTransferType type,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      20,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWSOrganizationsV20161128.ListOutboundResponsibilityTransfers'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Type': type.value,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListOutboundResponsibilityTransfersResponse.fromJson(
+        jsonResponse.body);
+  }
+
   /// Lists the root or organizational units (OUs) that serve as the immediate
   /// parent of the specified child OU or account. This operation, along with
   /// <a>ListChildren</a> enables you to traverse the tree structure that makes
   /// up this root.
   /// <note>
-  /// Always check the <code>NextToken</code> response parameter for a
-  /// <code>null</code> value when calling a <code>List*</code> operation. These
-  /// operations can occasionally return an empty set of results even when there
-  /// are more results available. The <code>NextToken</code> response parameter
-  /// value is <code>null</code> <i>only</i> when there are no more results to
-  /// display.
+  /// When calling List* operations, always check the <code>NextToken</code>
+  /// response parameter value, even if you receive an empty result set. These
+  /// operations can occasionally return an empty set of results even when more
+  /// results are available. Continue making requests until
+  /// <code>NextToken</code> returns null. A null <code>NextToken</code> value
+  /// indicates that you have retrieved all available results.
   /// </note>
-  /// This operation can be called only from the organization's management
-  /// account or by a member account that is a delegated administrator for an
-  /// Amazon Web Services service.
+  /// You can only call this operation from the management account or a member
+  /// account that is a delegated administrator.
   /// <note>
   /// In the current release, a child can have only a single parent.
   /// </note>
@@ -3384,8 +3977,8 @@ class Organizations {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [childId] :
-  /// The unique identifier (ID) of the OU or account whose parent containers
-  /// you want to list. Don't specify a root.
+  /// ID for the OU or account whose parent containers you want to list. Don't
+  /// specify a root.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a
   /// child ID string requires one of the following:
@@ -3403,16 +3996,9 @@ class Organizations {
   /// </ul>
   ///
   /// Parameter [maxResults] :
-  /// The total number of results that you want included on each page of the
-  /// response. If you do not include this parameter, it defaults to a value
-  /// that is specific to the operation. If additional items exist beyond the
-  /// maximum you specify, the <code>NextToken</code> response element is
-  /// present and has a value (is not null). Include that value as the
-  /// <code>NextToken</code> request parameter in the next call to the operation
-  /// to get the next part of the results. Note that Organizations might return
-  /// fewer results than the maximum even when there are more results available.
-  /// You should check <code>NextToken</code> after every operation to ensure
-  /// that you receive all of the results.
+  /// The maximum number of items to return in the response. If more results
+  /// exist than the specified <code>MaxResults</code> value, a token is
+  /// included in the response so that you can retrieve the remaining results.
   ///
   /// Parameter [nextToken] :
   /// The parameter for receiving additional results if you receive a
@@ -3454,16 +4040,15 @@ class Organizations {
 
   /// Retrieves the list of all policies in an organization of a specified type.
   /// <note>
-  /// Always check the <code>NextToken</code> response parameter for a
-  /// <code>null</code> value when calling a <code>List*</code> operation. These
-  /// operations can occasionally return an empty set of results even when there
-  /// are more results available. The <code>NextToken</code> response parameter
-  /// value is <code>null</code> <i>only</i> when there are no more results to
-  /// display.
+  /// When calling List* operations, always check the <code>NextToken</code>
+  /// response parameter value, even if you receive an empty result set. These
+  /// operations can occasionally return an empty set of results even when more
+  /// results are available. Continue making requests until
+  /// <code>NextToken</code> returns null. A null <code>NextToken</code> value
+  /// indicates that you have retrieved all available results.
   /// </note>
-  /// This operation can be called only from the organization's management
-  /// account or by a member account that is a delegated administrator for an
-  /// Amazon Web Services service.
+  /// You can only call this operation from the management account or a member
+  /// account that is a delegated administrator.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -3479,7 +4064,15 @@ class Organizations {
   /// <ul>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html">AISERVICES_OPT_OUT_POLICY</a>
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html">SERVICE_CONTROL_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html">RESOURCE_CONTROL_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html">DECLARATIVE_POLICY_EC2</a>
   /// </li>
   /// <li>
   /// <a
@@ -3487,25 +4080,46 @@ class Organizations {
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html">SERVICE_CONTROL_POLICY</a>
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html">TAG_POLICY</a>
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html">TAG_POLICY</a>
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html">CHATBOT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html">AISERVICES_OPT_OUT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html">SECURITYHUB_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html">UPGRADE_ROLLOUT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html">INSPECTOR_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html">BEDROCK_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html">S3_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html">NETWORK_SECURITY_DIRECTOR_POLICY</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [maxResults] :
-  /// The total number of results that you want included on each page of the
-  /// response. If you do not include this parameter, it defaults to a value
-  /// that is specific to the operation. If additional items exist beyond the
-  /// maximum you specify, the <code>NextToken</code> response element is
-  /// present and has a value (is not null). Include that value as the
-  /// <code>NextToken</code> request parameter in the next call to the operation
-  /// to get the next part of the results. Note that Organizations might return
-  /// fewer results than the maximum even when there are more results available.
-  /// You should check <code>NextToken</code> after every operation to ensure
-  /// that you receive all of the results.
+  /// The maximum number of items to return in the response. If more results
+  /// exist than the specified <code>MaxResults</code> value, a token is
+  /// included in the response so that you can retrieve the remaining results.
   ///
   /// Parameter [nextToken] :
   /// The parameter for receiving additional results if you receive a
@@ -3549,16 +4163,15 @@ class Organizations {
   /// root, organizational unit (OU), or account. You must specify the policy
   /// type that you want included in the returned list.
   /// <note>
-  /// Always check the <code>NextToken</code> response parameter for a
-  /// <code>null</code> value when calling a <code>List*</code> operation. These
-  /// operations can occasionally return an empty set of results even when there
-  /// are more results available. The <code>NextToken</code> response parameter
-  /// value is <code>null</code> <i>only</i> when there are no more results to
-  /// display.
+  /// When calling List* operations, always check the <code>NextToken</code>
+  /// response parameter value, even if you receive an empty result set. These
+  /// operations can occasionally return an empty set of results even when more
+  /// results are available. Continue making requests until
+  /// <code>NextToken</code> returns null. A null <code>NextToken</code> value
+  /// indicates that you have retrieved all available results.
   /// </note>
-  /// This operation can be called only from the organization's management
-  /// account or by a member account that is a delegated administrator for an
-  /// Amazon Web Services service.
+  /// You can only call this operation from the management account or a member
+  /// account that is a delegated administrator.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -3575,7 +4188,15 @@ class Organizations {
   /// <ul>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html">AISERVICES_OPT_OUT_POLICY</a>
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html">SERVICE_CONTROL_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html">RESOURCE_CONTROL_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html">DECLARATIVE_POLICY_EC2</a>
   /// </li>
   /// <li>
   /// <a
@@ -3583,17 +4204,45 @@ class Organizations {
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html">SERVICE_CONTROL_POLICY</a>
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html">TAG_POLICY</a>
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html">TAG_POLICY</a>
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html">CHATBOT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html">AISERVICES_OPT_OUT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html">SECURITYHUB_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html">UPGRADE_ROLLOUT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html">INSPECTOR_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html">BEDROCK_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html">S3_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html">NETWORK_SECURITY_DIRECTOR_POLICY</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [targetId] :
-  /// The unique identifier (ID) of the root, organizational unit, or account
-  /// whose policies you want to list.
+  /// ID for the root, organizational unit, or account whose policies you want
+  /// to list.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a
   /// target ID string requires one of the following:
@@ -3615,16 +4264,9 @@ class Organizations {
   /// </ul>
   ///
   /// Parameter [maxResults] :
-  /// The total number of results that you want included on each page of the
-  /// response. If you do not include this parameter, it defaults to a value
-  /// that is specific to the operation. If additional items exist beyond the
-  /// maximum you specify, the <code>NextToken</code> response element is
-  /// present and has a value (is not null). Include that value as the
-  /// <code>NextToken</code> request parameter in the next call to the operation
-  /// to get the next part of the results. Note that Organizations might return
-  /// fewer results than the maximum even when there are more results available.
-  /// You should check <code>NextToken</code> after every operation to ensure
-  /// that you receive all of the results.
+  /// The maximum number of items to return in the response. If more results
+  /// exist than the specified <code>MaxResults</code> value, a token is
+  /// included in the response so that you can retrieve the remaining results.
   ///
   /// Parameter [nextToken] :
   /// The parameter for receiving additional results if you receive a
@@ -3668,16 +4310,15 @@ class Organizations {
 
   /// Lists the roots that are defined in the current organization.
   /// <note>
-  /// Always check the <code>NextToken</code> response parameter for a
-  /// <code>null</code> value when calling a <code>List*</code> operation. These
-  /// operations can occasionally return an empty set of results even when there
-  /// are more results available. The <code>NextToken</code> response parameter
-  /// value is <code>null</code> <i>only</i> when there are no more results to
-  /// display.
+  /// When calling List* operations, always check the <code>NextToken</code>
+  /// response parameter value, even if you receive an empty result set. These
+  /// operations can occasionally return an empty set of results even when more
+  /// results are available. Continue making requests until
+  /// <code>NextToken</code> returns null. A null <code>NextToken</code> value
+  /// indicates that you have retrieved all available results.
   /// </note>
-  /// This operation can be called only from the organization's management
-  /// account or by a member account that is a delegated administrator for an
-  /// Amazon Web Services service.
+  /// You can only call this operation from the management account or a member
+  /// account that is a delegated administrator.
   /// <note>
   /// Policy types can be enabled and disabled in roots. This is distinct from
   /// whether they're available in the organization. When you enable all
@@ -3694,16 +4335,9 @@ class Organizations {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [maxResults] :
-  /// The total number of results that you want included on each page of the
-  /// response. If you do not include this parameter, it defaults to a value
-  /// that is specific to the operation. If additional items exist beyond the
-  /// maximum you specify, the <code>NextToken</code> response element is
-  /// present and has a value (is not null). Include that value as the
-  /// <code>NextToken</code> request parameter in the next call to the operation
-  /// to get the next part of the results. Note that Organizations might return
-  /// fewer results than the maximum even when there are more results available.
-  /// You should check <code>NextToken</code> after every operation to ensure
-  /// that you receive all of the results.
+  /// The maximum number of items to return in the response. If more results
+  /// exist than the specified <code>MaxResults</code> value, a token is
+  /// included in the response so that you can retrieve the remaining results.
   ///
   /// Parameter [nextToken] :
   /// The parameter for receiving additional results if you receive a
@@ -3759,15 +4393,14 @@ class Organizations {
   /// Policy (any type)
   /// </li>
   /// </ul>
-  /// This operation can be called only from the organization's management
-  /// account or by a member account that is a delegated administrator for an
-  /// Amazon Web Services service.
+  /// You can only call this operation from the management account or a member
+  /// account that is a delegated administrator.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
-  /// May throw [TargetNotFoundException].
   /// May throw [InvalidInputException].
   /// May throw [ServiceException].
+  /// May throw [TargetNotFoundException].
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [resourceId] :
@@ -3826,16 +4459,15 @@ class Organizations {
   /// Lists all the roots, organizational units (OUs), and accounts that the
   /// specified policy is attached to.
   /// <note>
-  /// Always check the <code>NextToken</code> response parameter for a
-  /// <code>null</code> value when calling a <code>List*</code> operation. These
-  /// operations can occasionally return an empty set of results even when there
-  /// are more results available. The <code>NextToken</code> response parameter
-  /// value is <code>null</code> <i>only</i> when there are no more results to
-  /// display.
+  /// When calling List* operations, always check the <code>NextToken</code>
+  /// response parameter value, even if you receive an empty result set. These
+  /// operations can occasionally return an empty set of results even when more
+  /// results are available. Continue making requests until
+  /// <code>NextToken</code> returns null. A null <code>NextToken</code> value
+  /// indicates that you have retrieved all available results.
   /// </note>
-  /// This operation can be called only from the organization's management
-  /// account or by a member account that is a delegated administrator for an
-  /// Amazon Web Services service.
+  /// You can only call this operation from the management account or a member
+  /// account that is a delegated administrator.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -3846,24 +4478,16 @@ class Organizations {
   /// May throw [UnsupportedAPIEndpointException].
   ///
   /// Parameter [policyId] :
-  /// The unique identifier (ID) of the policy whose attachments you want to
-  /// know.
+  /// ID for the policy whose attachments you want to know.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a
   /// policy ID string requires "p-" followed by from 8 to 128 lowercase or
   /// uppercase letters, digits, or the underscore character (_).
   ///
   /// Parameter [maxResults] :
-  /// The total number of results that you want included on each page of the
-  /// response. If you do not include this parameter, it defaults to a value
-  /// that is specific to the operation. If additional items exist beyond the
-  /// maximum you specify, the <code>NextToken</code> response element is
-  /// present and has a value (is not null). Include that value as the
-  /// <code>NextToken</code> request parameter in the next call to the operation
-  /// to get the next part of the results. Note that Organizations might return
-  /// fewer results than the maximum even when there are more results available.
-  /// You should check <code>NextToken</code> after every operation to ensure
-  /// that you receive all of the results.
+  /// The maximum number of items to return in the response. If more results
+  /// exist than the specified <code>MaxResults</code> value, a token is
+  /// included in the response so that you can retrieve the remaining results.
   ///
   /// Parameter [nextToken] :
   /// The parameter for receiving additional results if you receive a
@@ -3906,29 +4530,28 @@ class Organizations {
   /// Moves an account from its current source parent root or organizational
   /// unit (OU) to the specified destination parent root or OU.
   ///
-  /// This operation can be called only from the organization's management
-  /// account.
+  /// You can only call this operation from the management account.
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [InvalidInputException].
-  /// May throw [SourceParentNotFoundException].
+  /// May throw [AccountNotFoundException].
+  /// May throw [AWSOrganizationsNotInUseException].
+  /// May throw [ConcurrentModificationException].
   /// May throw [DestinationParentNotFoundException].
   /// May throw [DuplicateAccountException].
-  /// May throw [AccountNotFoundException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [ConcurrentModificationException].
-  /// May throw [AWSOrganizationsNotInUseException].
+  /// May throw [InvalidInputException].
   /// May throw [ServiceException].
+  /// May throw [SourceParentNotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [accountId] :
-  /// The unique identifier (ID) of the account that you want to move.
+  /// ID for the account that you want to move.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for an
   /// account ID string requires exactly 12 digits.
   ///
   /// Parameter [destinationParentId] :
-  /// The unique identifier (ID) of the root or organizational unit that you
-  /// want to move the account to.
+  /// ID for the root or organizational unit that you want to move the account
+  /// to.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a
   /// parent ID string requires one of the following:
@@ -3947,8 +4570,8 @@ class Organizations {
   /// </ul>
   ///
   /// Parameter [sourceParentId] :
-  /// The unique identifier (ID) of the root or organizational unit that you
-  /// want to move the account from.
+  /// ID for the root or organizational unit that you want to move the account
+  /// from.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a
   /// parent ID string requires one of the following:
@@ -3990,17 +4613,16 @@ class Organizations {
 
   /// Creates or updates a resource policy.
   ///
-  /// You can only call this operation from the organization's management
-  /// account.
+  /// You can only call this operation from the management account..
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ServiceException].
-  /// May throw [UnsupportedAPIEndpointException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [ConcurrentModificationException].
-  /// May throw [InvalidInputException].
-  /// May throw [ConstraintViolationException].
   /// May throw [AWSOrganizationsNotInUseException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ConstraintViolationException].
+  /// May throw [InvalidInputException].
+  /// May throw [ServiceException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedAPIEndpointException].
   ///
   /// Parameter [content] :
   /// If provided, the new content for the resource policy. The text must be
@@ -4057,8 +4679,7 @@ class Organizations {
   /// Web Services Services that you can use with Organizations</a> in the
   /// <i>Organizations User Guide.</i>
   ///
-  /// This operation can be called only from the organization's management
-  /// account.
+  /// You can only call this operation from the management account.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AccountAlreadyRegisteredException].
@@ -4067,8 +4688,8 @@ class Organizations {
   /// May throw [ConcurrentModificationException].
   /// May throw [ConstraintViolationException].
   /// May throw [InvalidInputException].
-  /// May throw [TooManyRequestsException].
   /// May throw [ServiceException].
+  /// May throw [TooManyRequestsException].
   /// May throw [UnsupportedAPIEndpointException].
   ///
   /// Parameter [accountId] :
@@ -4107,9 +4728,14 @@ class Organizations {
   /// account is no longer charged for any expenses accrued by the member
   /// account after it's removed from the organization.
   ///
-  /// This operation can be called only from the organization's management
-  /// account. Member accounts can remove themselves with
-  /// <a>LeaveOrganization</a> instead.
+  /// You can only call this operation from the management account. Member
+  /// accounts can remove themselves with <a>LeaveOrganization</a> instead.
+  ///
+  /// When an account is removed from an organization, Organizations logs a
+  /// membership event in CloudTrail. The event is an
+  /// <code>AccountDepartedOrganization</code> event with
+  /// <code>departedMethod:Removed</code> and <code>departedTime</code>. This
+  /// event is available only in the management account's event history.
   /// <important>
   /// <ul>
   /// <li>
@@ -4148,8 +4774,7 @@ class Organizations {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [accountId] :
-  /// The unique identifier (ID) of the member account that you want to remove
-  /// from the organization.
+  /// ID for the member account that you want to remove from the organization.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for an
   /// account ID string requires exactly 12 digits.
@@ -4191,17 +4816,16 @@ class Organizations {
   /// Policy (any type)
   /// </li>
   /// </ul>
-  /// This operation can be called only from the organization's management
-  /// account or by a member account that is a delegated administrator for an
-  /// Amazon Web Services service.
+  /// You can only call this operation from the management account or a member
+  /// account that is a delegated administrator.
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ConcurrentModificationException].
   /// May throw [AWSOrganizationsNotInUseException].
-  /// May throw [TargetNotFoundException].
+  /// May throw [ConcurrentModificationException].
   /// May throw [ConstraintViolationException].
   /// May throw [InvalidInputException].
   /// May throw [ServiceException].
+  /// May throw [TargetNotFoundException].
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [resourceId] :
@@ -4257,6 +4881,53 @@ class Organizations {
     );
   }
 
+  /// Ends a transfer. A <i>transfer</i> is an arrangement between two
+  /// management accounts where one account designates the other with specified
+  /// responsibilities for their organization.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [AWSOrganizationsNotInUseException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ConstraintViolationException].
+  /// May throw [InvalidInputException].
+  /// May throw [InvalidResponsibilityTransferTransitionException].
+  /// May throw [ResponsibilityTransferAlreadyInStatusException].
+  /// May throw [ResponsibilityTransferNotFoundException].
+  /// May throw [ServiceException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedAPIEndpointException].
+  ///
+  /// Parameter [id] :
+  /// ID for the transfer.
+  ///
+  /// Parameter [endTimestamp] :
+  /// Timestamp when the responsibility transfer is to end.
+  Future<TerminateResponsibilityTransferResponse>
+      terminateResponsibilityTransfer({
+    required String id,
+    DateTime? endTimestamp,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWSOrganizationsV20161128.TerminateResponsibilityTransfer'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Id': id,
+        if (endTimestamp != null)
+          'EndTimestamp': unixTimestampToJson(endTimestamp),
+      },
+    );
+
+    return TerminateResponsibilityTransferResponse.fromJson(jsonResponse.body);
+  }
+
   /// Removes any tags with the specified keys from the specified resource.
   ///
   /// You can attach tags to the following resources in Organizations.
@@ -4275,17 +4946,16 @@ class Organizations {
   /// Policy (any type)
   /// </li>
   /// </ul>
-  /// This operation can be called only from the organization's management
-  /// account or by a member account that is a delegated administrator for an
-  /// Amazon Web Services service.
+  /// You can only call this operation from the management account or a member
+  /// account that is a delegated administrator.
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ConcurrentModificationException].
   /// May throw [AWSOrganizationsNotInUseException].
-  /// May throw [TargetNotFoundException].
+  /// May throw [ConcurrentModificationException].
   /// May throw [ConstraintViolationException].
   /// May throw [InvalidInputException].
   /// May throw [ServiceException].
+  /// May throw [TargetNotFoundException].
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [resourceId] :
@@ -4338,8 +5008,7 @@ class Organizations {
   /// change. The child OUs and accounts remain in place, and any attached
   /// policies of the OU remain attached.
   ///
-  /// This operation can be called only from the organization's management
-  /// account.
+  /// You can only call this operation from the management account.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -4351,8 +5020,8 @@ class Organizations {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [organizationalUnitId] :
-  /// The unique identifier (ID) of the OU that you want to rename. You can get
-  /// the ID from the <a>ListOrganizationalUnitsForParent</a> operation.
+  /// ID for the OU that you want to rename. You can get the ID from the
+  /// <a>ListOrganizationalUnitsForParent</a> operation.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for an
   /// organizational unit ID string requires "ou-" followed by from 4 to 32
@@ -4393,9 +5062,8 @@ class Organizations {
   /// you don't supply any parameter, that value remains unchanged. You can't
   /// change a policy's type.
   ///
-  /// This operation can be called only from the organization's management
-  /// account or by a member account that is a delegated administrator for an
-  /// Amazon Web Services service.
+  /// You can only call this operation from the management account or a member
+  /// account that is a delegated administrator.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -4404,14 +5072,14 @@ class Organizations {
   /// May throw [DuplicatePolicyException].
   /// May throw [InvalidInputException].
   /// May throw [MalformedPolicyDocumentException].
+  /// May throw [PolicyChangesInProgressException].
   /// May throw [PolicyNotFoundException].
   /// May throw [ServiceException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnsupportedAPIEndpointException].
-  /// May throw [PolicyChangesInProgressException].
   ///
   /// Parameter [policyId] :
-  /// The unique identifier (ID) of the policy that you want to update.
+  /// ID for the policy that you want to update.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a
   /// policy ID string requires "p-" followed by from 8 to 128 lowercase or
@@ -4464,10 +5132,53 @@ class Organizations {
 
     return UpdatePolicyResponse.fromJson(jsonResponse.body);
   }
+
+  /// Updates a transfer. A <i>transfer</i> is the arrangement between two
+  /// management accounts where one account designates the other with specified
+  /// responsibilities for their organization.
+  ///
+  /// You can update the name assigned to a transfer.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [AWSOrganizationsNotInUseException].
+  /// May throw [ConstraintViolationException].
+  /// May throw [InvalidInputException].
+  /// May throw [ResponsibilityTransferNotFoundException].
+  /// May throw [ServiceException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedAPIEndpointException].
+  ///
+  /// Parameter [id] :
+  /// ID for the transfer.
+  ///
+  /// Parameter [name] :
+  /// New name you want to assign to the transfer.
+  Future<UpdateResponsibilityTransferResponse> updateResponsibilityTransfer({
+    required String id,
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSOrganizationsV20161128.UpdateResponsibilityTransfer'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Id': id,
+        'Name': name,
+      },
+    );
+
+    return UpdateResponsibilityTransferResponse.fromJson(jsonResponse.body);
+  }
 }
 
 class AcceptHandshakeResponse {
-  /// A structure that contains details about the accepted handshake.
+  /// A <code>Handshake</code> object. Contains details for the handshake.
   final Handshake? handshake;
 
   AcceptHandshakeResponse({
@@ -4490,173 +5201,9 @@ class AcceptHandshakeResponse {
   }
 }
 
-/// Contains information about an Amazon Web Services account that is a member
-/// of an organization.
-class Account {
-  /// The Amazon Resource Name (ARN) of the account.
-  ///
-  /// For more information about ARNs in Organizations, see <a
-  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies">ARN
-  /// Formats Supported by Organizations</a> in the <i>Amazon Web Services Service
-  /// Authorization Reference</i>.
-  final String? arn;
-
-  /// The email address associated with the Amazon Web Services account.
-  ///
-  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for this
-  /// parameter is a string of characters that represents a standard internet
-  /// email address.
-  final String? email;
-
-  /// The unique identifier (ID) of the account.
-  ///
-  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for an
-  /// account ID string requires exactly 12 digits.
-  final String? id;
-
-  /// The method by which the account joined the organization.
-  final AccountJoinedMethod? joinedMethod;
-
-  /// The date the account became a part of the organization.
-  final DateTime? joinedTimestamp;
-
-  /// The friendly name of the account.
-  ///
-  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> that is used
-  /// to validate this parameter is a string of any of the characters in the ASCII
-  /// character range.
-  final String? name;
-
-  /// The status of the account in the organization.
-  final AccountStatus? status;
-
-  Account({
-    this.arn,
-    this.email,
-    this.id,
-    this.joinedMethod,
-    this.joinedTimestamp,
-    this.name,
-    this.status,
-  });
-
-  factory Account.fromJson(Map<String, dynamic> json) {
-    return Account(
-      arn: json['Arn'] as String?,
-      email: json['Email'] as String?,
-      id: json['Id'] as String?,
-      joinedMethod: (json['JoinedMethod'] as String?)
-          ?.let(AccountJoinedMethod.fromString),
-      joinedTimestamp: timeStampFromJson(json['JoinedTimestamp']),
-      name: json['Name'] as String?,
-      status: (json['Status'] as String?)?.let(AccountStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final email = this.email;
-    final id = this.id;
-    final joinedMethod = this.joinedMethod;
-    final joinedTimestamp = this.joinedTimestamp;
-    final name = this.name;
-    final status = this.status;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (email != null) 'Email': email,
-      if (id != null) 'Id': id,
-      if (joinedMethod != null) 'JoinedMethod': joinedMethod.value,
-      if (joinedTimestamp != null)
-        'JoinedTimestamp': unixTimestampToJson(joinedTimestamp),
-      if (name != null) 'Name': name,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-class AccountJoinedMethod {
-  static const invited = AccountJoinedMethod._('INVITED');
-  static const created = AccountJoinedMethod._('CREATED');
-
-  final String value;
-
-  const AccountJoinedMethod._(this.value);
-
-  static const values = [invited, created];
-
-  static AccountJoinedMethod fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AccountJoinedMethod._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AccountJoinedMethod && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class AccountStatus {
-  static const active = AccountStatus._('ACTIVE');
-  static const suspended = AccountStatus._('SUSPENDED');
-  static const pendingClosure = AccountStatus._('PENDING_CLOSURE');
-
-  final String value;
-
-  const AccountStatus._(this.value);
-
-  static const values = [active, suspended, pendingClosure];
-
-  static AccountStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AccountStatus._(value));
-
-  @override
-  bool operator ==(other) => other is AccountStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ActionType {
-  static const invite = ActionType._('INVITE');
-  static const enableAllFeatures = ActionType._('ENABLE_ALL_FEATURES');
-  static const approveAllFeatures = ActionType._('APPROVE_ALL_FEATURES');
-  static const addOrganizationsServiceLinkedRole =
-      ActionType._('ADD_ORGANIZATIONS_SERVICE_LINKED_ROLE');
-
-  final String value;
-
-  const ActionType._(this.value);
-
-  static const values = [
-    invite,
-    enableAllFeatures,
-    approveAllFeatures,
-    addOrganizationsServiceLinkedRole
-  ];
-
-  static ActionType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ActionType._(value));
-
-  @override
-  bool operator ==(other) => other is ActionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class CancelHandshakeResponse {
-  /// A structure that contains details about the handshake that you canceled.
+  /// A <code>Handshake</code> object. Contains for the handshake that you
+  /// canceled.
   final Handshake? handshake;
 
   CancelHandshakeResponse({
@@ -4677,142 +5224,6 @@ class CancelHandshakeResponse {
       if (handshake != null) 'Handshake': handshake,
     };
   }
-}
-
-/// Contains a list of child entities, either OUs or accounts.
-class Child {
-  /// The unique identifier (ID) of this child entity.
-  ///
-  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a child
-  /// ID string requires one of the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>Account</b> - A string that consists of exactly 12 digits.
-  /// </li>
-  /// <li>
-  /// <b>Organizational unit (OU)</b> - A string that begins with "ou-" followed
-  /// by from 4 to 32 lowercase letters or digits (the ID of the root that
-  /// contains the OU). This string is followed by a second "-" dash and from 8 to
-  /// 32 additional lowercase letters or digits.
-  /// </li>
-  /// </ul>
-  final String? id;
-
-  /// The type of this child entity.
-  final ChildType? type;
-
-  Child({
-    this.id,
-    this.type,
-  });
-
-  factory Child.fromJson(Map<String, dynamic> json) {
-    return Child(
-      id: json['Id'] as String?,
-      type: (json['Type'] as String?)?.let(ChildType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final type = this.type;
-    return {
-      if (id != null) 'Id': id,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class ChildType {
-  static const account = ChildType._('ACCOUNT');
-  static const organizationalUnit = ChildType._('ORGANIZATIONAL_UNIT');
-
-  final String value;
-
-  const ChildType._(this.value);
-
-  static const values = [account, organizationalUnit];
-
-  static ChildType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ChildType._(value));
-
-  @override
-  bool operator ==(other) => other is ChildType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class CreateAccountFailureReason {
-  static const accountLimitExceeded =
-      CreateAccountFailureReason._('ACCOUNT_LIMIT_EXCEEDED');
-  static const emailAlreadyExists =
-      CreateAccountFailureReason._('EMAIL_ALREADY_EXISTS');
-  static const invalidAddress = CreateAccountFailureReason._('INVALID_ADDRESS');
-  static const invalidEmail = CreateAccountFailureReason._('INVALID_EMAIL');
-  static const concurrentAccountModification =
-      CreateAccountFailureReason._('CONCURRENT_ACCOUNT_MODIFICATION');
-  static const internalFailure =
-      CreateAccountFailureReason._('INTERNAL_FAILURE');
-  static const govcloudAccountAlreadyExists =
-      CreateAccountFailureReason._('GOVCLOUD_ACCOUNT_ALREADY_EXISTS');
-  static const missingBusinessValidation =
-      CreateAccountFailureReason._('MISSING_BUSINESS_VALIDATION');
-  static const failedBusinessValidation =
-      CreateAccountFailureReason._('FAILED_BUSINESS_VALIDATION');
-  static const pendingBusinessValidation =
-      CreateAccountFailureReason._('PENDING_BUSINESS_VALIDATION');
-  static const invalidIdentityForBusinessValidation =
-      CreateAccountFailureReason._('INVALID_IDENTITY_FOR_BUSINESS_VALIDATION');
-  static const unknownBusinessValidation =
-      CreateAccountFailureReason._('UNKNOWN_BUSINESS_VALIDATION');
-  static const missingPaymentInstrument =
-      CreateAccountFailureReason._('MISSING_PAYMENT_INSTRUMENT');
-  static const invalidPaymentInstrument =
-      CreateAccountFailureReason._('INVALID_PAYMENT_INSTRUMENT');
-  static const updateExistingResourcePolicyWithTagsNotSupported =
-      CreateAccountFailureReason._(
-          'UPDATE_EXISTING_RESOURCE_POLICY_WITH_TAGS_NOT_SUPPORTED');
-
-  final String value;
-
-  const CreateAccountFailureReason._(this.value);
-
-  static const values = [
-    accountLimitExceeded,
-    emailAlreadyExists,
-    invalidAddress,
-    invalidEmail,
-    concurrentAccountModification,
-    internalFailure,
-    govcloudAccountAlreadyExists,
-    missingBusinessValidation,
-    failedBusinessValidation,
-    pendingBusinessValidation,
-    invalidIdentityForBusinessValidation,
-    unknownBusinessValidation,
-    missingPaymentInstrument,
-    invalidPaymentInstrument,
-    updateExistingResourcePolicyWithTagsNotSupported
-  ];
-
-  static CreateAccountFailureReason fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CreateAccountFailureReason._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CreateAccountFailureReason && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class CreateAccountResponse {
@@ -4845,188 +5256,6 @@ class CreateAccountResponse {
     return {
       if (createAccountStatus != null)
         'CreateAccountStatus': createAccountStatus,
-    };
-  }
-}
-
-class CreateAccountState {
-  static const inProgress = CreateAccountState._('IN_PROGRESS');
-  static const succeeded = CreateAccountState._('SUCCEEDED');
-  static const failed = CreateAccountState._('FAILED');
-
-  final String value;
-
-  const CreateAccountState._(this.value);
-
-  static const values = [inProgress, succeeded, failed];
-
-  static CreateAccountState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CreateAccountState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CreateAccountState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains the status about a <a>CreateAccount</a> or
-/// <a>CreateGovCloudAccount</a> request to create an Amazon Web Services
-/// account or an Amazon Web Services GovCloud (US) account in an organization.
-class CreateAccountStatus {
-  /// If the account was created successfully, the unique identifier (ID) of the
-  /// new account.
-  ///
-  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for an
-  /// account ID string requires exactly 12 digits.
-  final String? accountId;
-
-  /// The account name given to the account when it was created.
-  final String? accountName;
-
-  /// The date and time that the account was created and the request completed.
-  final DateTime? completedTimestamp;
-
-  /// If the request failed, a description of the reason for the failure.
-  ///
-  /// <ul>
-  /// <li>
-  /// ACCOUNT_LIMIT_EXCEEDED: The account couldn't be created because you reached
-  /// the limit on the number of accounts in your organization.
-  /// </li>
-  /// <li>
-  /// CONCURRENT_ACCOUNT_MODIFICATION: You already submitted a request with the
-  /// same information.
-  /// </li>
-  /// <li>
-  /// EMAIL_ALREADY_EXISTS: The account could not be created because another
-  /// Amazon Web Services account with that email address already exists.
-  /// </li>
-  /// <li>
-  /// FAILED_BUSINESS_VALIDATION: The Amazon Web Services account that owns your
-  /// organization failed to receive business license validation.
-  /// </li>
-  /// <li>
-  /// GOVCLOUD_ACCOUNT_ALREADY_EXISTS: The account in the Amazon Web Services
-  /// GovCloud (US) Region could not be created because this Region already
-  /// includes an account with that email address.
-  /// </li>
-  /// <li>
-  /// IDENTITY_INVALID_BUSINESS_VALIDATION: The Amazon Web Services account that
-  /// owns your organization can't complete business license validation because it
-  /// doesn't have valid identity data.
-  /// </li>
-  /// <li>
-  /// INVALID_ADDRESS: The account could not be created because the address you
-  /// provided is not valid.
-  /// </li>
-  /// <li>
-  /// INVALID_EMAIL: The account could not be created because the email address
-  /// you provided is not valid.
-  /// </li>
-  /// <li>
-  /// INVALID_PAYMENT_INSTRUMENT: The Amazon Web Services account that owns your
-  /// organization does not have a supported payment method associated with the
-  /// account. Amazon Web Services does not support cards issued by financial
-  /// institutions in Russia or Belarus. For more information, see <a
-  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/manage-general.html">Managing
-  /// your Amazon Web Services payments</a>.
-  /// </li>
-  /// <li>
-  /// INTERNAL_FAILURE: The account could not be created because of an internal
-  /// failure. Try again later. If the problem persists, contact Amazon Web
-  /// Services Customer Support.
-  /// </li>
-  /// <li>
-  /// MISSING_BUSINESS_VALIDATION: The Amazon Web Services account that owns your
-  /// organization has not received Business Validation.
-  /// </li>
-  /// <li>
-  /// MISSING_PAYMENT_INSTRUMENT: You must configure the management account with a
-  /// valid payment method, such as a credit card.
-  /// </li>
-  /// <li>
-  /// PENDING_BUSINESS_VALIDATION: The Amazon Web Services account that owns your
-  /// organization is still in the process of completing business license
-  /// validation.
-  /// </li>
-  /// <li>
-  /// UNKNOWN_BUSINESS_VALIDATION: The Amazon Web Services account that owns your
-  /// organization has an unknown issue with business license validation.
-  /// </li>
-  /// </ul>
-  final CreateAccountFailureReason? failureReason;
-
-  /// If the account was created successfully, the unique identifier (ID) of the
-  /// new account in the Amazon Web Services GovCloud (US) Region.
-  final String? govCloudAccountId;
-
-  /// The unique identifier (ID) that references this request. You get this value
-  /// from the response of the initial <a>CreateAccount</a> request to create the
-  /// account.
-  ///
-  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a create
-  /// account request ID string requires "car-" followed by from 8 to 32 lowercase
-  /// letters or digits.
-  final String? id;
-
-  /// The date and time that the request was made for the account creation.
-  final DateTime? requestedTimestamp;
-
-  /// The status of the asynchronous request to create an Amazon Web Services
-  /// account.
-  final CreateAccountState? state;
-
-  CreateAccountStatus({
-    this.accountId,
-    this.accountName,
-    this.completedTimestamp,
-    this.failureReason,
-    this.govCloudAccountId,
-    this.id,
-    this.requestedTimestamp,
-    this.state,
-  });
-
-  factory CreateAccountStatus.fromJson(Map<String, dynamic> json) {
-    return CreateAccountStatus(
-      accountId: json['AccountId'] as String?,
-      accountName: json['AccountName'] as String?,
-      completedTimestamp: timeStampFromJson(json['CompletedTimestamp']),
-      failureReason: (json['FailureReason'] as String?)
-          ?.let(CreateAccountFailureReason.fromString),
-      govCloudAccountId: json['GovCloudAccountId'] as String?,
-      id: json['Id'] as String?,
-      requestedTimestamp: timeStampFromJson(json['RequestedTimestamp']),
-      state: (json['State'] as String?)?.let(CreateAccountState.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final accountName = this.accountName;
-    final completedTimestamp = this.completedTimestamp;
-    final failureReason = this.failureReason;
-    final govCloudAccountId = this.govCloudAccountId;
-    final id = this.id;
-    final requestedTimestamp = this.requestedTimestamp;
-    final state = this.state;
-    return {
-      if (accountId != null) 'AccountId': accountId,
-      if (accountName != null) 'AccountName': accountName,
-      if (completedTimestamp != null)
-        'CompletedTimestamp': unixTimestampToJson(completedTimestamp),
-      if (failureReason != null) 'FailureReason': failureReason.value,
-      if (govCloudAccountId != null) 'GovCloudAccountId': govCloudAccountId,
-      if (id != null) 'Id': id,
-      if (requestedTimestamp != null)
-        'RequestedTimestamp': unixTimestampToJson(requestedTimestamp),
-      if (state != null) 'State': state.value,
     };
   }
 }
@@ -5130,8 +5359,8 @@ class CreatePolicyResponse {
 }
 
 class DeclineHandshakeResponse {
-  /// A structure that contains details about the declined handshake. The state is
-  /// updated to show the value <code>DECLINED</code>.
+  /// A <code>Handshake</code> object. Contains details for the declined
+  /// handshake.
   final Handshake? handshake;
 
   DeclineHandshakeResponse({
@@ -5154,120 +5383,17 @@ class DeclineHandshakeResponse {
   }
 }
 
-/// Contains information about the delegated administrator.
-class DelegatedAdministrator {
-  /// The Amazon Resource Name (ARN) of the delegated administrator's account.
-  final String? arn;
-
-  /// The date when the account was made a delegated administrator.
-  final DateTime? delegationEnabledDate;
-
-  /// The email address that is associated with the delegated administrator's
-  /// Amazon Web Services account.
-  final String? email;
-
-  /// The unique identifier (ID) of the delegated administrator's account.
-  final String? id;
-
-  /// The method by which the delegated administrator's account joined the
-  /// organization.
-  final AccountJoinedMethod? joinedMethod;
-
-  /// The date when the delegated administrator's account became a part of the
-  /// organization.
-  final DateTime? joinedTimestamp;
-
-  /// The friendly name of the delegated administrator's account.
-  final String? name;
-
-  /// The status of the delegated administrator's account in the organization.
-  final AccountStatus? status;
-
-  DelegatedAdministrator({
-    this.arn,
-    this.delegationEnabledDate,
-    this.email,
-    this.id,
-    this.joinedMethod,
-    this.joinedTimestamp,
-    this.name,
-    this.status,
-  });
-
-  factory DelegatedAdministrator.fromJson(Map<String, dynamic> json) {
-    return DelegatedAdministrator(
-      arn: json['Arn'] as String?,
-      delegationEnabledDate: timeStampFromJson(json['DelegationEnabledDate']),
-      email: json['Email'] as String?,
-      id: json['Id'] as String?,
-      joinedMethod: (json['JoinedMethod'] as String?)
-          ?.let(AccountJoinedMethod.fromString),
-      joinedTimestamp: timeStampFromJson(json['JoinedTimestamp']),
-      name: json['Name'] as String?,
-      status: (json['Status'] as String?)?.let(AccountStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final delegationEnabledDate = this.delegationEnabledDate;
-    final email = this.email;
-    final id = this.id;
-    final joinedMethod = this.joinedMethod;
-    final joinedTimestamp = this.joinedTimestamp;
-    final name = this.name;
-    final status = this.status;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (delegationEnabledDate != null)
-        'DelegationEnabledDate': unixTimestampToJson(delegationEnabledDate),
-      if (email != null) 'Email': email,
-      if (id != null) 'Id': id,
-      if (joinedMethod != null) 'JoinedMethod': joinedMethod.value,
-      if (joinedTimestamp != null)
-        'JoinedTimestamp': unixTimestampToJson(joinedTimestamp),
-      if (name != null) 'Name': name,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-/// Contains information about the Amazon Web Services service for which the
-/// account is a delegated administrator.
-class DelegatedService {
-  /// The date that the account became a delegated administrator for this service.
-  final DateTime? delegationEnabledDate;
-
-  /// The name of an Amazon Web Services service that can request an operation for
-  /// the specified service. This is typically in the form of a URL, such as:
-  /// <code> <i>servicename</i>.amazonaws.com</code>.
-  final String? servicePrincipal;
-
-  DelegatedService({
-    this.delegationEnabledDate,
-    this.servicePrincipal,
-  });
-
-  factory DelegatedService.fromJson(Map<String, dynamic> json) {
-    return DelegatedService(
-      delegationEnabledDate: timeStampFromJson(json['DelegationEnabledDate']),
-      servicePrincipal: json['ServicePrincipal'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final delegationEnabledDate = this.delegationEnabledDate;
-    final servicePrincipal = this.servicePrincipal;
-    return {
-      if (delegationEnabledDate != null)
-        'DelegationEnabledDate': unixTimestampToJson(delegationEnabledDate),
-      if (servicePrincipal != null) 'ServicePrincipal': servicePrincipal,
-    };
-  }
-}
-
 class DescribeAccountResponse {
   /// A structure that contains information about the requested account.
+  /// <important>
+  /// The <code>Status</code> parameter in the API response will be retired on
+  /// September 9, 2026. Although both the account <code>State</code> and account
+  /// <code>Status</code> parameters are currently available in the Organizations
+  /// APIs (<code>DescribeAccount</code>, <code>ListAccounts</code>,
+  /// <code>ListAccountsForParent</code>), we recommend that you update your
+  /// scripts or other code to use the <code>State</code> parameter instead of
+  /// <code>Status</code> before September 9, 2026.
+  /// </important>
   final Account? account;
 
   DescribeAccountResponse({
@@ -5343,7 +5469,7 @@ class DescribeEffectivePolicyResponse {
 }
 
 class DescribeHandshakeResponse {
-  /// A structure that contains information about the specified handshake.
+  /// A <code>Handshake</code> object. Contains details for the handshake.
   final Handshake? handshake;
 
   DescribeHandshakeResponse({
@@ -5371,9 +5497,9 @@ class DescribeOrganizationResponse {
   /// <important>
   /// The <code>AvailablePolicyTypes</code> part of the response is deprecated,
   /// and you shouldn't use it in your apps. It doesn't include any policy type
-  /// supported by Organizations other than SCPs. To determine which policy types
-  /// are enabled in your organization, use the <code> <a>ListRoots</a> </code>
-  /// operation.
+  /// supported by Organizations other than SCPs. In the China (Ningxia) Region,
+  /// no policy type is included. To determine which policy types are enabled in
+  /// your organization, use the <code> <a>ListRoots</a> </code> operation.
   /// </important>
   final Organization? organization;
 
@@ -5472,6 +5598,34 @@ class DescribeResourcePolicyResponse {
   }
 }
 
+class DescribeResponsibilityTransferResponse {
+  /// A <code>ResponsibilityTransfer</code> object. Contains details for a
+  /// transfer.
+  final ResponsibilityTransfer? responsibilityTransfer;
+
+  DescribeResponsibilityTransferResponse({
+    this.responsibilityTransfer,
+  });
+
+  factory DescribeResponsibilityTransferResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeResponsibilityTransferResponse(
+      responsibilityTransfer: json['ResponsibilityTransfer'] != null
+          ? ResponsibilityTransfer.fromJson(
+              json['ResponsibilityTransfer'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final responsibilityTransfer = this.responsibilityTransfer;
+    return {
+      if (responsibilityTransfer != null)
+        'ResponsibilityTransfer': responsibilityTransfer,
+    };
+  }
+}
+
 class DisablePolicyTypeResponse {
   /// A structure that shows the root with the updated list of enabled policy
   /// types.
@@ -5495,81 +5649,6 @@ class DisablePolicyTypeResponse {
       if (root != null) 'Root': root,
     };
   }
-}
-
-/// Contains rules to be applied to the affected accounts. The effective policy
-/// is the aggregation of any policies the account inherits, plus any policy
-/// directly attached to the account.
-class EffectivePolicy {
-  /// The time of the last update to this policy.
-  final DateTime? lastUpdatedTimestamp;
-
-  /// The text content of the policy.
-  final String? policyContent;
-
-  /// The policy type.
-  final EffectivePolicyType? policyType;
-
-  /// The account ID of the policy target.
-  final String? targetId;
-
-  EffectivePolicy({
-    this.lastUpdatedTimestamp,
-    this.policyContent,
-    this.policyType,
-    this.targetId,
-  });
-
-  factory EffectivePolicy.fromJson(Map<String, dynamic> json) {
-    return EffectivePolicy(
-      lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
-      policyContent: json['PolicyContent'] as String?,
-      policyType:
-          (json['PolicyType'] as String?)?.let(EffectivePolicyType.fromString),
-      targetId: json['TargetId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
-    final policyContent = this.policyContent;
-    final policyType = this.policyType;
-    final targetId = this.targetId;
-    return {
-      if (lastUpdatedTimestamp != null)
-        'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
-      if (policyContent != null) 'PolicyContent': policyContent,
-      if (policyType != null) 'PolicyType': policyType.value,
-      if (targetId != null) 'TargetId': targetId,
-    };
-  }
-}
-
-class EffectivePolicyType {
-  static const tagPolicy = EffectivePolicyType._('TAG_POLICY');
-  static const backupPolicy = EffectivePolicyType._('BACKUP_POLICY');
-  static const aiservicesOptOutPolicy =
-      EffectivePolicyType._('AISERVICES_OPT_OUT_POLICY');
-
-  final String value;
-
-  const EffectivePolicyType._(this.value);
-
-  static const values = [tagPolicy, backupPolicy, aiservicesOptOutPolicy];
-
-  static EffectivePolicyType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EffectivePolicyType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is EffectivePolicyType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class EnableAllFeaturesResponse {
@@ -5622,461 +5701,6 @@ class EnablePolicyTypeResponse {
   }
 }
 
-/// A structure that contains details of a service principal that represents an
-/// Amazon Web Services service that is enabled to integrate with Organizations.
-class EnabledServicePrincipal {
-  /// The date that the service principal was enabled for integration with
-  /// Organizations.
-  final DateTime? dateEnabled;
-
-  /// The name of the service principal. This is typically in the form of a URL,
-  /// such as: <code> <i>servicename</i>.amazonaws.com</code>.
-  final String? servicePrincipal;
-
-  EnabledServicePrincipal({
-    this.dateEnabled,
-    this.servicePrincipal,
-  });
-
-  factory EnabledServicePrincipal.fromJson(Map<String, dynamic> json) {
-    return EnabledServicePrincipal(
-      dateEnabled: timeStampFromJson(json['DateEnabled']),
-      servicePrincipal: json['ServicePrincipal'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dateEnabled = this.dateEnabled;
-    final servicePrincipal = this.servicePrincipal;
-    return {
-      if (dateEnabled != null) 'DateEnabled': unixTimestampToJson(dateEnabled),
-      if (servicePrincipal != null) 'ServicePrincipal': servicePrincipal,
-    };
-  }
-}
-
-/// Contains information that must be exchanged to securely establish a
-/// relationship between two accounts (an <i>originator</i> and a
-/// <i>recipient</i>). For example, when a management account (the originator)
-/// invites another account (the recipient) to join its organization, the two
-/// accounts exchange information as a series of handshake requests and
-/// responses.
-///
-/// <b>Note:</b> Handshakes that are <code>CANCELED</code>,
-/// <code>ACCEPTED</code>, <code>DECLINED</code>, or <code>EXPIRED</code> show
-/// up in lists for only 30 days after entering that state After that they are
-/// deleted.
-class Handshake {
-  /// The type of handshake, indicating what action occurs when the recipient
-  /// accepts the handshake. The following handshake types are supported:
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>INVITE</b>: This type of handshake represents a request to join an
-  /// organization. It is always sent from the management account to only
-  /// non-member accounts.
-  /// </li>
-  /// <li>
-  /// <b>ENABLE_ALL_FEATURES</b>: This type of handshake represents a request to
-  /// enable all features in an organization. It is always sent from the
-  /// management account to only <i>invited</i> member accounts. Created accounts
-  /// do not receive this because those accounts were created by the
-  /// organization's management account and approval is inferred.
-  /// </li>
-  /// <li>
-  /// <b>APPROVE_ALL_FEATURES</b>: This type of handshake is sent from the
-  /// Organizations service when all member accounts have approved the
-  /// <code>ENABLE_ALL_FEATURES</code> invitation. It is sent only to the
-  /// management account and signals the master that it can finalize the process
-  /// to enable all features.
-  /// </li>
-  /// </ul>
-  final ActionType? action;
-
-  /// The Amazon Resource Name (ARN) of a handshake.
-  ///
-  /// For more information about ARNs in Organizations, see <a
-  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies">ARN
-  /// Formats Supported by Organizations</a> in the <i>Amazon Web Services Service
-  /// Authorization Reference</i>.
-  final String? arn;
-
-  /// The date and time that the handshake expires. If the recipient of the
-  /// handshake request fails to respond before the specified date and time, the
-  /// handshake becomes inactive and is no longer valid.
-  final DateTime? expirationTimestamp;
-
-  /// The unique identifier (ID) of a handshake. The originating account creates
-  /// the ID when it initiates the handshake.
-  ///
-  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for
-  /// handshake ID string requires "h-" followed by from 8 to 32 lowercase letters
-  /// or digits.
-  final String? id;
-
-  /// Information about the two accounts that are participating in the handshake.
-  final List<HandshakeParty>? parties;
-
-  /// The date and time that the handshake request was made.
-  final DateTime? requestedTimestamp;
-
-  /// Additional information that is needed to process the handshake.
-  final List<HandshakeResource>? resources;
-
-  /// The current state of the handshake. Use the state to trace the flow of the
-  /// handshake through the process from its creation to its acceptance. The
-  /// meaning of each of the valid values is as follows:
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>REQUESTED</b>: This handshake was sent to multiple recipients (applicable
-  /// to only some handshake types) and not all recipients have responded yet. The
-  /// request stays in this state until all recipients respond.
-  /// </li>
-  /// <li>
-  /// <b>OPEN</b>: This handshake was sent to multiple recipients (applicable to
-  /// only some policy types) and all recipients have responded, allowing the
-  /// originator to complete the handshake action.
-  /// </li>
-  /// <li>
-  /// <b>CANCELED</b>: This handshake is no longer active because it was canceled
-  /// by the originating account.
-  /// </li>
-  /// <li>
-  /// <b>ACCEPTED</b>: This handshake is complete because it has been accepted by
-  /// the recipient.
-  /// </li>
-  /// <li>
-  /// <b>DECLINED</b>: This handshake is no longer active because it was declined
-  /// by the recipient account.
-  /// </li>
-  /// <li>
-  /// <b>EXPIRED</b>: This handshake is no longer active because the originator
-  /// did not receive a response of any kind from the recipient before the
-  /// expiration time (15 days).
-  /// </li>
-  /// </ul>
-  final HandshakeState? state;
-
-  Handshake({
-    this.action,
-    this.arn,
-    this.expirationTimestamp,
-    this.id,
-    this.parties,
-    this.requestedTimestamp,
-    this.resources,
-    this.state,
-  });
-
-  factory Handshake.fromJson(Map<String, dynamic> json) {
-    return Handshake(
-      action: (json['Action'] as String?)?.let(ActionType.fromString),
-      arn: json['Arn'] as String?,
-      expirationTimestamp: timeStampFromJson(json['ExpirationTimestamp']),
-      id: json['Id'] as String?,
-      parties: (json['Parties'] as List?)
-          ?.nonNulls
-          .map((e) => HandshakeParty.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      requestedTimestamp: timeStampFromJson(json['RequestedTimestamp']),
-      resources: (json['Resources'] as List?)
-          ?.nonNulls
-          .map((e) => HandshakeResource.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      state: (json['State'] as String?)?.let(HandshakeState.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final action = this.action;
-    final arn = this.arn;
-    final expirationTimestamp = this.expirationTimestamp;
-    final id = this.id;
-    final parties = this.parties;
-    final requestedTimestamp = this.requestedTimestamp;
-    final resources = this.resources;
-    final state = this.state;
-    return {
-      if (action != null) 'Action': action.value,
-      if (arn != null) 'Arn': arn,
-      if (expirationTimestamp != null)
-        'ExpirationTimestamp': unixTimestampToJson(expirationTimestamp),
-      if (id != null) 'Id': id,
-      if (parties != null) 'Parties': parties,
-      if (requestedTimestamp != null)
-        'RequestedTimestamp': unixTimestampToJson(requestedTimestamp),
-      if (resources != null) 'Resources': resources,
-      if (state != null) 'State': state.value,
-    };
-  }
-}
-
-/// Specifies the criteria that are used to select the handshakes for the
-/// operation.
-class HandshakeFilter {
-  /// Specifies the type of handshake action.
-  ///
-  /// If you specify <code>ActionType</code>, you cannot also specify
-  /// <code>ParentHandshakeId</code>.
-  final ActionType? actionType;
-
-  /// Specifies the parent handshake. Only used for handshake types that are a
-  /// child of another type.
-  ///
-  /// If you specify <code>ParentHandshakeId</code>, you cannot also specify
-  /// <code>ActionType</code>.
-  ///
-  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for
-  /// handshake ID string requires "h-" followed by from 8 to 32 lowercase letters
-  /// or digits.
-  final String? parentHandshakeId;
-
-  HandshakeFilter({
-    this.actionType,
-    this.parentHandshakeId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final actionType = this.actionType;
-    final parentHandshakeId = this.parentHandshakeId;
-    return {
-      if (actionType != null) 'ActionType': actionType.value,
-      if (parentHandshakeId != null) 'ParentHandshakeId': parentHandshakeId,
-    };
-  }
-}
-
-/// Identifies a participant in a handshake.
-class HandshakeParty {
-  /// The unique identifier (ID) for the party.
-  ///
-  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for
-  /// handshake ID string requires "h-" followed by from 8 to 32 lowercase letters
-  /// or digits.
-  final String id;
-
-  /// The type of party.
-  final HandshakePartyType type;
-
-  HandshakeParty({
-    required this.id,
-    required this.type,
-  });
-
-  factory HandshakeParty.fromJson(Map<String, dynamic> json) {
-    return HandshakeParty(
-      id: (json['Id'] as String?) ?? '',
-      type: HandshakePartyType.fromString((json['Type'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final type = this.type;
-    return {
-      'Id': id,
-      'Type': type.value,
-    };
-  }
-}
-
-class HandshakePartyType {
-  static const account = HandshakePartyType._('ACCOUNT');
-  static const organization = HandshakePartyType._('ORGANIZATION');
-  static const email = HandshakePartyType._('EMAIL');
-
-  final String value;
-
-  const HandshakePartyType._(this.value);
-
-  static const values = [account, organization, email];
-
-  static HandshakePartyType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => HandshakePartyType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is HandshakePartyType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains additional data that is needed to process a handshake.
-class HandshakeResource {
-  /// When needed, contains an additional array of <code>HandshakeResource</code>
-  /// objects.
-  final List<HandshakeResource>? resources;
-
-  /// The type of information being passed, specifying how the value is to be
-  /// interpreted by the other party:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ACCOUNT</code> - Specifies an Amazon Web Services account ID number.
-  /// </li>
-  /// <li>
-  /// <code>ORGANIZATION</code> - Specifies an organization ID number.
-  /// </li>
-  /// <li>
-  /// <code>EMAIL</code> - Specifies the email address that is associated with the
-  /// account that receives the handshake.
-  /// </li>
-  /// <li>
-  /// <code>OWNER_EMAIL</code> - Specifies the email address associated with the
-  /// management account. Included as information about an organization.
-  /// </li>
-  /// <li>
-  /// <code>OWNER_NAME</code> - Specifies the name associated with the management
-  /// account. Included as information about an organization.
-  /// </li>
-  /// <li>
-  /// <code>NOTES</code> - Additional text provided by the handshake initiator and
-  /// intended for the recipient to read.
-  /// </li>
-  /// </ul>
-  final HandshakeResourceType? type;
-
-  /// The information that is passed to the other party in the handshake. The
-  /// format of the value string must match the requirements of the specified
-  /// type.
-  final String? value;
-
-  HandshakeResource({
-    this.resources,
-    this.type,
-    this.value,
-  });
-
-  factory HandshakeResource.fromJson(Map<String, dynamic> json) {
-    return HandshakeResource(
-      resources: (json['Resources'] as List?)
-          ?.nonNulls
-          .map((e) => HandshakeResource.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      type: (json['Type'] as String?)?.let(HandshakeResourceType.fromString),
-      value: json['Value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resources = this.resources;
-    final type = this.type;
-    final value = this.value;
-    return {
-      if (resources != null) 'Resources': resources,
-      if (type != null) 'Type': type.value,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-class HandshakeResourceType {
-  static const account = HandshakeResourceType._('ACCOUNT');
-  static const organization = HandshakeResourceType._('ORGANIZATION');
-  static const organizationFeatureSet =
-      HandshakeResourceType._('ORGANIZATION_FEATURE_SET');
-  static const email = HandshakeResourceType._('EMAIL');
-  static const masterEmail = HandshakeResourceType._('MASTER_EMAIL');
-  static const masterName = HandshakeResourceType._('MASTER_NAME');
-  static const notes = HandshakeResourceType._('NOTES');
-  static const parentHandshake = HandshakeResourceType._('PARENT_HANDSHAKE');
-
-  final String value;
-
-  const HandshakeResourceType._(this.value);
-
-  static const values = [
-    account,
-    organization,
-    organizationFeatureSet,
-    email,
-    masterEmail,
-    masterName,
-    notes,
-    parentHandshake
-  ];
-
-  static HandshakeResourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => HandshakeResourceType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is HandshakeResourceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class HandshakeState {
-  static const requested = HandshakeState._('REQUESTED');
-  static const open = HandshakeState._('OPEN');
-  static const canceled = HandshakeState._('CANCELED');
-  static const accepted = HandshakeState._('ACCEPTED');
-  static const declined = HandshakeState._('DECLINED');
-  static const expired = HandshakeState._('EXPIRED');
-
-  final String value;
-
-  const HandshakeState._(this.value);
-
-  static const values = [
-    requested,
-    open,
-    canceled,
-    accepted,
-    declined,
-    expired
-  ];
-
-  static HandshakeState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => HandshakeState._(value));
-
-  @override
-  bool operator ==(other) => other is HandshakeState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class IAMUserAccessToBilling {
-  static const allow = IAMUserAccessToBilling._('ALLOW');
-  static const deny = IAMUserAccessToBilling._('DENY');
-
-  final String value;
-
-  const IAMUserAccessToBilling._(this.value);
-
-  static const values = [allow, deny];
-
-  static IAMUserAccessToBilling fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => IAMUserAccessToBilling._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is IAMUserAccessToBilling && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class InviteAccountToOrganizationResponse {
   /// A structure that contains details about the handshake that is created to
   /// support this invitation request.
@@ -6099,6 +5723,213 @@ class InviteAccountToOrganizationResponse {
     final handshake = this.handshake;
     return {
       if (handshake != null) 'Handshake': handshake,
+    };
+  }
+}
+
+class InviteOrganizationToTransferResponsibilityResponse {
+  final Handshake? handshake;
+
+  InviteOrganizationToTransferResponsibilityResponse({
+    this.handshake,
+  });
+
+  factory InviteOrganizationToTransferResponsibilityResponse.fromJson(
+      Map<String, dynamic> json) {
+    return InviteOrganizationToTransferResponsibilityResponse(
+      handshake: json['Handshake'] != null
+          ? Handshake.fromJson(json['Handshake'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final handshake = this.handshake;
+    return {
+      if (handshake != null) 'Handshake': handshake,
+    };
+  }
+}
+
+class ListAccountsResponse {
+  /// A list of objects in the organization.
+  /// <important>
+  /// The <code>Status</code> parameter in the API response will be retired on
+  /// September 9, 2026. Although both the account <code>State</code> and account
+  /// <code>Status</code> parameters are currently available in the Organizations
+  /// APIs (<code>DescribeAccount</code>, <code>ListAccounts</code>,
+  /// <code>ListAccountsForParent</code>), we recommend that you update your
+  /// scripts or other code to use the <code>State</code> parameter instead of
+  /// <code>Status</code> before September 9, 2026.
+  /// </important>
+  final List<Account>? accounts;
+
+  /// If present, indicates that more output is available than is included in the
+  /// current response. Use this value in the <code>NextToken</code> request
+  /// parameter in a subsequent call to the operation to get the next part of the
+  /// output. You should repeat this until the <code>NextToken</code> response
+  /// element comes back as <code>null</code>.
+  final String? nextToken;
+
+  ListAccountsResponse({
+    this.accounts,
+    this.nextToken,
+  });
+
+  factory ListAccountsResponse.fromJson(Map<String, dynamic> json) {
+    return ListAccountsResponse(
+      accounts: (json['Accounts'] as List?)
+          ?.nonNulls
+          .map((e) => Account.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accounts = this.accounts;
+    final nextToken = this.nextToken;
+    return {
+      if (accounts != null) 'Accounts': accounts,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListAccountsForParentResponse {
+  /// A list of the accounts in the specified root or OU.
+  /// <important>
+  /// The <code>Status</code> parameter in the API response will be retired on
+  /// September 9, 2026. Although both the account <code>State</code> and account
+  /// <code>Status</code> parameters are currently available in the Organizations
+  /// APIs (<code>DescribeAccount</code>, <code>ListAccounts</code>,
+  /// <code>ListAccountsForParent</code>), we recommend that you update your
+  /// scripts or other code to use the <code>State</code> parameter instead of
+  /// <code>Status</code> before September 9, 2026.
+  /// </important>
+  final List<Account>? accounts;
+
+  /// If present, indicates that more output is available than is included in the
+  /// current response. Use this value in the <code>NextToken</code> request
+  /// parameter in a subsequent call to the operation to get the next part of the
+  /// output. You should repeat this until the <code>NextToken</code> response
+  /// element comes back as <code>null</code>.
+  final String? nextToken;
+
+  ListAccountsForParentResponse({
+    this.accounts,
+    this.nextToken,
+  });
+
+  factory ListAccountsForParentResponse.fromJson(Map<String, dynamic> json) {
+    return ListAccountsForParentResponse(
+      accounts: (json['Accounts'] as List?)
+          ?.nonNulls
+          .map((e) => Account.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accounts = this.accounts;
+    final nextToken = this.nextToken;
+    return {
+      if (accounts != null) 'Accounts': accounts,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListAccountsWithInvalidEffectivePolicyResponse {
+  /// The accounts in the organization which have an invalid effective policy for
+  /// the specified policy type.
+  final List<Account>? accounts;
+
+  /// If present, indicates that more output is available than is included in the
+  /// current response. Use this value in the <code>NextToken</code> request
+  /// parameter in a subsequent call to the operation to get the next part of the
+  /// output. You should repeat this until the <code>NextToken</code> response
+  /// element comes back as <code>null</code>.
+  final String? nextToken;
+
+  /// The specified policy type. One of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html">DECLARATIVE_POLICY_EC2</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html">BACKUP_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html">TAG_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html">CHATBOT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html">AISERVICES_OPT_OUT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html">SECURITYHUB_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html">UPGRADE_ROLLOUT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html">INSPECTOR_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html">BEDROCK_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html">S3_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html">NETWORK_SECURITY_DIRECTOR_POLICY</a>
+  /// </li>
+  /// </ul>
+  final EffectivePolicyType? policyType;
+
+  ListAccountsWithInvalidEffectivePolicyResponse({
+    this.accounts,
+    this.nextToken,
+    this.policyType,
+  });
+
+  factory ListAccountsWithInvalidEffectivePolicyResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListAccountsWithInvalidEffectivePolicyResponse(
+      accounts: (json['Accounts'] as List?)
+          ?.nonNulls
+          .map((e) => Account.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+      policyType:
+          (json['PolicyType'] as String?)?.let(EffectivePolicyType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accounts = this.accounts;
+    final nextToken = this.nextToken;
+    final policyType = this.policyType;
+    return {
+      if (accounts != null) 'Accounts': accounts,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (policyType != null) 'PolicyType': policyType.value,
     };
   }
 }
@@ -6140,78 +5971,6 @@ class ListAWSServiceAccessForOrganizationResponse {
     return {
       if (enabledServicePrincipals != null)
         'EnabledServicePrincipals': enabledServicePrincipals,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListAccountsForParentResponse {
-  /// A list of the accounts in the specified root or OU.
-  final List<Account>? accounts;
-
-  /// If present, indicates that more output is available than is included in the
-  /// current response. Use this value in the <code>NextToken</code> request
-  /// parameter in a subsequent call to the operation to get the next part of the
-  /// output. You should repeat this until the <code>NextToken</code> response
-  /// element comes back as <code>null</code>.
-  final String? nextToken;
-
-  ListAccountsForParentResponse({
-    this.accounts,
-    this.nextToken,
-  });
-
-  factory ListAccountsForParentResponse.fromJson(Map<String, dynamic> json) {
-    return ListAccountsForParentResponse(
-      accounts: (json['Accounts'] as List?)
-          ?.nonNulls
-          .map((e) => Account.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accounts = this.accounts;
-    final nextToken = this.nextToken;
-    return {
-      if (accounts != null) 'Accounts': accounts,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListAccountsResponse {
-  /// A list of objects in the organization.
-  final List<Account>? accounts;
-
-  /// If present, indicates that more output is available than is included in the
-  /// current response. Use this value in the <code>NextToken</code> request
-  /// parameter in a subsequent call to the operation to get the next part of the
-  /// output. You should repeat this until the <code>NextToken</code> response
-  /// element comes back as <code>null</code>.
-  final String? nextToken;
-
-  ListAccountsResponse({
-    this.accounts,
-    this.nextToken,
-  });
-
-  factory ListAccountsResponse.fromJson(Map<String, dynamic> json) {
-    return ListAccountsResponse(
-      accounts: (json['Accounts'] as List?)
-          ?.nonNulls
-          .map((e) => Account.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accounts = this.accounts;
-    final nextToken = this.nextToken;
-    return {
-      if (accounts != null) 'Accounts': accounts,
       if (nextToken != null) 'NextToken': nextToken,
     };
   }
@@ -6368,9 +6127,130 @@ class ListDelegatedServicesForAccountResponse {
   }
 }
 
+class ListEffectivePolicyValidationErrorsResponse {
+  /// The ID of the specified account.
+  final String? accountId;
+
+  /// The <code>EffectivePolicyValidationError</code> object contains details
+  /// about the validation errors that occurred when generating or enforcing an
+  /// effective policy, such as which policies contributed to the error and
+  /// location of the error.
+  final List<EffectivePolicyValidationError>? effectivePolicyValidationErrors;
+
+  /// The time when the latest effective policy was generated for the specified
+  /// account.
+  final DateTime? evaluationTimestamp;
+
+  /// If present, indicates that more output is available than is included in the
+  /// current response. Use this value in the <code>NextToken</code> request
+  /// parameter in a subsequent call to the operation to get the next part of the
+  /// output. You should repeat this until the <code>NextToken</code> response
+  /// element comes back as <code>null</code>.
+  final String? nextToken;
+
+  /// The path in the organization where the specified account exists.
+  final String? path;
+
+  /// The specified policy type. One of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html">DECLARATIVE_POLICY_EC2</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html">BACKUP_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html">TAG_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html">CHATBOT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html">AISERVICES_OPT_OUT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html">SECURITYHUB_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html">UPGRADE_ROLLOUT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html">INSPECTOR_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html">BEDROCK_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html">S3_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html">NETWORK_SECURITY_DIRECTOR_POLICY</a>
+  /// </li>
+  /// </ul>
+  final EffectivePolicyType? policyType;
+
+  ListEffectivePolicyValidationErrorsResponse({
+    this.accountId,
+    this.effectivePolicyValidationErrors,
+    this.evaluationTimestamp,
+    this.nextToken,
+    this.path,
+    this.policyType,
+  });
+
+  factory ListEffectivePolicyValidationErrorsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListEffectivePolicyValidationErrorsResponse(
+      accountId: json['AccountId'] as String?,
+      effectivePolicyValidationErrors:
+          (json['EffectivePolicyValidationErrors'] as List?)
+              ?.nonNulls
+              .map((e) => EffectivePolicyValidationError.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      evaluationTimestamp: timeStampFromJson(json['EvaluationTimestamp']),
+      nextToken: json['NextToken'] as String?,
+      path: json['Path'] as String?,
+      policyType:
+          (json['PolicyType'] as String?)?.let(EffectivePolicyType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final effectivePolicyValidationErrors =
+        this.effectivePolicyValidationErrors;
+    final evaluationTimestamp = this.evaluationTimestamp;
+    final nextToken = this.nextToken;
+    final path = this.path;
+    final policyType = this.policyType;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (effectivePolicyValidationErrors != null)
+        'EffectivePolicyValidationErrors': effectivePolicyValidationErrors,
+      if (evaluationTimestamp != null)
+        'EvaluationTimestamp': unixTimestampToJson(evaluationTimestamp),
+      if (nextToken != null) 'NextToken': nextToken,
+      if (path != null) 'Path': path,
+      if (policyType != null) 'PolicyType': policyType.value,
+    };
+  }
+}
+
 class ListHandshakesForAccountResponse {
-  /// A list of <a>Handshake</a> objects with details about each of the handshakes
-  /// that is associated with the specified account.
+  /// An array of <code>Handshake</code>objects. Contains details for a handshake.
   final List<Handshake>? handshakes;
 
   /// If present, indicates that more output is available than is included in the
@@ -6406,8 +6286,7 @@ class ListHandshakesForAccountResponse {
 }
 
 class ListHandshakesForOrganizationResponse {
-  /// A list of <a>Handshake</a> objects with details about each of the handshakes
-  /// that are associated with an organization.
+  /// An array of <code>Handshake</code>objects. Contains details for a handshake.
   final List<Handshake>? handshakes;
 
   /// If present, indicates that more output is available than is included in the
@@ -6439,6 +6318,46 @@ class ListHandshakesForOrganizationResponse {
     return {
       if (handshakes != null) 'Handshakes': handshakes,
       if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListInboundResponsibilityTransfersResponse {
+  /// If present, indicates that more output is available than is included in the
+  /// current response. Use this value in the <code>NextToken</code> request
+  /// parameter in a subsequent call to the operation to get the next part of the
+  /// output. You should repeat this until the <code>NextToken</code> response
+  /// element comes back as <code>null</code>.
+  final String? nextToken;
+
+  /// A <code>ResponsibilityTransfers</code> object. Contains details for a
+  /// transfer.
+  final List<ResponsibilityTransfer>? responsibilityTransfers;
+
+  ListInboundResponsibilityTransfersResponse({
+    this.nextToken,
+    this.responsibilityTransfers,
+  });
+
+  factory ListInboundResponsibilityTransfersResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListInboundResponsibilityTransfersResponse(
+      nextToken: json['NextToken'] as String?,
+      responsibilityTransfers: (json['ResponsibilityTransfers'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => ResponsibilityTransfer.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final responsibilityTransfers = this.responsibilityTransfers;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (responsibilityTransfers != null)
+        'ResponsibilityTransfers': responsibilityTransfers,
     };
   }
 }
@@ -6481,6 +6400,46 @@ class ListOrganizationalUnitsForParentResponse {
   }
 }
 
+class ListOutboundResponsibilityTransfersResponse {
+  /// If present, indicates that more output is available than is included in the
+  /// current response. Use this value in the <code>NextToken</code> request
+  /// parameter in a subsequent call to the operation to get the next part of the
+  /// output. You should repeat this until the <code>NextToken</code> response
+  /// element comes back as <code>null</code>.
+  final String? nextToken;
+
+  /// An array of <code>ResponsibilityTransfer</code> objects. Contains details
+  /// for a transfer.
+  final List<ResponsibilityTransfer>? responsibilityTransfers;
+
+  ListOutboundResponsibilityTransfersResponse({
+    this.nextToken,
+    this.responsibilityTransfers,
+  });
+
+  factory ListOutboundResponsibilityTransfersResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListOutboundResponsibilityTransfersResponse(
+      nextToken: json['NextToken'] as String?,
+      responsibilityTransfers: (json['ResponsibilityTransfers'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => ResponsibilityTransfer.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final responsibilityTransfers = this.responsibilityTransfers;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (responsibilityTransfers != null)
+        'ResponsibilityTransfers': responsibilityTransfers,
+    };
+  }
+}
+
 class ListParentsResponse {
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
@@ -6517,42 +6476,6 @@ class ListParentsResponse {
   }
 }
 
-class ListPoliciesForTargetResponse {
-  /// If present, indicates that more output is available than is included in the
-  /// current response. Use this value in the <code>NextToken</code> request
-  /// parameter in a subsequent call to the operation to get the next part of the
-  /// output. You should repeat this until the <code>NextToken</code> response
-  /// element comes back as <code>null</code>.
-  final String? nextToken;
-
-  /// The list of policies that match the criteria in the request.
-  final List<PolicySummary>? policies;
-
-  ListPoliciesForTargetResponse({
-    this.nextToken,
-    this.policies,
-  });
-
-  factory ListPoliciesForTargetResponse.fromJson(Map<String, dynamic> json) {
-    return ListPoliciesForTargetResponse(
-      nextToken: json['NextToken'] as String?,
-      policies: (json['Policies'] as List?)
-          ?.nonNulls
-          .map((e) => PolicySummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final policies = this.policies;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (policies != null) 'Policies': policies,
-    };
-  }
-}
-
 class ListPoliciesResponse {
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
@@ -6573,6 +6496,42 @@ class ListPoliciesResponse {
 
   factory ListPoliciesResponse.fromJson(Map<String, dynamic> json) {
     return ListPoliciesResponse(
+      nextToken: json['NextToken'] as String?,
+      policies: (json['Policies'] as List?)
+          ?.nonNulls
+          .map((e) => PolicySummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final policies = this.policies;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (policies != null) 'Policies': policies,
+    };
+  }
+}
+
+class ListPoliciesForTargetResponse {
+  /// If present, indicates that more output is available than is included in the
+  /// current response. Use this value in the <code>NextToken</code> request
+  /// parameter in a subsequent call to the operation to get the next part of the
+  /// output. You should repeat this until the <code>NextToken</code> response
+  /// element comes back as <code>null</code>.
+  final String? nextToken;
+
+  /// The list of policies that match the criteria in the request.
+  final List<PolicySummary>? policies;
+
+  ListPoliciesForTargetResponse({
+    this.nextToken,
+    this.policies,
+  });
+
+  factory ListPoliciesForTargetResponse.fromJson(Map<String, dynamic> json) {
+    return ListPoliciesForTargetResponse(
       nextToken: json['NextToken'] as String?,
       policies: (json['Policies'] as List?)
           ?.nonNulls
@@ -6696,6 +6655,2166 @@ class ListTargetsForPolicyResponse {
     return {
       if (nextToken != null) 'NextToken': nextToken,
       if (targets != null) 'Targets': targets,
+    };
+  }
+}
+
+class PutResourcePolicyResponse {
+  /// A structure that contains details about the resource policy.
+  final ResourcePolicy? resourcePolicy;
+
+  PutResourcePolicyResponse({
+    this.resourcePolicy,
+  });
+
+  factory PutResourcePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return PutResourcePolicyResponse(
+      resourcePolicy: json['ResourcePolicy'] != null
+          ? ResourcePolicy.fromJson(
+              json['ResourcePolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourcePolicy = this.resourcePolicy;
+    return {
+      if (resourcePolicy != null) 'ResourcePolicy': resourcePolicy,
+    };
+  }
+}
+
+class TerminateResponsibilityTransferResponse {
+  /// A <code>ResponsibilityTransfer</code> object. Contains details for a
+  /// transfer.
+  final ResponsibilityTransfer? responsibilityTransfer;
+
+  TerminateResponsibilityTransferResponse({
+    this.responsibilityTransfer,
+  });
+
+  factory TerminateResponsibilityTransferResponse.fromJson(
+      Map<String, dynamic> json) {
+    return TerminateResponsibilityTransferResponse(
+      responsibilityTransfer: json['ResponsibilityTransfer'] != null
+          ? ResponsibilityTransfer.fromJson(
+              json['ResponsibilityTransfer'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final responsibilityTransfer = this.responsibilityTransfer;
+    return {
+      if (responsibilityTransfer != null)
+        'ResponsibilityTransfer': responsibilityTransfer,
+    };
+  }
+}
+
+class UpdateOrganizationalUnitResponse {
+  /// A structure that contains the details about the specified OU, including its
+  /// new name.
+  final OrganizationalUnit? organizationalUnit;
+
+  UpdateOrganizationalUnitResponse({
+    this.organizationalUnit,
+  });
+
+  factory UpdateOrganizationalUnitResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateOrganizationalUnitResponse(
+      organizationalUnit: json['OrganizationalUnit'] != null
+          ? OrganizationalUnit.fromJson(
+              json['OrganizationalUnit'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final organizationalUnit = this.organizationalUnit;
+    return {
+      if (organizationalUnit != null) 'OrganizationalUnit': organizationalUnit,
+    };
+  }
+}
+
+class UpdatePolicyResponse {
+  /// A structure that contains details about the updated policy, showing the
+  /// requested changes.
+  final Policy? policy;
+
+  UpdatePolicyResponse({
+    this.policy,
+  });
+
+  factory UpdatePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return UpdatePolicyResponse(
+      policy: json['Policy'] != null
+          ? Policy.fromJson(json['Policy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policy = this.policy;
+    return {
+      if (policy != null) 'Policy': policy,
+    };
+  }
+}
+
+class UpdateResponsibilityTransferResponse {
+  final ResponsibilityTransfer? responsibilityTransfer;
+
+  UpdateResponsibilityTransferResponse({
+    this.responsibilityTransfer,
+  });
+
+  factory UpdateResponsibilityTransferResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateResponsibilityTransferResponse(
+      responsibilityTransfer: json['ResponsibilityTransfer'] != null
+          ? ResponsibilityTransfer.fromJson(
+              json['ResponsibilityTransfer'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final responsibilityTransfer = this.responsibilityTransfer;
+    return {
+      if (responsibilityTransfer != null)
+        'ResponsibilityTransfer': responsibilityTransfer,
+    };
+  }
+}
+
+/// Contains details for a transfer. A <i>transfer</i> is the arrangement
+/// between two management accounts where one account designates the other with
+/// specified responsibilities for their organization.
+class ResponsibilityTransfer {
+  /// ID for the handshake of the transfer.
+  final String? activeHandshakeId;
+
+  /// Amazon Resource Name (ARN) for the transfer.
+  final String? arn;
+
+  /// Timestamp when the transfer ends.
+  final DateTime? endTimestamp;
+
+  /// ID for the transfer.
+  final String? id;
+
+  /// Name assigned to the transfer.
+  final String? name;
+
+  /// Account that allows another account external to its organization to manage
+  /// the specified responsibilities for the organization.
+  final TransferParticipant? source;
+
+  /// Timestamp when the transfer starts.
+  final DateTime? startTimestamp;
+
+  /// Status for the transfer.
+  final ResponsibilityTransferStatus? status;
+
+  /// Account that manages the specified responsibilities for another
+  /// organization.
+  final TransferParticipant? target;
+
+  /// The type of transfer. Currently, only <code>BILLING</code> is supported.
+  final ResponsibilityTransferType? type;
+
+  ResponsibilityTransfer({
+    this.activeHandshakeId,
+    this.arn,
+    this.endTimestamp,
+    this.id,
+    this.name,
+    this.source,
+    this.startTimestamp,
+    this.status,
+    this.target,
+    this.type,
+  });
+
+  factory ResponsibilityTransfer.fromJson(Map<String, dynamic> json) {
+    return ResponsibilityTransfer(
+      activeHandshakeId: json['ActiveHandshakeId'] as String?,
+      arn: json['Arn'] as String?,
+      endTimestamp: timeStampFromJson(json['EndTimestamp']),
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      source: json['Source'] != null
+          ? TransferParticipant.fromJson(json['Source'] as Map<String, dynamic>)
+          : null,
+      startTimestamp: timeStampFromJson(json['StartTimestamp']),
+      status: (json['Status'] as String?)
+          ?.let(ResponsibilityTransferStatus.fromString),
+      target: json['Target'] != null
+          ? TransferParticipant.fromJson(json['Target'] as Map<String, dynamic>)
+          : null,
+      type:
+          (json['Type'] as String?)?.let(ResponsibilityTransferType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activeHandshakeId = this.activeHandshakeId;
+    final arn = this.arn;
+    final endTimestamp = this.endTimestamp;
+    final id = this.id;
+    final name = this.name;
+    final source = this.source;
+    final startTimestamp = this.startTimestamp;
+    final status = this.status;
+    final target = this.target;
+    final type = this.type;
+    return {
+      if (activeHandshakeId != null) 'ActiveHandshakeId': activeHandshakeId,
+      if (arn != null) 'Arn': arn,
+      if (endTimestamp != null)
+        'EndTimestamp': unixTimestampToJson(endTimestamp),
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (source != null) 'Source': source,
+      if (startTimestamp != null)
+        'StartTimestamp': unixTimestampToJson(startTimestamp),
+      if (status != null) 'Status': status.value,
+      if (target != null) 'Target': target,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class ResponsibilityTransferType {
+  static const billing = ResponsibilityTransferType._('BILLING');
+
+  final String value;
+
+  const ResponsibilityTransferType._(this.value);
+
+  static const values = [billing];
+
+  static ResponsibilityTransferType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResponsibilityTransferType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResponsibilityTransferType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ResponsibilityTransferStatus {
+  static const requested = ResponsibilityTransferStatus._('REQUESTED');
+  static const declined = ResponsibilityTransferStatus._('DECLINED');
+  static const canceled = ResponsibilityTransferStatus._('CANCELED');
+  static const expired = ResponsibilityTransferStatus._('EXPIRED');
+  static const accepted = ResponsibilityTransferStatus._('ACCEPTED');
+  static const withdrawn = ResponsibilityTransferStatus._('WITHDRAWN');
+
+  final String value;
+
+  const ResponsibilityTransferStatus._(this.value);
+
+  static const values = [
+    requested,
+    declined,
+    canceled,
+    expired,
+    accepted,
+    withdrawn
+  ];
+
+  static ResponsibilityTransferStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResponsibilityTransferStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResponsibilityTransferStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains details for a participant in a transfer. A <i>transfer</i> is the
+/// arrangement between two management accounts where one account designates the
+/// other with specified responsibilities for their organization.
+class TransferParticipant {
+  /// Email address for the management account.
+  final String? managementAccountEmail;
+
+  /// ID for the management account.
+  final String? managementAccountId;
+
+  TransferParticipant({
+    this.managementAccountEmail,
+    this.managementAccountId,
+  });
+
+  factory TransferParticipant.fromJson(Map<String, dynamic> json) {
+    return TransferParticipant(
+      managementAccountEmail: json['ManagementAccountEmail'] as String?,
+      managementAccountId: json['ManagementAccountId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final managementAccountEmail = this.managementAccountEmail;
+    final managementAccountId = this.managementAccountId;
+    return {
+      if (managementAccountEmail != null)
+        'ManagementAccountEmail': managementAccountEmail,
+      if (managementAccountId != null)
+        'ManagementAccountId': managementAccountId,
+    };
+  }
+}
+
+/// Contains rules to be applied to the affected accounts. Policies can be
+/// attached directly to accounts, or to roots and OUs to affect all accounts in
+/// those hierarchies.
+class Policy {
+  /// The text content of the policy.
+  final String? content;
+
+  /// A structure that contains additional details about the policy.
+  final PolicySummary? policySummary;
+
+  Policy({
+    this.content,
+    this.policySummary,
+  });
+
+  factory Policy.fromJson(Map<String, dynamic> json) {
+    return Policy(
+      content: json['Content'] as String?,
+      policySummary: json['PolicySummary'] != null
+          ? PolicySummary.fromJson(
+              json['PolicySummary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final policySummary = this.policySummary;
+    return {
+      if (content != null) 'Content': content,
+      if (policySummary != null) 'PolicySummary': policySummary,
+    };
+  }
+}
+
+/// Contains information about a policy, but does not include the content. To
+/// see the content of a policy, see <a>DescribePolicy</a>.
+class PolicySummary {
+  /// The Amazon Resource Name (ARN) of the policy.
+  ///
+  /// For more information about ARNs in Organizations, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies">ARN
+  /// Formats Supported by Organizations</a> in the <i>Amazon Web Services Service
+  /// Authorization Reference</i>.
+  final String? arn;
+
+  /// A boolean value that indicates whether the specified policy is an Amazon Web
+  /// Services managed policy. If true, then you can attach the policy to roots,
+  /// OUs, or accounts, but you cannot edit it.
+  final bool? awsManaged;
+
+  /// The description of the policy.
+  final String? description;
+
+  /// The unique identifier (ID) of the policy.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a policy
+  /// ID string requires "p-" followed by from 8 to 128 lowercase or uppercase
+  /// letters, digits, or the underscore character (_).
+  final String? id;
+
+  /// The friendly name of the policy.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> that is used
+  /// to validate this parameter is a string of any of the characters in the ASCII
+  /// character range.
+  final String? name;
+
+  /// The type of policy.
+  final PolicyType? type;
+
+  PolicySummary({
+    this.arn,
+    this.awsManaged,
+    this.description,
+    this.id,
+    this.name,
+    this.type,
+  });
+
+  factory PolicySummary.fromJson(Map<String, dynamic> json) {
+    return PolicySummary(
+      arn: json['Arn'] as String?,
+      awsManaged: json['AwsManaged'] as bool?,
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      type: (json['Type'] as String?)?.let(PolicyType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final awsManaged = this.awsManaged;
+    final description = this.description;
+    final id = this.id;
+    final name = this.name;
+    final type = this.type;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (awsManaged != null) 'AwsManaged': awsManaged,
+      if (description != null) 'Description': description,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class PolicyType {
+  static const serviceControlPolicy = PolicyType._('SERVICE_CONTROL_POLICY');
+  static const resourceControlPolicy = PolicyType._('RESOURCE_CONTROL_POLICY');
+  static const tagPolicy = PolicyType._('TAG_POLICY');
+  static const backupPolicy = PolicyType._('BACKUP_POLICY');
+  static const aiservicesOptOutPolicy =
+      PolicyType._('AISERVICES_OPT_OUT_POLICY');
+  static const chatbotPolicy = PolicyType._('CHATBOT_POLICY');
+  static const declarativePolicyEc2 = PolicyType._('DECLARATIVE_POLICY_EC2');
+  static const securityhubPolicy = PolicyType._('SECURITYHUB_POLICY');
+  static const inspectorPolicy = PolicyType._('INSPECTOR_POLICY');
+  static const upgradeRolloutPolicy = PolicyType._('UPGRADE_ROLLOUT_POLICY');
+  static const bedrockPolicy = PolicyType._('BEDROCK_POLICY');
+  static const s3Policy = PolicyType._('S3_POLICY');
+  static const networkSecurityDirectorPolicy =
+      PolicyType._('NETWORK_SECURITY_DIRECTOR_POLICY');
+
+  final String value;
+
+  const PolicyType._(this.value);
+
+  static const values = [
+    serviceControlPolicy,
+    resourceControlPolicy,
+    tagPolicy,
+    backupPolicy,
+    aiservicesOptOutPolicy,
+    chatbotPolicy,
+    declarativePolicyEc2,
+    securityhubPolicy,
+    inspectorPolicy,
+    upgradeRolloutPolicy,
+    bedrockPolicy,
+    s3Policy,
+    networkSecurityDirectorPolicy
+  ];
+
+  static PolicyType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PolicyType._(value));
+
+  @override
+  bool operator ==(other) => other is PolicyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains details about an organizational unit (OU). An OU is a container of
+/// Amazon Web Services accounts within a root of an organization. Policies that
+/// are attached to an OU apply to all accounts contained in that OU and in any
+/// child OUs.
+class OrganizationalUnit {
+  /// The Amazon Resource Name (ARN) of this OU.
+  ///
+  /// For more information about ARNs in Organizations, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies">ARN
+  /// Formats Supported by Organizations</a> in the <i>Amazon Web Services Service
+  /// Authorization Reference</i>.
+  final String? arn;
+
+  /// The unique identifier (ID) associated with this OU. The ID is unique to the
+  /// organization only.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for an
+  /// organizational unit ID string requires "ou-" followed by from 4 to 32
+  /// lowercase letters or digits (the ID of the root that contains the OU). This
+  /// string is followed by a second "-" dash and from 8 to 32 additional
+  /// lowercase letters or digits.
+  final String? id;
+
+  /// The friendly name of this OU.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> that is used
+  /// to validate this parameter is a string of any of the characters in the ASCII
+  /// character range.
+  final String? name;
+
+  /// The path in the organization where this OU exists.
+  final String? path;
+
+  OrganizationalUnit({
+    this.arn,
+    this.id,
+    this.name,
+    this.path,
+  });
+
+  factory OrganizationalUnit.fromJson(Map<String, dynamic> json) {
+    return OrganizationalUnit(
+      arn: json['Arn'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      path: json['Path'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final name = this.name;
+    final path = this.path;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (path != null) 'Path': path,
+    };
+  }
+}
+
+/// A custom key-value pair associated with a resource within your organization.
+///
+/// You can attach tags to any of the following organization resources.
+///
+/// <ul>
+/// <li>
+/// Amazon Web Services account
+/// </li>
+/// <li>
+/// Organizational unit (OU)
+/// </li>
+/// <li>
+/// Organization root
+/// </li>
+/// <li>
+/// Policy
+/// </li>
+/// </ul>
+class Tag {
+  /// The key identifier, or name, of the tag.
+  final String key;
+
+  /// The string value that's associated with the key of the tag. You can set the
+  /// value of a tag to an empty string, but you can't set the value of a tag to
+  /// null.
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
+/// A structure that contains details about a resource policy.
+class ResourcePolicy {
+  /// The policy text of the resource policy.
+  final String? content;
+
+  /// A structure that contains resource policy ID and Amazon Resource Name (ARN).
+  final ResourcePolicySummary? resourcePolicySummary;
+
+  ResourcePolicy({
+    this.content,
+    this.resourcePolicySummary,
+  });
+
+  factory ResourcePolicy.fromJson(Map<String, dynamic> json) {
+    return ResourcePolicy(
+      content: json['Content'] as String?,
+      resourcePolicySummary: json['ResourcePolicySummary'] != null
+          ? ResourcePolicySummary.fromJson(
+              json['ResourcePolicySummary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final resourcePolicySummary = this.resourcePolicySummary;
+    return {
+      if (content != null) 'Content': content,
+      if (resourcePolicySummary != null)
+        'ResourcePolicySummary': resourcePolicySummary,
+    };
+  }
+}
+
+/// A structure that contains resource policy ID and Amazon Resource Name (ARN).
+class ResourcePolicySummary {
+  /// The Amazon Resource Name (ARN) of the resource policy.
+  final String? arn;
+
+  /// The unique identifier (ID) of the resource policy.
+  final String? id;
+
+  ResourcePolicySummary({
+    this.arn,
+    this.id,
+  });
+
+  factory ResourcePolicySummary.fromJson(Map<String, dynamic> json) {
+    return ResourcePolicySummary(
+      arn: json['Arn'] as String?,
+      id: json['Id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (id != null) 'Id': id,
+    };
+  }
+}
+
+/// Contains information about a root, OU, or account that a policy is attached
+/// to.
+class PolicyTargetSummary {
+  /// The Amazon Resource Name (ARN) of the policy target.
+  ///
+  /// For more information about ARNs in Organizations, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies">ARN
+  /// Formats Supported by Organizations</a> in the <i>Amazon Web Services Service
+  /// Authorization Reference</i>.
+  final String? arn;
+
+  /// The friendly name of the policy target.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> that is used
+  /// to validate this parameter is a string of any of the characters in the ASCII
+  /// character range.
+  final String? name;
+
+  /// The unique identifier (ID) of the policy target.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a target
+  /// ID string requires one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Root</b> - A string that begins with "r-" followed by from 4 to 32
+  /// lowercase letters or digits.
+  /// </li>
+  /// <li>
+  /// <b>Account</b> - A string that consists of exactly 12 digits.
+  /// </li>
+  /// <li>
+  /// <b>Organizational unit (OU)</b> - A string that begins with "ou-" followed
+  /// by from 4 to 32 lowercase letters or digits (the ID of the root that the OU
+  /// is in). This string is followed by a second "-" dash and from 8 to 32
+  /// additional lowercase letters or digits.
+  /// </li>
+  /// </ul>
+  final String? targetId;
+
+  /// The type of the policy target.
+  final TargetType? type;
+
+  PolicyTargetSummary({
+    this.arn,
+    this.name,
+    this.targetId,
+    this.type,
+  });
+
+  factory PolicyTargetSummary.fromJson(Map<String, dynamic> json) {
+    return PolicyTargetSummary(
+      arn: json['Arn'] as String?,
+      name: json['Name'] as String?,
+      targetId: json['TargetId'] as String?,
+      type: (json['Type'] as String?)?.let(TargetType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    final targetId = this.targetId;
+    final type = this.type;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (name != null) 'Name': name,
+      if (targetId != null) 'TargetId': targetId,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class TargetType {
+  static const account = TargetType._('ACCOUNT');
+  static const organizationalUnit = TargetType._('ORGANIZATIONAL_UNIT');
+  static const root = TargetType._('ROOT');
+
+  final String value;
+
+  const TargetType._(this.value);
+
+  static const values = [account, organizationalUnit, root];
+
+  static TargetType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TargetType._(value));
+
+  @override
+  bool operator ==(other) => other is TargetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains details about a root. A root is a top-level parent node in the
+/// hierarchy of an organization that can contain organizational units (OUs) and
+/// accounts. The root contains every Amazon Web Services account in the
+/// organization.
+class Root {
+  /// The Amazon Resource Name (ARN) of the root.
+  ///
+  /// For more information about ARNs in Organizations, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies">ARN
+  /// Formats Supported by Organizations</a> in the <i>Amazon Web Services Service
+  /// Authorization Reference</i>.
+  final String? arn;
+
+  /// The unique identifier (ID) for the root. The ID is unique to the
+  /// organization only.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a root
+  /// ID string requires "r-" followed by from 4 to 32 lowercase letters or
+  /// digits.
+  final String? id;
+
+  /// The friendly name of the root.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> that is used
+  /// to validate this parameter is a string of any of the characters in the ASCII
+  /// character range.
+  final String? name;
+
+  /// The types of policies that are currently enabled for the root and therefore
+  /// can be attached to the root or to its OUs or accounts.
+  /// <note>
+  /// Even if a policy type is shown as available in the organization, you can
+  /// separately enable and disable them at the root level by using
+  /// <a>EnablePolicyType</a> and <a>DisablePolicyType</a>. Use
+  /// <a>DescribeOrganization</a> to see the availability of the policy types in
+  /// that organization.
+  /// </note>
+  final List<PolicyTypeSummary>? policyTypes;
+
+  Root({
+    this.arn,
+    this.id,
+    this.name,
+    this.policyTypes,
+  });
+
+  factory Root.fromJson(Map<String, dynamic> json) {
+    return Root(
+      arn: json['Arn'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      policyTypes: (json['PolicyTypes'] as List?)
+          ?.nonNulls
+          .map((e) => PolicyTypeSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final name = this.name;
+    final policyTypes = this.policyTypes;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (policyTypes != null) 'PolicyTypes': policyTypes,
+    };
+  }
+}
+
+/// Contains information about a policy type and its status in the associated
+/// root.
+class PolicyTypeSummary {
+  /// The status of the policy type as it relates to the associated root. To
+  /// attach a policy of the specified type to a root or to an OU or account in
+  /// that root, it must be available in the organization and enabled for that
+  /// root.
+  final PolicyTypeStatus? status;
+
+  /// The name of the policy type.
+  final PolicyType? type;
+
+  PolicyTypeSummary({
+    this.status,
+    this.type,
+  });
+
+  factory PolicyTypeSummary.fromJson(Map<String, dynamic> json) {
+    return PolicyTypeSummary(
+      status: (json['Status'] as String?)?.let(PolicyTypeStatus.fromString),
+      type: (json['Type'] as String?)?.let(PolicyType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final type = this.type;
+    return {
+      if (status != null) 'Status': status.value,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class PolicyTypeStatus {
+  static const enabled = PolicyTypeStatus._('ENABLED');
+  static const pendingEnable = PolicyTypeStatus._('PENDING_ENABLE');
+  static const pendingDisable = PolicyTypeStatus._('PENDING_DISABLE');
+
+  final String value;
+
+  const PolicyTypeStatus._(this.value);
+
+  static const values = [enabled, pendingEnable, pendingDisable];
+
+  static PolicyTypeStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PolicyTypeStatus._(value));
+
+  @override
+  bool operator ==(other) => other is PolicyTypeStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about either a root or an organizational unit (OU) that
+/// can contain OUs or accounts in an organization.
+class Parent {
+  /// The unique identifier (ID) of the parent entity.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a parent
+  /// ID string requires one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Root</b> - A string that begins with "r-" followed by from 4 to 32
+  /// lowercase letters or digits.
+  /// </li>
+  /// <li>
+  /// <b>Organizational unit (OU)</b> - A string that begins with "ou-" followed
+  /// by from 4 to 32 lowercase letters or digits (the ID of the root that the OU
+  /// is in). This string is followed by a second "-" dash and from 8 to 32
+  /// additional lowercase letters or digits.
+  /// </li>
+  /// </ul>
+  final String? id;
+
+  /// The type of the parent entity.
+  final ParentType? type;
+
+  Parent({
+    this.id,
+    this.type,
+  });
+
+  factory Parent.fromJson(Map<String, dynamic> json) {
+    return Parent(
+      id: json['Id'] as String?,
+      type: (json['Type'] as String?)?.let(ParentType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final type = this.type;
+    return {
+      if (id != null) 'Id': id,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class ParentType {
+  static const root = ParentType._('ROOT');
+  static const organizationalUnit = ParentType._('ORGANIZATIONAL_UNIT');
+
+  final String value;
+
+  const ParentType._(this.value);
+
+  static const values = [root, organizationalUnit];
+
+  static ParentType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ParentType._(value));
+
+  @override
+  bool operator ==(other) => other is ParentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains details for a handshake. A handshake is the secure exchange of
+/// information between two Amazon Web Services accounts: a sender and a
+/// recipient.
+///
+/// <b>Note:</b> Handshakes that are <code>CANCELED</code>,
+/// <code>ACCEPTED</code>, <code>DECLINED</code>, or <code>EXPIRED</code> show
+/// up in lists for only 30 days after entering that state After that they are
+/// deleted.
+class Handshake {
+  /// The type of handshake:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>INVITE</b>: Handshake sent to a standalone account requesting that it to
+  /// join the sender's organization.
+  /// </li>
+  /// <li>
+  /// <b>ENABLE_ALL_FEATURES</b>: Handshake sent to invited member accounts to
+  /// enable all features for the organization.
+  /// </li>
+  /// <li>
+  /// <b>APPROVE_ALL_FEATURES</b>: Handshake sent to the management account when
+  /// all invited member accounts have approved to enable all features.
+  /// </li>
+  /// <li>
+  /// <b>TRANSFER_RESPONSIBILITY</b>: Handshake sent to another organization's
+  /// management account requesting that it designate the sender with the
+  /// specified responsibilities for recipient's organization.
+  /// </li>
+  /// </ul>
+  final ActionType? action;
+
+  /// Amazon Resource Name (ARN) for the handshake.
+  ///
+  /// For more information about ARNs in Organizations, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies">ARN
+  /// Formats Supported by Organizations</a> in the <i>Amazon Web Services Service
+  /// Authorization Reference</i>.
+  final String? arn;
+
+  /// Timestamp when the handshake expires.
+  final DateTime? expirationTimestamp;
+
+  /// ID for the handshake.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for
+  /// handshake ID string requires "h-" followed by from 8 to 32 lowercase letters
+  /// or digits.
+  final String? id;
+
+  /// An array of <code>HandshakeParty</code> objects. Contains details for
+  /// participant in a handshake.
+  final List<HandshakeParty>? parties;
+
+  /// Timestamp when the handshake request was made.
+  final DateTime? requestedTimestamp;
+
+  /// An array of <code>HandshakeResource</code> objects. When needed, contains
+  /// additional details for a handshake. For example, the email address for the
+  /// sender.
+  final List<HandshakeResource>? resources;
+
+  /// Current state for the handshake.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>REQUESTED</b>: Handshake awaiting a response from the recipient.
+  /// </li>
+  /// <li>
+  /// <b>OPEN</b>: Handshake sent to multiple recipients and all recipients have
+  /// responded. The sender can now complete the handshake action.
+  /// </li>
+  /// <li>
+  /// <b>CANCELED</b>: Handshake canceled by the sender.
+  /// </li>
+  /// <li>
+  /// <b>ACCEPTED</b>: Handshake accepted by the recipient.
+  /// </li>
+  /// <li>
+  /// <b>DECLINED</b>: Handshake declined by the recipient.
+  /// </li>
+  /// <li>
+  /// <b>EXPIRED</b>: Handshake has expired.
+  /// </li>
+  /// </ul>
+  final HandshakeState? state;
+
+  Handshake({
+    this.action,
+    this.arn,
+    this.expirationTimestamp,
+    this.id,
+    this.parties,
+    this.requestedTimestamp,
+    this.resources,
+    this.state,
+  });
+
+  factory Handshake.fromJson(Map<String, dynamic> json) {
+    return Handshake(
+      action: (json['Action'] as String?)?.let(ActionType.fromString),
+      arn: json['Arn'] as String?,
+      expirationTimestamp: timeStampFromJson(json['ExpirationTimestamp']),
+      id: json['Id'] as String?,
+      parties: (json['Parties'] as List?)
+          ?.nonNulls
+          .map((e) => HandshakeParty.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      requestedTimestamp: timeStampFromJson(json['RequestedTimestamp']),
+      resources: (json['Resources'] as List?)
+          ?.nonNulls
+          .map((e) => HandshakeResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      state: (json['State'] as String?)?.let(HandshakeState.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final arn = this.arn;
+    final expirationTimestamp = this.expirationTimestamp;
+    final id = this.id;
+    final parties = this.parties;
+    final requestedTimestamp = this.requestedTimestamp;
+    final resources = this.resources;
+    final state = this.state;
+    return {
+      if (action != null) 'Action': action.value,
+      if (arn != null) 'Arn': arn,
+      if (expirationTimestamp != null)
+        'ExpirationTimestamp': unixTimestampToJson(expirationTimestamp),
+      if (id != null) 'Id': id,
+      if (parties != null) 'Parties': parties,
+      if (requestedTimestamp != null)
+        'RequestedTimestamp': unixTimestampToJson(requestedTimestamp),
+      if (resources != null) 'Resources': resources,
+      if (state != null) 'State': state.value,
+    };
+  }
+}
+
+class HandshakeState {
+  static const requested = HandshakeState._('REQUESTED');
+  static const open = HandshakeState._('OPEN');
+  static const canceled = HandshakeState._('CANCELED');
+  static const accepted = HandshakeState._('ACCEPTED');
+  static const declined = HandshakeState._('DECLINED');
+  static const expired = HandshakeState._('EXPIRED');
+
+  final String value;
+
+  const HandshakeState._(this.value);
+
+  static const values = [
+    requested,
+    open,
+    canceled,
+    accepted,
+    declined,
+    expired
+  ];
+
+  static HandshakeState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HandshakeState._(value));
+
+  @override
+  bool operator ==(other) => other is HandshakeState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ActionType {
+  static const invite = ActionType._('INVITE');
+  static const enableAllFeatures = ActionType._('ENABLE_ALL_FEATURES');
+  static const approveAllFeatures = ActionType._('APPROVE_ALL_FEATURES');
+  static const addOrganizationsServiceLinkedRole =
+      ActionType._('ADD_ORGANIZATIONS_SERVICE_LINKED_ROLE');
+  static const transferResponsibility = ActionType._('TRANSFER_RESPONSIBILITY');
+
+  final String value;
+
+  const ActionType._(this.value);
+
+  static const values = [
+    invite,
+    enableAllFeatures,
+    approveAllFeatures,
+    addOrganizationsServiceLinkedRole,
+    transferResponsibility
+  ];
+
+  static ActionType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ActionType._(value));
+
+  @override
+  bool operator ==(other) => other is ActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains additional details for a handshake.
+class HandshakeResource {
+  /// An array of <code>HandshakeResource</code> objects. When needed, contains
+  /// additional details for a handshake. For example, the email address for the
+  /// sender.
+  final List<HandshakeResource>? resources;
+
+  /// The type of information being passed, specifying how the value is to be
+  /// interpreted by the other party:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>ACCOUNT</b>: ID for an Amazon Web Services account.
+  /// </li>
+  /// <li>
+  /// <b>ORGANIZATION</b>: ID for an organization.
+  /// </li>
+  /// <li>
+  /// <b>EMAIL</b>: Email address for the recipient.
+  /// </li>
+  /// <li>
+  /// <b>OWNER_EMAIL</b>: Email address for the sender.
+  /// </li>
+  /// <li>
+  /// <b>OWNER_NAME</b>: Name of the sender.
+  /// </li>
+  /// <li>
+  /// <b>NOTES</b>: Additional text included by the sender for the recipient.
+  /// </li>
+  /// </ul>
+  final HandshakeResourceType? type;
+
+  /// Additional information for the handshake. The format of the value string
+  /// must match the requirements of the specified type.
+  final String? value;
+
+  HandshakeResource({
+    this.resources,
+    this.type,
+    this.value,
+  });
+
+  factory HandshakeResource.fromJson(Map<String, dynamic> json) {
+    return HandshakeResource(
+      resources: (json['Resources'] as List?)
+          ?.nonNulls
+          .map((e) => HandshakeResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['Type'] as String?)?.let(HandshakeResourceType.fromString),
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resources = this.resources;
+    final type = this.type;
+    final value = this.value;
+    return {
+      if (resources != null) 'Resources': resources,
+      if (type != null) 'Type': type.value,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+class HandshakeResourceType {
+  static const account = HandshakeResourceType._('ACCOUNT');
+  static const organization = HandshakeResourceType._('ORGANIZATION');
+  static const organizationFeatureSet =
+      HandshakeResourceType._('ORGANIZATION_FEATURE_SET');
+  static const email = HandshakeResourceType._('EMAIL');
+  static const masterEmail = HandshakeResourceType._('MASTER_EMAIL');
+  static const masterName = HandshakeResourceType._('MASTER_NAME');
+  static const notes = HandshakeResourceType._('NOTES');
+  static const parentHandshake = HandshakeResourceType._('PARENT_HANDSHAKE');
+  static const responsibilityTransfer =
+      HandshakeResourceType._('RESPONSIBILITY_TRANSFER');
+  static const transferStartTimestamp =
+      HandshakeResourceType._('TRANSFER_START_TIMESTAMP');
+  static const transferType = HandshakeResourceType._('TRANSFER_TYPE');
+  static const managementAccount =
+      HandshakeResourceType._('MANAGEMENT_ACCOUNT');
+  static const managementEmail = HandshakeResourceType._('MANAGEMENT_EMAIL');
+  static const managementName = HandshakeResourceType._('MANAGEMENT_NAME');
+
+  final String value;
+
+  const HandshakeResourceType._(this.value);
+
+  static const values = [
+    account,
+    organization,
+    organizationFeatureSet,
+    email,
+    masterEmail,
+    masterName,
+    notes,
+    parentHandshake,
+    responsibilityTransfer,
+    transferStartTimestamp,
+    transferType,
+    managementAccount,
+    managementEmail,
+    managementName
+  ];
+
+  static HandshakeResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HandshakeResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HandshakeResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains details for a participant in a handshake.
+class HandshakeParty {
+  /// ID for the participant: Acccount ID, organization ID, or email address.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for
+  /// handshake ID string requires "h-" followed by from 8 to 32 lowercase letters
+  /// or digits.
+  final String id;
+
+  /// The type of ID for the participant.
+  final HandshakePartyType type;
+
+  HandshakeParty({
+    required this.id,
+    required this.type,
+  });
+
+  factory HandshakeParty.fromJson(Map<String, dynamic> json) {
+    return HandshakeParty(
+      id: (json['Id'] as String?) ?? '',
+      type: HandshakePartyType.fromString((json['Type'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final type = this.type;
+    return {
+      'Id': id,
+      'Type': type.value,
+    };
+  }
+}
+
+class HandshakePartyType {
+  static const account = HandshakePartyType._('ACCOUNT');
+  static const organization = HandshakePartyType._('ORGANIZATION');
+  static const email = HandshakePartyType._('EMAIL');
+
+  final String value;
+
+  const HandshakePartyType._(this.value);
+
+  static const values = [account, organization, email];
+
+  static HandshakePartyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HandshakePartyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HandshakePartyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains the filter used to select the handshakes for an operation.
+class HandshakeFilter {
+  /// The type of handshake.
+  ///
+  /// If you specify <code>ActionType</code>, you cannot also specify
+  /// <code>ParentHandshakeId</code>.
+  final ActionType? actionType;
+
+  /// The parent handshake. Only used for handshake types that are a child of
+  /// another type.
+  ///
+  /// If you specify <code>ParentHandshakeId</code>, you cannot also specify
+  /// <code>ActionType</code>.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for
+  /// handshake ID string requires "h-" followed by from 8 to 32 lowercase letters
+  /// or digits.
+  final String? parentHandshakeId;
+
+  HandshakeFilter({
+    this.actionType,
+    this.parentHandshakeId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final actionType = this.actionType;
+    final parentHandshakeId = this.parentHandshakeId;
+    return {
+      if (actionType != null) 'ActionType': actionType.value,
+      if (parentHandshakeId != null) 'ParentHandshakeId': parentHandshakeId,
+    };
+  }
+}
+
+class EffectivePolicyType {
+  static const tagPolicy = EffectivePolicyType._('TAG_POLICY');
+  static const backupPolicy = EffectivePolicyType._('BACKUP_POLICY');
+  static const aiservicesOptOutPolicy =
+      EffectivePolicyType._('AISERVICES_OPT_OUT_POLICY');
+  static const chatbotPolicy = EffectivePolicyType._('CHATBOT_POLICY');
+  static const declarativePolicyEc2 =
+      EffectivePolicyType._('DECLARATIVE_POLICY_EC2');
+  static const securityhubPolicy = EffectivePolicyType._('SECURITYHUB_POLICY');
+  static const inspectorPolicy = EffectivePolicyType._('INSPECTOR_POLICY');
+  static const upgradeRolloutPolicy =
+      EffectivePolicyType._('UPGRADE_ROLLOUT_POLICY');
+  static const bedrockPolicy = EffectivePolicyType._('BEDROCK_POLICY');
+  static const s3Policy = EffectivePolicyType._('S3_POLICY');
+  static const networkSecurityDirectorPolicy =
+      EffectivePolicyType._('NETWORK_SECURITY_DIRECTOR_POLICY');
+
+  final String value;
+
+  const EffectivePolicyType._(this.value);
+
+  static const values = [
+    tagPolicy,
+    backupPolicy,
+    aiservicesOptOutPolicy,
+    chatbotPolicy,
+    declarativePolicyEc2,
+    securityhubPolicy,
+    inspectorPolicy,
+    upgradeRolloutPolicy,
+    bedrockPolicy,
+    s3Policy,
+    networkSecurityDirectorPolicy
+  ];
+
+  static EffectivePolicyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EffectivePolicyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EffectivePolicyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains details about the validation errors that occurred when generating
+/// or enforcing an <a
+/// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_effective.html">effective
+/// policy</a>, such as which policies contributed to the error and location of
+/// the error.
+class EffectivePolicyValidationError {
+  /// The individual policies <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inheritance_mgmt.html">inherited</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_policies_attach.html">attached</a>
+  /// to the account which contributed to the validation error.
+  final List<String>? contributingPolicies;
+
+  /// The error code for the validation error. For example,
+  /// <code>ELEMENTS_TOO_MANY</code>.
+  final String? errorCode;
+
+  /// The error message for the validation error.
+  final String? errorMessage;
+
+  /// The path within the effective policy where the validation error occurred.
+  final String? pathToError;
+
+  EffectivePolicyValidationError({
+    this.contributingPolicies,
+    this.errorCode,
+    this.errorMessage,
+    this.pathToError,
+  });
+
+  factory EffectivePolicyValidationError.fromJson(Map<String, dynamic> json) {
+    return EffectivePolicyValidationError(
+      contributingPolicies: (json['ContributingPolicies'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      pathToError: json['PathToError'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contributingPolicies = this.contributingPolicies;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final pathToError = this.pathToError;
+    return {
+      if (contributingPolicies != null)
+        'ContributingPolicies': contributingPolicies,
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (pathToError != null) 'PathToError': pathToError,
+    };
+  }
+}
+
+/// Contains information about the Amazon Web Services service for which the
+/// account is a delegated administrator.
+class DelegatedService {
+  /// The date that the account became a delegated administrator for this service.
+  final DateTime? delegationEnabledDate;
+
+  /// The name of an Amazon Web Services service that can request an operation for
+  /// the specified service. This is typically in the form of a URL, such as:
+  /// <code> <i>servicename</i>.amazonaws.com</code>.
+  final String? servicePrincipal;
+
+  DelegatedService({
+    this.delegationEnabledDate,
+    this.servicePrincipal,
+  });
+
+  factory DelegatedService.fromJson(Map<String, dynamic> json) {
+    return DelegatedService(
+      delegationEnabledDate: timeStampFromJson(json['DelegationEnabledDate']),
+      servicePrincipal: json['ServicePrincipal'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final delegationEnabledDate = this.delegationEnabledDate;
+    final servicePrincipal = this.servicePrincipal;
+    return {
+      if (delegationEnabledDate != null)
+        'DelegationEnabledDate': unixTimestampToJson(delegationEnabledDate),
+      if (servicePrincipal != null) 'ServicePrincipal': servicePrincipal,
+    };
+  }
+}
+
+/// Contains information about the delegated administrator.
+class DelegatedAdministrator {
+  /// The Amazon Resource Name (ARN) of the delegated administrator's account.
+  final String? arn;
+
+  /// The date when the account was made a delegated administrator.
+  final DateTime? delegationEnabledDate;
+
+  /// The email address that is associated with the delegated administrator's
+  /// Amazon Web Services account.
+  final String? email;
+
+  /// The unique identifier (ID) of the delegated administrator's account.
+  final String? id;
+
+  /// The method by which the delegated administrator's account joined the
+  /// organization.
+  final AccountJoinedMethod? joinedMethod;
+
+  /// The date when the delegated administrator's account became a part of the
+  /// organization.
+  final DateTime? joinedTimestamp;
+
+  /// The friendly name of the delegated administrator's account.
+  final String? name;
+
+  /// Each state represents a specific phase in the account lifecycle. Use this
+  /// information to manage account access, automate workflows, or trigger actions
+  /// based on account state changes.
+  ///
+  /// For more information about account states and their implications, see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_account_state.html">Monitor
+  /// the state of your Amazon Web Services accounts </a> in the <i>Organizations
+  /// User Guide</i>.
+  final AccountState? state;
+
+  /// The status of the delegated administrator's account in the organization.
+  final AccountStatus? status;
+
+  DelegatedAdministrator({
+    this.arn,
+    this.delegationEnabledDate,
+    this.email,
+    this.id,
+    this.joinedMethod,
+    this.joinedTimestamp,
+    this.name,
+    this.state,
+    this.status,
+  });
+
+  factory DelegatedAdministrator.fromJson(Map<String, dynamic> json) {
+    return DelegatedAdministrator(
+      arn: json['Arn'] as String?,
+      delegationEnabledDate: timeStampFromJson(json['DelegationEnabledDate']),
+      email: json['Email'] as String?,
+      id: json['Id'] as String?,
+      joinedMethod: (json['JoinedMethod'] as String?)
+          ?.let(AccountJoinedMethod.fromString),
+      joinedTimestamp: timeStampFromJson(json['JoinedTimestamp']),
+      name: json['Name'] as String?,
+      state: (json['State'] as String?)?.let(AccountState.fromString),
+      status: (json['Status'] as String?)?.let(AccountStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final delegationEnabledDate = this.delegationEnabledDate;
+    final email = this.email;
+    final id = this.id;
+    final joinedMethod = this.joinedMethod;
+    final joinedTimestamp = this.joinedTimestamp;
+    final name = this.name;
+    final state = this.state;
+    final status = this.status;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (delegationEnabledDate != null)
+        'DelegationEnabledDate': unixTimestampToJson(delegationEnabledDate),
+      if (email != null) 'Email': email,
+      if (id != null) 'Id': id,
+      if (joinedMethod != null) 'JoinedMethod': joinedMethod.value,
+      if (joinedTimestamp != null)
+        'JoinedTimestamp': unixTimestampToJson(joinedTimestamp),
+      if (name != null) 'Name': name,
+      if (state != null) 'State': state.value,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class AccountStatus {
+  static const active = AccountStatus._('ACTIVE');
+  static const suspended = AccountStatus._('SUSPENDED');
+  static const pendingClosure = AccountStatus._('PENDING_CLOSURE');
+
+  final String value;
+
+  const AccountStatus._(this.value);
+
+  static const values = [active, suspended, pendingClosure];
+
+  static AccountStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AccountStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AccountStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AccountState {
+  static const pendingActivation = AccountState._('PENDING_ACTIVATION');
+  static const active = AccountState._('ACTIVE');
+  static const suspended = AccountState._('SUSPENDED');
+  static const pendingClosure = AccountState._('PENDING_CLOSURE');
+  static const closed = AccountState._('CLOSED');
+
+  final String value;
+
+  const AccountState._(this.value);
+
+  static const values = [
+    pendingActivation,
+    active,
+    suspended,
+    pendingClosure,
+    closed
+  ];
+
+  static AccountState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AccountState._(value));
+
+  @override
+  bool operator ==(other) => other is AccountState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AccountJoinedMethod {
+  static const invited = AccountJoinedMethod._('INVITED');
+  static const created = AccountJoinedMethod._('CREATED');
+
+  final String value;
+
+  const AccountJoinedMethod._(this.value);
+
+  static const values = [invited, created];
+
+  static AccountJoinedMethod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AccountJoinedMethod._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AccountJoinedMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains the status about a <a>CreateAccount</a> or
+/// <a>CreateGovCloudAccount</a> request to create an Amazon Web Services
+/// account or an Amazon Web Services GovCloud (US) account in an organization.
+class CreateAccountStatus {
+  /// If the account was created successfully, the unique identifier (ID) of the
+  /// new account.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for an
+  /// account ID string requires exactly 12 digits.
+  final String? accountId;
+
+  /// The account name given to the account when it was created.
+  final String? accountName;
+
+  /// The date and time that the account was created and the request completed.
+  final DateTime? completedTimestamp;
+
+  /// If the request failed, a description of the reason for the failure.
+  ///
+  /// <ul>
+  /// <li>
+  /// ACCOUNT_LIMIT_EXCEEDED: The account couldn't be created because you reached
+  /// the limit on the number of accounts in your organization.
+  /// </li>
+  /// <li>
+  /// CONCURRENT_ACCOUNT_MODIFICATION: You already submitted a request with the
+  /// same information.
+  /// </li>
+  /// <li>
+  /// EMAIL_ALREADY_EXISTS: The account could not be created because another
+  /// Amazon Web Services account with that email address already exists.
+  /// </li>
+  /// <li>
+  /// FAILED_BUSINESS_VALIDATION: The Amazon Web Services account that owns your
+  /// organization failed to receive business license validation.
+  /// </li>
+  /// <li>
+  /// GOVCLOUD_ACCOUNT_ALREADY_EXISTS: The account in the Amazon Web Services
+  /// GovCloud (US) Region could not be created because this Region already
+  /// includes an account with that email address.
+  /// </li>
+  /// <li>
+  /// IDENTITY_INVALID_BUSINESS_VALIDATION: The Amazon Web Services account that
+  /// owns your organization can't complete business license validation because it
+  /// doesn't have valid identity data.
+  /// </li>
+  /// <li>
+  /// INVALID_ADDRESS: The account could not be created because the address you
+  /// provided is not valid.
+  /// </li>
+  /// <li>
+  /// INVALID_EMAIL: The account could not be created because the email address
+  /// you provided is not valid.
+  /// </li>
+  /// <li>
+  /// INVALID_PAYMENT_INSTRUMENT: The Amazon Web Services account that owns your
+  /// organization does not have a supported payment method associated with the
+  /// account. Amazon Web Services does not support cards issued by financial
+  /// institutions in Russia or Belarus. For more information, see <a
+  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/manage-general.html">Managing
+  /// your Amazon Web Services payments</a>.
+  /// </li>
+  /// <li>
+  /// INTERNAL_FAILURE: The account could not be created because of an internal
+  /// failure. Try again later. If the problem persists, contact Amazon Web
+  /// Services Customer Support.
+  /// </li>
+  /// <li>
+  /// MISSING_BUSINESS_VALIDATION: The Amazon Web Services account that owns your
+  /// organization has not received Business Validation.
+  /// </li>
+  /// <li>
+  /// MISSING_PAYMENT_INSTRUMENT: You must configure the management account with a
+  /// valid payment method, such as a credit card.
+  /// </li>
+  /// <li>
+  /// PENDING_BUSINESS_VALIDATION: The Amazon Web Services account that owns your
+  /// organization is still in the process of completing business license
+  /// validation.
+  /// </li>
+  /// <li>
+  /// UNKNOWN_BUSINESS_VALIDATION: The Amazon Web Services account that owns your
+  /// organization has an unknown issue with business license validation.
+  /// </li>
+  /// </ul>
+  final CreateAccountFailureReason? failureReason;
+
+  /// If the account was created successfully, the ID for the new account in the
+  /// Amazon Web Services GovCloud (US) Region.
+  final String? govCloudAccountId;
+
+  /// The unique identifier (ID) that references this request. You get this value
+  /// from the response of the initial <a>CreateAccount</a> request to create the
+  /// account.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a create
+  /// account request ID string requires "car-" followed by from 8 to 32 lowercase
+  /// letters or digits.
+  final String? id;
+
+  /// The date and time that the request was made for the account creation.
+  final DateTime? requestedTimestamp;
+
+  /// The status of the asynchronous request to create an Amazon Web Services
+  /// account.
+  final CreateAccountState? state;
+
+  CreateAccountStatus({
+    this.accountId,
+    this.accountName,
+    this.completedTimestamp,
+    this.failureReason,
+    this.govCloudAccountId,
+    this.id,
+    this.requestedTimestamp,
+    this.state,
+  });
+
+  factory CreateAccountStatus.fromJson(Map<String, dynamic> json) {
+    return CreateAccountStatus(
+      accountId: json['AccountId'] as String?,
+      accountName: json['AccountName'] as String?,
+      completedTimestamp: timeStampFromJson(json['CompletedTimestamp']),
+      failureReason: (json['FailureReason'] as String?)
+          ?.let(CreateAccountFailureReason.fromString),
+      govCloudAccountId: json['GovCloudAccountId'] as String?,
+      id: json['Id'] as String?,
+      requestedTimestamp: timeStampFromJson(json['RequestedTimestamp']),
+      state: (json['State'] as String?)?.let(CreateAccountState.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final accountName = this.accountName;
+    final completedTimestamp = this.completedTimestamp;
+    final failureReason = this.failureReason;
+    final govCloudAccountId = this.govCloudAccountId;
+    final id = this.id;
+    final requestedTimestamp = this.requestedTimestamp;
+    final state = this.state;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (accountName != null) 'AccountName': accountName,
+      if (completedTimestamp != null)
+        'CompletedTimestamp': unixTimestampToJson(completedTimestamp),
+      if (failureReason != null) 'FailureReason': failureReason.value,
+      if (govCloudAccountId != null) 'GovCloudAccountId': govCloudAccountId,
+      if (id != null) 'Id': id,
+      if (requestedTimestamp != null)
+        'RequestedTimestamp': unixTimestampToJson(requestedTimestamp),
+      if (state != null) 'State': state.value,
+    };
+  }
+}
+
+class CreateAccountState {
+  static const inProgress = CreateAccountState._('IN_PROGRESS');
+  static const succeeded = CreateAccountState._('SUCCEEDED');
+  static const failed = CreateAccountState._('FAILED');
+
+  final String value;
+
+  const CreateAccountState._(this.value);
+
+  static const values = [inProgress, succeeded, failed];
+
+  static CreateAccountState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CreateAccountState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CreateAccountState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class CreateAccountFailureReason {
+  static const accountLimitExceeded =
+      CreateAccountFailureReason._('ACCOUNT_LIMIT_EXCEEDED');
+  static const emailAlreadyExists =
+      CreateAccountFailureReason._('EMAIL_ALREADY_EXISTS');
+  static const invalidAddress = CreateAccountFailureReason._('INVALID_ADDRESS');
+  static const invalidEmail = CreateAccountFailureReason._('INVALID_EMAIL');
+  static const concurrentAccountModification =
+      CreateAccountFailureReason._('CONCURRENT_ACCOUNT_MODIFICATION');
+  static const internalFailure =
+      CreateAccountFailureReason._('INTERNAL_FAILURE');
+  static const govcloudAccountAlreadyExists =
+      CreateAccountFailureReason._('GOVCLOUD_ACCOUNT_ALREADY_EXISTS');
+  static const missingBusinessValidation =
+      CreateAccountFailureReason._('MISSING_BUSINESS_VALIDATION');
+  static const failedBusinessValidation =
+      CreateAccountFailureReason._('FAILED_BUSINESS_VALIDATION');
+  static const pendingBusinessValidation =
+      CreateAccountFailureReason._('PENDING_BUSINESS_VALIDATION');
+  static const invalidIdentityForBusinessValidation =
+      CreateAccountFailureReason._('INVALID_IDENTITY_FOR_BUSINESS_VALIDATION');
+  static const unknownBusinessValidation =
+      CreateAccountFailureReason._('UNKNOWN_BUSINESS_VALIDATION');
+  static const missingPaymentInstrument =
+      CreateAccountFailureReason._('MISSING_PAYMENT_INSTRUMENT');
+  static const invalidPaymentInstrument =
+      CreateAccountFailureReason._('INVALID_PAYMENT_INSTRUMENT');
+  static const updateExistingResourcePolicyWithTagsNotSupported =
+      CreateAccountFailureReason._(
+          'UPDATE_EXISTING_RESOURCE_POLICY_WITH_TAGS_NOT_SUPPORTED');
+
+  final String value;
+
+  const CreateAccountFailureReason._(this.value);
+
+  static const values = [
+    accountLimitExceeded,
+    emailAlreadyExists,
+    invalidAddress,
+    invalidEmail,
+    concurrentAccountModification,
+    internalFailure,
+    govcloudAccountAlreadyExists,
+    missingBusinessValidation,
+    failedBusinessValidation,
+    pendingBusinessValidation,
+    invalidIdentityForBusinessValidation,
+    unknownBusinessValidation,
+    missingPaymentInstrument,
+    invalidPaymentInstrument,
+    updateExistingResourcePolicyWithTagsNotSupported
+  ];
+
+  static CreateAccountFailureReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CreateAccountFailureReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CreateAccountFailureReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains a list of child entities, either OUs or accounts.
+class Child {
+  /// The unique identifier (ID) of this child entity.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a child
+  /// ID string requires one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Account</b> - A string that consists of exactly 12 digits.
+  /// </li>
+  /// <li>
+  /// <b>Organizational unit (OU)</b> - A string that begins with "ou-" followed
+  /// by from 4 to 32 lowercase letters or digits (the ID of the root that
+  /// contains the OU). This string is followed by a second "-" dash and from 8 to
+  /// 32 additional lowercase letters or digits.
+  /// </li>
+  /// </ul>
+  final String? id;
+
+  /// The type of this child entity.
+  final ChildType? type;
+
+  Child({
+    this.id,
+    this.type,
+  });
+
+  factory Child.fromJson(Map<String, dynamic> json) {
+    return Child(
+      id: json['Id'] as String?,
+      type: (json['Type'] as String?)?.let(ChildType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final type = this.type;
+    return {
+      if (id != null) 'Id': id,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class ChildType {
+  static const account = ChildType._('ACCOUNT');
+  static const organizationalUnit = ChildType._('ORGANIZATIONAL_UNIT');
+
+  final String value;
+
+  const ChildType._(this.value);
+
+  static const values = [account, organizationalUnit];
+
+  static ChildType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChildType._(value));
+
+  @override
+  bool operator ==(other) => other is ChildType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A structure that contains details of a service principal that represents an
+/// Amazon Web Services service that is enabled to integrate with Organizations.
+class EnabledServicePrincipal {
+  /// The date that the service principal was enabled for integration with
+  /// Organizations.
+  final DateTime? dateEnabled;
+
+  /// The name of the service principal. This is typically in the form of a URL,
+  /// such as: <code> <i>servicename</i>.amazonaws.com</code>.
+  final String? servicePrincipal;
+
+  EnabledServicePrincipal({
+    this.dateEnabled,
+    this.servicePrincipal,
+  });
+
+  factory EnabledServicePrincipal.fromJson(Map<String, dynamic> json) {
+    return EnabledServicePrincipal(
+      dateEnabled: timeStampFromJson(json['DateEnabled']),
+      servicePrincipal: json['ServicePrincipal'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dateEnabled = this.dateEnabled;
+    final servicePrincipal = this.servicePrincipal;
+    return {
+      if (dateEnabled != null) 'DateEnabled': unixTimestampToJson(dateEnabled),
+      if (servicePrincipal != null) 'ServicePrincipal': servicePrincipal,
+    };
+  }
+}
+
+/// Contains information about an Amazon Web Services account that is a member
+/// of an organization.
+class Account {
+  /// The Amazon Resource Name (ARN) of the account.
+  ///
+  /// For more information about ARNs in Organizations, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies">ARN
+  /// Formats Supported by Organizations</a> in the <i>Amazon Web Services Service
+  /// Authorization Reference</i>.
+  final String? arn;
+
+  /// The email address associated with the Amazon Web Services account.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for this
+  /// parameter is a string of characters that represents a standard internet
+  /// email address.
+  final String? email;
+
+  /// The unique identifier (ID) of the account.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for an
+  /// account ID string requires exactly 12 digits.
+  final String? id;
+
+  /// The method by which the account joined the organization.
+  final AccountJoinedMethod? joinedMethod;
+
+  /// The date the account became a part of the organization.
+  final DateTime? joinedTimestamp;
+
+  /// The friendly name of the account.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> that is used
+  /// to validate this parameter is a string of any of the characters in the ASCII
+  /// character range.
+  final String? name;
+
+  /// The paths in the organization where the account exists.
+  final List<String>? paths;
+
+  /// Each state represents a specific phase in the account lifecycle. Use this
+  /// information to manage account access, automate workflows, or trigger actions
+  /// based on account state changes.
+  ///
+  /// For more information about account states and their implications, see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_account_state.html">Monitor
+  /// the state of your Amazon Web Services accounts </a> in the <i>Organizations
+  /// User Guide</i>.
+  final AccountState? state;
+
+  /// The status of the account in the organization.
+  /// <important>
+  /// The <code>Status</code> parameter in the <code>Account</code> object will be
+  /// retired on September 9, 2026. Although both the account <code>State</code>
+  /// and account <code>Status</code> parameters are currently available in the
+  /// Organizations APIs (<code>DescribeAccount</code>, <code>ListAccounts</code>,
+  /// <code>ListAccountsForParent</code>), we recommend that you update your
+  /// scripts or other code to use the <code>State</code> parameter instead of
+  /// <code>Status</code> before September 9, 2026.
+  /// </important>
+  final AccountStatus? status;
+
+  Account({
+    this.arn,
+    this.email,
+    this.id,
+    this.joinedMethod,
+    this.joinedTimestamp,
+    this.name,
+    this.paths,
+    this.state,
+    this.status,
+  });
+
+  factory Account.fromJson(Map<String, dynamic> json) {
+    return Account(
+      arn: json['Arn'] as String?,
+      email: json['Email'] as String?,
+      id: json['Id'] as String?,
+      joinedMethod: (json['JoinedMethod'] as String?)
+          ?.let(AccountJoinedMethod.fromString),
+      joinedTimestamp: timeStampFromJson(json['JoinedTimestamp']),
+      name: json['Name'] as String?,
+      paths:
+          (json['Paths'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      state: (json['State'] as String?)?.let(AccountState.fromString),
+      status: (json['Status'] as String?)?.let(AccountStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final email = this.email;
+    final id = this.id;
+    final joinedMethod = this.joinedMethod;
+    final joinedTimestamp = this.joinedTimestamp;
+    final name = this.name;
+    final paths = this.paths;
+    final state = this.state;
+    final status = this.status;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (email != null) 'Email': email,
+      if (id != null) 'Id': id,
+      if (joinedMethod != null) 'JoinedMethod': joinedMethod.value,
+      if (joinedTimestamp != null)
+        'JoinedTimestamp': unixTimestampToJson(joinedTimestamp),
+      if (name != null) 'Name': name,
+      if (paths != null) 'Paths': paths,
+      if (state != null) 'State': state.value,
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -6830,687 +8949,77 @@ class OrganizationFeatureSet {
   String toString() => value;
 }
 
-/// Contains details about an organizational unit (OU). An OU is a container of
-/// Amazon Web Services accounts within a root of an organization. Policies that
-/// are attached to an OU apply to all accounts contained in that OU and in any
-/// child OUs.
-class OrganizationalUnit {
-  /// The Amazon Resource Name (ARN) of this OU.
-  ///
-  /// For more information about ARNs in Organizations, see <a
-  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies">ARN
-  /// Formats Supported by Organizations</a> in the <i>Amazon Web Services Service
-  /// Authorization Reference</i>.
-  final String? arn;
+/// Contains rules to be applied to the affected accounts. The effective policy
+/// is the aggregation of any policies the account inherits, plus any policy
+/// directly attached to the account.
+class EffectivePolicy {
+  /// The time of the last update to this policy.
+  final DateTime? lastUpdatedTimestamp;
 
-  /// The unique identifier (ID) associated with this OU. The ID is unique to the
-  /// organization only.
-  ///
-  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for an
-  /// organizational unit ID string requires "ou-" followed by from 4 to 32
-  /// lowercase letters or digits (the ID of the root that contains the OU). This
-  /// string is followed by a second "-" dash and from 8 to 32 additional
-  /// lowercase letters or digits.
-  final String? id;
-
-  /// The friendly name of this OU.
-  ///
-  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> that is used
-  /// to validate this parameter is a string of any of the characters in the ASCII
-  /// character range.
-  final String? name;
-
-  OrganizationalUnit({
-    this.arn,
-    this.id,
-    this.name,
-  });
-
-  factory OrganizationalUnit.fromJson(Map<String, dynamic> json) {
-    return OrganizationalUnit(
-      arn: json['Arn'] as String?,
-      id: json['Id'] as String?,
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final id = this.id;
-    final name = this.name;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (id != null) 'Id': id,
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
-/// Contains information about either a root or an organizational unit (OU) that
-/// can contain OUs or accounts in an organization.
-class Parent {
-  /// The unique identifier (ID) of the parent entity.
-  ///
-  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a parent
-  /// ID string requires one of the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>Root</b> - A string that begins with "r-" followed by from 4 to 32
-  /// lowercase letters or digits.
-  /// </li>
-  /// <li>
-  /// <b>Organizational unit (OU)</b> - A string that begins with "ou-" followed
-  /// by from 4 to 32 lowercase letters or digits (the ID of the root that the OU
-  /// is in). This string is followed by a second "-" dash and from 8 to 32
-  /// additional lowercase letters or digits.
-  /// </li>
-  /// </ul>
-  final String? id;
-
-  /// The type of the parent entity.
-  final ParentType? type;
-
-  Parent({
-    this.id,
-    this.type,
-  });
-
-  factory Parent.fromJson(Map<String, dynamic> json) {
-    return Parent(
-      id: json['Id'] as String?,
-      type: (json['Type'] as String?)?.let(ParentType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final type = this.type;
-    return {
-      if (id != null) 'Id': id,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class ParentType {
-  static const root = ParentType._('ROOT');
-  static const organizationalUnit = ParentType._('ORGANIZATIONAL_UNIT');
-
-  final String value;
-
-  const ParentType._(this.value);
-
-  static const values = [root, organizationalUnit];
-
-  static ParentType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ParentType._(value));
-
-  @override
-  bool operator ==(other) => other is ParentType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains rules to be applied to the affected accounts. Policies can be
-/// attached directly to accounts, or to roots and OUs to affect all accounts in
-/// those hierarchies.
-class Policy {
   /// The text content of the policy.
-  final String? content;
+  final String? policyContent;
 
-  /// A structure that contains additional details about the policy.
-  final PolicySummary? policySummary;
+  /// The policy type.
+  final EffectivePolicyType? policyType;
 
-  Policy({
-    this.content,
-    this.policySummary,
-  });
-
-  factory Policy.fromJson(Map<String, dynamic> json) {
-    return Policy(
-      content: json['Content'] as String?,
-      policySummary: json['PolicySummary'] != null
-          ? PolicySummary.fromJson(
-              json['PolicySummary'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final content = this.content;
-    final policySummary = this.policySummary;
-    return {
-      if (content != null) 'Content': content,
-      if (policySummary != null) 'PolicySummary': policySummary,
-    };
-  }
-}
-
-/// Contains information about a policy, but does not include the content. To
-/// see the content of a policy, see <a>DescribePolicy</a>.
-class PolicySummary {
-  /// The Amazon Resource Name (ARN) of the policy.
-  ///
-  /// For more information about ARNs in Organizations, see <a
-  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies">ARN
-  /// Formats Supported by Organizations</a> in the <i>Amazon Web Services Service
-  /// Authorization Reference</i>.
-  final String? arn;
-
-  /// A boolean value that indicates whether the specified policy is an Amazon Web
-  /// Services managed policy. If true, then you can attach the policy to roots,
-  /// OUs, or accounts, but you cannot edit it.
-  final bool? awsManaged;
-
-  /// The description of the policy.
-  final String? description;
-
-  /// The unique identifier (ID) of the policy.
-  ///
-  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a policy
-  /// ID string requires "p-" followed by from 8 to 128 lowercase or uppercase
-  /// letters, digits, or the underscore character (_).
-  final String? id;
-
-  /// The friendly name of the policy.
-  ///
-  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> that is used
-  /// to validate this parameter is a string of any of the characters in the ASCII
-  /// character range.
-  final String? name;
-
-  /// The type of policy.
-  final PolicyType? type;
-
-  PolicySummary({
-    this.arn,
-    this.awsManaged,
-    this.description,
-    this.id,
-    this.name,
-    this.type,
-  });
-
-  factory PolicySummary.fromJson(Map<String, dynamic> json) {
-    return PolicySummary(
-      arn: json['Arn'] as String?,
-      awsManaged: json['AwsManaged'] as bool?,
-      description: json['Description'] as String?,
-      id: json['Id'] as String?,
-      name: json['Name'] as String?,
-      type: (json['Type'] as String?)?.let(PolicyType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final awsManaged = this.awsManaged;
-    final description = this.description;
-    final id = this.id;
-    final name = this.name;
-    final type = this.type;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (awsManaged != null) 'AwsManaged': awsManaged,
-      if (description != null) 'Description': description,
-      if (id != null) 'Id': id,
-      if (name != null) 'Name': name,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-/// Contains information about a root, OU, or account that a policy is attached
-/// to.
-class PolicyTargetSummary {
-  /// The Amazon Resource Name (ARN) of the policy target.
-  ///
-  /// For more information about ARNs in Organizations, see <a
-  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies">ARN
-  /// Formats Supported by Organizations</a> in the <i>Amazon Web Services Service
-  /// Authorization Reference</i>.
-  final String? arn;
-
-  /// The friendly name of the policy target.
-  ///
-  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> that is used
-  /// to validate this parameter is a string of any of the characters in the ASCII
-  /// character range.
-  final String? name;
-
-  /// The unique identifier (ID) of the policy target.
-  ///
-  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a target
-  /// ID string requires one of the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>Root</b> - A string that begins with "r-" followed by from 4 to 32
-  /// lowercase letters or digits.
-  /// </li>
-  /// <li>
-  /// <b>Account</b> - A string that consists of exactly 12 digits.
-  /// </li>
-  /// <li>
-  /// <b>Organizational unit (OU)</b> - A string that begins with "ou-" followed
-  /// by from 4 to 32 lowercase letters or digits (the ID of the root that the OU
-  /// is in). This string is followed by a second "-" dash and from 8 to 32
-  /// additional lowercase letters or digits.
-  /// </li>
-  /// </ul>
+  /// The account ID of the policy target.
   final String? targetId;
 
-  /// The type of the policy target.
-  final TargetType? type;
-
-  PolicyTargetSummary({
-    this.arn,
-    this.name,
+  EffectivePolicy({
+    this.lastUpdatedTimestamp,
+    this.policyContent,
+    this.policyType,
     this.targetId,
-    this.type,
   });
 
-  factory PolicyTargetSummary.fromJson(Map<String, dynamic> json) {
-    return PolicyTargetSummary(
-      arn: json['Arn'] as String?,
-      name: json['Name'] as String?,
+  factory EffectivePolicy.fromJson(Map<String, dynamic> json) {
+    return EffectivePolicy(
+      lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
+      policyContent: json['PolicyContent'] as String?,
+      policyType:
+          (json['PolicyType'] as String?)?.let(EffectivePolicyType.fromString),
       targetId: json['TargetId'] as String?,
-      type: (json['Type'] as String?)?.let(TargetType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final name = this.name;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final policyContent = this.policyContent;
+    final policyType = this.policyType;
     final targetId = this.targetId;
-    final type = this.type;
     return {
-      if (arn != null) 'Arn': arn,
-      if (name != null) 'Name': name,
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
+      if (policyContent != null) 'PolicyContent': policyContent,
+      if (policyType != null) 'PolicyType': policyType.value,
       if (targetId != null) 'TargetId': targetId,
-      if (type != null) 'Type': type.value,
     };
   }
 }
 
-class PolicyType {
-  static const serviceControlPolicy = PolicyType._('SERVICE_CONTROL_POLICY');
-  static const tagPolicy = PolicyType._('TAG_POLICY');
-  static const backupPolicy = PolicyType._('BACKUP_POLICY');
-  static const aiservicesOptOutPolicy =
-      PolicyType._('AISERVICES_OPT_OUT_POLICY');
+class IAMUserAccessToBilling {
+  static const allow = IAMUserAccessToBilling._('ALLOW');
+  static const deny = IAMUserAccessToBilling._('DENY');
 
   final String value;
 
-  const PolicyType._(this.value);
+  const IAMUserAccessToBilling._(this.value);
 
-  static const values = [
-    serviceControlPolicy,
-    tagPolicy,
-    backupPolicy,
-    aiservicesOptOutPolicy
-  ];
+  static const values = [allow, deny];
 
-  static PolicyType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => PolicyType._(value));
-
-  @override
-  bool operator ==(other) => other is PolicyType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class PolicyTypeStatus {
-  static const enabled = PolicyTypeStatus._('ENABLED');
-  static const pendingEnable = PolicyTypeStatus._('PENDING_ENABLE');
-  static const pendingDisable = PolicyTypeStatus._('PENDING_DISABLE');
-
-  final String value;
-
-  const PolicyTypeStatus._(this.value);
-
-  static const values = [enabled, pendingEnable, pendingDisable];
-
-  static PolicyTypeStatus fromString(String value) =>
+  static IAMUserAccessToBilling fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => PolicyTypeStatus._(value));
+          orElse: () => IAMUserAccessToBilling._(value));
 
   @override
-  bool operator ==(other) => other is PolicyTypeStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains information about a policy type and its status in the associated
-/// root.
-class PolicyTypeSummary {
-  /// The status of the policy type as it relates to the associated root. To
-  /// attach a policy of the specified type to a root or to an OU or account in
-  /// that root, it must be available in the organization and enabled for that
-  /// root.
-  final PolicyTypeStatus? status;
-
-  /// The name of the policy type.
-  final PolicyType? type;
-
-  PolicyTypeSummary({
-    this.status,
-    this.type,
-  });
-
-  factory PolicyTypeSummary.fromJson(Map<String, dynamic> json) {
-    return PolicyTypeSummary(
-      status: (json['Status'] as String?)?.let(PolicyTypeStatus.fromString),
-      type: (json['Type'] as String?)?.let(PolicyType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final status = this.status;
-    final type = this.type;
-    return {
-      if (status != null) 'Status': status.value,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class PutResourcePolicyResponse {
-  /// A structure that contains details about the resource policy.
-  final ResourcePolicy? resourcePolicy;
-
-  PutResourcePolicyResponse({
-    this.resourcePolicy,
-  });
-
-  factory PutResourcePolicyResponse.fromJson(Map<String, dynamic> json) {
-    return PutResourcePolicyResponse(
-      resourcePolicy: json['ResourcePolicy'] != null
-          ? ResourcePolicy.fromJson(
-              json['ResourcePolicy'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resourcePolicy = this.resourcePolicy;
-    return {
-      if (resourcePolicy != null) 'ResourcePolicy': resourcePolicy,
-    };
-  }
-}
-
-/// A structure that contains details about a resource policy.
-class ResourcePolicy {
-  /// The policy text of the resource policy.
-  final String? content;
-
-  /// A structure that contains resource policy ID and Amazon Resource Name (ARN).
-  final ResourcePolicySummary? resourcePolicySummary;
-
-  ResourcePolicy({
-    this.content,
-    this.resourcePolicySummary,
-  });
-
-  factory ResourcePolicy.fromJson(Map<String, dynamic> json) {
-    return ResourcePolicy(
-      content: json['Content'] as String?,
-      resourcePolicySummary: json['ResourcePolicySummary'] != null
-          ? ResourcePolicySummary.fromJson(
-              json['ResourcePolicySummary'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final content = this.content;
-    final resourcePolicySummary = this.resourcePolicySummary;
-    return {
-      if (content != null) 'Content': content,
-      if (resourcePolicySummary != null)
-        'ResourcePolicySummary': resourcePolicySummary,
-    };
-  }
-}
-
-/// A structure that contains resource policy ID and Amazon Resource Name (ARN).
-class ResourcePolicySummary {
-  /// The Amazon Resource Name (ARN) of the resource policy.
-  final String? arn;
-
-  /// The unique identifier (ID) of the resource policy.
-  final String? id;
-
-  ResourcePolicySummary({
-    this.arn,
-    this.id,
-  });
-
-  factory ResourcePolicySummary.fromJson(Map<String, dynamic> json) {
-    return ResourcePolicySummary(
-      arn: json['Arn'] as String?,
-      id: json['Id'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final id = this.id;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (id != null) 'Id': id,
-    };
-  }
-}
-
-/// Contains details about a root. A root is a top-level parent node in the
-/// hierarchy of an organization that can contain organizational units (OUs) and
-/// accounts. The root contains every Amazon Web Services account in the
-/// organization.
-class Root {
-  /// The Amazon Resource Name (ARN) of the root.
-  ///
-  /// For more information about ARNs in Organizations, see <a
-  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies">ARN
-  /// Formats Supported by Organizations</a> in the <i>Amazon Web Services Service
-  /// Authorization Reference</i>.
-  final String? arn;
-
-  /// The unique identifier (ID) for the root. The ID is unique to the
-  /// organization only.
-  ///
-  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a root
-  /// ID string requires "r-" followed by from 4 to 32 lowercase letters or
-  /// digits.
-  final String? id;
-
-  /// The friendly name of the root.
-  ///
-  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> that is used
-  /// to validate this parameter is a string of any of the characters in the ASCII
-  /// character range.
-  final String? name;
-
-  /// The types of policies that are currently enabled for the root and therefore
-  /// can be attached to the root or to its OUs or accounts.
-  /// <note>
-  /// Even if a policy type is shown as available in the organization, you can
-  /// separately enable and disable them at the root level by using
-  /// <a>EnablePolicyType</a> and <a>DisablePolicyType</a>. Use
-  /// <a>DescribeOrganization</a> to see the availability of the policy types in
-  /// that organization.
-  /// </note>
-  final List<PolicyTypeSummary>? policyTypes;
-
-  Root({
-    this.arn,
-    this.id,
-    this.name,
-    this.policyTypes,
-  });
-
-  factory Root.fromJson(Map<String, dynamic> json) {
-    return Root(
-      arn: json['Arn'] as String?,
-      id: json['Id'] as String?,
-      name: json['Name'] as String?,
-      policyTypes: (json['PolicyTypes'] as List?)
-          ?.nonNulls
-          .map((e) => PolicyTypeSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final id = this.id;
-    final name = this.name;
-    final policyTypes = this.policyTypes;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (id != null) 'Id': id,
-      if (name != null) 'Name': name,
-      if (policyTypes != null) 'PolicyTypes': policyTypes,
-    };
-  }
-}
-
-/// A custom key-value pair associated with a resource within your organization.
-///
-/// You can attach tags to any of the following organization resources.
-///
-/// <ul>
-/// <li>
-/// Amazon Web Services account
-/// </li>
-/// <li>
-/// Organizational unit (OU)
-/// </li>
-/// <li>
-/// Organization root
-/// </li>
-/// <li>
-/// Policy
-/// </li>
-/// </ul>
-class Tag {
-  /// The key identifier, or name, of the tag.
-  final String key;
-
-  /// The string value that's associated with the key of the tag. You can set the
-  /// value of a tag to an empty string, but you can't set the value of a tag to
-  /// null.
-  final String value;
-
-  Tag({
-    required this.key,
-    required this.value,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['Key'] as String?) ?? '',
-      value: (json['Value'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'Key': key,
-      'Value': value,
-    };
-  }
-}
-
-class TargetType {
-  static const account = TargetType._('ACCOUNT');
-  static const organizationalUnit = TargetType._('ORGANIZATIONAL_UNIT');
-  static const root = TargetType._('ROOT');
-
-  final String value;
-
-  const TargetType._(this.value);
-
-  static const values = [account, organizationalUnit, root];
-
-  static TargetType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => TargetType._(value));
-
-  @override
-  bool operator ==(other) => other is TargetType && other.value == value;
+  bool operator ==(other) =>
+      other is IAMUserAccessToBilling && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
-}
-
-class UpdateOrganizationalUnitResponse {
-  /// A structure that contains the details about the specified OU, including its
-  /// new name.
-  final OrganizationalUnit? organizationalUnit;
-
-  UpdateOrganizationalUnitResponse({
-    this.organizationalUnit,
-  });
-
-  factory UpdateOrganizationalUnitResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateOrganizationalUnitResponse(
-      organizationalUnit: json['OrganizationalUnit'] != null
-          ? OrganizationalUnit.fromJson(
-              json['OrganizationalUnit'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final organizationalUnit = this.organizationalUnit;
-    return {
-      if (organizationalUnit != null) 'OrganizationalUnit': organizationalUnit,
-    };
-  }
-}
-
-class UpdatePolicyResponse {
-  /// A structure that contains details about the updated policy, showing the
-  /// requested changes.
-  final Policy? policy;
-
-  UpdatePolicyResponse({
-    this.policy,
-  });
-
-  factory UpdatePolicyResponse.fromJson(Map<String, dynamic> json) {
-    return UpdatePolicyResponse(
-      policy: json['Policy'] != null
-          ? Policy.fromJson(json['Policy'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final policy = this.policy;
-    return {
-      if (policy != null) 'Policy': policy,
-    };
-  }
 }
 
 class AWSOrganizationsNotInUseException extends _s.GenericAwsException {
@@ -7701,6 +9210,16 @@ class InvalidInputException extends _s.GenericAwsException {
       : super(type: type, code: 'InvalidInputException', message: message);
 }
 
+class InvalidResponsibilityTransferTransitionException
+    extends _s.GenericAwsException {
+  InvalidResponsibilityTransferTransitionException(
+      {String? type, String? message})
+      : super(
+            type: type,
+            code: 'InvalidResponsibilityTransferTransitionException',
+            message: message);
+}
+
 class MalformedPolicyDocumentException extends _s.GenericAwsException {
   MalformedPolicyDocumentException({String? type, String? message})
       : super(
@@ -7803,6 +9322,24 @@ class ResourcePolicyNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+class ResponsibilityTransferAlreadyInStatusException
+    extends _s.GenericAwsException {
+  ResponsibilityTransferAlreadyInStatusException(
+      {String? type, String? message})
+      : super(
+            type: type,
+            code: 'ResponsibilityTransferAlreadyInStatusException',
+            message: message);
+}
+
+class ResponsibilityTransferNotFoundException extends _s.GenericAwsException {
+  ResponsibilityTransferNotFoundException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ResponsibilityTransferNotFoundException',
+            message: message);
+}
+
 class RootNotFoundException extends _s.GenericAwsException {
   RootNotFoundException({String? type, String? message})
       : super(type: type, code: 'RootNotFoundException', message: message);
@@ -7894,6 +9431,9 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InvalidHandshakeTransitionException(type: type, message: message),
   'InvalidInputException': (type, message) =>
       InvalidInputException(type: type, message: message),
+  'InvalidResponsibilityTransferTransitionException': (type, message) =>
+      InvalidResponsibilityTransferTransitionException(
+          type: type, message: message),
   'MalformedPolicyDocumentException': (type, message) =>
       MalformedPolicyDocumentException(type: type, message: message),
   'MasterCannotLeaveOrganizationException': (type, message) =>
@@ -7923,6 +9463,11 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       PolicyTypeNotEnabledException(type: type, message: message),
   'ResourcePolicyNotFoundException': (type, message) =>
       ResourcePolicyNotFoundException(type: type, message: message),
+  'ResponsibilityTransferAlreadyInStatusException': (type, message) =>
+      ResponsibilityTransferAlreadyInStatusException(
+          type: type, message: message),
+  'ResponsibilityTransferNotFoundException': (type, message) =>
+      ResponsibilityTransferNotFoundException(type: type, message: message),
   'RootNotFoundException': (type, message) =>
       RootNotFoundException(type: type, message: message),
   'ServiceException': (type, message) =>

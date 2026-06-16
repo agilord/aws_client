@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:aws_client/iam_2010_05_08.dart';
+import 'package:aws_client/iam.dart';
 import 'package:test/test.dart';
 
 import 'harness.dart';
